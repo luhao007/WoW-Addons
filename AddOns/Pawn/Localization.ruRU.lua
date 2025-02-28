@@ -1,6 +1,6 @@
 ﻿-- Pawn by Vger-Azjol-Nerub
 -- www.vgermods.com
--- © 2006-2024 Travis Spomer.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
+-- © 2006-2025 Travis Spomer.  This mod is released under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 license.
 -- See Readme.htm for more information.
 
 --
@@ -570,7 +570,7 @@ PawnLocal.TooltipParsing = {
 	["Haste2"] = "^%+?# к показателю скорости$",
 	["HasteRating"] = "^Если на персонаже: Повышает рейтинг скорости боя на #%.$",
 	["HasteRating2"] = "^UNUSED$",
-	["HasteRatingShort"] = "^%+?# к рейтингу? скорости$",
+	["HasteRatingShort"] = "^%+?# .?.?рейтингу? скорости$",
 	["HaventCollectedAppearance"] = "^У вас еще нет такой модели.$",
 	["Healing"] = "^%+# к исцеляющим заклинаниям$",
 	["Healing2"] = "^Если на персонаже: Усиливает исцеление от заклинаний и эффектов максимум на # ед%.$",

@@ -1,4 +1,4 @@
-local MAJ, REV, _, T = 3, 61, ...
+local MAJ, REV, _, T = 3, 62, ...
 local EV, ORI, PC = T.Evie, OPie.UI, T.OPieCore
 local AB, RW, IM = T.ActionBook:compatible(2,37), T.ActionBook:compatible("Rewire", 1,10), T.ActionBook:compatible("Imp", 1, 0)
 assert(ORI and AB and RW and IM and EV and PC and 1, "Missing required libraries")
@@ -571,7 +571,8 @@ local function svInitializer(event, _name, sv)
 		local onOpenFlush, updateZ3 = storageVersion < 2, storageVersion < 3
 		RK_FlagStore.StoreVersion, RK_FlagStore.FlushedDefaultColors = 3, nil
 
-		loadLock = 1; EV.After(0, unlockSync)
+		loadLock = 1
+		EV.After(0, unlockSync)
 		for k, v in pairs(queue) do
 			if v.hotkey then v.hotkey = v.hotkey:gsub("[^-; ]+", mousemap) end
 			if deleted[k] == nil and SV[k] == nil then
@@ -604,9 +605,11 @@ local function ringIterator(isDeleted, k)
 	if nk and RK_FluxRings[nk] then
 		return ringIterator(isDeleted, nk)
 	elseif nk then
-		v = isDeleted and queue[nk] or v
-		if isDeleted and not RK_IsRelevantRingDescription(v) then
-			return ringIterator(isDeleted, nk)
+		if isDeleted then
+			v = queue[nk]
+			if not RK_IsRelevantRingDescription(v) then
+				return ringIterator(isDeleted, nk)
+			end
 		end
 		return nk, v.name or nk, RK_CollectionIDs[nk] ~= nil, #v, v.internal, v.limit
 	end

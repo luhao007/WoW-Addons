@@ -126,6 +126,8 @@ ConversionMethods.provider = function(provider, reference)
 		return ConversionMethods.creatureName(providerID, reference);
 	elseif providerType == "i" then
 		return ConversionMethods.itemNameAndIcon(providerID, reference);
+	elseif providerType == "s" then
+		return ConversionMethods.spellID(providerID, reference);
 	end
 	return UNKNOWN;
 end;
@@ -133,11 +135,16 @@ settings.InformationTypeConversionMethods = ConversionMethods;
 
 -- Class Template for creating an Information Type instance.
 local function GetValueForInformationType(t, reference)
-	return reference[t.informationTypeID];
+	local rowReference = app.ActiveRowReference
+	local informationTypeID = t.informationTypeID
+	return rowReference and rowReference[informationTypeID] or reference[informationTypeID]
 end
 local function GetRecursiveValueForInformationType(t, reference)
-	local informationTypeID = t.informationTypeID;
-	return reference[informationTypeID] or GetRelativeValue(reference, informationTypeID);
+	local rowReference = app.ActiveRowReference
+	local informationTypeID = t.informationTypeID
+	return rowReference and rowReference[informationTypeID]
+		or reference[informationTypeID]
+		or GetRelativeValue(rowReference or reference, informationTypeID)
 end
 local function ProcessInformationType(t, reference, tooltipInfo)
 	local val = t.GetValue(t, reference);
@@ -591,18 +598,24 @@ local InformationTypes = {
 	CreateInformationType("maps", { text = L.MAPS, priority = 2.6,
 		Process = function(t, reference, tooltipInfo)
 			local maps = reference.maps;
+			if not maps or #maps == 0 then
+				local coords = reference.coords
+				if coords and #coords > 0 then
+					maps = {}
+					for _,coord in ipairs(coords) do
+						maps[#maps + 1] = coord[3]
+					end
+				end
+			end
 			if maps and #maps > 0 then
-				local currentMapID = app.CurrentMapID;
 				local mapNames,uniques,name = {},{},nil;
 				local rootMapID = reference.mapID;
 				if rootMapID then uniques[app.GetMapName(rootMapID) or rootMapID] = true; end
 				for i,mapID in ipairs(maps) do
-					if mapID ~= currentMapID then
-						name = app.GetMapName(mapID);
-						if name and not uniques[name] then
-							uniques[name] = true;
-							tinsert(mapNames, name);
-						end
+					name = app.GetMapName(mapID);
+					if name and not uniques[name] then
+						uniques[name] = true;
+						tinsert(mapNames, name);
 					end
 				end
 				if #mapNames > 0 then

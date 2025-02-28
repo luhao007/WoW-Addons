@@ -12,6 +12,7 @@ local PIGCheckbutton=Create.PIGCheckbutton
 local Data=addonTable.Data
 local BusinessInfo=addonTable.BusinessInfo
 local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
+local baocunnum = 40
 --------------
 function BusinessInfo.ADD_qushi(fujiui,tishiOpen)
 	local qushi=PIGFrame(fujiui)
@@ -22,22 +23,22 @@ function BusinessInfo.ADD_qushi(fujiui,tishiOpen)
 		qushi:SetFrameStrata("HIGH")
 		qushi.itemName = PIGFontString(qushi,{"TOPLEFT", qushi, "TOPLEFT",8, -6},nil,"OUTLINE")
 	end
-	local HeightX,WidthX = qushi:GetHeight()-44,8
-	qushi.qushiBUT={}
-	for i=1,40 do
+	local HeightX,WidthX = qushi:GetHeight()-44,7.9
+	qushi.qushiButList={}
+	for i=1,baocunnum do
 		local zhuzhuangX=PIGFrame(qushi,{"BOTTOMLEFT", qushi, "BOTTOMLEFT",WidthX*(i-1), 0},{WidthX,HeightX})
 		if i==1 then
-			zhuzhuangX:SetPoint("BOTTOMLEFT", qushi, "BOTTOMLEFT",4, 4);
+			zhuzhuangX:SetPoint("BOTTOMLEFT", qushi, "BOTTOMLEFT",1, 4);
 		else
-			zhuzhuangX:SetPoint("BOTTOMLEFT", qushi, "BOTTOMLEFT",(WidthX)*(i-1)+4, 4);
+			zhuzhuangX:SetPoint("BOTTOMLEFT", qushi, "BOTTOMLEFT",(WidthX)*(i-1)+1, 4);
 		end
 		zhuzhuangX:PIGSetBackdrop(1,1,{0.2, 0.8, 0.8})
 		zhuzhuangX:Hide()
-		qushi.qushiBUT[i]=zhuzhuangX
+		qushi.qushiButList[i]=zhuzhuangX
 	end
 	function qushi.qushitu(Data,itemName)
-		for i=1,40 do
-			qushi.qushiBUT[i]:Hide()
+		for i=1,baocunnum do
+			qushi.qushiButList[i]:Hide()
 		end
 		if tishiOpen then
 			qushi.itemName:SetText(itemName)
@@ -45,7 +46,7 @@ function BusinessInfo.ADD_qushi(fujiui,tishiOpen)
 			HeightX = qushi:GetHeight()-20
 		end
 		local PIG_qushidata_V = {["maxG"]=1,["maxG2"]=1,["endnum"]=1,["minVV"]=0.04}
-		if #Data>40 then PIG_qushidata_V.endnum=(#Data-40) end
+		if #Data>baocunnum then PIG_qushidata_V.endnum=(#Data-39) end
 		local sortnum = {}
 		for i=#Data,PIG_qushidata_V.endnum,-1 do
 			local jiageVV =Data[i]
@@ -76,15 +77,15 @@ function BusinessInfo.ADD_qushi(fujiui,tishiOpen)
 			if Data[i] then
 				local danqianV = Data[i][1]
 				butidindex=butidindex+1
-				qushi.qushiBUT[butidindex]:Show()
+				qushi.qushiButList[butidindex]:Show()
 				if danqianV>PIG_qushidata_V.maxG then
 					danqianV=PIG_qushidata_V.maxG
 				end
 				local PIG_qushizuidabaifenbi = danqianV/PIG_qushidata_V.maxG
 				if PIG_qushizuidabaifenbi<PIG_qushidata_V.minVV then
-					qushi.qushiBUT[i]:SetHeight(PIG_qushidata_V.minVV*HeightX)
+					qushi.qushiButList[butidindex]:SetHeight(PIG_qushidata_V.minVV*HeightX)
 				else
-					qushi.qushiBUT[i]:SetHeight(PIG_qushizuidabaifenbi*HeightX)
+					qushi.qushiButList[butidindex]:SetHeight(PIG_qushizuidabaifenbi*HeightX)
 				end
 			end
 		end
@@ -105,7 +106,7 @@ function BusinessInfo.ADD_qushi(fujiui,tishiOpen)
 	end
 end
 --
-function BusinessInfo.huoquhuizhangjiageG()
+local function GetWowTokenG()
 	local marketPrice = C_WowTokenPublic.GetCurrentMarketPrice();
 	if marketPrice and marketPrice>0 then
 		local hzlishiGG = PIGA["AHPlus"]["Tokens"]
@@ -114,18 +115,25 @@ function BusinessInfo.huoquhuizhangjiageG()
 			if hzlishiGGNum>50 then
 				local kaishiwb = hzlishiGGNum-50
 				for i=kaishiwb,1,-1 do
-					table.remove(PIGA["AHPlus"]["Tokens"],i)
+					table.remove(hzlishiGG,i)
 				end
 			end
-			local OldmarketPrice = PIGA["AHPlus"]["Tokens"][#PIGA["AHPlus"]["Tokens"]][2] or 0
+			local OldmarketPrice = hzlishiGG[#hzlishiGG][2] or 0
 			if OldmarketPrice~=marketPrice then
-				table.insert(PIGA["AHPlus"]["Tokens"],{GetServerTime(),marketPrice})
+				table.insert(hzlishiGG,{GetServerTime(),marketPrice})
 			end
 		else
-			table.insert(PIGA["AHPlus"]["Tokens"],{GetServerTime(),marketPrice})
+			table.insert(hzlishiGG,{GetServerTime(),marketPrice})
 		end
 	end
 end
+local function Update_GetWowTokenG()
+	if not InCombatLockdown() then
+		GetWowTokenG()
+	end
+	C_Timer.After(60,Update_GetWowTokenG)
+end
+----
 local function zhixingdianjiFUn(framef)
 	framef:HookScript("PreClick",  function (self,button)
 		if button=="RightButton" and not IsShiftKeyDown() and not IsControlKeyDown() and not IsAltKeyDown() then
@@ -171,31 +179,35 @@ function BusinessInfo.QuicAuc()
 end
 ----------------------------------
 local AuctionFramejiazai = CreateFrame("FRAME")
+AuctionFramejiazai:RegisterEvent("PLAYER_LOGIN")
 AuctionFramejiazai:RegisterEvent("TOKEN_MARKET_PRICE_UPDATED")
 AuctionFramejiazai:RegisterEvent("TOKEN_DISTRIBUTIONS_UPDATED")
 AuctionFramejiazai:SetScript("OnEvent", function(self, event, arg1)
 	if event=="ADDON_LOADED" then
 		if arg1 == "Blizzard_AuctionHouseUI" then
-			BusinessInfo.AHPlus_Mainline()
+			BusinessInfo.AHPlus_Mainline(baocunnum)
 			self:UnregisterEvent("ADDON_LOADED")
 		elseif arg1 == "Blizzard_AuctionUI" then
-			BusinessInfo.AHPlus_Vanilla()
+			BusinessInfo.AHPlus_Vanilla(baocunnum)
 			self:UnregisterEvent("ADDON_LOADED")
 		end
-	end
-	if event=="TOKEN_MARKET_PRICE_UPDATED" or event=="TOKEN_DISTRIBUTIONS_UPDATED" then
-		BusinessInfo.huoquhuizhangjiageG()
+	elseif event=="PLAYER_LOGIN" then
+		Update_GetWowTokenG()
+	else
+		GetWowTokenG()
 	end
 end)
 ------------
 function BusinessInfo.AHPlus_ADDUI()
 	if PIGA["AHPlus"]["Open"] then
-		BusinessInfo.huoquhuizhangjiageG()
 		BusinessInfo.QuicAuc()
+		if tocversion<80000 then
+			PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm]=PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm] or {}
+		end
 		if IsAddOnLoaded("Blizzard_AuctionHouseUI") then
-			BusinessInfo.AHPlus_Mainline()
+			BusinessInfo.AHPlus_Mainline(baocunnum)
 		elseif IsAddOnLoaded("Blizzard_AuctionUI") then
-			BusinessInfo.AHPlus_Vanilla()
+			BusinessInfo.AHPlus_Vanilla(baocunnum)
 		else
 			AuctionFramejiazai:RegisterEvent("ADDON_LOADED")
 		end

@@ -39,7 +39,7 @@ function FramePlusfun.Friends()
 		FriendsListFrame.ScrollBox:SetWidth(butWidth)
 	end
     ----  
-    local playerRealmID = GetRealmName()
+    local playerRealmID = Pig_OptionsUI.Realm
     local playerFactionGroup = UnitFactionGroup("player");
     local function Show_jueseinfo(piginfo_acc,button,accountName)
      	if #piginfo_acc[1]==0 and #piginfo_acc[2]==0 then return end
@@ -48,8 +48,8 @@ function FramePlusfun.Friends()
 		else
 			iconH_1=iconH
 		end
-		local _, _,_, _, sexBNET = GetPlayerInfoByGUID(piginfo_acc[1][1])
-		local raceX,classX = GetRaceClassTXT(iconH_1,texW,PIGraceList[piginfo_acc[1][3]],sexBNET,ClasseNameID[piginfo_acc[1][4]])
+		local _, _,_, _, sexBNET = piginfo_acc[1][1] and GetPlayerInfoByGUID(piginfo_acc[1][1])
+		local raceX,classX = GetRaceClassTXT(iconH_1,texW,PIGraceList[piginfo_acc[1][3]],sexBNET or 2,ClasseNameID[piginfo_acc[1][4]])
 		local Newtxt = raceX.." "..classX.." (Lv"..piginfo_acc[1][5]..") "..piginfo_acc[1][2]
 		local color = PIG_CLASS_COLORS[ClasseNameID[piginfo_acc[1][4]]]
 		local argbHex=color and color.colorStr or "ffffffff"
@@ -74,8 +74,8 @@ function FramePlusfun.Friends()
 		end
 		if #piginfo_acc[2]>0 then
 			button.name:SetHeight(iconH*2);
-			local _, _,_, _, sexBNET = GetPlayerInfoByGUID(piginfo_acc[2][1])
-			local raceX,classX = GetRaceClassTXT(iconH_1,texW,PIGraceList[piginfo_acc[2][3]],sexBNET,ClasseNameID[piginfo_acc[2][4]])
+			local _, _,_, _, sexBNET = piginfo_acc[2][1] and GetPlayerInfoByGUID(piginfo_acc[2][1])
+			local raceX,classX = GetRaceClassTXT(iconH_1,texW,PIGraceList[piginfo_acc[2][3]],sexBNET or 2,ClasseNameID[piginfo_acc[2][4]])
 			local Newtxt = raceX.." "..classX.." (Lv"..piginfo_acc[2][5]..") "..piginfo_acc[2][2]
 			local color = PIG_CLASS_COLORS[ClasseNameID[piginfo_acc[2][4]]]
 			local argbHex=color and color.colorStr or "ffffffff"
@@ -88,13 +88,13 @@ function FramePlusfun.Friends()
 				end
 			elseif piginfo_acc[2][6] == WOW_PROJECT_CLASSIC then--60
 				if piginfo_acc[2][7] ~= playerRealmID then
-					zhu_TXT_info=zhu_TXT_info.."\n"..piginfo_acc[2][8]..piginfo_acc[2][9]
+					zhu_TXT_info=zhu_TXT_info.."\n"..piginfo_acc[2][9]..piginfo_acc[2][8]
 				else
 					zhu_TXT_info=zhu_TXT_info.."\n"..piginfo_acc[2][8]
 				end
 			elseif piginfo_acc[2][6] == 11 then--80
 				if piginfo_acc[2][7] ~= playerRealmID then
-					zhu_TXT_info=zhu_TXT_info.."\n"..piginfo_acc[2][8]..piginfo_acc[2][9]
+					zhu_TXT_info=zhu_TXT_info.."\n"..piginfo_acc[2][9]..piginfo_acc[2][8]
 				else
 					zhu_TXT_info=zhu_TXT_info.."\n"..piginfo_acc[2][8]
 				end
@@ -111,8 +111,8 @@ function FramePlusfun.Friends()
 		button.name:SetPoint("LEFT",button,"LEFT",20,0);
 		button.name:SetSize(www-20,button:GetHeight())
 		button.info:ClearAllPoints();
-		button.info:SetPoint("LEFT",button,"LEFT",www,0);
-		button.info:SetHeight(button:GetHeight())
+		button.info:SetPoint("LEFT",button.name,"RIGHT",0,0);
+		button.info:SetSize(www-20,button:GetHeight())
 		button.gameIcon:ClearAllPoints();
 		button.gameIcon:SetPoint("RIGHT",button,"RIGHT",-28,0);
 		button.gameIcon:SetSize(20,20);
@@ -143,8 +143,34 @@ function FramePlusfun.Friends()
 				local Newtxt = raceXclass.." (Lv"..info.level..") "..info.name
 				button.name:SetText(Newtxt);
 			end
-		elseif buttonType == FRIENDS_BUTTON_TYPE_BNET then	
-			if tocversion<100000 then
+		elseif buttonType == FRIENDS_BUTTON_TYPE_BNET then
+			if C_BattleNet and C_BattleNet.GetFriendAccountInfo then
+				local accountInfo = C_BattleNet.GetFriendAccountInfo(id);
+				if accountInfo then
+					if accountInfo.gameAccountInfo.isOnline then
+						local piginfo_acc={{},{}}
+						local numGameAccounts = C_BattleNet.GetFriendNumGameAccounts(id);
+						for Accid=1,numGameAccounts do
+						    local gameAccountInfo = C_BattleNet.GetFriendGameAccountInfo(id, Accid);
+							if gameAccountInfo and gameAccountInfo.clientProgram==BNET_CLIENT_WOW then
+								local juese_AccountInfo = {
+									gameAccountInfo.playerGuid,gameAccountInfo.characterName,gameAccountInfo.raceName,gameAccountInfo.className,
+									gameAccountInfo.characterLevel,gameAccountInfo.wowProjectID,gameAccountInfo.realmName,gameAccountInfo.areaName, gameAccountInfo.richPresence
+								}
+								if gameAccountInfo.hasFocus and #piginfo_acc[1]==0 then
+									piginfo_acc[1]=juese_AccountInfo
+								elseif #piginfo_acc[2]==0 then
+									piginfo_acc[2]=juese_AccountInfo
+								end
+								if #piginfo_acc[1]>0 and #piginfo_acc[2]>0 then
+									break
+								end
+							end
+						end
+						Show_jueseinfo(piginfo_acc,button,accountInfo.accountName)
+					end
+				end
+			else
 				local bnetIDAccount, accountName, _, _, _, _, _, isOnline = BNGetFriendInfo(id);
 				if accountName and isOnline then
 					local piginfo_acc={{},{}}
@@ -164,32 +190,6 @@ function FramePlusfun.Friends()
 						end
 					end
 					Show_jueseinfo(piginfo_acc,button,accountName)
-				end
-			else
-				local accountInfo = C_BattleNet.GetFriendAccountInfo(id);
-				if accountInfo then
-					if accountInfo.gameAccountInfo.isOnline then
-						local piginfo_acc={{},{}}
-						local numGameAccounts = C_BattleNet.GetFriendNumGameAccounts(id);
-						for Accid=1,numGameAccounts do
-						    local gameAccountInfo = C_BattleNet.GetFriendGameAccountInfo(id, Accid);
-							if gameAccountInfo.clientProgram==BNET_CLIENT_WOW then
-								local juese_AccountInfo = {
-										gameAccountInfo.playerGuid,gameAccountInfo.characterName,gameAccountInfo.raceName,gameAccountInfo.className,
-										gameAccountInfo.characterLevel,gameAccountInfo.wowProjectID,gameAccountInfo.realmName,gameAccountInfo.areaName, gameAccountInfo.richPresence
-									}
-								if gameAccountInfo.hasFocus and #piginfo_acc[1]==0 then
-									piginfo_acc[1]=juese_AccountInfo
-								elseif #piginfo_acc[2]==0 then
-									piginfo_acc[2]=juese_AccountInfo
-								end
-								if #piginfo_acc[1]>0 and #piginfo_acc[2]>0 then
-									break
-								end
-							end
-						end
-						Show_jueseinfo(piginfo_acc,button,accountInfo.accountName)
-					end
 				end
 			end
 		end

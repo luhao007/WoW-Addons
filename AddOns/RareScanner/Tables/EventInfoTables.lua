@@ -51,7 +51,6 @@ private.EVENT_INFO = {
 	[158736] = { zoneID = 1527, artID = { 1343 }, x = 4849, y = 8485, overlay = { "4849-8485" }, zoneQuestId = { 57157 }, questID = { 57522 } }; --Llamada del Vacío
 	[158737] = { zoneID = 1527, artID = { 1343 }, x = 6589, y = 7287, overlay = { "6589-7287" }, zoneQuestId = { 57157 }, questID = { 57541 } }; --Llamada del Vacío
 	[158738] = { zoneID = 1527, artID = { 1343 }, x = 5368, y = 7569, overlay = { "5368-7569" }, questID = { 57585 } }; --Llamada del Vacío
-	[158754] = { zoneID = 1527, artID = { 1343 }, x = 5976, y = 7240, overlay = { "5976-7240" }, zoneQuestId = { 57157 }, questID = { 57429 } }; --Pira del Amalgamado
 	[160818] = { zoneID = 1527, artID = { 1343 }, x = 6202, y = 7070, overlay = { "6202-7070" }, zoneQuestId = { 57157 }, questID = { 58271 } }; --Ritual de llama del Vacío
 	[160915] = { zoneID = 1527, artID = { 1343 }, x = 5055, y = 8232, overlay = { "5055-8232" }, zoneQuestId = { 57157 }, questID = { 58275 } }; --Invocación monstruosa
 	[160928] = { zoneID = 1527, artID = { 1343 }, x = 4940, y = 3935, overlay = { "4940-3935" }, zoneQuestId = { 57157 }, questID = { 58276 } }; --Mar'at en llamas
@@ -156,10 +155,17 @@ private.EVENT_INFO = {
 	[205006] = { zoneID = 2133, artID = { 1775 }, x = 5656, y = 6552, overlay = { "5656-6552" }, questReset = true, questID = { 75664 } }; --Discordant Crystals
 	[222165] = { zoneID = {
 				[2213] = { x = 2109, y = 4546, artID = { 1816 }, overlay = { "2109-4546" } };
-				[2214] = { x = 5951, y = 6980, artID = { 1817 }, overlay = { "4357-1069","5951-6980" } };
+				[2214] = { x = 5535, y = 6980, artID = { 1817 }, overlay = { "3941-1069","5535-6980" } };
 				[2215] = { x = 6068, y = 6749, artID = { 1818 }, overlay = { "6068-6749" } };
 				[2248] = { x = 5562, y = 7771, artID = { 1833 }, overlay = { "5562-7771" } };
 				[2255] = { x = 6547, y = 5243, artID = { 1852 }, overlay = { "3862-8056","6547-5243" } };
+				[2346] = { x = 4325, y = 1438, artID = { 1899 }, overlay = { "4325-1438" } };
 			  } }; --Worldsoul Memory
-	[227481] = { zoneID = 2214, artID = { 1817 }, x = 6434, y = 8747, overlay = { "6593-8412","6434-8747" } }; --Point Breaker
-}
+	[234350] = { zoneID = 2346, artID = { 1899 }, x = 6747, y = 2929, overlay = { "6747-2929" } }; --S.C.R.A.P. Heap
+	[234349] = { zoneID = 2346, artID = { 1899 }, x = 7652, y = 6957, overlay = { "7652-6957" } }; --S.C.R.A.P. Heap
+	[234348] = { zoneID = 2346, artID = { 1899 }, x = 5248, y = 8332, overlay = { "5248-8332" } }; --S.C.R.A.P. Heap
+	[234347] = { zoneID = 2346, artID = { 1899 }, x = 5041, y = 6362, overlay = { "5041-6362" } }; --S.C.R.A.P. Heap
+	[234346] = { zoneID = 2346, artID = { 1899 }, x = 3865, y = 8109, overlay = { "3865-8109" } }; --S.C.R.A.P. Heap
+	[234345] = { zoneID = 2346, artID = { 1899 }, x = 3635, y = 4508, overlay = { "3635-4508" } }; --S.C.R.A.P. Heap
+	[234344] = { zoneID = 2346, artID = { 1899 }, x = 3200, y = 2172, overlay = { "3200-2172" } }; --S.C.R.A.P. Heap
+} 

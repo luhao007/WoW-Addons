@@ -39,9 +39,9 @@ L['mushroom_cap_note'] = 'Recoge un {object:Hongo de Boscorraíz} en el bosque c
 L['mysterious_orb_note'] = 'Lleva la {object:Perla elemental} de vuelta al {npc:222847}.'
 L['thaks_treasure_note'] = 'Habla con {npc:223227} y síguelo.'
 L['trees_treasure_note'] = 'Habla con {npc:222940} para conseguir {item:224185}. Guía a 6x {npc:224548} {dot:Green} por alrededor de la {location:Isla de Dorn} de vuelta a {npc:222940}. Cuando haya guiado a todos los cangrejos de vuelta, habla con ella.'
-L['trees_treasure_crab_1_note'] = 'Debajo del arbol.'
+L['trees_treasure_crab_1_note'] = 'Debajo del árbol.'
 L['trees_treasure_crab_2_note'] = 'En una rama del árbol.'
-L['trees_treasure_crab_3_note'] = 'Bajo del arbol.'
+L['trees_treasure_crab_3_note'] = 'Debajo del árbol.'
 L['trees_treasure_crab_4_note'] = 'Bajo una raíz del árbol.'
 L['trees_treasure_crab_5_note'] = 'En una cornisa.'
 L['trees_treasure_crab_6_note'] = 'En una raíz del árbol.'
@@ -348,6 +348,7 @@ L['tsw_chest_4_location'] = 'En lo alto de una viga. Bájate del pilar cerca del
 L['tuk_chest_1_note'] = 'Detrás de la estatua.'
 L['tuk_chest_2_note'] = '{note:Sólo disponible en las variantes de la historia "Evolución Incontrolable" y "Víctimas de Tortura".}'
 L['tuk_chest_3_note'] = '{note:Sólo disponible en las variantes de la historia "Evolución Incontrolable" y "Rescate de la Tejedora".}'
+L['sss_chest_2_location'] = 'A través de la viga metálica.'
 
 -------------------------------------------------------------------------------
 --------------------------------- SIREN ISLE ----------------------------------
@@ -358,8 +359,8 @@ L['the_drain_note'] = 'Contribuye con {currency:3090} para {location:El Sumidero
 L['shuddering_hollow_note'] = 'Contribuye con {currency:3090} para la {location:Cuenca Estremecedora} en el {object:Mapa de mando de la Isla de la Sirena} para abrir esta cueva y hacer aparecer el raro.'
 
 L['vrykul_sublabel'] = '{note:Sólo disponible con {npc:Vykrul Rastrosangre} en la isla.}'
-L['naga_sublabel'] = '{note:Sólo disponible con {npc:Naga} en la isla.}'
-L['pirate_sublabel'] = '{note:Sólo disponible con {npc:pirates} en la isla.}'
+L['naga_sublabel'] = '{note:Sólo disponible con {npc:nagas} en la isla.}'
+L['pirate_sublabel'] = '{note:Sólo disponible con {npc:piratas} en la isla.}'
 
 L['storm_required'] = 'Requiere una tormenta %s activa en la {location:Isla de la Sirena}.'
 L['slaughtershell_location'] = 'Deambula por toda la {location:Isla de la Sirena}.'
@@ -376,6 +377,7 @@ L['runed_storm_chest_note'] = 'Sigue el viento hasta un {object:Alijo de torment
 L['flame_blessed_iron_item'] = 'Devuelve este objeto para {currency:3090} extra.'
 
 L['barnacle_encrusted_chest'] = 'Cofre con incrustaciones de percebes'
+L['pilfered_earthen_chest'] = 'Cofre terráneo birlado'
 
 L['soweezi_note'] = 'Cambia {currency:3090} por una montura, juguete, mascota, o transfiguración.'
 
@@ -401,6 +403,7 @@ L['pris_quest_4'] = 'Un amigo leal'
 
 L['unsolved_amethyst_runelock'] = 'Bloqueo de runas amatista'
 L['bilge_rat_supply_chest'] = 'Cofre de suministros de las Ratas de Pantoque'
+L['bilge_rat_supply_chest_note'] = 'Recoge la {item:228621} al matar el {npc:228582} cercano para abrir el cofre.'
 
 L['stone_carvers_scamseax_note'] = 'Recoge un {object:Citrino radiante} ({dot:Yellow}) para recibir el buff {spell:1216785} durante 2 minutos que permitirá despojar {item:233834}.'
 
@@ -415,7 +418,7 @@ L['options_icons_secrets_of_azeroth_desc'] = 'Muestra dónde están las pistas p
 
 L['alyx_kickoff_note'] = 'Habla con {npc:226683} para activar los nuevos puzzles de los Secretos de Azeroth.'
 
-L['celebration_crates_label'] = 'Cajones de celebración'
+-- L['celebration_crates_label'] = 'Cajones de celebración'
 L['celebration_crates_note'] = 'Busca y devuelve todos los {object:Cajones de celebración} escondidos a lo largo de {location:Azeroth}.'
 
 L['1_soggy_celebration_crate_note'] = 'Cómprale un {item:225996} a {npc:143029} ({dot:Blue}) en el {location:Bar Zambullida} y dáselo a {npc:189119} para descubrir el {item:226200}.'
@@ -562,3 +565,53 @@ L['code_label'] = '%d en la %s'
 L['orb_9_label'] = 'Orbe 9'
 
 L['ak_decryption_console_note'] = 'Regresa a la entrada del agujero oculto dentro de la cueva hasta el {location:Pilar-Nido Vosh} de {location:Azj-Kahet}.\n\nEquípate tus {item:228966} para revelar una plataforma oculta.\n\nSeñala el {npc:230383} y usa las {item:228996} para alcanzar la plataforma. Teclea el código y abre el {object:Cofre cifrado} para recibir las {item:229348}.\n\n{object:Código}: 84847078'
+
+-------------------------------------------------------------------------------
+---------------------------------- UNDERMINE ----------------------------------
+-------------------------------------------------------------------------------
+
+L['requires_ally'] = '{note:Debes estar aliado con |cFFFFFF00{faction:%d}|r.}'
+L['complete_event'] = 'Habla con {npc:%d} y completa el evento para invocar.'
+L['in_sewer'] = 'Dentro de la cloaca. Usa la {object:Rejilla de cloaca} cercana para entrar.'
+L['and_slimesby'] = 'y {npc:230947}'
+
+L['inert_plunger_label'] = '¿Detonador inerte?'
+L['exploded_plunger_label'] = 'Detonador explotado'
+
+L['unexploded_fireworks_location'] = 'En lo alto del {location:Parque Portón}.'
+L['suspicious_book_note'] = '1. {dot:Red} Escondido en una estantería en el primer piso. Intenta recogerlo y volará a una nueva estantería en el piso de arriba.\n\n2. {dot:Green} Escondido detrás de una estantería en el segundo piso. Intenta recogerlo y volará al escritorio de arriba.\n\n3. En el escritorio del tercer piso. Finalmente, recoge el libro.'
+L['fireworks_hat_note'] = 'Intenta agarrar el sombrero, lo que hace que vuele desde la azotea y aterrice aquí.'
+L['blackened_dice_note'] = 'Gira la {object:Válvula de tubería} cercana para soltar los dados.'
+L['lonely_tub_note'] = 'Agarra el {object:Extintor} cercano ({dot:Blue}) para apagar las llamas del {object:Tubo solitario}.'
+L['impotent_potable_location'] = 'Debajo del muelle al lado de {location:Fiesta Saqueo}'
+L['abandoned_toolbox_location'] = 'En lo alto del techo de la {location:Tienda de Chatarra}.\n\nSigue las escaleras hasta arriba.'
+L['trick_deck_of_cards_location'] = 'En el escritorio al lado de {npc:231045} dentro del {location:Hotel Incontinental}.'
+
+L['ditty_fuzeboy_note'] = 'Intercambia {item:234741} por mascotas.'
+L['angelo_rustbin_note'] = 'Intercambia {currency:3220} por mascotas y las transfiguraciones {object:Rompecuellos G-99}.'
+
+L['options_icons_nine_tenths'] = '{achievement:40948}'
+L['options_icons_nine_tenths_desc'] = 'Muestra dónde están los {object:Cofre bloqueado de Muff} para el logro {achievement:40948}.'
+L['muffs_auto_locker_label'] = 'Cofre bloqueado de Muff'
+L['muffs_auto_locker_note'] = 'Recoge las 5 piezas de Gorillion y completa la misión {quest:87406} para construir {item:232843}.'
+L['muffs_auto_locker_suffix'] = 'Cofres bloqueados de Muff abiertos'
+
+L['options_icons_between_the_lines'] = '{achievement:41588}'
+L['options_icons_between_the_lines_desc'] = 'Muestra dónde están los libros para el logro {achievement:41588}.'
+L['a_threatening_letter_location'] = 'En el piso inferior de los {location:Laboratorios Bonvapor} debajo de la escalera.'
+L['gallywixs_notes_location'] = 'En una mesa en la parte trasera de la {location:Sala de Acopio}.'
+
+L['options_icons_can_do_attitude'] = '{achievement:41589}'
+L['options_icons_can_do_attitude_desc'] = 'Muestra dónde están las {npc:237103} para el logro {achievement:41589}.'
+L['discarded_can_label'] = '{npc:237103}'
+L['discarded_can_note'] = 'Patea la {npc:237103} unas cuantas veces.'
+L['discarded_can_suffix'] = 'latas pateadas'
+
+L['options_icons_scrap_rewards'] = 'Montón de C.H.A.T.A.R.R.A.'
+L['options_icons_scrap_rewards_desc'] = 'Muestra las recompensas para {object:Montón de C.H.A.T.A.R.R.A.}.'
+L['scrap_heap_suffix'] = 'C.H.A.T.A.R.R.A. trabajos completados'
+
+L['options_icons_youre_my_friend_now'] = '{achievement:41708}'
+L['options_icons_youre_my_friend_now_desc'] = 'Muestra dónde están las {npc:239248} para el logro {achievement:41708}.'
+L['rat_in_building_rail'] = 'En el riel dentro del edificio.'
+L['rat_2nd_floor_trash_can'] = 'En la papelera en el segundo piso dentro del edificio.'

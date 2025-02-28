@@ -19,9 +19,9 @@ local PIGEnter=Create.PIGEnter
 --
 local CombatPlusfun=addonTable.CombatPlusfun
 ---------------
-local WWW,HHH = 60,24
-local CombatTimeweizhi={"TOP", UIParent, "TOP", 0, -80}
-local PIGCombatTime = PIGFrame(UIParent,CombatTimeweizhi,{WWW,HHH},"PIGCombatTime_UI")
+local WWW,HHH = 60,20
+local CombatTimeweizhi={"TOP", UIParent, "TOP", 0, -62}
+local PIGCombatTime = PIGFrame(UIParent,nil,{WWW,HHH},"PIGCombatTime_UI")
 PIGCombatTime:PIGSetMovable()
 PIGCombatTime:Hide()
 PIGCombatTime.zongjishi = 0
@@ -102,6 +102,10 @@ end
 function CombatPlusfun.CombatTime()
 	if not PIGA["CombatPlus"]["CombatTime"]["Open"] then return end
 	if PIGCombatTime.yizairu then return end
+	if PIGA["CombatPlus"]["markerW"]["Open"] and PIGmarkerW_UI then
+		CombatTimeweizhi[5]=CombatTimeweizhi[5]-18
+	end
+	PIGCombatTime:SetPoint(unpack(CombatTimeweizhi));
 	PIGCombatTime:SetFrameStrata("LOW")
 	PIGCombatTime:Show()
 	PIGCombatTime:PIGSetBackdrop()
@@ -212,7 +216,7 @@ function CombatPlusF.SetF.Miaobian:PIGDownMenu_Update_But(self)
 	end 
 end
 function CombatPlusF.SetF.Miaobian:PIGDownMenu_SetValue(value,arg1,arg2)
-	CombatPlusF.SetF.Miaobian:PIGDownMenu_SetText(value)
+	self:PIGDownMenu_SetText(value)
 	PIGA["CombatPlus"]["CombatTime"]["Miaobian"]=arg1
 	local ziti,zihao = PIGCombatTime.T0:GetFont()
 	PIGCombatTime.T0:SetFont(ziti,zihao, arg1)
@@ -233,7 +237,7 @@ function CombatPlusF.SetF.Beijing:PIGDownMenu_Update_But(self)
 	end 
 end
 function CombatPlusF.SetF.Beijing:PIGDownMenu_SetValue(value,arg1,arg2)
-	CombatPlusF.SetF.Beijing:PIGDownMenu_SetText(value)
+	self:PIGDownMenu_SetText(value)
 	PIGA["CombatPlus"]["CombatTime"]["Beijing"]=arg1
 	SetBGHide()
 	PIGCloseDropDownMenus()

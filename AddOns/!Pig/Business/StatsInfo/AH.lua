@@ -353,7 +353,7 @@ function BusinessInfo.AH()
 			fujiF.DQShowData=PIGA["AHPlus"]["CacheData"]
 		end
 		local itemData = fujiF.DQShowData[fujiF.collname]
-		local itemDataL = itemData[2]
+		local itemDataL = itemData[2]	
 		local ItemsNum = #itemDataL;
 	    FauxScrollFrame_Update(self, ItemsNum, hang_NUMLS, hang_Height);
 	    local offset = FauxScrollFrame_GetOffset(self);
@@ -373,5 +373,4 @@ function BusinessInfo.AH()
 	fujiF:HookScript("OnShow", function(self)
 		fujiF.gengxin_List(self.PList.BOTTOM.Scroll);
 	end)
-	----
 end

@@ -461,10 +461,10 @@ end
 local function GenerateVariantClasses(class)
 	local fields = class.__class
 	local variants = fields.variants
-	if not variants then return end
+	if not variants or #variants == 0 then return end
 	local subbase = function(t, key) return class.__index; end
 	local classname = fields.__type()
-	local variantClone
+	local variantClone, variantName
 	for i,variant in ipairs(variants) do
 		if not variant.__name then
 			ClassError("Missing Class Variant __name!",i,classname)
@@ -474,7 +474,9 @@ local function GenerateVariantClasses(class)
 		end
 		-- raw variant table may be used by other classes, so need to copy it for this specific subclass
 		variantClone = CloneDictionary(fields, CloneDictionary(variant, {base=subbase}))
-		variants[i] = CreateClassMeta(variantClone, classname..variant.__name);
+		variantName = classname..variant.__name
+		variants[i] = CreateClassMeta(variantClone, variantName);
+		if variant.__onclassgenerated then variant.__onclassgenerated(variantName) end
 	end
 end
 local function AppendVariantConditionals(conditionals, class)
@@ -553,12 +555,11 @@ app.CreateClass = function(className, classKey, fields, ...)
 		fields.key = function() return classKey; end;
 	end
 
-	-- If a Type is collectible via in-game Event, also enforce that it defines for itself: the CacheKey and SettingsKey
+	-- If a Type is collectible via in-game Event, also enforce that it defines for itself its CacheKey
 	-- for the common immediate collection handling logic
 	if fields.collectible and fields.collected and not fields.RefreshCollectionOnly then
 		if not fields.CACHE then
-			app.PrintDebug("Class",className,"is missing CACHE by which the collected Keys are stored in the Cache")
-			-- ClassError("Class",className,"is missing CacheKey by which the collected Keys are stored in the Cache");
+			ClassError("Class",className,"is missing CACHE by which the collected Keys are stored in the Cache");
 		end
 	end
 
@@ -681,11 +682,15 @@ end
 app.ExtendClass = function(baseClassName, className, classKey, fields, ...)
 	local baseClass = classDefinitions[baseClassName];
 	if baseClass then
-		fields = CloneDictionary(baseClass, fields)
-		fields.__type = nil;
-		fields.key = nil;
-		fields.conditionals = nil;
-		fields.simplemeta = nil;
+		-- clone the base fields and make sure to remove fields we don't want to inherit in the extended classes
+		local basefields = CloneDictionary(baseClass)
+		basefields.__type = nil;
+		basefields.variants = nil
+		basefields.key = nil;
+		basefields.conditionals = nil;
+		basefields.simplemeta = nil;
+		-- then clone those into the extended class
+		fields = CloneDictionary(basefields, fields)
 	else
 		ClassError("Could not find specified base class:", baseClassName);
 	end

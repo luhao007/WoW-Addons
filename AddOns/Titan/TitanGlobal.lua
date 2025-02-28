@@ -150,7 +150,6 @@ Titan_Global.debug.plugin_text = false
 Titan_Global.debug.plugin_register = false
 Titan_Global.debug.plugin_register_deep = false
 Titan_Global.debug.movable = false
-Titan_Global.debug.titan_startup = false
 
 -- For WoW localized strings / literals we are using
 Titan_Global.literals = {
@@ -186,15 +185,6 @@ Titan_Global.colors = {
 	yellow = "ffff00", -- YELLOW_FONT_COLOR
 }
 
---type for debug
----@class PluginTopicType
----@field enabled boolean Whether this particular topic debug is enabled
----@field topic string The topic description
-
----@class PluginDebugType
----@field enabled boolean Whether this particular plugin debug is enabled
----@field topics PluginTopicType[] The numeric list of possible debug
-
 -- type for plugin registry
 ---@class PluginRegistryType
 ---@field id string The unique name of the plugin
@@ -206,28 +196,11 @@ Titan_Global.colors = {
 ---@field tooltipTitle? string Localized string for the menu
 ---@field tooltipTextFunction? string | function Function to call for a simple tooltip (OnEnter)
 ---@field tooltipCustomFunction? function Function to call for a complex tooltip (OnEnter)
----@field debugClass? PluginDebugType Function to call to enable / disable debug (Titan Config)
 ---@field icon? string Path to the plugin icon
 ---@field iconWidth? integer Path to the plugin icon
 ---@field notes? string Brief description shown in Titan > Config > Plugins when this plugin is selected
 ---@field controlVariables? table Show or not on menu - set to true or false - ShowIcon ShowLabelText ShowColoredText DisplayOnRightSide
 ---@field savedVariables? table Initial value of any saved variables for this plugin; should include control variables
-
----API Return an empty debug class.
----@return PluginDebugType
----This routine was added for use with an IDE with Intellisense that supports Lua. It can be but might not be used.
----Each plugin is welcome to add more topics.
---- debug_info = Titan_Global.NewDebug()
-function Titan_Global.NewDebug()
-	local reg = { 
-		enabled = false,
-		topics = {
-				[1] = { enabled = false, topic = "Events"},
-				[2] = { enabled = false, topic = "Flow"},
-			} 
-		} ---@type PluginDebugType
-	return reg
-end
 
 ---API Return an empty registry - only the id is set.
 ---@param id string The unique name of the plugin
@@ -238,3 +211,12 @@ function Titan_Global.NewRegistry(id)
 	local reg = { id = id } ---@type PluginRegistryType
 	return reg
 end
+
+-- Set the debug topics for Titan itself - not any plugins
+Titan_Global.dbg = Titan_Debug:New("Titan")
+Titan_Global.dbg:AddTopic("Startup")
+Titan_Global.dbg:AddTopic("Vars")
+
+Titan_Global.dbg:EnableDebug(false)
+Titan_Global.dbg:EnableTopic("Tooltip", false)
+Titan_Global.dbg:EnableTopic("Menu", false)

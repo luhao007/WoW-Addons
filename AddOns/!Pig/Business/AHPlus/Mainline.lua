@@ -12,7 +12,7 @@ local Fun=addonTable.Fun
 local BusinessInfo=addonTable.BusinessInfo
 local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 ----------------------------------
-function BusinessInfo.AHPlus_Mainline()
+function BusinessInfo.AHPlus_Mainline(baocunnum)
 	if not PIGA["AHPlus"]["Open"] or AuctionHouseFrame.History then return end
 	local function Show_hangdata(hangui)
 		local itemKey = hangui.rowData.itemKey
@@ -202,7 +202,6 @@ function BusinessInfo.AHPlus_Mainline()
 				HCUI.jindu.t3:SetText(numReplicateItems);
 				HCUI.jindu:SetMinMaxValues(0, numReplicateItems)
 				HCUI.jindu.tbiaoti:SetText("正在缓存价格...");
-				HCUI.ScanCD=BusinessInfo.AHPlusData.ScanCD
 				wipe(HCUI.auctions)
 				wipe(HCUI.auctionsLin)
 				wipe(HCUI.ItemLoadList)
@@ -266,7 +265,7 @@ function BusinessInfo.AHPlus_Mainline()
 		HCUI.jindu.t2:SetText(0);
 		HCUI.jindu.t3:SetText(0);
 		PIGA["AHPlus"]["DaojiTime"]=GetServerTime()
-		HCUI.ScanCD=BusinessInfo.AHPlusData.ScanCD
+		HCUI.ScanCD=BusinessInfo.AHPlusData.ScanCD*0.0001
 		HCUI.jishuID = 0
 		HCUI.cunchuNum=0
 		HCUI.yicunchu=nil
@@ -276,7 +275,7 @@ function BusinessInfo.AHPlus_Mainline()
 		HCUI.UpdateF:Show()
 		C_AuctionHouse.ReplicateItems()
 	end)
-	local baocunnum = 40
+	local baocunnum=baocunnum-1
 	function AuctionHouseFrame.History:DEL_OLDdata()
 		for k,v in pairs(PIGA["AHPlus"]["CacheData"]) do
 			local itemDataL = v[2]

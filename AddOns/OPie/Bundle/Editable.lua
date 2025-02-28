@@ -37,33 +37,32 @@ do
 		        or CF_CATA and firstAid,
 		MODERN and {id=194174, _u ="sj"}, -- skinning journal
 		MODERN and {id=nodeOverload:format("herb", 390392, 423395, 193290), _u="hj"}, -- herbalism journal
-		name=L"Trade Skills", hotkey="ALT-T", _u="OPCCT", v=3
+		MODERN and {id=439871, show="[in:tww]", _u="ht"}, -- green thumb
+		MODERN and {id=440977, show="[in:tww]", _u="sk"}, -- sharpen your knife
+		name=L"Trade Skills", hotkey="ALT-T", _u="OPCCT", v=4
 	})
 end
-R:AddDefaultRing("TrinketSlots", {
-	{id="/use 13", _u="t"},
-	{id="/use 14", _u="b"},
-	name=L"Trinkets", _u="OPCTS", v=1
-})
 R:AddDefaultRing("OPieAutoQuest", {
 	{"extrabutton", 1, _u="EB", fastClick=true},
+	{"opie.ext", "xact", _u="CX"},
 	{"zoneability", 0, _u="ZA"},
 	{"opie.autoquest", 1, _u="AC"},
-	name=L"Quest Items", hotkey="ALT-Q", _u="OPbQI", v=2
+	name=L"Quest Items", hotkey="ALT-Q", _u="OPbQI", v=3
 })
 if MODERN or CF_CATA then
 	local clearMark = {"worldmark", 0, c="ccd8e5", _u="c"}
+	local FULL_WORLD_MARKERS = MODERN or NUM_WORLD_RAID_MARKERS_CATA ~= 5
 	R:AddDefaultRing("WorldMarkers", {
 		{"worldmark", 1, _u="b"},
 		{"worldmark", 2, _u="g"},
 		{"worldmark", 3, _u="p"},
 		{"worldmark", 4, _u="r"},
 		{"worldmark", 5, _u="y"},
-		MODERN and {"worldmark", 6, _u="o"} or clearMark,
-		MODERN and {"worldmark", 7, _u="s"},
-		MODERN and {"worldmark", 8, _u="w"},
-		MODERN and clearMark,
-		name=L"World Markers", hotkey="[group] ALT-Y", _u="OPCWM", v=1
+		FULL_WORLD_MARKERS and {"worldmark", 6, _u="o"} or clearMark,
+		FULL_WORLD_MARKERS and {"worldmark", 7, _u="s"},
+		FULL_WORLD_MARKERS and {"worldmark", 8, _u="w"},
+		FULL_WORLD_MARKERS and clearMark,
+		name=L"World Markers", hotkey="[group] ALT-Y", _u="OPCWM", v=2
 	})
 end
 
@@ -91,14 +90,14 @@ R:AddDefaultRing("DruidUtility", {
 R:AddDefaultRing("DruidFeral", {
 	{id=106951, _u="k"}, -- berserk
 	{id="/cast [noform:bear] {{spell:5217}}; {{spell:22842}}", _u="e"}, -- frenzied / tiger's fury
-	{id="/cast [mod][nospec:2/3] {{spell:1850}}; [form:bear] {{spell:77761}}; {{spell:77764}}", _u="r"}, -- dash / stampeding roar
+	{id="/cast [mod] {{spell:1850}}; [form:bear] {{spell:77761}}; {{spell:77764}}; {{spell:1850}}", _u="r"}, -- dash / stampeding roar
 	{id=106839, _u="s"}, -- skull bash
 	{id=22812, _u="b"}, -- barkskin
 	{id=61336, _u="i"}, -- survival instincts
 	{id=102401, _u="c"}, -- feral charge
 	{id="/cast {{spell:102543/102558}}", _u="n"}, -- Incarnation
 	{id="/cast [nomod,@player][@none] {{spell:8936}}", show="[spec:102/104/105] hide;", _u="h"}, -- Regrowth
-	name=L"Feral", hotkey="[form:bear/cat] BUTTON5; ALT-BUTTON5", limit="DRUID", _u="OPCDF", v=2
+	name=L"Feral", hotkey="[form:bear/cat] BUTTON5; ALT-BUTTON5", limit="DRUID", _u="OPCDF", v=3
 })
 
 do -- Hunter Pets
@@ -192,11 +191,11 @@ R:AddDefaultRing("PaladinTools", {
 	{id="#imp critical\n/cast [anyflyable,outdoors,nocombat,nomod] {{mount:air}}; [outdoors,nocombat,nomod:shift] {{mount:ground}}; {{spell:190784}}\n/changeactionbar [anyflyable,advflyable,nocombat,outdoors,nomod] 1", fastClick=true, _u="s"}, --steed
 	{id=465, _u="d"}, --devotion
 	{id=317920, _u="c"}, --concentration
-	{id=322223, _u="u"}, --crusader
 	{id=183435, _u="r"}, --retribution
 	{id=31821, _u="m"}, --mastery
-	{id="/cast [help,dead,nocombat][nocombat,mod] {{spell:7328}}; {{spell:213644}}; {{spell:7328}}", _u="l"}, -- cleanse/res
-	name=L"Utility", limit="PALADIN", hotkey="BUTTON4", _u="OPCPT", v=3
+	{id=96231, _u="k"}, -- rebuke
+	{id="/cast [help,dead,nocombat][nocombat,mod] {{spell:7328}}; [help,dead,combat] {{spell:391054}}; {{spell:213644}}; {{spell:7328}}", _u="l"}, -- cleanse/res
+	name=L"Utility", limit="PALADIN", hotkey="BUTTON4", _u="OPCPT", v=4
 })
 R:AddDefaultRing("WarlockLTS", {
 	{id="/cast [anyflyable,outdoors,nocombat,nomod] {{mount:air}}; [outdoors,nocombat,nomod:shift] {{mount:ground}}; {{spell:126}}", fastClick=true, _u="e"}, -- mount/eye
@@ -277,7 +276,8 @@ R:AddDefaultRing("SpecMenu", {
 	{"toy", 110560, _u="g"},
 	{"toy", 140192, _u="d"},
 	{"item", 217930, _u="x"},
+	{id=436854, _u="f", show="[level:20]"},
 	{"ring", "CommonHearth", rotationMode="shuffle", _u="t"},
 	{"item", 141605, _u="w", show="[in:broken isles/argus/bfa]"}, -- flight master's whistle
-	name=L"Specializations and Travel", hotkey="ALT-H", _u="OPCTA", v=3
+	name=L"Specializations and Travel", hotkey="ALT-H", _u="OPCTA", v=4
 })

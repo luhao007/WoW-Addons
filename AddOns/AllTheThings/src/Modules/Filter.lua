@@ -489,6 +489,7 @@ local function RecursiveGroupRequirementsFilter(group)
 	return true;
 end
 app.RecursiveGroupRequirementsFilter = RecursiveGroupRequirementsFilter;
+api.Filters.RecursiveGroupRequirementsFilter = RecursiveGroupRequirementsFilter
 -- Recursively check outwards to find if any parent group restricts the filter for the current settings
 local function RecursiveGroupRequirementsExtraFilter(group, extraFilters)
 	local Filter = app.GroupExtraFilter;
@@ -499,6 +500,7 @@ local function RecursiveGroupRequirementsExtraFilter(group, extraFilters)
 	return true;
 end
 app.RecursiveGroupRequirementsExtraFilter = RecursiveGroupRequirementsExtraFilter;
+api.Filters.RecursiveGroupRequirementsExtraFilter = RecursiveGroupRequirementsExtraFilter
 -- Recursively check outwards within the direct parent chain only to find if any parent group restricts the filter for this character
 local function RecursiveDirectGroupRequirementsFilter(group)
 	local Filter = app.GroupFilter;
@@ -509,6 +511,7 @@ local function RecursiveDirectGroupRequirementsFilter(group)
 	return true;
 end
 app.RecursiveDirectGroupRequirementsFilter = RecursiveDirectGroupRequirementsFilter;
+api.Filters.RecursiveDirectGroupRequirementsFilter = RecursiveDirectGroupRequirementsFilter
 local function RecursiveUnobtainableFilter(group)
 	local Unobtainable, Event = AccountFilters.Unobtainable or NoFilter, AccountFilters.Event or NoFilter
 	while group do
@@ -519,6 +522,7 @@ local function RecursiveUnobtainableFilter(group)
 	return true;
 end
 app.RecursiveUnobtainableFilter = RecursiveUnobtainableFilter;
+api.Filters.RecursiveUnobtainableFilter = RecursiveUnobtainableFilter
 -- Recursively check outwards to find if any parent group restricts the filter for the current character (regardless of settings)
 local function RecursiveCharacterRequirementsFilter(group)
 	while group do
@@ -528,6 +532,7 @@ local function RecursiveCharacterRequirementsFilter(group)
 	return true;
 end
 app.RecursiveCharacterRequirementsFilter = RecursiveCharacterRequirementsFilter;
+api.Filters.RecursiveCharacterRequirementsFilter = RecursiveCharacterRequirementsFilter
 local function RecursiveDefaultCharacterRequirementsFilter(group)
 	local defaultClassFilter, defaultRaceFilter = api.Filters.Class, api.Filters.Race;
 	while group do
@@ -537,6 +542,7 @@ local function RecursiveDefaultCharacterRequirementsFilter(group)
 	return true;
 end
 app.RecursiveDefaultCharacterRequirementsFilter = RecursiveDefaultCharacterRequirementsFilter;
+api.Filters.RecursiveDefaultCharacterRequirementsFilter = RecursiveDefaultCharacterRequirementsFilter
 local function RecursiveFilter(group, filterName)
 	local filter = api.Filters[filterName]
 	while group do

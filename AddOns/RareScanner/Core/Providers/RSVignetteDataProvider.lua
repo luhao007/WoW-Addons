@@ -24,8 +24,31 @@ local RSRecentlySeenTracker = private.ImportLib("RareScannerRecentlySeenTracker"
 
 RSVignetteDataProviderMixin = CreateFromMixins(VignetteDataProviderMixin);
 
-function RSVignetteDataProviderMixin:GetPinTemplate()
+function RSVignetteDataProviderMixin:GetPinTemplates()
+	local templates = self.pinTemplates;
+	if (not templates) then
+		templates = { "RSVignettePinTemplate", "RSVignettePinPOIButtonTemplate" };
+		self.pinTemplates = templates;
+	end
+
+	return templates;
+end
+
+function RSVignetteDataProviderMixin:GetPinTemplate(vignetteInfo)
+	if (vignetteInfo.mapPin) then
+		return "RSVignettePinPOIButtonTemplate";
+	end
+
+	return self:GetDefaultPinTemplate();
+end
+
+function RSVignetteDataProviderMixin:GetDefaultPinTemplate()
 	return "RSVignettePinTemplate";
+end
+
+function RSVignetteDataProviderMixin:OnShow()
+	VignetteDataProviderMixin.OnShow(self)
+	self:ShowAnimations()
 end
 
 local function pingAnimation(pin, animation, entityID, mapID, x, y)
@@ -53,11 +76,6 @@ local function pingAnimation(pin, animation, entityID, mapID, x, y)
 	end
 end
 
-function RSVignetteDataProviderMixin:OnShow()
-	VignetteDataProviderMixin.OnShow(self)
-	self:ShowAnimations()
-end
-
 function RSVignetteDataProviderMixin:ShowAnimations()
 	-- Show recently seen animations in world map vignettes
 	if (RSConfigDB.IsShowingAnimationForVignettes()) then
@@ -71,7 +89,7 @@ function RSVignetteDataProviderMixin:ShowAnimations()
 			if (RSConfigDB.IsShowingAnimationForNpcs()) then
 				-- If it's a pre-spawn event
 				if (RSNpcDB.GetInternalNpcInfo(finalEntityID)) then
-					pingAnimation(pin, pin.ShowPingAnim, vignetteObjectID)
+					pingAnimation(pin, pin.ShowPingAnim, finalEntityID)
 				elseif ((entityID == RSConstants.FORBIDDEN_REACH_ANCESTRAL_SPIRIT or entityID == RSConstants.ZARALEK_CAVERN_LOAM_SCOUT) and RSNpcDB.GetNpcId(pin:GetVignetteName(), self:GetMap():GetMapID())) then
 					pingAnimation(pin, pin.ShowPingAnim, RSNpcDB.GetNpcId(pin:GetVignetteName(), self:GetMap():GetMapID()))
 				elseif (entityID == RSConstants.GOBLIN_PORTAL) then

@@ -15,7 +15,6 @@ local PIGOptionsList_RF=Create.PIGOptionsList_RF
 local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGFontString=Create.PIGFontString
 local PIGFontStringBG=Create.PIGFontStringBG
-local PIGModCheckbutton=Create.PIGModCheckbutton
 --
 local TooltipPlusfun={}
 addonTable.TooltipPlusfun=TooltipPlusfun
@@ -92,7 +91,7 @@ function PointF.miaodian:PIGDownMenu_Update_But(self)
 	end 
 end
 function PointF.miaodian:PIGDownMenu_SetValue(value,arg1,arg2)
-	PointF.miaodian:PIGDownMenu_SetText(value)
+	self:PIGDownMenu_SetText(value)
 	PIGA["Tooltip"]["Point"]=arg1
 	TooltipPlusfun.SetPointCF()
 	PIGCloseDropDownMenus()

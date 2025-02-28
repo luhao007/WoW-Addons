@@ -140,6 +140,12 @@ L["Portal to Tiragarde Sound"] = "Portal zum Tiragardesund"
 L["Portal to Twilight Highlands"] = "Portal ins Schattenhochland"
 L["Zeppelin to Siren Isle"] = "Zeppelin zur Sireneninsel"
 L["Zeppelin to Dornogal"] = "Zeppelin nach Dornogal"
+L["Mole Machine to Siren Isle"] = "Maulwurfmaschine zur Sireneninsel"
+L["Mole Machine to Gundargaz"] = "Maulwurfmaschine nach Gundargaz"
+L["Rocket Drill to Undermine"] = "Raketenbohrer nach Lorenhall"
+L["Rocket Drill to Ringing Deeps"] = "Raketenbohrer in die schallenden Tiefen"
+L["Teleporter to Undermine"] = "Teleporter nach Lorenhall"
+L["Teleporter to Dornogal"] = "Teleporter nach Dornogal"
 
 --==========================================DRAGONFLIGHT==========================================--
 

@@ -5,6 +5,7 @@ local ActionFun=addonTable.Fun.ActionFun
 local PIGUseKeyDown=ActionFun.PIGUseKeyDown
 local Update_State=ActionFun.Update_State
 ----
+local Data=addonTable.Data
 local butW = ActionButton1:GetWidth()
 local PIGSkillinfo={
 	["bookType"]=nil,
@@ -22,96 +23,6 @@ local IsCurrentSpell=IsCurrentSpell or C_Spell and C_Spell.IsCurrentSpell
 local GetSpellTexture=GetSpellTexture or C_Spell and C_Spell.GetSpellTexture
 local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 -----------------------
-local CS_Skill_List = {
-	746,--急救
-	2018,--锻造
-	2108,--制皮
-	2259,--炼金术
-	2550,--烹饪
-	2656,--熔炼/采矿日志
-	3908,--裁缝
-	4036,--工程学
-	7411,--附魔
-	25229,--珠宝加工
-	45357,--铭文
-	53428,--符文熔铸
-};
-if tocversion<30000 then
-	table.insert(CS_Skill_List,2842)--毒药
-end
-if tocversion>40000 then
-	--table.insert(CS_Skill_List,195127)--考古
-end
-if tocversion>100000 then
-	table.insert(CS_Skill_List,61422)--10.0熔炼
-	table.insert(CS_Skill_List,193290)--草药学日志
-	table.insert(CS_Skill_List,271990)--钓鱼日志
-end
-local CS_Skill_List_1 = {
-	818,--"基础营火/烹饪用火",
-	13262,--"分解",
-	31252,--"选矿",
-	2366,--"采集草药",
-	131474,--"钓鱼"
-	--80451,--"勘探"
-};
-if tocversion<80000 then
-	table.insert(CS_Skill_List,2575)--采矿
-else
-	table.insert(CS_Skill_List_1,2575)--采矿
-end
-local Skill_List={}
-for i=1,#CS_Skill_List do
-	local Skillname=PIGGetSpellInfo(CS_Skill_List[i])
-	if Skillname then table.insert(Skill_List,Skillname) end
-end
-local Skill_List_1 = {}
-for i=1,#CS_Skill_List_1 do
-	local Skillname=PIGGetSpellInfo(CS_Skill_List_1[i])
-	if Skillname then table.insert(Skill_List_1,Skillname) end
-end
-FramePlusfun.Skill_List=Skill_List
-local Skill_List_NEW = {{},{}};
-local function add_skilldata(spellID,spellName)
-	for x=1, #Skill_List do
-		if spellName==Skill_List[x] then
-			table.insert(Skill_List_NEW[1],{spellID,spellName})
-		end
-	end
-	for x=1, #Skill_List_1 do
-		if spellName==Skill_List_1[x] then
-			table.insert(Skill_List_NEW[2],{spellID,spellName})
-		end
-	end
-end
-local function huoqu_Skill_ID()
-	if #Skill_List_NEW[1]>0 then return end
-	if tocversion<40000 then
-		local _, _, tabOffset, numEntries = GetSpellTabInfo(1)
-		for j=tabOffset + 1, tabOffset + numEntries do
-			local spellName, _ ,spellID=GetSpellBookItemName(j, PIGSkillinfo.bookType)
-			add_skilldata(spellID,spellName)
-		end
-	elseif tocversion<50000 then
-		for _, i in pairs{GetProfessions()} do
-			local offset, numSlots = select(3, GetSpellTabInfo(i))
-			for j = offset+1, offset+numSlots do
-				local spellName, _ ,spellID=GetSpellBookItemName(j, PIGSkillinfo.bookType)
-				add_skilldata(spellID,spellName)
-			end
-		end
-	else
-		for _, i in pairs{GetProfessions()} do
-			local skillLineInfo = C_SpellBook.GetSpellBookSkillLineInfo(i)
-			local offset, numSlots = skillLineInfo.itemIndexOffset, skillLineInfo.numSpellBookItems
-			for j = offset+1, offset+numSlots do
-				local name = C_SpellBook.GetSpellBookItemName(j, PIGSkillinfo.bookType)
-				local spellID = select(2,C_SpellBook.GetSpellBookItemType(j, PIGSkillinfo.bookType))
-				add_skilldata(spellID,name)
-			end
-		end
-	end
-end
 local function ADD_Skill_QK_Button(fujiui,uiname,ly)
 	for F=1,PIGSkillinfo.butnum do
 		local But = CreateFrame("CheckButton", uiname.."_Button_"..F, fujiui, "SecureActionButtonTemplate,ActionButtonTemplate");
@@ -131,8 +42,10 @@ local function ADD_Skill_QK_Button(fujiui,uiname,ly)
 		But:Hide();
 		-----------
 		But.Border = But:CreateTexture(nil, "BACKGROUND");
-		But.Border:SetTexture(136831);
 		But.Border:SetDrawLayer("BACKGROUND", -8)
+		if not IsAddOnLoaded("alaTradeSkill") then
+			But.Border:SetTexture(136831);
+		end
 		if ly=="Mainline" then
 			But:SetScale(0.88)
 			But.Border:SetSize(PIGSkillinfo.Width*1.8,PIGSkillinfo.Height*1.8);
@@ -149,26 +62,25 @@ local function ADD_Skill_QK_Button(fujiui,uiname,ly)
 			Update_State(self)
 		end)
 	end
-	huoqu_Skill_ID()
-	local SkillNum1= #Skill_List_NEW[1]
-	for F=1, SkillNum1 do
+	local Skill_List = Data.Get_Skill_Info()
+	for F=1, #Skill_List.top do
 		local fujiK = _G[uiname.."_Button_"..F]
 		fujiK.Type="spell"
-		fujiK.SimID=Skill_List_NEW[1][F][1]
-		fujiK.icon:SetTexture(GetSpellTexture(Skill_List_NEW[1][F][1]));
-		fujiK:SetAttribute("spell", Skill_List_NEW[1][F][1]);
+		fujiK.SimID=Skill_List.top[F][2]
+		fujiK.icon:SetTexture(GetSpellTexture(Skill_List.top[F][2]));
+		fujiK:SetAttribute("spell", Skill_List.top[F][2]);
 		fujiK:Show();
 	end
-	for F=1, #Skill_List_NEW[2] do
-		local FF = F+SkillNum1;
+	for F=1, #Skill_List.bot do
+		local FF = F+#Skill_List.top;
 		local fujiK = _G[uiname.."_Button_"..FF]
-		if FF==(SkillNum1+1) then
+		if FF==(#Skill_List.top+1) then
 			fujiK:SetPoint("TOP", _G[uiname.."_Button_"..(FF-1)], "BOTTOM", 0, -44);
 		end
 		fujiK.Type="spell"
-		fujiK.SimID=Skill_List_NEW[2][F][1]
-		fujiK.icon:SetTexture(GetSpellTexture(Skill_List_NEW[2][F][1]));
-		fujiK:SetAttribute("spell", Skill_List_NEW[2][F][1]);
+		fujiK.SimID=Skill_List.bot[F][2]
+		fujiK.icon:SetTexture(GetSpellTexture(Skill_List.bot[F][2]));
+		fujiK:SetAttribute("spell", Skill_List.bot[F][2]);
 		fujiK:Show();
 	end
 	fujiui:HookScript("OnShow", function(self)
@@ -306,8 +218,9 @@ local function TradeSkillFunc()
 			TradeSkillCreateButton:ClearAllPoints()
 			TradeSkillCreateButton:SetPoint("RIGHT", TradeSkillCancelButton, "LEFT", -1, 0)
 			--分类下拉菜单位置
-			local SlotDropDown=TradeSkillInvSlotDropDown or TradeSkillInvSlotDropdown
+			local SlotDropDown=TradeSkillInvSlotDropDown or TradeSkillInvSlotDropdown or CreateFrame("Frame")
 			if SlotDropDown then
+				SlotDropDown:ClearAllPoints()
 				SlotDropDown:SetPoint("TOPRIGHT", TradeSkillFrame, "TOPRIGHT", -60, -44)
 				-- local SubDropDown=TradeSkillSubClassDropDown or TradeSkillSubClassDropdown	
 				-- if SubDropDown then
@@ -332,8 +245,8 @@ local function TradeSkillFunc()
 			if ElvUI then
 				TradeSkillFrame:HookScript("OnShow", function(self)
 					if ElvUI then
-						TradeSkillInvSlotDropDown:ClearAllPoints()
-						TradeSkillInvSlotDropDown:SetPoint("TOPLEFT", TradeSkillFrame, "TOPLEFT", 510, -30)
+						SlotDropDown:ClearAllPoints()
+						SlotDropDown:SetPoint("TOPLEFT", TradeSkillFrame, "TOPLEFT", 530, -30)
 						self.backdrop:SetPoint("TOPLEFT",self,"TOPLEFT",0,0);
 						self.backdrop:SetPoint("BOTTOMRIGHT",self,"BOTTOMRIGHT",-32,42);
 					end	
@@ -391,16 +304,18 @@ local function TradeSkillFunc()
 					regions[4]:SetTexture("Interface\\QUESTFRAME\\UI-QuestLogDualPane-Right")
 					regions[4]:SetSize(256, 512)
 				end
-				--调整配方列表底部纹理
-				TradeSkillFrame.RecipeInset = TradeSkillFrame:CreateTexture(nil, "ARTWORK")
-				TradeSkillFrame.RecipeInset:SetSize(304, 361)
-				TradeSkillFrame.RecipeInset:SetPoint("TOPLEFT", TradeSkillFrame, "TOPLEFT", 16, -72)
-				TradeSkillFrame.RecipeInset:SetTexture("Interface\\RAIDFRAME\\UI-RaidFrame-GroupBg")
-				-- 调整配方详细页纹理
-				TradeSkillFrame.DetailsInset = TradeSkillFrame:CreateTexture(nil, "ARTWORK")
-				TradeSkillFrame.DetailsInset:SetSize(302, 339)
-				TradeSkillFrame.DetailsInset:SetPoint("TOPLEFT", TradeSkillFrame, "TOPLEFT", 348, -72)
-				TradeSkillFrame.DetailsInset:SetTexture("Interface\\ACHIEVEMENTFRAME\\UI-GuildAchievement-Parchment-Horizontal-Desaturated")
+				if not IsAddOnLoaded("alaTradeSkill") then
+					--调整配方列表底部纹理
+					TradeSkillFrame.RecipeInset = TradeSkillFrame:CreateTexture(nil, "ARTWORK")
+					TradeSkillFrame.RecipeInset:SetSize(304, 361)
+					TradeSkillFrame.RecipeInset:SetPoint("TOPLEFT", TradeSkillFrame, "TOPLEFT", 16, -72)
+					TradeSkillFrame.RecipeInset:SetTexture("Interface\\RAIDFRAME\\UI-RaidFrame-GroupBg")
+					-- 调整配方详细页纹理
+					TradeSkillFrame.DetailsInset = TradeSkillFrame:CreateTexture(nil, "ARTWORK")
+					TradeSkillFrame.DetailsInset:SetSize(302, 339)
+					TradeSkillFrame.DetailsInset:SetPoint("TOPLEFT", TradeSkillFrame, "TOPLEFT", 348, -72)
+					TradeSkillFrame.DetailsInset:SetTexture("Interface\\ACHIEVEMENTFRAME\\UI-GuildAchievement-Parchment-Horizontal-Desaturated")
+				end
 			end
 	end
 end
@@ -412,14 +327,7 @@ local function CraftFunc()
 		CraftFrame:SetHeight(487)
 		--纹理调整替换
 		if ElvUI then
-			CraftFrame:HookScript("OnShow", function(self)
-				if ElvUI then
-					-- TradeSkillInvSlotDropDown:ClearAllPoints()
-					-- TradeSkillInvSlotDropDown:SetPoint("TOPLEFT", CraftFrame, "TOPLEFT", 510, -30)
-					-- self.backdrop:SetPoint("TOPLEFT",self,"TOPLEFT",0,0);
-					-- self.backdrop:SetPoint("BOTTOMRIGHT",self,"BOTTOMRIGHT",-32,42);
-				end	
-			end);
+
 		else
 			local regions = {_G["CraftFrame"]:GetRegions()}
 			regions[2]:SetTexture("Interface\\QUESTFRAME\\UI-QuestLogDualPane-Left")

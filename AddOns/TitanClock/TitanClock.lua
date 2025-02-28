@@ -335,7 +335,6 @@ local function OnLoad(self)
 			HideMapTime = false,
 		}
 	};
-	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 end
 
 ---local Start the timer for advancing the clock time
@@ -346,6 +345,18 @@ local function OnShow(self)
 	else
 		ClockTimer = AceTimer:ScheduleRepeatingTimer(TitanPanelPluginHandle_OnUpdate, 30, updateTable)
 		ClockTimerRunning = true
+	end
+
+	-- If the user wants the minimap clock or calendar hidden then hide them
+	if TitanGetVar(TITAN_CLOCK_ID, "HideGameTimeMinimap") then
+		if GameTimeFrame then GameTimeFrame:Hide() end
+	end
+	if TimeManagerClockButton and TimeManagerClockButton:GetName() then
+		if TitanGetVar(TITAN_CLOCK_ID, "HideMapTime") then
+			TimeManagerClockButton:Hide()
+		else
+			TimeManagerClockButton:Show()
+		end
 	end
 end
 
@@ -361,19 +372,7 @@ end
 ---@param event string Event
 ---@param ... any Event parameters
 local function OnEvent(self, event, ...)
-	if (event == "PLAYER_ENTERING_WORLD") then
-		-- If the user wants the minimap clock or calendar hidden then hide them
-		if TitanGetVar(TITAN_CLOCK_ID, "HideGameTimeMinimap") then
-			if GameTimeFrame then GameTimeFrame:Hide() end
-		end
-		if TimeManagerClockButton and TimeManagerClockButton:GetName() then
-			if TitanGetVar(TITAN_CLOCK_ID, "HideMapTime") then
-				TimeManagerClockButton:Hide()
-			else
-				TimeManagerClockButton:Show()
-			end
-		end
-	end
+	-- No events to process
 end
 
 ---local Handle mouse events the clock plugin is interested in.

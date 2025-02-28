@@ -1,6 +1,6 @@
-## Interface: 110007
+## Interface: 110100
 ## Author: Allara
-## Version: 1.0 (r738-release)
+## Version: 1.0 (r739-release)
 
 ## Title: Rarity
 ## Notes: Tracks rare drops, including companions and mounts
@@ -17,7 +17,7 @@
 
 ## SavedVariables: RarityDB
 
-## X-Min-Interface: 110005
+## X-Min-Interface: 110007
 ## X-Curse-Project-ID: 30801
 ## X-LoadOn-Always: delayed
 

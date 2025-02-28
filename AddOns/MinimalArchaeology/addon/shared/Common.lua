@@ -1,6 +1,29 @@
-local ADDON, MinArch = ...
+local ADDON, _ = ...
+
+---Reusable functions and components not unique to one specific module
+---@class MinArchCommon 
+local Common = MinArch:LoadModule("MinArchCommon")
+
+---@type MinArchMain
+local Main = MinArch:LoadModule("MinArchMain")
+---@type MinArchDigsites
+local Digsites = MinArch:LoadModule("MinArchDigsites")
+---@type MinArchCompanion
+local Companion = MinArch:LoadModule("MinArchCompanion")
+---@type MinArchOptions
+local Options = MinArch:LoadModule("MinArchOptions")
+---@type MinArchNavigation
+local Navigation = MinArch:LoadModule("MinArchNavigation")
+---@type MinArchHistory
+local History = MinArch:LoadModule("MinArchHistory")
+---@type MinArchLDB
+local MinArchLDB = MinArch:LoadModule("MinArchLDB")
+
+local L = LibStub("AceLocale-3.0"):GetLocale("MinArch")
 
 -- Local variables
+local nextCratable = nil
+
 local ResearchBranchMap = {
 	[1] = ARCHAEOLOGY_RACE_DWARF, -- Dwarf
 	[2] = ARCHAEOLOGY_RACE_DRAENEI, -- Draenei
@@ -44,9 +67,11 @@ local MinArchAlternateContIDMap = {
 	[1011] = 10, -- Zandalar Flight map
 }
 
-function MinArch:CommonFrameLoad(self, movable)
-	movable = movable or self
-	self:SetBackdrop({
+---@param frame table|BackdropTemplate|Frame
+---@param handle? table|BackdropTemplate|Frame
+function Common:FrameLoad(frame, handle)
+	handle = handle or frame
+	frame:SetBackdrop({
         bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
         edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
         tile = true,
@@ -56,34 +81,43 @@ function MinArch:CommonFrameLoad(self, movable)
         insets = { left = 11, right = 11, top = 11, bottom = 11 },
     });
 
-    self:RegisterForDrag("LeftButton");
-    self:SetScript("OnDragStart", function(self, button)
-		MinArch:CommonFrameDragStart(movable, button);
+    frame:RegisterForDrag("LeftButton");
+    frame:SetScript("OnDragStart", function(self, button)
+		Common:FrameDragStart(handle, button);
     end)
-    self:SetScript("OnDragStop", function(self)
-		MinArch:CommonFrameDragStop(movable);
+    frame:SetScript("OnDragStop", function(self)
+		Common:FrameDragStop(handle);
     end)
 end
 
-function MinArch:CommonFrameDragStart(self, button)
+---@param frame table|BackdropTemplate|Frame
+---@param button mouseButton
+function Common:FrameDragStart(frame, button)
 	if(button == "LeftButton") then
-		self:StartMoving();
+		frame:StartMoving();
 	end
 end
 
-function MinArch:CommonFrameDragStop(self)
-	self:StopMovingOrSizing();
+---@param frame table|BackdropTemplate|Frame
+function Common:FrameDragStop(frame)
+	frame:StopMovingOrSizing();
 end
 
-function MinArch:CommonFrameScale(scale)
+---@param scale integer|string
+function Common:FrameScale(scale)
 	scale = tonumber(scale)/100;
-	MinArchMain:SetScale(scale);
-	MinArchHist:SetScale(scale);
-	MinArchDigsites:SetScale(scale);
+	Main.frame:SetScale(scale);
+	History.frame:SetScale(scale);
+	Digsites.frame:SetScale(scale);
 end
 
-function MinArch:CreateAutoWaypointButton(parent, x, y)
-	local button = CreateFrame("Button", "$parentAutoWayButton", parent);
+---@param parent table|BackdropTemplate|Frame
+---@param x integer
+---@param y integer
+---@return Button
+function Common:CreateAutoWaypointButton(parent, x, y)
+	local button = CreateFrame("Button", "$parentAutoWayButton", parent, nil);
+	button:SetParentKey("autoWaypointButton")
 	button:SetSize(21, 21);
 	button:SetPoint("TOPLEFT", x, y);
 
@@ -96,17 +130,17 @@ function MinArch:CreateAutoWaypointButton(parent, x, y)
 
     button:SetScript("OnMouseUp", function(self, button)
         if (button == "LeftButton") then
-            MinArch:SetWayToNearestDigsite()
+            Navigation:SetWayToNearestDigsite()
         elseif (button == "RightButton") then
-            MinArch:OpenSettings(MinArch.Options.menu);
+            Common:OpenSettings(Options.TomTomSettings);
         end
 	end)
 
 	button:SetScript("OnEnter", function(self)
         GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
-        GameTooltip:AddLine("Left click to create waypoint to the closest available digsite", 1.0, 1.0, 1.0, 1.0)
+        GameTooltip:AddLine(L["TOOLTIP_WP_BUTTON_LEFTCLICK"], 1.0, 1.0, 1.0, 1.0)
         GameTooltip:AddLine(" ");
-        GameTooltip:AddLine("Right Click to open waypoint settings");
+        GameTooltip:AddLine(L["TOOLTIP_WP_BUTTON_RIGHTCLICK"]);
         GameTooltip:Show();
 	end)
 	button:SetScript("OnLeave", function()
@@ -116,7 +150,126 @@ function MinArch:CreateAutoWaypointButton(parent, x, y)
     return button;
 end
 
-function MinArch:GetInternalContId(uiMapID)
+function Common:SetCrateButtonTooltip(button)
+    button:SetScript("OnEnter", function(self)
+		GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
+		if (nextCratable ~= nil) then
+			GameTooltip:SetItemByID(nextCratable.itemID);
+			GameTooltip:AddLine(" ");
+			GameTooltip:AddLine(L["TOOLTIP_CRATE_BUTTON_LEFTCLICK"]);
+		else
+			GameTooltip:AddLine(L["TOOLTIP_CRATE_BUTTON_RIGHTCLICK"]);
+		end
+
+		GameTooltip:Show();
+	end)
+	button:SetScript("OnLeave", function()
+		GameTooltip:Hide();
+	end)
+end
+
+function Common:RefreshCrateButtonGlow()
+    Main.frame.crateButton.glow:Hide();
+    Companion:hideCrateButton()
+    nextCratable = nil;
+
+	for i = 1, ARCHAEOLOGY_RACE_MANTID do
+		for artifactID, data in pairs(MinArchHistDB[i]) do
+			if (data.pqid) then
+				-- iterate containers
+				for bagID = 0, 4 do
+					local numSlots = C_Container.GetContainerNumSlots(bagID);
+					for slot = 0, numSlots do
+						local itemID = C_Container.GetContainerItemID(bagID, slot);
+						if (itemID == artifactID) then
+							nextCratable = {
+								itemID = itemID,
+								bagID = bagID,
+								slot = slot
+							}
+
+                            Main.frame.crateButton:SetAttribute("item", "item:" .. itemID);
+                            Main.frame.crateButton.glow:Show();
+                            Companion:showCrateButton(itemID);
+
+							return;
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
+function Common:KeystoneTooltip(self, raceID)
+	local artifact = MinArch['artifacts'][raceID];
+	local name = C_Item.GetItemInfo(artifact['raceitemid']);
+
+	GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT");
+
+	local plural = L["TOOLTIP_KEYSTONES_YOUHAVE_INYOURBAGS_PLURAL"];
+	if (artifact['heldKeystones'] == 1) then
+		plural = "";
+	end
+
+	GameTooltip:SetItemByID(artifact['raceitemid']);
+	GameTooltip:AddLine(" ");
+	GameTooltip:AddLine(L["TOOLTIP_KEYSTONES_YOUHAVE"] .. " "..artifact['heldKeystones'].." "..tostring(name)..plural .. " " .. L["TOOLTIP_KEYSTONES_YOUHAVE_INYOURBAGS"], GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b, 1);
+	GameTooltip:AddLine(" ");
+	GameTooltip:AddLine(L["TOOLTIP_KEYSTONES_LEFTCLICK"]);
+	GameTooltip:AddLine(L["TOOLTIP_KEYSTONES_RIGHTCLICK"]);
+	GameTooltip:Show();
+end
+
+function Common:KeystoneClick(self, raceID, button, down)
+	local numofappliedkeystones = MinArch['artifacts'][raceID]['appliedKeystones'];
+	local numoftotalkeystones = MinArch['artifacts'][raceID]['numKeystones'];
+
+	if (button == "LeftButton") then
+		if (numofappliedkeystones < numoftotalkeystones) then
+			 MinArch['artifacts'][raceID]['appliedKeystones'] = numofappliedkeystones + 1;
+		end
+	elseif (button == "RightButton") then
+		if (numofappliedkeystones > 0) then
+			 MinArch['artifacts'][raceID]['appliedKeystones'] = numofappliedkeystones - 1;
+		end
+	end
+
+	History:UpdateArtifact(raceID);
+	Main:UpdateArtifactBar(raceID);
+	MinArchLDB:RefreshLDBButton();
+	Companion:Update()
+end
+
+function Common:UpdateKeystones(keystoneFrame, RaceIndex)
+	local artifact = MinArch['artifacts'][RaceIndex];
+	if not artifact or not artifact['raceitemid'] then
+		return
+	end
+
+	local runeName, _, _, _, _, _, _, _, _, runeStoneIconPath = C_Item.GetItemInfo(artifact['raceitemid']);
+
+	keystoneFrame.icon:SetTexture(runeStoneIconPath);
+
+	if (artifact['appliedKeystones'] == 0 or artifact['numKeystones'] == 0) then
+		keystoneFrame.icon:SetAlpha(0.1);
+	else
+		keystoneFrame.icon:SetAlpha((artifact['appliedKeystones']/artifact['numKeystones']));
+	end
+
+	if (artifact['numKeystones'] > 0 and artifact['total'] > 0) then
+		keystoneFrame.text:SetText(artifact['appliedKeystones'].."/"..artifact['numKeystones']);
+		keystoneFrame:Show();
+		keystoneFrame.icon:Show();
+	else
+		keystoneFrame:Hide();
+	end
+end
+
+---Converts uiMapID to internal MinArch continent ID
+---@param uiMapID? integer @Defaults to player's current map if not provided
+---@return integer|nil
+function Common:GetInternalContId(uiMapID)
 	uiMapID = uiMapID or C_Map.GetBestMapForUnit("player");
 	if not uiMapID then
 		return nil;
@@ -125,7 +278,7 @@ function MinArch:GetInternalContId(uiMapID)
 	if (mapInfo == nil) then
 		return nil;
 	end
-	local nearestContinentID = MinArch:GetNearestContinentId(uiMapID);
+	local nearestContinentID = Common:GetNearestContinentId(uiMapID);
 	local ContID = MinArchContIDMap[nearestContinentID];
 
 	-- check for alternate IDs
@@ -136,8 +289,9 @@ function MinArch:GetInternalContId(uiMapID)
 	return ContID;
 end
 
--- Return uiMapID by internal MinArch ContID index
-function MinArch:GetUiMapIdByContId(ContID)
+---Converts internal MinArch continent ID to uiMapID
+---@return integer|nil
+function Common:GetUiMapIdByContId(ContID)
 	for k, v in pairs(MinArchContIDMap) do
 		if (v == ContID) then
 			return k;
@@ -147,10 +301,13 @@ function MinArch:GetUiMapIdByContId(ContID)
 	return nil;
 end
 
-function MinArch:GetNearestContinentId(uiMapID)
+---Returns the nearest continent ID for a given uiMapID
+---@param uiMapID integer
+---@return integer @Defaults to Kalimdor
+function Common:GetNearestContinentId(uiMapID)
 	local mapInfo = C_Map.GetMapInfo(uiMapID);
 	if (mapInfo == nil or mapInfo.mapType < 2) then
-		return 12; -- Return Kalimdor by default
+		return 12
 	end
 
 	if (mapInfo.mapType == 2) then
@@ -158,11 +315,15 @@ function MinArch:GetNearestContinentId(uiMapID)
 	end
 
 	if (mapInfo.mapType > 2) then
-		return MinArch:GetNearestContinentId(mapInfo.parentMapID);
+		return Common:GetNearestContinentId(mapInfo.parentMapID);
 	end
+
+	return 12
 end
 
-function MinArch:GetNearestZoneId(uiMapID)
+---Returns the nearest zone ID for a given uiMapID
+---@return integer|nil
+function Common:GetNearestZoneId(uiMapID)
 	local mapInfo = C_Map.GetMapInfo(uiMapID);
 	if (mapInfo == nil or mapInfo.mapType < 3) then
 		return nil
@@ -172,17 +333,19 @@ function MinArch:GetNearestZoneId(uiMapID)
 		local parentInfo = C_Map.GetMapInfo(mapInfo.parentMapID);
 		if (parentInfo ~= nil and parentInfo.mapType == 3) then
 			-- For zones like Stranglethorn where the parent and child are both type 3
-			uiMapID = MinArch:GetNearestZoneId(mapInfo.parentMapID);
+			uiMapID = Common:GetNearestZoneId(mapInfo.parentMapID);
 		end
 		return uiMapID;
 	end
 
 	if (mapInfo.mapType > 3) then
-		return MinArch:GetNearestZoneId(mapInfo.parentMapID);
+		return Common:GetNearestZoneId(mapInfo.parentMapID);
 	end
 end
 
-function MinArch:DisplayStatusMessage(message, msgtype)
+---@param message string
+---@param msgtype integer|nil @MINARCH_MSG_STATUS|MINARCH_MSG_DEBUG - status message by default
+function Common:DisplayStatusMessage(message, msgtype)
 	if (msgtype == MINARCH_MSG_STATUS and MinArch.db.profile.showStatusMessages == true) then
 		ChatFrame1:AddMessage(message);
 	end
@@ -192,7 +355,9 @@ function MinArch:DisplayStatusMessage(message, msgtype)
 	end
 end
 
-function MinArch:GetRaceNameByBranchId(branchID)
+---@param branchID integer
+---@return string|nil
+function Common:GetRaceNameByBranchId(branchID)
 	if (ResearchBranchMap[branchID] ~= nil) then
 		local raceId = ResearchBranchMap[branchID];
 		for name,id in pairs(MinArch.ArchaeologyRaces) do
@@ -205,7 +370,10 @@ function MinArch:GetRaceNameByBranchId(branchID)
 	return nil;
 end
 
-function MinArch:IsRaceRelevant(raceID)
+---Returns true if the race is considered "relevant" based on the current settings
+---@param raceID integer
+---@return boolean
+function Common:IsRaceRelevant(raceID)
 	if (not MinArch.db.profile.relevancy.relevantOnly) then
 		return true;
     end
@@ -215,7 +383,7 @@ function MinArch:IsRaceRelevant(raceID)
     end
 
 	if (MinArch.db.profile.relevancy.continentSpecific) then
-		local contID = MinArch:GetInternalContId();
+		local contID = Common:GetInternalContId();
 		if (MinArchContinentRaces[contID]) then
 			for i=1, #MinArchContinentRaces[contID] do
 				if (MinArchContinentRaces[contID][i] == raceID) then
@@ -234,37 +402,39 @@ function MinArch:IsRaceRelevant(raceID)
 	return false;
 end
 
-function MinArch:CanCast()
+---Returns true if survey can be casted based on player conditions and MinArch configuration
+---@return boolean
+function Common:CanCast()
     -- Prevent casting in combat
     if (InCombatLockdown()) then
-        MinArch:DisplayStatusMessage('Can\'t cast: combat lockdown', MINARCH_MSG_DEBUG)
+        Common:DisplayStatusMessage('Can\'t cast: combat lockdown', MINARCH_MSG_DEBUG)
         return false;
     end
 
     -- Check general conditions
-    if InCombatLockdown() or not CanScanResearchSite() or MinArch:GetSpellCooldown(SURVEY_SPELL_ID) ~= 0 then
-        MinArch:DisplayStatusMessage('Can\'t cast: not in research site or spell on cooldown', MINARCH_MSG_DEBUG)
+    if InCombatLockdown() or not CanScanResearchSite() or Common:GetSpellCooldown(SURVEY_SPELL_ID) ~= 0 then
+        Common:DisplayStatusMessage('Can\'t cast: not in research site or spell on cooldown', MINARCH_MSG_DEBUG)
         return false;
     end
 
     -- Check custom conditions (mounted, flying)
     if IsMounted() and MinArch.db.profile.dblClick.disableMounted then
-        MinArch:DisplayStatusMessage('Can\'t cast: disabled in settings - mounted', MINARCH_MSG_DEBUG)
+        Common:DisplayStatusMessage('Can\'t cast: disabled in settings - mounted', MINARCH_MSG_DEBUG)
         return false;
     end
     if IsFlying() and MinArch.db.profile.dblClick.disableInFlight then
-        MinArch:DisplayStatusMessage('Can\'t cast: disabled in settings - flying', MINARCH_MSG_DEBUG)
+        Common:DisplayStatusMessage('Can\'t cast: disabled in settings - flying', MINARCH_MSG_DEBUG)
         return false;
     end
 	if GetNumLootItems() ~= 0 then
-		MinArch:DisplayStatusMessage('Can\'t cast while looting', MINARCH_MSG_DEBUG)
+		Common:DisplayStatusMessage('Can\'t cast while looting', MINARCH_MSG_DEBUG)
 		return false
 	end
 
     return true;
 end
 
-function MinArch:LoadRaceInfo()
+function Common:LoadRaceInfo()
 	for i = 1, ARCHAEOLOGY_NUM_RACES do
 		local name, t = GetArchaeologyRaceInfo(i);
 		if (t == nil) then
@@ -272,24 +442,28 @@ function MinArch:LoadRaceInfo()
 		end
 		MinArch.ArchaeologyRaces[name] = i;
 	end
+
 	MinArch.RacesLoaded = true;
 end
 
-function MinArch:GetRaceIdByName(name)
+---@return integer
+function Common:GetRaceIdByName(name)
 	if (MinArch.RacesLoaded == false) then
-		MinArch:LoadRaceInfo();
+		Common:LoadRaceInfo();
 	end
 
 	return MinArch.ArchaeologyRaces[name];
 end
 
-function MinArch:ShowWindowButtonTooltip(button, text)
+---@param button Button|Frame|BackdropTemplate
+---@param text string
+function Common:ShowWindowButtonTooltip(button, text)
 	GameTooltip:SetOwner(button, "ANCHOR_BOTTOMRIGHT");
 	GameTooltip:AddLine(text, 1.0, 1.0, 1.0, 1.0)
 	GameTooltip:Show();
 end
 
-function MinArch:TestForMissingDigsites()
+function Common:TestForMissingDigsites()
 	-- temporarily disabled
 	if true then
 		return;
@@ -308,7 +482,8 @@ function MinArch:TestForMissingDigsites()
 	end
 end
 
-function MinArch:GetSpellCooldown(spellID)
+---Uses C_Spell when available, otherwise uses GetSpellCooldown (there is no C_SPELL in Cata yet)
+function Common:GetSpellCooldown(spellID)
     if C_Spell and C_Spell.GetSpellCooldown then
         return C_Spell.GetSpellCooldown(spellID).startTime
     else
@@ -316,17 +491,25 @@ function MinArch:GetSpellCooldown(spellID)
     end
 end
 
-function MinArch:OpenSettings(category)
+---Opens the settings window to a specific category
+function Common:OpenSettings(category)
 	if Settings and Settings.OpenToCategory then
+        Settings.OpenToCategory(Options.menu.name);
 		Settings.OpenToCategory(category.name);
 	else
+		InterfaceOptionsFrame_OpenToCategory(Options.menu)
 		InterfaceOptionsFrame_OpenToCategory(category)
 	end
 end
 
-function MinArch:Round(x)
+---Rounds a number to the nearest integer
+---@param x number
+---@return integer
+function Common:Round(x)
     return math.floor(x + 0.5);
 end
+
+---Global functions
 
 function MinArch_TrackingChanged(self)
 	MinArch:TrackingChanged(self);
@@ -338,13 +521,13 @@ end
 
 function MinArch_WorldMapToggled()
 	if (WorldMapFrame.mapID ~= nil and WorldMapFrame:IsVisible()) then
-		MinArch:ShowRaceIconsOnMap();
+		Digsites:ShowRaceIconsOnMap();
 	end
 end
 
 function MinArch_ShowUIPanel(...)
 	local panel = ...;
 	if (panel and panel:GetName() == "ArchaeologyFrame") then
-		-- MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+		-- History.frame:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	end
 end

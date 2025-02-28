@@ -1,6 +1,14 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 11.0.2
+
+- Added support for localizations, if you would like to help with translations, head over to https://curseforge.com/wow/addons/minimal-archaeology/localization
+- Fix casting survey with the configured key binding on non-english clients
+- "Right click to open settings" now opens the relevant options menu
+- Refactored code base to make it a bit more future-proofed. Please don't hesitate reporting any errors/bugs that might come up after this.
+- **11.0.2.1** Updated Chinese translations (courtesy of 萌丶汉丶纸)
+
 ### 11.0.0
 
 - Updated for War Within
@@ -13,6 +21,7 @@
 - **11.0.0.7** Fix Companion position issues
 - **11.0.0.8** Show digsite race in digsite list
 - **11.0.0.9** Implement option to use left click for double click surveying
+- **11.0.0.11** Fix Companion survey button
 
 ### 10.2.13
 

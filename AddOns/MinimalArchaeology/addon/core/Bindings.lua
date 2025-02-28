@@ -1,35 +1,45 @@
-local ADDON, MinArch = ...
+local ADDON, _ = ...
 
-BINDING_HEADER_MINARCH_HEADER = "Minimal Archaeology"
-BINDING_NAME_MINARCH_SHOWHIDE = "Show/Hide Minimal Archaeology"
+---@type MinArchMain
+local Main = MinArch:LoadModule("MinArchMain")
+---@type MinArchCompanion
+local Companion = MinArch:LoadModule("MinArchCompanion")
+---@type MinArchCommon
+local Common = MinArch:LoadModule("MinArchCommon")
+
+local L = LibStub("AceLocale-3.0"):GetLocale("MinArch")
+
+BINDING_HEADER_MINARCH_HEADER = L["OPTIONS_REGISTER_MINARCH"]
+BINDING_NAME_MINARCH_SHOWHIDE = L["BINDINGS_MINARCH_SHOWHIDE"]
+BINDING_NAME_MINARCH_CASTSURVEY = L["BINDINGS_MINARCH_CASTSURVEY"]
 setglobal("BINDING_NAME_SPELL Survey", "Survey")
 
 SLASH_MINARCH1 = "/minarch"
 SlashCmdList["MINARCH"] = function(msg, editBox)
 	if (msg == "hide") then
-		MinArch:HideMain();
+		Main:HideWindow();
 	elseif (msg == "show") then
-		MinArch:ShowMain();
+		Main:ShowWindow();
 	elseif (msg == "toggle") then
-		MinArchMain:Toggle();
+		Main:ToggleWindow();
 	elseif (msg == "version") then
-		ChatFrame1:AddMessage("Minimal Archaeology " .. tostring(C_AddOns.GetAddOnMetadata("MinimalArchaeology", "Version")));
+		ChatFrame1:AddMessage(L["OPTIONS_REGISTER_MINARCH"] .. " " .. tostring(C_AddOns.GetAddOnMetadata("MinimalArchaeology", "Version")));
     elseif (msg == "comp") then
-        ChatFrame1:AddMessage("Minimal Archaeology Companion related Commands");
-        ChatFrame1:AddMessage(" Usage: /minarch [cmd]");
-		ChatFrame1:AddMessage(" Commands:");
-        ChatFrame1:AddMessage("  comp resetpos - Resets the position of the Companion box");
+        ChatFrame1:AddMessage(L["BINDINGS_MINARCH_COMPANION_COMMANDS"]);
+        ChatFrame1:AddMessage(" " .. L["BINDINGS_USAGE"] .. ": /minarch [cmd]");
+		ChatFrame1:AddMessage(" " .. L["BINDINGS_COMMANDS"] .. ":");
+        ChatFrame1:AddMessage("  comp resetpos - " .. L["BINDINGS_COMPANION_RESETPOS"]);
     elseif (msg == "comp resetpos") then
-        MinArch.Companion:ResetPosition();
+        Companion:ResetPosition();
 	else
-		ChatFrame1:AddMessage("Minimal Archaeology Commands");
-		ChatFrame1:AddMessage(" Usage: /minarch [cmd]");
-		ChatFrame1:AddMessage(" Commands:");
-		ChatFrame1:AddMessage("  hide - Hide the main Minimal Archaeology Frame");
-		ChatFrame1:AddMessage("  show - Show the main Minimal Archaeology Frame");
-		ChatFrame1:AddMessage("  toggle - Toggle the main Minimal Archaeology Frame");
-        ChatFrame1:AddMessage("  comp - Companion related commands, for more information type: /minarch comp");
-		ChatFrame1:AddMessage("  version - Display the running version of Minimal Archaeology");
+		ChatFrame1:AddMessage(L["BINDINGS_MINARCH_MAIN_COMMANDS"]);
+		ChatFrame1:AddMessage(" " .. L["BINDINGS_USAGE"] .. ": /minarch [cmd]");
+		ChatFrame1:AddMessage(" " .. L["BINDINGS_COMMANDS"] .. ":");
+		ChatFrame1:AddMessage("  hide - " .. L["BINDINGS_HIDEMAIN"]);
+		ChatFrame1:AddMessage("  show - " .. L["BINDINGS_SHOWMAIN"]);
+		ChatFrame1:AddMessage("  toggle - " .. L["BINDINGS_TOGGLEMAIN"]);
+        ChatFrame1:AddMessage("  comp - " .. L["BINDINGS_COMPANION_MORE"] .. " /minarch comp");
+		ChatFrame1:AddMessage("  version - " .. L["BINDINGS_MINARCH_VERSION"]);
 	end
 end
 
@@ -45,13 +55,27 @@ local buttonId = {
     [2] = "BUTTON1"
 }
 
+function MinArch:BindingCast()
+    if (Common:CanCast()) then
+        local key1, key2 = GetBindingKey("MINARCH_CASTSURVEY")
+        local localizedName = C_Spell.GetSpellInfo(SURVEY_SPELL_ID).name
+
+        if key1 then
+            SetOverrideBindingSpell(MinArch.hiddenButton, 1, key1, localizedName)
+        end
+        if key2 then
+            SetOverrideBindingSpell(MinArch.hiddenButton, 2, key2, localizedName)
+        end
+    end
+end
+
 WorldFrame:HookScript("OnMouseDown", function(_, button, down)
     -- Check if casting is enabled at all
     if button == buttonName[MinArch.db.profile.dblClick.button] then
-        MinArch:DisplayStatusMessage('Right button down', MINARCH_MSG_DEBUG)
+        Common:DisplayStatusMessage('Right button down', MINARCH_MSG_DEBUG)
 
         if not MinArch.db.profile.surveyOnDoubleClick then
-            MinArch:DisplayStatusMessage('Can\'t cast: disabled in settings', MINARCH_MSG_DEBUG)
+            Common:DisplayStatusMessage('Can\'t cast: disabled in settings', MINARCH_MSG_DEBUG)
             return
         end
         if prevTime then
@@ -60,14 +84,14 @@ WorldFrame:HookScript("OnMouseDown", function(_, button, down)
 
             -- print(prevTime, clickTime, diff, diff2, threshold);
             if diff <= threshold and diff2 > threshold then
-                MinArch:DisplayStatusMessage('Double click in threshold', MINARCH_MSG_DEBUG)
+                Common:DisplayStatusMessage('Double click in threshold', MINARCH_MSG_DEBUG)
                 clickTime = GetTime();
-                if (MinArch:CanCast()) then
+                if (Common:CanCast()) then
                     if ( IsMouselooking() ) then
                         MouselookStop();
                     end
 
-                    MinArch:DisplayStatusMessage('Should be casting', MINARCH_MSG_DEBUG)
+                    Common:DisplayStatusMessage('Should be casting', MINARCH_MSG_DEBUG)
                     SetOverrideBindingClick(MinArch.hiddenButton, true, buttonId[MinArch.db.profile.dblClick.button], "MinArchHiddenSurveyButton");
                 end
             end

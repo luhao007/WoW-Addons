@@ -10,6 +10,7 @@ local L = app.L;
 
 -- Global locals
 local GetAchievementInfo, select, sformat = GetAchievementInfo, select, string.format;
+local GetRealZoneText = GetRealZoneText;
 
 -- WoW API Cache
 local GetSpellName = app.WOWAPI.GetSpellName;
@@ -21,14 +22,14 @@ for key, value in pairs({
 	-- https://www.wowhead.com/icons
 	["HEADER_ICONS"] = {
 	-- WoD Dungeons(Fake npcid)
-		[-140] = select(6, EJ_GetInstanceInfo(547)),										-- Auchindoun
-		[-141] = select(6, EJ_GetInstanceInfo(385)),										-- Bloodmaul Slag Mines
-		[-142] = select(6, EJ_GetInstanceInfo(536)),										-- Grimrail Depot
-		[-143] = select(6, EJ_GetInstanceInfo(558)),										-- Iron Docks
-		[-144] = select(6, EJ_GetInstanceInfo(537)),										-- Shadowmoon Burial Grounds
-		[-145] = select(6, EJ_GetInstanceInfo(476)),										-- Skyreach
-		[-146] = select(6, EJ_GetInstanceInfo(556)),										-- The Everbloom
-		[-147] = select(6, EJ_GetInstanceInfo(559)),										-- Upper Blackrock Spire
+		[-140] = 1042057,										-- Auchindoun
+		[-141] = 1042059,										-- Bloodmaul Slag Mines
+		[-142] = 1042061,										-- Grimrail Depot
+		[-143] = 1060552,										-- Iron Docks
+		[-144] = 1042063,										-- Shadowmoon Burial Grounds
+		[-145] = 1042064,										-- Skyreach
+		[-146] = 1060551,										-- The Everbloom
+		[-147] = 1042065,										-- Upper Blackrock Spire
 	-- Class Trial
 		[-153] = 1103070,																	-- Work Orders
 	-- Class Trial
@@ -117,31 +118,25 @@ for key, value in pairs({
 		[-1120] = 4687627,										-- Maruuk Centaur
 		[-1130] = 4687629,										-- Iskaara Tuskarr
 		[-1150] = 5140835,										-- Loamm Niffen
+	-- The War Within
+		[-1208] = 236421,										-- Invasion: Vrykul
+		[-1209] = 236422,										-- Invasion: Naga
+		[-1210] = 133168,										-- Invasion: Pirate
 	};
 	["HEADER_NAMES"] = {
-	-- Class Trial
-		[-137] = sformat(SPELLBOOK_AVAILABLE_AT, 90),						-- Level 90
-		[-138] = sformat(SPELLBOOK_AVAILABLE_AT, 100),					-- Level 100
 	-- WoD Dungeons(Fake npcid)
-		[-140] = select(2, GetAchievementInfo(9039)),							-- Auchindoun
-		[-141] = select(2, GetAchievementInfo(9037)),							-- Bloodmaul Slag Mines
-		[-142] = select(2, GetAchievementInfo(9043)),							-- Grimrail Depot
-		[-143] = select(2, GetAchievementInfo(9038)),							-- Iron Docks
-		[-144] = select(2, GetAchievementInfo(9041)),							-- Shadowmoon Burial Grounds
-		[-145] = select(2, GetAchievementInfo(8843)),							-- Skyreach
-		[-146] = select(2, GetAchievementInfo(9044)),							-- The Everbloom
-		[-147] = select(2, GetAchievementInfo(9042)),							-- Upper Blackrock Spire
+		[-140] = GetRealZoneText(1182),									-- Auchindoun
+		[-141] = GetRealZoneText(1175),									-- Bloodmaul Slag Mines
+		[-142] = GetRealZoneText(1208),									-- Grimrail Depot
+		[-143] = GetRealZoneText(1195),									-- Iron Docks
+		[-144] = GetRealZoneText(1176),									-- Shadowmoon Burial Grounds
+		[-145] = GetRealZoneText(1209),									-- Skyreach
+		[-146] = GetRealZoneText(1279),									-- The Everbloom
+		[-147] = GetRealZoneText(1358),									-- Upper Blackrock Spire
 	-- Class Trial
-		[-148] = sformat(SPELLBOOK_AVAILABLE_AT, 50).." Class Trial",	-- Level 50 Class Trial
-		[-149] = sformat(SPELLBOOK_AVAILABLE_AT, 110),					-- Level 110
-		[-150] = sformat(SPELLBOOK_AVAILABLE_AT, 120),					-- Level 120
 		[-153] = CAPACITANCE_WORK_ORDERS,										-- Work Orders
 	-- Class Trial
 		[-154] = sformat(SPELLBOOK_AVAILABLE_AT, 48),						-- Level 48
-		[-155] = sformat(SPELLBOOK_AVAILABLE_AT, 50).." Character Boost",	-- Level 50 Character Boost
-		[-156] = sformat(SPELLBOOK_AVAILABLE_AT, 60).." Character Boost",	-- Level 60 Character Boost
-	-- Class Trial
-		[-160] = sformat(SPELLBOOK_AVAILABLE_AT, 60).." Class Trial",	-- Level 60 Class Trial
 	-- PvP
 		[-216] = PVP_PRESTIGE_RANK_UP_TITLE,									-- Prestige
 	-- War Campaign
@@ -232,6 +227,10 @@ for key, value in pairs({
 		[-1120] = "Maruuk Centaur",													-- Maruuk Centaur
 		[-1130] = "Iskaara Tuskarr",												-- Iskaara Tuskarr
 		[-1150] = "Loamm Niffen",													-- Loamm Niffen
+	-- The War Within
+		[-1208] = "Invasion: Vrykul",												-- Vrykul
+		[-1209] = "Invasion: Naga",													-- Naga
+		[-1210] = "Invasion: Pirate",												-- Pirate
 	-- Tier/Dungeon/Event/Holiday Sets
 		-- Artifact Strings, These IDs are used in src/Expansion/Legion [Ask Runaway about removing them]
 		[-5200] = "Base Appearance",											-- Base Appearance

@@ -35,3 +35,11 @@ function RSFyrakkFlightVignettePinMixin:OnAcquired(vignetteGUID, vignetteInfo, f
 	self:AddIconWidgets();
 	self:SetFrameLevelType(frameIndex);
 end
+
+function RSFyrakkFlightVignettePinMixin:OnLegendPinMouseEnter()
+	EventRegistry:TriggerEvent("MapLegendPinOnEnter", self);
+end
+
+function RSFyrakkFlightVignettePinMixin:OnLegendPinMouseLeave()
+	EventRegistry:TriggerEvent("MapLegendPinOnLeave", nil);
+end

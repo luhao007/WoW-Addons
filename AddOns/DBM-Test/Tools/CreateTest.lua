@@ -62,18 +62,23 @@ local ignoreCandidates = {}
 
 local function exportTest(file, log, firstLine, lastLine)
 	local testData = parser:NewTestGenerator(log, firstLine, lastLine, args["prefix"], args["keep-names"], args["ignore-leaks"], args["verbose-roles"])
+	local resultStr = ""
 	if not args["noheader"] and not args["no-header"] then
-		file:write(testData:GetHeaderString())
-		file:write("\n")
+		resultStr = resultStr .. testData:GetHeaderString() .. "\n"
 	end
-
-	file:write(testData:GetPlayersString())
-	file:write("\n")
-	file:write(testData:GetLogString())
-	file:write("\n")
-	file:write(testData:GetCompressedLogString())
-	file:write("}\n")
-
+	resultStr = resultStr .. testData:GetPlayersString() .. "\n"
+	resultStr = resultStr .. testData:GetLogString() .. "\n"
+	resultStr = resultStr .. testData:GetCompressedLogString() .. "}\n"
+	if not args["keep-names"] then
+		testData.anonymizer:CheckForLeaks(resultStr, function(str)
+			io.stderr:write(("Detected leak in anonymizer, string %q looks non-anonymized\n"):format(str))
+			if not args["ignore-leaks"] then
+				io.stderr:write("use --ignore-leaks to ignore this\n")
+				os.exit(1)
+			end
+		end)
+	end
+	file:write(resultStr)
 	logInfo("Parsed %d lines into %d lines (%.1f%% filtered)", testData.stats.parsedLines, testData.stats.outputLines, (1 - testData.stats.outputLines / (testData.stats.parsedLines)) * 100)
 	logInfo("%.1f seconds total, %.0f entries/second", testData.stats.logTime, testData.stats.outputLines / testData.stats.logTime)
 
@@ -93,7 +98,7 @@ local function getFilename(log, encounter)
 	if not lfs.attributes(outDir) or lfs.attributes(outDir).mode ~= "directory" then
 		logFatal("Failed to create output directory at " .. outDir)
 	end
-	return outDir .. ("/%s %s (%d) %s %.0fs %d lines.lua"):format(timestamp, encounter.name, encounter.id, encounter.success and "Kill" or "Wipe", encounter.endTime - encounter.startTime, encounter.endOffset - encounter.startOffset)
+	return outDir .. ("/%s %s (%d) %s %.0fs %d lines.lua"):format(timestamp, encounter.name, encounter.id, encounter.success and "Kill" or "Wipe", encounter.endTime - encounter.startTime, encounter.endOffset - encounter.startOffset + 1)
 end
 
 local function createTest(log, encounter)
@@ -131,7 +136,7 @@ for logId, log in ipairs(logs) do
 			local fakeEncounter = {
 				startTime = 0,
 				endTime = tonumber(log.lines[#log.lines]:match("<([%d.]*)")) or 0,
-				startOffset = 0,
+				startOffset = 1,
 				endOffset = #log.lines,
 				name = "None",
 				id = 0,

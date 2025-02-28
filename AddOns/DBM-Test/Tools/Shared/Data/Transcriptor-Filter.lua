@@ -95,6 +95,21 @@ filter.ignoredCreatureIds = set{
 	180743, -- Niuzao
 	229800, -- Lesser Fire Elemental
 	225493, -- Doomguard
+	204346, -- Treant
+	16506, -- Naxxramas Worshipper
+	110063, -- Beast
+	219161, -- Diabolic Imp
+	233039, -- Spirit Wolf
+	234018, -- Bear
+	62005, -- Beast
+	237409, -- Army of the Dead
 }
+
+-- SoD Naxx hard mode ignores to keep these logs reasonably sized
+
+-- Friendly spiders that spawn from the Spider affix
+filter.ignoredCreatureIds[237969] = true
+-- Buff that spawns these spiders
+filter.ignoredSpellIds[1218216] = true
 
 return filter

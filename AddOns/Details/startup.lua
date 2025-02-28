@@ -395,6 +395,9 @@ function Details222.StartUp.StartMeUp()
 				--check if there's changes in the size of the news string
 				if (Details.last_changelog_size ~= #Loc["STRING_VERSION_LOG"]) then
 					Details.last_changelog_size = #Loc["STRING_VERSION_LOG"]
+
+					if (true) then return end --stop opening the new window automatically
+
 					if (Details.auto_open_news_window) then
 						C_Timer.After(5, function()
 							Details.OpenNewsWindow()
@@ -475,6 +478,36 @@ function Details222.StartUp.StartMeUp()
 				Details.FadeHandler.Fader(instance._version, "in", 2)
 			end
 			Details.Schedules.NewTimer(12, Details.FadeStartVersion, Details)
+		end
+	end
+
+	--store the names of all interrupt spells
+	---@type table<string, boolean>
+	Details.InterruptSpellNamesCache = {}
+    for spellId, spellData in pairs(LIB_OPEN_RAID_COOLDOWNS_INFO) do
+        if (spellData.type == 6) then
+            local spellInfo = C_Spell.GetSpellInfo(spellId)
+            if (spellInfo) then
+                Details.InterruptSpellNamesCache[spellInfo.name] = true
+            end
+        end
+    end
+
+	--store the names of all crowd control spells
+	---@type table<string, boolean>
+	Details.CrowdControlSpellNamesCache = {}
+	for spellId, spellData in pairs(LIB_OPEN_RAID_COOLDOWNS_INFO) do
+		if (spellData.type == 8) then
+			local spellInfo = C_Spell.GetSpellInfo(spellId)
+			if (spellInfo) then
+				Details.CrowdControlSpellNamesCache[spellInfo.name] = true
+			end
+		end
+	end
+	for spellId, spellData in pairs(LIB_OPEN_RAID_CROWDCONTROL) do
+		local spellInfo = C_Spell.GetSpellInfo(spellId)
+		if (spellInfo) then
+			Details.CrowdControlSpellNamesCache[spellInfo.name] = true
 		end
 	end
 

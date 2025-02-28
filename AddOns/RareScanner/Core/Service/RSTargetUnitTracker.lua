@@ -195,8 +195,10 @@ function RSTargetUnitTracker.Init(rareScannerButton)
 	end)
 	
 	-- Mutes the dialog sound
-	MuteSoundFile(RSConstants.ERROR_SOUND_CLOSE_ID)
-	MuteSoundFile(RSConstants.ERROR_SOUND_OPEN_ID)
+	if (RSConfigDB.IsScanningTargetUnit() and RSConfigDB.IsMutingTargetUnitSound()) then
+		MuteSoundFile(RSConstants.ERROR_SOUND_CLOSE_ID)
+		MuteSoundFile(RSConstants.ERROR_SOUND_OPEN_ID)
+	end
 	
 	C_Timer.NewTicker(RSConstants.CHECK_TARGETS_TIMER, function()
 		TargetUnits(rareScannerButton)

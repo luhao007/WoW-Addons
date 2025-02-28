@@ -25,9 +25,9 @@ local L = setmetatable({
 		"or Sylvanas might get another lighter.",
 		"as Alexstrasza is worried about you.",
 		"and Invincible will drop |cffffaaaafor sure|r next time.",
-		"this was merely a setback.",
+	--	"this was merely a setback.",
 		", Yes Chef!",
-		"to help a turtle to make it to the water.",
+		"and Crieve will help a turtle to make it to the water.",
 		"CHAMPYUUN, DE AZURIITE.",
 	};
 	SOCIAL_PROGRESS = "Social Progress";
@@ -429,6 +429,7 @@ local L = setmetatable({
 		["Shadowlands"] = "SL",
 		["Dragonflight"] = "DF",
 		["The War Within"] = "TWW",
+		["Enterprising Hero: The War Within Season Two"] = "Enterprising Hero: TWW S2",
 		-- Dungeon & Raid
 		["Normal"] = "N",
 		["Heroic"] = "H",
@@ -844,8 +845,8 @@ L.SETTINGS_MENU = {
 		BATTLE_PETS_CHECKBOX_TOOLTIP = "Enable this option to track battle pets and companions. These can be found in the open world or via boss drops in various Dungeons and Raids as well as from Vendors and Reputation.";
 		DEATHS_CHECKBOX = "Deaths";
 		DEATHS_CHECKBOX_TOOLTIP = "Enable this option to track each time one of your characters die and show it as a Collectible section within the addon.\n\nNOTE: If you turn this off, we'll still track it, but we simply will not show the statistic unless you're in Debug Mode.";
-		EXPLORATION_CHECKBOX = "Exploration";
-		EXPLORATION_CHECKBOX_TOOLTIP = "Enable this option to track exploration completion for outdoor maps.";
+		EXPLORATION_CHECKBOX = "Exploration (inaccurate)";
+		EXPLORATION_CHECKBOX_TOOLTIP = "Enable this option to track exploration completion for outdoor maps.\n\nThe information provided by this option is currently inaccurate and needs to be strengthened, so please use it with caution.";
 		FLIGHT_PATHS_CHECKBOX = "Flight Paths";
 		FLIGHT_PATHS_CHECKBOX_TOOLTIP = "Enable this option to track flight paths and ferry stations.\n\nTo collect these, open the dialog with the flight / ferry master in each continent.\n\nNOTE: Due to phasing technology, you may have to phase to the other versions of a zone to get credit for those points of interest.";
 		HEIRLOOMS_CHECKBOX = HEIRLOOMS;
@@ -1128,6 +1129,7 @@ L.TOOLTIP_MODULE = {
 		COLLECTOR = "Collector";
 	},
 	TITLES = {
+		XX_BRINGER_OF_FLAMES = "%s, Bringer of Flames";
 		XX_THE_COMPLETIONIST = "%s the Completionist";
 		XX_THE_CONTRIBUTOR = "%s";	-- NOTE: Contributors didn't want a different title.
 		XX_THE_EXTERMINATOR = "%s the Exterminator";

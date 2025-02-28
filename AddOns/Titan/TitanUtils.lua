@@ -463,6 +463,20 @@ but was removed during DragonFlight to give users more flexibility.
 	return found
 end
 
+---Titan Return the number of bars user has active, includes auto hide.
+---@return integer Num Active bars
+function TitanUtils_NumActiveBars()
+	local num_bars = 0
+
+	for idx, bar in pairs(TitanBarDataVars) do
+		if TitanBarDataVars[idx].show then --if TitanPanelGetVar(bar_name.."_Show") then
+			num_bars = num_bars + 1
+		end
+	end
+
+	return num_bars
+end
+
 --====== General util routines
 
 ---API Return b (a = true) or c (a = false)
@@ -2396,41 +2410,6 @@ function TitanPluginDebug(id, debug_message)
 		.. " " .. TitanUtils_GetHexText(tostring(debug_message), "1DA6C5")
 
 	_G["DEFAULT_CHAT_FRAME"]:AddMessage(msg)
-end
-
----API: Output a topic debug message in a consistent format.
----@param id string Plugin id
----@param topic integer Topic id
----@param debug_message string Message to output to Chat
-function TitanTopicDebug(id, topic, debug_message)
-
-	local plugin = TitanUtils_GetPlugin(id) ---@type PluginRegistryType
-	local str = ""
-	local id_str = id or "?"
-	local dbg = id_str.." "..tostring(topic).." "
-
-	if plugin and plugin.debugClass then
-		if plugin.debugClass.enabled == true then
-			if plugin.debugClass.topics[topic] then
-				if plugin.debugClass.topics[topic].enabled == true then -- topic description exists
-					str = tostring(topic) .. " " .. plugin.debugClass.topics[topic].topic
-					local msg =
-					TitanUtils_GetGoldText(date("%H:%M:%S") .. "<" .. tostring(id_str) .. "> " .. str )
-						.. " " .. TitanUtils_GetHexText(tostring(debug_message), Titan_Global.colors.orange)
-					_G["DEFAULT_CHAT_FRAME"]:AddMessage(msg)
-				else
-					dbg = dbg.."~topic enabled"
-				end
-			else
-				dbg = dbg.."~topic"
-			end
-		else
-			dbg = dbg.."~enabled"
-		end
---print(dbg)
-	else
-		-- not sure why this routine was called
-	end
 end
 
 ---Titan: Output the current list of registered plugins.

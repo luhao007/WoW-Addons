@@ -72,9 +72,8 @@ toyFields.description = function(t)
 end;
 
 app.AddEventRegistration("TOYS_UPDATED", app.IsRetail and function(itemID, new)
-	if itemID and not AccountWideToyData[itemID] and PlayerHasToy(itemID) then
-		app.SetAccountCollected(app.SearchForObject(KEY, itemID, "field") or app.CreateToy(itemID), CACHE, itemID, true);
-		app.UpdateRawID("itemID", itemID);
+	if itemID and PlayerHasToy(itemID) then
+		app.SetThingCollected(KEY, itemID, true, true)
 	end
 end or function(toyID, new)
 	if toyID then

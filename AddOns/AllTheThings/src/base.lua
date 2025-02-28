@@ -3,8 +3,8 @@
 --------------------------------------------------------------------------------
 --            Copyright 2017-2024 Dylan Fortune (Crieve-Sargeras)             --
 --------------------------------------------------------------------------------
-local rawget, ipairs, pairs, tinsert, setmetatable, print,math_sqrt,math_floor
-	= rawget, ipairs, pairs, tinsert, setmetatable, print,math.sqrt,math.floor
+local rawget, ipairs, pairs, tinsert, setmetatable, print,math_sqrt,math_floor,getmetatable
+	= rawget, ipairs, pairs, tinsert, setmetatable, print,math.sqrt,math.floor,getmetatable
 -- This is a hidden frame that intercepts all of the event notifications that we have registered for.
 local appName, app = ...;
 app.EmptyFunction = function() end;
@@ -77,13 +77,22 @@ local function CloneArray(arr, clone)
 	return clone
 end
 local function CloneDictionary(data, clone)
-	local clone = clone or {};
-	for key,value in pairs(data) do
-		if clone[key] == nil then
-			clone[key] = value;
+	if clone and getmetatable(clone) then
+		for key,value in pairs(data) do
+			if rawget(clone, key) == nil then
+				clone[key] = value
+			end
 		end
+		return clone
+	else
+		clone = clone or {}
+		for key,value in pairs(data) do
+			if clone[key] == nil then
+				clone[key] = value
+			end
+		end
+		return clone
 	end
-	return clone;
 end
 local function CloneReference(group)
 	local clone = {};
@@ -620,6 +629,13 @@ hooksecurefunc("SetItemRef", function(link, text)
 			app.SetSkipLevel(2);
 			local group = app.GetCachedSearchResults(app.SearchForLink, cmd);
 			app.SetSkipLevel(0);
+
+			if IsShiftKeyDown() then
+				-- If this reference has a link, then attempt to preview the appearance or write to the chat window.
+				local link = group.link or group.silentLink;
+				if (link and HandleModifiedItemClick(link)) or ChatEdit_InsertLink(link) then return true; end
+			end
+
 			app:CreateMiniListForGroup(group);
 			return true;
 		elseif data1 == "dialog" then

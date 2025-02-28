@@ -630,7 +630,7 @@ Plater.AnchorNamesByPhraseId = {
 					if IsPlayerSpell(53351) or IsPlayerSpell(320976) then -- Kill Shot
 						lowExecute = 0.2
 					end
-					if IsPlayerSpell(466930) then --> Black Arrow
+					if isTalentLearned(94987) then --IsPlayerSpell(466930) then --> Black Arrow
 						lowExecute = 0.2
 						highExecute = 0.8
 					end
@@ -839,9 +839,9 @@ Plater.AnchorNamesByPhraseId = {
 		
 		if not rangeChecker then
 			rangeChecker = function (unit)
-				local minRange, maxRange = (LibRangeCheck:GetRange(unit, nil, true) or 0) <= (rangeCheckRange or 40)
-				Plater.EndLogPerformanceCore("Plater-Core", "Update", "CheckRange")
-				return maxRange or minRange
+				local minRange, maxRange = (LibRangeCheck:GetRange(unit, nil, true) or 0)
+				maxRange = maxRange or minRange or 0
+				return maxRange <= (rangeCheckRange or 40)
 			end
 			Plater.GetSpellForRangeCheck()
 		end
@@ -3415,13 +3415,13 @@ Plater.AnchorNamesByPhraseId = {
 			--if (not plateFrame.UnitFrame.HasPlaterHooksRegistered) then
 			if not HOOKED_BLIZZARD_PLATEFRAMES[blizzardPlateFrameID] then
 				--print(HOOKED_BLIZZARD_PLATEFRAMES[tostring(plateFrame.UnitFrame)], tostring(plateFrame.UnitFrame), plateFrame.UnitFrame.HasPlaterHooksRegistered)
-                --hook the retail nameplate
-                --plateFrame.UnitFrame:HookScript("OnShow", Plater.OnRetailNamePlateShow)
+				--hook the retail nameplate
+				--plateFrame.UnitFrame:HookScript("OnShow", Plater.OnRetailNamePlateShow)
 				hooksecurefunc(plateFrame.UnitFrame, "Show", Plater.OnRetailNamePlateShow)
-                --plateFrame.UnitFrame.HasPlaterHooksRegistered = true
+				--plateFrame.UnitFrame.HasPlaterHooksRegistered = true
 				HOOKED_BLIZZARD_PLATEFRAMES[blizzardPlateFrameID] = true
 				
-            end
+			end
 			
 			-- we should clear stuff here, tbh...
 			
@@ -5517,15 +5517,13 @@ function Plater.OnInit() --private --~oninit ~init
 		local currentHealth = self.currentHealth
 		local currentHealthMax = self.currentHealthMax
 		local unitFrame = self.unitFrame
-		local oldHealth = self.CurrentHealth
+		local oldHealth = self.CurrentHealth or currentHealth
 		
 		--> exposed values to scripts
 		self.CurrentHealth = currentHealth
 		self.CurrentHealthMax = currentHealthMax
 	
 		if (plateFrame.IsSelf) then
-			self.CurrentHealth = currentHealth
-			self.CurrentHealthMax = currentHealthMax
 		
 			--> flash if low health
 			if (currentHealth / currentHealthMax < 0.27) then
@@ -5565,9 +5563,6 @@ function Plater.OnInit() --private --~oninit ~init
 			
 			if (DB_DO_ANIMATIONS) then
 				--do healthbar animation ~animation ~healthbar
-				oldHealth = oldHealth or self.CurrentHealth
-				
-				self.CurrentHealthMax = currentHealthMax
 				self.AnimationStart = oldHealth
 				self.AnimationEnd = currentHealth
 
@@ -5580,9 +5575,6 @@ function Plater.OnInit() --private --~oninit ~init
 				else
 					self.AnimateFunc = Plater.AnimateLeftWithAccel
 				end
-			else
-				self.CurrentHealth = currentHealth
-				self.CurrentHealthMax = currentHealthMax
 			end
 			
 			if (plateFrame.actorType == ACTORTYPE_FRIENDLY_PLAYER) then
@@ -8839,20 +8831,20 @@ end
 	
 	-- anchor sides as comprehensive table.
 	Plater.AnchorSides = {
-        TOP_LEFT = 1,
-        LEFT = 2,
-        BOTTOM_LEFT = 3,
-        BOTTOM = 4,
-        BOTTOM_RIGHT = 5,
-        RIGHT = 6,
-        TOP_RIGHT = 7,
-        TOP = 8,
-        CENTER = 9,
-        INNER_LEFT = 10,
-        INNER_RIGHT = 11,
-        INNER_TOP = 12,
-        INNER_BOTTOM = 13,
-    }
+		TOP_LEFT = 1,
+		LEFT = 2,
+		BOTTOM_LEFT = 3,
+		BOTTOM = 4,
+		BOTTOM_RIGHT = 5,
+		RIGHT = 6,
+		TOP_RIGHT = 7,
+		TOP = 8,
+		CENTER = 9,
+		INNER_LEFT = 10,
+		INNER_RIGHT = 11,
+		INNER_TOP = 12,
+		INNER_BOTTOM = 13,
+	}
 
 	--check the setting 'only_damaged' and 'only_thename' for player characters. not critical code, can run slow
 	function Plater.ParseHealthSettingForPlayer (plateFrame, force) --private
@@ -10449,27 +10441,27 @@ end
 	end
 
 	--pass some colors and return the first valid color
-    function Plater.GetColorByPriority(unitFrame, color1, color2, color3)
-        if (unitFrame) then
+	function Plater.GetColorByPriority(unitFrame, color1, color2, color3)
+		if (unitFrame) then
 			--from the Npc Colors and Names
-            local npcColor = Plater.GetNpcColor(unitFrame)
-            if (npcColor) then
-                return npcColor
-            end
-        end
-        
-        if (color1) then
-            return color1
-        end
-        
-        if (color2) then
-            return color2
-        end
+			local npcColor = Plater.GetNpcColor(unitFrame)
+			if (npcColor) then
+				return npcColor
+			end
+		end
+		
+		if (color1) then
+			return color1
+		end
+		
+		if (color2) then
+			return color2
+		end
 
 		if (color3) then
-            return color3
-        end
-    end
+			return color3
+		end
+	end
 
 	--return which raid mark the namepalte has
 	function Plater.GetRaidMark (unitFrame)

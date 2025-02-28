@@ -226,12 +226,39 @@ function RSGeneralOptions.GetGeneralOptions()
 							LibDialog:Spawn(RSConstants.TARGET_UNIT_WARNING)
 						else
 							RSConfigDB.SetScanningTargetUnit(value)
+            	
+			            	-- Unmutes the dialog sound
+							if (RSConfigDB.IsMutingTargetUnitSound()) then
+								UnmuteSoundFile(RSConstants.ERROR_SOUND_CLOSE_ID)
+								UnmuteSoundFile(RSConstants.ERROR_SOUND_OPEN_ID)
+							end
+							RSConfigDB.SetMutingTargetUnitSound(value)
 						end
 					end,
 					width = "full",
 				},
-				ignoreCompletedEntities = {
+				muteTargetUnit = {
 					order = 12,
+					name = AL["MUTE_TARGET_UNIT_SOUND"],
+					desc = AL["MUTE_TARGET_UNIT_SOUND_DESC"],
+					type = "toggle",
+					get = function() return RSConfigDB.IsMutingTargetUnitSound() end,
+					set = function(_, value)
+						RSConfigDB.SetMutingTargetUnitSound(value)
+							
+						if (value) then
+							MuteSoundFile(RSConstants.ERROR_SOUND_CLOSE_ID)
+							MuteSoundFile(RSConstants.ERROR_SOUND_OPEN_ID)
+						else
+							UnmuteSoundFile(RSConstants.ERROR_SOUND_CLOSE_ID)
+							UnmuteSoundFile(RSConstants.ERROR_SOUND_OPEN_ID)
+						end
+					end,
+					width = "full",
+					disabled = function() return not RSConfigDB.IsScanningTargetUnit() end,
+				},
+				ignoreCompletedEntities = {
+					order = 13,
 					name = AL["IGNORE_SCAN_COMPLETED_ENTITIES"],
 					desc = AL["IGNORE_SCAN_COMPLETED_ENTITIES_DESC"],
 					type = "toggle",
@@ -242,7 +269,7 @@ function RSGeneralOptions.GetGeneralOptions()
 					width = "full",
 				},
 				showMaker = {
-					order = 13,
+					order = 14,
 					name = AL["ENABLE_MARKER"],
 					desc = AL["ENABLE_MARKER_DESC"],
 					type = "toggle",
@@ -253,7 +280,7 @@ function RSGeneralOptions.GetGeneralOptions()
 					width = "full",
 				},
 				marker = {
-					order = 14,
+					order = 15,
 					type = "select",
 					dialogControl = 'RS_Markers',
 					name = AL["MARKER"],
@@ -267,12 +294,12 @@ function RSGeneralOptions.GetGeneralOptions()
 					disabled = function() return not RSConfigDB.IsDisplayingMarkerOnTarget() end,
 				},
 				separatorWaypoints = {
-					order = 15,
+					order = 16,
 					type = "header",
 					name = AL["INGAME_WAYPOINTS"],
 				},
 				enableWaypointsSupport = {
-					order = 16,
+					order = 17,
 					name = AL["ENABLE_WAYPOINTS_SUPPORT"],
 					desc = AL["ENABLE_WAYPOINTS_SUPPORT_DESC"],
 					type = "toggle",
@@ -286,7 +313,7 @@ function RSGeneralOptions.GetGeneralOptions()
 					width = "full",
 				},
 				autoWaypoints = {
-					order = 17,
+					order = 18,
 					name = AL["ENABLE_AUTO_WAYPOINTS"],
 					desc = AL["ENABLE_AUTO_WAYPOINTS_DESC"],
 					type = "toggle",
@@ -298,12 +325,12 @@ function RSGeneralOptions.GetGeneralOptions()
 					disabled = function() return not RSConfigDB.IsWaypointsSupportEnabled() end,
 				},
 				separatorTomtomWaypoints = {
-					order = 18,
+					order = 19,
 					type = "header",
 					name = AL["TOMTOM_WAYPOINTS"],
 				},
 				enableTomtomSupport = {
-					order = 19,
+					order = 20,
 					name = AL["ENABLE_TOMTOM_SUPPORT"],
 					desc = AL["ENABLE_TOMTOM_SUPPORT_DESC"],
 					type = "toggle",
@@ -318,7 +345,7 @@ function RSGeneralOptions.GetGeneralOptions()
 					disabled = function() return not TomTom end,
 				},
 				autoTomtomWaypoints = {
-					order = 20,
+					order = 21,
 					name = AL["ENABLE_AUTO_TOMTOM_WAYPOINTS"],
 					desc = AL["ENABLE_AUTO_TOMTOM_WAYPOINTS_DESC"],
 					type = "toggle",

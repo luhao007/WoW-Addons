@@ -15,13 +15,14 @@ function FramePlusfun.Zhuizong()
 	if NDui then
 		Zhuizong:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMRIGHT", 0, 0);
 	else
-		Zhuizong:SetPoint("TOPLEFT", Minimap, "TOPLEFT", -15, 0);
+		Zhuizong:SetPoint("TOPLEFT", MinimapBackdrop, "TOPLEFT", 11, -26);
 	end
 
 	Zhuizong.search = Zhuizong:CreateTexture(nil, "BORDER");
-	Zhuizong.search:SetTexture("interface/common/ui-searchbox-icon.blp");
-	Zhuizong.search:SetSize(Width*0.6,Height*0.6);
-	Zhuizong.search:SetPoint("CENTER",Zhuizong,"CENTER",3,-3);
+	--Zhuizong.search:SetTexture("interface/common/ui-searchbox-icon.blp");
+	Zhuizong.search:SetAtlas("None")
+	Zhuizong.search:SetSize(Width*0.7,Height*0.7);
+	Zhuizong.search:SetPoint("CENTER",Zhuizong,"CENTER",2,-2);
 	Zhuizong.search:Hide()
 	if NDui then
 	else

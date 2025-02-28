@@ -270,7 +270,7 @@ local function GetButtonText(self, id)
 		end
 
 		if hasRewardPending then
-			text = "*" + text
+			text = "*" .. text
 		end
 	end
 

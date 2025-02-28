@@ -149,15 +149,19 @@ function BusinessInfo.StatsInfoOptions()
 						end
 					end	
 				end
-				local itemzijiGuild = itemjihe[Pig_OptionsUI.AllName]["GUILD"]
-				for it=1,#itemzijiGuild do
-					if itemID==itemzijiGuild[it][3] then
-						if qitaDataNum.itemziji[GUILD] then
-							qitaDataNum.itemziji[GUILD]=qitaDataNum.itemziji[GUILD]+itemzijiGuild[it][2]
-						else
-							qitaDataNum.itemziji[GUILD]=itemzijiGuild[it][2]
+				if IsInGuild() then
+					local itemzijiGuild = itemjihe[Pig_OptionsUI.AllName]["GUILD"]
+					for it=1,#itemzijiGuild do
+						if itemID==itemzijiGuild[it][3] then
+							if qitaDataNum.itemziji[GUILD] then
+								qitaDataNum.itemziji[GUILD]=qitaDataNum.itemziji[GUILD]+itemzijiGuild[it][2]
+							else
+								qitaDataNum.itemziji[GUILD]=itemzijiGuild[it][2]
+							end
 						end
 					end
+				else
+					itemjihe[Pig_OptionsUI.AllName]["GUILD"]={}
 				end
 				local hejishuliang = 0
 				local tishneirzj = ""
@@ -173,7 +177,7 @@ function BusinessInfo.StatsInfoOptions()
 				end
 				if tishneirzj~="" then
 					local pxinxiinfo = PIGA["StatsInfo"]["Players"][Pig_OptionsUI.AllName]
-					local _, classFile = GetClassInfo(pxinxiinfo[4])
+					local _, classFile = PIGGetClassInfo(pxinxiinfo[4])
 					local color = PIG_CLASS_COLORS[classFile];
 					local Texinfo = C_Texture.GetAtlasInfo(pxinxiinfo[3])
 					--local width,height = Texinfo.width,Texinfo.height
@@ -244,7 +248,7 @@ function BusinessInfo.StatsInfoOptions()
 						tishneir=tishneir.." "..v[3].."|cffFFFFFF"..v[4].."|r"
 					end
 					local pxinxiinfo = PIGA["StatsInfo"]["Players"][k]
-					local _, classFile = GetClassInfo(pxinxiinfo[4])
+					local _, classFile = PIGGetClassInfo(pxinxiinfo[4])
 					local color = PIG_CLASS_COLORS[classFile];
 					local Texinfo = C_Texture.GetAtlasInfo(pxinxiinfo[3])
 					if classFile and color.colorStr and Texinfo then
@@ -313,7 +317,7 @@ function BusinessInfo.StatsInfoOptions()
 					end
 					if tishneirzj~="" then
 						local pxinxiinfo = PIGA["StatsInfo"]["Players"][Pig_OptionsUI.AllName]
-						local _, classFile = GetClassInfo(pxinxiinfo[4])
+						local _, classFile = PIGGetClassInfo(pxinxiinfo[4])
 						local color = PIG_CLASS_COLORS[classFile];
 						tooltip:AddDoubleLine("|c"..color.colorStr..Pig_OptionsUI.Name.."|r|T"..greenTexture..":14:14:0:0:16:16:0:14:0:14|t",tishneirzj)
 						tooltip:AddTexture(pxinxiinfo[3], {width = 16, height = 16,verticalOffset=0.8,margin = { left = 0, right = 2, top = 0, bottom = 0 }})
@@ -373,7 +377,7 @@ function BusinessInfo.StatsInfoOptions()
 							tishneir=tishneir..v[3]..":|cffFFFFFF"..v[4].."|r"
 						end
 						local pxinxiinfo = PIGA["StatsInfo"]["Players"][k]
-						local _, classFile = GetClassInfo(pxinxiinfo[4])
+						local _, classFile = PIGGetClassInfo(pxinxiinfo[4])
 						local color = PIG_CLASS_COLORS[classFile];
 						tooltip:AddDoubleLine("|c"..color.colorStr..k.."|r",tishneir)
 						tooltip:AddTexture(pxinxiinfo[3], {width = 16, height = 16,verticalOffset=0.8,margin = { left = 0, right = 2, top = 0, bottom = 0 }})
@@ -508,7 +512,7 @@ function BusinessInfo.StatsInfoOptions()
 		end 
 	end
 	function fuFrame.TradeTongGao.guangbo_dow:PIGDownMenu_SetValue(value,arg1,arg2)
-		fuFrame.TradeTongGao.guangbo_dow:PIGDownMenu_SetText(value)
+		self:PIGDownMenu_SetText(value)
 		PIGA["StatsInfo"]["TradeTongGaoChannel"]=arg1
 		PIGCloseDropDownMenus()
 	end

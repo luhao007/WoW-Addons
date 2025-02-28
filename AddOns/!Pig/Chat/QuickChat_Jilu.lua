@@ -3,7 +3,6 @@ local L=addonTable.locale
 local gsub = _G.string.gsub 
 local match = _G.string.match
 local _, _, _, tocversion = GetBuildInfo()
-local InviteUnit=C_PartyInfo and C_PartyInfo.InviteUnit or InviteUnit
 ---
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
@@ -122,7 +121,7 @@ function QuickChatfun.QuickBut_Jilu()
 			-- 	end
 			-- end
 			-- if #v==0 then
-			-- 	table.removekey(miyushuju[2],k)
+			-- 	table.clear(miyushuju[2],k)
 			-- end
 		end
 		for x=#miyushuju[1],1,-1 do
@@ -523,7 +522,7 @@ function QuickChatfun.QuickBut_Jilu()
 		hang.del:HookScript("OnClick", function (self)
 			local idid=self:GetID()
 			local shuju=PIGA["Chatjilu"]["WHISPER"]["record"]	
-			table.removekey(shuju[2],shuju[1][idid][1])
+			table.clear(shuju[2],shuju[1][idid][1])
 			table.remove(shuju[1],idid);
 			gengxinhang(miyijiluF.F.Scroll)
 		end)
@@ -623,7 +622,7 @@ function QuickChatfun.QuickBut_Jilu()
 		if not miyijiluF.kaiguanOpen then return end
 		if not arg2 then return end
 		if not arg12 and not arg13 then return end
-		if arg1:match("!Pig:") then return end
+		if arg1:match("[!Pig]:") then return end
 		if event=="CHAT_MSG_WHISPER" then
 			if miyijiluF.jichengBlackOpen then
 				if QuickChatfun.QuickBut_miyijiluGL(arg2,arg5,arg1) then
@@ -745,7 +744,7 @@ function QuickChatfun.QuickBut_Jilu()
 		end 
 	end
 	function ChatjiluMianban.tianshuxiala:PIGDownMenu_SetValue(value,arg1,arg2)
-		ChatjiluMianban.tianshuxiala:PIGDownMenu_SetText(value)
+		self:PIGDownMenu_SetText(value)
 		PIGA["Chatjilu"]["Days"]=arg1
 		PIGCloseDropDownMenus()
 	end
@@ -1076,7 +1075,7 @@ function QuickChatfun.QuickBut_Jilu()
 		---根据启用注册事件
 		ChatjiluMianban.shijianzhucequxiao(id,PIGA["Chatjilu"][jilupindaoID[id]]["Open"],PindaolistF)
 		PindaolistF:HookScript("OnEvent", function (self,event,arg1,arg2,arg3,arg4,arg5,_,_,_,_,_,_,arg12)
-			if arg1:match("!Pig:") then return end
+			if arg1:match("[!Pig]:") then return end
 			for jj=1,#jilupindaoEvent[jilupindaoID[id]] do
 				if event==jilupindaoEvent[jilupindaoID[id]][jj] then
 							--print(event,arg1,arg2,arg3,arg4,arg5,arg12)

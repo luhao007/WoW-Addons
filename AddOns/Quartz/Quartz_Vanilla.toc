@@ -1,6 +1,6 @@
-## Interface: 110007
+## Interface: 110100
 ## Author: Nevcairiel, Nymbia
-## Version: 3.7.13
+## Version: 3.7.14
 
 ## Title: Quartz
 ## Notes: Modular casting bar.
@@ -17,6 +17,7 @@
 ## X-WoWI-ID: 7158
 
 #@no-lib-strip@
+libs\LibClassicCasterino\LibClassicCasterino.lua
 #@end-no-lib-strip@
 
 locale\locale.xml

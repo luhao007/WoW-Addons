@@ -1,17 +1,32 @@
-local ADDON, MinArch = ...
+local ADDON, _ = ...
 local isClassic = WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE
 
-function MinArch:InitHelperFrame()
+---@type MinArchOptions
+local Options = MinArch:LoadModule("MinArchOptions")
+---@type MinArchMain
+local Main = MinArch:LoadModule("MinArchMain")
+---@type MinArchCompanion
+local Companion = MinArch:LoadModule("MinArchCompanion")
+---@type MinArchDigsites
+local Digsites = MinArch:LoadModule("MinArchDigsites")
+---@type MinArchHistory
+local History = MinArch:LoadModule("MinArchHistory")
+---@type MinArchCommon
+local Common = MinArch:LoadModule("MinArchCommon")
+---@type MinArchLDB
+local MinArchLDB = MinArch:LoadModule("MinArchLDB")
+
+local function InitHelperFrame()
     MinArch.HelperFrame = CreateFrame("Frame", "MinArchHelper");
 
 	MinArch.HelperFrame:RegisterEvent("PLAYER_REGEN_DISABLED");
     MinArch.HelperFrame:RegisterEvent("PLAYER_REGEN_ENABLED");
 	MinArch.HelperFrame:RegisterEvent("GLOBAL_MOUSE_DOWN");
 
-	MinArchMain.showAfterCombat = false;
-	MinArchHist.showAfterCombat = false;
-    MinArchDigsites.showAfterCombat = false;
-    MinArch.Companion.showAfterCombat = false;
+	Main.showAfterCombat = false;
+	History.showAfterCombat = false;
+    Digsites.showAfterCombat = false;
+    Companion.showAfterCombat = false;
 
     MinArch.HelperFrame:Hide();
 
@@ -44,20 +59,38 @@ function MinArch:InitHelperFrame()
 	MinArch.hiddenButton = button
 end
 
-function MinArch.Ace:OnInitialize ()
+local function SetDynamicDefaults ()
+	for i=1, ARCHAEOLOGY_NUM_RACES do
+		MinArch.defaults.profile.raceOptions.hide[i] = false;
+		MinArch.defaults.profile.raceOptions.cap[i] = false;
+		MinArch.defaults.profile.raceOptions.keystone[i] = false;
+	end
+end
+
+local function InitDatabase()
+	MinArch.db = LibStub("AceDB-3.0"):New("MinArchDB", MinArch.defaults, true);
+	MinArch.db.RegisterCallback(MinArch, "OnProfileChanged", "RefreshConfig");
+    MinArch.db.RegisterCallback(MinArch, "OnProfileCopied", "RefreshConfig");
+    MinArch.db.RegisterCallback(MinArch, "OnProfileReset", "RefreshConfig");
+	MinArch.db.RegisterCallback(MinArch, "OnDatabaseShutdown", "Shutdown");
+
+	MinArch:UpgradeSettings()
+end
+
+function MinArch:OnInitialize ()
 	-- Initialize Settings Database
-	MinArch:SetDynamicDefaults();
-	MinArch:InitDatabase();
+	SetDynamicDefaults();
+	InitDatabase();
 	MinArch:MainEventAddonLoaded();
+	
+	InitHelperFrame();
+	Main:Init();
+	History:Init();
+	Digsites:Init()
 
-	MinArch:InitHelperFrame();
-	MinArch:InitMain(MinArchMain);
-	MinArch:InitHist(MinArchHist);
-	MinArch:InitDigsites(MinArchDigsites);
+	Companion:Init();
 
-	MinArch.Companion:Init();
-
-	MinArch:InitLDB();
+	MinArchLDB:Init();
 	-- TODO Add to UISpecialFrames so windows close when the escape button is pressed
 	--[[C_Timer.After(0.5, function()
 		tinsert(UISpecialFrames, "MinArchMain");
@@ -66,45 +99,30 @@ function MinArch.Ace:OnInitialize ()
 		tinsert(UISpecialFrames, "MinArchDigsites");
 	end)]]--
 
-	MinArch:CommonFrameScale(MinArch.db.profile.frameScale);
-    MinArch:ShowRaceIconsOnMap();
+	Common:FrameScale(MinArch.db.profile.frameScale);
+    Digsites:ShowRaceIconsOnMap();
     -- MinArch:HookDoubleClick();
+	Options:OnInitialize()
+
 	MinArch.IsReady = true;
-	MinArch:DisplayStatusMessage("Minimal Archaeology Loaded!");
+	Common:DisplayStatusMessage("Minimal Archaeology Loaded!");
 end
 
-function MinArch:SetDynamicDefaults ()
-	for i=1, ARCHAEOLOGY_NUM_RACES do
-		MinArch.defaults.profile.raceOptions.hide[i] = false;
-		MinArch.defaults.profile.raceOptions.cap[i] = false;
-		MinArch.defaults.profile.raceOptions.keystone[i] = false;
-	end
-end
 
 function MinArch:RefreshConfig()
-	MinArch:DisplayStatusMessage("RefreshConfig called", MINARCH_MSG_DEBUG);
+	Common:DisplayStatusMessage("RefreshConfig called", MINARCH_MSG_DEBUG);
 
-	MinArch:RefreshMinimapButton();
-	MinArch:ShowRaceIconsOnMap();
-	MinArch:CommonFrameScale(MinArch.db.profile.frameScale);
+	MinArchLDB:RefreshMinimapButton();
+	Digsites:ShowRaceIconsOnMap();
+	Common:FrameScale(MinArch.db.profile.frameScale);
 	MinArch.ShowOnSurvey = true;
     MinArch.ShowInDigsite = true;
-    MinArch.CompanionShowInDigsite = true;
-	MinArch:UpdateMain();
+    Companion.showInDigsite = true;
+	Main:Update();
 end
 
 function MinArch:Shutdown()
-	MinArch:DisplayStatusMessage("ShutDown called", MINARCH_MSG_DEBUG);
-end
-
-function MinArch:InitDatabase()
-	MinArch.db = LibStub("AceDB-3.0"):New("MinArchDB", MinArch.defaults, true);
-	MinArch.db.RegisterCallback(MinArch, "OnProfileChanged", "RefreshConfig");
-    MinArch.db.RegisterCallback(MinArch, "OnProfileCopied", "RefreshConfig");
-    MinArch.db.RegisterCallback(MinArch, "OnProfileReset", "RefreshConfig");
-	MinArch.db.RegisterCallback(MinArch, "OnDatabaseShutdown", "Shutdown");
-
-	MinArch:UpgradeSettings()
+	Common:DisplayStatusMessage("ShutDown called", MINARCH_MSG_DEBUG);
 end
 
 function MinArch:UpgradeSettings()

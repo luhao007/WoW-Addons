@@ -197,12 +197,20 @@ function RSUtils.tostring(s)
 	return nil
 end
 
+function RSUtils.IsNumber(n)
+	if (n and type(n) == "number") then
+		return true
+	end
+	
+	return false
+end
+
 ---============================================================================
 -- Arithmetic utils
 ---============================================================================
 
 function RSUtils.DistanceBetweenCoords(x1, x2, y1, y2)
-	if (x1 and x2 and y1 and y2) then
+	if (RSUtils.IsNumber(x1) and RSUtils.IsNumber(x2) and RSUtils.IsNumber(y1) and RSUtils.IsNumber(y2)) then
 		local dx = RSUtils.FixCoord(x1) - RSUtils.FixCoord(x2)
 		local dy = RSUtils.FixCoord(y1) - RSUtils.FixCoord(y2)
 		return math.sqrt ( (dx * dx) + (dy * dy) )

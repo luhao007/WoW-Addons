@@ -9,7 +9,7 @@ end
 local mod	= DBM:NewMod("AQ40Trash", "DBM-Raids-Vanilla", catID)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20241219134239")
+mod:SetRevision("20250124041604")
 --mod:SetModelID(47785)
 mod:SetMinSyncRevision(20200710000000)--2020, 7, 10
 mod:SetZone(531) -- Important to keep to not double trigger shared IDs with AQ20
@@ -60,6 +60,7 @@ local specWarnBurst					= mod:NewSpecialWarningDodge(1215202, nil, nil, nil, 2, 
 
 local timerExplosion				= mod:NewTimer(30, "TimerExplosion") -- Default icon looks good cause they cast Arcane Explosion
 local timerBurst					= mod:NewNextTimer(30, 1215202)
+local timerThunderClapCD			= mod:NewNextNPTimer(7, 26554, nil, nil, nil, 2)
 
 local yellPlague                    = mod:NewYell(26556)
 local yellBurst						= mod:NewIconTargetYell(1215202)
@@ -109,7 +110,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		elseif UnitGUID("pet") and UnitGUID("pet") == args.destGUID then
 			specWarnPlague:Show()
 			specWarnPlague:Play("runout")
-		else
+		elseif args.destName then -- I've seen events without a target for some reason, avoid the "on unknown" warning in this case
 			warnPlague:Show(args.destName)
 		end
 		self:TrackTrashAbility(args.sourceGUID, "Plague", args.sourceRaidFlags, args.sourceName)
@@ -164,6 +165,9 @@ function mod:SPELL_DAMAGE(sourceGUID, sourceName, _, sourceRaidFlags, destGUID, 
 		self:TrackTrashAbility(sourceGUID, "Meteor", sourceRaidFlags, sourceName)
 	elseif spellId == 26554 or spellId == 8732 then
 		self:TrackTrashAbility(sourceGUID, "Thunderclap", sourceRaidFlags, sourceName)
+		if self:AntiSpam(1, "Thunderclap", sourceGUID) then
+			timerThunderClapCD:Start(7, sourceGUID)
+		end
 	elseif spellId == 25779 then
 		self:TrackTrashAbility(sourceGUID, "ManaBurn", sourceRaidFlags, sourceName)
 	end
@@ -213,7 +217,7 @@ do
 
 	--TODO, maybe check if any bosses killed in saved lockout, in case group pulls trash after killing all required bosses
 	--Right now, it'd start a new speed run timer if you pull trash after
-	function mod:StartEngageTimers(guid, cid)
+	function mod:StartEngageTimers(guid, cid, delay)
 		if cid == 15264 or cid == 234830 then -- Anubisath Sentinel Era/SoD
 			checkFirstPull(self)
 		elseif cid == 15262 then--Obsidian Eradicator
@@ -316,6 +320,25 @@ function mod:NAME_PLATE_UNIT_ADDED(uid)
 	self:ScanTrashAbilities(uid)
 end
 
+function mod:NameplateScanningLoop()
+	self:UnscheduleMethod("NameplateScanningLoop")
+	self:ScheduleMethod(1, "NameplateScanningLoop")
+	for _, frame in pairs(C_NamePlate.GetNamePlates()) do
+		local foundUnit = frame.namePlateUnitToken
+		if foundUnit and not UnitIsFriend(foundUnit, "player") then
+			self:ScanTrashAbilities(foundUnit)
+		end
+	end
+end
+
+function mod:OnCombatStart()
+	self:NameplateScanningLoop()
+end
+
+function mod:OnCombatEnd()
+	self:UnscheduleMethod("NameplateScanningLoop")
+end
+
 -- Shared between AQ20 and AQ40
 -- The timers likely also repeat while out of combat (similar to BWL trial bombs), might want to support that eventually, but these seem less important than bombs
 
@@ -406,6 +429,7 @@ function mod:TrackTrashAbility(guid, ability, raidFlags, name)
 		mobInfo.abilities[ability] = true
 		mobInfo.sortedAbilities[#mobInfo.sortedAbilities + 1] = trashAbilitiesLocalized[ability] or ability
 		self:TestTrace("DetectAbility", guid, name, ability)
+		DBM:Debug(("TrackTrashAbility %s %s %s"):format(guid, name, ability), 1)
 	end
 	self:ShowInfoFrame()
 end
@@ -431,10 +455,10 @@ function mod:ScanTrashAbilities(uid)
 	if DBM:UnitBuff(uid, 19595) then
 		self:TrackTrashAbility(guid, "ShadowFrostReflect", raidFlags, name)
 	end
-	if DBM:UnitBuff(uid, 474564) then
+	if DBM:UnitBuff(uid, 474564, 2834) then
 		self:TrackTrashAbility(guid, "Thunderclap", raidFlags, name)
 	end
-	if DBM:UnitBuff(uid, 474565) then
+	if DBM:UnitBuff(uid, 474565, 2148) then
 		self:TrackTrashAbility(guid, "ShadowStorm", raidFlags, name)
 	end
 	if DBM:UnitBuff(uid, 474570) then
@@ -443,8 +467,18 @@ function mod:ScanTrashAbilities(uid)
 	if DBM:UnitBuff(uid, 474571) then
 		self:TrackTrashAbility(guid, "Plague", raidFlags, name)
 	end
-	-- I can't find Thorns anywhere in my logs, maybe I never had it?
-	-- Also can't find Mending, but I'm sure I saw it on nameplates :/
+	if DBM:UnitBuff(uid, 2147) then
+		self:TrackTrashAbility(guid, "Mending", raidFlags, name)
+	end
+	if DBM:UnitBuff(uid, 21737) then
+		self:TrackTrashAbility(guid, "KnockAway", raidFlags, name)
+	end
+	if DBM:UnitBuff(uid, 812) then
+		self:TrackTrashAbility(guid, "ManaBurn", raidFlags, name)
+	end
+	if DBM:UnitBuff(uid, 25777) then
+		self:TrackTrashAbility(guid, "Thorns", raidFlags, name)
+	end
 	-- Fire/Arcane reflect is impossible to detect like this because detect magic gets reflected (but that reflection itself is detected!)
 	-- I also don't have a log for AQ20 because no one bothers with detect magic
 end

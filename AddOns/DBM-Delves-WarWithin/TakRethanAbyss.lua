@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("z2689", "DBM-Delves-WarWithin")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20241102154000")
+mod:SetRevision("20250129150617")
 mod:SetHotfixNoticeRev(20240422000000)
 mod:SetMinSyncRevision(20240422000000)
 mod:SetZone(2689, 2768)
@@ -25,7 +25,7 @@ local specWarnDeepseaPolyps					= mod:NewSpecialWarningDodge(446300, nil, nil, n
 local specWarnRepellingBlast				= mod:NewSpecialWarningRun(446230, nil, nil, nil, 4, 2)
 local specWarnFungalInfection				= mod:NewSpecialWarningDodge(446405, nil, nil, nil, 2, 15)
 
-local timerDeepseaPolypsCD					= mod:NewCDTimer(20.7, 446300, nil, nil, nil, 3)
+local timerDeepseaPolypsCD					= mod:NewCDTimer(17, 446300, nil, nil, nil, 3)
 local timerRepellingBlastCD					= mod:NewCDTimer(20.7, 446230, nil, nil, nil, 3)
 local timerFungalInfectionCD				= mod:NewCDTimer(20.7, 446405, nil, nil, nil, 3)
 
@@ -96,6 +96,8 @@ function mod:ENCOUNTER_START(eID)
 		timerFungalInfectionCD:Start(4.3)
 	elseif eID == 3004 then--Evolved Nerubian Leaders
 		DBM:AddMsg("Boss alerts/timers not yet implemented for Evolved Nerubian Leaders")
+	elseif eID == 3124 then--Vindle Snapcrank
+		DBM:AddMsg("Boss alerts/timers not yet implemented for Vindle Snapcrank")
 	end
 end
 

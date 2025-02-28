@@ -50,7 +50,7 @@ if private.isRetail then
 		[1861] = {50, 3}, [2070] = {50, 3}, [2096] = {50, 3}, [2164] = {50, 3}, [2217] = {50, 3},--BfA Raids
 		[2296] = {60, 3}, [2450] = {60, 3}, [2481] = {60, 3},--Shadowlands Raids (yes, only 3 kekw, seconded)
 		[2522] = {70, 3}, [2569] = {70, 3}, [2549] = {70, 3},--Dragonflight Raids
-		[2657] = {80, 3}, [2792] = {80, 3},--War Within Raids
+		[2657] = {80, 3}, [2792] = {80, 3}, [2769] = {80, 3},--War Within Raids
 		--Dungeons
 		[48] = {30, 2}, [230] = {30, 2}, [429] = {30, 2}, [389] = {30, 2}, [34] = {30, 2},--Classic Dungeons
 		[540] = {30, 2}, [558] = {30, 2}, [556] = {30, 2}, [555] = {30, 2}, [542] = {30, 2}, [546] = {30, 2}, [545] = {30, 2}, [547] = {30, 2}, [553] = {30, 2}, [554] = {30, 2}, [552] = {30, 2}, [557] = {30, 2}, [269] = {30, 2}, [560] = {30, 2}, [543] = {30, 2}, [585] = {30, 2},--BC Dungeons
@@ -62,9 +62,9 @@ if private.isRetail then
 		[1763] = {50, 2}, [1754] = {50, 2}, [1762] = {50, 2}, [1864] = {50, 2}, [1822] = {50, 2}, [1877] = {50, 2}, [1594] = {50, 2}, [1841] = {50, 2}, [1771] = {50, 2}, [1862] = {50, 2}, [2097] = {50, 2},--Bfa Dungeons
 		[2286] = {60, 2}, [2289] = {60, 2}, [2290] = {60, 2}, [2287] = {60, 2}, [2285] = {60, 2}, [2293] = {60, 2}, [2291] = {60, 2}, [2284] = {60, 2}, [2441] = {60, 2},--Shadowlands Dungeons
 		[2520] = {70, 2}, [2451] = {70, 2}, [2516] = {70, 2}, [2519] = {70, 2}, [2526] = {70, 2}, [2515] = {70, 2}, [2521] = {70, 2}, [2527] = {70, 2}, [2579] = {70, 2},--Dragonflight Dungeons
-		[2652] = {80, 2}, [2662] = {80, 2}, [2660] = {80, 2}, [2669] = {80, 2}, [2651] = {80, 2}, [2649] = {80, 2}, [2648] = {80, 2}, [2661] = {80, 2},--War Within Dungeons
+		[2652] = {80, 2}, [2662] = {80, 2}, [2660] = {80, 2}, [2669] = {80, 2}, [2651] = {80, 2}, [2649] = {80, 2}, [2648] = {80, 2}, [2661] = {80, 2}, [2773] = {80, 2},--War Within Dungeons
 		--Delves
-		[2664] = {80, 4}, [2679] = {80, 4}, [2680] = {80, 4}, [2681] = {80, 4}, [2682] = {80, 4}, [2683] = {80, 4}, [2684] = {80, 4}, [2685] = {80, 4}, [2686] = {80, 4}, [2687] = {80, 4}, [2688] = {80, 4}, [2689] = {80, 4}, [2690] = {80, 4}, [2767] = {80, 4}, [2768] = {80, 4}--War Within Delves
+		[2664] = {80, 4}, [2679] = {80, 4}, [2680] = {80, 4}, [2681] = {80, 4}, [2682] = {80, 4}, [2683] = {80, 4}, [2684] = {80, 4}, [2685] = {80, 4}, [2686] = {80, 4}, [2687] = {80, 4}, [2688] = {80, 4}, [2689] = {80, 4}, [2690] = {80, 4}, [2767] = {80, 4}, [2768] = {80, 4}, [2831] = {80, 4}, [2815] = {80, 4}, [2826] = {80, 4}, --War Within Delves
 	}
 	seasonalDungeons = {[2652]={80, 2}, [2662]=true, [2660]=true, [2669]=true, [670]=true, [1822]=true, [2286]=true, [2290]=true}--TWW Season 1
 elseif private.isCata then--Since 2 dungeons were changed from vanilla to cata dungeons, it has it's own table and it's NOT using retail table cause the dungeons reworked in Mop are still vanilla dungeons in classic (plus diff level caps)
@@ -126,6 +126,8 @@ else--TBC and Vanilla
 		instanceDifficultyBylevel[2807] = {60, 2} -- Burning of Andorhal
 		instanceDifficultyBylevel[2817] = {60, 2} -- Starfall Barrow Den
 		instanceDifficultyBylevel[2832] = {60, 3} -- Nightmare Grove
+		instanceDifficultyBylevel[2856] = {60, 3} -- Scarlet Enclave
+		instanceDifficultyBylevel[2875] = {60, 2} -- Karazhan Crypts
 	end
 end
 
@@ -409,6 +411,22 @@ function DBM:GetCurrentInstanceDifficulty()
 			elseif trialCount >= 3 and modifierLevel % 2 == 1 then
 				difficultyId = "mythic"
 				difficultyName = PLAYER_DIFFICULTY6
+			end
+			-- Naxxramas Hardmode
+			-- The different levels (sometimes) use different buffs? The debuff still has the right number of stacks
+			-- Do not check for 1224428 here, it's active on normal (despite the description saying "The forces of the Scourge grow stronger.")
+			local naxxModifier = select(3, self:UnitDebuff("player", 1218283, 1218271, 1218275, 1218276))
+			if naxxModifier == 0 then naxxModifier = 1 end -- First level has no count
+			if naxxModifier then
+				modifierLevel = naxxModifier
+				-- Warcraft Logs defines everything >= 1 as heroic and == 4 as Mythic, regardless of whether the current wing is empowered
+				if naxxModifier >= 4 then -- Max level is a bit unclear, on the PTR it was 10 at first (with up to 5 working), but now it seems to be 4?
+					difficultyId = "mythic"
+					difficultyName = PLAYER_DIFFICULTY6
+				else
+					difficultyId = "heroic"
+					difficultyName = PLAYER_DIFFICULTY2
+				end
 			end
 		end
 		if modifierLevel == 0 then

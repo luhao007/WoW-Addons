@@ -9,6 +9,9 @@ local RSEventDB = private.NewLib("RareScannerEventDB")
 local RSMapDB = private.ImportLib("RareScannerMapDB")
 local RSProfessionDB = private.ImportLib("RareScannerProfessionDB")
 
+-- Locales
+local AL = LibStub("AceLocale-3.0"):GetLocale("RareScanner");
+
 -- RareScanner libraries
 local RSLogger = private.ImportLib("RareScannerLogger")
 local RSConstants = private.ImportLib("RareScannerConstants")
@@ -245,6 +248,10 @@ function RSEventDB.InitEventNamesDB()
 	end
 end
 
+function RSEventDB.GetAllEventNames()
+	return private.dbglobal.event_names[GetLocale()]
+end
+
 function RSEventDB.SetEventName(eventID, name)
 	if (eventID and name) then
 		private.dbglobal.event_names[GetLocale()][eventID] = name
@@ -259,6 +266,11 @@ function RSEventDB.GetEventName(eventID)
 			local eventName = private.dbglobal.rare_names[GetLocale()][eventID]
 			RSEventDB.SetEventName(eventID, eventName)
 			return eventName
+		elseif (AL[string.format("EVENT_%s", eventID)] ~= string.format("EVENT_%s", eventID)) then
+			return AL[string.format("EVENT_%s", eventID)]
+		elseif (RSUtils.Contains(RSConstants.EVENTS_SCRAP_HEAP, eventID)) then
+			private.dbglobal.object_names[GetLocale()][eventID] = AL["EVENTS_SCRAP_HEAP"]
+			return AL["EVENTS_SCRAP_HEAP"]
 		end
 	end
 

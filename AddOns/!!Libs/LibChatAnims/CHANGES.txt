@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------
-r77 | funkehdude | 2024-11-20 17:14:39 +0000 (Wed, 20 Nov 2024) | 1 line
+r79 | funkehdude | 2025-02-07 02:03:45 +0000 (Fri, 07 Feb 2025) | 1 line
 Changed paths:
    M /trunk/LibChatAnims.toc
 

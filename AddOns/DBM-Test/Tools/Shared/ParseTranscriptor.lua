@@ -184,6 +184,9 @@ function transcriptorParser:NewTestGenerator(log, firstLine, lastLine, prefix, n
 end
 
 local function guessType(str)
+	if type(str) ~= "string" then
+		return str
+	end
 	if str == "nil" then
 		return nil
 	end
@@ -256,6 +259,17 @@ local function literalsTable(...)
 	return tbl
 end
 
+local function stripTrailingNilLiterals(tbl)
+	for i = #tbl, 1, -1 do
+		if tbl[i] == "nil" then
+			tbl[i] = nil
+		else
+			break
+		end
+	end
+	return tbl
+end
+
 ---@param info DBMInstanceInfo
 local function instanceInfoLiteral(info)
 	return ("{name = %s, instanceType = %s, difficultyID = %s, difficultyName = %s, difficultyModifier = %s, maxPlayers = %s, dynamicDifficulty = %s, isDynamic = %s, instanceID = %s, instanceGroupSize = %s, lfgDungeonID = %s}"):format(
@@ -310,7 +324,7 @@ end
 local flagWarningShown
 local seenFriendlyCids = {}
 
-local function transcribeCleu(rawParams, anon)
+local function transcribeCleu(rawParams, anon, flagState)
 	local params = {}
 	local i = 1 -- to handle nil
 	local offset = 1
@@ -323,7 +337,7 @@ local function transcribeCleu(rawParams, anon)
 		params[i] = guessType(param)
 		i = i + 1
 	end
-	local event, sourceFlags, sourceGUID, sourceName, destGUID, destName, spellId, spellName, extraArg1, extraArg2
+	local event, sourceFlags, sourceGUID, sourceName, destGUID, destName, spellId, spellName, extraArg1, extraArg2, extraArg3, extraArg4, extraArg5
 	if params[1]:match("%[CONDENSED%]") then
 		local _
 		event, sourceGUID, sourceName, _, spellId, spellName = unpack(params, 1, i - 1)
@@ -355,7 +369,7 @@ local function transcribeCleu(rawParams, anon)
 				--logInfo("Note: log doesn't contain flags, /getspells logflags to log flags in Transcriptor. Results for mods relying heavily on flags may be inaccurate, but usually this is not a problem.")
 				flagWarningShown = true
 			end
-			event, sourceGUID, sourceName, destGUID, destName, spellId, spellName, extraArg1, extraArg2 = unpack(params, 1, i - 1)
+			event, sourceGUID, sourceName, destGUID, destName, spellId, spellName, extraArg1, extraArg2, extraArg3, extraArg4, extraArg5 = unpack(params, 1, i - 1)
 		end
 	end
 	if spellId and filter.ignoredSpellIds[spellId] then
@@ -371,19 +385,26 @@ local function transcribeCleu(rawParams, anon)
 	end
 	local destIsPlayer = destGUID and destGUID:match("^Player%-")
 	local srcIsPlayer = sourceGUID and sourceGUID:match("^Player%-")
-	local destIsPet = destGUID and destGUID:match("^Pet%-")
-	local srcIsPet = sourceGUID and sourceGUID:match("^Pet%-")
+	local destIsPet = destGUID and (destGUID:match("^Pet%-") or flagState.mindcontrol[destGUID])
+	local srcIsPet = sourceGUID and (sourceGUID:match("^Pet%-") or flagState.mindcontrol[sourceGUID])
 	local destIsPlayerOrPet = destIsPlayer or destIsPet
 	local srcIsPlayerOrPet = srcIsPlayer or srcIsPet
 	local destIsNpc = destGUID and (destGUID:match("^Creature-") or destGUID:match("^Vehicle-"))
 	local srcIsNpc = sourceGUID and (sourceGUID:match("^Creature-") or sourceGUID:match("^Vehicle-"))
+	if spellId == 10912 and srcIsPlayer and destIsNpc then
+		if event == "SPELL_AURA_APPLIED" then
+			flagState.mindcontrol[destGUID] = true
+		elseif event == "SPELL_AURA_REMOVED" then
+			flagState.mindcontrol[destGUID] = nil
+		end
+	end
 	if event == "SPELL_DAMAGE[CONDENSED]" then event = "SPELL_DAMAGE" end
 	if event == "SPELL_PERIODIC_DAMAGE[CONDENSED]" then event = "SPELL_PERIODIC_DAMAGE" end
 	if event == "SPELL_SUMMON" and srcIsPlayerOrPet then
 		return
 	end
 	-- FIXME: use sourceFlags if available to filter healing and attacks of friendly totems
-	if (event:match("_ENERGIZE$") or event:match("_HEAL$")) and destIsPlayerOrPet then
+	if (event:match("_ENERGIZE$") or event:match("_HEAL$") or event:match("_HEAL_ABSORBED$")) and destIsPlayerOrPet then
 		return
 	end
 	if event:match("_HEAL$") and srcIsPlayer and destIsNpc then -- Likely healing summons, opportunity to learn summon creature IDs not yet ignored
@@ -393,7 +414,7 @@ local function transcribeCleu(rawParams, anon)
 		return
 	end
 
-	if (event:match("^SPELL_CAST") or event == "SPELL_EXTRA_ATTACKS") and srcIsPlayerOrPet then
+	if (event:match("^SPELL_CAST") or event == "SPELL_EXTRA_ATTACKS") and srcIsPlayerOrPet and not flagState.mindcontrol[sourceGUID] then
 		return
 	end
 	if (event == "SPELL_DAMAGE" or event == "SPELL_PERIODIC_DAMAGE" or event == "SPELL_PERIODIC_MISSED" or event == "SPELL_MISSED" or event == "DAMAGE_SHIELD" or event == "SWING_DAMAGE" or event == "DAMAGE_SHIELD_MISSED") and srcIsPlayerOrPet then
@@ -438,17 +459,24 @@ local function transcribeCleu(rawParams, anon)
 		extraArg2 = anon:ScrubName(extraArg2, extraArg1)
 		extraArg1 = anon:ScrubGUID(extraArg1)
 	end
-	return literalsTable(
+	return stripTrailingNilLiterals(literalsTable(
 		"COMBAT_LOG_EVENT_UNFILTERED", event,				-- skipping timestamp and hideCaster
 		sourceGUID, sourceName, hex(sourceFlags), hex(0),	-- 0x0 == sourceRaidFlags, not logged
 		destGUID, destName, hex(destFlags), hex(0),			-- 0x0 == destRaidFlags, not logged
 		spellId, spellName, hex(0),							-- 0x0 == spellSchool, not logged
-		extraArg1, extraArg2
-	)
+		extraArg1, extraArg2, extraArg3, extraArg4, extraArg5
+	))
 end
 
-local function transcribeEvent(event, params, anon)
-	if event:match("^DBM_") or event:match("^NAME_PLATE_UNIT_") or event:match("BigWigs_") or event == "Echo_Log" or event == "ARENA_OPPONENT_UPDATE" or event == "PLAYER_INFO" then
+local ignoredEvents = {
+	["Echo_Log"] = true,
+	["ARENA_OPPONENT_UPDATE"] = true,
+	["PLAYER_INFO"] = true,
+	["CHAT_MSG_RAID_WARNING"] = true
+}
+
+local function transcribeEvent(event, params, anon, flagState)
+	if event:match("^DBM_") or event:match("^NAME_PLATE_UNIT_") or event:match("BigWigs_") or ignoredEvents[event] then
 		return
 	end
 	if event:match("^UNIT_SPELL") then
@@ -459,7 +487,7 @@ local function transcribeEvent(event, params, anon)
 		return
 	end
 	if event == "CLEU" then
-		return transcribeCleu(params, anon)
+		return transcribeCleu(params, anon, flagState)
 	end
 	-- FIXME: it kinda sucks that we only parse after this, but since type guessing may depend on the event it's ugly both ways :/
 	if event == "UNIT_TARGET" then
@@ -467,15 +495,20 @@ local function transcribeEvent(event, params, anon)
 			return arg1 .. anon:ScrubTarget(arg2) .. arg3 .. anon:ScrubTarget(arg4) .. arg5 .. anon:ScrubTarget(arg6)
 		end)
 	end
-	if event:match("^CHAT_MSG_MONSTER") or event:match("^CHAT_MSG_RAID_BOSS") then
+	if event:match("^CHAT_MSG_MONSTER") or event:match("^CHAT_MSG_RAID_BOSS") or event:match("^CHAT_MSG_BG_") then -- AQ40 uses CHAT_MSG_BG on SoD for some reason
 		params = params:gsub("^" .. ("([^#]*)#"):rep(12), function(msg, name, arg3, arg4, targetName, arg6, arg7, arg8, arg9, arg10, arg11, senderGuid)
-			-- Messages can *come from* pets
-			return ("%s#"):rep(12):format(anon:ScrubChatMessage(msg, targetName), anon:ScrubPetName(name) or name, arg3, arg4, anon:ScrubName(targetName) or targetName, arg6, arg7, arg8, arg9, arg10, arg11, senderGuid == "nil" and senderGuid or anon:ScrubGUID(senderGuid))
+			-- Messages can can come from pets or players (e.g., CHAT_MSG_MONSTER in the Stix Bunkjunker encounter)
+			return ("%s#"):rep(12):format(anon:ScrubChatMessage(msg, targetName), anon:ScrubName(name) or name, arg3, arg4, anon:ScrubName(targetName) or targetName, arg6, arg7, arg8, arg9, arg10, arg11, senderGuid == "nil" and senderGuid or anon:ScrubGUID(senderGuid))
 		end)
 	end
 	if event == "RAID_BOSS_EMOTE" then
 		params = params:gsub("^([^#]*)#", function(msg)
 			return ("%s#"):format(anon:ScrubChatMessage(msg))
+		end)
+	end
+	if event == "RAID_BOSS_WHISPER" then
+		params = params:gsub("^([^#]*)#([^#]*)#([^#]*)#([^#]*)", function(msg, target, time, sound)
+			return ("%s#"):rep(4):format(anon:ScrubChatMessage(msg, target), anon:ScrubName(target) or target, time, sound):sub(1, -2)
 		end)
 	end
 	if event == "NAME_PLATE_UNIT_ADDED" then -- Especially relevant for mind controlled players (but currently filtered above anyways)
@@ -509,6 +542,8 @@ local function transcribeEvent(event, params, anon)
 		local subEvent, msg, name = params:match("([^#]*)#([^#]*)#([^#]*)")
 		if subEvent == "RAID_BOSS_WHISPER_SYNC" then
 			-- Name will always contain the server here, even if there is no cross-server stuff otherwise; this is annoying because the anonymizer might not have learned the name with the server suffix
+			-- So we learn it here since we know that is definitely a player name
+			anon:LearnPlayerServer(name)
 			local scrubbed = anon:ScrubName(name)
 			return literalsTable("CHAT_MSG_RAID_BOSS_WHISPER", msg, scrubbed ~= name and scrubbed or anon:ScrubName(name:match("([^-]*)")), 0, false)
 		else
@@ -620,6 +655,14 @@ function testGenerator:guessMod()
 	return encounterName:gsub("%s*", ""):gsub("'", "")
 end
 
+-- List of instance names to be used for guessed test names.
+-- This does not affect GetInstanceInfo() mocking, see Data/Instances.lua (generated) for that.
+local mappedInstanceNames = {
+	[533] = "Naxx",
+	[2769] = "Undermine",
+	[2657] = "NerubarPalace"
+}
+
 -- TODO: all of these guessing functions could be much smarter, but I'm adding stuff as I go
 function testGenerator:guessTestName()
 	if not self.metadata.encounterInfo.name then return "" end
@@ -630,6 +673,19 @@ function testGenerator:guessTestName()
 		difficulty = self.metadata.instanceInfo.difficultyName .. "/"
 	end
 	local name = self:guessMod() .. "/" .. difficulty .. (self.metadata.encounterInfo.kill and "Kill" or "Wipe")
+	if self.metadata.instanceInfo then
+		local instanceName = mappedInstanceNames[self.metadata.instanceInfo.instanceID] or self.metadata.instanceInfo.name
+		if instanceName then
+			name = instanceName .. "/" .. name
+		end
+	end
+	if self.metadata.gameVersion == "Retail" then
+		name = "TWW/" .. name
+	elseif self.metadata.gameVersion == "SeasonOfDiscovery" then
+		name = "SoD/" .. name
+	elseif self.metadata.gameVersion then
+		name = self.metadata.gameVersion .. "/" .. name
+	end
 	if self.prefix then
 		return self.prefix:gsub("/$", "") .. "/" .. name
 	else
@@ -646,6 +702,13 @@ function testGenerator:guessAddon()
 				or "DBM-Raids-Vanilla"
 		elseif instanceInfo.instanceType == "party" then -- UBRS & co also return party here
 			return "DBM-Party-Vanilla"
+		end
+	elseif self.metadata.gameVersion == "Retail" then
+		local instanceInfo = self.metadata.instanceInfo
+		if instanceInfo.instanceType == "raid" then
+			return "DBM-Raids-WarWithin"
+		elseif instanceInfo.instanceType == "party" then -- FIXME: detect delves by difficulty info
+			return "DBM-Party-WarWithin"
 		end
 	end
 	return ""
@@ -738,10 +801,12 @@ function testGenerator:GetLogAndPlayers()
 	local timeOffset
 	local totalTime = 0
 	local anon = anonymizer:New(self.log.lines, self.firstLine, self.lastLine, self.metadata.player, not self.anonymize)
+	self.anonymizer = anon
 	if self.metadata.startsInCombat then
 		resultLog[#resultLog + 1] = {0, "PLAYER_REGEN_DISABLED", "+Entering combat!"}
 		resultLogStr[#resultLogStr + 1] = '{0.00, "PLAYER_REGEN_DISABLED", "+Entering combat!"}'
 	end
+	local flagState = {mindcontrol = {}}
 	for i = self.firstLine, self.lastLine do
 		local line = self.log.lines[i]
 		local time, event, params = line:match("^<([%d.]+) [^>]+> %[([^%]]*)%] (.*)")
@@ -752,7 +817,7 @@ function testGenerator:GetLogAndPlayers()
 		end
 		timeOffset = timeOffset or time
 		time = time - timeOffset
-		local testEvent = transcribeEvent(event, params, anon)
+		local testEvent = transcribeEvent(event, params, anon, flagState)
 		if testEvent then
 			-- Unfortunately transcribeEvent already stringifies everything because everything was written with generating code in mind
 			-- But for live imports we obviously want non-stringified versions
@@ -803,9 +868,6 @@ function testGenerator:GetLogAndPlayers()
 	combinedLog = combinedLog .. "\tlog = {\n\t\t"
 	combinedLog = combinedLog ..  table.concat(resultLogStr, ",\n\t\t")
 	combinedLog = combinedLog ..  "\n\t},"
-	if self.validateAnonymizer and self.anonymize then
-		anon:CheckForLeaks(combinedLog)
-	end
 	self.cache.combinedLog, self.cache.combinedPlayers, self.cache.resultLog, self.cache.resultPlayers = combinedLog, combinedPlayers, resultLog, resultPlayers
 	return self:GetLogAndPlayers()
 end

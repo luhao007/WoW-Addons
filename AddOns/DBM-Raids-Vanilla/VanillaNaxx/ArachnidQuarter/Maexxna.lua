@@ -1,7 +1,13 @@
 local mod	= DBM:NewMod("MaexxnaVanilla", "DBM-Raids-Vanilla", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20241103123604")
+if DBM:IsSeasonal("SeasonOfDiscovery") then
+	mod.statTypes = "normal,heroic,mythic"
+else
+	mod.statTypes = "normal"
+end
+
+mod:SetRevision("20250209025759")
 mod:SetCreatureID(15952)
 mod:SetEncounterID(1116)
 mod:SetModelID(15928)
@@ -24,7 +30,7 @@ local specWarnWebWrap	= mod:NewSpecialWarningSwitch(28622, "RangedDps|Healer", n
 local yellWebWrap		= mod:NewYell(28622)
 
 local timerWebSpray		= mod:NewNextTimer(40.4, 29484, nil, nil, nil, 2)-- 40.43-40.54
-local timerWebWrap		= mod:NewNextTimer(39.6, 28622, nil, "RangedDps|Healer", nil, 3)-- 39.593-40.885
+local timerWebWrap		= mod:NewVarTimer("v39.6-40.9", 28622, nil, "RangedDps|Healer", nil, 3)-- 39.593-40.885
 local timerSpider		= mod:NewTimer(30, "TimerSpider", 17332, nil, nil, 1)
 
 function mod:OnCombatStart(delay)

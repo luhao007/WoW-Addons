@@ -27,10 +27,15 @@ local function IsAchievementCompleted(achievementID, entityID, isContainer)
 		cachedAchievements[achievementID].icon = icon
 		cachedAchievements[achievementID].link = GetAchievementLink(achievementID)
 		if (not isContainer) then
-			for i = GetAchievementNumCriteria(achievementID), 1, -1 do
-				local _, _, completed, _, _, _, _, assetID, _, _, _, _, _ = GetAchievementCriteriaInfo(achievementID, i)
-				if (not completed) then
-					cachedAchievements[achievementID][assetID] = true
+			local achievementNumCriteria = GetAchievementNumCriteria(achievementID)
+			if (achievementNumCriteria == 0) then
+				cachedAchievements[achievementID][entityID] = true
+			else
+				for i = achievementNumCriteria, 1, -1 do
+					local _, _, completed, _, _, _, _, assetID, _, _, _, _, _ = GetAchievementCriteriaInfo(achievementID, i)
+					if (not completed) then
+						cachedAchievements[achievementID][assetID] = true
+					end
 				end
 			end
 		end

@@ -200,10 +200,8 @@ do
 		if not accountWideData[CACHE] then accountWideData[CACHE] = {} end
 	end);
 	app.AddEventRegistration("NEW_MOUNT_ADDED", function(id)
-		local _, spellID = C_MountJournal_GetMountInfoByID(id);
-		local mount = app.SearchForObject("spellID", spellID, "field")
-		app.SetAccountCollected(mount, CACHE, spellID, true)
-		app.UpdateRawID("spellID", spellID)
+		local _, spellID = C_MountJournal_GetMountInfoByID(id)
+		app.SetThingCollected("spellID", spellID, not PerCharacterMountSpells[spellID], true)
 	end);
 	app.AddSimpleCollectibleSwap(CLASSNAME, SETTING)
 end

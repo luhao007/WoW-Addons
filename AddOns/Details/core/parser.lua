@@ -1840,7 +1840,7 @@
 		this_event [2] = spellId --spellid || false if this is a battle ress line
 		this_event [3] = amount --amount of damage or healing
 		this_event [4] = time --parser time
-		this_event [5] = UnitHealth(sourceName) / UnitHealthMax(sourceName) --current unit heal
+		this_event [5] = UnitHealth(sourceName) / (max(UnitHealthMax(sourceName), 0.1)) --current unit heal
 		this_event [6] = sourceName --source name
 		this_event [7] = absorbed
 		this_event [8] = school
@@ -2904,6 +2904,17 @@
 	--BUFFS & DEBUFFS 	search key: ~buff ~aura ~shield								|
 -----------------------------------------------------------------------------------------------------------------------------------------
 
+	--aura ddebugger
+	local function aura_debugger_parserfile(type, spellName, sourceName, targetName)
+		do return end --don't enable on releases
+
+		if (Details.zone_type == "party" or true) then
+			if (sourceName == UnitName("player")) then
+				--print("buff", type, spellName, sourceName, "on", targetName)
+			end
+		end
+	end
+
 	function parser:buff(token, time, sourceSerial, sourceName, sourceFlags, targetSerial, targetName, targetFlags, targetFlags2, spellId, spellName, spellschool, auraType, amount, arg1, arg2, arg3)
 		if (ignoredWorldAuras[spellId]) then
 			return
@@ -2944,6 +2955,8 @@
 		end
 
 		if (auraType == "BUFF") then
+			aura_debugger_parserfile("IN", spellName, sourceName, targetName)
+
 			if (LIB_OPEN_RAID_BLOODLUST[spellId]) then --~bloodlust
 				if (Details.playername == targetName) then
 					_current_combat.bloodlust = _current_combat.bloodlust or {}
@@ -3137,6 +3150,8 @@
 		end
 
 		if (tipo == "BUFF") then
+			aura_debugger_parserfile("RE", spellName, sourceName, targetName)
+
 			if (spellId == 272790 and cacheAnything.track_hunter_frenzy) then --hunter pet Frenzy spellid
 				local miscActorObject = misc_cache[sourceName]
 				if (miscActorObject) then
@@ -3230,6 +3245,8 @@
 		end
 
 		if (tipo == "BUFF") then
+			aura_debugger_parserfile("OUT", spellName, sourceName, targetName)
+
 			if (spellId == 272790 and cacheAnything.track_hunter_frenzy) then --hunter pet Frenzy spellid
 				if (not pet_frenzy_cache[sourceName]) then
 					return
@@ -6053,6 +6070,8 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 			Details222.MythicPlus.Level = activeKeystoneLevel or 2
 
 			Details.challengeModeMapId = C_ChallengeMode.GetActiveChallengeMapID()
+
+			Details222.MythicPlus.debug_auras = {}
 		end
 	end
 
@@ -6142,6 +6161,30 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 		Details222.MythicPlus.Texture = texture
 		Details222.MythicPlus.BackgroundTexture = backgroundTexture
 
+		--store the data of the mythic+ run that just finished, this table always exists when COMBAT_MYTHICDUNGEON_END is triggered
+		Details.LastMythicPlusData = {
+			MapID = mapID,
+			Level = level,
+			ElapsedTime = time or 0.1,
+			TimeWithoutDeaths = time or 0.1,
+			OnTime = onTime,
+			KeystoneUpgradeLevels = keystoneUpgradeLevels,
+			PracticeRun = practiceRun,
+			IsAffixRecord = isAffixRecord,
+			IsMapRecord = isMapRecord,
+			PrimaryAffix = primaryAffix,
+			IsEligibleForScore = isEligibleForScore,
+			UpgradeMembers = upgradeMembers,
+			OldDungeonScore = oldDungeonScore,
+			NewDungeonScore = newDungeonScore,
+			DungeonName = dungeonName,
+			DungeonId = id,
+			TimeLimit = timeLimit,
+			Texture = texture,
+			BackgroundTexture = backgroundTexture,
+			time = time or 0.1,
+		}
+
 		if (time) then
             --Subtract death time from time of run to get the true time
             local deaths = C_ChallengeMode.GetDeathCount()
@@ -6155,6 +6198,7 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
             end
 
         	Details222.MythicPlus.time = math.floor(time / 1000)
+			Details.LastMythicPlusData.TimeWithoutDeaths = Details222.MythicPlus.time
 			Details:Msg("run elapsed time:", DetailsFramework:IntegerToTimer(time / 1000))
 		else
 			Details222.MythicPlus.time = 0.1
@@ -6935,7 +6979,36 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 		cacheAnything.track_hunter_frenzy = Details.combat_log.track_hunter_frenzy
 
 		if (Details.combat_log.merge_gemstones_1007) then
-			--ring powers merged, https://gist.github.com/ljosberinn/65abe150133ff3a08cd70f840f7dd019 (by Gerrit Alex - WCL)
+			--11.0.7 | 468666 = "Cyrce's Circlet"
+			override_spellId[462526] = 468666 --Roaring War-Queen's Citrine
+			override_spellId[462527] = 468666 --Seabed Leviathan's Citrine
+			override_spellId[462528] = 468666 --Legendary Skipper's Citrine
+			override_spellId[462530] = 468666 --Mariner's Hallowed Citrine
+			override_spellId[462531] = 468666 --Old Salt's Bardic Citrine
+			override_spellId[462532] = 468666 --Storm Sewer's Citrine
+			override_spellId[462534] = 468666 --Windsinger's Runed Citrine
+			override_spellId[462535] = 468666 --Fathomdweller's Runed Citrine
+			override_spellId[462536] = 468666 --Stormbringer's Runed Citrine
+			override_spellId[462538] = 468666 --Undersea Overseer's Citrine
+			override_spellId[462539] = 468666 --Squall Sailor's Citrine
+			override_spellId[462540] = 468666 --Thunderlord's Crackling Citrine
+			override_spellId[462951] = 468666 --Thunderlord's Crackling Citrine
+			override_spellId[462952] = 468666 --Squall Sailor's Citrine
+			override_spellId[462953] = 468666 --Undersea Overseer's Citrine
+			override_spellId[462958] = 468666 --Storm Sewer's Citrine
+			override_spellId[462959] = 468666 --Old Salt's Bardic Citrine
+			override_spellId[462960] = 468666 --Mariner's Hallowed Citrine
+			override_spellId[462962] = 468666 --Legendary Skipper's Citrine
+			override_spellId[462963] = 468666 --Seabed Leviathan's Citrine
+			override_spellId[462964] = 468666 --Roaring War-Queen's Citrine
+			override_spellId[465961] = 468666 --Stormbringer's Runed Citrine
+			override_spellId[465962] = 468666 --Fathomdweller's Runed Citrine
+			override_spellId[465963] = 468666 --Windsinger's Runed Citrine
+			override_spellId[468422] = 468666 --Storm Sewer's Citrine
+			override_spellId[468990] = 468666 --Seabed Leviathan's Citrine
+			override_spellId[469397] = 468666 --Roaring War-Queen's Citrine
+			override_spellId[470821] = 468666 --Pluck Out Singing Citrine
+			--10.0.7 ring powers merged, https://gist.github.com/ljosberinn/65abe150133ff3a08cd70f840f7dd019 (by Gerrit Alex - WCL)
 			override_spellId[403225] = 404884 --Flame Licked Stone
 			override_spellId[404974] = 404884 --Shining Obsidian Stone
 			override_spellId[405220] = 404884 --Pestilent Plague Stone
@@ -6957,6 +7030,36 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 			override_spellId[403253] = 404884 --Raging Magma Stone
 			override_spellId[403257] = 404884 --Searing Smokey Stone
 		else
+			--11.0.7
+			override_spellId[462526] = nil --Roaring War-Queen's Citrine
+			override_spellId[462527] = nil --Seabed Leviathan's Citrine
+			override_spellId[462528] = nil --Legendary Skipper's Citrine
+			override_spellId[462530] = nil --Mariner's Hallowed Citrine
+			override_spellId[462531] = nil --Old Salt's Bardic Citrine
+			override_spellId[462532] = nil --Storm Sewer's Citrine
+			override_spellId[462534] = nil --Windsinger's Runed Citrine
+			override_spellId[462535] = nil --Fathomdweller's Runed Citrine
+			override_spellId[462536] = nil --Stormbringer's Runed Citrine
+			override_spellId[462538] = nil --Undersea Overseer's Citrine
+			override_spellId[462539] = nil --Squall Sailor's Citrine
+			override_spellId[462540] = nil --Thunderlord's Crackling Citrine
+			override_spellId[462951] = nil --Thunderlord's Crackling Citrine
+			override_spellId[462952] = nil --Squall Sailor's Citrine
+			override_spellId[462953] = nil --Undersea Overseer's Citrine
+			override_spellId[462958] = nil --Storm Sewer's Citrine
+			override_spellId[462959] = nil --Old Salt's Bardic Citrine
+			override_spellId[462960] = nil --Mariner's Hallowed Citrine
+			override_spellId[462962] = nil --Legendary Skipper's Citrine
+			override_spellId[462963] = nil --Seabed Leviathan's Citrine
+			override_spellId[462964] = nil --Roaring War-Queen's Citrine
+			override_spellId[465961] = nil --Stormbringer's Runed Citrine
+			override_spellId[465962] = nil --Fathomdweller's Runed Citrine
+			override_spellId[465963] = nil --Windsinger's Runed Citrine
+			override_spellId[468422] = nil --Storm Sewer's Citrine
+			override_spellId[468990] = nil --Seabed Leviathan's Citrine
+			override_spellId[469397] = nil --Roaring War-Queen's Citrine
+			override_spellId[470821] = nil --Pluck Out Singing Citrine
+			--10.0.7
 			override_spellId[403225] = nil --Flame Licked Stone
 			override_spellId[404974] = nil --Shining Obsidian Stone
 			override_spellId[405220] = nil --Pestilent Plague Stone

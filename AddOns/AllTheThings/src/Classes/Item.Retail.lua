@@ -332,7 +332,8 @@ local function default_link(t)
 		-- local link = "|cffff80ff|Htransmogappearance:" .. sourceID .. "|h[Source " .. sourceID .. "]|h|r";
 		-- This is weird...
 	end
-	return UNKNOWN;
+	-- i don't know why this was returning Unknown... bad! default funcs should only return nil or a real value
+	-- return UNKNOWN;
 end
 local function default_icon(t)
 	return t.itemID and GetItemIcon(t.itemID) or 134400;
@@ -480,6 +481,19 @@ local ItemWithFactionBonus = {
 	end,
 }
 app.CreateItem = app.CreateClass(CLASS, KEY, itemFields,
+"AsHQT", {
+	CollectibleType = function() return "QuestsHidden" end,
+	collectible = app.CollectibleAsQuest,
+	locked = app.GlobalVariants.AndLockCriteria.locked,
+	collected = IsQuestFlaggedCompletedForObject,
+	trackable = function(t)
+		-- raw repeatable quests can't really be tracked since they immediately unflag
+		return not rawget(t, "repeatable")
+	end,
+	saved = function(t)
+		return IsQuestFlaggedCompleted(t.questID);
+	end
+}, (function(t) return t.type == "ihqt"; end),
 "WithQuest", {
 	CollectibleType = app.IsClassic and function() return "Quests" end
 	-- Retail: items tracked as HQT

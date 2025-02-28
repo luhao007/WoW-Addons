@@ -198,7 +198,11 @@ L:SetGeneralLocalization({
 -----------------------------
 --  Goldie Baronbottom  --
 -----------------------------
---L = DBM:GetModLocalization(2589)
+L = DBM:GetModLocalization(2589)
+
+L:SetMiscLocalization{
+	RolePlay		= "Alright. You may have gotten my employees."
+}
 
 ---------
 --Trash--
@@ -246,4 +250,33 @@ L = DBM:GetModLocalization("CityofThreadsTrash")
 
 L:SetGeneralLocalization({
 	name =	"City of Threads Trash"
+})
+
+-----------------------------
+--  Big M.O.M.M.A.  --
+-----------------------------
+--L = DBM:GetModLocalization(2648)
+
+-----------------------------
+--  Demolition Duo  --
+-----------------------------
+--L = DBM:GetModLocalization(2649)
+
+-----------------------------
+--  Swampface  --
+-----------------------------
+--L = DBM:GetModLocalization(2650)
+
+-----------------------------
+--  Geezle Gigazap (aka Geez nuts)  --
+-----------------------------
+--L = DBM:GetModLocalization(2651)
+
+---------
+--Trash--
+---------
+L = DBM:GetModLocalization("OperationFloodgateTrash")
+
+L:SetGeneralLocalization({
+	name =	"Operation: Floodgate Trash"
 })

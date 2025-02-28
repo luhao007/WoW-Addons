@@ -542,11 +542,6 @@ ResolveSymbolicLink = function(o)
 				end
 				searchResults = finalized;
 				finalized = {};
-			elseif cmd == "postprocess" then
-				-- Instruction to take all of the current search results and ensure that there are no duplicated primary keys.
-				local uniques = {};
-				MergeObjects(uniques, searchResults);
-				searchResults = uniques;
 			elseif cmd == "invtype" then
 				-- Instruction to include only search results where an item is of a specific inventory type.
 				local types = {unpack(sym)};
@@ -3073,7 +3068,8 @@ if C_CurrencyInfo and C_CurrencyInfo.GetCurrencyInfo then
 		end
 	end });
 	GetCurrencyCount = function(id)
-		return C_CurrencyInfo_GetCurrencyInfo(id).quantity or 0;
+		local info = C_CurrencyInfo_GetCurrencyInfo(id);
+		return info and info.quantity or 0;
 	end
 else
 	---@diagnostic disable-next-line: undefined-global
@@ -3216,7 +3212,7 @@ app.SkillIDToSpellID = setmetatable({
 	[186] = 2575,	-- Mining
 	[393] = 8613,	-- Skinning
 	[197] = 3908,	-- Tailoring
-	[960] = 53428,  -- Runeforging
+	[960] = 53428,	-- Runeforging
 	[40] = 2842,	-- Poisons
 	[633] = 1809,	-- Lockpicking
 	[921] = 921,	-- Pickpocketing
@@ -3469,6 +3465,7 @@ local nameFromSpellID = function(t)
 	return app.GetSpellName(t.spellID) or GetSpellLink(t.spellID) or RETRIEVING_DATA;
 end;
 local spellFields = {
+	CACHE = function() return "Spells" end,
 	["text"] = function(t)
 		return t.link;
 	end,
@@ -3533,15 +3530,15 @@ local createRecipe = app.CreateClass("Recipe", "spellID", recipeFields,
 		return app.Settings.AccountWide.Recipes and 2;
 	end,
 }, (function(t) return t.itemID; end));
-local createItem = app.CreateItem;	-- Temporary Recipe fix until someone fixes parser.
-app.CreateItem = function(id, t)
-	if t and t.spellID and t.f == app.FilterConstants.RECIPES then	-- This is pretty slow, would be great it someone fixes it.
-		t.f = nil;
-		t.itemID = id;
-		return createRecipe(t.spellID, t);
-	end
-	return createItem(id, t);
-end
+-- local createItem = app.CreateItem;	-- Temporary Recipe fix until someone fixes parser.
+-- app.CreateItem = function(id, t)
+-- 	if t and t.spellID and t.f == app.FilterConstants.RECIPES then	-- This is pretty slow, would be great it someone fixes it.
+-- 		t.f = nil;
+-- 		t.itemID = id;
+-- 		return createRecipe(t.spellID, t);
+-- 	end
+-- 	return createItem(id, t);
+-- end
 app.CreateRecipe = createRecipe;
 app.CreateSpell = function(id, t)
 	if t and t.itemID then
@@ -3562,6 +3559,7 @@ local SetMountCollected = function(t, spellID, collected)
 	return app.SetCollected(t, "Spells", spellID, collected, "Mounts");
 end
 local speciesFields = {
+	CACHE = function() return "BattlePets" end,
 	["f"] = function(t)
 		return app.FilterConstants.BATTLE_PETS;
 	end,
@@ -3586,9 +3584,11 @@ local speciesFields = {
 		---@diagnostic disable-next-line: undefined-field
 		return ("p:%d:1:3"):format(t.speciesID);
 	end,
+	["RefreshCollectionOnly"] = true,
 };
 local mountFields = {
 	IsClassIsolated = true,
+	CACHE = function() return "Spells" end,
 	["text"] = function(t)
 		return "|cffb19cd9" .. t.name .. "|r";
 	end,
@@ -3651,7 +3651,6 @@ if C_PetJournal and app.GameBuildVersion > 30000 then
 	speciesFields.description = function(t)
 		return select(6, C_PetJournal.GetPetInfoBySpeciesID(t.speciesID));
 	end
-	speciesFields.RefreshCollectionOnly = true
 	speciesFields.collected = function(t)
 		local count = C_PetJournal.GetNumCollectedInfo(t.speciesID);
 		return SetBattlePetCollected(t, t.speciesID, count and count > 0);

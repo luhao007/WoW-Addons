@@ -18,7 +18,7 @@ do -- /opiespecset
 		local sid, sname = msg:match("^(%d+) {(.*)}$")
 		sid = tonumber(sid)
 		if sid and GetSpecialization() ~= sid and not InCombatLockdown() then
-			SetSpecialization(sid)
+			C_SpecializationInfo.SetSpecialization(sid)
 			if sname ~= "" then
 				esSpec, esSet, esDeadline = sid, sname, GetTime()+9
 			end
@@ -132,8 +132,6 @@ do -- EditorUI
 		local p = bg:GetParent()
 		if p and type(p.OnActionChanged) == "function" then
 			p:OnActionChanged(bg)
-		elseif p and type(p.SaveAction) == "function" then -- DEPRECATED [2303/Y8]
-			p:SaveAction()
 		end
 	end
 	function drop:initialize()

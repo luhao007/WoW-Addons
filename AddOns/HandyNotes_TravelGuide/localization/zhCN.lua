@@ -3,7 +3,7 @@ local L = LibStub("AceLocale-3.0"):NewLocale("HandyNotes_TravelGuide", "zhCN", f
 if not L then return end
 -- Simplified Chinese translation by mmk5 ( https://www.curseforge.com/members/mmk5 )
 --  zhCN client: (NGA-男爵凯恩)
---  Last update: 2024/08/01
+--  Last update: 2024/12/19
 if L then
 ----------------------------------------------------------------------------------------------------
 -----------------------------------------------CONFIG-----------------------------------------------
@@ -138,10 +138,16 @@ L["Elevator to Isle of Dorn"] = "通往多恩岛的电梯"
 L["Elevator to Ringing Deeps"] = "通往喧鸣深窟的电梯"
 L["Portal to Ardenweald"] = "通往炽蓝仙野的传送门"
 L["Portal to Bastion"] = "通往晋升堡垒的传送门"
-L["Portal to Tiragarde Sound"] = "前往提拉加德海峡的传送门"
+L["Portal to Tiragarde Sound"] = "通往提拉加德海峡的传送门"
 L["Portal to Twilight Highlands"] = "通往暮光高地的传送门"
--- L["Zeppelin to Siren Isle"] = ""
--- L["Zeppelin to Dornogal"] = ""
+L["Zeppelin to Siren Isle"] = "前往海妖岛的船（飞艇）"
+L["Zeppelin to Dornogal"] = "返回多恩诺嘉尔的船（飞艇）"
+L["Mole Machine to Siren Isle"] = "前往海妖岛的钻探机"
+L["Mole Machine to Gundargaz"] = "前往冈达加兹的钻探机"
+-- L["Rocket Drill to Undermine"] = ""
+-- L["Rocket Drill to Ringing Deeps"] = ""
+L["Teleporter to Undermine"] = "前往安德麦的传送器"
+L["Teleporter to Dornogal"] = "前往多恩诺嘉尔的传送器"
 
 --==========================================DRAGONFLIGHT==========================================--
 
@@ -182,7 +188,7 @@ L["Anima Gateway to Hero's rest"] = "心能传送门"
 
 -------------------------------------------------BfA------------------------------------------------
 
-L["Portal to Zuldazar"] = "通往祖达萨的传送"
+L["Portal to Zuldazar"] = "通往祖达萨的传送门"
 L["Boat to Zuldazar"] = "前往达萨罗（祖达萨）的船"
 L["Return to Zuldazar"] = "返回祖达萨"
 L["Boat to Vol'dun"] = "前往沃顿的船"
@@ -199,8 +205,8 @@ L["Boat to Drustvar"] = "前往德鲁斯瓦的船"
 L["Boat to Stormsong Valley"] = "前往斯托颂谷地的船"
 L["Boat to Tiragarde Sound"] = "前往提拉加德海峡的船"
 
-L["Portal to Arathi Highlands"] = "通往塞拉摩的传送门"
-L["Portal to Port of Zandalar"] = "通往赞达拉的传送门"
+L["Portal to Arathi Highlands"] = "通往阿拉希高地的传送门"
+L["Portal to Port of Zandalar"] = "通往赞达拉港的传送门"
 L["Portal to Darkshore"] = "通往黑海岸的传送门"
 L["Portal to Port of Boralus"] = "通往伯拉勒斯的传送门"
 

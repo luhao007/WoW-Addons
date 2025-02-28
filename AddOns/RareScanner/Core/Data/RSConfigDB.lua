@@ -366,6 +366,14 @@ function RSConfigDB.SetScanningTargetUnit(value)
 	private.db.general.scanTargetUnit = value
 end
 
+function RSConfigDB.IsMutingTargetUnitSound()
+	return private.db.general.muteTargetUnit
+end
+
+function RSConfigDB.SetMutingTargetUnitSound(value)
+	private.db.general.muteTargetUnit = value
+end
+
 ---============================================================================
 -- Not discovered filters database
 ---============================================================================
@@ -406,7 +414,7 @@ function RSConfigDB.IsNpcFiltered(npcID)
 				end
 			end
 		-- Also filter one time kill rare NPCs at Khaz Algar or rare NPCs without quest (monozone)
-		elseif (RSNpcDB.IsInternalNpcMonoZone(npcID) and RSMapDB.GetContinentOfMap(npcInfo.zoneID) == RSConstants.KHAZ_ALGAR and not RSUtils.Contains(RSConstants.KHAZ_ALGAR_NPCS_MOUNTS, npcID) and npcInfo.zoneID ~= RSConstants.SIREN_ISLE) then
+		elseif (RSNpcDB.IsInternalNpcMonoZone(npcID) and RSMapDB.GetContinentOfMap(npcInfo.zoneID) == RSConstants.KHAZ_ALGAR and not RSUtils.Contains(RSConstants.KHAZ_ALGAR_NPCS_MOUNTS, npcID) and not RSUtils.Contains(RSConstants.TWW_MAPS_WITHOUT_REP, npcInfo.zoneID)) then
 			if (npcInfo.questID) then
 				for _, questID in ipairs(npcInfo.questID) do
 					if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
@@ -420,7 +428,7 @@ function RSConfigDB.IsNpcFiltered(npcID)
 		elseif (RSNpcDB.IsInternalNpcMultiZone(npcID) and not RSUtils.Contains(RSConstants.KHAZ_ALGAR_NPCS_MOUNTS, npcID)) then
 			local khazAlgar = false
 			for mapID, _ in pairs (npcInfo.zoneID) do
-				if (RSMapDB.GetContinentOfMap(mapID) == RSConstants.KHAZ_ALGAR and mapID ~= RSConstants.SIREN_ISLE) then
+				if (RSMapDB.GetContinentOfMap(mapID) == RSConstants.KHAZ_ALGAR and not RSUtils.Contains(RSConstants.TWW_MAPS_WITHOUT_REP, mapID)) then
 					khazAlgar = true
 					break
 				end

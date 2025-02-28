@@ -3,17 +3,17 @@
 --     W o w h e a d   L o o t e r     --
 --                                     --
 --                                     --
---    Patch: 11.0.7                    --
+--    Patch: 11.1.0                    --
 --    E-mail: feedback@wowhead.com     --
 --                                     --
 -----------------------------------------
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2024-12-17";
+local WL_ADDON_UPDATED = "2025-02-25";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
-local WL_VERSION = 110007;
+local WL_VERSION = 110100;
 local WL_VERSION_PATCH = 0;
 local WL_ADDONNAME, WL_ADDONTABLE = ...
 
@@ -134,6 +134,7 @@ local WL_LOOT_TOAST_BAGS = {
     [175767] = 118697,  -- Big Bag of Pet Supplies
     [178508] = 120321,  -- Mystery Bag
     [181405] = 122535,  -- Traveler's Pet Supplies
+    [187534] = 127751,  -- Fel-Touched Pet Supplies
     [243134] = 147384,  -- Legionfall Recompense
     -- broken shore token gear
     [240421] = 147223,  -- dauntless trinket
@@ -1629,7 +1630,7 @@ function wlCheckUnitForRep(guid, name)
     end
 
     local uiMapID = wlGetCurrentUiMapID();
-    local taskInfo = C_TaskQuest.GetQuestsForPlayerByMapID(uiMapID);
+    local taskInfo = C_TaskQuest.GetQuestsOnMap(uiMapID);
     local numTaskPOIs = 0;
     if (taskInfo ~= nil) then
         numTaskPOIs = #taskInfo;
@@ -2629,14 +2630,21 @@ function wlSeenWorldQuests()
     end
 
     -- These zones are weird, too. Figures.
-    checkMaps[#checkMaps + 1] = C_Map.GetMapInfo(1355); -- Nazjatar
-    checkMaps[#checkMaps + 1] = C_Map.GetMapInfo(1462); -- Mechagon
-    checkMaps[#checkMaps + 1] = C_Map.GetMapInfo(2133); -- Zaralek Cavern
-    checkMaps[#checkMaps + 1] = C_Map.GetMapInfo(2200); -- Emerald Dream
+    local extraUiMapIds = {
+        1355, -- Nazjatar
+        1462, -- Mechagon
+        1970, -- Zereth Mortis
+        2133, -- Zaralek Cavern
+        2200, -- Emerald Dream
+        2346, -- Undermine
+    };
+    for _, extraUiMapId in ipairs(extraUiMapIds) do
+        table.insert(checkMaps, C_Map.GetMapInfo(extraUiMapId));
+    end
 
     -- Query for all the world quests under each map
     for i = 1, #checkMaps, 1 do
-        local rows = C_TaskQuest.GetQuestsForPlayerByMapID(checkMaps[i].mapID)
+        local rows = C_TaskQuest.GetQuestsOnMap(checkMaps[i].mapID)
         if rows then
             for rowIdx = 1, #rows, 1 do
                 addWorldQuestLine(rows[rowIdx].questId or rows[rowIdx].questID)
@@ -2644,7 +2652,7 @@ function wlSeenWorldQuests()
         end
     end
 
-    -- Now pick up emissary quests, since they're not returned in GetQuestsForPlayerByMapID
+    -- Now pick up emissary quests, since they're not returned in GetQuestsOnMap
     for i = 1, #WL_WORLD_QUEST_EMISSARY_MAPS, 1 do
         local rows = C_QuestLog.GetBountiesForMapID(WL_WORLD_QUEST_EMISSARY_MAPS[i])
         if rows then
@@ -4839,6 +4847,7 @@ function wlCheckAreaPois()
         2215, -- Hallowfall
         2248, -- Isle of Dorn
         2214, -- The Ringing Deeps
+        2346, -- Undermine
     };
     -- Collect POIs for these maps regardless of whether they are primary POIs.
     local includeNonPrimary = {
@@ -4953,6 +4962,17 @@ function wlCheckTradingPost(npcId)
     if not npcId then
         return
     end
+
+    local seenTradingPostItems = {};
+    if wlTradingPostItems ~= "" then
+        local _, itemData = strsplit("=", wlTradingPostItems);
+        local items = { strsplit(",", itemData) };
+        for _, item in ipairs(items) do
+            local itemId = strsplit(".", item);
+            seenTradingPostItems[tonumber(itemId)] = true;
+        end
+    end
+
     local items = {};
     local vendorItemIds = C_PerksProgram.GetAvailableVendorItemIDs();
     if vendorItemIds then
@@ -4962,12 +4982,22 @@ function wlCheckTradingPost(npcId)
             if info and info.itemID > 0 then
                 local itemLink = wlConcat(info.itemID, 0, 1, 0, -1, '');
                 wlUpdateVariable(wlUnit, npcId, "merchant", itemLink, "max", -1);
-                local endTime = curTime + info.timeRemaining;
-                table.insert(items, info.itemID .. '.' .. curTime .. '.' .. endTime);
+                if (not seenTradingPostItems[info.itemID]) then
+                    local endTime = curTime + info.timeRemaining;
+                    table.insert(items, info.itemID .. '.' .. curTime .. '.' .. endTime);
+                    seenTradingPostItems[info.itemID] = true;
+                end
             end
         end
 
-        wlTradingPostItems = wlGetPlayerRealmId() .. '=' .. table.concat(items, ',')
+        if (#items > 0) then
+            if (wlTradingPostItems == "") then
+                wlTradingPostItems = wlGetPlayerRealmId() .. '=';
+            elseif (wlTradingPostItems:sub(-1) ~= '=') then
+                wlTradingPostItems = wlTradingPostItems .. ','
+            end
+            wlTradingPostItems = wlTradingPostItems .. table.concat(items, ',')
+        end
     end
 end
 
@@ -4982,6 +5012,12 @@ function wlEvent_PERKS_PROGRAM_OPEN()
         [185468] = true,
         [185472] = true,
         [185473] = true,
+        [219243] = true,
+        [219244] = true,
+        [234742] = true,
+        [234744] = true,
+        [234746] = true,
+        [234747] = true,
     };
     if (npcId and tradingPostNpcs[tonumber(npcId)]) then
         wlCheckTradingPost(npcId);
@@ -6564,6 +6600,7 @@ function wlReset()
     wlVersion, wlUploaded, wlStats, wlExportData, wlRealmList = WL_VERSION, 0, "", "", {};
     wlAuction, wlEvent, wlItemSuffix, wlObject, wlProfile, wlUnit = {}, {}, {}, {}, {}, {};
     wlItemDurability, wlGarrisonMissions, wlItemBonuses, wlContributionQuests = {}, {}, {}, {};
+    wlTradingPostItems = "";
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--

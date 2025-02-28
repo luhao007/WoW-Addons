@@ -108,8 +108,7 @@ do
 			if not accountWideData[CACHE] then accountWideData[CACHE] = {} end
 		end);
 		app.AddEventRegistration("NEW_RUNEFORGE_POWER_ADDED", function(id)
-			app.SetAccountCollected(app.SearchForObject(KEY, id, "field"), CACHE, id, true)
-			app.UpdateRawID(KEY, id)
+			app.SetThingCollected(KEY, id, true, true)
 		end);
 		app.AddSimpleCollectibleSwap(CLASSNAME, CACHE)
 	else

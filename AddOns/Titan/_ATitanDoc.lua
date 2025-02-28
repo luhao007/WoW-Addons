@@ -154,41 +154,50 @@ When ADDON_LOADED event is received,
 - Titan registers for event PLAYER_ENTERING_WORLD
 - Titan ensures its saved variables are whole and known player profiles are read.
 
-NOTE: On ADDON_LOADED is the first time saved variables should be considered loaded and safe!!
-EUsing saved variables before is likely to result in nil(s). Such as when WoW parses the addon code as it is loading.
+NOTE: On ADDON_LOADED is the first time addon saved variables should be considered loaded and safe!!
+Using addon saved variables before ADDON_LOADED is likely to result in nil(s). Such as when WoW parses the addon code as it is loading.
+NOTE: The addon saved vars are NOT the Titan plugin saved vars via the registry (.savedVariables)! The registry is processed later!
 
 Next: ==== Waiting for WoW
 WoW fires a bunch of events as this and other addons are loaded.
 Eventually the game and all addons are loaded and PLAYER_ENTERING_WORLD event is sent
 
-Next: ==== Entering world
-When event PLAYER_ENTERING_WORLD is received via OnEvent, the real work begins.
+Next: ==== Entering world - PLAYER_ENTERING_WORLD (PEW) event
+When PLAYER_ENTERING_WORLD event is received via OnEvent, the real work begins.
+The PEW events do NOT guarantee order! Titan plugins (addons) could receive a PEW before Titan - See NOTE below.
 
 The local routine - TitanPanel_PlayerEnteringWorld - is called using pcall.
 This ensures Titan reacts to errors rather than forcing an error to the user.
 TitanPanel_PlayerEnteringWorld does all the variable and profile setup for the character entering the world.
 
-On first PLAYER_ENTERING_WORLD (not reload) Titan
+On login PLAYER_ENTERING_WORLD - not reload - Titan
 - Sets character profiles - TitanVariables_InitTitanSettings
 - Sets TitanPanel*Anchor for other addons to adjust for Titan
 - Creates all Titan bars including right click menu and auto hide frames. See Frames below.
 - Registers for events Titan uses - RegisterForEvents
 
 On login and reload Titan
-- Register plugins in case the user installed / enabled / disabled addons then reloaded - TitanUtils_RegisterPluginList
 - Set THIS character profile () - TitanVariables_UseSettings - 
-   See TitanVariables (File) for more details on saved variables; this is a simple concept but touchy to implement
-   Here Titan uses
-   - TitanPanel_InitPanelBarButton to set the bars the user wants
-   - TitanPanel_InitPanelButtons to set the plugins the user wants on the user selected bars
+   See TitanVariables (File) for more details on saved variables; this is a simple concept but touchy to implement.
+   The user chosen profile sets the user chosen plugin saved vars for both Titan and any plugins - see NOTE below.
+   TitanVariables_UseSettings uses
+   - TitanPanel_InitPanelBarButton to set the bars the user wants.
+   - TitanPanel_InitPanelButtons to set the plugins the user wants on the user selected bars via OnShow.
 - Update the Titan config tables - TitanUpdateConfig
 - Set Titan font and strata
-- Update any LDB plugins - TitanLDBRefreshButton
+- Sync any LDB plugins with the cooresponding Titan plugin- TitanLDBRefreshButton
 If the above was successful then all is good
 If the above failed with an error then 
 - tell user some bad happened with error they can pass to dev team
 - attempt to hide all bars as cleanup
 - nuke the Titan config tables as cleanup
+
+NOTE: The PEW event is an important but subtle distinction for Titan plugins!
+Titan plugins should be very careful if they use the PEW event to run code. The PEW events do NOT guarantee order! 
+Meaning the plugin PEW could be processed BEFORE Titan has set saved vars for itself or plugins.
+Titan plugins should not assume ANY saved vars are available until their OnShow.
+Only at the OnShow are the 'right' plugin saved vars guaranteed to be set.
+We have seen bugs occur on some user systems due to the order addons get and process the PEW event.
 --]===]
 
 --[[ Frames and Frame Scripts

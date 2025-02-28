@@ -1,4 +1,19 @@
-local ADDON, MinArch = ...
+local ADDON, _ = ...
+
+---@type MinArchMain
+local Main = MinArch:LoadModule("MinArchMain")
+---@type MinArchDigsites
+local Digsites = MinArch:LoadModule("MinArchDigsites")
+---@type MinArchHistory
+local History = MinArch:LoadModule("MinArchHistory")
+---@type MinArchCompanion
+local Companion = MinArch:LoadModule("MinArchCompanion")
+---@type MinArchCommon
+local Common = MinArch:LoadModule("MinArchCommon")
+---@type MinArchLDB
+local MinArchLDB = MinArch:LoadModule("MinArchLDB")
+---@type MinArchNavigation
+local Navigation = MinArch:LoadModule("MinArchNavigation")
 
 local eventTimer = nil
 local researchEventTimer = nil
@@ -7,41 +22,41 @@ local historyUpdateTimout = 0.3
 function MinArch:EventHelper(event, ...)
 	if event == "PLAYER_REGEN_DISABLED" then
 		if MinArch.db.profile.hideInCombat then
-			if (MinArchMain:IsVisible()) then
-				MinArch:HideMain();
-				MinArchMain.showAfterCombat = true;
+			if (Main.frame:IsVisible()) then
+				Main:HideWindow();
+				Main.showAfterCombat = true;
 			end
-			if (MinArchHist:IsVisible()) then
-				MinArch:HideHistory();
-				MinArchHist.showAfterCombat = true;
+			if (History.frame:IsVisible()) then
+				History:HideWindow();
+				History.showAfterCombat = true;
 			end
-			if (MinArchDigsites:IsVisible()) then
-				MinArch:HideDigsites();
-				MinArchDigsites.showAfterCombat = true;
+			if (Digsites.frame:IsVisible()) then
+				Digsites:HideWindow();
+				Digsites.showAfterCombat = true;
 			end
 		end
 		if (event == "PLAYER_REGEN_DISABLED" and MinArch.db.profile.companion.hideInCombat) then
-			if (MinArch.Companion:IsVisible()) then
-				MinArch.Companion:HideFrame();
-				MinArch.Companion.showAfterCombat = true;
+			if (Companion.frame:IsVisible()) then
+				Companion:HideFrame();
+				Companion.showAfterCombat = true;
 			end
 		end
 	elseif (event == "PLAYER_REGEN_ENABLED") then
-		if (MinArchMain.showAfterCombat) then
-			MinArch:ShowMain();
-			MinArchMain.showAfterCombat = false;
+		if (Main.showAfterCombat) then
+			Main:ShowWindow();
+			Main.showAfterCombat = false;
 		end
-		if (MinArchHist.showAfterCombat) then
-			MinArch:ShowHistory();
-			MinArchHist.showAfterCombat = false;
+		if (History.showAfterCombat) then
+			History:ShowWindow();
+			History.showAfterCombat = false;
 		end
-		if (MinArchDigsites.showAfterCombat) then
-			MinArch:ShowDigsites();
-			MinArchDigsites.showAfterCombat = false;
+		if (Digsites.showAfterCombat) then
+			Digsites:ShowWindow();
+			Digsites.showAfterCombat = false;
         end
-        if (MinArch.Companion.showAfterCombat) then
-			MinArch.Companion:ShowFrame();
-			MinArch.Companion.showAfterCombat = false;
+        if (Companion.showAfterCombat) then
+			Companion:ShowFrame();
+			Companion.showAfterCombat = false;
 		end
 	elseif (event == "GLOBAL_MOUSE_DOWN") then
 		-- MinArch:DoubleClickSurvey(event, ...);
@@ -52,29 +67,29 @@ local function RepositionDigsiteProgressBar()
     if ArcheologyDigsiteProgressBar and MinArch.db.profile.ProgressBar.attachToCompanion then
         -- UIPARENT_MANAGED_FRAME_POSITIONS["ArcheologyDigsiteProgressBar"] = nil;
         ArcheologyDigsiteProgressBar:ClearAllPoints();
-        ArcheologyDigsiteProgressBar:SetPoint("BOTTOM", MinArchCompanion, "BOTTOM", 0, -35)
+        ArcheologyDigsiteProgressBar:SetPoint("BOTTOM", Companion.frame, "BOTTOM", 0, -35)
     end
 end
 
 function MinArch:EventMain(event, ...)
-    MinArch:DisplayStatusMessage("EventMain: " .. event, MINARCH_MSG_DEBUG)
+    Common:DisplayStatusMessage("EventMain: " .. event, MINARCH_MSG_DEBUG)
     -- RepositionDigsiteProgressBar()
 
 	if (event == "CURRENCY_DISPLAY_UPDATE" and MinArch.HideNext == true) then
 		MinArch:MaineEventHideAfterDigsite();
 		return;
 	elseif (event == "SKILL_LINES_CHANGED") then
-		MinArch:UpdateArchaeologySkillBar();
+		Main:UpdateArchaeologySkillBar();
 	elseif ((event == "RESEARCH_ARTIFACT_DIG_SITE_UPDATED" or event == "ARTIFACT_DIGSITE_COMPLETE") and MinArch.db.profile.hideAfterDigsite == true) then
 		MinArch.HideNext = true;
 	elseif (event == "RESEARCH_ARTIFACT_COMPLETE" and MinArch.HideNext == true and MinArch.db.profile.waitForSolve == true) then
-		MinArch:HideMain();
+		Main:HideWindow();
 		MinArch.HideNext = false;
 
-		--MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+		--History.frame:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 		--RequestArtifactCompletionHistory();
 	elseif (event == "PLAYER_ALIVE" or event == "RESEARCH_ARTIFACT_COMPLETE") then
-		--MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+		--History.frame:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 		--RequestArtifactCompletionHistory();
 	elseif (event == "ADDON_LOADED" and MinArch ~= nil and MinArch.IsReady ~= true) then
 		-- MinArch:MainEventAddonLoaded(); -- TODO remove this if everything checks out
@@ -82,40 +97,43 @@ function MinArch:EventMain(event, ...)
 		local addonname = ...;
 
 		if (addonname == "Blizzard_ArchaeologyUI") then
-			--MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+			--History.frame:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+		end
+		if (addonname == "TomTom") then
+			Navigation:SetTomTom()
 		end
 	elseif (event == "ARCHAEOLOGY_CLOSED") then
-		--MinArchHist:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
+		--History.frame:RegisterEvent("RESEARCH_ARTIFACT_HISTORY_READY");
 	elseif (event == "PLAYER_ENTERING_WORLD") then
 		if (MinArch.RacesLoaded == false) then
-			MinArch:LoadRaceInfo();
+			Common:LoadRaceInfo();
 		end
-        MinArch:RefreshLDBButton(event);
-        MinArch.Companion:AutoToggle()
+        MinArchLDB:RefreshLDBButton();
+        Companion:AutoToggle()
 	end
 
 	if (event == "PLAYER_REGEN_ENABLED") then
 		C_Timer.NewTimer(0.3, function()
 			if (not InCombatLockdown()) then
-				ClearOverrideBindings(MinArchHiddenSurveyButton);
+				ClearOverrideBindings(MinArch.hiddenButton);
 			end
 		end)
 	end
 
-    if (event == "ARCHAEOLOGY_SURVEY_CAST" and MinArch.ShowOnSurvey == true) then
-        if (_G.TomTom and MinArch.autoWaypoint) then
-            _G.TomTom:RemoveWaypoint(MinArch.autoWaypoint);
+    if (event == "ARCHAEOLOGY_SURVEY_CAST") then
+        if MinArch.autoWaypoint then
+			Navigation:RemoveTomTomWaypoint(MinArch.autoWaypoint)
         end
-        MinArch:ClearUiWaypoint();
+        Navigation:ClearUiWaypoint();
 
-		if (MinArch.db.profile.autoShowOnSurvey) then
-			MinArch:ShowMain();
+		if (MinArch.ShowOnSurvey == true and MinArch.db.profile.autoShowOnSurvey) then
+			Main:ShowWindow();
 			MinArch.ShowOnSurvey = false;
 		end
 	end
 	if ((event == "PLAYER_STOPPED_MOVING" or event == "PLAYER_ENTERING_WORLD")) then
-		if (MinArch.db.profile.autoShowInDigsites and MinArch:IsNearDigSite() and MinArch.ShowInDigsite == true) then
-			MinArch:ShowMain();
+		if (MinArch.db.profile.autoShowInDigsites and Digsites:IsPlayerNearDigSite() and MinArch.ShowInDigsite == true) then
+			Main:ShowWindow();
 			MinArch.ShowInDigsite = false;
         end
 
@@ -125,35 +143,35 @@ function MinArch:EventMain(event, ...)
 	if (event == "ARTIFACT_DIGSITE_COMPLETE") then
 		MinArch.ShowOnSurvey = true;
         MinArch.ShowInDigsite = true;
-        MinArch.CompanionShowInDigsite = true;
+        Companion.showInDigsite = true;
 		if not MinArch.db.profile.companion.alwaysShow then
-        	MinArch.Companion:Hide();
+        	Companion.frame:Hide();
 		end
 	end
 
 	if (event == "QUEST_LOG_UPDATE") then
-		MinArch:ShowRaceIconsOnMap();
+		Digsites:ShowRaceIconsOnMap();
 		return;
 	end
 
 	if (event == "CVAR_UPDATE") then
 		local changedCVAR = ...;
 		if (changedCVAR == "SHOW_DIG_SITES") then
-			MinArch:ShowRaceIconsOnMap();
+			Digsites:ShowRaceIconsOnMap();
 		end
 		
 		return
 	end
 
     if (event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" or event == "ZONE_CHANGED_NEW_AREA") then
-        MinArch.Companion:AutoToggle()
-		MinArch:RefreshLDBButton(event);
+        Companion:AutoToggle()
+		MinArchLDB:RefreshLDBButton();
 		return
 	end
 
 	if (event == "PLAYER_REGEN_ENABLED") then
-		MinArchMain:UnregisterEvent("PLAYER_REGEN_ENABLED");
-		MinArch:DisplayStatusMessage("Main update after combat", MINARCH_MSG_DEBUG);
+		Main.frame:UnregisterEvent("PLAYER_REGEN_ENABLED");
+		Common:DisplayStatusMessage("Main update after combat", MINARCH_MSG_DEBUG);
 	end
 
 	if (MinArch.IsReady == true) then
@@ -162,7 +180,7 @@ function MinArch:EventMain(event, ...)
 		end
 
         eventTimer = C_Timer.NewTimer(0.5, function()
-			MinArch:UpdateMain();
+			Main:Update();
             -- RequestArtifactCompletionHistory();
 			eventTimer = nil;
 		end)
@@ -170,43 +188,43 @@ function MinArch:EventMain(event, ...)
 end
 
 function MinArch:EventHist(event, ...)
-    MinArch:DisplayStatusMessage("EventHist: " .. event, MINARCH_MSG_DEBUG)
+    Common:DisplayStatusMessage("EventHist: " .. event, MINARCH_MSG_DEBUG)
 
 	if (event == "RESEARCH_ARTIFACT_HISTORY_READY") or (event == "GET_ITEM_INFO_RECEIVED") then
 		if (IsArtifactCompletionHistoryAvailable()) then
 			local allGood = true
 			for i = 1, ARCHAEOLOGY_NUM_RACES do
-				allGood = MinArch:LoadItemDetails(i, event .. " {i=" .. i .. "}") and allGood
+				allGood = History:LoadItemDetails(i, event .. " {i=" .. i .. "}") and allGood
 			end
 
 			if allGood then
 				-- all item info available, unregister this event
-				MinArch:DisplayStatusMessage("Minimal Archaeology - All items are loaded now (" .. event .. ").", MINARCH_MSG_DEBUG)
-				-- MinArchHist:UnregisterEvent(event)
-				MinArchHist:UnregisterEvent("GET_ITEM_INFO_RECEIVED")
+				Common:DisplayStatusMessage("Minimal Archaeology - All items are loaded now (" .. event .. ").", MINARCH_MSG_DEBUG)
+				-- History.frame:UnregisterEvent(event)
+				History.frame:UnregisterEvent("GET_ITEM_INFO_RECEIVED")
 			else
 				-- not all item info available, try again when more details have been received
-				MinArch:DisplayStatusMessage("Minimal Archaeology - Some items are not loaded yet (" .. event .. ").", MINARCH_MSG_DEBUG)
-				-- MinArchHist:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY")
-				MinArchHist:RegisterEvent("GET_ITEM_INFO_RECEIVED")
+				Common:DisplayStatusMessage("Minimal Archaeology - Some items are not loaded yet (" .. event .. ").", MINARCH_MSG_DEBUG)
+				-- History.frame:UnregisterEvent("RESEARCH_ARTIFACT_HISTORY_READY")
+				History.frame:RegisterEvent("GET_ITEM_INFO_RECEIVED")
 				return
 			end
 
 			for i = 1, ARCHAEOLOGY_NUM_RACES do
-				MinArch:GetHistory(i, event .. " {i=" .. i .. "}");
+				History:GetHistory(i, event .. " {i=" .. i .. "}");
 			end
 		else
-            MinArch:DisplayStatusMessage("Minimal Archaeology - Artifact completion history is not available yet (" .. event .. ").", MINARCH_MSG_DEBUG)
+            Common:DisplayStatusMessage("Minimal Archaeology - Artifact completion history is not available yet (" .. event .. ").", MINARCH_MSG_DEBUG)
             return;
 		end
 
-		MinArch:DelayedHistoryUpdate()
+		History:DelayedUpdate()
     end
 
 	if (event == "RESEARCH_ARTIFACT_COMPLETE") then
 		local artifactName = ...;
 		if (researchEventTimer ~= nil) then
-			MinArch:DisplayStatusMessage("RESEARCH_ARTIFACT_COMPLETE called too frequent, delaying by " .. historyUpdateTimout .. " seconds", MINARCH_MSG_DEBUG)
+			Common:DisplayStatusMessage("RESEARCH_ARTIFACT_COMPLETE called too frequent, delaying by " .. historyUpdateTimout .. " seconds", MINARCH_MSG_DEBUG)
 			researchEventTimer:Cancel();
 		end
 		researchEventTimer = C_Timer.NewTimer(historyUpdateTimout, function()
@@ -223,7 +241,7 @@ function MinArch:EventHist(event, ...)
 							MinArch.artifacts[RaceID].totalcomplete = details.totalcomplete
 						end
 
-    					return MinArch:DelayedHistoryUpdate()
+    					return History:DelayedUpdate()
 					end
 				end
 			end
@@ -234,50 +252,50 @@ end
 function MinArch:EventDigsites(event, ...)
 	if (event == "ARCHAEOLOGY_SURVEY_CAST") then
 		local _, _, branchID = ...;
-		local race = MinArch:GetRaceNameByBranchId(branchID);
+		local race = Common:GetRaceNameByBranchId(branchID);
 		if (race ~= nil) then
-			MinArch:UpdateActiveDigSitesRace(race);
-			MinArch:CreateDigSitesList(MinArch:GetInternalContId());
-			MinArch:CreateDigSitesList(MinArch:GetInternalContId());
+			Digsites:UpdateActiveDigSitesRace(race);
+			Digsites:CreateDigSitesList(Common:GetInternalContId());
+			Digsites:CreateDigSitesList(Common:GetInternalContId());
 		end
 		return;
 	elseif (event == "WORLD_MAP_UPDATE" and MinArch.IsReady == true) then
-		MinArch:ShowRaceIconsOnMap();
+		Digsites:ShowRaceIconsOnMap();
 		return;
 	end
 
 	-- TODO: internal events for updates
-	MinArch:UpdateActiveDigSites();
-	local ContID = MinArch:GetInternalContId();
+	Digsites:UpdateActiveDigSites();
+	local ContID = Common:GetInternalContId();
 
 	if (ContID ~= nil) then
-		MinArch:CreateDigSitesList(ContID);
-		MinArch:CreateDigSitesList(ContID);
+		Digsites:CreateDigSitesList(ContID);
+		Digsites:CreateDigSitesList(ContID);
 	end
 
 	if (event == "PLAYER_ENTERING_WORLD") then
-		MinArch:RefreshDigsiteWaypoints();
+		Navigation:RefreshDigsiteWaypoints();
 	end
 
 	if (--[[event == "ARTIFACT_DIGSITE_COMPLETE" or]] event == "RESEARCH_ARTIFACT_DIG_SITE_UPDATED") then
 		if (MinArch.db.profile.TomTom.autoWayOnComplete) then
-			MinArch:SetWayToNearestDigsite();
+			Navigation:SetWayToNearestDigsite();
 		end
 	end
 
 	if (event == "PLAYER_ENTERING_WORLD" or event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" or event == "ZONE_CHANGED_NEW_AREA") then
 		if (MinArch.db.profile.TomTom.autoWayOnMove) then
-			MinArch:SetWayToNearestDigsite();
+			Navigation:SetWayToNearestDigsite();
 		end
 	end
 
 	if (event == "TAXIMAP_OPENED") then
-		MinArch:UpdateFlightMap()
+		Digsites:UpdateFlightMap()
 	end
 
-	if event == "PLAYER_CONTROL_GAINED" and MinArch.waypointOnLanding then
-		MinArch.waypointOnLanding = false
-		MinArch:SetWayToNearestDigsite(true)
+	if event == "PLAYER_CONTROL_GAINED" and Navigation.waypointOnLanding then
+		Navigation.waypointOnLanding = false
+		Navigation:SetWayToNearestDigsite(true)
 	end
 end
 
@@ -286,18 +304,18 @@ function MinArch:MaineEventHideAfterDigsite()
 	if (MinArch.db.profile.waitForSolve == true) then
 		local wait = false;
 		for i=1,ARCHAEOLOGY_NUM_RACES do
-			MinArch:UpdateArtifact(i);
+			History:UpdateArtifact(i);
 			if (MinArch['artifacts'][i]['canSolve'] and MinArch.db.profile.raceOptions.hide[i] == false) then
 				wait = true;
 			end
 		end
 
 		if (wait == false) then
-			MinArch:HideMain();
+			Main:HideWindow();
 			MinArch.HideNext = false;
 		end
 	else
-		MinArch:HideMain();
+		Main:HideWindow();
 		MinArch.HideNext = false;
 	end
 end
@@ -310,19 +328,19 @@ function MinArch:MainEventAddonLoaded()
 	end
 
 	if (MinArch.db.profile.startHidden == true and not MinArch.overrideStartHidden) then
-		MinArch:HideMain();
+		Main:HideWindow();
 	end
 
 	if (MinArch.db.char.WindowStates.main == false) then
-		MinArch:HideMain();
+		Main:HideWindow();
 	end
 
 	if (MinArch.db.char.WindowStates.history == false or MinArch.db.profile.startHidden) then
-		MinArch:HideHistory();
+		History:HideWindow();
 	end
 
 	if (MinArch.db.char.WindowStates.digsites == false or MinArch.db.profile.startHidden) then
-		MinArch:HideDigsites();
+		Digsites:HideWindow();
 	end
 
 	-- discard old unknown digsites
@@ -347,7 +365,7 @@ end
 function MinArch:TrackingChanged(self)
 	-- update the map if digsites tracking has changed
 	if (self.value == "digsites") then
-		MinArch:ShowRaceIconsOnMap()
+		Digsites:ShowRaceIconsOnMap()
 	end
 end
 
@@ -355,7 +373,7 @@ function MinArch:MapLayerChanged(self)
 	-- update the map when map layer has changed
 	if (self.mapID ~= nil) then
 		C_Timer.After(0.11, function ()
-			MinArch:ShowRaceIconsOnMap()
+			Digsites:ShowRaceIconsOnMap()
 		end)
 	end
 end

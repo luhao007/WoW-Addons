@@ -1,18 +1,33 @@
-local ADDON, MinArch = ...
+local ADDON, _ = ...
+---@type MinArch
 
-MinArch.Options = MinArch.Ace:NewModule("Options");
+---@class MinArchOptions
+local Options = MinArch:LoadModule("MinArchOptions");
+---@type MinArchMain
+local Main = MinArch:LoadModule("MinArchMain")
+---@type MinArchDigsites
+local Digsites = MinArch:LoadModule("MinArchDigsites")
+---@type MinArchHistory
+local History = MinArch:LoadModule("MinArchHistory")
+---@type MinArchCompanion
+local Companion = MinArch:LoadModule("MinArchCompanion")
+---@type MinArchCommon
+local Common = MinArch:LoadModule("MinArchCommon")
+---@type MinArchLDB
+local MinArchLDB = MinArch:LoadModule("MinArchLDB")
+---@type MinArchNavigation
+local Navigation = MinArch:LoadModule("MinArchNavigation")
 
-local Options = MinArch.Options;
-local parent = MinArch;
+local L = LibStub("AceLocale-3.0"):GetLocale("MinArch")
 
 local ArchRaceGroupText = {
-	"Kul Tiras, Zuldazar",
-	"Broken Isles",
-	"Draenor",
-	"Pandaria",
-	"Northrend",
-	"Outland",
-	"Eastern Kingdoms, Kalimdor"
+	L["GLOBAL_KUL_TIRAS"] .. ", " .. L["GLOBAL_ZANDALAR"],
+	L["GLOBAL_BROKEN_ISLES"],
+	L["GLOBAL_DRAENOR"],
+	L["GLOBAL_PANDARIA"],
+	L["GLOBAL_NORTHREND"],
+	L["GLOBAL_OUTLAND"],
+	L["GLOBAL_EASTERN_KINGDOMS"] .. ", " .. L["GLOBAL_KALIMDOR"]
 };
 
 local ArchRaceGroups = {
@@ -35,7 +50,7 @@ local function updateOrdering(frame, newValue)
     end
 
     MinArch.db.profile.companion.features[frame].order = newValue;
-    MinArch.Companion:Update();
+    Companion:Update();
 end
 
 
@@ -98,66 +113,66 @@ local home = {
 	args = {
         message = {
             type = "description",
-            name = "Thanks for using Minimal Archaeology",
+            name = L["OPTIONS_THANKS"],
             fontSize = "small",
             width = "full",
             order = 1,
         },
 		info = {
             type = "description",
-            name = "For configration options, please expand the Minimal Archaeology section on the left. Here's an overview for the addon and the settings:",
+            name = L["OPTIONS_INTRO"],
             fontSize = "small",
             width = "full",
             order = 2,
         },
 		general = {
 			type = "group",
-            name = "General Settings - Main windows",
+            name = L["OPTIONS_GENERAL_MAIN_TITLE"],
             inline = true,
             order = 3,
 			args = {
 				message = {
 					type = "description",
-					name = "Open this section to configure |cFFF96854double right click surveying|r, and the |cFFF96854Main|r, |cFFF96854History|r and |cFFF96854Digsites|r windows. If you're unfamiliar with MinArch, click the buttons below to toggle each specific window.",
+					name = L["OPTIONS_GENERAL_MAIN_WINDOWS"],
 					fontSize = "small",
 					width = "full",
 					order = 1,
 				},
 				main = {
 					type = "execute",
-					name = "Toggle Main",
+					name = L["OPTIONS_TOGGLE_MAIN"],
 					order = 2,
 					func = function ()
-						MinArchMain:Toggle()
+						Main:ToggleWindow()
 					end,
                 },
                 digsites = {
 					type = "execute",
-					name = "Toggle History",
+					name = L["OPTIONS_TOGGLE_HISTORY"],
 					order = 3,
 					func = function ()
-						MinArchHist:Toggle()
+						History:ToggleWindow()
 					end,
 				},
 				history = {
 					type = "execute",
-					name = "Toggle Digsites",
+					name = L["OPTIONS_TOGGLE_DIGSITES"],
 					order = 4,
 					func = function ()
-						MinArchDigsites:Toggle()
+						Digsites:ToggleWindow()
 					end,
 				},
 			}
 		},
 		companion = {
 			type = "group",
-            name = "Companion Settings",
+            name = L["OPTIONS_COMPANION_TITLE"],
             inline = true,
             order = 4,
 			args = {
 				message = {
 					type = "description",
-					name = "The |cFFF96854Companion|r is a tiny floating window that features a skill bar, distance tracker, and buttons for waypoints, solves, crates and a button for summoning a random mount. Each button can be disabled and you can also customize their order. The Companion has separate scaling and auto-show/auto-hide functionality from the rest of the windows.",
+					name = L["OPTIONS_COMPANION_DESCRIPTION"],
 					fontSize = "small",
 					width = "full",
 					order = 1,
@@ -166,13 +181,13 @@ local home = {
 		},
 		race = {
 			type = "group",
-            name = "Race Settings",
+            name = L["OPTIONS_RACE_TITLE"],
             inline = true,
             order = 5,
 			args = {
 				message = {
 					type = "description",
-					name = "Race related options: |cFFF96854hide|r or |cFFF96854prioritizy|r races, set |cFFF96854farming mode|r or enable |cFFF96854automatic keystone|r application.",
+					name = L["OPTIONS_RACE_DESCRIPTION"],
 					fontSize = "small",
 					width = "full",
 					order = 1,
@@ -182,13 +197,13 @@ local home = {
 
 		navigation = {
 			type = "group",
-            name = "Navigation Settings",
+            name = L["OPTIONS_NAVIGATION_TITLE"],
             inline = true,
             order = 6,
 			args = {
 				message = {
 					type = "description",
-					name = "Options for |cFFF96854TomTom|r integration and Blizzard |cFFF96854Waypoint|r system support (if available).",
+					name = L["OPTIONS_NAVIGATION_DESCRIPTION"],
 					fontSize = "small",
 					width = "full",
 					order = 1,
@@ -199,20 +214,20 @@ local home = {
 }
 
 local general = {
-	name = "General Settings",
+	name = L["OPTIONS_GENERAL_TITLE"],
 	handler = MinArch,
 	type = "group",
 	args = {
         surveying = {
             type = "group",
-            name = "Surveying",
+            name = L["OPTIONS_SURVEYING_TITLE"],
             inline = true,
             order = 3,
             args = {
                 dblClick = {
 					type = "toggle",
-					name = "Survey on Double Right Click",
-					desc = "Enable to cast survey when you double-click with your right mouse button.",
+					name = L["OPTIONS_SURVEY_ON_DBL_RCLICK_TITLE"],
+					desc = L["OPTIONS_SURVEY_ON_DBL_RCLICK_DESC"],
 					get = function () return MinArch.db.profile.surveyOnDoubleClick end,
 					set = function (_, newValue)
 						MinArch.db.profile.surveyOnDoubleClick = newValue;
@@ -222,8 +237,8 @@ local general = {
                 },
                 disableMounted = {
                     type = "toggle",
-					name = "Don't cast while mounted",
-					desc = "Check this option to prevent casting survey while you're mounted.",
+					name = L["OPTIONS_SURVEY_DONT_MOUNTED_TITLE"],
+					desc = L["OPTIONS_SURVEY_DONT_MOUNTED_DESC"],
 					get = function () return MinArch.db.profile.dblClick.disableMounted end,
 					set = function (_, newValue)
 						MinArch.db.profile.dblClick.disableMounted = newValue;
@@ -233,8 +248,8 @@ local general = {
                 },
                 disableInFlight = {
                     type = "toggle",
-					name = "Don't cast while flying",
-					desc = "Check this option to prevent casting survey while you're flying.",
+					name = L["OPTIONS_SURVEY_DONT_FLYING_TITLE"],
+					desc = L["OPTIONS_SURVEY_DONT_FLYING_DESC"],
 					get = function () return MinArch.db.profile.dblClick.disableInFlight end,
 					set = function (_, newValue)
 						MinArch.db.profile.dblClick.disableInFlight = newValue;
@@ -243,10 +258,10 @@ local general = {
 					order = 3,
                 },
 				doubleClickButton = {
-					name = 'Double click button',
-					desc = "Button for double click surveying.",
+					name = L["OPTIONS_SURVEY_ON_DBL_CLICK_BTN_TITLE"],
+					desc = L["OPTIONS_SURVEY_ON_DBL_CLICK_BTN_DESC"],
 					type = "select",
-					values = {[1] = 'Right Mouse Button', [2] = 'Left Mouse Button'},
+					values = {[1] = L["OPTIONS_SURVEY_ON_DBL_CLICK_BTN_RMB"], [2] = L["OPTIONS_SURVEY_ON_DBL_CLICK_BTN_LMB"]},
 					get = function () return MinArch.db.profile.dblClick.button end,
 					set = function (_, newValue)
 						MinArch.db.profile.dblClick.button = newValue;
@@ -258,21 +273,21 @@ local general = {
         },
 		misc = {
 			type = 'group',
-			name = 'Miscellaneous options',
+			name = L["OPTIONS_MISC_TITLE"],
 			inline = true,
 			order = 4,
 			args = {
 				scale = {
 					type = "range",
-					name = "Window Scale",
-					desc = "Scale for the Main, History and Digsites windows. The Companion is scaled using a separate slider in the Companion section.",
+					name = L["OPTIONS_WINDOW_SCALE_TITLE"],
+					desc = L["OPTIONS_WINDOW_SCALE_DESC"],
 					min = 30,
 					max = 200,
 					step = 5,
 					get = function () return MinArch.db.profile.frameScale end,
 					set = function (_, newValue)
 						MinArch.db.profile.frameScale = newValue;
-						MinArch:CommonFrameScale(newValue);
+						Common:FrameScale(newValue);
 					end,
 					order = 1,
 				},
@@ -286,20 +301,20 @@ local general = {
 				},
 				hideMinimapButton = {
 					type = "toggle",
-					name = "Hide Minimap Button",
-					desc = "Hide the minimap button",
+					name = L["OPTIONS_HIDE_MINIMAPBUTTON_TITLE"],
+					desc = L["OPTIONS_HIDE_MINIMAPBUTTON_DESC"],
 					get = function () return MinArch.db.profile.minimap.hide end,
 					set = function (_, newValue)
 						MinArch.db.profile.minimap.hide = newValue;
 
-						MinArch:RefreshMinimapButton();
+						MinArchLDB:RefreshMinimapButton();
 					end,
 					order = 3,
 				},
 				disableSound = {
 					type = "toggle",
-					name = "Disable Sound",
-					desc = "Disable the sound that is played when an artifact can be solved.",
+					name = L["OPTIONS_DISABLE_SOUND_TITLE"],
+					desc = L["OPTIONS_DISABLE_SOUND_DESC"],
 					get = function () return MinArch.db.profile.disableSound end,
 					set = function (_, newValue)
 						MinArch.db.profile.disableSound = newValue;
@@ -308,12 +323,12 @@ local general = {
 				},
 				showWorldMapOverlay = {
 					type = "toggle",
-					name = "Show world map overlay icons",
-					desc = "Show race icons next to digsites on the world map.",
+					name = L["OPTIONS_SHOW_WORLD_MAP_ICONS_TITLE"],
+					desc = L["OPTIONS_SHOW_WORLD_MAP_ICONS_DESC"],
 					get = function () return MinArch.db.profile.showWorldMapOverlay end,
 					set = function (_, newValue)
 						MinArch.db.profile.showWorldMapOverlay = newValue;
-						MinArch:ShowRaceIconsOnMap();
+						Digsites:ShowRaceIconsOnMap();
 					end,
 
 					width = "double",
@@ -321,8 +336,8 @@ local general = {
 				},
 				pinScale = {
 					type = "range",
-					name = "Map Pin Scale",
-					desc = "Scale for the digsite icons on the world map. Reopen your map after changing.",
+					name = L["OPTIONS_MAP_PIN_SCALE_TITLE"],
+					desc = L["OPTIONS_MAP_PIN_SCALE_DESC"],
 					min = 50,
 					max = 500,
 					step = 5,
@@ -338,21 +353,21 @@ local general = {
         },
         startup = {
             type = "group",
-            name = "Startup settings",
+            name = L["OPTIONS_STARTUP_SETTINGS_TITLE"],
             inline = true,
             order = 5,
             args = {
 				note = {
                     type = "description",
-                    name = "Note: these settings do not affect the Companion frame.",
+                    name = L["OPTIONS_STARTUP_NOTE"],
                     -- fontSize = "small",
                     width = "full",
                     order = 1,
 			    },
                 startHidden = {
 					type = "toggle",
-					name = "Start Hidden",
-					desc = "Always start Minimal Archaeology hidden.",
+					name = L["OPTIONS_START_HIDDEN_TITLE"],
+					desc = L["OPTIONS_START_HIDDEN_DESC"],
 					get = function () return MinArch.db.profile.startHidden end,
 					set = function (_, newValue)
 						MinArch.db.profile.startHidden = newValue;
@@ -361,8 +376,8 @@ local general = {
 				},
 				rememberState = {
 					type = "toggle",
-					name = "Remember window states",
-					desc = "Rembember which MinArch windows were open when logging out (or reloading UI).",
+					name = L["OPTIONS_REMEMBER_WINDOW_STATES_TITLE"],
+					desc = L["OPTIONS_REMEMBER_WINDOW_STATES_DESC"],
 					get = function () return MinArch.db.profile.rememberState end,
 					disabled = function () return MinArch.db.profile.startHidden end,
 					set = function (_, newValue)
@@ -375,21 +390,21 @@ local general = {
 		},
 		autoHide = {
 			type = "group",
-			name = "Auto-hide main window",
+			name = L["OPTIONS_AUTOHIDE_TITLE"],
 			inline = true,
 			order = 6,
 			args = {
 			    note = {
                     type = "description",
-                    name = "Note: these settings do not affect the Companion frame.",
+                    name = L["OPTIONS_STARTUP_NOTE"],
                     -- fontSize = "small",
                     width = "full",
                     order = 1,
 			    },
 				hideAfterDigsite = {
 					type = "toggle",
-					name = "Auto-hide after digsites",
-					desc = "Hide Minimal Archaeology after completing a digsite.",
+					name = L["OPTIONS_HIDE_AFTER_DIGSITES_TITLE"],
+					desc = L["OPTIONS_HIDE_AFTER_DIGSITES_DESC"],
 					get = function () return MinArch.db.profile.hideAfterDigsite end,
 					set = function (_, newValue)
 						MinArch.db.profile.hideAfterDigsite = newValue;
@@ -398,8 +413,8 @@ local general = {
 				},
 				waitForSolve = {
 					type = "toggle",
-					name = "Wait to solve artifacts",
-					desc = "Wait until all artifacts are solved before auto-hiding.",
+					name = L["OPTIONS_HIDE_WATE_FOR_SOLVES_TITLE"],
+					desc = L["OPTIONS_HIDE_WATE_FOR_SOLVES_DESC"],
 					get = function () return MinArch.db.profile.waitForSolve end,
 					set = function (_, newValue)
 						MinArch.db.profile.waitForSolve = newValue;
@@ -409,8 +424,8 @@ local general = {
 				},
 				hideInCombat = {
 					type = "toggle",
-					name = "Auto-hide in combat",
-					desc = "Hide Minimal Archaeology when combat starts, and re-open it after combat.",
+					name = L["OPTIONS_HIDE_IN_COMBAT_DESC"],
+					desc = L["OPTIONS_HIDE_IN_COMBAT_TITLE"],
 					get = function () return MinArch.db.profile.hideInCombat end,
 					set = function (_, newValue)
 						MinArch.db.profile.hideInCombat = newValue;
@@ -421,14 +436,14 @@ local general = {
 		},
 		autoShow = {
 			type = 'group',
-			name = 'Auto-show main window',
+			name = L["OPTIONS_AUTOSHOW_TITLE"],
 			inline = true,
 			order = 7,
 			args = {
 				autoShowInDigsites = {
 					type = "toggle",
-					name = "Show in digsites",
-					desc = "Auto-show Minimal Archaeology when moving around in a digsite.",
+					name = L["OPTIONS_AUTOSHOW_DIGSITES_TITLE"],
+					desc = L["OPTIONS_AUTOSHOW_DIGSITES_DESC"],
 					get = function () return MinArch.db.profile.autoShowInDigsites end,
 					set = function (_, newValue)
 						MinArch.db.profile.autoShowInDigsites = newValue;
@@ -438,8 +453,8 @@ local general = {
 				},
 				autoShowOnSurvey = {
 					type = "toggle",
-					name = "Show when surveying",
-					desc = "Auto-show Minimal Archaeology when surveying in a digsite.",
+					name = L["OPTIONS_AUTOSHOW_SURVEY_TITLE"],
+					desc = L["OPTIONS_AUTOSHOW_SURVEY_DESC"],
 					get = function () return MinArch.db.profile.autoShowOnSurvey end,
 					set = function (_, newValue)
 						MinArch.db.profile.autoShowOnSurvey = newValue;
@@ -449,8 +464,8 @@ local general = {
 				},
 				autoShowOnSolve = {
 					type = "toggle",
-					name = "Show for solves",
-					desc = "Auto-show Minimal Archaeology when a solve becomes available.",
+					name = L["OPTIONS_AUTOSHOW_SOLVES_TITLE"],
+					desc = L["OPTIONS_AUTOSHOW_SOLVES_DESC"],
 					get = function () return MinArch.db.profile.autoShowOnSolve end,
 					set = function (_, newValue)
 						MinArch.db.profile.autoShowOnSolve = newValue;
@@ -459,8 +474,8 @@ local general = {
 				},
 				autoShowOnCap = {
 					type = "toggle",
-					name = "Show on cap",
-					desc = "Auto-show Minimal Archaeology when the fragment cap is reached with a race.",
+					name = L["OPTIONS_AUTOSHOW_CAP_TITLE"],
+					desc = L["OPTIONS_AUTOSHOW_CAP_DESC"],
 					get = function () return MinArch.db.profile.autoShowOnCap end,
 					set = function (_, newValue)
 						MinArch.db.profile.autoShowOnCap = newValue;
@@ -471,44 +486,44 @@ local general = {
         },
         history = {
 			type = 'group',
-			name = 'History Window settings',
+			name = L["OPTIONS_HISTORY_WINDOW_TITLE"],
 			inline = true,
 			order = 8,
 			args = {
                 autoResize = {
 					type = "toggle",
-					name = "Auto-resize",
-					desc = "Enable to automatically resize the history window to fit all items",
+					name = L["OPTIONS_HISTORY_AUTORESIZE_TITLE"],
+					desc = L["OPTIONS_HISTORY_AUTORESIZE_DESC"] ,
 					get = function () return MinArch.db.profile.history.autoResize end,
 					set = function (_, newValue)
                         MinArch.db.profile.history.autoResize = newValue;
-                        MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "Options");
+                        History:CreateHistoryList(MinArchOptions['CurrentHistPage'], "Options");
 					end,
 					order = 1,
 				},
 				showStats = {
 					type = "toggle",
-					name = "Show statistics",
-					desc = "Show progress and number of total solves for each race.",
+					name = L["OPTIONS_HISTORY_SHOW_STATS_TITLE"],
+					desc = L["OPTIONS_HISTORY_SHOW_STATS_DESC"],
 					get = function () return MinArch.db.profile.history.showStats end,
 					set = function (_, newValue)
                         MinArch.db.profile.history.showStats = newValue;
 						if newValue then
-							MinArchHist.statsFrame:Show()
+							History.statsFrame:Show()
 						else
-							MinArchHist.statsFrame:Hide()
+							History.statsFrame:Hide()
 						end
 					end,
 					order = 2,
 				},
 				groupByProgress = {
 					type = "toggle",
-					name = "Group by progress",
-					desc = "If enabled, artifacts will be grouped by progress: current > incomplete > completed.",
+					name = L["OPTIONS_HISTORY_GROUP_TITLE"],
+					desc = L["OPTIONS_HISTORY_GROUP_DESC"],
 					get = function () return MinArch.db.profile.history.groupByProgress end,
 					set = function (_, newValue)
                         MinArch.db.profile.history.groupByProgress = newValue;
-                        MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "Options");
+                        History:CreateHistoryList(MinArchOptions['CurrentHistPage'], "Options");
 					end,
 					order = 3,
 				},
@@ -518,60 +533,60 @@ local general = {
 }
 
 local raceSettings = {
-	name = "Race Settings",
+	name = L["OPTIONS_RACE_SECTION_TITLE"],
 	handler = MinArch,
 	type = "group",
 	childGroups = "tab",
 	args = {
 		relevancy = {
 			type = 'group',
-			name = 'Relevancy',
+			name = L["OPTIONS_RACE_RELEVANCY_TITLE"],
 			inline = false,
 			order = 1,
 			args = {
 				message = {
 					type = "description",
-					name = "Customize which races you would like to be displayed in the Main window when the relevant races switch is toggled.\n",
+					name = L["OPTIONS_RACE_RELEVANCY_DESC"],
 					fontSize = "medium",
 					width = "full",
 					order = 1,
 				},
 				relevancySub = {
 					type = 'group',
-					name = 'Customize relevancy',
+					name = L["OPTIONS_RACE_RELEVANCY_CUSTOMIZE"],
 					order = 2,
 					inline = true,
 					args = {
 						nearby = {
 							type = "toggle",
-							name = "Available nearby",
-							desc = "Show races which have currently available digsites on your current continent.",
+							name = L["OPTIONS_RACE_RELEVANCY_NEARBY_TITLE"],
+							desc = L["OPTIONS_RACE_RELEVANCY_NEARBY_DESC"],
 							get = function () return MinArch.db.profile.relevancy.nearby end,
 							set = function (_, newValue)
 								MinArch.db.profile.relevancy.nearby = newValue;
-								MinArch:UpdateMain();
+								Main:Update();
 							end,
 							order = 1,
 						},
 						continentSpecific = {
 							type = "toggle",
-							name = "Expansion-specific",
-							desc = "Show races which could be available on your current continent (or expansion), even if they don't have an active digsite at the moment.",
+							name = L["OPTIONS_RACE_RELEVANCY_EXPANSION_TITLE"],
+							desc = L["OPTIONS_RACE_RELEVANCY_EXPANSION_DESC"],
 							get = function () return MinArch.db.profile.relevancy.continentSpecific end,
 							set = function (_, newValue)
 								MinArch.db.profile.relevancy.continentSpecific = newValue;
-								MinArch:UpdateMain();
+								Main:Update();
 							end,
 							order = 2,
 						},
 						solvable = {
 							type = "toggle",
-							name = "Solvable",
-							desc = "Show races which have a solve available, even if they're neither available nor related to your current continent.",
+							name = L["OPTIONS_RACE_RELEVANCY_SOLVABLE_TITLE"],
+							desc = L["OPTIONS_RACE_RELEVANCY_SOLVABLE_DESC"],
 							get = function () return MinArch.db.profile.relevancy.solvable end,
 							set = function (_, newValue)
 								MinArch.db.profile.relevancy.solvable = newValue;
-								MinArch:UpdateMain();
+								Main:Update();
 							end,
 							order = 3,
                         },
@@ -579,18 +594,18 @@ local raceSettings = {
                 },
                 relevancyOverrides = {
 					type = 'group',
-					name = 'Relevancy overrides',
+					name = L["OPTIONS_RACE_RELEVANCY_OVERRIDES_TITLE"],
 					order = 2,
 					inline = true,
 					args = {
                         hideCapped = {
                             type = "toggle",
-							name = "Hide irrelevant solves for races set to Farming mode (fragment-capped)",
-							desc = "Enable to treat races with farming mode enabled (fragment-capped) as irrelevant when they have a solve available, but they would be irrelevant based on other relevancy settings.",
+							name = L["OPTIONS_RACE_RELEVANCY_OVERRIDE_FRAGCAP_TITLE"],
+							desc = L["OPTIONS_RACE_RELEVANCY_OVERRIDE_FRAGCAP_DESC"],
 							get = function () return MinArch.db.profile.relevancy.hideCapped end,
 							set = function (_, newValue)
 								MinArch.db.profile.relevancy.hideCapped = newValue;
-                                MinArch:UpdateMain();
+                                Main:Update();
                             end,
                             width = "full",
 							order = 5,
@@ -601,26 +616,26 @@ local raceSettings = {
 		},
 		hide = {
 			type = "group",
-			name = "Hide",
+			name = L["OPTIONS_RACE_HIDE_TITLE"],
 			order = 2,
 			inline = false,
 			args = {
 				message = {
 					type = "description",
-					name = "Check races you would like to hide at all times. This overrides relevancy settings.\n\n Hidden races won't show up in the main window, and the Companion will not show solves for them.",
+					name = L["OPTIONS_RACE_HIDE_DESC"],
 					fontSize = "medium",
 					width = "full",
 					order = 1,
 				},
 				wpIgnoreHidden = {
 					type = "toggle",
-					name = "Ignore hidden races when creating waypoints",
-					desc = "Enable this to also ignore hidden races when creating waypoints.",
+					name = L["OPTIONS_RACE_HIDE_WPIGNORE_TITLE"],
+					desc = L["OPTIONS_RACE_HIDE_WPIGNORE_DESC"],
 					get = function () return MinArch.db.profile.TomTom.ignoreHidden end,
                     set = function (_, newValue)
 						MinArch.db.profile.TomTom.ignoreHidden = newValue;
 					end,
-                    disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
+                    disabled = function () return (Navigation:IsNavigationEnabled() == false) end,
 					width = "full",
 					order = 2,
                 },
@@ -628,13 +643,13 @@ local raceSettings = {
 		},
 		cap = {
 			type = "group",
-			name = "Farming mode",
+			name = L["OPTIONS_RACE_CAP_TITLE"],
 			order = 3,
 			inline = false,
 			args = {
 				message = {
 					type = "description",
-					name = "If you enable farming mode for a race, the Main window will show the fragment cap for the race instead of the fragments required for the current solve. Useful for collecting fossil fragments for Darkmoon Faire.",
+					name = L["OPTIONS_RACE_CAP_DESC"],
 					fontSize = "medium",
 					width = "full",
 					order = 1,
@@ -642,8 +657,8 @@ local raceSettings = {
                 solveConfirmation = {
                     width = "full",
 					type = "toggle",
-					name = "Show confirmation for fragment-capped solves",
-					desc = "Show confirmation before solving artifacts for races with farming mode enabled",
+					name = L["OPTIONS_RACE_CAP_CONFIRM_TITLE"],
+					desc = L["OPTIONS_RACE_CAP_CONFIRM_DESC"],
 					get = function () return MinArch.db.profile.showSolvePopup end,
 					set = function (_, newValue)
 						MinArch.db.profile.showSolvePopup = newValue;
@@ -654,13 +669,13 @@ local raceSettings = {
 		},
 		keystone = {
 			type = "group",
-			name = "Auto-keystone",
+			name = L["OPTIONS_RACE_CAP_KEYSTONE_TITLE"],
 			order = 4,
 			inline = false,
 			args = {
 				message = {
 					type = "description",
-					name = "Automatically applies keystones (uncommon fragments) for checked races.",
+					name = L["OPTIONS_RACE_CAP_KEYSTONE_DESC"],
 					fontSize = "medium",
 					width = "full",
 					order = 1,
@@ -669,26 +684,26 @@ local raceSettings = {
 		},
 		priority = {
 			type = "group",
-			name = "Priority",
+			name = L["OPTIONS_RACE_CAP_PRIORITY_TITLE"],
 			order = 5,
 			inline = false,
 			args = {
 				message = {
 					type = "description",
-					name = "Priority currently only applies to waypoint generation order. Automatic waypoints will point to the prioritized races before pointing to other (otherwise closer) digsites. Smaller number means higher priority.",
+					name = L["OPTIONS_RACE_CAP_PRIORITY_DESC"],
 					fontSize = "medium",
 					width = "full",
 					order = 1,
 				},
 				reset = {
 					type = "execute",
-					name = "Reset All",
+					name = L["OPTIONS_RACE_CAP_PRIORITY_RESETALL"],
 					order = 2,
 					func = function ()
 						for i=1, ARCHAEOLOGY_NUM_RACES do
 							MinArch.db.profile.raceOptions.priority[i] = nil
 						end
-						MinArch:UpdateMain();
+						Main:Update();
 					end,
 				}
 			}
@@ -697,150 +712,149 @@ local raceSettings = {
 }
 
 local companionSettings = {
-    name = "Companion Settings",
+    name = L["OPTIONS_COMPANION_TITLE"],
 	handler = MinArch,
 	type = "group",
 	args = {
         general = {
 			type = "group",
-			name = "General settings",
+			name = L["OPTIONS_COMPANION_GENERAL_TITLE"],
 			order = 1,
 			inline = true,
 			args = {
                 enable = {
 					type = "toggle",
-					name = "Enable the Companion frame",
-                    desc = "Toggles the Companion frame plugin of MinArch. The companion is a tiny frame with a distance tracker and waypoint/survey/solve/crate buttons.",
+					name = L["OPTIONS_COMPANION_GENERAL_ENABLE_TITLE"],
+                    desc = L["OPTIONS_COMPANION_GENERAL_ENABLE_DESC"],
                     width = 1.5,
 					get = function () return MinArch.db.profile.companion.enable end,
 					set = function (_, newValue)
 						MinArch.db.profile.companion.enable = newValue;
 
 						if (newValue) then
-							MinArch.Companion:Enable();
+							Companion:Enable();
 						else
-							MinArch.Companion:Disable();
+							Companion:Disable();
 						end
 					end,
 					order = 1,
 				},
 				alwaysShow = {
 					type = "toggle",
-					name = "Always show",
-					desc = "Enable to always show the companion frame, even if you're not in a digsite (except in instances and if 'Hide in combat' is enabled).",
+					name = L["OPTIONS_COMPANION_GENERAL_ALWAYS_SHOW_TITLE"],
+					desc = L["OPTIONS_COMPANION_GENERAL_ALWAYS_SHOW_DESC"],
 					get = function () return MinArch.db.profile.companion.alwaysShow end,
 					set = function (_, newValue)
                         MinArch.db.profile.companion.alwaysShow = newValue;
-                        MinArch.Companion:AutoToggle()
+                        Companion:AutoToggle()
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
 					order = 2,
                 },
                 hideInCombat = {
                     type = "toggle",
-                    name = "Hide in combat",
-                    desc = "Enable to hide in combat (even if alway show is enabled).",
+                    name = L["OPTIONS_COMPANION_GENERAL_HIDEINCOMBAT_TITLE"],
+                    desc = L["OPTIONS_COMPANION_GENERAL_HIDEINCOMBAT_DESC"],
                     get = function () return MinArch.db.profile.companion.hideInCombat end,
                     set = function (_, newValue)
                         MinArch.db.profile.companion.hideInCombat = newValue;
-                        MinArch.Companion:AutoToggle()
+                        Companion:AutoToggle()
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 3,
                 },
 				hideWhenUnavailable = {
                     type = "toggle",
-                    name = "Hide when unavailable",
-                    desc = "Enable to hide when there are no digsites available on the world map.",
+                    name = L["OPTIONS_COMPANION_GENERAL_HIDENA_TITLE"],
+                    desc = L["OPTIONS_COMPANION_GENERAL_HIDENA_DESC"],
                     get = function () return MinArch.db.profile.companion.hideWhenUnavailable end,
                     set = function (_, newValue)
                         MinArch.db.profile.companion.hideWhenUnavailable = newValue;
-                        MinArch.Companion:AutoToggle()
+                        Companion:AutoToggle()
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 3,
                 },
                 hrC = {
                     type = "description",
-                    name = "|nColoring",
+                    name = L["OPTIONS_COMPANION_GENERAL_COLORING_TITLE"],
                     width = "full",
                     order = 4,
                 },
                 background = {
                     type = "color",
-                    name = "Background color",
+                    name = L["OPTIONS_COMPANION_GENERAL_COLORING_BG_TITLE"],
                     get = function () return MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b end,
                     set = function (_, r, g, b, a)
                         MinArch.db.profile.companion.bg.r = r;
                         MinArch.db.profile.companion.bg.g = g;
                         MinArch.db.profile.companion.bg.b = b;
-                        MinArchCompanion:Update();
+                        Companion:Update();
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 5,
                 },
                 bgOpacity = {
                     type = "range",
-                    name = "Background opacity",
-                    desc = "Set the size of the companion. Default: 50%.",
+                    name = L["OPTIONS_COMPANION_GENERAL_COLORING_OPACITY_TITLE"],
                     min = 0,
                     max = 100,
                     step = 1,
                     get = function () return MinArch.db.profile.companion.bg.a * 100 end,
                     set = function (_, newValue)
                         MinArch.db.profile.companion.bg.a = newValue / 100;
-                        MinArch.Companion:Update();
+                        Companion:Update();
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 6,
                 },
                 hr = {
                     type = "description",
-                    name = "Sizing",
+                    name = L["OPTIONS_COMPANION_GENERAL_SIZING_TITLE"],
                     width = "full",
                     order = 97,
                 },
                 buttonSpacing = {
                     type = "range",
-                    name = "Button spacing",
-                    desc = "Set the size of the spacing between buttons. Default: 2.",
+                    name = L["OPTIONS_COMPANION_GENERAL_SIZING_SPACING_TITLE"],
+                    desc = L["OPTIONS_COMPANION_GENERAL_SIZING_SPACING_DESC"],
                     min = 0,
                     max = 20,
                     step = 1,
                     get = function () return MinArch.db.profile.companion.buttonSpacing end,
                     set = function (_, newValue)
                         MinArch.db.profile.companion.buttonSpacing = newValue;
-                        MinArch.Companion:Update();
+                        Companion:Update();
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 98,
                 },
                 padding = {
                     type = "range",
-                    name = "Padding size",
-                    desc = "Set the size of the padding of the Companion frame. Default: 3.",
+                    name = L["OPTIONS_COMPANION_GENERAL_SIZING_PADDING_TITLE"],
+                    desc = L["OPTIONS_COMPANION_GENERAL_SIZING_PADDING_DESC"],
                     min = 0,
                     max = 20,
                     step = 1,
                     get = function () return MinArch.db.profile.companion.padding end,
                     set = function (_, newValue)
                         MinArch.db.profile.companion.padding = newValue;
-                        MinArch.Companion:Update();
+                        Companion:Update();
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 98,
                 },
                 scale = {
                     type = "range",
-                    name = "Companion scale",
-                    desc = "Set the size of the companion. Default: 100.",
+                    name = L["OPTIONS_COMPANION_GENERAL_SIZING_SCALE_TITLE"],
+                    desc = L["OPTIONS_COMPANION_GENERAL_SIZING_SCALE_DESC"],
                     min = 30,
                     max = 300,
                     step = 5,
                     get = function () return MinArch.db.profile.companion.frameScale end,
                     set = function (_, newValue)
                         MinArch.db.profile.companion.frameScale = newValue;
-                        MinArch.Companion:SetFrameScale(newValue);
+                        Companion:SetFrameScale(newValue);
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 99,
@@ -849,14 +863,14 @@ local companionSettings = {
         },
         positioning = {
             type = "group",
-            name = "Positioning",
+            name = L["OPTIONS_COMPANION_POSITION_TITLE"],
             order = 2,
             inline = true,
             args = {
                 lock = {
 					type = "toggle",
-					name = "Lock in place",
-					desc = "Disables dragging on the companion frame, but you can still move it by modifying the offset manually on this options page.",
+					name = L["OPTIONS_COMPANION_POSITION_LOCK_TITLE"],
+					desc = L["OPTIONS_COMPANION_POSITION_LOCK_DESC"],
 					get = function () return MinArch.db.profile.companion.lock end,
 					set = function (_, newValue)
                         MinArch.db.profile.companion.lock = newValue;
@@ -872,13 +886,13 @@ local companionSettings = {
                 },
                 savePos = {
 					type = "toggle",
-					name = "Save position in profile",
-					desc = "Enable to save position in settings profile so the companion will be in the same spot on all your characters using the same settings profile.",
+					name = L["OPTIONS_COMPANION_POSITION_SAVEPOS_TITLE"],
+					desc = L["OPTIONS_COMPANION_POSITION_SAVEPOS_DESC"],
 					get = function () return MinArch.db.profile.companion.savePos end,
 					set = function (_, newValue)
                         MinArch.db.profile.companion.savePos = newValue;
                         if newValue then
-                            MinArch.Companion:SavePosition()
+                            Companion:SavePosition()
                         end
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
@@ -886,16 +900,16 @@ local companionSettings = {
                 },
                 x = {
 					type = "input",
-					name = "Horizontal offset",
-					desc = "Horizontal position on the screen",
+					name = L["OPTIONS_COMPANION_POSITION_HOFFSET_TITLE"],
+					desc = L["OPTIONS_COMPANION_POSITION_HOFFSET_DESC"],
 					get = function () return tostring(MinArch.db.profile.companion.posX) end,
                     set = function (_, newValue)
                         if (MinArch.db.profile.companion.enable and MinArch.db.profile.companion.savePos) then
                             MinArch.db.profile.companion.posX = tonumber(newValue);
-                            local point, relativeTo, relativePoint, xOfs, yOfs = MinArchCompanion:GetPoint();
-                            MinArch.Companion:ClearAllPoints();
-                            MinArch.Companion:SetPoint(point, UIParent, relativePoint, tonumber(newValue), yOfs);
-                            MinArch.Companion:SavePosition()
+                            local point, relativeTo, relativePoint, xOfs, yOfs = Companion.frame:GetPoint();
+                            Companion.frame:ClearAllPoints();
+                            Companion.frame:SetPoint(point, UIParent, relativePoint, tonumber(newValue), yOfs);
+                            Companion.frame:SavePosition()
                         end
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false or MinArch.db.profile.companion.savePos == false) end,
@@ -903,16 +917,16 @@ local companionSettings = {
                 },
                 y = {
 					type = "input",
-					name = "Vertical offset",
-					desc = "Vertical position on the screen",
+					name = L["OPTIONS_COMPANION_POSITION_VOFFSET_TITLE"],
+					desc = L["OPTIONS_COMPANION_POSITION_VOFFSET_DESC"],
 					get = function () return tostring(MinArch.db.profile.companion.posY) end,
                     set = function (_, newValue)
                         if (MinArch.db.profile.companion.enable and MinArch.db.profile.companion.savePos) then
                             MinArch.db.profile.companion.posY = tonumber(newValue);
-                            local point, relativeTo, relativePoint, xOfs, yOfs = MinArchCompanion:GetPoint();
-                            MinArch.Companion:ClearAllPoints();
-                            MinArch.Companion:SetPoint(point, UIParent, relativePoint, xOfs, tonumber(newValue));
-                            MinArch.Companion:SavePosition();
+                            local point, relativeTo, relativePoint, xOfs, yOfs = Companion.frame:GetPoint();
+                            Companion.frame:ClearAllPoints();
+                            Companion.frame:SetPoint(point, UIParent, relativePoint, xOfs, tonumber(newValue));
+                            Companion.frame:SavePosition();
                         end
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false or MinArch.db.profile.companion.savePos == false) end,
@@ -920,41 +934,41 @@ local companionSettings = {
 				},
                 resetButton = {
 					type = "execute",
-					name = "Reset position",
+					name = L["OPTIONS_COMPANION_POSITION_RESET"],
 					order = 6,
 					func = function ()
-                        MinArch.Companion:ResetPosition();
+                        Companion:ResetPosition();
 					end,
                 },
             }
         },
         featureOpts = {
             type = "group",
-            name = "Customize Companion features",
+            name = L["OPTIONS_COMPANION_FEATURES_TITLE"],
             order = 3,
             inline = true,
             args = {
                 distanceTracker = {
                     type = "group",
-                    name = "Distance Tracker settings",
+                    name = L["OPTIONS_COMPANION_POSITION_FEATURES_DT_TITLE"],
                     order = 1,
                     inline = true,
                     args = {
                         toggleDistanceTracker = {
                             type = "toggle",
-                            name = "Show distance tracker",
-                            desc = "Toggles the distance tracker on the companion frame",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_DT_SHOW_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_DT_SHOW_DESC"],
                             get = function () return MinArch.db.profile.companion.features.distanceTracker.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.distanceTracker.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 1,
                         },
                         distanceTrackerOrder = {
                             type = "select",
-                            name = "Order",
+                            name = L["OPTIONS_GLOBAL_ORDER_TITLE"],
                             values = {1, 2, 3, 4, 5, 6},
                             get = function () return MinArch.db.profile.companion.features.distanceTracker.order end,
                             set = function (info, newValue)
@@ -966,37 +980,37 @@ local companionSettings = {
                         },
                         shape = {
                             type = "select",
-                            name = "Shape",
-                            values = {"Circle", "Square", "Triangle"},
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_DT_SHAPE_TITLE"],
+                            values = {L["OPTIONS_GLOBAL_CIRCLE"], L["OPTIONS_GLOBAL_SQUARE"], L["OPTIONS_GLOBAL_TRIANGLE"]},
                             get = function () return MinArch.db.profile.companion.features.distanceTracker.shape end,
                             set = function (info, newValue)
                                 MinArch.db.profile.companion.features.distanceTracker.shape = newValue
-                                MinArch.Companion:UpdateIndicatorFrameTexture()
+                                Companion:UpdateIndicatorFrameTexture()
                             end,
                         }
                     }
                 },
                 waypointButton = {
                     type = "group",
-                    name = "Waypoint button settings",
+                    name = L["OPTIONS_COMPANION_POSITION_FEATURES_WP_TITLE"],
                     order = 2,
                     inline = true,
                     args = {
                         toggleWaypointButton = {
                             type = "toggle",
-                            name = "Show waypoint button",
-                            desc = "Show the auto-waypoint button on the companion frame",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_WP_SHOW_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_WP_SHOW_DESC"],
                             get = function () return MinArch.db.profile.companion.features.waypointButton.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.waypointButton.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 6,
                         },
                         waypointButtonOrder = {
                             type = "select",
-                            name = "Order",
+                            name = L["OPTIONS_GLOBAL_ORDER_TITLE"],
                             values = {1, 2, 3, 4, 5, 6},
                             get = function () return MinArch.db.profile.companion.features.waypointButton.order end,
                             set = function (info, newValue)
@@ -1010,25 +1024,25 @@ local companionSettings = {
                 },
                 surveyButton = {
                     type = "group",
-                    name = "Survey button settings",
+                    name = L["OPTIONS_COMPANION_POSITION_FEATURES_SURVEY_TITLE"],
                     order = 3,
                     inline = true,
                     args = {
                         toggleSurveyButton = {
                             type = "toggle",
-                            name = "Show Survey button",
-                            desc = "Show the survey button on the companion frame",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_SURVEY_SHOW_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_SURVEY_SHOW_DESC"],
                             get = function () return MinArch.db.profile.companion.features.surveyButton.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.surveyButton.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 3,
                         },
                         solveButtonOrder = {
                             type = "select",
-                            name = "Order",
+                            name = L["OPTIONS_GLOBAL_ORDER_TITLE"],
                             values = {1, 2, 3, 4, 5, 6},
                             get = function () return MinArch.db.profile.companion.features.surveyButton.order end,
                             set = function (info, newValue)
@@ -1042,25 +1056,25 @@ local companionSettings = {
                 },
                 solveButton = {
                     type = "group",
-                    name = "Solve button settings",
+                    name = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_TITLE"],
                     order = 4,
                     inline = true,
                     args = {
                         toggleSolveButton = {
                             type = "toggle",
-                            name = "Show Solve button",
-                            desc = "Show the solve button on the companion frame",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_SHOW_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_SHOW_DESC"],
                             get = function () return MinArch.db.profile.companion.features.solveButton.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.solveButton.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 20,
                         },
                         solveButtonOrder = {
                             type = "select",
-                            name = "Order",
+                            name = L["OPTIONS_GLOBAL_ORDER_TITLE"],
                             values = {1, 2, 3, 4, 5, 6},
                             get = function () return MinArch.db.profile.companion.features.solveButton.order end,
                             set = function (info, newValue)
@@ -1072,12 +1086,12 @@ local companionSettings = {
                         },
                         relevantOnly = {
                             type = "toggle",
-                            name = "Only show relevant",
-                            desc = "Enable to only show solves for relevant races (customized in the Races section)",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_SHOW_RELEVANT_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_SHOW_RELEVANT_DESC"],
                             get = function () return MinArch.db.profile.companion.relevantOnly end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.relevantOnly = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
 							width = "full",
@@ -1085,12 +1099,12 @@ local companionSettings = {
                         },
 						alwaysShowNearest = {
                             type = "toggle",
-                            name = "Show artifacts in progress",
-                            desc = "Enable to displays the project related to the nearest digsite, even if you can't solve the project yet",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_SHOW_NEAREST_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_SHOW_NEAREST_DESC"],
                             get = function () return MinArch.db.profile.companion.features.solveButton.alwaysShowNearest end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.solveButton.alwaysShowNearest = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
 							width = 1.5,
@@ -1098,12 +1112,12 @@ local companionSettings = {
                         },
 						alwaysShowSolvable = {
                             type = "toggle",
-                            name = "Always show solvable artifacts",
-                            desc = "Enable to override the previous setting by displaying projects that can be solved, even if it's not related to the nearest digsite",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_SHOW_SOLVABLE_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_SHOW_SOLVABLE_DESC"],
                             get = function () return MinArch.db.profile.companion.features.solveButton.alwaysShowSolvable end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.solveButton.alwaysShowSolvable = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
 							width = 1.5,
@@ -1111,12 +1125,12 @@ local companionSettings = {
                         },
 						keystone = {
                             type = "toggle",
-                            name = "Show keystones",
-                            desc = "Enable to displays keystones on the solve button if available for the current solve. Also allows you to and apply/remove keystones (if auto-apply is not set)",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_SHOW_KEYSTONES_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_SHOW_KEYSTONES_DESC"],
                             get = function () return MinArch.db.profile.companion.features.solveButton.keystone end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.solveButton.keystone = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 57,
@@ -1125,25 +1139,25 @@ local companionSettings = {
                 },
                 crateButton = {
                     type = "group",
-                    name = "Crate button settings",
+                    name = L["OPTIONS_COMPANION_POSITION_FEATURES_CRATE_TITLE"],
                     order = 5,
                     inline = true,
                     args = {
                         toggleCrateButton = {
                             type = "toggle",
-                            name = "Show Crate button",
-                            desc = "Show the crate button on the companion frame",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_CRATE_SHOW_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_CRATE_SHOW_DESC"],
                             get = function () return MinArch.db.profile.companion.features.crateButton.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.crateButton.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 51,
                         },
                         crateButtonOrder = {
                             type = "select",
-                            name = "Order",
+                            name = L["OPTIONS_GLOBAL_ORDER_TITLE"],
                             values = {1, 2, 3, 4, 5, 6},
                             get = function () return MinArch.db.profile.companion.features.crateButton.order end,
                             set = function (info, newValue)
@@ -1157,25 +1171,25 @@ local companionSettings = {
                 },
                 mountButton = {
                     type = "group",
-                    name = "Random mount button settings",
+                    name = L["OPTIONS_COMPANION_POSITION_FEATURES_MOUNT_TITLE"],
                     order = 6,
                     inline = true,
                     args = {
                         toggleMountButton = {
                             type = "toggle",
-                            name = "Show random mount button",
-                            desc = "Show the random mount button on the companion frame",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_MOUNT_SHOW_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_MOUNT_SHOW_DESC"],
                             get = function () return MinArch.db.profile.companion.features.mountButton.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.mountButton.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 6,
                         },
                         mountButtonOrder = {
                             type = "select",
-                            name = "Order",
+                            name = L["OPTIONS_GLOBAL_ORDER_TITLE"],
                             values = {1, 2, 3, 4, 5, 6},
                             get = function () return MinArch.db.profile.companion.features.mountButton.order end,
                             set = function (info, newValue)
@@ -1189,18 +1203,18 @@ local companionSettings = {
                 },
 				skillBar = {
                     type = "group",
-                    name = "Skill bar settings",
+                    name = L["OPTIONS_COMPANION_POSITION_FEATURES_SKILLBAR_TITLE"],
                     order = 6,
                     inline = true,
                     args = {
                         toggleMountButton = {
                             type = "toggle",
-                            name = "Show skill bar",
-                            desc = "Display the skill progress bar on the Companion frame",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_SKILLBAR_SHOW_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_SKILLBAR_SHOW_DESC"],
                             get = function () return MinArch.db.profile.companion.features.skillBar.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.skillBar.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 1,
@@ -1209,42 +1223,42 @@ local companionSettings = {
                 },
 				progressBar = {
                     type = "group",
-                    name = "Progress bar settings",
+                    name = L["OPTIONS_COMPANION_POSITION_FEATURES_PROGBAR_TITLE"],
                     order = 8,
                     inline = true,
                     args = {
                         toggleMountButton = {
                             type = "toggle",
-                            name = "Show progress bar",
-                            desc = "Display the artifact progress progress bar on the Companion frame",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_PROGBAR_SHOW_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_PROGBAR_SHOW_DESC"],
                             get = function () return MinArch.db.profile.companion.features.progressBar.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.progressBar.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 1,
                         },
 						showTooltip = {
                             type = "toggle",
-                            name = "Show tooltip",
-                            desc = "Display the artifact tooltip when hovering over the progress bar",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_PROGBAR_TOOLTIP_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_PROGBAR_TOOLTIP_DESC"],
                             get = function () return MinArch.db.profile.companion.features.progressBar.showTooltip end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.progressBar.showTooltip = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 1,
                         },
 						solveOnClick = {
                             type = "toggle",
-                            name = "Solve on click",
-                            desc = "Solve the currently activate artifact when clicking the progress bar",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_PROGBAR_CLICK_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_PROGBAR_CLICK_DESC"],
                             get = function () return MinArch.db.profile.companion.features.progressBar.solveOnClick end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.progressBar.solveOnClick = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 1,
@@ -1259,20 +1273,20 @@ local companionSettings = {
 }
 
 local devSettings = {
-	name = "Tester/Developer Settings",
+	name = L["OPTIONS_DEV_TITLE"],
 	handler = MinArch,
 	type = "group",
 	args = {
 		dev = {
 			type = 'group',
-			name = 'Debug messages',
+			name = L["OPTIONS_DEV_DEBUG_TITLE"],
 			inline = true,
 			order = 1,
 			args = {
 				showStatusMessages = {
 					type = "toggle",
-					name = "Show status messages",
-					desc = "Show Minimal Archaeology status messages in the chat.",
+					name = L["OPTIONS_DEV_DEBUG_STATUS_TITLE"],
+					desc = L["OPTIONS_DEV_DEBUG_STATUS_DESC"],
 					get = function () return MinArch.db.profile.showStatusMessages end,
 					set = function (_, newValue)
 						MinArch.db.profile.showStatusMessages = newValue;
@@ -1281,8 +1295,8 @@ local devSettings = {
 				},
 				showDebugMessages = {
 					type = "toggle",
-					name = "Show debug messages",
-					desc = "Show debug messages in the chat. Debug messages show more detailed information about the addon than status messages.",
+					name = L["OPTIONS_DEV_DEBUG_DEV_TITLE"],
+					desc = L["OPTIONS_DEV_DEBUG_DEV_DESC"],
 					get = function () return MinArch.db.profile.showDebugMessages end,
 					set = function (_, newValue)
 						MinArch.db.profile.showDebugMessages = newValue;
@@ -1293,21 +1307,21 @@ local devSettings = {
 		},
 		message = {
             type = "description",
-            name = "Experimental Features are placed here, because they're in a beta state, and might need additional work and feedback. Experimental features can be used without debug messages enabled, but I might ask for them in some cases if there are any issues.",
+            name = L["OPTIONS_DEV_EXPERIMENTAL_DESC"],
             fontSize = "normal",
             width = "full",
             order = 1,
         },
 		experimental = {
 			type = 'group',
-			name = 'Experimental Features',
+			name = L["OPTIONS_DEV_EXPERIMENTAL_TITLE"],
 			inline = true,
 			order = 2,
 			args = {
 				optimizePath = {
                     type = "toggle",
-					name = "Optimize Path",
-                    desc = "The waypoint will not always point to the nearest site, but tries to optimize travel times on the long run.",
+					name = L["OPTIONS_DEV_EXPERIMENTAL_OPTIMIZE_TITLE"],
+                    desc = L["OPTIONS_DEV_EXPERIMENTAL_OPTIMIZE_DESC"],
                     get = function () return MinArch.db.profile.TomTom.optimizePath end,
                     set = function (_, newValue)
 						MinArch.db.profile.TomTom.optimizePath = newValue;
@@ -1316,15 +1330,15 @@ local devSettings = {
                 },
 				optimizeModifier = {
 					type = "range",
-					name = "Optimization Modifier",
-					desc = "Sets the optimization modifier to a custom value.",
+					name = L["OPTIONS_DEV_EXPERIMENTAL_OPTIMIZE_MOD_TITLE"],
+					desc = L["OPTIONS_DEV_EXPERIMENTAL_OPTIMIZE_MOD_DESC"],
 					min = 1,
 					max = 5,
 					step = 0.05,
 					get = function () return MinArch.db.profile.TomTom.optimizationModifier end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.optimizationModifier = newValue;
-						MinArch:SetWayToNearestDigsite()
+						Navigation:SetWayToNearestDigsite()
 					end,
 					order = 2,
 				},
@@ -1334,25 +1348,25 @@ local devSettings = {
 }
 
 local TomTomSettings = {
-	name = "MinArch - TomTom",
+	name = L["OPTIONS_NAV_TITLE"],
 	handler = MinArch,
 	type = "group",
 	args = {
         blizzway = {
 			type = 'group',
-			name = 'Blizzard Waypoints',
+			name = L["OPTIONS_NAV_BLIZZ_TITLE"],
 			inline = true,
 			order = 1,
 			args = {
                 uiMapPoint = {
 					type = "toggle",
-					name = "Map pin",
-					desc = "Enable to create a map pin over digsites (only available in Mainline).",
+					name = L["OPTIONS_NAV_BLIZZ_PIN_TITLE"],
+					desc = L["OPTIONS_NAV_BLIZZ_PIN_DESC"],
 					get = function () return MinArch.db.profile.TomTom.enableBlizzWaypoint end,
 					set = function (_, newValue)
                         MinArch.db.profile.TomTom.enableBlizzWaypoint = newValue;
                         if MinArch.db.char.TomTom.uiMapPoint and not newValue then
-                            MinArch:ClearUiWaypoint()
+                            Navigation:ClearUiWaypoint()
                         end
 					end,
 					disabled = function () return (MINARCH_EXPANSION == 'Cata') end,
@@ -1360,8 +1374,8 @@ local TomTomSettings = {
                 },
                 superTrack = {
 					type = "toggle",
-					name = "Show floating pin",
-					desc = "Enable to show the floating pin over the destination (only available in Mainline).",
+					name = L["OPTIONS_NAV_BLIZZ_FLOATPIN_TITLE"],
+					desc = L["OPTIONS_NAV_BLIZZ_FLOATPIN_DESC"],
 					get = function () return MinArch.db.profile.TomTom.superTrack end,
 					set = function (_, newValue)
                         MinArch.db.profile.TomTom.superTrack = newValue;
@@ -1378,97 +1392,97 @@ local TomTomSettings = {
         },
 		tomtom = {
 			type = 'group',
-			name = 'TomTom Options',
+			name = L["OPTIONS_NAV_TOMTOM_TITLE"],
 			inline = true,
 			order = 2,
-			disabled = function () return (_G.TomTom == nil) end,
+			disabled = function () return (_G["TomTom"] == nil) end,
 			args = {
 				enable = {
 					type = "toggle",
-					name = "Enable TomTom integration in MinArch",
-					desc = "Toggles TomTom integration in MinArch. Disabling TomTom integration will remove all waypoints created by MinArch",
+					name = L["OPTIONS_NAV_TOMTOM_ENABLE_TITLE"],
+					desc = L["OPTIONS_NAV_TOMTOM_ENABLE_DESC"],
 					width = "full",
 					get = function () return MinArch.db.profile.TomTom.enableTomTom end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.enableTomTom = newValue;
 
 						if (newValue) then
-							MinArchMainAutoWayButton:Show();
-							MinArchDigsitesAutoWayButton:Show();
+							Main.frame.autoWaypointButton:Show();
+							Digsites.wpButton:Show();
 						else
-							MinArch:ClearAllDigsiteWaypoints();
-							MinArchMainAutoWayButton:Hide();
-							MinArchDigsitesAutoWayButton:Hide();
+							Navigation:ClearAllDigsiteWaypoints();
+							Main.frame.autoWaypointButton:Hide();
+							Digsites.wpButton:Hide();
 						end
 					end,
 					order = 1,
 				},
 				arrow = {
 					type = "toggle",
-					name = "Show Arrow",
-					desc = "Show arrow for waypoints created by MinArch. This won't change already existing waypoints.",
+					name = L["OPTIONS_NAV_TOMTOM_ARROW_TITLE"],
+					desc = L["OPTIONS_NAV_TOMTOM_ARROW_DESC"],
 					get = function () return MinArch.db.profile.TomTom.arrow end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.arrow = newValue;
 					end,
-					disabled = function () return (MinArch:IsTomTomAvailable() == false) end,
+					disabled = function () return (Navigation:IsTomTomAvailable() == false) end,
 					order = 2,
 				},
 				persistent = {
 					type = "toggle",
-					name = "Persist waypoints",
-					desc = "Toggle waypoint persistence. This won't change already existing waypoints.",
+					name = L["OPTIONS_NAV_TOMTOM_WP_TITLE"],
+					desc = L["OPTIONS_NAV_TOMTOM_WP_DESC"],
 					get = function () return MinArch.db.profile.TomTom.persistent end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.persistent = newValue;
 					end,
-					disabled = function () return (MinArch:IsTomTomAvailable() == false) end,
+					disabled = function () return (Navigation:IsTomTomAvailable() == false) end,
 					order = 3,
 				},
 			},
 		},
 		autoway = {
 			type = 'group',
-			name = 'Automatically create waypoints for the closest digsite.',
+			name = L["OPTIONS_NAV_AUTO_TITLE"],
 			inline = true,
 			order = 3,
 			args = {
 				autoWayOnMove = {
 					type = "toggle",
-					name = "Continuously",
-					desc = "Continuously create/update the automatic waypoint to the closest digsite.",
+					name = L["OPTIONS_NAV_AUTO_CONT_TITLE"],
+					desc = L["OPTIONS_NAV_AUTO_CONT_DESC"],
 					get = function () return MinArch.db.profile.TomTom.autoWayOnMove end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.autoWayOnMove = newValue;
 					end,
-					disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
+					disabled = function () return (Navigation:IsNavigationEnabled() == false) end,
 					order = 1,
 				},
 				autoWayOnComplete = {
 					type = "toggle",
-					name = "When completed",
-					desc = "Automatically create a waypoint to the closest digsite after completing one.",
+					name = L["OPTIONS_NAV_AUTO_ONCOMPLETE_TITLE"],
+					desc = L["OPTIONS_NAV_AUTO_ONCOMPLETE_DESC"],
 					get = function () return MinArch.db.profile.TomTom.autoWayOnComplete end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.autoWayOnComplete = newValue;
 					end,
-					disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
+					disabled = function () return (Navigation:IsNavigationEnabled() == false) end,
 					order = 2,
                 },
 				ignoreHidden = {
 					type = "toggle",
-					name = "Ignore hidden races",
-					desc = "Enable this to ignore hidden races when creating waypoints.",
+					name = L["OPTIONS_NAV_AUTO_IGNOREHIDDEN_TITLE"],
+					desc = L["OPTIONS_NAV_AUTO_IGNOREHIDDEN_DESC"],
 					get = function () return MinArch.db.profile.TomTom.ignoreHidden end,
                     set = function (_, newValue)
 						MinArch.db.profile.TomTom.ignoreHidden = newValue;
 					end,
-                    disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
+                    disabled = function () return (Navigation:IsNavigationEnabled() == false) end,
 					order = 4,
                 },
 				message = {
 					type = "description",
-					name = "Note: Priority options have been moved to the Race Settings section",
+					name = L["OPTIONS_NAV_AUTO_PRIORITY_NOTE"],
 					fontSize = "normal",
 					width = "full",
 					order = 5,
@@ -1477,14 +1491,14 @@ local TomTomSettings = {
 		},
 		taxi = {
 			type = 'group',
-			name = 'Taxi Options',
+			name = L["OPTIONS_NAV_TAXI_TITLE"],
 			inline = true,
 			order = 4,
 			args = {
 				enable = {
 					type = "toggle",
-					name = "Navigate to nearest Flight Master",
-					desc = "Enable to set the waypoint to the nearest flight master, if the nearest digsite is farther than the configured distance limit.",
+					name = L["OPTIONS_NAV_TAXI_ENABLE_TITLE"],
+					desc = L["OPTIONS_NAV_TAXI_ENABLE_DESC"],
 					get = function () return MinArch.db.profile.TomTom.taxi.enabled end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.taxi.enabled = newValue;
@@ -1497,8 +1511,8 @@ local TomTomSettings = {
 				},
 				distance = {
 					type = "range",
-					name = "Distance limit",
-					desc = "If enabled, waypoints will be created to the nearest flight master, if the nearest digsite is farther than the configured distance limit.",
+					name = L["OPTIONS_NAV_TAXI_DISTANCE_TITLE"],
+					desc = L["OPTIONS_NAV_TAXI_DISTANCE_DESC"],
 					min = 2000,
 					max = 10000,
 					step = 100,
@@ -1517,8 +1531,8 @@ local TomTomSettings = {
 				},
 				pinAlpha = {
 					type = "range",
-					name = "Pin Opacity",
-					desc = "Set the opacity of unrelated taxi nodes on the flight map",
+					name = L["OPTIONS_NAV_TAXI_PINOPA_TITLE"],
+					desc = L["OPTIONS_NAV_TAXI_PINOPA_DESC"],
 					min = 0,
 					max = 100,
 					step = 5,
@@ -1530,8 +1544,8 @@ local TomTomSettings = {
 				},
 				autoToggle = {
 					type = "toggle",
-					name = "Auto Enable",
-					desc = "Automatically enable Archeology Mode on flight maps when a waypoint is created by MinArch",
+					name = L["OPTIONS_NAV_TAXI_AUTOENABLE_TITLE"],
+					desc = L["OPTIONS_NAV_TAXI_AUTOENABLE_DESC"],
 					get = function () return MinArch.db.profile.TomTom.taxi.autoEnableArchMode end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.taxi.autoEnableArchMode = newValue;
@@ -1540,34 +1554,34 @@ local TomTomSettings = {
 				},
 				disableOnLogin = {
 					type = "toggle",
-					name = "Auto-Disable",
-					desc = "Automatically disable Archaeology Mode on flight maps when there are no digsites on the world map and upon login",
+					name = L["OPTIONS_NAV_TAXI_AUTODISABLE_TITLE"],
+					desc = L["OPTIONS_NAV_TAXI_AUTODISABLE_DESC"],
 					get = function () return MinArch.db.profile.TomTom.taxi.autoDisableArchMode end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.taxi.autoDisableArchMode = newValue;
 					end,
 					order = 6,
-				},				
+				},
 			}
 		}
 	}
 }
 
 local PatronSettings = {
-	name = "MinArch Patrons",
+	name = L["OPTIONS_PATRONS_TITLE"],
 	handler = MinArch,
 	type = "group",
 	args = {
 		message = {
             type = "description",
-            name = "Thanks for using Minimal Archaeology. If you like this addon, please consider supporting development by becoming a patron at |cFFF96854patreon.com/minarch|r.",
+            name = L["OPTIONS_PATRONS_DESC"],
             fontSize = "normal",
             width = "full",
             order = 1,
         },
 		patrons = {
 			type = "group",
-			name = "Patrons",
+			name = L["OPTIONS_PATRONS_SUBTITLE"],
 			inline = true,
 			order = 3,
 			args = {
@@ -1581,7 +1595,7 @@ local PatronSettings = {
 			}
 		},
 	}
-	}
+}
 
 function Options:OnInitialize()
 	local count = 1;
@@ -1633,26 +1647,26 @@ function Options:OnInitialize()
                         type = "toggle",
                         name = function () return GetArchaeologyRaceInfo(i) end,
                         desc = function ()
-                            return "Hide the "..MinArch['artifacts'][i]['race'].." artifact bar even if it has been discovered."
+                            return L["OPTIONS_RACE_HIDE_THE"]..MinArch['artifacts'][i]['race']..L["OPTIONS_RACE_HIDE_EVEN"]
                         end,
                         order = i,
                         get = function () return MinArch.db.profile.raceOptions.hide[i] end,
                         set = function (_, newValue)
                             MinArch.db.profile.raceOptions.hide[i] = newValue;
-                            MinArch:UpdateMain();
+                            Main:Update();
                         end,
                     };
                     raceSettings.args.cap.args[groupkey].args['race' .. tostring(i)] = {
                         type = "toggle",
                         name = function () return GetArchaeologyRaceInfo(i) end,
                         desc = function ()
-                            return "Use the fragment cap for the "..MinArch['artifacts'][i]['race'].." artifact bar."
+                            return L["OPTIONS_RACE_CAP_USE"]..MinArch['artifacts'][i]['race']..L["OPTIONS_RACE_CAP_USE_FOR"]
                         end,
                         order = i,
                         get = function () return MinArch.db.profile.raceOptions.cap[i] end,
                         set = function (_, newValue)
                             MinArch.db.profile.raceOptions.cap[i] = newValue;
-                            MinArch:UpdateMain();
+                            Main:Update();
                         end,
                     };
                     raceSettings.args.keystone.args[groupkey].args['race' .. tostring(i)] = {
@@ -1663,14 +1677,14 @@ function Options:OnInitialize()
                             local RaceName = MinArch['artifacts'][i]['race'];
 
                             if (RuneName ~= nil and RaceName ~= nil) then
-                                return "Always use all available "..RuneName.."s to solve "..RaceName.." artifacts.";
+                                return L["OPTIONS_RACE_CAP_ALWAYS"]..RuneName..L["OPTIONS_RACE_CAP_ALWAYS_USE_TO_SOLVE"]..RaceName..L["OPTIONS_RACE_CAP_ALWAYS_USE"];
                             end
                         end,
                         order = i,
                         get = function () return MinArch.db.profile.raceOptions.keystone[i] end,
                         set = function (_, newValue)
                             MinArch.db.profile.raceOptions.keystone[i] = newValue;
-                            MinArch:UpdateMain();
+                            Main:Update();
                         end,
                         disabled = (i == ARCHAEOLOGY_RACE_FOSSIL)
                     };
@@ -1680,15 +1694,15 @@ function Options:OnInitialize()
                         name = function ()
 							local suffix = ''
 							if i == ARCHAEOLOGY_RACE_NERUBIAN then
-								suffix = ' (affects both Northrend and Eastern Kingdom)'
+								suffix = L["OPTIONS_RACE_AFFECTS_BOTH"]
 							end
 							return MinArch['artifacts'][i]['race'] .. suffix
 						end,
                         desc = function ()
                             local RaceName = MinArch['artifacts'][i]['race'];
 
-                            if (RuneName ~= nil and RaceName ~= nil) then
-                                return "Set " .. RaceName .. " pirority";
+                            if (RaceName ~= nil) then
+                                return L["OPTIONS_RACE_SET"] .. RaceName .. L["OPTIONS_RACE_SET_PRIORITY"];
                             end
                         end,
                         order = i,
@@ -1699,7 +1713,7 @@ function Options:OnInitialize()
 							else
 								updatePrioOrdering(group, i, newValue)
 							end
-                            MinArch:UpdateMain();
+                            Main:Update();
                         end,
                     };
                 end
@@ -1714,26 +1728,26 @@ end
 
 function Options:RegisterMenus()
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch", home);
-	self.menu = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch", "Minimal Archaeology");
+	self.menu = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch", L["OPTIONS_REGISTER_MINARCH"]);
 
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch General Settings", general);
-	self.general = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch General Settings", "General Settings", "Minimal Archaeology");
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(L["OPTIONS_REGISTER_MINARCH_GENERAL_TITLE"], general);
+	self.general = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(L["OPTIONS_REGISTER_MINARCH_GENERAL_TITLE"], L["OPTIONS_REGISTER_MINARCH_GENERAL_SUBTITLE"], L["OPTIONS_REGISTER_MINARCH"]);
 
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Companion Settings", companionSettings);
-	self.companionSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Companion Settings", "Companion Settings", "Minimal Archaeology");
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(L["OPTIONS_REGISTER_MINARCH_COMPANION_TITLE"], companionSettings);
+	self.companionSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(L["OPTIONS_REGISTER_MINARCH_COMPANION_TITLE"], L["OPTIONS_REGISTER_MINARCH_COMPANION_SUBTITLE"], L["OPTIONS_REGISTER_MINARCH"]);
 
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Race Settings", raceSettings);
-	self.raceSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Race Settings", "Race Settings", "Minimal Archaeology");
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(L["OPTIONS_REGISTER_MINARCH_RACE_TITLE"], raceSettings);
+	self.raceSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(L["OPTIONS_REGISTER_MINARCH_RACE_TITLE"], L["OPTIONS_REGISTER_MINARCH_RACE_SUBTITLE"], L["OPTIONS_REGISTER_MINARCH"]);
 
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Navigation Settings", TomTomSettings);
-	self.TomTomSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Navigation Settings", "Navigation Settings", "Minimal Archaeology");
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(L["OPTIONS_REGISTER_MINARCH_NAV_TITLE"], TomTomSettings);
+	self.TomTomSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(L["OPTIONS_REGISTER_MINARCH_NAV_TITLE"], L["OPTIONS_REGISTER_MINARCH_NAV_SUBTITLE"], L["OPTIONS_REGISTER_MINARCH"]);
 
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Developer Settings", devSettings);
-    self.devSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Developer Settings", "Developer Settings", "Minimal Archaeology");
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(L["OPTIONS_REGISTER_MINARCH_DEV_TITLE"], devSettings);
+    self.devSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(L["OPTIONS_REGISTER_MINARCH_DEV_TITLE"], L["OPTIONS_REGISTER_MINARCH_DEV_SUBTITLE"], L["OPTIONS_REGISTER_MINARCH"]);
 
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Patrons", PatronSettings);
-    self.patrons = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Patrons", "Patrons", "Minimal Archaeology");
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(L["OPTIONS_REGISTER_MINARCH_PATRONS_TITLE"], PatronSettings);
+    self.patrons = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(L["OPTIONS_REGISTER_MINARCH_PATRONS_TITLE"], L["OPTIONS_REGISTER_MINARCH_PATRONS_SUBTITLE"], L["OPTIONS_REGISTER_MINARCH"]);
 
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Profiles", LibStub("AceDBOptions-3.0"):GetOptionsTable(parent.db));
-    self.profiles = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Profiles", "Profiles", "Minimal Archaeology");
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(L["OPTIONS_REGISTER_MINARCH_PROFILES_TITLE"], LibStub("AceDBOptions-3.0"):GetOptionsTable(MinArch.db));
+    self.profiles = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(L["OPTIONS_REGISTER_MINARCH_PROFILES_TITLE"], L["OPTIONS_REGISTER_MINARCH_PROFILES_SUBTITLE"], L["OPTIONS_REGISTER_MINARCH"]);
 end

@@ -148,6 +148,10 @@ do
 		saved = function(t)
 			return t.collected == 1;
 		end,
+		isWeapon = hierloomLevelFields.isWeapon,
+		variants = {
+			app.GlobalVariants.AndAppearance,
+		},
 		g = function(t)
 			-- unlocking the heirloom is the only thing contained in the heirloom
 			if C_Heirloom_GetHeirloomMaxUpgradeLevel(t.itemID) then
@@ -163,13 +167,6 @@ do
 			end
 		end
 	},
-	"WithSource", {
-		collectible = function(t) return app.Settings.Collectibles.Transmog end,
-		collected = function(t)
-			return app.IsAccountCached("Sources", t.sourceID)
-		end,
-		isWeapon = hierloomLevelFields.isWeapon,
-	}, function(t) return t.sourceID end,
 	"WithFaction", {
 		collectible = function(t) return app.Settings.Collectibles.Reputations end,
 		collected = function(t)
@@ -186,6 +183,8 @@ do
 				end
 			end
 		end,
+		-- don't inherit variants from Heirloom
+		variants = app.EmptyTable,
 	}, function(t) return t.factionID end);
 
 	local heirloomIDs = {};
@@ -324,7 +323,7 @@ do
 		if itemID then
 			-- local heirloom = app.SearchForObject("heirloomID", itemID, "field")
 			-- TODO: Heirlooms aren't cached when collected so can't use typical logic
-			-- app.SetAccountCollected(heirloom, field, id, true, "Heirlooms")
+			-- app.SetThingCollected("itemID", itemID, true, true)
 			app.UpdateRawID("itemID", itemID);
 			app.HandleEvent("OnThingCollected", "Heirlooms")
 

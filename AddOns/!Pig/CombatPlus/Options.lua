@@ -33,4 +33,5 @@ addonTable.CombatPlus = function()
 	CombatPlusfun.CombatTime()
 	CombatPlusfun.HPMPBar()
 	CombatPlusfun.AttackBar()
+	CombatPlusfun.BabySitter()
 end

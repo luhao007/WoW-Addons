@@ -105,14 +105,29 @@ function RSMapDB.GetActiveMapIDsWithNamesByMapID(mapID)
 	return mapIDsWithNames
 end
 
+local cachedContinentMapIDs = {}
 function RSMapDB.GetContinentOfMap(mapID)
 	if (mapID) then
+		-- Check first cached list
+		if (cachedContinentMapIDs[mapID]) then
+			return cachedContinentMapIDs[mapID]
+		end
+		
+		-- Otherwise load
 		for continentID, info in pairs(RSMapDB.GetContinents()) do
 			if (RSUtils.Contains(info.zones, mapID)) then
 				if (info.zonefilter and info.npcfilter) then
+					cachedContinentMapIDs[mapID] = continentID
 					return continentID
 				else
 					break
+				end
+			else
+				for parentMapID, childMapIDs in pairs(private.SUBZONES_IDS) do
+					if (RSUtils.Contains(childMapIDs, mapID) and RSUtils.Contains(info.zones, parentMapID)) then
+						cachedContinentMapIDs[mapID] = continentID
+						return continentID
+					end
 				end
 			end
 		end

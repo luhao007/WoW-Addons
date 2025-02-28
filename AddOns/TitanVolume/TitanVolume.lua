@@ -119,7 +119,12 @@ end
 ---@param self Button
 ---@param event string
 local function OnEvent(self, event, a1, ...)
-	if event == "PLAYER_ENTERING_WORLD" and TitanGetVar(TITAN_VOLUME_ID, "OverrideBlizzSettings") then
+	-- No events to process
+end
+
+---local Set plugin icon and update plugin.
+local function OnShow()
+	if TitanGetVar(TITAN_VOLUME_ID, "OverrideBlizzSettings") then
 		-- Override Blizzard's volume CVar settings
 		if TitanGetVar(TITAN_VOLUME_ID, "VolumeMaster") then
 			SetCVar("Sound_MasterVolume", TitanGetVar(TITAN_VOLUME_ID, "VolumeMaster"))
@@ -135,12 +140,7 @@ local function OnEvent(self, event, a1, ...)
 				TitanGetVar(TITAN_VOLUME_ID, "VolumeMusic")) end
 		--		if TitanGetVar(TITAN_VOLUME_ID, "VolumeOutboundChat") then SetCVar("OutboundChatVolume", TitanGetVar(TITAN_VOLUME_ID, "VolumeOutboundChat")) end
 		--		if TitanGetVar(TITAN_VOLUME_ID, "VolumeInboundChat") then SetCVar("InboundChatVolume", TitanGetVar(TITAN_VOLUME_ID, "VolumeInboundChat")) end
-		TitanPanelButton_UpdateButton(TITAN_VOLUME_ID);
 	end
-end
-
----local Set plugin icon and update plugin.
-local function OnShow()
 	SetVolumeIcon();
 	TitanPanelButton_UpdateButton(TITAN_VOLUME_ID);
 end
@@ -360,7 +360,6 @@ local function OnLoad(self)
 			DisplayOnRightSide = 1,
 		}
 	};
-	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 end
 
 ---local Create needed frames

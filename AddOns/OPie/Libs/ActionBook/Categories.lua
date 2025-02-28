@@ -160,6 +160,11 @@ AB:AugmentCategory(L"Items", function(_, add)
 		end
 	end
 end)
+AB:AugmentCategory(L"Equipped", function(_, add)
+	for w in ("head neck shoulders back chest tabard shirt wrist hands waist legs feet finger1 finger2 trinket1 trinket2"):gmatch("%S+") do
+		add("peq", w)
+	end
+end)
 if MODERN or CF_WRATH then -- Battle pets/Companions
 	local running, sourceFilters, typeFilters, flagFilters, search = false, {}, {}, {[LE_PET_JOURNAL_FILTER_COLLECTED]=1, [LE_PET_JOURNAL_FILTER_NOT_COLLECTED]=1}, ""
 	hooksecurefunc(C_PetJournal, "SetSearchFilter", function(filter) search = filter end)
@@ -254,9 +259,10 @@ if COMPAT >= 3e4 then -- equipmentset
 	end)
 end
 AB:AugmentCategory(L"Raid markers", function(_, add)
+	local NUM_WORLD_MARKERS = CF_CATA and NUM_WORLD_RAID_MARKERS_CATA == 5 and 5 or 8
 	for k=0, (MODERN or CF_CATA) and 1 or 0 do
 		k = k == 0 and "raidmark" or "worldmark"
-		for i=0, k == "worldmark" and CF_CATA and 5 or 8 do
+		for i=0, k == "worldmark" and NUM_WORLD_MARKERS or 8 do
 			add(k, i)
 		end
 	end
@@ -316,7 +322,7 @@ do -- aliases
 	AB:AddCategoryAlias("Miscellaneous", L"Miscellaneous")
 end
 do
-	local panels = {"character", "reputation", "currency", "spellbook", "talents", "profs", "achievements", "quests", "groupfinder", "collections", "adventureguide", "guild", "map", "social", "calendar", "macro", "options", "gamemenu"}
+	local panels = {"character", "reputation", "currency", "spellbook", "talents", "profs", "achievements", "quests", "groupfinder", "collections", "adventureguide", "guild", "map", "vault", "social", "calendar", "macro", "options", "gamemenu"}
 	AB:AugmentCategory(L"UI panels", function(_, add)
 		for i=1,#panels do
 			i = panels[i]

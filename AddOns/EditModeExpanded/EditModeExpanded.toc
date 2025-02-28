@@ -1,6 +1,6 @@
-## Interface: 110007
+## Interface: 110100
 ## Author: Teelo
-## Version: 11.0-034
+## Version: 11.0-042
 
 ## Title: Edit Mode Expanded
 ## Notes: Expands Edit Mode to apply to other frames
@@ -38,6 +38,7 @@ FrameHandlers\LossOfControl.lua
 FrameHandlers\Menu.lua
 FrameHandlers\Minimap.lua
 FrameHandlers\ObjectiveTracker.lua
+FrameHandlers\Pet.lua
 FrameHandlers\PlayerFrame.lua
 FrameHandlers\Raid.lua
 FrameHandlers\StanceBar.lua

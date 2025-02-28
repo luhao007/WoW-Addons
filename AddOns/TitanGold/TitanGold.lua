@@ -45,11 +45,10 @@ local FACTION_HORDE = "Horde_debug"
 --]]
 
 -- Topic debug tool / scheme
-local pdebug = Titan_Global.NewDebug()
-pdebug.enabled = false
-pdebug.topics[1].enabled = true
-pdebug.topics[2].enabled = false
-pdebug.topics[3] = { enabled = true, topic = "Tooltip"}
+local dbg = Titan_Debug:New(TITAN_GOLD_ID)
+dbg:EnableDebug(false)
+dbg:EnableTopic("Events", false)
+dbg:EnableTopic("Flow", false)
 
 -- ******************************** Functions *******************************
 
@@ -146,7 +145,6 @@ function Warband.SetSum()
 	else
 		-- Likely Classic version
 	end
-	--TitanTopicDebug(TITAN_GOLD_ID, 2, Gold_debug("SetSum"))
 end
 
 ---local Set Warband Bank info
@@ -158,20 +156,17 @@ function Warband.Init()
 	else
 		-- Likely Classic version
 	end
-	--TitanTopicDebug(TITAN_GOLD_ID, 2, Gold_debug("Init"))
 end
 
 ---local Return Warband Bank info
 ---@return number
 function Warband.GetSum()
-	--TitanTopicDebug(TITAN_GOLD_ID, 2, Gold_debug("GetSum"))
 	return Warband.bank_sum
 end
 
 ---local Return Warband Bank info
 ---@return string
 function Warband.GetName()
-	--TitanTopicDebug(TITAN_GOLD_ID, 2, Gold_debug("GetName"))
 	return Warband.label
 end
 
@@ -677,8 +672,8 @@ local function GetTooltipText()
 			.. "------ \t +" .. "\n"
 			.. war_name
 			.. "\t" .. cash
-		local str = "" .. war_name .. " ".. cash
-		--TitanTopicDebug(TITAN_GOLD_ID, 3, str)
+		local msg = "" .. war_name .. " ".. cash
+		dbg:Out("Tooltip", msg)
 	end
 
 
@@ -802,11 +797,22 @@ end
 
 ---local See if this toon is in saved vars AFTER PEW event.
 --- Get current total and session start time. Toon gold is available via API AFTER PEW event.
----@param self Button
-local function Initialize_Array(self)
+local function Initialize_Array()
+	dbg:Out("Flow", "Init inititated")
+
+	local info = ""
 	if (GOLD_INITIALIZED) then
 		-- already done
 	else
+		-- See if this is a new toon to Gold saved vars or reset
+		-- Set gold to 0; it will be set properly later
+		if (GoldSave[GOLD_INDEX] == nil) then
+			GoldSave[GOLD_INDEX] = {}
+			GoldSave[GOLD_INDEX] = { gold = 0, name = player_name }
+		end
+
+		Warband.Init()
+
 		-- Ensure the saved vars are usable
 		for index, money in pairs(GoldSave) do
 			local character, charserver, char_faction = GetIndexInfo(index)
@@ -833,14 +839,22 @@ local function Initialize_Array(self)
 		GOLD_STARTINGGOLD = Get_Money();
 		GOLD_SESSIONSTART = GetTime();
 		GOLD_INITIALIZED = true;
-		--[[
-print("Init"
-.." "..tostring(GOLD_STARTINGGOLD)..""
-.." "..tostring(GOLD_SESSIONSTART)..""
-.." "..tostring(GOLD_INITIALIZED)..""
-)
---]]
-	end
+
+		-- added Jan 2025 
+		-- Also restore initial gold:
+		-- new toon; Titan install / update / reload
+		GoldSave[GOLD_INDEX].gold = Get_Money()
+
+		info = ""
+		.." "..tostring(GOLD_SESSIONSTART)..""
+		.." "..tostring(GOLD_STARTINGGOLD)..""
+		.." "..tostring(Warband.GetSum())..""
+		end
+
+	local msg = ""
+	.." "..tostring(GOLD_INITIALIZED)..""
+	.." "..info..""
+	dbg:Out("Flow", ">Init done : "..msg)
 end
 
 ---local Clear the gold array and rebuild
@@ -849,7 +863,9 @@ local function ClearData(self)
 	GOLD_INITIALIZED = false;
 
 	GoldSave = {};
-	Initialize_Array(self);
+	Initialize_Array();
+
+	TitanPanelButton_UpdateButton(TITAN_GOLD_ID)
 
 	DEFAULT_CHAT_FRAME:AddMessage(TitanUtils_GetGreenText(L["TITAN_GOLD_DB_CLEARED"]));
 end
@@ -1203,7 +1219,6 @@ local function OnLoad(self)
 		tooltipTitle = L["TITAN_GOLD_TOOLTIP"],
 		tooltipTextFunction = GetTooltipText,
 		buttonTextFunction = FindGold,
-		debugClass = pdebug,
 		icon = "Interface\\AddOns\\TitanGold\\Artwork\\TitanGold",
 		iconWidth = 16,
 		notes = notes,
@@ -1242,14 +1257,14 @@ local function OnLoad(self)
 	};
 
 	self:RegisterEvent("ADDON_LOADED");
-	self:RegisterEvent("PLAYER_ENTERING_WORLD");
+--	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 end
 
 ---local When shown, register needed events and start timer for gold per hour
 ---@param self Button
 local function OnShow(self)
+	Initialize_Array()
 	self:RegisterEvent("PLAYER_MONEY")
-	GoldSave[GOLD_INDEX].gold = Get_Money()
 
 	if GoldSave and TitanGetVar(TITAN_GOLD_ID, "DisplayGoldPerHour") then
 		if GoldTimerRunning then
@@ -1262,10 +1277,10 @@ local function OnShow(self)
 		-- timer running or user does not want gold per hour
 	end
 
-	local dbg = ""
+	local msg = ""
 		.." "..Gold_debug("OnShow")
-	--TitanTopicDebug(TITAN_GOLD_ID, 1, dbg)
-end
+	dbg:Out("Flow", msg)
+	end
 
 ---local When shown, unregister needed events and stop timer for gold per hour
 ---@param self Button
@@ -1297,24 +1312,14 @@ local function OnEvent(self, event, a1, ...)
 			-- Faction is English to use as index NOT display
 			GOLD_INDEX = CreateIndex(player_name, realmName, player_faction)
 
-			-- See if this is a new toon to Gold saved vars
-			-- Set gold to 0; it will be set properly later
-			if (GoldSave[GOLD_INDEX] == nil) then
-				GoldSave[GOLD_INDEX] = {}
-				GoldSave[GOLD_INDEX] = { gold = 0, name = player_name }
-			end
-
 			self:UnregisterEvent("ADDON_LOADED");
 		else
 			-- Not this addon
 			return -- no debug, if enabled
 		end
-	elseif (event == "PLAYER_ENTERING_WORLD") then
-		Initialize_Array(self);
-		Warband.Init()
-		TitanPanelButton_UpdateButton(TITAN_GOLD_ID)
 	end
-	--TitanTopicDebug(TITAN_GOLD_ID, 1, event)
+
+	dbg:Out("Events", event)
 end
 
 ---Button clicks - only shift-left for now

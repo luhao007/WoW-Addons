@@ -348,6 +348,7 @@ L['tsw_chest_4_location'] = '在橫樑上. 從有其他箱子的柱子往下.'
 L['tuk_chest_1_note'] = '在雕像後方.'
 L['tuk_chest_2_note'] = '{note:只能在 "逃跑者進化" 和 "折磨受害者" 故事劇情取得.}'
 L['tuk_chest_3_note'] = '{note:只能在 "逃跑者進化" 和 "織絲者救援" 故事劇情取得.}'
+L['sss_chest_2_location'] = nil
 
 -------------------------------------------------------------------------------
 --------------------------------- SIREN ISLE ----------------------------------
@@ -376,6 +377,7 @@ L['runed_storm_chest_note'] = '跟著風來找到隱藏的 {object:符文風暴�
 L['flame_blessed_iron_item'] = '繳回這個物品來取得獎勵的 {currency:3090}.'
 
 L['barnacle_encrusted_chest'] = '嵌滿藤壺的箱子'
+L['pilfered_earthen_chest'] = nil
 
 L['soweezi_note'] = '使用 {currency:3090} 交換1個坐騎, 玩具, 戰寵和塑形.'
 
@@ -396,11 +398,12 @@ L['prismatic_day'] = '第 %d 天'
 
 L['pris_quest_1'] = '生命線' -- https://www.wowhead.com/quest=86482/a-lifeline
 L['pris_quest_2'] = nil -- https://www.wowhead.com/ptr/quest=86483/snap-to-it
-L['pris_quest_3'] = nil -- https://www.wowhead.com/ptr/quest=86484/temper-like-a-tempest
-L['pris_quest_4'] = nil -- https://www.wowhead.com/ptr/quest=86485/a-loyal-friend
+L['pris_quest_3'] = '暴風壞脾氣' -- https://www.wowhead.com/ptr/quest=86484/temper-like-a-tempest
+L['pris_quest_4'] = '忠誠的朋友' -- https://www.wowhead.com/ptr/quest=86485/a-loyal-friend
 
 L['unsolved_amethyst_runelock'] = '未解的紫晶符文鎖'
-L['bilge_rat_supply_chest'] = nil
+L['bilge_rat_supply_chest'] = '污鼠會補給箱'
+L['bilge_rat_supply_chest_note'] = '從附近的 {npc:228582} 收集 {item:228621} 來打開箱子.'
 
 L['stone_carvers_scamseax_note'] = '收集一個 {object:璀璨黃水晶} ({dot:Yellow}) 來獲得2分鐘的增益 {spell:1216785} 以允許你拾取 {item:233834}.'
 
@@ -415,7 +418,7 @@ L['options_icons_secrets_of_azeroth_desc'] = '顯示 {location:艾澤拉斯祕�
 
 L['alyx_kickoff_note'] = '和 {npc:226683} 說話來啟動新的艾澤拉斯祕聞謎題.'
 
-L['celebration_crates_label'] = '節慶木箱'
+-- L['celebration_crates_label'] = '節慶木箱'
 L['celebration_crates_note'] = '在 {location:艾澤拉斯} 找到並返還所有的 {object:節慶木箱}.'
 
 L['1_soggy_celebration_crate_note'] = nil
@@ -562,3 +565,53 @@ L['code_label'] = nil
 L['orb_9_label'] = nil
 
 L['ak_decryption_console_note'] = nil
+
+-------------------------------------------------------------------------------
+---------------------------------- UNDERMINE ----------------------------------
+-------------------------------------------------------------------------------
+
+L['requires_ally'] = nil
+L['complete_event'] = nil
+L['in_sewer'] = nil
+L['and_slimesby'] = nil
+
+L['inert_plunger_label'] = nil
+L['exploded_plunger_label'] = nil
+
+L['unexploded_fireworks_location'] = nil
+L['suspicious_book_note'] = nil
+L['fireworks_hat_note'] = nil
+L['blackened_dice_note'] = nil
+L['lonely_tub_note'] = nil
+L['impotent_potable_location'] = nil
+L['abandoned_toolbox_location'] = nil
+L['trick_deck_of_cards_location'] = nil
+
+L['ditty_fuzeboy_note'] = nil
+L['angelo_rustbin_note'] = nil
+
+L['options_icons_nine_tenths'] = '{achievement:40948}'
+L['options_icons_nine_tenths_desc'] = nil
+L['muffs_auto_locker_label'] = nil
+L['muffs_auto_locker_note'] = nil
+L['muffs_auto_locker_suffix'] = nil
+
+L['options_icons_between_the_lines'] = '{achievement:41588}'
+L['options_icons_between_the_lines_desc'] = nil
+L['a_threatening_letter_location'] = nil
+L['gallywixs_notes_location'] = nil
+
+L['options_icons_can_do_attitude'] = '{achievement:41589}'
+L['options_icons_can_do_attitude_desc'] = nil
+L['discarded_can_label'] = '{npc:237103}'
+L['discarded_can_note'] = nil
+L['discarded_can_suffix'] = nil
+
+L['options_icons_scrap_rewards'] = nil
+L['options_icons_scrap_rewards_desc'] = nil
+L['scrap_heap_suffix'] = nil
+
+L['options_icons_youre_my_friend_now'] = '{achievement:41708}'
+L['options_icons_youre_my_friend_now_desc'] = nil
+L['rat_in_building_rail'] = nil
+L['rat_2nd_floor_trash_can'] = nil

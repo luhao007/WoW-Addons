@@ -348,6 +348,7 @@ L['tsw_chest_4_location'] = '在横梁上。从另一个宝箱附近的柱子上
 L['tuk_chest_1_note'] = '雕像后面。'
 L['tuk_chest_2_note'] = '{note:仅在“逃亡的进化体”和“煎熬受害者”故事变种。}'
 L['tuk_chest_3_note'] = '{note:仅在“逃亡的进化体”和“纺丝者救援”故事变种。}'
+L['sss_chest_2_location'] = '穿过金属梁。'
 
 -------------------------------------------------------------------------------
 --------------------------------- SIREN ISLE ----------------------------------
@@ -376,6 +377,7 @@ L['runed_storm_chest_note'] = '跟随风找到一个隐藏的 {object:符文风�
 L['flame_blessed_iron_item'] = '带回此商品可获得奖励 {currency:3090}。'
 
 L['barnacle_encrusted_chest'] = '长满藤壶的宝箱'
+L['pilfered_earthen_chest'] = '掠夺的土灵宝箱'
 
 L['soweezi_note'] = '用 {currency:3090} 换取坐骑、玩具、宠物和幻化。'
 
@@ -395,12 +397,13 @@ L['prismatic_snapdragon_note_start'] = '在10天的时间里，帮助拯救 {loc
 L['prismatic_day'] = '第%d天' -- "Day 1" or "Day 4" or "Day 7"
 
 L['pris_quest_1'] = '生命线' -- 86482
-L['pris_quest_2'] = nil -- https://www.wowhead.com/ptr/quest=86483/snap-to-it
-L['pris_quest_3'] = nil -- https://www.wowhead.com/ptr/quest=86484/temper-like-a-tempest
-L['pris_quest_4'] = nil -- https://www.wowhead.com/ptr/quest=86485/a-loyal-friend
+L['pris_quest_2'] = '速战速决' -- 86483
+L['pris_quest_3'] = '风卷残云' -- 86484
+L['pris_quest_4'] = '忠诚伙伴' -- 86485
 
 L['unsolved_amethyst_runelock'] = '未破解的紫晶符文锁'
 L['bilge_rat_supply_chest'] = '水鼠帮补给箱'
+L['bilge_rat_supply_chest_note'] = '从附近的 {npc:228582} 收集 {item:228621} 来打开宝箱。'
 
 L['stone_carvers_scamseax_note'] = '收集 {object:光耀黄水晶}（{dot:Yellow}）以获得 {spell:1216785} 增益，持续2分钟，可以拾取 {item:233834}。'
 
@@ -415,7 +418,7 @@ L['options_icons_secrets_of_azeroth_desc'] = '显示 {location:艾泽拉斯之�
 
 L['alyx_kickoff_note'] = '与 {npc:226683} 交谈以启用新的艾泽拉斯之秘谜题。'
 
-L['celebration_crates_label'] = '庆典箱子'
+-- L['celebration_crates_label'] = '庆典箱子'
 L['celebration_crates_note'] = '找到并交还隐藏在 {location:艾泽拉斯} 中的所有 {object:庆典箱子}。'
 
 L['1_soggy_celebration_crate_note'] = '从 {location:深潜酒吧} 的 {npc:143029}（{dot:Blue}）购买 {item:225996} 并将其交给 {npc:189119} 以揭示 {item:226200}。'
@@ -562,3 +565,53 @@ L['code_label'] = '将 %d 个雕像置于 %s'
 L['orb_9_label'] = '9号球'
 
 L['ak_decryption_console_note'] = '回到隐藏的洞穴，入口位于 {location:艾基-卡赫特} 的 {location:沃什柱巢} 洞穴内。\n\n装备 {item:228966} 将揭示一个隐藏的平台。\n\n目标为 {npc:230383} 并使用 {item:228996} 到达那里。输入密码解锁并打开 {object:加密的宝箱} 从中获得 {item:229348}。\n\n{object:密码}：84847078'
+
+-------------------------------------------------------------------------------
+---------------------------------- UNDERMINE ----------------------------------
+-------------------------------------------------------------------------------
+
+L['requires_ally'] = '{note:必须与 |cFFFFFF00{faction:%d}|r 结盟。}'
+L['complete_event'] = '与 {npc:%d} 交谈并完成事件以召唤。'
+L['in_sewer'] = '在下水道内。使用附近的 {object:下水道栅栏} 进入。'
+L['and_slimesby'] = '和 {npc:230947}'
+
+L['inert_plunger_label'] = '无力的马桶搋子？'
+L['exploded_plunger_label'] = '爆炸的马桶搋子'
+
+L['unexploded_fireworks_location'] = '在 {location:尾门公园} 的屋顶上。'
+L['suspicious_book_note'] = '1. {dot:Red} 隐藏在一楼的书架上。尝试收集它，它会飞到楼上的新书架上。\n\n2. {dot:Green} 隐藏在二楼的书架后面。尝试收集它，它会飞到楼上的桌子上。\n\n3. 在三楼的桌子上。最后，收集这本书！'
+L['fireworks_hat_note'] = '尝试抓住帽子，导致它从屋顶飞到这里。'
+L['blackened_dice_note'] = '转动附近的 {object:管道阀门} 以释放骰子。'
+L['lonely_tub_note'] = '拿起附近的 {object:灭火器}（{dot:Blue}）来扑灭 {object:孤独浴缸} 上的火焰。'
+L['impotent_potable_location'] = '在码头下方，靠近 {location:掠夺派对}'
+L['abandoned_toolbox_location'] = '在 {location:废品店} 的屋顶高处。\n\n跟随楼梯到顶部。'
+L['trick_deck_of_cards_location'] = '在 {location:大陆酒店} 内 {npc:231045} 旁边的桌子上。'
+
+L['ditty_fuzeboy_note'] = '用 {item:234741} 交换宠物。'
+L['angelo_rustbin_note'] = '用 {currency:3220} 交换宠物和 {object:G-99 极速} 自定义选项。'
+
+L['options_icons_nine_tenths'] = '{achievement:40948}'
+L['options_icons_nine_tenths_desc'] = '显示 {achievement:40948} 的所有 {object:马夫的自锁箱} 位置。'
+L['muffs_auto_locker_label'] = '马夫的自锁箱'
+L['muffs_auto_locker_note'] = '收集所有 5 个 Gorillion 部件并完成 {quest:87406} 以制作 {item:232843}。'
+L['muffs_auto_locker_suffix'] = '马夫的自锁箱已打开'
+
+L['options_icons_between_the_lines'] = '{achievement:41588}'
+L['options_icons_between_the_lines_desc'] = '显示 {achievement:41588} 的书籍位置。'
+L['a_threatening_letter_location'] = '在 {location:蒸汽轮实验室} 的底层楼梯下。'
+L['gallywixs_notes_location'] = '在 {location:藏宝室} 后面的桌子上。'
+
+L['options_icons_can_do_attitude'] = '{achievement:41589}'
+L['options_icons_can_do_attitude_desc'] = '显示 {achievement:41589} 的 {npc:237103} 位置。'
+L['discarded_can_label'] = '{npc:237103}'
+L['discarded_can_note'] = '踢几次 {npc:237103}。'
+L['discarded_can_suffix'] = '罐头被踢'
+
+L['options_icons_scrap_rewards'] = 'S.C.R.A.P. 堆'
+L['options_icons_scrap_rewards_desc'] = '显示 {object:S.C.R.A.P. 堆} 的奖励。'
+L['scrap_heap_suffix'] = 'S.C.R.A.P. 任务完成'
+
+L['options_icons_youre_my_friend_now'] = '{achievement:41708}'
+L['options_icons_youre_my_friend_now_desc'] = '显示 {achievement:41708} 成就中 {npc:239248} 的位置。'
+L['rat_in_building_rail'] = '在建筑物内的栏杆上。'
+L['rat_2nd_floor_trash_can'] = '在建筑物二楼垃圾桶上。'

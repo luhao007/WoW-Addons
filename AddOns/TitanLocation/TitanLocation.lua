@@ -25,7 +25,13 @@ local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
 local LocationTimer = {};
 local LocationTimerRunning = false
 
-local debug_flow = false
+-- Topic debug tool / scheme
+local dbg = Titan_Debug:New(TITAN_LOCATION_ID)
+dbg:EnableDebug(false)
+dbg:AddTopic("Map")
+dbg:EnableTopic("Events", false)
+dbg:EnableTopic("Flow", false)
+
 
 local place = {
 	zoneText = "",
@@ -50,17 +56,6 @@ local place = {
 local GetZonePVP = C_PvP.GetZonePVPInfo or GetZonePVPInfo -- For Classic versions
 
 -- ******************************** Functions *******************************
-
-local function debug_msg(Message)
-	local msg = ""
-	local stamp = date("%H:%M:%S") -- date("%m/%d/%y %H:%M:%S")
-	local milli = GetTime()     -- seconds with millisecond precision (float)
-	local milli_str = string.format("%0.2F", milli - math.modf(milli))
-	msg = msg .. TitanUtils_GetGoldText(stamp .. milli_str .. " " .. TITAN_LOCATION_ID .. ": ")
-	msg = msg .. TitanUtils_GetGreenText(Message)
-	DEFAULT_CHAT_FRAME:AddMessage(msg)
-	--		DEFAULT_CHAT_FRAME:AddMessage(TITAN_LOCATION_ID..": " .. Message, 1.00, 0.49, 0.04)
-end
 
 ---local Register event if not already registered
 ---@param plugin Button
@@ -91,15 +86,10 @@ local function Events(action, reason)
 		-- action unknown ???
 	end
 
-	if debug_flow then
-		local msg =
-			"Events"
-			.. " " .. tostring(action) .. ""
-			.. " " .. tostring(reason) .. ""
-		debug_msg(msg)
-	else
-		-- not requested
-	end
+	local msg = ""
+		.. " " .. tostring(action) .. ""
+		.. " " .. tostring(reason) .. ""
+	dbg:Out("Events", msg)
 end
 
 ---local Get the player coordinates on x,y axis of the map of the zone / area they are in.
@@ -263,13 +253,6 @@ local function TitanMapCoords_OnUpdate(self, elapsed)
 	local cursorLocationText = ""
 	local playerLocationText = ""
 
-	if debug_flow then
-		cursorLocationText = "-C-"
-		playerLocationText = "-P-"
-	else
-		-- use default
-	end
-
 	if place.show_on_map then
 		place.px, place.py = GetPlayerMapPosition();
 		if place.px == nil then -- invalid map / timing / ... ?
@@ -308,8 +291,7 @@ local function TitanMapCoords_OnUpdate(self, elapsed)
 			-- format coords per the user requested format
 			cursorLocationText = format(place.coords_style, 100 * cx, 100 * cy)
 --[[
-local msg =
-"_OnUpdate"
+local msg = ""
 .. " " .. tostring(inside) .. ""
 .. " [" .. (format("%.2f", left or 0)) .. ""
 .. " " .. (format("%.2f", (bottom) or 0)) .. ""
@@ -317,7 +299,7 @@ local msg =
 .. " " .. (format("%.2f", (bottom + height) or 0)) .. "]"
 .. " " .. (format("%.2f", cx)) .. ""
 .. " " .. (format("%.2f", cy)) .. ""
-debug_msg(msg)
+	dbg:Out("Map", msg)
 --]]
 		end
 
@@ -327,13 +309,11 @@ debug_msg(msg)
 		-- use defaults, saving a few cpu cycles
 	end
 
---[[
-	local msg =
-	"_OnUpdate"
-	.. " " .. tostring(playerLocationText) .. ""
-	.. " " .. tostring(cursorLocationText) .. ""
-	debug_msg(msg)
---]]
+	local msg = ""
+		.. " " .. tostring(playerLocationText) .. ""
+		.. " " .. tostring(cursorLocationText) .. ""
+	dbg:Out("Map", msg)
+
 	SetCoordText(playerLocationText, cursorLocationText)
 end
 
@@ -393,16 +373,12 @@ local function CoordFrames(action)
 		end
 	end
 
-	if debug_flow then
-		local msg =
+	local msg =
 			"CoordFrames"
 			.. " " .. tostring(action) .. ""
 			.. " " .. tostring(place.show_on_map) .. ""
 			.. " " .. tostring(addon_conflict) .. ""
-		debug_msg(msg)
-	else
-		-- not requested
-	end
+	dbg:Out("Flow", msg)
 end
 
 ---local Adds player and cursor coords to the WorldMapFrame, unless the player has CT_MapMod
@@ -417,14 +393,9 @@ local function CreateMapFrames()
 		return;
 	end
 
-	if debug_flow then
-		local msg =
+	local msg =
 		"CreateMapFrames"
-		--			.." "..tostring(reason)..""
-		debug_msg(msg)
-	else
-		-- not requested
-	end
+	dbg:Out("Flow", msg)
 
 	-- create the frame to hold the font strings, and simulate an "OnUpdate" script handler using C_Timer for efficiency
 	local frame = CreateFrame("FRAME", TITAN_MAP_FRAME, WorldMapFrame)
@@ -442,14 +413,9 @@ end
 ---local Display button when plugin is visible
 ---@param self Button
 local function OnShow(self)
-	if debug_flow then
-		local msg =
+	local msg =
 		"_OnShow"
-		--			.." "..tostring(reason)..""
-		debug_msg(msg)
-	else
-		-- not requested
-	end
+	dbg:Out("Flow", msg)
 
 	if LocationTimerRunning then
 		-- Do not schedule a new one
@@ -458,6 +424,20 @@ local function OnShow(self)
 	end
 
 	CreateMapFrames() -- as needed
+
+	if TITAN_ID == "TitanClassic" then
+		if not TitanGetVar(TITAN_LOCATION_ID, "ShowLocOnMiniMap")
+			and MinimapBorderTop and MinimapBorderTop:IsShown() then
+			LocOnMiniMap("PEW")
+		end
+
+		if TitanGetVar(TITAN_LOCATION_ID, "ShowLocOnMiniMap") and MinimapBorderTop:IsShown() then
+			if not MinimapZoneTextButton:IsShown() then MinimapZoneTextButton:Show() end
+		end
+	else
+		-- no work needed
+	end
+
 	CoordFrames("start") -- start coords on map, if requested
 
 	Events("register", "_OnShow")
@@ -623,29 +603,10 @@ local function OnEvent(self, event, ...)
 	-- DF TODO See if we can turn off zone on minimap
 	--[=[
 --]=]
-	if debug_flow then
-		local msg =
+	local msg =
 			"_OnEvent"
 			.. " " .. tostring(event) .. ""
-		debug_msg(msg)
-	else
-		-- not requested
-	end
-
-	if TITAN_ID == "TitanClassic" then
-		if event == "PLAYER_ENTERING_WORLD" then
-			if not TitanGetVar(TITAN_LOCATION_ID, "ShowLocOnMiniMap")
-				and MinimapBorderTop and MinimapBorderTop:IsShown() then
-				LocOnMiniMap("PEW")
-			end
-		end
-
-		if TitanGetVar(TITAN_LOCATION_ID, "ShowLocOnMiniMap") and MinimapBorderTop:IsShown() then
-			if not MinimapZoneTextButton:IsShown() then MinimapZoneTextButton:Show() end
-		end
-	else
-		-- no work needed
-	end
+	dbg:Out("Events", msg)
 
 	ZoneUpdate(self);
 	--[[
@@ -919,16 +880,9 @@ local function OnLoad(self)
 		}
 	};
 
-	RegEvent(self, "PLAYER_ENTERING_WORLD")
-
-	if debug_flow then
-		local msg =
+	local msg =
 		"_OnLoad"
-		--			.." "..tostring(reason)..""
-		debug_msg(msg)
-	else
-		-- not requested
-	end
+	dbg:Out("Flow", msg)
 end
 
 ---local Create needed frames

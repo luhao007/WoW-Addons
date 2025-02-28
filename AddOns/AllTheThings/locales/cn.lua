@@ -86,9 +86,9 @@ local GetSpellName = app.WOWAPI.GetSpellName;
 	L.QUEST_MAY_BE_REMOVED = "获取信息失败。这个任务可能已从游戏中移除。";
 
 	L.FACTION_SPECIFIC_REP = "并非所有声望都可以在单个角色上查看。例：联盟玩家无法看到战歌骑手，部落玩家无法查看银翼哨兵。";
-	L.MINUMUM_STANDING_WITH_FACTION = "需要至少 %s 和 %s.";
-	L.MAXIMUM_STANDING_WITH_FACTION = "需要站立低于 %s 和 %s.";
-	L.MIN_MAX_STANDING_WITH_FACTION = "需要站在 %s 和 %s 和 %s.";
+	L.MINUMUM_STANDING_WITH_FACTION = "最低阵营声望等级 %s 和 %s。";
+	L.MAXIMUM_STANDING_WITH_FACTION = "最高阵营声望等级 %s 和 %s。";
+	L.MIN_MAX_STANDING_WITH_FACTION = "阵营声望等级在 %s 與 %s 之间，和 %s。";
 
 	L.ADDED_WITH_PATCH = "随补丁添加";
 	L.REMOVED_WITH_PATCH = "随补丁移除";
@@ -463,8 +463,6 @@ do a[key] = value; end
 if app.IsRetail then
 local a = L.HEADER_NAMES;
 for key,value in pairs({
-	-- Class Trial
-		[-155] = string.format(SPELLBOOK_AVAILABLE_AT, 50).." ".."（直升）",	-- Level 50 (Boost)
 	-- PvP
 		[-242] = "无评级",												-- Unrated
 	-- Outposts in Draenor
@@ -503,6 +501,10 @@ for key,value in pairs({
 		[-1120] = "马鲁克半人马",											-- Maruuk Centaur
 		[-1130] = "伊斯卡拉海象人",										-- Iskaara Tuskarr
 		[-1150] = "峈姆鼹鼠人",											-- Loamm Niffen
+	-- The War Within
+		[-1208] = "入侵：维库人",												-- Vrykul
+		[-1209] = "入侵：娜迦",													-- Naga
+		[-1210] = "入侵：海盗",												-- Pirate
 	-- Tier/Dungeon/Event/Holiday Sets
 		-- Artifact Strings
 			[-5200] = "基础外观",										-- Base Appearance
@@ -592,8 +594,8 @@ for key,value in pairs({
 		BATTLE_PETS_CHECKBOX_TOOLTIP = "启用此选项可追踪战斗宠物和同伴。这些可以在开放的世界中找到，也可以通过各种地下城和团队中的boss掉落，以及从供应商和声望获取。";
 		DEATHS_CHECKBOX = "死亡";
 		DEATHS_CHECKBOX_TOOLTIP = "启用此选项可跟踪您的角色每次死亡的情况，并将其显示为插件中的收藏品部分。\n\n注意：如果您关闭此选项，我们仍会跟踪它，但除非您处于调试模式，否则我们不会显示统计信息。";
-		EXPLORATION_CHECKBOX = "探索";
-		EXPLORATION_CHECKBOX_TOOLTIP = "启用此选项可以跟踪户外地图的探索完成情况。";
+		EXPLORATION_CHECKBOX = "探索(不精准)";
+		EXPLORATION_CHECKBOX_TOOLTIP = "启用此选项可以跟踪户外地图的探索完成情况。\n\n目前这个选项所提供的资讯并不准确，需要加强，请谨慎使用。";
 		FLIGHT_PATHS_CHECKBOX = "飞行路径";
 		FLIGHT_PATHS_CHECKBOX_TOOLTIP = "启用此选项以追踪飞行路径和飞艇。\n\n要收藏这些信息，请与每个大陆的飞行点/飞艇船长对话。\n\n注意：由于分阶段技术，你可能必须分阶段到区域的其他敌方，以获得这些兴趣点的开启。";
 		--TODO: HEIRLOOMS_CHECKBOX = HEIRLOOMS;

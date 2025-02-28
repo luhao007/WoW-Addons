@@ -61,7 +61,7 @@ function BusinessInfo.Admin()
 						fujik.Faction:SetTexCoord(0.5,1,0,1);
 					end
 					fujik.Race:SetAtlas(cdmulu[dangqian][2][3]);
-					local className, classFile, classID = GetClassInfo(cdmulu[dangqian][2][4])
+					local className, classFile, classID = PIGGetClassInfo(cdmulu[dangqian][2][4])
 					fujik.Class:SetTexCoord(unpack(CLASS_ICON_TCOORDS[classFile]));
 					fujik.level:SetText("("..cdmulu[dangqian][2][5]..")");
 					local color = PIG_CLASS_COLORS[classFile];
@@ -95,7 +95,6 @@ function BusinessInfo.Admin()
 		hang.Faction:SetPoint("LEFT", hang, "LEFT", 0,0);
 		hang.Faction:SetSize(hang_Height,hang_Height);
 		hang.Race = hang:CreateTexture();
-		hang.Race:SetTexture("Interface/Glues/CharacterCreate/CharacterCreateIcons")
 		hang.Race:SetPoint("LEFT", hang.Faction, "RIGHT", 1,0);
 		hang.Race:SetSize(hang_Height,hang_Height);
 		hang.Class = hang:CreateTexture();
@@ -164,7 +163,7 @@ function BusinessInfo.Admin()
 						fujik.Faction:SetTexCoord(0.5,1,0,1);
 					end
 					fujik.Race:SetAtlas(cdmulu[dangqian][2][3]);
-					local className, classFile, classID = GetClassInfo(cdmulu[dangqian][2][4])
+					local className, classFile, classID = PIGGetClassInfo(cdmulu[dangqian][2][4])
 					fujik.Class:SetTexCoord(unpack(CLASS_ICON_TCOORDS[classFile]));
 					fujik.level:SetText("("..cdmulu[dangqian][2][5]..")");
 					local color = PIG_CLASS_COLORS[classFile];
@@ -198,7 +197,6 @@ function BusinessInfo.Admin()
 		hang.Faction:SetPoint("LEFT", hang, "LEFT", 0,0);
 		hang.Faction:SetSize(hang_Height,hang_Height);
 		hang.Race = hang:CreateTexture();
-		hang.Race:SetTexture("Interface/Glues/CharacterCreate/CharacterCreateIcons")
 		hang.Race:SetPoint("LEFT", hang.Faction, "RIGHT", 1,0);
 		hang.Race:SetSize(hang_Height,hang_Height);
 		hang.Class = hang:CreateTexture();

@@ -7,8 +7,8 @@
 local appName, app = ...;
 local L = app.L;
 
-local AssignChildren, CloneClassInstance, GetRelativeValue = app.AssignChildren, app.CloneClassInstance, app.GetRelativeValue;
-local IsQuestFlaggedCompleted = app.IsQuestFlaggedCompleted
+local AssignChildren, GetRelativeValue, IsQuestFlaggedCompleted
+	= app.AssignChildren, app.GetRelativeValue, app.IsQuestFlaggedCompleted
 
 -- Abbreviations
 L.ABBREVIATIONS[L.UNSORTED .. " %> " .. L.UNSORTED] = "|T" .. app.asset("WindowIcon_Unsorted") .. ":0|t " .. L.SHORTTITLE .. " %> " .. L.UNSORTED;
@@ -65,7 +65,6 @@ local IsRetrieving = app.Modules.RetrievingData.IsRetrieving;
 local GetProgressColorText = app.Modules.Color.GetProgressColorText;
 local TryColorizeName = app.TryColorizeName;
 local DESCRIPTION_SEPARATOR = app.DESCRIPTION_SEPARATOR;
-local GetDisplayID = app.GetDisplayID
 local ATTAccountWideData;
 
 -- Color Lib
@@ -440,6 +439,20 @@ app.SourceSpecificFields = {
 		-- app.PrintDebug("new:",new)
 		return new;
 	end,
+-- Returns the 'earliest' Added with Patch value from the provided set of `awp` values
+	["awp"] = function(...)
+		local min, awp
+		local vals = select("#", ...);
+		for i=1,vals do
+			awp = select(i, ...)
+			-- ignore missing awp...
+			-- track the lowest awp value, which is the furthest-future patch
+			if awp and (not min or awp < min) then
+				min = awp;
+			end
+		end
+		return min
+	end,
 -- Returns the 'highest' Removed with Patch value from the provided set of `rwp` values
 	["rwp"] = function(...)
 		local max, rwp = -1,nil;
@@ -453,7 +466,6 @@ app.SourceSpecificFields = {
 				max = rwp;
 			end
 		end
-		-- print("max:",max)
 		return max;
 	end,
 -- Simple boolean
@@ -461,84 +473,106 @@ app.SourceSpecificFields = {
 	["pb"] = true,
 	["requireSkill"] = true,
 };
+-- Group Merge Handling
+local MergeProperties
+do
+local function Assign_Direct(g, k, v)
+	g[k] = v
+end
+local function Assign_Missing(g, k, v)
+	if rawget(g, k) == nil then g[k] = v end
+end
+local function Assign_sourceParent(g, k, v)
+	g.sourceParent = v
+end
+local MergeFuncByKey = setmetatable({
+	parent = Assign_sourceParent,
+
+}, { __index = function(t,key)
+	return Assign_Direct
+end})
+local MergeFuncByKeyNoReplace = setmetatable({
+	parent = Assign_sourceParent,
+
+}, { __index = function(t,key)
+	return Assign_Missing
+end})
+local MergeFuncByKeyClone = setmetatable({
+	parent = Assign_sourceParent,
+
+}, { __index = function(t,key)
+	return Assign_Direct
+end})
+-- have merge skip fields do nothing
+for k,v in pairs(app.MergeSkipFields) do
+	MergeFuncByKey[k] = app.EmptyFunction
+	MergeFuncByKeyNoReplace[k] = app.EmptyFunction
+	if v == true then
+		MergeFuncByKeyClone[k] = app.EmptyFunction
+	end
+end
+-- have source specific fields do nothing
+for k,v in pairs(app.SourceSpecificFields) do
+	MergeFuncByKey[k] = app.EmptyFunction
+	MergeFuncByKeyNoReplace[k] = app.EmptyFunction
+	MergeFuncByKeyClone[k] = app.EmptyFunction
+end
 -- Merges the properties of the t group into the g group, making sure not to alter the filterability of the group.
 -- Additionally can specify that the object is being cloned so as to skip special merge restrictions
-local function MergeProperties(g, t, noReplace, clone)
-	if g and t then
-		if g ~= t then
-			g.__merge = t.__merge or t
+MergeProperties = function(g, t, noReplace, clone)
+	if not g or not t then return end
+	if g ~= t then
+		g.__merge = t.__merge or t
+	end
+	if noReplace then
+		for k,v in pairs(t) do
+			MergeFuncByKeyNoReplace[k](g,k,v)
 		end
-		local skips = app.MergeSkipFields;
-		if noReplace then
-			for k,v in pairs(t) do
-				-- certain keys should never transfer to the merge group directly
-				if k == "parent" then
-					if not rawget(g, "sourceParent") then
-						g.sourceParent = v;
-					end
-				elseif not skips[k] then
-					if rawget(g, k) == nil then
-						g[k] = v;
-					end
-				end
-			end
-		elseif clone then
-			for k,v in pairs(t) do
-				-- certain keys should never transfer to the merge group directly
-				if k == "parent" then
-					if not rawget(g, "sourceParent") then
-						g.sourceParent = v;
-					end
-				elseif skips[k] ~= true then
-					g[k] = v;
-				end
-			end
-		else
-			for k,v in pairs(t) do
-				-- certain keys should never transfer to the merge group directly
-				if k == "parent" then
-					if not rawget(g, "sourceParent") then
-						g.sourceParent = v;
-					end
-				elseif not skips[k] then
-					g[k] = v;
-				end
-			end
+	elseif clone then
+		for k,v in pairs(t) do
+			MergeFuncByKeyClone[k](g,k,v)
 		end
-		-- custom special logic for fields which need to represent the commonality between all Sources of a group
-		-- loop through specific fields for custom logic
-		-- initial creation of a g object, has no key
-		if not g.key then
-			for k,_ in pairs(app.SourceSpecificFields) do
-				g[k] = t[k];
-			end
-		else
-			local gk, tk;
-			for k,f in pairs(app.SourceSpecificFields) do
-				-- existing is set
-				gk = g[k];
-				if gk then
-					tk = t[k];
-					-- no value on merger
-					if tk == nil then
-						-- app.PrintDebug(g.hash,"remove",k,gk,tk)
-						g[k] = nil;
-					elseif f and type(f) == "function" then
-						-- two different values with a compare function
-						-- app.PrintDebug(g.hash,"compare",k,gk,tk)
-						g[k] = f(gk, tk);
-						-- app.PrintDebug(g.hash,"result",g[k])
-					end
+	else
+		for k,v in pairs(t) do
+			MergeFuncByKey[k](g,k,v)
+		end
+	end
+	-- custom special logic for fields which need to represent the commonality between all Sources of a group
+	-- loop through specific fields for custom logic
+	-- initial creation of a g object, has no key
+	if not g.key then
+		for k,_ in pairs(app.SourceSpecificFields) do
+			g[k] = t[k];
+		end
+	else
+		local gk, tk;
+		for k,f in pairs(app.SourceSpecificFields) do
+			-- existing is set
+			gk = rawget(g, k)
+			-- app.PrintDebug("SSF",k,g,t,gk,rawget(t, k))
+			if gk then
+				tk = rawget(t, k)
+				-- no value on merger
+				if tk == nil then
+					-- app.PrintDebug(g.hash,"remove",k,gk,tk)
+					g[k] = nil;
+				elseif f and type(f) == "function" then
+					-- two different values with a compare function
+					-- app.PrintDebug(g.hash,"compare",k,gk,tk)
+					g[k] = f(gk, tk);
+					-- app.PrintDebug(g.hash,"result",g[k])
 				end
 			end
 		end
-		-- only copy metatable to g if another hasn't been set already
-		if not getmetatable(g) and getmetatable(t) then
-			setmetatable(g, getmetatable(t));
-		end
+	end
+	-- only copy metatable to g if another hasn't been set already
+	if not getmetatable(g) and getmetatable(t) then
+		setmetatable(g, getmetatable(t));
 	end
 end
 app.MergeProperties = MergeProperties;
+end -- Group Merge Handling
+
 -- The base logic for turning a Table of data into an 'object' that provides dynamic information concerning the type of object which was identified
 -- based on the priority of possible key values
 local function CreateObject(t, rootOnly)
@@ -1033,6 +1067,30 @@ end
 local GetFixedItemSpecInfo, GetSpecsString, GetGroupItemIDWithModID, GetItemIDAndModID, GroupMatchesParams, GetClassesString
 	= app.GetFixedItemSpecInfo, app.GetSpecsString, app.GetGroupItemIDWithModID, app.GetItemIDAndModID, app.GroupMatchesParams, app.GetClassesString
 
+local function CleanInheritingGroups(groups, ...)
+	-- Cleans any groups which are nested under any group with any specified fields
+	local arrs = select("#", ...);
+	if groups and arrs > 0 then
+		local refined, f, match = {}, nil, nil;
+		-- app.PrintDebug("CIG:Start",#groups,...)
+		for _,j in ipairs(groups) do
+			match = nil;
+			for n=1,arrs do
+				f = select(n, ...);
+				if GetRelativeValue(j, f) then
+					match = true;
+					-- app.PrintDebug("CIG:Skip",j.hash,f)
+					break;
+				end
+			end
+			if not match then
+				tinsert(refined, j);
+			end
+		end
+		-- app.PrintDebug("CIG:End",#refined)
+		return refined;
+	end
+end
 -- Symlink Lib
 do
 local select, tremove, unpack =
@@ -1372,7 +1430,7 @@ local ResolveFunctions = {
 		local cache, value;
 		for i=1,vals do
 			value = select(i, ...);
-			cache = Search("achievementID", value, "key", true);
+			cache = CleanInheritingGroups(Search("achievementID", value, "key", true), "sourceIgnored")
 			local mergeAch = cache[1]
 			-- multiple achievements match the selection, make sure to merge them together so we don't lose fields
 			-- that only exist in the original Source (Achievements source prunes some data)
@@ -1549,7 +1607,7 @@ if GetAchievementNumCriteria then
 				CacheFields(criteriaObject);
 				-- this criteria object may have been turned into a cost via costs/providers assignment, so make sure we update those respective costs via the Cost Runner
 				-- if settings are changed while this is running, it's ok because it refreshes costs from the cache
-				app.FillRunner.Run(app.UpdateCostGroup, criteriaObject)
+				app.HandleEvent("OnSearchResultUpdate", criteriaObject)
 				tinsert(searchResults, criteriaObject);
 			end
 		end
@@ -1647,7 +1705,8 @@ local SubroutineCache = {
 		push(finalized, searchResults, o, "push", "headerID", app.HeaderConstants.COMMON_BOSS_DROPS);	-- Push into 'Common Boss Drops' header
 		finalize(finalized, searchResults);	-- capture current results
 		select(finalized, searchResults, o, "select", "instanceID", instanceID);	-- select this instance
-		whereany(finalized, searchResults, o, "whereany", "e", 559, 562, 587, 643, 1056, 1263 );	-- Select the TIMEWALKING eventID
+		-- TODO: collect into an exportDB table to future-proof new TW eventIDs
+		whereany(finalized, searchResults, o, "whereany", "e", 1271, 1508, 559, 562, 587, 643, 1056, 1263 );	-- Select any TIMEWALKING eventID
 		if #searchResults > 0 then o.e = searchResults[1].e; end
 		pop(finalized, searchResults);	-- pop the instance header
 	end,
@@ -1800,12 +1859,15 @@ end or function(finalized, searchResults, o, oSym)
 	end
 end
 local ResolveCache = {};
-ResolveSymbolicLink = function(o)
+ResolveSymbolicLink = function(o, refonly)
 	local oSym = o.sym
 	if not oSym then return end
 
 	local oHash, oKey = o.hash, o.key;
 	if o.resolved or (oKey and app.ThingKeys[oKey] and ResolveCache[oHash]) then
+		if refonly then
+			return o.resolved or ResolveCache[oHash]
+		end
 		-- app.PrintDebug(o.resolved and "Object Resolve" or "Cache Resolve",oHash,#(o.resolved or ResolveCache[oHash]))
 		local cloned = {};
 		MergeObjects(cloned, o.resolved or ResolveCache[oHash], true);
@@ -1844,8 +1906,10 @@ ResolveSymbolicLink = function(o)
 			cloned[#cloned + 1] = clone
 
 			-- Apply any modID if necessary
-			if FinalizeModID and clone.itemID then
+			if FinalizeModID and clone.itemID and clone.modID ~= FinalizeModID then
 				clone.modID = FinalizeModID;
+				-- refresh the item group since certain metadata may be different now
+				app.RefreshItemGroup(clone)
 			end
 			if PruneFinalized then
 				for _,field in ipairs(PruneFinalized) do
@@ -1882,7 +1946,7 @@ local function ResolveSymlinkGroupAsync(group)
 	local groups = ResolveSymbolicLink(group);
 	group.sym = nil;
 	if groups then
-		PriorityNestObjects(group, groups, nil, app.RecursiveCharacterRequirementsFilter);
+		PriorityNestObjects(group, groups, nil, app.RecursiveCharacterRequirementsFilter, app.RecursiveGroupRequirementsFilter);
 		-- app.PrintDebug("RSGa",group.g and #group.g,group.hash)
 		-- newly added group data needs to be checked again for further content to fill, since it will not have been recursively checked
 		-- on the initial pass due to the async nature
@@ -1932,7 +1996,7 @@ local function BuildContainsInfo(subgroups, entries, indent, layer)
 
 	for _,group in ipairs(subgroups) do
 		-- If there's progress to display for a non-sourceIgnored group, then let's summarize a bit better.
-		if group.visible and not group.sourceIgnored then
+		if group.visible and not group.sourceIgnored and not group.skipContains then
 			-- Count it, but don't actually add it to entries if it meets the limit
 			if #entries >= ContainsLimit then
 				ContainsExceeded = ContainsExceeded + 1;
@@ -1984,7 +2048,7 @@ local function AddContainsData(group, tooltipInfo)
 	if not working and not app.ActiveRowReference then
 		app.Sort(group.g, app.SortDefaults.Hierarchy, true);
 	end
-	-- app.PrintDebug("SummarizeThings",group.hash,group.g and #group.g)
+	-- app.PrintDebug("SummarizeThings",app:SearchLink(group),group.g and #group.g)
 	local entries = {};
 	-- app.Debugging = "CONTAINS-"..group.hash;
 	ContainsLimit = app.Settings:GetTooltipSetting("ContainsCount") or 25;
@@ -2007,6 +2071,7 @@ local function AddContainsData(group, tooltipInfo)
 					working = true;
 				end
 				left = TryColorizeName(entry, left);
+				-- app.PrintDebug("Entry#",i,app:SearchLink(entry),app.GenerateSourcePathForTooltip(entry))
 
 				-- If this entry has a specific Class requirement and is not itself a 'Class' header, tack that on as well
 				if entry.c and entry.key ~= "classID" and #entry.c == 1 then
@@ -2190,7 +2255,7 @@ SourceSearcher.heirloomID = SourceSearcher.itemID
 
 local function AddSourceLinesForTooltip(tooltipInfo, paramA, paramB)
 	-- Create a list of sources
-	-- app.PrintDebug("SourceLocations",paramA,SourceLocationSettingsKey[paramA])
+	-- app.PrintDebug("SourceLocations",paramA,paramB,SourceLocationSettingsKey[paramA])
 	if not app.ThingKeys[paramA] then return end
 	local settings = app.Settings
 	if not settings:GetTooltipSetting("SourceLocations") or not settings:GetTooltipSetting(SourceLocationSettingsKey[paramA]) then return end
@@ -2304,7 +2369,7 @@ app.AddEventHandler("OnLoad", function()
 		HideCheckBox = true,
 		Process = function(t, reference, tooltipInfo)
 			local key = reference.key
-			local id = reference[key]
+			local id = key == "itemID" and reference.modItemID or reference[key]
 			if key and id and SourceShowKeys[key] then
 				if tooltipInfo.hasSourceLocations then return end
 				if AddSourceLinesForTooltip(tooltipInfo, key, id) then
@@ -2316,7 +2381,7 @@ app.AddEventHandler("OnLoad", function()
 end)
 
 local function GetSearchResults(method, paramA, paramB, options)
-	-- app.PrintDebug("GetSearchResults",method,paramA,paramB,...)
+	-- app.PrintDebug("GetSearchResults",method,paramA,paramB)
 	if not method then
 		print("GetSearchResults: Invalid method: nil");
 		return nil, true;
@@ -2330,6 +2395,9 @@ local function GetSearchResults(method, paramA, paramB, options)
 	local rawlink;
 	if paramB then paramB = tonumber(paramB);
 	else rawlink = paramA; end
+
+	local RecursiveCharacterRequirementsFilter, RecursiveGroupRequirementsFilter
+		= app.RecursiveCharacterRequirementsFilter, app.RecursiveGroupRequirementsFilter
 
 	-- Call to the method to search the database.
 	local group, a, b = method(paramA, paramB);
@@ -2364,7 +2432,7 @@ local function GetSearchResults(method, paramA, paramB, options)
 					end
 				else
 					for i,j in ipairs(group) do
-						if j.rank == rank and app.RecursiveCharacterRequirementsFilter(j) and app.RecursiveUnobtainableFilter(j) and app.RecursiveGroupRequirementsFilter(j) then
+						if j.rank == rank and RecursiveCharacterRequirementsFilter(j) and app.RecursiveUnobtainableFilter(j) and RecursiveGroupRequirementsFilter(j) then
 							if j.mapID or j.parent == nil or j.parent.parent == nil then
 								tinsert(regroup, setmetatable({["g"] = {}}, { __index = j }));
 							else
@@ -2386,7 +2454,7 @@ local function GetSearchResults(method, paramA, paramB, options)
 					end
 				else
 					for i,j in ipairs(group) do
-						if app.RecursiveCharacterRequirementsFilter(j) and app.RecursiveUnobtainableFilter(j) and app.RecursiveGroupRequirementsFilter(j) then
+						if RecursiveCharacterRequirementsFilter(j) and app.RecursiveUnobtainableFilter(j) and RecursiveGroupRequirementsFilter(j) then
 							tinsert(regroup, setmetatable({["g"] = {}}, { __index = j }));
 						end
 					end
@@ -2400,59 +2468,59 @@ local function GetSearchResults(method, paramA, paramB, options)
 	end
 
 	-- Determine if this is a cache for an item
-	local itemID, sourceID, modID, bonusID, itemString;
+	local itemString
 	if rawlink then
 		-- paramA
 		itemString = rawlink:match("item[%-?%d:]+");
-		if itemString then
-			sourceID = app.GetSourceID(rawlink);
-			-- app.PrintDebug("Rawlink SourceID",sourceID,rawlink)
-			local _, itemID2, enchantId, gemId1, gemId2, gemId3, gemId4, suffixId, uniqueId, linkLevel, specializationID, upgradeId, linkModID, numBonusIds, bonusID1 = (":"):split(itemString);
-			if itemID2 then
-				itemID = tonumber(itemID2);
-				modID = tonumber(linkModID) or 0;
-				if modID == 0 then modID = nil; end
-				bonusID = (tonumber(numBonusIds) or 0) > 0 and tonumber(bonusID1) or 3524;
-				if bonusID == 3524 then bonusID = nil; end
-				if sourceID then
-					paramA = "sourceID"
-					paramB = sourceID
-					-- app.PrintDebug("use sourceID params",paramA,paramB)
-				else
+		if not paramB then
+			if itemString then
+				-- app.PrintDebug("Rawlink SourceID",sourceID,rawlink)
+				local _, itemID, enchantId, gemId1, gemId2, gemId3, gemId4, suffixId, uniqueId, linkLevel, specializationID, upgradeId, linkModID, numBonusIds, bonusID1 = (":"):split(itemString);
+				if itemID then
+					itemID = tonumber(itemID);
+					local modID = tonumber(linkModID) or 0;
+					if modID == 0 then modID = nil; end
+					local bonusID = (tonumber(numBonusIds) or 0) > 0 and tonumber(bonusID1) or 3524;
+					if bonusID == 3524 then bonusID = nil; end
+					local sourceID = app.GetSourceID(rawlink);
+					if sourceID then
+						paramA = "sourceID"
+						paramB = sourceID
+						-- app.PrintDebug("use sourceID params",paramA,paramB)
+					else
+						paramA = "itemID";
+						paramB = GetGroupItemIDWithModID(nil, itemID, modID, bonusID) or itemID;
+						-- app.PrintDebug("use itemID params",paramA,paramB)
+					end
+				end
+			else
+				local kind, id = (":"):split(rawlink);
+				kind = kind:lower();
+				if id then id = tonumber(id); end
+				if kind == "itemid" then
 					paramA = "itemID";
-					paramB = GetGroupItemIDWithModID(nil, itemID, modID, bonusID) or itemID;
-					-- app.PrintDebug("use itemID params",paramA,paramB)
+					paramB = id;
+				elseif kind == "questid" then
+					paramA = "questID";
+					paramB = id;
+				elseif kind == "creatureid" or kind == "npcid" then
+					paramA = "creatureID";
+					paramB = id;
+				elseif kind == "achievementid" then
+					paramA = "achievementID";
+					paramB = id;
 				end
 			end
-		else
-			local kind, id = (":"):split(rawlink);
-			kind = kind:lower();
-			if id then id = tonumber(id); end
-			if kind == "itemid" then
-				paramA = "itemID";
-				paramB = id;
-				itemID = id;
-			elseif kind == "questid" then
-				paramA = "questID";
-				paramB = id;
-			elseif kind == "creatureid" or kind == "npcid" then
-				paramA = "creatureID";
-				paramB = id;
-			elseif kind == "achievementid" then
-				paramA = "achievementID";
-				paramB = id;
-			end
 		end
-	elseif paramA == "itemID" then
-		-- itemID should only be the itemID, not including modID
-		itemID = GetItemIDAndModID(paramB) or paramB;
 	end
 
 	-- Create clones of the search results
 	if not group.g then
 		-- Clone all the non-ignored groups so that things don't get modified in the Source
+		-- app.PrintDebug("Cloning Roots for",paramA,paramB,"#group",group and #group);
 		local cloned = {};
 		for _,o in ipairs(group) do
+			-- app.PrintDebug("Clone:",app:SearchLink(o),GetRelativeValue(o, "sourceIgnored"),app.GetRelativeRawWithField(o, "sourceIgnored"),app.GenerateSourcePathForTooltip(o))
 			if not GetRelativeValue(o, "sourceIgnored") then
 				cloned[#cloned + 1] = CreateObject(o)
 			end
@@ -2475,7 +2543,7 @@ local function GetSearchResults(method, paramA, paramB, options)
 						if not root then
 							for _,o in ipairs(refinedMatches[depth]) do
 								-- object meets filter criteria and is exactly what is being searched
-								if app.RecursiveCharacterRequirementsFilter(o) then
+								if RecursiveCharacterRequirementsFilter(o) then
 									-- app.PrintDebug("filtered root");
 									if root then
 										if filtered then
@@ -2506,7 +2574,7 @@ local function GetSearchResults(method, paramA, paramB, options)
 							for _,o in ipairs(refinedMatches[depth]) do
 								-- Not accurate matched enough to be the root, so it will be nested
 								-- app.PrintDebug("nested")
-								tinsert(nested, o);
+								nested[#nested + 1] = o
 							end
 						end
 					end
@@ -2518,7 +2586,7 @@ local function GetSearchResults(method, paramA, paramB, options)
 				-- app.PrintDebug(o.key,o[o.key],o.modItemID,"=parent>",o.parent and o.parent.key,o.parent and o.parent.key and o.parent[o.parent.key],o.parent and o.parent.text);
 				if GroupMatchesParams(o, paramA, paramB) then
 					-- object meets filter criteria and is exactly what is being searched
-					if app.RecursiveCharacterRequirementsFilter(o) then
+					if RecursiveCharacterRequirementsFilter(o) then
 						-- app.PrintDebug("filtered root");
 						if root then
 							if filtered then
@@ -2550,7 +2618,7 @@ local function GetSearchResults(method, paramA, paramB, options)
 				else
 					-- Not the root, so it will be nested
 					-- app.PrintDebug("nested")
-					tinsert(nested, o);
+					nested[#nested + 1] = o
 				end
 			end
 		end
@@ -2580,22 +2648,24 @@ local function GetSearchResults(method, paramA, paramB, options)
 		-- app.PrintDebug("Root Collect",root.collectible,root.collected,root.collectibleAsCost,root.hasUpgrade);
 		-- app.PrintDebug("params",paramA,paramB);
 		-- app.PrintDebug(#nested,"Nested total");
-		-- Nest the objects by matching filter priority if it's not a currency
-		if paramA ~= "currencyID" then
-			PriorityNestObjects(root, nested, nil, app.RecursiveCharacterRequirementsFilter);
-		else
-			-- do roughly the same logic for currency, but will not add the skipped objects afterwards
-			local added = {};
-			for i,o in ipairs(nested) do
-				-- If the obj meets the recursive group filter
-				if app.RecursiveCharacterRequirementsFilter(o) then
-					-- Merge the obj into the merged results
-					-- app.PrintDebug("Merge object",o.key,o[o.key])
-					tinsert(added, o);
+		if #nested > 0 then
+			-- Nest the objects by matching filter priority if it's not a currency
+			if paramA ~= "currencyID" then
+				PriorityNestObjects(root, nested, nil, RecursiveCharacterRequirementsFilter, RecursiveGroupRequirementsFilter)
+			else
+				-- do roughly the same logic for currency, but will not add the skipped objects afterwards
+				local added = {};
+				for i,o in ipairs(nested) do
+					-- If the obj meets the recursive group filter
+					if RecursiveCharacterRequirementsFilter(o) then
+						-- Merge the obj into the merged results
+						-- app.PrintDebug("Merge object",o.key,o[o.key])
+						added[#added + 1] = o
+					end
 				end
+				-- Nest the added objects
+				NestObjects(root, added)
 			end
-			-- Nest the added objects
-			NestObjects(root, added);
 		end
 
 		-- if not root.key then
@@ -3003,7 +3073,7 @@ local function FillGroupDirect(group, FillData, doDGU)
 		DetermineSymlinkGroups(group));
 
 	-- Adding the groups normally based on available-source priority
-	PriorityNestObjects(group, groups, nil, app.RecursiveCharacterRequirementsFilter);
+	PriorityNestObjects(group, groups, nil, app.RecursiveCharacterRequirementsFilter, app.RecursiveGroupRequirementsFilter);
 
 	if groups and #groups > 0 then
 		-- if FillData.Debug then
@@ -3376,14 +3446,16 @@ local function BuildSourceParent(group)
 						---@type any
 						local pRef = (type == "i" and SearchForObject("itemID", id, "field"))
 								or   (type == "o" and SearchForObject("objectID", id, "field"))
-								or   (type == "n" and SearchForObject("npcID", id, "field"));
+								or   (type == "n" and SearchForObject("npcID", id, "field"))
+								or   (type == "s" and SearchForObject("spellID", id, "field"));
 						if pRef then
 							pRef = CreateObject(pRef);
 							tinsert(parents, pRef);
 						else
 							pRef = (type == "i" and app.CreateItem(id))
 								or   (type == "o" and app.CreateObject(id))
-								or   (type == "n" and app.CreateNPC(id));
+								or   (type == "n" and app.CreateNPC(id))
+								or   (type == "s" and app.CreateSpell(id));
 							tinsert(parents, pRef);
 						end
 					end
@@ -3450,7 +3522,7 @@ local function BuildSourceParent(group)
 				end
 				tinsert(clones, clonedParent);
 			end
-			PriorityNestObjects(sourceGroup, clones, nil, app.RecursiveCharacterRequirementsFilter);
+			PriorityNestObjects(sourceGroup, clones, nil, app.RecursiveCharacterRequirementsFilter, app.RecursiveGroupRequirementsFilter);
 			NestObject(group, sourceGroup, nil, 1);
 		end
 	end
@@ -3465,7 +3537,7 @@ end)();
 (function()
 local C_CreatureInfo_GetRaceInfo = C_CreatureInfo.GetRaceInfo;
 local outgoing,incoming,queue,active = {},{},{},nil;
-local whiteListedFields = { --[["Achievements",]] "AzeriteEssenceRanks", "Exploration", "Factions", "FlightPaths", "Followers", "GarrisonBuildings", "Quests", "Spells", "Titles" };
+local whiteListedFields = { --[["Achievements",]] "AzeriteEssenceRanks", "BattlePets", "Exploration", "Factions", "FlightPaths", "Followers", "GarrisonBuildings", "Quests", "Spells", "Titles" };
 app.CharacterSyncTables = whiteListedFields;
 local function splittoarray(sep, inputstr)
 	local t = {};
@@ -3656,6 +3728,7 @@ local SyncFunctions = setmetatable({
 	AzeriteEssenceRanks = RankSyncCharacterData,
 	Quests = SyncCharacterQuestData,
 	Mounts = PartialSyncCharacterData,
+	BattlePets = PartialSyncCharacterData,
 }, { __index = function(t, key)
 	if contains(whiteListedFields, key) then
 		return DefaultSyncCharacterData
@@ -3680,7 +3753,7 @@ function app:RecalculateAccountWideData()
 	end
 	ATTAccountWideData.Deaths = deaths;
 end
-app.AddEventHandler("OnRefreshCollectionsDone", app.RecalculateAccountWideData)
+app.AddEventHandler("OnRecalculateDone", app.RecalculateAccountWideData)
 function app:ReceiveSyncRequest(sender, battleTag)
 	if battleTag ~= select(2, BNGetInfo()) then
 		-- Check to see if the character/account is linked.
@@ -3828,13 +3901,13 @@ local function UpdateSearchResults(searchResults)
 	-- Update all the results within visible windows
 	local hashes = {};
 	local found = {};
-	local UpdateCostGroup = app.UpdateCostGroup;
+	local HandleEvent = app.HandleEvent
 	-- Directly update the Source groups of the search results, and collect their hashes for updates in other windows
 	for _,result in ipairs(searchResults) do
 		hashes[result.hash] = true;
 		found[#found + 1] = result;
-		-- Make sure any cost data is updated for this specific group since it was updated
-		UpdateCostGroup(result);
+		-- Make sure any update events are handled for this Thing
+		HandleEvent("OnSearchResultUpdate", result)
 	end
 
 	-- loop through visible ATT windows and collect matching groups
@@ -3938,12 +4011,15 @@ local function SearchForLink(link)
 					end
 				end
 			end
+			local search
 			-- Don't use SourceID for artifact searches since they contain many SourceIDs
 			local sourceID = not artifactID and app.GetSourceID(link);
 			if sourceID then
 				-- Search for the Source ID. (an appearance)
 				-- app.PrintDebug("SEARCHING FOR ITEM LINK WITH SOURCE", link, itemID, sourceID);
-				return SearchForObject("sourceID", sourceID, nil, true);
+				search = SearchForObject("sourceID", sourceID, nil, true)
+				-- app.PrintDebug("SFL.sourceID",sourceID,#search)
+				if #search > 0 then return search, "sourceID", sourceID end
 			end
 			-- Search for the Item ID. (an item without an appearance)
 			-- app.PrintDebug("SFL-exact",itemID, modID, (tonumber(bonusCount) or 0) > 0 and bonusID1)
@@ -3960,16 +4036,17 @@ local function SearchForLink(link)
 				modItemID = GetGroupItemIDWithModID(nil, itemID, modID);
 			end
 			-- app.PrintDebug("SEARCHING FOR ITEM LINK", link, exactItemID, modItemID, itemID);
-			local search
 			if exactItemID ~= itemID then
 				search = SearchForObject("modItemID", exactItemID, nil, true);
-				if #search > 0 then return search; end
+				-- app.PrintDebug("SFL.modItemID",exactItemID,#search)
+				if #search > 0 then return search, "modItemID", exactItemID end
 			end
 			if modItemID ~= itemID and modItemID ~= exactItemID then
 				search = SearchForObject("modItemID", modItemID, nil, true);
-				if #search > 0 then return search; end
+				-- app.PrintDebug("SFL.modItemID",modItemID,#search)
+				if #search > 0 then return search, "modItemID", modItemID end
 			end
-			return SearchForObject("itemID", itemID, nil, true);
+			return SearchForObject("itemID", itemID, nil, true), "itemID", itemID
 		end
 	end
 
@@ -4371,197 +4448,12 @@ end
 app.DirectGroupRefresh = DirectGroupRefresh;
 end -- Processing Functions
 
--- Custom Collectibility
-do
-local SLCovenantId;
-local ExilesReachMapIDs = { [1409] = 1, [1609] = 1, [1610] = 1, [1611] = 1, [1726] = 1, [1727] = 1 };
-local CCFuncs = {
-	["NPE"] = function()
-		-- needs mapID to check this
-		if not app.CurrentMapID then return; end
-		-- print("first check");
-		-- print("map check",app.CurrentMapID);
-		-- check if the current MapID is in Exile's Reach
-		if ExilesReachMapIDs[app.CurrentMapID] then
-			-- this is an NPE character, so flag the GUID
-			-- print("on map");
-			return true;
-		-- if character has completed the first NPE quest
-		elseif ((IsQuestFlaggedCompleted(56775) or IsQuestFlaggedCompleted(59926))
-				-- but not finished the NPE chain
-				and not (IsQuestFlaggedCompleted(60359) or IsQuestFlaggedCompleted(58911))) then
-			-- print("incomplete NPE chain");
-			return true;
-		end
-		-- otherwise character is not NPE
-		return false;
-	end,
-	["SL_SKIP"] = function()
-		-- Threads content becomes unavailable when a player reaches max level
-		-- TODO: this is weird now... some stuff is available to alts post-70
-		if app.Level >= 70 then return false end
-		-- check if quest #62713 is completed. appears to be a HQT concerning whether the character has chosen to skip the SL Storyline
-		return IsQuestFlaggedCompleted(62713);
-	end,
-	["HOA"] = function()
-		-- check if quest #51211 is completed. Rewards the HoA to the player and permanently switches all possible Azerite rewards
-		local hoa = IsQuestFlaggedCompleted(51211);
-		-- also store the opposite of HOA for easy checks on Azewrong gear
-		app.CurrentCharacter.CustomCollects["!HOA"] = not hoa;
-		-- for now, always assume both HoA qualifications are true so they do not filter
-		app.ActiveCustomCollects["!HOA"] = true; -- not hoa;
-		return true; -- hoa;
-	end,
-	["SL_COV_KYR"] = function()
-		return SLCovenantId == 1 or SLCovenantId == 0;
-	end,
-	["SL_COV_VEN"] = function()
-		return SLCovenantId == 2 or SLCovenantId == 0;
-	end,
-	["SL_COV_NFA"] = function()
-		return SLCovenantId == 3 or SLCovenantId == 0;
-	end,
-	["SL_COV_NEC"] = function()
-		return SLCovenantId == 4 or SLCovenantId == 0;
-	end,
-};
-
--- receives a key and a function which returns the value to be set for
--- that key based on the current value and current character
-local function SetCustomCollectibility(key, func)
-	-- print("SetCustomCollectibility",key);
-	func = func or CCFuncs[key];
-	local result = func();
-	if result ~= nil then
-		-- app.PrintDebug("SetCustomCollectibility",key,result);
-		app.CurrentCharacter.CustomCollects[key] = result;
-		app.ActiveCustomCollects[key] = result or app.Settings:Get("CC:"..key);
-	else
-		-- failed attempt to set the CC, try next frame
-		-- app.PrintDebug("SetCustomCollectibility-Fail",key);
-		Callback(SetCustomCollectibility, key, func);
-	end
-end
--- determines whether an object may be considered collectible for the current character based on the 'customCollect' value(s)
-app.CheckCustomCollects = function(t)
-	-- no customCollect, or Account/Debug mode then disregard
-	if app.MODE_DEBUG_OR_ACCOUNT or not t.customCollect then return true; end
-	local cc = app.ActiveCustomCollects;
-	for _,c in ipairs(t.customCollect) do
-		if not cc[c] then
-			return false;
-		end
-	end
-	return true;
-end
--- Performs the necessary checks to determine any 'customCollect' settings the current character should have applied
-local function RefreshCustomCollectibility()
-	-- app.PrintDebug("RefreshCustomCollectibility")
-
-	-- clear existing custom collects
-	wipe(app.ActiveCustomCollects);
-
-	-- do one-time per character custom visibility check(s)
-	-- Exile's Reach (New Player Experience)
-	SetCustomCollectibility("NPE");
-	-- Shadowlands Skip
-	SetCustomCollectibility("SL_SKIP");
-	-- Heart of Azeroth
-	SetCustomCollectibility("HOA");
-
-	-- print("Current Covenant",SLCovenantId);
-	-- Show all Covenants if not yet selected
-	SLCovenantId = C_Covenants.GetActiveCovenantID();
-	-- Shadowlands Covenant: Kyrian
-	SetCustomCollectibility("SL_COV_KYR");
-	-- Shadowlands Covenant: Venthyr
-	SetCustomCollectibility("SL_COV_VEN");
-	-- Shadowlands Covenant: Night Fae
-	SetCustomCollectibility("SL_COV_NFA");
-	-- Shadowlands Covenant: Necrolord
-	SetCustomCollectibility("SL_COV_NEC");
-end
-app.AddEventHandler("OnReady", RefreshCustomCollectibility)
-app.AddEventHandler("OnRecalculate", RefreshCustomCollectibility)
-
--- Certain quests being completed should trigger a refresh of the Custom Collect status of the character (i.e. Covenant Switches, Threads of Fate, etc.)
-local function DGU_CustomCollect(t)
-	-- app.PrintDebug("DGU_CustomCollect",t.hash)
-	Callback(RefreshCustomCollectibility);
-end
-local function DGU_Locationtrigger(t)
-	-- app.PrintDebug("DGU_Locationtrigger",t.hash)
-	Callback(app.LocationTrigger, true);
-end
--- A set of quests which indicate a needed refresh to the Custom Collect status of the character
-local DGU_Quests = {
-	[51211] = DGU_CustomCollect,	-- Heart of Azeroth Quest
-	[56775] = DGU_CustomCollect,	-- New Player Experience Starting Quest
-	[59926] = DGU_CustomCollect,	-- New Player Experience Starting Quest
-	[58911] = DGU_CustomCollect,	-- New Player Experience Ending Quest
-	[60359] = DGU_CustomCollect,	-- New Player Experience Ending Quest
-	[60129] = DGU_CustomCollect,	-- Shadowlands - SL_SKIP (Threads of Fate)
-	[62704] = DGU_CustomCollect,	-- Shadowlands - SL_SKIP (Threads of Fate)
-	[62713] = DGU_CustomCollect,	-- Shadowlands - SL_SKIP (Threads of Fate)
-	[65076] = DGU_CustomCollect,	-- Shadowlands - Covenant - Kyrian
-	[65077] = DGU_CustomCollect,	-- Shadowlands - Covenant - Venthyr
-	[65078] = DGU_CustomCollect,	-- Shadowlands - Covenant - Night Fae
-	[65079] = DGU_CustomCollect,	-- Shadowlands - Covenant - Necrolord
-};
--- Add any automatically-assigned LocationTriggers
-for _,questID in ipairs(app.__CacheQuestTriggers or app.EmptyTable) do
-	DGU_Quests[questID] = DGU_Locationtrigger
-end
-app.__CacheQuestTriggers = nil
-local function AssignDirectGroupOnUpdates()
-	local questRef;
-	for questID,func in pairs(DGU_Quests) do
-		questRef = SearchForObject("questID", questID, "field");
-		if questRef then
-			-- app.PrintDebug("Assign DGUOnUpdate",questRef.hash)
-			questRef.DGUOnUpdate = func;
-		end
-	end
-end
-app.AddEventHandler("OnInit", AssignDirectGroupOnUpdates)
-end	-- Custom Collectibility
-
 -- Panel Class Library
 (function()
-local function StopMovingOrSizing(self)
-	self:StopMovingOrSizing();
-	self.isMoving = nil;
-	-- store the window position if the window is visible (this is called on new popouts prior to becoming visible for some reason)
-	if self:IsVisible() then
-		self:StorePosition();
-	end
-end
-local function StartMovingOrSizing(self, fromChild)
-	if not (self:IsMovable() or self:IsResizable()) or self.isLocked then
-		return
-	end
-	if self.isMoving then
-		StopMovingOrSizing(self);
-	else
-		self.isMoving = true;
-		if ((select(2, GetCursorPosition()) / self:GetEffectiveScale()) < math.max(self:GetTop() - 40, self:GetBottom() + 10)) then
-			self:StartSizing();
-			Push(self, "StartMovingOrSizing (Sizing)", function()
-				if self.isMoving then
-					-- keeps the rows within the window fitting to the window as it resizes
-					self:Refresh();
-					return true;
-				end
-			end);
-		elseif self:IsMovable() then
-			self:StartMoving();
-		end
-	end
-end
 -- Adds ATT information about the list of Achievements into the provided tooltip
 local function AddAchievementInfoToTooltip(info, achievements, reference)
 	if achievements then
-		local text, mapID;
+		local text
 		for _,ach in ipairs(achievements) do
 			text = ach.text;
 			if not text then
@@ -5044,9 +4936,9 @@ app.AddEventHandler("RowOnClick", function(self, button)
 				else
 					self:SetScript("OnMouseUp", function(self)
 						self:SetScript("OnMouseUp", nil);
-						StopMovingOrSizing(window);
+						window:StopATTMoving()
 					end);
-					StartMovingOrSizing(window, true);
+					window:ToggleATTMoving()
 				end
 			end
 		end
@@ -6129,6 +6021,12 @@ function app:GetDataCache()
 						icon = app.asset("Interface_Questw")
 					}),
 
+					-- HQTs
+					app.CreateDynamicHeader("isHQT", {
+						name = MINIMAP_TRACKING_HIDDEN_QUESTS,
+						icon = app.asset("Interface_Quest"),
+					}),
+
 					-- All Quests
 					-- this works but..... bad idea instead use /att list type=quest limit=79000
 					-- app.CreateDynamicHeaderByValue("questID", {
@@ -6226,6 +6124,7 @@ function app:GetDataCache()
 	end
 	return rootData;
 end
+app.AddEventHandler("OnLoad", app.GetDataCache)
 
 local LastSettingsChangeUpdate
 local function CheckNewSettings()
@@ -6238,7 +6137,7 @@ app.AddEventHandler("OnRecalculateDone", CheckNewSettings)
 local function ForceUpdateWindows()
 	app.HandleEvent("OnUpdateWindows", true)
 end
-app.AddEventHandler("OnRecalculateDone", ForceUpdateWindows)
+app.AddEventHandler("OnRefreshComplete", ForceUpdateWindows, true)
 end	-- Dynamic/Main Data
 
 do -- Search Response Logic
@@ -6950,30 +6849,6 @@ customWindowUpdates.CosmicInfuser = function(self, force)
 		self:BaseUpdate(force);
 	end
 end;
-local function CleanInheritingGroups(groups, ...)
-	-- Cleans any groups which are nested under any group with any specified fields
-	local arrs = select("#", ...);
-	if groups and arrs > 0 then
-		local refined, f, match = {}, nil, nil;
-		-- app.PrintDebug("CIG:Start",#groups,...)
-		for _,j in ipairs(groups) do
-			match = nil;
-			for n=1,arrs do
-				f = select(n, ...);
-				if GetRelativeValue(j, f) then
-					match = true;
-					-- app.PrintDebug("CIG:Skip",j.hash,f)
-					break;
-				end
-			end
-			if not match then
-				tinsert(refined, j);
-			end
-		end
-		-- app.PrintDebug("CIG:End",#refined)
-		return refined;
-	end
-end
 customWindowUpdates.CurrentInstance = function(self, force, got)
 	-- app.PrintDebug("CurrentInstance:Update",force,got)
 	if not self.initialized then
@@ -7023,29 +6898,6 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 			"eventID",
 			"achievementID",
 		};
-		-- Keep a static collection of top-level groups in the list so they can just be referenced for adding new
-		local topHeaders = {
-			-- [app.HeaderConstants.ACHIEVEMENTS] = "achievementID",
-			-- [app.HeaderConstants.BONUS_OBJECTIVES] = true,
-			-- [app.HeaderConstants.BUILDINGS] = true,
-			-- [app.HeaderConstants.COMMON_BOSS_DROPS] = true,
-			-- [app.HeaderConstants.EMISSARY_QUESTS] = true,
-			-- [app.HeaderConstants.FACTIONS] = "factionID",
-			-- [app.HeaderConstants.FLIGHT_PATHS] = "flightpathID",
-			-- [app.HeaderConstants.HOLIDAYS] = "eventID",
-			-- [app.HeaderConstants.PROFESSIONS] = "professionID",
-			-- [app.HeaderConstants.PVP] = true,
-			-- [app.HeaderConstants.QUESTS] = "questID",
-			-- [app.HeaderConstants.RARES] = true,
-			-- [app.HeaderConstants.SECRETS] = true,
-			-- [app.HeaderConstants.SPECIAL] = true,
-			-- [app.HeaderConstants.TREASURES] = "objectID",
-			-- [app.HeaderConstants.VENDORS] = true,
-			-- [app.HeaderConstants.WEEKLY_HOLIDAYS] = true,
-			-- [app.HeaderConstants.WORLD_QUESTS] = true,
-			-- [app.HeaderConstants.ZONE_REWARDS] = true,
-			-- [app.HeaderConstants.ZONE_DROPS] = true,
-		};
 		-- Headers possible in a hierarchy that should just be ignored
 		local ignoredHeaders = app.HeaderData.IGNOREINMINILIST or app.EmptyTable;
 
@@ -7087,7 +6939,7 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 			tinsert(info, "lq:"..(app.TableConcat(app.MostRecentQuestTurnIns or app.EmptyTable, nil, nil, "<") or ""));
 
 			local inInstance, instanceType = IsInInstance()
-			tinsert(info, "instance:"..(inInstance or false)..":"..(instanceType or ""))
+			tinsert(info, "instance:"..(inInstance and "true" or "false")..":"..(instanceType or ""))
 			tinsert(info, "ver:"..app.Version);
 			tinsert(info, "build:"..app.GameBuildVersion);
 			tinsert(info, "```");	-- discord fancy box end
@@ -7095,7 +6947,7 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 		end
 
 		(function()
-		local results, groups, nested, header, headerKeys, difficultyID, topHeader, nextParent, headerID, groupKey, typeHeaderID, isInInstance;
+		local results, groups, nested, header, headerKeys, difficultyID, nextParent, headerID, isInInstance
 		local rootGroups, mapGroups = {}, {};
 
 		self.MapCache = setmetatable({}, { __mode = "kv" })
@@ -7216,9 +7068,7 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 				end
 				-- then merge all mapped groups into the list
 				for _,group in ipairs(mapGroups) do
-					-- app.PrintDebug("Clone",group.hash)
-					-- app.PrintDebug("Done")
-					-- app.PrintDebug(group.hash,group.text)
+					-- app.PrintDebug("Mapping:",app:SearchLink(group))
 					nested = nil;
 
 					-- Get the header chain for the group
@@ -7228,18 +7078,11 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 					difficultyID = isInInstance and GetRelativeValue(nextParent, "difficultyID");
 
 					-- Building the header chain for each mapped Thing
-					topHeader = nil;
 					while nextParent do
 						headerID = nextParent.headerID
 						if headerID then
-							-- This matches a top-level header, track that top-level header at the highest point
-							if topHeaders[headerID] then
-								-- already found a matching header, then nest it before switching
-								if topHeader then
-									group = CreateHeaderData(group, topHeader);
-								end
-								topHeader = nextParent;
-							elseif not ignoredHeaders[headerID] then
+							-- all Headers implicitly are allowed as visual headers in minilist unless explicitly ignored
+							if not ignoredHeaders[headerID] then
 								group = CreateHeaderData(group, nextParent);
 								nested = true;
 							end
@@ -7258,41 +7101,16 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 						end
 						nextParent = nextParent.parent;
 					end
-					-- Create/match the header chain for the zone list assuming it matches one of the allowed top headers
-					if topHeader then
-						group = CreateHeaderData(group, topHeader);
-						-- app.PrintDebug("topHeader",group.text,group.hash)
-						nested = true;
-					end
 
-					-- couldn't nest this thing using a topheader header, try to use the key of the last nested group to figure out the topheader
-					if not topHeader then
-						groupKey = group.key;
-						typeHeaderID = nil;
-						-- determine the expected top header for this 'thing' based on its key
-						for headerID,key in pairs(topHeaders) do
-							if groupKey == key then
-								typeHeaderID = headerID;
-								break;
-							end
-						end
-						-- and based on the Type of the original Thing if it was never listed under any matching top headers
-						if typeHeaderID then
-							group = app.CreateNPC(typeHeaderID, CreateHeaderData(group));
-							nested = true;
-						end
-						-- really really special cases...
-						-- Battle Pets get a raw Filter group
-						if not nested and groupKey == "speciesID" then
-							group = app.CreateFilter(101, CreateHeaderData(group));
-						end
-						-- otherwise the group itself will be the topHeader in the minilist, and its content will be sorted since it may be merging with an existing group
-						nested = true;
+					-- really really special cases...
+					-- Battle Pets get an additional raw Filter nesting
+					if not nested and group.key == "speciesID" then
+						group = app.CreateFilter(101, CreateHeaderData(group));
 					end
 
 					-- If relative to a difficultyID, then merge it into one.
 					if difficultyID then group = app.CreateDifficulty(difficultyID, { g = { group } }); end
-					-- app.PrintDebug("Merge as Mapped",group.hash,group.__type)
+					-- app.PrintDebug("Merge as Mapped:",app:SearchLink(group))
 					MergeObject(groups, group);
 				end
 
@@ -7566,7 +7384,7 @@ customWindowUpdates.awp = function(self, force)	-- TODO: Change this to remember
 	-- Patch Interface Build tables
 	local CLASSIC = {10100,10200,10300,10400,10500,10600,10700,10800,10900,10903,11000,11100,11101,11102,11200,11201}
 	-- Classic was using different build numbers originally, so these are made up to make a correct timeline search
-	local TBC = {20001,20003,20005,20006,20007,20008,20010,20012,20100,20101,
+	local TBC = {20000,20001,20003,20005,20006,20007,20008,20010,20012,20100,20101,
 	20102,20103,20200,20202,20203,20300,20302,20303,20400,20401,20402,20403}
 	-- TBC Patch 2.0.10 and 2.0.12 did not have a valid build numbers, so these are made up to make a correct timeline search
 	local WRATH = {30002,30003,30008,30100,30101,30102,30103,30200,30202,30300,30302,30303,30305}
@@ -7577,7 +7395,7 @@ customWindowUpdates.awp = function(self, force)	-- TODO: Change this to remember
 	local BFA = {80001,80100,80105,80200,80205,80300,80307}
 	local SL = {90001,90002,90005,90100,90105,90200,90205,90207}
 	local DF = {100000,100002,100005,100007,100100,100105,100107,100200,100205,100206,100207}
-	local TWW = {110000,110002,110005,110007}
+	local TWW = {110000,110002,110005,110007,110100}
 
 	-- Locals
 	local param = {}
@@ -10849,7 +10667,7 @@ app.SetupProfiles = function()
 		-- Unobtainable Filters
 		if AllTheThingsSettings.Unobtainable then
 			for k,v in pairs(AllTheThingsSettings.Unobtainable) do
-				default.Unobtainable[k] = v;
+				default.Unobtainable[k] = v and true or nil;
 			end
 		end
 	end
@@ -10870,7 +10688,6 @@ app.SetupProfiles = function()
 	app.Settings:Initialize();
 end
 
-app.ActiveCustomCollects = {};
 -- Called when the Addon is loaded to process initial startup information
 app.Startup = function()
 	-- app.PrintMemoryUsage("Startup")
@@ -11199,7 +11016,7 @@ SlashCmdList.AllTheThings = function(cmd)
 			return true;
 		else
 			if cmd:sub(1, 6) == "mapid:" then
-				app:GetWindow("CurrentInstance"):SetMapID(tonumber(cmd:sub(7)));
+				app:GetWindow("CurrentInstance"):SetMapID(tonumber(cmd:sub(7)), true);
 				return true;
 			end
 		end

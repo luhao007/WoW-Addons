@@ -643,6 +643,33 @@ print("TPref"
 	TitanPanelRightClickMenu_AddControlVars(TITAN_PERFORMANCE_ID)
 end
 
+local function Init()
+	topAddOns = {}
+	-- scan how many addons are active
+	local count = NumAddons();
+	local ActiveAddons = 0;
+	local NumOfAddons = TitanGetVar(TITAN_PERFORMANCE_ID, "NumOfAddons");
+	if NumOfAddons == nil then
+		NumOfAddons = 5;
+		TitanSetVar(TITAN_PERFORMANCE_ID, "NumOfAddons", 5);
+	end
+	for i = 1, count do
+		if IsAddOnLoaded(i) then
+			ActiveAddons = ActiveAddons + 1;
+		end
+	end
+
+	if ActiveAddons < NumOfAddons then
+		counter = ActiveAddons;
+	else
+		counter = NumOfAddons;
+	end
+	--set the counter to the proper number of active addons that are being monitored
+	for i = 1, counter do
+		topAddOns[i] = { name = '', value = 0 }
+	end
+end
+
 ---local Create plugin .registry and and init some variables and register for first events
 ---@param self Button
 local function OnLoad(self)
@@ -684,7 +711,6 @@ local function OnLoad(self)
 	};
 
 	perf_stats.fpsSampleCount = 0
-	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 end
 
 ---local Hide the plugin and stop timers
@@ -703,6 +729,8 @@ end
 
 ---local Show the plugin and start timers
 local function OnShow()
+	Init()
+
 	if PerfTimerRunning then
 		-- Do not create a new one
 	else
@@ -716,32 +744,7 @@ end
 ---@param event string
 ---@param ... any
 local function OnEvent(self, event, ...)
-	if event == "PLAYER_ENTERING_WORLD" then
-		topAddOns = {}
-		-- scan how many addons are active
-		local count = NumAddons();
-		local ActiveAddons = 0;
-		local NumOfAddons = TitanGetVar(TITAN_PERFORMANCE_ID, "NumOfAddons");
-		if NumOfAddons == nil then
-			NumOfAddons = 5;
-			TitanSetVar(TITAN_PERFORMANCE_ID, "NumOfAddons", 5);
-		end
-		for i = 1, count do
-			if IsAddOnLoaded(i) then
-				ActiveAddons = ActiveAddons + 1;
-			end
-		end
-
-		if ActiveAddons < NumOfAddons then
-			counter = ActiveAddons;
-		else
-			counter = NumOfAddons;
-		end
-		--set the counter to the proper number of active addons that are being monitored
-		for i = 1, counter do
-			topAddOns[i] = { name = '', value = 0 }
-		end
-	end
+	-- No events to process
 end
 
 ---local Handle mouse click events registered to plugin; Left click is garbage collection

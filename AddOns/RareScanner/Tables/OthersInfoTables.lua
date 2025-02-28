@@ -122,15 +122,15 @@ private.DRAGON_GLYPHS = {
 	[40690] = { zoneID = 2215, artID = { 1818 }, x = 5764, y = 6464, parent = 40704 }; --Skyriding Glyphs: Tenir's Ascent
 
 	-- The Ringing Deeps
-	[40672] = { zoneID = 2214, artID = { 1817 }, x = 4907, y = 3154, parent = 40703 }; --Skyriding Glyphs: Gundargaz
-	[40674] = { zoneID = 2214, artID = { 1817 }, x = 5719, y = 3138, parent = 40703 }; --Skyriding Glyphs: The Lost Mines
-	[40676] = { zoneID = 2214, artID = { 1817 }, x = 5617, y = 5616, parent = 40703 }; --Skyriding Glyphs: The Rumbling Wastes
-	[40678] = { zoneID = 2214, artID = { 1817 }, x = 6396, y = 9524, parent = 40703 }; --Skyriding Glyphs: Abyssal Excavation
-	[40680] = { zoneID = 2214, artID = { 1817 }, x = 4642, y = 5165, parent = 40703 }; --Skyriding Glyphs: The Waterworks
-	[40673] = { zoneID = 2214, artID = { 1817 }, x = 4687, y = 1008, parent = 40703 }; --Skyriding Glyphs: The Stonevault Exterior
-	[40675] = { zoneID = 2214, artID = { 1817 }, x = 6935, y = 3440, parent = 40703 }; --Skyriding Glyphs: Chittering Den
-	[40677] = { zoneID = 2214, artID = { 1817 }, x = 4931, y = 6607, parent = 40703 }; --Skyriding Glyphs: The Living Grotto
-	[40679] = { zoneID = 2214, artID = { 1817 }, x = 6292, y = 6609, parent = 40703 }; --Skyriding Glyphs: Taelloch Mine
+	[40672] = { zoneID = 2214, artID = { 1817 }, x = 4491, y = 3154, parent = 40703 }; --Skyriding Glyphs: Gundargaz
+	[40674] = { zoneID = 2214, artID = { 1817 }, x = 5303, y = 3138, parent = 40703 }; --Skyriding Glyphs: The Lost Mines
+	[40676] = { zoneID = 2214, artID = { 1817 }, x = 5201, y = 5616, parent = 40703 }; --Skyriding Glyphs: The Rumbling Wastes
+	[40678] = { zoneID = 2214, artID = { 1817 }, x = 5980, y = 9524, parent = 40703 }; --Skyriding Glyphs: Abyssal Excavation
+	[40680] = { zoneID = 2214, artID = { 1817 }, x = 4226, y = 5165, parent = 40703 }; --Skyriding Glyphs: The Waterworks
+	[40673] = { zoneID = 2214, artID = { 1817 }, x = 4271, y = 1008, parent = 40703 }; --Skyriding Glyphs: The Stonevault Exterior
+	[40675] = { zoneID = 2214, artID = { 1817 }, x = 6519, y = 3440, parent = 40703 }; --Skyriding Glyphs: Chittering Den
+	[40677] = { zoneID = 2214, artID = { 1817 }, x = 4515, y = 6607, parent = 40703 }; --Skyriding Glyphs: The Living Grotto
+	[40679] = { zoneID = 2214, artID = { 1817 }, x = 5876, y = 6609, parent = 40703 }; --Skyriding Glyphs: Taelloch Mine
 	
 	-- Isle of Dorn
 	[40152] = { zoneID = 2248, artID = { 1833 }, x = 7575, y = 2223, parent = 40166 }; --Skyriding Glyphs: The Three Shields

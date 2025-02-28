@@ -930,17 +930,13 @@ end
 --- Called when Titan is loaded (ADDON_LOADED event)
 function TitanVariables_InitTitanSettings()
 	local player = TitanUtils_GetPlayer()
-	if Titan_Global.debug.titan_startup then
-		TitanDebug("_Init begin " .. tostring(player))
-	end
+	Titan_Global.dbg:Out("Menu", "_Init begin " .. tostring(player))
 
 	if (TitanSettings) then
 		-- all is good
 	else
 		TitanSettings = {}
-		if Titan_Global.debug.titan_startup then
-			TitanDebug("TitanSettings {}")
-		end
+		Titan_Global.dbg:Out("Menu", "TitanSettings {}")
 	end
 
 	-- check for player list per issue #745
@@ -948,9 +944,7 @@ function TitanVariables_InitTitanSettings()
 		-- all is good
 	else
 		TitanSettings.Players = {} -- empty saved vars. New install or wipe
-		if Titan_Global.debug.titan_startup then
-			TitanDebug("TitanSettings.Players {}")
-		end
+		Titan_Global.dbg:Out("Menu", "TitanSettings.Players {}")
 	end
 
 	if (TitanAll) then
@@ -959,17 +953,11 @@ function TitanVariables_InitTitanSettings()
 		TitanAll = {}
 	end
 
-	if Titan_Global.debug.titan_startup then
-		TitanDebug("Sync Titan Panel saved variables with TitanAll  ")
-	end
+	Titan_Global.dbg:Out("Menu", "Sync Titan Panel saved variables with TitanAll")
 	TitanVariables_SyncRegisterSavedVariables(TITAN_ALL_SAVED_VARIABLES, TitanAll)
-	if Titan_Global.debug.titan_startup then
-		TitanDebug("Sync Done  ")
-	end
+	Titan_Global.dbg:Out("Menu", "> Sync Done")
 
-	if Titan_Global.debug.titan_startup then
-		TitanDebug("_Init end " .. tostring(player))
-	end
+	Titan_Global.dbg:Out("Menu", "_Init end " .. tostring(player))
 
 	-- Current Titan list known - all toons player has profiles for
 	-- Sort in alphabetical order.
@@ -1065,15 +1053,9 @@ end
 local function Set_bar_vars(to_profile)
 	if TitanSettings.Players[to_profile].BarVars then
 		-- All good
-		if Titan_Global.debug.titan_startup then
-			print("Set_bar_vars found"
-			)
-		end
+		Titan_Global.dbg:Out("Menu", "Set_bar_vars found")
 	else
-		if Titan_Global.debug.titan_startup then
-			print("Set_bar_vars init"
-			)
-		end
+		Titan_Global.dbg:Out("Menu", "Set_bar_vars init")
 		-- Set to defaults
 		TitanSettings.Players[to_profile].BarVars = TitanBarVarsDefaults
 		local BV = TitanSettings.Players[to_profile].BarVars
@@ -1082,9 +1064,7 @@ local function Set_bar_vars(to_profile)
 		local panel = TitanSettings.Players[to_profile].Panel
 
 		local tex = panel["TexturePath"]:gsub("TitanClassic", "Titan")
-		if Titan_Global.debug.titan_startup then
-			print("tex path '" .. tex .. "'")
-		end
+		Titan_Global.dbg:Out("Menu", "tex path '" .. tex .. "'")
 
 		-- Bring original Titan bar optionss to the current user settings.
 		-- If this is a new toon or new saved vars then it will just get defaults.
@@ -1128,13 +1108,11 @@ local function Init_player_settings(from_profile, to_profile, action)
 	local old_plugins = {}
 	local reset = (action == TITAN_PROFILE_RESET)
 
-	if Titan_Global.debug.titan_startup then
-		print("Init_player_settings"
-			.. " from: " .. tostring(from_profile) .. ""
-			.. " to: " .. tostring(to_profile) .. ""
-			.. " action: " .. tostring(action) .. ""
-		)
-	end
+	local msg = "Init_player_settings"
+		.. " from: " .. tostring(from_profile) .. ""
+		.. " to: " .. tostring(to_profile) .. ""
+		.. " action: " .. tostring(action) .. ""
+	Titan_Global.dbg:Out("Menu", msg)
 
 	CleanupProfile() -- hide currently shown plugins
 
@@ -1142,9 +1120,7 @@ local function Init_player_settings(from_profile, to_profile, action)
 		-- all is good
 	else
 		-- Create the bare player tables so profile(s) can be added
-		if Titan_Global.debug.titan_startup then
-			TitanDebug("TitanSettings.Players[] {}")
-		end
+		Titan_Global.dbg:Out("Menu", "TitanSettings.Players[] {}")
 		TitanSettings.Players[to_profile] = {}
 		TitanSettings.Players[to_profile].Plugins = {}
 		TitanSettings.Players[to_profile].Panel = TITAN_PANEL_SAVED_VARIABLES
@@ -1203,18 +1179,18 @@ local function Init_player_settings(from_profile, to_profile, action)
 			-- Ensure the old profile Bar data is whole...
 			Set_bar_vars(from_profile)
 			TitanSettings.Players[to_profile]["BarVars"] = deepcopy(old_player["BarVars"])
-
-			if Titan_Global.debug.titan_startup then
+--[[
+			if Titan_Global.dbg:EnableTopic("Menu") then
 				-- Apply the new bar positions
 				for idx, v in pairs(TitanBarData) do
-					print("BarVars "
+					local str = "BarVars "
 						.. " " .. tostring(v.name) .. ""
 						.. " " .. tostring(TitanSettings.Players[from_profile]["BarVars"][idx].show) .. ""
 						.. " " .. tostring(TitanSettings.Players[to_profile]["BarVars"][idx].show) .. ""
-					)
+					Titan_Global.dbg:Out("Menu", str)
 				end
 			end
-
+--]]
 			-- Copy the panel settings
 			for index, id in pairs(old_panel) do
 				TitanPanelSetVar(index, old_panel[index]);

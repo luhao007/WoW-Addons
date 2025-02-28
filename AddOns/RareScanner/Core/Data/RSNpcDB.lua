@@ -357,6 +357,15 @@ function RSNpcDB.GetNpcIDsByMapID(mapID, onlyCustom, onlyWithoutVignette)
 					tinsert(npcIDs,npcID)
 				end
 			end
+			
+			-- Then check if there is a matching subMapID in the database
+			if (RSMapDB.IsMapInParentMap(mapID, npcInfo.zoneID)) then
+				if (not onlyWithoutVignette) then
+					tinsert(npcIDs,npcID)
+				elseif (npcInfo.noVignette == nil or npcInfo.noVignette) then
+					tinsert(npcIDs,npcID)
+				end
+			end
 		end
 	end
 	

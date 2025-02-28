@@ -183,6 +183,7 @@ function RareScannerDataProviderMixin:RefreshAllData(fromOnShow)
 
 		-- If the entity is only available when shown in the world map, there is no need to fill the map with useless icons
 		if (POI.worldmap) then
+			RSLogger:PrintDebugMessageEntityID(POI.entityID, string.format("Saltado NPC [%s]: Solo se muestra cuando aparece en el mapa del mundo.", POI.entityID))
 			filtered = true
 		elseif (POI.isGroup) then
 			for _, subPOI in ipairs(POI.POIs) do

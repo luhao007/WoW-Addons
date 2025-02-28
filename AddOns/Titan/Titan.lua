@@ -228,21 +228,18 @@ end)
 ---Titan Do all the setup needed when a user logs in / reload UI / enter or leave an instance.
 --- This is called after the 'player entering world' event is fired by Blizz.
 --- This is also called when a LDB plugin is created after Titan runs the 'player entering world' code.
+--- The common code section will setup this toon's info
+--- 1) Register any plugins
+--- 2) Load the plugin vars (UseSettings)
+--- 3) Update the Titan config
+--- 4) Set the Titan vars
+--- 5) Load / register any LDB plugins into Titan
 ---@param reload boolean true if reload; false if character 'first' enter
 function TitanPanel_PlayerEnteringWorld(reload)
-	--[[
-print("PEW"
-.." "..tostring(Titan__InitializedPEW)..""
-)
---]]
 	if Titan__InitializedPEW then
 		-- Currently no additional steps needed
 	else
-		if Titan_Global.debug.titan_startup then
-			local dbg_msg = "PEW:"
-				.. " Init settings"
-			TitanDebug(dbg_msg, "normal")
-		end
+		Titan_Global.dbg:Out("Tooltip", "PEW: Init settings")
 
 		-- Get Profile and Saved Vars
 		TitanVariables_InitTitanSettings();
@@ -261,28 +258,16 @@ print("PEW"
 
 		-- Set the two anchors in their default positions
 		-- until the Titan bars are drawn
-		if Titan_Global.debug.titan_startup then
-			local dbg_msg = "PEW:"
-				.. " Create anchors for other addons"
-			TitanDebug(dbg_msg, "normal")
-		end
+		Titan_Global.dbg:Out("Tooltip", "PEW: Create anchors for other addons")
 		TitanPanelTopAnchor:ClearAllPoints();
 		TitanPanelTopAnchor:SetPoint("TOPLEFT", "UIParent", "TOPLEFT", 0, 0);
 		TitanPanelBottomAnchor:ClearAllPoints();
 		TitanPanelBottomAnchor:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 0, 0);
 
 		-- Ensure the bars are created before the plugins are registered.
-		if Titan_Global.debug.titan_startup then
-			local dbg_msg = "PEW:"
-				.. " Create frames for Titan bars"
-			TitanDebug(dbg_msg, "normal")
-		end
+		Titan_Global.dbg:Out("Tooltip", "PEW: Create frames for Titan bars")
 		for idx, v in pairs(TitanBarData) do
-			if Titan_Global.debug.titan_startup then
-				local dbg_msg = "..."
-					.. tostring(v.name)
-				TitanDebug(dbg_msg, "normal")
-			end
+			Titan_Global.dbg:Out("Tooltip", "... ".. tostring(v.name))
 
 			TitanPanelButton_CreateBar(idx)
 		end
@@ -304,59 +289,30 @@ print("PEW"
 			end
 		end
 
-		--[[ With user able to move the UI around and short bars, remove this feature
-		-- Check to see if we should kill off the OrderHallCommandBar
-		if not TitanAllGetVar("OrderHall") then
-			local TitanPanelAce = LibStub("AceAddon-3.0"):NewAddon("TitanPanelOHCB", "AceHook-3.0")
-			TitanPanelAce:SecureHook("OrderHall_CheckCommandBar",
-				function()
-					if OrderHallCommandBar then
-						OrderHallCommandBar:Hide()
-						OrderHallCommandBar:UnregisterAllEvents()
-						OrderHallCommandBar.Show = function () end
-					end
-				end
-			)
-		else
-			local TitanPanelAce = LibStub("AceAddon-3.0"):NewAddon("TitanPanelOHCB", "AceHook-3.0")
-			TitanPanelAce:Unhook("OrderHall_CheckCommandBar")
-		end
---]]
 		-- Should be safe to register for events that could show / hide Bars
-		if Titan_Global.debug.titan_startup then
-			local dbg_msg = "PEW:"
-				.. " Register for events Titan needs"
-			TitanDebug(dbg_msg, "normal")
-		end
+		Titan_Global.dbg:Out("Tooltip", "PEW: Register for events Titan needs")
 		RegisterForEvents()
 	end
+
+	--====== Common code login versus reload / portal / ...
+
 	local _ = nil
 	TitanSettings.Player, _, _ = TitanUtils_GetPlayer()
 
 	-- Some addons wait to create their LDB component or a Titan addon could
 	-- create additional buttons as needed.
-	-- So we need to sync their variables and set them up
-	if Titan_Global.debug.titan_startup then
-		local dbg_msg = "PEW:"
-			.. " Register any plugins found"
-		TitanDebug(dbg_msg, "normal")
-	end
+	Titan_Global.dbg:Out("Tooltip", "PEW: Register any plugins found")
 	TitanUtils_RegisterPluginList()
+	Titan_Global.dbg:Out("Tooltip", "> PEW: Register any plugins done")
 
-	if Titan_Global.debug.titan_startup then
-		local dbg_msg = "PEW:"
-			.. " Synch plugin saved vars"
-		TitanDebug(dbg_msg, "normal")
-	end
+	-- Now sync saved variables to the profile chosen by the user.
+	-- This will set the bar(s) and enabled plugins (via OnShow).
+	Titan_Global.dbg:Out("Tooltip", "PEW: Synch plugin saved vars")
 	TitanVariables_UseSettings(nil, TITAN_PROFILE_INIT)
 
+	Titan_Global.dbg:Out("Tooltip", "PEW: Init config data (right click menu)")
 	-- all addons are loaded so update the config (options)
 	-- some could have registered late...
-	if Titan_Global.debug.titan_startup then
-		local dbg_msg = "PEW:"
-			.. " Init config data (right click menu)"
-		TitanDebug(dbg_msg, "normal")
-	end
 	TitanUpdateConfig("init")
 
 	-- Init panel font
@@ -384,13 +340,12 @@ print("PEW"
 		-- No need
 	end
 
-	-- Also sync LDB object text with their created Titan plugin
-	if Titan_Global.debug.titan_startup then
-		local dbg_msg = "PEW:"
-			.. " Register any LDB (Titan) plugins"
-		TitanDebug(dbg_msg, "normal")
-	end
+	-- Loop through the LDB objects to sync with their created Titan plugin
+	Titan_Global.dbg:Out("Tooltip", "PEW: Register any LDB (Titan) plugins")
 	TitanLDBRefreshButton()
+	Titan_Global.dbg:Out("Tooltip", "> PEW: Register any LDB (Titan) plugins done")
+
+	Titan_Global.dbg:Out("Tooltip", "PEW: Titan processing done")
 end
 
 --------------------------------------------------------------
@@ -418,10 +373,8 @@ function TitanPanelBarButton:ADDON_LOADED(addon)
 	if addon == TITAN_ID then
 		_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_ENTERING_WORLD")
 
-		if Titan_Global.debug.titan_startup then
-			TitanDebug("Titan ADDON_LOADED")
-		end
-	--		TitanVariables_InitTitanSettings() -- Min table setup to start.
+		Titan_Global.dbg:Out("Tooltip", "ADDON_LOADED")
+
 		-- Unregister event - saves a few event calls.
 		self:UnregisterEvent("ADDON_LOADED");
 		self.ADDON_LOADED = nil
@@ -433,15 +386,8 @@ function TitanPanelBarButton:PLAYER_ENTERING_WORLD(arg1, arg2)
 	local call_success = nil
 	local ret_val = nil
 
-	--[[
-print("PLAYER_ENTERING_WORLD"
-.." "..tostring(arg1)..""
-.." "..tostring(arg2)..""
-)
---]]
-	if Titan_Global.debug.titan_startup then
-		TitanDebug("Titan PLAYER_ENTERING_WORLD pcall setup routine")
-	end
+	Titan_Global.dbg:Out("Tooltip", "Titan PLAYER_ENTERING_WORLD pcall setup routine")
+
 	call_success, -- needed for pcall
 	ret_val =  -- actual return values
 		pcall(TitanPanel_PlayerEnteringWorld, arg2)
@@ -1689,8 +1635,8 @@ function TitanPanel_InitPanelButtons()
 	TitanPanelBarButton_DisplayBarsWanted("TitanPanel_InitPanelButtons");
 
 	-- Position all the buttons
-	for i = 1, table.maxn(TitanPanelSettings.Buttons) do
-		local id = TitanPanelSettings.Buttons[i];
+	for idx = 1, table.maxn(TitanPanelSettings.Buttons) do
+		local id = TitanPanelSettings.Buttons[idx];
 		if (TitanUtils_IsPluginRegistered(id)) then
 			local i = TitanPanel_GetButtonNumber(id);
 			button = TitanUtils_GetButton(id);
@@ -1810,8 +1756,7 @@ end
 function TitanPanel_RefreshPanelButtons()
 	if (TitanPanelSettings) then
 		for i = 1, #TitanPanelSettings.Buttons do
---			for i = 1, table.getn(TitanPanelSettings.Buttons) do -- getn deprecated from luau (used)
-				TitanPanelButton_UpdateButton(TitanPanelSettings.Buttons[i], 1);
+			TitanPanelButton_UpdateButton(TitanPanelSettings.Buttons[i], 1);
 		end
 	end
 end
@@ -2006,6 +1951,7 @@ local function BuildMainMenu(frame)
 	info.text = (HIDE or "Hide")
 	info.value = "HideMe"
 	info.notCheckable = true
+	info.disabled = (TitanUtils_NumActiveBars() == 1)
 	info.arg1 = frame;
 	info.func = function(self, frame_str)
 		TitanBarDataVars[frame_str].show = not TitanBarDataVars[frame_str].show

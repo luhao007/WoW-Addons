@@ -356,7 +356,7 @@ function RSContainerDB.GetContainerName(containerID)
 		if (containerID == 408719) then
 			private.dbglobal.object_names[GetLocale()][containerID] = AL[string.format("CONTAINER_%s", containerID)]
 			return AL[string.format("CONTAINER_%s", containerID)]
-		elseif (private.dbglobal.object_names[GetLocale()][containerID]) then
+		elseif (private.dbglobal.object_names[GetLocale()][containerID] and private.dbglobal.object_names[GetLocale()][containerID] ~= AL["CONTAINER"]) then
 			return private.dbglobal.object_names[GetLocale()][containerID]
 		elseif (AL[string.format("CONTAINER_%s", containerID)] ~= string.format("CONTAINER_%s", containerID)) then
 			return AL[string.format("CONTAINER_%s", containerID)]
@@ -537,6 +537,12 @@ function RSContainerDB.GetContainerName(containerID)
 		elseif (RSUtils.Contains(RSConstants.CONTAINERS_SEAFARER_CACHE, containerID)) then
 			private.dbglobal.object_names[GetLocale()][containerID] = AL["CONTAINERS_SEAFEARER_CACHE"]
 			return AL["CONTAINERS_SEAFEARER_CACHE"]
+		elseif (RSUtils.Contains(RSConstants.CONTAINERS_SLIMY_COCOON, containerID)) then
+			private.dbglobal.object_names[GetLocale()][containerID] = AL["CONTAINERS_SLIMY_COCOON"]
+			return AL["CONTAINERS_SLIMY_COCOON"]
+		elseif (RSUtils.Contains(RSConstants.CONTAINERS_MUFF_AUTO_LOCKER, containerID)) then
+			private.dbglobal.object_names[GetLocale()][containerID] = AL["CONTAINERS_MUFF_AUTO_LOCKER"]
+			return AL["CONTAINERS_MUFF_AUTO_LOCKER"]
 		end
 	end
 

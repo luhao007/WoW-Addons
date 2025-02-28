@@ -84,7 +84,6 @@ function BusinessInfo.Trade()
 		hang.Faction:SetPoint("TOPLEFT", hang, "TOPLEFT", 0,-2);
 		hang.Faction:SetSize(P_hang_Height,P_hang_Height);
 		hang.Race = hang:CreateTexture();
-		hang.Race:SetTexture("Interface/Glues/CharacterCreate/CharacterCreateIcons")
 		hang.Race:SetPoint("LEFT", hang.Faction, "RIGHT", 1,0);
 		hang.Race:SetSize(P_hang_Height,P_hang_Height);
 		hang.Class = hang:CreateTexture();
@@ -159,7 +158,7 @@ function BusinessInfo.Trade()
 						fujik.Faction:SetTexCoord(0.5,1,0,1);
 					end
 					fujik.Race:SetAtlas(cdmulu[dangqian][4]);
-					local className, classFile, classID = GetClassInfo(cdmulu[dangqian][5])
+					local className, classFile, classID = PIGGetClassInfo(cdmulu[dangqian][5])
 					fujik.Class:SetTexCoord(unpack(CLASS_ICON_TCOORDS[classFile]));
 					fujik.level:SetText(cdmulu[dangqian][6]);
 					if cdmulu[dangqian][7] then
@@ -331,7 +330,6 @@ function BusinessInfo.Trade()
 		listbut.Title = PIGFontString(listbut,{"TOPLEFT", listbut, "TOPLEFT", 6, -N_hang_Height*0.5+8})
 		listbut.Title:SetTextColor(0.9, 0.9, 0.9, 0.9);
 		listbut.Race = listbut:CreateTexture();
-		listbut.Race:SetTexture("Interface/Glues/CharacterCreate/CharacterCreateIcons")
 		listbut.Race:SetPoint("TOPLEFT", listbut, "TOPLEFT", 46, -2);
 		listbut.Race:SetSize(N_hang_Height*0.5-2,N_hang_Height*0.5-2);
 		listbut.Class = listbut:CreateTexture();
@@ -441,7 +439,7 @@ function BusinessInfo.Trade()
 							fuji:Show()
 							fuji.Title:SetText(date("%H:%M",shujuData[dangqian]["Time"]));
 							fuji.Race:SetAtlas(shujuData[dangqian]["Race"]);
-							local className, classFile, classID = GetClassInfo(shujuData[dangqian]["Class"])
+							local className, classFile, classID = PIGGetClassInfo(shujuData[dangqian]["Class"])
 							fuji.Class:SetTexCoord(unpack(CLASS_ICON_TCOORDS[classFile]));
 							fuji.level:SetText(shujuData[dangqian]["Level"]);
 							local color = PIG_CLASS_COLORS[classFile];
@@ -461,7 +459,7 @@ function BusinessInfo.Trade()
 							for butid=1,6 do
 								if shujuData[dangqian]["ItemP"][butid]~=NONE then
 									fuji.itembuttons[butid]:Show()
-									local itemID, itemType, itemSubType, itemEquipLoc, icon, classID, subclassID = GetItemInfoInstant(shujuData[dangqian]["ItemP"][butid][1]) 
+									local itemID, itemType, itemSubType, itemEquipLoc, icon = GetItemInfoInstant(shujuData[dangqian]["ItemP"][butid][1]) 
 									fuji.itembuttons[butid]:SetNormalTexture(icon)
 									fuji.itembuttons[butid].numItems:SetText(shujuData[dangqian]["ItemP"][butid][2])
 									fuji.itembuttons[butid]:HookScript("OnEnter", function (self)
@@ -471,14 +469,13 @@ function BusinessInfo.Trade()
 										GameTooltip:Show();
 									end);
 								end
-							end
-							for butid=1,6 do
 								if shujuData[dangqian]["ItemT"][butid]~=NONE then
-									fuji.itembuttons[butid]:Show()
-									local itemID, itemType, itemSubType, itemEquipLoc, icon, classID, subclassID = GetItemInfoInstant(shujuData[dangqian]["ItemT"][butid][1]) 
-									fuji.itembuttons[butid+6]:SetNormalTexture(icon)
-									fuji.itembuttons[butid+6].numItems:SetText(shujuData[dangqian]["ItemT"][butid][2])
-									fuji.itembuttons[butid+6]:HookScript("OnEnter", function (self)
+									local itemID, itemType, itemSubType, itemEquipLoc, icon = GetItemInfoInstant(shujuData[dangqian]["ItemT"][butid][1]) 
+									local newbutid = butid+6
+									fuji.itembuttons[newbutid]:Show()
+									fuji.itembuttons[newbutid]:SetNormalTexture(icon)
+									fuji.itembuttons[newbutid].numItems:SetText(shujuData[dangqian]["ItemT"][butid][2])
+									fuji.itembuttons[newbutid]:HookScript("OnEnter", function (self)
 										GameTooltip:ClearLines();
 										GameTooltip:SetOwner(self, "ANCHOR_LEFT",0,0);
 										GameTooltip:SetHyperlink(shujuData[dangqian]["ItemT"][butid][1])
@@ -498,7 +495,7 @@ function BusinessInfo.Trade()
 		fujiF.gengxin_List(self.PList.Scroll);
 	end)
 	----
-	local function ISTimeDay(DQday,timelist)
+	local function IsTimeDay(DQday,timelist)
 		for d=#timelist, 1, -1 do
 			if timelist[d]==DQday then
 				return true,d
@@ -538,7 +535,7 @@ function BusinessInfo.Trade()
 		return false
 	end
 	fujiF:RegisterEvent("UI_INFO_MESSAGE");
-	fujiF:SetScript("OnEvent", function(self,event,arg1,arg2)
+	fujiF:HookScript("OnEvent", function(self,event,arg1,arg2)
 		if event=="UI_INFO_MESSAGE" then
 			if arg2==ERR_TRADE_COMPLETE then
 				local xiaoxiTime=GetServerTime()
@@ -547,16 +544,15 @@ function BusinessInfo.Trade()
 					["Time"]=xiaoxiTime,["Map"]=MapName,["Name"]=TradeFrame.PIG_Data.Name,
 					["Race"]=TradeFrame.PIG_Data.Race,["Class"]=TradeFrame.PIG_Data.Class,["Level"]=TradeFrame.PIG_Data.Level,
 					["MoneyP"]=TradeFrame.PIG_Data.MoneyP,["MoneyT"]=TradeFrame.PIG_Data.MoneyT,
-					["ItemP"]=TradeFrame.PIG_Data.ItemP,["ItemT"]=TradeFrame.PIG_Data.ItemT
+					["ItemP"]=TradeFrame.PIG_Data.ItemP,["ItemT"]=TradeFrame.PIG_Data.ItemT,
 				}
 				local YYDAY=floor(xiaoxiTime/60/60/24)
 				local shujuyuanPR=PIGA["StatsInfo"]["TradeData"][StatsInfo.allname]
 				if #shujuyuanPR>0 then
-					local cunzai,xuhao=ISTimeDay(YYDAY,shujuyuanPR[1])
+					local cunzai,xuhao=IsTimeDay(YYDAY,shujuyuanPR[1])
 					if cunzai then
 						table.insert(shujuyuanPR[2][xuhao], TradeDATA);
 					else
-						--print(cunzai,xuhao)
 						table.insert(shujuyuanPR[1], YYDAY);
 						table.insert(shujuyuanPR[2], {TradeDATA});
 					end
@@ -594,7 +590,7 @@ function BusinessInfo.Trade()
 					FSmsgT[2]="收到"..FSmsgT[2]
 				end
 				if FSmsgT[1]~="" or FSmsgT[2]~="" then
-					local msgT = "!Pig:与<"..TradeFrame.PIG_Data.Name..">交易成功,"..FSmsgT[1]..FSmsgT[2]
+					local msgT = "[!Pig]:与<"..TradeFrame.PIG_Data.Name..">交易成功,"..FSmsgT[1]..FSmsgT[2]
 					if PIGA["StatsInfo"]["TradeTongGao"] then
 						if not IsFriend(TradeFrame.PIG_Data.Name) then
 							if PIGA["StatsInfo"]["TradeTongGaoChannel"]=="WHISPER" then
@@ -617,7 +613,7 @@ function BusinessInfo.Trade()
 				end
 			else
 				if iserrtishi(arg2) then
-					local msgT = "!Pig:与<"..TradeFrame.PIG_Data.Name..">交易失败,原因:"..arg2
+					local msgT = "[!Pig]:与<"..TradeFrame.PIG_Data.Name..">交易失败,原因:"..arg2
 					if PIGA["StatsInfo"]["TradeTongGao"] then
 						if not IsFriend(TradeFrame.PIG_Data.Name) then
 							if PIGA["StatsInfo"]["TradeTongGaoChannel"]=="WHISPER" then

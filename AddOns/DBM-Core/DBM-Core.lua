@@ -1,3 +1,4 @@
+---@diagnostic disable: assign-type-mismatch, cast-local-type
 -- *********************************************************
 -- **               Deadly Boss Mods - Core               **
 -- **              https://deadlybossmods.com             **
@@ -75,16 +76,16 @@ end
 ---@class DBM
 local DBM = private:GetPrototype("DBM")
 _G.DBM = DBM
-DBM.Revision = parseCurseDate("20241214215312")
+DBM.Revision = parseCurseDate("20250228093739")
 DBM.TaintedByTests = false -- Tests may mess with some internal state, you probably don't want to rely on DBM for an important boss fight after running it in test mode
 
 local fakeBWVersion, fakeBWHash = 368, "fc06f51"--368.0
 local PForceDisable
 -- The string that is shown as version
-DBM.DisplayVersion = "11.0.38"--Core version
+DBM.DisplayVersion = "11.1.5"--Core version
 DBM.classicSubVersion = 0
-DBM.ReleaseRevision = releaseDate(2024, 12, 14) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
-PForceDisable = 15--When this is incremented, trigger force disable regardless of major patch
+DBM.ReleaseRevision = releaseDate(2025, 2, 28) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
+PForceDisable = 16--When this is incremented, trigger force disable regardless of major patch
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
 -- support for github downloads, which doesn't support curse keyword expansion
@@ -395,6 +396,7 @@ DBM.DefaultOptions = {
 	CoreSavedRevision = 1,
 	SilentMode = false,
 	NoCombatScanningFeatures = false,
+	ZoneCombatSyncing = false,--HIDDEN power user feature to improve zone scanning accuracy in niche cases
 }
 
 ---@type DBMMod[]
@@ -1308,6 +1310,7 @@ do
 	end
 
 	---@param self DBMModOrDBM
+	---@param srmIncluded boolean?
 	function DBM:UnregisterInCombatEvents(srmOnly, srmIncluded)
 		for event, mods in pairs(registeredEvents) do
 			if srmOnly then
@@ -1744,12 +1747,15 @@ do
 										local id = tonumber(subTabs[k])
 										if id then
 											--For handling zones like Warfront: Arathi - Alliance
-											local subTabName = GetRealZoneText(id):trim() or id
+											local subTabName = GetRealZoneText(id):trim()
 											for w in string.gmatch(subTabName, " - ") do
 												if w:trim() ~= "" then
 													subTabName = w
 													break
 												end
+											end
+											if subTabName == "" then -- GetRealZoneText() returns empty string on unknown zones, this happens for dungeons that don't yet exist
+												subTabName = UNKNOWN .. " (" .. id .. ")"
 											end
 											self.AddOns[#self.AddOns].subTabs[k] = subTabName
 										else
@@ -2659,7 +2665,6 @@ do
 		difficulties:RefreshCache(true)
 	end
 
-	--C_Map.GetMapGroupMembersInfo
 	function DBM:GetNumRealPlayersInZone()
 		if not IsInGroup() then return 1 end
 		local total = 0
@@ -3149,7 +3154,6 @@ do
 		[9278] = 552035,--HoodWolfTransformPlayer01
 		[6674] = 566558,--BellTollNightElf
 		[11742] = 566558,--BellTollNightElf
-		[8585] = 546633,--CThunYouWillDIe
 		[11965] = 551703,--Horseman_Laugh_01
 		[37666] = 876098,--Blizzard Raid Emote
 		[11466] = 552503,--BLACK_Illidan_04
@@ -4338,11 +4342,14 @@ do
 		end
 	end
 
+	local DBMZoneCombatScanner = private:GetModule("TrashCombatScanningModule")
+
 	local syncHandlers, whisperSyncHandlers, guildSyncHandlers = {}, {}, {}
 
 	-- DBM uses the following prefixes since 4.1 as pre-4.1 sync code is going to be incompatible anways, so this is the perfect opportunity to throw away the old and long names
 	-- M = Mod
 	-- C = Combat start
+	-- ZC = Zone Combat
 	-- GC = Guild Combat Start
 	-- IS = Icon set info
 	-- K = Kill
@@ -4430,6 +4437,10 @@ do
 				end
 			end
 		end
+	end
+
+	syncHandlers["ZC"] = function(sender, _, guid, cid)
+		DBMZoneCombatScanner:OnSync(sender, guid, tonumber(cid))
 	end
 
 	syncHandlers["RLO"] = function(sender, protocol, statusWhisper, guildStatus, raidIcons, chatBubbles)
@@ -5326,7 +5337,7 @@ do
 		if self.Options.AFKHealthWarning2 and not private.IsEncounterInProgress() and UnitIsAFK("player") and self:AntiSpam(3, "AFK") then--You are afk and losing health, some griever is trying to kill you while you are afk/tabbed out.
 			self:FlashClientIcon()
 			local voice = DBM.Options.ChosenVoicePack2
-			local path = 546633--"Sound\\Creature\\CThun\\CThunYouWillDIe.ogg"
+			local path = 566558--Nightelf Bell
 			if not private.voiceSessionDisabled and voice ~= "None" then
 				path = "Interface\\AddOns\\DBM-VP" .. voice .. "\\checkhp.ogg"
 			end
@@ -5842,7 +5853,7 @@ do
 			local name = mod.combatInfo.name
 			local modId = mod.id
 			if private.isRetail then
-				if mod.addon.type == "SCENARIO" and (C_Scenario.IsInScenario() or test.Mocks and test.Mocks.IsInScenario()) and not mod.soloChallenge then
+				if mod.addon and mod.addon.type == "SCENARIO" and (C_Scenario.IsInScenario() or test.Mocks and test.Mocks.IsInScenario()) and not mod.soloChallenge then
 					mod.inScenario = true
 				end
 			end
@@ -5920,8 +5931,8 @@ do
 			else
 				trackedAchievements = (C_ContentTracking and C_ContentTracking.GetTrackedIDs(2)[1])
 			end
-			if self.Options.HideObjectivesFrame and mod.addon.type ~= "SCENARIO" and not trackedAchievements and difficulties.difficultyIndex ~= 8 and not InCombatLockdown() then
-				if private.isRetail then--Do nothing due to taint and breaking
+			if self.Options.HideObjectivesFrame and mod.addon and mod.addon.type ~= "SCENARIO" and not trackedAchievements and difficulties.difficultyIndex ~= 8 and not InCombatLockdown() then
+				if private.isRetail or private.isCata then--Do nothing due to taint and breaking
 					--if ObjectiveTrackerFrame:IsVisible() then
 					--	ObjectiveTracker_Collapse()
 					--	watchFrameRestore = true
@@ -6020,7 +6031,7 @@ do
 					elseif mod.ignoreBestkill and mod.inScenario then
 						self:AddMsg(L.SCENARIO_STARTED_IN_PROGRESS:format(difficulties.difficultyText .. name))
 					else
-						if mod.addon.type == "SCENARIO" then
+						if mod.addon and mod.addon.type == "SCENARIO" then
 							self:AddMsg(L.SCENARIO_STARTED:format(difficulties.difficultyText .. name))
 						else
 							self:AddMsg(L.COMBAT_STARTED:format(difficulties.difficultyText .. name))
@@ -6046,7 +6057,7 @@ do
 				if self.Options.EventSoundEngage2 and self.Options.EventSoundEngage2 ~= "" and self.Options.EventSoundEngage2 ~= "None" then
 					self:PlaySoundFile(self.Options.EventSoundEngage2, nil, true)
 				end
-				if self.Options.EventSoundMusic and self.Options.EventSoundMusic ~= "None" and self.Options.EventSoundMusic ~= "" and not (self.Options.EventMusicMythicFilter and (difficulties.savedDifficulty == "mythic" or difficulties.savedDifficulty == "challenge")) and not mod.noStatistics and not self.Options.RestoreSettingMusic then
+				if not mod.inScenario and self.Options.EventSoundMusic and self.Options.EventSoundMusic ~= "None" and self.Options.EventSoundMusic ~= "" and not (self.Options.EventMusicMythicFilter and (difficulties.savedDifficulty == "mythic" or difficulties.savedDifficulty == "challenge")) and not mod.noStatistics and not self.Options.RestoreSettingMusic then
 					fireEvent("DBM_MusicStart", "BossEncounter")
 					if not self.Options.RestoreSettingCustomMusic then
 						self.Options.RestoreSettingCustomMusic = tonumber(GetCVar("Sound_EnableMusic")) or 1
@@ -6058,7 +6069,7 @@ do
 					end
 					local path = "MISSING"
 					if self.Options.EventSoundMusic == "Random" then
-						local usedTable = self.Options.EventSoundMusicCombined and self:GetMusic() or mod.inScenario and self:GetDungeonMusic() or self:GetBattleMusic()
+						local usedTable = self.Options.EventSoundMusicCombined and self:GetMusic() or self:GetBattleMusic()
 						if #usedTable >= 3 then
 							local random = fastrandom(3, #usedTable)
 							---@diagnostic disable-next-line: cast-local-type
@@ -6110,7 +6121,7 @@ do
 				--PRIO afk alert first
 				if self.Options.AFKHealthWarning2 and (health < (private.isHardcoreServer and 95 or 85)) and UnitIsAFK("player") and self:AntiSpam(5, "AFK") then
 					local voice = DBM.Options.ChosenVoicePack2
-					local path = 546633--"Sound\\Creature\\CThun\\CThunYouWillDIe.ogg"
+					local path = 566558--Nightelf Bell
 					if not private.voiceSessionDisabled and voice ~= "None" then
 						path = "Interface\\AddOns\\DBM-VP" .. voice .. "\\checkhp.ogg"
 					end
@@ -6119,7 +6130,7 @@ do
 				--Low health warning
 				elseif self.Options.HealthWarningLow and health < 35 and self:AntiSpam(5, "LOWHEALTH") then
 					local voice = DBM.Options.ChosenVoicePack2
-					local path = 546633--"Sound\\Creature\\CThun\\CThunYouWillDIe.ogg"
+					local path = 566558--Nightelf Bell
 					if not private.voiceSessionDisabled and voice ~= "None" then
 						path = "Interface\\AddOns\\DBM-VP" .. voice .. "\\checkhp.ogg"
 					end
@@ -6140,7 +6151,7 @@ do
 		mod = mod
 		if removeEntry(inCombat, mod) then
 			test:Trace(mod, "EndCombat", event)
-			local scenario = mod.addon.type == "SCENARIO" and not mod.soloChallenge
+			local scenario = mod.addon and mod.addon.type == "SCENARIO" and not mod.soloChallenge
 			if mod.inCombatOnlyEvents and mod.inCombatOnlyEventsRegistered then
 				if srmIncluded then
 					mod:UnregisterInCombatEvents(false, true)
@@ -7046,7 +7057,7 @@ function DBM:UNIT_DIED(args)
 	if not private.isHardcoreServer and self.Options.AFKHealthWarning2 and GUID == UnitGUID("player") and not private.IsEncounterInProgress() and UnitIsAFK("player") and self:AntiSpam(5, "AFK") then--You are afk and losing health, some griever is trying to kill you while you are afk/tabbed out.
 		self:FlashClientIcon()
 		local voice = DBM.Options.ChosenVoicePack2
-		local path = 546633--"Sound\\Creature\\CThun\\CThunYouWillDIe.ogg"
+		local path = 566558--Nightelf Bell
 		if not private.voiceSessionDisabled and voice ~= "None" then
 			path = "Interface\\AddOns\\DBM-VP" .. voice .. "\\checkhp.ogg"
 		end
@@ -7445,6 +7456,9 @@ do
 		for _, mod in ipairs(inCombat) do
 			-- force combat end if anything is active because :Unschedule below breaks wipe detection leaving you in a weird state
 			DBM:EndCombat(mod, true, true, "DBM:Disable() called")
+		end
+		for _, mod in ipairs(DBM.Mods) do
+			mod:UnregisterShortTermEvents()
 		end
 		DBMScheduler:Unschedule()
 		dbmIsEnabled = false
@@ -9019,6 +9033,9 @@ function bossModPrototype:SetEncounterID(...)
 			self.combatInfo.multiEncounterPullDetection = self.multiEncounterPullDetection
 		end
 	end
+	if self.localization.general.name == self.id then
+		self.localization.general.name = DBM:GetGeneratedLocales("encounter")[...] or self.localization.general.name
+	end
 end
 
 ---Used to disable ENCOUNTER_START from detecting boss combat
@@ -9133,7 +9150,7 @@ function DBM:GroupInCombat()
 	--Any Other group member in combat
 	if not combatFound then
 		for uId in DBM:GetGroupMembers() do
-			if UnitAffectingCombat(uId) and not UnitIsDeadOrGhost(uId) then
+			if UnitAffectingCombat(uId) then
 				combatFound = true
 				break
 			end
@@ -9246,7 +9263,7 @@ function bossModPrototype:ReceiveSync(event, sender, revision, ...)
 	end
 end
 
----@param revision number|string Either a number in the format "202101010000" (year, month, day, hour, minute) or string "20241214215312" to be auto set by packager
+---@param revision number|string Either a number in the format "202101010000" (year, month, day, hour, minute) or string "20250228093739" to be auto set by packager
 function bossModPrototype:SetRevision(revision)
 	revision = parseCurseDate(revision or "")
 	if not revision or type(revision) == "string" then

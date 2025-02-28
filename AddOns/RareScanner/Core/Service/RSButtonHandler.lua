@@ -87,9 +87,11 @@ local function FixVignetteInfo(vignetteInfo)
 	if (RSConstants.CONTAINERS_WITH_PRE_EVENT[entityID]) then
 		local containerID = RSContainerDB.GetFinalContainerID(entityID)
 		RSGeneralDB.RemoveAlreadyFoundEntity(entityID)
-		if (not vignetteInfo.name) then
-			vignetteInfo.name = RSContainerDB.GetContainerName(entityID)
+		local containerName = RSContainerDB.GetContainerName(containerID)
+		if (containerName) then
+			vignetteInfo.name = containerName
 		end
+		
 		vignetteInfo.atlasName = RSConstants.CONTAINER_VIGNETTE
 		entityID = containerID
 		vignetteInfo.preEvent = true
@@ -151,6 +153,11 @@ local function FixVignetteInfo(vignetteInfo)
 	-- Track world bosses in the War Within pre-patch or 20 anniversary
 	if (vignetteInfo.atlasName == RSConstants.NPC_VIGNETTE_BOSS and RSUtils.Contains(RSConstants.WORLDBOSSES, entityID)) then
 		vignetteInfo.atlasName = RSConstants.NPC_VIGNETTE
+	end
+	
+	-- Track garbage icon in War Within 11.1
+	if (vignetteInfo.atlasName == RSConstants.EVENT_SCRAP_VIGNETTE and mapID == RSConstants.UNDERMINE) then
+		vignetteInfo.atlasName = RSConstants.EVENT_VIGNETTE
 	end
 	
 	return entityID, vignetteInfo
@@ -267,7 +274,6 @@ local function ShowAlert(button, vignetteInfo, isNavigating)
 		
 		-- If the vignette is simulated
 		if (vignetteInfo.x and vignetteInfo.y) then
-			local coordinates = {}
 			vignettePosition.x = vignetteInfo.x
 			vignettePosition.y = vignetteInfo.y
 			UpdateRareFound(entityID, vignetteInfo, vignettePosition)

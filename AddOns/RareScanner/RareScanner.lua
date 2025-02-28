@@ -230,10 +230,18 @@ scanner_button.FilterEntityButton:SetScript("OnClick", function(self)
 				end
 			end
 		else
-			if (RSConfigDB.GetDefaultEventFilter() == RSConstants.ENTITY_FILTER_WORLDMAP) then
-				RSConfigDB.SetEventFiltered(entityID, RSConstants.ENTITY_FILTER_ALL)
-			else
-				RSConfigDB.SetEventFiltered(entityID)
+			-- Filter every event with the same name
+			local eventName = RSEventDB.GetEventName(entityID)
+			if (eventName) then
+				for eventID, name in pairs(RSEventDB.GetAllEventNames()) do
+					if (name == eventName) then
+						if (RSConfigDB.GetDefaultEventFilter() == RSConstants.ENTITY_FILTER_WORLDMAP) then
+							RSConfigDB.SetEventFiltered(eventID, RSConstants.ENTITY_FILTER_ALL)
+						else
+							RSConfigDB.SetEventFiltered(eventID)
+						end
+					end
+				end
 			end
 		end
 		
@@ -1000,6 +1008,9 @@ local function RefreshDatabaseData(previousDbVersion)
 		table.insert(routines, fixCustomNpcs)
 	end
 	
+	-- Fix X offset introduced in 11.1 in Ringing Deeps
+	
+	
 	-- Launches a forced vignette scan
 	local firstScanRoutine = RSRoutines.LoopRoutineNew()
 	firstScanRoutine:Init(function() return C_VignetteInfo.GetVignettes() end, 100,
@@ -1021,6 +1032,23 @@ local function RefreshDatabaseData(previousDbVersion)
 	)
 	table.insert(routines, firstScanRoutine)
 
+	-- Fix X offset added in 11.1 in the Ringing Deeps
+	if (not previousDbVersion or previousDbVersion < RSConstants.FIX_RINGING_DEEPS_X_OFFSET_VERSION) then
+		local fixOffsetXRingingDeepsRoutine = RSRoutines.LoopRoutineNew()
+		fixOffsetXRingingDeepsRoutine:Init(function() return RSGeneralDB.GetAlreadyFoundEntities() end, 100,
+			function(context, entityID, entityInfo)
+				if (RSGeneralDB.IsAlreadyFoundEntityInZone(entityID, RSConstants.RINGING_DEEPS)) then
+					entityInfo.coordX = entityInfo.coordX - RSConstants.FIX_RINGING_DEEPS_X_OFFSET
+					private.dbglobal.rares_found[entityID] = entityInfo
+				end
+			end, 
+			function(context)
+				RSLogger:PrintDebugMessage("Corregido X offset en Ringing Deeps")
+			end
+		)
+		table.insert(routines, fixOffsetXRingingDeepsRoutine)
+	end
+		
 	-- Launch all the routines in order
 	local chainRoutines = RSRoutines.ChainLoopRoutineNew()
 	chainRoutines:Init(routines)

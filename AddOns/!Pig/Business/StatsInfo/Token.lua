@@ -15,7 +15,7 @@ function BusinessInfo.Token()
 	PIGA["StatsInfo"]["Token"][StatsInfo.allname]=PIGA["StatsInfo"]["Token"][StatsInfo.allname] or {}
 	local fujiF,fujiTabBut=PIGOptionsList_R(StatsInfo.F,"货\n币",StatsInfo.butW,"Left")
 	---
-	local hang_Height,hang_NUM  = 19.4, 11;
+	local hang_Height,hang_NUM,numButtons  = 19.4, 11, 26;
 	fujiF.Tokens=PIGFrame(fujiF)
 	fujiF.Tokens:SetPoint("TOPLEFT",fujiF,"TOPLEFT",2,-2);
 	fujiF.Tokens:SetPoint("BOTTOMRIGHT",fujiF,"BOTTOMRIGHT",-4,2);
@@ -24,7 +24,6 @@ function BusinessInfo.Token()
 	fujiF.Tokens.ALLG = PIGFontString(fujiF.Tokens,{"LEFT", fujiF.Tokens.title, "RIGHT", 0, 0},0)
 	fujiF.Tokens.ALLG:SetTextColor(1, 1, 1, 1);
 	fujiF.Tokens.lineTOP = PIGLine(fujiF.Tokens,"TOP",-30,nil,nil,{0.3,0.3,0.3,0.3})
-	local numButtons = 26;
 	local function gengxin_List(self)
 		if not fujiF:IsVisible() then return end
 		for id = 1, hang_NUM, 1 do
@@ -37,13 +36,18 @@ function BusinessInfo.Token()
 			end
 		end
 		local cdmulu={};
-		local jibihejiV=0
+		local jibihejiV={["all"]=0,["saverall"]={},["hejitxt"]=""}
 		local PlayerData = PIGA["StatsInfo"]["Players"]
 		local PlayerSH = PIGA["StatsInfo"]["PlayerSH"]
 		if PlayerData[StatsInfo.allname] and not PlayerSH[StatsInfo.allname] then
 			local dangqianC=PlayerData[StatsInfo.allname]
 			local Money  = PIGA["StatsInfo"]["Token"][StatsInfo.allname]["Money"]
-   			jibihejiV=jibihejiV+Money
+   			jibihejiV.all=jibihejiV.all+Money
+   			local _, fuwuqiXC = strsplit("-", StatsInfo.allname);
+   			if fuwuqiXC and fuwuqiXC~="" then
+				jibihejiV.saverall[fuwuqiXC]=jibihejiV.saverall[fuwuqiXC] or 0
+   				jibihejiV.saverall[fuwuqiXC]=jibihejiV.saverall[fuwuqiXC]+Money
+   			end
    			local Tokens  = PIGA["StatsInfo"]["Token"][StatsInfo.allname]["Tokens"]
 			table.insert(cdmulu,{StatsInfo.allname,dangqianC[1],dangqianC[2],dangqianC[3],dangqianC[4],dangqianC[5],{Money,Tokens},true})
 		end
@@ -51,11 +55,22 @@ function BusinessInfo.Token()
 	   		if k~=StatsInfo.allname and PlayerData[k] and not PlayerSH[k] then
 	   			local Money  = PIGA["StatsInfo"]["Token"][k]["Money"]
 	   			local Tokens  = PIGA["StatsInfo"]["Token"][k]["Tokens"]
-	   			jibihejiV=jibihejiV+Money
+	   			jibihejiV.all=jibihejiV.all+Money
+	   			local _, fuwuqiXC = strsplit("-", k);
+	   			if fuwuqiXC and fuwuqiXC~="" and Money>100 then
+					jibihejiV.saverall[fuwuqiXC]=jibihejiV.saverall[fuwuqiXC] or 0
+	   				jibihejiV.saverall[fuwuqiXC]=jibihejiV.saverall[fuwuqiXC]+Money
+	   			end
 	   			table.insert(cdmulu,{k,v[1],v[2],v[3],v[4],v[5],{Money,Tokens}})
 	   		end
 	   	end
-	   	fujiF.Tokens.ALLG:SetText(GetMoneyString(jibihejiV))
+
+	   	jibihejiV.hejitxt=GetMoneyString(jibihejiV.all)
+	   	for k,v in pairs(jibihejiV.saverall) do
+	   		 local v=floor(v/10000)*10000
+	   		jibihejiV.hejitxt=jibihejiV.hejitxt.." ("..k..GetMoneyString(v)..")"
+	   	end
+	   	fujiF.Tokens.ALLG:SetText(jibihejiV.hejitxt)
 		local ItemsNum = #cdmulu;
 		if ItemsNum>0 then
 		    FauxScrollFrame_Update(self, ItemsNum, hang_NUM, hang_Height);
@@ -71,7 +86,7 @@ function BusinessInfo.Token()
 						fujik.Faction:SetTexCoord(0.5,1,0,1);
 					end
 					fujik.Race:SetAtlas(cdmulu[dangqian][4]);
-					local className, classFile, classID = GetClassInfo(cdmulu[dangqian][5])
+					local className, classFile, classID = PIGGetClassInfo(cdmulu[dangqian][5])
 					fujik.Class:SetTexCoord(unpack(CLASS_ICON_TCOORDS[classFile]));
 					fujik.level:SetText(cdmulu[dangqian][6]);
 					if cdmulu[dangqian][8] then
@@ -124,14 +139,13 @@ function BusinessInfo.Token()
 			hang:SetPoint("TOPLEFT", _G["PIG_Tokens_"..id-1], "BOTTOMLEFT", 0, 0);
 		end
 		if id~=hang_NUM then
-			hang.line = PIGLine(hang,"BOT",0,nil,nil,{0.3,0.3,0.3,0.6})
+			hang.line = PIGLine(hang,"BOT",0,nil,nil,{0.5,0.5,0.5,0.2})
 		end
 		hang.Faction = hang:CreateTexture();
 		hang.Faction:SetTexture("interface/glues/charactercreate/ui-charactercreate-factions.blp");
 		hang.Faction:SetPoint("TOPLEFT", hang, "TOPLEFT", 0,-2);
 		hang.Faction:SetSize(hang_Height,hang_Height);
 		hang.Race = hang:CreateTexture();
-		hang.Race:SetTexture("Interface/Glues/CharacterCreate/CharacterCreateIcons")
 		hang.Race:SetPoint("LEFT", hang.Faction, "RIGHT", 1,0);
 		hang.Race:SetSize(hang_Height,hang_Height);
 		hang.Class = hang:CreateTexture();

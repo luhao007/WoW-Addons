@@ -12,7 +12,7 @@ local DBM_GUI = DBM_GUI
 local setmetatable, select, type, tonumber, strsplit, mmax, tinsert = setmetatable, select, type, tonumber, strsplit, math.max, table.insert
 local CreateFrame, GetCursorPosition, UIParent, GameTooltip, NORMAL_FONT_COLOR, GameFontNormal = CreateFrame, GetCursorPosition, UIParent, GameTooltip, NORMAL_FONT_COLOR, GameFontNormal
 local DBM = DBM
-local CreateTextureMarkup = CreateTextureMarkup
+local CreateTextureMarkup, ColorPickerFrame = CreateTextureMarkup, ColorPickerFrame
 
 local GetSpellDescription = C_Spell.GetSpellDescription or GetSpellDescription
 
@@ -90,15 +90,14 @@ end
 function PanelPrototype:CreateSpellDesc(text)
 	---@class DBMPanelSpellDesc: Frame
 	local test = CreateFrame("Frame", "DBM_GUI_Option_" .. self:GetNewID(), self.frame)
-	local textblock = self.frame:CreateFontString(test:GetName() .. "Text", "ARTWORK")
+	test:SetPoint("TOPLEFT", self.frame, "TOPLEFT", 15, -10)
+	test:SetPoint("RIGHT", self.frame, -15, 0)
+	test.mytype = "spelldesc"
+	test.hasDesc = false
+	local textblock = test:CreateFontString(test:GetName() .. "Text", "ARTWORK")
 	textblock:SetFontObject(GameFontWhite)
 	textblock:SetJustifyH("LEFT")
-	textblock:SetPoint("TOPLEFT", test)
-	test:SetPoint("TOPLEFT", self.frame, "TOPLEFT", 15, -10)
-	test:SetSize(self.frame:GetWidth(), textblock:GetStringHeight())
-	test.mytype = "spelldesc"
-	test.autowidth = true
-	test.hasDesc = false
+	textblock:SetAllPoints()
 	-- Description logic
 	if type(text) == "number" then
 		local spell = Spell:CreateFromSpellID(text)
@@ -111,6 +110,7 @@ function PanelPrototype:CreateSpellDesc(text)
 				test.hasDesc = true
 			end
 			textblock:SetText(text:gsub('|cffffffff', '|cff71d5ff'))
+			test:SetHeight(textblock:GetStringHeight())
 			if DBM_GUI.currentViewing then
 				_G["DBM_GUI_OptionsFrame"]:DisplayFrame(DBM_GUI.currentViewing)
 			end
@@ -123,7 +123,7 @@ function PanelPrototype:CreateSpellDesc(text)
 		end
 		textblock:SetText(text)
 	end
-    --
+	test:SetHeight(textblock:GetStringHeight())
 	self:SetLastObj(test)
 	return test
 end
@@ -177,7 +177,98 @@ function PanelPrototype:CreateButton(title, width, height, onclick, font, highli
 	return button
 end
 
-function PanelPrototype:CreateColorSelect(dimension, useAlpha, alphaWidth)
+function PanelPrototype:CreateColorSelect(title, CallbackFn, ResetFn)
+	local colorSelect = CreateFrame("Button", "DBM_GUI_Option_" .. self:GetNewID(), self.frame)
+	colorSelect:SetSize(100, 24)
+	colorSelect.myheight = ResetFn and 40 or 24
+	colorSelect.r = 0
+	colorSelect.g = 0
+	colorSelect.b = 0
+
+	local swatch = colorSelect:CreateTexture(nil, "OVERLAY")
+	swatch:SetSize(18, 18)
+	swatch:SetTexture(130939) -- "Interface\\ChatFrame\\ChatFrameColorSwatch"
+	swatch:SetPoint("LEFT")
+
+	local swatchBg = colorSelect:CreateTexture(nil, "BACKGROUND")
+	swatchBg:SetSize(16, 16)
+	swatchBg:SetColorTexture(1, 1, 1)
+	swatchBg:SetPoint("CENTER", swatch)
+
+	local text = colorSelect:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+	text:SetText(title)
+	text:SetJustifyH("LEFT")
+	text:SetHeight(24)
+	text:SetTextColor(1, 1, 1)
+	text:SetPoint("LEFT", swatch, "RIGHT", 2, 0)
+	text:SetPoint("RIGHT")
+
+	if ResetFn then
+		local resetBtn = CreateFrame("Button", "DBM_GUI_Option_" .. self:GetNewID(), colorSelect, "UIPanelButtonTemplate")
+		resetBtn:SetPoint("TOPLEFT", swatch, "BOTTOMLEFT", 0, -5)
+		resetBtn:SetSize(64, 12)
+		resetBtn:SetText(L.Reset)
+		resetBtn:SetNormalFontObject(GameFontNormalSmall)
+		resetBtn:SetHighlightFontObject(GameFontNormalSmall)
+		resetBtn:SetScript("OnClick", function()
+			ResetFn(colorSelect)
+		end)
+	end
+
+	colorSelect.SetColorRGB = function(self, r, g, b, save)
+		colorSelect.r = r
+		colorSelect.g = g
+		colorSelect.b = b
+		swatch:SetVertexColor(r, g, b)
+		text:SetTextColor(r, g, b)
+		if save then
+			CallbackFn(colorSelect, r, g, b)
+		end
+	end
+	colorSelect.GetColorRGB = function()
+		return ColorPickerFrame:GetColorRGB()
+	end
+	local colorCallback = function(self, r, g, b)
+		if r == self.r and g == self.g and b == self.b then
+			return
+		end
+		self:SetColorRGB(r, g, b)
+		CallbackFn(self, r, g, b)
+		text:SetTextColor(r, g, b)
+	end
+	colorSelect:SetScript("OnClick", function(self)
+		local r1, g1, b1 = self.r, self.g, self.b
+		ColorPickerFrame:Hide()
+		ColorPickerFrame:SetFrameStrata("FULLSCREEN_DIALOG")
+		ColorPickerFrame:SetFrameLevel(self:GetFrameLevel() + 10)
+		ColorPickerFrame:SetClampedToScreen(true)
+		if ColorPickerFrame.SetupColorPickerAndShow then -- 10.2.5+
+			ColorPickerFrame:SetupColorPickerAndShow({
+				swatchFunc = function()
+					local r, g, b = ColorPickerFrame:GetColorRGB()
+					colorCallback(self, r, g, b)
+				end,
+				cancelFunc = function()
+					colorCallback(self, r1, g1, b1)
+				end,
+				r = self.r,
+				g = self.g,
+				b = self.b
+			})
+		else
+			ColorPickerFrame.func = function()
+				local r, g, b = ColorPickerFrame:GetColorRGB()
+				colorCallback(self, r, g, b)
+			end
+			ColorPickerFrame.cancelFunc = function()
+				colorCallback(self, r1, g1, b1)
+			end
+			ColorPickerFrame:SetColorRGB(r1, g1, b1)
+			ColorPickerFrame:Show()
+		end
+	end)
+
+	--[[
 	---@class DBMPanelColorSelect: ColorSelect
 	---@field myheight number
 	local colorSelect = CreateFrame("ColorSelect", "DBM_GUI_Option_" .. self:GetNewID(), self.frame)
@@ -204,6 +295,7 @@ function PanelPrototype:CreateColorSelect(dimension, useAlpha, alphaWidth)
 		colorTexture2:SetTexCoord(0.25, 1, 0.875, 0)
 		colorSelect:SetColorValueThumbTexture(colorTexture2)
 	end
+	--]]
 	self:SetLastObj(colorSelect)
 	return colorSelect
 end
@@ -331,7 +423,6 @@ do
 	})
 	if isRetail then
 		tinsert(sounds, { text = "Blizzard Raid Emote", value = 876098 })
-		tinsert(sounds, { text = "C'Thun: You Will Die!", value = 546633 })
 		tinsert(sounds, { text = "Headless Horseman: Laugh", value = 551703 })
 		tinsert(sounds, { text = "Kaz'rogal: Marked", value = 553050 })
 		tinsert(sounds, { text = "Lady Malande: Flee", value = 553566 })
@@ -365,7 +456,7 @@ do
 		{ text = L.CVoiceThree, value = 3 }
 	})
 
-	function PanelPrototype:CreateCheckButton(name, autoplace, textLeft, dbmvar, dbtvar, mod, modvar, globalvar, isTimer)
+	function PanelPrototype:CreateCheckButton(name, autoplace, _, dbmvar, dbtvar, mod, modvar, globalvar, isTimer)
 		if not name then
 			error("CreateCheckButton: name must not be nil")
 		end
@@ -375,7 +466,7 @@ do
 		---@class DBMCheckButton: CheckButton
 		local button = CreateFrame("CheckButton", "DBM_GUI_Option_" .. self:GetNewID(), self.frame, "OptionsBaseCheckButtonTemplate")
 		button:SetHitRectInsets(0, 0, 0, 0)
-		button.myheight = 25
+		button.myheight = 30
 		button.mytype = "checkbutton"
 		if autoplace then
 			local x = self:GetLastObj()
@@ -392,12 +483,13 @@ do
 			button.SetPointOld(...)
 		end
 		local desc, noteSpellName = parseDescription(name, true)
-		local frame, frame2, textPad
+		local frame, frame2
 		if modvar then -- Special warning, has modvar for sound and note
 			if isTimer then
 				frame = self:CreateDropdown(nil, tcolors, mod, modvar .. "TColor", function(value)
 					mod.Options[modvar .. "TColor"] = value
-				end, 22, 25, button)
+				end, 70, nil, button, L.BossModTColor)
+				frame.myheight = 0
 				frame2 = self:CreateDropdown(nil, cvoice, mod, modvar .. "CVoice", function(value)
 					mod.Options[modvar.."CVoice"] = value
 					if type(value) == "string" then
@@ -405,35 +497,35 @@ do
 					elseif value > 0 then
 						DBM:PlayCountSound(1, value == 3 and DBM.Options.CountdownVoice3 or value == 2 and DBM.Options.CountdownVoice2 or DBM.Options.CountdownVoice)
 					end
-				end, 22, 25, button)
-				frame:SetPoint("LEFT", button, "RIGHT", -20, 2)
-				frame2:SetPoint("LEFT", frame, "RIGHT", 18, 0)
-				textPad = 37
+				end, nil, nil, button, L.BossModCVoice)
+				frame2.myheight = 0
+				-- Old dropdown hacks
+				local isNewDropdown = frame.mytype == "dropdown2"
+				frame:SetPoint("LEFT", button, "RIGHT", isNewDropdown and 2 or -20, 2)
+				frame2:SetPoint("LEFT", frame, "RIGHT", isNewDropdown and 4 or 18, 0)
 			else
 				frame = self:CreateDropdown(nil, sounds, mod, modvar .. "SWSound", function(value)
 					mod.Options[modvar .. "SWSound"] = value
 					DBM:PlaySpecialWarningSound(value, true)
-				end, 22, 25, button)
+				end, nil, nil, button, L.BossModSWSound)
 				frame:ClearAllPoints()
-				frame:SetPoint("LEFT", button, "RIGHT", -20, 2)
+				frame:SetPoint("LEFT", button, "RIGHT", 2, 0)
 				if mod.Options[modvar .. "SWNote"] then -- Mod has note, insert note hack
 					---@class DBMPanelButtonWithNote: Button
 					frame2 = CreateFrame("Button", "DBM_GUI_Option_" .. self:GetNewID(), self.frame, "UIPanelButtonTemplate")
-					frame2:SetPoint("LEFT", frame, "RIGHT", 35, 0)
+					frame2:SetPoint("LEFT", frame, "RIGHT", 2, 1)
 					frame2:SetSize(25, 25)
 					frame2:SetText("|TInterface/FriendsFrame/UI-FriendsFrame-Note.blp:14:0:2:-1|t")
 					frame2.mytype = "button"
+					frame2.myheight = 0
 					frame2:SetScript("OnClick", function()
 						DBM:ShowNoteEditor(mod, modvar, noteSpellName)
 					end)
-					textPad = 2
 				end
 			end
 			frame.myheight = 0
 			if frame2 then
 				frame2.myheight = 0
-			else
-				textPad = 37
 			end
 		end
 		local buttonText
@@ -487,30 +579,20 @@ do
 					self:GetParent():UnlockHighlight()
 				end
 			end)
-			buttonText:SetHeight(25)
 			desc = "<html><body><p>" .. desc .. "</p></body></html>"
 		else
 			buttonText = button:CreateFontString("$parentText", "ARTWORK", "GameFontNormal")
-			buttonText:SetPoint("LEFT", button, "RIGHT", 0, 1)
 		end
 		button.textObj = buttonText
 		button.text = desc or CL.UNKNOWN
-		if frame2 then
-			button.widthPad = frame and frame:GetWidth() + frame2:GetWidth() or 0
-		else
-			button.widthPad = frame and frame:GetWidth() or 0
-		end
-		buttonText:SetWidth(self.frame:GetWidth() - button.widthPad)
-		if textLeft then
-			buttonText:ClearAllPoints()
-			buttonText:SetPoint("RIGHT", frame2 or frame or button, "LEFT")
-			buttonText:SetJustifyH("p", "RIGHT")
-		else
-			buttonText:SetJustifyH("p", "LEFT")
-			buttonText:SetPoint("TOPLEFT", frame2 or frame or button, "TOPRIGHT", textPad or 0, -5)
-		end
+		buttonText:SetJustifyH("p", "LEFT")
+		buttonText:ClearAllPoints()
+		buttonText:SetPoint("LEFT", frame2 or frame or button, "RIGHT", 2, 0)
+		buttonText:SetPoint("RIGHT", self.frame, -15, 0)
 		buttonText:SetText(button.text)
-		button.myheight = mmax(buttonText:GetContentHeight() + 12, 25)
+		buttonText:SetSize(buttonText:GetWidth(), buttonText:GetContentHeight())
+		buttonText:SetText(button.text) -- SetText is called again, because SimpleHTML needs a refresh after sizing
+		button.myheight = mmax(buttonText:GetContentHeight() + 12, 30)
 		if dbmvar and DBM.Options[dbmvar] ~= nil then
 			button:SetScript("OnShow", function(self)
 				self:SetChecked(DBM.Options[dbmvar])
@@ -584,6 +666,7 @@ function PanelPrototype:CreateAbility(titleText, icon, spellID, isPrivate)
 	else
 		area:SetPoint("TOPLEFT", select(-2, self.frame:GetChildren()) or self.frame, "BOTTOMLEFT", 0, -20)
 	end
+	area:SetPoint("RIGHT", self.frame)
 	local title = area:CreateFontString("$parentTitle", "BACKGROUND", "GameFontHighlightSmall")
 	local key = ""
 	if DBM.Options.ShowWAKeys and spellID then

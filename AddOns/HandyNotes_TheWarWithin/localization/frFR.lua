@@ -349,6 +349,7 @@ L['tsw_chest_4_location'] = 'En haut d\'une poutre. Descendez du pilier près de
 L['tuk_chest_1_note'] = 'Derrière la statue.'
 L['tuk_chest_2_note'] = '{note:Disponible uniquement pendant les variantes d’histoires "Évolution incontrôlable" et "Victimes de tortures".}'
 L['tuk_chest_3_note'] = '{note:Disponible uniquement pendant les variantes d’histoires "Évolution incontrôlable" et "Sauvetage de tisserande".}'
+L['sss_chest_2_location'] = 'Sur la poutre métallique.'
 
 -------------------------------------------------------------------------------
 --------------------------------- SIREN ISLE ----------------------------------
@@ -377,6 +378,7 @@ L['runed_storm_chest_note'] = 'Suivez le vent jusqu\'à une {object:Cache de la 
 L['flame_blessed_iron_item'] = 'Rapportez cet objet pour obtenir des {currency:3090} supplémentaires.'
 
 L['barnacle_encrusted_chest'] = 'Coffre incrustré de bigorneaux'
+L['pilfered_earthen_chest'] = 'Coffre terrestre pillé'
 
 L['soweezi_note'] = 'Échangez vos {currency:3090} contre une monture, un jouet, une mascotte ou des objets de transmogrification.'
 
@@ -402,6 +404,7 @@ L['pris_quest_4'] = 'Un ami loyal'
 
 L['unsolved_amethyst_runelock'] = 'Verrou runique en améthyste non résolu'
 L['bilge_rat_supply_chest'] = 'Coffre de fournitures des Soutaillons'
+L['bilge_rat_supply_chest_note'] = 'Récupérez la {item:228621} lachée par le {npc:228582} non loin de là pour ouvrir le coffre.'
 
 L['stone_carvers_scamseax_note'] = 'Ramassez une {object:Citrine radieuse} ({dot:Yellow}) pour bénéficier de l\'amélioration {spell:1216785} pendant 2 minutes, ce qui vous permet de récupérer le {item:233834}.'
 
@@ -416,7 +419,7 @@ L['options_icons_secrets_of_azeroth_desc'] = 'Afficher les emplacements des indi
 
 L['alyx_kickoff_note'] = 'Parlez à {npc:226683} pour activer les nouvelles énigmes des Secrets d\'Azeroth.'
 
-L['celebration_crates_label'] = 'Caisses d’anniversaire'
+-- L['celebration_crates_label'] = 'Caisses d’anniversaire'
 L['celebration_crates_note'] = 'Trouvez et rapportez toutes les {object:Caisses d’anniversaire} cachées à travers {location:Azeroth}.'
 
 L['1_soggy_celebration_crate_note'] = 'Achetez un {item:225996} à {npc:143029} ({dot:Blue}) au {location:Barboteur} et donnez-le à {npc:189119} pour faire apparaître la {item:226200}.'
@@ -563,3 +566,53 @@ L['code_label'] = '%d sur %s'
 L['orb_9_label'] = 'Orbe 9'
 
 L['ak_decryption_console_note'] = 'Retournez à l\'entrée du trou caché dans la grotte du {location:Nid du pilier Vosh} à {location:Azj-Kahet}.\n\nÉquipez vos {item:228966} pour faire apparaître une plateforme cachée.\n\nCiblez le {npc:230383} et utilisez la {item:228996} pour accéder à la plateforme. Entrez le code et ouvrez le {object:Coffre codé} pour recevoir les {item:229348}.\n\n{object:Code}: 84847078'
+
+-------------------------------------------------------------------------------
+---------------------------------- UNDERMINE ----------------------------------
+-------------------------------------------------------------------------------
+
+L['requires_ally'] = '{note:Vous devez être allié à la faction |cFFFFFF00{faction:%d}|r.}'
+L['complete_event'] = 'Parlez au PNJ nommé {npc:%d} et terminez l\'événement pour l\'invoquer.'
+L['in_sewer'] = 'Dans les égouts. Utilisez la {object:Grille d\'égout} à proximité pour y entrer.'
+L['and_slimesby'] = 'et {npc:230947}'
+
+L['inert_plunger_label'] = 'Détonateur inerte ?'
+L['exploded_plunger_label'] = 'Détonateur usagé'
+
+L['unexploded_fireworks_location'] = 'Sur le toit du {location:Parc des Raouts}.'
+L['suspicious_book_note'] = '1. {dot:Red} Caché sur une bibliothèque au premier étage. Essayez de le récupérer et il s\'envolera vers une autre bibliothèque au deuxième étage.\n\n2. {dot:Green} Caché derrière une bibliothèque au deuxième étage. Tentez de le récupérer et il s\'envolera vers le bureau au troisième étage.\n\n3. Sur le bureau au troisième étage. Enfin, récupérez le livre !'
+L['fireworks_hat_note'] = 'Tentez d\'attraper le chapeau pour le faire s\'envoler du toit et atterrir ici.'
+L['blackened_dice_note'] = 'Tournez la {object:Soupape de tuyau} à proximité pour libérer le dé.'
+L['lonely_tub_note'] = 'Saisissez l\'{object:Extincteur} ({dot:Blue}) à proximité pour éteindre les flammes sur la {object:Bassine isolée}.'
+L['impotent_potable_location'] = 'Sous le quai à côté de la {location:Pille-en-Fête}'
+L['abandoned_toolbox_location'] = 'Tout en haut sur le toit de la {location:Recyclerie}.\n\nSuivez les escaliers jusqu\'au sommet.'
+L['trick_deck_of_cards_location'] = 'Sur le bureau à côté de {npc:231045} à l\'intérieur de l\'{location:Hôtel Incontinental}.'
+
+L['ditty_fuzeboy_note'] = 'Échangez vos {item:234741} contre des mascottes.'
+L['angelo_rustbin_note'] = 'Échangez vos {currency:3220} contre des mascottes et des personnalisations pour votre {object:Casse-cou G-99}.'
+
+L['options_icons_nine_tenths'] = '{achievement:40948}'
+L['options_icons_nine_tenths_desc'] = 'Afficher les emplacements des {object:Autovestiaires de Muff} pour le haut-fait {achievement:40948}.'
+L['muffs_auto_locker_label'] = 'Autovestiaire de Muff'
+L['muffs_auto_locker_note'] = 'Rassemblez les 5x parties du Gorillion et terminez {quest:87406} pour construire le {item:232843}.'
+L['muffs_auto_locker_suffix'] = 'Autovestiaires de Muff ouverts'
+
+L['options_icons_between_the_lines'] = '{achievement:41588}'
+L['options_icons_between_the_lines_desc'] = 'Afficher les emplacements des livres pour le haut-fait {achievement:41588}.'
+L['a_threatening_letter_location'] = 'A l\'étage inférieur des {location:Laboratoires de Gentepression}, sous l\'escalier.'
+L['gallywixs_notes_location'] = 'Sur une table située au fond de la {location:Salle du Magot}.'
+
+L['options_icons_can_do_attitude'] = '{achievement:41589}'
+L['options_icons_can_do_attitude_desc'] = 'Afficher les emplacements des {npc:237103} pour le haut-fait {achievement:41589}.'
+L['discarded_can_label'] = '{npc:237103}'
+L['discarded_can_note'] = 'Donnez quelques coups de pied à la {npc:237103}.'
+L['discarded_can_suffix'] = 'canettes frappées'
+
+L['options_icons_scrap_rewards'] = 'Tas de D.E.B.R.I.S.'
+L['options_icons_scrap_rewards_desc'] = 'Afficher les récompenses liées aux {object:Tas de D.E.B.R.I.S.}.'
+L['scrap_heap_suffix'] = 'Missions de D.E.B.R.I.S. terminées'
+
+L['options_icons_youre_my_friend_now'] = '{achievement:41708}'
+L['options_icons_youre_my_friend_now_desc'] = 'Afficher les emplacements des {npc:239248} pour le haut-fait {achievement:41708}.'
+L['rat_in_building_rail'] = 'A l\'intérieur du bâtiment sur le rail.'
+L['rat_2nd_floor_trash_can'] = 'A l\'intérieur du bâtiment, au deuxième étage, sur la poubelle.'

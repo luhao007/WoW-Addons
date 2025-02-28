@@ -606,6 +606,7 @@ local function OnPlayerLogin(rareScannerButton)
 			for dp, loaded in pairs(WorldMapFrame.dataProviders) do
 				if (loaded and dp.GetDefaultPinTemplate and dp:GetDefaultPinTemplate() == "VignettePinTemplate") then
 					WorldMapFrame:RemoveDataProvider(dp)
+					dp:OnHide() --fixes https://legacy.curseforge.com/wow/addons/rarescanner/issues/339
 					local provider = CreateFromMixins(RSVignetteDataProviderMixin)
 					WorldMapFrame:AddDataProvider(provider);
 					RSProvider.AddDataProvider(provider)

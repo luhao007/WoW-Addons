@@ -27,11 +27,19 @@ if MODERN or CF_WRATH then
 		local function have1()
 			return true, false, false, 4
 		end
+		local function have3(iid)
+			return C_Item.GetItemCount(iid) > 2, false, false, 4
+		end
+		local function have1_lv80()
+			if (UnitLevel("player") or 0) >= 80 then
+				return true, false, false, 4
+			end
+		end
 		local function c1()
 			return true, false, false, 3
 		end
-		local function c100(iid)
-			return C_Item.GetItemCount(iid) > 99, false, false, 3
+		local function c100_lv80(iid)
+			return C_Item.GetItemCount(iid) > 99 and (UnitLevel("player") or 0) >= 80, false, false, 3
 		end
 		local function haveInterestingNotes()
 			return C_Item.GetItemCount(227406) > 0, false, false, 3
@@ -40,10 +48,20 @@ if MODERN or CF_WRATH then
 			local at, sid = GetActionInfo(GetExtraBarIndex()*12-11)
 			return at ~= "spell" or sid ~= 463623, false, false, nil
 		end
+		local function ebIsNotGoPack()
+			local at, sid = GetActionInfo(GetExtraBarIndex()*12-11)
+			return at ~= "spell" or (sid ~= 467294 and sid ~= 469807), false, false, nil
+		end
+		local function crownChemical()
+			local _,_,_,_, _,_,_,imid, _,did = GetInstanceInfo()
+			return imid == 33 and did == 288
+		end
 		local mapMarker = c1
 		include = {
+			[21746]=have1, -- lucky red envelope
 			[33634]=true, [35797]=true, [37888]=true, [37860]=true, [37859]=true, [37815]=true, [46847]=true, [47030]=true, [39213]=true, [42986]=true, [49278]=true,
 			[86425]={31332, 31333, 31334, 31335, 31336, 31337}, [90006]=true, [86536]=true, [86534]=true,
+			[49351]=crownChemical, [49352]=crownChemical, -- perfume/cologne neutralizers
 			[180008]=-60609, [180009]=-60609, [180170]=-60649,
 			[174464]=true, [168035]=true,
 			[191251]=isOnKeysOfLoyalty, [202096]=isInPrimalistFutureScenario, [203478]=isInPrimalistFutureScenario,
@@ -51,26 +69,32 @@ if MODERN or CF_WRATH then
 			[199066]=mapMarker, [199067]=mapMarker, [199068]=mapMarker, [199069]=mapMarker, [200738]=mapMarker, [202667]=mapMarker, [202668]=mapMarker,
 			[202669]=mapMarker, [202670]=mapMarker,
 			[204911]=have1,
-			[205254]=c1, -- Honorary Explorer's Compass [dragonscale rep]
+			[205254]=c1, -- Honorary Explorer's Compass
 			[199192]=have1, [204359]=have1, [205226]=have1, [210549]=have1, [227450]=have1,  -- racer's purse
+			[224292]=-81691, [224913]=-81691, -- radiant fuel shard/cache
 			[228741]=have1, -- lamplighter supply satchel
-			[229899]=c100, -- coffer key shard
+			[229899]=c100_lv80, -- coffer key shard
 			[217011]=have1, [217012]=have1, [217013]=have1, -- (isle of dorn) actor's chest
 			[227792]=have1, -- everyday cache
 			[227713]=have1, -- art consortium payout
 			[226263]=have1, -- theater troupe's trove
 			[226264]=have1, -- radiant cache
-			[228361]=have1, -- seasoned adventurer's cache
 			[226273]=have1, -- awakened mechanical cache
 			[225571]=have1, [225572]=have1, [225573]=have1, -- weaver/general/vizier caches
-			[224784]=have1, -- pinnacle cache
+			[226103]=have1, [226045]=have1, [226100]=have1, -- weaver/general/vizier troves
+			[225247]=have1, [225246]=have1, [225239]=have1, [225245]=have1, -- overflowing troves [11.0]
+			[229354]=have1, -- algari adventurer's cache
+			[228361]=have1_lv80, -- seasoned adventurer's cache
+			[224784]=have1_lv80, -- pinnacle cache
 			[169219]=c1, -- brewfest sampler
 			[225249]=c1, -- bag o' gold
-			[235548]=have1, [232372]=have1, -- siren isle cache, bygone riches
+			[235548]=have1, [232372]=have1, [234816]=c1, -- siren isle cache, bygone riches, bag of iron
 		}
 		filtered = {
 			[228988]=ebIsNotRockReviver, -- siren isle rock reviver
+			[230795]=ebIsNotGoPack, -- experimental go-pack, intro quest
 			[227405]=haveInterestingNotes, -- siren isle research journal
+			[224292]=have3, -- radiant fuel shard
 		}
 		for i in (CF_WRATH and "33634 35797 37888 37860 37859 37815 46847 47030 39213 42986 49278" or ""):gmatch("%d+") do
 			include[i+0] = true
@@ -92,6 +116,7 @@ if MODERN or CF_WRATH then
 	}
 	setmetatable(exclude, {__index={
 		[204561]=1,
+		[232466]=1, -- leave the storm, siren isle
 	}})
 	function IsQuestItem(iid, bag, slot)
 		if exclude[iid] or not iid then
@@ -109,7 +134,7 @@ if MODERN or CF_WRATH then
 		if tinc == "function" then
 			isQuest, startQuestId, isQuestActive, rcat = inc(iid)
 		elseif tinc then
-			isQuest = true
+			isQuest = not ff or isQuest
 			for i=tinc == "number" and 1 or #inc, 1, -1 do
 				local qid, wq = tinc == "number" and inc or inc[i]
 				wq, qid = qid < 0, qid < 0 and -qid or qid

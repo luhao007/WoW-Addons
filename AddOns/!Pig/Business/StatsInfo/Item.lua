@@ -99,7 +99,7 @@ function BusinessInfo.Item()
 						fujik.Faction:SetTexCoord(0.5,1,0,1);
 					end
 					fujik.Race:SetAtlas(cdmulu[dangqian][4]);
-					local className, classFile, classID = GetClassInfo(cdmulu[dangqian][5])
+					local className, classFile, classID = PIGGetClassInfo(cdmulu[dangqian][5])
 					fujik.Class:SetTexCoord(unpack(CLASS_ICON_TCOORDS[classFile]));
 					fujik.level:SetText(cdmulu[dangqian][6]);
 					if cdmulu[dangqian][7] then
@@ -181,7 +181,6 @@ function BusinessInfo.Item()
 		hang.Faction:SetPoint("TOPLEFT", hang, "TOPLEFT", 0,-2);
 		hang.Faction:SetSize(hang_Height,hang_Height);
 		hang.Race = hang:CreateTexture();
-		hang.Race:SetTexture("Interface/Glues/CharacterCreate/CharacterCreateIcons")
 		hang.Race:SetPoint("LEFT", hang.Faction, "RIGHT", 1,0);
 		hang.Race:SetSize(hang_Height,hang_Height);
 		hang.Class = hang:CreateTexture();
@@ -402,8 +401,8 @@ function BusinessInfo.Item()
 		if itemLink then
 			local texture, itemCount= GetGuildBankItemInfo(bagID, slot)
 			local itemID = GetItemInfoInstant(itemLink) 
-			local itemLink = itemLink:match("\124H(item:[%-0-9:]+)\124h");
-			table.insert(wupinshujuinfo, {itemLink,itemCount,itemID});
+			local XitemLink = GetItemLinkJJ(itemLink)
+			table.insert(wupinshujuinfo, {XitemLink,itemCount,itemID});
 		end
 	end
 	local function SAVE_GUILDBANK()
@@ -427,9 +426,9 @@ function BusinessInfo.Item()
 			local packageIcon, stationeryIcon, sender, subject, money, CODAmount, daysLeft, itemCount, wasRead, wasReturned, textCreated, canReply, isGM = GetInboxHeaderInfo(i);
 			if (itemCount and CODAmount == 0) then
 				for n=1,ATTACHMENTS_MAX_RECEIVE do
-					local ItemLink=GetInboxItemLink(i, n);
-					if ItemLink then
-						local XitemLink = ItemLink:match("\124H(item:[%-0-9:]+)\124h");
+					local itemLink=GetInboxItemLink(i, n);
+					if itemLink then
+						local XitemLink = GetItemLinkJJ(itemLink)
 						local name, XitemID, itemTexture, count, quality, canUse = GetInboxItem(i, n);				
 						table.insert(mailData, {XitemLink,count,XitemID});
 					end
@@ -479,6 +478,7 @@ function BusinessInfo.Item()
 			SAVE_C()
 		end
 		if event=="BAG_UPDATE" then
+			if InCombatLockdown() then return end
 			if arg1~=-2 then
 				if arg1>=0 and arg1<=bagData["bagIDMax"] then
 					SAVE_BAG()

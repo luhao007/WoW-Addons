@@ -69,10 +69,7 @@ function addon.GetAchievementNumbers(_filters, achievement, numOfAch, numOfCompA
 	if filters and filters.Validate(_filters, achievement, ignoreFilters, true) > 0 then -- If set to false we lag the game
 		numOfAch = numOfAch + 1;
 		local _, _, _, completed = addon.GetAchievementInfo(achievement.Id);
-        local state;
-        if achievement.TemporaryObtainable then
-            state = achievement.TemporaryObtainable.Obtainable();
-        end
+        local state = achievement:GetObtainableState();
 		if completed then
 			numOfCompAch = numOfCompAch + 1;
 		-- else
@@ -162,32 +159,46 @@ function addon.ClearWatchAchievement(achievement, update)
     if update ~= false then
         addon.Gui:RefreshView();
     end
-    for i = 1, #addon.Data.WatchListCategories do
-        if (addon.Data.WatchListCategories[i].Achievements and #addon.Data.WatchListCategories[i].Achievements == 0) or (addon.Data.WatchListCategories[i].Children and #addon.Data.WatchListCategories[i].Children == 0) then
-            KrowiAF_SavedData.WatchedAchievements = nil;
-            addon.Data.WatchListCategories[i].Achievements = nil;
+    for i = 1, #addon.SpecialCategories.WatchList do
+        if (addon.SpecialCategories.WatchList[i].Achievements and #addon.SpecialCategories.WatchList[i].Achievements == 0) or (addon.SpecialCategories.WatchList[i].Children and #addon.SpecialCategories.WatchList[i].Children == 0) then
+            addon.Data.SavedData.AchievementData:ClearWatchedAchievements();
+            addon.SpecialCategories.WatchList[i].Achievements = nil;
         end
     end
 end
 
 function addon.WatchAchievement(achievement, update)
     achievement:Watch();
-    for i = 1, #addon.Data.WatchListCategories do
+    for i = 1, #addon.SpecialCategories.WatchList do
         if addon.Options.db.profile.AdjustableCategories.WatchList[i] then
-            local watchListCategory = AddWatchListCategoriesTree(addon.Data.WatchListCategories[i], achievement);
+            local watchListCategory = AddWatchListCategoriesTree(addon.SpecialCategories.WatchList[i], achievement);
             watchListCategory:AddWatchedAchievement(achievement);
         end
 	end
     if update ~= false then
+        local scrollPercentage = KrowiAF_AchievementsFrame.ScrollBox:GetScrollPercentage();
         addon.Gui:RefreshView();
+        KrowiAF_AchievementsFrame.ScrollBox:SetScrollPercentage(scrollPercentage);
     end
 end
 
 function addon.AddToTrackingAchievementsCategories(achievement, update)
-    for i = 1, #addon.Data.TrackingAchievementsCategories do
+    for i = 1, #addon.SpecialCategories.TrackingAchievements do
         if addon.Options.db.profile.AdjustableCategories.TrackingAchievements[i] then
-            local trackingAchievementsCategory = AddTrackingAchievementsCategoriesTree(addon.Data.TrackingAchievementsCategories[i], achievement);
+            local trackingAchievementsCategory = AddTrackingAchievementsCategoriesTree(addon.SpecialCategories.TrackingAchievements[i], achievement);
             trackingAchievementsCategory:AddAchievement(achievement);
+        end
+    end
+    if update ~= false then
+        KrowiAF_CategoriesFrame:Update(true);
+        KrowiAF_AchievementsFrame:ForceUpdate();
+    end
+end
+
+function addon.AddToUncategorizedAchievementsCategories(achievement, update)
+    for i = 1, #addon.SpecialCategories.Uncategorized do
+        if addon.Options.db.profile.AdjustableCategories.Uncategorized[i] then
+            addon.SpecialCategories.Uncategorized[i]:AddAchievement(achievement);
         end
     end
     if update ~= false then
@@ -211,9 +222,9 @@ function addon.IncludeAchievement(achievement, update)
     if update ~= false then
         addon.Gui:RefreshView();
     end
-    for i = 1, #addon.Data.ExcludedCategories do
-        if (addon.Data.ExcludedCategories[i].Achievements and #addon.Data.ExcludedCategories[i].Achievements == 0) or (addon.Data.ExcludedCategories[i].Children and #addon.Data.ExcludedCategories[i].Children == 0) then
-            addon.Data.ExcludedCategories[i].Achievements = nil;
+    for i = 1, #addon.SpecialCategories.Excluded do
+        if (addon.SpecialCategories.Excluded[i].Achievements and #addon.SpecialCategories.Excluded[i].Achievements == 0) or (addon.SpecialCategories.Excluded[i].Children and #addon.SpecialCategories.Excluded[i].Children == 0) then
+            addon.SpecialCategories.Excluded[i].Achievements = nil;
         end
     end
     if KrowiAF_SavedData.ExcludedAchievements then
@@ -227,9 +238,9 @@ end
 function addon.ExcludeAchievement(achievement, update)
     achievement:Exclude();
     if addon.Options.db.profile.Categories.Excluded.Show then
-        for i = 1, #addon.Data.ExcludedCategories do
+        for i = 1, #addon.SpecialCategories.Excluded do
             if addon.Options.db.profile.AdjustableCategories.Excluded[i] then
-                local excludedCategory = AddExcludedCategoriesTree(addon.Data.ExcludedCategories[i], achievement);
+                local excludedCategory = AddExcludedCategoriesTree(addon.SpecialCategories.Excluded[i], achievement);
                 excludedCategory:AddExcludedAchievement(achievement);
             end
         end
@@ -245,13 +256,11 @@ local function CheckDecFlags(flags, flag)
     return (flags / flag) % 2 >= 1;
 end
 
-local function AddToUncategorizedCategories(achievement)
-    addon.Data.Achievements[achievement.Id].Uncategorized = true;
-    for i = 1, #addon.Data.UncategorizedCategories do
-        if addon.Options.db.profile.AdjustableCategories.Uncategorized[i] then
-            addon.Data.UncategorizedCategories[i]:AddAchievement(achievement);
-        end
-	end
+addon.UncategorizedAchievements = {};
+local function AddToUncategorizedCategories(achievementInfo)
+    local achievementId = achievementInfo.Id;
+    addon.Data.Achievements[achievementId].Uncategorized = true;
+    addon.UncategorizedAchievements[achievementId] = true;
 end
 
 local function HandleAchievementExistence(achievementInfo)
@@ -585,10 +594,8 @@ local function MakeStatic(frame, rememberLastPositionOption, target)
 
     frame:SetMovable(false);
     frame:EnableMouse(false);
-    frame:SetScript("OnMouseDown", function(frame, button)
-    end);
-    frame:SetScript("OnMouseUp", function(frame, button)
-    end);
+    frame:SetScript("OnMouseDown", function() end);
+    frame:SetScript("OnMouseUp", function() end);
 end
 
 function addon.MakeWindowStatic()
@@ -652,6 +659,11 @@ function addon.GetSecondsSince(date)
     return time(date);
 end
 
+function addon.GetAchievmentName(achievementId)
+    local _, name = GetAchievementInfo(achievementId);
+    return name;
+end
+
 function addon.GetAchievementInfo(achievementId) -- Returns an additional bool indicating if the achievement is added to the game yet or not
     local id, name, points, completed, month, day, year, description, flags, icon, rewardText, isGuild, wasEarnedByMe, earnedBy, isStatistic = GetAchievementInfo(achievementId);
     if not id then
@@ -663,6 +675,16 @@ function addon.GetAchievementInfo(achievementId) -- Returns an additional bool i
     if id == 18849 or id == 18850 then
         flags.IsTracking = true;
     end
+    -- if addon.Options.db.profile.Achievements.ShowOtherFactionWarbandAsCompleted then
+	-- 	if flags.IsAccountWide and KrowiAF_Achievements.Completed[achievementId] and KrowiAF_Achievements.Completed[achievementId].FirstCompletedOn then
+	-- 		local date = date("*t", KrowiAF_Achievements.Completed[achievementId].FirstCompletedOn);
+	-- 		completed = true;
+	-- 		month = date.month;
+	-- 		day = date.day;
+	-- 		year = date.year - 2000;
+	-- 		wasEarnedByMe = true;
+	-- 	end
+	-- end
     return id, name, points, completed, month, day, year, description, flags, icon, rewardText, isGuild, wasEarnedByMe, earnedBy, isStatistic, true;
 end
 
@@ -703,9 +725,9 @@ function addon.GetNextAchievement(achievement)
     return nil, false;
 end
 
-local function GetAchievementCriteriaInfoInternal(achievementId, criteriaString, criteriaType, completed, quantity, reqQuantity, charName, flags, assetID, quantityString, criteriaID, eligible)
+local function GetAchievementCriteriaInfoInternal(achievementId, criteriaString, criteriaType, completed, quantity, reqQuantity, charName, flags, assetID, quantityString, criteriaID, eligible, duration, elapsed)
     local hasValueProgress = (quantity ~= nil and reqQuantity ~= nil and not (quantity == 0 and (reqQuantity == 0 or reqQuantity == 1))) or achievementId == 17335;
-    return criteriaString, criteriaType, completed, quantity, reqQuantity, charName, flags, assetID, quantityString, criteriaID, eligible, hasValueProgress;
+    return criteriaString, criteriaType, completed, quantity, reqQuantity, charName, flags, assetID, quantityString, criteriaID, eligible, hasValueProgress, duration, elapsed;
 end
 
 function addon.GetAchievementCriteriaInfo(achievementId, criteriaIndex, countHidden)
@@ -763,7 +785,7 @@ function addon.ChangeAchievementMicroButtonOnClick()
     end
     local tab = KrowiAF_SavedData.Tabs[addon.Options.db.profile.MicroButtonTab];
     AchievementMicroButton:SetScript("OnClick", function(self)
-        addon.Gui:ToggleAchievementFrame(tab.AddonName, tab.Name);
+        KrowiAF_ToggleAchievementFrame(tab.AddonName, tab.Name);
     end);
 end
 
@@ -906,10 +928,10 @@ function addon.StartTasksGroups(tasksGroups, onFinish, onDelay)
         local task = tasks[taskIndex];
         while task do
             RunTask(task);
-            if task ~= KrowiAF.CreateCategories and Delay(continue, startTime, maxDuration, onDelay, tasksGroups, tasks) then -- Really need to solve this in a different way!!!
+            tasks, task = GetNextTask(tasks, tasksGroups); -- Get the new task first so in case the task takes longer than a frame duration, the current tasks keeps looping
+            if Delay(continue, startTime, maxDuration, onDelay, tasksGroups, tasks) then -- Really need to solve this in a different way!!!
                 return false;
             end
-            tasks, task = GetNextTask(tasks, tasksGroups);
         end
         if onFinish then
             onFinish();

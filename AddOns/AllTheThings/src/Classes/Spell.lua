@@ -292,9 +292,7 @@ do
 	-- saved vars handled by Spell
 	app.AddEventRegistration("NEW_RECIPE_LEARNED", function(spellID, rank, previousSpellID)
 		if spellID then
-			local spell = app.SearchForObject("spellID", spellID, "field")
-			app.SetCollected(spell, CACHE, spellID, true, SETTING)
-			app.UpdateRawID("spellID", spellID)
+			app.SetThingCollected("spellID", spellID, false, true)
 		end
 	end);
 end

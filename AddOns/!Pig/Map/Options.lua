@@ -5,6 +5,7 @@ local _, _, _, tocversion = GetBuildInfo()
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
 local PIGLine=Create.PIGLine
+local PIGEnter=Create.PIGEnter
 local PIGButton = Create.PIGButton
 local PIGDownMenu=Create.PIGDownMenu
 local PIGSlider = Create.PIGSlider
@@ -99,7 +100,7 @@ function MiniMapF.Minimap_but_Point:PIGDownMenu_Update_But(self)
 	end 
 end
 function MiniMapF.Minimap_but_Point:PIGDownMenu_SetValue(value,arg1,arg2)
-	MiniMapF.Minimap_but_Point:PIGDownMenu_SetText(value)
+	self:PIGDownMenu_SetText(value)
 	PIGA["Map"]["MinimapPoint"]=arg1
 	MiniMapF.PIGChecked()
 	PIGCloseDropDownMenus()
@@ -134,6 +135,7 @@ local function UpdatePaichuButLsit()
 	for i=1,#MiniMapF.MinimapButF.butlist do
 		local butx = MiniMapF.MinimapButF.butlist[i]
 		butx:Hide()
+		PIGEnter(butx,"")
 	end
 	for i=1,#PigMinimapBut_UI.MiniList do
 		local butx = MiniMapF.MinimapButF.butlist[i]
@@ -141,6 +143,7 @@ local function UpdatePaichuButLsit()
 		butx.uiname=PigMinimapBut_UI.MiniList[i]
 		local iconx = _G[PigMinimapBut_UI.MiniList[i]].icon and _G[PigMinimapBut_UI.MiniList[i]].icon:GetTexture() or _G[PigMinimapBut_UI.MiniList[i]].Icon and _G[PigMinimapBut_UI.MiniList[i]].Icon:GetTexture() or 134400
 		butx:SetNormalTexture(iconx)
+		PIGEnter(butx,butx.uiname)
 		if IsNoDIYpaichu(butx.uiname) then
 			butx.x:Show()
 		else

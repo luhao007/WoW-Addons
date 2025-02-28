@@ -187,7 +187,7 @@ local function GetMapName(mapID)
 	end
 end
 local function GetPlayerPosition()
-	local mapID = app.CurrentMapID;
+	local mapID = app.RealMapID;
 	if mapID then
 		local pos = C_Map_GetPlayerMapPosition(mapID, "player");
 		if pos then
@@ -441,6 +441,7 @@ local function GetExplorationBySubzone()
 				end
 			end
 		end
+		if not app.Contributor then return end
 		local expectedAreaID = AreaIDNameMapper[subzone]
 		-- don't report an area which is actually mapped in another zone already
 		if not app.SearchForObject("explorationID", expectedAreaID) then
@@ -451,7 +452,6 @@ local function GetExplorationBySubzone()
 	end
 end
 local function CheckIfExplorationIsMissing()
-	if not app.Contributor then return end
 	-- do a manual check by way of the sub-zone name (since this is what correlates to the exploration name players see in ATT)
 	-- we will provide a manual collection by way of exact player position having a specific subzone name when performing a check
 	local explorationForSubzone = GetExplorationBySubzone()
@@ -952,6 +952,13 @@ app.CreateMap = app.CreateClass("Map", "mapID", {
 	end,
 	["ignoreSourceLookup"] = function(t)
 		return true;
+	end,
+	isMinilistHeader = function(t)
+		local mapinfo = C_Map_GetMapInfo(t.mapID)
+		local mapType = mapinfo and mapinfo.mapType or 0
+		local isHeader = mapType > 2
+		t.isMinilistHeader = isHeader
+		return isHeader
 	end,
 },
 "WithHeader", {
