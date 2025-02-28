@@ -1,0 +1,353 @@
+$Id: ChangeLog.txt 184 2023-07-29 06:22:57Z arithmandar $
+Atlas, a World of Warcraft instance map browser
+Copyright 2016 ~ 2023 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+
+==============
+= Change Log =
+==============
+
+v1.52.04 (Jul. 29, 2023)
+------------------------
+- Toc update to support WoW 10.1.5
+
+v1.52.03 (Mar. 28, 2022)
+------------------------
+- Re-packaging
+
+v1.52.02 (Mar. 20, 2023)
+------------------------
+- Toc update to support WoW 10.0.7
+
+v1.52.01 (Nov. 19, 2022)
+------------------------
+- Toc update to support WoW 10.0.2
+
+v1.52.00 (Nov. 06, 2022)
+------------------------
+- Toc update to support WoW 10.0.0
+
+v1.51.01 (Aug. 17, 2022)
+------------------------
+- Toc update to support WoW 9.2.7
+
+v1.51.00 (Jul. 23, 2022)
+------------------------
+- Toc update to support WoW 9.2.5
+
+v1.50.01 (Mar. 6, 2022)
+------------------------
+- Updated 1st map of Antorus, the Burning Throne; also update the mapID for this raid.
+
+v1.50.00 (Feb. 23, 2022)
+------------------------
+- Toc update to support WoW 9.2.0
+
+v1.49.03 (Feb. 19, 2022)
+------------------------
+- Update categorize by level's group criteria
+
+v1.49.02 (Feb. 3, 2022)
+------------------------
+- ToC update to support WoW 9.1.5
+
+v1.49.01 (Jun. 30, 2021)
+------------------------
+- ToC update to support WoW 9.1.0
+
+v1.49.00 (May 20, 2021)
+------------------------
+- ToC update to support WoW 9.0.5
+
+v1.48.00 (Oct. 18, 2020)
+------------------------
+- ToC update to support WoW 9.0.1
+
+v1.47.01 (Jun. 20, 2020)
+------------------------
+- Update Atlas_GetBossName to load boss name from local locale files
+
+v1.47.00 (Jan. 20, 2020)
+------------------------
+- ToC update to support WoW 8.3.0
+
+v1.46.00 (Jan. 07, 2020)
+------------------------
+- ToC update to support WoW 8.2.5
+
+v1.45.01 (Sep. 04, 2019)
+------------------------
+- Fixed TOC
+
+v1.45.00 (Sep. 04, 2019)
+------------------------
+- ToC update to support WoW 8.2.0
+
+v1.44.01 (Dec. 18, 2018)
+------------------------
+- ToC update to support WoW 8.1.0
+
+v1.44.00 (Aug. 09, 2018)
+------------------------
+- ToC update to support WoW 8.0.1
+- MapID convert to uiMapID
+
+v1.43.03 (Sep. 24, 2017)
+------------------------
+- Correct the location of Antorus, the Burning Throne
+
+v1.43.02 (Sep. 24, 2017)
+------------------------
+- Added Antorus, the Burning Throne
+
+v1.43.01 (Sep. 23, 2017)
+------------------------
+- Added The Seat of the Triumvirate
+- Localization update:
+  - Korean (netaras)
+
+v1.43.00 (Aug. 30, 2017)
+------------------------
+- ToC update to support WoW 7.3.0
+
+v1.42.01 (Jul. 19, 2017)
+------------------------
+- Corrected the dungen level values for maps of Tomb of Sargeras
+
+v1.42.00 (Jun. 29, 2017)
+------------------------
+- Updated to support Atlas 1.42.00
+
+v1.41.05 (Apr. 30, 2017)
+------------------------
+- Black Rook Hold maps revamped
+- Added rare mob Lord Etheldrin Ravencrest and WQ boss Kelorn Nightblade, 
+  General Tel'arn, and Ranger General Feleor to Black Rook Hold
+- Added alchemy quest (Heavy, But Helpful) item (Sabelite Sulfate) to
+  Black Rook Hold
+- Added achievement (You Used to Scrawl Me In Your Fel Tome) object items
+  to Black Rook Hold
+- Localization update:
+  - Russian (BLizzatron)
+
+v1.41.04 (Apr. 28, 2017)
+------------------------
+- Fixed WQ bosses' number in Eye of Azshara
+- Localization update:
+  - German (pas06)
+  - Traditional Chinese
+
+v1.41.03 (Apr. 18, 2017)
+------------------------
+- Added map of Gul'dan's chamber
+- Changed to use Atlas' get creature name feature to get the non-encounter's name
+
+v1.41.02 (Apr. 17, 2017)
+------------------------
+- Added Cathedral of Eternal Night's WQ boss - Raga'yut
+
+v1.41.01 (Apr. 15, 2017)
+------------------------
+- Added Mana Focus position to map of Return to Karazhan (Map H)
+- Slightly adjusted the entrance A and connection C's positions 
+  in Return to Karazhan (Map A)
+- Slightly adjusted the connection G's position in the Nighthold (Map B)
+- Added portal locations in Nighthold's maps
+- Added 1st floor of the Nightspire map to the Nighthold
+
+v1.41.00 (Apr. 14, 2017)
+------------------------
+- Added world boss - Flightmaster Volnath in the Nighthold
+
+v1.40.04 (Apr. 13, 2017)
+------------------------
+- Localization update:
+  - German (pas06)
+  - Simplified Chinese (ananhaid)
+  - Traditional Chinese
+
+v1.40.03 (Apr. 10, 2017)
+------------------------
+- Added large maps for the Nighthold
+- Added location of world quest boss - Gilded Guardian in the Nighthold
+- Localization update:
+  - German (pas06)
+  - Simplified Chinese (ananhaid)
+
+v1.40.02 (Apr. 08, 2017)
+------------------------
+- Added achievements of Cathedral of Eternal Night and Tomb of Sargeras
+- The Arcway map revamped
+- Added large map for the Arcway
+
+v1.40.01 (Apr. 07, 2017)
+------------------------
+- Nighthold maps revamped and re-organized
+  - Combine the original Map A and Map B into one single map
+  - Switch the original Map C and Map D
+  - Revamped map of Captain's Quarters (Tichondrius)
+  - Corrected Gul'dan's location and remove the original MapG
+- Change the boss order in Nighthold to better match with the LFR
+
+v1.40.00 (Mar. 31, 2017)
+------------------------
+- Re-organized maps of Return to Karazhan (combine MapA and MapB to one single map)
+
+v1.39.00 (Mar. 28, 2017)
+------------------------
+- Toc update to support WoW 7.2
+- Added WoW 7.2 new dungeon and raid's map data (Cathedral of Eternal Night & Tomb of Sargeras)
+
+v1.38.00 (Mar. 24, 2017)
+------------------------
+- Added maps of Return to Karazhan
+
+v1.37.01 (Jan. 24, 2017)
+------------------------
+- Added more raid's achievements
+- Localization update:
+  - German (pas06)
+
+v1.37.00 (Jan. 22, 2017)
+------------------------
+- Added Mythana to Darkheart Thicket
+- Eye of Azshara map revamped;
+  - added Jaggen-Ra and Dread Captain Thedon
+  - switch boss order of King Deepbeard and Serpentrix
+- Added instance's achievements
+
+v1.36.01 (Jan. 16, 2017)
+------------------------
+- Localization update:
+  - German (pas06)
+- Added to support quick map switching by clicking the Next or 
+  Previous map button
+  
+v1.36.00 (Jan. 11, 2017)
+------------------------
+- Localization update:
+  Traditional Chinese
+
+v1.35.06 (Nov. 15, 2016)
+------------------------
+- Added Kraxa and Ultanok to Neltharion's Lair
+- Changed The Arcway and Court of Stars to mythic only
+- Localization update:
+  Simplified Chinese
+
+v1.35.05 (Nov. 09, 2016)
+------------------------
+- Map revamped:
+  - Halls of Valor - Map A & B
+  - The Nighthold - Map C
+  - Vault of the Wardens
+- Added Grimoira to Vault of the Wardens
+- Localization update:
+  Traditional Chinese
+
+v1.35.04 (Oct. 29, 2016)
+------------------------
+- Fixed boss link in the Emerald Nightmare:
+  Il'gynoth, Elerethe Renferal, and Ursoc
+
+v1.35.03 (Oct. 28, 2016)
+------------------------
+- Added Xavius to the Emerald Nightmare
+- Added dungeon level info to the Emerald Nightmare maps so that switching 
+  between Atlas and World Map will work well
+- Added minimum gear level to the Emerald Nightmare and the Nighthold
+
+v1.35.02 (Oct. 28, 2016)
+------------------------
+- Added Gul'dan to the Nighthold
+
+v1.35.01 (Oct. 27, 2016)
+------------------------
+- Added Trial of Valor
+- Localization update:
+  - German (pas06)
+
+v1.35.00 (Oct. 27, 2016)
+------------------------
+- Toc update to support WoW 7.1.0
+- Added Ly'leth Lunastre to locale section in Court of Stars
+- Translation update: 
+  - Korean (wooyekim)
+  - Simplified Chinese (ananhaid)
+
+v1.34.08 (Oct. 07, 2016)
+------------------------
+- Translation added (NPC only): 
+  - French
+  - Spanish
+  - Italian
+  - Portuguese
+  - German
+  - Russian
+  - Traditional Chinese
+  
+v1.34.07 (Oct. 03, 2016)
+------------------------
+- Localization update:
+  - German (pas06)
+  
+v1.34.06 (Sep. 28, 2016)
+------------------------
+- Added world quest bosses to the following maps:
+  - Darkheart Thicket
+  - Court of Stars
+  - Eye of Azshara
+  - Halls of Valor
+  - Neltharion's Lair
+  - The Arcway
+
+v1.34.05 (Sep. 27, 2016)
+------------------------
+- Fine-tuned Vault of the Wardens's MapC with better color background
+- Added quest item and NPC to Vault of the Wardens's MapC
+- Fine-tuned Black Rook Hold's marker positions; added 5 elite bosses 
+  (3 of them are part of world quests)
+- Translation added:
+  - German (pas06)
+
+v1.34.04 (Sep. 26, 2016)
+------------------------
+- Revamped Fenryr's map (Fields of the Eternal Hunt, Halls of Valor)
+- Added Fenryr's spawn points in Halls of Valor
+- Translation added:
+  - German (pas06)
+
+v1.34.03 (Sep. 23, 2016)
+------------------------
+- Fixed Ursoc's JournalEncounter ID
+- Corrected Maw of Souls 2nd map's mapID. 
+- Added dungeon level to below dungeon / raid:
+  - Maw of Souls
+  - The Nighthold
+  - Black Rook Hold
+  - Vault of the Wardens
+  - Court of Stars
+- Translation added:
+  - Traditional Chinese
+  
+v1.34.02 (Sep. 20, 2016)
+------------------------
+- Added the entrance map for the Arcway
+- Added the entrance map for the Nighthold
+- Translation added:
+  - German (pas06)
+
+v1.34.01 (Sep. 09, 2016)
+------------------------
+- Moved main map data from core Atlas into individual module's DB
+- Added quest item to Eye of Azshara map
+- Added exit and NPC locations to Neltharion's Lair map
+- Excluded the source PSD of Darkheart Thicket's large map images from official package
+
+v1.34.00 (Aug. 31, 2016)
+------------------------
+- Initial version for WoW Legion
+- Translation added:
+  - Brazilian Portuguese (Markllan)
+  - German (pas06)
+  - Simplified Chinese (ananhaid)
+  - Traditional Chinese (arith)

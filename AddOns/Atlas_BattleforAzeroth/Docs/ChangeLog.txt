@@ -1,0 +1,97 @@
+$Id: ChangeLog.txt 49 2023-07-29 04:01:24Z arithmandar $
+Atlas, a World of Warcraft instance map browser
+Copyright 2020 ~ 2023 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+
+==============
+= Change Log =
+==============
+
+v1.52.04 (Jul. 29, 2023)
+------------------------
+- Toc update to support WoW 10.1.5
+
+v1.52.03 (Mar. 28, 2023)
+------------------------
+- Re-packaging
+
+v1.52.02 (Mar. 20, 2023)
+------------------------
+- Toc update to support WoW 10.0.7
+
+v1.52.01 (Nov. 19, 2022)
+------------------------
+- Toc update to support WoW 10.0.2
+
+v1.52.00 (Nov. 06, 2022)
+------------------------
+- Toc update to support WoW 10.0.0
+
+v1.51.01 (Aug. 17, 2022)
+------------------------
+- Toc update to support WoW 9.2.7
+
+v1.51.00 (Jul. 23, 2022)
+------------------------
+- Toc update to support WoW 9.2.5
+
+v1.50.03 (Feb. 27, 2022)
+------------------------
+- Added Ny'alotha raid maps
+- Added Mechagon map (partial)
+- Updated Waycrest Manor map's connection info
+- Updated instance's normal / heroic / mythic info 
+
+v1.50.02 (Feb. 26, 2022)
+------------------------
+- Added more encounters
+
+v1.50.01 (Feb. 23, 2022)
+------------------------
+- Toc update to support WoW 9.2.0
+
+v1.50.00 (Feb. 23, 2022)
+------------------------
+- Toc update to support WoW 9.2.0
+
+v1.49.05 (Feb. 19, 2022)
+------------------------
+- Added maps of Uldir
+
+v1.49.04 (Feb. 19, 2022)
+------------------------
+- Added maps of Crucible of Storms
+
+v1.49.03 (Feb. 17, 2022)
+------------------------
+- Added maps of Battle of Dazar'alor
+
+v1.49.02 (Feb. 3, 2022)
+------------------------
+- ToC update to support WoW 9.1.5
+
+v1.49.01 (Jun. 30, 2021)
+------------------------
+- ToC update to support WoW 9.1.0
+
+v1.49.00 (May 20, 2021)
+------------------------
+- ToC update to support WoW 9.0.5
+
+v1.48.00 (Oct. 18, 2020)
+------------------------
+- ToC update to support WoW 9.0.1
+- Update Atlas_GetBossName to load boss name from local locale files
+
+v1.46.02 (Jan. 06, 2020)
+------------------------
+- Updated boss IDs and instance location
+- Added sub-bosses
+
+v1.46.01 (Jan. 05, 2020)
+------------------------
+- Completed all dungeon bosses' coordinates so that boss face will be showing on map.
+  (Raid instance is still TBD)
+
+v1.46.00 (Jan. 05, 2020)
+------------------------
+- Initial version for WoW BfA

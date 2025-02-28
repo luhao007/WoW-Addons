@@ -1,0 +1,33 @@
+## Interface: 110100
+## Author: arith, Dynaletik, dubcat
+## Version: v1.52.04
+
+## Title: Atlas |r|cFF0099FF[Mists of Pandaria]|r
+## Notes: Mists of Pandaria Instances' Maps
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本地图|r |cFF69CCF0熊猫人之迷|r
+## Notes-zhCN: 熊猫人之谜副本地图
+
+## IconTexture: Interface\WorldMap\WorldMap-Icon
+
+## RequiredDeps: Atlas
+
+## X-Date: 2023-07-29T6:25:00Z
+## X-Credits: Dan Gilbert, Lothaer
+## X-Email: atlas.addon at gmail dot com
+## X-Website: http://www.atlasmod.com
+## X-Category: Map
+## X-Part-Of: Atlas
+
+#@non-debug@
+#@end-non-debug@
+
+#@debug@
+# ## Title: Atlas |r|cFF0099FF[Mists of Pandaria]|r
+# ## Title-zhTW: |r|cFF0099FF[地圖]|rAtlas 潘達利亞之謎
+# ## Notes: Mists of Pandaria Dungeon Maps
+# ## Notes-zhTW: 潘達利亞之謎副本地圖模組
+#@end-debug@
+
+Locale\Locales.xml
+Core\Core.lua
+Core\Data.lua

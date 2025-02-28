@@ -1,0 +1,161 @@
+$Id: ChangeLog.txt 82 2023-07-29 06:57:55Z arithmandar $
+Atlas, a World of Warcraft instance map browser
+Copyright 2011 ~ 2023 - Arith Hsu, Atlas Team <atlas.addon at gmail dot com>
+
+==============
+= Change Log =
+==============
+
+v1.52.03 (Jul. 29, 2023)
+------------------------
+- Toc update to support WoW 10.1.5
+
+v1.52.02 (Mar. 20, 2023)
+------------------------
+- Toc update to support WoW 10.0.7
+
+v1.52.01 (Nov. 19, 2022)
+------------------------
+- Toc update to support WoW 10.0.2
+
+v1.52.00 (Nov. 06, 2022)
+------------------------
+- Toc update to support WoW 10.0.0
+
+v1.51.01 (Aug. 17, 2022)
+------------------------
+- Toc update to support WoW 9.2.7
+
+v1.51.00 (Jul. 23, 2022)
+------------------------
+- Toc update to support WoW 9.2.5
+
+v1.50.00 (Feb. 23, 2022)
+------------------------
+- Toc update to support WoW 9.2.0
+
+v1.49.03 (Feb. 19, 2022)
+------------------------
+- Update categorize by level's group criteria
+
+v1.49.02 (Feb. 3, 2022)
+------------------------
+- ToC update to support WoW 9.1.5
+
+v1.49.01 (Jul. 06, 2021)
+------------------------
+- ToC update to support WoW 9.1.0
+
+v1.49.00 (May 20, 2021)
+------------------------
+- ToC update to support WoW 9.0.5
+
+v1.48.00 (Oct. 18, 2020)
+------------------------
+- ToC update to support WoW 9.0.1
+- Update Atlas_GetBossName to load boss name from local locale files
+
+v1.47.00 (Jan. 20, 2020)
+------------------------
+- ToC update to support WoW 8.3.0
+
+v1.46.00 (Jan. 01, 2020)
+------------------------
+- ToC update to support WoW 8.2.5
+
+v1.45.00 (Sep. 04, 2019)
+------------------------
+- ToC update to support WoW 8.2.0
+
+v1.44.01 (Dec. 18, 2018)
+------------------------
+- ToC update to support WoW 8.1.0
+
+v1.44.00 (Aug. 09, 2018)
+------------------------
+- ToC update to support WoW 8.0.1
+- MapID convert to uiMapID
+
+v1.43.00 (Aug. 30, 2017)
+------------------------
+- ToC update to support WoW 7.3.0
+
+v1.42.00 (Jun. 29, 2017)
+------------------------
+- Updated to support Atlas 1.42.00
+
+v1.39.00 (Mar. 27, 2017)
+------------------------
+- Toc update to support WoW 7.2
+
+v1.37.00 (Jan. 22, 2017)
+------------------------
+- Added instance's achievements
+- Added dungeon level info
+
+v1.36.00 (Jan. 16, 2017)
+------------------------
+- Added to support quick map switching by clicking the Next or 
+  Previous map button
+
+v1.35.00 (Oct. 27, 2016)
+------------------------
+- Toc update to support WoW 7.1.0
+
+v1.34.00 (Sep. 09, 2016)
+------------------------
+- Move main map data from core Atlas into individual module's DB
+
+v1.33.03 (Aug. 29, 2016)
+------------------------
+- Minor fix: revise Hellfire mapF's node coordinates
+
+v1.33.02 (Aug. 06, 2016)
+------------------------
+- Update coordinate of Iron Reaver in Hellfire
+
+v1.33.01 (Jul. 21, 2016)
+------------------------
+- Updated Hellfire Citadel mapE where Mannoroth is located.
+
+v1.33.00 (Jul. 19, 2016)
+------------------------
+- Toc updated to support WoW Legion pre-patch (7.0.3)
+
+v1.32.06 (Jul. 15, 2016)
+------------------------
+- Re-order Hellfire Citadel map series. 
+  - Archimonde is now in the last map
+  - Added Mannoroth, though we don't have the minimap texture for Mannoroth so we are using the WoW built-in map
+  - Add Hellfire Assault
+
+v1.32.05 (May 19, 2016)
+-----------------------
+- Correct the expansion name in TOC 
+
+v1.32.04 (May 19, 2016)
+-----------------------
+- Fixed the wrong DB file linking in TOC due to name correction (again...)
+
+v1.32.03 (May 19, 2016)
+-----------------------
+- Fixed the wrong DB file linking in TOC due to name correction
+
+v1.32.02 (May 12, 2016)
+-----------------------
+- Changed module addon folder to be Atlas_WarlordsofDraenor.
+  Old folder will need to be removed manually.
+
+v1.32.01 (May 11, 2016)
+-----------------------
+- Moved map db info from core Atlas to this module for better maintenance
+- Change module name from Atlas_WorldofDraenor to Atlas_WorldlordsofDraenor, 
+  old version and folder will need to be removed
+- Changed module addon folder to be Atlas_WorldlordsofDraenor.
+  Old folder will need to be removed manually.
+
+v1.32.00 (Jul. 13, 2015)
+------------------------
+- Splitted from Atlas core addon
+- Maps added: 
+    - Hellfire Citadel
