@@ -1,9 +1,7 @@
-local AL = _G.AtlasLoot.GetLocales("ptBR")
+﻿local AL = _G.AtlasLoot.GetLocales("ptBR")
 
 if not AL then return end
 
--- These localization strings are translated on WoWAce: https://www.wowace.com/projects/atlasloot-enhanced/localization
--- Options
 AL["A window with possible loot is shown if a Bonus Roll is started."] = "Uma janela com possível saque é mostrada se o bonus girar for iniciado."
 AL["Always show item comparison."] = "Sempre mostre comparação de itens "
 AL["Always show quick preview."] = "Sempre mostre visualização rápida."
@@ -25,7 +23,3 @@ AL["Minimap Button"] = "Botão mini-mapa"
 AL["Model"] = "Modelo"
 AL["Subtitle"] = "legenda"
 AL["Windows"] = "Janelas"
-
-
-
-

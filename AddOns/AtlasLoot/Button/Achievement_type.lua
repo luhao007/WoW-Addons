@@ -14,7 +14,6 @@ local GetAlTooltip = AtlasLoot.Tooltip.GetTooltip
 
 local Tooltip = AtlasLoot.Tooltip
 local AcClickHandler = nil
-local LoadAddOn = C_AddOns.LoadAddOn
 
 local AC_COLOR = "|cffffff00"
 local GUILD_AC_IMAGE = "Interface\\AchievementFrame\\UI-Achievement-Guild"
@@ -23,20 +22,20 @@ local NORMAL_AC_IMAGE = "Interface\\AchievementFrame\\UI-Achievement-IconFrame"
 function AC.OnSet(button, second)
 	if not AcClickHandler then
 		AcClickHandler = AtlasLoot.ClickHandler:Add(
-		"Achievement",
-		{
-			ChatLink = { "LeftButton", "Shift" },
-			GoTo = { "LeftButton", "None" },
-			types = {
-				ChatLink = true,
-				GoTo = true,
+			"Achievement",
+			{
+				ChatLink = { "LeftButton", "Shift" },
+				GoTo = { "LeftButton", "None" },
+				types = {
+					ChatLink = true,
+					GoTo = true,
+				},
 			},
-		},
-		AtlasLoot.db.Button.Achievement.ClickHandler,
-		{
-			{ "ChatLink", 	AL["Chat Link"], 	AL["Add achievement link into chat"] },
-			{ "GoTo",		"Go to ac",			"Jep thats it ;)" },
-		})
+			AtlasLoot.db.Button.Achievement.ClickHandler,
+			{
+				{ "ChatLink", AL["Chat Link"], AL["Add achievement link into chat"] },
+				{ "GoTo",     "Go to ac",      "Jep thats it ;)" },
+			})
 	end
 	if not button then return end
 	if second and button.__atlaslootinfo.secType then
@@ -73,8 +72,8 @@ function AC.OnMouseAction(button, mouseButton)
 	if mouseButton == "ChatLink" then
 		AtlasLoot.Button:AddChatLink(GetAchievementLink(button.AcID) or "achievement:"..button.AcID)
 	elseif mouseButton == "GoTo" then
-		if not IsAddOnLoaded("Blizzard_AchievementUI") then
-			LoadAddOn("Blizzard_AchievementUI")
+		if not C_AddOns.IsAddOnLoaded("Blizzard_AchievementUI") then
+			C_AddOns.LoadAddOn("Blizzard_AchievementUI")
 		end
 		ShowUIPanel(AchievementFrame)
 		AchievementFrame_SelectAchievement(button.AcID)
@@ -112,8 +111,8 @@ function AC.Refresh(button)
 		button.overlay:SetTexture(NORMAL_AC_IMAGE)
 		button.overlay:SetTexCoord(0, 0.5625, 0, 0.5625)
 	end
-	button.overlay:SetHeight(button.icon:GetHeight()*1.2)
-	button.overlay:SetWidth(button.icon:GetWidth()*1.2)
+	button.overlay:SetHeight(button.icon:GetHeight() * 1.2)
+	button.overlay:SetWidth(button.icon:GetWidth() * 1.2)
 	button.overlay:Show()
 	if not completed then
 		button.icon:SetDesaturated(true)

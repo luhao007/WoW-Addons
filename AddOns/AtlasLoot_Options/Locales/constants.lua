@@ -1,6 +1,5 @@
-local AL = _G.AtlasLoot.Locales
+﻿local AL = _G.AtlasLoot.Locales
 
--- Options
 AL["A window with possible loot is shown if a Bonus Roll is started."] = "A window with possible loot is shown if a Bonus Roll is started."
 AL["Always show item comparison."] = "Always show item comparison."
 AL["Always show quick preview."] = "Always show quick preview."
@@ -40,4 +39,3 @@ AL["Use content color if available."] = "Use content color if available."
 AL["Use GameTooltip"] = "Use GameTooltip"
 AL["Use the standard GameTooltip instead of the custom AtlasLoot tooltip"] = "Use the standard GameTooltip instead of the custom AtlasLoot tooltip"
 AL["Windows"] = "Windows"
-

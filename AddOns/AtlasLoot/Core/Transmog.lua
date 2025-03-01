@@ -2,100 +2,102 @@
 -- Localized Lua globals.
 -- ----------------------------------------------------------------------------
 -- Functions
-local _G = getfenv(0)
-local next, pairs = _G.next, _G.pairs
+local _G                                                           = getfenv(0)
+local next, pairs                                                  = _G.next, _G.pairs
 
 -- Libraries
 
-
 -- WoW
-local C_TransmogCollection_GetItemInfo, C_TransmogCollection_PlayerCanCollectSource, C_TransmogCollection_PlayerHasTransmogItemModifiedAppearance  = C_TransmogCollection.GetItemInfo, C_TransmogCollection.PlayerCanCollectSource, C_TransmogCollection.PlayerHasTransmogItemModifiedAppearance 
-local C_TransmogCollection_GetSourceInfo, C_TransmogCollection_PlayerHasTransmog = C_TransmogCollection.GetSourceInfo, C_TransmogCollection.PlayerHasTransmog
+local C_TransmogCollection_GetItemInfo                             = C_TransmogCollection.GetItemInfo
+local C_TransmogCollection_PlayerCanCollectSource                  = C_TransmogCollection.PlayerCanCollectSource
+local C_TransmogCollection_PlayerHasTransmogItemModifiedAppearance = C_TransmogCollection.PlayerHasTransmogItemModifiedAppearance
+
+
 -- ----------------------------------------------------------------------------
 -- AddOn namespace.
 -- ----------------------------------------------------------------------------
 local ALName, ALPrivate = ...
 
-local AtlasLoot = _G.AtlasLoot
-local Transmog = {}
-AtlasLoot.Transmog = Transmog
- 
-local Proto = {}
+local AtlasLoot         = _G.AtlasLoot
+local Transmog          = {}
+AtlasLoot.Transmog      = Transmog
 
- 
- --appearanceID, sourceID = C_TransmogCollection.GetItemInfo(158321)
- --isInfoReady, canCollect = C_TransmogCollection.PlayerCanCollectSource(sourceID)
- 
- --Event -> 
- -- "TRANSMOG_SOURCE_COLLECTABILITY_UPDATE" event , sourceID, canCollect
- 
- 
- -- /console missingTransmogSourceInItemTooltips 1
- --C_TransmogCollection.GetSourceInfo(sourceID)
- 
+local Proto             = {}
+
+
+--appearanceID, sourceID = C_TransmogCollection.GetItemInfo(158321)
+--isInfoReady, canCollect = C_TransmogCollection.PlayerCanCollectSource(sourceID)
+
+--Event ->
+-- "TRANSMOG_SOURCE_COLLECTABILITY_UPDATE" event , sourceID, canCollect
+
+
+-- /console missingTransmogSourceInItemTooltips 1
+--C_TransmogCollection.GetSourceInfo(sourceID)
+
 --[[ C_TransmogCollection.PlayerCanCollectSource
-	SearchSize 
-	GetAppearanceSourceInfoForTransmog 
-	IsSearchDBLoading 
-	GetIllusions 
-	CanSetFavoriteInCategory 
-	HasFavorites 
-	GetInspectSources 
-	GetCategoryAppearances 
-	GetOutfitSources 
-	GetIsAppearanceFavorite 
-	PlayerHasTransmogItemModifiedAppearance 
-	DeleteOutfit 
-	SetIsAppearanceFavorite 
-	GetSourceIcon 
-	IsSearchInProgress 
-	IsSourceTypeFilterChecked 
-	ClearNewAppearance 
-	GetLatestAppearance 
-	GetShowMissingSourceInItemTooltips 
-	GetAppearanceCameraIDBySource 
-	SetSearch 
-	SetShowMissingSourceInItemTooltips 
-	EndSearch 
-	GetAppearanceSourceInfo 
-	GetNumTransmogSources 
-	SetAllSourceTypeFilters 
-	GetSourceInfo 
-	GetAppearanceSourceDrops 
-	SetSourceTypeFilter 
-	GetUncollectedShown 
-	GetCollectedShown 
-	SaveOutfit 
-	GetAppearanceSources 
-	SetCollectedShown 
-	SetSearchAndFilterCategory 
-	SearchProgress 
-	ClearSearch 
-	GetAllAppearanceSources 
-	GetSourceRequiredHoliday 
-	IsCategoryValidForItem 
-	PlayerCanCollectSource 
-	ModifyOutfit 
-	GetOutfitName 
-	GetAppearanceInfoBySource 
-	GetOutfits 
-	PlayerKnowsSource 
-	UpdateUsableAppearances 
-	SetUncollectedShown 
-	GetCategoryInfo 
+	SearchSize
+	GetAppearanceSourceInfoForTransmog
+	IsSearchDBLoading
+	GetIllusions
+	CanSetFavoriteInCategory
+	HasFavorites
+	GetInspectSources
+	GetCategoryAppearances
+	GetOutfitSources
+	GetIsAppearanceFavorite
+	PlayerHasTransmogItemModifiedAppearance
+	DeleteOutfit
+	SetIsAppearanceFavorite
+	GetSourceIcon
+	IsSearchInProgress
+	IsSourceTypeFilterChecked
+	ClearNewAppearance
+	GetLatestAppearance
+	GetShowMissingSourceInItemTooltips
+	GetAppearanceCameraIDBySource
+	SetSearch
+	SetShowMissingSourceInItemTooltips
+	EndSearch
+	GetAppearanceSourceInfo
+	GetNumTransmogSources
+	SetAllSourceTypeFilters
+	GetSourceInfo
+	GetAppearanceSourceDrops
+	SetSourceTypeFilter
+	GetUncollectedShown
+	GetCollectedShown
+	SaveOutfit
+	GetAppearanceSources
+	SetCollectedShown
+	SetSearchAndFilterCategory
+	SearchProgress
+	ClearSearch
+	GetAllAppearanceSources
+	GetSourceRequiredHoliday
+	IsCategoryValidForItem
+	PlayerCanCollectSource
+	ModifyOutfit
+	GetOutfitName
+	GetAppearanceInfoBySource
+	GetOutfits
+	PlayerKnowsSource
+	UpdateUsableAppearances
+	SetUncollectedShown
+	GetCategoryInfo
 	GetItemInfo(itemID, [itemModID]/itemLink/itemName) = appearanceID, sourceID
-	GetAppearanceCameraID 
-	GetCategoryCollectedCount 
-	GetCategoryTotal 
-	PlayerHasTransmog 
-	GetNumMaxOutfits 
-	GetIllusionSourceInfo 
-	IsNewAppearance 
+	GetAppearanceCameraID
+	GetCategoryCollectedCount
+	GetCategoryTotal
+	PlayerHasTransmog
+	GetNumMaxOutfits
+	GetIllusionSourceInfo
+	IsNewAppearance
 	GetIllusionFallbackWeaponSource
 ]]
 
 
-local TRANSMOG_UPDATE_EVENT = "TRANSMOG_SOURCE_COLLECTABILITY_UPDATE"	-- sourceID, canCollect
+local TRANSMOG_UPDATE_EVENT = "TRANSMOG_SOURCE_COLLECTABILITY_UPDATE" -- sourceID, canCollect
 
 --[[
 	nil 	cannot collect
@@ -110,8 +112,8 @@ function Proto:IsItemUnlocked(itemID, sourceID, callbackFunc, callbackArg)
 	end
 	if not sourceID then return end
 	isInfoReady, canCollect = C_TransmogCollection_PlayerCanCollectSource(sourceID)
-	
-	if isInfoReady then	
+
+	if isInfoReady then
 		if canCollect then
 			canCollect = C_TransmogCollection_PlayerHasTransmogItemModifiedAppearance(sourceID)
 		else
@@ -130,7 +132,7 @@ end
 function Proto:AddUnknownItem(sourceID, callbackFunc, callbackArg)
 	if not next(self.itemList) then
 		self.frame:RegisterEvent(TRANSMOG_UPDATE_EVENT)
-	end	
+	end
 	self.itemList[sourceID] = { callbackFunc, callbackArg }
 end
 
@@ -149,21 +151,19 @@ local function OnEvent(self, event, sourceID, canCollect)
 	end
 end
 
-
 function Transmog:New()
 	local tab = {}
 
 	-- Add protos
-	for k,v in pairs(Proto) do
+	for k, v in pairs(Proto) do
 		tab[k] = v
 	end
-	
+
 	tab.itemList = {}
-	
-	
+
 	tab.frame = CreateFrame("FRAME")
 	tab.frame.obj = tab
 	tab.frame:SetScript("OnEvent", OnEvent)
-	
+
 	return tab
 end

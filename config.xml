@@ -191,6 +191,10 @@
 				<Title>暗影国度</Title>
 				<Notes>AtlasLoot 暗影国度副本掉落列表</Notes>
 			</SubAddon>
+			<SubAddon name="AtlasLoot_TheWarWithin">
+				<Title>地心之战</Title>
+				<Notes>AtlasLoot 地心之战副本掉落列表</Notes>
+			</SubAddon>
 			<SubAddon name="AtlasLoot_WarlordsofDraenor">
 				<Title>德拉诺之王</Title>
 				<Notes>AtlasLoot 德拉诺之王副本掉落列表</Notes>
@@ -922,6 +926,11 @@
 				<TitleExtra>仇恨助手</TitleExtra>
 				<Notes>显示你的队员的仇恨</Notes>
 			</SubAddon>
+			<SubAddon name='Details_TWW'>
+				<Title>皮肤</Title>
+				<TitleExtra>地心之战</TitleExtra>
+				<Notes>地心之战皮肤</Notes>
+			</SubAddon>
 			<SubAddon name='Details_Vanguard'>
 				<Title>插件</Title>
 				<TitleExtra>坦克守护</TitleExtra>
@@ -1333,6 +1342,11 @@
 	<Addon name="Myslot">
 		<Title>键位设置</Title>
 		<Category>功能</Category>
+	</Addon>
+	<Addon name="NewBeeBox">
+		<Title>新手盒子</Title>
+		<Notes>新手盒子数据统计</Notes>
+		<Category>辅助</Category>
 	</Addon>
 	<Addon name="NovaRaidCompanion">
 		<Title>团队助手</Title>

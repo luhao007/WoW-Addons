@@ -1,8 +1,7 @@
-local AL = _G.AtlasLoot.GetLocales("koKR")
+﻿local AL = _G.AtlasLoot.GetLocales("koKR")
 
 if not AL then return end
 
--- These localization strings are translated on WoWAce: https://www.wowace.com/projects/atlasloot-enhanced/localization
 AL["--- or ---"] = "--- 또는 ---"
 AL["%s will finish loading after combat."] = "전투 종료 후 %s|1을;를; 불러옵니다."
 AL["/al - Open the AtlasLoot window."] = "/al - AtlasLoot 창을 엽니다."
@@ -291,4 +290,3 @@ AL["World Bosses"] = "야외 우두머리"
 AL["World Events"] = "이벤트"
 AL["Yellow Gems"] = "노란색 보석"
 AL["Zen'Vorka"] = "젠보르카"
-

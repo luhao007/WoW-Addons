@@ -1,9 +1,7 @@
-local AL = _G.AtlasLoot.GetLocales("koKR")
+﻿local AL = _G.AtlasLoot.GetLocales("koKR")
 
 if not AL then return end
 
--- These localization strings are translated on WoWAce: https://www.wowace.com/projects/atlasloot-enhanced/localization
--- Options
 AL["A window with possible loot is shown if a Bonus Roll is started."] = "추가 전리품 획득 창과 함께 획득 가능한 전리품 창이 표시됩니다."
 AL["Always show item comparison."] = "아이템 비교 창을 항상 표시합니다."
 AL["Always show quick preview."] = "빠른 미리보기를 항상 표시합니다."
@@ -43,4 +41,3 @@ AL["Use content color if available."] = "가능한 경우 목록 색상을 사�
 AL["Use GameTooltip"] = "GameTooltip 사용"
 AL["Use the standard GameTooltip instead of the custom AtlasLoot tooltip"] = "AtlasLoot 툴팁 대신 표준 GameTooltip을 사용합니다"
 AL["Windows"] = "창"
-

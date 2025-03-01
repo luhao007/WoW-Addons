@@ -7,7 +7,7 @@ local ALOptions, oldminor = LibStub:NewLibrary(ALOPTIONS_MAJOR, ALOPTIONS_MINOR)
 if not ALOptions then return end -- No upgrade needed
 
 -- lua
-local assert, select, unpack = assert, select, unpack
+local assert, unpack = assert, unpack
 local setmetatable, rawset, pairs = setmetatable, rawset, pairs
 local min, floor = math.min, math.floor
 
@@ -32,7 +32,7 @@ function ALOptions:Register(addonName, frameTitle, addonVersion, savedVariables,
 		savedVariables = savedVariables,
 		contentTable = contentTable,
 	}
-	for k,v in pairs(DataProto) do
+	for k, v in pairs(DataProto) do
 		Data[addonName][k] = v
 	end
 	return Data[addonName]
@@ -72,9 +72,9 @@ end
 
 -- ## selection frame functions
 local SELECT_FRAME_LEVEL = {
-	[1] = { textX = 5, textY = 0, textColor = { r = 1.0, 	g = 0.82, 	b = 0.0, 	a = 1.0 },		fontObject = "GameFontNormal" },
-	[2] = { textX = 15, textY = 0, textColor = { r = 1.0, 	g = 1.0, 	b = 1.0, 	a = 1.0 },		fontObject = "GameFontNormalSmall" },
-	[3] = { textX = 25, textY = 0, textColor = { r = 1.0, 	g = 1.0,	b = 1.0, 	a = 1.0 },		fontObject = "GameFontNormalSmall" },
+	[1] = { textX = 5, textY = 0, textColor = { r = 1.0, g = 0.82, b = 0.0, a = 1.0 }, fontObject = "GameFontNormal" },
+	[2] = { textX = 15, textY = 0, textColor = { r = 1.0, g = 1.0, b = 1.0, a = 1.0 }, fontObject = "GameFontNormalSmall" },
+	[3] = { textX = 25, textY = 0, textColor = { r = 1.0, g = 1.0, b = 1.0, a = 1.0 }, fontObject = "GameFontNormalSmall" },
 }
 
 local function UpdateScrollBar(self, startValue)
@@ -93,11 +93,11 @@ local function UpdateScrollBar(self, startValue)
 	local button = self.content[1]
 	if button.scrollState and self.numContent <= self.numEntrysMax then
 		-- not scrollable
-		button:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", -2, -(2+SELECT_BUTTON_HEIGHT))
+		button:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", -2, -(2 + SELECT_BUTTON_HEIGHT))
 		button.scrollState = false
 	elseif not button.scrollState and self.numContent > self.numEntrysMax then
 		-- scrollable
-		button:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", -20, -(2+SELECT_BUTTON_HEIGHT))
+		button:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", -20, -(2 + SELECT_BUTTON_HEIGHT))
 		button.scrollState = true
 	end
 end
@@ -134,16 +134,16 @@ local function Select_Button_Set(self, contentTable, title, description, lvl, li
 	self.obj.buttonCount = self.obj.buttonCount + 1
 	self.contentTable = contentTable
 	self.contentID = contentTable.contentID
-	
+
 	if contentTable.openOnRun then
 		if self.obj.selectedButton then
 			self.obj.selectedButton.contentTable.selected = nil
 		end
 		contentTable.selected = true
-		Select_SetPage(contentTable) 
+		Select_SetPage(contentTable)
 		contentTable.openOnRun = nil
 	end
-	
+
 	if self.obj.buttonCount >= firstSetValue then
 		if contentTable.selected or self.contentID == self.obj.curContentID then
 			self:SetChecked(true)
@@ -160,7 +160,7 @@ local function Select_Button_Set(self, contentTable, title, description, lvl, li
 			self.txt:SetTextColor(lvlTab.textColor.r or 1, lvlTab.textColor.g or 1, lvlTab.textColor.b or 1, lvlTab.textColor.a or 1)
 		end
 	end
-	
+
 	if extendTable then
 		if self.obj.buttonCount >= firstSetValue then
 			if not self.extend:IsShown() then
@@ -183,7 +183,7 @@ local function Select_Button_Set(self, contentTable, title, description, lvl, li
 					-- we must enable scroll...
 					nextButtonIndex = nextButtonIndex + 1
 				else
-					nextButtonIndex = self.obj.content[self.obj.buttonCount+1 == firstSetValue and 1 or nextButtonIndex]:Set(extendTable[i], extendTable[i].title, extendTable[i].desc, lvl+1, extendTable[i].clickFunc, extendTable[i].content, extendTable[i].extended, firstSetValue)
+					nextButtonIndex = self.obj.content[self.obj.buttonCount + 1 == firstSetValue and 1 or nextButtonIndex]:Set(extendTable[i], extendTable[i].title, extendTable[i].desc, lvl + 1, extendTable[i].clickFunc, extendTable[i].content, extendTable[i].extended, firstSetValue)
 				end
 			end
 		end
@@ -196,19 +196,22 @@ end
 
 local function Select_Button_Extend_OnClick(self)
 	self.obj.contentTable.extended = not self.obj.contentTable.extended
-	
+
 	if self.obj.obj.selectedButton then
 		self.obj.obj.selectedButton.contentTable.selected = nil
 		self.obj.obj.selectedButton = nil
 	end
-	
+
 	ALOptions:ClearContentTable()
 	self.obj.obj:Update()
 	self.obj.obj:UpdateBar(self.curPos)
 end
 
 local function Select_Button_OnClick(self)
-	if self.obj.selectedButton == self then self:SetChecked(true) return end
+	if self.obj.selectedButton == self then
+		self:SetChecked(true)
+		return
+	end
 	if self.obj.selectedButton then
 		self.obj.selectedButton:SetChecked(false)
 		self.obj.selectedButton.contentTable.selected = nil
@@ -217,7 +220,6 @@ local function Select_Button_OnClick(self)
 	self.obj.selectedButton = self
 	self.obj.curContentID = self.contentID
 	Select_SetPage(self.contentTable)
-	
 end
 
 local function Select_Button_OnEnter(self)
@@ -231,7 +233,7 @@ end
 local function Select_Button_OnLeave(self)
 	GameTooltip:Hide()
 end
-	
+
 local function Select_CreateButton(self)
 	local button = CreateFrame("CheckButton", nil, self)
 	button:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
@@ -242,20 +244,20 @@ local function Select_CreateButton(self)
 	button:SetScript("OnClick", Select_Button_OnClick)
 	button:SetScript("OnEnter", Select_Button_OnEnter)
 	button:SetScript("OnLeave", Select_Button_OnLeave)
-	
+
 	button.bg = button:CreateTexture(nil, "BACKGROUND")
 	button.bg:SetTexture("Interface\\BUTTONS\\UI-Listbox-Highlight2.blp")
 	button.bg:SetBlendMode("ADD")
 	button.bg:SetVertexColor(0.5, 0.5, 0.5, 0.25)
 	button.bg:SetAllPoints(button)
-	
+
 	button.txt = button:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	button.txt:SetPoint("TOPLEFT", button, "TOPLEFT", 0, 0)
 	button.txt:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", -5, 0)
 	button.txt:SetJustifyH("LEFT")
 	button.txt:SetText("Text")
 	button.txt:SetWordWrap(false)
-	
+
 	button.extend = CreateFrame("Button", nil, button)
 	button.extend:SetPoint("RIGHT", button, "RIGHT")
 	button.extend:SetSize(15, 15)
@@ -266,7 +268,7 @@ local function Select_CreateButton(self)
 	button.extend.obj = button
 	button.extend:Hide()
 	button.extendedState = false
-	
+
 	button.Set = Select_Button_Set
 
 	return button
@@ -279,10 +281,10 @@ local select_content_mt = {
 		button.index = key
 		if key == 1 then
 			button:SetPoint("TOPLEFT", self.frame, "TOPLEFT", 2, -2)
-			button:SetPoint("BOTTOMRIGHT", self.frame, "TOPRIGHT", -2, -(2+SELECT_BUTTON_HEIGHT))
+			button:SetPoint("BOTTOMRIGHT", self.frame, "TOPRIGHT", -2, -(2 + SELECT_BUTTON_HEIGHT))
 		else
-			button:SetPoint("TOPLEFT", self[key-1], "BOTTOMLEFT", 0, -2)
-			button:SetPoint("BOTTOMRIGHT", self[key-1], "BOTTOMRIGHT", 0, -(2+SELECT_BUTTON_HEIGHT))
+			button:SetPoint("TOPLEFT", self[key - 1], "BOTTOMLEFT", 0, -2)
+			button:SetPoint("BOTTOMRIGHT", self[key - 1], "BOTTOMRIGHT", 0, -(2 + SELECT_BUTTON_HEIGHT))
 		end
 		rawset(self, key, button)
 		return self[key]
@@ -301,7 +303,7 @@ local function Select_ScrollBar_OnValueChanged(self, value)
 	if not self.obj.enableScroll then return end
 	self = self.obj
 	self.curPos = floor(value)
-	
+
 	if self.curPos <= 0 then self.curPos = 1 end
 	UpdateScroll(self)
 end
@@ -309,7 +311,7 @@ end
 function ALOptions:Show(title)
 	if not mainFrame then
 		local point, relativeTo, relativePoint, ofsx, ofsy = unpack(db.OptionsFrame.point)
-		
+
 		mainFrame = CreateFrame("FRAME", "ALOptions_frame", nil, BackdropTemplateMixin and "BackdropTemplate" or nil)
 		mainFrame:ClearAllPoints()
 		mainFrame:SetParent(UIParent)
@@ -321,41 +323,41 @@ function ALOptions:Show(title)
 		mainFrame:SetScript("OnMouseUp", FrameOnDragStop)
 		mainFrame:SetToplevel(true)
 		mainFrame:SetClampedToScreen(true)
-		mainFrame:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background"})
+		mainFrame:SetBackdrop({ bgFile = "Interface/Tooltips/UI-Tooltip-Background" })
 		mainFrame:SetBackdropColor(0.45, 0.45, 0.45, 1)
-		tinsert(UISpecialFrames, "ALOptions_frame")	-- allow ESC close
-		
+		tinsert(UISpecialFrames, "ALOptions_frame") -- allow ESC close
+
 		mainFrame.CloseButton = CreateFrame("Button", nil, mainFrame, "UIPanelCloseButton")
 		mainFrame.CloseButton:SetPoint("TOPRIGHT", mainFrame, "TOPRIGHT", 0, 0)
-		
+
 		mainFrame.title = CreateFrame("Frame", nil, mainFrame, BackdropTemplateMixin and "BackdropTemplate" or nil)
 		--frame:SetParent(SVF.frame.containerFrame)
-		mainFrame.title:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background"})
+		mainFrame.title:SetBackdrop({ bgFile = "Interface/Tooltips/UI-Tooltip-Background" })
 		mainFrame.title:SetBackdropColor(0, 0, 0, 1)
 		mainFrame.title:SetPoint("TOPLEFT", mainFrame, 10, -7)
 		mainFrame.title:SetPoint("BOTTOMRIGHT", mainFrame, "TOPRIGHT", -30, -25)
-	
+
 		mainFrame.title.text = mainFrame.title:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		mainFrame.title.text:SetAllPoints(mainFrame.title)
 		mainFrame.title.text:SetTextColor(0.9, 0.9, 0.9, 1)
 		mainFrame.title.text:SetJustifyH("CENTER")
 		mainFrame.title.text:SetText(title)
-		
+
 		-- select frame left
 		mainFrame.selection = CreateFrame("ScrollFrame", "ALOptions_frame_selection", mainFrame, BackdropTemplateMixin and "BackdropTemplate" or nil)
-		mainFrame.selection:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background"})
+		mainFrame.selection:SetBackdrop({ bgFile = "Interface/Tooltips/UI-Tooltip-Background" })
 		mainFrame.selection:SetBackdropColor(0, 0, 0, 1)
 		mainFrame.selection:SetPoint("TOPLEFT", mainFrame.title, "BOTTOMLEFT", 0, -5)
-		mainFrame.selection:SetPoint("BOTTOMRIGHT", mainFrame, "BOTTOMLEFT", (mainFrame:GetWidth()-30)*0.25, 10)
+		mainFrame.selection:SetPoint("BOTTOMRIGHT", mainFrame, "BOTTOMLEFT", (mainFrame:GetWidth() - 30) * 0.25, 10)
 		mainFrame.selection:SetScript("OnMouseWheel", Select_OnMouseWheel)
 		mainFrame.selection.enableScroll = false
 		mainFrame.selection.curPos = 1
-		mainFrame.selection.maxScroll = 4					-- Max value for scrollbar (SetMinMaxValues)
-		mainFrame.selection.numEntrysMax = floor( (mainFrame.selection:GetHeight() - 4) / (SELECT_BUTTON_HEIGHT+2) )
-		mainFrame.selection.content = setmetatable({frame = mainFrame.selection}, select_content_mt)
+		mainFrame.selection.maxScroll = 4 -- Max value for scrollbar (SetMinMaxValues)
+		mainFrame.selection.numEntrysMax = floor((mainFrame.selection:GetHeight() - 4) / (SELECT_BUTTON_HEIGHT + 2))
+		mainFrame.selection.content = setmetatable({ frame = mainFrame.selection }, select_content_mt)
 		mainFrame.selection.Update = UpdateScroll
 		mainFrame.selection.UpdateBar = UpdateScrollBar
-		
+
 		mainFrame.selection.scrollbar = CreateFrame("Slider", "ALOptions_frame_selection-scrollbar", mainFrame.selection, "UIPanelScrollBarTemplate")
 		mainFrame.selection.scrollbar:SetPoint("TOPLEFT", mainFrame.selection, "TOPRIGHT", -17, -17)
 		mainFrame.selection.scrollbar:SetPoint("BOTTOMLEFT", mainFrame.selection, "BOTTOMRIGHT", 17, 17)
@@ -367,35 +369,35 @@ function ALOptions:Show(title)
 		--mainFrame.selection.scrollbar:Hide()
 		mainFrame.selection.scrollbar:SetScript("OnValueChanged", Select_ScrollBar_OnValueChanged)
 		mainFrame.selection.scrollbar.obj = mainFrame.selection
-		
+
 		local scrollbg = mainFrame.selection.scrollbar:CreateTexture(nil, "BACKGROUND")
 		scrollbg:SetAllPoints(mainFrame.selection.scrollbar)
-		scrollbg:SetTexture(0, 0, 0, 0.4)
-		
+		scrollbg:SetColorTexture(0, 0, 0, 0.4)
+
 		-- content frame
 		mainFrame.topContent = CreateFrame("FRAME", "ALOptions_frame_topContent", mainFrame, BackdropTemplateMixin and "BackdropTemplate" or nil)
-		mainFrame.topContent:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background"})
+		mainFrame.topContent:SetBackdrop({ bgFile = "Interface/Tooltips/UI-Tooltip-Background" })
 		mainFrame.topContent:SetBackdropColor(0, 0, 0, 1)
 		mainFrame.topContent:SetPoint("TOPLEFT", mainFrame.selection, "TOPRIGHT", 10, 0)
 		mainFrame.topContent:SetPoint("RIGHT", mainFrame, "RIGHT", -10, 0)
 		mainFrame.topContent:SetHeight(20)
-		
+
 		mainFrame.topContent.text = mainFrame.topContent:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		mainFrame.topContent.text:SetPoint("TOPLEFT", mainFrame.topContent, "TOPLEFT", 2, 0)
 		mainFrame.topContent.text:SetPoint("BOTTOMRIGHT", mainFrame.topContent, "BOTTOMRIGHT", -2, 0)
 		mainFrame.topContent.text:SetTextColor(0.9, 0.9, 0.9, 1)
 		mainFrame.topContent.text:SetJustifyH("LEFT")
 		mainFrame.topContent.text:SetText("Test -> Test -> Test")
-		
+
 		mainFrame.bottomContent = CreateFrame("FRAME", "ALOptions_frame_bottomContent", mainFrame, BackdropTemplateMixin and "BackdropTemplate" or nil)
-		mainFrame.bottomContent:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background"})
+		mainFrame.bottomContent:SetBackdrop({ bgFile = "Interface/Tooltips/UI-Tooltip-Background" })
 		mainFrame.bottomContent:SetBackdropColor(0, 0, 0, 1)
 		mainFrame.bottomContent:SetPoint("BOTTOMLEFT", mainFrame.selection, "BOTTOMRIGHT", 10, 0)
 		mainFrame.bottomContent:SetPoint("RIGHT", mainFrame, "RIGHT", -10, 0)
 		mainFrame.bottomContent:SetHeight(20)
-		
+
 		mainFrame.content = CreateFrame("FRAME", "ALOptions_frame_content", mainFrame, BackdropTemplateMixin and "BackdropTemplate" or nil)
-		mainFrame.content:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background"})
+		mainFrame.content:SetBackdrop({ bgFile = "Interface/Tooltips/UI-Tooltip-Background" })
 		mainFrame.content:SetBackdropColor(0, 0, 0, 1)
 		mainFrame.content:SetPoint("TOPLEFT", mainFrame.topContent, "BOTTOMLEFT", 0, -2)
 		mainFrame.content:SetPoint("BOTTOMRIGHT", mainFrame.bottomContent, "TOPRIGHT", 0, 3)
@@ -470,7 +472,7 @@ local inUseWidgetSave = {}
 local function GetWidgetByType(typ)
 	if not widgetSave[typ] then widgetSave[typ] = {} end
 	local frame = next(widgetSave[typ])
-	if frame then 
+	if frame then
 		widgetSave[typ][frame] = nil
 		-- dont reuse old version..
 		if frame.version < WidgetTypeContainer[typ].version then
@@ -495,10 +497,10 @@ local WidgetBase = {
 		self.frame:Hide()
 		return self
 	end,
-	OnAddBase = function(self) 
-		self.frame:Show() 
+	OnAddBase = function(self)
+		self.frame:Show()
 		if self.OnAdd then self:OnAdd() end
-		return self 
+		return self
 	end,
 	-- :DB(table, tableKey [, onValueChange]])
 	DB = function(self, savedVariablesTable, tableKey, onValueChangeCallback)
@@ -521,7 +523,7 @@ local WidgetBase = {
 	Point = function(self, point, relativeFrame, relativePoint, ofsx, ofsy)
 		self.frame:ClearAllPoints()
 		self.frame:SetParent(mainFrame.content)
-		self.frame:SetPoint(point, (relativeFrame and type(relativeFrame) ~= "number") and (relativeFrame.frame and relativeFrame.frame or relativeFrame ) or (type(relativeFrame) == "number" and relativeFrame or mainFrame.content), relativePoint, ofsx, ofsy)
+		self.frame:SetPoint(point, (relativeFrame and type(relativeFrame) ~= "number") and (relativeFrame.frame and relativeFrame.frame or relativeFrame) or (type(relativeFrame) == "number" and relativeFrame or mainFrame.content), relativePoint, ofsx, ofsy)
 		return self
 	end,
 	ClearAllPoints = function(self)
@@ -538,10 +540,10 @@ local WidgetBase = {
 	end,
 	-- width/height		=	"full" (full parent frame size), "half" (half parent frame size), number
 	Size = function(self, width, height)
-		width = width == "full" and self.frame:GetParent():GetWidth() or width == "half" and self.frame:GetParent():GetWidth()*0.5 or width
-		height = height == "full" and self.frame:GetParent():GetWidth() or height == "half" and self.frame:GetParent():GetWidth()*0.5 or height
-		width = (width and width > self.minWidth) and ( (self.maxWidth and width > self.maxWidth) and self.maxWidth or width ) or self.minWidth
-		height = (height and height > self.minHeight) and ( (self.maxHeight and width > self.maxHeight) and self.maxHeight or height ) or self.minHeight
+		width = width == "full" and self.frame:GetParent():GetWidth() or width == "half" and self.frame:GetParent():GetWidth() * 0.5 or width
+		height = height == "full" and self.frame:GetParent():GetWidth() or height == "half" and self.frame:GetParent():GetWidth() * 0.5 or height
+		width = (width and width > self.minWidth) and ((self.maxWidth and width > self.maxWidth) and self.maxWidth or width) or self.minWidth
+		height = (height and height > self.minHeight) and ((self.maxHeight and width > self.maxHeight) and self.maxHeight or height) or self.minHeight
 		self.frame:SetSize(width or self.minWidth, height or self.minHeight)
 		if self.OnSizeSet then self:OnSizeSet(width, height) end
 		return self
@@ -559,7 +561,7 @@ local WidgetBase = {
 		end
 		return self
 	end,
-	
+
 	-- base functions
 	SetDBValueBase = function(self, value)
 		if not self.dbTable then return end
@@ -593,13 +595,13 @@ local WidgetBase = {
 		end
 		return self
 	end,
-	
+
 	-- Scripts
 	OnEnter = function(self)
 		if self.obj.ttTitle or self.obj.ttDesc then
 			GameTooltip:ClearLines()
 			GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
-			GameTooltip:AddLine( (self.obj.ttTitle and self.obj.ttTitle == "text" and self.obj.text) and self.obj.text:GetText() or ( self.obj.ttTitle or " " ))
+			GameTooltip:AddLine((self.obj.ttTitle and self.obj.ttTitle == "text" and self.obj.text) and self.obj.text:GetText() or (self.obj.ttTitle or " "))
 			if self.obj.ttDesc then
 				GameTooltip:AddLine(self.obj.ttDesc, 1, 1, 1, true)
 			end
@@ -609,8 +611,6 @@ local WidgetBase = {
 	OnLeave = function(self)
 		GameTooltip:Hide()
 	end,
-	
-	
 	-- some settings
 	minWidth = 1,
 	maxWidth = nil,
@@ -635,7 +635,7 @@ end
 
 function GUI:RegisterWidgetType(typ, func, version)
 	WidgetTypeContainer[typ] = {
-		func = func, 
+		func = func,
 		version = version,
 	}
 end
@@ -655,233 +655,3 @@ function GUI:Clear()
 		inUseWidgetSave[i] = nil
 	end
 end
---[[
-local AL_Options = ALOptions:Register("AtlasLoot", "AtlasLoot Options", "6.0.0", AtlasLoot.db.profile, {
-	{
-		title = "Ex Normal",
-		desc = "This is a simple example entry",
-		clickFunc = function(self) print(self.title, self.desc) end,
-		quickSelect = "start",
-	},
-	{
-		title = "Ex Extended",
-		desc = "This is a example with extended content",
-		clickFunc = function(self) print(self.title, self.desc) end,
-		content = {
-			{
-				title = "Ex SubEntry 1",
-				desc = "This is a sub entry (1)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-			},
-			{
-				title = "Ex SubEntry 2",
-				desc = "This is a sub entry (2)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-			},
-			{
-				title = "Ex SubEntry 2",
-				desc = "This is a sub entry (2)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-			},
-		},
-	},
-	{
-		title = "Ex Extended 2",
-		desc = "This is a example with extended content (2)",
-		clickFunc = function(self) print(self.title, self.desc) end,
-		content = {
-			{
-				title = "Ex SubEntry 1",
-				desc = "This is a sub entry (1)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-			},
-			{
-				title = "Ex SubEntry 2 with content",
-				desc = "This is a sub entry (2)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-				content = {
-					{
-						title = "Ex SubSubEntry",
-						desc = "This is a sub-sub entry",
-						clickFunc = function(self) print(self.title, self.desc) end,
-					},
-				},	
-			},
-			{
-				title = "Ex SubEntry 2",
-				desc = "This is a sub entry (2)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-			},
-		},
-	},
-	{
-		title = "Ex Normal",
-		desc = "This is a simple example entry",
-		clickFunc = function(self) print(self.title, self.desc) end,
-	},
-	{
-		title = "Ex Extended",
-		desc = "This is a example with extended content",
-		clickFunc = function(self) print(self.title, self.desc) end,
-		content = {
-			{
-				title = "Ex SubEntry 1",
-				desc = "This is a sub entry (1)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-			},
-			{
-				title = "Ex SubEntry 2",
-				desc = "This is a sub entry (2)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-			},
-			{
-				title = "Ex SubEntry 2",
-				desc = "This is a sub entry (2)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-			},
-		},
-	},
-	{
-		title = "Ex Extended 2",
-		desc = "This is a example with extended content (2)",
-		clickFunc = function(self) print(self.title, self.desc) end,
-		content = {
-			{
-				title = "Ex SubEntry 1",
-				desc = "This is a sub entry (1)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-			},
-			{
-				title = "Ex SubEntry 2 with content",
-				desc = "This is a sub entry (2)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-				content = {
-					{
-						title = "Ex SubSubEntry",
-						desc = "This is a sub-sub entry",
-						clickFunc = function(self) print(self.title, self.desc) end,
-					},
-				},	
-			},
-			{
-				title = "Ex SubEntry 2",
-				desc = "This is a sub entry (2)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-			},
-		},
-	},
-	{
-		title = "Ex Normal",
-		desc = "This is a simple example entry",
-		clickFunc = function(self) print(self.title, self.desc) end,
-	},
-	{
-		title = "Ex Extended",
-		desc = "This is a example with extended content",
-		clickFunc = function(self) print(self.title, self.desc) end,
-		content = {
-			{
-				title = "Ex SubEntry 1",
-				desc = "This is a sub entry (1)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-			},
-			{
-				title = "Ex SubEntry 2",
-				desc = "This is a sub entry (2)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-			},
-			{
-				title = "Ex SubEntry 2",
-				desc = "This is a sub entry (2)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-			},
-		},
-	},
-	{
-		title = "Ex Extended 2",
-		desc = "This is a example with extended content (2)",
-		clickFunc = function(self) print(self.title, self.desc) end,
-		content = {
-			{
-				title = "Ex SubEntry 1",
-				desc = "This is a sub entry (1)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-			},
-			{
-				title = "Ex SubEntry 2 with content",
-				desc = "This is a sub entry (2)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-				content = {
-					{
-						title = "Ex SubSubEntry",
-						desc = "This is a sub-sub entry",
-						clickFunc = function(self) print(self.title, self.desc) end,
-					},
-				},	
-			},
-			{
-				title = "Ex SubEntry 2",
-				desc = "This is a sub entry (2)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-			},
-		},
-	},
-	{
-		title = "Ex Normal",
-		desc = "This is a simple example entry",
-		clickFunc = function(self) print(self.title, self.desc) end,
-	},
-	{
-		title = "Ex Extended",
-		desc = "This is a example with extended content",
-		clickFunc = function(self) print(self.title, self.desc) end,
-		content = {
-			{
-				title = "Ex SubEntry 1",
-				desc = "This is a sub entry (1)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-			},
-			{
-				title = "Ex SubEntry 2",
-				desc = "This is a sub entry (2)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-			},
-			{
-				title = "Ex SubEntry 2",
-				desc = "This is a sub entry (2)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-			},
-		},
-	},
-	{
-		title = "Ex Extended 2",
-		desc = "This is a example with extended content (2)",
-		clickFunc = function(self) print(self.title, self.desc) end,
-		content = {
-			{
-				title = "Ex SubEntry 1",
-				desc = "This is a sub entry (1)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-			},
-			{
-				title = "Ex SubEntry 2 with content",
-				desc = "This is a sub entry (2)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-				content = {
-					{
-						title = "Ex SubSubEntry",
-						desc = "This is a sub-sub entry",
-						clickFunc = function(self) print(self.title, self.desc) end,
-					},
-				},	
-			},
-			{
-				title = "Ex SubEntry 2",
-				desc = "This is a sub entry (2)",
-				clickFunc = function(self) print(self.title, self.desc) end,
-			},
-		},
-	},
-})
-AL_Options:Show()
-]]--

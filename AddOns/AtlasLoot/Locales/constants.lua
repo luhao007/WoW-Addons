@@ -1,4 +1,5 @@
-local AL = _G.AtlasLoot.Locales
+﻿local AL = _G.AtlasLoot.Locales
+
 AL["--- or ---"] = "--- or ---"
 AL["%s will finish loading after combat."] = "%s will finish loading after combat."
 AL["/al - Open the AtlasLoot window."] = "/al - Open the AtlasLoot window."
@@ -187,6 +188,7 @@ AL["Potions"] = "Potions"
 AL["Primal Trader"] = "Primal Trader"
 AL["Primary Professions"] = "Primary Professions"
 AL["Prismatic Gems"] = "Prismatic Gems"
+AL["Profession Equipment"] = "Profession Equipment"
 AL["Purple Gems"] = "Purple Gems"
 AL["PvP"] = "PvP"
 AL["Raid Finder"] = "Raid Finder"
@@ -266,6 +268,7 @@ AL["Training Projects"] = "Training Projects"
 AL["Transmoggable Replicas"] = "Transmoggable Replicas"
 AL["Transmutes"] = "Transmutes"
 AL["Trash Mobs"] = "Trash Mobs"
+AL["Treatises"] = "Treatises"
 AL["Trinkets"] = "Trinkets"
 AL["Troll"] = "Troll"
 AL["Two-Hand, Axe"] = "Two-Hand, Axe"
@@ -289,4 +292,3 @@ AL["World Bosses"] = "World Bosses"
 AL["World Events"] = "World Events"
 AL["Yellow Gems"] = "Yellow Gems"
 AL["Zen'Vorka"] = "Zen'Vorka"
-

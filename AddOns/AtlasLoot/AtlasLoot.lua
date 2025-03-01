@@ -19,15 +19,6 @@ local LibStub = _G.LibStub
 local LibDialog = LibStub("LibDialog-1.0")
 local ALDB = LibStub("ALDB-1.0")
 
-local GetAddOnInfo = C_AddOns.GetAddOnInfo
-local DisableAddOn = C_AddOns.DisableAddOn
-if not GetAddOnEnableState then
-	-- Args are flipped in The War Within
-	GetAddOnEnableState = function(character, name)
-		return C_AddOns.GetAddOnEnableState(name, character);
-	end
-end
-
 -- lua
 
 -- WoW
@@ -74,9 +65,9 @@ function AtlasLoot:OnInitialize()
 	BINDING_NAME_ATLASLOOT_TOGGLE = AL["Toggle AtlasLoot"]
 
 
-	local _, _, _, _, reason = GetAddOnInfo("AtlasLoot_Loader")
-	if reason ~=  "MISSING" then
-		DisableAddOn("AtlasLoot_Loader")
+	local _, _, _, _, reason = C_AddOns.GetAddOnInfo("AtlasLoot_Loader")
+	if reason ~= "MISSING" then
+		C_AddOns.DisableAddOn("AtlasLoot_Loader")
 
 		LibDialog:Register("ATLASLOOT_LOADER_ADDON_ERROR", {
 			text = AL["AtlasLoot_Loader_is_no_longer_in_use"],
@@ -91,7 +82,6 @@ function AtlasLoot:OnInitialize()
 			hide_on_escape = true,
 		})
 		LibDialog:Spawn("ATLASLOOT_LOADER_ADDON_ERROR")
-
 	end
 end
 
@@ -102,7 +92,7 @@ function AtlasLoot:AddInitFunc(func, module)
 	end
 	module = module or "AtlasLoot"
 	if not AtlasLoot.Init[module] then AtlasLoot.Init[module] = {} end
-	AtlasLoot.Init[module][#AtlasLoot.Init[module]+1] = func
+	AtlasLoot.Init[module][#AtlasLoot.Init[module] + 1] = func
 end
 
 -- Only instance related module will be handled
@@ -111,91 +101,112 @@ ATLASLOOT_INSTANCE_MODULE_LIST = {}
 -- A list of officiel AtlasLoot modules
 ATLASLOOT_MODULE_LIST = {
 	{
+		addonName = "AtlasLoot_TheWarWithin",
+		icon = "Interface\\ICONS\\ui_delves",
+		name = EXPANSION_NAME10,
+		tt_title = nil, -- ToolTip title
+		tt_text = nil, -- ToolTip text
+	},
+	{
+		addonName = "AtlasLoot_Dragonflight",
+		icon = "Interface\\ICONS\\ability_dragonriding_athomealoft01",
+		name = EXPANSION_NAME9,
+		tt_title = nil, -- ToolTip title
+		tt_text = nil, -- ToolTip text
+	},
+	{
+		addonName = "AtlasLoot_Shadowlands",
+		icon = "Interface\\ICONS\\achievement_mythicdungeons_shadowlands",
+		name = EXPANSION_NAME8,
+		tt_title = nil, -- ToolTip title
+		tt_text = nil, -- ToolTip text
+	},
+	{
 		addonName = "AtlasLoot_BattleforAzeroth",
 		icon = "Interface\\ICONS\\Inv_ChampionsOfAzeroth",
 		name = EXPANSION_NAME7,
-		tt_title = nil,		-- ToolTip title
-		tt_text = nil,		-- ToolTip text
+		tt_title = nil, -- ToolTip title
+		tt_text = nil, -- ToolTip text
 	},
 	{
 		addonName = "AtlasLoot_Legion",
 		icon = "Interface\\ICONS\\Achievements_Zone_BrokenShore",
 		name = EXPANSION_NAME6,
-		tt_title = nil,		-- ToolTip title
-		tt_text = nil,		-- ToolTip text
+		tt_title = nil, -- ToolTip title
+		tt_text = nil, -- ToolTip text
 	},
 	{
 		addonName = "AtlasLoot_WarlordsofDraenor",
 		icon = "Interface\\ICONS\\Achievement_Zone_Draenor_01",
 		name = EXPANSION_NAME5,
-		tt_title = nil,		-- ToolTip title
-		tt_text = nil,		-- ToolTip text
+		tt_title = nil, -- ToolTip title
+		tt_text = nil, -- ToolTip text
 	},
 	{
 		addonName = "AtlasLoot_MistsofPandaria",
 		icon = "Interface\\ICONS\\INV_Pet_Achievement_Pandaria",
 		name = EXPANSION_NAME4,
-		tt_title = nil,		-- ToolTip title
-		tt_text = nil,		-- ToolTip text
+		tt_title = nil, -- ToolTip title
+		tt_text = nil, -- ToolTip text
 	},
 	{
 		addonName = "AtlasLoot_Cataclysm",
 		icon = "Interface\\ICONS\\Achievement_Zone_Cataclysm",
 		name = EXPANSION_NAME3,
-		tt_title = nil,		-- ToolTip title
-		tt_text = nil,		-- ToolTip text
+		tt_title = nil, -- ToolTip title
+		tt_text = nil, -- ToolTip text
 	},
 	{
 		addonName = "AtlasLoot_WrathoftheLichKing",
 		icon = "Interface\\ICONS\\Achievement_Zone_Northrend_01",
 		name = EXPANSION_NAME2,
-		tt_title = nil,		-- ToolTip title
-		tt_text = nil,		-- ToolTip text
+		tt_title = nil, -- ToolTip title
+		tt_text = nil, -- ToolTip text
 	},
 	{
 		addonName = "AtlasLoot_BurningCrusade",
 		icon = "Interface\\ICONS\\Achievement_Zone_Outland_01",
 		name = EXPANSION_NAME1,
-		tt_title = nil,		-- ToolTip title
-		tt_text = nil,		-- ToolTip text
+		tt_title = nil, -- ToolTip title
+		tt_text = nil, -- ToolTip text
 	},
 	{
 		addonName = "AtlasLoot_Classic",
 		--icon = 1120721,
 		icon = "Interface\\ICONS\\Achievement_Zone_EasternKingdoms_01",
 		name = EXPANSION_NAME0,
-		tt_title = nil,		-- ToolTip title
-		tt_text = nil,		-- ToolTip text
+		tt_title = nil, -- ToolTip title
+		tt_text = nil, -- ToolTip text
 	},
 	{
 		addonName = "AtlasLoot_Collections",
 		name = AL["Collections"],
-		tt_title = nil,		-- ToolTip title
-		tt_text = nil,		-- ToolTip text
+		tt_title = nil, -- ToolTip title
+		tt_text = nil, -- ToolTip text
 	},
 	{
 		addonName = "AtlasLoot_Crafting",
 		name = AL["Crafting"],
-		tt_title = nil,		-- ToolTip title
-		tt_text = nil,		-- ToolTip text
+		tt_title = nil, -- ToolTip title
+		tt_text = nil, -- ToolTip text
 	},
 	{
 		addonName = "AtlasLoot_Factions",
 		name = AL["Factions"],
-		tt_title = nil,		-- ToolTip title
-		tt_text = nil,		-- ToolTip text
+		tt_title = nil, -- ToolTip title
+		tt_text = nil, -- ToolTip text
 	},
 	{
 		addonName = "AtlasLoot_PvP",
 		name = AL["PvP"],
-		tt_title = nil,		-- ToolTip title
-		tt_text = nil,		-- ToolTip text
+		tt_title = nil, -- ToolTip title
+		tt_text = nil, -- ToolTip text
 	},
 	{
 		addonName = "AtlasLoot_WorldEvents",
 		name = AL["World Events"],
-		tt_title = nil,		-- ToolTip title
-		tt_text = nil,		-- ToolTip text
+		tt_title = nil, -- ToolTip title
+		tt_text = nil, -- ToolTip text
 	},
 	--[[
 	{
@@ -228,7 +239,7 @@ function AtlasLoot:PreLoadModules()
 	local moduleName, dataID
 
 	for i = 1, #ATLASLOOT_INSTANCE_MODULE_LIST do
-		local enabled = GetAddOnEnableState(UnitName("player"), ATLASLOOT_INSTANCE_MODULE_LIST[i])
+		local enabled = C_AddOns.GetAddOnEnableState(ATLASLOOT_INSTANCE_MODULE_LIST[i], UnitName("player"))
 		if (enabled > 0) then
 			AtlasLoot.GUI.frame.moduleSelect:SetSelected(ATLASLOOT_INSTANCE_MODULE_LIST[i])
 			AtlasLoot.GUI.ItemFrame:Refresh(true)
@@ -255,7 +266,7 @@ function AtlasLoot:AutoSelect()
 	local refresh = false
 
 	for i = 1, #ATLASLOOT_INSTANCE_MODULE_LIST do
-		local enabled = GetAddOnEnableState(UnitName("player"), ATLASLOOT_INSTANCE_MODULE_LIST[i])
+		local enabled = C_AddOns.GetAddOnEnableState(ATLASLOOT_INSTANCE_MODULE_LIST[i], UnitName("player"))
 		if (enabled > 0) then
 			AtlasLoot.GUI.frame.moduleSelect:SetSelected(ATLASLOOT_INSTANCE_MODULE_LIST[i])
 			local moduleData = AtlasLoot.ItemDB:Get(ATLASLOOT_INSTANCE_MODULE_LIST[i])
@@ -283,4 +294,3 @@ function AtlasLoot:AutoSelect()
 		AtlasLoot.GUI.ItemFrame:Refresh(true)
 	end
 end
-

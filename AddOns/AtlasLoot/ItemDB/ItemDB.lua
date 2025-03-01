@@ -22,7 +22,7 @@ ItemDB.ContentProto = {}
 -- List of content from addons
 local contentList = {}
 
--- the metatable  
+-- the metatable
 ItemDB.contentMt = {
 	__index = ItemDB.ContentProto
 }
@@ -34,7 +34,6 @@ ItemDB.mt = {
 		contentList[t.__atlaslootdata.addonName][k] = t.__atlaslootdata.contentCount
 		v.__atlaslootdata = t.__atlaslootdata
 		rawset(t, k, v)
-		
 	end
 }
 
@@ -44,7 +43,7 @@ ItemDB.mt = {
 function ItemDB:Add(addonName, tierID)
 	if not ItemDB.Storage[addonName] then
 		ItemDB.Storage[addonName] = {}
-		for k,v in pairs(ItemDB.Proto) do
+		for k, v in pairs(ItemDB.Proto) do
 			ItemDB.Storage[addonName][k] = v
 		end
 		ItemDB.Storage[addonName].__atlaslootdata = {
@@ -91,13 +90,13 @@ end
 local function getItemTableType(addonName, contentName, boss, dif)
 	local tab = ItemDB.Storage[addonName]
 	local typ = nil
-	
+
 	if tab[contentName].items[boss][dif].__linkedInfo then
 		local newData = tab[contentName].items[boss][dif].__linkedInfo
 		addonName, contentName, boss, dif = newData[1], newData[2], newData[3], newData[4]
 		tab = ItemDB.Storage[addonName]
 	end
-	
+
 	if tab[contentName].items[boss][dif].TableType then
 		typ = tab:GetItemTableType(tab[contentName].items[boss][dif].TableType)
 	elseif tab[contentName].items[boss].TableType then
@@ -109,9 +108,9 @@ local function getItemTableType(addonName, contentName, boss, dif)
 	else
 		typ = tab:GetItemTableType(1)
 	end
-	
+
 	typ.extra = ItemDB.Storage[addonName]:GetAllExtraItemTableType()
-	
+
 	return typ
 end
 
@@ -121,17 +120,17 @@ local function getItemsFromDiff(curBossTab, iniTab)
 	-- first cache all positions that allready set
 	local tmp = {}
 	for i = 1, #curBossTab do
-		tmp[ curBossTab[i][1] ] = true
+		tmp[curBossTab[i][1]] = true
 	end
 	-- now copy all items from the other difficulty
-	local bossTab = iniTab[ curBossTab.GetItemsFromDiff ]
+	local bossTab = iniTab[curBossTab.GetItemsFromDiff]
 	assert(bossTab, "Diff '"..curBossTab.GetItemsFromDiff.."' not found for EncounterJournalID:"..(iniTab.EncounterJournalID or "UNKNOWN"))
 	if bossTab.GetItemsFromDiff then
 		getItemsFromDiff(bossTab, iniTab)
 	end
 	for i = 1, #bossTab do
-		if not tmp[ bossTab[i][1] ] then
-			curBossTab[ #curBossTab+1 ] = bossTab[i]
+		if not tmp[bossTab[i][1]] then
+			curBossTab[#curBossTab + 1] = bossTab[i]
 		end
 	end
 	curBossTab.GetItemsFromDiff = nil
@@ -140,19 +139,19 @@ end
 local currentModuleLoadingInfo = nil
 local function loadItemsFromOtherModule(moduleLoader, loadString, contentTable, curContentName, curBossID, curAddonName, curDiff)
 	if loadString then
-		currentModuleLoadingInfo = {loadString, contentTable, curContentName, curBossID, curAddonName, curDiff}
+		currentModuleLoadingInfo = { loadString, contentTable, curContentName, curBossID, curAddonName, curDiff }
 	elseif currentModuleLoadingInfo then
 		loadString, contentTable, curContentName, curBossID, curAddonName, curDiff = currentModuleLoadingInfo[1], currentModuleLoadingInfo[2], currentModuleLoadingInfo[3], currentModuleLoadingInfo[4], currentModuleLoadingInfo[5], currentModuleLoadingInfo[6]
 	else
 		return
 	end
-	
+
 	local addonName, contentName, bossID, shortDiff = str_split(":", loadString)
-	if (moduleLoader and moduleLoader ~= addonName) then 
+	if (moduleLoader and moduleLoader ~= addonName) then
 		return
 	end
 	bossID = tonumber(bossID)
-	
+
 	local loadState = AtlasLoot.Loader:LoadModule(addonName, nil, "itemDB")
 	if loadState == "InCombat" or loadState == "DISABLED" or loadState == "MISSING" then
 		AtlasLoot.Loader:LoadModule(addonName, loadItemsFromOtherModule, "itemDB")
@@ -172,12 +171,12 @@ local function loadItemsFromOtherModule(moduleLoader, loadString, contentTable, 
 		if not contentTable[curContentName].items[curBossID][curDiff] then
 			error("Linked Loottable not found contentName:"..(curContentName or "nil").." bossID:"..(curBossID or "nil").." dif:"..(curDiff or "nil"))
 		end
-		contentTable[curContentName].items[curBossID][curDiff].__linkedInfo = {addonName, contentName, bossID, newDif}
+		contentTable[curContentName].items[curBossID][curDiff].__linkedInfo = { addonName, contentName, bossID, newDif }
 		currentModuleLoadingInfo = nil
 	elseif ItemDB.Storage[addonName] then
 		-- getBossID by name
 		local bossID = contentTable[curContentName]:GetNameForItemTable(curBossID)
-		for i=1, #ItemDB.Storage[addonName][curContentName].items do
+		for i = 1, #ItemDB.Storage[addonName][curContentName].items do
 			--print(ItemDB.Storage[addonName][curContentName]:GetNameForItemTable(i), bossID)
 			if ItemDB.Storage[addonName][curContentName]:GetNameForItemTable(i) == bossID then
 				bossID = i
@@ -208,7 +207,7 @@ function ItemDB:GetItemTable(addonName, contentName, boss, dif)
 		dif = ItemDB:GetDifficulty(addonName, contentName, boss, dif)
 	end
 	currentModuleLoadingInfo = nil
-	
+
 	if ItemDB.Storage[addonName][contentName].items[boss][dif] then
 		local bossDiff = ItemDB.Storage[addonName][contentName].items[boss][dif]
 		-- get the items table from a string
@@ -217,15 +216,15 @@ function ItemDB:GetItemTable(addonName, contentName, boss, dif)
 			if notLoadedAddonName then
 				return notLoadedAddonName, reason, ItemDB.Storage[addonName]:GetDifficultyData(dif)
 			end
-		-- get the items table from a other difficulty
+			-- get the items table from a other difficulty
 		elseif type(bossDiff) == "number" then
-			ItemDB.Storage[addonName][contentName].items[boss][dif] = ItemDB.Storage[addonName][contentName].items[boss][ bossDiff ]
-		-- get items from another difficulty
+			ItemDB.Storage[addonName][contentName].items[boss][dif] = ItemDB.Storage[addonName][contentName].items[boss][bossDiff]
+			-- get items from another difficulty
 		elseif bossDiff.GetItemsFromDiff then
 			getItemsFromDiff(bossDiff, ItemDB.Storage[addonName][contentName].items[boss])
 		end
 	end
-	
+
 	--assert(dif and ItemDB.Storage[addonName][contentName].items[boss][dif], dif.." (dif) not found!")
 	return ItemDB.Storage[addonName][contentName].items[boss][dif], getItemTableType(addonName, contentName, boss, dif), ItemDB.Storage[addonName]:GetDifficultyData(dif)
 end
@@ -234,7 +233,6 @@ function ItemDB:GetModuleList(addonName)
 	assert(contentList[addonName], addonName.." not found.")
 	return contentList[addonName]
 end
-
 
 -- ##################################################
 --	TableProto
@@ -247,8 +245,8 @@ local difficultys = {}
 
 function ItemDB.Proto:AddDifficulty(dif, uniqueName, preset, difficultyID, tierID)
 	assert(dif, "No 'dif' given.")
-	
-	if not difficultys[self.__atlaslootdata.addonName] then 
+
+	if not difficultys[self.__atlaslootdata.addonName] then
 		difficultys[self.__atlaslootdata.addonName] = {
 			counter = 0,
 			names = {},
@@ -257,7 +255,7 @@ function ItemDB.Proto:AddDifficulty(dif, uniqueName, preset, difficultyID, tierI
 		}
 	end
 	local diffTab = difficultys[self.__atlaslootdata.addonName]
-	
+
 	if not diffTab.uniqueNames[uniqueName] or not diffTab.names[dif] then
 		diffTab.counter = diffTab.counter + 1
 		diffTab.names[dif] = diffTab.counter
@@ -280,7 +278,7 @@ function ItemDB.Proto:GetTierID(dif)
 end
 
 function ItemDB.Proto:GetDifficultyByName(dif)
-	return dif and ( difficultys[self.__atlaslootdata.addonName].uniqueNames[dif] or difficultys[self.__atlaslootdata.addonName].names[dif] ) or nil
+	return dif and (difficultys[self.__atlaslootdata.addonName].uniqueNames[dif] or difficultys[self.__atlaslootdata.addonName].names[dif]) or nil
 end
 
 function ItemDB.Proto:GetDifficultyName(dif)
@@ -320,7 +318,7 @@ function ItemDB.Proto:AddContentType(typ, color)
 	assert(typ, "No 'typ' given.")
 	if not content_types[self.__atlaslootdata.addonName] then content_types[self.__atlaslootdata.addonName] = {} end
 	if not content_types[self.__atlaslootdata.addonName][typ] then
-		content_types[self.__atlaslootdata.addonName][ #content_types[self.__atlaslootdata.addonName] + 1 ] = {typ, color or ATLASLOOT_UNKNOWN_COLOR}
+		content_types[self.__atlaslootdata.addonName][#content_types[self.__atlaslootdata.addonName] + 1] = { typ, color or ATLASLOOT_UNKNOWN_COLOR }
 		--table.insert(content_types[self.__atlaslootdata.addonName], {typ, color or ATLASLOOT_UNKNOWN_COLOR})
 		content_types[self.__atlaslootdata.addonName][typ] = #content_types[self.__atlaslootdata.addonName]
 	end
@@ -334,9 +332,9 @@ end
 local iTable_types = {}
 
 function ItemDB.Proto:AddItemTableType(...)
-	local tab = AtlasLoot.Button:CreateFormatTable({...})
+	local tab = AtlasLoot.Button:CreateFormatTable({ ... })
 	if not iTable_types[self.__atlaslootdata.addonName] then iTable_types[self.__atlaslootdata.addonName] = {} end
-	iTable_types[self.__atlaslootdata.addonName][#iTable_types[self.__atlaslootdata.addonName]+1] = tab
+	iTable_types[self.__atlaslootdata.addonName][#iTable_types[self.__atlaslootdata.addonName] + 1] = tab
 	return #iTable_types[self.__atlaslootdata.addonName]
 end
 
@@ -348,12 +346,12 @@ local extra_iTable_types = {}
 
 function ItemDB.Proto:AddExtraItemTableType(typ)
 	if not extra_iTable_types[self.__atlaslootdata.addonName] then extra_iTable_types[self.__atlaslootdata.addonName] = {} end
-	extra_iTable_types[self.__atlaslootdata.addonName][#extra_iTable_types[self.__atlaslootdata.addonName]+1] = typ
+	extra_iTable_types[self.__atlaslootdata.addonName][#extra_iTable_types[self.__atlaslootdata.addonName] + 1] = typ
 	return #extra_iTable_types[self.__atlaslootdata.addonName] + 100
 end
 
 function ItemDB.Proto:GetExtraItemTableType(index)
-	return extra_iTable_types[self.__atlaslootdata.addonName] and ( extra_iTable_types[self.__atlaslootdata.addonName][index] or extra_iTable_types[self.__atlaslootdata.addonName][index+100] ) or nil
+	return extra_iTable_types[self.__atlaslootdata.addonName] and (extra_iTable_types[self.__atlaslootdata.addonName][index] or extra_iTable_types[self.__atlaslootdata.addonName][index + 100]) or nil
 end
 
 function ItemDB.Proto:GetAllExtraItemTableType(index)
@@ -373,7 +371,7 @@ function ItemDB.Proto:CheckForLink(dataID, boss, load)
 		elseif load then
 			local combat = AtlasLoot.Loader:LoadModule(self[dataID].items[boss].link[1], function() self:CheckForLink(dataID, boss) end, true)
 			if combat then
-				print"InCombat :("
+				print "InCombat :("
 			end
 		end
 	end
@@ -382,13 +380,14 @@ end
 function ItemDB.Proto:GetDifficulty(dataID, boss, dif)
 	return ItemDB:GetDifficulty(self.__atlaslootdata.addonName, dataID, boss, dif)
 end
+
 -- ##################################################
 --	ContentProto
 -- ##################################################
 --- Get the content Type
 -- @return ContentName, ContentIndex
 function ItemDB.ContentProto:GetContentType()
-	if not self.ContentType then 
+	if not self.ContentType then
 		error("ContentType not set for <"..self.__atlaslootdata.addonName.." / "..self.name..">")
 		return nil
 	end
@@ -402,9 +401,10 @@ function ItemDB.ContentProto:GetName()
 	elseif self.EncounterJournalID then
 		return EJ_GetInstanceInfo(self.EncounterJournalID)
 	elseif self.MapID then
-		return GetMapNameByID(self.MapID)
+		return C_Map.GetMapInfo(self.MapID).name
 	elseif self.FactionID then
-		return GetFactionInfoByID(self.FactionID) --or "Faction "..self.FactionID
+		local temp = C_Reputation.GetFactionDataByID(self.FactionID)
+		return temp.name --or "Faction "..self.FactionID
 	else
 		return UNKNOWN
 	end
@@ -416,7 +416,8 @@ function ItemDB.ContentProto:GetInfo()
 	elseif self.EncounterJournalID then
 		return select(2, EJ_GetInstanceInfo(self.EncounterJournalID))
 	elseif self.FactionID then
-		return select(2, GetFactionInfoByID(self.FactionID))
+		local temp = C_Reputation.GetFactionDataByID(self.FactionID)
+		return temp.description
 	end
 end
 
@@ -428,7 +429,12 @@ function ItemDB.ContentProto:GetNameForItemTable(index)
 	elseif self.items[index].EncounterJournalID then
 		return AtlasLoot.EncounterJournal:GetBossName(self.items[index].EncounterJournalID)
 	elseif self.items[index].FactionID then
-		return GetFactionInfoByID(self.items[index].FactionID) --or "Faction "..self.items[index].FactionID
+		local temp = C_Reputation.GetFactionDataByID(self.items[index].FactionID)
+		if (temp == nil) then
+			return nil
+		else
+			return temp.name --or "Faction "..self.items[index].FactionID
+		end
 	else
 		return UNKNOWN
 	end

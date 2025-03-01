@@ -1,11 +1,67 @@
-﻿$Id: Release_Notes.txt 4883 2022-12-26 15:30:34Z arithmandar $
+﻿# Changelog
 
-AtlasLoot Enhanced
+## 8.20.0 - February 25, 2025
+### Added
+- Added TWW Engineering recipes
+- Added TWW Inscription recipes
+- Added TWW Jewelcrafting recipes
+- Added Grimoire of the Shadow Succubus and Grimoire of the Abyssal to Warlock glyphs
+### Changed
+- Added category and group to TOC
+- Update TOC to 11.1.0
+### Fixed
+- Updated IDs for Tome of the Clear Mind in the Crafting module
+- Removed Glyph of Deluge and Glyph of the Observer
+- Correctly categorized a few prismatic gems as WOTLK or BC
 
-This mod is distributed under Version 2 of the GPL.  
-A copy of the GPL is included in this zip file with links to non-english translations.
+## 8.19.0 - February 19, 2025
+### Added
+- Added Dragonflight and The War Within tabards to Collections
+- Added TWW Alchemy recipes
+- Added TWW Blacksmithing recipes
+- Added TWW Enchanting recipes
+### Fixed
+- Fixed error when clicking on tabs with factions under the Collections module
+- Correctly categorized Enchant Shoulder - Boon of the Scavenger as Legion
+- Removed Nexus Transformation from Enchanting since it's no longer in the game
 
-Patch Notes
+## 8.18.0 - February 13, 2025
+### Added
+- Added the Atlas button to The War Within instance maps provided by Atlas (fork)
+### Fixed
+- Fixed transmog button not being desaturated on initial load
+
+## 8.17.0 - February 2, 2025
+### Added
+- Added instance loot for Aberrus and Amirdrassil
+- Added faction loot for Loamm Niffen and Dream Wardens
+
+## 8.16.0 - January 27, 2025
+### Added
+- Added faction loot for Council of Dornogal, The Assembly of the Deeps, Hallowfall Arathi and The Severed Threads
+### Fixed
+- Fixed mangled Dragonflight prices
+
+## 8.15.1 - January 15, 2025
+### Fixed
+- Fixed error when clicking on certain expansions under the Factions module
+
+## 8.15.0 - January 12, 2025
+### Added
+- Added The War Within instance loot
+### Fixed
+- Fixed error when right clicking on the spec filter button
+
+## 8.14.0 - January 9, 2025
+### Added
+- Added Shadowlands and Dragonflight modules that were previously separate
+- Added the Atlas button to Shadowlands and Dragonflight instance maps provided by Atlas (fork)
+- Added icon textures in addon list
+### Changed
+- Updated libraries
+- Update TOC to 11.0.7
+### Fixed
+- Fixed various deprecations
 
 v8.13.14 (Dec. 26, 2022)
 ========================
@@ -84,7 +140,7 @@ v8.13.00 (Oct. 26, 2020)
   - Backdrop issue fixed
   - CurrencyInfo API changed
   - EncounterJournal API changed
-- Bugs fixed: 
+- Bugs fixed:
   - Dressroom fixed
 - BfA Updates:
   - Update dungeon "Operation: Mechagon" items
@@ -127,7 +183,7 @@ v8.08.02 (Oct. 31, 2018)
 - Add dungeon pets/mounts
 - Fix sort order of Kings rest AC
 - Fix bug with overlay dont reset after pet button is cleared
-- Added new Hollow's End items: 
+- Added new Hollow's End items:
   - Pets: Naxxy
   - Toys: Horse Head Costume, Horse Tail Costume, Headless Horseman's Hearthstone
   - Disguises: Exquisite Costume Set: "Xavius", Exquisite Costume Set: "Deathwing"
@@ -142,7 +198,7 @@ v8.08.01 (Oct. 03, 2018)
 - Added Glory of the Wartorn Hero achievements and dungeon achievements (thanks to martinvanstigtthans)
 - Fixed bug with BonusRoll frame and Azerite Items
 - Fixed lua error with secButtons
-- Added a Transmog highlighter button 
+- Added a Transmog highlighter button
 
 v8.08.00 (Sep. 22, 2018)
 ========================
@@ -204,12 +260,12 @@ v8.07.12 (Apr. 03, 2018)
 v8.07.11 (Mar. 20, 2018)
 ========================
 - Remove mounts - Swift Razzashi Raptor and Swift Zulian Tiger from Mounts\Dungeons & Raids\Classic
-- Lib Update: 
+- Lib Update:
   - LibSharedMedia
 
 v8.07.10 (Mar. 04, 2018)
 ========================
-- Libs update: 
+- Libs update:
   - LibDBIcon
 
 v8.07.09 (Feb. 22, 2018)
@@ -218,30 +274,30 @@ v8.07.09 (Feb. 22, 2018)
 
 v8.07.08 (Feb. 21, 2018)
 ========================
-- Libs update: 
+- Libs update:
   - LibBabble-Boss
   - LibBabble-Faction
 Updated by 2TailedFox:
-- Classic dungeons's loot table update: 
-  - Ragefire Chasm, 
-  - Deadmines, 
-  - The Stockades, 
+- Classic dungeons's loot table update:
+  - Ragefire Chasm,
+  - Deadmines,
+  - The Stockades,
   - Shadowfang Keep,
-  - Wailing Caverns, 
-  - Blackfathom Deeps, 
-  - Gnomeregan, 
+  - Wailing Caverns,
+  - Blackfathom Deeps,
+  - Gnomeregan,
   - Scarlet Halls,
   - Scarlet Monastery,
   - Razorfen Kraul,
-  - Maraudon, 
-  - Uldaman, 
+  - Maraudon,
+  - Uldaman,
   - Dire Maul,
-  - Scholomance, 
-  - Razorfen Downs, 
-  - Stratholme, 
-  - Zul'Farrak, 
+  - Scholomance,
+  - Razorfen Downs,
+  - Stratholme,
+  - Zul'Farrak,
   - Blackrock Depths,
-  - The Temple of Atal'hakkar 
+  - The Temple of Atal'hakkar
   - Lower Blackrock Spire.
 - Removed Marisa du'Paige from Deadmines as her loot target, Walking Boots, is no longer present.
 - The Lost Dwarves in Uldaman that can be killed by Horde players have been unified into a single loot table.
@@ -258,11 +314,11 @@ Updated by 2TailedFox:
 - Added additional items for the filter to ignore.
 - Update drops for Blackrock Depths.
 - Minor cosmetic code correction for Blackfathom
-- Princess Moira has now permanently changed to High Priestess of Thaurissan, as Princess Moira has taken up residence in Ironforge. 
+- Princess Moira has now permanently changed to High Priestess of Thaurissan, as Princess Moira has taken up residence in Ironforge.
 - Ring of Law now has two pages, and now has headers for what sub-boss drops what.
-- Ensure item order is consistent across dungeons already re-examined. 
-  Order is as follows: (Back, Cloth) -> (Chest, Feet, Hands, Head, Legs, Shoulder, Waist, Wrist in the order of Cloth, Leather, Mail, Plate) -> (Finger, Neck, Trinket) -> 
-  Bow, Crossbow, Dagger, Fist Weapon, Gun, Held in Off-hand, Off Hand Dagger, Off Hand Shield, One-Hand Axe, One-Hand Mace, One-Hand Sword, Polearm, Staff, 
+- Ensure item order is consistent across dungeons already re-examined.
+  Order is as follows: (Back, Cloth) -> (Chest, Feet, Hands, Head, Legs, Shoulder, Waist, Wrist in the order of Cloth, Leather, Mail, Plate) -> (Finger, Neck, Trinket) ->
+  Bow, Crossbow, Dagger, Fist Weapon, Gun, Held in Off-hand, Off Hand Dagger, Off Hand Shield, One-Hand Axe, One-Hand Mace, One-Hand Sword, Polearm, Staff,
   Two-Hand Axe, Two-Hand Mace, Two-Hand Sword, Wand). Other items of interest would usually follow, like Fishing Poles, Shirts and Tabards.
 - Updated Blackrock Caverns, Lower Blackrock Spire and The Temple of Atal'hakkar.
 
@@ -382,7 +438,7 @@ v8.05.00 (Jul. 06, 2017)
     - Added Collection - Mounts - Faction
 - Faction
   - Updated items for Voljin's Spear and Wrynn's Vanguard
-- Added LibBabble-Faction to improve faction's displaying. 
+- Added LibBabble-Faction to improve faction's displaying.
   You won't see "Faction xxxx" when it's not in your faction side.
 - Classic
   - Added encounter instance ID and encounter ID to the following RAIDS:
@@ -451,7 +507,7 @@ v8.03.04 (Apr. 15, 2017)
 
 v8.03.03 (Apr. 12, 2017)
 ========================
-- Added Legion faction icons to Faction module 
+- Added Legion faction icons to Faction module
 - Added Nether Portal Disruptor to Armies of Legionfall
 - Re-organized Armies of Legionfall items
 
@@ -469,7 +525,7 @@ v8.03.00 (Apr. 09, 2017)
 - added T20 item sets
 - added Cathedral of Eternal Night & Tomb of Sargeras
 - fixed most of the issues that wrong item levels showing in some raids and dungeons
-- fixed missing items from Baron Silverlain in Shadowfang Keep's normal mode. 
+- fixed missing items from Baron Silverlain in Shadowfang Keep's normal mode.
 
 v8.02.24 (Mar. 21, 2017)
 ========================
@@ -480,7 +536,7 @@ v8.02.23 (Mar. 20, 2017)
 - handling AtlasLoot button's style on WorldMap when ElvUI is enabled
 - translation update:
   - German
-  
+
 v8.02.22 (Mar. 17, 2017)
 ========================
 - handling HandyNotes_WorldMapButton's position
@@ -524,7 +580,7 @@ v8.02.01 (Mar. 09, 2017)
 
 v8.02.00 (Mar. 03, 2017)
 ========================
-- added Atlas integration, now you can quickly open the Atlas instance map 
+- added Atlas integration, now you can quickly open the Atlas instance map
   while browsing the instance loots within AtlasLoot
 - replace local gold / silver icon with the WoW built-in ones
 - added map button's tooltip
@@ -545,7 +601,7 @@ v8.01.10 (Feb. 28, 2017)
 ========================
 - updated class icons
 - added Legion legendary items
-- added T19 gear items 
+- added T19 gear items
 - translation update:
   Korean, Traditional Chinese, Simplified Chinese, French
 ## information for Devs
@@ -656,7 +712,7 @@ v8.01.00 (Jul. 25, 2016)
 -- fix ClassFilter
 -- fix Background Images (content frame)
 -- fix Mounts
--- fix Bug with itemString 
+-- fix Bug with itemString
 - set LibBabble-Boss-3.0 and LibBabble-ItemSet-3.0 to be external links
 - Updated TOC
 - created 1 instances and raids in data.lua
@@ -928,7 +984,7 @@ Added Season 11 items.
 Added new prices for Season 1-3 sets.
 Added some missing mounts and revamped rare mounts section.
 Updated Transformation Items.
-Added autoselect for missing cataclysm instances. 
+Added autoselect for missing cataclysm instances.
 Added ptBR translation (Thanks Reiyr).
 Some minor fixes and additions.
 
@@ -1325,7 +1381,7 @@ Added Tier 8 (Ulduar) Sets
 Added Cooking to 450 skill, all professions updated for Patch 3.1
 Added new WotLK Darkmoon Faire items and revamped its menu
 Added WotLK new World BoE Items
-Added drop rates for Utgarde Keep and The Nexus 
+Added drop rates for Utgarde Keep and The Nexus
 Trash Mob updates from Pucelle
 Added Key to the Focusing Iris (Normal/Heroic) Rewards
 The dressingroom and comparison tooltips should now work for crafted items
@@ -1545,7 +1601,7 @@ Updated for Patch 2.4
 Updated for Atlas 1.11.0
 Added Sunwell Plateau loot
 Added Magisters' Terrace loot
-Added new Faction - Shattered Sun Offensive 
+Added new Faction - Shattered Sun Offensive
 Added new Set - Latro's Flurry
 Added new heroic items from Sunwell Isle
 Added Reputation PvP sets
@@ -1559,7 +1615,7 @@ Many minor loot fixes/additions/translations
 v4.03.00 (Jan 25, 2008)
 Added the 'WishList'.  Alt-click on any item to add it to the wishlist, alt-clicking on an item in the wishlist deletes it.  There are buttons added to the Atlas panel and the loot browser to open the wishlist.
 PvP Non Set Epics now have the correct menu titles (Cloth/Leather and Mail/Plate)
-'/atlasloot reset' now also resets the loot browser and options menu to the middle of the screen in case they are accidentally dragged away 
+'/atlasloot reset' now also resets the loot browser and options menu to the middle of the screen in case they are accidentally dragged away
 Horde/Alliance PvP tokens and World PvP tokens switch depending on the faction of the character you are logged in as.  Due to this a number of loot tables have been cleaned up and had duplicate items removed.
 Many minor loot fixes/additions/translations
 
@@ -2113,7 +2169,7 @@ Re-arrangement of AQ20 Class Sets
 AQ and ZG Class Sets now labeled with class name
 Moved Solekar Flamewreath to his own table (de only)
 Added AQ Enchants
-Added Tier 0.5 Quest Summonables 
+Added Tier 0.5 Quest Summonables
 Added ZG Enchants
 
 v1.12.10

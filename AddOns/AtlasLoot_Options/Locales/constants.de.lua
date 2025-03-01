@@ -2,8 +2,6 @@ local AL = _G.AtlasLoot.GetLocales("deDE")
 
 if not AL then return end
 
--- These localization strings are translated on WoWAce: https://www.wowace.com/projects/atlasloot-enhanced/localization
--- Options
 AL["A window with possible loot is shown if a Bonus Roll is started."] = "Zeigt ein Fenster mit möglicher Bonusbeute an, sobald die Möglichkeit eines Bonuswurfs besteht."
 AL["Always show item comparison."] = "Gegenstandsvergleich immer zeigen."
 AL["Always show quick preview."] = "Zeige immer die Schnell Vorschau an."
@@ -43,4 +41,3 @@ AL["Use content color if available."] = "Inhaltsfarbe verwenden, falls verfügba
 AL["Use GameTooltip"] = "Standardmäßigen Tooltip verwenden"
 AL["Use the standard GameTooltip instead of the custom AtlasLoot tooltip"] = "Verwendet den standardmäßigen Tooltip (GameTooltip) anstatt den AtlasLoot-Tooltip"
 AL["Windows"] = "Fenster"
-

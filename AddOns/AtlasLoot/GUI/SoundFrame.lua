@@ -14,10 +14,10 @@ local ipairs = ipairs
 local SCROLL_STEP = 1
 local MAX_SOUNDS_PER_PAGE = 15 -- = 30 height
 
-local BUTTON_MAIN_COLOR1 = {r = 0.50196, g = 0.50196, b = 0.50196}
-local BUTTON_MAIN_COLOR2 = {r = 0.50196, g = 0.50196, b = 0.50196}
-local BUTTON_SUB_COLOR1 = {r = 0.75294, g = 0.75294, b = 0.75294}
-local BUTTON_SUB_COLOR2 = {r = 0.75294, g = 0.75294, b = 0.75294}
+local BUTTON_MAIN_COLOR1 = { r = 0.50196, g = 0.50196, b = 0.50196 }
+local BUTTON_MAIN_COLOR2 = { r = 0.50196, g = 0.50196, b = 0.50196 }
+local BUTTON_SUB_COLOR1 = { r = 0.75294, g = 0.75294, b = 0.75294 }
+local BUTTON_SUB_COLOR2 = { r = 0.75294, g = 0.75294, b = 0.75294 }
 local BUTTON_MAIN_ALPHA = 0.8
 local BUTTON_SUB_ALPHA = 0.8
 
@@ -61,22 +61,21 @@ end
 
 
 local function CreateSoundButtons()
-
-	for i=1,MAX_SOUNDS_PER_PAGE do
+	for i = 1, MAX_SOUNDS_PER_PAGE do
 		local frameName = "AtlasLoot-SoundButton"..i
-		
+
 		frame = CreateFrame("FRAME", frameName)
 		frame:SetHeight(28)
 		frame:SetWidth(550)
 		frame:ClearAllPoints()
 		frame:SetParent(SoundFrame.frame)
-		frame:SetFrameLevel(SoundFrame.frame:GetFrameLevel()+1)
-		
-		frame.bg = frame:CreateTexture(frameName.."-bg","BACKGROUND")
+		frame:SetFrameLevel(SoundFrame.frame:GetFrameLevel() + 1)
+
+		frame.bg = frame:CreateTexture(frameName.."-bg", "BACKGROUND")
 		frame.bg:SetPoint("TOPLEFT", frame)
 		frame.bg:SetPoint("BOTTOMRIGHT", frame)
 		frame.bg:SetTexture(BUTTON_MAIN_COLOR1.r, BUTTON_MAIN_COLOR1.g, BUTTON_MAIN_COLOR1.b, BUTTON_MAIN_ALPHA)
-		
+
 		frame.collapse = CreateFrame("BUTTON", frameName.."-collapse", frame)
 		frame.collapse:SetPoint("LEFT", frame, "LEFT", 3, 0)
 		frame.collapse:SetWidth(22)
@@ -85,13 +84,13 @@ local function CreateSoundButtons()
 		frame.collapse:SetPushedTexture("Interface\\Minimap\\UI-Minimap-ZoomInButton-Down")
 		frame.collapse:SetHighlightTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight", "ADD")
 		frame.collapse:SetScript("OnClick", OnCollapseClick)
-		
+
 		frame.count = frame:CreateFontString(frameName.."-count", "ARTWORK", "GameFontNormal")
 		frame.count:SetPoint("RIGHT", frame, "RIGHT", -3, 0)
 		frame.count:SetHeight(28)
 		frame.count:SetJustifyH("CENTER")
 		frame.count:SetText(str_format(NUM_SOUND_FILES_FORMATE, 10, 10))
-		
+
 		frame.stop = CreateFrame("BUTTON", frameName.."-stop", frame)
 		frame.stop:SetPoint("RIGHT", frame.count, "LEFT", -5, 0)
 		frame.stop:SetWidth(22)
@@ -99,7 +98,7 @@ local function CreateSoundButtons()
 		frame.stop:SetNormalTexture("Interface\\TimeManager\\ResetButton")
 		frame.stop:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight", "ADD")
 		frame.stop:SetScript("OnClick", OnStopClick)
-		
+
 		frame.play = CreateFrame("BUTTON", frameName.."-play", frame)
 		frame.play:SetPoint("RIGHT", frame.stop, "LEFT", -3, 0)
 		frame.play:SetWidth(22)
@@ -110,48 +109,47 @@ local function CreateSoundButtons()
 		frame.play:SetScript("OnClick", OnPlayClick)
 		frame.play.obj = frame
 		frame.play.stop = frame.stop
-		
-		
+
+
 		frame.name = frame:CreateFontString(frameName.."-name", "ARTWORK", "GameFontNormal")
 		frame.name:SetPoint("LEFT", frame, "LEFT", 28, 0)
 		frame.name:SetPoint("RIGHT", frame.play, "LEFT")
 		frame.name:SetHeight(28)
 		frame.name:SetJustifyH("LEFT")
-		frame.name:SetJustifyV("CENTER")
+		frame.name:SetJustifyV("MIDDLE")
 		frame.name:SetText("Sound.name")
-		
-		if i==1 then
+
+		if i == 1 then
 			frame:SetPoint("TOPLEFT", SoundFrame.frame, "TOPLEFT", 5, -1)
 		else
 			frame:SetPoint("TOPLEFT", SoundFrame.frame.buttons[#SoundFrame.frame.buttons], "BOTTOMLEFT", 0, -2)
 		end
-		
+
 		SoundFrame.frame.buttons[i] = frame
 	end
 end
 
 local function ClearButtonList()
 	local frame
-	for i=1,MAX_SOUNDS_PER_PAGE do
+	for i = 1, MAX_SOUNDS_PER_PAGE do
 		frame = SoundFrame.frame.buttons[i]
-		
+
 		frame.stop.stopId = nil
 		frame.play.soundFile = nil
 		frame.play.info = nil
-		
+
 		frame:Hide()
 	end
 end
 
 local function GetStartAndEndPos()
-	if not SoundFrame.enableScroll then 
+	if not SoundFrame.enableScroll then
 		return 1, nil, #SoundFrame.data
 	end
-	
-	local startPos, endPos = 1,1
-	
-	if SoundFrame.scrollCurPos then
 
+	local startPos, endPos = 1, 1
+
+	if SoundFrame.scrollCurPos then
 		if SoundFrame.scrollCurPos + MAX_SOUNDS_PER_PAGE - 1 >= SoundFrame.numContent then
 			startPos = SoundFrame.numContent - MAX_SOUNDS_PER_PAGE + 1
 			endPos = MAX_SOUNDS_PER_PAGE
@@ -163,10 +161,10 @@ local function GetStartAndEndPos()
 		startPos = 1
 		endPos = SoundFrame.numContent
 	end
-	
+
 	return startPos, endPos
 end
-	
+
 --[[
 data[index] = {
 		kitId = kitId,
@@ -174,17 +172,17 @@ data[index] = {
 		name = Storage["sounddata"][kitId][1],
 		sounds = {},
 	}
-]]--
-	
+]] --
+
 local function UpdateScroll()
 	if not SoundFrame.data or #SoundFrame.data < 1 then return end
-	
+
 	local startPos, endPos = GetStartAndEndPos()
 	local info, button, pos
 	local fixValue = 0
-	for i=1,MAX_SOUNDS_PER_PAGE do
-		if i+fixValue > MAX_SOUNDS_PER_PAGE then break end
-		button = SoundFrame.frame.buttons[i+fixValue]
+	for i = 1, MAX_SOUNDS_PER_PAGE do
+		if i + fixValue > MAX_SOUNDS_PER_PAGE then break end
+		button = SoundFrame.frame.buttons[i + fixValue]
 		pos = startPos + i - 1
 		info = SoundFrame.dataScroll --[startPos + i - 1]
 		if info[pos] then
@@ -193,7 +191,7 @@ local function UpdateScroll()
 		else
 			info = nil
 		end
-		
+
 		if info then
 			if pos == true or pos == nil then
 				if SoundFrame.enableScroll then
@@ -201,25 +199,25 @@ local function UpdateScroll()
 				else
 					button:SetWidth(550)
 				end
-				
-				
-				button.name:SetText(info.name)	
+
+
+				button.name:SetText(info.name)
 				if not info.curFile or info.curFile > info.numFiles then info.curFile = 1 end
 				button.count:Show()
 				button.count:SetText(str_format(NUM_SOUND_FILES_FORMATE, info.curFile, info.numFiles))
 				button.stop:SetPoint("RIGHT", button.count, "LEFT", -5, 0)
 				button.collapse:Show()
 				button.collapse.info = info
-				
+
 				button.play.info = info
 				button.play.soundFile = info.sounds[info.curFile]
-				
-				if i%2 == 0 then
+
+				if i % 2 == 0 then
 					button.bg:SetTexture(BUTTON_MAIN_COLOR1.r, BUTTON_MAIN_COLOR1.g, BUTTON_MAIN_COLOR1.b, BUTTON_MAIN_ALPHA)
 				else
 					button.bg:SetTexture(BUTTON_MAIN_COLOR2.r, BUTTON_MAIN_COLOR2.g, BUTTON_MAIN_COLOR2.b, BUTTON_MAIN_ALPHA)
 				end
-				
+
 				if pos == true then
 					button.collapse:SetNormalTexture("Interface\\Minimap\\UI-Minimap-ZoomOutButton-Up")
 					button.collapse:SetPushedTexture("Interface\\Minimap\\UI-Minimap-ZoomOutButton-Down")
@@ -229,7 +227,7 @@ local function UpdateScroll()
 					button.collapse:SetPushedTexture("Interface\\Minimap\\UI-Minimap-ZoomInButton-Down")
 					button.collapse:Show()
 				end
-				
+
 				button:Show()
 			elseif pos and info.sounds[pos] then
 				if SoundFrame.enableScroll then
@@ -237,22 +235,21 @@ local function UpdateScroll()
 				else
 					button:SetWidth(550)
 				end
-				
+
 				button.collapse:Hide()
 				button.name:SetText(info.sounds[pos])
 				button.count:Hide()
 				button.stop:SetPoint("RIGHT", button, "RIGHT", -3, 0)
-				
+
 				button.play.soundFile = info.sounds[pos]
-				
-				if pos%2 == 0 then
+
+				if pos % 2 == 0 then
 					button.bg:SetTexture(BUTTON_SUB_COLOR1.r, BUTTON_SUB_COLOR1.g, BUTTON_SUB_COLOR1.b, BUTTON_SUB_ALPHA)
 				else
 					button.bg:SetTexture(BUTTON_SUB_COLOR2.r, BUTTON_SUB_COLOR2.g, BUTTON_SUB_COLOR2.b, BUTTON_SUB_ALPHA)
 				end
 				button:Show()
 			end
-			
 		else
 			button:Hide()
 		end
@@ -263,17 +260,17 @@ function UpdateContent(noPosUpdate)
 	if not SoundFrame.data then return end
 	ClearButtonList()
 	wipe(SoundFrame.dataScroll)
-	
-	for k,v in ipairs(SoundFrame.data) do
-		SoundFrame.dataScroll[#SoundFrame.dataScroll+1] = {k, nil}
+
+	for k, v in ipairs(SoundFrame.data) do
+		SoundFrame.dataScroll[#SoundFrame.dataScroll + 1] = { k, nil }
 		if v.collapsed then
 			SoundFrame.dataScroll[#SoundFrame.dataScroll][2] = true
 			for i in ipairs(v.sounds) do
-				SoundFrame.dataScroll[#SoundFrame.dataScroll+1] = {k, i}
+				SoundFrame.dataScroll[#SoundFrame.dataScroll + 1] = { k, i }
 			end
 		end
 	end
-	
+
 	SoundFrame.numContent = #SoundFrame.dataScroll
 	SoundFrame.scrollMax = SoundFrame.numContent - MAX_SOUNDS_PER_PAGE + 1
 	if SoundFrame.numContent > MAX_SOUNDS_PER_PAGE then
@@ -305,54 +302,54 @@ end
 local function OnValueChanged(self, value)
 	if not SoundFrame.enableScroll then return end
 	SoundFrame.scrollCurPos = floor(value)
-	
+
 	if SoundFrame.scrollCurPos <= 0 then SoundFrame.scrollCurPos = 1 end
 	UpdateScroll()
 end
 
 --[[
-	SoundFrame.enableScroll			
+	SoundFrame.enableScroll
 	SoundFrame.scrollCurPos
 	SoundFrame.scrollMax
-]]--
+]] --
 
 function SoundFrame:Create()
 	if self.frame then return self.frame end
 	if not SoundItemClickHandler then
 		SoundItemClickHandler = ClickHandler:Add(
-		"Sound",
-		{
-			ChatLink = { "LeftButton", "Shift" },
-			CopyBox = { "LeftButton", "Ctrl" },
-			types = {
-				ChatLink = true,
-				CopyBox = true,
+			"Sound",
+			{
+				ChatLink = { "LeftButton", "Shift" },
+				CopyBox = { "LeftButton", "Ctrl" },
+				types = {
+					ChatLink = true,
+					CopyBox = true,
+				},
 			},
-		},
-		AtlasLoot.db.Button.Sound.ClickHandler, 
-		{
-			{ "ChatLink", 	AL["Chat Link"], 	AL["Add sound into chat"] },
-			{ "CopyBox", 	AL["Copy Box"], 	AL["Shows the sound in the copy box"] },
-		})
+			AtlasLoot.db.Button.Sound.ClickHandler,
+			{
+				{ "ChatLink", AL["Chat Link"], AL["Add sound into chat"] },
+				{ "CopyBox",  AL["Copy Box"],  AL["Shows the sound in the copy box"] },
+			})
 	end
-	
+
 	local frameName = "AtlasLoot_GUI-SoundFrame"
-	
+
 	self.frame = CreateFrame("FRAME", frameName, GUI.frame)
-	local frame = self.frame 
+	local frame = self.frame
 	frame:ClearAllPoints()
 	frame:SetParent(GUI.frame)
 	frame:SetPoint("TOPLEFT", GUI.frame.contentFrame.itemBG)
 	frame:SetWidth(560)
 	frame:SetHeight(450)
 	--frame:Hide()
-	
+
 	frame.Refresh = SoundFrame.Refresh
 	frame.Clear = SoundFrame.Clear
-	
+
 	-- soundbuttons here !
 	frame.buttons = {}
-	
+
 	-- the f***ing scrollbar..
 	frame:SetScript("OnMouseWheel", OnMouseWheel)
 	frame.scrollbar = CreateFrame("Slider", frameName.."-scrollbar", frame, "UIPanelScrollBarTemplate")
@@ -367,15 +364,15 @@ function SoundFrame:Create()
 	--frame.scrollbar:Hide()
 
 	frame.scrollbar.obj = self
-	
+
 	SoundFrame.enableScroll = false
 	SoundFrame.scrollCurPos = 1
 	SoundFrame.scrollMax = 1
 	SoundFrame.numContent = 1
 	SoundFrame.dataScroll = {}
-	
+
 	CreateSoundButtons()
-	
+
 	return self.frame
 end
 
@@ -399,4 +396,5 @@ function SoundFrame.Clear()
 	ClearButtonList()
 	SoundFrame.frame:Hide()
 end
+
 -- Sound Entry

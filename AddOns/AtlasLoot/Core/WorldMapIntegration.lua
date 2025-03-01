@@ -4,10 +4,7 @@
 -- Functions
 local _G = getfenv(0)
 local pairs, select = _G.pairs, _G.select
--- Libraries
 
--- WoW
-local GetAddOnInfo, GetAddOnEnableState, UnitName, GetRealmName = _G.GetAddOnInfo, _G.GetAddOnEnableState, _G.UnitName, _G.GetRealmName
 -- ----------------------------------------------------------------------------
 -- AddOn namespace.
 -- ----------------------------------------------------------------------------
@@ -50,9 +47,8 @@ function AtlasLootWorldMapButtonMixin:OnClick()
 end
 
 function AtlasLootWorldMapButtonMixin:Refresh()
-	
-end
 
+end
 
 local function AdjustOtherWorldMapButton(adjust)
 	profile = AtlasLoot.db.WorldMap
@@ -68,6 +64,7 @@ function WorldMap.Init()
 
 	WorldMap.ToggleButtonOnChange()
 end
+
 AtlasLoot:AddInitFunc(WorldMap.Init)
 
 function WorldMap.ToggleButtonOnChange()
@@ -79,4 +76,3 @@ function WorldMap.ToggleButtonOnChange()
 		WorldMap.button:Hide()
 	end
 end
-

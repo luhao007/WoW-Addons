@@ -51,8 +51,8 @@ local function UpdateFrames(noPageUpdate)
 	-- refresh background info
 	GUI.lastBgInfo = GUI.curBGInfo
 	GUI.curBgInfo = {
-		contentColor, 	-- color of topBg
-		moduleData[dataID].items[bossID].BgImage and moduleData[dataID].items[bossID].BgImage or (moduleData[dataID].BgImage and moduleData[dataID].BgImage or bgImage),	-- background image
+		contentColor,                                                                                                                                              -- color of topBg
+		moduleData[dataID].items[bossID].BgImage and moduleData[dataID].items[bossID].BgImage or (moduleData[dataID].BgImage and moduleData[dataID].BgImage or bgImage), -- background image
 	}
 
 	GUI.RefreshContentBackGround()
@@ -121,11 +121,11 @@ local function UpdateFrames(noPageUpdate)
 
 	if not noPageUpdate then
 		-- Next/Prev
-		if moduleData[dataID].items[bossID+1] then
-			if moduleData[dataID].items[bossID].ExtraList and moduleData[dataID].items[bossID+1].ExtraList then
+		if moduleData[dataID].items[bossID + 1] then
+			if moduleData[dataID].items[bossID].ExtraList and moduleData[dataID].items[bossID + 1].ExtraList then
 				GUI.frame.contentFrame.nextPageButton.info = nil
 				--GUI.frame.contentFrame.nextPageButton.info = bossID + 1
-			elseif not moduleData[dataID].items[bossID+1].ExtraList and not moduleData[dataID].items[bossID].ExtraList then
+			elseif not moduleData[dataID].items[bossID + 1].ExtraList and not moduleData[dataID].items[bossID].ExtraList then
 				GUI.frame.contentFrame.nextPageButton.info = GUI.frame.boss:CheckIfNext()
 			else
 				GUI.frame.contentFrame.nextPageButton.info = nil
@@ -135,7 +135,7 @@ local function UpdateFrames(noPageUpdate)
 		end
 		if GUI.frame.contentFrame.shownFrame and GUI.frame.contentFrame.shownFrame.prevPage and not moduleData[dataID].items[bossID].ExtraList then
 			GUI.frame.contentFrame.prevPageButton.info = tostring(GUI.frame.contentFrame.shownFrame.prevPage)
-		elseif moduleData[dataID].items[bossID-1] and not moduleData[dataID].items[bossID].ExtraList then
+		elseif moduleData[dataID].items[bossID - 1] and not moduleData[dataID].items[bossID].ExtraList then
 			GUI.frame.contentFrame.prevPageButton.info = GUI.frame.boss:CheckIfPrev()
 		else
 			GUI.frame.contentFrame.prevPageButton.info = nil
@@ -184,7 +184,7 @@ end
 
 local function FrameOnDragStop(self)
 	self:StopMovingOrSizing()
-	local a,b,c,d,e = self:GetPoint()
+	local a, b, c, d, e = self:GetPoint()
 	db.point = { a, nil, c, d, e }
 end
 
@@ -215,7 +215,7 @@ end
 
 local function MapButtonOnClick(self)
 	if self.mapID then
-		WorldMapFrame.fromJournal = true	-- enable bossButtons
+		WorldMapFrame.fromJournal = true -- enable bossButtons
 		ShowUIPanel(WorldMapFrame)
 		OpenWorldMap(self.mapID)
 	end
@@ -237,7 +237,7 @@ end
 local function AtlasMapButton_OnClick(self, button)
 	if (AtlasLoot.AtlasIntegration.IsEnabled()) then
 		if (button == "RightButton") then
-			if ( AtlasFrameSmall:IsVisible() ) then
+			if (AtlasFrameSmall:IsVisible()) then
 				HideUIPanel(AtlasFrameSmall)
 			end
 		else
@@ -266,7 +266,7 @@ local function ClassFilterButton_Refresh(self)
 	self.texture:SetDesaturated(not db.classFilter)
 	if self.selectionFrame and self.selectionFrame:IsShown() then self.selectionFrame:Hide() end
 
-	self.selectedPlayerSpecID = self.selectedPlayerSpecID or GetSpecialization() and ( GetLootSpecialization() == 0 and GetSpecializationInfo(GetSpecialization()) or GetLootSpecialization() ) or 0
+	self.selectedPlayerSpecID = self.selectedPlayerSpecID or GetSpecialization() and (GetLootSpecialization() == 0 and GetSpecializationInfo(GetSpecialization()) or GetLootSpecialization()) or 0
 
 	if self.selectedPlayerSpecID == 0 then
 		self.specName = PLAYER_CLASS
@@ -339,13 +339,17 @@ local function ClassFilterButton_OnClick(self, button)
 		-- show spec selection here
 		if not self.selectionFrame then
 			local frame = CreateFrame("FRAME", nil, self, BackdropTemplateMixin and "BackdropTemplate" or nil)
-			frame:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background",
-						edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-						tile = true, tileSize = 16, edgeSize = 16,
-						insets = { left = 4, right = 4, top = 4, bottom = 4 }})
-			frame:SetBackdropColor(0,0,0,1)
+			frame:SetBackdrop({
+				bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+				edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+				tile = true,
+				tileSize = 16,
+				edgeSize = 16,
+				insets = { left = 4, right = 4, top = 4, bottom = 4 }
+			})
+			frame:SetBackdropColor(0, 0, 0, 1)
 			frame:SetPoint("BOTTOMLEFT", self, "TOP", 0, 5)
-			frame:SetSize(10,10)
+			frame:SetSize(10, 10)
 			frame.obj = self
 			frame.buttons = {}
 
@@ -363,7 +367,7 @@ local function ClassFilterButton_OnClick(self, button)
 			button.specName = PLAYER_CLASS
 			button.specDesc = str_format(AL["Shows items for all %s specializations."], PLAYER_CLASS)
 
-			button.icon = button:CreateTexture()
+			button.icon = button:CreateTexture(nil, "ARTWORK")
 			button.icon:SetPoint("LEFT", button, "LEFT", 0, 0)
 			button.icon:SetSize(button_height, button_height)
 			button.icon:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-Classes")
@@ -376,7 +380,7 @@ local function ClassFilterButton_OnClick(self, button)
 			button.text:SetSize(button.text:GetStringWidth(), button_height)
 
 			newWidth = button_height + 2 + button.text:GetWidth()
-			width = newWidth+10 > width and newWidth+10 or width
+			width = newWidth + 10 > width and newWidth + 10 or width
 			height = height + button_height + 1
 
 			button:SetScript("OnClick", ClassFilterSpecButton_OnClick)
@@ -385,7 +389,7 @@ local function ClassFilterButton_OnClick(self, button)
 
 			frame.buttons[1] = button
 
-			for i=1,GetNumSpecializations() do
+			for i = 1, GetNumSpecializations() do
 				id, name, description, icon = GetSpecializationInfo(i)
 
 				button = CreateFrame("BUTTON", nil, frame)
@@ -394,14 +398,14 @@ local function ClassFilterButton_OnClick(self, button)
 				--if i == 1 then
 				--	button:SetPoint("TOPLEFT", frame, "TOPLEFT", 5, -5)
 				--else
-					button:SetPoint("TOPLEFT", frame.buttons[#frame.buttons], "BOTTOMLEFT", 0, -1)
+				button:SetPoint("TOPLEFT", frame.buttons[#frame.buttons], "BOTTOMLEFT", 0, -1)
 				--end
 				button.obj = frame
 				button.specID = id
 				button.specName = name
 				button.specDesc = description
 
-				button.icon = button:CreateTexture(nil, button)
+				button.icon = button:CreateTexture(nil, "ARTWORK")
 				button.icon:SetPoint("LEFT", button, "LEFT", 0, 0)
 				button.icon:SetSize(button_height, button_height)
 				button.icon:SetTexture(icon or "Interface\\Icons\\INV_Misc_QuestionMark")
@@ -413,7 +417,7 @@ local function ClassFilterButton_OnClick(self, button)
 				button.text:SetSize(button.text:GetStringWidth(), button_height)
 
 				newWidth = button_height + 2 + button.text:GetWidth()
-				width = newWidth+10 > width and newWidth+10 or width
+				width = newWidth + 10 > width and newWidth + 10 or width
 				--button:SetSize(newWidth, button_height)
 				height = height + button_height + 1
 
@@ -421,10 +425,10 @@ local function ClassFilterButton_OnClick(self, button)
 				button:SetScript("OnEnter", ClassFilterButton_OnEnter)
 				button:SetScript("OnLeave", ClassFilterButton_OnLeave)
 
-				frame.buttons[i+1] = button
+				frame.buttons[i + 1] = button
 			end
 			for i = 1, #frame.buttons do
-				frame.buttons[i]:SetSize(width-10, button_height)
+				frame.buttons[i]:SetSize(width - 10, button_height)
 			end
 
 			frame:SetSize(width, height)
@@ -459,6 +463,10 @@ local function TransmogButton_Refresh(self)
 	end
 end
 
+local function TransmogButton_OnShow(self)
+	TransmogButton_Refresh(self)
+end
+
 local function TransmogButton_OnClick(self, button)
 	AtlasLoot.db.GUI.transMogHighlighter = not AtlasLoot.db.GUI.transMogHighlighter
 	TransmogButton_Refresh(self)
@@ -472,7 +480,7 @@ local function TransmogButton_OnEnter(self, owner)
 	else
 		tooltip:SetOwner(self, "ANCHOR_RIGHT", -(self:GetWidth() * 0.5), 5)
 	end
-	tooltip:AddLine(TRANSMOGRIFY )
+	tooltip:AddLine(TRANSMOGRIFY)
 	tooltip:Show()
 end
 
@@ -483,7 +491,7 @@ end
 
 local function NextPrevButtonOnClick(self)
 	if self.info then
-		if type(self.info) == "string" then 	-- next item page
+		if type(self.info) == "string" then -- next item page
 			AtlasLoot.db.GUI.selected[5] = tonumber(self.info)
 			UpdateFrames()
 		elseif type(self.info) == "table" then
@@ -491,7 +499,7 @@ local function NextPrevButtonOnClick(self)
 			GUI.frame.boss:SetSelected(self.info[1])
 		elseif type(self.info) == "number" then
 			GUI.frame.boss:SetSelected(self.info)
-		else	-- next boss ;)
+		else -- next boss ;)
 			if self.typ == "next" then
 				GUI.frame.boss:SetNext()
 			else
@@ -529,15 +537,15 @@ local function loadModule(addonName)
 		if not first then first = content end
 		if content == db.selected[2] then foundDbValue = true end
 		contentName, contentIndex, contentColor = moduleData[content]:GetContentType()
-		data[contentIndex][ #data[contentIndex]+1 ] = {
-			id			= content,
-			name		= moduleData[content]:GetName(),
-			tt_title	= moduleData[content]:GetName(),
-			tt_text		= moduleData[content]:GetInfo(),
+		data[contentIndex][#data[contentIndex] + 1] = {
+			id       = content,
+			name     = moduleData[content]:GetName(),
+			tt_title = moduleData[content]:GetName(),
+			tt_text  = moduleData[content]:GetInfo(),
 		}
 	end
 	if data[0] and #data[0] > 0 then
-		data[#data+1] = data[0]
+		data[#data + 1] = data[0]
 		data[0] = nil
 	end
 	if not foundDbValue then
@@ -560,7 +568,7 @@ function GUI:ShowLoadingInfo(addonName, noWipe, displayType)
 		text:SetAllPoints(GUI.frame.contentFrame)
 		text:SetJustifyH("CENTER")
 		text:SetJustifyV("MIDDLE")
-		text:SetTextColor(1,1,1)
+		text:SetTextColor(1, 1, 1)
 		GUI.frame.contentFrame.loadingDataText = text
 	end
 	if GUI.frame.contentFrame.shownFrame and GUI.frame.contentFrame.shownFrame.Clear then
@@ -622,7 +630,7 @@ local function SubCatSelectFunction(self, id, arg)
 		moduleData:CheckForLink(id, i)
 		if tabVal.ExtraList then
 			if not dataExtra then dataExtra = {} end
-			dataExtra[#dataExtra+1] = {
+			dataExtra[#dataExtra + 1] = {
 				id = i,
 				name = moduleData[id]:GetNameForItemTable(i),
 				coinTexture = tabVal.CoinTexture,
@@ -631,7 +639,7 @@ local function SubCatSelectFunction(self, id, arg)
 			}
 			if not dataExtra[#dataExtra].name then dataExtra[#dataExtra] = nil end
 		else
-			data[#data+1] = {
+			data[#data + 1] = {
 				id = i,
 				name = moduleData[id]:GetNameForItemTable(i),
 				coinTexture = tabVal.CoinTexture,
@@ -645,11 +653,10 @@ local function SubCatSelectFunction(self, id, arg)
 	-- this prevents load from unused modules
 	db.selected[4] = moduleData[id].LoadDifficulty or db.selected[4]
 	--if dataExtra then
-		GUI.frame.extra:SetData(dataExtra)
+	GUI.frame.extra:SetData(dataExtra)
 	--end
 	db.selected[3] = data[1] and data[1].id or 1
 	GUI.frame.boss:SetData(data, db.selected[3])
-
 end
 
 local function BossSelectFunction(self, id, arg)
@@ -662,7 +669,7 @@ local function BossSelectFunction(self, id, arg)
 	local data = {}
 	for count = 1, #difficultys do
 		if moduleData[db.selected[2]].items[id][count] then
-			data[ #data+1 ] = {
+			data[#data + 1] = {
 				id = count,
 				name = difficultys[count].name,
 				tt_title = difficultys[count].name
@@ -683,7 +690,7 @@ local function ExtraSelectFunction(self, id, arg)
 	local data = {}
 	for count = 1, #difficultys do
 		if moduleData[db.selected[2]].items[id][count] then
-			data[ #data+1 ] = {
+			data[#data + 1] = {
 				id = count,
 				name = difficultys[count].name,
 				tt_title = difficultys[count].name
@@ -725,18 +732,18 @@ function GUI.Init()
 		data[index] = {
 			info = {
 				name = AL["AtlasLoot Modules"],
-				bgColor = {0, 0, 0, 1},		-- Background color
+				bgColor = { 0, 0, 0, 1 }, -- Background color
 			}
 		}
 		for i = 1, #tmp.module do
 			v = tmp.module[i]
 			if not first then first = v.addonName end
 			if v.addonName == db.selected[1] then foundDbValue = true end
-			data[index][ #data[index]+1 ] = {
-				id			= v.addonName,
-				name		= v.name,
-				tt_title	= v.tt_title,
-				tt_text		= v.tt_text,
+			data[index][#data[index] + 1] = {
+				id       = v.addonName,
+				name     = v.name,
+				tt_title = v.tt_title,
+				tt_text  = v.tt_text,
 			}
 		end
 	end
@@ -745,18 +752,18 @@ function GUI.Init()
 		data[index] = {
 			info = {
 				name = AL["Custom Modules"],
-				bgColor = {0, 0.3, 0, 1},		-- Background color
+				bgColor = { 0, 0.3, 0, 1 }, -- Background color
 			}
 		}
 		for i = 1, #tmp.custom do
 			v = tmp.custom[i]
 			if not first then first = v.addonName end
 			if v.addonName == db.selected[1] then foundDbValue = true end
-			data[index][ #data[index]+1 ] = {
-				id			= v.addonName,
-				name		= v.name,
-				tt_title	= v.tt_title,
-				tt_text		= v.tt_text,
+			data[index][#data[index] + 1] = {
+				id       = v.addonName,
+				name     = v.name,
+				tt_title = v.tt_title,
+				tt_text  = v.tt_text,
 			}
 		end
 	end
@@ -777,6 +784,7 @@ function GUI.Init()
 		AtlasLoot:PreLoadModules();
 	end
 end
+
 AtlasLoot:AddInitFunc(GUI.Init)
 
 function GUI:Toggle()
@@ -829,7 +837,7 @@ function GUI:Create()
 	frame:SetBackdrop(ALPrivate.BOX_BACKDROP)
 	--frame:SetBackdropColor(0.45,0.45,0.45,1)
 	frame:Hide()
-	tinsert(UISpecialFrames, frameName)	-- allow ESC close
+	tinsert(UISpecialFrames, frameName) -- allow ESC close
 
 	frame.CloseButton = CreateFrame("Button", frameName.."-CloseButton", frame, "UIPanelCloseButton")
 	frame.CloseButton:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, 0)
@@ -876,14 +884,14 @@ function GUI:Create()
 	frame.extra:SetNumEntrys(5)
 	frame.extra:SetButtonOnClick(ExtraSelectFunction)
 
-	frameName =  "AtlasLoot_GUI-ItemFrame"
+	frameName = "AtlasLoot_GUI-ItemFrame"
 
 	frame.contentFrame = CreateFrame("Frame", frameName)
 	frame.contentFrame:ClearAllPoints()
 	frame.contentFrame:SetParent(frame)
 	frame.contentFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, -70)
-	frame.contentFrame:SetWidth(560)		-- Frame = 560, Abstand = 20, Button = 270
-	frame.contentFrame:SetHeight(510)		-- Frame = 460, Abstand = 10, Button = 30
+	frame.contentFrame:SetWidth(560) -- Frame = 560, Abstand = 20, Button = 270
+	frame.contentFrame:SetHeight(510) -- Frame = 460, Abstand = 10, Button = 30
 	frame.contentFrame.shownFrame = nil
 
 	frame.contentFrame.title = frame.contentFrame:CreateFontString(frameName.."-title", "ARTWORK", "GameFontHighlightLarge")
@@ -893,17 +901,17 @@ function GUI:Create()
 	frame.contentFrame.title:SetWidth(frame.contentFrame:GetWidth())
 	frame.contentFrame.title:SetHeight(30)
 
-	frame.contentFrame.topBG = frame.contentFrame:CreateTexture(frameName.."-topBG","BACKGROUND")
+	frame.contentFrame.topBG = frame.contentFrame:CreateTexture(frameName.."-topBG", "BACKGROUND")
 	frame.contentFrame.topBG:SetPoint("TOPLEFT", frame.contentFrame, "TOPLEFT")
 	frame.contentFrame.topBG:SetWidth(560)
 	frame.contentFrame.topBG:SetHeight(30)
 
-	frame.contentFrame.downBG = frame.contentFrame:CreateTexture(frameName.."-downBG","BACKGROUND")
+	frame.contentFrame.downBG = frame.contentFrame:CreateTexture(frameName.."-downBG", "BACKGROUND")
 	frame.contentFrame.downBG:SetPoint("TOPLEFT", frame.contentFrame, "TOPLEFT", 0, -480)
 	frame.contentFrame.downBG:SetWidth(560)
 	frame.contentFrame.downBG:SetHeight(30)
 
-	frame.contentFrame.itemBG = frame.contentFrame:CreateTexture(frameName.."-itemBG","BACKGROUND")
+	frame.contentFrame.itemBG = frame.contentFrame:CreateTexture(frameName.."-itemBG", "BACKGROUND")
 	frame.contentFrame.itemBG:SetPoint("TOPLEFT", frame.contentFrame, "TOPLEFT", 0, -30)
 	frame.contentFrame.itemBG:SetWidth(560)
 	frame.contentFrame.itemBG:SetHeight(450)
@@ -937,14 +945,14 @@ function GUI:Create()
 	frame.contentFrame.mapButton:SetScript("OnLeave", function(self) GetAlTooltip():Hide() end)
 	frame.contentFrame.mapButton:Hide()
 
-	frame.contentFrame.mapButton.texture = frame.contentFrame.mapButton:CreateTexture(frameName.."-mapButton-texture","ARTWORK")
+	frame.contentFrame.mapButton.texture = frame.contentFrame.mapButton:CreateTexture(frameName.."-mapButton-texture", "ARTWORK")
 	frame.contentFrame.mapButton.texture:SetPoint("RIGHT", frame.contentFrame.mapButton)
 	frame.contentFrame.mapButton.texture:SetWidth(48)
 	frame.contentFrame.mapButton.texture:SetHeight(32)
 	frame.contentFrame.mapButton.texture:SetTexture("Interface\\QuestFrame\\UI-QuestMap_Button")
 	frame.contentFrame.mapButton.texture:SetTexCoord(0.125, 0.875, 0.0, 0.5)
 
-	frame.contentFrame.mapButton.highlight = frame.contentFrame.mapButton:CreateTexture(frameName.."-mapButton-highlight","HIGHLIGHT")
+	frame.contentFrame.mapButton.highlight = frame.contentFrame.mapButton:CreateTexture(frameName.."-mapButton-highlight", "HIGHLIGHT")
 	frame.contentFrame.mapButton.highlight:SetPoint("RIGHT", frame.contentFrame.mapButton, -7, 0)
 	frame.contentFrame.mapButton.highlight:SetWidth(36)
 	frame.contentFrame.mapButton.highlight:SetHeight(25)
@@ -969,13 +977,13 @@ function GUI:Create()
 	frame.contentFrame.AtlasMapButton:SetScript("OnEnter", AtlasMapButton_OnEnter)
 	frame.contentFrame.AtlasMapButton:SetScript("OnLeave", function(self) GetAlTooltip():Hide() end)
 
-	frame.contentFrame.AtlasMapButton.texture = frame.contentFrame.AtlasMapButton:CreateTexture(frameName.."-AtlasMapButton-texture","ARTWORK")
+	frame.contentFrame.AtlasMapButton.texture = frame.contentFrame.AtlasMapButton:CreateTexture(frameName.."-AtlasMapButton-texture", "ARTWORK")
 	frame.contentFrame.AtlasMapButton.texture:SetPoint("RIGHT", frame.contentFrame.AtlasMapButton)
 	frame.contentFrame.AtlasMapButton.texture:SetWidth(32)
 	frame.contentFrame.AtlasMapButton.texture:SetHeight(32)
 	frame.contentFrame.AtlasMapButton.texture:SetTexture("Interface\\AddOns\\AtlasLoot\\Images\\Atlas_Button")
 
-	frame.contentFrame.AtlasMapButton.highlight = frame.contentFrame.AtlasMapButton:CreateTexture(frameName.."-AtlasMapButton-highlight","HIGHLIGHT")
+	frame.contentFrame.AtlasMapButton.highlight = frame.contentFrame.AtlasMapButton:CreateTexture(frameName.."-AtlasMapButton-highlight", "HIGHLIGHT")
 	frame.contentFrame.AtlasMapButton.highlight:SetPoint("CENTER", frame.contentFrame.AtlasMapButton, 0, 0)
 	frame.contentFrame.AtlasMapButton.highlight:SetWidth(48)
 	frame.contentFrame.AtlasMapButton.highlight:SetHeight(48)
@@ -1025,7 +1033,7 @@ function GUI:Create()
 	frame.contentFrame.clasFilterButton.mainButton = true
 	frame.contentFrame.clasFilterButton:Hide()
 
-	frame.contentFrame.clasFilterButton.texture = frame.contentFrame.clasFilterButton:CreateTexture(frameName.."-clasFilterButton-texture","ARTWORK")
+	frame.contentFrame.clasFilterButton.texture = frame.contentFrame.clasFilterButton:CreateTexture(frameName.."-clasFilterButton-texture", "ARTWORK")
 	frame.contentFrame.clasFilterButton.texture:SetAllPoints(frame.contentFrame.clasFilterButton)
 	frame.contentFrame.clasFilterButton.texture:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
 
@@ -1037,21 +1045,16 @@ function GUI:Create()
 	frame.contentFrame.transmogButton:SetHeight(25)
 	frame.contentFrame.transmogButton:SetPoint("LEFT", frame.contentFrame.clasFilterButton, "RIGHT", 5, 0)
 	frame.contentFrame.transmogButton:SetScript("OnClick", TransmogButton_OnClick)
-	--frame.contentFrame.transmogButton:SetScript("OnShow", TransmogButton_OnShow)
+	frame.contentFrame.transmogButton:SetScript("OnShow", TransmogButton_OnShow)
 	--frame.contentFrame.transmogButton:SetScript("OnHide", TransmogButton_OnHide)
 	--frame.contentFrame.transmogButton:SetScript("OnEvent", TransmogButton_OnEvent)
 	frame.contentFrame.transmogButton:SetScript("OnEnter", TransmogButton_OnEnter)
 	frame.contentFrame.transmogButton:SetScript("OnLeave", TransmogButton_OnLeave)
 	--frame.contentFrame.transmogButton:Hide()
 
-	frame.contentFrame.transmogButton.texture = frame.contentFrame.transmogButton:CreateTexture(frameName.."-transmogButton-texture","ARTWORK")
+	frame.contentFrame.transmogButton.texture = frame.contentFrame.transmogButton:CreateTexture(frameName.."-transmogButton-texture", "ARTWORK")
 	frame.contentFrame.transmogButton.texture:SetAllPoints(frame.contentFrame.transmogButton)
 	frame.contentFrame.transmogButton.texture:SetTexture("Interface\\Icons\\INV_Arcane_Orb")
-
-
-
-
-
 
 	self.frame = frame
 
@@ -1064,7 +1067,6 @@ end
 function GUI.RefreshStyle()
 
 end
-
 
 function GUI.ResetFrames()
 	db.point = { "CENTER" }
@@ -1081,8 +1083,8 @@ function GUI.Temp_SetParPoint(self, ...)
 	-- check for Parent
 	local tmp
 	local parent = frame:GetParent()
-	for i=1, select('#', ...) do
-		tmp = select(i,...)
+	for i = 1, select('#', ...) do
+		tmp = select(i, ...)
 		if type(tmp) == "string" then
 			if _G[tmp] and _G[tmp].GetObjectType then
 				parent = _G[tmp]
@@ -1115,7 +1117,7 @@ function GUI.RefreshContentBackGround()
 	local frame = GUI.frame.contentFrame
 
 	-- top Bg
-	if db.contentTopBar.useContentColor and ( frame.topBG.curAlpha ~= db.contentTopBar.bgColor[4] or frame.topBG.curColor ~= GUI.curBgInfo[1]) then
+	if db.contentTopBar.useContentColor and (frame.topBG.curAlpha ~= db.contentTopBar.bgColor[4] or frame.topBG.curColor ~= GUI.curBgInfo[1]) then
 		frame.topBG:SetColorTexture(GUI.curBgInfo[1][1], GUI.curBgInfo[1][2], GUI.curBgInfo[1][3], db.contentTopBar.bgColor[4])
 		frame.topBG.curColor = GUI.curBgInfo[1]
 		frame.topBG.curAlpha = db.contentTopBar.bgColor[4]
@@ -1125,7 +1127,7 @@ function GUI.RefreshContentBackGround()
 	end
 
 	-- content Bg
-	if db.content.showBgImage and GUI.curBgInfo and GUI.curBgInfo[2] ~= ( GUI.lastBgInfo and GUI.lastBgInfo[2] or nil) then
+	if db.content.showBgImage and GUI.curBgInfo and GUI.curBgInfo[2] ~= (GUI.lastBgInfo and GUI.lastBgInfo[2] or nil) then
 		GUI.frame.contentFrame.itemBG:SetTexture(GUI.curBgInfo[2])
 		GUI.frame.contentFrame.itemBG:SetAlpha(db.content.bgColor[4])
 	elseif not db.content.showBgImage or not GUI.curBgInfo[2] then
@@ -1134,7 +1136,7 @@ function GUI.RefreshContentBackGround()
 	end
 
 	-- bottom Bg
-	if db.contentBottomBar.useContentColor and ( frame.downBG.curAlpha ~= db.contentBottomBar.bgColor[4] or frame.downBG.curColor ~= GUI.curBgInfo[1]) then
+	if db.contentBottomBar.useContentColor and (frame.downBG.curAlpha ~= db.contentBottomBar.bgColor[4] or frame.downBG.curColor ~= GUI.curBgInfo[1]) then
 		frame.downBG:SetColorTexture(GUI.curBgInfo[1][1], GUI.curBgInfo[1][2], GUI.curBgInfo[1][3], db.contentBottomBar.bgColor[4])
 		frame.downBG.curColor = GUI.curBgInfo[1]
 		frame.downBG.curAlpha = db.contentBottomBar.bgColor[4]

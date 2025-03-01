@@ -4,48 +4,50 @@ local AL = AtlasLoot.Locales
 local GetAlTooltip = AtlasLoot.Tooltip.GetTooltip
 
 --lua
-local str_match = string.match
-local GetSpellTexture = GetSpellTexture or C_Spell.GetSpellTexture
+local GetSpellTexture = C_Spell.GetSpellTexture
 local GetTradeskillLink = AtlasLoot.TooltipScan.GetTradeskillLink
-
-local GetSpellInfo = GetSpellInfo or function(spellID) if not spellID then return nil end local si = C_Spell.GetSpellInfo(spellID) if si then return si.name, nil, si.iconID, si.castTime, si.minRange, si.maxRange, si.spellID, si.originalIconID end end
 
 local ProfClickHandler = nil
 
 local PROF_COLOR = "|cffffff00"
 
+local function GetSpellInfo(spellID)
+	local temp = C_Spell.GetSpellInfo(spellID)
+	return temp.name, nil, temp.iconID
+end
+
 local TRADESKILLS = {
-	[GetSpellInfo(2259)] 	= GetSpellTexture(2259),	-- Alchemy
-	[GetSpellInfo(2018)] 	= GetSpellTexture(2018),	-- Blacksmithing
-	[GetSpellInfo(2550)] 	= GetSpellTexture(2550),	-- Cooking
-	[GetSpellInfo(7411)] 	= GetSpellTexture(7411),	-- Enchanting
-	[GetSpellInfo(4036)] 	= GetSpellTexture(4036),	-- Engineering
-	[GetSpellInfo(3273)] 	= GetSpellTexture(3273),	-- First Aid
-	[GetSpellInfo(2108)] 	= GetSpellTexture(2108),	-- Leatherworking
-	[GetSpellInfo(3908)] 	= GetSpellTexture(3908),	-- Tailoring
-	[GetSpellInfo(25229)]	= GetSpellTexture(25229),	-- Jewelcrafting
-	[GetSpellInfo(2575)] 	= GetSpellTexture(2575),	-- Mining
-	[GetSpellInfo(63275)]	= GetSpellTexture(63275),	-- Fishing
-	[GetSpellInfo(78670)]	= GetSpellTexture(78670),	-- Archaeology
-	[GetSpellInfo(45357)]	= GetSpellTexture(45357),	-- Inscription
-	[GetSpellInfo(2366)] 	= GetSpellTexture(2366),	-- Herbalism
-	[GetSpellInfo(921)]		= GetSpellTexture(921),		-- Pick Pocket
+	[GetSpellInfo(2259)]  = GetSpellTexture(2259), -- Alchemy
+	[GetSpellInfo(2018)]  = GetSpellTexture(2018), -- Blacksmithing
+	[GetSpellInfo(2550)]  = GetSpellTexture(2550), -- Cooking
+	[GetSpellInfo(7411)]  = GetSpellTexture(7411), -- Enchanting
+	[GetSpellInfo(4036)]  = GetSpellTexture(4036), -- Engineering
+	[GetSpellInfo(3273)]  = GetSpellTexture(3273), -- First Aid
+	[GetSpellInfo(2108)]  = GetSpellTexture(2108), -- Leatherworking
+	[GetSpellInfo(3908)]  = GetSpellTexture(3908), -- Tailoring
+	[GetSpellInfo(25229)] = GetSpellTexture(25229), -- Jewelcrafting
+	[GetSpellInfo(2575)]  = GetSpellTexture(2575), -- Mining
+	[GetSpellInfo(63275)] = GetSpellTexture(63275), -- Fishing
+	[GetSpellInfo(78670)] = GetSpellTexture(78670), -- Archaeology
+	[GetSpellInfo(45357)] = GetSpellTexture(45357), -- Inscription
+	[GetSpellInfo(2366)]  = GetSpellTexture(2366), -- Herbalism
+	[GetSpellInfo(921)]   = GetSpellTexture(921), -- Pick Pocket
 }
 
 function Prof.OnSet(button, second)
 	if not ProfClickHandler then
 		ProfClickHandler = AtlasLoot.ClickHandler:Add(
-		"Profession",
-		{
-			ChatLink = { "LeftButton", "Shift" },
-			types = {
-				ChatLink = true,
+			"Profession",
+			{
+				ChatLink = { "LeftButton", "Shift" },
+				types = {
+					ChatLink = true,
+				},
 			},
-		},
-		AtlasLoot.db.Button.Profession.ClickHandler,
-		{
-			{ "ChatLink", 	AL["Chat Link"], 	AL["Add profession link into chat"] },
-		})
+			AtlasLoot.db.Button.Profession.ClickHandler,
+			{
+				{ "ChatLink", AL["Chat Link"], AL["Add profession link into chat"] },
+			})
 	end
 	if not button then return end
 	if second and button.__atlaslootinfo.secType then
@@ -66,7 +68,6 @@ function Prof.OnClear(button)
 	button.secButton.Profession = nil
 	button.secButton.SpellID = nil
 	button.secButton.tsLink, button.secButton.tsName = nil, nil
-
 end
 
 function Prof.OnEnter(button)
@@ -89,7 +90,6 @@ function Prof.OnMouseAction(button, mouseButton)
 	end
 end
 
-
 function Prof.Refresh(button)
 	local spellName, _, spellTexture = GetSpellInfo(button.SpellID)
 	button.tsLink, button.tsName = GetTradeskillLink(button.SpellID)
@@ -102,11 +102,10 @@ function Prof.Refresh(button)
 	end
 
 	button.icon:SetTexture(TRADESKILLS[button.tsName] or spellTexture)
-
 end
 
 --[[
 function Prof.GetStringContent(str)
 	return {str_match(str, "(%w+):(%d+)")}
 end
-]]--
+]] --

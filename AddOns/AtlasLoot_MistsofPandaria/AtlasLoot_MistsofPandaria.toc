@@ -1,40 +1,22 @@
 ## Interface: 110100
-## Author: Lag, Proteyer, Arith
-## Version: v8.13.14
+## Author: nanderson11, Lag, Proteyer, Arith
+## Version: v8.20.0
 
 ## Title: AtlasLoot |cFF0099FF[Mists of Pandaria]|r
 ## Notes: AtlasLoot loot tables from Mists of Pandaria
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本掉落|r |cFF69CCF0熊猫人之谜|r
 ## Notes-zhCN: AtlasLoot 熊猫人之谜副本掉落列表
 
+## IconTexture: Interface\Icons\INV_Box_01
+
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1
 
-## X-eMail: manager@atlasloot.net
 ## X-Category: Map
 ## X-License: GPL v2
-## X-Website: http://www.atlasloot.net
+## X-Website: https://github.com/nanderson11/AtlasLootEnhanced
 ## X-AtlasLoot-LootModule: 1
 ## X-Part-Of: AtlasLoot
-
-#@non-debug@
-#@end-non-debug@
-
-#@debug@
-# ## Title: AtlasLoot |cFF0099FF[Mists of Pandaria]|r
-# ## Title-deDE: AtlasLoot |cFF0099FF[Mists of Pandaria]|r
-# ## Title-koKR: AtlasLoot |cFF0099FF[판다리아의 안개]|r
-# ## Title-ruRU: AtlasLoot |cFF0099FF[Mists of Pandaria]|r
-# ## Title-zhCN: AtlasLoot |cFF0099FF[熊猫人之谜]|r
-# ## Title-zhTW: AtlasLoot |cFF0099FF[潘達利亞之謎]|r
-# ## Notes: AtlasLoot loot tables from Mists of Pandaria
-# ## Notes-deDE: AtlasLoot Beuteverzeichnisse für Mists of Pandaria
-# ## Notes-frFR: Tables de butin AtlasLoot de Mists of Pandaria
-# ## Notes-koKR: AtlasLoot 판다리아의 안개 전리품 목록
-# ## Notes-ruRU: AtlasLoot таблица добычи из Mists of Pandaria
-# ## Notes-zhCN: AtlasLoot 《熊猫人之谜》物品信息
-# ## Notes-zhTW: AtlasLoot 潘達利亞之謎資料片物品掉落資料庫
-#@end-debug@
 
 data.lua
 sounds.lua

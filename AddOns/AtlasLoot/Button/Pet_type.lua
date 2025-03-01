@@ -8,7 +8,7 @@ local tonumber = tonumber
 local str_match = string.match
 
 -- blizzard
-local IsAddOnLoaded, LoadAddOn = C_AddOns.IsAddonLoaded or _G.IsAddOnLoaded, C_AddOns.LoadAddOn or _G.LoadAddOn
+local IsAddOnLoaded, LoadAddOn = C_AddOns.IsAddOnLoaded, C_AddOns.LoadAddOn
 local ShowUIPanel = _G.ShowUIPanel
 local C_PetJournal = _G.C_PetJournal
 local C_PetJournal_GetPetInfoBySpeciesID = C_PetJournal.GetPetInfoBySpeciesID
@@ -26,17 +26,17 @@ local PetClickHandler = nil
 function Pet.OnSet(button, second)
 	if not PetClickHandler then
 		PetClickHandler = AtlasLoot.ClickHandler:Add(
-		"Pet",
-		{
-			GoTo = { "LeftButton", "None" },
-			types = {
-				GoTo = true,
+			"Pet",
+			{
+				GoTo = { "LeftButton", "None" },
+				types = {
+					GoTo = true,
+				},
 			},
-		},
-		AtlasLoot.db.Button.Pet.ClickHandler,
-		{
-			{ "GoTo",		AL["Show Pet in Journal"],			AL["Show Pet in Journal"] },
-		})
+			AtlasLoot.db.Button.Pet.ClickHandler,
+			{
+				{ "GoTo", AL["Show Pet in Journal"], AL["Show Pet in Journal"] },
+			})
 	end
 	if not button then return end
 	if second and button.__atlaslootinfo.secType then
@@ -87,7 +87,6 @@ function Pet.OnClear(button)
 	button.secButton.overlay:SetTexCoord(1, 1, 1, 1)
 	button.secButton.overlay:SetHeight(button.icon:GetWidth())
 	button.secButton.overlay:SetWidth(button.icon:GetWidth())
-
 end
 
 function Pet.OnEnter(button)
@@ -98,6 +97,7 @@ function Pet.OnLeave(button)
 	if Pet.tooltipFrame then Pet.tooltipFrame:Hide() end
 	if button.ItemID then Item.OnLeave(button) end
 end
+
 --[[
 self.TypeInfo.type:SetText(_G["BATTLE_PET_NAME_"..petType]);
 	self.TypeInfo.typeIcon:SetTexture("Interface\\PetBattles\\PetIcon-"..PET_TYPE_SUFFIX[petType]);
@@ -136,7 +136,7 @@ self.TypeInfo.type:SetText(_G["BATTLE_PET_NAME_"..petType]);
 					<Size x="53" y="54"/>
 					<TexCoords left="0.41992188" right="0.52343750" top="0.02246094" bottom="0.07519531"/>
 				</Texture>
-]]--
+]] --
 function Pet.Refresh(button)
 	-- speciesName, speciesIcon, petType, companionID, tooltipSource, tooltipDescription, isWild, canBattle, isTradeable, isUnique, obtainable = C_PetJournal.GetPetInfoBySpeciesID(button.PetID)
 	local speciesName, speciesIcon, petType, companionID, tooltipSource, tooltipDescription = C_PetJournal_GetPetInfoBySpeciesID(button.PetID)
@@ -152,12 +152,12 @@ function Pet.Refresh(button)
 	button.overlay:Show()
 	button.overlay:SetTexture(PET_JOURNAL_TEXTURE)
 	button.overlay:SetTexCoord(0.41992188, 0.52343750, 0.02246094, 0.07519531)
-	button.overlay:SetHeight(button.icon:GetHeight()*1.2)
-	button.overlay:SetWidth(button.icon:GetWidth()*1.2)
+	button.overlay:SetHeight(button.icon:GetHeight() * 1.2)
+	button.overlay:SetWidth(button.icon:GetWidth() * 1.2)
 
 
 	button.icon:SetTexture(speciesIcon)
-	button.info = {speciesName, speciesIcon, petType, tooltipSource, tooltipDescription, companionID}
+	button.info = { speciesName, speciesIcon, petType, tooltipSource, tooltipDescription, companionID }
 end
 
 function Pet.GetStringContent(str)
@@ -166,7 +166,7 @@ function Pet.GetStringContent(str)
 	else
 		return {
 			str_match(str, "(%d+)"),
-			str_match(str, "i(%d+)"),	-- linked item
+			str_match(str, "i(%d+)"), -- linked item
 		}
 	end
 end
@@ -175,17 +175,20 @@ end
 -- Pet frame
 --################################
 function Pet.ShowToolTipFrame(button)
-
 	if not Pet.tooltipFrame then
 		local name = "AtlasLoot-PetToolTip"
 		local frame = CreateFrame("Frame", name, nil, BackdropTemplateMixin and "BackdropTemplate" or nil)
 		frame:SetClampedToScreen(true)
 		frame:SetSize(300, 50)
-		frame:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background",
-							edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-							tile = true, tileSize = 16, edgeSize = 16,
-							insets = { left = 4, right = 4, top = 4, bottom = 4 }})
-		frame:SetBackdropColor(0,0,0,1)
+		frame:SetBackdrop({
+			bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+			edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+			tile = true,
+			tileSize = 16,
+			edgeSize = 16,
+			insets = { left = 4, right = 4, top = 4, bottom = 4 }
+		})
+		frame:SetBackdropColor(0, 0, 0, 1)
 
 		frame.icon = frame:CreateTexture(name.."-icon", "ARTWORK")
 		frame.icon:SetPoint("TOPLEFT", frame, "TOPLEFT", 5, -5)
@@ -212,7 +215,7 @@ function Pet.ShowToolTipFrame(button)
 		frame.model:ClearAllPoints()
 		frame.model:SetParent(frame)
 		frame.model:SetPoint("TOPLEFT", frame.icon, "BOTTOMLEFT", 0, -3)
-		frame.model:SetSize(145,145)
+		frame.model:SetSize(145, 145)
 		frame.model:SetRotation(MODELFRAME_DEFAULT_ROTATION)
 
 		frame.desc = frame:CreateFontString(name.."-desc", "ARTWORK", "GameFontNormalSmall")
@@ -242,9 +245,9 @@ function Pet.ShowToolTipFrame(button)
 	frame.name:SetText(button.info[1])
 	frame.source:SetText(button.info[4])
 	frame.icon:SetTexture(button.info[2])
-	tmp = frame.name:GetHeight()+frame.source:GetHeight()
-	frame.icon:SetSize(tmp,tmp)
-	frame:SetHeight(tmp+155)
+	tmp = frame.name:GetHeight() + frame.source:GetHeight()
+	frame.icon:SetSize(tmp, tmp)
+	frame:SetHeight(tmp + 155)
 
 	frame.desc:SetText(button.info[5])
 
@@ -258,7 +261,6 @@ function Pet.ShowToolTipFrame(button)
 
 	frame:Show()
 	if button.ItemID then
-		Item.OnEnter(button, {frame, "ANCHOR_TOPLEFT", 0, 2})
+		Item.OnEnter(button, { frame, "ANCHOR_TOPLEFT", 0, 2 })
 	end
 end
-

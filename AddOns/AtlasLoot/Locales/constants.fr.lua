@@ -1,8 +1,7 @@
-local AL = _G.AtlasLoot.GetLocales("frFR")
+﻿local AL = _G.AtlasLoot.GetLocales("frFR")
 
 if not AL then return end
 
--- These localization strings are translated on WoWAce: https://www.wowace.com/projects/atlasloot-enhanced/localization
 AL["--- or ---"] = "--- ou ---"
 AL["%s will finish loading after combat."] = "%s finira de se charger après le combat."
 AL["/al - Open the AtlasLoot window."] = "/al - Ouvrez la fenêtre d'AtlasLoot."
@@ -292,4 +291,3 @@ AL["World Bosses"] = "Bosses mondiaux"
 AL["World Events"] = "Evénements mondiaux"
 AL["Yellow Gems"] = "Gemmes jaune"
 AL["Zen'Vorka"] = "Zen'Vorka"
-

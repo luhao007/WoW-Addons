@@ -21,9 +21,9 @@ local PAGE_NAME_DIFF_PAGE = "%s (%s) [%d/%d]"
 function ItemFrame:Create()
 	if self.frame then return self.frame end
 	local frameName = "AtlasLoot_GUI-ItemFrame"
-	
+
 	self.frame = CreateFrame("FRAME", frameName, GUI.frame)
-	local frame = self.frame 
+	local frame = self.frame
 	frame:ClearAllPoints()
 	frame:SetParent(GUI.frame)
 	frame:SetPoint("TOPLEFT", GUI.frame.contentFrame.itemBG)
@@ -35,9 +35,9 @@ function ItemFrame:Create()
 	frame.Clear = ItemFrame.Clear
 	frame.OnClassFilterUpdate = ItemFrame.OnClassFilterUpdate
 	frame.OnTransMogUpdate = ItemFrame.OnTransMogUpdate
-	
+
 	frame.ItemButtons = {}
-	for i=1,30 do
+	for i = 1, 30 do
 		frame.ItemButtons[i] = AtlasLoot.Button:Create()
 		frame.ItemButtons[i]:ClearAllPoints()
 		frame.ItemButtons[i]:SetParent(frame)
@@ -46,7 +46,7 @@ function ItemFrame:Create()
 		elseif i == 16 then
 			frame.ItemButtons[i]:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, 0)
 		else
-			frame.ItemButtons[i]:SetPoint("TOPLEFT", frame.ItemButtons[i-1], "BOTTOMLEFT", 0, -2)
+			frame.ItemButtons[i]:SetPoint("TOPLEFT", frame.ItemButtons[i - 1], "BOTTOMLEFT", 0, -2)
 		end
 	end
 	return self.frame
@@ -64,7 +64,7 @@ function ItemFrame:Show(noRefresh)
 end
 
 function ItemFrame:ClearItems()
-	for i=1,30 do
+	for i = 1, 30 do
 		self.frame.ItemButtons[i]:Clear()
 		self.frame.ItemButtons[i]:Hide()
 	end
@@ -74,10 +74,10 @@ end
 function ItemFrame.OnClassFilterUpdate(filterTab)
 	if AtlasLoot.db.GUI.classFilter and GUI.__EJData then
 		if not filterTab then
-			AtlasLoot.EncounterJournal:SetLootQuery(GUI.__EJData[1], GUI.__EJData[2], ItemFrame.CurDiff, ItemFrame.CurTier, nil, GUI.frame.contentFrame.clasFilterButton.selectedPlayerSpecID, ItemFrame.OnClassFilterUpdate )
+			AtlasLoot.EncounterJournal:SetLootQuery(GUI.__EJData[1], GUI.__EJData[2], ItemFrame.CurDiff, ItemFrame.CurTier, nil, GUI.frame.contentFrame.clasFilterButton.selectedPlayerSpecID, ItemFrame.OnClassFilterUpdate)
 		else
 			local button
-			for i = 1,30 do
+			for i = 1, 30 do
 				button = ItemFrame.frame.ItemButtons[i]
 				if button and button.__atlaslootinfo and not button.__atlaslootinfo.filterIgnore and button.__atlaslootinfo.type and button.__atlaslootinfo.type[1] == "Item" then
 					if button.ItemID and filterTab[button.ItemID] then
@@ -91,7 +91,7 @@ function ItemFrame.OnClassFilterUpdate(filterTab)
 			end
 		end
 	else
-		for i=1,30 do
+		for i = 1, 30 do
 			ItemFrame.frame.ItemButtons[i]:SetAlpha(1)
 		end
 	end
@@ -102,10 +102,10 @@ local function TransmogCallback(button, collected)
 	if collected == nil then
 		button.highlightBg:Hide()
 	elseif collected == false then
-		button.highlightBg:SetColorTexture(1,0,0)
+		button.highlightBg:SetColorTexture(1, 0, 0)
 		button.highlightBg:Show()
 	elseif collected == true then
-		button.highlightBg:SetColorTexture(0,1,0)
+		button.highlightBg:SetColorTexture(0, 1, 0)
 		button.highlightBg:Show()
 	end
 end
@@ -114,7 +114,7 @@ function ItemFrame.OnTransMogUpdate()
 	if AtlasLoot.db.GUI.transMogHighlighter then
 		Transmog:Clear()
 		local button
-		for i = 1,30 do
+		for i = 1, 30 do
 			button = ItemFrame.frame.ItemButtons[i]
 			if button.ItemString or button.ItemID then
 				Transmog:IsItemUnlocked(button.ItemString or button.ItemID, nil, TransmogCallback, button)
@@ -123,7 +123,7 @@ function ItemFrame.OnTransMogUpdate()
 			end
 		end
 	else
-		for i = 1,30 do
+		for i = 1, 30 do
 			ItemFrame.frame.ItemButtons[i].highlightBg:Hide()
 		end
 	end
@@ -133,34 +133,36 @@ function ItemFrame:Refresh(skipProtect)
 	-- small spam protection
 	if not skipProtect and GetTime() - LastRefresh < 0.1 then return end
 	LastRefresh = GetTime()
-	
+
 	ItemFrame:ClearItems()
 	AtlasLoot.db.GUI.selected[5] = AtlasLoot.db.GUI.selected[5] or 0
 	ItemFrame.nextPage = nil
 	local page = AtlasLoot.db.GUI.selected[5] * 100 -- Page number for first items on a page are <1, 101, 201, 301, 401, ...>
 	local items, tableType, diffData = ItemDB:GetItemTable(AtlasLoot.db.GUI.selected[1], AtlasLoot.db.GUI.selected[2], AtlasLoot.db.GUI.selected[3], AtlasLoot.db.GUI.selected[4])
-	
+
 	if items then
-	
 		ItemFrame.LinkedInfo = items.__linkedInfo
 		ItemFrame.CurDiff = diffData.difficultyID or 1
 		ItemFrame.CurTier = diffData.tierID or 1
-		
-		-- refresh title with diff and add pagenumber if there 
+
+		-- refresh title with diff and add pagenumber if there
 		if #items and items[#items] and items[#items][1] > 100 then
-			GUI.frame.contentFrame.title:SetText(format(PAGE_NAME_DIFF_PAGE, GUI.frame.contentFrame.title.txt, diffData.name, AtlasLoot.db.GUI.selected[5]+1, floor(items[#items][1]/100)+1))
+			GUI.frame.contentFrame.title:SetText(format(PAGE_NAME_DIFF_PAGE, GUI.frame.contentFrame.title.txt, diffData.name, AtlasLoot.db.GUI.selected[5] + 1, floor(items[#items][1] / 100) + 1))
 		else
 			GUI.frame.contentFrame.title:SetText(format(PAGE_NAME_DIFF, GUI.frame.contentFrame.title.txt or "", diffData.name or ""))
 		end
 		if type(items) == "string" then
 			GUI:ShowLoadingInfo(items, true, tableType)
-			AtlasLoot.Loader:LoadModule(items, function() ItemFrame:Refresh(true) GUI.frame.contentFrame.loadingDataText:Hide() end, true)
+			AtlasLoot.Loader:LoadModule(items, function()
+				ItemFrame:Refresh(true)
+				GUI.frame.contentFrame.loadingDataText:Hide()
+			end, true)
 			return
 		end
 
 		local fixItemNum = 0
-		local setn,item = nil
-		for i = 1,#items do
+		local setn, item = nil, nil
+		for i = 1, #items do
 			item = items[i]
 			fixItemNum = item[1] - page
 			if ItemFrame.frame.ItemButtons[fixItemNum] then
@@ -185,14 +187,14 @@ function ItemFrame:Refresh(skipProtect)
 	if AtlasLoot.db.GUI.selected[5] - 1 >= 0 then
 		GUI.frame.contentFrame.prevPageButton.info = tostring(AtlasLoot.db.GUI.selected[5] - 1)
 	else
-		--[[	this must be fixed later ... Check for pages 
+		--[[	this must be fixed later ... Check for pages
 		if AtlasLoot.db.GUI.selected[3] - 1 > 0 then
 			items, tableType = ItemDB:GetItemTable(AtlasLoot.db.GUI.selected[1], AtlasLoot.db.GUI.selected[2], AtlasLoot.db.GUI.selected[3]-1, AtlasLoot.db.GUI.selected[4])
 			if items and #items > 0 and floor(items[#items][1]/100) > 0 then
 				GUI.frame.contentFrame.prevPageButton.info = { AtlasLoot.db.GUI.selected[3]-1, floor(items[#items][1]/100) }
 			end
 		end
-		]]--
+		]] --
 	end
 	ItemFrame.OnClassFilterUpdate()
 	ItemFrame.OnTransMogUpdate()

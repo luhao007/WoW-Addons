@@ -9,12 +9,12 @@ local LibSharedMedia = LibStub("LibSharedMedia-3.0")
 
 --lua
 local type = type
-local next, pairs = next, pairs
+local pairs = pairs
 local wipe, tab_sort = table.wipe, table.sort
 
 -- WOW
 local CreateFrame = CreateFrame
-local GetItemStats = GetItemStats
+local GetItemStats = C_Item.GetItemStats
 
 -- AtlasLoot
 local ItemQuery = AtlasLoot.ItemQuery:Create()
@@ -29,7 +29,7 @@ local db
 local SVF_FRAME_NAME = "AtlasLoot-SetViewFrame"
 local SVF_FRAME_WIDTH = 800
 local SVF_FRAME_HEIGHT = 400
-local BACKDROP_DATA = {bgFile = "Interface/Tooltips/UI-Tooltip-Background"}
+local BACKDROP_DATA = { bgFile = "Interface/Tooltips/UI-Tooltip-Background" }
 
 local MODEL_FRAME_WIDTH = 220
 local MODEL_FRAME_HEIGHT = 300
@@ -69,6 +69,7 @@ function SVF.Init()
 	--AtlasLoot:Teest()
 	AtlasLoot.SlashCommands:AddResetFunction(SVF.ResetFrames, "frames", "svf")
 end
+
 AtlasLoot:AddInitFunc(SVF.Init)
 
 local function SetTextForFrame(textFrame, data)
@@ -92,12 +93,12 @@ local function CreateTextColumn(content, parFrame, width, height, pointInParFram
 		-- calc the size of the column
 		local numFrames = #content
 		local textHeight = height or parFrame:GetHeight()
-		local textWidth = ( ( (width or parFrame:GetWidth()) ) / numFrames ) - 2
+		local textWidth = (((width or parFrame:GetWidth())) / numFrames) - 2
 		-- print(width or parFrame:GetWidth(), numFrames, pointInParFrame and pointInParFrame[4] or 2, textWidth )
 		-- create text frames
 		local text
 		for i = 1, #content do
-			text = GetTextFrameWithBackground(parFrame,  textWidth, textHeight, bgColor, textColor)
+			text = GetTextFrameWithBackground(parFrame, textWidth, textHeight, bgColor, textColor)
 			text.set_bgColor = bgColor
 			text.set_textColor = textColor
 			if i == 1 then
@@ -107,7 +108,7 @@ local function CreateTextColumn(content, parFrame, width, height, pointInParFram
 					text:SetPoint("LEFT", parFrame, "LEFT", 2, 0)
 				end
 			else
-				text:SetPoint("LEFT", parFrame.content[i-1], "RIGHT", 2, 0)
+				text:SetPoint("LEFT", parFrame.content[i - 1], "RIGHT", 2, 0)
 			end
 			SetTextForFrame(text, content[i])
 			text:Show()
@@ -115,7 +116,7 @@ local function CreateTextColumn(content, parFrame, width, height, pointInParFram
 		end
 	else -- only 1 entry
 		width = width or parFrame:GetWidth()
-		local text = GetTextFrameWithBackground(parFrame, (pointInParFrame and pointInParFrame[4]) and width-pointInParFrame[4] or width-2, height or parFrame:GetHeight(), bgColor, textColor)
+		local text = GetTextFrameWithBackground(parFrame, (pointInParFrame and pointInParFrame[4]) and width - pointInParFrame[4] or width - 2, height or parFrame:GetHeight(), bgColor, textColor)
 		if pointInParFrame then
 			text:SetPoint(pointInParFrame[1], pointInParFrame[2], pointInParFrame[3], pointInParFrame[4], pointInParFrame[5])
 		else
@@ -141,7 +142,7 @@ local function CreatePrevNextFrames(parent, parentTable)
 	parentTable.prev:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight", "ADD")
 	--parentTable.prev:SetScript("OnClick", print)
 	parentTable.prev.typ = "prev"
-	
+
 	parentTable.next = CreateFrame("Button")
 	parentTable.next:SetParent(parent)
 	parentTable.next:SetPoint("RIGHT", parent, "RIGHT", 3, 0)
@@ -151,15 +152,15 @@ local function CreatePrevNextFrames(parent, parentTable)
 	parentTable.next:SetDisabledTexture("Interface\\Buttons\\UI-SpellbookIcon-NextPage-Disabled")
 	parentTable.next:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight", "ADD")
 	--parentTable.next:SetScript("OnClick", print)
-	parentTable.next.typ = "next"	
-	
+	parentTable.next.typ = "next"
+
 	parentTable.bg = parent:CreateTexture(nil, "BACKGROUND")
 	parentTable.bg:SetTexture("Interface\\BUTTONS\\UI-Listbox-Highlight2.blp")
 	parentTable.bg:SetBlendMode("ADD")
 	parentTable.bg:SetVertexColor(0.5, 0.5, 0.5, 0.5)
 	parentTable.bg:SetPoint("LEFT", parentTable.prev, "RIGHT", -10, 0)
 	parentTable.bg:SetPoint("RIGHT", parentTable.next, "LEFT", 10, 0)
-	
+
 	parentTable.text = parent:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	parentTable.text:SetJustifyH("CENTER")
 	--parentTable.text:SetText()
@@ -177,7 +178,7 @@ local function SetItemFrameItem(self, itemID, itemLink)
 	self.itemLink = type(itemLink) == "string" and itemLink or "item:"..itemID
 	--self:SetContentTable({ 0, itemID}, {"Item", "Item"}, true)
 	self.__atlaslootinfo.type = {}
-	self:SetType("Item", {itemID = itemID, itemString = self.itemLink})
+	self:SetType("Item", { itemID = itemID, itemString = self.itemLink })
 	SVF.frame.modelFrame:TryOn("item:"..itemID)
 end
 
@@ -186,10 +187,10 @@ local function GetNextItemFrame()
 	if not frame then
 		frame = CreateFrame("Frame", nil, nil, BackdropTemplateMixin and "BackdropTemplate" or nil)
 		frame:SetParent(SVF.frame.containerFrame)
-		frame:SetWidth(CONTAINER_FRAME_WIDTH-10)
+		frame:SetWidth(CONTAINER_FRAME_WIDTH - 10)
 		--frame:SetBackdrop(BACKDROP_DATA)
 		--frame:SetBackdropColor(0,1,0,1)
-		AtlasLoot.Button:CreateSecOnly(frame)	
+		AtlasLoot.Button:CreateSecOnly(frame)
 		frame.itemButton = frame.secButton
 		frame.itemButton:ClearAllPoints()
 		frame.itemButton:SetParent(frame)
@@ -197,7 +198,7 @@ local function GetNextItemFrame()
 		frame.itemButton:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 0, 0)
 		frame.SetItemFrameHeight = SetItemFrameHeight
 		frame.SetItem = SetItemFrameItem
-		
+
 		frame.content = {}
 	end
 	local frameNum = #SVF.frame.containerFrame.content
@@ -208,10 +209,10 @@ local function GetNextItemFrame()
 		frame:SetPoint("TOPLEFT", SVF.frame.containerFrame.subTopFrame, "BOTTOMLEFT", 0, -2)
 	end
 	frame:Show()
-	
+
 	--CreateTextColumn({ "test1", "test2", "test3"}, frame)
-	
-	SVF.frame.containerFrame.content[frameNum+1] = frame
+
+	SVF.frame.containerFrame.content[frameNum + 1] = frame
 	return frame
 end
 
@@ -264,14 +265,14 @@ end
 
 function LoadExtraList(typ)
 	if typ == "stats" then
-		local list = {}			-- list of all existing stats for the items
-		local itemStats = {}	-- item stats for single items
-		local statSummary = {}	-- Saves a summary of all stats
-		local listBottom = {}	-- the summary on the bottom
-		local listTopTmp = {}	-- temporary used for the header
-		local listTop = {}		-- used for the header
-		local globalNames = {}	-- saves global names e.g. ( "Blue Socket" = "EMPTY_SOCKET_BLUE" )
-		
+		local list = {}  -- list of all existing stats for the items
+		local itemStats = {} -- item stats for single items
+		local statSummary = {} -- Saves a summary of all stats
+		local listBottom = {} -- the summary on the bottom
+		local listTopTmp = {} -- temporary used for the header
+		local listTop = {} -- used for the header
+		local globalNames = {} -- saves global names e.g. ( "Blue Socket" = "EMPTY_SOCKET_BLUE" )
+
 		local globalTmp
 		for i = 1, #SVF.frame.containerFrame.content do
 			if SVF.frame.containerFrame.content[i].itemLink then
@@ -280,14 +281,14 @@ function LoadExtraList(typ)
 					RefreshExtraList()
 					return
 				end
-				for k,v in pairs(itemStats[i]) do
+				for k, v in pairs(itemStats[i]) do
 					globalTmp = _G[k]
 					if STATS_FILTER[k] ~= "hide" and globalTmp then
 						if not statSummary[globalTmp] then
 							globalNames[globalTmp] = k
-							list[ #list+1 ] = globalTmp
-							statSummary[ globalTmp ] = v or 0
-							listTopTmp[ globalTmp ] = { globalTmp, globalTmp }
+							list[#list + 1] = globalTmp
+							statSummary[globalTmp] = v or 0
+							listTopTmp[globalTmp] = { globalTmp, globalTmp }
 						else
 							statSummary[globalTmp] = statSummary[globalTmp] + v
 						end
@@ -296,7 +297,7 @@ function LoadExtraList(typ)
 			end
 		end
 		tab_sort(list)
-		
+
 		-- Create Item stats and fill empty spots
 		for i = 1, #SVF.frame.containerFrame.content do
 			local itemStatsList = {}
@@ -308,28 +309,28 @@ function LoadExtraList(typ)
 					listBottom[j] = statSummary[v]
 				end
 				if STATS_FILTER[j] and type(STATS_FILTER[j]) == "function" then
-					itemStatsList[j] = STATS_FILTER[j]( itemStats[i][ globalNames[v] ] or 0 )
+					itemStatsList[j] = STATS_FILTER[j](itemStats[i][globalNames[v]] or 0)
 				else
-					itemStatsList[j] = itemStats[i][ globalNames[v] ] or 0
+					itemStatsList[j] = itemStats[i][globalNames[v]] or 0
 				end
 			end
-			CreateTextColumn(itemStatsList, SVF.frame.containerFrame.content[i], CurrentData.textColumnWidth, nil, {"LEFT", SVF.frame.containerFrame.content[i].itemButton, "RIGHT", 2, 0})
+			CreateTextColumn(itemStatsList, SVF.frame.containerFrame.content[i], CurrentData.textColumnWidth, nil, { "LEFT", SVF.frame.containerFrame.content[i].itemButton, "RIGHT", 2, 0 })
 		end
-		
+
 		-- Create stats list on top
-		CreateTextColumn(listTop, SVF.frame.containerFrame.subTopFrame, CurrentData.textColumnWidth, nil, {"LEFT", SVF.frame.containerFrame.subTopFrame, "LEFT", SVF.frame.containerFrame.subTopFrame:GetWidth()-CurrentData.textColumnWidth+2, 0}, CONTAINER_TOP_BOTTOM_TEXT_BG_COLOR, CONTAINER_TOP_BOTTOM_TEXT_COLOR)
+		CreateTextColumn(listTop, SVF.frame.containerFrame.subTopFrame, CurrentData.textColumnWidth, nil, { "LEFT", SVF.frame.containerFrame.subTopFrame, "LEFT", SVF.frame.containerFrame.subTopFrame:GetWidth() - CurrentData.textColumnWidth + 2, 0 }, CONTAINER_TOP_BOTTOM_TEXT_BG_COLOR, CONTAINER_TOP_BOTTOM_TEXT_COLOR)
 
 		-- Create summary on bottom and relocate
 		SVF.frame.containerFrame.bottomFrame:SetPoint("TOPLEFT", SVF.frame.containerFrame.content[#SVF.frame.containerFrame.content], "BOTTOMLEFT", 0, -2)
-		CreateTextColumn(listBottom, SVF.frame.containerFrame.bottomFrame, CurrentData.textColumnWidth, nil, {"LEFT", SVF.frame.containerFrame.bottomFrame, "LEFT", SVF.frame.containerFrame.bottomFrame:GetWidth()-CurrentData.textColumnWidth+2, 0}, CONTAINER_TOP_BOTTOM_TEXT_BG_COLOR, CONTAINER_TOP_BOTTOM_TEXT_COLOR)
-	--elseif typ == "droplocation" then
+		CreateTextColumn(listBottom, SVF.frame.containerFrame.bottomFrame, CurrentData.textColumnWidth, nil, { "LEFT", SVF.frame.containerFrame.bottomFrame, "LEFT", SVF.frame.containerFrame.bottomFrame:GetWidth() - CurrentData.textColumnWidth + 2, 0 }, CONTAINER_TOP_BOTTOM_TEXT_BG_COLOR, CONTAINER_TOP_BOTTOM_TEXT_COLOR)
+		--elseif typ == "droplocation" then
 		-- curently not mutch here :(
 	elseif typ == "ALText" then
 		local textData = CurrentData.set:GetInfoTable(CurrentData.subSet, CurrentData.diff, CurrentData.info)
 		if textData then
 			for i = 1, #CurrentData.set:GetItemTable(CurrentData.subSet, CurrentData.diff) do
 				local itemFrame = SVF.frame.containerFrame.content[i]
-				CreateTextColumn(textData[i] or " ", itemFrame, CurrentData.textColumnWidth, nil, {"LEFT", itemFrame.itemButton, "RIGHT", 2, 0} )
+				CreateTextColumn(textData[i] or " ", itemFrame, CurrentData.textColumnWidth, nil, { "LEFT", itemFrame.itemButton, "RIGHT", 2, 0 })
 			end
 		else
 			CurrentData.info = "stats"
@@ -340,7 +341,7 @@ function LoadExtraList(typ)
 		for i = 1, #SVF.frame.containerFrame.content do
 			local itemFrame = SVF.frame.containerFrame.content[i]
 			if itemFrame.itemID and CurrentData.contentTypesData[itemFrame.itemID] and CurrentData.contentTypesData[itemFrame.itemID][CurrentData.currentContentTypeID] then
-				CreateTextColumn(CurrentData.contentTypesData[itemFrame.itemID][CurrentData.currentContentTypeID], itemFrame, CurrentData.textColumnWidth, nil, {"LEFT", itemFrame.itemButton, "RIGHT", 2, 0} )
+				CreateTextColumn(CurrentData.contentTypesData[itemFrame.itemID][CurrentData.currentContentTypeID], itemFrame, CurrentData.textColumnWidth, nil, { "LEFT", itemFrame.itemButton, "RIGHT", 2, 0 })
 			end
 		end
 	else
@@ -353,7 +354,7 @@ local function SetItemList(tab, itemLinkTab)
 	local frame = SVF.frame
 
 	-- get height of the item frame
-	local itemFrameHeight = ( CONTAINER_ITEM_PLACE_HEIGHT / #tab ) - 2
+	local itemFrameHeight = (CONTAINER_ITEM_PLACE_HEIGHT / #tab) - 2
 	if itemFrameHeight < CONTAINER_ITEM_MIN_HEIGHT then
 		error("WARNING item limit is reached - "..#tab)
 	elseif itemFrameHeight > CONTAINER_ITEM_MAX_HEIGHT then
@@ -363,13 +364,13 @@ local function SetItemList(tab, itemLinkTab)
 	local itemFrame, textColumnWidth
 	for i = 1, #tab do
 		--frame.modelFrame:TryOn(tab[i])
-		
+
 		itemFrame = GetNextItemFrame()
 		itemFrame:SetItemFrameHeight(itemFrameHeight)
 		itemFrame:SetItem(tab[i], (itemLinkTab and itemLinkTab[i]) and itemLinkTab[i] or nil)
-		
+
 		if not textColumnWidth then
-			textColumnWidth = itemFrame:GetWidth() - itemFrame:GetHeight() 
+			textColumnWidth = itemFrame:GetWidth() - itemFrame:GetHeight()
 			CurrentData.textColumnWidth = textColumnWidth
 		end
 
@@ -394,34 +395,33 @@ function SVF:Clear(noHide, soft)
 			CurrentData = nil
 		end
 	end
-	
+
 	if not noHide then
 		self.frame:Hide()
 	end
 end
 
-
 function SVF:SetNewItemSet(setTable)
 	if not self.frame then self:Create() end
 	self:Clear()
-	
+
 	-- set set name
 	CurrentData.name = setTable.name
-	
+
 	-- create content list
 	CurrentData.contentTypes = {}
 	if setTable.contentTypes then
 		CurrentData.contentTypes = setTable.contentTypes
 	else
-		CurrentData.contentTypes = { "stats" }		-- no content given show only stats
+		CurrentData.contentTypes = { "stats" } -- no content given show only stats
 	end
 	CurrentData.currentContentType = CurrentData.contentTypes[1] or "stats"
 	CurrentData.currentContentTypeID = 1
-	
+
 	-- create item list and item data
 	CurrentData.itemList = {}
 	CurrentData.contentTypesData = {}
-	
+
 	for i = 1, #setTable.data do
 		local item = setTable.data[i]
 		CurrentData.itemList[i] = item.itemID
@@ -429,11 +429,11 @@ function SVF:SetNewItemSet(setTable)
 			CurrentData.contentTypesData[item.itemID] = item.content
 		end
 	end
-	
-	
+
+
 	-- load all items into cache and after finish refresh the frame
 	ItemQuery:AddItemInfoList(CurrentData.itemList, NewSet)
-	
+
 	self.frame:Show()
 end
 
@@ -441,14 +441,14 @@ function SVF:SetNewItemSetNEW(setTable)
 	if not self.frame then self:Create() end
 	self.frame:Show()
 	self:Clear(true)
-	
-	
+
+
 	CurrentData = setTable
-	
+
 	-- get extraData from items
 	for i = 1, #setTable do
 		if setTable[i] == "table" then
-			
+
 		end
 	end
 
@@ -457,7 +457,7 @@ function SVF:SetNewItemSetNEW(setTable)
 end
 
 local function SetSubSet(subSet)
-	
+
 end
 
 -- ###########################
@@ -506,20 +506,20 @@ function SVF:RefreshAtlasLootSet()
 	self.frame:Show()
 	self:Clear(true, true)
 	local set = CurrentData.set
-	--frame.containerFrame.topFrame 
+	--frame.containerFrame.topFrame
 	--frame.containerFrame.topFrameSec.itemSwitch
 	--frame.containerFrame.topFrameSec.infoSwitch
-	
+
 	-- Page switcher
 	local CurE, NextE, PrevE = set:GetNextPrevPage(CurrentData.subSet)
 	CurrentData.subSet = CurE
 	SetPrevNextButton_AL(SVF.frame.containerFrame.topFrame, PrevE, NextE, NextPrevPageButton_OnClick, "%s - %s", set.name, set[CurE].name)
-	
+
 	-- Diff Switcher
 	CurE, NextE, PrevE = set:GetNextPrevDifficulty(CurrentData.subSet, CurrentData.diff)
 	CurrentData.diff = CurE
 	SetPrevNextButton_AL(SVF.frame.containerFrame.topFrameSec.itemSwitch, PrevE, NextE, NextPrevDiffButton_OnClick, nil, set:GetDifficultyName(CurE))
-	
+
 	-- Info Switcher
 	CurE, NextE, PrevE = set:GetNextPrevInfo(CurrentData.subSet, CurrentData.diff, CurrentData.info)
 	if not CurE or CurE == "stats" then --CurrentData.info == "stats" then
@@ -532,7 +532,7 @@ function SVF:RefreshAtlasLootSet()
 		CurrentData.currentContentType = "ALText"
 		SetPrevNextButton_AL(SVF.frame.containerFrame.topFrameSec.infoSwitch, PrevE, NextE, NextPrevInfoButton_OnClick, nil, set:GetInfoName(CurE))
 	end
-	
+
 	-- set item list
 	CurrentData.itemList = set:GetItemTable(CurrentData.subSet, CurrentData.diff)
 	ItemQuery:AddItemInfoList(CurrentData.itemList, NewAtlasLootSet)
@@ -544,7 +544,7 @@ function SVF:SetAtlasLootItemSet(setName, addonName, subSet, diff)
 	local set = AtlasLoot.Data.Sets:GetSet(setName, addonName)
 	if not set then return self:Clear() end
 	self:Clear()
-	
+
 	CurrentData = {
 		set = set,
 		setName = setName,
@@ -553,7 +553,7 @@ function SVF:SetAtlasLootItemSet(setName, addonName, subSet, diff)
 		diff = diff,
 		info = "stats",
 	}
-	
+
 	SVF:RefreshAtlasLootSet()
 	--ItemQuery:AddItemInfoList(CurrentData, NewAtlasLootSet)
 end
@@ -567,7 +567,7 @@ end
 
 local function FrameOnDragStop(self)
 	self:StopMovingOrSizing()
-	local a,b,c,d,e = self:GetPoint()
+	local a, b, c, d, e = self:GetPoint()
 	db.point = { a, nil, c, d, e }
 end
 
@@ -577,7 +577,7 @@ function SVF:Create()
 	self.frame = frame
 	frame:SetParent(UIParent)
 	frame:SetSize(SVF_FRAME_WIDTH, SVF_FRAME_HEIGHT)
-	frame:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background"})
+	frame:SetBackdrop({ bgFile = "Interface/Tooltips/UI-Tooltip-Background" })
 	--frame:SetBackdropColor(0,0,0,1)
 	frame:SetPoint(db.point[1], db.point[2], db.point[3], db.point[4], db.point[5])
 	frame:SetToplevel(true)
@@ -593,20 +593,20 @@ function SVF:Create()
 	--frame:SetScript("OnHide", FrameOnHide)
 	--frame:RegisterEvent("PLAYER_LOOT_SPEC_UPDATED")
 	tinsert(UISpecialFrames, SVF_FRAME_NAME)
-	
+
 	frame.closeButton = CreateFrame("Button", SVF_FRAME_NAME.."-CloseButton", frame, "UIPanelCloseButton")
 	frame.closeButton:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 3, 4)
-	
-	frame.title = GetTextFrameWithBackground(frame, 0, 0, {r=0, g=0.86, b=1}, {r=1, g=1, b=1})
+
+	frame.title = GetTextFrameWithBackground(frame, 0, 0, { r = 0, g = 0.86, b = 1 }, { r = 1, g = 1, b = 1 })
 	frame.title:SetPoint("TOPLEFT", frame, 5, -5)
 	frame.title:SetPoint("BOTTOMRIGHT", frame, "TOPRIGHT", -28, -20)
 	frame.title.text:SetText(AL["AtlasLoot Set View"])
-	
+
 	frame.modelFrame = GUI.CreateModelFrame(true, SVF_FRAME_NAME.."-ModelFrame", frame)
 	frame.modelFrame:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -5, -25)
 	frame.modelFrame:SetSize(MODEL_FRAME_WIDTH, MODEL_FRAME_HEIGHT)
 	--frame.modelFrame:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background"})
-	
+
 	frame.containerFrame = CreateFrame("Frame", SVF_FRAME_NAME.."-ContainerFrame", nil, BackdropTemplateMixin and "BackdropTemplate" or nil)
 	frame.containerFrame:ClearAllPoints()
 	frame.containerFrame:SetParent(frame)
@@ -617,16 +617,16 @@ function SVF:Create()
 	--frame.containerFrame:SetBackdrop(BACKDROP_DATA)
 	--frame.containerFrame:SetBackdropColor(0,0.86,1,1)
 	frame.containerFrame.content = {}
-	
+
 	CONTAINER_FRAME_WIDTH = frame.containerFrame:GetWidth()
 	CONTAINER_FRAME_HEIGHT = frame.containerFrame:GetHeight()
-	
+
 	frame.containerFrame.topFrame = CreateFrame("Frame", SVF_FRAME_NAME.."-ContainerFrame-TopFrame")
 	frame.containerFrame.topFrame:ClearAllPoints()
 	frame.containerFrame.topFrame:SetParent(frame.containerFrame)
 	frame.containerFrame.topFrame:SetPoint("TOPLEFT", frame.containerFrame, 5, 0)
 	frame.containerFrame.topFrame:SetPoint("BOTTOMRIGHT", frame.containerFrame, "TOPRIGHT", -5, -20)
-	
+
 	CreatePrevNextFrames(frame.containerFrame.topFrame)
 
 	frame.containerFrame.topFrameSec = CreateFrame("Frame", SVF_FRAME_NAME.."-ContainerFrame-TopFrameSec")
@@ -636,13 +636,13 @@ function SVF:Create()
 	frame.containerFrame.topFrameSec:SetPoint("BOTTOMRIGHT", frame.containerFrame.topFrame, "BOTTOMRIGHT", 0, -22)
 	frame.containerFrame.topFrameSec.itemSwitch = {}
 	frame.containerFrame.topFrameSec.infoSwitch = {}
-	
+
 	CreatePrevNextFrames(frame.containerFrame.topFrameSec, frame.containerFrame.topFrameSec.itemSwitch)
 	frame.containerFrame.topFrameSec.itemSwitch.next:SetPoint("RIGHT", frame.containerFrame.topFrameSec, "CENTER", -2, 0)
-	
+
 	CreatePrevNextFrames(frame.containerFrame.topFrameSec, frame.containerFrame.topFrameSec.infoSwitch)
 	frame.containerFrame.topFrameSec.infoSwitch.prev:SetPoint("LEFT", frame.containerFrame.topFrameSec, "CENTER", 2, 0)
-	
+
 	frame.containerFrame.subTopFrame = CreateFrame("Frame", SVF_FRAME_NAME.."-ContainerFrame-SubTopFrame", nil, BackdropTemplateMixin and "BackdropTemplate" or nil)
 	frame.containerFrame.subTopFrame:ClearAllPoints()
 	frame.containerFrame.subTopFrame:SetParent(frame.containerFrame)
@@ -651,7 +651,7 @@ function SVF:Create()
 	--frame.containerFrame.subTopFrame:SetBackdrop(BACKDROP_DATA)
 	--frame.containerFrame.subTopFrame:SetBackdropColor(0,0,1,1)
 	frame.containerFrame.subTopFrame.content = {}
-	
+
 	frame.containerFrame.bottomFrame = CreateFrame("Frame", SVF_FRAME_NAME.."-ContainerFrame-BottomFrame", nil, BackdropTemplateMixin and "BackdropTemplate" or nil)
 	frame.containerFrame.bottomFrame:ClearAllPoints()
 	frame.containerFrame.bottomFrame:SetParent(frame.containerFrame)
@@ -660,9 +660,9 @@ function SVF:Create()
 	--frame.containerFrame.bottomFrame:SetBackdrop(BACKDROP_DATA)
 	--frame.containerFrame.bottomFrame:SetBackdropColor(1,0,0,1)
 	frame.containerFrame.bottomFrame.content = {}
-	
+
 	CONTAINER_ITEM_PLACE_HEIGHT = frame.containerFrame:GetHeight() - 4 - frame.containerFrame.topFrame:GetHeight() - frame.containerFrame.topFrameSec:GetHeight() - frame.containerFrame.subTopFrame:GetHeight() - frame.containerFrame.bottomFrame:GetHeight()
-	
+
 	SVF.RefreshStyle()
 	--frame:Hide()
 end
@@ -677,13 +677,13 @@ end
 
 function SVF.RefreshStyle()
 	if not SVF.frame then return end
-	
+
 	local frame = SVF.frame
 	frame:SetBackdropColor(db.mainFrame.bgColor[1], db.mainFrame.bgColor[2], db.mainFrame.bgColor[3], db.mainFrame.bgColor[4])
 	frame.title:SetBackdropColor(db.mainFrame.title.bgColor[1], db.mainFrame.title.bgColor[2], db.mainFrame.title.bgColor[3], db.mainFrame.title.bgColor[4])
 	frame.title.text:SetTextColor(db.mainFrame.title.textColor[1], db.mainFrame.title.textColor[2], db.mainFrame.title.textColor[3], db.mainFrame.title.textColor[4])
 	frame.title.text:SetFont(LibSharedMedia:Fetch("font", db.mainFrame.title.font), db.mainFrame.title.size)
---	frame.modelFrame:SetBackdropColor(db.mainFrame.bgColorModel[1], db.mainFrame.bgColorModel[2], db.mainFrame.bgColorModel[3], db.mainFrame.bgColorModel[4])
+	--	frame.modelFrame:SetBackdropColor(db.mainFrame.bgColorModel[1], db.mainFrame.bgColorModel[2], db.mainFrame.bgColorModel[3], db.mainFrame.bgColorModel[4])
 	frame:SetScale(db.mainFrame.scale)
 
 	CONTAINER_ITEM_TEXT_BG_COLOR.r = db.content.bgColor[1]
@@ -697,7 +697,7 @@ function SVF.RefreshStyle()
 	CONTAINER_ITEM_TEXT_COLOR.a = db.content.textColor[4]
 	CONTAINER_ITEM_TEXT_COLOR.font = db.content.textFont
 	CONTAINER_ITEM_TEXT_COLOR.fontSize = db.content.textSize
-	
+
 	CONTAINER_TOP_BOTTOM_TEXT_BG_COLOR.r = db.contentTopBottom.bgColor[1]
 	CONTAINER_TOP_BOTTOM_TEXT_BG_COLOR.g = db.contentTopBottom.bgColor[2]
 	CONTAINER_TOP_BOTTOM_TEXT_BG_COLOR.b = db.contentTopBottom.bgColor[3]
@@ -709,7 +709,7 @@ function SVF.RefreshStyle()
 	CONTAINER_TOP_BOTTOM_TEXT_COLOR.a = db.contentTopBottom.textColor[4]
 	CONTAINER_TOP_BOTTOM_TEXT_COLOR.font = db.contentTopBottom.textFont
 	CONTAINER_TOP_BOTTOM_TEXT_COLOR.fontSize = db.contentTopBottom.textSize
-	
+
 	-- update existing
 	for i = 1, #SVF.frame.containerFrame.content do
 		local frame = SVF.frame.containerFrame.content[i]
@@ -723,8 +723,6 @@ function SVF.RefreshStyle()
 	for i = 1, #SVF.frame.containerFrame.bottomFrame.content do
 		SVF.frame.containerFrame.bottomFrame.content[i]:SetColors(SVF.frame.containerFrame.bottomFrame.content[i].set_bgColor, SVF.frame.containerFrame.bottomFrame.content[i].set_textColor)
 	end
-
-	
 end
 
 function SVF:ShowPreviewSet()

@@ -1,10 +1,16 @@
-## Interface: 11504,11505
-## Title: 新手盒子数据同步插件
+## Interface: 110100
 ## Author: WclBox.COM
-## X-Website: https://www.wclbox.com
 ## Version: 1.0.8
+
+## Title: 新手盒子数据同步插件
+## Title-zhCN: |cFFFFE00A<|r|cFFFFFFFF辅助|r|cFFFFE00A>|r |cFFFFFFFF新手盒子|r |cFFFFE00ANewBeeBox|r
+## Notes-zhCN: 新手盒子数据统计
+
 ## DefaultState: Enabled
+
 ## SavedVariables: WclBoxGlobal
 ## SavedVariablesPerCharacter: WclBoxCharacter
+
+## X-Website: https://www.wclbox.com
 
 WclBox.lua

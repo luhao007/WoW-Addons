@@ -12,10 +12,10 @@ local db
 local tonumber = tonumber
 local assert = assert
 local next, wipe, tab_remove = next, wipe, table.remove
-local format, split = string.format, string.split
+local split = string.split
 
 -- WoW
-local GetItemInfo, IsEquippableItem = GetItemInfo, IsEquippableItem
+local GetItemInfo, IsEquippableItem = C_Item.GetItemInfo, C_Item.IsEquippableItem
 local IsAzeriteItem = C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID
 
 -- AL
@@ -32,46 +32,46 @@ function Item.OnSet(button, second)
 	if not ItemClickHandler then
 		db = AtlasLoot.db.Button.Item
 		ItemClickHandler = ClickHandler:Add(
-		"Item",
-		{
-			ChatLink = { "LeftButton", "Shift" },
-			DressUp = { "LeftButton", "Ctrl" },
-			Azerite = { "RightButton", "Shift" },
-			types = {
-				ChatLink = true,
-				DressUp = true,
-				Azerite = true,
+			"Item",
+			{
+				ChatLink = { "LeftButton", "Shift" },
+				DressUp = { "LeftButton", "Ctrl" },
+				Azerite = { "RightButton", "Shift" },
+				types = {
+					ChatLink = true,
+					DressUp = true,
+					Azerite = true,
+				},
 			},
-		},
-		db.ClickHandler, 
-		{
-			{ "ChatLink", 	AL["Chat Link"], 	AL["Add item into chat"] },
-			{ "DressUp", 	AL["Dress up"], 	AL["Shows the item in the Dressing room"] },
-			{ "Azerite", 	"Azerite", 	"Azerite" },
-		})
+			db.ClickHandler,
+			{
+				{ "ChatLink", AL["Chat Link"], AL["Add item into chat"] },
+				{ "DressUp",  AL["Dress up"],  AL["Shows the item in the Dressing room"] },
+				{ "Azerite",  "Azerite",       "Azerite" },
+			})
 		-- create item colors
-		for i=0,7 do 
-			local _, _, _, itemQuality = GetItemQualityColor(i)
+		for i = 0, 7 do
+			local _, _, _, itemQuality = C_Item.GetItemQualityColor(i)
 			ITEM_COLORS[i] = itemQuality
 		end
 	end
 	if not button then return end
 	if second and button.__atlaslootinfo.secType then
-		if button.ItemID and IsAzeriteItem(button.ItemID) then 
+		if button.ItemID and IsAzeriteItem(button.ItemID) then
 			button.__atlaslootinfo.secType = nil
 			button.secButton:Hide()
 		else
 			if type(button.__atlaslootinfo.secType[2]) == "table" then
 				button.secButton.ItemID = button.__atlaslootinfo.secType[2].itemID or tonumber(tab_remove(button.__atlaslootinfo.secType[2], 1))
-				button.secButton.ItemString = button.__atlaslootinfo.secType[2].itemString or GetItemStringWithBonus(button.secButton.ItemID, button.__atlaslootinfo.secType[2], button.__atlaslootinfo.ItemDifficulty, AtlasLoot.GUI.ItemFrame.ItemBaseLvl )
+				button.secButton.ItemString = button.__atlaslootinfo.secType[2].itemString or GetItemStringWithBonus(button.secButton.ItemID, button.__atlaslootinfo.secType[2], button.__atlaslootinfo.ItemDifficulty, AtlasLoot.GUI.ItemFrame.ItemBaseLvl)
 			else
 				button.secButton.ItemID = button.__atlaslootinfo.secType[2]
-				if button.__atlaslootinfo.preSet and button.__atlaslootinfo.preSet.Item and ( button.__atlaslootinfo.preSet.Item.item2bonus or button.__atlaslootinfo.ItemDifficulty ) then
+				if button.__atlaslootinfo.preSet and button.__atlaslootinfo.preSet.Item and (button.__atlaslootinfo.preSet.Item.item2bonus or button.__atlaslootinfo.ItemDifficulty) then
 					button.secButton.ItemString = GetItemStringWithBonus(button.ItemID, button.__atlaslootinfo.preSet.Item.item2bonus, button.__atlaslootinfo.ItemDifficulty, AtlasLoot.GUI.ItemFrame.ItemBaseLvl)
 				end
 			end
 			button.secButton.Droprate = button.__atlaslootinfo.Droprate
-			
+
 			Item.Refresh(button.secButton)
 		end
 	else
@@ -80,7 +80,7 @@ function Item.OnSet(button, second)
 			button.ItemString = button.__atlaslootinfo.type[2].itemString or GetItemStringWithBonus(button.ItemID, button.__atlaslootinfo.type[2], button.__atlaslootinfo.ItemDifficulty, AtlasLoot.GUI.ItemFrame.ItemBaseLvl)
 		else
 			button.ItemID = button.__atlaslootinfo.type[2]
-			if button.__atlaslootinfo.preSet and button.__atlaslootinfo.preSet.Item and ( button.__atlaslootinfo.preSet.Item.item1bonus or button.__atlaslootinfo.ItemDifficulty ) then
+			if button.__atlaslootinfo.preSet and button.__atlaslootinfo.preSet.Item and (button.__atlaslootinfo.preSet.Item.item1bonus or button.__atlaslootinfo.ItemDifficulty) then
 				button.ItemString = GetItemStringWithBonus(button.ItemID, button.__atlaslootinfo.preSet.Item.item1bonus, button.__atlaslootinfo.ItemDifficulty, AtlasLoot.GUI.ItemFrame.ItemBaseLvl)
 			end
 		end
@@ -91,7 +91,7 @@ end
 
 function Item.OnMouseAction(button, mouseButton)
 	if not mouseButton then return end
-	
+
 	mouseButton = ItemClickHandler:Get(mouseButton) or mouseButton
 	if mouseButton == "ChatLink" then
 		local itemInfo, itemLink = GetItemInfo(button.ItemString or button.ItemID)
@@ -103,18 +103,18 @@ function Item.OnMouseAction(button, mouseButton)
 		if itemLink then
 			DressUpItemLink(itemLink)
 		end
-	elseif mouseButton == "MouseWheelUp" and Item.previewTooltipFrame and Item.previewTooltipFrame:IsShown() then  -- ^
+	elseif mouseButton == "MouseWheelUp" and Item.previewTooltipFrame and Item.previewTooltipFrame:IsShown() then -- ^
 		local frame = Item.previewTooltipFrame.modelFrame
-		if IsAltKeyDown() then -- model zoom
+		if IsAltKeyDown() then                                                                                 -- model zoom
 			frame.zoomLevelNew = frame.zoomLevelNew + 0.1 >= frame.maxZoom and frame.maxZoom or frame.zoomLevelNew + 0.1
 			frame:SetPortraitZoom(frame.zoomLevelNew)
 		else -- model rotation
 			frame.curRotation = frame.curRotation + 0.1
 			frame:SetRotation(frame.curRotation)
 		end
-	elseif mouseButton == "MouseWheelDown" and Item.previewTooltipFrame and Item.previewTooltipFrame:IsShown() then	-- v
+	elseif mouseButton == "MouseWheelDown" and Item.previewTooltipFrame and Item.previewTooltipFrame:IsShown() then -- v
 		local frame = Item.previewTooltipFrame.modelFrame
-		if IsAltKeyDown() then -- model zoom
+		if IsAltKeyDown() then                                                                                   -- model zoom
 			frame.zoomLevelNew = frame.zoomLevelNew - 0.1 <= frame.minZoom and frame.minZoom or frame.zoomLevelNew - 0.1
 			frame:SetPortraitZoom(frame.zoomLevelNew)
 		else -- model rotation
@@ -126,11 +126,10 @@ function Item.OnMouseAction(button, mouseButton)
 		itemLink = itemLink or button.ItemString
 		HandleModifiedItemClick(GetFixedLink(itemLink or "item:"..button.ItemID))
 	end
-	
 end
 
 function Item.OnEnter(button, owner)
-	local tooltip = GetAlTooltip() 
+	local tooltip = GetAlTooltip()
 	tooltip:ClearLines()
 	itemIsOnEnter = tooltip
 	if owner and type(owner) == "table" then
@@ -198,24 +197,24 @@ function Item.Refresh(button)
 
 	if button.type == "secButton" then
 		button:SetNormalTexture(itemTexture or "Interface\\Icons\\INV_Misc_QuestionMark")
-	else	
+	else
 		-- ##################
 		-- icon
 		-- ##################
 		button.icon:SetTexture(itemTexture or "Interface\\Icons\\INV_Misc_QuestionMark")
-		
+
 		-- ##################
 		-- name
 		-- ##################
 		button.name:SetText("|c"..ITEM_COLORS[itemQuality or 0]..itemName)
-		
+
 		-- ##################
 		-- description
 		-- ##################
 		button.extra:SetText(GetItemDescInfo(itemEquipLoc, itemType, itemSubType))
 	end
 	if db.showCompletedHook then
-		itemCount = GetItemCount(button.ItemString, true)
+		local itemCount = C_Item.GetItemCount(button.ItemString, true)
 		if itemCount and itemCount > 0 then
 			button.completed:Show()
 		end
@@ -239,12 +238,12 @@ end
 --################################
 function Item.ShowQuickDressUp(itemLink, ttFrame)
 	if not itemLink or not IsEquippableItem(itemLink) then return end
-	if not Item.previewTooltipFrame then 
+	if not Item.previewTooltipFrame then
 		local name = "AtlasLoot-SetToolTip"
 		local frame = CreateFrame("Frame", name)
 		frame:SetClampedToScreen(true)
 		frame:SetSize(230, 280)
-		
+
 		frame.modelFrame = CreateFrame("DressUpModel", name.."-ModelFrame", frame, BackdropTemplateMixin and "BackdropTemplate" or nil)
 		frame.modelFrame:ClearAllPoints()
 		frame.modelFrame:SetParent(frame)
@@ -252,7 +251,7 @@ function Item.ShowQuickDressUp(itemLink, ttFrame)
 		frame.modelFrame.defaultRotation = MODELFRAME_DEFAULT_ROTATION
 		frame.modelFrame:SetRotation(MODELFRAME_DEFAULT_ROTATION)
 		frame.modelFrame:SetBackdrop(ALPrivate.BOX_BORDER_BACKDROP)
-		frame.modelFrame:SetBackdropColor(0,0,0,1)
+		frame.modelFrame:SetBackdropColor(0, 0, 0, 1)
 		frame.modelFrame:SetUnit("player")
 		frame.modelFrame.minZoom = 0
 		frame.modelFrame.maxZoom = 1.0
@@ -268,39 +267,39 @@ function Item.ShowQuickDressUp(itemLink, ttFrame)
 			f.zoomLevel = f.minZoom
 			f:SetPortraitZoom(f.zoomLevel)
 		end)
-		
+
 		Item.previewTooltipFrame = frame
 		frame:Hide()
 	end
-	
+
 	local frame = Item.previewTooltipFrame
-	
+
 	-- calculate point for frame
-	local x,y = ttFrame:GetOwner():GetCenter()
+	local x, y = ttFrame:GetOwner():GetCenter()
 	local fPoint, oPoint = "BOTTOMLEFT", "TOPRIGHT"
-	
-	if y/GetScreenHeight() > 0.3 then
+
+	if y / GetScreenHeight() > 0.3 then
 		fPoint, oPoint = "TOP", "BOTTOM"
 	else
 		fPoint, oPoint = "BOTTOM", "TOP"
 	end
-	if x/GetScreenWidth() > 0.5 then
+	if x / GetScreenWidth() > 0.5 then
 		fPoint, oPoint = fPoint.."LEFT", oPoint.."LEFT"
 	else
 		fPoint, oPoint = fPoint.."RIGHT", oPoint.."RIGHT"
 	end
-	
+
 	frame:Show()
-	
+
 	frame:ClearAllPoints()
 	frame:SetParent(ttFrame:GetOwner():GetParent())
 	frame:SetFrameStrata("TOOLTIP")
 	frame:SetPoint(fPoint, ttFrame, oPoint)
-	
+
 	frame = Item.previewTooltipFrame.modelFrame
 	frame:Reset()
 	--frame:Undress()
-	local info = {GetItemInfo(itemLink)}
+	local info = { GetItemInfo(itemLink) }
 	if not (info[9] == "INVTYPE_CLOAK") then
 		frame:SetRotation(frame.curRotation)
 	else
@@ -325,13 +324,13 @@ local function EventFrame_OnEvent(frame, event, arg1, arg2)
 			end
 			button_list[arg1] = nil
 		end
-	
+
 		if not next(button_list) then
 			frame:UnregisterEvent("GET_ITEM_INFO_RECEIVED")
 		end
 	elseif event == "MODIFIER_STATE_CHANGED" then
 		if itemIsOnEnter then
-			-- arg2: 1 for pressed, 0 (not nil!) for released 
+			-- arg2: 1 for pressed, 0 (not nil!) for released
 			if arg2 == 1 then
 				if arg1 == "LSHIFT" or arg1 == "RSHIFT" then
 					GameTooltip_ShowCompareItem(itemIsOnEnter)
@@ -360,7 +359,7 @@ function Query:Add(button)
 	if not button_list[button.ItemID] then
 		button_list[button.ItemID] = { button }
 	else
-		button_list[button.ItemID][#button_list[button.ItemID]+1] = button
+		button_list[button.ItemID][#button_list[button.ItemID] + 1] = button
 	end
 end
 
