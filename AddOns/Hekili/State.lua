@@ -1227,7 +1227,7 @@ local function summonPet( name, duration, spec )
     local model = class.pets[ name ]
 
     if model then
-        state.pet[ name ].id = type( model.id ) == "function" and model.id() or id
+        state.pet[ name ].model = model  -- access id dynamically via metatable
         if ( type( model.duration ) == "function" and model.duration() or model.duration ) == 3600 then
             state.pet.alive = true
         end
@@ -1235,11 +1235,6 @@ local function summonPet( name, duration, spec )
 
     if spec then
         state.pet[ name ].spec = spec
-
-        for k, v in pairs( state.pet ) do
-            if type(v) == "boolean" then state.pet[k] = false end
-        end
-
         state.pet[ spec ] = state.pet[ name ]
     end
 end
@@ -2317,7 +2312,7 @@ do
             elseif k == "executing" then return t:IsCasting( action ) or ( t.prev[ 1 ][ action ] and t.gcd.remains > 0 )
             elseif k == "full_recharge_time" or k == "time_to_max_charges" then return cooldown.full_recharge_time
             elseif k == "hardcast" then return false -- will set to true if/when a spell is hardcast.
-            elseif k == "in_flight" then return model and model.in_flight or false
+            elseif k == "in_flight" or k == "in_flight_to_target" then return model and model.in_flight or false
             elseif k == "in_flight_remains" then return model and model.in_flight_remains or 0
             elseif k == "in_range" then return model.in_range
             elseif k == "recharge" then return cooldown.recharge
@@ -2555,8 +2550,6 @@ local mt_stat = {
 }
 ns.metatables.mt_stat = mt_stat
 
-
-
 -- Table of pet data.
 local mt_default_pet, mt_pets
 do
@@ -2570,6 +2563,7 @@ do
     -- Table of default handlers for specific pets/totems.
     mt_default_pet = {
         __index = function( t, k )
+
             if k == "expires" then
                 local totemIcon = rawget( t, "icon" )
 
@@ -2609,13 +2603,16 @@ do
                 end
 
                 local petGUID = UnitGUID( "pet" )
-                if petGUID and t.id == tonumber( petGUID:match( "%-(%d+)%-[0-9A-F]+$" ) ) then
+                petGUID = petGUID and tonumber( petGUID:match( "%-(%d+)%-[0-9A-F]+$" ) )
+                
+                local id = t.id
+                if petGUID and id == petGUID and UnitHealth( "pet" ) > 0 then
                     t.expires = state.query_time + 3600
-                    return t.expires
+                else
+                    t.expires = 0
                 end
-
-                t.expires = 0
-                return 0
+                return t.expires
+                
 
             elseif k == "remains" then
                 return max( 0, t.expires - ( state.query_time ) )
@@ -2672,16 +2669,46 @@ do
 
     mt_pets = {
         __index = function( t, k )
+            local guid = UnitGUID( "pet" )
+
+            if rawget( t, "__last_pet_guid" ) ~= guid then
+                rawset( t, "__last_pet_guid", guid )
+                rawset( t, "real_pet", nil )
+
+                for alias, petData in pairs( class.pets ) do
+                    local token = petData.token or alias
+                    local entry = rawget( t, token )
+                    if entry and type( entry ) == "table" then
+                        rawset( entry, "expires", 0 )
+                    end
+                end
+            end
+
             if not rawget( t, "real_pet" ) then
                 local key
                 local petID = UnitGUID( "pet" )
 
                 if petID then
                     petID = tonumber( petID:match( "%-(%d+)%-[0-9A-F]+$" ) )
-                    local model = class.pets[ petID ]
+                    local model, token
+                    -- Try direct alias match first
+                    model = class.pets[ petID ]
+                    if model then
+                        token = model.token or petID
+                    else
+                        -- Fall back to checking .id from each registered pet
+                        for k, v in pairs( class.pets ) do
+                            local id = type( v.id ) == "function" and v.id() or v.id
+                            if id == petID then
+                                model = v
+                                token = v.token or k
+                                break
+                            end
+                        end
+                    end
 
                     if model then
-                        key = model.token
+                        key = token
                         local spell = model.spell
                         local ability = spell and class.abilities[ spell ]
                         local lastCast = ability and ability.lastCast or 0
@@ -2693,9 +2720,15 @@ do
                             summonPet( key )
                         end
                     end
+
                 end
 
-                t.real_pet = key or "fake_pet"
+                t.real_pet = key or rawget( t, "real_pet" ) or "fake_pet"
+                if key == nil then
+                    if Hekili.ActiveDebug then
+                        Hekili:Debug( "Failed to resolve pet ID %s to any registered pet.", tostring( petID ) )
+                    end
+                end
             end
 
             if k == "up" or k == "exists" or k == "active" then
@@ -2853,6 +2886,7 @@ do
         is_in_party = 1,
         is_in_raid = 1,
         is_player = 1,
+        is_dummy = 1,
         is_undead = 1,
         level = 1,
         moving = 1,
@@ -2876,6 +2910,7 @@ do
     } )
 
     local PvpDummies = ns.PvpDummies
+    local TargetDummies = ns.TargetDummies
 
     mt_target = {
         __index = function( t, k )
@@ -2936,6 +2971,7 @@ do
                 if not isPlayer then isPlayer = PvpDummies[ t.npcid ] end
                 t[k] = isPlayer or false -- Enables proper treatment of Absolute Corruption and similar modified-in-PvP effects.
 
+            elseif k == "is_dummy" then t[k] = ( TargetDummies[ t.npcid ] ~= nil )
             elseif k == "is_undead" then t[k] = UnitCreatureType( "target" ) == BATTLE_PET_NAME_4
 
             elseif k == "level" then t[k] = UnitLevel( "target" ) or UnitLevel( "player" ) or MAX_PLAYER_LEVEL
@@ -4749,39 +4785,34 @@ do
     } )
 end
 
-
-
 -- Table of set bonuses. Some string manipulation to honor the SimC syntax.
 -- Currently returns 1 for true, 0 for false to be consistent with SimC conditionals.
 -- Won't catch fake set names. Should revise.
 local mt_set_bonuses = {
-    __index = function(t, k)
-        if type(k) == "number" then return 0 end
+    __index = function( t, k )
+        if type( k ) == "number" then return 0 end
 
-        -- if ( not class.artifacts[ k ] ) and ( state.bg or state.arena ) then return 0 end
+        -- Aliases to account for syntax differences across specs in SimC
+        local aliasMap = {
+            thewarwithin_season_2 = "tww2",
+            -- room for more in future tiers
+        }
 
-        local set, pieces, class = k:match("^(.-)_"), tonumber( k:match("_(%d+)pc") ), k:match("pc(.-)$")
+        -- Match suffix pattern like tww2_2pc, tww2_4pc, thewarwithin_season_2_2pc, etc.
+        local rawSet, pieces = k:match( "^([%w_]+)_([24])pc$" )
+        if rawSet and pieces then
+            local set = aliasMap[ rawSet ] or rawSet
+            pieces = tonumber( pieces )
 
-        if not pieces or not set then
-            -- This wasn't a tier set bonus.
-            return 0
-
-        else
-            if class then set = set .. class end
-
-            if not t[set] then
-                return 0
-            end
-
-            return t[set] >= pieces and 1 or 0
+            if not t[ set ] then return 0 end
+            return t[ set ] >= pieces and 1 or 0
         end
 
+        -- Non-matching or malformed key
         return 0
-
     end
 }
 ns.metatables.mt_set_bonuses = mt_set_bonuses
-
 
 local mt_equipped = {
     __index = function(t, k)
@@ -5267,6 +5298,9 @@ local mt_default_action = {
         elseif k == "ready" then
             return state:IsUsable( t.action ) and state:IsReady( t.action )
 
+        elseif k == "usable_in" then
+            return state.cooldown[ t.action ].remains
+
         elseif k == "cast_time" then
             return ability.cast
 
@@ -5342,7 +5376,7 @@ local mt_default_action = {
             if type( a ) == "string" then return a end
             return class.primaryResource
 
-        elseif k == "in_flight" then
+        elseif k == "in_flight" or k == "in_flight_to_target" then
             if ability.flightTime then
                 return ability.lastCast + max( ability.flightTime, 0.25 ) > state.query_time
             end
@@ -7780,8 +7814,6 @@ function state:IsReadyNow( action )
     return true
 end
 
-
-
 function state:ClashOffset( action )
     local a = class.abilities[ action ]
     if not a then return 0 end
@@ -7794,7 +7826,6 @@ function state:ClashOffset( action )
 
     return ns.callHook( "clash", option.clash, action )
 end
-
 
 for k, v in pairs( state ) do
     ns.commitKey( k )

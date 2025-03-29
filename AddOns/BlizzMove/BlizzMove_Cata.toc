@@ -1,6 +1,6 @@
 ## Interface: 110100
 ## Author: Kiatra, zaCade, Numy - github.com/Kiatra/BlizzMove/
-## Version: v3.6.13
+## Version: v3.6.14
 
 ## Title: BlizzMove
 ## Notes: Makes blizzard frames movable
@@ -20,6 +20,7 @@
 Libs\Libs.xml
 
 # Add-On
+Locale\Locale.xml
 BlizzMove.lua
 BlizzMoveAPI.lua
 BlizzMoveConfig.lua

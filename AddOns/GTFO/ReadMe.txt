@@ -2209,3 +2209,40 @@ Change Log:
 * Updated TOC for WoW Cataclysm 4.4.2
 * Updated TOC for WoW Classic 1.15.6
 * Added The War Within spells (world)
+
+5.15.3
+* Added The War Within spells (world)
+* Added TWW spells for TWW Delves 
+* Added TWW spells for Liberation of Undermine
+* Added TWW spells for Priory of the Scared Flame
+* Added TWW spells for The Rookery
+* Added SL spells for Theater of Pain
+
+5.15.4
+* Fixed TWW spells for Liberation of Undermine
+* Added TWW spells for Liberation of Undermine
+
+5.16
+* Added The War Within spells (world)
+* Added TWW spells for Liberation of Undermine
+* Added TWW spells for TWW Delves
+* Added TWW spells for Cinderbrew Meadery
+* Added TWW spells for Operation: Floodgate
+* Added BFA spells for The MOTHERLODE!!
+* Added BFA spells for Operation: Mechagon
+
+5.16.1
+* Added TWW spells for Liberation of Undermine
+* Added TWW spells for TWW Delves
+* Added TWW spells for Darkflame Cleft
+* Added Pandaria spells for Temple of the Jade Serpent
+* Fixed WoD spells for Hellfire Citadel
+
+5.16.2
+* Added TWW spells for Liberation of Undermine
+
+5.16.3
+* Fixed TWW spells for Liberation of Undermine (Thanks Aparratchic)
+* Fixed The War Within spells (world)
+* Added TWW spells for Liberation of Undermine
+* Added TWW spells for TWW Delves

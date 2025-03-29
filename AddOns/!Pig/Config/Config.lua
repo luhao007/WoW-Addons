@@ -7,6 +7,7 @@ local PIGButton = Create.PIGButton
 local PIGOptionsList=Create.PIGOptionsList
 local PIGFontString=Create.PIGFontString
 local Fun=addonTable.Fun
+local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 --------------
 local function Config_format(DQPEIZHI,Def)
 	for k,v in pairs(Def) do
@@ -103,9 +104,9 @@ function addonTable.Set_Name_Realm()
 	Pig_OptionsUI.RaceData = {["raceName"]=raceName,["raceFile"]=raceFile,["raceId"]=raceId}
 	Pig_OptionsUI.AllNameElvUI = format('%s - %s', wanjia, realm)
 	Pig_OptionsUI.IsOpen_ElvUI=function(vf1)
-		if ElvUI then
-			if ElvPrivateDB then
-				if ElvPrivateDB["profiles"] then
+		if IsAddOnLoaded("ElvUI") then
+			if vf1 then
+				if ElvPrivateDB and ElvPrivateDB["profiles"] then
 					if ElvPrivateDB["profiles"][Pig_OptionsUI.AllNameElvUI] then
 						if ElvPrivateDB["profiles"][Pig_OptionsUI.AllNameElvUI][vf1] then
 							if ElvPrivateDB["profiles"][Pig_OptionsUI.AllNameElvUI][vf1]["enable"]==false then
@@ -114,22 +115,29 @@ function addonTable.Set_Name_Realm()
 						end
 					end
 				end
+				return true
+			else
+				return true
 			end
-			return true
+		else
+			return false
 		end
-		return false
 	end
 	Pig_OptionsUI.IsOpen_NDui=function(vf1)
-		if NDui then
-			if NDuiDB then
-				if NDuiDB[vf1] then
+		if IsAddOnLoaded("NDui") then
+			if vf1 then
+				if NDuiDB and NDuiDB[vf1] then
 					if NDuiDB[vf1]["Enable"] then
 						return true
 					end
 				end
+				return false
+			else
+				return true
 			end
+		else
+			return false
 		end
-		return false
 	end
 end
 ---------

@@ -1,6 +1,6 @@
 ## Interface: 110100
 ## Author: Nevcairiel
-## Version: 1.12.3
+## Version: 1.12.4
 
 ## Title: Mapster
 ## Notes: Simple Map Mod

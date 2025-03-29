@@ -1712,12 +1712,12 @@ function FramePlusfun.Character_Shuxing()
 				local DodgeChanceV = GetDodgeChance()
 				CharacterSetText(shuxingF.fuji.CategoryF_4.hang_1,Round(DodgeChanceV).."%")
 				shuxingF.fuji.CategoryF_4.hang_1.tooltip2=DODGE_CHANCE..": "..Round(DodgeChanceV).."%"
-				local BlockChanceV = GetBlockChance()
-				CharacterSetText(shuxingF.fuji.CategoryF_4.hang_2,Round(BlockChanceV).."%")
-				shuxingF.fuji.CategoryF_4.hang_2.tooltip2=PARRY_CHANCE..": "..Round(BlockChanceV).."%"
 				local ParryChanceV = GetParryChance()
-				CharacterSetText(shuxingF.fuji.CategoryF_4.hang_3,Round(ParryChanceV).."%")
-				shuxingF.fuji.CategoryF_4.hang_3.tooltip2=BLOCK_CHANCE..": "..Round(ParryChanceV).."%"
+				CharacterSetText(shuxingF.fuji.CategoryF_4.hang_2,Round(ParryChanceV).."%")
+				shuxingF.fuji.CategoryF_4.hang_2.tooltip2=PARRY_CHANCE..": "..Round(ParryChanceV).."%"
+				local BlockChanceV = GetBlockChance()
+				CharacterSetText(shuxingF.fuji.CategoryF_4.hang_3,Round(BlockChanceV).."%")
+				shuxingF.fuji.CategoryF_4.hang_3.tooltip2=BLOCK_CHANCE..": "..Round(BlockChanceV).."%"
 				local base, effectiveArmor, armor, posBuff, negBuff = UnitArmor("player");
 				local playerLevel = UnitLevel("player");
 				local armorReduction = effectiveArmor/((85 * playerLevel) + 400);

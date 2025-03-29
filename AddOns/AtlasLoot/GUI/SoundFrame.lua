@@ -307,12 +307,6 @@ local function OnValueChanged(self, value)
 	UpdateScroll()
 end
 
---[[
-	SoundFrame.enableScroll
-	SoundFrame.scrollCurPos
-	SoundFrame.scrollMax
-]] --
-
 function SoundFrame:Create()
 	if self.frame then return self.frame end
 	if not SoundItemClickHandler then

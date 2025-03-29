@@ -164,7 +164,7 @@ for i=1,UIDROPDOWNMENU_MAXLEVELS do
 					end
 				end
 				local xialaMenu = fujilist.dropdown
-				xialaMenu:PIGDownMenu_Update_But(xialaMenu,newi,self.menuList)
+				xialaMenu:PIGDownMenu_Update_But(newi,self.menuList)
 				ListFff:Show()
 			end
 		end)
@@ -252,7 +252,7 @@ function Create.PIGDownMenu(fuF,Point,SizeWH,EasyMenu,UIname)
 			else
 				PIGDownList1:SetPoint("TOPLEFT",fujiFrame, "BOTTOMLEFT", 0,0);
 			end
-			fujiFrame:PIGDownMenu_Update_But(fujiFrame)
+			fujiFrame:PIGDownMenu_Update_But()
 			PIGDownList1:Show()
 		end
 	end
@@ -274,7 +274,7 @@ function Create.PIGDownMenu(fuF,Point,SizeWH,EasyMenu,UIname)
 		return self.value,self.arg1,self.arg2
 	end
 	function DownMenu:PIGDownMenu_CreateInfo()
-		DownMenu:PIGDownMenu_AddButton("null")
+		self:PIGDownMenu_AddButton("null")
 		return {}
 	end
 	function DownMenu:PIGDownMenu_AddButton(info, level)

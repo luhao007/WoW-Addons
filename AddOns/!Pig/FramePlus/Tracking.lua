@@ -61,7 +61,7 @@ function FramePlusfun.Zhuizong()
 			Zhuizong.search:Show()
 		end
 	end)
-	function Zhuizong.xiala:PIGDownMenu_Update_But(self, level, menuList)
+	function Zhuizong.xiala:PIGDownMenu_Update_But(level, menuList)
 		local spells ={1494,19883,19884,19885,19880,19878,19882,19879,5225,5500,5502,2383,2580,2481}
 		local info = {}
 		local Bufficon = GetTrackingTexture()
@@ -79,7 +79,7 @@ function FramePlusfun.Zhuizong()
 					CastSpellByID(spells[i])
 					PIGCloseDropDownMenus()
 				end
-				Zhuizong.xiala:PIGDownMenu_AddButton(info)
+				self:PIGDownMenu_AddButton(info)
 			end
 		end 
 	end

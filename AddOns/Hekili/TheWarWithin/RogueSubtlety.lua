@@ -160,7 +160,6 @@ spec:RegisterTalents( {
     unseen_blade               = {  95140, 441146, 1, "trickster" }, -- Gloomblade and Shadowstrike now also strike with an Unseen Blade dealing 62,430 damage. Targets struck are Fazed for 10 sec. Fazed enemies take 5% more damage from you and cannot parry your attacks. This effect may occur once every 20 sec.
 } )
 
-
 -- PvP Talents
 spec:RegisterPvpTalents( {
     control_is_king    = 5529, -- (354406) Cheap Shot grants Slice and Dice for 15 sec and Kidney Shot restores 10 Energy per combo point spent.
@@ -177,17 +176,13 @@ spec:RegisterPvpTalents( {
     veil_of_midnight   =  136, -- (198952) Cloak of Shadows now also removes harmful physical effects.
 } )
 
-
 -- Auras
 spec:RegisterAuras( {
     -- Disoriented.
     blind = {
         id = 2094,
         duration = function() return 60 * ( talent.airborne_irritant.enabled and 0.6 or 1 ) end,
-        max_stack = 1,
-
-        -- Affected by:
-        -- [x] airborne_irritant[200733] #1: { 'type': APPLY_AURA, 'subtype': ADD_PCT_MODIFIER, 'points': -40.0, 'target': TARGET_UNIT_CASTER, 'modifies': BUFF_DURATION, }
+        max_stack = 1
     },
     darkest_night = {
         id = 457280,
@@ -228,7 +223,7 @@ spec:RegisterAuras( {
     finality_rupture = {
         id = 385951,
         duration = 30,
-        max_stack = 1,
+        max_stack = 1
     },
     flagellation = {
         id = 323654,
@@ -244,17 +239,13 @@ spec:RegisterAuras( {
         id = 394758,
         duration = 12,
         max_stack = 30,
-        copy = 345569,
+        copy = 345569
     },
     -- Your finishing moves cost no Energy.
-    -- TODO: Does Goremaw's Bite track by value or by stacks?
     goremaws_bite = {
         id = 426593,
         duration = 30,
-        max_stack = 3,
-
-        -- Affected by:
-        -- shadow_blades[121471] #3: { 'type': APPLY_AURA, 'subtype': ADD_FLAT_MODIFIER_BY_LABEL, 'points': 6.0, 'target': TARGET_UNIT_CASTER, 'modifies': EFFECT_1_VALUE, }
+        max_stack = 3
     },
     lingering_darkness = {
         id = 457273,
@@ -269,19 +260,10 @@ spec:RegisterAuras( {
         tick_time = 1,
         max_stack = 50
     },
-    -- Marked for death, taking extra damage from @auracaster's finishing moves. Cooldown resets upon death.
-    marked_for_death = {
-        id = 137619,
-        duration = 15.0,
-        max_stack = 1,
-
-        -- Affected by:
-        -- subtlety_rogue[137035] #5: { 'type': APPLY_AURA, 'subtype': ADD_FLAT_MODIFIER, 'target': TARGET_UNIT_CASTER, 'modifies': COOLDOWN, }
-    },
     master_of_shadows = {
         id = 196980,
         duration = 3,
-        max_stack = 1,
+        max_stack = 1
     },
     perforated_veins = {
         id = 394254,
@@ -291,12 +273,12 @@ spec:RegisterAuras( {
     poised_shadows = {
         id = 455573,
         duration = 30,
-        max_stack = 1,
+        max_stack = 1
     },
     premeditation = {
         id = 343173,
         duration = 3600,
-        max_stack = 1,
+        max_stack = 1
     },
     secret_technique = {
         duration = 1.3,
@@ -321,7 +303,7 @@ spec:RegisterAuras( {
             t.duration = 1.3
             t.expires = 0
             t.caster = "nobody"
-        end,
+        end
     },
     -- Talent: Combo point generating abilities generate $s2 additional combo point and deal $s1% additional damage as Shadow.
     -- https://wowhead.com/beta/spell=121471
@@ -339,12 +321,12 @@ spec:RegisterAuras( {
     shadow_techniques = {
         id = 196911,
         duration = 3600,
-        max_stack = 14,
+        max_stack = 14
     },
     shot_in_the_dark = {
         id = 257506,
         duration = 3600,
-        max_stack = 1,
+        max_stack = 1
     },
     -- Talent: Releasing a Shuriken Storm every sec.
     -- https://wowhead.com/beta/spell=277925
@@ -361,7 +343,7 @@ spec:RegisterAuras( {
     subterfuge = {
         id = 115192,
         duration = function() return 3 * talent.subterfuge.rank end,
-        max_stack = 1,
+        max_stack = 1
     },
     supercharged_combo_points = {
         -- todo: Find a way to find a true buff / ID for this as a failsafe? Currently fully emulated.
@@ -372,7 +354,7 @@ spec:RegisterAuras( {
     symbols_of_death = {
         id = 212283,
         duration = 10,
-        max_stack = 1,
+        max_stack = 1
     },
     the_first_dance_prep = {
         id = 470677,
@@ -386,7 +368,7 @@ spec:RegisterAuras( {
         id = 470678,
         duration = 3600,
         max_stack = 1,
-        copy = "first_dance",
+        copy = "first_dance"
     },
     the_rotten = {
         id = 394203,
@@ -399,12 +381,12 @@ spec:RegisterAuras( {
     blade_in_the_shadows = {
         id = 279754,
         duration = 60,
-        max_stack = 10,
+        max_stack = 10
     },
     nights_vengeance = {
         id = 273424,
         duration = 8,
-        max_stack = 1,
+        max_stack = 1
     },
     perforate = {
         id = 277720,
@@ -428,7 +410,7 @@ spec:RegisterAuras( {
     deathly_shadows = {
         id = 341202,
         duration = 15,
-        max_stack = 1,
+        max_stack = 1
     },
     master_assassins_mark = {
         id = 340094,
@@ -437,22 +419,13 @@ spec:RegisterAuras( {
     },
 } )
 
-
-local true_stealth_change = 0
-local emu_stealth_change = 0
+local true_stealth_change, emu_stealth_change = 0, 0
+local last_mh, last_oh, last_shadow_techniques, swings_since_sht, sht = 0, 0, 0, 0, {} -- Shadow Techniques
+local danse_ends, danse_macabre_actual = 0, {}
 
 spec:RegisterEvent( "UPDATE_STEALTH", function ()
     true_stealth_change = GetTime()
 end )
-
-
-local last_mh = 0
-local last_oh = 0
-local last_shadow_techniques = 0
-local swings_since_sht = 0
-
-local danse_ends = 0
-local danse_macabre_actual = {}
 
 spec:RegisterCombatLogEvent( function( _, subtype, _, sourceGUID, sourceName, _, _, destGUID, destName, destFlags, _, spellID, spellName, _, amount, interrupt, a, b, c, d, offhand, multistrike )
     if not sourceGUID == state.GUID then return end
@@ -491,9 +464,6 @@ spec:RegisterCombatLogEvent( function( _, subtype, _, sourceGUID, sourceName, _,
         end
     end
 end )
-
-
-local sht = {}
 
 spec:RegisterStateTable( "time_to_sht", setmetatable( {}, {
     __index = function( t, k )
@@ -575,16 +545,13 @@ spec:RegisterStateTable( "time_to_sht_plus", setmetatable( {}, {
     end,
 } ) )
 
-
 spec:RegisterStateExpr( "bleeds", function ()
     return ( debuff.garrote.up and 1 or 0 ) + ( debuff.rupture.up and 1 or 0 )
 end )
 
-
 spec:RegisterStateExpr( "cp_max_spend", function ()
     return combo_points.max
 end )
-
 
 spec:RegisterStateExpr( "effective_combo_points", function ()
     local c = combo_points.current or 0
@@ -597,11 +564,6 @@ spec:RegisterStateExpr( "effective_combo_points", function ()
     if talent.coup_de_grace.enabled and this_action == "coup_de_grace" and buff.coup_de_grace.up then c = c + 5 end
     return c
 end )
-
-
--- Legendary from Legion, shows up in APL still.
-spec:RegisterGear( "cinidaria_the_symbiote", 133976 )
-spec:RegisterGear( "denial_of_the_halfgiants", 137100 )
 
 spec:RegisterHook( "spend", function( amt, resource )
     if amt > 0 and resource == "combo_points" then
@@ -628,7 +590,6 @@ spec:RegisterHook( "spend", function( amt, resource )
     end
 end )
 
-
 local Shadowcraft = setfenv( function ()
 
     if buff.shadow_techniques.stack >= combo_points.max then
@@ -653,9 +614,17 @@ end
 setfenv( st_gain, state )
 -- spec:RegisterHook( "spendResources", comboSpender )
 
+spec:RegisterStateExpr( "mantle_duration", function()
+    if stealthed.mantle then
+        return cooldown.global_cooldown.remains + buff.master_assassins_initiative.duration
+    elseif buff.master_assassins_initiative.up then
+        return buff.master_assassins_initiative.remains
+    end
+    return 0
+end )
 
-spec:RegisterStateExpr( "mantle_duration", function ()
-    return legendary.mark_of_the_master_assassin.enabled and 4 or 0
+spec:RegisterStateExpr( "ssw_refund_offset", function()
+    return target.maxR
 end )
 
 spec:RegisterStateExpr( "master_assassin_remains", function ()
@@ -665,7 +634,6 @@ spec:RegisterStateExpr( "master_assassin_remains", function ()
     elseif buff.master_assassins_mark.up then return buff.master_assassins_mark.remains end
     return 0
 end )
-
 
 -- We need to break stealth when we start combat from an ability.
 spec:RegisterHook( "runHandler", function( ability )
@@ -701,7 +669,6 @@ spec:RegisterHook( "runHandler", function( ability )
     class.abilities.apply_poison = class.abilities[ action.apply_poison_actual.next_poison ]
 end )
 
-
 local ExpireSepsis = setfenv( function ()
     applyBuff( "sepsis_buff" )
 
@@ -719,7 +686,6 @@ local TriggerLingeringShadow = setfenv( function ()
     applyBuff( "lingering_shadow" )
 end, state )
 
-
 spec:RegisterStateTable( "danse_macabre_tracker", setmetatable( {}, {
     __index = function( t, k )
         return false
@@ -730,7 +696,6 @@ spec:RegisterStateExpr( "used_for_danse", function()
     if not talent.danse_macabre.enabled or buff.shadow_dance.down then return false end
     return danse_macabre_tracker[ this_action ]
 end )
-
 
 spec:RegisterHook( "reset_precast", function( amt, resource )
 
@@ -813,92 +778,111 @@ spec:RegisterUnitEvent( "UNIT_POWER_UPDATE", "player", nil, function( event, uni
     end
 end )
 
-spec:RegisterCycle( function ()
-    if this_action == "marked_for_death" then
-        if cycle_enemies == 1 or active_dot.marked_for_death >= cycle_enemies then return end -- As far as we can tell, MfD is on everything we care about, so we don't cycle.
-        if debuff.marked_for_death.up then return "cycle" end -- If current target already has MfD, cycle.
-        if target.time_to_die > 3 + Hekili:GetLowestTTD() and active_dot.marked_for_death == 0 then return "cycle" end -- If our target isn't lowest TTD, and we don't have to worry that the lowest TTD target is already MfD'd, cycle.
-    end
-end )
-
-spec:RegisterGear( "insignia_of_ravenholdt", 137049 )
-spec:RegisterGear( "mantle_of_the_master_assassin", 144236 )
-    spec:RegisterAura( "master_assassins_initiative", {
-        id = 235027,
-        duration = 5
-    } )
-
-    spec:RegisterStateExpr( "mantle_duration", function()
-        if stealthed.mantle then return cooldown.global_cooldown.remains + buff.master_assassins_initiative.duration
-        elseif buff.master_assassins_initiative.up then return buff.master_assassins_initiative.remains end
-        return 0
-    end )
-
-
-spec:RegisterGear( "shadow_satyrs_walk", 137032 )
-    spec:RegisterStateExpr( "ssw_refund_offset", function()
-        return target.maxR
-    end )
-
-spec:RegisterGear( "soul_of_the_shadowblade", 150936 )
-spec:RegisterGear( "the_dreadlords_deceit", 137021 )
-    spec:RegisterAura( "the_dreadlords_deceit", {
-        id = 228224,
-        duration = 3600,
-        max_stack = 20,
-        copy = 208693
-    } )
-
-spec:RegisterGear( "the_first_of_the_dead", 151818 )
-    spec:RegisterAura( "the_first_of_the_dead", {
-        id = 248210,
-        duration = 2
-    } )
-
-spec:RegisterGear( "will_of_valeera", 137069 )
-    spec:RegisterAura( "will_of_valeera", {
-        id = 208403,
-        duration = 5
-    } )
-
-
-
---- The War Within
-spec:RegisterGear( "tww1", 212039, 212037, 212041, 212038, 212036 )
-spec:RegisterGear( "tww2", 229290, 229288, 229289, 229287, 229292 )
-spec:RegisterAuras( {
-    -- 2-set
-    -- https://www.wowhead.com/spell=1218439
-    -- Winning Streak!  
-    winning_streak = {
-        id = 121843,
-        duration = 3600,
-        max_stack = 10,
+spec:RegisterGear({
+    -- The War Within
+    tww2 = {
+        items = { 229290, 229288, 229289, 229287, 229292 },
+        auras = {
+            -- 2-set
+            -- https://www.wowhead.com/spell=1218439
+            winning_streak = {
+                id = 121843,
+                duration = 3600,
+                max_stack = 8
+            }
+        }
     },
-} )
-
--- DF Tier Set
-spec:RegisterGear( "tier31", 207234, 207235, 207236, 207237, 207239, 217208, 217210, 217206, 217207, 217209 )
-spec:RegisterGear( "tier30", 202500, 202498, 202497, 202496, 202495 )
-spec:RegisterGear( "tier29", 200369, 200371, 200372, 200373, 200374 )
-spec:RegisterAuras( {
-    honed_blades = {
-        id = 394894,
-        duration = 15,
-        max_stack = 7 -- ???
+    tww1 = {
+        items = { 212039, 212037, 212041, 212038, 212036 }
     },
-    masterful_finish = {
-        id = 395003,
-        duration = 3,
-        max_stack = 1
+    -- Dragonflight
+    tier31 = {
+        items = { 207234, 207235, 207236, 207237, 207239, 217208, 217210, 217206, 217207, 217209 }
+    },
+    tier30 = {
+        items = { 202500, 202498, 202497, 202496, 202495 }
+    },
+    tier29 = {
+        items = { 200369, 200371, 200372, 200373, 200374 },
+        auras = {
+            honed_blades = {
+                id = 394894,
+                duration = 15,
+                max_stack = 7
+            },
+            masterful_finish = {
+                id = 395003,
+                duration = 3,
+                max_stack = 1
+            }
+        }
+    },
+
+    -- Legion / Old Sets / Other
+    tier21 = {
+        items = { 152163, 152165, 152161, 152160, 152162, 152164 }
+    },
+    tier20 = {
+        items = { 147172, 147174, 147170, 147169, 147171, 147173 }
+    },
+    tier19 = {
+        items = { 138332, 138338, 138371, 138326, 138329, 138335 }
+    },
+
+    mantle_of_the_master_assassin = {
+        items = { 144236 },
+        auras = {
+            master_assassins_initiative = {
+                id = 235027,
+                duration = 5
+            }
+        }
+    },
+    shadow_satyrs_walk = {
+        items = { 137032 }
+    },
+    soul_of_the_shadowblade = {
+        items = { 150936 }
+    },
+    the_dreadlords_deceit = {
+        items = { 137021 },
+        auras = {
+            the_dreadlords_deceit = {
+                id = 228224,
+                duration = 3600,
+                max_stack = 20,
+                copy = 208693
+            }
+        }
+    },
+    the_first_of_the_dead = {
+        items = { 151818 },
+        auras = {
+            the_first_of_the_dead = {
+                id = 248210,
+                duration = 2
+            }
+        }
+    },
+    will_of_valeera = {
+        items = { 137069 },
+        auras = {
+            will_of_valeera = {
+                id = 208403,
+                duration = 5
+            }
+        }
+    },
+    insignia_of_ravenholdt = {
+        items = { 137049 }
+    },
+    cinidaria_the_symbiote = {
+        items = { 133976 }
+    },
+    denial_of_the_halfgiants = {
+        items = { 137100 }
     }
-})
-
--- Old Tier Sets
-spec:RegisterGear( "tier21", 152163, 152165, 152161, 152160, 152162, 152164 )
-spec:RegisterGear( "tier20", 147172, 147174, 147170, 147169, 147171, 147173 )
-spec:RegisterGear( "tier19", 138332, 138338, 138371, 138326, 138329, 138335 )
-
+} )
 
 -- Abilities
 spec:RegisterAbilities( {
@@ -995,9 +979,9 @@ spec:RegisterAbilities( {
 
             spend( combo_points.current, "combo_points" )
             if talent.shadowcraft.enabled and buff.symbols_of_death.up then Shadowcraft() end
-   
+
             if talent.deeper_daggers.enabled or conduit.deeper_daggers.enabled then applyBuff( "deeper_daggers" ) end
-        end,
+        end
     },
 
     -- Stuns the target for 4 sec. Awards 1 combo point.
@@ -1036,7 +1020,7 @@ spec:RegisterAbilities( {
             removeBuff( "premeditation" )
 
             if buff.the_rotten.up then removeStack( "the_rotten" ) end
-        end,
+        end
     },
 
     -- Finishing move that disembowels the target, causing damage per combo point. Targets with Find Weakness suffer an additional 20% damage as Shadow. 1 point : 273 damage 2 points: 546 damage 3 points: 818 damage 4 points: 1,091 damage 5 points: 1,363 damage 6 points: 1,636 damage
@@ -1127,8 +1111,6 @@ spec:RegisterAbilities( {
         bind = "eviscerate"
     },
 
-
-
     -- TODO: Does Flagellation generate combo points with Shadow Blades?
     flagellation = {
         id = function() return talent.flagellation.enabled and 384631 or 323654 end,
@@ -1142,7 +1124,7 @@ spec:RegisterAbilities( {
         startsCombat = true,
         texture = 6035318,
 
-        toggle = "essences",
+        toggle = "cooldowns",
 
         indicator = function ()
             if settings.cycle and args.cycle_targets == 1 and active_enemies > 1 and target.time_to_die < longest_ttd then
@@ -1189,7 +1171,6 @@ spec:RegisterAbilities( {
         bind = "backstab"
     },
 
-
     -- Lashes out at the target, inflicting $426592s1 Shadow damage and causing your next $426593u finishing moves to cost no Energy.; Awards $220901s1 combo $lpoint:points;.
     goremaws_bite = {
         id = 426591,
@@ -1214,19 +1195,7 @@ spec:RegisterAbilities( {
 
             applyBuff( "goremaws_bite" )
             if buff.the_rotten.up then removeStack( "the_rotten" ) end
-        end,
-
-        -- Effects:
-        -- #0: { 'type': TRIGGER_SPELL, 'subtype': NONE, 'trigger_spell': 426592, 'target': TARGET_UNIT_TARGET_ENEMY, }
-        -- #1: { 'type': TRIGGER_SPELL, 'subtype': NONE, 'trigger_spell': 426593, 'target': TARGET_UNIT_CASTER, }
-
-        -- Affected by:
-        -- dark_brew[382504] #1: { 'type': APPLY_AURA, 'subtype': ADD_PCT_MODIFIER, 'points': 10.0, 'target': TARGET_UNIT_CASTER, 'modifies': DAMAGE_HEALING, }
-        -- deeper_daggers[383405] #0: { 'type': APPLY_AURA, 'subtype': ADD_PCT_MODIFIER, 'points': 8.0, 'target': TARGET_UNIT_CASTER, 'modifies': DAMAGE_HEALING, }
-        -- perforated_veins[394254] #0: { 'type': APPLY_AURA, 'subtype': ADD_PCT_MODIFIER, 'attributes': ['Suppress Points Stacking'], 'target': TARGET_UNIT_CASTER, 'modifies': DAMAGE_HEALING, }
-        -- the_rotten[394203] #2: { 'type': APPLY_AURA, 'subtype': ADD_PCT_MODIFIER, 'attributes': ['Suppress Points Stacking'], 'pvp_multiplier': 0.6, 'points': 35.0, 'target': TARGET_UNIT_CASTER, 'modifies': DAMAGE_HEALING, }
-        -- the_rotten[394203] #3: { 'type': APPLY_AURA, 'subtype': ADD_FLAT_MODIFIER, 'attributes': ['Suppress Points Stacking'], 'points': 100.0, 'target': TARGET_UNIT_CASTER, 'modifies': CRIT_CHANCE, }
-        -- perforated_veins[426602] #0: { 'type': APPLY_AURA, 'subtype': ADD_PCT_MODIFIER, 'attributes': ['Suppress Points Stacking'], 'points': 50.0, 'target': TARGET_UNIT_CASTER, 'modifies': DAMAGE_HEALING, }
+        end
     },
 
     -- Talent: Finishing move that creates shadow clones of yourself. You and your shadow clones each perform a piercing attack on all enemies near your target, dealing Physical damage to the primary target and reduced damage to other targets. 1 point : 692 total damage 2 points: 1,383 total damage 3 points: 2,075 total damage 4 points: 2,767 total damage 5 points: 3,458 total damage 6 points: 4,150 total damage Cooldown is reduced by 1 sec for every combo point you spend.
@@ -1252,7 +1221,7 @@ spec:RegisterAbilities( {
             if talent.goremaws_bite.enabled and buff.goremaws_bite.up then removeStack( "goremaws_bite" ) end
             spend( combo_points.current, "combo_points" )
             if talent.shadowcraft.enabled and buff.symbols_of_death.up then Shadowcraft() end
-        end,
+        end
     },
 
     -- Draws upon surrounding shadows to empower your weapons, causing your attacks to deal $s1% additional damage as Shadow and causing your combo point generating abilities to generate full combo points for $d.
@@ -1271,7 +1240,7 @@ spec:RegisterAbilities( {
         handler = function ()
             applyBuff( "shadow_blades" )
 
-        end,
+        end
     },
 
     -- Talent: Allows use of all Stealth abilities and grants all the combat benefits of Stealth for $d$?a245687[, and increases damage by $s2%][]. Effect not broken from taking damage or attacking.$?s137035[    If you already know $@spellname185313, instead gain $394930s1 additional $Lcharge:charges; of $@spellname185313.][]
@@ -1314,7 +1283,7 @@ spec:RegisterAbilities( {
                 gain( 2, "combo_points" )
                 applyBuff( "the_first_dance" )
             end
-        end,
+        end
     },
 
     -- Strike the target, dealing 1,118 Physical damage. While Stealthed, you strike through the shadows and appear behind your target up to 25 yds away, dealing 25% additional damage. Awards 3 combo points.
@@ -1354,7 +1323,7 @@ spec:RegisterAbilities( {
                     applyDebuff( "target", "find_weakness" )
                 end
             end
-            
+
 
             if buff.premeditation.up then
                 removeBuff( "premeditation" )
@@ -1406,7 +1375,7 @@ spec:RegisterAbilities( {
             removeBuff( "premeditation" )
             removeDebuff( "target", "dispellable_enrage" )
             if talent.improved_shiv.enabled then applyDebuff( "target", "shiv" ) end
-        end,
+        end
     },
 
     -- Sprays shurikens at all enemies within 13 yards, dealing 369 Physical damage. Deals reduced damage beyond 8 targets. Critical strikes with Shuriken Storm apply Find Weakness for 10 sec. Awards 1 combo point per target hit.
@@ -1453,8 +1422,7 @@ spec:RegisterAbilities( {
                 active_dot.find_weakness = active_enemies
                 removeBuff( "silent_storm" )
             end
-
-        end,
+        end
     },
 
     -- Talent: Focus intently, then release a Shuriken Storm every sec for the next 4 sec.
@@ -1465,9 +1433,7 @@ spec:RegisterAbilities( {
         gcd = "totem",
         school = "physical",
 
-        spend = function ()
-            return 60 * ( ( talent.shadow_focus.enabled and ( buff.shadow_dance.up or buff.stealth.up ) ) and 0.95 or 1 )
-        end,
+        spend = function () return 60 * ( ( talent.shadow_focus.enabled and ( buff.shadow_dance.up or buff.stealth.up ) ) and 0.95 or 1 ) end,
         spendType = "energy",
 
         talent = "shuriken_tornado",
@@ -1484,7 +1450,7 @@ spec:RegisterAbilities( {
                 state:QueueAuraEvent( "shuriken_tornado", class.abilities.shuriken_storm.handler, moment, "AURA_PERIODIC" )
                 moment = moment - 1
             end
-        end,
+        end
     },
 
     -- Throws a shuriken at an enemy target for 230 Physical damage. Awards 1 combo point.
@@ -1509,7 +1475,7 @@ spec:RegisterAbilities( {
 
             removeBuff( "premeditation" )
             removeStack( "the_rotten" )
-        end,
+        end
     },
 
     -- Invoke ancient symbols of power, generating 40 Energy and increasing damage done by 10% for 10 sec.
@@ -1524,6 +1490,7 @@ spec:RegisterAbilities( {
 
         spend = -40,
         spendType = "energy",
+        toggle = "essences",
 
         startsCombat = false,
 
@@ -1543,7 +1510,6 @@ spec:RegisterAbilities( {
         end,
     }
 } )
-
 
 spec:RegisterRanges( "pick_pocket", "sinister_strike", "blind", "shadowstep" )
 
@@ -1620,23 +1586,4 @@ spec:RegisterSetting( "rupture_duration", 12, {
     width = 1.5,
 } )
 
---[[
-spec:RegisterStateExpr( "priority_rotation", function ()
-    local prio = settings.priority_rotation
-    if prio == nil then return true end
-    return prio
-end )
-
-
-spec:RegisterSetting( "mfd_points", 3, {
-    name = "|T236340:0|t Marked for Death Combo Points",
-    desc = "The addon will only recommend |T236364:0|t Marked for Death when you have the specified number of combo points or fewer.",
-    type = "range",
-    min = 0,
-    max = 5,
-    step = 1,
-    width = "full"
-} )
---]]
-
-spec:RegisterPack( "Subtlety", 20241206, [[Hekili:nZrxZTnUXFlEYmmsjXQs0FeNRr(H7U2oxM2B6Ckt7BIIIesI1uK6iiJJ64H)27Ua8daWfKsoo30xsSjwUy3f73lOxoB5NxUi0pNT8xDN6E9m3P3oz6hU(dZUE5I8JhylxCWp4b)TWpK4Vh(3ffRZJz5hXfogN6hIiGNwKfalUCX6IO48Fjz5AASEfa7bwa84BNTCXUOWqMewgpy5ce2lN5E50B)HYvlI2)tLRkoGOP8tLFsU40UlYFh87j)C5Q0I8lt3Czq6(1(5WVMeFSCv0MYvzSnzm(o)1XS)C5Q)gZp7s)l)n)KTI3b(hagEoZpoFxZon9dx66c70FzZMOGiwsWXM9tfMPxb7o8)ZMzsvTqD3LZUbGsGolG8(lDVdw9Z7yLR(3(zW)eLVlkz5I4iEohfXBIIJH))xfhySeKxcx(Jlx4hKhLca6Nf4NW8YtZYyj5sjAw0b5IFExeVCfIlyV5f(XOKjinj3pkbw4NstJdtFe)XhH9TCvcBBmlih3eqcUhubGxmFhkvd8l4aLVABC6A)yelvV7YfW(LZYI8r6JLT94Kqgk7Gx6(5LRMDt5Q3wUQAPm2w4Kphueq(XGjoueZzQCja3vQWfhTDxo37)ueUDVGB1a9Avqx7V1lDJxEwuWdCDafsPn(fX5nc263QsBWaXA06dacPOrLZM0daMy5TVZx8bXdSk(tXfm0CzZMjGMjib9c9tcytkouU6PNkxjxrsg6p8l(jrC8zc85jnlRj4A2)fIkUOMqIJcyE(jHEHrMezOF2dmEUxcEO0SeUzFH5bh37Jq9fuf4UYvocCM7hdhBGsWbaV(5rjB9KBpFsfHlGScSIeoJL4To2pKvVUgV)q0bVSId5fzmuaCZzlagvUkmfOhjoMKdhTrO3bKrQbEI62uUASGcPfoQe3EWelhigqQI02TNnTz)WzuR13KnXGp64yFejGCDV0W(JLRUEQGqhaW7b3ttvL5Hm)8DEhyGBDHpK2ZLXAIEwqgdTK(13F2m2OkXNkf5jEcYGncxtoFCJMzfPwbHq9qx)rIGJ7xNgZrNacMQv5nLZfGTbvC9ufAUtvzYm)Gi)yp(XKaKtV7S5umIuQ3HuqtaXp6mSx7hX5L6RGgpVx(kSnBystRUGC7zz1Sl0l4aYqFWGH0cD8tT(3R5Vai(HN8x8WykYOuvOniKJ4C2ulXPwhNMg6TPi7OXg9BcPSwyKgtpJtGzMbbh4vA3CwgNLH22c04EwOXQozl(3eLXemOa9MHdovQerlppdEokPfOY0NUMK7xYz7bnGrFolk5bwoFCDUA5zm)GDSS0coea0pHVpkhOavkzihiGwL7aMlIy7TuVTnfzdtpZ1VdKIbld1R985bSeuWE0doPk2VCbKUby7UXBBqigKUI167nA5osN6o943rqLM(ORPY9(HE)EbyuX92dE7X0Bv2RrQ(KIHDcEmexdTUtyCfhtng(eav7BI97frhoWcNyrAwh)rUPddnIZMJAlq1jAW4t7GVooxhHdklndl0QLi0vNzibBmmQwxyz4XJtHKiLUnLmTQzyLJ)bDRpxJRgEZCvKWvqmj3DsJyeKIHhRZOXcbPg5vFvcHDBKT(OmW6g)bUImef0MrLme0UNNG29psb9mkb9S))tq7ke0Nw0sqQKc2DlQRJWESZ2Jfv6PPaeLqRvpZRkeRRziwnk5VgHvjiC49BfXSEdFRrc2ZjzGupoNeAG3i4a4O4RE8dG3Bn2CJGYfCOzCEdznGXYv)teLLR(XIO4qm22jLLc2McrqAxZCameIXXSmS)chGifCS4z0do2tHJPfyXWjINbvmNMlf2mO01jNSWU3ZBrj)IYupKXKD1OtHQ(hoeFefRC836wT6zLNAE6wOU)jBkssyXgIIfp6dhK5Ga)qwukWdGfzwAUi6PuIKJnVOgNWJ4yX(Ds7S(T9QF5NxHZAbouCASZN7XbepXp5Ox4boTp8UqHkVkOjI3FSuk3uHfzvsd0GGkIrleAfr1X3ZZRkExsrcfZs5TDarcjxC)qcIHzZBgSRl5nEei6(frk1vLK2IuXV7LZc2LebzOqzAudBDte0v9)hTLWxUs6xvpj6lS2LGgjT12lO0BY6K6Y9Z2II0O9y)88cJGvUeHSnq2TuwnD4ItKcvxSJ5PvkcvYhjYu4nME3LSHgN5q3riuN9yqmGvXoWXtycL)gVPPfhGQ492c1nzEk9ZqTxyBk)z)9qE90huHmzM)()xizzz2(MLKqlZOflnlVxvdXgRkA)5vcXvD9hpcbM5EqMc7RdtAlaSAb0(bpaI6hdLfvDRQfe7lrq5qzIstmmIWSg6P)XbGXRNS2vRnaGOSrtRR(7DdzJnUvxwkXOQtkzjvAfO2TykTQ5GAd5qCuz)IOm4B5eXll474cE(Wj3chHtTTT1fr2iupKAlcNwY409PslH6R6xHBWEPz)atL1UZS3ApxHUtVTHYOEulTKCUuuFPC0bVrLSS3DYNpR2thphUEhKchReZX4SKYNgrOlZt1wBcrV663WQ2ZbKR4EwyK0nLM2OwDr977R7UOvgL2gcj(YZrx4mFTTt55lj68TQZetxc3mSe3vPLtQkqsNDQLk1Jtpvo0mFxXsy4eynOcG)LyQlyPaIf2ZG6hit)O9OY656POHIS41A222DqywagPzPj0NIw90(9DkNLNeJvZzOPc9I1aqBk2YgQ6rH3n10ARR(ZUltI9vfN6ZD8kZJBXrNqlrwf4G6hCiZ1hyezQqKzrusO3JmFz38mBJkrMbnlmO7YlKvFIzlGkS8MC3QEtD7(MkVoHsM79mw17iuFq8dG6eu4E2dA(CT58XA2qJisiY2OEelcIEOscOgtVhJYrPBBJFUWMbI2ykjt3II0UQgPMfNxvsuFhuon(ezyQIGrp8Yq(Ak95IAlVXQRDvDXcunmbQsdyG(nqeyQN2lFAhQd2qnuyrRwxLW7jlVip6SG3RjKjGijbOXM4S0gWQze3tWVtYxY2uuo8i3BDuoRtE4BHek3l4vJD99QqTg0maX)AZC1bxtFb9AdW0C)zwU4r)Se40KJxNd51YinlVQpJVU6Im8ASSRFVakfceU809aC(f5P7HccGheSZhuj4tk)0Fpkbw66FaV7hjWEjw(12hl)RLT(PhiQptbihn7RJhApuvhmqoLMIjwVLgRM5WzGzBP4zI93tJDnZadutoeAt8E33fzXmlcJU2)gi3(qQgElQB7JLrjP07EHZI6D(uNb1RB36ohgvBT5KyAyoBJQPdt9YH5wC25iU6DmhNrhCsaGo1(YH5j49oJWhstxMppVixzLWm7PibPraIgBBd5DBRjXP0Zf591)xcEOxGpXnStZt77yubMVROFqet0v4(mwox6(5IE7bFEj1ESH8xe9E7u(ZtK8Dg9dI4NRk4js3px0BZvyqi)8CcoJogSAL4Vwp6lvR1g0W47jw)gtdXcwFHsj77f2jp9f9f4f58)BuMAbRAvzBGwY2ayIx3EKMA1dsjpjly8e3HVr5rFAbVm09lTTr5N(fHQfIS3lRNfhEK4A9dld1cwKVlnB5c8ddaNoE6MiCMUsa5tAYj7TZ)tQZ6V8tVQC13Ym5l)e1wud67Wr2oVZuVENyuZZ1UNaNcIQ8b3o63ken7DrBMBpUPZOlShX(PNoL01uHQJ7)7N3tCVXFlmMRkJ1L2vySUCDljtqv33d7yHIv(YwAaq9XTpc)Kgu)DDET6fQ4qQMv90tYN28vlu9GMVyHEqUYqP7DhUq(yZRCF1ozo20NEsVds3p)oNlQmCjAIHdHnTDAwPT(vK8iIX8)0tKtEFSdnJ0JismSGEfoJA0jOMP2hVEQtVaCV7uhlrohBNUuUdZ1IbRZI0HIUhdNQ5eTrXXwRbHd7uo3rBIfF0DApIoXqzQOo1279X5ZSO54Oc29ZF)tprpaJ7NFlTwZRWajsHnxLYmVryskes4u8kv3cE1xO9gZJovAuMuVz6Qq3Cf3pfOBUW62aM8atfd6xwD775REvD0p8TIs(s6dGv5xbx0jam4UufZj9rwMxuYMcS)Ni(OPaaDDU37Q0fETXJaaQ9ttgDarF)MmZDjv2Mp7gtwkm1ZYU4L7ZFWgNyh924f7x993PCx5LXwj8h5y140(w29YDJiF0fwBKyLrf5iialPbUV6JH4JdbtBuYtThKG3TXNJ0M)oX1)TomUqEoQr5UtK)5ZCgPEa3C5KP3tbX0h6C1Y(rVfEoxqUtTE3jNydkaqFT23uslid5G7qYb3xw5WmTKL(dtoy4ax76CpS7CL7FakUUOZOerSBEfThgTYlcPaJ0bTSgJ6uIYnx9kzxX)eZlEyYuu)Cfl(8Ua1dVh4LJ2IO9ei9jcseZcwzaHVtBa)voq7zU(GYRJE6LWdiYfau10NCFtkOAfRtrCQJ8vusHT6zRSemN)UJz6VJCF7vVXssyIhtpN9AdnYCXQINOnD9oB8voDoPax4DfwYWtMZph8cyIWB6p1KUcXQze3ei2sWj7I4b8Qm)kt1H7XShSYJecZoV)19RX2DvTXsltVP7WSbsL4nBgzD31QhuDh3Inqco6qt106lrQwMvexsuYdphZeRnUuOonzCOM(sRgi1DrCSjnkVtMnAbQx9tYiuxnLAdmtzQc5MNPIyL0N2norUYH6II50tru2fS1i9U2sQoDrfTVR(RyC(vtVC2nV5clLnEEKANIoTLUwNdvnlsTIqufPgxspADqAhPMBOYLBKoZ(MCnQqO(TK0eDQYwtRwWvNLuNUPYE8pI)8E0sXyKxSWpT)GJGeT(F1pUhoNER6FTpSHbXFTp6SOXFIp6SU2Fxpu6S1ezosOoHHgNMAr1TmhLEKFEhe4RU7u6jDO0shW9ez)Fu(qig709tP4YAvLB7ztjsnXcr0(4oTVLyZXmcEJQ22yhfYTB8mHeZ2NAbb9R9fBOMqv1NGbXRSw5dCqNp7YqKM5Di66uE6KKcDw0e0u73vrLj3jC9GBrJs1aT(QeUj01jLELi5PH9Jo39AN(d10wgqFxqyakB(DNAJLKn4T1haK4Y06ugvViWwQp5JQ5JqjSqXPb2TKxJ42ZT8)b]] )
+spec:RegisterPack( "Subtlety", 20250325, [[Hekili:nZZEVnUnY)zjOaET3K1XpsYMUioax3IIRlUROOU9U)4holllrBRlYsUIsBAoeOp7)MHupiPgkjNMDVdOiDJe1W59lYjRMU6xxT03nLT6NMnz21tMp76XtNm)2jF7QLPpDKTA5rxVhC3b)Ji3dWpxMTjnKL(e(INcJD9raWJZs8GxUA5MSGW0FmA1gAOEdS2Jmp4X3mD1Y9b((m5AzCVvlX1(UjZF3SR)q(6Lbh(i8ZNI8Y)u(NkF1KBGx9pJtEWnjolYpF924K81jzhtZsy5R5hDpa)kdw0pecyDyOBAqCu(AV44q)4hJ0G10puSbRFmiDVClxTmmGNYrQABqyi8))jbpIf5UjK5V67wT01dHj8)t8CJyoPXjjSOujrKeCu(YFDFapFncR81z8m3WWNqSik1nicEXhlWhE5EhX2fY8sXnjFDWbGRdFy6Ex4NEUzCgSWDHXBCdRPf(QLW(LYscCr8JLS7PX(STbEbWhD)I81tVoF955RlEvcBhWStbEpspgeXXSqotLkH1nxDDHb72NYD(3z(7oiOwTLEL6s34UZjERtAsG3dC9fk4sBDZctRySLFfpL5gMU3aWA46daaPWrfzt8rasS06V5ZUa7bEl(VcZyOg62TJ57DboOJVBKhBC2X81p)C(A5BKOH(d)SBuahFMaEoslHseUK8FnXcF3Khy8uNiKRx9keAFM5aYZdbOcbkJVnF9G81Nb6kUHGCbKYhdd8aT(ODos4ZhxGzIvwSSSioJf5Sj01Nv(EnI7HGJofMvifE9jtHdZx7hd4JegJtbzhGtscPCXJv3M81Jey4Wsjbqhmh3iFh)af(Jjt4oGjmd(wvS)ayKLcylWxrK)Mtg5TlEgwB)nERIlgGXFqAAFx(6RMiOKow49aIprvO4ZCt37CKb(sfErQfCAuhN5LWqBPF69NmHvXCL0Mq(Zfe3a93ut1JKeETkM(3QQCjbWth2ehYrxaccQwZoMZflBlQv7OYWMnrLatC9cCdD4GRzKkV9KPsVyafCogdAbfAitB14siRu)e0Y69YpHTDltQY1Cj3CsMu79D8oIe03AqqAbo(yT39s6ZdIE4i)fhmIImgvby985imNoXsuQnHXX(oBZsEYyJ(fbxwlisLDPHeyQziWo(K6nNLWzjOHVamZojWyvNSg(BdsyccuaEZGb9flrWYttGNJCAbOm9ORX5(Xu2bqdy4VMee9alLpQm5O0eMR3EgKAchc)5gXpeKcyGkM0LZdP3Swnxer2RXEBBksgMUTl)gibdwcQx74Y9yriJ9jhqsLDy1sizdW2DRZopFmeDbP12xutDKE8lLIQuSJ4jzcZHPM(NlXYdU(o)EgyuXDoaXbW8jv2RHQ(KcHDcEme0dTUJyCfhtvg(elQ03e73ZcoEK5p2c3uj40z9z1imRe1wwvJibJ6NGVmgxdMdYlndjuRLi0vNAWbRmmkEVWYWHhgdPqkDBQgrUrqJUqxfQQ7nBMchUyfJtNnUIncCr)N0dSQJre8Z6GxTT5Gbm(p4kSjKxAg4XGxo704LZ(AYlNsXlN(FfE5mbVSFX8kQNBzzTa2JawZ5vXNQIiucqw8mNIaLZmduQHj)qaMPVWT1VKfYAniSgkypZIosG4uslb(cVJG5(F4avrh5RrMBfyUGcnJwBWRbiMV(NrqMV(7G619Xiu9kxdS6ErO2zMrYnyIHHSKla54rWFphlag9dhSnF9tXzybTrINbv9gNkz2mO8ZX9Mz3Q8wu2UOuZJjmK)52Syt3JhdFczRC83AwX5jLTzA8oO29XBZIIyHgSILp6ccYuGHFmjigObWOljoTOReihjDpRMGGhXXc2BK8y5x7u(XVSIF1C)R4xyVl3bJ7JkI0EH1xbQ0Q85b82Jes5bYplPGlGgcu(7RxHw5pn858YQaFgjRWKqPCI2cRGe7VVlgq3K31D2PK0kpaeDSQGBeS1WoQqZvPHsAkV)FlFkjy7)kF97Yxl7NvTEkyB9zMWPKrZ3ECpdiPp(9WBCXNk3dW8hYPeCjGU3bJEwYJbOday)a6eFTFgtAO4NbzPHSLDa)4yO7tObXNdsIJWgpLVwLzvH5o8yHDnT02Hj6UvxH6ejynVpLUdLSoDsP2HAsVQRyy3bxpNmBafnJcLdHg7wxKkiCrruNtrpcQ1ze)UtkZBFuaK2iL7JY1w22hDLH)EDpvYxldtQxzZzw7RtLrK1gcLW2MWaMGq1Aurv1j7qlMGdylwD8dyc9q18sUHYYVbv0tmu9Ln82AfJqFxdf529wZG1sYqJYgq3dp0v0tEHauf7ahnGj65w7YNkJ1Ft0S4)k7HGWG3HDBpyBGNQPRlAAcgQvDrxZtO9MziW)kEKUPN4D2me0sMLQHCvH9JZo64ZC2bLPBsFFpuQp2t8V39ayrsRc6ZKfA6(FGAZQYGQ9MWjYSMQzA06n0QgvV(GQvIuVx(FKYD12hj6vgh(LhyjyjDjpOX3LgqT0Cy6M3zrJ7A1e67sKtbG3x91sz3ynrxz5fJuBdLR3dGTXJ(YwtCRAen2Nd4ESerb(gb1WS2B5my8aHRJSdqwBJgrZxmDh2EhqBKhEDV)mC4QMWGKRQP11SLeA9e5ii5H8yLDDTDh9Ipwq3Hz80URFmF98j222YwXuXupgBldtT6DP72Rw005DAD0hovpmHrQ7DYt86TQa1El11k91uDqLXDRz)VBPn9DxfpIHskpXnqvtObJeXSYmaQcJBSiQaGezdyY3R1Af9KUDv)s3oqgFhy(bsVEA6lAzVqf5YqVvBx0A0G2gcLgYtXOImxTTt55ubtun3nnAV2qUBppW5DlkNP0ewvntPJl12o0IdmvEHzTJIxHr8G3bPo)peNcjwwT4fhyH(05(vluTQb0hvFKeVQuBTdJDZMzyRzsYL1h7KjT7auEO2siwCCBL6n8SnWI2MTJ1vlyecA1QgkBHID)Ee7Rkm1pa(5MYzHmtOEiBLslkgBG4Lq6aB6x7BAZcR2og7dJZ24e8fy1xMTZRqNTH)GQUu2JGsFX26koZoiS3bXZBRkMId)gkN(bgvoIbr(opYCLhdG55VqK1Jz(A0PlvqwMu7a14h6oslrDYsaS7BVRd0OFzv2LNqHsmn)4(ANKDLajTVJwsp9kvXygkbJWRzteGJ9i8cWgDtCs3ZCEmifzk1NWT9eXleC2r1re4ehqQdTvqJnLW(jDWkMLARelSf23CDN20N0aviDnXjYaHICGOgA3dbk1u7Lo1pcLIiKvvFUGAERT0tAvOyE8n9Vi3H1Pj)yiOaHMYh6MJt6pRIzRWpboH3dkNtJLkSSMvwRK93Q1RqnfqMsTvnVXa0joznI2Uy0nXJCNnbfN9Owl2v8sBSVA3PR6WCQlseI8Zy5qWAkUdH4Lh8r3KiWDhhVFDY7jxCsAXHg9MIBw2BWMU87zbjOWKhFa74rwA8bO6s4bE7DbFM8X5F6VfebV6QpGxgViyVeV(n2VgvVr2EYwwrPoeSYHt)JrDThQQFgaNsZ0eQ3qdvZQtmGSTIxmH(7PHUMZedqR7OXcCV9lcVyQfMrZaKga3(9gO7TOSN(woDFLZAvenTCN771c4n1BDdHrXwBE44veNTtpVbr96b5Ay2qex8nMh)CdysSaDS91dYJXlcmHpKQJm808Im3kIPEyreOLXR1ixBaDw7aTXR7fqB7q8iW7wxCp3WgNewBInL18ff8DcyIJ4RnJJtfVFPG3EWMxdTgBa9pL(TDm9LXc(cd(ob8lvLRN49lf82C1jpU4tZp31FrIEBjxJMfn8gICziRQON7WlgVjzOE(8tJBoLgRu7LObwr1J8o9S8LeQVszB(Lc6KYjrR3onjLf87fR)0ku1Qk3aSK9oQtpiV62tF9RO51bVTSd1LMBa5M9aPNEwEfX5x7kMY)0pkmhqG9(YZVvoQAOcpuAEw6(4KvlLJd3XK4Tb4nP5B(M817ttpY)WLxUliDF2giyZHl5bhYKUo8sC3MI)U3LWlGSb5xc8pOKDCc3cIU8Vi2PFU4a0)B4(Dzs8UmMdVyOchJFC(NWD63kU2C4fBwD(8aMXF3nXBV8SjWodio4VR8F)TUxFdsDscIpUkv(ZxCP699dGpaQ)e3lp6TOCPxG3mPfnUMaxiUepl0URG9bqfH2RVoyfaA6fbBxqNg2GHNrN03Zp3NS9vxvJSjUFrlPrn6pdbntLGMzJGMAHGiWM7BHmSGPLnT7tk6rQpU(r4OiQ(760yXhuqzu9W75NLpTAAdlEq1KgkTcQVbE)cEv4exuUnSq8ubRvnLghg9qu852WVIU3wGFC8w6w2r3X6nuSfAu5cu1nHAENvE(zD89(f3o4Sc3xeDwBaHNn7OMYHDwGzdjU5zp)m5LbB0GHs6WC8dnr57wmBulShX5Q2kJzyLAj19A4URMmO1fC)SjdSKiul4LYaqvYBipLGbu48ONFUuiPT(b2o2eq6hZ5d0oF37MnPf2M4SRlWm12qF3IPwuLgOUS7x8(NFM(4EVFXn0QrFdgFvYO5QyM5LqxIHqw(IpPy85u)G6rTd9LvPDPosBQRUA246ZQRM0nBlMuGPcb9PCZ(EQ74ii6ZXpa68)bezicwdUlfH4IFKL4eeTnd7spcpAmaaxJbMtfVqN5bWckdpqgucbF7MllMrQSTy61MKKFSJLDbCcYFWgLyh82Of7Zm3fkdzNmuoHdQbLNbvJRQL9TS5uHHaFyPvBZ2DxyurEsYGLuhd6g4S8SUwtDq6(2PCWZ2OtHBZVqmXrLzpi4NdRuUBKWXIPdO95rVNcKPnWntlHl9gnx7cN8e2rkfDQAh6KMkge8SUi4zVUe8uTeYE9jydxYAZew3oOvU4viF5SghjlcDZ58QBWkBxMaI0HHSg1PpXTwOoxxf0pXf9PB0u0CJcs8LnfwDVh4ewzH12duFSafXaGfh9RnhUdot)A0OQ2uSHdivRBUv1hg9xHnt9m3Vq76su4QVLBGey9nqpnt4bezTaONo(wL9SwhIOqo97ttf)WseaRTROld9fZnPe4rvWtLwSM9yJV)QwOhr5kvud9DaAWqticjnCMTTF0PlATZToRTBYttgLDh24JnV3ovS16(vrI8MSk7ORjcnC25ZFlzjbNW(Oj0hwMDJ2nSHGt0WoSGjyEFAGWsMF87PRIPD5kH3d1B6Imt0M3pgavBZVJD3FnI3vTsicg6doUCeh0scMyegiP2bM1avZofqyqvYHQzAwWJTmEcJmXr5eduz9PoycK5ymFc1guLDRERp0)d(f2ZoqX6i8tPjB(6hDbnJTzHLJGyqu1ue2GBAANlsDI2dqLl5518mLwlyJX1Er7lMp5DtV(TNzPY9b2LVLOZT1fH3OUFBznpyioTbLnDIAsdg1qMQ57rRCrvMqT2KOYDAvWZi9AzUHk3RF6O0v5qwaq9beWeCQSFtJ27xCDhXVUddwrMD81fgSFn(l8wnnH5CHfXR93CoKS0)d)29GW(C1)GVzdcI)GV14Lg)vERX71(t7wbF4)nNsyvuhtC)CZonvXJfZV4fXhxiMq6lajiOJcF5IZmhp6I2sjMd3lQhS4fDPjnDE7DY7UPtgmKy4jVBy7q(CICeQ6W9icoGPpfnR6IjydfPKZ6lb8kB)RETakntf8rs25vLPID0GMZv77kT0VPLnLi9llir9JBCSmeBoMSZBvDwmAGc62ihJz6gbN(032oFLk1PkYrxhEaLkK(O1GOQTbPLap0gQt1sxkgW2oAq9cLo9wd0nktcQUqRP0HoU7WMPXpWEQSdPRxVmyOrOktiFn2UckHqJCnhjpGa6zHLYASEQxl8K2Jb(QgmkT5OoyTGm0TQLHLjzKDNRXIzxnO9SJQ7VHLYaVXwsjtSrlYZaRo2gu33KIi(AJ2LLoUCNAI4uCjKpAaDlj0lUh6R()p]] )

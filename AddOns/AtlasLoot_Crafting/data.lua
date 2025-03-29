@@ -3059,16 +3059,17 @@ data["Engineering"] = {
 		{ --EngineeringDevices
 			name = AL["Devices"],
 			[TWW_DIFF] = {
-				{ 1,  221949, 447365, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Pausing Pylon
-				{ 2,  221957, 447367, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Algari Repair Bot 11O
-				{ 3,  221953, 447366 },                 -- Convincingly Realistic Jumper Cables
-				{ 4,  221945, 447364 },                 -- Irresistible Red Button
-				{ 5,  219387, 447369 },                 -- Barrel of Fireworks
-				{ 6,  221962, 447370 },                 -- Defective Escape Pod
-				{ 7,  221966, 447372 },                 -- Wormhole Generator: Khaz Algar
-				{ 8,  221964, 447371 },                 -- Filmless Camera
-				{ 9,  219403, 443570 },                 -- Stonebound Lantern
-				{ 10, 221959, 447368, [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Portable Profession Possibility Projector
+				{ 1,  221949, 447365,  [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Pausing Pylon
+				{ 2,  221957, 447367,  [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Algari Repair Bot 11O
+				{ 3,  221953, 447366 },                           -- Convincingly Realistic Jumper Cables
+				{ 4,  221945, 447364 },                           -- Irresistible Red Button
+				{ 5,  219387, 447369 },                           -- Barrel of Fireworks
+				{ 6,  221962, 447370 },                           -- Defective Escape Pod
+				{ 7,  221966, 447372 },                           -- Wormhole Generator: Khaz Algar
+				{ 8,  221964, 447371 },                           -- Filmless Camera
+				{ 9,  219403, 443570 },                           -- Stonebound Lantern
+				{ 10, 221959, 447368,  [ATLASLOOT_IT_AMOUNT1] = 2 }, -- Portable Profession Possibility Projector
+				{ 11, 232985, 1213620, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- 22H Slicks
 			},
 			[BFA_DIFF] = {
 				{ 1,  153573, 256070 }, -- Electroshock Mount Motivator
@@ -3828,6 +3829,7 @@ data["Inscription"] = {
 				{ 2, 222600, 444217, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Contract: Assembly of the Deeps
 				{ 3, 222603, 444218, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Contract: Hallowfall Arathi
 				{ 4, 222606, 444219, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Contract: The Severed Threads
+				{ 5, 232532, 471132, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Contract: The Cartels of Undermine
 			},
 			[BFA_DIFF] = {
 				{ 1,  153661, 256275 }, -- Contract: Proudmoore Admiralty
@@ -3976,7 +3978,8 @@ data["Inscription"] = {
 		{ --InscriptionRunes
 			name = AL["Runes"],
 			[TWW_DIFF] = {
-				{ 1, 226034, 444203 }, -- Vantus Rune: Nerub-ar Palace
+				{ 1, 226034, 444203 },                          -- Vantus Rune: Nerub-ar Palace
+				{ 2, 232935, 472951, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Vantus Rune: Liberation of Undermine
 			},
 			[BFA_DIFF] = {
 				{ 1, 153673, 256303 }, -- Vantus Rune: Uldir
@@ -5734,6 +5737,37 @@ data["Leatherworking"] = {
 	items = {
 		{ --LeatherLeatherArmor
 			name = AL["Leather"].." "..AL["Armor"],
+			[TWW_DIFF] = {
+				{ 1,  219476, 443698 },                          -- Spelunker's Practiced Hat
+				{ 2,  219479, 443699 },                          -- Spelunker's Practiced Britches
+				{ 3,  219477, 443700 },                          -- Spelunker's Practiced Shoulders
+				{ 4,  219478, 443697 },                          -- Spelunker's Practiced Mitts
+				{ 5,  219480, 443701 },                          -- Spelunker's Practiced Sash
+				{ 6,  219472, 443695 },                          -- Spelunker's Leather Jerkin
+				{ 7,  219470, 443696 },                          -- Spelunker's Leather Footpads
+				{ 8,  219471, 443702 },                          -- Spelunker's Leather Bands
+				{ 9,  219334, 441058 },                          -- Rune-Branded Armbands
+				{ 10, 219333, 441053 },                          -- Rune-Branded Grasps
+				{ 11, 219329, 441054 },                          -- Rune-Branded Hood
+				{ 12, 219327, 441052 },                          -- Rune-Branded Kickers
+				{ 13, 219332, 441055 },                          -- Rune-Branded Legwraps
+				{ 14, 219330, 441056 },                          -- Rune-Branded Mantle
+				{ 15, 219328, 441051 },                          -- Rune-Branded Tunic
+				{ 16, 219331, 441057 },                          -- Rune-Branded Waistband
+				{ 17, 219489, 444071 },                          -- Waders of the Unifying Flame
+				{ 18, 219512, 443951 },                          -- Weathered Stormfront Vest
+				{ 19, 219502, 444070 },                          -- Adrenal Surge Clasp
+				{ 20, 219513, 443950 },                          -- Roiling Thunderstrike Talons
+				{ 21, 219511, 443949 },                          -- Rook Feather Wristwraps
+				{ 22, 217130, 438902, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Leather Belt
+				{ 23, 217126, 438898, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Leather Boots
+				{ 24, 217127, 438899, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Leather Chestpiece
+				{ 25, 217132, 438904, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Leather Gloves
+				{ 26, 217128, 438900, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Leather Mask
+				{ 27, 217129, 438901, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Leather Shoulderpads
+				{ 28, 217131, 438903, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Leather Trousers
+				{ 29, 217133, 438905, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Leather Wristwraps
+			},
 			[BFA_DIFF] = {
 				{ 1,   162468, 256767 }, -- Emblazoned Tempest Boots
 				{ 16,  162470, 256770 }, -- Emblazoned Tempest Leggings
@@ -6340,6 +6374,37 @@ data["Leatherworking"] = {
 		},
 		{ --LeatherMailArmor
 			name = AL["Mail"].." "..AL["Armor"],
+			[TWW_DIFF] = {
+				{ 1,  219481, 443706 },                          -- Tracker's Toughened Headgear
+				{ 2,  219484, 443707 },                          -- Tracker's Toughened Links
+				{ 3,  219482, 443708 },                          -- Tracker's Toughened Shoulderguards
+				{ 4,  219483, 443705 },                          -- Tracker's Toughened Handguards
+				{ 5,  219485, 443709 },                          -- Tracker's Toughened Girdle
+				{ 6,  219475, 443703 },                          -- Tracker's Chitin Hauberk
+				{ 7,  219473, 443704 },                          -- Tracker's Chitin Galoshes
+				{ 8,  219474, 443710 },                          -- Tracker's Chitin Cuffs
+				{ 9,  219339, 441065 },                          -- Glyph-Etched Binding
+				{ 10, 219336, 441059 },                          -- Glyph-Etched Breastplate
+				{ 11, 219340, 441063 },                          -- Glyph-Etched Cuisses
+				{ 12, 219338, 441064 },                          -- Glyph-Etched Epaulets
+				{ 13, 219341, 441061 },                          -- Glyph-Etched Gauntlets
+				{ 14, 219337, 441062 },                          -- Glyph-Etched Guise
+				{ 15, 219335, 441060 },                          -- Glyph-Etched Stompers
+				{ 16, 219342, 441066 },                          -- Glyph-Etched Vambraces
+				{ 17, 219508, 443960 },                          -- Reinforced Setae Flyers
+				{ 18, 219507, 443961 },                          -- Smoldering Pollen Hauberk
+				{ 19, 219492, 444073 },                          -- Sanctified Torchbearer's Grips
+				{ 20, 219501, 444068 },                          -- Vambraces of Deepening Darkness
+				{ 21, 219509, 443958 },                          -- Busy Bee's Buckle
+				{ 22, 217135, 438907, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Chain Chainmail
+				{ 23, 217136, 438908, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Chain Cowl
+				{ 24, 217141, 438913, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Chain Cuffs
+				{ 25, 217137, 438909, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Chain Epaulets
+				{ 26, 217140, 438912, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Chain Gauntlets
+				{ 27, 217138, 438910, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Chain Girdle
+				{ 28, 217139, 438911, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Chain Leggings
+				{ 29, 217134, 438906, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Chain Treads
+			},
 			[BFA_DIFF] = {
 				{ 1,   161961, 256771 }, -- Mistscale Boots
 				{ 16,  161962, 256774 }, -- Mistscale Leggings
@@ -6891,6 +6956,12 @@ data["Leatherworking"] = {
 		},
 		{ --LeatherArmorEnhancements
 			name = AL["Armor Enhancements"],
+			[TWW_DIFF] = {
+				{ 1, 219912, 444104 },                           -- Dual Layered Armor Kit
+				{ 2, 219906, 444103,  [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Defender's Armor Kit
+				{ 3, 219909, 444102,  [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Stormbound Armor Kit
+				{ 4, 235335, 1216520, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Charged Armor Kit
+			},
 			[WOD_DIFF] = {
 				{ 1, 128014, 171286, [PRICE_EXTRA_ITTYPE] = "118721:5" }, -- Burnished Essence (Sold, Ashran)
 				{ 2, 127712, 187489, [PRICE_EXTRA_ITTYPE] = "110609:60" }, -- Mighty Burnished Essence (Sold, Ashran)
@@ -6944,8 +7015,41 @@ data["Leatherworking"] = {
 				{ 5, 2304,  2152 }, -- Light Armor Kit : =ds=#sr# 1 : =ds=AtlasLoot["Trainer"]
 			},
 		},
+		{ -- Profession Equipment
+			name = AL["Profession Equipment"],
+			[TWW_DIFF] = {
+				{ 1,  219866, 444105 },                                   -- Apothecary's Cap
+				{ 2,  219873, 444107 },                                   -- Steelsmith's Apron
+				{ 3,  219875, 444114 },                                   -- Gemcutter's Apron
+				{ 4,  219864, 444110 },                                   -- Scrapsmith's Gloves
+				{ 5,  219865, 444116 },                                   -- Hideshaper's Cover
+				{ 6,  219862, 444118 },                                   -- Hideseeker's Pack
+				{ 7,  219861, 444112 },                                   -- Gardener's Basket
+				{ 8,  219863, 444120 },                                   -- Hideseeker's Hat
+				{ 16, 219871, 444117, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Arathi Leatherworker's Smock
+				{ 17, 219870, 444111, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Charged Scrapmaster's Gauntlets
+				{ 18, 219869, 444121, [PRICE_EXTRA_ITTYPE] = "210814:150:kej:1500" }, -- Deep Tracker's Cap
+				{ 19, 219868, 444119, [PRICE_EXTRA_ITTYPE] = "210814:150:kej:1500" }, -- Deep Tracker's Pack
+				{ 20, 219874, 444108, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Earthen Forgemaster's Apron
+				{ 21, 219876, 444115, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Earthen Jeweler's Cover
+				{ 22, 219872, 444106, [PRICE_EXTRA_ITTYPE] = "210814:150:kej:1500" }, -- Nerubian Alchemist's Hat
+				{ 23, 219867, 444113, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Stonebound Herbalist's Pack
+			},
+		},
 		{ --LeatherMiscellaneous
 			name = AL["Miscellaneous"],
+			[TWW_DIFF] = {
+				{ 1,  219905, 444122 }, -- Thunderous Drums
+				{ 3,  219495, 441460 }, -- Blessed Weapon Grip
+				{ 4,  219504, 441461 }, -- Writhing Armor Banding
+				{ 6,  219880, 444075 }, -- Carapace-Backed Hide
+				{ 7,  219898, 444086 }, -- Chitin Armor Banding
+				{ 8,  219883, 444076 }, -- Crystalfused Hide
+				{ 9,  219892, 444079 }, -- Leyfused Hide
+				{ 10, 219889, 444078 }, -- Sporecoated Hide
+				{ 11, 219901, 444087 }, -- Storm-Touched Weapon Wrap
+				{ 12, 219886, 444077 }, -- Writhing Hide
+			},
 			[BFA_DIFF] = {
 				{ 1,  162122, 278423 }, -- Amber Rallying Horn
 				{ 16, 162116, 276256 }, -- Tempest Hide Pouch
@@ -7162,6 +7266,41 @@ data["Tailoring"] = {
 	items = {
 		{ --TailoringArmor
 			name = AL["Armor"],
+			[TWW_DIFF] = {
+				{ 1,   222840, 446963 },                          -- Pioneer's Perfected Gloves
+				{ 2,   222839, 446962 },                          -- Pioneer's Perfected Mantle
+				{ 3,   222836, 446959 },                          -- Pioneer's Perfected Hood
+				{ 4,   222835, 446958 },                          -- Pioneer's Perfected Cloak
+				{ 5,   222838, 446961 },                          -- Pioneer's Perfected Leggings
+				{ 6,   222834, 446957 },                          -- Pioneer's Perfected Cord
+				{ 7,   222837, 446960 },                          -- Pioneer's Cloth Robe
+				{ 8,   222832, 446955 },                          -- Pioneer's Cloth Slippers
+				{ 9,   222833, 446956 },                          -- Pioneer's Cloth Cuffs
+				{ 10,  222812, 446935 },                          -- Cool Sunset Bracers
+				{ 11,  222809, 446932 },                          -- Gloves of the Woven Dusk
+				{ 12,  222810, 446933 },                          -- Slippers of the Woven Dusk
+				{ 13,  222811, 446934 },                          -- Warm Sunrise Bracers
+				{ 14,  222807, 446930 },                          -- Grips of the Woven Dawn
+				{ 15,  222808, 446931 },                          -- Treads of the Woven Dawn
+				{ 16,  222817, 446940 },                          -- Consecrated Cloak
+				{ 17,  222816, 446939 },                          -- Consecrated Cord
+				{ 18,  222815, 446938 },                          -- Consecrated Cuffs
+				{ 19,  222822, 446945 },                          -- Consecrated Gloves
+				{ 20,  222818, 446941 },                          -- Consecrated Hood
+				{ 21,  222820, 446943 },                          -- Consecrated Leggings
+				{ 22,  222821, 446944 },                          -- Consecrated Mantle
+				{ 23,  222819, 446942 },                          -- Consecrated Robe
+				{ 24,  222814, 446937 },                          -- Consecrated Slippers
+				{ 25,  217120, 438892, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Cloth Bands
+				{ 26,  217125, 438897, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Cloth Cloak
+				{ 27,  217122, 438894, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Cloth Gloves
+				{ 28,  217121, 438893, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Cloth Hood
+				{ 29,  217117, 438889, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Cloth Leggings
+				{ 30,  217124, 438896, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Cloth Sash
+				{ 101, 217118, 438890, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Cloth Shoulderpads
+				{ 102, 217119, 438891, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Cloth Treads
+				{ 103, 217123, 438895, [PRICE_EXTRA_ITTYPE] = "honor:7500" }, -- Algari Competitor's Cloth Tunic
+			},
 			[BFA_DIFF] = {
 				{ 1,   162476, 257121 }, -- Emblazoned Deep Sea Gloves
 				{ 16,  162478, 257124 }, -- Emblazoned Deep Sea Breeches
@@ -7854,6 +7993,23 @@ data["Tailoring"] = {
 		},
 		{ --TailoringBags
 			name = AL["Bags"],
+			[TWW_DIFF] = {
+				{ 1,  222853, 446976 },                                   -- Weavercloth Bag
+				{ 2,  222855, 446978 },                                   -- Weavercloth Reagent Bag
+				{ 3,  222856, 446979 },                                   -- Duskweave Bag
+				{ 4,  222854, 446977 },                                   -- Dawnweave Reagent Bag
+				{ 16, 222859, 446982, [PRICE_EXTRA_ITTYPE] = "210814:150:kej:1500" }, -- Concoctor's Clutch
+				{ 17, 222864, 446987, [PRICE_EXTRA_ITTYPE] = "210814:150:kej:1500" }, -- Darkmoon Duffle
+				{ 18, 222866, 446989, [PRICE_EXTRA_ITTYPE] = "210814:150:kej:1500" }, -- Excavator's Haversack
+				{ 19, 222865, 446988, [PRICE_EXTRA_ITTYPE] = "210814:150:kej:1500" }, -- Gardener's Seed Satchel
+				{ 20, 225936, 447888, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Hideseeker's Tote
+				{ 21, 222861, 446984, [PRICE_EXTRA_ITTYPE] = "210814:150:kej:1500" }, -- Hideshaper's Workbag
+				{ 22, 222860, 446983 },                                   -- Ignition Satchel
+				{ 23, 222867, 446990, [PRICE_EXTRA_ITTYPE] = "210814:150:kej:1500" }, -- Jeweler's Purse
+				{ 24, 222862, 446985, [PRICE_EXTRA_ITTYPE] = "210814:150:kej:1500" }, -- Magically "Infinite" Messenger
+				{ 25, 222863, 446986, [PRICE_EXTRA_ITTYPE] = "210814:150:kej:1500" }, -- Prodigy's Toolbox
+				{ 26, 224852, 454431 },                                   -- The Severed Satchel
+			},
 			[BFA_DIFF] = {
 				{ 1,  154695, 257125 }, -- Deep Sea Bag
 				{ 2,  154695, 257126 }, -- Deep Sea Bag
@@ -7911,6 +8067,11 @@ data["Tailoring"] = {
 		},
 		{ --TailoringArmorEnhancements
 			name = AL["Armor Enhancements"],
+			[TWW_DIFF] = {
+				{ 1, 222888, 446999 }, -- Weavercloth Spellthread
+				{ 2, 222894, 447001 }, -- Daybreak Spellthread
+				{ 3, 222891, 447000 }, -- Sunset Spellthread
+			},
 			[BFA_DIFF] = {
 				{ 1, "prof279182" }, -- Resilient Spellthread
 				{ 2, "prof279183" }, -- Discreet Spellthread
@@ -7945,8 +8106,35 @@ data["Tailoring"] = {
 				{ 104, 24275,       31431 },                          -- Silver Spellthread : =ds=#sr# 335 : =ds=AtlasLoot_IngameLocales["The Aldor"] - AtlasLoot["Honored"]
 			},
 		},
+		{ -- Profession Equipment
+			name = AL["Profession Equipment"],
+			[TWW_DIFF] = {
+				{ 1,  225729, 456706 },                                   -- Algari Weaverline
+				{ 2,  222845, 446968 },                                   -- Weavercloth Alchemist's Robe
+				{ 3,  222846, 446969 },                                   -- Weavercloth Chef's Hat
+				{ 4,  222843, 446966 },                                   -- Weavercloth Enchanter's Hat
+				{ 5,  222842, 446965 },                                   -- Weavercloth Fishing Cap
+				{ 6,  222841, 446964 },                                   -- Weavercloth Gardening Hat
+				{ 7,  222844, 446967 },                                   -- Weavercloth Tailor's Coat
+				{ 8,  222850, 446973, [PRICE_EXTRA_ITTYPE] = "210814:150:kej:1500" }, -- Artisan Alchemist's Robe
+				{ 9,  222851, 446974 },                                   -- Artisan Chef's Hat
+				{ 10, 222849, 446972, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Artisan Enchanter's Hat
+				{ 11, 222848, 446971, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Artisan Fishing Cap
+				{ 12, 222847, 446970, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Artisan Gardening Hat
+				{ 13, 222852, 446975 },                                   -- Artisan Tailor's Coat
+			},
+		},
 		{ --TailoringMisc
 			name = AL["Miscellaneous"],
+			[TWW_DIFF] = {
+				{ 1, 224440, 447002 }, -- Weavercloth Bandage
+				{ 2, 222879, 446996 }, -- Bright Polishing Cloth
+				{ 3, 222876, 446998 }, -- Gritty Polishing Cloth
+				{ 4, 222882, 446997 }, -- Weavercloth Embroidery Thread
+				{ 5, 222885, 446995 }, -- Preserving Embroidery Thread
+				{ 6, 222868, 446991 }, -- Dawnthread Lining
+				{ 7, 222871, 446992 }, -- Duskthread Lining
+			},
 			[BFA_DIFF] = {
 				{ 1,  159792, 268983 }, -- Hooked Deep Sea Net
 				{ 16, 159791, 268982 }, -- Tidespray Linen Net
@@ -7989,6 +8177,12 @@ data["Tailoring"] = {
 		},
 		{ --TailoringCloth
 			name = AL["Cloth"],
+			[TWW_DIFF] = {
+				{ 1, 222804, 446929 },                   -- Weavercloth Bolt
+				{ 2, 224832, 454397 },                   -- Exquisite Weavercloth Bolt
+				{ 3, 222798, 446927, [ATLASLOOT_IT_AMOUNT1] = "2" }, -- Duskweave Bolt
+				{ 4, 222801, 446928, [ATLASLOOT_IT_AMOUNT1] = "2" }, -- Dawnweave Bolt
+			},
 			[BFA_DIFF] = {
 				{ 1, 158378, 272440 }, -- Embroidered Deep Sea Satin
 			},
@@ -8438,61 +8632,18 @@ data["Cooking"] = {
 	ContentType = SECPROFESSION_CONTENT,
 	TableType = CRAFTING_ITTYPE,
 	items = {
-		{ -- BFA all
-			name = EXPANSION_NAME7,
-			[BFA_DIFF] = {
-				-- subheader / Desserts
-				{ 1,  154887, 259436, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Loa Loaf
-				{ 2,  154883, 259425, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Ravenberry Tarts
-				{ 3,  154881, 259412, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Kul Tiramisu
-				{ 4,  154885, 259444, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Mon'Dazi
-				-- subheader / Light Meals
-				{ 6,  154889, 259430, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Grilled Catfish
-				{ 7,  154891, 259433, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Seasoned Loins
-				{ 8,  163781, 280282, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Heartsbane Hexwurst
-				-- subheader / Large Meals
-				{ 10, 154886, 259447, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Spiced Snapper
-				{ 11, 154888, 259440, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Sailor's Pie
-				{ 12, 154884, 259427, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Swamp Fish 'n Chips
-				{ 13, 154882, 259414, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Honey-Glazed Haunches
-				-- subheader / Feasts
-				{ 16, 156526, 259422 },                    -- Bountiful Captain's Feast
-				{ 17, 156525, 259418 },                    -- Galley Banquet
-			},
-		},
-		{ -- Legion all
-			name = EXPANSION_NAME6,
-			[LEGION_DIFF] = {
-				{ 1,  133557, 201413, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Salt and Pepper Shank
-				{ 2,  133561, 201496, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Deep-Fried Mossgill
-				{ 3,  133562, 201497, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Pickled Stormray
-				{ 4,  133563, 201498, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Faronaar Fizz
-				{ 5,  133564, 201499, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Spiced Rib Roast
-				{ 6,  133565, 201500, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Leybeque Ribs
-				{ 7,  133566, 201501, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Suramar Surf and Turf
-				{ 8,  133567, 201502, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Barracuda Mrglgagh
-				{ 9,  133568, 201503, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Koi-Scented Stormray
-				{ 10, 133569, 201504, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Drogbar-Style Salmon
-				{ 11, 133570, 201505, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- The Hungry Magister
-				{ 12, 133571, 201506, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Azshari Salad
-				{ 13, 133572, 201507, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Nightborne Delicacy Platter
-				{ 14, 133573, 201508, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Seed-Battered Fish Plate
-				{ 15, 133574, 201511, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Fishbrul Special
-				{ 16, 133575, 201512, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Dried Mackerel Strips
-				{ 17, 133576, 201513, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Bear Tartare
-				{ 18, 133577, 201514, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Fighter Chow
-				{ 19, 133578, 201515 },                    -- Hearty Feast
-				{ 20, 133579, 201516 },                    -- Lavish Suramar Feast
-				{ 21, 133681, 201683, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Crispy Bacon
-				{ 22, 142334, 230046 },                    -- Spiced Wildfowl Omelet
-				-- 7.3.0
-				{ 23, 152564, 251258 },                    -- Feast of the Fishes
-			},
-		},
 		{ --CookingAttributes
 			name = AL["Attributes"],
-			--	[LEGION_DIFF] = {
-			--	},
+			[TWW_DIFF] = {
+				{ 1, 222713, 445093, [ATLASLOOT_IT_AMOUNT1] = "3" }, -- Tender Twilight Jerky
+				{ 2, 222712, 445092, [ATLASLOOT_IT_AMOUNT1] = "3" }, -- Sweet and Sour Meatballs
+				{ 3, 222711, 445091, [ATLASLOOT_IT_AMOUNT1] = "3" }, -- Rib Stickers
+				{ 4, 222710, 445090, [ATLASLOOT_IT_AMOUNT1] = "3" }, -- Meat and Potatoes
+				{ 5, 222726, 445106, [ATLASLOOT_IT_AMOUNT1] = "3" }, -- Stuffed Cave Peppers
+				{ 6, 222724, 445104, [ATLASLOOT_IT_AMOUNT1] = "3" }, -- Sizzling Honey Roast
+				{ 7, 222725, 445105, [ATLASLOOT_IT_AMOUNT1] = "3" }, -- Mycobloom Risotto
+				{ 8, 222727, 445107, [ATLASLOOT_IT_AMOUNT1] = "3" }, -- Angler's Delight
+			},
 			[WOD_DIFF] = {
 				{ 1, 122347, 180760 },                    -- Whiptail Fillet (Sold, Garrison)
 				{ 2, 111447, 160984, [ATLASLOOT_IT_AMOUNT1] = "4+" }, -- Talador Surf and Turf (Learnt by tasting or cooking)
@@ -8562,6 +8713,44 @@ data["Cooking"] = {
 		},
 		{ --CookingRatings
 			name = AL["Ratings"],
+			[TWW_DIFF] = {
+				{ 1,  223968, 447872,  [PRICE_EXTRA_ITTYPE] = "kej:1500" },                       -- Spongey Scramble
+				{ 2,  222704, 445084,  [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Unseasoned Field Steak
+				{ 3,  222702, 445082,  [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Skewered Fillet
+				{ 4,  222703, 445083,  [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Simple Stew
+				{ 5,  222705, 445085,  [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Roasted Mycobloom
+				{ 6,  222706, 445086,  [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Pan-Seared Mycobloom
+				{ 7,  222707, 445087,  [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Hallowfall Chili
+				{ 8,  222709, 445089,  [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Flashfire Fillet
+				{ 9,  222708, 445088,  [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Coreway Kabob
+				{ 10, 222714, 445094,  [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Zesty Nibblers
+				{ 11, 222719, 445099,  [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Sweet and Spicy Soup
+				{ 12, 222717, 445097,  [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Salty Dog
+				{ 13, 222722, 445102,  [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Salt Baked Seafood
+				{ 14, 222723, 445103,  [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Marinated Tenderloins
+				{ 15, 222716, 445096,  [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Ginger-Glazed Fillet
+				{ 16, 222721, 445101,  [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Fish and Chips
+				{ 17, 222715, 445095,  [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Fiery Fish Sticks
+				{ 18, 225592, 455424,  [ATLASLOOT_IT_AMOUNT1] = "2" },                            -- Exquisitely Eviscerated Muscle
+				{ 19, 222718, 445098,  [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Deepfin Patty
+				{ 20, 222736, 445116,  [ATLASLOOT_IT_AMOUNT1] = "5" },                            -- Chippy Tea
+				{ 21, 222730, 445110,  [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Jester's Board
+				{ 22, 222731, 445111,  [ATLASLOOT_IT_AMOUNT1] = "3",     [PRICE_EXTRA_ITTYPE] = "kej:2638" }, -- Outsider's Provisions
+				{ 23, 222729, 445109,  [ATLASLOOT_IT_AMOUNT1] = "3",     [PRICE_EXTRA_ITTYPE] = "kej:1500" }, -- Empress' Farewell
+				{ 24, 222728, 445108,  [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Beledar's Bounty
+				{ 25, 235805, 1218414, [ATLASLOOT_IT_AMOUNT1] = "3" },                            -- Authentic Undermine Clam Chowder
+				{ 26, 223967, 447871,  [PRICE_EXTRA_ITTYPE] = "kej:1500" },                       -- Protein Slurp
+			},
+			[BFA_DIFF] = {
+				{ 1, 154887, 259436, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Loa Loaf
+				{ 2, 154883, 259425, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Ravenberry Tarts
+				{ 3, 154881, 259412, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Kul Tiramisu
+				{ 4, 154885, 259444, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Mon'Dazi
+				{ 5, 154886, 259447, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Spiced Snapper
+				{ 6, 154888, 259440, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Sailor's Pie
+				{ 7, 154884, 259427, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Swamp Fish 'n Chips
+				{ 8, 154882, 259414, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Honey-Glazed Haunches
+			},
 			[LEGION_DIFF] = {
 				-- Critical Strike
 				{ 1,  133557, 201413, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Salt and Pepper Shank
@@ -8716,6 +8905,21 @@ data["Cooking"] = {
 		},
 		{ --CookingBanquetFeast
 			name = AL["Banquets/Feasts"],
+			[TWW_DIFF] = {
+				{ 1, 222720, 445100, [ATLASLOOT_IT_AMOUNT1] = "3" },                                     -- The Sushi Special
+				{ 2, 222733, 445113, [ATLASLOOT_IT_AMOUNT1] = "5" },                                     -- Feast of the Midnight Masquerade
+				{ 3, 222732, 445112, [ATLASLOOT_IT_AMOUNT1] = "5" },                                     -- Feast of the Divine Day
+				{ 4, 222735, 445115, [ATLASLOOT_IT_AMOUNT1] = "3", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:1000" }, -- Everything Stew
+			},
+			[BFA_DIFF] = {
+				{ 1, 156526, 259422 }, -- Bountiful Captain's Feast
+				{ 2, 156525, 259418 }, -- Galley Banquet
+			},
+			[LEGION_DIFF] = {
+				{ 1, 133578, 201515 }, -- Hearty Feast
+				{ 2, 133579, 201516 }, -- Lavish Suramar Feast
+				{ 3, 152564, 251258 }, -- Feast of the Fishes
+			},
 			[NORMAL_DIFF] = {
 				{ 1,  111457, 173978, [ATLASLOOT_IT_AMOUNT1] = "4+" }, -- Feast of Blood (Learnt by tasting or cooking)
 				{ 2,  111458, 173979, [ATLASLOOT_IT_AMOUNT1] = "4+" }, -- Feast of the Waters (Learnt by tasting or cooking)
@@ -8746,9 +8950,6 @@ data["Cooking"] = {
 		},
 		{ --CookingAPSP
 			name = AL["Attack/Spell Power"],
-			[LEGION_DIFF] = {
-				{ 1, 142334, 230046 }, -- Spiced Wildfowl Omelet
-			},
 			[NORMAL_DIFF] = {
 				{ 1,  43015,                                      57423 },                       -- Fish Feast : =ds=#sr# 450 : =ds=AtlasLoot["Vendor"]: AtlasLoot_IngameLocales["Dalaran"]
 				{ 2,  34754,                                      45555 },                       -- Mega Mammoth Meal : =ds=#sr# 400 : =ds=AtlasLoot["Vendor"]: AtlasLoot_IngameLocales["Dalaran"]
@@ -8777,55 +8978,69 @@ data["Cooking"] = {
 		},
 		{ --CookingSpecial
 			name = AL["Special"],
+			[TWW_DIFF] = {
+				{ 1, 223970, 447874, [ATLASLOOT_IT_AMOUNT1] = "3" },                                                    -- Little Buddy Biscuits
+				{ 2, 222748, 445483, [ATLASLOOT_IT_AMOUNT1] = "10" },                                                   -- Sticky Sweet Treat
+				{ 3, 225855, 447876, [ATLASLOOT_IT_AMOUNT1] = "5",                 [PRICE_EXTRA_ITTYPE] = "mereldarDerbyMark:10" }, -- Ghoulfish Delight
+				{ 4, 222747, 445482, [ATLASLOOT_IT_AMOUNT1] = "10",                [PRICE_EXTRA_ITTYPE] = "mereldarDerbyMark:10" }, -- Rockslide Shake
+				{ 5, 222745, 445480, [PRICE_EXTRA_ITTYPE] = "mereldarDerbyMark:10" },                                   -- Pep-In-Your-Step
+				{ 6, 222749, 445484, [ATLASLOOT_IT_AMOUNT1] = "10",                [PRICE_EXTRA_ITTYPE] = "mereldarDerbyMark:10" }, -- Melted Candlebar
+				{ 7, 223966, 447870, [ATLASLOOT_IT_AMOUNT1] = "2",                 [PRICE_EXTRA_ITTYPE] = "kej:1500" }, -- Everything-on-a-Stick
+				{ 7, 223971, 447875, [PRICE_EXTRA_ITTYPE] = "kej:1500" },                                               -- Azj-Kahet Special
+			},
+			[BFA_DIFF] = {
+				{ 1, 163781, 280282, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Heartsbane Hexwurst
+			},
 			[LEGION_DIFF] = {
 				{ 1, 133564, 201499, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Spiced Rib Roast
 				{ 2, 133569, 201504, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Drogbar-Style Salmon
 				{ 3, 133574, 201511, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Fishbrul Special
 				{ 4, 133576, 201513, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Bear Tartare
 				{ 5, 133577, 201514, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Fighter Chow
-				{ 6, 133578, 201515 },                    -- Hearty Feast
-				{ 7, 133579, 201516 },                    -- Lavish Suramar Feast
-				{ 8, 133681, 201683, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Crispy Bacon
+				{ 6, 133681, 201683, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Crispy Bacon
+				{ 7, 142334, 230046 },                    -- Spiced Wildfowl Omelet
 			},
 			[NORMAL_DIFF] = {
 				{ 1,  62790, 88015,  [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Darkbrew Lager : =ds=#sr# 415 : =ds=AtlasLoot["Trainer"]
 				{ 2,  62674, 88022 },                  -- Highland Spirits : =ds=#sr# 450 : =ds=AtlasLoot["Cooking Daily"]
-				{ 4,  43491, 58523,  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Bad Clams : =ds=#sr# 350 : =ds=AtlasLoot["Drop"]
-				{ 5,  43492, 58525,  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Haunted Herring : =ds=#sr# 350 : =ds=AtlasLoot["Drop"]
-				{ 6,  43488, 58521,  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Last Week's Mammoth : =ds=#sr# 350 : =ds=AtlasLoot["Drop"]
-				{ 7,  43490, 58512,  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Tasty Cupcake : =ds=#sr# 350 : =ds=AtlasLoot["Drop"]
-				{ 8,  33924, 43779 },                  -- Delicious Chocolate Cake : =ds=#sr# 1 : =ds=AtlasLoot["Cooking Daily"]
-				{ 10, 62673, 88017 },                  -- Feathered Lure : =ds=#sr# 450 : =ds=AtlasLoot["Cooking Daily"]
-				{ 11, 34832, 45695,  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Captain Rumsey's Lager : =ds=#sr# 100 : =ds=AtlasLoot["Drop"]
-				{ 13, 42997, 57438 },                  -- Blackened Worg Steak : =ds=#sr# 400 : =ds=AtlasLoot["Vendor"]: AtlasLoot_IngameLocales["Dalaran"]
-				{ 14, 43001, 57443 },                  -- Tracker Snacks : =ds=#sr# 400 : =ds=AtlasLoot["Vendor"]: AtlasLoot_IngameLocales["Dalaran"]
-				{ 16, 86432, 126655 },                 -- Banana Infused Rum : =ds=#sr# 600 : =ds=AtlasLoot_IngameLocales["Way of the Brew"]: AtlasLoot_IngameLocales["Krasarang Wilds"]
-				{ 17, 87264, 126654 },                 -- Four Senses Brew : =ds=#sr# 600 : =ds=AtlasLoot_IngameLocales["Way of the Brew"]: AtlasLoot_IngameLocales["Kun-Lai Summit"]
-				{ 18, 75038, 124054, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Mad Brewer's Breakfast : =ds=#sr# 600 : =ds=AtlasLoot_IngameLocales["Way of the Brew"]
-				{ 19, 75037, 124053 },                 -- Jade Witch Brew : =ds=#sr# 550 : =ds=AtlasLoot_IngameLocales["Way of the Brew"]
-				{ 20, 62680, 88013 },                  -- Chocolate Cookie : =ds=#sr# 505 : =ds=AtlasLoot["Cooking Daily"]
-				{ 21, 43004, 57435,  [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Critter Bites : =ds=#sr# 400 : =ds=AtlasLoot["Vendor"]: AtlasLoot_IngameLocales["Dalaran"]
-				{ 22, 33866, 43758 },                  -- Stormchops : =ds=#sr# 300 : =ds=AtlasLoot["Drop"]
-				{ 23, 12217, 15906 },                  -- Dragonbreath Chili : =ds=#sr# 200 : =ds=AtlasLoot["Vendor"]
-				{ 24, 6657,  8238 },                   -- Savory Deviate Delight : =ds=#sr# 85 : =ds=AtlasLoot["Drop"]
-				{ 25, 7676,  9513 },                   -- Thistle Tea : =ds=#sr# 60 : =ds=AtlasLoot["Vendor"]: AtlasLoot_IngameLocales["Hillsbrad Foothills"]
-				{ 26, 5473,  6413 },                   -- Scorpid Surprise : =ds=#sr# 20 : =ds=AtlasLoot["Vendor"]: AtlasLoot_IngameLocales["Durotar"]
-			},
-		},
-		{ --CookingOtherBuffs
-			name = AL["Other Buffs"],
-			[NORMAL_DIFF] = {
-				{ 1,  43005, 57440 }, -- Spiced Mammoth Treats : =ds=#sr# 400 : =ds=AtlasLoot["Vendor"]: AtlasLoot_IngameLocales["Dalaran"]
-				{ 2,  33874, 43772 }, -- Kibler's Bits : =ds=#sr# 300 : =ds=AtlasLoot["Drop"]
-				{ 4,  13932, 18244 }, -- Poached Sunscale Salmon : =ds=#sr# 250 : =ds=AtlasLoot["Trainer"]
-				{ 16, 27663, 33292 }, -- Blackened Sporefish : =ds=#sr# 310 : =ds=AtlasLoot["Vendor"]: AtlasLoot_IngameLocales["Zangarmarsh"]
-				{ 17, 13931, 18243 }, -- Nightfin Soup : =ds=#sr# 250 : =ds=AtlasLoot["Trainer"]
-				{ 18, 21217, 25954 }, -- Sagefish Delight : =ds=#sr# 175 : =ds=AtlasLoot["Vendor"]
-				{ 19, 21072, 25704 }, -- Smoked Sagefish : =ds=#sr# 80 : =ds=AtlasLoot["Vendor"]
+				{ 3,  43491, 58523,  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Bad Clams : =ds=#sr# 350 : =ds=AtlasLoot["Drop"]
+				{ 4,  43492, 58525,  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Haunted Herring : =ds=#sr# 350 : =ds=AtlasLoot["Drop"]
+				{ 5,  43488, 58521,  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Last Week's Mammoth : =ds=#sr# 350 : =ds=AtlasLoot["Drop"]
+				{ 6,  43490, 58512,  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Tasty Cupcake : =ds=#sr# 350 : =ds=AtlasLoot["Drop"]
+				{ 7,  33924, 43779 },                  -- Delicious Chocolate Cake : =ds=#sr# 1 : =ds=AtlasLoot["Cooking Daily"]
+				{ 8,  62673, 88017 },                  -- Feathered Lure : =ds=#sr# 450 : =ds=AtlasLoot["Cooking Daily"]
+				{ 9,  34832, 45695,  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Captain Rumsey's Lager : =ds=#sr# 100 : =ds=AtlasLoot["Drop"]
+				{ 10, 42997, 57438 },                  -- Blackened Worg Steak : =ds=#sr# 400 : =ds=AtlasLoot["Vendor"]: AtlasLoot_IngameLocales["Dalaran"]
+				{ 11, 43001, 57443 },                  -- Tracker Snacks : =ds=#sr# 400 : =ds=AtlasLoot["Vendor"]: AtlasLoot_IngameLocales["Dalaran"]
+				{ 12, 86432, 126655 },                 -- Banana Infused Rum : =ds=#sr# 600 : =ds=AtlasLoot_IngameLocales["Way of the Brew"]: AtlasLoot_IngameLocales["Krasarang Wilds"]
+				{ 13, 87264, 126654 },                 -- Four Senses Brew : =ds=#sr# 600 : =ds=AtlasLoot_IngameLocales["Way of the Brew"]: AtlasLoot_IngameLocales["Kun-Lai Summit"]
+				{ 14, 75038, 124054, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Mad Brewer's Breakfast : =ds=#sr# 600 : =ds=AtlasLoot_IngameLocales["Way of the Brew"]
+				{ 15, 75037, 124053 },                 -- Jade Witch Brew : =ds=#sr# 550 : =ds=AtlasLoot_IngameLocales["Way of the Brew"]
+				{ 16, 62680, 88013 },                  -- Chocolate Cookie : =ds=#sr# 505 : =ds=AtlasLoot["Cooking Daily"]
+				{ 17, 43004, 57435,  [ATLASLOOT_IT_AMOUNT1] = 4 }, -- Critter Bites : =ds=#sr# 400 : =ds=AtlasLoot["Vendor"]: AtlasLoot_IngameLocales["Dalaran"]
+				{ 18, 33866, 43758 },                  -- Stormchops : =ds=#sr# 300 : =ds=AtlasLoot["Drop"]
+				{ 19, 12217, 15906 },                  -- Dragonbreath Chili : =ds=#sr# 200 : =ds=AtlasLoot["Vendor"]
+				{ 20, 6657,  8238 },                   -- Savory Deviate Delight : =ds=#sr# 85 : =ds=AtlasLoot["Drop"]
+				{ 21, 7676,  9513 },                   -- Thistle Tea : =ds=#sr# 60 : =ds=AtlasLoot["Vendor"]: AtlasLoot_IngameLocales["Hillsbrad Foothills"]
+				{ 22, 5473,  6413 },                   -- Scorpid Surprise : =ds=#sr# 20 : =ds=AtlasLoot["Vendor"]: AtlasLoot_IngameLocales["Durotar"]
+				{ 23, 43005, 57440 },                  -- Spiced Mammoth Treats : =ds=#sr# 400 : =ds=AtlasLoot["Vendor"]: AtlasLoot_IngameLocales["Dalaran"]
+				{ 24, 33874, 43772 },                  -- Kibler's Bits : =ds=#sr# 300 : =ds=AtlasLoot["Drop"]
+				{ 25, 13932, 18244 },                  -- Poached Sunscale Salmon : =ds=#sr# 250 : =ds=AtlasLoot["Trainer"]
+				{ 26, 27663, 33292 },                  -- Blackened Sporefish : =ds=#sr# 310 : =ds=AtlasLoot["Vendor"]: AtlasLoot_IngameLocales["Zangarmarsh"]
+				{ 27, 13931, 18243 },                  -- Nightfin Soup : =ds=#sr# 250 : =ds=AtlasLoot["Trainer"]
+				{ 28, 21217, 25954 },                  -- Sagefish Delight : =ds=#sr# 175 : =ds=AtlasLoot["Vendor"]
+				{ 29, 21072, 25704 },                  -- Smoked Sagefish : =ds=#sr# 80 : =ds=AtlasLoot["Vendor"]
 			},
 		},
 		{ --CookingStandard
 			name = AL["Food without Buffs"],
+			[TWW_DIFF] = {
+				{ 1, 222744, 445479, [ATLASLOOT_IT_AMOUNT1] = "10", [PRICE_EXTRA_ITTYPE] = "money:200000" }, -- Cinder Nectar
+			},
+			[BFA_DIFF] = {
+				{ 1, 154889, 259430, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Grilled Catfish
+				{ 2, 154891, 259433, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Seasoned Loins
+			},
 			[LEGION_DIFF] = {
 				{ 1, 133575, 201512, [ATLASLOOT_IT_AMOUNT1] = "5+" }, -- Dried Mackerel Strips
 			},

@@ -6,7 +6,6 @@ local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
 local PIGLine=Create.PIGLine
 local PIGButton = Create.PIGButton
-local PIGDownMenu=Create.PIGDownMenu
 local PIGSlider = Create.PIGSlider
 local PIGCheckbutton=Create.PIGCheckbutton
 local PIGCheckbutton_R=Create.PIGCheckbutton_R
@@ -384,8 +383,6 @@ addonTable.FramePlus = function()
 	FramePlusfun.Skill()
 	FramePlusfun.BlizzardUI_Move()
 	FramePlusfun.Character_ADD()
-	if tocversion<40000 then
-		FramePlusfun.Talent()	
-	end
+	FramePlusfun.Talent()
 	FramePlusfun.Character_Shuxing()
 end

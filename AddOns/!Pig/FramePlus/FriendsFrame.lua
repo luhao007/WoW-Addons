@@ -41,62 +41,62 @@ function FramePlusfun.Friends()
     ----  
     local playerRealmID = Pig_OptionsUI.Realm
     local playerFactionGroup = UnitFactionGroup("player");
-    local function Show_jueseinfo(piginfo_acc,button,accountName)
-     	if #piginfo_acc[1]==0 and #piginfo_acc[2]==0 then return end
-		if #piginfo_acc[2]>0 then	
-			iconH_1=iconH-3
-		else
-			iconH_1=iconH
+    local function Show_jueseinfo(acc_data,button,accountName)
+     	if not acc_data[1] and not acc_data[2] then return end
+     	local _pig_iconH_1=iconH
+		if acc_data[2] then	
+			_pig_iconH_1=iconH-3
 		end
-		local _, _,_, _, sexBNET = piginfo_acc[1][1] and GetPlayerInfoByGUID(piginfo_acc[1][1])
-		local raceX,classX = GetRaceClassTXT(iconH_1,texW,PIGraceList[piginfo_acc[1][3]],sexBNET or 2,ClasseNameID[piginfo_acc[1][4]])
-		local Newtxt = raceX.." "..classX.." (Lv"..piginfo_acc[1][5]..") "..piginfo_acc[1][2]
-		local color = PIG_CLASS_COLORS[ClasseNameID[piginfo_acc[1][4]]]
+		local _, _,_, _, sexBNET = acc_data[1][1] and GetPlayerInfoByGUID(acc_data[1][1])
+		local raceX,classX = GetRaceClassTXT(_pig_iconH_1,texW,PIGraceList[acc_data[1][3]],sexBNET or 2,ClasseNameID[acc_data[1][4]])
+		local Newtxt = raceX.." "..classX.." (Lv"..acc_data[1][5]..") "..acc_data[1][2]
+		local color = PIG_CLASS_COLORS[ClasseNameID[acc_data[1][4]]]
 		local argbHex=color and color.colorStr or "ffffffff"
 		local zhu_TXT=accountName.." \124c"..argbHex..Newtxt.."\124r"
 		local zhu_TXT_info=button.info:GetText() or UNKNOWN
-		if piginfo_acc[1][6] == WOW_PROJECT_MAINLINE then--正式服
-			if piginfo_acc[1][7] ~= playerRealmID then
-				zhu_TXT_info=piginfo_acc[1][9]
+		if acc_data[1][6] == WOW_PROJECT_MAINLINE then--正式服
+			if acc_data[1][7] ~= playerRealmID then
+				zhu_TXT_info=acc_data[1][9]
 			end
-		elseif piginfo_acc[1][6] == WOW_PROJECT_CLASSIC then--60
-			if piginfo_acc[1][7] ~= playerRealmID then
-				if piginfo_acc[1][8] and piginfo_acc[1][8] ~= "" then
-					zhu_TXT_info=zhu_TXT_info.." "..piginfo_acc[1][8]
+		elseif acc_data[1][6] == WOW_PROJECT_CLASSIC then--60
+			if acc_data[1][7] ~= playerRealmID then
+				if acc_data[1][8] and acc_data[1][8] ~= "" then
+					zhu_TXT_info=zhu_TXT_info.." "..acc_data[1][8]
 				end
 			end
-		elseif piginfo_acc[1][6] == 11 then--80
-			if piginfo_acc[1][7] ~= playerRealmID then
-				if piginfo_acc[1][8] and piginfo_acc[1][8] ~= "" then
-					zhu_TXT_info=zhu_TXT_info.." "..piginfo_acc[1][8]
+		elseif acc_data[1][6] == 11 then--80
+			if acc_data[1][7] ~= playerRealmID then
+				if acc_data[1][8] and acc_data[1][8] ~= "" then
+					zhu_TXT_info=zhu_TXT_info.." "..acc_data[1][8]
 				end
 			end
 		end
-		if #piginfo_acc[2]>0 then
+		if acc_data[2] then
 			button.name:SetHeight(iconH*2);
-			local _, _,_, _, sexBNET = piginfo_acc[2][1] and GetPlayerInfoByGUID(piginfo_acc[2][1])
-			local raceX,classX = GetRaceClassTXT(iconH_1,texW,PIGraceList[piginfo_acc[2][3]],sexBNET or 2,ClasseNameID[piginfo_acc[2][4]])
-			local Newtxt = raceX.." "..classX.." (Lv"..piginfo_acc[2][5]..") "..piginfo_acc[2][2]
-			local color = PIG_CLASS_COLORS[ClasseNameID[piginfo_acc[2][4]]]
+			local _, _,_, _, sexBNET = acc_data[2][1] and GetPlayerInfoByGUID(acc_data[2][1])
+			local raceX,classX = GetRaceClassTXT(_pig_iconH_1,texW,PIGraceList[acc_data[2][3]],sexBNET or 2,ClasseNameID[acc_data[2][4]])
+			local Newtxt = raceX.." "..classX.." (Lv"..acc_data[2][5]..") "..acc_data[2][2]
+			local color = PIG_CLASS_COLORS[ClasseNameID[acc_data[2][4]]]
 			local argbHex=color and color.colorStr or "ffffffff"
 			zhu_TXT=zhu_TXT.."\n"..accountName.." \124c"..argbHex..Newtxt.."\124r"
-			if piginfo_acc[2][6] == WOW_PROJECT_MAINLINE then--正式服
-				if piginfo_acc[2][7] ~= playerRealmID then
-					zhu_TXT_info=zhu_TXT_info.."\n"..piginfo_acc[2][9]
+			if acc_data[2][6] == WOW_PROJECT_MAINLINE then--正式服
+				if acc_data[2][7] ~= playerRealmID then
+					zhu_TXT_info=zhu_TXT_info.."\n"..acc_data[2][9]
 				else
-					zhu_TXT_info=zhu_TXT_info.."\n"..piginfo_acc[2][8]
+					zhu_TXT_info=zhu_TXT_info.."\n"..acc_data[2][8]
 				end
-			elseif piginfo_acc[2][6] == WOW_PROJECT_CLASSIC then--60
-				if piginfo_acc[2][7] ~= playerRealmID then
-					zhu_TXT_info=zhu_TXT_info.."\n"..piginfo_acc[2][9]..piginfo_acc[2][8]
+			elseif acc_data[2][6] == WOW_PROJECT_CLASSIC then--60
+				if acc_data[2][7] ~= playerRealmID then
+					zhu_TXT_info=zhu_TXT_info.."\n"..acc_data[2][9]..acc_data[2][8]
 				else
-					zhu_TXT_info=zhu_TXT_info.."\n"..piginfo_acc[2][8]
+					zhu_TXT_info=zhu_TXT_info.."\n"..acc_data[2][8]
 				end
-			elseif piginfo_acc[2][6] == 11 then--80
-				if piginfo_acc[2][7] ~= playerRealmID then
-					zhu_TXT_info=zhu_TXT_info.."\n"..piginfo_acc[2][9]..piginfo_acc[2][8]
+			elseif acc_data[2][6] == 11 then--80
+
+				if acc_data[2][7] ~= playerRealmID then
+					zhu_TXT_info=zhu_TXT_info.."\n"..acc_data[2][9]..acc_data[2][8]
 				else
-					zhu_TXT_info=zhu_TXT_info.."\n"..piginfo_acc[2][8]
+					zhu_TXT_info=zhu_TXT_info.."\n"..acc_data[2][8]
 				end
 			end
 		end
@@ -148,7 +148,7 @@ function FramePlusfun.Friends()
 				local accountInfo = C_BattleNet.GetFriendAccountInfo(id);
 				if accountInfo then
 					if accountInfo.gameAccountInfo.isOnline then
-						local piginfo_acc={{},{}}
+						local piginfo_acc={nil,nil}
 						local numGameAccounts = C_BattleNet.GetFriendNumGameAccounts(id);
 						for Accid=1,numGameAccounts do
 						    local gameAccountInfo = C_BattleNet.GetFriendGameAccountInfo(id, Accid);
@@ -157,12 +157,12 @@ function FramePlusfun.Friends()
 									gameAccountInfo.playerGuid,gameAccountInfo.characterName,gameAccountInfo.raceName,gameAccountInfo.className,
 									gameAccountInfo.characterLevel,gameAccountInfo.wowProjectID,gameAccountInfo.realmName,gameAccountInfo.areaName, gameAccountInfo.richPresence
 								}
-								if gameAccountInfo.hasFocus and #piginfo_acc[1]==0 then
+								if not piginfo_acc[1] then
 									piginfo_acc[1]=juese_AccountInfo
-								elseif #piginfo_acc[2]==0 then
+								elseif not piginfo_acc[2] then
 									piginfo_acc[2]=juese_AccountInfo
 								end
-								if #piginfo_acc[1]>0 and #piginfo_acc[2]>0 then
+								if piginfo_acc[1] and piginfo_acc[2] then
 									break
 								end
 							end
@@ -173,18 +173,18 @@ function FramePlusfun.Friends()
 			else
 				local bnetIDAccount, accountName, _, _, _, _, _, isOnline = BNGetFriendInfo(id);
 				if accountName and isOnline then
-					local piginfo_acc={{},{}}
+					local piginfo_acc={nil,nil}
 					local numGameAccounts = BNGetNumFriendGameAccounts(id);
 					for Accid=1,numGameAccounts do
 						local hasFocus, characterName, client, realmName, realmID, faction, race, class, _, zoneName, level, gameText, _, _, _, _, _, _, _, Guid, wowProjectID = BNGetFriendGameAccountInfo(id, Accid);
 						if client==BNET_CLIENT_WOW then--BNET_CLIENT_APP
 							local juese_AccountInfo = {Guid,characterName,race,class,level,wowProjectID,realmName,zoneName, gameText}
-							if hasFocus and #piginfo_acc[1]==0 then
+							if not piginfo_acc[1] then
 								piginfo_acc[1]=juese_AccountInfo
-							elseif #piginfo_acc[2]==0 then
+							elseif not piginfo_acc[2] then
 								piginfo_acc[2]=juese_AccountInfo
 							end
-							if #piginfo_acc[1]>0 and #piginfo_acc[2]>0 then
+							if piginfo_acc[1] and piginfo_acc[2] then
 								break
 							end
 						end

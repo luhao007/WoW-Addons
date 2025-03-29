@@ -120,7 +120,9 @@ local function AddMinimapPin(POI)
 		pin.Texture:SetScale(RSConfigDB.GetIconsMinimapScale())
 		pin:SetFrameLevel(ENTITY_FRAME_LEVEL)
 		pin.IconTexture:SetAtlas(POI.iconAtlas)
-		HBD_Pins:AddMinimapIconMap(RSMinimap, pin, POI.mapID, RSUtils.FixCoord(POI.x), RSUtils.FixCoord(POI.y), false, false)
+		if (type(POI.mapID) == "number" and type(RSUtils.FixCoord(POI.x)) == "number" and type(RSUtils.FixCoord(POI.y)) == "number") then
+			HBD_Pins:AddMinimapIconMap(RSMinimap, pin, POI.mapID, RSUtils.FixCoord(POI.x), RSUtils.FixCoord(POI.y), false, false)
+		end
 	end
 end
 
@@ -230,7 +232,9 @@ function RSMinimap.RefreshEntityState(entityID)
 					pin.Texture:SetScale(RSConfigDB.GetIconsMinimapScale())
 					pin.IconTexture:SetAtlas(POI.iconAtlas)
 					pin:SetFrameLevel(ENTITY_FRAME_LEVEL)
-					HBD_Pins:AddMinimapIconMap(RSMinimap, pin, POI.mapID, RSUtils.FixCoord(POI.x), RSUtils.FixCoord(POI.y), false, false)
+					if (type(POI.mapID) == "number" and type(RSUtils.FixCoord(POI.x)) == "number" and type(RSUtils.FixCoord(POI.y)) == "number") then
+						HBD_Pins:AddMinimapIconMap(RSMinimap, pin, POI.mapID, RSUtils.FixCoord(POI.x), RSUtils.FixCoord(POI.y), false, false)
+					end
 				end
 				
 				-- If the entity spawns in multiple places keep checking the rest of entities in the list

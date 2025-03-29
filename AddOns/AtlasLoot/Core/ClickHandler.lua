@@ -1,12 +1,12 @@
 --[[
 	Allows presets with keybinds
-	
+
 	-- MouseButtons
 	- LeftButton
 	- RightButton
 	- MiddleButton
 	- Button4-x
-	
+
 	- MouseWheelUp
 	- MouseWheelDown
 
@@ -30,19 +30,19 @@ local IsShiftKeyDown, IsLeftShiftKeyDown, IsRightShiftKeyDown = IsShiftKeyDown, 
 
 local MOUSE_BUTTON_LOC = nil
 local MODIFIER_LOC = {
-	{ "Alt", 		_G["ALT_KEY_TEXT"] },
-	{ "LeftAlt",	_G["LALT_KEY_TEXT"] },
-	{ "RightAlt",	_G["RALT_KEY_TEXT"] },
-	{ "Ctrl",		_G["CTRL_KEY_TEXT"] },
-	{ "LeftCtrl",	_G["LCTRL_KEY_TEXT"] },
-	{ "RightCtrl",	_G["RCTRL_KEY_TEXT"] },
-	{ "Shift",		_G["SHIFT_KEY_TEXT"] },
-	{ "LeftShift",	_G["LSHIFT_KEY_TEXT"] },
-	{ "RightShift",	_G["RSHIFT_KEY_TEXT"] },
+	{ "Alt",        _G["ALT_KEY_TEXT"] },
+	{ "LeftAlt",    _G["LALT_KEY_TEXT"] },
+	{ "RightAlt",   _G["RALT_KEY_TEXT"] },
+	{ "Ctrl",       _G["CTRL_KEY_TEXT"] },
+	{ "LeftCtrl",   _G["LCTRL_KEY_TEXT"] },
+	{ "RightCtrl",  _G["RCTRL_KEY_TEXT"] },
+	{ "Shift",      _G["SHIFT_KEY_TEXT"] },
+	{ "LeftShift",  _G["LSHIFT_KEY_TEXT"] },
+	{ "RightShift", _G["RSHIFT_KEY_TEXT"] },
 }
 
 --[[ format
-	-- db is only the table 
+	-- db is only the table
 	db = MySavedVariables.ClickHandler
 	dbDefault = {
 		ItemLink = { "LeftButton", "Shift" },
@@ -57,15 +57,15 @@ local MODIFIER_LOC = {
 ]]
 function ClickHandler:Add(name, dbDefault, db, types)
 	local handler = {}
-	
-	local dbDefaultNEW = {types = {}}
+
+	local dbDefaultNEW = { types = {} }
 	for i = 1, #types do
 		local typ = types[i][1]
 		if not db.types then db.types = {} end
 		dbDefaultNEW.types[typ] = dbDefault.types[typ]
 		if db.types[typ] == nil then
 			db.types[typ] = dbDefault.types[typ] or false
-			-- set default keybind if aviable and free
+			-- set default keybind if available and free
 			if dbDefault[typ] and dbDefault[typ][1] ~= "None" then
 				local info = dbDefault[typ]
 				if not db[info[1]] then db[info[1]] = {} end
@@ -77,16 +77,15 @@ function ClickHandler:Add(name, dbDefault, db, types)
 		if not dbDefaultNEW[dbDefault[typ][1]] then dbDefaultNEW[dbDefault[typ][1]] = {} end
 		dbDefaultNEW[dbDefault[typ][1]][dbDefault[typ][2]] = typ
 	end
-	db.__defaults = dbDefaultNEW 
-	
+	db.__defaults = dbDefaultNEW
+
 	handler.db = db
 	handler.dbDefault = dbDefault
 	handler.types = types
-	
-	setmetatable(handler, {__index = Proto})
-	
+
+	setmetatable(handler, { __index = Proto })
+
 	return handler
-	
 end
 
 function ClickHandler:GetLocMouseButtons()
@@ -96,7 +95,7 @@ function ClickHandler:GetLocMouseButtons()
 			["Button2"] = "RightButton",
 			["Button3"] = "MiddleButton",
 		}
-		for i=1,100 do
+		for i = 1, 100 do
 			if _G["KEY_BUTTON"..i] then
 				MOUSE_BUTTON_LOC[#MOUSE_BUTTON_LOC + 1] = { preSet["Button"..i] or "Button"..i, _G["KEY_BUTTON"..i] }
 			else
@@ -106,7 +105,6 @@ function ClickHandler:GetLocMouseButtons()
 	end
 	return MOUSE_BUTTON_LOC
 end
-
 
 function ClickHandler:GetLocModifier()
 	return MODIFIER_LOC
@@ -143,7 +141,7 @@ function Proto:Get(mouseButton)
 					return self.db[mouseButton].Ctrl
 				end
 			end
-		end	
+		end
 		return self.db[mouseButton].None
 	end
 end

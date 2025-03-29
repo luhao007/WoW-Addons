@@ -290,14 +290,14 @@ end
 local function ADD_DownMenu(fujik,min,max,menu,CVarsV,CVarsN,Point,W,rl)
 	local xialaibut=PIGDownMenu(fujik,Point,{W,nil})
 	xialaibut.t = PIGFontString(xialaibut,{"RIGHT",xialaibut,"LEFT",-4,0},CVarsN);
-	function xialaibut:PIGDownMenu_Update_But(self)
+	function xialaibut:PIGDownMenu_Update_But()
 		local info = {}
 		info.func = self.PIGDownMenu_SetValue
 		for i=min,max,1 do
 			local i = tostring(i)
 		    info.text, info.arg1 = menu[i], i
 		    info.checked = i==GetCVar(CVarsV)
-			xialaibut:PIGDownMenu_AddButton(info)
+			self:PIGDownMenu_AddButton(info)
 		end 
 	end
 	function xialaibut:PIGDownMenu_SetValue(value,arg1,arg2)

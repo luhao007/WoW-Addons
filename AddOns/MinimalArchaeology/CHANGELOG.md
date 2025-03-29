@@ -1,6 +1,13 @@
 # Minimal Archaeology
 ## Latest Version
 
+### 11.1.0
+
+- Updated for Mainline 11.1
+- **11.1.0.1** Set Addon category
+- **11.1.0.1** Update zone name in translations
+- **11.1.0.2** Update German translations (courtesy of Sneaker42)
+
 ### 11.0.2
 
 - Added support for localizations, if you would like to help with translations, head over to https://curseforge.com/wow/addons/minimal-archaeology/localization

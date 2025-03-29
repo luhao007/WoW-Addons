@@ -9,7 +9,6 @@ local GetContainerItemLink=C_Container.GetContainerItemLink
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
 local PIGButton=Create.PIGButton
-local PIGDownMenu=Create.PIGDownMenu
 local PIGFontString=Create.PIGFontString
 local BagBankFrame=Create.BagBankFrame
 --=====================

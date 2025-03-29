@@ -182,7 +182,8 @@ function BusinessInfo.Trade()
 	local T_hang_Height,T_hang_NUM  = 24, 21;
 	fujiF.TimeList.Scroll = CreateFrame("ScrollFrame",nil,fujiF.TimeList, "FauxScrollFrameTemplate");  
 	fujiF.TimeList.Scroll:SetPoint("TOPLEFT",fujiF.TimeList,"TOPLEFT",0,-2);
-	fujiF.TimeList.Scroll:SetPoint("BOTTOMRIGHT",fujiF.TimeList,"BOTTOMRIGHT",-25,2);
+	fujiF.TimeList.Scroll:SetPoint("BOTTOMRIGHT",fujiF.TimeList,"BOTTOMRIGHT",-24,2);
+	fujiF.TimeList.Scroll:SetScale(0.8);
 	fujiF.TimeList.Scroll:SetScript("OnVerticalScroll", function(self, offset)
 	    FauxScrollFrame_OnVerticalScroll(self, offset, T_hang_Height, fujiF.gengxin_List_Time)
 	end)
@@ -274,13 +275,14 @@ function BusinessInfo.Trade()
 	fujiF.TradeList=PIGFrame(fujiF)
 	fujiF.TradeList:PIGSetBackdrop(0)
 	fujiF.TradeList:SetPoint("TOPLEFT",fujiF.TimeList,"TOPRIGHT",2,0);
-	fujiF.TradeList:SetPoint("BOTTOMRIGHT",fujiF,"BOTTOMRIGHT",0,0);
+	fujiF.TradeList:SetPoint("BOTTOMRIGHT",fujiF,"BOTTOMRIGHT",0,22);
 	fujiF.TradeList.err = PIGFontString(fujiF.TradeList,{"CENTER", 0,60},"请在左侧列表选择要查看角色","OUTLINE")
 	fujiF.TradeList.err:SetTextColor(0, 1, 0, 1);
 	local N_hang_Height,N_hang_NUM  = 40, 12;
 	fujiF.TradeList.Scroll = CreateFrame("ScrollFrame",nil,fujiF.TradeList, "FauxScrollFrameTemplate");  
 	fujiF.TradeList.Scroll:SetPoint("TOPLEFT",fujiF.TradeList,"TOPLEFT",0,-2);
-	fujiF.TradeList.Scroll:SetPoint("BOTTOMRIGHT",fujiF.TradeList,"BOTTOMRIGHT",-25,26);
+	fujiF.TradeList.Scroll:SetPoint("BOTTOMRIGHT",fujiF.TradeList,"BOTTOMRIGHT",-24,2);
+	fujiF.TradeList.Scroll:SetScale(0.8);
 	fujiF.TradeList.Scroll:SetScript("OnVerticalScroll", function(self, offset)
 	    FauxScrollFrame_OnVerticalScroll(self, offset, N_hang_Height, fujiF.gengxin_List_NR)
 	end)
@@ -387,10 +389,10 @@ function BusinessInfo.Trade()
 	fujiF.TradeList.hejiF:SetPoint("BOTTOMRIGHT",fujiF.TradeList,"BOTTOMRIGHT",0,0);
 	fujiF.TradeList.hejiF:PIGSetBackdrop(0)
 	fujiF.TradeList.hejiF:SetHeight(26)
-	fujiF.TradeList.hejiF.JiluNumT = PIGFontString(fujiF.TradeList.hejiF,{"BOTTOMLEFT",fujiF.TradeList.hejiF,"BOTTOMLEFT",10,7},"当日交易成功总数:")
+	fujiF.TradeList.hejiF.JiluNumT = PIGFontString(fujiF.TradeList.hejiF,{"TOPLEFT",fujiF.TradeList.hejiF,"BOTTOMLEFT",10,-4},"当日交易成功总数:")
 	fujiF.TradeList.hejiF.JiluNum = PIGFontString(fujiF.TradeList.hejiF,{"LEFT",fujiF.TradeList.hejiF.JiluNumT,"RIGHT",2,0},0)
 	fujiF.TradeList.hejiF.JiluNum:SetTextColor(1, 1, 1, 1);
-	fujiF.TradeList.hejiF.DELtimeall=PIGButton(fujiF.TradeList.hejiF,{"BOTTOMRIGHT",fujiF.TradeList.hejiF,"BOTTOMRIGHT",-65,2},{60,20},DELETE)
+	fujiF.TradeList.hejiF.DELtimeall=PIGButton(fujiF.TradeList.hejiF,{"TOPLEFT",fujiF.TradeList.hejiF,"BOTTOMRIGHT",-140,-2},{60,18},DELETE)
 	fujiF.TradeList.hejiF.DELtimeall:Disable()
 	fujiF.TradeList.hejiF.DELtimeall:SetScript("OnClick", function(self, button)
 		StaticPopup_Show ("PIGTRADELISTTIMENR_DEL");

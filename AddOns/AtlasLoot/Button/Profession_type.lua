@@ -103,9 +103,3 @@ function Prof.Refresh(button)
 
 	button.icon:SetTexture(TRADESKILLS[button.tsName] or spellTexture)
 end
-
---[[
-function Prof.GetStringContent(str)
-	return {str_match(str, "(%w+):(%d+)")}
-end
-]] --

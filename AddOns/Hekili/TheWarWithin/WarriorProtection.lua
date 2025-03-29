@@ -373,7 +373,7 @@ spec:RegisterAuras( {
     ignore_pain = {
         id = 190456,
         duration = 12,
-        max_stack = 1
+        max_stack = 100
     },
     indelible_victory = {
         id = 336642,
@@ -448,7 +448,7 @@ spec:RegisterAuras( {
     seeing_red = {
         id = 386486,
         duration = 30,
-        max_stack = 8
+        max_stack = 100
     },
     shield_bash = {
         id = 198912,
@@ -457,7 +457,7 @@ spec:RegisterAuras( {
     },
     shield_block = {
         id = 132404,
-        duration = function () return ( talent.enduring_defenses.enabled and 8 or 6 ) + ( talent.heavy_repercussions.enabled and 1 or 0 )  end,
+        duration = function () return ( talent.enduring_defenses.enabled and 8 or 6 ) end,
         max_stack = 1
     },
     shield_charge = {
@@ -615,11 +615,9 @@ spec:RegisterAuras( {
 
 local rageSpent_10 = 0
 local rageSpent_20 = 0
-local rageSpent_30 = 0
 
 spec:RegisterStateExpr( "rageSpent_10", function () return rageSpent_10 end ) -- Glory (Shadowlands) and Anger Management talent
 spec:RegisterStateExpr( "rageSpent_20", function () return rageSpent_20 end ) -- Indomitable talent
-spec:RegisterStateExpr( "rageSpent_30", function () return rageSpent_30 end ) -- Outburst talent
 
 local RAGE = Enum.PowerType.Rage
 local lastRage = -1
@@ -634,9 +632,6 @@ spec:RegisterUnitEvent( "UNIT_POWER_FREQUENT", "player", nil, function( event, u
             if state.talent.indomitable.enabled then -- Indomitable
                 rageSpent_20 = ( rageSpent_20 + lastRage - current ) % 20
             end
-            if state.talent.violent_outburst.enabled then -- Outburst T28 or Violent Outburst
-                rageSpent_30 = ( rageSpent_30 + lastRage - current ) % 30
-            end
         end
         lastRage = current
     end
@@ -644,7 +639,7 @@ end )
 
 -- model rage expenditure and special effects
 spec:RegisterHook( "spend", function( amt, resource )
-    if resource == "rage" and amt < 0 then
+    if resource == "rage" and amt > 0 then
         if talent.anger_management.enabled or ( legendary.glory.enabled and buff.conquerors_banner.up ) then
             rageSpent_10 = rageSpent_10 + amt
             local rage10activations = floor( rageSpent_10 / 10 )
@@ -672,16 +667,15 @@ spec:RegisterHook( "spend", function( amt, resource )
         end
 
         if talent.violent_outburst.enabled then
-            rageSpent_30 = rageSpent_30 + amt
-            local rage30activations = floor( rageSpent_30 / 30 )
-            rageSpent_30 = rageSpent_30 % 30
-
-            if rage30activations > 0 then
-                addStack( "seeing_red", nil, rage30activations )
-                if buff.seeing_red.stack > 7 then
-                    applyBuff( "violent_outburst" )
-                    removeBuff( "seeing_red" )
-                end
+            buff.seeing_red.v1 = buff.seeing_red.v1 + amt
+            if buff.seeing_red.v1 >= 250 then
+                applyBuff( "violent_outburst" )
+            end
+            buff.seeing_red.v1 = buff.seeing_red.v1 % 250
+            if buff.seeing_red.v1 == 0 then
+                removeBuff( "seeing_red" )
+            else
+                applyBuff( "seeing_red", nil, floor( buff.seeing_red.v1 / 250 * 100 ), buff.seeing_red.v1)
             end
         end
     end
@@ -946,7 +940,7 @@ spec:RegisterAbilities( {
             setDistance( 5 )
             applyDebuff( "target", "charge" )
             if legendary.reprisal.enabled then
-                applyBuff( "shield_block", 4 )
+                applyBuff( "shield_block", buff.shield_block.remains + 4 )
                 applyBuff( "revenge" )
                 gain( 20, "rage" )
             end
@@ -1105,8 +1099,7 @@ spec:RegisterAbilities( {
         timeToReady = function()
             if buff.sudden_death.up then return 0 end
             local threshold = settings.reserve_rage + 40
-            if rage.current >= threshold or ( buff.shield_block.remains > 3 and buff.ignore_pain.remains > 3 ) or not tanking then return 0 end
-            return rage[ "time_to_" .. ( settings.reserve_rage + 40 ) ]
+            return ( tanking and rage.current < threshold ) and rage[ "time_to_" .. threshold ] or 0
         end,
 
         handler = function()
@@ -1117,8 +1110,6 @@ spec:RegisterAbilities( {
                 removeBuff( "sudden_death" )
             end
             if talent.juggernaut.enabled then addStack( "juggernaut" ) end
-
-            if talent.dominance_of_the_colossus.enabled and buff.colossal_might.stack == 10 then reduceCooldown( "demolish", 2 ) end
         end,
     },
 
@@ -1189,21 +1180,9 @@ spec:RegisterAbilities( {
 
         toggle = "defensives",
 
-        readyTime = function ()
-            if settings.overlap_ignore_pain then return end
-            if buff.ignore_pain.up and buff.ignore_pain.v1 >= 0.3 * health.max then
-                return buff.ignore_pain.remains - gcd.max
-            end
-        end,
-
         handler = function ()
-            if buff.ignore_pain.up then
-                buff.ignore_pain.expires = query_time + class.auras.ignore_pain.duration
-                buff.ignore_pain.v1 = min( 0.3 * health.max, buff.ignore_pain.v1 + stat.attack_power * 4.375 * ( 1 + stat.versatility_atk_mod / 100 ) )
-            else
-                applyBuff( "ignore_pain" )
-                buff.ignore_pain.v1 = min( 0.3 * health.max, stat.attack_power * 4.375 * ( 1 + stat.versatility_atk_mod / 100 ) )
-            end
+            buff.ignore_pain.v1 = min( 0.3 * health.max, buff.ignore_pain.v1 + stat.attack_power * 4.375 * ( 1 + stat.versatility_atk_mod / 100 ) )
+            applyBuff( "ignore_pain", nil, floor( buff.ignore_pain.v1 / ( 0.3 * health.max ) * 100 ), buff.ignore_pain.v1 )
         end,
     },
 
@@ -1249,7 +1228,7 @@ spec:RegisterAbilities( {
 
         handler = function ()
             if legendary.reprisal.enabled then
-                applyBuff( "shield_block", 4 )
+                applyBuff( "shield_block", buff.shield_block.remains + 4 )
                 applyBuff( "revenge" )
                 gain( 20, "rage" )
             end
@@ -1293,7 +1272,7 @@ spec:RegisterAbilities( {
         texture = 135871,
 
         toggle = function()
-            if settings.last_stand_offensively and ( talent.unnerving_focus.enabled or conduit.unnerving_focus.enabled or set_bonus.tier30_2pc > 0 ) then
+            if talent.unnerving_focus.enabled or conduit.unnerving_focus.enabled or set_bonus.tier30_2pc > 0 then
                 return "cooldowns"
             end
             return "defensives"
@@ -1303,7 +1282,7 @@ spec:RegisterAbilities( {
             applyBuff( "last_stand" )
 
             if talent.bolster.enabled then
-                applyBuff( "shield_block", buff.last_stand.duration )
+                applyBuff( "shield_block", buff.shield_block.remains + buff.last_stand.duration )
             end
 
             if talent.unnerving_focus.enabled then
@@ -1446,9 +1425,8 @@ spec:RegisterAbilities( {
 
         readyTime = function()
             if buff.revenge.up then return 0 end
-            local threshold = action.revenge.cost + ( settings.reserve_rage or 40 )
-            if rage.current >= threshold or ( buff.shield_block.remains > 3 and buff.ignore_pain.remains > 3 ) or not tanking then return 0 end
-            return rage[ "time_to_" .. threshold ]
+            local threshold = settings.reserve_rage + 40
+            return ( tanking and rage.current < threshold ) and rage[ "time_to_" .. threshold ] or 0
         end,
 
         handler = function ()
@@ -1523,7 +1501,7 @@ spec:RegisterAbilities( {
         end,
 
         handler = function ()
-            applyBuff( "shield_block" )
+            applyBuff( "shield_block", buff.shield_block.remains + buff.shield_block.duration )
         end,
     },
 
@@ -1546,7 +1524,7 @@ spec:RegisterAbilities( {
                 applyBuff( "battering_ram" )
             end
             if talent.champions_bulwark.enabled then
-                applyBuff( "shield_block" )
+                applyBuff( "shield_block", buff.shield_block.remains + buff.shield_block.duration )
                 applyBuff( "revenge" )
             end
         end,
@@ -1583,7 +1561,7 @@ spec:RegisterAbilities( {
 
         handler = function ()
             if buff.violent_outburst.up then
-                applyBuff( "ignore_pain" )
+                class.abilities.ignore_pain.handler()
                 removeBuff( "violent_outburst" )
             end
 
@@ -1712,12 +1690,21 @@ spec:RegisterAbilities( {
         usable = function()
             if not settings.spell_reflection_filter then return true end
 
-            local filters = class.reflectableFilters
-            local npcid = target.npcid
+            local zone = state.instance_id
+            local npcid = target.npcid or -1
             local t = debuff.casting
 
             -- Only use on a reflectable spell targeted at the player.
-            return not not ( t.up and npcid and filters and filters[ npcid ] and filters[ npcid ][ t.v1 ] and UnitIsUnit( "player", t.caster .. "target" ) )
+            if not t.up then
+                return false, "Target is not casting"
+            end
+            if not state.target.is_dummy and not class.reflectableFilters[ zone ][ npcid ][ t.v1 ] then
+                return false, "spell[" .. t.v1 .. "] in zone[" .. zone .. "] by npc[" .. npcid .. "] is not reflectable"
+            end
+            if not UnitIsUnit( "player", t.caster .. "target" ) then
+                return false, "Player is not target of cast"
+            end
+            return true
         end,
 
         handler = function()
@@ -1780,7 +1767,7 @@ spec:RegisterAbilities( {
             removeBuff( "show_of_force" )
 
             if ( talent.thunderlord.enabled or legendary.thunderlord.enabled ) and cooldown.demoralizing_shout.remains > 0 then
-                reduceCooldown( "demoralizing_shout", min( 3, active_enemies ) )
+                reduceCooldown( "demoralizing_shout", 1.5 * min( 3, active_enemies ) )
             end
 
             if talent.rend.enabled then
@@ -1789,7 +1776,7 @@ spec:RegisterAbilities( {
             end
 
             if buff.violent_outburst.up then
-                applyBuff( "ignore_pain" )
+                class.abilities.ignore_pain.handler()
                 removeBuff( "violent_outburst" )
             end
         end,
@@ -1804,8 +1791,7 @@ spec:RegisterAbilities( {
         hasteCD = true,
 
         spend = function () return ( ( talent.thorims_might.enabled and talent.flashing_skies.enabled ) and -11 or -8 )
-            * ( buff.violent_outburst.up and 2 or 1 )
-
+            * ( buff.violent_outburst.up and 1.5 or 1 )
             * ( buff.unnerving_focus.up and 1.5 or 1 ) end,
         spendType = "rage",
 
@@ -1822,7 +1808,7 @@ spec:RegisterAbilities( {
             removeBuff( "show_of_force" )
 
             if ( talent.thunderlord.enabled or legendary.thunderlord.enabled ) and cooldown.demoralizing_shout.remains > 0 then
-                reduceCooldown( "demoralizing_shout", min( 3, active_enemies ) )
+                reduceCooldown( "demoralizing_shout", 1.5 * min( 3, active_enemies ) )
             end
 
             if talent.rend.enabled then
@@ -1831,7 +1817,7 @@ spec:RegisterAbilities( {
             end
 
             if buff.violent_outburst.up then
-                applyBuff( "ignore_pain" )
+                class.abilities.ignore_pain.handler()
                 removeBuff( "violent_outburst" )
             end
         end,
@@ -1845,7 +1831,7 @@ spec:RegisterAbilities( {
         cooldown = function() return talent.uproar.enabled and 90 or 45 end,
         gcd = "spell",
 
-        spend = -10,
+        spend = 0,
         spendType = "rage",
 
         talent = "thunderous_roar",
@@ -1908,7 +1894,7 @@ spec:RegisterAbilities( {
 local NewFeature = "|TInterface\\OptionsFrame\\UI-OptionsFrame-NewFeatureIcon:0|t"
 
 spec:RegisterSetting( "spell_reflection_filter", true, {
-    name = format( "%s Filter M+ |T132361:0|t Spell Reflection (TWW Season 1)", NewFeature ),
+    name = format( "%s Filter M+ |T132361:0|t Spell Reflection", NewFeature ),
     desc = "If checked, then the addon will only suggest |T132361:0|t Spell Reflection on reflectable spells that target the player.",
     type = "toggle",
     width = "full",
@@ -1917,13 +1903,6 @@ spec:RegisterSetting( "spell_reflection_filter", true, {
 spec:RegisterSetting( "shockwave_interrupt", true, {
     name = "Only |T236312:0|t Shockwave as Interrupt",
     desc = "If checked, |T236312:0|t Shockwave will only be recommended when your target is casting (and talented).",
-    type = "toggle",
-    width = "full"
-} )
-
-spec:RegisterSetting( "overlap_ignore_pain", false, {
-    name = "Overlap |T1377132:0|t Ignore Pain",
-    desc = "If checked, |T1377132:0|t Ignore Pain can be recommended while it is already active even if its remaining absorb is greater than 30% of your maximum health.  This setting may cause you to spend more Rage on mitigation.",
     type = "toggle",
     width = "full"
 } )
@@ -2004,18 +1983,6 @@ spec:RegisterSetting( "rallying_cry_health", 80, {
     step = 1,
     width = "full",
 } )
-
--- Not used in TWW onwards
---[[spec:RegisterSetting( "last_stand_offensively", false, {
-    name = "Use |T135871:0|t Last Stand Offensively",
-    desc = function()
-        return "If checked, the addon will recommend |T135871:0|t Last Stand as an offensive cooldown instead of a defensive cooldown.\n\n"
-            .. "Requires " .. ( state.set_bonus.tier30_2pc > 0 and "|cFF00FF00" or "|cFFFF0000" ) .. "2-piece Tier 30|r or "
-            .. "|W|T571316:0|t " .. ( ( state.talent.unnerving_focus.enabled or state.conduit.unnerving_focus.enabled ) and "|cFF00FF00" or "|cFFFF0000" ) .. " Unnerving Focus|r|w"
-    end,
-    type = "toggle",
-    width = "full"
-} ) ]]--
 
 spec:RegisterSetting( "last_stand_amount", 25, {
     name = "|T135871:0|t Last Stand Damage Required",

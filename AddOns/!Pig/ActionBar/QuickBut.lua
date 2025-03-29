@@ -159,13 +159,13 @@ QuickButF.ModF.QKButTrinket.Fenli:SetScript("OnClick", function (self)
 end)
 local pailieList = {"横","竖"}
 QuickButF.ModF.QKButTrinket.Fenli.pailie=PIGDownMenu(QuickButF.ModF.QKButTrinket.Fenli,{"LEFT",QuickButF.ModF.QKButTrinket.Fenli.Text,"RIGHT",2,0},{46,nil})
-function QuickButF.ModF.QKButTrinket.Fenli.pailie:PIGDownMenu_Update_But(self)
+function QuickButF.ModF.QKButTrinket.Fenli.pailie:PIGDownMenu_Update_But()
 	local info = {}
 	info.func = self.PIGDownMenu_SetValue
 	for i=1,#pailieList,1 do
 	    info.text, info.arg1 = pailieList[i], i
 	    info.checked = i==PIGA["QuickBut"]["TrinketFenliPailie"]
-		QuickButF.ModF.QKButTrinket.Fenli.pailie:PIGDownMenu_AddButton(info)
+		self:PIGDownMenu_AddButton(info)
 	end 
 end
 function QuickButF.ModF.QKButTrinket.Fenli.pailie:PIGDownMenu_SetValue(value,arg1,arg2)
@@ -552,14 +552,23 @@ QuickButF.ModF.Spell:SetScript("OnClick", function (self)
 		Pig_Options_RLtishi_UI:Show()
 	end
 end)
-QuickButF.ModF.Spell.CZ = PIGButton(QuickButF.ModF.Spell,{"LEFT",QuickButF.ModF.Spell.Text,"RIGHT",30,0},{76,20},"恢复默认");
+QuickButF.ModF.Spell.Close = PIGCheckbutton(QuickButF.ModF.Spell,{"LEFT",QuickButF.ModF.Spell.Text,"RIGHT",30,0},{"使用后关闭界面"});
+QuickButF.ModF.Spell.Close:SetScript("OnClick", function (self)
+	if self:GetChecked() then
+		PIGA["QuickBut"]["SpellClose"]=true;
+	else
+		PIGA["QuickBut"]["SpellClose"]=false;
+	end
+end)
+QuickButF.ModF.Spell.CZ = PIGButton(QuickButF.ModF.Spell,{"LEFT",QuickButF.ModF.Spell.Close.Text,"RIGHT",30,0},{76,20},"恢复默认");
 QuickButF.ModF.Spell.CZ:SetScript("OnClick", function (self)
 	PIGA_Per["QuickBut"]["ActionData"]={}
 	Pig_Options_RLtishi_UI:Show()
 end)
 QuickButF.ModF:HookScript("OnShow", function(self)
 	self.Lushi:SetChecked(PIGA["QuickBut"]["Lushi"])
-	self.Spell:SetChecked(PIGA["QuickBut"]["Spell"])
+	self.Spell:SetChecked(PIGA["QuickBut"]["SpellClose"])
+	self.Spell.Close:SetChecked(PIGA["QuickBut"]["Spell"])
 	self.BGbroadcast:SetChecked(PIGA["QuickBut"]["BGbroadcast"])
 	if self.QKButRune then
 		self.QKButRune:SetChecked(PIGA["QuickBut"]["Rune"])
@@ -765,6 +774,7 @@ QuickButUI.ButList[6]=function()
 			182773,
 			212337,--炉之石
 			93672,--黑暗之门
+			64488,--旅店老板的女儿
 		}
 		local BagList = {
 			6948,--炉石
@@ -1198,10 +1208,30 @@ QuickButUI.ButList[7]=function()
 		Zhushou_List.Close:SetFrameRef("frame1", Zhushou_List);
 
 		for i=1,gaoNum*kuanNum do
-			local zhushoubut = CreateFrame("CheckButton", "Zhushou_List_"..i, Zhushou_List, "SecureActionButtonTemplate,ActionButtonTemplate,SecureHandlerDragTemplate,SecureHandlerMouseUpDownTemplate")
+			local zhushoubut
+			if tocversion<40000 then
+				zhushoubut = CreateFrame("CheckButton", "Zhushou_List_"..i, Zhushou_List, "SecureActionButtonTemplate,ActionButtonTemplate,SecureHandlerDragTemplate,SecureHandlerMouseUpDownTemplate")
+				zhushoubut.NormalTexture:SetAlpha(0.4);
+				zhushoubut.cooldown:SetSwipeColor(0, 0, 0, 0.8);
+			else
+				zhushoubut = CreateFrame("CheckButton", "Zhushou_List_"..i, Zhushou_List, "SecureActionButtonTemplate,SecureHandlerDragTemplate,SecureHandlerMouseUpDownTemplate")
+				zhushoubut.Height = zhushoubut:CreateTexture(nil, "HIGHLIGHT");
+				zhushoubut.Height:SetAtlas("UI-HUD-ActionBar-IconFrame-Mouseover")
+				zhushoubut.Height:SetBlendMode("ADD");
+				zhushoubut.Height:SetAllPoints(zhushoubut)
+				zhushoubut.NormalTexture = zhushoubut:CreateTexture()
+				zhushoubut.NormalTexture:SetAllPoints(zhushoubut)
+				zhushoubut.NormalTexture:SetAtlas("UI-HUD-ActionBar-IconFrame")
+				zhushoubut.icon = zhushoubut:CreateTexture()
+				zhushoubut.icon:SetAllPoints(zhushoubut)
+				zhushoubut.cooldownF = CreateFrame("Frame", nil, zhushoubut);
+				zhushoubut.cooldownF:SetAllPoints()
+				zhushoubut.cooldown = CreateFrame("Cooldown", nil, zhushoubut.cooldownF, "CooldownFrameTemplate")
+				zhushoubut.cooldown:SetAllPoints()
+				zhushoubut.Name = PIGFontString(zhushoubut,{"BOTTOM",zhushoubut,"BOTTOM",0,0})
+				zhushoubut.Count = PIGFontString(zhushoubut,{"BOTTOMRIGHT",zhushoubut,"BOTTOMRIGHT",0,0})
+			end
 			zhushoubut:SetSize(butW, butW)
-			zhushoubut.NormalTexture:SetAlpha(0.4);
-			zhushoubut.cooldown:SetSwipeColor(0, 0, 0, 0.8);
 			if i==1 then
 				zhushoubut:SetPoint("BOTTOMLEFT",Zhushou_List,"BOTTOMLEFT",6,6);
 			else
@@ -1221,7 +1251,7 @@ QuickButUI.ButList[7]=function()
 			--
 			zhushoubut:HookScript("PostClick", function(self)
 				Update_PostClick(self)
-				if not InCombatLockdown() then Zhushou_List:Hide() end
+				if PIGA["QuickBut"]["SpellClose"] and not InCombatLockdown() then Zhushou_List:Hide() end
 			end);
 			zhushoubut:SetAttribute("_ondragstart",[=[
 				self:SetAttribute("type", nil)

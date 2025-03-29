@@ -79,6 +79,7 @@ local L = setmetatable({
 	VISIT_FLIGHT_MASTER = "Visit the Flight Master to cache.";
 	REQUIRES_PVP = "|CFF00FFDERequires PvP Activities or Currencies|r";
 	REQUIRES_PETBATTLES = "|CFF00FFDERequires Pet Battling|r";
+	REQUIRES_SKYRIDING = "|CFF00FFDE"..(SPELL_FAILED_CUSTOM_ERROR_1029 or "Requires Skyriding").."|r";
 	PLEASE_REPORT_MESSAGE = "Please report this to the ATT Discord in #retail-errors! Thanks!";
 	REPORT_TIP = "\n("..CTRL_KEY_TEXT.."+C to copy multiline report to your clipboard)";
 	QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT = "Quest '%s' %s will prevent collection of Breadcrumb Quest '%s' %s";
@@ -421,7 +422,7 @@ local L = setmetatable({
 		["The BC"] = "BC",
 		["Wrath of the Lich King"] = "WotLK",
 		["Cataclysm %>"] = "Cata >",
-		["Cataclysm"] = "Cata",
+		["Cataclysm "] = "Cata ",
 		["Mists of Pandaria"] = "MoP",
 		["Warlords of Draenor"] = "WoD",
 		["Battle for Azeroth"] = "BFA",
@@ -429,7 +430,6 @@ local L = setmetatable({
 		["Shadowlands"] = "SL",
 		["Dragonflight"] = "DF",
 		["The War Within"] = "TWW",
-		["Enterprising Hero: The War Within Season Two"] = "Enterprising Hero: TWW S2",
 		-- Dungeon & Raid
 		["Normal"] = "N",
 		["Heroic"] = "H",
@@ -467,7 +467,10 @@ local L = setmetatable({
 		["Tazavesh, the Veiled Market"] = "Tazavesh",
 		-- TWW
 		["Ara-Kara, City of Echoes"] = "Ara-Kara",
+		["Enterprising Hero: The War Within Season Two"] = "Enterprising Hero: TWW S2",
+		["Mug'Zee, Heads of Security"] = "Mug'Zee",
 		["Sikran, Captain of the Sureki"] = "Sikran",
+		["Vexie and the Geargrinders"] = "Vexie & the Geargrinders",
 		-- Outdoor Zones
 		["Quartermaster Miranda Breechlock"] = "Quartermaster Miranda",
 		["Season "] = "S",
@@ -777,6 +780,8 @@ L.SETTINGS_MENU = {
 		CURSEFORGE_BUTTON_TOOLTIP = "Click this button to copy the url to get the ALL THE THINGS addon from Curse.\n\nYou can give this link to your friends to ruin their lives too! They'll eventually forgive you... maybe.";
 		DISCORD_BUTTON_LABEL = "Discord";
 		DISCORD_BUTTON_TOOLTIP = "Click this button to copy the URL to get to the All The Things Discord server.\n\nYou can share your progress/frustrations with other collectors!";
+		GITHUB_BUTTON_LABEL = "GitHub";
+		GITHUB_BUTTON_TOOLTIP = "Click this button to copy the URL to get to the All The Things GitHub.\n\nYou can clone the repository directly without needing to use a third party addon manager!";
 		MERCH_BUTTON_LABEL = "Merch";
 		MERCH_BUTTON_TOOLTIP = "Click this button to copy the URL to get to the All The Things merchandise store.\n\nHere you can support the AddOn financially and get some cool merch in return!";
 		PATREON_BUTTON_LABEL = "Patreon";
@@ -828,6 +833,8 @@ L.SETTINGS_MENU = {
 		SHOW_PET_BATTLES_CHECKBOX_TOOLTIP = "Enable this setting if you want to show content which requires Pet Battles within the game.";
 		SHOW_PVP_CHECKBOX = PVP_OPTIONS;
 		SHOW_PVP_CHECKBOX_TOOLTIP = "Enable this setting if you want to show content which 'may' require Player vs. Player interactions within the game.";
+		SHOW_SKYRIDING_CHECKBOX = DYNAMIC_FLIGHT or "Skyriding";
+		SHOW_SKYRIDING_CHECKBOX_TOOLTIP = "Enable this setting if you want to show content which requires Skyriding within the game.";
 		SHOW_ALL_LEARNABLE_QUEST_REWARDS_CHECKBOX = "All Learnable Quest Rewards";
 		SHOW_ALL_LEARNABLE_QUEST_REWARDS_CHECKBOX_TOOLTIP = "Disable this option to hide items that are listed as \"Not Available in Personal Loot\" for quests.\n\nThis is useful for tracking items that your class can't use in World Drops, but still marking quests as completed.\n\nSome items can be marked incorrectly: this setting WILL hide items that you can obtain!";
 
@@ -1124,8 +1131,8 @@ L.SETTINGS_MENU = {
 -- All of the locales related to the Player Tooltips module.
 L.TOOLTIP_MODULE = {
 	RANKS = {
-		AUTHOR = "Author";
-		CONTRIBUTOR = "Contributor";
+		AUTHOR = " |T"..app.asset("logo_32x32")..":0|t" .. " Author";
+		CONTRIBUTOR = " |T"..app.asset("logo_32x32")..":0|t" .. " Contributor";
 		COLLECTOR = "Collector";
 	},
 	TITLES = {

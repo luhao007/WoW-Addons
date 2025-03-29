@@ -3,6 +3,10 @@ local addonName, addonTable = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Rarity")
 local CONSTANTS = addonTable.constants
 
+if LE_EXPANSION_LEVEL_CURRENT < LE_EXPANSION_WAR_WITHIN then
+	return {}
+end
+
 local twwPets = {
 	-- 11.0 pets
 	["Bop"] = {
@@ -13,7 +17,7 @@ local twwPets = {
 		npcs = { 218523, 214661 },
 		itemId = 223155,
 		spellId = 446024,
-		chance = 5, -- No data available
+		chance = 30,
 		creatureId = 222318,
 		groupSize = 5,
 		equalOdds = true,
@@ -27,7 +31,7 @@ local twwPets = {
 		name = L["Writhing Transmutagen"],
 		itemId = 223487,
 		spellId = 446059,
-		chance = 20, -- No data available
+		chance = 1000,
 		creatureId = 222359,
 	},
 	-- 11.0.7 pets
@@ -55,6 +59,34 @@ local twwPets = {
 		spellId = 288054,
 		coords = { { m = CONSTANTS.UIMAPIDS.SIREN_ISLE } },
 	},
+	-- 11.1 pets
+	["Craboom"] = {
+		cat = CONSTANTS.ITEM_CATEGORIES.TWW,
+		type = CONSTANTS.ITEM_TYPES.PET,
+		method = CONSTANTS.DETECTION_METHODS.BOSS,
+		name = L["Craboom"],
+		chance = 5,
+		creatureId = 238393,
+		itemId = 236768,
+		npcs = { 226396 },
+		spellId = 1220834,
+		coords = { { m = CONSTANTS.UIMAPIDS.OPERATION_FLOODGATE } },
+		groupSize = 5,
+		equalOdds = true,
+	},
+	["Viridian Mechasaur"] = {
+		cat = CONSTANTS.ITEM_CATEGORIES.TWW,
+		type = CONSTANTS.ITEM_TYPES.PET,
+		method = CONSTANTS.DETECTION_METHODS.USE,
+		chance = 33,
+		creatureId = 231456,
+		name = L["Viridian Mechasaur"],
+		itemId = 232838,
+		items = { 233557 },
+		spellId = 471944,
+		coords = { { m = CONSTANTS.UIMAPIDS.UNDERMINE, x = 25.6, y = 38.2, n = L["Angelo Rustbin"] } },
+	},
 }
 
 Rarity.ItemDB.MergeItems(Rarity.ItemDB.pets, twwPets)
+return twwPets

@@ -24,7 +24,9 @@ local C_PetJournal = C_PetJournal
 local GetNumCompanions = GetNumCompanions
 local GetCompanionInfo = GetCompanionInfo
 local GetAchievementInfo = GetAchievementInfo
-local GetNumArchaeologyRaces = GetNumArchaeologyRaces
+local GetNumArchaeologyRaces = GetNumArchaeologyRaces or function()
+	return 0
+end
 local GetNumArtifactsByRace = GetNumArtifactsByRace
 local GetArtifactInfoByRace = GetArtifactInfoByRace
 local IsQuestComplete = _G.C_QuestLog.IsComplete
@@ -53,6 +55,12 @@ function Collections:ScanTransmog(reason)
 end
 
 function Collections:ScanToys(reason)
+	if C_ToyBox.GetNumToys() == 0 then
+		-- Can't load Blizzard_Collections since it's broken in Classic Era
+		-- Toys are actually regular items here, so tracking should still work
+		return
+	end
+
 	self = Rarity
 	self:Debug("Scanning toys (" .. (reason or "") .. ")")
 
@@ -93,7 +101,7 @@ function Collections:ScanExistingItems(reason)
 	end
 
 	self:Debug("Scanning for existing items (" .. reason .. ")")
-	self:ProfileStart()
+	self.Profiling:StartTimer("Collections.ScanExistingItems")
 
 	-- Scans need to index by spellId, creatureId, achievementId, raceId, itemId (for toys), statisticId (which is a table; for stats)
 
@@ -154,7 +162,7 @@ function Collections:ScanExistingItems(reason)
 	end
 
 	-- Companions that this character learned
-	for id = 1, GetNumCompanions("CRITTER") do
+	for id = 1, GetNumCompanions("CRITTER") or 0 do
 		local spellId = select(3, GetCompanionInfo("CRITTER", id))
 		for k, v in pairs(R.db.profile.groups) do
 			if type(v) == "table" then
@@ -273,28 +281,28 @@ function Collections:ScanExistingItems(reason)
 		end
 	end
 
-	self:ProfileStop("ScanExistingItems: Mounts/Pets/Achievements/Archaeology took %fms")
-
 	-- Other scans
+	self.Profiling:StartTimer("Collections.ScanStatistics")
 	self:ScanStatistics(reason)
-	self:ProfileStart2() -- Statistics does its own profiling
+	self.Profiling:EndTimer("Collections.ScanStatistics")
 
+	self.Profiling:StartTimer("Collections.ScanToys")
 	Rarity.Collections:ScanToys(reason)
-	self:ProfileStop2("Toys took %fms")
-	self:ProfileStart2()
+	self.Profiling:EndTimer("Collections.ScanToys")
 
+	self.Profiling:StartTimer("Collections.ScanTransmog")
 	Rarity.Collections:ScanTransmog(reason)
-	self:ProfileStop2("Transmog took %fms")
-	self:ProfileStart2()
+	self.Profiling:EndTimer("Collections.ScanTransmog")
 
+	self.Profiling:StartTimer("Collections.ScanCalendar")
 	self:ScanCalendar(reason)
-	self:ProfileStop2("Calendar took %fms")
-	self:ProfileStart2()
+	self.Profiling:EndTimer("Collections.ScanCalendar")
 
+	self.Profiling:StartTimer("Collections.ScanInstanceLocks")
 	self:ScanInstanceLocks(reason)
-	self:ProfileStop2("Instances took %fms")
+	self.Profiling:EndTimer("Collections.ScanInstanceLocks")
 
-	self:ProfileStop("ScanExistingItems: Total time %fms")
+	self.Profiling:EndTimer("Collections.ScanExistingItems")
 end
 
 -------------------------------------------------------------------------------------

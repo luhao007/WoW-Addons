@@ -312,13 +312,13 @@ ChatF.FontSize:SetScript("OnClick", function (self)
 end);
 --字号下拉菜单
 ChatF.FontSize.Down=PIGDownMenu(ChatF.FontSize,{"LEFT",ChatF.FontSize.Text,"RIGHT",0,0},{65,nil})
-function ChatF.FontSize.Down:PIGDownMenu_Update_But(self)
+function ChatF.FontSize.Down:PIGDownMenu_Update_But()
 	local info = {}
 	info.func = self.PIGDownMenu_SetValue
 	for i=1,#ChatFontSizeList,1 do
 	    info.text, info.arg1 = ChatFontSizeList[i].."pt", ChatFontSizeList[i]
 	    info.checked = ChatFontSizeList[i]==PIGA["Chat"]["FontSize_value"]
-		ChatF.FontSize.Down:PIGDownMenu_AddButton(info)
+		self:PIGDownMenu_AddButton(info)
 	end 
 end
 function ChatF.FontSize.Down:PIGDownMenu_SetValue(value,arg1,arg2)
@@ -567,12 +567,12 @@ QuickButF.QuickChat:SetScript("OnClick", function (self)
 	end
 end);
 QuickButF.QuickChat.maodian =PIGDownMenu(QuickButF.QuickChat,{"LEFT",QuickButF.QuickChat.Text,"RIGHT",10,-2},{160,nil})
-function QuickButF.QuickChat.maodian:PIGDownMenu_Update_But(self)
+function QuickButF.QuickChat.maodian:PIGDownMenu_Update_But()
 	local info = {}
 	info.func = self.PIGDownMenu_SetValue
 	for i=1,#QuickChat_maodianListCN,1 do
 	    info.text, info.arg1, info.checked = QuickChat_maodianListCN[i], i, i == PIGA["Chat"]["QuickChat_maodian"]
-		QuickButF.QuickChat.maodian:PIGDownMenu_AddButton(info)
+		self:PIGDownMenu_AddButton(info)
 	end 
 end
 function QuickButF.QuickChat.maodian:PIGDownMenu_SetValue(value,arg1,arg2)
@@ -584,12 +584,12 @@ end
 ---
 local QuickChat_style = {L["CHAT_QUKBUT_STYLE"].."1",L["CHAT_QUKBUT_STYLE"].."2"};
 QuickButF.QuickChat.style =PIGDownMenu(QuickButF.QuickChat,{"LEFT",QuickButF.QuickChat.maodian,"RIGHT",20,0},{80,nil})
-function QuickButF.QuickChat.style:PIGDownMenu_Update_But(self)
+function QuickButF.QuickChat.style:PIGDownMenu_Update_But()
 	local info = {}
 	info.func = self.PIGDownMenu_SetValue
 	for i=1,#QuickChat_style,1 do
 	    info.text, info.arg1, info.checked = QuickChat_style[i], i, i == PIGA["Chat"]["QuickChat_style"]
-		QuickButF.QuickChat.style:PIGDownMenu_AddButton(info)
+		self:PIGDownMenu_AddButton(info)
 	end 
 end
 function QuickButF.QuickChat.style:PIGDownMenu_SetValue(value,arg1,arg2)
@@ -602,10 +602,10 @@ QuickButF.QuickChat.jianyin = PIGCheckbutton(QuickButF.QuickChat,{"LEFT", QuickB
 QuickButF.QuickChat.jianyin:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["Chat"]["QuickChat_jianyin"]=true;
-		if QuickQuickButFFF_UI then QuickQuickButFFF_UI:PIGLeaveAlpha() end
+		if QuickChatFFF_UI then QuickChatFFF_UI:PIGLeaveAlpha() end
 	else
 		PIGA["Chat"]["QuickChat_jianyin"]=false;
-		if QuickQuickButFFF_UI then QuickQuickButFFF_UI:PIGEnterAlpha() end
+		if QuickChatFFF_UI then QuickChatFFF_UI:PIGEnterAlpha() end
 	end
 end);
 for i=1,#L["CHAT_QUKBUTNAME"] do
@@ -629,8 +629,8 @@ QuickButF.QuickChat.Slider = PIGSlider(QuickButF.QuickChat,{"TOPLEFT",QuickButF.
 QuickButF.QuickChat.Slider.bt = PIGFontString(QuickButF.QuickChat.Slider,{"RIGHT", QuickButF.QuickChat.Slider, "LEFT", 0, 0},"缩放")
 QuickButF.QuickChat.Slider.Slider:HookScript("OnValueChanged", function(self, arg1)
 	PIGA["Chat"]["QuickChat_suofang"]=arg1;
-	if QuickQuickButFFF_UI then
-		QuickQuickButFFF_UI:suofang()
+	if QuickChatFFF_UI then
+		QuickChatFFF_UI:suofang()
 	end
 end)
 --X偏移
@@ -639,8 +639,8 @@ QuickButF.QuickChat.SliderX = PIGSlider(QuickButF.QuickChat,{"LEFT",QuickButF.Qu
 QuickButF.QuickChat.SliderX.bt = PIGFontString(QuickButF.QuickChat.SliderX,{"RIGHT", QuickButF.QuickChat.SliderX, "LEFT", 0, 0},"X偏移")
 QuickButF.QuickChat.SliderX.Slider:HookScript("OnValueChanged", function(self, arg1)
 	PIGA["Chat"]["QuickChat_pianyiX"]=arg1;
-	if QuickQuickButFFF_UI then
-		QuickQuickButFFF_UI:suofang()
+	if QuickChatFFF_UI then
+		QuickChatFFF_UI:suofang()
 	end
 end)
 --Y偏移
@@ -649,14 +649,14 @@ QuickButF.QuickChat.SliderY = PIGSlider(QuickButF.QuickChat,{"LEFT",QuickButF.Qu
 QuickButF.QuickChat.SliderY.bt = PIGFontString(QuickButF.QuickChat.SliderY,{"RIGHT", QuickButF.QuickChat.SliderY, "LEFT", 0, 0},"Y偏移")
 QuickButF.QuickChat.SliderY.Slider:HookScript("OnValueChanged", function(self, arg1)
 	PIGA["Chat"]["QuickChat_pianyiY"]=arg1;
-	if QuickQuickButFFF_UI then
-		QuickQuickButFFF_UI:suofang()
+	if QuickChatFFF_UI then
+		QuickChatFFF_UI:suofang()
 	end
 end)
 --按钮屏蔽控制窗口
 QuickButF.QuickChat.kongzhi =PIGDownMenu(QuickButF.QuickChat,{"TOPLEFT",QuickButF.QuickChat,"TOPLEFT",120,-120},{180,nil})
 QuickButF.QuickChat.kongzhi.bt = PIGFontString(QuickButF.QuickChat.kongzhi,{"RIGHT", QuickButF.QuickChat.kongzhi, "LEFT", -4, 0},"频道屏蔽控制窗口")
-function QuickButF.QuickChat.kongzhi:PIGDownMenu_Update_But(self)
+function QuickButF.QuickChat.kongzhi:PIGDownMenu_Update_But()
 	local info = {}
 	info.func = self.PIGDownMenu_SetValue
 	local chuangkoulist = Fun.GetpindaoList(true)
@@ -1060,7 +1060,7 @@ end
 for v=1,Channel_ListF.maxnum do
 	local xulie =PIGDownMenu(Channel_ListF,{"TOPLEFT",Channel_ListF,"TOPLEFT",80,(-30*v)},{200,nil},nil,"Channel_List"..v)
 	xulie.name = PIGFontString(xulie,{"RIGHT",xulie,"LEFT",-2,0},L["CHAT_TABNAME5_XULIE"]..v);
-	function xulie:PIGDownMenu_Update_But(self)
+	function xulie:PIGDownMenu_Update_But()
 		local info = {}
 		info.func = self.PIGDownMenu_SetValue
 		for i=1,#Channel_ListF.pindaoList,1 do

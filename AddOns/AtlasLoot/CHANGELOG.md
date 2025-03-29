@@ -1,5 +1,51 @@
 ﻿# Changelog
 
+## 8.24.0 - March 24, 2025
+### Added
+- Added TWW mounts to Collections
+- Added raid finder difficulty for Nerub-ar Palace and Liberation of Undermine
+- Added Gallagio Loyalty Rewards Club to Factions
+- Added secondary buttons to Dragonflight and Shadowlands mounts that were missing one
+### Fixed
+- Fixed Slumbering Worldsnail Shell price
+- Removed a few unobtainable Dragonflight and Shadowlands mounts
+
+## 8.23.0 - March 17, 2025
+### Added
+- Added TWW toys to Collections
+- Added TWW pets to Collections
+- Added secondary buttons to Dragonflight pets that were missing one
+- A price consisting of items (like Artisan's Acuity) will be colored red or green depending on the amount currently in your inventory
+### Fixed
+- Fixed the quest name not displaying in the secondary text if there was a quest to obtain an item
+- Fixed pet model in secondary tooltip not loading the first time the tooltip opens
+- Fixed broken mount in WOTLK Timewalking Collection
+- Removed a few unobtainable Dragonflight pets
+
+## 8.22.0 - March 10, 2025
+### Added
+- Added Darkfuse Solutions faction
+- Added TWW Leatherworking recipes
+- Added TWW Tailoring recipes
+- Added TWW Cooking recipes
+## Changed
+- Moved BFA and Legion Cooking recipes into the appropriate categories
+### Fixed
+- Fixed Atlas map button for Operation: Floodgate
+
+## 8.21.0 - March 4, 2025
+### Added
+- Added The Cartels of Undermine renown track
+- Added Bilgewater Cartel, Blackwater Cartel, Steamwheedle Cartel and Venture Company factions
+- Added Operation: Floodgate instance loot
+- Added Liberation of Undermine instance loot
+- Added 22H Slicks to Engineering Devices
+- Added Undermine contract and vantus rune to Inscription
+- Added Undermine tabards to Collections
+### Fixed
+- Fixed reputation bars being empty when at max reputation
+- Fixed %d showing up in renown reputation bars
+
 ## 8.20.0 - February 25, 2025
 ### Added
 - Added TWW Engineering recipes

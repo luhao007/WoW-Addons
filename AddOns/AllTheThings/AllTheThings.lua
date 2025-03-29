@@ -1,7 +1,7 @@
 --------------------------------------------------------------------------------
 --                        A L L   T H E   T H I N G S                         --
 --------------------------------------------------------------------------------
---				Copyright 2017-2024 Dylan Fortune (Crieve-Sargeras)           --
+--				Copyright 2017-2025 Dylan Fortune (Crieve-Sargeras)           --
 --------------------------------------------------------------------------------
 -- App locals
 local appName, app = ...;
@@ -970,7 +970,7 @@ PriorityNestObjects = function(p, g, newCreate, ...)
 end
 -- Merges multiple sources of an object into a single object. Can specify to clean out all sub-groups of the result
 app.MergedObject = function(group, rootOnly)
-	if not group or not group[1] then return; end
+	if not group or not group[1] then return group; end
 	local merged = CreateObject(group[1], rootOnly);
 	for i=2,#group do
 		MergeProperties(merged, group[i]);
@@ -1187,7 +1187,7 @@ local ResolveFunctions = {
 		if okey then
 			local okeyval = o[okey];
 			if okeyval then
-				for _,result in ipairs(SearchForField(okey, okeyval)) do
+				for _,result in ipairs(SearchForObject(okey, okeyval, "field", true)) do
 					ArrayAppend(searchResults, result.g);
 				end
 			end
@@ -2977,61 +2977,59 @@ local NPCExpandHeaders = app.HeaderData.FILLNPCS or app.EmptyTable
 local function DetermineNPCDrops(group, FillData)
 	if not FillData.NestNPCData or group.NestNPCDataSkip then return end
 	local npcID = GetNpcIDForDrops(group)
-	if npcID then
-		-- app.PrintDebug("NPC Group",group.hash,npcID)
-		-- search for groups of this NPC
-		local npcGroups = SearchForField("npcID", npcID);
-		if #npcGroups > 0 then
-			-- see if there's a difficulty wrapping the fill group
-			local difficultyID = GetRelativeValue(group, "difficultyID");
-			if difficultyID then
-				-- app.PrintDebug("FillNPC.Diff",group.hash,difficultyID)
-				-- can only fill npc groups for the npc which match the difficultyID
-				local headerID, groups, npcDiff;
-				for _,npcGroup in ipairs(npcGroups) do
-					if npcGroup.hash ~= group.hash then
-						headerID = GetRelativeFieldInSet(npcGroup, "headerID", NPCExpandHeaders);
-						-- app.PrintDebug("DropCheck",npcGroup.hash,"=>",headerID)
-						-- where headerID is allowed and the nested difficultyID matches
-						if headerID then
-							npcDiff = GetRelativeValue(npcGroup, "difficultyID");
-							-- copy the header under the NPC groups
-							if not npcDiff or npcDiff == difficultyID then
-								-- wrap the npcGroup in the matching header if it is not a header
-								if not npcGroup.headerID then
-									npcGroup = app.CreateCustomHeader(headerID, {g={CreateObject(npcGroup)}})
-								end
-								-- app.PrintDebug("IsDrop.Diff",difficultyID,group.hash,"<==",npcGroup.hash)
-								if groups then tinsert(groups, CreateObject(npcGroup))
-								else groups = { CreateObject(npcGroup) }; end
-							end
+	if not npcID then return end
+	-- app.PrintDebug("NPC Group",app:SearchLink(group),npcID)
+	-- search for groups of this NPC
+	local npcGroups = SearchForField("npcID", npcID);
+	if not npcGroups or #npcGroups == 0 then return end
+	-- see if there's a difficulty wrapping the fill group
+	local difficultyID = GetRelativeValue(group, "difficultyID");
+	if difficultyID then
+		-- app.PrintDebug("FillNPC.Diff",difficultyID)
+		-- can only fill npc groups for the npc which match the difficultyID
+		local headerID, groups, npcDiff;
+		for _,npcGroup in ipairs(npcGroups) do
+			if npcGroup.hash ~= group.hash then
+				headerID = GetRelativeFieldInSet(npcGroup, "headerID", NPCExpandHeaders);
+				-- app.PrintDebug("DropCheck",app:SearchLink(npcGroup),"=>",headerID)
+				-- where headerID is allowed and the nested difficultyID matches
+				if headerID then
+					npcDiff = GetRelativeValue(npcGroup, "difficultyID");
+					-- copy the header under the NPC groups
+					if not npcDiff or npcDiff == difficultyID then
+						-- wrap the npcGroup in the matching header if it is not a header
+						if not npcGroup.headerID then
+							npcGroup = app.CreateCustomHeader(headerID, {g={CreateObject(npcGroup)}})
 						end
+						-- app.PrintDebug("IsDrop.Diff",difficultyID,group.hash,"<==",npcGroup.hash)
+						if groups then tinsert(groups, CreateObject(npcGroup))
+						else groups = { CreateObject(npcGroup) }; end
 					end
 				end
-				return groups;
-			else
-				-- app.PrintDebug("FillNPC",group.hash)
-				local headerID, groups;
-				for _,npcGroup in ipairs(npcGroups) do
-					if npcGroup.hash ~= group.hash then
-						headerID = GetRelativeFieldInSet(npcGroup, "headerID", NPCExpandHeaders);
-						-- app.PrintDebug("DropCheck",npcGroup.hash,"=>",headerID)
-						-- where headerID is allowed
-						if headerID then
-							-- copy the header under the NPC groups
-							-- wrap the npcGroup in the matching header if it is not a header
-							if not npcGroup.headerID then
-								npcGroup = app.CreateCustomHeader(headerID, {g={CreateObject(npcGroup)}})
-							end
-							-- app.PrintDebug("IsDrop",group.hash,"<==",npcGroup.hash)
-							if groups then tinsert(groups, CreateObject(npcGroup))
-							else groups = { CreateObject(npcGroup) }; end
-						end
-					end
-				end
-				return groups;
 			end
 		end
+		return groups;
+	else
+		-- app.PrintDebug("FillNPC")
+		local headerID, groups;
+		for _,npcGroup in ipairs(npcGroups) do
+			if npcGroup.hash ~= group.hash then
+				headerID = GetRelativeFieldInSet(npcGroup, "headerID", NPCExpandHeaders);
+				-- app.PrintDebug("DropCheck",app:SearchLink(npcGroup),"=>",headerID)
+				-- where headerID is allowed
+				if headerID then
+					-- copy the header under the NPC groups
+					-- wrap the npcGroup in the matching header if it is not a header
+					if not npcGroup.headerID then
+						npcGroup = app.CreateCustomHeader(headerID, {g={CreateObject(npcGroup)}})
+					end
+					-- app.PrintDebug("IsDrop",group.hash,"<==",npcGroup.hash)
+					if groups then tinsert(groups, CreateObject(npcGroup))
+					else groups = { CreateObject(npcGroup) }; end
+				end
+			end
+		end
+		return groups;
 	end
 end
 local function SkipFillingGroup(group, FillData)
@@ -3880,17 +3878,17 @@ end);
 end)();
 
 -- Item Information Lib
+local LIMIT_UPDATE_SEARCH_RESULTS = 10
 -- Dynamically increments the progress for the parent heirarchy of each collectible search result
 local function UpdateSearchResults(searchResults)
 	-- app.PrintDebug("UpdateSearchResults",searchResults and #searchResults)
 	if not searchResults or #searchResults == 0 then return end
-	local limit = 10
 	-- in extreme cases of tons of search results to update all at once, we will split up the updates to remove the apparent stutter
-	if #searchResults > limit then
+	if #searchResults > LIMIT_UPDATE_SEARCH_RESULTS then
 		local subresults = {}
 		for i,result in ipairs(searchResults) do
 			subresults[#subresults + 1] = result
-			if i % limit == 0 then
+			if i % LIMIT_UPDATE_SEARCH_RESULTS == 0 then
 				app.UpdateRunner.Run(UpdateSearchResults, subresults)
 				subresults = {}
 			end
@@ -4574,19 +4572,6 @@ app.AddContentTracking = function(group)
 	end
 end
 end
-local function SearchForMissingItemsRecursively(group, listing)
-	if group.visible then
-		if group.itemID and (group.collectible or (group.total and group.total > 0)) and not app.IsBoP(group) then
-			tinsert(listing, group);
-		end
-		if group.g and group.expanded then
-			-- Go through the sub groups and determine if any of them have a response.
-			for i, subgroup in ipairs(group.g) do
-				SearchForMissingItemsRecursively(subgroup, listing);
-			end
-		end
-	end
-end
 
 function app:CreateMiniListForGroup(group, forceFresh)
 	-- Criteria now show their Source Achievement properly
@@ -4800,7 +4785,7 @@ app.AddEventHandler("RowOnClick", function(self, button)
 				local isTSMOpen = TSM_API and TSM_API.IsUIVisible("AUCTION");
 				if isTSMOpen or (AuctionFrame and AuctionFrame:IsShown()) or (AuctionHouseFrame and AuctionHouseFrame:IsShown()) then
 					local missingItems = {};
-					SearchForMissingItemsRecursively(reference, missingItems);
+					app.Search.SearchForMissingItemsRecursively(reference, missingItems);
 					local count = #missingItems;
 					if count > 0 then
 						if isTSMOpen then
@@ -5801,6 +5786,17 @@ function app:GetDataCache()
 		tinsert(g, db);
 	end
 
+	-- TODO: Do we need this as a new root?
+	-- Skyriding
+	--if app.Categories.Skyriding then
+	--	db = app.CreateNPC(app.HeaderConstants.SKYRIDING);
+	--	db.g = app.Categories.Skyriding;
+	--	db.lvl = 10;
+	--	db.text = DYNAMIC_FLIGHT; -- Skyriding
+	--	db.icon = "|TInterface\\Icons\\ability_dragonriding_dragonridinggliding01:0|t";
+	--	tinsert(g, db);
+	--end
+
 	-- Craftables
 	if app.Categories.Craftables then
 		db = app.CreateRawText(LOOT_JOURNAL_LEGENDARIES_SOURCE_CRAFTED_ITEM);
@@ -5928,7 +5924,7 @@ function app:GetDataCache()
 			}),
 
 			-- Conduits
-			app.CreateDynamicHeader("conduitID", SimpleNPCGroup(-981, {suffix=EXPANSION_NAME8})),
+			app.CreateDynamicHeader("conduitID", SimpleNPCGroup(app.HeaderConstants.CONDUITS, {suffix=EXPANSION_NAME8})),
 
 			-- Currencies
 			app.CreateDynamicHeaderByValue("currencyID", {
@@ -6259,21 +6255,32 @@ local function MatchOrCloneParentInHierarchy(group)
 
 		-- check the parent to see if this parent chain will be excluded
 		local parent = group.parent;
-		if not Eval_ParentInclusionCriteria(parent) then return end
+		if not Eval_ParentInclusionCriteria(parent) then
+			-- app.PrintDebug("PIH-PCrit",app:SearchLink(parent))
+			return
+		end
 
 		-- is this a top-level group?
 		if parent == MainRoot then
+			groupCopy = CloneGroupIntoHeirarchy(group);
+			groupCopy.__priorSearchRoot = true
+			tinsert(ClonedHierarchyGroups, groupCopy);
 			-- app.PrintDebug("Added top cloned parent",groupCopy.text)
+			return groupCopy;
+		elseif group.__priorSearchRoot then
 			groupCopy = CloneGroupIntoHeirarchy(group);
 			tinsert(ClonedHierarchyGroups, groupCopy);
+			-- app.PrintDebug("Added top cloned parent from __priorSearchRoot",groupCopy.text)
 			return groupCopy;
 		else
 			-- need to clone and attach this group to its cloned parent
 			local clonedParent = MatchOrCloneParentInHierarchy(parent);
-			if not clonedParent then return; end
+			if not clonedParent then
+				-- app.PrintDebug("PIH-NoParent",app:SearchLink(parent))
+				return
+			end
 			groupCopy = CloneGroupIntoHeirarchy(group);
 			NestObject(clonedParent, groupCopy);
-			-- tinsert(clonedParent.g, groupCopy);
 			return groupCopy;
 		end
 	end
@@ -6281,7 +6288,7 @@ end
 -- Builds ClonedHierarchyGroups from an array of Sourced groups
 local function BuildClonedHierarchy(sources)
 	-- app.PrintDebug("BSR:Sourced",sources and #sources)
-	if not sources then return ClonedHierarchyGroups; end
+	if not sources then return end
 	local parent, thing;
 	-- for each source of each Thing with the value
 	for _,source in ipairs(sources) do
@@ -6297,7 +6304,9 @@ local function BuildClonedHierarchy(sources)
 				-- need to map the cloned Thing also since it may end up being a parent of another Thing
 				ClonedHierarachyMapping[source] = thing;
 				NestObject(parent, thing);
+			-- else app.PrintDebug("CloneHierarchy-Fail",source.parent,app:SearchLink(source))
 			end
+		-- else app.PrintDebug("Criteria-Fail:",app:SearchLink(source))
 		end
 	end
 end
@@ -6375,8 +6384,8 @@ function app:BuildTargettedSearchResponse(groups, field, value, drop, criteria)
 	-- app.PrintTable(criteria)
 	-- app.PrintTable(SearchCriteria)
 	-- app.PrintTable(SearchValueCriteria)
-	-- can only do cache searches if there isn't custom criteria provided
-	local cacheContainer = not criteria and app.GetRawFieldContainer(field);
+	-- can only do cache searches if there isn't custom criteria provided if we are actually searching MainRoot
+	local cacheContainer = not criteria and groups == MainRoot and app.GetRawFieldContainer(field);
 	if cacheContainer then
 		BuildSearchResponseViaCacheContainer(cacheContainer, value);
 	elseif value ~= nil then
@@ -6909,6 +6918,8 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 				"```elixir",	-- discord fancy box start
 				"L:"..app.Level.." R:"..app.RaceID.." ("..app.Race..") C:"..app.ClassIndex.." ("..app.Class..")",
 				id and ("mapID:"..id.." ("..(mapInfo.name or ("Map ID #" .. id))..")") or "mapID:??",
+				"real-name:"..(GetRealZoneText() or "?"),
+				"sub-name:"..(GetSubZoneText() or "?"),
 			};
 
 			local mapID = mapInfo.parentMapID
@@ -7365,16 +7376,102 @@ customWindowUpdates.NWP = function(self, force)
 			return;
 		end
 		self.initialized = true;
-		self:SetData({
-			["text"] = L.NEW_WITH_PATCH,
-			["icon"] = app.asset("WindowIcon_RWP"),
-			["description"] = L.NEW_WITH_PATCH_TOOLTIP,
-			["visible"] = true,
-			["back"] = 1,
-			["g"] = app:BuildSearchResponse("awp", app.GameBuildVersion),
-		});
+		local TypeGroupOverrides = {
+			visible = true
+		}
+		local function OnUpdate_RemoveEmptyDynamic(t)
+			-- nothing to show so don't be visible
+			if not t.g or #t.g == 0 then
+				return
+			end
+			local o
+			for i=#t.g,1,-1 do
+				o = t.g[i]
+				if o.__empty then
+					tremove(t.g, i)
+				end
+			end
+			if #t.g == 0 then
+				return
+			end
+			t.visible = true
+			return true
+		end
+		local function CreateTypeGroupsForHeader(header, searchResults)
+			-- TODO: professions would be more complex since it's so many sub-groups to organize
+			-- maybe just simpler to look for the 'requireSkill' field and put all those results into one 'Professions' group?
+			-- app.PrintDebug("Creating type group header",header.name, header.id, searchResults and #searchResults)
+			local typeGroup = app.CreateRawText(header.name, header)
+			local headerDataWithinPatch = app:BuildTargettedSearchResponse(searchResults, header.id, nil, {g=true})
+			-- app.PrintDebug("Found",#headerDataWithinPatch,"search groups for",header.id)
+			NestObjects(typeGroup, headerDataWithinPatch)
+			-- did we populate nothing?
+			if not typeGroup.g or #typeGroup.g == 0 then
+				typeGroup.__empty = true
+			else
+				app.AssignChildren(typeGroup)
+			end
+			Callback(app.DirectGroupUpdate, typeGroup.parent)
+			return typeGroup
+		end
+		local function CreateNWPWindow()
+			-- Fetch search results
+			local searchResults = app:BuildSearchResponse("awp", app.GameBuildVersion)
+
+			-- Create the dynamic category
+			local dynamicCategory = app.CreateRawText(L.CLICK_TO_CREATE_FORMAT:format(L.SETTINGS_MENU.DYNAMIC_CATEGORY_LABEL), {
+				icon = app.asset("Interface_CreateDynamic"),
+				OnUpdate = OnUpdate_RemoveEmptyDynamic,
+				g = {}
+			})
+
+			-- Dynamic category headers
+			-- TODO: If possible, change the creation of names and icons to SimpleNPCGroup to take the localized names
+			local headers = {
+				{ id = "achievementID", name = ACHIEVEMENTS, icon = app.asset("Category_Achievements") },
+				{ id = "sourceID", name = "Appearances", icon = 135276 },
+				{ id = "artifactID", name = ITEM_QUALITY6_DESC, icon = app.asset("Weapon_Type_Artifact") },
+				{ id = "azeriteessenceID", name = SPLASH_BATTLEFORAZEROTH_8_2_0_FEATURE2_TITLE, icon = app.asset("Category_AzeriteEssences") },
+				{ id = "speciesID", name = AUCTION_CATEGORY_BATTLE_PETS, icon = app.asset("Category_PetJournal") },
+				{ id = "characterUnlock", name = CHARACTER .. " " .. UNLOCK .. "s", icon = app.asset("Category_ItemSets") },
+				{ id = "conduitID", name = GetSpellName(348869) .. " (" .. EXPANSION_NAME8 .. ")", icon = 3601566 },
+				{ id = "currencyID", name = CURRENCY, icon = app.asset("Interface_Vendor") },
+				{ id = "explorationID", name = "Exploration", icon = app.asset("Category_Exploration") },
+				{ id = "factionID", name = L.FACTIONS, icon = app.asset("Category_Factions") },
+				{ id = "flightpathID", name = L.FLIGHT_PATHS, icon = app.asset("Category_FlightPaths") },
+				{ id = "followerID", name = GARRISON_FOLLOWERS, icon = app.asset("Category_Followers") },
+				{ id = "heirloomID", name = HEIRLOOMS, icon = app.asset("Weapon_Type_Heirloom") },
+				{ id = "illusionID", name = L.FILTER_ID_TYPES[103], icon = app.asset("Category_Illusions") },
+				{ id = "mountID", name = MOUNTS, icon = app.asset("Category_Mounts") },
+				{ id = "mountmodID", name = "Mount Mods", icon = 975744 },
+				-- TODO: Add professions here using the byValue probably
+				{ id = "questID", name = TRACKER_HEADER_QUESTS, icon = app.asset("Interface_Quest_header") },
+				{ id = "runeforgepowerID", name = LOOT_JOURNAL_LEGENDARIES .. " (" .. EXPANSION_NAME8 .. ")", icon = app.asset("Weapon_Type_Legendary") },
+				{ id = "titleID", name = PAPERDOLL_SIDEBAR_TITLES, icon = app.asset("Category_Titles") },
+				{ id = "toyID", name = TOY_BOX, icon = app.asset("Category_ToyBox") },
+			}
+
+			-- Loop through the dynamic headers and insert them into the "g" field of dynamic category
+			for _, header in ipairs(headers) do
+				header.parent = dynamicCategory
+				dynamicCategory.g[#dynamicCategory.g + 1] = app.DelayLoadedObject(CreateTypeGroupsForHeader, "text", TypeGroupOverrides, header, searchResults)
+			end
+
+			-- Merge searchResults with dynamicCategory
+			tinsert(searchResults, dynamicCategory)
+
+			return searchResults
+		end
+		local NWPwindow = {
+			text = L.NEW_WITH_PATCH,
+			icon = app.asset("WindowIcon_RWP"),
+			description = L.NEW_WITH_PATCH_TOOLTIP,
+			visible = true,
+			back = 1,
+			g = CreateNWPWindow(),
+		};
+		self:SetData(NWPwindow);
 		self:BuildData();
-		self.ExpandInfo = { Expand = true, Manual = true };
 	end
 	if self:IsVisible() then
 		self:BaseUpdate(force);
@@ -7417,6 +7514,22 @@ customWindowUpdates.awp = function(self, force)	-- TODO: Change this to remember
 		tww = {param = TWW, header = 11}
 	}
 
+	-- Function for dynamic groups
+	local function GetSearchCriteriaForPatch(patch)
+		local dynamic_searchcriteria = {
+			SearchValueCriteria = {
+				-- Only include 'awp' search results where the value is equal to the patch
+				function(o, field, value)
+					local awp = o[field]
+					if not awp then return end
+					return (app.GetRelativeValue(o, "awp") or 0) == patch
+				end
+			},
+		}
+		return dynamic_searchcriteria
+	end
+
+
 	-- Iterate over the expansions and check for the selected one
 	for k, v in pairs(expansions) do
 		if app.GetCustomWindowParam("awp", k) == true then
@@ -7436,6 +7549,44 @@ customWindowUpdates.awp = function(self, force)	-- TODO: Change this to remember
 			return;
 		end
 		self.initialized = true;
+		local TypeGroupOverrides = {
+			visible = true
+		}
+		local function OnUpdate_RemoveEmptyDynamic(t)
+			-- nothing to show so don't be visible
+			if not t.g or #t.g == 0 then
+				return
+			end
+			local o
+			for i=#t.g,1,-1 do
+				o = t.g[i]
+				if o.__empty then
+					tremove(t.g, i)
+				end
+			end
+			if #t.g == 0 then
+				return
+			end
+			t.visible = true
+			return true
+		end
+		local function CreateTypeGroupsForHeader(header, searchResults)
+			-- TODO: professions would be more complex since it's so many sub-groups to organize
+			-- maybe just simpler to look for the 'requireSkill' field and put all those results into one 'Professions' group?
+			-- app.PrintDebug("Creating type group header",header.name, header.id, searchResults and #searchResults)
+			local typeGroup = app.CreateRawText(header.name, header)
+			local headerDataWithinPatch = app:BuildTargettedSearchResponse(searchResults, header.id, nil, {g=true})
+			-- app.PrintDebug("Found",#headerDataWithinPatch,"search groups for",header.id)
+			NestObjects(typeGroup, headerDataWithinPatch)
+			-- did we populate nothing?
+			if not typeGroup.g or #typeGroup.g == 0 then
+				typeGroup.__empty = true
+			else
+				app.AssignChildren(typeGroup)
+			end
+			Callback(app.DirectGroupUpdate, typeGroup.parent)
+			return typeGroup
+		end
 		local function CreatePatches(patchTable)
 			local patchBuild = {}
 			for _, patch in ipairs(patchTable) do
@@ -7449,10 +7600,58 @@ customWindowUpdates.awp = function(self, force)	-- TODO: Change this to remember
 				end
 				lastDigits = patchString:sub(-2)  -- "02"	-- Patch x.x.2
 				formattedPatch = majorVersion .. "." .. middleDigits .. lastDigits
-				-- Add the patch to the list
-				table.insert(patchBuild, app.CreateExpansion(formattedPatch, {
-					["g"] = app:BuildSearchResponse("awp", patch),
-				}))
+
+				-- Create the patch header
+				local patchHeader = app.CreateExpansion(formattedPatch, {g={}})
+
+				-- Fetch search results
+				local searchResults = app:BuildSearchResponse("awp", patch)
+				NestObjects(patchHeader, searchResults)
+
+				-- Create the dynamic category
+				local dynamicCategory = app.CreateRawText(L.CLICK_TO_CREATE_FORMAT:format(L.SETTINGS_MENU.DYNAMIC_CATEGORY_LABEL), {
+					icon = app.asset("Interface_CreateDynamic"),
+					OnUpdate = OnUpdate_RemoveEmptyDynamic,
+					g = {}
+				})
+
+				-- Dynamic category headers
+				-- TODO: If possible, change the creation of names and icons to SimpleNPCGroup to take the localized names
+				local headers = {
+					{ id = "achievementID", name = ACHIEVEMENTS, icon = app.asset("Category_Achievements") },
+					{ id = "sourceID", name = "Appearances", icon = 135276 },
+					{ id = "artifactID", name = ITEM_QUALITY6_DESC, icon = app.asset("Weapon_Type_Artifact") },
+					{ id = "azeriteessenceID", name = SPLASH_BATTLEFORAZEROTH_8_2_0_FEATURE2_TITLE, icon = app.asset("Category_AzeriteEssences") },
+					{ id = "speciesID", name = AUCTION_CATEGORY_BATTLE_PETS, icon = app.asset("Category_PetJournal") },
+					{ id = "characterUnlock", name = CHARACTER .. " " .. UNLOCK .. "s", icon = app.asset("Category_ItemSets") },
+					{ id = "conduitID", name = GetSpellName(348869) .. " (" .. EXPANSION_NAME8 .. ")", icon = 3601566 },
+					{ id = "currencyID", name = CURRENCY, icon = app.asset("Interface_Vendor") },
+					{ id = "explorationID", name = "Exploration", icon = app.asset("Category_Exploration") },
+					{ id = "factionID", name = L.FACTIONS, icon = app.asset("Category_Factions") },
+					{ id = "flightpathID", name = L.FLIGHT_PATHS, icon = app.asset("Category_FlightPaths") },
+					{ id = "followerID", name = GARRISON_FOLLOWERS, icon = app.asset("Category_Followers") },
+					{ id = "heirloomID", name = HEIRLOOMS, icon = app.asset("Weapon_Type_Heirloom") },
+					{ id = "illusionID", name = L.FILTER_ID_TYPES[103], icon = app.asset("Category_Illusions") },
+					{ id = "mountID", name = MOUNTS, icon = app.asset("Category_Mounts") },
+					{ id = "mountmodID", name = "Mount Mods", icon = 975744 },
+					-- TODO: Add professions here using the byValue probably
+					{ id = "questID", name = TRACKER_HEADER_QUESTS, icon = app.asset("Interface_Quest_header") },
+					{ id = "runeforgepowerID", name = LOOT_JOURNAL_LEGENDARIES .. " (" .. EXPANSION_NAME8 .. ")", icon = app.asset("Weapon_Type_Legendary") },
+					{ id = "titleID", name = PAPERDOLL_SIDEBAR_TITLES, icon = app.asset("Category_Titles") },
+					{ id = "toyID", name = TOY_BOX, icon = app.asset("Category_ToyBox") },
+				}
+
+				-- Loop through the dynamic headers and insert them into the "g" field of dynamic category
+				for _, header in ipairs(headers) do
+					header.parent = dynamicCategory
+					dynamicCategory.g[#dynamicCategory.g + 1] = app.DelayLoadedObject(CreateTypeGroupsForHeader, "text", TypeGroupOverrides, header, searchResults)
+				end
+
+				-- Merge patchHeaders and searchResults with dynamicCategory
+				tinsert(patchHeader.g, dynamicCategory)
+
+				-- Insert the final merged patchHeader into patchBuild
+				tinsert(patchBuild, patchHeader)
 			end
 			return patchBuild
 		end
@@ -7464,7 +7663,8 @@ customWindowUpdates.awp = function(self, force)	-- TODO: Change this to remember
 			back = 1,
 			g = {
 				app.CreateExpansion(expansionHeader, {
-					["g"] = CreatePatches(param),
+					expanded=true,
+					g = CreatePatches(param),
 				}),
 			},
 		};

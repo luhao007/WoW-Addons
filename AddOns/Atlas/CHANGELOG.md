@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.6.0 - March 5, 2025
+### Added
+- Retail: Added Operation: Floodgate map
+- Retail: Added Liberation of Undermine map
+
 ## 3.5.2 - February 25, 2025
 ### Changed
 - Retail: Added category and group to TOC
@@ -539,7 +544,7 @@ v1.41.00 (Apr. 14, 2017)
 v1.40.06 (Apr. 13, 2017)
 ------------------------
 - Checking deprecated plugins now will recognize the alpha build's version
-  if specifed; or will ignore those set "v3.5.2" as the version
+  if specifed; or will ignore those set "v3.6.0" as the version
   number to be changed by CurseForge's auto-packaging.
 
 v1.40.05 (Apr. 13, 2017)

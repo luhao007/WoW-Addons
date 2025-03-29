@@ -84,29 +84,29 @@ data["TWWFACTIONS"] = {
 				{ 9,   224418,                                [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:1000" },                                     -- Recipe: Everything Stew
 				{ 11,  "f2594rep35" },
 				{ 12,  218342,                                [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:1625" },                                     -- Shawl of the Assembly
-				{ 14,  "f2594rep38" },
-				{ 15,  "223294:10281:10377:10876:1656:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Noncandescent Smithing Hood
-				{ 16,  "212107:10281:10377:10876:1656:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Inflammable Forging Goggles
-				{ 17,  "223293:10281:10377:10876:1656:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Unmelting Ironworker Helmet
-				{ 18,  "223295:10281:10377:10876:1656:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Slag-Accruing Mask
-				{ 20,  "f2594rep42" },
-				{ 21,  224651,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Machine-Learned Mining Notes
-				{ 22,  224653,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Machine-Learned Engineering Notes
-				{ 23,  224654,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Machine-Learned Inscription Notes
-				{ 25,  "f2594rep44" },
-				{ 26,  218341,                                [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:1625" },                                     -- Shoulderguards of the Assembly
-				{ 28,  "f2594rep47" },
-				{ 29,  223623,                                "pet4576",                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:6500" }, -- Guacamole
-				{ 101, "f2594rep48" },
-				{ 102, 228698,                                [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" },                                     -- Candleflexer's Dumbbell
-				{ 104, "f2594rep49" },
-				{ 105, 223505,                                "mount",                                       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:8125" }, -- Crimson Mudnose
-				{ 106, "223305:10273:10377:10876:1669:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Noncandescent Smithing Cord
-				{ 107, "223306:10273:10377:10876:1669:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Inflammable Forging Cinch
-				{ 108, "223307:10273:10377:10876:1669:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Unmelting Ironworker Clasp
-				{ 109, "223304:10273:10377:10876:1669:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Slag-Accruing Waistguard
-				{ 111, "f2594rep53" },
-				{ 112, 222989,                                "mount",                                       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:11375" }, -- Cyan Glowmite
+				{ 16,  "f2594rep38" },
+				{ 17,  "223294:10281:10377:10876:1656:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Noncandescent Smithing Hood
+				{ 18,  "212107:10281:10377:10876:1656:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Inflammable Forging Goggles
+				{ 19,  "223293:10281:10377:10876:1656:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Unmelting Ironworker Helmet
+				{ 20,  "223295:10281:10377:10876:1656:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Slag-Accruing Mask
+				{ 22,  "f2594rep42" },
+				{ 23,  224651,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Machine-Learned Mining Notes
+				{ 24,  224653,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Machine-Learned Engineering Notes
+				{ 25,  224654,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Machine-Learned Inscription Notes
+				{ 27,  "f2594rep44" },
+				{ 28,  218341,                                [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:1625" },                                     -- Shoulderguards of the Assembly
+				{ 101, "f2594rep47" },
+				{ 102, 223623,                                "pet4576",                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:6500" }, -- Guacamole
+				{ 104, "f2594rep48" },
+				{ 105, 228698,                                [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" },                                     -- Candleflexer's Dumbbell
+				{ 107, "f2594rep49" },
+				{ 108, 223505,                                "mount",                                       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:8125" }, -- Crimson Mudnose
+				{ 109, "223305:10273:10377:10876:1669:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Noncandescent Smithing Cord
+				{ 110, "223306:10273:10377:10876:1669:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Inflammable Forging Cinch
+				{ 111, "223307:10273:10377:10876:1669:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Unmelting Ironworker Clasp
+				{ 112, "223304:10273:10377:10876:1669:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Slag-Accruing Waistguard
+				{ 114, "f2594rep53" },
+				{ 115, 222989,                                "mount",                                       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:11375" }, -- Cyan Glowmite
 			}
 		},
 		{ -- Hallowfall Arathi
@@ -122,34 +122,34 @@ data["TWWFACTIONS"] = {
 				{ 8,   "f2570rep34" },
 				{ 9,   223064,                                [PRICE_EXTRA_ITTYPE] = "210814:150" },                                                -- Technique: Contract: Hallowfall Arathi
 				{ 10,  223114,                                [PRICE_EXTRA_ITTYPE] = "210814:150" },                                                -- Formula: Enchant Boots - Scout's March
-				{ 12,  "f2570rep37" },
-				{ 13,  "223299:10281:10377:1656:10255",       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Tunic of Irradiating Imprisonment
-				{ 14,  "223297:10281:10377:1656:10255",       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Vest of Fading Luminescence
-				{ 15,  "223298:10281:10377:1656:10255",       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Chainmail of Depleting Brilliance
-				{ 16,  "223296:10281:10377:1656:10255",       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Battleplate of Dimming Fluorescence
-				{ 18,  "f2570rep43" },
-				{ 19,  218350,                                [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3250" },                                     -- Expeditionary Spaulders
-				{ 21,  "f2570rep44" },
-				{ 22,  224655,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Void-Lit Jewelcrafting Notes
-				{ 23,  224656,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Void-Lit Herbalism Notes
-				{ 24,  224657,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Void-Lit Skinning Notes
-				{ 25,  224658,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Void-Lit Leatherworking Notes
-				{ 27,  "f2570rep45" },
-				{ 28,  221848,                                "pet4463",                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:6500" }, -- Tiberius
-				{ 101, "f2570rep47" },
-				{ 102, 228707,                                [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" },                                     -- Trial of Burning Light
-				{ 104, "f2570rep48" },
-				{ 105, "223309:10273:10377:10876:1669:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Bindings of Irradiating Imprisonment
-				{ 106, "223310:10273:10377:10876:1669:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Wristwraps of Fading Luminescence
-				{ 107, "223308:10273:10377:10876:1669:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Bracers of Depleting Brilliance
-				{ 108, "223311:10273:10377:10876:1669:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Armguards of Dimming Fluorescence
-				{ 110, "f2570rep51" },
-				{ 111, 223317,                                "mount",                                       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:8125" }, -- Vermillion Imperial Lynx
-				{ 113, "f2570rep53" },
-				{ 114, 223314,                                "mount",                                       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:11375" }, -- Shackled Shadow
-				{ 115, 224553,                                [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:1000" },                                     -- Beledar's Attunement
-				{ 117, "f2570rep55" },
-				{ 118, 206350,                                [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:325" },                                      -- Radiant Remnant
+				{ 16,  "f2570rep37" },
+				{ 17,  "223299:10281:10377:1656:10255",       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Tunic of Irradiating Imprisonment
+				{ 18,  "223297:10281:10377:1656:10255",       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Vest of Fading Luminescence
+				{ 19,  "223298:10281:10377:1656:10255",       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Chainmail of Depleting Brilliance
+				{ 20,  "223296:10281:10377:1656:10255",       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Battleplate of Dimming Fluorescence
+				{ 22,  "f2570rep43" },
+				{ 23,  218350,                                [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3250" },                                     -- Expeditionary Spaulders
+				{ 25,  "f2570rep44" },
+				{ 26,  224655,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Void-Lit Jewelcrafting Notes
+				{ 27,  224656,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Void-Lit Herbalism Notes
+				{ 28,  224657,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Void-Lit Skinning Notes
+				{ 29,  224658,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Void-Lit Leatherworking Notes
+				{ 101, "f2570rep45" },
+				{ 102, 221848,                                "pet4463",                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:6500" }, -- Tiberius
+				{ 104, "f2570rep47" },
+				{ 105, 228707,                                [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" },                                     -- Trial of Burning Light
+				{ 107, "f2570rep48" },
+				{ 108, "223309:10273:10377:10876:1669:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Bindings of Irradiating Imprisonment
+				{ 109, "223310:10273:10377:10876:1669:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Wristwraps of Fading Luminescence
+				{ 110, "223308:10273:10377:10876:1669:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Bracers of Depleting Brilliance
+				{ 111, "223311:10273:10377:10876:1669:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Armguards of Dimming Fluorescence
+				{ 113, "f2570rep51" },
+				{ 114, 223317,                                "mount",                                       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:8125" }, -- Vermillion Imperial Lynx
+				{ 116, "f2570rep53" },
+				{ 117, 223314,                                "mount",                                       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:11375" }, -- Shackled Shadow
+				{ 118, 224553,                                [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:1000" },                                     -- Beledar's Attunement
+				{ 120, "f2570rep55" },
+				{ 121, 206350,                                [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:325" },                                      -- Radiant Remnant
 			}
 		},
 		{ -- The Severed Threads
@@ -167,14 +167,161 @@ data["TWWFACTIONS"] = {
 				{ 12, 222972,         "pet4491",                          [PRICE_EXTRA_ITTYPE] = "kej:2250" }, -- Jump Jump
 				{ 14, "f2600rep46" },
 				{ 15, 218347,         [PRICE_EXTRA_ITTYPE] = "kej:1125" },                         -- Thread-Bearer's Pauldrons
-				{ 17, "f2600rep47" },
-				{ 18, 228705,         [PRICE_EXTRA_ITTYPE] = "kej:1750" },                         -- Arachnoserum
-				{ 20, "f2600rep52" },
-				{ 21, 223274,         "mount",                            [PRICE_EXTRA_ITTYPE] = "kej:2815" }, -- Ferocious Jawcrawler
-				{ 23, "f2600rep53" },
-				{ 24, 223264,         "mount",                            [PRICE_EXTRA_ITTYPE] = "kej:3940" }, -- Aquamarine Swarmite
+				{ 16, "f2600rep47" },
+				{ 17, 228705,         [PRICE_EXTRA_ITTYPE] = "kej:1750" },                         -- Arachnoserum
+				{ 19, "f2600rep52" },
+				{ 20, 223274,         "mount",                            [PRICE_EXTRA_ITTYPE] = "kej:2815" }, -- Ferocious Jawcrawler
+				{ 22, "f2600rep53" },
+				{ 23, 223264,         "mount",                            [PRICE_EXTRA_ITTYPE] = "kej:3940" }, -- Aquamarine Swarmite
 			}
-		}
+		},
+		{ -- The Cartels of Undermine
+			FactionID = 2653,
+			CoinTexture = "Reputation",
+			[NORMAL_DIFF] = {
+				{ 1,   "f2653rep35" },
+				{ 2,   232535,                          [PRICE_EXTRA_ITTYPE] = "210814:150" },                                                -- Technique: Contract: The Cartels of Undermine
+				{ 3,   233022,                          [PRICE_EXTRA_ITTYPE] = "210814:150" },                                                -- Technique: Vantus Rune: Liberation of Undermine
+				{ 4,   234274,                          [PRICE_EXTRA_ITTYPE] = "210814:150" },                                                -- Schematic: 22H Slicks
+				{ 5,   235338,                          [PRICE_EXTRA_ITTYPE] = "210814:150" },                                                -- Pattern: Charged Armor Kit
+				{ 7,   "f2653rep37" },
+				{ 8,   "232379:11969:11964:3272:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Slime-Slicked Slippers
+				{ 9,   "232381:11969:11964:3272:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Mostly Cobbled Shoes
+				{ 10,  "232383:11969:11964:3272:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Soot-Encrusted Kickers
+				{ 11,  "232384:11969:11964:3272:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Aqirite-Toe Boots
+				{ 16,  "f2653rep44" },
+				{ 17,  "232410:11977:11964:3285:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Craftsman's Repurposed Mitts
+				{ 18,  "232411:11977:11964:3285:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Goblin Boxer's Wraps
+				{ 19,  "232412:11977:11964:3285:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Undermine Smelter's Gloves
+				{ 20,  "232413:11977:11964:3285:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Retired Bouncer's Gauntlets
+				{ 22,  "f2653rep45" },
+				{ 23,  229936,                          "mount",                                       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:8125" }, -- Violet Armored Growler
+				{ 101, "f2653rep46" },
+				{ 102, 232499,                          [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Undermine Treatise on Alchemy
+				{ 103, 232500,                          [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Undermine Treatise on Blacksmithing
+				{ 104, 232501,                          [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Undermine Treatise on Enchanting
+				{ 105, 232502,                          [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Undermine Treatise on Tailoring
+				{ 106, 232503,                          [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Undermine Treatise on Herbalism
+				{ 107, 232504,                          [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Undermine Treatise on Jewelcrafting
+				{ 108, 232505,                          [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Undermine Treatise on Leatherworking
+				{ 109, 232506,                          [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Undermine Treatise on Skinning
+				{ 110, 232507,                          [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Undermine Treatise on Engineering
+				{ 111, 232508,                          [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Undermine Treatise on Inscription
+				{ 112, 232509,                          [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Undermine Treatise on Mining
+				{ 116, "f2653rep47" },
+				{ 117, 231743,                          [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:1625" },                                     -- Undermine Enforcer's Helmet
+				{ 118, 231749,                          [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3250" },                                     -- Undermine Enforcer's Spikes
+				{ 119, 237034,                          [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:9750" },                                     -- Smartest in Town's Attire
+				{ 120, 237102,                          [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:9750" },                                     -- Slickest in Town's Attire
+				{ 121, 237112,                          [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:9750" },                                     -- Craftiest in Town's Attire
+				{ 122, 237122,                          [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:9750" },                                     -- Toughest in Town's Attire
+				{ 124, "f2653rep48" },
+				{ 125, 232515,                          [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3250" },                                     -- Experimental Goblin Jetpack
+				{ 127, "f2653rep49" },
+				{ 128, 232981,                          [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- GNZ Airmaster 9000
+				{ 129, 229944,                          "mount",                                       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:11375" }, -- The Topskimmer Special
+			}
+		},
+		{ -- Bilgewater Cartel
+			FactionID = 2673,
+			CoinTexture = "Reputation",
+			[NORMAL_DIFF] = {
+				{ 1,  "f2673rep6" },
+				{ 2,  236672,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:975" },                                     -- The Ol' Low-and-Slow
+				{ 3,  235670,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" },                                    -- Bilgewater Cartel Banner
+				{ 5,  "f2673rep7" },
+				{ 6,  235807,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" },                                    -- Storefront-in-a-Box
+				{ 7,  232845,     "pet4645",                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:6500" }, -- Bilgewater Junkhauler
+				{ 9,  "f2673rep8" },
+				{ 10, 235388,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:1350" },                                    -- Paint: Redlining Red
+				{ 11, 231526,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:1625" },                                    -- Bilgewater Undermine Tabard
+				{ 12, 229935,     "mount",                                       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:8125" }, -- Crimson Armored Growler
+			}
+		},
+		{ -- Blackwater Cartel
+			FactionID = 2675,
+			CoinTexture = "Reputation",
+			[NORMAL_DIFF] = {
+				{ 1,  "f2675rep6" },
+				{ 2,  236671,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:975" },                                     -- The Buzzer
+				{ 3,  235671,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" },                                    -- Blackwater Cartel Banner
+				{ 5,  "f2675rep7" },
+				{ 6,  235801,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" },                                    -- Personal Fishing Barge
+				{ 7,  232839,     "pet4637",                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:6500" }, -- Wavebreaker Mechasaur
+				{ 9,  "f2675rep8" },
+				{ 10, 235390,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:1350" },                                    -- Paint: Body Roll Blue
+				{ 11, 231528,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:1625" },                                    -- Blackwater Undermine Tabard
+				{ 12, 229948,     "mount",                                       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:8125" }, -- Blackwater Shredder Deluxe Mk 2
+			}
+		},
+		{ -- Steamwheedle Cartel
+			FactionID = 2677,
+			CoinTexture = "Reputation",
+			[NORMAL_DIFF] = {
+				{ 1,  "f2677rep6" },
+				{ 2,  236670,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:975" },                                      -- Maniacal Melodies
+				{ 3,  235669,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" },                                     -- Steamwheedle Cartel Banner
+				{ 5,  "f2677rep7" },
+				{ 6,  226373,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" },                                     -- Everlasting Noggenfogger Elixir
+				{ 7,  232853,     "pet4632",                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:6500" }, -- Eepy
+				{ 9,  "f2677rep8" },
+				{ 10, 235389,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:1350" },                                     -- Paint: Goblin Green
+				{ 11, 231527,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:1625" },                                     -- Steamwheedle Undermine Tabard
+				{ 12, 229956,     "mount",                                       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:11375" }, -- Mean Green Flying Machine
+			}
+		},
+		{ -- Venture Company
+			FactionID = 2671,
+			CoinTexture = "Reputation",
+			[NORMAL_DIFF] = {
+				{ 1,  "f2671rep6" },
+				{ 2,  236669,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:975" },                                      -- The Whole Brass Band
+				{ 3,  235672,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" },                                     -- Venture Co. Banner
+				{ 5,  "f2671rep7" },
+				{ 6,  235799,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" },                                     -- Throwin' Sawblade
+				{ 7,  232851,     "pet4641",                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:6500" }, -- Rocketfist
+				{ 9,  "f2671rep8" },
+				{ 10, 235391,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:1350" },                                     -- Paint: Yellow Cake Yellow
+				{ 11, 231542,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:1625" },                                     -- Venture Co. Undermine Tabard
+				{ 12, 229946,     "mount",                                       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:11375" }, -- Ocher Delivery Rocket
+			}
+		},
+		{ -- Darkfuse Solutions
+			FactionID = 2669,
+			CoinTexture = "Reputation",
+			[NORMAL_DIFF] = {
+				{ 1,  "f2669rep4" },
+				{ 2,  235558,     [PRICE_EXTRA_ITTYPE] = "marketResearch:100" },                                        -- Box of Darkfuse Miscellany
+				{ 3,  237276,     [PRICE_EXTRA_ITTYPE] = "money:50000" },                                               -- Refurbished Rocket Glider
+				{ 4,  235532,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:100" },                                      -- Experimental Goblin-FUEL Supplement
+				{ 6,  "f2669rep5" },
+				{ 7,  229823,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:100" },                                      -- Canister of Darkfuse Solution
+				{ 8,  235533,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:100" },                                      -- Prototype Auto-Advertiser
+				{ 10, "f2669rep6" },
+				{ 11, 234950,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" },                                     -- Atomic Regoblinator
+				{ 12, 235534,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:100" },                                      -- Electropuncture Test Model
+				{ 14, "f2669rep7" },
+				{ 15, 229950,     "mount",                                       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:11375" }, -- Darkfuse Demolisher
+				{ 16, "f2669rep8" },
+				{ 17, 231550,     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3250" },                                     -- Darkfuse Lowdown Coat
+
+			}
+		},
+		{ -- Gallagio Loyalty Rewards Club
+			FactionID = 2685,
+			CoinTexture = "Reputation",
+			[NORMAL_DIFF] = {
+				{ 1,  "f2685rep38" },
+				{ 2,  229945,      "mount",  [PRICE_EXTRA_ITTYPE] = "money:6250000" }, -- Thunderdrum Misfire
+				{ 4,  "f2685rep39" },
+				{ 5,  232844,      "pet4640" },                      -- Fuz-Size Flarendo
+				{ 6,  232806,      "pet4643" },                      -- Tiny Torq
+				{ 8,  "f2685rep47" },
+				{ 9,  229924,      "mount",  [PRICE_EXTRA_ITTYPE] = "money:6250000" }, -- Darkfuse Chompactor
+				{ 11, "f2685rep50" },
+				{ 12, 229940,      "mount",  [PRICE_EXTRA_ITTYPE] = "money:9712500" }, -- Flarendo the Furious
+			}
+		},
 	}
 }
 
@@ -742,45 +889,45 @@ data["DRAGONFLIGHTFACTIONS"] = {
 			CoinTexture = "Reputation",
 			[NORMAL_DIFF] = {
 				{ 1,   "f2574rep36" },
-				{ 2,   210482,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:225" },                                  -- Flourishing Whimsydrake: Back Fins
-				{ 3,   210483,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:225" },                                  -- Flourishing Whimsydrake: Ridged Brow
-				{ 4,   210484,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:225" },                                  -- Flourishing Whimsydrake: Underbite Snout
+				{ 2,   210482,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:225" },                                   -- Flourishing Whimsydrake: Back Fins
+				{ 3,   210483,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:225" },                                   -- Flourishing Whimsydrake: Ridged Brow
+				{ 4,   210484,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:225" },                                   -- Flourishing Whimsydrake: Underbite Snout
 				{ 6,   "f2574rep37" },
-				{ 7,   "210702:9552:1498", [PRICE_EXTRA_ITTYPE] = "dragonSupplies:300" },                                  -- Solar Synthesis Gloves
-				{ 8,   "210706:9552:1498", [PRICE_EXTRA_ITTYPE] = "dragonSupplies:300" },                                  -- Drowsed Shepherd's Gloves
-				{ 9,   "210700:9552:1498", [PRICE_EXTRA_ITTYPE] = "dragonSupplies:300" },                                  -- Auburn Scavenger Gauntlets
-				{ 10,  "210704:9552:1498", [PRICE_EXTRA_ITTYPE] = "dragonSupplies:300" },                                  -- Fallen Protector Handguards
+				{ 7,   "210702:9552:1498", [PRICE_EXTRA_ITTYPE] = "dragonSupplies:300" },                                   -- Solar Synthesis Gloves
+				{ 8,   "210706:9552:1498", [PRICE_EXTRA_ITTYPE] = "dragonSupplies:300" },                                   -- Drowsed Shepherd's Gloves
+				{ 9,   "210700:9552:1498", [PRICE_EXTRA_ITTYPE] = "dragonSupplies:300" },                                   -- Auburn Scavenger Gauntlets
+				{ 10,  "210704:9552:1498", [PRICE_EXTRA_ITTYPE] = "dragonSupplies:300" },                                   -- Fallen Protector Handguards
 				{ 12,  "f2574rep43" },
-				{ 13,  210485,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:450" },                                  -- Flourishing Whimsydrake: Long Snout
-				{ 14,  210486,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:450" },                                  -- Flourishing Whimsydrake: Horns
-				{ 15,  210487,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:450" },                                  -- Flourishing Whimsydrake: Neck Fins
+				{ 13,  210485,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:450" },                                   -- Flourishing Whimsydrake: Long Snout
+				{ 14,  210486,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:450" },                                   -- Flourishing Whimsydrake: Horns
+				{ 15,  210487,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:450" },                                   -- Flourishing Whimsydrake: Neck Fins
 				{ 17,  "f2574rep44" },
-				{ 18,  "210703:9560:1511", [PRICE_EXTRA_ITTYPE] = "dragonSupplies:600" },                                  -- Solar Synthesis Crown
-				{ 19,  "210707:9560:1511", [PRICE_EXTRA_ITTYPE] = "dragonSupplies:600" },                                  -- Drowsed Shepherd's Hood
-				{ 20,  "210701:9560:1511", [PRICE_EXTRA_ITTYPE] = "dragonSupplies:600" },                                  -- Auburn Scavenger Helm
-				{ 21,  "210705:9560:1511", [PRICE_EXTRA_ITTYPE] = "dragonSupplies:600" },                                  -- Fallen Protector Greathelm
+				{ 18,  "210703:9560:1511", [PRICE_EXTRA_ITTYPE] = "dragonSupplies:600" },                                   -- Solar Synthesis Crown
+				{ 19,  "210707:9560:1511", [PRICE_EXTRA_ITTYPE] = "dragonSupplies:600" },                                   -- Drowsed Shepherd's Hood
+				{ 20,  "210701:9560:1511", [PRICE_EXTRA_ITTYPE] = "dragonSupplies:600" },                                   -- Auburn Scavenger Helm
+				{ 21,  "210705:9560:1511", [PRICE_EXTRA_ITTYPE] = "dragonSupplies:600" },                                   -- Fallen Protector Greathelm
 				{ 23,  "f2574rep45" },
 				{ 24,  210691,             "pet4307",                                   [PRICE_EXTRA_ITTYPE] = "dragonSupplies:375" }, -- Spruce
 				{ 25,  210692,             "pet4308",                                   [PRICE_EXTRA_ITTYPE] = "dragonSupplies:375" }, -- Juniper
 				{ 101, "f2574rep46" },
-				{ 102, 210676,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:300" },                                  -- Elderwood Cane
-				{ 103, 210677,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:300" },                                  -- Survivalist's Shovel
-				{ 104, 210679,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:300" },                                  -- Cultivator's Watering Can
-				{ 105, 210680,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:300" },                                  -- Caretaker's Trowel
-				{ 106, 210685,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:300" },                                  -- Ranger's Longbow
-				{ 107, 210790,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:500" },                                  -- Ensemble: Elegant Green Dragon Outerwear
+				{ 102, 210676,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:300" },                                   -- Elderwood Cane
+				{ 103, 210677,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:300" },                                   -- Survivalist's Shovel
+				{ 104, 210679,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:300" },                                   -- Cultivator's Watering Can
+				{ 105, 210680,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:300" },                                   -- Caretaker's Trowel
+				{ 106, 210685,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:300" },                                   -- Ranger's Longbow
+				{ 107, 210790,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:500" },                                   -- Ensemble: Elegant Green Dragon Outerwear
 				{ 109, "f2574rep47" },
 				{ 110, 209949,             "mount",                                     [PRICE_EXTRA_ITTYPE] = "dragonSupplies:1200" }, -- Reins of the Suntouched Dreamstag
 				{ 111, 209951,             "mount",                                     [PRICE_EXTRA_ITTYPE] = "dragonSupplies:1200" }, -- Reins of the Lunar Dreamstag
 				{ 113, "f2574rep48" },
-				{ 114, 211495,             [PRICE_EXTRA_ITTYPE] = "money:1000000000" },                                    -- Dreambound Augment Rune
+				{ 114, 211495,             [PRICE_EXTRA_ITTYPE] = "money:1000000000" },                                     -- Dreambound Augment Rune
 				{ 116, "f2574rep49" },
-				{ 117, 210479,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:1250" },                                 -- Flourishing Whimsydrake: Night Scales
-				{ 118, 210481,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:1250" },                                 -- Flourishing Whimsydrake: Sunset Scales
+				{ 117, 210479,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:1250" },                                  -- Flourishing Whimsydrake: Night Scales
+				{ 118, 210481,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:1250" },                                  -- Flourishing Whimsydrake: Sunset Scales
 				{ 120, "f2574rep50" },
-				{ 121, 208066,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:100" },                                  -- Small Dreamseed
-				{ 122, 208067,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:500" },                                  -- Plump Dreamseed
-				{ 123, 208047,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:1500" },                                 -- Gigantic Dreamseed
+				{ 121, 208066,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:100" },                                   -- Small Dreamseed
+				{ 122, 208067,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:500" },                                   -- Plump Dreamseed
+				{ 123, 208047,             [PRICE_EXTRA_ITTYPE] = "dragonSupplies:1500" },                                  -- Gigantic Dreamseed
 			},
 		},
 	}

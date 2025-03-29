@@ -29,13 +29,13 @@ end);
 local setdhname = {[0]=NONE}
 fujiF.AutoDialogue.max1=PIGDownMenu(fujiF.AutoDialogue,{"LEFT",fujiF.AutoDialogue,"RIGHT",160,0},{60,24})
 fujiF.AutoDialogue.max1.T = PIGFontString(fujiF.AutoDialogue.max1,{"RIGHT",fujiF.AutoDialogue.max1,"LEFT",-4,0},"多对话选择")
-function fujiF.AutoDialogue.max1:PIGDownMenu_Update_But(self)
+function fujiF.AutoDialogue.max1:PIGDownMenu_Update_But()
 	local info = {}
 	info.func = self.PIGDownMenu_SetValue
 	for i=0,9,1 do
 	    info.text, info.arg1 = setdhname[i] or i, i
 	    info.checked = i==PIGA["Interaction"]["AutoDialogueIndex"]
-		fujiF.AutoDialogue.max1:PIGDownMenu_AddButton(info)
+		self:PIGDownMenu_AddButton(info)
 	end 
 end
 function fujiF.AutoDialogue.max1:PIGDownMenu_SetValue(value,arg1,arg2)

@@ -14,39 +14,47 @@ local BusinessInfo=addonTable.BusinessInfo
 local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 local baocunnum = 40
 --------------
-function BusinessInfo.ADD_qushi(fujiui,tishiOpen)
+function BusinessInfo.ADD_qushi(fujiui,tishi,num)
+	local Nbaocunnum=num or baocunnum
 	local qushi=PIGFrame(fujiui)
-	qushi:SetSize(328,204);
-	if tishiOpen then
-		qushi:PIGSetBackdrop(1,nil,nil,nil,0)
-		qushi:Hide()
-		qushi:SetFrameStrata("HIGH")
-		qushi.itemName = PIGFontString(qushi,{"TOPLEFT", qushi, "TOPLEFT",8, -6},nil,"OUTLINE")
+	qushi:SetPoint("TOPLEFT", fujiui, "TOPLEFT",0, -10);
+	qushi:SetPoint("BOTTOMRIGHT", fujiui, "BOTTOMRIGHT",0, 1);
+	if tishi then
+		qushi.itemName = PIGFontString(qushi,{"TOPLEFT", qushi, "TOPLEFT",6, 18},nil,"OUTLINE")
+		local ParentUI = fujiui:GetParent()
+		local iconWH = 20
+		ParentUI.qushitishi = CreateFrame("Frame", nil, ParentUI);
+		ParentUI.qushitishi:SetSize(iconWH,iconWH);
+		ParentUI.qushitishi.Tex = ParentUI.qushitishi:CreateTexture(nil, "BORDER");
+		ParentUI.qushitishi.Tex:SetTexture("interface/common/help-i.blp");
+		ParentUI.qushitishi.Tex:SetSize(iconWH+8,iconWH+8);
+		ParentUI.qushitishi.Tex:SetPoint("CENTER");
+		local tishitxt = "1、缓存价格以后才能显示涨跌百分比\n2、100%表示当前价格和最后次缓存价格一样\n3、80%表示当前价格是最后次缓存价格80%(即便宜了20%)\n4、120%表示当前价格是最后次缓存价格120%(即贵了20%)"
+		PIGEnter(ParentUI.qushitishi,"提示：",tishitxt)
 	end
-	local HeightX,WidthX = qushi:GetHeight()-44,7.9
+	local WidthX =7.9
 	qushi.qushiButList={}
-	for i=1,baocunnum do
-		local zhuzhuangX=PIGFrame(qushi,{"BOTTOMLEFT", qushi, "BOTTOMLEFT",WidthX*(i-1), 0},{WidthX,HeightX})
+	for i=1,Nbaocunnum do
+		local zhuzhuangX=PIGFrame(qushi,{"BOTTOMLEFT", qushi, "BOTTOMLEFT",WidthX*(i-1), 0},{WidthX,10})
 		if i==1 then
-			zhuzhuangX:SetPoint("BOTTOMLEFT", qushi, "BOTTOMLEFT",1, 4);
+			zhuzhuangX:SetPoint("BOTTOMLEFT", qushi, "BOTTOMLEFT",1, 0);
 		else
-			zhuzhuangX:SetPoint("BOTTOMLEFT", qushi, "BOTTOMLEFT",(WidthX)*(i-1)+1, 4);
+			zhuzhuangX:SetPoint("BOTTOMLEFT", qushi, "BOTTOMLEFT",(WidthX)*(i-1)+1, 0);
 		end
 		zhuzhuangX:PIGSetBackdrop(1,1,{0.2, 0.8, 0.8})
 		zhuzhuangX:Hide()
 		qushi.qushiButList[i]=zhuzhuangX
 	end
 	function qushi.qushitu(Data,itemName)
-		for i=1,baocunnum do
+		local NewHeightX = qushi:GetHeight()
+		for i=1,Nbaocunnum do
 			qushi.qushiButList[i]:Hide()
 		end
-		if tishiOpen then
+		if itemName then
 			qushi.itemName:SetText(itemName)
-		else
-			HeightX = qushi:GetHeight()-20
 		end
 		local PIG_qushidata_V = {["maxG"]=1,["maxG2"]=1,["endnum"]=1,["minVV"]=0.04}
-		if #Data>baocunnum then PIG_qushidata_V.endnum=(#Data-39) end
+		if #Data>Nbaocunnum then PIG_qushidata_V.endnum=(#Data-(Nbaocunnum-1)) end
 		local sortnum = {}
 		for i=#Data,PIG_qushidata_V.endnum,-1 do
 			local jiageVV =Data[i]
@@ -62,7 +70,9 @@ function BusinessInfo.ADD_qushi(fujiui,tishiOpen)
 			end
 		end
 		table.sort(sortnum)
-		PIG_qushidata_V.maxG=sortnum[#sortnum]
+		if #sortnum>1 then
+			PIG_qushidata_V.maxG=sortnum[#sortnum]
+		end
 		for i=(#sortnum-1),1,-1 do
 			if sortnum[i]<PIG_qushidata_V.maxG then
 				PIG_qushidata_V.maxG2=sortnum[i]
@@ -73,7 +83,7 @@ function BusinessInfo.ADD_qushi(fujiui,tishiOpen)
 			PIG_qushidata_V.maxG=PIG_qushidata_V.maxG2*2
 		end
 		local butidindex = 0
-		for i=#Data,PIG_qushidata_V.endnum,-1 do
+		for i=1,#Data,PIG_qushidata_V.endnum do
 			if Data[i] then
 				local danqianV = Data[i][1]
 				butidindex=butidindex+1
@@ -83,55 +93,14 @@ function BusinessInfo.ADD_qushi(fujiui,tishiOpen)
 				end
 				local PIG_qushizuidabaifenbi = danqianV/PIG_qushidata_V.maxG
 				if PIG_qushizuidabaifenbi<PIG_qushidata_V.minVV then
-					qushi.qushiButList[butidindex]:SetHeight(PIG_qushidata_V.minVV*HeightX)
+					qushi.qushiButList[butidindex]:SetHeight(PIG_qushidata_V.minVV*NewHeightX)
 				else
-					qushi.qushiButList[butidindex]:SetHeight(PIG_qushizuidabaifenbi*HeightX)
+					qushi.qushiButList[butidindex]:SetHeight(PIG_qushizuidabaifenbi*NewHeightX)	
 				end
 			end
 		end
 	end
-	if tishiOpen then
-		local iconWH = 20
-		local tishi = CreateFrame("Frame", nil, fujiui);
-		tishi:SetSize(iconWH,iconWH);
-		tishi.Tex = tishi:CreateTexture(nil, "BORDER");
-		tishi.Tex:SetTexture("interface/common/help-i.blp");
-		tishi.Tex:SetSize(iconWH+8,iconWH+8);
-		tishi.Tex:SetPoint("CENTER");
-		local tishitxt = "1、缓存价格以后才能显示涨跌百分比\n2、100%表示当前价格和最后次缓存价格一样\n3、80%表示当前价格是最后次缓存价格80%(即便宜了20%)\n4、120%表示当前价格是最后次缓存价格120%(即贵了20%)"
-		PIGEnter(tishi,"提示：",tishitxt)
-		return qushi,tishi
-	else
-		return qushi
-	end
-end
---
-local function GetWowTokenG()
-	local marketPrice = C_WowTokenPublic.GetCurrentMarketPrice();
-	if marketPrice and marketPrice>0 then
-		local hzlishiGG = PIGA["AHPlus"]["Tokens"]
-		local hzlishiGGNum = #hzlishiGG
-		if hzlishiGGNum>0 then
-			if hzlishiGGNum>50 then
-				local kaishiwb = hzlishiGGNum-50
-				for i=kaishiwb,1,-1 do
-					table.remove(hzlishiGG,i)
-				end
-			end
-			local OldmarketPrice = hzlishiGG[#hzlishiGG][2] or 0
-			if OldmarketPrice~=marketPrice then
-				table.insert(hzlishiGG,{GetServerTime(),marketPrice})
-			end
-		else
-			table.insert(hzlishiGG,{GetServerTime(),marketPrice})
-		end
-	end
-end
-local function Update_GetWowTokenG()
-	if not InCombatLockdown() then
-		GetWowTokenG()
-	end
-	C_Timer.After(60,Update_GetWowTokenG)
+	return qushi
 end
 ----
 local function zhixingdianjiFUn(framef)
@@ -177,11 +146,8 @@ function BusinessInfo.QuicAuc()
 		end
 	end
 end
-----------------------------------
+--
 local AuctionFramejiazai = CreateFrame("FRAME")
-AuctionFramejiazai:RegisterEvent("PLAYER_LOGIN")
-AuctionFramejiazai:RegisterEvent("TOKEN_MARKET_PRICE_UPDATED")
-AuctionFramejiazai:RegisterEvent("TOKEN_DISTRIBUTIONS_UPDATED")
 AuctionFramejiazai:SetScript("OnEvent", function(self, event, arg1)
 	if event=="ADDON_LOADED" then
 		if arg1 == "Blizzard_AuctionHouseUI" then
@@ -191,10 +157,6 @@ AuctionFramejiazai:SetScript("OnEvent", function(self, event, arg1)
 			BusinessInfo.AHPlus_Vanilla(baocunnum)
 			self:UnregisterEvent("ADDON_LOADED")
 		end
-	elseif event=="PLAYER_LOGIN" then
-		Update_GetWowTokenG()
-	else
-		GetWowTokenG()
 	end
 end)
 ------------

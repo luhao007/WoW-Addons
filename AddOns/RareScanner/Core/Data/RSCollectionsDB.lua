@@ -777,9 +777,12 @@ local function UpdateNotCollectedAppearanceItemIDs(routines, routineTextOutput)
 									if (not collected) then
 										for k = 1, #sources do
 											if (sources[k].sourceType == 1 or sources[k].sourceType == 4) then --Boss Drop/World drop
+												if (not GetAppearanceItemIDs(sources[k].visualID) or not RSUtils.Contains(GetAppearanceItemIDs(sources[k].visualID), sources[k].itemID)) then
+													AddAppearanceItemID(sources[k].visualID, sources[k].itemID)
+												end
+												
 												if (not previousVisualID or previousVisualID ~= sources[k].visualID) then
 													context.counter = context.counter + 1
-													AddAppearanceItemID(sources[k].visualID, sources[k].itemID)
 													previousVisualID = sources[k].visualID
 												end
 												
@@ -900,10 +903,10 @@ function RSCollectionsDB.RemoveNotCollectedAppearance(appearanceID, callback) --
 						for i = #lootList, 1, -1 do
 							if (RSUtils.Contains(GetAppearanceItemIDs(appearanceID), lootList[i])) then
 								if (table.getn(lootList) == 1) then
-									RSLogger:PrintDebugMessage(string.format("RemoveNotCollectedAppearance[%s]: Eliminado coleccionable de la lista de la entidad [%s]. No tiene mas apariencias.", appearanceID, entityID))
+									RSLogger:PrintDebugMessage(string.format("RemoveNotCollectedAppearance[%s]: Eliminado coleccionable [%s] de la lista de la entidad [%s]. No tiene mas apariencias.", appearanceID, lootList[i], entityID))
 									RSCollectionsDB.GetAllEntitiesCollectionsLoot()[source][entityID][RSConstants.ITEM_TYPE.APPEARANCE] = nil
 								else
-									RSLogger:PrintDebugMessage(string.format("RemoveNotCollectedAppearance[%s]: Eliminado coleccionable de la lista de la entidad [%s].", appearanceID, entityID))
+									RSLogger:PrintDebugMessage(string.format("RemoveNotCollectedAppearance[%s]: Eliminado coleccionable [%s] de la lista de la entidad [%s].", appearanceID, lootList[i], entityID))
 									table.remove(lootList, i)
 								end
 								
@@ -928,8 +931,6 @@ function RSCollectionsDB.RemoveNotCollectedAppearance(appearanceID, callback) --
 										end
 									end
 								end
-								
-								break
 							end
 						end
 					end

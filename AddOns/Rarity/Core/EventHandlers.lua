@@ -42,13 +42,15 @@ local GetRealZoneText = _G.GetRealZoneText
 local GetContainerNumSlots = _G.C_Container.GetContainerNumSlots
 local GetContainerItemID = _G.C_Container.GetContainerItemID
 local GetContainerItemInfo = _G.C_Container.GetContainerItemInfo
-local GetNumArchaeologyRaces = _G.GetNumArchaeologyRaces
+local GetNumArchaeologyRaces = _G.GetNumArchaeologyRaces or function()
+	return 0
+end
 local GetArchaeologyRaceInfo = _G.GetArchaeologyRaceInfo
 local GetStatistic = _G.GetStatistic
 local GetLootSourceInfo = _G.GetLootSourceInfo
 local C_Timer = _G.C_Timer
 local IsSpellKnown = _G.IsSpellKnown
-local GetCurrentRenownLevel = C_MajorFactions.GetCurrentRenownLevel
+local GetCurrentRenownLevel = C_MajorFactions and C_MajorFactions.GetCurrentRenownLevel
 
 -- Addon APIs
 local DebugCache = Rarity.Utils.DebugCache
@@ -63,12 +65,6 @@ function EventHandlers:Register()
 	self:RegisterEvent("CURRENCY_DISPLAY_UPDATE", "OnCurrencyUpdate")
 	self:RegisterEvent("RESEARCH_ARTIFACT_COMPLETE", "OnResearchArtifactComplete")
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED", "OnCombat") -- Used to detect boss kills that we didn't solo
-	self:RegisterEvent("BANKFRAME_OPENED", "OnEvent")
-	self:RegisterEvent("BANKFRAME_CLOSED", "OnEvent")
-	self:RegisterEvent("GUILDBANKFRAME_OPENED", "OnEvent")
-	self:RegisterEvent("GUILDBANKFRAME_CLOSED", "OnEvent")
-	self:RegisterEvent("MAIL_CLOSED", "OnEvent")
-	self:RegisterEvent("MAIL_SHOW", "OnEvent")
 	self:RegisterEvent("CURSOR_CHANGED", "OnCursorChanged") -- Fishing detection
 	self:RegisterEvent("UNIT_SPELLCAST_SENT", "OnSpellcastSent") -- Fishing detection
 	self:RegisterEvent("UNIT_SPELLCAST_STOP", "OnSpellcastStopped") -- Fishing detection
@@ -76,10 +72,6 @@ function EventHandlers:Register()
 	self:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED", "OnSpellcastFailed") -- Fishing detection
 	self:RegisterEvent("LOOT_CLOSED", "OnLootFrameClosed") -- Fishing detection
 	self:RegisterEvent("PLAYER_LOGOUT", "OnEvent")
-	self:RegisterEvent("AUCTION_HOUSE_CLOSED", "OnEvent")
-	self:RegisterEvent("AUCTION_HOUSE_SHOW", "OnEvent")
-	self:RegisterEvent("TRADE_CLOSED", "OnEvent")
-	self:RegisterEvent("TRADE_SHOW", "OnEvent")
 	self:RegisterEvent("TRADE_SKILL_SHOW", "OnEvent")
 	self:RegisterEvent("TRADE_SKILL_CLOSE", "OnEvent")
 	self:RegisterEvent("UPDATE_MOUSEOVER_UNIT", "OnMouseOver")
@@ -91,18 +83,19 @@ function EventHandlers:Register()
 	self:RegisterEvent("ISLAND_COMPLETED", "OnIslandCompleted")
 	self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED", "OnSpellcastSucceeded")
 	self:RegisterEvent("QUEST_TURNED_IN", "OnQuestTurnedIn")
-	self:RegisterEvent("SHOW_LOOT_TOAST", "OnShowLootToast")
+
+	if LE_EXPANSION_LEVEL_CURRENT >= LE_EXPANSION_MISTS_OF_PANDARIA then
+		self:RegisterEvent("SHOW_LOOT_TOAST", "OnShowLootToast")
+	end
+
 	self:RegisterBucketEvent("UPDATE_INSTANCE_INFO", 1, "OnEvent")
 	self:RegisterBucketEvent("LFG_UPDATE_RANDOM_INFO", 1, "OnEvent")
 	self:RegisterBucketEvent("CALENDAR_UPDATE_EVENT_LIST", 1, "OnEvent")
 	self:RegisterBucketEvent("TOYS_UPDATED", 1, "OnEvent")
 	self:RegisterBucketEvent("COMPANION_UPDATE", 1, "OnEvent")
 
-	if WOW_INTERFACE_VER >= 100000 then
-		-- minimum for PLAYER_INTERACTION_MANAGER_FRAME_SHOW/HIDE events
-		self:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_SHOW", "OnEvent")
-		self:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", "OnEvent")
-	end
+	self:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_SHOW", "OnPlayerInteractionFrameShow")
+	self:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE", "OnPlayerInteractionFrameHide")
 end
 
 -- TODO: Move elsewhere/refactor
@@ -249,6 +242,9 @@ function R:OnCurrencyUpdate(event)
 	-- Check if any coins were used
 	for k, v in pairs(self.coins) do
 		local currency = GetCurrencyInfo(k)
+		if currency == nil then
+			return
+		end
 		local name, currencyAmount = currency.name, currency.quantity
 		local diff = currencyAmount - (coinamounts[k] or 0)
 		coinamounts[k] = currencyAmount
@@ -399,6 +395,8 @@ end
 -- This event also handles some special cases.
 -------------------------------------------------------------------------------------
 function R:OnCombat()
+	self.Profiling:StartTimer("EventHandlers.OnCombat")
+
 	-- Extract event payload (it's no longer being passed by the event iself as of 8.0.1)
 	local timestamp, eventType, hideCaster, srcGuid, srcName, srcFlags, srcRaidFlags, dstGuid, dstName, dstFlags, dstRaidFlags, spellId, spellName, spellSchool, auraType =
 		CombatLogGetCurrentEventInfo()
@@ -415,6 +413,7 @@ function R:OnCombat()
 				if not Rarity.guids[dstGuid] then
 					if not UnitAffectingCombat("player") and not UnitIsDead("player") then
 						Rarity:Debug("Ignoring this UNIT_DIED event because the player is alive, but not in combat")
+						self.Profiling:EndTimer("EventHandlers.OnCombat")
 						return
 					end
 
@@ -440,6 +439,7 @@ function R:OnCombat()
 			end
 		end
 	end
+	self.Profiling:EndTimer("EventHandlers.OnCombat")
 end
 
 local worldEventQuests = {
@@ -674,8 +674,18 @@ end
 -------------------------------------------------------------------------------------
 
 function R:OnMouseOver(event)
+	self.Profiling:StartTimer("EventHandlers.OnMouseOver")
+
 	local guid = UnitGUID("mouseover")
 	local npcid = self:GetNPCIDFromGUID(guid)
+
+	Rarity:Debug("OnMouseOver")
+	if not npcid then
+		self.Profiling:EndTimer("EventHandlers.OnMouseOver")
+
+		return
+	end
+	Rarity:Debug("UnitGUID: " .. tostring(npcid))
 
 	if npcid == 50409 or npcid == 50410 then
 		if not Rarity.guids[guid] then
@@ -691,6 +701,7 @@ function R:OnMouseOver(event)
 			end
 		end
 	end
+	self.Profiling:EndTimer("EventHandlers.OnMouseOver")
 end
 
 function R:OnProfileChanged(event, database, newProfileKey)
@@ -748,12 +759,7 @@ function R:OnChatCommand(input)
 	elseif strlower(input) == "tinspect" then --  TODO Document it?
 		Rarity.Profiling:InspectAccumulatedTimes()
 	else
-		LoadAddOn("Rarity_Options")
-		if R.optionsFrame then
-			Settings.OpenToCategory("Rarity")
-		else
-			self:Print(L["The Rarity Options module has been disabled. Log out and enable it from your add-ons menu."])
-		end
+		Rarity:TryShowOptionsUI()
 	end
 end
 
@@ -825,6 +831,8 @@ function R:OnSpellcastSent(event, unit, target, castGUID, spellID)
 	if unit ~= "player" then
 		return
 	end
+	self.Profiling:StartTimer("EventHandlers.OnSpellcastSent")
+
 	Rarity.foundTarget = false
 	-- ga = "No" -- WTF is this?
 
@@ -852,6 +860,8 @@ function R:OnSpellcastSent(event, unit, target, castGUID, spellID)
 	else
 		Rarity.previousSpell, Rarity.currentSpell = nil, nil
 	end
+
+	self.Profiling:EndTimer("EventHandlers.OnSpellcastSent")
 end
 
 function R:OnFishingEnded()
@@ -886,6 +896,7 @@ function R:OnCursorChanged(event)
 	if MinimapCluster:IsMouseOver() then
 		return
 	end
+	self.Profiling:StartTimer("EventHandlers.OnCursorChanged")
 	local t = stripColorCode(tooltipLeftText1:GetText())
 	if self.miningnodes[t] or self.fishnodes[t] or self.opennodes[t] then
 		Rarity.lastNode = t
@@ -894,6 +905,7 @@ function R:OnCursorChanged(event)
 	if Rarity.relevantSpells[Rarity.previousSpell] then
 		self:GetWorldTarget()
 	end
+	self.Profiling:EndTimer("EventHandlers.OnCursorChanged")
 end
 
 -- Doesn't really belong here, but no idea where to put it right now. Later...
@@ -904,6 +916,9 @@ function R:GetWorldTarget()
 	if MinimapCluster:IsMouseOver() then
 		return
 	end
+
+	self.Profiling:StartTimer("EventHandlers.GetWorldTarget")
+
 	local t = tooltipLeftText1:GetText()
 	Rarity:Debug("Getting world target " .. tostring(t))
 	if t and Rarity.previousSpell and t ~= Rarity.previousSpell and R.fishnodes[t] then
@@ -916,16 +931,22 @@ function R:GetWorldTarget()
 		Rarity.fishingTimer = self:ScheduleTimer(Rarity.OnFishingEnded, FISHING_DELAY)
 		Rarity.foundTarget = true
 	end
+
+	self.Profiling:EndTimer("EventHandlers.GetWorldTarget")
 end
 
 function R:OnSpellcastStopped(event, unit)
 	if unit ~= "player" then
 		return
 	end
+
+	self.Profiling:StartTimer("EventHandlers.OnSpellcastStopped")
+
 	if Rarity.relevantSpells[Rarity.previousSpell] then
 		self:GetWorldTarget()
 	end
 	Rarity.previousSpell, Rarity.currentSpell = Rarity.currentSpell, Rarity.currentSpell
+	self.Profiling:EndTimer("EventHandlers.OnSpellcastStopped")
 end
 
 function R:OnSpellcastFailed(event, unit)
@@ -1001,10 +1022,14 @@ function R:ProcessContainerItems()
 end
 
 function R:ProcessInventoryItems()
+	self.Profiling:StartTimer("EventHandlers.ProcessInventoryItems")
+
 	for itemID, _ in pairs(Rarity.bagitems) do
 		self:ProcessCollectionItem(itemID)
 		self:ProcessOtherItem(itemID)
 	end
+
+	self.Profiling:EndTimer("EventHandlers.ProcessInventoryItems")
 end
 
 function R:ProcessCollectionItem(itemID)
@@ -1153,60 +1178,13 @@ function R:OnResearchArtifactComplete(event, _)
 	self:ScanArchFragments(event)
 end
 
--- 10.x added events PLAYER_INTERACTION_MANAGER_FRAME_HIDE and PLAYER_INTERACTION_MANAGER_FRAME_SHOW
--- which currently fire either in addition to, or instead of, older events like MAIL_SHOW or MAIL_CLOSED.
--- This maps new events onto old ones, so there's just one (old-style) event to check against.
--- (Note many PlayerInteractionTypes are defined but not all are necessarily used; we add the ones most
--- likely to be relevant here, whether currently being triggered or not.)
-
-local EventRemapping = {
-	["PLAYER_INTERACTION_MANAGER_FRAME_HIDE"] = {
-		[Enum and Enum.PlayerInteractionType and Enum.PlayerInteractionType.Banker or ""] = "BANKFRAME_CLOSED",
-		[Enum and Enum.PlayerInteractionType and Enum.PlayerInteractionType.GuildBanker or ""] = "GUILDBANKFRAME_CLOSED",
-		[Enum and Enum.PlayerInteractionType and Enum.PlayerInteractionType.Auctioneer or ""] = "AUCTION_HOUSE_CLOSED",
-		[Enum and Enum.PlayerInteractionType and Enum.PlayerInteractionType.TradePartner or ""] = "TRADE_CLOSED",
-		[Enum and Enum.PlayerInteractionType and Enum.PlayerInteractionType.MailInfo or ""] = "MAIL_CLOSED",
-	},
-	["PLAYER_INTERACTION_MANAGER_FRAME_SHOW"] = {
-		[Enum and Enum.PlayerInteractionType and Enum.PlayerInteractionType.Banker or ""] = "BANKFRAME_OPENED",
-		[Enum and Enum.PlayerInteractionType and Enum.PlayerInteractionType.GuildBanker or ""] = "GUILDBANKFRAME_OPENED",
-		[Enum and Enum.PlayerInteractionType and Enum.PlayerInteractionType.Auctioneer or ""] = "AUCTION_HOUSE_SHOW",
-		[Enum and Enum.PlayerInteractionType and Enum.PlayerInteractionType.TradePartner or ""] = "TRADE_SHOW",
-		[Enum and Enum.PlayerInteractionType and Enum.PlayerInteractionType.MailInfo or ""] = "MAIL_SHOW",
-	},
-}
-
 function R:OnEvent(event, ...)
-	-- do EventRemapping if appropriate
-	local param1 = select(1, ...)
-	if EventRemapping[event] and EventRemapping[event][param1] then
-		event = EventRemapping[event][param1]
-	end
+	self.Profiling:StartTimer("EventHandlers.OnEvent")
 
-	if event == "BANKFRAME_OPENED" then
-		Rarity.isBankOpen = true
-	elseif event == "GUILDBANKFRAME_OPENED" then
-		Rarity.isGuildBankOpen = true
-	elseif event == "AUCTION_HOUSE_SHOW" then
-		Rarity.isAuctionHouseOpen = true
-	elseif event == "TRADE_SHOW" then
-		Rarity.isTradeWindowOpen = true
-	elseif event == "TRADE_SKILL_SHOW" then
+	if event == "TRADE_SKILL_SHOW" then
 		Rarity.isTradeskillOpen = true
-	elseif event == "MAIL_SHOW" then
-		Rarity.isMailboxOpen = true
-	elseif event == "BANKFRAME_CLOSED" then
-		Rarity.isBankOpen = false
-	elseif event == "GUILDBANKFRAME_CLOSED" then
-		Rarity.isGuildBankOpen = false
-	elseif event == "AUCTION_HOUSE_CLOSED" then
-		Rarity.isAuctionHouseOpen = false
-	elseif event == "TRADE_CLOSED" then
-		Rarity.isTradeWindowOpen = false
 	elseif event == "TRADE_SKILL_CLOSE" then
 		Rarity.isTradeskillOpen = false
-	elseif event == "MAIL_CLOSED" then
-		Rarity.isMailboxOpen = false
 	elseif event == "UPDATE_INSTANCE_INFO" then
 		-- Instance lock info updated
 		self:ScanInstanceLocks(event)
@@ -1227,6 +1205,8 @@ function R:OnEvent(event, ...)
 			Rarity.Session:End()
 		end
 	end
+
+	self.Profiling:EndTimer("EventHandlers.OnEvent")
 end
 
 -------------------------------------------------------------------------------------
@@ -2139,6 +2119,34 @@ function Rarity:OnDreamseedCacheOpened()
 	Rarity:Debug("Detected Opening on Dreamseed Cache")
 	for _, mount in ipairs(dreamseedMounts) do
 		addAttemptForItem(mount, "mounts")
+	end
+end
+
+function R:OnPlayerInteractionFrameShow(event, playerInteractionTypeID)
+	if playerInteractionTypeID == Enum.PlayerInteractionType.Banker then
+		Rarity.isBankOpen = true
+	elseif playerInteractionTypeID == Enum.PlayerInteractionType.GuildBanker then
+		Rarity.isGuildBankOpen = true
+	elseif playerInteractionTypeID == Enum.PlayerInteractionType.Auctioneer then
+		Rarity.isAuctionHouseOpen = true
+	elseif playerInteractionTypeID == Enum.PlayerInteractionType.TradePartner then
+		Rarity.isTradeWindowOpen = true
+	elseif playerInteractionTypeID == Enum.PlayerInteractionType.MailInfo then
+		Rarity.isMailboxOpen = true
+	end
+end
+
+function R:OnPlayerInteractionFrameHide(event, playerInteractionTypeID)
+	if playerInteractionTypeID == Enum.PlayerInteractionType.Banker then
+		Rarity.isBankOpen = false
+	elseif playerInteractionTypeID == Enum.PlayerInteractionType.GuildBanker then
+		Rarity.isGuildBankOpen = false
+	elseif playerInteractionTypeID == Enum.PlayerInteractionType.Auctioneer then
+		Rarity.isAuctionHouseOpen = false
+	elseif playerInteractionTypeID == Enum.PlayerInteractionType.TradePartner then
+		Rarity.isTradeWindowOpen = false
+	elseif playerInteractionTypeID == Enum.PlayerInteractionType.MailInfo then
+		Rarity.isMailboxOpen = false
 	end
 end
 

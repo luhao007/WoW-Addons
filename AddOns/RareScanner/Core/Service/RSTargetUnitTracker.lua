@@ -141,7 +141,7 @@ local function TargetUnits(rareScannerButton, mapID, npcIDs)
 		end
 		
 		-- If NPC has quest completed
-		if (npcInfo and npcInfo.questID) then
+		if (not filtered and npcInfo and npcInfo.questID) then
 			for _, questID in ipairs(npcInfo.questID) do
 				if (C_QuestLog.IsQuestFlaggedCompleted(questID)) then
 					filtered = true
@@ -152,7 +152,7 @@ local function TargetUnits(rareScannerButton, mapID, npcIDs)
 		end
 		
 		-- If NPC has weekly quest completed
-		if (npcInfo and npcInfo.warbandQuestID and RSConfigDB.IsWeeklyRepNpcFilterEnabled()) then
+		if (not filtered and npcInfo and npcInfo.warbandQuestID and RSConfigDB.IsWeeklyRepNpcFilterEnabled()) then
 			for _, questID in ipairs(npcInfo.warbandQuestID) do
 				if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
 					filtered = true

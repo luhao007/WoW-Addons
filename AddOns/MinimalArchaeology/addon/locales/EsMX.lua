@@ -40,23 +40,14 @@ L["DATABROKER_HINT_RIGHTCLICK"] = "Right-click to open settings"
 L["DATABROKER_HINT_SHIFT_LEFTCLICK"] = "Shift + Left-Click to toggle MinArch history window."
 --[[Translation missing --]]
 L["DIGSITES_DIGSITE"] = "Digsite"
---[[Translation missing --]]
-L["GLOBAL_BROKEN_ISLES"] = "Broken Isles"
---[[Translation missing --]]
+L["GLOBAL_BROKEN_ISLES"] = "Islas Quebradas"
 L["GLOBAL_DRAENOR"] = "Draenor"
---[[Translation missing --]]
-L["GLOBAL_EASTERN_KINGDOMS"] = "Eastern Kingdoms"
---[[Translation missing --]]
+L["GLOBAL_EASTERN_KINGDOMS"] = "Reinos del Este"
 L["GLOBAL_KALIMDOR"] = "Kalimdor"
---[[Translation missing --]]
 L["GLOBAL_KUL_TIRAS"] = "Kul Tiras"
---[[Translation missing --]]
-L["GLOBAL_NORTHREND"] = "Northrend"
---[[Translation missing --]]
-L["GLOBAL_OUTLAND"] = "Outland"
---[[Translation missing --]]
+L["GLOBAL_NORTHREND"] = "Rasganorte"
+L["GLOBAL_OUTLAND"] = "Terrallende"
 L["GLOBAL_PANDARIA"] = "Pandaria"
---[[Translation missing --]]
 L["GLOBAL_ZANDALAR"] = "Zandalar"
 --[[Translation missing --]]
 L["HISTORY_SOLVE_CONFIRMATION_ALWAYS"] = "Yes, always!"

@@ -19,7 +19,7 @@ local RSUtils = private.ImportLib("RareScannerUtils")
 local tomtom_waypoint
 
 function RSTomtom.AddWorldMapTomtomWaypoint(mapID, x, y, name)
-	if (TomTom and RSConfigDB.IsAddingWorldMapTomtomWaypoints() and mapID and x and y and name) then
+	if (TomTom and mapID and x and y and name) then
 		RSTomtom.RemoveCurrentTomtomWaypoint()
 		
 		local fixedX = RSUtils.FixCoord(x)
@@ -37,7 +37,7 @@ function RSTomtom.AddWorldMapTomtomWaypoint(mapID, x, y, name)
 end
 
 function RSTomtom.AddTomtomWaypoint(mapID, x, y, name)
-	if (TomTom and RSConfigDB.IsTomtomSupportEnabled() and mapID and mapID ~= "" and x and y and name) then
+	if (TomTom and mapID and mapID ~= "" and x and y and name) then
 		RSTomtom.RemoveCurrentTomtomWaypoint()
 		
 		local fixedX = RSUtils.FixCoord(x)

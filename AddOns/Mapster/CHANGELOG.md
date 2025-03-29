@@ -1,8 +1,8 @@
 # Mapster
 
-## [1.12.3](https://github.com/Nevcairiel/Mapster/tree/1.12.3) (2025-01-07)
-[Full Changelog](https://github.com/Nevcairiel/Mapster/compare/1.12.2...1.12.3) [Previous Releases](https://github.com/Nevcairiel/Mapster/releases)
+## [1.12.4](https://github.com/Nevcairiel/Mapster/tree/1.12.4) (2025-03-08)
+[Full Changelog](https://github.com/Nevcairiel/Mapster/compare/1.12.3...1.12.4) [Previous Releases](https://github.com/Nevcairiel/Mapster/releases)
 
-- Fix some taint from POI resizing  
-- Cleanup some unneeded calls  
-- Prevent the Mapster map from being maximized  
+- Update TOC  
+- Update FogClear data for 11.1  
+- Try fixing the maximize option  

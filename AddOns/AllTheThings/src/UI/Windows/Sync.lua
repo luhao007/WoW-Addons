@@ -24,9 +24,8 @@ local function ProcessSendChunks()
 				for uid,pendingChunk in pairs(user) do
 					-- Acquire the cooldown and see if we're still on cooldown.
 					local cooldown = pendingChunk.cooldown;
-					if cooldown > 0 then
+					if cooldown > time() then
 						-- We're still on cooldown. Don't do anything this cycle.
-						pendingChunk.cooldown = cooldown - 1;
 					else
 						-- Off cooldown! do something!
 						local acks = pendingChunk.acks;
@@ -37,12 +36,16 @@ local function ProcessSendChunks()
 							if not acks[i] then
 								-- We found one that hasn't been acknowledged yet.
 								pendingChunk.method(pendingChunk.target, "chunk`" .. pendingChunk.uid .. "`" .. i .. "`" .. chunkCount .. "`" .. chunks[i]);
-								pendingChunk.cooldown = 10000;	-- ~10 seconds (resets when an ack is received!)
 								finished = false;
 								break;
 							end
 						end
-						if finished then user[uid] = nil; end
+						if finished then
+							user[uid] = nil;
+						else
+							-- Reset the cooldown
+							pendingChunk.cooldown = time() + 10;
+						end
 					end
 					any = true;
 					break;
@@ -363,10 +366,80 @@ local AccountWideDataHandlers = setmetatable({
 	end,
 });
 local function RecalculateAccountWideData()
+	app.print("Recalculating Account Data...");
 	for key,data in pairs(AccountWideData) do
 		AccountWideDataHandlers[key](data, key);
 	end
+	app.print("Account Data Recalculated successfully.");
 end
+local function DeserializeSequentialKeys(str)
+	local values = SplitString(":", str);
+	local keys = {};
+	for i=1,#values,1 do
+		local a,b = (">"):split(values[i]);
+		if b then
+			a = tonumber(a);
+			b = tonumber(b);
+			if (b - a) > 100000 then
+				app:ShowPopupDialogWithMultiLineEditBox("Rather than explode your RAM, Crieve decided instead to have you report this string of data to him for a fix.\n\nApologies for the inconvenience.\n\n" .. str, nil, "A parsing error occured during the sync process.");
+				break;
+			end
+			for j=a,b,1 do
+				keys[#keys + 1] = j;
+			end
+		else
+			keys[#keys + 1] = tonumber(a);
+		end
+	end
+	return keys;
+end
+local function SerializeSequentialKeys(keys)
+	table.sort(keys);
+	local rangeStart = keys[1];
+	local nextValue = rangeStart;
+	local str = "" .. rangeStart;
+	for i,value in ipairs(keys) do
+		if value ~= nextValue then
+			nextValue = nextValue - 1;
+			if value ~= nextValue then
+				if rangeStart ~= nextValue then
+					str = str .. ">" .. nextValue;
+				end
+				str = str .. ":" .. value;
+				rangeStart = value;
+			end
+		end
+		nextValue = value + 1;
+	end
+	if nextValue > rangeStart then
+		nextValue = nextValue - 1;
+		if rangeStart ~= nextValue then
+			str = str .. ">" .. nextValue;
+		end
+	end
+	--[[
+	print(str);
+	-- /dump ATTC.SerializeSequentialKeys({1,2,3,4,5,6,7,8,0,10,11,12,13,14,-9999,123,-12313,-1235,-56,-99,-1,98935,2342,111,123})
+	local newkeys = DeserializeSequentialKeys(str);
+	local dict = {};
+	for i,o in ipairs(newkeys) do
+		dict[o] = true;
+	end
+	local fails;
+	for i,o in ipairs(keys) do
+		if not dict[o] then
+			fails = (fails and (fails .. ", ") or "FAILED: ") .. o;
+		end
+	end
+	if fails then
+		print("SERIALIZATION CHECK", fails);
+	end
+	]]--
+	return str;
+end
+app.RecalculateAccountWideData = RecalculateAccountWideData;
+app.DeserializeSequentialKeys = DeserializeSequentialKeys;
+app.SerializeSequentialKeys = SerializeSequentialKeys;
 
 -- Data Handling
 local maxTimeStamp = 9999999999999;
@@ -408,7 +481,20 @@ local defaultDeserializer = function(field, currentValue, data)
 			currentValue = {};
 		end
 		for i=2,totalValues,1 do
-			currentValue[tonumber(values[i])] = 1;
+			local a,b = (">"):split(values[i]);
+			if b then
+				a = tonumber(a);
+				b = tonumber(b);
+				if (b - a) > 100000 then
+					app:ShowPopupDialogWithMultiLineEditBox("Rather than explode your RAM, Crieve decided instead to have you report this string of data to him for a fix.\n\nApologies for the inconvenience.\n\n" .. data[1], nil, "A parsing error occured during the sync process.");
+					break;
+				end
+				for j=a,b,1 do
+					currentValue[j] = 1;
+				end
+			else
+				currentValue[tonumber(a)] = 1;
+			end
 		end
 		return currentValue;
 	else
@@ -439,12 +525,7 @@ local defaultSerializer = function(field, value, timeStamp, lastUpdated)
 				if v and index then tinsert(keys, tonumber(index)); end
 			end
 			if #keys > 0 then
-				local str = field .. ";" .. typeListID;
-				table.sort(keys);
-				for i,value in ipairs(keys) do
-					str = str .. ":" .. value;
-				end
-				return str;
+				return field .. ";" .. typeListID .. ":" .. SerializeSequentialKeys(keys);
 			end
 		elseif t == "boolean" then
 			if value then
@@ -535,15 +616,27 @@ local deserializers = {
 		currentValue.modeString = modeString;
 		return currentValue;
 	end,
+	Summary = function(field, currentValue, data, character)
+		character.battleTag = data[1];
+		character.text = data[2];
+		character.name = data[3];
+		character.realm = data[4];
+		character.factionID = tonumber(data[5]);
+		character.lvl = tonumber(data[6]);
+		character.classID = tonumber(data[7]);
+		character.class = data[8];
+		character.raceID = tonumber(data[9]);
+		character.race = data[10];
+		character.lastPlayed = tonumber(data[11]);
+		character.Deaths = tonumber(data[12]);
+	end,
 	TimeStamps = function(field, currentValue, data)
-		if currentValue then
-			wipe(currentValue);
-		else
+		if not currentValue then
 			currentValue = {};
 		end
 		for i=1,#data,1 do
-			local tableName,timestamp = (":"):split(data[i]);
-			currentValue[tableName] = tonumber(timestamp);
+			local tableName,lastUpdated = (":"):split(data[i]);
+			currentValue[tableName] = tonumber(lastUpdated);
 		end
 		return currentValue;
 	end
@@ -588,14 +681,48 @@ local serializers = {
 	PrimeData = function(field, value)
 		return field .. ";" .. value.progress .. ":" .. value.total .. ":" .. value.modeString;
 	end,
-	TimeStamps = function(field, value)
+	TimeStamps = function(field, value, timeStamp, lastUpdated)
 		local any, str = false, field;
-		for tableName,timestamp in pairs(value) do
-			str = str .. ";" .. tableName .. ":" .. timestamp;
-			any = true;
+		if not lastUpdated or lastUpdated == 0 then
+			for tableName,ts in pairs(value) do
+				str = str .. ";" .. tableName .. ":" .. ts;
+				any = true;
+			end
+		else
+			for tableName,ts in pairs(value) do
+				if timeStamp >= ts then
+					str = str .. ";" .. tableName .. ":" .. ts;
+					any = true;
+				end
+			end
 		end
 		if any then return str; end
-	end
+	end,
+	
+	-- The main data package containing the simple stuff.
+	Summary = function(character, value)
+		if value ~= nil then return; end	-- We don't want this to try to encode an invalid set of data.
+		return "Summary;" .. (character.battleTag or "") .. ";" .. (character.text or "")
+			.. ";" .. (character.name or "") .. ";" .. (character.realm or "")
+			.. ";" .. (character.factionID or "1").. ";" .. (character.lvl or "1")
+			.. ";" .. (character.classID or "1") .. ";" .. (character.class or "")
+			.. ";" .. (character.raceID or "1") .. ";" .. (character.race or "")
+			.. ";" .. (character.lastPlayed or "0") .. ";" .. (character.Deaths or "0");
+	end,
+	
+	-- These are now included inside of "Summary" to compress the data package more.
+	battleTag = ignoreField,
+	text = ignoreField,
+	name = ignoreField,
+	realm = ignoreField,
+	factionID = ignoreField,
+	lvl = ignoreField,
+	classID = ignoreField,
+	raceID = ignoreField,
+	class = ignoreField,
+	race = ignoreField,
+	lastPlayed = ignoreField,
+	Deaths = ignoreField,
 };
 local function ReceiveCharacterSummary(self, sender, responses, guid, lastPlayed, shouldPrint)
 	--print("ReceiveCharacterSummary", guid, lastPlayed, shouldPrint);
@@ -682,7 +809,7 @@ MESSAGE_HANDLERS.ack = function(self, sender, content, responses)
 	local pendingChunk = pending[uid];
 	if not pendingChunk then return false; end
 	pendingChunk.acks[chunkIndex] = true;
-	pendingChunk.cooldown = 10;
+	pendingChunk.cooldown = 0;
 end
 MESSAGE_HANDLERS.check = function(self, sender, content, responses)
 	-- Validate inputs. Battle Tag MUST be supplied and the account must be linked!
@@ -791,7 +918,7 @@ MESSAGE_HANDLERS.rawchar = function(self, sender, content, responses)
 		local fieldData = SplitString(";", fieldDataString);
 		local fieldName = fieldData[1];
 		tremove(fieldData, 1);
-		local data = (deserializers[fieldName] or defaultDeserializer)(fieldName, character[fieldName], fieldData);
+		local data = (deserializers[fieldName] or defaultDeserializer)(fieldName, character[fieldName], fieldData, character);
 		if data then character[fieldName] = data; end
 	end
 	
@@ -832,9 +959,10 @@ MESSAGE_HANDLERS.request = function(self, sender, content, responses)
 	
 	-- Iterate through the fields for the character.
 	local skip, rawData = true, "rawchar," .. guid;
+	local str = serializers.Summary(character);
+	if str then rawData = rawData .. "," .. str; end
 	for field,value in pairs(character) do
-		local timeStamp = timeStamps[field] or maxTimeStamp;
-		local str = (serializers[field] or defaultSerializer)(field, value, timeStamp, lastUpdated);
+		local str = (serializers[field] or defaultSerializer)(field, value, timeStamps[field] or maxTimeStamp, lastUpdated);
 		if str then rawData = rawData .. "," .. str; end
 	end
 	tinsert(responses, rawData);
@@ -920,6 +1048,7 @@ local function OnTooltipForCharacter(t, tooltipInfo)
 		end
 		
 		local total = 0;
+		local timestamps = character.TimeStamps;
 		for i,field in ipairs({ "Achievements", "BattlePets", "Exploration", "Factions", "FlightPaths", "Spells", "Titles", "Toys", "Transmog", "Quests" }) do
 			local values = character[field];
 			if values then
@@ -930,8 +1059,9 @@ local function OnTooltipForCharacter(t, tooltipInfo)
 					end
 				end
 				total = total + subtotal;
+				local t = timestamps[field];
 				tinsert(tooltipInfo, {
-					left = field,
+					left = field .. " |cffaaaaaa(" .. (t and date("%Y-%m-%d", t) or "??" ) .. ")|r",
 					right = tostring(subtotal),
 					r = 1, g = 1, b = 1
 				});
@@ -1071,6 +1201,16 @@ app:CreateWindow("Synchronization", {
 								self:Rebuild();
 							end
 						end);
+						return true;
+					end,
+				},
+				{	-- Recalculate Account Wide Data
+					text = "Recalculate Account Wide Data",
+					icon = 132996,
+					description = "Click here to force ATT to recalculate its account wide statistical data. This happens automatically after a sync, but if there's ever a situation where ATT sees that a different character has done a thing, but your current character hasn't and isn't giving you partial credit, you can click this to manually initiate that recalculation.",
+					OnUpdate = app.AlwaysShowUpdate,
+					OnClick = function(row, button)
+						RecalculateAccountWideData();
 						return true;
 					end,
 				},

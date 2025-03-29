@@ -172,6 +172,12 @@ local PRICE_INFO = {
 	["resonanceCrystal"]     = { currencyID = 2815 }, -- Resonance Crystal
 	["kej"]                  = { currencyID = 3056 }, -- Kej
 	["flameBlessedIron"]     = { currencyID = 3090 }, -- Flame-Blessed Iron
+	["marketResearch"]       = { currencyID = 3226 }, -- Market Research
+	["mereldarDerbyMark"]    = { currencyID = 3055 }, -- Mereldar Derby Mark
+	["undercoin"]            = { currencyID = 2803 }, -- Undercoin
+	["residualMemories"]     = { currencyID = 3089 }, -- ResidualMemories
+	["vintageKajaCola"]      = { currencyID = 3220 }, -- Vintage Kaja'Cola Can
+	["emptyKajaCola"]        = { currencyID = 3218 }, -- Empty Kaja'Cola Can
 
 	-- others
 	["money"]                = { func = C_CurrencyInfo.GetCoinTextureString },
@@ -188,13 +194,13 @@ local function SetContentInfo(frame, typ, value, delimiter)
 		if PRICE_INFO[typ].func then
 			frame:AddText(PRICE_INFO[typ].func(value)..delimiter)
 		elseif PRICE_INFO[typ].icon then
+			local currentAmount = C_Item.GetItemCount(typ)
 			frame:AddIcon(PRICE_INFO[typ].icon, 12)
-			frame:AddText(value..delimiter)
+			frame:AddText(currentAmount >= tonumber(value) and STRING_GREEN..value..delimiter or STRING_RED..value..delimiter)
 		elseif PRICE_INFO[typ].currencyID then
-			local name, currentAmount, texture
+			local currentAmount, texture
 			local info = GetCurrencyInfo(PRICE_INFO[typ].currencyID)
 			if info then
-				name = info.name
 				currentAmount = info.quantity
 				texture = info.iconFileID
 				frame:AddText(currentAmount >= tonumber(value) and STRING_GREEN..value..delimiter or STRING_RED..value..delimiter)
@@ -205,8 +211,9 @@ local function SetContentInfo(frame, typ, value, delimiter)
 			SetContentInfo(frame, typ, value, delimiter)
 		end
 	elseif tonumber(typ) and GetItemIcon(typ) then
+		local currentAmount = C_Item.GetItemCount(typ)
 		frame:AddIcon(GetItemIcon(typ), 12)
-		frame:AddText(value..delimiter)
+		frame:AddText(currentAmount >= tonumber(value) and STRING_GREEN..value..delimiter or STRING_RED..value..delimiter)
 	end
 end
 

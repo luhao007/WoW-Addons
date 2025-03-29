@@ -89,14 +89,14 @@ end)
 MiniMapF.Minimap_but_Pointbiaoti=PIGFontString(MiniMapF,{"TOPLEFT",MiniMapF,"TOPLEFT",20,-200},"小地图按钮位置:")
 local mapPointList = {"附着于小地图","自由模式(可随意拖动)","附着于系统菜单","附着于聊天框","ElvUI_小地图下方"};
 MiniMapF.Minimap_but_Point=PIGDownMenu(MiniMapF,{"TOPLEFT",MiniMapF.Minimap_but_Pointbiaoti,"BOTTOMLEFT",30,-6},{180,24})
-function MiniMapF.Minimap_but_Point:PIGDownMenu_Update_But(self)
+function MiniMapF.Minimap_but_Point:PIGDownMenu_Update_But()
 	if not ElvUI then mapPointList[5]=nil end
 	local info = {}
 	info.func = self.PIGDownMenu_SetValue
 	for i=1,#mapPointList,1 do
 	    info.text, info.arg1 = mapPointList[i], i
 	    info.checked = i==PIGA["Map"]["MinimapPoint"]
-		MiniMapF.Minimap_but_Point:PIGDownMenu_AddButton(info)
+		self:PIGDownMenu_AddButton(info)
 	end 
 end
 function MiniMapF.Minimap_but_Point:PIGDownMenu_SetValue(value,arg1,arg2)
@@ -268,6 +268,16 @@ if tocversion<100000 then
 			Pig_Options_RLtishi_UI:Show()
 		end
 	end);
+	WorldMapF.WorldMapMiwu.Color = Create.ColorBut(WorldMapF.WorldMapMiwu,{"LEFT",WorldMapF.WorldMapMiwu.Text,"RIGHT",10,0},{18,18})
+	WorldMapF.WorldMapMiwu.Color.morenColor={0, 1, 0.1, 0.8}
+	function WorldMapF.WorldMapMiwu.Color:PIGinitialize()
+		self.pezhiV=PIGA["Map"]["WorldMapMiwuColor"]
+	end
+	function WorldMapF.WorldMapMiwu.Color:PIGSetValue(newR, newG, newB, newA)
+		PIGA["Map"]["WorldMapMiwuColor"]={newR, newG, newB, newA}
+		Mapfun.SetmiwuColor({newR, newG, newB, newA})
+	end
+	Mapfun.WorldMapMiwumorenColor=WorldMapF.WorldMapMiwu.Color.morenColor
 end
 WorldMapF:HookScript("OnShow", function (self)
 	WorldMapF.WorldMapXY:SetChecked(PIGA["Map"]["WorldMapXY"])
@@ -276,6 +286,8 @@ WorldMapF:HookScript("OnShow", function (self)
 		WorldMapF.WorldMapLV:SetChecked(PIGA["Map"]["WorldMapLV"])
 		WorldMapF.WorldMapSkill:SetChecked(PIGA["Map"]["WorldMapSkill"])
 		WorldMapF.WorldMapMiwu:SetChecked(PIGA["Map"]["WorldMapMiwu"])
+		local miyumorenColor=PIGA["Map"]["WorldMapMiwuColor"] or WorldMapF.WorldMapMiwu.Color.morenColor
+		WorldMapF.WorldMapMiwu.Color:ShowButColor(unpack(miyumorenColor))
 	end
 end);
 --==================================

@@ -5,7 +5,6 @@ local _, _, _, tocversion = GetBuildInfo()
 local Create=addonTable.Create
 local PIGLine=Create.PIGLine
 local PIGButton = Create.PIGButton
-local PIGDownMenu=Create.PIGDownMenu
 local PIGSlider = Create.PIGSlider
 local PIGCheckbutton=Create.PIGCheckbutton
 local PIGCheckbutton_R=Create.PIGCheckbutton_R

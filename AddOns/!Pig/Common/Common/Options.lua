@@ -9,11 +9,11 @@ local PIGDiyBut=Create.PIGDiyBut
 local PIGEnter=Create.PIGEnter
 local PIGLine=Create.PIGLine
 local PIGSlider = Create.PIGSlider
+local PIGDownMenu=Create.PIGDownMenu
 local PIGCheckbutton=Create.PIGCheckbutton
 local PIGCheckbutton_R=Create.PIGCheckbutton_R
 local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGFontString=Create.PIGFontString
-local PIGDownMenu=Create.PIGDownMenu
 local PIGModCheckbutton=Create.PIGModCheckbutton
 --
 local CommonInfo=addonTable.CommonInfo
@@ -67,6 +67,17 @@ fujiF.xingnengF.offnewfont:HookScript("OnClick", function (self)
 	else
 		SetCVar("UseSlug","1")
 		PIGA["Common"]["Offnewfont"]=false
+	end
+end);
+--关闭11.0CPU监控
+fujiF.xingnengF.addonProfilerEnabled =PIGCheckbutton(fujiF.xingnengF.offnewfont,{"LEFT",fujiF.xingnengF.offnewfont,"RIGHT",280,0},{"关闭插件占用分析功能","关闭11.0之后增加的插件占用分析功能。此功能会导致额外性能消耗，会导致帧率下降！"})
+fujiF.xingnengF.addonProfilerEnabled:HookScript("OnClick", function (self)
+	if self:GetChecked() then
+		C_CVar.RegisterCVar("addonProfilerEnabled", "1"); C_CVar.SetCVar("addonProfilerEnabled", "0")
+		PIGA["Common"]["addonProfilerEnabled"]=true
+	else
+		C_CVar.RegisterCVar("addonProfilerEnabled", "1"); C_CVar.SetCVar("addonProfilerEnabled", "1")
+		PIGA["Common"]["addonProfilerEnabled"]=false
 	end
 end);
 -----战斗日志
@@ -165,13 +176,13 @@ end);
 fujiF.xingnengF.CombatLog.Opentj=PIGDownMenu(fujiF.xingnengF.CombatLog,{"LEFT",fujiF.xingnengF.CombatLog.Text,"RIGHT",4,0},{210,nil})
 fujiF.xingnengF.CombatLog.Opentj.tt = PIGFontString(fujiF.xingnengF.CombatLog.Opentj,{"LEFT",fujiF.xingnengF.CombatLog.Opentj,"RIGHT",10,0},"当前状态:");
 fujiF.xingnengF.CombatLog.Opentj.on = PIGFontString(fujiF.xingnengF.CombatLog.Opentj,{"LEFT",fujiF.xingnengF.CombatLog.Opentj.tt,"RIGHT",4,0},"","OUTLINE",15);
-function fujiF.xingnengF.CombatLog.Opentj:PIGDownMenu_Update_But(self)
+function fujiF.xingnengF.CombatLog.Opentj:PIGDownMenu_Update_But()
 	local info = {}
 	info.func = self.PIGDownMenu_SetValue
 	for i=1,#Opentiaojian,1 do
 	    info.text, info.arg1 = Opentiaojian[i], i
 	    info.checked = i==PIGA["Common"]["AutoCombatLogTJ"]
-		fujiF.xingnengF.CombatLog.Opentj:PIGDownMenu_AddButton(info)
+		self:PIGDownMenu_AddButton(info)
 	end 
 end
 function fujiF.xingnengF.CombatLog.Opentj:PIGDownMenu_SetValue(value,arg1,arg2)
@@ -290,13 +301,13 @@ fujiF.TopF.QuestsEnd:SetScript("OnClick", function (self)
 	CommonInfo.Commonfun.QuestsEnd()
 end);
 fujiF.TopF.QuestsEnd.xiala=PIGDownMenu(fujiF.TopF.QuestsEnd,{"LEFT",fujiF.TopF.QuestsEnd.Text, "RIGHT", 4,0},{180,24})
-function fujiF.TopF.QuestsEnd.xiala:PIGDownMenu_Update_But(self)
+function fujiF.TopF.QuestsEnd.xiala:PIGDownMenu_Update_But()
 	local info = {}
 	info.func = self.PIGDownMenu_SetValue
 	for i=1,#CommonInfo.AudioList,1 do
 	    info.text, info.arg1 = CommonInfo.AudioList[i][1], i
 	    info.checked = i==PIGA["Common"]["QuestsEndAudio"]
-		fujiF.TopF.QuestsEnd.xiala:PIGDownMenu_AddButton(info)
+		self:PIGDownMenu_AddButton(info)
 	end 
 end
 function fujiF.TopF.QuestsEnd.xiala:PIGDownMenu_SetValue(value,arg1)
@@ -321,7 +332,7 @@ if tocversion>19999 then
 		end
 	end);
 	fujiF.TopF.SetFocus.xiala=PIGDownMenu(fujiF.TopF.SetFocus,{"LEFT",fujiF.TopF.SetFocus.Text, "RIGHT", 4,0},{150,24})
-	function fujiF.TopF.SetFocus.xiala:PIGDownMenu_Update_But(self)
+	function fujiF.TopF.SetFocus.xiala:PIGDownMenu_Update_But()
 		local info = {}
 		info.func = self.PIGDownMenu_SetValue
 		local SetKeyList = CommonInfo.SetKeyList
@@ -364,9 +375,11 @@ fujiF:HookScript("OnShow", function (self)
 	self.xitongF.Scale:SetChecked(GetCVarBool("useUIScale"));
 	self.xitongF.ScaleSlider:PIGSetValue(GetCVar("uiscale"))
 	self.xitongF.VolumeSlider:PIGSetValue(GetCVar("Sound_MasterVolume"))
-	if PIGA["Common"]["Offnewfont"] then
-		SetCVar("UseSlug","0")
-		self.xingnengF.offnewfont:SetChecked(true)
+	self.xingnengF.offnewfont:SetChecked(PIGA["Common"]["Offnewfont"])
+	if PIGA["Common"]["Offnewfont"] then SetCVar("UseSlug","0") end
+	self.xingnengF.addonProfilerEnabled:SetChecked(PIGA["Common"]["addonProfilerEnabled"])
+	if PIGA["Common"]["addonProfilerEnabled"] then
+		C_CVar.RegisterCVar("addonProfilerEnabled", "1"); C_CVar.SetCVar("addonProfilerEnabled", "0")
 	end
 	UpdateWCL_ONOFF()
 	self.OtherF.ErrorsHide:SetChecked(PIGA["Other"]["ErrorsHide"]);

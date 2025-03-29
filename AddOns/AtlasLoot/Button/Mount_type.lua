@@ -167,11 +167,6 @@ end
 --################################
 -- Mount frame
 --################################
---[[
-local creatureName, spellID, icon, active, isUsable, sourceType, isFavorite, isFactionSpecific, faction, _, isCollected = C_MountJournal.GetMountInfo(index);
-local creatureDisplayID, descriptionText, sourceText, isSelfMount = C_MountJournal.GetMountInfoExtra(index);
-MountJournal.MountDisplay.ModelFrame:SetDisplayInfo(creatureDisplayID)
-]] --
 
 function Mount.ShowToolTipFrame(button)
 	if not Mount.tooltipFrame then

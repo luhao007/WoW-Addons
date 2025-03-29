@@ -256,6 +256,23 @@ do
 end
 local function PrintQuestInfoCallback(questID, success, params)
 	-- app.PrintDebug("PrintQuestInfoCallback",questID,success,params and unpack(params))
+	-- this quest has no server name, but maybe it's linked to something else with a name, so let's check that instead
+	if not success then
+		local ref = Search("questID", questID, "field")
+		if ref then
+			if IsRetrieving(ref.name) then
+				ref._questnameretry = (ref._questnameretry or 0) + 1
+				if ref._questnameretry < 20 then
+					-- app.PrintDebug("Retry for quest name from ref",app:SearchLink(ref),ref._questnameretry,questID)
+					Runner.Run(PrintQuestInfoCallback, questID, success, params)
+					return
+				else
+					-- give up trying to get the name
+					ref._questnameretry = nil
+				end
+			end
+		end
+	end
 	if params then
 		PrintQuestInfo(questID, unpack(params))
 	else
@@ -1496,7 +1513,7 @@ app.GlobalVariants.WithAutoName = {
 		return t.an
 	end,
 }
--- TODO capture the combined name and use within variants instead of hardcode
+
 app.GlobalVariants.Combine(
 	app.GlobalVariants.AndLockCriteria,
 	app.GlobalVariants.WithAutoName)

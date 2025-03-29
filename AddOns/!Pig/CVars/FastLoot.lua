@@ -40,14 +40,14 @@ function CVarsfun.Fast_Loot()
             if locked or (quality and quality >= lootThreshold) then
                 internal.isItemLocked = true;
             else
-                if slotType ~= LOOT_SLOT_ITEM or (isQuestItem) or self:ProcessLootItem(itemLink, quantity) then
-                    numItems = numItems - 1;
+                if slotType ~= Enum.LootSlotType.Item or (isQuestItem) or self:ProcessLootItem(itemLink, quantity) then
+                    LootFrame.selectedQuality = quality;
                     LootFrame.selectedSlot=LootFrame.selectedSlot or 1
                     LootSlot(i);
                     if MasterLooterFrame:IsShown() then
-                    	MasterLooterFrame:Hide()
-                    	numItems = numItems + 1;
-                    	break 
+                        MasterLooterFrame:Hide()
+                    else
+                        numItems = numItems - 1;
                     end
                 end
             end
@@ -59,34 +59,29 @@ function CVarsfun.Fast_Loot()
             PlaySound(SOUNDKIT.FISHING_REEL_IN, "master");
         end
     end
-    function LootF:Anchor(frame)
-        internal.isHidden = false;
-        frame:SetFrameStrata("HIGH");
-        frame:SetParent(UIParent);
-        if GetCVarBool("lootUnderMouse") then
-            local x, y = GetCursorPosition();
-            x = x / frame:GetEffectiveScale();
-            y = y / frame:GetEffectiveScale();
-            frame:ClearAllPoints();
-            frame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x - 40, y + 20);
-            frame:GetCenter();
-            frame:Raise();
-        else
-            frame:ClearAllPoints();
-            frame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 20, -125);
-        end
-    end
     function LootF:ShowLootFrame(show)
-    	if LootFrame:IsEventRegistered("LOOT_SLOT_CLEARED") then
-            if show then
-                self:Anchor(LootFrame);
+        if show then
+            internal.isHidden = false;
+            LootFrame:SetFrameStrata("HIGH");
+            LootFrame:SetParent(UIParent);
+            if GetCVarBool("lootUnderMouse") then
+                local x, y = GetCursorPosition();
+                x = x / LootFrame:GetEffectiveScale();
+                y = y / LootFrame:GetEffectiveScale();
+                LootFrame:ClearAllPoints();
+                LootFrame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x - 40, y + 20);
+                LootFrame:GetCenter();
+                LootFrame:Raise();
             else
-                LootFrame:SetParent(LootF);
-                internal.isHidden = true;
+                LootFrame:ClearAllPoints();
+                LootFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 20, -125);
             end
+        else
+            LootFrame:SetParent(LootF);
+            internal.isHidden = true;
         end
     end
-    LootF:SetScript("OnEvent", function(self,event,autoLoot)
+    LootF:SetScript("OnEvent", function(self,event,autoLoot,arg2)
     	if event=="LOOT_READY" or event=="LOOT_OPENED" then
     		if not internal.isLooting then
     			internal.isLooting = true;
@@ -105,6 +100,12 @@ function CVarsfun.Fast_Loot()
     	    internal.isHidden = false;
     	    internal.isItemLocked = false;
     	    self:ShowLootFrame(false);
+        elseif event=="UI_ERROR_MESSAGE" then
+            if tContains(({ERR_INV_FULL,ERR_ITEM_MAX_COUNT}), arg2) then
+                if internal.isLooting and internal.isHidden then
+                    self:ShowLootFrame(true);
+                end
+            end
     	end
     end)
     local function LootOnInit(onoff)
@@ -113,34 +114,42 @@ function CVarsfun.Fast_Loot()
             LootF:RegisterEvent("LOOT_READY")
             LootF:RegisterEvent("LOOT_OPENED");
     		LootF:RegisterEvent("LOOT_CLOSED");
+            LootF:RegisterEvent("UI_ERROR_MESSAGE");
         else
         	SetCVar("autoLootRate", "150")
             LootF:UnregisterAllEvents();
+            LootFrame:SetFrameStrata("HIGH");
+            LootFrame:SetParent(UIParent);
+            internal.isLooting = false;
+            internal.isHidden = false;
+            internal.isItemLocked = false;
         end
     end
-    local InitFFF = CreateFrame("Frame")
-    InitFFF:SetScript("OnEvent", function(self,event)
-    	if IsInGroup() then 
-    		local lootmethod= GetLootMethod();
-    		if lootmethod=="master" then
-    			LootOnInit(false) 
-    		else
-    			LootOnInit(true)
-    		end
-    	else
-    		LootOnInit(true)
-    	end
-    end)
-    local function Fast_LootOpen() 
+    --LootOnInit(true)
+    -- local InitFFF = CreateFrame("Frame")
+    -- InitFFF:SetScript("OnEvent", function(self,event)
+    -- 	if IsInGroup() then 
+    -- 		local lootmethod= GetLootMethod();
+    -- 		if lootmethod=="master" then
+    -- 			LootOnInit(false) 
+    -- 		else
+    -- 			LootOnInit(true)
+    -- 		end
+    -- 	else
+    -- 		LootOnInit(true)
+    -- 	end
+    -- end)
+    local function Fast_LootOpen()
+    	if ElvUI or NDui then return end
        	if PIGA["CVars"]["Fast_Loot"] then
-            InitFFF:RegisterEvent("PLAYER_ENTERING_WORLD")
-    		InitFFF:RegisterEvent("PARTY_LOOT_METHOD_CHANGED");
-    		InitFFF:RegisterEvent("GROUP_ROSTER_UPDATE");
+      --       InitFFF:RegisterEvent("PLAYER_ENTERING_WORLD")
+    		-- InitFFF:RegisterEvent("PARTY_LOOT_METHOD_CHANGED");
+    		-- InitFFF:RegisterEvent("GROUP_ROSTER_UPDATE");
     		LootOnInit(true)
         else
-        	InitFFF:UnregisterEvent("PLAYER_ENTERING_WORLD")
-    		InitFFF:UnregisterEvent("PARTY_LOOT_METHOD_CHANGED");
-    		InitFFF:UnregisterEvent("GROUP_ROSTER_UPDATE");
+      --   	InitFFF:UnregisterEvent("PLAYER_ENTERING_WORLD")
+    		-- InitFFF:UnregisterEvent("PARTY_LOOT_METHOD_CHANGED");
+    		-- InitFFF:UnregisterEvent("GROUP_ROSTER_UPDATE");
     		LootOnInit(false)
         end
     end
@@ -157,7 +166,6 @@ end
 --     isLooting = false,
 --     isHidden = false,
 --     TSM = false,
---     ElvUI = false,
 --     ElvUI = false,
 --     isClassic = true,
 --     audioChannel = "master",

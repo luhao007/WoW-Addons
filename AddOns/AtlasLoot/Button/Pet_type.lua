@@ -98,48 +98,8 @@ function Pet.OnLeave(button)
 	if button.ItemID then Item.OnLeave(button) end
 end
 
---[[
-self.TypeInfo.type:SetText(_G["BATTLE_PET_NAME_"..petType]);
-	self.TypeInfo.typeIcon:SetTexture("Interface\\PetBattles\\PetIcon-"..PET_TYPE_SUFFIX[petType]);
-	self.TypeInfo.abilityID = PET_BATTLE_PET_TYPE_PASSIVES[petType];
-
-		--Update pet abilites
-	local abilities, levels = C_PetJournal.GetPetAbilityList(speciesID);
-	for i=1,NUM_PET_ABILITIES do  -- 6 abilities
-		local spellFrame = self["spell"..i];
-		if abilities[i] and canBattle then
-			local name, icon, petType = C_PetJournal.GetPetAbilityInfo(abilities[i]);
-			local isNotUsable = not level or level < levels[i];
-			spellFrame.icon:SetTexture(icon);
-			spellFrame.icon:SetDesaturated(isNotUsable);
-			spellFrame.LevelRequirement:SetText(levels[i]);
-			spellFrame.LevelRequirement:SetShown(isNotUsable);
-			spellFrame.BlackCover:SetShown(isNotUsable);
-			if (not level or level < levels[i]) then
-				spellFrame.additionalText = format(PET_ABILITY_REQUIRES_LEVEL, levels[i]);
-			else
-				spellFrame.additionalText = nil;
-			end
-			spellFrame.abilityID = abilities[i];
-			spellFrame.petID = PetJournalPetCard.petID;
-			spellFrame.speciesID = speciesID;
-			spellFrame:Show();
-		else
-			spellFrame:Hide();
-		end
-	end
-
-	<Texture name="$parentIconBorder" file="Interface\PetBattles\PetJournal" parentKey="iconBorder">
-					<Anchors>
-						<Anchor point="CENTER" relativeTo="$parentIcon" x="0" y="0"/>
-					</Anchors>
-					<Size x="53" y="54"/>
-					<TexCoords left="0.41992188" right="0.52343750" top="0.02246094" bottom="0.07519531"/>
-				</Texture>
-]] --
 function Pet.Refresh(button)
-	-- speciesName, speciesIcon, petType, companionID, tooltipSource, tooltipDescription, isWild, canBattle, isTradeable, isUnique, obtainable = C_PetJournal.GetPetInfoBySpeciesID(button.PetID)
-	local speciesName, speciesIcon, petType, companionID, tooltipSource, tooltipDescription = C_PetJournal_GetPetInfoBySpeciesID(button.PetID)
+	local speciesName, speciesIcon, petType, _, tooltipSource, tooltipDescription, _, _, _, _, _, creatureDisplayID = C_PetJournal_GetPetInfoBySpeciesID(button.PetID)
 	if not speciesName then return end
 	if button.type == "secButton" then
 		--/dump C_PetJournal.GetPetInfoBySpeciesID(1145)
@@ -157,7 +117,7 @@ function Pet.Refresh(button)
 
 
 	button.icon:SetTexture(speciesIcon)
-	button.info = { speciesName, speciesIcon, petType, tooltipSource, tooltipDescription, companionID }
+	button.info = { speciesName, speciesIcon, petType, tooltipSource, tooltipDescription, creatureDisplayID }
 end
 
 function Pet.GetStringContent(str)
@@ -251,13 +211,11 @@ function Pet.ShowToolTipFrame(button)
 
 	frame.desc:SetText(button.info[5])
 
-	frame.model:SetCreature(button.info[6])
+	frame.model:SetDisplayInfo(button.info[6])
 	frame.model:SetDoBlend(false)
 	--frame.model:SetAnimation(0,-1) 0=alive, 6=dead
 
 	frame.typeIcon:SetTexture("Interface\\PetBattles\\PetIcon-"..PET_TYPE_SUFFIX[button.info[3]])
-
-
 
 	frame:Show()
 	if button.ItemID then

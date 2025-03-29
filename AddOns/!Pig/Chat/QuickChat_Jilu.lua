@@ -521,9 +521,12 @@ function QuickChatfun.QuickBut_Jilu()
 		hang.del.icon:SetAlpha(0.5)
 		hang.del:HookScript("OnClick", function (self)
 			local idid=self:GetID()
-			local shuju=PIGA["Chatjilu"]["WHISPER"]["record"]	
-			table.clear(shuju[2],shuju[1][idid][1])
-			table.remove(shuju[1],idid);
+			local msgdata=PIGA["Chatjilu"]["WHISPER"]["record"]
+			local muluD=msgdata[1]
+			local muluDName=muluD[idid][1]
+			local jiluD=msgdata[2]
+			jiluD[muluDName]=nil
+			table.remove(muluD,idid);
 			gengxinhang(miyijiluF.F.Scroll)
 		end)
 	end
@@ -734,13 +737,13 @@ function QuickChatfun.QuickBut_Jilu()
 	ChatjiluMianban.tianshuxiala=PIGDownMenu(ChatjiluMianban,{"LEFT",ChatjiluMianban.baocuntianchu,"RIGHT", 2,0},{70,22})
 	ChatjiluMianban.tianshuxiala:SetFrameLevel(ChatjiluMianban.tianshuxiala:GetFrameLevel()+5)
 	ChatjiluMianban.tianshuxiala:PIGDownMenu_SetText(baocuntianshulistN[PIGA["Chatjilu"]["Days"]])
-	function ChatjiluMianban.tianshuxiala:PIGDownMenu_Update_But(self)
+	function ChatjiluMianban.tianshuxiala:PIGDownMenu_Update_But()
 		local info = {}
 		info.func = self.PIGDownMenu_SetValue
 		for i=1,#baocuntianshulist,1 do
 		    info.text, info.arg1, info.arg2 = baocuntianshulistN[baocuntianshulist[i]], baocuntianshulist[i], baocuntianshulist[i]
 		    info.checked = baocuntianshulist[i]==PIGA["Chatjilu"]["Days"]
-			ChatjiluMianban.tianshuxiala:PIGDownMenu_AddButton(info)
+			self:PIGDownMenu_AddButton(info)
 		end 
 	end
 	function ChatjiluMianban.tianshuxiala:PIGDownMenu_SetValue(value,arg1,arg2)

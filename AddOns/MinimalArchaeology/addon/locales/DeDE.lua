@@ -2,78 +2,46 @@
 local L = LibStub("AceLocale-3.0"):NewLocale("MinArch", "deDE")
 if not L then return end
 
---[[Translation missing --]]
-L["BINDINGS_COMMANDS"] = "Commands"
---[[Translation missing --]]
-L["BINDINGS_COMPANION_MORE"] = "Companion related commands, for more information type:"
---[[Translation missing --]]
-L["BINDINGS_COMPANION_RESETPOS"] = "Resets the position of the Companion box"
---[[Translation missing --]]
-L["BINDINGS_HIDEMAIN"] = "Hide the main Minimal Archaeology Frame"
---[[Translation missing --]]
-L["BINDINGS_MINARCH_CASTSURVEY"] = "Cast Survey"
+L["BINDINGS_COMMANDS"] = "Befehle"
+L["BINDINGS_COMPANION_MORE"] = "Begleiterbezogene Befehle, für weitere Informationen geben Sie ein:"
+L["BINDINGS_COMPANION_RESETPOS"] = "Setzt die Position des Begleiterfensters zurück"
+L["BINDINGS_HIDEMAIN"] = "Das Hauptfenster von Minimal Archaeology ausblenden"
+L["BINDINGS_MINARCH_CASTSURVEY"] = "Untersuchen zaubern"
 --[[Translation missing --]]
 L["BINDINGS_MINARCH_COMPANION_COMMANDS"] = "Minimal Archaeology Companion related Commands"
---[[Translation missing --]]
-L["BINDINGS_MINARCH_MAIN_COMMANDS"] = "Minimal Archaeology Commands"
---[[Translation missing --]]
-L["BINDINGS_MINARCH_SHOWHIDE"] = "Show/Hide Minimal Archaeology"
---[[Translation missing --]]
-L["BINDINGS_MINARCH_VERSION"] = "Display the running version of Minimal Archaeology"
---[[Translation missing --]]
-L["BINDINGS_SHOWMAIN"] = "Show the main Minimal Archaeology Frame"
---[[Translation missing --]]
-L["BINDINGS_TOGGLEMAIN"] = "Toggle the main Minimal Archaeology Frame"
---[[Translation missing --]]
-L["BINDINGS_USAGE"] = "Usage"
---[[Translation missing --]]
-L["COMPANION_TUTORIAL_1"] = "This is the Mininimal Archaeology Companion frame with distance tracker and more.|n|n|cFFFFD100[Right-Click]|r to disable this tutorial tooltip and to show customization settings."
---[[Translation missing --]]
-L["DATABROKER_HINT_ALT_LEFTCLICK"] = "Alt + Left-Click to hide every MinArch window."
---[[Translation missing --]]
-L["DATABROKER_HINT_CTRL_LEFTCLICK"] = "Ctrl + Left-Click to toggle MinArch dig sites window."
---[[Translation missing --]]
-L["DATABROKER_HINT_LEFTCLICK"] = "Hint: Left-Click to toggle MinArch main window."
---[[Translation missing --]]
-L["DATABROKER_HINT_RIGHTCLICK"] = "Right-click to open settings"
---[[Translation missing --]]
-L["DATABROKER_HINT_SHIFT_LEFTCLICK"] = "Shift + Left-Click to toggle MinArch history window."
---[[Translation missing --]]
-L["DIGSITES_DIGSITE"] = "Digsite"
---[[Translation missing --]]
-L["GLOBAL_BROKEN_ISLES"] = "Broken Isles"
---[[Translation missing --]]
+L["BINDINGS_MINARCH_MAIN_COMMANDS"] = "Minimal Archaeology Befehle"
+L["BINDINGS_MINARCH_SHOWHIDE"] = [=[
+Zeige/Verstecke Minimal Archaeology]=]
+L["BINDINGS_MINARCH_VERSION"] = "Anzeige der gestarteten Version von Minimal Archaeology"
+L["BINDINGS_SHOWMAIN"] = "Zeige das Minimal Archaeology Hauptfenster"
+L["BINDINGS_TOGGLEMAIN"] = "Umschalten des Hauptfensters von Minimal Archaeology"
+L["BINDINGS_USAGE"] = "Benutzung"
+L["COMPANION_TUTORIAL_1"] = "Dies ist das Mininimal Archaeology Begleiter Fenster mit Entfernungsmesser und mehr.|n|n|cFFFFD100[Rechts-Klick]|r, um diesen Tutorial-Tooltip zu deaktivieren und Anpassungseinstellungen anzuzeigen."
+L["DATABROKER_HINT_ALT_LEFTCLICK"] = "Alt + Links-Klick, um jedes MinArch-Fenster auszublenden."
+L["DATABROKER_HINT_CTRL_LEFTCLICK"] = "Strg + Links-Klick, um das MinArch-Fenster Ausgrabungsst \\195\\164tten umzuschalten."
+L["DATABROKER_HINT_LEFTCLICK"] = "Tipp: Links-Klick, um das MinArch-Hauptfenster umzuschalten."
+L["DATABROKER_HINT_RIGHTCLICK"] = "Einstellungen durch Rechts-Klick öffnen"
+L["DATABROKER_HINT_SHIFT_LEFTCLICK"] = "Umschalttaste + Links-Klick zum Umschalten des MinArch-Verlauffensters."
+L["DIGSITES_DIGSITE"] = "Ausgrabungst \\195\\164tte"
+L["GLOBAL_BROKEN_ISLES"] = "Die Verheerten Inseln"
 L["GLOBAL_DRAENOR"] = "Draenor"
---[[Translation missing --]]
-L["GLOBAL_EASTERN_KINGDOMS"] = "Eastern Kingdoms"
---[[Translation missing --]]
+L["GLOBAL_EASTERN_KINGDOMS"] = "Die Östlichen Königreiche"
 L["GLOBAL_KALIMDOR"] = "Kalimdor"
---[[Translation missing --]]
 L["GLOBAL_KUL_TIRAS"] = "Kul Tiras"
---[[Translation missing --]]
-L["GLOBAL_NORTHREND"] = "Northrend"
---[[Translation missing --]]
-L["GLOBAL_OUTLAND"] = "Outland"
---[[Translation missing --]]
+L["GLOBAL_NORTHREND"] = "Nordend"
+L["GLOBAL_OUTLAND"] = "Scherbenwelt"
 L["GLOBAL_PANDARIA"] = "Pandaria"
---[[Translation missing --]]
 L["GLOBAL_ZANDALAR"] = "Zandalar"
---[[Translation missing --]]
-L["HISTORY_SOLVE_CONFIRMATION_ALWAYS"] = "Yes, always!"
---[[Translation missing --]]
-L["HISTORY_SOLVE_CONFIRMATION_NO"] = "No"
+L["HISTORY_SOLVE_CONFIRMATION_ALWAYS"] = "Ja, immer!"
+L["HISTORY_SOLVE_CONFIRMATION_NO"] = "Nein"
 --[[Translation missing --]]
 L["HISTORY_SOLVE_CONFIRMATION_QUESTION"] = "Are you sure you want to solve this artifact for this fragment-capped race?"
---[[Translation missing --]]
-L["HISTORY_SOLVE_CONFIRMATION_YES"] = "Yes"
+L["HISTORY_SOLVE_CONFIRMATION_YES"] = "Ja"
 --[[Translation missing --]]
 L["HISTORY_TOOLTIP_PROGRESSINFO"] = "Artifact Progress Information"
---[[Translation missing --]]
-L["HISTORY_TOTAL"] = "Total"
---[[Translation missing --]]
-L["NAVIGATION_CLOSEST"] = "closest"
---[[Translation missing --]]
-L["NAVIGATION_FLIGHTMASTER"] = "Flight Master"
+L["HISTORY_TOTAL"] = "Gesamt"
+L["NAVIGATION_CLOSEST"] = "n\\195\\164chstgelegene"
+L["NAVIGATION_FLIGHTMASTER"] = "Flugpunkt"
 --[[Translation missing --]]
 L["OPTIONS_AUTOHIDE_TITLE"] = "Auto-hide main window"
 --[[Translation missing --]]
@@ -598,26 +566,15 @@ L["TOOLTIP_LEFTCLICK_SOLVE"] = "Left click to solve this artifact"
 L["TOOLTIP_MAIN_RELEVANCY_DISABLE"] = "Show all races. \\n\\n|cFF00FF00Right click to open settings and customize relevancy options.|r"
 --[[Translation missing --]]
 L["TOOLTIP_MAIN_RELEVANCY_ENABLE"] = "Only show relevant races. \\n\\n|cFF00FF00Right click to open settings and customize relevancy options.|r"
---[[Translation missing --]]
-L["TOOLTIP_NEW"] = "New"
---[[Translation missing --]]
-L["TOOLTIP_OPEN_DIGSITES"] = "Open Digsites"
---[[Translation missing --]]
-L["TOOLTIP_OPEN_HISTORY"] = "Open History"
---[[Translation missing --]]
-L["TOOLTIP_PROGRESS"] = "Progress"
---[[Translation missing --]]
-L["TOOLTIP_PROJECT"] = "Project"
---[[Translation missing --]]
-L["TOOLTIP_RACE"] = "Race"
---[[Translation missing --]]
-L["TOOLTIP_SOLVABLE"] = "Solvable"
---[[Translation missing --]]
-L["TOOLTIP_SURVEY_CANTCAST"] = "Can't be casted right now"
---[[Translation missing --]]
-L["TOOLTIP_TAXIFRAME_TOGGLE_DIGSITE"] = "Toggle digsites"
---[[Translation missing --]]
-L["TOOLTIP_WP_BUTTON_LEFTCLICK"] = "Left click to create waypoint to the closest available digsite"
---[[Translation missing --]]
-L["TOOLTIP_WP_BUTTON_RIGHTCLICK"] = "Right Click to open waypoint settings"
+L["TOOLTIP_NEW"] = "Neu"
+L["TOOLTIP_OPEN_DIGSITES"] = "Ausgrabungst\\195\\164tten \\195\\150ffnen"
+L["TOOLTIP_OPEN_HISTORY"] = "Verlauf  \\195\\150ffnen"
+L["TOOLTIP_PROGRESS"] = "Fortschritt"
+L["TOOLTIP_PROJECT"] = "Projekt"
+L["TOOLTIP_RACE"] = "Rasse"
+L["TOOLTIP_SOLVABLE"] = "Lösbar"
+L["TOOLTIP_SURVEY_CANTCAST"] = "Kann jetzt nicht gezaubert werden"
+L["TOOLTIP_TAXIFRAME_TOGGLE_DIGSITE"] = "Ausgrabungsst\\195\\164tten umschalten"
+L["TOOLTIP_WP_BUTTON_LEFTCLICK"] = "Links-Klick um einen Wegpunkt zur n\\195\\164cchstgelegenen Ausgrabungsst\\195\\164tte zu erstellen"
+L["TOOLTIP_WP_BUTTON_RIGHTCLICK"] = "Rechtsklick zum \\195\\150ffnen der Wegpunkteinstellungen"
 

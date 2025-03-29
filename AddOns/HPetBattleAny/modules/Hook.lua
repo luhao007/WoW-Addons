@@ -276,7 +276,6 @@ hookPetJournal.init = function()
         button:SetScript(
             "OnEnter",
             function(self)
-                print(123123)
                 GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
                 hookPetJournal.PJSTooltip(self)
             end

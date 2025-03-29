@@ -160,6 +160,17 @@ local function FixVignetteInfo(vignetteInfo)
 		vignetteInfo.atlasName = RSConstants.EVENT_VIGNETTE
 	end
 	
+	-- This container keeps updating the ID, so create one based on its coordinates
+	if (entityID == RSConstants.MISLAID_CURIOSITY) then
+		local mapID = C_Map.GetBestMapForUnit("player")
+		if (mapID) then
+			local vignettePosition = C_VignetteInfo.GetVignettePosition(vignetteInfo.vignetteGUID, mapID)
+			if (vignettePosition and vignettePosition.x and vignettePosition.y) then
+				vignetteInfo.id = string.format("%s-%s-%s", entityID, vignettePosition.x, vignettePosition.y)
+			end
+		end
+	end
+	
 	return entityID, vignetteInfo
 end
 

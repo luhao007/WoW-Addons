@@ -396,7 +396,7 @@ function ActionFun.Update_State(self)
 				local numMounts = C_MountJournal.GetNumMounts()
 				for i=1,numMounts do
 					local name, spellID= C_MountJournal.GetDisplayedMountInfo(i)
-					if SimID and IsCurrentSpell(spellID) then
+					if SimID and spellID and IsCurrentSpell(spellID) then
 						self:SetChecked(true)
 						return
 					end

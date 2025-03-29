@@ -572,6 +572,7 @@ local C_Item_GetItemInventoryTypeByID = C_Item.GetItemInventoryTypeByID;
 ---@class ATTItemHarvesterForRetail: GameTooltip
 local ItemHarvester = CreateFrame("GameTooltip", "ATTItemHarvester", UIParent, "GameTooltipTemplate");
 local CreateItemTooltipHarvester
+local FilterBind = app.Modules.Filter.Filters.Bind
 app.CreateItemHarvester = app.ExtendClass("Item", "ItemHarvester", "itemID", {
 	IsClassIsolated = true,
 	visible = app.ReturnTrue,
@@ -616,7 +617,7 @@ app.CreateItemHarvester = app.ExtendClass("Item", "ItemHarvester", "itemID", {
 				if info.inventoryType == 0 then
 					info.inventoryType = nil;
 				end
-				if not app.IsBoP(info) then
+				if not FilterBind(info) then
 					info.b = nil;
 				end
 				if info.iLvl and info.iLvl < 2 then

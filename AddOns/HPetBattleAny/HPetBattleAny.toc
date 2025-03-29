@@ -1,6 +1,6 @@
 ## Interface: 110100
 ## Author: Qshine
-## Version: 2.3.3
+## Version: 2.3.4
 
 ## Title: |cFFBF00FF[H]|r Something About Pet Battle
 ## Notes: Something About Pet Battle,Type /hpq to config
@@ -11,7 +11,7 @@
 
 ## SavedVariables: HPetSaves
 
-## X-Date: 2024-08-15
+## X-Date: 2024-08-16
 
 Localization.lua
 

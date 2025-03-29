@@ -300,10 +300,11 @@ function BusinessInfo.AH()
 	fujiF.PListR.TOP:SetPoint("TOPLEFT",fujiF.PListR,"TOPLEFT",0,0);
 	fujiF.PListR.TOP:SetPoint("BOTTOMRIGHT",fujiF.PListR,"BOTTOMRIGHT",0,240);
 	--趋势
-	local BusinessInfo=addonTable.BusinessInfo
-	fujiF.PListR.BOTTOM=BusinessInfo.ADD_qushi(fujiF.PListR)
+	
+	fujiF.PListR.BOTTOM=PIGFrame(fujiF)
 	fujiF.PListR.BOTTOM:SetPoint("TOPLEFT",fujiF.PListR.TOP,"BOTTOMLEFT",0,0);
 	fujiF.PListR.BOTTOM:SetPoint("BOTTOMRIGHT",fujiF.PListR,"BOTTOMRIGHT",0,0);
+	fujiF.PListR.BOTTOM.qushiF=BusinessInfo.ADD_qushi(fujiF.PListR.BOTTOM)
 
 	local biaotiListLS = {{"缓存单价",-170},{"缓存时间",-36}}
 	for i=1,#biaotiListLS do
@@ -367,7 +368,7 @@ function BusinessInfo.AH()
 				fujix.time:SetText(jiluTime)
 			end
 		end
-		fujiF.PListR.BOTTOM.qushitu(itemDataL)
+		fujiF.PListR.BOTTOM.qushiF.qushitu(itemDataL)
 	end
 	--
 	fujiF:HookScript("OnShow", function(self)

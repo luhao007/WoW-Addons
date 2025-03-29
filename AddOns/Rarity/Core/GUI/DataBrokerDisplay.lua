@@ -60,14 +60,7 @@ function dataobj:OnClick(button)
 	local isLeftButton = button == "LeftButton"
 
 	if IsShiftKeyDown() and isLeftButton then
-		-- Show options
-		Rarity:Debug("Loading Rarity_Options addon")
-		LoadAddOn("Rarity_Options")
-		if R.optionsFrame then
-			Settings.OpenToCategory("Rarity")
-		else
-			R:Print(L["The Rarity Options module has been disabled. Log out and enable it from your add-ons menu."])
-		end
+		Rarity:TryShowOptionsUI()
 	elseif IsControlKeyDown() and isLeftButton then
 		Rarity.GUI:SelectNextSortOrder()
 	elseif
@@ -98,7 +91,7 @@ function GUI:UpdateText()
 		return
 	end
 
-	self:ProfileStart()
+	self.Profiling:StartTimer("GUI.UpdateText")
 	local attempts, dropChance, chance
 
 	local trackedItem = Rarity.Tracking:GetTrackedItem(1)
@@ -276,5 +269,5 @@ function GUI:UpdateText()
 			self.bar2:SetValue(chance, 100)
 		end
 	end
-	self:ProfileStop("UpdateText: %fms")
+	self.Profiling:EndTimer("GUI.UpdateText")
 end

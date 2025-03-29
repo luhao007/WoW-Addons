@@ -52,6 +52,131 @@
 ---| "PLAYER_TARGET"
 ---| "DETAILS_PROFILE_APPLYED"
 
+---@alias detailsattributes
+---| "DETAILS_ATTRIBUTE_DAMAGE"
+---| "DETAILS_ATTRIBUTE_HEAL"
+---| "DETAILS_ATTRIBUTE_ENERGY"
+---| "DETAILS_ATTRIBUTE_MISC"
+---| "DETAILS_SUBATTRIBUTE_DAMAGEDONE"
+---| "DETAILS_SUBATTRIBUTE_DPS"
+---| "DETAILS_SUBATTRIBUTE_DAMAGETAKEN"
+---| "DETAILS_SUBATTRIBUTE_FRIENDLYFIRE"
+---| "DETAILS_SUBATTRIBUTE_FRAGS"
+---| "DETAILS_SUBATTRIBUTE_ENEMIES"
+---| "DETAILS_SUBATTRIBUTE_VOIDZONES"
+---| "DETAILS_SUBATTRIBUTE_BYSPELLS"
+---| "DETAILS_SUBATTRIBUTE_HEALDONE"
+---| "DETAILS_SUBATTRIBUTE_HPS"
+---| "DETAILS_SUBATTRIBUTE_OVERHEAL"
+---| "DETAILS_SUBATTRIBUTE_HEALTAKEN"
+---| "DETAILS_SUBATTRIBUTE_HEALENEMY"
+---| "DETAILS_SUBATTRIBUTE_HEALPREVENTED"
+---| "DETAILS_SUBATTRIBUTE_HEALABSORBED"
+---| "DETAILS_SUBATTRIBUTE_REGENMANA"
+---| "DETAILS_SUBATTRIBUTE_REGENRAGE"
+---| "DETAILS_SUBATTRIBUTE_REGENENERGY"
+---| "DETAILS_SUBATTRIBUTE_REGENRUNE"
+---| "DETAILS_SUBATTRIBUTE_RESOURCES"
+---| "DETAILS_SUBATTRIBUTE_ALTERNATEPOWER"
+---| "DETAILS_SUBATTRIBUTE_CCBREAK"
+---| "DETAILS_SUBATTRIBUTE_RESS"
+---| "DETAILS_SUBATTRIBUTE_INTERRUPT"
+---| "DETAILS_SUBATTRIBUTE_DISPELL"
+---| "DETAILS_SUBATTRIBUTE_DEATH"
+---| "DETAILS_SUBATTRIBUTE_DCOOLDOWN"
+---| "DETAILS_SUBATTRIBUTE_BUFFUPTIME"
+---| "DETAILS_SUBATTRIBUTE_DEBUFFUPTIME"
+
+--globals
+DETAILS_ATTRIBUTE_DAMAGE = true
+DETAILS_ATTRIBUTE_HEAL = true
+DETAILS_ATTRIBUTE_ENERGY = true
+DETAILS_ATTRIBUTE_MISC = true
+DETAILS_SUBATTRIBUTE_DAMAGEDONE = true
+DETAILS_SUBATTRIBUTE_DPS = true
+DETAILS_SUBATTRIBUTE_DAMAGETAKEN = true
+DETAILS_SUBATTRIBUTE_FRIENDLYFIRE = true
+DETAILS_SUBATTRIBUTE_FRAGS = true
+DETAILS_SUBATTRIBUTE_ENEMIES = true
+DETAILS_SUBATTRIBUTE_VOIDZONES = true
+DETAILS_SUBATTRIBUTE_BYSPELLS = true
+DETAILS_SUBATTRIBUTE_HEALDONE = true
+DETAILS_SUBATTRIBUTE_HPS = true
+DETAILS_SUBATTRIBUTE_OVERHEAL = true
+DETAILS_SUBATTRIBUTE_HEALTAKEN = true
+DETAILS_SUBATTRIBUTE_HEALENEMY = true
+DETAILS_SUBATTRIBUTE_HEALPREVENTED = true
+DETAILS_SUBATTRIBUTE_HEALABSORBED = true
+DETAILS_SUBATTRIBUTE_REGENMANA = true
+DETAILS_SUBATTRIBUTE_REGENRAGE = true
+DETAILS_SUBATTRIBUTE_REGENENERGY = true
+DETAILS_SUBATTRIBUTE_REGENRUNE = true
+DETAILS_SUBATTRIBUTE_RESOURCES = true
+DETAILS_SUBATTRIBUTE_ALTERNATEPOWER = true
+DETAILS_SUBATTRIBUTE_CCBREAK = true
+DETAILS_SUBATTRIBUTE_RESS = true
+DETAILS_SUBATTRIBUTE_INTERRUPT = true
+DETAILS_SUBATTRIBUTE_DISPELL = true
+DETAILS_SUBATTRIBUTE_DEATH = true
+DETAILS_SUBATTRIBUTE_DCOOLDOWN = true
+DETAILS_SUBATTRIBUTE_BUFFUPTIME = true
+DETAILS_SUBATTRIBUTE_DEBUFFUPTIME = true
+
+---@alias detailstotals
+---| "DETAILS_TOTALS_ONLYGROUP"
+
+---@alias detailssegmentid
+---| "DETAILS_SEGMENTID_OVERALL"
+---| "DETAILS_SEGMENTID_CURRENT"
+
+---@alias detailscombatamountcontainers
+---| "DETAILS_COMBAT_AMOUNT_CONTAINERS"
+
+---@alias detailssegmenttype
+---| "DETAILS_SEGMENTTYPE_GENERIC"
+---| "DETAILS_SEGMENTTYPE_OVERALL"
+---| "DETAILS_SEGMENTTYPE_DUNGEON_TRASH"
+---| "DETAILS_SEGMENTTYPE_DUNGEON_BOSS"
+---| "DETAILS_SEGMENTTYPE_DUNGEON_OVERALL"
+---| "DETAILS_SEGMENTTYPE_RAID_TRASH"
+---| "DETAILS_SEGMENTTYPE_RAID_BOSS"
+---| "DETAILS_SEGMENTTYPE_MYTHICDUNGEON"
+---| "DETAILS_SEGMENTTYPE_MYTHICDUNGEON_GENERIC"
+---| "DETAILS_SEGMENTTYPE_MYTHICDUNGEON_TRASH"
+---| "DETAILS_SEGMENTTYPE_MYTHICDUNGEON_OVERALL"
+---| "DETAILS_SEGMENTTYPE_MYTHICDUNGEON_TRASHOVERALL"
+---| "DETAILS_SEGMENTTYPE_MYTHICDUNGEON_BOSS"
+---| "DETAILS_SEGMENTTYPE_MYTHICDUNGEON_BOSSTRASH"
+---| "DETAILS_SEGMENTTYPE_MYTHICDUNGEON_BOSSWIPE"
+---| "DETAILS_SEGMENTTYPE_PVP_ARENA"
+---| "DETAILS_SEGMENTTYPE_PVP_BATTLEGROUND"
+---| "DETAILS_SEGMENTTYPE_EVENT_VALENTINEDAY"
+---| "DETAILS_SEGMENTTYPE_TRAININGDUMMY"
+
+DETAILS_TOTALS_ONLYGROUP = true
+DETAILS_SEGMENTID_OVERALL = true
+DETAILS_SEGMENTID_CURRENT = true
+DETAILS_COMBAT_AMOUNT_CONTAINERS = true
+DETAILS_SEGMENTTYPE_GENERIC = true
+DETAILS_SEGMENTTYPE_OVERALL = true
+DETAILS_SEGMENTTYPE_DUNGEON_TRASH = true
+DETAILS_SEGMENTTYPE_DUNGEON_BOSS = true
+DETAILS_SEGMENTTYPE_DUNGEON_OVERALL = true
+DETAILS_SEGMENTTYPE_RAID_TRASH = true
+DETAILS_SEGMENTTYPE_RAID_BOSS = true
+DETAILS_SEGMENTTYPE_MYTHICDUNGEON = true
+DETAILS_SEGMENTTYPE_MYTHICDUNGEON_GENERIC = true
+DETAILS_SEGMENTTYPE_MYTHICDUNGEON_TRASH = true
+DETAILS_SEGMENTTYPE_MYTHICDUNGEON_OVERALL = true
+DETAILS_SEGMENTTYPE_MYTHICDUNGEON_TRASHOVERALL = true
+DETAILS_SEGMENTTYPE_MYTHICDUNGEON_BOSS = true
+DETAILS_SEGMENTTYPE_MYTHICDUNGEON_BOSSTRASH = true
+DETAILS_SEGMENTTYPE_MYTHICDUNGEON_BOSSWIPE = true
+DETAILS_SEGMENTTYPE_PVP_ARENA = true
+DETAILS_SEGMENTTYPE_PVP_BATTLEGROUND = true
+DETAILS_SEGMENTTYPE_EVENT_VALENTINEDAY = true
+DETAILS_SEGMENTTYPE_TRAININGDUMMY = true
+
 ---@class mythicdungeontrashinfo
 ---@field ZoneName string
 ---@field MapID number
@@ -64,6 +189,7 @@
 ---@field WorldStateTimerStart number?
 ---@field WorldStateTimerEnd number?
 ---@field RunTime number?
+---@field TotalTime number?
 ---@field TimeInCombat number?
 ---@field SegmentID string?
 ---@field RunID number?
@@ -142,6 +268,8 @@
 ---@field DefaultTooltipIconSize number default size of the icons in the tooltip, this also dictates the size of each line in the tooltip
 ---@field Format fun(self: details, number: number) : string
 ---@field OpenSpecificBreakdownWindow fun(self: details, combatObject: combat, actorName: string, mainAttribute: number, subAttribute: number)
+---@field GetInstanceInfo fun(self: details) : details_instanceinfo
+---@field CreatePlayerPortrait fun(self: details, parent: frame, name: string) : frame
 ---@field 
 ---@field GenerateActorInfo fun(self: details, actor: actor, errorText:string, bIncludeStack:boolean) : table<string, boolean|string|number> generates a table with the main attributes of the actor, this is mainly for debug purposes
 ---@field DumpActorInfo fun(self: details, actor: actor) open a window showig the main attributes of an actor, this is mainly for debug purposes
@@ -827,6 +955,39 @@
 ---@field CreateTargetBar fun(self: breakdowntargetscrollframe, index: number) : breakdowntargetbar
 ---@field CreateSpellBar fun(self: breakdownspellscrollframe, index: number) : breakdownspellbar
 ---@field SetShownReportOverlay fun(bIsShown: boolean)
+
+---@class details_encounterinfo : table
+---@field name string
+---@field mapId number
+---@field instanceId number
+---@field dungeonEncounterId number
+---@field journalEncounterId number
+---@field journalInstanceId number
+---@field creatureName string
+---@field creatureIcon string
+---@field creatureId number
+---@field creatureDisplayId number
+---@field creatureUIModelSceneId number
+
+---@class details_instanceinfo : table
+---@field name string
+---@field bgImage string
+---@field mapId number
+---@field instanceId number
+---@field journalInstanceId number
+---@field encountersArray details_encounterinfo[]
+---@field encountersByName table<string, details_encounterinfo>
+---@field encountersByDungeonEncounterId table<number, details_encounterinfo>
+---@field encountersByJournalEncounterId table<number, details_encounterinfo>
+---@field icon string
+---@field iconSize table<number, number>
+---@field iconCoords table<number, number, number, number>
+---@field iconLore string
+---@field iconLoreSize table<number, number>
+---@field iconLoreCoords table<number, number, number, number>
+---@field iconTexture string
+---@field iconTextureSize table<number, number>
+---@field iconTextureCoords table<number, number, number, number>
 
 ---@class timemachine : table
 ---@field Ticker fun() runs each second and check if actors are performing damage and healing actions, if the actor isn't, stop the activity time of that actor

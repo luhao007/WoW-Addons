@@ -12,7 +12,6 @@ local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGOptionsList_RF=Create.PIGOptionsList_RF
 local PIGTabBut=Create.PIGTabBut
 ------
-
 local Data=addonTable.Data
 local TalentData=Data.TalentData
 local InvSlot=Data.InvSlot
@@ -23,7 +22,6 @@ local GetEquipmTXT=Fun.GetEquipmTXT
 local GetRuneData=Fun.GetRuneData
 local GetItemLinkJJ=Fun.GetItemLinkJJ
 local HY_ItemLinkJJ=Fun.HY_ItemLinkJJ
-
 --------
 local GetContainerNumSlots = C_Container.GetContainerNumSlots
 local GetContainerItemLink=C_Container.GetContainerItemLink

@@ -1,8 +1,14 @@
 ------------------------------------------------------------------------
-r61 | funkehdude | 2025-02-07 01:56:05 +0000 (Fri, 07 Feb 2025) | 1 line
+r64 | funkehdude | 2025-03-22 23:41:37 +0000 (Sat, 22 Mar 2025) | 1 line
+Changed paths:
+   M /trunk/LibDurability/LibDurability.lua
+
+Tweak
+------------------------------------------------------------------------
+r63 | funkehdude | 2025-03-22 23:39:13 +0000 (Sat, 22 Mar 2025) | 1 line
 Changed paths:
    M /trunk/LibDurability.toc
 
-bump toc
+Bump toc
 ------------------------------------------------------------------------
 

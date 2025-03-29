@@ -1,6 +1,6 @@
 ## Interface: 110100
 ## Author: Fabys
-## Version: 6.3.1
+## Version: 6.4.0
 
 ## Title: MythicPlusTimer
 ## Notes: Custom Mythic+ timer appearance

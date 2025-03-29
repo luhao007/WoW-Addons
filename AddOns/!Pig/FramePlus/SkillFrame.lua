@@ -25,10 +25,31 @@ local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 -----------------------
 local function ADD_Skill_QK_Button(fujiui,uiname,ly)
 	for F=1,PIGSkillinfo.butnum do
-		local But = CreateFrame("CheckButton", uiname.."_Button_"..F, fujiui, "SecureActionButtonTemplate,ActionButtonTemplate");
+		local But
+		if tocversion<40000 then
+			But = CreateFrame("CheckButton", uiname.."_Button_"..F, fujiui, "SecureActionButtonTemplate,ActionButtonTemplate");
+			But.NormalTexture:SetAlpha(0);
+		else
+			But = CreateFrame("CheckButton", uiname.."_Button_"..F, fujiui, "SecureActionButtonTemplate");
+			But.icon = But:CreateTexture()
+			But.icon:SetSize(54,54);
+			But.icon:SetAllPoints(But)
+			But.START = But:CreateTexture(nil, "OVERLAY");
+			But.START:SetTexture(130724);
+			But.START:SetBlendMode("ADD");
+			But.START:SetAllPoints(But)
+			But.START:Hide();
+			hooksecurefunc(But, "SetChecked", function(self,bool)
+				if bool then
+					self.START:Show();
+				else
+					self.START:Hide();
+				end
+			end)
+		end
 		But:SetSize(PIGSkillinfo.Width,PIGSkillinfo.Height);
 		PIGUseKeyDown(But)
-		But.NormalTexture:SetAlpha(0);
+		
 		if F==1 then
 			if ly~="Mainline" then
 				But:SetPoint("TOPLEFT",fujiui,"TOPRIGHT",-37,-46);

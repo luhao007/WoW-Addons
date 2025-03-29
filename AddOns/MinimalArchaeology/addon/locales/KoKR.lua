@@ -40,24 +40,15 @@ L["DATABROKER_HINT_RIGHTCLICK"] = "Right-click to open settings"
 L["DATABROKER_HINT_SHIFT_LEFTCLICK"] = "Shift + Left-Click to toggle MinArch history window."
 --[[Translation missing --]]
 L["DIGSITES_DIGSITE"] = "Digsite"
---[[Translation missing --]]
-L["GLOBAL_BROKEN_ISLES"] = "Broken Isles"
---[[Translation missing --]]
-L["GLOBAL_DRAENOR"] = "Draenor"
---[[Translation missing --]]
-L["GLOBAL_EASTERN_KINGDOMS"] = "Eastern Kingdoms"
---[[Translation missing --]]
-L["GLOBAL_KALIMDOR"] = "Kalimdor"
---[[Translation missing --]]
-L["GLOBAL_KUL_TIRAS"] = "Kul Tiras"
---[[Translation missing --]]
-L["GLOBAL_NORTHREND"] = "Northrend"
---[[Translation missing --]]
-L["GLOBAL_OUTLAND"] = "Outland"
---[[Translation missing --]]
-L["GLOBAL_PANDARIA"] = "Pandaria"
---[[Translation missing --]]
-L["GLOBAL_ZANDALAR"] = "Zandalar"
+L["GLOBAL_BROKEN_ISLES"] = "부서진 섬"
+L["GLOBAL_DRAENOR"] = "드레노어"
+L["GLOBAL_EASTERN_KINGDOMS"] = "동부 왕국"
+L["GLOBAL_KALIMDOR"] = "칼림도어"
+L["GLOBAL_KUL_TIRAS"] = "쿨 티라스"
+L["GLOBAL_NORTHREND"] = "노스렌드"
+L["GLOBAL_OUTLAND"] = "아웃랜드"
+L["GLOBAL_PANDARIA"] = "판다리아"
+L["GLOBAL_ZANDALAR"] = "잔달라 항구"
 --[[Translation missing --]]
 L["HISTORY_SOLVE_CONFIRMATION_ALWAYS"] = "Yes, always!"
 --[[Translation missing --]]

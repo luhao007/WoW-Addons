@@ -730,6 +730,82 @@ data["Cinderbrew Meadery"] = {
 	}
 }
 
+data["Operation Floodgate"] = {
+	EncounterJournalID = 1298,
+	MapID = 2387,
+	AtlasMapID = "OperationFloodgateA",
+	ContentType = DUNGEON_CONTENT,
+	items = {
+		{ -- Big M.O.M.M.A.
+			EncounterJournalID = 2648,
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1, 234491 }, -- Sonic Ka-BOOM!-erang
+				{ 2, 234503 }, -- Skystreak's Hidden Missiles
+				{ 3, 234497 }, -- Nonconductive Kill-o-Socks
+				{ 4, 234500 }, -- Mechanized Junkpads
+				{ 5, 232542 }, -- Darkfuse Medichopper
+			},
+			[HEROIC_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[MYTHICD_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+		},
+		{ -- Demolition Duo
+			EncounterJournalID = 2649,
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1, 234502 }, -- Bront's Singed Blastcoat
+				{ 2, 232541 }, -- Improvised Seaforium Pacemaker
+				{ 3, 234492 }, -- Keeza's 'B.' B.B.B.F.G
+				{ 4, 234505 }, -- Venture Contractor's Floodlight
+				{ 5, 234498 }, -- Waterworks Filtration Mask
+			},
+			[HEROIC_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[MYTHICD_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+		},
+		{ -- Swampface
+			EncounterJournalID = 2650,
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1, 234499 }, -- Disturbed Kelp Wraps
+				{ 2, 234494 }, -- Gallytech Turbo-Tiller
+				{ 3, 234506 }, -- Muckdiver's Wading Plate
+				{ 4, 234495 }, -- Razorchoke Slacks
+				{ 5, 232543 }, -- Ringing Ritual Mud
+				{ 6, 236768, "pet4759" }, -- Craboom
+			},
+			[HEROIC_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[MYTHICD_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+		},
+		{ -- Geezle Gigazap
+			EncounterJournalID = 2651,
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1, 234490 }, -- Circuit Breaker
+				{ 2, 234507 }, -- Electrician's Siphoning Filter
+				{ 3, 234493 }, -- Geezle's Coercive Volt-ohmmeter
+				{ 4, 232545 }, -- Gigazap's Zap-Cap
+				{ 5, 234504 }, -- Jumpstarter's Scaffold-Scrapers
+				{ 6, 234501 }, -- Portable Power Generator
+				{ 7, 234496 }, -- Saboteur's Rubber Jacket
+			},
+			[HEROIC_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[MYTHICD_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+		},
+	}
+}
+
 data["Nerub-ar Palace"] = {
 	EncounterJournalID = 1273,
 	MapID = 2291,
@@ -760,6 +836,9 @@ data["Nerub-ar Palace"] = {
 			[MYTHIC_PRE_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
 			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
 		},
 		{ -- The Bloodbound Horror
 			EncounterJournalID = 2611,
@@ -782,6 +861,9 @@ data["Nerub-ar Palace"] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
 			},
 			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
 			},
 		},
@@ -810,6 +892,9 @@ data["Nerub-ar Palace"] = {
 			[MYTHIC_PRE_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
 			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
 		},
 		{ -- Rasha'nan
 			EncounterJournalID = 2609,
@@ -833,6 +918,9 @@ data["Nerub-ar Palace"] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
 			},
 			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
 			},
 		},
@@ -860,6 +948,9 @@ data["Nerub-ar Palace"] = {
 			[MYTHIC_PRE_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
 			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
 		},
 		{ -- Nexus-Princess Ky'veza
 			EncounterJournalID = 2601,
@@ -885,6 +976,9 @@ data["Nerub-ar Palace"] = {
 			[MYTHIC_PRE_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
 			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
 		},
 		{ -- The Silken Court
 			EncounterJournalID = 2608,
@@ -908,6 +1002,9 @@ data["Nerub-ar Palace"] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
 			},
 			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
 			},
 		},
@@ -938,6 +1035,267 @@ data["Nerub-ar Palace"] = {
 				GetItemsFromDiff = NORMAL_RAID_DIFF,
 				{ 17, 224151, "mount" }, -- Reins of the Ascendant Skyrazor
 			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+	}
+}
+
+data["Liberation of Undermine"] = {
+	EncounterJournalID = 1296,
+	MapID = 2406,
+	AtlasMapID = "LiberationofUndermine",
+	ContentType = RAID_CONTENT,
+	TableType = RAID_ITTYPE,
+	items = {
+		{ -- Vexie and the Geargrinders
+			EncounterJournalID = 2639,
+			[NORMAL_RAID_DIFF] = {
+				{ 1,  228861 }, -- Tune-Up Toolbelt
+				{ 2,  228865 }, -- Pit Doctor's Petticoat
+				{ 3,  228875 }, -- Vandal's Skullplating
+				{ 4,  228876 }, -- Dragster's Last Stride
+				{ 5,  228852 }, -- Blazer of Glory
+				{ 6,  228862 }, -- Shrapnel-Ridden Sabatons
+				{ 7,  228858 }, -- Fullthrottle Facerig
+				{ 8,  228868 }, -- Revved-Up Vambraces
+				{ 9,  228839 }, -- Undercircuit Racing Flag
+				{ 10, 231268 }, -- Blastfurious Machete
+				{ 11, 228892 }, -- Greasemonkey's Shift-Stick
+				{ 12, 230197 }, -- Geargrinder's Spare Keys
+				{ 13, 230019 }, -- Vexie's Pit Whistle
+				{ 14, 223048 }, -- Plans: Siphoning Stiletto
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+		{ -- Cauldron of Carnage
+			EncounterJournalID = 2640,
+			[NORMAL_RAID_DIFF] = {
+				{ 1,  228847 }, -- Hotstep Heel-Turners
+				{ 2,  228856 }, -- Competitor's Battle Cord
+				{ 3,  228846 }, -- Galvanic Graffiti Cuffs
+				{ 4,  228873 }, -- Heaviestweight Title Belt
+				{ 5,  228840 }, -- Faded Championship Ring
+				{ 6,  228904 }, -- Crowd Favorite
+				{ 7,  228900 }, -- Tournament Arc
+				{ 8,  228890 }, -- Superfan's Beater-Buzzer
+				{ 9,  230191 }, -- Flarendo's Pilot Light
+				{ 10, 230190 }, -- Torq's Big Red Button
+				{ 11, 228803 }, -- Dreadful Bloody Gallybux
+				{ 12, 228804 }, -- Mystic Bloody Gallybux
+				{ 13, 228805 }, -- Venerated Bloody Gallybux
+				{ 14, 228806 }, -- Zenith Bloody Gallybux
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+		{ -- Rik Reverb
+			EncounterJournalID = 2641,
+			[NORMAL_RAID_DIFF] = {
+				{ 1,  228857 }, -- Underparty Admission Bracelet
+				{ 2,  228869 }, -- Killer Queen's Wristflickers
+				{ 3,  228845 }, -- Sash of the Fierce Diva
+				{ 4,  228874 }, -- Rik's Walkin' Boots
+				{ 5,  228841 }, -- Semi-Charmed Amulet
+				{ 6,  228897 }, -- Pyrotechnic Needle-Dropper
+				{ 7,  228895 }, -- Remixed Ignition Saber
+				{ 8,  231311 }, -- Frontman's Wondrous Wall
+				{ 9,  230194 }, -- Reverb Radio
+				{ 10, 228815 }, -- Dreadful Polished Gallybux
+				{ 11, 228816 }, -- Mystic Polished Gallybux
+				{ 12, 228817 }, -- Venerated Polished Gallybux
+				{ 13, 228818 }, -- Zenith Polished Gallybux
+				{ 14, 224435 }, -- Pattern: Duskthread Lining
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+		{ -- Stix Bunkjunker
+			EncounterJournalID = 2642,
+			[NORMAL_RAID_DIFF] = {
+				{ 1,  228871 }, -- Cleanup Crew's Wastemask
+				{ 2,  228854 }, -- Bilgerat's Discarded Slacks
+				{ 3,  228859 }, -- Sanitized Scraphood
+				{ 4,  228849 }, -- Dumpmech Compactors
+				{ 5,  228896 }, -- Stix's Metal Detector
+				{ 6,  228903 }, -- Dumpster Diver
+				{ 7,  230189 }, -- Junkmaestro's Mega Magnet
+				{ 8,  230026 }, -- Scrapfield 9001
+				{ 9,  228811 }, -- Dreadful Rusty Gallybux
+				{ 10, 228812 }, -- Mystic Rusty Gallybux
+				{ 11, 228813 }, -- Venerated Rusty Gallybux
+				{ 12, 228814 }, -- Zenith Rusty Gallybux
+				{ 13, 236687 }, -- Explosive Hearthstone
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+		{ -- Sprocketmonger Lockenstock
+			EncounterJournalID = 2653,
+			[NORMAL_RAID_DIFF] = {
+				{ 1,  228882 }, -- Refiner's Conveyor Belt
+				{ 2,  228888 }, -- Rushed Beta Launchers
+				{ 3,  228867 }, -- Gravi-Gunk Handlers
+				{ 4,  228884 }, -- Test Subject's Clasps
+				{ 5,  228844 }, -- Test Pilot's Go-Pack
+				{ 6,  228894 }, -- GIGADEATH Chainblade
+				{ 7,  228898 }, -- Alphacoil Ba-Boom Stick
+				{ 8,  230193 }, -- Mister Lock-N-Stalk
+				{ 9,  230186 }, -- Mister Pick-Me-Up
+				{ 10, 228799 }, -- Dreadful Greased Gallybux
+				{ 11, 228800 }, -- Mystic Greased Gallybux
+				{ 12, 228801 }, -- Venerated Greased Gallybux
+				{ 13, 228802 }, -- Zenith Greased Gallybux
+				{ 14, 223097 }, -- Pattern: Adrenal Surge Clasp
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+		{ -- The One-Armed Bandit
+			EncounterJournalID = 2644,
+			[NORMAL_RAID_DIFF] = {
+				{ 1,  228850 }, -- Bottom-Dollar Blouse
+				{ 2,  228885 }, -- Hustler's Ante-Uppers
+				{ 3,  228883 }, -- Dubious Table-Runners
+				{ 4,  228886 }, -- Coin-Operated Girdle
+				{ 5,  228843 }, -- Miniature Roulette Wheel
+				{ 6,  231266 }, -- Random Number Perforator
+				{ 7,  228905 }, -- Giga Bank-Breaker
+				{ 8,  232526 }, -- Best-in-Slots
+				{ 9,  230188 }, -- Gallagio Bottle Service
+				{ 10, 230027 }, -- House of Cards
+				{ 11, 228906 }, -- Operator's Fraud Detector
+				{ 12, 228807 }, -- Dreadful Gilded Gallybux
+				{ 13, 228808 }, -- Mystic Gilded Gallybux
+				{ 14, 228809 }, -- Venerated Gilded Gallybux
+				{ 15, 228810 }, -- Zenith Gilded Gallybux
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+		{ -- Mug'Zee, Heads of Security
+			EncounterJournalID = 2645,
+			[NORMAL_RAID_DIFF] = {
+				{ 1,  228870 }, -- Underboss's Tailored Mantle
+				{ 2,  228879 }, -- Cemented Murloc-Swimmers
+				{ 3,  228863 }, -- Enforcer's Sticky Fingers
+				{ 4,  228880 }, -- Hitman's Holster
+				{ 5,  228860 }, -- Epaulettes of Failed Enforcers
+				{ 6,  228878 }, -- Made Manacles
+				{ 7,  228851 }, -- "Bullet-Proof" Vestplate
+				{ 8,  228853 }, -- Hired Muscle's Legguards
+				{ 9,  228842 }, -- Gobfather's Gifted Bling
+				{ 10, 232804 }, -- Capo's Molten Knuckles
+				{ 11, 228901 }, -- Big Earner's Bludgeon
+				{ 12, 228902 }, -- Wiseguy's Refused Offer
+				{ 13, 228893 }, -- "Tiny Pal"
+				{ 14, 230192 }, -- Mug's Moxie Jug
+				{ 15, 230199 }, -- Zee's Thug Hotline
+				{ 16, 223094 }, -- Design: Magnificent Jeweler's Setting
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+		{ -- Chrome King Gallywix
+			EncounterJournalID = 2646,
+			[NORMAL_RAID_DIFF] = {
+				{ 1,  228881 }, -- Illicit Bankroll Bracers
+				{ 2,  228872 }, -- Golden Handshakers
+				{ 3,  228848 }, -- Darkfuse Racketeer's Tricorne
+				{ 4,  228864 }, -- "Streamlined" Cartel Uniform
+				{ 5,  228877 }, -- Dealer's Covetous Chain
+				{ 6,  228866 }, -- Deep-Pocketed Pantaloons
+				{ 7,  228855 }, -- Paydirt Pauldrons
+				{ 8,  228887 }, -- Cutthroat Competition Stompers
+				{ 9,  231265 }, -- The Jastor Diamond
+				{ 10, 228899 }, -- Gallywix's Iron Thumb
+				{ 11, 228891 }, -- Capital Punisher
+				{ 12, 228889 }, -- Titan of Industry
+				{ 13, 230029 }, -- Chromebustible Bomb Suit
+				{ 14, 230198 }, -- Eye of Kezan
+				{ 15, 228819 }, -- Excessively Bejeweled Curio
+				{ 16, 223144 }, -- Formula: Enchant Weapon - Authority of the Depths
+				{ 17, 236960, "mount" }, -- Prototype A.S.M.R.
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+				{ 18, 235626, "mount" }, -- Keys to the Big G
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+		{ --Trash
+			name = AL["Trash Mobs"],
+			ExtraList = true,
+			[NORMAL_RAID_DIFF] = {
+				{ 1, 232663 }, -- Undermine Merc's Dog Tags
+				{ 2, 232656 }, -- Psychopath's Ravemantle
+				{ 3, 232655 }, -- Vatwork Janitor's Wasteband
+				{ 4, 232657 }, -- Mechgineer's Blowtorch Cover
+				{ 5, 232658 }, -- Firebug's Anklegear
+				{ 6, 232659 }, -- Loyalist's Holdout Hood
+				{ 7, 232660 }, -- Midnight Lounge Cummerbund
+				{ 8, 232661 }, -- Bootleg Wrynn Shoulderplates
+				{ 9, 232662 }, -- Globlin-Fused Greatbelt
+			},
+			[HEROIC_PRE_DIFF] = NORMAL_RAID_DIFF,
+			[MYTHIC_PRE_DIFF] = NORMAL_RAID_DIFF,
+			[RF_DIFF] = NORMAL_RAID_DIFF,
 		},
 	}
 }

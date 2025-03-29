@@ -16,86 +16,16 @@ local C_TransmogCollection_PlayerHasTransmogItemModifiedAppearance = C_TransmogC
 -- ----------------------------------------------------------------------------
 -- AddOn namespace.
 -- ----------------------------------------------------------------------------
-local ALName, ALPrivate = ...
+local ALName, ALPrivate     = ...
 
-local AtlasLoot         = _G.AtlasLoot
-local Transmog          = {}
-AtlasLoot.Transmog      = Transmog
+local AtlasLoot             = _G.AtlasLoot
+local Transmog              = {}
+AtlasLoot.Transmog          = Transmog
 
-local Proto             = {}
-
-
---appearanceID, sourceID = C_TransmogCollection.GetItemInfo(158321)
---isInfoReady, canCollect = C_TransmogCollection.PlayerCanCollectSource(sourceID)
-
---Event ->
--- "TRANSMOG_SOURCE_COLLECTABILITY_UPDATE" event , sourceID, canCollect
-
+local Proto                 = {}
 
 -- /console missingTransmogSourceInItemTooltips 1
 --C_TransmogCollection.GetSourceInfo(sourceID)
-
---[[ C_TransmogCollection.PlayerCanCollectSource
-	SearchSize
-	GetAppearanceSourceInfoForTransmog
-	IsSearchDBLoading
-	GetIllusions
-	CanSetFavoriteInCategory
-	HasFavorites
-	GetInspectSources
-	GetCategoryAppearances
-	GetOutfitSources
-	GetIsAppearanceFavorite
-	PlayerHasTransmogItemModifiedAppearance
-	DeleteOutfit
-	SetIsAppearanceFavorite
-	GetSourceIcon
-	IsSearchInProgress
-	IsSourceTypeFilterChecked
-	ClearNewAppearance
-	GetLatestAppearance
-	GetShowMissingSourceInItemTooltips
-	GetAppearanceCameraIDBySource
-	SetSearch
-	SetShowMissingSourceInItemTooltips
-	EndSearch
-	GetAppearanceSourceInfo
-	GetNumTransmogSources
-	SetAllSourceTypeFilters
-	GetSourceInfo
-	GetAppearanceSourceDrops
-	SetSourceTypeFilter
-	GetUncollectedShown
-	GetCollectedShown
-	SaveOutfit
-	GetAppearanceSources
-	SetCollectedShown
-	SetSearchAndFilterCategory
-	SearchProgress
-	ClearSearch
-	GetAllAppearanceSources
-	GetSourceRequiredHoliday
-	IsCategoryValidForItem
-	PlayerCanCollectSource
-	ModifyOutfit
-	GetOutfitName
-	GetAppearanceInfoBySource
-	GetOutfits
-	PlayerKnowsSource
-	UpdateUsableAppearances
-	SetUncollectedShown
-	GetCategoryInfo
-	GetItemInfo(itemID, [itemModID]/itemLink/itemName) = appearanceID, sourceID
-	GetAppearanceCameraID
-	GetCategoryCollectedCount
-	GetCategoryTotal
-	PlayerHasTransmog
-	GetNumMaxOutfits
-	GetIllusionSourceInfo
-	IsNewAppearance
-	GetIllusionFallbackWeaponSource
-]]
-
 
 local TRANSMOG_UPDATE_EVENT = "TRANSMOG_SOURCE_COLLECTABILITY_UPDATE" -- sourceID, canCollect
 

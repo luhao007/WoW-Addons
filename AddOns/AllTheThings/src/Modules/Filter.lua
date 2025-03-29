@@ -21,7 +21,7 @@ local ALLIANCE_ONLY, HORDE_ONLY = unpack(app.Modules.FactionData.FACTION_RACES);
 local GetRelativeValue = app.GetRelativeValue;
 
 -- Module locals
-local ActiveCustomCollects, FactionID, CollectibleHeirlooms, SettingsUnobtainable;
+local ActiveCustomCollects, FactionID, SettingsUnobtainable;
 local SettingsFilterIDs = {};
 
 -- Filter API Implementation
@@ -100,8 +100,6 @@ local function FilterBind(group)
 	return group.b == 1;-- or group.b == 4;
 end
 api.Filters.Bind = FilterBind;
--- Used in a lot of places, need to keep for now
-app.IsBoP = FilterBind;
 local function FilterInGame(item)
 	return not item.u or item.u > 2;
 end
@@ -126,6 +124,12 @@ end);
 DefineToggleFilter("PetBattles", AccountFilters,
 function(item)
 	return not item.pb or false
+end);
+
+-- Skyriding
+DefineToggleFilter("Skyriding", AccountFilters,
+function(item)
+	return not item.sr or false
 end);
 
 -- UnavailablePersonalLoot
@@ -211,6 +215,12 @@ end
 api.Get.ItemUnbound = function() return SettingsFilterItemUnbound == api.Filters.ItemUnbound end
 
 -- FilterID
+do
+local FilterFilterID_IgnoredTypes = {}
+app.AddEventHandler("OnRecalculate_NewSettings", function()
+	FilterFilterID_IgnoredTypes.Heirloom = app.Settings.Collectibles.Heirlooms
+	FilterFilterID_IgnoredTypes.HeirloomAndAppearance = app.Settings.Collectibles.Heirlooms
+end)
 DefineToggleFilter("FilterID", CharacterFilters,
 function(item)
 	local f = item.f;
@@ -219,14 +229,15 @@ function(item)
 		if SettingsFilterIDs[f] then
 			return true;
 		end
-		-- don't filter Heirlooms by their Type if they are collectible as Heirlooms
-		if CollectibleHeirlooms and item.__type == "Heirloom" then
+		-- don't filter Types by their FilterID in some cases
+		if FilterFilterID_IgnoredTypes[item.__type or 0] then
 			return true;
 		end
 	else
 		return true;
 	end
-end);
+end)
+end
 
 -- Bound
 DefineToggleFilter("Bound", CharacterFilters,
@@ -416,6 +427,9 @@ local function SettingsFilters(item)
 		return ApplySettingsFilters(item, CharacterFilters)
 	end
 end
+local function SettingsFilters_Account(item)
+	return ApplySettingsFilters(item, AccountFilters)
+end
 local function SettingsExtraFilters(item, extraFilters)
 	if SettingsFilters(item) then
 		if extraFilters then
@@ -490,7 +504,17 @@ local function RecursiveGroupRequirementsFilter(group)
 end
 app.RecursiveGroupRequirementsFilter = RecursiveGroupRequirementsFilter;
 api.Filters.RecursiveGroupRequirementsFilter = RecursiveGroupRequirementsFilter
--- Recursively check outwards to find if any parent group restricts the filter for the current settings
+-- Recursively check outwards to find if any parent group restricts the filter for only Account-based settings
+local function RecursiveGroupRequirementsFilter_Account(group)
+	local Filter = SettingsFilters_Account
+	while group do
+		if not Filter(group) then return; end
+		group = group.sourceParent or group.parent;
+	end
+	return true;
+end
+api.Filters.RecursiveGroupRequirementsFilter_Account = RecursiveGroupRequirementsFilter_Account
+-- Recursively check outwards to find if any parent group restricts the filter for the current settings with Extra Filters
 local function RecursiveGroupRequirementsExtraFilter(group, extraFilters)
 	local Filter = app.GroupExtraFilter;
 	while group do
@@ -555,7 +579,6 @@ app.RecursiveFilter = RecursiveFilter;
 
 -- Caching Helpers
 local function CacheSettingsData()
-	CollectibleHeirlooms = app.Settings.Collectibles.Heirlooms;
 	SettingsUnobtainable = app.Settings:GetRawSettings("Unobtainable");
 	wipe(SettingsFilterIDs)
 	local rawFilters = app.Settings:GetRawFilters();

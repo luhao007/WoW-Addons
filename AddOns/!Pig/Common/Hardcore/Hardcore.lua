@@ -111,13 +111,13 @@ local function NameSetValue(value)
 end
 fujiF.AutoCVars.NameMinSelect=PIGDownMenu(fujiF.AutoCVars,{"LEFT",fujiF.AutoCVars.NameMin,"RIGHT",100,0},{220,24})
 fujiF.AutoCVars.NameMinSelect.T = PIGFontString(fujiF.AutoCVars.NameMinSelect,{"BOTTOMLEFT",fujiF.AutoCVars.NameMinSelect,"TOPLEFT",10,4},"休息区角色名显示")
-function fujiF.AutoCVars.NameMinSelect:PIGDownMenu_Update_But(self)
+function fujiF.AutoCVars.NameMinSelect:PIGDownMenu_Update_But()
 	local info = {}
 	info.func = self.PIGDownMenu_SetValue
 	for i=1,5,1 do
 	    info.text, info.arg1 = NameSelectList[i][1], i
 	    info.checked = i==PIGA["Hardcore"]["CVars"]["NameMinSelect"]
-		fujiF.AutoCVars.NameMinSelect:PIGDownMenu_AddButton(info)
+		self:PIGDownMenu_AddButton(info)
 	end 
 end
 function fujiF.AutoCVars.NameMinSelect:PIGDownMenu_SetValue(value,arg1)
@@ -135,13 +135,13 @@ fujiF.AutoCVars.NameMax.Slider:HookScript("OnValueChanged", function(self, arg1)
 end)
 fujiF.AutoCVars.NameMaxSelect=PIGDownMenu(fujiF.AutoCVars,{"LEFT",fujiF.AutoCVars.NameMax,"RIGHT",100,0},{220,24})
 fujiF.AutoCVars.NameMaxSelect.T = PIGFontString(fujiF.AutoCVars.NameMaxSelect,{"BOTTOMLEFT",fujiF.AutoCVars.NameMaxSelect,"TOPLEFT",10,4},"非休息区角色名显示")
-function fujiF.AutoCVars.NameMaxSelect:PIGDownMenu_Update_But(self)
+function fujiF.AutoCVars.NameMaxSelect:PIGDownMenu_Update_But()
 	local info = {}
 	info.func = self.PIGDownMenu_SetValue
 	for i=1,5,1 do
 	    info.text, info.arg1 = NameSelectList[i][1], i
 	    info.checked = i==PIGA["Hardcore"]["CVars"]["NameMaxSelect"]
-		fujiF.AutoCVars.NameMaxSelect:PIGDownMenu_AddButton(info)
+		self:PIGDownMenu_AddButton(info)
 	end 
 end
 function fujiF.AutoCVars.NameMaxSelect:PIGDownMenu_SetValue(value,arg1)
@@ -254,13 +254,13 @@ local AudioList = {
 }
 fujiF.Deaths.xiala=PIGDownMenu(fujiF.Deaths,{"LEFT",fujiF.Deaths.BigTgminlevel,"RIGHT",100,0},{150,24})
 fujiF.Deaths.xiala.T = PIGFontString(fujiF.Deaths.xiala,{"BOTTOMLEFT",fujiF.Deaths.xiala,"TOPLEFT",10,4},"大席语音")
-function fujiF.Deaths.xiala:PIGDownMenu_Update_But(self)
+function fujiF.Deaths.xiala:PIGDownMenu_Update_But()
 	local info = {}
 	info.func = self.PIGDownMenu_SetValue
 	for i=1,#AudioList,1 do
 	    info.text, info.arg1 = AudioList[i][1], i
 	    info.checked = i==PIGA["Hardcore"]["Deaths"]["VoiceID"]
-		fujiF.Deaths.xiala:PIGDownMenu_AddButton(info)
+		self:PIGDownMenu_AddButton(info)
 	end 
 end
 function fujiF.Deaths.xiala:PIGDownMenu_SetValue(value,arg1)

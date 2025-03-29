@@ -12,7 +12,7 @@ from toc import TOC
 logger = logging.getLogger('manager')
 
 CLASSIC_ERA_VER = '11401'
-CLASSIC_VER = '30400'
+CLASSIC_VER = '30404'
 RETAIL_VER = '110100'
 
 
@@ -581,14 +581,6 @@ class Manager:
         utils.remove_libraries(['HereBeDragons-2.0'], 'AddOns/Rarity/Libs', 'AddOns/Rarity/Rarity.toc')
 
     @staticmethod
-    @available_on(['classic'])
-    def handle_rl():
-        utils.change_defaults(
-            'AddOns/RaidLedger/options.lua',
-            ['        b:SetChecked(Database:GetConfigOrDefault("minimapicon", false))']
-        )
-
-    @staticmethod
     @available_on(['classic', 'retail'])
     def handle_rs():
         utils.change_defaults(
@@ -618,7 +610,7 @@ class Manager:
     @available_on(['classic'])
     def handle_talentemu():
         utils.change_defaults(
-            'AddOns/TalentEmu/setting.lua',
+            'AddOns/TalentEmuX/setting.lua',
             ['		minimap = false,']
         )
 

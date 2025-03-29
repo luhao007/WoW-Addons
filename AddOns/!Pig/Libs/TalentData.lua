@@ -5858,26 +5858,18 @@ function TalentData.GetTianfuIcon(guancha,zhiye)
 		local numTabs = GetNumTalentTabs(guancha)
 		for ti=1,numTabs do
 			local itemlistTalentmax = {["pointsSpent"]=0,["name"]=zuidazhi[1],["icon"]=zuidazhi[2]}
-			if tocversion<20000 then
-				local _, name, _, icon, pointsSpent, background, previewPointsSpent = GetTalentTabInfo(ti,guancha,false,index);
-				itemlistTalentmax.pointsSpent=pointsSpent or 0
-				itemlistTalentmax.name=name
-				itemlistTalentmax.icon=icon
-			elseif tocversion<40000 then
-				local name, icon, pointsSpent, background, previewPointsSpent = GetTalentTabInfo(ti,guancha,false,index);
-				itemlistTalentmax.pointsSpent=pointsSpent or 0
-				itemlistTalentmax.name=name
-				itemlistTalentmax.icon=icon
-			end
+			local _, name, _, icon, pointsSpent, background, previewPointsSpent = GetTalentTabInfo(ti,guancha,false,index);
+			itemlistTalentmax.pointsSpent=pointsSpent or 0
+			itemlistTalentmax.name=name
+			itemlistTalentmax.icon=icon
 			if itemlistTalentmax.pointsSpent>zuidazhi[3] then
 				zuidazhi={itemlistTalentmax.name, itemlistTalentmax.icon or tianfuTabIcon[zhiye][ti] or zuidazhi[2], itemlistTalentmax.pointsSpent}
 			end
 		end
 	elseif tocversion<50000 then
-		local index = GetActiveTalentGroup(guancha,false)
 		local masteryIndex = GetPrimaryTalentTree();
 		if masteryIndex then
-			local id, name, description, icon, pointsSpent, background, previewPointsSpent, isUnlocked = GetTalentTabInfo(masteryIndex,guancha,false,index);
+			local _, name, _, icon, pointsSpent, background, previewPointsSpent = GetTalentTabInfo(masteryIndex,guancha,false,index);
 			zuidazhi[1]=name
 			zuidazhi[2]=icon
 		end
@@ -6093,29 +6085,16 @@ local function Player_Stats_1(activeGroup,guancha)
 	local zuidazhi = {"--",0,""}
 	local numTabs = GetNumTalentTabs(guancha)
 	for i=1,numTabs do
-		if tocversion<20000 then
-			local _, name, _, icon, pointsSpent, background, previewPointsSpent = GetTalentTabInfo(i,guancha,false,activeGroup);
-			if i==numTabs then
-				zuidazhi[3]=zuidazhi[3]..pointsSpent
-			else
-				zuidazhi[3]=zuidazhi[3]..pointsSpent.."-"
-			end
-			if pointsSpent>zuidazhi[2] then
-				zuidazhi[1]=name
-				zuidazhi[2]=pointsSpent
-			end
+		local _, name, _, icon, pointsSpent, background, previewPointsSpent = GetTalentTabInfo(i,guancha,false,activeGroup);
+		if i==numTabs then
+			zuidazhi[3]=zuidazhi[3]..pointsSpent
 		else
-			local name, icon, pointsSpent, background, previewPointsSpent = GetTalentTabInfo(i,guancha,false,activeGroup);
-			if i==numTabs then
-				zuidazhi[3]=zuidazhi[3]..pointsSpent
-			else
-				zuidazhi[3]=zuidazhi[3]..pointsSpent.."-"
-			end
-			if pointsSpent>zuidazhi[2] then
-				zuidazhi[1]=name
-				zuidazhi[2]=pointsSpent
-			end
-		end	
+			zuidazhi[3]=zuidazhi[3]..pointsSpent.."-"
+		end
+		if pointsSpent>zuidazhi[2] then
+			zuidazhi[1]=name
+			zuidazhi[2]=pointsSpent
+		end
 	end
 	return zuidazhi[1],zuidazhi[3]
 end
@@ -6136,23 +6115,24 @@ local tianfuTabRole = {
 	["EVOKER"] = {["恩护"]=2,["湮灭"]=3,["增辉"]=3}, 
 };
 local function PIG_GetSpellCritChance()
-		local holySchool = 2
-	    local minCrit = GetSpellCritChance(holySchool);
-		for i=(holySchool+1), 7 do
-			local spellCrit = GetSpellCritChance(i);
-			minCrit = max(minCrit, spellCrit);
-		end
-		return minCrit,spellTishi
+	local holySchool = 2
+    local minCrit = GetSpellCritChance(holySchool);
+	for i=(holySchool+1), 7 do
+		local spellCrit = GetSpellCritChance(i);
+		minCrit = max(minCrit, spellCrit);
 	end
-	local function PIG_GetSpellBonusDamage()
-		local holySchool = 2
-	    local minCrit = GetSpellBonusDamage(holySchool);
-		for i=(holySchool+1), 7 do
-			local spellCrit = GetSpellBonusDamage(i);
-			minCrit = max(minCrit, spellCrit);
-		end
-		return minCrit,spellTishi
+	return minCrit
+end
+local function PIG_GetSpellBonusDamage()--法术伤害加成
+	local holySchool = 2
+    local minCrit = GetSpellBonusDamage(holySchool);
+	for i=(holySchool+1), 7 do
+		local spellCrit = GetSpellBonusDamage(i);
+		minCrit = max(minCrit, spellCrit);
 	end
+	return minCrit
+end
+Fun.PIG_GetSpellBonusDamage=PIG_GetSpellBonusDamage
 local function GetStatsData(role)
 	local shuxing = ""
 	if role==1 then

@@ -1211,9 +1211,11 @@ if app.IsRetail then
 	local function ClearIfCheckValue(container)
 		ClearIfValue(container, CheckValue)
 	end
-	local function CheckForBoundSourceItems()
-		app.ScanInventory(CheckForUnknownSourceID)
-	end
+	-- No longer tracking new Bound Source Items since with TWW all Bound items are automatically learned!
+	-- local function CheckForBoundSourceItems()
+	-- 	app.ScanInventory(CheckForUnknownSourceID)
+	-- end
+	local CheckForBoundSourceItems = app.EmptyFunction
 
 	app.AddEventHandler("OnStartup", function()
 		app.CallbackHandlers.DelayedCallback(CheckForBoundSourceItems, 5)

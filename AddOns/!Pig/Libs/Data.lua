@@ -328,9 +328,14 @@ local function Getfubendata()
 						local activityInfo = C_LFGList.GetActivityInfoTable(activityID);
 						local fullName = tihuankuohao(activityInfo.fullName)
 						FBdataUI.FBdata[NewIDID][activityID]={fullName,activityInfo.shortName}
-						-- 	for k2,v2 in pairs(activityInfo) do
-						-- 		print(categoryID,groupID,activityID,k2,v2)
+						-- if categoryID==114 then
+						-- 	if groupID==288 then
+						-- 		print(CategoryInfo.name.."-"..groupName,activityID,fullName,activityInfo.shortName)
+						-- 		if string.match(groupName,EXPANSION_NAME2) then
+	
+						-- 		end
 						-- 	end
+						-- end
 					end	
 				end
 			end
@@ -363,14 +368,17 @@ local function Getfubendata()
 						FBdataUI.FBdata[categoryID]=FBdataUI.FBdata[categoryID] or {}
 						FBdataUI.FBdata[categoryID][activityID]={fullName,activityInfo.shortName}
 					end
-					-- for k2,v2 in pairs(activityInfo) do
-					-- 	if activityID==4 or activityID==1505 then
-					-- 		print(categoryID,activityID,activityInfo.difficultyID,k2,v2)
+					-- if categoryID==3 then
+					-- 	--print(categoryID,activityID,fullName,activityInfo.shortName)
+					-- 	for k2,v2 in pairs(activityInfo) do
+					-- 		-- if activityID==4 or activityID==1505 then
+					-- 		-- 	print(categoryID,activityID,activityInfo.difficultyID,k2,v2)
+					-- 		-- end
 					-- 	end
 					-- end
 				end
 			end
-		end
+		end	
 	end
 	for k,v in pairs(FBdataUI.FBdata) do
 		table.insert(FBdataUI.FBindexCategory, k)

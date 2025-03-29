@@ -160,6 +160,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     },
     ["spells"] = {
       [293827] = {
+        ["interruptible"] = true
       },
       [293854] = {
       },
@@ -215,6 +216,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
       ["Polymorph"] = true,
       ["Fear"] = true,
       ["Disorient"] = true,
+      ["Imprison"] = true,
       ["Stun"] = true,
       ["Slow"] = true,
       ["Mind Soothe"] = true,
@@ -277,6 +279,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     },
     ["spells"] = {
       [293729] = {
+        ["interruptible"] = true
       },
       [293930] = {
         ["magic"] = true,
@@ -521,8 +524,6 @@ MDT.dungeonEnemies[dungeonIndex] = {
       },
       [291626] = {
       },
-      [296331] = {
-      },
       [291865] = {
       },
       [291878] = {
@@ -530,6 +531,8 @@ MDT.dungeonEnemies[dungeonIndex] = {
       [291915] = {
       },
       [291928] = {
+      },
+      [296331] = {
       },
       [1226680] = {
       },
@@ -581,9 +584,8 @@ MDT.dungeonEnemies[dungeonIndex] = {
         ["sublevel"] = 1,
       },
       [3] = {
-        ["x"] = 717.13449099954,
-        ["y"] = -358.70139748734,
-        ["g"] = 15,
+        ["x"] = 687.34713570458,
+        ["y"] = -341.0015830065,
         ["sublevel"] = 1,
         ["patrol"] = {
           [1] = {
@@ -662,6 +664,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["count"] = 10,
     ["health"] = 77996318,
     ["scale"] = 2,
+    ["stealthDetect"] = true,
     ["displayId"] = 92177,
     ["creatureType"] = "Mechanical",
     ["level"] = 81,
@@ -915,6 +918,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     },
     ["spells"] = {
       [301088] = {
+        ["interruptible"] = true
       },
     },
     ["clones"] = {
@@ -1335,6 +1339,7 @@ MDT.dungeonEnemies[dungeonIndex] = {
     ["creatureType"] = "Mechanical",
     ["level"] = 80,
     ["characteristics"] = {
+      ["Taunt"] = true,
       ["Stun"] = true,
     },
     ["spells"] = {

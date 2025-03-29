@@ -3,6 +3,7 @@ local addonName, MDT = ...
 local L = MDT.L
 L = L or {}
 
+L["rookItemDescription"] = "After defeating |cFFFF0000Kyrioss|r loot |cFF00FF00Stormrook Feather|r \nUse it on a nearby |cFF00FF00Chained Stormrook|r to gain this buff for 5 minutes."
 L["brewItemADescription"] = "Usable by Gnomes, Mechagnomes, Goblins or Khaz Algar Engineers (25)"
 L["brewItemBDescription"] = "Usable by Khaz Algar Alchemists (25) or Khaz Algar Cooks (25)"
 L["Voidstone Awakened"] = "Voidstone Awakened"
@@ -3109,11 +3110,6 @@ L["Bounty Hunter"] = "Bounty Hunter"
 L[ [=[Bounty stacks 
 after this pull]=] ] = [=[Bounty stacks 
 after this pull]=]
---[[Translation missing --]]
-L["Bounty stacks after this pull"] = ""
---[[Translation missing --]]
-L[ [=[Bounty stacks
-after this pull]=] ] = ""
 L["Bracken Warscourge"] = "Bracken Warscourge"
 L["Brackenhide Shaper"] = "Brackenhide Shaper"
 L["brackenhideCage"] = "Meat Storage"
@@ -3137,8 +3133,6 @@ L["Brush Size"] = "Brush Size"
 L["Brutal Spire of Ny'alotha"] = "Brutal Spire of Ny'alotha"
 L["Bubbles"] = "Bubbles"
 L["Bubbling Ooze"] = "Bubbling Ooze"
---[[Translation missing --]]
-L["Bubbling Sapling"] = ""
 L["Burly Deckhand"] = "Burly Deckhand"
 L["Burly Rock-Thrower"] = "Burly Rock-Thrower"
 L["Burning Geode"] = "Burning Geode"
@@ -3606,8 +3600,6 @@ L["Ethereal Restorer"] = "Ethereal Restorer"
 L["Everbloom Cultivator"] = "Everbloom Cultivator"
 L["Everbloom Mender"] = "Everbloom Mender"
 L["Everbloom Naturalist"] = "Everbloom Naturalist"
---[[Translation missing --]]
-L["Everbloom Tender"] = ""
 L["everbloomShortName"] = "EB"
 L["Executioner Varruth"] = "Executioner Varruth"
 L["Executor of the Caliph"] = "Executor of the Caliph"
@@ -3675,8 +3667,6 @@ L["Flamethrower"] = "Flamethrower"
 L["Flashfrost Chillweaver"] = "Flashfrost Chillweaver"
 L["Flashfrost Earthshaper"] = "Flashfrost Earthshaper"
 L["Flavor Scientist"] = "Flavor Scientist"
---[[Translation missing --]]
-L["Fledgling Slasher"] = ""
 L["Fleeting Manifestation"] = "Fleeting Manifestation"
 L["Flesh Crafter"] = "Flesh Crafter"
 L["Flesheating Ghoul"] = "Flesheating Ghoul"
@@ -4133,8 +4123,6 @@ L["Lakesis"] = "Lakesis"
 L["Language"] = "Language"
 L["LargePresetWarning"] = "You are trying to share a very large route (transmission time: %.1fs)%sIt is recommended to use the export function and share large routes through external websites or remove drawings from the route.%sAre you sure you want to share this route?%s"
 L["Lashing Voidling"] = "Lashing Voidling"
---[[Translation missing --]]
-L["Latosius"] = ""
 L["Lava Flare"] = "Lava Flare"
 L["Lavanthor"] = "Lavanthor"
 L["Legion"] = "Legion"
@@ -4339,8 +4327,6 @@ L["Naz'jar Invader"] = "Naz'jar Invader"
 L["Naz'jar Oracle"] = "Naz'jar Oracle"
 L["Naz'jar Ravager"] = "Naz'jar Ravager"
 L["Naz'jar Sentinel"] = "Naz'jar Sentinel"
---[[Translation missing --]]
-L["Naz'jar Spiritmender"] = ""
 L["Naz'jar Tempest Witch"] = "Naz'jar Tempest Witch"
 L["Necro Knight"] = "Necro Knight"
 L["Necrotic"] = "Necrotic"
@@ -4683,6 +4669,8 @@ L["Rokmora"] = "Rokmora"
 L["Rook Spiderling"] = "Rook Spiderling"
 L["Rook Spinner"] = "Rook Spinner"
 L["rookeryShortname"] = "ROOK"
+L["rookItemDescription"] = [=[After defeating |cFFFF0000Kyrioss|r loot |cFF00FF00Stormrook Feather|r 
+Use it on a nearby |cFF00FF00Chained Stormrook|r to gain this buff for 5 minutes.]=]
 L["Root"] = "Root"
 L["Rotation"] = "Rotation"
 L["Rotbow Ranger"] = "Rotbow Ranger"
@@ -5250,8 +5238,6 @@ L["Twilight Apostle"] = "Twilight Apostle"
 L["Twilight Beguiler"] = "Twilight Beguiler"
 L["Twilight Brute"] = "Twilight Brute"
 L["Twilight Darkcaster"] = "Twilight Darkcaster"
---[[Translation missing --]]
-L["Twilight Decapitator"] = ""
 L["Twilight Destroyer"] = "Twilight Destroyer"
 L["Twilight Earthcaller"] = "Twilight Earthcaller"
 L["Twilight Enforcer"] = "Twilight Enforcer"

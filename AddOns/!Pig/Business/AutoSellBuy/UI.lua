@@ -87,7 +87,7 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 	end
 	local function IsItemMay(add,itemLink,quality,sellPrice,classID,subclassID,bag,slot)
 		if hangName=="Sell" then
-			if sellPrice>0 then
+			if sellPrice and sellPrice>0 then
 				if bag=="Cursor" then return true end	
 				if fuFrame.List.addList.lx=="filtra" then
 					if quality>0 then

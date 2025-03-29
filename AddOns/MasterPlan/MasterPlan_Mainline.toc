@@ -1,6 +1,6 @@
 ## Interface: 110100
 ## Author: foxlit
-## Version: 0.142b
+## Version: 0.142c
 
 ## Title: Master Plan
 ## Notes: Garrison missions UI tweaks.

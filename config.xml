@@ -358,10 +358,18 @@
 			</SubAddon>
 		</SubAddons>
 	</Addon>
+	<Addon name="BankStack">
+		<Title>银行整理</Title>
+		<Category>收藏</Category>
+	</Addon>
 	<Addon name="BattlePetBreedID">
 		<Title>战斗宠物品种</Title>
 		<Notes>显示战斗宠物的品种（如速度型）</Notes>
 		<Category>收藏</Category>
+	</Addon>
+	<Addon name="BiaoGe">
+		<Title>金团表格</Title>
+		<Category>社交</Category>
 	</Addon>
 	<Addon name="Bistooltip">
 		<Title>最佳装备提示</Title>
@@ -1547,6 +1555,11 @@
 	<Addon name="Rurutia">
 		<Title>露露缇娅语音包</Title>
 		<Category>副本</Category>
+		<SubAddons>
+			<SubAddon name="Rurutia_Raids">
+				<Title>副本</Title>
+			</SubAddon>
+		</SubAddons>
 	</Addon>
 	<Addon name="Scrap">
 		<Title>垃圾管理</Title>
@@ -1601,7 +1614,16 @@
 		<Notes>伤害统计窗口</Notes>
 		<Category>战斗</Category>
 	</Addon>
+	<Addon name="SpellActivationOverlay">
+		<Title>技能特效</Title>
+		<Notes>为出发技能增加类似正式服的特效</Notes>
+		<Category>战斗</Category>
+	</Addon>
 	<Addon name="TalentEmu">
+		<Title>天赋模拟器</Title>
+		<Category>战斗</Category>
+	</Addon>
+	<Addon name="TalentEmuX">
 		<Title>天赋模拟器</Title>
 		<Category>战斗</Category>
 	</Addon>
@@ -1930,6 +1952,11 @@
 	<Addon name="WorldQuestTracker">
 		<Title>世界任务追踪</Title>
 		<Category>任务</Category>
+	</Addon>
+	<Addon name="WowSimsExporter">
+		<Title>输出模拟器</Title>
+		<Notes>模拟当前人物的输出，来确认哪个装备属性更好。</Notes>
+		<Category>战斗</Category>
 	</Addon>
 	<Addon name="zAutoLoadPetTeam_Rematch">
 		<Title>自动载入宠物队伍</Title>

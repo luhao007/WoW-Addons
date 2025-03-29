@@ -5,7 +5,6 @@ local R = Rarity
 local lbz = LibStub("LibBabble-Zone-3.0"):GetUnstrictLookupTable()
 local lbsz = LibStub("LibBabble-SubZone-3.0"):GetUnstrictLookupTable()
 local lbb = LibStub("LibBabble-Boss-3.0"):GetUnstrictLookupTable()
-local hbd = LibStub("HereBeDragons-2.0")
 
 ---
 
@@ -112,6 +111,10 @@ local IsSpellKnown = _G.IsSpellKnown
 local CombatLogGetCurrentEventInfo = _G.CombatLogGetCurrentEventInfo
 local IsQuestFlaggedCompleted = _G.C_QuestLog.IsQuestFlaggedCompleted
 local C_Covenants = _G.C_Covenants
+local EnableAddOn = C_AddOns.EnableAddOn
+local IsAddOnLoadable = C_AddOns.IsAddOnLoadable
+local IsAddOnLoaded = C_AddOns.IsAddOnLoaded
+local LoadAddOn = _G.C_AddOns.LoadAddOn
 
 local COMBATLOG_OBJECT_AFFILIATION_MINE = _G.COMBATLOG_OBJECT_AFFILIATION_MINE
 local COMBATLOG_OBJECT_AFFILIATION_PARTY = _G.COMBATLOG_OBJECT_AFFILIATION_PARTY
@@ -148,6 +151,22 @@ do
 
 	function R:OnEnable()
 		self:DoEnable()
+		-- The Options module is disabled to reduce memory usage and loading time
+		-- However, players can only see the menu entry once AceConfig has registered it
+		-- Workaround: Provide a generator (function) that creates the UI only when needed
+		LibStub("AceConfig-3.0"):RegisterOptionsTable("Rarity", function()
+			return R:LazyLoadOptions("options")
+		end)
+		R.optionsFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Rarity", "Rarity")
+		R.profileOptions = LibStub("AceDBOptions-3.0"):GetOptionsTable(R.db)
+		LibStub("AceConfig-3.0"):RegisterOptionsTable("Rarity-Profiles", R.profileOptions)
+		R.profileFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Rarity-Profiles", "Profiles", "Rarity")
+
+		LibStub("AceConfig-3.0"):RegisterOptionsTable("Rarity-Advanced", function()
+			return R:LazyLoadOptions("advancedSettings")
+		end)
+		R.advancedSettingsFrame =
+			LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Rarity-Advanced", "Advanced", "Rarity")
 	end
 
 	function R:DoEnable()
@@ -331,6 +350,53 @@ do
 	end
 end
 
+local fallbackOptionsTable = {
+	type = "group",
+	name = L["Rarity"],
+	width = "full",
+	args = {
+		enable = {
+			name = L["Attempt to enable the Options module"],
+			type = "execute",
+			width = "full",
+			func = function(info, val)
+				EnableAddOn("Rarity_Options")
+			end,
+		},
+	},
+}
+
+function Rarity:LazyLoadOptions(which)
+	local options = R[which]
+	if type(options) == "table" then
+		-- This UI tree was previously generated (fast path; upfront cost already paid)
+		return options
+	end
+
+	Rarity.Profiling:StartTimer("RarityOptions: LoadAddon")
+	local didLoad, errorMessage = LoadAddOn("Rarity_Options")
+	if not didLoad then
+		Rarity:Debug("Options failed to load? Reason: " .. errorMessage or "nil")
+		return fallbackOptionsTable
+	end
+	Rarity.Profiling:EndTimer("RarityOptions: LoadAddon")
+
+	return R[which]
+end
+
+function Rarity:TryShowOptionsUI()
+	local canLoadOptions, reason = IsAddOnLoadable("Rarity_Options")
+	if not canLoadOptions and reason == "DISABLED" then
+		self:Print(L["The Rarity Options module has been disabled. Log out and enable it from your add-ons menu."])
+		return
+	end
+
+	Rarity:LazyLoadOptions()
+	Rarity.Profiling:StartTimer("RarityOptions: OpenToCategory")
+	Settings.OpenToCategory("Rarity")
+	Rarity.Profiling:EndTimer("RarityOptions: OpenToCategory")
+end
+
 function R:DelayedInit()
 	self:ScanStatistics("DELAYED INIT")
 	self:ScanCalendar("DELAYED INIT")
@@ -441,34 +507,6 @@ function R:tcopy(to, from)
 			to[k] = v
 		end
 	end
-end
-
--- Location/Distance/Zone
-function R:GetDistanceToItem(item)
-	local distance = 999999999
-	if item and type(item) == "table" and item.coords and type(item.coords) == "table" then
-		local playerWorldX, playerWorldY, instance = hbd:GetPlayerWorldPosition()
-		for k, v in pairs(item.coords) do
-			if v and type(v) == "table" and v.m and v.i ~= true then
-				local map = v.m
-				local x = (v.x or 50) / 100
-				local y = (v.y or 50) / 100
-				local itemWorldX, itemWorldY = hbd:GetWorldCoordinatesFromZone(x, y, map, v.f or 1)
-				if itemWorldX ~= nil then -- Library returns nil for instances
-					local thisDistance =
-						hbd:GetWorldDistance(instance, itemWorldX, itemWorldY, playerWorldX, playerWorldY)
-					-- R:Print("map: "..map..", x: "..x..", y: "..y..", itemWorldX: "..itemWorldX..", itemWorldY: "..itemWorldY..", playerWorldX: "..playerWorldX..", playerWorldY: "..playerWorldY..", thisDistance: "..thisDistance)
-					if thisDistance < distance then
-						distance = thisDistance
-					end
-				end
-			end
-		end
-	end
-	if distance ~= 999999999 then
-		return distance
-	end
-	return nil
 end
 
 -- Prepares a set of lookup tables to let us quickly determine if we're interested in various things.
@@ -679,35 +717,36 @@ function R:IsAttemptAllowed(item)
 		Rarity:Debug(format("Attempts for item %s are disallowed (not a required dungeon: %d)", item.name, dungeonID))
 		return false
 	end
+	if LE_EXPANSION_LEVEL_CURRENT >= LE_EXPANSION_SHADOWLANDS then
+		local activeCovenantID = C_Covenants.GetActiveCovenantID()
+		if item.requiresCovenant and item.requiredCovenantID and activeCovenantID ~= item.requiredCovenantID then
+			local activeCovenantData = C_Covenants.GetCovenantData(activeCovenantID)
+			local requiredCovenantData = C_Covenants.GetCovenantData(item.requiredCovenantID)
 
-	local activeCovenantID = C_Covenants.GetActiveCovenantID()
-	if item.requiresCovenant and item.requiredCovenantID and activeCovenantID ~= item.requiredCovenantID then
-		local activeCovenantData = C_Covenants.GetCovenantData(activeCovenantID)
-		local requiredCovenantData = C_Covenants.GetCovenantData(item.requiredCovenantID)
+			if not activeCovenantData then
+				Rarity:Debug(
+					format(
+						"Attempts for item %s are disallowed (Covenant %d/%s is required, but none is currently active)",
+						item.name,
+						item.requiredCovenantID,
+						requiredCovenantData.name
+					)
+				)
+				return false
+			end
 
-		if not activeCovenantData then
 			Rarity:Debug(
 				format(
-					"Attempts for item %s are disallowed (Covenant %d/%s is required, but none is currently active)",
+					"Attempts for item %s are disallowed (Covenant %d/%s is required, but active covenant is %d/%s)",
 					item.name,
 					item.requiredCovenantID,
-					requiredCovenantData.name
+					requiredCovenantData.name,
+					activeCovenantID,
+					activeCovenantData.name
 				)
 			)
 			return false
 		end
-
-		Rarity:Debug(
-			format(
-				"Attempts for item %s are disallowed (Covenant %d/%s is required, but active covenant is %d/%s)",
-				item.name,
-				item.requiredCovenantID,
-				requiredCovenantData.name,
-				activeCovenantID,
-				activeCovenantData.name
-			)
-		)
-		return false
 	end
 
 	-- If any prerequisite quests exist, check if they are all completed

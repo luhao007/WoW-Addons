@@ -22,11 +22,11 @@ private.CONTINENT_ZONE_IDS = {
 	[2274] = { zonefilter = true, npcfilter = true, id = 15, zones = {2213,2216,2248,2215,2216,2214,2255,2339,2346,2369}, current = { "all" } }; --Khaz Algar
 	[9999] = { zonefilter = true, npcfilter = true, zones = {276,378,628,629,672,734,702,695,747,739} }; --Class Halls
 	[9998] = { zonefilter = true, npcfilter = true, zones = {407}, current = { "all" } }; --Darkmoon Island
-	[9997] = { zonefilter = true, npcfilter = true, zones = {35,219,229,237,243,251,274,279,280,301,306,316,317,318,616,677,703,706,713,731,733,749,845,897,903,974,1004,1015,1041,1490,1663,1666,1675,1669,1674,1677,1683,1692,2093,2303} }; --Dungeons or scenarios
+	[9997] = { zonefilter = true, npcfilter = true, zones = {35,219,229,237,243,251,274,279,280,301,302,306,316,317,318,616,677,703,706,713,731,733,749,845,897,903,974,1004,1015,1041,1490,1663,1666,1675,1669,1674,1677,1683,1692,2093,2303} }; --Dungeons or scenarios
 	[9996] = { zonefilter = true, npcfilter = true, zones = {366,508,764,850,909,2047,2166} }; --Raids
 	[9995] = { zonefilter = false, npcfilter = true, zones = {0} }; --Unknown
 	[9994] = { zonefilter = true, npcfilter = false, zones = {981,1022,1032,1033,1034,1035,1036,1037,1336,1337,1501,1502} }; --Expedition islands
-	[9993] = { zonefilter = true, npcfilter = false, zones = {2302,2310,2312,2347,2249,2250,2251,2259,2269,2277,2301,2302,2310,2347,2396,2420} }; --Delves
+	[9993] = { zonefilter = true, npcfilter = false, zones = {2302,2310,2312,2347,2249,2250,2251,2259,2269,2277,2301,2302,2310,2347,2348,2396,2420} }; --Delves
 }
 
 private.SUBZONES_IDS = {
@@ -38,6 +38,7 @@ private.SUBZONES_IDS = {
 	[845] = {846,847,848,849}; --Cathedral of Eternal Night
 	[306] = {307,308,309,476,477,478,479}; --Scholomance
 	[508] = {509,510,511,512,513,514,515}; --Throne of Thunder
+	[302] = {303,304,305}; --Scarlet Monastery
 	[616] = {617,618}; --Upper Blackrock Spire
 	[749] = {798}; --The Arcway
 	[680] = {686}; --Suramar
@@ -94,6 +95,7 @@ private.SUBZONES_IDS = {
 	[2369] = {2375}; --Isle Siren
 	[1490] = {1491,1493,1494,1497}; --Operation: Mechagon
 	[2420] = {2421,2422,2423}; --Sidestreet Sluice
+	[302] = { 314 }; --Scarlet Monastery
 }
 
 private.ZONES_WITHOUT_VIGNETTE = {

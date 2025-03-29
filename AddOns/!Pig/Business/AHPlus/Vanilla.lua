@@ -1,4 +1,4 @@
-local _, addonTable = ...;
+local addonName, addonTable = ...;
 local _, _, _, tocversion = GetBuildInfo()
 local gsub = _G.string.gsub
 local L=addonTable.locale
@@ -219,8 +219,14 @@ function BusinessInfo.AHPlus_Vanilla(baocunnum)
 	BrowseScrollFrame:SetPoint("TOPRIGHT",AuctionFrameBrowse.bgtex,"TOPRIGHT",-28,0);
 	BrowseScrollFrame:SetPoint("BOTTOMLEFT",AuctionFrameBrowse.bgtex,"BOTTOMLEFT",0,0);
 	--
-	AuctionFrameBrowse.qushi,AuctionFrameBrowse.qushitishi=BusinessInfo.ADD_qushi(AuctionFrameBrowse,true)
-	
+	AuctionFrameBrowse.qushiUI=PIGFrame(AuctionFrameBrowse)
+	AuctionFrameBrowse.qushiUI:SetSize(328,204);
+	AuctionFrameBrowse.qushiUI:PIGSetBackdrop(1,nil,nil,nil,0)
+	AuctionFrameBrowse.qushiUI:SetFrameStrata("HIGH")
+	AuctionFrameBrowse.qushiUI.qushiF=BusinessInfo.ADD_qushi(AuctionFrameBrowse.qushiUI,true)
+	AuctionFrameBrowse.qushiUI.qushiF:SetPoint("TOPLEFT", AuctionFrameBrowse.qushiUI, "TOPLEFT",4, -24);
+	AuctionFrameBrowse.qushiUI.qushiF:SetPoint("BOTTOMRIGHT", AuctionFrameBrowse.qushiUI, "BOTTOMRIGHT",-4, 4);
+
 	--标题
 	local function Set_ArrowPoint(but,Sort)
 		local existingSortColumn, existingSortReverse = GetAuctionSort("list", 1);
@@ -376,16 +382,16 @@ function BusinessInfo.AHPlus_Vanilla(baocunnum)
 			if name then
 				if PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm][name] then
 					local jiagGGG = PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm][name][2]
-					AuctionFrameBrowse.qushi:Show()
-					AuctionFrameBrowse.qushi:SetPoint("TOPRIGHT",self,"TOPLEFT",8,1);
+					AuctionFrameBrowse.qushiUI:Show()
+					AuctionFrameBrowse.qushiUI:SetPoint("TOPRIGHT",self,"TOPLEFT",8,1);
 					local r, g, b,hex = GetItemQualityColor(quality)
-					AuctionFrameBrowse.qushi.qushitu(jiagGGG,"|c"..hex..name.."|r")
+					AuctionFrameBrowse.qushiUI.qushiF.qushitu(jiagGGG,"|c"..hex..name.."|r")
 				end
 			end
 		end);
 		button.UpDown:HookScript("OnLeave", function(self)
 			self:GetParent():UnlockHighlight();
-			AuctionFrameBrowse.qushi:Hide()
+			AuctionFrameBrowse.qushiUI:Hide()
 		end);
 		button:HookScript("OnMouseUp", function (self,button)
 			if button=="RightButton" then
@@ -488,21 +494,36 @@ function BusinessInfo.AHPlus_Vanilla(baocunnum)
 		end
 	end)
 	local function ShowHide_OT(vvv)
-		_G[biaotiLsit[7]]:SetShown(vvv)
-		_G[biaotiLsit[8]]:SetShown(vvv)
+		_G[biaotiLsit[2]]:SetShown(vvv)
+		_G[biaotiLsit[4]]:SetShown(vvv)
+		_G[biaotiLsit[6]]:SetShown(vvv)
+		AuctionFrameBrowse.ShowHideOT:SetShown(vvv)
+		AuctionFrameBrowse.qushitishi:SetShown(vvv)
+		local extshowVV = false
+		if vvv==true and AuctionFrameBrowse.ShowHideOT.open then
+			AuctionFrameBrowse.coll.list:Hide()
+			extshowVV=true
+		end
+		_G[biaotiLsit[7]]:SetShown(extshowVV)
+		_G[biaotiLsit[8]]:SetShown(extshowVV)
 		for i=1, NUM_BROWSE_TO_DISPLAY do
-			_G["BrowseButton"..i.."ClosingTime"]:SetShown(vvv)
-			_G["BrowseButton"..i.."HighBidder"]:SetShown(vvv)
+			_G["BrowseButton"..i.."ClosingTime"]:SetShown(extshowVV)
+			_G["BrowseButton"..i.."HighBidder"]:SetShown(extshowVV)
 		end
 	end
+	local function ShowHide_OT_1()
+		_G[biaotiLsit[7]]:SetShown(AuctionFrameBrowse.ShowHideOT.open)
+		_G[biaotiLsit[8]]:SetShown(AuctionFrameBrowse.ShowHideOT.open)
+	end
 	AuctionFrameBrowse.ShowHideOT = PIGButton(AuctionFrameBrowse,{"TOPRIGHT",AuctionFrameBrowse,"TOPRIGHT",70,-80},{28,21},"+",nil,nil,nil,nil,0);
+	AuctionFrameBrowse.ShowHideOT.open=false
 	AuctionFrameBrowse.ShowHideOT:SetScript("OnClick", function(self)
-		if _G[biaotiLsit[7]]:IsShown() then
-			ShowHide_OT(false)
+		if AuctionFrameBrowse.ShowHideOT.open then
+			AuctionFrameBrowse.ShowHideOT.open=false	
 		else
-			AuctionFrameBrowse.coll.list:Hide()
-			ShowHide_OT(true)
+			AuctionFrameBrowse.ShowHideOT.open=true	
 		end
+		ShowHide_OT(true)
 	end)
 
 	---缓存==================
@@ -732,40 +753,25 @@ function BusinessInfo.AHPlus_Vanilla(baocunnum)
 	end
 
 	---时光徽章
-	for i = 1, 33 do
-		local huizhangG = PIGFontString(BrowseWowTokenResults,nil,nil,"OUTLINE",13,"huizhangG_"..i)
-		if i==1 then
-			huizhangG:SetPoint("TOPLEFT",BrowseWowTokenResults,"TOPLEFT",2,0);
-		elseif i==19 then
-			huizhangG:SetPoint("TOPRIGHT",BrowseWowTokenResults,"TOPRIGHT",-4,-50);
-		else
-			huizhangG:SetPoint("TOPLEFT",_G["huizhangG_"..(i-1)],"BOTTOMLEFT",0,-4);
-		end
-		huizhangG:SetJustifyH("LEFT");
-	end
-	local function Update_huizhangG()
-		local lishihuizhangG = PIGA["AHPlus"]["Tokens"]
-		local SHUJUNUM = #lishihuizhangG
-		local shujukaishiid = 0
-		if SHUJUNUM>33 then
-			shujukaishiid=SHUJUNUM-33
-		end
-		for i = 1, 33 do
-			local shujuid = i+shujukaishiid
-			if lishihuizhangG[shujuid] then
-				local tiem1 = date("%Y-%m-%d %H:%M",lishihuizhangG[shujuid][1])
-				local jinbiV = lishihuizhangG[shujuid][2] or 0
-				local jinbiV = (jinbiV/10000)
-				_G["huizhangG_"..i]:SetText(tiem1.."：|cffFFFF00"..jinbiV.."G|r")
+	BrowseWowTokenResults.qushibut = PIGButton(BrowseWowTokenResults,{"CENTER",BrowseWowTokenResults,"CENTER",3,10},{80,24},"历史价格",nil,nil,nil,nil,0)
+	BrowseWowTokenResults.qushibut:HookScript("OnClick",function(self)
+		if StatsInfo_UI then
+			if StatsInfo_UI:IsShown() then
+				StatsInfo_UI:Hide()
+			else
+				AuctionFrame:Hide()
+				StatsInfo_UI:Show()
+				Create.Show_TabBut_R(StatsInfo_UI.F,StatsInfo_UI.timetab[1],StatsInfo_UI.timetab[2])
 			end
+		else
+			PIGTopMsg:add("请打开"..addonName..SETTINGS.."→"..L["BUSINESS_TABNAME"].."→"..INFO..STATISTICS)
 		end
-	end
+	end)
 	BrowseWowTokenResults:HookScript("OnShow",function(self)
 		ShowHide_OT(false)
-		Update_huizhangG()
 	end)
 	BrowseWowTokenResults:HookScript("OnHide",function(self)
-		ShowHide_OT(false)
+		ShowHide_OT(true)
 	end)
 
 	--关注------------------------
@@ -893,7 +899,8 @@ function BusinessInfo.AHPlus_Vanilla(baocunnum)
 		end);
 	end
 	coll.list:SetScript("OnShow", function (self)
-		ShowHide_OT(false)
+		AuctionFrameBrowse.ShowHideOT.open=false
+		ShowHide_OT(true)
 		gengxinlistcoll(self.Scroll)
 	end);
 	function Funlist:Gengxinlistcoll()

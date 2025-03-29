@@ -1,7 +1,7 @@
 --------------------------------------------------------------------------------
 --                        A L L   T H E   T H I N G S                         --
 --------------------------------------------------------------------------------
---            Copyright 2017-2024 Dylan Fortune (Crieve-Sargeras)             --
+--            Copyright 2017-2025 Dylan Fortune (Crieve-Sargeras)             --
 --------------------------------------------------------------------------------
 local rawget, ipairs, pairs, tinsert, setmetatable, print,math_sqrt,math_floor,getmetatable
 	= rawget, ipairs, pairs, tinsert, setmetatable, print,math.sqrt,math.floor,getmetatable
@@ -224,6 +224,7 @@ app.GetIconFromProviders = function(group)
 		end
 	end
 end;
+local GetItemInfo = app.WOWAPI.GetItemInfo;
 app.GetNameFromProviders = function(group)
 	if group.providers then
 		local name;
@@ -657,6 +658,9 @@ end
 function app:SearchLink(group)
 	if not group then return end
 	return app:Linkify(group.text or group.hash or UNKNOWN, app.Colors.ChatLink, "search:"..(group.key or "?")..":"..(group[group.key] or "?"))
+end
+function app:RawSearchLink(field,id)
+	return app:SearchLink(app.SearchForObject(field, id, "field"))
 end
 function app:WaypointLink(mapID, x, y, text)
 	return "|cffffff00|Hworldmap:" .. mapID .. ":" .. math_floor(x * 10000) .. ":" .. math_floor(y * 10000)

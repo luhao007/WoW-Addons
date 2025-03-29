@@ -840,6 +840,7 @@ end
 -- i.e. Create a data group which contains no information but will attempt to populate itself when [loadField] is referenced
 app.DelayLoadedObject = function(objFunc, loadField, overrides, ...)
 	local o;
+	local def = {}
 	local params = {...};
 	local loader = {
 		__index = function(t, key)
@@ -878,6 +879,8 @@ app.DelayLoadedObject = function(objFunc, loadField, overrides, ...)
 				-- app.PrintDebug("dlo.visible",unpack(params))
 				return true;
 			end
+			-- return any default value
+			return def[key]
 		end,
 		-- transfer field sets to the underlying object if the field does not have an override for the object
 		__newindex = function(t, key, val)
@@ -888,6 +891,9 @@ app.DelayLoadedObject = function(objFunc, loadField, overrides, ...)
 				end
 			elseif key == "parent" then
 				rawset(t, key, val);
+			else
+				-- allow direct assignment prior to o creation to the set of default fields
+				def[key] = val
 			end
 		end,
 	};

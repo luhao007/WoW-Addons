@@ -2,10 +2,14 @@
 ---------------------------------- NAMESPACE ----------------------------------
 -------------------------------------------------------------------------------
 local ADDON_NAME, ns = ...
+local Class = ns.Class
+local L = ns.locale
 
+local Rare = ns.node.Rare
 local Safari = ns.node.Safari
 
 local Achievement = ns.reward.Achievement
+local Transmog = ns.reward.Transmog
 
 local POI = ns.poi.POI
 
@@ -14,6 +18,28 @@ local POI = ns.poi.POI
 -------------------------------------------------------------------------------
 
 local map = ns.Map({id = 15, settings = true})
+local uldaman = ns.Map({id = 16, settings = true})
+
+-------------------------------------------------------------------------------
+------------------------------------ RARES ------------------------------------
+-------------------------------------------------------------------------------
+
+local Shovelphlange = Class('shovelphlange', Rare, {
+    id = 7057,
+    location = L['shovelphlange_location'],
+    rewards = {
+        Transmog({item = 9378, type = L['1h_axe']}), -- Shovelphlange's Mining Axe
+        Transmog({item = 9375, type = L['leather']}), -- Expert Goldminer's Helmet
+        Transmog({item = 9382, type = L['leather']}) -- Tromping Miner's Boots
+    },
+    parent = map.id,
+    pois = {POI({41681161})}
+}) -- Digmaster Shovelphlange
+
+uldaman.nodes[63605380] = Shovelphlange()
+uldaman.nodes[53206980] = Shovelphlange()
+uldaman.nodes[32606180] = Shovelphlange()
+uldaman.nodes[34408240] = Shovelphlange()
 
 -------------------------------------------------------------------------------
 ------------------------------------ SAFARI -----------------------------------

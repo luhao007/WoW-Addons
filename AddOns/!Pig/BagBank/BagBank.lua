@@ -5,7 +5,6 @@ local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
 local PIGEnter=Create.PIGEnter
 local PIGButton=Create.PIGButton
-local PIGDownMenu=Create.PIGDownMenu
 local PIGFontString=Create.PIGFontString
 --====================================
 local InvSlot=addonTable.Data.InvSlot

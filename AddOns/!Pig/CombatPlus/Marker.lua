@@ -647,13 +647,13 @@ local function add_Options(peizhiT,topHV,nameGN,pigui)
 		checkbutOpen.F.Daojishi=PIGDownMenu(checkbutOpen.F,{"LEFT",checkbutOpen.F.PIGPULLSHOW,"RIGHT",260,0},{180})
 		checkbutOpen.F.Daojishi:Disable()
 		checkbutOpen.F.Daojishi.t = PIGFontString(checkbutOpen.F.Daojishi,{"RIGHT",checkbutOpen.F.Daojishi,"LEFT",-4,0},"倒计结束音效");
-		function checkbutOpen.F.Daojishi:PIGDownMenu_Update_But(self)
+		function checkbutOpen.F.Daojishi:PIGDownMenu_Update_But()
 			local info = {}
 			info.func = self.PIGDownMenu_SetValue
 			for i=1,4,1 do
 			    info.text, info.arg1 = daojishiList[i], i
 			    info.checked = i==PIGA["CombatPlus"][peizhiT]["daojishiFun"]
-				checkbutOpen.F.Daojishi:PIGDownMenu_AddButton(info)
+				self:PIGDownMenu_AddButton(info)
 			end 
 		end
 		function checkbutOpen.F.Daojishi:PIGDownMenu_SetValue(value,arg1,arg2)

@@ -1,6 +1,6 @@
 ## Interface: 110100
 ## Author: |cFFFF8C00Dathwada EU-Eredar|r
-## Version: v2.23.1
+## Version: v2.23.2
 
 ## Title: HandyNotes: TravelGuide
 ## Notes: Displays the portal, zeppelin and boat locations on the world map and minimap.
@@ -14,7 +14,7 @@
 
 ## SavedVariables: HandyNotes_TravelGuideDB
 
-## X-Date: 2025-02-25
+## X-Date: 2025-03-15
 ## X-Category: Map
 ## X-Part-Of: HandyNotes
 

@@ -161,7 +161,6 @@ function Item.OnLeave(button)
 	ShoppingTooltip1:Hide()
 	ShoppingTooltip2:Hide()
 	if Item.previewTooltipFrame and Item.previewTooltipFrame:IsShown() then Item.previewTooltipFrame:Hide() end
-	--ShoppingTooltip3:Hide()
 end
 
 function Item.OnClear(button)
@@ -342,7 +341,6 @@ local function EventFrame_OnEvent(frame, event, arg1, arg2)
 				if arg1 == "LSHIFT" or arg1 == "RSHIFT" then
 					ShoppingTooltip1:Hide()
 					ShoppingTooltip2:Hide()
-					--ShoppingTooltip3:Hide()
 				elseif arg1 == "LCTRL" or arg1 == "RCTRL" then
 					if Item.previewTooltipFrame and Item.previewTooltipFrame:IsShown() then Item.previewTooltipFrame:Hide() end
 				end

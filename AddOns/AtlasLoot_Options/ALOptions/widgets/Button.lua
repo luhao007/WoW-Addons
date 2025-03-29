@@ -17,21 +17,7 @@ local LibDialog = LibStub("LibDialog-1.0")
 
 local MIN_WIDTH = 40
 local FIX_SIZE = 20
---[[
-StaticPopupDialogs["ATLASLOOT_CONFIRM_OPTIONS_BUTTON"] = {
-	text = CONFIRM_SAVE_EQUIPMENT_SET,
-	button1 = ACCEPT,
-	button2 = CANCEL,
-	OnAccept = nil,
-	OnCancel = nil,
-	OnHide = nil,
-	hideOnEscape = 1,
-	timeout = 0,
-	exclusive = 1,
-	whileDead = 1,
-}
-local popUp = StaticPopupDialogs["ATLASLOOT_CONFIRM_OPTIONS_BUTTON"]
-]]
+
 local function Confirm_OnAccept(self, data)
 	if not data then return end
 	if data.OnClickFunc then
@@ -44,7 +30,6 @@ local function Confirm_OnCancel(self, data)
 end
 
 local function Confirm_OnHide(self, data)
-	-- if not data then return end
 	-- do nothing here
 end
 
@@ -69,14 +54,6 @@ local function Button_OnClick(self, button)
 			hide_on_escape = true,
 		})
 		LibDialog:Spawn("ATLASLOOT_CONFIRM_OPTIONS_BUTTON")
---[[
-		popUp.text = self.confirmation.text
-		popUp.OnAccept = self.confirmation.OnAccept
-		popUp.OnCancel = self.confirmation.OnCancel
-		popUp.OnHide = self.confirmation.OnHide
-		
-		StaticPopup_Show("ATLASLOOT_CONFIRM_OPTIONS_BUTTON", nil, nil, self)
-]]
 	elseif self.OnClickFunc then
 		self.OnClickFunc(self, button)
 	end
@@ -109,9 +86,9 @@ local widgetMethods = {
 	end,
 	Confirm = function(self, text)
 		self.confirmation.text = text
-		
+
 		self:Raw_Confirm(text, Confirm_OnAccept, Confirm_OnCancel, Confirm_OnCancel)
-		
+
 		return self
 	end,
 }
@@ -121,13 +98,13 @@ local function Create()
 	local frame = CreateFrame("BUTTON", frameName, nil, "UIPanelButtonTemplate")
 	frame:SetHeight(22)
 	frame:SetScript("OnClick", Button_OnClick)
-	
+
 	local text = frame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	text:SetAllPoints(frame)
 	text:SetWordWrap(false)
 	text:SetJustifyH("CENTER")
 	text:SetJustifyV("MIDDLE")
-	
+
 	local widget = {
 		frame = frame,
 		text = text,
@@ -136,8 +113,8 @@ local function Create()
 		confirmation = {},
 	}
 	frame.obj = widget
-	
-	for k,v in pairs(widgetMethods) do
+
+	for k, v in pairs(widgetMethods) do
 		widget[k] = v
 	end
 	return ALOptions.GUI:SetWidgetBase(widget)

@@ -17,7 +17,7 @@ local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 local BusinessInfo=addonTable.BusinessInfo
 local fuFrame,fuFrameBut = BusinessInfo.fuFrame,BusinessInfo.fuFrameBut
 
-local GnName,GnUI,GnIcon,FrameLevel = "信息统计","StatsInfo_UI",133734,10
+local GnName,GnUI,GnIcon,FrameLevel = INFO..STATISTICS,"StatsInfo_UI",133734,10
 BusinessInfo.StatsInfoData={GnName,GnUI,GnIcon,FrameLevel}
 ------------
 function BusinessInfo.StatsInfoOptions()
@@ -435,13 +435,11 @@ function BusinessInfo.StatsInfoOptions()
 	end
 	function fuFrame.ADD_lixianBUT()
 		if not PIGA["StatsInfo"]["Open"] or not PIGA["StatsInfo"]["lixianBank"] then return end
-		local _,yijiazai = IsAddOnLoaded("ElvUI")
-		if yijiazai and ElvUI_ContainerFrame then
+		if Pig_OptionsUI.IsOpen_ElvUI() and ElvUI_ContainerFrame then
 			add_lixianBut(ElvUI_ContainerFrame,wwc,hhc)
 			return
 		end
-		local _,yijiazai = IsAddOnLoaded("NDui")
-		if yijiazai and NDuiDB and NDuiDB["Bags"]["Enable"] then
+		if Pig_OptionsUI.IsOpen_NDui("Bags") then
 			local B, C = unpack(NDui)
 			local anniushuS = NDui_BackpackBag.widgetButtons
 			local function CreatelixianBut(self)
@@ -502,13 +500,13 @@ function BusinessInfo.StatsInfoOptions()
 		["PARTY_RAID_INSTANCE_CHAT"]="|cffAAAAFF"..PARTY.."|r/|cffFF7F00"..RAID.."|r/|cffFF7F00"..INSTANCE_CHAT.."|r"};
 	local pindaoID = {"WHISPER","PARTY_RAID_INSTANCE_CHAT"};
 	fuFrame.TradeTongGao.guangbo_dow=PIGDownMenu(fuFrame.TradeTongGao,{"LEFT",fuFrame.TradeTongGao.Text,"RIGHT", 2,-1},{140})
-	function fuFrame.TradeTongGao.guangbo_dow:PIGDownMenu_Update_But(self)
+	function fuFrame.TradeTongGao.guangbo_dow:PIGDownMenu_Update_But()
 		local info = {}
 		info.func = self.PIGDownMenu_SetValue
 		for i=1,#pindaoID,1 do
 			info.notCheckable=true
 		    info.text, info.arg1, info.arg2 = pindaoName[pindaoID[i]], pindaoID[i], pindaoID[i]
-			fuFrame.TradeTongGao.guangbo_dow:PIGDownMenu_AddButton(info)
+			self:PIGDownMenu_AddButton(info)
 		end 
 	end
 	function fuFrame.TradeTongGao.guangbo_dow:PIGDownMenu_SetValue(value,arg1,arg2)

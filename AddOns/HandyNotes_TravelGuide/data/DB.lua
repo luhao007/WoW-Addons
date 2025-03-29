@@ -354,6 +354,7 @@ DB.nodes = {
         },
     [2346] = { -- Undermine
         [17295074] = { icon="molemachine", label=L["Rocket Drill to Ringing Deeps"], note=KhazAlgar, requirements={quest=83151, accquest=true} },
+        [18795223] = { icon="molemachine", label=L["Rocket Drill to Kaja'Coast"], note=Zuldazar, requirements={quest=83933, accquest=true} },
         [27825401] = { icon="portal", label=L["Teleporter to Dornogal"], note=IsleOfDorn, requirements={quest=86535, accquest=true} }
         },
 
@@ -514,7 +515,8 @@ DB.nodes = {
         [58007502] = { icon="boat", label=BtoEchoIsles, note=EchoIsles, faction="Horde" },
         [58007501] = { icon="boat", label=BtoEchoIsles, note=EchoIsles, faction="Alliance" },
         [51852837] = { icon="molemachine", label=GetAreaInfo(8966), requirements={quest=80099, hideQuestName=true}, race="DarkIronDwarf" }, -- Zalamar
-        [45777939] = { icon="molemachine", label=GetAreaInfo(8965), requirements={quest=80100, hideQuestName=true}, race="DarkIronDwarf" } -- Xibala
+        [45777939] = { icon="molemachine", label=GetAreaInfo(8965), requirements={quest=80100, hideQuestName=true}, race="DarkIronDwarf" }, -- Xibala
+        [36056806] = { icon="molemachine", label=L["Rocket Drill to Undermine"], requirements={quest=83933, accquest=true} }
         },
     [862] = { -- Zuldazar
         [58304450] = { icon="portal", multilabel={PtoSM, PtoOG, PtoTB, PtoSilithus, PtoNazjatar}, multinote={EversongWoods, Durotar, Mulgore, Kalimdor}, requirements={multiquest={[2]=46931, [4]=46931, [5]=55053}, multiaccquest={[2]=true}, multilevel={10, 10, 10, 50, 50}}, faction="Horde" },
@@ -525,7 +527,8 @@ DB.nodes = {
         [40457102] = { icon="boat", label=returntoBoralus, note=TiragardeSound, requirements={quest=51359}, faction="Alliance" },
         [58006531] = { icon="boat", label=BtoEchoIsles, note=EchoIsles, faction="Horde" },
         [58006532] = { icon="boat", label=BtoEchoIsles, note=EchoIsles, faction="Alliance" },
-        [38247238] = { icon="molemachine", label=GetAreaInfo(8965), requirements={quest=80100, hideQuestName=true}, race="DarkIronDwarf" } -- Xibala
+        [38247238] = { icon="molemachine", label=GetAreaInfo(8965), requirements={quest=80100, hideQuestName=true}, race="DarkIronDwarf" }, -- Xibala
+        [22555406] = { icon="molemachine", label=L["Rocket Drill to Undermine"], requirements={quest=83933, accquest=true} }
         },
     [863] = { -- Nazmir
         [62054007] = { icon="boat", label=returntoBoralus, note=TiragardeSound, requirements={quest=51088}, faction="Alliance" },
@@ -619,8 +622,9 @@ DB.nodes = {
         [45482973] = { icon="molemachine", label=GetAreaInfo(7806), requirements={quest=53593, hideQuestName=true}, race="DarkIronDwarf" }, -- Highmountain, Neltharion's Vault
         [46102532] = { icon="portal", label=PtoOG, note=Durotar, faction="Horde" },
         [34593931] = { icon="portal", label=PtoBelameth, note=Amirdrassil },
-        [51345613] = { icon="portal", multilabel={PtoOG, L["Portal to Shal'Aran"]}, multinote={Durotar, Meredil}, faction="Horde" }
+        [51345613] = { icon="portal", multilabel={PtoOG, L["Portal to Shal'Aran"]}, multinote={Durotar, Meredil}, faction="Horde" },
         -- [51485622] = { icon="portal", multilabel={PtoSW, L["Portal to Shal'Aran"]}, multinote={ElwynnForest, Meredil}, faction="Alliance" } -- BUGGED FOR ALLIANCE?
+        [52907051] = { icon="portal", multilabel={PtoHighmountain, PtoAzsuna, PtoValsharah, PtoStormheim, PtoSuramar}, requirements={mageTower=true} }
         },
     [627] = { -- Dalaran Broken Isles
         [39506320] = { icon="portal", label=PtoSW, note=ElwynnForest, requirements={level=10}, faction="Alliance" },
@@ -678,7 +682,8 @@ DB.nodes = {
         },
     [646] = { -- Broken Shore
         [44816132] = { icon="worderhall", label=JtoSkyhold, note=BrokenIsles, class="WARRIOR" },
-        [71694799] = { icon="molemachine", label=GetAreaInfo(7543), requirements={quest=53589, hideQuestName=true}, race="DarkIronDwarf" } -- The Broken Shore, Broken Shore
+        [71694799] = { icon="molemachine", label=GetAreaInfo(7543), requirements={quest=53589, hideQuestName=true}, race="DarkIronDwarf" }, -- The Broken Shore, Broken Shore
+        [46326192] = { icon="portal", multilabel={PtoHighmountain, PtoAzsuna, PtoValsharah, PtoStormheim, PtoSuramar}, requirements={mageTower=true} },
         },
     [830] = { -- Krokuun
         [62008694] = { icon="portal", label=PtoDala, note=BrokenIsles }

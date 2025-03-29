@@ -1,18 +1,12 @@
-tag dc44920f8735ff2edf329ff0fb59ed15041a0ee8 v1.12.18
+tag b5e4f73214707bbef049f695d183f771641f5f5b v1.12.19
 Author:	Filip Stenstrom <filip.stenstrom.4488@gmail.com>
-Date:	Sun Feb 9 21:26:03 2025 +0100
+Date:	Sun Mar 2 19:10:56 2025 +0100
 
-v1.12.18
+Update interface version for 11.1
 
-commit d4d92549bd9d3ccb96f1b7e359eb733916346aed
+commit 0c133c8f1b16b2a3317a33d6df11591413023861
 Author: Filip Stenstrom <filip.stenstrom.4488@gmail.com>
-Date:   Sun Feb 9 21:25:01 2025 +0100
+Date:   Sun Mar 2 19:10:22 2025 +0100
 
-    Bump to v1.12.18
-
-commit 38312d5962e07b3166f4a76d7dda121361282f3c
-Author: jaanus91 <44427206+jaanus91@users.noreply.github.com>
-Date:   Tue Feb 4 14:22:14 2025 +0200
-
-    Nerissa spawntimer correction
+    Update interface version for 11.1
 

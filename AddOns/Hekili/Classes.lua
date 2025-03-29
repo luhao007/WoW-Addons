@@ -364,7 +364,6 @@ local HekiliSpecMixin = {
         end
     end,
 
-
     RegisterPower = function( self, power, id, aura )
         self.powers[ power ] = id
         CommitKey( power )
@@ -553,20 +552,73 @@ local HekiliSpecMixin = {
         end )
     end,
 
-    RegisterGear = function( self, key, ... )
-        local n = select( "#", ... )
+    RegisterGear = function( self, ... )
+        local arg1 = select( 1, ... )
+        if not arg1 then return end
 
-        local gear = self.gear[ key ] or {}
-
-        for i = 1, n do
-            local item = select( i, ... )
-            table.insert( gear, item )
-            gear[ item ] = true
+        -- If the first arg is a table, it's registering multiple items/sets
+        if type( arg1 ) == "table" then
+            for set, data in pairs( arg1 ) do
+                self:RegisterGear( set, data )
+            end
+            return
         end
 
-        self.gear[ key ] = gear
-        CommitKey( key )
+        local arg2 = select( 2, ... )
+        if not arg2 then return end
+
+        -- If the first arg is a string, register it
+        if type( arg1 ) == "string" then
+            local gear = self.gear[ arg1 ] or {}
+            local found = false
+
+            -- If the second arg is a table, it's a tier set with auras
+            if type( arg2 ) == "table" then
+                if arg2.items then
+                    for _, item in ipairs( arg2.items ) do
+                        table.insert( gear, item )
+                        gear[ item ] = true
+                        found = true
+                    end
+                end
+
+                if arg2.auras then
+                    -- Register auras (even if no items are found, can be useful for early patch testing).
+                    self:RegisterAuras( arg2.auras )
+                end
+            end
+
+            -- If the second arg is a number, this is a legacy registration with a single set/item
+            if type( arg2 ) == "number" then
+                local n = select( "#", ... )
+                local i = 2
+                local item = select( i, ... )
+
+                while item do
+                    table.insert( gear, item )
+                    gear[ item ] = true
+                    found = true
+
+                    i = i + 1
+                    item = select( i, ... )
+                end
+            end
+
+            if found then
+                self.gear[ arg1 ] = gear
+                CommitKey( arg1 )
+            else
+                -- No valid items found, remove the set.
+                self.gear[ arg1 ] = nil
+            end
+
+            return
+        end
+
+        -- Debug print if needed
+        -- Hekili:Print( "|cFFFF0000[Hekili]|r Invalid input passed to RegisterGear." )
     end,
+
 
     -- Check for the set bonus based on hidden aura instead of counting the number of equipped items.
     -- This may be useful for tier set items that are crafted so their item ID doesn't match.
@@ -1015,25 +1067,35 @@ local HekiliSpecMixin = {
 
     RegisterPet = function( self, token, id, spell, duration, ... )
         CommitKey( token )
-    
-        -- Register the main pet.
-        self.pets[ token ] = {
+
+        -- Prepare the main model
+        local model = {
             id = type( id ) == "function" and setfenv( id, state ) or id,
             token = token,
             spell = spell,
             duration = type( duration ) == "function" and setfenv( duration, state ) or duration
         }
-    
-        -- Process copies.
+
+        -- Register the main pet token
+        self.pets[ token ] = model
+
+        -- Register copies, but avoid overwriting unrelated registrations
         local n = select( "#", ... )
         if n and n > 0 then
             for i = 1, n do
-                local copy = select( i, ... )
-                self.pets[ copy ] = self.pets[ token ]
+                local alias = select( i, ... )
+
+                if self.pets[ alias ] and self.pets[ alias ] ~= model then
+                    if Hekili.ActiveDebug then
+                        Hekili:Debug( "RegisterPet: Alias '%s' already assigned to a different pet. Skipping for token '%s'.", tostring( alias ), tostring( token ) )
+                    end
+                else
+                    self.pets[ alias ] = model
+                end
             end
         end
     end,
-    
+
 
     RegisterPets = function( self, pets )
         for token, data in pairs( pets ) do
@@ -1051,7 +1113,6 @@ local HekiliSpecMixin = {
             end
         end
     end,
-
 
     RegisterTotem = function( self, token, id, ... )
         -- Register the primary totem.
@@ -1276,7 +1337,6 @@ ns.isDefault = function( name, category )
     return false
 end
 
-
 function Hekili:NewSpecialization( specID, isRanged, icon )
 
     if not specID or specID < 0 then return end
@@ -1312,6 +1372,7 @@ function Hekili:NewSpecialization( specID, isRanged, icon )
         resources = {},
         resourceAuras = {},
         primaryResource = nil,
+        primaryStat = nil,
 
         talents = {},
         pvptalents = {},
@@ -1363,7 +1424,6 @@ function Hekili:NewSpecialization( specID, isRanged, icon )
     return spec
 end
 
-
 function Hekili:GetSpecialization( specID )
     if not specID then return class.specs[ 0 ] end
     return class.specs[ specID ]
@@ -1399,6 +1459,38 @@ all:RegisterAuras( {
         aliasMode = "first",
         aliasType = "buff",
         duration = 3600,
+    },
+
+    -- The War Within M+ Affix auras
+    -- Haste
+    cosmic_ascension = {
+        id = 461910,
+        duration = 30,
+        max_stack = 1
+    },
+    -- Crit
+    rift_essence = {
+        id = 465136,
+        duration = 30,
+        max_stack = 1
+    },
+    -- Mastery
+    void_essence = {
+        id = 463767,
+        duration = 30,
+        max_stack = 1
+    },
+    -- CDR & Vers
+    voidbinding = {
+        id = 462661,
+        duration = 30,
+        max_stack = 1
+    },
+    -- Priory of the Sacred Flame
+    blessing_of_the_sacred_flame = {
+        id = 435088,
+        duration = 1800,
+        max_stack = 1
     },
 
     -- Can be used in GCD calculation.
@@ -1814,11 +1906,19 @@ all:RegisterAuras( {
                     t.v3 = 0
                     t.caster = unit
 
-                    if unit == "target" and Hekili.DB.profile.toggles.interrupts.filterCasts then
-                        local filters = Hekili.DB.profile.castFilters
-                        local npcid = state.target.npcid
+                    if unit ~= "target" then return end
 
-                        if npcid and filters[ npcid ] and not filters[ npcid ][ spellID ] then
+                    if state.target.is_dummy then
+                        -- Pretend that all casts by target dummies are interruptible.
+                        if Hekili.ActiveDebug then Hekili:Debug( "Cast '%s' is fake-interruptible", spell ) end
+                        t.v2 = 0
+
+                    elseif Hekili.DB.profile.toggles.interrupts.filterCasts then
+                        local filters = class.interruptibleFilters
+                        local zone = state.instance_id
+                        local npcid = state.target.npcid or -1
+
+                        if filters and not filters[ zone ][ npcid ][ spellID ] then
                             if Hekili.ActiveDebug then Hekili:Debug( "Cast '%s' not interruptible per user preference.", spell ) end
                             t.v2 = 1
                         end
@@ -1845,12 +1945,23 @@ all:RegisterAuras( {
 
                     if class.abilities[ spellID ] and class.abilities[ spellID ].dontChannel then
                         removeBuff( "casting" )
-                    elseif unit == "target" and Hekili.DB.profile.filterCasts then
-                        local filters = Hekili.DB.profile.castFilters
-                        local npcid = state.target.npcid
+                        return
+                    end
 
-                        if npcid and filters[ npcid ] and not filters[ npcid ][ spellID ] then
-                            if Hekili.ActiveDebug then Hekili:Debug( "Cast '%s' not interruptible per user preference.", spell ) end
+                    if unit ~= "target" then return end
+
+                    if state.target.is_dummy then
+                        -- Pretend that all casts by target dummies are interruptible.
+                        if Hekili.ActiveDebug then Hekili:Debug( "Channel '%s' is fake-interruptible", spell ) end
+                        t.v2 = 0
+
+                    elseif Hekili.DB.profile.toggles.interrupts.filterCasts then
+                        local filters = class.interruptibleFilters
+                        local zone = state.instance_id
+                        local npcid = state.target.npcid or -1
+
+                        if filters and not filters[ zone ][ npcid ][ spellID ] then
+                            if Hekili.ActiveDebug then Hekili:Debug( "Channel '%s' not interruptible per user preference.", spell ) end
                             t.v2 = 1
                         end
                     end
@@ -2053,6 +2164,136 @@ all:RegisterAuras( {
         end,
     },
 
+    disoriented = {  -- Disorients (e.g., Polymorph, Dragon’s Breath, Blind)
+        duration = 10,
+        generate = function( t )
+            local max_events = GetActiveLossOfControlDataCount()
+
+            if max_events > 0 then
+                local spell, start, duration, remains = "none", 0, 0, 0
+
+                for i = 1, max_events do
+                    local event = GetActiveLossOfControlData( i )
+
+                    if event.locType == "CONFUSE"
+                        and event.startTime and event.startTime > 0
+                        and event.timeRemaining and event.timeRemaining > 0
+                        and event.timeRemaining > remains then
+
+                        spell = event.spellID
+                        start = event.startTime
+                        duration = event.duration
+                        remains = event.timeRemaining
+                    end
+                end
+
+                if start + duration > query_time then
+                    t.count = 1
+                    t.expires = start + duration
+                    t.applied = start
+                    t.duration = duration
+                    t.caster = "anybody"
+                    t.v1 = spell
+                    return
+                end
+            end
+
+            t.count = 0
+            t.expires = 0
+            t.applied = 0
+            t.duration = 10
+            t.caster = "nobody"
+            t.v1 = 0
+        end,
+    },
+
+    feared = {
+        duration = 10,
+        generate = function( t )
+            local max_events = GetActiveLossOfControlDataCount()
+
+            if max_events > 0 then
+                local spell, start, duration, remains = "none", 0, 0, 0
+
+                for i = 1, max_events do
+                    local event = GetActiveLossOfControlData( i )
+
+                    if ( event.locType == "FEAR" or event.locType == "FEAR_MECHANIC" or event.locType == "HORROR" )
+                        and event.startTime and event.startTime > 0
+                        and event.timeRemaining and event.timeRemaining > 0
+                        and event.timeRemaining > remains then
+
+                        spell = event.spellID
+                        start = event.startTime
+                        duration = event.duration
+                        remains = event.timeRemaining
+                    end
+                end
+
+                if start + duration > query_time then
+                    t.count = 1
+                    t.expires = start + duration
+                    t.applied = start
+                    t.duration = duration
+                    t.caster = "anybody"
+                    t.v1 = spell
+                    return
+                end
+            end
+
+            t.count = 0
+            t.expires = 0
+            t.applied = 0
+            t.duration = 10
+            t.caster = "nobody"
+            t.v1 = 0
+        end,
+    },
+
+    incapacitated = {  -- Effects like Sap, Freezing Trap, Gouge
+        duration = 10,
+        generate = function( t )
+            local max_events = GetActiveLossOfControlDataCount()
+
+            if max_events > 0 then
+                local spell, start, duration, remains = "none", 0, 0, 0
+
+                for i = 1, max_events do
+                    local event = GetActiveLossOfControlData( i )
+
+                    if event.locType == "STUN"
+                        and event.startTime and event.startTime > 0
+                        and event.timeRemaining and event.timeRemaining > 0
+                        and event.timeRemaining > remains then
+
+                        spell = event.spellID
+                        start = event.startTime
+                        duration = event.duration
+                        remains = event.timeRemaining
+                    end
+                end
+
+                if start + duration > query_time then
+                    t.count = 1
+                    t.expires = start + duration
+                    t.applied = start
+                    t.duration = duration
+                    t.caster = "anybody"
+                    t.v1 = spell
+                    return
+                end
+            end
+
+            t.count = 0
+            t.expires = 0
+            t.applied = 0
+            t.duration = 10
+            t.caster = "nobody"
+            t.v1 = 0
+        end,
+        copy = "sapped"
+    },
+
     rooted = {
         duration = 10,
         generate = function( t )
@@ -2104,6 +2345,50 @@ all:RegisterAuras( {
                     local event = GetActiveLossOfControlData( i )
 
                     if event.locType == "SNARE" and event.startTime and event.startTime > 0 and event.timeRemaining and event.timeRemaining > 0 and event.timeRemaining > remains then
+                        spell = event.spellID
+                        start = event.startTime
+                        duration = event.duration
+                        remains = event.timeRemaining
+                    end
+                end
+
+                if start + duration > query_time then
+                    t.count = 1
+                    t.expires = start + duration
+                    t.applied = start
+                    t.duration = duration
+                    t.caster = "anybody"
+                    t.v1 = spell
+                    return
+                end
+            end
+
+            t.count = 0
+            t.expires = 0
+            t.applied = 0
+            t.duration = 10
+            t.caster = "nobody"
+            t.v1 = 0
+        end,
+        copy = "slowed"
+    },
+
+    stunned = {  -- Shorter stuns (e.g., Kidney Shot, Cheap Shot, Bash)
+        duration = 10,
+        generate = function( t )
+            local max_events = GetActiveLossOfControlDataCount()
+
+            if max_events > 0 then
+                local spell, start, duration, remains = "none", 0, 0, 0
+
+                for i = 1, max_events do
+                    local event = GetActiveLossOfControlData( i )
+
+                    if event.locType == "STUN_MECHANIC"
+                        and event.startTime and event.startTime > 0
+                        and event.timeRemaining and event.timeRemaining > 0
+                        and event.timeRemaining > remains then
+
                         spell = event.spellID
                         start = event.startTime
                         duration = event.duration
@@ -2355,7 +2640,7 @@ all:RegisterAuras( {
             local amount = UnitGetTotalAbsorbs( unit )
 
             if amount > 0 then
-                t.name = ABSORB
+                -- t.name = ABSORB
                 t.count = 1
                 t.expires = now + 10
                 t.applied = now - 5
@@ -3223,7 +3508,9 @@ do
         { "verdant_aspirants_badge_of_ferocity", 209763 },
         { "verdant_gladiators_badge_of_ferocity", 209343 },
         { "forged_aspirants_badge_of_ferocity", 218421 },
-        { "forged_gladiators_badge_of_ferocity", 218713 }
+        { "forged_gladiators_badge_of_ferocity", 218713 },
+        { "prized_aspirants_badge_of_ferocity", 229491 },
+        { "prized_gladiators_badge_of_ferocity", 229780 }
     }
 
     local pvp_badges_copy = {}
@@ -3248,7 +3535,7 @@ do
         cooldown = 120,
         gcd = "off",
 
-        items = { 162966, 161902, 165223, 165058, 167528, 167380, 172849, 172669, 175884, 175921, 185161, 185197, 186906, 186866, 192352, 192295, 201449, 201807, 205778, 205708, 209763, 209343, 218421, 218713 },
+        items = { 162966, 161902, 165223, 165058, 167528, 167380, 172849, 172669, 175884, 175921, 185161, 185197, 186906, 186866, 192352, 192295, 201449, 201807, 205778, 205708, 209763, 209343, 218421, 218713, 229491, 229780 },
         texture = 135884,
 
         toggle = "cooldowns",
@@ -3326,7 +3613,9 @@ do
         verdant_combatants_emblem = 208309,
         verdant_gladiators_emblem = 209345,
         algari_competitors_emblem = 219933,
-        forged_gladiators_emblem = 218715
+        forged_gladiators_emblem = 218715,
+        prized_aspirants_emblem = 229494,
+        prized_gladiators_emblem = 229782
     }
 
     local pvp_emblems_copy = {}
@@ -3360,7 +3649,7 @@ do
             end
             return e
         end,
-        items = { 162898, 161675, 165221, 165056, 167378, 167526, 172667, 172847, 178334, 178447, 185242, 185282, 186946, 186868, 192392, 192297, 201452, 201809, 204166, 205781, 205710, 209766, 208309, 209345, 219933, 218715 },
+        items = { 162898, 161675, 165221, 165056, 167378, 167526, 172667, 172847, 178334, 178447, 185242, 185282, 186946, 186868, 192392, 192297, 201452, 201809, 204166, 205781, 205710, 209766, 208309, 209345, 219933, 218715, 229494, 229782 },
         toggle = "cooldowns",
 
         handler = function ()
@@ -3817,7 +4106,7 @@ function Hekili:SpecializationChanged()
     end
 
     for i = 1, 4 do
-        local id, name, _, _, role = GetSpecializationInfo( i )
+        local id, name, _, _, role, primaryStat = GetSpecializationInfo( i )
 
         if not id then break end
 
@@ -3838,6 +4127,14 @@ function Hekili:SpecializationChanged()
                 state.role.tank = true
             else
                 state.role.healer = true
+            end
+
+            if primaryStat == 1 then
+                state.spec.primaryStat = "strength"
+            elseif primaryStat == 2 then
+                state.spec.primaryStat = "agility"
+            else
+                state.spec.primaryStat = "intellect"
             end
 
             state.spec[ state.spec.key ] = true

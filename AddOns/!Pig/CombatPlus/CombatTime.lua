@@ -206,13 +206,13 @@ end)
 local FontMiaobiaoList = {"NORMAL","OUTLINE","THICKOUTLINE","MONOCHROME","MONOCHROMEOUTLINE"};
 CombatPlusF.SetF.Miaobian=PIGDownMenu(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF,"TOPLEFT",90,-60},{150,24})
 CombatPlusF.SetF.Miaobian.T = PIGFontString(CombatPlusF.SetF.Miaobian,{"RIGHT",CombatPlusF.SetF.Miaobian,"LEFT",-4,0},"字体描边")
-function CombatPlusF.SetF.Miaobian:PIGDownMenu_Update_But(self)
+function CombatPlusF.SetF.Miaobian:PIGDownMenu_Update_But()
 	local info = {}
 	info.func = self.PIGDownMenu_SetValue
 	for i=1,#FontMiaobiaoList,1 do
 	    info.text, info.arg1 = FontMiaobiaoList[i], FontMiaobiaoList[i]
 	    info.checked = FontMiaobiaoList[i]==PIGA["CombatPlus"]["CombatTime"]["Miaobian"]
-		CombatPlusF.SetF.Miaobian:PIGDownMenu_AddButton(info)
+		self:PIGDownMenu_AddButton(info)
 	end 
 end
 function CombatPlusF.SetF.Miaobian:PIGDownMenu_SetValue(value,arg1,arg2)
@@ -227,13 +227,13 @@ end
 local BGList={"背景1","背景2","无背景"}
 CombatPlusF.SetF.Beijing=PIGDownMenu(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF,"TOPLEFT",390,-60},{100,24})
 CombatPlusF.SetF.Beijing.T = PIGFontString(CombatPlusF.SetF.Beijing,{"RIGHT",CombatPlusF.SetF.Beijing,"LEFT",-4,0},"背景")
-function CombatPlusF.SetF.Beijing:PIGDownMenu_Update_But(self)
+function CombatPlusF.SetF.Beijing:PIGDownMenu_Update_But()
 	local info = {}
 	info.func = self.PIGDownMenu_SetValue
 	for i=1,#BGList,1 do
 	    info.text, info.arg1 = BGList[i], i
 	    info.checked = i==PIGA["CombatPlus"]["CombatTime"]["Beijing"]
-		CombatPlusF.SetF.Beijing:PIGDownMenu_AddButton(info)
+		self:PIGDownMenu_AddButton(info)
 	end 
 end
 function CombatPlusF.SetF.Beijing:PIGDownMenu_SetValue(value,arg1,arg2)

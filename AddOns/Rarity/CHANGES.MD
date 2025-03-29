@@ -1,14 +1,10 @@
-**r739:**
+**r742:**
 
 Additions:
-> Added Siren Isle collectibles to the database
-
-Changes:
-> Rarity now uses kill statistics for Queen Ansurek (Reins of the Sureki Skyrazor)
+> Enabled defeat detection for Beledar's Spawn and Regurgitated Mole Reins
 
 Fixes:
-> Recorded times should once again be displayed correctly in the main window
+> Rarity's tooltip additions should once again be displayed for container items
+<br>Disabling the tooltip additions should work as expected for items, and not just units
 
 Contributors (in alphabetical order):
-> Protuhj
-<br>Ellezanor

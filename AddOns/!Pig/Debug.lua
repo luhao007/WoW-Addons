@@ -41,13 +41,13 @@ local taintlistmenu = {["0"]=L["DEBUG_TAINT0"],["1"]=L["DEBUG_TAINT1"],
 fuFrame.taintLog=PIGDownMenu(fuFrame,{"TOPLEFT",fuFrame.errorUI,"BOTTOMLEFT",60,-40},{400,24})
 fuFrame.taintLog.tishi=PIGFontString(fuFrame.taintLog,{"RIGHT", fuFrame.taintLog, "LEFT", 0, 0},L["DEBUG_TAINTLOG"])
 fuFrame.taintLog.tishi:SetTextColor(1, 1, 0, 1);
-function fuFrame.taintLog:PIGDownMenu_Update_But(self)
+function fuFrame.taintLog:PIGDownMenu_Update_But()
 	local info = {}
 	info.func = self.PIGDownMenu_SetValue
 	for i=1,#taintlist,1 do
 	    info.text, info.arg1 = taintlistmenu[taintlist[i]], taintlist[i]
 	    info.checked = taintlist[i]==GetCVar("taintLog")
-		fuFrame.taintLog:PIGDownMenu_AddButton(info)
+		self:PIGDownMenu_AddButton(info)
 	end 
 end
 function fuFrame.taintLog:PIGDownMenu_SetValue(value,arg1,arg2)

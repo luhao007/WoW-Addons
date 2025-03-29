@@ -679,9 +679,13 @@ function Faction.ShowToolTipFrame(button)
 		isCapped = C_MajorFactions.HasMaximumRenown(factionID);
 		barValue = isCapped and majorFactionData.renownLevelThreshold or majorFactionData.renownReputationEarned or 0;
 		barColor = BLUE_FONT_COLOR;
-		factionStandingtext = RENOWN_LEVEL_LABEL..majorFactionData.renownLevel;
+		factionStandingtext = str_format(RENOWN_LEVEL_LABEL, majorFactionData.renownLevel);
 	else
 		barMin, barMax, barValue = barMin or 0, barMax or 1, barValue or 0
+		if (isCapped) then
+			-- max rank, make it look like a full bar
+			barMin, barMax, barValue = 0, 1, 1;
+		end
 		factionStandingtext = GetLocRepStanding(standingID)
 	end
 
@@ -702,7 +706,11 @@ function Faction.ShowToolTipFrame(button)
 	frame.standing.bar:SetMinMaxValues(barMin, barMax)
 	frame.standing.bar:SetValue(barValue)
 	frame.standing.bar:SetStatusBarColor(barColor.r, barColor.g, barColor.b)
-	frame.standing.text:SetText(str_format("%s ( %d / %d )", factionStandingtext, barValue - barMin, barMax - barMin))
+	if (isCapped) then
+		frame.standing.text:SetText(str_format("%s", factionStandingtext))
+	else
+		frame.standing.text:SetText(str_format("%s ( %d / %d )", factionStandingtext, barValue - barMin, barMax - barMin))
+	end
 
 	frame:SetHeight(20 + 21 + frame.desc:GetHeight() + 5)
 	frame:Show()

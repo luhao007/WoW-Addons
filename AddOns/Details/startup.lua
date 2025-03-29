@@ -106,7 +106,7 @@ function Details222.StartUp.StartMeUp()
 	--/run Details.ocd_tracker.show_options = true; ReloadUI()
 	--custom window
 	Details.custom = Details.custom or {}
-	Details222.InitRecap()
+	--Details222.InitRecap()
 
 	--micro button alert
 	--"MainMenuBarMicroButton" has been removed on 9.0
@@ -594,6 +594,15 @@ function Details222.StartUp.StartMeUp()
 	if (Details.last_day ~= today) then
 		Details:Destroy(Details.cached_specs)
 		Details:Destroy(Details.cached_talents)
+	end
+
+	--10 days cache cleanup
+	if (now > Details.last_10days_cache_cleanup) then
+		Details:Destroy(Details.spell_pool)
+		Details:Destroy(Details.npcid_pool)
+		Details:Destroy(Details.spell_school_cache)
+		Details:Destroy(Details.cached_talents)
+		Details.last_10days_cache_cleanup = now + (60*60*24*10)
 	end
 
 	--get the player spec

@@ -170,7 +170,7 @@ ChatF.fuF = PIGFrame(ChatF,{"TOP", ChatF.zhuF, "BOTTOM", 0, -10},{ChatF:GetWidth
 ChatF.fuF:PIGSetBackdrop(0)
 
 ChatF.fuF.ChatUIList=PIGDownMenu(ChatF.fuF,{"TOPLEFT",ChatF.fuF,"TOPLEFT",10,-10},{120,nil})
-function ChatF.fuF.ChatUIList:PIGDownMenu_Update_But(self)
+function ChatF.fuF.ChatUIList:PIGDownMenu_Update_But()
 	local info = {}
 	info.func = self.PIGDownMenu_SetValue
 	local chuangkoulist=Fun.GetpindaoList()
@@ -471,7 +471,7 @@ local function SavedangqianSet()--保存当前设置
 	-- PIGA["Chat"]["ChatSetSave"][PIG_renwuming]=dangqianChatSET
 end
 -- ChatF.daoruqitaSet =PIGDownMenu(ChatF,{"BOTTOMLEFT",ChatF,"BOTTOMLEFT",20,14},{200,nil})
--- function ChatF.daoruqitaSet:PIGDownMenu_Update_But(self)
+-- function ChatF.daoruqitaSet:PIGDownMenu_Update_But()
 -- 	local Setinfo =PIGA["Chat"]["ChatSetSave"]
 -- 	local info = {}
 -- 	info.func = self.PIGDownMenu_SetValue

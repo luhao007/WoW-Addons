@@ -34,17 +34,6 @@ local PRICE_EXTRA_ITTYPE = data:AddExtraItemTableType("Price")
 
 local PVP_CONTENT = data:AddContentType(AL["PvP"], ATLASLOOT_PVP_COLOR)
 
---[[
-EXPANSION_NAME0 = "Classic";
-EXPANSION_NAME1 = "The Burning Crusade";
-EXPANSION_NAME2 = "Wrath of the Lich King";
-EXPANSION_NAME3 = "Cataclysm";
-EXPANSION_NAME4 = "Mists of Pandaria";
-EXPANSION_NAME5 = "Warlords of Draenor";
-EXPANSION_NAME6 = "Legion";
-EXPANSION_NAME7 = "Battle for Azeroth";
-]]
-
 --[[ template
 data["LEGION7SET"] = {
 	name = format(EXPANSION_NAME6.." "..AL["Season %d"], 7).." "..AL["Class Sets"],

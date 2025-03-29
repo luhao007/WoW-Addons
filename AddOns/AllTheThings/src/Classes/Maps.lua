@@ -465,6 +465,7 @@ local function CheckIfExplorationIsMissing()
 			-- we won't use regular caching since we're manually checking instead of the expected API utilization
 			-- maybe eventually blizzard will fix the API
 			characterExploration[areaID] = 2
+			CacheAndUpdateExploration({[areaID]=true})
 		end
 	end
 end

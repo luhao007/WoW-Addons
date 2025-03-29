@@ -67,8 +67,10 @@ function BusinessInfo.Token()
 
 	   	jibihejiV.hejitxt=GetMoneyString(jibihejiV.all)
 	   	for k,v in pairs(jibihejiV.saverall) do
-	   		 local v=floor(v/10000)*10000
-	   		jibihejiV.hejitxt=jibihejiV.hejitxt.." ("..k..GetMoneyString(v)..")"
+	   		if v>9999 then
+	   			local v=floor(v/10000)*10000
+	   			jibihejiV.hejitxt=jibihejiV.hejitxt.." ("..k..GetMoneyString(v)..")"
+	   		end
 	   	end
 	   	fujiF.Tokens.ALLG:SetText(jibihejiV.hejitxt)
 		local ItemsNum = #cdmulu;
@@ -100,25 +102,29 @@ function BusinessInfo.Token()
 					paizibut.num:SetText(GetMoneyString(cdmulu[dangqian][7][1]))
 					--
 					local paiziD = cdmulu[dangqian][7][2]
+					paizibut.butindex = 1
 					for but=1,#paiziD do
-						local paizibut = _G["PIG_Tokens_"..id.."_But"..(but+1)]
-						paizibut:Show()
-						if paiziD[but][1]==136998 or paiziD[but][1]==137000 then
-							paizibut.Tex:SetTexCoord(0.1,0.56,0,0.6);
+						if paiziD[but][2]>0 then
+							paizibut.butindex=paizibut.butindex+1
+							local paizibut = _G["PIG_Tokens_"..id.."_But"..paizibut.butindex]
+							paizibut:Show()
+							if paiziD[but][1]==136998 or paiziD[but][1]==137000 then
+								paizibut.Tex:SetTexCoord(0.07,0.59,0,0.58);
+							end
+							paizibut.Tex:SetTexture(paiziD[but][1])
+							paizibut.num:SetText(paiziD[but][2])
+							paizibut:SetScript("OnEnter", function (self)
+								GameTooltip:ClearLines();
+								GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+								-- GameTooltip:SetCurrencyTokenByID(paiziD[but][3])
+								GameTooltip:SetText(paiziD[but][4]);
+								GameTooltip:Show();
+							end);
+							paizibut:SetScript("OnLeave", function ()
+								GameTooltip:ClearLines();
+								GameTooltip:Hide() 
+							end);
 						end
-						paizibut.Tex:SetTexture(paiziD[but][1])
-						paizibut.num:SetText(paiziD[but][2])
-						paizibut:SetScript("OnEnter", function (self)
-							GameTooltip:ClearLines();
-							GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
-							-- GameTooltip:SetCurrencyTokenByID(paiziD[but][3])
-							GameTooltip:SetText(paiziD[but][4]);
-							GameTooltip:Show();
-						end);
-						paizibut:SetScript("OnLeave", function ()
-							GameTooltip:ClearLines();
-							GameTooltip:Hide() 
-						end);
 					end
 				end
 			end
@@ -126,7 +132,8 @@ function BusinessInfo.Token()
 	end
 	fujiF.Tokens.Scroll = CreateFrame("ScrollFrame",nil,fujiF.Tokens, "FauxScrollFrameTemplate");  
 	fujiF.Tokens.Scroll:SetPoint("TOPLEFT",fujiF.Tokens.lineTOP,"BOTTOMLEFT",2,0);
-	fujiF.Tokens.Scroll:SetPoint("BOTTOMRIGHT",fujiF.Tokens,"BOTTOMRIGHT",-20,2);
+	fujiF.Tokens.Scroll:SetPoint("BOTTOMRIGHT",fujiF.Tokens,"BOTTOMRIGHT",-24,2);
+	fujiF.Tokens.Scroll:SetScale(0.8);
 	fujiF.Tokens.Scroll:SetScript("OnVerticalScroll", function(self, offset)
 	    FauxScrollFrame_OnVerticalScroll(self, offset, hang_Height, gengxin_List)
 	end)

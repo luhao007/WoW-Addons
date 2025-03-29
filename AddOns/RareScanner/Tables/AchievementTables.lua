@@ -87,7 +87,7 @@ private.ACHIEVEMENT_ZONE_IDS = {
 	[2213] = { 40222, 40762, 40828, 40762, 40542, 40840 }; --Azj-kahet (War within)
 	[2256] = { 40222, 40762, 40828, 40762, 40542, 40840 }; --Azj-kahet (War within)
 	[2369] = { 41046, 41131 }; --Isle Siren (War Within)
-	[2346] = { 41216, 41217, 41588, 40948, 41594 }; --Undermine (War within)
+	[2346] = { 41216, 41217, 41588, 40948, 41594, 41215 }; --Undermine (War within)
 }
 
 private.ACHIEVEMENT_WITH_CRITERIA = { 
@@ -202,4 +202,5 @@ private.ACHIEVEMENT_TARGET_IDS = {
 	[41588] = { 499605, 502914, 502917, 502893, 502908, 502902, 502903 }; --Read Between the Lines
 	[40948] = { 467468, 474393, 474396, 474397, 474398 }; --Nine-Tenths of the Law
 	[41594] = { 234621 }; --Can You Believe What People Throw Away?
+	[41215] = { 235075, 235072, 235074, 235112, 235115, 235071, 235073, 235113, 235116, 235117 }; --Echoes of Deeper Dangers
 }
