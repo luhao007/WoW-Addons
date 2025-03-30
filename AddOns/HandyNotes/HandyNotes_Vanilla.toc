@@ -1,6 +1,6 @@
 ## Interface: 110100
 ## Author: Xinhuan
-## Version: v1.6.22
+## Version: v1.6.23
 
 ## Title: HandyNotes
 ## Notes: Handy notes for your maps

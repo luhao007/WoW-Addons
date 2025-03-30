@@ -1,0 +1,21 @@
+## Interface: 110100
+## Author: nanderson11, Arith
+## Version: v8.24.0
+
+## Title: AtlasLoot |cFF0099FF[Dragonflight]|r
+## Notes: AtlasLoot loot tables from Dragonflight
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本掉落|r |cFF69CCF0巨龙时代|r
+## Notes-zhCN: AtlasLoot 巨龙时代副本掉落列表
+
+## IconTexture: Interface\Icons\INV_Box_01
+
+## Dependencies: AtlasLoot
+## LoadOnDemand: 1
+
+## X-Category: Map
+## X-License: GPL v2
+## X-Website: https://github.com/nanderson11/AtlasLootEnhanced
+## X-AtlasLoot-LootModule: 1
+## X-Part-Of: AtlasLoot
+
+data.lua
