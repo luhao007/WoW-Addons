@@ -1471,7 +1471,9 @@ Plater.AnchorNamesByPhraseId = {
 		["nameplateShowFriendlyPets"] = true,
 		["nameplateShowFriendlyGuardians"] = true,
 		["nameplateShowFriendlyTotems"] = true,
+		["nameplateShowFriendlyBuffs"] = true,
 		["nameplateShowOnlyNames"] = true,
+		["nameplateShowPersonalCooldowns"] = true,
 		["nameplateShowSelf"] = (IS_WOW_PROJECT_MAINLINE),
 		["nameplateTargetBehindMaxDistance"] = true,
 		["clampTargetNameplateToScreen"] = true,
@@ -2517,6 +2519,12 @@ Plater.AnchorNamesByPhraseId = {
 				end
 			end)
 			
+		end,
+		
+		ADDON_LOADED = function(_, addOnName, containsBindings)
+			if addonName == "BigWigs" or addonName == "DBM-Core" then
+				Plater.RegisterBossModAuras()
+			end
 		end,
 		
 		--many times at saved variables load the spell database isn't loaded yet
@@ -4488,6 +4496,8 @@ function Plater.OnInit() --private --~oninit ~init
 		
 		Plater.EventHandlerFrame:RegisterEvent ("PLAYER_LOGIN")
 		Plater.EventHandlerFrame:RegisterEvent ("VARIABLES_LOADED")
+		
+		Plater.EventHandlerFrame:RegisterEvent ("ADDON_LOADED")
 
 		--power update for hooking scripts
 		local hookPowerEventFrame = CreateFrame ("frame")
@@ -5266,7 +5276,7 @@ function Plater.OnInit() --private --~oninit ~init
 						end
 					end
 					
-					if self.SpellNameRenamed == self.SpellName and Plater.db.profile.bossmod_support_enabled and Plater.db.profile.bossmod_castrename_enabled then
+					if (self.SpellNameRenamed == self.SpellName or Plater.db.profile.bossmod_castrename_priority) and Plater.db.profile.bossmod_support_enabled and Plater.db.profile.bossmod_castrename_enabled then
 						local bmSpellName = ((BigWigsAPI and BigWigsAPI.GetSpellRename and BigWigsAPI.GetSpellRename(self.spellID)) or (DBM and DBM.GetAltSpellName and DBM:GetAltSpellName(self.spellID))) or nil
 						if bmSpellName then
 							self.SpellNameRenamed = bmSpellName
@@ -5283,8 +5293,8 @@ function Plater.OnInit() --private --~oninit ~init
 					Plater.UpdateSpellNameSize (self.Text, unitFrame.ActorType, nil, isInCombat)
 					
 					-- in some occasions channeled casts don't have a CLEU entry... check this here
-					if (unitFrame.ActorType == "enemynpc" and event == "UNIT_SPELLCAST_CHANNEL_START" and (not DB_CAPTURED_SPELLS[self.spellID] or DB_CAPTURED_SPELLS[self.spellID].isChanneled == nil)) then
-						parserFunctions.SPELL_CAST_SUCCESS (nil, "SPELL_CAST_SUCCESS", nil, unitFrame[MEMBER_GUID], unitFrame.unitNameInternal, 0x00000000, nil, nil, nil, nil, nil, self.spellID, nil, nil, nil, nil, nil, nil, nil, nil, nil)
+					if (unitFrame.ActorType == "enemynpc" and event == "UNIT_SPELLCAST_CHANNEL_START" and (not DB_CAPTURED_SPELLS[spellID] or DB_CAPTURED_SPELLS[spellID].isChanneled == nil or not DB_CAPTURED_CASTS[spellID] or DB_CAPTURED_CASTS[spellID].isChanneled == nil)) then
+						parserFunctions.SPELL_CAST_SUCCESS (nil, "SPELL_CAST_SUCCESS", nil, unitFrame[MEMBER_GUID], unitFrame.unitNameInternal, 0x00000040, nil, nil, nil, nil, nil, self.spellID, nil, nil, nil, nil, nil, nil, nil, nil, nil)
 					end
 
 				elseif (event == "UNIT_SPELLCAST_INTERRUPTED") then
@@ -6317,7 +6327,7 @@ end
 			--health cutoff (execute range) - don't show if the nameplate is the personal bar
 			if (DB_USE_HEALTHCUTOFF and not unitFrame.IsSelf and not unitFrame.PlayerCannotAttack) then
 				local healthPercent = (healthBar.currentHealth or 1) / (healthBar.currentHealthMax or 1)
-				if (healthPercent < DB_HEALTHCUTOFF_AT) then
+				if (healthPercent <= DB_HEALTHCUTOFF_AT) then
 					if (not healthBar.healthCutOff:IsShown() or healthBar.healthCutOff.isUpper) then
 						healthBar.healthCutOff.isUpper = false
 						healthBar.healthCutOff.isLower = true
@@ -8715,6 +8725,28 @@ end
 			end
 		end
 		
+		--"always show" toggle: nameplateShowAll
+		if (profile.auto_toggle_always_show_enabled) then
+			--discover which is the map type the player is in
+			if (zoneType == "party") then
+				SetCVar ("nameplateShowAll", profile.auto_toggle_always_show ["party"] and CVAR_ENABLED or CVAR_DISABLED)
+				
+			elseif (zoneType == "raid") then
+				SetCVar ("nameplateShowAll", profile.auto_toggle_always_show ["raid"] and CVAR_ENABLED or CVAR_DISABLED)
+				
+			elseif (zoneType == "arena" or zoneType == "pvp") then
+				SetCVar ("nameplateShowAll", profile.auto_toggle_always_show ["arena"] and CVAR_ENABLED or CVAR_DISABLED)
+				
+			else
+				--if the player is resting, consider inside a major city
+				if (IsResting()) then
+					SetCVar ("nameplateShowAll", profile.auto_toggle_always_show ["cities"] and CVAR_ENABLED or CVAR_DISABLED)
+				else
+					SetCVar ("nameplateShowAll", profile.auto_toggle_always_show ["world"] and CVAR_ENABLED or CVAR_DISABLED)
+				end
+			end
+		end
+		
 		if combat then return end
 
 		--friendly nameplate toggle
@@ -9524,19 +9556,24 @@ end
 		end,
 		
 		SPELL_CAST_SUCCESS = function (time, token, hidding, sourceGUID, sourceName, sourceFlag, sourceFlag2, targetGUID, targetName, targetFlag, targetFlag2, spellID, spellName, spellType, amount, overKill, school, resisted, blocked, absorbed, isCritical)
-			if ((tonumber(spellID) or 0) > 0 and (not DB_CAPTURED_SPELLS[spellID] or DB_CAPTURED_SPELLS[spellID].isChanneled == nil)) then -- check isChanneled to ensure update of already existing data
+			if ((tonumber(spellID) or 0) > 0 and (not DB_CAPTURED_SPELLS[spellID] or DB_CAPTURED_SPELLS[spellID].isChanneled == nil or not DB_CAPTURED_CASTS[spellID] or DB_CAPTURED_CASTS[spellID].isChanneled == nil)) then -- check isChanneled to ensure update of already existing data
 				if (not platerInternal.HasFriendlyAffiliation[sourceGUID]) then
 					if (not sourceFlag or bit.band(sourceFlag, 0x60) ~= 0) then --is neutral or hostile
 						local npcId = Plater:GetNpcIdFromGuid(sourceGUID or "")
-						local isChanneled = false
-						if sourceGUID and UnitTokenFromGUID then -- this is the only proper way to check for channeled spells...
-							local unit = UnitTokenFromGUID(sourceGUID)
-							if unit and UnitChannelInfo(unit) then
-								isChanneled = true
-							end 
-						end
 
 						if (npcId and npcId ~= 0) then
+							local isChanneled, isCasting = false, false
+							if sourceGUID and UnitTokenFromGUID then -- this is the only proper way to check for channeled spells...
+								local unit = UnitTokenFromGUID(sourceGUID)
+								if unit then
+									if UnitChannelInfo(unit) then
+										isChanneled = true
+									elseif UnitCastingInfo(unit) then
+										isCasting = true
+									end
+								end
+							end
+							
 							---@type plater_spelldata
 							local spellData = {
 								event = token,
@@ -9549,7 +9586,7 @@ end
 							--print("added DB_CAPTURED_SPELLS 1:", sourceName, spellID, spellName)
 							DB_CAPTURED_SPELLS[spellID] = spellData
 
-							if isChanneled and not DB_CAPTURED_CASTS[spellID] then
+							if (isChanneled or isCasting) and not DB_CAPTURED_CASTS[spellID] then
 								---@type plater_spelldata
 								local spellData = {
 									event = token,
@@ -9557,7 +9594,7 @@ end
 									npcID = npcId,
 									encounterID = Plater.CurrentEncounterID,
 									encounterName = Plater.CurrentEncounterName,
-									isChanneled = isChanneled
+									isChanneled = isChanneled,
 								}
 								DB_CAPTURED_CASTS[spellID] = spellData
 							end

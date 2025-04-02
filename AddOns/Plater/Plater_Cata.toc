@@ -1,5 +1,5 @@
 ## Interface: 110100
-## Version: Plater-v603-Cata
+## Version: Plater-v605-Cata
 
 ## Title: Plater
 ## Notes: Nameplate addon designed for advanced users.
@@ -31,7 +31,6 @@ locales\ptBR.lua
 locales\ruRU.lua
 locales\zhCN.lua
 locales\zhTW.lua
-locales\arAR.lua
 
 Plater.xml
 

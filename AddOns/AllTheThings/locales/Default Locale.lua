@@ -922,6 +922,8 @@ L.SETTINGS_MENU = {
 		ALL_BUTTON_TOOLTIP = "Click this button to enable all options at once.";
 		UNCHECK_ALL_BUTTON = NONE;
 		UNCHECK_ALL_BUTTON_TOOLTIP = "Click this button to disable all options at once.";
+		STORE_IN_PROFILE_BUTTON = "Store in Profile",
+		STORE_IN_PROFILE_BUTTON_TOOLTIP = "By default, ATT stores these Filters on a per-character basis.\n\nCheck this option to store these Filter selections in the current Profile rather than per-character.",
 
 	-- General: Phases Page
 	-- Classic Only, fully dynamic from within parser.

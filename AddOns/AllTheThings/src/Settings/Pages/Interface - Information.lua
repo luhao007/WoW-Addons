@@ -783,7 +783,16 @@ local InformationTypes = {
 		end
 	}),
 
-	CreateInformationType("questID", { text = L.QUEST_ID, priority = 8 }),
+	CreateInformationType("questID", { text = L.QUEST_ID, priority = 8,
+		Process = function(t, reference, tooltipInfo)
+			local questID = reference.questID
+			if not questID then return end
+			tinsert(tooltipInfo, {
+				left = L.QUEST_ID,
+				right = reference.questID.." "..app.GetCompletionIcon(app.IsQuestFlaggedCompleted(questID)),
+			});
+		end
+	}),
 	CreateInformationType("factionID", { text = L.FACTION_ID, priority = 9 }),
 
 	CreateInformationType("achievementCategoryID", { text = L.ACHIEVEMENT_CATEGORY_ID }),

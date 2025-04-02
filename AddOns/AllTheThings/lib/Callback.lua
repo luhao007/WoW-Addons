@@ -71,13 +71,13 @@ local function AfterCombatOrDelayedCallback(method, delaySec, ...)
 end
 app:RegisterFuncEvent("PLAYER_REGEN_ENABLED", function()
 	app:UnregisterEvent("PLAYER_REGEN_ENABLED");
-	-- print("PLAYER_REGEN_ENABLED:Begin")
-	local callbacks = __combatcallbacks;
-	local count = #callbacks;
+	-- app.PrintDebug("PLAYER_REGEN_ENABLED:Begin")
+	local count = #__combatcallbacks;
 	if count > 0 then
+		local callbacks = __combatcallbacks;
 		__combatcallbacks = {};
-		for i=count,1,-1 do
-			-- print(" callback:",i)
+		for i=1,count do
+			-- app.PrintDebug(" callback:",i)
 			callbacks[i]();
 		end
 	end

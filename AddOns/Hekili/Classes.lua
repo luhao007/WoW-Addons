@@ -65,6 +65,7 @@ local specTemplate = {
             clash = 0,
             targetMin = 0,
             targetMax = 0,
+            dotCap = 0,
             boss = false
         }
     },
@@ -797,7 +798,7 @@ local HekiliSpecMixin = {
                     local link = actionItem:GetItemLink()
                     local texture = actionItem:GetItemIcon()
 
-                   
+
                     if name then
                         if not a.name or a.name == a.key then a.name = name end
                         if not a.link or a.link == a.key then a.link = link end
@@ -916,7 +917,7 @@ local HekiliSpecMixin = {
             -- Hekili:ContinueOnSpellLoad( a.id, function( success )
             a.onLoad = function()
                 local spellInfo = GetSpellInfo( a.id )
-                
+
                 if spellInfo == nil then
                     spellInfo = GetItemInfo( a.id )
                 end
@@ -1104,7 +1105,7 @@ local HekiliSpecMixin = {
             local spell = data.spell
             local duration = data.duration
             local copy = data.copy
-    
+
             -- Register the pet and handle the copy field if it exists.
             if copy then
                 self:RegisterPet( token, id, spell, duration, copy )
@@ -1118,7 +1119,7 @@ local HekiliSpecMixin = {
         -- Register the primary totem.
         self.totems[ token ] = id
         self.totems[ id ] = token
-    
+
         -- Handle copies if provided.
         local n = select( "#", ... )
         if n and n > 0 then
@@ -1128,7 +1129,7 @@ local HekiliSpecMixin = {
                 self.totems[ id ] = copy
             end
         end
-    
+
         -- Commit the primary token.
         CommitKey( token )
     end,
@@ -1137,11 +1138,11 @@ local HekiliSpecMixin = {
         for token, data in pairs( totems ) do
             local id = data.id
             local copy = data.copy
-    
+
             -- Register the primary totem.
             self.totems[ token ] = id
             self.totems[ id ] = token
-    
+
             -- Register any copies (aliases).
             if copy then
                 if type( copy ) == "string" then
@@ -1154,7 +1155,7 @@ local HekiliSpecMixin = {
                     end
                 end
             end
-    
+
             CommitKey( token )
         end
     end,
@@ -1884,12 +1885,48 @@ all:RegisterAuras( {
         duration = 3600,
     },
 
+    empowering = {
+        name = "Empowering",
+        duration = 3600,
+        generate = function( t )
+            local e = state.empowerment
+            local spell = e.spell
+
+            local ability = class.abilities[ spell ]
+
+            t.name = ability and ability.name or "Empowering"
+            t.count = e.start > 0 and 1 or 0
+            t.expires = e.hold
+            t.applied = e.start
+            t.duration = e.hold - e.start
+            t.v1 = ability and ability.id or 0
+            t.v2 = 0
+            t.v3 = 0
+            t.spell = spell
+            t.caster = "player"
+
+            if t.expires > 0 then
+                local timeDiff = state.now - t.applied
+                state.now = state.now - timeDiff
+
+                if Hekili.ActiveDebug then
+                    Hekili:Debug( "Empowerment spell: %s[%.2f], unit: %s; rewinding %.2f...", t.name, t.remains, t.caster, timeDiff )
+                end
+            end
+        end,
+    },
+
     casting = {
         name = "Casting",
         generate = function( t, auraType )
             local unit = auraType == "debuff" and "target" or "player"
 
-            if unit == "player" or UnitCanAttack( "player", "target" ) then
+            if unit == "player" and state.buff.empowering.up then
+                removeBuff( "casting" )
+                return
+            end
+
+            if unit == "player" or UnitCanAttack( "player", unit ) then
                 local spell, _, _, startCast, endCast, _, _, notInterruptible, spellID = UnitCastingInfo( unit )
 
                 if spell then
@@ -2655,6 +2692,13 @@ all:RegisterAuras( {
         end,
         copy = "unravel_absorb"
     },
+
+    devouring_rift = {
+        id = 440313,
+        duration = 15,
+        shared = "player",
+        max_stack = 1
+    }
 } )
 
 do

@@ -205,6 +205,7 @@ app.errors = function(msg)
 
 	local runner1 = app.CreateRunner("error1")
 	local runner2 = app.CreateRunner("error2")
+	local UpdateRunner = app.CreateRunner("update")
 
 	-- push function error
 	app.Push("push"..msg, "test", throw)
@@ -219,8 +220,8 @@ app.errors = function(msg)
 	runner2.Run(throw, msg.."4")
 
 	-- repeated test on consistent runner
-	app.UpdateRunner.Run(throw, "update"..msg.."5")
-	app.UpdateRunner.Run(throw, "update"..msg.."6")
+	UpdateRunner.Run(throw, "update"..msg.."5")
+	UpdateRunner.Run(throw, "update"..msg.."6")
 
 end
 

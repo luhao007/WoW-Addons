@@ -36,12 +36,14 @@ local function ProcessSendChunks()
 							if not acks[i] then
 								-- We found one that hasn't been acknowledged yet.
 								pendingChunk.method(pendingChunk.target, "chunk`" .. pendingChunk.uid .. "`" .. i .. "`" .. chunkCount .. "`" .. chunks[i]);
+								app:GetWindow("Synchronization"):Rebuild();
 								finished = false;
 								break;
 							end
 						end
 						if finished then
 							user[uid] = nil;
+							app:GetWindow("Synchronization"):Rebuild();
 						else
 							-- Reset the cooldown
 							pendingChunk.cooldown = time() + 10;
@@ -63,7 +65,8 @@ local function ProcessSendChunks()
 				local responses = pendingResponse.responses;
 				local responseCount = #responses;
 				local index = pendingResponse.index;
-				pendingResponse.method(pendingResponse.target, responses[index]);
+				local response = responses[index];
+				pendingResponse.method(pendingResponse.target, response.detail, response.msg);
 				if index == responseCount then
 					user[uid] = nil;
 				else
@@ -81,7 +84,7 @@ local function ProcessSendChunks()
 		coroutine.yield();
 	until(not any);
 end
-local function QueueSendChunks(method, target, chunks)
+local function QueueSendChunks(method, target, detail, chunks)
 	local pending = pendingSendChunksForUser[target];
 	if not pending then
 		pending = {};
@@ -91,6 +94,7 @@ local function QueueSendChunks(method, target, chunks)
 		method = method,
 		target = target,
 		chunks = chunks,
+		detail = detail or UNKNOWN,
 		cooldown = 0,
 		acks = {},
 		uid = uid,
@@ -100,7 +104,9 @@ local function QueueSendChunks(method, target, chunks)
 	app:StartATTCoroutine("Sync_ProcessSendChunks", ProcessSendChunks);
 end
 local function SortByResponseLength(a, b)
-	return #a < #b;
+	local amsg = a.msg;
+	local bmsg = b.msg;
+	return amsg and bmsg and #amsg < #bmsg;
 end
 local function QueueSendResponses(method, target, responses)
 	local pending = pendingSendResponsesForUser[target];
@@ -125,15 +131,19 @@ local function ReceiveChunk(method, sender, uid, chunkIndex, chunkCount, chunk)
 		pending = {};
 		pendingReceiveChunksForUser[sender] = pending;
 	end
-	local chunks = pending[uid];
-	if not chunks then
-		chunks = {};
-		pending[uid] = chunks;
+	local data = pending[uid];
+	if not data then
+		data = {};
+		data.chunks = {};
+		data.count = chunkCount;
+		pending[uid] = data;
 	end
+	local chunks = data.chunks;
 	chunks[chunkIndex] = chunk;
-	method(sender, "ack," .. uid .. "," .. chunkIndex);
+	method(sender, "Ack " .. uid, "ack," .. uid .. "," .. chunkIndex);
 	if chunkCount > 1 then
 		app.print("Syncing Data Chunk [" .. uid .. "] " .. chunkIndex .. " of " .. chunkCount .. "...");
+		app:GetWindow("Synchronization"):Rebuild();
 	end
 	
 	-- Check if we're finished
@@ -149,18 +159,38 @@ local function ReceiveChunk(method, sender, uid, chunkIndex, chunkCount, chunk)
 		end
 		if chunkCount > 1 then
 			app.print("Finished Syncing Data Chunk [" .. uid .. "]!");
+			app:GetWindow("Synchronization"):Rebuild();
 		end
 		pending[uid] = nil;
+		
+		-- Check to see if there are any pending recieves remaining
+		local any = false;
+		for uid,chunks in pairs(pending) do
+			if chunks then
+				any = true;
+				break;
+			end
+		end
+		if not any then pendingReceiveChunksForUser[sender] = nil; end
 		return message;
 	end
 end
-local function SendMessageChunks(method, target, msg, chunksize)
+local function SendMessageChunks(method, target, detail, msg, chunksize)
+	-- Convert the message table to a string if necessary
+	if type(msg) == "table" then
+		if #msg < 1 then return false; end
+		local str = msg[1];
+		for i,cmd in ipairs(msg) do
+			str = str .. "," .. cmd;
+		end
+		msg = str;
+	end
 	local encodedLength = msg:len();
 	if encodedLength > chunksize then
 		-- When the message exceeds the length, we have to cut it into sections and deliver it as a set of chunks.
 		--print("Encoded Message exceeded maximum (" .. chunksize .. "): ", encodedLength);
 		local chunks = {};
-		chunksize = chunksize - 16;
+		chunksize = chunksize - 32;
 		for i=1,encodedLength,chunksize do
 			local chunk;
 			local j = i + chunksize - 1;
@@ -171,7 +201,7 @@ local function SendMessageChunks(method, target, msg, chunksize)
 			end
 			tinsert(chunks, chunk);
 		end
-		QueueSendChunks(method, target, chunks);
+		QueueSendChunks(method, target, detail, chunks);
 		--print("Generated " .. #chunks .. " chunks for encoded string!");
 	else
 		method(target, msg);
@@ -180,16 +210,14 @@ end
 local function _SendAddonMessage(target, msg)
 	C_ChatInfo.SendAddonMessage(AddonMessagePrefix, msg, "WHISPER", target);
 end
-local function SendAddonMessage(target, msg)
-	--print("SendAddonMessage", target, msg:len() > 40 and (msg:sub(1, 40) .. "...") or msg);
-	SendMessageChunks(_SendAddonMessage, target, msg, 255);
+local function SendAddonMessage(target, detail, msg)
+	SendMessageChunks(_SendAddonMessage, target, detail, msg, 255);
 end
 local function _SendBattleNetMessage(target, msg)
 	BNSendGameData(target, AddonMessagePrefix, msg);
 end
-local function SendBattleNetMessage(target, msg)
-	--print("SendBattleNetMessage", target, msg:len() > 40 and (msg:sub(1, 40) .. "...") or msg);
-	SendMessageChunks(_SendBattleNetMessage, target, msg, 4086);
+local function SendBattleNetMessage(target, detail, msg)
+	SendMessageChunks(_SendBattleNetMessage, target, detail, msg, 4086);
 end
 local function SplitString(separator, text)
     local sep, res = separator or '%s', {}
@@ -227,30 +255,18 @@ local function UpdateOnlineAccounts()
 		end
 	end
 end
-local function ValidateMessage(msg)
-	-- Convert the message table to a string if necessary
-	if type(msg) == "table" then
-		if #msg < 1 then return false; end
-		local str = msg[1];
-		for i,cmd in ipairs(msg) do
-			str = str .. "," .. cmd;
-		end
-		return str;
-	end
-	return msg;
-end
-local function SendCharacterMessage(character, msg)
+
+local function SendCharacterMessage(character, detail, msg)
 	if character then
-		msg = ValidateMessage(msg);
 		local gameAccountID = character.gameAccountID;
 		if BNSendGameData and gameAccountID and EnableBattleNet then
-			SendBattleNetMessage(gameAccountID, msg);
+			SendBattleNetMessage(gameAccountID, detail, msg);
 		elseif character.realm == CurrentCharacter.realm and character.factionID == CurrentCharacter.factionID then
-			SendAddonMessage(character.name, msg);
+			SendAddonMessage(character.name, detail, msg);
 		end
 	end
 end
-local function BroadcastMessage(msg)
+local function BroadcastMessage(detail, msg)
 	-- Update the last played timestamp. This ensures the sync process does NOT destroy unsaved progress on this character.
 	CurrentCharacter.lastPlayed = time();
 	
@@ -260,12 +276,12 @@ local function BroadcastMessage(msg)
 	
 	-- Check for online accounts and send them the check message.
 	local sent = {};
-	msg = ValidateMessage(msg);
 	for key,character in pairs(OnlineAccounts) do
-		local name = character.name;
-		if name and not sent[name] then
-			SendCharacterMessage(character, msg);
-			sent[name] = true;
+		local guid = character.guid;
+		if guid and not sent[guid] then
+			SendCharacterMessage(character, detail, msg);
+			if character.name and character.realm == CurrentCharacter.realm then sent[character.name] = true; end
+			sent[guid] = true;
 		end
 	end
 	
@@ -282,7 +298,7 @@ local function BroadcastMessage(msg)
 		local characterByInfo = {};
 		for guid,character in pairs(CharacterData) do
 			local name = character.name;
-			if name then characterByInfo[name] = character; end
+			if name and character.realm == CurrentCharacter.realm then characterByInfo[name] = character; end
 			SilentlyLinkedCharacters[character.guid] = true;
 			characterByInfo[guid] = character;
 		end
@@ -292,14 +308,14 @@ local function BroadcastMessage(msg)
 			if allowed then
 				local character = characterByInfo[identifier];
 				if character then
-					local name = character.name;
-					if not sent[name] then
-						SendCharacterMessage(character, msg);
-						sent[name] = true;
+					local guid = character.guid;
+					if not sent[guid] then
+						SendCharacterMessage(character, detail, msg);
+						sent[guid] = true;
 					end
 				elseif not sent[identifier] then
 					sent[identifier] = true;
-					SendAddonMessage(identifier, msg);
+					SendAddonMessage(identifier, detail, msg);
 				end
 			end
 		end
@@ -437,9 +453,16 @@ local function SerializeSequentialKeys(keys)
 	]]--
 	return str;
 end
+function ShowSerializationDebugger()
+	app:ShowPopupDialogWithMultiLineEditBox("Serialization Debugger", function(text)
+		text = text:gsub("    ", "\t");	-- The WoW UI converts tab characters into 4 spaces in the English Client.
+		DevTools_Dump(DeserializeSequentialKeys(text));
+	end);
+end
 app.RecalculateAccountWideData = RecalculateAccountWideData;
 app.DeserializeSequentialKeys = DeserializeSequentialKeys;
 app.SerializeSequentialKeys = SerializeSequentialKeys;
+app.ShowSerializationDebugger = ShowSerializationDebugger;
 
 -- Data Handling
 local maxTimeStamp = 9999999999999;
@@ -626,9 +649,8 @@ local deserializers = {
 		character.classID = tonumber(data[7]);
 		character.class = data[8];
 		character.raceID = tonumber(data[9]);
-		character.race = data[10];
-		character.lastPlayed = tonumber(data[11]);
-		character.Deaths = tonumber(data[12]);
+		character.lastPlayed = tonumber(data[10]);
+		character.Deaths = tonumber(data[11]);
 	end,
 	TimeStamps = function(field, currentValue, data)
 		if not currentValue then
@@ -702,12 +724,11 @@ local serializers = {
 	-- The main data package containing the simple stuff.
 	Summary = function(character, value)
 		if value ~= nil then return; end	-- We don't want this to try to encode an invalid set of data.
-		return "Summary;" .. (character.battleTag or "") .. ";" .. (character.text or "")
-			.. ";" .. (character.name or "") .. ";" .. (character.realm or "")
+		return "Summary;" .. (character.battleTag or "TAG") .. ";" .. (character.text or character.name or character.guid)
+			.. ";" .. (character.name or character.guid) .. ";" .. (character.realm or "REALM")
 			.. ";" .. (character.factionID or "1").. ";" .. (character.lvl or "1")
-			.. ";" .. (character.classID or "1") .. ";" .. (character.class or "")
-			.. ";" .. (character.raceID or "1") .. ";" .. (character.race or "")
-			.. ";" .. (character.lastPlayed or "0") .. ";" .. (character.Deaths or "0");
+			.. ";" .. (character.classID or "1") .. ";" .. (character.class or "CLASS")
+			.. ";" .. (character.raceID or "1") .. ";" .. (character.lastPlayed or "0") .. ";" .. (character.Deaths or "0");
 	end,
 	
 	-- These are now included inside of "Summary" to compress the data package more.
@@ -733,17 +754,17 @@ local function ReceiveCharacterSummary(self, sender, responses, guid, lastPlayed
 		local lastPlayedForCharacter = character.lastPlayed;
 		if not lastPlayedForCharacter then
 			-- No timestamp? This character might be corrupted.
-			tinsert(responses, "request," .. guid);	-- Request Full Character Copy
+			tinsert(responses, { detail = "Request " .. guid, msg = "request," .. guid });	-- Request Full Character Copy
 		elseif lastPlayedForCharacter < lastPlayed then
 			-- The timestamp is newer than the copy we have. Send anything that is new.
-			tinsert(responses, "request," .. guid .. "," .. lastPlayedForCharacter);	-- Request Diff
+			tinsert(responses, { detail = "Update " .. character.text, msg = "request," .. guid .. "," .. lastPlayedForCharacter });	-- Request Diff
 		elseif shouldPrint then
 			-- Inform them that we have a newer version of the character than they do.
-			tinsert(responses, "uptodate," .. guid);
+			tinsert(responses, { detail = "Up to Date " .. guid, msg = "uptodate," .. guid });
 		end
 	else
 		-- We don't have the character in our character data table.
-		tinsert(responses, "request," .. guid);	-- Request Full Character Copy
+		tinsert(responses, { detail = "Request " .. guid, msg = "request," .. guid });	-- Request Full Character Copy
 	end
 end
 
@@ -828,7 +849,7 @@ MESSAGE_HANDLERS.check = function(self, sender, content, responses)
 	
 	-- If this wasn't sent as a response to a check request, send our own check request!
 	if not isResponding then
-		tinsert(responses, "check," .. CurrentCharacter.battleTag .. ",1");
+		tinsert(responses, { detail = "Checking", msg = "check," .. CurrentCharacter.battleTag .. ",1" });
 	end
 	
 	-- Generate the sync string
@@ -839,7 +860,7 @@ MESSAGE_HANDLERS.check = function(self, sender, content, responses)
 			chars[guid] = true;
 		end
 	end
-	tinsert(responses, response);
+	tinsert(responses, { detail = "Character List", msg = response });
 	return true;
 end
 MESSAGE_HANDLERS.char = function(self, sender, content, responses)
@@ -866,7 +887,7 @@ MESSAGE_HANDLERS.link = function(self, sender, content, responses)
 	end
 	
 	-- Generate the linked string, which gets the character ready on the other end and connects the bnet account
-	tinsert(responses, "linked," .. CurrentCharacter.guid .. "," .. CurrentCharacter.text .. "," .. CurrentCharacter.lastPlayed);
+	tinsert(responses, { detail = CurrentCharacter.text, msg = "linked," .. CurrentCharacter.guid .. "," .. CurrentCharacter.text .. "," .. CurrentCharacter.lastPlayed });
 	return true;
 end
 MESSAGE_HANDLERS.linked = function(self, sender, content, responses)
@@ -886,7 +907,7 @@ MESSAGE_HANDLERS.linked = function(self, sender, content, responses)
 		-- Update Battle.net stuff.
 		UpdateBattleTags();
 		UpdateOnlineAccounts();
-		SendCharacterMessage(character, "check," .. CurrentCharacter.battleTag);
+		SendCharacterMessage(character, text, "check," .. CurrentCharacter.battleTag);
 	else
 		app.print("Already linked with " .. (character.text or guid) .. ".");
 	end
@@ -965,7 +986,7 @@ MESSAGE_HANDLERS.request = function(self, sender, content, responses)
 		local str = (serializers[field] or defaultSerializer)(field, value, timeStamps[field] or maxTimeStamp, lastUpdated);
 		if str then rawData = rawData .. "," .. str; end
 	end
-	tinsert(responses, rawData);
+	tinsert(responses, { detail = character.text, msg = rawData });
 end
 MESSAGE_HANDLERS.uptodate = function(self, sender, content, responses)
 	if not LinkedCharacters[sender] then return false; end
@@ -995,7 +1016,7 @@ local function OnClickForCharacter(row, button)
 			end);
 		end
 	elseif button == "LeftButton" then
-		BroadcastMessage("char," .. character.guid .. "," .. character.lastPlayed);
+		BroadcastMessage(character.text, "char," .. character.guid .. "," .. character.lastPlayed);
 	end
 	return true;
 end
@@ -1026,10 +1047,24 @@ local function OnClickForLinkedAccount(row, button)
 		-- Now send to any explicitly linked accounts.
 		local character = characterByInfo[identifier];
 		if character then
-			SendCharacterMessage(character, ValidateMessage("check," .. CurrentCharacter.battleTag));
+			SendCharacterMessage(character, character.text, "check," .. CurrentCharacter.battleTag);
 		else
-			SendAddonMessage(identifier, ValidateMessage("check," .. CurrentCharacter.battleTag));
+			SendAddonMessage(identifier, "Check " .. identifier, "check," .. CurrentCharacter.battleTag);
 		end
+	end
+	return true;
+end
+local function OnClickForSyncQueue(row, button)
+	local identifier = row.ref.text;
+	if not identifier then return true; end
+	
+	if button == "RightButton" then
+		app:ShowPopupDialog("SYNC QUEUE: " .. (row.ref.text or RETRIEVING_DATA) .. "\n \nAre you sure you want to delete this?",
+		function()
+			pendingReceiveChunksForUser[identifier] = nil;
+			pendingSendChunksForUser[identifier] = nil;
+			row:GetParent():GetParent():Rebuild();
+		end);
 	end
 	return true;
 end
@@ -1116,6 +1151,86 @@ local function OnTooltipForLinkedAccount(t, tooltipInfo)
 		});
 	end
 end
+local function OnTooltipForSyncQueue(t, tooltipInfo)
+	local identifier = t.text;
+	if not identifier then return; end
+	
+	-- Show the Receive Queue
+	local receiving = pendingReceiveChunksForUser[identifier];
+	if receiving then
+		tinsert(tooltipInfo, { left = " " });
+		tinsert(tooltipInfo, {
+			left = "Receiving: ",
+			r = 0.8, g = 0.8, b = 1
+		});
+		for uid,data in pairs(receiving) do
+			local count = 0;
+			for key,ignored in pairs(data.chunks) do
+				count = count + 1;
+			end
+			tinsert(tooltipInfo, {
+				left = "  " .. uid,
+				right = count .. " / " .. data.count .. " Chunks",
+				r = 0.8, g = 0.8, b = 0.8
+			});
+		end
+	end
+	
+	-- Show the Send Queue
+	local sending = pendingSendChunksForUser[identifier];
+	if sending then
+		tinsert(tooltipInfo, { left = " " });
+		tinsert(tooltipInfo, {
+			left = "Sending: ",
+			r = 0.8, g = 0.8, b = 1
+		});
+		for uid,data in pairs(sending) do
+			local count = 0;
+			for key,ignored in pairs(data.acks) do
+				count = count + 1;
+			end
+			tinsert(tooltipInfo, {
+				left = "  " .. uid .. ": " .. data.detail,
+				right = count .. " / " .. tostring(#data.chunks) .. " Chunks",
+				r = 0.8, g = 0.8, b = 0.8
+			});
+		end
+	end
+	
+	tinsert(tooltipInfo, {
+		left = "Right Click to Delete this Sync Target",
+		r = 1, g = 0.8, b = 0.8
+	});
+end
+local function OnUpdateForSyncQueue(t)
+	local identifier = t.text;
+	if not identifier then return; end
+	
+	local progress, total = 0, 0;
+	local receiving = pendingReceiveChunksForUser[identifier];
+	if receiving then
+		for uid,data in pairs(receiving) do
+			total = total + data.count;
+			for key,ignored in pairs(data.chunks) do
+				progress = progress + 1;
+			end
+		end
+	end
+	
+	local sending = pendingSendChunksForUser[identifier];
+	if sending then
+		for uid,data in pairs(sending) do
+			total = total + #data.chunks;
+			for key,ignored in pairs(data.acks) do
+				progress = progress + 1;
+			end
+		end
+	end
+	t.progress = progress;
+	t.total = total;
+	t.visible = true;
+	return true;
+end
 
 -- Implementation
 app:CreateWindow("Synchronization", {
@@ -1176,7 +1291,7 @@ app:CreateWindow("Synchronization", {
 		pcall(self.RegisterEvent, self, "BN_CHAT_MSG_ADDON");
 		self:RegisterEvent("CHAT_MSG_ADDON");
 		if settings.AutoSync then
-			BroadcastMessage("check," .. CurrentCharacter.battleTag);
+			BroadcastMessage("AutoSync", "check," .. CurrentCharacter.battleTag);
 		else
 			-- Cache some things related to BattleNet. (this happens in the BroadcastMessage function already)
 			UpdateBattleTags();
@@ -1197,7 +1312,7 @@ app:CreateWindow("Synchronization", {
 								-- Prevent server names.
 								cmd = ("-"):split(cmd);
 								LinkedCharacters[cmd] = true;
-								SendAddonMessage(cmd, "link," .. CurrentCharacter.battleTag);
+								SendAddonMessage(cmd, "Link " .. cmd, "link," .. CurrentCharacter.battleTag);
 								self:Rebuild();
 							end
 						end);
@@ -1224,7 +1339,7 @@ app:CreateWindow("Synchronization", {
 							self.Settings.AutoSync = not self.Settings.AutoSync;
 							self:Redraw();
 						else
-							BroadcastMessage("check," .. CurrentCharacter.battleTag);
+							BroadcastMessage(row.ref.text, "check," .. CurrentCharacter.battleTag);
 						end
 						return true;
 					end,
@@ -1324,6 +1439,38 @@ app:CreateWindow("Synchronization", {
 							});
 						end
 						return app.AlwaysShowUpdate(data);
+					end,
+				},
+				{	-- Pending Sync Queue
+					text = "Pending Sync Queue",
+					icon = 236681,
+					description = "This shows the contents of the sync queue.",
+					expanded = true,
+					g = {},
+					OnUpdate = function(data)
+						local g = data.g;
+						wipe(g);
+						local senders = {};
+						for sender,_ in pairs(pendingReceiveChunksForUser) do
+							senders[sender] = 1;
+						end
+						for sender,_ in pairs(pendingSendChunksForUser) do
+							senders[sender] = 1;
+						end
+						for sender,_ in pairs(senders) do
+							tinsert(g, {
+								OnClick = OnClickForSyncQueue,
+								OnTooltip = OnTooltipForSyncQueue,
+								OnUpdate = OnUpdateForSyncQueue,
+								text = sender,
+								icon = 526421,
+								visible = true,
+								parent = data,
+							});
+						end
+						
+						data.visible = #g > 1;
+						return false;
 					end,
 				},
 			};

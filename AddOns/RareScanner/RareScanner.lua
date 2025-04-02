@@ -173,31 +173,41 @@ scanner_button.CloseButton:HookScript("OnClick", function(self)
 	RSTomtom.RemoveCurrentTomtomWaypoint();
 end)
 
--- Filter disabled button
+-- Filtering buttons
 scanner_button.FilterEntityButton = CreateFrame("Button", "FilterEntityButton", scanner_button, "UIPanelCloseButtonNoScripts")
 scanner_button.FilterEntityButton:SetPoint("BOTTOMLEFT", 5, 5)
 scanner_button.FilterEntityButton:SetSize(16, 16)
+scanner_button.UnFilterEntityButton = CreateFrame("Button", "FilterEntityButton", scanner_button, "UIPanelCloseButtonNoScripts")
+scanner_button.UnFilterEntityButton:SetPoint("BOTTOMLEFT", 5, 5)
+scanner_button.UnFilterEntityButton:SetSize(16, 16)
 
-local FilterEntityButtonTexture = scanner_button.FilterEntityButton:CreateTexture()
-FilterEntityButtonTexture:SetTexture("Interface\\AddOns\\RareScanner\\Media\\Textures\\stop_icons.blp")
-FilterEntityButtonTexture:SetSize(16, 16)
-FilterEntityButtonTexture:SetTexCoord(0, 0.3, 0, 0.3)
-FilterEntityButtonTexture:SetPoint("CENTER")
-scanner_button.FilterEntityButton:SetNormalTexture(FilterEntityButtonTexture)
+local StopTexture = scanner_button.FilterEntityButton:CreateTexture()
+StopTexture:SetTexture("Interface\\AddOns\\RareScanner\\Media\\Textures\\stop_icons.blp")
+StopTexture:SetSize(16, 16)
+StopTexture:SetTexCoord(0, 0.3, 0, 0.3)
+StopTexture:SetPoint("CENTER")
+scanner_button.FilterEntityButton:SetNormalTexture(StopTexture)
 
-FilterEntityButtonTexture = scanner_button.FilterEntityButton:CreateTexture()
-FilterEntityButtonTexture:SetTexture("Interface\\AddOns\\RareScanner\\Media\\Textures\\stop_icons.blp")
-FilterEntityButtonTexture:SetSize(16, 16)
-FilterEntityButtonTexture:SetTexCoord(0, 0.3, 0.35, 0.65)
-FilterEntityButtonTexture:SetPoint("CENTER")
-scanner_button.FilterEntityButton:SetDisabledTexture(FilterEntityButtonTexture)
+StopTexture = scanner_button.FilterEntityButton:CreateTexture()
+StopTexture:SetTexture("Interface\\AddOns\\RareScanner\\Media\\Textures\\stop_icons.blp")
+StopTexture:SetSize(16, 16)
+StopTexture:SetTexCoord(0, 0.3, 0.65, 0.95)
+StopTexture:SetPoint("CENTER")
+scanner_button.FilterEntityButton:SetPushedTexture(StopTexture)
 
-FilterEntityButtonTexture = scanner_button.FilterEntityButton:CreateTexture()
-FilterEntityButtonTexture:SetTexture("Interface\\AddOns\\RareScanner\\Media\\Textures\\stop_icons.blp")
-FilterEntityButtonTexture:SetSize(16, 16)
-FilterEntityButtonTexture:SetTexCoord(0, 0.3, 0.65, 0.95)
-FilterEntityButtonTexture:SetPoint("CENTER")
-scanner_button.FilterEntityButton:SetPushedTexture(FilterEntityButtonTexture)
+local GoTexture = scanner_button.UnFilterEntityButton:CreateTexture()
+GoTexture:SetTexture("Interface\\AddOns\\RareScanner\\Media\\Textures\\stop_icons.blp")
+GoTexture:SetSize(16, 16)
+GoTexture:SetTexCoord(0.36, 0.65, 0, 0.3)
+GoTexture:SetPoint("CENTER")
+scanner_button.UnFilterEntityButton:SetNormalTexture(GoTexture)
+
+GoTexture = scanner_button.UnFilterEntityButton:CreateTexture()
+GoTexture:SetTexture("Interface\\AddOns\\RareScanner\\Media\\Textures\\stop_icons.blp")
+GoTexture:SetSize(16, 16)
+GoTexture:SetTexCoord(0.36, 0.65, 0.65, 0.95)
+GoTexture:SetPoint("CENTER")
+scanner_button.UnFilterEntityButton:SetPushedTexture(GoTexture)
 
 scanner_button.FilterEntityButton:SetScript("OnClick", function(self)
 	local entityID = self:GetParent().entityID
@@ -246,7 +256,8 @@ scanner_button.FilterEntityButton:SetScript("OnClick", function(self)
 		end
 		
 		RSLogger:PrintMessage(string.format(AL["ENTITY_FILTERED"], self:GetParent().Title:GetText()))
-		self:Disable()
+		scanner_button.UnFilterEntityButton:Show()
+		scanner_button.FilterEntityButton:Hide()
 	end
 end)
 scanner_button.FilterEntityButton:SetScript("OnEnter", function(self)
@@ -261,8 +272,38 @@ scanner_button.FilterEntityButton:SetScript("OnEnter", function(self)
 	self.tooltip:AddLine(AL["DISABLE_SEARCHING_TOOLTIP_DESC"], 1, 1, 1, true)
 	self.tooltip:Show()
 end)
-
 scanner_button.FilterEntityButton:SetScript("OnLeave", function(self)
+	self.tooltip:Hide()
+end)
+
+scanner_button.UnFilterEntityButton:SetScript("OnClick", function(self)
+	local entityID = self:GetParent().entityID
+	if (entityID) then
+		if (RSConstants.IsNpcAtlas(self:GetParent().atlasName)) then
+			RSConfigDB.DeleteNpcFiltered(entityID)
+		elseif (RSConstants.IsContainerAtlas(self:GetParent().atlasName)) then
+			RSConfigDB.DeleteContainerFiltered(entityID)
+		elseif (RSConstants.IsEventAtlas(self:GetParent().atlasName)) then
+			RSConfigDB.DeleteEventFiltered(entityID)
+		end
+		
+		scanner_button.UnFilterEntityButton:Hide()
+		scanner_button.FilterEntityButton:Show()
+	end
+end)
+scanner_button.UnFilterEntityButton:SetScript("OnEnter", function(self)
+	if (not self.tooltip) then
+		self.tooltip = CreateFrame("GameTooltip", "GoTooltip", scanner_button, "GameTooltipTemplate");
+		self.tooltip:SetMinimumWidth(150)
+		self.tooltip:SetScale(0.8)
+	end
+
+	self.tooltip:SetOwner(scanner_button, "ANCHOR_LEFT")
+	self.tooltip:SetText(AL["ENABLE_SEARCHING_TOOLTIP"])
+	self.tooltip:AddLine(AL["ENABLE_SEARCHING_TOOLTIP_DESC"], 1, 1, 1, true)
+	self.tooltip:Show()
+end)
+scanner_button.UnFilterEntityButton:SetScript("OnLeave", function(self)
 	self.tooltip:Hide()
 end)
 
@@ -506,11 +547,14 @@ function scanner_button:ShowButton()
 	self:SetAttribute("macrotext", macrotext);
 		
 	-- Toggle filter buttons
-	self.FilterEntityButton:Show()
-	if ((RSConstants.IsNpcAtlas(self.atlasName) and RSConfigDB.GetNpcFiltered(self.entityID) == nil) or (RSConstants.IsContainerAtlas(self.atlasName) and RSConfigDB.GetContainerFiltered(self.entityID) == nil) or (RSConstants.IsEventAtlas(self.atlasName))) then
-		self.FilterEntityButton:Enable()
+	if ((RSConstants.IsNpcAtlas(self.atlasName) and (RSConfigDB.GetNpcFiltered(self.entityID) == nil or RSConfigDB.GetNpcFiltered(self.entityID) == RSConstants.ENTITY_FILTER_WORLDMAP))
+		or (RSConstants.IsContainerAtlas(self.atlasName) and (RSConfigDB.GetContainerFiltered(self.entityID) == nil or RSConfigDB.GetContainerFiltered(self.entityID) == RSConstants.ENTITY_FILTER_WORLDMAP))
+		or (RSConstants.IsEventAtlas(self.atlasName) and (RSConfigDB.GetEventFiltered(self.entityID) == nil or RSConfigDB.GetEventFiltered(self.entityID) == RSConstants.ENTITY_FILTER_WORLDMAP))) then
+		self.FilterEntityButton:Show()
+		self.UnFilterEntityButton:Hide()
 	else
-		self.FilterEntityButton:Disable()
+		self.UnFilterEntityButton:Show()
+		self.FilterEntityButton:Hide()
 	end
 	
 	-- show button
@@ -1062,7 +1106,7 @@ local function RefreshDatabaseData(previousDbVersion)
 		-- Set default filters
 		if (not previousDbVersion or previousDbVersion < RSConstants.DEFAULT_FILTERED_ENTITIES.version) then
 			for _, containerID in ipairs(RSConstants.DEFAULT_FILTERED_ENTITIES.containers) do
-				RSConfigDB.SetContainerFiltered(containerID, RSConstants.ENTITY_FILTER_WORLDMAP)
+				RSConfigDB.SetContainerFiltered(containerID, RSConstants.ENTITY_FILTER_ALL)
 			end
 			RSLogger:PrintDebugMessage("Filtradas entidades predeterminadas")
 		end

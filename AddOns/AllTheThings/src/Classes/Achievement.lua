@@ -389,18 +389,22 @@ do
 				-- criteria with provider data
 				local providers = t.providers;
 				if providers then
-					local id
+					local pt, id
 					for k,v in ipairs(providers) do
+						pt = v[1]
 						id = v[2]
 						if id > 0 then
-							if v[1] == "o" then
+							if pt == "o" then
 								name = app.ObjectNames[id];
 								break
-							elseif v[1] == "i" then
+							elseif pt == "i" then
 								name = GetItemInfo(id);
 								break
-							elseif v[1] == "n" then
+							elseif pt == "n" then
 								name = app.NPCNameFromID[id];
+								break
+							elseif pt == "s" then
+								name = app.GetSpellName(id)
 								break
 							end
 						end

@@ -181,6 +181,7 @@ local IngameLocales = {
 	["DEATHKNIGHT"]           = AtlasLoot_GetClassName("DEATHKNIGHT"),
 	["DEMONHUNTER"]           = AtlasLoot_GetClassName("DEMONHUNTER"),
 	["DRUID"]                 = AtlasLoot_GetClassName("DRUID"),
+	["EVOKER"]                = AtlasLoot_GetClassName("EVOKER"),
 	["HUNTER"]                = AtlasLoot_GetClassName("HUNTER"),
 	["MAGE"]                  = AtlasLoot_GetClassName("MAGE"),
 	["MONK"]                  = AtlasLoot_GetClassName("MONK"),
@@ -190,7 +191,6 @@ local IngameLocales = {
 	["SHAMAN"]                = AtlasLoot_GetClassName("SHAMAN"),
 	["WARLOCK"]               = AtlasLoot_GetClassName("WARLOCK"),
 	["WARRIOR"]               = AtlasLoot_GetClassName("WARRIOR"),
-	["EVOKER"]                = AtlasLoot_GetClassName("EVOKER"),
 }
 AtlasLoot.IngameLocales = IngameLocales
 

@@ -1242,11 +1242,11 @@ local MOUNT_INFO = {
 		[457650] = 226040, -- Plunderlord's Golden Crocolisk
 		[457659] = 226044, -- Plunderlord's Weathered Crocolisk
 		[254812] = 233242, -- Royal Seafeather
+		[1217341] = 235555, -- Lively Darkmoon Charger
 		-- [449416] = 223570, -- Ebonhide Ramolith
 		-- [1217340] = 235554, -- Midnight Darkmoon Charger
 		-- [1218014] = 235659, -- Midnight Butterfly
 		-- [1217343] = 235557, -- Snowy Darkmoon Charger
-		-- [1217341] = 235555, -- Lively Darkmoon Charger
 		-- [1218013] = 235658, -- Spring Butterfly
 	},
 	["items"] = {

@@ -9,13 +9,8 @@ local SVF
 local db
 
 -- lua
-local tonumber, type = tonumber, type
-local assert = assert
-local next, wipe, tab_remove = next, wipe, table.remove
-local format, split = string.format, string.split
-
--- AL
-local GetAlTooltip = AtlasLoot.Tooltip.GetTooltip
+local type = type
+local split = string.split
 
 local SetClickHandler = nil
 
@@ -23,23 +18,23 @@ function Set.OnSet(button, second)
 	if not SetClickHandler then
 		db = AtlasLoot.db.Button.Set
 		SetClickHandler = ClickHandler:Add(
-		"Set",
-		{
-			OpenSet = { "LeftButton", "None" },
-			DressUp = { "LeftButton", "Ctrl" },
-			--ChatLink = { "LeftButton", "Shift" },
-			types = {
-				OpenSet = true,
-				DressUp = true,
-				--ChatLink = true,
+			"Set",
+			{
+				OpenSet = { "LeftButton", "None" },
+				DressUp = { "LeftButton", "Ctrl" },
+				--ChatLink = { "LeftButton", "Shift" },
+				types = {
+					OpenSet = true,
+					DressUp = true,
+					--ChatLink = true,
+				},
 			},
-		},
-		db.ClickHandler,
-		{
-			{ "OpenSet", 	"OpenSet", 	"OpenSet desc" },
-			{ "DressUp", 	AL["Dress up"], 	AL["Shows the item in the Dressing room"] },
-			--{ "ChatLink", 	AL["Chat Link"], 	AL["Add item into chat"] },
-		})
+			db.ClickHandler,
+			{
+				{ "OpenSet", "OpenSet",      "OpenSet desc" },
+				{ "DressUp", AL["Dress up"], AL["Shows the item in the Dressing room"] },
+				--{ "ChatLink", 	AL["Chat Link"], 	AL["Add item into chat"] },
+			})
 		SVF = AtlasLoot.GUI.SetViewFrame
 		Sets = AtlasLoot.Data.Sets
 	end
@@ -50,7 +45,7 @@ function Set.OnSet(button, second)
 		button.secButton.SetDiff = button.__atlaslootinfo.secType[2][3]
 		button.secButton.SetAddonName = button.__atlaslootinfo.secType[2][4] or (AtlasLoot.GUI.ItemFrame.LinkedInfo and (AtlasLoot.GUI.ItemFrame.LinkedInfo[1] or AtlasLoot.db.GUI.selected[1]) or AtlasLoot.db.GUI.selected[1])
 		local set = Sets:GetSet(button.secButton.SetName, button.secButton.SetAddonName)
-		
+
 		button.secButton.VisualName, button.secButton.VisualDesc, button.secButton.VisualIcon = set:GetInfo(button.secButton.SubSetName, set:GetNextPrevDifficulty(button.secButton.SubSetName, button.secButton.SetDiff))
 		button.secButton.Items = set:GetDiffTable(button.secButton.SubSetName, button.secButton.SetDiff)
 		if not set then
@@ -68,7 +63,7 @@ function Set.OnSet(button, second)
 		end
 		button.VisualName, button.VisualDesc, button.VisualIcon = set:GetInfo(button.SubSetName, set:GetNextPrevDifficulty(button.SubSetName, button.SetDiff))
 		button.Items = set:GetDiffTable(button.SubSetName, button.SetDiff)
-		
+
 		Set.Refresh(button)
 	end
 end
@@ -86,18 +81,18 @@ function Set.OnMouseAction(button, mouseButton)
 		end
 	elseif mouseButton == "OpenSet" then
 		SVF:SetAtlasLootItemSet(button.SetName, button.SetAddonName or AtlasLoot.db.GUI.selected[1], button.SubSetName, button.SetDiff)
-	elseif mouseButton == "MouseWheelUp" and Set.tooltipFrame then  -- ^
+	elseif mouseButton == "MouseWheelUp" and Set.tooltipFrame then -- ^
 		local frame = Set.tooltipFrame.modelFrame
-		if IsAltKeyDown() then -- model zoom
+		if IsAltKeyDown() then                                  -- model zoom
 			frame.zoomLevelNew = frame.zoomLevelNew + 0.1 >= frame.maxZoom and frame.maxZoom or frame.zoomLevelNew + 0.1
 			frame:SetPortraitZoom(frame.zoomLevelNew)
 		else -- model rotation
 			frame.curRotation = frame.curRotation + 0.1
 			frame:SetRotation(frame.curRotation)
 		end
-	elseif mouseButton == "MouseWheelDown" and Set.tooltipFrame then	-- v
+	elseif mouseButton == "MouseWheelDown" and Set.tooltipFrame then -- v
 		local frame = Set.tooltipFrame.modelFrame
-		if IsAltKeyDown() then -- model zoom
+		if IsAltKeyDown() then                                    -- model zoom
 			frame.zoomLevelNew = frame.zoomLevelNew - 0.1 <= frame.minZoom and frame.minZoom or frame.zoomLevelNew - 0.1
 			frame:SetPortraitZoom(frame.zoomLevelNew)
 		else -- model rotation
@@ -122,7 +117,7 @@ function Set.OnClear(button)
 	button.SetAddonName = nil
 	button.Items = nil
 	button.VisualName, button.VisualDesc, button.VisualIcon = nil, nil, nil
-	
+
 	button.secButton.SetName = nil
 	button.secButton.SubSetName = nil
 	button.secButton.SetDiff = nil
@@ -134,7 +129,7 @@ end
 function Set.Refresh(button)
 	if button.type == "secButton" then
 		button:SetNormalTexture(button.VisualIcon)
-	else	
+	else
 		button.icon:SetTexture(button.VisualIcon)
 		button.name:SetText(button.VisualName)
 		button.extra:SetText(button.VisualDesc)
@@ -155,12 +150,12 @@ end
 
 function Set.ShowToolTipFrame(button)
 	if not button.Items then return end
-	if not Set.tooltipFrame then 
+	if not Set.tooltipFrame then
 		local name = "AtlasLoot-SetToolTip"
 		local frame = CreateFrame("Frame", name)
 		frame:SetClampedToScreen(true)
 		frame:SetSize(230, 280)
-		
+
 		frame.modelFrame = CreateFrame("DressUpModel", name.."-ModelFrame", frame, BackdropTemplateMixin and "BackdropTemplate" or nil)
 		frame.modelFrame:ClearAllPoints()
 		frame.modelFrame:SetParent(frame)
@@ -168,7 +163,7 @@ function Set.ShowToolTipFrame(button)
 		frame.modelFrame.defaultRotation = MODELFRAME_DEFAULT_ROTATION
 		frame.modelFrame:SetRotation(MODELFRAME_DEFAULT_ROTATION)
 		frame.modelFrame:SetBackdrop(ALPrivate.BOX_BORDER_BACKDROP)
-		frame.modelFrame:SetBackdropColor(0,0,0,1)
+		frame.modelFrame:SetBackdropColor(0, 0, 0, 1)
 		frame.modelFrame:SetUnit("player")
 		frame.modelFrame.minZoom = 0
 		frame.modelFrame.maxZoom = 1.0
@@ -183,20 +178,20 @@ function Set.ShowToolTipFrame(button)
 			f:SetPosition(0, 0, 0)
 			f.zoomLevel = f.minZoom
 			f:SetPortraitZoom(f.zoomLevel)
-		end)		
+		end)
 		Set.tooltipFrame = frame
 		frame:Hide()
 	end
-	
+
 	local frame = Set.tooltipFrame
-	
+
 	frame:Show()
-	
+
 	frame:ClearAllPoints()
 	frame:SetParent(button:GetParent():GetParent())
 	frame:SetFrameStrata("TOOLTIP")
 	frame:SetPoint("BOTTOMLEFT", button, "TOPRIGHT")
-	
+
 	frame = Set.tooltipFrame.modelFrame
 	frame:Reset()
 	--frame:Undress()
@@ -205,6 +200,4 @@ function Set.ShowToolTipFrame(button)
 	for i = 1, #button.Items do
 		frame:TryOn(type(button.Items[i]) == "string" and button.Items[i] or "item:"..button.Items[i])
 	end
-	
-	
 end

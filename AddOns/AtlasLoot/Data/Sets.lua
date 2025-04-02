@@ -52,6 +52,10 @@ local ICON_PATH_PRE = {
 	warri = "Interface\\Icons\\ClassIcon_Warrior",
 	warriDPS = "Interface\\Icons\\ability_warrior_innerrage",
 	warriProt = "Interface\\Icons\\ability_warrior_defensivestance",
+	evoker = "Interface\\Icons\\ClassIcon_Evoker",
+	evoAug = "Interface\\Icons\\ClassIcon_Evoker_augmentation",
+	evoDev = "Interface\\Icons\\ClassIcon_Evoker_devastation",
+	evoPre = "Interface\\Icons\\ClassIcon_Evoker_preservation",
 }
 
 -- contains all sets
@@ -72,7 +76,7 @@ function Sets_Proto:SetContentTable(setTab)
 	Storage[self.__key] = setTab
 end
 
-function Sets_Proto:AddDifficulty(diffName, shortName, preset)
+function Sets_Proto:AddDifficulty(diffName, shortName, preset, difficultyID, tierID)
 	if not difficultys[self.__key] then
 		difficultys[self.__key] = {
 			counter = 0,
@@ -94,6 +98,8 @@ function Sets_Proto:AddDifficulty(diffName, shortName, preset)
 			name = diffName,
 			preset = preset,
 			shortName = shortName,
+			difficultyID = difficultyID,
+			tierID = tierID,
 		}
 	end
 	return diffTab.shortNames[shortName] + DIFF_LIST_START or diffTab.names[diffName] + DIFF_LIST_START
@@ -326,7 +332,7 @@ local Loaded_Sets_MT = {
 							end
 							-- Create the item strings if there ar bonus ids
 							if difficultys[self.__key].data[ia - DIFF_LIST_START].preset then
-								subSet[ia][ib] = ItemStringCreate(item, difficultys[self.__key].data[ia - DIFF_LIST_START].preset[1])
+								subSet[ia][ib] = ItemStringCreate(item, difficultys[self.__key].data[ia - DIFF_LIST_START].preset[1], difficultys[self.__key].data[ia - DIFF_LIST_START].difficultyID)
 							end
 						end
 					end

@@ -14,78 +14,44 @@ AtlasLoot:RegisterModules(addonname)
 
 local AL = AtlasLoot.Locales
 
-local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], "LFRWithPreset", {
-	Item = {
-		item2bonus = "BfAMaxItemLvl",
-		autoCompleteItem2 = true,
-		addDifficultyBonus = true,
-	},
-}, 17)
-local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", {
-	Item = {
-		item1bonus = "Scaling",
-		addDifficultyBonus = true,
-	},
-}, 1)
-local NORMAL_RAID_DIFF = data:AddDifficulty(AL["Normal"], "NormalRaidWithPreset", {
-	Item = {
-		item2bonus = "BfAMaxItemLvl",
-		autoCompleteItem2 = true,
-		addDifficultyBonus = true,
-	},
-}, 14)
 local NORMAL_DUNGEON_DIFF = data:AddDifficulty(AL["Normal"], "DungeonWithPreset", {
 	Item = {
-		item1bonus = "Scaling",
-		item2bonus = "BfAMaxItemLvl",
-		autoCompleteItem2 = true,
 		addDifficultyBonus = true,
 	},
 }, 1)
-local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"], "h", nil, 2)
 local HEROIC_DUNGEON_DIFF = data:AddDifficulty(AL["Heroic"], "HeroicDungeonWithPreset", {
 	Item = {
-		item2bonus = "BfAMaxItemLvl", --"BfAHCDungeonTitanforged",
-		autoCompleteItem2 = true,
 		addDifficultyBonus = true,
 	},
 }, 2)
-local MYTHICD_DIFF = data:AddDifficulty(AL["Mythic"], "h", nil, 23)
 local MYTHICD_DUNGEON_DIFF = data:AddDifficulty(AL["Mythic"], "MythicDungeonWithPreset", {
 	Item = {
-		item2bonus = "BfAMaxItemLvl",
-		autoCompleteItem2 = true,
 		addDifficultyBonus = true,
 	},
 }, 23)
-local MYTHICD2_DIFF = data:AddDifficulty(AL["Mythic"], "h", nil, 23)
-local MYTHICD2_DUNGEON_DIFF = data:AddDifficulty(AL["Mythic"], "MythicDungeon2WithPreset", {
+
+local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], "LFRWithPreset", {
 	Item = {
-		item1bonus = "LegionMDungeon2",
-		item2bonus = "BfAMaxItemLvl",
-		autoCompleteItem2 = true,
 		addDifficultyBonus = true,
 	},
-}, 23)
+}, 17)
+local NORMAL_RAID_DIFF = data:AddDifficulty(AL["Normal"], "NormalRaidWithPreset", {
+	Item = {
+		addDifficultyBonus = true,
+	},
+}, 14)
 local HEROIC_PRE_DIFF = data:AddDifficulty(AL["Heroic"], "HeroicWithPreset", {
 	Item = {
-		item2bonus = "BfAMaxItemLvl",
-		autoCompleteItem2 = true,
 		addDifficultyBonus = true,
 	},
 }, 15)
-local MYTHIC_DIFF = data:AddDifficulty(AL["Mythic"], "m", nil, 16)
 local MYTHIC_PRE_DIFF = data:AddDifficulty(AL["Mythic"], "MyhticWithPreset", {
 	Item = {
-		item2bonus = "BfAMaxItemLvl",
-		autoCompleteItem2 = true,
 		addDifficultyBonus = true,
 	},
 }, 16)
 
-local NORMAL_ITTYPE = data:AddItemTableType("Item", "Item")
 local RAID_ITTYPE = data:AddItemTableType("Item", "Item") -- Normal, Thunder-/Warforged...
-local AC_ITTYPE = data:AddItemTableType("Achievement", "Item")
 
 local DUNGEON_CONTENT = data:AddContentType(AL["Dungeons"], ATLASLOOT_DUNGEON_COLOR)
 local RAID_CONTENT = data:AddContentType(AL["Raids"], ATLASLOOT_RAID_COLOR)

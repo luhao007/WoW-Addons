@@ -308,115 +308,115 @@ local function ShowAlert(button, vignetteInfo, isNavigating)
 			RSLogger:PrintDebugMessage(string.format("El NPC [%s] estaba marcado como muerto, pero lo acabamos de detectar vivo, resucitado!", entityID))
 			RSNpcDB.DeleteNpcKilled(entityID)
 		end
+		
+		-- disable ALL alerts for containers
+		if (RSConstants.IsContainerAtlas(vignetteInfo.atlasName) and not RSConfigDB.IsScanningForContainers()) then
+			RSLogger:PrintDebugMessage(string.format("El contenedor [%s] se ignora por haber deshabilitado alertas de contenedores", entityID))
+			return
+		-- disable alerts for filtered containers. Check if the container is filtered, in which case we don't show anything
+		elseif (RSConstants.IsContainerAtlas(vignetteInfo.atlasName) and RSConfigDB.IsContainerFiltered(entityID)) then
+			RSLogger:PrintDebugMessage(string.format("El contenedor [%s] se ignora por estar filtrado (completo)", entityID))
+			return
+		-- disable alerts for rare NPCs
+		elseif (RSConstants.IsNpcAtlas(vignetteInfo.atlasName) and not RSConfigDB.IsScanningForNpcs()) then
+			RSLogger:PrintDebugMessage(string.format("El NPC [%s] se ignora por haber deshabilitado alertas de NPCs", entityID))
+			return
+		-- disable alerts for filtered rare NPCs (completely)
+		elseif (RSConstants.IsNpcAtlas(vignetteInfo.atlasName) and RSConfigDB.IsNpcFiltered(entityID)) then
+			RSLogger:PrintDebugMessage(string.format("El NPC [%s] se ignora por estar filtrado (completo)", entityID))
+			return
+		-- disable alerts for filtered rare NPCs (alerts)
+		elseif (RSConstants.IsNpcAtlas(vignetteInfo.atlasName) and RSConfigDB.IsNpcFilteredOnlyAlerts(entityID)) then
+			RSLogger:PrintDebugMessage(string.format("El NPC [%s] se ignora por estar filtrado (alertas)", entityID))
+			RSRecentlySeenTracker.AddRecentlySeen(entityID, vignetteInfo.atlasName, false)
+			return true
+		-- disable alerts for events
+		elseif (RSConstants.IsEventAtlas(vignetteInfo.atlasName) and not RSConfigDB.IsScanningForEvents()) then
+			RSLogger:PrintDebugMessage(string.format("El evento [%s] se ignora por haber deshabilitado alertas de eventos", entityID))
+			return
+		-- disable alerts for filtered events (completely)
+		elseif (RSConstants.IsEventAtlas(vignetteInfo.atlasName) and RSConfigDB.IsEventFiltered(entityID)) then
+			RSLogger:PrintDebugMessage(string.format("El evento [%s] se ignora por estar filtrado (completo)", entityID))
+			return
+		-- disable alerts for filtered events (alerts)
+		elseif (RSConstants.IsEventAtlas(vignetteInfo.atlasName) and RSConfigDB.IsEventFilteredOnlyAlerts(entityID)) then
+			RSLogger:PrintDebugMessage(string.format("El evento [%s] se ignora por estar filtrado (alertas)", entityID))
+			RSRecentlySeenTracker.AddRecentlySeen(entityID, vignetteInfo.atlasName, false)
+			return true
+		-- disable alerts for filtered zones
+		elseif (RSConfigDB.IsZoneFiltered(mapID) or RSConfigDB.IsZoneFilteredOnlyAlerts(mapID) or RSConfigDB.IsEntityZoneFilteredOnlyAlerts(entityID, vignetteInfo.atlasName, mapID)) then
+			RSLogger:PrintDebugMessage(string.format("La entidad [%s] se ignora por pertenecer a una zona [%s] filtrada", entityID, mapID))
+			return
+		-- extra checkings for containers
+		elseif (RSConstants.IsContainerAtlas(vignetteInfo.atlasName)) then		
+			-- save containers to show it on the world map
+			RSContainerDB.SetContainerName(entityID, vignetteInfo.name)
+	
+			-- some containers belong to places where rares die forever
+			-- and anyway, this containers can respawn every day
+			-- so if this is the case, mark it as an exception
+			if (RSContainerDB.IsContainerOpened(entityID)) then
+				RSContainerDB.SetContainerReseteable(entityID)
+				RSContainerDB.DeleteContainerOpened(entityID)
+				RSLogger:PrintDebugMessage(string.format("Contenedor [%s]. Detectado como reseteable (cuando no lo estaba)", entityID))
+			end
+			
+			-- disable visual/sound alerts for filtered containers
+			if (RSConfigDB.IsContainerFilteredOnlyAlerts(entityID)) then
+				RSRecentlySeenTracker.AddRecentlySeen(entityID, vignetteInfo.atlasName, false)
+				return true
+			end
+	
+			-- disable garrison container alert
+			if (not RSConfigDB.IsShowingGarrisonCache()) then
+				-- check if the container is the garrison cache
+				if (RSUtils.Contains(RSConstants.GARRISON_CACHE_IDS, entityID)) then
+					RSLogger:PrintDebugMessage("Contenedor de la ciudadela filtrado")
+					return
+				end
+			end
+	
+			-- disable button alert for containers
+			if (not RSConfigDB.IsButtonDisplayingForContainers()) then
+				RSRecentlySeenTracker.AddRecentlySeen(entityID, vignetteInfo.atlasName, false)
+				RSTomtom.AddTomtomAutomaticWaypoint(mapID, vignettePosition.x, vignettePosition.y, vignetteInfo.name)
+				RSWaypoints.AddAutomaticWaypoint(mapID, vignettePosition.x, vignettePosition.y)
+	
+				if (RSNotificationTracker.IsAlreadyNotificated(vignetteInfo.id, false, entityID)) then
+					RSLogger:PrintDebugMessage(string.format("El contenedor [%s] se ignora porque se ha avisado de esta hace menos de 2 minutos", entityID))
+					return
+				else
+					RSNotificationTracker.AddNotification(vignetteInfo.id, false, entityID)
+					
+					if (RSConfigDB.IsFlashingWindowsTaskbar()) then
+						FlashClientIcon()
+					end
+					
+					RSAudioAlerts.PlaySoundAlert(vignetteInfo.atlasName)
+					button:DisplayMessages(entityID, vignetteInfo.preEvent and string.format(AL["PRE_EVENT"], vignetteInfo.name) or vignetteInfo.name)
+					return
+				end
+			end
+		-- extra checkings for events
+		elseif (RSConstants.IsEventAtlas(vignetteInfo.atlasName)) then
+			-- ignore events with Zaralek cavern horn if not in Zaralek
+			if (vignetteInfo.atlasName == RSConstants.EVENT_ZARALEK_CAVERN and mapID and mapID ~= RSConstants.ZARALEK_CAVERN) then
+				RSLogger:PrintDebugMessage(string.format("El evento [%s] se ignora porque tiene el atlas [%s] y no esta en Zaralek Cavern", entityID, vignetteInfo.atlasName))
+				return
+			end
+			
+			-- check just in case its an NPC
+			if (not RSNpcDB.GetNpcName(entityID)) then
+				RSEventDB.SetEventName(entityID, vignetteInfo.name)
+			end
+		end
+
+		-- Sets the current vignette as new found
+		RSNotificationTracker.AddNotification(vignetteInfo.id, isNavigating, entityID)
 	else
 		vignettePosition.x = vignetteInfo.x
 		vignettePosition.y = vignetteInfo.y
 	end
-
-	-- disable ALL alerts for containers
-	if (RSConstants.IsContainerAtlas(vignetteInfo.atlasName) and not RSConfigDB.IsScanningForContainers()) then
-		RSLogger:PrintDebugMessage(string.format("El contenedor [%s] se ignora por haber deshabilitado alertas de contenedores", entityID))
-		return
-	-- disable alerts for filtered containers. Check if the container is filtered, in which case we don't show anything
-	elseif (RSConstants.IsContainerAtlas(vignetteInfo.atlasName) and RSConfigDB.IsContainerFiltered(entityID)) then
-		RSLogger:PrintDebugMessage(string.format("El contenedor [%s] se ignora por estar filtrado (completo)", entityID))
-		return
-	-- disable alerts for rare NPCs
-	elseif (RSConstants.IsNpcAtlas(vignetteInfo.atlasName) and not RSConfigDB.IsScanningForNpcs()) then
-		RSLogger:PrintDebugMessage(string.format("El NPC [%s] se ignora por haber deshabilitado alertas de NPCs", entityID))
-		return
-	-- disable alerts for filtered rare NPCs (completely)
-	elseif (RSConstants.IsNpcAtlas(vignetteInfo.atlasName) and RSConfigDB.IsNpcFiltered(entityID)) then
-		RSLogger:PrintDebugMessage(string.format("El NPC [%s] se ignora por estar filtrado (completo)", entityID))
-		return
-	-- disable alerts for filtered rare NPCs (alerts)
-	elseif (RSConstants.IsNpcAtlas(vignetteInfo.atlasName) and RSConfigDB.IsNpcFilteredOnlyAlerts(entityID)) then
-		RSLogger:PrintDebugMessage(string.format("El NPC [%s] se ignora por estar filtrado (alertas)", entityID))
-		RSRecentlySeenTracker.AddRecentlySeen(entityID, vignetteInfo.atlasName, false)
-		return true
-	-- disable alerts for events
-	elseif (RSConstants.IsEventAtlas(vignetteInfo.atlasName) and not RSConfigDB.IsScanningForEvents()) then
-		RSLogger:PrintDebugMessage(string.format("El evento [%s] se ignora por haber deshabilitado alertas de eventos", entityID))
-		return
-	-- disable alerts for filtered events (completely)
-	elseif (RSConstants.IsEventAtlas(vignetteInfo.atlasName) and RSConfigDB.IsEventFiltered(entityID)) then
-		RSLogger:PrintDebugMessage(string.format("El evento [%s] se ignora por estar filtrado (completo)", entityID))
-		return
-	-- disable alerts for filtered events (alerts)
-	elseif (RSConstants.IsEventAtlas(vignetteInfo.atlasName) and RSConfigDB.IsEventFilteredOnlyAlerts(entityID)) then
-		RSLogger:PrintDebugMessage(string.format("El evento [%s] se ignora por estar filtrado (alertas)", entityID))
-		RSRecentlySeenTracker.AddRecentlySeen(entityID, vignetteInfo.atlasName, false)
-		return true
-	-- disable alerts for filtered zones
-	elseif (RSConfigDB.IsZoneFiltered(mapID) or RSConfigDB.IsZoneFilteredOnlyAlerts(mapID) or RSConfigDB.IsEntityZoneFilteredOnlyAlerts(entityID, vignetteInfo.atlasName, mapID)) then
-		RSLogger:PrintDebugMessage(string.format("La entidad [%s] se ignora por pertenecer a una zona [%s] filtrada", entityID, mapID))
-		return
-	-- extra checkings for containers
-	elseif (RSConstants.IsContainerAtlas(vignetteInfo.atlasName)) then		
-		-- save containers to show it on the world map
-		RSContainerDB.SetContainerName(entityID, vignetteInfo.name)
-
-		-- some containers belong to places where rares die forever
-		-- and anyway, this containers can respawn every day
-		-- so if this is the case, mark it as an exception
-		if (RSContainerDB.IsContainerOpened(entityID)) then
-			RSContainerDB.SetContainerReseteable(entityID)
-			RSContainerDB.DeleteContainerOpened(entityID)
-			RSLogger:PrintDebugMessage(string.format("Contenedor [%s]. Detectado como reseteable (cuando no lo estaba)", entityID))
-		end
-		
-		-- disable visual/sound alerts for filtered containers
-		if (RSConfigDB.IsContainerFilteredOnlyAlerts(entityID)) then
-			RSRecentlySeenTracker.AddRecentlySeen(entityID, vignetteInfo.atlasName, false)
-			return true
-		end
-
-		-- disable garrison container alert
-		if (not RSConfigDB.IsShowingGarrisonCache()) then
-			-- check if the container is the garrison cache
-			if (RSUtils.Contains(RSConstants.GARRISON_CACHE_IDS, entityID)) then
-				RSLogger:PrintDebugMessage("Contenedor de la ciudadela filtrado")
-				return
-			end
-		end
-
-		-- disable button alert for containers
-		if (not RSConfigDB.IsButtonDisplayingForContainers()) then
-			RSRecentlySeenTracker.AddRecentlySeen(entityID, vignetteInfo.atlasName, false)
-			RSTomtom.AddTomtomAutomaticWaypoint(mapID, vignettePosition.x, vignettePosition.y, vignetteInfo.name)
-			RSWaypoints.AddAutomaticWaypoint(mapID, vignettePosition.x, vignettePosition.y)
-
-			if (RSNotificationTracker.IsAlreadyNotificated(vignetteInfo.id, false, entityID)) then
-				RSLogger:PrintDebugMessage(string.format("El contenedor [%s] se ignora porque se ha avisado de esta hace menos de 2 minutos", entityID))
-				return
-			else
-				RSNotificationTracker.AddNotification(vignetteInfo.id, false, entityID)
-				
-				if (RSConfigDB.IsFlashingWindowsTaskbar()) then
-					FlashClientIcon()
-				end
-				
-				RSAudioAlerts.PlaySoundAlert(vignetteInfo.atlasName)
-				button:DisplayMessages(entityID, vignetteInfo.preEvent and string.format(AL["PRE_EVENT"], vignetteInfo.name) or vignetteInfo.name)
-				return
-			end
-		end
-	-- extra checkings for events
-	elseif (RSConstants.IsEventAtlas(vignetteInfo.atlasName)) then
-		-- ignore events with Zaralek cavern horn if not in Zaralek
-		if (vignetteInfo.atlasName == RSConstants.EVENT_ZARALEK_CAVERN and mapID and mapID ~= RSConstants.ZARALEK_CAVERN) then
-			RSLogger:PrintDebugMessage(string.format("El evento [%s] se ignora porque tiene el atlas [%s] y no esta en Zaralek Cavern", entityID, vignetteInfo.atlasName))
-			return
-		end
-		
-		-- check just in case its an NPC
-		if (not RSNpcDB.GetNpcName(entityID)) then
-			RSEventDB.SetEventName(entityID, vignetteInfo.name)
-		end
-	end
-
-	-- Sets the current vignette as new found
-	RSNotificationTracker.AddNotification(vignetteInfo.id, isNavigating, entityID)
 
 	--------------------------------
 	-- show messages and play alarm

@@ -1,6 +1,6 @@
 ## Interface: 110100
 ## Author: nanderson11, Lag, Proteyer, Arith
-## Version: v8.24.0
+## Version: v8.25.0
 
 ## Title: AtlasLoot |cFF0099FF[Burning Crusade]|r
 ## Notes: AtlasLoot loot tables from Burning Crusade

@@ -502,6 +502,7 @@ local function CostCalcComplete()
 	end
 	for suffix,window in pairs(app.Windows) do
 		if suffix ~= "Prime" then
+			-- TODO: I don't like this, find a way to make it not necessary when Cost updates are performed
 			app.UpdateRunner.Run(window.Update, window, true)
 		end
 	end

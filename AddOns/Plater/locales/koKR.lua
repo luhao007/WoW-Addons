@@ -108,7 +108,13 @@ L["OPTIONS_CASTBAR_SPELLICON"] = "주문 아이콘"
 L["OPTIONS_CASTBAR_TOGGLE_TEST"] = "테스트용 시전바 켜기"
 L["OPTIONS_CASTBAR_TOGGLE_TEST_DESC"] = "시전바 테스트 시작, 한번 더 누르면 중지됩니다."
 L["OPTIONS_CASTBAR_WIDTH"] = "시전바 너비"
+--[[Translation missing --]]
+L["OPTIONS_CASTCOLORS_DISABLE_SOUNDS"] = "Remove All Sounds"
+--[[Translation missing --]]
+L["OPTIONS_CASTCOLORS_DISABLE_SOUNDS_CONFIRM"] = "Are you sure you want to remove all configured cast sounds?"
 L["OPTIONS_CASTCOLORS_DISABLECOLORS"] = "모든 색상 해제"
+--[[Translation missing --]]
+L["OPTIONS_CASTCOLORS_DISABLECOLORS_CONFIRM"] = "Confirm disable all cast colors?"
 L["OPTIONS_CLICK_SPACE_HEIGHT"] = "대상을 선택하기 위한 마우스 클릭 영역의 높이값"
 L["OPTIONS_CLICK_SPACE_WIDTH"] = "대상을 선택하기 위한 마우스 클릭 영역의 너비값"
 L["OPTIONS_COLOR"] = "색상"

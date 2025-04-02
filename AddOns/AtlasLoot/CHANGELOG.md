@@ -1,5 +1,17 @@
 ﻿# Changelog
 
+## 8.25.0 - April 1, 2025
+This update marks the addition of the last TWW loot. There's still things to add and update from previous expansions, but I'm going to take a short detour and update the UI and add a new feature or two. It might be a few weeks until the next update, but it will be coming soon!
+### Added
+- Added TWW tier sets
+- Added TWW PvP rewards
+- Added Lively Darkmoon Charger
+### Changed
+- Merged PvP seasons with more than one item in the dropdown to reduce the length of the list
+### Fixed
+- Removed duplicate secondary button on TWW, Dragonflight and Shadowlands dungeons and raids
+- Fixed item level of Legion tier sets
+
 ## 8.24.0 - March 24, 2025
 ### Added
 - Added TWW mounts to Collections

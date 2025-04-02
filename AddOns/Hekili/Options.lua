@@ -47,11 +47,11 @@ local GetNumSpellTabs = C_SpellBook.GetNumSpellBookSkillLines
 local GetSpellTabInfo = function(index)
     local skillLineInfo = C_SpellBook.GetSpellBookSkillLineInfo(index)
     if skillLineInfo then
-        return	skillLineInfo.name, 
-                skillLineInfo.iconID, 
-                skillLineInfo.itemIndexOffset, 
-                skillLineInfo.numSpellBookItems, 
-                skillLineInfo.isGuild, 
+        return	skillLineInfo.name,
+                skillLineInfo.iconID,
+                skillLineInfo.itemIndexOffset,
+                skillLineInfo.numSpellBookItems,
+                skillLineInfo.isGuild,
                 skillLineInfo.offSpecID,
                 skillLineInfo.shouldHide,
                 skillLineInfo.specID
@@ -4176,6 +4176,18 @@ self:ForceUpdate( "SPEC_PACKAGE_CHANGED" )
                 order = 3.2,
             },
 
+            dotCap = {
+                type = "range",
+                name = "Maximum Applications",
+                desc = "If set above zero, this ability will not be recommended when it has been applied to this number of targets (or more). If the aura is refreshable on your current target, this limit is ignored.\n\n" ..
+                       "Set to zero to ignore this limit.",
+                width = 1.5,
+                min = 0,
+                max = 100,
+                step = 1,
+                order = 3.25,
+            },
+
             clash = {
                 type = "range",
                 name = "Clash",
@@ -4339,18 +4351,29 @@ self:ForceUpdate( "SPEC_PACKAGE_CHANGED" )
                         order = 2.11,
                     },
 
+                    dotCap = {
+                        type = "range",
+                        name = "Maximum Applications",
+                        desc = "If set above zero, this ability will not be recommended when it has been applied to this number of targets (or more). If the aura is refreshable on your current target, this limit is ignored.\n\n" ..
+                        "Set to zero to ignore this limit.",
+                        width = 1.5,
+                        min = 0,
+                        max = 100,
+                        step = 1,
+                        order = 2.19,
+                    },
+
                     clash = {
                         type = "range",
                         name = "Clash",
                         desc = "If set above zero, the addon will pretend " .. k .. " has come off cooldown this much sooner than it actually has.  " ..
                             "This can be helpful when an ability is very high priority and you want the addon to prefer it over abilities that are available sooner.",
-                        width = 3,
+                        width = 1.5,
                         min = -1.5,
                         max = 1.5,
                         step = 0.05,
                         order = 2.2,
                     },
-
 
                     lineBreak3 = {
                         type = "description",
@@ -6174,8 +6197,8 @@ found = true end
                                     args = {
                                         guide = {
                                             type = "description",
-                                            name = "|cFFFF0000No support is offered for custom or imported priorities from elsewhere.|r\n\n" .. 
-                                                    "|cFF00CCFFThe default priorities included within the addon are kept up to date, are compatible with your character, and do not require additional changes.|r\n\n" .. 
+                                            name = "|cFFFF0000No support is offered for custom or imported priorities from elsewhere.|r\n\n" ..
+                                                    "|cFF00CCFFThe default priorities included within the addon are kept up to date, are compatible with your character, and do not require additional changes.|r\n\n" ..
                                                     "Paste a Priority import string in the box below to begin.",
                                             order = 1,
                                             width = "full",
@@ -6781,8 +6804,8 @@ break end
 
                                 profilewarning = {
                                     type = "description",
-                                    name = "|cFFFF0000You do not need to import a SimulationCraft profile to use this addon. No support is offered for custom or imported priorities from elsewhere.|r\n\n" .. 
-                                        "|cFF00CCFFThe default priorities included within the addon are kept up to date, are compatible with your character, and do not require additional changes.|r\n\n", 
+                                    name = "|cFFFF0000You do not need to import a SimulationCraft profile to use this addon. No support is offered for custom or imported priorities from elsewhere.|r\n\n" ..
+                                        "|cFF00CCFFThe default priorities included within the addon are kept up to date, are compatible with your character, and do not require additional changes.|r\n\n",
                                     order = 2.1,
                                     fontSize = "medium",
                                     width = "full",
@@ -7977,13 +8000,109 @@ n = tonumber( n ) + 1
                                     name = "Priority Export String",
                                     desc = "Press CTRL+A to select, then CTRL+C to copy.",
                                     get = function( info )
-                                        return SerializeActionPack( pack )
+                                        Hekili.PackExports = Hekili.PackExports or {}
+
+                                        -- Wipe previous output for this pack.
+                                        local exportData = {
+                                            export = "",
+                                            stress = "",
+                                            linked = false,
+                                            unrelated = false
+                                        }
+                                        Hekili.PackExports[ pack ] = exportData
+
+                                        local export = SerializeActionPack( pack )
+                                        exportData.export = export
+
+                                        wipe( Hekili.ErrorDB )
+                                        wipe( Hekili.ErrorKeys )
+
+                                        Hekili.Scripts:LoadScripts()
+                                        local stressTestResults = Hekili:RunStressTest()
+
+                                        local function ColorizeAPLIdentifier( key )
+                                            local spec, list, entry, context = key:match( "^([^:]+):([^:]+):(%d+)%s+(%a+):" )
+                                            if not spec then return key end
+
+                                            return string.format(
+                                                "|cff00ccff%s|r:|cffffd100%s|r:%s |cff888888%s|r:",
+                                                spec, list, entry, context
+                                            )
+                                        end
+
+                                        local output, finalOutput = {}, {}
+                                        local lowerPack = pack:lower()
+                                        local shadowKey   = "error in " .. lowerPack .. ":"
+                                        local shadowLabel = "priority '" .. lowerPack .. "'"
+
+                                        for _, key in ipairs( Hekili.ErrorKeys ) do
+                                            local entry = Hekili.ErrorDB[ key ]
+                                            if entry then
+                                                local body = entry.text or "|cff777777<No message provided>|r"
+                                                local coloredKey = ColorizeAPLIdentifier( key )
+
+                                                table.insert( output, format(
+                                                    "|cff888888[%s (%dx)]|r %s\n%s",
+                                                    entry.last or "??", entry.n or 1, coloredKey, body
+                                                ))
+
+                                                local k = key:lower()
+                                                if k:find( shadowKey, 1, true ) or k:find( shadowLabel, 1, true ) then
+                                                    exportData.linked = true
+                                                else
+                                                    exportData.unrelated = true
+                                                end
+                                            end
+                                        end
+
+                                        -- 1. Stress Test
+                                        if type( stressTestResults ) == "string" and stressTestResults ~= "" then
+                                            table.insert( finalOutput, "|cffa0a0ffAutomatic Stress Test:|r " .. stressTestResults )
+                                        end
+                                        -- 2. Header
+                                        if exportData.linked then
+                                            table.insert( finalOutput, "|cffff0000WARNING:|r There are unresolved Warnings related to this priority. Please review before exporting." )
+                                        elseif exportData.unrelated then
+                                            table.insert( finalOutput, "|cffffff00NOTICE:|r There are unresolved Warnings since reloading the UI. These may not be related to this priority." )
+                                        end
+                                        -- 3. Error entries
+                                        for _, line in ipairs( output ) do
+                                            table.insert( finalOutput, line )
+                                        end
+                                        if not exportData.linked and not exportData.unrelated and #output == 0 then
+                                            table.insert( finalOutput, "|cff00ff00No warnings or errors detected!|r\n" )
+                                        end
+
+                                        exportData.stress = table.concat( finalOutput, "\n\n" )
+                                        return export
                                     end,
-                                    set = function () end,
+                                    set = function() end,
                                     order = 1,
-                                    width = "full"
+                                    width = "full",
+                                },
+                                stressResults = {
+                                    type = "input",
+                                    multiline = 20,
+                                    name = "Stress Test Results",
+                                    get = function()
+                                        local info = Hekili.PackExports and Hekili.PackExports[ pack ]
+                                        return info and info.stress or ""
+                                    end,
+                                    set = function() end,
+                                    order = 2,
+                                    width = "full",
+                                    hidden = function()
+                                        local info = Hekili.PackExports and Hekili.PackExports[ pack ]
+                                        return not ( info and info.stress and info.stress ~= "" )
+                                    end
                                 }
-                            }
+                            },
+                            hidden = function()
+                                if Hekili.PackExports then
+                                    Hekili.PackExports[ pack ] = nil
+                                end
+                                return false
+                            end
                         }
                     },
                 }
@@ -8919,34 +9038,34 @@ do
 
     local function CleanTooltip( tooltip )
         if not tooltip then return nil end
-    
+
         -- Remove "X seconds remaining" or "X second remaining"
         tooltip = tooltip:gsub( "%d+ second[s]? remaining", "" )
 
         -- Remove "SpellID IconID" wherever it appears in the string
         tooltip = tooltip:gsub( "%s*SpellID%s*", "" ) -- Matches "SpellID" with optional surrounding whitespace
         tooltip = tooltip:gsub( "%s*IconID%s*", "" )  -- Matches "IconID" with optional surrounding whitespace
-    
+
         -- Trim extra whitespace
         tooltip = tooltip:gsub( "%s+", " " ):trim()
-    
+
         return tooltip
     end
-    
-    
+
+
 
     local function GetBuffTooltip( unit, index, filter )
         -- Create a tooltip for inspection if it doesn’t exist
         local tooltip = HekiliTooltip or CreateFrame( "GameTooltip", "HekiliTooltip", UIParent, "GameTooltipTemplate" )
         tooltip:SetOwner( UIParent, "ANCHOR_NONE" )
-        
+
         -- Set the tooltip to the buff or debuff
         if filter == "HELPFUL" then
             tooltip:SetUnitBuff( unit, index )
         else
             tooltip:SetUnitDebuff( unit, index )
         end
-    
+
         -- Collect tooltip lines
         local tooltipText = {}
         for i = 1, tooltip:NumLines() do
@@ -8955,10 +9074,10 @@ do
                 table.insert( tooltipText, line:GetText() or "" )
             end
         end
-    
+
         return tooltipText
     end
-    
+
 
     local spec = ""
     local specID = 0
@@ -9122,7 +9241,7 @@ do
 
     local function skeletonHandler( self, event, ... )
         local unit = select( 1, ... )
-    
+
         if ( event == "ACTIVE_PLAYER_SPECIALIZATION_CHANGED" ) or event == "PLAYER_ENTERING_WORLD" then
             -- Reset data structures
             wipe( resources )
@@ -9130,19 +9249,19 @@ do
             wipe( abilities )
             wipe( talents )
             wipe( pvptalents )
-    
+
             -- Fetch player specialization
             local sID, s = GetSpecializationInfo( GetSpecialization() )
             specID = sID
             spec = s
-    
+
             -- Fetch active configuration
             local configID = C_ClassTalents.GetActiveConfigID() or -1
             local configInfo = C_Traits.GetConfigInfo( configID )
-    
+
             -- Fetch active hero tree ID
             local activeHeroTreeID = C_ClassTalents.GetActiveHeroTalentSpec()
-    
+
             -- Fetch valid hero trees for this specialization
             local validHeroTrees = {}
             local heroTreeIDs = C_ClassTalents.GetHeroTalentSpecsForClassSpec( configID, specID )
@@ -9151,13 +9270,13 @@ do
                     validHeroTrees[ treeID ] = true
                 end
             end
-    
+
             -- Process all talent trees
             for _, treeID in ipairs( configInfo.treeIDs ) do
                 local treeCurrencyInfo = C_Traits.GetTreeCurrencyInfo( configID, treeID, false )
                 local classCurrencyID = treeCurrencyInfo[1].traitCurrencyID
                 local specCurrencyID = treeCurrencyInfo[2].traitCurrencyID
-    
+
                 -- Process all nodes in the tree
                 local nodes = C_Traits.GetTreeNodes( treeID )
                 for _, nodeID in ipairs( nodes ) do
@@ -9168,7 +9287,7 @@ do
                         local isSpecTalent = false
                         local isHeroTalent = false
                         local treeName = "Unknown"
-    
+
                         -- Check subtree for classification
                         if node.subTreeID then
                             local subTreeInfo = C_Traits.GetSubTreeInfo( configID, node.subTreeID )
@@ -9185,7 +9304,7 @@ do
                                 end
                             end
                         end
-    
+
                         -- If subtree classification is not definitive, use node costs to classify
                         if not isClassTalent and not isSpecTalent and not isHeroTalent then
                             for _, cost in ipairs( C_Traits.GetNodeCost( configID, nodeID ) or {} ) do
@@ -9198,35 +9317,35 @@ do
                                 end
                             end
                         end
-    
+
                         -- Default to class talent if no specific type identified
                         if not isClassTalent and not isSpecTalent and not isHeroTalent then
                             isClassTalent = true
                             treeName = "Class"
                         end
-    
+
                         -- Ignore nodes from unavailable hero trees
                         if isHeroTalent and not validHeroTrees[ node.subTreeID ] then
                             isHeroTalent = false
                         end
-    
+
                         -- Add talents to appropriate groups
                         for _, entryID in ipairs( node.entryIDs ) do
                             local entryInfo = C_Traits.GetEntryInfo( configID, entryID )
                             if entryInfo and entryInfo.definitionID then
                                 local definitionInfo = C_Traits.GetDefinitionInfo( entryInfo.definitionID )
                                 local spellID = definitionInfo and definitionInfo.spellID
-                        
+
                                 if spellID then
                                     local name = definitionInfo.overrideName or GetSpellInfo( spellID )
                                     local token = key( name )
-                        
+
                                     -- Attempt to fetch the tooltip description
                                     local tooltipDescription = GetSpellDescription( spellID )
                                     if not tooltipDescription or tooltipDescription == "" then
                                         tooltipDescription = "No tooltip available for this spell."
                                     end
-                        
+
                                     -- Add talent data
                                     insert( talents, {
                                         name = token,
@@ -9238,7 +9357,7 @@ do
                                         isHero = isHeroTalent,
                                         specName = treeName
                                     } )
-                        
+
                                     -- Embed spell data if not passive
                                     if not IsPassiveSpell( spellID ) then
                                         EmbedSpellData( spellID, token, true )
@@ -9246,11 +9365,11 @@ do
                                 end
                             end
                         end
-                        
+
                     end
                 end
             end
-    
+
             -- Fetch and process PvP talents
             local pvpTalentRow = C_SpecializationInfo.GetPvpTalentSlotInfo( 1 )
             if pvpTalentRow then
@@ -9258,18 +9377,18 @@ do
                     local _, name, _, _, _, sID = GetPvpTalentInfoByID( tID )
                     name = key( name )
                     insert( pvptalents, { name = name, talent = tID, spell = sID } )
-    
+
                     if not IsPassiveSpell( sID ) then
                         EmbedSpellData( sID, name, nil, true )
                     end
                 end
-    
+
                 sort( pvptalents, function( a, b ) return a.name < b.name end )
             end
         elseif event == "SPELLS_CHANGED" then
             for i = 1, GetNumSpellTabs() do
                 local tab, _, offset, n = GetSpellTabInfo( i )
-    
+
                 if i == 2 or tab == spec then
                     for j = offset + 1, offset + n do
                         local name, _, texture, castTime, minRange, maxRange, spellID = GetSpellInfo( j, "spell" )
@@ -9283,38 +9402,38 @@ do
                 for i = 1, 40 do
                     local name, icon, count, debuffType, duration, expirationTime, caster, canStealOrPurge, _, spellID = UnitBuff( unit, i, "PLAYER" )
                     if not name then break end
-    
+
                     local tooltipData = GetBuffTooltip( "player", i, "HELPFUL" )
                     local tooltip = table.concat( tooltipData, " " )
                     tooltip = CleanTooltip( tooltip ) -- Clean the tooltip text
-    
+
                     local token = key( name )
                     local a = auras[ token ] or {}
-    
+
                     a.id = spellID
                     a.duration = duration
                     a.max_stack = max( a.max_stack or 1, count )
                     a.tooltip = tooltip
-    
+
                     auras[ token ] = a
                 end
-    
+
                 -- Process Debuffs
                 for i = 1, 40 do
                     local name, icon, count, debuffType, duration, expirationTime, caster, canStealOrPurge, _, spellID, canApplyAura, _, castByPlayer = UnitDebuff( unit, i, "PLAYER" )
                     if not name then break end
-    
+
                     local token = key( name )
                     local a = auras[ token ] or {}
-    
+
                     -- Set default duration for indefinite auras
                     if duration == 0 then duration = 3600 end
-    
+
                     a.id = spellID
                     a.duration = duration
                     a.type = debuffType or "None"
                     a.max_stack = max( a.max_stack or 1, count )
-    
+
                     auras[ token ] = a
                 end
             end
@@ -9322,20 +9441,20 @@ do
             if UnitIsUnit( "player", unit ) then
                 local spellID = select( 3, ... )
                 local token = spellID and class.abilities[ spellID ] and class.abilities[ spellID ].key
-    
+
                 local now = GetTime()
-    
+
                 if not token then return end
-    
+
                 lastAbility = token
                 lastTime = now
-    
+
                 local a = abilities[ token ]
-    
+
                 if not a then
                     return
                 end
-    
+
                 for k, v in pairs( applications ) do
                     if now - v.t < 0.5 then
                         a.applies = a.applies or {}
@@ -9343,7 +9462,7 @@ do
                     end
                     applications[ k ] = nil
                 end
-    
+
                 for k, v in pairs( removals ) do
                     if now - v.t < 0.5 then
                         a.removes = a.removes or {}
@@ -9356,7 +9475,7 @@ do
             CLEU( event, CombatLogGetCurrentEventInfo() )
         end
     end
-    
+
     function Hekili:StartListeningForSkeleton()
         listener:SetScript( "OnEvent", skeletonHandler )
         skeletonHandler( listener, "ACTIVE_PLAYER_SPECIALIZATION_CHANGED" )
@@ -9439,8 +9558,8 @@ do
                                     insert( specTalents, tal )
                                 end
                                 if ( tal.isSpec == false and tal.isHero == true ) then
-                                    if ( firstHeroSpec == nil ) then 
-                                        firstHeroSpec = tal.specName 
+                                    if ( firstHeroSpec == nil ) then
+                                        firstHeroSpec = tal.specName
                                     end
 
                                     if ( tal.specName == firstHeroSpec ) then
@@ -9472,7 +9591,7 @@ do
                                 local line = format( formatStr, tal.name, tal.talent, tal.spell, tal.ranks or 0, GetSpellDescription( tal.spell ):gsub( "\n", " " ):gsub( "\r", " " ):gsub( "%s%s+", " " ) )
                                 append( line )
                             end
-                            
+
                             -- Write Hero1 Talents
                             append( "" )
                             append( "-- " .. firstHeroSpec )
@@ -9514,12 +9633,12 @@ do
                             append( "-- Auras" )
                             append( "spec:RegisterAuras( {" )
                             increaseIndent()
-                            
+
                             for k, aura in orderedPairs( auras ) do
                                 -- Generate Wowhead link
                                 local wowheadLink = string.format( "-- https://www.wowhead.com/spell=%d", aura.id )
                                 append( wowheadLink )
-                            
+
                                 -- Add cleaned tooltip description
                                 if aura.tooltip then
                                     local cleanedTooltip = CleanTooltip( aura.tooltip )
@@ -9527,7 +9646,7 @@ do
                                         append( "-- " .. cleanedTooltip )
                                     end
                                 end
-                            
+
                                 -- Define the aura
                                 append( k .. " = {" )
                                 increaseIndent()
@@ -9542,10 +9661,10 @@ do
                                 decreaseIndent()
                                 append( "}," )
                             end
-                            
+
                             decreaseIndent()
                             append( "} )" )
-                            
+
 
                             append( "-- Abilities" )
                             append( "spec:RegisterAbilities( {" )
@@ -10040,7 +10159,7 @@ do
                             gettingStarted_toggles_info = {
                         type = "description",
                         name = "The addon has several |cFFFFD100Toggles|r available that help you control the type of recommendations you receive while in combat, which can be toggled via hotkeys.  See the |cFFFFD100Toggles|r section for specifics.\n\n" ..
-                            "|cFFFFD100Damage Cooldowns|r:  Your major DPS cooldowns are assigned to the |cFF00CCFFCooldowns|r toggle.  This allows you to enable/disable these abilities in combat by using a keybind, which can prevent the addon from recommending your important cooldowns in some undesireable scenarios such as: \n" ..  
+                            "|cFFFFD100Damage Cooldowns|r:  Your major DPS cooldowns are assigned to the |cFF00CCFFCooldowns|r toggle.  This allows you to enable/disable these abilities in combat by using a keybind, which can prevent the addon from recommending your important cooldowns in some undesireable scenarios such as: \n" ..
                             "• At the end of a dungeon pack\n" ..
                             "• During a raid boss invulnerability phase, or right before a bonus damage phase\n\n" ..
                             "You can add/remove abilities from " ..
@@ -10060,7 +10179,7 @@ do
                             type = "description",
                             name = "|cFFFFD100Displays|r are where Hekili shows you the recommended spells and items to cast, with the |cFF00CCFFPrimary|r display being your DPS priority. When this options window is open, all displays are visible.\n" ..
                                 "\n|cFFFFD100Displays|r can be moved by:\n" ..
-                                "• Clicking and Dragging them\n" ..   
+                                "• Clicking and Dragging them\n" ..
                                 "  - You can move this window out of the way by clicking the |cFFFFD100Hekili " .. Hekili.Version .. " |rtitle at the very top and dragging it out of the way.\n" ..
                                 "  - Or, you can type |cFFFFD100/hek move|r to allow displays to be moved, but without opening the options. Type it again to lock the displays.\n" ..
                                 "• Setting precise X/Y positioning in the |cFFFFD100Displays|r section, on each display's |cFFFFD100Icon|r tab.\n\n" ..
@@ -10081,10 +10200,10 @@ do
                         args = {
                             gettingStarted_toggles_info = {
                                 type = "description",
-                                name = "Top 3 questions/problems\n\n" .. 
-                                "1. My keybinds aren't showing up right\n- |cFF00CCFFThis can happen with macros or stealth bars sometimes. You can manually tell the addon what keybind to use in the|r |cFFFFD100Abilities|r |cFF00CCFFsection. Find the spell from the dropdown and use the|r |cFFFFD100Override Keybind|r |cFF00CCFFbox. Same can be done with trinkets under|r |cFFFFD100Gear and Items|r.\n\n" .. 
-                                "2. I don't recognize this spell! What is it?\n- |cFF00CCFFIf you're a Frost Mage it may be your Water Elemental pet spell, Freeze. Otherwise, it's probably a trinket. You can press |cFFFFD100alt-shift-p|r to pause the addon and hover over the icon to see what it is!|r\n\n" .. 
-                                "3. How do I disable a certain ability or trinket?\n- |cFF00CCFFHead over to |cFFFFD100Abilities|r or |cFFFFD100Gear and Items|r, find it in the dropdown list, and disable it.\n\n|r" .. 
+                                name = "Top 3 questions/problems\n\n" ..
+                                "1. My keybinds aren't showing up right\n- |cFF00CCFFThis can happen with macros or stealth bars sometimes. You can manually tell the addon what keybind to use in the|r |cFFFFD100Abilities|r |cFF00CCFFsection. Find the spell from the dropdown and use the|r |cFFFFD100Override Keybind|r |cFF00CCFFbox. Same can be done with trinkets under|r |cFFFFD100Gear and Items|r.\n\n" ..
+                                "2. I don't recognize this spell! What is it?\n- |cFF00CCFFIf you're a Frost Mage it may be your Water Elemental pet spell, Freeze. Otherwise, it's probably a trinket. You can press |cFFFFD100alt-shift-p|r to pause the addon and hover over the icon to see what it is!|r\n\n" ..
+                                "3. How do I disable a certain ability or trinket?\n- |cFF00CCFFHead over to |cFFFFD100Abilities|r or |cFFFFD100Gear and Items|r, find it in the dropdown list, and disable it.\n\n|r" ..
                                 "\nI made it to the bottom but I still have an issue!\n- |cFF00CCFFHead on over to|r |cFFFFD100Snapshots (Troubleshooting)|r |cFF00CCFFfor more detailed instructions.",
                                 order = 4.1,
                                 fontSize = "medium",
@@ -10267,8 +10386,8 @@ do
                         args = {
                             issueReporting_snapshot_next_info = {
                                 type = "description",
-                                name = "|cFFFFD100Now that the snapshot is in your clipboard ready to be pasted|r\n\n" .. 
-                                "1. Head to the Pastebin website: https://pastebin.com/" .. 
+                                name = "|cFFFFD100Now that the snapshot is in your clipboard ready to be pasted|r\n\n" ..
+                                "1. Head to the Pastebin website: https://pastebin.com/" ..
                                 "\n\n2. Create a paste with it and post the link wherever it's required (probably the discord, or a github ticket)",
                                 order = 5.1,
                                 fontSize = "medium",
@@ -10992,7 +11111,7 @@ function Hekili:DisplayChatCommandList( list )
 
     -- Generate and print the "all" overview message.
     if list == "all" then
-        self:Print( "Use |cFFFFD100/hekili set|r to adjust toggles, display modes, and specialization settings via chat commands or macros.\n\n" ) 
+        self:Print( "Use |cFFFFD100/hekili set|r to adjust toggles, display modes, and specialization settings via chat commands or macros.\n\n" )
     end
 
     -- Toggle Options Section
@@ -11212,10 +11331,15 @@ keyNamed = true end
     if count > 0 then
         Hekili:Print( results )
         Hekili:Error( results )
+        return results
     end
 
+
     if postErrorCount > preErrorCount then Hekili:Print( "New warnings were loaded in /hekili > Warnings." ) end
-    if count == 0 and postErrorCount == preErrorCount then Hekili:Print( "Stress test completed; no issues found." ) end
+    if count == 0 and postErrorCount == preErrorCount then
+        Hekili:Print( "Stress test completed; no issues found." )
+        return "Stress test completed; no issues found."
+    end
 
     return true
 end

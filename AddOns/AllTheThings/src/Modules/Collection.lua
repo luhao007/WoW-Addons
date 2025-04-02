@@ -243,10 +243,14 @@ app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, acco
 	local function SetBatchCached(field, ids, state)
 		-- app.PrintDebug("SBC",field,state)
 		local container = currentCharacter[field]
+		local anyNew = false;
 		for id,_ in pairs(ids) do
-			container[id] = state
+			if container[id] ~= state then
+				container[id] = state;
+				anyNew = true;
+			end
 		end
-		UpdateTimestampForField(field);
+		if anyNew then UpdateTimestampForField(field); end
 	end
 	-- TODO: replace uses with SetThingCollected
 	local function SetAccountCollected(t, field, id, collected, settingKey)

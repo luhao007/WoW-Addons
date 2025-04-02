@@ -1,8 +1,9 @@
 @cont1nuity:
-- Fixing an issue with green texutures in the options (through DetailsFramework update).
-- Locale updates and preparation.
-- Fixing Combo Points for low level rogues.
-- Fixing execute recognition for Hunter Black Arrow.
-- Fixing several issues on the Mod Load Conditions panel.
-- Fixing an issue with profiling if stop was not used but results should be shown.
+- Ensure to register DBM / BW events on the fly when loaded and ensure registration happens.
+- Resizing the column sizes on the Cast Colors and Names tab for better readability.
+- Execute indicator is now showing on the exact percentage.
+- Re-enabling LibClassicCasterino support to track channelled spells.
+- Improving tracking of chanelled spells for the Cast Colors tab.
+- Adding auto toggle option for 'always show nameplates'.
+- Adding aura auto tracking options for 'debuffs by the npc' and 'auras from other NPCs'.
 

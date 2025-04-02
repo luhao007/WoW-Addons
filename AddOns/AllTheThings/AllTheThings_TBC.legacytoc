@@ -57,7 +57,9 @@ lib\Callback.lua
 
 # Base ATT functionalities
 src\base.lua
+src\Commands.lua
 src\Events.lua
+# src\DataHandling.lua
 
 # Not really a lib concept...
 lib\Refresh.lua
@@ -83,6 +85,7 @@ src\Cache.lua
 src\Modules\RetrievingData.lua
 src\Modules\Collection.lua
 src\Modules\FactionData.lua
+src\Modules\Fill.lua
 src\Modules\Color.lua
 # src\Modules\Costs.lua
 src\Modules\Events.lua

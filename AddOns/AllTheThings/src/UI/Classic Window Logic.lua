@@ -1985,16 +1985,9 @@ function app:CreateWindow(suffix, settings)
 				end
 			end
 
-			-- Commands are forced lower case.
-			local commandRoot = settings.Commands[settings.RootCommandIndex or 1]:upper();
-			SlashCmdList[commandRoot] = onCommand;
-			local commands, cmd = {}, nil;
-			for i,command in ipairs(settings.Commands) do
-				cmd = command:lower();
-				_G["SLASH_" .. commandRoot .. i] = "/" .. cmd;
-				commands[i] = cmd;
-			end
-			window.Commands = commands;
+			settings.Commands.RootCommandIndex = settings.RootCommandIndex
+			app.AddSlashCommands(settings.Commands, onCommand)
+			window.Commands = settings.Commands;
 			window.HideFromSettings = settings.HideFromSettings;
 			window.SettingsName = settings.SettingsName or window.Suffix;
 		end
