@@ -2,8 +2,8 @@ local _, addonTable = ...;
 
 addonTable.Default = {
 	["Ver"]={},
-	["PigUI"] = {},
-	["BlizzardUI"] = {},
+	["Pig_UI"] = {},
+	["Blizzard_UI"] = {},
 	["Error"] = {
 		["ErrorDB"] = {},
 		["ErrorTishi"] = false,
@@ -81,6 +81,9 @@ addonTable.Default = {
 		["AddBut"] = true,
 		["Qita_Num"] = true,
 		["lixianBank"] = true,
+		["TradeTongGao"]=false,
+		["TradeTongGaoChannel"]="WHISPER",
+		["TradeClassLV"]=true,
 		["Players"] = {},
 		["PlayerSH"] = {},
 		["InstancesCD"] = {},
@@ -88,9 +91,6 @@ addonTable.Default = {
 		["Times"] = {},
 		["Token"] = {},
 		["Items"] = {},
-		["TradeTongGao"]=false,
-		["TradeTongGaoChannel"]="WHISPER",
-		["TradeClassLV"]=true,
 		["TradeData"] = {},
 		["AHData"] = {},
 	},
@@ -137,8 +137,10 @@ addonTable.Default = {
 		["FastCopy"]=false,
 		["WhoWhisper"]=true,
 		["RemTips"]=true,
-		["ChatSetSave"]={},
 		["ShowLinkIcon"]=true,
+		["ShowLinkLV"]=false,
+		["ShowLinkSlots"]=false,
+		["ShowLinkGem"]=false,
 		["ShowZb"]=true,
 		["LinkShow"]=false,
 		["ClassColor"]=true,
@@ -192,7 +194,6 @@ addonTable.Default = {
 	},
 	["Chatjilu"] = {
 		["Days"]=7,
-		["jiluinfo"]={},
 		["WHISPER"]={
 			["Open"]=true,
 			["Tips"]=true,
@@ -303,8 +304,6 @@ addonTable.Default = {
 	},
 	["UnitFrame"] = {
 		["PlayerFrame"] = {
-			["Plus"] = true,
-			["Loot"] = true,
 			["HPFF"] = true,	
 		},
 		["TargetFrame"] = {
@@ -340,14 +339,6 @@ addonTable.Default = {
 			["BGHide"] = false,
 			["Scale"]=1,
 			["AutoShow"] = true,
-		},
-		["topMenu"] = {
-			["Open"] = true,
-			["Lock"] = false,
-			["BGHide"] = false,
-			["Scale"]=1,
-			["daojishiFun"]=1,
-			["daojishiTime"]=10,
 		},
 		["CombatTime"]={
 			["Open"] = true,
@@ -422,9 +413,32 @@ addonTable.Default = {
 			["Fu"] = false,
 			["FuPoint"] = {370,200,35,35},
 		},
+		["topMenu"] = {
+			["Open"] = true,
+			["Lock"] = false,
+			["BGHide"] = false,
+			["Scale"]=1,
+			["HideBut"]={},
+			["daojishiTime"]=10,
+		},
+		["topInfoL"] = {
+			["Open"] = false,
+			["Lock"] = false,
+			["BGHide"] = false,
+			["Scale"]=1,
+			["HideBut"]={},
+		},
+		["topInfoR"] = {
+			["Open"] = false,
+			["Lock"] = false,
+			["BGHide"] = false,
+			["Scale"]=1,
+			["HideBut"]={},
+		},
 	},
 };
 addonTable.Default_Per = {
+	["Pig_UI"] = {},
 	["AutoSellBuy"] = {
 		["Buy_List"]={},
 		["Save_List"] = {},

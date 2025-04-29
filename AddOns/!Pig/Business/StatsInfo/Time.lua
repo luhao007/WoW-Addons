@@ -3,7 +3,6 @@ local _, _, _, tocversion = GetBuildInfo()
 local L=addonTable.locale
 local Fun=addonTable.Fun
 local Create=addonTable.Create
-local PIGLine=Create.PIGLine
 local PIGFrame=Create.PIGFrame
 local PIGFontString=Create.PIGFontString
 local PIGOptionsList_R=Create.PIGOptionsList_R

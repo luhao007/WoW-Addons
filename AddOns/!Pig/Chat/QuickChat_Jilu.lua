@@ -230,7 +230,6 @@ function QuickChatfun.QuickBut_Jilu()
 
 	--右键功能
 	local listName={INVITE,INVTYPE_RANGED..INSPECT,STATUS_TEXT_TARGET..INFO,ADD_FRIEND,INVITE..GUILD,CALENDAR_COPY_EVENT..NAME,IGNORE,BNET_REPORT..CHAT,CANCEL}
-	local FasongYCqingqiu=addonTable.Fun.FasongYCqingqiu
 	local RightlistNameFun=addonTable.Fun.RightlistNameFun
 	local caidanW,caidanH=www,20
 	local beijingico=DropDownList1MenuBackdrop.NineSlice.Center:GetTexture()

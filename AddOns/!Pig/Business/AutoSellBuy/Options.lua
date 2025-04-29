@@ -2,7 +2,6 @@ local _, addonTable = ...;
 local _, _, _, tocversion = GetBuildInfo()
 local L=addonTable.locale
 local Create=addonTable.Create
-local PIGFrame=Create.PIGFrame
 local PIGLine=Create.PIGLine
 local PIGEnter=Create.PIGEnter
 local PIGButton = Create.PIGButton
@@ -10,11 +9,10 @@ local PIGCheckbutton=Create.PIGCheckbutton
 local PIGOptionsList=Create.PIGOptionsList
 local PIGFontString=Create.PIGFontString
 local PIGModCheckbutton=Create.PIGModCheckbutton
-local PIGQuickBut=Create.PIGQuickBut
 ------
 local BusinessInfo=addonTable.BusinessInfo
 local fuFrame,fuFrameBut = BusinessInfo.fuFrame,BusinessInfo.fuFrameBut
-local GnName,GnUI,GnIcon,FrameLevel = "售卖助手","AutoSellBuy_UI",135725,20
+local GnName,GnUI,GnIcon,FrameLevel = "售卖助手","AutoSellBuy_UI",136453,20
 BusinessInfo.AutoSellBuyData={GnName,GnUI,GnIcon,FrameLevel}
 ------------
 function BusinessInfo.AutoSellBuyOptions()

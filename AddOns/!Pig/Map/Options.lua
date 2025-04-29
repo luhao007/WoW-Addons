@@ -4,7 +4,6 @@ local _, _, _, tocversion = GetBuildInfo()
 ---
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
-local PIGLine=Create.PIGLine
 local PIGEnter=Create.PIGEnter
 local PIGButton = Create.PIGButton
 local PIGDownMenu=Create.PIGDownMenu
@@ -23,8 +22,7 @@ local Mapfun={}
 addonTable.Mapfun=Mapfun
 local fuFrame = PIGOptionsList(L["MAP_TABNAME"],"TOP")
 --
-local DownY=30
-local RTabFrame =Create.PIGOptionsList_RF(fuFrame,DownY)
+local RTabFrame =Create.PIGOptionsList_RF(fuFrame)
 --
 local MiniMapF,MiniMaptabbut =PIGOptionsList_R(RTabFrame,L["MAP_TABNAME1"],70)
 MiniMapF:Show()
@@ -90,7 +88,7 @@ MiniMapF.Minimap_but_Pointbiaoti=PIGFontString(MiniMapF,{"TOPLEFT",MiniMapF,"TOP
 local mapPointList = {"附着于小地图","自由模式(可随意拖动)","附着于系统菜单","附着于聊天框","ElvUI_小地图下方"};
 MiniMapF.Minimap_but_Point=PIGDownMenu(MiniMapF,{"TOPLEFT",MiniMapF.Minimap_but_Pointbiaoti,"BOTTOMLEFT",30,-6},{180,24})
 function MiniMapF.Minimap_but_Point:PIGDownMenu_Update_But()
-	if not ElvUI then mapPointList[5]=nil end
+	if not Pig_OptionsUI.IsOpen_ElvUI() then mapPointList[5]=nil end
 	local info = {}
 	info.func = self.PIGDownMenu_SetValue
 	for i=1,#mapPointList,1 do

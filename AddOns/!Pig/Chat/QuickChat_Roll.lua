@@ -1,8 +1,6 @@
 local addonName, addonTable = ...;
 --===============================================
 local Create=addonTable.Create
-local PIGFrame=Create.PIGFrame
-local PIGLine=Create.PIGLine
 local PIGEnter=Create.PIGEnter
 --
 local QuickChatfun=addonTable.QuickChatfun

@@ -13,7 +13,6 @@ local PIGFrame=Create.PIGFrame
 local PIGEnter=Create.PIGEnter
 local PIGSlider=Create.PIGSlider
 local PIGFontString=Create.PIGFontString
-local PIGLine=Create.PIGLine
 local PIGButton=Create.PIGButton
 local PIGDiyBut=Create.PIGDiyBut
 local PIGCheckbutton=Create.PIGCheckbutton

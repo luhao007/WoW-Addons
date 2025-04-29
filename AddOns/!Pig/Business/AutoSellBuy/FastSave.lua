@@ -2,10 +2,8 @@ local _, addonTable = ...;
 local _, _, _, tocversion = GetBuildInfo()
 local L=addonTable.locale
 local Create=addonTable.Create
-local PIGButton = Create.PIGButton
 local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGEnter=Create.PIGEnter
-local PIGQuickBut=Create.PIGQuickBut
 local Show_TabBut_R=Create.Show_TabBut_R
 local PIGCheckbutton=Create.PIGCheckbutton
 local PIGFontString=Create.PIGFontString
@@ -15,7 +13,8 @@ local GetContainerNumSlots = C_Container.GetContainerNumSlots
 local GetContainerItemID = C_Container.GetContainerItemID
 local GetContainerItemLink = C_Container.GetContainerItemLink
 local PickupContainerItem =C_Container.PickupContainerItem
-local UseContainerItem =C_Container.UseContainerItem
+local UseContainerItem =UseContainerItem or C_Container and C_Container.UseContainerItem
+local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 -- 
 local Data=addonTable.Data
 local bagID=Data.bagData["bagID"]
@@ -114,7 +113,7 @@ function BusinessInfo.FastSave()
 		end
 	end
 	local function PIGRunUseItem(button,typeid,data)
-		if tocversion<20000 then PIGTopMsg:add("功能正在修复...") return end
+		--if tocversion<20000 then PIGTopMsg:add("功能正在修复...") return end
 		local shujudata={{},{}}
 		if button=="LeftButton" then
 			if ItemTypeLsit[typeid][2]=="G" then

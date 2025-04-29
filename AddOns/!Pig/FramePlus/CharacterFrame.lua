@@ -164,6 +164,7 @@ local function ADD_UI_Puls(laiyuan)
 	end
 end
 local function zhixingjiazaiE(FrameX)
+	ADD_UI_Puls(FrameX)
 	FrameX:HookScript("OnShow", function(self,event,arg1)
 		if tocversion<20000 then
 			FasongYCqingqiu(InspectNameText:GetText(),4)
@@ -174,7 +175,6 @@ local function zhixingjiazaiE(FrameX)
 			yuanchengCFrame:Hide()
 		end
 	end)
-	ADD_UI_Puls(FrameX)
 	FrameX:RegisterEvent("PLAYER_EQUIPMENT_CHANGED");
 	FrameX:HookScript("OnEvent", function(self,event,arg1)
 		if event=="INSPECT_READY" then
@@ -184,8 +184,7 @@ local function zhixingjiazaiE(FrameX)
 					Update_Data_ALL(self)
 				end
 			end
-		end
-		if event=="PLAYER_EQUIPMENT_CHANGED" then
+		elseif event=="PLAYER_EQUIPMENT_CHANGED" then
 			if arg1==self.unit then
 				Update_Data_ALL(self)
 			end
@@ -1396,7 +1395,6 @@ function FramePlusfun.Character_Shuxing()
 		local CharacterFW = {384,570}
 		-- SetUIPanelAttribute(CharacterFrame, "width", CharacterFW[2]);
 		-- CharacterFrame:SetAttribute("width", CharacterFW[2])
-		-- UpdateUIPanelPositions(CharacterFrame);
 		PaperDollFrame:ClearAllPoints();
 		PaperDollFrame:SetPoint("TOPLEFT", CharacterFrame,"TOPLEFT", 0, 0);
 		PaperDollFrame:SetPoint("BOTTOMLEFT", CharacterFrame,"BOTTOMLEFT", 0, 0);
@@ -1678,8 +1676,8 @@ function FramePlusfun.Character_Shuxing()
 				CharacterSetText(shuxingF.fuji.CategoryF_2.hang_1,Round(RangedCritChanceV).."%")
 				shuxingF.fuji.CategoryF_2.hang_1.tooltip2=format(CHANCE_TO_CRIT, RangedCritChanceV);
 				--
-				local SpellHitModifierV=GetSpellHitModifier() or 0
-				if SpellHitModifierV>0 then
+				local SpellHitModifierV=GetSpellHitModifier() or 0.0001
+				if tocversion>20000 then
 					SpellHitModifierV=GetSpellHitModifier()/7
 				end
 				CharacterSetText(shuxingF.fuji.CategoryF_3.hang_1,Round(SpellHitModifierV).."%")
@@ -2005,6 +2003,7 @@ function FramePlusfun.Character_Shuxing()
 end
 function FramePlusfun.GengxinPoint(fuji)
 	if not fuji then return end
+	if InCombatLockdown() then return end
 	if fuji.ZBLsit then
 		if NDui then
 			fuji.ZBLsit:SetBackdropColor(0,0,0,0.5)

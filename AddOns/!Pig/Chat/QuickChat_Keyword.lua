@@ -9,6 +9,7 @@ local upper = _G.string.upper
 local lower= _G.string.lower
 local L=addonTable.locale
 local Fun=addonTable.Fun
+local Data=addonTable.Data
 local Key_fenge=Fun.Key_fenge
 local del_link=Fun.del_link
 local gsub_NOlink=Fun.gsub_NOlink
@@ -21,7 +22,6 @@ local GetRaceClassTXT=Fun.GetRaceClassTXT
 local Create=addonTable.Create
 local PIGEnter=Create.PIGEnter
 local PIGFrame=Create.PIGFrame
-local PIGLine=Create.PIGLine
 local PIGButton = Create.PIGButton
 local PIGDiyBut = Create.PIGDiyBut
 local PIGDownMenu=Create.PIGDownMenu
@@ -623,6 +623,7 @@ function QuickChatfun.QuickBut_Keyword()
 		PIGKeyword_UI.Options_SetFun()
 	end);
 	------------------
+	local TardisGetMsg=Data.Tardis.GetMsg
 	local Show_MSG_TIMECD = 0
 	local CHANNELinfo = ChatTypeInfo["CHANNEL"];
 	local ChatFrame_ReplaceIconAndGroupExpressions=C_ChatInfo and C_ChatInfo.ReplaceIconAndGroupExpressions or ChatFrame_ReplaceIconAndGroupExpressions
@@ -695,42 +696,46 @@ function QuickChatfun.QuickBut_Keyword()
 	local function tiquKeysFun(event, ...)
 		local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16, arg17=...
 		if not arg12 then return end
-		if arg2~=Pig_OptionsUI.AllName then--自身不过滤
-			local blnum = #White_keywords
-			if blnum==0 then return end
-			if TiquCanshu["jichengBlack"] then
-				if BlackList["BlackName"] and FilterBlack_Name(arg2) then
-					return
-				end
-				if BlackList["IGNORE_DND"] and arg6=="DND" then
-					return
-				end
-			end
-			local newText = del_link(arg1)
-			local newText = del_biaoqing(newText)
-			local newText = del_biaodian(newText)
-			if TiquCanshu["jichengBlack"] then
-				if FilterBlack_Key(newText) then
-					return
-				end
-			end
-			if BlackList["FilterRepeat"] and FilterBlack_Chongfu(tiquchongfuData,newText,"tiqu") then
+		if arg9=="MeetingHorn" then return end
+		if arg9=="PIG" then return end
+		for i=1,#TardisGetMsg do
+			if arg1==TardisGetMsg[i] then return end
+		end
+		if arg2==Pig_OptionsUI.AllName then return end--自身不过滤
+		local blnum = #White_keywords
+		if blnum==0 then return end
+		if TiquCanshu["jichengBlack"] then
+			if BlackList["BlackName"] and FilterBlack_Name(arg2) then
 				return
-			end				
-			for x=1,blnum do
-				if type(White_keywords[x])=="string" then
-					if newText:match(White_keywords[x]) then
-						local newarg1=TXTgsub(arg1,White_keywords[x])
-						return Show_Keyword_MSG(event, newarg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16, arg17)
-					end
-				elseif type(White_keywords[x])=="table" then
-					if IsKeywordMatch(White_keywords[x],newText) then
-						local newarg1=arg1
-						for xx=1,#White_keywords[x] do
-							newarg1=TXTgsub(newarg1,White_keywords[x][xx])
-						end	
-						return Show_Keyword_MSG(event, newarg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16, arg17)
-					end
+			end
+			if BlackList["IGNORE_DND"] and arg6=="DND" then
+				return
+			end
+		end
+		local newText = del_link(arg1)
+		local newText = del_biaoqing(newText)
+		local newText = del_biaodian(newText)
+		if TiquCanshu["jichengBlack"] then
+			if FilterBlack_Key(newText) then
+				return
+			end
+		end
+		if BlackList["FilterRepeat"] and FilterBlack_Chongfu(tiquchongfuData,newText,"tiqu") then
+			return
+		end				
+		for x=1,blnum do
+			if type(White_keywords[x])=="string" then
+				if newText:match(White_keywords[x]) then
+					local newarg1=TXTgsub(arg1,White_keywords[x])
+					return Show_Keyword_MSG(event, newarg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16, arg17)
+				end
+			elseif type(White_keywords[x])=="table" then
+				if IsKeywordMatch(White_keywords[x],newText) then
+					local newarg1=arg1
+					for xx=1,#White_keywords[x] do
+						newarg1=TXTgsub(newarg1,White_keywords[x][xx])
+					end	
+					return Show_Keyword_MSG(event, newarg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16, arg17)
 				end
 			end
 		end
@@ -749,7 +754,7 @@ function QuickChatfun.QuickBut_Keyword()
 
 	--过滤
 	local BlackF=PIGOptionsList_R(KeywordF.F,L["CHAT_FILTERSTAB"],60,"Left")
-	BlackF.F=PIGOptionsList_RF(BlackF,30)
+	BlackF.F=PIGOptionsList_RF(BlackF)
 	--设置
 	BlackF.F.SetF,BlackF.F.SetTabBut=PIGOptionsList_R(BlackF.F,SETTINGS,70)
 	BlackF.F.SetF:Show()

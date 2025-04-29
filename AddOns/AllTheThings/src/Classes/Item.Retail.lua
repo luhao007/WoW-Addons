@@ -238,58 +238,59 @@ app.ImportRawLink = function(group, rawlink, ignoreSource)
 		end
 	end
 end
+-- Removes the color and hyperlink text/formatting from the link string
+local function CleanLink(link)
+	if not link then return link end
+	local cleaned = link:lower():gsub("|c[a-z0-9:]+|?h?",""):gsub("|h%[.+","")
+	-- :gsub("|cniq[0-9]:[|h]+","")
+	-- :gsub("|r","")
+	-- app.PrintDebug("CleanLink",link,cleaned)
+	-- wanted this to just work to grab the portion of the link which contains the useful data, but
+	-- it started being dumb, maybe review later
+	-- local cleaned = link:match("[a-z]+[iI]?[dD]?:[%-?%d:]+")
+	return cleaned
+end
+local api = {}
+app.Modules.Item = api
+api.CleanLink = CleanLink
 
 -- TODO: Once Item information is stored in a single source table, this mechanism can reference that instead of using a cache table here
 local CLASS = "Item"
 local KEY = "itemID"
 local cache = app.CreateCache("modItemID");
--- Consolidated function to handle how many retries for information an Item may have
-local function HandleItemRetries(t)
-	local _t, id = cache.GetCached(t);
-	local retries = _t.retries;
-	if retries then
-		if retries > app.MaximumItemInfoRetries then
-			local itemName = L.ITEM_NAMES[id] or (t.sourceID and L.SOURCE_NAMES and L.SOURCE_NAMES[t.sourceID])
-				or "Item #" .. tostring(id) .. "*";
-			_t.title = L.FAILED_ITEM_INFO;
-			_t.link = nil;
-			_t.sourceID = nil;
-			-- print("itemRetriesMax",itemName,t.retries)
-			-- save the "name" field in the source group to prevent further requests to the cache
-			t.name = itemName;
-			return itemName;
-		else
-			_t.retries = retries + 1;
-		end
-	else
-		_t.retries = 1;
-	end
-end
 -- Consolidated function to cache available Item information
 local function RawSetItemInfoFromLink(t, link)
+	-- app.PrintDebug("RawSetLink:=",link)
 	local name, link, quality, _, _, _, _, _, _, icon, _, _, _, b = GetItemInfo(link);
 	if link then
 		--[[ -- Debug Prints
 		local _t, id = cache.GetCached(t);
 		print("rawset item info",id,link,name,quality,b)
 		--]]
-		-- app.PrintDebug("RawSetLink:=",link)
-		t = cache.GetCached(t);
-		t.retries = nil;
-		t.name = name;
-		t.link = link;
-		t.icon = icon;
-		t.q = quality;
+		local _t = cache.GetCached(t)
+		_t.name = name;
+		_t.link = link;
+		_t.title = nil
+		_t.icon = icon;
+		_t.q = quality;
 		if quality > 6 then
 			-- heirlooms return as 1 but are technically BoE for our concern
-			t.b = 2;
+			_t.b = 2;
 		else
-			t.b = b;
+			_t.b = b;
 		end
 		return link;
-	else
-		-- app.PrintDebug("RawSetLink:?",link)
-		HandleItemRetries(t);
+	elseif t.CanRetry == nil then
+		local _t, id = cache.GetCached(t)
+		local itemName = L.ITEM_NAMES[id] or (t.sourceID and L.SOURCE_NAMES and L.SOURCE_NAMES[t.sourceID])
+			or "Item #" .. tostring(id) .. "*";
+		_t.title = L.FAILED_ITEM_INFO;
+		_t.link = nil;
+		_t.sourceID = nil;
+		-- save the "name" field in the source group to prevent further requests to the cache
+		t.name = itemName;
+		-- app.PrintDebug("NoItemInfo",app:SearchLink(t))
+		return nil
 	end
 end
 local function default_link(t)
@@ -313,10 +314,8 @@ local function default_link(t)
 			t.modID = nil;
 		end
 		-- app.PrintDebug("default_link",itemLink,modID,bonusID)
-		if bonusID and modID then
+		if bonusID then
 			itemLink = ("item:%d:::::::::::%d:1:%d:"):format(itemLink, modID, bonusID);
-		elseif bonusID then
-			itemLink = ("item:%d::::::::::::1:%d:"):format(itemLink, bonusID);
 		elseif modID then
 			-- bonusID 3524 seems to imply "use ModID to determine SourceID" since without it, everything with ModID resolves as the base SourceID from links
 			itemLink = ("item:%d:::::::::::%d:1:3524:"):format(itemLink, modID);
@@ -337,6 +336,16 @@ local function default_link(t)
 end
 local function default_icon(t)
 	return t.itemID and GetItemIcon(t.itemID) or 134400;
+end
+local function default_b(t, field, _t)
+	-- TODO: 'b' is accessed during update process, but might not yet be available from server
+	-- can we wait and do TLUG on any Item which determines b=1 later on?
+	if default_link(t) then
+		local b = _t.b
+		if b and b ~= 2 and t.__canretry then
+
+		end
+	end
 end
 local function default_specs(t)
 	return GetFixedItemSpecInfo(t.itemID);
@@ -386,9 +395,6 @@ local itemFields = {
 	["specs"] = function(t)
 		return cache.GetCachedField(t, "specs", default_specs);
 	end,
-	["retries"] = function(t)
-		return cache.GetCachedField(t, "retries");
-	end,
 	["q"] = function(t)
 		return cache.GetCachedField(t, "q");
 	end,
@@ -429,7 +435,7 @@ local itemFields = {
 	bonuses = function(t)
 		local link = t.link
 		if IsRetrieving(link) then return end
-		local itemVals = {(":"):split(link)}
+		local itemVals = {(":"):split(CleanLink(link))}
 
 		-- BonusID count
 		local bonusCount = tonumber(itemVals[14])
@@ -459,6 +465,9 @@ local itemFields = {
 		local merge = t.__merge
 		if not merge then return end
 		return merge.isUpgrade
+	end,
+	itemString = function(t)
+		return CleanLink(t.rawlink or t.link)
 	end,
 };
 -- Module imports
@@ -630,7 +639,6 @@ app.CreateItemHarvester = app.ExtendClass("Item", "ItemHarvester", "itemID", {
 				t.itemType = itemType;
 				t.itemSubType = itemSubType;
 				t.info = info;
-				t.retries = nil;
 				HarvestedItemDatabase[t.itemID] = info;
 				return link;
 			end

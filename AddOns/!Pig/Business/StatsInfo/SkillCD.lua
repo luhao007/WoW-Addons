@@ -22,7 +22,6 @@ local GetItemNameByID=GetItemNameByID or C_Item and C_Item.GetItemNameByID
 ---
 function BusinessInfo.SkillCD()
 	local StatsInfo = StatsInfo_UI
-	PIGA["StatsInfo"]["SkillData"][StatsInfo.allname]=PIGA["StatsInfo"]["SkillData"][StatsInfo.allname] or {}
 	local fujiF,fujiTabBut=PIGOptionsList_R(StatsInfo.F,"专\n业",StatsInfo.butW,"Left")
 	fujiF.guolvtype=1
 	local guolvname = {"有CD角色","所有角色","已学专业角色","未学专业角色"}
@@ -502,42 +501,40 @@ function BusinessInfo.SkillCD()
 			C_Timer.After(0.4,GetPlayerSkillInfo)
 			C_Timer.After(1,GetBagItemCD)
 		elseif event=="SKILL_LINES_CHANGED" then
-			C_Timer.After(0.4,GetPlayerSkillInfo)
+			C_Timer.After(0.1,GetPlayerSkillInfo)
 		elseif event=="BAG_UPDATE_COOLDOWN" then
 			C_Timer.After(0.1,GetBagItemCD)
 		elseif event=="TRADE_SKILL_UPDATE" then
-			C_Timer.After(0.1,function()
-				for j=1,GetNumTradeSkills() do
-					local Skillname,skillType= GetTradeSkillInfo(j);
-					if skillType~= "header" then
-						local SpellID= GetSkillNameID(Skillname)
-						if SpellID then
-							local Cooldown = GetTradeSkillCooldown(j);
-							if Cooldown then
-								PIGA["StatsInfo"]["SkillData"][StatsInfo.allname][0][SpellID]=Cooldown+GetTime()
-							else
-								PIGA["StatsInfo"]["SkillData"][StatsInfo.allname][0][SpellID]=0
-							end
+			for j=1,GetNumTradeSkills() do
+				local Skillname,skillType= GetTradeSkillInfo(j);
+				if skillType~= "header" then
+					local SpellID= GetSkillNameID(Skillname)
+					if SpellID then
+						local Cooldown = GetTradeSkillCooldown(j);
+						if Cooldown and Cooldown>0 then
+							PIGA["StatsInfo"]["SkillData"][StatsInfo.allname][0][SpellID]=Cooldown+GetTime()
+						else
+							PIGA["StatsInfo"]["SkillData"][StatsInfo.allname][0][SpellID]=0
 						end
 					end
 				end
-			end)
+			end
 		elseif event=="TRADE_SKILL_LIST_UPDATE" then
-			C_Timer.After(0.1,function()
-				-- local prof1, prof2, archaeology, fishing, cooking = GetProfessions()
-				-- print()
-				-- local name, icon, skillLevel, maxSkillLevel, numAbilities, spelloffset, skillLine, skillModifier = GetProfessionInfo(prof1)
-				-- --print(name, icon, skillLevel, maxSkillLevel, numAbilities, spelloffset, skillLine, skillModifier)
-				-- for _, id in pairs(C_TradeSkillUI.GetAllRecipeIDs()) do
-				-- 	local recipeInfo = C_TradeSkillUI.GetRecipeInfo(id)
-				-- 	for k,v in pairs(recipeInfo) do
-				-- 		print(k,v)
-				-- 	end
-				-- 	--print(recipeInfo.recipeID, recipeInfo.name)
-				-- end
-			end)
+				-- C_Timer.After(0.1,function()
+				-- 	-- local prof1, prof2, archaeology, fishing, cooking = GetProfessions()
+				-- 	-- print()
+				-- 	-- local name, icon, skillLevel, maxSkillLevel, numAbilities, spelloffset, skillLine, skillModifier = GetProfessionInfo(prof1)
+				-- 	-- --print(name, icon, skillLevel, maxSkillLevel, numAbilities, spelloffset, skillLine, skillModifier)
+				-- 	-- for _, id in pairs(C_TradeSkillUI.GetAllRecipeIDs()) do
+				-- 	-- 	local recipeInfo = C_TradeSkillUI.GetRecipeInfo(id)
+				-- 	-- 	for k,v in pairs(recipeInfo) do
+				-- 	-- 		print(k,v)
+				-- 	-- 	end
+				-- 	-- 	--print(recipeInfo.recipeID, recipeInfo.name)
+				-- 	-- end
+				-- end)
 		elseif event=="UNIT_SPELLCAST_SUCCEEDED" then
-			C_Timer.After(0.4,function()
+			C_Timer.After(0.1,function()
 				for ix=1,#fujiF.CDspellID do
 					if arg3==fujiF.CDspellID[ix] then
 						if SpellItemID[arg3] then

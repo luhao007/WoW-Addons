@@ -958,6 +958,7 @@ AL["ENABLE_WAYPOINTS_SUPPORT_DESC"] = "Quando ativado, será adicionado um waypo
 AL["ENABLED_SEARCHING_RARE"] = "Habilitou a busca deste PNJ raro: "
 AL["EVENT"] = "Evento"
 AL["EVENT_FILTER"] = "Filtros de eventos"
+AL["EVENTS_SCRAP_HEAP"] = "Pilha de S.U.C.A.T.A."
 AL["EXPEDITION_ISLANDS"] = "Expedições Insulares "
 AL["EXPLORER_AUTO_FILTER"] = "Filtro automático de NPCs"
 AL["EXPLORER_AUTO_FILTER_DESC"] = "Quando isso é ativado, assim que você coletar todos os itens ausentes de um NPC, ele será filtrado automaticamente."

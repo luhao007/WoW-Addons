@@ -3,7 +3,6 @@ local _, _, _, tocversion = GetBuildInfo()
 --------------------------------------------
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
-local PIGButton=Create.PIGButton
 local PIGFontString=Create.PIGFontString
 ----
 local CommonInfo=addonTable.CommonInfo
@@ -115,6 +114,9 @@ function CommonInfo.Interactionfun.RightPlus()
 		   	add_pigmenu(rootDescription, contextData,PLAYER_listName)
 		end)
 		Menu.ModifyMenu("MENU_UNIT_RAID_PLAYER", function(ownerRegion, rootDescription, contextData)
+		   	add_pigmenu(rootDescription, contextData,PLAYER_listName)
+		end)
+		Menu.ModifyMenu("MENU_UNIT_PARTY", function(ownerRegion, rootDescription, contextData)
 		   	add_pigmenu(rootDescription, contextData,PLAYER_listName)
 		end)
 		local TARGET_listName={CALENDAR_COPY_EVENT..NAME}

@@ -3116,7 +3116,7 @@
 			if (_in_combat) then
 				------------------------------------------------------------------------------------------------
 				--buff uptime
-				if (crowdControlSpells[spellId]) then
+				if (crowdControlSpells[spellName]) then
 					parser:add_cc_done (token, time, sourceSerial, sourceName, sourceFlags, targetSerial, targetName, targetFlags, targetFlags2, spellId, spellName)
 				end
 
@@ -4248,6 +4248,12 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 			sourceName = "[*] " .. spellName
 		end
 
+		if (Details.debug_spell_cast) then
+			if (LIB_OPEN_RAID_CROWDCONTROL[spellId]) then
+				Details:Msg("Spell casted (parser):", sourceName, targetName, spellName, spellId)
+			end
+		end
+
 		---@type actor, actor
 		local sourceActor, ownerActor = misc_cache[sourceSerial] or misc_cache_pets[sourceSerial] or misc_cache[sourceName], misc_cache_petsOwners[sourceSerial]
 		if (not sourceActor) then
@@ -4291,6 +4297,12 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 		local amountOfCasts = _current_combat.amountCasts[sourceName][spellName] or 0
 		amountOfCasts = amountOfCasts + 1
 		_current_combat.amountCasts[sourceName][spellName] = amountOfCasts
+
+		if (Details.debug_spell_cast) then
+			if (LIB_OPEN_RAID_CROWDCONTROL[spellId]) then
+				Details:Msg("Spell casted (db):", sourceActor.nome, targetName, spellName, spellId)
+			end
+		end
 
 	------------------------------------------------------------------------------------------------
 	--record cooldowns cast which can't track with buff applyed
@@ -6055,29 +6067,6 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 	function Details.parser_functions:CHALLENGE_MODE_END(...) --doesn't exists
 		Details:Msg("CHALLENGE_MODE_END", GetTime())
 	end
-
-	--[=[
-	--WORLD_STATE_TIMER_START are a timer only used on scenarios
-	function Details.parser_functions:WORLD_STATE_TIMER_START(...)
-		local zoneName, instanceType, difficultyID, difficultyName, maxPlayers, dynamicDifficulty, isDynamic, instanceMapID, instanceGroupSize = GetInstanceInfo()
-		if (difficultyID == 8) then
-			if (Details222.MythicPlus.CHALLENGE_MODE_START_AT) then --would be nil if a world timer starts before the challenge mode start event
-				--todo: should also check if the mythic+ is active
-				if (Details222.MythicPlus.CHALLENGE_MODE_START_AT + 10 > GetTime()) then
-					if (not Details222.MythicPlus.WorldStateTimerStartAt) then
-						local payload1, payload2, payload3 = ...
-						payload1 = payload1 or ""
-						payload2 = payload2 or ""
-						payload3 = payload3 or ""
-						Details222.MythicPlus.LogStep("Event: WORLD_STATE_TIMER_START | payload1: " .. payload1 .. " | payload2: " .. payload2 .. " | payload3: " .. payload3)
-						Details:SendEvent("COMBAT_MYTHICDUNGEON_START")
-						Details222.MythicPlus.WorldStateTimerStartAt = time()
-					end
-				end
-			end
-		end
-	end
-	--]=]
 
 	local startMythicPlusRun = function()
 		if (DetailsMythicPlusFrame.ZoneLeftTimer and not DetailsMythicPlusFrame.ZoneLeftTimer:IsCancelled()) then

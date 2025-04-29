@@ -1,6 +1,6 @@
-## Interface: 110100
+## Interface: 110105
 ## Author: geligasi
-## Version: 1.36
+## Version: 1.42
 
 ## Title: !Pig_GDKP
 ## Notes: GDKP Assistant
@@ -23,7 +23,9 @@ UI.lua
 Item.lua
 Buzhu.lua
 Fakuan.lua
+Tops.lua
 RaidInfo.lua
 FenG.lua
 History.lua
 Check.lua
+TradeInfo.lua

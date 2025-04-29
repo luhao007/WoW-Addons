@@ -99,13 +99,10 @@ L["OPTIONS_CASTBAR_SPELLICON"] = "法术图标"
 L["OPTIONS_CASTBAR_TOGGLE_TEST"] = "施法条测试开关"
 L["OPTIONS_CASTBAR_TOGGLE_TEST_DESC"] = "开始施法条测试，再次点击停止。"
 L["OPTIONS_CASTBAR_WIDTH"] = "施法条宽度"
---[[Translation missing --]]
-L["OPTIONS_CASTCOLORS_DISABLE_SOUNDS"] = "Remove All Sounds"
---[[Translation missing --]]
-L["OPTIONS_CASTCOLORS_DISABLE_SOUNDS_CONFIRM"] = "Are you sure you want to remove all configured cast sounds?"
+L["OPTIONS_CASTCOLORS_DISABLE_SOUNDS"] = "移除所有声音"
+L["OPTIONS_CASTCOLORS_DISABLE_SOUNDS_CONFIRM"] = "您确定要删除所有已配置的施法声音吗？"
 L["OPTIONS_CASTCOLORS_DISABLECOLORS"] = "禁用所有颜色"
---[[Translation missing --]]
-L["OPTIONS_CASTCOLORS_DISABLECOLORS_CONFIRM"] = "Confirm disable all cast colors?"
+L["OPTIONS_CASTCOLORS_DISABLECOLORS_CONFIRM"] = "确认禁用所有施法颜色？"
 L["OPTIONS_CLICK_SPACE_HEIGHT"] = "接受鼠标点击以选择目标的区域高度"
 L["OPTIONS_CLICK_SPACE_WIDTH"] = "接受鼠标点击以选择目标的区域宽度"
 L["OPTIONS_COLOR"] = "颜色"

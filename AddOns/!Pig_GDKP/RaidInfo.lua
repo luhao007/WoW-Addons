@@ -1,30 +1,37 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
-local Create, Data, Fun, L, Default, Default_Per= unpack(PIG)
------
-local PIGFrame=Create.PIGFrame
-local PIGButton = Create.PIGButton
-local PIGDownMenu=Create.PIGDownMenu
-local PIGLine=Create.PIGLine
-local PIGEnter=Create.PIGEnter
-local PIGSlider = Create.PIGSlider
-local PIGCheckbutton=Create.PIGCheckbutton
-local PIGOptionsList_RF=Create.PIGOptionsList_RF
-local PIGOptionsList_R=Create.PIGOptionsList_R
-local PIGQuickBut=Create.PIGQuickBut
-local Show_TabBut_R=Create.Show_TabBut_R
-local PIGFontString=Create.PIGFontString
-local PIGSetFont=Create.PIGSetFont
-----------
 local GDKPInfo=addonTable.GDKPInfo
 function GDKPInfo.ADD_RaidInfo(RaidR)
+	local _, _, _, tocversion = GetBuildInfo()
+	local Create, Data, Fun, L, Default, Default_Per= unpack(PIG)
+	-----
+	local PIGFrame=Create.PIGFrame
+	local PIGButton = Create.PIGButton
+	local PIGLine=Create.PIGLine
+	local PIGEnter=Create.PIGEnter
+	local PIGSlider = Create.PIGSlider
+	local PIGCheckbutton=Create.PIGCheckbutton
+	local PIGOptionsList_R=Create.PIGOptionsList_R
+	local PIGQuickBut=Create.PIGQuickBut
+	local Show_TabBut_R=Create.Show_TabBut_R
+	local PIGFontString=Create.PIGFontString
+	local PIGSetFont=Create.PIGSetFont
 	local GnName,GnUI,GnIcon,FrameLevel = unpack(GDKPInfo.uidata)
-	local RaidR=_G[GnUI]
+	-----
 	local fujiF=PIGOptionsList_R(RaidR.F,"人员信息",80)
-	local cl_iconH=24;
-	local cl_Name=Data.cl_Name
-	--点击提示
-	local iconWH = 22
+	function RaidR.IsNameInRiad(seekname)
+		local RplayerData = PIGA["GDKP"]["Raidinfo"]
+		for p=1,#RplayerData do
+			for pp=1,#RplayerData[p] do
+				if seekname==RplayerData[p][pp][1] then
+					return p,pp
+				end
+			end
+		end
+		return nil
+	end
+	----
+	local iconWH,cl_iconH,cl_Name=22,24,Data.cl_Name
+	--底部提示
 	fujiF.yedibuF = PIGLine(fujiF,"BOT",31)
 	fujiF.tishi = CreateFrame("Frame", nil, fujiF);
 	fujiF.tishi:SetSize(iconWH,iconWH);
@@ -184,7 +191,7 @@ function GDKPInfo.ADD_RaidInfo(RaidR)
 						else
 							fujibut.Text:SetText(name)
 						end
-						local color = RAID_CLASS_COLORS[zhiye]
+						local color = PIG_CLASS_COLORS[zhiye]
 						fujibut.color=color
 						fujibut.Text:SetTextColor(color.r, color.g, color.b,1);
 						local buzhuLEI = infoData[p][pp][4]
@@ -368,27 +375,13 @@ function GDKPInfo.ADD_RaidInfo(RaidR)
 	end
 	--菜单函数
 	function fujiF.playerClick.ClickMenuFun(pbut)
-		local AllName = fujiF.playerClick.AllName
-		local MenuName = pbut:GetText()
-		local MenuID = pbut:GetID()
-		local infoData = PIGA["GDKP"]["Raidinfo"]	
-		if fujiF.playerClick.button=="LeftButton" then
-			for p=1,#infoData do
-				for pp=1,#infoData[p] do
-					if AllName==infoData[p][pp][1] then
-						infoData[p][pp][4]=LeftmenuV[MenuID]
-						break
-					end
-				end
-			end
-		else
-			for p=1,#infoData do
-				for pp=1,#infoData[p] do
-					if AllName==infoData[p][pp][1] then
-						infoData[p][pp][3]=RightmenuV[MenuID]
-						break
-					end
-				end
+		local p,pp=RaidR.IsNameInRiad(fujiF.playerClick.AllName)
+		if p then 
+			local MenuID = pbut:GetID()
+			if fujiF.playerClick.button=="LeftButton" then
+				PIGA["GDKP"]["Raidinfo"][p][pp][4]=LeftmenuV[MenuID]
+			else
+				PIGA["GDKP"]["Raidinfo"][p][pp][3]=RightmenuV[MenuID]
 			end
 		end
 		fujiF.playerClick:Hide()

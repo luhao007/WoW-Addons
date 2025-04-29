@@ -1,15 +1,7 @@
 --记录交易信息------
 local addonName, addonTable = ...;
 local PIGGetRaceAtlas=addonTable.Fun.PIGGetRaceAtlas
--- TradeFrame:RegisterEvent("TRADE_CLOSED");
--- TradeFrame:RegisterEvent("TRADE_SHOW");
--- TradeFrame:RegisterEvent("TRADE_UPDATE");
--- TradeFrame:RegisterEvent("TRADE_TARGET_ITEM_CHANGED");--目标交易窗物品发生更改
--- TradeFrame:RegisterEvent("TRADE_PLAYER_ITEM_CHANGED");--自己交易窗物品发生更改
--- TradeFrame:RegisterEvent("TRADE_ACCEPT_UPDATE");--当玩家和目标接受按钮的状态更改时触发。
--- TradeFrame:RegisterEvent("TRADE_POTENTIAL_BIND_ENCHANT");--附魔绑定
--- TradeFrame:RegisterEvent("GET_ITEM_INFO_RECEIVED");
--- TradeFrame:RegisterEvent("UI_INFO_MESSAGE");--交易信息
+
 local initialData={
 	["Name"]=NONE,
 	["All_Name"]=NONE,
@@ -34,6 +26,17 @@ local function initial_data(self)
 end
 TradeFrame.PIG_Data={}
 initial_data(TradeFrame)
+-- TradeFrame:RegisterEvent("TRADE_CLOSED");
+-- TradeFrame:RegisterEvent("TRADE_SHOW");
+-- TradeFrame:RegisterEvent("TRADE_UPDATE");
+-- TradeFrame:RegisterEvent("TRADE_TARGET_ITEM_CHANGED");--目标交易窗物品发生更改
+-- TradeFrame:RegisterEvent("TRADE_PLAYER_ITEM_CHANGED");--自己交易窗物品发生更改
+-- TradeFrame:RegisterEvent("TRADE_ACCEPT_UPDATE");--当玩家和目标接受按钮的状态更改时触发。
+-- TradeFrame:RegisterEvent("TRADE_POTENTIAL_BIND_ENCHANT");--附魔绑定
+-- TradeFrame:RegisterEvent("GET_ITEM_INFO_RECEIVED");
+-- TradeFrame:RegisterEvent("UI_INFO_MESSAGE");--交易信息
+TradeFrame:RegisterEvent("PLAYER_TRADE_MONEY");
+TradeFrame:RegisterEvent("TRADE_MONEY_CHANGED");
 TradeFrame:HookScript("OnEvent",function (self,event,arg1,arg2,arg3,arg4,arg5)
 	--print(event)
 	if event=="TRADE_CLOSED" or event=="GET_ITEM_INFO_RECEIVED" then

@@ -106,7 +106,7 @@ local function Getfenleidata(tab1,tab2)
 		end
 		tab1_1.GroupDropDown =PIGDownMenu(tab1_1,{"LEFT",_G["Houche_guolv"..#tabheji].Text,"RIGHT",10,0},{160,nil})
 		tab1_1.GroupDropDown:Hide()
-		function tab1_1.GroupDropDown:PIGDownMenu_Update_But(self)
+		function tab1_1.GroupDropDown:PIGDownMenu_Update_But()
 			local info = {}
 			info.func = self.PIGDownMenu_SetValue
 			local ActivityGroups = C_LFGList.GetAvailableActivityGroups(tab1_1.selectedCategory)
@@ -128,7 +128,7 @@ local function Getfenleidata(tab1,tab2)
 		tab1_1.ActivityDropDown =PIGDownMenu(tab1_1,{"LEFT",_G["Houche_guolv"..#tabheji].Text,"RIGHT",180,0},{150,nil})
 		tab1_1.ActivityDropDown:PIGDownMenu_SetText("全部")
 		tab1_1.ActivityDropDown:Hide()
-		function tab1_1.ActivityDropDown:PIGDownMenu_Update_But(self)
+		function tab1_1.ActivityDropDown:PIGDownMenu_Update_But()
 			local info = {}
 			info.func = self.PIGDownMenu_SetValue
 			local Activities = C_LFGList.GetAvailableActivities(tab1_1.selectedCategory,tab1_1.selectedGroup)
@@ -156,7 +156,7 @@ local function Getfenleidata(tab1,tab2)
 			for i=1,#newActivities,1 do
 			    info.text, info.arg1, info.arg2 = newActivities[i][1], newActivities[i][2], "activity";
 			    info.checked = newActivities[i][2] == tab1_1.selectedActivity
-				tab1_1.ActivityDropDown:PIGDownMenu_AddButton(info)
+				self:PIGDownMenu_AddButton(info)
 			end 
 		end
 		function tab1_1.ActivityDropDown:PIGDownMenu_SetValue(value,arg1,arg2)
@@ -532,7 +532,7 @@ function TardisInfo.Houche(Activate)
 	FCTabF.ADD.GroupDropDown =PIGDownMenu(FCTabF.ADD,{"TOPLEFT",FCTabF.ADD.Category_T,"TOPLEFT",0,-110},{FCTabF.ADD.Width-20,nil})
 	FCTabF.ADD.GroupDropDown:Hide()
 	FCTabF.ADD.GroupDropDown.t=PIGFontString(FCTabF.ADD.GroupDropDown,{"BOTTOMLEFT",FCTabF.ADD.GroupDropDown,"TOPLEFT",0,4},"目的地")
-	function FCTabF.ADD.GroupDropDown:PIGDownMenu_Update_But(self)
+	function FCTabF.ADD.GroupDropDown:PIGDownMenu_Update_But()
 		local info = {}
 		info.func = self.PIGDownMenu_SetValue
 		local ActivityGroups = C_LFGList.GetAvailableActivityGroups(FCTabF.selectedCategory)
@@ -554,7 +554,7 @@ function TardisInfo.Houche(Activate)
 	end
 	FCTabF.ADD.ActivityDropDown =PIGDownMenu(FCTabF.ADD,{"TOPLEFT",FCTabF.ADD.GroupDropDown,"BOTTOMLEFT",0,-20},{FCTabF.ADD.Width-20,nil})
 	FCTabF.ADD.ActivityDropDown:Hide()
-	function FCTabF.ADD.ActivityDropDown:PIGDownMenu_Update_But(self)
+	function FCTabF.ADD.ActivityDropDown:PIGDownMenu_Update_But()
 		local info = {}
 		info.func = self.PIGDownMenu_SetValue
 		local newActivities = {}
@@ -581,7 +581,7 @@ function TardisInfo.Houche(Activate)
 		for i=1,#newActivities,1 do
 		    info.text, info.arg1, info.arg2 = newActivities[i][1], newActivities[i][2], "activity";
 		    info.checked = newActivities[i][2] == FCTabF.selectedActivity
-			FCTabF.ADD.ActivityDropDown:PIGDownMenu_AddButton(info)
+			self:PIGDownMenu_AddButton(info)
 		end
 	end
 	function FCTabF.ADD.ActivityDropDown:PIGDownMenu_SetValue(value,arg1,arg2)

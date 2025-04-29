@@ -14,6 +14,7 @@ local RSConstants = private.ImportLib("RareScannerConstants")
 local RSLogger = private.ImportLib("RareScannerLogger")
 local RSUtils = private.ImportLib("RareScannerUtils")
 local RSTooltipScanners = private.ImportLib("RareScannerTooltipScanners")
+local RSTimeUtils = private.ImportLib("RareScannerTimeUtils")
 
 ---============================================================================
 -- Killed NPCs database
@@ -563,7 +564,7 @@ end
 function RSNpcDB.IsDisabledEvent(npcID)
 	if (npcID) then
 		local npcInfo = RSNpcDB.GetInternalNpcInfo(npcID)
-		return npcInfo and npcInfo.event and not RSConstants.EVENTS[npcInfo.event]
+		return npcInfo and npcInfo.event and not RSTimeUtils.IsHolidayEventActive(npcInfo.event)
 	end
 	
 	return false

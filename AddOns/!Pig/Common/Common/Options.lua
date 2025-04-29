@@ -4,10 +4,8 @@ local _, _, _, tocversion = GetBuildInfo()
 ---
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
-local PIGButton=Create.PIGButton
 local PIGDiyBut=Create.PIGDiyBut
 local PIGEnter=Create.PIGEnter
-local PIGLine=Create.PIGLine
 local PIGSlider = Create.PIGSlider
 local PIGDownMenu=Create.PIGDownMenu
 local PIGCheckbutton=Create.PIGCheckbutton
@@ -124,14 +122,20 @@ local function AutoCombatLogFun()
 	else
 		CombatLog_Stop()
 	end
-	if PIGtopMenu_UI and PIGtopMenu_UI.WCL then
-		if ( LoggingCombat() ) then
-			PIGtopMenu_UI.WCL.Tooltip=COMBAT_LOG..SLASH_TEXTTOSPEECH_ON.."\n"..COMBATLOGENABLED
-			PIGtopMenu_UI.WCL:GetNormalTexture():SetDesaturated(false)
-		else
-			PIGtopMenu_UI.WCL.Tooltip=COMBAT_LOG..SLASH_TEXTTOSPEECH_OFF--COMBATLOGDISABLED
-			PIGtopMenu_UI.WCL:GetNormalTexture():SetDesaturated(true)
+	if PIGtopMenu_UI and PIGtopMenu_UI.WCLBut then
+		if not PIGtopMenu_UI.WCLBut.RClick then
+			PIGtopMenu_UI.WCLBut.RClick=function()
+				if Pig_OptionsUI:IsShown() then
+					Pig_OptionsUI:Hide()
+				else
+					Pig_OptionsUI:Show()
+					Create.Show_TabBut(CommonInfo.Llist,CommonInfo.LlistTabBut)
+					Create.Show_TabBut_R(CommonInfo.NR,fujiF,fujiTabBut)
+				end
+			end
 		end
+		C_Timer.After(1,PIGtopMenu_UI.WCLBut.WCLFun)
+		C_Timer.After(2,PIGtopMenu_UI.WCLBut.WCLFun)
 	end
 end
 local function UpdateWCL_ONOFF()

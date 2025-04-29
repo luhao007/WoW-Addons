@@ -115,14 +115,16 @@ L.RecordOnlyBosses			= "Registrar solo encuentros contra jefes"
 L.DoNotLogLFG				= "No registrar encuentros de buscar grupo"
 --
 L.Area_AutoLoggingContent			= "Contenido del registro automático"
-L.LogCurrentMythicRaids				= "Bandas míticos de nivel actual"--Retail Only
+L.LogCurrentMythicRaids				= "Bandas míticas de nivel actual"--Retail Only
 L.LogCurrentRaids					= "Bandas no míticas de nivel actual (heroico, normal y buscador de bandas si el filtro está desactivado)"
 L.LogTWRaids						= "Bandas de Paseo en el tiempo o Tiempo de Cromi"--Retail Only
 L.LogTrivialRaids					= "Bandas triviales (de bajo nivel)"
 L.LogCurrentMPlus					= "Mazmorras M+ de nivel actual"--Retail Only
-L.LogCurrentMythicZero				= "Mazmorras Mítica 0 de nivel actual"--Retail Only
+L.LogCurrentMythicZero				= "Mazmorras míticas 0 de nivel actual"--Retail Only
 L.LogTWDungeons						= "Mazmorras de Paseo en el tiempo o Tiempo de Cromi"--Retail Only
 L.LogCurrentHeroic					= "Mazmorras heroicas de nivel actual (Nota: si estás haciendo mazmorras mediante la función de cola y deseas que se registren, desactiva el filtro 'Buscar Grupo')"
+L.LogDelves							= "Profundidades de nivel actual"--Retail Only
+L.LogChallenges						= "Desafíos especiales de nivel actual"--Retail Only
 
 -- Panel: Extra Features
 L.Panel_ExtraFeatures		= "Funciones adicionales"
@@ -654,6 +656,7 @@ L.CreateTest						= "Crear prueba"
 L.CreatedTest						= "Prueba creada con %d eventos en %.1f segundos."
 L.NoLogsFound						= "La importación de Transcriptor no contiene datos de registro."
 L.NoTestDataAvailable				= "No hay datos de prueba disponibles"
+L.TestDataLoading					= "Cargando pruebas..."
 L.NoLogSelected						= "Fallo en la creación de la prueba: No se seleccionó ningún registro."
 L.LogAlreadyImported				= "Fallo en la creación de la prueba: Prueba ya importada."
 L.ExportTest 						= "Exportar prueba"

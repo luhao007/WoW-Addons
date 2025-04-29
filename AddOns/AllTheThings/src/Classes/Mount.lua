@@ -64,17 +64,13 @@ do
 		else
 			_t.link = GetSpellLink(id);
 		end
-		-- track retries on caching mount info... some mounts just never return info
-		local retries = _t.retries or 0;
-		retries = retries + 1;
-		if retries > 20 then
+		if not _t.link and not t.CanRetry then
 			local name = (itemID and ("Item #%d"):format(itemID)) or
 						(id and ("Spell #%d"):format(id));
 			_t.name = _t.name or name;
 			_t.icon = _t.icon or 134400;	-- question mark
 			_t.link = GetSpellLink(id);
 		end
-		_t.retries = retries;
 		if field then return _t[field]; end
 	end
 	local function default_costCollectibles(t)
@@ -89,6 +85,12 @@ do
 		return app.EmptyTable;
 	end
 
+	local PerCharacterMountSpells = {
+		[148970] = 1,	-- Felsteed (Green)
+		[148972] = 1,	-- Dreadsteed (Green)
+		[241857] = 1,	-- Druid Lunarwing
+		[231437] = 1,	-- Druid Lunarwing (Owl)
+	}
 	app.CreateMount = app.CreateClass(CLASSNAME, KEY, {
 		CACHE = function() return CACHE end,
 		_cache = function(t)
@@ -123,9 +125,6 @@ do
 		costCollectibles = function(t)
 			return cache.GetCachedField(t, "costCollectibles", default_costCollectibles);
 		end,
-		f = function(t)
-			return 100;
-		end,
 		collectibleAsCost = app.CollectibleAsCost,
 		collectible = function(t) return app.Settings.Collectibles[SETTING]; end,
 		collected = function(t)
@@ -148,13 +147,10 @@ do
 			if t.itemID then return ("i:%d"):format(t.itemID); end
 			if t.parent and t.parent.itemID then return ("i:%d"):format(t.parent.itemID); end
 		end,
+		perCharacter = function(t)
+			return PerCharacterMountSpells[t.mountID]
+		end
 	})
-	local PerCharacterMountSpells = {
-		[148970] = 1,	-- Felsteed (Green)
-		[148972] = 1,	-- Dreadsteed (Green)
-		[241857] = 1,	-- Druid Lunarwing
-		[231437] = 1,	-- Druid Lunarwing (Owl)
-	}
 	app.AddEventHandler("OnRefreshCollections", function()
 		local acct, char, none = {}, {}, {}
 		local IsSpellKnown = app.IsSpellKnownHelper

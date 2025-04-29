@@ -21,7 +21,8 @@ function FramePlusfun.AddonList()
 	local maxsize,butnum = 90,10 
 	local oldWww = AddonList:GetWidth()
 	if AddonList.ScrollBox then
-		AddonList.ForceLoad:SetPoint("TOP",AddonList,"TOP",0,-27);
+		AddonList.ForceLoad:SetPoint("TOP",AddonList,"TOP",20,-27);
+		AddonList.SearchBox:SetWidth(146)
 		hooksecurefunc("AddonList_InitAddon", function(button, elementData)
 			button.Title:SetWidth(320+maxsize)
 			-- button.Status:SetPoint("LEFT",button.Title,"RIGHT",10,0);
@@ -37,18 +38,18 @@ function FramePlusfun.AddonList()
 		end
 	end
 
-	local formattxt = "选中后当进入%s提示你切换配置\n"
+	local formattxt = "|cff00FF00选中后当进入%s提示你切换配置\n|r"
 	local ConditionName = {
 		["party"]=GUILD_INTEREST_DUNGEON,["raid"]=GUILD_INTEREST_RAID,["pvp"]=BATTLEFIELDS,["arena"]=ARENA,["all"]="账号通用",
 	}
 	local ConditionList = {
 		{"party","Dungeon",GUILD_INTEREST_DUNGEON,string.format(formattxt,GUILD_INTEREST_DUNGEON)..GUILD_INTEREST_DUNGEON_TOOLTIP},
 		{"raid","Raid",GUILD_INTEREST_RAID,string.format(formattxt,GUILD_INTEREST_RAID)..GUILD_INTEREST_RAID_TOOLTIP},
-		{"pvp","BattleMaster",BATTLEFIELDS,string.format(formattxt,BATTLEFIELDS)},
-		{"arena","CrossedFlags",ARENA,string.format(formattxt,ARENA)},
-		{"all","UI-ChatIcon-App","账号通用","选中后配置为账号所有角色启用\n未选中则配置针对单独角色启用"},
+		{"pvp","BattleMaster",BATTLEFIELDS,string.format(formattxt,BATTLEFIELDS)..BONUS_BUTTON_RANDOM_BG_DESC},
+		{"arena","CrossedFlags",ARENA,string.format(formattxt,ARENA)..ARENA_INFO},
+		{"all","UI-ChatIcon-App","账号通用","|cff00FF00选中后配置为账号所有角色启用|r\n默认未选中时则针对单独角色启用"},
 	}
-	AddonList.pigSavebut = PIGButton(AddonList,{"TOPLEFT", AddonList, "TOPLEFT", 160, -28},{120,24},"保存当前状态",nil,nil,nil,nil,0)
+	AddonList.pigSavebut = PIGButton(AddonList,{"TOPLEFT", AddonList, "TOPLEFT", 180, -28},{120,24},"保存启用状态",nil,nil,nil,nil,0)
 	AddonList.pigSavebut:HookScript("OnClick", function (self)
 		if self.F:IsShown() then
 			self.F:Hide()
@@ -89,6 +90,7 @@ function FramePlusfun.AddonList()
 		end
 		ReloadUI();
 	end
+	AddonList.PIG_loadAddon_=PIG_loadAddon_
 	AddonList.pigSavebut.F=PIGFrame(AddonList.pigSavebut,{"TOP",AddonList,"TOP",-10,-58},{240,280})
 	AddonList.pigSavebut.F:PIGSetBackdrop(nil,nil,nil,nil,0)
 	AddonList.pigSavebut.F:Hide()

@@ -169,6 +169,8 @@ L["Aspiring Forgehand"] = "Aspiring Forgehand"
 L["Aspix"] = "아스픽스"
 L["Asset Manager"] = "자산 관리자"
 --[[Translation missing --]]
+L["assignmentWarning"] = "MDT will NOT automatically set target markers on enemies in the game world."
+--[[Translation missing --]]
 L["Assistant Unnaturaler"] = "Assistant Unnaturaler"
 L["Astral Attendant"] = "천공의 수행원"
 L["Astronos"] = "아스트로노스"
@@ -466,6 +468,8 @@ L["CityOfThreads"] = "City of Threads"
 --[[Translation missing --]]
 L["cityOfThreadsShortName"] = "COT"
 L["Claw Fighter"] = "발톱 싸움꾼"
+--[[Translation missing --]]
+L["Clear all Markers"] = "Clear all Markers"
 --[[Translation missing --]]
 L["Click the fullscreen button for a maximized view of MDT."] = "Click the fullscreen button for a maximized view of MDT."
 --[[Translation missing --]]
@@ -1718,6 +1722,8 @@ L["Mchimba the Embalmer"] = "장의사 음침바"
 L["MDI Mode"] = "MDI 모드"
 --[[Translation missing --]]
 L["MDT Error"] = "MDT Error"
+--[[Translation missing --]]
+L["MDT: Cannot add enemy - you are trying to add too many enemies of the same kind"] = "MDT: Cannot add enemy - you are trying to add too many enemies of the same kind"
 L["MDT: Error importing preset"] = "MDT: 길을 가져오기 오류 "
 L["MDT: Spells for %s:"] = "MDT: %s의 마법"
 L["MDT: Use /mdt minimap to show the minimap icon again"] = "MDT: /mdt minimap 명령어로 미니맵 아이콘을 다시 띄울 수 있습니다."
@@ -1941,6 +1947,8 @@ L["Odyn"] = "오딘"
 L["Off-Duty Laborer"] = "비번 노동자"
 L["Officer Quarters"] = "장교 숙소"
 L["Ogron Laborer"] = "오그론 일꾼"
+--[[Translation missing --]]
+L["Okay"] = "Okay"
 --[[Translation missing --]]
 L["Ol' Waxbeard"] = "Ol' Waxbeard"
 L["Olaf"] = "올라프"
@@ -3178,6 +3186,8 @@ L["War Lynx"] = "War Lynx"
 L["War Ohuna"] = "전쟁 오후나"
 L["Warlord Parjesh"] = "전쟁군주 파르제쉬"
 L["Warlord Sargha"] = "전쟁군주 사르가"
+--[[Translation missing --]]
+L["Warning"] = "Warning"
 L["Warp Shade"] = "뒤틀린 그림자"
 L["Warp Stalker"] = "차원의 추적자"
 L["Waste Pipes"] = "폐기물 도관"

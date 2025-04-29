@@ -6,7 +6,6 @@ local Fun=addonTable.Fun
 local Create=addonTable.Create
 local PIGEnter=Create.PIGEnter
 local PIGFrame=Create.PIGFrame
-local PIGLine=Create.PIGLine
 local PIGButton = Create.PIGButton
 local PIGDownMenu=Create.PIGDownMenu
 local PIGCheckbutton=Create.PIGCheckbutton
@@ -260,8 +259,6 @@ fuFrame.GetItem.E:SetSize(200,24);
 fuFrame.GetItem.E:SetPoint("RIGHT",fuFrame.GetItem,"LEFT",-4,0);
 fuFrame.GetItem.E:SetFontObject(ChatFontNormal);
 fuFrame.GetItem.E:SetAutoFocus(false);--自动获得焦点
--- fuFrame.GetItem.E:SetMaxLetters(10)--最大输入字符数
--- fuFrame.GetItem.E:SetNumeric(true)--只能输入数字
 -----------------
 fuFrame:SetScript("OnShow", function()
 	if GetCVar("scriptErrors")=="1" then
@@ -294,9 +291,9 @@ fuFrame.tiaoshipeizhi:SetScript("OnClick", function ()
 end)
 local function zairutiaoshiFUN()
 	PIGA=addonTable.Default;
-	addonTable.Config_Set(PIGA,false)
+	Fun.Set_ConfigValue(PIGA,false,0)
 	PIGA_Per=addonTable.Default_Per;
-	addonTable.Config_Set(PIGA_Per,false)
+	Fun.Set_ConfigValue(PIGA_Per,false,0)
 	Pig_Options_RLtishi_UI:Show()
 end
 StaticPopupDialogs["TIAOSHIPEIZHIQIYONG"] = {
@@ -310,11 +307,7 @@ StaticPopupDialogs["TIAOSHIPEIZHIQIYONG"] = {
 	whileDead = true,
 	hideOnEscape = true,
 }
-fuFrame.zhuanma = PIGButton(fuFrame,{"BOTTOMLEFT",fuFrame,"BOTTOMLEFT",460,20},{80,24},"Base64")
+fuFrame.zhuanma = PIGButton(fuFrame,{"BOTTOMRIGHT",fuFrame,"BOTTOMRIGHT",0,0},{16,16},"64")
 fuFrame.zhuanma:SetScript("OnClick", function (self)
-	if ExportImport_UI:IsShown() then
-		ExportImport_UI:Hide()
-	else
-		ExportImport_UI:Show()
-	end
+	ExportImport_UI:Show_HideFun()
 end)

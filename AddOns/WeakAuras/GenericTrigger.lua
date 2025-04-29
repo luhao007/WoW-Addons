@@ -670,10 +670,10 @@ local function RunTriggerFunc(allStates, data, id, triggernum, event, arg1, arg2
       else
         ok, returnValue = xpcall(data.triggerFunc, errorHandler, allStates, event, arg1, arg2, ...);
       end
-      if (ok and (returnValue or (returnValue ~= false and allStates.__changed))) then
+      if (ok and (returnValue or (returnValue ~= false and allStates:IsChanged()))) then
         updateTriggerState = true;
       end
-      allStates.__changed = nil
+      allStates:SetChanged()
       for key, state in pairs(allStates) do
         if (type(state) ~= "table") then
           errorHandler(string.format(L["All States table contains a non table at key: '%s'."], key))
@@ -5133,11 +5133,7 @@ WeakAuras.CheckForItemEquipped = function(itemId, specificSlot)
   else
     local item = Item:CreateFromEquipmentSlot(specificSlot)
     if item and not item:IsItemEmpty() then
-      if type(itemId) == "number" then
-        return itemId == item:GetItemID()
-      else
-        return itemId == item:GetItemName()
-      end
+      return itemId == item:GetItemID()
     end
   end
 end

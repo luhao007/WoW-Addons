@@ -1,5 +1,5 @@
 ﻿----------------------------------------------------------------------
--- 	Leatrix Plus 11.1.06 (27th March 2025)
+-- 	Leatrix Plus 11.1.10 (23rd April 2025)
 ----------------------------------------------------------------------
 
 --	01:Functions 02:Locks,  03:Restart 40:Player
@@ -18,7 +18,7 @@
 	local void
 
 	-- Version
-	LeaPlusLC["AddonVer"] = "11.1.06"
+	LeaPlusLC["AddonVer"] = "11.1.10"
 
 	-- Get locale table
 	local void, Leatrix_Plus = ...
@@ -1668,7 +1668,7 @@
 			-- Get localised Wowhead URL
 			local wowheadLoc
 			if GameLocale == "deDE" then wowheadLoc = "de.wowhead.com"
-			elseif GameLocale == "esMX" then wowheadLoc = "es.wowhead.com"
+			elseif GameLocale == "esMX" then wowheadLoc = "mx.wowhead.com"
 			elseif GameLocale == "esES" then wowheadLoc = "es.wowhead.com"
 			elseif GameLocale == "frFR" then wowheadLoc = "fr.wowhead.com"
 			elseif GameLocale == "itIT" then wowheadLoc = "it.wowhead.com"
@@ -1676,7 +1676,7 @@
 			elseif GameLocale == "ruRU" then wowheadLoc = "ru.wowhead.com"
 			elseif GameLocale == "koKR" then wowheadLoc = "ko.wowhead.com"
 			elseif GameLocale == "zhCN" then wowheadLoc = "cn.wowhead.com"
-			elseif GameLocale == "zhTW" then wowheadLoc = "cn.wowhead.com"
+			elseif GameLocale == "zhTW" then wowheadLoc = "tw.wowhead.com"
 			else							 wowheadLoc = "wowhead.com"
 			end
 
@@ -6325,7 +6325,8 @@
 
 				-- Single spell IDs
 				["TransAqir"] = {318452}, -- Aqir Egg Cluster
-				["TransAtomic"] = {399502}, -- Atomically Recalibrated toy
+				["TransAtomic"] = {399502}, -- Atomically Recalibrator toy
+				["TransAtomGoblin"] = {1215363}, -- Atomically Regoblinator toy
 				["TransBlight"] = {290224}, -- Detoxified Blight Grenade
 				["TransLantern"] = {44212}, -- Weighted Jack-o'-Lantern
 				["TransWitch"] = {279509}, -- Lucille's Sewing Needle (witch)
@@ -6431,6 +6432,7 @@
 			row = row + 2; LeaPlusLC:MakeTx(transPanel.scrollChild, "Toys", 16, -((row - 1) * 20) - 2)
 			row = row + 1; LeaPlusLC:MakeCB(transPanel.scrollChild, "TransAqir", "Aqir Egg Cluster", 16, -((row - 1) * 20) - 2, false, "If checked, the Aqir Egg Cluster transform will be removed when applied.")
 			row = row + 1; LeaPlusLC:MakeCB(transPanel.scrollChild, "TransAtomic", "Atomic Recalibrator", 16, -((row - 1)* 20) -2, false, "If checked, the Atomic Recalibrator transform will be removed when applied.")
+			row = row + 1; LeaPlusLC:MakeCB(transPanel.scrollChild, "TransAtomGoblin", "Atomic Regoblinator", 16, -((row - 1)* 20) -2, false, "If checked, the Atomic Regoblinator transform will be removed when applied.")
 			row = row + 1; LeaPlusLC:MakeCB(transPanel.scrollChild, "TransBlight", "Detoxified Blight Grenade", 16, -((row - 1) * 20) - 2, false, "If checked, the Detoxified Blight Grenade transform will be removed when applied.")
 			row = row + 1; LeaPlusLC:MakeCB(transPanel.scrollChild, "TransWitch", "Lucille's Sewing Needle", 16, -((row - 1) * 20) - 2, false, "If checked, the Lucille's Sewing Needle transform will be removed when applied.")
 			row = row + 1; LeaPlusLC:MakeCB(transPanel.scrollChild, "TransSpraybots", "Spraybots", 16, -((row - 1) * 20) - 2, false, "If checked, the Spraybot transforms will be removed when applied.")
@@ -9419,6 +9421,7 @@
 
 					-- Show name
 					LT["NameText"] = UnitPVPName(LT["Unit"]) or LT["TipUnitName"]
+					if LT["NameText"] == "" then LT["NameText"] = LT["TipUnitName"] end -- Needed because some units (Demolition Fan, 237523) return empty strings for UnitPVPName
 
 					-- Show realm
 					if LT["TipUnitRealm"] and LT["TipUnitRealm"] ~= "" then
@@ -12230,7 +12233,7 @@
 				if not LeaPlusLC.WowheadLock then
 					-- Set Wowhead link prefix
 					if GameLocale == "deDE" then LeaPlusLC.WowheadLock = "de.wowhead.com"
-					elseif GameLocale == "esMX" then LeaPlusLC.WowheadLock = "es.wowhead.com"
+					elseif GameLocale == "esMX" then LeaPlusLC.WowheadLock = "mx.wowhead.com"
 					elseif GameLocale == "esES" then LeaPlusLC.WowheadLock = "es.wowhead.com"
 					elseif GameLocale == "frFR" then LeaPlusLC.WowheadLock = "fr.wowhead.com"
 					elseif GameLocale == "itIT" then LeaPlusLC.WowheadLock = "it.wowhead.com"
@@ -12238,7 +12241,7 @@
 					elseif GameLocale == "ruRU" then LeaPlusLC.WowheadLock = "ru.wowhead.com"
 					elseif GameLocale == "koKR" then LeaPlusLC.WowheadLock = "ko.wowhead.com"
 					elseif GameLocale == "zhCN" then LeaPlusLC.WowheadLock = "cn.wowhead.com"
-					elseif GameLocale == "zhTW" then LeaPlusLC.WowheadLock = "cn.wowhead.com"
+					elseif GameLocale == "zhTW" then LeaPlusLC.WowheadLock = "tw.wowhead.com"
 					else							 LeaPlusLC.WowheadLock = "wowhead.com"
 					end
 				end

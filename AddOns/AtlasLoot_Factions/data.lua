@@ -322,6 +322,30 @@ data["TWWFACTIONS"] = {
 				{ 12, 229940,      "mount",  [PRICE_EXTRA_ITTYPE] = "money:9712500" }, -- Flarendo the Furious
 			}
 		},
+		{ -- Flame's Radiance
+			FactionID = 2688,
+			CoinTexture = "Reputation",
+			[NORMAL_DIFF] = {
+				{ 1,  "f2688rep32" },
+				{ 2,  238850,  [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Arathi Entertainer's Flame
+				{ 4,  "f2688rep33" },
+				{ 5,  238986, "pet4794", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:6500" }, -- Mister Mans
+				{ 7,  "f2688rep34" },
+				{ 8,  238852,  [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Flame's Radiance Banner
+				{ 10,  "f2688rep36" },
+				{ 11,  239693,  [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Radiant Lynx Whistle
+				{ 12,  241188, "pet4804", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:6500" }, -- Swiftpaw
+				{ 14,  "f2688rep37" },
+				{ 15,  238824,  [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3250" }, -- Radiant Traveler's Backpack
+				{ 16,  "f2688rep38" },
+				{ 17,  238837,  [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3250" }, -- Delver's Dirigible Schematic: Pale Paint
+				{ 18,  238839,  [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" }, -- Delver's Dirigible Schematic: Arathi Decal
+				{ 20,  "f2688rep39" },
+				{ 21,  238829, "mount", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:8125" }, -- Radiant Imperial Lynx
+				{ 23,  "f2688rep40" },
+				{ 24,  "237433:11977:6652:10394:10392:1498:10255",  [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" }, -- Necklace of the Devout
+			}
+		},
 	}
 }
 

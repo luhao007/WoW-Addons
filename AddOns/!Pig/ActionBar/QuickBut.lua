@@ -567,8 +567,8 @@ QuickButF.ModF.Spell.CZ:SetScript("OnClick", function (self)
 end)
 QuickButF.ModF:HookScript("OnShow", function(self)
 	self.Lushi:SetChecked(PIGA["QuickBut"]["Lushi"])
-	self.Spell:SetChecked(PIGA["QuickBut"]["SpellClose"])
-	self.Spell.Close:SetChecked(PIGA["QuickBut"]["Spell"])
+	self.Spell:SetChecked(PIGA["QuickBut"]["Spell"])
+	self.Spell.Close:SetChecked(PIGA["QuickBut"]["SpellClose"])
 	self.BGbroadcast:SetChecked(PIGA["QuickBut"]["BGbroadcast"])
 	if self.QKButRune then
 		self.QKButRune:SetChecked(PIGA["QuickBut"]["Rune"])
@@ -672,17 +672,20 @@ QuickButUI.ButList[2]=function()
 		-- 
 		local Tooltip = KEY_BUTTON1.."-|cff00FFFF通报当前位置来犯人,(来几人就点几次)\r|r"..KEY_BUTTON2.."-|cff00FFFF报告位置安全|r"
 		local BGanniu=PIGQuickBut(GnUI,Tooltip,GnIcon)
-		
+		local function chushihuaFun()
+			local inInstance, instanceType =IsInInstance()
+			if instanceType=="pvp" then
+				BGanniu.yincang=nil
+			else
+				BGanniu.yincang=true
+			end
+			QuickButUI:GengxinWidth()
+		end
+		chushihuaFun()
 		BGanniu:RegisterEvent("PLAYER_ENTERING_WORLD")
 		BGanniu:HookScript("OnEvent", function (self, event)
 			if event=="PLAYER_ENTERING_WORLD" then
-				local inInstance, instanceType =IsInInstance()
-				if instanceType=="pvp" then
-					BGanniu.yincang=nil
-				else
-					BGanniu.yincang=true
-				end
-				QuickButUI:GengxinWidth()
+				chushihuaFun()
 			end
 		end)
 		BGanniu:SetScript("OnClick", function (self, event)
@@ -846,6 +849,9 @@ QuickButUI.ButList[6]=function()
 				General:SetAttribute("spell", Skill_List.top[1][2]);
 			end
 		end
+		General.lushijisuqi=0
+		UpdateIconAttribute()
+		Skill_Button_Genxin()
 		General:RegisterEvent("PLAYER_ENTERING_WORLD")
 		General:RegisterUnitEvent("UNIT_SPELLCAST_START","player");
 		General:RegisterUnitEvent("UNIT_SPELLCAST_STOP","player");

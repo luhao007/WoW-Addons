@@ -101,7 +101,7 @@ function Pig_Options:SetVer_EXT(EXTaddname,ext_UI)
 	local name, title, notes, loadable = PIGGetAddOnInfo(EXTaddname)
 	local ziframe = {Pig_OptionsUI.R.top.Ver:GetRegions()}
 	local VerTXT = "|cff00FFFF + |r|cffFFD700"..L["PIGaddonList"][EXTaddname]..":|r |cff00FF00"..VersionTXT.."|r"
-	Pig_OptionsUI.R.top.Ver.Vert = Create.PIGFontString(Pig_OptionsUI.R.top.Ver,{"LEFT", ziframe[#ziframe], "RIGHT", 0, 0},VerTXT)
+	Pig_OptionsUI.R.top.Ver.Vert = PIGFontString(Pig_OptionsUI.R.top.Ver,{"LEFT", ziframe[#ziframe], "RIGHT", 0, 0},VerTXT)
 end
 --右侧内容
 Pig_Options.R.F = PIGFrame(Pig_Options.R)
@@ -166,7 +166,6 @@ function Pig_Options:ShowAuthor()
 		zuozheF:Show()
 	end
 end
-
 ---小地图按钮
 local PigMinimapBut = CreateFrame("Button","PigMinimapBut_UI",UIParent);
 PigMinimapBut:SetPoint("TOPLEFT", Minimap, "TOPLEFT", 0, 0);
@@ -193,7 +192,7 @@ local function Showaddonstishi(self,laiyuan)
 		GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT",-24,0);
 	end
 	GameTooltip:AddLine("|cffFF00FF"..addonName.."|r-"..PIGGetAddOnMetadata(addonName, "Version"))
-	if Pig_OptionsUI.IsOpen_NDui() then
+	if Pig_OptionsUI.IsOpen_NDui() and not Pig_OptionsUI.IsOpen_NDui("Map","DisableMinimap") then
 		GameTooltip:AddLine(L["MAP_NIMIBUT_TIPS2"])
 	else
 		GameTooltip:AddLine(L["MAP_NIMIBUT_TIPS1"])
@@ -212,13 +211,13 @@ local function YDButtonP(xpos,ypos)
 	if mode==1 or mode==2 then
 		PigMinimapBut:ClearAllPoints();
 		if mode==1 then
-			if NDui then
+			if Pig_OptionsUI.IsOpen_NDui() and not Pig_OptionsUI.IsOpen_NDui("Map","DisableMinimap") then
 				local xpos=xpos or PIGA["Map"]["MinimapPoint_NDui"][1]
 				local ypos=ypos or PIGA["Map"]["MinimapPoint_NDui"][2]
 				PigMinimapBut:SetPoint("BOTTOMLEFT",Minimap,"BOTTOMLEFT",xpos,ypos)
 				PIGA["Map"]["MinimapPoint_NDui"][1]=xpos
 				PIGA["Map"]["MinimapPoint_NDui"][2]=ypos
-			elseif ElvUI then
+			elseif Pig_OptionsUI.IsOpen_ElvUI() then
 				local xpos=xpos or PIGA["Map"]["MinimapPoint_ElvUI"][1]
 				local ypos=ypos or PIGA["Map"]["MinimapPoint_ElvUI"][2]
 				PigMinimapBut:SetPoint("BOTTOMLEFT",Minimap,"BOTTOMLEFT",xpos,ypos)
@@ -282,7 +281,7 @@ local function YDButtonP_OnUpdate()
 		end
 		PigMinimapBut.Snf:SetPoint(Pointinfo[3]..Pointinfo[1], PigMinimapBut_UI, Pointinfo[4]..Pointinfo[2], Pointinfo[5], Pointinfo[6]);
 	else
-		if NDui or ElvUI then
+		if Pig_OptionsUI.IsOpen_NDui() and not Pig_OptionsUI.IsOpen_NDui("Map","DisableMinimap") or Pig_OptionsUI.IsOpen_ElvUI() then
 			local xpos = xpos-left-Pigwidth2
 			local ypos = ypos-bottom-Pigheight2
 			if xpos<0 then xpos=0 end--X左边
@@ -313,7 +312,7 @@ local function addonsClick(button)
 			ReloadUI()
 		else
 			if PIGA["Map"]["MiniButShouNa_YN"]==1 then
-				if NDui and RecycleBinToggleButton then
+				if Pig_OptionsUI.IsOpen_NDui() and not Pig_OptionsUI.IsOpen_NDui("Map","DisableMinimap") and RecycleBinToggleButton then
 					if Pig_OptionsUI:IsShown() then	
 						Pig_OptionsUI:Hide();
 					else
@@ -378,8 +377,8 @@ function PigMinimapBut:CZMinimapInfo()
 	YDButtonP();
 end
 local www,hhh = 33,33
-function PigMinimapBut:Point()
-	if not ElvUI and PIGA["Map"]["MinimapPoint"]==5 then PIGA["Map"]["MinimapPoint"]=1 end
+function PigMinimapBut:ButPoint()
+	if not Pig_OptionsUI.IsOpen_ElvUI() and PIGA["Map"]["MinimapPoint"]==5 then PIGA["Map"]["MinimapPoint"]=1 end
 	local mode = PIGA["Map"]["MinimapPoint"]
 	local ButpingXY = {
 		["W"]=www,["H"]=hhh,
@@ -397,11 +396,11 @@ function PigMinimapBut:Point()
 		PigMinimapBut.pianyi = 0
 		PigMinimapBut.zhucetuodong(true)
 		if mode == 1 then--小地图
-			if ElvUI or NDui then
-				if ElvUI then
+			if Pig_OptionsUI.IsOpen_ElvUI() or Pig_OptionsUI.IsOpen_NDui() and not Pig_OptionsUI.IsOpen_NDui("Map","DisableMinimap") then
+				if Pig_OptionsUI.IsOpen_ElvUI() then
 					ButpingXY.W,ButpingXY.H=www-14,hhh-14
 					ButpingXY.iconW,ButpingXY.iconH=www-14,hhh-14
-				elseif NDui then
+				elseif Pig_OptionsUI.IsOpen_NDui() then
 					ButpingXY.W,ButpingXY.H=www-12,hhh-12
 					ButpingXY.iconW,ButpingXY.iconH=www-12,hhh-12
 				end
@@ -434,12 +433,12 @@ function PigMinimapBut:Point()
 		Point_Minidown()
 	elseif mode == 3 then--角色信息
 		PigMinimapBut:ClearAllPoints();
-		if NDui then
+		if Pig_OptionsUI.IsOpen_NDui() and not Pig_OptionsUI.IsOpen_NDui("Map","DisableMinimap") then
 			ButpingXY.W,ButpingXY.H=21,21
 			ButpingXY.iconW,ButpingXY.iconH=21,21
 			PigMinimapBut:SetPoint("RIGHT",CharacterMicroButton,"LEFT",-2,0);
 			PigMinimapBut.Snf:SetPoint("BOTTOMRIGHT", PigMinimapBut_UI, "TOPRIGHT", 0, 2);
-		elseif ElvUI then
+		elseif Pig_OptionsUI.IsOpen_ElvUI() then
 			ButpingXY.W,ButpingXY.H=18,25
 			ButpingXY.iconW,ButpingXY.iconH=18,25
 			PigMinimapBut:SetPoint("LEFT",StoreMicroButton,"RIGHT",2,0);
@@ -472,12 +471,12 @@ function PigMinimapBut:Point()
 	elseif mode == 4 then--聊天框
 		PigMinimapBut.Border:Hide()
 		PigMinimapBut:ClearAllPoints();	
-		if NDui then
+		if Pig_OptionsUI.IsOpen_NDui() and not Pig_OptionsUI.IsOpen_NDui("Map","DisableMinimap") then
 			ButpingXY.W,ButpingXY.H=21,21
 			ButpingXY.iconW,ButpingXY.iconH=20,20
 			PigMinimapBut:SetPoint("TOP",ChatFrameChannelButton,"BOTTOM",0,-1);
 			PigMinimapBut:SetHighlightTexture("Interface/Buttons/ButtonHilight-Square");
-		elseif ElvUI then
+		elseif Pig_OptionsUI.IsOpen_ElvUI() then
 			ButpingXY.W,ButpingXY.H=21,21
 			ButpingXY.iconW,ButpingXY.iconH=20,20
 			PigMinimapBut:SetPoint("RIGHT",ChatFrameChannelButton,"LEFT",0,0);
@@ -494,7 +493,7 @@ function PigMinimapBut:Point()
 		PigMinimapBut.Snf:SetPoint("BOTTOMLEFT", PigMinimapBut_UI, "TOPRIGHT", 2, 2);
 	elseif mode == 5 then--附着于ElvUI地图下方
 		local function ElvUIPoint()
-			if ElvUI and MinimapPanel:IsVisible() then
+			if Pig_OptionsUI.IsOpen_ElvUI() and MinimapPanel:IsVisible() then
 				PigMinimapBut:ClearAllPoints();	
 				PigMinimapBut:SetPoint("TOPLEFT",MinimapPanel,"TOPLEFT",0.8,-0.6)
 				PigMinimapBut:SetPoint("BOTTOMLEFT",MinimapPanel,"BOTTOMLEFT",0,0.6)
@@ -513,7 +512,7 @@ function PigMinimapBut:Point()
 		end
 		C_Timer.After(0.2,ElvUIPoint)
 	end
-	if ElvUI or NDui then PigMinimapBut.icon:SetTexCoord(0.08,0.92,0.08,0.92) end
+	if Pig_OptionsUI.IsOpen_ElvUI() or Pig_OptionsUI.IsOpen_NDui() and not Pig_OptionsUI.IsOpen_NDui("Map","DisableMinimap") then PigMinimapBut.icon:SetTexCoord(0.08,0.92,0.08,0.92) end
 	PigMinimapBut:SetSize(ButpingXY.W,ButpingXY.H);
 	PigMinimapBut.icon:SetSize(ButpingXY.iconW,ButpingXY.iconH);
 	PigMinimapBut.icon:SetPoint("CENTER", ButpingXY.iconX, ButpingXY.iconY);

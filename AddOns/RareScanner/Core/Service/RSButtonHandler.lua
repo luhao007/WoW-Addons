@@ -167,6 +167,14 @@ local function FixVignetteInfo(vignetteInfo)
 			local vignettePosition = C_VignetteInfo.GetVignettePosition(vignetteInfo.vignetteGUID, mapID)
 			if (vignettePosition and vignettePosition.x and vignettePosition.y) then
 				vignetteInfo.id = string.format("%s-%s-%s", entityID, vignettePosition.x, vignettePosition.y)
+			else
+				for i=1,9999,1 do 
+					vignettePosition = C_VignetteInfo.GetVignettePosition(vignetteInfo.vignetteGUID, i)
+					if (vignettePosition and vignettePosition.x and vignettePosition.y) then
+						vignetteInfo.id = string.format("%s-%s-%s", entityID, vignettePosition.x, vignettePosition.y)
+						break
+					end
+				end
 			end
 		end
 	end
@@ -234,6 +242,15 @@ local function UpdateRareFound(entityID, vignetteInfo, coordinates)
 		vignettePosition = coordinates
 	elseif (not vignetteInfo.simulated) then
 		vignettePosition = C_VignetteInfo.GetVignettePosition(vignetteInfo.vignetteGUID, mapID)
+
+		if (not vignettePosition) then
+			for i=1,9999,1 do 
+				vignettePosition = C_VignetteInfo.GetVignettePosition(vignetteInfo.vignetteGUID, i)
+				if (vignettePosition) then
+					break
+				end
+			end
+		end
 	end
 
 	if (not vignettePosition) then

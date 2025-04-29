@@ -42,7 +42,6 @@ local RSAudioAlerts = private.ImportLib("RareScannerAudioAlerts")
 local RSEventHandler = private.ImportLib("RareScannerEventHandler")
 local RSEntityStateHandler = private.ImportLib("RareScannerEntityStateHandler")
 local RSCommandLine = private.ImportLib("RareScannerCommandLine")
-local RSTargetUnitTracker = private.ImportLib("RareScannerTargetUnitTracker")
 local RSRecentlySeenTracker = private.ImportLib("RareScannerRecentlySeenTracker")
 local RSWaypoints = private.ImportLib("RareScannerWaypoints")
 
@@ -1099,9 +1098,6 @@ local function RefreshDatabaseData(previousDbVersion)
 	chainRoutines:Run(function(context)
 		-- Initialize respawning tracker and scan the first time
 		RSRespawnTracker.Init()
-		
-		-- Initialize unit target tracker
-		RSTargetUnitTracker.Init(scanner_button)
 		
 		-- Set default filters
 		if (not previousDbVersion or previousDbVersion < RSConstants.DEFAULT_FILTERED_ENTITIES.version) then

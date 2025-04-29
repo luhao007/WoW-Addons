@@ -16,6 +16,7 @@ local AL = LibStub("AceLocale-3.0"):GetLocale("RareScanner");
 local RSLogger = private.ImportLib("RareScannerLogger")
 local RSConstants = private.ImportLib("RareScannerConstants")
 local RSUtils = private.ImportLib("RareScannerUtils")
+local RSTimeUtils = private.ImportLib("RareScannerTimeUtils")
 
 ---============================================================================
 -- Completed events database
@@ -185,7 +186,7 @@ end
 function RSEventDB.IsDisabledEvent(eventID)
 	if (eventID) then
 		local eventInfo = RSEventDB.GetInternalEventInfo(eventID)
-		return eventInfo and eventInfo.event and not RSConstants.EVENTS[eventInfo.event]
+		return eventInfo and eventInfo.event and not RSTimeUtils.IsHolidayEventActive(eventInfo.event)
 	end
 	
 	return false

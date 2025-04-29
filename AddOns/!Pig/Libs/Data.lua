@@ -22,13 +22,10 @@ function PIGGetClassInfo(id)
 end
 PIG_CLASS_COLORS={}
 for k,v in pairs(RAID_CLASS_COLORS) do
-    PIG_CLASS_COLORS[k] = {
-        r = v.r,
-        g = v.g,
-        b = v.b,
-        colorStr = v.colorStr,
-    }
+    PIG_CLASS_COLORS[k] = {r = v.r, g = v.g, b = v.b, colorStr = v.colorStr}
 end
+PIG_CLASS_COLORS[NONE]={r = 1, g = 0.843, b = 0, colorStr = FFD700}
+
 local cl_Name={};
 local cl_Name_Role={
 	["WARRIOR"] = {"TANK","DAMAGER"},
@@ -124,6 +121,7 @@ Data.Quality= {}
 for k,v in pairs(Enum.ItemQuality) do
 	Data.Quality[v]={["Name"]={},["RGB"]={},["HEX"]={}}
 	local r, g, b, hex = GetItemQualityColor(v)
+	--print(v,r, g, b, hex)
 	Data.Quality[v]["Name"]='|c'..hex.._G["ITEM_QUALITY"..v.."_DESC"]..'|r'
 	Data.Quality[v]["RGB"]={r, g, b}
 	Data.Quality[v]["HEX"]=hex

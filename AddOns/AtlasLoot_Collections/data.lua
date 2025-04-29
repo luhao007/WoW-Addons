@@ -1091,6 +1091,7 @@ data["MOUNTS"]             = {
 				{ 325, 226044, "mount" },                                      -- Plunderlord's Weathered Crocolisk
 				{ 326, 233242, "mount" },                                      -- Royal Seafeather
 				{ 327, 235555, "mount", [PRICE_EXTRA_ITTYPE] = "tender:575" }, -- Lively Darkmoon Charger
+				{ 328, 238829, "mount", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:8125" }, -- Radiant Imperial Lynx
 				-- { 329, 223570, "mount" }, -- Reins of the Ebonhide Ramolith (not yet available)
 				-- { 321, 235554, "mount" }, -- Midnight Darkmoon Charger (not yet available)
 				-- { 323, 235659, "mount" }, -- Midnight Butterfly (not yet available)
@@ -5927,11 +5928,15 @@ data["COMPANIONS"]         = {
 				{ 318, 229993, "pet4669", [PRICE_EXTRA_ITTYPE] = "tender:400" }, -- Bluedoo
 				{ 319, 233252, "pet4435" },                                      -- Happy
 				{ 320, 233248, "pet4425" },                                      -- Glamrok
+				{ 321, 238986, "pet4794", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:6500" }, -- Mister Mans
+				{ 322, 241188, "pet4804", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:6500" }, -- Swiftpaw
+				{ 323, 221851, "pet4466" }, -- Argos
+				{ 324, 232857, "pet4635" }, -- Goggles
+				{ 325, 241193, "pet3245" }, -- Helpful Workshop Bot
 				-- { 311, 233057, "pet4709" }, -- Rock Hound Mica
 				-- { 312, 221764, "pet4519" }, -- Burntram
 				-- { 317, 222969, "pet4474" }, -- Anub'Rekyute
 				-- { 322, 221759, "pet4512" }, -- Sceaduthax
-				-- { 323, 221851, "pet4466" }, -- Argos
 				-- { 325, 222979, "pet4545" }, -- Clay Stonecharger
 				-- { 327, 221195, "pet4458" }, -- Illskitter
 				-- { 324, 234905, "pet4730" }, -- Mech-Friend Maya
@@ -5939,7 +5944,6 @@ data["COMPANIONS"]         = {
 				-- { 325, 221493, "pet4493" }, -- Admiral
 				-- { 326, 221495, "pet4497" }, -- Waddles
 				-- { 327, 222967, "pet4475" }, -- Webbers
-				-- { 102, 232857, "pet4635" }, -- Goggles
 				-- { 114, 232856, "pet4633" }, -- Scruff
 				-- { 203, 232854, "pet4634" }, -- Grinner
 			}
@@ -6025,6 +6029,7 @@ data["COMPANIONS"]         = {
 				{ 215, 201707, "pet3416" }, -- Troubled Tome
 				{ 216, 201838, "pet3359" }, -- Snowclaw Cub
 				{ 217, 202085, "pet3360" }, -- Bugbiter Tortoise
+				{ 218, 212786, "pet4409", [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:250" }, -- Lovely Duckling
 				-- { 12,  193068 }, -- Time-Lost Treeflitter
 				-- { 21,  193380 }, -- Pink Salamanther
 				-- { 26,  193587 }, -- Time-Lost Duck
@@ -6119,6 +6124,9 @@ data["TOYS"]               = {
 				{ 213, 232305 },                                     -- Forged Champion's Prestigious Banner
 				{ 214, 229828 },                                     -- 20th Anniversary Balloon Chest
 				{ 215, 218310 },                                     -- Box of Puntables
+				{ 216, 238850, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Arathi Entertainer's Flame
+				{ 217, 238852, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Flame's Radiance Banner
+				{ 218, 239693, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Radiant Lynx Whistle
 				-- { 214, 235016 },                                     -- Redeployment Module
 			}
 		},
@@ -6210,6 +6218,7 @@ data["TOYS"]               = {
 				{ 222, 202022 }, -- Yennu's Kite
 				{ 223, 202042 }, -- Aquatic Shades
 				{ 224, 202711 }, -- Lost Compass
+				{ 225,  204675,  [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:200" }, -- A Drake's Big Basket of Eggs
 			}
 		},
 	},

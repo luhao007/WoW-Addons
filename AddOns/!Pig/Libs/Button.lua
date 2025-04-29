@@ -79,9 +79,7 @@ local function add_Button(MODE,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 			end
 		end);
 		But:HookScript("OnMouseUp", function(self)
-			if self:IsEnabled() then
-				self.Text:SetPoint("CENTER", 0, 0);
-			end
+			self.Text:SetPoint("CENTER", 0, 0);
 		end);
 		function But:SetText(TextN)
 			self.Text:SetText(TextN);
@@ -137,35 +135,74 @@ function Create.PIGButton(fuF,Point,WH,Text,UIName,id,TemplateP,Zihao,mode)--,ni
 	end
 end
 ---自定义材质按钮
-function Create.PIGDiyBut(fuF,Point,WH,UIName,TemplateP,Check)
+function Create.PIGDiyBut(fuF,Point,WH,UIName,TemplateP,Butleixing)
 	local Www = WH and WH[1] or 20
 	local Hhh = WH and WH[2] or Www
-	local WwwTex = WH and WH[3] or Www-2
-	local HhhTex = WH and WH[4] or WwwTex
-	local icontex = WH and WH[5] or "common-icon-redx"--130976or
 	local HighlightTex = WH and WH[6] or 130718
-	local Butleixing = "Button"
-	if Check then Butleixing = "CheckButton" end
+	local Butleixing = Butleixing or "Button"
 	local But = CreateFrame(Butleixing,UIName,fuF,TemplateP);
 	But:SetHighlightTexture(HighlightTex)
 	But:SetSize(Www,Hhh)
 	if Point then
 		But:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5])
 	end
-	But.icon = But:CreateTexture(nil, "BORDER");
-	if type(icontex)=="number" then
-		But.icon:SetTexture(icontex);
+	if WH and WH[3]=="txt" then
+		But.Text = But:CreateFontString();
+		PIGSetFont(But.Text,Zihao,Miaobian)
+		But.MR_TextPoint={"CENTER","CENTER", 0, 0}
+		But.Text:SetPoint("CENTER", 0, 0);
+		if WH[4] then
+			But.MR_TextColor={WH[4][1], WH[4][2], WH[4][3], 1}
+			But.Text:SetTextColor(WH[4][1], WH[4][2], WH[4][3], 1);
+		end
+	elseif WH and WH[3]=="icontxt" then
+		But.icon = But:CreateTexture();
+		if WH[4] then
+			But:SetHighlightTexture("")
+			if type(WH[4][1])=="number" then
+				But.icon:SetTexture(WH[4][1]);
+			else
+				But.icon:SetAtlas(WH[4][1])
+			end
+			But.MR_iconPoint={"LEFT","LEFT",0,0}
+			But.icon:SetPoint("LEFT",But,"LEFT",0,0);
+			But.icon:SetSize(WH[4][2],WH[4][3]);
+		end
+		But.Text = But:CreateFontString();
+		PIGSetFont(But.Text,Zihao,Miaobian)
+		But.MR_TextPoint={"LEFT","RIGHT", 0, 0}
+		But.Text:SetPoint("LEFT",But.icon,"RIGHT", 0, 0);
 	else
-		But.icon:SetAtlas(icontex)
+		local WwwTex = WH and WH[3] or Www-2
+		local HhhTex = WH and WH[4] or WwwTex
+		local icontex = WH and WH[5] or "common-icon-redx"--130976
+		But.icon = But:CreateTexture();
+		if type(icontex)=="number" then
+			But.icon:SetTexture(icontex);
+		else
+			But.icon:SetAtlas(icontex)
+		end
+		But.MR_iconPoint={"CENTER","CENTER",0,0}
+		But.icon:SetPoint("CENTER",0,0);
+		But.icon:SetSize(WwwTex,HhhTex);
 	end
-	But.icon:SetPoint("CENTER",0,0);
-	But.icon:SetSize(WwwTex,HhhTex);
+	But:SetMotionScriptsWhileDisabled(true)
 	But:RegisterForClicks("LeftButtonUp","RightButtonUp")
 	hooksecurefunc(But, "Enable", function(self)
-		self.icon:SetDesaturated(false)
+		if self.Text and self.MR_TextColor then
+			self.Text:SetTextColor(unpack(self.MR_TextColor));
+		end
+		if self.icon then
+			self.icon:SetDesaturated(false)
+		end
 	end)
 	hooksecurefunc(But, "Disable", function(self)
-		self.icon:SetDesaturated(true)
+		if self.Text then
+			self.Text:SetTextColor(0.5, 0.5, 0.5, 1);
+		end
+		if self.icon then
+			self.icon:SetDesaturated(true)
+		end
 	end)
 	hooksecurefunc(But, "SetEnabled", function(self,bool)
 		if bool then
@@ -176,11 +213,21 @@ function Create.PIGDiyBut(fuF,Point,WH,UIName,TemplateP,Check)
 	end)
 	But:HookScript("OnMouseDown", function (self)
 		if self:IsEnabled() then
-			self.icon:SetPoint("CENTER",-1.5,-1.5);
+			if self.Text then
+				self.Text:SetPoint(self.MR_TextPoint[1],self,self.MR_TextPoint[2],self.MR_TextPoint[3]-1.5,self.MR_TextPoint[4]-1.5);
+			end
+			if self.icon then
+				self.icon:SetPoint(self.MR_iconPoint[1],self,self.MR_iconPoint[2],self.MR_iconPoint[3]-1.5,self.MR_iconPoint[4]-1.5);
+			end
 		end
 	end);
 	But:HookScript("OnMouseUp", function (self)
-		self.icon:SetPoint("CENTER");
+		if self.Text then
+			self.Text:SetPoint("CENTER");
+		end
+		if self.icon then
+			self.icon:SetPoint(self.MR_iconPoint[1],self,self.MR_iconPoint[2],self.MR_iconPoint[3],self.MR_iconPoint[4]);
+		end
 	end);
 	But:HookScript("PostClick", function (self)
 		PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);
@@ -350,7 +397,7 @@ end
 function Create.PIGOptionsList_RF(fuF,DownY,Mode,bianjuV)
 	local TabF = Create.PIGFrame(fuF)
 	TabF:PIGSetBackdrop()
-	local bianjuV = bianjuV or {6,6,6}
+	local bianjuV = bianjuV or {4,4,4}
 	if Mode=="Left" then bianjuV = {0,0,0} end
 	local DownY=DownY or 30
 	TabF:SetPoint("TOPLEFT", fuF, "TOPLEFT", bianjuV[1], -DownY)

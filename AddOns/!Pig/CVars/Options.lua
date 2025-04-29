@@ -5,7 +5,6 @@ local _, _, _, tocversion = GetBuildInfo()
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
 local PIGLine=Create.PIGLine
-local PIGButton = Create.PIGButton
 local PIGDownMenu=Create.PIGDownMenu
 local PIGSlider = Create.PIGSlider
 local PIGCheckbutton=Create.PIGCheckbutton
@@ -22,8 +21,7 @@ addonTable.CVarsfun=CVarsfun
 -----
 local fuFrame = PIGOptionsList(L["CVAR_TABNAME"],"TOP")
 --
-local DownY=30
-local RTabFrame =Create.PIGOptionsList_RF(fuFrame,DownY)
+local RTabFrame =Create.PIGOptionsList_RF(fuFrame)
 
 local EaseUseF,EaseUsetabbut =PIGOptionsList_R(RTabFrame,L["CVAR_TABNAME0"],70)
 EaseUseF:Show()
@@ -41,7 +39,7 @@ EaseUseF.F.Open:SetScript("OnClick", function (self)
     else
         PIGA["CVars"]["EaseUse"]=false;
     end
-    CVarsfun.AutoCVars()
+    CVarsfun.EaseUseCVars()
     EaseUseF.F.Show_Checked()
 end)
 -- 
@@ -81,14 +79,6 @@ for i=1,#CVarsVData do
 	if GetCVarDefault(CVarsVData[i][1]) then
 		table.insert(CVarsVList,CVarsVData[i])
 	end
-end
-function CVarsfun.AutoCVars()
-    if PIGA["CVars"]["EaseUse"] then
-        for i=1,#CVarsVList do
-            SetCVar(CVarsVList[i][1], CVarsVList[i][2])
-            if CVarsVList[i][6] then CVarsVList[i][6](CVarsVList[i][1],CVarsVList[i][2],CVarsVList[i][3]) end
-        end
-    end
 end
 EaseUseF.F.ListBut={}
 for i=1,#CVarsVList do
@@ -135,7 +125,14 @@ EaseUseF.F:HookScript("OnShow", function(self)
     self.Open:SetChecked(PIGA["CVars"]["EaseUse"])
     self.Show_Checked()
 end)
-
+function CVarsfun.EaseUseCVars()
+    if PIGA["CVars"]["EaseUse"] then
+        for i=1,#CVarsVList do
+            SetCVar(CVarsVList[i][1], CVarsVList[i][2])
+            if CVarsVList[i][6] then CVarsVList[i][6](CVarsVList[i][1],CVarsVList[i][2],CVarsVList[i][3]) end
+        end
+    end
+end
 -----------
 EaseUseF.diyF=PIGFrame(EaseUseF,{"TOPLEFT", EaseUseF, "TOPLEFT", 10, -340})
 EaseUseF.diyF:SetPoint("BOTTOMRIGHT", EaseUseF, "BOTTOMRIGHT", -10, 10);
@@ -144,123 +141,104 @@ EaseUseF.diyF:PIGSetBackdrop(0)
 
 local diyInfo={}
 if tocversion<50000 then
-    table.insert(diyInfo,{"Fast_Loot",false,"加快拾取速度","在开启自动拾取时加快你的拾取速度(在队长分配不起作用)",CVarsfun})
+    table.insert(diyInfo,{"Fast_Loot",false,"加快拾取速度","在开启自动拾取时加快你的拾取速度(在队长分配不起作用)"})
 end
 if tocversion<20000 then
-    table.insert(diyInfo,{"Shaman_Blue",true,USE..BLUE_GEM..ClassFile_Name["SHAMAN"]..CLASS_COLORS})   
-    local classColorTable = {r=0,g=0.44,b=0.87}
-    PIG_CLASS_COLORS["SHAMAN"] = {
-         r = 0,
-         g = 0.44,
-         b = 0.87,
-         colorStr = "ff0070DD",
-     }
-    EaseUseF.diyF:RegisterEvent("PLAYER_LOGIN")
-    EaseUseF.diyF:SetScript("OnEvent", function(self, event, arg1)
-        if not PIGA["CVars"]["Shaman_Blue"] then return end  
-        if not CUSTOM_CLASS_COLORS then
-         CUSTOM_CLASS_COLORS = {}
-         local ybtable = {}
-         function ybtable:RegisterCallback(method, handler)
-         end
-         function ybtable:UnregisterCallback(method, handler)
-         end
-         function ybtable:GetClassToken(className)
-             return className and classTokens[className]
-         end
-         function ybtable:ColorTextByClassToken(text, className)
-             return self:ColorTextByClass(text, self:GetClassToken(className))
-         end
-         function ybtable:ColorTextByClass(text, class)
-             local color = CUSTOM_CLASS_COLORS[class]
-             if color then
-                 color = CreateColor(color.r, color.g, color.b)
-                 return color:WrapTextInColorCode(text)
-             end
-         end
-         setmetatable(CUSTOM_CLASS_COLORS, { __index = ybtable })
-         for k,v in pairs(RAID_CLASS_COLORS) do
-             if k=="SHAMAN" then
-                 CUSTOM_CLASS_COLORS[k] = {
-                     r = 0,
-                     g = 0.44,
-                     b = 0.87,
-                     colorStr = "ff0070DD",
-                 }
-             else
-                 CUSTOM_CLASS_COLORS[k] = {
-                     r = v.r,
-                     g = v.g,
-                     b = v.b,
-                     colorStr = v.colorStr,
-                 }
-             end
-         end
+	table.insert(diyInfo,{"Shaman_Blue",true,USE..BLUE_GEM..ClassFile_Name["SHAMAN"]..CLASS_COLORS})
+	function CVarsfun.Shaman_Blue()
+    	if not PIGA["CVars"]["Shaman_Blue"] then return end  
+	    local classColorTable = {r=0,g=0.44,b=0.87,colorStr = "ff0070DD"}
+	    PIG_CLASS_COLORS["SHAMAN"] = {r=classColorTable.r, g=classColorTable.g, b=classColorTable.b, colorStr=classColorTable.colorStr}
+	    local old_GetColoredName=GetColoredName
+	    GetColoredName=function(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12)
+	        if ( arg12 and arg12 ~= "" ) then
+	            local localizedClass, englishClass, localizedRace, englishRace, sex = GetPlayerInfoByGUID(arg12)
+	            if ( englishClass ) then
+	             if englishClass=="SHAMAN" then
+	                local chatType = strsub(event, 10);
+	                if ( strsub(chatType, 1, 7) == "WHISPER" ) then
+	                    chatType = "WHISPER";
+	                end
+	                if ( strsub(chatType, 1, 7) == "CHANNEL" ) then
+	                    chatType = "CHANNEL"..arg8;
+	                end
+	                local info = ChatTypeInfo[chatType];
+	                if (chatType == "GUILD") then
+	                    arg2 = Ambiguate(arg2, "guild")
+	                else
+	                    arg2 = Ambiguate(arg2, "none")
+	                end
+	                if ( info and info.colorNameByClass ) then
+	                    return string.format("\124cff%.2x%.2x%.2x", classColorTable.r*255, classColorTable.g*255, classColorTable.b*255)..arg2.."\124r"
+	                end
+	             else
+	                 old_GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12)
+	             end
+	            end
+	        end
+	        return old_GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12)
+	    end
+	    hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(frame)
+	        local unitIsConnected = UnitIsConnected(frame.unit);
+	        local unitIsDead = unitIsConnected and UnitIsDead(frame.unit);
+	        local unitIsPlayer = UnitIsPlayer(frame.unit) or UnitIsPlayer(frame.displayedUnit);
+	        if ( not unitIsConnected or (unitIsDead and not unitIsPlayer) ) then
+	        else
+	            local localizedClass, englishClass = UnitClass(frame.unit);
+	            if englishClass=="SHAMAN" then
+	                if ( (frame.optionTable.allowClassColorsForNPCs or UnitIsPlayer(frame.unit)) and frame.optionTable.useClassColors ) then
+	                    frame.healthBar:SetStatusBarColor(classColorTable.r, classColorTable.g, classColorTable.b);
+	                    if (frame.optionTable.colorHealthWithExtendedColors) then
+	                        frame.selectionHighlight:SetVertexColor(classColorTable.r, classColorTable.g, classColorTable.b);
+	                    end
+	                end
+	            end
+	        end
+	    end)
+        if not CUSTOM_CLASS_COLORS then CUSTOM_CLASS_COLORS = {} end
+        local ybtable = {}
+        function ybtable:RegisterCallback(method, handler)
         end
-        local old_GetColoredName=GetColoredName
-        GetColoredName=function(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12)
-         if ( arg12 and arg12 ~= "" ) then
-             local localizedClass, englishClass, localizedRace, englishRace, sex = GetPlayerInfoByGUID(arg12)
-             if ( englishClass ) then
-                 if englishClass=="SHAMAN" then
-                     local chatType = strsub(event, 10);
-                     if ( strsub(chatType, 1, 7) == "WHISPER" ) then
-                         chatType = "WHISPER";
-                     end
-                     if ( strsub(chatType, 1, 7) == "CHANNEL" ) then
-                         chatType = "CHANNEL"..arg8;
-                     end
-                     local info = ChatTypeInfo[chatType];
-                     if (chatType == "GUILD") then
-                         arg2 = Ambiguate(arg2, "guild")
-                     else
-                         arg2 = Ambiguate(arg2, "none")
-                     end
-                     if ( info and info.colorNameByClass ) then
-                         return string.format("\124cff%.2x%.2x%.2x", classColorTable.r*255, classColorTable.g*255, classColorTable.b*255)..arg2.."\124r"
-                     end
-                 else
-                     old_GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12)
-                 end
-             end
-         end
-         return old_GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12)
+        function ybtable:UnregisterCallback(method, handler)
         end
-        hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(frame)
-         local unitIsConnected = UnitIsConnected(frame.unit);
-         local unitIsDead = unitIsConnected and UnitIsDead(frame.unit);
-         local unitIsPlayer = UnitIsPlayer(frame.unit) or UnitIsPlayer(frame.displayedUnit);
-         if ( not unitIsConnected or (unitIsDead and not unitIsPlayer) ) then
-         else
-             local localizedClass, englishClass = UnitClass(frame.unit);
-             if englishClass=="SHAMAN" then
-                 if ( (frame.optionTable.allowClassColorsForNPCs or UnitIsPlayer(frame.unit)) and frame.optionTable.useClassColors ) then
-                     frame.healthBar:SetStatusBarColor(classColorTable.r, classColorTable.g, classColorTable.b);
-                     if (frame.optionTable.colorHealthWithExtendedColors) then
-                         frame.selectionHighlight:SetVertexColor(classColorTable.r, classColorTable.g, classColorTable.b);
-                     end
-                 end
-             end
-         end
-        end)
-    end)
+        function ybtable:GetClassToken(className)
+            return className and classTokens[className]
+        end
+        function ybtable:ColorTextByClassToken(text, className)
+            return self:ColorTextByClass(text, self:GetClassToken(className))
+        end
+        function ybtable:ColorTextByClass(text, class)
+            local color = CUSTOM_CLASS_COLORS[class]
+            if color then
+                color = CreateColor(color.r, color.g, color.b)
+                return color:WrapTextInColorCode(text)
+            end
+        end
+        setmetatable(CUSTOM_CLASS_COLORS, { __index = ybtable })
+        for k,v in pairs(PIG_CLASS_COLORS) do
+            CUSTOM_CLASS_COLORS[k] = {r = v.r,g = v.g,b = v.b,colorStr = v.colorStr}
+        end
+    end 
 end
 for i=1,#diyInfo do
     local butxx=PIGCheckbutton_R(EaseUseF.diyF,{diyInfo[i][3],diyInfo[i][4] or diyInfo[i][3]})
     butxx:SetScript("OnClick", function (self)
         if self:GetChecked() then
             PIGA["CVars"][diyInfo[i][1]]=true
+            if CVarsfun[diyInfo[i][1]] then CVarsfun[diyInfo[i][1]]() end
         else
             PIGA["CVars"][diyInfo[i][1]]=false
-            if diyInfo[i][2] then Pig_Options_RLtishi_UI:Show() end
-        end
-        if diyInfo[i][5] then diyInfo[i][5][diyInfo[i][1].."Open"]() end
+            if diyInfo[i][2] then 
+            	Pig_Options_RLtishi_UI:Show()
+            else
+            	CVarsfun[diyInfo[i][1]]()
+			end
+        end     
     end);
     butxx:SetScript("OnShow", function (self)
         self:SetChecked(PIGA["CVars"][diyInfo[i][1]])
     end);
 end
-
 ---常规================
 local CVarsF,CVarstabbut =PIGOptionsList_R(RTabFrame,L["CVAR_TABNAME1"],70)
 ----------------------
@@ -517,46 +495,86 @@ end);
 
 --自身高亮
 local gaoliangF =PIGOptionsList_R(RTabFrame,L["CVAR_TABNAME3"],90)
-local gaoliangmoshiName = {["-1"]=CLOSE,["0"]=SELF_HIGHLIGHT_MODE_CIRCLE,["1"]=SELF_HIGHLIGHT_MODE_CIRCLE_AND_OUTLINE,["2"]=SELF_HIGHLIGHT_MODE_OUTLINE}
-ADD_DownMenu(gaoliangF,-1,2,gaoliangmoshiName,"findYourselfMode","高亮模式",{"TOPLEFT",gaoliangF,"TOPLEFT",90,-20},150)
----
-local gaoliangList = {
-	{SELF_HIGHLIGHT_ON,"findYourselfAnywhere","1","0",SELF_HIGHLIGHT_ON},
-	{OPTION_TOOLTIP_SELF_HIGHLIGHT_IN_BG_COMBAT,"findYourselfAnywhereOnlyInCombat","1","0",OPTION_TOOLTIP_SELF_HIGHLIGHT_IN_BG_COMBAT},
-	{OPTION_TOOLTIP_SELF_HIGHLIGHT_IN_RAID,"findYourselfInRaid","1","0",OPTION_TOOLTIP_SELF_HIGHLIGHT_IN_RAID},
-	{OPTION_TOOLTIP_SELF_HIGHLIGHT_IN_RAID_COMBAT,"findYourselfInRaidOnlyInCombat","1","0",OPTION_TOOLTIP_SELF_HIGHLIGHT_IN_RAID_COMBAT},
-	{OPTION_TOOLTIP_SELF_HIGHLIGHT_IN_BG,"findYourselfInBG","1","0",OPTION_TOOLTIP_SELF_HIGHLIGHT_IN_BG},
-	{OPTION_TOOLTIP_SELF_HIGHLIGHT_IN_BG_COMBAT,"findYourselfInBGOnlyInCombat","1","0",OPTION_TOOLTIP_SELF_HIGHLIGHT_IN_BG_COMBAT},	
+local gaoliangmoshiName = {
+    [0]=OFF,
+    [1]=SELF_HIGHLIGHT_MODE_CIRCLE,
+    [2]=SELF_HIGHLIGHT_MODE_ICON,
+    [3]=SELF_HIGHLIGHT_MODE_CIRCLE_AND_ICON,
 }
-for i=1,#gaoliangList do
-	local CVarsCB = PIGCheckbutton(gaoliangF,nil,{gaoliangList[i][1],gaoliangList[i][5]})
-	if i==1 then
-		CVarsCB:SetPoint("TOPLEFT",gaoliangF,"TOPLEFT",50,-60);
-	else
-		if i==4 or i==6 then
-			CVarsCB:SetPoint("TOPLEFT",gaoliangF,"TOPLEFT",50+40,-40*i-20);
-		else
-			CVarsCB:SetPoint("TOPLEFT",gaoliangF,"TOPLEFT",50+20,-40*i-20);
-		end
-	end
-	CVarsCB:SetScript("OnClick", function (self)
-		if self:GetChecked() then
-			SetCVar(gaoliangList[i][2], gaoliangList[i][3])
-		else
-			SetCVar(gaoliangList[i][2], gaoliangList[i][4])
-		end
-	end);
-	CVarsCB:HookScript("OnShow", function (self)
-		if GetCVar(gaoliangList[i][2])==gaoliangList[i][3] then
-			self:SetChecked(true);
-		end
-	end);
+gaoliangF.findYourMode =PIGDownMenu(gaoliangF,{"TOPLEFT",gaoliangF,"TOPLEFT",20,-20},{150,nil})
+local function findGetValue()
+    local circleOn = GetCVarBool("findYourselfModeCircle");
+    local iconOn = GetCVarBool("findYourselfModeIcon");
+    local value = (circleOn and 1 or 0) + (iconOn and 2 or 0); 
+    return value;
 end
+local function findSetValue(value)
+    local NUM_COMBINATIONS = 4;
+    SetCVar("findYourselfAnywhere", value > 0 and value < NUM_COMBINATIONS)
+    SetCVar("findYourselfModeIcon", value >= 2);
+    if (value >= 2) then
+        value = value - 2;
+    end
+    SetCVar("findYourselfModeCircle", value >= 1);
+end
+function gaoliangF.findYourMode:PIGDownMenu_Update_But()
+    local info = {}
+    info.func = self.PIGDownMenu_SetValue
+    for i=0,3 do
+        info.text, info.arg1 = gaoliangmoshiName[i],i
+        info.checked = i == findGetValue()
+        self:PIGDownMenu_AddButton(info)
+    end
+end
+function gaoliangF.findYourMode:PIGDownMenu_SetValue(value,arg1)
+    self:PIGDownMenu_SetText(gaoliangmoshiName[arg1]) 
+    findSetValue(arg1)
+    PIGCloseDropDownMenus()
+end
+gaoliangF:HookScript("OnShow", function (self)
+    self.findYourMode:PIGDownMenu_SetText(gaoliangmoshiName[findGetValue()])
+end);
+
+--旧版
+-- local gaoliangmoshiName = {["-1"]=CLOSE,["0"]=SELF_HIGHLIGHT_MODE_CIRCLE,["1"]=SELF_HIGHLIGHT_MODE_CIRCLE_AND_OUTLINE,["2"]=SELF_HIGHLIGHT_MODE_OUTLINE}
+-- ADD_DownMenu(gaoliangF,-1,2,gaoliangmoshiName,"findYourselfMode","高亮模式",{"TOPLEFT",gaoliangF,"TOPLEFT",90,-20},150)
+-- local gaoliangList = {
+-- 	{SELF_HIGHLIGHT_ON,"findYourselfAnywhere","1","0",SELF_HIGHLIGHT_ON},
+-- 	{OPTION_TOOLTIP_SELF_HIGHLIGHT_IN_BG_COMBAT,"findYourselfAnywhereOnlyInCombat","1","0",OPTION_TOOLTIP_SELF_HIGHLIGHT_IN_BG_COMBAT},
+-- 	{OPTION_TOOLTIP_SELF_HIGHLIGHT_IN_RAID,"findYourselfInRaid","1","0",OPTION_TOOLTIP_SELF_HIGHLIGHT_IN_RAID},
+-- 	{OPTION_TOOLTIP_SELF_HIGHLIGHT_IN_RAID_COMBAT,"findYourselfInRaidOnlyInCombat","1","0",OPTION_TOOLTIP_SELF_HIGHLIGHT_IN_RAID_COMBAT},
+-- 	{OPTION_TOOLTIP_SELF_HIGHLIGHT_IN_BG,"findYourselfInBG","1","0",OPTION_TOOLTIP_SELF_HIGHLIGHT_IN_BG},
+-- 	{OPTION_TOOLTIP_SELF_HIGHLIGHT_IN_BG_COMBAT,"findYourselfInBGOnlyInCombat","1","0",OPTION_TOOLTIP_SELF_HIGHLIGHT_IN_BG_COMBAT},	
+-- }
+-- for i=1,#gaoliangList do
+-- 	local CVarsCB = PIGCheckbutton(gaoliangF,nil,{gaoliangList[i][1],gaoliangList[i][5]})
+-- 	if i==1 then
+-- 		CVarsCB:SetPoint("TOPLEFT",gaoliangF,"TOPLEFT",50,-60);
+-- 	else
+-- 		if i==4 or i==6 then
+-- 			CVarsCB:SetPoint("TOPLEFT",gaoliangF,"TOPLEFT",50+40,-40*i-20);
+-- 		else
+-- 			CVarsCB:SetPoint("TOPLEFT",gaoliangF,"TOPLEFT",50+20,-40*i-20);
+-- 		end
+-- 	end
+-- 	CVarsCB:SetScript("OnClick", function (self)
+-- 		if self:GetChecked() then
+-- 			SetCVar(gaoliangList[i][2], gaoliangList[i][3])
+-- 		else
+-- 			SetCVar(gaoliangList[i][2], gaoliangList[i][4])
+-- 		end
+-- 	end);
+-- 	CVarsCB:HookScript("OnShow", function (self)
+-- 		if GetCVar(gaoliangList[i][2])==gaoliangList[i][3] then
+-- 			self:SetChecked(true);
+-- 		end
+-- 	end);
+-- end
 -----
 local gaojiF =PIGOptionsList_R(RTabFrame,L["CVAR_TABNAME4"],60)
 local gaojiList = {
-	{"同步设置到服务器","synchronizeSettings","1","0",false},--即将删除
-	{"同步宏到服务器","synchronizeMacros","1","0",false},--即将删除
+	--{"同步设置到服务器","synchronizeSettings","1","0",false},--即将删除
+	--{"同步宏到服务器","synchronizeMacros","1","0",false},--即将删除
 	{"同步键位到服务器","synchronizeBindings","1","0",true},
 	{"同步CVar到服务器","synchronizeConfig","1","0",true},
 	{"同步聊天布局到服务器","synchronizeChatFrames","1","0",true},
@@ -595,8 +613,9 @@ gaojiF.CZCVarsSET:SetScript("OnEscapePressed", function(self) self:SetTextpig() 
 gaojiF.CZCVarsSET:SetScript("OnEditFocusLost", function(self) self:SetTextpig() end);
 --==============================
 addonTable.CVars = function()
-    CVarsfun.AutoCVars()
+    CVarsfun.EaseUseCVars()
     CVarsfun.Fast_Loot()
+    if CVarsfun.Shaman_Blue then CVarsfun.Shaman_Blue() end
 	if PIGA["CVars"]["MaxZoom"] then
 		C_Timer.After(3, chaoyuanshijujihuo)
 	end

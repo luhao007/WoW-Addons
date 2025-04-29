@@ -688,14 +688,28 @@ end
 
 a_env.MissionList_Update_More = function() end -- TODO: DELETE ME!
 
-local maxed_follower_color_code = "|cff22aa22"
+local maxed_follower_color = CreateColorFromHexString('ff22aa22')
+local maxed_follower_color_code = maxed_follower_color:GenerateHexColorMarkup()
+
+local function SetFollowerPortrait_Level_Post(portraitFrame, followerInfo, level, i_level, boosted)
+   if followerInfo.isMaxLevel then
+      portraitFrame:SetILevel(i_level)
+
+      local color_code
+      if (ilevel_maximums[i_level] and not boosted) then color_code = maxed_follower_color_code end
+      if color_code then
+         portraitFrame.Level:SetFormattedText("%s%s", color_code, portraitFrame.Level:GetText())
+      end
+   end
+end
 
 local function GarrisonMissionFrame_SetFollowerPortrait_More(portraitFrame, followerInfo, forMissionPage)
-   if not forMissionPage then return end
-
-   local MissionPage = portraitFrame:GetParent():GetParent()
-   local mentor_level = MissionPage.mentorLevel
-   local mentor_i_level = MissionPage.mentorItemLevel
+   local mentor_level, mentor_i_level
+   if forMissionPage then
+      local MissionPage = portraitFrame:GetParent():GetParent()
+      mentor_level = MissionPage.mentorLevel
+      mentor_i_level = MissionPage.mentorItemLevel
+   end
 
    local level = followerInfo.level
    local i_level = followerInfo.iLevel
@@ -711,19 +725,35 @@ local function GarrisonMissionFrame_SetFollowerPortrait_More(portraitFrame, foll
       boosted = true
    end
 
-   if followerInfo.isMaxLevel then
-      local level_border = portraitFrame.LevelBorder
-      level_border:SetAtlas("GarrMission_PortraitRing_iLvlBorder")
-      level_border:SetWidth(70)
-      portraitFrame.Level:SetFormattedText("%s%s %d", (ilevel_maximums[i_level] and not boosted) and maxed_follower_color_code or "", ITEM_LEVEL_ABBR, i_level)
-   end
+   SetFollowerPortrait_Level_Post(portraitFrame, followerInfo, level, i_level, boosted)
 end
 hooksecurefunc("GarrisonMissionPortrait_SetFollowerPortrait", GarrisonMissionFrame_SetFollowerPortrait_More)
 
-local function GarrisonFollowerList_Update_More(self)
+local function GarrisonFollowerList_InitButton_GMM_PostHook(frame, elementData)
+   -- There are other kind of buttons in list, skip them.
+   local follower = elementData.follower
+   if not follower then return end
+   if not follower.isCollected then return end
    -- Somehow Blizzard UI insists on updating hidden frames AND explicitly updates them OnShow.
-   --  Following suit is just a waste of CPU, so we'll update only when frame is actually visible.
---[[ TEMPORARY ]] do return end
+   -- Following suit is just a waste of CPU, so we'll update only when frame is actually visible.
+   if not frame:IsVisible() and frame:IsShown() then return end
+
+   local button = frame.Follower
+   button.ILevel:Hide()
+   SetFollowerPortrait_Level_Post(button.PortraitFrame, follower, follower.level, follower.iLevel, false)
+end
+hooksecurefunc("GarrisonFollowerList_InitButton", GarrisonFollowerList_InitButton_GMM_PostHook)
+
+local function GarrisonFollowerMissionComplete_SetFollowerLevel_GMM_PostHook(self, followerFrame, followerInfo)
+   local maxLevel = self:GetParent().followerMaxLevel
+   local level = min(followerInfo.level, maxLevel)
+
+   SetFollowerPortrait_Level_Post(followerFrame.PortraitFrame, followerInfo, level, followerInfo.iLevel, false)
+end
+a_env.GarrisonFollowerMissionComplete_SetFollowerLevel_GMM_PostHook = GarrisonFollowerMissionComplete_SetFollowerLevel_GMM_PostHook
+
+local function GarrisonFollowerList_Update_More(self)
+   --[[ Extract follower ignoring handling for WoD Garrison only and remove ]] do return end
    if not self:IsVisible() and self:IsShown() then return end
 
    local followerFrame = self:GetParent()
@@ -754,15 +784,6 @@ local function GarrisonFollowerList_Update_More(self)
                   local BusyFrame = follower_frame.BusyFrame
                   BusyFrame.Texture:SetColorTexture(0.5, 0, 0, 0.3)
                   BusyFrame:Show()
-               end
-
-               if follower.isMaxLevel then
-                  level_border:SetAtlas("GarrMission_PortraitRing_iLvlBorder")
-                  level_border:SetWidth(70)
-                  local i_level = follower.iLevel
-                  portrait_frame.Level:SetFormattedText("%s%s %d", ilevel_maximums[i_level] and maxed_follower_color_code or "", ITEM_LEVEL_ABBR, i_level)
-                  follower_frame.ILevel:SetText(nil)
-                  show_ilevel = true
                end
             end
          end

@@ -545,6 +545,7 @@ app:CreateWindow("ItemFinder", {
 						t.retries = (t.retries or 0) + 1;
 						if t.retries > 3 then
 							rawset(t, "collected", true);
+							self.HarvestedItemDatabase[t.itemID] = {};
 						end
 					else
 						rawset(t, "collected", true);
@@ -552,6 +553,61 @@ app:CreateWindow("ItemFinder", {
 					return tostring(t.itemID);
 				end,
 			});
+			local ClearButton = 
+			{
+				text = "Clear Harvested Item Database",
+				icon = 133733,
+				description = "Click this to clear the harvested item database.",
+				SortPriority = 1.3,
+				OnClick = function()
+					self.HarvestedItemDatabase = {};
+				end,
+				OnUpdate = function(data)
+					data.visible = true;
+					return true;
+				end,
+			};
+			local StartButton = 
+			{
+				text = "Start Search",
+				icon = 133733,
+				description = "Click this to start the search.",
+				SortPriority = 1.3,
+				OnClick = function()
+					local data = self.data;
+					app.StartCoroutine("Harvest Items", function()
+						local count, step = 0, data.step;
+						local maxItemID = data.maxItemID;
+						local minItemID = data.minItemID;
+						for itemID=maxItemID,minItemID,-1 do
+							if not self.HarvestedItemDatabase[itemID] and GetItemID(itemID) then
+								tinsert(data.g, CreateItemHarvester(itemID, {
+									parent = data
+								}));
+								
+								count = count + 1;
+								if count > step then
+									count = 0;
+									print("ItemID: " .. itemID);
+									self:Update();
+									while self.data.progress < self.data.total do
+										for j=0,5,1 do
+											coroutine.yield();
+										end
+										self:Update();
+									end
+									wipe(self.data.g);
+								end
+							end
+						end
+						self:Update();
+					end);
+				end,
+				OnUpdate = function(data)
+					data.visible = true;
+					return true;
+				end,
+			};
 			self.data = {
 				text = "Item Finder",
 				icon = app.asset("WindowIcon_RaidAssistant"),
@@ -561,22 +617,10 @@ app:CreateWindow("ItemFinder", {
 				progress = 0,
 				total = 0,
 				back = 1,
-				currentItemID = 237826,
-				minimumItemID = 1,
-				OnUpdate = function(header)
-					local g = header.g;
-					if not g then
-						g = {};
-						header.g = g;
-						for i=header.currentItemID,header.minimumItemID,-1 do
-							if not self.HarvestedItemDatabase[i] then
-								tinsert(g, CreateItemHarvester(i, {
-									parent = header
-								}));
-							end
-						end
-					end
-				end
+				maxItemID = 239220,
+				minItemID = 1,
+				step = 1000,
+				g = { ClearButton, StartButton }
 			};
 		end
 	end,

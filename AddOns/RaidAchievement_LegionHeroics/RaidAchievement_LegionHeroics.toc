@@ -1,4 +1,4 @@
-## Interface: 110100
+## Interface: 110105
 ## Author: Shurshik
 
 ## Title: Raid|cff7fff7fAchievement|r - Legion Dungeons

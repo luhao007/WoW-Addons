@@ -11,7 +11,6 @@ local PIGSlider = Create.PIGSlider
 local PIGCheckbutton=Create.PIGCheckbutton
 local PIGCheckbutton_R=Create.PIGCheckbutton_R
 local PIGOptionsList=Create.PIGOptionsList
-local PIGOptionsList_RF=Create.PIGOptionsList_RF
 local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGFontString=Create.PIGFontString
 local PIGFontStringBG=Create.PIGFontStringBG
@@ -20,12 +19,28 @@ local PIGEnter=Create.PIGEnter
 local CombatPlusfun=addonTable.CombatPlusfun
 ---------------
 local WWW,HHH = 60,20
-local CombatTimeweizhi={"TOP", UIParent, "TOP", 0, -62}
-local PIGCombatTime = PIGFrame(UIParent,nil,{WWW,HHH},"PIGCombatTime_UI")
+local CombatTimeweizhi={"TOP", UIParent, "TOP", 0,-30}
+local PIGCombatTime = PIGFrame(UIParent,CombatTimeweizhi,{WWW,HHH},"PIGCombatTime_UI")
 PIGCombatTime:PIGSetMovable()
 PIGCombatTime:Hide()
 PIGCombatTime.zongjishi = 0
 PIGCombatTime.dangqian = 0
+function PIGCombatTime:UpdateUIPoint()
+	local point, relativeTo, relativePoint, offsetX, offsetY = self:GetPoint()
+	local offsetY=floor(offsetY+0.5)
+	if point==CombatTimeweizhi[1] and relativePoint==CombatTimeweizhi[3] and offsetX==CombatTimeweizhi[4] then
+		if offsetY==self.newYYY or offsetY==CombatTimeweizhi[5] then
+			self.newYYY=CombatTimeweizhi[5]
+			if PIGmarkerW_UI then
+				self.newYYY=self.newYYY-PIGmarkerW_UI.SizeHH
+			end
+			if PIGmarkerR_UI then
+				self.newYYY=self.newYYY-PIGmarkerR_UI.SizeHH
+			end
+			self:SetPoint(CombatTimeweizhi[1],CombatTimeweizhi[2],CombatTimeweizhi[3],CombatTimeweizhi[4],self.newYYY);
+		end
+	end
+end
 --
 local caijie_B,caijie_R = {0,0.248,0.68,0.90},{0,0.248,0.40,0.63}
 local function CZ_jisuqi()
@@ -102,10 +117,7 @@ end
 function CombatPlusfun.CombatTime()
 	if not PIGA["CombatPlus"]["CombatTime"]["Open"] then return end
 	if PIGCombatTime.yizairu then return end
-	if PIGA["CombatPlus"]["markerW"]["Open"] and PIGmarkerW_UI then
-		CombatTimeweizhi[5]=CombatTimeweizhi[5]-18
-	end
-	PIGCombatTime:SetPoint(unpack(CombatTimeweizhi));
+	PIGCombatTime:UpdateUIPoint()
 	PIGCombatTime:SetFrameStrata("LOW")
 	PIGCombatTime:Show()
 	PIGCombatTime:PIGSetBackdrop()

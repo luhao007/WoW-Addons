@@ -169,6 +169,8 @@ L["Aspiring Forgehand"] = "Aspiring Forgehand"
 L["Aspix"] = "Jararax"
 L["Asset Manager"] = "Gerente de Ativos"
 --[[Translation missing --]]
+L["assignmentWarning"] = "MDT will NOT automatically set target markers on enemies in the game world."
+--[[Translation missing --]]
 L["Assistant Unnaturaler"] = "Assistant Unnaturaler"
 L["Astral Attendant"] = "Encarregado Astral"
 L["Astronos"] = "Astronos"
@@ -461,6 +463,8 @@ L["CityOfThreads"] = "City of Threads"
 --[[Translation missing --]]
 L["cityOfThreadsShortName"] = "COT"
 L["Claw Fighter"] = "Lutador de Garras"
+--[[Translation missing --]]
+L["Clear all Markers"] = "Clear all Markers"
 L["Click the fullscreen button for a maximized view of MDT."] = "Clique no botão de tela cheia para obter uma visualização maximizada do MDT"
 L["Click to adjust color settings"] = "Clique para ajustar as configurações de cores"
 --[[Translation missing --]]
@@ -1715,6 +1719,8 @@ L["Mchimba the Embalmer"] = "Muquimba, o Embalsamador"
 L["MDI Mode"] = "Modo MDI"
 --[[Translation missing --]]
 L["MDT Error"] = "MDT Error"
+--[[Translation missing --]]
+L["MDT: Cannot add enemy - you are trying to add too many enemies of the same kind"] = "MDT: Cannot add enemy - you are trying to add too many enemies of the same kind"
 L["MDT: Error importing preset"] = "MDT: Erro importando rota"
 L["MDT: Spells for %s:"] = "MDT: Feitiços para %s:"
 --[[Translation missing --]]
@@ -1943,6 +1949,8 @@ L["Odyn"] = "Odyn"
 L["Off-Duty Laborer"] = "Operário de Folga"
 L["Officer Quarters"] = "Ala dos Oficiais"
 L["Ogron Laborer"] = "Trabalhador Ogron"
+--[[Translation missing --]]
+L["Okay"] = "Okay"
 --[[Translation missing --]]
 L["Ol' Waxbeard"] = "Ol' Waxbeard"
 L["Olaf"] = "Olaf"
@@ -3364,6 +3372,8 @@ L["War Lynx"] = "War Lynx"
 L["War Ohuna"] = "Ohuna de Guerra"
 L["Warlord Parjesh"] = "Senhor da Guerra Parjesh"
 L["Warlord Sargha"] = "Senhora da Guerra Sargha"
+--[[Translation missing --]]
+L["Warning"] = "Warning"
 L["Warp Shade"] = "Vulto Dimensional"
 L["Warp Stalker"] = "Espreitador Dimensional"
 --[[Translation missing --]]

@@ -160,6 +160,16 @@ local IngameLocales = {
 	["Scarlet Monastery"]     = GetMapName(435),
 	["Timeless Isle"]         = GetMapName(554),
 
+	-- Battle for Azeroth
+	["Kul Tiras"] = GetMapName(876),
+	["Zandalar"] = GetMapName(875),
+	["Boralus"]     = GetMapName(1161),
+	["Dazar'alor"]     = GetMapName(1165),
+
+	-- The War Within
+	["Dornogal"]     = GetMapName(2339),
+	["Khaz Algar"]     = GetMapName(2274),
+
 	-- ######################################################################
 	-- Garrison Buildings
 	-- ######################################################################

@@ -24,7 +24,6 @@ local RSUtils = private.ImportLib("RareScannerUtils")
 -- RareScanner service libraries
 local RSMap = private.ImportLib("RareScannerMap")
 local RSCustomNpcs = private.ImportLib("RareScannerCustomNpcs")
-local RSTargetUnitTracker = private.ImportLib("RareScannerTargetUnitTracker")
 
 local options
 
@@ -307,7 +306,6 @@ local function AddNewCustomNpc(npcID, group)
 						
 						private.options_cnpcs[groupKey][npcKey].zone = private.options_cnpcs[groupKey][npcKey].subzone
 						RSNpcDB.SetCustomNpcInfo(npcID, private.options_cnpcs[groupKey][npcKey])
-						RSTargetUnitTracker.Refresh()
 					end
 				end,
 				width = "normal",
@@ -820,7 +818,6 @@ RSImportNpcsFrameButton:SetScript("OnClick", function(self)
 		else
 			importNpcsFrame:Hide()
 		end
-		RSTargetUnitTracker.Refresh()
 		
 		-- Refresh UI
 		RefresCustomNpcList()

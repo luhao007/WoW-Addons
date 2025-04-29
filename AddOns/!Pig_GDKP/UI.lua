@@ -1,22 +1,20 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
-local Create, Data, Fun, L, Default, Default_Per= unpack(PIG)
------
-local PIGFrame=Create.PIGFrame
-local PIGLine=Create.PIGLine
-local PIGTabBut=Create.PIGTabBut
-local PIGButton = Create.PIGButton
-local PIGOptionsList_RF=Create.PIGOptionsList_RF
-local PIGFontString=Create.PIGFontString
-local PIGModbutton=Create.PIGModbutton
-local PIGEnter=Create.PIGEnter
-local PIGSetFont=Create.PIGSetFont
----
 local GDKPInfo=addonTable.GDKPInfo
-local GnName,GnUI,GnIcon,FrameLevel = unpack(GDKPInfo.uidata)
---
 function GDKPInfo.ADD_UI()
 	if not PIGA["GDKP"]["Open"] then return end
+	local _, _, _, tocversion = GetBuildInfo()
+	local Create, Data, Fun, L, Default, Default_Per= unpack(PIG)
+	-----
+	local PIGFrame=Create.PIGFrame
+	local PIGLine=Create.PIGLine
+	local PIGTabBut=Create.PIGTabBut
+	local PIGButton = Create.PIGButton
+	local PIGOptionsList_RF=Create.PIGOptionsList_RF
+	local PIGFontString=Create.PIGFontString
+	local PIGModbutton=Create.PIGModbutton
+	local PIGEnter=Create.PIGEnter
+	local PIGSetFont=Create.PIGSetFont
+	local GnName,GnUI,GnIcon,FrameLevel = unpack(GDKPInfo.uidata)
 	if _G[GnUI] then return end
 	local zhizeIcon=Data.zhizeIcon
 	local Width,Height,biaotiH,lineTOP  = 820, 570, 21,30;
@@ -66,63 +64,63 @@ function GDKPInfo.ADD_UI()
 
 	--更新收入
 	function RaidR:UpdateGinfo()
+		local shouruData = {allG=0,itemG=0,fakuanG=0,BuzhuG=0,jiangliG=0}
 		--物品收入
-		local Wupin_shouru=0;
 		local dataX = PIGA["GDKP"]["ItemList"]
 		for xx = 1, #dataX do
-			Wupin_shouru=Wupin_shouru+dataX[xx][9]+dataX[xx][14];
+			shouruData.itemG=shouruData.itemG+dataX[xx][9]+dataX[xx][14];
 		end
-		RaidR.xiafangF.Wupin_SR_V:SetText(Wupin_shouru);
+		RaidR.xiafangF.Wupin_SR_V:SetText(shouruData.itemG);
 		--罚款+其他收入
-		local fakuan_shouru=0;
 		local dataX = PIGA["GDKP"]["fakuan"]
 		for xx = 1, #dataX do
-			if dataX[xx][3]~="N/A" then
-				fakuan_shouru=fakuan_shouru+dataX[xx][2]+dataX[xx][4];
+			if dataX[xx][3]~=NONE then
+				shouruData.fakuanG=shouruData.fakuanG+dataX[xx][2]+dataX[xx][4];
 			end
 		end
-		RaidR.xiafangF.fakuan_SR_V:SetText(fakuan_shouru);
+		RaidR.xiafangF.fakuan_SR_V:SetText(shouruData.fakuanG);
 		--总收入
-		local Zshouru=Wupin_shouru+fakuan_shouru;
-		RaidR.xiafangF.ZongSR_V:SetText(Zshouru);
+		shouruData.allG=shouruData.itemG+shouruData.fakuanG;
+		RaidR.xiafangF.ZongSR_V:SetText(shouruData.allG);
 		--补助支出
-		local Buzhu_shouru=0;
 		local dataX = PIGA["GDKP"]["Raidinfo"]
 		for p=1,#dataX do
 			for pp=1,#dataX[p] do
 				if dataX[p][pp][4] then
 					if dataX[p][pp][5] then--百分比补助
-						Buzhu_shouru=Buzhu_shouru+Zshouru*(dataX[p][pp][6]*0.01);
+						shouruData.BuzhuG=shouruData.BuzhuG+shouruData.allG*(dataX[p][pp][6]*0.01);
 					else
-						Buzhu_shouru=Buzhu_shouru+dataX[p][pp][6];
+						shouruData.BuzhuG=shouruData.BuzhuG+dataX[p][pp][6];
 					end
 				end
 			end
 		end
-		RaidR.xiafangF.buzhu_SR_V:SetText(Buzhu_shouru);
+		RaidR.xiafangF.buzhu_SR_V:SetText(shouruData.BuzhuG);
 		--奖励支出
-		local jiangli_shouru=0;
 		local dataX = PIGA["GDKP"]["jiangli"]
 		for xx = 1, #dataX do
-			if dataX[xx][3]~="N/A" then
+			if dataX[xx][3]~=NONE then
 				if dataX[xx][4] then--百分比补助
-					jiangli_shouru=jiangli_shouru+Zshouru*(dataX[xx][2]*0.01);
+					shouruData.jiangliG=shouruData.jiangliG+shouruData.allG*(dataX[xx][2]*0.01);
 				else
-					jiangli_shouru=jiangli_shouru+dataX[xx][2]
+					shouruData.jiangliG=shouruData.jiangliG+dataX[xx][2]
 				end
 			end
 		end
-		RaidR.xiafangF.jiangli_SR_V:SetText(jiangli_shouru);
+		local _,topsList=RaidR.GetTopData()
+		for k,v in pairs(PIGA["GDKP"]["Tops"]) do
+			if topsList[k] and v and v[2]>0 then
+				shouruData.jiangliG=shouruData.jiangliG+floor(topsList[k]*v[2]*0.01)
+			end
+		end
+		RaidR.xiafangF.jiangli_SR_V:SetText(shouruData.jiangliG);
 		---
-		local Jshouru=Zshouru-Buzhu_shouru-jiangli_shouru;
-		RaidR.xiafangF.Jing_RS_V:SetText(Jshouru);
+		RaidR.xiafangF.Jing_RS_V:SetText(shouruData.allG-shouruData.BuzhuG-shouruData.jiangliG);
 	end
 	--=成交人选择==================
-	RaidR.PlayerList = PIGFrame(RaidR,{"TOPLEFT",RaidR,"TOPLEFT",6,-22});
-	RaidR.PlayerList:SetPoint("BOTTOMRIGHT",RaidR,"BOTTOMRIGHT",-180,49);
+	RaidR.PlayerList = PIGFrame(RaidR,{"TOPLEFT",RaidR,"TOPLEFT",6,-22},{640,500});
 	RaidR.PlayerList:PIGSetBackdrop(1)
 	RaidR.PlayerList:PIGClose()
-	RaidR.PlayerList:SetFrameLevel(FrameLevel+20);
 	RaidR.PlayerList:Hide()
 	RaidR.PlayerList.biaoti = PIGFontString(RaidR.PlayerList,{"TOP", RaidR.PlayerList, "TOP", 0, -4},"选择成员")
 	PIGLine(RaidR.PlayerList,"TOP",-biaotiH)
@@ -133,14 +131,19 @@ function GDKPInfo.ADD_UI()
 		local bianjiID = fujik.bianjiID
 		local GNNn = fujik.GNNn
 		if GNNn=="ChengjiaoRen" then
-			PIGA["GDKP"]["ItemList"][RaidR.PlayerList.bianjiID][8]="N/A";
+			PIGA["GDKP"]["ItemList"][RaidR.PlayerList.bianjiID][8]=NONE;
 			RaidR.Update_Item();
 		elseif GNNn=="JiangliRen" then
-			PIGA["GDKP"]["jiangli"][bianjiID][3]="N/A";
+			PIGA["GDKP"]["jiangli"][bianjiID][3]=NONE;
 			RaidR.Update_Buzhu_QITA()
 		elseif GNNn=="FakuanRen" then
-			PIGA["GDKP"]["fakuan"][bianjiID][3]="N/A";
+			PIGA["GDKP"]["fakuan"][bianjiID][3]=NONE;
 			RaidR.Update_Fakuan()
+		elseif GNNn=="TichengRen" then
+			PIGA["GDKP"]["Tops"][bianjiID]=nil
+			RaidR.Update_Tops()
+		elseif GNNn=="DebtRen" then
+			RaidR.PIGTradeF.updataDebtRen(TradeFrame.PIG_Data.Name,2)
 		end
 		RaidR.PlayerList:Hide()
 	end);
@@ -153,7 +156,7 @@ function GDKPInfo.ADD_UI()
 				for pp=1,5 do
 					local pff = _G["RRPlayerList_"..p.."_"..pp]
 					pff:Hide();
-					pff:SetText("N/A");
+					pff:SetText(NONE);
 				end
 		    end
 		    local plist = PIGA["GDKP"]["Raidinfo"]
@@ -170,7 +173,7 @@ function GDKPInfo.ADD_UI()
 						else
 							pff:SetText(wanjiaName);
 						end
-						local color = RAID_CLASS_COLORS[plist[p][pp][2]]
+						local color = PIG_CLASS_COLORS[plist[p][pp][2]]
 						pff.Text:SetTextColor(color.r, color.g, color.b,1);
 				   	end
 				end
@@ -181,18 +184,27 @@ function GDKPInfo.ADD_UI()
 		self:Show();
 		self.bianjiID=id
 		self.GNNn=GNNn
+		self:ClearAllPoints();
+		self:SetParent(RaidR)
+		self:SetPoint("TOPLEFT",RaidR,"TOPLEFT",6,-22)
 		if GNNn=="ChengjiaoRen" then
 			local biajidata = PIGA["GDKP"]["ItemList"][id]
 			local itemName,itemLink,itemQuality,itemLevel,itemMinLevel,itemType,itemSubType,itemStackCount,itemEquipLoc,itemTexture = GetItemInfo(Fun.HY_ItemLinkJJ(biajidata[2]))
 			self.t:SetText("\124cff00FF55选择\124r |T"..itemTexture..":0:0|t"..itemLink.." \124cff00FF55成交人\124r")
-
 		elseif GNNn=="JiangliRen" then
 			local biajidata = PIGA["GDKP"]["jiangli"][id]
 			self.t:SetText("\124cff00FF55选择\124r "..biajidata[1].." \124cff00FF55奖励人\124r")
 		elseif GNNn=="FakuanRen" then
 			local biajidata = PIGA["GDKP"]["fakuan"][id]
 			self.t:SetText("\124cff00FF55选择\124r "..biajidata[1].." \124cff00FF55罚款人\124r")
+		elseif GNNn=="TichengRen" then
+			self.t:SetText("\124cff00FF55选择\124r "..id.." \124cff00FF55推荐人\124r")
+		elseif GNNn=="DebtRen" then
+			self:SetParent(TradeFrame)
+			self:SetPoint("TOPLEFT",TradeFrame,"TOPLEFT",20,-10);
+			self.t:SetText("\124cff00FF55选择\124r 本次交易 \124cff00FF55欠款人\124r")
 		end
+		RaidR.PlayerList:SetFrameLevel(FrameLevel+20);
 		RaidR.PlayerList:PlayerList_UP()
 	end
 	--
@@ -237,6 +249,12 @@ function GDKPInfo.ADD_UI()
 					local biajidata = PIGA["GDKP"]["fakuan"][bianjiID]
 					biajidata[3]=self.allname
 					RaidR.Update_Fakuan()
+				elseif GNNn=="TichengRen" then
+					if bianjiID==self.allname then PIGTopMsg:add("老板和推荐人不能为同一人","R") return end
+					PIGA["GDKP"]["Tops"][bianjiID]={self.allname,0}
+					RaidR.Update_Tops()
+				elseif GNNn=="DebtRen" then
+					RaidR.PIGTradeF.updataDebtRen(self.allname,2)
 				end
 				fujik:Hide()
 			end);
@@ -267,7 +285,7 @@ function GDKPInfo.ADD_UI()
 			RaidR:GetRiadPlayerInfo()
 			RaidR:RaidInfoShow()
 			RaidR.PlayerList:PlayerList_UP()
-			PIGSendChatRaidParty("人员信息已记录,退组/离线/不影响分G，需邮寄工资请"..L["CHAT_WHISPER"].."【"..Pig_OptionsUI.Name.."】:邮寄工资",UnitIsGroupLeader("player"),true)
+			PIGSendChatRaidParty("人员信息已记录,退组/离线/不影响分G，需邮寄工资请"..L["CHAT_WHISPER"].."<"..Pig_OptionsUI.Name..">: 邮寄工资",true,"W")
 		end,
 		timeout = 0,
 		whileDead = true,
@@ -487,10 +505,12 @@ function GDKPInfo.ADD_UI()
 	GDKPInfo.ADD_Item(RaidR)
 	GDKPInfo.ADD_Buzhu(RaidR)
 	GDKPInfo.ADD_Fakuan(RaidR)
+	GDKPInfo.ADD_Tops(RaidR)
 	GDKPInfo.ADD_RaidInfo(RaidR)
 	GDKPInfo.ADD_fenG(RaidR)
 	GDKPInfo.ADD_History(RaidR)
 	GDKPInfo.ADD_Check(RaidR)
+	GDKPInfo.ADD_Trade(RaidR)
 	--
 	RaidR:Update_DongjieBUT()
 	--新的记录===================
@@ -508,7 +528,7 @@ function GDKPInfo.ADD_UI()
 			local jiangliH={};
 			local jiangliH = PIGCopyTable(PIGA["GDKP"]["jiangli"])
 			for q=#jiangliH,1,-1 do
-				if jiangliH[q][3]=="N/A" then
+				if jiangliH[q][3]==NONE then
 					table.remove(jiangliH,q);
 				end
 			end
@@ -516,12 +536,15 @@ function GDKPInfo.ADD_UI()
 			--存储罚款数据
 			local fakuanH = PIGCopyTable(PIGA["GDKP"]["fakuan"])
 			for q=#fakuanH,1,-1 do
-				if fakuanH[q][3]=="N/A" then
+				if fakuanH[q][3]==NONE then
 					table.remove(fakuanH,q);
 				end
 			end
 			Old_Data.Fakuan=fakuanH
-
+			--消费提成
+			local TopsH = PIGCopyTable(PIGA["GDKP"]["Tops"])
+			Old_Data.Tops=TopsH
+			--
 			table.insert(PIGA["GDKP"]["History"],Old_Data);
 
 			--清空数据
@@ -529,14 +552,15 @@ function GDKPInfo.ADD_UI()
 			PIGA["GDKP"]["Raidinfo"] = {{},{},{},{},{},{},{},{}};
 			for j=1,#PIGA["GDKP"]["fakuan"] do
 				PIGA["GDKP"]["fakuan"][j][2]=0;
-				PIGA["GDKP"]["fakuan"][j][3]="N/A";
+				PIGA["GDKP"]["fakuan"][j][3]=NONE;
 				PIGA["GDKP"]["fakuan"][j][4]=0;
 			end
 			for j=1,#PIGA["GDKP"]["jiangli"] do
 				PIGA["GDKP"]["jiangli"][j][2]=0;
-				PIGA["GDKP"]["jiangli"][j][3]="N/A";
+				PIGA["GDKP"]["jiangli"][j][3]=NONE;
 				PIGA["GDKP"]["jiangli"][j][4]=false;
 			end
+			PIGA["GDKP"]["Tops"]={}
 			--记录新数据
 			PIGA["GDKP"]["Dongjie"] = false;--关闭快照状态
 			local FBname, instanceType, difficultyID, difficultyName = GetInstanceInfo()
@@ -546,6 +570,7 @@ function GDKPInfo.ADD_UI()
 			RaidR.Update_Item()
 			RaidR.Update_Buzhu_TND()
 			RaidR.Update_Buzhu_QITA()
+			RaidR.Update_Tops()
 			RaidR.Update_Fakuan()
 			RaidR.Update_FenG()
 			RaidR.Update_History()
@@ -570,27 +595,24 @@ function GDKPInfo.ADD_UI()
 	---
 	local function panduanNewfuben()
 		local FBname, instanceType, difficultyID, difficultyName = GetInstanceInfo()
-		--print(FBname, instanceType, difficultyID, difficultyName)
-		--if difficultyID~=0 then
-			if PIGA["GDKP"]["instanceName"][1] then
-				if #PIGA["GDKP"]["ItemList"]==0 then
-					PIGA["GDKP"]["instanceName"]={GetServerTime(),FBname,difficultyName}
-					RaidR.Update_DqName()
-				else
-					if PIGA["GDKP"]["instanceName"][2]==FBname then
-						--if PIGA["GDKP"]["instanceName"][3]==difficultyName then
-						if GetServerTime()-PIGA["GDKP"]["instanceName"][1]>43200 then
-							StaticPopup_Show("NEW_WUPIN_LIST","你似乎进入了新的副本\n");
-						end
-					else
-						StaticPopup_Show("NEW_WUPIN_LIST","你似乎进入了新的副本\n");
-					end
-				end
-			else
+		if PIGA["GDKP"]["instanceName"][1] then
+			if #PIGA["GDKP"]["ItemList"]==0 then
 				PIGA["GDKP"]["instanceName"]={GetServerTime(),FBname,difficultyName}
 				RaidR.Update_DqName()
+			else
+				if PIGA["GDKP"]["instanceName"][2]==FBname then
+					--if PIGA["GDKP"]["instanceName"][3]==difficultyName then--难度不同
+					if GetServerTime()-PIGA["GDKP"]["instanceName"][1]>43200 then
+						StaticPopup_Show("NEW_WUPIN_LIST","你似乎进入了新的副本\n");
+					end
+				else
+					StaticPopup_Show("NEW_WUPIN_LIST","你似乎进入了新的副本\n");
+				end
 			end
-		--end
+		else
+			PIGA["GDKP"]["instanceName"]={GetServerTime(),FBname,difficultyName}
+			RaidR.Update_DqName()
+		end
 	end
 	local MaxList = 30
 	RaidR:RegisterEvent("PLAYER_ENTERING_WORLD");

@@ -40,6 +40,8 @@ EventUtil.RegisterOnceFrameEventAndCallback("PLAYER_ENTERING_WORLD", function()
     addon:initTooltip()
     addon:initLossOfControl()
     addon:initPet()
+    addon:initExtraActionButton()
+    addon:initCooldownManager()
         
     local class = UnitClassBase("player")
         

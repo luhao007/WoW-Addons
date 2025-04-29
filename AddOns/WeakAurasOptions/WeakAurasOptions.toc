@@ -1,6 +1,6 @@
-## Interface: 110100
+## Interface: 110105
 ## Author: The WeakAuras Team
-## Version: 5.19.5
+## Version: 5.19.9
 
 ## Title: WeakAuras Options
 ## Notes: Options for WeakAuras
@@ -111,5 +111,6 @@ AceGUI-Widgets\AceGUIWidget-WeakAurasMiniTalent_TWW.lua
 AceGUI-Widgets\AceGUIWidget-WeakAurasScrollArea.lua
 AceGUI-Widgets\AceGUIWidget-WeakAurasInput.lua
 AceGUI-Widgets\AceGUIWidget-WeakAurasInputFocus.lua
+AceGUI-Widgets\AceGUIWidget-WeakAurasInputWithIndentation.lua
 AceGUI-Widgets\AceGuiWidget-WeakAurasMediaSound.lua
 AceGUI-Widgets\WeakAurasStatusbarAtlasWidget.lua

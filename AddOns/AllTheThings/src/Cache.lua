@@ -8,8 +8,8 @@ local ipairs, pairs, rawset, type, wipe, setmetatable, rawget, math_floor,tremov
 local C_Map_GetAreaInfo, C_Map_GetMapInfo = C_Map.GetAreaInfo, C_Map.GetMapInfo;
 
 -- App locals
-local contains, classIndex, raceIndex, factionID =
-	app.contains, app.ClassIndex, app.RaceIndex, app.FactionID;
+local contains, classIndex, raceIndex, factionID, ArrayAppend =
+	app.contains, app.ClassIndex, app.RaceIndex, app.FactionID, app.ArrayAppend
 
 -- Module locals
 local AllCaches, AllGamePatches, postscripts, runners, QuestTriggers = {}, {}, {}, {}, {};
@@ -989,7 +989,6 @@ end
 -- All Cache Searching
 local function SearchForFieldInAllCaches(field, id)
 	-- Returns: A table containing all groups which contain the provided id for a given field from all established data caches.
-	local ArrayAppend = app.ArrayAppend;
 	local groups = {};
 	for _,cache in pairs(AllCaches) do
 		ArrayAppend(groups, cache[field][id]);
@@ -998,7 +997,6 @@ local function SearchForFieldInAllCaches(field, id)
 end
 local function SearchForManyInAllCaches(field, ids)
 	-- Returns: A table containing all groups which contain the provided each of the provided ids for a given field from all established data caches.
-	local ArrayAppend = app.ArrayAppend;
 	local groups = {};
 	local fieldCache;
 	for _,cache in pairs(AllCaches) do

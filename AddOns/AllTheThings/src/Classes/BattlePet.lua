@@ -130,6 +130,13 @@ local PetIDSpeciesIDHelper = setmetatable({}, {
 	end
 });
 
+local PerCharacterSpecies = {
+	[280] = true, 	-- Guild Page [A]
+	[281] = true, 	-- Guild Page [H]
+	[282] = true,	-- Guild Herald [A]
+	[283] = true,	-- Guild Herald [H]
+	-- ...etc
+}
 app.CreateSpecies = app.CreateClass(CLASSNAME, KEY, {
 	CACHE = function() return CACHE end,
 	collectible = function(t) return app.Settings.Collectibles[CACHE]; end,
@@ -152,9 +159,6 @@ app.CreateSpecies = app.CreateClass(CLASSNAME, KEY, {
 	end,
 	costCollectibles = function(t)
 		return cache.GetCachedField(t, "costCollectibles", default_costCollectibles);
-	end,
-	f = function(t)
-		return 101;
 	end,
 	text = function(t)
 		return t.link or cache.GetCachedField(t, "text", CacheInfo);
@@ -183,15 +187,14 @@ app.CreateSpecies = app.CreateClass(CLASSNAME, KEY, {
 	tsm = function(t)
 		return ("p:%d:1:3"):format(t.speciesID);
 	end,
+	knownByID = function(t)
+		return t.speciesID
+	end,
+	perCharacter = function(t)
+		return PerCharacterSpecies[t.speciesID]
+	end
 });
 
-local PerCharacterSpecies = {
-	[280] = true, 	-- Guild Page [A]
-	[281] = true, 	-- Guild Page [H]
-	[282] = true,	-- Guild Herald [A]
-	[283] = true,	-- Guild Herald [H]
-	-- ...etc
-}
 local function RefreshBattlePets()
 	app.PrintDebug("RCBP",C_PetJournal_GetNumPets())
 	wipe(CollectedSpeciesHelper)

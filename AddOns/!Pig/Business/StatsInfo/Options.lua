@@ -2,7 +2,6 @@ local addonName, addonTable = ...;
 local _, _, _, tocversion = GetBuildInfo()
 local L=addonTable.locale
 local Create=addonTable.Create
-local PIGFrame=Create.PIGFrame
 local PIGLine=Create.PIGLine
 local PIGEnter=Create.PIGEnter
 local PIGButton = Create.PIGButton
@@ -14,10 +13,12 @@ local PIGModCheckbutton=Create.PIGModCheckbutton
 local PIGQuickBut=Create.PIGQuickBut
 ------
 local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
+local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
+---
 local BusinessInfo=addonTable.BusinessInfo
 local fuFrame,fuFrameBut = BusinessInfo.fuFrame,BusinessInfo.fuFrameBut
 
-local GnName,GnUI,GnIcon,FrameLevel = INFO..STATISTICS,"StatsInfo_UI",133734,10
+local GnName,GnUI,GnIcon,FrameLevel = CHARACTER_INFO..STATISTICS,"StatsInfo_UI",134149,10
 BusinessInfo.StatsInfoData={GnName,GnUI,GnIcon,FrameLevel}
 ------------
 function BusinessInfo.StatsInfoOptions()
@@ -439,7 +440,7 @@ function BusinessInfo.StatsInfoOptions()
 			add_lixianBut(ElvUI_ContainerFrame,wwc,hhc)
 			return
 		end
-		if Pig_OptionsUI.IsOpen_NDui("Bags") then
+		if Pig_OptionsUI.IsOpen_NDui("Bags","Enable") then
 			local B, C = unpack(NDui)
 			local anniushuS = NDui_BackpackBag.widgetButtons
 			local function CreatelixianBut(self)

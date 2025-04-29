@@ -5,18 +5,14 @@ local match = _G.string.match
 local Fun=addonTable.Fun
 --
 local Create=addonTable.Create
-local PIGLine=Create.PIGLine
 local PIGFrame=Create.PIGFrame
-local PIGButton = Create.PIGButton
 local PIGFontString=Create.PIGFontString
 local PIGOptionsList_R=Create.PIGOptionsList_R
-local PIGOptionsList_RF=Create.PIGOptionsList_RF
 local PIGTabBut=Create.PIGTabBut
 ------
 local BusinessInfo=addonTable.BusinessInfo
 function BusinessInfo.AH()
 	local StatsInfo = StatsInfo_UI
-	PIGA["StatsInfo"]["AHData"][Pig_OptionsUI.Realm]=PIGA["StatsInfo"]["AHData"][Pig_OptionsUI.Realm] or {}
 	local fujiF,fujiTabBut=PIGOptionsList_R(StatsInfo.F,"拍\n卖",StatsInfo.butW,"Left")
 	---
 	fujiF.PList=PIGFrame(fujiF)
@@ -196,7 +192,7 @@ function BusinessInfo.AH()
 		end)
 	end
 	local function isEmptyTable(t)
-	    return next(t) == nil
+	    return 
 	end
 	function fujiF.gengxin_List(self,Searchname)
 		if not fujiF.PList:IsVisible() then return end
@@ -213,7 +209,7 @@ function BusinessInfo.AH()
 		else
 			fujiF.DQShowData=PIGA["AHPlus"]["CacheData"]
 		end	
-		if not isEmptyTable(fujiF.DQShowData) then
+		if next(fujiF.DQShowData) ~= nil then
 			fujiF.PList.BOTTOM.err:Hide()
 			local jieguomulu={};
 			local itemData = fujiF.DQShowData

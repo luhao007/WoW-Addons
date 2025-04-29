@@ -47,7 +47,13 @@ local function InitResetRecentlySeenTimer()
 			-- If its an entity that spawns in multiple spots at the same time
 			else
 				for xy, info in pairs (entityInfo) do
-					if (currenTime > (entityInfo[xy].time + RSConstants.RECENTLY_SEEN_RESET_TIMER)) then
+					local RESET_TIMER = RSConstants.RECENTLY_SEEN_RESET_TIMER
+					-- In instances keep showing the icons longer
+					if (IsInInstance()) then
+						RESET_TIMER = RSConstants.RECENTLY_SEEN_INSTANCE_RESET_TIMER
+					end
+					
+					if (currenTime > (entityInfo[xy].time + RESET_TIMER)) then
 						if (RSUtils.GetTableLength(recently_seen_entities[entityID]) == 1) then
 							recently_seen_entities[entityID] = nil
 							--RSLogger:PrintDebugMessage(string.format("ResetRecentlySeen[%s] (multi/last)", entityID))

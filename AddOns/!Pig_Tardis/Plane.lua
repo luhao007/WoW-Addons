@@ -456,19 +456,25 @@ function TardisInfo.Plane(Activate)
 	end
 	---------
 	local function IsRestingInGroup()
-		local resting = IsResting()
-		if not resting then return false end
-		local inInstance =IsInInstance()
-		if inInstance then return false end
-		local InGroup =IsInGroup(LE_PARTY_CATEGORY_HOME);
-		if InGroup then return false end
-		if C_LFGList and C_LFGList.GetActiveEntryInfo then
+		if not IsResting() then return false end
+		if IsInInstance() then return false end
+		if IsInGroup(LE_PARTY_CATEGORY_HOME) then return false end
+		local isActive = C_LFGList and C_LFGList.HasActiveEntryInfo();
+		if ( isActive ) then
 			if C_LFGList.GetActiveEntryInfo() then return false end
 		end
+		for i=1, NUM_LE_LFG_CATEGORYS do
+			local mode, submode = GetLFGMode(i);
+			if ( mode and submode ~= "noteleport" ) then
+				return false
+			end
+		end
 		if tocversion<40000 then
-			for i=1, MAX_BATTLEFIELD_QUEUES do
-				local status, mapName = GetBattlefieldStatus(i)
-				if mapName then return false end
+			for i=1, GetMaxBattlefieldID() do
+				local status, mapName= GetBattlefieldStatus(i);
+				if ( status and status ~= "none" ) then
+					return false
+				end
 			end
 		else
 			if QueueStatusButton and QueueStatusButton:IsShown() then return false end

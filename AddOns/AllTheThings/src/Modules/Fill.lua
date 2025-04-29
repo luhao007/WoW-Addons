@@ -39,12 +39,13 @@ local SearchForObject, SearchForField, GetRelativeValue, ArrayAppend, AssignChil
 	= app.SearchForObject, app.SearchForField, app.GetRelativeValue, app.ArrayAppend, app.AssignChildren
 
 -- OnLoad locals
-local CreateObject, ResolveSymbolicLink, PriorityNestObjects, NPCExpandHeaders
+local CreateObject, ResolveSymbolicLink, PriorityNestObjects, NPCExpandHeaders, ForceFillDB
 app.AddEventHandler("OnLoad", function()
 	CreateObject = app.__CreateObject
 	ResolveSymbolicLink = app.ResolveSymbolicLink
 	PriorityNestObjects = app.PriorityNestObjects
 	NPCExpandHeaders = app.HeaderData.FILLNPCS or app.EmptyTable
+	ForceFillDB = app.ForceFillDB
 end)
 
 -- ItemID's which should be skipped when filling purchases with certain levels of 'skippability'
@@ -67,6 +68,13 @@ local SkipPurchases = {
 		[1166] = 1,		-- Timewarped Badge
 		[2778] = 2.5,		-- Bronze
 	},
+	LearnedTypes = {
+		Toy = 1,
+		Recipe = 1,
+		RecipeWithItem = 1,
+		Mount = 1,
+		BattlePet = 1,
+	}
 }
 local function ShouldFillPurchases(group, FillData)
 	local val
@@ -76,7 +84,7 @@ local function ShouldFillPurchases(group, FillData)
 			val = values[val]
 			if not val then return true end
 			if (FillData.SkipLevel or CurrentSkipLevel) < val - (group == FillData.Root and 0.5 or 0) then
-				return false;
+				return
 			end
 		end
 	end
@@ -99,6 +107,12 @@ end
 local function DeterminePurchaseGroups(group, FillData)
 	-- do not fill purchases on certain items, can skip the skip though based on a level
 	if not ShouldFillPurchases(group, FillData) then return end
+
+	-- Certain Collected Types which are NOT the Root of the Fill should not be filled
+	if SkipPurchases.LearnedTypes[group.__type] and group ~= FillData.Root and group.collected then
+		-- app.PrintDebug("Don't Fill purchases for non-Root collected Toy",app:SearchLink(group))
+		return
+	end
 
 	local collectibles = group.costCollectibles;
 	if collectibles and #collectibles > 0 then
@@ -132,6 +146,8 @@ local function DeterminePurchaseGroups(group, FillData)
 		return groups;
 	end
 end
+-- Used with recipeID to make distinct itemID combinations, must be 1 order of magnitude greater than the highest recipeID
+local RECIPEMOD_THRESHOLD = 10000000
 local function DetermineRecipeOutputGroups(group, FillData)
 	local recipeID = group.recipeID;
 	if not recipeID then return end
@@ -150,7 +166,7 @@ local function DetermineRecipeOutputGroups(group, FillData)
 	-- track crafted items which are filled across the entire fill sequence
 	local craftedItems = FillData.CraftedItems
 
-	local recipeMod = recipeID / 1000000
+	local recipeMod = recipeID / RECIPEMOD_THRESHOLD
 	local craftedItemID = info[1];
 	if craftedItemID and not craftedItems[craftedItemID]
 		and not craftedItems[craftedItemID + recipeMod] and skipLevel > 1 then
@@ -194,7 +210,7 @@ local function DetermineCraftedGroups(group, FillData)
 	-- find recipe(s) which creates this item
 	for recipeID,info in pairs(itemRecipes) do
 		craftedItemID = info[1];
-		-- app.PrintDebug(itemID,"x",info[2],"=>",craftedItemID,"via",recipeID,skipLevel);
+		-- app.PrintDebug(app:RawSearchLink("itemID",itemID),"x",info[2],"=>",app:RawSearchLink("itemID",craftedItemID),"via",app:RawSearchLink("spellID",recipeID));
 		if craftedItemID and not craftableItemIDs[craftedItemID] and (expandedNesting or not craftedItems[craftedItemID]) then
 			-- app.PrintDebug("recipeID",recipeID);
 			recipe = SearchForObject("recipeID",recipeID,"key") or app.CreateRecipe(recipeID)
@@ -205,7 +221,8 @@ local function DetermineCraftedGroups(group, FillData)
 					groups[#groups + 1] = recipe
 				else
 					-- crafted items should be considered unique per recipe
-					craftableItemIDs[craftedItemID + (recipeID / 1000000)] = recipe;
+					-- recipes are 1M+ now :O
+					craftableItemIDs[craftedItemID + (recipeID / RECIPEMOD_THRESHOLD)] = recipe;
 				end
 			else
 				-- app.PrintDebug("Unsourced recipeID",recipe);
@@ -227,7 +244,7 @@ local function DetermineCraftedGroups(group, FillData)
 			search = (search and CreateObject(search)) or app.CreateItem(craftedItemID)
 			-- link the respective crafted item object to the skill required by the crafting recipe
 			search.requireSkill = skillID
-			-- app.PrintDebug("craftedItemID",craftedItemID,"via skill",skillID)
+			-- app.PrintDebug("craftedItemID",app:RawSearchLink("itemID",craftedItemID),"via skill",app:RawSearchLink("professionID",skillID),skillID)
 			groups[#groups + 1] = search
 		end
 	end
@@ -340,10 +357,9 @@ local function DetermineNPCDrops(group, FillData)
 	end
 end
 local function FillGroupDirect(group, FillData, doDGU)
-	local groups;
 	local ignoreSkip = group.sym or group.headerID or group.classID
 	-- Determine Cost/Crafted/Symlink groups
-	groups = ArrayAppend(groups,
+	local groups = ArrayAppend({},
 		DeterminePurchaseGroups(group, FillData),
 		DetermineUpgradeGroups(group, FillData),
 		DetermineCraftedGroups(group, FillData),
@@ -355,11 +371,15 @@ local function FillGroupDirect(group, FillData, doDGU)
 
 	if groups and #groups > 0 then
 		-- if FillData.Debug then
-		-- 	app.print("FG-MergeResults",#groups,app:SearchLink(group))
+		-- 	app.PrintDebug("FG-MergeResults",app:SearchLink(group),#groups,"=>",#group.g)
 		-- end
-		-- app.PrintDebug("FillGroups-MergeResults",group.hash,#groups,"=>",#group.g)
 		AssignChildren(group);
 		if doDGU then app.DirectGroupUpdate(group); end
+		-- check if this group is actually force-filled
+		local forceFillType = not ignoreSkip and ForceFillDB[group.__type]
+		if forceFillType and forceFillType[group.keyval] then
+			ignoreSkip = true
+		end
 		-- mark this group as being filled since it actually received filled content (unless it's ignored for being skipped)
 		if not ignoreSkip then
 			local groupHash = group.hash;
@@ -401,7 +421,7 @@ end
 local function FillGroupsLayered(group, FillData)
 	if SkipFillingGroup(group, FillData) then
 		-- if FillData.Debug then
-		-- 	app.print(Colorize("FGR-SKIP",app.Colors.ChatLinkError),app:SearchLink(group))
+		-- 	app.print(app.Modules.Color.Colorize("FGR-SKIP",app.Colors.ChatLinkError),app:SearchLink(group))
 		-- end
 		-- app.PrintDebug(Colorize("FGR-SKIP",app.Colors.ChatLinkError),app:SearchLink(group))
 		return;
@@ -418,7 +438,7 @@ end
 local function FillGroupsLayeredAsync(group, FillData)
 	if SkipFillingGroup(group, FillData) then
 		-- if FillData.Debug then
-		-- 	app.print(Colorize("FGR-SKIP",app.Colors.ChatLinkError),app:SearchLink(group))
+		-- 	app.print(app.Modules.Color.Colorize("FGR-SKIP",app.Colors.ChatLinkError),app:SearchLink(group))
 		-- end
 		-- app.PrintDebug(Colorize("FGR-SKIP",app.Colors.ChatLinkError),app:SearchLink(group))
 		return;
@@ -474,10 +494,11 @@ local FillGroups = function(group)
 		NestNPCData = app.Settings:GetTooltipSetting("NPCData:Nested"),
 		SkipLevel = app.GetSkipLevel(),
 		Root = group,
-		FillRecipes = group.recipeID or app.ReagentsDB[group.itemID or 0]
+		FillRecipes = group.recipeID or app.ReagentsDB[group.itemID or 0],
+		-- Debug = group.itemID == 207026
 	};
 
-	-- app.PrintDebug("FillGroups",app:SearchLink(group),group.__type)
+	-- app.PrintDebug("FillGroups",group.__type,app:SearchLink(group))
 	-- app.PrintTable(FillData)
 
 	-- Fill the group with all nestable content

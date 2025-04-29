@@ -235,7 +235,7 @@ function BusinessInfo.AHPlus_Mainline(baocunnum)
 											local name, texture, count, qualityID, usable, level, levelType, minBid, minIncrement, buyoutPrice = C_AuctionHouse.GetReplicateItemInfo(itemf.index)
 											SauctionsLinData(name,buyoutPrice,count,itemf.index)
 											HCUI.ItemLoadList[itemf] = nil
-											if not next(HCUI.ItemLoadList) then
+											if next(HCUI.ItemLoadList) ~= nil then
 												HCUI.yicunchu=true
 											end
 										end)

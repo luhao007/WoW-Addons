@@ -14,6 +14,7 @@ local GetContainerNumSlots = GetContainerNumSlots or C_Container and C_Container
 local GetContainerNumFreeSlots = GetContainerNumFreeSlots or C_Container and C_Container.GetContainerNumFreeSlots
 local GetContainerItemID=GetContainerItemID or C_Container and C_Container.GetContainerItemID
 local GetContainerItemLink=GetContainerItemLink or C_Container and C_Container.GetContainerItemLink
+local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 local CombatPlusfun=addonTable.CombatPlusfun
 -----------------------
 if tocversion>19999 then function CombatPlusfun.BabySitter() end return end

@@ -16,7 +16,7 @@ local AL = LibStub("AceLocale-3.0"):GetLocale("RareScanner");
 local RSLogger = private.ImportLib("RareScannerLogger")
 local RSUtils = private.ImportLib("RareScannerUtils")
 local RSConstants = private.ImportLib("RareScannerConstants")
-
+local RSTimeUtils = private.ImportLib("RareScannerTimeUtils")
 
 ---============================================================================
 -- Opened containers database
@@ -197,7 +197,7 @@ end
 function RSContainerDB.IsDisabledEvent(containerID)
 	if (containerID) then
 		local containerInfo = RSContainerDB.GetInternalContainerInfo(containerID)
-		return containerInfo and containerInfo.event and not RSConstants.EVENTS[containerInfo.event]
+		return containerInfo and containerInfo.event and not RSTimeUtils.IsHolidayEventActive(containerInfo.event)
 	end
 	
 	return false

@@ -9,7 +9,8 @@ SLASH_PIG3 = "/PIG"
 SlashCmdList["PIG"] = function()
 	Pig_OptionsUI:Show();
 end
-_G.PIG = {addonTable.Create,addonTable.Data,addonTable.Fun,L,addonTable.Default,addonTable.Default_Per}
+addonTable.ShareDB={}
+_G.PIG = {addonTable.Create,addonTable.Data,addonTable.Fun,L,addonTable.Default,addonTable.Default_Per,addonTable.ShareDB}
 --===============================
 local PIGUI = CreateFrame("Frame")        
 PIGUI:RegisterEvent("ADDON_LOADED")
@@ -21,8 +22,9 @@ PIGUI:SetScript("OnEvent",function(self, event, arg1)
 		Pig_OptionsUI:SetVer()
 	end
 	if event=="PLAYER_LOGIN" then
-		addonTable.Set_Name_Realm()
-		PigMinimapBut_UI:Point()
+		addonTable.ShareConfig()
+		addonTable.Get_PlayerRealmData()
+		PigMinimapBut_UI:ButPoint()
 		PigMinimapBut_UI.MinimapBut()
 		addonTable.CVars()
 		---
@@ -39,7 +41,7 @@ PIGUI:SetScript("OnEvent",function(self, event, arg1)
 		addonTable.PigLayout()
 		--
 		QuickButUI:Add()
-		addonTable.Create.PIGSetPoint()
+		addonTable.Create.PigUISetPoint()
 		PigMinimapBut_UI.SN_MiniMapBut()
 		------------------------------
 		if not PIGA["Other"]["PigLoad"] then

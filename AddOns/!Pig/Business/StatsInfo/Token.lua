@@ -12,7 +12,6 @@ local PIGOptionsList_R=Create.PIGOptionsList_R
 local BusinessInfo=addonTable.BusinessInfo
 function BusinessInfo.Token()
 	local StatsInfo = StatsInfo_UI
-	PIGA["StatsInfo"]["Token"][StatsInfo.allname]=PIGA["StatsInfo"]["Token"][StatsInfo.allname] or {}
 	local fujiF,fujiTabBut=PIGOptionsList_R(StatsInfo.F,"货\n币",StatsInfo.butW,"Left")
 	---
 	local hang_Height,hang_NUM,numButtons  = 19.4, 11, 26;

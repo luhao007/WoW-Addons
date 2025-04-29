@@ -1,6 +1,6 @@
-## Interface: 110100
+## Interface: 110105
 ## Author: Hekili
-## Version: v11.1.0-1.0.16a
+## Version: v11.1.5-1.0.5c
 
 ## Title: Hekili
 ## Notes: Priority helper based on SimulationCraft action lists.
@@ -92,7 +92,9 @@ TheWarWithin\WarriorFury.lua
 TheWarWithin\WarriorProtection.lua
 
 Targets.lua
-Options.lua
+Options\DevTools.lua
+Options\ChatCommands.lua
+Options\Options.lua
 UI.lua
 Scripts.lua
 Core.lua

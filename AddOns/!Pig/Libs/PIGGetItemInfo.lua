@@ -6,6 +6,8 @@ local match = _G.string.match
 local _, _, _, tocversion = GetBuildInfo()
 ----
 local Fun=addonTable.Fun
+
+local GetItemInfo=GetItemInfo or C_Item and C_Item.GetItemInfo
 --------------------
 -- local PIGhuoquF
 -- local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice
@@ -122,6 +124,30 @@ function Fun.HY_EquipmTXT(msg)
     end
     return Data
 end
+local function HY_ItemLinkInfo(itemlin,txtmsgFun,jishunum)
+    if itemlin then
+        local Linktxt=HY_ItemLinkJJ(itemlin)
+        local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, sellPrice, classID, subclassID=GetItemInfo(Linktxt);
+        if itemLink then
+            if txtmsgFun then
+                txtmsgFun(itemLink)
+            else
+                return itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, sellPrice, classID, subclassID
+            end
+        else
+            jishunum=jishunum or 0
+            if jishunum<5 then
+                C_Timer.After(0.02,function()
+                    jishunum=jishunum+1
+                    HY_ItemLinkInfo(itemlin,txtmsgFun,jishunum)
+                end)
+            else
+                jishunum= 0
+            end
+        end
+    end
+end
+Fun.HY_ItemLinkInfo=HY_ItemLinkInfo
 local function HY_ShowItemLink(But,itemlin,itemID)
     if But and itemlin then
         local Linktxt=HY_ItemLinkJJ(itemlin)

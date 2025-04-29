@@ -1,5 +1,5 @@
 --------------------------------------
--- Last Auto Generated: 09/03/2025 12:34:39
+-- Last Auto Generated: 26/04/2025 14:42:37
 --------------------------------------
 local _, core = ...
 local L = core.L
@@ -124,7 +124,7 @@ core.Instances = {
 					bossIDs = {},
 					achievement = 41554,
 					players = {},
-					tactics = L["LiberationOfUndermine_CauldronOfCarnage"],
+					tactics = format(L["LiberationOfUndermine_CauldronOfCarnage"], C_Spell.GetSpellLink(1219656), "IAT_235623", C_Spell.GetSpellLink(1219665), "IAT_235624", C_Spell.GetSpellLink(1219684), C_Spell.GetSpellLink(1219684)),
 					enabled = true,
 					track = function() core._2769:CauldronOfCarnage() end,
 					partial = false,
@@ -136,7 +136,7 @@ core.Instances = {
 					bossIDs = {},
 					achievement = 41694,
 					players = {},
-					tactics = L["LiberationOfUndermine_CauldronOfCarnage2"],
+					tactics = format(L["LiberationOfUndermine_CauldronOfCarnage2"], "IAT_238586", C_Spell.GetSpellLink(1221293), "IAT_229177", "IAT_229287", C_Spell.GetSpellLink(467901), "IAT_229181", "IAT_229177"),
 					enabled = false,
 					track = nil,
 					partial = false,
@@ -147,7 +147,7 @@ core.Instances = {
 					bossIDs = {},
 					achievement = 41695,
 					players = {},
-					tactics = L["LiberationOfUndermine_CauldronOfCarnage3"],
+					tactics = format(L["LiberationOfUndermine_CauldronOfCarnage3"], "IAT_238587", C_Spell.GetSpellLink(1221300), "IAT_229181", "IAT_229288", C_Spell.GetSpellLink(467903), "IAT_229177", "IAT_229181"),
 					enabled = false,
 					track = nil,
 					partial = false,
@@ -169,7 +169,7 @@ core.Instances = {
 					bossIDs = {},
 					achievement = 41596,
 					players = {},
-					tactics = L["LiberationOfUndermine_StixBunkjunker"],
+					tactics = format(L["LiberationOfUndermine_StixBunkjunker"], C_Spell.GetSpellLink(464399), C_Spell.GetSpellLink(464149), C_Spell.GetSpellLink(464399), C_Spell.GetSpellLink(1219527), C_Spell.GetSpellLink(464399)),
 					enabled = true,
 					track = function() core._2769:StixBunkjunker() end,
 					partial = false,
@@ -180,7 +180,7 @@ core.Instances = {
 					bossIDs = {},
 					achievement = 41711,
 					players = {},
-					tactics = L["LiberationOfUndermine_SprocketmongerLockenstock"],
+					tactics = format(L["LiberationOfUndermine_SprocketmongerLockenstock"], C_Spell.GetSpellLink(1216414), C_Spell.GetSpellLink(1216525), C_Spell.GetSpellLink(1216674), C_Spell.GetSpellLink(1215858), C_Spell.GetSpellLink(1216699)),
 					enabled = true,
 					track = function() core._2769:SprocketmongerLockenstock() end,
 					partial = false,
@@ -236,7 +236,7 @@ core.Instances = {
 					bossIDs = {},
 					achievement = 41337,
 					players = {},
-					tactics = L["LiberationOfUndermine_MugZeeHeadsOfSecurity"],
+					tactics = format(L["LiberationOfUndermine_MugZeeHeadsOfSecurity"], "IAT_236828", "IAT_236828", "IAT_236828", "IAT_238110", C_Spell.GetSpellLink(1216669)),
 					enabled = true,
 					track = function() core._2769:MugZeeHeadsOfSecurity() end,
 					partial = false,
@@ -248,7 +248,7 @@ core.Instances = {
 					bossIDs = {},
 					achievement = 41211,
 					players = {},
-					tactics = L["LiberationOfUndermine_MugZeeHeadsOfSecurity2"],
+					tactics = format(L["LiberationOfUndermine_MugZeeHeadsOfSecurity2"], C_Spell.GetSpellLink(1213796), "IAT_228458", "IAT_229953", "IAT_229953", "IAT_228458", C_Spell.GetSpellLink(1213796)),
 					enabled = false,
 					track = nil,
 					partial = false,
@@ -6171,6 +6171,7 @@ core.Instances = {
 					track = function() core._755:Lockmaw() end,
 					partial = false,
 					encounterID = 1054,
+					displayInfoFrame = true,
 					tacticsClassic = "",
 				},
 				boss2 = {
@@ -6512,7 +6513,7 @@ core.Instances = {
 	--Wrath of the Lich King
 	[3] = {
 		Raids = {
-			["615-10"] = { --Obsidian Sanctum 10 Man
+			[615.10] = { --Obsidian Sanctum 10 Man
 				name = 755,
 				nameLocalised = L["Instance_TheObsidianSanctum"],
 				classicPhase = 1,
@@ -6589,7 +6590,7 @@ core.Instances = {
 				},
 			},
 
-			["615-25"] = { --Obsidian Sanctum 25 Man
+			[615.25] = { --Obsidian Sanctum 25 Man
 				name = 755,
 				nameLocalised = L["Instance_TheObsidianSanctum"],
 				classicPhase = 1,
@@ -6666,7 +6667,7 @@ core.Instances = {
 				},
 			},
 
-			["616-10"] = { --Eye of Eternity 10 Man
+			[616.10] = { --Eye of Eternity 10 Man
 				name = 756,
 				nameLocalised = L["Instance_TheEyeOfEternity"],
 				classicPhase = 1,
@@ -6715,7 +6716,7 @@ core.Instances = {
 				},
 			},
 
-			["616-25"] = { --Eye of Eternity 25 Man
+			[616.25] = { --Eye of Eternity 25 Man
 				name = 756,
 				nameLocalised = L["Instance_TheEyeOfEternity"],
 				classicPhase = 1,
@@ -6763,7 +6764,7 @@ core.Instances = {
 				},
 			},
 
-			["249-10"] = { --Onyxia's Lair 10 Man
+			[249.10] = { --Onyxia's Lair 10 Man
 				name = 760,
 				nameLocalised = L["Instance_OnyxiasLair"],
 				classicPhase = 3,
@@ -6808,7 +6809,7 @@ core.Instances = {
 				},
 			},
 
-			["249-25"] = { --Onyxia's Lair 25 Man
+			[249.25] = { --Onyxia's Lair 25 Man
 				name = 760,
 				nameLocalised = L["Instance_OnyxiasLair"],
 				classicPhase = 3,
@@ -6853,7 +6854,7 @@ core.Instances = {
 				},
 			},
 
-			["649-10"] = { --Trial of the Crusader 10 Man
+			[649.10] = { --Trial of the Crusader 10 Man
 				name = 757,
 				nameLocalised = L["Instance_TrialOfTheCrusader"],
 				classicPhase = 3,
@@ -6938,7 +6939,7 @@ core.Instances = {
 				},
 			},
 
-			["649-25"] = { --Trial of the Crusader 25 Man
+			[649.25] = { --Trial of the Crusader 25 Man
 				name = 757,
 				nameLocalised = L["Instance_TrialOfTheCrusader"],
 				classicPhase = 3,
@@ -7010,7 +7011,7 @@ core.Instances = {
 				},
 			},
 
-			["624-10"] = { --Vault of Archavon 10 Man
+			[624.10] = { --Vault of Archavon 10 Man
 				name = 753,
 				nameLocalised = L["Instance_VaultOfArchavon"],
 				classicPhase = 1,
@@ -7029,7 +7030,7 @@ core.Instances = {
 				},
 			},
 
-			["624-25"] = { --Vault of Archavon 25 Man
+			[624.25] = { --Vault of Archavon 25 Man
 				name = 753,
 				nameLocalised = L["Instance_VaultOfArchavon"],
 				classicPhase = 1,
@@ -7862,7 +7863,7 @@ core.Instances = {
 				},
 			},
 
-			["603-10"] = { --Ulduar 10 Man
+			[603.10] = { --Ulduar 10 Man
 				name = 759,
 				nameLocalised = L["Instance_Ulduar"],
 				classicPhase = 2,
@@ -8731,7 +8732,7 @@ core.Instances = {
 				},
 			},
 
-			["603-25"] = { --Ulduar 25 Man
+			[603.25] = { --Ulduar 25 Man
 				name = 759,
 				nameLocalised = L["Instance_Ulduar"],
 				classicPhase = 2,
@@ -9600,7 +9601,7 @@ core.Instances = {
 				},
 			},
 
-			["533-10"] = { --Naxxramas 10 Man
+			[533.10] = { --Naxxramas 10 Man
 				name = 754,
 				nameLocalised = L["Instance_Naxxramas"],
 				classicPhase = 1,
@@ -9761,7 +9762,7 @@ core.Instances = {
 				},
 			},
 
-			["533-25"] = { --Naxxramas 25 Man
+			[533.25] = { --Naxxramas 25 Man
 				name = 754,
 				nameLocalised = L["Instance_Naxxramas"],
 				classicPhase = 1,
@@ -9922,7 +9923,7 @@ core.Instances = {
 				},
 			},
 
-			["631-10"] = { --Icecrown Citadel 10 Man
+			[631.10] = { --Icecrown Citadel 10 Man
 				name = 758,
 				nameLocalised = L["Instance_IcecrownCitadel"],
 				classicPhase = 4,
@@ -10097,7 +10098,7 @@ core.Instances = {
 				},
 			},
 
-			["631-25"] = { --Icecrown Citadel 25 Man
+			[631.25] = { --Icecrown Citadel 25 Man
 				name = 758,
 				nameLocalised = L["Instance_IcecrownCitadel"],
 				classicPhase = 4,

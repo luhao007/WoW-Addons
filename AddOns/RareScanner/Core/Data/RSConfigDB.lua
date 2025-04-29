@@ -358,22 +358,6 @@ function RSConfigDB.SetScanningChatAlerts(value)
 	private.db.general.scanChatAlerts = value
 end
 
-function RSConfigDB.IsScanningTargetUnit()
-	return private.db.general.scanTargetUnit
-end
-
-function RSConfigDB.SetScanningTargetUnit(value)
-	private.db.general.scanTargetUnit = value
-end
-
-function RSConfigDB.IsMutingTargetUnitSound()
-	return private.db.general.muteTargetUnit
-end
-
-function RSConfigDB.SetMutingTargetUnitSound(value)
-	private.db.general.muteTargetUnit = value
-end
-
 ---============================================================================
 -- Not discovered filters database
 ---============================================================================

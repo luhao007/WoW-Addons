@@ -1,6 +1,7 @@
 local addonName, addonTable = ...;
 local _, _, _, tocversion = GetBuildInfo()
 local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
+local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 --
 local L=addonTable.locale
 local Fun=addonTable.Fun
@@ -10,7 +11,6 @@ local PIGFrame=Create.PIGFrame
 local PIGButton = Create.PIGButton
 local PIGFontString=Create.PIGFontString
 local PIGOptionsList_R=Create.PIGOptionsList_R
-local PIGOptionsList_RF=Create.PIGOptionsList_RF
 local PIGTabBut=Create.PIGTabBut
 ------
 local BusinessInfo=addonTable.BusinessInfo
@@ -18,7 +18,6 @@ function BusinessInfo.Trade()
 	local StatsInfo = StatsInfo_UI
 	local PlayerData = PIGA["StatsInfo"]["Players"]
 	for k,v in pairs(PlayerData) do
-		PIGA["StatsInfo"]["TradeData"][k]=PIGA["StatsInfo"]["TradeData"][k] or {}
 		local shujuyaun=PIGA["StatsInfo"]["TradeData"][k]
 		if #shujuyaun>0 then
 			if #shujuyaun[1]>0 then
@@ -329,10 +328,10 @@ function BusinessInfo.Trade()
 			end
 			self.highlight1:Show();
 		end)
-		listbut.Title = PIGFontString(listbut,{"TOPLEFT", listbut, "TOPLEFT", 6, -N_hang_Height*0.5+8})
+		listbut.Title = PIGFontString(listbut,{"LEFT", listbut, "LEFT", 2, 0})
 		listbut.Title:SetTextColor(0.9, 0.9, 0.9, 0.9);
 		listbut.Race = listbut:CreateTexture();
-		listbut.Race:SetPoint("TOPLEFT", listbut, "TOPLEFT", 46, -2);
+		listbut.Race:SetPoint("TOPLEFT", listbut, "TOPLEFT", 36, -2);
 		listbut.Race:SetSize(N_hang_Height*0.5-2,N_hang_Height*0.5-2);
 		listbut.Class = listbut:CreateTexture();
 		listbut.Class:SetTexture("interface/glues/charactercreate/ui-charactercreate-classes.blp")
@@ -343,14 +342,10 @@ function BusinessInfo.Trade()
 		listbut.Name = PIGFontString(listbut,{"LEFT", listbut.level, "RIGHT", 0, 0})
 		listbut.MapName = PIGFontString(listbut,{"TOPLEFT", listbut.Race, "BOTTOMLEFT", 0, -3})
 		listbut.MapName:SetTextColor(0.6,0.6,0.6,1);
-		listbut.jiaochuP = PIGFontString(listbut,{"TOPLEFT", listbut, "TOPLEFT", 220, -2},"交出:")
+		listbut.jiaochuP = PIGFontString(listbut,{"TOPLEFT", listbut, "TOPLEFT", 250, -2},"交出:")
 		listbut.jiaochuP:SetTextColor(1,0,0,1);
-		listbut.MoneyP = PIGFontString(listbut,{"TOPRIGHT", listbut, "TOPRIGHT", -30, 0})
-		listbut.MoneyP:SetTextColor(1,0,0,1);
-		listbut.shoudaoP = PIGFontString(listbut,{"TOPLEFT", listbut, "TOPLEFT", 220, -N_hang_Height*0.5-2},"收到:")
+		listbut.shoudaoP = PIGFontString(listbut,{"TOPLEFT", listbut, "TOPLEFT", 250, -N_hang_Height*0.5-2},"收到:")
 		listbut.shoudaoP:SetTextColor(0,1,0,1);
-		listbut.MoneyT = PIGFontString(listbut,{"TOPRIGHT", listbut, "TOPRIGHT", -30, -N_hang_Height*0.5-2})
-		listbut.MoneyT:SetTextColor(0,1,0,1);
 		listbut.itembuttons={}
 		for butid=1,12 do
 			local xitembut = CreateFrame("Button",nil,listbut)
@@ -368,22 +363,20 @@ function BusinessInfo.Trade()
 				GameTooltip:ClearLines();
 				GameTooltip:Hide() 
 			end);
-			if butid<7 then
-				if butid==1 then
-					xitembut:SetPoint("LEFT", listbut.jiaochuP, "RIGHT", 4,-1);
-				else
-					xitembut:SetPoint("LEFT", listbut.jiaochuP, "RIGHT", (N_hang_Height*0.5)*(butid-1)+4,-1);
-				end
+			if butid==1 then
+				xitembut:SetPoint("LEFT", listbut.jiaochuP, "RIGHT", 4,-1);
+			elseif butid==7 then
+				xitembut:SetPoint("LEFT", listbut.shoudaoP, "RIGHT", 4,-1);
 			else
-				if butid==7 then
-					xitembut:SetPoint("LEFT", listbut.shoudaoP, "RIGHT", 4,-1);
-				else
-					xitembut:SetPoint("LEFT", listbut.shoudaoP, "RIGHT", (N_hang_Height*0.5)*(butid-7)+4,-1);
-				end
+				xitembut:SetPoint("LEFT", listbut.itembuttons[butid-1], "RIGHT", 0,0);
 			end
 			xitembut.numItems = PIGFontString(xitembut,{"BOTTOMRIGHT", xitembut, "BOTTOMRIGHT", 0, 0},nil,"OUTLINE",12)
 			xitembut.numItems:SetTextColor(1, 1, 1, 1);
 		end
+		listbut.MoneyP = PIGFontString(listbut,{"LEFT", listbut.itembuttons[6], "RIGHT", 2, 0})
+		listbut.MoneyP:SetTextColor(1,0,0,1);
+		listbut.MoneyT = PIGFontString(listbut,{"LEFT", listbut.itembuttons[12], "RIGHT", 2, 0})
+		listbut.MoneyT:SetTextColor(0,1,0,1);
 	end
 	fujiF.TradeList.hejiF=PIGFrame(fujiF.TradeList,{"BOTTOMLEFT",fujiF.TradeList,"BOTTOMLEFT",0,0})
 	fujiF.TradeList.hejiF:SetPoint("BOTTOMRIGHT",fujiF.TradeList,"BOTTOMRIGHT",0,0);
@@ -421,6 +414,7 @@ function BusinessInfo.Trade()
 			fuji.Title:SetText("");
 			fuji.highlight1:Hide();
 			for butid=1,12 do
+				fuji.itembuttons[butid]:SetWidth(0.0001)
 				fuji.itembuttons[butid]:Hide()
 			end
 		end
@@ -461,6 +455,7 @@ function BusinessInfo.Trade()
 							for butid=1,6 do
 								if shujuData[dangqian]["ItemP"][butid]~=NONE then
 									fuji.itembuttons[butid]:Show()
+									fuji.itembuttons[butid]:SetWidth(N_hang_Height*0.5-2)
 									local itemID, itemType, itemSubType, itemEquipLoc, icon = GetItemInfoInstant(shujuData[dangqian]["ItemP"][butid][1]) 
 									fuji.itembuttons[butid]:SetNormalTexture(icon)
 									fuji.itembuttons[butid].numItems:SetText(shujuData[dangqian]["ItemP"][butid][2])
@@ -475,6 +470,7 @@ function BusinessInfo.Trade()
 									local itemID, itemType, itemSubType, itemEquipLoc, icon = GetItemInfoInstant(shujuData[dangqian]["ItemT"][butid][1]) 
 									local newbutid = butid+6
 									fuji.itembuttons[newbutid]:Show()
+									fuji.itembuttons[newbutid]:SetWidth(N_hang_Height*0.5-2)
 									fuji.itembuttons[newbutid]:SetNormalTexture(icon)
 									fuji.itembuttons[newbutid].numItems:SetText(shujuData[dangqian]["ItemT"][butid][2])
 									fuji.itembuttons[newbutid]:HookScript("OnEnter", function (self)
@@ -632,7 +628,7 @@ function BusinessInfo.Trade()
 							end
 						end
 					end
-					if IsAddOnLoaded(L.extLsit[2]) and PIGA["GDKP"]["Rsetting"]["tradetonggao"] then
+					if IsAddOnLoaded(L.extLsit[2]) and PIGA["GDKP"]["Rsetting"]["tradetonggao"] and IsInRaid() then
 						SendChatMessage(msgT, "RAID");
 					end
 				end

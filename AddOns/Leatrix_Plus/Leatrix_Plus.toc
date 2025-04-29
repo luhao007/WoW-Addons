@@ -1,11 +1,11 @@
-## Interface: 110100
+## Interface: 110105
 ## Author: Leatrix
-## Version: 11.1.06
+## Version: 11.1.10
 
 ## Title: Leatrix Plus
-## Notes: Quality of life addon.
+## Notes: For support, visit leatrix.com.
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r |cFFFFFFFF功能百宝箱|r |cFFFFE00ALeatrix_Plus|r
-## Notes-zhCN: 哆啦A梦的百宝袋
+## Notes-zhCN: 如需支持，请访问 leatrix.com。
 
 ## IconTexture: Interface\HELPFRAME\ReportLagIcon-Movement
 

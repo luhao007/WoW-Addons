@@ -12,7 +12,7 @@ local TITAN_REPAIR_ID = "Repair";
 local TITAN_BUTTON = "TitanPanel"..TITAN_REPAIR_ID.."Button"
 
 local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
-local TitanRepair = {}
+local TitanRepair = {};
 local _G = getfenv(0);
 local TR = TitanRepair
 TR.ITEM_STATUS = {};
@@ -22,8 +22,7 @@ local AceTimer = LibStub("AceTimer-3.0")
 local TR_Timer = {}
 local TR_Timer_active = false
 
-local parse_item = 
-	"|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?"
+local parse_item = "";
 
 ---@diagnostic disable-next-line: deprecated
 local GetItem = C_Item.GetItemInfo or GetItemInfo -- For Classic versions
@@ -92,12 +91,21 @@ local slots = {
 
 TR.guild_bank = true
 TR.wowversion  = select(4, GetBuildInfo())
-if TR.wowversion <  20300 then
+if TR.wowversion < 20300 then
 	-- No guild bank
 	TR.guild_bank = false
 else
 	-- Guild bank exists
 	TR.guild_bank = true
+end
+if TR.wowversion < 100000 then
+    -- Not retail
+    parse_item = 
+        "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?"
+else
+    -- Retail
+    parse_item = 
+	    "|?cnIQ?(%x*):|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?"
 end
 
 
@@ -274,7 +282,7 @@ print
 			debug_msg(dmsg)
 		end
 
-		-- Walk thru slots 'backward' to give weapons 'priority' if most damagaged
+		-- Walk thru slots 'backward' to give weapons 'priority' if most damaged
 		for slotID = TR.scan_start, TR.scan_end, -1 do  -- thru slots
 			local slotName = slots[slotID].name
 			local scan_slots = tostring(slotName)..":"..tostring(GetInventorySlotInfo(slotName))

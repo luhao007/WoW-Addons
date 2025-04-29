@@ -5,7 +5,6 @@ local match = _G.string.match
 local _, _, _, tocversion = GetBuildInfo()
 local Create = addonTable.Create
 local PIGFrame=Create.PIGFrame
-local PIGButton=Create.PIGButton
 local PIGFontString=Create.PIGFontString
 local PIGItemListUI=Create.PIGItemListUI
 -------------
@@ -372,9 +371,9 @@ local function PIG_tiquMsg(msgx,nameX)
 			end
 		end
 	end
-	if InspectFrame and InspectFrame:IsShown() and InspectNameText:GetText()==nameX or Tardis_UI and Tardis_UI:IsShown() then--观察/时空
+	if InspectFrame and InspectFrame:IsShown() and InspectNameText:GetText()==nameX or Tardis_UI and Tardis_UI:IsShown() or Pig_playerStatsUI and Pig_playerStatsUI:IsShown() then--观察/时空
 		local qianzhui = msgx:sub(1, 3)
-		if qianzhui == "!T-" or qianzhui == "!G-" or qianzhui == "!R-" then
+		if qianzhui == "!T-" or qianzhui == "!G-" or qianzhui == "!R-" or qianzhui == "!I-" then
 			local leixing = msgx:sub(2, 2)	
 			if leixing == "T" then
 				yuanchengCFrame.fanhuiYN_TF=true
@@ -393,8 +392,8 @@ local function PIG_tiquMsg(msgx,nameX)
 			end
 			if leixing == "I" then
 				yuanchengCFrame.fanhuiYN_II=true
-				local fwData=HY_RuneTXT(msgx:sub(4, -1))
-				Pig_OptionsUI.talentData[nameX][leixing]={GetServerTime(),fwData}
+				local classId,raceId,level,ItemLevel,gender = strsplit("-", msgx:sub(4, -1))
+				Pig_OptionsUI.talentData[nameX][leixing]={GetServerTime(),classId,raceId,level,ItemLevel,gender}
 			end
 		end
 	end
@@ -474,6 +473,7 @@ local function CZ_yuancheng_Data(gongneng)
 	yuanchengCFrame:Show()
 end
 local function FasongYCqingqiu(fullnameX,iidd)
+	if name==UNKNOWNOBJECT then return end
 	Pig_OptionsUI.talentData[fullnameX]=Pig_OptionsUI.talentData[fullnameX] or {}
 	local iidd=iidd or 1
 	if iidd==1 then

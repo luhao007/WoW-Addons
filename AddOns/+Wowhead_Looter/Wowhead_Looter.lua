@@ -3,17 +3,17 @@
 --     W o w h e a d   L o o t e r     --
 --                                     --
 --                                     --
---    Patch: 11.1.0                    --
+--    Patch: 11.1.5                    --
 --    E-mail: feedback@wowhead.com     --
 --                                     --
 -----------------------------------------
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2025-02-25";
+local WL_ADDON_UPDATED = "2025-04-22";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
-local WL_VERSION = 110100;
+local WL_VERSION = 110105;
 local WL_VERSION_PATCH = 0;
 local WL_ADDONNAME, WL_ADDONTABLE = ...
 
@@ -293,7 +293,7 @@ local WL_REP_MODS = {
 };
 -- Map currency name to currency ID
 local WL_CURRENCIES = {};
-local WL_CURRENCIES_MAXID = 2400;
+local WL_CURRENCIES_MAXID = 3400;
 -- Random Dungeon IDs extracted from LFGDungeons.dbc
 local WL_AREAID_TO_DUNGEONID = {
     [1] = {
@@ -3424,9 +3424,7 @@ function wlEvent_LOOT_OPENED(self, autoLoot, isFromItem)
             elseif slotType == Enum.LootSlotType.Money then
                 typeId = "coin";
             elseif slotType == Enum.LootSlotType.Currency then
-                local icon_file_name, currencyName, currencyQuantity, currencyRarity, currencyLocked = GetLootSlotInfo(slot);
-                currencyId = WL_CURRENCIES[currencyName:lower()];
-
+                local icon_file_name, currencyName, currencyQuantity, currencyId, currencyLocked = GetLootSlotInfo(slot);
                 typeId = "currency-" .. (currencyId or 0);
 
                 tinsert(wlLootedCurrenciesBlacklist, {
@@ -4853,6 +4851,7 @@ function wlCheckAreaPois()
     local includeNonPrimary = {
         [1978] = true, -- Dragon Isles
         [2274] = true, -- Khaz Algar
+        [2346] = true, -- Undermine
     };
 
     -- Ohn'ahran Plains primal storms workaround
@@ -5928,7 +5927,7 @@ function wlParseCurrencyLink(link)
 end
 
 --    (color) : (id) : (enchant) : (1st socket) : (2nd socket) : (3rd socket) : (4th socket) : (subid) : (guid) : (playerLevel) : (specId) : (upgradeType) : (bonusContext) : (numBonus) (: ...bonusIds...) : (upgradeId) : (name)
-local WL_ITEMLINK = "|c(%x+)|Hitem:(%d+):(%-?%d*):(%-?%d*):(%-?%d*):(%-?%d*):(%-?%d*):(%-?%d*):(%-?%d*):(%-?%d*):(%-?%d*):(%-?%d*):(%-?%d*):(%-?%d*)([^|]*)|h%[(.+)%]|h|r";
+local WL_ITEMLINK = "|c([^|]+)|Hitem:(%d+):(%-?%d*):(%-?%d*):(%-?%d*):(%-?%d*):(%-?%d*):(%-?%d*):(%-?%d*):(%-?%d*):(%-?%d*):(%-?%d*):(%-?%d*):(%-?%d*)([^|]*)|h%[(.+)%]|h|r";
 
 function wlParseItemLink(link)
     if link then

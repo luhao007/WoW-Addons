@@ -1,5 +1,21 @@
 # Changelog
 
+## 3.6.3 - April 27, 2025
+### Fixed
+- Cataclysm: Add missing classic UBRS
+
+## 3.6.2 - April 22, 2025
+### Changed
+- Retail: Update TOC to 11.1.5
+### Fixed
+- Retail: Fix adventure journal map for Blackrock Spire
+
+## 3.6.1 - April 8, 2025
+### Changed
+- Classic Era: Update TOC to 1.15.7
+### Fixed
+- Retail: Operation: Floodgate B map is a bit less blurry
+
 ## 3.6.0 - March 5, 2025
 ### Added
 - Retail: Added Operation: Floodgate map
@@ -544,7 +560,7 @@ v1.41.00 (Apr. 14, 2017)
 v1.40.06 (Apr. 13, 2017)
 ------------------------
 - Checking deprecated plugins now will recognize the alpha build's version
-  if specifed; or will ignore those set "v3.6.0" as the version
+  if specifed; or will ignore those set "v3.6.3" as the version
   number to be changed by CurseForge's auto-packaging.
 
 v1.40.05 (Apr. 13, 2017)

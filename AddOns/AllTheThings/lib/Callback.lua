@@ -9,7 +9,7 @@ local After, max, unpack = C_Timer.After, math.max, unpack;
 
 -- Setup the callback tables since they are heavily used
 local __callbacks = {};
-local CallbackMethodCache = setmetatable({}, {
+local CallbackMethodCache = setmetatable({}, { __mode = "kv",
 	-- Gets or Creates the actual method which runs as a callback to execute the specified method
 	__index = function(t, method)
 		-- app.PrintDebug("CB:New",method)

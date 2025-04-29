@@ -3,8 +3,6 @@ local L=addonTable.locale
 local _, _, _, tocversion = GetBuildInfo()
 ---
 local Create=addonTable.Create
-local PIGLine=Create.PIGLine
-local PIGButton = Create.PIGButton
 local PIGSlider = Create.PIGSlider
 local PIGCheckbutton=Create.PIGCheckbutton
 local PIGCheckbutton_R=Create.PIGCheckbutton_R
@@ -19,8 +17,7 @@ local ActionBarfun={}
 addonTable.ActionBarfun=ActionBarfun
 local fuFrame,fuFrameBut = PIGOptionsList(L["ACTION_TABNAME"],"TOP")
 --
-local DownY=30
-local RTabFrame =Create.PIGOptionsList_RF(fuFrame,DownY)
+local RTabFrame =Create.PIGOptionsList_RF(fuFrame)
 ActionBarfun.fuFrame=fuFrame
 ActionBarfun.fuFrameBut=fuFrameBut
 ActionBarfun.RTabFrame=RTabFrame

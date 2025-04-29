@@ -169,6 +169,8 @@ L["Aspiring Forgehand"] = "Aspiring Forgehand"
 L["Aspix"] = "Aspix"
 L["Asset Manager"] = "Responsabile delle Risorse"
 --[[Translation missing --]]
+L["assignmentWarning"] = "MDT will NOT automatically set target markers on enemies in the game world."
+--[[Translation missing --]]
 L["Assistant Unnaturaler"] = "Assistant Unnaturaler"
 L["Astral Attendant"] = "Attendente Astrale"
 L["Astronos"] = "Astronos"
@@ -460,6 +462,8 @@ L["CityOfThreads"] = "City of Threads"
 --[[Translation missing --]]
 L["cityOfThreadsShortName"] = "COT"
 L["Claw Fighter"] = "Combattente dell'Artiglio"
+--[[Translation missing --]]
+L["Clear all Markers"] = "Clear all Markers"
 L["Click the fullscreen button for a maximized view of MDT."] = "Clicca il pulsante della modalità schermo intero per visualizzare MDT a tutto schermo."
 L["Click to adjust color settings"] = "Clicca per cambiare le impostazioni del colore"
 --[[Translation missing --]]
@@ -1704,6 +1708,8 @@ L["Mchimba the Embalmer"] = "Mchimba l'Imbalsamatore"
 L["MDI Mode"] = "Modalità MDI"
 --[[Translation missing --]]
 L["MDT Error"] = "MDT Error"
+--[[Translation missing --]]
+L["MDT: Cannot add enemy - you are trying to add too many enemies of the same kind"] = "MDT: Cannot add enemy - you are trying to add too many enemies of the same kind"
 L["MDT: Error importing preset"] = "MDT: Si è verificato un errore durante l'importazione del percorso"
 L["MDT: Spells for %s:"] = "MDT: Abilità di %s:"
 --[[Translation missing --]]
@@ -1930,6 +1936,8 @@ L["Odyn"] = "Odyn"
 L["Off-Duty Laborer"] = "Bracciante Fuori Servizio"
 L["Officer Quarters"] = "Alloggi degli Ufficiali"
 L["Ogron Laborer"] = "Bracciante Ogron"
+--[[Translation missing --]]
+L["Okay"] = "Okay"
 --[[Translation missing --]]
 L["Ol' Waxbeard"] = "Ol' Waxbeard"
 L["Olaf"] = "Olaf"
@@ -3200,6 +3208,8 @@ L["War Lynx"] = "War Lynx"
 L["War Ohuna"] = "Ohuna da Guerra"
 L["Warlord Parjesh"] = "Signore della Guerra Parjesh"
 L["Warlord Sargha"] = "Signora della Guerra Sargha"
+--[[Translation missing --]]
+L["Warning"] = "Warning"
 L["Warp Shade"] = "Ombra Distorcente"
 L["Warp Stalker"] = "Segugio Distorcente"
 L["Waste Pipes"] = "Tubature di Scarico"

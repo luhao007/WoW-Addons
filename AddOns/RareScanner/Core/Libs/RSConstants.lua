@@ -27,7 +27,7 @@ RSConstants.LOOT_ITEM_ID = nil
 -- Current versions
 ---============================================================================
 
-RSConstants.CURRENT_DB_VERSION = 176
+RSConstants.CURRENT_DB_VERSION = 179
 RSConstants.CURRENT_LOOT_DB_VERSION = 171
 
 ---============================================================================
@@ -66,11 +66,12 @@ RSConstants.WARWITHIN_PRE_PATCH_EVENT = 6
 RSConstants._20_ANNIVERSARY_EVENT = 7
 
 RSConstants.EVENTS = {
+	-- [RareScanner_EVENTID] = true|false|holidayTextureID;
 	[RSConstants.SHADOWLANDS_PRE_PATCH_EVENT] = false;
 	[RSConstants.DIABLO_4_GOBLIN_EVENT] = false;
 	[RSConstants.WARCRAFT_RUMBLE_CROSSOVER_EVENT] = true;
 	[RSConstants.HEARTHSTONE_10TH_EVENT] = false;
-	[RSConstants.NOBLEGARDEN_EVENT] = false;
+	[RSConstants.NOBLEGARDEN_EVENT] = 235477;
 	[RSConstants.WARWITHIN_PRE_PATCH_EVENT] = false;
 	[RSConstants._20_ANNIVERSARY_EVENT] = true;
 }
@@ -103,6 +104,7 @@ RSConstants.WARWITHIN_SMELLING_HISTORY_MINIEVENT = 21
 RSConstants.WARWITHIN_TREASURES_UNDERMINE_MINIEVENT = 22
 RSConstants.WARWITHIN_READ_BETWEEN_LINES_MINIEVENT = 23
 RSConstants.WARWITHIN_NINE_TENTHS_LAW_MINIEVENT = 24
+RSConstants.WARWITHIN_FIGHTER_NIGHTMAN_MINIEVENT = 25
 
 -- Minievents that will have an option to filter/unfilter the icons from the worldmap
 RSConstants.MINIEVENTS_WORLDMAP_FILTERS = {
@@ -114,6 +116,7 @@ RSConstants.MINIEVENTS_WORLDMAP_FILTERS = {
 	[RSConstants.DRAGONFLIGHT_HUNTING_PARTY_MINIEVENT] = { active = true, npcs = true, mapIDs = { 2025, 2024, 2023, 2022 }, atlas = "Vehicle-Trap-Gold", text = AL["MAP_MENU_SHOW_HUNTING_PARTY_RARE_NPCS"] };
 	[RSConstants.DRAGONFLIGHT_FYRAKK_MINIEVENT] = { active = true, npcs = true, mapIDs = { 2023, 2024}, atlas = "Fyrakk-Head-Icon-Grey", text = AL["MAP_MENU_SHOW_FYRAKK_RARE_NPCS"] };
 	[RSConstants.WARWITHIN_RARES_WORLDSOUL_MINIEVENT] = { active = true, npcs = true, mapIDs = { 2248, 2214, 2215, 2255, 2213, 2346 }, atlas = "echoes-icon", text = AL["MAP_MENU_SHOW_WORLDSOUL_RARE_NPCS"] };
+	[RSConstants.WARWITHIN_FIGHTER_NIGHTMAN_MINIEVENT] = { active = true, npcs = true, mapIDs = { 2215, 2255, 2256, 2213, 2256 }, atlas = "renown-flame", text = AL["MAP_MENU_SHOW_FIGHTER_NIGHTMAN_RARE_NPCS"] };
 
 	[RSConstants.DRAGONFLIGHT_WARCRAFT_RUMBLE_MINIEVENT] = { active = true, containers = true, mapIDs = { 2025, 2024, 2023, 2022, 2199, 2112, 1, 84, 85 }, atlas = "Battlenet-ClientIcon-GRY", text = AL["MAP_MENU_SHOW_WARCRAFT_RUMBLE_CONTAINERS"] };
 	[RSConstants.DRAGONFLIGHT_DREAMSEED_MINIEVENT] = { active = true, containers = true, mapIDs = { 2200 }, atlas = "SeedPlanting-Full", text = AL["MAP_MENU_SHOW_DREAMSEED_CONTAINERS"] };
@@ -146,6 +149,7 @@ RSConstants.VALLEY_BLOSSOMS_INVASSION_QUESTS = {56064,57728,57008}
 
 RSConstants.CHECK_RESET_RECENTLY_SEEN_TIMER = 5 --5 seconds
 RSConstants.RECENTLY_SEEN_RESET_TIMER = 120 --2 minutes
+RSConstants.RECENTLY_SEEN_INSTANCE_RESET_TIMER = 120 * 15 --30 minutes
 RSConstants.RECENTLY_SEEN_PING_ANIMATION_TIMER = 5 --5 seconds
 RSConstants.CACHE_ALL_COMPLETED_QUEST_IDS_TIMER = 60 --1 minute
 RSConstants.FIND_HIDDEN_QUESTS_TIMER = 5 --5 seconds after killing a NPC or opening a container
@@ -220,8 +224,6 @@ RSConstants.PROFILE_DEFAULTS = {
 			scanOnPetBattle = true,
 			scanOnRacingQuest = true,
 			scanWorldmapVignette = true,
-			scanTargetUnit = false,
-			muteTargetUnit = false,
 			ignoreCompletedEntities = true,
 			showMaker = true,
 			marker = 8,
@@ -1069,7 +1071,6 @@ RSConstants.STEP7 = "7"
 RSConstants.APPLY_COLLECTIONS_LOOT_FILTERS = "RARESCANNER_APPLY_COLLECTIONS_LOOT_FILTERS"
 RSConstants.EXPLORER_FILTERING_DIALOG = "RARESCANNER_EXPLORER_FILTERING_DIALOG"
 RSConstants.EXPLORER_SCAN_NOT_DONE = "RARESCANNER_EXPLORER_SCAN_NOT_DONE"
-RSConstants.TARGET_UNIT_WARNING = "RARESCANNER_TARGET_UNIT_WARNING"
 RSConstants.ITEM_LIST_VALIDATION_ERROR = "RARESCANNER_INFO_DIALOG"
 RSConstants.ITEM_LIST_WRONG_IDS_ERROR = "RARESCANNER_ITEM_LIST_WRONG_IDS_ERROR"
 RSConstants.DELETE_GROUP_CONFIRMATION = "RARESCANNER_DELETE_GROUP_CONFIRMATION"

@@ -206,6 +206,29 @@ local twwMounts = {
 		chance = 20, -- No data available
 		coords = { { m = CONSTANTS.UIMAPIDS.UNDERMINE } },
 	},
+	["Steamwheedle Supplier"] = {
+		cat = CONSTANTS.ITEM_CATEGORIES.TWW,
+		type = CONSTANTS.ITEM_TYPES.MOUNT,
+		method = CONSTANTS.DETECTION_METHODS.USE,
+		name = L["Steamwheedle Supplier"],
+		itemId = 229943,
+		spellId = 466014,
+		items = { 237134 },
+		chance = 20, -- No data available
+		coords = { { m = CONSTANTS.UIMAPIDS.UNDERMINE } },
+	},
+	-- 11.1.5 mounts
+	["Void-Scarred Lynx"] = {
+		cat = CONSTANTS.ITEM_CATEGORIES.TWW,
+		type = CONSTANTS.ITEM_TYPES.MOUNT,
+		method = CONSTANTS.DETECTION_METHODS.USE,
+		name = L["Void-Scarred Lynx"],
+		itemId = 239563,
+		spellId = 1228865,
+		items = { 239546 },
+		chance = 125,
+		coords = { { m = CONSTANTS.UIMAPIDS.HALLOWFALL } },
+	},
 }
 
 Rarity.ItemDB.MergeItems(Rarity.ItemDB.mounts, twwMounts)

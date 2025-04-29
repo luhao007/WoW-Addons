@@ -6,7 +6,6 @@ local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
 local PIGEnter=Create.PIGEnter
 local PIGButton = Create.PIGButton
-local PIGQuickBut=Create.PIGQuickBut
 local PIGLine=Create.PIGLine
 local PIGSlider = Create.PIGSlider
 local PIGCheckbutton=Create.PIGCheckbutton
@@ -18,8 +17,7 @@ local BusinessInfo=addonTable.BusinessInfo
 local Data=addonTable.Data
 local fuFrame,fuFrameBut = BusinessInfo.fuFrame,BusinessInfo.fuFrameBut
 
-local GnName,GnUI,GnIcon,FrameLevel = MINIMAP_TRACKING_MAILBOX.."助手","MailPlus_UI",134939,10
-BusinessInfo.MailPlusData={GnName,GnUI,GnIcon,FrameLevel}
+local GnName = MINIMAP_TRACKING_MAILBOX.."助手"
 ------------
 local PIG_OPEN_ALL_MAIL_MIN_DELAY=1
 function BusinessInfo.MailPlusOptions()
@@ -1008,14 +1006,14 @@ function BusinessInfo.MailPlus_ADDUI()
 					end
 				end
 			end
-			if Pig_OptionsUI.IsOpen_NDui("Bags") then
+			if Pig_OptionsUI.IsOpen_NDui("Bags","Enable") then
 				for f=1,slotnum do
 					if _G[NDui_BagName..f] then
 						zhixingpiliangFun(_G[NDui_BagName..f])
 					end
 				end
 			end
-			if Pig_OptionsUI.IsOpen_ElvUI("bags") then
+			if Pig_OptionsUI.IsOpen_ElvUI("bags","enable") then
 				for f=1,NUM_CONTAINER_FRAMES do
 					for ff=1,MAX_CONTAINER_ITEMS do
 						for ei=1,#ElvUI_BagName do

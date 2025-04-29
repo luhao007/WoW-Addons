@@ -4,9 +4,7 @@ local L=addonTable.locale
 ---
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
-local PIGButton=Create.PIGButton
 local PIGEnter=Create.PIGEnter
-local PIGLine=Create.PIGLine
 local PIGFontString=Create.PIGFontString
 local PIGCheckbutton=Create.PIGCheckbutton
 local Data=addonTable.Data

@@ -225,22 +225,7 @@ function BusinessInfo.Admin()
 	end
 	------------
 	function fujiF.caozuoshuaxin(ly,name)
-		if ly=="del" then
-			PIGA["StatsInfo"]["Players"][name]=nil
-			PIGA["StatsInfo"]["PlayerSH"][name]=nil
-			PIGA["StatsInfo"]["FubenCD"][name]=nil
-			PIGA["StatsInfo"]["InstancesCD"][name]=nil
-			PIGA["StatsInfo"]["SkillData"][name]=nil
-			PIGA["StatsInfo"]["Times"][name]=nil
-			PIGA["StatsInfo"]["Token"][name]=nil
-			PIGA["StatsInfo"]["Items"][name]=nil
-			PIGA["StatsInfo"]["TradeData"][name]=nil
-			PIGA["StatsInfo"]["AHData"][name]=nil		
-		elseif ly=="hide" then
-			PIGA["StatsInfo"]["PlayerSH"][name]=true
-		elseif ly=="show" then
-			PIGA["StatsInfo"]["PlayerSH"][name]=nil
-		end
+		StatsInfo:Del_DataInfo(ly,name)
 		gengxin_List(fujiF.Admin.Scroll);
 		gengxin_List_Hide(fujiF.Admin_Hide.Scroll);
 	end

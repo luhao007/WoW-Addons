@@ -4,6 +4,7 @@ local _G = _G
 local CreateFrame = CreateFrame
 local CreateTexture=CreateTexture
 ---------------------------
+local Fun=addonTable.Fun
 local Create = {}
 local FontUrl = "Fonts/ARHei.ttf"
 Create.FontUrl=FontUrl
@@ -86,7 +87,11 @@ function Create.PIGLine(Parent,Point,Y,H,LR,Color,UIName)
 	end
 	return frameX
 end
-function Create.PIGSetMovable(LeftUI,MovableUI,KeyDown)
+function Create.PIGSetMovable(LeftUI,MovableUI,KeyDown,Per)
+	if MovableUI and MovableUI:GetName()=="Pig_Farm_UI" and Fun.is_slist() then
+		LeftUI:Hide()
+		MovableUI:SetPoint("CENTER");
+	end
 	local MovableUI=MovableUI or LeftUI
 	MovableUI:SetMovable(true)
 	MovableUI:SetUserPlaced(false)
@@ -96,12 +101,19 @@ function Create.PIGSetMovable(LeftUI,MovableUI,KeyDown)
 		if KeyDown and not IsModifiedClick(KeyDown) then return end
 		MovableUI:StartMoving()
 	end)
+	MovableUI.Per=Per
 	LeftUI:SetScript("OnDragStop",function(self)
 		MovableUI:StopMovingOrSizing()
 		local uiname = MovableUI:GetName()
 		if uiname then
 			local point, relativeTo, relativePoint, offsetX, offsetY = MovableUI:GetPoint()
-			PIGA["PigUI"][uiname]={point, nil, relativePoint, offsetX, offsetY}
+			local offsetX = floor(offsetX*100+0.5)*0.01
+			local offsetY = floor(offsetY*100+0.5)*0.01
+			if MovableUI.Per then
+				PIGA_Per["Pig_UI"][uiname]={point, relativePoint, offsetX, offsetY}
+			else
+				PIGA["Pig_UI"][uiname]={point, relativePoint, offsetX, offsetY}
+			end
 		end
 		MovableUI:SetUserPlaced(false)
 	end)
@@ -155,8 +167,8 @@ function Create.PIGFrame(Parent,Point,WH,UIName,ESCOFF,Template)
 			self:SetBackdropBorderColor(BackdropBorderColor[1], BackdropBorderColor[2], BackdropBorderColor[3], BorderAlpha);
 		end
 	end
-	function frameX:PIGSetMovable(MovableUI,KeyDown)
-		Create.PIGSetMovable(self,MovableUI,KeyDown)
+	function frameX:PIGSetMovable(MovableUI,KeyDown,Per)
+		Create.PIGSetMovable(self,MovableUI,KeyDown,Per)
 	end
 	local function add_CloseUI(MODE,self,Ww,Hh,CloseUI)
 		local Ww = Ww or 22
@@ -208,7 +220,7 @@ function Create.PIGFrame(Parent,Point,WH,UIName,ESCOFF,Template)
 			add_CloseUI(false,self,Ww,Hh,CloseUI)
 		end
 	end
-	function frameX:SetObject(object, PointUI,Point)
+	function frameX:SetObject(object,Point)
 		local Point=Point or {0,0,0,0}
 		local left=Point[1]
 	    local right = Point[2]
@@ -216,8 +228,8 @@ function Create.PIGFrame(Parent,Point,WH,UIName,ESCOFF,Template)
 	    local bottom = Point[4]
 	    object:SetParent(self)
 	    object:ClearAllPoints()
-	    object:SetPoint('TOPLEFT', PointUI, 'TOPLEFT', left, top)
-	    object:SetPoint('BOTTOMRIGHT', PointUI, 'BOTTOMRIGHT', right, bottom)
+	    object:SetPoint('TOPLEFT', self, 'TOPLEFT', left, top)
+	    object:SetPoint('BOTTOMRIGHT', self, 'BOTTOMRIGHT', right, bottom)
 	    object:Show()
 	    self.Object = object
 	end
@@ -227,7 +239,7 @@ function Create.PIGFrame(Parent,Point,WH,UIName,ESCOFF,Template)
 		self:ClearAllPoints();
 		self:SetPoint(PointData[1],PointData[2],PointData[3],PointData[4]+X,PointData[5]+Y)
 		local nameUI = QuickButUI:GetName()
-		PIGA["PigUI"][self:GetName()]=PointData
+		PIGA["Pig_UI"][self:GetName()]=PointData
 	end
 	return frameX
 end
@@ -255,18 +267,41 @@ function Create.PIGEnter(Parent,text,text1,text2,Xpianyi,Ypianyi,huanhang)
 	end);
 end
 --设置UI位置
-function Create.PIGSetPoint()
-	for k,v in pairs(PIGA["PigUI"]) do
+local function PIG_SetPoint(MovingUI,Blizzard,PointX)
+	if not MovingUI then return end
+	local uiname = MovingUI:GetName()
+	if uiname then
+		local point, relativePoint, offsetX, offsetY
+		if Blizzard then
+			point, relativePoint, offsetX, offsetY=unpack(PIGA["Blizzard_UI"][uiname]["Point"])
+			local offsetX = floor(offsetX*100+0.5)*0.01
+			local offsetY = floor(offsetY*100+0.5)*0.01
+			PIGA["Blizzard_UI"][uiname]["Point"][3]=offsetX
+			PIGA["Blizzard_UI"][uiname]["Point"][4]=offsetY
+			-- SetUIPanelAttribute(MovingUI, "xoffset", offsetX);
+			-- SetUIPanelAttribute(MovingUI, "yoffset", offsetY);
+		else
+   			point, relativePoint, offsetX, offsetY=unpack(PointX)
+   			local offsetX = floor(offsetX*100+0.5)*0.01
+			local offsetY = floor(offsetY*100+0.5)*0.01
+			PointX[3]=offsetX
+			PointX[4]=offsetY
+   		end
+   		MovingUI:ClearAllPoints();
+		MovingUI:SetPoint(point or "CENTER", UIParent, relativePoint or "CENTER", offsetX or 0, offsetY or 0);
+		if MovingUI.updatePoint then MovingUI.updatePoint() end
+	end
+end
+Create.PIG_SetPoint=PIG_SetPoint
+function Create.PigUISetPoint()
+	for k,v in pairs(PIGA["Pig_UI"]) do
 		if _G[k] then
-			local point=v[1] or "CENTER"
-			--local relativeTo=v[2] or UIParent
-			local relativePoint=v[3] or "CENTER"
-			local offsetX=v[4] or 0
-			local offsetY=v[5] or 0
-			--print(_G[k]:GetName(),v[1],v[2],v[3],v[4],v[5])
-			_G[k]:ClearAllPoints();
-			_G[k]:SetPoint(point, UIParent, relativePoint, offsetX, offsetY)
-			if _G[k].updatePoint then _G[k].updatePoint() end
+			PIG_SetPoint(_G[k],nil,v)
+		end
+	end
+	for k,v in pairs(PIGA_Per["Pig_UI"]) do
+		if _G[k] then
+			PIG_SetPoint(_G[k],nil,v)
 		end
 	end
 end

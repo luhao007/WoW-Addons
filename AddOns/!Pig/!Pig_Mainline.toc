@@ -1,6 +1,6 @@
-## Interface: 110100
+## Interface: 110105
 ## Author: geligasi
-## Version: 8.55
+## Version: 8.70
 
 ## Title: !Pig
 ## Notes: A toolbox. Integrating many small features can greatly reduce the number of plug-ins you have
@@ -35,7 +35,7 @@ Map\Map.xml
 CVars\CVars.xml
 PigLayout\PigLayout.xml
 Ext.lua
-Config\Config.lua
+Config\Config.xml
 About.lua
 Debug.lua
 !Pig.lua

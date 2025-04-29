@@ -10,37 +10,27 @@ local AddonName = ...
 ---@class OptionsPrivate
 local OptionsPrivate = select(2, ...)
 OptionsPrivate.changelog = {
-  versionString = '5.19.5',
-  dateString = '2025-03-10',
-  fullChangeLogUrl = 'https://github.com/WeakAuras/WeakAuras2/compare/5.19.4...5.19.5',
+  versionString = '5.19.9',
+  dateString = '2025-04-25',
+  fullChangeLogUrl = 'https://github.com/WeakAuras/WeakAuras2/compare/5.19.8...5.19.9',
   highlightText = [==[
-No new features this release, just fixes to some minor bugs]==],  commitText = [==[InfusOnWoW (9):
+Bump .toc files]==],  commitText = [==[InfusOnWoW (4):
 
+- Bump .toc files
+- Icon: If OmniCC or ElvUI are installed hide blizzard cooldown numbers
+- Currency trigger: Add type checking to guard against unexpected data
 - Update Discord List
-- Update Discord List
-- Stop Motion Sub Element: Fix setting of custom row/colum etc settings
-- Partially revert 4e628f546befa7
-- Being in Excavation Site 9 IsInInstance() returns false
-- Texture Sub Element: Don't resize main aura on atlas selection
-- Workaround boss unit stupidity by Blizzard
-- Workaround INSTANCE_ENGAGE_UNIT with incosistent UnitGUID/UnitExists
-- Remove Stop Motion texture data
 
 Stanzilla (2):
 
 - Update WeakAurasModelPaths from wago.tools
 - Update WeakAurasModelPaths from wago.tools
 
-dependabot[bot] (4):
+mrbuds (3):
 
-- Bump cbrgm/mastodon-github-action from 2.1.12 to 2.1.13
-- Bump tsickert/discord-webhook from 6.0.0 to 7.0.0
-- Bump leafo/gh-actions-luarocks from 4 to 5
-- Bump leafo/gh-actions-lua from 10 to 11
-
-emptyrivers (1):
-
-- remove spurious enUS translations
+- Unit Characteristics trigger: add creature type & family (Retail only)
+- Textute Atlas Picker: use C_Texture.GetAtlasElements on Retail
+- TSUHelper: hide __changed from pairs()
 
 ]==]
 }

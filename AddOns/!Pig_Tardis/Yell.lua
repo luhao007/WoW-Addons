@@ -370,13 +370,13 @@ function TardisInfo.Yell(Activate)
 	--载入默认人数配置
 	fujiF.topF.zhiyeXZ.daoruMoren=PIGDownMenu(fujiF.topF.zhiyeXZ,{"LEFT",fujiF.topF.zhiyeXZ.playerNum,"RIGHT", 50,0},{124,24})
 	fujiF.topF.zhiyeXZ.daoruMoren:PIGDownMenu_SetText("导入预设人数")
-	function fujiF.topF.zhiyeXZ.daoruMoren:PIGDownMenu_Update_But(self)
+	function fujiF.topF.zhiyeXZ.daoruMoren:PIGDownMenu_Update_But()
 		local info = {}
 		info.func = self.PIGDownMenu_SetValue
 		for i=1,#fubenMoshi,1 do
 		    info.text, info.arg1 = "导入"..fubenMoshi[i].."人预设人数", fubenMoshi[i]
 		    info.notCheckable = true;
-			fujiF.topF.zhiyeXZ.daoruMoren:PIGDownMenu_AddButton(info)
+			self:PIGDownMenu_AddButton(info)
 		end 
 	end
 	function fujiF.topF.zhiyeXZ.daoruMoren:PIGDownMenu_SetValue(value,arg1)
@@ -491,11 +491,15 @@ function TardisInfo.Yell(Activate)
 	fujiF.topF.autoHF.tishitxt1 = PIGFontString(fujiF.topF.autoHF,{"LEFT",fujiF.topF.autoHF.playerNumV_max,"RIGHT",20,0},"|cff00FF00提示: 输入完成回车保存。触发优先级从上到下，同时触发2条以上规则优先执行上方规则|r");
 	---条件
 	local tiaojianNUM = 5
-	local function add_ModeUI(fujiK,modeID,autoInv)
+	local function jiazaimorenpeizhiV(modeID)
 		PIGA["Tardis"]["Yell"]["InvMode1_Info"][modeID]=PIGA["Tardis"]["Yell"]["InvMode1_Info"][modeID] or {["Open"]=false,["TJ"]="",["HF"]=""}
+	end
+	local function add_ModeUI(fujiK,modeID,autoInv)
+		
 		if modeID==1 then
 			modeUI = PIGCheckbutton(fujiK,{"TOPLEFT",fujiK,"TOPLEFT",10,-10},{modeID..".密语为进组暗号则: |cff00FF00邀请入队|r","无额外限制，密语内容为进组暗号直接邀请"})
 			modeUI:SetScript("OnClick", function(self)
+				jiazaimorenpeizhiV(modeID)
 				if self:GetChecked() then
 					PIGA["Tardis"]["Yell"]["InvMode1_Info"][modeID]["Open"]=true;
 				else
@@ -511,6 +515,7 @@ function TardisInfo.Yell(Activate)
 		end
 		modeUI = PIGCheckbutton(fujiK,{"TOPLEFT",fujiK,"TOPLEFT",10,-60*modeID+70},{modeID..".如果密语包含:",tishityxy})
 		modeUI:SetScript("OnClick", function(self)
+			jiazaimorenpeizhiV(modeID)
 			if self:GetChecked() then
 				PIGA["Tardis"]["Yell"]["InvMode1_Info"][modeID]["Open"]=true;
 			else
@@ -532,12 +537,14 @@ function TardisInfo.Yell(Activate)
 		end);
 		modeUI.TJ:SetScript("OnEditFocusLost", function(self)
 			self:SetTextColor(0.7, 0.7, 0.7, 1);
+			jiazaimorenpeizhiV(modeID)
 			self:SetText(PIGA["Tardis"]["Yell"]["InvMode1_Info"][modeID]["TJ"])
 		end);
 		modeUI.TJ:SetScript("OnEscapePressed", function(self) 
 			self:ClearFocus()
 		end);
 		modeUI.TJ:SetScript("OnEnterPressed", function(self) 
+			jiazaimorenpeizhiV(modeID)
 			PIGA["Tardis"]["Yell"]["InvMode1_Info"][modeID]["TJ"]=self:GetText();
 			fujiK:SetXZ_mode()
 			self:ClearFocus()
@@ -560,12 +567,14 @@ function TardisInfo.Yell(Activate)
 			end);
 			modeUI.HF:SetScript("OnEditFocusLost", function(self)
 				self:SetTextColor(0.7, 0.7, 0.7, 1);
+				jiazaimorenpeizhiV(modeID)
 				self:SetText(PIGA["Tardis"]["Yell"]["InvMode1_Info"][modeID]["HF"])
 			end);
 			modeUI.HF:SetScript("OnEscapePressed", function(self) 
 				self:ClearFocus()
 			end);
 			modeUI.HF:SetScript("OnEnterPressed", function(self) 
+				jiazaimorenpeizhiV(modeID)
 				PIGA["Tardis"]["Yell"]["InvMode1_Info"][modeID]["HF"]=self:GetText();
 				fujiK:SetXZ_mode()
 				self:ClearFocus()
@@ -584,11 +593,13 @@ function TardisInfo.Yell(Activate)
 		for i=1,tiaojianNUM do
 			self.keydata[i]={["TJ"]={},["HF"]={}}
 			if i>1 then
-				local keyslist = PIGA["Tardis"]["Yell"]["InvMode1_Info"][i]["TJ"]:gsub("，", ",")
-				local fengelistTJ = Key_fenge(keyslist, ",", true)
-				self.keydata[i]["TJ"]=fengelistTJ
-				if i>2 then
-					self.keydata[i]["HF"]=PIGA["Tardis"]["Yell"]["InvMode1_Info"][i]["HF"]
+				if PIGA["Tardis"]["Yell"]["InvMode1_Info"][i] then
+					local keyslist = PIGA["Tardis"]["Yell"]["InvMode1_Info"][i]["TJ"]:gsub("，", ",")
+					local fengelistTJ = Key_fenge(keyslist, ",", true)
+					self.keydata[i]["TJ"]=fengelistTJ
+					if i>2 then
+						self.keydata[i]["HF"]=PIGA["Tardis"]["Yell"]["InvMode1_Info"][i]["HF"]
+					end
 				end
 			end
 		end
@@ -598,16 +609,18 @@ function TardisInfo.Yell(Activate)
 		self.keydata={}
 		for i=1,tiaojianNUM do
 			self.keydata[i]={["TJ"]={},["HF"]={}}
-			self["XZ_mode"..i]:SetChecked(PIGA["Tardis"]["Yell"]["InvMode1_Info"][i]["Open"])
-			if i>1 then
-				self["XZ_mode"..i].TJ:SetText(PIGA["Tardis"]["Yell"]["InvMode1_Info"][i]["TJ"])
-				self["XZ_mode"..i].TJ:SetText(PIGA["Tardis"]["Yell"]["InvMode1_Info"][i]["TJ"])
-				self["XZ_mode"..i].TJ:SetText(PIGA["Tardis"]["Yell"]["InvMode1_Info"][i]["TJ"])
-				self["XZ_mode"..i].TJ:SetText(PIGA["Tardis"]["Yell"]["InvMode1_Info"][i]["TJ"])
-				if i>2 then
-					self["XZ_mode"..i].HF:SetText(PIGA["Tardis"]["Yell"]["InvMode1_Info"][i]["HF"])
-					self["XZ_mode"..i].HF:SetText(PIGA["Tardis"]["Yell"]["InvMode1_Info"][i]["HF"])
-					self["XZ_mode"..i].HF:SetText(PIGA["Tardis"]["Yell"]["InvMode1_Info"][i]["HF"])
+			if PIGA["Tardis"]["Yell"]["InvMode1_Info"][i] then
+				self["XZ_mode"..i]:SetChecked(PIGA["Tardis"]["Yell"]["InvMode1_Info"][i]["Open"])
+				if i>1 then
+					self["XZ_mode"..i].TJ:SetText(PIGA["Tardis"]["Yell"]["InvMode1_Info"][i]["TJ"])
+					self["XZ_mode"..i].TJ:SetText(PIGA["Tardis"]["Yell"]["InvMode1_Info"][i]["TJ"])
+					self["XZ_mode"..i].TJ:SetText(PIGA["Tardis"]["Yell"]["InvMode1_Info"][i]["TJ"])
+					self["XZ_mode"..i].TJ:SetText(PIGA["Tardis"]["Yell"]["InvMode1_Info"][i]["TJ"])
+					if i>2 then
+						self["XZ_mode"..i].HF:SetText(PIGA["Tardis"]["Yell"]["InvMode1_Info"][i]["HF"])
+						self["XZ_mode"..i].HF:SetText(PIGA["Tardis"]["Yell"]["InvMode1_Info"][i]["HF"])
+						self["XZ_mode"..i].HF:SetText(PIGA["Tardis"]["Yell"]["InvMode1_Info"][i]["HF"])
+					end
 				end
 			end
 		end
@@ -913,7 +926,7 @@ function TardisInfo.Yell(Activate)
 	--喊话频道
 	fujiF.botF_L.Yell_CHANNEL=PIGDownMenu(fujiF.botF_L,{"LEFT",fujiF.botF_L.yellbut,"RIGHT",10,0},{70,25})
 	fujiF.botF_L.Yell_CHANNEL:PIGDownMenu_SetText(CHANNEL)
-	function fujiF.botF_L.Yell_CHANNEL:PIGDownMenu_Update_But(self)
+	function fujiF.botF_L.Yell_CHANNEL:PIGDownMenu_Update_But()
 		fujiF.PindaoList=GetPindaoList()
 		local info = {}
 		info.func = self.PIGDownMenu_SetValue
@@ -921,7 +934,7 @@ function TardisInfo.Yell(Activate)
 		    info.text, info.arg1 = fujiF.PindaoList[i][1], fujiF.PindaoList[i][2]
 		    info.checked = PIGA["Tardis"]["Yell"]["Yell_CHANNEL"][fujiF.PindaoList[i][2]]
 		    info.isNotRadio=true
-			fujiF.botF_L.Yell_CHANNEL:PIGDownMenu_AddButton(info)
+			self:PIGDownMenu_AddButton(info)
 		end 
 	end
 	function fujiF.botF_L.Yell_CHANNEL:PIGDownMenu_SetValue(value,arg1,arg2,checked)
@@ -1228,7 +1241,7 @@ function TardisInfo.Yell(Activate)
 					local localizedClass, englishClass= GetPlayerInfoByGUID(arg12)
 					if PIGA["Tardis"]["Yell"]["InvMode"]==1 then--根据自定义内容判断
 						for tjID=1,tiaojianNUM do
-							if PIGA["Tardis"]["Yell"]["InvMode1_Info"][tjID]["Open"] then
+							if PIGA["Tardis"]["Yell"]["InvMode1_Info"][tjID] and PIGA["Tardis"]["Yell"]["InvMode1_Info"][tjID]["Open"] then
 								if tjID==1 then
 									if arg1==PIGA["Tardis"]["Yell"]["jinzuCMD"] then
 										PIG_Invite_Fun(arg2)

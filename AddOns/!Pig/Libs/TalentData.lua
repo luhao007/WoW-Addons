@@ -6,7 +6,6 @@ local PIGFrame=Create.PIGFrame
 local PIGButton=Create.PIGButton
 local PIGFontString=Create.PIGFontString
 local BackdropColor=Create.BackdropColor
-local PIGLine=Create.PIGLine
 local PIGEnter=Create.PIGEnter
 ----
 local Fun=addonTable.Fun
@@ -6015,19 +6014,10 @@ end
 -----
 local function GetGlyphData(activeGroup)
 	local data = {};
-	if tocversion<40000 then
-		for index = 1, TalentData.GLYPH_NUM do
-			local Enabled, GlyphType, GlyphSpell, Icon = GetGlyphSocketInfo(index, activeGroup);
-			if GlyphSpell ~= nil then
-				data[index] = GlyphSpell
-			end
-		end
-	elseif tocversion<50000 then
-		for index = 1, TalentData.GLYPH_NUM do
-			local enabled, glyphType, glyphTooltipIndex, glyphSpell, iconFilename = GetGlyphSocketInfo(index, activeGroup);
-			if glyphSpell ~= nil then
-				data[index] = glyphSpell
-			end
+	for index = 1, TalentData.GLYPH_NUM do
+		local enabled, glyphType, glyphTooltipIndex, glyphSpell, iconFilename = GetGlyphSocketInfo(index, activeGroup);
+		if glyphSpell ~= nil then
+			data[index] = glyphSpell
 		end
 	end
 	local code = "";
@@ -6041,7 +6031,7 @@ local function GetGlyphData(activeGroup)
 	end
 	return code
 end
-function TalentData.GetGlyphNum(guancha)
+function TalentData.GetGlyphNum()
 	local txt = ""
 	if tocversion>30000 and tocversion<50000 then
 		local numGroup = GetNumTalentGroups(false, false)
@@ -6061,8 +6051,8 @@ function TalentData.GetGlyphNum(guancha)
 	end
 	return txt
 end
-function TalentData.GetGlyphTXT(guancha)
-	local numTxt12 = TalentData.GetGlyphNum(guancha)
+function TalentData.GetGlyphTXT()
+	local numTxt12 = TalentData.GetGlyphNum()
 	return yasuo_NumberString(numTxt12)
 end
 function TalentData.HY_GlyphTXT(txt)

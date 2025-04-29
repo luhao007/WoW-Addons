@@ -9,7 +9,6 @@ local PIGLine=Create.PIGLine
 local PIGFrame=Create.PIGFrame
 local PIGFontString=Create.PIGFontString
 local PIGOptionsList_R=Create.PIGOptionsList_R
-local PIGOptionsList_RF=Create.PIGOptionsList_RF
 local PIGTabBut=Create.PIGTabBut
 ------
 local Data=addonTable.Data
@@ -26,22 +25,12 @@ local HY_ItemLinkJJ=Fun.HY_ItemLinkJJ
 local GetContainerNumSlots = C_Container.GetContainerNumSlots
 local GetContainerItemLink=C_Container.GetContainerItemLink
 local GetItemInfo=GetItemInfo or C_Item and C_Item.GetItemInfo
+local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 -----------
-
 local BusinessInfo=addonTable.BusinessInfo
-local morenitem={["BAG"]={},["BANK"]={},["MAIL"]={},["C"]={},["T"]={},["G"]={},["R"]={},["GUILD"]={}}
-local function zairumorenpeizhi(peizhiV)
-	local NewpeizhiV=peizhiV or {}
-	for k,v in pairs(morenitem) do
-		NewpeizhiV[k]=NewpeizhiV[k] or v
-	end
-	return NewpeizhiV
-end
 function BusinessInfo.Item()
 	local BagdangeW=bagData.ItemWH-10
-	
 	local StatsInfo = StatsInfo_UI
-	PIGA["StatsInfo"]["Items"][StatsInfo.allname]=zairumorenpeizhi(PIGA["StatsInfo"]["Items"][StatsInfo.allname])
 	local fujiF,fujiTabBut=PIGOptionsList_R(StatsInfo.F,"物\n品",StatsInfo.butW,"Left")
 	---
 	fujiF.PList=PIGFrame(fujiF)
@@ -378,7 +367,7 @@ function BusinessInfo.Item()
 	end
 	local function SAVE_BANK()
 		if InCombatLockdown() then return end
-		if BankFrame:IsShown() then
+		if BankFrame:IsShown() or NDui_BackpackBank and NDui_BackpackBank:IsShown() then
 			local wupinshujuinfo = {}
 			local BANKgezishu=0
 			for f=1,#bagData["bankID"] do
@@ -448,12 +437,11 @@ function BusinessInfo.Item()
 	fujiF:RegisterEvent("PLAYER_ENTERING_WORLD")
 	fujiF:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
 	fujiF:RegisterEvent("PLAYER_TALENT_UPDATE")
-	fujiF:RegisterEvent("BANKFRAME_OPENED")
+	fujiF:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_SHOW")
 	fujiF:RegisterEvent("PLAYERBANKSLOTS_CHANGED")
 	fujiF:RegisterEvent("MAIL_SHOW");
 	if tocversion>20000 then fujiF:RegisterEvent("GUILDBANKBAGSLOTS_CHANGED") end
 	fujiF:SetScript("OnEvent", function(self,event,arg1,arg2)
-		--print(event,arg1,arg2)
 		if event == "MAIL_SHOW" then
 			MailFrame_OnShow(self)
 		end
@@ -462,14 +450,11 @@ function BusinessInfo.Item()
 		end
 		if event=="PLAYER_ENTERING_WORLD" then
 			if arg1 or arg2 then
-				--print("加载UI")
-				C_Timer.After(3, function()
+				C_Timer.After(2, function()
 					SAVE_C()
 					SAVE_BAG()
 					self:RegisterEvent("BAG_UPDATE")
 				end)
-			else
-				--print("进出副本")
 			end
 		end
 		if event=="PLAYER_EQUIPMENT_CHANGED" or event=="PLAYER_TALENT_UPDATE" then
@@ -485,7 +470,7 @@ function BusinessInfo.Item()
 				end
 			end
 		end
-		if event=="BANKFRAME_OPENED" then
+		if event=="PLAYER_INTERACTION_MANAGER_FRAME_SHOW" and arg1==8 then
 			SAVE_BANK()
 		end
 		if event=="PLAYERBANKSLOTS_CHANGED" then

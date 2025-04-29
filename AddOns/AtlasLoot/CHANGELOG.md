@@ -1,5 +1,19 @@
 ﻿# Changelog
 
+## 8.27.0 - April 28, 2025
+### Added
+- Added new Children's Week loot to World Events
+- Added Children's Week and Noblegarden loot to Collections
+
+## 8.26.0 - April 26, 2025
+### Added
+- Added Flame's Radiance to Factions
+- Added missing Noblegarden loot to World Events
+
+## 8.25.1 - April 25, 2025
+### Changed
+- Update TOC to 11.1.5
+
 ## 8.25.0 - April 1, 2025
 This update marks the addition of the last TWW loot. There's still things to add and update from previous expansions, but I'm going to take a short detour and update the UI and add a new feature or two. It might be a few weeks until the next update, but it will be coming soon!
 ### Added
@@ -40,7 +54,7 @@ This update marks the addition of the last TWW loot. There's still things to add
 - Added TWW Leatherworking recipes
 - Added TWW Tailoring recipes
 - Added TWW Cooking recipes
-## Changed
+### Changed
 - Moved BFA and Legion Cooking recipes into the appropriate categories
 ### Fixed
 - Fixed Atlas map button for Operation: Floodgate

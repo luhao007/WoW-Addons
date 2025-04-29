@@ -2,9 +2,10 @@ local _, addonTable = ...;
 local _, _, _, tocversion = GetBuildInfo()
 local L=addonTable.locale
 local Create=addonTable.Create
-local PIGButton=Create.PIGButton
 local PIGFrame=Create.PIGFrame
 local PIGFontString=Create.PIGFontString
+---
+local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 ---------------
 local FramePlusfun=addonTable.FramePlusfun
 function FramePlusfun.Roll()
@@ -15,7 +16,7 @@ function FramePlusfun.Roll()
 	UIParent:UnregisterEvent("CANCEL_LOOT_ROLL")
 	local ActionW = ActionButton1:GetWidth()+2
 	local itemhangW,itemhangH = 260,ActionW
-	local RollFFF = PIGFrame(UIParent,{"CENTER",UIParent,"CENTER",220,20},{itemhangW,12},"PIG_Roll_LsitUI")
+	local RollFFF = PIGFrame(UIParent,{"CENTER",UIParent,"CENTER",400,50},{itemhangW,12},"PIG_Roll_LsitUI")
 	RollFFF:Hide();
 	RollFFF:SetScale(PIGA["FramePlus"]["RollScale"])
 	RollFFF.yidong = PIGFrame(RollFFF,{"LEFT",RollFFF,"LEFT",0,0},{26,12})

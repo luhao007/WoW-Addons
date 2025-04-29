@@ -992,6 +992,7 @@ AL["ENABLE_WAYPOINTS_SUPPORT_DESC"] = "이 기능이 활성화되면 실재물(�
 AL["ENABLED_SEARCHING_RARE"] = "이 희귀 NPC에 대한 경보 구동됨: "
 AL["EVENT"] = "이벤트"
 AL["EVENT_FILTER"] = "이벤트 필터"
+AL["EVENTS_SCRAP_HEAP"] = "폐.품.단 더미"
 AL["EXPEDITION_ISLANDS"] = "원정대 섬"
 AL["EXPLORER_AUTO_FILTER"] = "NPC들 자동 필터"
 AL["EXPLORER_AUTO_FILTER_DESC"] = "이 기능이 활성화되면, NPC에서 누락된 모든 아이템을 수집하는 즉시 자동으로 필터링됩니다."

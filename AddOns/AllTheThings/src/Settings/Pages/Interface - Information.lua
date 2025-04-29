@@ -181,6 +181,14 @@ local CreateInformationType = app.CreateClass("InformationType", "informationTyp
 (function(t) return t.isRecursive; end));
 
 -- Known By / Completed By
+-- Types which have an ID which can be 'known' or 'completed' but is typically spammy to show when account-wide
+local KnownByIgnoredTypes = {
+	Achievement = app.IsRetail,
+	BattlePet = true,
+	Illusion = true,
+	IllusionWithItem = true,
+	Mount = true,
+}
 local knownBy = {};
 local function BuildKnownByInfoForKind(tooltipInfo, kind)
 	if #knownBy > 0 and kind then
@@ -200,7 +208,7 @@ local function ProcessForCompletedBy(t, reference, tooltipInfo)
 
 	-- Completed By for Quests
 	local id = reference.questID;
-	if id then
+	if id and (not KnownByIgnoredTypes[reference.__type] or reference.perCharacter) then
 		-- Account-Wide Quests
 		if app.AccountWideQuestsDB[id] then
 			if IsQuestFlaggedCompletedOnAccount(id) then
@@ -309,14 +317,8 @@ local function ProcessForCompletedBy(t, reference, tooltipInfo)
 	end
 end
 local function ProcessForKnownBy(t, reference, tooltipInfo)
-	if reference.illusionID then return; end
-	if app.IsRetail then
-		-- Classic can pre-emptively see 'fake' future achievements which are based on a spell
-		if reference.achievementID then return end
-	end
-
 	-- This is to show which characters have this profession.
-	local id = reference.spellID;
+	local id = reference.knownByID or reference.spellID
 	if id then
 		if reference.key == "professionID" and app.IsClassic then	-- Apparently Retail doesn't use ActiveSkills
 			for _,character in pairs(ATTCharacterData) do
@@ -346,10 +348,13 @@ local function ProcessForKnownBy(t, reference, tooltipInfo)
 			end
 		end
 
-		-- If the item is a recipe, then show which characters know this recipe.
-		if reference.filterID ~= 100 then
+		-- If the Thing is not ignored, then show which characters know this Thing/Spell
+		if not KnownByIgnoredTypes[reference.__type] or reference.perCharacter then
+			local cacheName = reference.CACHE
+			local knownByCache
 			for guid,character in pairs(ATTCharacterData) do
-				if character.Spells and character.Spells[id] then
+				knownByCache = character[cacheName] or character.Spells
+				if knownByCache and knownByCache[id] then
 					tinsert(knownBy, character);
 				end
 			end

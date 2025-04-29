@@ -3,9 +3,6 @@ local L=addonTable.locale
 local _, _, _, tocversion = GetBuildInfo()
 ---
 local Create=addonTable.Create
-local PIGFrame=Create.PIGFrame
-local PIGLine=Create.PIGLine
-local PIGButton = Create.PIGButton
 local PIGDownMenu=Create.PIGDownMenu
 local PIGSlider = Create.PIGSlider
 local PIGCheckbutton=Create.PIGCheckbutton
@@ -20,33 +17,12 @@ local UnitFramefun={}
 addonTable.UnitFramefun=UnitFramefun
 local fuFrame = PIGOptionsList(L["UNIT_TABNAME"],"TOP")
 --
-local DownY=30
-local RTabFrame =Create.PIGOptionsList_RF(fuFrame,DownY)
+local RTabFrame =Create.PIGOptionsList_RF(fuFrame)
 --
 local zishenF,zishentabbut =PIGOptionsList_R(RTabFrame,L["UNIT_TABNAME1"],90)
 zishenF:Show()
 zishentabbut:Selected()
 --------
-zishenF.Plus=PIGCheckbutton_R(zishenF,{"耐久/移速","在系统默认头像上增加耐久/移速提示！"})
-zishenF.Plus:SetScript("OnClick", function (self)
-	if self:GetChecked() then
-		PIGA["UnitFrame"]["PlayerFrame"]["Plus"]=true;
-		UnitFramefun.Zishen()
-	else
-		PIGA["UnitFrame"]["PlayerFrame"]["Plus"]=false;
-		Pig_Options_RLtishi_UI:Show()
-	end
-end);
-zishenF.Loot=PIGCheckbutton_R(zishenF,{"拾取方式","在系统默认头像上增加拾取方式提示！"})
-zishenF.Loot:SetScript("OnClick", function (self)
-	if self:GetChecked() then
-		PIGA["UnitFrame"]["PlayerFrame"]["Loot"]=true;
-		UnitFramefun.Zishen()
-	else
-		PIGA["UnitFrame"]["PlayerFrame"]["Loot"]=false;
-		Pig_Options_RLtishi_UI:Show()
-	end
-end);
 zishenF.HPFF=PIGCheckbutton_R(zishenF,{"额外血量框架","在自身头像右侧显示额外血量框架.\n额外血量框架可能会和目标头像框架重叠，开启此选项后可能会右移目标头像"})
 zishenF.HPFF:SetScript("OnClick", function (self)
 	if self:GetChecked() then
@@ -58,8 +34,6 @@ zishenF.HPFF:SetScript("OnClick", function (self)
 	end
 end);
 zishenF:HookScript("OnShow", function(self)
-	self.Plus:SetChecked(PIGA["UnitFrame"]["PlayerFrame"]["Plus"])
-	self.Loot:SetChecked(PIGA["UnitFrame"]["PlayerFrame"]["Loot"])
 	self.HPFF:SetChecked(PIGA["UnitFrame"]["PlayerFrame"]["HPFF"])
 end)
 ----------------------

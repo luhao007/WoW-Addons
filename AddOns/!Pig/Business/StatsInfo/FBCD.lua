@@ -46,15 +46,17 @@ function BusinessInfo.FBCD()
 		whileDead = true,
 		hideOnEscape = true,
 	}
-
 	---
 	local OldMode = tocversion>49999 or PIGA["StatsInfo"]["InstancesCD"]["Mode"]==2
 	local function Get_InstancesCD()
+		local activityInfo = C_LFGList.GetActivityInfoTable(839);
 		local numInstances = GetNumSavedInstances();
-		PIGA["StatsInfo"]["InstancesCD"][StatsInfo.allname]=PIGA["StatsInfo"]["InstancesCD"][StatsInfo.allname] or {}
 		local InstancesCDinfo={};
 		for id = 1, numInstances, 1 do				
 			local name, lockoutId, reset, difficultyId, locked, extended, instanceIDMostSig, isRaid, maxPlayers, difficultyName, numEncounters, encounterProgress, extendDisabled, instanceId = GetSavedInstanceInfo(id)
+			if activityInfo and activityInfo.fullName and name==activityInfo.fullName then
+				numEncounters=numEncounters-1
+			end
 			--local bossName, fileDataID, isKilled, unknown4 = GetSavedInstanceEncounterInfo(id, 5)
 			--print(GetSavedInstanceEncounterInfo(id, 5))
 			InstancesCDinfo[name]=InstancesCDinfo[name] or {}
@@ -76,7 +78,7 @@ function BusinessInfo.FBCD()
 	end)
 	if OldMode then
 		local hang_Height,hang_NUM  = 20.8, 22;
-		local function add_hang(fujik,txttshi)
+		local function add_hang(fujik,txttshi,dataid)
 			fujik.title = PIGFontString(fujik,{"BOTTOM", fujik, "TOP", 0, 2},"冷却中的"..txttshi)
 			fujik.title:SetTextColor(0, 1, 0, 1);
 			fujik.Scroll = CreateFrame("ScrollFrame",nil,fujik, "FauxScrollFrameTemplate");  
@@ -84,7 +86,7 @@ function BusinessInfo.FBCD()
 			fujik.Scroll:SetPoint("BOTTOMRIGHT",fujik,"BOTTOMRIGHT",-24,2);
 			fujik.Scroll:SetScale(0.8);
 			fujik.Scroll:SetScript("OnVerticalScroll", function(self, offset)
-			    FauxScrollFrame_OnVerticalScroll(self, offset, hang_Height, fujik.Update_List)
+			    FauxScrollFrame_OnVerticalScroll(self, offset, hang_Height, fujik.UpdateHang)
 			end)
 			fujik.butlist={}
 			for id = 1, hang_NUM, 1 do
@@ -109,6 +111,48 @@ function BusinessInfo.FBCD()
 				hang.Class:SetSize(hang_Height-2,hang_Height-2);
 				hang.name = PIGFontString(hang,{"LEFT", hang.Class, "RIGHT", 2, 0})
 			end
+			function fujik.UpdateHang()
+				local dataX=fujiF.cdmuluData[dataid]
+		   		for id = 1, hang_NUM, 1 do
+					fujik.butlist[id]:Hide();
+				end
+		   		local ItemsNum = #dataX;
+				FauxScrollFrame_Update(fujik.Scroll, ItemsNum, hang_NUM, hang_Height);
+			    local offset = FauxScrollFrame_GetOffset(fujik.Scroll);
+			    for id = 1, hang_NUM do
+					local dangqian = id+offset;
+					if dataX[dangqian] then
+						local fujik = fujik.butlist[id]
+						fujik:Show();
+						if dataX[dangqian][1]=="juese" then
+							fujik.Faction:Show();
+							fujik.Race:Show();
+							fujik.Class:Show();
+							fujik.Race:SetWidth(hang_Height-2);
+							fujik.Class:SetWidth(hang_Height-2);
+							if dataX[dangqian][3]=="Alliance" then
+								fujik.Faction:SetTexCoord(0,0.5,0,1);
+							elseif dataX[dangqian][3]=="Horde" then
+								fujik.Faction:SetTexCoord(0.5,1,0,1);
+							end
+							fujik.Race:SetAtlas(dataX[dangqian][5]);
+							local className, classFile, classID = PIGGetClassInfo(dataX[dangqian][6])
+							fujik.Class:SetTexCoord(unpack(CLASS_ICON_TCOORDS[classFile]));
+							fujik.name:SetText(dataX[dangqian][2].."\124cffFFD700("..dataX[dangqian][7]..")\124r");
+							local color = PIG_CLASS_COLORS[classFile];
+							fujik.name:SetTextColor(color.r, color.g, color.b, 1);
+						else
+							fujik.Faction:Hide();
+							fujik.Race:Hide();
+							fujik.Class:Hide();
+							fujik.Race:SetWidth(0.01);
+							fujik.Class:SetWidth(0.01);
+							fujik.name:SetTextColor(1, 1, 1, 1);
+							fujik.name:SetText(dataX[dangqian][1].."\124cff66FF11["..dataX[dangqian][2].."]\124r".." "..disp_time(dataX[dangqian][3]-GetServerTime()));
+						end
+					end
+				end
+		   	end
 		end
 		---
 		local banWWW=fujiF:GetWidth()*0.5-6
@@ -117,55 +161,14 @@ function BusinessInfo.FBCD()
 		fujiF.partyCD:SetWidth(banWWW)
 		fujiF.partyCD:SetPoint("TOPLEFT",fujiF,"TOPLEFT",4,-20);
 		fujiF.partyCD:SetPoint("BOTTOMLEFT",fujiF,"BOTTOMLEFT",4,0);
-		add_hang(fujiF.partyCD,DUNGEONS)
+		add_hang(fujiF.partyCD,DUNGEONS,1)
 		fujiF.raidCD=PIGFrame(fujiF)
 		fujiF.raidCD:PIGSetBackdrop(0)
 		fujiF.raidCD:SetWidth(banWWW)
 		fujiF.raidCD:SetPoint("TOPRIGHT",fujiF,"TOPRIGHT",-4,-20);
 		fujiF.raidCD:SetPoint("BOTTOMRIGHT",fujiF,"BOTTOMRIGHT",-4,0);
-		add_hang(fujiF.raidCD,GUILD_INTEREST_RAID)
+		add_hang(fujiF.raidCD,GUILD_INTEREST_RAID,2)
 		--
-		local function Show_hang(fujiui,cdmulu)
-	   		for id = 1, hang_NUM, 1 do
-				fujiui.butlist[id]:Hide();
-			end
-	   		local ItemsNum = #cdmulu;
-			FauxScrollFrame_Update(fujiui.Scroll, ItemsNum, hang_NUM, hang_Height);
-		    local offset = FauxScrollFrame_GetOffset(fujiui.Scroll);
-		    for id = 1, hang_NUM do
-				local dangqian = id+offset;
-				if cdmulu[dangqian] then
-					local fujik = fujiui.butlist[id]
-					fujik:Show();
-					if cdmulu[dangqian][1]=="juese" then
-						fujik.Faction:Show();
-						fujik.Race:Show();
-						fujik.Class:Show();
-						fujik.Race:SetWidth(hang_Height-2);
-						fujik.Class:SetWidth(hang_Height-2);
-						if cdmulu[dangqian][3]=="Alliance" then
-							fujik.Faction:SetTexCoord(0,0.5,0,1);
-						elseif cdmulu[dangqian][3]=="Horde" then
-							fujik.Faction:SetTexCoord(0.5,1,0,1);
-						end
-						fujik.Race:SetAtlas(cdmulu[dangqian][5]);
-						local className, classFile, classID = PIGGetClassInfo(cdmulu[dangqian][6])
-						fujik.Class:SetTexCoord(unpack(CLASS_ICON_TCOORDS[classFile]));
-						fujik.name:SetText(cdmulu[dangqian][2].."\124cffFFD700("..cdmulu[dangqian][7]..")\124r");
-						local color = PIG_CLASS_COLORS[classFile];
-						fujik.name:SetTextColor(color.r, color.g, color.b, 1);
-					else
-						fujik.Faction:Hide();
-						fujik.Race:Hide();
-						fujik.Class:Hide();
-						fujik.Race:SetWidth(0.01);
-						fujik.Class:SetWidth(0.01);
-						fujik.name:SetTextColor(1, 1, 1, 1);
-						fujik.name:SetText(cdmulu[dangqian][1].."\124cff66FF11["..cdmulu[dangqian][2].."]\124r".." "..disp_time(cdmulu[dangqian][3]-GetServerTime()));
-					end
-				end
-			end
-	   	end
 		function fujiF.Update_List()
 			if not fujiF:IsVisible() then return end
 		   	local cdmulu={{},{}};
@@ -197,8 +200,9 @@ function BusinessInfo.FBCD()
 					end
 				end
 		   	end
-		   	Show_hang(fujiF.partyCD,cdmulu[1])
-			Show_hang(fujiF.raidCD,cdmulu[2])
+		   	fujiF.cdmuluData=cdmulu
+		   	fujiF.partyCD:UpdateHang()
+		   	fujiF.raidCD:UpdateHang()
 		end
 	else
 		local hang_Height,hang_NUM,nrpianyi,nrjiange,lienum= 19.4, 11,200,60,11
@@ -237,7 +241,7 @@ function BusinessInfo.FBCD()
 			table.insert(insList_DUNGEONS,{"["..DUNGEONS.."]-"..EXPANSION_NAME10,{}})
 			local dangqianid={1601,1600,1602,1505,1506,1504}
 			table.insert(insList_RAIDS,{"["..RAIDS.."]-"..EXPANSION_NAME10,dangqianid})
-			PIGA["StatsInfo"]["InstancesCD"]["Records"]=PIGA["StatsInfo"]["InstancesCD"]["Records"] or morenRecords(wlkid)
+			PIGA["StatsInfo"]["InstancesCD"]["Records"]=PIGA["StatsInfo"]["InstancesCD"]["Records"] or morenRecords(dangqianid)
 		end
 		local insList = {}
 		for i=1,#insList_DUNGEONS do
@@ -247,7 +251,7 @@ function BusinessInfo.FBCD()
 			table.insert(insList,insList_RAIDS[i])
 		end
 		local biaotiName = {
-			[836]="ZUL",[837]="黑上",[838]="黑龙MM",[839]="MC",[840]="BWL",[842]="废墟",[843]="TAQ",[841]="NAXX",
+			[836]="ZUG",[837]="黑上",[838]="黑龙MM",[839]="MC",[840]="BWL",[842]="废墟",[843]="TAQ",[841]="NAXX",
 			[1100]="TOC",[1110]="ICC",[1106]="ULD",[1102]="EoE",[1101]="OS",[1095]="宝库",[1156]="黑龙MM",
 			[852]="SW",[851]="ZAM",[850]="BT",[849]="HS",[848]="DS",[847]="FB",[846]="GLR",[845]="MSLD",[844]="KLZ",
 		}

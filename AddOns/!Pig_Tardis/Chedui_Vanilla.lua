@@ -1476,7 +1476,7 @@ function TardisInfo.Chedui(Activate)
 	-- --FCTabF.ADD.GroupDropDown =PIGDownMenu(FCTabF.ADD,{"TOPLEFT",FCTabF.ADD.Category_T,"TOPLEFT",0,-100},{FCTabF.ADD.Width,nil})
 	-- -- FCTabF.ADD.GroupDropDown:Hide()
 	-- -- FCTabF.ADD.GroupDropDown.t=PIGFontString(FCTabF.ADD.GroupDropDown,{"BOTTOMLEFT",FCTabF.ADD.GroupDropDown,"TOPLEFT",0,4},"目的地")
-	-- -- function FCTabF.ADD.GroupDropDown:PIGDownMenu_Update_But(self)
+	-- -- function FCTabF.ADD.GroupDropDown:PIGDownMenu_Update_But()
 	-- -- 	local info = {}
 	-- -- 	info.func = self.PIGDownMenu_SetValue
 	-- -- 	local ActivityGroups = C_LFGList.GetAvailableActivityGroups(FCTabF.selectedCategory)
@@ -1507,7 +1507,7 @@ function TardisInfo.Chedui(Activate)
 	-- 	end
 	-- 	return true
 	-- end
-	-- function FCTabF.ADD.ActivityDropDown:PIGDownMenu_Update_But(self)
+	-- function FCTabF.ADD.ActivityDropDown:PIGDownMenu_Update_But()
 	-- 	local ActivityGroups = C_LFGList.GetAvailableActivityGroups(FCTabF.selectedCategory)
 	-- 	local info = {}
 	-- 	info.func = self.PIGDownMenu_SetValue
@@ -1526,7 +1526,7 @@ function TardisInfo.Chedui(Activate)
 	-- 	for i=1,#newActivities,1 do
 	-- 	    info.text, info.arg1, info.arg2 = newActivities[i][1], newActivities[i][2], "activity";
 	-- 	    info.checked = newActivities[i][2] == FCTabF.selectedActivity
-	-- 		FCTabF.ADD.ActivityDropDown:PIGDownMenu_AddButton(info)
+	-- 		self:PIGDownMenu_AddButton(info)
 	-- 	end 
 	-- end
 	-- function FCTabF.ADD.ActivityDropDown:PIGDownMenu_SetValue(value,arg1,arg2)

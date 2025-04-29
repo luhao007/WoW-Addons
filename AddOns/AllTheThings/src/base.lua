@@ -151,6 +151,11 @@ local function GetDeepestRelativeValue(group, field)
 		return GetDeepestRelativeValue(group.sourceParent or group.parent, field) or group[field];
 	end
 end
+local function GetDeepestRelativeFunc(group, func)
+	if group then
+		return GetDeepestRelativeFunc(group.sourceParent or group.parent, func) or func(group);
+	end
+end
 local function GetRelativeField(group, field, value)
 	if group then
 		return group[field] == value or GetRelativeField(group.sourceParent or group.parent, field, value);
@@ -196,6 +201,7 @@ app.CloneArray = CloneArray;
 app.CloneDictionary = CloneDictionary;
 app.CloneReference = CloneReference;
 app.GetBestMapForGroup = GetBestMapForGroup;
+app.GetDeepestRelativeFunc = GetDeepestRelativeFunc;
 app.GetDeepestRelativeValue = GetDeepestRelativeValue;
 app.GetRelativeField = GetRelativeField;
 app.GetRawRelativeField = GetRawRelativeField
@@ -226,22 +232,30 @@ app.GetIconFromProviders = function(group)
 end;
 local GetItemInfo = app.WOWAPI.GetItemInfo;
 app.GetNameFromProviders = function(group)
-	if group.providers then
-		local name;
-		for k,v in ipairs(group.providers) do
-			if v[2] > 0 then
-				if v[1] == "o" then
-					name = app.ObjectNames[v[2]];
-				elseif v[1] == "i" then
-					name = GetItemInfo(v[2]);
-				elseif v[1] == "n" then
-					name = app.NPCNameFromID[v[2]];
-				end
-				if name then return name; end
+	local providers = group.providers
+	if not providers or #providers == 0 then return end
+	local pt, id, name
+	for k,v in ipairs(providers) do
+		id = v[2]
+		if id > 0 then
+			pt = v[1]
+			if pt == "o" then
+				name = app.ObjectNames[id];
+				break
+			elseif pt == "i" then
+				name = GetItemInfo(id);
+				break
+			elseif pt == "n" then
+				name = app.NPCNameFromID[id];
+				break
+			elseif pt == "s" then
+				name = app.GetSpellName(id)
+				break
 			end
 		end
 	end
-end;
+	return name
+end
 
 -- Common Metatable Functions
 app.MetaTable = {}
@@ -309,12 +323,18 @@ app.IgnoreDataCaching = function()
 		return true;
 	end
 end
--- Returns the Global reference by name, setting it to the 'init' value if not already existing
+-- Returns the Global reference by name, or if not existing,
+-- setting it to {} if 'init' is true, or the 'init' value itself
 app.LocalizeGlobal = function(globalName, init)
-	local val = _G[globalName];
-	if init and not val then
-		val = {};
-		_G[globalName] = val;
+	local val = _G[globalName]
+	if not val then
+		if init == true then
+			val = {}
+			_G[globalName] = val
+		elseif init then
+			val = init
+			_G[globalName] = val
+		end
 	end
 	-- app.PrintDebug("LocalizeGlobal",globalName,val)
 	return val;
@@ -389,7 +409,11 @@ end
 local SetATTTooltip = function(self, text)
 	self:SetScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
-		GameTooltip:SetText(text, nil, nil, nil, nil, true);
+		if text then
+			GameTooltip:SetText(text, nil, nil, nil, nil, true);
+		else
+			GameTooltip:ClearLines();
+		end
 		if self.OnTooltip then
 			local tooltipInfo = {};
 			self:OnTooltip(tooltipInfo);

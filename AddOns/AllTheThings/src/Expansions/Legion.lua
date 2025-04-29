@@ -40,6 +40,7 @@ app.CreateArtifact = app.CreateClass(CLASSNAME, KEY, {
 		t.artifactinfo = info;
 		return info;
 	end,
+	-- TODO: Maybe this should move to an Expansion Thing instead of having a FilterID
 	f = function(t) return 11; end,
 	RefreshCollectionOnly = true,
 	collectible = function(t) return app.Settings.Collectibles[SETTING]; end,

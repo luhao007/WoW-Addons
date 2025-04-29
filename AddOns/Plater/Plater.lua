@@ -4070,7 +4070,28 @@ Plater.AnchorNamesByPhraseId = {
 	end
 
 	Plater.EventHandlerFrame:SetScript ("OnEvent", Plater.EventHandler)
+	--events
 	Plater.EventHandlerFrame:RegisterEvent ("PLAYER_ENTERING_WORLD")
+	Plater.EventHandlerFrame:RegisterEvent ("NAME_PLATE_CREATED")
+	Plater.EventHandlerFrame:RegisterEvent ("NAME_PLATE_UNIT_ADDED")
+	Plater.EventHandlerFrame:RegisterEvent ("FORBIDDEN_NAME_PLATE_UNIT_ADDED")
+	Plater.EventHandlerFrame:RegisterEvent ("NAME_PLATE_UNIT_REMOVED")
+	
+	Plater.EventHandlerFrame:RegisterEvent ("PLAYER_TARGET_CHANGED")
+	Plater.EventHandlerFrame:RegisterEvent ("PLAYER_FOCUS_CHANGED")
+	if IS_WOW_PROJECT_MAINLINE then
+		Plater.EventHandlerFrame:RegisterEvent ("PLAYER_SOFT_INTERACT_CHANGED")
+		Plater.EventHandlerFrame:RegisterEvent ("PLAYER_SOFT_FRIEND_CHANGED")
+		Plater.EventHandlerFrame:RegisterEvent ("PLAYER_SOFT_ENEMY_CHANGED")
+	end
+	
+	Plater.EventHandlerFrame:RegisterEvent ("PLAYER_REGEN_DISABLED")
+	Plater.EventHandlerFrame:RegisterEvent ("PLAYER_REGEN_ENABLED")
+	
+	Plater.EventHandlerFrame:RegisterEvent ("PLAYER_LOGIN")
+	Plater.EventHandlerFrame:RegisterEvent ("VARIABLES_LOADED")	
+	Plater.EventHandlerFrame:RegisterEvent ("ADDON_LOADED")
+	
 	
 	function Plater.RunFunctionForEvent (event, ...) --private
 		Plater.EventHandler (nil, event, ...)
@@ -4206,7 +4227,13 @@ function Plater.OnInit() --private --~oninit ~init
 		platerInternal.CreatePerformanceUnits(Plater)
 	end)
 	
-	Plater.UpdateBlizzardNameplateFonts()
+	Plater.UpdateBlizzardNameplateFonts(true)
+	hooksecurefunc(LibSharedMedia, 'Register', function(_, mediaType, key, data)
+		if not mediaType or type(mediaType) ~= 'string' then return end
+		if mediaType:lower() == 'font' then
+			Plater.UpdateBlizzardNameplateFonts(key)
+		end
+	end)
 	
 	-- do we need to support blizzard frames?
 	SUPPORT_BLIZZARD_PLATEFRAMES = (not DB_PLATE_CONFIG [ACTORTYPE_PLAYER].module_enabled) or (not DB_PLATE_CONFIG [ACTORTYPE_FRIENDLY_PLAYER].module_enabled) or (not DB_PLATE_CONFIG [ACTORTYPE_ENEMY_PLAYER].module_enabled) or (not DB_PLATE_CONFIG [ACTORTYPE_FRIENDLY_NPC].module_enabled) or (not DB_PLATE_CONFIG [ACTORTYPE_ENEMY_NPC].module_enabled)
@@ -4422,21 +4449,21 @@ function Plater.OnInit() --private --~oninit ~init
 		Plater.UpdateSettingsCache()
 	
 	--events
-		Plater.EventHandlerFrame:RegisterEvent ("NAME_PLATE_CREATED")
-		Plater.EventHandlerFrame:RegisterEvent ("NAME_PLATE_UNIT_ADDED")
-		Plater.EventHandlerFrame:RegisterEvent ("FORBIDDEN_NAME_PLATE_UNIT_ADDED")
-		Plater.EventHandlerFrame:RegisterEvent ("NAME_PLATE_UNIT_REMOVED")
+--		Plater.EventHandlerFrame:RegisterEvent ("NAME_PLATE_CREATED")
+--		Plater.EventHandlerFrame:RegisterEvent ("NAME_PLATE_UNIT_ADDED")
+--		Plater.EventHandlerFrame:RegisterEvent ("FORBIDDEN_NAME_PLATE_UNIT_ADDED")
+--		Plater.EventHandlerFrame:RegisterEvent ("NAME_PLATE_UNIT_REMOVED")
 		
-		Plater.EventHandlerFrame:RegisterEvent ("PLAYER_TARGET_CHANGED")
-		Plater.EventHandlerFrame:RegisterEvent ("PLAYER_FOCUS_CHANGED")
-		if IS_WOW_PROJECT_MAINLINE then
-			Plater.EventHandlerFrame:RegisterEvent ("PLAYER_SOFT_INTERACT_CHANGED")
-			Plater.EventHandlerFrame:RegisterEvent ("PLAYER_SOFT_FRIEND_CHANGED")
-			Plater.EventHandlerFrame:RegisterEvent ("PLAYER_SOFT_ENEMY_CHANGED")
-		end
+--		Plater.EventHandlerFrame:RegisterEvent ("PLAYER_TARGET_CHANGED")
+--		Plater.EventHandlerFrame:RegisterEvent ("PLAYER_FOCUS_CHANGED")
+--		if IS_WOW_PROJECT_MAINLINE then
+--			Plater.EventHandlerFrame:RegisterEvent ("PLAYER_SOFT_INTERACT_CHANGED")
+--			Plater.EventHandlerFrame:RegisterEvent ("PLAYER_SOFT_FRIEND_CHANGED")
+--			Plater.EventHandlerFrame:RegisterEvent ("PLAYER_SOFT_ENEMY_CHANGED")
+--		end
 		
-		Plater.EventHandlerFrame:RegisterEvent ("PLAYER_REGEN_DISABLED")
-		Plater.EventHandlerFrame:RegisterEvent ("PLAYER_REGEN_ENABLED")
+--		Plater.EventHandlerFrame:RegisterEvent ("PLAYER_REGEN_DISABLED")
+--		Plater.EventHandlerFrame:RegisterEvent ("PLAYER_REGEN_ENABLED")
 		
 		Plater.EventHandlerFrame:RegisterEvent ("ZONE_CHANGED_NEW_AREA")
 		Plater.EventHandlerFrame:RegisterEvent ("ZONE_CHANGED_INDOORS")
@@ -4494,10 +4521,10 @@ function Plater.OnInit() --private --~oninit ~init
 			Plater.EventHandlerFrame:RegisterEvent ("UPDATE_SHAPESHIFT_FORM")
 		end
 		
-		Plater.EventHandlerFrame:RegisterEvent ("PLAYER_LOGIN")
-		Plater.EventHandlerFrame:RegisterEvent ("VARIABLES_LOADED")
-		
-		Plater.EventHandlerFrame:RegisterEvent ("ADDON_LOADED")
+--		Plater.EventHandlerFrame:RegisterEvent ("PLAYER_LOGIN")
+--		Plater.EventHandlerFrame:RegisterEvent ("VARIABLES_LOADED")
+--		
+--		Plater.EventHandlerFrame:RegisterEvent ("ADDON_LOADED")
 
 		--power update for hooking scripts
 		local hookPowerEventFrame = CreateFrame ("frame")
@@ -5571,7 +5598,8 @@ function Plater.OnInit() --private --~oninit ~init
 				end
 			end
 			
-			if (DB_DO_ANIMATIONS) then
+			--if (DB_DO_ANIMATIONS and unitFrame.PlaterOnScreen and oldHealth ~= currentHealth) then
+			if (DB_DO_ANIMATIONS and unitFrame.PlaterOnScreen) then
 				--do healthbar animation ~animation ~healthbar
 				self.AnimationStart = oldHealth
 				self.AnimationEnd = currentHealth
@@ -7841,9 +7869,9 @@ end
 	end
 	
 	--Blizzard default font settings
-	function Plater.UpdateBlizzardNameplateFonts()
+	function Plater.UpdateBlizzardNameplateFonts(updateFont)
 		local profile = Plater.db.profile
-		if profile.blizzard_nameplate_font_override_enabled then
+		if profile.blizzard_nameplate_font_override_enabled and (updateFont == true or profile.blizzard_nameplate_font == updateFont or profile.blizzard_nameplate_large_font == updateFont)then
 			DF:SetFontFace (_G.SystemFont_NamePlate, profile.blizzard_nameplate_font)
 			DF:SetFontOutline (_G.SystemFont_NamePlate, profile.blizzard_nameplate_font_outline)
 			DF:SetFontSize (_G.SystemFont_NamePlate, profile.blizzard_nameplate_font_size)
@@ -9108,12 +9136,11 @@ end
 
 	--> animation with acceleration ~animation ~healthbaranimation
 	function Plater.AnimateLeftWithAccel (self, deltaTime)
-		local distance = (self.AnimationStart - self.AnimationEnd) / self.CurrentHealthMax * 100	--scale 1 - 100
-		local minTravel = min (distance / 10, 3) -- 10 = trigger distance to max speed 3 = speed scale on max travel
-		local maxTravel = max (minTravel, 0.45) -- 0.45 = min scale speed on low travel speed
-		local calcAnimationSpeed = (self.CurrentHealthMax * (deltaTime * DB_ANIMATION_TIME_DILATATION)) * maxTravel --re-scale back to unit health, scale with delta time and scale with the travel speed
+		local distance = (self.AnimationStart - self.AnimationEnd) / self.CurrentHealthMax -- % travel
+		local fps = Plater.FPSData.curFPS or 60
+		local calcAnimationSpeed = (distance / fps * 2 * DB_ANIMATION_TIME_DILATATION) --scale with fps
 		
-		self.AnimationStart = self.CurrentHealthMax == 0 and 1 or self.AnimationStart - calcAnimationSpeed
+		self.AnimationStart = self.CurrentHealthMax == 0 and 1 or self.AnimationStart - (self.CurrentHealthMax * calcAnimationSpeed)
 		self:SetValue (self.AnimationStart)
 		self.CurrentHealth = self.AnimationStart
 		
@@ -9133,12 +9160,11 @@ end
 	end
 
 	function Plater.AnimateRightWithAccel (self, deltaTime)
-		local distance = (self.AnimationEnd - self.AnimationStart) / self.CurrentHealthMax * 100	--scale 1 - 100 basis
-		local minTravel = min (distance / 10, 3) -- 10 = trigger distance to max speed 3 = speed scale on max travel
-		local maxTravel = max (minTravel, 0.45) -- 0.45 = min scale speed on low travel speed
-		local calcAnimationSpeed = (self.CurrentHealthMax * (deltaTime * DB_ANIMATION_TIME_DILATATION)) * maxTravel --re-scale back to unit health, scale with delta time and scale with the travel speed
+		local distance = (self.AnimationEnd - self.AnimationStart) / self.CurrentHealthMax -- % travel
+		local fps = Plater.FPSData.curFPS or 60
+		local calcAnimationSpeed = (distance / fps * 2 * DB_ANIMATION_TIME_DILATATION) --scale with fps
 		
-		self.AnimationStart = self.AnimationStart + (calcAnimationSpeed)
+		self.AnimationStart = self.AnimationStart + (self.CurrentHealthMax * calcAnimationSpeed)
 		self:SetValue (self.AnimationStart)
 		self.CurrentHealth = self.AnimationStart
 		

@@ -10,11 +10,31 @@ local Data=addonTable.Data
 local QuickChatfun = addonTable.QuickChatfun
 local FasongYCqingqiu=addonTable.Fun.FasongYCqingqiu
 local GetRaceClassTXT=addonTable.Fun.GetRaceClassTXT
-
+local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 --远程观察图标
 local wanjiaxinxil = {}
 local ClassColor=Data.ClassColor
 local Texwidth,Texheight = 500,500
+local gemList = {
+	["EMPTY_SOCKET_META"]=136257,--多彩
+	["EMPTY_SOCKET_BLUE"]=136256,--蓝色
+	["EMPTY_SOCKET_RED"]=136258,--红色
+	["EMPTY_SOCKET_YELLOW"]=136259,--黄色
+}
+local function GetGemList(linkx)
+	local baoshiinfo = {}
+    local statsg = GetItemStats(linkx)
+    if statsg then
+	    for key, num in pairs(statsg) do
+	        if (key:match("EMPTY_SOCKET_")) then
+	            for i = 1, num do
+	           		table.insert(baoshiinfo, key)
+	            end
+	        end
+	    end
+	end
+	return baoshiinfo
+end
 local function ShowZb_Link_Icon(newText)
 	if PIGA["Chat"]["FastCopy"] or PIGA["Chat"]["ShowZb"] then
 		local namexShowZb=""
@@ -43,14 +63,49 @@ local function ShowZb_Link_Icon(newText)
 			end
 		end
 	end
-	if PIGA["Chat"]["ShowLinkIcon"] then
+	if PIGA["Chat"]["ShowLinkIcon"] or PIGA["Chat"]["ShowLinkLV"] or PIGA["Chat"]["ShowLinkSlots"] then
 		if newText:match("Hitem:") then
 			local tihuanidlist = {}
-			for word in newText:gmatch("|cff%w%w%w%w%w%w|Hitem:(%d-):") do
-				tihuanidlist[word]=GetItemIcon(word)
+			for word in newText:gmatch("|(Hitem:.-)|h") do
+				tihuanidlist[word] = {}
+				if PIGA["Chat"]["ShowLinkIcon"] then
+					tihuanidlist[word]["icon"]=GetItemIcon(word)
+				end
+				if PIGA["Chat"]["ShowLinkLV"] then
+					local effectiveILvl, isPreview, baseILvl = GetDetailedItemLevelInfo(word)
+					tihuanidlist[word]["LV"]=effectiveILvl or 0
+				end
+				if PIGA["Chat"]["ShowLinkSlots"] then
+					local itemID, itemType, itemSubType, itemEquipLoc = GetItemInfoInstant(word)
+					if _G[itemEquipLoc] then
+						tihuanidlist[word]["Slots"]=itemSubType.."-".._G[itemEquipLoc]
+					end
+				end
+				if PIGA["Chat"]["ShowLinkGem"] then
+				    tihuanidlist[word]["Gem"]=GetGemList(word)
+				end
 			end
 			for k,v in pairs(tihuanidlist) do
-				newText=newText:gsub("(|cff%w%w%w%w%w%w|Hitem:"..k..":)","|T"..v..":0|t%1");
+				if PIGA["Chat"]["ShowLinkIcon"] then
+					newText=newText:gsub("(|cff%w%w%w%w%w%w|"..k.."|h)","|T"..v.icon..":0|t%1");
+				end
+				if PIGA["Chat"]["ShowLinkLV"] or PIGA["Chat"]["ShowLinkSlots"] then
+					local tihuanneirong = ""
+					if PIGA["Chat"]["ShowLinkLV"] then
+						tihuanneirong=tihuanneirong..v.LV
+					end
+					if PIGA["Chat"]["ShowLinkSlots"] and v.Slots then
+						tihuanneirong=tihuanneirong..v.Slots
+					end
+					newText=newText:gsub("(|cff%w%w%w%w%w%w|"..k.."|h%[)(.-%]|h|r)","%1("..tihuanneirong..")%2");
+					if PIGA["Chat"]["ShowLinkGem"] and #v.Gem>0 then
+						local GemTxt = ""
+						for ixx=1,#v.Gem do
+							GemTxt=GemTxt.."|T"..gemList[v.Gem[ixx]]..":0|t"
+						end
+						newText=newText:gsub("(|cff%w%w%w%w%w%w|"..k.."|h%[.-%]|h|r)","%1"..GemTxt);
+					end
+				end
 			end
 		end
 	end
@@ -241,7 +296,7 @@ function QuickChatfun.PIGMessage()
 				--if i==1 then table.insert(PIGA["xxxxxx"],text) end
 				if text and text~="" and text:match("player") then
 					local text=PindaoName(text)
-					local text=ShowZb_Link_Icon(text,frame)
+					local text=ShowZb_Link_Icon(text)
 					return msninfo(frame, text, ...)
 				end
 				return msninfo(frame, text, ...)

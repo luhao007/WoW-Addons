@@ -6,7 +6,6 @@ local find = _G.string.find
 --
 local Create = addonTable.Create
 local PIGFrame=Create.PIGFrame
-local PIGButton=Create.PIGButton
 local PIGFontString=Create.PIGFontString
 local BackdropColor=Create.BackdropColor
 local PIGLine=Create.PIGLine
@@ -24,6 +23,7 @@ local TalentData=Data.TalentData
 local Fun=addonTable.Fun
 local GetRuneData=Fun.GetRuneData
 local GetItemStats=GetItemStats or C_Item and C_Item.GetItemStats
+local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 -------------
 local ListWWWHHH = {206,425,18,36,6}--3Gembut/4buweiW/5宝石+附魔+符文数
 local function CZ_ItemListinfo(fujikk,Slot,fujiname)

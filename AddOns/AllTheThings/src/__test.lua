@@ -592,3 +592,37 @@ function DumpAllGlobals()
 	local allkeys = table.concat(ks, "\n")
 	app:ShowPopupDialogWithMultiLineEditBox(allkeys)
 end
+
+function ATTlooptypes(count)
+
+	local ipairs = ipairs
+	local pairs = pairs
+	local z
+	local t = {}
+	for i=1,count do
+		t[i] = i
+	end
+
+	local function Benchmark()
+		-- 0.01164 @ 1M
+		app.PrintDebug("for i=1,#t",count)
+		for i=1,#t do
+			z = t[i]
+		end
+		app.PrintDebugPrior("---")
+		-- 0.13135 @ 1M
+		app.PrintDebug("for i,v in ipairs(t)",count)
+		for i,v in ipairs(t) do
+			z = v
+		end
+		app.PrintDebugPrior("---")
+		-- 0.11951 @ 1M
+		app.PrintDebug("for k,v in pairs(t)",count)
+		for k,v in pairs(t) do
+			z = v
+		end
+		app.PrintDebugPrior("---")
+	end
+
+	Benchmark();
+end

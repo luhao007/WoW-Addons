@@ -224,6 +224,33 @@ _G[TITAN_PANEL_CONTROL]:SetScript("OnEvent", function(_, event, ...)
 	_G[TITAN_PANEL_CONTROL][event](_G[TITAN_PANEL_CONTROL], ...)
 end)
 
+local function RegisterAddonCompartment()
+	if AddonCompartmentFrame then
+		AddonCompartmentFrame:RegisterAddon(
+			{
+			text = TITAN_ID,
+			icon = "Interface\\Icons\\Achievement_Dungeon_UlduarRaid_Titan_01",
+			notCheckable = true,
+			func = function(button, menuInputData, menu)
+				TitanUpdateConfig("init")
+				Settings.OpenToCategory(TITAN_PANEL_CONFIG.topic.About)
+				end,
+			funcOnEnter = function(button)
+				MenuUtil.ShowTooltip(button, function(tooltip)
+					local msg = ""
+						..L["TITAN_PANEL"]
+						.." "..L["TITAN_PANEL_MENU_CONFIGURATION"]
+					tooltip:SetText(msg)
+				end)
+			end,
+			funcOnLeave = function(button)
+				MenuUtil.HideTooltip(button)
+			end,
+			}
+		)
+	else
+	end
+end
 
 ---Titan Do all the setup needed when a user logs in / reload UI / enter or leave an instance.
 --- This is called after the 'player entering world' event is fired by Blizz.
@@ -272,6 +299,9 @@ function TitanPanel_PlayerEnteringWorld(reload)
 			TitanPanelButton_CreateBar(idx)
 		end
 		--		Titan_AutoHide_Create_Frames()
+
+		-- Add to Addon Compartment, if feature is present
+		RegisterAddonCompartment()
 
 		-- Set clock vars based on user setting
 		if TitanPlugins["Clock"] then

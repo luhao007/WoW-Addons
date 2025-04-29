@@ -223,26 +223,6 @@ local function SetCoordText(player, cursor)
 	end
 end
 
----local Show / hide the location above the mini map per user settings
----@param reason string
-local function LocOnMiniMap(reason)
-	if TitanGetVar(TITAN_LOCATION_ID, "ShowLocOnMiniMap") then
-		MinimapBorderTop:Show()
-		MinimapZoneTextButton:Show()
-	else
-		MinimapBorderTop:Hide()
-		MinimapZoneTextButton:Hide()
-		MiniMapWorldMapButton:Hide()
-	end
-
-	-- adjust MiniMap frame if needed
-	if reason == "config" then
-		TitanPanel_AdjustFrames(false, "Location");
-	else
-		-- 2024 Jan - Do not adjust; allow Titan to handle on PEW
-	end
-end
-
 ---local Update coordinates on map. This called every tick of timer while map is open.
 ---@param self Button
 ---@param elapsed number
@@ -424,20 +404,6 @@ local function OnShow(self)
 	end
 
 	CreateMapFrames() -- as needed
-
-	if TITAN_ID == "TitanClassic" then
-		if not TitanGetVar(TITAN_LOCATION_ID, "ShowLocOnMiniMap")
-			and MinimapBorderTop and MinimapBorderTop:IsShown() then
-			LocOnMiniMap("PEW")
-		end
-
-		if TitanGetVar(TITAN_LOCATION_ID, "ShowLocOnMiniMap") and MinimapBorderTop:IsShown() then
-			if not MinimapZoneTextButton:IsShown() then MinimapZoneTextButton:Show() end
-		end
-	else
-		-- no work needed
-	end
-
 	CoordFrames("start") -- start coords on map, if requested
 
 	Events("register", "_OnShow")
@@ -705,41 +671,6 @@ local function CreateMenu()
 			end
 			info.checked = TitanGetVar(TITAN_LOCATION_ID, "ShowCoordsText");
 			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
---[[
-			info = {};
-			info.text = L["TITAN_LOCATION_MENU_SHOW_COORDS_ON_MAP_TEXT"];
-			info.func = function()
-				TitanToggleVar(TITAN_LOCATION_ID, "ShowCoordsOnMap");
-				if (TitanGetVar(TITAN_LOCATION_ID, "ShowCoordsOnMap")) then
-					CoordFrames("start")
-				else
-					CoordFrames("stop")
-				end
-			end
-			info.checked = TitanGetVar(TITAN_LOCATION_ID, "ShowCoordsOnMap");
-			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-			if TITAN_ID == "TitanClassic" then
-				info = {};
-				info.text = L["TITAN_LOCATION_MENU_SHOW_LOC_ON_MINIMAP_TEXT"];
-				info.func = function()
-					TitanToggleVar(TITAN_LOCATION_ID, "ShowLocOnMiniMap");
-					LocOnMiniMap("config")
-				end
-				info.checked = TitanGetVar(TITAN_LOCATION_ID, "ShowLocOnMiniMap");
-				info.disabled = InCombatLockdown()
-				TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-			else
-				-- no work needed
-			end
-			info = {};
-			info.text = L["TITAN_LOCATION_MENU_UPDATE_WORLD_MAP"];
-			info.func = function()
-				TitanToggleVar(TITAN_LOCATION_ID, "UpdateWorldmap");
-			end
-			info.checked = TitanGetVar(TITAN_LOCATION_ID, "UpdateWorldmap");
-			info.disabled = InCombatLockdown()
-			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 --]]
 		end
 
@@ -868,7 +799,6 @@ local function OnLoad(self)
 			ShowCoordsText = true,
 			ShowCoordsOnMap = false,
 			ShowCursorOnMap = false,
-			ShowLocOnMiniMap = 1,
 			ShowIcon = 1,
 			ShowLabelText = 1,
 			ShowColoredText = 1,

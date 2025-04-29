@@ -2,11 +2,8 @@ local _, addonTable = ...;
 local _, _, _, tocversion = GetBuildInfo()
 local L=addonTable.locale
 local Create=addonTable.Create
-local PIGFrame=Create.PIGFrame
 local PIGButton = Create.PIGButton
-local PIGLine=Create.PIGLine
 local PIGCheckbutton=Create.PIGCheckbutton
-local PIGOptionsList_RF=Create.PIGOptionsList_RF
 local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGQuickBut=Create.PIGQuickBut
 local Show_TabBut_R=Create.Show_TabBut_R
@@ -43,11 +40,17 @@ function BusinessInfo.FastDrop()
 			local QkButUI = "QkBut_AutoSellBuy"
 			if _G[QkButUI] then return end
 			local QuickTooltip = KEY_BUTTON1.."-|cff00FFFF"..gongnengName.."指定物品|r\n"..KEY_BUTTON2.."-|cff00FFFF打开"..GnName.."|r"
-			local QkBut=PIGQuickBut(QkButUI,QuickTooltip,135725,nil,FrameLevel)
+			local QkBut=PIGQuickBut(QkButUI,QuickTooltip,130841,nil,FrameLevel)
+			QkBut:GetNormalTexture():SetPoint("TOPLEFT",QkBut,"TOPLEFT",-9,9);
+			QkBut:GetNormalTexture():SetPoint("BOTTOMRIGHT",QkBut,"BOTTOMRIGHT",9,-9);
+			QkBut.TexX1 = QkBut:CreateTexture();
+			QkBut.TexX1:SetTexture(136453);
+			QkBut.TexX1:SetPoint("TOPLEFT",QkBut,"TOPLEFT",-1,1);
+			QkBut.TexX1:SetPoint("BOTTOMRIGHT",QkBut,"BOTTOMRIGHT",1,-1);
 			QkBut:SetScript("OnClick", function(self,button)
 				if button=="LeftButton" then
 					PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON);
-					Pig_DelItem()
+					Pig_DelItem(1)
 				else
 					if AutoSellBuy_UI:IsShown() then
 						AutoSellBuy_UI:Hide();
@@ -92,7 +95,7 @@ function BusinessInfo.FastDrop()
 		Pig_DelItem()
 	end)
 	-----
-	Pig_DelItem=function()
+	Pig_DelItem=function(ly)
 		local dataX = PIGA["AutoSellBuy"][gongnengNameE.."_List"]
 		if #dataX>0 then
 			for bag=0,bagIDMax do
@@ -109,7 +112,11 @@ function BusinessInfo.FastDrop()
 				end 
 			end
 		else
-			PIGTopMsg:add(gongnengName.."目录为空,"..KEY_BUTTON2.."设置");
+			if ly==1 then
+				PIGTopMsg:add(gongnengName.."目录为空,"..KEY_BUTTON2.."设置");
+			else
+				PIGTopMsg:add(gongnengName.."目录为空");
+			end
 		end
 	end
 end

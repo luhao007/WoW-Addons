@@ -22,7 +22,6 @@ local RSRoutines = private.ImportLib("RareScannerRoutines")
 
 -- RareScanner service libraries
 local RSMinimap = private.ImportLib("RareScannerMinimap")
-local RSTargetUnitTracker = private.ImportLib("RareScannerTargetUnitTracker")
 
 -----------------------------------------------------------------------
 -- Functions to delete custom NPCs
@@ -66,9 +65,6 @@ function RSCustomNpcs.DeleteCustomNpc(npcID, options)
 	
 	-- Update minimap
 	RSMinimap.HideIcon(tonumber(npcID))
-	
-	-- Update Target Unit
-	RSTargetUnitTracker.Refresh()
 end
 
 -----------------------------------------------------------------------

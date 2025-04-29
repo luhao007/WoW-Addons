@@ -7,7 +7,6 @@ local PIGFrame=Create.PIGFrame
 local PIGButton=Create.PIGButton
 local PIGDownMenu=Create.PIGDownMenu
 local PIGCheckbutton=Create.PIGCheckbutton
-local PIGQuickBut=Create.PIGQuickBut
 local PIGLine=Create.PIGLine
 local PIGSlider = Create.PIGSlider
 local PIGCheckbutton_R=Create.PIGCheckbutton_R
@@ -351,7 +350,7 @@ local function ADD_ActionBar(index)
 	Pig_bar.yidong.title = PIGFontString(Pig_bar.yidong,nil,index,"OUTLINE",12)
 	Pig_bar.yidong.title:SetAllPoints(Pig_bar.yidong)
 	Pig_bar.yidong.title:SetTextColor(1, 1, 0.1, 1)
-	Pig_bar.yidong:PIGSetMovable(Pig_bar)
+	Pig_bar.yidong:PIGSetMovable(Pig_bar,nil,true)
 	Pig_bar.yidong:SetScript("OnEnter", function (self)
 		self:SetBackdropBorderColor(0,0.8,1, 0.9);
 		GameTooltip:ClearLines();

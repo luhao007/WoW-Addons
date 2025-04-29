@@ -4,7 +4,6 @@ local _, _, _, tocversion = GetBuildInfo()
 ---
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
-local PIGLine=Create.PIGLine
 local PIGButton = Create.PIGButton
 local PIGSlider = Create.PIGSlider
 local PIGCheckbutton=Create.PIGCheckbutton
@@ -19,7 +18,7 @@ local Fun=addonTable.Fun
 ---
 local fuFrame = PIGOptionsList(L["FRAMEP_TABNAME"],"TOP")
 --
-local RTabFrame =Create.PIGOptionsList_RF(fuFrame,30)
+local RTabFrame =Create.PIGOptionsList_RF(fuFrame)
 --
 local FramePlusfun={}
 addonTable.FramePlusfun=FramePlusfun
@@ -51,7 +50,7 @@ FramePlusF.Skill_QKbut:SetScript("OnClick", function (self)
 end);
 
 ------
-FramePlusF.AddonList = PIGCheckbutton_R(FramePlusF,{"增强插件列表","增强插件列表，让你可以按需开启插件"})
+FramePlusF.AddonList = PIGCheckbutton_R(FramePlusF,{"增强插件列表(插件启用状态保存)","增强插件列表，让你可以按需开启插件"})
 FramePlusF.AddonList:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["FramePlus"]["AddonList"]=true;
@@ -83,6 +82,7 @@ FramePlusF.yidong:SetPoint("BOTTOMRIGHT",FramePlusF,"BOTTOMRIGHT",0,0);
 
 FramePlusF.yidong.BlizzardUI_Move = PIGCheckbutton(FramePlusF.yidong,{"LEFT",FramePlusF.yidong,"LEFT",20,0},{"解锁(移动)系统界面","解锁系统界面，使其可以:\n1.移动:拖动界面标题栏移动\n2.缩放:在需要缩放界面按住Ctrl+Alt滚动鼠标滚轮"})
 FramePlusF.yidong.BlizzardUI_Move:SetScript("OnClick", function (self)
+	if InCombatLockdown() then self:SetChecked(PIGA["FramePlus"]["BlizzardUI_Move"]) PIGTopMsg:add(ERR_NOT_IN_COMBAT,"R") return end
 	if self:GetChecked() then
 		PIGA["FramePlus"]["BlizzardUI_Move"]=true;
 		FramePlusfun.BlizzardUI_Move()
@@ -101,8 +101,8 @@ FramePlusF.yidong.BlizzardUI_Move.Save:SetScript("OnClick", function (self)
 end);
 FramePlusF.yidong.BlizzardUI_Move.CZ = PIGButton(FramePlusF.yidong,{"LEFT",FramePlusF.yidong.BlizzardUI_Move.Save.Text,"RIGHT",40,0},{90,22},"重置UI数据")
 FramePlusF.yidong.BlizzardUI_Move.CZ:SetScript("OnClick", function ()
-	PIGA["PigUI"]={}
-	PIGA["BlizzardUI"]={}
+	PIGA["Pig_UI"]={}
+	PIGA["Blizzard_UI"]={}
 	PIG_print("已重置UI位置和缩放数据")
 end);
 

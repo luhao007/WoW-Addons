@@ -2,9 +2,7 @@ local addonName, addonTable = ...;
 local _, _, _, tocversion = GetBuildInfo()
 local L=addonTable.locale
 local Create=addonTable.Create
-local PIGFrame=Create.PIGFrame
 local PIGSlider=Create.PIGSlider
-local PIGLine=Create.PIGLine
 local PIGEnter=Create.PIGEnter
 local PIGButton = Create.PIGButton
 local PIGCheckbutton=Create.PIGCheckbutton
@@ -15,17 +13,16 @@ local PIGQuickBut=Create.PIGQuickBut
 local BusinessInfo=addonTable.BusinessInfo
 local fuFrame,fuFrameBut = BusinessInfo.fuFrame,BusinessInfo.fuFrameBut
 
-local GnName,GnUI,GnIcon,FrameLevel = "拍卖助手","AutoSellBuy_UI",134409,20
-BusinessInfo.AHPlusData={GnName,GnUI,GnIcon,FrameLevel}
+local GnName= "拍卖助手"
+BusinessInfo.AHPlusData={}
 ------------
 function BusinessInfo.AHPlusOptions()
-	fuFrame.AH_line = PIGLine(fuFrame,"TOP",-(fuFrame.dangeH*fuFrame.GNNUM))
 	fuFrame.GNNUM=fuFrame.GNNUM+3
 	local AHPlus_tooltip="在拍卖行界面增加一个缓存单价按钮，时光徽章界面显示历史价格";
 	if tocversion<50000 then
 		AHPlus_tooltip="在拍卖行浏览列表显示一口价，和涨跌百分比。界面增加一个缓存单价按钮，时光徽章界面显示历史价格";
 	end
-	fuFrame.AHPlus =PIGCheckbutton(fuFrame,{"TOPLEFT",fuFrame.AH_line,"TOPLEFT",20,-30},{GnName, AHPlus_tooltip})
+	fuFrame.AHPlus =PIGCheckbutton(fuFrame,{"TOPLEFT",fuFrame,"TOPLEFT",20,-20},{GnName, AHPlus_tooltip})
 	fuFrame.AHPlus:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["AHPlus"]["Open"]=true;

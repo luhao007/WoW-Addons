@@ -8,6 +8,18 @@ local appName, app = ...
 local ipairs,math_floor
 	= ipairs,math.floor
 
+-- Give a safe way to use HandleModifiedItemClick since Blizzard made it unsafe in 11.1.5
+-- HandleModifiedItemClick now throws a Lua error when the link is not perfectly-handled
+-- by LinkUtil.ExtractLink, so we need to test if that will break internally
+app.HandleModifiedItemClick = function(link)
+	if link then
+		local _, linkOptions, _ = LinkUtil.ExtractLink(link)
+		if linkOptions and HandleModifiedItemClick(link) then
+			return true
+		end
+	end
+end
+
 -- Clickable ATT Chat Link Handling
 local reports = {};
 function app:SetupReportDialog(id, reportMessage, text)
@@ -42,7 +54,7 @@ hooksecurefunc("SetItemRef", function(link, text)
 			if IsShiftKeyDown() then
 				-- If this reference has a link, then attempt to preview the appearance or write to the chat window.
 				local link = group.link or group.silentLink;
-				if (link and HandleModifiedItemClick(link)) or ChatEdit_InsertLink(link) then return true; end
+				if (app.HandleModifiedItemClick(link)) or ChatEdit_InsertLink(link) then return true; end
 			end
 
 			app:CreateMiniListForGroup(group);
@@ -65,7 +77,8 @@ function app:Linkify(text, color, operation)
 end
 function app:SearchLink(group)
 	if not group then return end
-	return app:Linkify(group.text or group.hash or UNKNOWN, app.Colors.ChatLink, "search:"..(group.key or "?")..":"..(group[group.key] or "?"))
+	local key = group.key
+	return app:Linkify(group.text or group.hash or UNKNOWN, app.Colors.ChatLink, "search:"..(key or "?")..":"..(group[key] or "?"))
 end
 function app:RawSearchLink(field,id)
 	return app:SearchLink(app.SearchForObject(field, id, "field"))
@@ -123,6 +136,28 @@ app.ChatCommands.Add("report-reset", function(args)
 end, {
 	"Usage : /att report-reset",
 	"Allows resetting the tracking of displayed Dialog reports such that duplicate reports can be repeated in the same game session.",
+})
+-- Allows a user to use /att debug-print
+-- to enable Debug Printing of any PrintDebug messages
+app.ChatCommands.Add("debug-print", function(args)
+	app.Debugging = not app.Debugging
+	app.print("Debug Printing:",app.Debugging and "ACTIVE" or "OFF")
+	return true
+end, {
+	"Usage : /att debug-print",
+	"Allows toggling debug printing within ATT",
+})
+-- Allows a user to use /att debug-events
+-- to enable Debug Printing of Event messages
+app.ChatCommands.Add("debug-events", function(args)
+	app.DebugEvents()
+	app.print("Debug Events:",app.DebuggingEvents and "ACTIVE" or "OFF")
+	-- debug prints may/not be toggled due to this, so print status anyway
+	app.print("Debug Printing:",app.Debugging and "ACTIVE" or "OFF")
+	return true
+end, {
+	"Usage : /att debug-events",
+	"Allows toggling the debug printing and monitoring of all game events that ATT handles.",
 })
 
 -- Allows adding a direct slash command(s) to the game
@@ -187,6 +222,8 @@ function(cmd)
 	local args = { (","):split(cmd:lower()) };
 	app.SetCustomWindowParam("list", "min", args[1]);
 	app.SetCustomWindowParam("list", "limit", args[2] or 999999);
+	-- reduce the re-try duration when harvesting
+	app.SetCAN_RETRY_DURATION_SEC(1)
 	app:GetWindow("list"):Toggle();
 end)
 

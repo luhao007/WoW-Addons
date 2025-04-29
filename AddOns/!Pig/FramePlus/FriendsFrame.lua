@@ -4,9 +4,7 @@ local GetRaceClassTXT=addonTable.Fun.GetRaceClassTXT
 local ClasseNameID=addonTable.Data.ClasseNameID
 local PIGraceList=addonTable.Data.PIGraceList
 local Create=addonTable.Create
-local PIGFrame=Create.PIGFrame
 local PIGEnter=Create.PIGEnter
-local PIGButton=Create.PIGButton
 local PIGFontString=Create.PIGFontString
 local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 -------------
@@ -128,8 +126,8 @@ function FramePlusfun.Friends()
 			id = elementData.id;
 			buttonType = elementData.buttonType;
 		else
-			buttonType = button.buttonType
 			id = button.id
+			buttonType = button.buttonType
 		end
 		if buttonType == FRIENDS_BUTTON_TYPE_WOW then
 			local info = C_FriendList.GetFriendInfoByIndex(id);

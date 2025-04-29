@@ -19,7 +19,7 @@ local api = {};
 app.Modules.Upgrade = api;
 
 -- Module locals
-local CreateItem, DGU, TransmogLastRefresh, GetGroupItemIDWithModID, GetSourceID, CreateItemSource
+local CreateItem, DGU, TransmogLastRefresh, GetGroupItemIDWithModID, GetSourceID, CreateItemSource, CleanLink
 local Runner = app.CreateRunner("upgrade");
 Runner.SetPerFrameDefault(1)
 
@@ -29,6 +29,10 @@ app.AddEventHandler("OnLoad", function()
 	GetGroupItemIDWithModID = app.GetGroupItemIDWithModID
 	GetSourceID = app.GetSourceID
 	CreateItemSource = app.CreateItemSource
+	CleanLink = app.Modules.Item.CleanLink
+	if not CleanLink then
+		error("Upgrade Module requires Modules.Item.CleanLink definition!")
+	end
 end)
 
 -- Static mapping of BonusID -> Next Unlock BonusID for a corresponding Item. Unlock will most-likely always be an Appearance
@@ -360,14 +364,15 @@ local NestedUpgradesAllowedByBonusID = {
 local function GetFirstValueAndKey(t, keys)
 	if not t or not keys then return end
 
-	local k
+	local k, tk
 	for i=1,#keys do
 		k = keys[i]
-		if t[k] then return t[k], k end
+		tk = t[k]
+		if tk then return tk, k end
 	end
 end
 local function GetNextItemUnlockBonusIDByString(item)
-	local itemVals = {(":"):split(item)}
+	local itemVals = {(":"):split(CleanLink(item))}
 
 	-- BonusID count
 	local bonusCount = tonumber(itemVals[14])
@@ -388,9 +393,8 @@ local function GetNextItemUnlockBonusIDByTable(item)
 	local upgrades = BonusIDNextUnlock[item.bonusID or 0]
 	if upgrades then return upgrades end
 
-	-- we currently don't store all bonusIDs in item groups
-	-- upgrades = GetFirstValueAndKey(BonusIDNextUnlock, item.bonuses)
-	-- if upgrades then return upgrades end
+	upgrades = GetFirstValueAndKey(BonusIDNextUnlock, item.bonuses)
+	if upgrades then return upgrades end
 
 	local link = item.link or item.rawlink or item.silentLink
 	if link then
@@ -494,9 +498,8 @@ local function SetupUpgrade(t)
 	-- have upgrades
 	if IsRetrieving(t.link) then
 		-- app.PrintDebug("re-try upgrade",t.hash,t.link)
-		t.retries = (t.retries or 0) + 1
 		-- in situations where the upgrade item cannot be loaded/found quickly, we unfortunately will just give up
-		if (t.retries > 10) then return end
+		if not t.CanRetry then return end
 		Runner.Run(SetupUpgrade, t)
 	end
 end
@@ -514,9 +517,8 @@ local function CheckIsUpgrade(t)
 	-- have upgrades
 	if IsRetrieving(t.link) then
 		-- app.PrintDebug("re-try upgrade",t.hash,t.link)
-		t.retries = (t.retries or 0) + 1
 		-- in situations where the upgrade item cannot be loaded/found quickly, we unfortunately will just give up
-		if (t.retries > 10) then return end
+		if not t.CanRetry then return end
 		Runner.Run(CheckIsUpgrade, t)
 	end
 end

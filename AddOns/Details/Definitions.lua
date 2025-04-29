@@ -40,6 +40,7 @@
 ---| "COMBAT_ARENA_END"
 ---| "COMBAT_MYTHICDUNGEON_START"
 ---| "COMBAT_MYTHICDUNGEON_END"
+---| "COMBAT_MYTHICDUNGEON_CONTINUE"
 ---| "GROUP_ONENTER"
 ---| "GROUP_ONLEAVE"
 ---| "ZONE_TYPE_CHANGED"
@@ -315,9 +316,8 @@ DETAILS_SEGMENTTYPE_TRAININGDUMMY = true
 ---@field CreateRightClickToCloseLabel fun(self: details, parent: frame) : df_label return a df_label with the text "Right click to close", need to set point
 ---@field IsValidActor fun(self: details, actor: actor) : boolean return true if the actor is valid
 ---@field GetCrowdControlSpells fun(self: details) : table<spellname, boolean> return a table of crowd control spells
----@field 
----@field 
-
+---@field UnpackDeathTable fun(self: details, deathTable: deathtable) : actorname, actorclass, unixtime, combattime, timestring, number, table, {key1: unixtime, key2: spellid}, specializationid unpack values inside a deathTable, deathEvents is in order or first event in the first index and last event on latest index
+---@field UnpackDeathEvent fun(self: details, deathEvent: table) : any, spellid, number, number, number, string, number?, number, boolean, number, boolean, boolean evType, spellId, amount, eventTime, heathPercent, sourceName, absorbed, spellSchool, friendlyFire, overkill, criticalHit, crushing.
 
 ---@class detailseventlistener : table
 ---@field RegisterEvent fun(self: detailseventlistener, event: detailsevent, callback: function)
@@ -794,9 +794,12 @@ DETAILS_SEGMENTTYPE_TRAININGDUMMY = true
 ---@field amount number
 ---@field total number
 ---@field actorName string
+---@field spellId number?
 ---@field Icon texture
+---@field IconFrame frame
 ---@field InLineTexts fontstring[]
 ---@field statusBar breakdownspellbarstatusbar
+---@field overlayTexture texture
 ---@field bIsFromLeftScroll boolean
 ---@field bIsFromRightScroll boolean
 

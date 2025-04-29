@@ -951,6 +951,7 @@ AL["ENABLE_TOMTOM_SUPPORT_DESC"] = "Wenn diese Einstellung aktiviert ist, werden
 AL["ENABLE_WAYPOINTS_SUPPORT"] = "Schalter für Wegpunkte Unterstützung"
 AL["ENABLED_SEARCHING_RARE"] = "Alarme für diesen seltenen NSC wurden aktiviert:"
 AL["EVENT"] = "Ereignis"
+AL["EVENTS_SCRAP_HEAP"] = "S.C.H.R.O.T.T.-Haufen"
 AL["EXPEDITION_ISLANDS"] = "Inselexpeditionen"
 AL["FILTER"] = "NPC Filter"
 AL["FILTER_CONTINENT"] = "Kontinent/Kategorie"

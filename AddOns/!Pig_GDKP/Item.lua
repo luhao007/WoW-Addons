@@ -1,21 +1,20 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
-local Create, Data, Fun, L, Default, Default_Per= unpack(PIG)
------
-local PIGFrame=Create.PIGFrame
-local PIGButton = Create.PIGButton
-local PIGDownMenu=Create.PIGDownMenu
-local PIGLine=Create.PIGLine
-local PIGEnter=Create.PIGEnter
-local PIGSlider = Create.PIGSlider
-local PIGCheckbutton=Create.PIGCheckbutton
-local PIGOptionsList_R=Create.PIGOptionsList_R
-local PIGFontString=Create.PIGFontString
-local PIGDiyBut=Create.PIGDiyBut
-local PIGSetFont=Create.PIGSetFont
---
 local GDKPInfo=addonTable.GDKPInfo
 function GDKPInfo.ADD_Item(RaidR)
+	local _, _, _, tocversion = GetBuildInfo()
+	local Create, Data, Fun, L, Default, Default_Per= unpack(PIG)
+	-----
+	local PIGFrame=Create.PIGFrame
+	local PIGButton = Create.PIGButton
+	local PIGDownMenu=Create.PIGDownMenu
+	local PIGLine=Create.PIGLine
+	local PIGEnter=Create.PIGEnter
+	local PIGSlider = Create.PIGSlider
+	local PIGCheckbutton=Create.PIGCheckbutton
+	local PIGOptionsList_R=Create.PIGOptionsList_R
+	local PIGFontString=Create.PIGFontString
+	local PIGDiyBut=Create.PIGDiyBut
+	local PIGSetFont=Create.PIGSetFont
 	local gsub = _G.string.gsub 
 	local match = _G.string.match
 	local find = _G.string.find
@@ -24,6 +23,7 @@ function GDKPInfo.ADD_Item(RaidR)
 	local GetContainerNumSlots = C_Container.GetContainerNumSlots
 	local GetContainerItemID = C_Container.GetContainerItemID
 	local UseContainerItem = C_Container.UseContainerItem
+	local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 	------
 	local GDKP_Auc=Data.GDKP_Auc
 	local biaotou,auc_start,auc_end,auc_daoshu,auc_chujia=GDKP_Auc[1],GDKP_Auc[2],GDKP_Auc[3],GDKP_Auc[4],GDKP_Auc[5]
@@ -37,7 +37,6 @@ function GDKPInfo.ADD_Item(RaidR)
 			"|cff00FFffCtrl+"..KEY_BUTTON1.."：|r|cff00ff00合并目录内当前物品|r\n"..
 			"|cff00FFffCtrl+"..KEY_BUTTON2.."：|r|cff00ff00拆分当前物品|r"
 	---
-	local RaidR=_G[GnUI]
 	local fujiF,fujiTabBut=PIGOptionsList_R(RaidR.F,"拾取记录",80)
 	fujiF:Show()
 	fujiTabBut:Selected()
@@ -307,7 +306,7 @@ function GDKPInfo.ADD_Item(RaidR)
 					Itemf.ChengjiaoRen:SetID(LOOT_dangqian);
 					local AllName = ItemS[LOOT_dangqian][8]
 					Itemf.ChengjiaoRen.AllName=AllName
-					if AllName=="N/A" then
+					if AllName==NONE then
 						Itemf.ChengjiaoRen:SetText("\124cffff0000        "..NONE.."\124r");
 					else
 				   		local wanjiaName, fuwiqiName = strsplit("-", AllName);
@@ -317,7 +316,7 @@ function GDKPInfo.ADD_Item(RaidR)
 							Itemf.ChengjiaoRen:SetText(wanjiaName);
 						end
 					end
-					-- local color = RAID_CLASS_COLORS[zhiyecc]
+					-- local color = PIG_CLASS_COLORS[zhiyecc]
 					-- Itemf.ChengjiaoRen:SetTextColor(color.r, color.g, color.b,1);
 					Itemf.time:SetText("\124cff00ffFF"..LOOT_dangqian.."\124r  "..date("%m-%d %H:%M",ItemS[LOOT_dangqian][1]));
 				end
@@ -591,7 +590,7 @@ function GDKPInfo.ADD_Item(RaidR)
 			GameTooltip:Hide() 
 		end);
 		hang.ChengjiaoRen:SetScript("OnEnter", function (self)
-			if self.AllName~="N/A" then
+			if self.AllName~=NONE then
 				GameTooltip:ClearLines();
 				GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",0,0);
 				local pgdkp_qiankuanheji = {0,0}
@@ -644,7 +643,7 @@ function GDKPInfo.ADD_Item(RaidR)
 	local jiagelist = {1,2,3,4,5,6,7,8,9}
 	fujiF.tishiUI.nr.auc.qipaijia0=PIGDownMenu(fujiF.tishiUI.nr.auc,{"LEFT",fujiF.tishiUI.nr.auc.qpt,"RIGHT", 2,0},{70,22})
 	fujiF.tishiUI.nr.auc.qipaijia0.morenqiV=1
-	function fujiF.tishiUI.nr.auc.qipaijia0:PIGDownMenu_Update_But(self)
+	function fujiF.tishiUI.nr.auc.qipaijia0:PIGDownMenu_Update_But()
 		local info = {}
 		info.func = self.PIGDownMenu_SetValue
 		for i=1,#jiagelist,1 do
@@ -664,7 +663,7 @@ function GDKPInfo.ADD_Item(RaidR)
 	local danweiName ={["0"]="十",["00"]="百",["000"]="千",["0000"]="万",["00000"]="十万",["000000"]="百万"}
 	fujiF.tishiUI.nr.auc.qipaijia1=PIGDownMenu(fujiF.tishiUI.nr.auc,{"LEFT",fujiF.tishiUI.nr.auc.qipaijia0,"RIGHT", 0,0},{80,22})
 	fujiF.tishiUI.nr.auc.qipaijia1.value="0000"
-	function fujiF.tishiUI.nr.auc.qipaijia1:PIGDownMenu_Update_But(self)
+	function fujiF.tishiUI.nr.auc.qipaijia1:PIGDownMenu_Update_But()
 		local info = {}
 		info.func = self.PIGDownMenu_SetValue
 		for i=1,#danweiV,1 do
@@ -682,7 +681,7 @@ function GDKPInfo.ADD_Item(RaidR)
 	fujiF.tishiUI.nr.auc.dct = PIGFontString(fujiF.tishiUI.nr.auc,{"TOPLEFT", fujiF.tishiUI.nr.auc, "TOPLEFT", 29,-38},"最低加价:",16);
 	fujiF.tishiUI.nr.auc.dancijia0=PIGDownMenu(fujiF.tishiUI.nr.auc,{"LEFT",fujiF.tishiUI.nr.auc.dct,"RIGHT", 2,0},{70,22})
 	fujiF.tishiUI.nr.auc.dancijia0.morenqiV=1
-	function fujiF.tishiUI.nr.auc.dancijia0:PIGDownMenu_Update_But(self)
+	function fujiF.tishiUI.nr.auc.dancijia0:PIGDownMenu_Update_But()
 		local info = {}
 		info.func = self.PIGDownMenu_SetValue
 		for i=1,#jiagelist,1 do
@@ -699,7 +698,7 @@ function GDKPInfo.ADD_Item(RaidR)
 	--选择单次加价单位
 	fujiF.tishiUI.nr.auc.dancijia1=PIGDownMenu(fujiF.tishiUI.nr.auc,{"LEFT",fujiF.tishiUI.nr.auc.dancijia0,"RIGHT", 0,0},{80,22})
 	fujiF.tishiUI.nr.auc.dancijia1.value="000"
-	function fujiF.tishiUI.nr.auc.dancijia1:PIGDownMenu_Update_But(self)
+	function fujiF.tishiUI.nr.auc.dancijia1:PIGDownMenu_Update_But()
 		local info = {}
 		info.func = self.PIGDownMenu_SetValue
 		for i=1,#danweiV,1 do
@@ -813,7 +812,7 @@ function GDKPInfo.ADD_Item(RaidR)
 	end);
 	local daojishitimeList = {3,5,10,15,20}
 	fujiF.tishiUI.nr.auc.daojishi.time=PIGDownMenu(fujiF.tishiUI.nr.auc,{"LEFT",fujiF.tishiUI.nr.auc.daojishi,"RIGHT", 16,0},{66,22})
-	function fujiF.tishiUI.nr.auc.daojishi.time:PIGDownMenu_Update_But(self)
+	function fujiF.tishiUI.nr.auc.daojishi.time:PIGDownMenu_Update_But()
 		local info = {}
 		info.func = self.PIGDownMenu_SetValue
 		for i=1,#daojishitimeList,1 do
@@ -891,7 +890,7 @@ function GDKPInfo.ADD_Item(RaidR)
 				local item5=hejishuju[bianjiID][5]
 				local item6=hejishuju[bianjiID][6]
 				local item11=hejishuju[bianjiID][11]
-				local iteminfo={item1,item2,fengeNUM,item4,item5,item6,false,"N/A",0,0,item11,true,true,0,false};
+				local iteminfo={item1,item2,fengeNUM,item4,item5,item6,false,NONE,0,0,item11,true,true,0,false};
 				table.insert(hejishuju,bianjiID+1,iteminfo)
 			end
 		end
@@ -971,7 +970,7 @@ function GDKPInfo.ADD_Item(RaidR)
 	local Quality=Data.Quality
 	fujiF.D=PIGDownMenu(fujiF,{"TOPRIGHT",fujiF.yedibuF,"BOTTOMRIGHT",-10,-2},{80,24})
 	fujiF.D.txt = PIGFontString(fujiF.D,{"RIGHT",fujiF.D,"LEFT", -2,0},"\124cff00FF00记录品质\124r");
-	function fujiF.D:PIGDownMenu_Update_But(self)
+	function fujiF.D:PIGDownMenu_Update_But()
 		local info = {}
 		info.func = self.PIGDownMenu_SetValue
 		for i=1,7,1 do
@@ -1004,7 +1003,7 @@ function GDKPInfo.ADD_Item(RaidR)
 						if Itemnum>0 then
 							for i=1,Itemnum,1 do
 								if ItemL[i][13] then
-									if ItemL[i][8]~="N/A" or ItemL[i][9]>0 or ItemL[i][14]>0 then--已有成交人/收款/欠款
+									if ItemL[i][8]~=NONE or ItemL[i][9]>0 or ItemL[i][14]>0 then--已有成交人/收款/欠款
 										ItemL[i][13]=false;
 									else
 										local yijingguoqu=dangtianT-ItemL[i][1];
@@ -1013,7 +1012,7 @@ function GDKPInfo.ADD_Item(RaidR)
 										elseif yijingguoqu>6600 then
 											if ItemL[i][12] then
 												local _,itemLink = GetItemInfo(Fun.HY_ItemLinkJJ(ItemL[i][2]))
-												PIGSendChatRaidParty("提示：未成交物品"..itemLink.."可交易时间不足10分钟，请确认物品归属(预估时间仅供参考)！",true,true)
+												PIGSendChatRaidParty("提示：未成交物品"..itemLink.."可交易时间不足10分钟，请确认物品归属(预估时间仅供参考)！",true,"W")
 												ItemL[i][12]=false;
 											end
 										end	
@@ -1044,7 +1043,7 @@ function GDKPInfo.ADD_Item(RaidR)
 			itemQuality,--5品质
 			itemTexture,--6icon
 			false,--7已拍卖
-			"N/A",--8成交人
+			NONE,--8成交人
 			0,--9成交价
 			0,--10成交时间
 			itemID,--11

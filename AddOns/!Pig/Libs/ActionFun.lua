@@ -9,6 +9,8 @@ local IsCurrentSpell=IsCurrentSpell or C_Spell and C_Spell.IsCurrentSpell
 local GetSpellTexture=GetSpellTexture or C_Spell and C_Spell.GetSpellTexture
 local IsUsableSpell=IsUsableSpell or C_Spell and C_Spell.IsSpellUsable
 local GetSpellBookItemName=GetSpellBookItemName or C_SpellBook and C_SpellBook.GetSpellBookItemName
+local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
+---
 local PIGbookType
 if tocversion<50000 then
 	PIGbookType=BOOKTYPE_SPELL

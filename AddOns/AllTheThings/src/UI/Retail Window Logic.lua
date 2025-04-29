@@ -93,6 +93,7 @@ local function ExpandGroupsRecursively(group, expanded, manual)
 		end
 	end
 end
+app.ExpandGroupsRecursively = ExpandGroupsRecursively
 local VisibilityFilter, SortGroup
 local function ProcessGroup(data, object)
 	if not VisibilityFilter(object) then return end
@@ -167,7 +168,7 @@ local function UpdateWindow(self, force, got)
 				-- only add this info row if there is actually nothing visible in the list
 				-- always a header row
 				-- print("any data",#self.Container,#rowData,#data)
-				if #rowData < 2 then
+				if #rowData < 2 and not app.ThingKeys[data.key] then
 					rowData[#rowData + 1] = app.CreateRawText(L.NO_ENTRIES, {
 						description = L.NO_ENTRIES_DESC,
 						collectible = 1,
@@ -1195,7 +1196,7 @@ app.TrySearchAHForGroup = function(group)
 	-- local itemID = group.itemID
 	-- if itemID then
 	local name, link = group.name, group.link or group.silentLink
-	if name and HandleModifiedItemClick(link) then
+	if name and app.HandleModifiedItemClick(link) then
 		local AH = app.AH
 		if not AH then AH = {} app.AH = AH end
 		-- AuctionFrameBrowse_Search();	-- doesn't exist
@@ -1429,24 +1430,6 @@ else
 		end
 	end
 end
--- Adds ATT information about the list of Achievements into the provided tooltip
-local function AddAchievementInfoToTooltip(info, achievements, reference)
-	if achievements then
-		local text
-		for _,ach in ipairs(achievements) do
-			text = ach.text;
-			if not text then
-				text = RETRIEVING_DATA;
-				reference.working = true;
-			end
-			text = app.GetCompletionIcon(ach.saved) .. " [" .. ach.achievementID .. "] " .. text;
-			if ach.isGuild then text = text .. " (" .. GUILD .. ")"; end
-			info[#info + 1] = {
-				left = text
-			}
-		end
-	end
-end
 -- Adds ATT information about the list of Quests into the provided tooltip
 local function AddQuestInfoToTooltip(info, quests, reference)
 	if quests then
@@ -1632,7 +1615,7 @@ app.AddEventHandler("RowOnClick", function(self, button)
 					-- Not at the Auction House
 					-- If this reference has a link, then attempt to preview the appearance or write to the chat window.
 					local link = reference.link or reference.silentLink;
-					if (link and HandleModifiedItemClick(link)) or ChatEdit_InsertLink(link) then return true; end
+					if app.HandleModifiedItemClick(link) or ChatEdit_InsertLink(link) then return true; end
 
 					if button == "LeftButton" then
 						-- Default behavior is to Refresh Collections.
@@ -1658,8 +1641,8 @@ app.AddEventHandler("RowOnClick", function(self, button)
 					return true;
 				else
 					local link = reference.link or reference.silentLink;
-					if link and HandleModifiedItemClick(link) then
-						return true;
+					if app.HandleModifiedItemClick(link) then
+						return true
 					end
 				end
 
@@ -2088,35 +2071,6 @@ app.AddEventHandler("RowOnEnter", function(self)
 				left = L.BREADCRUMBS_WARNING,
 			}
 			AddQuestInfoToTooltip(tooltipInfo, bc, reference);
-		end
-	end
-	if reference.sourceAchievements and (not reference.collected or isDebugMode) then
-		local prereqs, sas = {};
-		for i,sourceAchievementID in ipairs(reference.sourceAchievements) do
-			if sourceAchievementID > 0 and (isDebugMode or not ATTAccountWideData.Achievements[sourceAchievementID]) then
-				sas = SearchForField("achievementID", sourceAchievementID);
-				if #sas > 0 then
-					bestMatch = nil;
-					for j,sa in ipairs(sas) do
-						if sa.achievementID == sourceAchievementID then
-							if isDebugMode or (not sa.saved and app.GroupFilter(sa)) then
-								bestMatch = sa;
-							end
-						end
-					end
-					if bestMatch then
-						prereqs[#prereqs + 1] = bestMatch
-					end
-				else
-					prereqs[#prereqs + 1] = app.CreateAchievement(sourceAchievementID)
-				end
-			end
-		end
-		if prereqs and #prereqs > 0 then
-			tooltipInfo[#tooltipInfo + 1] = {
-				left = "This has an incomplete prerequisite achievement that you need to complete first.",
-			}
-			AddAchievementInfoToTooltip(tooltipInfo, prereqs, reference);
 		end
 	end
 

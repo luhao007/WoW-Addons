@@ -1,6 +1,6 @@
-## Interface: 110100
+## Interface: 110105
 ## Author: mitch0
-## Version: v6.1.5
+## Version: v6.1.7
 
 ## Title: RangeDisplay Options
 ## Notes: Configuration options for RangeDisplay

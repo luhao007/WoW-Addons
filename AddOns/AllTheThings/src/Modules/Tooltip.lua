@@ -787,7 +787,7 @@ end
 --hooksecurefunc("BattlePetTooltipTemplate_SetBattlePet", AttachBattlePetTooltip); -- Not ready yet.
 
 -- Tooltip API Differences between Modern and Legacy APIs.
-if TooltipDataProcessor and app.GameBuildVersion > 50000 then
+if TooltipDataProcessor and app.GameBuildVersion > 60000 then
 	-- 10.0.2
 	-- https://wowpedia.fandom.com/wiki/Patch_10.0.2/API_changes#Tooltip_Changes
 	-- many of these don't include an ID in-game so they don't attach results. maybe someday they will...
@@ -1050,7 +1050,8 @@ if TooltipDataProcessor and app.GameBuildVersion > 50000 then
 		-- app.PrintDebug("AttachTooltip-Return");
 	end
 
-	app.AddEventRegistration("TOOLTIP_DATA_UPDATE", function(...)
+	local Callback = app.CallbackHandlers.Callback
+	local function ReshowGametooltip()
 		if GameTooltip and GameTooltip:IsVisible() then
 			-- app.PrintDebug("Auto-refresh tooltip")
 			-- Make sure the tooltip will try to re-attach the data if it's from an ATT row
@@ -1058,6 +1059,9 @@ if TooltipDataProcessor and app.GameBuildVersion > 50000 then
 			GameTooltip.ATT_AttachComplete = nil;
 			GameTooltip:Show();
 		end
+	end
+	app.AddEventRegistration("TOOLTIP_DATA_UPDATE", function(...)
+		Callback(ReshowGametooltip)
 	end);
 	app.AddEventHandler("OnReady", function()
 		TooltipDataProcessor.AddTooltipPostCall(TooltipDataProcessor.AllTypes, AttachTooltip)

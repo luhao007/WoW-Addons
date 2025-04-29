@@ -8,6 +8,8 @@ local BagBankfun=addonTable.BagBankfun
 local GetContainerNumSlots =GetContainerNumSlots or C_Container and C_Container.GetContainerNumSlots
 local GetContainerItemLink=GetContainerItemLink or C_Container and C_Container.GetContainerItemLink
 local GetContainerItemID=GetContainerItemID or C_Container and C_Container.GetContainerItemID
+local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
+----
 local bagData=addonTable.Data.bagData
 local gsub = _G.string.gsub
 local match = _G.string.match
@@ -32,7 +34,7 @@ local function Update_itemLV_(itemButton, id, slot)
 			local bagID = itemButton:GetBagID();
 			local itemID, itemLink, icon, stackCount, quality=PIGGetContainerItemInfo(bagID, itemButton:GetID())
 			if itemLink then
-				local itemID, itemType, itemSubType, itemEquipLoc, icon, classID, subClassID = C_Item.GetItemInfoInstant(itemLink)
+				local itemID, itemType, itemSubType, itemEquipLoc, icon, classID, subClassID = GetItemInfoInstant(itemLink)
 				local quality=quality or 1
 				if quality>1 and classID==2 or classID==4 then
 					local actualItemLevel, previewLevel, sparseItemLevel = C_Item.GetDetailedItemLevelInfo(itemLink)

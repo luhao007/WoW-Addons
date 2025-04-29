@@ -1,6 +1,6 @@
-## Interface: 110100
+## Interface: 110105
 ## Author: Breen
-## Version: 4.16
+## Version: 4.17
 
 ## Title: BtWQuests: The Burning Crusade
 ## Notes: The Burning Crusade quest data for BtWQuests

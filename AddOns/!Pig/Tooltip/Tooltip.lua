@@ -3,6 +3,7 @@ local find = _G.string.find
 local gsub = _G.string.gsub
 local _, _, _, tocversion = GetBuildInfo()
 local TooltipPlusfun=addonTable.TooltipPlusfun
+local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 ---------
 local banbendata = {
 	[0]=EXPANSION_NAME0,[1]=EXPANSION_NAME1,[2]=EXPANSION_NAME2,[3]=EXPANSION_NAME3,[4]=EXPANSION_NAME4,

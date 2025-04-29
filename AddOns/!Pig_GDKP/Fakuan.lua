@@ -1,28 +1,25 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
-local Create, Data, Fun, L, Default, Default_Per= unpack(PIG)
------
-local PIGFrame=Create.PIGFrame
-local PIGButton = Create.PIGButton
-local PIGDownMenu=Create.PIGDownMenu
-local PIGLine=Create.PIGLine
-local PIGEnter=Create.PIGEnter
-local PIGSlider = Create.PIGSlider
-local PIGDiyBut=Create.PIGDiyBut
-local PIGCheckbutton=Create.PIGCheckbutton
-local PIGOptionsList_RF=Create.PIGOptionsList_RF
-local PIGOptionsList_R=Create.PIGOptionsList_R
-local PIGQuickBut=Create.PIGQuickBut
-local Show_TabBut_R=Create.Show_TabBut_R
-local PIGFontString=Create.PIGFontString
-local PIGSetFont=Create.PIGSetFont
--- ----------
 local GDKPInfo=addonTable.GDKPInfo
 function GDKPInfo.ADD_Fakuan(RaidR)
+	local _, _, _, tocversion = GetBuildInfo()
+	local Create, Data, Fun, L, Default, Default_Per= unpack(PIG)
+	-----
+	local PIGFrame=Create.PIGFrame
+	local PIGButton = Create.PIGButton
+	local PIGDownMenu=Create.PIGDownMenu
+	local PIGLine=Create.PIGLine
+	local PIGEnter=Create.PIGEnter
+	local PIGSlider = Create.PIGSlider
+	local PIGDiyBut=Create.PIGDiyBut
+	local PIGCheckbutton=Create.PIGCheckbutton
+	local PIGOptionsList_R=Create.PIGOptionsList_R
+	local PIGQuickBut=Create.PIGQuickBut
+	local Show_TabBut_R=Create.Show_TabBut_R
+	local PIGFontString=Create.PIGFontString
+	local PIGSetFont=Create.PIGSetFont
 	local GnName,GnUI,GnIcon,FrameLevel = unpack(GDKPInfo.uidata)
 	local iconWH,hang_Height,hang_NUM,lineTOP  =  GDKPInfo.iconWH,GDKPInfo.hang_Height,GDKPInfo.hang_NUM,GDKPInfo.lineTOP
-	
-	local RaidR=_G[GnUI]
+	---
 	local fujiF=PIGOptionsList_R(RaidR.F,"罚款/其他",80)
 	----
 	fujiF.fakuan = PIGFrame(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",0,0});  
@@ -46,7 +43,7 @@ function GDKPInfo.ADD_Fakuan(RaidR)
 	fujiF.fakuan.guangbaoBut:SetScript("OnClick", function()
 		local dataX = PIGA["GDKP"]["fakuan"]
     	for p=1,#dataX do
-			if dataX[p][3]~="N/A" then
+			if dataX[p][3]~=NONE then
 				if dataX[p][4]>0 then
 					PIGSendChatRaidParty("["..dataX[p][1].."]收入"..dataX[p][2].."G<"..dataX[p][3]..">尚欠"..dataX[p][4].."G")
 				else
@@ -124,7 +121,7 @@ function GDKPInfo.ADD_Fakuan(RaidR)
 					return
 				end
 			end
-			local qitashouruinfo={huoquV,0,"N/A",0};
+			local qitashouruinfo={huoquV,0,NONE,0};
 			table.insert(PIGA["GDKP"]["fakuan"],qitashouruinfo);
 			fuji:Hide();
 			RaidR.Update_Fakuan()
@@ -183,7 +180,7 @@ function GDKPInfo.ADD_Fakuan(RaidR)
 				shiqujiaodian(fameX.QKG)
 				fameX.JiangliRen:SetID(dangqian);
 				local AllName = dataX[dangqian][3]
-				if AllName=="N/A" then
+				if AllName==NONE then
 						fameX.JiangliRen:SetText("\124cffff0000        "..NONE.."\124r");
 				else
 					local name,server = strsplit("-", AllName);
@@ -192,7 +189,7 @@ function GDKPInfo.ADD_Fakuan(RaidR)
 					else
 						fameX.JiangliRen:SetText(name);
 					end
-					-- local color = RAID_CLASS_COLORS[zhiyecc]
+					-- local color = PIG_CLASS_COLORS[zhiyecc]
 					-- fameX.JiangliRen:SetTextColor(color.r, color.g, color.b,1);
 				end
 			end
@@ -345,7 +342,7 @@ function GDKPInfo.ADD_Fakuan(RaidR)
 	--导入罚款设置----------
 	fujiF.fakuan.daoruBut=PIGDownMenu(fujiF.fakuan,{"TOP",fujiF.fakuan.yedibuF,"BOTTOM",0,-4},{60,22})
 	fujiF.fakuan.daoruBut:PIGDownMenu_SetText("导入")
-	function fujiF.fakuan.daoruBut:PIGDownMenu_Update_But(self)
+	function fujiF.fakuan.daoruBut:PIGDownMenu_Update_But()
 		local info = self:PIGDownMenu_CreateInfo()
 		info.func = self.PIGDownMenu_SetValue
 		local ziding = PIGA["GDKP"]["fakuan_config"]
@@ -396,7 +393,7 @@ function GDKPInfo.ADD_Fakuan(RaidR)
 
 	fujiF.fakuan.SaveBut.F.oldName=PIGDownMenu(fujiF.fakuan.SaveBut.F,{"LEFT",fujiF.fakuan.SaveBut.F.shijianNameT,"RIGHT",10,0},{120,22})
 	fujiF.fakuan.SaveBut.F.oldName:PIGDownMenu_SetText("选择已有设置")
-	function fujiF.fakuan.SaveBut.F.oldName:PIGDownMenu_Update_But(self)
+	function fujiF.fakuan.SaveBut.F.oldName:PIGDownMenu_Update_But()
 		local info = self:PIGDownMenu_CreateInfo()
 		info.func = self.PIGDownMenu_SetValue
 		local ziding = PIGA["GDKP"]["fakuan_config"]
