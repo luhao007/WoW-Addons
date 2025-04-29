@@ -1,6 +1,6 @@
 ## Interface: 110105
 ## Author: Teelo
-## Version: 11.1-055
+## Version: 11.1-056
 
 ## Title: Edit Mode Expanded
 ## Notes: Expands Edit Mode to apply to other frames
