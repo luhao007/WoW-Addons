@@ -39,7 +39,6 @@
 			</OnEnable>
 			<OnClick>
 				AtlasLoot.GUI.ModelFrame.ButtonOnClick(self)
-				PlaySound(852)
 			</OnClick>
 			<OnEnter>
 				if self.name then
@@ -57,4 +56,38 @@
 		</Scripts>
 	</Button>
 
+	<Button name="AtlasLootSelectButtonTemplate" registerForClicks="RightButtonUp, LeftButtonUp" virtual="true">
+		<Size y="20"/>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture parentKey="coin">
+					<Size>
+						<AbsDimension x="16" y="16"/>
+					</Size>
+					<Anchors>
+						<Anchor point="RIGHT" x="-10"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY" textureSubLevel="1">
+				<FontString parentKey="Label" inherits="GameFontHighlight_NoShadow" justifyH="LEFT">
+					<Size y="12"/>
+				</FontString>
+			</Layer>
+			<Layer level="OVERLAY" textureSubLevel="2">
+				<Texture parentKey="SelectedOverlay" atlas="Professions_Recipe_Active" useAtlasSize="true" hidden="true">
+					<Anchors>
+						<Anchor point="CENTER" x="0" y="-1"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="HIGHLIGHT">
+				<Texture parentKey="HighlightOverlay" atlas="Professions_Recipe_Hover" useAtlasSize="true" alpha="0.5">
+					<Anchors>
+						<Anchor point="CENTER" x="0" y="-1"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+	</Button>
 </Ui>

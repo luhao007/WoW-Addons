@@ -860,6 +860,88 @@ private.NPC_GUIDE = {
 	["2313102346"] = {
 		[RSConstants.FLAG] = { x = 0.3080, y = 0.3820, comment = AL["NOTE_231310_1"] };
 	}; --Darkfuse Precipitant
+	["2412312215"] = {
+		[RSConstants.DOT..1] = { x = 0.4010, y = 0.5850, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..2] = { x = 0.4050, y = 0.5960, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..3] = { x = 0.4030, y = 0.6090, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..4] = { x = 0.4150, y = 0.5930, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..5] = { x = 0.4100, y = 0.6210, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..6] = { x = 0.4150, y = 0.6170, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+	}; --Dissenter Fortfervor
+	["2412342215"] = {
+		[RSConstants.DOT..1] = { x = 0.4010, y = 0.5850, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..2] = { x = 0.4050, y = 0.5960, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..3] = { x = 0.4030, y = 0.6090, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..4] = { x = 0.4150, y = 0.5930, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..5] = { x = 0.4100, y = 0.6210, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..6] = { x = 0.4150, y = 0.6170, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+	}; --Whisperer Batalsworn
+	["2412292215"] = {
+		[RSConstants.DOT..1] = { x = 0.4980, y = 0.6500, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..2] = { x = 0.4980, y = 0.7040, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..3] = { x = 0.5060, y = 0.6620, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..4] = { x = 0.5140, y = 0.6870, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..5] = { x = 0.5150, y = 0.7000, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+	}; --Dissenter Fervormyt
+	["2412382215"] = {
+		[RSConstants.DOT..1] = { x = 0.4980, y = 0.6500, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..2] = { x = 0.4980, y = 0.7040, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..3] = { x = 0.5060, y = 0.6620, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..4] = { x = 0.5140, y = 0.6870, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..5] = { x = 0.5150, y = 0.7000, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+	}; --Whisperer Siegesage
+	["2412282255"] = {
+		[RSConstants.DOT..1] = { x = 0.6270, y = 0.2670, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..2] = { x = 0.6190, y = 0.3020, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..3] = { x = 0.6310, y = 0.3070, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..4] = { x = 0.6410, y = 0.2990, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..5] = { x = 0.6600, y = 0.3110, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..6] = { x = 0.6750, y = 0.2770, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+	}; --Dissenter Oathland
+	["2412372255"] = {
+		[RSConstants.DOT..1] = { x = 0.6270, y = 0.2670, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..2] = { x = 0.6190, y = 0.3020, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..3] = { x = 0.6310, y = 0.3070, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..4] = { x = 0.6410, y = 0.2990, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..5] = { x = 0.6600, y = 0.3110, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..6] = { x = 0.6750, y = 0.2770, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+	}; --Whisperer Warsididel
+	["2412302255"] = {
+		[RSConstants.DOT..1] = { x = 0.6370, y = 0.0680, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..2] = { x = 0.6480, y = 0.0660, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..3] = { x = 0.6480, y = 0.1330, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..4] = { x = 0.6530, y = 0.0940, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+	}; --Dissenter Tailtrek
+	["2412352255"] = {
+		[RSConstants.DOT..1] = { x = 0.6370, y = 0.0680, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..2] = { x = 0.6480, y = 0.0660, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..3] = { x = 0.6480, y = 0.1330, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..4] = { x = 0.6530, y = 0.0940, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+	}; --Whisperer Hillhelm
+	["2412272255"] = {
+		[RSConstants.DOT..1] = { x = 0.6650, y = 0.5370, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..2] = { x = 0.6670, y = 0.5070, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..3] = { x = 0.6840, y = 0.5470, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..4] = { x = 0.6950, y = 0.5450, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+	}; --Dissenter Glaivefur
+	["2412392255"] = {
+		[RSConstants.DOT..1] = { x = 0.6650, y = 0.5370, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..2] = { x = 0.6670, y = 0.5070, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..3] = { x = 0.6840, y = 0.5470, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..4] = { x = 0.6950, y = 0.5450, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+	}; --Whisperer Warhavuk
+	["2412322215"] = {
+		[RSConstants.DOT..1] = { x = 0.7480, y = 0.4300, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..2] = { x = 0.7270, y = 0.4170, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..3] = { x = 0.7180, y = 0.4280, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..4] = { x = 0.7240, y = 0.4750, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+	}; --Dissenter Troosilver
+	["2412362215"] = {
+		[RSConstants.DOT..1] = { x = 0.7480, y = 0.4300, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..2] = { x = 0.7270, y = 0.4170, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..3] = { x = 0.7180, y = 0.4280, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+		[RSConstants.DOT..4] = { x = 0.7240, y = 0.4750, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
+	}; --Whisperer Bravefort
 }
 
 ---============================================================================
@@ -1113,6 +1195,7 @@ private.CONTAINER_GUIDE = {
 	["3514871525"] = { [RSConstants.FLAG] = { x = 0.6568, y = 0.4295, comment = AL["NOTE_351487_1"] } }; --Secret Treasure
 	["3535161533"] = { [RSConstants.FLAG] = { x = 0.6431, y = 0.3002, comment = AL["NOTE_353643_1"] } }; --Silver Strongbox
 	["3538761533"] = { [RSConstants.FLAG] = { x = 0.586, y = 0.9252, comment = AL["NOTE_353876_1"] } }; --Virtue of Penitence
+	["3538751533"] = { [RSConstants.FLAG] = { x = 0.3550, y = 0.1870, comment = AL["NOTE_353876_1"] } }; --Virtue of Penitence
 	["3546471565"] = { [RSConstants.FLAG] = { x = 0.4895, y = 0.4107, comment = AL["NOTE_354647_1"] } }; --Hearty Dragon Plume
 	["3538701533"] = { [RSConstants.ENTRANCE] = { x = 0.4863, y = 0.4548 } }; --Hidden Hoard
 	["3530191533"] = { [RSConstants.PATH_START] = { x = 0.5806, y = 0.8098 } }; --Silver Strongbox
@@ -1990,6 +2073,91 @@ private.CONTAINER_GUIDE = {
 	["5028932346"] = {
 		[RSConstants.ENTRANCE] = { x = 0.4051, y = 0.2859 };
 	}; --First Half of Noggenfogger's Journal
+	["213364371"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4595, y = 0.2900 };
+	}; --Ancient Pandaren Mining Pick
+	["214337371"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6269, y = 0.2667 };
+	}; --Stash of Gems
+	["213750418"] = {
+		[RSConstants.ENTRANCE] = { x = 0.7036, y = 0.0947 };
+	}; --Saurok Stone Tablet
+	["213750376"] = {
+		[RSConstants.ENTRANCE] = { x = 0.7715, y = 0.5729 };
+	}; --Saurok Stone Tablet
+	["211993418"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5232, y = 0.8612 };
+	}; --Hozen Maturity
+	["213650376"] = {
+		[RSConstants.ENTRANCE] = { x = 0.2320, y = 0.3073 };
+	}; --Virmen Treasure Cache
+	["213649376"] = {
+		[RSConstants.ENTRANCE..1] = { x = 0.4354, y = 0.3513 };
+		[RSConstants.ENTRANCE..2] = { x = 0.4420, y = 0.3856 };
+		[RSConstants.ENTRANCE..3] = { x = 0.4329, y = 0.4114 };
+	}; --Cache of Pilfered Goods
+	["213967422"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6675, y = 0.6374 };
+	}; --Blade of the Prime
+	["213970422"] = {
+		[RSConstants.ENTRANCE] = { x = 0.2577, y = 0.5425 };
+	}; --Bloodsoaked Chitin Fragment
+	["213411422"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5363, y = 0.1568 };
+	}; --Amber
+	["213956388"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3286, y = 0.6166 };
+	}; --Fragment of Dread
+	["64227379"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3739, y = 0.7785 };
+	}; --Frozen Trail Packer
+	["214407379"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4813, y = 0.7301 };
+	}; --Mo-Mo's Treasure Chest
+	["213768379"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5286, y = 0.7133 };
+	}; --Hozen Warrior Spear
+	["213769379"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5035, y = 0.6173 };
+	}; --Hozen Treasure Cache
+	["213331379"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5299, y = 0.4651 };
+	}; --Valley of the Emperors
+	["213793379"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5226, y = 0.5084 };
+	}; --Rikktik's Tiny Chest
+	["213770379"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5953, y = 0.5294 };
+	}; --Stolen Sprite Treasure
+	["214438379"] = {
+		[RSConstants.ENTRANCE..1] = { x = 0.6394, y = 0.4975 };
+		[RSConstants.ENTRANCE..2] = { x = 0.6321, y = 0.4189 };
+	}; --Ancient Mogu Tablet
+	["213751379"] = {
+		[RSConstants.ENTRANCE] = { x = 0.7302, y = 0.7348 };
+	}; --Sprite's Cloth Chest
+	["213328379"] = {
+		[RSConstants.ENTRANCE] = { x = 0.7319, y = 0.9446 };
+	}; --The Defiant
+	["213328433"] = {
+		[RSConstants.ENTRANCE..1] = { x = 0.5771, y = 0.1340 };
+		[RSConstants.ENTRANCE..2] = { x = 0.5075, y = 0.3990 };
+	}; --The Defiant
+	["214325433"] = {
+		[RSConstants.ENTRANCE..1] = { x = 0.5512, y = 0.7325 };
+		[RSConstants.ENTRANCE..2] = { x = 0.5417, y = 0.7175 };
+	}; --Forgotten Lockbox
+	["218436504"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5864, y = 0.3076 };
+	}; --Shadow, Storm, and Stone
+	["218437504"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5441, y = 0.2888 };
+	}; --The Curse and the Silence
+	["3550351536"] = {
+		[RSConstants.FLAG..1] = { x = 0.3909, y = 0.6404, comment = AL["NOTE_355035_1"] };
+		[RSConstants.FLAG..2] = { x = 0.3773, y = 0.6451, comment = AL["NOTE_355035_1"] };
+		[RSConstants.FLAG..3] = { x = 0.3813, y = 0.6671, comment = AL["NOTE_355035_1"] };
+	}; --Chosen Runecoffer
 }
 
 ---============================================================================

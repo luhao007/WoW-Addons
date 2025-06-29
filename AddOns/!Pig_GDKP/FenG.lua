@@ -100,7 +100,7 @@ function GDKPInfo.ADD_fenG(RaidR)
 				end
 			end
 			if duiwuF.tongzhi.fenGren==0 then
-				PIGTopMsg:add("请先选择分G人");
+				PIG_OptionsUI:ErrorMsg("请先选择分G人");
 				return
 			end
 			local fenGrenname=fujiF.nr.raidbutlist[p].butlist[duiwuF.tongzhi.fenGren].Name.t:GetText()
@@ -114,8 +114,7 @@ function GDKPInfo.ADD_fenG(RaidR)
 			end
 			if UnitIsConnected(fenGrenname) then
 				if button=="LeftButton" then
-					RaidR.PIGTradeF.fenGMode=true
-					RaidR.PIGTradeF.playerfenGV=duiwuF.jiaoyiG_V
+					RaidR.PIGTradeF.fenGModeV=duiwuF.jiaoyiG_V
 					InitiateTrade(fenGrenname);
 				else
 					SendChatMessage("[!Pig] 已指定你为"..p.."队分G人,小队合计"..GetCoinText(duiwuF.jiaoyiG_V), "WHISPER", nil, fenGrenname);
@@ -135,7 +134,7 @@ function GDKPInfo.ADD_fenG(RaidR)
 					end)
 				end
 			else
-				PIGTopMsg:add("当前分G人已离线，请选择其他未离线成员");
+				PIG_OptionsUI:ErrorMsg("当前分G人已离线或不在团队内，请选择其他未离线成员");
 			end	
 		end);
 		duiwuF.biaoti = PIGFontString(duiwuF,{"LEFT", duiwuF.tongzhi, "RIGHT", 0,1},"\124cff00FF00"..p.."队\124r", "OUTLINE",15);
@@ -174,11 +173,10 @@ function GDKPInfo.ADD_fenG(RaidR)
 			playerbut.Name:SetScript("OnMouseUp", function (self,button)
 				if button=="LeftButton" then
 					if UnitIsConnected(playerbut.AllName) then
-						RaidR.PIGTradeF.fenGMode=true
-						RaidR.PIGTradeF.playerfenGV=playerbut.fenGV_V
+						RaidR.PIGTradeF.fenGModeV=playerbut.fenGV_V
 						InitiateTrade(playerbut.AllName);
 					else
-						PIGTopMsg:add(playerbut.AllName.."-已离线，右键可设为邮寄模式");
+						PIG_OptionsUI:ErrorMsg(playerbut.AllName.."-已离线或不在团队内，右键可设为邮寄模式");
 					end
 				else
 					if PIGA["GDKP"]["Raidinfo"][p][pp][7] then
@@ -218,7 +216,7 @@ function GDKPInfo.ADD_fenG(RaidR)
 					PIGA["GDKP"]["Raidinfo"][p][pp][8]=1;
 					RaidR.Update_FenG()
 				else
-					PIGTopMsg:add("请先打开邮箱发件页面");
+					PIG_OptionsUI:ErrorMsg("请先打开邮箱发件页面");
 				end
 			end);
 			playerbut.fenG = CreateFrame("Frame", nil, playerbut);

@@ -37,6 +37,16 @@ KrowiAF.BuildVersionData.TheWarWithin = { -- 11
                     BuildVersionId = "110100",
                     Name = addon.L["Undermine(d)"]
                 },
+                { -- 11.1.5
+                    Patch = 5,
+                    BuildVersionId = "110105",
+                    Name = addon.L["Nightfall"]
+                },
+                { -- 11.1.7
+                    Patch = 7,
+                    BuildVersionId = "110107",
+                    Name = addon.L["Legacy of Arathor"]
+                },
             }
         },
 	},

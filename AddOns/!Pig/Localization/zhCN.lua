@@ -34,7 +34,7 @@ L["LIB_HEIGHT"]= "高度";
 --OptionsUI
 L["OPTUI_SET"] = "设置";
 L["OPTUI_RLUI"] = "重载UI";
-L["OPTUI_RLUITIPS"] = "***配置已更改,请重载UI界面以应用新配置***";
+L["OPTUI_RLUITIPS"] = "***配置已更改,请重载UI以应用新配置***";
 L["OPTUI_ERRORTIPS"] = "***插件加载失败，请重新尝试***";
 --Debug
 L["DEBUG_TABNAME"] = "调试";
@@ -162,8 +162,7 @@ L["ACTION_TABNAME3"] = L["LIB_PLUS"]..ACTIONBARS_LABEL;
 --背包
 L["BAGBANK_TABNAME"] = "背包/银行";
 --界面优化
-L["FRAMEP_TABNAME"] = "界面优化";
-L["FRAMEP_TABNAME1"] = "暴雪界面";
+L["FRAMEP_TABNAME"] = "暴雪界面增强";
 L["FRAMEP_TABNAME2"] = "界面扩展";
 --鼠标提示
 L["TOOLTIP_TABNAME"] = MOUSE_LABEL..L["LIB_TIPS"];

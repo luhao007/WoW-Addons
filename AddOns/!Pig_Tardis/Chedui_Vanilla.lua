@@ -788,11 +788,9 @@ function TardisInfo.Chedui(Activate)
 	-- 	if self:IsShown() then
 	-- 		if event == "LFG_LIST_SEARCH_RESULTS_RECEIVED" then
 	-- 			self.Hang_Gengxin()
-	-- 		end
-	-- 		if event == "LFG_LIST_SEARCH_RESULT_UPDATED" then
+	-- 		elseif event == "LFG_LIST_SEARCH_RESULT_UPDATED" then
 	-- 			self.Hang_Gengxin_H(searchResultID)
-	-- 		end
-	-- 		if event == "LFG_LIST_APPLICATION_STATUS_UPDATED" then
+	-- 		elseif event == "LFG_LIST_APPLICATION_STATUS_UPDATED" then
 	-- 			self.Hang_Gengxin_H(searchResultID)
 	-- 		end
 	-- 	end	
@@ -1673,7 +1671,7 @@ function TardisInfo.Chedui(Activate)
 	-- NameBox:SetMultiLine(true)
 	-- FCTabF.ADD.NameF.Label=PIGFontString(FCTabF.ADD.NameF,{"BOTTOMLEFT",FCTabF.ADD.NameF,"TOPLEFT",0,2},"标题")
 	-- FCTabF.ADD.NameF:SetScript('OnShow', function(self)
- --        self:SetObject(NameBox, self, {4, -4, -4, 4})
+ --        self:SetObject(NameBox, {4, -4, -4, 4})
  --        NameBox.Left:Hide()
  --        NameBox.Middle:Hide()
  --        NameBox.Right:Hide()
@@ -1691,7 +1689,7 @@ function TardisInfo.Chedui(Activate)
 	-- local DescriptionBox = LFGListFrame.EntryCreation.Description
 	-- FCTabF.ADD.DescriptionF.t=PIGFontString(FCTabF.ADD.DescriptionF,{"BOTTOMLEFT",FCTabF.ADD.DescriptionF,"TOPLEFT",0,2},LFG_LIST_DETAILS)
 	-- FCTabF.ADD.DescriptionF:SetScript('OnShow', function(self)
- --        self:SetObject(DescriptionBox, self, {4, -4, -4, 4})
+ --        self:SetObject(DescriptionBox, {4, -4, -4, 4})
 	-- 	DescriptionBox.EditBox:SetWidth(DescriptionBox:GetWidth())
  --        DescriptionBox.TopTex:Hide()
  --        DescriptionBox.TopLeftTex:Hide()

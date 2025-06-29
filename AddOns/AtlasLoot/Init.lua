@@ -23,7 +23,6 @@ setmetatable(_G.AtlasLoot, MainMT)
 
 -- DB
 AtlasLootDB = {}
-AtlasLootCharDB = {}
 
 -- Translations
 _G.AtlasLoot.Locale = {}

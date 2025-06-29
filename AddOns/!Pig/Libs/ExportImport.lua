@@ -7,81 +7,83 @@ local PIGButton = Create.PIGButton
 local PIGFontString=Create.PIGFontString
 ----
 local Fun = addonTable.Fun
+local Data=addonTable.Data
 -------------
-local julidi = -26
-local ExportImportUI=PIGFrame(UIParent,{"CENTER",UIParent,"CENTER",0,0},{800, 600},"ExportImport_UI",true)
-ExportImportUI:PIGSetBackdrop(1)
-ExportImportUI:PIGSetMovable()
-ExportImportUI:PIGClose()
-ExportImportUI:SetFrameStrata("HIGH")
-ExportImportUI:SetFrameLevel(999);
-ExportImportUI.biaoti=PIGFontString(ExportImportUI,{"TOP", ExportImportUI, "TOP", 0, -3})
-PIGLine(ExportImportUI,"TOP",-20,1,{-1,-1})
+local UIname,julidi = "PIG_ExportImportUI",-26
+Data.ExportImportUIname=UIname
+local EIUI=PIGFrame(UIParent,{"CENTER",UIParent,"CENTER",0,0},{800, 600},UIname,true)
+EIUI:PIGSetBackdrop(1)
+EIUI:PIGSetMovableNoSave()
+EIUI:PIGClose()
+EIUI:SetFrameStrata("HIGH")
+EIUI:SetFrameLevel(999);
+EIUI.biaoti=PIGFontString(EIUI,{"TOP", EIUI, "TOP", 0, -3})
+PIGLine(EIUI,"TOP",-20,1,{-1,-1})
 ---
 local daoruTXT,daochuTXT = L["CONFIG_IMPORT"],L["CONFIG_DERIVE"]
-ExportImportUI.tishitxt = PIGFontString(ExportImportUI,{"TOPLEFT",ExportImportUI,"TOPLEFT",10,julidi-2},daochuTXT)
-ExportImportUI.tishitxt:SetTextColor(0, 1, 0, 1);
-ExportImportUI.daoruBut = PIGButton(ExportImportUI,{"TOPLEFT",ExportImportUI,"TOPLEFT",540,julidi},{100,20},L["CONFIG_DERIVERL"])
-ExportImportUI.daoruBut:Hide();
-ExportImportUI.daoruBut.Error=PIGFontString(ExportImportUI.daoruBut,{"RIGHT",ExportImportUI.daoruBut,"LEFT",-4,0})
-ExportImportUI.daoruBut.Error:SetTextColor(1, 0, 0, 1)
-ExportImportUI.zifunumt=PIGFontString(ExportImportUI,{"TOPRIGHT",ExportImportUI,"TOPRIGHT",-60,julidi-2},"字符数:")
-ExportImportUI.zifunumt:SetTextColor(1, 1, 1, 0.4)
-ExportImportUI.zifunumV=PIGFontString(ExportImportUI,{"LEFT", ExportImportUI.zifunumt, "RIGHT", 0, 0},0)
-ExportImportUI.zifunumV:SetTextColor(1, 1, 1, 0.4)
-ExportImportUI.Line2 =PIGLine(ExportImportUI,"TOP",-50,1,{-1,-1})
-ExportImportUI.NR=PIGFrame(ExportImportUI)
-ExportImportUI.NR:SetPoint("TOPLEFT", ExportImportUI.Line2, "TOPLEFT", 4, -4)
-ExportImportUI.NR:SetPoint("BOTTOMRIGHT", ExportImportUI, "BOTTOMRIGHT", -4, 4)
-ExportImportUI.NR:PIGSetBackdrop()
-ExportImportUI.NR.scroll = CreateFrame("ScrollFrame", nil, ExportImportUI.NR, "UIPanelScrollFrameTemplate")
-ExportImportUI.NR.scroll:SetPoint("TOPLEFT", ExportImportUI.NR, "TOPLEFT", 6, -6)
-ExportImportUI.NR.scroll:SetPoint("BOTTOMRIGHT", ExportImportUI.NR, "BOTTOMRIGHT", -26, 6)
+EIUI.tishitxt = PIGFontString(EIUI,{"TOPLEFT",EIUI,"TOPLEFT",10,julidi-2},daochuTXT)
+EIUI.tishitxt:SetTextColor(0, 1, 0, 1);
+EIUI.daoruBut = PIGButton(EIUI,{"TOPLEFT",EIUI,"TOPLEFT",540,julidi},{100,20},L["CONFIG_DERIVERL"])
+EIUI.daoruBut:Hide();
+EIUI.daoruBut.Error=PIGFontString(EIUI.daoruBut,{"RIGHT",EIUI.daoruBut,"LEFT",-4,0})
+EIUI.daoruBut.Error:SetTextColor(1, 0, 0, 1)
+EIUI.zifunumt=PIGFontString(EIUI,{"TOPRIGHT",EIUI,"TOPRIGHT",-60,julidi-2},"字符数:")
+EIUI.zifunumt:SetTextColor(1, 1, 1, 0.4)
+EIUI.zifunumV=PIGFontString(EIUI,{"LEFT", EIUI.zifunumt, "RIGHT", 0, 0},0)
+EIUI.zifunumV:SetTextColor(1, 1, 1, 0.4)
+EIUI.Line2 =PIGLine(EIUI,"TOP",-50,1,{-1,-1})
+EIUI.NR=PIGFrame(EIUI)
+EIUI.NR:SetPoint("TOPLEFT", EIUI.Line2, "TOPLEFT", 4, -4)
+EIUI.NR:SetPoint("BOTTOMRIGHT", EIUI, "BOTTOMRIGHT", -4, 4)
+EIUI.NR:PIGSetBackdrop()
+EIUI.NR.scroll = CreateFrame("ScrollFrame", nil, EIUI.NR, "UIPanelScrollFrameTemplate")
+EIUI.NR.scroll:SetPoint("TOPLEFT", EIUI.NR, "TOPLEFT", 6, -6)
+EIUI.NR.scroll:SetPoint("BOTTOMRIGHT", EIUI.NR, "BOTTOMRIGHT", -26, 6)
 
-ExportImportUI.NR.textArea = CreateFrame("EditBox", nil, ExportImportUI.NR.scroll)
-ExportImportUI.NR.textArea:SetFontObject(ChatFontNormal);
-ExportImportUI.NR.textArea:SetWidth(ExportImportUI.NR:GetWidth()-40)
-ExportImportUI.NR.textArea:SetMultiLine(true)
-ExportImportUI.NR.textArea:SetMaxLetters(99999)
-ExportImportUI.NR.textArea:EnableMouse(true)
-ExportImportUI.NR.textArea:SetScript("OnEscapePressed", function(self)
+EIUI.NR.textArea = CreateFrame("EditBox", nil, EIUI.NR.scroll)
+EIUI.NR.textArea:SetFontObject(ChatFontNormal);
+EIUI.NR.textArea:SetWidth(EIUI.NR:GetWidth()-40)
+EIUI.NR.textArea:SetMultiLine(true)
+EIUI.NR.textArea:SetMaxLetters(99999)
+EIUI.NR.textArea:EnableMouse(true)
+EIUI.NR.textArea:SetScript("OnEscapePressed", function(self)
 	self:ClearFocus()
-	ExportImportUI:Hide();
+	EIUI:Hide();
 end)
-ExportImportUI.NR.textArea:SetScript("OnTextChanged", function(self)
+EIUI.NR.textArea:SetScript("OnTextChanged", function(self)
 	local NdataT = self:GetText()
 	local NdataT = NdataT:gsub("%s+", "")
-	ExportImportUI.zifunumV:SetText(#NdataT)
+	EIUI.zifunumV:SetText(#NdataT)
 	if NdataT=="" then
-		ExportImportUI.daoruBut:Disable()
+		EIUI.daoruBut:Disable()
 	else
-		ExportImportUI.daoruBut:Enable()
+		EIUI.daoruBut:Enable()
 	end
 end)
-ExportImportUI.NR.scroll:SetScrollChild(ExportImportUI.NR.textArea)
+EIUI.NR.scroll:SetScrollChild(EIUI.NR.textArea)
 ----
-ExportImportUI.TabL=PIGFrame(ExportImportUI,{"RIGHT",ExportImportUI,"LEFT",0,0},{78, 600})
-ExportImportUI.TabL.Clear = PIGButton(ExportImportUI.TabL,{"TOP",ExportImportUI.TabL,"TOP",-4,julidi},{70,22},"Clear")
-ExportImportUI.TabL.Clear:SetScript("OnClick", function (self)
-	ExportImportUI.NR.textArea:SetText("")
+EIUI.TabL=PIGFrame(EIUI,{"RIGHT",EIUI,"LEFT",0,0},{78, 600})
+EIUI.TabL.Clear = PIGButton(EIUI.TabL,{"TOP",EIUI.TabL,"TOP",-4,julidi},{70,22},"Clear")
+EIUI.TabL.Clear:SetScript("OnClick", function (self)
+	EIUI.NR.textArea:SetText("")
 end)
-ExportImportUI.TabL.Copy = PIGButton(ExportImportUI.TabL,{"TOP",ExportImportUI.TabL.Clear,"BOTTOM",0,-10},{70,22},"select all")
-ExportImportUI.TabL.Copy:SetScript("OnClick", function (self)
-	ExportImportUI.NR.textArea:HighlightText()
+EIUI.TabL.Copy = PIGButton(EIUI.TabL,{"TOP",EIUI.TabL.Clear,"BOTTOM",0,-10},{70,22},"select all")
+EIUI.TabL.Copy:SetScript("OnClick", function (self)
+	EIUI.NR.textArea:HighlightText()
 end)
-ExportImportUI.TabL.zhunma = PIGButton(ExportImportUI.TabL,{"TOP",ExportImportUI.TabL.Copy,"BOTTOM",0,-10},{70,22},"cmd_1")
-ExportImportUI.TabL.zhunma:SetScript("OnClick", function (self)
-	local data = ExportImportUI.NR.textArea:GetText()
+EIUI.TabL.zhunma = PIGButton(EIUI.TabL,{"TOP",EIUI.TabL.Copy,"BOTTOM",0,-10},{70,22},"cmd_1")
+EIUI.TabL.zhunma:SetScript("OnClick", function (self)
+	local data = EIUI.NR.textArea:GetText()
 	local Ndata = Fun.Base64_encod(data)
-	ExportImportUI.NR.textArea:SetText(Ndata)
+	EIUI.NR.textArea:SetText(Ndata)
 end)
-ExportImportUI.TabL.huanyuan = PIGButton(ExportImportUI.TabL,{"TOP",ExportImportUI.TabL.zhunma,"BOTTOM",0,-10},{70,22},"cmd_2")
-ExportImportUI.TabL.huanyuan:SetScript("OnClick", function (self)
-	local data = ExportImportUI.NR.textArea:GetText()
+EIUI.TabL.huanyuan = PIGButton(EIUI.TabL,{"TOP",EIUI.TabL.zhunma,"BOTTOM",0,-10},{70,22},"cmd_2")
+EIUI.TabL.huanyuan:SetScript("OnClick", function (self)
+	local data = EIUI.NR.textArea:GetText()
 	local Ndata = Fun.Base64_decod(data)
-	ExportImportUI.NR.textArea:SetText(Ndata)
+	EIUI.NR.textArea:SetText(Ndata)
 end)
-function ExportImportUI:Show_HideFun()
+function EIUI:Show_HideFun()
 	self.TabL:Show()
 	self.NR.textArea:SetText("")
 	if self:IsShown() then
@@ -121,7 +123,7 @@ local function table_to_string_ALL(str)
 	local NdataT = Fun.Base64_encod(NdataT)
 	return NdataT
 end
-function ExportImportUI:daochuFun(lyname,str,str_Per)
+function EIUI:daochuFun(lyname,str,str_Per)
 	local lyname = L["CONFIG_DAOCHU"]..lyname
 	self.biaoti:SetText(lyname)
 	self.tishitxt:SetText(daochuTXT)
@@ -136,7 +138,7 @@ function ExportImportUI:daochuFun(lyname,str,str_Per)
 	self:Show()
 end
 --=======
-function ExportImportUI:daoruFun(lyname,ClickButFunX)
+function EIUI:daoruFun(lyname,ClickButFunX)
 	local lyname = L["CONFIG_DAORU"]..lyname
 	self.biaoti:SetText(lyname)
 	self.tishitxt:SetText(daoruTXT)
@@ -207,8 +209,8 @@ local function string_to_table_ALL(NdataT)
 end
 local function Import_ConfigData(NdataT,RL)
 	local tabX,tabX_Per=string_to_table_ALL(NdataT)
-	if ExportImportUI.ClickButFunX then
-		local tabX,tabX_Per=ExportImportUI.ClickButFunX(tabX,tabX_Per)
+	if EIUI.ClickButFunX then
+		local tabX,tabX_Per=EIUI.ClickButFunX(tabX,tabX_Per)
 		Load_ImportInfo2(tabX,PIGA)
 		Load_ImportInfo2(tabX_Per,PIGA_Per)
 		if RL then ReloadUI() end
@@ -218,8 +220,8 @@ local function Import_ConfigData(NdataT,RL)
 		if RL then ReloadUI() end
 	end
 end
-function ExportImportUI.Is_PIGString(txtss,RL)
-	local str=txtss or ExportImportUI.NR.textArea:GetText()
+function EIUI.Is_PIGString(txtss,RL)
+	local str=txtss or EIUI.NR.textArea:GetText()
 	local vn = str:sub(1,2)
 	if vn==versions then
 		local vv = str:sub(3,4)
@@ -232,8 +234,8 @@ function ExportImportUI.Is_PIGString(txtss,RL)
 		return "请导入"..addonName..ADDONS.."字符串"
 	end
 end
-ExportImportUI.daoruBut:SetScript("OnClick", function (self)
-	local errtxt = ExportImportUI.Is_PIGString(nil,true)
+EIUI.daoruBut:SetScript("OnClick", function (self)
+	local errtxt = EIUI.Is_PIGString(nil,true)
 	if errtxt then
 		self.Error:SetText(errtxt)
 	end	

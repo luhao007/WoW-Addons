@@ -1,8 +1,7 @@
 local L = LibStub('AceLocale-3.0'):NewLocale('PetBattleScripts', 'ruRU')
 if not L then return end
 
---[[Translation missing --]]
-L["ADDON_NAME"] = "Pet Battle Scripts"
+--[[ L["ADDON_NAME"] = "Pet Battle Scripts" --]]
 L["DATABASE_UPDATE_BASE_TO_FIRSTENEMY_NOTIFICATION"] = "Обнаружив, что вы ранее использовали модифицированную версию tdBattlePetScript, мы перенесли часть скрипта измененной версии базового селектора в селектор FirstEnemy."
 L["DATABASE_UPDATED_TO"] = "Обновление до версии"
 L["DEFAULT_NEW_SCRIPT_NAME"] = "Новый скрипт"
@@ -16,6 +15,7 @@ L["IN_BATTLE_SELECT_SCRIPT"] = "Выбор скрипта."
 L["OPTION_AUTO_SELECT_SCRIPT_BY_ORDER"] = "Автоматически выбирает сценарий на основе приоритета селектора сценариев"
 L["OPTION_AUTO_SELECT_SCRIPT_ONLY_ONE"] = "Автоматически выбирать, когда есть только один скрипт."
 L["OPTION_AUTOBUTTON_HOTKEY"] = "Назначение автоматической кнопки."
+--[[ L["OPTION_AUTOBUTTON_HOTKEY_SECONDARY"] = "(secondary)" --]]
 L["OPTION_EDITOR_FONT_FACE"] = "Шрифт"
 L["OPTION_EDITOR_FONT_SIZE"] = "Размер шрифта"
 L["OPTION_HIDE_MINIMAP"] = "Скрыть иконку у миникарты"
@@ -28,6 +28,14 @@ L["OPTION_RESET_FRAMES"] = "Сброс размера и положения па
 L["OPTION_SCRIPTSELECTOR_NOTES"] = "Настройки селекторов скриптов"
 L["OPTION_SETTINGS_HIDE_MINIMAP_TOOLTIP"] = "Обнаружена модификация \"MinimapButtonBag\", для изменения настройки необходимо перезагрузить интерфейс. Сделать это?"
 L["OPTION_TEST_BREAK"] = "Отладка: скрипт проверки тестового сценария."
+--[[ L["REMATCH_NOTE_SCRIPT_EXPORT_ADD_TO_NOTE_MENU_ITEM"] = "Add script to note" --]]
+--[[ L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL"] = [=[Importing at least one script from Rematch team notes failed:
+%s]=] --]]
+--[[ L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL_EXIST_DIFFERENT"] = "A script already exists, and it is a different one. Delete note or script." --]]
+--[[ L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL_LINE"] = "- Team \"%s\": %s" --]]
+--[[ L["REMATCH4_DEPRECATED"] = [=[Rematch 4 is old and support of the pet battle scripts addon for it will be dropped mid 2025. Please upgrade to Rematch 5.
+
+Also, please notify us on Curseforge or GitHub, as we want to count whether a relevant number of users still use Rematch 4, contrary to our assumptions.]=] --]]
 L["SCRIPT_EDITOR_AUTOFORMAT_SCRIPT"] = "Отформатировать скрипт"
 L["SCRIPT_EDITOR_DELETE_SCRIPT_CONFIRMATION"] = "Вы действительно хотите |cffff0000удалить|r скрипт |cffffd000[%s - %s]|r ?"
 L["SCRIPT_EDITOR_FOUND_ERROR"] = "Найдена ошибка"
@@ -56,10 +64,8 @@ L["SELECTOR_REMATCH_4_TO_5_UPDATE_ORPHAN"] = [=[Найден скрипт с и�
 L["SELECTOR_REMATCH_CANT_FORMAT_TOOLTIP_REMATCH_NOT_LOADED"] = "Невозможно отобразить информацию: Rematch не загружен."
 L["SELECTOR_REMATCH_NO_TEAM_FOR_SCRIPT"] = "Ни одна команда не соответствует этому сценарию"
 L["SELECTOR_REMATCH_NOTES"] = "Этот селектор скриптов будет привязан к команде Rematch."
---[[Translation missing --]]
-L["SELECTOR_REMATCH_TEAM_FORMAT"] = "Team: %s"
---[[Translation missing --]]
-L["SELECTOR_REMATCH_TITLE"] = "Rematch"
+--[[ L["SELECTOR_REMATCH_TEAM_FORMAT"] = "Team: %s" --]]
+--[[ L["SELECTOR_REMATCH_TITLE"] = "Rematch" --]]
 L["SHARE_EXPORT_SCRIPT"] = "Экспорт"
 L["SHARE_IMPORT_CHOOSE_KEY"] = "Пожалуйста, выберите значение \"закрыть\"..."
 L["SHARE_IMPORT_CHOOSE_SELECTOR"] = "Выберите селектор сценариев..."
@@ -74,4 +80,3 @@ L["SHARE_IMPORT_SCRIPT_NOT_IMPORT_STRING_WARNING"] = "Вы ввели сцена
 L["SHARE_IMPORT_SCRIPT_WELCOME"] = "Скопируйте общую строку или скрипт в поле ввода."
 L["SHARE_IMPORT_STRING_INCOMPLETE"] = "Совместное использование строковых данных не является полным. Но все равно можно импортировать."
 L["TOOLTIP_CREATE_OR_DEBUG_SCRIPT"] = "Создание или отладка скрипта."
-

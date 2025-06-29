@@ -2364,7 +2364,7 @@ local function EventHandler(frame, event, arg1, arg2, ...)
   Private.StopProfileSystem("bufftrigger2")
 end
 
-if WeakAuras.IsCataOrRetail() then
+if WeakAuras.IsCataOrMistsOrRetail() then
   Private.LibSpecWrapper.Register(function(unit)
     Private.StartProfileSystem("bufftrigger2")
 
@@ -2386,7 +2386,7 @@ Buff2Frame:RegisterEvent("UNIT_PET")
 Buff2Frame:RegisterEvent("RAID_TARGET_UPDATE")
 Buff2Frame:RegisterEvent("PLAYER_SOFT_ENEMY_CHANGED")
 Buff2Frame:RegisterEvent("PLAYER_SOFT_FRIEND_CHANGED")
-if WeakAuras.IsCataOrRetail() then
+if WeakAuras.IsCataOrMistsOrRetail() then
   Buff2Frame:RegisterEvent("PLAYER_FOCUS_CHANGED")
   Buff2Frame:RegisterEvent("ARENA_OPPONENT_UPDATE")
   Buff2Frame:RegisterEvent("UNIT_ENTERED_VEHICLE")
@@ -2755,7 +2755,6 @@ end
 --- Removes all data for an aura id
 --- @param id number
 function BuffTrigger.Delete(id)
-  BuffTrigger.UnloadDisplays({[id] = true})
   triggerInfos[id] = nil
 end
 
@@ -3123,7 +3122,7 @@ function BuffTrigger.Add(data)
       local remFunc
       if trigger.unit ~= "multi" and CanHaveMatchCheck(trigger) and trigger.useRem then
         local remFuncStr = Private.function_strings.count:format(trigger.remOperator or ">=", tonumber(trigger.rem) or 0)
-        remFunc = Private.LoadFunction(remFuncStr)
+        remFunc = Private.LoadFunction(remFuncStr, id)
       end
 
       local names
@@ -3153,14 +3152,14 @@ function BuffTrigger.Add(data)
         else
           group_countFuncStr = Private.function_strings.count:format(">", 0)
         end
-        groupCountFunc = Private.LoadFunction(group_countFuncStr)
+        groupCountFunc = Private.LoadFunction(group_countFuncStr, id)
       end
 
       local matchCountFunc
       if HasMatchCount(trigger) and trigger.match_countOperator and trigger.match_count and tonumber(trigger.match_count) then
         local count = tonumber(trigger.match_count)
         local match_countFuncStr = Private.function_strings.count:format(trigger.match_countOperator, count)
-        matchCountFunc = Private.LoadFunction(match_countFuncStr)
+        matchCountFunc = Private.LoadFunction(match_countFuncStr, id)
       elseif IsGroupTrigger(trigger) then
         if trigger.showClones and not trigger.combinePerUnit then
           matchCountFunc = GreaterEqualOne
@@ -3178,15 +3177,15 @@ function BuffTrigger.Add(data)
          and tonumber(trigger.matchPerUnit_count) and trigger.matchPerUnit_countOperator then
         local count = tonumber(trigger.matchPerUnit_count)
         local match_countFuncStr = Private.function_strings.count:format(trigger.matchPerUnit_countOperator, count)
-        matchPerUnitCountFunc = Private.LoadFunction(match_countFuncStr)
+        matchPerUnitCountFunc = Private.LoadFunction(match_countFuncStr, id)
       end
 
       local groupTrigger = trigger.unit == "group" or trigger.unit == "raid" or trigger.unit == "party"
       local effectiveIgnoreSelf = (groupTrigger or trigger.unit == "nameplate") and trigger.ignoreSelf
-      local effectiveGroupRole = WeakAuras.IsCataOrRetail() and (groupTrigger and trigger.useGroupRole and trigger.group_role) or nil
-      local effectiveRaidRole = WeakAuras.IsClassicOrCata() and (groupTrigger and trigger.useRaidRole and trigger.raid_role) or nil
+      local effectiveGroupRole = WeakAuras.IsCataOrMistsOrRetail() and (groupTrigger and trigger.useGroupRole and trigger.group_role) or nil
+      local effectiveRaidRole = WeakAuras.IsClassicOrCataOrMists() and (groupTrigger and trigger.useRaidRole and trigger.raid_role) or nil
       local effectiveClass = groupTrigger and trigger.useClass and trigger.class
-      local effectiveSpecId = WeakAuras.IsCataOrRetail() and (groupTrigger and trigger.useActualSpec and trigger.actualSpec) or nil
+      local effectiveSpecId = WeakAuras.IsCataOrMistsOrRetail() and (groupTrigger and trigger.useActualSpec and trigger.actualSpec) or nil
       local effectiveArenaSpec = WeakAuras.IsRetail() and (trigger.unit == "arena" and trigger.useArenaSpec and trigger.arena_spec) or nil
       local effectiveHostility = (groupTrigger or trigger.unit == "nameplate") and trigger.useHostility and trigger.hostility
       local effectiveIgnoreDead = groupTrigger and trigger.ignoreDead
@@ -3243,7 +3242,7 @@ function BuffTrigger.Add(data)
         compareFunc = matchCombineFunctions[trigger.combineMode] or matchCombineFunctions["showLowest"],
         unitExists = showIfInvalidUnit,
         fetchTooltip = not IsSingleMissing(trigger) and trigger.unit ~= "multi" and trigger.fetchTooltip,
-        fetchRole = WeakAuras.IsCataOrRetail() and trigger.unit ~= "multi" and trigger.fetchRole,
+        fetchRole = WeakAuras.IsCataOrMistsOrRetail() and trigger.unit ~= "multi" and trigger.fetchRole,
         fetchRaidMark = trigger.unit ~= "multi" and trigger.fetchRaidMark,
         groupTrigger = IsGroupTrigger(trigger),
         ignoreSelf = effectiveIgnoreSelf,
@@ -3426,7 +3425,7 @@ function BuffTrigger.GetAdditionalProperties(data, triggernum)
     props["refreshTime"] = L["Since Apply/Refresh"]
   end
 
-  if WeakAuras.IsCataOrRetail() and trigger.unit ~= "multi" and trigger.fetchRole then
+  if WeakAuras.IsCataOrMistsOrRetail() and trigger.unit ~= "multi" and trigger.fetchRole then
     props["role"] = L["Assigned Role"]
     props["roleIcon"] = L["Assigned Role Icon"]
   end

@@ -1,9 +1,9 @@
-## Interface: 11506
+## Interface: 11507
 ## Title: Lib: LibTime-1.0
 ## Notes: A little library around date, time and GetGameTime and more...
 ## Author: Hizuro
 ## IconTexture: 986485
-## Version: r57
+## Version: r59
 
 ## Category-enUS: Libraries
 ## Category-deDE: Bibliotheken

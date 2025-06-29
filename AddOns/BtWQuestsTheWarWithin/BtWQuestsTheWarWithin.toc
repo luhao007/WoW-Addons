@@ -1,6 +1,6 @@
-## Interface: 110105
+## Interface: 110107
 ## Author: Breen
-## Version: 8.1
+## Version: 9.1
 
 ## Title: BtWQuests: The War Within
 ## Notes: The War Within quest data for BtWQuests
@@ -78,6 +78,7 @@ Database/Index.ptBR.lua
 Database/Index.ruRU.lua
 Database/Index.zhCN.lua
 Database/Index.zhTW.lua
+Database/Index.11.1.7.lua
 
 General.lua
 IsleOfDorn.lua
@@ -86,3 +87,4 @@ Hallowfall.lua
 AzjKahet.lua
 SirenIsle.lua
 11.1.lua
+11.1.7.lua

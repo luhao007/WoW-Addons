@@ -1,6 +1,6 @@
-## Interface: 110105
+## Interface: 110107
 ## Author: foxlit
-## Version: Ånd 6
+## Version: Ånd 6.2
 
 ## Title: OPie
 ## Notes: Group abilities into rings that appear when you hold down a binding.

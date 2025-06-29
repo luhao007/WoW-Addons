@@ -308,6 +308,7 @@ do
 		end
 
 		heirloomIDs = nil
+		app.CreateHeirloom = createHeirloom
 	end
 
 	if C_Heirloom_GetHeirloomMaxUpgradeLevel then

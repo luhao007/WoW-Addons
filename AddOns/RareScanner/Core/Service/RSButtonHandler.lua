@@ -97,8 +97,8 @@ local function FixVignetteInfo(vignetteInfo)
 		vignetteInfo.preEvent = true
 	end
 	
-	-- Overrides name if Torghast vignette
-	if (vignetteInfo.type and vignetteInfo.type == Enum.VignetteType.Torghast) then
+	-- Overrides name if Torghast vignette and not a known event
+	if (vignetteInfo.type and vignetteInfo.type == Enum.VignetteType.Torghast and not RSUtils.Contains(RSConstants.EVENTS_WITH_NPC_VIGNETTE, entityID)) then
 		local npcName = RSNpcDB.GetNpcName(entityID)
 		if (npcName) then
 			vignetteInfo.name = npcName
@@ -423,7 +423,7 @@ local function ShowAlert(button, vignetteInfo, isNavigating)
 			end
 			
 			-- check just in case its an NPC
-			if (not RSNpcDB.GetNpcName(entityID)) then
+			if (not RSNpcDB.GetInternalNpcInfo(entityID)) then
 				RSEventDB.SetEventName(entityID, vignetteInfo.name)
 			end
 		end
@@ -464,9 +464,14 @@ local function ShowAlert(button, vignetteInfo, isNavigating)
 			if (RSConstants.IsNpcAtlas(vignetteInfo.atlasName)) then
 				local npcName = RSNpcDB.GetNpcName(entityID)
 				button.name = npcName and npcName or vignetteInfo.name
+			elseif (RSConstants.IsContainerAtlas(vignetteInfo.atlasName)) then
+				local containerName = RSContainerDB.GetContainerName(entityID)
+				button.name = containerName and containerName or vignetteInfo.name
 			else
-				button.name = vignetteInfo.name
+				local eventName = RSEventDB.GetEventName(entityID)
+				button.name = eventName and eventName or vignetteInfo.name
 			end
+			
 			button.mapID = mapID
 			button.preEvent = vignetteInfo.preEvent
 			button.atlasName = vignetteInfo.atlasName
@@ -593,7 +598,8 @@ function RSButtonHandler.AddAlert(button, vignetteInfo, isNavigating)
 		end
 		if (preFoundAlerts[entityID]) then
 				--RSLogger:PrintDebugMessage(string.format("prefound existente para [%s] con sistema [%s] y nuevamente con sistema [%s] .", entityID, preFoundAlerts[entityID].trackingSystem, trackingSystem))
-			if (preFoundAlerts[entityID].trackingSystem ~= trackingSystem) then
+			-- Avoid multiple alerts for the Treasure Goblin
+			if (preFoundAlerts[entityID].trackingSystem ~= trackingSystem or RSUtils.Contains(RSConstants.FIX_MULTIPLE_ALERTS, entityID)) then
 				--RSLogger:PrintDebugMessage(string.format("Ignorada alerta de [%s] por haberse detectado con otro sistema en menos de 5 segundos.", entityID))
 				return
 			end
@@ -611,7 +617,7 @@ function RSButtonHandler.AddAlert(button, vignetteInfo, isNavigating)
 		--RSLogger:PrintDebugMessage(string.format("La entidad [%s] se ignora por estar ignorada", entityID))
 		return
 	-- Check if we have already found this vignette in a short period of time
-	elseif (RSNotificationTracker.IsAlreadyNotificated(vignetteInfo.id, isNavigating, entityID)) then
+	elseif (RSNotificationTracker.IsAlreadyNotificated(vignetteInfo.id, isNavigating, entityID, vignetteInfo.trackingSystem)) then
 		--RSLogger:PrintDebugMessage(string.format("La entidad [%s] se ignora porque se ha avisado de esta hace menos de %s minutos", entityID, RSConfigDB.GetRescanTimer()))
 		return
 	-- disable scanning for every entity that is not treasure, event or rare
@@ -619,7 +625,7 @@ function RSButtonHandler.AddAlert(button, vignetteInfo, isNavigating)
 		--RSLogger:PrintDebugMessage(string.format("Se ignora el atlas [%s] que no es escaneable", vignetteInfo.atlasName))
 		return
 	-- disable ALL alerts while cinematic is playing
-	elseif (RSEventHandler.IsCinematicPlaying()) then
+	elseif (RSGeneralDB.GetCinematicPlaying()) then
 		--RSLogger:PrintDebugMessage(string.format("La entidad [%s] se ignora por estar reproduciendose un video", entityID))
 		return
 	-- disable ALL alerts in instances

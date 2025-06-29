@@ -408,7 +408,7 @@ private.CONTAINER_INFO = {
 	[354193] = { zoneID = 1525, artID = { 1306 }, x = 3654, y = 5162, overlay = { "3640-5160" }, questReset = true, questID = { 60985 }, worldmap = true }; --Stoneborn Satchel
 	[354206] = { zoneID = 1525, artID = { 1306 }, x = 4524, y = 2934, overlay = { "2870-6040","4520-2940","6220-4490" }, questReset = true, questID = { 61045 }, worldmap = true }; --Greedstone
 	[354211] = { zoneID = 1525, artID = { 1306 }, x = 4593, y = 2915, overlay = { "2910-5960","4600-2910","6260-4400" }, questReset = true, questID = { 61045 }, worldmap = true }; --Greed's Reward
-	[356757] = { zoneID = 1525, artID = { 1306 }, x = 7256, y = 3432, overlay = { "7190-3440" }, questReset = true, questID = { 61045 }, worldmap = true }; --Greed's Desire
+	[356757] = { zoneID = 1525, artID = { 1306 }, x = 7256, y = 3432, overlay = { "7190-3440" }, questReset = true, questID = { 61045 } }; --Greed's Desire
 	[357487] = { zoneID = 1525, artID = { 1306 }, x = 3840, y = 4424, overlay = { "3820-4420" }, questID = { 61999 } }; --Stylish Parasol
 	[357565] = { zoneID = 1525, artID = { 1306 }, x = 7368, y = 7543, overlay = { "7370-7530" }, reset = false, questID = { 62196 } }; --Forgotten Angler's Rod
 	[357584] = { zoneID = 1525, artID = { 1306 }, x = 7017, y = 6005, overlay = { "7017-6005" }, questID = { 62164 } }; --Vyrtha's Dredglaive
@@ -492,8 +492,8 @@ private.CONTAINER_INFO = {
 	[353871] = { zoneID = 1533, artID = { 1321 }, x = 4686, y = 3603, overlay = { "4690-3600" }, questReset = true, questID = { 60878 }, worldmap = true }; --Hidden Hoard
 	[353872] = { zoneID = 1533, artID = { 1321 }, x = 6158, y = 3712, overlay = { "6160-3720" }, questReset = true, questID = { 60877 }, worldmap = true }; --Hidden Hoard
 	[353873] = { zoneID = 1533, artID = { 1321 }, x = 4857, y = 5231, overlay = { "4850-5250" }, questReset = true, questID = { 60876 }, worldmap = true }; --Hidden Hoard
-	[353875] = { zoneID = 1533, artID = { 1321 }, x = 5954, y = 8942, overlay = { "5715-9272","3434-1828","5954-8942" }, questReset = true, questID = { 60882 }, worldmap = true }; --Test of Penitence
-	[353876] = { zoneID = 1533, artID = { 1321 }, x = 5954, y = 8942, overlay = { "3440-1830","5710-9270","5950-8950","5860-9240" }, questReset = true, questID = { 60882 }, worldmap = true }; --Virtue of Penitence
+	[353875] = { zoneID = 1533, artID = { 1321 }, x = 5954, y = 8942, overlay = { "5715-9272","3434-1828","5954-8942" }, questReset = true, questID = { 60882 } }; --Test of Penitence
+	[353876] = { zoneID = 1533, artID = { 1321 }, x = 5954, y = 8942, overlay = { "3440-1830","5710-9270","5950-8950","5860-9240" }, questReset = true, questID = { 60882 } }; --Virtue of Penitence
 	[353940] = { zoneID = 1533, artID = { 1321 }, x = 6487, y = 7114, overlay = { "6480-7120" }, questID = { 60890 } }; --Gift of Vesiphone
 	[353941] = { zoneID = 1533, artID = { 1321 }, x = 7047, y = 3645, overlay = { "7050-3650" }, questID = { 60892 } }; --Gift of Chyrus
 	[353942] = { zoneID = 1533, artID = { 1321 }, x = 3508, y = 5805, overlay = { "3510-5810" }, questID = { 60893 } }; --Gift of Agthia
@@ -510,7 +510,7 @@ private.CONTAINER_INFO = {
 	[354859] = { zoneID = 1533, artID = { 1321 }, x = 4632, y = 6717, overlay = { "4470-6570","4500-6440","4540-6670","4540-6840","4630-6380","4670-6660","4720-6460" }, questReset = true, questID = { 61091 } }; --Worthy Aspirant's Cache
 	[355286] = { zoneID = 1533, artID = { 1321 }, x = 5648, y = 1714, overlay = { "5640-1720" }, questID = { 61150 } }; --Memorial Offerings
 	[355435] = { zoneID = 1533, artID = { 1321 }, x = 3604, y = 2654, overlay = { "3600-2520" }, reset = false, questID = { 61183 } }; --Vesper of the Silver Wind
-	[356818] = { zoneID = 1533, artID = { 1321 }, x = 6020, y = 7814, overlay = { "6020-7820" }, questReset = true, questID = { 61688 }, worldmap = true }; --Penitence of Purity
+	[356818] = { zoneID = 1533, artID = { 1321 }, x = 6020, y = 7814, overlay = { "6020-7820" }, questReset = true, questID = { 61688 } }; --Penitence of Purity
 	[356819] = { zoneID = 1533, artID = { 1321 }, x = 6026, y = 7817, overlay = { "6026-7817" }, questReset = true, questID = { 61688 }, worldmap = true }; --Test of Penitence
 	[356823] = { zoneID = 1533, artID = { 1321 }, x = 6104, y = 1508, overlay = { "6100-1510" }, questID = { 61698 } }; --Cloudwalker's Coffer
 	[169664] = { zoneID = 1536, artID = { 1323 }, x = 3274, y = 2127, overlay = { "3274-2127" }, reset = false, questID = { 60587 } }; --Objects
@@ -548,6 +548,7 @@ private.CONTAINER_INFO = {
 	[355980] = { zoneID = 1536, artID = { 1323 }, x = 6466, y = 2475, overlay = { "6470-2470" }, reset = false, questID = { 61539 } }; --Ritualist's Cache
 	[356535] = { zoneID = 1536, artID = { 1323 }, x = 3173, y = 7003, overlay = { "3180-7000" }, reset = false, questID = { 61491 } }; --Runespeaker's Trove
 	[364531] = { zoneID = 1536, artID = { 1323 }, x = 2729, y = 4610, overlay = { "2720-4610","2860-3410","3120-2520","3220-3710","3240-2560","3490-3080" }, questReset = true, questID = { 61115 }, worldmap = true }; --Runebound Coffer
+	[355035] = { zoneID = 1536, artID = { 1323 }, x = 3800, y = 6550, overlay = { "3800-6550" }, questReset = true }; --Chosen Runecoffer
 	[368205] = { zoneID = 1543, artID = { 1329,1693 }, x = 3216, y = 6738, overlay = { "3040-5600","3220-6740" }, zoneQuestId = { 63543 }, questID = { 63815 } }; --Mawsworn Cache
 	[368206] = { zoneID = 1543, artID = { 1329,1693 }, x = 3009, y = 6497, overlay = { "3020-6500" }, zoneQuestId = { 63543 } }; --Mawsworn Cache
 	[368207] = { zoneID = 1543, artID = { 1329,1693 }, x = 3413, y = 6158, overlay = { "3410-6140" }, zoneQuestId = { 63543 } }; --Mawsworn Cache
@@ -1464,4 +1465,142 @@ private.CONTAINER_INFO = {
 				[2396] = { x = 7170, y = 3900, artID = { 1935 }, overlay = { "3090-8330","3190-8220","3260-8700","3370-5810","3430-8670","3550-8620","3700-5630","3730-8780","3880-6440","3970-7440","4020-5170","4040-7100","4190-6500","4300-7150","4410-6200","4560-5660","4690-6960","4820-5830","5290-3110","5320-3950","5380-4090","5470-3680","5540-2880","5540-5090","5650-4990","5670-4090","5710-2760","5710-5630","5740-3220","5760-4000","5810-2620","5870-2870","5870-3900","5970-3630","5980-5470","6440-3490","6440-3980","6570-4080","6590-5660","6660-4520","6780-5830","6790-3440","6930-5640","6990-4650","7080-3910","7190-4150","7190-4370","7200-3840","7270-3980" } };
 				[2422] = { x = 4250, y = 5910, artID = { 1948 }, overlay = { "4190-5910","5880-3990","6110-4060","6440-2600","6520-2910" } };
 			  }, reset = true }; --Mislaid Curiosity
+	[213741] = { zoneID = 371, artID = { 383 }, x = 4490, y = 6460, overlay = { "4490-6460","4561-6472","4640-6530","4700-6738","4640-7010","4620-7120" }, reset = false, questID = { 31402 }, minieventID = 26 }; --Ancient Jinyu Staff
+	[213364] = { zoneID = {
+				[371] = { x = 4414, y = 2852, artID = { 383 }, overlay = { "4414-2852" } };
+				[373] = { x = 4028, y = 4175, artID = { 385 }, overlay = { "4028-4175","3921-7080","3353-7785","6440-5941","4626-2314","3721-2393","6433-5944" } };
+			 }, reset = false, questID = { 31399 }, minieventID = 26 }; --Ancient Pandaren Mining Pick
+	[213742] = { zoneID = 371, artID = { 383 }, x = 4122, y = 1385, overlay = { "4122-1385", "4300-1160", "4020-1370", "4180-1770" }, reset = false, questID = { 31403 }, minieventID = 26 }; --Hammer of Ten Thunders
+	[64272] = { zoneID = 371, artID = { 383 }, x = 3920, y = 4660, overlay = { "3920-4660" }, reset = false, questID = { 31307 }, minieventID = 26 }; --Jade Warrior Statue
+	[213363] = { zoneID = 371, artID = { 383 }, x = 3942, y = 0723, overlay = { "3942-0723" }, reset = false, questID = { 31397 }, minieventID = 26 }; --Wodin's Mantid Shanker
+	[213366] = { zoneID = 371, artID = { 383 }, x = 2622, y = 3235, overlay = { "2622-3235" }, reset = false, questID = { 31400 }, minieventID = 27 }; --Ancient Pandaren Tea Pot
+	[214339] = { zoneID = 371, artID = { 383 }, x = 2463, y = 5327, overlay = { "2463-5327" }, reset = false, questID = { 31864 }, minieventID = 27 }; --Chest of Supplies
+	[213368] = { zoneID = 371, artID = { 383 }, x = 3196, y = 2776, overlay = { "3196-2776" }, reset = false, questID = { 31401 }, minieventID = 27 }; --Lucky Pandaren Coin
+	[214338] = { zoneID = 371, artID = { 383 }, x = 4630, y = 8070, overlay = { "4630-8070" }, reset = false, questID = { 31865 }, minieventID = 27 }; --Offering of Remembrance
+	[213748] = { zoneID = 371, artID = { 383 }, x = 2349, y = 3506, overlay = { "2349-3506" }, reset = false, questID = { 31404 }, minieventID = 27 }; --Pandaren Ritual Stone
+	[213362] = { zoneID = 371, artID = { 383 }, x = 5100, y = 9999, overlay = { "5100-9999" }, reset = false, questID = { 31396 }, minieventID = 27 }; --Ship's Locker
+	[214337] = { zoneID = 371, artID = { 383 }, x = 6245, y = 2753, overlay = { "6245-2753" }, reset = false, questID = { 31866 }, minieventID = 27 }; --Stash of Gems
+	[211990] = { zoneID = 371, artID = { 383 }, x = 2638, y = 2834, overlay = { "2638-2834" }, reset = false, minieventID = 28, criteria = 1 }; --Hozen Speech
+	[213415] = { zoneID = 371, artID = { 383 }, x = 3576, y = 3047, overlay = { "3576-3047" }, reset = false, minieventID = 29, criteria = 3 }; --The First Monks
+	[213512] = { zoneID = 371, artID = { 383 }, x = 3738, y = 3012, overlay = { "3738-3012" }, reset = false, minieventID = 30, criteria = 2 }; --Xin Wo Yin the Broken Hearted
+	[213333] = { zoneID = 371, artID = { 383 }, x = 4228, y = 1747, overlay = { "4228-1747" }, reset = false, minieventID = 31, criteria = 3 }; --Spirit Binders
+	[213327] = { zoneID = 371, artID = { 383 }, x = 6770, y = 2950, overlay = { "6770-2950" }, reset = false, minieventID = 32, criteria = 1 }; --The Saurok
+	[215799] = { zoneID = 371, artID = { 383 }, x = 4710, y = 4510, overlay = { "4710-4510" }, reset = false, minieventID = 33, criteria = 1 }; --The Emperor's Burden - Part 1
+	[215779] = { zoneID = 371, artID = { 383 }, x = 6601, y = 8758, overlay = { "6601-8758" }, reset = false, minieventID = 34, criteria = 1 }; --Watersmithing
+	[213421] = { zoneID = 371, artID = { 383 }, x = 5590, y = 5680, overlay = { "5590-5680" }, reset = false, minieventID = 33, criteria = 3 }; --The Emperor's Burden - Part 3
+	[213651] = { zoneID = 418, artID = { 430 }, x = 4228, y = 9195, overlay = { "4228-9195" }, reset = false, questID = { 31410 }, minieventID = 26 }; --Equipment Locker
+	[213653] = { zoneID = 418, artID = { 430 }, x = 5080, y = 4930, overlay = { "5080-4930" }, reset = false, questID = { 31409 }, minieventID = 26 }; --Pandaren Fishing Spear
+	[214439] = { zoneID = 418, artID = { 430 }, x = 5237, y = 8865, overlay = { "5237-8865" }, reset = false, questID = { 31411 }, minieventID = 26 }; --Barrel of Banana Infused Rum
+	[214403] = { zoneID = 418, artID = { 430 }, x = 5216, y = 7341, overlay = { "5216-7341" }, reset = false, questID = { 31863 }, minieventID = 27 }; --Stack of Papers
+	[213750] = { zoneID = {
+			[418] = { x = 6852, y = 0766, artID = { 430 }, overlay = { "6852-0766" } };
+			[376] = { x = 7501, y = 5516, artID = { 388 }, overlay = { "7501-5516" } };
+		  }, reset = false, questID = { 31408 }, minieventID = 27 }; --Saurok Stone Tablet
+	[213332] = { zoneID = 418, artID = { 430 }, x = 5095, y = 3165, overlay = { "5095-3165" }, reset = false, minieventID = 31, criteria = 2 }; --The Lost Dynasty
+	[213330] = { zoneID = 418, artID = { 430 }, x = 3282, y = 2942, overlay = { "3282-2942" }, reset = false, minieventID = 32, criteria = 4 }; --The Last Stand
+	[213422] = { zoneID = 418, artID = { 430 }, x = 4047, y = 5665, overlay = { "4047-5665" }, reset = false, minieventID = 33, criteria = 4 }; --The Emperor's Burden - Part 4
+	[211993] = { zoneID = 418, artID = { 430 }, x = 5242, y = 8770, overlay = { "5242-8770" }, reset = false, minieventID = 28, criteria = 2 }; --Hozen Maturity
+	[215782] = { zoneID = 418, artID = { 430 }, x = 3053, y = 3863, overlay = { "3053-3863" }, reset = false, minieventID = 34, criteria = 3 }; --Origins
+	[215765] = { zoneID = 418, artID = { 430 }, x = 7220, y = 3097, overlay = { "7220-3097" }, reset = false, minieventID = 35, criteria = 4 }; --Waiting for the Turtle
+	[213407] = { zoneID = 418, artID = { 430 }, x = 8140, y = 1142, overlay = { "8140-1142" }, reset = false, minieventID = 30, criteria = 1 }; --Quan Tou Kuo the Two Fisted
+	[64004] = { zoneID = 376, artID = { 388 }, x = 4680, y = 2460, overlay = { "4680-2460" }, reset = false, questID = { 31284 }, minieventID = 26 }; --Ghostly Pandaren Fisherman <Fisherman>
+	[64191] = { zoneID = 376, artID = { 388 }, x = 4541, y = 3838, overlay = { "4541-3838" }, reset = false, questID = { 31292 }, minieventID = 26 }; --Ghostly Pandaren Craftsman <Woodcrafter>
+	[213649] = { zoneID = 376, artID = { 388 }, x = 4361, y = 3748, overlay = { "4361-3748" }, reset = false, questID = { 31406 }, minieventID = 26 }; --Cache of Pilfered Goods
+	[213749] = { zoneID = 376, artID = { 388 }, x = 1540, y = 2910, overlay = { "1540-2910","1910-3790","1750-3570","1500-3370","1900-4250" }, reset = false, questID = { 31407 }, minieventID = 26 }; --Staff of the Hidden Master
+	[214340] = { zoneID = 376, artID = { 388 }, x = 9209, y = 3908, overlay = { "9209-3908" }, reset = false, questID = { 31869 }, minieventID = 27 }; --Boat-Building Instructions
+	[213650] = { zoneID = 376, artID = { 388 }, x = 2372, y = 2833, overlay = { "2372-2833" }, reset = false, questID = { 31405 }, minieventID = 27 }; --Virmen Treasure Cache
+	[213750] = { zoneID = 376, artID = { 388 }, x = 7510, y = 5510, overlay = { "7510-5510" }, reset = false, questID = { 31408 }, minieventID = 27 }; --Saurok Stone Tablet
+	[226956] = { zoneID = 376, artID = { 388 }, x = 5206, y = 6377, overlay = { "5206-6377" }, reset = false, questID = { 37246 } }; --Mysterious Fruit Pile
+	[213460] = { zoneID = 376, artID = { 388 }, x = 5506, y = 4713, overlay = { "5506-4713" }, reset = false, minieventID = 35, criteria = 2 }; --A Most Famous Bill of Sale
+	[215780] = { zoneID = 376, artID = { 388 }, x = 6119, y = 3467, overlay = { "6119-3467" }, reset = false, minieventID = 34, criteria = 2 }; --Waterspeakers
+	[213413] = { zoneID = 376, artID = { 388 }, x = 1883, y = 3168, overlay = { "1883-3168" }, reset = false, minieventID = 29, criteria = 1 }; --Pandaren Fighting Tactics
+	[215785] = { zoneID = 376, artID = { 388 }, x = 8324, y = 2116, overlay = { "8324-2116" }, reset = false, minieventID = 28, criteria = 3 }; --Embracing the Passions
+	[213459] = { zoneID = 376, artID = { 388 }, x = 2021, y = 5589, overlay = { "2021-5589" }, reset = false, minieventID = 35, criteria = 1 }; --The Birthplace of Liu Lang
+	[213461] = { zoneID = 376, artID = { 388 }, x = 3459, y = 6383, overlay = { "3459-6383" }, reset = false, minieventID = 35, criteria = 3 }; --The Wandering Widow
+	[213960] = { zoneID = 388, artID = { 400 }, x = 6630, y = 4470, overlay = { "6630-4470","6680-4800" }, reset = false, questID = { 31425 }, minieventID = 26 }; --Yaungol Fire Carrier
+	[213961] = { zoneID = 388, artID = { 400 }, x = 6282, y = 3405, overlay = { "6282-3405" }, reset = false, questID = { 31427 }, minieventID = 27 }; --Abandoned Crate of Goods
+	[213844] = { zoneID = 388, artID = { 400 }, x = 6580, y = 8610, overlay = { "6580-8610" }, reset = false, questID = { 31426 }, minieventID = 27 }; --Amber Encased Moth
+	[213956] = { zoneID = {
+			[388] = { x = 3646, y = 6123, artID = { 400 }, overlay = { "3646-6123" } };
+			[389] = { x = 5648, y = 6458, artID = { 401 }, overlay = { "5648-6458" } };
+		  }, reset = false, questID = { 31423 }, minieventID = 27 }; --Fragment of Dread
+	[213420] = { zoneID = 388, artID = { 400 }, x = 8410, y = 7284, overlay = { "8410-7284" }, reset = false, minieventID = 36, criteria = 4 }; --Trapped in a Strange Land
+	[213418] = { zoneID = 388, artID = { 400 }, x = 6540, y = 4998, overlay = { "6540-4998" }, reset = false, minieventID = 36, criteria = 2 }; --Dominance
+	[213445] = { zoneID = 388, artID = { 400 }, x = 3775, y = 6290, overlay = { "3775-6290" }, reset = false, minieventID = 33, criteria = 5 }; --The Emperor's Burden - Part 5
+	[213972] = { zoneID = 422, artID = { 434 }, x = 2880, y = 4190, overlay = { "2880-4190" }, reset = false, questID = { 31438 }, minieventID = 26 }; --Blade of the Poisoned Mind
+	[213967] = { zoneID = 422, artID = { 434 }, x = 6630, y = 6653, overlay = { "6630-6653" }, reset = false, questID = { 31433 }, minieventID = 26 }; --Blade of the Prime
+	[213970] = { zoneID = 422, artID = { 434 }, x = 2596, y = 5024, overlay = { "2596-5024" }, reset = false, questID = { 31436 }, minieventID = 26 }; --Bloodsoaked Chitin Fragment
+	[213969] = { zoneID = 422, artID = { 434 }, x = 3020, y = 9080, overlay = { "3020-9080" }, reset = false, questID = { 31435 }, minieventID = 26 }; --Dissector's Staff of Mutation
+	[213966] = { zoneID = 422, artID = { 434 }, x = 3300, y = 3010, overlay = { "3300-3010" }, reset = false, questID = { 31431 }, minieventID = 26 }; --Amber Encased Necklace
+	[213964] = { zoneID = 422, artID = { 434 }, x = 4870, y = 3000, overlay = { "4870-3000" }, reset = false, questID = { 31430 }, minieventID = 26 }; --Malik's Stalwart Spear
+	[65552] = { zoneID = 422, artID = { 434 }, x = 4200, y = 6220, overlay = { "4080-6340","4120-6460","4200-6220","4220-6380" }, reset = false, questID = { 31432 }, minieventID = 26 }; --Glinting Rapana Whelk
+	[213968] = { zoneID = 422, artID = { 434 }, x = 5680, y = 7760, overlay = { "5680-7760" }, reset = false, questID = { 31434 }, minieventID = 26 }; --Swarming Cleaver of Ka'roz
+	[213971] = { zoneID = 422, artID = { 434 }, x = 5429, y = 5636, overlay = { "5429-5636" }, reset = false, questID = { 31437 }, minieventID = 26 }; --Swarmkeeper's Medallion
+	[213962] = { zoneID = 422, artID = { 434 }, x = 7180, y = 3610, overlay = { "7180-3610" }, reset = false, questID = { 31666 }, minieventID = 26 }; --Wind-Reaver's Dagger of Quick Strikes
+	[213329] = { zoneID = 422, artID = { 434 }, x = 6743, y = 6080, overlay = { "6743-6080" }, reset = false, minieventID = 32, criteria = 3 }; --The Deserters
+	[213412] = { zoneID = 422, artID = { 434 }, x = 3553, y = 3261, overlay = { "3553-3261" }, reset = false, minieventID = 37, criteria = 4 }; --The Empress
+	[213411] = { zoneID = 422, artID = { 434 }, x = 5250, y = 1003, overlay = { "5250-1003" }, reset = false, minieventID = 37, criteria = 3 }; --Amber
+	[213409] = { zoneID = 422, artID = { 434 }, x = 4835, y = 3285, overlay = { "4835-3285" }, reset = false, minieventID = 37, criteria = 1 }; --Cycle of the Mantid
+	[213410] = { zoneID = 422, artID = { 434 }, x = 5991, y = 5514, overlay = { "5991-5514" }, reset = false, minieventID = 37, criteria = 2 }; --Mantid Society
+	[213768] = { zoneID = {
+			[379] = { x = 5148, y = 7392, artID = { 391 }, overlay = { "5148-7392" } };
+			[384] = { x = 2401, y = 6780, artID = { 393 }, overlay = { "2401-6780" } };
+		  }, reset = false, questID = { 31413 }, minieventID = 26 }; --Hozen Warrior Spear
+	[64227] = { zoneID = 379, artID = { 391 }, x = 3517, y = 7632, overlay = { "3517-7632" }, reset = false, questID = { 31304 }, minieventID = 26 }; --Frozen Trail Packer
+	[213751] = { zoneID = {
+			[379] = { x = 7471, y = 7486, artID = { 391 }, overlay = { "7471-7486" } };
+			[381] = { x = 5532, y = 7020, artID = { 395 }, overlay = { "5532-7020" } };
+		  }, reset = false, questID = { 31412 }, minieventID = 26 }; --Sprite's Cloth Chest
+	[213842] = { zoneID = 379, artID = { 391 }, x = 7120, y = 6260, overlay = { "7120-6260","7010-6390" }, reset = false, questID = { 31421 }, minieventID = 26 }; --Stash of Yaungol Weapons
+	[213765] = { zoneID = 379, artID = { 391 }, x = 4470, y = 5240, overlay = { "4470-5240" }, reset = false, questID = { 31417 }, minieventID = 26 }; --Tablet of Ren Yun
+	[214438] = { zoneID = 379, artID = { 391 }, x = 6421, y = 4511, overlay = { "6421-4511" }, reset = false, questID = { 31420 }, minieventID = 27 }; --Ancient Mogu Tablet
+	[213769] = { zoneID = {
+			[379] = { x = 4944, y = 5931, artID = { 391 }, overlay = { "4944-5931" } };
+			[382] = { x = 5195, y = 2738, artID = { 394 }, overlay = { "5195-2738" } };
+		  }, reset = false, questID = { 31414 }, minieventID = 27 }; --Hozen Treasure Cache
+	[213774] = { zoneID = 379, artID = { 391 }, x = 3674, y = 7982, overlay = { "3674-7982" }, reset = false, questID = { 31418 }, minieventID = 27 }; --Lost Adventurer's Belongings
+	[214407] = { zoneID = 379, artID = { 391 }, x = 4790, y = 7347, overlay = { "4790-7347" }, reset = false, questID = { 31868 }, minieventID = 27 }; --Mo-Mo's Treasure Chest
+	[213793] = { zoneID = 379, artID = { 391 }, x = 5256, y = 5155, overlay = { "5256-5155" }, reset = false, questID = { 31419 }, minieventID = 27 }; --Rikktik's Tiny Chest
+	[213771] = { zoneID = 379, artID = { 391 }, x = 7201, y = 3398, overlay = { "7201-3398" }, reset = false, questID = { 31416 }, minieventID = 27 }; --Statue of Xuen
+	[213770] = { zoneID = {
+			[379] = { x = 5598, y = 4947, artID = { 391 }, overlay = { "5598-4947" } };
+			[380] = { x = 3126, y = 5003, artID = { 397 }, overlay = { "3126-5003" } };
+		  }, reset = false, questID = { 31415 }, minieventID = 27 }; --Stolen Sprite Treasure
+	[213782] = { zoneID = 379, artID = { 391 }, x = 5780, y = 7630, overlay = { "5780-7630","5700-7540","5840-7340","5920-7440" }, reset = false, questID = { 31422 }, minieventID = 27 }; --Terracotta Head
+	[215798] = { zoneID = 379, artID = { 391 }, x = 7174, y = 6301, overlay = { "7174-6301" }, reset = false, minieventID = 36, criteria = 3 }; --Yaungoil
+	[213417] = { zoneID = 379, artID = { 391 }, x = 5029, y = 7929, overlay = { "5029-7929" }, reset = false, minieventID = 36, criteria = 1 }; --Yaungol Tactics
+	[213455] = { zoneID = 379, artID = { 391 }, x = 4100, y = 4236, overlay = { "4100-4236" }, reset = false, minieventID = 33, criteria = 7 }; --The Emperor's Burden - Part 7
+	[213443] = { zoneID = 379, artID = { 391 }, x = 6777, y = 4834, overlay = { "6777-4834" }, reset = false, minieventID = 33, criteria = 6 }; --The Emperor's Burden - Part 6
+	[215797] = { zoneID = 379, artID = { 391 }, x = 4383, y = 5122, overlay = { "4383-5122" }, reset = false, minieventID = 33, criteria = 2 }; --The Emperor's Burden - Part 2
+	[213328] = { zoneID = {
+			[379] = { x = 7751, y = 9531, artID = { 391 }, overlay = { "7751-9531" } };
+			[433] = { x = 4603, y = 0410, artID = { 445 }, overlay = { "4603-0410" } };
+			[434] = { x = 5512, y = 1590, artID = { 446 }, overlay = { "5512-1590" } };
+		  }, reset = false, minieventID = 32, criteria = 2 }; --The Defiant
+	[215783] = { zoneID = 379, artID = { 391 }, x = 7446, y = 8352, overlay = { "7446-8352" }, reset = false, minieventID = 34, criteria = 4 }; --Role Call
+	[213438] = { zoneID = 379, artID = { 391 }, x = 4467, y = 5240, overlay = { "4467-5240" }, reset = false, minieventID = 30, criteria = 3 }; --Ren Yun the Blind
+	[213331] = { zoneID = {
+			[379] = { x = 5059, y = 4799, artID = { 391 }, overlay = { "5059-4799" } };
+			[385] = { x = 5830, y = 7145, artID = { 396 }, overlay = { "5830-7145" } };
+		  }, reset = false, minieventID = 31, criteria = 1 }; --Valley of the Emperors
+	[213511] = { zoneID = 379, artID = { 391 }, x = 6303, y = 4081, overlay = { "6303-4081" }, reset = false, minieventID = 29, criteria = 5 }; --Victory in Kun-Lai
+	[211994] = { zoneID = 379, artID = { 391 }, x = 4574, y = 6188, overlay = { "4574-6188" }, reset = false, minieventID = 28, criteria = 4 }; --The Hozen Ravage
+	[214325] = { zoneID = 433, artID = { 445 }, x = 5468, y = 7129, overlay = { "5468-7129" }, reset = false, questID = { 31867 }, minieventID = 27 }; --Forgotten Lockbox
+	[213845] = { zoneID = 433, artID = { 445 }, x = 7492, y = 7647, overlay = { "7492-7647" }, reset = false, questID = { 31428 }, minieventID = 27 }; --The Hammer of Folly
+	[213416] = { zoneID = 390, artID = { 402 }, x = 2661, y = 2148, overlay = { "2661-2148" }, reset = false, minieventID = 29, criteria = 4 }; --Together, We Are Strong
+	[213334] = { zoneID = 390, artID = { 402 }, x = 4025, y = 7748, overlay = { "4025-7748" }, reset = false, minieventID = 31, criteria = 4 }; --The Thunder King
+	[213414] = { zoneID = 390, artID = { 402 }, x = 5291, y = 6872, overlay = { "5291-6872" }, reset = false, minieventID = 29, criteria = 2 }; --Always Remember
+	[213456] = { zoneID = 390, artID = { 402 }, x = 6770, y = 4429, overlay = { "6770-4429" }, reset = false, minieventID = 33, criteria = 8 }; --The Emperor's Burden - Part 8
+	[218427] = { zoneID = 504, artID = { 521 }, x = 3530, y = 7020, overlay = { "3530-7020" }, reset = false, minieventID = 38, criteria = 1 }; --Coming of Age
+	[218428] = { zoneID = 504, artID = { 521 }, x = 6602, y = 4462, overlay = { "6602-4462" }, reset = false, minieventID = 38, criteria = 2 }; --For Council and King
+	[218429] = { zoneID = 504, artID = { 521 }, x = 3630, y = 7035, overlay = { "3630-7035" }, reset = false, minieventID = 38, criteria = 3 }; --Shadows of the Loa
+	[218430] = { zoneID = 504, artID = { 521 }, x = 5265, y = 4138, overlay = { "5265-4138" }, reset = false, minieventID = 38, criteria = 4 }; --The Dark Prophet Zul
+	[218431] = { zoneID = 504, artID = { 521 }, x = 4018, y = 4075, overlay = { "4018-4075" }, reset = false, minieventID = 39, criteria = 1 }; --Lei Shen
+	[218432] = { zoneID = 504, artID = { 521 }, x = 4707, y = 5991, overlay = { "4707-5991" }, reset = false, minieventID = 39, criteria = 2 }; --The Sacred Mount
+	[218433] = { zoneID = 504, artID = { 521 }, x = 3489, y = 6559, overlay = { "3489-6559" }, reset = false, minieventID = 39, criteria = 3 }; --Unity at a Price
+	[218434] = { zoneID = 504, artID = { 521 }, x = 6075, y = 6878, overlay = { "6075-6878" }, reset = false, minieventID = 39, criteria = 4 }; --The Pandaren Problem
+	[218435] = { zoneID = 504, artID = { 521 }, x = 3583, y = 5471, overlay = { "3583-5471" }, reset = false, minieventID = 40, criteria = 1 }; --Agents of Order
+	[218436] = { zoneID = 504, artID = { 521 }, x = 5929, y = 2626, overlay = { "5929-2626" }, reset = false, minieventID = 40, criteria = 2 }; --Shadow, Storm, and Stone
+	[218437] = { zoneID = 504, artID = { 521 }, x = 4992, y = 2035, overlay = { "4992-2035" }, reset = false, minieventID = 40, criteria = 3 }; --The Curse and the Silence
+	[218438] = { zoneID = 504, artID = { 521 }, x = 6253, y = 3772, overlay = { "6253-3772" }, reset = false, minieventID = 40, criteria = 4 }; --Age of a Hundred Kings
 }

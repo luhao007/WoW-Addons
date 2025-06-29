@@ -319,7 +319,7 @@ local tracked_bosses = {
         ids = {157134},
         is_saved_fcn = function() return IsSavedDaily(57259); end,
         soundfile = Sound.SOUND_FILE_DEFAULT,
-        min_respawn = MinToSec(135),  -- 2h 15m
+        min_respawn = MinToSec(120),  -- 2h
         max_respawn = MinToSec(255),  -- 4h 45m
         random_spawn_time = true,
         auto_announce = true,
@@ -448,6 +448,25 @@ local tracked_bosses = {
 --  ["Hirukon"] = {
 --      Won't add. Not limited by respawn time, but by the time and effort it takes to spawn it.
 --  },
+    ["Breezebiter"] = {
+        name = "Breezebiter",
+        color = "|cffe147ff",
+        ids = {195353},
+        is_saved_fcn = function() return false; end,
+        soundfile = Sound.SOUND_FILE_DEFAULT,
+        min_respawn = MinToSec(60),
+        max_respawn = MinToSec(120),
+        random_spawn_time = true,
+        auto_announce = true,
+        map_id = 2024,
+        perimiter = {
+            origin = {
+                x = 0.2980,
+                y = 0.4626,
+            },
+            radius = 0.02,
+        },
+    },
 }
 
 local ZWB_STATIC_DATA = {

@@ -48,19 +48,7 @@ function TardisInfo.Plane(Activate)
 				self.err:SetText("请点击任意NPC");
 				return 
 			end
-			self.PIGID=GetPIGID(pindao)
-			if self.PIGID==0 then
-				self.err:SetText("请先加入"..pindao.."频道");
-				return
-			end
-			PIGA["Tardis"]["Plane"]["DaojishiCD"]=GetServerTime();
-			fujiF.JieshouInfoList={};
-			self.yanchiNerMsg=nil
-			if tocversion<40000 then
-				SendChatMessage(GetInfoMsg,"CHANNEL",nil,self.PIGID)
-			else
-				PIGSendAddonMessage(InvF.Biaotou,GetInfoMsg,"CHANNEL",self.PIGID)
-			end
+			InvF:PIGSendAddonMsg("Plane",fujiF,gnindexID)
 			self:CZdaojishi()
 		end
 	end);
@@ -82,7 +70,7 @@ function TardisInfo.Plane(Activate)
 			local DaojishiCD = PIGA["Tardis"]["Plane"]["AutoInviteCD"]
 			local shengyu = 86400-(GetServerTime()-DaojishiCD)
 			if shengyu>0 then
-				PIGTopMsg:add(L["TARDIS_PLANE"].."通道充能中...(剩余"..Fun.disp_time(shengyu).."分)","R")
+				PIG_OptionsUI:ErrorMsg(L["TARDIS_PLANE"].."通道充能中...(剩余"..Fun.disp_time(shengyu).."分)","R")
 				self:SetChecked(false)
 				return 
 			end
@@ -108,7 +96,7 @@ function TardisInfo.Plane(Activate)
 		whileDead = true,
 		hideOnEscape = true,
 	}
-	fujiF.AutoInvite.HelpTXT = PIGFontString(fujiF.AutoInvite,{"LEFT", fujiF.AutoInvite.Text, "RIGHT", 28, 0},"助人为乐+");
+	fujiF.AutoInvite.HelpTXT = PIGFontString(fujiF.AutoInvite,{"LEFT", fujiF.AutoInvite.Text, "RIGHT", 20, 0},"助人为乐+");
 	fujiF.AutoInvite.HelpNum = PIGFontString(fujiF.AutoInvite,{"LEFT", fujiF.AutoInvite.HelpTXT, "RIGHT", 2, 0},0);
 	fujiF.AutoInvite.HelpNum:SetTextColor(0, 1, 0, 1);
 	-------------
@@ -125,20 +113,22 @@ function TardisInfo.Plane(Activate)
 	local hang_Width = fujiF.nr:GetWidth();
 	fujiF.nr.Scroll = CreateFrame("ScrollFrame",nil,fujiF.nr, "FauxScrollFrameTemplate");  
 	fujiF.nr.Scroll:SetPoint("TOPLEFT",fujiF.nr,"TOPLEFT",2,-24);
-	fujiF.nr.Scroll:SetPoint("BOTTOMRIGHT",fujiF.nr,"BOTTOMRIGHT",-20,2);
+	fujiF.nr.Scroll:SetPoint("BOTTOMRIGHT",fujiF.nr,"BOTTOMRIGHT",-190,2);
 	fujiF.nr.Scroll.ScrollBar:SetScale(0.8);
 	fujiF.nr.Scroll:SetScript("OnVerticalScroll", function(self, offset)
 	    FauxScrollFrame_OnVerticalScroll(self, offset, hang_Height, fujiF.Update_hang)
 	end)
+	fujiF.nr.ButList={}
 	for i=1, hang_NUM, 1 do
-		local liebiao = CreateFrame("Frame", "WeimianList_"..i, fujiF.nr.Scroll:GetParent(),"BackdropTemplate");
+		local liebiao = CreateFrame("Frame", nil, fujiF.nr.Scroll:GetParent(),"BackdropTemplate");
+		fujiF.nr.ButList[i]=liebiao
 		liebiao:SetBackdrop({bgFile = "interface/chatframe/chatframebackground.blp"});
 		liebiao:SetBackdropColor(unpack(xuanzhongBG[1]));
 		liebiao:SetSize(hang_Width-4,hang_Height);
 		if i==1 then
 			liebiao:SetPoint("TOPLEFT", fujiF.nr.Scroll, "TOPLEFT", 0, 0);
 		else
-			liebiao:SetPoint("TOPLEFT", _G["WeimianList_"..(i-1)], "BOTTOMLEFT", 0, -1.2);
+			liebiao:SetPoint("TOPLEFT", fujiF.nr.ButList[i-1], "BOTTOMLEFT", 0, -1.2);
 		end
 		liebiao:Hide()
 		liebiao:HookScript("OnEnter", function (self)
@@ -291,7 +281,7 @@ function TardisInfo.Plane(Activate)
 		local dqTime=GetServerTime()
 		local ItemsNum = #fujiF.JieshouInfoList;
 		if ItemsNum>0 then
-			local oldshuju = PIGA["Tardis"]["Plane"]["InfoList"][Pig_OptionsUI.Realm]
+			local oldshuju = PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm]
 			for x=#oldshuju,1,-1 do
 				if oldshuju[x] then
 					if oldshuju[x][2] then
@@ -351,7 +341,7 @@ function TardisInfo.Plane(Activate)
 	function fujiF.Update_hang()
 		fujiF.GetBut.jindutishi:SetText("上次获取:刚刚");
 		for i = 1, hang_NUM do
-			_G["WeimianList_"..i]:Hide()	
+			fujiF.nr.ButList[i]:Hide()	
 		end
 		local ItemsData = fujiF.New_InfoList;
 		local ItemsNum = #ItemsData;
@@ -364,7 +354,7 @@ function TardisInfo.Plane(Activate)
 		    for i = 1, hang_NUM do
 		    	local dangqian = i+offset;
 		    	if ItemsData[dangqian] then
-					local fujikk = _G["WeimianList_"..i]	
+					local fujikk = fujiF.nr.ButList[i]	
 					fujikk:Show()
 					fujikk.Name.T:SetText(ItemsData[dangqian][2]);
 					local zoneID, MapID, RestState, autoinv = strsplit("^", ItemsData[dangqian][1]);
@@ -442,7 +432,7 @@ function TardisInfo.Plane(Activate)
 				if MapID then
 					self.WeimianInfo=zoneID.."^"..MapID
 					if MapID==1453 or MapID==1454 then
-						local oldinfo = PIGA["Tardis"]["Plane"]["InfoList"][Pig_OptionsUI.Realm]
+						local oldinfo = PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm]
 						for x=1,#oldinfo do
 							if zoneID==oldinfo[x][1] then
 								return
@@ -483,7 +473,7 @@ function TardisInfo.Plane(Activate)
 	end
 	local function fasongBendiMsg(self,waname)
 		if not self.WeimianInfo then return end
-		if waname == Pig_OptionsUI.Name or waname == Pig_OptionsUI.AllName then return end
+		if waname == PIG_OptionsUI.Name or waname == PIG_OptionsUI.AllName then return end
 		if IsRestingInGroup() then
 			local kaiguanzhuangtai="Y^"
 			if PIGA["Tardis"]["Plane"]["AutoInvite"] then
@@ -496,25 +486,27 @@ function TardisInfo.Plane(Activate)
 		end
 	end
 	if tocversion<40000 then
-		fujiF:RegisterEvent("CHAT_MSG_CHANNEL");
+		fujiF:RegisterEvent("CHAT_MSG_GUILD");--收到团队领导信息
+		fujiF:RegisterEvent("CHAT_MSG_YELL");--收到组队信息
+		fujiF:RegisterEvent("CHAT_MSG_PARTY");--收到组队信息
+		fujiF:RegisterEvent("CHAT_MSG_PARTY_LEADER");--当组长发送或接收消息时触发。
+		fujiF:RegisterEvent("CHAT_MSG_RAID");--收到团队信息
+		fujiF:RegisterEvent("CHAT_MSG_RAID_LEADER");--收到团队领导信息
 	end
 	fujiF:RegisterEvent("CHAT_MSG_ADDON");
 	fujiF:RegisterEvent("PLAYER_TARGET_CHANGED"); 
 	fujiF:RegisterEvent("PLAYER_ENTERING_WORLD");   
 	fujiF:SetScript("OnEvent",function(self, event, arg1, arg2, arg3, arg4, arg5,_,_,_,arg9)
 		if event=="PLAYER_ENTERING_WORLD" then
-			PIGA["Tardis"]["Plane"]["InfoList"][Pig_OptionsUI.Realm]=PIGA["Tardis"]["Plane"]["InfoList"][Pig_OptionsUI.Realm] or {}
+			PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm]=PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm] or {}
 			GetWeimianID(self)
-		end
-		if event=="PLAYER_TARGET_CHANGED" then
+		elseif event=="PLAYER_TARGET_CHANGED" then
 			GetWeimianID(self)
-		end
-		if event=="CHAT_MSG_CHANNEL" then
+		elseif event=="CHAT_MSG_CHANNEL" then
 			if arg1==GetInfoMsg and arg9==pindao then
 				fasongBendiMsg(self,arg5)
 			end
-		end
-		if event=="CHAT_MSG_ADDON" and arg1 == InvF.Biaotou then
+		elseif event=="CHAT_MSG_ADDON" and arg1 == InvF.Biaotou then
 			if arg2==GetInfoMsg and arg3=="CHANNEL" then
 				fasongBendiMsg(self,arg4)
 			elseif arg3 == "WHISPER" then
@@ -529,7 +521,7 @@ function TardisInfo.Plane(Activate)
 								else
 									PIG_InviteUnit(arg5)
 									PIGA["Tardis"]["Plane"]["HelpNum"]=PIGA["Tardis"]["Plane"]["HelpNum"]+1
-									PIGTopMsg:add("助人为乐+"..PIGA["Tardis"]["Plane"]["HelpNum"])
+									PIG_OptionsUI:ErrorMsg("助人为乐+"..PIGA["Tardis"]["Plane"]["HelpNum"])
 								end
 							end
 						end

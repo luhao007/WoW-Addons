@@ -12,10 +12,10 @@ local L = WeakAuras.L
 	L[" rotated |cFFFF0000%s|r degrees"] = "|cFFFF0000%s|r도 회전"
 	L["% - To show a percent sign"] = "% - 백분율 기호 표시"
 	L["% of Progress"] = "진행 %"
-	L["%d |4aura:auras; added"] = "%d개의 위크오라가 추가됐습니다"
-	L["%d |4aura:auras; deleted"] = "%d개의 위크오라가 삭제됐습니다"
-	L["%d |4aura:auras; modified"] = "%d개의 위크오라가 변경됐습니다"
-	L["%d |4aura:auras; with meta data modified"] = "%d개의 위크오라가 메타 데이터가 변경됐습니다"
+	L["%d |4aura:auras; added"] = "%d개의 위크오라가 추가됨"
+	L["%d |4aura:auras; deleted"] = "%d개의 위크오라가 삭제됨"
+	L["%d |4aura:auras; modified"] = "%d개의 위크오라가 변경됨"
+	L["%d |4aura:auras; with meta data modified"] = "%d개의 위크오라가 메타 데이터와 함께 변경됨"
 	L["%d displays loaded"] = "디스플레이 %d개 불러옴"
 	L["%d displays not loaded"] = "디스플레이 %d개 불러오지 않음"
 	L["%d displays on standby"] = "디스플레이 %d개 대기 중"
@@ -28,15 +28,17 @@ local L = WeakAuras.L
 	L["%s - Condition Custom Chat %s"] = "%s - 조건 사용자 정의 대화 %s"
 	L["%s - Condition Custom Check %s"] = "%s - 조건 사용자 정의 검사 %s"
 	L["%s - Condition Custom Code %s"] = "%s - 조건 사용자 정의 코드 %s"
-	L["%s - Custom Anchor"] = "%s - 사용자 정의 위치 부착"
-	L["%s - Custom Grow"] = "%s - 사용자 정의 확장 방식"
+	L["%s - Custom Anchor"] = "%s - 사용자 정의 위치 고정"
+	L["%s - Custom Grow"] = "%s - 사용자 정의 그룹 확장"
 	L["%s - Custom Sort"] = "%s - 사용자 정의 정렬"
 	L["%s - Custom Text"] = "%s - 사용자 정의 텍스트"
 	L["%s - Finish"] = "%s - 종료"
 	L["%s - Finish Action"] = "%s - 종료시 동작"
 	L["%s - Finish Custom Text"] = "%s - 사용자 정의 텍스트 종료"
-	L["%s - Init Action"] = "%s - 초기 시작시 동작"
+	L["%s - Init Action"] = "%s - 초기 동작"
 	L["%s - Main"] = "%s - 메인"
+	L["%s - OnLoad"] = "%s - 활성화 시"
+	L["%s - OnUnload"] = "%s - 비활성화 시"
 	L["%s - Option #%i has the key %s. Please choose a different option key."] = "%s - #%i 옵션이 %s 키를 갖고 있습니다. 다른 옵션 키를 산택해주세요."
 	L["%s - Rotate Animation"] = "%s - 애니메이션 회전"
 	L["%s - Scale Animation"] = "%s - 애니메이션 크기"
@@ -76,7 +78,7 @@ local L = WeakAuras.L
 	L["%s|cFFFF0000custom|r texture with |cFFFF0000%s|r blend mode%s%s"] = "%s|cFFFF0000사용자 정의|r 텍스처에 |cFFFF0000%s|r 혼합 모드%s%s"
 	L["(Right click to rename)"] = "(우클릭으로 이름 변경)"
 	L["|c%02x%02x%02x%02xCustom Color|r"] = "|c%02x%02x%02x%02x사용자 정의 색깔|r"
-	L["|cff999999Triggers tracking multiple units will default to being active even while no affected units are found without a Unit Count or Match Count setting applied.|r"] = "|cff999999여러 유닛을 추적하는 활성 조건은 유닛 수 또는 일치 횟수 설정이 안된 상태에서 오라에 걸린 유닛이 없을때도 기본으로 활성화됩니다.|r"
+	L["|cff999999Triggers tracking multiple units will default to being active even while no affected units are found without a Unit Count or Match Count setting applied.|r"] = "|cff999999여러 유닛을 추적하는 활성 조건은 유닛 수 또는 조건 일치 유닛 수 설정이 적용되지 않은 경우, 오라에 걸린 유닛이 없어도 기본적으로 활성화 상태를 유지합니다.|r"
 	L["|cFFE0E000Note:|r This sets the description only on '%s'"] = "|cFFE0E000참고:|r '%s'에만 설명이 설정됩니다"
 	L["|cFFE0E000Note:|r This sets the URL on all selected auras"] = "|cFFE0E000참고:|r 선택한 모든 위크오라에 URL을 설정합니다"
 	L["|cFFE0E000Note:|r This sets the URL on this group and all its members."] = "|cFFE0E000참고:|r 이 그룹 및 속해있는 모든 위크오라에 URL을 설정합니다."
@@ -117,7 +119,7 @@ local L = WeakAuras.L
 |cffff0000참고|r: 실제 유닛ID와 직접적인 관계가 없기 때문에 다른 결과가 나올 수 있습니다.
 
 
-|cffffff00*|r 노란색 유닛 설정은 한 개 이상의 유닛과 일치할 수 있으며 유닛 수나 조건 일치 개수 설정이 안되있고 오라에 걸린 유닛이 없을 때도 기본으로 활성화됩니다.]=]
+|cffffff00*|r 노란색 유닛 설정은 여러개의 유닛과 일치할 수 있으며 유닛 수 또는 조건 일치 유닛 수 설정이 적용되지 않은 경우, 오라에 걸린 유닛이 없어도 기본적으로 활성화 상태를 유지합니다.]=]
 	L["A 20x20 pixels icon"] = "20x20 픽셀 아이콘"
 	L["A 32x32 pixels icon"] = "32x32 픽셀 아이콘"
 	L["A 40x40 pixels icon"] = "40x40 픽셀 아이콘"
@@ -156,8 +158,8 @@ Enable this setting if you want this timer to be hidden, or when using a WeakAur
 	L["Anchor Mode"] = "고정 모드"
 	L["Anchor Point"] = "고정 지점"
 	L["Anchored To"] = "고정 위치:"
-	L["And "] = "And"
 	L["and"] = "그리고"
+	L["And "] = "And"
 	L["and %s"] = "and %s"
 	L["and aligned left"] = ", 왼쪽 정렬"
 	L["and aligned right"] = ", 오른쪽 정렬"
@@ -170,7 +172,7 @@ Enable this setting if you want this timer to be hidden, or when using a WeakAur
 	L["Animate"] = "애니메이션"
 	L["Animated Expand and Collapse"] = "확장 / 접기 애니메이션"
 	L["Animates progress changes"] = "진행 상태의 변화를 부드럽게 표현합니다"
-	L["Animation End"] = "애니메이션 종료"
+	L["Animation End"] = "애니메이션 종료 시점"
 	L["Animation Mode"] = "애니메이션 모드"
 	L["Animation relative duration description"] = [=[
 디스플레이 지속시간의 비율로 애니메이션 지속시간을 설정합니다, 분수 (1/2), 백분율 (50%), 또는 소수 (0.5)로 표현합니다.
@@ -181,7 +183,7 @@ Enable this setting if you want this timer to be hidden, or when using a WeakAur
 애니메이션의 지속시간을 |cFF00CC0010%|r로 설정하고, 디스플레이의 활성 조건이 지속시간이 없는 강화 효과일 때, 시작 애니메이션은 재생되지 않습니다 (지속시간을 따로 설정했더라도)."
 ]=]
 	L["Animation Sequence"] = "애니메이션 순서"
-	L["Animation Start"] = "애니메이션 시작"
+	L["Animation Start"] = "애니메이션 시작 시점"
 	L["Any of"] = "아무거나 만족"
 	L["Apply Template"] = "템플릿 적용"
 	L["Arcane Orb"] = "비전 구슬"
@@ -213,13 +215,13 @@ Off Screen]=] ] = "위크오라가 화면 밖에 있습니다"
 	L["Blue Sparkle Orb"] = "푸른 불꽃 구슬"
 	L["Border %s"] = "테두리 %s"
 	L["Border Anchor"] = "테두리 고정"
-	L["Border Color"] = "테두리 색깔"
+	L["Border Color"] = "테두리색"
 	L["Border in Front"] = "앞쪽 테두리"
 	L["Border Inset"] = "테두리 삽입"
 	L["Border Offset"] = "테두리 위치 조정"
 	L["Border Settings"] = "테두리 설정"
 	L["Border Size"] = "테두리 크기"
-	L["Border Style"] = "테두리 모양"
+	L["Border Style"] = "테두리 스타일"
 	L["Bracket Matching"] = "괄호 맞춤"
 	L["Browse Wago, the largest collection of auras."] = "세상에서 가장 큰 위크오라 모음 사이트 Wago를 둘러보세요."
 	L["By default this shows the information from the trigger selected via dynamic information. The information from a specific trigger can be shown via e.g. %2.p."] = "기본값으로 동적 정보를 통해 선택된 활성 조건의 정보를 표시합니다. 특정 활성 조건의 정보 표시는 %2.p 같은 식으로 할 수 있습니다."
@@ -229,9 +231,9 @@ Off Screen]=] ] = "위크오라가 화면 밖에 있습니다"
 	L["Case Insensitive"] = "대소문자 구분 안함"
 	L["Cast by a Player Character"] = "플레이어 캐릭터가 시전"
 	L["Categories to Update"] = "업데이트할 카테고리"
-	L["Changelog"] = "업데이트 정보"
+	L["Changelog"] = "업데이트 내역"
 	L["Chat with WeakAuras experts on our Discord server."] = "우리의 Discord 서버에서 WeakAuras 전문가들과 이야기를 나누어 보세요."
-	L["Check On..."] = "검사 기준..."
+	L["Check On..."] = "상태 확인 시점..."
 	L["Check out our wiki for a large collection of examples and snippets."] = "방대한 사례와 스니펫 모음을 보려면 위키를 확인하세요."
 	L["Children:"] = "자식 위크오라:"
 	L["Choose"] = "선택"
@@ -253,7 +255,7 @@ Off Screen]=] ] = "위크오라가 화면 밖에 있습니다"
 	L["Columns"] = "열"
 	L["COMBAT_LOG_EVENT_UNFILTERED with no filter can trigger frame drops in raid environment."] = "필터 없는 COMBAT_LOG_EVENT_UNFILTERED 이벤트는 레이드 환경에서 프레임 드랍을 유발할 수 있습니다."
 	L["Combinations"] = "조합"
-	L["Combine Matches Per Unit"] = "유닛별 맞는 조건 조합"
+	L["Combine Matches Per Unit"] = "유닛당 일치하는 조건 결합"
 	L["Common Text"] = "공동 사용 텍스트"
 	L["Compare against the number of units affected."] = "오라에 걸린 유닛 수와 비교합니다."
 	L["Compatibility Options"] = "호환성 옵션"
@@ -268,8 +270,8 @@ Off Screen]=] ] = "위크오라가 화면 밖에 있습니다"
 	L["Copy settings..."] = "설정 복사..."
 	L["Copy to all auras"] = "모든 위크오라에 복사"
 	L["Could not parse '%s'. Expected a table."] = "'%s'를 분석할 수 없습니다. 테이블이어야 합니다."
-	L["Counts the number of matches over all units."] = "모든 유닛에 대해 일치 횟수를 계산합니다."
-	L["Counts the number of matches per unit."] = "유닛당 일치 횟수를 계산합니다."
+	L["Counts the number of matches over all units."] = "모든 유닛중 일치하는 유닛을 셉니다."
+	L["Counts the number of matches per unit."] = "유닛당 일치하는 개수를 셉니다."
 	L["Create a Copy"] = "사본 생성"
 	L["Creating buttons: "] = "버튼 생성 중:"
 	L["Creating options: "] = "옵션 생성:"
@@ -277,9 +279,12 @@ Off Screen]=] ] = "위크오라가 화면 밖에 있습니다"
 	L["Custom Code"] = "사용자 정의 코드"
 	L["Custom Code Viewer"] = "사용자 정의 코드 뷰어"
 	L["Custom Frames"] = "사용자 정의 프레임"
+	L["Custom Functions"] = "사용자 정의 함수"
+	L["Custom Init"] = "사용자 정의 초기 동작"
+	L["Custom Load"] = "사용자 정의 활성화"
 	L["Custom Options"] = "사용자 정의 옵션"
 	L["Custom Trigger"] = "사용자 정의 활성 조건"
-	L["Custom trigger event tooltip"] = [=[사용자 정의 활성 조건을 확인할 이벤트를 선택하세요. 쉼표나 공백으로 여러 이벤트를 지정할 수 있습니다.
+	L["Custom trigger event tooltip"] = [=[사용자 정의 활성 조건 확인에 사용할 이벤트를 선택하세요. 쉼표나 공백으로 여러 이벤트를 지정할 수 있습니다.
 
 • "UNIT" 이벤트는 콜론을 사용해 등록할 유닛 ID를 정할 수 있습니다.
 "nameplate", "group", "raid", "party", "arena", "boss"와 같은 유닛 유형을 유닛ID로 사용할 수 있습니다.
@@ -288,19 +293,20 @@ Off Screen]=] ] = "위크오라가 화면 밖에 있습니다"
 
 |cFF4444FF예시:|r
 UNIT_POWER_UPDATE:player, UNIT_AURA:nameplate:group PLAYER_TARGET_CHANGED CLEU:SPELL_CAST_SUCCESS TRIGGER:3:1]=]
-	L["Custom trigger status tooltip"] = [=[사용자 정의 활성 조건을 확인할 이벤트를 선택하세요. 쉼표나 공백으로 여러 이벤트를 지정할 수 있습니다.
+	L["Custom trigger status tooltip"] = [=[사용자 정의 활성 조건 확인에 사용할 이벤트를 선택하세요. 쉼표나 공백으로 여러 이벤트를 지정할 수 있습니다.
 
 • "UNIT" 이벤트는 콜론을 사용해 등록할 유닛 ID를 정할 수 있습니다.
 "nameplate", "group", "raid", "party", "arena", "boss"와 같은 유닛 유형을 유닛ID로 사용할 수 있습니다.
 • "CLEU"를 COMBAT_LOG_EVENT UNFILTERED 대신 사용할 수 있고 받고 싶은 "서브이벤트"를 콜론으로 구분해서 지정할 수 있습니다.
 • "TRIGGER" 키워드에 콜론으로 활성 조건 번호를 나누어 지정하면 해당 활성 조건이 업데이트될 때 사용자 정의 활성 조건도 같이 업데이트됩니다.
 
-이 활성 조건은 스테이터스 유형이므로 지정한 이벤트에 인자가 없어도 WeakAuras에 의해 호출될 수 있습니다.
+이 활성 조건은 상태(Status) 유형이므로 지정된 이벤트가 인자가 없어도 WeakAuras에 의해 호출될 수 있습니다.
 
 |cFF4444FF예시:|r
 UNIT_POWER_UPDATE:player, UNIT_AURA:nameplate:group PLAYER_TARGET_CHANGED CLEU:SPELL_CAST_SUCCESS TRIGGER:3:1]=]
 	L["Custom Trigger: Ignore Lua Errors on OPTIONS event"] = "사용자 정의 활성 조건: OPTIONS 이벤트에서 Lua 오류 무시"
 	L["Custom Trigger: Send fake events instead of STATUS event"] = "사용자 정의 활성 조건: STATUS 이벤트 대신 가짜 이벤트 보내기"
+	L["Custom Unload"] = "사용자 정의 비활성화"
 	L["Custom Untrigger"] = "사용자 정의 비활성 조건"
 	L["Debug Log"] = "디버그 로그"
 	L["Debug Log:"] = "디버그 로그:"
@@ -324,7 +330,7 @@ UNIT_POWER_UPDATE:player, UNIT_AURA:nameplate:group PLAYER_TARGET_CHANGED CLEU:S
 	L["Distribute Vertically"] = "세로 분산 배치"
 	L["Do not group this display"] = "이 디스플레이를 그룹에 넣지 않습니다"
 	L["Do you want to enable updates for this aura"] = "이 위크오라의 업데이트를 활성화 할까요?"
-	L["Do you want to ignore updates for this aura"] = "이 위크오라의 업데이트를 무시할까요?"
+	L["Do you want to ignore updates for this aura"] = "이 위크오라의 업데이트를 무시하고 싶으면 체크하세요"
 	L["Documentation"] = "참고 문서"
 	L["Done"] = "완료"
 	L["Drag to move"] = "드래그로 이동"
@@ -382,7 +388,7 @@ UNIT_POWER_UPDATE:player, UNIT_AURA:nameplate:group PLAYER_TARGET_CHANGED CLEU:S
 	L["Extra Height"] = "추가 높이"
 	L["Extra Width"] = "추가 너비"
 	L["Fade"] = "사라짐"
-	L["Fadeout Sound"] = "페이드아웃 소리 효과"
+	L["Fadeout Sound"] = "페이드아웃 음향 효과"
 	L["Fadeout Time (seconds)"] = "페이드아웃 시간 (초)"
 	L["Fetch Affected/Unaffected Names and Units"] = "오라에 걸린/안걸린 플레이어의 이름과 유닛 정보 가져오기"
 	L["Fetch Raid Mark Information"] = "공격대 징표 정보 가져오기"
@@ -403,7 +409,7 @@ UNIT_POWER_UPDATE:player, UNIT_AURA:nameplate:group PLAYER_TARGET_CHANGED CLEU:S
 
 Supports multiple entries, separated by commas
 Can use \ to escape -.]=] ] = [=[필터 형식: '이름', '이름-서버', '-서버'. 여러 항목을 지원하며, 각 항목은 쉼표로 구분합니다.
--는 앞에 \를 붙여 이스케이프를 사용해 입력합니다.]=]
+-는 앞에 \를 사용해 이스케이프 처리하면 입력할 수 있습니다.]=]
 	L[ [=[Filter to only dispellable de/buffs of the given type(s)
 Bleed classification via LibDispel]=] ] = [=[여러 속성 중 해제가 되는 버프/디버프만 걸러냅니다
 출혈은 LibDispel을 통해서 분류됩니다]=]
@@ -630,7 +636,6 @@ every 3 events starting from 2nd and ending at 11th: 2-11/3]=] ] = [=[이벤트 
 	L["Okay"] = "확인"
 	L["ON"] = "켜짐"
 	L["On Hide"] = "숨겨질 때"
-	L["On Init"] = "초기 실행 시"
 	L["On Show"] = "표시될 때"
 	L["Only Match auras cast by a player (not an npc)"] = "(NPC가 아닌) 플레이어가 시전한 오라만 걸러냅니다"
 	L["Only match auras cast by people other than the player or their pet"] = "나 또는 내 소환수 말고 다른 사람이 시전한 오라만 걸러냅니다"
@@ -664,7 +669,7 @@ every 3 events starting from 2nd and ending at 11th: 2-11/3]=] ] = [=[이벤트 
 	L["Play Sound"] = "소리 재생"
 	L["Portrait Zoom"] = "초상화 확대"
 	L["Position and Size Settings"] = "위치 및 크기 설정"
-	L["Preferred Match"] = "조건 일치시 우선순위"
+	L["Preferred Match"] = "우선 표시 대상"
 	L["Premade Auras"] = "미리 준비된 위크오라"
 	L["Premade Snippets"] = "미리 준비된 스니펫 위크오라"
 	L["Preparing auras: "] = "위크오라 준비중:"
@@ -696,7 +701,7 @@ every 3 events starting from 2nd and ending at 11th: 2-11/3]=] ] = [=[이벤트 
 	L["Repeat every"] = "반복 주기"
 	L["Report bugs on our issue tracker."] = "이슈 트래커에 버그를 제보해 주세요."
 	L["Require unit from trigger"] = "활성 조건에서 유닛 필요"
-	L["Required for Activation"] = "활성화에 필요"
+	L["Required for Activation"] = "활성화 필수 조건"
 	L["Requires LibSpecialization, that is e.g. a up-to date WeakAuras version"] = "LibSpecialization이 필요합니다. 예를 들면 최신 WeakAuras 버전으로 업데이트하면 됩니다"
 	L["Reset all options to their default values."] = "모든 옵션을 기본값으로 초기화합니다."
 	L["Reset Entry"] = "항목 초기화"
@@ -710,7 +715,7 @@ every 3 events starting from 2nd and ending at 11th: 2-11/3]=] ] = [=[이벤트 
 	L["Rotate Text"] = "텍스트 회전"
 	L["Rotation Mode"] = "회전 모드"
 	L["Row Space"] = "행 간격"
-	L["Row Width"] = "행 넓이"
+	L["Row Width"] = "행 너비"
 	L["Rows"] = "행"
 	L["Run on..."] = "실행 조건..."
 	L["Same"] = "전경과 동일"
@@ -730,7 +735,7 @@ every 3 events starting from 2nd and ending at 11th: 2-11/3]=] ] = [=[이벤트 
 	L["Set Thumbnail Icon"] = "썸네일 아이콘을 설정합니다"
 	L["Sets the anchored frame as the aura's parent, causing the aura to inherit attributes such as visibility and scale."] = "위치가 고정된 프레임을 위크오라의 부모로 설정하여 외관이나 크기 등의 속성을 상속받도록 합니다."
 	L["Settings"] = "설정"
-	L["Shadow Color"] = "그림자 색깔"
+	L["Shadow Color"] = "그림자색"
 	L["Shadow X Offset"] = "그림자 X 위치 조정"
 	L["Shadow Y Offset"] = "그림자 Y 위치 조정"
 	L["Shift-click to create chat link"] = "Shift+클릭으로 대화창 링크 생성"
@@ -744,8 +749,8 @@ every 3 events starting from 2nd and ending at 11th: 2-11/3]=] ] = [=[이벤트 
 	L["Show Icon"] = "아이콘 표시"
 	L["Show If Unit Does Not Exist"] = "유닛이 없으면 표시"
 	L["Show Linear Texture"] = "직진 텍스처 표시"
-	L["Show Matches for"] = "일치 항목 표시"
-	L["Show Matches for Units"] = "유닛에 대한 일치 항목 표시"
+	L["Show Matches for"] = "표시할 대상"
+	L["Show Matches for Units"] = "유닛별로 일치하는 조건 표시"
 	L["Show Model"] = "모델 표시"
 	L["Show model of unit "] = "유닛의 모델 표시"
 	L["Show Sound Setting"] = "소리 설정 보기"
@@ -815,7 +820,7 @@ every 3 events starting from 2nd and ending at 11th: 2-11/3]=] ] = [=[이벤트 
 	L["Templates could not be loaded, the addon is %s"] = "템플릿을 불러올 수 없습니다. 애드온은 %s입니다."
 	L["Temporary Group"] = "임시 그룹"
 	L["Text %s"] = "텍스트 %s"
-	L["Text Color"] = "텍스트 색깔"
+	L["Text Color"] = "텍스트색"
 	L["Text Settings"] = "텍스트 설정"
 	L["Texture %s"] = "텍스처 %s"
 	L["Texture Info"] = "텍스처 정보"
@@ -825,8 +830,8 @@ every 3 events starting from 2nd and ending at 11th: 2-11/3]=] ] = [=[이벤트 
 	L["Texture X Offset"] = "텍스처 X 위치 조정"
 	L["Texture Y Offset"] = "텍스처 Y 위치 조정"
 	L["Thanks"] = "감사 인사"
-	L["The addon ElvUI is enabled. It might add cooldown numbers to the swipe. You can configure these in the ElvUI settings"] = "ElvUI 애드온이 활성화 되었습니다. 회전 애니메이션에 쿨타임 시간이 표시됩니다. ElvUI 설정에서 조정할 수 있습니다"
-	L["The addon OmniCC is enabled. It might add cooldown numbers to the swipe. You can configure these in the OmniCC settings"] = "OmniCC 애드온이 활성화 되었습니다. 회전 애니메이션에 쿨타임 시간이 표시됩니다. OmniCC 설정에서 조정할 수 있습니다"
+	L["The addon ElvUI is enabled. It might add cooldown numbers to the swipe. You can configure these in the ElvUI settings"] = "ElvUI 애드온을 사용중이므로 회전 애니메이션에 쿨타임 시간이 표시될 것입니다. 시간 텍스트는 ElvUI 설정에서 조정할 수 있습니다"
+	L["The addon OmniCC is enabled. It might add cooldown numbers to the swipe. You can configure these in the OmniCC settings"] = "OmniCC 애드온을 사용중이므로 회전 애니메이션에 쿨타임 시간이 표시될 것입니다. 시간 텍스트는 OmniCC 설정에서 조정할 수 있습니다"
 	L["The duration of the animation in seconds."] = "애니메이션 지속시간 (초)"
 	L["The duration of the animation in seconds. The finish animation does not start playing until after the display would normally be hidden."] = "애니메이션의 초단위 지속시간입니다. 종료 애니메이션은 일반적으로는 디스플레이가 숨겨지기 전까진 재생을 시작하지 않습니다."
 	L["The group and all direct children will share the same base frame level."] = "이 그룹과 모든 직속 자식 위크오라는 같은 기반의 프레임 레벨을 공유합니다."
@@ -935,11 +940,11 @@ Upgrade your version of WeakAuras or wait for next release before installing thi
 	L["You are about to delete a trigger. |cFFFF0000This cannot be undone!|r Would you like to continue?"] = "이 활성 조건을 삭제하려고 합니다. |cFFFF0000이는 되돌릴 수 없습니다!|r 계속할까요?"
 	L[ [=[You can add a comma-separated list of state values here that (when changed) WeakAuras should also run the Anchor Code on.
 
-WeakAuras will always run custom anchor code if you include 'changed' in this list, or when a region is added, removed, or re-ordered.]=] ] = "이곳에 스테이트 값들의 목록을 쉼표로 구분해서 넣을 수 있으며 (changed가 발동하면) WeakAuras가 위치 고정 코드를 실행하게 됩니다. 이 목록에 'changed'가 들어있거나 구역(region)이 추가, 삭제, 재정렬시 WeakAuras가 사용자 정의 고정 코드를 실행합니다."
+WeakAuras will always run custom anchor code if you include 'changed' in this list, or when a region is added, removed, or re-ordered.]=] ] = "이곳에 State 테이블 값들을 쉼표로 구분해서 목록으로 만들어 넣을 수 있으며 (값이 바뀔 때) WeakAuras가 위치 고정 코드를 실행하게 됩니다. 이 목록에 테이블 값 'changed'를 넣을 경우 또는 구역(region)이 추가, 삭제, 재정렬 될 때 WeakAuras는 반드시 사용자 정의 고정 코드를 실행합니다."
 	L[ [=[You can add a comma-separated list of state values here that (when changed) WeakAuras should also run the Grow Code on.
 
-WeakAuras will always run custom grow code if you include 'changed' in this list, or when a region is added, removed, or re-ordered.]=] ] = "이곳에 스테이트 값들의 목록을 쉼표로 구분해서 넣을 수 있으며 (changed가 발동하면) WeakAuras가 그룹 확장 코드를 실행하게 됩니다. 이 목록에 'changed'가 들어있거나 구역(region)이 추가, 삭제, 재정렬시 WeakAuras가 사용자 정의 그룹 확장 코드를 실행합니다."
-	L["You can add a comma-separated list of state values here that (when changed) WeakAuras should also run the sort code on.WeakAuras will always run custom sort code if you include 'changed' in this list, or when a region is added, removed."] = "이곳에 스테이트 값들의 목록을 쉼표로 구분해서 넣을 수 있으며 (changed가 발동하면) WeakAuras가 정렬 코드를 실행하게 됩니다. 이 목록에 'changed'가 들어있거나 구역(region)이 추가, 삭제, 재정렬시 WeakAuras가 사용자 정의 정렬 코드를 실행합니다."
+WeakAuras will always run custom grow code if you include 'changed' in this list, or when a region is added, removed, or re-ordered.]=] ] = "이곳에 State 테이블 값들을 쉼표로 구분해서 목록으로 만들어 넣을 수 있으며 (값이 바뀔 때) WeakAuras가 그룹 확장 코드를 실행하게 됩니다. 이 목록에 테이블 값 'changed'를 넣을 경우 또는 구역(region)이 추가, 삭제, 재정렬 될 때 WeakAuras는 반드시 사용자 정의 그룹 확장 코드를 실행합니다."
+	L["You can add a comma-separated list of state values here that (when changed) WeakAuras should also run the sort code on.WeakAuras will always run custom sort code if you include 'changed' in this list, or when a region is added, removed."] = "이곳에 State 테이블 값들을 쉼표로 구분해서 목록으로 만들어 넣을 수 있으며 (값이 바뀔 때) WeakAuras가 정렬 코드를 실행하게 됩니다. 이 목록에 테이블 값 'changed'를 넣을 경우 또는 구역(region)이 추가, 삭제, 재정렬 될 때 WeakAuras는 반드시 사용자 정의 정렬 코드를 실행합니다."
 	L["Your Saved Snippets"] = "저장된 스니펫"
 	L["Z Offset"] = "Z 위치 조정"
 	L["Z Rotation"] = "Z 회전"

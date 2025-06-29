@@ -29,7 +29,7 @@ function BusinessInfo.AHPlusOptions()
 			BusinessInfo.AHPlus_ADDUI()
 		else
 			PIGA["AHPlus"]["Open"]=false;
-			Pig_Options_RLtishi_UI:Show()
+			PIG_OptionsUI.RLUI:Show()
 		end
 		fuFrame:ShowChecked()
 	end);
@@ -58,7 +58,7 @@ function BusinessInfo.AHPlusOptions()
 				BusinessInfo.AHUIoff()
 			else
 				PIGA["AHPlus"]["AHUIoff"]=false;
-				Pig_Options_RLtishi_UI:Show()
+				PIG_OptionsUI.RLUI:Show()
 			end
 		end);
 		fuFrame.AHPlus.QuicAuc =PIGCheckbutton(fuFrame.AHPlus,{"TOPLEFT",fuFrame.AHPlus.AHtooltip,"BOTTOMLEFT",0,-20},{"鼠标右键快速拍卖","鼠标右键背包物品快速拍卖"})
@@ -68,49 +68,19 @@ function BusinessInfo.AHPlusOptions()
 				BusinessInfo.QuicAuc()
 			else
 				PIGA["AHPlus"]["QuicAuc"]=false;
-				Pig_Options_RLtishi_UI:Show()
+				PIG_OptionsUI.RLUI:Show()
 			end
 		end);
 		GameTooltip:HookScript("OnTooltipSetItem", function(self)
-			if PIGA["AHPlus"]["Open"] and PIGA["AHPlus"]["AHtooltip"] then
-				local itemName, itemlink = self:GetItem()
-				if itemName and itemName~="" then
-					local  bindType = select(14, GetItemInfo(itemlink))
-					if bindType~=1 and bindType~=4 then
-						if PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm] and PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm][itemName] then
-							local jiagelist = PIGA["AHPlus"]["CacheData"][Pig_OptionsUI.Realm][itemName][2]
-							local jiagelistNum=#jiagelist
-							local jiluTime = jiagelist[jiagelistNum][2] or 1660000000
-							local jiluTime = date("%m-%d %H:%M",jiluTime)
-							self:AddDoubleLine("拍卖("..jiluTime..")",GetMoneyString(jiagelist[jiagelistNum][1]),0,1,1,0,1,1)
-						else
-							self:AddDoubleLine("拍卖(尚未缓存)","",0,1,1,0,1,1)
-						end
-					end
-				end
+			local _, itemlink = self:GetItem()
+			if itemlink then
+				local itemID = GetItemInfoInstant(itemlink) 
+				BusinessInfo.SetTooltipOfflineG(itemID,self)
 			end
 		end)
 	else
 		TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, function(tooltip, data)
-			if PIGA["AHPlus"]["Open"] and PIGA["AHPlus"]["AHtooltip"] then
-				if tooltip == GameTooltip then	
-					local ItemID = data["id"]
-					if ItemID then
-						local itemName,_,_,_,_,_,_,_,_,_,sellPrice,classID,subclassID,bindType= GetItemInfo(ItemID) 
-						if bindType~=1 and bindType~=4 then
-							if PIGA["AHPlus"]["CacheData"] and PIGA["AHPlus"]["CacheData"][itemName] then
-								local jiagelist = PIGA["AHPlus"]["CacheData"][itemName][2]
-								local jiagelistNum=#jiagelist
-								local jiluTime = jiagelist[jiagelistNum][2] or 1660000000
-								local jiluTime = date("%m-%d %H:%M",jiluTime)
-								tooltip:AddDoubleLine("拍卖("..jiluTime.."):",GetMoneyString(jiagelist[jiagelistNum][1]),0,1,1,0,1,1)
-							else
-								tooltip:AddDoubleLine("拍卖(尚未缓存)","",0,1,1,0,1,1)
-							end
-						end
-					end
-				end
-			end
+			BusinessInfo.SetTooltipOfflineG(data.id,tooltip)
 		end)
 	end
 	---

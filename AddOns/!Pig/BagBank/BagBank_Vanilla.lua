@@ -9,9 +9,9 @@ local GetContainerItemLink=C_Container.GetContainerItemLink
 local Create=addonTable.Create
 local PIGFontString=Create.PIGFontString
 local BagBankFrame=Create.BagBankFrame
---=====================
-local InvSlot=addonTable.Data.InvSlot
-local bagData=addonTable.Data.bagData
+local Data=addonTable.Data
+local InvSlot=Data.InvSlot
+local bagData=Data.bagData
 local BagBankfun=addonTable.BagBankfun
 --==================
 local zhengliIcon="interface/containerframe/bags.blp"
@@ -60,10 +60,10 @@ local function shuaxin_ranse(framef,id,slot)
 end
 ---
 local function Update_BAGFrame_WidthHeight(new_hangshu)
-	BAGheji_UI:SetScale(BAGheji_UI.suofang);
-	BAGheji_UI:SetWidth(BagdangeW*BAGheji_UI.meihang+28)
+	_G[BagBankfun.BagUIName]:SetScale(_G[BagBankfun.BagUIName].suofang);
+	_G[BagBankfun.BagUIName]:SetWidth(BagdangeW*_G[BagBankfun.BagUIName].meihang+28)
 	if new_hangshu then
-		BAGheji_UI:SetHeight(BagdangeW*new_hangshu+102-BAGheji_UI.pianyiliangV);
+		_G[BagBankfun.BagUIName]:SetHeight(BagdangeW*new_hangshu+102-_G[BagBankfun.BagUIName].pianyiliangV);
 	end
 end
 local function UpdateP_KEY(frame, size, id)
@@ -87,15 +87,15 @@ local function jisuanBAGkonmgyu(id,zongshu)
 	local baghangShu,bagkongyu=0,0
 	baghangShu,bagkongyu=0,0
 	if id>0 then
-		baghangShu=ceil(zongshu/BAGheji_UI.meihang)
-		bagkongyu=baghangShu*BAGheji_UI.meihang-zongshu
+		baghangShu=ceil(zongshu/_G[BagBankfun.BagUIName].meihang)
+		bagkongyu=baghangShu*_G[BagBankfun.BagUIName].meihang-zongshu
 	end
 	return baghangShu,bagkongyu
 end
 local function UpdateP_BAG(frame, size, id)
 	frame:SetHeight(100);
 	frame:SetToplevel(false)
-	frame:SetParent(BAGheji_UI)
+	frame:SetParent(_G[BagBankfun.BagUIName])
 	frame.Portrait:Hide();
 	local name = frame:GetName();
 	_G[name.."Portrait"]:Hide();
@@ -111,26 +111,26 @@ local function UpdateP_BAG(frame, size, id)
 		paishuID,kongbuID=0,0
 		_G[name.."MoneyFrame"]:Show()
 		_G[name.."MoneyFrame"]:ClearAllPoints();
-		_G[name.."MoneyFrame"]:SetPoint("RIGHT", BAGheji_UI.moneyframe, "RIGHT", 4, -1);
-		_G[name.."MoneyFrame"]:SetParent(BAGheji_UI);
+		_G[name.."MoneyFrame"]:SetPoint("RIGHT", _G[BagBankfun.BagUIName].moneyframe, "RIGHT", 4, -1);
+		_G[name.."MoneyFrame"]:SetParent(_G[BagBankfun.BagUIName]);
 	else
 		_G[name.."MoneyFrame"]:Hide()
 	end
 	local shang_allshu=jisuanBAGzongshu(id)
 	local shang_hang,shang_yushu=jisuanBAGkonmgyu(id,shang_allshu)
 	local NEWsize=size-shang_yushu
-	local hangShu=ceil(NEWsize/BAGheji_UI.meihang)
-	local new_kongyu,new_hangshu=hangShu*BAGheji_UI.meihang-NEWsize,hangShu+shang_hang
+	local hangShu=ceil(NEWsize/_G[BagBankfun.BagUIName].meihang)
+	local new_kongyu,new_hangshu=hangShu*_G[BagBankfun.BagUIName].meihang-NEWsize,hangShu+shang_hang
 	for slot=1,size do
 		local itemF = _G[name.."Item"..slot]
 		itemF:ClearAllPoints();
 		if slot==1 then
-			itemF:SetPoint("TOPRIGHT", BAGheji_UI.wupin, "TOPRIGHT", -(new_kongyu*BagdangeW)-5-BAGheji_UI.pianyiliangV, -(new_hangshu*BagdangeW)+36);
+			itemF:SetPoint("TOPRIGHT", _G[BagBankfun.BagUIName].wupin, "TOPRIGHT", -(new_kongyu*BagdangeW)-5-_G[BagBankfun.BagUIName].pianyiliangV, -(new_hangshu*BagdangeW)+36);
 		else
-			local yushu=math.fmod((slot+new_kongyu-1),BAGheji_UI.meihang)
+			local yushu=math.fmod((slot+new_kongyu-1),_G[BagBankfun.BagUIName].meihang)
 			local itemFshang = _G[name.."Item"..(slot-1)]
 			if yushu==0 then
-				itemF:SetPoint("BOTTOMLEFT", itemFshang, "TOPLEFT", (BAGheji_UI.meihang-1)*BagdangeW, 5);
+				itemF:SetPoint("BOTTOMLEFT", itemFshang, "TOPLEFT", (_G[BagBankfun.BagUIName].meihang-1)*BagdangeW, 5);
 			else
 				itemF:SetPoint("RIGHT", itemFshang, "LEFT", -5, 0);
 			end
@@ -291,7 +291,9 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 	if tocversion>19999 then
 		uidata.meihang=PIGA["BagBank"]["BAGmeihangshu_WLK"]
 	end
-	local BAGheji=BagBankFrame(UIParent,{"CENTER",UIParent,"CENTER",420,-10},"BAGheji_UI",uidata)
+	Data.UILayout[BagBankfun.BagUIName]={"CENTER","CENTER",420,-10}
+	local BAGheji=BagBankFrame(UIParent,nil,BagBankfun.BagUIName,uidata)
+	Create.PIG_SetPoint(BagBankfun.BagUIName)
 	BAGheji:SetToplevel(true)
 	BAGheji:HookScript("OnHide",function(self)
 		CloseAllBags()
@@ -301,7 +303,7 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 		BAGheji.pianyiliangV=8
 	end
 	if BAGheji.portrait then SetPortraitTexture(BAGheji.portrait, "player") end
-	BAGheji.biaoti = PIGFontString(BAGheji,{"TOP", BAGheji, "TOP",10, -14+BAGheji.pianyiliangV},Pig_OptionsUI.AllName)
+	BAGheji.biaoti = PIGFontString(BAGheji,{"TOP", BAGheji, "TOP",10, -14+BAGheji.pianyiliangV},PIG_OptionsUI.AllName)
 	BAGheji.Close:HookScript("OnClick",  function (self)
 		CloseAllBags()
 	end);
@@ -335,9 +337,9 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 		BagBankfun.SortBags()
 	end);
 	---
-	BAGheji.EqBut =BagBankfun.addEquipmentbut(BAGheji,{"TOPRIGHT",BAGheji,"TOPRIGHT",-74,-38+BAGheji.pianyiliangV})
+	BAGheji.EqBut = BagBankfun.addEquipmentbut(BAGheji,{"TOPRIGHT",BAGheji,"TOPRIGHT",-74,-39+BAGheji.pianyiliangV})
 	---
-	BAGheji.shezhi = BagBankfun.addSetbut(BAGheji,{"TOPRIGHT",BAGheji,"TOPRIGHT",-104,-39+BAGheji.pianyiliangV},Rneirong,tabbut)
+	BAGheji.Setings = BagBankfun.addSetbut(BAGheji,{"TOPRIGHT",BAGheji,"TOPRIGHT",-104,-39+BAGheji.pianyiliangV},Rneirong,tabbut)
 	
 	--分类设置
 	BAGheji.fenlei = CreateFrame("Button",nil,BAGheji, "TruncatedButtonTemplate");
@@ -390,8 +392,8 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 	if tocversion>30000 then
 		hooksecurefunc("ManageBackpackTokenFrame", function(backpack)
 			BackpackTokenFrame:ClearAllPoints();
-			BackpackTokenFrame:SetPoint("TOPRIGHT", BAGheji_UI.moneyframe, "TOPLEFT", -4, 5);
-			BackpackTokenFrame:SetParent(BAGheji_UI);
+			BackpackTokenFrame:SetPoint("TOPRIGHT", _G[BagBankfun.BagUIName].moneyframe, "TOPLEFT", -4, 5);
+			BackpackTokenFrame:SetParent(_G[BagBankfun.BagUIName]);
 			local regions = { BackpackTokenFrame:GetRegions() }
 			for gg=1,#regions do
 				regions[gg]:Hide()
@@ -548,7 +550,7 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 			end
 		elseif event=="UNIT_PORTRAIT_UPDATE" then
 			if self.portrait then
-				SetPortraitTexture(BAGheji_UI.portrait, "player")
+				SetPortraitTexture(_G[BagBankfun.BagUIName].portrait, "player")
 			end
 		elseif event=="BAG_UPDATE" then
 			if arg1~=-2 then
@@ -621,7 +623,7 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 		BankSlotsFrame:Show_Hide_but(self.show)
 	end);
 	BagBankfun.addfenleibagbut(BankSlotsFrame,"PIG_CharacterBANK_")
-	Create.BagBankBG(BankFrame,"BankFrame_PigBG")
+	Create.BagBankFrameBG(BankFrame,true)
 	--物品显示区域
 	BankSlotsFrame.wupin = CreateFrame("Frame", nil, BankSlotsFrame,"BackdropTemplate")
 	BankSlotsFrame.wupin:SetPoint("TOPLEFT", BankSlotsFrame, "TOPLEFT",21, -70);
@@ -635,8 +637,7 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 			for banki=2,#bagData["bankID"] do
 				OpenBag(bagData["bankID"][banki])
 			end
-		end
-		if event=="PLAYERBANKSLOTS_CHANGED" then
+		elseif event=="PLAYERBANKSLOTS_CHANGED" then
 			Bank_Item_lv(nil,nil,arg1)
 			Bank_Item_ranse(nil,nil,arg1)
 		end

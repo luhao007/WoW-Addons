@@ -142,6 +142,8 @@ local CachedMapData = setmetatable({}, {
 						headerConst = app.HeaderConstants.EXPLORATION;
 					elseif key == "flightpathID" then
 						headerConst = app.HeaderConstants.FLIGHT_PATHS;
+					elseif key == "objectID" then
+						headerConst = app.HeaderConstants.TREASURES;
 					end
 					
 					-- Does this involve a profession?
@@ -162,10 +164,20 @@ local CachedMapData = setmetatable({}, {
 					else
 						local headerID = GetRelativeValue(group, "headerID");
 						if headerID then
+							-- Does this involve a holiday?
+							if group.e then headerID = app.HeaderConstants.HOLIDAYS; end
 							MergeIntoHeader(headerID, clone);
 							if group.parent and group.parent.isRaid then
 								headers[headerID].isRaid = true;
 							end
+						elseif clone.providers then
+							if clone.providers[1] == 'o' then
+								MergeIntoHeader(app.HeaderConstants.TREASURES, clone);
+							else
+								MergeIntoHeader(app.HeaderConstants.ZONE_DROPS, clone);
+							end
+						elseif clone.crs or key == "itemID" then
+							MergeIntoHeader(app.HeaderConstants.ZONE_DROPS, clone);
 						else
 							MergeObject(groups, clone);
 						end

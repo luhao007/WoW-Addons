@@ -34,7 +34,7 @@ function GDKPInfo.ADD_UI()
 	local RaidR=PIGFrame(UIParent,{"CENTER",UIParent,"CENTER",0,60},{Width, Height},GnUI,true)
 	RaidR:PIGSetBackdrop(0.8)
 	RaidR:PIGClose()
-	RaidR:PIGSetMovable()
+	RaidR:PIGSetMovableNoSave()
 	RaidR.biaoti = PIGFontString(RaidR,{"TOP", RaidR, "TOP", 0, -4},GnName)
 	PIGLine(RaidR,"TOP",-biaotiH)
 	--内容显示
@@ -154,7 +154,7 @@ function GDKPInfo.ADD_UI()
 		if self:IsShown() then
 			for p=1,8 do
 				for pp=1,5 do
-					local pff = _G["RRPlayerList_"..p.."_"..pp]
+					local pff = RaidR.PlayerList.duiwuList[p].ButList[pp]
 					pff:Hide();
 					pff:SetText(NONE);
 				end
@@ -163,7 +163,7 @@ function GDKPInfo.ADD_UI()
 			for p=1,#plist do
 				for pp=1,#plist[p] do
 					if plist[p][pp] then
-				   		local pff = _G["RRPlayerList_"..p.."_"..pp]
+				   		local pff = RaidR.PlayerList.duiwuList[p].ButList[pp]
 				   		pff:Show();
 				   		local wanjianame=plist[p][pp][1]
 				   		pff.allname=wanjianame
@@ -210,28 +210,32 @@ function GDKPInfo.ADD_UI()
 	--
 	local duiwuW,duiwuH = 140,30;
 	local jiangeW,jiangeH,juesejiangeH = 12,0,6;
+	RaidR.PlayerList.duiwuList={}
 	for p=1,8 do
-		local duiwuF = CreateFrame("Frame", "RRPlayerList_"..p, RaidR.PlayerList);
+		local duiwuF = CreateFrame("Frame", nil, RaidR.PlayerList);
+		RaidR.PlayerList.duiwuList[p]=duiwuF
 		duiwuF:SetSize(duiwuW,duiwuH*5+juesejiangeH*4);
 		if p==1 then
 			duiwuF:SetPoint("TOPLEFT",RaidR.PlayerList,"TOPLEFT",18,-biaotiH-60);
 		end
 		if p>1 and p<5 then
-			duiwuF:SetPoint("LEFT",_G["RRPlayerList_"..(p-1)],"RIGHT",jiangeW,jiangeH);
+			duiwuF:SetPoint("LEFT",RaidR.PlayerList.duiwuList[p-1],"RIGHT",jiangeW,jiangeH);
 		end
 		if p==5 then
-			duiwuF:SetPoint("TOP",_G["RRPlayerList_1"],"BOTTOM",0,-26);
+			duiwuF:SetPoint("TOP",RaidR.PlayerList.duiwuList[1],"BOTTOM",0,-26);
 		end
 		if p>5 then
-			duiwuF:SetPoint("LEFT",_G["RRPlayerList_"..(p-1)],"RIGHT",jiangeW,jiangeH);
+			duiwuF:SetPoint("LEFT",RaidR.PlayerList.duiwuList[p-1],"RIGHT",jiangeW,jiangeH);
 		end
+		duiwuF.ButList={}
 		for pp=1,5 do
-			local playerF = PIGButton(duiwuF,nil,{duiwuW,duiwuH},nil,"RRPlayerList_"..p.."_"..pp);
+			local playerF = PIGButton(duiwuF,nil,{duiwuW,duiwuH});
+			duiwuF.ButList[pp]=playerF
 			PIGSetFont(playerF.Text,14,"OUTLINE")
 			if pp==1 then
 				playerF:SetPoint("TOP",duiwuF,"TOP",0,0);
 			else
-				playerF:SetPoint("TOP",_G["RRPlayerList_"..p.."_"..(pp-1)],"BOTTOM",0,-juesejiangeH);
+				playerF:SetPoint("TOP",duiwuF.ButList[pp-1],"BOTTOM",0,-juesejiangeH);
 			end
 			playerF:SetScript("OnClick", function (self)
 				local fujik = RaidR.PlayerList
@@ -250,7 +254,7 @@ function GDKPInfo.ADD_UI()
 					biajidata[3]=self.allname
 					RaidR.Update_Fakuan()
 				elseif GNNn=="TichengRen" then
-					if bianjiID==self.allname then PIGTopMsg:add("老板和推荐人不能为同一人","R") return end
+					if bianjiID==self.allname then PIG_OptionsUI:ErrorMsg("老板和推荐人不能为同一人","R") return end
 					PIGA["GDKP"]["Tops"][bianjiID]={self.allname,0}
 					RaidR.Update_Tops()
 				elseif GNNn=="DebtRen" then
@@ -285,7 +289,7 @@ function GDKPInfo.ADD_UI()
 			RaidR:GetRiadPlayerInfo()
 			RaidR:RaidInfoShow()
 			RaidR.PlayerList:PlayerList_UP()
-			PIGSendChatRaidParty("人员信息已记录,退组/离线/不影响分G，需邮寄工资请"..L["CHAT_WHISPER"].."<"..Pig_OptionsUI.Name..">: 邮寄工资",true,"W")
+			PIGSendChatRaidParty("人员信息已记录,退组/离线/不影响分G，需邮寄工资请"..L["CHAT_WHISPER"].."<"..PIG_OptionsUI.Name..">: 邮寄工资",true,"W")
 		end,
 		timeout = 0,
 		whileDead = true,
@@ -482,10 +486,10 @@ function GDKPInfo.ADD_UI()
 		self.Down:Hide()
 	end);
 	RaidR.xiafangF.setbut:HookScript("OnClick", function (self)
-		if Pig_OptionsUI:IsShown() then
-			Pig_OptionsUI:Hide()
+		if PIG_OptionsUI:IsShown() then
+			PIG_OptionsUI:Hide()
 		else
-			Pig_OptionsUI:Show()
+			PIG_OptionsUI:Show()
 			Create.Show_TabBut(GDKPInfo.fuFrame,GDKPInfo.fuFrameBut)
 		end
 	end);

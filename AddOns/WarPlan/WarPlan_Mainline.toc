@@ -1,6 +1,6 @@
-## Interface: 110105
+## Interface: 110107
 ## Author: foxlit
-## Version: 3.28a
+## Version: 3.28b
 
 ## Title: War Plan
 ## Notes: Interface replacement for War Campaign missions.

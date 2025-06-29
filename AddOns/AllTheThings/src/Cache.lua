@@ -3,13 +3,13 @@ local _, app = ...;
 local L = app.L
 
 -- Global locals
-local ipairs, pairs, rawset, type, wipe, setmetatable, rawget, math_floor,tremove
-	= ipairs, pairs, rawset, type, wipe, setmetatable, rawget, math.floor,tremove
+local ipairs, pairs, rawset, type, setmetatable, rawget, math_floor,tremove
+	= ipairs, pairs, rawset, type, setmetatable, rawget, math.floor,tremove
 local C_Map_GetAreaInfo, C_Map_GetMapInfo = C_Map.GetAreaInfo, C_Map.GetMapInfo;
 
 -- App locals
-local contains, classIndex, raceIndex, factionID, ArrayAppend =
-	app.contains, app.ClassIndex, app.RaceIndex, app.FactionID, app.ArrayAppend
+local wipearray, ArrayAppend =
+	app.wipearray, app.ArrayAppend
 
 -- Module locals
 local AllCaches, AllGamePatches, postscripts, runners, QuestTriggers = {}, {}, {}, {}, {};
@@ -411,6 +411,12 @@ local fieldConverters = {
 	["azeriteessenceID"] = function(group, value)
 		CacheField(group, "azeriteessenceID", value);
 	end,
+	["campsiteID"] = function(group, value)
+		CacheField(group, "campsiteID", value);
+	end,
+	["catalystID"] = function(group, value)
+		CacheField(group, "catalystID", value);
+	end,
 	["creatureID"] = cacheCreatureID,
 	["criteriaID"] = function(group, value)
 		CacheField(group, "criteriaID", value);
@@ -566,21 +572,6 @@ local fieldConverters = {
 	["minReputation"] = function(group, value)
 		cacheFactionID(group, value[1]);
 	end,
-	["c"] = function(group, value)
-		if not contains(value, classIndex) then
-			group.nmc = true; -- "Not My Class"
-		end
-	end,
-	["r"] = function(group, value)
-		if value ~= factionID then
-			group.nmr = true;	-- "Not My Race"
-		end
-	end,
-	["races"] = function(group, value)
-		if not contains(value, raceIndex) then
-			group.nmr = true;	-- "Not My Race"
-		end
-	end,
 	["nextQuests"] = function(group, value)
 		for i=1,#value,1 do
 			CacheField(group, "nextQuests", value[i])
@@ -680,10 +671,6 @@ if app.IsRetail then
 	fieldConverters.awp = nil;
 	-- 'rwp' is never used as a 'search' and this breaks dynamic future removed in Simple mode
 	fieldConverters.rwp = nil;
-	-- Base Class provides auto-fields for these and they do no actual caching
-	fieldConverters.c = nil
-	fieldConverters.r = nil
-	fieldConverters.races = nil
 
 	-- use single iteration of each group by way of not performing any group field additions while the cache process is running
 	_CacheFields = function(group)
@@ -720,9 +707,10 @@ if app.IsRetail then
 	fieldConverters.heirloomID = fieldConverters.itemID;
 	postscripts[#postscripts + 1] = function()
 		if #cacheGroupForModItemID == 0 then return end
-		local modItemID
+		local modItemID,group
 		-- app.PrintDebug("caching for modItemID",#cacheGroupForModItemID)
-		for _,group in ipairs(cacheGroupForModItemID) do
+		for i=1,#cacheGroupForModItemID do
+			group = cacheGroupForModItemID[i]
 			modItemID = group.modItemID
 			if modItemID then
 				CacheField(group, "modItemID", modItemID)
@@ -731,7 +719,7 @@ if app.IsRetail then
 				end
 			end
 		end
-		wipe(cacheGroupForModItemID)
+		wipearray(cacheGroupForModItemID)
 		-- app.PrintDebug("caching for modItemID done")
 	end
 
@@ -772,13 +760,13 @@ end
 CacheFields = function(group, skipMapCaching)
 	allowMapCaching = not skipMapCaching
 	_CacheFields(group);
-	for i,runner in ipairs(runners) do
-		runner();
+	for i=1,#runners do
+		runners[i]()
 	end
-	for i,postscript in ipairs(postscripts) do
-		postscript();
+	for i=1,#postscripts do
+		postscripts[i]();
 	end
-	wipe(runners);
+	wipearray(runners);
 	return group;
 end
 

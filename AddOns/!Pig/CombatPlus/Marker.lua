@@ -3,6 +3,7 @@ local L=addonTable.locale
 local _, _, _, tocversion = GetBuildInfo()
 local sub = _G.string.sub
 --
+local Data=addonTable.Data
 local Fun=addonTable.Fun
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
@@ -25,18 +26,29 @@ local CombatPlusF,CombatPlustabbut =PIGOptionsList_R(CombatPlusfun.RTabFrame,L["
 CombatPlusF:Show()
 CombatPlustabbut:Selected()
 function CombatPlusF:Show_OptionsUI()
-	if Pig_OptionsUI:IsShown() then
-		Pig_OptionsUI:Hide()
+	if PIG_OptionsUI:IsShown() then
+		PIG_OptionsUI:Hide()
 	else
-		Pig_OptionsUI:Show()
+		PIG_OptionsUI:Show()
 		Create.Show_TabBut(CombatPlusfun.fuFrame,CombatPlusfun.fuFrameBut)
 		Create.Show_TabBut_R(CombatPlusfun.RTabFrame,CombatPlusF,CombatPlustabbut)
 	end
 end
 --------
+local function IsMarkerOK()
+	if PlaceRaidMarker and GetClassicExpansionLevel() >= LE_EXPANSION_CATACLYSM then
+		return true
+	end
+	return false
+end
 CombatPlusF.OpGongnum=0
-CombatPlusF.addGongnum=-28
-local biaojiW,OptionsTop = 22, 180
+CombatPlusF.addGongnum=-26
+local biaojiW,OptionsTop,GNNmame = 22, 180, "PIG_"
+local GNLsitsName={"markerW","markerR"}
+local GNLsits={
+	["markerW"]={["yes"]=IsMarkerOK(),["name"]="地面标记",["barHH"]=biaojiW-8,["iconNum"]=9},
+	["markerR"]={["yes"]=true,["name"]="目标标记",["barHH"]=biaojiW,["iconNum"]=9},
+}
 local biaoji_icon = "interface/targetingframe/ui-raidtargetingicons"
 local RiconList = {
 	{biaoji_icon,{0.75,1,0.25,0.5}},
@@ -62,21 +74,11 @@ local WmarkerIndex={
 	[9]={0,1,40/255,40/255},
 }
 -----
-local function IsMarkerOK()
-	if PlaceRaidMarker and GetClassicExpansionLevel() >= LE_EXPANSION_CATACLYSM then
-		return true
-	end
-	return false
-end
-local GNLsitsName={"markerW","markerR"}
-local GNLsits={
-	["markerW"]={["yes"]=IsMarkerOK(),["name"]="地面标记",["barHH"]=biaojiW-8,["iconNum"]=9},
-	["markerR"]={["yes"]=true,["name"]="目标标记",["barHH"]=biaojiW,["iconNum"]=9},
-}
-local function SetAutoShowFun(pigui)
-	if pigui==_G["PIGmarkerW_UI"] and InCombatLockdown() then
+local function SetAutoShowFun(peizhiT)
+	local pigui=_G[GNNmame..peizhiT]
+	if peizhiT=="markerW" and InCombatLockdown() then
 		pigui.nextfun=function()
-			SetAutoShowFun(pigui)
+			SetAutoShowFun(peizhiT)
 		end
 		return
 	end
@@ -84,13 +86,13 @@ local function SetAutoShowFun(pigui)
 	if pigui.NoGroup and not IsInGroup() then
 		pigui.ShowHide=false
 	else
-		if pigui==_G["PIGmarkerR_UI"] then
+		if peizhiT=="markerR" then
 			if pigui.NoTarget and not UnitExists("target") then
 				pigui.ShowHide=false
 			elseif pigui.AutoShow and IsInGroup() and not CanBeRaidTarget("player") then--
 				pigui.ShowHide=false
 			end
-		elseif pigui==_G["PIGmarkerW_UI"] then
+		elseif peizhiT=="markerW" then
 			if pigui.AutoShow and not IsInGroup() or pigui.AutoShow and UnitIsGroupAssistant("player")==false and UnitIsGroupLeader("player")==false then
 				pigui.ShowHide=false
 			end
@@ -99,17 +101,17 @@ local function SetAutoShowFun(pigui)
 	pigui:SetShown(pigui.ShowHide)
 end
 local function SetAutoShow(peizhiT)
-	local pigui=_G["PIG"..peizhiT.."_UI"]
+	local pigui=_G[GNNmame..peizhiT]
 	if pigui then
 		pigui.NoGroup=PIGA["CombatPlus"][peizhiT]["NoGroup"]
 		pigui.AutoShow=PIGA["CombatPlus"][peizhiT]["AutoShow"]
 		pigui.NoTarget=PIGA["CombatPlus"][peizhiT]["NoTarget"]
-		if peizhiT=="markerW" and InCombatLockdown() then PIGTopMsg:add(ERR_NOT_IN_COMBAT) end
-		SetAutoShowFun(pigui)
+		if peizhiT=="markerW" and InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) end
+		SetAutoShowFun(peizhiT)
 	end
 end
 local function SetBGHide(peizhiT)
-	local pigui=_G["PIG"..peizhiT.."_UI"]
+	local pigui=_G[GNNmame..peizhiT]
 	if pigui then
 		if PIGA["CombatPlus"][peizhiT]["BGHide"] then
 			pigui:SetBackdropColor(0, 0, 0, 0);
@@ -121,30 +123,31 @@ local function SetBGHide(peizhiT)
 	end
 end
 local function SetLookUI(peizhiT)
-	local pigui=_G["PIG"..peizhiT.."_UI"]
+	local pigui=_G[GNNmame..peizhiT]
 	if pigui then
 		pigui.yidong:SetShown(not PIGA["CombatPlus"][peizhiT]["Lock"])
 	end
 end
 local function SetScaleUI(peizhiT)
-	local pigui=_G["PIG"..peizhiT.."_UI"]
+	local pigui=_G[GNNmame..peizhiT]
 	if pigui then
 		pigui:SetScale(PIGA["CombatPlus"][peizhiT]["Scale"])
 	end
 end
 local function add_barUI(peizhiT)
 	if not PIGA["CombatPlus"][peizhiT]["Open"] then return end
-	if _G["PIG"..peizhiT.."_UI"] then return end
+	if _G[GNNmame..peizhiT] then return end
 	local SizeHH=GNLsits[peizhiT].barHH+4
 	local listNum=GNLsits[peizhiT].iconNum
 	local bartopV =CombatPlusF.addGongnum
-	local biaojiUIx = PIGFrame(UIParent,{"TOP", UIParent, "TOP", 0, bartopV},{(biaojiW+3)*listNum+5,SizeHH},"PIG"..peizhiT.."_UI")
+	Data.UILayout[GNNmame..peizhiT]={"TOP", "TOP", 0, bartopV}
+	local biaojiUIx = PIGFrame(UIParent,nil,{(biaojiW+3)*listNum+5,SizeHH},GNNmame..peizhiT)
+	Create.PIG_SetPoint(GNNmame..peizhiT)
 	biaojiUIx.SizeHH=SizeHH+2
 	biaojiUIx.bartopV=bartopV
 	CombatPlusF.addGongnum=CombatPlusF.addGongnum-SizeHH-2
 	biaojiUIx:PIGSetBackdrop(0.4,0.9,nil,{0.3,0.3,0.3})
 	biaojiUIx:Hide()
-	PIGCombatTime_UI:UpdateUIPoint()
 	biaojiUIx.yidong = PIGFrame(biaojiUIx)
 	biaojiUIx.yidong:PIGSetBackdrop(0.4,0.9,nil,{0.3,0.3,0.3})
 	biaojiUIx.yidong:SetSize(12, SizeHH)
@@ -163,7 +166,7 @@ local function add_barUI(peizhiT)
 		GameTooltip:Hide() 
 	end)
 	biaojiUIx.yidong:SetScript("OnMouseUp", function (self,Button)
-		CombatPlusF:Show_OptionsUI()
+		if Button=="RightButton" then CombatPlusF:Show_OptionsUI() end
 	end);
 	---
 	for i=1,listNum do
@@ -182,7 +185,7 @@ local function add_barUI(peizhiT)
 				SetRaidTarget("target", listNum-i)
 			end)
 		elseif peizhiT=="markerW" then
-			listbut = CreateFrame("CheckButton", "$parent_But"..i, biaojiUIx,"SecureActionButtonTemplate")
+			listbut = CreateFrame("CheckButton", nil, biaojiUIx,"SecureActionButtonTemplate")
 			PIGUseKeyDown(listbut)
 			listbut:SetSize(biaojiW,biaojiW-10)
 			listbut:SetPoint("LEFT", biaojiUIx, "LEFT",i*(biaojiW+3)-biaojiW,0)
@@ -231,7 +234,7 @@ local function add_barUI(peizhiT)
 				self.nextfun=nil
 			end
 		else
-			SetAutoShowFun(self) 
+			SetAutoShowFun(peizhiT) 
 		end
 	end);
 end
@@ -239,7 +242,7 @@ local function add_Options(peizhiT,topHV)
 	local nameGN=GNLsits[peizhiT].name
 	local checkbutOpen = PIGCheckbutton(CombatPlusF,{"TOPLEFT",CombatPlusF,"TOPLEFT",20,topHV-20},{"启用"..nameGN.."按钮","在屏幕上显示"..nameGN.."按钮"})
 	checkbutOpen:SetScript("OnClick", function (self)
-		if peizhiT=="markerW" and InCombatLockdown() then self:SetChecked(PIGA["CombatPlus"][peizhiT]["Open"]) PIGTopMsg:add(ERR_NOT_IN_COMBAT) return end
+		if peizhiT=="markerW" and InCombatLockdown() then self:SetChecked(PIGA["CombatPlus"][peizhiT]["Open"]) PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
 		if self:GetChecked() then
 			PIGA["CombatPlus"][peizhiT]["Open"]=true;
 			add_barUI(peizhiT)
@@ -247,7 +250,7 @@ local function add_Options(peizhiT,topHV)
 		else
 			PIGA["CombatPlus"][peizhiT]["Open"]=false;
 			self.F:Hide()
-			Pig_Options_RLtishi_UI:Show()
+			PIG_OptionsUI.RLUI:Show()
 		end
 	end)
 	---
@@ -280,10 +283,10 @@ local function add_Options(peizhiT,topHV)
 	end)
 	checkbutOpen.F.Lock.CZBUT = PIGButton(checkbutOpen.F.Lock,{"LEFT",checkbutOpen.F.Slider,"RIGHT",70,0},{50,22},"重置")
 	checkbutOpen.F.Lock.CZBUT:SetScript("OnClick", function ()
-		local pigui=_G["PIG"..peizhiT.."_UI"]
+		Create.PIG_ResPoint(GNNmame..peizhiT)
+		local pigui=_G[GNNmame..peizhiT]
 		if pigui then
 			PIGA["CombatPlus"][peizhiT]["Scale"]=addonTable.Default["CombatPlus"][peizhiT]["Scale"]
-			pigui:PIGResPoint({"TOP", UIParent, "TOP", 0, pigui.bartopV})
 			SetScaleUI(peizhiT)
 		end
 		checkbutOpen.F.Slider:PIGSetValue(PIGA["CombatPlus"][peizhiT]["Scale"])

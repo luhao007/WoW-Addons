@@ -1,16 +1,22 @@
-## Interface: 110105
-## Notes: An addon for tracking the completion/faliure of instance achievements.
-## Title:Instance Achievement Tracker
+## Interface: 110107
 ## Author: Whizzey
-## Version: 5.22.0
+## Version: 5.24.0
+
+## Title: Instance Achievement Tracker
+## Notes: An addon for tracking the completion/faliure of instance achievements.
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF副本成就助手|r |cFFFFE00AInstanceAchievementTracker|r
+## Notes-zhCN: 查询副本成就完成情况并追踪部分成
+
 ## IconTexture: Interface/AddOns/InstanceAchievementTracker/Images/icon.jpg
+
 ## OptionalDeps: LibStub, CallbackHandler-1.0, LibDBIcon-1.0, LibInspect, LibRangeCheck-3.0, LibWindow-1.1
+
 ## SavedVariables: AchievementTrackerOptions, AchievementTrackerDebug, AchievementTrackerNPCCache, AchievementTrackerNPCCacheClassic
+
 ## X-Curse-Project-ID: 286675
 ## X-WoWI-ID: 24756
 ## X-Wago-ID: RBKpXaKE
 
-Libs\MSA-DropDownMenu-1.0\MSA-DropDownMenu-1.0.lua
 Libs\LibDetours-1.0\LibDetours-1.0.lua
 Libs\LibClassicInspector\LibClassicInspector.lua
 Libs\LibDBCompartment\LibDBCompartment-1.0.lua
@@ -41,7 +47,6 @@ WarWithinDelves\TheSinkhole.lua
 WarWithinDelves\TheSpiralWeave.lua
 WarWithinDelves\TheUnderkeep.lua
 WarWithinDelves\TheWaterworks.lua
-
 
 DragonflightRaids\VaultOfTheIncarnates.lua
 DragonflightRaids\AberrusTheShadowedCrucible.lua

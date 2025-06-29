@@ -145,14 +145,15 @@ local function CreateItemButton()
 	button.secButton.icon:SetPoint("BOTTOMRIGHT", button.secButton)
 	button.secButton.icon:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
 
-	button.secButton.qualityBorder = button.secButton:CreateTexture(buttonName.."-QualityBorder")
+	button.secButton.qualityBorder = button.secButton:CreateTexture(buttonName.."-QualityBorder", "OVERLAY")
 	button.secButton.qualityBorder:SetPoint("TOPLEFT", button.secButton.icon, "TOPLEFT")
 	button.secButton.qualityBorder:SetPoint("BOTTOMRIGHT", button.secButton.icon, "BOTTOMRIGHT")
 	button.secButton.qualityBorder:SetTexture("Interface\\Common\\WhiteIconFrame")
 	button.secButton.qualityBorder:Hide()
 
 	-- secButtonOverlay <texture>
-	button.secButton.overlay = button.secButton:CreateTexture(buttonName.."-Overlay", "OVERLAY")
+	button.secButton.overlay = button.secButton:CreateTexture(buttonName.."-Overlay")
+	button.secButton.overlay:SetDrawLayer("OVERLAY", 1)
 	button.secButton.overlay:SetPoint("TOPLEFT", button.secButton.icon)
 	button.secButton.overlay:SetPoint("BOTTOMRIGHT", button.secButton.icon)
 	button.secButton.overlay:Hide()

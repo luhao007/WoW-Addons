@@ -14,11 +14,12 @@ local TardisInfo = {}
 addonTable.TardisInfo=TardisInfo
 ------------
 local QuickBut_ID=13
-local GnName,GnUI,GnIcon,FrameLevel = L["PIGaddonList"][addonName],"PIG_Tardis_UI",132327,30
+local GnName,GnUI,GnIcon,FrameLevel = L["PIGaddonList"][addonName],"PIG_TardisUI",136011,30
 TardisInfo.uidata={GnName,GnUI,GnIcon,FrameLevel,QuickBut_ID}
 local fuFrame,fuFrameBut,Tooltip = unpack(Data.Ext[L.extLsit[1]])
 if not fuFrame.OpenMode then return end
 fuFrame.extaddonT:Hide()
+local QuickButUI=_G[Data.QuickButUIname]
 TardisInfo.fuFrame,TardisInfo.fuFrameBut=fuFrame,fuFrameBut
 ---
 function TardisInfo.ADD_Options()
@@ -31,7 +32,7 @@ function TardisInfo.ADD_Options()
 		else
 			PIGA["Tardis"]["Open"]=false;
 			fuFrame.SetListF:Hide()
-			Pig_Options_RLtishi_UI:Show()
+			PIG_OptionsUI.RLUI:Show()
 		end
 		QuickButUI.ButList[QuickBut_ID]()
 		QuickButUI.ButList[QuickBut_ID+1]()
@@ -42,21 +43,21 @@ function TardisInfo.ADD_Options()
 			QuickButUI.ButList[QuickBut_ID]()
 		else
 			PIGA["Tardis"]["AddBut"]=false
-			Pig_Options_RLtishi_UI:Show();
+			PIG_OptionsUI.RLUI:Show();
 		end
 	end);
 	QuickButUI.ButList[QuickBut_ID]=function()	
 		if PIGA["QuickBut"]["Open"] and PIGA["Tardis"]["Open"] and PIGA["Tardis"]["AddBut"] then
-			local QkButUI = "QkBut_Invite"
-			if _G[QkButUI] then return end
+			if QuickButUI.TardisOpen then return end
+			QuickButUI.TardisOpen=true
 			local QuickTooltip = KEY_BUTTON1.."-|cff00FFFF打开"..GnName.."|r\n"..KEY_BUTTON2.."-|cff00FFFF"..SETTINGS.."|r"
-			local QkBut=PIGQuickBut(QkButUI,QuickTooltip,GnIcon,GnUI,FrameLevel)
+			local QkBut=PIGQuickBut(nil,QuickTooltip,GnIcon,GnUI,FrameLevel)
 			QkBut:HookScript("OnClick", function(self,button)
 				if button=="RightButton" then
-					if Pig_OptionsUI:IsShown() then
-						Pig_OptionsUI:Hide()
+					if PIG_OptionsUI:IsShown() then
+						PIG_OptionsUI:Hide()
 					else
-						Pig_OptionsUI:Show()
+						PIG_OptionsUI:Show()
 						Create.Show_TabBut(fuFrame,fuFrameBut)
 					end
 				end
@@ -102,7 +103,7 @@ function TardisInfo.ADD_Options()
 			else
 				PIGA["Tardis"][peizhiV]["Open"]=false
 			end
-			Pig_Options_RLtishi_UI:Show()
+			PIG_OptionsUI.RLUI:Show()
 		end);
 		SetListBut:HookScript("OnShow", function (self)
 			self:SetChecked(PIGA["Tardis"][peizhiV]["Open"])
@@ -143,7 +144,7 @@ function TardisInfo.ADD_Options()
 end
 --======
 fuFrame:HookScript("OnShow", function (self)
-	if self.VersionID<PIGA["Ver"][addonName] then
+	if PIGA["Ver"][addonName] and PIG_OptionsUI:GetVer_NUM(addonName)<PIGA["Ver"][addonName] then
 		self.UpdateVer:Show()
 	end
 	self.Open:SetChecked(PIGA["Tardis"]["Open"])
@@ -155,25 +156,23 @@ fuFrame:HookScript("OnShow", function (self)
 	end
 end);
 --===================================
-local GetExtVer=Pig_OptionsUI.GetExtVer
-local SendMessage=Pig_OptionsUI.SendMessage
 fuFrame:RegisterEvent("ADDON_LOADED")   
 fuFrame:RegisterEvent("PLAYER_LOGIN");
 fuFrame:RegisterEvent("CHAT_MSG_ADDON"); 
 fuFrame:SetScript("OnEvent",function(self, event, arg1, arg2, arg3, arg4, arg5)
 	if event=="CHAT_MSG_ADDON" then
-		GetExtVer(self,addonName,self.VersionID, arg1, arg2, arg3, arg4, arg5)
+		PIG_OptionsUI.GetExtVerInfo(self,addonName,PIG_OptionsUI:GetVer_NUM(addonName), arg1, arg2, arg3, arg4, arg5)
 	elseif event=="PLAYER_LOGIN" then
 		PIGA["Ver"][addonName]=PIGA["Ver"][addonName] or 0
-		if PIGA["Ver"][addonName]>self.VersionID then
+		if PIGA["Ver"][addonName]>PIG_OptionsUI:GetVer_NUM(addonName) then
 			self.yiGenxing=true;
 		else
-			SendMessage(addonName.."#U#"..self.VersionID)
+			PIG_OptionsUI.SendExtVerInfo(addonName.."#U#"..PIG_OptionsUI:GetVer_NUM(addonName))
 		end
 	elseif event=="ADDON_LOADED" and arg1 == addonName then
 		self:UnregisterEvent("ADDON_LOADED")
 		addonTable.Load_Config()
-		Pig_OptionsUI:SetVer_EXT(arg1,self)
+		PIG_OptionsUI:SetVer_EXT(arg1,self)
 		TardisInfo.ADD_Options()
 	end
 end)

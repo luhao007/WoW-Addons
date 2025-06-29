@@ -1,6 +1,6 @@
-## Interface: 110105
+## Interface: 110107
 ## Author: Gyula Pataki, Joseph O'Connor, Josef Drexler
-## Version: 11.1.0.5
+## Version: 11.1.0.11
 
 ## Title: Minimal Archaeology
 ## Notes: Archaeology UI replacement, Archaeology History and more... - Cataclysm Version

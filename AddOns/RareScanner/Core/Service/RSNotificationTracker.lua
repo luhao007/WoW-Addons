@@ -72,7 +72,7 @@ function RSNotificationTracker.AddNotification(vignetteID, isNavigating, entityI
 	end
 end
 
-function RSNotificationTracker.IsAlreadyNotificated(vignetteID, isNavigating, entityID)	
+function RSNotificationTracker.IsAlreadyNotificated(vignetteID, isNavigating, entityID, trackingSystem)	
 	-- When navigating never check notifications
 	if (isNavigating) then
 		return false
@@ -84,8 +84,8 @@ function RSNotificationTracker.IsAlreadyNotificated(vignetteID, isNavigating, en
 
 	-- Avoids showing alert if user is targeting that NPC already
 	-- This will avoid getting constant alerts for the same rare NPC if the user takes a while to start combat
-	-- and the vignettes is removed from the alreadyFound list
-	if (UnitExists("target")) then
+	-- and the vignette is removed from the alreadyFound list
+	if ((not trackingSystem or trackingSystem ~= RSConstants.TRACKING_SYSTEM.UNIT_TARGET) and UnitExists("target")) then
 		local targetUid = UnitGUID("target")
 		local _, _, _, _, _, targetNpcID = strsplit(VIGNETTE_ID_SEPARATOR, targetUid)
 		if (tonumber(targetNpcID) == entityID) then

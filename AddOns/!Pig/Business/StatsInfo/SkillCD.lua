@@ -20,8 +20,7 @@ local GetContainerItemCooldown=GetContainerItemCooldown or C_Container and C_Con
 local GetSpellInfo=GetSpellInfo or C_Spell and C_Spell.GetSpellInfo
 local GetItemNameByID=GetItemNameByID or C_Item and C_Item.GetItemNameByID
 ---
-function BusinessInfo.SkillCD()
-	local StatsInfo = StatsInfo_UI
+function BusinessInfo.SkillCD(StatsInfo)
 	local fujiF,fujiTabBut=PIGOptionsList_R(StatsInfo.F,"专\n业",StatsInfo.butW,"Left")
 	fujiF.guolvtype=1
 	local guolvname = {"有CD角色","所有角色","已学专业角色","未学专业角色"}
@@ -36,7 +35,7 @@ function BusinessInfo.SkillCD()
 			end
 			self:Selected()
 			fujiF.guolvtype=i
-			fujiF.Skill.Update_List()
+			fujiF.NR.Update_List()
 		end);
 	end
 	---
@@ -250,34 +249,34 @@ function BusinessInfo.SkillCD()
 		end
 	end
 	----
-	local hang_Height,hang_NUM,numButtons  = 19.4, 11, 6;
-	fujiF.Skill=PIGFrame(fujiF)
-	fujiF.Skill:SetPoint("TOPLEFT",fujiF,"TOPLEFT",4,-32);
-	fujiF.Skill:SetPoint("BOTTOMRIGHT",fujiF,"BOTTOMRIGHT",-4,4);
-	fujiF.Skill:PIGSetBackdrop(0)
-	fujiF.Skill.Scroll = CreateFrame("ScrollFrame",nil,fujiF.Skill, "FauxScrollFrameTemplate");  
-	fujiF.Skill.Scroll:SetPoint("TOPLEFT",fujiF.Skill,"TOPLEFT",2,-2);
-	fujiF.Skill.Scroll:SetPoint("BOTTOMRIGHT",fujiF.Skill,"BOTTOMRIGHT",-24,2);
-	fujiF.Skill.Scroll:SetScale(0.8);
-	fujiF.Skill.Scroll:SetScript("OnVerticalScroll", function(self, offset)
-	    FauxScrollFrame_OnVerticalScroll(self, offset, hang_Height, fujiF.Skill.Update_List)
+	local hang_Height,hang_NUM,numButtons  = StatsInfo.hang_Height, 11, 6;
+	fujiF.NR=PIGFrame(fujiF)
+	fujiF.NR:SetPoint("TOPLEFT",fujiF,"TOPLEFT",4,-40);
+	fujiF.NR:SetPoint("BOTTOMRIGHT",fujiF,"BOTTOMRIGHT",-4,4);
+	fujiF.NR:PIGSetBackdrop(0)
+	fujiF.NR.Scroll = CreateFrame("ScrollFrame",nil,fujiF.NR, "FauxScrollFrameTemplate");  
+	fujiF.NR.Scroll:SetPoint("TOPLEFT",fujiF.NR,"TOPLEFT",2,-2);
+	fujiF.NR.Scroll:SetPoint("BOTTOMRIGHT",fujiF.NR,"BOTTOMRIGHT",-19,2);
+	fujiF.NR.Scroll:SetScale(0.8);
+	fujiF.NR.Scroll:SetScript("OnVerticalScroll", function(self, offset)
+	    FauxScrollFrame_OnVerticalScroll(self, offset, hang_Height, fujiF.NR.Update_List)
 	end)
-	fujiF.Skill.listbut={}
+	fujiF.NR.listbut={}
 	for id = 1, hang_NUM, 1 do
-		local hang = CreateFrame("Frame", nil, fujiF.Skill);
-		fujiF.Skill.listbut[id]=hang
-		hang:SetSize(fujiF.Skill:GetWidth()-18,hang_Height*2+4);
+		local hang = CreateFrame("Frame", nil, fujiF.NR);
+		fujiF.NR.listbut[id]=hang
+		hang:SetSize(fujiF.NR:GetWidth()-18,hang_Height*2+4);
 		if id==1 then
-			hang:SetPoint("TOPLEFT", fujiF.Skill.Scroll, "TOPLEFT", 0, 0);
+			hang:SetPoint("TOPLEFT", fujiF.NR, "TOPLEFT", 0, 0);
 		else
-			hang:SetPoint("TOPLEFT", fujiF.Skill.listbut[id-1], "BOTTOMLEFT", 0, 0);
+			hang:SetPoint("TOPLEFT", fujiF.NR.listbut[id-1], "BOTTOMLEFT", 0, 0);
 		end
 		if id~=hang_NUM then
 			hang.line = PIGLine(hang,"BOT",0,nil,nil,{0.5,0.5,0.5,0.2})
 		end
 		hang.Faction = hang:CreateTexture();
 		hang.Faction:SetTexture("interface/glues/charactercreate/ui-charactercreate-factions.blp");
-		hang.Faction:SetPoint("TOPLEFT", hang, "TOPLEFT", 0,-2);
+		hang.Faction:SetPoint("TOPLEFT", hang, "TOPLEFT", 3,-2);
 		hang.Faction:SetSize(hang_Height,hang_Height);
 		hang.Race = hang:CreateTexture();
 		hang.Race:SetPoint("LEFT", hang.Faction, "RIGHT", 1,0);
@@ -393,7 +392,7 @@ function BusinessInfo.SkillCD()
 			end
 		end
 	end
-	fujiF.Skill:HookScript("OnShow", function(self)
+	fujiF.NR:HookScript("OnShow", function(self)
 		self.Update_List();
 	end)
 	local function IsExistCD(dataT)
@@ -429,11 +428,11 @@ function BusinessInfo.SkillCD()
 			return true
 		end
 	end
-	function fujiF.Skill.Update_List()
+	function fujiF.NR.Update_List()
 		if not fujiF:IsVisible() then return end
-		local self=fujiF.Skill.Scroll
+		local self=fujiF.NR.Scroll
 		for id = 1, hang_NUM, 1 do
-			local fujik = fujiF.Skill.listbut[id]
+			local fujik = fujiF.NR.listbut[id]
 			fujik:Hide();
 			fujik.nameDQ:Hide()
 		end
@@ -461,7 +460,7 @@ function BusinessInfo.SkillCD()
 		    for id = 1, hang_NUM do
 				local dangqian = id+offset;
 				if cdmulu[dangqian] then
-					local fujik = fujiF.Skill.listbut[id]
+					local fujik = fujiF.NR.listbut[id]
 					fujik:Show();
 					if cdmulu[dangqian][2]=="Alliance" then
 						fujik.Faction:SetTexCoord(0,0.5,0,1);

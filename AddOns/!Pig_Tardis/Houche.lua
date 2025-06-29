@@ -266,13 +266,15 @@ function TardisInfo.Houche(Activate)
 	local hang_Width = TabF.F:GetWidth();
 	TabF.F.Scroll = CreateFrame("ScrollFrame",nil,TabF.F, "FauxScrollFrameTemplate");  
 	TabF.F.Scroll:SetPoint("TOPLEFT",TabF.F,"TOPLEFT",2,-24);
-	TabF.F.Scroll:SetPoint("BOTTOMRIGHT",TabF.F,"BOTTOMRIGHT",-20,2);
+	TabF.F.Scroll:SetPoint("BOTTOMRIGHT",TabF.F,"BOTTOMRIGHT",-19,2);
 	TabF.F.Scroll.ScrollBar:SetScale(0.8);
 	TabF.F.Scroll:SetScript("OnVerticalScroll", function(self, offset)
 	    FauxScrollFrame_OnVerticalScroll(self, offset, hang_Height, TabF.gengxinhang)
 	end)
+	TabF.F.ButList={}
 	for i=1, hang_NUM, 1 do
-		local hangL = CreateFrame("Button", "HoucheList_"..i, TabF.F,"BackdropTemplate");
+		local hangL = CreateFrame("Button", nil, TabF.F,"BackdropTemplate");
+		TabF.F.ButList[i]=hangL
 		hangL:SetBackdrop({bgFile = "interface/chatframe/chatframebackground.blp"});
 		hangL:SetSize(hang_Width-2,hang_Height);
 		hangL:SetBackdropColor(unpack(xuanzhongBG[1]));
@@ -280,7 +282,7 @@ function TardisInfo.Houche(Activate)
 		if i==1 then
 			hangL:SetPoint("TOPLEFT", TabF.F.Scroll, "TOPLEFT", 0, -1);
 		else
-			hangL:SetPoint("TOPLEFT", _G["HoucheList_"..(i-1)], "BOTTOMLEFT", 0, -1);
+			hangL:SetPoint("TOPLEFT", TabF.F.ButList[i-1], "BOTTOMLEFT", 0, -1);
 		end
 		hangL:HookScript("OnEnter", function (self)
 			self:SetBackdropColor(unpack(xuanzhongBG[2]));
@@ -461,7 +463,7 @@ function TardisInfo.Houche(Activate)
 		TabF:yanchiEnable()
 		TabF.GetBut.jindutishi:SetText("上次获取:刚刚");
 		for i = 1, hang_NUM do
-			_G["HoucheList_"..i]:Hide()	
+			TabF.F.ButList[i]:Hide()	
 		end
 		local ItemsNum = #TabF.JieshouInfoList;
 		if ItemsNum>0 then
@@ -471,7 +473,7 @@ function TardisInfo.Houche(Activate)
 			for i = 1, hang_NUM do
 				local dangqian = i+offset;
 				if TabF.JieshouInfoList[dangqian] then
-					local hangL = _G["HoucheList_"..i]	
+					local hangL = TabF.F.ButList[i]
 					hangL:Show()
 					local allname = TabF.JieshouInfoList[dangqian][2]
 					hangL.allname=allname
@@ -507,7 +509,7 @@ function TardisInfo.Houche(Activate)
 						hangL.caozuo:SetText(INVITE);
 						hangL.caozuo:SetBackdropColor(0.545, 0.137, 0.137,1)
 					end
-					if allname == Pig_OptionsUI.Name or allname == Pig_OptionsUI.AllName then
+					if allname == PIG_OptionsUI.Name or allname == PIG_OptionsUI.AllName then
 						hangL.caozuo:Disable()
 						hangL.caozuo:SetText(UNIT_YOU_DEST);
 						hangL.caozuo:SetBackdropColor(0.3, 0.3, 0.3,0.8)
@@ -857,8 +859,7 @@ function TardisInfo.Houche(Activate)
 				end
 				FCTabF.ADD:SetEditMode()
 			end)
-		end
-		if event=="CHAT_MSG_CHANNEL" then
+		elseif event=="CHAT_MSG_CHANNEL" then
 			if FCTabF.invOpen then
 				if arg9~=pindao then return end
 				if arg1==GetInfoMsg..FCTabF.selectedCategory..FCTabF.selectedGroup..FCTabF.selectedActivity or arg1==GetInfoMsg..FCTabF.selectedCategory..FCTabF.selectedGroup.."0" then
@@ -869,8 +870,7 @@ function TardisInfo.Houche(Activate)
 					fasongBendiMsg(waname)
 				end
 			end
-		end
-		if event=="CHAT_MSG_ADDON" and arg1 == Biaotou then
+		elseif event=="CHAT_MSG_ADDON" and arg1 == Biaotou then
 			if arg3=="CHANNEL" then
 				if FCTabF.invOpen then
 					if arg8~=pindao then return end

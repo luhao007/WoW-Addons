@@ -258,7 +258,7 @@ GetQuestLinkForObject = function(t)
 	local questID = t.questID;
 	if questID then return GetQuestLink(questID)
 		-- technically the second number value is some other value to make the link actually usable
-		or CustomQuestLinkFormat:format(questID,app.Level,t.name,questID) end
+		or CustomQuestLinkFormat:format(questID,app.Level,t.name or t.hash,questID) end
 end
 end
 
@@ -776,6 +776,18 @@ local function BuildDiscordQuestInfoTable(id, infoText, questChange, questRef, c
 	tinsert(info, "```");	-- discord fancy box end
 	return info;
 end
+local function SearchForQuestData(questID)
+	-- Retail: This is too fine grained and ignores altQuests, which are perfectly valid.
+	local questRef = Search("questID", questID, "field");
+	if not questRef then
+		-- This should find altQuests.
+		local searchResults = SearchForField("questID", questID);
+		if searchResults and #searchResults > 0 then
+			return searchResults[1];
+		end
+	end
+	return questRef;
+end
 PrintQuestInfo = function(questID, new)
 	if not DoQuestPrints then return end
 	-- Users can manually set certain QuestIDs to be ignored because Blizzard decides to toggle them on and off constantly forever
@@ -783,7 +795,7 @@ PrintQuestInfo = function(questID, new)
 
 	local text
 	local questChange = (new == true and "accepted") or (new == false and "unflagged") or "completed";
-	local questRef = Search("questID", questID, "field")
+	local questRef = SearchForQuestData(questID)
 	if questRef then
 
 		local nyi = GetRelativeField(questRef, "u", 1)
@@ -2365,7 +2377,7 @@ if app.IsRetail then
 	local function BuildSourceQuestChain(group)
 		if not ((group.key == "questID" and group.questID) or group.sourceQuests) then return end
 
-		group.isQuestChain = true;
+		GetRelativeValue(group, "window").isQuestChain = true
 
 		-- if the group was created from a popout and thus contains its own pre-req quests already, then clean out direct quest entries from the group
 		if group.g then
@@ -2406,7 +2418,7 @@ if app.IsRetail then
 				OnUpdate = app.AlwaysShowUpdate,
 				OnClick = app.UI.OnClick.IgnoreRightClick,
 				-- sourceIgnored = true,
-				skipFill = true,
+				skipFull = true,
 				skipContains = true,
 				SortPriority = 1.0,	-- follow any raw content in group
 				SortType = "Total",
@@ -2441,6 +2453,7 @@ if app.IsRetail then
 
 	-- Quest Harvesting Lib (http://www.wowinterface.com/forums/showthread.php?t=46934)
 	local QuestHarvester = CreateFrame("GameTooltip", "AllTheThingsQuestHarvester", UIParent, "GameTooltipTemplate");
+	QuestHarvester.AllTheThingsIgnored = true;
 
 	local GetNumQuestLogRewards,HaveQuestRewardData =
 		  GetNumQuestLogRewards,HaveQuestRewardData;

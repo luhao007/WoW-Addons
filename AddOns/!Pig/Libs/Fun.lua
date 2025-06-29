@@ -10,6 +10,22 @@ local L =addonTable.locale
 local Fun = {}
 addonTable.Fun=Fun
 -------------
+local voiceID = C_TTSSettings.GetVoiceOptionID(0)
+function PIG_PlaySoundFile(url)
+	if url[2]=="AI" then
+		C_VoiceChat.SpeakText(voiceID, url[1], Enum.VoiceTtsDestination.LocalPlayback, 2, 100)
+	elseif url[2]=="" then
+	else
+		PlaySoundFile(url[2], "Master")
+	end
+end
+function Fun.IsAudioNumMaxV(cfv,AudioData)
+	if cfv>#AudioData then
+		return 1
+	else
+		return cfv
+	end
+end
 function PIG_InviteUnit(name)
 	local InviteUnit=C_PartyInfo and C_PartyInfo.InviteUnit or InviteUnit
 	InviteUnit(name)
@@ -70,11 +86,11 @@ function PIGGetContainerItemInfo(bag, slot)
 	if C_Container and C_Container.GetContainerItemInfo then
 		local ItemInfo = C_Container.GetContainerItemInfo(bag, slot)
 		if ItemInfo then
-			return ItemInfo.itemID,ItemInfo.hyperlink,ItemInfo.iconFileID,ItemInfo.stackCount,ItemInfo.quality,ItemInfo.hasNoValue,ItemInfo.hasLoot,ItemInfo.isLocked
+			return ItemInfo.itemID,ItemInfo.hyperlink,ItemInfo.iconFileID,ItemInfo.stackCount,ItemInfo.quality,ItemInfo.hasNoValue,ItemInfo.hasLoot,ItemInfo.isLocked,ItemInfo.isBound
 		end
 	else
 		local icon, itemCount, locked, quality, readable, lootable, itemLink, isFiltered, noValue, itemID, isBound = GetContainerItemInfo(bag, slot)
-		return itemID, itemLink, icon, stackCount, quality, noValue, lootable, locked
+		return itemID, itemLink, icon, stackCount, quality, noValue, lootable, locked, isBound
 	end
 end
 --发送消息
@@ -107,8 +123,8 @@ function PIGSendChatRaidParty(txt,GroupLeader,extinfo)
 		end
 	end
 end
+local SendAddonMessage=SendAddonMessage or C_ChatInfo and C_ChatInfo.SendAddonMessage
 function PIGSendAddonMessage(biaotou,txt,chatType, target)
-	local SendAddonMessage=SendAddonMessage or C_ChatInfo and C_ChatInfo.SendAddonMessage
 	SendAddonMessage(biaotou,txt,chatType, target)
 end
 function PIGSendAddonRaidParty(biaotou,txt)
@@ -168,21 +184,59 @@ else
 		end
 	end
 end
-function Fun.PIGSetAtlas(buticon,Atlas,AtlasInfo)
-	for k,v in pairs(AtlasInfo) do
+function Fun.PIGSetAtlas(buticon,Atlas)
+	if not addonTable.Data.AtlasInfo then return false end
+	for k,v in pairs(addonTable.Data.AtlasInfo) do
 		if v[Atlas] then
 			buticon:SetTexture(k)
 			buticon:SetTexCoord(v[Atlas][3], v[Atlas][4], v[Atlas][5], v[Atlas][6])
+			return true
 		end
 	end
+	return false
 end
-function Fun.PIGSetButtonAtlas(buticon,Atlas,AtlasInfo)
-	for k,v in pairs(AtlasInfo) do
+function Fun.PIGSetButtonNormalAtlas(buticon,Atlas)
+	if not addonTable.Data.AtlasInfo then return false end
+	for k,v in pairs(addonTable.Data.AtlasInfo) do
 		if v[Atlas] then
 			buticon:SetNormalTexture(k)
 			buticon:GetNormalTexture():SetTexCoord(v[Atlas][3], v[Atlas][4], v[Atlas][5], v[Atlas][6])
 		end
 	end
+end
+function Fun.PIGSetButtonPushedAtlas(buticon,Atlas)
+	if not addonTable.Data.AtlasInfo then return false end
+	for k,v in pairs(addonTable.Data.AtlasInfo) do
+		if v[Atlas] then
+			buticon:SetPushedTexture(k)
+			buticon:GetPushedTexture():SetTexCoord(v[Atlas][3], v[Atlas][4], v[Atlas][5], v[Atlas][6])
+		end
+	end
+end
+function Fun.PIGSetButtonDisabledAtlas(buticon,Atlas)
+	if not addonTable.Data.AtlasInfo then return false end
+	for k,v in pairs(addonTable.Data.AtlasInfo) do
+		if v[Atlas] then
+			buticon:SetDisabledTexture(k)
+			buticon:GetDisabledTexture():SetTexCoord(v[Atlas][3], v[Atlas][4], v[Atlas][5], v[Atlas][6])
+		end
+	end
+end
+function Fun.PIGSetButtonHighlightAtlas(buticon,Atlas)
+	if not addonTable.Data.AtlasInfo then return false end
+	for k,v in pairs(addonTable.Data.AtlasInfo) do
+		if v[Atlas] then
+			buticon:SetHighlightTexture(k)
+			buticon:GetHighlightTexture():SetTexCoord(v[Atlas][3], v[Atlas][4], v[Atlas][5], v[Atlas][6])
+		end
+	end
+end
+function Fun.RGBToHex(t)
+	local r,g,b = t.r*255,t.g*255,t.b*255
+	r = r <= 255 and r >= 0 and r or 0
+	g = g <= 255 and g >= 0 and g or 0
+	b = b <= 255 and b >= 0 and b or 0
+	return format("%02x%02x%02x", r, g, b)
 end
 -----
 local function Update_LootTxt(but)
@@ -277,7 +331,8 @@ function Fun.tihuankuohao(fullName)
 end
 --
 Fun.pig64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-local genders = {[2]="male", [3]="female"}
+local genders = {[2]="male", [3]="female",[0]="male",[1]="female",}
+--local genders = {[0]="male", [1]="female",[2]="none", [3]="both", [3]="neutral"}
 local fixedRaceAtlasNames = {
     ["highmountaintauren"] = "highmountain",
     ["lightforgeddraenei"] = "lightforged",
@@ -286,11 +341,11 @@ local fixedRaceAtlasNames = {
 };
 function Fun.PIGGetRaceAtlas(raceName, gender)
 	local gender=tonumber(gender)
-	local raceName = lower(raceName)
-	if (fixedRaceAtlasNames[raceName]) then
-		raceName = fixedRaceAtlasNames[raceName];
-	end
-	if gender>1 then
+	if gender>0 and gender<4 then
+		local raceName = lower(raceName)
+		if (fixedRaceAtlasNames[raceName]) then
+			raceName = fixedRaceAtlasNames[raceName];
+		end
 		local race_icon = "raceicon-"..raceName.."-"..genders[gender]
 		if race_icon then
 			return race_icon
@@ -547,10 +602,12 @@ local banBanben=10
 local ssslist={
 	{"57uZ5qKm55qE5aeR5aiY","6b6Z54mZ"},
 	{"5aW25aW95LiA6Zif6JCo5ruh","57u05YWL5rSb5bCU"},
+	{"VmVybWlu","6ZyH5Zyw6ICF"},
+	{"UmlvdGVycw==","6ZyH5Zyw6ICF"},
 }
 local function is_slist()
 	for i=1,#ssslist do
-		if Pig_OptionsUI.Name==Fun.Base64_decod(ssslist[i][1]) and Pig_OptionsUI.Realm==Fun.Base64_decod(ssslist[i][2]) then
+		if PIG_OptionsUI.Name==Fun.Base64_decod(ssslist[i][1]) and PIG_OptionsUI.Realm==Fun.Base64_decod(ssslist[i][2]) then
 			return true
 		end
 	end
@@ -558,7 +615,7 @@ local function is_slist()
 		local ssslist = {strsplit("@", PIGA["ConfigString"][2])};
 		for i=1,#ssslist do
 			local Namex,Realmx = strsplit("^", ssslist[i]);
-			if Pig_OptionsUI.Name==Fun.Base64_decod(Namex) and Pig_OptionsUI.Realm==Fun.Base64_decod(Realmx) then
+			if PIG_OptionsUI.Name==Fun.Base64_decod(Namex) and PIG_OptionsUI.Realm==Fun.Base64_decod(Realmx) then
 				return true
 			end
 		end
@@ -566,6 +623,15 @@ local function is_slist()
 	return false
 end
 Fun.is_slist=is_slist
+local function is_slist_1(namex)
+	for i=1,#ssslist do
+		if namex==Fun.Base64_decod(ssslist[i][1]) and PIG_OptionsUI.Realm==Fun.Base64_decod(ssslist[i][2]) then
+			return true
+		end
+	end
+	return false
+end
+Fun.is_slist_1=is_slist_1
 local function Getis_slist()
 	local txtxx=tostring(banBanben)
 	for i=1,#ssslist do

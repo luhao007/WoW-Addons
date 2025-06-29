@@ -2,10 +2,7 @@ local addonName, addonTable = ...;
 local _, _, _, tocversion = GetBuildInfo()
 local Create, Data, Fun, L= unpack(PIG)
 ---------------------------
-local PIGFrame=Create.PIGFrame
 local PIGEnter=Create.PIGEnter
-local PIGLine=Create.PIGLine
-local PIGButton = Create.PIGButton
 local PIGCheckbutton=Create.PIGCheckbutton
 local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGFontString=Create.PIGFontString

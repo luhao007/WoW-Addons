@@ -1,6 +1,6 @@
-## Interface: 110105
+## Interface: 110107
 ## Author: Crieve
-## Version: 4.4.2
+## Version: 4.5.3
 
 ## Title: AllTheThings |cfd9b9b9b(Wrath)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF收集控助手|r |cFFFFE00AAllTheThings|r
@@ -85,15 +85,19 @@ db\Wrath\LocalizationDB.lua
 
 # Load object class templates
 src\Classes\base.lua
+src\Classes\Achievement Categories.lua
+src\Classes\Achievement Data.lua
+src\Classes\Achievement.Classic.lua
 # src\Classes\Achievement.lua
-# src\Classes\BattlePet.lua
 src\Classes\CharacterClass.lua
 # src\Classes\Currency.lua
 src\Classes\Difficulty.lua
 src\Classes\Factions.lua
+src\Classes\Guild Achievements.lua
 src\Classes\Quests.lua
 # src\Classes\Item.Retail.lua
 src\Classes\Item.Classic.lua
+# src\Classes\BattlePet.lua
 src\Classes\Encounter.lua
 src\Classes\Expansion.lua
 src\Classes\FlightPath.lua

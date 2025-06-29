@@ -8,17 +8,16 @@ local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
 local defaults = {
     char = {
         EssentialCooldownViewerSpellIDs = {
-            -- current loadout ID from C_ClassTalents.GetLastSelectedSavedConfigID(PlayerUtil.GetCurrentSpecID())
-            ['*'] = {},
+            ["*"] = {},
         },
         UtilityCooldownViewerSpellIDs = {
-            ['*'] = {},
+            ["*"] = {},
         },
         BuffIconCooldownViewerSpellIDs = {
-            ['*'] = {},
+            ["*"] = {},
         },
         BuffBarCooldownViewerSpellIDs = {
-            ['*'] = {},
+            ["*"] = {},
         },
     },
     global = {
@@ -382,13 +381,13 @@ local options = {
             type = "toggle",
         },
         cooldownManager = {
-            name = "Cooldown Manager",
-            desc = "Cooldown Manager options",
+            name = COOLDOWN_VIEWER_LABEL,
+            desc = string.format(L["TOGGLE_ADDITIONAL_OPTIONS_SUPPORT_STRING"], COOLDOWN_VIEWER_LABEL),
             type = "toggle",
         },
         cooldownManagerReset = {
             type = "execute",
-            name = "Reset Cooldown Manager DB",
+            name = L["Reset Cooldown Manager DB"],
             func = function()
                 wipe(addon.db.char.EssentialCooldownViewerSpellIDs)
                 wipe(addon.db.char.UtilityCooldownViewerSpellIDs)

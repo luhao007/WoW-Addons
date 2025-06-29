@@ -1,4 +1,4 @@
-## Interface: 110105
+## Interface: 110107
 ## Author: Wago Addons Team
 ## Version: 1.0
 

@@ -1,6 +1,6 @@
-## Interface: 110105
+## Interface: 110107
 ## Author: Breen
-## Version: v1.12
+## Version: v1.13
 
 ## Title: BtWQuests: Dragonflight Prologue
 ## Notes: Dragonflight prologue quest data for BtWQuests
@@ -13,7 +13,7 @@
 ## X-BtWQuests: Dragonflight Prologue
 ## X-BtWQuests-Expansion: 9
 ## X-BtWQuests-Expansion-Image: UI-Expansion 0 0.90625 0 0.8125
-## X-BtWQuests-AutoLoad: 1
+## X-BtWQuests-AutoLoad: 0
 ## X-Part-Of: BtWQuests
 ## X-Curse-Project-ID: 688535
 ## X-WoWI-ID: 26458

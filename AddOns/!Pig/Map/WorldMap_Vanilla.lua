@@ -89,7 +89,7 @@ function Mapfun.WorldMap_Wind()
 		local PIG_SetPoint=Create.PIG_SetPoint
 		hooksecurefunc(WorldMapFrame, "OnFrameSizeChanged", function(self)
 			if PIGA["Blizzard_UI"]["WorldMapFrame"] and PIGA["Blizzard_UI"]["WorldMapFrame"]["Point"] then
-				PIG_SetPoint(self,true)
+				PIG_SetPoint("WorldMapFrame",true)
 			end
 		end)
 	end

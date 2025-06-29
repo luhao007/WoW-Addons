@@ -17,10 +17,10 @@ You should have received a copy of the GNU General Public License
 along with Poncho. If not, see <http://www.gnu.org/licenses/>.
 --]]
 
-local Lib = LibStub:NewLibrary('Poncho-2.0', 5)
+local Lib = LibStub:NewLibrary('Poncho-2.0', 6)
 if not Lib then return end
 
-local setmetatable, getmetatable, tinsert, tremove, type = setmetatable, getmetatable, tinsert, tremove, type
+local setmetatable, getmetatable, assert, type, tinsert, tremove = setmetatable, getmetatable, assert, type, tinsert, tremove
 local Base = {__type = 'Abstract'}
 
 local ClassMeta =  {
@@ -33,16 +33,16 @@ local ClassMeta =  {
   end
 }
 
-local SuperCall = {
-  __index = function(tmp, key)
-    local var = ClassMeta.__index(tmp.class, key) or tmp.frame.__base[key]
+local SuperCall = setmetatable({}, {
+  __index = function(super, key)
+    local var = ClassMeta.__index(super.class, key) or super.frame.__base[key]
     if type(var) == 'function' then
-      return function(tmp, ...)  return var(tmp.frame, ...) end
+      return function(super, ...)  return var(super.frame, ...) end
     end
 
     return var
   end
-}
+})
 
 
 --[[ Static ]]--
@@ -157,7 +157,8 @@ end
 
 function Base:Super(class)
   assert(class, 'No argument #1 to `:Super`')
-  return setmetatable({class = class, frame = self}, SuperCall)
+  SuperCall.class, SuperCall.frame = class, self
+  return SuperCall
 end
 
 
@@ -179,7 +180,7 @@ Lib.__call = Lib.NewClass
 Lib.Base, Lib.ClassMeta, Lib.SuperCall = Base, ClassMeta, SuperCall
 Lib.Types = Lib.Types or {
   Abstract = {},
-  Frame = getmetatable(GameMenuFrame).__index,
+  Frame = getmetatable(UIParent).__index,
   Button = getmetatable(ChatFrameChannelButton).__index,
   CheckButton = getmetatable(AddonListForceLoad or AddonList.ForceLoad).__index,
   EditBox = getmetatable(ChatFrame1EditBox).__index,

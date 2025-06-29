@@ -1,5 +1,6 @@
 local _, addonTable = ...;
 local _, _, _, tocversion = GetBuildInfo()
+local match = _G.string.match
 local GetRaceClassTXT=addonTable.Fun.GetRaceClassTXT
 local ClasseNameID=addonTable.Data.ClasseNameID
 local PIGraceList=addonTable.Data.PIGraceList
@@ -36,70 +37,67 @@ function FramePlusfun.Friends()
 	else
 		FriendsListFrame.ScrollBox:SetWidth(butWidth)
 	end
-    ----  
-    local playerRealmID = Pig_OptionsUI.Realm
+    ---- 
+    WOW_PROJECT_WRATH_CLASSIC=WOW_PROJECT_WRATH_CLASSIC or 11
+    local function GetTisp_TXT(ProjectID,richPresence)
+		if richPresence:match("-") then
+			local ProjectName, realmName = strsplit("-", richPresence);
+			local realmName=realmName or ""
+			if ProjectID==WOW_PROJECT_CLASSIC then
+				if ProjectName:match("专家") then
+					return "(专家60-"..realmName
+				elseif ProjectName:match("周年") then
+					return "(周年60-"..realmName
+				else
+					return "(经典60-"..realmName
+				end
+			elseif ProjectID==WOW_PROJECT_WRATH_CLASSIC then
+				return "(巫妖王-"..realmName
+			elseif ProjectID==WOW_PROJECT_MAINLINE then
+				return "(正式服-"..realmName
+			end
+		end
+		return richPresence
+	end
+    local playerRealmID = PIG_OptionsUI.Realm
     local playerFactionGroup = UnitFactionGroup("player");
-    local function Show_jueseinfo(acc_data,button,accountName)
-     	if not acc_data[1] and not acc_data[2] then return end
-     	local _pig_iconH_1=iconH
-		if acc_data[2] then	
-			_pig_iconH_1=iconH-3
-		end
-		local _, _,_, _, sexBNET = acc_data[1][1] and GetPlayerInfoByGUID(acc_data[1][1])
-		local raceX,classX = GetRaceClassTXT(_pig_iconH_1,texW,PIGraceList[acc_data[1][3]],sexBNET or 2,ClasseNameID[acc_data[1][4]])
-		local Newtxt = raceX.." "..classX.." (Lv"..acc_data[1][5]..") "..acc_data[1][2]
-		local color = PIG_CLASS_COLORS[ClasseNameID[acc_data[1][4]]]
-		local argbHex=color and color.colorStr or "ffffffff"
-		local zhu_TXT=accountName.." \124c"..argbHex..Newtxt.."\124r"
-		local zhu_TXT_info=button.info:GetText() or UNKNOWN
-		if acc_data[1][6] == WOW_PROJECT_MAINLINE then--正式服
-			if acc_data[1][7] ~= playerRealmID then
-				zhu_TXT_info=acc_data[1][9]
+    local function Updata_hangList(button)
+    	local Newtxt = {"","",iconH}
+    	if button.pig_Data.Count>1 then
+    		Newtxt[3]=iconH-3
+    	end
+		for i=1,button.pig_Data.Count do
+			local gameAInfo =button.pig_Data.data[i]
+			local _, _,_, _, sexBNET = GetPlayerInfoByGUID(gameAInfo.playerGuid)
+			local raceX,classX = GetRaceClassTXT(Newtxt[3],texW,PIGraceList[gameAInfo.raceName],sexBNET or 2,ClasseNameID[gameAInfo.className])
+			local Newnamex = raceX.." "..classX.." (Lv"..gameAInfo.characterLevel..") "..gameAInfo.characterName
+			-- print(gameAInfo.className,ClasseNameID[gameAInfo.className])
+			-- print(gameAInfo.raceName,PIGraceList[gameAInfo.raceName])
+			local color = PIG_CLASS_COLORS[ClasseNameID[gameAInfo.className] or NONE]
+			local allnameX=button.pig_Data.accname.." \124c"..color.colorStr..Newnamex.."\124r"
+			if i>1 then
+				Newtxt[1]=Newtxt[1].."\n"..allnameX
+			else
+				Newtxt[1]=allnameX
 			end
-		elseif acc_data[1][6] == WOW_PROJECT_CLASSIC then--60
-			if acc_data[1][7] ~= playerRealmID then
-				if acc_data[1][8] and acc_data[1][8] ~= "" then
-					zhu_TXT_info=zhu_TXT_info.." "..acc_data[1][8]
-				end
+			if i>1 then
+				Newtxt[2]=Newtxt[2].."\n"
 			end
-		elseif acc_data[1][6] == 11 then--80
-			if acc_data[1][7] ~= playerRealmID then
-				if acc_data[1][8] and acc_data[1][8] ~= "" then
-					zhu_TXT_info=zhu_TXT_info.." "..acc_data[1][8]
-				end
-			end
-		end
-		if acc_data[2] then
-			button.name:SetHeight(iconH*2);
-			local _, _,_, _, sexBNET = acc_data[2][1] and GetPlayerInfoByGUID(acc_data[2][1])
-			local raceX,classX = GetRaceClassTXT(_pig_iconH_1,texW,PIGraceList[acc_data[2][3]],sexBNET or 2,ClasseNameID[acc_data[2][4]])
-			local Newtxt = raceX.." "..classX.." (Lv"..acc_data[2][5]..") "..acc_data[2][2]
-			local color = PIG_CLASS_COLORS[ClasseNameID[acc_data[2][4]]]
-			local argbHex=color and color.colorStr or "ffffffff"
-			zhu_TXT=zhu_TXT.."\n"..accountName.." \124c"..argbHex..Newtxt.."\124r"
-			if acc_data[2][6] == WOW_PROJECT_MAINLINE then--正式服
-				if acc_data[2][7] ~= playerRealmID then
-					zhu_TXT_info=zhu_TXT_info.."\n"..acc_data[2][9]
+			local NareaName=gameAInfo.areaName or ""
+			if gameAInfo.wowProjectID==WOW_PROJECT_ID then
+				if gameAInfo.realmName == playerRealmID then
+					Newtxt[2]=Newtxt[2].."|cff00FFFF(本服)|r-"..NareaName
 				else
-					zhu_TXT_info=zhu_TXT_info.."\n"..acc_data[2][8]
+					local Tisp_TXT=GetTisp_TXT(gameAInfo.wowProjectID,gameAInfo.richPresence)
+					Newtxt[2]=Newtxt[2]..Tisp_TXT..") "..NareaName
 				end
-			elseif acc_data[2][6] == WOW_PROJECT_CLASSIC then--60
-				if acc_data[2][7] ~= playerRealmID then
-					zhu_TXT_info=zhu_TXT_info.."\n"..acc_data[2][9]..acc_data[2][8]
-				else
-					zhu_TXT_info=zhu_TXT_info.."\n"..acc_data[2][8]
-				end
-			elseif acc_data[2][6] == 11 then--80
-
-				if acc_data[2][7] ~= playerRealmID then
-					zhu_TXT_info=zhu_TXT_info.."\n"..acc_data[2][9]..acc_data[2][8]
-				else
-					zhu_TXT_info=zhu_TXT_info.."\n"..acc_data[2][8]
-				end
+			else
+				local Tisp_TXT=GetTisp_TXT(gameAInfo.wowProjectID,gameAInfo.richPresence)
+				Newtxt[2]=Newtxt[2]..Tisp_TXT..") "..NareaName
 			end
 		end
-		button.name:SetText(zhu_TXT);
-		button.info:SetText(zhu_TXT_info);
+		button.name:SetText(Newtxt[1]);
+		button.info:SetText(Newtxt[2])
 	end
     local function PIGUpdateFriendButton(button, elementData)
     	if not button.status then return end
@@ -129,9 +127,9 @@ function FramePlusfun.Friends()
 			id = button.id
 			buttonType = button.buttonType
 		end
-		if buttonType == FRIENDS_BUTTON_TYPE_WOW then
+		if buttonType == FRIENDS_BUTTON_TYPE_WOW then--WOW好友
 			local info = C_FriendList.GetFriendInfoByIndex(id);
-			if ( info.connected ) then
+			if info and info.connected then
 				local localizedClass, englishClass,localizedRace, englishRace, sex = GetPlayerInfoByGUID(info.guid)
 				local color2 = PIG_CLASS_COLORS[englishClass];
 				local color=color2 or {r=1,g=1,b=1}
@@ -141,53 +139,46 @@ function FramePlusfun.Friends()
 				local Newtxt = raceXclass.." (Lv"..info.level..") "..info.name
 				button.name:SetText(Newtxt);
 			end
-		elseif buttonType == FRIENDS_BUTTON_TYPE_BNET then
+		elseif buttonType == FRIENDS_BUTTON_TYPE_BNET then--战网好友
 			if C_BattleNet and C_BattleNet.GetFriendAccountInfo then
-				local accountInfo = C_BattleNet.GetFriendAccountInfo(id);
-				if accountInfo then
-					if accountInfo.gameAccountInfo.isOnline then
-						local piginfo_acc={nil,nil}
-						local numGameAccounts = C_BattleNet.GetFriendNumGameAccounts(id);
-						for Accid=1,numGameAccounts do
-						    local gameAccountInfo = C_BattleNet.GetFriendGameAccountInfo(id, Accid);
-							if gameAccountInfo and gameAccountInfo.clientProgram==BNET_CLIENT_WOW then
-								local juese_AccountInfo = {
-									gameAccountInfo.playerGuid,gameAccountInfo.characterName,gameAccountInfo.raceName,gameAccountInfo.className,
-									gameAccountInfo.characterLevel,gameAccountInfo.wowProjectID,gameAccountInfo.realmName,gameAccountInfo.areaName, gameAccountInfo.richPresence
-								}
-								if not piginfo_acc[1] then
-									piginfo_acc[1]=juese_AccountInfo
-								elseif not piginfo_acc[2] then
-									piginfo_acc[2]=juese_AccountInfo
-								end
-								if piginfo_acc[1] and piginfo_acc[2] then
-									break
-								end
-							end
+				local numGameAccounts = C_BattleNet.GetFriendNumGameAccounts(id);
+				if numGameAccounts>0 then
+					button.pig_Data={accname="",data={},Count=0}	
+					for Accid=1,numGameAccounts do
+						local gameAccountInfo = C_BattleNet.GetFriendGameAccountInfo(id, Accid);
+						if gameAccountInfo and gameAccountInfo.clientProgram==BNET_CLIENT_WOW then
+							table.insert(button.pig_Data.data,gameAccountInfo)
+							button.pig_Data.Count=button.pig_Data.Count+1
+							if button.pig_Data.Count==2 then break end
 						end
-						Show_jueseinfo(piginfo_acc,button,accountInfo.accountName)
+					end
+					if button.pig_Data.Count>0 then
+						local accountInfo = C_BattleNet.GetFriendAccountInfo(id);
+						button.pig_Data.accname=accountInfo.accountName
+						Updata_hangList(button)
 					end
 				end
 			else
-				local bnetIDAccount, accountName, _, _, _, _, _, isOnline = BNGetFriendInfo(id);
-				if accountName and isOnline then
-					local piginfo_acc={nil,nil}
-					local numGameAccounts = BNGetNumFriendGameAccounts(id);
+				local numGameAccounts = BNGetNumFriendGameAccounts(id);
+				if numGameAccounts>0 then
+					button.pig_Data={accname="",data={},Count=0}	
 					for Accid=1,numGameAccounts do
 						local hasFocus, characterName, client, realmName, realmID, faction, race, class, _, zoneName, level, gameText, _, _, _, _, _, _, _, Guid, wowProjectID = BNGetFriendGameAccountInfo(id, Accid);
-						if client==BNET_CLIENT_WOW then--BNET_CLIENT_APP
-							local juese_AccountInfo = {Guid,characterName,race,class,level,wowProjectID,realmName,zoneName, gameText}
-							if not piginfo_acc[1] then
-								piginfo_acc[1]=juese_AccountInfo
-							elseif not piginfo_acc[2] then
-								piginfo_acc[2]=juese_AccountInfo
-							end
-							if piginfo_acc[1] and piginfo_acc[2] then
-								break
-							end
+						if client and client==BNET_CLIENT_WOW then
+							local gameAccountInfo={
+								playerGuid=Guid,characterName=characterName,raceName=race,className=class,characterLevel=level,
+								wowProjectID=wowProjectID,realmName=realmName,areaName=zoneName, richPresence=gameText
+							}
+							table.insert(button.pig_Data.data, gameAccountInfo)
+							button.pig_Data.Count=button.pig_Data.Count+1
+							if button.pig_Data.Count==2 then break end
 						end
 					end
-					Show_jueseinfo(piginfo_acc,button,accountName)
+					if button.pig_Data.Count>0 then
+						local bnetIDAccount, accountName = BNGetFriendInfo(id);
+						button.pig_Data.accname=accountName
+						Updata_hangList(button)
+					end
 				end
 			end
 		end
@@ -206,13 +197,6 @@ function FramePlusfun.Friends()
 		hooksecurefunc(FriendsFrameFriendsScrollFrame, "update", function(self)
 			PIGUpdateFriendFrame()
 		end)
-		-- FriendsFrameFriendsScrollFrame:HookScript("OnMouseWheel", function()
-		--    	local buttons = FriendsFrameFriendsScrollFrame.buttons
-		-- 	for i = 1, #buttons do
-		-- 		buttons[i].name:SetHeight(buttons[i]:GetHeight())
-		-- 		buttons[i].info:SetHeight(buttons[i]:GetHeight())
-		-- 	end
-		-- end)
 	else
 		hooksecurefunc("FriendsFrame_UpdateFriendButton", function(button, elementData)
 			PIGUpdateFriendButton(button, elementData)	
@@ -736,7 +720,7 @@ function FramePlusfun.Friends()
 			end
 		end
 	end
-	local RaidUIFRAME = CreateFrame("FRAME")
+	local RaidUIFRAME = CreateFrame("Frame")
 	if IsAddOnLoaded("Blizzard_RaidUI") then
 		if InCombatLockdown() then
 			RaidUIFRAME:RegisterEvent("PLAYER_REGEN_ENABLED")
@@ -747,15 +731,16 @@ function FramePlusfun.Friends()
         RaidUIFRAME:RegisterEvent("ADDON_LOADED")
     end
 	RaidUIFRAME:SetScript("OnEvent", function(self, event, arg1)
-    	if event=="ADDON_LOADED" and arg1=="Blizzard_RaidUI" then
-    		if InCombatLockdown() then
-				self:RegisterEvent("PLAYER_REGEN_ENABLED")
-			else
-				SETRaidUIFrame()
-    		end
-    		self:UnregisterEvent("ADDON_LOADED")
-		end
-		if event=="PLAYER_REGEN_ENABLED" then
+    	if event=="ADDON_LOADED" then
+    		if arg1=="Blizzard_RaidUI" then
+	    		self:UnregisterEvent("ADDON_LOADED")
+	    		if InCombatLockdown() then
+					self:RegisterEvent("PLAYER_REGEN_ENABLED")
+				else
+					SETRaidUIFrame()
+	    		end
+	    	end
+		elseif event=="PLAYER_REGEN_ENABLED" then
 			SETRaidUIFrame()
 			self:UnregisterEvent(event)
 		end

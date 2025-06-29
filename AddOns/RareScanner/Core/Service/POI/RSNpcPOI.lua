@@ -234,7 +234,7 @@ local function IsEventUnlocked(eventQuestIDs)
 	return false
 end
 
-local function IsNpcPOIFiltered(npcID, mapID, artID, npcInfo, questTitles, vignetteGUIDs, onWorldMap, onMinimap)
+local function IsNpcPOIFiltered(npcID, mapID, artID, npcInfo, questTitles, vignetteGUIDs, areaPOIs, onWorldMap, onMinimap)
 	local name = RSNpcDB.GetNpcName(npcID)
 	
 	-- Skip if part of a disabled event
@@ -401,6 +401,17 @@ local function IsNpcPOIFiltered(npcID, mapID, artID, npcInfo, questTitles, vigne
 		end
 	end
 	
+	-- Skip if an ingame area POI is already showing this entity
+	for _, areaPoiID in ipairs(areaPOIs) do
+		local poiInfo = C_AreaPoiInfo.GetAreaPOIInfo(mapID, areaPoiID);
+		if (poiInfo) then
+			if (RSNpcDB.GetFinalNpcID(areaPoiID) == npcID) then
+				RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Hay un area POI del juego mostrándolo.", npcID))
+				return true
+			end
+		end
+	end
+	
 	-- Skip if it doesn't drop weekly rep anymore
 	if (npcInfo and not RSConfigDB.IsShowingWeeklyRepFilterEnabled()) then
 		if (npcInfo.warbandQuestID) then
@@ -429,7 +440,7 @@ local function IsNpcPOIFiltered(npcID, mapID, artID, npcInfo, questTitles, vigne
 	return false
 end
 
-function RSNpcPOI.GetMapNotDiscoveredNpcPOIs(mapID, questTitles, vignetteGUIDs, onWorldMap, onMinimap)
+function RSNpcPOI.GetMapNotDiscoveredNpcPOIs(mapID, questTitles, vignetteGUIDs, areaPOIs, onWorldMap, onMinimap)
 	-- Skip if not showing NPC icons
 	if (not RSConfigDB.IsShowingNpcs()) then
 		return
@@ -480,7 +491,7 @@ function RSNpcPOI.GetMapNotDiscoveredNpcPOIs(mapID, questTitles, vignetteGUIDs, 
 		end
 
 		-- Skip if common filters
-		if (not filtered and not IsNpcPOIFiltered(npcID, mapID, RSNpcDB.GetInternalNpcArtID(npcID, mapID), npcInfo, questTitles, vignetteGUIDs, onWorldMap, onMinimap)) then
+		if (not filtered and not IsNpcPOIFiltered(npcID, mapID, RSNpcDB.GetInternalNpcArtID(npcID, mapID), npcInfo, questTitles, vignetteGUIDs, areaPOIs, onWorldMap, onMinimap)) then
 			tinsert(POIs, RSNpcPOI.GetNpcPOI(npcID, mapID, npcInfo))
 		end
 	end
@@ -488,7 +499,7 @@ function RSNpcPOI.GetMapNotDiscoveredNpcPOIs(mapID, questTitles, vignetteGUIDs, 
 	return POIs
 end
 
-function RSNpcPOI.GetMapAlreadyFoundNpcPOI(npcID, alreadyFoundInfo, mapID, questTitles, vignetteGUIDs, onWorldMap, onMinimap)
+function RSNpcPOI.GetMapAlreadyFoundNpcPOI(npcID, alreadyFoundInfo, mapID, questTitles, vignetteGUIDs, areaPOIs, onWorldMap, onMinimap)
 	-- Skip if not showing NPC icons
 	if (not RSConfigDB.IsShowingNpcs()) then
 		RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Iconos de NPCs deshabilitado.", npcID))
@@ -530,7 +541,7 @@ function RSNpcPOI.GetMapAlreadyFoundNpcPOI(npcID, alreadyFoundInfo, mapID, quest
 	end
 
 	-- Skip if common filters
-	if (not IsNpcPOIFiltered(npcID, mapID, alreadyFoundInfo.artID, npcInfo, questTitles, vignetteGUIDs, onWorldMap, onMinimap)) then
+	if (not IsNpcPOIFiltered(npcID, mapID, alreadyFoundInfo.artID, npcInfo, questTitles, vignetteGUIDs, areaPOIs, onWorldMap, onMinimap)) then
 		return RSNpcPOI.GetNpcPOI(npcID, mapID, npcInfo, alreadyFoundInfo)
 	end
 end

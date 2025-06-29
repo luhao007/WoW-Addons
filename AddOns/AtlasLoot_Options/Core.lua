@@ -7,553 +7,390 @@ local AL = AtlasLoot.Locales
 
 AtlasLoot.Options = Options
 local db = AtlasLoot.db
+local Addons = _G.AtlasLoot.Addons
+local FavAddon = _G.AtlasLoot.Addons:GetAddon("Favourites")
 
-local function ShowTestSet()
-	AtlasLoot.GUI.SetViewFrame:SetAtlasLootItemSet("GMTESTSET", "global")
+local AC = LibStub("AceConfig-3.0");
+local ACD = LibStub("AceConfigDialog-3.0");
+
+local function UpdateItemFrame(addon)
+	if addon then
+		Addons:UpdateStatus(addon:GetName())
+	end
+	if AtlasLoot.GUI.frame and AtlasLoot.GUI.frame:IsShown() then
+		AtlasLoot.GUI.ItemFrame:Refresh(true)
+	end
 end
 
--- atlasloot
-local function atlasloot(gui, content)
-	local last
-	
-	last = gui:Add("CheckBox")
-		:Point("TOP", 0, -5)
-		:Size("full")
-		:Text(AL["Always show item comparison."])
-		:DB(db.Button.Item, "alwaysShowCompareTT")
-		
-	last = gui:Add("CheckBox")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Auto select current instance's loot tables."])
-		:DB(db.GUI, "autoselect")
-		
-	last = gui:Add("CheckBox")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Always show quick preview."])
-		:DB(db.Button.Item, "alwaysShowPreviewTT")
-		
-	last = gui:Add("CheckBox")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Use GameTooltip"])
-		:Tooltip("text", AL["Use the standard GameTooltip instead of the custom AtlasLoot tooltip"])
-		:DB(db.Tooltip, "useGameTooltip", AtlasLoot.Tooltip.Refresh)
-
-	last = gui:Add("CheckBox")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Show AtlasLoot button on WorldMap."])
-		:DB(db.WorldMap, "showbutton", AtlasLoot.WorldMap.ToggleButtonOnChange)
---[[
-	last = gui:Add("CheckBox")
-		:Point("TOP", last, "BOTTOM", 15, 0)
-		:Size("full")
-		:Text(AL["Show AtlasLoot button on WorldMap's title bar."])
-		:DB(db.WorldMap, "buttonOnTitleBar", AtlasLoot.WorldMap.ButtonStyleOnChange)
-		--:SetDisabled(not db.WorldMap.showbutton)
-]]
-	last = gui:Add("CheckBox")
-		:Point("TOP", last, "BOTTOM", 0, 0)
-		:Size("full")
-		:Text(AL["Show expansion icons in module dropdown."])
-		:Tooltip("text", AL["Change will take effect in next login."])
-		:DB(db.GUI, "ExpansionIcon")
-
-		
-end
-
--- windows
-local function windows(gui, content)
-
-end
-
--- windows -> atlasloot
-local function windows_atlasloot(gui, content)
-	local last
-	
-	last = gui:Add("Line")
-		:Point("TOP", 0, -5)
-		:Size("full")
-		:Text(AL["Main Window"])
-		
-	last = gui:Add("Slider")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:MinMaxStep(0.5, 1.5, 0.01)
-		:Text(AL["Scale"])
-		:DB(db.GUI.mainFrame, "scale", AtlasLoot.GUI.RefreshMainFrame)	
-		
-	last = gui:Add("ColorPicker")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Background color/alpha"])
-		:DB(db.GUI.mainFrame, "bgColor", AtlasLoot.GUI.RefreshMainFrame)	
-	
-	last = gui:Add("Line")
-		:Point("TOP", last, "BOTTOM", 0, -15)
-		:Size("full")
-		:Text(AL["Title"])
-		
-	last = gui:Add("ColorPicker")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Background color/alpha"])
-		:DB(db.GUI.mainFrame.title, "bgColor", AtlasLoot.GUI.RefreshMainFrame)		
-		
-	last = gui:Add("ColorPicker")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Font color/alpha"])
-		:DB(db.GUI.mainFrame.title, "textColor", AtlasLoot.GUI.RefreshMainFrame)	
-		
-	last = gui:Add("Slider")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:MinMaxStep(10, 20, 1)
-		:Text(AL["Font size"])
-		:DB(db.GUI.mainFrame.title, "size", AtlasLoot.GUI.RefreshMainFrame)
-		
-	last = gui:Add("Button")
-		:Point("BOTTOMRIGHT", nil, "BOTTOMRIGHT", -2, 2)
-		:Text(AL["Reset frame position"])
-		:Click(AtlasLoot.GUI.ResetFrames)
-		:Confirm(format(AL["Reset position of the |cff33ff99\"%s\"|r window."], AL["AtlasLoot"]))	
-end
-
-local function windows_atlasloot_contenttopbar(gui, content)
-	local last
-
-	-- background
-	last = gui:Add("Line")
-		:Point("TOP", 0, -5)
-		:Size("full")
-		:Text(AL["Background"])
-		
-	last = gui:Add("CheckBox")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Use content color if available."])
-		:DB(db.GUI.contentTopBar, "useContentColor", AtlasLoot.GUI.RefreshContentBackGround)
-		
-	last = gui:Add("ColorPicker")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Background color/alpha"])
-		:DB(db.GUI.contentTopBar, "bgColor", AtlasLoot.GUI.RefreshContentBackGround)
-		
-	-- font
-	last = gui:Add("Line")
-		:Point("TOP", last, "BOTTOM", 0, -15)
-		:Size("full")
-		:Text(AL["Font"])
-		
-	last = gui:Add("ColorPicker")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Font color/alpha"])
-		:DB(db.GUI.contentTopBar.font, "color", AtlasLoot.GUI.RefreshFonts)	
-		
-	last = gui:Add("Slider")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:MinMaxStep(10, 30, 1)
-		:Text(AL["Font size"])
-		:DB(db.GUI.contentTopBar.font, "size", AtlasLoot.GUI.RefreshFonts)
-end
-
-local function windows_atlasloot_content(gui, content)
-	local last
-	
-	last = gui:Add("CheckBox")
-		:Point("TOP", 0, -5)
-		:Size("full")
-		:Text(AL["Show background image if available."])
-		:DB(db.GUI.content, "showBgImage", AtlasLoot.GUI.RefreshContentBackGround)
-		
-	last = gui:Add("ColorPicker")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Background color/alpha"])
-		:DB(db.GUI.content, "bgColor", AtlasLoot.GUI.RefreshContentBackGround)
-end
-
-local function windows_atlasloot_contentbottombar(gui, content)
-	local last
-		
-	last = gui:Add("CheckBox")
-		:Point("TOP", 0, -5)
-		:Size("full")
-		:Text(AL["Use content color if available."])
-		:DB(db.GUI.contentBottomBar, "useContentColor", AtlasLoot.GUI.RefreshContentBackGround)
-		
-	last = gui:Add("ColorPicker")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Background color/alpha"])
-		:DB(db.GUI.contentBottomBar, "bgColor", AtlasLoot.GUI.RefreshContentBackGround)
-end
-
--- windows -> setview
-local function windows_setview(gui, content)
-	local last
-	
-	last = gui:Add("Line")
-		:Point("TOP", 0, -5)
-		:Size("full")
-		:Text(AL["Main Window"])
-		
-	last = gui:Add("Slider")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:MinMaxStep(0.5, 1.5, 0.01)
-		:Text(AL["Scale"])
-		:DB(db.SetViewFrame.mainFrame, "scale", AtlasLoot.GUI.SetViewFrame.RefreshStyle)	
-		
-	last = gui:Add("ColorPicker")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Background color/alpha"])
-		:DB(db.SetViewFrame.mainFrame, "bgColor", AtlasLoot.GUI.SetViewFrame.RefreshStyle)	
-	
-	last = gui:Add("Line")
-		:Point("TOP", last, "BOTTOM", 0, -15)
-		:Size("full")
-		:Text(AL["Title"])
-		
-	last = gui:Add("ColorPicker")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Background color/alpha"])
-		:DB(db.SetViewFrame.mainFrame.title, "bgColor", AtlasLoot.GUI.SetViewFrame.RefreshStyle)		
-		
-	last = gui:Add("ColorPicker")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Font color/alpha"])
-		:DB(db.SetViewFrame.mainFrame.title, "textColor", AtlasLoot.GUI.SetViewFrame.RefreshStyle)	
-		
-	last = gui:Add("Slider")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:MinMaxStep(10, 20, 1)
-		:Text(AL["Font size"])
-		:DB(db.SetViewFrame.mainFrame.title, "size", AtlasLoot.GUI.SetViewFrame.RefreshStyle)
-		
-	last = gui:Add("Line")
-		:Point("TOP", last, "BOTTOM", 0, -15)
-		:Size("full")
-		:Text(AL["Model"])
-		
-	last = gui:Add("ColorPicker")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Background color/alpha"])
-		:DB(db.SetViewFrame.mainFrame, "bgColorModel", AtlasLoot.GUI.SetViewFrame.RefreshStyle)
-	-- test
-	last = gui:Add("Button")
-		:Point("BOTTOMLEFT", nil, "BOTTOMLEFT", 2, 2)
-		:Text(AL["Preview"])
-		:Click(AtlasLoot.GUI.SetViewFrame.ShowPreviewSet)
-		
-	last = gui:Add("Button")
-		:Point("BOTTOMRIGHT", nil, "BOTTOMRIGHT", -2, 2)
-		:Text(AL["Reset frame position"])
-		:Click(AtlasLoot.GUI.SetViewFrame.ResetFrames)
-		:Confirm(format(AL["Reset position of the |cff33ff99\"%s\"|r window."], AL["Set View"]))	
-end
-
-local function windows_setview_contenttopbottom(gui, content)
-	local last
-
-	last = gui:Add("Line")
-		:Point("TOP", 0, -5)
-		:Size("full")
-		:Text(AL["Background"])
-		
-	last = gui:Add("ColorPicker")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Background color/alpha"])
-		:DB(db.SetViewFrame.contentTopBottom, "bgColor", AtlasLoot.GUI.SetViewFrame.RefreshStyle)
-		
-	-- font
-	last = gui:Add("Line")
-		:Point("TOP", last, "BOTTOM", 0, -15)
-		:Size("full")
-		:Text(AL["Font"])
-		
-	last = gui:Add("ColorPicker")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Font color/alpha"])
-		:DB(db.SetViewFrame.contentTopBottom, "textColor", AtlasLoot.GUI.SetViewFrame.RefreshStyle)	
-		
-	last = gui:Add("Slider")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:MinMaxStep(5, 20, 1)
-		:Text(AL["Font size"])
-		:DB(db.SetViewFrame.contentTopBottom, "textSize", AtlasLoot.GUI.SetViewFrame.RefreshStyle)
-end
-
-local function windows_setview_content(gui, content)
-	local last
-
-	last = gui:Add("Line")
-		:Point("TOP", 0, -5)
-		:Size("full")
-		:Text(AL["Background"])
-		
-	last = gui:Add("ColorPicker")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Background color/alpha"])
-		:DB(db.SetViewFrame.content, "bgColor", AtlasLoot.GUI.SetViewFrame.RefreshStyle)
-		
-	-- font
-	last = gui:Add("Line")
-		:Point("TOP", last, "BOTTOM", 0, -15)
-		:Size("full")
-		:Text(AL["Font"])
-		
-	last = gui:Add("ColorPicker")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Font color/alpha"])
-		:DB(db.SetViewFrame.content, "textColor", AtlasLoot.GUI.SetViewFrame.RefreshStyle)	
-		
-	last = gui:Add("Slider")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:MinMaxStep(5, 20, 1)
-		:Text(AL["Font size"])
-		:DB(db.SetViewFrame.content, "textSize", AtlasLoot.GUI.SetViewFrame.RefreshStyle)
-end
-
--- windows -> quickloot
-local function windows_quickloot(gui, content)
-	local last
-	
-	-- main window
-	last = gui:Add("Line")
-		:Point("TOP", 0, -5)
-		:Size("full")
-		:Text(AL["Main Window"])
-		
-	last = gui:Add("Slider")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:MinMaxStep(0.5, 1.5, 0.01)
-		:Text(AL["Scale"])
-		:DB(db.QuickLootFrame.mainFrame, "scale", AtlasLoot.GUI.QuickLootFrame.RefreshStyle)	
-		
-	last = gui:Add("ColorPicker")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Background color/alpha"])
-		:DB(db.QuickLootFrame.mainFrame, "bgColor", AtlasLoot.GUI.QuickLootFrame.RefreshStyle)	
-	
-	-- Title
-	last = gui:Add("Line")
-		:Point("TOP", last, "BOTTOM", 0, -15)
-		:Size("full")
-		:Text(AL["Title"])
-		
-	last = gui:Add("ColorPicker")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Background color/alpha"])
-		:DB(db.QuickLootFrame.mainFrame.title, "bgColor", AtlasLoot.GUI.QuickLootFrame.RefreshStyle)		
-		
-	last = gui:Add("ColorPicker")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Font color/alpha"])
-		:DB(db.QuickLootFrame.mainFrame.title, "textColor", AtlasLoot.GUI.QuickLootFrame.RefreshStyle)	
-		
-	last = gui:Add("Slider")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:MinMaxStep(10, 20, 1)
-		:Text(AL["Font size"])
-		:DB(db.QuickLootFrame.mainFrame.title, "size", AtlasLoot.GUI.QuickLootFrame.RefreshStyle)
-		
-	-- SUbTitle
-	last = gui:Add("Line")
-		:Point("TOP", last, "BOTTOM", 0, -15)
-		:Size("full")
-		:Text(AL["Subtitle"])
-		
-	last = gui:Add("ColorPicker")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Background color/alpha"])
-		:DB(db.QuickLootFrame.mainFrame.subTitle, "bgColor", AtlasLoot.GUI.QuickLootFrame.RefreshStyle)		
-		
-	last = gui:Add("ColorPicker")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Font color/alpha"])
-		:DB(db.QuickLootFrame.mainFrame.subTitle, "textColor", AtlasLoot.GUI.QuickLootFrame.RefreshStyle)	
-		
-	last = gui:Add("Slider")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:MinMaxStep(10, 20, 1)
-		:Text(AL["Font size"])
-		:DB(db.QuickLootFrame.mainFrame.subTitle, "size", AtlasLoot.GUI.QuickLootFrame.RefreshStyle)
-	
-	-- Content
-	last = gui:Add("Line")
-		:Point("TOP", last, "BOTTOM", 0, -15)
-		:Size("full")
-		:Text(AL["Content"])
-		
-	last = gui:Add("ColorPicker")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Background color/alpha"])
-		:DB(db.QuickLootFrame.mainFrame.content, "bgColor", AtlasLoot.GUI.QuickLootFrame.RefreshStyle)		
-	
-	-- test
-	last = gui:Add("Button")
-		:Point("BOTTOMLEFT", nil, "BOTTOMLEFT", 2, 2)
-		:Text(AL["Preview"])
-		:Click(function() AtlasLoot.Addons.BonusRoll.Preview() end)
-		
-	last = gui:Add("Button")
-		:Point("BOTTOMRIGHT", nil, "BOTTOMRIGHT", -2, 2)
-		:Text(AL["Reset frame position"])
-		:Click(AtlasLoot.GUI.QuickLootFrame.ResetFrames)
-		:Confirm(format(AL["Reset position of the |cff33ff99\"%s\"|r window."], AL["Quick Loot"]))	
-end
-
--- minimap Button
-local function minimapbutton(gui, content)
-	local last
-	last = gui:Add("CheckBox")
-		:Point("TOP", 0, -5)
-		:Size("full")
-		:Text(AL["Show minimap button."])
-		:DB(db.minimap, "shown", AtlasLoot.MiniMapButton.Options_Toggle)
---[[
-	last = gui:Add("CheckBox")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Lock minimap button around minimap."])
-		:DB(db.MiniMapButton, "lockedAroundMiniMap")			
-]]
-	last = gui:Add("CheckBox")
-		:Point("TOP", last, "BOTTOM")
-		:Size("full")
-		:Text(AL["Lock minimap button."])
-		:DB(db.minimap, "locked", AtlasLoot.MiniMapButton.Lock_Toggle)	
-		
-	last = gui:Add("Button")
-		:Point("BOTTOMRIGHT", nil, "BOTTOMRIGHT", -2, 2)
-		:Text(AL["Reset position of minimap button"])
-		:Click(AtlasLoot.MiniMapButton.ResetFrames)
-		:Confirm(AL["Reset position of the |cff33ff99\"Minimap button\"|r."])	
-end
-
--- addons -> bonusloot
-local function addons_bonusloot(gui, content)
-	gui:Add("CheckBox")
-		:Point("TOPLEFT")
-		:Size("half")
-		:Text(ENABLE)
-		:DB(db.Addons.BonusRoll, "enabled")
-end
-
-local ALOptions = LibStub("ALOptions-1.0"):Register(AL["AtlasLoot"], AL["AtlasLoot Options"], AtlasLoot.__addonrevision, AtlasLoot.db.profile, {
-	{	
-		title = AL["AtlasLoot"],
-		--desc = "",
-		quickSelect = "start",
-		clickFunc = atlasloot,
-	},
-	{
-		title = AL["Windows"],
-		--desc = "",
-		quickSelect = "windows",
-		clickFunc = windows,
-		content = {
-			{
-				title = AL["AtlasLoot"],
-				--desc = "",
-				clickFunc = windows_atlasloot,
-				content = {
-					{
-						title = AL["Content top bar"],
-						--desc = "",
-						clickFunc = windows_atlasloot_contenttopbar,
-					},
-					{
-						title = AL["Content"],
-						--desc = "",
-						clickFunc = windows_atlasloot_content,
-					},
-					{
-						title = AL["Content bottom bar"],
-						--desc = "",
-						clickFunc = windows_atlasloot_contentbottombar,
+local options = {
+	type = "group",
+	name = AL["AtlasLoot"],
+	args = {
+		general = {
+			order = 1,
+			name = AL["General"],
+			type = "group",
+			args = {
+				autoselect = {
+					order = 1,
+					type = "toggle",
+					width = "full",
+					name = AL["Auto select current instance's loot tables."],
+					get = function(info) return db.GUI.autoselect end,
+					set = function(info, value) db.GUI.autoselect = value end,
+				},
+				showbutton = {
+					order = 2,
+					type = "toggle",
+					width = "full",
+					name = AL["Show AtlasLoot button on WorldMap."],
+					get = function(info) return db.WorldMap.showbutton end,
+					set = function(info, value)
+						db.WorldMap.showbutton = value;
+						AtlasLoot.WorldMap.ToggleButtonOnChange();
+					end,
+				},
+				ExpansionIcon = {
+					order = 3,
+					type = "toggle",
+					width = "full",
+					name = AL["Show expansion icons in module dropdown."],
+					desc = AL["Change will take effect in next login."],
+					get = function(info) return db.GUI.ExpansionIcon end,
+					set = function(info, value) db.GUI.ExpansionIcon = value end,
+				},
+				shown = {
+					order = 4,
+					type = "toggle",
+					width = "full",
+					name = AL["Show minimap button."],
+					get = function(info) return db.minimap.shown end,
+					set = function(info, value)
+						db.minimap.shown = value;
+						AtlasLoot.MiniMapButton.Options_Toggle();
+					end,
+				},
+				scale = {
+					order = 5,
+					type = "range",
+					name = AL["Scale"],
+					min = 0.5,
+					max = 1.5,
+					bigStep = 0.01,
+					isPercent = true,
+					width = "full",
+					get = function(info) return db.GUI.mainFrame.scale end,
+					set = function(info, value)
+						db.GUI.mainFrame.scale = value
+						AtlasLoot.GUI.RefreshMainFrame()
+					end,
+				},
+			}
+		},
+		tooltip = {
+			order = 2,
+			name = AL["Tooltip"],
+			type = "group",
+			args = {
+				useGameTooltip = {
+					order = 1,
+					type = "toggle",
+					width = "full",
+					name = AL["Use GameTooltip"],
+					desc = AL["Use the standard GameTooltip instead of the custom AtlasLoot tooltip"],
+					get = function(info) return db.Tooltip.useGameTooltip end,
+					set = function(info, value) db.Tooltip.useGameTooltip = value end,
+				},
+				alwaysShowCompareTT = {
+					order = 2,
+					type = "toggle",
+					width = "full",
+					name = AL["Always show item comparison."],
+					get = function(info) return db.Button.Item.alwaysShowCompareTT end,
+					set = function(info, value) db.Button.Item.alwaysShowCompareTT = value end,
+				},
+				alwaysShowPreviewTT = {
+					order = 3,
+					type = "toggle",
+					width = "full",
+					name = AL["Always show quick preview."],
+					get = function(info) return db.Button.Item.alwaysShowPreviewTT end,
+					set = function(info, value) db.Button.Item.alwaysShowPreviewTT = value end,
+				},
+			}
+		},
+		bonusloot = {
+			order = 3,
+			name = AL["AddOn: Bonus Loot"],
+			type = "group",
+			args = {
+				enabled = {
+					order = 1,
+					type = "toggle",
+					width = "full",
+					name = ENABLE,
+					get = function(info) return db.Addons.BonusRoll.enabled end,
+					set = function(info, value) db.Addons.BonusRoll.enabled = value end,
+				},
+			}
+		},
+		favourites = {
+			order = 4,
+			name = AL["AddOn: Favourites"],
+			type = "group",
+			get = function(info) return FavAddon.db[info[#info]] end,
+			set = function(info, value)
+				FavAddon.db[info[#info]] = value
+				Addons:UpdateStatus("Favourites")
+			end,
+			args = {
+				enabled = {
+					order = 1,
+					type = "toggle",
+					width = "full",
+					name = ENABLE,
+					set = function(info, value)
+						FavAddon.db[info[#info]] = value
+						UpdateItemFrame(FavAddon)
+					end
+				},
+				showIconInTT = {
+					order = 2,
+					type = "toggle",
+					width = "full",
+					name = AL["Show favourite item icon in item tooltip"],
+				},
+				showListInTT = {
+					order = 3,
+					type = "toggle",
+					width = "full",
+					name = AL["Show listname in item tooltip"],
+				},
+				global = {
+					order = 4,
+					type = "toggle",
+					width = "full",
+					name = AL["Global lists"],
+					get = function(info) return FavAddon:GetDb().activeList[2] end,
+					set = function(info, value)
+						local db = FavAddon:GetDb()
+						db.activeList[1] = value and FavAddon.BASE_NAME_G or FavAddon.BASE_NAME_P
+						db.activeList[2] = value
+						UpdateItemFrame(FavAddon)
+					end
+				},
+				list = {
+					type = "select",
+					order = 5,
+					name = AL["Active list"],
+					width = "double",
+					values = function()
+						local db = FavAddon:GetDb()
+						local listDb
+						local list = {}
+						if db.activeList[2] == true then
+							listDb = FavAddon:GetGlobaleLists()
+						else
+							listDb = FavAddon:GetProfileLists()
+						end
+						for k, v in pairs(listDb) do
+							list[k] = FavAddon:GetListName(k, db.activeList[2] == true, true)
+						end
+						return list
+					end,
+					sorting = function()
+						local db = FavAddon:GetDb()
+						local listDb
+						local list = {}
+						if db.activeList[2] == true then
+							listDb = FavAddon:GetGlobaleLists(true)
+						else
+							listDb = FavAddon:GetProfileLists(true)
+						end
+						for k, v in ipairs(listDb) do
+							list[k] = v.id
+						end
+						return list
+					end,
+					get = function(info) return FavAddon:GetDb().activeList[1] end,
+					set = function(info, value)
+						FavAddon:GetDb().activeList[1] = value
+						UpdateItemFrame(FavAddon)
+					end,
+				},
+				addNewList = {
+					order = 6,
+					type = 'execute',
+					name = AL["Add new list"],
+					confirm = true,
+					func = function()
+						local newList = FavAddon:AddNewList(FavAddon:GetDb().activeList[2])
+						if newList then
+							FavAddon:GetDb().activeList[1] = newList
+							UpdateItemFrame(FavAddon)
+						end
+					end,
+				},
+				deleteList = {
+					order = 7,
+					type = 'execute',
+					name = AL["Delete list"],
+					confirm = true,
+					disabled = function(info)
+						local db = FavAddon:GetDb().activeList
+						if db[1] == FavAddon.BASE_NAME_P or db[1] == FavAddon.BASE_NAME_G then
+							return true
+						else
+							return false
+						end
+					end,
+					func = function()
+						local db = FavAddon:GetDb().activeList
+						local deleted = FavAddon:RemoveList(db[1], db[2])
+						if deleted then
+							db[1] = db[2] and FavAddon.BASE_NAME_G or FavAddon.BASE_NAME_P
+							UpdateItemFrame(FavAddon)
+						end
+					end,
+				},
+				headerSetting = {
+					order = 10,
+					type = "header",
+					name = AL["Selected list settings"],
+				},
+				name = {
+					order = 11,
+					type = 'input',
+					name = _G.NAME,
+					width = "full",
+					func = function() FavAddon:AddNewList() end,
+					get = function(info) return FavAddon:GetActiveListName() end,
+					set = function(info, value)
+						FavAddon:SetActiveListName(value)
+						UpdateItemFrame(FavAddon)
+					end,
+				},
+				import = {
+					order = 12,
+					type = "execute",
+					name = AL["Import item list"],
+					func = function(info)
+						local db = FavAddon:GetDb()
+						ImportItemList(FavAddon:GetActiveListName(), db.activeList[1], db.activeList[2])
+					end,
+				},
+				export = {
+					order = 13,
+					type = "execute",
+					name = AL["Export item list"],
+					func = function(info)
+						local db = FavAddon:GetDb()
+						ExportItemList(FavAddon:GetActiveListName(), FavAddon:ExportItemList(db.activeList[1], db.activeList[2]))
+					end,
+				},
+				clearList = {
+					order = 14,
+					type = "execute",
+					name = AL["Clear list"],
+					desc = function() return format(AL["Remove |cffff0000%d|r items from list."], FavAddon:GetNumItemsInList()) end,
+					confirm = true,
+					func = function(info)
+						FavAddon:ClearList()
+						UpdateItemFrame()
+					end,
+				},
+				useGlobal = {
+					order = 15,
+					type = "toggle",
+					width = "full",
+					name = AL["Always active for all Profiles."],
+					desc = AL["Always marks items as favourite for every profile if enabled."],
+					hidden = function(info) return not FavAddon:GetDb().activeList[2] end,
+					get = function(info) return FavAddon:ListIsGlobalActive(FavAddon:GetDb().activeList[1]) end,
+					set = function(info, value)
+						local db = FavAddon:GetDb()
+						if value then
+							FavAddon:AddIntoShownList(db.activeList[1], db.activeList[2], true)
+						else
+							FavAddon:RemoveFromShownList(db.activeList[1], db.activeList[2], true)
+						end
+						UpdateItemFrame(FavAddon)
+					end
+				},
+				useProfile = {
+					order = 16,
+					type = "toggle",
+					width = "full",
+					name = function() return format(AL["Always active for profile: |cff00ff00%s|r"], AtlasLoot.dbRaw:GetCurrentProfile()) end,
+					desc = function() return format(AL["Always marks items as favourite for profile |cff00ff00%s|r if enabled."], AtlasLoot.dbRaw:GetCurrentProfile()) end,
+					get = function(info) return FavAddon:ListIsProfileActive(FavAddon:GetDb().activeList[1]) end,
+					set = function(info, value)
+						local db = FavAddon:GetDb()
+						if value then
+							FavAddon:AddIntoShownList(db.activeList[1], db.activeList[2], false)
+						else
+							FavAddon:RemoveFromShownList(db.activeList[1], db.activeList[2], false)
+						end
+						UpdateItemFrame(FavAddon)
+					end
+				},
+				iconSelection = {
+					type = "group",
+					name = AL["Icon"],
+					inline = true,
+					order = -1,
+					get = function(info) return FavAddon.db[info[#info]] end,
+					set = function(info, value)
+						FavAddon.db[info[#info]] = value
+						FavAddon:SetIcon(value)
+					end,
+					args = {
+						useIcon = {
+							order = 1,
+							type = "toggle",
+							width = "full",
+							name = _G.DEFAULT,
+							disabled = function(info) return not FavAddon:HasIcon() end,
+							get = function(info) return not FavAddon:HasIcon() end,
+							set = function(info, value)
+								FavAddon:SetIcon(nil)
+								UpdateItemFrame(FavAddon)
+							end
+						},
 					},
 				},
 			},
-			{
-				title = AL["Set View"],
-				--desc = "",
-				clickFunc = windows_setview,
-				content = {
-					{
-						title = AL["Content top/bottom bar"],
-						--desc = "",
-						clickFunc = windows_setview_contenttopbottom,
-					},
-					{
-						title = AL["Content"],
-						--desc = "",
-						clickFunc = windows_setview_content,
-					},
-				}
-			},
-			{
-				title = AL["Quick Loot"],
-				--desc = "",
-				clickFunc = windows_quickloot,
-			}
-		},
+		}
 	},
-	{
-		title = AL["Minimap Button"],
-		--desc = "Test 2 description",
-		clickFunc = minimapbutton,
-	},
-	{
-		title = ADDONS,
-		--desc = "Test 2 description",
-		--clickFunc = test2,
-		content = {
-			{
-				title = AL["Bonus Loot"],
-				desc = AL["A window with possible loot is shown if a Bonus Roll is started."],
-				clickFunc = addons_bonusloot,
-			},
-		},
-	},
+}
 
-})
+-- icons
+local args = options.args.favourites.args.iconSelection.args
+local iconList = FavAddon.IconList
+local count = 1
+for i = 3, #iconList do
+	local icon = iconList[i]
+	count = count + 1
+	args[icon] = {
+		order = count,
+		type = "execute",
+		name = function(info)
+			return FavAddon:GetIcon() == info[#info] and "^" or ""
+		end,
+		image = icon,
+		imageWidth = 20,
+		imageHeight = 20,
+		width = 0.3,
+		func = function(info)
+			FavAddon:SetIcon(info[#info])
+			UpdateItemFrame(FavAddon)
+		end,
+	}
+end
 
-local fistShown = true
-function Options:Show()
-	ALOptions:Show(fistShown and "start" or nil)
-	fistShown = nil
-end
---[[
-function Options.Init()
-	
-end
-AtlasLoot:AddInitFunc(Options.Init, "AtlasLoot_Options")
-]]--
+AC:RegisterOptionsTable("AtlasLoot_options", options);
+AtlasLoot.optionsFrame = ACD:AddToBlizOptions("AtlasLoot_options", "AtlasLoot")
+
+local profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(AtlasLoot.dbRaw);
+AC:RegisterOptionsTable("AtlasLoot_Profiles", profiles)
+ACD:AddToBlizOptions("AtlasLoot_Profiles", "Profiles", "AtlasLoot")

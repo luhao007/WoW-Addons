@@ -1,105 +1,141 @@
 # AllTheThings
 
-## [4.4.2](https://github.com/ATTWoWAddon/AllTheThings/tree/4.4.2) (2025-04-27)
-[Full Changelog](https://github.com/ATTWoWAddon/AllTheThings/compare/4.4.1...4.4.2) [Previous Releases](https://github.com/ATTWoWAddon/AllTheThings/releases)
+## [4.5.3](https://github.com/ATTWoWAddon/AllTheThings/tree/4.5.3) (2025-06-21)
+[Full Changelog](https://github.com/ATTWoWAddon/AllTheThings/compare/4.5.2...4.5.3) [Previous Releases](https://github.com/ATTWoWAddon/AllTheThings/releases)
 
-- [Locale] Update zhTW.  
-- more aq stuff  
-- Deleted the unused EnsembleDB file.  
-- Parser: Attempting to include AllowableRace from the ItemSearchName table.  
-    Deleted a number of classic only itemDB sources that are no longer needed.  
-- more TempleofAQ Sod Stuff  
-- "A Taste of Home" is not Evoker-only  
-- Parser: Now assigning Relic types.  
-- gilded scarab can be put into the sod version  
-- added aq20-40raid to SoD based on wowhead infos  
-- Parser: Now only allowing the classes that are in ALL\_CLASSES to be included in the classes table within ItemSourceNames.  
-- Merge branch 'master' of https://github.com/ATTWoWAddon/AllTheThings  
-- Revert "testing aq stuff"  
-- [Locale] Update esES. (#1969)  
-    * [Locale] Added spanish translations in various headers  
-    * Solved Error on spanish locale #1972  
-- testing aq stuff  
-- Parser: Added AllowableClass from the ItemSearchNames wago data table. Facing is a float.  
-- Retail: Apparently also uses the Phases settings file?  
-- MISTS: Added Skill Level Requirements for Mists of Pandaria recipes.  
-- Parser: Added ItemSearchName from Wago. (eventually I'd like to kill our old itemDB implementations)  
-- Parser: Now trimming the english flight path names.  
-- Parser: Item now passes along its lvl data to ItemDB from Wago.  
-- Parser: Fixed an issue with TaxiNode parsing.  
-- Parser: Now utilizing Wago database files for TaxiNodes. (Default Flight Path Names)  
-- Simplifed the Update Wago Build files batch files and also added missing ItemEffect files.  
-- [DB] Gave HQT 86695 a name (90134 and 90752 are still sus...)  
-- [DB] Removed the unused AchievementDB modules. (We use Wago's database files now)  
-- Parser: Updated the GlyphDB to use Wago files instead of a processed lua DB module that requires additional work.  
-- MISTS: Fixed which encounter logic to use.  
-- MISTS: Fixed which tooltip renderer to use.  
-- Classic: Fixed a logic bug involving SearchForField not always returning a container as it had previously done so.  
-- MISTS: Removed some achievement references from the Loremaster achievement based on expansion.  
-- MISTS: Removed invalid achievement criteria from outdoor zones.  
-- Parser: Removed sourceID assignments from Rings and Necklaces.  
-- Phases should NOT be the default settings page.  
-- MISTS: Added Mists of Pandaria database for testing on the MOP Classic Beta.  
-    [DB] Rebuilt all databases.  
-- Cata: Swoopy is a Flying type.  
-- Classic: Added placeholder timeline data for Brawler's Guild.  
-- Classic: Now including Wago files for Item, ModifierTree, SpellEffect, TransmogSet (if applicable)  
-- Added a missing timeline value to some Children's Week pets. (Someone needs to fix this section)  
-- Classic: Now using ItemModifiedAppearance from Wago Tools instead of using harvested sourceIDs.  
-- [DB] More account wide quests I noticed  
-- Removed duplicated regex and cleanup batch files.  
-- took me 10minutes to find this error lol  
-- added all alch sod p6 recipes  
-    sourced all the common goods that all the recipes I added require  
-- Deleted the unused ItemAppearance wago data. (This is just for visual appearance, not for anything useful.)  
-- finished mining, 4 tailoring items  
-- Moved all WAGO files out of Parser/DATAS/00 - DB/Wago to the new .wago folder. Included Wago data for all expansions that already have Wago data modules available. Retail config now points to The War Within's Wago folder.  
-- final missing )  
-- parsing, missing something somewhere  
-- added all p6 sod engineering recipes  
-- added all enchanting recipes from build xx 15.5.57537  
-- MISTS: Updated Phase assignments for Dungeons and Outdoor Zones.  
-    Classic: Moved phase activatations to their own expansion specific pages.  
-- added all p6 enchanting aq items  
-- added 7 tailoring items  
-- more sod tailoring patterns  
-- razorbramble items added  
-    i have to do small commits or they conflict with crieve  
-- parsing  
-    correct some 1.15.6 to 1.15.5  
-    added LW armor kits sod  
-- MISTS: Changed all references to MOP\_PHASE\_ONE to MOP\_PHASE\_LANDFALL.  
-- added phase 6 sod recipes that drop in aq  
-    alch&bs recipes can now be tracked and have their crafted items sourced  
-- Moved a number of mapID constants into variables.  
-- MISTS: Updated mapIDs.  
-- Fixed a logic error for instances that exist but don't have a dungeon journal entry yet. (MOP Classic)  
-- Fixed some logic errors for MOP Classic. (MOP uses Retail functions)  
-- Update some Nightfall rares and quests  
-- Re-add Cartels of Undermine faction, fix some reported errors  
-- updated mdi toy  
-    toy is no longer available  
-    MDI is also now always the great push format. updated the description to reflect that  
-- removed another layer, so its only 7 layers deep and not 9  
-    added achievementsheader  
-- removed 1 layering of gobo rep  
-- parse  
-- nvm defender had both quests, stipend is reso crystals  
-- renown 10 quests  
-- missed some weapons in sym(idk how)  
-- [Parser] Retail: Adjusted objective conversion logic to happen later, and only perform on item/object/npc which are not already Sourced  
-- Update \_\_auto-sources.lua  
-- Add Flame's Radiance renown 5 quest  
-- drop mark of honor from 1 quest  
-- better note  
-- found 2 pets for the childreen week update  
-- added new source ids  
-- [Logic] Retail: Most Dynamic groups expand a bit more reliably when generated (Professions and Currency still refuse to behave)  
-- cloak share isnt a thing  
-- added description for multi unlock of the arathi crusader set. But does any1 see them? probably not  
-- arathi weapons cant be bought  
-    boss gives 42%  
-- Trial of Style Icon update  
-- [Logic] Retail: Root Dynamic category now marked as source ignored  
-- [Logic] Dynamic runner now does 1 dynamic group per frame instead of 5  
-- [Logic] Retail: Lots of small performance improvements for Search logic & fixed one huge oversight causing every search to perform a full scan instead of a cached-search  
+- added pvp titles s3  
+    added summer event stuff  
+- manaforge has 15 renowns  
+- Some Initial Work on the raid, continue later today  
+- Corrected translations in all languages ​​for objects in patch 11.0.5 (#2044)  
+    * Lost and found hallowfall questchain object added to mx and tw  
+    anniversary battlepet questchain objects to all languages  
+    * Fixed Secrets of azeroth anniversary edition objects to all languages  
+    Fixed Karazhan incognitro version objects to all languages  
+- fix to charged scale of the blue aspect rank 4 azerite power, reported as still obtainable  
+- kul tiran orphan whistle source added  
+- [Logic] Retail: Fix an issue where Filling would sometimes break when there was nothing left to Fill  
+- Add new Midsummer Fire Festival rewards  
+- Sort some items, fix some reported errors  
+- Add 11.2 Faction constants, sort M+ mounts  
+- BFA: Source a few objects that contain QIs and sort some unsorted items  
+- 11.2 Delve achievements sorted (incomplete because PTR went down)  
+- 11.2 M+ achievements sorted  
+- 11.2 PVP achievements sorted  
+- [Parser] Replaced SHADOWLANDS preprocessor with SL for consistency with other expansion abbreviations.  
+- cant collect shoulders  
+- [Logic] Removed use of ipairs in Filter module by switching to for-loop  
+- [Logic] Minor performance improvements to caching logic with wipearray and for-loops  
+- [Logic] Retail: Use wipearray in a few more heavily-used places where possible  
+    [Logic] Retail: Fill performance improvements by switching ipairs to simple for loops  
+- [Test] Added some testing capability functions to assist with performance/memory comparisons  
+- [Logic] app.PrintMemoryUsage now includes a garbage collect to ensure accurate results  
+- [Logic] Retail: Lots of row/progress text now re-uses the same table to generate the text (this reduces the garbage generated over time and has a negligible performance difference <1%)  
+- [Logic] Added app.wipearray() which performs far-faster than wipe() when the table is known to be a simple array  
+- Delves seasons to es and mx (#2043)  
+- [Parser] Added ExportDB.TW\_EventIDs so that TW EventIDs are not hardcoded in symlink subroutine  
+- [Logic] Retail: Fixed BFA TW instances not showing in minilists  
+- Sort 11.2.0 HAT  
+- [DB] Small Azuremyst Isle cleanup  
+- [DB] Clean up Dun Morogh a bit  
+- Setup delves file for 11.2.0  
+- [DB] Clean up Elwynn Forest  
+- Fixed translations of objects from patch 11.0.7 in all languages (#2042)  
+    Fixed translations of all Siren's isle objets  
+    Fixed translations of all Fate of the Kirin Tor quest chain objets  
+- Sort some timewalling drops  
+- Kul Tiras: Source a couple of Objects that contain quest items  
+    - Add/update a couple of coordinates and comments  
+- [DB] Mulgore - Camp Narache: cleanup coordinates - also primarily use `AFTER` in preprocessors instead of `BEFORE`  
+- [DB] Tirisfal Glades - Deathknell: cleanup coordinates  
+- [DB] Durotar - Valley of Trials: cleanup coordinates  
+- [DB] Fix Tirisfal Glades class quest coords  
+- [Cata/MoP] Add Tauren class quests  
+    - Druid: add Rejuvenating Touch / Moonfire  
+    - Hunter: add The Hunter's Path  
+    - Paladin: add The Way of the Sunwalkers  
+    - Priest: add Healing in A Flash / Learning the Word  
+    - Warrior: add The First Lesson  
+- [DB] Set pre- and post-MoP coords for Camp Narache  
+- [DB] Improve comment on priest quest getting renamed in MoP  
+- [DB] Removed duplicate Teldrassil class quest  
+- [Cata/MoP] Add Night Elf class quests  
+    - Druid: added Rejuvenating Touch  
+    - Hunter: added A Woodman's Training  
+    - Mage: fixed source quest for Arcane Missiles  
+    - Priest: added Healing for the Wounded  
+    - Rogue: added A Rogue's Advantage  
+    - Warrior: added Learning New Techniques  
+- [Cata/MoP] Fix mage class starter quests  
+    - Improve comments for Draenei quest  
+    - Improve comments for Worgen quest  
+    - Add Goblin starter mage quest  
+    - Add Night Elf starter mage quests  
+- [DB] Add Gilneas + Gilneas City map IDs to Maps.lua  
+- named red dawn & return to lorderaeron. created folder for a new beginning, but it stays under plains  
+- red dawn is now under expansion features and achievement is tagged as ally/horde  
+- [Cata/MoP] Durotar - Valley of Trials: added missing Orc class quests  
+    - Hunter: added Steady Shot  
+    - Mage: added Arcane Missiles and Glyphic Parchment  
+    - Rogue: added Eviscerate  
+    - Warlock: added Immolate/Corruption  
+    - Warrior: added Charge  
+- [DB] Durotar - Echo Isles: added Troll class quests  
+    - Added class quests: The Arts of a Druid/Hunter/Priest/Rogue/Shaman/Warlock/Warrior  
+    - Removed duplicate coord data for Saving the Young  
+    - Fixed some cases where Echo Isles was used as coord map ID before MoP  
+- [DB] Durotar - Echo Isles: fix Morakki NPC coords  
+- [DB] Durotar: make races/classes data order consistent  
+- Revert "[DB] Set required lvl for Tirisfal Glade class quests"  
+- [DB] Cata: Troll class quests in Valley of Trials were removed in Cata, not Legion  
+- [DB] Cata: added Durotar quest Spirits be Praised  
+- [DB] Set required lvl for Tirisfal Glade class quests  
+- [DB] Cata: add Tirisfal Glades class quests  
+    - Hunter: added Trail-Worn Scroll + The Thrill of the Hunt  
+    - Mage: added coord for Magic Training  
+    - Warlock: added Dark Deeds  
+    - Warrior: added Charging into Battle  
+- [DB] Tirisfal Glades: make races/classes data order consistent  
+- [DB] A comma  
+- [DB] Cata: added Rogue class quest Stab! and HQT in Tirisfal Glades  
+- [DB] Cleaned up Classic PvP items  
+    - Use sharedDescription instead of sharedData (saved ~20kb)  
+    - Moved individual class sets under class headers  
+    - Set correct class restrictions for wrist slot items  
+- Fix some reported errors  
+- [Logic] Classic: Fixed a loading issue due to a missing field  
+- Generate Missing Files: REtail  
+- New Map Constant  
+- Update Pet/Illusion/Toy/MountDBs for 11.2.0.61476, parse  
+- Misc: Sort "Crucible of Storms" quests in order of completion  
+    - Add a couple of PQIs to Dragonblight Quests  
+    - Source a couple of objects that contain QIs in Eredath and Crucible of Storms  
+    - Sort some unsorted 8.0.1 junk  
+- Some Folders/Files Prep for 11.2.0  
+- Update PTR parser  
+- Update QuestNames to handle 11.2.0  
+- Sort Recipes  
+- Harvest: 11.2.0.61476  
+- Harvest: 11.1.7.61559  
+- Harvest: 11.1.7.61491  
+- Harvest: 11.1.7.61406  
+- Harvest: 5.5.0.61496  
+- Harvest: 5.5.0.61411  
+- [Wago] PTR no longer deletes HolidayNames accidentally.  
+- [Wago] Updated PTR data files.  
+- Fixed wago wrong data in lich king using french traslation in the spanish file to the brewfest (#2041)  
+- Set DISC intro quests accountwide  
+- Fix more reported 11.1.7 errors  
+- [Logic] Retail: Fixed Items with Spells not showing their potential Cost results from the Spell  
+- [DB] WotLK: Winter Hyacinth bug  
+- Uncollectible: Fix even more typos (Thanks @Eremeir)  
+- Crafted: Fix a Timeline typo (Thanks, @Darkal31)  
+    - Sort some unsorted junk items  
+- [Logic] Retail: CostItem now imports the Link field from Item to ensure it loads properly in Lists  
+- [DB] Vanilla: Git being git again.  
+- [Contrib] Exclude a couple fields from Debug data store  
+- Timewalking: Sort the Unsorted items that drop from the last bosses  
+    - Add "Technique: Glyph of the Strix" (i:243052) to the vendor. Hunters rejoice!  
+- [DB] Vanilla: More fish things.  
+- [DB] Vanilla Engineering + Fishing  
+- Clear some unsorted  

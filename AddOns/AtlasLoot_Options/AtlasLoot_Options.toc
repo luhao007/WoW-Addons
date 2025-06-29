@@ -1,6 +1,6 @@
-## Interface: 110105
+## Interface: 110107
 ## Author: nanderson11, Lag, Proteyer, Arith
-## Version: v8.27.0
+## Version: v9.6.0
 
 ## Title: AtlasLoot |cFF0099FF[Options]|r
 ## Notes: AtlasLoot options module
@@ -18,7 +18,7 @@
 ## X-AtlasLoot-LootModule: 0
 ## X-Part-Of: AtlasLoot
 
-ALOptions\ALOptions-1.0.xml
+Libs\embeds.xml
 
 Locales\constants.lua
 Locales\constants.cn.lua

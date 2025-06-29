@@ -44,16 +44,17 @@ function BusinessInfo.StatsInfo_ADDUI()
 	StatsInfo:PIGSetBackdrop()
 	StatsInfo:PIGClose()
 	StatsInfo:PIGSetMovable()
+	StatsInfo:PIGSetMovableNoSave()
 	StatsInfo.butW=46
+	StatsInfo.hang_Height=19
 	StatsInfo.title = PIGFontString(StatsInfo,{"TOP", StatsInfo, "TOP", 0, -3},GnName)
-	PIGLine(StatsInfo,"TOP",-biaotiH)
 	StatsInfo.F=PIGOptionsList_RF(StatsInfo,biaotiH,"Left")
 	--
 	function StatsInfo:Get_renwuInfo()
-		self.allname = Pig_OptionsUI.AllName
-		local race_icon = PIGGetRaceAtlas(Pig_OptionsUI.RaceData.raceFile,Pig_OptionsUI.gender)
+		self.allname = PIG_OptionsUI.AllName
+		local race_icon = PIGGetRaceAtlas(PIG_OptionsUI.RaceData.raceFile,PIG_OptionsUI.gender)
 		local level = UnitLevel("player")
-		PIGA["StatsInfo"]["Players"][self.allname]={Pig_OptionsUI.englishFaction,Pig_OptionsUI.RaceData.raceId,race_icon,Pig_OptionsUI.ClassData.classId,level}
+		PIGA["StatsInfo"]["Players"][self.allname]={PIG_OptionsUI.englishFaction,PIG_OptionsUI.RaceData.raceId,race_icon,PIG_OptionsUI.ClassData.classId,level}
 		for k,v in pairs(peizhiList) do
 			if v=="name" then
 				PIGA["StatsInfo"][k][self.allname]=PIGA["StatsInfo"][k][self.allname] or {}
@@ -61,7 +62,7 @@ function BusinessInfo.StatsInfo_ADDUI()
 				PIGA["StatsInfo"][k][self.allname]=PIGA["StatsInfo"][k][self.allname] or {}
 				PIGA["StatsInfo"][k][self.allname]=zijimoren[k](PIGA["StatsInfo"][k][self.allname])
 			elseif v=="realm" then
-				PIGA["StatsInfo"][k][Pig_OptionsUI.Realm]=PIGA["StatsInfo"][k][Pig_OptionsUI.Realm] or {}
+				PIGA["StatsInfo"][k][PIG_OptionsUI.Realm]=PIGA["StatsInfo"][k][PIG_OptionsUI.Realm] or {}
 			end
 		end
 	end
@@ -74,7 +75,7 @@ function BusinessInfo.StatsInfo_ADDUI()
 				if v=="name" or v=="name_2" then
 					PIGA["StatsInfo"][k][name]= nil
 				elseif v=="realm" then
-					--PIGA["StatsInfo"][k][Pig_OptionsUI.Realm]= nil
+					--PIGA["StatsInfo"][k][PIG_OptionsUI.Realm]= nil
 				end
 			end		
 		elseif ly=="hide" then
@@ -90,12 +91,12 @@ function BusinessInfo.StatsInfo_ADDUI()
 		end
 	end)
 	--
-	BusinessInfo.FBCD()
-	BusinessInfo.SkillCD()
-	BusinessInfo.Time()
-	BusinessInfo.Token()
-	BusinessInfo.Item()
-	BusinessInfo.Trade()
-	BusinessInfo.AH()
-	BusinessInfo.Admin()
+	BusinessInfo.FBCD(StatsInfo)
+	BusinessInfo.SkillCD(StatsInfo)
+	BusinessInfo.Token(StatsInfo)
+	BusinessInfo.Item(StatsInfo)
+	BusinessInfo.Trade(StatsInfo)
+	BusinessInfo.AH(StatsInfo)
+	BusinessInfo.Time(StatsInfo)
+	BusinessInfo.Admin(StatsInfo)
 end

@@ -17,6 +17,7 @@ local RSCollectionsDB = private.ImportLib("RareScannerCollectionsDB")
 local RSAchievementDB = private.ImportLib("RareScannerAchievementDB")
 
 -- RareScanner services
+local RSButtonHandler = private.ImportLib("RareScannerButtonHandler")
 local RSMinimap = private.ImportLib("RareScannerMinimap")
 local RSEntityStateHandler = private.ImportLib("RareScannerEntityStateHandler")
 local RSProvider = private.ImportLib("RareScannerProvider")
@@ -32,7 +33,7 @@ local RSRoutines = private.ImportLib("RareScannerRoutines")
 -- Handle entities without vignette
 ---============================================================================
 
-local function HandleEntityWithoutVignette(rareScannerButton, unitID)
+local function HandleEntityWithoutVignette(rareScannerButton, unitID, trackingSystem)
 	if (not unitID) then
 		return
 	end
@@ -52,18 +53,10 @@ local function HandleEntityWithoutVignette(rareScannerButton, unitID)
 			return
 		end
 	
-		-- If player in a zone with vignettes ignore it
 		local mapID = C_Map.GetBestMapForUnit("player")
 		if (not mapID) then
 			return
 		end
-	
-		--if (not RSMapDB.IsZoneWithoutVignette(mapID)) then
-			-- Continue if its an NPC that doesnt have vignette in a newer zone
-		--	if (not RSNpcDB.GetInternalNpcInfo(npcID) or not RSNpcDB.GetInternalNpcInfo(npcID).noVignette) then
-		--		return
-		--	end
-		--end
 		
 		-- If its a supported NPC and its not killed
 		if ((RSGeneralDB.GetAlreadyFoundEntity(npcID) or RSNpcDB.GetInternalNpcInfo(npcID)) and not UnitIsDead(unitID)) then
@@ -73,7 +66,7 @@ local function HandleEntityWithoutVignette(rareScannerButton, unitID)
 			end
 			
 			local x, y = RSNpcDB.GetBestInternalNpcCoordinates(npcID, mapID)
-			rareScannerButton:SimulateRareFound(npcID, unitGuid, nameplateUnitName, x, y, RSConstants.NPC_VIGNETTE, RSConstants.TRACKING_SYSTEM.NAMEPLATE_MOUSE)
+			rareScannerButton:SimulateRareFound(npcID, unitGuid, nameplateUnitName, x, y, RSConstants.NPC_VIGNETTE, trackingSystem)
 		end
 	elseif (unitType == "Object") then
 		local containerID = entityID and tonumber(entityID) or nil
@@ -99,7 +92,7 @@ local function OnVignetteMinimapUpdated(rareScannerButton, vignetteID)
 		return
 	else
 		vignetteInfo.id = vignetteID
-		rareScannerButton:DetectedNewVignette(rareScannerButton, vignetteInfo)
+		RSButtonHandler.AddAlert(rareScannerButton, vignetteInfo)
 	end
 end
 
@@ -118,7 +111,7 @@ local function OnVignettesUpdated(rareScannerButton)
 		local vignetteInfo = C_VignetteInfo.GetVignetteInfo(vignetteGUID);
 		if (vignetteInfo and vignetteInfo.onWorldMap) then
 			vignetteInfo.id = vignetteGUID
-			rareScannerButton:DetectedNewVignette(rareScannerButton, vignetteInfo)
+			RSButtonHandler.AddAlert(rareScannerButton, vignetteInfo)
 		end
 	end
 end
@@ -130,7 +123,7 @@ end
 
 local function OnNamePlateUnitAdded(rareScannerButton, namePlateID)
 	if (namePlateID and not UnitIsUnit("player", namePlateID)) then
-		HandleEntityWithoutVignette(rareScannerButton, namePlateID)
+		HandleEntityWithoutVignette(rareScannerButton, namePlateID, RSConstants.TRACKING_SYSTEM.NAMEPLATE_MOUSEOVER)
 	end
 end
 
@@ -141,7 +134,7 @@ end
 
 local function OnUpdateMouseoverUnit(rareScannerButton)
 	if (not UnitIsUnit("player", "mouseover") and not UnitIsDead("mouseover")) then
-		HandleEntityWithoutVignette(rareScannerButton, "mouseover")
+		HandleEntityWithoutVignette(rareScannerButton, "mouseover", RSConstants.TRACKING_SYSTEM.NAMEPLATE_MOUSEOVER)
 	end
 end
 
@@ -193,68 +186,20 @@ end
 -- Fired when changing the target
 ---============================================================================
 
-local function OnPlayerTargetChanged()
-	if (UnitExists("target")) then
-		local targetUid = UnitGUID("target")
-		local npcType, _, _, _, _, id = strsplit("-", targetUid)
-
-		-- Ignore rare hunter pets
-		if (npcType == "Pet") then
-			return
-		end
-
-		local unitClassification = UnitClassification("target")
-		local npcID = id and tonumber(id) or nil
-		local playerMapID = C_Map.GetBestMapForUnit("player")
-		local npcInfo = RSNpcDB.GetInternalNpcInfo(npcID)
+local function OnPlayerTargetChanged(rareScannerButton)
+	if (UnitExists("target") and not UnitIsUnit("player", "target") and not UnitIsDead("target")) then
+		HandleEntityWithoutVignette(rareScannerButton, "target", RSConstants.TRACKING_SYSTEM.UNIT_TARGET)
 		
-		-- If not known ignore it
-		if (not npcInfo) then
-			return
+		-- Update coordinates if the NPC doesnt have a vignette
+		local targetUid = UnitGUID("target")
+		local _, _, _, _, _, npcID = strsplit("-", targetUid)
+		local npcInfo = RSNpcDB.GetInternalNpcInfo(tonumber(npcID))
+		local playerMapID = C_Map.GetBestMapForUnit("player")
+		
+		if (npcInfo and (RSMapDB.IsZoneWithoutVignette(playerMapID) or npcInfo.noVignette) and not InCombatLockdown() and CheckInteractDistance("unit", 4)) then
+			RSGeneralDB.UpdateAlreadyFoundEntityPlayerPosition(tonumber(npcID))
 		end
-
-		-- Check if we have the NPC in our database but the addon didnt detect it
-		-- This will happend in the case where the NPC is a rare, but it doesnt have a vignette
-		if (not RSGeneralDB.GetAlreadyFoundEntity(npcID)) then
-			RSGeneralDB.AddAlreadyFoundNpcWithoutVignette(npcID)
-		end
-
-		-- check if killed
-		if (not RSNpcDB.IsNpcKilled(npcID)) then
-			-- Update coordinates (if zone doesnt use vignettes or it is detected with nameplates)
-			if ((RSMapDB.IsZoneWithoutVignette(playerMapID) or npcInfo.noVignette) and not InCombatLockdown() and CheckInteractDistance("unit", 4)) then
-				RSGeneralDB.UpdateAlreadyFoundEntityPlayerPosition(npcID)
-			end
-			
-			-- If it's a custom NPC that's all
-			local customNpcInfo = RSNpcDB.GetCustomNpcInfo(npcID)
-			if (customNpcInfo) then
-				return
-			end
-
-			-- Check the questID asociated to see if its completed
-			if (npcInfo.questID) then
-				local completed = false
-				for i, questID in ipairs (npcInfo.questID) do
-					if (C_QuestLog.IsQuestFlaggedCompleted(questID)) then
-						completed = true
-						break
-					end
-				end
-
-				if (completed) then
-					--RSLogger:PrintDebugMessage(string.format("Target NPC [%s] con mision completada, se marca como muerto.", npcID))
-					RSEntityStateHandler.SetDeadNpc(npcID)
-				else
-					--RSLogger:PrintDebugMessage(string.format("Target NPC [%s] con mision SIN completar.", npcID))
-					RSGeneralDB.UpdateAlreadyFoundEntityTime(npcID)
-				end
-			elseif (unitClassification ~= "rare" and unitClassification ~= "rareelite") then
-				--RSLogger:PrintDebugMessage(string.format("Target NPC [%s] sin dragon plateado, se marca como muerto.", npcID))
-				RSEntityStateHandler.SetDeadNpc(npcID)
-			end
-		end
-	end	
+	end
 end
 
 ---============================================================================
@@ -343,6 +288,9 @@ end
 local function SimulateRareFound(rareScannerButton, npcID, mapID, name)
 	if (RSNpcDB.GetInternalNpcInfo(npcID)) then
 		local x, y = RSNpcDB.GetInternalNpcCoordinates(npcID, mapID)
+		if (not x or not y) then
+			x, y = RSNpcDB.GetBestInternalNpcCoordinates(npcID, mapID)
+		end
 		rareScannerButton:SimulateRareFound(npcID, nil, name, x, y, RSConstants.NPC_VIGNETTE, RSConstants.TRACKING_SYSTEM.CHAT_EMOTE)
 	end
 end
@@ -426,9 +374,9 @@ end
 -- Fired when a cinematic starts
 ---============================================================================
 
-local isCinematicPlaying = false
 local function OnCinematicStart(rareScannerButton)
-	isCinematicPlaying = true
+	RSGeneralDB.SetCinematicPlaying(true)
+
 	if (rareScannerButton:IsVisible()) then
 		rareScannerButton:HideButton()
 	end
@@ -440,11 +388,7 @@ end
 ---============================================================================
 
 local function OnCinematicStop(rareScannerButton)
-	isCinematicPlaying = false
-end
-
-function RSEventHandler.IsCinematicPlaying()
-	return isCinematicPlaying
+	RSGeneralDB.SetCinematicPlaying(false)
 end
 
 ---============================================================================
@@ -600,22 +544,40 @@ local function OnPlayerLogin(rareScannerButton)
 		RSLogger:CreateChatFrame(RSConfigDB.GetChatWindowName())
 	end
 	
-	local providerRemoverTimer = C_Timer.NewTimer(1, function(self)
-		-- Wait until all providers are added
-		if (WorldMapFrame:IsEventRegistered("WORLD_MAP_OPEN")) then
-			for dp, loaded in pairs(WorldMapFrame.dataProviders) do
-				if (loaded and dp.GetDefaultPinTemplate and dp:GetDefaultPinTemplate() == "VignettePinTemplate") then
-					WorldMapFrame:RemoveDataProvider(dp)
-					dp:OnHide() --fixes https://legacy.curseforge.com/wow/addons/rarescanner/issues/339
-					local provider = CreateFromMixins(RSVignetteDataProviderMixin)
-					WorldMapFrame:AddDataProvider(provider);
-					RSProvider.AddDataProvider(provider)
-					RSLogger:PrintDebugMessage("Reemplazado proveedor VignetteDataProvider")
-					break
-			  	end
+	local vignetteProviderDeleted = false
+	local areaPOIProviderDeleted = false
+	C_Timer.NewTicker(2, function(self)
+		pcall(function()
+			-- Wait until all providers are added
+			if (WorldMapFrame:IsEventRegistered("WORLD_MAP_OPEN")) then
+				-- Remove original providers
+				for dp, loaded in pairs(WorldMapFrame.dataProviders) do	
+					if (not vignetteProviderDeleted and loaded and dp.GetDefaultPinTemplate and dp:GetDefaultPinTemplate() == "VignettePinTemplate") then
+						RSProvider.DropDataProvider(dp)
+						RSLogger:PrintDebugMessage("Eliminado proveedor VignetteDataProvider")
+						vignetteProviderDeleted = true
+				  	end
+				  	-- This provider could be extended by others, check what methods are unique in those providers
+				  	   -- dp.Init -> DelveEntranceDataProviderMixin
+				  	if (not areaPOIProviderDeleted and loaded and not dp.GetDefaultPinTemplate and not dp.Init and dp.GetPinTemplate and dp:GetPinTemplate() == "AreaPOIPinTemplate") then
+						RSProvider.DropDataProvider(dp)
+						RSLogger:PrintDebugMessage("Eliminado proveedor AreaPOIDataProvider")
+						areaPOIProviderDeleted = true
+				  	end
+				  	
+				  	if (vignetteProviderDeleted and areaPOIProviderDeleted) then
+						break;
+					end
+				end
+				
+				-- Add new providers
+				if (vignetteProviderDeleted and areaPOIProviderDeleted) then
+					RSProvider.AddDataProvider(CreateFromMixins(RSVignetteDataProviderMixin))
+					RSProvider.AddDataProvider(CreateFromMixins(RSAreaPOIDataProviderMixin))		
+					self:Cancel()
+				end
 			end
-			self:Cancel()
-		end
+		end);
 	end)
 	
 	rareScannerButton:UnregisterEvent("PLAYER_LOGIN")
@@ -684,7 +646,7 @@ local function HandleEvent(rareScannerButton, event, ...)
 	elseif (event == "COMBAT_LOG_EVENT_UNFILTERED") then
 		OnCombatLogEventUnfiltered()
 	elseif (event == "PLAYER_TARGET_CHANGED") then
-		OnPlayerTargetChanged()
+		OnPlayerTargetChanged(rareScannerButton)
 	elseif (event == "LOOT_OPENED") then
 		OnLootOpened()
 	elseif (event == "CHAT_MSG_MONSTER_YELL") then

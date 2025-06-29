@@ -197,39 +197,6 @@ end)
 end -- TradeSkill Functionality
 
 local ResolveSymbolicLink;
--- Fills & returns a group with its symlink references, along with all sub-groups recursively if specified
--- This should only be used on a cloned group so the source group is not contaminated
-local function FillSymLinks(group, recursive)
-	if recursive and group.g then
-		for _,obj in ipairs(group.g) do
-			FillSymLinks(obj, recursive);
-		end
-	end
-	if group.sym then
-		-- app.PrintDebug("FillSymLinks",group.hash)
-		NestObjects(group, ResolveSymbolicLink(group));
-		-- make sure this group doesn't waste time getting resolved again somehow
-		group.sym = nil;
-	end
-	-- if app.Debugging == group then app.Debugging = nil; end
-	return group;
-end
-app.FillSymLinks = FillSymLinks;
-app.RecreateObject = function(t)
-	-- Clones an Object, fills any symlinks, builds groups, and does an Update pass before returning the Object
-	local obj = CreateObject(t);
-	-- fill the copied Item's symlink if any
-	FillSymLinks(obj);
-	-- Build the Item's groups if any
-	AssignChildren(obj);
-	-- Update the group while ignoring some visibility functionality
-	obj.collectibleAsCost = false
-	obj.collectibleAsUpgrade = false
-	app.TopLevelUpdateGroup(obj);
-	obj.collectibleAsCost = nil
-	obj.collectibleAsUpgrade = nil
-	return obj;
-end
 
 local GetSpecsString, GetGroupItemIDWithModID, GetItemIDAndModID, GroupMatchesParams, GetClassesString
 	= app.GetSpecsString, app.GetGroupItemIDWithModID, app.GetItemIDAndModID, app.GroupMatchesParams, app.GetClassesString
@@ -318,7 +285,8 @@ local ResolveFunctions = {
 			if cache and #cache > 0 then
 				ArrayAppend(searchResults, cache)
 			else
-				app.print("Failed to select ", field, val);
+				-- TODO: re-enable after all catalystID's are re-structured
+				-- app.print("Failed to select ", field, val);
 			end
 		end
 		SelectMod = nil
@@ -862,8 +830,6 @@ local SubroutineCache = {
 		local select, pop, is = ResolveFunctions.select, ResolveFunctions.pop, ResolveFunctions.is;
 		select(finalized, searchResults, o, "select", "npcID", npcID);	-- Main Vendor
 		pop(finalized, searchResults);	-- Remove Main Vendor and push his children into the processing queue.
-		-- TODO: don't think we will need this anymore with 'select' fixes to only pull actual Thing being selected
-		-- is(finalized, searchResults, o, "is", "itemID");	-- Only Items
 	end,
 	-- TW Instance
 	["tw_instance"] = function(finalized, searchResults, o, cmd, instanceID)
@@ -872,8 +838,7 @@ local SubroutineCache = {
 		push(finalized, searchResults, o, "push", "headerID", app.HeaderConstants.COMMON_BOSS_DROPS);	-- Push into 'Common Boss Drops' header
 		finalize(finalized, searchResults);	-- capture current results
 		select(finalized, searchResults, o, "select", "instanceID", instanceID);	-- select this instance
-		-- TODO: collect into an exportDB table to future-proof new TW eventIDs
-		whereany(finalized, searchResults, o, "whereany", "e", 1271, 1508, 559, 562, 587, 643, 1056, 1263 );	-- Select any TIMEWALKING eventID
+		whereany(finalized, searchResults, o, "whereany", "e", unpack(app.TW_EventIDs or app.EmptyTable) );	-- Select any TIMEWALKING eventID
 		if #searchResults > 0 then o.e = searchResults[1].e; end
 		pop(finalized, searchResults);	-- pop the instance header
 	end,
@@ -1125,20 +1090,10 @@ local function ResolveSymlinkGroupAsync(group)
 	end
 end
 -- Fills the symlinks within a group by using an 'async' process to spread the filler function over multiple game frames to reduce stutter or apparent lag
-app.FillSymlinkAsync = function(o)
-	app.FillRunner.Run(ResolveSymlinkGroupAsync, o);
-end
--- Fills the symlinks within a group by using an 'async' process to spread the filler function over multiple game frames to reduce stutter or apparent lag
 -- NOTE: ONLY performs the symlink for 'achievement_criteria'
 app.FillAchievementCriteriaAsync = function(o)
 	local sym = o.sym
-	if not sym then
-		-- manually apply achievement_criteria symlink if no symlink exists
-		-- this is insane but actually works... bloated AF and needs refinement of checking for existing criteria etc.
-		-- o.sym = {{"achievement_criteria"}}
-		-- app.FillRunner.Run(ResolveSymlinkGroupAsync, o);
-		return
-	end
+	if not sym then return end
 
 	local sym = sym[1][1]
 	if sym ~= "achievement_criteria" then return end
@@ -1164,6 +1119,8 @@ local Indents = {
 for i=2,MaxLayer do
 	Indents[i] = Indents[i-1].."  "
 end
+local ContainsTypesIndicators
+app.AddEventHandler("OnStartup", function() ContainsTypesIndicators = app.Modules.Fill.Settings.Icons end)
 local function BuildContainsInfo(subgroups, entries, indent, layer)
 	if not subgroups or #subgroups == 0 then return end
 
@@ -1177,7 +1134,7 @@ local function BuildContainsInfo(subgroups, entries, indent, layer)
 				-- Insert into the display.
 				-- app.PrintDebug("INCLUDE",app.Debugging,GetProgressTextForRow(group),group.hash,group.key,group.key and group[group.key])
 				local o = { group = group, right = GetProgressTextForRow(group) };
-				local indicator = Indicator(group);
+				local indicator = ContainsTypesIndicators[group.filledType] or Indicator(group);
 				o.prefix = indicator and (Indents[indent]:sub(3) .. "|T" .. indicator .. ":0|t ") or Indents[indent]
 				entries[#entries + 1] = o
 			end
@@ -1447,7 +1404,7 @@ local function AddSourceLinesForTooltip(tooltipInfo, paramA, paramB)
 			-- app.PrintDebug("SourceLocation",text,FilterInGame(j),FilterSettings(parent),FilterCharacter(parent))
 			if showUnsorted or (not text:match(L.UNSORTED) and not text:match(L.HIDDEN_QUEST_TRIGGERS)) then
 				-- doesn't meet current unobtainable filters from the Thing itself
-				if not FilterInGame(j) then
+				if not FilterInGame(parent) then
 					unobtainable[#unobtainable + 1] = text..UnobtainableTexture
 				else
 					-- something user would currently see in a list or not
@@ -1457,8 +1414,8 @@ local function AddSourceLinesForTooltip(tooltipInfo, paramA, paramB)
 						sourcesToShow[#sourcesToShow + 1] = text..NotCurrentCharacterTexture
 					else
 						-- check if this needs a status icon even though it's being shown
-						right = GetUnobtainableTexture(FirstParent(j, "e", true) or FirstParent(j, "u", true) or j)
-							or (j.rwp and app.asset("status-prerequisites"))
+						right = GetUnobtainableTexture(FirstParent(parent, "e", true) or FirstParent(parent, "u", true) or parent)
+							or (parent.rwp and app.asset("status-prerequisites"))
 						if right then
 							sourcesToShow[#sourcesToShow + 1] = text.." |T" .. right .. ":0|t"
 						else
@@ -1786,7 +1743,13 @@ local function GetSearchResults(method, paramA, paramB, options)
 		end
 		if not root then
 			-- app.PrintDebug("Create New Root",paramA,paramB)
-			root = CreateObject({ [paramA] = paramB, missing = true });
+			if paramA == "criteriaID" then
+				local critID, achID = (":"):split(paramB)
+				root = CreateObject({ [paramA] = tonumber(critID), achievementID = tonumber(achID) })
+			else
+				root = CreateObject({ [paramA] = paramB })
+			end
+			root.missing = true
 		end
 		-- If rawLink exists, import it into the root
 		if rawlink then app.ImportRawLink(root, rawlink); end
@@ -1904,6 +1867,9 @@ local function GetSearchResults(method, paramA, paramB, options)
 	return group
 end
 app.GetCachedSearchResults = function(method, paramA, paramB, options)
+	if options and options.IgnoreCache then
+		return GetSearchResults(method, paramA, paramB, options)
+	end
 	return app.GetCachedData(paramB and paramA..":"..paramB or paramA, GetSearchResults, method, paramA, paramB, options);
 end
 
@@ -1972,6 +1938,7 @@ app.ThingKeys = {
 	factionID = true,
 	explorationID = true,
 	titleID = true,
+	campsiteID = true,
 	achievementID = true,	-- special handling
 	criteriaID = true,	-- special handling
 };
@@ -1981,25 +1948,10 @@ local SpecificSources = {
 		[app.HeaderConstants.COMMON_VENDOR_ITEMS] = true,
 		[app.HeaderConstants.DROPS] = true,
 	},
-};
-local function CleanTop(top, keephash)
-	if top then
-		if top.hash == keephash then return true end
-		local g = top.g;
-		if g then
-			local count, gi, cleaned = #g,nil,nil;
-			for i=count,1,-1 do
-				gi = g[i];
-				if CleanTop(gi, keephash) then
-					cleaned = true;
-				else
-					tremove(g, i);
-				end
-			end
-			return cleaned;
-		end
-	end
-end
+}
+local KeepSourced = {
+	criteriaID = true
+}
 local function GetThingSources(field, value)
 	if field == "achievementID" then
 		return SearchForField(field, value)
@@ -2062,13 +2014,13 @@ local function BuildSourceParent(group)
 						-- only show certain types of parents as sources.. typically 'Game World Things'
 						-- or if the parent is directly tied to an NPC
 						if thingKeys[parentKey] or parent.npcID or parent.creatureID then
-							-- keep the Criteria nested for Achievements, to show proper completion tracking under various Sources
-							if isAchievement then
-								-- app.PrintDebug("isAchieve:keepSource",thing.hash,"under",parent.hash)
-								parent._keepSource = thing.hash;
-							end
 							-- add the parent for display later
-							tinsert(parents, parent);
+							parent = CreateObject(parent, true)
+							parents[#parents + 1] = parent
+							-- achievement criteria can nest inside their Source for clarity
+							if isAchievement and KeepSourced[thing.key] then
+								NestObject(parent, thing, true)
+							end
 							break;
 						end
 						-- TODO: maybe handle mapID/instanceID in a different way as a fallback for things nested under headers within a zone....?
@@ -2078,16 +2030,24 @@ local function BuildSourceParent(group)
 				end
 				-- Things tagged with an npcID should show that NPC as a Source
 				if thing.key ~= "npcID" and (thing.npcID or thing.creatureID) then
-					local parentNPC = SearchForObject("creatureID", thing.npcID or thing.creatureID, "field") or {["npcID"] = thing.npcID or thing.creatureID};
-					tinsert(parents, parentNPC);
+					local parentNPC = CreateObject(SearchForObject("creatureID", thing.npcID or thing.creatureID, "field") or {["npcID"] = thing.npcID or thing.creatureID}, true)
+					parents[#parents + 1] = parentNPC
+					-- achievement criteria can nest inside their Source for clarity
+					if isAchievement and KeepSourced[thing.key] then
+						NestObject(parentNPC, thing, true)
+					end
 				end
 				-- Things tagged with many npcIDs should show all those NPCs as a Source
 				if thing.crs then
 					-- app.PrintDebug("thing.crs",#thing.crs)
 					local parentNPC;
 					for _,npcID in ipairs(thing.crs) do
-						parentNPC = SearchForObject("creatureID", npcID, "field") or {["npcID"] = npcID};
-						tinsert(parents, parentNPC);
+						parentNPC = CreateObject(SearchForObject("creatureID", npcID, "field") or {["npcID"] = npcID}, true)
+						parents[#parents + 1] = parentNPC
+						-- achievement criteria can nest inside their Source for clarity
+						if isAchievement and KeepSourced[thing.key] then
+							NestObject(parentNPC, thing, true)
+						end
 					end
 				end
 				-- Things tagged with providers should show the providers as a Source
@@ -2102,14 +2062,18 @@ local function BuildSourceParent(group)
 								or   (type == "n" and SearchForObject("npcID", id, "field"))
 								or   (type == "s" and SearchForObject("spellID", id, "field"));
 						if pRef then
-							pRef = CreateObject(pRef);
-							tinsert(parents, pRef);
+							pRef = CreateObject(pRef, true);
+							parents[#parents + 1] = pRef
 						else
 							pRef = (type == "i" and app.CreateItem(id))
 								or   (type == "o" and app.CreateObject(id))
 								or   (type == "n" and app.CreateNPC(id))
 								or   (type == "s" and app.CreateSpell(id));
-							tinsert(parents, pRef);
+							parents[#parents + 1] = pRef
+						end
+						-- achievement criteria can nest inside their Source for clarity
+						if isAchievement and thing.key == "criteriaID" then
+							NestObject(pRef, thing, true)
 						end
 					end
 				end
@@ -2119,11 +2083,11 @@ local function BuildSourceParent(group)
 						-- app.PrintDebug("Root Provider",type,id);
 						local pRef = SearchForObject("npcID", id, "field");
 						if pRef then
-							pRef = CreateObject(pRef);
-							tinsert(parents, pRef);
+							pRef = CreateObject(pRef, true);
+							parents[#parents + 1] = pRef
 						else
 							pRef = app.CreateNPC(id);
-							tinsert(parents, pRef);
+							parents[#parents + 1] = pRef
 						end
 					end
 				end
@@ -2137,47 +2101,36 @@ local function BuildSourceParent(group)
 				-- end
 			end
 		end
-		-- Raw Criteria inherently are not directly cached and will not find themselves, so instead
-		-- show their containing Achievement as the Source
+		-- Raw Criteria include their containing Achievement as the Source
 		-- re-popping this Achievement will do normal Sources for all the Criteria and be useful
 		if groupKey == "criteriaID" then
 			local achID = group.achievementID;
-			parent = SearchForObject("achievementID", achID, "key") or { achievementID = achID };
+			parent = CreateObject(SearchForObject("achievementID", achID, "key") or { achievementID = achID }, true)
 			-- app.PrintDebug("add achievement for empty criteria",achID)
-			tinsert(parents, parent);
+			parents[#parents + 1] = parent
 		end
+
+		if #parents == 0 then return end
+
 		-- if there are valid parent groups for sources, merge them into a 'Source(s)' group
-		if #parents > 0 then
-			-- app.PrintDebug("Found parents",#parents)
-			local sourceGroup = app.CreateRawText(L.SOURCES, {
-				description = L.SOURCES_DESC,
-				icon = 134441,
-				OnUpdate = app.AlwaysShowUpdate,
-				sourceIgnored = true,
-				skipFill = true,
-				SortPriority = -3.0,
-				g = {},
-				OnClick = app.UI.OnClick.IgnoreRightClick,
-			})
-			local clonedParent, keepSource;
-			local clones = {};
-			for _,parent in ipairs(parents) do
-				keepSource = parent._keepSource;
-				-- clear the flag from the Source
-				parent._keepSource = nil;
-				-- if keepSource then app.PrintDebug("Keeping Criteria under",parent.hash) end
-				clonedParent = keepSource and CreateObject(parent) or CreateObject(parent, true);
-				clonedParent.collectible = false;
-				if keepSource then
-					CleanTop(clonedParent, keepSource);
-				else
-					clonedParent.OnUpdate = app.AlwaysShowUpdate;	-- TODO: filter actual unobtainable sources...
-				end
-				tinsert(clones, clonedParent);
-			end
-			PriorityNestObjects(sourceGroup, clones, nil, app.RecursiveCharacterRequirementsFilter, app.RecursiveGroupRequirementsFilter);
-			NestObject(group, sourceGroup, nil, 1);
+		-- app.PrintDebug("Found parents",#parents)
+		local sourceGroup = app.CreateRawText(L.SOURCES, {
+			description = L.SOURCES_DESC,
+			icon = 134441,
+			OnUpdate = app.AlwaysShowUpdate,
+			sourceIgnored = true,
+			skipFull = true,
+			SortPriority = -3.0,
+			g = {},
+			OnClick = app.UI.OnClick.IgnoreRightClick,
+		})
+		for _,parent in ipairs(parents) do
+			-- if there's nothing nested under the parent, then force it to be visible
+			-- otherwise the visibility can be driven by the nested thing
+			parent.OnSetVisibility = not parent.g and app.AlwaysShowUpdate or nil	-- TODO: filter actual unobtainable sources...
 		end
+		PriorityNestObjects(sourceGroup, parents, nil, app.RecursiveCharacterRequirementsFilter, app.RecursiveGroupRequirementsFilter);
+		NestObject(group, sourceGroup, nil, 1);
 	end
 end
 app.AddEventHandler("OnNewPopoutGroup", BuildSourceParent)
@@ -2315,7 +2268,7 @@ local function DefaultSyncCharacterData(allCharacters, key)
 		end
 	end
 end
--- Used for data which is primarily Account-learned, but has Character-learned exceptions
+-- Used for data which is defaulted as Account-learned, but has Character-learned exceptions
 local function PartialSyncCharacterData(allCharacters, key)
 	local characterData
 	local data = ATTAccountWideData[key];
@@ -2358,6 +2311,9 @@ local function SyncCharacterQuestData(allCharacters, key)
 	-- don't completely wipe quest data, some questID are marked as 'complete' due to other restrictions on the account
 	-- so we want to maintain those even though no character actually has it completed
 	-- TODO: perhaps in the future we can instead treat these quests as 'uncollectible' for the account rather than 'complete'
+	-- TODO: once these quests are no longer assigned as completion == 2 we can then use the PartialSyncCharacterData for Quests
+	-- and make sure AccountWide quests are instead saved directly into ATTAccountWideData when completed
+	-- and cleaned from individual Character caches here during sync
 	for questID,completion in pairs(data) do
 		if completion ~= 2 then
 			data[questID] = nil
@@ -2705,9 +2661,6 @@ function app:GetDataCache()
 	if app.Categories.PetBattles then
 		db = app.CreateNPC(app.HeaderConstants.PET_BATTLE);
 		db.g = app.Categories.PetBattles;
-		db.lvl = 3; -- Must be 3 to train (used to be 5 pre-scale)
-		db.text = SHOW_PET_BATTLES_ON_MAP_TEXT; -- Pet Battles
-		db.icon = app.asset("Category_PetBattles");
 		tinsert(g, db);
 	end
 
@@ -2717,17 +2670,6 @@ function app:GetDataCache()
 		db.isPVPCategory = true;
 		tinsert(g, db);
 	end
-
-	-- TODO: Do we need this as a new root?
-	-- Skyriding
-	--if app.Categories.Skyriding then
-	--	db = app.CreateNPC(app.HeaderConstants.SKYRIDING);
-	--	db.g = app.Categories.Skyriding;
-	--	db.lvl = 10;
-	--	db.text = DYNAMIC_FLIGHT; -- Skyriding
-	--	db.icon = "|TInterface\\Icons\\ability_dragonriding_dragonridinggliding01:0|t";
-	--	tinsert(g, db);
-	--end
 
 	-- Craftables
 	if app.Categories.Craftables then
@@ -2851,6 +2793,12 @@ function app:GetDataCache()
 			app.CreateDynamicHeader("speciesID", {
 				name = AUCTION_CATEGORY_BATTLE_PETS,
 				icon = app.asset("Category_PetJournal")
+			}),
+
+			-- Campsites
+			app.CreateDynamicHeader("campsiteID", {
+				name = WARBAND_SCENES,
+				icon = app.asset("Category_Campsites")
 			}),
 
 			-- Character Unlocks
@@ -4091,6 +4039,7 @@ customWindowUpdates.NWP = function(self, force)
 				{ id = "artifactID", name = ITEM_QUALITY6_DESC, icon = app.asset("Weapon_Type_Artifact") },
 				{ id = "azeriteessenceID", name = SPLASH_BATTLEFORAZEROTH_8_2_0_FEATURE2_TITLE, icon = app.asset("Category_AzeriteEssences") },
 				{ id = "speciesID", name = AUCTION_CATEGORY_BATTLE_PETS, icon = app.asset("Category_PetJournal") },
+				{ id = "campsiteID", name = WARBAND_SCENES, icon = app.asset("Category_Campsites") },
 				{ id = "characterUnlock", name = CHARACTER .. " " .. UNLOCK .. "s", icon = app.asset("Category_ItemSets") },
 				{ id = "conduitID", name = GetSpellName(348869) .. " (" .. EXPANSION_NAME8 .. ")", icon = 3601566 },
 				{ id = "currencyID", name = CURRENCY, icon = app.asset("Interface_Vendor") },
@@ -4281,6 +4230,7 @@ customWindowUpdates.awp = function(self, force)	-- TODO: Change this to remember
 					{ id = "artifactID", name = ITEM_QUALITY6_DESC, icon = app.asset("Weapon_Type_Artifact") },
 					{ id = "azeriteessenceID", name = SPLASH_BATTLEFORAZEROTH_8_2_0_FEATURE2_TITLE, icon = app.asset("Category_AzeriteEssences") },
 					{ id = "speciesID", name = AUCTION_CATEGORY_BATTLE_PETS, icon = app.asset("Category_PetJournal") },
+					{ id = "campsiteID", name = WARBAND_SCENES, icon = app.asset("Category_Campsites") },
 					{ id = "characterUnlock", name = CHARACTER .. " " .. UNLOCK .. "s", icon = app.asset("Category_ItemSets") },
 					{ id = "conduitID", name = GetSpellName(348869) .. " (" .. EXPANSION_NAME8 .. ")", icon = 3601566 },
 					{ id = "currencyID", name = CURRENCY, icon = app.asset("Interface_Vendor") },
@@ -6074,44 +6024,45 @@ customWindowUpdates.Tradeskills = function(self, force, got)
 			AfterCombatCallback(self.Update, self);
 		end
 		-- Setup Event Handlers and register for events
-		self:SetScript("OnEvent", function(self, e, ...)
-			-- app.PrintDebug("Tradeskills.event",e,...)
-			if e == "TRADE_SKILL_LIST_UPDATE" then
-				if self:IsVisible() then
-					-- If it's not yours, don't take credit for it.
-					if C_TradeSkillUI.IsTradeSkillLinked() or C_TradeSkillUI.IsTradeSkillGuild() then
-						self:SetVisible(false);
-						return false;
-					end
-
-					-- Check to see if ATT has information about this profession.
-					local tradeSkillID = app.GetTradeSkillLine();
-					if not tradeSkillID or #SearchForField("professionID", tradeSkillID) < 1 then
-						self:SetVisible(false);
-						return false;
-					end
+		local EventHandlers = {
+			TRADE_SKILL_SHOW = function(self)
+				-- If it's not yours, don't take credit for it.
+				if C_TradeSkillUI.IsTradeSkillLinked() or C_TradeSkillUI.IsTradeSkillGuild() then
+					self:SetVisible(false)
+					return false
 				end
-				self:RefreshRecipes();
-			elseif e == "TRADE_SKILL_SHOW" then
+
+				-- Check to see if ATT has information about this profession.
+				local tradeSkillID = app.GetTradeSkillLine()
+				if not tradeSkillID or #SearchForField("professionID", tradeSkillID) < 1 then
+					self:SetVisible(false)
+					return false
+				end
+
 				if self.TSMCraftingVisible == nil then
-					self:SetTSMCraftingVisible(false);
+					self:SetTSMCraftingVisible(false)
 				end
 				if app.Settings:GetTooltipSetting("Auto:ProfessionList") then
-					-- Check to see if ATT has information about this profession.
-					local tradeSkillID = app.GetTradeSkillLine();
-					if not tradeSkillID or #SearchForField("professionID", tradeSkillID) < 1 then
-						self:SetVisible(false);
-					else
-						self:SetVisible(true);
-					end
+					self:SetVisible(true)
 				end
-				self:RefreshRecipes(true);
-			elseif e == "TRADE_SKILL_CLOSE"
-				or e == "GARRISON_TRADESKILL_NPC_CLOSED" then
-				self:SetVisible(false);
-			end
-		end);
-		return;
+				self:RefreshRecipes(true)
+			end,
+			TRADE_SKILL_CLOSE = function(self)
+				self:SetVisible(false)
+			end,
+		}
+		EventHandlers.GARRISON_TRADESKILL_NPC_CLOSED = EventHandlers.TRADE_SKILL_CLOSE
+
+		self:SetScript("OnEvent", function(self, e, ...)
+			-- app.PrintDebug("Tradeskills.event",e,...)
+			local handler = EventHandlers[e]
+			if not handler then return end
+
+			-- app.PrintDebug("Tradeskills.event.handle",e)
+			handler(self, e, ...)
+			-- app.PrintDebugPrior("Tradeskills.event.done")
+		end)
+		return
 	end
 	if self:IsVisible() then
 		if TSM_API and TSMAPI_FOUR then
@@ -7228,12 +7179,32 @@ local function InitDataCoroutine()
 				end
 				backups[guid] = character;
 				characterData[guid] = nil;
-				-- app.print("Removed & Backed up Duplicate Data of Current Character:",character.text,guid)
+				local count = 0
+				for guid,char in pairs(backups) do
+					count = count + 1
+				end
+				app.print("Removed & Backed up Duplicate Data of Current Character:",character.text,guid,"[You have",count,"total character backups]")
+				app.print("Use '/att remove-deleted-character-backups help' for more info")
 			end
 			for _,guid in ipairs(toClean) do
 				app.FunctionRunner.Run(cleanCharacterFunc, guid);
 			end
 		end
+
+		-- Allows removing the character backups that ATT automatically creates for duplicated characters which are replaced by new ones
+		app.ChatCommands.Add("remove-deleted-character-backups", function(args)
+			local backups = 0
+			for guid,char in pairs(accountWideData._CharacterBackups) do
+				backups = backups + 1
+			end
+			accountWideData._CharacterBackups = nil
+			app.print("Cleaned up",backups,"character backups!")
+			return true
+		end, {
+			"Usage : /att remove-deleted-character-backups",
+			"Allows permanently removing all deleted character backup data",
+			"-- ATT removes and cleans out character-specific cached data which is stored by a character with the same Name-Realm as the logged-in character but a different character GUID. If you find yourself creating and deleting a lot of repeated characters, this will clean up those characters' data backups",
+		})
 	end);
 
 	app.HandleEvent("OnInit")
@@ -7243,10 +7214,6 @@ local function InitDataCoroutine()
 	for questID,completion in pairs(currentQuestsCache) do
 		if completion == 2 then currentQuestsCache[questID] = nil; end
 	end
-
-	-- Let a frame go before hitting the initial refresh to make sure as much time as possible is allowed for the operation
-	-- app.PrintDebug("Yield prior to Refresh")
-	yield();
 
 	-- Setup the use of profiles after a short delay to ensure that the layout window positions are collected
 	if not AllTheThingsProfiles then DelayedCallback(app.SetupProfiles, 5); end

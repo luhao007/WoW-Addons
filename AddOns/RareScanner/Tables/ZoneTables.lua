@@ -8,8 +8,8 @@ private.CONTINENT_ZONE_IDS = {
 	[905] = { zonefilter = true, npcfilter = true, id = 9, zones = {830,882,885} }; --Argus
 	[619] = { zonefilter = true, npcfilter = true, id = 8, zones = {627,630,646,790,650,634,680,641,649,652} }; --Broken Isles
 	[572] = { zonefilter = true, npcfilter = true, id = 7, zones = {525,534,535,539,542,543,550,582,588,590} }; --Draenor
-	[13] = { zonefilter = true, npcfilter = true, id = 2, zones = {14,15,17,18,21,22,23,25,26,27,32,36,37,47,48,49,50,51,52,56,76,84,87,90,94,95,201,203,204,205,210,217,241,425,465,469,943,1470} }; --Eastern Kingdoms
-	[12] = { zonefilter = true, npcfilter = true, id = 1, zones = {1,7,10,57,62,63,64,65,66,69,70,71,76,77,78,80,81,83,85,88,97,103,106,198,199,249,327,338,1332,1469,1527,1571} }; --Kalimdor
+	[13] = { zonefilter = true, npcfilter = true, id = 2, zones = {14,15,17,18,21,22,23,25,26,27,32,36,37,47,48,49,50,51,52,56,76,84,87,90,94,95,201,203,204,205,210,217,241,425,465,469,943,1470,2404} }; --Eastern Kingdoms
+	[12] = { zonefilter = true, npcfilter = true, id = 1, zones = {1,7,10,57,62,63,64,65,66,69,70,71,76,77,78,80,81,83,85,88,97,103,106,198,199,249,327,338,1332,1469,2403,1527,1571} }; --Kalimdor
 	[113] = { zonefilter = true, npcfilter = true, id = 4, zones = {114,115,116,117,118,119,120,121,126} }; --Northrend
 	[424] = { zonefilter = true, npcfilter = true, id = 6, zones = {371,376,379,388,390,418,422,433,507,504,554,1530,1570} }; --Pandaria
 	[101] = { zonefilter = true, npcfilter = true, id = 3, zones = {100,102,104,105,107,108,109} }; --Outland
@@ -96,6 +96,9 @@ private.SUBZONES_IDS = {
 	[1490] = {1491,1493,1494,1497}; --Operation: Mechagon
 	[2420] = {2421,2422,2423}; --Sidestreet Sluice
 	[302] = { 314 }; --Scarlet Monastery
+	[371] = { 372, 373 }; --The jade forest (Pandaria)
+	[388] = { 389 }; --Townlong steppes (Pandaria)
+	[379] = { 380, 381, 382, 384, 385, 434 }; --Kun lai summit (Pandaria)
 }
 
 private.ZONES_WITHOUT_VIGNETTE = {

@@ -27,8 +27,13 @@ local ITEM_COLORS = {}
 
 local ItemClickHandler = nil
 local itemIsOnEnter = nil
+local Favourites
 
-function Item.OnSet(button, second)
+local function OnFavouritesAddonLoad(addon, enabled)
+	Favourites = enabled and addon or nil
+end
+
+local function OnInit()
 	if not ItemClickHandler then
 		db = AtlasLoot.db.Button.Item
 		ItemClickHandler = ClickHandler:Add(
@@ -36,25 +41,37 @@ function Item.OnSet(button, second)
 			{
 				ChatLink = { "LeftButton", "Shift" },
 				DressUp = { "LeftButton", "Ctrl" },
+				SetFavourite = { "LeftButton", "Alt" },
 				Azerite = { "RightButton", "Shift" },
 				types = {
 					ChatLink = true,
 					DressUp = true,
+					SetFavourite = true,
 					Azerite = true,
 				},
 			},
 			db.ClickHandler,
 			{
-				{ "ChatLink", AL["Chat Link"], AL["Add item into chat"] },
-				{ "DressUp",  AL["Dress up"],  AL["Shows the item in the Dressing room"] },
-				{ "Azerite",  "Azerite",       "Azerite" },
-			})
+				{ "ChatLink",     AL["Chat Link"],     AL["Add item into chat"] },
+				{ "DressUp",      AL["Dress up"],      AL["Shows the item in the Dressing room"] },
+				{ "SetFavourite", AL["Set Favourite"], AL["Set/Remove the item as favourite"] },
+				{ "Azerite",      "Azerite",           "Azerite" },
+			}
+		)
+
+		AtlasLoot.Addons:GetAddon("Favourites", OnFavouritesAddonLoad)
+
 		-- create item colors
 		for i = 0, 7 do
 			local _, _, _, itemQuality = C_Item.GetItemQualityColor(i)
 			ITEM_COLORS[i] = itemQuality
 		end
 	end
+	Item.ItemClickHandler = ItemClickHandler
+end
+AtlasLoot:AddInitFunc(OnInit)
+
+function Item.OnSet(button, second)
 	if not button then return end
 	if second and button.__atlaslootinfo.secType then
 		if button.ItemID and IsAzeriteItem(button.ItemID) then
@@ -102,6 +119,42 @@ function Item.OnMouseAction(button, mouseButton)
 		itemLink = itemLink or button.ItemString
 		if itemLink then
 			DressUpItemLink(itemLink)
+		end
+	elseif mouseButton == "SetFavourite" then
+		if Favourites then
+			local item
+			if (button.ItemString) then
+				local parsedItem = AtlasLoot.ItemString.Parse(button.ItemString)
+				-- only copy the stuff we want
+				item = AtlasLoot.ItemString.Create({
+					itemID = parsedItem.itemID,
+					itemContext = parsedItem.itemContext,
+					bonusIDs = parsedItem.bonusIDs
+				})
+			else
+				item = button.ItemID
+			end
+
+			if Favourites:IsFavouriteItemID(item, true) then
+				Favourites:RemoveItemID(item)
+				if Favourites:IsFavouriteItemID(item) then
+				else
+					if button.favourite then
+						button.favourite:Hide()
+					end
+				end
+			else
+				if Favourites:AddItemID(item) then
+					if button.favourite then
+						button.favourite:Show()
+					end
+				end
+			end
+			if Favourites:TooltipHookEnabled() then
+				Item.OnLeave(button)
+				Item.OnEnter(button)
+			end
+			--AtlasLoot.Button:ExtraItemFrame_Refresh(button)
 		end
 	elseif mouseButton == "MouseWheelUp" and Item.previewTooltipFrame and Item.previewTooltipFrame:IsShown() then -- ^
 		local frame = Item.previewTooltipFrame.modelFrame
@@ -172,9 +225,17 @@ function Item.OnClear(button)
 	button.secButton.ItemID = nil
 	button.secButton.Droprate = nil
 	button.secButton.ItemString = nil
+	button.secButton.qualityBorder:SetVertexColor(1, 1, 1, 1)
+	if button.qualityBorder then
+		button.qualityBorder:SetVertexColor(1, 1, 1, 1)
+	end
 	if button.overlay then
 		button.overlay:SetDesaturated(false)
+		button.overlay:SetVertexColor(1, 1, 1, 1)
 		button.overlay:Hide()
+	end
+	if button.overlay2 then
+		button.overlay2:Hide()
 	end
 	button.secButton.overlay:Hide()
 end
@@ -187,9 +248,36 @@ function Item.Refresh(button)
 		return false
 	end
 
-	button.overlay:Show()
-	button.overlay:SetTexture("Interface\\Common\\WhiteIconFrame")
-	button.overlay:SetAtlas(LOOT_BORDER_BY_QUALITY[itemQuality] or LOOT_BORDER_BY_QUALITY[LE_ITEM_QUALITY_UNCOMMON])
+	button.qualityBorder:Show()
+	button.qualityBorder:SetVertexColor(
+		ITEM_QUALITY_COLORS[itemQuality].r,
+		ITEM_QUALITY_COLORS[itemQuality].g,
+		ITEM_QUALITY_COLORS[itemQuality].b,
+		1
+	)
+
+	if C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(button.ItemString or button.ItemID) then
+		button.overlay:SetAtlas("AzeriteIconFrame");
+		button.overlay:Show();
+	elseif C_Item.IsCosmeticItem(button.ItemString or button.ItemID) then
+		button.overlay:SetAtlas("CosmeticIconFrame");
+		button.overlay:Show()
+	elseif C_Soulbinds.IsItemConduitByItemInfo(button.ItemString or button.ItemID) then
+		button.overlay:SetVertexColor(
+			ITEM_QUALITY_COLORS[itemQuality].r,
+			ITEM_QUALITY_COLORS[itemQuality].g,
+			ITEM_QUALITY_COLORS[itemQuality].b,
+			1
+		);
+		button.overlay:SetAtlas("ConduitIconFrame");
+		button.overlay:Show();
+
+		if button.overlay2 then
+			button.overlay2:SetAtlas("ConduitIconFrame-Corners");
+			button.overlay2:Show();
+		end
+	end
+
 	if not LOOT_BORDER_BY_QUALITY[itemQuality] then
 		button.overlay:SetDesaturated(true)
 	end
@@ -211,6 +299,29 @@ function Item.Refresh(button)
 		-- description
 		-- ##################
 		button.extra:SetText(GetItemDescInfo(itemEquipLoc, itemType, itemSubType))
+	end
+	if Favourites then
+		local item
+		if (button.ItemString) then
+			local parsedItem = AtlasLoot.ItemString.Parse(button.ItemString)
+			-- only copy the stuff we want
+			item = AtlasLoot.ItemString.Create({
+				itemID = parsedItem.itemID,
+				itemContext = parsedItem.itemContext,
+				bonusIDs = parsedItem.bonusIDs
+			})
+		else
+			item = button.ItemID
+		end
+
+		if Favourites:IsFavouriteItemID(item) then
+			--Favourites:SetFavouriteIcon(itemID, button.favourite)
+			button.favourite:Show()
+		else
+			button.favourite:Hide()
+		end
+	else
+		button.favourite:Hide()
 	end
 	if db.showCompletedHook then
 		local itemCount = C_Item.GetItemCount(button.ItemString, true)

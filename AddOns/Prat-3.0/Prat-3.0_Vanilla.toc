@@ -1,6 +1,6 @@
-## Interface: 110105
+## Interface: 110107
 ## Author: Sylvanaar (Sylvaann - Proudmoore/US-Alliance)
-## Version: 3.9.67
+## Version: 3.9.68
 
 ## Title: Prat |cff8080ff3.0|r
 ## Notes: A framework for chat ehancement modules.

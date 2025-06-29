@@ -15,6 +15,7 @@ local function zhiyetubiao_Click(unit,button)
 		--3 = Duel, 决斗，7 码
 		--4 = Follow, 跟随，28 码
 		--5 = Pet-battle Duel,宠物战斗决斗，7 码
+		--点击功能：左交易/右观察
 		if button=="LeftButton" then
 			local inRange = CheckInteractDistance(unit, 1)
 			if inRange then
@@ -32,7 +33,7 @@ local function zhiyetubiao_Click(unit,button)
 end
 UnitFramefun.zhiyetubiao_Click=zhiyetubiao_Click
 function UnitFramefun.Mubiao()
-	if PIGA["UnitFrame"]["TargetFrame"]["Plus"] and not UFP_Targetzhiyetubiao then
+	if PIGA["UnitFrame"]["TargetFrame"]["Plus"] and not TargetFrame.ClassBut then
 		if tocversion<20000 then
 			--目标血量
 			-- hooksecurefunc("TargetFrame_CheckClassification",function(self,lock)--银鹰标志
@@ -100,32 +101,29 @@ function UnitFramefun.Mubiao()
 			hooksecurefunc("UnitFrameHealthBar_Update", HealthBar_Update)
 		end
 		---目标职业图标
-		TargetFrame.zhiyetubiao = CreateFrame("Button", "UFP_Targetzhiyetubiao", TargetFrame);
-		TargetFrame.zhiyetubiao:SetSize(32,32);
-		TargetFrame.zhiyetubiao:ClearAllPoints();
-		TargetFrame.zhiyetubiao:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 119, 3);
-		TargetFrame.zhiyetubiao:SetHighlightTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight");
-		TargetFrame.zhiyetubiao:Hide()
+		TargetFrame.ClassBut = CreateFrame("Button", nil, TargetFrame);
+		TargetFrame.ClassBut:SetSize(32,32);
+		TargetFrame.ClassBut:ClearAllPoints();
+		TargetFrame.ClassBut:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 119, 3);
+		TargetFrame.ClassBut:SetHighlightTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight");
+		TargetFrame.ClassBut:Hide()
 		if tocversion<50000 then
-			TargetFrame.zhiyetubiao:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 119, 3);
+			TargetFrame.ClassBut:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 119, 3);
 		else
-			TargetFrame.zhiyetubiao:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 144, 4);
-			TargetFrame.zhiyetubiao:SetFrameLevel(505)
+			TargetFrame.ClassBut:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 144, 4);
+			TargetFrame.ClassBut:SetFrameLevel(505)
 		end
-
-		TargetFrame.zhiyetubiao.Border = TargetFrame.zhiyetubiao:CreateTexture(nil, "OVERLAY");
-		TargetFrame.zhiyetubiao.Border:SetTexture("Interface\\Minimap\\MiniMap-TrackingBorder");
-		TargetFrame.zhiyetubiao.Border:SetSize(54,54);
-		TargetFrame.zhiyetubiao.Border:ClearAllPoints();
-		TargetFrame.zhiyetubiao.Border:SetPoint("CENTER", 11, -12);
-
-		TargetFrame.zhiyetubiao.Icon = TargetFrame.zhiyetubiao:CreateTexture(nil, "ARTWORK");
-		TargetFrame.zhiyetubiao.Icon:SetSize(24,24);
-		TargetFrame.zhiyetubiao.Icon:ClearAllPoints();
-		TargetFrame.zhiyetubiao.Icon:SetPoint("CENTER",1,-1);
-		--点击功能：左交易/右观察
-		Fun.ActionFun.PIGUseKeyDown(TargetFrame.zhiyetubiao)
-		TargetFrame.zhiyetubiao:HookScript("OnClick", function (self,button)
+		TargetFrame.ClassBut.Border = TargetFrame.ClassBut:CreateTexture(nil, "OVERLAY");
+		TargetFrame.ClassBut.Border:SetTexture("Interface\\Minimap\\MiniMap-TrackingBorder");
+		TargetFrame.ClassBut.Border:SetSize(54,54);
+		TargetFrame.ClassBut.Border:ClearAllPoints();
+		TargetFrame.ClassBut.Border:SetPoint("CENTER", 11, -12);
+		TargetFrame.ClassBut.Icon = TargetFrame.ClassBut:CreateTexture(nil, "ARTWORK");
+		TargetFrame.ClassBut.Icon:SetSize(24,24);
+		TargetFrame.ClassBut.Icon:ClearAllPoints();
+		TargetFrame.ClassBut.Icon:SetPoint("CENTER",1,-1);
+		Fun.ActionFun.PIGUseKeyDown(TargetFrame.ClassBut)
+		TargetFrame.ClassBut:HookScript("OnClick", function (self,button)
 			zhiyetubiao_Click(TargetFrame.unit,button)
 		end);
 
@@ -148,14 +146,14 @@ function UnitFramefun.Mubiao()
 					TargetFrame.mubiaoLX.title:SetText(raceText);
 					local IconCoord = CLASS_ICON_TCOORDS[select(2,UnitClass("target"))];
 					if IconCoord then
-						TargetFrame.zhiyetubiao.Icon:SetTexture("Interface\\TargetingFrame\\UI-Classes-Circles");
-						TargetFrame.zhiyetubiao.Icon:SetTexCoord(unpack(IconCoord));--切出子区域
+						TargetFrame.ClassBut.Icon:SetTexture("Interface\\TargetingFrame\\UI-Classes-Circles");
+						TargetFrame.ClassBut.Icon:SetTexCoord(unpack(IconCoord));--切出子区域
 					end
-					TargetFrame.zhiyetubiao:Show()
+					TargetFrame.ClassBut:Show()
 				else
 					local creatureType = UnitCreatureType("target")
 					TargetFrame.mubiaoLX.title:SetText(creatureType);
-					TargetFrame.zhiyetubiao:Hide()
+					TargetFrame.ClassBut:Hide()
 				end;
 			end
 		end);
@@ -297,11 +295,11 @@ function UnitFramefun.Mubiao()
 		end
 	end
 	-----目标的目标的目标
-	if PIGA["UnitFrame"]["TargetFrame"]["ToToToT"] and not TargetFrameToT_ToT then	
+	if PIGA["UnitFrame"]["TargetFrame"]["ToToToT"] and not TargetFrameToT.TTT then	
 		SetCVar("showTargetOfTarget","1")
 		local unitMubiao = "targettargettarget"
 		local fuF=TargetFrameToT
-		fuF.TTT = CreateFrame("Button", "TargetFrameToT_ToT", fuF, "TargetofTargetFrameTemplate");
+		fuF.TTT = CreateFrame("Button", "$ParentToT", fuF, "TargetofTargetFrameTemplate");
 		fuF.TTT:SetFrameLevel(fuF:GetFrameLevel() + 5);
 		fuF.TTT:ClearAllPoints();
 		fuF.TTT:SetPoint("TOPRIGHT", fuF, "BOTTOMRIGHT", 69, 4);
@@ -309,14 +307,13 @@ function UnitFramefun.Mubiao()
 		fuF.TTT:SetScript("OnShow", nil)
 		fuF.TTT:SetScript("OnHide", nil)
 		fuF.TTT:SetScript("OnUpdate", nil)
-		
 		if tocversion<50000 then
-			fuF.TTT.healthbar =  _G["TargetFrameToT_ToTHealthBar"]
-			fuF.TTT.manabar =  _G["TargetFrameToT_ToTManaBar"]
-			fuF.TTT.portrait =_G["TargetFrameToT_ToTPortrait"]
-			fuF.TTT.name = _G["TargetFrameToT_ToTTextureFrameName"]
-			fuF.TTT.deadText = _G["TargetFrameToT_ToTTextureFrameDeadText"]
-			fuF.TTT.unconsciousText = _G["TargetFrameToT_ToTTextureFrameUnconsciousText"]
+			fuF.TTT.healthbar =  _G["TargetFrameToTToTHealthBar"]
+			fuF.TTT.manabar =  _G["TargetFrameToTToTManaBar"]
+			fuF.TTT.portrait =_G["TargetFrameToTToTPortrait"]
+			fuF.TTT.name = _G["TargetFrameToTToTTextureFrameName"]
+			fuF.TTT.deadText = _G["TargetFrameToTToTTextureFrameDeadText"]
+			fuF.TTT.unconsciousText = _G["TargetFrameToTToTTextureFrameUnconsciousText"]
 			fuF.TTT.healthbar.unit=unitMubiao
 			fuF.TTT.healthbar.unitFrame=fuF.TTT
 			fuF.TTT.manabar.unit=unitMubiao

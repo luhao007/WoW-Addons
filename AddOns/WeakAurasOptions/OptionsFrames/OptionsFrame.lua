@@ -121,7 +121,15 @@ function OptionsPrivate.CreateFrame()
   frame:SetResizeBounds(minWidth, minHeight)
   frame:SetFrameStrata("DIALOG")
   -- Workaround classic issue
-  WeakAurasOptionsPortrait:SetTexture([[Interface\AddOns\WeakAuras\Media\Textures\logo_256_round.tga]])
+
+  local serverTime = C_DateAndTime.GetServerTimeLocal()
+  if serverTime >= 1748736000 -- June 1.
+     and serverTime <= 1751328000 -- July 1.
+  then
+    WeakAurasOptionsPortrait:SetTexture([[Interface\AddOns\WeakAuras\Media\Textures\logo_256_round_pride.tga]])
+  else
+    WeakAurasOptionsPortrait:SetTexture([[Interface\AddOns\WeakAuras\Media\Textures\logo_256_round.tga]])
+  end
 
   frame.window = "default"
 
@@ -326,7 +334,7 @@ function OptionsPrivate.CreateFrame()
 
   local minimizebutton = CreateFrame("Button", nil, frame, "MaximizeMinimizeButtonFrameTemplate")
   minimizebutton:SetFrameLevel(frame.TitleContainer:GetFrameLevel() + 1)
-  minimizebutton:SetPoint("RIGHT", frame.CloseButton, "LEFT", WeakAuras.IsClassicOrCata() and 10 or 0, 0)
+  minimizebutton:SetPoint("RIGHT", frame.CloseButton, "LEFT", WeakAuras.IsClassicOrCataOrMists() and 10 or 0, 0)
   minimizebutton:SetOnMaximizedCallback(function()
     frame.minimized = false
     local right, top = frame:GetRight(), frame:GetTop()

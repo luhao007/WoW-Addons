@@ -220,6 +220,18 @@ GTFO.SpellID["470827"] = {
   sound = 1;
 };
 
+GTFO.SpellID["1231544"] = {
+  --desc = "Zapped (Goblin Zapper)";
+  ignoreApplication = true;
+  sound = 1;
+};
+
+GTFO.SpellID["1240428"] = {
+  --desc = "Blessed Bladestorm (Joseph the Enlightened)";
+  ignoreApplication = true;
+  sound = 1;
+};
+
 --- ****************************
 --- * Ara-Kara, City of Echoes *
 --- ****************************
@@ -489,6 +501,12 @@ GTFO.SpellID["424966"] = {
 GTFO.SpellID["433067"] = {
   --desc = "Seeping Fragment (Voidstone Monstrosity)";
   sound = 1;
+};
+
+GTFO.SpellID["423393"] = {
+  --desc = "Entropy (Voidstone Monstrosity)";
+  sound = 0;
+  tankSound = 1;
 };
 
 --- ******************

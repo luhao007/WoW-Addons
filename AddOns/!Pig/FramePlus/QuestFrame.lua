@@ -1,8 +1,10 @@
 local _, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local FramePlusfun=addonTable.FramePlusfun
 --任务界面扩展--------------------
 function FramePlusfun.Quest()
+	local _, _, _, tocversion = GetBuildInfo()
+	local Create=addonTable.Create
+	local PIGButton=Create.PIGButton
 	if not PIGA["FramePlus"]["Quest"] then return end
 	if NDui then return end
 	local maxWWW = 250
@@ -99,11 +101,7 @@ function FramePlusfun.Quest()
 				QuestFramePushQuestButton:ClearAllPoints()
 				QuestFramePushQuestButton:SetPoint("LEFT", QuestLogFrameAbandonButton, "RIGHT", -3, 0)
 				-- 增加显示地图按钮
-				local logMapButton = CreateFrame("Button", "logMapButton_UI", QuestLogFrame, "UIPanelButtonTemplate")
-				logMapButton:SetText("显示地图")
-				logMapButton:ClearAllPoints()
-				logMapButton:SetPoint("LEFT", QuestFramePushQuestButton, "RIGHT", -3, 0)
-				logMapButton:SetSize(100, 21)
+				logMapButton = PIGButton(QuestLogFrame,{"LEFT", QuestFramePushQuestButton, "RIGHT", -3, 0},{80, 21},SHOW_MAP,nil,nil,nil,nil,0);
 				logMapButton:SetScript("OnClick", ToggleWorldMap)
 				-- 调整没有任务文字提示位置
 				QuestLogNoQuestsText:ClearAllPoints();

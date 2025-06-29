@@ -1,5 +1,5 @@
-## Interface: 110105
-## Version: Plater-v608-Vanilla
+## Interface: 110107
+## Version: Plater-v610-Vanilla
 
 ## Title: Plater
 ## Notes: Nameplate addon designed for advanced users.

@@ -162,6 +162,7 @@ local GetSpellName = app.WOWAPI.GetSpellName;
 	L.RAID_DIFF_DESC_2 = "此設定允許自訂團隊難度。\n\n點擊此行可返回團隊助手。";
 	L.LEGACY_RAID_DIFF_DESC_2 = "此設定允許自訂經典拾取團隊難度。（圍攻奧格瑪之前的）\n\n點擊此行可返回團隊助手。";
 	L.REROLL = "重新刷新";
+	L.REROLL_2 = "重新刷新：";
 	L.REROLL_DESC = "點擊此按鈕可使用活動篩選器重新刷新。";
 	L.APPLY_SEARCH_FILTER = "套用搜尋篩選";
 	L.APPLY_SEARCH_FILTER_DESC = "請選擇一個搜尋篩選選項。";
@@ -180,7 +181,6 @@ local GetSpellName = app.WOWAPI.GetSpellName;
 	L.GO_GO_RANDOM_DESC = "此視窗允許隨機選擇要獲得的地點或物品。去吧！";
 	L.CHANGE_SEARCH_FILTER = "更改搜尋篩選";
 	L.CHANGE_SEARCH_FILTER_DESC = "點擊此按鈕可更改搜尋篩選。";
-	L.REROLL_2 = "重新刷新：";
 	L.NOTHING_TO_SELECT_FROM = "沒有什麼可以隨意選擇的。如果在“設定”中啟用了“臨時更新”，則必須在使用此視窗之前更新主列表（/att）。";
 	L.NO_SEARCH_METHOD = "未指定搜尋方法。";
 	L.PROFESSION_LIST = "專業技能列表";
@@ -281,10 +281,24 @@ local GetSpellName = app.WOWAPI.GetSpellName;
 			L.TITLE_NONE_THINGS = "一無所有 ";
 			L.TITLE_ONLY = " 僅 ";
 			L.TITLE_INSANE = app.ccColors.Insane.."瘋狂|R ";
+			--TODO: L.TITLE_RANKED = "Ranked ";
+			--TODO: L.TITLE_CORE = "Core ";
 			L.TITLE_SOME_THINGS = "隨隨便便 ";
 			L.TITLE_LEVEL = "等級 ";
 			L.TITLE_SOLO = "單人 ";
 			L._BETA_LABEL = " |cff4AA7FF[測試]|R";
+
+			--TODO: L.PRESET_TOOLTIP = "Enable this preset. This will adjust only the relevant tracking options of the current profile.";
+			--TODO: L.PRESET_NONE = "None of the Things Mode disables the tracking of all collectibles. Way to challenge yourself.";
+			--TODO: L.PRESET_CORE = "Core Mode enables the collectibles visible in the game's Warband Collections journal.";
+			--TODO: L.PRESET_RANKED = "Ranked Mode enables the collectibles tracked by websites such as Data For Azeroth and WoWthing.";
+			--TODO: L.PRESET_INSANE = app.ccColors.Insane .. "Insane Mode|R enables all " .. app.ccColors.Insane .. "colored options|R and gives you a real challenge!";
+			--TODO: L.PRESET_ACCOUNT = app.ccColors.Account .. "Account Mode|R enables all account-wide tracking, and will show progress from all of your characters.";
+			--TODO: L.PRESET_SOLO = "Solo Mode disables all account-wide tracking, and will only show progress for your current character.";
+			--TODO: L.PRESET_UNIQUE = "Unique Mode disables Sources, marking gear as collected when you have learned their unique appearance.";
+			--TODO: L.PRESET_COMP = "Completionist Mode enables Sources, only marking gear as collected when you have learned the appearance from that specific item.";
+			--TODO: L.PRESET_RESTORE = "Restore";
+			--TODO: L.PRESET_RESTORE_TOOLTIP = "Restore your tracking options to before applying any presets.";
 
 		L.MINIMAP_SLIDER = "小地圖按鈕尺寸";
 		L.MINIMAP_SLIDER_TOOLTIP = '使用此選項可自訂小地圖按鈕的大小。\n\n預設：36';
@@ -737,10 +751,8 @@ for key,value in pairs({
 	-- Interface: Information Page
 		ACHIEVEMENT_ID = "成就 ID";
 		ACHIEVEMENT_CATEGORY_ID = "成就類別 ID";
-		ADDED_WITH_PATCH_CLASSIC_FORMAT = "該物品是隨更新 %s 加入的";
 		READDED_WITH_PATCH_CLASSIC_FORMAT = "該物品是隨更新 %s 重新加入的";
 		REMOVED_WITH_PATCH_CLASSIC_FORMAT = "該物品是隨更新 %s 移除的";
-		WAS_ADDED_WITH_PATCH_CLASSIC_FORMAT = "該物品曾是隨更新 %s 加入的";
 
 
 	-- Features Page

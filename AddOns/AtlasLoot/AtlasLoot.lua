@@ -17,7 +17,6 @@ local AL = AtlasLoot.Locales
 
 local LibStub = _G.LibStub
 local LibDialog = LibStub("LibDialog-1.0")
-local ALDB = LibStub("ALDB-1.0")
 
 -- lua
 
@@ -52,18 +51,13 @@ function AtlasLoot:Print(msg)
 end
 
 function AtlasLoot:OnInitialize()
-	if not AtlasLootCharDB.__addonrevision then --or AtlasLootDB.__addonrevision < AtlasLoot.__addonrevision then
-		wipe(AtlasLootCharDB)
-		AtlasLootCharDB.__addonrevision = AtlasLoot.__addonrevision
-	end
-
-	self.db = ALDB:Register(AtlasLootCharDB, AtlasLootDB, AtlasLoot.AtlasLootDBDefaults)
-
+	self.dbRaw = LibStub("AceDB-3.0"):New("AtlasLootDB", AtlasLoot.AtlasLootDBDefaults, true)
+	self.db = self.dbRaw.profile
+	self.dbGlobal = self.dbRaw.global
 
 	-- bindings
 	BINDING_HEADER_ATLASLOOT = AL["AtlasLoot"]
 	BINDING_NAME_ATLASLOOT_TOGGLE = AL["Toggle AtlasLoot"]
-
 
 	local _, _, _, _, reason = C_AddOns.GetAddOnInfo("AtlasLoot_Loader")
 	if reason ~= "MISSING" then
@@ -208,14 +202,6 @@ ATLASLOOT_MODULE_LIST = {
 		tt_title = nil, -- ToolTip title
 		tt_text = nil, -- ToolTip text
 	},
-	--[[
-	{
-		addonName = "AtlasLoot_Achievements",
-		name = AL["Achievements"],
-		tt_title = nil,		-- ToolTip title
-		tt_text = nil,		-- ToolTip text
-	},
-	--]]
 }
 
 function AtlasLoot:RegisterModules(expansion, moduleMeta)
@@ -236,7 +222,6 @@ function AtlasLoot:PreLoadModules()
 	local o_bossID = db.selected[3] or 1
 	local o_diffID = db.selected[4] or 1
 	local o_page = db.selected[5] or 0
-	local moduleName, dataID
 
 	for i = 1, #ATLASLOOT_INSTANCE_MODULE_LIST do
 		local enabled = C_AddOns.GetAddOnEnableState(ATLASLOOT_INSTANCE_MODULE_LIST[i], UnitName("player"))

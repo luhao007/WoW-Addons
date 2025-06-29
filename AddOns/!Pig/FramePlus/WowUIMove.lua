@@ -37,6 +37,7 @@ local UINameList_AddOn={
 	{"CraftFrame","Blizzard_CraftUI",},--附魔
 	{"InspectFrame","Blizzard_InspectUI",},--观察
 	{"GuildBankFrame","Blizzard_GuildBankUI",},--公会银行
+	{"CalendarFrame","Blizzard_Calendar",},--日历
 }
 if tocversion<50000 then
 	table.insert(UINameList_AddOn,{"TradeSkillFrame","Blizzard_TradeSkillUI"})--专业面板
@@ -84,9 +85,6 @@ local function MovingFun(MovingUI,Frame)
 		local Frame = Frame or MovingUI
 		local MovingUIName=MovingUI:GetName()
 		--位置
-		MovingUI:EnableMouse(true)
-		MovingUI:SetMovable(true)
-	 	MovingUI:SetClampedToScreen(true)
 	 	Frame:RegisterForDrag("LeftButton")
 	    Frame:HookScript("OnDragStart",function()
 	        MovingUI:StartMoving();
@@ -108,28 +106,43 @@ local function MovingFun(MovingUI,Frame)
 	    MovingUI:HookScript("OnShow",function(self)
 	    	if MovingUIName=="WorldMapFrame" then return end
 	    	if not InCombatLockdown() and GetUIConfigDataV(MovingUIName) then
-		    	PIG_SetPoint(self,true)
-		    	C_Timer.After(0,function() PIG_SetPoint(self,true) end)
-		    	C_Timer.After(0.001,function() PIG_SetPoint(self,true) end)
+		    	PIG_SetPoint(MovingUIName,true)
+		    	C_Timer.After(0,function() PIG_SetPoint(MovingUIName,true) end)
+		    	C_Timer.After(0.001,function() PIG_SetPoint(MovingUIName,true) end)
 		    end
 	    end)
 	    --缩放
-		MovingUI:SetScale(GetUIConfigDataV(MovingUIName,"Scale"));
-		MovingUI:EnableMouseWheel(true);
+	    local function funxx(self)
+	    	MovingUI:EnableMouse(true)
+			MovingUI:SetMovable(true)
+	 		MovingUI:SetClampedToScreen(true)
+	    	MovingUI:SetScale(GetUIConfigDataV(MovingUIName,"Scale"));
+			MovingUI:EnableMouseWheel(true) 
+	    end
+		if MovingUIName=="CollectionsJournal" and InCombatLockdown() then
+			MovingUI:RegisterEvent("PLAYER_REGEN_ENABLED")
+		else
+			funxx()
+		end
+		MovingUI:HookScript("OnEvent", function(self, event)
+			if event=="PLAYER_REGEN_ENABLED" then
+				funxx()
+			end
+		end)
 	    MovingUI:HookScript("OnMouseWheel", function(self, arg1)
 			if IsControlKeyDown() and IsAltKeyDown() then
 				SetUIConfigData(MovingUIName,"Scale")
 	    		local vera = arg1*0.1
 	    		local newbvv = PIGA["Blizzard_UI"][MovingUIName]["Scale"]+vera
 	    		if newbvv>=1.8 then
-	    			PIGTopMsg:add("已达最大缩放比例: 1.8")
+	    			PIG_OptionsUI:ErrorMsg("已达最大缩放比例: 1.8")
 	    			PIGA["Blizzard_UI"][MovingUIName]["Scale"]=1.8
 	    		elseif newbvv<=0.6 then
-	    			PIGTopMsg:add("已达最小缩放比例: 0.6")
+	    			PIG_OptionsUI:ErrorMsg("已达最小缩放比例: 0.6")
 	    			PIGA["Blizzard_UI"][MovingUIName]["Scale"]=0.6
 	    		else
 	    			PIGA["Blizzard_UI"][MovingUIName]["Scale"]=newbvv
-	    			PIGTopMsg:add("当前缩放: "..PIGA["Blizzard_UI"][MovingUIName]["Scale"])
+	    			PIG_OptionsUI:ErrorMsg("当前缩放: "..PIGA["Blizzard_UI"][MovingUIName]["Scale"])
 	    		end
 	    		if newbvv==1 then PIGA["Blizzard_UI"][MovingUIName]["Scale"]=nil end
 	    		self:SetScale(GetUIConfigDataV(MovingUIName,"Scale"));
@@ -158,7 +171,7 @@ function FramePlusfun.BlizzardUI_Move()
 				if UIName then
 					oldshowframe=Frame
 					if PIGA["Blizzard_UI"][UIName]["Point"] and #PIGA["Blizzard_UI"][UIName]["Point"]>0 then
-				    	PIG_SetPoint(Frame,true)
+				    	PIG_SetPoint(UIName,true)
 				    end
 				end
 			end
@@ -179,7 +192,7 @@ function FramePlusfun.BlizzardUI_Move()
 		if IsAddOnLoaded(v[2]) then
 			SetMovingEvent(v)
 	    else
-	        local bizzUIFRAME = CreateFrame("FRAME")
+	        local bizzUIFRAME = CreateFrame("Frame")
 	        bizzUIFRAME:RegisterEvent("ADDON_LOADED")
 	        bizzUIFRAME:SetScript("OnEvent", function(self, event, arg1)
 	            if arg1 == v[2] then

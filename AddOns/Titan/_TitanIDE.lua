@@ -128,6 +128,11 @@ C_Bank = {} -- 11.0.0 New Warbank - Hopefully WoW API extension will catch up so
 -- Lua allows table updates but the IDE complains about 'injecting' a field it does not know about.
 -- Adding a function or variable to a frame in this case.
 
+---@class Frame frame for a Titan template
+---@field showTimer number time to close in seconds
+---@field isCounting number | nil 1 or nil
+---@field parent table | nil Anchor tooltip
+
 ---@class Button Plugin frame from a Titan template
 ---@field TitanLDBSetOwnerPosition function Anchor tooltip
 ---@field TitanLDBSetTooltip function Fill tooltip

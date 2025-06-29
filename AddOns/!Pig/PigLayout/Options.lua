@@ -18,7 +18,9 @@ PigLayoutFun.RTabFrame=RTabFrame
 --=====================
 addonTable.PigLayout = function()
 	local Vtocversion=50000
-	PigLayoutFun.TopBar()
+	PigLayoutFun.Options_Mode()
+	PigLayoutFun.Options_TopBar()
+	PigLayoutFun.Options_InfoBar()
 	PigLayoutFun.Options_ActionBar(tocversion<Vtocversion)
 	PigLayoutFun.Options_ChatUI(tocversion<Vtocversion)
 end

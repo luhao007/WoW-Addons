@@ -20,6 +20,18 @@
 			<SubAddon name="!Pig_GDKP">
 				<Title>金团助手</Title>
 			</SubAddon>
+			<SubAddon name="!Pig_BoboAudio">
+				<Title>语音包</Title>
+				<TitleExtra>饽饽</TitleExtra>
+			</SubAddon>
+			<SubAddon name="!Pig_RurutiaAudio">
+				<Title>语音包</Title>
+				<TitleExtra>露露提娅</TitleExtra>
+			</SubAddon>
+			<SubAddon name="!Pig_SakuraAudio">
+				<Title>语音包</Title>
+				<TitleExtra>樱雪</TitleExtra>
+			</SubAddon>
 		</SubAddons>
 	</Addon>
 	<Addon name="+Wowhead_Looter">
@@ -1195,6 +1207,11 @@
 				<Title>设置</Title>
 			</SubAddon>
 		</SubAddons>
+	</Addon>
+	<Addon name="InstanceAchievementTracker">
+		<Title>副本成就助手</Title>
+		<Notes>查询副本成就完成情况并追踪部分成</Notes>
+		<Category>收藏</Category>
 	</Addon>
 	<Addon name="Krowi_AchievementFilter">
 		<Title>Krowi成就过滤器</Title>

@@ -1,6 +1,7 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
 local Fun=addonTable.Fun
+local Data=addonTable.Data
 local Create = addonTable.Create
 local PIGFrame=Create.PIGFrame
 local PIGButton = Create.PIGButton
@@ -37,7 +38,7 @@ StaticPopupDialogs["PIG_CONFIG_ZAIRUQUEREN"] = {
 			PIGA_Per=addonTable[arg1[1].."_Per"];
 			ReloadUI()
 		else
-			PIGTopMsg:add(string.format(ERR_ARENA_TEAM_PLAYER_NOT_FOUND_S,arg1[2]),"R")
+			PIG_OptionsUI:ErrorMsg(string.format(ERR_ARENA_TEAM_PLAYER_NOT_FOUND_S,arg1[2]),"R")
 		end
 	end,
 	timeout = 0,
@@ -104,6 +105,7 @@ local function Remove_Data(newdata,Per)--剔除数据配置
 		--扩展
 		newdata["Tardis"]=nil
 		newdata["GDKP"]=nil
+		newdata["ConfigString"]=nil
 		-- if IsAddOnLoaded("!Pig_Tardis") then
 		-- 	newdata["Tardis"]["Plane"]["InfoList"]=nil
 		-- end
@@ -145,13 +147,31 @@ local function LoadSameValue(tabX,tabX_Per)
 end
 DefaultF.daorubut = PIGButton(DefaultF,{"TOPLEFT",DefaultF,"TOPLEFT",10, -200},{90,24},L["CONFIG_DAORU"]..L["CONFIG_TABNAME"])
 DefaultF.daorubut:SetScript("OnClick", function ()
-	ExportImport_UI:daoruFun(addonName..ADDONS..L["CONFIG_TABNAME"],LoadSameValue)	
+	_G[Data.ExportImportUIname]:daoruFun(addonName..ADDONS..L["CONFIG_TABNAME"],LoadSameValue)	
 end);
 local ConfigUIList={--导出UI位置，只加载一次
 	PlayerFrame,
 	TargetFrame,
 	FocusFrame,
 }
+local function is_equal(value1, value2)
+    if type(value1) == "table" and type(value2) == "table" then
+        for k, v in pairs(value1) do
+            if not is_equal(v, value2[k]) then
+                return false
+            end
+        end
+        -- 确保 value2 中没有多余的键
+        for k, _ in pairs(value2) do
+            if value1[k] == nil then
+                return false
+            end
+        end
+        return true
+    else
+        return value1 == value2
+    end
+end
 local function Remove_ExtData(newdata,Per)
 	if DefaultF.I_UnitF:GetChecked() then--获取头像位置信息
 		for k,v in pairs(ConfigUIList) do
@@ -179,24 +199,6 @@ local function Remove_ExtData(newdata,Per)
 		Remove_Data(newdata,Per)
 	end
 end
-local function is_equal(value1, value2)
-    if type(value1) == "table" and type(value2) == "table" then
-        for k, v in pairs(value1) do
-            if not is_equal(v, value2[k]) then
-                return false
-            end
-        end
-        -- 确保 value2 中没有多余的键
-        for k, _ in pairs(value2) do
-            if value1[k] == nil then
-                return false
-            end
-        end
-        return true
-    else
-        return value1 == value2
-    end
-end
 local function Remove_RepeatValues(NewDataX, moren)
     for key, value in pairs(moren) do
         -- 如果 NewDataX 中存在相同的键，并且值相等（包括递归比较）
@@ -220,15 +222,6 @@ local function PIGCopyTable_Duplicates_1(old,moren,Per)
 	local NewDataX = PIGCopyTable(old)
 	Remove_ExtData(NewDataX,Per)
 	Remove_RepeatValues(NewDataX,moren)
-	-- for k,v in pairs(NewDataX) do
-	-- 	print(Per,k,v)
-	-- end
-	-- for k,v in pairs(NewDataX["FramePlus"]) do
-	-- 	print(k,v)
-	-- 	for k1,v1 in pairs(v) do
-	-- 		print(k1,v1)
-	-- 	end
-	-- end
 	return NewDataX
 end
 local function PIGCopyTable_Duplicates()
@@ -238,9 +231,22 @@ local function PIGCopyTable_Duplicates()
 end
 DefaultF.daochubut = PIGButton(DefaultF,{"TOPLEFT",DefaultF.daorubut,"BOTTOMLEFT",0, -20},{90,24},L["CONFIG_DAOCHU"]..L["CONFIG_TABNAME"])
 DefaultF.daochubut:SetScript("OnClick", function ()
-	PIGA["xxxxxx"]=nil
-	PIGA["ConfigString"]=nil
-	ExportImport_UI:daochuFun(addonName..ADDONS..L["CONFIG_TABNAME"],PIGCopyTable_Duplicates())
+	-- for k,v in pairs(PIGCopyTable_Duplicates_1(PIGA_Per, addonTable.Default_Per, true)) do
+	-- 	--print(k,v)
+	-- 	--if k~="Pig_UI" then
+	-- 		for k1,v1 in pairs(v) do
+	-- 			if type(v1)=="table" then
+	-- 				for k2,v2 in pairs(v1) do
+	-- 					print(k,k1,k2,v2)
+	-- 				end
+				
+	-- 			else
+	-- 				print(k,k1,v1)
+	-- 			end
+	-- 		end
+	-- 	--end
+	-- end
+	_G[Data.ExportImportUIname]:daochuFun(addonName..ADDONS..L["CONFIG_TABNAME"],PIGCopyTable_Duplicates())
 end);
 
 DefaultF.I_UnitF=PIGCheckbutton(DefaultF,{"LEFT",DefaultF.daochubut,"RIGHT",20, 0},{"导出包含头像位置（自身/目标/焦点）","导出信息将包含头像位置数据，虽然这并不属于插件本身配置信息"})
@@ -255,7 +261,7 @@ DefaultF.I_Data:Disable();
 -----============
 local Locale = GetLocale()
 local ShareList={
-	["QingfengUI"]={
+	["QFUI"]={
 		["namex"]={["zhCN"]="清风",["zhTW"]="清风",["enUS"]="Qingfeng",}
 	},
 	["Rurutia"]={
@@ -294,8 +300,8 @@ addonTable.ShareConfig = function()
 		VerTitle:SetText(string.format("检测到你在使用|cff00FFFF<%s>|r的配置分享|cffFFFFFF<版本%s>|r, 将尝试载入此分享作者的专属"..addonName.."配置",ShareName,VersionTXT))
 		local bendijiluV=PIGA["Ver"][k] or 0
 		if tonumber(VersionTXT)>bendijiluV then
-			ExportImport_UI.ClickButFunX=LoadSameValue
-			local errtxt = ExportImport_UI.Is_PIGString(v)
+			_G[Data.ExportImportUIname].ClickButFunX=LoadSameValue
+			local errtxt = _G[Data.ExportImportUIname].Is_PIGString(v)
 			if errtxt then
 				errTitle:SetTextColor(1, 0, 0, 1);
 				errTitle:SetText("载入失败,原因:"..errtxt)

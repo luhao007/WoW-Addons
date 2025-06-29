@@ -1,11 +1,5 @@
 ------------------------------------------------------------------------
-r190 | funkehdude | 2025-03-22 23:25:32 +0000 (Sat, 22 Mar 2025) | 1 line
-Changed paths:
-   M /trunk/LibSink-2.0/LibSink-2.0.lua
-
-Remove compat code
-------------------------------------------------------------------------
-r189 | funkehdude | 2025-03-22 23:20:41 +0000 (Sat, 22 Mar 2025) | 1 line
+r192 | funkehdude | 2025-05-21 14:52:59 +0000 (Wed, 21 May 2025) | 1 line
 Changed paths:
    M /trunk/LibSink-2.0.toc
 

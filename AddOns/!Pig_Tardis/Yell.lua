@@ -170,16 +170,18 @@ function TardisInfo.Yell(Activate)
 	fujiF.topF.zhiyeXZ:SetAllPoints(fujiF.topF)
 	fujiF.topF.zhiyeXZ:Hide()
 	---
+	fujiF.topF.zhiyeXZ.RoleButList={}
 	local function ADD_Roles_Frame(xulie)
-		local zhizeF=PIGFrame(fujiF.topF.zhiyeXZ,nil,nil,"zhize_F_"..xulie)
+		local zhizeF=PIGFrame(fujiF.topF.zhiyeXZ)
+		fujiF.topF.zhiyeXZ.RoleButList[xulie]=zhizeF
 		zhizeF:SetHeight(zhiye_F_H)
 		zhizeF:PIGSetBackdrop()
 		if xulie==1 then
 			zhizeF:SetPoint("TOPLEFT",fujiF.topF.zhiyeXZ,"TOPLEFT",4,-4);
 			zhizeF:SetPoint("TOPRIGHT", fujiF.topF.zhiyeXZ, "TOPRIGHT", -4, 4);
 		else
-			zhizeF:SetPoint("TOPLEFT",_G["zhize_F_"..(xulie-1)],"BOTTOMLEFT",0,-6);
-			zhizeF:SetPoint("TOPRIGHT",_G["zhize_F_"..(xulie-1)],"BOTTOMRIGHT",0,-6);
+			zhizeF:SetPoint("TOPLEFT",fujiF.topF.zhiyeXZ.RoleButList[xulie-1],"BOTTOMLEFT",0,-6);
+			zhizeF:SetPoint("TOPRIGHT",fujiF.topF.zhiyeXZ.RoleButList[xulie-1],"BOTTOMRIGHT",0,-6);
 		end
 		zhizeF.Tex = zhizeF:CreateTexture(nil, "BORDER");
 		zhizeF.Tex:SetAtlas(zhizeAtlas[xulie]);
@@ -192,14 +194,15 @@ function TardisInfo.Yell(Activate)
 		zhizeF.dangqianAll = PIGFontString(zhizeF,{"LEFT", zhizeF, "LEFT", 70,-16},"已组人数", "OUTLINE");
 		zhizeF.dangqianAll_V = PIGFontString(zhizeF,{"LEFT", zhizeF.dangqianAll, "RIGHT", 2,0},0, "OUTLINE");
 		zhizeF.dangqianAll_V:SetTextColor(1,1,1,1);
-		
+		zhizeF.mubiao_EBut={}
 		for id=1,#Roles_List[xulie] do
-			local EditBox = CreateFrame("EditBox", "zhize_mubiao_E"..xulie.."_"..id, zhizeF, "InputBoxInstructionsTemplate");
+			local EditBox = CreateFrame("EditBox", nil, zhizeF, "InputBoxInstructionsTemplate");
+			zhizeF.mubiao_EBut[id]=EditBox
 			EditBox:SetSize(zhiye_but_H+4,zhiye_but_H);
 			if id==1 then
 				EditBox:SetPoint("LEFT", zhizeF.mubiaoAll, "LEFT", 110,0);
 			else
-				EditBox:SetPoint("LEFT",_G["zhize_mubiao_E"..xulie.."_"..(id-1)],"RIGHT",30,0);
+				EditBox:SetPoint("LEFT",zhizeF.mubiao_EBut[id-1],"RIGHT",30,0);
 			end
 			PIGSetFont(EditBox,14,"OUTLINE")
 			EditBox:SetJustifyH("CENTER")
@@ -381,7 +384,7 @@ function TardisInfo.Yell(Activate)
 	end
 	function fujiF.topF.zhiyeXZ.daoruMoren:PIGDownMenu_SetValue(value,arg1)
 		PIGA["Tardis"]["Yell"]["mubiaoNum"]=fubenMoshi_peizhi[arg1]
-		PIGTopMsg:add("已导入|cffFFFFFF"..arg1.."|r人预设人数");
+		PIG_OptionsUI:ErrorMsg("已导入|cffFFFFFF"..arg1.."|r人预设人数");
 		PIGCloseDropDownMenus()
 		fujiF.GetRaidMubiao()
 		fujiF.topF.zhiyeXZ.ShowPlayersList()
@@ -432,13 +435,13 @@ function TardisInfo.Yell(Activate)
 		local renyuanD = fujiF.Datas_MB
 		for xulie=1,#Roles_List do
 			for id=1,#Roles_List[xulie] do
-				_G["zhize_mubiao_E"..xulie.."_"..id]:SetText(fujiF.Datas_MB.Xulie_MB[xulie][id])
+				fujiF.topF.zhiyeXZ.RoleButList[xulie].mubiao_EBut[id]:SetText(fujiF.Datas_MB.Xulie_MB[xulie][id])
 			end
-			_G["zhize_F_"..xulie].mubiaoAll_V:SetText(fujiF.Datas_MB.Xulie[xulie])
+			fujiF.topF.zhiyeXZ.RoleButList[xulie].mubiaoAll_V:SetText(fujiF.Datas_MB.Xulie[xulie])
 		end
 		for xulie=1,#Roles_List do
 			for id=1,#Roles_List[xulie] do
-				local fujiku = _G["zhize_mubiao_E"..xulie.."_"..id]
+				local fujiku = fujiF.topF.zhiyeXZ.RoleButList[xulie].mubiao_EBut[id]
 				fujiku.wancheng:Hide()
 				if fujiF.Datas_DQ.Xulie_MB[xulie][id]==fujiF.Datas_MB.Xulie_MB[xulie][id] then
 					fujiku.wancheng:Show()
@@ -449,7 +452,7 @@ function TardisInfo.Yell(Activate)
 				end
 				fujiku.yizu:SetText(fujiF.Datas_DQ.Xulie_MB[xulie][id])
 			end
-			_G["zhize_F_"..xulie].dangqianAll_V:SetText(fujiF.Datas_DQ.Xulie[xulie])
+			fujiF.topF.zhiyeXZ.RoleButList[xulie].dangqianAll_V:SetText(fujiF.Datas_DQ.Xulie[xulie])
 		end
 		fujiF.topF.zhiyeXZ.playerNumV:SetText(GetNumGroupMembers(LE_PARTY_CATEGORY_HOME))
 		fujiF.topF.zhiyeXZ.playerNumV_max:SetText(fujiF.Datas_MB.All)
@@ -684,7 +687,7 @@ function TardisInfo.Yell(Activate)
 		if msglen>250 then
 			fujiF.botF_L.Yell_NR.zifulenV:SetText(msglen)
 			fujiF.botF_L.Yell_NR.zifulenV:SetTextColor(1, 0, 0, 1);
-			PIGTopMsg:add("超过最大字符数!!!","R");
+			PIG_OptionsUI:ErrorMsg("超过最大字符数!!!","R");
 			return true,msglen
 		else
 			fujiF.botF_L.Yell_NR.zifulenV:SetText(msglen)
@@ -701,7 +704,7 @@ function TardisInfo.Yell(Activate)
 		local Newtxt = fujiF.botF_L.Yell_NR.E:GetText()
 		if not EditBox_panduan(Newtxt) then
 			PIGA["Tardis"]["Yell"]["Yell_NR"]=Newtxt
-			fujiF.Updata_Macro()
+			--fujiF.Updata_Macro()
 			fujiF.botF_L.Yell_NR.E:ClearFocus()
 			fujiF.botF_L.Yell_NR.SAVEBUT:Hide()
 		end
@@ -709,101 +712,101 @@ function TardisInfo.Yell(Activate)
 	--喊话模板
 	fujiF.botF_L.changyong = PIGButton(fujiF.botF_L,{"TOPLEFT",fujiF.botF_L.Yell_NR,"TOPRIGHT",10,12},{80,22},"喊话模板");
 	fujiF.botF_L.changyong:Disable()
-	--喊话宏-----
-	local pigzhTWmac = MACRO
-	if GetLocale() == "zhTW" then
-		pigzhTWmac = MACRO:sub(1,6)
-	end
-	local suijizuoqi = "/s "..PIGA["Tardis"]["Yell"]["Yell_NR"]
-	local YELL_BUT_HONG = CreateFrame("Button","YELL_BUT_HONG",UIParent, "SecureActionButtonTemplate,ActionButtonTemplate");
-	YELL_BUT_HONG:SetAttribute("type", "macro")
-	YELL_BUT_HONG:SetAttribute("macrotext", suijizuoqi)
-	-- YELL_BUT_HONG:SetPoint("CENTER",UIParent,"CENTER",0,0);
-	-- YELL_BUT_HONG:SetSize(50,50);
-	local hanhuaHongName = {"PIGyell",NEW..L["TARDIS_YELL"]..pigzhTWmac, UPDATE..L["TARDIS_YELL"]..pigzhTWmac}
-	if GetLocale() == "zhTW" then
-		hanhuaHongName[2],hanhuaHongName[3]=NEW..L["TARDIS_YELL"]..pigzhTWmac, UPDATE..L["TARDIS_YELL"]..pigzhTWmac
-	end
-	fujiF.botF_L.Yell_hong = PIGButton(fujiF.botF_L,{"TOPLEFT",fujiF.botF_L.changyong,"TOPRIGHT",10,0},{92,22},hanhuaHongName[2]); 
-	PIGEnter(fujiF.botF_L.Yell_hong,"非战斗状态任何修改插件会自动更新喊话宏,\n如果战斗中更改过喊话内容或者其他选项请手动更新喊话宏")
-	fujiF.botF_L.Yell_hong:HookScript("OnShow", function (self)
-		local macroSlot = GetMacroIndexByName(hanhuaHongName[1])
-		if macroSlot>0 then
-			self:SetText(hanhuaHongName[3]);
-		else
-			self:SetText(hanhuaHongName[2]);
-		end
-	end)
-	fujiF.botF_L.Yell_hong:SetScript("OnClick", function (self)
-		local macroSlot = GetMacroIndexByName(hanhuaHongName[1])
-		if macroSlot>0 then
-			fujiF.Updata_Macro()
-		else
-			local global = GetNumMacros()
-			if global<120 then
-				StaticPopup_Show ("CHUANGJIANHONGPIG");
-			else
-				PIGTopMsg:add(L["LIB_MACROERR"]);
-			end
-		end
-	end)
-	StaticPopupDialogs["CHUANGJIANHONGPIG"] = {
-		text = "将创建一个名为<"..hanhuaHongName[1]..">喊话宏\n请拖拽到动作条使用\n确定创建吗？\n\n",
-		button1 = OKAY,
-		button2 = CANCEL,
-		OnAccept = function()
-			fujiF.Updata_Macro("add")
-		end,
-		timeout = 0,
-		whileDead = true,
-		hideOnEscape = true,
-	}
+	--喊话宏-----API改动已失效
+	-- local pigzhTWmac = MACRO
+	-- if GetLocale() == "zhTW" then
+	-- 	pigzhTWmac = MACRO:sub(1,6)
+	-- end
+	-- local suijizuoqi = "/s "..PIGA["Tardis"]["Yell"]["Yell_NR"]
+	-- local YELL_BUT_HONG = CreateFrame("Button","YELL_BUT_HONG",UIParent, "SecureActionButtonTemplate,ActionButtonTemplate");
+	-- YELL_BUT_HONG:SetAttribute("type", "macro")
+	-- YELL_BUT_HONG:SetAttribute("macrotext", suijizuoqi)
+	-- -- YELL_BUT_HONG:SetPoint("CENTER",UIParent,"CENTER",0,0);
+	-- -- YELL_BUT_HONG:SetSize(50,50);
+	-- local hanhuaHongName = {"PIGyell",NEW..L["TARDIS_YELL"]..pigzhTWmac, UPDATE..L["TARDIS_YELL"]..pigzhTWmac}
+	-- if GetLocale() == "zhTW" then
+	-- 	hanhuaHongName[2],hanhuaHongName[3]=NEW..L["TARDIS_YELL"]..pigzhTWmac, UPDATE..L["TARDIS_YELL"]..pigzhTWmac
+	-- end
+	-- fujiF.botF_L.Yell_hong = PIGButton(fujiF.botF_L,{"TOPLEFT",fujiF.botF_L.changyong,"TOPRIGHT",10,0},{92,22},hanhuaHongName[2]); 
+	-- PIGEnter(fujiF.botF_L.Yell_hong,"非战斗状态任何修改插件会自动更新喊话宏,\n如果战斗中更改过喊话内容或者其他选项请手动更新喊话宏")
+	-- fujiF.botF_L.Yell_hong:HookScript("OnShow", function (self)
+	-- 	local macroSlot = GetMacroIndexByName(hanhuaHongName[1])
+	-- 	if macroSlot>0 then
+	-- 		self:SetText(hanhuaHongName[3]);
+	-- 	else
+	-- 		self:SetText(hanhuaHongName[2]);
+	-- 	end
+	-- end)
+	-- fujiF.botF_L.Yell_hong:SetScript("OnClick", function (self)
+	-- 	local macroSlot = GetMacroIndexByName(hanhuaHongName[1])
+	-- 	if macroSlot>0 then
+	-- 		fujiF.Updata_Macro()
+	-- 	else
+	-- 		local global = GetNumMacros()
+	-- 		if global<120 then
+	-- 			StaticPopup_Show ("CHUANGJIANHONGPIG");
+	-- 		else
+	-- 			PIG_OptionsUI:ErrorMsg(L["LIB_MACROERR"]);
+	-- 		end
+	-- 	end
+	-- end)
+	-- StaticPopupDialogs["CHUANGJIANHONGPIG"] = {
+	-- 	text = "将创建一个名为<"..hanhuaHongName[1]..">喊话宏\n请拖拽到动作条使用\n确定创建吗？\n\n",
+	-- 	button1 = OKAY,
+	-- 	button2 = CANCEL,
+	-- 	OnAccept = function()
+	-- 		fujiF.Updata_Macro("add")
+	-- 	end,
+	-- 	timeout = 0,
+	-- 	whileDead = true,
+	-- 	hideOnEscape = true,
+	-- }
 	local function gengxinhongtxt()
 		fujiF.PindaoList=GetPindaoList()
-		local yellpindaolist =GetYellPindao(fujiF.PindaoList,PIGA["Tardis"]["Yell"]["Yell_CHANNEL"])
-		local keyongshu = #yellpindaolist
-		local hanhuabuthongNR=""
-		if keyongshu>0 then
-			local famsg =Get_famsg("yell",PIGA["Tardis"]["Yell"]["Yell_NR"],PIGA["Tardis"]["Yell"]["jinzuCMD_inv"],PIGA["Tardis"]["Yell"]["jinzuCMD"])
-			for x=1,#yellpindaolist do
-				local suijishu=random(1, 8)
-				local  famsg= famsg..MSGsuijizifu[suijishu]
-				if yellpindaolist[x][1]=="CHANNEL" then
-					hanhuabuthongNR=hanhuabuthongNR.."/"..yellpindaolist[x][2].." "..famsg.."\r"
-				else
-					hanhuabuthongNR=hanhuabuthongNR.."/"..yellpindaolist[x][1].." "..famsg.."\r"
-				end
-			end
-		end
-		if not InCombatLockdown() then
-			YELL_BUT_HONG:SetAttribute("macrotext", hanhuabuthongNR)
-		end
+		--local yellpindaolist =GetYellPindao(fujiF.PindaoList,PIGA["Tardis"]["Yell"]["Yell_CHANNEL"])
+		-- local keyongshu = #yellpindaolist
+		-- local hanhuabuthongNR=""
+		-- if keyongshu>0 then
+		-- 	local famsg =Get_famsg("yell",PIGA["Tardis"]["Yell"]["Yell_NR"],PIGA["Tardis"]["Yell"]["jinzuCMD_inv"],PIGA["Tardis"]["Yell"]["jinzuCMD"])
+		-- 	for x=1,#yellpindaolist do
+		-- 		local suijishu=random(1, 8)
+		-- 		local  famsg= famsg..MSGsuijizifu[suijishu]
+		-- 		if yellpindaolist[x][1]=="CHANNEL" then
+		-- 			hanhuabuthongNR=hanhuabuthongNR.."/"..yellpindaolist[x][2].." "..famsg.."\r"
+		-- 		else
+		-- 			hanhuabuthongNR=hanhuabuthongNR.."/"..yellpindaolist[x][1].." "..famsg.."\r"
+		-- 		end
+		-- 	end
+		-- end
+		-- if not InCombatLockdown() then
+		-- 	YELL_BUT_HONG:SetAttribute("macrotext", hanhuabuthongNR)
+		-- end
 	end
-	function fujiF.Updata_Macro(add)
-		if InCombatLockdown() then PIGTopMsg:add("请战斗结束后手动更新喊话宏",1,0,0) return end
-		local UseKeyDown =GetCVar("ActionButtonUseKeyDown")
-		local YELL_BUT_HONG_txt = "/click YELL_BUT_HONG"
-		if UseKeyDown=="0" then
-			YELL_BUT_HONG_txt = [=[/click YELL_BUT_HONG LeftButton 0]=]
-		elseif UseKeyDown=="1" then
-			YELL_BUT_HONG_txt = [=[/click YELL_BUT_HONG LeftButton 1]=]
-		end
-		if add=="add" then
-			CreateMacro(hanhuaHongName[1], 135451, YELL_BUT_HONG_txt, nil)
-			gengxinhongtxt()
-			PIGTopMsg:add("已创建喊话宏")
-			fujiF.botF_L.Yell_hong:SetText(hanhuaHongName[3]);
-		else
-			local macroSlot = GetMacroIndexByName(hanhuaHongName[1])
-			if macroSlot>0 then
-				EditMacro(macroSlot, nil, 135451, YELL_BUT_HONG_txt)
-				gengxinhongtxt()
-				if add~="OPEN" then
-					PIGTopMsg:add("已更新喊话宏")
-				end
-			end
-		end
-	end
+	-- function fujiF.Updata_Macro(add)
+	-- 	if InCombatLockdown() then PIG_OptionsUI:ErrorMsg("请战斗结束后手动更新喊话宏",1,0,0) return end
+	-- 	local UseKeyDown =GetCVar("ActionButtonUseKeyDown")
+	-- 	local YELL_BUT_HONG_txt = "/click YELL_BUT_HONG"
+	-- 	if UseKeyDown=="0" then
+	-- 		YELL_BUT_HONG_txt = [=[/click YELL_BUT_HONG LeftButton 0]=]
+	-- 	elseif UseKeyDown=="1" then
+	-- 		YELL_BUT_HONG_txt = [=[/click YELL_BUT_HONG LeftButton 1]=]
+	-- 	end
+	-- 	if add=="add" then
+	-- 		CreateMacro(hanhuaHongName[1], 135451, YELL_BUT_HONG_txt, nil)
+	-- 		gengxinhongtxt()
+	-- 		PIG_OptionsUI:ErrorMsg("已创建喊话宏")
+	-- 		fujiF.botF_L.Yell_hong:SetText(hanhuaHongName[3]);
+	-- 	else
+	-- 		local macroSlot = GetMacroIndexByName(hanhuaHongName[1])
+	-- 		if macroSlot>0 then
+	-- 			EditMacro(macroSlot, nil, 135451, YELL_BUT_HONG_txt)
+	-- 			gengxinhongtxt()
+	-- 			if add~="OPEN" then
+	-- 				PIG_OptionsUI:ErrorMsg("已更新喊话宏")
+	-- 			end
+	-- 		end
+	-- 	end
+	-- end
 	--指令邀请
 	fujiF.botF_L.jinzuCMD_inv = PIGCheckbutton(fujiF.botF_L,{"TOPLEFT",fujiF.botF_L.changyong,"BOTTOMLEFT",0,-10},{"喊话附加进组暗号","喊话内容附加进组暗号，玩家回复暗号可执行预设指令\n|cffFF0000需开启《自动回复/邀请》|r"})
 	fujiF.botF_L.jinzuCMD_inv:SetScript("OnClick", function (self)
@@ -813,10 +816,11 @@ function TardisInfo.Yell(Activate)
 			PIGA["Tardis"]["Yell"]["jinzuCMD_inv"]=false;
 		end
 		if not EditBox_panduan(fujiF.botF_L.Yell_NR.E:GetText()) then
-			fujiF.Updata_Macro()
+			--fujiF.Updata_Macro()
 		end
 	end);
 	--主屏幕快捷按钮===
+	local QuickButUI=_G[Data.QuickButUIname]
 	fujiF.botF_L.ShowDesktopBut = PIGCheckbutton(fujiF.botF_L,{"TOPLEFT",fujiF.botF_L.jinzuCMD_inv,"BOTTOMLEFT",0,-10},{"功能动作条按钮","添加喊话按钮到功能动作条\n此功能需要先开启功能动作条"})
 	fujiF.botF_L.ShowDesktopBut:SetScript("OnClick", function (self)
 		if self:GetChecked() then
@@ -826,26 +830,28 @@ function TardisInfo.Yell(Activate)
 		end
 		QuickButUI.ButList[TardisInfo.uidata[5]+1]()
 	end);
-	local QkButUI,WWHH = "QkBut_Invite_Yell",24
+	local WWHH = 24
 	QuickButUI.ButList[TardisInfo.uidata[5]+1]=function()
 		if PIGA["QuickBut"]["Open"] and PIGA["Tardis"]["Open"] then
 			if PIGA["Tardis"]["Yell"]["ShowDesktopBut"] then
-				if _G[QkButUI] then
-					_G[QkButUI].yincang=nil
+				if QuickButUI.ShowDesktopButOpen then
+					QuickButUI.ShowDesktopButOpen.yincang=nil
 					local fujiww = QuickButUI.nr:GetHeight()
-					_G[QkButUI]:Show()
-					_G[QkButUI]:SetWidth(fujiww)
-					QuickButUI:GengxinWidth()
+					QuickButUI.ShowDesktopButOpen:Show()
+					QuickButUI.ShowDesktopButOpen:SetWidth(fujiww)
+					QuickButUI:UpdateWidth()
 					return 
 				end
+				
 				local QuickTooltip = KEY_BUTTON1.."-|cff00FFFF"..L["TARDIS_YELL"].."|r\n"..KEY_BUTTON2.."-|cff00FFFF"..SETTINGS.."|r"
-				local QkBut=PIGQuickBut(QkButUI,QuickTooltip,132333)
+				local QkBut=PIGQuickBut(nil,QuickTooltip,132333)
+				QuickButUI.ShowDesktopButOpen=QkBut
 				QkBut.Cooldown = CreateFrame("Cooldown",nil, QkBut, "CooldownFrameTemplate")
 				QkBut.Cooldown:SetAllPoints()
 				QkBut:HookScript("OnClick", function (self,button)
 					if button=="LeftButton" then
 						if self.Cooldown:GetCooldownDuration()>0 then
-							PIGTopMsg:add(ERR_CHAT_THROTTLED);
+							PIG_OptionsUI:ErrorMsg(ERR_CHAT_THROTTLED);
 						else
 							fujiF.Kaishi_Yell(self)
 						end	
@@ -875,7 +881,7 @@ function TardisInfo.Yell(Activate)
 				YaoqingSetPoint(QkBut.AutoYaoqing)	
 				QkBut.AutoYaoqing:SetSize(WWHH,WWHH);
 				QkBut.AutoYaoqing.Tex = QkBut.AutoYaoqing:CreateTexture(nil, "BORDER");
-				if Pig_OptionsUI.autoInvite_shikong then
+				if PIG_OptionsUI.autoInvite_shikong then
 					QkBut.AutoYaoqing.Tex:SetTexture("interface/common/indicator-green.blp");
 				else
 					QkBut.AutoYaoqing.Tex:SetTexture("interface/common/indicator-gray.blp");
@@ -890,7 +896,7 @@ function TardisInfo.Yell(Activate)
 					else
 						GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",0,0);
 					end
-					if Pig_OptionsUI.autoInvite_shikong then
+					if PIG_OptionsUI.autoInvite_shikong then
 						GameTooltip:AddLine("自动回复/邀请:|cff00ff00"..ENABLE.."|r")
 						GameTooltip:AddLine("|cff00FFff"..KEY_BUTTON1.."-|r|cffFFFF00"..CLOSE.."|r")
 					else
@@ -909,11 +915,11 @@ function TardisInfo.Yell(Activate)
 					GameTooltip:Hide() 
 				end)
 			else
-				if _G[QkButUI] then
-					_G[QkButUI]:Hide()
-					_G[QkButUI]:SetWidth(0.01)
-					_G[QkButUI].yincang=true
-					QuickButUI:GengxinWidth(1)
+				if QuickButUI.ShowDesktopButOpen then
+					QuickButUI.ShowDesktopButOpen:Hide()
+					QuickButUI.ShowDesktopButOpen:SetWidth(0.0001)
+					QuickButUI.ShowDesktopButOpen.yincang=true
+					QuickButUI:UpdateWidth()
 				end
 			end
 		end
@@ -921,7 +927,7 @@ function TardisInfo.Yell(Activate)
 	--喊话按钮
 	fujiF.botF_L.yellbut = PIGButton(fujiF.botF_L,{"BOTTOMLEFT",fujiF.botF_L.Yell_NR,"BOTTOMRIGHT",10,10},{100,25},SEND_LABEL..L["TARDIS_YELL"]);
 	fujiF.botF_L.yellbut:SetScript("OnClick", function (self)
-		fujiF.Kaishi_Yell(QkBut_Invite_Yell)
+		fujiF.Kaishi_Yell(QuickButUI.ShowDesktopButOpen)
 	end);
 	--喊话频道
 	fujiF.botF_L.Yell_CHANNEL=PIGDownMenu(fujiF.botF_L,{"LEFT",fujiF.botF_L.yellbut,"RIGHT",10,0},{70,25})
@@ -939,7 +945,7 @@ function TardisInfo.Yell(Activate)
 	end
 	function fujiF.botF_L.Yell_CHANNEL:PIGDownMenu_SetValue(value,arg1,arg2,checked)
 		PIGA["Tardis"]["Yell"]["Yell_CHANNEL"][arg1]=checked
-		fujiF.Updata_Macro()
+		--fujiF.Updata_Macro()
 		PIGCloseDropDownMenus()
 	end
 	---
@@ -1021,7 +1027,7 @@ function TardisInfo.Yell(Activate)
 	fujiF.botF_R.jinzuCMDE:SetScript("OnEnterPressed", function(self) 
 		PIGA["Tardis"]["Yell"]["jinzuCMD"]=self:GetText();
 		self:ClearFocus()
-		fujiF.Updata_Macro()
+		--fujiF.Updata_Macro()
 	end);
 	----
 	fujiF.botF_R:HookScript("OnShow", function(self)
@@ -1031,13 +1037,13 @@ function TardisInfo.Yell(Activate)
 
 	--根据指令邀请
 	local function OFF_autoInvite(msg)
-		Pig_OptionsUI.autoInvite_shikong=false;
+		PIG_OptionsUI.autoInvite_shikong=false;
 		fujiF.botF_R.AutoYaoqing.Tex:SetTexture("interface/common/indicator-gray.blp");
-		if QkBut_Invite_Yell then QkBut_Invite_Yell.AutoYaoqing.Tex:SetTexture("interface/common/indicator-gray.blp");end
+		if QuickButUI.ShowDesktopButOpen then QuickButUI.ShowDesktopButOpen.AutoYaoqing.Tex:SetTexture("interface/common/indicator-gray.blp");end
 		if fujiF.botF_R.hanhuaOpen then fujiF.botF_R.hanhuaOpen.Tex:SetTexture("interface/common/indicator-gray.blp");end
 		fujiF:UnregisterEvent("CHAT_MSG_WHISPER");
 		fujiF:UnregisterEvent("CHAT_MSG_SYSTEM");
-		PIGTopMsg:add(msg);
+		PIG_OptionsUI:ErrorMsg(msg);
 	end
 	--判断是否是队长/团长/助理
 	function fujiF.Is_GroupLeader(laiyuan)
@@ -1131,20 +1137,20 @@ function TardisInfo.Yell(Activate)
 		return true,numGroupMembers
 	end
 	function fujiF.Auto_FunOpen()
-		if Pig_OptionsUI.autoInvite_daiben then
-			PIGTopMsg:add("带本助手自动邀请处于开启状态，请先关闭");
+		if PIG_OptionsUI.autoInvite_daiben then
+			PIG_OptionsUI:ErrorMsg("带本助手自动邀请处于开启状态，请先关闭");
 		else
-			if Pig_OptionsUI.autoInvite_shikong then
+			if PIG_OptionsUI.autoInvite_shikong then
 				OFF_autoInvite("已|cffFF0000关闭|r自动邀请")
 			else
 				if not EditBox_panduan(PIGA["Tardis"]["Yell"]["Yell_NR"]) and fujiF.Is_GroupLeader() and fujiF.Is_RaidNumOK() then
-					Pig_OptionsUI.autoInvite_shikong=true
+					PIG_OptionsUI.autoInvite_shikong=true
 					fujiF.botF_R.AutoYaoqing.Tex:SetTexture("interface/common/indicator-green.blp");
-					if QkBut_Invite_Yell then QkBut_Invite_Yell.AutoYaoqing.Tex:SetTexture("interface/common/indicator-green.blp"); end
+					if QuickButUI.ShowDesktopButOpen then QuickButUI.ShowDesktopButOpen.AutoYaoqing.Tex:SetTexture("interface/common/indicator-green.blp"); end
 					fujiF:RegisterEvent("CHAT_MSG_WHISPER");
 					fujiF:RegisterEvent("CHAT_MSG_SYSTEM")
-					fujiF.Updata_Macro("OPEN")
-					PIGTopMsg:add("已|cff00FF00开启|r自动邀请");
+					--fujiF.Updata_Macro("OPEN")
+					PIG_OptionsUI:ErrorMsg("已|cff00FF00开启|r自动邀请");
 				end
 			end
 		end
@@ -1177,7 +1183,7 @@ function TardisInfo.Yell(Activate)
 			if self then self.Cooldown:SetCooldown(GetTime(), fujiF.hanhuajiange*keyongshu) end
 			hanhuadaojishiTime()
 		else
-			PIGTopMsg:add("请先选择喊话频道");
+			PIG_OptionsUI:ErrorMsg("请先选择喊话频道");
 		end
 	end
 	--===================================
@@ -1224,7 +1230,7 @@ function TardisInfo.Yell(Activate)
 				self.Is_RaidNumOK("event")
 			end)
 		else
-			if not Pig_OptionsUI.autoInvite_shikong then return end
+			if not PIG_OptionsUI.autoInvite_shikong then return end
 			if arg1:match("[!Pig]") then return end
 			if event=="CHAT_MSG_SYSTEM" then
 				if arg1:match(yizuduiERR) then

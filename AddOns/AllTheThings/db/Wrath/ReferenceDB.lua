@@ -76,6 +76,8 @@ _.OnTooltipDB=
 _.OnUpdateDB=
 {
 	["CRUSADER_DAILY"] = function(t)if not t.ach then	local f=_.SearchForField("achievementID",_.Faction=="Horde" and 2771 or 2817);if f and #f>0 then	for _,o in pairs(f)do	if o.key=="achievementID" then	t.ach=o;return;end	end	end	end	end,
+	["DEDICATED_10M"] = function(t)rawset(t,"collectible",nil);if _.MODE_DEBUG_OR_ACCOUNT then	return false;elseif IsInGroup()and GetNumGroupMembers()>=9 then	rawset(t,"collectible",false);return true;end	end,
+	["DEDICATED_25M"] = function(t)rawset(t,"collectible",nil);if _.MODE_DEBUG_OR_ACCOUNT then	return false;elseif IsInGroup()and GetNumGroupMembers()>=21 then	rawset(t,"collectible",false);return true;end	end,
 	["IsOnQuestVisibleOverride13697"] = function(t)if not C_QuestLog.IsOnQuest(13697)then t.visible=false;return true;end end,
 	["IsOnQuestVisibleOverride13714"] = function(t)if not C_QuestLog.IsOnQuest(13714)then t.visible=false;return true;end end,
 	["IsOnQuestVisibleOverride13715"] = function(t)if not C_QuestLog.IsOnQuest(13715)then t.visible=false;return true;end end,

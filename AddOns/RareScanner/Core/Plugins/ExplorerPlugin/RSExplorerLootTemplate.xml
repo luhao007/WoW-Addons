@@ -154,50 +154,21 @@
 		</Frames>
 	</Frame>
 
-	<Frame name="RSExplorerGroupListTemplate" virtual="true">
-		<Size x="260" y="20" />
-		<Frames>
-			<Button parentKey="Group" inherits="RSExplorerGroupButtonTemplate">
-				<Anchors>
-					<Anchor point="TOPLEFT" />
-				</Anchors>
-				<Scripts>
-					<OnLoad>
-						self:RegisterForClicks("LeftButtonUp", "RightButtonDown");
-					</OnLoad>
-					<OnClick>
-						RSExplorerGroupListButton_OnClick(self, button);
-					</OnClick>
-				</Scripts>
-			</Button>
-		</Frames>
-	</Frame>
-
 	<Frame name="RSExplorerLootGroupListTemplate" virtual="true">
-		<Size x="210" y="200" />
+		<Size x="240" y="200" />
 		<Frames>
-			<ScrollFrame name="$parentListScrollFrame" parentKey="listScroll" inherits="HybridScrollFrameTemplate">
+			<Frame parentKey="scrollBox" inherits="WowScrollBoxList">
 				<Anchors>
-					<Anchor point="TOPLEFT" x="12" y="-6" />
-					<Anchor point="BOTTOMRIGHT" x="-3" y="6" />
+					<Anchor point="TOPLEFT" x="10" y="-5" />
+					<Anchor point="BOTTOMRIGHT" x="-35" />
 				</Anchors>
-				<Frames>
-					<Slider name="$parentScrollBar" inherits="RSExplorerScrollBarTemplate" parentKey="scrollBar">
-						<Anchors>
-							<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="-18" y="-30" />
-							<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="-18" y="30" />
-						</Anchors>
-						<Scripts>
-							<OnLoad>
-								self.trackBG:Show();
-								self.trackBG:SetVertexColor(0, 0, 0, 0.75);
-								self.doNotHide = true;
-							</OnLoad>
-						</Scripts>
-					</Slider>
-				</Frames>
-			</ScrollFrame>
-			<Frame parentKey="ElevatedFrame" framelevel="50" setAllPoints="true" />
+			</Frame>
+			<EventFrame parentKey="scrollBar" inherits="MinimalScrollBar">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.ScrollBox" relativePoint="TOPRIGHT" x="-30" y="-5"/>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.ScrollBox" relativePoint="BOTTOMRIGHT" x="7" y="5"/>
+				</Anchors>
+			</EventFrame>
 		</Frames>
 	</Frame>
 

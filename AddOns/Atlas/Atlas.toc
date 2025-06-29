@@ -1,6 +1,6 @@
-## Interface: 110105
+## Interface: 110107
 ## Author: nanderson11
-## Version: v3.6.3
+## Version: v3.6.6
 
 ## Title: Atlas
 ## Notes: Instance Map Browser
@@ -11,7 +11,7 @@
 
 ## AddonCompartmentFunc: Atlas_Toggle
 
-## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibBabble-Boss-3.0, LibBabble-SubZone-3.0, LibBabble-Faction-3.0, LibDBIcon-1.0, LibDialog-1.0, LibUIDropDownMenu
+## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibBabble-Boss-3.0, LibBabble-Faction-3.0, LibDBIcon-1.0, LibDialog-1.0, LibUIDropDownMenu, DevTool
 
 ## SavedVariables: AtlasDB
 

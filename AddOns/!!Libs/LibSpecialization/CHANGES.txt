@@ -1,8 +1,22 @@
 ------------------------------------------------------------------------
-r64 | funkehdude | 2025-03-22 22:39:19 +0000 (Sat, 22 Mar 2025) | 1 line
+r80 | funkehdude | 2025-06-15 18:00:49 +0000 (Sun, 15 Jun 2025) | 1 line
 Changed paths:
+   M /trunk/LibSpecialization/LibSpecialization.lua
+
+Make sure the guild timer gets cancelled
+------------------------------------------------------------------------
+r79 | funkehdude | 2025-06-15 15:22:57 +0000 (Sun, 15 Jun 2025) | 1 line
+Changed paths:
+   M /trunk/LibSpecialization/LibSpecialization.lua
+
+Use proper timers and make sure we schedule guild requests
+------------------------------------------------------------------------
+r78 | funkehdude | 2025-06-11 17:09:32 +0000 (Wed, 11 Jun 2025) | 1 line
+Changed paths:
+   M /trunk/.luacheckrc
+   M /trunk/LibSpecialization/LibSpecialization.lua
    M /trunk/LibSpecialization.toc
 
-Bump toc
+Add support for guild comms
 ------------------------------------------------------------------------
 

@@ -526,6 +526,15 @@ local function AddExtraInfoTooltip(tooltip, pin)
 		end
 		
 		return true
+	elseif (pin.GetDescription) then
+		local descriptionString = pin:GetDescription()
+		
+		if (descriptionString) then
+			local line = tooltip:AddLine()	
+			tooltip:SetCell(line, 1, descriptionString, nil, "LEFT", 10, nil, nil, nil, RSConstants.TOOLTIP_MAX_WIDTH, RSConstants.TOOLTIP_MAX_WIDTH)
+		end
+		
+		return true
 	end
 	
 	return false

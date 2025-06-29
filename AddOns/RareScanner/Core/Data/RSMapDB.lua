@@ -256,6 +256,27 @@ function RSMapDB.GetMapName(mapID)
 		if (AL["ZONE_"..mapID] ~= "ZONE_"..mapID) then
 			return string.format(AL["ZONE_"..mapID], mapInfo.name)
 		else
+			-- For maps with groups
+			local mapGroupID = C_Map.GetMapGroupID(mapID);
+			if (not mapGroupID) then
+			   	return mapInfo.name
+			end
+
+			local mapGroupMembersInfo = C_Map.GetMapGroupMembersInfo(mapGroupID);
+			if (not mapGroupMembersInfo) then
+			   	return mapInfo.name
+			end
+
+			for index, mapGroupMemberInfo in ipairs(mapGroupMembersInfo) do
+			   	if (mapGroupMemberInfo.mapID == mapID) then
+			   		if (mapInfo.name ~= mapGroupMemberInfo.name) then
+			      		return string.format("%s (%s)", mapInfo.name, mapGroupMemberInfo.name)
+			      	end
+			      	
+			      	break;
+			   	end
+  			end
+  			
 			return mapInfo.name
 		end
 	end

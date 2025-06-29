@@ -209,177 +209,30 @@ local FACTION_IMAGES = {
 	[2478] = "Interface\\Icons\\inv_tabard_enlightenedbrokers_c_01", -- The Enlightened
 
 	-- Dragonflight
+	[2503] = 4687627,                                              -- Maruuk Centaur
+	[2507] = 4687628,                                              -- Dragonscale Expedition
+	[2510] = 4687630,                                              -- Valdrakken Accord
+	[2511] = 4687629,                                              -- Iskaara Tuskarr
+	[2564] = "interface\\icons\\ui_majorfaction_niffen",           -- Loamm Niffen
+	[2574] = "interface\\icons\\ui_majorfaction_denizens",         -- Dream Wardens
+	[2517] = 1394891,                                              -- Wrathion
+	[2518] = 4559236,                                              -- Sabellian
+	[2550] = 1394893,                                              -- Cobalt Assembly
+	[2526] = "interface\\icons\\inv_10_misc_winterpeltfurbolg_totem", -- Winterpelt Furbolg
 
-	[2503] = 4687627, -- Maruuk Centaur
-	[2509] = 4639175, -- Clan Shikaar
-	[2512] = 237385, -- Clan Aylaag
-	[2513] = 4639177, -- Clan Ohn'ir
-	[2522] = 4639174, -- Clan Teerai
-	--		[2554] = "Interface\\Icons\\...", -- Clan Toghus
-	[2507] = 4687628, -- Dragonscale Expedition
-	[2510] = 4687630, -- Valdrakken Accord
-	[2517] = 1394891, -- Wrathion
-	[2518] = 4559236, -- Sabellian
-	[2544] = 134446, -- Artisan's Consortium - Dragon Isles Branch
-	[2550] = 1394893, -- Cobalt Assembly
-	[2511] = 4687629, -- Iskaara Tuskarr
-	[2520] = 4639176, -- Clan Nokhud
-	--[2526] = "Interface\\Icons\\...", -- Winterpelt Furbolg
-	--[2542] = "Interface\\Icons\\...", -- Clan Ukhel
-	--[2555] = "Interface\\Icons\\...", -- Clan Kaighan
-
-}
-
-local FACTION_KEY = {
-	-- Classic
-	[47] = "Ironforge",
-	[54] = "Gnomeregan",
-	[59] = "Thorium Brotherhood",
-	[68] = "Undercity",
-	[69] = "Darnassus",
-	[72] = "Stormwind",
-	[76] = "Orgrimmar",
-	[81] = "Thunder Bluff",
-	[87] = "Bloodsail Buccaneers",
-	[529] = "Argent Dawn",
-	[530] = "Darkspear Trolls",
-	[576] = "Timbermaw Hold",
-	[589] = "Wintersaber Trainers",
-	[609] = "Cenarion Circle",
-	[910] = "Brood of Nozdormu",
-	-- BC
-	[911] = "Silvermoon City",
-	[922] = "Tranquillien",
-	[930] = "Exodar",
-	[932] = "The Aldor",
-	[933] = "The Consortium",
-	[934] = "The Scryers",
-	[935] = "The Sha'tar",
-	[941] = "The Mag'har",
-	[942] = "Cenarion Expedition",
-	[946] = "Honor Hold",
-	[947] = "Thrallmar",
-	[967] = "The Violet Eye",
-	[970] = "Sporeggar",
-	[978] = "Kurenai",
-	[989] = "Keepers of Time",
-	[990] = "The Scale of the Sands",
-	[1011] = "Lower City",
-	[1012] = "Ashtongue Deathsworn",
-	[1015] = "Netherwing",
-	[1031] = "Sha'tari Skyguard",
-	[1038] = "Ogri'la",
-	[1077] = "Shattered Sun Offensive",
-	-- WotLK
-	[1037] = "Alliance Vanguard",
-	[1052] = "Horde Expedition",
-	[1073] = "The Kalu'ak",
-	[1090] = "Kirin Tor",
-	[1091] = "The Wyrmrest Accord",
-	[1094] = "The Silver Covenant",
-	[1098] = "Knights of the Ebon Blade",
-	[1104] = "Frenzyheart Tribe",
-	[1105] = "The Oracles",
-	[1106] = "Argent Crusade",
-	[1119] = "The Sons of Hodir",
-	[1124] = "The Sunreavers",
-	[1156] = "The Ashen Verdict",
-	-- Cata
-	[1133] = "Bilgewater Cartel",
-	[1134] = "Gilneas",
-	[1135] = "The Earthen Ring",
-	[1158] = "Guardians of Hyjal",
-	[1171] = "Therazane",
-	[1172] = "Dragonmaw Clan",
-	[1173] = "Ramkahen",
-	[1174] = "Wildhammer Clan",
-	[1177] = "Baradin's Wardens",
-	[1178] = "Hellscream's Reach",
-	[1204] = "Avengers of Hyjal",
-	-- MoP
-	[1269] = "Golden Lotus",
-	[1270] = "Shado-Pan",
-	[1271] = "Order of the Cloud Serpent",
-	[1272] = "The Tillers",
-	[1302] = "The Anglers",
-	[1337] = "The Klaxxi",
-	[1341] = "The August Celestials",
-	[1345] = "The Lorewalkers",
-	[1352] = "Huojin Pandaren",
-	[1353] = "Tushui Pandaren",
-	[1358] = "Nat Pagle",
-	[1375] = "Dominance Offensive",
-	[1376] = "Operation: Shieldwall",
-	[1387] = "Kirin Tor Offensive",
-	[1388] = "Sunreaver Onslaught",
-	[1435] = "Shado-Pan Assault",
-	[1492] = "Emperor Shaohao",
-	-- WoD
-	[1445] = "Frostwolf Orcs",
-	[1515] = "Arakkoa Outcasts",
-	[1681] = "Vol'jin's Spear",
-	[1682] = "Wrynn's Vanguard",
-	[1708] = "Laughing Skull Orcs",
-	[1710] = "Sha'tari Defense",
-	[1711] = "Steamwheedle Preservation Society",
-	[1731] = "Council of Exarchs",
-	[1847] = "Hand of the Prophet",
-	[1848] = "Vol'jin's Headhunters",
-	[1849] = "Order of the Awakened",
-	[1850] = "The Saberstalkers",
-	-- Legion
-	[1828] = "Highmountain Tribe",
-	[1859] = "The Nightfallen",
-	[1883] = "Dreamweavers",
-	[1894] = "The Wardens",
-	[1900] = "Court of Farondis",
-	[1948] = "Valarjar",
-	[2045] = "Armies of Legionfall",
-	[2165] = "Army of the Light",
-	[2170] = "Argussian Reach",
-	-- BfA
-	[2164] = "Champions of Azeroth",
-	[2163] = "Tortollan Seekers",
-	[2159] = "7th Legion",
-	[2161] = "Order of Embers",
-	[2160] = "Proudmoore Admiralty",
-	[2162] = "Storm's Wake",
-	[2156] = "Talanji's Expedition",
-	[2157] = "The Honorbound",
-	[2158] = "Voldunai",
-	[2103] = "Zandalari Empire",
-	[2391] = "Rustbolt Resistance",
-	[2415] = "Rajani ",
-	[2417] = "Uldum Accord",
-	[2373] = "The Unshackled",
-	[2400] = "Waveblade Ankoan",
-	-- Shadowlands
-	[2407] = "The Ascended",
-	[2410] = "The Undying Army",
-	[2413] = "Court of Harvesters",
-	[2432] = "Ve'nari",
-	[2465] = "The Wild Hunt",
-	[2470] = "Death's Advance",
-	[2472] = "The Archivists' Codex",
-	[2478] = "The Enlightened",
-	-- Dragonflight
-	[2503] = "Maruuk Centaur",
-	[2507] = "Dragonscale Expedition",
-	[2509] = "Clan Shikaar",
-	[2510] = "Valdrakken Accord",
-	[2511] = "Iskaara Tuskarr",
-	[2512] = "Clan Aylaag",
-	[2513] = "Clan Ohn'ir",
-	[2517] = "Wrathion",
-	[2518] = "Sabellian",
-	[2520] = "Clan Nokhud",
-	[2522] = "Clan Teerai",
-	[2526] = "Winterpelt Furbolg",
-	[2542] = "Clan Ukhel",
-	[2544] = "Artisan's Consortium - Dragon Isles Branch",
-	[2550] = "Cobalt Assembly",
-	[2554] = "Clan Toghus",
-	[2555] = "Clan Kaighan",
+	-- TWW
+	[2590] = "interface\\icons\\ui_majorfactions_storm",      -- Council of Dornogal
+	[2594] = "interface\\icons\\ui_majorfactions_candle",     -- The Assembly of the Deeps
+	[2570] = "interface\\icons\\ui_majorfactions_flame",      -- Hallowfall Arathi
+	[2600] = "interface\\icons\\ui_majorfactions_web",        -- The Severed Threads
+	[2653] = "interface\\icons\\ui_majorfactions_rocket",     -- The Cartels of Undermine
+	[2673] = "interface\\icons\\inv_tabard_bilgewater_b_01",  -- Bilgewater Cartel
+	[2675] = "interface\\icons\\inv_tabard_blackwater_b_01",  -- Blackwater Cartel
+	[2677] = "interface\\icons\\inv_tabard_steamwheedle_b_01", -- Steamwheedle Cartel
+	[2671] = "interface\\icons\\inv_tabard_ventureco_b_01",   -- Venture Company
+	[2669] = "interface\\icons\\inv_111_tabard_darkfusefaction", -- Darkfuse Solutions
+	[2685] = "interface\\icons\\ui_majorfactions_stars",      -- Gallagio Loyalty Rewards Club
+	[2688] = "interface\\icons\\ui_majorfactions_ nightfall", -- Flame's Radiance
 }
 
 local function GetLocRepStanding(id)
@@ -406,15 +259,10 @@ function Faction.OnSet(button, second)
 		FactionClickHandler = ClickHandler:Add(
 			"Faction",
 			{
-				--ChatLink = { "LeftButton", "Shift" },
-				types = {
-					--ChatLink = true,
-				},
+				types = {},
 			},
 			AtlasLoot.db.Button.Faction.ClickHandler,
-			{
-				--{ "ChatLink", 	AL["Chat Link"], 	AL["Add item into chat"] },
-			}
+			{}
 		)
 
 		PlayerSex = UnitSex("player")
@@ -462,9 +310,6 @@ end
 function Faction.OnMouseAction(button, mouseButton)
 	if not mouseButton then return end
 	mouseButton = FactionClickHandler:Get(mouseButton)
-	--if mouseButton == "ChatLink" then
-
-	--end
 end
 
 function Faction.OnEnter(button, owner)
@@ -509,7 +354,7 @@ function Faction.Refresh(button)
 	local temp = C_Reputation.GetFactionDataByID(factionID)
 	local name = nil
 	if (temp == nil) then
-		name = BF[FACTION_KEY[factionID]] or FACTION.." "..factionID
+		name = BF[AtlasLoot.Data.Faction.FACTION_KEY[factionID]] or FACTION.." "..factionID
 	else
 		name = temp.name
 	end
@@ -538,16 +383,8 @@ function Faction.Refresh(button)
 	if button.type == "secButton" then
 		button:SetNormalTexture(FACTION_IMAGES[factionID] or FACTION_IMAGES[0])
 	else
-		-- ##################
-		-- name
-		-- ##################
 		button.name:SetText(color..name)
-
 		--button.extra:SetText("|cFF"..FACTION_REP_COLORS[RepID or standingID]..GetLocRepStanding(RepID or standingID))
-
-		-- ##################
-		-- icon
-		-- ##################
 		button.icon:SetTexture(FACTION_IMAGES[factionID] or FACTION_IMAGES[0])
 
 		local reqRepText = friendshipFactionID and FRIEND_REP_TEXT[RepID] or GetLocRepStanding(RepID or standingID) or ""
@@ -575,7 +412,7 @@ end
 
 function Faction.ShowToolTipFrame(button)
 	if not Faction.tooltipFrame then
-		local WIDTH = 200
+		local WIDTH = 210
 		local name = "AtlasLoot-FactionToolTip"
 		local frame = CreateFrame("Frame", name, nil, BackdropTemplateMixin and "BackdropTemplate" or nil)
 		frame:SetClampedToScreen(true)
@@ -588,10 +425,10 @@ function Faction.ShowToolTipFrame(button)
 			edgeSize = 16,
 			insets = { left = 4, right = 4, top = 4, bottom = 4 }
 		})
-		frame:SetBackdropColor(0, 0, 0, 1)
+		frame:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR:GetRGBA())
 
 		frame.icon = frame:CreateTexture(name.."-icon", "ARTWORK")
-		frame.icon:SetPoint("TOPLEFT", frame, "TOPLEFT", 5, -5)
+		frame.icon:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, -10)
 		frame.icon:SetHeight(15)
 		frame.icon:SetWidth(15)
 		frame.icon:SetTexture(FACTION_IMAGES[0])
@@ -599,14 +436,13 @@ function Faction.ShowToolTipFrame(button)
 		frame.name = frame:CreateFontString(name.."-name", "ARTWORK", "GameFontNormal")
 		frame.name:SetPoint("TOPLEFT", frame.icon, "TOPRIGHT", 3, 0)
 		frame.name:SetJustifyH("LEFT")
-		frame.name:SetWidth(WIDTH - 25)
+		frame.name:SetWidth(WIDTH - 35)
 		frame.name:SetHeight(15)
-		--frame.name:SetTextColor(1, 1, 1, 1)
 
 		frame.standing = CreateFrame("FRAME", name.."-standing", frame, BackdropTemplateMixin and "BackdropTemplate" or nil)
-		frame.standing:SetWidth(WIDTH - 10)
+		frame.standing:SetWidth(WIDTH - 20)
 		frame.standing:SetHeight(20)
-		frame.standing:SetPoint("TOPLEFT", frame.icon, "BOTTOMLEFT", 0, -1)
+		frame.standing:SetPoint("TOPLEFT", frame.icon, "BOTTOMLEFT", 0, -5)
 		frame.standing:SetBackdrop({
 			bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
 			edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -620,22 +456,22 @@ function Faction.ShowToolTipFrame(button)
 		frame.standing.bar = CreateFrame("StatusBar", name.."-standingBar", frame.standing)
 		frame.standing.bar:SetStatusBarTexture("Interface\\TARGETINGFRAME\\UI-StatusBar")
 		frame.standing.bar:SetPoint("TOPLEFT", 3, -3)
-		frame.standing.bar:SetPoint("BOTTOMRIGHT", -4, 3)
+		frame.standing.bar:SetPoint("BOTTOMRIGHT", -3, 3)
 		frame.standing.bar:GetStatusBarTexture():SetHorizTile(false)
 		frame.standing.bar:GetStatusBarTexture():SetVertTile(false)
 
 		frame.standing.text = frame.standing.bar:CreateFontString(name.."-standingText", "ARTWORK", "GameFontNormalSmall")
 		frame.standing.text:SetPoint("TOPLEFT", 3, -3)
-		frame.standing.text:SetPoint("BOTTOMRIGHT", -4, 3)
+		frame.standing.text:SetPoint("BOTTOMRIGHT", -3, 3)
 		frame.standing.text:SetJustifyH("CENTER")
 		frame.standing.text:SetJustifyV("MIDDLE")
 		frame.standing.text:SetTextColor(1, 1, 1, 1)
 
 		frame.desc = frame:CreateFontString(name.."-desc", "ARTWORK", "GameFontNormalSmall")
-		frame.desc:SetPoint("TOPLEFT", frame.standing, "BOTTOMLEFT", 0, -1)
+		frame.desc:SetPoint("TOPLEFT", frame.standing, "BOTTOMLEFT", 0, -5)
 		frame.desc:SetJustifyH("LEFT")
 		frame.desc:SetJustifyV("TOP")
-		frame.desc:SetWidth(WIDTH - 10)
+		frame.desc:SetWidth(WIDTH - 20)
 		frame.desc:SetTextColor(1, 1, 1, 1)
 
 		Faction.tooltipFrame = frame
@@ -645,7 +481,7 @@ function Faction.ShowToolTipFrame(button)
 	local name, description, standingID, barMin, barMax, barValue = nil, nil, nil, nil, nil, nil
 	local temp = C_Reputation.GetFactionDataByID(factionID)
 	if (temp == nil) then
-		name = BF[FACTION_KEY[factionID]] or FACTION.." "..factionID
+		name = BF[AtlasLoot.Data.Faction.FACTION_KEY[factionID]] or FACTION.." "..factionID
 	else
 		name, description, standingID, barMin, barMax, barValue = temp.name, temp.description, temp.reaction, temp.currentReactionThreshold, temp.nextReactionThreshold, temp.currentStanding
 	end
@@ -658,7 +494,7 @@ function Faction.ShowToolTipFrame(button)
 	if (standingID == MAX_REPUTATION_REACTION) then
 		isCapped = true;
 	end
-	--local friendID, friendRep, _, _, _, _, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(button.FactionID)
+
 	-- check if this is a friendship faction or a Major Faction
 	local isMajorFaction = factionID and C_Reputation.IsMajorFaction(factionID);
 	local repInfo = factionID and C_GossipInfo.GetFriendshipReputation(factionID);
@@ -712,6 +548,6 @@ function Faction.ShowToolTipFrame(button)
 		frame.standing.text:SetText(str_format("%s ( %d / %d )", factionStandingtext, barValue - barMin, barMax - barMin))
 	end
 
-	frame:SetHeight(20 + 21 + frame.desc:GetHeight() + 5)
+	frame:SetHeight(20 + 21 + frame.desc:GetHeight() + 23)
 	frame:Show()
 end

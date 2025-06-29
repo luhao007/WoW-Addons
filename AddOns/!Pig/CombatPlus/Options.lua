@@ -18,7 +18,6 @@ CombatPlusfun.RTabFrame=RTabFrame
 --==================================
 addonTable.CombatPlus = function()
 	CombatPlusfun.Marker()
-	CombatPlusfun.CombatTime()
 	CombatPlusfun.HPMPBar()
 	CombatPlusfun.AttackBar()
 	CombatPlusfun.BabySitter()

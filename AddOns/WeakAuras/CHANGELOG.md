@@ -1,28 +1,20 @@
-# [5.19.9](https://github.com/WeakAuras/WeakAuras2/tree/5.19.9) (2025-04-25)
+# [5.19.12](https://github.com/WeakAuras/WeakAuras2/tree/5.19.12) (2025-06-17)
 
-[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/5.19.8...5.19.9)
+[Full Changelog](https://github.com/WeakAuras/WeakAuras2/compare/5.19.11...5.19.12)
 
 ## Highlights
 
-Bump .toc files
+- Bugfixes and performance improvements
 
 ## Commits
 
-InfusOnWoW (4):
-
-- Bump .toc files
-- Icon: If OmniCC or ElvUI are installed hide blizzard cooldown numbers
-- Currency trigger: Add type checking to guard against unexpected data
-- Update Discord List
-
 Stanzilla (2):
 
-- Update WeakAurasModelPaths from wago.tools
+- chore(toc): bump version for retail patch 11.5.7
 - Update WeakAurasModelPaths from wago.tools
 
-mrbuds (3):
+mrbuds (2):
 
-- Unit Characteristics trigger: add creature type & family (Retail only)
-- Textute Atlas Picker: use C_Texture.GetAtlasElements on Retail
-- TSUHelper: hide __changed from pairs()
+- Health trigger: add absorb options on Mists
+- Don't trigger partyX unit event with the filter :group when in raid
 

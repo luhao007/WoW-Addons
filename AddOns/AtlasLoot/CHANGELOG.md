@@ -1,5 +1,95 @@
 ﻿# Changelog
 
+## 9.6.0 - June 24, 2025
+### Added
+- Updated MoP Timewalking rewards
+- Added Lettuce pet to Collections
+### Fixed
+- Fixed the extra price text always being red when the cost is certain items
+
+## 9.5.0 - June 21, 2025
+### Added
+- Added remaining BFA Timewalking rewards and moved items that are common to all timewalking vendors to a new section
+- Updated Midsummer Fire Festival items
+- Added Azerite item overlay on Azerite items
+- Added conduit item overlay on Shadowlands item conduits
+- Added Redeployment Module to Toys in Collections module
+- Added OC91 Chariot to Mounts in Collections module
+- Added resonance crystal costs to Mean-Ball Ball Bag and Tyrannotort's Treat
+
+## 9.4.0 - June 17, 2025
+### Added
+- Added Lorewalking rewards to Toy Collection
+- Added BFA Timewalking rewards (cosmetic items to come later)
+- Added the ability to list an achievement as the method of acquisition on the secondary line. Mostly useful for mounts and pets where the secondary button is already used. Necessary data is only on TWW and DF mounts, pets and toys in Collections right now, but will get added elsewhere in the future.
+### Changed
+- Update TOC to 11.1.7
+- Remove LibBabble-ItemSet and replace with C_Item.GetItemSetInfo
+- Remove LibBabble-Boss and replace with other translations as needed
+### Fixed
+- Fixed Guardian Vorquin getting overwritten by Otterworldly Ottuk Carrier in Dragonflight mounts in Collections
+
+## 9.3.0 - June 11, 2025
+### Added
+- Added cosmetic item border/overlay on cosmetic items
+- Added BFA, Shadowlands and Dragonflight legendaries to Collections
+- Added resonance crystal cost to Winner's Podium
+- Updated Love is in the Air items
+- Added Heartseeker Mana Ray to Collections
+### Fixed
+- Fixed item tooltip showing up on mount secondary buttons, sometimes on top of the mount tooltip
+
+## 9.2.0 - June 5, 2025
+### Added
+- Added new pet, mount and toys from Dastardly Duos to Collections
+### Fixed
+- Fix lua error when viewing items in Legion instances
+- Item difficulty bonuses only get added to weapons, armor, tier tokens and gems now (this means that items like mounts, pets and recipes are seen as the same across all difficulties for Favorites functionality)
+- Fixed issue where item icons could cause non-item icons to have the wrong color border
+- Fixed issue where achievement and pet icons could cause item icons to not have a border
+
+## 9.1.0 - June 1, 2025
+### Added
+- Added faction-specific icons for TWW factions
+- Added new mounts and pets from Revisited Horrific Visions to Collections
+- Added returning mounts, pets and toys from the original Horrific Visions to Collections (under TWW because they were never added to AtlasLoot originally)
+- Added recipe from Revisited Horrific Visions to Jewelcrafting
+- Added Flame's Radiance tabards to both Factions and Tabard Collections
+- Added June Trading Post items to Collections
+### Changed
+- Updated lib Krowi's World Map Buttons
+### Fixed
+- Fix some recipe items not having their favorite list in the tooltip
+- Fix for lua error on items with quest names (known issue: uncached quest names may appear on the wrong item)
+- Fixed world map button scale and highlight
+
+## 9.0.1 - May 27, 2025
+### Changed
+- Added padding to the faction tooltip
+### Fixed
+- Fix error on boss list frames that scroll (like TBC Factions)
+- Used stored faction name for factions you haven't encountered instead of hiding them completely
+- Removed Glyph of the Headhunter from Legion Inscription Crafting
+
+## 9.0.0 - May 26, 2025
+Welcome to AtlasLoot v9! There are a few major changes to read about below. Due to this, settings have been reset, but the addition of profiles means you only have to change things once.
+### Added
+- Added the favorites functionality from AtlasLoot Classic. It's been updated to work with item strings (which separates items by raid difficuty, for example)
+- The UI has been updated to match the modern Blizzard UI. Nearly everything has been updated, including item icons, lists, dropdowns, scrollbars, buttons and backgrounds
+- Settings now use the Ace3 profile system, so you don't have to set up AtlasLoot on every character
+- Items will now display with the stats for your current spec
+### Changed
+- Settings are now in the Blizzard Addon Options menu
+### Removed
+- Removed the ability to play sound clips from boss encounters. It was broken, didn't cover most encounters and doesn't really fit with AtlasLoot
+- Removed some UI customization options that are no longer relevant in the new UI
+### Fixed
+- Fixed broken tier sets in Collections caused by reordering the list
+
+## 8.28.0 - May 2, 2025
+### Added
+- Added three mounts and three pets from the May Trading Post to Collections
+
 ## 8.27.0 - April 28, 2025
 ### Added
 - Added new Children's Week loot to World Events

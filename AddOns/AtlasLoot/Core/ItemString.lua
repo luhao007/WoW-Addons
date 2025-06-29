@@ -10,10 +10,8 @@ local GetDetailedItemLevelInfo = C_Item.GetDetailedItemLevelInfo
 local format = string.format
 local tbl_concat = table.concat
 
-local ITEM_FORMAT_STRING = "item:%d:0:0:0:0:0:0:0:0:0:0:0:0"
-local ITEM_FORMAT_ALL_STRING = "item:%d:%d:%d:%d:%d:%d:%d:%d:%d:%d:%d:%d:%d:%s"
-local ITEM_FORMAT_BONUS_STRING = "item:%d:::::::::::%s:%d:%s"
-local ITEM_FORMAT_DIFF_STRING = "item:%d:::::::::::%s::"
+local ITEM_FORMAT_ALL_STRING = "item:%d:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s"
+local ITEM_FORMAT_BONUS_STRING = "item:%d:::::::::%s::%s:%d:%s"
 
 local ITEM_LVL_BONUS = BonusIDInfo.GetBonusListLevelDelta()
 
@@ -40,9 +38,14 @@ local function GetScaledItem(itemID, difficultyID, newLvl)
 	if not baseILvl then return end
 	local cacheString = baseILvl..difficultyID..newLvl
 	if not GetScaledItem_Cache[cacheString] then
+		local specID
+		if (GetSpecialization()) then
+			specID = GetSpecializationInfo(GetSpecialization())
+		end
+
 		local difficultyBonusID, difficulty = BonusIDInfo.GetItemBonusIDByDiff(difficultyID)
 		-- New effectiveILvl
-		effectiveILvl, isPreview, baseILvl = GetDetailedItemLevelInfo(format(ITEM_FORMAT_BONUS_STRING, itemID, difficulty, #difficultyBonusID, difficultyBonusID[1] or ""))
+		effectiveILvl, isPreview, baseILvl = GetDetailedItemLevelInfo(format(ITEM_FORMAT_BONUS_STRING, itemID, specID or "", difficulty, #difficultyBonusID, difficultyBonusID[1] or ""))
 
 		if effectiveILvl >= newLvl then
 			GetScaledItem_Cache[cacheString] = difficultyBonusID
@@ -65,6 +68,15 @@ local function GetScaledItem(itemID, difficultyID, newLvl)
 	end
 
 	return GetScaledItem_Cache[cacheString]
+end
+
+local function needsBonus(itemID)
+	local _, _, _, _, _, typeID = C_Item.GetItemInfoInstant(itemID)
+	if (typeID ~= 2 and typeID ~= 3 and typeID ~= 4 and not AtlasLoot.Data.Token.Token[itemID]) then
+		return false
+	else
+		return true
+	end
 end
 
 local C_ITEM_BONUS_PRESET = {
@@ -155,32 +167,109 @@ local ITEM_BONUS_PRESET = {
 	["Stage3H"]                           = { 583 }
 }
 
-function ItemString.Create(itemID, extra)
-	if extra then
-		return format(ITEM_FORMAT_ALL_STRING,
-			itemID,                 -- itemID
-			extra.enchant or 0,     -- extra.enchant
-			extra.gem1 or 0,        -- extra.gem1
-			extra.gem2 or 0,        -- extra.gem2
-			extra.gem3 or 0,        -- extra.gem3
-			extra.gem4 or 0,        -- extra.gem4
-			extra.suffixID or 0,    -- extra.suffixID
-			extra.uniqueID or 0,    -- extra.uniqueID
-			extra.level or 0,       -- extra.level
-			extra.upgradeId or 0,   -- extra.upgradeId
-			extra.instanceDifficultyID or 0, -- extra.instanceDifficultyID
-			extra.bonus and #extra.bonus or 0,
-			extra.bonus and tbl_concat(extra.bonus, ":") or ""
-		)
-	else
-		return format(ITEM_FORMAT_STRING,
-			itemID -- itemID
-		)
+function ItemString.Create(item)
+	return format(ITEM_FORMAT_ALL_STRING,
+		item.itemID,
+		item.enchantID or "",
+		item.gems and item.gems[1] or "",
+		item.gems and item.gems[2] or "",
+		item.gems and item.gems[3] or "",
+		item.gems and item.gems[4] or "",
+		item.suffixID or "",
+		item.uniqueID or "",
+		item.linkLevel or "",
+		item.specializationID or "",
+		item.modifiersMask or "",
+		item.itemContext or "",
+		item.bonusIDs and #item.bonusIDs or "",
+		item.bonusIDs and tbl_concat(item.bonusIDs, ":") or ""
+	)
+end
+
+function ItemString.Parse(link)
+	local simpleTypes = {
+		itemID = 1,
+		enchantID = 2,
+		suffixID = 7,
+		uniqueID = 8,
+		linkLevel = 9,
+		specializationID = 10,
+		modifiersMask = 11,
+		itemContext = 12,
+	}
+
+	-- Only using this for item strings, not links, right now, so just remove "item:"
+	--local _, linkOptions = LinkUtil.ExtractLink(link)
+	local linkOptions = gsub(link, "item:", "")
+
+	local item = { strsplit(":", linkOptions) }
+	local t = {}
+
+	for k, v in pairs(simpleTypes) do
+		t[k] = tonumber(item[v])
 	end
+
+	for i = 1, 4 do
+		local gem = tonumber(item[i + 2])
+		if gem then
+			t.gems = t.gems or {}
+			t.gems[i] = gem
+		end
+	end
+
+	local idx = 13
+	local numBonusIDs = tonumber(item[idx])
+	if numBonusIDs then
+		t.bonusIDs = {}
+		for i = 1, numBonusIDs do
+			t.bonusIDs[i] = tonumber(item[idx + i])
+		end
+	end
+	idx = idx + (numBonusIDs or 0) + 1
+
+	local numModifiers = tonumber(item[idx])
+	if numModifiers then
+		t.modifiers = {}
+		for i = 1, numModifiers do
+			local offset = i * 2
+			t.modifiers[i] = {
+				tonumber(item[idx + offset - 1]),
+				tonumber(item[idx + offset])
+			}
+		end
+		idx = idx + numModifiers * 2 + 1
+	else
+		idx = idx + 1
+	end
+
+	for i = 1, 3 do
+		local relicNumBonusIDs = tonumber(item[idx])
+		if relicNumBonusIDs then
+			t.relicBonusIDs = t.relicBonusIDs or {}
+			t.relicBonusIDs[i] = {}
+			for j = 1, relicNumBonusIDs do
+				t.relicBonusIDs[i][j] = tonumber(item[idx + j])
+			end
+		end
+		idx = idx + (relicNumBonusIDs or 0) + 1
+	end
+
+	local crafterGUID = item[idx]
+	if crafterGUID and #crafterGUID > 0 then
+		t.crafterGUID = crafterGUID
+	end
+	idx = idx + 1
+
+	t.extraEnchantID = tonumber(item[idx])
+
+	return t
 end
 
 --|cff0070dd|Hitem:151433::::::::110:581::1:1:3524:::|h[Thick Shellplate Shoulders]|h|r
 function ItemString.AddBonus(itemID, bonus, difficultyID, baseLvl)
+	-- Only add bonuses for weapons, gems, armor and tier tokens
+	if not needsBonus(itemID) then return end
+
 	bonus = bonus and (ITEM_BONUS_PRESET[bonus] or ITEM_BONUS_PRESET[bonus[1]]) or bonus
 	if bonus and type(bonus) == "string" then print(bonus) elseif bonus and type(bonus) == "function" then bonus = bonus(itemID, difficultyID, baseLvl) end
 	local difficulty
@@ -194,57 +283,38 @@ function ItemString.AddBonus(itemID, bonus, difficultyID, baseLvl)
 		end
 		bonus = difficultyID
 	end
+
+	local specID
+	if (GetSpecialization()) then
+		specID = GetSpecializationInfo(GetSpecialization())
+	end
+
 	return format(ITEM_FORMAT_BONUS_STRING,
 		itemID,
-		difficulty or 0,
+		specID or "",
+		difficulty or "",
 		bonus and #bonus or 0,
 		bonus and tbl_concat(bonus, ":") or ""
 	)
 end
 
 -- difficultyID = http://wow.gamepedia.com/DifficultyID
-function ItemString.AddBonusByDifficultyID(itemID, difficultyID)
-	if not itemID then return elseif not difficultyID then return ItemString.Create(itemID) end
+function ItemString.AddBonusByDifficultyID(itemID, difficultyID, includeSpecID)
+	-- Only add bonuses for weapons, gems, armor and tier tokens
+	if not needsBonus(itemID) then return end
+
+	local difficultyBonusID, difficulty = BonusIDInfo.GetItemBonusIDByDiff(difficultyID)
+
+	local specID
+	if (includeSpecID and GetSpecialization()) then
+		specID = GetSpecializationInfo(GetSpecialization())
+	end
 
 	return format(ITEM_FORMAT_BONUS_STRING,
 		itemID,
+		specID or "",
+		difficulty,
 		1,
-		BonusIDInfo.GetItemBonusIDByDiff(itemID, difficultyID) or 0
+		difficultyBonusID[1]
 	)
 end
-
-function AtlasLoot_ItemTest(...)
-	print(C_Item.GetItemInfo(ItemString.AddBonus(160678, { ... })))
-end
-
--- [1]="",
--- [2]="",
--- [3]="120",
--- [4]="256",
--- [5]="",
--- [6]="5",
--- [7]="4",
--- [8]={
---   [1]="5125", - Aussehn
---   [2]="4802", - Sockel
---   [3]="1552", - ItemLvl + 80
---   [4]="4784" - Epic, Titanforged
--- }
-
-function AltasLoot_PrintItemString(slot)
-	local itemString = GetInventoryItemLink("player", slot or INVSLOT_FEET) or ""
-	local _, itemID, enchantID, gemID1, gemID2, gemID3, gemID4,
-	suffixID, uniqueID, linkLevel, specializationID, upgradeTypeID, instanceDifficultyID, numBonusIDs = strsplit(":", itemString)
-	local tempString, unknown1, unknown2, unknown3 = strmatch(itemString, "item:[-%d]-:[-%d]-:[-%d]-:[-%d]-:[-%d]-:[-%d]-:[-%d]-:[-%d]-:[-%d]-:[-%d]-:[-%d]-:[-%d]-:[-%d]-:([-:%d]+):([-%d]-):([-%d]-):([-%d]-)|")
-	local bonusIDs, upgradeValue
-	if upgradeTypeID and upgradeTypeID ~= "" then
-		upgradeValue = tempString:match("[-:%d]+:([-%d]+)")
-		bonusIDs = { strsplit(":", tempString:match("([-:%d]+):")) }
-	else
-		bonusIDs = { strsplit(":", tempString) }
-	end
-	return suffixID, uniqueID, linkLevel, specializationID, upgradeTypeID, instanceDifficultyID, numBonusIDs, bonusIDs
-end
-
--- /run print(AtlasLoot.ItemString.AddBonusByDifficultyID(140914, 16))
--- /run print(GetItemInfo(AtlasLoot.ItemString.AddBonusByDifficultyID(140914, 16)))

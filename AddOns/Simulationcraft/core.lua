@@ -31,6 +31,8 @@ LibDBIcon = LibStub("LibDBIcon-1.0")
 
 local SimcFrame = nil
 local OptionsDB = nil
+local SpellCache = {}
+local SpellCacheLoaded = false
 
 local OFFSET_ITEM_ID = 1
 local OFFSET_ENCHANT_ID = 2
@@ -187,10 +189,14 @@ local function GetItemSplit(itemLink)
   return itemSplit
 end
 
+local function Trim(str)
+  return string.match(str, '^%s*(.-)%s*$')
+end
+
 local function GetItemName(itemLink)
   local name = string.match(itemLink, '|h%[(.*)%]|')
   local removeIcons = gsub(name, '|%a.+|%a', '')
-  local trimmed = string.match(removeIcons, '^%s*(.*)%s*$')
+  local trimmed = Trim(removeIcons)
   -- check for empty string or only spaces
   if string.match(trimmed, '^%s*$') then
     return nil
@@ -430,6 +436,7 @@ local function GetItemStringFromItemLink(slotNum, itemLink, debugOutput)
   local simcItemOptions = {}
   local gems = {}
   local gemBonuses = {}
+  local debugLines = {}
 
   -- Item id
   local itemId = itemSplit[OFFSET_ITEM_ID]
@@ -516,10 +523,26 @@ local function GetItemStringFromItemLink(slotNum, itemLink, debugOutput)
     simcItemOptions[#simcItemOptions + 1] = 'crafting_quality=' .. craftingQuality
   end
 
+  -- 11.1.7 Belt
+  if itemId == 242664 or itemId == 245964 or itemId == 245965 or itemId == 245966 then
+    local titanDiscId, tooltipStrings = Simulationcraft:GetTitanDiscBeltSpell()
+    if titanDiscId then
+      simcItemOptions[#simcItemOptions + 1] = 'titan_disc_id=' .. titanDiscId
+    end
+    debugLines[#debugLines + 1] = 'Spell Descriptions:'
+    for i = 1, #tooltipStrings do
+      debugLines[#debugLines + 1] = tooltipStrings[i]
+    end
+  end
+
   local itemStr = ''
   itemStr = itemStr .. (simcSlotNames[slotNum] or 'unknown') .. "=" .. table.concat(simcItemOptions, ',')
   if debugOutput then
-    itemStr = itemStr .. '\n# ' .. gsub(itemLink, "\124", "\124\124") .. '\n'
+    debugLines[#debugLines + 1] = gsub(itemLink, "\124", "\124\124")
+    for line = 1, #debugLines do
+      itemStr = itemStr .. '\n# ' .. debugLines[line]
+    end
+    itemStr = itemStr .. '\n'
   end
 
   return itemStr
@@ -669,6 +692,60 @@ function Simulationcraft:GetItemUpgradeAchievements()
     end
   end
   return table.concat(achieves, '/')
+end
+
+local function LoadSpellsAsync(callback)
+  local spellIds = Simulationcraft.preloadSpellIds
+
+  -- Build up the SpellCache asynchronously
+  local numLoaded = 0
+  function onLoad()
+    numLoaded = numLoaded + 1
+
+    if numLoaded == #spellIds then
+      SpellCacheLoaded = true
+      if callback then
+        callback(SpellCache)
+      end
+    end
+  end
+
+  for index=1, #spellIds do
+    local spellId = spellIds[index]
+    local spell = Spell:CreateFromSpellID(spellId)
+    if not spell:IsSpellEmpty() then
+      spell:ContinueOnSpellLoad(function()
+        -- It's possible that in some cases, ContinueOnSpellLoad may not fire. If that happens,
+        -- will need to look into ContinueWithCancelOnSpellLoad which can apparently be used with
+        -- timeouts
+        SpellCache[spellId] = spell
+        onLoad()
+      end)
+    else
+      onLoad()
+    end
+  end
+end
+
+-- This requires the SpellCache with the right spell IDs to be loaded
+function Simulationcraft:GetTitanDiscBeltSpell()
+  local activeSpell = nil
+  local debugTooltipStrings = {}
+  local beltDescription = Trim(SpellCache[Simulationcraft.discBeltSpell]:GetSpellDescription())
+  debugTooltipStrings[#debugTooltipStrings + 1] = beltDescription
+  if not beltDescription then
+    error('Unable to get spell description for DISC Belt spell')
+  end
+  for k, v in pairs(Simulationcraft.discBeltEffectSpells) do
+    local effectDesc = Trim(SpellCache[k]:GetSpellDescription())
+    debugTooltipStrings[#debugTooltipStrings + 1] = effectDesc
+    -- disable pattern matching with the last argument
+    if beltDescription:find(effectDesc, 1, true) then
+      activeSpell = v
+    end
+  end
+
+  return activeSpell, debugTooltipStrings
 end
 
 function Simulationcraft:GetMainFrame(text)
@@ -909,8 +986,7 @@ function Simulationcraft:GetSimcProfile(debugOutput, noBags, showMerchant, links
     "# " .. playerName .. ' - ' .. playerSpec
     .. ' - ' .. date('%Y-%m-%d %H:%M') .. ' - '
     .. playerRegion .. '/' .. playerRealm
- )
-
+  )
 
   -- Construct SimC-compatible strings from the basic information
   local player = Tokenize(playerClass) .. '="' .. playerName .. '"'
@@ -1127,8 +1203,10 @@ end
 
 -- This is the workhorse function that constructs the profile
 function Simulationcraft:PrintSimcProfile(debugOutput, noBags, showMerchant, links)
-  local simulationcraftProfile, simcPrintError = Simulationcraft:GetSimcProfile(debugOutput, noBags, showMerchant, links)
+  LoadSpellsAsync(function()
+    simulationcraftProfile, simcPrintError = Simulationcraft:GetSimcProfile(debugOutput, noBags, showMerchant, links)
 
-  local f = Simulationcraft:GetMainFrame(simcPrintError or simulationcraftProfile)
-  f:Show()
+    local f = Simulationcraft:GetMainFrame(simcPrintError or simulationcraftProfile)
+    f:Show()
+  end)
 end

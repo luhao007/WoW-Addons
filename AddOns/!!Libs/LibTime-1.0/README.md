@@ -1,5 +1,5 @@
 # LibTime-1.0 (WoW AddOn Library)
-![Build](https://github.com/HizurosWoWAddOns/LibTime-1.0/actions/workflows/bigwigsmods-packager.yml/badge.svg)
+![Build](https://img.shields.io/github/actions/workflow/status/HizurosWoWAddOns/LibTime-1.0/packager.yml?style=flat-square)
 ![Tag](https://img.shields.io/github/v/tag/HizurosWoWAddOns/LibTime-1.0?style=flat-square)
 ![Downloads](https://img.shields.io/github/downloads/HizurosWoWAddOns/LibTime-1.0/total?style=flat-square)
 ![Downloads](https://img.shields.io/github/downloads/HizurosWoWAddOns/LibTime-1.0/latest/total?style=flat-square)

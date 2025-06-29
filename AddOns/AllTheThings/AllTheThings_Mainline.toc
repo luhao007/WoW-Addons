@@ -1,6 +1,6 @@
-## Interface: 110105
+## Interface: 110107
 ## Author: Crieve
-## Version: 4.4.2
+## Version: 4.5.3
 
 ## Title: AllTheThings
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF收集控助手|r |cFFFFE00AAllTheThings|r
@@ -15,7 +15,7 @@
 ## SavedVariables: ATTCharacterData, ATTAccountWideData, AllTheThingsSavedVariables, AllTheThingsSettings, AllTheThingsAD, AllTheThingsProfiles, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsArtifactsItems, AllTheThingsHarvestItems
 ## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter
 
-## X-Interface: 110105, 110100
+## X-Interface: 110107, 110200
 ## X-Wago-ID: yQKyY5K7
 ## X-Curse-Project-ID: 267285
 
@@ -67,7 +67,7 @@ src\Cache.lua
 # Helper Modules
 #src\Modules\Analyzers.lua
 src\Modules\RetrievingData.lua
-#src\Modules\Catalyst.lua
+src\Modules\Catalyst.lua
 src\Modules\Collection.lua
 src\Modules\CustomCollect.lua
 src\Modules\ExtraCategories.lua
@@ -92,15 +92,18 @@ db\Retail\LocalizationDB.lua
 
 # Load object class templates
 src\Classes\base.lua
+src\Classes\Achievement Categories.lua
+src\Classes\Achievement Data.lua
 src\Classes\Achievement.lua
-src\Classes\BattlePet.lua
 src\Classes\CharacterClass.lua
 src\Classes\Currency.lua
 src\Classes\Difficulty.lua
 src\Classes\Factions.lua
+src\Classes\Guild Achievements.lua
 src\Classes\Quests.lua
 src\Classes\Item.Retail.lua
 # src\Classes\Item.Classic.lua
+src\Classes\BattlePet.lua
 src\Classes\Encounter.lua
 src\Classes\Expansion.lua
 src\Classes\FlightPath.lua

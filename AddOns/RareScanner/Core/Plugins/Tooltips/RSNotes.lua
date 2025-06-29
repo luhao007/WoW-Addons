@@ -31,12 +31,18 @@ function RSNotes.GetNote(entityID, mapID, minieventID)
 		return string.format(AL["NOTE_ANIMA_CONDUCTOR"], AL["NOTE_NECROLORDS"], AL["NOTE_HOUSE_CONSTRICTS"], AL[string.format("NOTE_%s", entityID)])
 	elseif (RSUtils.Contains(RSConstants.THEATER_PAIN_NPCS, entityID)) then
 		return string.format(AL["NOTE_ANIMA_CONDUCTOR"], AL["NOTE_NECROLORDS"], AL["NOTE_THEATER_PAIN"], AL["NOTE_THEATER_PAIN_NPCS"])
+	elseif (entityID == RSConstants.CHOSEN_RUNECOFFER) then
+		return string.format(AL["NOTE_ANIMA_CONDUCTOR"], AL["NOTE_NECROLORDS"], AL["NOTE_HOUSE_CHOSEN"], AL[string.format("NOTE_%s", entityID)])
 	elseif (entityID == RSConstants.FORGEMASTER_MADALAV) then
 		return string.format(AL["NOTE_ANIMA_CONDUCTOR"], AL["NOTE_VENTHYR"], AL["NOTE_DOMINANCE_KEEP"], AL[string.format("NOTE_%s", entityID)])
 	elseif (entityID == RSConstants.HARIKA_HORRID) then
 		return string.format(AL["NOTE_ANIMA_CONDUCTOR"], AL["NOTE_VENTHYR"], AL["NOTE_WANECRYPT_HILL"], AL[string.format("NOTE_%s", entityID)])
+	elseif (entityID == RSConstants.GREEDS_DESIRE) then
+		return string.format(AL["NOTE_ANIMA_CONDUCTOR"], AL["NOTE_VENTHYR"], AL["NOTE_CRYPT_FORGOTTEN"], AL[string.format("NOTE_%s", entityID)])
 	elseif (entityID == RSConstants.VALFIR_UNRELENTING) then
 		return string.format(AL["NOTE_ANIMA_CONDUCTOR"], AL["NOTE_NIGHT_FAE"], AL["NOTE_TIRNA_SCITHE"], AL[string.format("NOTE_%s", entityID)])
+	elseif (entityID == RSConstants.LARGE_LUNARLIGHT_POD) then
+		return string.format(AL["NOTE_ANIMA_CONDUCTOR"], AL["NOTE_NIGHT_FAE"], AL["NOTE_GLITTERFALL_BASIN"], AL[string.format("NOTE_%s", entityID)])
 	
 	-- Individual note by entityID
 	elseif (AL[string.format("NOTE_%s", entityID)] ~= string.format("NOTE_%s", entityID)) then
@@ -118,6 +124,9 @@ function RSNotes.GetNote(entityID, mapID, minieventID)
 	-- Requires Storm's Brewin quest
 	elseif (RSUtils.Contains(RSConstants.STORMS_BREWIN_NPCS, entityID)) then
 		return AL["NOTE_STORMS_BREWIN_NPCS"]
+	-- Requires Suspicious Document
+	elseif (RSUtils.Contains(RSConstants.FLAMES_RADIANCE_INCURSION_NPCS, entityID)) then
+		return AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS"]
 	end
 	
 	-- Rune of constructs Containers

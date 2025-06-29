@@ -62,16 +62,16 @@ Create.add_extLsitAboutFrame("About",fuFrame,YY)
 
 --Update===============================
 local Ver_biaotou="!Pig_VER";
-Pig_OptionsUI.Ver_biaotou=Ver_biaotou
+PIG_OptionsUI.Ver_biaotou=Ver_biaotou
 C_ChatInfo.RegisterAddonMessagePrefix(Ver_biaotou)
 ---
 local player_Width,player_Height,topv,player_jiangeH=440,20,24,2;
 local duiwu_Width,duiwu_Height,duiwu_jiangeW,duiwu_jiangeH=player_Width,player_Height*5+player_jiangeH*4,10,10;
 
-local PIG_Version=PIGFrame(UIParent,{"CENTER",UIParent,"CENTER",0,0},{(duiwu_Width+duiwu_jiangeW)*2+duiwu_jiangeW,(duiwu_Height+duiwu_jiangeH)*4+topv+20},"PIG_Version_UI",true)
+local PIG_Version=PIGFrame(UIParent,{"CENTER",UIParent,"CENTER",0,0},{(duiwu_Width+duiwu_jiangeW)*2+duiwu_jiangeW,(duiwu_Height+duiwu_jiangeH)*4+topv+20},"PIG_VersionUI",true)
 PIG_Version:PIGSetBackdrop()
 PIG_Version:PIGClose()
-PIG_Version:PIGSetMovable()
+PIG_Version:PIGSetMovableNoSave()
 PIG_Version.title = PIGFontString(PIG_Version,{"TOP", PIG_Version, "TOP", 0, -4},GAME_VERSION_LABEL..INFO)
 PIGLine(PIG_Version,"TOP",-topv)
 local addonsdata=L["PIG_ADDON_LIST"]
@@ -206,7 +206,7 @@ fuFrame.OpenVerFBut:SetScript("OnClick", function ()
 	if PIG_Version:IsShown() then
 		PIG_Version:Hide()
 	else
-		Pig_OptionsUI:Hide()
+		PIG_OptionsUI:Hide()
 		PIG_Version:Show()
 	end
 end)
@@ -214,7 +214,7 @@ end)
 fuFrame.GETVER = PIGButton(fuFrame,{"LEFT",fuFrame.OpenVerFBut,"RIGHT",10,0},{50,20},"重置")
 fuFrame.GETVER:SetScript("OnClick", function ()
 	PIGA["Ver"]={}
-	Pig_Options_RLtishi_UI:Show()
+	PIG_OptionsUI.RLUI:Show()
 end);
 -----
 local reverse=string.reverse
@@ -224,7 +224,7 @@ local function quchuerweizhidian(text)--"6.3.8"--"6.38"
 	local text =text:reverse()
 	return text
 end
-local function GetExtVer(uifff,EXTName,EXTlocalV, arg1, arg2, arg3, arg4, arg5)
+local function GetExtVerInfo(uifff,EXTName,EXTlocalV, arg1, arg2, arg3, arg4, arg5)
 	if arg1 ~= Ver_biaotou then return end
 	local getName, getype, getVer = strsplit("#", arg2);
 	--print(EXTName,EXTlocalV, arg1, arg2, arg3, arg4, arg5)
@@ -254,8 +254,8 @@ local function GetExtVer(uifff,EXTName,EXTlocalV, arg1, arg2, arg3, arg4, arg5)
 		else
 			if getName~=EXTName then return end
 			if getype=="U" then--回复更新请求/不是自己
-				if arg4==Pig_OptionsUI.AllName then return end
-				if arg5==Pig_OptionsUI.Name then return end
+				if arg4==PIG_OptionsUI.AllName then return end
+				if arg5==PIG_OptionsUI.Name then return end
 				if getVer<EXTlocalV then--小于自己版本
 					PIGSendAddonMessage(Ver_biaotou,EXTName.."#D#"..EXTlocalV,"WHISPER",arg4)
 				end
@@ -263,7 +263,7 @@ local function GetExtVer(uifff,EXTName,EXTlocalV, arg1, arg2, arg3, arg4, arg5)
 		end
 	end
 end
-local function SendMessage(fsMsg)
+local function SendExtVerInfo(fsMsg)
 	if tocversion<100000 then
 		PIGSendAddonMessage(Ver_biaotou,fsMsg,"YELL")
 	else
@@ -281,22 +281,22 @@ local function SendMessage(fsMsg)
 		if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then PIGSendAddonMessage(Ver_biaotou,fsMsg,"INSTANCE_CHAT") end
 	end
 end
-Pig_OptionsUI.GetExtVer=GetExtVer
-Pig_OptionsUI.SendMessage=SendMessage
+PIG_OptionsUI.GetExtVerInfo=GetExtVerInfo
+PIG_OptionsUI.SendExtVerInfo=SendExtVerInfo
 ---
 fuFrame:RegisterEvent("CHAT_MSG_ADDON"); 
 fuFrame:RegisterEvent("PLAYER_LOGIN");            
 fuFrame:SetScript("OnEvent",function(self, event, arg1, arg2, arg3, arg4, arg5)
 	if event=="CHAT_MSG_ADDON" then
-		GetExtVer(self,addonName,Pig_OptionsUI.VersionID, arg1, arg2, arg3, arg4, arg5)
+		GetExtVerInfo(self,addonName,PIG_OptionsUI:GetVer_NUM(addonName), arg1, arg2, arg3, arg4, arg5)
 	elseif event=="PLAYER_LOGIN" then
-		Fun.fasong_is_slist(SendMessage)
+		Fun.fasong_is_slist(SendExtVerInfo)
 		PIGA["Ver"][addonName]=PIGA["Ver"][addonName] or 0
-		if PIGA["Ver"][addonName]>Pig_OptionsUI.VersionID then
+		if PIGA["Ver"][addonName]>PIG_OptionsUI:GetVer_NUM(addonName) then
 			self.yiGenxing=true;
 			PIG_print(L["ABOUT_UPDATETIPS"],"R")
 		else
-			SendMessage(addonName.."#U#"..Pig_OptionsUI.VersionID)
+			SendExtVerInfo(addonName.."#U#"..PIG_OptionsUI:GetVer_NUM(addonName))
 		end
 	end
 end)

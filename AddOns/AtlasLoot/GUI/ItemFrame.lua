@@ -42,9 +42,9 @@ function ItemFrame:Create()
 		frame.ItemButtons[i]:ClearAllPoints()
 		frame.ItemButtons[i]:SetParent(frame)
 		if i == 1 then
-			frame.ItemButtons[i]:SetPoint("TOPLEFT", frame, "TOPLEFT", 5)
+			frame.ItemButtons[i]:SetPoint("TOPLEFT", frame, "TOPLEFT", 4, 0)
 		elseif i == 16 then
-			frame.ItemButtons[i]:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, 0)
+			frame.ItemButtons[i]:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -4, 0)
 		else
 			frame.ItemButtons[i]:SetPoint("TOPLEFT", frame.ItemButtons[i - 1], "BOTTOMLEFT", 0, -2)
 		end

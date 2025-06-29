@@ -28,8 +28,7 @@ local db
 -- //\\
 local SVF_FRAME_NAME = "AtlasLoot-SetViewFrame"
 local SVF_FRAME_WIDTH = 800
-local SVF_FRAME_HEIGHT = 400
-local BACKDROP_DATA = { bgFile = "Interface/Tooltips/UI-Tooltip-Background" }
+local SVF_FRAME_HEIGHT = 450
 
 local MODEL_FRAME_WIDTH = 220
 local MODEL_FRAME_HEIGHT = 300
@@ -188,8 +187,6 @@ local function GetNextItemFrame()
 		frame = CreateFrame("Frame", nil, nil, BackdropTemplateMixin and "BackdropTemplate" or nil)
 		frame:SetParent(SVF.frame.containerFrame)
 		frame:SetWidth(CONTAINER_FRAME_WIDTH - 10)
-		--frame:SetBackdrop(BACKDROP_DATA)
-		--frame:SetBackdropColor(0,1,0,1)
 		AtlasLoot.Button:CreateSecOnly(frame)
 		frame.itemButton = frame.secButton
 		frame.itemButton:ClearAllPoints()
@@ -573,12 +570,11 @@ end
 
 function SVF:Create()
 	if self.frame then return end
-	local frame = CreateFrame("Frame", SVF_FRAME_NAME, nil, BackdropTemplateMixin and "BackdropTemplate" or nil)
+	local frame = CreateFrame("Frame", SVF_FRAME_NAME, nil, "DefaultPanelTemplate")
+	frame.CloseButton = CreateFrame("Button", nil, frame, "UIPanelCloseButtonDefaultAnchors")
 	self.frame = frame
 	frame:SetParent(UIParent)
 	frame:SetSize(SVF_FRAME_WIDTH, SVF_FRAME_HEIGHT)
-	frame:SetBackdrop({ bgFile = "Interface/Tooltips/UI-Tooltip-Background" })
-	--frame:SetBackdropColor(0,0,0,1)
 	frame:SetPoint(db.point[1], db.point[2], db.point[3], db.point[4], db.point[5])
 	frame:SetToplevel(true)
 	frame:SetClampedToScreen(true)
@@ -588,34 +584,20 @@ function SVF:Create()
 	frame:RegisterForDrag("LeftButton", "RightButton")
 	frame:SetScript("OnMouseDown", FrameOnDragStart)
 	frame:SetScript("OnMouseUp", FrameOnDragStop)
-	--frame:SetScript("OnEvent", FrameOnEvent)
-	--frame:SetScript("OnShow", FrameOnShow)
-	--frame:SetScript("OnHide", FrameOnHide)
-	--frame:RegisterEvent("PLAYER_LOOT_SPEC_UPDATED")
 	tinsert(UISpecialFrames, SVF_FRAME_NAME)
 
-	frame.closeButton = CreateFrame("Button", SVF_FRAME_NAME.."-CloseButton", frame, "UIPanelCloseButton")
-	frame.closeButton:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 3, 4)
-
-	frame.title = GetTextFrameWithBackground(frame, 0, 0, { r = 0, g = 0.86, b = 1 }, { r = 1, g = 1, b = 1 })
-	frame.title:SetPoint("TOPLEFT", frame, 5, -5)
-	frame.title:SetPoint("BOTTOMRIGHT", frame, "TOPRIGHT", -28, -20)
-	frame.title.text:SetText(AL["AtlasLoot Set View"])
+	frame:SetTitle(AL["AtlasLoot Set View"])
 
 	frame.modelFrame = GUI.CreateModelFrame(true, SVF_FRAME_NAME.."-ModelFrame", frame)
 	frame.modelFrame:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -5, -25)
 	frame.modelFrame:SetSize(MODEL_FRAME_WIDTH, MODEL_FRAME_HEIGHT)
-	--frame.modelFrame:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background"})
 
-	frame.containerFrame = CreateFrame("Frame", SVF_FRAME_NAME.."-ContainerFrame", nil, BackdropTemplateMixin and "BackdropTemplate" or nil)
+	frame.containerFrame = CreateFrame("Frame", SVF_FRAME_NAME.."-ContainerFrame", nil, "InsetFrameTemplate")
 	frame.containerFrame:ClearAllPoints()
 	frame.containerFrame:SetParent(frame)
-	frame.containerFrame:SetPoint("TOPLEFT", frame.title, "BOTTOMLEFT", 0, -5)
+	frame.containerFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 8, -22)
 	frame.containerFrame:SetPoint("TOPRIGHT", frame.modelFrame, "TOPLEFT", -5, 0)
 	frame.containerFrame:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 5, 5)
-	--frame.containerFrame:SetHeight(200)
-	--frame.containerFrame:SetBackdrop(BACKDROP_DATA)
-	--frame.containerFrame:SetBackdropColor(0,0.86,1,1)
 	frame.containerFrame.content = {}
 
 	CONTAINER_FRAME_WIDTH = frame.containerFrame:GetWidth()
@@ -624,7 +606,7 @@ function SVF:Create()
 	frame.containerFrame.topFrame = CreateFrame("Frame", SVF_FRAME_NAME.."-ContainerFrame-TopFrame")
 	frame.containerFrame.topFrame:ClearAllPoints()
 	frame.containerFrame.topFrame:SetParent(frame.containerFrame)
-	frame.containerFrame.topFrame:SetPoint("TOPLEFT", frame.containerFrame, 5, 0)
+	frame.containerFrame.topFrame:SetPoint("TOPLEFT", frame.containerFrame, 5, -8)
 	frame.containerFrame.topFrame:SetPoint("BOTTOMRIGHT", frame.containerFrame, "TOPRIGHT", -5, -20)
 
 	CreatePrevNextFrames(frame.containerFrame.topFrame)
@@ -648,8 +630,6 @@ function SVF:Create()
 	frame.containerFrame.subTopFrame:SetParent(frame.containerFrame)
 	frame.containerFrame.subTopFrame:SetPoint("TOPLEFT", frame.containerFrame.topFrameSec, "BOTTOMLEFT", 0, -2)
 	frame.containerFrame.subTopFrame:SetPoint("BOTTOMRIGHT", frame.containerFrame.topFrameSec, "BOTTOMRIGHT", 0, -20)
-	--frame.containerFrame.subTopFrame:SetBackdrop(BACKDROP_DATA)
-	--frame.containerFrame.subTopFrame:SetBackdropColor(0,0,1,1)
 	frame.containerFrame.subTopFrame.content = {}
 
 	frame.containerFrame.bottomFrame = CreateFrame("Frame", SVF_FRAME_NAME.."-ContainerFrame-BottomFrame", nil, BackdropTemplateMixin and "BackdropTemplate" or nil)
@@ -657,14 +637,11 @@ function SVF:Create()
 	frame.containerFrame.bottomFrame:SetParent(frame.containerFrame)
 	frame.containerFrame.bottomFrame:SetPoint("CENTER")
 	frame.containerFrame.bottomFrame:SetSize(frame.containerFrame.subTopFrame:GetWidth(), frame.containerFrame.subTopFrame:GetHeight())
-	--frame.containerFrame.bottomFrame:SetBackdrop(BACKDROP_DATA)
-	--frame.containerFrame.bottomFrame:SetBackdropColor(1,0,0,1)
 	frame.containerFrame.bottomFrame.content = {}
 
 	CONTAINER_ITEM_PLACE_HEIGHT = frame.containerFrame:GetHeight() - 4 - frame.containerFrame.topFrame:GetHeight() - frame.containerFrame.topFrameSec:GetHeight() - frame.containerFrame.subTopFrame:GetHeight() - frame.containerFrame.bottomFrame:GetHeight()
 
 	SVF.RefreshStyle()
-	--frame:Hide()
 end
 
 function SVF.ResetFrames()
@@ -679,50 +656,7 @@ function SVF.RefreshStyle()
 	if not SVF.frame then return end
 
 	local frame = SVF.frame
-	frame:SetBackdropColor(db.mainFrame.bgColor[1], db.mainFrame.bgColor[2], db.mainFrame.bgColor[3], db.mainFrame.bgColor[4])
-	frame.title:SetBackdropColor(db.mainFrame.title.bgColor[1], db.mainFrame.title.bgColor[2], db.mainFrame.title.bgColor[3], db.mainFrame.title.bgColor[4])
-	frame.title.text:SetTextColor(db.mainFrame.title.textColor[1], db.mainFrame.title.textColor[2], db.mainFrame.title.textColor[3], db.mainFrame.title.textColor[4])
-	frame.title.text:SetFont(LibSharedMedia:Fetch("font", db.mainFrame.title.font), db.mainFrame.title.size)
-	--	frame.modelFrame:SetBackdropColor(db.mainFrame.bgColorModel[1], db.mainFrame.bgColorModel[2], db.mainFrame.bgColorModel[3], db.mainFrame.bgColorModel[4])
 	frame:SetScale(db.mainFrame.scale)
-
-	CONTAINER_ITEM_TEXT_BG_COLOR.r = db.content.bgColor[1]
-	CONTAINER_ITEM_TEXT_BG_COLOR.g = db.content.bgColor[2]
-	CONTAINER_ITEM_TEXT_BG_COLOR.b = db.content.bgColor[3]
-	CONTAINER_ITEM_TEXT_BG_COLOR.a = db.content.bgColor[4]
-
-	CONTAINER_ITEM_TEXT_COLOR.r = db.content.textColor[1]
-	CONTAINER_ITEM_TEXT_COLOR.g = db.content.textColor[2]
-	CONTAINER_ITEM_TEXT_COLOR.b = db.content.textColor[3]
-	CONTAINER_ITEM_TEXT_COLOR.a = db.content.textColor[4]
-	CONTAINER_ITEM_TEXT_COLOR.font = db.content.textFont
-	CONTAINER_ITEM_TEXT_COLOR.fontSize = db.content.textSize
-
-	CONTAINER_TOP_BOTTOM_TEXT_BG_COLOR.r = db.contentTopBottom.bgColor[1]
-	CONTAINER_TOP_BOTTOM_TEXT_BG_COLOR.g = db.contentTopBottom.bgColor[2]
-	CONTAINER_TOP_BOTTOM_TEXT_BG_COLOR.b = db.contentTopBottom.bgColor[3]
-	CONTAINER_TOP_BOTTOM_TEXT_BG_COLOR.a = db.contentTopBottom.bgColor[4]
-
-	CONTAINER_TOP_BOTTOM_TEXT_COLOR.r = db.contentTopBottom.textColor[1]
-	CONTAINER_TOP_BOTTOM_TEXT_COLOR.g = db.contentTopBottom.textColor[2]
-	CONTAINER_TOP_BOTTOM_TEXT_COLOR.b = db.contentTopBottom.textColor[3]
-	CONTAINER_TOP_BOTTOM_TEXT_COLOR.a = db.contentTopBottom.textColor[4]
-	CONTAINER_TOP_BOTTOM_TEXT_COLOR.font = db.contentTopBottom.textFont
-	CONTAINER_TOP_BOTTOM_TEXT_COLOR.fontSize = db.contentTopBottom.textSize
-
-	-- update existing
-	for i = 1, #SVF.frame.containerFrame.content do
-		local frame = SVF.frame.containerFrame.content[i]
-		for j = 1, #frame.content do
-			frame.content[j]:SetColors(frame.content[j].set_bgColor, frame.content[j].set_textColor)
-		end
-	end
-	for i = 1, #SVF.frame.containerFrame.subTopFrame.content do
-		SVF.frame.containerFrame.subTopFrame.content[i]:SetColors(SVF.frame.containerFrame.subTopFrame.content[i].set_bgColor, SVF.frame.containerFrame.subTopFrame.content[i].set_textColor)
-	end
-	for i = 1, #SVF.frame.containerFrame.bottomFrame.content do
-		SVF.frame.containerFrame.bottomFrame.content[i]:SetColors(SVF.frame.containerFrame.bottomFrame.content[i].set_bgColor, SVF.frame.containerFrame.bottomFrame.content[i].set_textColor)
-	end
 end
 
 function SVF:ShowPreviewSet()

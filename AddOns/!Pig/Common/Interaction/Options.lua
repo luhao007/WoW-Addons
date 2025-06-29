@@ -113,7 +113,7 @@ if tocversion>19999 then
 end
 ---------------
 local RightPlusline = PIGLine(fujiF,"TOP",-400)
-fujiF.RightPlus = PIGCheckbutton(fujiF,{"TOPLEFT",RightPlusline,"TOPLEFT",20,-18},{KEY_BUTTON2.."增强","增强交互时"..KEY_BUTTON2.."功能，例如点击聊天栏玩家名/查询页玩家名"})
+fujiF.RightPlus = PIGCheckbutton(fujiF,{"TOPLEFT",RightPlusline,"TOPLEFT",20,-18},{KEY_BUTTON2.."增强","增强交互时"..KEY_BUTTON2.."功能，例如点击聊天栏玩家名/查询页玩家名\n注意不要用此功能复制的姓名作为/tar目标"})
 fujiF.RightPlus:SetScript("OnClick", function (self)
     if self:GetChecked() then
         PIGA["Interaction"]["RightPlus"]=true;
@@ -121,7 +121,7 @@ fujiF.RightPlus:SetScript("OnClick", function (self)
         fujiF.xiayiSlider:SetValue(PIGA["Interaction"]["xiayijuli"]);
     else
         PIGA["Interaction"]["RightPlus"]=false;
-        Pig_Options_RLtishi_UI:Show()
+        PIG_OptionsUI.RLUI:Show()
     end
 end);
 if not Menu or not Menu.ModifyMenu then

@@ -559,3 +559,17 @@ function RSGeneralDB.SetWorldMapTextFilter(text)
 		private.dbchar.worldMapTextFilter = text
 	end
 end
+
+---============================================================================
+-- Cinematics
+---============================================================================
+
+local isCinematicPlaying = false
+
+function RSGeneralDB.SetCinematicPlaying(value)
+	isCinematicPlaying = value
+end
+
+function RSGeneralDB.GetCinematicPlaying()
+	return isCinematicPlaying
+end

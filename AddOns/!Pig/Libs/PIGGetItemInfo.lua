@@ -9,52 +9,8 @@ local Fun=addonTable.Fun
 
 local GetItemInfo=GetItemInfo or C_Item and C_Item.GetItemInfo
 --------------------
--- local PIGhuoquF
--- local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice
---  -- 如果元素多于 0，则此函数为 1。  它不返回元素的实际数量。  这是为了节省处理时间。
--- local function count(tab)
---     for _ in pairs(tab) do
---         return 1
---     end
---     return 0
--- end
--- local function process(self, item, ...)
---     itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice = ...
---     if itemName then   
---         self.itemQueue[item] = nil-- 从队列中删除项目
---     end
--- end
--- ----
--- local function update(self, e)
---     self.updateTimer = self.updateTimer - e
---     if self.updateTimer <= 0 then
---         for _, item in pairs(self.itemQueue) do
---             process(self, item, GetItemInfo(item))
---         end
---         self.updateTimer = 1
---         -- 如果队列中没有项目，则隐藏 OnUpdate 框架。
---         if count(self.itemQueue) == 0 then
---             self:Hide()
---         end
---     end
--- end
-
---  -- 将请求的项目添加到队列中。
---  -- 如果该项目在本地缓存中，它将立即可用。
---  -- 如果该项目不在本地缓存中，请以一秒为增量等待并重试。
---  -- 调用它来代替 GetItemInfo(item)。
---  -- 此函数不返回任何数据。
--- function PIGGetItemInfo(item)
---     if not PIGhuoquF then
---         PIGhuoquF = CreateFrame("Frame")
---         PIGhuoquF:SetScript("OnUpdate", update)
---         PIGhuoquF.itemQueue = {}
---     end
---     -- 将计时器设置为 0，将项目添加到队列中，并显示 OnUpdate 帧
---     PIGhuoquF.updateTimer = 0
---     PIGhuoquF.itemQueue[item] = item
---     PIGhuoquF:Show()
--- end
+local Tooltip = CreateFrame("GameTooltip", "PIG_TooltipUI", UIParent, "GameTooltipTemplate")
+Tooltip:SetOwner(UIParent, "ANCHOR_NONE")
 -----------------
 local function GetItemLinkJJ(ItemLink)
     local msg = "";
@@ -124,50 +80,47 @@ function Fun.HY_EquipmTXT(msg)
     end
     return Data
 end
-local function HY_ItemLinkInfo(itemlin,txtmsgFun,jishunum)
-    if itemlin then
-        local Linktxt=HY_ItemLinkJJ(itemlin)
-        local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, sellPrice, classID, subclassID=GetItemInfo(Linktxt);
-        if itemLink then
-            if txtmsgFun then
-                txtmsgFun(itemLink)
-            else
-                return itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, sellPrice, classID, subclassID
-            end
-        else
-            jishunum=jishunum or 0
-            if jishunum<5 then
-                C_Timer.After(0.02,function()
-                    jishunum=jishunum+1
-                    HY_ItemLinkInfo(itemlin,txtmsgFun,jishunum)
-                end)
-            else
-                jishunum= 0
-            end
-        end
-    end
-end
-Fun.HY_ItemLinkInfo=HY_ItemLinkInfo
-local function HY_ShowItemLink(But,itemlin,itemID)
+---
+local function HY_ShowItemLink(But,itemID,itemlin,New)
     if But and itemlin then
+        if not New then But.zhixingnum=0 end
         local Linktxt=HY_ItemLinkJJ(itemlin)
         local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, sellPrice, classID, subclassID=GetItemInfo(Linktxt);
         if itemLink then
             if But.itemID==itemID then
-                But:SetFun(itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, sellPrice, classID, subclassID)
+                But:ShowInfoFun(itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, sellPrice, classID, subclassID)
             end
         else
-            But.zhixingnum=But.zhixingnum or 0
-            if But:IsVisible() and But.zhixingnum<5 then
-                C_Timer.After(0.02,function()
-                    But.zhixingnum=But.zhixingnum+1
-                    HY_ShowItemLink(But,itemlin,itemID)
+            if not New then But.zhixingnum=0 end
+            But.zhixingnum=But.zhixingnum+1
+            if But:IsVisible() and But.zhixingnum<10 then
+                C_Timer.After(0.04,function()
+                    HY_ShowItemLink(But,itemID,itemlin,true)
                 end)
             end
         end
     end
 end
 Fun.HY_ShowItemLink=HY_ShowItemLink
+local function PIGShowItemLink(But,itemID,SetFun,New)  
+    if But and itemID and SetFun then  
+        local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, sellPrice, classID, subclassID=GetItemInfo(itemID);
+        if itemLink and itemQuality and itemTexture then
+            if But.itemID==itemID then
+                SetFun(itemLink,itemQuality,itemTexture,itemType,itemSubType,itemEquipLoc,classID, subclassID)
+            end
+        else
+            if not New then But.zhixingnum=0 end
+            But.zhixingnum=But.zhixingnum+1
+            if But:IsVisible() and But.zhixingnum<10 then
+                C_Timer.After(0.04,function()
+                    PIGShowItemLink(But,itemID,SetFun,true)
+                end)
+            end
+        end
+    end
+end
+Fun.PIGShowItemLink=PIGShowItemLink
 ---60级探索符文
 local pig_yasuo_2 = {
     [10]="_",[11]="=",[12]="(",[13]=")",[14]="[",[15]="]",[16]="{",[17]="}",

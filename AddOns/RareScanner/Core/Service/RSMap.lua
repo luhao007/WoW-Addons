@@ -118,26 +118,26 @@ local function GetMapDragonGlyphsPOIs(mapID)
 	end
 end
 
-local function GetMapNotDiscoveredPOIs(mapID, questTitles, vignetteGUIDs, onWorldMap, onMiniMap)
+local function GetMapNotDiscoveredPOIs(mapID, questTitles, vignetteGUIDs, areaPOIs, onWorldMap, onMiniMap)
 	-- Skip if not showing 'not discovered' icons in old expansions
 	if (not RSConfigDB.IsShowingOldNotDiscoveredMapIcons() and not RSMapDB.IsMapInCurrentExpansion(mapID)) then
 		return
 	end
 
 	-- Add icons
-	local notDiscoveredNpcPOIs = RSNpcPOI.GetMapNotDiscoveredNpcPOIs(mapID, questTitles, vignetteGUIDs, onWorldMap, onMiniMap)
+	local notDiscoveredNpcPOIs = RSNpcPOI.GetMapNotDiscoveredNpcPOIs(mapID, questTitles, vignetteGUIDs, areaPOIs, onWorldMap, onMiniMap)
 	if (RSUtils.GetTableLength(notDiscoveredNpcPOIs) > 0) then
 		for _, POI in ipairs (notDiscoveredNpcPOIs) do
 			tinsert(MapPOIs,POI)
 		end
 	end
-	local notDiscoveredContainerPOIs = RSContainerPOI.GetMapNotDiscoveredContainerPOIs(mapID, vignetteGUIDs, onWorldMap, onMiniMap)
+	local notDiscoveredContainerPOIs = RSContainerPOI.GetMapNotDiscoveredContainerPOIs(mapID, vignetteGUIDs, areaPOIs, onWorldMap, onMiniMap)
 	if (RSUtils.GetTableLength(notDiscoveredContainerPOIs) > 0) then
 		for _, POI in ipairs (notDiscoveredContainerPOIs) do
 			tinsert(MapPOIs,POI)
 		end
 	end
-	local notDiscoveredEventPOIs = RSEventPOI.GetMapNotDiscoveredEventPOIs(mapID, vignetteGUIDs, onWorldMap, onMiniMap)
+	local notDiscoveredEventPOIs = RSEventPOI.GetMapNotDiscoveredEventPOIs(mapID, vignetteGUIDs, areaPOIs, onWorldMap, onMiniMap)
 	if (RSUtils.GetTableLength(notDiscoveredEventPOIs) > 0) then
 		for _, POI in ipairs (notDiscoveredEventPOIs) do
 			tinsert(MapPOIs,POI)
@@ -168,17 +168,20 @@ function RSMap.GetMapPOIs(mapID, onWorldMap, onMiniMap)
 
 	-- Extract ingame vignettes
 	local vignetteGUIDs = C_VignetteInfo.GetVignettes();
+	
+	-- Extract ingame area POIs
+	local areaPOIs = GetAreaPOIsForPlayerByMapIDCached(mapID);
 
 	-- Extract POIs from already found entities
 	for entityID, entityInfo in pairs (RSGeneralDB.GetAlreadyFoundEntities()) do
 		-- Extract POI from already found NPC
 		local POI = nil
 		if (RSConstants.IsNpcAtlas(entityInfo.atlasName)) then
-			POI = RSNpcPOI.GetMapAlreadyFoundNpcPOI(entityID, entityInfo, mapID, questTitles, vignetteGUIDs, onWorldMap, onMiniMap)
+			POI = RSNpcPOI.GetMapAlreadyFoundNpcPOI(entityID, entityInfo, mapID, questTitles, vignetteGUIDs, areaPOIs, onWorldMap, onMiniMap)
 		elseif (RSConstants.IsContainerAtlas(entityInfo.atlasName)) then
-			POI = RSContainerPOI.GetMapAlreadyFoundContainerPOI(entityID, entityInfo, mapID, vignetteGUIDs, onWorldMap, onMiniMap)
+			POI = RSContainerPOI.GetMapAlreadyFoundContainerPOI(entityID, entityInfo, mapID, vignetteGUIDs, areaPOIs, onWorldMap, onMiniMap)
 		elseif (RSConstants.IsEventAtlas(entityInfo.atlasName)) then
-			POI = RSEventPOI.GetMapAlreadyFoundEventPOI(entityID, entityInfo, mapID, vignetteGUIDs, onWorldMap, onMiniMap)
+			POI = RSEventPOI.GetMapAlreadyFoundEventPOI(entityID, entityInfo, mapID, vignetteGUIDs, areaPOIs, onWorldMap, onMiniMap)
 		end
 
 		if (POI) then
@@ -202,13 +205,13 @@ function RSMap.GetMapPOIs(mapID, onWorldMap, onMiniMap)
 						local POI = nil
 						if (RSConstants.IsNpcAtlas(info.atlasName)) then
 							RSNpcDB.DeleteNpcKilled(entityID)
-							POI = RSNpcPOI.GetMapAlreadyFoundNpcPOI(entityID, entityInfo, mapID, questTitles, vignetteGUIDs, onWorldMap, onMiniMap)
+							POI = RSNpcPOI.GetMapAlreadyFoundNpcPOI(entityID, entityInfo, mapID, questTitles, vignetteGUIDs, areaPOIs, onWorldMap, onMiniMap)
 						elseif (RSConstants.IsContainerAtlas(info.atlasName)) then
 							RSContainerDB.DeleteContainerOpened(entityID)
-							POI = RSContainerPOI.GetMapAlreadyFoundContainerPOI(entityID, entityInfo, mapID, vignetteGUIDs, onWorldMap, onMiniMap)
+							POI = RSContainerPOI.GetMapAlreadyFoundContainerPOI(entityID, entityInfo, mapID, vignetteGUIDs, areaPOIs, onWorldMap, onMiniMap)
 						elseif (RSConstants.IsEventAtlas(info.atlasName)) then
 							RSEventDB.DeleteEventCompleted(entityID)
-							POI = RSEventPOI.GetMapAlreadyFoundEventPOI(entityID, entityInfo, mapID, vignetteGUIDs, onWorldMap, onMiniMap)
+							POI = RSEventPOI.GetMapAlreadyFoundEventPOI(entityID, entityInfo, mapID, vignetteGUIDs, areaPOIs, onWorldMap, onMiniMap)
 						end
 		
 						if (POI) then						
@@ -232,7 +235,7 @@ function RSMap.GetMapPOIs(mapID, onWorldMap, onMiniMap)
 	end
 
 	-- Extract POIs not discovered
-	GetMapNotDiscoveredPOIs(mapID, questTitles, vignetteGUIDs, onWorldMap, onMiniMap)
+	GetMapNotDiscoveredPOIs(mapID, questTitles, vignetteGUIDs, areaPOIs, onWorldMap, onMiniMap)
 	
 	-- Extract POIs dragon glyphs
 	GetMapDragonGlyphsPOIs(mapID)
@@ -266,7 +269,7 @@ function RSMap.GetWorldMapPOI(objectGUID, vignetteInfo, mapID)
 		if (containerInfo or alreadyFoundInfo) then
 			return RSContainerPOI.GetContainerPOI(containerID, mapID, containerInfo, alreadyFoundInfo)
 		end
-	elseif (vignetteInfo.type == Enum.VignetteType.Torghast 
+	elseif ((vignetteInfo.type == Enum.VignetteType.Torghast and not RSUtils.Contains(RSConstants.EVENTS_WITH_NPC_VIGNETTE, tonumber(vignetteObjectID)))
 		or RSConstants.IsNpcAtlas(vignetteInfo.atlasName) 
 		or (vignetteInfo.atlasName == RSConstants.NPC_VIGNETTE_BOSS and RSUtils.Contains(RSConstants.WORLDBOSSES, tonumber(vignetteObjectID))) 
 		or (RSConstants.IsEventAtlas(vignetteInfo.atlasName) and RSConstants.NPCS_WITH_PRE_EVENT[tonumber(vignetteObjectID)])) then

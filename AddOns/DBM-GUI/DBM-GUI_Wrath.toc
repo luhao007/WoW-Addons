@@ -1,6 +1,6 @@
-## Interface: 110105
+## Interface: 110107
 ## Author: MysticalOS, QartemisT
-## Version: 11.1.17
+## Version: 11.1.20
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Core|r|cffffe00a>|r |cff69ccf0Options GUI|r
 ## Notes: GUI for Deadly Boss Mods

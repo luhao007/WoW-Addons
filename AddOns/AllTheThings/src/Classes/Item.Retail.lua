@@ -13,7 +13,7 @@ local ipairs, pairs, rawset, rawget, tinsert, math_floor, select, tonumber, tost
 	= ipairs, pairs, rawset, rawget, tinsert, math.floor, select, tonumber, tostring, tremove
 local GetNumSpecializations, GetSpecializationInfo, GetSpecializationInfoByID
 	= GetNumSpecializations, GetSpecializationInfo, GetSpecializationInfoByID
-
+local ItemEventListener = ItemEventListener
 
 -- WoW API Cache
 local GetItemInfo = app.WOWAPI.GetItemInfo;
@@ -241,7 +241,7 @@ end
 -- Removes the color and hyperlink text/formatting from the link string
 local function CleanLink(link)
 	if not link then return link end
-	local cleaned = link:lower():gsub("|c[a-z0-9:]+|?h?",""):gsub("|h%[.+","")
+	local cleaned = link:lower():gsub("|c[%xniq:]+|?h?",""):gsub("|h%[.+","")
 	-- :gsub("|cniq[0-9]:[|h]+","")
 	-- :gsub("|r","")
 	-- app.PrintDebug("CleanLink",link,cleaned)
@@ -259,15 +259,13 @@ local CLASS = "Item"
 local KEY = "itemID"
 local cache = app.CreateCache("modItemID");
 -- Consolidated function to cache available Item information
-local function RawSetItemInfoFromLink(t, link)
-	-- app.PrintDebug("RawSetLink:=",link)
-	local name, link, quality, _, _, _, _, _, _, icon, _, _, _, b = GetItemInfo(link);
+local function RawSetItemInfoFromLink(t, rawlink, attemptRefresh)
+	if attemptRefresh then app.DirectGroupRefresh(t, true) end
+	local name, link, quality, _, _, _, _, _, _, icon, _, _, _, b = GetItemInfo(rawlink);
+	-- app.PrintDebug("RawSetLink:=",rawlink,"->",link)
+	local _t, id = cache.GetCached(t)
 	if link then
-		--[[ -- Debug Prints
-		local _t, id = cache.GetCached(t);
-		print("rawset item info",id,link,name,quality,b)
-		--]]
-		local _t = cache.GetCached(t)
+		-- app.PrintDebug("rawset item info",id,link,name,quality,b)
 		_t.name = name;
 		_t.link = link;
 		_t.title = nil
@@ -280,19 +278,41 @@ local function RawSetItemInfoFromLink(t, link)
 			_t.b = b;
 		end
 		return link;
-	elseif t.CanRetry == nil then
-		local _t, id = cache.GetCached(t)
-		local itemName = L.ITEM_NAMES[id] or (t.sourceID and L.SOURCE_NAMES and L.SOURCE_NAMES[t.sourceID])
+	end
+	if not _t.__RawSetItemInfoFromLink then
+		_t.__RawSetItemInfoFromLink = true
+		-- app.PrintDebug("__RawSetItemInfoFromLink.set.fresh",t.hash,t.__RawSetItemInfoFromLink,canretry)
+		-- app.PrintDebug("Item Callback", id)
+		ItemEventListener:AddCallback(math_floor(id), function()
+			-- app.PrintDebug("Item Loaded", id)
+			RawSetItemInfoFromLink(t, rawlink, true)
+		end)
+		return
+	end
+	if _t.NoServerData or not t.CanRetry then
+		if _t.name then
+			return
+		end
+		local itemName = t.baselink or L.ITEM_NAMES[id] or (t.sourceID and L.SOURCE_NAMES and L.SOURCE_NAMES[t.sourceID])
 			or "Item #" .. tostring(id) .. "*";
 		_t.title = L.FAILED_ITEM_INFO;
 		_t.link = nil;
 		_t.sourceID = nil;
 		-- save the "name" field in the source group to prevent further requests to the cache
-		t.name = itemName;
-		-- app.PrintDebug("NoItemInfo",app:SearchLink(t))
-		return nil
+		if _t.NoServerData then
+			_t.name = itemName;
+			-- app.PrintDebug("NoItemInfo",t.hash)
+		end
+		return
 	end
 end
+app.AddEventRegistration("ITEM_DATA_LOAD_RESULT", function(itemID, success)
+	if not success then
+		local _t = cache.GetCachedByID(itemID)
+		-- app.PrintDebug("NoServerData", itemID)
+		_t.NoServerData = true
+	end
+end)
 local function default_link(t)
 	local itemLink = t.rawlink
 	-- item already has a pre-determined itemLink so use that
@@ -315,7 +335,7 @@ local function default_link(t)
 		end
 		-- app.PrintDebug("default_link",itemLink,modID,bonusID)
 		if bonusID then
-			itemLink = ("item:%d:::::::::::%d:1:%d:"):format(itemLink, modID, bonusID);
+			itemLink = ("item:%d:::::::::::%s:1:%d:"):format(itemLink, modID or "", bonusID);
 		elseif modID then
 			-- bonusID 3524 seems to imply "use ModID to determine SourceID" since without it, everything with ModID resolves as the base SourceID from links
 			itemLink = ("item:%d:::::::::::%d:1:3524:"):format(itemLink, modID);
@@ -325,15 +345,9 @@ local function default_link(t)
 		-- save this link so it doesn't need to be built again
 		t.rawlink = itemLink;
 		return RawSetItemInfoFromLink(t, itemLink);
-	-- elseif t.sourceID then
-		-- local sourceID = t.sourceID;
-		-- This is supposed to be an Item but instead is a raw Source... likely doesn't exist
-		-- local link = "|cffff80ff|Htransmogappearance:" .. sourceID .. "|h[Source " .. sourceID .. "]|h|r";
-		-- This is weird...
 	end
-	-- i don't know why this was returning Unknown... bad! default funcs should only return nil or a real value
-	-- return UNKNOWN;
 end
+cache.DefaultFunctions.link = default_link
 local function default_icon(t)
 	return t.itemID and GetItemIcon(t.itemID) or 134400;
 end
@@ -372,6 +386,15 @@ local function default_costCollectibles(t)
 		id = t.itemID;
 		results = GetRawField("itemIDAsCost", id);
 	end
+	-- Spells on Items can also be a Cost for Things
+	local spellID = t.spellID
+	if spellID then
+		local spellResults = GetRawField("spellIDAsCost", spellID)
+		if spellResults and #spellResults > 0 then
+			-- app.PrintDebug("Found spell costs on item",#spellResults,spellID,app:SearchLink(spellResults[1]),app:SearchLink(t))
+			results = app.ArrayAppend({}, results, spellResults)
+		end
+	end
 	if results and #results > 0 then
 		-- not sure we need to copy these into another table
 		-- app.PrintDebug("default_costCollectibles",id,#results,app:SearchLink(t))
@@ -380,31 +403,31 @@ local function default_costCollectibles(t)
 	return app.EmptyTable;
 end
 local itemFields = {
-	["_cache"] = function(t)
+	_cache = function(t)
 		return cache;
 	end,
-	["icon"] = function(t)
+	icon = function(t)
 		return cache.GetCachedField(t, "icon", default_icon);
 	end,
-	["link"] = function(t)
-		return cache.GetCachedField(t, "link", default_link);
+	link = function(t)
+		return cache.GetCachedField(t, "link");
 	end,
-	["name"] = function(t)
+	name = function(t)
 		return cache.GetCachedField(t, "name");
 	end,
-	["specs"] = function(t)
+	specs = function(t)
 		return cache.GetCachedField(t, "specs", default_specs);
 	end,
-	["q"] = function(t)
+	q = function(t)
 		return cache.GetCachedField(t, "q");
 	end,
-	["b"] = function(t)
+	b = function(t)
 		return cache.GetCachedField(t, "b") or 2;
 	end,
-	["title"] = function(t)
+	title = function(t)
 		return cache.GetCachedField(t, "title");
 	end,
-	["tsm"] = function(t)
+	tsm = function(t)
 		local itemLink = t.itemID;
 		if itemLink then
 			local bonusID = t.bonusID;
@@ -417,19 +440,19 @@ local itemFields = {
 			return ("i:%d"):format(itemLink);
 		end
 	end,
-	["modItemID"] = function(t)
+	modItemID = function(t)
 		-- if app.IsReady then app.PrintDebug("item.modItemID?",t.key,t[t.key]) end
 		local modItemID = GetGroupItemIDWithModID(t) or t.itemID;
 		-- if app.IsReady then app.PrintDebug("item.modItemID=",modItemID) end
 		t.modItemID = modItemID;
 		return modItemID;
 	end,
-	["indicatorIcon"] = app.GetQuestIndicator,
-	["costCollectibles"] = function(t)
+	indicatorIcon = app.GetQuestIndicator,
+	costCollectibles = function(t)
 		return cache.GetCachedField(t, "costCollectibles", default_costCollectibles);
 	end,
-	["collectibleAsCost"] = app.CollectibleAsCost,
-	["costsCount"] = function(t)
+	collectibleAsCost = app.CollectibleAsCost,
+	costsCount = function(t)
 		if t.costCollectibles then return #t.costCollectibles; end
 	end,
 	bonuses = function(t)
@@ -471,7 +494,6 @@ local itemFields = {
 	end,
 };
 -- Module imports
-itemFields.nextUpgrade = app.Modules.Upgrade.NextUpgrade;
 itemFields.collectibleAsUpgrade = app.Modules.Upgrade.CollectibleAsUpgrade;
 
 -- This is used for the Grand Commendations unlocking Bonus Reputation
@@ -543,24 +565,27 @@ app.CreateItem = app.CreateClass(CLASS, KEY, itemFields,
 -- Wraps the given Type Object as a Cost Item, allowing altered functionality representing this being a calculable 'cost'
 local CreateCostItem = app.CreateClass("CostItem", KEY, {
 	IsClassIsolated = true,
+	-- import the link field from Item so that loading works properly
+	ImportFrom = "Item",
+	ImportFields = { "link" },
 	-- total is the count of the cost item required
-	["total"] = function(t)
+	total = function(t)
 		return t.count or 1;
 	end,
 	-- progress is how many of the cost item your character has anywhere (bag/bank/reagent bank/warband bank)
-	["progress"] = function(t)
+	progress = function(t)
 		return GetItemCount(t.itemID, true, nil, true, true) or 0;
 	end,
-	["collectible"] = app.ReturnFalse,
+	collectible = app.ReturnFalse,
 	-- show a check when it is has matching quantity in your bags/reagent bank (bank/warband bank don't count at vendors)
-	["saved"] = function(t)
+	saved = function(t)
 		return GetItemCount(t.itemID, nil, nil, true) >= t.total;
 	end,
 	-- hide any irrelevant wrapped fields of a cost item
-	["g"] = app.EmptyFunction,
-	["costCollectibles"] = app.EmptyFunction,
-	["collectibleAsCost"] = app.EmptyFunction,
-	["costsCount"] = app.EmptyFunction,
+	g = app.EmptyFunction,
+	costCollectibles = app.EmptyFunction,
+	collectibleAsCost = app.EmptyFunction,
+	costsCount = app.EmptyFunction,
 })
 app.CreateCostItem = function(t, total)
 	local c = app.WrapObject(CreateCostItem(t[KEY]), t);
@@ -580,6 +605,7 @@ local HarvestedItemDatabase;
 local C_Item_GetItemInventoryTypeByID = C_Item.GetItemInventoryTypeByID;
 ---@class ATTItemHarvesterForRetail: GameTooltip
 local ItemHarvester = CreateFrame("GameTooltip", "ATTItemHarvester", UIParent, "GameTooltipTemplate");
+ItemHarvester.AllTheThingsIgnored = true;
 local CreateItemTooltipHarvester
 local FilterBind = app.Modules.Filter.Filters.Bind
 app.CreateItemHarvester = app.ExtendClass("Item", "ItemHarvester", "itemID", {
@@ -609,16 +635,16 @@ app.CreateItemHarvester = app.ExtendClass("Item", "ItemHarvester", "itemID", {
 				end
 				CreateItemTooltipHarvester(t.itemID, t);
 				local info = {
-					["name"] = itemName,
-					["itemID"] = t.itemID,
-					["equippable"] = itemEquipLoc and itemEquipLoc ~= "" and true or false,
-					["class"] = classID,
-					["subclass"] = subclassID,
-					["inventoryType"] = C_Item_GetItemInventoryTypeByID(t.itemID),
-					["b"] = bindType,
-					["q"] = itemQuality,
-					["iLvl"] = itemLevel,
-					["spellID"] = spellID,
+					name = itemName,
+					itemID = t.itemID,
+					equippable = itemEquipLoc and itemEquipLoc ~= "" and true or false,
+					class = classID,
+					subclass = subclassID,
+					inventoryType = C_Item_GetItemInventoryTypeByID(t.itemID),
+					b = bindType,
+					q = itemQuality,
+					iLvl = itemLevel,
+					spellID = spellID,
 				};
 				if itemMinLevel and itemMinLevel > 0 then
 					info.lvl = itemMinLevel;

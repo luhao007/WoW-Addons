@@ -1,6 +1,6 @@
-## Interface: 110105
+## Interface: 110107
 ## Author: Theck, navv_, seriallos
-## Version: 11.1.5-01
+## Version: 11.2.0
 
 ## Title: Simulationcraft
 ## Notes: Constructs SimC export strings

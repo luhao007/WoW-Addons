@@ -3,17 +3,17 @@
 --     W o w h e a d   L o o t e r     --
 --                                     --
 --                                     --
---    Patch: 11.1.5                    --
+--    Patch: 11.1.7                    --
 --    E-mail: feedback@wowhead.com     --
 --                                     --
 -----------------------------------------
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2025-04-22";
+local WL_ADDON_UPDATED = "2025-06-17";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
-local WL_VERSION = 110105;
+local WL_VERSION = 110107;
 local WL_VERSION_PATCH = 0;
 local WL_ADDONNAME, WL_ADDONTABLE = ...
 
@@ -1170,6 +1170,32 @@ end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
+-- Callback for CHAT_MSG_RAID_BOSS_WHISPER event
+function wlEvent_CHAT_MSG_RAID_BOSS_WHISPER(self, text, name, language, channel, name2)
+
+    -- Track Horrific Vision affixes when we get a affix change message
+    local scenarioIds = {
+        [2950] = true,   -- Vision of Stormwind 11.1.5
+        [2951] = true,   -- Vision of Orgrimmar 11.1.5
+    };
+
+    local info = C_ScenarioInfo.GetScenarioInfo();
+    if (not info or not scenarioIds[info.scenarioID]) then
+        return;
+    end
+
+    -- Look for the currently shown spells from the top center widget
+    if (UIWidgetTopCenterContainerFrame and UIWidgetTopCenterContainerFrame.widgetFrames) then
+        for _,widgetFrame in pairs(UIWidgetTopCenterContainerFrame.widgetFrames) do
+            if (widgetFrame and widgetFrame.Spell and widgetFrame.Spell.spellID) then
+                wlSeenDaily('s' .. widgetFrame.Spell.spellID);
+            end
+        end
+    end
+end
+
+--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
+
 function wlReplaceWord(word)
     if word == GetUnitName("player", false) or word == GetUnitName("player", true) then
         return "<name>";
@@ -1201,7 +1227,7 @@ function wlRegisterUnitQuote(name, how, language, text, name2)
         return;
     end
 
-    wlUpdateVariable(wlUnit, wlNpcInfo[name].id, "quote", how, text, "set", language);
+    wlUpdateVariable(wlUnit, wlNpcInfo[name].id, "quote", how, GetLocale(), text, "set", language);
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
@@ -4778,6 +4804,26 @@ function wlEvent_AreaPOIPinMouseOver(self, mixin, tooltipShown, poiId, poiName)
         return;
     end
 
+    -- UIWidget that uses UIWidgetVisualization 4051 (Overcharged animation)
+    local overchargedWidgetIds = {
+        [7041] = true;
+        [7051] = true;
+        [7052] = true;
+        [7053] = true;
+        [7104] = true;
+        [7105] = true;
+    };
+    local isOverCharged = false;
+    local widgets = C_UIWidgetManager.GetAllWidgetsBySetID(mixin.iconWidgetSet or 0);
+    if widgets then
+        for _,widget in ipairs(widgets) do
+            if overchargedWidgetIds[widget.widgetID] then
+                isOverCharged = true;
+                break;
+            end
+        end
+    end
+
     local origFunc = mixin.AddCustomTooltipData;
 
     mixin.AddCustomTooltipData = function(mixin, tooltip)
@@ -4816,7 +4862,8 @@ function wlEvent_AreaPOIPinMouseOver(self, mixin, tooltipShown, poiId, poiName)
                         end
                         wlPois[uiMapId][poiId] = endTime;
                         wlSeenDaily('p' .. poiId ..  '.' .. uiMapId ..
-                            '.' .. curTime .. '.' .. endTime ..  '.' .. secondsLeft);
+                            '.' .. curTime .. '.' .. endTime ..  '.' .. secondsLeft ..
+                            (isOverCharged and '.overcharged' or ''));
                         break;
                     end
                 end
@@ -5061,6 +5108,7 @@ local wlEvents = {
     CHAT_MSG_MONSTER_WHISPER = wlEvent_CHAT_MSG_MONSTER_WHISPER,
     CHAT_MSG_MONSTER_YELL = wlEvent_CHAT_MSG_MONSTER_YELL,
     CHAT_MSG_MONSTER_EMOTE = wlEvent_CHAT_MSG_MONSTER_EMOTE,
+    CHAT_MSG_RAID_BOSS_WHISPER = wlEvent_CHAT_MSG_RAID_BOSS_WHISPER,
     GOSSIP_SHOW = wlEvent_GOSSIP_SHOW,
     AUCTION_HOUSE_SHOW = wlEvent_AUCTION_HOUSE_SHOW,
     BANKFRAME_OPENED = wlEvent_BANKFRAME_OPENED,

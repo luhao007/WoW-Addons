@@ -15,9 +15,37 @@ Green - 'header' - Titan or plugin
 Highlight - notes. tips. and details
 --]]
 Titan_Global.recent_changes = ""
+.. TitanUtils_GetGoldText("8.2.5 : 2025/05/22\n")
+.. TitanUtils_GetGreenText("Titan : \n")
+.. TitanUtils_GetHighlightText(""
+.. "-  Updates to add timer for drop down menu (was not working in retail and Cata).\n"
+.. "-  Change drop down menu wrappers (Utils) to use Blizz routines over Ace.\n"
+)
+.. TitanUtils_GetGoldText("8.2.4 : 2025/02/03\n")
+.. TitanUtils_GetGreenText("Titan : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- TWW version to 11.1.5.\n"
+.. TitanUtils_GetGreenText("Repair : \n")
+.. "- Updated color code parsing.  Thank you to Centias for finding this for us!\n"
+)
+.. TitanUtils_GetGoldText("8.2.3 : 2025/04/23\n")
+.. TitanUtils_GetGreenText("Titan : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- CE version to 1.15.6.\n"
+.. "- Update TOC to use new Addon category tag.\n"
+.. "- Update Config to use new AddonCompartment (retail only).\n"
+.. TitanUtils_GetGreenText("Location : \n")
+.. "- CE only, remove ShowLocOnMinimap.\n"
+)
+.. TitanUtils_GetGoldText("8.2.2 : 2025/02/05\n")
+.. TitanUtils_GetGreenText("Titan : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- TWW version to 11.1.0.\n"
+)
 .. TitanUtils_GetGoldText("8.2.1 : 2025/02/03\n")
 .. TitanUtils_GetGreenText("Titan : \n")
 .. TitanUtils_GetHighlightText(""
+.. "- CE version to 1.15.6.\n"
 .. "- Gray (disable) Hide if the bar is the only bar.\n"
 )
 .. TitanUtils_GetGreenText("Gold : \n")
@@ -30,24 +58,6 @@ Titan_Global.recent_changes = ""
 .. TitanUtils_GetGreenText("Titan : \n")
 .. TitanUtils_GetHighlightText(""
 .. "- Internal fixes to prevent timing issues for built-in plugins on init - any splash screen .\n"
-)
-.. "\n\n"
-.. TitanUtils_GetGoldText("8.1.7 : 2024/12/22\n")
-.. TitanUtils_GetGreenText("Gold : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Hopefully fix an error on character start ocurring on some systems.\n"
-)
-.. "\n\n"
-.. TitanUtils_GetGoldText("8.1.6 : 2024/12/09\n")
-.. TitanUtils_GetGreenText("Gold : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Warband gold updated properly in tooltip.\n"
-)
-.. TitanUtils_GetGreenText("Titan : \n")
-.. TitanUtils_GetHighlightText(""
-.. "- Update ACE3 libs."
-.. "- Bars - Config Color picker now works; changed in 10.2.5 (Jan 2024).\n"
-.. "- Bars - Config when selecting Skin vs Color the 'other' controls are disabled.\n"
 )
 .. "\n\n"
 

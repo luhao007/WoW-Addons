@@ -96,7 +96,7 @@ function RSEventPOI.GetEventPOI(eventID, mapID, eventInfo, alreadyFoundInfo)
 	return POI
 end
 
-local function IsEventPOIFiltered(eventID, mapID, zoneQuestID, vignetteGUIDs, onWorldMap, onMinimap)
+local function IsEventPOIFiltered(eventID, mapID, zoneQuestID, vignetteGUIDs, areaPOIs, onWorldMap, onMinimap)
 	local name = RSEventDB.GetEventName(eventID) or AL["EVENT"]
 	
 	-- Skip if filtering by name in the world map search box
@@ -157,11 +157,14 @@ local function IsEventPOIFiltered(eventID, mapID, zoneQuestID, vignetteGUIDs, on
 			end
 		end
 	end
+	
+	-- Skip if an ingame area POI is already showing this entity
+	-- They don't exist yet
 
 	return false
 end
 
-function RSEventPOI.GetMapNotDiscoveredEventPOIs(mapID, vignetteGUIDs, onWorldMap, onMinimap)
+function RSEventPOI.GetMapNotDiscoveredEventPOIs(mapID, vignetteGUIDs, areaPOIs, onWorldMap, onMinimap)
 	-- Skip if not showing event icons
 	if (not RSConfigDB.IsShowingEvents()) then
 		return
@@ -191,7 +194,7 @@ function RSEventPOI.GetMapNotDiscoveredEventPOIs(mapID, vignetteGUIDs, onWorldMa
 		end
 
 		-- Skip if common filters
-		if (not filtered and not IsEventPOIFiltered(eventID, mapID, eventInfo.zoneQuestId, vignetteGUIDs, onWorldMap, onMinimap)) then
+		if (not filtered and not IsEventPOIFiltered(eventID, mapID, eventInfo.zoneQuestId, vignetteGUIDs, areaPOIs, onWorldMap, onMinimap)) then
 			tinsert(POIs, RSEventPOI.GetEventPOI(eventID, mapID, eventInfo))
 		end
 	end
@@ -199,7 +202,7 @@ function RSEventPOI.GetMapNotDiscoveredEventPOIs(mapID, vignetteGUIDs, onWorldMa
 	return POIs
 end
 
-function RSEventPOI.GetMapAlreadyFoundEventPOI(eventID, alreadyFoundInfo, mapID, vignetteGUIDs, onWorldMap, onMinimap)
+function RSEventPOI.GetMapAlreadyFoundEventPOI(eventID, alreadyFoundInfo, mapID, vignetteGUIDs, areaPOIs, onWorldMap, onMinimap)
 	-- Skip if not showing events icons
 	if (not RSConfigDB.IsShowingEvents()) then
 		RSLogger:PrintDebugMessageEntityID(eventID, string.format("Saltado Evento [%s]: Iconos de eventos deshabilitado.", eventID))
@@ -236,7 +239,7 @@ function RSEventPOI.GetMapAlreadyFoundEventPOI(eventID, alreadyFoundInfo, mapID,
 		zoneQuestID = eventInfo.zoneQuestId
 	end
 
-	if (not IsEventPOIFiltered(eventID, mapID, zoneQuestID, vignetteGUIDs, onWorldMap, onMinimap)) then
+	if (not IsEventPOIFiltered(eventID, mapID, zoneQuestID, vignetteGUIDs, areaPOIs, onWorldMap, onMinimap)) then
 		return RSEventPOI.GetEventPOI(eventID, mapID, eventInfo, alreadyFoundInfo)
 	end
 end

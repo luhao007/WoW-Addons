@@ -1,6 +1,6 @@
-## Interface: 110105
+## Interface: 110107
 ## Author: nanderson11, Lag, Proteyer, Arith
-## Version: v8.27.0
+## Version: v9.6.0
 
 ## Title: AtlasLoot |cFF0099FF[Wrath of the Lich King]|r
 ## Notes: AtlasLoot loot tables from Wrath of the Lich King

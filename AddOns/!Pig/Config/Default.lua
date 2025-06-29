@@ -2,8 +2,6 @@ local _, addonTable = ...;
 
 addonTable.Default = {
 	["Ver"]={},
-	["Pig_UI"] = {},
-	["Blizzard_UI"] = {},
 	["Error"] = {
 		["ErrorDB"] = {},
 		["ErrorTishi"] = false,
@@ -167,6 +165,7 @@ addonTable.Default = {
 			["Open"] = false,
 			["Keys"]="",
 			["jichengBlack"]=true,
+			["AudioOpen"]=true,
 			["Audio"]=1,
 			["shuchumode"]=1,
 			["ChatWox"]=0,
@@ -270,7 +269,7 @@ addonTable.Default = {
 		["AddonStatus"]={},
 		["UIWidget"] = true,
 		["UIWidgetPointX"]=0;
-		["UIWidgetPointY"]=-70;
+		["UIWidgetPointY"]=-30;
 		["Roll"] = true,
 		["RollScale"] = 1,
 		["Loot"] = true,
@@ -283,8 +282,8 @@ addonTable.Default = {
 		["Skill"] = true,
 		["Skill_QKbut"]=true,
 		["Quest"] = true,
-		["Zhuizong"] = true,
-		["Character_naijiu"] = true,
+		["Tracking"] = true,
+		["Character_Durability"] = true,
 		["Character_ItemLevel"]=true,
 		["Character_ItemColor"]=true,
 		["Character_ItemList"]=true,
@@ -340,13 +339,6 @@ addonTable.Default = {
 			["Scale"]=1,
 			["AutoShow"] = true,
 		},
-		["CombatTime"]={
-			["Open"] = true,
-			["Lock"] = false,
-			["Miaobian"]="OUTLINE",
-			["Beijing"]=1,
-			["Scale"]=1,
-		},
 		["HPMPBar"]={
 			["Open"] = true,
 			["Showshuzhi"]=true,
@@ -397,11 +389,30 @@ addonTable.Default = {
 		["Shaman_Blue"]=true,
 	},
 	["PigLayout"]={
+		["TopBar"]={
+			["Open"] = false,
+			["AnchorPoint"]="TOP",
+			["Height"]=22,
+			["Backdrop"]=1,
+			["Alpha"]=1,
+		},
+		["MicroMenu"]={
+			["Open"] = false,
+			["Scale"]=1,
+			["Interval"]=0,
+			["AnchorPoint"]="TOP",
+			["AnchorPointX"]=0,
+			["AnchorPointY"]=0,
+			["HideBut"]={},
+			["MoveTime"]=true,
+		},
 		["ActionBar"] = {
 			["HideShijiu"] = false,
-			["BarRight"] = false,
 			["Scale"]=false,
 			["ScaleV"]=0.8,
+			["BarRight"] = false,
+			["Layout"] = 1,
+			["LRInterval"]=20,
 		},
 		["ChatUI"] = {
 			["editMove"] = false,
@@ -419,6 +430,7 @@ addonTable.Default = {
 			["BGHide"] = false,
 			["Scale"]=1,
 			["HideBut"]={},
+			["TimerMode"]=1,
 			["daojishiTime"]=10,
 		},
 		["topInfoL"] = {
@@ -436,9 +448,14 @@ addonTable.Default = {
 			["HideBut"]={},
 		},
 	},
+	["Pig_UI"] = {},
+	["Blizzard_UI"] = {},
 };
 addonTable.Default_Per = {
 	["Pig_UI"] = {},
+	["CombatPlus"] = {
+		["PetFoodList"]={},
+	},
 	["AutoSellBuy"] = {
 		["Buy_List"]={},
 		["Save_List"] = {},

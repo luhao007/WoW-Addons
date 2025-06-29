@@ -1,6 +1,6 @@
-## Interface: 110105
+## Interface: 110107
 ## Author: Allara
-## Version: 1.0 (r743-release)
+## Version: 1.0 (r744-release)
 
 ## Title: Rarity
 ## Notes: Tracks rare drops, including companions and mounts

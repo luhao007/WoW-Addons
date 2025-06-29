@@ -18,13 +18,13 @@ local RSUtils = private.ImportLib("RareScannerUtils")
 ---============================================================================
 
 function RSDragonGlyphDB.InitDragonGlyphsCollectedDB()
-	if (not private.dbchar.dragon_glyphs_collected) then
-		private.dbchar.dragon_glyphs_collected = {}
+	if (not private.dbglobal.dragon_glyphs_collected) then
+		private.dbglobal.dragon_glyphs_collected = {}
 	end
 end
 
 function RSDragonGlyphDB.isDragonGlyphCollected(glyphID)
-	if (glyphID and private.dbchar.dragon_glyphs_collected[glyphID]) then
+	if (glyphID and private.dbglobal.dragon_glyphs_collected[glyphID]) then
 		return true;
 	else
 		local _, _, _, completed, _, _, _, _, _, _, _, _, _, _ = GetAchievementInfo(glyphID)
@@ -39,7 +39,7 @@ end
 
 function RSDragonGlyphDB.SetDragonGlyphCollected(glyphID)
 	if (glyphID) then
-		private.dbchar.dragon_glyphs_collected[glyphID] = RSConstants.ETERNAL_COLLECTED
+		private.dbglobal.dragon_glyphs_collected[glyphID] = RSConstants.ETERNAL_COLLECTED
 	end
 end
 

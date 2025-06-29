@@ -11,6 +11,7 @@ local PIGOptionsList=Create.PIGOptionsList
 local PIGFontString=Create.PIGFontString
 local PIGModCheckbutton=Create.PIGModCheckbutton
 local PIGQuickBut=Create.PIGQuickBut
+local Data=addonTable.Data
 ------
 local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
@@ -18,12 +19,13 @@ local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInst
 local BusinessInfo=addonTable.BusinessInfo
 local fuFrame,fuFrameBut = BusinessInfo.fuFrame,BusinessInfo.fuFrameBut
 
-local GnName,GnUI,GnIcon,FrameLevel = CHARACTER_INFO..STATISTICS,"StatsInfo_UI",134149,10
+local GnName,GnUI,GnIcon,FrameLevel = CHARACTER_INFO..STATISTICS,"PIG_StatsInfoUI",134149,10
 BusinessInfo.StatsInfoData={GnName,GnUI,GnIcon,FrameLevel}
 ------------
 function BusinessInfo.StatsInfoOptions()
 	fuFrame.StatsInfo_line = PIGLine(fuFrame,"TOP",-(fuFrame.dangeH*fuFrame.GNNUM))
 	fuFrame.GNNUM=fuFrame.GNNUM+3
+	local QuickButUI=_G[Data.QuickButUIname]
 	local Tooltip = "显示副本CD/专业CD/物品/货币信息/交易/离线拍卖等各种信息记录";
 	fuFrame.StatsInfo = PIGModCheckbutton(fuFrame,{GnName,Tooltip},{"TOPLEFT",fuFrame.StatsInfo_line,"TOPLEFT",20,-30})
 	fuFrame.StatsInfo:SetScript("OnClick", function (self)
@@ -33,7 +35,7 @@ function BusinessInfo.StatsInfoOptions()
 			fuFrame.ADD_lixianBUT()
 		else
 			PIGA["StatsInfo"]["Open"]=false;
-			Pig_Options_RLtishi_UI:Show()
+			PIG_OptionsUI.RLUI:Show()
 		end
 		fuFrame.CheckbutShow()
 		QuickButUI.ButList[8]()
@@ -44,21 +46,21 @@ function BusinessInfo.StatsInfoOptions()
 			QuickButUI.ButList[8]()
 		else
 			PIGA["StatsInfo"]["AddBut"]=false
-			Pig_Options_RLtishi_UI:Show();
+			PIG_OptionsUI.RLUI:Show();
 		end
 	end);
 	local GnTooltip = KEY_BUTTON1.."-|cff00FFFF打开"..GnName.."|r\n"..KEY_BUTTON2.."-|cff00FFFF"..SETTINGS.."|r"
 	QuickButUI.ButList[8]=function()
 		if PIGA["QuickBut"]["Open"] and PIGA["StatsInfo"]["Open"] and PIGA["StatsInfo"]["AddBut"] then
-			local QkButUI = "QkBut_Skill"
-			if _G[QkButUI] then return end	
-			local QkBut=PIGQuickBut(QkButUI,GnTooltip,GnIcon,GnUI,FrameLevel)
+			if QuickButUI.StatsInfoOpen then return end
+			QuickButUI.StatsInfoOpen=true
+			local QkBut=PIGQuickBut(nil,GnTooltip,GnIcon,GnUI,FrameLevel)
 			QkBut:HookScript("OnClick", function(self,button)
 				if button=="RightButton" then
-					if Pig_OptionsUI:IsShown() then
-						Pig_OptionsUI:Hide()
+					if PIG_OptionsUI:IsShown() then
+						PIG_OptionsUI:Hide()
 					else
-						Pig_OptionsUI:Show()
+						PIG_OptionsUI:Show()
 						Create.Show_TabBut(fuFrame,fuFrameBut)
 					end
 				end
@@ -108,7 +110,7 @@ function BusinessInfo.StatsInfoOptions()
 				local qitaDataNum={}
 				local itemjihe = PIGA["StatsInfo"]["Items"]
 				qitaDataNum.itemziji={}
-				local itemzijibag = itemjihe[Pig_OptionsUI.AllName]["BAG"]
+				local itemzijibag = itemjihe[PIG_OptionsUI.AllName]["BAG"]
 				for it=1,#itemzijibag do
 					if itemID==itemzijibag[it][3] then
 						if qitaDataNum.itemziji[BAGSLOT] then
@@ -118,7 +120,7 @@ function BusinessInfo.StatsInfoOptions()
 						end
 					end
 				end
-				local itemzijibank = itemjihe[Pig_OptionsUI.AllName]["BANK"]
+				local itemzijibank = itemjihe[PIG_OptionsUI.AllName]["BANK"]
 				for it=1,#itemzijibank do
 					if itemID==itemzijibank[it][3] then
 						if qitaDataNum.itemziji[BANK] then
@@ -128,7 +130,7 @@ function BusinessInfo.StatsInfoOptions()
 						end
 					end
 				end
-				local itemzijimail = itemjihe[Pig_OptionsUI.AllName]["MAIL"]
+				local itemzijimail = itemjihe[PIG_OptionsUI.AllName]["MAIL"]
 				for it=1,#itemzijimail do
 					if itemID==itemzijimail[it][3] then
 						if qitaDataNum.itemziji[MINIMAP_TRACKING_MAILBOX] then
@@ -151,7 +153,7 @@ function BusinessInfo.StatsInfoOptions()
 					end	
 				end
 				if IsInGuild() then
-					local itemzijiGuild = itemjihe[Pig_OptionsUI.AllName]["GUILD"]
+					local itemzijiGuild = itemjihe[PIG_OptionsUI.AllName]["GUILD"]
 					for it=1,#itemzijiGuild do
 						if itemID==itemzijiGuild[it][3] then
 							if qitaDataNum.itemziji[GUILD] then
@@ -162,7 +164,7 @@ function BusinessInfo.StatsInfoOptions()
 						end
 					end
 				else
-					itemjihe[Pig_OptionsUI.AllName]["GUILD"]={}
+					itemjihe[PIG_OptionsUI.AllName]["GUILD"]={}
 				end
 				local hejishuliang = 0
 				local tishneirzj = ""
@@ -177,7 +179,7 @@ function BusinessInfo.StatsInfoOptions()
 					end	
 				end
 				if tishneirzj~="" then
-					local pxinxiinfo = PIGA["StatsInfo"]["Players"][Pig_OptionsUI.AllName]
+					local pxinxiinfo = PIGA["StatsInfo"]["Players"][PIG_OptionsUI.AllName]
 					local _, classFile = PIGGetClassInfo(pxinxiinfo[4])
 					local color = PIG_CLASS_COLORS[classFile];
 					local Texinfo = C_Texture.GetAtlasInfo(pxinxiinfo[3])
@@ -187,14 +189,14 @@ function BusinessInfo.StatsInfoOptions()
 					local top=Texinfo.topTexCoord*Texheight+0.2
 					local bottom=Texinfo.bottomTexCoord*Texheight+0.1
 					local ttgghh = "|T"..CreateIcons..":14:14:0:0:"..Texwidth..":"..Texheight..":"..left..":"..right..":"..top..":"..bottom.."|t"
-					local ttgghh=ttgghh.." |c"..color.colorStr..Pig_OptionsUI.Name.."|r|T"..greenTexture..":14:14:0:0:16:16:0:14:0:14|t"
+					local ttgghh=ttgghh.." |c"..color.colorStr..PIG_OptionsUI.Name.."|r|T"..greenTexture..":14:14:0:0:16:16:0:14:0:14|t"
 					self:AddLine(" ")
 					self:AddDoubleLine(ttgghh,tishneirzj)
 				end
 				---
 				qitaDataNum.itemqita={}
 				for k,v in pairs(itemjihe) do
-					if k~=Pig_OptionsUI.AllName then
+					if k~=PIG_OptionsUI.AllName then
 						local qitabag = itemjihe[k]["BAG"]
 						for it=1,#qitabag do
 							if itemID==qitabag[it][3] then
@@ -280,7 +282,7 @@ function BusinessInfo.StatsInfoOptions()
 					local qitaDataNum={}
 					local itemjihe = PIGA["StatsInfo"]["Items"]
 					qitaDataNum.itemziji={}
-					local itemzijibag = itemjihe[Pig_OptionsUI.AllName]["BAG"]
+					local itemzijibag = itemjihe[PIG_OptionsUI.AllName]["BAG"]
 					for it=1,#itemzijibag do
 						if itemID==itemzijibag[it][3] then
 							if qitaDataNum.itemziji[BAGSLOT] then
@@ -290,7 +292,7 @@ function BusinessInfo.StatsInfoOptions()
 							end
 						end
 					end
-					local itemzijibank = itemjihe[Pig_OptionsUI.AllName]["BANK"]
+					local itemzijibank = itemjihe[PIG_OptionsUI.AllName]["BANK"]
 					for it=1,#itemzijibank do
 						if itemID==itemzijibank[it][3] then
 							if qitaDataNum.itemziji[BANK] then
@@ -300,7 +302,7 @@ function BusinessInfo.StatsInfoOptions()
 							end
 						end
 					end
-					local itemzijimail = itemjihe[Pig_OptionsUI.AllName]["MAIL"]
+					local itemzijimail = itemjihe[PIG_OptionsUI.AllName]["MAIL"]
 					for it=1,#itemzijimail do
 						if itemID==itemzijimail[it][3] then
 							if qitaDataNum.itemziji[MINIMAP_TRACKING_MAILBOX] then
@@ -317,16 +319,16 @@ function BusinessInfo.StatsInfoOptions()
 						end	
 					end
 					if tishneirzj~="" then
-						local pxinxiinfo = PIGA["StatsInfo"]["Players"][Pig_OptionsUI.AllName]
+						local pxinxiinfo = PIGA["StatsInfo"]["Players"][PIG_OptionsUI.AllName]
 						local _, classFile = PIGGetClassInfo(pxinxiinfo[4])
 						local color = PIG_CLASS_COLORS[classFile];
-						tooltip:AddDoubleLine("|c"..color.colorStr..Pig_OptionsUI.Name.."|r|T"..greenTexture..":14:14:0:0:16:16:0:14:0:14|t",tishneirzj)
+						tooltip:AddDoubleLine("|c"..color.colorStr..PIG_OptionsUI.Name.."|r|T"..greenTexture..":14:14:0:0:16:16:0:14:0:14|t",tishneirzj)
 						tooltip:AddTexture(pxinxiinfo[3], {width = 16, height = 16,verticalOffset=0.8,margin = { left = 0, right = 2, top = 0, bottom = 0 }})
 					end
 					---
 					qitaDataNum.itemqita={}
 					for k,v in pairs(itemjihe) do
-						if k~=Pig_OptionsUI.AllName then
+						if k~=PIG_OptionsUI.AllName then
 							local qitabag = itemjihe[k]["BAG"]
 							for it=1,#qitabag do
 								if itemID==qitabag[it][3] then
@@ -395,7 +397,7 @@ function BusinessInfo.StatsInfoOptions()
 			fuFrame.ADD_lixianBUT()
 		else
 			PIGA["StatsInfo"]["lixianBank"]=false;
-			Pig_Options_RLtishi_UI:Show()
+			PIG_OptionsUI.RLUI:Show()
 		end
 	end);
 	local wwc,hhc = 24,24
@@ -407,7 +409,7 @@ function BusinessInfo.StatsInfoOptions()
 		bagfuji.lixianBut:SetSize(wwc-4,hhc-4);
 		if bagfuji==ContainerFrameCombinedBags then
 			bagfuji.lixianBut:SetPoint("TOPLEFT",bagfuji,"TOPLEFT",210,-38)
-		elseif bagfuji==BAGheji_UI then
+		elseif bagfuji==_G[addonTable.BagBankfun.BagUIName] then
 			if NDui or ElvUI then
 				bagfuji.lixianBut:SetPoint("TOPLEFT",bagfuji,"TOPLEFT",210,-31)
 			else
@@ -431,16 +433,16 @@ function BusinessInfo.StatsInfoOptions()
 		PIGEnter(bagfuji.lixianBut,"查看离线银行或其他角色物品")
 		bagfuji.lixianBut:SetScript("OnClick",  function (self,button)
 			PlaySoundFile(567463, "Master")
-			StatsInfo_UI:BagLixian()
+			_G[GnUI]:BagLixian()
 		end)
 	end
 	function fuFrame.ADD_lixianBUT()
 		if not PIGA["StatsInfo"]["Open"] or not PIGA["StatsInfo"]["lixianBank"] then return end
-		if Pig_OptionsUI.IsOpen_ElvUI() and ElvUI_ContainerFrame then
+		if PIG_OptionsUI.IsOpen_ElvUI() and ElvUI_ContainerFrame then
 			add_lixianBut(ElvUI_ContainerFrame,wwc,hhc)
 			return
 		end
-		if Pig_OptionsUI.IsOpen_NDui("Bags","Enable") then
+		if PIG_OptionsUI.IsOpen_NDui("Bags","Enable") then
 			local B, C = unpack(NDui)
 			local anniushuS = NDui_BackpackBag.widgetButtons
 			local function CreatelixianBut(self)
@@ -448,7 +450,7 @@ function BusinessInfo.StatsInfoOptions()
 				bu:SetPoint("RIGHT", anniushuS[#anniushuS], "LEFT", -3, 0)
 				bu:SetScript("OnClick", function()
 					PlaySoundFile(567463, "Master")
-					StatsInfo_UI:BagLixian()
+					_G[GnUI]:BagLixian()
 				end)
 				bu.title =  "查看离线银行或其他角色物品"
 				B.AddTooltip(bu, "ANCHOR_TOP")
@@ -474,7 +476,7 @@ function BusinessInfo.StatsInfoOptions()
 		if ContainerFrameCombinedBags then
 			if ContainerFrameCombinedBags then add_lixianBut(ContainerFrameCombinedBags,wwc,hhc) end
 		else
-			if BAGheji_UI then add_lixianBut(BAGheji_UI,wwc,hhc) end
+			if _G[addonTable.BagBankfun.BagUIName] then add_lixianBut(_G[addonTable.BagBankfun.BagUIName],wwc,hhc) end
 		end
 	end	
 	local BAGhejiElvUINDui = CreateFrame("Frame")
@@ -524,7 +526,7 @@ function BusinessInfo.StatsInfoOptions()
 			BusinessInfo.StatsInfo_TradeClassLV()
 		else
 			PIGA["StatsInfo"]["TradeClassLV"]=false
-			Pig_Options_RLtishi_UI:Show();
+			PIG_OptionsUI.RLUI:Show();
 		end
 	end);
 	function BusinessInfo.StatsInfo_TradeClassLV()

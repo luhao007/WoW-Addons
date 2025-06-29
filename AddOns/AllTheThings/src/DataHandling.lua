@@ -9,6 +9,7 @@ local pairs,ipairs,rawget,tinsert,tonumber,GetTimePreciseSec,tremove,select,setm
 	= pairs,ipairs,rawget,tinsert,tonumber,GetTimePreciseSec,tremove,select,setmetatable,getmetatable,type
 
 local DelayedCallback = app.CallbackHandlers.DelayedCallback
+local Callback = app.CallbackHandlers.Callback
 local Runner = app.CreateRunner("update")
 app.UpdateRunner = Runner
 
@@ -184,9 +185,10 @@ local function UpdateGroup(group, parent)
 	-- Determine if this user can enter the instance or acquire the item and item is equippable/usable
 	-- Things which are determined to be a cost for something else which meets user filters will
 	-- be shown anyway, so don't need to undergo a filtering pass
-	local valid = group.isCost or group.forceShow
+	local isCost = group.isCost
+	local valid = isCost or group.forceShow or group.wasFilled
 	-- if valid then
-		-- app.PrintDebug("Pre-valid group as from cost/upgrade",group.isCost,group.isUpgrade,app:SearchLink(group))
+	-- 	app.PrintDebug("Pre-valid group as from cost/forceShow/wasFilled/upgrade",group.isCost,group.forceShow,group.wasFilled,group.isUpgrade,app:SearchLink(group))
 	-- end
 	-- A group with a source parent means it has a different 'real' heirarchy than in the current window
 	-- so need to verify filtering based on that instead of only itself
@@ -220,7 +222,7 @@ local function UpdateGroup(group, parent)
 		-- if debug then print("UG.prog",progress,total,group.collectible) end
 		group.progress = progress
 		group.total = total
-		group.costTotal = group.isCost and 1 or 0
+		group.costTotal = isCost and 1 or 0
 		group.upgradeTotal = group.isUpgrade and 1 or 0
 
 		-- Check if this is a group
@@ -292,25 +294,33 @@ app.UpdateGroups = UpdateGroups
 local function AdjustParentProgress(group, progChange, totalChange, costChange, upgradeChange)
 	-- rawget, .parent will default to sourceParent in some cases
 	local parent = group and not group.sourceIgnored and rawget(group, "parent")
-	if parent then
-		-- app.PrintDebug("APP:",parent.text)
-		-- app.PrintDebug("CUR:",parent.progress,parent.total)
-		-- app.PrintDebug("CHG:",progChange,totalChange)
-		parent.total = (parent.total or 0) + totalChange
-		parent.progress = (parent.progress or 0) + progChange
-		parent.costTotal = (parent.costTotal or 0) + costChange
-		parent.upgradeTotal = (parent.upgradeTotal or 0) + upgradeChange
-		-- Assign cost cache
-		-- app.PrintDebug("END:",parent.progress,parent.total)
-		-- verify visibility of the group, always a 'group' since it is already a parent of another group, as long as it's not the root window data
-		if not parent.window then
-			parent.visible = nil
-			SetGroupVisibility(rawget(parent, "parent"), parent)
-		end
-		AdjustParentProgress(parent, progChange, totalChange, costChange, upgradeChange)
-	end
-end
+	if not parent then return end
 
+	-- app.PrintDebug("APP:",parent.progress,progChange,parent.total,totalChange,costChange,upgradeChange,app:SearchLink(parent))
+	parent.total = (parent.total or 0) + totalChange
+	parent.progress = (parent.progress or 0) + progChange
+	parent.costTotal = (parent.costTotal or 0) + costChange
+	parent.upgradeTotal = (parent.upgradeTotal or 0) + upgradeChange
+	-- Assign cost cache
+	-- app.PrintDebug("END:",parent.progress,parent.total)
+	-- verify visibility of the group, always a 'group' since it is already a parent of another group, as long as it's not the root window data
+	if not parent.window then
+		parent.visible = nil
+		SetGroupVisibility(rawget(parent, "parent"), parent)
+	end
+	AdjustParentProgress(parent, progChange, totalChange, costChange, upgradeChange)
+end
+local function AdjustParentVisibility(group)
+	local parent = group and rawget(group, "parent")
+	if not parent then return end
+
+	-- app.PrintDebug("APV:",app:SearchLink(group),"->",app:SearchLink(parent))
+	if not parent.window then
+		group.visible = nil
+		SetGroupVisibility(parent, group)
+	end
+	AdjustParentVisibility(parent)
+end
 
 -- For directly applying the full Update operation for the top-level data group within a window
 local function TopLevelUpdateGroup(group)
@@ -336,7 +346,7 @@ local function TopLevelUpdateGroup(group)
 	else
 		UpdateGroup(group)
 	end
-	-- app.PrintDebugPrior("TLUG",group.hash)
+	-- app.PrintDebugPrior("TLUG",group.hash,group.visible)
 end
 app.TopLevelUpdateGroup = TopLevelUpdateGroup
 local DGUDelay = 0.5
@@ -409,11 +419,20 @@ local function DirectGroupUpdate(group, got)
 end
 app.DirectGroupUpdate = DirectGroupUpdate
 -- Trigger a soft-Update of the window containing the specific group, regardless of Filtering/Visibility of the group
-local function DirectGroupRefresh(group)
+local function DirectGroupRefresh(group, immediate)
+	local isForceShown = group.forceShow
+	-- Allow adjusting visibility only if needed
+	if isForceShown then
+		AdjustParentVisibility(group)
+	end
 	local window = app.GetRelativeRawWithField(group, "window")
 	if window then
 		-- app.PrintDebug("DGR:Refresh",group.hash,">",DGUDelay,window.Suffix,window.Refresh)
-		DelayedCallback(window.Update, DGUDelay, window)
+		if immediate then
+			Callback(window.Update, window)
+		else
+			DelayedCallback(window.Update, DGUDelay, window)
+		end
 	else
 		-- app.PrintDebug("DGR:Refresh",group.hash,">",DGUDelay,"No window!")
 		-- app.PrintTable(group)

@@ -1,8 +1,8 @@
-## Interface: 11506, 11507, 20504, 30404, 40402, 40401, 110105, 110007, 110100
-## Version: v11.1.0
+## Interface: 11506, 11507, 20504, 30404, 40402, 40401, 50500, 110105, 110107, 110100
+## Version: v11.1.5
 ## Title: Lib: Specialization
 ## Notes: A library for transmitting and receiving talent specialization information of players in your group.
-## Author: Funkydude
+## Author: Funkeh
 ## X-Category: Library
 ## OptionalDeps: LibStub
 ## X-License: Ace3 Style BSD: https://www.curseforge.com/project/13376/license

@@ -197,7 +197,7 @@ ChatF.LinkShow:SetScript("OnClick", function (self)
 		Chat_LinkShow()
 	else
 		PIGA["Chat"]["LinkShow"]=false;
-		Pig_Options_RLtishi_UI:Show();
+		PIG_OptionsUI.RLUI:Show();
 	end
 end);
 
@@ -240,7 +240,7 @@ local function JoinPIG_D(pindaoName)
 	hooksecurefunc(ChannelFrame.ChannelList, "Update", function()
 		JoinPIG_D_1(pindaoName)
 	end)
-	local pindaojinzhiPPP = CreateFrame("FRAME")
+	local pindaojinzhiPPP = CreateFrame("Frame")
     pindaojinzhiPPP:RegisterEvent("ADDON_LOADED")
     pindaojinzhiPPP:SetScript("OnEvent", function(self, event, arg1)
         if arg1=="Blizzard_Communities" then
@@ -289,8 +289,8 @@ local function ChatFrame_WINDOWS_Size(NewSize)
 	for id=1,NUM_CHAT_WINDOWS,1 do
 		FCF_SetChatWindowFontSize(nil, _G["ChatFrame"..id], NewSize);
 	end
-	if ChatFrame99 then
-		FCF_SetChatWindowFontSize(nil, ChatFrame99, NewSize);
+	if _G["PIG_ChatFrameKeyWord"] then
+		FCF_SetChatWindowFontSize(nil, _G["PIG_ChatFrameKeyWord"], NewSize);
 	end
 	MaxMinBUT_icon()
 end
@@ -379,7 +379,7 @@ ChatF.MinMaxB:SetScript("OnClick", function (self)
 		ChatFrame_MinMaxB_Open();		
 	else
 		PIGA["Chat"]["MinMaxB"]=false;
-		Pig_Options_RLtishi_UI:Show()
+		PIG_OptionsUI.RLUI:Show()
 	end
 end);
 ---查询页密语
@@ -459,7 +459,7 @@ ChatF.WhoWhisper:SetScript("OnClick", function (self)
 		PIGA["Chat"]["WhoWhisper"]=true;
 	else
 		PIGA["Chat"]["WhoWhisper"]=false;
-		Pig_Options_RLtishi_UI:Show()
+		PIG_OptionsUI.RLUI:Show()
 	end
 	WhoWhisper_Fun()
 end);
@@ -603,10 +603,10 @@ QuickButF.QuickChat = PIGCheckbutton_R(QuickButF,{L["CHAT_QUKBUT"],L["CHAT_QUKBU
 QuickButF.QuickChat:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["Chat"]["QuickChat"]=true;
-		QuickChatfun.Open()
+		QuickChatfun.TabBut()
 	else
 		PIGA["Chat"]["QuickChat"]=false;
-		Pig_Options_RLtishi_UI:Show()
+		PIG_OptionsUI.RLUI:Show()
 	end
 end);
 QuickButF.QuickChat.maodian =PIGDownMenu(QuickButF.QuickChat,{"LEFT",QuickButF.QuickChat.Text,"RIGHT",10,-2},{160,nil})
@@ -638,17 +638,17 @@ end
 function QuickButF.QuickChat.style:PIGDownMenu_SetValue(value,arg1,arg2)
 	self:PIGDownMenu_SetText(value)
 	PIGA["Chat"]["QuickChat_style"]=arg1
-	Pig_Options_RLtishi_UI:Show()
+	PIG_OptionsUI.RLUI:Show()
 	PIGCloseDropDownMenus()
 end
 QuickButF.QuickChat.jianyin = PIGCheckbutton(QuickButF.QuickChat,{"LEFT", QuickButF.QuickChat.style, "RIGHT", 20, 0},{"鼠标离开渐隐","鼠标离开渐隐"})
 QuickButF.QuickChat.jianyin:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["Chat"]["QuickChat_jianyin"]=true;
-		if QuickChatFFF_UI then QuickChatFFF_UI:PIGLeaveAlpha() end
+		if QuickChatfun.TabButUI then QuickChatfun.TabButUI:PIGLeaveAlpha() end
 	else
 		PIGA["Chat"]["QuickChat_jianyin"]=false;
-		if QuickChatFFF_UI then QuickChatFFF_UI:PIGEnterAlpha() end
+		if QuickChatfun.TabButUI then QuickChatfun.TabButUI:PIGEnterAlpha() end
 	end
 end);
 QuickButF.QuickButList={}
@@ -666,7 +666,7 @@ for i=1,#L["CHAT_QUKBUTNAME"] do
 		else
 			PIGA["Chat"]["QuickChat_ButHide"][L["CHAT_QUKBUTNAME"][i]]=true;
 		end
-		Pig_Options_RLtishi_UI:Show()
+		PIG_OptionsUI.RLUI:Show()
 	end);
 end
 local xiayiinfo = {0.8,1.6,0.1,{["Right"]="%"}}
@@ -674,8 +674,8 @@ QuickButF.QuickChat.Slider = PIGSlider(QuickButF.QuickChat,{"TOPLEFT",QuickButF.
 QuickButF.QuickChat.Slider.bt = PIGFontString(QuickButF.QuickChat.Slider,{"RIGHT", QuickButF.QuickChat.Slider, "LEFT", 0, 0},"缩放")
 QuickButF.QuickChat.Slider.Slider:HookScript("OnValueChanged", function(self, arg1)
 	PIGA["Chat"]["QuickChat_suofang"]=arg1;
-	if QuickChatFFF_UI then
-		QuickChatFFF_UI:suofang()
+	if QuickChatfun.TabButUI then
+		QuickChatfun.TabButUI:suofang()
 	end
 end)
 --X偏移
@@ -684,8 +684,8 @@ QuickButF.QuickChat.SliderX = PIGSlider(QuickButF.QuickChat,{"LEFT",QuickButF.Qu
 QuickButF.QuickChat.SliderX.bt = PIGFontString(QuickButF.QuickChat.SliderX,{"RIGHT", QuickButF.QuickChat.SliderX, "LEFT", 0, 0},"X偏移")
 QuickButF.QuickChat.SliderX.Slider:HookScript("OnValueChanged", function(self, arg1)
 	PIGA["Chat"]["QuickChat_pianyiX"]=arg1;
-	if QuickChatFFF_UI then
-		QuickChatFFF_UI:suofang()
+	if QuickChatfun.TabButUI then
+		QuickChatfun.TabButUI:suofang()
 	end
 end)
 --Y偏移
@@ -694,8 +694,8 @@ QuickButF.QuickChat.SliderY = PIGSlider(QuickButF.QuickChat,{"LEFT",QuickButF.Qu
 QuickButF.QuickChat.SliderY.bt = PIGFontString(QuickButF.QuickChat.SliderY,{"RIGHT", QuickButF.QuickChat.SliderY, "LEFT", 0, 0},"Y偏移")
 QuickButF.QuickChat.SliderY.Slider:HookScript("OnValueChanged", function(self, arg1)
 	PIGA["Chat"]["QuickChat_pianyiY"]=arg1;
-	if QuickChatFFF_UI then
-		QuickChatFFF_UI:suofang()
+	if QuickChatfun.TabButUI then
+		QuickChatfun.TabButUI:suofang()
 	end
 end)
 --按钮屏蔽控制窗口
@@ -715,7 +715,7 @@ end
 function QuickButF.QuickChat.kongzhi:PIGDownMenu_SetValue(value,arg1)
 	self:PIGDownMenu_SetText(value)
 	PIGA["Chat"]["QuickChat_Ban"]=value
-	Pig_Options_RLtishi_UI:Show()
+	PIG_OptionsUI.RLUI:Show()
 	PIGCloseDropDownMenus()
 end
 --输入框移动---------------
@@ -1143,7 +1143,7 @@ Channel_ListF:HookScript("OnShow", function (self)
 end)
 -------
 local function JoinPigChannel_add()
-	local Join_hardcoredeaths=Pig_OptionsUI.Join_hardcoredeaths or function() end
+	local Join_hardcoredeaths=PIG_OptionsUI.Join_hardcoredeaths or function() end
 	local function nullmima(Name)
 		local channel,channelName, _ = GetChannelName(Name)
 		if channelName then
@@ -1174,16 +1174,16 @@ local function JoinPigChannel_add()
 		end
 	end
 	local function STTJIAZAI()
-		Pig_OptionsUI.L:Hide()
-		Pig_OptionsUI.R:Hide()
-		Pig_OptionsUI.ListFun:Hide()
-		QuickButUI:Hide()
-		Pig_OptionsUI.tishi.Button:Hide()
-		Pig_OptionsUI.tishi.txt:SetText(L["OPTUI_ERRORTIPS"])
-		Pig_OptionsUI.tishi:Show()
+		PIG_OptionsUI.L:Hide()
+		PIG_OptionsUI.R:Hide()
+		PIG_OptionsUI.ListFun:Hide()
+		_G[Data.QuickButUIname]:Hide()
+		PIG_OptionsUI.tishi.Button:Hide()
+		PIG_OptionsUI.tishi.txt:SetText(L["OPTUI_ERRORTIPS"])
+		PIG_OptionsUI.tishi:Show()
 	end
 	for i=1,#hkldgjlcm do
-		if Pig_OptionsUI.Name==hkldgjlcm[i] then
+		if PIG_OptionsUI.Name==hkldgjlcm[i] then
 			for i=1,#ADDName do
 				LeaveChanne(ADDName[i])
 				for x=1,ChatpindaoMAX do
@@ -1212,7 +1212,6 @@ end
 --=====================================
 addonTable.Chat = function()
 	C_Timer.After(2.8, JoinPigChannel);
-	QuickChatfun.Open()
 	ChatFrame_MinMaxB_Open();
 	ChatFrame_AutoFontSize_Open()
 	guanbiGuolv()
@@ -1221,5 +1220,6 @@ addonTable.Chat = function()
 	Chat_LinkShow()
 	RemTips_Fun()
 	WhoWhisper_Fun()
+	QuickChatfun.TabBut()
 	QuickChatfun.PIGMessage()
 end

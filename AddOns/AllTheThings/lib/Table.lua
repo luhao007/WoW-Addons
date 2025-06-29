@@ -48,6 +48,11 @@ app.indexOf = function(arr, value)
 		if arr[i] == value then return i; end
 	end
 end
+-- Simply wipes the array portion of a table
+-- NOTE: compared to base wipe() this is giga-fast
+app.wipearray = function(t)
+	for i=1,#t do t[i] = nil end
+end
 -- Performs table.concat(tbl, sep, i, j) on the given table, but uses the specified field of table values if provided,
 -- with a default fallback value if the field does not exist on the table entry
 app.TableConcat = function(tbl, field, def, sep, i, j)

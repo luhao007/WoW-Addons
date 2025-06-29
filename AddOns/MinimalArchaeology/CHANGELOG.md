@@ -10,6 +10,13 @@
 - **11.1.0.3** Fix taint/error when opening world map
 - **11.1.0.4** Fix map pins on Cata classic
 - **11.1.0.5** Bump toc for 11.1.5
+- **11.1.0.6** Added German translations (translated by AI, don't hesitate to report any mistranslations)
+- **11.1.0.7** Add Mists.toc
+- **11.1.0.8** Fix Companion tutorial frame
+- **11.1.0.9** Fix MoP config and lua errors
+- **11.1.0.10** Fix digsites lua error
+- **11.1.0.10** Implement settings migration from Cata to Mop
+- **11.1.0.10** Fix history window showing two active fossil artifacts
 
 ### 11.0.2
 

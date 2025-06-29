@@ -30,15 +30,16 @@ private.ACHIEVEMENT_ZONE_IDS = {
 	[116] = { 2257 }; --Grizzly hills (WOLK)
 	[554] = { 8714 }; --Timeless isle (Pandaria)
 	[555] = { 8714 }; --Cavern of lost spirits (Pandaria)
-	[504] = { 8103 }; --Isle of thunder (Pandaria)
+	[504] = { 8103, 8049, 8050, 8051 }; --Isle of thunder (Pandaria)
 	[505] = { 8103 }; --Lightning vein mine (Pandaria)
-	[371] = { 7439 }; --The jade forest (Pandaria)
-	[379] = { 7439 }; --Kun lai summit (Pandaria)
-	[422] = { 7439 }; --Dread wastes (Pandaria)
-	[390] = { 7439 }; --Vale of eternal blossoms (Pandaria)
-	[418] = { 7439 }; --Krasarang wilds (Pandaria)
-	[376] = { 7439 }; --Valley of the four winds (Pandaria)
-	[388] = { 7439 }; --Townlong steppes (Pandaria)
+	[371] = { 7439, 7284, 7997, 6850, 6858, 7230, 6754, 6716, 6855, 6846 }; --The jade forest (Pandaria)
+	[379] = { 7439, 7284, 7997, 6850, 6858, 7230, 6754, 6855, 6846, 6847 }; --Kun lai summit (Pandaria)
+	[390] = { 7439, 6858, 6754, 6855 }; --Vale of eternal blossoms (Pandaria)
+	[376] = { 7439, 7284, 7997, 6850, 6858, 6846, 6856 }; --Valley of the four winds (Pandaria)
+	[388] = { 7439, 7284, 7997, 6855, 6847 }; --Townlong steppes (Pandaria)
+	[418] = { 7439, 7284, 7997, 6850, 7230, 6754, 6716, 6855, 6846, 6856 }; --Krasarang wilds (Pandaria)
+	[422] = { 7439, 7284, 6716, 6857 }; --Dread wastes (Pandaria)
+	[433] = { 6716 }; --The Veiled Stair (Pandaria)
 	[534] = { 10070 }; --Tanaan jungle (WOD)
 	[630] = { 11261 }; --Azsuna (Legion)
 	[650] = { 11264 }; --Highmountain (Legion)
@@ -91,7 +92,7 @@ private.ACHIEVEMENT_ZONE_IDS = {
 }
 
 private.ACHIEVEMENT_WITH_CRITERIA = { 
-	40504, 40628, 40762, 40629, 40473, 40542, 41588
+	40504, 40628, 40762, 40629, 40473, 40542, 41588, 6850, 6858, 7230, 6754, 6716, 6855, 6846, 6856, 6847, 6857, 8049, 8050, 8051
 }
 
 private.ACHIEVEMENT_SPELL_IDS = {
@@ -204,4 +205,19 @@ private.ACHIEVEMENT_TARGET_IDS = {
 	[41594] = { 234621 }; --Can You Believe What People Throw Away?
 	[41215] = { 235075, 235072, 235074, 235112, 235115, 235071, 235073, 235113, 235116, 235117 }; --Echoes of Deeper Dangers
 	[41999] = { 241227, 241229, 241231, 241234, 241236, 241238, 241228, 241230, 241232, 241235, 241237, 241239 }; --Fighter of the Nightman
+	[7284] = { 224626, 213364, 213742, 64272, 213363 }; --Is Another Man's Treasure
+	[7997] = { 213366, 214339, 213368, 214338, 213748, 213362, 214337 }; --Riches of Pandaria
+	[6850] = { 211990, 215785, 211993, 211994 }; --Hozen in the Mist
+	[6858] = { 213413, 213415, 213511, 213414, 213416 }; --What Is Worth Fighting For
+	[7230] = { 213407, 213438, 213512 }; --Legend of the Brewfathers
+	[6754] = { 213331, 213333, 213332, 213334 }; --The Dark Heart of the Mogu
+	[6716] = { 213327, 213329, 213328, 213330 }; --Between a Saurok and a Hard Place
+	[6855] = { 215799, 213421, 213445, 213455, 215797, 213422, 213443, 213456 }; --The Seven Burdens of Shaohao
+	[6846] = { 215779, 215782, 215780, 215783 }; --Fish Tales
+	[6856] = { 213459, 213461, 213460, 215765 }; --Ballad of Liu Lang
+	[6847] = { 213417, 215798, 213418, 213420 }; --The Song of the Yaungol
+	[6857] = { 213409, 213411, 213410, 213412 }; --Heart of the Mantid Swarm
+	[8049] = { 218427, 218429, 218428, 218430 }; --The Zandalari Prophecy
+	[8050] = { 218431, 218433, 218432, 218434 }; --Rumbles of Thunder
+	[8051] = { 218435, 218437, 218436, 218438 }; --Gods and Monsters
 }

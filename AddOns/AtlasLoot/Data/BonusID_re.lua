@@ -847,8 +847,8 @@ local BonusID_Diff = {
 local BonusID_BY_DIFF = 3524
 
 local BonusID_Diff_Raw = {
-	[1] = nil,	-- Normal Dungeon
-	[2] = 4778,	-- Hero Dungeon
+	[1] = nil, -- Normal Dungeon
+	[2] = 4778, -- Hero Dungeon
 	[3] = nil,
 	[4] = nil,
 	[5] = nil,
@@ -858,14 +858,14 @@ local BonusID_Diff_Raw = {
 	[9] = nil,
 	[11] = nil,
 	[12] = nil,
-	[14] = nil,	-- Normal Raid
-	[15] = 4778,	-- Hero Raid
-	[16] = 4779,	-- M Raid
-	[17] = 4801,	--LFR
+	[14] = nil, -- Normal Raid
+	[15] = 4778, -- Hero Raid
+	[16] = 4779, -- M Raid
+	[17] = 4801, --LFR
 	[18] = nil,
 	[19] = nil,
 	[20] = nil,
-	[23] = 4779,	-- M Dungeon
+	[23] = 4779, -- M Dungeon
 	[24] = nil,
 	[25] = nil,
 	[29] = nil,
@@ -877,9 +877,9 @@ function BonusIDInfo.GetBonusListLevelDelta()
 end
 
 function BonusIDInfo.GetItemBonusIDByDiff(diffID)
-	return {BonusID_BY_DIFF}, BonusID_Diff[diffID]
+	return { BonusID_BY_DIFF }, BonusID_Diff[diffID]
 end
 
 function BonusIDInfo.GetItemBonusIDByDiff_Raw(diffID)
-	return {BonusID_Diff_Raw[diffID]}, BonusID_Diff[diffID]
+	return { BonusID_Diff_Raw[diffID] }, BonusID_Diff[diffID]
 end

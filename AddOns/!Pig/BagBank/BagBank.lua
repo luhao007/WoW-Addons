@@ -232,7 +232,7 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 	---
 	ContainerFrameCombinedBags.EqBut =BagBankfun.addEquipmentbut(ContainerFrameCombinedBags,{"TOPRIGHT",ContainerFrameCombinedBags,"TOPRIGHT",-52,-37})
 	--
-	ContainerFrameCombinedBags.shezhi = BagBankfun.addSetbut(ContainerFrameCombinedBags,{"TOPRIGHT",ContainerFrameCombinedBags,"TOPRIGHT",-86,-38},Rneirong,tabbut)
+	ContainerFrameCombinedBags.Setings = BagBankfun.addSetbut(ContainerFrameCombinedBags,{"TOPRIGHT",ContainerFrameCombinedBags,"TOPRIGHT",-86,-38},Rneirong,tabbut)
 
 	ContainerFrameCombinedBags:RegisterEvent("AUCTION_HOUSE_SHOW")
 	ContainerFrameCombinedBags:HookScript("OnEvent", function(self,event,arg1)
@@ -242,8 +242,7 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 					OpenAllBags()
 				end
 			end
-		end
-		if event=="BAG_UPDATE" then
+		elseif event=="BAG_UPDATE" then
 			if arg1>bagData["bagIDMax"] then
 				if BankFrame:IsVisible() then
 					Bag_Item_lv(nil, nil, arg1)

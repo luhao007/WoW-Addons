@@ -26,7 +26,7 @@ function GDKPInfo.ADD_Item(RaidR)
 	local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 	------
 	local GDKP_Auc=Data.GDKP_Auc
-	local biaotou,auc_start,auc_end,auc_daoshu,auc_chujia=GDKP_Auc[1],GDKP_Auc[2],GDKP_Auc[3],GDKP_Auc[4],GDKP_Auc[5]
+	local biaotou,auc_start,auc_end,auc_daoshu,auc_chujia=unpack(GDKP_Auc)
 	------
 	local GnName,GnUI,GnIcon,FrameLevel = unpack(GDKPInfo.uidata)
 	local iconWH,hang_Height,hang_NUM,lineTOP  =  GDKPInfo.iconWH,GDKPInfo.hang_Height,GDKPInfo.hang_NUM,GDKPInfo.lineTOP
@@ -69,14 +69,13 @@ function GDKPInfo.ADD_Item(RaidR)
 			for x = 1, #ItemS do
 				local kezhuangbeipig = true
 				local link = ItemS[x][2]
-				Plisttip_UI:ClearLines();
-				Plisttip_UI:SetOwner(UIParent, "ANCHOR_NONE")
-				--Plisttip_UI:SetOwner(UIParent, "TOPLEFT")
-				Plisttip_UI:SetHyperlink(link)
-				local txtNumx = Plisttip_UI:NumLines() 
+				PIG_TooltipUI:ClearLines();
+				PIG_TooltipUI:SetOwner(UIParent, "ANCHOR_NONE")
+				PIG_TooltipUI:SetHyperlink(link)
+				local txtNumx = PIG_TooltipUI:NumLines() 
 			    if txtNumx then
 			    	for g = 2, txtNumx do
-			    		local hangui = _G["Plisttip_UITextLeft"..g]
+			    		local hangui = _G["PIG_TooltipUITextLeft"..g]
 					    local hangtext = hangui:GetText()
 					    if hangtext and hangtext~="" and hangtext~=" " then
 				    		local r, g, b = hangui:GetTextColor()
@@ -88,7 +87,7 @@ function GDKPInfo.ADD_Item(RaidR)
 				    			end
 				    		end
 					    end
-					    local hangui_r = _G["Plisttip_UITextRight"..g]
+					    local hangui_r = _G["PIG_TooltipUITextRight"..g]
 					    local hangtext_r = hangui_r:GetText()
 			    		if hangtext_r and hangtext_r~="" and hangtext_r~=" " then
 							local rR, gR, bR = hangui_r:GetTextColor()
@@ -150,7 +149,7 @@ function GDKPInfo.ADD_Item(RaidR)
 			rritem_biaoti_1:Hide()
 			rritem_biaoti_2:Hide()
 			for p=1,hang_NUM do
-				local hang = _G["PIG_GDKPItem_"..p]
+				local hang = fujiF.ItemNR.ButList[p]
 				hang.time:Hide()
 				hang.Shiquzhe:Hide()
 				hang.del:Hide()
@@ -161,7 +160,7 @@ function GDKPInfo.ADD_Item(RaidR)
 			rritem_biaoti_1:Show()
 			rritem_biaoti_2:Show()
 			for p=1,hang_NUM do
-				local hang = _G["PIG_GDKPItem_"..p]
+				local hang = fujiF.ItemNR.ButList[p]
 				hang.time:Show()
 				hang.Shiquzhe:Show()
 				hang.del:Show()
@@ -256,8 +255,8 @@ function GDKPInfo.ADD_Item(RaidR)
 	function RaidR.Update_Item()
 		local gundongF = fujiF.ItemNR.Scroll
 		if not fujiF:IsVisible() then return end
-		for x = 1, hang_NUM do
-			_G["PIG_GDKPItem_"..x]:Hide();
+		for id = 1, hang_NUM do
+			fujiF.ItemNR.ButList[id]:Hide();
 	    end
 		local ItemS = PIGA["GDKP"]["ItemList"];
 		local ItemsNum_GL=GetguolvData(ItemS)
@@ -265,13 +264,13 @@ function GDKPInfo.ADD_Item(RaidR)
 		FauxScrollFrame_Update(gundongF, ItemsNum, hang_NUM, hang_Height);
 	    if ItemsNum>0 then
 			local offset = FauxScrollFrame_GetOffset(gundongF);
-			for x = 1, hang_NUM do
-				local LOOT_dangqian = x+offset;
+			for id = 1, hang_NUM do
+				local LOOT_dangqian = id+offset;
 				if fujiF.guolvlist ~= guolvlist[1] then
 				    LOOT_dangqian = ItemsNum_GL[LOOT_dangqian];
 				end
 				if ItemS[LOOT_dangqian] then
-					local Itemf = _G["PIG_GDKPItem_"..x]
+					local Itemf = fujiF.ItemNR.ButList[id]
 					Itemf:Show();
 					Itemf.del:SetID(LOOT_dangqian);
 					Itemf.paimai:SetID(LOOT_dangqian);
@@ -279,7 +278,7 @@ function GDKPInfo.ADD_Item(RaidR)
 					Itemf.item:SetID(LOOT_dangqian);
 					Itemf.item.icon:SetTexture(ItemS[LOOT_dangqian][6]);
 					Itemf.item.itemID=ItemS[LOOT_dangqian][11]
-					Fun.HY_ShowItemLink(Itemf.item,ItemS[LOOT_dangqian][2],ItemS[LOOT_dangqian][11])	
+					Fun.HY_ShowItemLink(Itemf.item,ItemS[LOOT_dangqian][11],ItemS[LOOT_dangqian][2])	
 					Itemf.item.NO:SetText(ItemS[LOOT_dangqian][3]);
 					Itemf.item.guanzhu:SetShown(ItemS[LOOT_dangqian][15])
 					local item_daojishi=GetServerTime()-ItemS[LOOT_dangqian][1];
@@ -330,19 +329,20 @@ function GDKPInfo.ADD_Item(RaidR)
 	fujiF.ItemNR:PIGSetBackdrop(0.6,0)
 	fujiF.ItemNR.Scroll = CreateFrame("ScrollFrame",nil,fujiF.ItemNR, "FauxScrollFrameTemplate");  
 	fujiF.ItemNR.Scroll:SetPoint("TOPLEFT",fujiF.ItemNR,"TOPLEFT",1,-1);
-	fujiF.ItemNR.Scroll:SetPoint("BOTTOMRIGHT",fujiF.ItemNR,"BOTTOMRIGHT",-22,1);
+	fujiF.ItemNR.Scroll:SetPoint("BOTTOMRIGHT",fujiF.ItemNR,"BOTTOMRIGHT",-19,1);
+	fujiF.ItemNR.Scroll.ScrollBar:SetScale(0.8);
 	fujiF.ItemNR.Scroll:SetScript("OnVerticalScroll", function(self, offset)
 	    FauxScrollFrame_OnVerticalScroll(self, offset, hang_Height, RaidR.Update_Item)
 	end)
-	fujiF.ItemNR.Scroll.ScrollBar:SetScale(0.9);
-	--创建行
+	fujiF.ItemNR.ButList={}
 	for id = 1, hang_NUM do
-		local hang = CreateFrame("Frame", "PIG_GDKPItem_"..id, fujiF.ItemNR.Scroll:GetParent());
+		local hang = CreateFrame("Frame", nil, fujiF.ItemNR.Scroll:GetParent());
+		fujiF.ItemNR.ButList[id]=hang
 		hang:SetSize(fujiF.ItemNR:GetWidth()-24, hang_Height);
 		if id==1 then
 			hang:SetPoint("TOP",fujiF.ItemNR.Scroll,"TOP",0,0);
 		else
-			hang:SetPoint("TOP",_G["PIG_GDKPItem_"..(id-1)],"BOTTOM",0,-0);
+			hang:SetPoint("TOP",fujiF.ItemNR.ButList[id-1],"BOTTOM",0,-0);
 		end
 		if id~=hang_NUM then PIGLine(hang,"BOT",nil,nil,nil,{0.3,0.3,0.3,0.3}) end
 		--拾取时间
@@ -402,7 +402,7 @@ function GDKPInfo.ADD_Item(RaidR)
 		hang.item.daojishi:SetSize(28,28);
 		hang.item.daojishi:SetPoint("CENTER", 0,0);
 		PIGEnter(hang.item.daojishiF,"请注意：","|cffFFff00可交易时间不足10分钟|r")
-		function hang.item:SetFun(itemNameD,itemLinkD)
+		function hang.item:ShowInfoFun(itemLinkD)
 			self.link:SetText(itemLinkD);
 			self.itemLink=itemLinkD
 		end
@@ -442,10 +442,10 @@ function GDKPInfo.ADD_Item(RaidR)
 				elseif IsShiftKeyDown() then--关注
 					if bianjiData[15] then
 						bianjiData[15]=false
-						PIGTopMsg:add(self.itemLink.."已取消关注");
+						PIG_OptionsUI:ErrorMsg(self.itemLink.."已取消关注");
 					else
 						bianjiData[15]=true
-						PIGTopMsg:add(self.itemLink.."已加入关注");
+						PIG_OptionsUI:ErrorMsg(self.itemLink.."已加入关注");
 					end
 					RaidR.Update_Item();
 				else
@@ -502,8 +502,8 @@ function GDKPInfo.ADD_Item(RaidR)
 		hang.chengjiao.bianji:SetScript("OnClick", function (self)
 			local NewSELF=self:GetParent()
 			for qq=1,hang_NUM do
-				shiqujiaodian(_G["PIG_GDKPItem_"..qq].chengjiao)
-				shiqujiaodian(_G["PIG_GDKPItem_"..qq].Qiankuan)
+				shiqujiaodian(fujiF.ItemNR.ButList[qq].chengjiao)
+				shiqujiaodian(fujiF.ItemNR.ButList[qq].Qiankuan)
 			end
 			shiqujiaodian(NewSELF,true)
 	 		NewSELF.E:SetText(PIGA["GDKP"]["ItemList"][self:GetID()][9]);
@@ -555,8 +555,8 @@ function GDKPInfo.ADD_Item(RaidR)
 		hang.Qiankuan.bianji:SetScript("OnClick", function (self)
 			local NewSELF=self:GetParent()
 			for qq=1,hang_NUM do
-				shiqujiaodian(_G["PIG_GDKPItem_"..qq].chengjiao)
-				shiqujiaodian(_G["PIG_GDKPItem_"..qq].Qiankuan)
+				shiqujiaodian(fujiF.ItemNR.ButList[qq].chengjiao)
+				shiqujiaodian(fujiF.ItemNR.ButList[qq].Qiankuan)
 			end
 			shiqujiaodian(NewSELF,true)
 	 		NewSELF.E:SetText(PIGA["GDKP"]["ItemList"][self:GetID()][14]);
@@ -850,7 +850,7 @@ function GDKPInfo.ADD_Item(RaidR)
 			local paichumulu = PIGA["GDKP"]["Rsetting"]["PaichuList"]
 			for j=1,#paichumulu do
 				if ItemIDx==paichumulu[j] then
-					PIGTopMsg:add("物品已在目录内");
+					PIG_OptionsUI:ErrorMsg("物品已在目录内");
 					return
 				end
 			end
@@ -1070,7 +1070,7 @@ function GDKPInfo.ADD_Item(RaidR)
 						end
 					end
 				else
-					PIGTopMsg:add("未开启手动添加物品，请在设置中开启");
+					PIG_OptionsUI:ErrorMsg("未开启手动添加物品，请在设置中开启");
 				end
 			end
 		end
@@ -1134,7 +1134,7 @@ function GDKPInfo.ADD_Item(RaidR)
 	local bendiT_4 = geshihuazifu(bendiT_4)
 	fujiF:RegisterEvent("CHAT_MSG_LOOT");
 	fujiF:SetScript("OnEvent",function (self,event,arg1,arg2,arg3,arg4,arg5)
-		if _G[GnUI].shiqulinshiStop then return end
+		if RaidR.shiqulinshiStop then return end
 		if not arg1:match(bendiT_1) and not arg1:match(bendiT_2) and not arg1:match(bendiT_3) and not arg1:match(bendiT_4) then return end
 		local name, instanceType, difficultyID, difficultyName, maxPlayers = GetInstanceInfo()
 		if instanceType=="raid" or maxPlayers>5 then

@@ -103,7 +103,7 @@ function RSContainerPOI.GetContainerPOI(containerID, mapID, containerInfo, alrea
 	return POI
 end
 
-local function IsContainerPOIFiltered(containerID, mapID, zoneQuestID, prof, minieventID, vignetteGUIDs, onWorldMap, onMinimap)
+local function IsContainerPOIFiltered(containerID, mapID, zoneQuestID, prof, minieventID, vignetteGUIDs, areaPOIs, onWorldMap, onMinimap)
 	local name = RSContainerDB.GetContainerName(containerID) or AL["CONTAINER"]
 	
 	-- Skip if part of a disabled event
@@ -221,11 +221,22 @@ local function IsContainerPOIFiltered(containerID, mapID, zoneQuestID, prof, min
 			end
 		end
 	end
+	
+	-- Skip if an ingame area POI is already showing this entity
+	for _, areaPoiID in ipairs(areaPOIs) do
+		local poiInfo = C_AreaPoiInfo.GetAreaPOIInfo(mapID, areaPoiID);
+		if (poiInfo) then
+			if (RSContainerDB.GetFinalContainerID(areaPoiID) == containerID) then
+				RSLogger:PrintDebugMessageEntityID(containerID, string.format("Saltado Contenedor [%s]: Hay un area POI del juego mostrándolo.", containerID))
+				return true
+			end
+		end
+	end
 
 	return false
 end
 
-function RSContainerPOI.GetMapNotDiscoveredContainerPOIs(mapID, vignetteGUIDs, onWorldMap, onMinimap)
+function RSContainerPOI.GetMapNotDiscoveredContainerPOIs(mapID, vignetteGUIDs, areaPOIs, onWorldMap, onMinimap)
 	-- Skip if not showing container icons
 	if (not RSConfigDB.IsShowingContainers()) then
 		return
@@ -255,7 +266,7 @@ function RSContainerPOI.GetMapNotDiscoveredContainerPOIs(mapID, vignetteGUIDs, o
 		end
 
 		-- Skip if common filters
-		if (not filtered and not IsContainerPOIFiltered(containerID, mapID, containerInfo.zoneQuestId, containerInfo.prof, containerInfo.minieventID, vignetteGUIDs, onWorldMap, onMinimap)) then
+		if (not filtered and not IsContainerPOIFiltered(containerID, mapID, containerInfo.zoneQuestId, containerInfo.prof, containerInfo.minieventID, vignetteGUIDs, areaPOIs, onWorldMap, onMinimap)) then
 			tinsert(POIs, RSContainerPOI.GetContainerPOI(containerID, mapID, containerInfo))
 		end
 	end
@@ -263,7 +274,7 @@ function RSContainerPOI.GetMapNotDiscoveredContainerPOIs(mapID, vignetteGUIDs, o
 	return POIs
 end
 
-function RSContainerPOI.GetMapAlreadyFoundContainerPOI(containerID, alreadyFoundInfo, mapID, vignetteGUIDs, onWorldMap, onMinimap)
+function RSContainerPOI.GetMapAlreadyFoundContainerPOI(containerID, alreadyFoundInfo, mapID, vignetteGUIDs, areaPOIs, onWorldMap, onMinimap)
 	-- Skip if not showing container icons
 	if (not RSConfigDB.IsShowingContainers()) then
 		RSLogger:PrintDebugMessageEntityID(containerID, string.format("Saltado Contenedor [%s]: Iconos de contenedores deshabilitado.", containerID))
@@ -304,7 +315,7 @@ function RSContainerPOI.GetMapAlreadyFoundContainerPOI(containerID, alreadyFound
 		minieventID = containerInfo.minieventID
 	end
 
-	if (not IsContainerPOIFiltered(containerID, mapID, zoneQuestID, prof, minieventID, vignetteGUIDs, onWorldMap, onMinimap)) then
+	if (not IsContainerPOIFiltered(containerID, mapID, zoneQuestID, prof, minieventID, vignetteGUIDs, areaPOIs, onWorldMap, onMinimap)) then
 		return RSContainerPOI.GetContainerPOI(containerID, mapID, containerInfo, alreadyFoundInfo)
 	end
 end

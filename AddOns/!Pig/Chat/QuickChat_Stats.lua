@@ -8,10 +8,11 @@ local PIGFontString=Create.PIGFontString
 local Fun=addonTable.Fun
 local PIGGetRaceAtlas=Fun.PIGGetRaceAtlas
 local FasongYCqingqiu=Fun.FasongYCqingqiu
+local Data=addonTable.Data
 ---
 local QuickChatfun=addonTable.QuickChatfun
 function QuickChatfun.QuickBut_Stats()
-	local fuFrame=QuickChatFFF_UI
+	local fuFrame=QuickChatfun.TabButUI
 	local fuWidth = fuFrame.Width
 	local Width,Height = fuWidth,fuWidth
 	local ziframe = {fuFrame:GetChildren()}
@@ -60,12 +61,12 @@ function QuickChatfun.QuickBut_Stats()
 	local greenTexture = "interface/common/indicator-green.blp"
 	local xuanzhongBG = {{0.2, 0.2, 0.2, 0.2},{0.4, 0.8, 0.8, 0.1}}
 	local OptionsW,OptionsH,uifu = 200,400,fuFrame.playerStats.RF
-	local hang_Height = 20
-	fuFrame.playerStats.RF=PIGFrame(UIParent,{"CENTER",UIParent,"CENTER",0,0},{OptionsW*MAX_PARTY_MEMBERS,OptionsH},"Pig_playerStatsUI",true)
+	local UIname,hang_Height = "PIG_PlayerStatsUI",20
+	fuFrame.playerStats.RF=PIGFrame(UIParent,{"CENTER",UIParent,"CENTER",0,0},{OptionsW*MAX_PARTY_MEMBERS,OptionsH},UIname,true)
 	local uifu = fuFrame.playerStats.RF
 	uifu:PIGSetBackdrop()
 	uifu:PIGClose()
-	uifu:PIGSetMovable()
+	uifu:PIGSetMovableNoSave()
 	uifu.ButLsit={}
 	uifu.biaoti = PIGFontString(uifu,{"TOP", uifu, "TOP", 0, -2},"成员信息")
 	for id = 1, MAX_PARTY_MEMBERS, 1 do
@@ -120,8 +121,8 @@ function QuickChatfun.QuickBut_Stats()
 		playerbut.iLvl:SetTextColor(0,0.98,0.6, 1);
 		playerbut.numcc=0
 		function playerbut:Update_data(allname)
-			if Pig_OptionsUI.talentData[allname] and Pig_OptionsUI.talentData[allname]["I"] then
-				self.iLvl:SetText(Pig_OptionsUI.talentData[allname]["I"][5]) 
+			if PIG_OptionsUI.talentData[allname] and PIG_OptionsUI.talentData[allname]["I"] then
+				self.iLvl:SetText(PIG_OptionsUI.talentData[allname]["I"][5]) 
 				self.numcc=0
 			else
 				self.numcc=self.numcc+1

@@ -11,7 +11,7 @@ local tbl_remove, unpack, pairs = table.remove, unpack, pairs
 local resetFunctions = {}
 
 local function showOptions()
-	AtlasLoot.Options:Show()
+	Settings.OpenToCategory("AtlasLoot");
 end
 
 local CommandList = {
@@ -33,7 +33,7 @@ local HelpList = {
 	[""] = AL["/al - Open the AtlasLoot window."],
 	["slash"] = AL["/al slash - Prints a list of all slash commands."],
 	["options"] = AL["/al options - Open AtlasLoot Options window."],
-	
+
 	--["reset"] = AL["/al reset - ???."],
 }
 
@@ -49,6 +49,7 @@ function SlashCommands.Init()
 		end
 	end
 end
+
 AtlasLoot:AddInitFunc(SlashCommands.Init)
 
 function SlashCommands:Run(exec, ...)
@@ -78,7 +79,7 @@ function SlashCommands:PrintSlash()
 	for k in pairs(CommandList) do
 		if k == "reset" then
 			local resetCommands = "all, frames"
-			for k,v in pairs(resetFunctions) do
+			for k, v in pairs(resetFunctions) do
 				if k ~= "frames" then
 					resetCommands = resetCommands..", "..k
 				end
@@ -90,7 +91,7 @@ function SlashCommands:PrintSlash()
 		else
 			print(str_format("/al %s", k))
 		end
-	end	
+	end
 end
 
 function SlashCommands:FixAtlasLoot()
@@ -103,7 +104,7 @@ end
 -- ###############################
 
 function SlashCommands:Reset(name)
-	for tabName,funcTab in pairs(resetFunctions) do
+	for tabName, funcTab in pairs(resetFunctions) do
 		if not name or name == "all" or name == tabName then
 			for func in pairs(funcTab) do
 				func()
@@ -115,8 +116,8 @@ end
 function SlashCommands:AddResetFunction(func, ...)
 	assert(type(func) == "function", "'func' must be a function")
 	local name
-	for i=1,select("#",...) do
-		name = select(i,...)
+	for i = 1, select("#", ...) do
+		name = select(i, ...)
 		if not resetFunctions[name] then resetFunctions[name] = {} end
 		resetFunctions[name][func] = true
 	end

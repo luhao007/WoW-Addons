@@ -16,10 +16,10 @@ local delFrame = GUI.FreeFrameByType
 
 
 local TEMPLATE_NAME = "GUI-TextFrame"
-local BACKDROP_DATA = {bgFile = "Interface/Tooltips/UI-Tooltip-Background"}
+local BACKDROP_DATA = { bgFile = "Interface/Tooltips/UI-Tooltip-Background" }
 
 local function OnEnter(self, owner)
-	local tooltip = AtlasLoot.Tooltip:GetTooltip() 
+	local tooltip = AtlasLoot.Tooltip:GetTooltip()
 	tooltip:ClearLines()
 	if owner and type(owner) == "table" then
 		tooltip:SetOwner(owner[1], owner[2], owner[3], owner[4])
@@ -58,6 +58,9 @@ local templateFunctions = {
 			self.tt2 = nil
 		end
 	end,
+	["SetFont"] = function(self, ...)
+		self.text:SetFont(...)
+	end,
 	["SetFontObject"] = function(self, font)
 		self.text:SetFontObject(font or "GameFontNormal")
 	end,
@@ -65,7 +68,7 @@ local templateFunctions = {
 		if bgColor then
 			self:SetBackdropColor((bgColor.r or bgColor[1]) or 1, (bgColor.g or bgColor[2]) or 1, (bgColor.b or bgColor[3]) or 1, (bgColor.a or bgColor[4]) or 1)
 		else
-			self:SetBackdropColor(1,1,1,1)
+			self:SetBackdropColor(1, 1, 1, 1)
 		end
 		if textColor then
 			self.text:SetTextColor((textColor.r or textColor[1]) or 0, (textColor.g or textColor[2]) or 0, (textColor.b or textColor[3]) or 0, (textColor.a or textColor[4]) or 1)
@@ -75,7 +78,7 @@ local templateFunctions = {
 				self.text:SetFontObject("GameFontNormal")
 			end
 		else
-			self.text:SetTextColor(0,0,0,1)
+			self.text:SetTextColor(0, 0, 0, 1)
 		end
 	end
 }
@@ -88,13 +91,13 @@ function GUI.CreateTextWithBg(parent, width, height, bgColor, textColor)
 		--frame:SetParent(SVF.frame.containerFrame)
 		frame:SetSize(1, 1)
 		frame:SetBackdrop(BACKDROP_DATA)
-		frame:SetBackdropColor(0,1,0,1)
-	
+		frame:SetBackdropColor(0, 1, 0, 1)
+
 		frame.text = frame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		frame.text:SetAllPoints(frame)
 		frame.text:SetJustifyH("CENTER")
-		
-		for k,v in pairs(templateFunctions) do
+
+		for k, v in pairs(templateFunctions) do
 			frame[k] = v
 		end
 	end
@@ -102,7 +105,7 @@ function GUI.CreateTextWithBg(parent, width, height, bgColor, textColor)
 	if bgColor or textColor then
 		frame:SetColors(bgColor, textColor)
 	end
-	
+
 	frame:ClearAllPoints()
 	frame:SetParent(parent)
 	return frame

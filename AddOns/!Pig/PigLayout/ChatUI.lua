@@ -422,8 +422,8 @@ end)
 -- --创建拾取聊天窗口
 -- fujiF.LOOTF.add:SetScript("OnClick", function ()
 -- 	if fujiF.Chatloot then return end
--- 	if GetScreenWidth()<1024 then PIGTopMsg:add(L["CHAT_LOOTFADDERR1"]) end
--- 	if FCF_GetNumActiveChatFrames()>=10 then PIGTopMsg:add(L["CHAT_LOOTFADDERR2"]) end
+-- 	if GetScreenWidth()<1024 then PIG_OptionsUI:ErrorMsg(L["CHAT_LOOTFADDERR1"]) end
+-- 	if FCF_GetNumActiveChatFrames()>=10 then PIG_OptionsUI:ErrorMsg(L["CHAT_LOOTFADDERR2"]) end
 -- 	FCF_OpenNewWindow(L["CHAT_LOOTFNAME"]);
 -- 	ShowChannelFun()
 -- 	local nEWid=LOOT_cunzai()
@@ -448,7 +448,7 @@ end)
 -- end)
 --导入其他角色聊天设置
 local function SavedangqianSet()--保存当前设置
-	-- local PIG_renwuming = Pig_OptionsUI.AllName
+	-- local PIG_renwuming = PIG_OptionsUI.AllName
 	-- local dangqianChatSET={}
 	-- --for id=1,MAX_WOW_CHAT_CHANNELS do
 	-- for id=1,3 do

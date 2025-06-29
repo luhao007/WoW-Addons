@@ -10,18 +10,20 @@ function GDKPInfo.ADD_Trade(RaidR)
 	local PIGSetFont=Create.PIGSetFont
 	-------
 	local WidthF,D_Height,D_hangNUM = 260,18,10
-	local PIGTradeF = PIGFrame(TradeFrame,{"TOPLEFT",TradeFrame,"TOPRIGHT",0,0});
+	local PIGTradeF = PIGFrame(TradeFrame,{"TOPLEFT",TradeFrame,"TOPRIGHT",-3,0});
 	RaidR.PIGTradeF=PIGTradeF
-	PIGTradeF:SetPoint("BOTTOMLEFT",TradeFrame,"BOTTOMLEFT",0,0);
+	PIGTradeF:SetPoint("BOTTOMLEFT",TradeFrame,"BOTTOMLEFT",-3,0);
 	PIGTradeF:SetWidth(WidthF); 
 	PIGTradeF:PIGSetBackdrop(nil,nil,nil,nil,0)
+	PIGTradeF:SetFrameStrata("HIGH")
+	PIGTradeF:SetFrameLevel(9)
 	PIGTradeF:Hide()
 	PIGTradeF.cancel = PIGButton(PIGTradeF,{"BOTTOM",PIGTradeF,"BOTTOM",0,20},{100,24},"不记录本次",nil,nil,nil,nil,0);
 	PIGTradeF.cancel:HookScript("OnClick",function (self)
 		PIGTradeF.Isjilu=false
 		PIGTradeF:Hide()
 	end)
-	PIGTradeF.biaoti = PIGFontString(PIGTradeF,{"TOPLEFT", PIGTradeF, "TOPLEFT", 10,-4},L["PIGaddonList"]["Fuji"]..L["PIGaddonList"][addonName]);
+	PIGTradeF.biaoti = PIGFontString(PIGTradeF,{"TOPLEFT", PIGTradeF, "TOPLEFT", 10,-4},L.pigname..L["PIGaddonList"][addonName]);
 	PIGTradeF.biaoti:SetTextColor(0, 1, 0, 1);
 	PIGTradeF.biaoti1 = PIGFontString(PIGTradeF,{"LEFT", PIGTradeF.biaoti, "RIGHT", 4,0});
 	PIGTradeF.biaoti1:SetTextColor(1, 0, 1, 1);
@@ -74,12 +76,17 @@ function GDKPInfo.ADD_Trade(RaidR)
 	PIGTradeF.ListF.DqianT = PIGFontString(PIGTradeF.ListF,{"TOPLEFT", PIGTradeF.ListF, "BOTTOMLEFT", 10,-10},"玩家总欠款/G: ");
 	PIGTradeF.ListF.DqianT:SetTextColor(1, 1, 0, 1)
 	PIGTradeF.ListF.DqianG = PIGFontString(PIGTradeF.ListF,{"LEFT", PIGTradeF.ListF.DqianT, "RIGHT", 2,0},"0");
-	PIGTradeF.ListF.DqianG:SetTextColor(1, 1, 0, 1)
+	PIGTradeF.ListF.DqianG:SetTextColor(1, 0, 0, 1)
 	PIGTradeF.ListF.benciT = PIGFontString(PIGTradeF.ListF,{"TOPLEFT", PIGTradeF.ListF.DqianT, "BOTTOMLEFT", 0,-6});
 	PIGTradeF.ListF.benciT:SetTextColor(0, 1, 0, 1);
 	PIGTradeF.ListF.benciG = PIGFontString(PIGTradeF.ListF,{"LEFT", PIGTradeF.ListF.benciT, "RIGHT", 2,0},"0");
 	PIGTradeF.ListF.benciG:SetTextColor(0, 1, 0, 1);
-
+	TradeFrame.ShowDebtUI = PIGButton(TradeFrame,{"TOPRIGHT",TradeFrame,"TOPRIGHT",-8,-26},{50,24},"清账",nil,nil,nil,nil,0);
+	TradeFrame.ShowDebtUI:HookScript("OnClick",function (self)
+		self:Hide()
+		PIGTradeF:Show()
+	end)
+	PIGTradeF.DebtbenciG = {}
 	PIGTradeF.DebtDataList = {}
 	function PIGTradeF:GetItemsDebt(TName)
 		wipe(self.DebtDataList)
@@ -97,7 +104,6 @@ function GDKPInfo.ADD_Trade(RaidR)
 		end
 		return #self.DebtDataList>0
 	end
-	PIGTradeF.DebtbenciG = {}
 	local function IsGDKPItem(itemLink_P)
 		local itemID_P = GetItemInfoInstant(itemLink_P[1]) 
 		local RRItemList = PIGA["GDKP"]["ItemList"]
@@ -121,7 +127,7 @@ function GDKPInfo.ADD_Trade(RaidR)
 		self.ListF.benciG:SetShown(show1)
 	end
 	function PIGTradeF:Update_hang(ly)
-		if ly==1 then
+		if ly==1 then--记账
 			self:SetListhangText("成交记账","成交人:","","记账/G","",false,false)
 			self.ListF.benciT:SetText("交易完后/G: ")
 			local Itemsnum = #self.linItems
@@ -134,39 +140,35 @@ function GDKPInfo.ADD_Trade(RaidR)
 					hang.ItemName:SetText(self.linItems[id][1])
 				end
 				hang.qianV:SetText(self.MoneyTV/Itemsnum)
-			end		
-		elseif ly==2 or ly==3 then
+			end
+			self:Show()
+		elseif ly==2 then--清账
+			self:SetListhangText("欠款记账","欠款人:","选择欠款人","欠款/G","清账",true,true)	
 			wipe(self.DebtbenciG)
-			self.DebtbenciG.qianG=0
-			if ly==2 then
-				self:SetListhangText("欠款记账","欠款人:","选择欠款人","欠款/G","清账",true,true)	
+			if self:GetItemsDebt(self.PlayerName) then
+				self.DebtbenciG.qianG=0
 				self.DebtbenciG.benciG=self.MoneyTV
-			elseif ly==3 then
-				self:SetListhangText("发放工资","领薪人:","","欠款/G","",true,false)
-				self.DebtbenciG.benciG=self.MoneyPV
-			end
-			for id=1,#self.DebtDataList do
-				self.DebtbenciG.qianG=self.DebtbenciG.qianG+self.DebtDataList[id][4]
-				local hang=self.ListF.butlist[id]
-				hang:Show();
-				if self.DebtDataList[id][1]=="ItemList" then
-					local _,itemLink = GetItemInfo(Fun.HY_ItemLinkJJ(self.DebtDataList[id][3]))
-					if self.DebtDataList[id][5]>1 then
-						hang.ItemName:SetText(itemLink.."×"..self.DebtDataList[id][5])
-					else
-						hang.ItemName:SetText(itemLink)
+				for id=1,#self.DebtDataList do
+					self.DebtbenciG.qianG=self.DebtbenciG.qianG+self.DebtDataList[id][4]
+					local hang=self.ListF.butlist[id]
+					hang:Show();
+					if self.DebtDataList[id][1]=="ItemList" then
+						local _,itemLink = GetItemInfo(Fun.HY_ItemLinkJJ(self.DebtDataList[id][3]))
+						if self.DebtDataList[id][5]>1 then
+							hang.ItemName:SetText(itemLink.."×"..self.DebtDataList[id][5])
+						else
+							hang.ItemName:SetText(itemLink)
+						end
+					elseif self.DebtDataList[id][1]=="fakuan" then
+						hang.ItemName:SetText(self.DebtDataList[id][3])
 					end
-				elseif self.DebtDataList[id][1]=="fakuan" then
-					hang.ItemName:SetText(self.DebtDataList[id][3])
+					hang.qianV:SetText(self.DebtDataList[id][4])
+					self.DebtbenciG.benciG=self.DebtbenciG.benciG-self.DebtDataList[id][4]
+					if self.DebtbenciG.benciG>=0 then
+						hang.wancheng:Show()
+					end
 				end
-				hang.qianV:SetText(self.DebtDataList[id][4])
-				self.DebtbenciG.benciG=self.DebtbenciG.benciG-self.DebtDataList[id][4]
-				if self.DebtbenciG.benciG>=0 then
-					hang.wancheng:Show()
-				end
-			end
-			self.ListF.DqianG:SetText(self.DebtbenciG.qianG)
-			if ly==2 then
+				self.ListF.DqianG:SetText(self.DebtbenciG.qianG)
 				self.ListF.benciT:SetText("交易完后/G: ")
 				if self.DebtbenciG.benciG==0 then
 					self.ListF.benciG:SetTextColor(0, 1, 1, 1);
@@ -178,18 +180,51 @@ function GDKPInfo.ADD_Trade(RaidR)
 					self.ListF.benciG:SetTextColor(1, 0, 0, 1);
 					self.ListF.benciG:SetText("尚欠"..(-self.DebtbenciG.benciG))
 				end
-			elseif ly==3 then
+				self:Show()
+			else
+				TradeFrame.ShowDebtUI:Show()
+			end
+		elseif ly==3 then--发薪
+			self:SetListhangText("发放工资","领薪人:","","欠款/G","",true,false)
+			wipe(self.DebtbenciG)
+			if self:GetItemsDebt(self.PlayerName) then
+				self.DkPlayer:SetText(self.PlayerName.."(工资"..(PIGTradeF.fenGModeV*0.0001)..")")
+				self.DebtbenciG.qianG=0
+				self.DebtbenciG.benciG=self.MoneyPV
+				for id=1,#self.DebtDataList do
+					self.DebtbenciG.qianG=self.DebtbenciG.qianG+self.DebtDataList[id][4]
+					local hang=self.ListF.butlist[id]
+					hang:Show();
+					if self.DebtDataList[id][1]=="ItemList" then
+						local _,itemLink = GetItemInfo(Fun.HY_ItemLinkJJ(self.DebtDataList[id][3]))
+						if self.DebtDataList[id][5]>1 then
+							hang.ItemName:SetText(itemLink.."×"..self.DebtDataList[id][5])
+						else
+							hang.ItemName:SetText(itemLink)
+						end
+					elseif self.DebtDataList[id][1]=="fakuan" then
+						hang.ItemName:SetText(self.DebtDataList[id][3])
+					end
+					hang.qianV:SetText(self.DebtDataList[id][4])
+					self.DebtbenciG.benciG=self.DebtbenciG.benciG-self.DebtDataList[id][4]
+					if self.DebtbenciG.benciG>=0 then
+						hang.wancheng:Show()
+					end
+				end
+				self.ListF.DqianG:SetText(self.DebtbenciG.qianG)
 				self.ListF.benciT:SetText("扣除欠款实发/G: ")
-				local shifaV=PIGTradeF.playerfenGV-self.DebtbenciG.qianG*10000
+				local shifaV=PIGTradeF.fenGModeV-self.DebtbenciG.qianG*10000
 				if shifaV>=0 then
 					self.ListF.benciG:SetText(shifaV*0.0001)
-					MoneyInputFrame_SetCopper(TradePlayerInputMoneyFrame, shifaV);
+					--MoneyInputFrame_SetCopper(TradePlayerInputMoneyFrame, shifaV);
 				else
 					self.ListF.benciG:SetText("|cffFF0000"..(shifaV*0.0001).."资不抵债|r")
 				end
+				self:Show()
+			else
+				--MoneyInputFrame_SetCopper(TradePlayerInputMoneyFrame, PIGTradeF.fenGModeV);
 			end
 		end
-		self:Show()
 	end
 	function PIGTradeF:Update_Show(ly)
 		local p,pp=RaidR.IsNameInRiad(self.PlayerName)
@@ -200,15 +235,7 @@ function GDKPInfo.ADD_Trade(RaidR)
 				hang:Hide()
 				hang.wancheng:Hide()
 			end
-			if ly==1 then
-				self:Update_hang(ly)
-			elseif ly==2 or ly==3 then
-				if self:GetItemsDebt(self.PlayerName) then
-					self:Update_hang(ly)
-				elseif ly==3 then
-					MoneyInputFrame_SetCopper(TradePlayerInputMoneyFrame, PIGTradeF.playerfenGV);
-				end
-			end
+			self:Update_hang(ly)
 		end
 	end
 	function PIGTradeF.updataDebtRen(lyname,ly)
@@ -218,7 +245,7 @@ function GDKPInfo.ADD_Trade(RaidR)
 	end
 	hooksecurefunc("MoneyInputFrame_OnTextChanged", function(self)
 		if self==TradePlayerInputMoneyFrameGold or self==TradePlayerInputMoneyFrameSilver or self==TradePlayerInputMoneyFrameCopper then
-			if self.fenGMode then
+			if self.fenGModeV then
 				PIGTradeF.MoneyPV = GetPlayerTradeMoney()*0.0001
 				PIGTradeF:Update_Show(3)
 			end
@@ -228,49 +255,53 @@ function GDKPInfo.ADD_Trade(RaidR)
 	PIGTradeF:RegisterEvent("TRADE_SHOW");
 	PIGTradeF:RegisterEvent("TRADE_CLOSED");
 	PIGTradeF:RegisterEvent("UI_INFO_MESSAGE");
+	PIGTradeF:RegisterEvent("UI_ERROR_MESSAGE");
 	PIGTradeF:RegisterEvent("TRADE_MONEY_CHANGED");
-	PIGTradeF:RegisterEvent("PLAYER_TRADE_MONEY");
 	PIGTradeF:RegisterEvent("TRADE_PLAYER_ITEM_CHANGED");
+	PIGTradeF.jishu=0
 	PIGTradeF:HookScript("OnEvent",function (self,event,arg1,arg2,arg3,arg4,arg5)
 		if not PIGA["GDKP"]["Rsetting"]["jiaoyijilu"] then return end
 		if event=="TRADE_CLOSED" then
-			C_Timer.After(0.3,function()
-				self.fenGMode=nil
-				self.playerfenGV=0
+			C_Timer.After(0.1,function()
+				self.fenGModeV=nil
 			end)
 		elseif event=="TRADE_SHOW" then
 			self:Hide()
+			TradeFrame.ShowDebtUI:Hide()
 			wipe(self.linItems)
-			wipe(self.DebtDataList)
-			wipe(self.DebtbenciG)
 			self.Isjilu=true
-			if self.fenGMode then
-				PIGTradeF.PlayerName=TradeFrame.PIG_Data.Name
-				PIGTradeF.MoneyPV =0
+			if self.fenGModeV then
+				PIGTradeF.PlayerName=GetUnitName("NPC", true)
+				PIGTradeF.MoneyPV = 0
 				self:Update_Show(3)
 			else
-				self.updataDebtRen(TradeFrame.PIG_Data.Name,2)
+				self.updataDebtRen(GetUnitName("NPC", true),2)
 			end
-		elseif event=="TRADE_MONEY_CHANGED" or event=="TRADE_PLAYER_ITEM_CHANGED" then
+		elseif event=="TRADE_MONEY_CHANGED" or event=="TRADE_PLAYER_ITEM_CHANGED" or event=="PLAYER_TRADE_MONEY" then
 			if not self.Isjilu then return end
-			if self.fenGMode then return end
-			self.MoneyTV=GetTargetTradeMoney()*0.0001
+			if self.fenGModeV then return end
 			wipe(self.linItems)
-			for i=1,#TradeFrame.PIG_Data.ItemP do
-				if TradeFrame.PIG_Data.ItemP[i]~=NONE and IsGDKPItem(TradeFrame.PIG_Data.ItemP[i]) then
-					table.insert(self.linItems,TradeFrame.PIG_Data.ItemP[i])
-				end
+			self.MoneyTV=GetTargetTradeMoney()*0.0001
+			for i=1, MAX_TRADE_ITEMS, 1 do
+				local PlayerItemLink=GetTradePlayerItemLink(i)
+				if PlayerItemLink then
+					local _, _, numItems = GetTradePlayerItemInfo(i);
+					local itemLink_P= {PlayerItemLink,numItems}
+					if IsGDKPItem(itemLink_P) then
+						table.insert(self.linItems,itemLink_P)
+					end
+				end 
 			end
 			if #self.linItems>0 then--有金团助手物品交出	
 				self:Update_Show(1)
 			else
 				self:Update_Show(2)
-			end	
+			end
 		elseif event=="UI_INFO_MESSAGE" then
 			if arg2==ERR_TRADE_COMPLETE then
 				if not self.Isjilu then return end
-				if self.fenGMode then
-					local shifaV=PIGTradeF.playerfenGV-self.DebtbenciG.qianG*10000
+				if self.fenGModeV then
+					local shifaV=PIGTradeF.fenGModeV-self.DebtbenciG.qianG*10000
 					if shifaV>=0 then
 						local RRItemList = PIGA["GDKP"]["ItemList"]
 						local fakuanDataX = PIGA["GDKP"]["fakuan"]
@@ -287,8 +318,6 @@ function GDKPInfo.ADD_Trade(RaidR)
 						end
 						RaidR.Update_Item();
 					end
-					self.fenGMode=nil
-					self.playerfenGV=0
 				else
 					if #self.linItems>0 and self.MoneyTV>0 then--有物品交出和金币收入	
 						--屏蔽交易产生的拾取记录		
@@ -302,11 +331,9 @@ function GDKPInfo.ADD_Trade(RaidR)
 						for id=1,Itemsnum do
 							local isok,indexx =IsGDKPItem(self.linItems[id])
 							if isok then
-								if RRItemList[indexx][8]==NONE and RRItemList[indexx][9]==0 and RRItemList[indexx][14]==0 then
-									RRItemList[indexx][8]=PIGTradeF.PlayerName or NONE;
-									RRItemList[indexx][9]=danjianG;
-									RRItemList[indexx][10]=GetServerTime();
-								end
+								RRItemList[indexx][8]=PIGTradeF.PlayerName or NONE;
+								RRItemList[indexx][9]=danjianG;
+								RRItemList[indexx][10]=GetServerTime();
 							end
 						end
 						RaidR.Update_Item();
@@ -339,6 +366,13 @@ function GDKPInfo.ADD_Trade(RaidR)
 						RaidR.Update_Item();
 					end
 				end
+			end
+			if Fun.IsErrTrade(arg2) then
+				self.fenGModeV=nil
+			end
+		elseif event=="UI_ERROR_MESSAGE" then
+			if Fun.IsErrTrade(arg2) then
+				self.fenGModeV=nil
 			end
 		end
 	end)

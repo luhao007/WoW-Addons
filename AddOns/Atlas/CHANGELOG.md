@@ -1,5 +1,23 @@
 # Changelog
 
+## 3.6.6 - June 21, 2025
+### Fixed
+- Retail: Fix errors when LibBabble-SubZone is installed as a separate library
+
+## 3.6.5 - June 17, 2025
+### Changed
+- Retail: Update TOC to 11.1.7
+
+## 3.6.4 - May 31, 2025
+An update for Mists Classic is in progress, and will likely come out the day before Mists prepatch, since it isn't currently compatible with Cata Classic.
+### Changed
+- Classic Era: Switched world map button to Krowi's World Map Buttons
+- Updated lib Krowi's World Map Buttons
+### Fixed
+- Cataclysm: Fixed error from adding classic UBRS
+- Cataclysm: Fixed error from TBC instances being in the WOTLK data
+- Retail: Fixed world map button highlight
+
 ## 3.6.3 - April 27, 2025
 ### Fixed
 - Cataclysm: Add missing classic UBRS
@@ -560,7 +578,7 @@ v1.41.00 (Apr. 14, 2017)
 v1.40.06 (Apr. 13, 2017)
 ------------------------
 - Checking deprecated plugins now will recognize the alpha build's version
-  if specifed; or will ignore those set "v3.6.3" as the version
+  if specifed; or will ignore those set "v3.6.6" as the version
   number to be changed by CurseForge's auto-packaging.
 
 v1.40.05 (Apr. 13, 2017)

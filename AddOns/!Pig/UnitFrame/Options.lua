@@ -30,7 +30,7 @@ zishenF.HPFF:SetScript("OnClick", function (self)
 		UnitFramefun.Zishen()
 	else
 		PIGA["UnitFrame"]["PlayerFrame"]["HPFF"]=false;
-		Pig_Options_RLtishi_UI:Show()
+		PIG_OptionsUI.RLUI:Show()
 	end
 end);
 zishenF:HookScript("OnShow", function(self)
@@ -45,7 +45,7 @@ duiyouF.Plus:SetScript("OnClick", function (self)
 		UnitFramefun.Duiyou()
 	else
 		PIGA["UnitFrame"]["PartyMemberFrame"]["Plus"]=false;
-		Pig_Options_RLtishi_UI:Show()
+		PIG_OptionsUI.RLUI:Show()
 	end
 end);
 duiyouF.HPFF=PIGCheckbutton_R(duiyouF,{"额外血量框架","在队友头像上显示额外血量框架"})
@@ -55,7 +55,7 @@ duiyouF.HPFF:SetScript("OnClick", function (self)
 		UnitFramefun.Duiyou()
 	else
 		PIGA["UnitFrame"]["PartyMemberFrame"]["HPFF"]=false;
-		Pig_Options_RLtishi_UI:Show()
+		PIG_OptionsUI.RLUI:Show()
 	end
 end);
 duiyouF.Buff=PIGCheckbutton_R(duiyouF,{"常驻显示BUFF","在队友头像上常驻显示队友BUFF"})
@@ -65,7 +65,7 @@ duiyouF.Buff:SetScript("OnClick", function (self)
 		UnitFramefun.Duiyou()
 	else
 		PIGA["UnitFrame"]["PartyMemberFrame"]["Buff"]=false;
-		Pig_Options_RLtishi_UI:Show()
+		PIG_OptionsUI.RLUI:Show()
 	end
 end);
 duiyouF.ToToT=PIGCheckbutton_R(duiyouF,{"显示队友目标","在队友头像上显示队友目标"})
@@ -75,7 +75,7 @@ duiyouF.ToToT:SetScript("OnClick", function (self)
 		UnitFramefun.Duiyou()
 	else
 		PIGA["UnitFrame"]["PartyMemberFrame"]["ToToT"]=false;
-		Pig_Options_RLtishi_UI:Show()
+		PIG_OptionsUI.RLUI:Show()
 	end
 end);
 -- duiyouF.petbar=PIGCheckbutton_R(zishenF,{"显示队友宠物","显示队友宠物"})
@@ -85,7 +85,7 @@ end);
 -- 		UnitFramefun.Zishen()
 -- 	else
 -- 		PIGA["UnitFrame"]["PartyMemberFrame"]["petbar"]=false;
--- 		Pig_Options_RLtishi_UI:Show()
+-- 		PIG_OptionsUI.RLUI:Show()
 -- 	end
 -- end);
 duiyouF:HookScript("OnShow", function(self)
@@ -107,7 +107,7 @@ mubiaoF.Plus:SetScript("OnClick", function (self)
 		UnitFramefun.Mubiao()
 	else
 		PIGA["UnitFrame"]["TargetFrame"]["Plus"]=false;
-		Pig_Options_RLtishi_UI:Show()
+		PIG_OptionsUI.RLUI:Show()
 	end
 end);
 mubiaoF.Chouhen=PIGCheckbutton_R(mubiaoF,{"仇恨值/仇恨高亮/仇恨目录","显示目标的仇恨值/仇恨高亮/仇恨目录\n如果未生效请打开系统的<界面-显示威胁值百分>选项"})
@@ -117,7 +117,7 @@ mubiaoF.Chouhen:SetScript("OnClick", function (self)
 		UnitFramefun.Mubiao()
 	else
 		PIGA["UnitFrame"]["TargetFrame"]["Chouhen"]=false;
-		Pig_Options_RLtishi_UI:Show()
+		PIG_OptionsUI.RLUI:Show()
 	end
 end);
 mubiaoF.ToToToT=PIGCheckbutton_R(mubiaoF,{"显示目标的目标的目标","显示目标的目标的目标（注意：请先打开系统的目标的目标）"})
@@ -127,7 +127,7 @@ mubiaoF.ToToToT:SetScript("OnClick", function (self)
 		UnitFramefun.Mubiao()
 	else
 		PIGA["UnitFrame"]["TargetFrame"]["ToToToT"]=false;
-		Pig_Options_RLtishi_UI:Show()
+		PIG_OptionsUI.RLUI:Show()
 	end
 end);
 mubiaoF.Yisu=PIGCheckbutton_R(mubiaoF,{"显示移动速度","显示目标移动速度"})
@@ -137,7 +137,7 @@ mubiaoF.Yisu:SetScript("OnClick", function (self)
 		UnitFramefun.Mubiao()
 	else
 		PIGA["UnitFrame"]["TargetFrame"]["Yisu"]=false;
-		Pig_Options_RLtishi_UI:Show()
+		PIG_OptionsUI.RLUI:Show()
 	end
 end);
 local function BigDebuff()
@@ -169,7 +169,7 @@ mubiaoF.BigDebuff:SetScript("OnClick", function (self)
 		BigDebuff()
 	else
 		PIGA["UnitFrame"]["TargetFrame"]["BigDebuff"]=false;
-		Pig_Options_RLtishi_UI:Show()
+		PIG_OptionsUI.RLUI:Show()
 	end
 end);
 mubiaoF:HookScript("OnShow", function(self)

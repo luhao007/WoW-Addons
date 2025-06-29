@@ -84,7 +84,7 @@ function Pet.OnClear(button)
 	button.overlay:SetWidth(button.icon:GetWidth())
 
 	button.secButton.overlay:Hide()
-	button.secButton.overlay:SetTexCoord(1, 1, 1, 1)
+	button.secButton.overlay:SetTexCoord(0, 1, 0, 1)
 	button.secButton.overlay:SetHeight(button.icon:GetWidth())
 	button.secButton.overlay:SetWidth(button.icon:GetWidth())
 end
@@ -108,13 +108,11 @@ function Pet.Refresh(button)
 		button.extra:SetText(_G["BATTLE_PET_NAME_"..petType])
 	end
 
-
 	button.overlay:Show()
 	button.overlay:SetTexture(PET_JOURNAL_TEXTURE)
 	button.overlay:SetTexCoord(0.41992188, 0.52343750, 0.02246094, 0.07519531)
 	button.overlay:SetHeight(button.icon:GetHeight() * 1.2)
 	button.overlay:SetWidth(button.icon:GetWidth() * 1.2)
-
 
 	button.icon:SetTexture(speciesIcon)
 	button.info = { speciesName, speciesIcon, petType, tooltipSource, tooltipDescription, creatureDisplayID }
@@ -139,7 +137,7 @@ function Pet.ShowToolTipFrame(button)
 		local name = "AtlasLoot-PetToolTip"
 		local frame = CreateFrame("Frame", name, nil, BackdropTemplateMixin and "BackdropTemplate" or nil)
 		frame:SetClampedToScreen(true)
-		frame:SetSize(300, 50)
+		frame:SetSize(315, 55)
 		frame:SetBackdrop({
 			bgFile = "Interface/Tooltips/UI-Tooltip-Background",
 			edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -148,10 +146,10 @@ function Pet.ShowToolTipFrame(button)
 			edgeSize = 16,
 			insets = { left = 4, right = 4, top = 4, bottom = 4 }
 		})
-		frame:SetBackdropColor(0, 0, 0, 1)
+		frame:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR:GetRGBA())
 
 		frame.icon = frame:CreateTexture(name.."-icon", "ARTWORK")
-		frame.icon:SetPoint("TOPLEFT", frame, "TOPLEFT", 5, -5)
+		frame.icon:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, -10)
 		frame.icon:SetHeight(26)
 		frame.icon:SetWidth(26)
 		frame.icon:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
@@ -160,7 +158,6 @@ function Pet.ShowToolTipFrame(button)
 		frame.name:SetPoint("TOPLEFT", frame.icon, "TOPRIGHT", 3, 0)
 		frame.name:SetJustifyH("LEFT")
 		frame.name:SetWidth(250)
-		--frame.name:SetHeight(12)
 		frame.name:SetTextColor(1, 1, 1, 1)
 
 		frame.source = frame:CreateFontString(name.."-source", "ARTWORK", "GameFontNormalSmall")
@@ -168,18 +165,17 @@ function Pet.ShowToolTipFrame(button)
 		frame.source:SetJustifyH("LEFT")
 		frame.source:SetJustifyV("TOP")
 		frame.source:SetWidth(250)
-		--frame.info:SetHeight(20)
 		frame.source:SetTextColor(1, 1, 1, 1)
 
 		frame.model = CreateFrame("PlayerModel", name.."-model")
 		frame.model:ClearAllPoints()
 		frame.model:SetParent(frame)
-		frame.model:SetPoint("TOPLEFT", frame.icon, "BOTTOMLEFT", 0, -3)
+		frame.model:SetPoint("TOPLEFT", frame.icon, "BOTTOMLEFT", 0, -8)
 		frame.model:SetSize(145, 145)
 		frame.model:SetRotation(MODELFRAME_DEFAULT_ROTATION)
 
 		frame.desc = frame:CreateFontString(name.."-desc", "ARTWORK", "GameFontNormalSmall")
-		frame.desc:SetPoint("TOPLEFT", frame.model, "TOPRIGHT", 0, -3)
+		frame.desc:SetPoint("TOPLEFT", frame.model, "TOPRIGHT", 5, -3)
 		frame.desc:SetJustifyH("LEFT")
 		frame.desc:SetJustifyV("TOP")
 		frame.desc:SetWidth(145)
@@ -187,7 +183,7 @@ function Pet.ShowToolTipFrame(button)
 		frame.desc:SetTextColor(1, 1, 1, 1)
 
 		frame.typeIcon = frame:CreateTexture(name.."-typeIcon", "ARTWORK")
-		frame.typeIcon:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -5, -5)
+		frame.typeIcon:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -10, -10)
 		frame.typeIcon:SetHeight(20)
 		frame.typeIcon:SetWidth(20)
 		frame.typeIcon:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")

@@ -229,7 +229,7 @@ for i=1,#diyInfo do
         else
             PIGA["CVars"][diyInfo[i][1]]=false
             if diyInfo[i][2] then 
-            	Pig_Options_RLtishi_UI:Show()
+            	PIG_OptionsUI.RLUI:Show()
             else
             	CVarsfun[diyInfo[i][1]]()
 			end
@@ -333,7 +333,7 @@ for i=1,#CVarsList1 do
 			end
 		end
 		if CVarsList1[i][6] then
-			Pig_Options_RLtishi_UI:Show()
+			PIG_OptionsUI.RLUI:Show()
 		end
 	end)
 	CVarsCB:HookScript("OnShow", function (self)
@@ -385,7 +385,7 @@ for i=1,#combattext1 do
 			end
 		end
 		if combattext1[i][6] then
-			Pig_Options_RLtishi_UI:Show()
+			PIG_OptionsUI.RLUI:Show()
 		end
 	end)
 	CVarsCB:HookScript("OnShow", function (self)
@@ -411,7 +411,7 @@ for i=1,#combattext2 do
 			combattextF.HitIndicatorHide=false
 		end
 		if combattext2[i][4] then
-			Pig_Options_RLtishi_UI:Show()
+			PIG_OptionsUI.RLUI:Show()
 		end
 	end)
 	CVarsCB:HookScript("OnShow", function (self)
@@ -466,7 +466,7 @@ for i=1,#xingmingList do
 			SetCVar(xingmingList[i][2], xingmingList[i][4])
 		end
 		if xingmingList[i][6] then
-			Pig_Options_RLtishi_UI:Show()
+			PIG_OptionsUI.RLUI:Show()
 		end
 	end)
 	CVarsCB:HookScript("OnShow", function (self)

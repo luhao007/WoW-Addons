@@ -247,6 +247,11 @@ spec:RegisterAuras( {
         type = "Magic",
         max_stack = 1
     },
+    born_of_flame = {
+        id = 1219307,
+        duration = 30,
+        max_stack = 2
+    },
     calefaction = {
         id = 408673,
         duration = 60,
@@ -390,7 +395,7 @@ spec:RegisterAuras( {
     flames_fury = {
         id = 409964,
         duration = 30,
-        max_stack = 1
+        max_stack = 2
     },
     -- Talent: Movement speed slowed by $s2%.
     -- https://wowhead.com/beta/spell=2120
@@ -1217,25 +1222,52 @@ spec:RegisterStateTable( "incanters_flow_time_to", setmetatable( {}, {
 spec:RegisterAbilities( {
     -- Talent: Alters the fabric of time, returning you to your current location and health when cast a second time, or after 10 seconds. Effect negated by long distance or death.
     alter_time = {
-        id = function () return buff.alter_time.down and 342247 or 342245 end,
+        id = 342245,
         cast = 0,
         cooldown = function () return talent.master_of_time.enabled and 50 or 60 end,
         gcd = "off",
         school = "arcane",
 
+        texture = 609811,
+
         spend = 0.01,
         spendType = "mana",
+        nobuff = "alter_time",
 
         talent = "alter_time",
         startsCombat = false,
 
+        toggle = "defensives",
+
         handler = function ()
-            if buff.alter_time.down then
-                applyBuff( "alter_time" )
-            else
-                removeBuff( "alter_time" )
-                if talent.master_of_time.enabled then setCooldown( "blink", 0 ) end
-            end
+            applyBuff( "alter_time" )
+            setCooldown( "alter_time_return", 0 )
+        end,
+
+        copy = { 342247, 342245 }
+    },
+
+    alter_time_return = {
+        id = 342247,
+        cast = 0,
+        cooldown = function () return talent.master_of_time.enabled and 50 or 60 end,
+        gcd = "off",
+        school = "arcane",
+
+        texture = 985088,
+
+        spend = 0.01,
+        spendType = "mana",
+        buff = "alter_time",
+
+        talent = "alter_time",
+        startsCombat = false,
+
+        toggle = "defensives",
+
+        handler = function ()
+            removeBuff( "alter_time" )
+            if talent.master_of_time.enabled then setCooldown( "blink", 0 ) end
         end,
 
         copy = { 342247, 342245 }
@@ -1428,7 +1460,16 @@ spec:RegisterAbilities( {
             if talent.kindling.enabled then setCooldown( "combustion", max( 0, cooldown.combustion.remains - 1 ) ) end
             if talent.master_of_flame.enabled and buff.combustion.up then active_dot.ignite = min( active_enemies, active_dot.ignite + 4 ) end
 
-            if talent.phoenix_reborn.enabled or set_bonus.tier30_4pc > 0 and debuff.charring_embers.up then
+            if talent.phoenix_reborn.enabled then
+                if buff.phoenix_reborn.stack == 24 then
+                    removeBuff( "phoenix_reborn" )
+                    applyBuff( "born_of_flame", nil, 2 )
+                else
+                    addStack( "phoenix_reborn" )
+                end
+            end
+
+            if set_bonus.tier30_4pc > 0 and debuff.charring_embers.up then
                 if buff.calefaction.stack == 24 then
                     removeBuff( "calefaction" )
                     applyBuff( "flames_fury", nil, 2 )
@@ -1524,6 +1565,15 @@ spec:RegisterAbilities( {
 
             if talent.frostfire_bolt.enabled then
                 applyDebuff( "target", "frostfire_bolt" )
+            end
+
+            if talent.phoenix_reborn.enabled then
+                if buff.phoenix_reborn.stack == 24 then
+                    removeBuff( "phoenix_reborn" )
+                    applyBuff( "born_of_flame", nil, 2 )
+                else
+                    addStack( "phoenix_reborn" )
+                end
             end
 
             if set_bonus.tier30_4pc > 0 and debuff.charring_embers.up then
@@ -1622,7 +1672,6 @@ spec:RegisterAbilities( {
                     addStack( "calefaction" )
                 end
             end
-
         end,
     },
 
@@ -1776,6 +1825,15 @@ spec:RegisterAbilities( {
 
             if talent.unleashed_inferno.enabled and buff.combustion.up then reduceCooldown( "combustion", 1.25 ) end
 
+            if talent.phoenix_reborn.enabled then
+                if buff.phoenix_reborn.stack == 24 then
+                    removeBuff( "phoenix_reborn" )
+                    applyBuff( "born_of_flame", nil, 2 )
+                else
+                    addStack( "phoenix_reborn" )
+                end
+            end
+
             if set_bonus.tier30_4pc > 0 and debuff.charring_embers.up then
                 if buff.calefaction.stack == 19 then
                     removeBuff( "calefaction" )
@@ -1869,15 +1927,6 @@ spec:RegisterAbilities( {
             end
 
             if talent.unleashed_inferno.enabled and buff.combustion.up then reduceCooldown( "combustion", 1.25 ) end
-            -- Legacy
-            if set_bonus.tier30_4pc > 0 and debuff.charring_embers.up then
-                if buff.calefaction.stack == 19 then
-                    removeBuff( "calefaction" )
-                    applyBuff( "flames_fury", nil, 2 )
-                else
-                    addStack( "calefaction" )
-                end
-            end
         end,
 
         velocity = 35,
@@ -1886,6 +1935,24 @@ spec:RegisterAbilities( {
             if hot_streak( firestarter.active or buff.firestorm.up or buff.hyperthermia.up ) then
                 if talent.kindling.enabled then
                     reduceCooldown( "combustion", 1 )
+                end
+            end
+
+            if talent.phoenix_reborn.enabled then
+                if buff.phoenix_reborn.stack == 24 then
+                    removeBuff( "phoenix_reborn" )
+                    applyBuff( "born_of_flame", nil, 2 )
+                else
+                    addStack( "phoenix_reborn" )
+                end
+            end
+
+            if set_bonus.tier30_4pc > 0 and debuff.charring_embers.up then
+                if buff.calefaction.stack == 19 then
+                    removeBuff( "calefaction" )
+                    applyBuff( "flames_fury", nil, 2 )
+                else
+                    addStack( "calefaction" )
                 end
             end
 
@@ -1948,6 +2015,14 @@ spec:RegisterAbilities( {
             if target.health.pct < 30 or buff.heat_shimmer.up then
                 if talent.frenetic_speed.enabled then applyBuff( "frenetic_speed" ) end
                 if talent.improved_scorch.enabled then applyDebuff( "target", "improved_scorch", nil, debuff.improved_scorch.stack + 1 ) end
+            end
+            if talent.phoenix_reborn.enabled then
+                if buff.phoenix_reborn.stack == 24 then
+                    removeBuff( "phoenix_reborn" )
+                    applyBuff( "born_of_flame", nil, 2 )
+                else
+                    addStack( "phoenix_reborn" )
+                end
             end
             removeBuff( "heat_shimmer" )
         end,

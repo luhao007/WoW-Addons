@@ -975,6 +975,7 @@ app.CreateMap = app.CreateClass("Map", "mapID", {
 	["description"] = function(t)
 		return L.HEADER_DESCRIPTIONS[t.headerID];
 	end,
+	["ShouldShowEventSchedule"] = app.ReturnTrue,
 }, (function(t)
 	local creatureID = t.creatureID or t.npcID;
 	if creatureID and creatureID < 0 then

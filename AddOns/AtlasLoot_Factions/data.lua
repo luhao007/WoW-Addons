@@ -314,8 +314,8 @@ data["TWWFACTIONS"] = {
 				{ 1,  "f2685rep38" },
 				{ 2,  229945,      "mount",  [PRICE_EXTRA_ITTYPE] = "money:6250000" }, -- Thunderdrum Misfire
 				{ 4,  "f2685rep39" },
-				{ 5,  232844,      "pet4640" },                      -- Fuz-Size Flarendo
-				{ 6,  232806,      "pet4643" },                      -- Tiny Torq
+				{ 5,  232844,      "pet4640" },                            -- Fuz-Size Flarendo
+				{ 6,  232806,      "pet4643" },                            -- Tiny Torq
 				{ 8,  "f2685rep47" },
 				{ 9,  229924,      "mount",  [PRICE_EXTRA_ITTYPE] = "money:6250000" }, -- Darkfuse Chompactor
 				{ 11, "f2685rep50" },
@@ -326,24 +326,29 @@ data["TWWFACTIONS"] = {
 			FactionID = 2688,
 			CoinTexture = "Reputation",
 			[NORMAL_DIFF] = {
-				{ 1,  "f2688rep32" },
-				{ 2,  238850,  [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Arathi Entertainer's Flame
-				{ 4,  "f2688rep33" },
-				{ 5,  238986, "pet4794", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:6500" }, -- Mister Mans
-				{ 7,  "f2688rep34" },
-				{ 8,  238852,  [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Flame's Radiance Banner
-				{ 10,  "f2688rep36" },
-				{ 11,  239693,  [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Radiant Lynx Whistle
-				{ 12,  241188, "pet4804", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:6500" }, -- Swiftpaw
-				{ 14,  "f2688rep37" },
-				{ 15,  238824,  [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3250" }, -- Radiant Traveler's Backpack
-				{ 16,  "f2688rep38" },
-				{ 17,  238837,  [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3250" }, -- Delver's Dirigible Schematic: Pale Paint
-				{ 18,  238839,  [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" }, -- Delver's Dirigible Schematic: Arathi Decal
-				{ 20,  "f2688rep39" },
-				{ 21,  238829, "mount", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:8125" }, -- Radiant Imperial Lynx
-				{ 23,  "f2688rep40" },
-				{ 24,  "237433:11977:6652:10394:10392:1498:10255",  [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" }, -- Necklace of the Devout
+				{ 1,   "f2688rep31" },
+				{ 2,   233288 },                                                                           -- Radiant Recruit's Tabard
+				{ 4,   "f2688rep32" },
+				{ 5,   238850,                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Arathi Entertainer's Flame
+				{ 7,   "f2688rep33" },
+				{ 8,   238986,                                     "pet4794",                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:6500" }, -- Mister Mans
+				{ 10,  "f2688rep34" },
+				{ 11,  238852,                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Flame's Radiance Banner
+				{ 13,  "f2688rep35" },
+				{ 14,  233289 },                                                                           -- Radiant Stalwart's Tabard
+				{ 16,  "f2688rep36" },
+				{ 17,  239693,                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Radiant Lynx Whistle
+				{ 18,  241188,                                     "pet4804",                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:6500" }, -- Swiftpaw
+				{ 20,  "f2688rep37" },
+				{ 21,  238824,                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3250" }, -- Radiant Traveler's Backpack
+				{ 23,  "f2688rep38" },
+				{ 24,  238837,                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3250" }, -- Delver's Dirigible Schematic: Pale Paint
+				{ 25,  238839,                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" }, -- Delver's Dirigible Schematic: Arathi Decal
+				{ 27,  "f2688rep39" },
+				{ 28,  238829,                                     "mount",                                       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:8125" }, -- Radiant Imperial Lynx
+				{ 101, "f2688rep40" },
+				{ 102, "237433:11977:6652:10394:10392:1498:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" }, -- Necklace of the Devout
+				{ 103, 233290 },                                                                           -- Sacred Templar's Tabard
 			}
 		},
 	}

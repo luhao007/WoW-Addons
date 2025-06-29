@@ -1,4 +1,4 @@
-local L = LibStub('AceLocale-3.0'):NewLocale('PetBattleScripts', 'enUS')
+local L = LibStub('AceLocale-3.0'):NewLocale('PetBattleScripts', 'enUS', true)
 if not L then return end
 
 L["ADDON_NAME"] = "Pet Battle Scripts"
@@ -15,6 +15,7 @@ L["IN_BATTLE_SELECT_SCRIPT"] = "Select script"
 L["OPTION_AUTO_SELECT_SCRIPT_BY_ORDER"] = "Automatically select script by script selector order"
 L["OPTION_AUTO_SELECT_SCRIPT_ONLY_ONE"] = "Automatically select script by script selector priority"
 L["OPTION_AUTOBUTTON_HOTKEY"] = "Autobattle Hotkey"
+L["OPTION_AUTOBUTTON_HOTKEY_SECONDARY"] = "(secondary)"
 L["OPTION_EDITOR_FONT_FACE"] = "Font face"
 L["OPTION_EDITOR_FONT_SIZE"] = "Font size"
 L["OPTION_HIDE_MINIMAP"] = "Hide minimap icon"
@@ -27,6 +28,14 @@ L["OPTION_RESET_FRAMES"] = "Reset the panel size and position"
 L["OPTION_SCRIPTSELECTOR_NOTES"] = "Here you can manage the script selector is open, and its priority."
 L["OPTION_SETTINGS_HIDE_MINIMAP_TOOLTIP"] = "Changing this setting requires reloading the UI. Do you want to continue?"
 L["OPTION_TEST_BREAK"] = "Let 'test' action stop script"
+L["REMATCH_NOTE_SCRIPT_EXPORT_ADD_TO_NOTE_MENU_ITEM"] = "Add script to note"
+L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL"] = [=[Importing at least one script from Rematch team notes failed:
+%s]=]
+L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL_EXIST_DIFFERENT"] = "A script already exists, and it is a different one. Delete note or script."
+L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL_LINE"] = "- Team \"%s\": %s"
+L["REMATCH4_DEPRECATED"] = [=[Rematch 4 is old and support of the pet battle scripts addon for it will be dropped mid 2025. Please upgrade to Rematch 5.
+
+Also, please notify us on Curseforge or GitHub, as we want to count whether a relevant number of users still use Rematch 4, contrary to our assumptions.]=]
 L["SCRIPT_EDITOR_AUTOFORMAT_SCRIPT"] = "Format script"
 L["SCRIPT_EDITOR_DELETE_SCRIPT_CONFIRMATION"] = "Are you sure you want to |cffff0000delete|r the script |cffffd000[%s - %s]|r ?"
 L["SCRIPT_EDITOR_FOUND_ERROR"] = "Found error"
@@ -48,8 +57,11 @@ L["SELECTOR_BASE_NOTES"] = "This script selector matches ally and enemy."
 L["SELECTOR_BASE_TITLE"] = "Base"
 L["SELECTOR_FIRSTENEMY_NOTES"] = "This script selector binds the script to the first enemy in the battle."
 L["SELECTOR_FIRSTENEMY_TITLE"] = "First enemy"
-L["SELECTOR_REMATCH_4_TO_5_UPDATE_NOTE"] = "Updated from Rematch 4 to Rematch 5. Please check whether your scripts are still correctly linked to teams.\\nIf the upgrade failed, restore a backup of wow/WTF/Account/<account>/SavedVariables/tdBattlePetScript.lua, or open it and search for \"Rematch\" and remove or replace with \"Rematch5\", then search for \"Rematch4\" and replace it with \"Rematch\". Then downgrade back to Rematch 4 and report a bug on https://github.com/axc450/pbs/issues/new, attaching your saved variables file for Rematch and this addon."
-L["SELECTOR_REMATCH_4_TO_5_UPDATE_ORPHAN"] = [=[Found script named "%s" which is linked to the non-existent Rematch team id "%s".\n
+L["SELECTOR_REMATCH_4_TO_5_UPDATE_NOTE"] = [=[Updated from Rematch 4 to Rematch 5. Please check whether your scripts are still correctly linked to teams.
+
+If the upgrade failed, restore a backup of wow/WTF/Account/<account>/SavedVariables/tdBattlePetScript.lua, or open it and search for "Rematch" and remove or replace with "Rematch5", then search for "Rematch4" and replace it with "Rematch". Then downgrade back to Rematch 4 and report a bug on https://github.com/axc450/pbs/issues/new, attaching your saved variables file for Rematch and this addon.]=]
+L["SELECTOR_REMATCH_4_TO_5_UPDATE_ORPHAN"] = [=[Found script named "%s" which is linked to the non-existent Rematch team id "%s".
+
 This can indicate an issue during updating the database, or a previous corruption. If this error has happened to a lot of teams, please report it as a bug. Otherwise, just remove orphaned teams via the Script Manager and re-add them to the correct teams.]=]
 L["SELECTOR_REMATCH_CANT_FORMAT_TOOLTIP_REMATCH_NOT_LOADED"] = "Can't show information: Rematch addon not loaded."
 L["SELECTOR_REMATCH_NO_TEAM_FOR_SCRIPT"] = "No team matches this script"
@@ -70,4 +82,3 @@ L["SHARE_IMPORT_SCRIPT_NOT_IMPORT_STRING_WARNING"] = "You have entered the scrip
 L["SHARE_IMPORT_SCRIPT_WELCOME"] = "Copy Share string or script to edit box."
 L["SHARE_IMPORT_STRING_INCOMPLETE"] = "Share string data incomplete. But you can still import it."
 L["TOOLTIP_CREATE_OR_DEBUG_SCRIPT"] = "Create or debug script"
-

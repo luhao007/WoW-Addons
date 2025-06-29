@@ -10,11 +10,15 @@ local QUEST_ICONS = {
 function Quest.OnSet(mainButton, descFrame)
 	local typeVal = mainButton.__atlaslootinfo.extraType[2]
 	descFrame.info = typeVal
+	descFrame.waiting = true
 
 	QuestEventListener:AddCallback(typeVal, function()
 		local name = C_QuestLog.GetTitleForQuestID(typeVal)
-		descFrame:AddIcon(QUEST_ICONS[0])
-		descFrame:AddText(name)
+		if (name and descFrame.waiting) then
+			descFrame.waiting = nil
+			descFrame:AddIcon(QUEST_ICONS[0])
+			descFrame:AddText(name)
+		end
 	end)
 end
 

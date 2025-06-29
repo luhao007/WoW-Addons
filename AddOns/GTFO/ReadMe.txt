@@ -2258,3 +2258,12 @@ Change Log:
 
 5.17.1
 * Fixed LUA crash issues
+
+5.17.2
+* Added TWW spells for The Rookery
+* Added BFA Spells for Horrific Visions
+
+5.17.3
+* Updated for patch 11.1.7
+* Added The War Within spells (world)
+* Removed "TrivialLevel" from Burning Crusade spells

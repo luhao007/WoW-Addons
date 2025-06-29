@@ -6,6 +6,7 @@ local _, _, _, tocversion = GetBuildInfo()
 local Data = {}
 ----------
 MAX_CONTAINER_ITEMS=MAX_CONTAINER_ITEMS or 36
+Data.AtlasInfo={}
 ---职业
 function PIGGetClassInfo(id)
 	if C_CreatureInfo and C_CreatureInfo.GetClassInfo then
@@ -24,7 +25,7 @@ PIG_CLASS_COLORS={}
 for k,v in pairs(RAID_CLASS_COLORS) do
     PIG_CLASS_COLORS[k] = {r = v.r, g = v.g, b = v.b, colorStr = v.colorStr}
 end
-PIG_CLASS_COLORS[NONE]={r = 1, g = 0.843, b = 0, colorStr = FFD700}
+PIG_CLASS_COLORS[NONE]={r = 1, g = 0.843, b = 0, colorStr = "ffFFD700"}
 
 local cl_Name={};
 local cl_Name_Role={
@@ -45,8 +46,11 @@ local cl_Name_Role={
 local ClasseID={};
 local ClasseNameID={}
 local ClassFile_Name={};
-for i=1,GetNumClasses() do
-	local className, classFile, classID = PIGGetClassInfo(i)
+for index=1,GetNumClasses() do
+	if (index == 10) and (GetClassicExpansionLevel() <= LE_EXPANSION_CATACLYSM) then
+		index = 11;
+	end
+	local className, classFile, classID = PIGGetClassInfo(index)
 	if classFile then
 		table.insert(cl_Name,{classFile,cl_Name_Role[classFile],className, classID})
 		ClasseID[classFile]= classID
@@ -121,7 +125,7 @@ Data.Quality= {}
 for k,v in pairs(Enum.ItemQuality) do
 	Data.Quality[v]={["Name"]={},["RGB"]={},["HEX"]={}}
 	local r, g, b, hex = GetItemQualityColor(v)
-	--print(v,r, g, b, hex)
+	--print(v, '|c'..hex.._G["ITEM_QUALITY"..v.."_DESC"]..'|r')
 	Data.Quality[v]["Name"]='|c'..hex.._G["ITEM_QUALITY"..v.."_DESC"]..'|r'
 	Data.Quality[v]["RGB"]={r, g, b}
 	Data.Quality[v]["HEX"]=hex
@@ -145,6 +149,23 @@ if tocversion>100000 then
 	Data.bagData["bagID"]={0,1,2,3,4,5}
 	Data.bagData["bankID"]={-1,6,7,8,9,10,11,12}
 end
+--物品类型
+local ItemTypeLsit = {
+	{133971,{{0,5}}},--消耗品/食物
+	{136240,{{0,1}}},--消耗品/药水
+	{134071,{{7,4},{3}}},--商品/珠宝加工
+	{136249,{{7,5}}},--商品/布料
+	{133611,{{7,6}}},--商品/皮革
+	{136248,{{7,7}}},--商品/金属矿石
+	{133970,{{7,8}}},--商品/肉类
+	{133939,{{7,9}}},--商品/草药
+	{136244,{{7,12}}},--商品/附魔
+}
+for iv=1,#ItemTypeLsit do
+	local Subname = GetItemSubClassInfo(ItemTypeLsit[iv][2][1][1],ItemTypeLsit[iv][2][1][2])
+	ItemTypeLsit[iv][3]=Subname or NONE
+end
+Data.ItemTypeLsit=ItemTypeLsit
 --专业信息
 Data.SkillbookType=BOOKTYPE_SPELL
 if tocversion<50000 then
@@ -194,13 +215,18 @@ else
 	table.insert(Skill_List.bot,131474)--"钓鱼"
 end
 local Skill_ListName = {}
+local Skill_ListNameIcon={}
 for k,v in pairs(Skill_List) do
 	Skill_ListName[k]={}
 	for i=1,#v do
-		local Skillname=PIGGetSpellInfo(v[i])
-		if Skillname then table.insert(Skill_ListName[k],Skillname) end
+		local spellName, spellTexture = PIGGetSpellInfo(v[i])
+		if spellName then 
+			Skill_ListNameIcon[spellName]=spellTexture
+			table.insert(Skill_ListName[k],spellName) 
+		end
 	end
 end
+Data.Skill_ListNameIcon=Skill_ListNameIcon
 local function Is_SkillName(namex)
 	for k,v in pairs(Skill_ListName) do
 		for i=1,#v do
@@ -330,7 +356,6 @@ local function Getfubendata()
 						-- 	if groupID==288 then
 						-- 		print(CategoryInfo.name.."-"..groupName,activityID,fullName,activityInfo.shortName)
 						-- 		if string.match(groupName,EXPANSION_NAME2) then
-	
 						-- 		end
 						-- 	end
 						-- end

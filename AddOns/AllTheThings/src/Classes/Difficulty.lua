@@ -54,6 +54,7 @@ local DifficultyIcons = {
 	[5] = app.asset("Difficulty_Heroic"),
 	[6] = app.asset("Difficulty_Heroic"),
 	[7] = app.asset("Difficulty_LFR"),
+	[8] = 618858,
 	[9] = app.asset("Difficulty_Mythic"),
 	[11] = app.asset("Difficulty_Heroic"),
 	[12] = app.asset("Difficulty_Normal"),

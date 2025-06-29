@@ -6,11 +6,13 @@ local match = _G.string.match
 local gmatch=_G.string.gmatch
 local _, _, _, tocversion = GetBuildInfo()
 local Data=addonTable.Data
+local Fun=addonTable.Fun
 --------------
 local QuickChatfun = addonTable.QuickChatfun
 local FasongYCqingqiu=addonTable.Fun.FasongYCqingqiu
 local GetRaceClassTXT=addonTable.Fun.GetRaceClassTXT
 local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
+local GetItemStats=GetItemStats or C_Item and C_Item.GetItemStats
 --远程观察图标
 local wanjiaxinxil = {}
 local ClassColor=Data.ClassColor
@@ -111,11 +113,13 @@ local function ShowZb_Link_Icon(newText)
 	end
 	return newText
 end
+local is_slist_1=Fun.is_slist_1
 local function tiqu_UnitID(self,event,arg1,...)
 	local arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12=...
 	if arg5 and arg12 then
 		local nameg, fuwqi = strsplit("-", arg5);
-		if fuwqi==Pig_OptionsUI.Realm then
+		if is_slist_1(nameg) then return true end
+		if fuwqi==PIG_OptionsUI.Realm then
 			wanjiaxinxil[nameg]=arg12
 		else
 			wanjiaxinxil[arg5]=arg12
@@ -196,25 +200,25 @@ local function PindaoName(text)
 end
 
 --修复点击密语
--- Pig_OptionsUI.Plus_chat = PIGCheckbutton(Pig_OptionsUI,{"BOTTOMRIGHT", Pig_OptionsUI, "TOPRIGHT", -340, 2},{"修复聊天框点击密语","修复聊天框点击密语无效问题"})
--- Pig_OptionsUI.Plus_chat:SetScript("OnClick", function (self)
+-- PIG_OptionsUI.Plus_chat = PIGCheckbutton(PIG_OptionsUI,{"BOTTOMRIGHT", PIG_OptionsUI, "TOPRIGHT", -340, 2},{"修复聊天框点击密语","修复聊天框点击密语无效问题"})
+-- PIG_OptionsUI.Plus_chat:SetScript("OnClick", function (self)
 -- 	if self:GetChecked() then
 -- 		PIGA["Chat"]["Plus_chat"]=true;
 -- 	else
 -- 		PIGA["Chat"]["Plus_chat"]=false;
 -- 	end
--- 	Pig_OptionsUI.Plus_chat:Plus_chat_xifu()
+-- 	PIG_OptionsUI.Plus_chat:Plus_chat_xifu()
 -- end);
--- Pig_OptionsUI.Plus_chat:HookScript("OnShow", function(self)
+-- PIG_OptionsUI.Plus_chat:HookScript("OnShow", function(self)
 -- 	self:SetChecked(PIGA["Chat"]["Plus_chat"])
 -- end)
--- function Pig_OptionsUI.Plus_chat:Plus_chat_xifu()
+-- function PIG_OptionsUI.Plus_chat:Plus_chat_xifu()
 -- 	if PIGA["Chat"]["Plus_chat"]==nil then PIGA["Chat"]["Plus_chat"] = true end
 -- 	if PIGA["Chat"]["Plus_chat"] then
 -- 		local old_ChatFrame_SendTell=ChatFrame_SendTell
 -- 		ChatFrame_SendTell=function(name, chatFrame,pig)
 -- 			local name1,server2 = strsplit("-",name)
--- 			if Pig_OptionsUI.Realm==server2 then
+-- 			if PIG_OptionsUI.Realm==server2 then
 -- 				name = name1
 -- 			end
 -- 			local editBox = ChatEdit_ChooseBoxForSend(chatFrame);	
@@ -244,7 +248,7 @@ function QuickChatfun.PIGMessage()
 		local gnid,name_server = strsplit(":", nametext);--lineID, chatType, chatTarget
 		if tocversion<100000 then
 			local name,server = strsplit("-",name_server)
-			if Pig_OptionsUI.Realm==server then
+			if PIG_OptionsUI.Realm==server then
 				name_server = name
 			end
 		end
@@ -292,7 +296,7 @@ function QuickChatfun.PIGMessage()
 			local msninfo = chatID.AddMessage
 			chatID.AddMessage = function(frame, text, ...)
 				--local text=text:gsub("|cff%w%w%w%w%w%w|Hmount:.-|h%[","");
-				--ChatFrame99:AddMessage(text:gsub("|", "||"));
+				--PIG_ChatFrameKeyWord:AddMessage(text:gsub("|", "||"));
 				--if i==1 then table.insert(PIGA["xxxxxx"],text) end
 				if text and text~="" and text:match("player") then
 					local text=PindaoName(text)

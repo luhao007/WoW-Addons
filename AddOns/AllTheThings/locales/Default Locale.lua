@@ -121,6 +121,7 @@ local L = setmetatable({
 	REMOVED_WITH_PATCH_FORMAT = "This gets removed with patch %s";
 	WAS_ADDED_WITH_PATCH_FORMAT = "This was added with patch %s";
 	WAS_ADDED_BACK_WITH_PATCH_FORMAT = "This was added back with patch %s";
+	CRITERIA_FORMAT = "|cffffff00[Criteria: %s]|r";
 
 	FACTION_SPECIFIC_REP = "Not all reputations can be viewed on a single character. IE: Warsong Outriders cannot be viewed by an Alliance Player and Silverwing Sentinels cannot be viewed by a Horde Player.";
 	MINUMUM_STANDING_WITH_FACTION = "Requires a minimum standing of %s with %s.";
@@ -144,6 +145,7 @@ local L = setmetatable({
 	ARTIFACT_ID = "Artifact ID";
 	AZERITE_ESSENCE_ID = "Azerite Essence ID";
 	ART_ID = "Art ID";
+	CAMPSITE_ID = "Campsite ID";
 	CREATURE_ID = "Creature ID";
 	CURRENCY_ID = "Currency ID";
 	DESCRIPTIONS = "Descriptions";
@@ -191,7 +193,7 @@ local L = setmetatable({
 	CHAT_COMMANDS_LABEL = "Chat Commands";
 	CHAT_COMMANDS_TEXT = "/att |cffFFFFFFor|R /allthethings\n|cffFFFFFFOpens the Main List.\n\n|R/attmini\n|cffFFFFFFOpens the Mini List.\n\n|R/attbounty\n|cffFFFFFFOpens a list of bugged or unconfirmed items.\n\n|R/attra\n|cffFFFFFFOpens the Raid Assistant.\n\n|R/attwq\n|cffFFFFFFOpens the World Quests List.\n\n|R/att item:1234 |cffFFFFFFor|R /att [Item Link]\n|cffFFFFFFOpens a window with shared appearances. Also works with other things, such as|R quest:1234|cffFFFFFF, |Rnpcid:1234|cffFFFFFF, |Rmapid:1234|cffFFFFFF or |Rrecipeid:1234|cffFFFFFF.\n\n|R/attrwp\n|cffFFFFFFShows all future Removed With Patch things.\n\n|R/attnwp\n|cffFFFFFFShows all current New With Patch things.\n\n|R/attrandom\n|cffFFFFFFOpens the Random List.\n\n|R/attunsorted\n|cffFFFFFFOpens a list of unsourced items. Best opened in Debug Mode.\n\n|R/rl\n|cffFFFFFFReload your WoW interface.|R";
 	ICON_LEGEND_LABEL = "Icon Legend";
-	ICON_LEGEND_TEXT = app.ccColors.White .. "|T" .. app.asset("status-unobtainable") .. ":0|t " .. "Unobtainable" .. "\n|T" .. app.asset("status-prerequisites") .. ":0|t " .. "Obtainable only with prerequisites" .. "\n|T" .. app.asset("status-seasonal-available") .. ":0|t " .. "Available seasonal content" .. "\n|T" .. app.asset("status-seasonal-unavailable") .. ":0|t " .. "Unavailable seasonal content" .. "\n|T374225:0|t " .. "Unavailable on current character";
+	ICON_LEGEND_TEXT = app.ccColors.White .. "|T" .. app.asset("status-unobtainable") .. ":0|t " .. "Unobtainable" .. "\n|T" .. app.asset("status-prerequisites") .. ":0|t " .. "Obtainable only with prerequisites" .. "\n|T" .. app.asset("status-seasonal-available") .. ":0|t " .. "Available seasonal content" .. "\n|T" .. app.asset("status-seasonal-unavailable") .. ":0|t " .. "Unavailable seasonal content" .. "\n|T374225:0|t " .. "Unavailable on current character" .. "\n|T"..app.asset("status-unsorted")..":0|t " .. "Unsorted in ATT";
 	KEYBINDINGS = SETTINGS_KEYBINDINGS_LABEL;
 	KEYBINDINGS_TEXT = "You can set keybindings for ATT in the game's options.";
 	MINIMAP_LABEL = "Minimap Button";
@@ -446,6 +448,8 @@ local L = setmetatable({
 		["25 Player (Heroic)"] = "25M (H)",
 		[BATTLEGROUNDS] = "BGs",
 		-- Dungeon & Raid Names
+		-- Classic
+		["Scarlet Monastery of Old"] = "SM: Old",
 		-- Cata
 		["Baleroc, the Gatekeeper"] = "Baleroc",
 		["The Conclave of Wind"] = "Conclave",
@@ -551,7 +555,7 @@ local L = setmetatable({
 	FORCE_REFRESH_REQUIRED = "This may require a Force Refresh ("..SHIFT_KEY_TEXT.." click) to properly be collected.";
 	RELOG_REQUIRED = "After using this, it is typically required to logout & login to collect all the items correctly on the game servers.";
 	RACE_LOCKED = "Race Locked";
-	ENSEMBLE_LEARNED = "This Ensemble has already been used by one of your characters";
+	ENSEMBLE_LEARNED = "This Ensemble has already been used by one of your characters.\n\n|cFFA0A0A0Unfortunately, Blizzard’s system can sometimes fail to grant every item.|r";
 	HOLIDAY_DROP = "Only your first daily attempt per Battle.net account has a chance to drop the unique rewards, such as mounts, pets, toys, and manuscripts. The drop chance increases with every failed attempt.\nBlizzard have not specified which items are subject to this system.";
 	ADHOC_UNIQUE_COLLECTED_INFO = "This Item is Unique-Collected but failed to be detected due to missing Blizzard API information.\n\nIt will be fixed after the next Force-Refresh.";
 
@@ -645,10 +649,24 @@ local L = setmetatable({
 	TITLE_NONE_THINGS = "None of the Things ";
 	TITLE_ONLY = " Only ";
 	TITLE_INSANE = app.ccColors.Insane .. "Insane|R ";
+	TITLE_RANKED = "Ranked ";
+	TITLE_CORE = "Core ";
 	TITLE_SOME_THINGS = "Some of the Things ";
 	TITLE_LEVEL = "Level ";
 	TITLE_SOLO = "Solo ";
 	_BETA_LABEL = " |cff4AA7FF[Beta]|R";	-- unused
+
+	PRESET_TOOLTIP = "Enable this preset. This will adjust only the relevant tracking options of the current profile.";
+	PRESET_NONE = "None of the Things Mode disables the tracking of all collectibles. Way to challenge yourself.";
+	PRESET_CORE = "Core Mode enables the collectibles visible in the game's Warband Collections journal.";
+	PRESET_RANKED = "Ranked Mode enables the collectibles tracked by websites such as Data For Azeroth and WoWthing.";
+	PRESET_INSANE = app.ccColors.Insane .. "Insane Mode|R enables all " .. app.ccColors.Insane .. "colored options|R and gives you a real challenge!";
+	PRESET_ACCOUNT = app.ccColors.Account .. "Account Mode|R enables all account-wide tracking, and will show progress from all of your characters.";
+	PRESET_SOLO = "Solo Mode disables all account-wide tracking, and will only show progress for your current character.";
+	PRESET_UNIQUE = "Unique Mode disables Sources, marking gear as collected when you have learned their unique appearance.";
+	PRESET_COMP = "Completionist Mode enables Sources, only marking gear as collected when you have learned the appearance from that specific item.";
+	PRESET_RESTORE = "Restore";
+	PRESET_RESTORE_TOOLTIP = "Restore your tracking options to before applying any presets.";
 
 	EXTRA_THINGS_LABEL = "Additional Resources";	-- unused
 
@@ -717,12 +735,13 @@ local L = setmetatable({
 
 	-- Unobtainable Listing (for fellow 100%s out there)
 	UNOBTAINABLE_ITEM_TEXTURES = {
-		[0] = 374225,	-- Available, but not due to Current Character filters
-		app.asset("status-unobtainable"),
-		app.asset("status-prerequisites"),
+		[0] = 374225,	-- 0 Available, but not due to Current Character filters
+		app.asset("status-unobtainable"),	-- 1
+		app.asset("status-prerequisites"),	-- 2
 		"",									-- 3, we want no icon for these
-		app.asset("status-seasonal-unavailable"),	-- Seasonal unavailable
-		app.asset("status-seasonal-available"),	-- Seasonal available
+		app.asset("status-seasonal-unavailable"),	-- 4 Seasonal unavailable
+		app.asset("status-seasonal-available"),	-- 5 Seasonal available
+		app.asset("status-unsorted"), -- 6 Unsorted
 	};
 
 	-- Crieve tested all professions in non-english locales and the following skills were not detected without these.
@@ -854,6 +873,8 @@ L.SETTINGS_MENU = {
 		APPEARANCES_CHECKBOX_TOOLTIP = "Enable this option to track appearance acquisition.\n\nNOTE: Disabling this option also disables all fanfares and acquisition logic.  You can use this toggle as a way to prevent lag spikes while doing important group content, but bear in mind the computation will need to occur once re-enabled.";
 		BATTLE_PETS_CHECKBOX = "Battle Pets";
 		BATTLE_PETS_CHECKBOX_TOOLTIP = "Enable this option to track battle pets and companions. These can be found in the open world or via boss drops in various Dungeons and Raids as well as from Vendors and Reputation.";
+		CAMPSITES_CHECKBOX = "Campsites";
+		CAMPSITES_CHECKBOX_TOOLTIP = "Enable this option to track warband campsite completion.";
 		DEATHS_CHECKBOX = "Deaths";
 		DEATHS_CHECKBOX_TOOLTIP = "Enable this option to track each time one of your characters die and show it as a Collectible section within the addon.\n\nNOTE: If you turn this off, we'll still track it, but we simply will not show the statistic unless you're in Debug Mode.";
 		EXPLORATION_CHECKBOX = "Exploration (inaccurate)";
@@ -1019,7 +1040,7 @@ L.SETTINGS_MENU = {
 		FILL_DYNAMIC_QUESTS_CHECKBOX = "Fill Dynamic Quests";
 		FILL_DYNAMIC_QUESTS_CHECKBOX_TOOLTIP = "Enable this option if you want to allow Items/Currencies which are used to purchase collectible Things to be filled with those purchases when under automatically-populated Quests.\n\nFor example, this will cause the [World Quests] window to behave like the minilist rather than the Main list regarding Cost display.\nNote that in most cases, this will drastically increase the apparent content within the window.";
 		FILL_NPC_DATA_CHECKBOX = "Fill NPC Data";
-		FILL_NPC_DATA_CHECKBOX_TOOLTIP = "Enable this option if you want to fill all relevant data for a given NPC (Common Boss Drops, Drops, etc) when shown in a mini list. This option may cause a significant amount of duplication, but the idea is that the NPC will remain visible on the mini list if you need something available from that NPC.\n\nNote: A lot of Dragonflight outdoors content relies on this setting being enabled for accuracy due to how many Rares share common drops.\n\nDefault: Off";
+		FILL_NPC_DATA_CHECKBOX_TOOLTIP = "Enable this option if you want to fill all relevant data for a given NPC (Common Boss Drops, Drops, etc). This option may cause a significant amount of duplication, but the idea is that the NPC will remain visible if you need something available from that NPC.\n\nNote: A lot of Dragonflight outdoors content relies on this setting being enabled for accuracy due to how many Rares share common drops.\n\nDefault: Off";
 		NESTED_QUEST_CHAIN_CHECKBOX = "Show Nested Quest Chains";
 		NESTED_QUEST_CHAIN_CHECKBOX_TOOLTIP = "Enable this option if you want the Quest Chain Requirements (Right-Click on Quest) window to show required Quests as sub-groups of their following Quests, i.e. they must be completed from the inside out.\n\nThis is useful to not miss Breadcrumb Quests and should be used primarily for Quest completion in mind.\n\nOtherwise, Quest Chain Requirements will be displayed in a top-down list, with the earliest available Quest at the very top.";
 		SORT_BY_PROGRESS_CHECKBOX = "Sort By Progress";
@@ -1054,13 +1075,25 @@ L.SETTINGS_MENU = {
 		CLASS_BORDER = "Use Class Color For Border";
 		CLASS_BORDER_TOOLTIP = "Use your class color for the borders. This updates when you log onto another class.";
 
+	-- Interface: Fillers Page
+		FILLERS_LABEL = "Fillers";
+		FILLERS_EXPLANATION = "|cffFFFFFFFillers are mechanisms by which extra Data is 'filled' into/beneath other ATT content within various UI elements to show further use or purpose of a given Thing. For example, showing the resulting Purchases of an Item would be provided by a 'Filler'.\nThis tab allows you to modify your preferences of which Fillers will be active throughout ATT.|r",
+		-- Filler Scopes
+		TOOLTIP = "Tooltip",
+		LIST = "List",
+		-- Filler Names
+		UPGRADE = "Upgrade",
+		CATALYST = "Catalyst",
+		SYMLINK = "Sym-Link",
+		COST = "Cost",
+		NPC = "NPC",
+		REAGENT = "Reagent",
+
 	-- Interface: Information Page
 		ACHIEVEMENT_ID = "Achievement ID";
 		ACHIEVEMENT_CATEGORY_ID = "Achievement Category ID";
-		ADDED_WITH_PATCH_CLASSIC_FORMAT = "This gets added with patch %s";
 		READDED_WITH_PATCH_CLASSIC_FORMAT = "This gets readded with patch %s";
 		REMOVED_WITH_PATCH_CLASSIC_FORMAT = "This gets removed with patch %s";
-		WAS_ADDED_WITH_PATCH_CLASSIC_FORMAT = "This was added with patch %s";
 
 	-- Features Page
 		FEATURES_PAGE = FEATURES_LABEL;
@@ -1143,6 +1176,7 @@ L.TOOLTIP_MODULE = {
 	},
 	TITLES = {
 		XX_BRINGER_OF_FLAMES = "%s, Bringer of Flames";
+		XX_OF_THE_ASYLUM = "%s, King of the Asylum";
 		XX_THE_COMPLETIONIST = "%s the Completionist";
 		XX_THE_CONTRIBUTOR = "%s";	-- NOTE: Contributors didn't want a different title.
 		XX_THE_EXTERMINATOR = "%s the Exterminator";

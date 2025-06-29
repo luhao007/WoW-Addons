@@ -166,6 +166,18 @@ local function loadItemsFromOtherModule(moduleLoader, loadString, contentTable, 
 			newDif = ItemDB.Storage[curAddonName]:GetDifficultyUName(curDiff) or ItemDB.Storage[curAddonName]:GetDifficultyName(curDiff)
 			newDif = ItemDB.Storage[addonName]:GetDifficultyByName(newDif)
 		end
+
+		-- TIERSETS used to have Tier 14 be the 14th element in the array, but now it's not. This will iterate through the array to find tier = 14
+		if (addonName == "AtlasLoot_Collections" and contentName == "TIERSETS") then
+			local newBossID;
+			for key, value in ipairs(ItemDB.Storage[addonName][contentName].items) do
+				if (value.tier == bossID) then
+					newBossID = key
+				end
+			end
+			bossID = newBossID
+		end
+
 		--contentTable[curDiff] = setmetatable({__linkedInfo = {addonName, contentName, bossID, newDif}}, { __index =ItemDB.Storage[addonName][contentName].items[bossID][newDif]})
 		contentTable[curContentName].items[curBossID][curDiff] = ItemDB.Storage[addonName][contentName].items[bossID][newDif]
 		if not contentTable[curContentName].items[curBossID][curDiff] then
@@ -431,9 +443,10 @@ function ItemDB.ContentProto:GetNameForItemTable(index)
 	elseif self.items[index].FactionID then
 		local temp = C_Reputation.GetFactionDataByID(self.items[index].FactionID)
 		if (temp == nil) then
-			return nil
+			local BF = AtlasLoot.LibBabble:Get("LibBabble-Faction-3.0")
+			return BF[AtlasLoot.Data.Faction.FACTION_KEY[self.items[index].FactionID]] or FACTION.." "..self.items[index].FactionID
 		else
-			return temp.name --or "Faction "..self.items[index].FactionID
+			return temp.name
 		end
 	else
 		return UNKNOWN

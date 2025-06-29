@@ -1,5 +1,17 @@
 # Changelog
 
+## 5.2.11 - June 22, 2025
+### Fixed
+- Fix additional error when trying to migrate data with unexpected instances
+
+## 5.2.10 - June 22, 2025
+### Fixed
+- Fix error when trying to migrate data with unexpected quests
+
+## 5.2.9 - June 17, 2025
+### Changed
+- Retail: Update TOC to 11.1.7
+
 ## 5.2.8 - April 22, 2025
 ### Changed
 - Retail: Update TOC to 11.1.5

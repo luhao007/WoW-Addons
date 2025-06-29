@@ -2378,21 +2378,6 @@ local function OnInitForPopout(self, questID, group)
 		app.Sort(self.data.g, app.SortDefaults.Global)
 	end
 
-	-- If this is an achievement, build the criteria within it if possible.
-	local achievementID = group.achievementID;
-	if achievementID then
-		local searchResults = SearchForField("achievementID", achievementID);
-		if #searchResults > 0 then
-			for i=1,#searchResults,1 do
-				local searchResult = searchResults[i];
-				if searchResult.achievementID == achievementID and searchResult.criteriaID then
-					if not self.data.g then self.data.g = {}; end
-					MergeObject(self.data.g, CloneReference(searchResult));
-				end
-			end
-		end
-	end
-
 	--[[
 	local currencyID = group.currencyID;
 	if currencyID and not self.data.usedtobuy then
@@ -2484,7 +2469,6 @@ local function OnInitForPopout(self, questID, group)
 				["text"] = "Cost",
 				["description"] = "The following contains all of the relevant items or currencies needed to acquire this.",
 				["icon"] = 133785,
-				["OnUpdate"] = app.AlwaysShowUpdate,
 				["g"] = {},
 			};
 			local costItem;
@@ -2556,14 +2540,50 @@ local function OnInitForPopout(self, questID, group)
 			end
 		end
 
-		if not (self.data.ignoreSourceLookup or (self.data.g and #self.data.g > 0)) then
-			local results = app:BuildSearchResponse(app:GetDataCache().g, dataKey, self.data[dataKey]);
+		if not self.data.ignoreSourceLookup then
+			local searchID = self.data[dataKey];
+			if self.data.sym and self.data.sym[1][1] == "partial_achievement" then
+				searchID = self.data.sym[1][2];
+			end
+			local results = app:BuildSearchResponse(app:GetDataCache().g, dataKey, searchID);
 			if results and #results > 0 then
 				if not self.data.g then self.data.g = {}; end
 				for i,result in ipairs(results) do
 					tinsert(self.data.g, result);
 				end
 			end
+		else
+			-- If this is an achievement, build the criteria within it if possible.
+			local achievementID = group.achievementID;
+			if achievementID then
+				local searchResults = SearchForField("achievementID", achievementID);
+				if #searchResults > 0 then
+					for i=1,#searchResults,1 do
+						local searchResult = searchResults[i];
+						if searchResult.achievementID == achievementID and searchResult.criteriaID then
+							if not self.data.g then self.data.g = {}; end
+							MergeObject(self.data.g, CloneReference(searchResult));
+						end
+					end
+				end
+			end
+		end
+	end
+	if group.GetRelatedThings then
+		local relatedThingsGroup = {
+			["text"] = "Related Things",
+			["description"] = "The following contains things that may be related or relevant to the content.",
+			["icon"] = 133785,
+			["g"] = {},
+		};
+		local relatedThings = {};
+		group.GetRelatedThings(group, relatedThings);
+		for i,o in ipairs(relatedThings) do
+			MergeObject(relatedThingsGroup.g, CloneReference(o));
+		end
+		if #relatedThingsGroup.g > 0 then
+			if not self.data.g then self.data.g = {}; end
+			MergeObject(self.data.g, relatedThingsGroup);
 		end
 	end
 

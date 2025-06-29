@@ -1,10 +1,16 @@
-lightweight tag 5308cea4393e6699524d398b086de127e761eb5f patch-11.1.5-01
+lightweight tag 01c0d09969708cfaab5495220ba85c46ed1bd0ba patch-11.2.0
 Author:	Dave Hendler <sollaires@gmail.com>
-Date:	Thu Apr 10 11:05:24 2025 -0700
+Date:	Wed Jun 25 14:27:14 2025 -0700
 
-commit 5308cea4393e6699524d398b086de127e761eb5f
+commit 01c0d09969708cfaab5495220ba85c46ed1bd0ba
 Author: Dave Hendler <sollaires@gmail.com>
-Date:   Thu Apr 10 11:05:24 2025 -0700
+Date:   Wed Jun 25 14:27:14 2025 -0700
 
-    Bump version and compatibility for 11.1.5
+    Bump version to 11.2
+
+commit fa61babd1135dc75c4a43296527e9ca18e62c2ed
+Author: Dave Hendler <sollaires@gmail.com>
+Date:   Wed Jun 25 14:26:40 2025 -0700
+
+    Fix an issue with Spark Burst tooltip not being found because of pattern matching
 

@@ -8,10 +8,22 @@ local PIGFontString=Create.PIGFontString
 local PIGOptionsList_R=Create.PIGOptionsList_R
 --------
 local BusinessInfo=addonTable.BusinessInfo
-function BusinessInfo.Time()
-	local StatsInfo = StatsInfo_UI
+function BusinessInfo.Time(StatsInfo)
 	local fujiF,fujiTabBut=PIGOptionsList_R(StatsInfo.F,"时\n光",StatsInfo.butW,"Left")
-	StatsInfo.timetab={fujiF,fujiTabBut}
+	BusinessInfo.StatsInfoUI=StatsInfo
+	function StatsInfo:TabShow(lyui)
+		if self then
+			if self:IsShown() then
+				self:Hide()
+			else
+				lyui:Hide()
+				self:Show()
+				Create.Show_TabBut_R(self.F,fujiF,fujiTabBut)
+			end
+		else
+			PIG_OptionsUI:ErrorMsg("请打开"..addonName..SETTINGS.."→"..L["BUSINESS_TABNAME"].."→"..INFO..STATISTICS)
+		end
+	end
 	---
 	fujiF.nr=PIGFrame(fujiF)
 	fujiF.nr:SetPoint("TOPLEFT",fujiF,"TOPLEFT",4,-4);

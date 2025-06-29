@@ -83,12 +83,12 @@ function FramePlusfun.Macro()
 	if IsAddOnLoaded("Blizzard_MacroUI") then
 		SETMacroFrame()
     else
-        local shequFRAME = CreateFrame("FRAME")
+        local shequFRAME = CreateFrame("Frame")
         shequFRAME:RegisterEvent("ADDON_LOADED")
         shequFRAME:SetScript("OnEvent", function(self, event, arg1)
         	if arg1=="Blizzard_MacroUI" then
-        		SETMacroFrame()
-				self:UnregisterEvent("ADDON_LOADED")
+        		self:UnregisterEvent("ADDON_LOADED")
+        		SETMacroFrame()			
 			end
         end)
     end

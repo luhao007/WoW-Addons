@@ -1,8 +1,7 @@
 local L = LibStub('AceLocale-3.0'):NewLocale('PetBattleScripts', 'deDE')
 if not L then return end
 
---[[Translation missing --]]
-L["ADDON_NAME"] = "Pet Battle Scripts"
+--[[ L["ADDON_NAME"] = "Pet Battle Scripts" --]]
 L["DATABASE_UPDATE_BASE_TO_FIRSTENEMY_NOTIFICATION"] = "Es wurde festgestellt, dass du zuvor eine modifizierte Version von tdBattlePetScript verwendet hast und einige Skripte des modifizierten Basis-Selektors in den Erster Gegner-Selektor migriert hast."
 L["DATABASE_UPDATED_TO"] = "Aktualisiert auf Version: "
 L["DEFAULT_NEW_SCRIPT_NAME"] = "Neues Skript"
@@ -10,13 +9,13 @@ L["DIRECTOR_TEST_NEXT_ACTION"] = "Nächste Aktion"
 L["EDITOR_CREATE_SCRIPT"] = "Skript erstellen"
 L["EDITOR_EDIT_SCRIPT"] = "Skript bearbeiten"
 L["IN_BATTLE_DEBUGGING_SCRIPT"] = "Skript debuggen"
---[[Translation missing --]]
-L["IN_BATTLE_EXECUTE"] = "Autobattle"
+--[[ L["IN_BATTLE_EXECUTE"] = "Autobattle" --]]
 L["IN_BATTLE_NO_SCRIPT"] = "Kein Skript"
 L["IN_BATTLE_SELECT_SCRIPT"] = "Skript auswählen"
 L["OPTION_AUTO_SELECT_SCRIPT_BY_ORDER"] = "Skripte automatisch auf Basis der Skript-Selektor-Prioritäten auswählen"
 L["OPTION_AUTO_SELECT_SCRIPT_ONLY_ONE"] = "Automatisch nur ein Skript auswählen"
 L["OPTION_AUTOBUTTON_HOTKEY"] = "Hotkey für die Auto-Schaltfläche"
+L["OPTION_AUTOBUTTON_HOTKEY_SECONDARY"] = "(alternativ)"
 L["OPTION_EDITOR_FONT_FACE"] = "Schriftart"
 L["OPTION_EDITOR_FONT_SIZE"] = "Schriftgröße"
 L["OPTION_HIDE_MINIMAP"] = "Minimap-Symbol verstecken"
@@ -29,6 +28,14 @@ L["OPTION_RESET_FRAMES"] = "Größe und Position von allen Fenstern zurücksetze
 L["OPTION_SCRIPTSELECTOR_NOTES"] = "Hier kannst du die Verfügbarkeit und Priorität der Skript-Selektoren einstellen."
 L["OPTION_SETTINGS_HIDE_MINIMAP_TOOLTIP"] = "Um diese Einstellung zu ändern, muss die Benutzeroberfläche neu geladen werden. Willst du fortfahren?"
 L["OPTION_TEST_BREAK"] = "Entwickler: Die 'test' Aktion unterbricht die Ausführung"
+L["REMATCH_NOTE_SCRIPT_EXPORT_ADD_TO_NOTE_MENU_ITEM"] = "Füge Skript an Notiz dran"
+L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL"] = [=[Mindestens ein Import von Skripten aus Rematch Team Notizen ist fehlgeschlagen:
+%s]=]
+L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL_EXIST_DIFFERENT"] = "Ein Skript existiert bereits, aber es ist unterschiedlich. Lösche Notiz oder Skript."
+L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL_LINE"] = "- Team \"%s\": %s"
+L["REMATCH4_DEPRECATED"] = [=[Rematch 4 ist alt und die Unterstützung seitens des Pet Battle Script addons wird Mitte 2025 beendet. Bitte update zu Rematch 5.
+
+Zusätzlich, sag uns bitte auf Curseforge oder GitHub Bescheid, damit wir zählen können, wieviele Nutzer noch Rematch 4 benutzen.]=]
 L["SCRIPT_EDITOR_AUTOFORMAT_SCRIPT"] = "Skript formatieren"
 L["SCRIPT_EDITOR_DELETE_SCRIPT_CONFIRMATION"] = "Bist du sicher, dass du das Skript |cffffd000[%s - %s]|r |cffff0000löschen|r willst?"
 L["SCRIPT_EDITOR_FOUND_ERROR"] = "Fehler gefunden"
@@ -57,10 +64,8 @@ Das kann durch ein Problem während dem Datenbankupdate passiert sein, oder bere
 L["SELECTOR_REMATCH_CANT_FORMAT_TOOLTIP_REMATCH_NOT_LOADED"] = "Kann keine Informationen zeigen: Das Rematch-Addon ist nicht geladen."
 L["SELECTOR_REMATCH_NO_TEAM_FOR_SCRIPT"] = "Kein Team passt zu diesem Skript"
 L["SELECTOR_REMATCH_NOTES"] = "Dieser Skript-Selektor gilt basiered auf dem aktuellen Rematch Team."
---[[Translation missing --]]
-L["SELECTOR_REMATCH_TEAM_FORMAT"] = "Team: %s"
---[[Translation missing --]]
-L["SELECTOR_REMATCH_TITLE"] = "Rematch"
+--[[ L["SELECTOR_REMATCH_TEAM_FORMAT"] = "Team: %s" --]]
+--[[ L["SELECTOR_REMATCH_TITLE"] = "Rematch" --]]
 L["SHARE_EXPORT_SCRIPT"] = "Exportieren"
 L["SHARE_IMPORT_CHOOSE_KEY"] = "Wert auswählen..."
 L["SHARE_IMPORT_CHOOSE_SELECTOR"] = "Skript-Selektor auswählen..."
@@ -75,4 +80,3 @@ L["SHARE_IMPORT_SCRIPT_NOT_IMPORT_STRING_WARNING"] = "Es wird empfohlen, den Imp
 L["SHARE_IMPORT_SCRIPT_WELCOME"] = "Füge Share-String oder Skript in das Eingabefeld ein."
 L["SHARE_IMPORT_STRING_INCOMPLETE"] = "Die Daten des Share-Strings sind zwar unvollständig, aber können trotzdem importiert werden."
 L["TOOLTIP_CREATE_OR_DEBUG_SCRIPT"] = "Ein Skript erstellen oder debuggen"
-

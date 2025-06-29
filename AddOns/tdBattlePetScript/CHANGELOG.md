@@ -1,3 +1,82 @@
+## v1.11.6
+
+### Fixes
+
+- Fix localization for non-enUS clients.
+
+### Other
+
+- zhCN: Some localization additions.
+
+## v1.11.5
+
+### Other
+
+- frFR: Some localization fixes.
+- Localization is no longer maintained on Curseforge but within the GitHub repository.
+- Bumped TOC for patch 11.1.7
+
+## v1.11.4
+
+### Fixes
+
+- Fix behavior for initially unset secondary hotkey and never opening settings.
+
+## v1.11.3
+
+### Other
+
+- Compatibility with MoP Classic (Beta).
+- Allow specifying a secondary hotkey for the auto button.
+- Allow closing script editor/list with escape.
+
+## v1.11.2
+
+### Fixes
+
+- Also pick up scripts in notes on overwritten Rematch teams.
+
+## v1.11.1
+
+### Fixes
+
+- Added workaround for XuFu script-in-note exports escaping HTML characters.
+
+## v1.11.0
+
+### Automatic script import from Rematch notes
+
+If a Rematch team contains a block like
+
+```
+Other text.
+-----BEGIN PET BATTLE SCRIPT-----
+standby
+change(next)
+-----END PET BATTLE SCRIPT-----
+More text.
+```
+
+the script will be automatically added, if it is valid and the team does not yet have a (different) script attached. The note will then have the script data removed.
+
+This feature works together with the [Xu-Fu](https://www.wow-petguide.com) feature which now adds this exact block on exporting teams. It is now enough to only export the teams, and no longer needed to add the script manually afterwards.
+
+This happens on login (i.e. is retroactive) and when importing a team.
+
+The other way around needs manual interaction. Use the 'Add script to note' menu item to add it until the next game session (where it will be automatically imported and removed again).
+
+### Compatibility with Rematch 4
+
+Compatibility will be dropped this year (2025). Hopefully, nobody still uses it anyway. If you still do, please upgrade. Also, please tell us so we know whether there still actually are users of it.
+
+### Fixes
+
+- The notifications about (Rematch 4 to 5) database updates now actually work.
+
+### Other
+
+- Bumped TOC for patch 11.1.5
+
 ## v1.10.8
 
 ### Other

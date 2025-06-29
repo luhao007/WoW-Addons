@@ -16,8 +16,6 @@ _.FlightPathDB=
 		1944
 	}
 }
-_.OnClickDB=
-{}
 _.OnInitDB=
 {}
 _.OnTooltipDB=

@@ -3,17 +3,9 @@ local _, _, _, tocversion = GetBuildInfo()
 local Create=addonTable.Create
 local PIGButton=Create.PIGButton
 local CommonInfo=addonTable.CommonInfo
+local AudioData=addonTable.AudioList.Data
+local Fun=addonTable.Fun
 --任务完成
-local AudioList = {
-	{"任务完成(露露)","Interface/AddOns/"..addonName.."/Common/Common/ogg/QE_Rurutia1.ogg"},
-	{"工作完成(露露)","Interface/AddOns/"..addonName.."/Common/Common/ogg/QE_Rurutia2.ogg"},
-	{"Bingo(露露)","Interface/AddOns/"..addonName.."/Common/Common/ogg/QE_Rurutia3.ogg"},
-	{"任务完成(饽饽)","Interface/AddOns/"..addonName.."/Common/Common/ogg/QE_bobo.ogg"},
-	{"任务完成(樱雪)","Interface/AddOns/"..addonName.."/Common/Common/ogg/QE_yingxue1.ogg"},
-	{"SAKURA(樱雪)","Interface/AddOns/"..addonName.."/Common/Common/ogg/QE_yingxue2.ogg"},
-	{"喵(樱雪)","Interface/AddOns/"..addonName.."/Common/Common/ogg/QE_yingxue3.ogg"},
-}
-CommonInfo.AudioList=AudioList
 local QuestsEndFrameUI = CreateFrame("Frame");
 QuestsEndFrameUI.wanchengqingkuang={}
 QuestsEndFrameUI.chucijiazai=false
@@ -36,7 +28,7 @@ local function GetQuestsInfo(event)
 					end
 					if yiwancheng then
 						if not QuestsEndFrameUI.wanchengqingkuang[info.questID] and QuestsEndFrameUI.chucijiazai then
-							PlaySoundFile(AudioList[PIGA["Common"]["QuestsEndAudio"]][2], "Master")
+							PIG_PlaySoundFile(AudioData.QuestEnd[PIGA["Common"]["QuestsEndAudio"]])
 						end		
 					end
 					QuestsEndFrameUI.wanchengqingkuang[info.questID]=yiwancheng
@@ -54,7 +46,7 @@ local function GetQuestsInfo(event)
 				--print(title, level, suggestedGroup, isHeader, isCollapsed, isComplete, frequency, questID)
 				if isComplete then
 					if not QuestsEndFrameUI.wanchengqingkuang[questID] and QuestsEndFrameUI.chucijiazai then
-						PlaySoundFile(AudioList[PIGA["Common"]["QuestsEndAudio"]][2], "Master")
+						PIG_PlaySoundFile(AudioData.QuestEnd[PIGA["Common"]["QuestsEndAudio"]])
 					end
 					-- local numQuestLogLeaderBoards,= GetNumQuestLeaderBoards(questID)--子项目完成情况
 					-- for ii=1,1 do
@@ -84,6 +76,7 @@ end
 QuestsEndFrameUI:SetScript("OnEvent", function(self,event)
 	if event == "PLAYER_ENTERING_WORLD" then
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+		PIGA["Common"]["QuestsEndAudio"]=Fun.IsAudioNumMaxV(PIGA["Common"]["QuestsEndAudio"],AudioData.QuestEnd)
 		GetQuestsInfo(event)
 		self.chucijiazai=true
 		C_Timer.After(1,function()

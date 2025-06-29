@@ -74,7 +74,7 @@ local function add_Button(MODE,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 			end
 		end)
 		But:HookScript("OnMouseDown", function(self)
-			if self:IsEnabled() then
+			if self:IsEnabled() and not self.NoClickTextOpen then
 				self.Text:SetPoint("CENTER", 1.5, -1.5);
 			end
 		end);
@@ -98,6 +98,9 @@ local function add_Button(MODE,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 				self:SetBackdropColor(0.1, 0.1, 0.1, 0.8)
 				self:SetBackdropBorderColor(0, 0, 0, 1)
 			end
+		end
+		function But:NoClickText()
+			self.NoClickTextOpen=true
 		end
 		But:HookScript("PostClick", function (self)
 			PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);
@@ -148,7 +151,7 @@ function Create.PIGDiyBut(fuF,Point,WH,UIName,TemplateP,Butleixing)
 	end
 	if WH and WH[3]=="txt" then
 		But.Text = But:CreateFontString();
-		PIGSetFont(But.Text,Zihao,Miaobian)
+		PIGSetFont(But.Text,Zihao,PIGA["PigLayout"]["TopBar"]["FontMiaobian"])
 		But.MR_TextPoint={"CENTER","CENTER", 0, 0}
 		But.Text:SetPoint("CENTER", 0, 0);
 		if WH[4] then
@@ -169,21 +172,23 @@ function Create.PIGDiyBut(fuF,Point,WH,UIName,TemplateP,Butleixing)
 			But.icon:SetSize(WH[4][2],WH[4][3]);
 		end
 		But.Text = But:CreateFontString();
-		PIGSetFont(But.Text,Zihao,Miaobian)
+		PIGSetFont(But.Text,Zihao,PIGA["PigLayout"]["TopBar"]["FontMiaobian"])
 		But.MR_TextPoint={"LEFT","RIGHT", 0, 0}
 		But.Text:SetPoint("LEFT",But.icon,"RIGHT", 0, 0);
 	else
 		local WwwTex = WH and WH[3] or Www-2
 		local HhhTex = WH and WH[4] or WwwTex
 		local icontex = WH and WH[5] or "common-icon-redx"--130976
+		local iconX = WH and WH[7] or 0
+		local iconY = WH and WH[8] or 0
 		But.icon = But:CreateTexture();
 		if type(icontex)=="number" then
 			But.icon:SetTexture(icontex);
 		else
 			But.icon:SetAtlas(icontex)
 		end
-		But.MR_iconPoint={"CENTER","CENTER",0,0}
-		But.icon:SetPoint("CENTER",0,0);
+		But.MR_iconPoint={"CENTER","CENTER",iconX,iconY}
+		But.icon:SetPoint("CENTER",iconX,iconY);
 		But.icon:SetSize(WwwTex,HhhTex);
 	end
 	But:SetMotionScriptsWhileDisabled(true)
@@ -223,7 +228,7 @@ function Create.PIGDiyBut(fuF,Point,WH,UIName,TemplateP,Butleixing)
 	end);
 	But:HookScript("OnMouseUp", function (self)
 		if self.Text then
-			self.Text:SetPoint("CENTER");
+			self.Text:SetPoint(self.MR_TextPoint[1],self,self.MR_TextPoint[2],self.MR_TextPoint[3],self.MR_TextPoint[4]);
 		end
 		if self.icon then
 			self.icon:SetPoint(self.MR_iconPoint[1],self,self.MR_iconPoint[2],self.MR_iconPoint[3],self.MR_iconPoint[4]);
@@ -258,7 +263,7 @@ function Create.PIGDiyTex(fuF,Point,WH,UIName,TemplateP)
 end
 local function PIGTabBut(fuF,Point,WH,Text,UIName)
 	local But = CreateFrame("Button", UIName, fuF,"BackdropTemplate")
-	But.Show=false;
+	But.ShowUI=false;
 	BackdropSet(But)
 	if WH then But:SetSize(WH[1],WH[2]) end
 	if Point then
@@ -278,22 +283,22 @@ local function PIGTabBut(fuF,Point,WH,Text,UIName)
 		end
 	end)
 	But:HookScript("OnEnter", function(self)
-		if self:IsEnabled() and not self.Show then
+		if self:IsEnabled() and not self.ShowUI then
 			self:SetBackdropBorderColor(BorderColor_OnEnter[1], BorderColor_OnEnter[2], BorderColor_OnEnter[3], BorderColor_OnEnter[4])
 		end
 	end);
 	But:HookScript("OnLeave", function(self)
-		if self:IsEnabled() and not self.Show then
+		if self:IsEnabled() and not self.ShowUI then
 			self:SetBackdropBorderColor(BorderColor[1], BorderColor[2], BorderColor[3], BorderColor[4])
 		end
 	end);
 	But:HookScript("OnMouseDown", function(self)
-		if self:IsEnabled() and not self.Show then
+		if self:IsEnabled() and not self.ShowUI then
 			self.Text:SetPoint("CENTER", 1.5, -1.5)
 		end
 	end);
 	But:HookScript("OnMouseUp", function(self)
-		if self:IsEnabled() and not self.Show then
+		if self:IsEnabled() and not self.ShowUI then
 			self.Text:SetPoint("CENTER", 0, 0)
 		end
 	end);
@@ -305,14 +310,14 @@ local function PIGTabBut(fuF,Point,WH,Text,UIName)
 	
 	function But:Selected()
 		PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB);
-		self.Show=true;
+		self.ShowUI=true;
 		self.Text:SetTextColor(1, 1, 1, 1)
 		--self:SetBackdropColor(0.3098,0.262745,0.0353, 1)
 		self:SetBackdropColor(0.32,0.1647,0.0353, BGColor[4])
 		self:SetBackdropBorderColor(1, 1, 0, 1)	
 	end
 	function But:NotSelected()
-		self.Show=false
+		self.ShowUI=false
 		self.Text:SetTextColor(TextColor[1], TextColor[2], TextColor[3], TextColor[4])
 		self:SetBackdropColor(BGColor[1],BGColor[2],BGColor[3],BGColor[4])
 		self:SetBackdropBorderColor(BorderColor[1], BorderColor[2], BorderColor[3], BorderColor[4])
@@ -323,7 +328,7 @@ Create.PIGTabBut=PIGTabBut
 --左边主菜单
 function Create.Show_TabBut(Rneirong,tabbut)---选择主菜单
 	local PigUI=Rneirong:GetParent():GetParent():GetParent():GetParent()
-	--local PigUI=fujiUI or Pig_OptionsUI
+	--local PigUI=fujiUI or PIG_OptionsUI
 	local ListTOP = {PigUI.L.F.ListTOP:GetChildren()}
 	for x=1, #ListTOP, 1 do
 		ListTOP[x]:NotSelected()
@@ -348,24 +353,24 @@ function Create.Show_TabBut(Rneirong,tabbut)---选择主菜单
 	Rneirong:Show()
 end
 function Create.PIGOptionsList(GnName,weizhi,fujiUI)
-	local PigUI=fujiUI or Pig_OptionsUI
+	local PigUI=fujiUI or PIG_OptionsUI
 	local fuUI=PigUI.L.F.ListTOP
-	local tabbutWW = fuUI:GetWidth()-6.8
+	local tabbutWW,List_ButH,jiange = fuUI:GetWidth()-6.8,25,4
 	if weizhi=="EXT" then
 		fuUI=PigUI.L.F.ListEXT
 	elseif weizhi=="BOT" then
 		fuUI=PigUI.L.F.ListBOT
-		tabbutWW = 60
+		tabbutWW = 50
+		List_ButH=List_ButH-2
 	end
-	local List_ButH,jiange = 26,4
 	local ziframe = {fuUI:GetChildren()}
 	local zinum = #ziframe
 	local TabBut = PIGTabBut(fuUI,nil,{tabbutWW,List_ButH},GnName)
 	if weizhi=="BOT" then
 		if zinum==0 then
-			TabBut:SetPoint("LEFT", fuUI, "LEFT", 10, 0);
+			TabBut:SetPoint("LEFT", fuUI, "LEFT", 6, 0);
 		else
-			TabBut:SetPoint("LEFT", fuUI, "LEFT", (zinum*(tabbutWW+16)+10), 0);
+			TabBut:SetPoint("LEFT", fuUI, "LEFT", (zinum*(tabbutWW+10)+6), 0);
 		end
 	else
 		if zinum==0 then
@@ -384,7 +389,7 @@ function Create.PIGOptionsList(GnName,weizhi,fujiUI)
 		Rneirong.UpdateVer:SetPoint("CENTER", Rneirong, "CENTER", 0, 0);
 		Rneirong.UpdateVer:SetFrameLevel(12)
 		Rneirong.UpdateVer:Hide()
-		Rneirong.UpdateVer.T=Create.PIGFontString(Rneirong.UpdateVer,{"CENTER",Rneirong.UpdateVer,"CENTER",0,0},GnName..Pig_OptionsUI.UpdateTXT,"OUTLINE",16);
+		Rneirong.UpdateVer.T=Create.PIGFontString(Rneirong.UpdateVer,{"CENTER",Rneirong.UpdateVer,"CENTER",0,0},GnName..PIG_OptionsUI.UpdateTXT,"OUTLINE",16);
 		Rneirong.UpdateVer.T:SetTextColor(1,0,0,1)
 	end
 	---

@@ -3,7 +3,6 @@
 -- ----------------------------------------------------------------------------
 -- Functions
 local _G = getfenv(0)
-local pairs, select = _G.pairs, _G.select
 
 -- ----------------------------------------------------------------------------
 -- AddOn namespace.
@@ -29,7 +28,7 @@ function AtlasLootWorldMapButtonMixin:OnEnter()
 	if owner and type(owner) == "table" then
 		tooltip:SetOwner(owner[1], owner[2], owner[3], owner[4])
 	else
-		tooltip:SetOwner(self, "ANCHOR_RIGHT", -(self:GetWidth() * 0.5), 5)
+		tooltip:SetOwner(self, "ANCHOR_RIGHT")
 	end
 	tooltip:AddLine(AL["Click to open AtlasLoot window"])
 	tooltip:Show()
@@ -48,10 +47,6 @@ end
 
 function AtlasLootWorldMapButtonMixin:Refresh()
 
-end
-
-local function AdjustOtherWorldMapButton(adjust)
-	profile = AtlasLoot.db.WorldMap
 end
 
 local function ButtonBinding()

@@ -35,6 +35,7 @@ local PIGFontString=Create.PIGFontString
 local PIGFontStringBG=Create.PIGFontStringBG
 local PIGSetFont=Create.PIGSetFont
 --===============================
+local AudioData=addonTable.AudioList.Data
 local BlackList = {["BlackName"]=true,["FilterRepeat"]=true,["IGNORE_DND"]=true,["Precise"]=false,["name"]={},["word"]={},["chongfu"]={},["count"]=0,["OKcount"]=0,["name_count"]=0,["chongfu_count"]=0,["word_count"]=0}
 local function FilterBlack_Chongfu(chongfuData,newText,chatbox)
 	local time = GetServerTime()
@@ -120,7 +121,7 @@ end
 --------------------
 local QuickChatfun=addonTable.QuickChatfun
 function QuickChatfun.QuickBut_miyijiluGL(arg2,arg5,arg1)
-	if arg2~=Pig_OptionsUI.AllName then
+	if arg2~=PIG_OptionsUI.AllName then
 		if FilterBlack_IsFriend(arg2,arg5) then
 			return false
 		end
@@ -141,7 +142,8 @@ function QuickChatfun.QuickBut_miyijiluGL(arg2,arg5,arg1)
 	return false
 end
 function QuickChatfun.QuickBut_Keyword()
-	local fuFrame=QuickChatFFF_UI
+	PIGA["Chat"]["Tiqu"]["Audio"]=Fun.IsAudioNumMaxV(PIGA["Chat"]["Tiqu"]["Audio"],AudioData.FollowMsg)
+	local fuFrame=QuickChatfun.TabButUI
 	local fuWidth = fuFrame.Width
 	local Width,Height = fuWidth,fuWidth
 	local ziframe = {fuFrame:GetChildren()}
@@ -182,34 +184,14 @@ function QuickChatfun.QuickBut_Keyword()
 	end);
 	fuFrame.Keyword:RegisterForClicks("LeftButtonUp","RightButtonUp")
 	fuFrame.Keyword:SetScript("OnClick", function(self,button)
-		if button=="LeftButton" then
-			if PIGKeyword_UI:IsShown() then
-				PIGKeyword_UI:Hide()
-			else
-				PIGKeyword_UI:Show()
-			end
-		else
-			if PIGA["Chat"]["Filter"]["Open"] then
-				PIGA["Chat"]["Filter"]["Open"]=false
-				--PIGA["Chat"]["Tiqu"]["Open"]=false
-			else
-				PIGA["Chat"]["Filter"]["Open"]=true
-				--PIGA["Chat"]["Tiqu"]["Open"]=true
-			end
-			--PIGKeyword_UI.Tiqu_SetFun()
-			PIGKeyword_UI.Filter_SetFun()
-			if PIGKeyword_UI:IsShown() then
-				PIGKeyword_UI:Hide()
-				PIGKeyword_UI:Show()
-			end
-		end
+		self.ClickShowTab(button)	
 	end);
 	-----
-	local Width,Height,biaotiH  = 500, 510, 21
-	local KeywordF=PIGFrame(UIParent,{"CENTER",UIParent,"CENTER",0,60},{Width,Height},"PIGKeyword_UI",true)
+	local UIname,Width,Height,biaotiH  = "PIG_ChatKeyWordSet",500, 510, 21
+	local KeywordF=PIGFrame(UIParent,{"CENTER",UIParent,"CENTER",0,60},{Width,Height},UIname,true)
 	KeywordF:PIGSetBackdrop()
 	KeywordF:PIGClose()
-	KeywordF:PIGSetMovable()
+	KeywordF:PIGSetMovableNoSave()
 	KeywordF:SetFrameLevel(10)
 	KeywordF.title = PIGFontString(KeywordF,{"TOP", KeywordF, "TOP", 0, -3},CHAT..INFO..L["CHAT_FILTERS"])
 	KeywordF.F=PIGOptionsList_RF(KeywordF,21,"Left",{0,0,0})
@@ -227,12 +209,13 @@ function QuickChatfun.QuickBut_Keyword()
 		TiquCanshu["ToBotBut"]={"interface/chatframe/ui-chaticon-scrollend-up.blp","interface/chatframe/ui-chaticon-scrollend-down.blp","interface/chatframe/ui-chaticon-scrollend-disabled.blp","interface/chatframe/ui-chaticon-blinkhilight.blp"}
 	end
 	TiquCanshu["jichengBlack"]=PIGA["Chat"]["Tiqu"]["jichengBlack"]
+	TiquCanshu["AudioOpen"]=PIGA["Chat"]["Tiqu"]["AudioOpen"]
 	TiquCanshu["Audio"]=PIGA["Chat"]["Tiqu"]["Audio"]
 	TiquCanshu["ChatWox"]=PIGA["Chat"]["Tiqu"]["ChatWox"]
 	TiquCanshu["shuchumode"]=PIGA["Chat"]["Tiqu"]["shuchumode"]
 	TiquCanshu["tiquOKFlash"]=PIGA["Chat"]["Tiqu"]["tiquOKFlash"]
 
-	local ChatF99 = CreateFrame("ScrollingMessageFrame", "ChatFrame99", UIParent, "ChatFrameTemplate")
+	local ChatF99 = CreateFrame("ScrollingMessageFrame", "PIG_ChatFrameKeyWord", UIParent, "ChatFrameTemplate")
 	local KeywordFHeight = PIGA["Chat"]["Tiqu"]["KeywordFHeight"] or 180
 	ChatF99:SetHeight(KeywordFHeight);
 	ChatF99:SetFrameStrata("LOW")
@@ -327,7 +310,7 @@ function QuickChatfun.QuickBut_Keyword()
 	ChatF99:SetScript("OnUpdate", function(self, elapsed)
 		ChatFrame_OnUpdate(self, elapsed)
 	end)
-	function PIGKeyword_UI.Tiqu_SetFun()
+	function KeywordF.Tiqu_SetFun()
 		TiquF:UnregisterEvent("CHAT_MSG_CHANNEL");
 		TiquF:UnregisterEvent("PLAYER_REGEN_DISABLED")
 		TiquF:UnregisterEvent("PLAYER_REGEN_ENABLED");
@@ -345,7 +328,7 @@ function QuickChatfun.QuickBut_Keyword()
 			end
 		end
 	end
-	PIGKeyword_UI.Tiqu_SetFun()
+	KeywordF.Tiqu_SetFun()
 	TiquF.KeyOpen = PIGCheckbutton(TiquF,{"TOPLEFT",TiquF,"TOPLEFT",20,-20},{"|cff00FF00"..ENABLE.."|r"..L["CHAT_KEYWORD_NAME1"]..L["CHAT_KEYWORD_NAME"]..INFO})
 	TiquF.KeyOpen:SetScript("OnClick", function (self)
 		if self:GetChecked() then
@@ -353,8 +336,8 @@ function QuickChatfun.QuickBut_Keyword()
 		else
 			PIGA["Chat"]["Tiqu"]["Open"]=false
 		end
-		PIGKeyword_UI.Tiqu_SetFun()
-		PIGKeyword_UI.Options_SetFun()
+		KeywordF.Tiqu_SetFun()
+		KeywordF.Options_SetFun()
 	end);
 	---
 	local White_keywords={}
@@ -440,36 +423,38 @@ function QuickChatfun.QuickBut_Keyword()
 	TiquF.EditF.tishi:SetJustifyH("LEFT");
 	TiquF.EditF.tishi:SetTextColor(0, 1, 0, 1)
 	--------
-	local tiquOKyinList = {
-		{"有关注消息(露露)","Interface/AddOns/"..addonName.."/Chat/ogg/msg_Rurutia.ogg"},
-		{"有关注消息(饽饽)","Interface/AddOns/"..addonName.."/Chat/ogg/msg_bobo.ogg"},
-		{"有关注消息(樱雪)","Interface/AddOns/"..addonName.."/Chat/ogg/msg_yingxue.ogg"},
-		{"私聊音",567421},--"sound/interface/itellmessage.ogg"
-		{NONE,""},
-	}
-	TiquF.tiquOKAudio=PIGDownMenu(TiquF,{"TOPLEFT",TiquF,"TOPLEFT",70,-220},{180,nil})
-	TiquF.tiquOKAudio.T = PIGFontString(TiquF.tiquOKAudio,{"RIGHT",TiquF.tiquOKAudio, "LEFT", -4,0},L["CHAT_KEYWORD_SET1"])
-	function TiquF.tiquOKAudio:PIGDownMenu_Update_But()
+	TiquF.tiquOKAudioOpen = PIGCheckbutton(TiquF,{"TOPLEFT",TiquF,"TOPLEFT",20,-200},{L["CHAT_KEYWORD_SET1"]})
+	TiquF.tiquOKAudioOpen:SetScript("OnClick", function (self)
+		if self:GetChecked() then
+			PIGA["Chat"]["Tiqu"]["AudioOpen"]=true
+			TiquCanshu["AudioOpen"]=true
+		else
+			PIGA["Chat"]["Tiqu"]["AudioOpen"]=false
+			TiquCanshu["AudioOpen"]=false
+		end
+	end);
+	TiquF.tiquOKAudioOpen.List=PIGDownMenu(TiquF.tiquOKAudioOpen,{"LEFT",TiquF.tiquOKAudioOpen.Text,"RIGHT",2,0},{180,nil})
+	function TiquF.tiquOKAudioOpen.List:PIGDownMenu_Update_But()
 		local info = {}
 		info.func = self.PIGDownMenu_SetValue
-		for i=1,#tiquOKyinList,1 do
-		    info.text, info.arg1 = tiquOKyinList[i][1], i
+		for i=1,#AudioData.FollowMsg,1 do
+		    info.text, info.arg1 = AudioData.FollowMsg[i][1], i
 		    info.checked = i==TiquCanshu["Audio"]
 			self:PIGDownMenu_AddButton(info)
 		end 
 	end
-	function TiquF.tiquOKAudio:PIGDownMenu_SetValue(value,arg1)
+	function TiquF.tiquOKAudioOpen.List:PIGDownMenu_SetValue(value,arg1)
 		self:PIGDownMenu_SetText(value)
 		PIGA["Chat"]["Tiqu"]["Audio"]=arg1
 		TiquCanshu["Audio"]=arg1
 		PIGCloseDropDownMenus()
 	end
-	TiquF.tiquOKAudio.PlayBut =PIGDiyBut(TiquF.tiquOKAudio,{"LEFT",TiquF.tiquOKAudio,"RIGHT",4,-0.5},{28,28,nil,nil,"chatframe-button-icon-speaker-on",130757});
-	TiquF.tiquOKAudio.PlayBut:SetScript("OnClick", function()
-		PlaySoundFile(tiquOKyinList[TiquCanshu["Audio"]][2], "Master")
+	TiquF.tiquOKAudioOpen.PlayBut =PIGDiyBut(TiquF.tiquOKAudioOpen,{"LEFT",TiquF.tiquOKAudioOpen.List,"RIGHT",4,0},{28,28,nil,nil,"chatframe-button-icon-speaker-on",130757});
+	TiquF.tiquOKAudioOpen.PlayBut:SetScript("OnClick", function()
+		PIG_PlaySoundFile(AudioData.FollowMsg[TiquCanshu["Audio"]])
 	end)
 	--继承黑名单
-	TiquF.jichengBlack = PIGCheckbutton(TiquF,{"TOPLEFT",TiquF.tiquOKAudio.T,"BOTTOMLEFT",0,-40},{"继承"..L["CHAT_FILTERS"]..SETTINGS.."再"..L["CHAT_KEYWORD_NAME1"],"继承过滤设置，过滤黑名单内容后再提取关注消息"})
+	TiquF.jichengBlack = PIGCheckbutton(TiquF,{"TOPLEFT",TiquF.tiquOKAudioOpen,"BOTTOMLEFT",0,-20},{"继承"..L["CHAT_FILTERS"]..SETTINGS.."再"..L["CHAT_KEYWORD_NAME1"],"继承过滤设置，过滤黑名单内容后再提取关注消息"})
 	TiquF.jichengBlack:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["Chat"]["Tiqu"]["jichengBlack"]=true
@@ -480,10 +465,10 @@ function QuickChatfun.QuickBut_Keyword()
 		end
 	end);
 	--输出方式
-	function PIGKeyword_UI.Options_SetFun()
+	function KeywordF.Options_SetFun()
 		if PIGA["Chat"]["Tiqu"]["Open"] then
 			TiquF.EditF:Show()
-			TiquF.tiquOKAudio:Show()
+			TiquF.tiquOKAudioOpen:Show()
 			TiquF.jichengBlack:Show()
 			TiquF.OutputModeF:Show()
 			if TiquCanshu["shuchumode"]==1 then
@@ -505,7 +490,7 @@ function QuickChatfun.QuickBut_Keyword()
 			end
 		else
 			TiquF.EditF:Hide()
-			TiquF.tiquOKAudio:Hide()
+			TiquF.tiquOKAudioOpen:Hide()
 			TiquF.jichengBlack:Hide()
 			TiquF.OutputModeF:Hide()
 		end
@@ -519,15 +504,15 @@ function QuickChatfun.QuickBut_Keyword()
 	TiquF.OutputMode_1:SetScript("OnClick", function (self)
 		PIGA["Chat"]["Tiqu"]["shuchumode"]=1
 		TiquCanshu["shuchumode"]=1
-		PIGKeyword_UI.Options_SetFun()
-		PIGKeyword_UI.Tiqu_SetFun()
+		KeywordF.Options_SetFun()
+		KeywordF.Tiqu_SetFun()
 	end);
 	TiquF.OutputMode_2 = PIGCheckbutton(TiquF.OutputModeF,{"LEFT",TiquF.OutputMode_1.Text,"RIGHT",20,0},{"独立聊天窗口"})
 	TiquF.OutputMode_2:SetScript("OnClick", function (self)
 		PIGA["Chat"]["Tiqu"]["shuchumode"]=2
 		TiquCanshu["shuchumode"]=2
-		PIGKeyword_UI.Options_SetFun()
-		PIGKeyword_UI.Tiqu_SetFun()
+		KeywordF.Options_SetFun()
+		KeywordF.Tiqu_SetFun()
 	end);
 	
 	TiquF.OutputModeF.shuvhudaoBOX=PIGDownMenu(TiquF.OutputModeF,{"TOPLEFT",TiquF.OutputModeF,"TOPLEFT",140,-20},{120,nil})
@@ -598,7 +583,7 @@ function QuickChatfun.QuickBut_Keyword()
 		else
 			PIGA["Chat"]["Tiqu"]["CombatHide"]=false
 		end
-		PIGKeyword_UI.Tiqu_SetFun()
+		KeywordF.Tiqu_SetFun()
 	end);
 	--高度
 	TiquF.OutputModeF.GaoduHSlider =PIGSlider(TiquF.OutputModeF,{"TOPLEFT",TiquF.OutputModeF.Color.t,"BOTTOMLEFT",14,-20},{100,500,1})
@@ -618,9 +603,10 @@ function QuickChatfun.QuickBut_Keyword()
 	end);
 	TiquF:HookScript("OnShow", function(self)
 		self.KeyOpen:SetChecked(PIGA["Chat"]["Tiqu"]["Open"])
-		self.tiquOKAudio:PIGDownMenu_SetText(tiquOKyinList[TiquCanshu["Audio"]][1])
+		self.tiquOKAudioOpen:SetChecked(PIGA["Chat"]["Tiqu"]["AudioOpen"])
+		self.tiquOKAudioOpen.List:PIGDownMenu_SetText(AudioData.FollowMsg[TiquCanshu["Audio"]][1])
 		self.jichengBlack:SetChecked(PIGA["Chat"]["Tiqu"]["jichengBlack"])
-		PIGKeyword_UI.Options_SetFun()
+		KeywordF.Options_SetFun()
 	end);
 	------------------
 	local TardisGetMsg=Data.Tardis.GetMsg
@@ -640,7 +626,9 @@ function QuickChatfun.QuickBut_Keyword()
 		end
 		if not InCombatLockdown() and timetxt-Show_MSG_TIMECD>30 then
 			Show_MSG_TIMECD=timetxt
-			PlaySoundFile(tiquOKyinList[TiquCanshu["Audio"]][2], "Master");
+			if TiquCanshu["AudioOpen"] then
+				PIG_PlaySoundFile(AudioData.FollowMsg[TiquCanshu["Audio"]]);
+			end
 		end
 		if TiquCanshu["shuchumode"]==1 then
 			local shuchatf = _G["ChatFrame"..TiquCanshu["ChatWox"]]
@@ -701,7 +689,7 @@ function QuickChatfun.QuickBut_Keyword()
 		for i=1,#TardisGetMsg do
 			if arg1==TardisGetMsg[i] then return end
 		end
-		if arg2==Pig_OptionsUI.AllName then return end--自身不过滤
+		if arg2==PIG_OptionsUI.AllName then return end--自身不过滤
 		local blnum = #White_keywords
 		if blnum==0 then return end
 		if TiquCanshu["jichengBlack"] then
@@ -769,7 +757,7 @@ function QuickChatfun.QuickBut_Keyword()
 		if self==ChatFrame2 or self==ChatFrame3 then return end
 		--print(self:GetName(),self:IsShown())
 		--local name = GetChatWindowInfo(i);
-		if arg2~=Pig_OptionsUI.AllName then--自身不过滤
+		if arg2~=PIG_OptionsUI.AllName then--自身不过滤
 			BlackList["count"]=BlackList["count"]+1
 			if event=="CHAT_MSG_WHISPER" then
 				if FilterBlack_IsFriend(arg2,arg5) then
@@ -808,7 +796,7 @@ function QuickChatfun.QuickBut_Keyword()
 			fuFrame.Keyword.TexNO:Hide()
 			local inInstance=IsInInstance()
 			if PIGA["Chat"]["Filter"]["FBneiNO"] and inInstance then
-				if setck then PIGTopMsg:add("|cffFF0000"..CLOSE.."|r"..INFO..L["CHAT_KEYWORD_NAME1"]..L["CHAT_FILTERS"]) end
+				if setck then PIG_OptionsUI:ErrorMsg("|cffFF0000"..CLOSE.."|r"..INFO..L["CHAT_KEYWORD_NAME1"]..L["CHAT_FILTERS"]) end
 				return 
 			end
 			if PIGA["Chat"]["Filter"]["FilterChannel"]["CHANNEL"] then
@@ -823,10 +811,10 @@ function QuickChatfun.QuickBut_Keyword()
 			if PIGA["Chat"]["Filter"]["FilterChannel"]["WHISPER"] then
 				ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", FilterBlack)
 			end
-			if setck then PIGTopMsg:add("|cff00FF00"..ENABLE.."|r"..INFO..L["CHAT_KEYWORD_NAME1"]..L["CHAT_FILTERS"]) end
+			if setck then PIG_OptionsUI:ErrorMsg("|cff00FF00"..ENABLE.."|r"..INFO..L["CHAT_KEYWORD_NAME1"]..L["CHAT_FILTERS"]) end
 		else
 			fuFrame.Keyword.TexNO:Show()
-			if setck then PIGTopMsg:add("|cffFF0000"..CLOSE.."|r"..INFO..L["CHAT_KEYWORD_NAME1"]..L["CHAT_FILTERS"]) end
+			if setck then PIG_OptionsUI:ErrorMsg("|cffFF0000"..CLOSE.."|r"..INFO..L["CHAT_KEYWORD_NAME1"]..L["CHAT_FILTERS"]) end
 		end
 	end
 	local function Filter_Open()
@@ -1110,7 +1098,9 @@ function QuickChatfun.QuickBut_Keyword()
 	local function Save_BlackValue(fuji,peizhiV)
 		local value = fuji:GetText();
 		local value = value:gsub(" ", "")
-		local value=value:upper()
+		if peizhiV~="Blacks_P" then
+			value=value:upper()
+		end
 		local value=Delchongfu(value)
 		PIGA["Chat"]["Filter"][peizhiV]=value
 	 	BlackList["word"],BlackList["name"]=zairuBlackFun()
@@ -1180,7 +1170,7 @@ function QuickChatfun.QuickBut_Keyword()
 		local fujif = self:GetParent();
 		Save_BlackValue(fujif.textArea,"Blacks")
 		BlackF.F.BlackF.NR.textArea:SetText(PIGA["Chat"]["Filter"]["Blacks"])
-		PIGTopMsg:add("已载入预置黑名单");
+		PIG_OptionsUI:ErrorMsg("已载入预置黑名单");
 	end)
 
 	---玩家名黑名单
@@ -1250,7 +1240,7 @@ function QuickChatfun.QuickBut_Keyword()
 		BlackF.F.BlackF_P.NR.textArea:SetText(PlayerBlackList)
 		local fujif = self:GetParent();
 		Save_BlackValue(fujif.textArea,"Blacks_P")
-		PIGTopMsg:add("已载入预置黑名单");
+		PIG_OptionsUI:ErrorMsg("已载入预置黑名单");
 	end)
 	BlackF.F.BlackF_P.NR.Precise = PIGCheckbutton(BlackF.F.BlackF_P.NR,{"BOTTOMLEFT",BlackF.F.BlackF_P.NR,"TOPLEFT",10,8},{AH_EXACT_MATCH..CALENDAR_PLAYER_NAME,"默认玩家姓名包含设置关键字则屏蔽玩家消息，开启本选项后玩家姓名和下方关键字完全相同才会屏蔽"})
 	BlackF.F.BlackF_P.NR.Precise:SetScript("OnClick", function (self)
@@ -1265,4 +1255,27 @@ function QuickChatfun.QuickBut_Keyword()
 	BlackF.F.BlackF_P.NR.Precise:HookScript("OnShow", function(self)
 		self:SetChecked(PIGA["Chat"]["Filter"]["Precise"])
 	end);
+	function fuFrame.Keyword.ClickShowTab(button)
+		if button=="LeftButton" then
+			if KeywordF:IsShown() then
+				KeywordF:Hide()
+			else
+				KeywordF:Show()
+			end
+		else
+			if PIGA["Chat"]["Filter"]["Open"] then
+				PIGA["Chat"]["Filter"]["Open"]=false
+				--PIGA["Chat"]["Tiqu"]["Open"]=false
+			else
+				PIGA["Chat"]["Filter"]["Open"]=true
+				--PIGA["Chat"]["Tiqu"]["Open"]=true
+			end
+			--KeywordF.Tiqu_SetFun()
+			KeywordF.Filter_SetFun()
+			if KeywordF:IsShown() then
+				KeywordF:Hide()
+				KeywordF:Show()
+			end
+		end
+	end
 end
