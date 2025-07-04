@@ -1,6 +1,6 @@
 ## Interface: 110107
 ## Author: Cladhaire, Ludovicus
-## Version: v4.0.11-release
+## Version: v4.0.12-release
 
 ## Title: TomTom
 ## Notes: Acts as your portable navigation assistant

@@ -1,8 +1,8 @@
 -- App locals
 local appName, app = ...;
 local contains = app.contains;
-local AssignChildren, CloneClassInstance, CloneReference
-	= app.AssignChildren, app.CloneClassInstance, app.CloneReference;
+local AssignChildren, CloneClassInstance, CloneReference, wipearray
+	= app.AssignChildren, app.CloneClassInstance, app.CloneReference, app.wipearray;
 local IsQuestFlaggedCompleted, IsQuestReadyForTurnIn = app.IsQuestFlaggedCompleted, app.IsQuestReadyForTurnIn;
 local DESCRIPTION_SEPARATOR = app.DESCRIPTION_SEPARATOR;
 local GetDeepestRelativeValue = app.GetDeepestRelativeValue;
@@ -18,6 +18,8 @@ local L = app.L;
 local ipairs, pairs, pcall, tinsert, tremove, math_floor
 	= ipairs, pairs, pcall, tinsert, tremove, math.floor;
 local C_QuestLog_IsOnQuest, GetTimePreciseSec = C_QuestLog.IsOnQuest, GetTimePreciseSec;
+local GetTradeSkillTexture = app.WOWAPI.GetTradeSkillTexture;
+local GetSpellIcon = app.WOWAPI.GetSpellIcon;
 local IsModifierKeyDown = IsModifierKeyDown;
 
 ---@class ATTGameTooltip: GameTooltip
@@ -190,6 +192,33 @@ local function HasExpandedSubgroup(group)
 end
 app.ExpandGroupsRecursively = ExpandGroupsRecursively;
 
+local __Summary = {}
+local function BuildDataSummary(data)
+	-- NOTE: creating a new table is *slightly* (0-0.5%) faster but generates way more garbage memory over time
+	wipearray(__Summary)
+	local requireSkill = data.requireSkill
+	if requireSkill then
+		local profIcon = GetTradeSkillTexture(requireSkill) or GetSpellIcon(requireSkill)
+		if profIcon then
+			__Summary[#__Summary + 1] = "|T"
+			__Summary[#__Summary + 1] = profIcon
+			__Summary[#__Summary + 1] = ":0|t "
+		end
+	end
+	-- TODO: races
+	local specs = data.specs;
+	if specs and #specs > 0 then
+		__Summary[#__Summary + 1] = app.GetSpecsString(specs, false, false)
+	else
+		local classes = data.c
+		if classes and #classes > 0 then
+			__Summary[#__Summary + 1] = app.GetClassesString(classes, false, false)
+		end
+	end
+	__Summary[#__Summary + 1] = GetProgressTextForRow(data) or "---"
+	return app.TableConcat(__Summary, nil, "", "")
+end
+
 local IconPortraitTooltipExtraSettings = {
 	questID = "IconPortraitsForQuests",
 };
@@ -302,7 +331,7 @@ local function SetRowData(self, row, data)
 	end
 
 	-- Update the Summary Text (this will be the thing that updates the most)
-	local summary = data.summary or GetProgressTextForRow(data);
+	local summary = data.summary or BuildDataSummary(data);
 	local oldSummary = row.summaryText;
 	if oldSummary then
 		if summary then
@@ -900,7 +929,7 @@ local function RowOnEnter(self)
 				if #sas > 0 then
 					local bestMatch = nil;
 					for j,sa in ipairs(sas) do
-						if sa.achievementID == sourceAchievementID then
+						if sa.achievementID == sourceAchievementID and sa.key == "achievementID" then
 							if isDebugMode or (app.RecursiveCharacterRequirementsFilter(sa) and not sa.collected) then
 								bestMatch = sa;
 							end

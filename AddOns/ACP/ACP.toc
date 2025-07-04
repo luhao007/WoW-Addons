@@ -1,6 +1,6 @@
 ## Interface: 110107
 ## Author: Sylvanaar (Sylvaan - Zul'Jin/US-Horde)
-## Version: 3.5.14
+## Version: 3.5.15
 
 ## Title: Addon Control Panel
 ## Notes: Adds an addon manager in game via the 'Addons' menu. Special support for multi-part addons. Based on rMCP by Rophy.

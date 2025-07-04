@@ -60,7 +60,7 @@ local display = {
 	mismatch_text = "",
 	}
 
-local L = LibStub("AceLocale-3.0"):GetLocale("TitanClassic", true)
+local L = LibStub("AceLocale-3.0"):GetLocale("Titan", true)
 
 local debug_flow = false
 
@@ -387,7 +387,7 @@ local function OnLoad(self)
 		buttonTextFunction = GetButtonText, 
 		tooltipTitle = L["TITAN_AMMO_TOOLTIP"],
 		tooltipTextFunction = GetTooltipText,
-		icon = "Interface\\AddOns\\TitanAmmo\\TitanClassicThrown",
+		icon = "Interface\\AddOns\\TitanAmmo\\TitanThrown",
 		iconWidth = 16,
 		controlVariables = {
 			ShowIcon = true,

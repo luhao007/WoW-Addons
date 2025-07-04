@@ -8,6 +8,7 @@ local RSNotificationTracker = private.NewLib("RareScannerNotificationTracker")
 -- RareScanner database libraries
 local RSConfigDB = private.ImportLib("RareScannerConfigDB")
 local RSNpcDB = private.ImportLib("RareScannerNpcDB")
+local RSContainerDB = private.ImportLib("RareScannerContainerDB")
 
 -- RareScanner internal libraries
 local RSConstants = private.ImportLib("RareScannerConstants")
@@ -62,7 +63,7 @@ function RSNotificationTracker.AddNotification(vignetteID, isNavigating, entityI
 	local currentTime = time()
 	
 	-- If not spawning in multiple places at the same time stores entityID
-	if (entityID and not RSNpcDB.IsMultiZoneSpawn(entityID) and not RSUtils.Contains(RSConstants.CONTAINERS_WITH_MULTIPLE_SPAWNS, entityID)) then
+	if (entityID and not RSNpcDB.IsMultiZoneSpawn(entityID) and not RSContainerDB.IsMultiZoneSpawn(entityID)) then
 		current_notifications[entityID] = currentTime
 		--RSLogger:PrintDebugMessage(string.format("AddNotification[%s] at [%s]", entityID, RSTimeUtils.TimeStampToClock(currentTime)))
 	-- Otherwise vignetteID

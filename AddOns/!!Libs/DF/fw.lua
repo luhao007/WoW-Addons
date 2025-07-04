@@ -1,6 +1,6 @@
 
 
-local dversion = 580
+local dversion = 610
 local major, minor = "DetailsFramework-1.0", dversion
 local DF, oldminor = LibStub:NewLibrary(major, minor)
 
@@ -54,6 +54,8 @@ local SPELLBOOK_BANK_PET = Enum.SpellBookSpellBank and Enum.SpellBookSpellBank.P
 local IsPassiveSpell = IsPassiveSpell or C_Spell.IsSpellPassive
 local GetOverrideSpell = C_SpellBook and C_SpellBook.GetOverrideSpell or C_Spell.GetOverrideSpell or GetOverrideSpell
 local HasPetSpells = HasPetSpells or C_SpellBook.HasPetSpells
+local GetSpecialization = GetSpecialization or C_SpecializationInfo.GetSpecialization
+local GetSpecializationInfo = GetSpecializationInfo or C_SpecializationInfo.GetSpecializationInfo
 local spellBookPetEnum = Enum.SpellBookSpellBank and Enum.SpellBookSpellBank.Pet or "pet"
 
 SMALL_NUMBER = 0.000001
@@ -144,7 +146,7 @@ end
 ---return if the wow version the player is playing is a classic version of wow
 ---@return boolean
 function DF.IsTimewalkWoW()
-    if (buildInfo < 50000) then        return true    end
+    if (buildInfo < 60000) then        return true    end
 	return false
 end
 
@@ -233,7 +235,7 @@ end
 ---@return boolean
 function DF.IsNonRetailWowWithRetailAPI()
     local _, _, _, buildInfo = GetBuildInfo()
-    if (buildInfo < 50000 and buildInfo >= 30401) or (buildInfo < 20000 and buildInfo >= 11404) then
+    if (buildInfo < 60000 and buildInfo >= 30401) or (buildInfo < 20000 and buildInfo >= 11404) then
         return true
     end
 	return false
@@ -333,50 +335,94 @@ function DF:GetRoleByClassicTalentTree()
 	return "DAMAGER"
 end
 
+local roleStringToNumber = {
+	["NONE"] = 0,
+	["TANK"] = 1,
+	["HEALER"] = 2,
+	["DAMAGER"] = 3,
+	["SUPPORT"] = 4,
+}
+
+local roleNumberToString = {
+	[0] = "NONE",
+	[1] = "TANK",
+	[2] = "HEALER",
+	[3] = "DAMAGER",
+	[4] = "SUPPORT",
+}
+
+function DF:ConvertRole(value, valueType)
+	if (valueType) then
+		if (type(valueType) == "string") then
+			valueType = roleNumberToString[valueType] or valueType
+		end
+
+		if (type(valueType) == "number") then
+			valueType = roleStringToNumber[valueType] or valueType
+		end
+	end
+
+	if (type(value) == "string") then
+		return roleStringToNumber[value] or 0
+
+	elseif (type(value) == "number") then
+		return roleNumberToString[value] or "NONE"
+	end
+
+	return value
+end
+
 ---return the role of the unit, this is safe to use for all versions of wow
 ---@param unitId string
 ---@param bUseSupport boolean?
 ---@param specId number?
 ---@return string
 function DF.UnitGroupRolesAssigned(unitId, bUseSupport, specId)
-	if (not DF.IsTimewalkWoW()) then --Was function exist check. TBC has function, returns NONE. -Flamanis 5/16/2022
-		local role = UnitGroupRolesAssigned(unitId)
+    local role
 
-		if (specId == 1473 and bUseSupport) then
-			return "SUPPORT"
-		end
+    if (specId == 1473 and bUseSupport) then
+        return "SUPPORT"
+    end
 
-		if (role == "NONE" and UnitIsUnit(unitId, "player")) then
-			local specializationIndex = GetSpecialization() or 0
-			local id, name, description, icon, role, primaryStat = GetSpecializationInfo(specializationIndex)
-			if (id == 1473 and bUseSupport) then
-				return "SUPPORT"
-			end
-			return id and role or "NONE"
-		end
+    if (UnitGroupRolesAssigned) then
+        role = UnitGroupRolesAssigned(unitId)
+    end
 
-		return role
-	else
-		--attempt to guess the role by the player spec
-		local classLoc, className = UnitClass(unitId)
-		if (className == "MAGE" or className == "ROGUE" or className == "HUNTER" or className == "WARLOCK") then
-			return "DAMAGER"
-		end
+    if (role == "NONE") then
+        if (GetSpecialization) then
+            if (UnitIsUnit(unitId, "player")) then
+                local specializationIndex = GetSpecialization() or 0
+                local id, name, description, icon, role, primaryStat = GetSpecializationInfo(specializationIndex)
+                if (id == 1473 and bUseSupport) then
+                    return "SUPPORT"
+                end
+                return id and role or "NONE"
+            end
+        else
+            --attempt to guess the role by the player spec
+            local classLoc, className = UnitClass(unitId)
+            if (className == "MAGE" or className == "ROGUE" or className == "HUNTER" or className == "WARLOCK") then
+                return "DAMAGER"
+            end
 
-		if (Details) then
-			--attempt to get the role from Details! Damage Meter
-			local guid = UnitGUID(unitId)
-			if (guid) then
-				local role = Details.cached_roles[guid]
-				if (role) then
-					return role
-				end
-			end
-		end
+            if (Details) then
+                --attempt to get the role from Details! Damage Meter
+                local guid = UnitGUID(unitId)
+                if (guid) then
+                    role = Details.cached_roles[guid]
+                    if (role) then
+                        return role
+                    end
+                end
+            end
 
-		local role = DF:GetRoleByClassicTalentTree()
-		return role
-	end
+            if (UnitIsUnit(unitId, "player")) then
+                role = DF:GetRoleByClassicTalentTree()
+            end
+        end
+    end
+
+    return role
 end
 
 ---return the specializationid of the player it self
@@ -758,7 +804,8 @@ function DF.table.setfrompath(t, path, value)
 		local lastTable
 		local lastKey
 
-		for key in path:gmatch("[%w_]+") do
+		--for key in path:gmatch("[%w_]+") do
+		for key in path:gmatch("[^%.%[%]]+") do
 			lastTable = t
 			lastKey = key
 
@@ -1431,9 +1478,12 @@ function DF:AddClassColorToText(text, className)
 end
 
 ---returns the class icon texture coordinates and texture file path
----@param class string
+---@param class string|number
 ---@return number, number, number, number, string
 function DF:GetClassTCoordsAndTexture(class)
+	if (type(class) == "number") then
+		class = DF.ClassIndexToFileName[class]
+	end
 	local l, r, t, b = unpack(CLASS_ICON_TCOORDS[class])
 	return l, r, t, b, [[Interface\WORLDSTATEFRAME\Icons-Classes]]
 end
@@ -1799,6 +1849,12 @@ function DF:TruncateNumber(number, fractionDigits)
 	end
 
 	return truncatedNumber
+end
+
+function DF:GetCursorPosition()
+	local x, y = GetCursorPosition()
+	local scale = UIParent:GetEffectiveScale()
+	return x / scale, y / scale
 end
 
 ---attempt to get the ID of an npc from a GUID
@@ -4040,7 +4096,19 @@ function DF:CreateGlowOverlay(parent, antsColor, glowColor)
 		frameName = string.sub(frameName, string.len(frameName)-49)
 	end
 
-	local glowFrame = CreateFrame("frame", frameName, parent, "ActionBarButtonSpellActivationAlert")
+	local glowFrame
+	if (buildInfo >= 110107) then --24-05-2025: in the 11.1.7 patch, the template used here does not exist anymore
+		--possible candidates to replace the template. template name and the parent key to the animation group:
+		--"ActionBarButtonAssistedCombatRotationTemplate".ActiveFrame.GlowAnim
+		--"ActionBarButtonAssistedCombatHighlightTemplate".Anim
+		--"ActionButtonTargetReticleFrameTemplate".HighlightAnim
+		--"ActionButtonTemplate".SpellHighlightAnim
+		glowFrame = CreateFrame("frame", frameName, parent)
+	else
+		glowFrame = CreateFrame("frame", frameName, parent, "ActionBarButtonSpellActivationAlert")
+	end
+
+	--local glowFrame = CreateFrame("frame", frameName, parent)
 	glowFrame:HookScript("OnShow", glow_overlay_onshow)
 	glowFrame:HookScript("OnHide", glow_overlay_onhide)
 
@@ -4289,7 +4357,24 @@ function DF:CreateBorder(parent, alpha1, alpha2, alpha3)
 end
 
 --DFNamePlateBorder as copy from "NameplateFullBorderTemplate" -> DF:CreateFullBorder (name, parent)
-local DFNamePlateBorderTemplateMixin = {};
+---@class df_nameplate_border_mixin : table
+---@field SetVertexColor fun(self:border_frame, r:number, g:number, b:number, a:number)
+---@field GetVertexColor fun(self:border_frame):number, number, number r, g, b
+---@field SetBorderSizes fun(self:border_frame, borderSize:number, borderSizeMinPixels:number, upwardExtendHeightPixels:number, upwardExtendHeightMinPixels:number)
+---@field UpdateSizes fun(self:border_frame)
+---@field Left texture
+---@field Right texture
+---@field Bottom texture
+---@field Top texture
+---@field Textures texture[]
+---@field borderSize number
+---@field borderSizeMinPixels number
+---@field upwardExtendHeightPixels number
+---@field upwardExtendHeightMinPixels number
+
+local DFNamePlateBorderTemplateMixin = {}
+
+DF.NameplateBorderMixin = DFNamePlateBorderTemplateMixin
 
 function DFNamePlateBorderTemplateMixin:SetVertexColor(r, g, b, a)
 	for i, texture in ipairs(self.Textures) do
@@ -4336,7 +4421,9 @@ function DFNamePlateBorderTemplateMixin:UpdateSizes()
 	end
 end
 
-function DF:CreateFullBorder (name, parent)
+---@class border_frame : frame, df_nameplate_border_mixin
+
+function DF:CreateFullBorder(name, parent)
 	local border = CreateFrame("Frame", name, parent)
 	border:SetAllPoints()
 	border:SetIgnoreParentScale(true)
@@ -4681,7 +4768,7 @@ function DF:GetCurrentSpecId()
 end
 
 local specs_per_class = {
-	["DEMONHUNTER"] = {577, 581},
+	["DEMONHUNTER"] = {577, 581}, --havoc, vengence
 	["DEATHKNIGHT"] = {250, 251, 252},
 	["WARRIOR"] = {71, 72, 73},
 	["MAGE"] = {62, 63, 64},
@@ -4847,6 +4934,10 @@ DF.ClassFileNameToIndex = {
 	["EVOKER"] = 13,
 }
 DF.ClassCache = {}
+
+function DF:GetClassIdByFileName(fileName)
+	return DF.ClassFileNameToIndex[fileName]
+end
 
 function DF:GetClassList()
 	if (next (DF.ClassCache)) then
@@ -5090,10 +5181,10 @@ function DF:GetRoleTypes()
 end
 
 local roleTexcoord = {
-	DAMAGER = "72:130:69:127",
-	HEALER = "72:130:2:60",
-	TANK = "5:63:69:127",
-	NONE = "139:196:69:127",
+	DAMAGER = "67:132:67:132",
+	HEALER = "67:132:0:66",
+	TANK = "0:66:67:132",
+	NONE = "134:199:67:132",
 }
 
 local roleTextures = {
@@ -5104,10 +5195,10 @@ local roleTextures = {
 }
 
 local roleTexcoord2 = {
-	DAMAGER = {72/256, 130/256, 69/256, 127/256},
-	HEALER = {72/256, 130/256, 2/256, 60/256},
-	TANK = {5/256, 63/256, 69/256, 127/256},
-	NONE = {139/256, 196/256, 69/256, 127/256},
+	DAMAGER = {67/256, 132/256, 67/256, 132/256},
+	HEALER = {67/256, 132/256, 0/256, 66/256},
+	TANK = {0/256, 66/256, 67/256, 132/256},
+	NONE = {134/256, 199/256, 67/256, 132/256},
 }
 
 function DF:GetRoleIconAndCoords(role)
@@ -5559,8 +5650,10 @@ DF.DebugMixin = {
 	end,
 
 	CheckStack = function(self)
-		local stack = debugstack()
-		Details:Dump (stack)
+		if (Details) then
+			local stack = debugstack()
+			Details:Dump (stack)
+		end
 	end,
 
 }

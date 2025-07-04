@@ -363,11 +363,11 @@ function TitanPanel_PlayerEnteringWorld(reload)
 	Titan__InitializedPEW = true
 
 	-- Move frames
-	if TITAN_ID == "TitanClassic" then
+	if Titan_Global.switch.can_edit_ui then
+		-- No need
+	else
 		TitanMovable_SecureFrames()
 		TitanPanel_AdjustFrames(true, "_PlayerEnteringWorld")
-	else
-		-- No need
 	end
 
 	-- Loop through the LDB objects to sync with their created Titan plugin
@@ -460,11 +460,11 @@ function TitanPanelBarButton:CVAR_UPDATE(cvarname, cvarvalue)
 		or cvarname == "uiScale" then
 		if TitanPlayerSettings and TitanPanelGetVar("Scale") then
 			TitanPanel_InitPanelBarButton("CVAR_ " .. tostring(cvarname))
-			if TITAN_ID == "TitanClassic" then
+			if Titan_Global.switch.can_edit_ui then
+				-- No need
+			else
 				-- Adjust frame positions
 				TitanPanel_AdjustFrames(true, "CVAR_UPDATE Scale")
-			else
-				-- No need
 			end
 		end
 	end
@@ -516,11 +516,11 @@ function TitanPanelBarButton:PLAYER_REGEN_ENABLED()
 	in_combat = false
 	TitanPanelBarButton_DisplayBarsWanted("PLAYER_REGEN_ENABLED")
 
-	if TITAN_ID == "TitanClassic" then
+	if Titan_Global.switch.can_edit_ui then
+		-- No need
+	else
 		-- Adjust frame positions
 		TitanPanel_AdjustFrames(false, "PLAYER_REGEN_ENABLED")
-	else
-		-- No need
 	end
 end
 
@@ -531,7 +531,9 @@ function TitanPanelBarButton:PLAYER_REGEN_DISABLED()
 	TitanPanelBarButton_DisplayBarsWanted("PLAYER_REGEN_DISABLED")
 end
 
-if TITAN_ID == "TitanClassic" then
+if Titan_Global.switch.can_edit_ui then
+	-- Do not need to adjust frames
+else
 	function TitanPanelBarButton:ACTIVE_TALENT_GROUP_CHANGED()
 		-- Is this needed??
 		--	TitanMovable_AdjustTimer("DualSpec")
@@ -552,8 +554,6 @@ if TITAN_ID == "TitanClassic" then
 
 	--]]
 	--
-else
-	-- No need
 end
 
 ---Titan Handle the button clicks on any Titan bar.
@@ -675,11 +675,11 @@ local function handle_reset_cmds(cmd_list)
 		if not InCombatLockdown() then
 			TitanPanelSetVar("Scale", 1);
 			TitanPanel_InitPanelBarButton("/panelscale reset ")
-			if TITAN_ID == "TitanClassic" then
+			if Titan_Global.switch.can_edit_ui then
+				-- No need
+			else
 				-- Adjust frame positions
 				TitanPanel_AdjustFrames(true, "/panelscale reset ")
-			else
-				-- No need
 			end
 			TitanPrint(L["TITAN_PANEL_SLASH_RESP3"], "info")
 		else
@@ -1437,11 +1437,11 @@ function TitanPanelBarButton_DisplayBarsWanted(reason)
 	-- Set anchors for other addons to use.
 	TitanAnchors()
 
-	if TITAN_ID == "TitanClassic" then
+	if Titan_Global.switch.can_edit_ui then
+		-- Not needed with UI movable widgets
+	else
 		-- Adjust other frames because the bars shown / hidden may have changed
 		TitanPanel_AdjustFrames(true, "_DisplayBarsWanted")
-	else
-		-- Not needed with UI movable widgets
 	end
 end
 
@@ -1483,16 +1483,12 @@ local function showBar(frame_str)
 		end
 	end
 
-	if TITAN_ID == "TitanClassic" then
-		-- skip, no pet battles yet
-	else
-		-- ===== In Pet Battle
-		if C_PetBattles.IsInBattle() then
-			if TitanBarData[frame_str].user_move then
-				-- leave as is
-			else
-				flag = false
-			end
+	-- ===== In Pet Battle
+	if C_PetBattles and C_PetBattles.IsInBattle() then
+		if TitanBarData[frame_str].user_move then
+			-- leave as is
+		else
+			flag = false
 		end
 	end
 	--[[

@@ -207,7 +207,7 @@ function RSMinimap.RefreshEntityState(entityID)
 				elseif (POI.isContainer) then
 					-- If the entity spawns in multiple places use the POIs coordinates
 					local alreadyFoundInfo = RSGeneralDB.GetAlreadyFoundEntity(entityID)
-					if (RSUtils.Contains(RSConstants.CONTAINERS_WITH_MULTIPLE_SPAWNS, entityID)) then
+					if (RSContainerDB.IsMultiZoneSpawn(entityID)) then
 						alreadyFoundInfo.coordX = POI.x
 						alreadyFoundInfo.coordY = POI.y
 					end
@@ -238,7 +238,7 @@ function RSMinimap.RefreshEntityState(entityID)
 				end
 				
 				-- If the entity spawns in multiple places keep checking the rest of entities in the list
-				if (not RSNpcDB.IsMultiZoneSpawn(entityID) and not RSUtils.Contains(RSConstants.CONTAINERS_WITH_MULTIPLE_SPAWNS, entityID)) then
+				if (not RSNpcDB.IsMultiZoneSpawn(entityID) and not RSContainerDB.IsMultiZoneSpawn(entityID)) then
 					break
 				end
 			end

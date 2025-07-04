@@ -390,7 +390,7 @@ local function GetNextItemUnlockBonusIDByString(item)
 	end
 end
 local function GetNextItemUnlockBonusIDByTable(item)
-	if not item.itemID then return end
+	if not item.sourceID then return end
 
 	local upgrades = BonusIDNextUnlock[item.bonusID or 0]
 	if upgrades then

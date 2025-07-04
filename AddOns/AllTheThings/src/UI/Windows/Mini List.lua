@@ -8,7 +8,7 @@ local GetTimerunningSeasonEventID = app.Modules.Events.GetTimerunningSeason;
 -- Global locals
 local ipairs, pairs, tinsert, getmetatable, setmetatable, tostring =
 	  ipairs, pairs, tinsert, getmetatable, setmetatable, tostring;
-local C_Map_GetMapInfo, C_Map_GetAreaInfo = C_Map.GetMapInfo, C_Map.GetAreaInfo;
+local C_Map_GetMapInfo = C_Map.GetMapInfo;
 
 -- Local variables
 local SortTypeByHeaderID = setmetatable({

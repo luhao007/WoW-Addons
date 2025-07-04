@@ -302,7 +302,12 @@ end
 -- DirtyQuests became a table instead of an array like before, so it broke a lot of things... I'll make one for each version to keep it working
 local ClassicDirtyQuests, RetailDirtyQuests = {}, {}
 local CollectibleAsQuest, IsQuestFlaggedCompletedForObject;
+local CACHE = "Quests"
 app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, accountWideData)
+	if not currentCharacter[CACHE] then currentCharacter[CACHE] = {} end
+	if not accountWideData[CACHE] then accountWideData[CACHE] = {} end
+	if not accountWideData.OneTimeQuests then accountWideData.OneTimeQuests = {} end
+
 	OneTimeQuests = accountWideData.OneTimeQuests
 	local userignored = accountWideData.IGNORE_QUEST_PRINT
 	-- add user ignored to the list if any, don't save our hardcoded quests for everyone...
@@ -1663,7 +1668,16 @@ local createQuest = app.CreateClass("Quest", "questID", {
 	timeRemaining = function(t)
 		return t.isWorldQuest and GetQuestTimeLeftMinutes(t.questID) or nil;
 	end,
-
+	
+	-- Defaults (Mostly used for nesting quests under their npcs for Pet Battles)
+	qgParent = function(t)
+		local qg = t.parent.creatureID or t.parent.npcID;
+		if qg and qg > 0 then return qg; end
+	end,
+	coords = function(t)
+		if t.qgParent then return t.parent.coords; end
+	end,
+	
 	-- These are Retail fields that aren't used in Classic... yet?
 	missingSourceQuests = function(t)
 		if t.sourceQuests and #t.sourceQuests > 0 then
@@ -2053,6 +2067,29 @@ app.AddEventRegistration("QUEST_TURNED_IN", function(questID)
 end)
 app.AddEventHandler("OnRefreshCollections", RefreshAllQuestInfo);
 
+-- popout handler for Quest Items group
+local function AddQuestItems(group)
+	local qis = group.qis
+	if not qis then return end
+
+	local g = {}
+	for i=1,#qis do
+		g[#g + 1] = app.CreateItem(qis[i], {OnSetVisibility=app.AlwaysShowUpdate})
+	end
+
+	-- Show Quest Items
+	local questItems = app.CreateRawText(L.QUEST_ITEMS, {
+		icon = 133736,
+		OnUpdate = app.AlwaysShowUpdate,
+		OnClick = app.UI.OnClick.IgnoreRightClick,
+		skipFull = true,
+		skipContains = true,
+		SortPriority = -2.95,
+		g = g,
+	})
+	app.NestObject(group, questItems);
+end
+app.AddEventHandler("OnNewPopoutGroup", AddQuestItems)
 
 
 

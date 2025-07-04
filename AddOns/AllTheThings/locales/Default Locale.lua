@@ -64,6 +64,7 @@ local L = setmetatable({
 	OBJECT_TYPE = "Object Type";
 	OBJECTIVES = "Objectives";
 	QUEST_GIVERS = "Quest Givers";
+	QUEST_ITEMS = "Quest Items";
 	RUNEFORGE_POWER_ID = "Runeforge Power ID";
 
 	-- Instructional Text
@@ -191,9 +192,21 @@ local L = setmetatable({
 	CURRENCY_FOR = "Currency for";
 
 	CHAT_COMMANDS_LABEL = "Chat Commands";
-	CHAT_COMMANDS_TEXT = "/att |cffFFFFFFor|R /allthethings\n|cffFFFFFFOpens the Main List.\n\n|R/attmini\n|cffFFFFFFOpens the Mini List.\n\n|R/attbounty\n|cffFFFFFFOpens a list of bugged or unconfirmed items.\n\n|R/attra\n|cffFFFFFFOpens the Raid Assistant.\n\n|R/attwq\n|cffFFFFFFOpens the World Quests List.\n\n|R/att item:1234 |cffFFFFFFor|R /att [Item Link]\n|cffFFFFFFOpens a window with shared appearances. Also works with other things, such as|R quest:1234|cffFFFFFF, |Rnpcid:1234|cffFFFFFF, |Rmapid:1234|cffFFFFFF or |Rrecipeid:1234|cffFFFFFF.\n\n|R/attrwp\n|cffFFFFFFShows all future Removed With Patch things.\n\n|R/attnwp\n|cffFFFFFFShows all current New With Patch things.\n\n|R/attrandom\n|cffFFFFFFOpens the Random List.\n\n|R/attunsorted\n|cffFFFFFFOpens a list of unsourced items. Best opened in Debug Mode.\n\n|R/rl\n|cffFFFFFFReload your WoW interface.|R";
-	ICON_LEGEND_LABEL = "Icon Legend";
-	ICON_LEGEND_TEXT = app.ccColors.White .. "|T" .. app.asset("status-unobtainable") .. ":0|t " .. "Unobtainable" .. "\n|T" .. app.asset("status-prerequisites") .. ":0|t " .. "Obtainable only with prerequisites" .. "\n|T" .. app.asset("status-seasonal-available") .. ":0|t " .. "Available seasonal content" .. "\n|T" .. app.asset("status-seasonal-unavailable") .. ":0|t " .. "Unavailable seasonal content" .. "\n|T374225:0|t " .. "Unavailable on current character" .. "\n|T"..app.asset("status-unsorted")..":0|t " .. "Unsorted in ATT";
+	CHAT_COMMANDS_TEXT = "/att |cffFFFFFFor|R /allthethings\n|cffFFFFFFOpens the Main List.\n\n|R/attmini\n|cffFFFFFFOpens the Mini List.\n\n|R/attbounty\n|cffFFFFFFOpens a list of bugged or unconfirmed items.\n\n|R/attra\n|cffFFFFFFOpens the Raid Assistant.\n\n|R/attwq\n|cffFFFFFFOpens the World Quests List.\n\n|R/att item:1234 |cffFFFFFFor|R /att [Item Link]\n|cffFFFFFFOpens a window with shared appearances.\nAlso works with other things, such as|R quest:1234|cffFFFFFF, |Rnpcid:1234|cffFFFFFF, |Rmapid:1234|cffFFFFFF or |Rrecipeid:1234|cffFFFFFF.\n\n|R/attrwp\n|cffFFFFFFShows all future Removed With Patch things.\n\n|R/attnwp\n|cffFFFFFFShows all current New With Patch things.\n\n|R/attrandom\n|cffFFFFFFOpens the Random List.\n\n|R/attunsorted\n|cffFFFFFFOpens a list of unsourced items.\nBest opened in Debug Mode.\n\n|R/rl\n|cffFFFFFFReload your WoW interface.|R";
+	ICON_LEGEND_STATUS_LABEL = "Status Icons Legend";
+	ICON_LEGEND_STATUS_TEXT = app.ccColors.White ..
+			"|T" .. app.asset("status-unobtainable") .. ":0|t " .. "Unobtainable" ..
+			"\n|T" .. app.asset("status-prerequisites") .. ":0|t " .. "Obtainable only with prerequisites" ..
+			"\n|T" .. app.asset("status-seasonal-available") .. ":0|t " .. "Available seasonal content" ..
+			"\n|T" .. app.asset("status-seasonal-unavailable") .. ":0|t " .. "Unavailable seasonal content" ..
+			"\n|T374225:0|t " .. "Unavailable on current character" ..
+			"\n|T" .. app.asset("status-unsorted") .. ":0|t " .. "Unsorted in ATT";
+	ICON_LEGEND_MISC_LABEL = "Miscellaneous Icons Legend";
+	ICON_LEGEND_MISC_TEXT = app.ccColors.White ..
+			"|T" .. app.asset("Currency") .. ":0|t " .. "Used as a currency" ..
+			"\n|T" .. app.asset("Interface_Reagent") .. ":0|t " .. "Used as a crafting reagent" ..
+			"\n|T" .. app.asset("Interface_Catalyst") .. ":0|t " .. "Convertible at the Catalyst for a new appearance" ..
+			"\n|T" .. app.asset("Interface_Upgrade") .. ":0|t " .. "Can be upgraded for a new appearance";
 	KEYBINDINGS = SETTINGS_KEYBINDINGS_LABEL;
 	KEYBINDINGS_TEXT = "You can set keybindings for ATT in the game's options.";
 	MINIMAP_LABEL = "Minimap Button";

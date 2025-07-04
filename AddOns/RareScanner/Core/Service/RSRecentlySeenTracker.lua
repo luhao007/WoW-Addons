@@ -9,6 +9,7 @@ local RSRecentlySeenTracker = private.NewLib("RareScannerRecentlySeenTracker")
 local RSConfigDB = private.ImportLib("RareScannerConfigDB")
 local RSNpcDB = private.ImportLib("RareScannerNpcDB")
 local RSGeneralDB = private.ImportLib("RareScannerGeneralDB")
+local RSContainerDB = private.ImportLib("RareScannerContainerDB")
 
 -- RareScanner internal libraries
 local RSConstants = private.ImportLib("RareScannerConstants")
@@ -93,7 +94,7 @@ function RSRecentlySeenTracker.AddRecentlySeen(entityID, atlasName, isNavigating
 	local shouldAnimate = false
 	
 	-- If spawning in multiple places at the same time stores also the coordinates
-	if (RSNpcDB.IsMultiZoneSpawn(entityID) or RSUtils.Contains(RSConstants.CONTAINERS_WITH_MULTIPLE_SPAWNS, entityID)) then
+	if (RSNpcDB.IsMultiZoneSpawn(entityID) or RSContainerDB.IsMultiZoneSpawn(entityID)) then
 		-- Extracts info from internal database
 		if (not recently_seen_entities[entityID]) then
 			recently_seen_entities[entityID] = {}

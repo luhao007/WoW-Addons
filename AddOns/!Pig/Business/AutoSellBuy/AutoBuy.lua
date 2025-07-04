@@ -92,9 +92,16 @@ function BusinessInfo.AutoBuy()
 			ExecuteBuyFun(BuyAllData.Data[i])
 		end
 	end
+	local function StartBuyItem_After()
+		if MerchantFrame.pigfuusell then
+			C_Timer.After(0.1,StartBuyItem_After)
+		else
+			StartBuyItem()
+		end
+	end
 	MerchantFrame:HookScript("OnShow",function (self)
 		if PIGA["AutoSellBuy"][_GNE.."_Open"] then
-			StartBuyItem()
+			StartBuyItem_After()
 		end
 	end);
 	fujiF.Buy_Open = PIGCheckbutton(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",20,-10},{"自动".._GN.."|cff00FFFF(角色)|r", "打开商人界面自动".._GN.."下方列表物品|cff00FFFF(设置为单个角色独享)|r"})

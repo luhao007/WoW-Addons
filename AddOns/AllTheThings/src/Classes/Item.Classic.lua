@@ -158,7 +158,8 @@ local itemFields = {
 		return t.link;
 	end,
 	["icon"] = function(t)
-		return GetItemIcon(t.itemID) or 134400;
+		local itemID = t.itemID
+		return itemID and GetItemIcon(itemID) or 134400;
 	end,
 	["link"] = function(t)
 		return BestItemLinkPerItemID[t.itemID];
@@ -177,6 +178,11 @@ local itemFields = {
 		if results and #results > 0 then
 			return app.FilterConstants.QUEST_ITEMS;
 		end
+	end,
+	["specs"] = function(t)
+		local specs = app.GetFixedItemSpecInfo(t.itemID) or {};
+		t.specs = specs;
+		return specs;
 	end,
 	["tsm"] = function(t)
 		return ("i:%d"):format(t.itemID);

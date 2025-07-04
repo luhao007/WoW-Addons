@@ -514,22 +514,22 @@ local fieldConverters = {
 
 	-- Complex Converters
 	["altQuests"] = function(group, value)
-		for i=1,#value,1 do
+		for i=1,#value do
 			CacheField(group, "questID", value[i]);
 		end
 	end,
 	["crs"] = function(group, value)
-		for i=1,#value,1 do
+		for i=1,#value do
 			cacheCreatureID(group, value[i]);
 		end
 	end,
 	["qgs"] = function(group, value)
-		for i=1,#value,1 do
+		for i=1,#value do
 			cacheCreatureID(group, value[i]);
 		end
 	end,
 	["maps"] = function(group, value)
-		for i=1,#value,1 do
+		for i=1,#value do
 			cacheMapID(group, value[i]);
 		end
 		return true;
@@ -555,14 +555,14 @@ local fieldConverters = {
 	end,
 	["cost"] = function(group, value)
 		if type(value) == "table" then
-			for i=1,#value,1 do
+			for i=1,#value do
 				cacheProviderOrCost(group, value[i]);
 			end
 		end
 	end,
 	["provider"] = cacheProviderOrCost,
 	["providers"] = function(group, value)
-		for i=1,#value,1 do
+		for i=1,#value do
 			cacheProviderOrCost(group, value[i]);
 		end
 	end,
@@ -573,18 +573,23 @@ local fieldConverters = {
 		cacheFactionID(group, value[1]);
 	end,
 	["nextQuests"] = function(group, value)
-		for i=1,#value,1 do
+		for i=1,#value do
 			CacheField(group, "nextQuests", value[i])
 		end
 	end,
 	["sourceQuests"] = function(group, value)
-		for i=1,#value,1 do
+		for i=1,#value do
 			CacheField(group, "sourceQuestID", value[i]);
 		end
 	end,
 	["sourceAchievements"] = function(group, value)
-		for i=1,#value,1 do
+		for i=1,#value do
 			CacheField(group, "sourceAchievementID", value[i]);
+		end
+	end,
+	["qis"] = function(group, value)
+		for i=1,#value do
+			CacheField(group, "qItemID", value[i])
 		end
 	end,
 
@@ -936,11 +941,12 @@ local function SearchForObject(field, id, require, allowMultiple)
 		return allowMultiple and app.EmptyTable or nil
 	end
 
-	local results = {}
+	local results
 
 	-- split logic based on require to reduce conditionals within loop
 	if require == 2 then
 		-- Key require
+		results = {}
 		for i=1,count,1 do
 			fcacheObj = fcache[i];
 			-- field matching id
@@ -953,6 +959,7 @@ local function SearchForObject(field, id, require, allowMultiple)
 		end
 	elseif require == 1 then
 		-- Field require
+		results = {}
 		for i=1,count,1 do
 			fcacheObj = fcache[i];
 			-- field matching id

@@ -269,9 +269,6 @@ fuFrame:SetScript("OnShow", function()
 	end
 	fuFrame.taintLog:PIGDownMenu_SetText(taintlistmenu[GetCVar("taintLog")])
 end);
---屏幕中线
--- local offsetww = UIParent:GetWidth()*0.5
--- PIGLine(UIParent,"C")
 ---创建常用3宏
 local hongNameList = {["RL"]={"/Reload",132096},["FST"]={"/fstack",132089},["EVE"]={"/eventtrace",132092}}
 fuFrame.New_hong = PIGButton(fuFrame,{"BOTTOMLEFT",fuFrame,"BOTTOMLEFT",20,20},{100,24},"ADD_FWR")
@@ -317,3 +314,14 @@ fuFrame.zhuanma = PIGButton(fuFrame,{"BOTTOMRIGHT",fuFrame,"BOTTOMRIGHT",0,0},{1
 fuFrame.zhuanma:SetScript("OnClick", function (self)
 	_G[Data.ExportImportUIname]:Show_HideFun()
 end)
+--屏幕中线
+-- local offsetww = UIParent:GetWidth()*0.5
+-- PIGLine(UIParent,"C")
+-- local ButtoSDn = CreateFrame("Button",nil,UIParent, "UIPanelButtonTemplate,SecureActionButtonTemplate");
+-- ButtoSDn:SetSize(76,25);
+-- ButtoSDn:SetPoint("CENTER",UIParent,"CENTER",4,0);
+-- ButtoSDn:SetText("ASDADA");
+-- ButtoSDn:SetScript("OnClick", function ()
+
+
+-- end);

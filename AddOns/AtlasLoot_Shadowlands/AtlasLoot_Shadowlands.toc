@@ -1,6 +1,6 @@
 ## Interface: 110107
 ## Author: nanderson11, Arith
-## Version: v9.6.0
+## Version: v9.7.0
 
 ## Title: AtlasLoot |cFF0099FF[Shadowlands]|r
 ## Notes: AtlasLoot loot tables from Shadowlands

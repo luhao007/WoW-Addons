@@ -912,8 +912,9 @@ function BusinessInfo.MailPlus_ADDUI()
 	SendMailFrame.ItemList:SetWidth(300);
 	if ElvUI or NDui then SendMailFrame.ItemList:PIGSetBackdrop(0,1) end
 	--
-	SendMailFrame.ItemList.Delbut = Create.PIGDiyBut(SendMailFrame.ItemList,{"TOPRIGHT",SendMailFrame.ItemList,"TOPRIGHT",-4,24},{20,nil,20,nil,"bags-button-autosort-up"})
+	SendMailFrame.ItemList.Delbut = Create.PIGDiyBut(SendMailFrame.ItemList,{"TOPRIGHT",SendMailFrame.ItemList,"TOPRIGHT",-4,24},{20,nil,20,nil,"common-icon-undo"})
 	SendMailFrame.ItemList.Delbut:Disable()
+	PIGEnter(SendMailFrame.ItemList.Delbut,"清空已选")
 	SendMailFrame.ItemList.Delbut:SetScript("OnClick", function (self,button)
 		for i=1, ATTACHMENTS_MAX_SEND do
 			ClickSendMailItemButton(SendMailFrame.SendMailAttachments[i]:GetID(), true);

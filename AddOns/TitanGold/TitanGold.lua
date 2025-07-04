@@ -1325,7 +1325,7 @@ end
 ---Button clicks - only shift-left for now
 ---@param self Button
 ---@param button string
-function OnClick(self, button)
+local function OnClick(self, button)
 	if button == "LeftButton" and IsShiftKeyDown() then
 		local realms = GetConnectedRealms()
 		local this_realm = " * "

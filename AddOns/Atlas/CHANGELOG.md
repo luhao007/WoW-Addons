@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.7.1 - July 3, 2025
+### Fixed
+- Cata/MoP: Remove dungeon journal buttons for instances that aren't in the game just yet
+
+## 3.7.0 - June 30, 2025
+### Added
+- Cata/MoP: Added support for Mists of Pandaria Classic
+- Classic Era: Added a Scarlet Enclave entry (no map)
+### Changed
+- Changed to the native frame template, which is mostly only noticeable on retail
+### Removed
+- Removed the slightly larger map option available for some of the Legion instances
+
 ## 3.6.6 - June 21, 2025
 ### Fixed
 - Retail: Fix errors when LibBabble-SubZone is installed as a separate library
@@ -578,7 +591,7 @@ v1.41.00 (Apr. 14, 2017)
 v1.40.06 (Apr. 13, 2017)
 ------------------------
 - Checking deprecated plugins now will recognize the alpha build's version
-  if specifed; or will ignore those set "v3.6.6" as the version
+  if specifed; or will ignore those set "v3.7.1" as the version
   number to be changed by CurseForge's auto-packaging.
 
 v1.40.05 (Apr. 13, 2017)

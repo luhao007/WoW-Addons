@@ -114,7 +114,7 @@ function private.UpdatePlayerProfessionInfo(name, skillId, level, maxLevel, isSe
 end
 
 function private.PlayerProfessionsSkillUpdate()
-	if ClientInfo.IsRetail() or ClientInfo.IsCataClassic() then
+	if ClientInfo.IsRetail() or ClientInfo.IsCataPandaClassic() then
 		local professionIds = TempTable.Acquire(GetProfessions())
 		-- ignore archaeology and fishing which are in the 3rd and 4th slots respectively
 		professionIds[3] = nil
@@ -159,7 +159,7 @@ function private.PlayerProfessionsThread()
 	-- get the player's tradeskills
 	if ClientInfo.IsRetail() then
 		ProfessionsBookFrame_Update()
-	elseif ClientInfo.IsCataClassic() then
+	elseif ClientInfo.IsCataPandaClassic() then
 		SpellBook_UpdateProfTab()
 	else
 		SpellBookFrame_UpdateSkillLineTabs()
@@ -168,7 +168,7 @@ function private.PlayerProfessionsThread()
 	for name in pairs(private.settings.playerProfessions) do
 		forgetProfession[name] = true
 	end
-	if ClientInfo.IsRetail() or ClientInfo.IsCataClassic() then
+	if ClientInfo.IsRetail() or ClientInfo.IsCataPandaClassic() then
 		Threading.WaitForFunction(GetProfessions)
 		local professionIds = Threading.AcquireSafeTempTable(GetProfessions())
 		-- ignore archaeology and fishing which are in the 3rd and 4th slots respectively

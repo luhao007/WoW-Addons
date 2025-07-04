@@ -122,6 +122,10 @@ app.CreateTitle = app.CreateClass("Title", "titleID", {
 	end
 },function(t) return t.gender end
 );
+app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, accountWideData)
+	if not currentCharacter[CACHE] then currentCharacter[CACHE] = {} end
+	if not accountWideData[CACHE] then accountWideData[CACHE] = {} end
+end)
 app.AddSimpleCollectibleSwap(CLASSNAME, CACHE)
 
 -- Title Refresh

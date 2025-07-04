@@ -1136,11 +1136,11 @@ local SetTable = {
 	["Scholomance"] = { -- Scholomance Sets
 		name = C_Map.GetMapInfo(476).name.." "..AL["Sets"],
 		sourceTemplate = {
-			AL["No longer available"],
-			AL["No longer available"],
-			AL["No longer available"],
-			AL["No longer available"],
-			AL["No longer available"],
+			C_Map.GetMapInfo(306).name,
+			C_Map.GetMapInfo(306).name,
+			C_Map.GetMapInfo(306).name,
+			C_Map.GetMapInfo(306).name,
+			C_Map.GetMapInfo(306).name,
 		},
 		{ -- Scholomance Cloth
 			name = C_Item.GetItemSetInfo(122).." ("..AL["Cloth"]..")",

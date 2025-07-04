@@ -422,7 +422,7 @@ local function IsNpcPOIFiltered(npcID, mapID, artID, npcInfo, questTitles, vigne
 				end
 			end
 		-- Also hide one time kill rare NPCs at Khaz Algar
-		elseif (RSMapDB.GetContinentOfMap(mapID) == RSConstants.KHAZ_ALGAR and not RSUtils.Contains(RSConstants.KHAZ_ALGAR_NPCS_MOUNTS, npcID) and not RSUtils.Contains(RSConstants.TWW_MAPS_WITHOUT_REP, mapID)) then
+		elseif (RSMapDB.GetContinentOfMap(mapID) == RSConstants.KHAZ_ALGAR and not RSUtils.Contains(RSConstants.IGNORE_NPCS_REPUTATION, npcID) and not RSUtils.Contains(RSConstants.TWW_MAPS_WITHOUT_REP, mapID)) then
 			if (npcInfo.questID) then
 				for _, questID in ipairs(npcInfo.questID) do
 					if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then

@@ -267,6 +267,8 @@ local function TitanPanelButton_SetTooltip(self)
 			self.plugin_id = id
 			self.plugin_frame = TitanUtils_ButtonName(id)
 			if (plugin and plugin.tooltipCustomFunction) then
+                -- Hide the GameTooltip while being updated, to avoid race conditions.
+                frame:Hide()
 				-- Prep the tooltip frame
 				TitanTooltip_SetPanelTooltip(self, id, frame);
 
@@ -301,6 +303,8 @@ local function TitanPanelButton_SetTooltip(self)
 				end
 
 				if (tooltipTextFunc) then
+                    -- Hide the GameTooltip while being updated, to avoid race conditions.
+                    frame:Hide()
 					-- Prep the tooltip frame
 					TitanTooltip_SetPanelTooltip(self, id, frame);
 					self.tooltipTitle = plugin.tooltipTitle;

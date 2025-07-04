@@ -107,12 +107,12 @@ local function CreateSchedule(startTime, endTime, t)
 	};
 end
 local SessionEventCache;
-local CacheVersion = 20250607;
+local CacheVersion = 20250703;
 local function GetEventCache()
 	-- app.PrintDebug("GetEventCache")
 	local now = CreateTimeStamp(C_DateAndTime_GetCurrentCalendarTime());
 	local cache = SessionEventCache or AllTheThingsSavedVariables.EventCache;
-	if cache and (cache.lease or 0) > now and (not cache.version or cache.version < CacheVersion) then
+	if cache and (cache.lease or 0) > now and (cache.version and cache.version >= CacheVersion) then
 		-- If our cache is still leased, then simply return it.
 		-- app.PrintDebug("GetEventCache.lease")
 		SessionEventCache = cache;
@@ -128,13 +128,13 @@ local function GetEventCache()
 		local C_Calendar_SetAbsMonth, C_Calendar_SetMonth, C_Calendar_GetDayEvent, C_Calendar_GetMonthInfo, C_Calendar_GetNumDayEvents
 			= C_Calendar.SetAbsMonth, C_Calendar.SetMonth, C_Calendar.GetDayEvent, C_Calendar.GetMonthInfo, C_Calendar.GetNumDayEvents;
 
-		-- Go back 6 months and then forward to the next year
+		-- Go back 18 months and then forward to the next year
 		local date = C_DateAndTime_GetCurrentCalendarTime();
 		C_Calendar_SetAbsMonth(date.month, date.year);
-		C_Calendar_SetMonth(-6);
+		C_Calendar_SetMonth(-18);
 
 		local anyEvents = false;
-		for offset=-6,12,1 do
+		for offset=-18,12,1 do
 			local monthInfo = C_Calendar_GetMonthInfo(0);
 			for day=1,monthInfo.numDays,1 do
 				local numEvents = C_Calendar_GetNumDayEvents(0, day);

@@ -15,6 +15,23 @@ Green - 'header' - Titan or plugin
 Highlight - notes. tips. and details
 --]]
 Titan_Global.recent_changes = ""
+.. TitanUtils_GetGoldText("8.3.0 : 2025/07/2\n")
+.. TitanUtils_GetGreenText("Titan : \n")
+.. TitanUtils_GetHighlightText(""
+.. "-  Major change : \n"
+.. "-  - : Titan users will have their Titan options reset.\n"
+.. "-  - : Titan plugin options should be the same after update.\n"
+.. "-  - : Titan 3rd party plugins for Classic must be updated.\n"
+.. "-  Internally : \n"
+.. "-  - : TitanClassic is no longer an ID.\n"
+.. "-  - : Titan Classic 3rd party plugins must use Titan as the dependency in TOC, not TitanClassic.\n"
+.. "-  - : Saved variables will be in Titan.lua rather than TitanCLassic.lua.\n"
+)
+.. TitanUtils_GetGoldText("8.2.6 : 2025/06/23\n")
+.. TitanUtils_GetGreenText("Titan : \n")
+.. TitanUtils_GetHighlightText(""
+.. "- TWW version to 11.1.7.\n"
+)
 .. TitanUtils_GetGoldText("8.2.5 : 2025/05/22\n")
 .. TitanUtils_GetGreenText("Titan : \n")
 .. TitanUtils_GetHighlightText(""

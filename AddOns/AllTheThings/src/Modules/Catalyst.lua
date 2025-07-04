@@ -149,12 +149,14 @@ local function GetCatalyst(data)
 end
 
 local function catalyst_select_proper_tier_item(ResolveFunctions)
-	local select, pop, contains, find, invtype =
+	local select, pop, contains, find, invtype, is, isnt =
 		ResolveFunctions.select,
 		ResolveFunctions.pop,
 		ResolveFunctions.contains,
 		ResolveFunctions.find,
-		ResolveFunctions.invtype
+		ResolveFunctions.invtype,
+		ResolveFunctions.is,
+		ResolveFunctions.isnt
 	return function(finalized, searchResults, o, cmd, catalystID, trackID, classID, armorSlot, baseItem)
 
 		-- Select the Catalyst Object
@@ -163,10 +165,23 @@ local function catalyst_select_proper_tier_item(ResolveFunctions)
 		select(finalized, searchResults, o, "select", "catalystID", catalystID)
 		-- app.PrintDebug("Found",#searchResults,"catalysts for",catalystID)
 
+		-- PvP Items should have a separate Catalyst root
+		local ispvp = baseItem.pvp
+		if ispvp then
+			is(finalized, searchResults, o, "is", "pvp")
+			pop(finalized, searchResults)
+			-- app.PrintDebug("find pvp version of catalyst",catalystID,app:SearchLink(baseItem),#searchResults)
+		else
+			isnt(finalized, searchResults, o, "isnt", "pvp")
+		end
+
 		-- Find the Upgrade Track
-		find(finalized, searchResults, o, "find", "trackID", trackID)
-		-- app.PrintDebug("Track group contains",#searchResults,"groups")
-		pop(finalized, searchResults)
+		-- TODO: if we have multiple pvp variants again probably have to revisit this
+		if not ispvp then
+			find(finalized, searchResults, o, "find", "trackID", trackID)
+			-- app.PrintDebug("Track group contains",#searchResults,"groups")
+			pop(finalized, searchResults)
+		end
 
 		-- Find the Class
 		contains(finalized, searchResults, o, "contains", "c", classID)

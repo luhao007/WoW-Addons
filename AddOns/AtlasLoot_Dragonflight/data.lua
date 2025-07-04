@@ -81,8 +81,7 @@ data["Algeth'ar Academy"] = {
 	MapID = 2097,
 	AtlasMapID = "AlgetharAcademy",
 	ContentType = DUNGEON_CONTENT,
-	items =
-	{
+	items = {
 		{ -- Vexamus
 			EncounterJournalID = 2509,
 			[NORMAL_DUNGEON_DIFF] = {
@@ -173,8 +172,7 @@ data["Brackenhide Hollow"] = {
 	MapID = 2096,
 	AtlasMapID = "BrackenhideHollow",
 	ContentType = DUNGEON_CONTENT,
-	items =
-	{
+	items = {
 		{ -- Hackclaw's War-Band
 			EncounterJournalID = 2471,
 			[NORMAL_DUNGEON_DIFF] = {
@@ -263,8 +261,7 @@ data["Halls of Infusion"] = {
 	MapID = 2082,
 	AtlasMapID = "HallsofInfusion",
 	ContentType = DUNGEON_CONTENT,
-	items =
-	{
+	items = {
 		{ -- Watcher Irideus
 			EncounterJournalID = 2504,
 			[NORMAL_DUNGEON_DIFF] = {
@@ -353,8 +350,7 @@ data["Neltharus"] = {
 	MapID = 2080,
 	AtlasMapID = "Neltharus",
 	ContentType = DUNGEON_CONTENT,
-	items =
-	{
+	items = {
 		{ -- Chargath, Bane of Scales
 			EncounterJournalID = 2490,
 			[NORMAL_DUNGEON_DIFF] = {
@@ -442,8 +438,7 @@ data["Ruby Life Pools"] = {
 	MapID = 2095,
 	--AtlasMapID = "",
 	ContentType = DUNGEON_CONTENT,
-	items =
-	{
+	items = {
 		{ -- Melidrussa Chillworn
 			EncounterJournalID = 2488,
 			[NORMAL_DUNGEON_DIFF] = {
@@ -524,8 +519,7 @@ data["The Azure Vault"] = {
 	MapID = 2073,
 	AtlasMapID = "AzureVault",
 	ContentType = DUNGEON_CONTENT,
-	items =
-	{
+	items = {
 		{ -- Leymor
 			EncounterJournalID = 2492,
 			[NORMAL_DUNGEON_DIFF] = {
@@ -616,8 +610,7 @@ data["The Nokhud Offensive"] = {
 	MapID = 2093,
 	AtlasMapID = "NokhudOffensive",
 	ContentType = DUNGEON_CONTENT,
-	items =
-	{
+	items = {
 		{ -- Granyth
 			EncounterJournalID = 2498,
 			[NORMAL_DUNGEON_DIFF] = {
@@ -706,8 +699,7 @@ data["Uldaman: Legacy of Tyr"] = {
 	MapID = 2071,
 	AtlasMapID = "UldamanLegacyofTyr",
 	ContentType = DUNGEON_CONTENT,
-	items =
-	{
+	items = {
 		{ -- The Lost Dwarves
 			EncounterJournalID = 2475,
 			[NORMAL_DUNGEON_DIFF] = {
@@ -808,6 +800,161 @@ data["Uldaman: Legacy of Tyr"] = {
 	}
 }
 
+local legacyScholoShared = {
+	{ 1,  18680 }, -- Ancient Bone Bow
+	{ 2,  18681 }, -- Burial Shawl
+	{ 3,  18684 }, -- Dimly Opalescent Ring
+	{ 4,  207058 }, -- Fractured Shin
+	{ 5,  18682 }, -- Ghoul Skin Leggings
+	{ 6,  18683 }, -- Hammer of the Vesper
+	{ 7,  207059 }, -- Skeletal Knight's Blade
+	{ 8,  207060 }, -- Skeletal Knight's Buckler
+	{ 9,  14614 }, -- Bloodmail Belt
+	{ 10, 14616 }, -- Bloodmail Boots
+	{ 11, 14615 }, -- Bloodmail Gauntlets
+	{ 12, 14611 }, -- Bloodmail Hauberk
+	{ 13, 14612 }, -- Bloodmail Legguards
+	{ 14, 14637 }, -- Cadaverous Armor
+	{ 15, 14636 }, -- Cadaverous Belt
+	{ 16, 14640 }, -- Cadaverous Gloves
+	{ 17, 14638 }, -- Cadaverous Leggings
+	{ 18, 14641 }, -- Cadaverous Walkers
+	{ 19, 14624 }, -- Deathbone Chestplate
+	{ 20, 14622 }, -- Deathbone Gauntlets
+	{ 21, 14620 }, -- Deathbone Girdle
+	{ 22, 14623 }, -- Deathbone Legguards
+	{ 23, 14621 }, -- Deathbone Sabatons
+	{ 24, 14631 }, -- Necropile Boots
+	{ 25, 14629 }, -- Necropile Cuffs
+	{ 26, 14632 }, -- Necropile Leggings
+	{ 27, 14633 }, -- Necropile Mantle
+	{ 28, 14626 }, -- Necropile Robe
+}
+
+data["Legacy of Scholomance"] = {
+	MapID = 306,
+	--AtlasMapID = "CL_Scholomance",
+	ContentType = DUNGEON_CONTENT,
+	items = {
+		{
+			name = AL["Kirtonos the Herald"],
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1, 13956 }, -- Clutch of Andros
+				{ 2, 14024 }, -- Frightalon
+				{ 3, 13957 }, -- Gargoyle Slashers
+				{ 4, 13983 }, -- Gravestone War Axe
+				{ 5, 13960 }, -- Heart of the Fiend
+				{ 6, 13969 }, -- Loomguard Armbraces
+				{ 7, 13955 }, -- Stoneform Shoulders
+				{ 8, 13967 }, -- Windreaver Greaves
+			},
+		},
+		{
+			name = AL["Jandice Barov"],
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1, 14541 }, -- Barovian Family Sword
+				{ 2, 14545 }, -- Ghostloom Leggings
+				{ 3, 18689 }, -- Phantasmal Cloak
+				{ 4, 14548 }, -- Royal Cap Spaulders
+				{ 5, 22394 }, -- Staff of Metanoia
+				{ 6, 18690 }, -- Wraithplate Leggings
+			},
+		},
+		{
+			name = AL["Rattlegore"],
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1, 18686 }, -- Bone Golem Shoulders
+				{ 2, 14539 }, -- Bone Ring Helm
+				{ 3, 14537 }, -- Corpselight Greaves
+				{ 4, 14538 }, -- Deadwalker Mantle
+				{ 5, 14531 }, -- Frightskull Shaft
+				{ 6, 14528 }, -- Rattlecage Buckler
+			},
+		},
+		{
+			name = AL["Marduk Blackpool"],
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1, 18692 }, -- Death Knight Sabatons
+				{ 2, 14576 }, -- Ebon Hilt of Marduk
+			},
+		},
+		{
+			name = AL["Vectus"],
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1, 18691 }, -- Dark Advisor's Pendant
+				{ 2, 14577 }, -- Skullsmoke Pants
+			},
+		},
+		{
+			name = AL["Ras Frostwhisper"],
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1,  13314 }, -- Alanna's Embrace
+				{ 2,  14487 }, -- Bonechill Hammer
+				{ 3,  14525 }, -- Boneclenched Gauntlets
+				{ 4,  14503 }, -- Death's Clutch
+				{ 5,  14340 }, -- Freezing Lich Robes
+				{ 6,  14502 }, -- Frostbite Girdle
+				{ 7,  13952 }, -- Iceblade Hacker
+				{ 8,  18696 }, -- Intricately Runed Shield
+				{ 9,  14522 }, -- Maelstrom Leggings
+				{ 10, 18694 }, -- Shadowy Mail Greaves
+				{ 11, 18693 }, -- Shivery Handwraps
+				{ 12, 18695 }, -- Spellbound Tome
+				{ 13, 13521 }, -- Recipe: Flask of Supreme Power
+			},
+		},
+		{
+			name = AL["Instructor Malicia"],
+			[NORMAL_DUNGEON_DIFF] = legacyScholoShared,
+		},
+		{
+			name = AL["Doctor Theolen Krastinov"],
+			[NORMAL_DUNGEON_DIFF] = legacyScholoShared,
+		},
+		{
+			name = AL["Lorekeeper Polkelt"],
+			[NORMAL_DUNGEON_DIFF] = legacyScholoShared,
+		},
+		{
+			name = AL["The Ravenian"],
+			[NORMAL_DUNGEON_DIFF] = legacyScholoShared,
+		},
+		{
+			name = AL["Lord Alexei Barov"],
+			[NORMAL_DUNGEON_DIFF] = legacyScholoShared,
+		},
+		{
+			name = AL["Lady Illucia Barov"],
+			[NORMAL_DUNGEON_DIFF] = legacyScholoShared,
+		},
+		{
+			name = AL["Darkmaster Gandling"],
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1,  206373 }, -- Darkmaster's Scourgestone
+				{ 2,  13937 }, -- Headmaster's Charge
+				{ 3,  19276 }, -- Ace of Portals
+				{ 4,  13938 }, -- Bonecreeper Stylus
+				{ 5,  13398 }, -- Boots of the Shrieker
+				{ 6,  22433 }, -- Don Mauricio's Band of Domination
+				{ 7,  13953 }, -- Silent Fang
+				{ 8,  13944 }, -- Tombstone Breastplate
+				{ 9,  13951 }, -- Vigorsteel Vambraces
+				{ 10, 13964 }, -- Witchblade
+				{ 11, 14514 }, -- Pattern: Robe of the Void
+			},
+		},
+		{
+			name = AL["Trash Mobs"],
+			ExtraList = true,
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1, 16254 }, -- Formula: Enchant Weapon - Lifestealing
+				{ 2, 18702 }, -- Belt of the Ordained
+				{ 3, 14536 }, -- Bonebrace Hauberk
+			},
+		},
+	}
+}
+
 -- /////////////////////////////////
 -- Raid
 -- /////////////////////////////////
@@ -817,8 +964,7 @@ data["Dragon Isles"] = {
 	MapID = 1978,
 	ContentType = RAID_CONTENT,
 	TableType = RAID_ITTYPE,
-	items =
-	{
+	items = {
 		{ -- Strunraan, The Sky's Misery
 			EncounterJournalID = 2515,
 			[NORMAL_RAID_DIFF] = {
@@ -868,8 +1014,7 @@ data["Vault of the Incarnates"] = {
 	AtlasMapID = "VaultoftheIncarnates",
 	ContentType = RAID_CONTENT,
 	TableType = RAID_ITTYPE,
-	items =
-	{
+	items = {
 		{ -- Eranog
 			EncounterJournalID = 2480,
 			[NORMAL_RAID_DIFF] = {
@@ -1082,8 +1227,7 @@ data["Aberrus, the Shadowed Crucible"] = {
 	AtlasMapID = "Aberrus",
 	ContentType = RAID_CONTENT,
 	TableType = RAID_ITTYPE,
-	items =
-	{
+	items = {
 		{ -- Kazzara, the Hellforged
 			EncounterJournalID = 2522,
 			[NORMAL_RAID_DIFF] = {
@@ -1334,8 +1478,7 @@ data["Amirdrassil, the Dream's Hope"] = {
 	AtlasMapID = "AmirdrassilA",
 	ContentType = RAID_CONTENT,
 	TableType = RAID_ITTYPE,
-	items =
-	{
+	items = {
 		{ -- Gnarlroot
 			EncounterJournalID = 2564,
 			[NORMAL_RAID_DIFF] = {

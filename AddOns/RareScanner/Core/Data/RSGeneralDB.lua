@@ -308,20 +308,20 @@ function RSGeneralDB.InitRecentlySeenDB()
 	private.dbglobal.recentlySeen = {}
 end
 
-function RSGeneralDB.DeleteRecentlySeen(npcID)
-	if (npcID and private.dbglobal.recentlySeen[npcID]) then
-		private.dbglobal.recentlySeen[npcID] = nil
+function RSGeneralDB.DeleteRecentlySeen(entityID)
+	if (entityID and private.dbglobal.recentlySeen[entityID]) then
+		private.dbglobal.recentlySeen[entityID] = nil
 	end
 end
 
-function RSGeneralDB.SetRecentlySeen(npcID)
-	if (npcID) then
-		private.dbglobal.recentlySeen[npcID] = true
+function RSGeneralDB.SetRecentlySeen(entityID)
+	if (entityID) then
+		private.dbglobal.recentlySeen[entityID] = true
 	end
 end
 
-function RSGeneralDB.IsRecentlySeen(npcID)
-	if (npcID and private.dbglobal.recentlySeen[npcID]) then
+function RSGeneralDB.IsRecentlySeen(entityID)
+	if (entityID and private.dbglobal.recentlySeen[entityID]) then
 		return true
 	end
 

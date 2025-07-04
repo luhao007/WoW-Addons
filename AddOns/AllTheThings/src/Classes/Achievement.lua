@@ -325,7 +325,7 @@ do
 						if #sas > 0 then
 							bestMatch = nil;
 							for j,sa in ipairs(sas) do
-								if sa.achievementID == sourceAchievementID then
+								if sa.achievementID == sourceAchievementID and sa.key == "achievementID" then
 									if isDebugMode or (not sa.saved and app.GroupFilter(sa)) then
 										bestMatch = sa;
 									end

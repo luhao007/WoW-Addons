@@ -482,6 +482,10 @@ end
 -- Performs a recursive update sequence and update of cost against the referenced 'cost'/'providers' table
 UpdateCostGroup = function(c)
 	-- app.PrintDebug("UCG",app:SearchLink(c),app._SettingsRefresh)
+	if type(c) ~= "table" then
+		app.PrintDebug("------------------ Update Cost which is not a group?!?!",c)
+		return
+	end
 	local refresh = app._SettingsRefresh;
 	local costs, providers = c.cost, c.providers
 	-- update cost
@@ -595,8 +599,10 @@ app.AddEventHandler("OnLoad", function()
 	-- UpdateRunner.ToggleDebugFrameTime()
 end)
 app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, accountWideData)
-	OneTimeQuests = accountWideData.OneTimeQuests;
 	ExtraFilters = app.Settings:GetTooltipSetting("Filter:MiniList:Timerunning") and { Timerunning = true } or nil
+end)
+app.AddEventHandler("OnAfterSavedVariablesAvailable", function(currentCharacter, accountWideData)
+	OneTimeQuests = accountWideData.OneTimeQuests
 end)
 app.AddEventHandler("OnRecalculate_NewSettings", UpdateCosts)
 
@@ -896,6 +902,8 @@ local SkipPurchases = {
 	}
 }
 -- TODO: TBD some consolidation of Fillers based on the Root being filled...
+-- Assign a new set of Fillers within FillData and prio that
+-- Also check in-instance and any skips for any scope should also remove the Cost filler automatically
 -- i.e. if filling MoH or Bronze, we would just remove the PURCHASE Filler from ActiveFillers, and not need to check this for every group
 local function ShouldFillPurchases(group, FillData)
 	local val

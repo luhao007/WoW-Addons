@@ -22,7 +22,7 @@ local RTabFrame =PigLayoutFun.RTabFrame
 --
 local fujiF,fujiBut =PIGOptionsList_R(RTabFrame,ACTIONBARS_LABEL..L["LIB_LAYOUT"],100)
 --
-fujiF.setF = PIGFrame(fujiF,{"TOP", fujiF, "TOP", 0, -10},{fujiF:GetWidth()-20, 140})
+fujiF.setF = PIGFrame(fujiF,{"TOP", fujiF, "TOP", 0, -10},{fujiF:GetWidth()-20, 160})
 fujiF.setF:PIGSetBackdrop(0)
 local function ActionBar_HideShijiu()
 	if PIGA["PigLayout"]["ActionBar"]["HideShijiu"] then
@@ -64,9 +64,11 @@ local function ActionBar_HideBarExpBG()
 	if PIGA["PigLayout"]["ActionBar"]["HideBarExpBG"] then
 		MainMenuXPBarTexture0:Hide();MainMenuXPBarTexture3:Hide();
 		ReputationWatchBar.StatusBar.WatchBarTexture0:Hide();ReputationWatchBar.StatusBar.WatchBarTexture3:Hide()
+		ReputationWatchBar.StatusBar.XPBarTexture0:Hide();ReputationWatchBar.StatusBar.XPBarTexture3:Hide()
 	else
 		MainMenuXPBarTexture0:Show();MainMenuXPBarTexture3:Show();
 		ReputationWatchBar.StatusBar.WatchBarTexture0:Show();ReputationWatchBar.StatusBar.WatchBarTexture3:Show()
+		ReputationWatchBar.StatusBar.XPBarTexture0:Show();ReputationWatchBar.StatusBar.XPBarTexture3:Show()
 	end
 end
 ActionBar_HideBarExpBG()
@@ -148,6 +150,10 @@ local function Update_1_3(WidthX)
 	MainMenuXPBarTexture3:SetPoint("LEFT", MainMenuXPBarTexture0, "RIGHT", 0, 0);
 	MainMenuXPBarTexture1:Hide()
 	MainMenuXPBarTexture2:Hide()
+	MainMenuMaxLevelBar0:Hide()
+	MainMenuMaxLevelBar1:Hide()
+	MainMenuMaxLevelBar2:Hide()
+	MainMenuMaxLevelBar3:Hide()
 	local function PIG_ReputationWatchBar()
 		ReputationWatchBar:SetWidth(WidthXALL);
 		ReputationWatchBar.StatusBar:SetWidth(WidthXALL);
@@ -159,6 +165,14 @@ local function Update_1_3(WidthX)
 		ReputationWatchBar.StatusBar.WatchBarTexture3:SetPoint("LEFT", ReputationWatchBar.StatusBar.WatchBarTexture0, "RIGHT", -2, 0);
 		ReputationWatchBar.StatusBar.WatchBarTexture1:Hide()
 		ReputationWatchBar.StatusBar.WatchBarTexture2:Hide()
+		ReputationWatchBar.StatusBar.XPBarTexture0:SetWidth(WidthXALL*0.506);
+		ReputationWatchBar.StatusBar.XPBarTexture0:ClearAllPoints();
+		ReputationWatchBar.StatusBar.XPBarTexture0:SetPoint("LEFT", ReputationWatchBar.StatusBar, "LEFT", -2, 0);
+		ReputationWatchBar.StatusBar.XPBarTexture3:SetWidth(WidthXALL*0.506);
+		ReputationWatchBar.StatusBar.XPBarTexture3:ClearAllPoints();
+		ReputationWatchBar.StatusBar.XPBarTexture3:SetPoint("LEFT", ReputationWatchBar.StatusBar.XPBarTexture0, "RIGHT", -2, 0);
+		ReputationWatchBar.StatusBar.XPBarTexture1:Hide()
+		ReputationWatchBar.StatusBar.XPBarTexture2:Hide()
 		ActionBar_HideBarExpBG()
 	end
 	PIG_ReputationWatchBar()
@@ -258,10 +272,14 @@ local function ActionBar_Layout()
 	end);
 	local function Update_BarPoint(BarUI)
 		local Xoffset= 10
-		if BarUI==PetActionBarFrame and StanceBarFrame:IsShown() then
-			 Xoffset= Xoffset+250
+		if BarUI==PetActionButton1 and StanceBarFrame:IsShown() then
+			local sswww=StanceButton1:GetWidth()
+			Xoffset= Xoffset+sswww*3+20
 		end
 		local barOpen = IS_bar34Show()
+		if BarUI==MultiCastActionBarFrame then
+			MultiCastActionBarFrame:SetMovable(true)
+		end
 		if PIGA["PigLayout"]["ActionBar"]["Layout"]==1 and barOpen[5] then
 			BarUI:SetPoint("BOTTOMLEFT", MultiBarLeftButton1,"TOPLEFT", Xoffset, 6)
 		elseif PIGA["PigLayout"]["ActionBar"]["Layout"]==2 or PIGA["PigLayout"]["ActionBar"]["Layout"]==5 and barOpen[3] then
@@ -270,6 +288,9 @@ local function ActionBar_Layout()
 			BarUI:SetPoint("BOTTOMLEFT", MultiBarLeftButton1,"TOPLEFT", Xoffset, 6)
 		elseif PIGA["PigLayout"]["ActionBar"]["Layout"]==4 and barOpen[4] and barOpen[5] then
 			BarUI:SetPoint("BOTTOMLEFT", MultiBarRightButton1,"TOPLEFT", Xoffset, 6)
+		end
+		if BarUI==MultiCastActionBarFrame then
+			MultiCastActionBarFrame:SetUserPlaced(true)
 		end
 	end
 	--姿态条
@@ -312,60 +333,39 @@ local function ActionBar_Layout()
 		end
 	end);
 	---图腾条
-	local function Update_MultiPoint()
-		if not ElvUI then
-			MultiCastActionBarFrame:SetMovable(true)
-			MultiCastActionBarFrame:ClearAllPoints();
-			MultiCastActionBarFrame:SetPoint("BOTTOMLEFT", MultiCastActionBarFrame:GetParent(),"TOPLEFT", MULTICASTACTIONBAR_XPOS, MULTICASTACTIONBAR_YPOS+42)
-			MultiCastActionBarFrame:SetUserPlaced(true)
-		end
-	end
-	local function Update_MultiCast()
+	local function Update_MultiCastBar()
 		if not MultiCastActionBarFrame then return end
-		if IS_bar34Show() then
-			--Update_BarPoint(MultiCastActionBarFrame)
-			Update_MultiPoint()
-			C_Timer.After(1,Update_MultiPoint)
-			C_Timer.After(2,Update_MultiPoint)
-			C_Timer.After(5,Update_MultiPoint)
+		if InCombatLockdown() then
+			MultiCastActionBarFrame:RegisterEvent("PLAYER_REGEN_ENABLED");
 		else
-			MultiCastActionBarFrame:SetMovable(true)
-			MultiCastActionBarFrame:SetUserPlaced(false)
-			MultiCastActionBarFrame:SetMovable(false)
-		end	
+			MultiCastActionBarFrame:UnregisterEvent("PLAYER_REGEN_ENABLED");
+			Update_BarPoint(MultiCastActionBarFrame)
+		end
 	end
 	if MultiCastActionBarFrame then
-		local function Update_MultiCastALL()
-			if InCombatLockdown() then
-				MultiCastActionBarFrame:RegisterEvent("PLAYER_REGEN_ENABLED");
-			else
-				MultiCastActionBarFrame:UnregisterEvent("PLAYER_REGEN_ENABLED");
-				Update_MultiCast()
-			end
-		end
-		Update_MultiCastALL()
+		Update_MultiCastBar()
 		MultiCastActionBarFrame:HookScript("OnEvent", function (self,event)
 			if event=="PLAYER_ENTERING_WORLD" then
-				Update_MultiCastALL()
+				Update_MultiCastBar()
 			elseif event=="PLAYER_REGEN_ENABLED" then
-				Update_MultiCastALL()
+				Update_MultiCastBar()
 			end
 		end);
 		UIParent:HookScript("OnShow", function(self)
-			Update_MultiCastALL()
+			Update_MultiCastBar()
 		end)
 	end
 	---整体
 	hooksecurefunc("MainMenuBar_UpdateExperienceBars",function(newLevel)
 		Update_StanceBar()
 		Update_PetBar()
-		Update_MultiCast()
+		Update_MultiCastBar()
 	end);
 	hooksecurefunc("MultiActionBar_Update",function()	
 		Update_MultiBar()
 		Update_StanceBar()
 		Update_PetBar()
-		Update_MultiCast()
+		Update_MultiCastBar()
 	end);
 end
 ActionBar_Layout()
@@ -400,7 +400,7 @@ function fujiF.setF.Layout:PIGDownMenu_SetValue(value,arg1)
 	if PIGA["PigLayout"]["ActionBar"]["BarRight"] then PIG_OptionsUI.RLUI:Show() end
 	PIGCloseDropDownMenus()
 end
-fujiF.setF.Layout.LRIntervalT = PIGFontString(fujiF.setF.Layout,{"TOPLEFT", fujiF.setF.LayoutT, "BOTTOMLEFT", 0, -20},"左右居中间距")
+fujiF.setF.Layout.LRIntervalT = PIGFontString(fujiF.setF.Layout,{"TOPLEFT", fujiF.setF.LayoutT, "BOTTOMLEFT", 0, -18},"左右居中间距")
 fujiF.setF.Layout.LRInterval = PIGSlider(fujiF.setF.Layout,{"LEFT", fujiF.setF.Layout.LRIntervalT, "LEFT", 100, 0},{0, 400, 1})
 fujiF.setF.Layout.LRInterval.Slider:HookScript("OnValueChanged", function(self, arg1)
 	PIGA["PigLayout"]["ActionBar"]["LRInterval"]=arg1;
@@ -552,7 +552,7 @@ fujiF.setMicroF.MoveTime:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["PigLayout"]["MicroMenu"]["MoveTime"]=true;
 	else
-		PIGA["PigLayout"]["MicroMenu"]["MoveTime"]=false;
+		PIGA["PigLayout"]["MicroMenu"]["MoveTime"]=nil
 	end
 	PIG_OptionsUI.RLUI:Show()
 end);
@@ -740,7 +740,7 @@ local MicroButLoad = {
 	end,
 	["PIG_EJMicroButton"]=function()
 		local bizbut = _G[GameMenu["PIG_EJMicroButton"]]
-		bizbut.openui=_G["AtlasLoot_GUI-Frame"]
+		bizbut.openui= _G["AtlasLoot_GUI-Frame"]
 		bizbut.tooltipText = MicroButtonTooltipText(VIEW..ITEMS..BATTLE_PET_SOURCE_1,"");
 		bizbut.newbieText = VIEW..ITEMS.."("..TRANSMOG_SOURCE_1.."/"..TRANSMOG_SOURCE_2..CONTRIBUTION_REWARD_TOOLTIP_TITLE.."/"..TRANSMOG_SOURCE_3.."/"..TRANSMOG_SOURCE_4.."/"..TRANSMOG_SOURCE_5..CONTRIBUTION_REWARD_TOOLTIP_TITLE.."/"..TRANSMOG_SOURCE_6..CREATE_PROFESSION..")";
 		bizbut:HookScript("OnEnter", function(self)
@@ -753,10 +753,11 @@ local MicroButLoad = {
 		end)
 		bizbut:HookScript("OnClick", function (self,button)
 			if self.openui then
-				if self.openui:IsShown() then
-					self.openui:Hide()
+				local uidaq = QF_AtlasLootUI or self.openui
+				if uidaq:IsShown() then
+					uidaq:Hide()
 				else
-					self.openui:Show()
+					uidaq:Show()
 				end
 			else
 				PIG_OptionsUI:ErrorMsg("没有安装AtlasLoot", "R")

@@ -11,6 +11,7 @@ local RETRIEVING_DATA = RETRIEVING_DATA
 local SetPortraitTextureFromDisplayID = SetPortraitTextureFromCreatureDisplayID
 
 local GetTradeSkillTexture = app.WOWAPI.GetTradeSkillTexture
+local GetSpellIcon = app.WOWAPI.GetSpellIcon
 local GetItemInfo = app.WOWAPI.GetItemInfo
 local GetFactionName = app.WOWAPI.GetFactionName
 local Callback = app.CallbackHandlers.Callback
@@ -493,7 +494,7 @@ local function BuildDataSummary(data)
 	wipearray(__Summary)
 	local requireSkill = data.requireSkill
 	if requireSkill then
-		local profIcon = GetTradeSkillTexture(requireSkill)
+		local profIcon = GetTradeSkillTexture(requireSkill) or GetSpellIcon(requireSkill)
 		if profIcon then
 			__Summary[#__Summary + 1] = "|T"
 			__Summary[#__Summary + 1] = profIcon

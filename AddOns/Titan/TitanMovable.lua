@@ -1,7 +1,7 @@
 ---@diagnostic disable: param-type-mismatch
 --[===[ File
 Titan adjusts some WoW frames based on the WoW version!
-Mainly used for Classic versions where TITAN_ID == "TitanClassic"
+Mainly used when user can NOT edit / move most UI frames.
 
 DragonFlight introduced an Edit Mode for the user to move various frames where they want them.
 Titan no longer needs to do this work for most frames.
@@ -210,7 +210,9 @@ Messy but declare the lib routines used in the Classic versions
 
 Share the calc Y routine
 --]]
-if TITAN_ID == "TitanClassic" then
+if Titan_Global.switch.can_edit_ui then
+	-- User can edit UI frames so Titan will not adjust...
+else
 
 
 local hooks_done = false;

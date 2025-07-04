@@ -600,6 +600,18 @@ function RSContainerDB.SetContainerReseteable(containerID)
 end
 
 ---============================================================================
+-- Containers with multi spawn spots
+---============================================================================
+
+function RSContainerDB.IsMultiZoneSpawn(containerID)
+	if (RSUtils.Contains(RSConstants.CONTAINERS_WITH_MULTIPLE_SPAWNS, containerID)) then
+		return true
+	end
+	
+	return false
+end
+
+---============================================================================
 -- Containers with pre-events
 ----- Obtains the latest containerID in a chain of pre-events
 ---============================================================================

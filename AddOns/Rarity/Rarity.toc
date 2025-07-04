@@ -1,6 +1,6 @@
 ## Interface: 110107
 ## Author: Allara
-## Version: 1.0 (r744-release)
+## Version: 1.0 (r745-release)
 
 ## Title: Rarity
 ## Notes: Tracks rare drops, including companions and mounts
@@ -17,7 +17,7 @@
 
 ## SavedVariables: RarityDB
 
-## X-Min-Interface: 110105, 40402, 11507
+## X-Min-Interface: 110107, 50500, 11507
 ## X-Curse-Project-ID: 30801
 ## X-LoadOn-Always: delayed
 
@@ -45,6 +45,7 @@ DB\Mounts\HolidayEvents_TheBurningCrusade.lua
 DB\Mounts\HolidayEvents_WrathOfTheLichKing.lua
 DB\Mounts\HolidayEvents_WarlordsOfDraenor.lua
 DB\Mounts\HolidayEvents_Dragonflight.lua
+DB\Mounts\HolidayEvents_TheWarWithin.lua
 DB\Mounts\Classic.lua
 DB\Mounts\TheBurningCrusade.lua
 DB\Mounts\WrathOfTheLichKing.lua

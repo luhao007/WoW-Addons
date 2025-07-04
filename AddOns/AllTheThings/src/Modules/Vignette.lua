@@ -72,19 +72,22 @@ local function AlertForVignetteInfo(info)
 	app.SetSkipLevel(1)
 	local group = app.GetCachedSearchResults(app.SearchForLink, link);
 	app.SetSkipLevel(0)
-	-- app.PrintDebug("Vignette.Alert",link)
-	if not SettingsCache.IncludeCompleted and (not group.visible or app.IsComplete(group)) then return false; end
-	local progressText = group.progressText
-		or GetProgressColorText(group.progress or 0, group.total or 0)
-		or (group.collectible and app.GetCollectionIcon(group.collected))
-		or (group.trackable and app.GetCompletionIcon(group.saved));
-	if progressText then
-		link = app:Linkify(info.name or id, app.Colors.ChatLink, "search:" .. link) .. " " .. progressText;
-	elseif SettingsCache.IncludeUnknown then
-		link = app:Linkify(info.name or id, app.Colors.SourceIgnored, "search:" .. link);
+	if group.total == 0 then
+		if SettingsCache.IncludeUnknown and group._missing then
+			link = app:Linkify(info.name or id, app.Colors.SourceIgnored, "search:" .. link)
+		else
+			return true
+		end
+	elseif not SettingsCache.IncludeCompleted and (not group.visible or app.IsComplete(group)) then
+		return false
 	else
-		return true;
+		local progressText = group.progressText
+			or GetProgressColorText(group.progress or 0, group.total or 0)
+			or (group.collectible and app.GetCollectionIcon(group.collected))
+			or (group.trackable and app.GetCompletionIcon(group.saved))
+		link = app:Linkify(info.name or id, app.Colors.ChatLink, "search:" .. link) .. " " .. progressText
 	end
+	-- app.PrintDebug("Vignette.Alert",link)
 
 	local waypointLink = GetWaypointLink(info.vignetteGUID);
 	if waypointLink then link = waypointLink .. " " .. link; end

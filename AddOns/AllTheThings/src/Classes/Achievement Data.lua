@@ -36,34 +36,19 @@ app.AddEventHandler("OnLoad", function()
 end)
 
 -- Achievement Criteria Data have independent detection methods based on their internal type.
+local BrokenTypeDescriptions = setmetatable({
+	[0] = "TYPE 0: You can't kill mobs and have it tracked and count later, we could probably hook into KillTrack or something, but I don't know how to do that and when Wrath Classic comes around you'd need to do it again since it isn't permanent.",
+	[11] = "TYPE 11: Loremaster requires more quests than are currently available in the game and I don't have time to fix this yet prior to MOP Classic, which is my current priority.",
+}, {
+	__index = function(t, key)
+		return "TYPE " .. key .. ": So broken that even the broken description table doesn't have any information on this one!";
+	end,
+});
 local IgnoredReputationsForAchievements = {
 	[169] = 1,	-- Steamweedle Cartel doesn't count toward reputation achievements
 };
 local function GetQuestCompleted(questID)
-	if IsQuestFlaggedCompleted(questID) then
-		return 1;
-	else
-		local quests = SearchForField("questID", questID);
-		if quests then
-			for i,quest in ipairs(quests) do
-				if quest.providers then
-					for i,provider in ipairs(quest.providers) do
-						if provider[1] == "i" and GetItemCount(provider[2], true) > 0 then
-							return 1;
-						end
-					end
-				end
-				if quest.g then
-					for i,o in ipairs(quest.g) do
-						if o.itemID and GetItemCount(o.itemID, true) > 0 then
-							return 1;
-						end
-					end
-				end
-			end
-		end
-	end
-	return 0;
+	return IsQuestFlaggedCompleted(questID) and 1 or 0;
 end
 local function GetSpellCompleted(spellID)
 	if IsSpellKnown(spellID) then
@@ -240,6 +225,9 @@ local ForBrokenTypesFields = {	-- Type 11 [Loremaster] / 0 [Kill an NPC]
 	["collectible"] = app.ReturnFalse,
 	["current"] = function(t)
 		return 0;
+	end,
+	["BrokenTypeDescription"] = function(t)
+		return BrokenTypeDescriptions[t.type];
 	end,
 };
 local ForExaltedReputationsFields = {	-- Type 47
@@ -494,6 +482,13 @@ local function OnTooltipForAchievementData(t, tooltipInfo)
 				});
 			end
 		end
+		if not t.collectible and app.GameBuildVersion < 30000 then
+			tinsert(tooltipInfo, {
+				left = "\n \nCRIEVE NOTE: This achievement cannot be collected prior to Wrath Classic as it lacks any permanent collectible criteria.",
+				r = 1, g = 0.6, b = 0.6,
+				wrap = true
+			});
+		end
 		
 		if IsShiftKeyDown() then
 			local criteriaInfo = {};
@@ -511,6 +506,12 @@ local function OnTooltipForAchievementData(t, tooltipInfo)
 					tinsert(tooltipInfo, info);
 				end
 			end
+		else
+			tinsert(tooltipInfo, {
+				left = "Hold Shift to see all criteria associated with this achievement.",
+				r = 0.8, g = 0.8, b = 1,
+				wrap = true
+			});
 		end
 	end
 end

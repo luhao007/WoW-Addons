@@ -206,6 +206,21 @@ local function OnTooltipForAchievementCriteriaData(t, tooltipInfo)
 			end
 		end
 	end
+	if not t.collectible and app.GameBuildVersion < 30000 then
+		tinsert(tooltipInfo, {
+			left = "\n \nCRIEVE NOTE: This cannot be collected prior to Wrath Classic as it lacks a permanent collectible state.",
+			r = 1, g = 0.6, b = 0.6,
+			wrap = true
+		});
+		local d = t.data.BrokenTypeDescription;
+		if d then
+			tinsert(tooltipInfo, {
+				left = d,
+				r = 1, g = 0.4, b = 0.4,
+				wrap = true
+			});
+		end
+	end
 	if IsShiftKeyDown() then
 		local criteriaInfo = {};
 		t.data.OnTooltip(t.data, criteriaInfo);

@@ -1353,27 +1353,7 @@ app.AddEventHandler("OnLoad", function()
 	})
 end)
 
-local GetRawField = app.GetRawField
-local SourceSearcher = setmetatable({
-	itemID = function(field, id)
-		local results = SearchForObject("itemID", id, "field", true)
-		if results then return results end
-		local baseItemID = GetItemIDAndModID(id)
-		results = SearchForObject("itemID", baseItemID, "field", true)
-		return results
-	end,
-	currencyID = function(field, id)
-		local results = SearchForObject(field, id, "field", true)
-		return results
-	end
-},{
-	__index = function(t, field)
-		return GetRawField
-	end
-})
--- Some key-based Searches should simply use a different field
-SourceSearcher.mountmodID = SourceSearcher.itemID
-SourceSearcher.heirloomID = SourceSearcher.itemID
+local SourceSearcher = app.SourceSearcher
 
 local function AddSourceLinesForTooltip(tooltipInfo, paramA, paramB)
 	-- Create a list of sources
@@ -1392,10 +1372,11 @@ local function AddSourceLinesForTooltip(tooltipInfo, paramA, paramB)
 	local sourcesToShow
 	-- paramB is the modItemID for itemID searches, so we may have to fallback to the base itemID if nothing sourced for the modItemID
 	-- TODO: Rings from raid showing all difficulties, need fallback matching for items... modItemID, modID, itemID
-	local allReferences = SourceSearcher[paramA](paramA,paramB) or app.EmptyTable
-	-- app.PrintDebug("Sources count",#allReferences,paramA,paramB,GetItemIDAndModID(paramB))
-	for _,j in ipairs(allReferences) do
-		parent = j.parent;
+	-- using a second return, directSources, to indicate the SourceSearcher has returned the Sources rather than the Things
+	local allReferences, directSources = SourceSearcher[paramA](paramA,paramB)
+	-- app.PrintDebug(directSources and "Source count" or "Search count",#allReferences,paramA,paramB,GetItemIDAndModID(paramB))
+	for _,j in ipairs(allReferences or app.EmptyTable) do
+		parent = directSources and j or j.parent
 		-- app.PrintDebug("source:",app:SearchLink(j),parent and parent.parent,showCompleted or not app.IsComplete(j))
 		if parent and parent.parent
 			and (showCompleted or not app.IsComplete(j))
@@ -1502,6 +1483,7 @@ app.AddEventHandler("OnLoad", function()
 	})
 end)
 
+local unpack = unpack
 local function GetSearchResults(method, paramA, paramB, options)
 	-- app.PrintDebug("GetSearchResults",method,paramA,paramB)
 	if not method then
@@ -1522,7 +1504,12 @@ local function GetSearchResults(method, paramA, paramB, options)
 		= app.RecursiveCharacterRequirementsFilter, app.RecursiveGroupRequirementsFilter
 
 	-- Call to the method to search the database.
-	local group, a, b = method(paramA, paramB);
+	local group, a, b
+	if options and options.AppendSearchParams then
+		group, a, b = method(paramA, paramB, unpack(options.AppendSearchParams))
+	else
+		group, a, b = method(paramA, paramB)
+	end
 	-- app.PrintDebug("GetSearchResults:method",group and #group,a,b)
 	if group then
 		if a then paramA = a; end
@@ -1531,7 +1518,7 @@ local function GetSearchResults(method, paramA, paramB, options)
 		-- Move all post processing here?
 		if #group > 0 then
 			-- For Creatures, Objects and Encounters that are inside of an instance, we only want the data relevant for the instance + difficulty.
-			if paramA == "creatureID" or paramA == "encounterID" or paramA == "objectID" then
+			if paramA == "creatureID" or paramA == "npcID" or paramA == "encounterID" or paramA == "objectID" then
 				local subgroup = {};
 				for _,j in ipairs(group) do
 					if not j.ShouldExcludeFromTooltip then
@@ -1952,11 +1939,18 @@ local SpecificSources = {
 local KeepSourced = {
 	criteriaID = true
 }
+local SourceSearcher = app.SourceSearcher
 local function GetThingSources(field, value)
 	if field == "achievementID" then
 		return SearchForField(field, value)
 	end
-	return app.SearchForLink(field..":"..value)
+	if field == "itemID" then
+		-- allow extra return val (indicates directSources)
+		return SourceSearcher.itemID(field, value)
+	end
+	-- ignore extra return vals
+	local results = app.SearchForLink(field..":"..value)
+	return results
 end
 
 -- Builds a 'Source' group from the parent of the group (or other listings of this group) and lists it under the group itself for
@@ -1979,8 +1973,12 @@ local function BuildSourceParent(group)
 
 	-- pull all listings of this 'Thing'
 	local keyValue = group[groupKey];
-	local things = specificSource and { group } or GetThingSources(groupKey, keyValue)
-	-- app.PrintDebug("BuildSourceParent",group.hash,thingCheck,specificSource,keyValue,#things)
+	local isDirectSources
+	local things = specificSource and { group }
+	if not things then
+		things, isDirectSources = GetThingSources(groupKey, keyValue)
+	end
+	-- app.PrintDebug("BuildSourceParent",group.hash,thingCheck,specificSource,keyValue,#things,isDirectSources)
 	-- if app.Debugging then
 	-- 	local sourceGroup = {
 	-- 		["text"] = "DEBUG THINGS",
@@ -1998,7 +1996,9 @@ local function BuildSourceParent(group)
 		local parentKey, parent;
 		-- collect all possible parent groups for all instances of this Thing
 		for _,thing in ipairs(things) do
-			if isAchievement or GroupMatchesParams(thing, groupKey, keyValue) then
+			if isDirectSources then
+				parents[#parents + 1] = CreateObject(thing)
+			elseif isAchievement or GroupMatchesParams(thing, groupKey, keyValue) then
 				---@class ATTTempParentObject
 				---@field key string
 				---@field hash string
@@ -2659,7 +2659,7 @@ function app:GetDataCache()
 
 	-- Pet Battles
 	if app.Categories.PetBattles then
-		db = app.CreateNPC(app.HeaderConstants.PET_BATTLE);
+		db = app.CreateNPC(app.HeaderConstants.PET_BATTLES);
 		db.g = app.Categories.PetBattles;
 		tinsert(g, db);
 	end
@@ -4099,7 +4099,7 @@ customWindowUpdates.awp = function(self, force)	-- TODO: Change this to remember
 	local BFA = {80001,80100,80105,80200,80205,80300,80307}
 	local SL = {90001,90002,90005,90100,90105,90200,90205,90207}
 	local DF = {100000,100002,100005,100007,100100,100105,100107,100200,100205,100206,100207}
-	local TWW = {110000,110002,110005,110007,110100,110105}
+	local TWW = {110000,110002,110005,110007,110100,110105,110107}
 
 	-- Locals
 	local param = {}
@@ -7026,18 +7026,11 @@ app.Startup = function()
 	if app.RaceIndex then currentCharacter.raceID = app.RaceIndex; end
 	if app.Class then currentCharacter.class = app.Class; end
 	if app.Race then currentCharacter.race = app.Race; end
-	if not currentCharacter.Achievements then currentCharacter.Achievements = {}; end
 	if not currentCharacter.ActiveSkills then currentCharacter.ActiveSkills = {}; end
 	if not currentCharacter.CustomCollects then currentCharacter.CustomCollects = {}; end
 	if not currentCharacter.Deaths then currentCharacter.Deaths = 0; end
-	if not currentCharacter.Exploration then currentCharacter.Exploration = {}; end
-	if not currentCharacter.Factions then currentCharacter.Factions = {}; end
-	if not currentCharacter.FlightPaths then currentCharacter.FlightPaths = {}; end
 	if not currentCharacter.Lockouts then currentCharacter.Lockouts = {}; end
 	if not currentCharacter.Professions then currentCharacter.Professions = {}; end
-	if not currentCharacter.Quests then currentCharacter.Quests = {}; end
-	if not currentCharacter.Spells then currentCharacter.Spells = {}; end
-	if not currentCharacter.Titles then currentCharacter.Titles = {}; end
 	app.CurrentCharacter = currentCharacter;
 	app.AddEventHandler("OnPlayerLevelUp", function()
 		currentCharacter.lvl = app.Level;
@@ -7046,24 +7039,17 @@ app.Startup = function()
 	-- Account Wide Data Storage
 	ATTAccountWideData = LocalizeGlobalIfAllowed("ATTAccountWideData", true);
 	local accountWideData = ATTAccountWideData;
-	if not accountWideData.Achievements then accountWideData.Achievements = {}; end
-	if not accountWideData.BattlePets then accountWideData.BattlePets = {}; end
-	if not accountWideData.Exploration then accountWideData.Exploration = {}; end
-	if not accountWideData.Factions then accountWideData.Factions = {}; end
 	if not accountWideData.FactionBonus then accountWideData.FactionBonus = {}; end
-	if not accountWideData.FlightPaths then accountWideData.FlightPaths = {}; end
 	if not accountWideData.HeirloomRanks then accountWideData.HeirloomRanks = {}; end
-	if not accountWideData.Quests then accountWideData.Quests = {}; end
-	if not accountWideData.Spells then accountWideData.Spells = {}; end
-	if not accountWideData.Titles then accountWideData.Titles = {}; end
-	if not accountWideData.OneTimeQuests then accountWideData.OneTimeQuests = {}; end
 
 	-- Old unused data
 	currentCharacter.CommonItems = nil
-	accountWideData.CommonItems = nil
+	ATTAccountWideData.CommonItems = nil
 
 	-- Notify Event Handlers that Saved Variable Data is available.
-	app.HandleEvent("OnSavedVariablesAvailable", currentCharacter, accountWideData);
+	app.HandleEvent("OnSavedVariablesAvailable", currentCharacter, ATTAccountWideData);
+	-- Event handlers which need Saved Variable data which is added by OnSavedVariablesAvailable handlers into saved variables
+	app.HandleEvent("OnAfterSavedVariablesAvailable", currentCharacter, ATTAccountWideData);
 
 	-- Update the total account wide death counter.
 	local deaths = 0;
@@ -7072,7 +7058,7 @@ app.Startup = function()
 			deaths = deaths + character.Deaths;
 		end
 	end
-	accountWideData.Deaths = deaths;
+	ATTAccountWideData.Deaths = deaths;
 
 	-- CRIEVE NOTE: Once the Sync Window is moved over from Classic, this can be removed.
 	if not AllTheThingsAD.LinkedAccounts then

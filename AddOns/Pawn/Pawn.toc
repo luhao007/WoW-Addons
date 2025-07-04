@@ -1,5 +1,5 @@
 ## Interface: 110107
-## Version: 2.10.14
+## Version: 2.11.1
 
 ## Title: Pawn
 ## Notes: Pawn helps you compare items and find upgrades.
@@ -34,6 +34,7 @@ GemsClassic.lua
 GemsBurningCrusade.lua
 GemsWrath.lua
 GemsCataclysm.lua
+GemsMists.lua
 ScaleTemplates.lua
 ItemIDs.lua
 Pawn.lua

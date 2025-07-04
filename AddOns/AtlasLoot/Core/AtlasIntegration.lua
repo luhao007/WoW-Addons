@@ -57,9 +57,6 @@ function AtlasIntegration.ShowMap(mapID)
 
 	AtlasIntegration.GetAtlasZoneData(mapID, true)
 
-	if (AtlasFrameLarge:IsVisible()) then
-		HideUIPanel(AtlasFrameLarge)
-	end
 	if (AtlasFrame:IsVisible()) then
 		HideUIPanel(AtlasFrame)
 	end

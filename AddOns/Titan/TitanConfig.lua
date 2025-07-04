@@ -121,8 +121,7 @@ end
 
 -- helper functions
 
-if TITAN_ID == "TitanClassic" then
-	--[[ local
+--[[ local
 NAME: TitanAdjustPanelScale
 DESC: Set the Tian bars and plugins to the selected scale then adjust other frames as needed.
 VAR: scale - the scale the user has selected for Titan
@@ -207,7 +206,7 @@ OUT:  None
 			StaticPopup_Show("TITAN_RELOAD");
 		end
 	end
-end
+
 --============= Titan Panel entry
 --
 --[[ local
@@ -1112,7 +1111,7 @@ print("Color new:"
 			order = 205,
 			type = "toggle",
 			width = "full",
-			disabled = (TITAN_ID == "TitanClassic"),
+			--disabled = (TITAN_ID == "Titan~Classic"), --? Allow in all version ??
 			get = function() return TitanPanelGetVar("HideBarsInPVP") end,
 			set = function()
 				TitanPanelToggleVar("HideBarsInPVP")
@@ -1138,7 +1137,7 @@ print("Color new:"
 			order = 305,
 			type = "toggle",
 			width = "full",
-			disabled = (TITAN_ID == "Titan"),
+			disabled = (Titan_Global.switch.can_edit_ui == false),
 			get = function() return TitanPanelGetVar("ScreenAdjust") end,
 			set = function() TitanPanel_ScreenAdjustReload() end,
 		},
@@ -1160,7 +1159,7 @@ print("Color new:"
 			order = 405,
 			type = "toggle",
 			width = "full",
-			disabled = (TITAN_ID == "Titan"),
+			disabled = (Titan_Global.switch.can_edit_ui == false),
 			get = function() return TitanPanelGetVar("AuxScreenAdjust") end,
 			set = function() TitanPanel_AuxScreenAdjustReload() end,
 		},
@@ -2885,11 +2884,10 @@ local optionsAdvanced = {
 }
 
 local function BuildAdv()
-	if TITAN_ID == "TitanClassic" then
+	if Titan_Global.switch.can_edit_ui then
+	else
 		optionsAdvanced.args.conftimerdesc = conftimerdesc
 		optionsAdvanced.args.confbuffdesc = confbuffdesc
-	else
-		-- Do not need
 	end
 
 	AceConfigRegistry:NotifyChange("Titan Panel Advanced")

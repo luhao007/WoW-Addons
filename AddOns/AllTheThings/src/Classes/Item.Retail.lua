@@ -9,91 +9,20 @@ local IsQuestFlaggedCompleted, IsQuestFlaggedCompletedForObject = app.IsQuestFla
 local IsRetrieving = app.Modules.RetrievingData.IsRetrieving;
 
 -- Global locals
-local ipairs, pairs, rawset, rawget, tinsert, math_floor, select, tonumber, tostring, tremove
-	= ipairs, pairs, rawset, rawget, tinsert, math.floor, select, tonumber, tostring, tremove
-local GetNumSpecializations, GetSpecializationInfo, GetSpecializationInfoByID
-	= GetNumSpecializations, GetSpecializationInfo, GetSpecializationInfoByID
+local ipairs, pairs, rawset, rawget, tinsert, math_floor, tonumber, tostring
+	= ipairs, pairs, rawset, rawget, tinsert, math.floor, tonumber, tostring
 local ItemEventListener = ItemEventListener
 
 -- WoW API Cache
 local GetItemInfo = app.WOWAPI.GetItemInfo;
 local GetItemIcon = app.WOWAPI.GetItemIcon;
 local GetItemCount = app.WOWAPI.GetItemCount;
-local GetItemSpecInfo = app.WOWAPI.GetItemSpecInfo;
 local GetFactionBonusReputation = app.WOWAPI.GetFactionBonusReputation;
 
 -- Class locals
 
 -- Module locals
 
--- Filters a specs table to only those which the current Character class can choose
-local function FilterSpecs(specs)
-	if specs and #specs > 0 then
-		local name, class, _;
-		for i=#specs,1,-1 do
-			_, name, _, _, _, class = GetSpecializationInfoByID(specs[i]);
-			if class ~= app.Class or not name or name == "" then
-				tremove(specs, i);
-			end
-		end
-		app.Sort(specs, app.SortDefaults.Values);
-	end
-end
-local GetFixedItemSpecInfo = function(itemID)
-	if itemID then
-		local specs = GetItemSpecInfo(itemID);
-		if not specs or #specs < 1 then
-			specs = {};
-			-- Starting with Legion items, the API seems to return no spec information when the item is in fact lootable by ANY spec
-			local _, _, _, _, _, _, _, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, _, expacID, _, _ = GetItemInfo(itemID);
-			-- only Armor items
-			if itemClassID and itemClassID == 4 then
-				-- unable to distinguish between Trinkets usable by all specs (Font of Power) and Role-Specific trinkets which do not apply to any Role of the current Character
-				if expacID >= 6 and (itemEquipLoc == "INVTYPE_NECK" or itemEquipLoc == "INVTYPE_FINGER") then
-					local numSpecializations = GetNumSpecializations();
-					if numSpecializations and numSpecializations > 0 then
-						for i=1,numSpecializations,1 do
-							local specID = GetSpecializationInfo(i);
-							tinsert(specs, specID);
-						end
-					end
-				end
-			end
-			app.Sort(specs, app.SortDefaults.Values);
-		else
-			FilterSpecs(specs);
-		end
-		if #specs > 0 then
-			return specs;
-		end
-	end
-end
-app.GetFixedItemSpecInfo = GetFixedItemSpecInfo
--- Returns a string containing the spec icons, followed by their respective names if desired
-local function GetSpecsString(specs, includeNames, trim)
-	local icons, name, icon, _ = {}, nil, nil, nil;
-	if includeNames then
-		for i=#specs,1,-1 do
-			_, name, _, icon, _, _ = GetSpecializationInfoByID(specs[i]);
-			icons[i * 4 - 3] = "  |T";
-			icons[i * 4 - 2] = icon;
-			icons[i * 4 - 1] = ":0|t ";
-			icons[i * 4] = name;
-		end
-	else
-		for i=#specs,1,-1 do
-			_, _, _, icon, _, _ = GetSpecializationInfoByID(specs[i]);
-			icons[i * 3 - 2] = "|T";
-			icons[i * 3 - 1] = icon;
-			icons[i * 3] = ":0|t ";
-		end
-	end
-	if trim then
-		return app.TableConcat(icons):match('^%s*(.*%S)');
-	end
-	return app.TableConcat(icons);
-end
-app.GetSpecsString = GetSpecsString
 -- Returns the ItemID of the group (if existing) with a decimal portion containing the modID/1000 and bonusID/10000000
 -- or converts a raw ItemID/ModID/BonusID into the combined modItemID value
 -- Ex. 12345 (ModID 5) => 12345.005
@@ -362,7 +291,7 @@ local function default_b(t, field, _t)
 	end
 end
 local function default_specs(t)
-	return GetFixedItemSpecInfo(t.itemID);
+	return app.GetFixedItemSpecInfo(t.itemID);
 end
 local function default_costCollectibles(t)
 	local results, id;

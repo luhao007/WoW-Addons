@@ -1063,7 +1063,7 @@ local function Set_bar_vars(to_profile)
 		-- Cannot assume profile is current / cannot use Get Var routines.
 		local panel = TitanSettings.Players[to_profile].Panel
 
-		local tex = panel["TexturePath"]:gsub("TitanClassic", "Titan")
+		local tex = panel["TexturePath"]:gsub("TitanClassic", "Titan") -- hold over, just in case...
 		Titan_Global.dbg:Out("Menu", "tex path '" .. tex .. "'")
 
 		-- Bring original Titan bar optionss to the current user settings.

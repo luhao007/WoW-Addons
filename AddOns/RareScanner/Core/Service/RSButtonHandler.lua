@@ -597,10 +597,9 @@ function RSButtonHandler.AddAlert(button, vignetteInfo, isNavigating)
 			trackingSystem = RSConstants.TRACKING_SYSTEM.VIGNETTE
 		end
 		if (preFoundAlerts[entityID]) then
-				--RSLogger:PrintDebugMessage(string.format("prefound existente para [%s] con sistema [%s] y nuevamente con sistema [%s] .", entityID, preFoundAlerts[entityID].trackingSystem, trackingSystem))
-			-- Avoid multiple alerts for the Treasure Goblin
-			if (preFoundAlerts[entityID].trackingSystem ~= trackingSystem or RSUtils.Contains(RSConstants.FIX_MULTIPLE_ALERTS, entityID)) then
-				--RSLogger:PrintDebugMessage(string.format("Ignorada alerta de [%s] por haberse detectado con otro sistema en menos de 5 segundos.", entityID))
+			--RSLogger:PrintDebugMessage(string.format("prefound existente para [%s] con sistema [%s] y nuevamente con sistema [%s] .", entityID, preFoundAlerts[entityID].trackingSystem, trackingSystem))
+			if (preFoundAlerts[entityID].trackingSystem ~= trackingSystem) then
+				RSLogger:PrintDebugMessageEntityID(entityID, string.format("Ignorada alerta de [%s] por haberse detectado con otro sistema en menos de 5 segundos.", entityID))
 				return
 			end
 		else
@@ -614,39 +613,43 @@ function RSButtonHandler.AddAlert(button, vignetteInfo, isNavigating)
 	
 	-- Check it it is an entity that use a vignette but it isn't a rare, event or treasure
 	if (RSUtils.Contains(RSConstants.IGNORED_VIGNETTES, entityID)) then
-		--RSLogger:PrintDebugMessage(string.format("La entidad [%s] se ignora por estar ignorada", entityID))
+		RSLogger:PrintDebugMessageEntityID(entityID, string.format("La entidad [%s] se ignora por estar ignorada", entityID))
+		return
+	-- Check if it should be ignored with a tracking system different than vignettes
+	elseif (vignetteInfo.trackingSystem and vignetteInfo.trackingSystem ~= RSConstants.TRACKING_SYSTEM.VIGNETTE and RSUtils.Contains(RSConstants.IGNORED_TRACKING_SYSTEMS_NOT_VIGNETTE, entityID)) then
+		RSLogger:PrintDebugMessageEntityID(entityID, string.format("La entidad [%s] se ignora porque se ha detectado con un sistema de rastreao distinto de viñetas [%s]", entityID, vignetteInfo.trackingSystem))
 		return
 	-- Check if we have already found this vignette in a short period of time
 	elseif (RSNotificationTracker.IsAlreadyNotificated(vignetteInfo.id, isNavigating, entityID, vignetteInfo.trackingSystem)) then
-		--RSLogger:PrintDebugMessage(string.format("La entidad [%s] se ignora porque se ha avisado de esta hace menos de %s minutos", entityID, RSConfigDB.GetRescanTimer()))
+		RSLogger:PrintDebugMessageEntityID(entityID, string.format("La entidad [%s] se ignora porque se ha avisado de esta hace menos de %s minutos", entityID, RSConfigDB.GetRescanTimer()))
 		return
 	-- disable scanning for every entity that is not treasure, event or rare
 	elseif (not RSConstants.IsScanneableAtlas(vignetteInfo.atlasName)) then
-		--RSLogger:PrintDebugMessage(string.format("Se ignora el atlas [%s] que no es escaneable", vignetteInfo.atlasName))
+		RSLogger:PrintDebugMessageEntityID(entityID, string.format("Se ignora el atlas [%s] que no es escaneable", vignetteInfo.atlasName))
 		return
 	-- disable ALL alerts while cinematic is playing
 	elseif (RSGeneralDB.GetCinematicPlaying()) then
-		--RSLogger:PrintDebugMessage(string.format("La entidad [%s] se ignora por estar reproduciendose un video", entityID))
+		RSLogger:PrintDebugMessageEntityID(entityID, string.format("La entidad [%s] se ignora por estar reproduciendose un video", entityID))
 		return
 	-- disable ALL alerts in instances
 	elseif (isInstance == true and not isNavigating and not RSConfigDB.IsScanningInInstances()) then
-		RSLogger:PrintDebugMessage(string.format("La entidad [%s] se ignora por estar en una instancia", entityID))
+		RSLogger:PrintDebugMessageEntityID(entityID, string.format("La entidad [%s] se ignora por estar en una instancia", entityID))
 		return
 	-- disable alerts while flying
 	elseif (UnitOnTaxi("player") and not RSConfigDB.IsScanningWhileOnTaxi()) then
-		RSLogger:PrintDebugMessage(string.format("La entidad [%s] se ignora por estar montado en un transporte", entityID))
+		RSLogger:PrintDebugMessageEntityID(entityID, string.format("La entidad [%s] se ignora por estar montado en un transporte", entityID))
 		return
 	-- disable alerts while racing
 	elseif (not RSConfigDB.IsScanningWhileOnRacingQuest() and C_UnitAuras.GetPlayerAuraBySpellID(RSConstants.RACING_SPELL_ID)) then
-		RSLogger:PrintDebugMessage(string.format("La entidad [%s] se ignora por estar haciendo una mision de vuelo", entityID))
+		RSLogger:PrintDebugMessageEntityID(entityID, string.format("La entidad [%s] se ignora por estar haciendo una mision de vuelo", entityID))
 		return
 	-- disable alerts while in pet combat
 	elseif (C_PetBattles.IsInBattle() and not RSConfigDB.IsScanningWhileOnPetBattle()) then
-		RSLogger:PrintDebugMessage(string.format("La entidad [%s] se ignora por estar en medio de un combate de mascotas", entityID))
+		RSLogger:PrintDebugMessageEntityID(entityID, string.format("La entidad [%s] se ignora por estar en medio de un combate de mascotas", entityID))
 		return
 	-- In Dragonflight there are icons in the continent map, ignore them
 	elseif (mapID and mapID == RSConstants.DRAGON_ISLES) then
-		--RSLogger:PrintDebugMessage(string.format("La entidad [%s] se ignora por estar mostrandose en el mapa de las Islas Dragon", entityID))
+		RSLogger:PrintDebugMessageEntityID(entityID, string.format("La entidad [%s] se ignora por estar mostrandose en el mapa de las Islas Dragon", entityID))
 		return
 	end
 	
@@ -664,7 +667,7 @@ function RSButtonHandler.AddAlert(button, vignetteInfo, isNavigating)
 			end)
 		end
 		if (not PREFOUND_TIMER) then
-			PREFOUND_TIMER = C_Timer.NewTimer(RSConstants.PREFOUND_TIMER, function()
+			PREFOUND_TIMER = C_Timer.NewTicker(RSConstants.PREFOUND_TIMER, function()
 				for entityID, info in pairs(preFoundAlerts) do
 					if (info.expireTime < time()) then
 						preFoundAlerts[entityID] = nil

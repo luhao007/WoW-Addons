@@ -48,7 +48,7 @@ ClientInfo:OnModuleLoad(function()
 	private.features = {
 		[ClientInfo.FEATURES.REAGENT_BAG] = LibTSMWoW.IsRetail(),
 		[ClientInfo.FEATURES.CONNECTED_FACTION_AH] = LibTSMWoW.IsRetail(),
-		[ClientInfo.FEATURES.HONOR_POINTS] = LibTSMWoW.IsCataClassic(),
+		[ClientInfo.FEATURES.HONOR_POINTS] = LibTSMWoW.IsCataPandaClassic(),
 		[ClientInfo.FEATURES.SUB_PROFESSION_NAMES] = not LibTSMWoW.IsRetail(),
 		[ClientInfo.FEATURES.AH_COPPER] = not LibTSMWoW.IsRetail(),
 		[ClientInfo.FEATURES.AH_STACKS] = LibTSMWoW.IsVanillaClassic(),
@@ -56,7 +56,7 @@ ClientInfo:OnModuleLoad(function()
 		[ClientInfo.FEATURES.AH_UPGRADES_FILTER] = LibTSMWoW.IsRetail(),
 		[ClientInfo.FEATURES.AH_LIFO] = not LibTSMWoW.IsVanillaClassic(),
 		[ClientInfo.FEATURES.AH_SELLERS] = LibTSMWoW.IsVanillaClassic(),
-		[ClientInfo.FEATURES.BATTLE_PETS] = LibTSMWoW.IsRetail(),
+		[ClientInfo.FEATURES.BATTLE_PETS] = LibTSMWoW.IsRetail() or LibTSMWoW.IsPandaClassic(),
 		[ClientInfo.FEATURES.GARRISON] = LibTSMWoW.IsRetail(),
 		[ClientInfo.FEATURES.GUILD_BANK] = not LibTSMWoW.IsVanillaClassic(),
 		[ClientInfo.FEATURES.C_AUCTION_HOUSE] = not LibTSMWoW.IsVanillaClassic(),
@@ -86,16 +86,28 @@ function ClientInfo.IsRetail()
 	return LibTSMWoW.IsRetail()
 end
 
----Returns whether or not we're running within the Vanilla Classic version of the game.
+---Returns whether or not we're running within the Panda Classic version of the game.
 ---@return boolean
-function ClientInfo.IsVanillaClassic()
-	return LibTSMWoW.IsVanillaClassic()
+function ClientInfo.IsPandaClassic()
+	return LibTSMWoW.IsPandaClassic()
 end
 
 ---Returns whether or not we're running within the Cata Classic version of the game.
 ---@return boolean
 function ClientInfo.IsCataClassic()
 	return LibTSMWoW.IsCataClassic()
+end
+
+---Returns whether or not we're running within the Cata/Panda Classic version of the game.
+---@return boolean
+function ClientInfo.IsCataPandaClassic()
+	return LibTSMWoW.IsCataPandaClassic()
+end
+
+---Returns whether or not we're running within the Vanilla Classic version of the game.
+---@return boolean
+function ClientInfo.IsVanillaClassic()
+	return LibTSMWoW.IsVanillaClassic()
 end
 
 ---Checks whether or not a features is available in the current game version.

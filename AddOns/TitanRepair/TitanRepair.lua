@@ -61,7 +61,7 @@ TR.equip_most = {
 TR.last_scan = GetTime() -- seconds with milliseconds - sec.milli
 TR.scan_time = 0
 TR.scan_running = false
-if TITAN_ID == "TitanClassic" then
+if Titan_Global.switch.game_ammo then
 	TR.scan_start = 18
 else
 	TR.scan_start = 17
@@ -89,16 +89,10 @@ local slots = {
 	[18] = {name = "RANGEDSLOT"},
 }
 
-TR.guild_bank = true
-TR.wowversion  = select(4, GetBuildInfo())
-if TR.wowversion < 20300 then
-	-- No guild bank
-	TR.guild_bank = false
-else
-	-- Guild bank exists
-	TR.guild_bank = true
-end
-if TR.wowversion < 100000 then
+TR.guild_bank = Titan_Global.switch.guild_bank
+
+-- WoW changed the parse string for items...
+if Titan_Global.wowversion < 100000 then
     -- Not retail
     parse_item = 
         "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?"
@@ -1547,6 +1541,4 @@ local function Create_Frames()
 
 end
 
-if TITAN_ID then -- it exists
-	Create_Frames() -- do the work
-end
+Create_Frames()

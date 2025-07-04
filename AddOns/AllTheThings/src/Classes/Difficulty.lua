@@ -181,6 +181,7 @@ app.CreateDifficulty = app.CreateClass("Difficulty", "difficultyID", {
 			return key .. t[key];
 		end
 	end,
+	["ignoreSourceLookup"] = app.ReturnTrue,
 	["ShouldExcludeFromTooltip"] = function(t)
 		local difficultyID = app.GetCurrentDifficultyID();
 		if difficultyID > 0 then

@@ -52,6 +52,7 @@ function BusinessInfo.AutoSell()
 				if sellALLG>0 then
 					PIG_print("|cFF7FFFAA本次".._GN..#data.."件获得:|r " .. GetCoinTextureString(sellALLG));
 				end
+				MerchantFrame.pigfuusell=nil
 			end
 		end)
 	end
@@ -84,10 +85,14 @@ function BusinessInfo.AutoSell()
 		end
 		ExecuteSellFun(bagSellD,#bagSellD)
 	end
-	MerchantFrame:HookScript("OnShow",function (self,event)
+	MerchantFrame:HookScript("OnShow",function (self)
 		if PIGA["AutoSellBuy"][_GNE.."_Open"] then
+			self.pigfuusell=true
 			StartSellItem()
 		end
+	end);
+	MerchantFrame:HookScript("OnHide",function (self)
+		MerchantFrame.pigfuusell=nil
 	end);
 	fujiF.Sell_Open = PIGCheckbutton(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",20,-10},{"自动".._GN, "打开商人界面自动".._GN.."灰色物品和下方列表内的物品"})
 	fujiF.Sell_Open:SetScript("OnClick", function (self)

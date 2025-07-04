@@ -89,8 +89,8 @@ function Create.PIGFrame(Parent,Point,WH,UIName,ESCOFF,Template)
 			self:SetBackdropBorderColor(BackdropBorderColor[1], BackdropBorderColor[2], BackdropBorderColor[3], BorderAlpha);
 		end
 	end
-	function frameX:PIGSetMovable(MovableUI,KeyDown,Per)
-		Create.PIGSetMovable(self,MovableUI,KeyDown,Per)
+	function frameX:PIGSetMovable(MovableUI,KeyDown,Per,CombatLock)
+		Create.PIGSetMovable(self,MovableUI,KeyDown,Per,CombatLock)
 	end
 	function frameX:PIGSetMovableNoSave(MovableUI,KeyDown)
 		Create.PIGSetMovableNoSave(self,MovableUI,KeyDown)
@@ -149,7 +149,7 @@ function Create.PIGSetMovableNoSave(LeftUI,MovableUI,KeyDown)
 	end)
 	MovableUI:SetClampedToScreen(true)
 end
-function Create.PIGSetMovable(LeftUI,MovableUI,KeyDown,Per)
+function Create.PIGSetMovable(LeftUI,MovableUI,KeyDown,Per,CombatLock)
 	if MovableUI and MovableUI:GetName()=="Pig_FarmUI" and Fun.is_slist() then
 		LeftUI:Hide()
 		MovableUI:SetPoint("CENTER");
@@ -160,11 +160,13 @@ function Create.PIGSetMovable(LeftUI,MovableUI,KeyDown,Per)
 	LeftUI:EnableMouse(true)
 	LeftUI:RegisterForDrag("LeftButton")
 	LeftUI:SetScript("OnDragStart",function(self)
+		if CombatLock and InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
 		if KeyDown and not IsModifiedClick(KeyDown) then return end
 		MovableUI:StartMoving()
 	end)
 	MovableUI.Per=Per
 	LeftUI:SetScript("OnDragStop",function(self)
+		if CombatLock and InCombatLockdown() then return end
 		MovableUI:StopMovingOrSizing()
 		local uiname = MovableUI:GetName()
 		if uiname then

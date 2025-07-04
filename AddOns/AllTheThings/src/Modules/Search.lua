@@ -208,6 +208,48 @@ local function SearchForLink(link)
 end
 app.SearchForLink = SearchForLink;
 
+local SourceSearcher
+do
+	local GetRawField = app.GetRawField
+	-- A table which provides a function based on Thing-Key to return the Searches or Sources of that Thing
+	SourceSearcher = setmetatable({
+		itemID = function(field, id)
+			local results = SearchForObject("itemID", id, "field", true)
+			if results and #results > 0 then return results end
+			local baseItemID = GetItemIDAndModID(id)
+			results = SearchForObject("itemID", baseItemID, "field", true)
+			if results and #results > 0 then return results end
+			results = SearchForObject("qItemID", baseItemID, "none", true)
+			return results, true
+		end,
+		currencyID = function(field, id)
+			local results = SearchForObject(field, id, "field", true)
+			return results
+		end,
+		LinkSources = function(link)
+			local cleanlink = CleanLink(link)
+			local kind, id = (":"):split(cleanlink)
+			if id then id = tonumber(id) end
+			if not id or not kind then
+				-- can't search for nothing!
+				return
+			end
+			kind = KeyMaps[kind]
+			local searcher = SourceSearcher[kind]
+			return searcher(kind, id)
+		end,
+	},{
+		__index = function(t, field)
+			return GetRawField
+		end
+	})
+	-- Some key-based Searches should simply use a different field
+	SourceSearcher.mountmodID = SourceSearcher.itemID
+	SourceSearcher.heirloomID = SourceSearcher.itemID
+	SourceSearcher.modItemID = SourceSearcher.itemID
+	app.SourceSearcher = SourceSearcher
+end
+
 -- Search Results
 local IncludeUnavailableRecipes, IgnoreBoEFilter;
 -- Set some logic which is used during recursion without needing to set it on every recurse
@@ -476,6 +518,9 @@ app.ChatCommands.Add({"search","?"}, function(args)
 	end
 
 	local results = SearchForLink(search)
+	if not results or #results == 0 then
+		results = SourceSearcher.LinkSources(search)
+	end
 	if not results or #results == 0 then
 		app.print("No results found for",search)
 		return

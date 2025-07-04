@@ -616,7 +616,7 @@ QuickButUI.ButList[1]=function()
 		QuickButUI.yidong:Hide()
 	end
 	QuickButUI.yidong:PIGSetBackdrop()
-	QuickButUI.yidong:PIGSetMovable(QuickButUI)
+	QuickButUI.yidong:PIGSetMovable(QuickButUI,nil,nil,true)
 	function QuickButUI:yidongRightBut()
 		if PIG_OptionsUI:IsShown() then
 			PIG_OptionsUI:Hide()

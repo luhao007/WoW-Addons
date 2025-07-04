@@ -74,6 +74,7 @@ local function Clear_FailureData()
 	PIGA["WowUI"]=nil
 	PIGA["BlizzardUI"]=nil
 	PIGA["Other"]["Fast_Loot"]=nil
+	PIGA["Map"]["MinimapPoint"] = nil
 	PIGA["Interaction"]["Autoloot"]=nil
 	PIGA["Common"]["AutoCVars"]=nil
 	PIGA["Common"]["AutoLoot"]=nil

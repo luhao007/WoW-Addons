@@ -18,6 +18,8 @@ local DATA = {}
 function Transform.Get()
 	if LibTSMData.IsRetail() then
 		return DATA.Retail
+	elseif LibTSMData.IsPandaClassic() then
+		return DATA.Panda
 	elseif LibTSMData.IsCataClassic() then
 		return DATA.Cata
 	elseif LibTSMData.IsVanillaClassic() then
@@ -191,6 +193,174 @@ DATA.Cata = {
 
 
 -- ============================================================================
+-- Panda
+-- ============================================================================
+
+DATA.Panda = {
+	-- Essences
+	["i:34055"] = {
+		["i:34056"] = 1/3, -- Greater Cosmic Essence
+	},
+	["i:34056"] = {
+		["i:34055"] = 3, -- Lesser Cosmic Essence
+	},
+	["i:22446"] = {
+		["i:22447"] = 1/3, -- Greater Planar Essence
+	},
+	["i:22447"] = {
+		["i:22446"] = 3, -- Lesser Planar Essence
+	},
+	["i:16203"] = {
+		["i:16202"] = 1/3, -- Greater Eternal Essence
+	},
+	["i:16202"] = {
+		["i:16203"] = 3, -- Lesser Eternal Essence
+	},
+	["i:11175"] = {
+		["i:11174"] = 1/3, -- Greater Nether Essence
+	},
+	["i:11174"] = {
+		["i:11175"] = 3, -- Lesser Nether Essence
+	},
+	["i:11135"] = {
+		["i:11134"] = 1/3, -- Greater Mystic Essence
+	},
+	["i:11134"] = {
+		["i:11135"] = 3, -- Lesser Mystic Essence
+	},
+	["i:11082"] = {
+		["i:10998"] = 1/3, -- Greater Astral Essence
+	},
+	["i:10998"] = {
+		["i:11082"] = 3, -- Lesser Astral Essence
+	},
+	["i:10939"] = {
+		["i:10938"] = 1/3, -- Greater Magic Essence
+	},
+	["i:10938"] = {
+		["i:10939"] = 3, -- Lesser Magic Essence
+	},
+
+	-- Shards
+	["i:34052"] = {
+		["i:34053"] = 1/3, -- Dream Shard
+	},
+	["i:52721"] = {
+		["i:52720"] = 1/3, -- Heavenly Shard
+	},
+	["i:74247"] = {
+		["i:74252"] = 1/3, -- Ethereal Shard
+	},
+
+	-- Crystals
+	["i:74248"] = {
+		["i:105718"] = 1/3, -- Sha Crystal Fragment
+	},
+
+	-- Primals
+	["i:21885"] = {
+		["i:22578"] = 0.1, -- Water
+	},
+	["i:22456"] = {
+		["i:22577"] = 0.1, -- Shadow
+	},
+	["i:22457"] = {
+		["i:22576"] = 0.1, -- Mana
+	},
+	["i:21886"] = {
+		["i:22575"] = 0.1, -- Life
+	},
+	["i:21884"] = {
+		["i:22574"] = 0.1, -- Fire
+	},
+	["i:22452"] = {
+		["i:22573"] = 0.1, -- Earth
+	},
+	["i:22451"] = {
+		["i:22572"] = 0.1, -- Air
+	},
+
+	-- Eternals
+	["i:37700"] = {
+		["i:35623"] = 10, -- Air
+	},
+	["i:35623"] = {
+		["i:37700"] = 0.1, -- Air
+	},
+	["i:37701"] = {
+		["i:35624"] = 10, -- Earth
+	},
+	["i:35624"] = {
+		["i:37701"] = 0.1, -- Earth
+	},
+	["i:37702"] = {
+		["i:36860"] = 10, -- Fire
+	},
+	["i:36860"] = {
+		["i:37702"] = 0.1, -- Fire
+	},
+	["i:37703"] = {
+		["i:35627"] = 10, -- Shadow
+	},
+	["i:35627"] = {
+		["i:37703"] = 0.1, -- Shadow
+	},
+	["i:37704"] = {
+		["i:35625"] = 10, -- Life
+	},
+	["i:35625"] = {
+		["i:37704"] = 0.1, -- Life
+	},
+	["i:37705"] = {
+		["i:35622"] = 10, -- Water
+	},
+	["i:35622"] = {
+		["i:37705"] = 0.1, -- Water
+	},
+
+	-- Ore Nuggets
+	["i:72092"] = {
+		["i:97512"] = 0.1, -- Ghost Iron Ore
+	},
+	["i:72093"] = {
+		["i:97546"] = 0.1, -- Kyparite
+	},
+
+	-- Herb Parts
+	["i:72234"] = {
+		["i:97619"] = 0.1, -- Torn Green Tea Leaf
+	},
+	["i:79010"] = {
+		["i:97622"] = 0.1, -- Snow Lily Petal
+	},
+	["i:79011"] = {
+		["i:97623"] = 0.1, -- Fool's Cap Spores
+	},
+	["i:72237"] = {
+		["i:97620"] = 0.1, -- Rain Poppy Petal
+	},
+	["i:72235"] = {
+		["i:97621"] = 0.1, -- Silkweed Stem
+	},
+	["i:89639"] = {
+		["i:97624"] = 0.1, -- Desecrated Herb Pod
+	},
+
+	-- Misc
+	["i:76061"] = {
+		["i:89112"] = 0.1, -- Mote of Harmony
+	},
+	["i:76734"] = {
+		["i:90407"] = 0.1, -- Sparkling Shard
+	},
+	["i:90636"] = {
+		["i:90637"] = 0.1, -- Splinter of Hate
+	},
+}
+
+
+
+-- ============================================================================
 -- Retail
 -- ============================================================================
 
@@ -252,6 +422,9 @@ DATA.Retail = {
 	-- Crystals
 	["i:113588"] = {
 		["i:115504"] = 0.1, -- Temporal Crystal
+	},
+	["i:74248"] = {
+		["i:105718"] = 1/3, -- Sha Crystal Fragment
 	},
 
 	-- Primals
@@ -471,16 +644,37 @@ DATA.Retail = {
 	["i:72092"] = {
 		["i:97512"] = 0.1, -- Ghost Iron Ore
 	},
+	["i:72093"] = {
+		["i:97546"] = 0.1, -- Kyparite
+	},
+	["i:109118"] = {
+		["i:109992"] = 0.1, -- Blackrock  Ore
+	},
 	["i:109119"] = {
 		["i:109991"] = 0.1, -- True Iron Ore
 	},
 
 	-- Herb Parts
+	["i:785"] = {
+		["i:108318"] = 0.1, -- Mageroyal Petal
+	},
 	["i:2449"] = {
 		["i:108319"] = 0.1, -- Earthroot Stem
 	},
+	["i:2450"] = {
+		["i:108320"] = 0.1, -- Briarthorn Bramble
+	},
+	["i:2452"] = {
+		["i:108321"] = 0.1, -- Swiftthistle Leaf
+	},
 	["i:2453"] = {
 		["i:108322"] = 0.1, -- Bruiseweed Stem
+	},
+	["i:3355"] = {
+		["i:108323"] = 0.1, -- Wild Steelbloom Petal
+	},
+	["i:3356"] = {
+		["i:108324"] = 0.1, -- Kingsblood Petal
 	},
 	["i:3357"] = {
 		["i:108325"] = 0.1, -- Liferoot Stem
@@ -488,31 +682,182 @@ DATA.Retail = {
 	["i:3358"] = {
 		["i:108326"] = 0.1, -- Khadgar's Whisker Stem
 	},
+	["i:3369"] = {
+		["i:108327"] = 0.1, -- Grave Moss Leaf
+	},
+	["i:3818"] = {
+		["i:108328"] = 0.1, -- Fadeleaf Petal
+	},
 	["i:3819"] = {
 		["i:108329"] = 0.1, -- Dragon's Teeth Stem
+	},
+	["i:3820"] = {
+		["i:108330"] = 0.1, -- Stranglekelp Blade
+	},
+	["i:3821"] = {
+		["i:108331"] = 0.1, -- Goldthorn Bramble
+	},
+	["i:4625"] = {
+		["i:108332"] = 0.1, -- Firebloom Petal
+	},
+	["i:8831"] = {
+		["i:108333"] = 0.1, -- Purple Lotus Petal
+	},
+	["i:8838"] = {
+		["i:108335"] = 0.1, -- Sungrass Stalk
+	},
+	["i:8845"] = {
+		["i:108337"] = 0.1, -- Ghost Mushroom Cap
+	},
+	["i:8846"] = {
+		["i:108338"] = 0.1, -- Gromsblood Leaf
 	},
 	["i:8839"] = {
 		["i:108336"] = 0.1, -- Blindweed Stem
 	},
+	["i:13463"] = {
+		["i:108339"] = 0.1, -- Dreamfoil Blade
+	},
+	["i:13464"] = {
+		["i:108340"] = 0.1, -- Golden Sansam Leaf
+	},
+	["i:13465"] = {
+		["i:108341"] = 0.1, -- Mountain Silversage Stalk
+	},
+	["i:13466"] = {
+		["i:108342"] = 0.1, -- Sorrowmoss Leaf
+	},
+	["i:13467"] = {
+		["i:108343"] = 0.1, -- Icecap Petal
+	},
+	["i:22785"] = {
+		["i:108344"] = 0.1, -- Felweed Stalk
+	},
+	["i:22786"] = {
+		["i:108345"] = 0.1, -- Dreaming Glory Petal
+	},
+	["i:22787"] = {
+		["i:108346"] = 0.1, -- Ragveil Cap
+	},
+	["i:22789"] = {
+		["i:108347"] = 0.1, -- Terocone Leaf
+	},
+	["i:22790"] = {
+		["i:108348"] = 0.1, -- Ancient Lichen Petal
+	},
+	["i:22791"] = {
+		["i:108349"] = 0.1, -- Netherbloom Leaf
+	},
 	["i:22792"] = {
 		["i:108350"] = 0.1, -- Nightmare Vine Stem
+	},
+	["i:22793"] = {
+		["i:108351"] = 0.1, -- Mana Thistle Leaf
+	},
+	["i:36901"] = {
+		["i:108352"] = 0.1, -- Goldclover Leaf
 	},
 	["i:36903"] = {
 		["i:108353"] = 0.1, -- Adder's Tongue Stem
 	},
+	["i:36904"] = {
+		["i:108354"] = 0.1, -- Tiger Lily Petal
+	},
+	["i:36905"] = {
+		["i:108355"] = 0.1, -- Lichbloom Stalk
+	},
+	["i:36906"] = {
+		["i:108356"] = 0.1, -- Icethorn Bramble
+	},
+	["i:36907"] = {
+		["i:108357"] = 0.1, -- Talandra's Rose Petal
+	},
+	["i:37921"] = {
+		["i:108358"] = 0.1, -- Deadnettle Bramble
+	},
+	["i:39970"] = {
+		["i:108359"] = 0.1, -- Fire Leaf Bramble
+	},
+	["i:52983"] = {
+		["i:108360"] = 0.1, -- Cinderbloom Petal
+	},
+	["i:52984"] = {
+		["i:108361"] = 0.1, -- Stormvine Stalk
+	},
 	["i:52985"] = {
 		["i:108362"] = 0.1, -- Azshara's Veil Stem
+	},
+	["i:52986"] = {
+		["i:108363"] = 0.1, -- Heartblossom Petal
 	},
 	["i:52988"] = {
 		["i:108365"] = 0.1, -- Whiptail Stem
 	},
+	["i:72234"] = {
+		["i:97619"] = 0.1, -- Torn Green Tea Leaf
+	},
+	["i:79010"] = {
+		["i:97622"] = 0.1, -- Snow Lily Petal
+	},
+	["i:79011"] = {
+		["i:97623"] = 0.1, -- Fool's Cap Spores
+	},
+	["i:72237"] = {
+		["i:97620"] = 0.1, -- Rain Poppy Petal
+	},
 	["i:72235"] = {
 		["i:97621"] = 0.1, -- Silkweed Stem
+	},
+	["i:89639"] = {
+		["i:97624"] = 0.1, -- Desecrated Herb Pod
 	},
 	["i:109124"] = {
 		["i:109624"] = 0.1, -- Broken Frostweed Stem
 	},
 	["i:109125"] = {
 		["i:109625"] = 0.1, -- Broken Fireweed Stem
+	},
+	["i:109126"] = {
+		["i:109626"] = 0.1, -- Gorgrond Flytrap Ichor
+	},
+	["i:109127"] = {
+		["i:109627"] = 0.1, -- Starflower Petal
+	},
+	["i:109128"] = {
+		["i:109628"] = 0.1, -- Nagrand Arrowbloom Petal
+	},
+	["i:109129"] = {
+		["i:109629"] = 0.1, -- Talador Orchid Petal
+	},
+	["i:168583"] = {
+		["i:169698"] = 0.1, -- Widowbloom Petal
+	},
+	["i:168586"] = {
+		["i:169550"] = 0.1, -- Rising Glory Petal
+	},
+	["i:168589"] = {
+		["i:168591"] = 0.1, -- Marrowroot Petal
+	},
+	["i:169701"] = {
+		["i:169700"] = 0.1, -- Death Blossom Petal
+	},
+	["i:170554"] = {
+		["i:169699"] = 0.1, -- Vigil's Torch Petal
+	},
+
+	-- Leather Scraps
+	["i:110609"] = {
+		["i:110610"] = 0.1, -- Raw Beast Hide Scraps
+	},
+
+	-- Misc
+	["i:76061"] = {
+		["i:89112"] = 0.1, -- Mote of Harmony
+	},
+	["i:76734"] = {
+		["i:90407"] = 0.1, -- Sparkling Shard
+	},
+	["i:90636"] = {
+		["i:90637"] = 0.1, -- Splinter of Hate
 	},
 }

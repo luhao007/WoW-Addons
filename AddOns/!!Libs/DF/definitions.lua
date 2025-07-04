@@ -61,6 +61,9 @@
 ---@field Color any?
 ---@field Texture any
 
+GameCooltipFrame1 = {}
+GameCooltipFrame2 = {}
+
 ---df version of an atlasinfo from the game API, it include color and desaturation information
 ---a df atlas can be created using DetailsFramework:CreateAtlas() and then used with DetailsFramework:SetAtlas()
 ---@class df_atlasinfo : atlasinfo
@@ -142,6 +145,9 @@
 ---@field RoundedCornerPanelMixin df_roundedcornermixin
 ---@field Schedules df_schedule
 ---@field HeaderFunctions df_headerfunctions
+---@field TimeLine_LineMixin df_timeline_line_mixin
+---@field TimeLineMixin df_timeline_mixin
+---@field NameplateBorderMixin df_nameplate_border_mixin
 ---@field RoleTypes roleinfo[]
 ---@field Language df_language
 ---@field Ejc df_ejc
@@ -183,6 +189,7 @@
 ---@field TalentExporter table
 ---@field FormatNumber fun(number:number) : string abbreviate a number, e.g. 1000 -> 1k 1000 -> 1천, depending on the client language
 ---@field UnitGroupRolesAssigned fun(unitId: unit, bUseSupport:boolean?, specId: specializationid?) : string there's no self here
+---@field ConvertRole fun(self:table, value:string|number, valueType:string?) : string|number if passed a role name return a number, if passed a number return the role name, if value type is passed it forces the return to be a number or a string
 ---@field IsDragonflight fun():boolean
 ---@field IsDragonflightAndBeyond fun():boolean
 ---@field IsDragonflightOrBelow fun():boolean
@@ -199,6 +206,7 @@
 ---@field IsDragonflightWow fun():boolean
 ---@field IsWarWow fun():boolean
 ---@field IsTWWWow fun():boolean
+---@field CreateFullBorder fun(self:table, name:string, parent:frame) : border_frame
 ---@field CreateButton fun(self:table, parent:frame, func:function, width:number, height:number, text:any, param1:any, param2:any, texture:atlasname|texturepath|textureid|nil, member:string?, name:string?, shortMethod:any, buttonTemplate:table?, textTemplate:table?) : df_button callback function(blizzButton, clickType, param1, param2) end
 ---@field CreateCloseButton fun(self:table, parent:frame, frameName:string?) : df_closebutton
 ---@field CreateTabButton fun(self:table, parent:frame, frameName:string?) : df_tabbutton
@@ -208,6 +216,7 @@
 ---@field CreateTextureInfo fun(self:table, texture:atlasname|texturepath|textureid, width:number?, height:number?, left:number?, right:number?, top:number?, bottom:number?, imageWidthnumber?, imageHeightnumber?) : table deprecated, use: DetailsFramework:CreateAtlas()
 ---@field CreateLabel fun(self:table, parent:frame, text:any, size:any?, color:any?, font:string?, member:string?, name:string?, layer:drawlayer?) : df_label
 ---@field CreateDropDown fun(self:table, parent:frame, func:function, default:any, width:number?, height:number?, member:string?, name:string?, template:table?) : df_dropdown
+---@field CreateDropDownWithText fun(self:table, parent:frame, func:function, default:any, width:number?, height:number?, member:string?, name:string?, template:table?) : df_dropdown_text
 ---@field CreateFontDropDown fun(self:table, parent:frame, func:function, default:any, width:number?, height:number?, member:string?, name:string?, template:table?, bIncludeDefault:boolean?) : df_dropdown
 ---@field CreateColorDropDown fun(self:table, parent:frame, func:function, default:any, width:number?, height:number?, member:string?, name:string?, template:table?) : df_dropdown
 ---@field CreateOutlineDropDown fun(self:table, parent:frame, func:function, default:any, width:number?, height:number?, member:string?, name:string?, template:table?) : df_dropdown
@@ -267,11 +276,13 @@
 ---@field CreateSimplePanel fun(self:table, parent:frame, width:number?, height:number?, title:string?, frameName:string?, panelOptions:table?, savedVariableTable:table?) : simplepanel
 ---@field CreateNewAddOn fun(self:table, addonName:string, globalSavedVariablesName:string, savedVarsTemplate:table) : table
 ---@field CreateBossScrollSelectorForInstance fun(self:table, instanceId:any, parent:uiobject, name:string?, options:df_bossscrollselector_options?, callback:function?, ...) : df_bossscrollselector
----@field CreateTimeLineFrame fun(self:table, parent:frame, name:string, timelineOptions:df_timeline_options, elapsedtimeOptions:df_elapsedtime_options) : df_timeline
+---@field CreateTimeLineFrame fun(self:table, parent:frame, name:string, timelineOptions:df_timeline_options, elapsedtimeOptions:df_elapsedtime_options) : df_timeline, df_timeline_header?, df_timeline_header_body? create a timeline frame, header and headerBody is nil if the timelineOptions has no header_detached set to true
 ---@field CreateTitleBar fun(self:table, parent:frame, titleText:string) : df_titlebar
 ---@field CreateElapsedTimeFrame fun(self:table, parent:frame, name:string?, options:df_elapsedtime_options?) : df_elapsedtime
+---@field CreateIconRow fun(self:table, parent:frame, name:string?, options:table?) : df_iconrow
 ---@field ConvertAnchorPointToInside fun(self:table, anchorPoint:anchorid) : anchorid
 ---@field ExpansionHasAugEvoker fun():boolean
+---@field ExpansionHasEvoker fun():boolean
 ---@field LoadSpellCache fun(self:table, hashMap:table, indexTable:table, allSpellsSameName:table) : hashMap:table, indexTable:table, allSpellsSameName:table load all spells in the game and add them into the passed tables
 ---@field UnloadSpellCache fun(self:table) wipe the table contents filled with LoadSpellCache()
 ---@field GetCurrentClassName fun(self:table) : string return the name of the class the player is playing
@@ -282,6 +293,8 @@
 ---@field GetClassSpecIds fun(self:table, engClass:string):number[]
 ---@field GetClassSpecIDs fun(self:table, engClass:string):number[]
 ---@field GetTextWidth fun(self:table, text:string, fontSize:number?) : number return the width of a text string
+---@field GetCursorPosition fun(self:table) : number, number return the mouse position scaled by UIScale, use :SetPoint("bottomleft", UIParent, "bottomleft", DetailsFramework:GetMousePosition()) to anchor a frame to where the mouse is
+---@field GetClassIdByFileName fun(self:table, fileName:string) : number return the classId of a class by its file name
 ---@field IsValidSpecId fun(self:table, specId:number):boolean check if the passed specId is valid for the player class, also return false for tutorial specs
 ---@field GetDragonlightTalentString fun(self:table):string return the talent config string
 ---@field GetClassList fun(self:table):{ID:number, Name:string, FileString:string, Texture:string, TexCoord:number[]}[]
@@ -376,7 +389,7 @@
 ---@field AddColorToText fun(self:table, text:string, color:any) : string wrap text with a color
 ---@field AddClassColorToText fun(self:table, text:string, className:class|number) : string wrap text with a class color
 ---@field MakeDraggable fun(self:table, frame:frame) : nil
----@field GetClassTCoordsAndTexture fun(self:table, class:string) : number, number, number, number, string return the class icon texture coordinates and texture file path
+---@field GetClassTCoordsAndTexture fun(self:table, class:string|number) : number, number, number, number, string return the class icon texture coordinates and texture file path
 ---@field GetClassColorByClassId fun(self:table, classId:number) : number, number, number return the class color by classId
 ---@field MakeStringFromSpellId fun(self:table, spellId:any) : string return a string with the spell icon and name using escape codes
 ---@field AddClassIconToText fun(self:table, text:string, playerName:string, englishClassName:string, useSpec:boolean?, iconSize:number?) : string wrap 'text' with the class icon of 'playerName' using |T|t scape codes

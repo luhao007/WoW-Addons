@@ -181,7 +181,7 @@ local function SetCoordText(player, cursor)
 	player_frame:SetText(player or "");
 	cursor_frame:SetText(cursor or "");
 
-	if TITAN_ID == "TitanClassic" then
+	if TITAN_ID == "Titan" then
 		-- Determine where to show the text
 		player_frame:ClearAllPoints()
 		cursor_frame:ClearAllPoints()
@@ -650,7 +650,7 @@ local function CreateMenu()
 			info.checked = TitanGetVar(TITAN_LOCATION_ID, "ShowZoneText");
 			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
---			if TITAN_ID == "TitanClassic" then
+--			if TITAN_ID == "Titan" then
 				info = {};
 				info.text = L["TITAN_LOCATION_MENU_SHOW_SUBZONE_ON_PANEL_TEXT"];
 				info.func = function()
@@ -729,7 +729,7 @@ local function CreateMenu()
 			info.disabled = InCombatLockdown()
 			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
-			if TITAN_ID == "TitanClassic" then
+			if TITAN_ID == "Titan" then
 				info = {};
 				info.notCheckable = true
 				info.text = L["TITAN_LOCATION_MENU_TEXT"];

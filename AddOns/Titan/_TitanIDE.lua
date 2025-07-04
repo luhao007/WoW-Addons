@@ -166,7 +166,7 @@ L_UIDROPDOWNMENU_MENU_VALUE = 1
 --====== WoW Drop down menu
 UIDROPDOWNMENU_MENU_VALUE = 1
 
----@class LibUIDropDownMenu-4.0
+---@class LibUIDropDownMenu
 ---@field UIDropDownMenu_InitializeHelper function
 ---@field Create_UIDropDownMenu function
 ---@field UIDropDownMenu_Initialize function

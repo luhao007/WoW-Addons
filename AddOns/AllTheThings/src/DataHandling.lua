@@ -5,8 +5,8 @@
 
 local appName, app = ...
 
-local pairs,ipairs,rawget,tinsert,tonumber,GetTimePreciseSec,tremove,select,setmetatable,getmetatable,type
-	= pairs,ipairs,rawget,tinsert,tonumber,GetTimePreciseSec,tremove,select,setmetatable,getmetatable,type
+local pairs,rawget,tinsert,tonumber,GetTimePreciseSec,tremove,select,setmetatable,getmetatable,type
+	= pairs,rawget,tinsert,tonumber,GetTimePreciseSec,tremove,select,setmetatable,getmetatable,type
 
 local DelayedCallback = app.CallbackHandlers.DelayedCallback
 local Callback = app.CallbackHandlers.Callback
@@ -774,8 +774,8 @@ local function CreateObject(t, rootOnly)
 		local result = {};
 		-- array
 		-- app.PrintDebug("CO.[]","=>",result);
-		for i,o in ipairs(t) do
-			result[i] = CreateObject(o, rootOnly);
+		for i=1,#t do
+			result[i] = CreateObject(t[i], rootOnly);
 		end
 		return result;
 	-- use the highest-priority piece of data which exists in the table to turn it into an object
@@ -791,8 +791,9 @@ local function CreateObject(t, rootOnly)
 			if not rootOnly and t.g then
 				local newg = {}
 				result.g = newg
-				for i,o in ipairs(t.g) do
-					newg[#newg+1] = CreateObject(o)
+				local g = t.g
+				for i=1,#g do
+					newg[#newg+1] = CreateObject(g[i])
 				end
 			end
 			setmetatable(result, meta);
@@ -903,8 +904,8 @@ local function CreateObject(t, rootOnly)
 		local g = t.g;
 		if g then
 			local gNew = {};
-			for i,o in ipairs(g) do
-				gNew[i] = CreateObject(o)
+			for i=1,#g do
+				gNew[i] = CreateObject(g[i])
 			end
 			t.g = gNew;
 		end
@@ -925,7 +926,9 @@ local NestObjects
 local function MergeObject(g, t, index, newCreate)
 	if g and t then
 		local hash = t.hash or GetHash(t);
-		for i,o in ipairs(g) do
+		local o
+		for i=1,#g do
+			o = g[i]
 			if (o.hash or GetHash(o)) == hash then
 				MergeProperties(o, t, true);
 				NestObjects(o, t.g, newCreate);
@@ -960,7 +963,9 @@ local function MergeObjects(g, g2, newCreate)
 	if #g2 > 25 then
 		local t, hash, hashObj
 		local hashTable = {}
-		for i,o in ipairs(g) do
+		local o
+		for i=1,#g do
+			o = g[i]
 			local hash = o.hash;
 			if hash then
 				-- are we merging the same object multiple times from one group?
@@ -974,7 +979,8 @@ local function MergeObjects(g, g2, newCreate)
 			end
 		end
 		if newCreate then
-			for i,o in ipairs(g2) do
+			for i=1,#g2 do
+				o = g2[i]
 				hash = o.hash;
 				-- print("_",hash);
 				if hash then
@@ -992,7 +998,8 @@ local function MergeObjects(g, g2, newCreate)
 				end
 			end
 		else
-			for i,o in ipairs(g2) do
+			for i=1,#g2 do
+				o = g2[i]
 				hash = o.hash;
 				-- print("_",hash);
 				if hash then
@@ -1010,8 +1017,8 @@ local function MergeObjects(g, g2, newCreate)
 			end
 		end
 	else
-		for i,o in ipairs(g2) do
-			MergeObject(g, o, nil, newCreate);
+		for i=1,#g2 do
+			MergeObject(g, g2[i], nil, newCreate)
 		end
 	end
 end
@@ -1036,15 +1043,17 @@ local function PriorityNestObjects(p, g, newCreate, ...)
 		-- app.PrintDebug("PriorityNestObjects",#pFuncs,"Priorities",#g,"Objects")
 		-- setup containers for the priority buckets
 		local pBuckets, pBucket, skipped = {}, nil, nil;
-		for i,_ in ipairs(pFuncs) do
-			pBuckets[i] = {};
+		for i=1,#pFuncs do
+			pBuckets[i] = {}
 		end
 		-- check each object
-		for _,o in ipairs(g) do
+		local o
+		for i=1,#g do
+			o = g[i]
 			-- check each priority function
-			for i,pFunc in ipairs(pFuncs) do
+			for i=1,#pFuncs do
 				-- if the function matches, put the object in the bucket
-				if pFunc(o) then
+				if pFuncs[i](o) then
 					-- app.PrintDebug("Matched Priority Function",i,o.hash)
 					pBucket = pBuckets[i];
 					pBucket[#pBucket + 1] = o
@@ -1061,9 +1070,9 @@ local function PriorityNestObjects(p, g, newCreate, ...)
 			pBucket = nil;
 		end
 		-- then nest each bucket in order of priority
-		for i,pBucket in ipairs(pBuckets) do
+		for i=1,#pBuckets do
 			-- app.PrintDebug("Nesting Priority Bucket",i,#pBucket)
-			NestObjects(p, pBucket, newCreate);
+			NestObjects(p, pBuckets[i], newCreate);
 			-- app.PrintDebug(".g",p.g and #p.g)
 		end
 		-- and nest anything skipped

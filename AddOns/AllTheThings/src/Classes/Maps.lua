@@ -334,6 +334,10 @@ app.CreateExploration = app.CreateClass(CLASSNAME, KEY, {
 		return ExplorationAreaPositionDB[t.explorationID];
 	end,
 });
+app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, accountWideData)
+	if not currentCharacter[CACHE] then currentCharacter[CACHE] = {} end
+	if not accountWideData[CACHE] then accountWideData[CACHE] = {} end
+end)
 
 -- Reporting
 local AreaIDNameMapper = setmetatable({}, {__index = function(t,key)

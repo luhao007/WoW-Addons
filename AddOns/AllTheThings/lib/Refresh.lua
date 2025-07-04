@@ -341,8 +341,10 @@ app.AddEventHandler("OnRefreshCollectionsDone", function()
 end)
 app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, accountWideData)
 	ATTAccountWideData = accountWideData
-	FixNonOneTimeQuests(accountWideData)
 	OneTimeFixes(accountWideData)
+end)
+app.AddEventHandler("OnAfterSavedVariablesAvailable", function()
+	FixNonOneTimeQuests(ATTAccountWideData)
 end)
 app.RefreshCollections = function()
 	if IsRefreshing then return end

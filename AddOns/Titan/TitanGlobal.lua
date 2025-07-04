@@ -2,7 +2,7 @@
 This file contains the global variables and constants used throughout Titan Panel.
 
 Titan_Global is intended to reduce the global namespace through out Titan over time.
-All variables in Global_Titan should be declared here even if set elsewhere.
+All variables in Titan_Global should be declared here even if set elsewhere.
 --]===]
 
 ---@meta
@@ -14,6 +14,34 @@ Titan_Global = {}                -- begin the slow journey to a smaller _G footp
 
 Titan_Global.recent_changes = "" -- Titan_History.lua
 Titan_Global.config_notes = ""   -- Titan_History.lua
+
+Titan_Global.wowversion  = select(4, GetBuildInfo())
+
+Titan_Global.switch = {} -- reserved for flags needed because feature / function changed over WoW versions
+-- As much as possible, use something in the API to determine feature, not API version.
+-- Set defaults to retail feature / function
+
+Titan_Global.switch.can_edit_ui  = true -- if user can modify UI
+if C_EditMode then
+	Titan_Global.switch.can_edit_ui  = true -- User changes UI
+else
+	Titan_Global.switch.can_edit_ui  = false -- Have Titan adjust UI frame(s)
+end
+
+Titan_Global.switch.game_ammo  = false -- if bows and guns use actual ammo
+if Titan_Global.wowversion < 40000 then -- before Cata
+	Titan_Global.switch.game_ammo  = true
+else
+	Titan_Global.switch.game_ammo  = false
+end
+
+Titan_Global.switch.guild_bank  = true -- if guild bank exists
+-- as of May 2025 Classic Era does not have guild bank; the routine exists in all versions
+if CanGuildBankRepair() then
+	Titan_Global.switch.guild_bank  = true
+else
+	Titan_Global.switch.guild_bank  = false
+end
 
 Titan_Global.AdjList = {         -- TODO : localize
 	["UIWidgetTopCenterContainerFrame"] = {

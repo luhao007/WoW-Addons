@@ -109,6 +109,8 @@ local ShouldExcludeFromTooltipHelper = function(t)
 	if parent then return parent.ShouldExcludeFromTooltip; end
 	return false;
 end
+-- Classic needs to use Search Module for this
+local SourceSearcher = app.SourceSearcher or setmetatable({}, { __index = function(t,key) return app.GetRawField end})
 
 -- Represents how long a given group is allowed to permit a retryable operation
 local CAN_RETRY_DURATION_SEC = 3
@@ -140,20 +142,29 @@ local DefaultFields = {
 		local key = t.key;
 		-- only process this logic for real 'Things' in the game
 		if not app.ThingKeys[key] then return; end
+		local searcher = SourceSearcher[key]
 		-- quest 76250
 		-- item with modID, so key is itemID, t[key] is 13544
 		-- SFO uses 'modItemID' to verify 'itemID' search result object accuracy, thus '13544' never matches the expected '13544.01'
 		-- so we need to know to search by 'itemID' but using the 'modItemID' here for base itemID lookups of missing
 		-- i.e. if searching 13544, we allow 13544.01 to count as a non-missing representation of the search... makes sense?
-		local val = key == "itemID" and t.modItemID or t[key];
-		local o = app.SearchForObject(key, val, "field") or (val == t.itemID and app.SearchForObject("itemID", val));
-		local missing = true;
-		while o do
-			missing = rawget(o, "_missing");
-			o = not missing and (o.sourceParent or o.parent);
+		-- TODO: would be nice to store _missing in the Thing's cache instead of every reference of that Thing
+		local os = searcher(key, t[key]) or app.EmptyTable
+		local missing = true
+		local o
+		for i=1,#os do
+			o = os[i]
+			while o do
+				missing = rawget(o, "_missing")
+				if missing then
+					t._missing = true
+					return true
+				end
+				o = o.sourceParent or o.parent
+			end
 		end
-		t._missing = missing or false;
-		return missing;
+		t._missing = missing or false
+		return missing
 	end,
 	-- Whether or not something is repeatable.
 	["repeatable"] = function(t)

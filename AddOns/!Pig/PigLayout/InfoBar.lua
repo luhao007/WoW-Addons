@@ -249,10 +249,10 @@ local MenuList = {
 			Data.topMenuUIWCLBut=butui
 			function butui:WCLFun(Open)
 				if Open then
-					UpdateIcon(butui,butui.ON_1)
+					if butui.ON_1 then UpdateIcon(butui,butui.ON_1) else self.icon:SetDesaturated(false) end
 					butui.Tooltip=COMBAT_LOG..SLASH_TEXTTOSPEECH_ON.."\n"..COMBATLOGENABLED
 				else
-					UpdateIcon(butui,butui.OFF)
+					if butui.ON_1 then UpdateIcon(butui,butui.OFF) else self.icon:SetDesaturated(true) end
 					butui.Tooltip=COMBAT_LOG..SLASH_TEXTTOSPEECH_OFF--COMBATLOGDISABLED
 				end
 			end

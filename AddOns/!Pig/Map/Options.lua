@@ -85,24 +85,23 @@ MiniMapF.Minimap_but_SN.Smeihangshu.Slider:HookScript("OnValueChanged", function
 end)
 --按钮位置
 MiniMapF.Minimap_but_Pointbiaoti=PIGFontString(MiniMapF,{"TOPLEFT",MiniMapF,"TOPLEFT",20,-200},"小地图按钮位置:")
-local mapPointList = {"附着于小地图","自由模式(可随意拖动)","DIY模式(外部控制)","附着于聊天框","ElvUI_小地图下方"};
+local mapPointList = {"附着于小地图","附着于聊天框","自由模式(可随意拖动)"};
 MiniMapF.Minimap_but_Point=PIGDownMenu(MiniMapF,{"TOPLEFT",MiniMapF.Minimap_but_Pointbiaoti,"BOTTOMLEFT",30,-6},{180,24})
 function MiniMapF.Minimap_but_Point:PIGDownMenu_Update_But()
-	if not PIG_OptionsUI.IsOpen_ElvUI() then mapPointList[5]=nil end
 	local info = {}
 	info.func = self.PIGDownMenu_SetValue
 	for i=1,#mapPointList,1 do
 	    info.text, info.arg1 = mapPointList[i], i
-	    info.checked = i==PIGA["Map"]["MinimapPoint"]
+	    info.checked = i==PIGA["Map"]["MinimapPointMode"]
 		self:PIGDownMenu_AddButton(info)
 	end 
 end
 function MiniMapF.Minimap_but_Point:PIGDownMenu_SetValue(value,arg1,arg2)
 	self:PIGDownMenu_SetText(value)
-	PIGA["Map"]["MinimapPoint"]=arg1
+	PIGA["Map"]["MinimapPointMode"]=arg1
 	MiniMapF.PIGChecked()
-	PIGCloseDropDownMenus()
 	PIG_OptionsUI.MiniMapBut:ButPoint()
+	PIGCloseDropDownMenus()
 end
 MiniMapF.CZinfo = PIGButton(MiniMapF,{"TOPLEFT",MiniMapF.Minimap_but_Point,"BOTTOMLEFT",10,-6},{100,24},"重置位置")
 MiniMapF.CZinfo:SetScript("OnClick", function()
@@ -207,8 +206,18 @@ end
 MiniMapF:HookScript("OnShow", function (self)
 	UpdatePaichuButLsit();
 	self.Minimap_but_SN.Smeihangshu:PIGSetValue(PIGA["Map"]["MiniButShouNa_hang"])
-	self.Minimap_but_Point:PIGDownMenu_SetText(mapPointList[PIGA["Map"]["MinimapPoint"]])
-	MiniMapF.PIGChecked()
+	if PIG_OptionsUI.MiniMapBut.DiyMiniMap then
+		self.Minimap_but_Point:Disable();
+		self.CZinfo:Disable();
+		self.Minimap_but_Point:PIGDownMenu_SetText("被外部插件控制")
+	elseif PIG_OptionsUI.IsOpen_ElvUI() then
+		self.Minimap_but_Point:Disable();
+		self.CZinfo:Disable();
+		self.Minimap_but_Point:PIGDownMenu_SetText("ElvUI模式")
+	else
+		self.Minimap_but_Point:PIGDownMenu_SetText(mapPointList[PIGA["Map"]["MinimapPointMode"]])
+	end
+	self.PIGChecked()
 end);
 
 

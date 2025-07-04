@@ -675,7 +675,7 @@ QuickButF.QuickChat.Slider.bt = PIGFontString(QuickButF.QuickChat.Slider,{"RIGHT
 QuickButF.QuickChat.Slider.Slider:HookScript("OnValueChanged", function(self, arg1)
 	PIGA["Chat"]["QuickChat_suofang"]=arg1;
 	if QuickChatfun.TabButUI then
-		QuickChatfun.TabButUI:suofang()
+		QuickChatfun.TabButUI:PIGScale()
 	end
 end)
 --X偏移
@@ -685,7 +685,7 @@ QuickButF.QuickChat.SliderX.bt = PIGFontString(QuickButF.QuickChat.SliderX,{"RIG
 QuickButF.QuickChat.SliderX.Slider:HookScript("OnValueChanged", function(self, arg1)
 	PIGA["Chat"]["QuickChat_pianyiX"]=arg1;
 	if QuickChatfun.TabButUI then
-		QuickChatfun.TabButUI:suofang()
+		QuickChatfun.TabButUI:PIGScale()
 	end
 end)
 --Y偏移
@@ -695,7 +695,7 @@ QuickButF.QuickChat.SliderY.bt = PIGFontString(QuickButF.QuickChat.SliderY,{"RIG
 QuickButF.QuickChat.SliderY.Slider:HookScript("OnValueChanged", function(self, arg1)
 	PIGA["Chat"]["QuickChat_pianyiY"]=arg1;
 	if QuickChatfun.TabButUI then
-		QuickChatfun.TabButUI:suofang()
+		QuickChatfun.TabButUI:PIGScale()
 	end
 end)
 --按钮屏蔽控制窗口

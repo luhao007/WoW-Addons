@@ -104,8 +104,9 @@ local GeneralSettingsBase = {
 local FilterSettingsBase = {
 	__index = app.Presets[app.Class] or app.Presets.ALL,
 };
+local TransmogPresets = app.PresetTransmogs or app.Presets;
 local TransmogFilterSettingsBase = {
-	__index = app.PresetTransmogs[app.Class] or app.PresetTransmogs.ALL,
+	__index = TransmogPresets[app.Class] or TransmogPresets.ALL,
 };
 local TooltipSettingsBase = {
 	__index = {
@@ -176,6 +177,7 @@ local TooltipSettingsBase = {
 		["playerCoord"] = true,
 		["requireEvent"] = true,
 		["requireSkill"] = true,
+		["petBattleLvl"] = true,
 		["providers"] = true,
 		["nextEvent"] = true,
 		["spellName"] = true,
@@ -503,7 +505,7 @@ settings.SetTooltipSetting = function(self, setting, value)
 	self:Refresh();
 end
 settings.SetUnobtainableFilter = function(self, u, value)
-	self:SetValue("Unobtainable", u, value and true or nil)
+	self:SetValue("Unobtainable", u, value)
 	self:UpdateMode(1);
 end
 settings.SetPersonal = function(self, setting, value)

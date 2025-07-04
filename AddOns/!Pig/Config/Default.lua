@@ -365,7 +365,7 @@ addonTable.Default = {
 	["Map"] = {
 		["MinimapBpaichu"] = {},
 		["MinimapPos"] = -13.62698465698976,
-		["MinimapPoint"] = 1,
+		["MinimapPointMode"] = 1,
 		["MinimapBut"] = true,
 		["MiniButShouNa_YN"] = 1,
 		["MiniButShouNa_hang"] = 5,
@@ -404,7 +404,6 @@ addonTable.Default = {
 			["AnchorPointX"]=0,
 			["AnchorPointY"]=0,
 			["HideBut"]={},
-			["MoveTime"]=true,
 		},
 		["ActionBar"] = {
 			["HideShijiu"] = false,

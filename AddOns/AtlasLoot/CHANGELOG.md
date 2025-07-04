@@ -1,5 +1,16 @@
 ﻿# Changelog
 
+## 9.7.0 - July 1, 2025
+### Added
+- Added Legacy of Scholomance instance to the Dragonflight module
+- Added July Trading Post items to Collections
+- Updated TBC Timewalking rewards
+- Updated WOTLK Timewalking rewards
+- Updated Lunar Festival rewards
+### Fixed
+- Fixed Scholomance sets saying they're no longer available when they're available in Legacy of Scholomance
+- Fixed error when clicking on the Atlas button with Atlas (fork) v3.7.0
+
 ## 9.6.0 - June 24, 2025
 ### Added
 - Updated MoP Timewalking rewards

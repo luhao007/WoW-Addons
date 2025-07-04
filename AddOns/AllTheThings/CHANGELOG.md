@@ -1,141 +1,73 @@
 # AllTheThings
 
-## [4.5.3](https://github.com/ATTWoWAddon/AllTheThings/tree/4.5.3) (2025-06-21)
-[Full Changelog](https://github.com/ATTWoWAddon/AllTheThings/compare/4.5.2...4.5.3) [Previous Releases](https://github.com/ATTWoWAddon/AllTheThings/releases)
+## [4.5.7](https://github.com/ATTWoWAddon/AllTheThings/tree/4.5.7) (2025-07-04)
+[Full Changelog](https://github.com/ATTWoWAddon/AllTheThings/compare/4.5.6...4.5.7) [Previous Releases](https://github.com/ATTWoWAddon/AllTheThings/releases)
 
-- added pvp titles s3  
-    added summer event stuff  
-- manaforge has 15 renowns  
-- Some Initial Work on the raid, continue later today  
-- Corrected translations in all languages ​​for objects in patch 11.0.5 (#2044)  
-    * Lost and found hallowfall questchain object added to mx and tw  
-    anniversary battlepet questchain objects to all languages  
-    * Fixed Secrets of azeroth anniversary edition objects to all languages  
-    Fixed Karazhan incognitro version objects to all languages  
-- fix to charged scale of the blue aspect rank 4 azerite power, reported as still obtainable  
-- kul tiran orphan whistle source added  
-- [Logic] Retail: Fix an issue where Filling would sometimes break when there was nothing left to Fill  
-- Add new Midsummer Fire Festival rewards  
-- Sort some items, fix some reported errors  
-- Add 11.2 Faction constants, sort M+ mounts  
-- BFA: Source a few objects that contain QIs and sort some unsorted items  
-- 11.2 Delve achievements sorted (incomplete because PTR went down)  
-- 11.2 M+ achievements sorted  
-- 11.2 PVP achievements sorted  
-- [Parser] Replaced SHADOWLANDS preprocessor with SL for consistency with other expansion abbreviations.  
-- cant collect shoulders  
-- [Logic] Removed use of ipairs in Filter module by switching to for-loop  
-- [Logic] Minor performance improvements to caching logic with wipearray and for-loops  
-- [Logic] Retail: Use wipearray in a few more heavily-used places where possible  
-    [Logic] Retail: Fill performance improvements by switching ipairs to simple for loops  
-- [Test] Added some testing capability functions to assist with performance/memory comparisons  
-- [Logic] app.PrintMemoryUsage now includes a garbage collect to ensure accurate results  
-- [Logic] Retail: Lots of row/progress text now re-uses the same table to generate the text (this reduces the garbage generated over time and has a negligible performance difference <1%)  
-- [Logic] Added app.wipearray() which performs far-faster than wipe() when the table is known to be a simple array  
-- Delves seasons to es and mx (#2043)  
-- [Parser] Added ExportDB.TW\_EventIDs so that TW EventIDs are not hardcoded in symlink subroutine  
-- [Logic] Retail: Fixed BFA TW instances not showing in minilists  
-- Sort 11.2.0 HAT  
-- [DB] Small Azuremyst Isle cleanup  
-- [DB] Clean up Dun Morogh a bit  
-- Setup delves file for 11.2.0  
-- [DB] Clean up Elwynn Forest  
-- Fixed translations of objects from patch 11.0.7 in all languages (#2042)  
-    Fixed translations of all Siren's isle objets  
-    Fixed translations of all Fate of the Kirin Tor quest chain objets  
-- Sort some timewalling drops  
-- Kul Tiras: Source a couple of Objects that contain quest items  
-    - Add/update a couple of coordinates and comments  
-- [DB] Mulgore - Camp Narache: cleanup coordinates - also primarily use `AFTER` in preprocessors instead of `BEFORE`  
-- [DB] Tirisfal Glades - Deathknell: cleanup coordinates  
-- [DB] Durotar - Valley of Trials: cleanup coordinates  
-- [DB] Fix Tirisfal Glades class quest coords  
-- [Cata/MoP] Add Tauren class quests  
-    - Druid: add Rejuvenating Touch / Moonfire  
-    - Hunter: add The Hunter's Path  
-    - Paladin: add The Way of the Sunwalkers  
-    - Priest: add Healing in A Flash / Learning the Word  
-    - Warrior: add The First Lesson  
-- [DB] Set pre- and post-MoP coords for Camp Narache  
-- [DB] Improve comment on priest quest getting renamed in MoP  
-- [DB] Removed duplicate Teldrassil class quest  
-- [Cata/MoP] Add Night Elf class quests  
-    - Druid: added Rejuvenating Touch  
-    - Hunter: added A Woodman's Training  
-    - Mage: fixed source quest for Arcane Missiles  
-    - Priest: added Healing for the Wounded  
-    - Rogue: added A Rogue's Advantage  
-    - Warrior: added Learning New Techniques  
-- [Cata/MoP] Fix mage class starter quests  
-    - Improve comments for Draenei quest  
-    - Improve comments for Worgen quest  
-    - Add Goblin starter mage quest  
-    - Add Night Elf starter mage quests  
-- [DB] Add Gilneas + Gilneas City map IDs to Maps.lua  
-- named red dawn & return to lorderaeron. created folder for a new beginning, but it stays under plains  
-- red dawn is now under expansion features and achievement is tagged as ally/horde  
-- [Cata/MoP] Durotar - Valley of Trials: added missing Orc class quests  
-    - Hunter: added Steady Shot  
-    - Mage: added Arcane Missiles and Glyphic Parchment  
-    - Rogue: added Eviscerate  
-    - Warlock: added Immolate/Corruption  
-    - Warrior: added Charge  
-- [DB] Durotar - Echo Isles: added Troll class quests  
-    - Added class quests: The Arts of a Druid/Hunter/Priest/Rogue/Shaman/Warlock/Warrior  
-    - Removed duplicate coord data for Saving the Young  
-    - Fixed some cases where Echo Isles was used as coord map ID before MoP  
-- [DB] Durotar - Echo Isles: fix Morakki NPC coords  
-- [DB] Durotar: make races/classes data order consistent  
-- Revert "[DB] Set required lvl for Tirisfal Glade class quests"  
-- [DB] Cata: Troll class quests in Valley of Trials were removed in Cata, not Legion  
-- [DB] Cata: added Durotar quest Spirits be Praised  
-- [DB] Set required lvl for Tirisfal Glade class quests  
-- [DB] Cata: add Tirisfal Glades class quests  
-    - Hunter: added Trail-Worn Scroll + The Thrill of the Hunt  
-    - Mage: added coord for Magic Training  
-    - Warlock: added Dark Deeds  
-    - Warrior: added Charging into Battle  
-- [DB] Tirisfal Glades: make races/classes data order consistent  
-- [DB] A comma  
-- [DB] Cata: added Rogue class quest Stab! and HQT in Tirisfal Glades  
-- [DB] Cleaned up Classic PvP items  
-    - Use sharedDescription instead of sharedData (saved ~20kb)  
-    - Moved individual class sets under class headers  
-    - Set correct class restrictions for wrist slot items  
-- Fix some reported errors  
-- [Logic] Classic: Fixed a loading issue due to a missing field  
-- Generate Missing Files: REtail  
-- New Map Constant  
-- Update Pet/Illusion/Toy/MountDBs for 11.2.0.61476, parse  
-- Misc: Sort "Crucible of Storms" quests in order of completion  
-    - Add a couple of PQIs to Dragonblight Quests  
-    - Source a couple of objects that contain QIs in Eredath and Crucible of Storms  
-    - Sort some unsorted 8.0.1 junk  
-- Some Folders/Files Prep for 11.2.0  
-- Update PTR parser  
-- Update QuestNames to handle 11.2.0  
-- Sort Recipes  
-- Harvest: 11.2.0.61476  
-- Harvest: 11.1.7.61559  
-- Harvest: 11.1.7.61491  
-- Harvest: 11.1.7.61406  
-- Harvest: 5.5.0.61496  
-- Harvest: 5.5.0.61411  
-- [Wago] PTR no longer deletes HolidayNames accidentally.  
-- [Wago] Updated PTR data files.  
-- Fixed wago wrong data in lich king using french traslation in the spanish file to the brewfest (#2041)  
-- Set DISC intro quests accountwide  
-- Fix more reported 11.1.7 errors  
-- [Logic] Retail: Fixed Items with Spells not showing their potential Cost results from the Spell  
-- [DB] WotLK: Winter Hyacinth bug  
-- Uncollectible: Fix even more typos (Thanks @Eremeir)  
-- Crafted: Fix a Timeline typo (Thanks, @Darkal31)  
-    - Sort some unsorted junk items  
-- [Logic] Retail: CostItem now imports the Link field from Item to ensure it loads properly in Lists  
-- [DB] Vanilla: Git being git again.  
-- [Contrib] Exclude a couple fields from Debug data store  
-- Timewalking: Sort the Unsorted items that drop from the last bosses  
-    - Add "Technique: Glyph of the Strix" (i:243052) to the vendor. Hunters rejoice!  
-- [DB] Vanilla: More fish things.  
-- [DB] Vanilla Engineering + Fishing  
-- Clear some unsorted  
+- [DB] Found an Item in the Nighthold  
+- Cleaned up some more "fill" in Retail.  
+- Rin'wosho the Trader doesn't need to be in two places.  
+- Classic: Reparsed all DBs to remove references to "fill". ("fill" is now exclusively used in Retail for the moment!)  
+- [DB] Mist: Update Elwynn Forest.  
+    Update objective of q 26913, 26915, 26916, 26918, 26919.  
+    Update annotated.  
+- Benthic tokens no longer use fill and make use of the new container functionality.  
+- Converted Azeroth Mini Pack: Bondo's Yard to a container.  
+- Converted Draconic Recipe in a Bottle to a container.  
+- Baleful tokens no longer use fill and make use of the new container functionality.  
+- Heirloom upgrade tokens no longer uses "fill". (Doesn't look any different without it. Let cost evaluation do its thing!)  
+- Ancient Heirloom Scabbard no longer uses "fill". (Doesn't look any different without it.)  
+- Ancient Heirloom Armor Casing no longer uses "fill". (Doesn't look any different without it.)  
+- Fix the ID of Viceroy Nezhar in hero and mythic (#2075)  
+- Introduced a helper function for item containers that are rewarded from various sources to help clean up the logic.  
+- PET BATTLES: Moved The Longest Day to the Character Achievements section and automated the data. (This is to test what it will look like in that section.)  
+- PET BATTLES: Moved all Pre-MOP Pet Tamer Daily Quests to the pet battles section and nested them within their respective pet tamer. This will provide context to the strategy without duplicating the necessary information as well as ensuring that the tamer itself remains visible while the player quests through the primary quest chain for Pet Battles.  
+- Fixed a display issue that allowed criteria to be selected when looking at sourceAchievements.  
+- Moved all Pet Battle Tamers to their respective zones for criteriaID mapping to work correctly rather than duplicate the entries.  
+    Also added petBattleLvl to all of the pre-MOP Pet Battle Tamers.  
+- Added "petBattleLvl" to parser and to tooltips.  
+- [DB] Fix timeline for Bladed/Razor claws :)  
+- [DB] Fix timeline for WoD mythic dungeon heirlooms  
+- [DB] Fix timeline for SoO Garrosh heirlooms  
+- [DB] Fix timeline for heirlooms added in Mists  
+- [DB] Fix timeline for heirlooms added (or created) in Cata  
+- [DB] Fix timeline for Wrath heirlooms  
+- Refactored "PET\_BATTLE" to "PET\_BATTLES" to match the in-game localization.  
+- 11.2.0.61787 hidden achievement triggers  
+- Added more icons into the icon legend in Interface.  
+- Moved NYI Dastardly Duos quests into NYI file.  
+- Update CacheVersion for Greedy Emissary / MoP fix  
+- Fix a few reported errors, fixes #2068  
+- [Mists] New heirlooms are actually in the game, but they're ONLY buyable with JP  
+- [DB] Missed applyclassicphase change on a file  
+- [Mists] Seesaw toy isn't available until (probably) Escalation phase  
+- [DB] We should use a bit of that applyclassicphase function  
+- [Mists] Patch 5.2.0 heirlooms are not in the game yet  
+- [DB] Classic: Update Elwynn Forest.  
+    Mist: Update coord of q 26913, 26914, 26915, 26916, 26917, 26918, 26919.  
+    Mist: Update objective of q 26914.  
+    Mist: Remove dummy coord of q 26914.  
+    Cata: Update coord of q 26914.  
+    Cata: Remove dummy coord of q 26914.  
+- Classic: Right clicking a difficulty now properly pops out the difficulty header itself rather than do a source lookup.  
+- Moved the Scenaturday achieve criteria to their respective Scenarios.  
+- Updated the ClassPresetsDB to use the constants provided by the ItemFilters library file. (Also confirmed that certain filters were not necessary to include)  
+- [MoP/Retail] Cata head enchants have been removed from the game in MoP  
+- [DB} Retail: Removed a couple duplicated Netherstorm PvP Vendors which get mapped from their PvP home  
+- [Logic] Fixed Vignette reporting such that Unknown/Unsourced vignettes can still be reported without Include Completed (Completed are only Vignettes which actually have collectibles AND nothing left to collect)  
+- Classic: Added the "Local List" (/attlocal), a Mini List alternative that behaves similarly to the Mini List, but shows all content related to the map in a search result container rather than a dynamic sorted list. This tool is more so to be used for debugging than anything else.  
+- Refactor Dastardly Duos quest section by removing unused quests and adding comments for clarity  
+- [DB] Cata: Update Teldrassil.  
+    Update coord of q 28713.  
+    Update coord of q 28714.  
+    Update coord of q 28734.  
+    Update providers of q 3116.  
+    Update coord of q 26945.  
+    Update providers of q 3117.  
+    Update coord of q 26947.  
+    Update providers of q 3118.  
+    Update coord of q 26946.  
+    Update providers of q 3119.  
+    Update coord of q 26949.  
+    Update providers of q 26841.  
+    Update coord of q 26940.  
+    Update providers of q 3120.  

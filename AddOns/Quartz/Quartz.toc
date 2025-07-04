@@ -1,6 +1,6 @@
 ## Interface: 110107
 ## Author: Nevcairiel, Nymbia
-## Version: 3.7.14
+## Version: 3.7.15a
 
 ## Title: Quartz
 ## Notes: Modular casting bar.

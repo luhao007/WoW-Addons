@@ -1,9 +1,9 @@
 ## Interface: 110107
 ## Author: TomCat
-## Version: 2.5.66
+## Version: 2.5.67
 
 ## Title: TomCat's Tours
-## Notes: Version: 2.5.66
+## Notes: Version: 2.5.67
 ## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF旅行指南|r |cFFFFE00ATomCats|r
 ## Notes-zhCN: TomCats的旅行指南
 
@@ -17,7 +17,7 @@
 ## X-Website: https://www.tomcatstours.com
 ## X-Category: Achievements, Map, Miscellaneous
 ## X-Localizations: enUS, enGB, deDE, esES, esMX, frFR, itIT, koKR, ptBR, ptPT, ruRU, zhCN, zhTW
-## X-TomCats-Expiry: 1753382238
+## X-TomCats-Expiry: 1754072732
 ## X-Part-Of: TomCats
 
 # See license.txt for license and copyright information

@@ -18,15 +18,22 @@ textChatCommands:SetWidth(320)
 
 
 -- Column 2
-local headerIconLegend = child:CreateHeaderLabel(L.ICON_LEGEND_LABEL)
-headerIconLegend:SetPoint("TOPLEFT", headerChatCommands, 320, 0)
+local headerIconLegendStatus = child:CreateHeaderLabel(L.ICON_LEGEND_STATUS_LABEL)
+headerIconLegendStatus:SetPoint("TOPLEFT", headerChatCommands, 320, 0)
 
-local textIconLegend = child:CreateTextLabel(L.ICON_LEGEND_TEXT)
-textIconLegend:SetPoint("TOPLEFT", headerIconLegend, "BOTTOMLEFT", 0, -4)
-textIconLegend:SetWidth(320)
+local textIconLegendStatus = child:CreateTextLabel(L.ICON_LEGEND_STATUS_TEXT)
+textIconLegendStatus:SetPoint("TOPLEFT", headerIconLegendStatus, "BOTTOMLEFT", 0, -4)
+textIconLegendStatus:SetWidth(320)
+
+local headerIconLegendMisc = child:CreateHeaderLabel(L.ICON_LEGEND_MISC_LABEL)
+headerIconLegendMisc:SetPoint("TOPLEFT", textIconLegendStatus, "BOTTOMLEFT", 0, -15)
+
+local textIconLegendMisc = child:CreateTextLabel(L.ICON_LEGEND_MISC_TEXT)
+textIconLegendMisc:SetPoint("TOPLEFT", headerIconLegendMisc, "BOTTOMLEFT", 0, -4)
+textIconLegendMisc:SetWidth(320)
 
 local headerKeybindings = child:CreateHeaderLabel(L.KEYBINDINGS)
-headerKeybindings:SetPoint("TOPLEFT", textIconLegend, "BOTTOMLEFT", 0, -15)
+headerKeybindings:SetPoint("TOPLEFT", textIconLegendMisc, "BOTTOMLEFT", 0, -15)
 
 local textKeybindings = child:CreateTextLabel(app.Modules.Color.Colorize(L.KEYBINDINGS_TEXT, app.Colors.White))
 textKeybindings:SetPoint("TOPLEFT", headerKeybindings, "BOTTOMLEFT", 0, -4)

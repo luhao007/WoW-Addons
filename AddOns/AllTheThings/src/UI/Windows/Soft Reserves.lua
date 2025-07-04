@@ -98,7 +98,10 @@ local function GetGroupType()
 	end
 	return "RAID";
 end
-local function IsRaidLeader()
+local IsRaidLeader = app.GameBuildVersion >= 50000 and function()
+	---@diagnostic disable-next-line: param-type-mismatch
+	return UnitIsGroupLeader("player");
+end or function()
 	---@diagnostic disable-next-line: param-type-mismatch
 	return UnitIsGroupLeader("player", "raid");
 end
