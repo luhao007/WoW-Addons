@@ -166,7 +166,7 @@ AppHelper:OnModuleLoad(function()
 		elseif ClientInfo.IsVanillaClassic() then
 			private.addonRegion = region.."-Classic"
 			private.appDataRegion = "Classic-"..region
-		elseif ClientInfo.IsCataPandaClassic() then
+		elseif ClientInfo.IsPandaClassic() then
 			private.addonRegion = region.."-BCC"
 			private.appDataRegion = "BCC-"..region
 		else

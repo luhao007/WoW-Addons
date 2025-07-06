@@ -55,20 +55,6 @@ local PANDA_ITEM_CLASS_IDS = {
 	Enum.ItemClass.Questitem,
 	Enum.ItemClass.Battlepet,
 }
-local CATA_ITEM_CLASS_IDS = {
-	Enum.ItemClass.Weapon,
-	Enum.ItemClass.Armor,
-	Enum.ItemClass.Container,
-	Enum.ItemClass.Consumable,
-	Enum.ItemClass.Glyph,
-	Enum.ItemClass.Tradegoods,
-	Enum.ItemClass.Projectile,
-	Enum.ItemClass.Quiver,
-	Enum.ItemClass.Recipe,
-	Enum.ItemClass.Gem,
-	Enum.ItemClass.Miscellaneous,
-	Enum.ItemClass.Questitem,
-}
 local VANILLA_ITEM_CLASS_IDS = {
 	Enum.ItemClass.Weapon,
 	Enum.ItemClass.Armor,
@@ -118,8 +104,6 @@ ItemClass:OnModuleLoad(function()
 		data = RETAIL_ITEM_CLASS_IDS
 	elseif LibTSMWoW.IsPandaClassic() then
 		data = PANDA_ITEM_CLASS_IDS
-	elseif LibTSMWoW.IsCataClassic() then
-		data = CATA_ITEM_CLASS_IDS
 	elseif LibTSMWoW.IsVanillaClassic() then
 		data = VANILLA_ITEM_CLASS_IDS
 	else

@@ -147,7 +147,7 @@ end
 ---Starts running the bag tracking code.
 function BagTracking.Start()
 	Event.Register("BAG_UPDATE", private.BagUpdateHandler)
-	if LibTSMService.IsCataPandaClassic() or LibTSMService.IsRetail() then
+	if LibTSMService.IsPandaClassic() or LibTSMService.IsRetail() then
 		-- In Cata 4.4.0 and in Retail 10.0.5, BAG_UPDATE_DELAYED doesnt fire for non-backpack slots, so emulate it
 		private.bagUpdateDelayedTimer = DelayTimer.New("BAG_TRACKING_BAG_UPDATE_DELAYED", private.BagUpdateDelayedHandler)
 		Event.Register("BAG_UPDATE", function() private.bagUpdateDelayedTimer:RunForFrames(0) end)

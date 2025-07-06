@@ -20,8 +20,6 @@ function VendorTrade.Get()
 		return DATA.Retail
 	elseif LibTSMData.IsPandaClassic() then
 		return DATA.Panda
-	elseif LibTSMData.IsCataClassic() then
-		return DATA.Cata
 	elseif LibTSMData.IsVanillaClassic() then
 		return DATA.Vanilla
 	else
@@ -39,46 +37,6 @@ DATA.Vanilla = {
 }
 
 
-
--- ============================================================================
--- Cata
--- ============================================================================
-
-DATA.Cata = {
-	["i:37101"] = {
-		["i:61978"] = 1, -- Ivory Ink
-	},
-	["i:39469"] = {
-		["i:61978"] = 1, -- Moonglow Ink
-	},
-	["i:39774"] = {
-		["i:61978"] = 1, -- Midnight Ink
-	},
-	["i:43116"] = {
-		["i:61978"] = 1, -- Lion's Ink
-	},
-	["i:43118"] = {
-		["i:61978"] = 1, -- Jadefire Ink
-	},
-	["i:43120"] = {
-		["i:61978"] = 1, -- Celestial Ink
-	},
-	["i:43122"] = {
-		["i:61978"] = 1, -- Shimmering Ink
-	},
-	["i:43124"] = {
-		["i:61978"] = 1, -- Ethereal Ink
-	},
-	["i:43126"] = {
-		["i:61978"] = 1, -- Ink of the Sea
-	},
-	["i:43127"] = {
-		["i:61978"] = 0.1, -- Snowfall Ink
-	},
-	["i:61981"] = {
-		["i:61978"] = 0.1, -- Inferno Ink
-	},
-}
 
 -- ============================================================================
 -- Panda

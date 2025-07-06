@@ -1,6 +1,6 @@
 ## Interface: 110107
 ## Author: TradeSkillMaster Team
-## Version: v4.14.38
+## Version: v4.14.39
 
 ## Title: |cff00fe00TradeSkillMaster|r
 ## Notes: Auction house and gold making addon.

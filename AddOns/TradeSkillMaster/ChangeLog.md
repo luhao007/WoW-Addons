@@ -1,7 +1,7 @@
-## v4.14.38 Changes
+## v4.14.39 Changes
 
-* [MoP] Fixed error when opening Crafting Reports
-* [MoP] Fixed various issues with battle pets
-* [MoP/Classic] Fixed issue with TSM AH tab placement
+* [MoP] Added workaround for bugged "Vicious" recipes to display properly in the TSM profession UI
+* [MoP] Properly show sub-categories in the TSM profession UI
+* [Classic] Fixed issue causing Enchanting to not show in the TSM profession UI
 
 [Known Issues](https://support.tradeskillmaster.com/en_US/known_issues)
