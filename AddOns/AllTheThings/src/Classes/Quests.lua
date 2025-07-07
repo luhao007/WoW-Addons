@@ -61,6 +61,7 @@ end
 
 -- Load Quest Lib
 local RequestLoadQuestByID, ResetQuestName, QuestNameFromID;
+local RefreshQuestIDs = {}
 local C_QuestLog_RequestLoadQuestByID = C_QuestLog.RequestLoadQuestByID;
 if C_QuestLog_RequestLoadQuestByID and pcall(app.RegisterEvent, app, "QUEST_DATA_LOAD_RESULT") then
 	local QuestsRequested = {};
@@ -73,11 +74,11 @@ if C_QuestLog_RequestLoadQuestByID and pcall(app.RegisterEvent, app, "QUEST_DATA
 
 		local name = GetTitleForQuestID(id);
 		if not IsRetrieving(name) then
-			t[id] = name;
-			return name;
+			t[id] = name
+			return name
 		end
 
-		RequestLoadQuestByID(id);
+		RequestLoadQuestByID(id)
 	end});
 	local QuestNameDefault = setmetatable({}, { __index = function(t, id)
 		if not id or rawget(QuestNameFromServer, id) == nil then return end
@@ -158,6 +159,13 @@ if C_QuestLog_RequestLoadQuestByID and pcall(app.RegisterEvent, app, "QUEST_DATA
 		if questObject then
 			QuestsToPopulate[questID] = nil;
 			app.TryPopulateQuestRewards(questObject);
+		end
+
+		-- see if this quest has an object to refresh
+		questObject = RefreshQuestIDs[questID]
+		if questObject then
+			RefreshQuestIDs[questID] = nil
+			app.DirectGroupRefresh(questObject, true)
 		end
 
 		-- see if this Quest is awaiting a callback, call it with the questID and success from the server
@@ -1612,7 +1620,13 @@ local createQuest = app.CreateClass("Quest", "questID", {
 	end or nil,
 	name = function(t)
 		-- TODO: need app.GetAutomaticHeaderData to provide name if not returned from server prior to using QuestNameDefault
-		return QuestNameFromID[t.questID] or RETRIEVING_DATA;
+		local questID = t.questID
+		local name = QuestNameFromID[questID]
+		if name then return name end
+
+		-- hook the current group into a cache so that when its name is retrieved it can refresh automatically
+		RefreshQuestIDs[questID] = t
+		return RETRIEVING_DATA
 	end,
 	icon = function(t)
 		-- TODO: need app.GetAutomaticHeaderData to provide icon
@@ -1668,16 +1682,19 @@ local createQuest = app.CreateClass("Quest", "questID", {
 	timeRemaining = function(t)
 		return t.isWorldQuest and GetQuestTimeLeftMinutes(t.questID) or nil;
 	end,
-	
+
 	-- Defaults (Mostly used for nesting quests under their npcs for Pet Battles)
 	qgParent = function(t)
-		local qg = t.parent.creatureID or t.parent.npcID;
+		local parent = t.parent
+		if not parent then return end
+
+		local qg = parent.creatureID or parent.npcID;
 		if qg and qg > 0 then return qg; end
 	end,
 	coords = function(t)
 		if t.qgParent then return t.parent.coords; end
 	end,
-	
+
 	-- These are Retail fields that aren't used in Classic... yet?
 	missingSourceQuests = function(t)
 		if t.sourceQuests and #t.sourceQuests > 0 then
@@ -2050,6 +2067,15 @@ app.AddEventRegistration("QUEST_ACCEPTED", function(questLogIndex, questID)
 	ResetQuestName(questID)
 	PrintQuestInfoViaCallback(questID, true);
 	CheckFollowupQuests(questID);
+	-- TODO: could figure a way to basically do UpdateRawID but simply DirectGroupRefresh the results instead
+	app.HandleEvent("OnRefreshWindows")
+end)
+app.AddEventRegistration("QUEST_REMOVED", function(questID)
+	if not questID then return end
+	softRefresh();
+	-- app.PrintDebug("QUEST_REMOVED",questID)
+	-- TODO: could figure a way to basically do UpdateRawID but simply DirectGroupRefresh the results instead
+	app.HandleEvent("OnRefreshWindows")
 end)
 app.AddEventRegistration("QUEST_TURNED_IN", function(questID)
 	if not questID then return end

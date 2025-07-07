@@ -8,8 +8,8 @@ local _, app = ...;
 -- Encapsulates the functionality concerning consistent and complex operations on Lua Tables
 
 -- Global locals
-local ipairs, pairs, tinsert, select, table_concat
-	= ipairs, pairs, tinsert, select, table.concat;
+local ipairs, pairs, select, table_concat
+	= ipairs, pairs, select, table.concat;
 
 -- App locals
 

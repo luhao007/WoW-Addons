@@ -215,6 +215,17 @@ local function GetEventCache()
 	return cache;
 end
 
+-- add a simple chat command to reset the calendar cache
+app.ChatCommands.Add("calendar-cache", function(args)
+	local cache = GetEventCache()
+	cache.lease = 0
+	GetEventCache()
+	app.print("Re-cached Calendar data!")
+	end, {
+		"Usage : /att calendar-cache",
+		"Provides a quick way to reset ATT's cache of the user's calendar data for determining in-game event schedules and visibility",
+	})
+
 -- Event Helpers
 local CustomEventHelpers = {
 	[239] = { 559,562,587,643,1056,1263 },	-- EVENTS.TIMEWALKING

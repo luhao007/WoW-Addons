@@ -62,7 +62,7 @@ local collectibleAsCostForItem = function(t)
 		if not t.parent or not t.parent.saved then
 			for _,ref in pairs(results) do
 				if ref.itemID ~= id and app.RecursiveGroupRequirementsFilter(ref) then
-					if ref.key == "instanceID" or ((ref.key == "difficultyID" or ref.key == "mapID" or ref.key == "headerID") and (ref.parent and GetRelativeValue(ref.parent, "instanceID"))) then
+					if ref.key == "instanceID" or ((ref.key == "difficultyID" or ref.key == "mapID" or (ref.key == "headerID" and not ref.type)) and (ref.parent and GetRelativeValue(ref.parent, "instanceID"))) then
 						if costTotal < 1 then	-- This is for Keys
 							costTotal = costTotal + 1;
 						end

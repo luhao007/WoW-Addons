@@ -520,7 +520,6 @@ local function SetRowData(self, row, data)
 		local text = data.text;
 		if IsRetrieving(text) then
 			text = RETRIEVING_DATA;
-			-- self.processingLinks = true;
 		end
 		local leftmost, relative, rowPad = row, "LEFT", 8;
 		local x = CalculateRowIndent(data) * rowPad + rowPad;
@@ -1101,28 +1100,6 @@ function app:GetWindow(suffix, parent, onUpdate)
 	window.Container = container;
 	container.rows = NewWindowRowContainer(container)
 	container:Show();
-
-	-- Setup the Event Handlers
-	-- TODO: review how necessary this actually is in Retail
-	local handlers = {};
-	window:SetScript("OnEvent", function(self, e, ...)
-		local handler = handlers[e];
-		if handler then
-			handler(self, ...);
-		else
-			app.PrintDebug("Unhandled Window Event",e,...)
-			self:Update();
-		end
-	end);
-	local refreshWindow = function() DelayedCallback(window.Refresh, 0.25, window) end;
-	handlers.ACHIEVEMENT_EARNED = refreshWindow;
-	handlers.QUEST_DATA_LOAD_RESULT = refreshWindow;
-	handlers.QUEST_ACCEPTED = refreshWindow;
-	handlers.QUEST_REMOVED = refreshWindow;
-	window:RegisterEvent("ACHIEVEMENT_EARNED");
-	window:RegisterEvent("QUEST_ACCEPTED");
-	window:RegisterEvent("QUEST_DATA_LOAD_RESULT");
-	window:RegisterEvent("QUEST_REMOVED");
 
 	window.AddEventHandler = AddEventHandler
 	window.RemoveEventHandlers = RemoveEventHandlers

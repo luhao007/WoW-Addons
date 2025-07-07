@@ -784,7 +784,7 @@ local function HarvestExploration()
 	for mapID,objects in pairs(app.SearchForFieldContainer("mapID")) do
 		-- only check exploration on Zone maps where we have a raw map listed in ATT
 		local mapInfo = C_Map_GetMapInfo(mapID)
-		if mapInfo and mapInfo.mapType == 3 and C_Map_GetMapArtID(mapID) and app.SearchForObject("mapID",mapID,"key") then
+		if mapInfo and (mapInfo.mapType == 3 or mapInfo.mapType == 6) and C_Map_GetMapArtID(mapID) and app.SearchForObject("mapID",mapID,"key") then
 			app.print("Harvesting Map " .. mapID .. "...");
 			-- Find all points on the grid that have explored an area and make note of them.
 			local ok, any, hits = pcall(GenerateHitsForMap, grid, mapID);
@@ -965,6 +965,7 @@ app.CreateMap = app.CreateClass("Map", "mapID", {
 		t.isMinilistHeader = isHeader
 		return isHeader
 	end,
+	SortType = function(t) return "MapClassSortType" end,
 },
 "WithHeader", {
 	["name"] = function(t)

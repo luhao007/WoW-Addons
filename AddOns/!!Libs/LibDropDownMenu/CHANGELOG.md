@@ -1,6 +1,6 @@
 # Lib: LibDropDownMenu
 
-## [r54](https://github.com/HizurosWoWAddOns/LibDropDownMenu/tree/r54) (2025-06-18)
-[Full Changelog](https://github.com/HizurosWoWAddOns/LibDropDownMenu/commits/r54) [Previous Releases](https://github.com/HizurosWoWAddOns/LibDropDownMenu/releases)
+## [r55](https://github.com/HizurosWoWAddOns/LibDropDownMenu/tree/r55) (2025-07-07)
+[Full Changelog](https://github.com/HizurosWoWAddOns/LibDropDownMenu/commits/r55) [Previous Releases](https://github.com/HizurosWoWAddOns/LibDropDownMenu/releases)
 
 - Update toc file  

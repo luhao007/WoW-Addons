@@ -31,36 +31,38 @@ function LocalMapFilter(group)
 end
 local CachedLocalMapData = setmetatable({}, {
 	__index = function(cachedLocalMapData, mapID)
-		__currentMapID = mapID;
-		local results = app:BuildSearchFilteredResponse(app:GetDataCache().g, LocalMapFilter);
-		if results and #results > 0 then
-			local f = {g=results};
-			AssignChildren(f);
-			ExpandGroupsRecursively(f, true, true);
-			cachedLocalMapData[mapID] = results;
-			return results;
-		else
-			-- If we don't have any map data on this area, report it to the chat window.
-			print("No map found for this location ", app.GetMapName(mapID), " [", mapID, "]");
+		if mapID then
+			__currentMapID = mapID;
+			local results = app:BuildSearchFilteredResponse(app:GetDataCache().g, LocalMapFilter);
+			if results and #results > 0 then
+				local f = {g=results};
+				AssignChildren(f);
+				ExpandGroupsRecursively(f, true, true);
+				cachedLocalMapData[mapID] = results;
+				return results;
+			else
+				-- If we don't have any map data on this area, report it to the chat window.
+				print("No map found for this location ", app.GetMapName(mapID), " [", mapID, "]");
 
-			local mapInfo = C_Map_GetMapInfo(mapID);
-			if mapInfo then
-				local mapPath = mapInfo.name or ("Map ID #" .. mapID);
-				mapID = mapInfo.parentMapID;
-				while mapID do
-					mapInfo = C_Map_GetMapInfo(mapID);
-					if mapInfo then
-						mapPath = (mapInfo.name or ("Map ID #" .. mapID)) .. " > " .. mapPath;
-						mapID = mapInfo.parentMapID;
-					else
-						break;
+				local mapInfo = C_Map_GetMapInfo(mapID);
+				if mapInfo then
+					local mapPath = mapInfo.name or ("Map ID #" .. mapID);
+					mapID = mapInfo.parentMapID;
+					while mapID do
+						mapInfo = C_Map_GetMapInfo(mapID);
+						if mapInfo then
+							mapPath = (mapInfo.name or ("Map ID #" .. mapID)) .. " > " .. mapPath;
+							mapID = mapInfo.parentMapID;
+						else
+							break;
+						end
 					end
+					print("Path: ", mapPath);
 				end
-				print("Path: ", mapPath);
+				print("Please report this to the ATT Discord! Thanks! ", app.Version);
+				cachedLocalMapData[mapID] = false;
+				return false;
 			end
-			print("Please report this to the ATT Discord! Thanks! ", app.Version);
-			cachedLocalMapData[mapID] = false;
-			return false;
 		end
 	end
 });
@@ -75,7 +77,6 @@ app:CreateWindow("Local List", {
 		["scale"] = 0.7,
 		["width"] = 360,
 		["height"] = 176,
-		["visible"] = true,
 		["point"] = "BOTTOMRIGHT",
 		["relativePoint"] = "BOTTOMRIGHT",
 	},

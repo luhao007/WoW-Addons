@@ -1121,27 +1121,33 @@ for i=2,MaxLayer do
 end
 local ContainsTypesIndicators
 app.AddEventHandler("OnStartup", function() ContainsTypesIndicators = app.Modules.Fill.Settings.Icons end)
-local function BuildContainsInfo(subgroups, entries, indent, layer)
+local function BuildContainsInfo(root, entries, indent, layer)
+	local subgroups = root and root.g
 	if not subgroups or #subgroups == 0 then return end
 
 	for _,group in ipairs(subgroups) do
 		-- If there's progress to display for a non-sourceIgnored group, then let's summarize a bit better.
 		if group.visible and not group.sourceIgnored and not group.skipContains then
-			-- Count it, but don't actually add it to entries if it meets the limit
-			if #entries >= ContainsLimit then
-				ContainsExceeded = ContainsExceeded + 1;
+			-- Special case to ignore 'container' layers where the container is a Header which matches the ItemID of the parent
+			if group.headerID and group.headerID == root.itemID then
+				BuildContainsInfo(group, entries, indent, layer)
 			else
-				-- Insert into the display.
-				-- app.PrintDebug("INCLUDE",app.Debugging,GetProgressTextForRow(group),group.hash,group.key,group.key and group[group.key])
-				local o = { group = group, right = GetProgressTextForRow(group) };
-				local indicator = ContainsTypesIndicators[group.filledType] or Indicator(group);
-				o.prefix = indicator and (Indents[indent]:sub(3) .. "|T" .. indicator .. ":0|t ") or Indents[indent]
-				entries[#entries + 1] = o
-			end
+				-- Count it, but don't actually add it to entries if it meets the limit
+				if #entries >= ContainsLimit then
+					ContainsExceeded = ContainsExceeded + 1;
+				else
+					-- Insert into the display.
+					-- app.PrintDebug("INCLUDE",app.Debugging,GetProgressTextForRow(group),group.hash,group.key,group.key and group[group.key])
+					local o = { group = group, right = GetProgressTextForRow(group) };
+					local indicator = ContainsTypesIndicators[group.filledType] or Indicator(group);
+					o.prefix = indicator and (Indents[indent]:sub(3) .. "|T" .. indicator .. ":0|t ") or Indents[indent]
+					entries[#entries + 1] = o
+				end
 
-			-- Only go down one more level.
-			if layer < MaxLayer then
-				BuildContainsInfo(group.g, entries, indent + 1, layer + 1);
+				-- Only go down one more level.
+				if layer < MaxLayer then
+					BuildContainsInfo(group, entries, indent + 1, layer + 1);
+				end
 			end
 			-- else
 			-- 	app.PrintDebug("EXCLUDE",app.Debugging,GetProgressTextForRow(group),group.hash,group.key,group.key and group[group.key])
@@ -1183,7 +1189,7 @@ local function AddContainsData(group, tooltipInfo)
 	-- app.Debugging = "CONTAINS-"..group.hash;
 	ContainsLimit = app.Settings:GetTooltipSetting("ContainsCount") or 25;
 	ContainsExceeded = 0;
-	BuildContainsInfo(group.g, entries, 1, 1)
+	BuildContainsInfo(group, entries, 1, 1)
 	-- app.Debugging = nil;
 	-- app.PrintDebug(entries and #entries,"contains entries")
 	if #entries > 0 then
@@ -2855,6 +2861,9 @@ function app:GetDataCache()
 			-- Mount Mods
 			app.CreateDynamicHeader("mountmodID", SimpleNPCGroup(app.HeaderConstants.MOUNT_MODS)),
 
+			-- Pet Battles
+			app.CreateDynamicHeader("pb", SimpleNPCGroup(app.HeaderConstants.PET_BATTLES, {dynamic_withsubgroups = true})),
+
 			-- Professions
 			app.CreateDynamicHeaderByValue("professionID", {
 				dynamic_withsubgroups = true,
@@ -3567,6 +3576,37 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 		local results, groups, nested, header, headerKeys, difficultyID, nextParent, headerID, isInInstance
 		local rootGroups, mapGroups = {}, {};
 
+		local function TryExpandCurrentDifficulty()
+
+			if not app.Settings:GetTooltipSetting("Expand:Difficulty") then return end
+
+			local difficultyID = app.GetCurrentDifficultyID()
+			if difficultyID == 0 or not header.g then return end
+
+			local expanded
+			for _,row in ipairs(header.g) do
+				if row.difficultyID or row.difficulties then
+					if (row.difficultyID or -1) == difficultyID or (row.difficulties and containsValue(row.difficulties, difficultyID)) then
+						if not row.expanded then
+							ExpandGroupsRecursively(row, true, true);
+							expanded = true;
+						end
+					elseif row.expanded then
+						ExpandGroupsRecursively(row, false, true);
+					end
+				-- Zone Drops/Common Boss Drops should also be expanded within instances
+				-- elseif row.headerID == app.HeaderConstants.ZONE_DROPS or row.headerID == app.HeaderConstants.COMMON_BOSS_DROPS then
+				-- 	if not row.expanded then ExpandGroupsRecursively(row, true); expanded = true; end
+				end
+			end
+			-- No difficulty found to expand, so just expand everything in the list once it is built
+			if not expanded then
+				self.ExpandInfo = { Expand = true };
+				expanded = true;
+			end
+			return expanded
+		end
+
 		self.MapCache = setmetatable({}, { __mode = "kv" })
 		local function TrySwapFromCache()
 			-- window to keep cached maps/not re-build & update them
@@ -3589,6 +3629,7 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 			-- app.PrintDebug("Loaded cached Map",mapID)
 			header._lastshown = GetTimePreciseSec()
 			self:SetData(header)
+			TryExpandCurrentDifficulty()
 			self.CurrentMaps = header._maps
 			-- app.PrintTable(self.CurrentMaps)
 			-- Reset the Fill if needed
@@ -3768,33 +3809,8 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 				app.FillGroups(header);
 				app.SetSkipLevel(0);
 
-				local expanded;
 				-- if enabled, minimize rows based on difficulty
-				local difficultyID = app.GetCurrentDifficultyID();
-				if app.Settings:GetTooltipSetting("Expand:Difficulty") then
-					if difficultyID and difficultyID > 0 and header.g then
-						for _,row in ipairs(header.g) do
-							if row.difficultyID or row.difficulties then
-								if (row.difficultyID or -1) == difficultyID or (row.difficulties and containsValue(row.difficulties, difficultyID)) then
-									if not row.expanded then
-										ExpandGroupsRecursively(row, true, true);
-										expanded = true;
-									end
-								elseif row.expanded then
-									ExpandGroupsRecursively(row, false, true);
-								end
-							-- Zone Drops/Common Boss Drops should also be expanded within instances
-							-- elseif row.headerID == app.HeaderConstants.ZONE_DROPS or row.headerID == app.HeaderConstants.COMMON_BOSS_DROPS then
-							-- 	if not row.expanded then ExpandGroupsRecursively(row, true); expanded = true; end
-							end
-						end
-						-- No difficulty found to expand, so just expand everything in the list once it is built
-						if not expanded then
-							self.ExpandInfo = { Expand = true };
-							expanded = true;
-						end
-					end
-				end
+				local expanded = TryExpandCurrentDifficulty()
 
 				self:BuildData();
 
