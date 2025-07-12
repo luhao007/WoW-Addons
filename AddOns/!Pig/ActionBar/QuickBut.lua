@@ -1,6 +1,5 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
-local _, _, _, tocversion = GetBuildInfo()
 ----------
 local Create = addonTable.Create
 local PIGFrame=Create.PIGFrame
@@ -39,14 +38,11 @@ local GetContainerItemID=GetContainerItemID or C_Container and C_Container.GetCo
 local GetItemInfoInstant= GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 local GetItemInfo=GetItemInfo or C_Item and C_Item.GetItemInfo
 local GetItemCount=GetItemCount or C_Item and C_Item.GetItemCount
+local GetItemSpell=GetItemSpell or C_Item and C_Item.GetItemSpell
+local GetItemIcon=GetItemIcon or C_Item and C_Item.GetItemIconByID
 local IsUsableSpell=IsUsableSpell or C_Spell and C_Spell.IsSpellUsable
 local GetItemCooldown=C_Container.GetItemCooldown
-local PIGbookType
-if tocversion<50000 then
-	PIGbookType=BOOKTYPE_SPELL
-else
-	PIGbookType=Enum.SpellBookSpellBank.Player
-end
+local PIGbookType=PIG_GetSpellBookType()
 ---功能动作条===========
 local QuickButUIname=Data.QuickButUIname
 local QuickButUI=_G[QuickButUIname]
@@ -496,7 +492,7 @@ QuickButF.ModF.QKButTrinket.Bindings:SetScript("OnClick", function (self)
 	Settings.OpenToCategory(Settings.KEYBINDINGS_CATEGORY_ID, addonName);
 end)
 --
-if tocversion<20000 and C_Engraving and C_Engraving.IsEngravingEnabled() then
+if PIG_MaxTocversion(20000) and C_Engraving and C_Engraving.IsEngravingEnabled() then
 	QuickButF.ModF.QKButRune = PIGCheckbutton_R(QuickButF.ModF,{string.format(L["ACTION_ADDQUICKBUT"],RUNES..newText),string.format(L["ACTION_ADDQUICKBUTTIS"],RUNES..newText)},true)
 	QuickButF.ModF.QKButRune:SetScript("OnClick", function (self)
 		if self:GetChecked() then
@@ -576,7 +572,7 @@ QuickButF.ModF:HookScript("OnShow", function(self)
 		self.QKButRune.RuneShow:SetChecked(PIGA["QuickBut"]["RuneShow"])
 	end
 	self.QKButEquip:SetChecked(PIGA["QuickBut"]["Equip"])
-	if tocversion<20000 then
+	if PIG_MaxTocversion(20000) then
 		self.QKButEquip:SetEnabled(PIGA["FramePlus"]["Character_Shuxing"])
 		self.QKButEquip.errt:SetShown(not PIGA["FramePlus"]["Character_Shuxing"])
 	end
@@ -726,7 +722,7 @@ QuickButUI.ButList[6]=function()
 		General.arrow:SetDrawLayer("ARTWORK", 7)
 		General.arrow.chushijiaodu=0
 		General.arrow.jieshujiaodu=180
-		if tocversion<50000 then
+		if PIG_MaxTocversion() then
 			General.arrow:SetAtlas("bag-arrow")
 			General.arrow:SetSize(11,16);
 			General.arrow:SetPoint("TOP",0,1);
@@ -780,11 +776,11 @@ QuickButUI.ButList[6]=function()
 			6948,--炉石
 			46874,--银色北伐军战袍
 		}
-		if tocversion>110000 then
+		if PIG_MaxTocversion(110000,true) then
 			for k,v in pairs(ToyList_Retail) do
 				table.insert(ToyList,v)
 			end
-		elseif tocversion>20000 then
+		elseif PIG_MaxTocversion(20000,true) then
 			table.insert(ToyList,184871)--黑暗之门
 			table.insert(BagList,28585)--红宝石靴子
 		else
@@ -976,12 +972,12 @@ QuickButUI.ButList[6]=function()
 end
 --职业技能----
 local Item_Spell_List ={{},{}}
-if tocversion<50000 then
+if PIG_MaxTocversion() then
 	Item_Spell_List[1] ={18984,18986,7148,18587,18232,18660};--空间撕裂器-永望镇/安全传送器-加基森/起搏器/起搏器XL
 	local _, classId = UnitClassBase("player");--1战士/2圣骑士/3猎人/4盗贼/5牧师/6死亡骑士/7萨满祭司/8法师/9术士/10武僧/11德鲁伊/12恶魔猎手
 	if classId==3 then --3猎人
 		Item_Spell_List[2] ={1002,6197,982,2641,1462,1515,883};
-		if tocversion>30000 then
+		if PIG_MaxTocversion(30000,true) then
 			table.insert(Item_Spell_List[2],62757);	
 		else
 			table.insert(Item_Spell_List[2],5149);
@@ -998,7 +994,7 @@ if tocversion<50000 then
 		elseif englishFaction=="Horde" then
 			Item_Spell_List[2] ={3567,11417,3566,11420,3563,11418};
 		end
-		if tocversion>20000 then
+		if PIG_MaxTocversion(20000,true) then
 			if englishFaction=="Alliance" then
 				local tbcchuansong = {32271,32266,49359,49360,33690,33691};	
 				for ik=1,#tbcchuansong do
@@ -1011,7 +1007,7 @@ if tocversion<50000 then
 				end
 			end
 		end
-		if tocversion>30000 then
+		if PIG_MaxTocversion(30000,true) then
 			local tbcchuansong ={53140,53142};
 			for ik=1,#tbcchuansong do
 				table.insert(Item_Spell_List[2],tbcchuansong[ik]);			
@@ -1079,7 +1075,7 @@ QuickButUI.ButList[7]=function()
 		Zhushou.arrow:SetDrawLayer("ARTWORK", 7)
 		Zhushou.arrow.chushijiaodu=0
 		Zhushou.arrow.jieshujiaodu=180
-		if tocversion<50000 then
+		if PIG_MaxTocversion() then
 			Zhushou.arrow:SetAtlas("bag-arrow")
 			Zhushou.arrow:SetSize(11,16);
 			Zhushou.arrow:SetPoint("TOP",0,1);
@@ -1208,7 +1204,7 @@ QuickButUI.ButList[7]=function()
 		Zhushou_List.ButList={}
 		for i=1,gaoNum*kuanNum do
 			local zhushoubut
-			if tocversion<40000 then
+			if PIG_MaxTocversion(40000) then
 				zhushoubut = CreateFrame("CheckButton", nil, Zhushou_List, "SecureActionButtonTemplate,ActionButtonTemplate,SecureHandlerDragTemplate,SecureHandlerMouseUpDownTemplate")
 				zhushoubut.NormalTexture:SetAlpha(0.4);
 				zhushoubut.cooldown:SetSwipeColor(0, 0, 0, 0.8);
@@ -1311,8 +1307,7 @@ QuickButUI.ButList[7]=function()
 			end);
 			--
 			zhushoubut:RegisterEvent("TRADE_SKILL_CLOSE")
-			if tocversion>90000 then
-			else
+			if PIG_MaxTocversion() then
 				zhushoubut:RegisterEvent("CRAFT_CLOSE")
 			end
 			PIGUseKeyDown(zhushoubut)

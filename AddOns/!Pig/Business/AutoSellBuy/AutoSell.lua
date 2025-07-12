@@ -1,7 +1,6 @@
 local _, addonTable = ...;
 local BusinessInfo=addonTable.BusinessInfo
 function BusinessInfo.AutoSell()
-	local _, _, _, tocversion = GetBuildInfo()
 	local L=addonTable.locale
 	local Create=addonTable.Create
 	local PIGButton = Create.PIGButton

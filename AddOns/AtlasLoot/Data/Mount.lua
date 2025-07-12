@@ -1268,6 +1268,7 @@ local MOUNT_INFO = {
 		[1240003] = 245936, -- Unarmored Deathtusk Felboar
 		[1235819] = 243596, -- Wailing Banshee's Charger
 		[1235817] = 243594, -- Forsaken's Grotesque Charger
+		[1226144] = 238739, -- Chrono Corsair
 		-- [449416] = 223570, -- Ebonhide Ramolith
 		-- [1217340] = 235554, -- Midnight Darkmoon Charger
 		-- [1218014] = 235659, -- Midnight Butterfly

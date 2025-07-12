@@ -1,7 +1,6 @@
 local addonName, addonTable = ...;
 local gsub = _G.string.gsub
 local L=addonTable.locale
-local _, _, _, tocversion = GetBuildInfo()
 local Create = addonTable.Create
 local PIGFrame=Create.PIGFrame
 local PIGLine=Create.PIGLine
@@ -264,7 +263,7 @@ local function GetExtVerInfo(uifff,EXTName,EXTlocalV, arg1, arg2, arg3, arg4, ar
 	end
 end
 local function SendExtVerInfo(fsMsg)
-	if tocversion<100000 then
+	if PIG_MaxTocversion(100000) then
 		PIGSendAddonMessage(Ver_biaotou,fsMsg,"YELL")
 	else
 		local PIGID=GetPIGID("PIG")

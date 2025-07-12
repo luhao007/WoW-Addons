@@ -1,6 +1,9 @@
 local addonName, addonTable = ...;
 
 local Data={
+	["Countdown"]={--倒计时语音
+		{"1","AI"},
+	},
 	["QuestEnd"]={--任务完成
 		{"任务完成","AI"},
 	},

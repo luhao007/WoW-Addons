@@ -1,136 +1,136 @@
 local addonName, addonTable= ...;
-local _, _, _, tocversion = GetBuildInfo()
 -------------------
 local CVarsfun=addonTable.CVarsfun
 function CVarsfun.Fast_Loot()
-    if tocversion>49999 then return end
-    if ElvUI or NDui then return end
-    if PIGA["CVars"]["Fast_Loot"] and not CVarsfun.LootFUI then
-        local GetContainerNumFreeSlots=GetContainerNumFreeSlots or C_Container and C_Container.GetContainerNumFreeSlots
-        local internal = {isLooting = false,isHidden = false,isItemLocked = false}
-        local LootF = CreateFrame("Frame")
-        CVarsfun.LootFUI=LootF
-        LootF:SetToplevel(true);
-        LootF:Hide();
-        function LootF:ProcessLootItem(itemLink, itemQuantity)
-            local itemFamily = GetItemFamily(itemLink);
-            for i = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
-                local free, bagFamily = GetContainerNumFreeSlots(i);
-                if (not bagFamily or bagFamily == 0) or (itemFamily and bit.band(itemFamily, bagFamily) > 0) then
-                    if free > 0 then
-                        return true;
-                    end
-                end
-            end
-            local inventoryItemCount = GetItemCount(itemLink);
-            if inventoryItemCount > 0 then
-                local itemStackSize = select(8, GetItemInfo(itemLink));
-                if itemStackSize > 1 then
-                    local remainingSpace = (itemStackSize - inventoryItemCount) % itemStackSize;
-                    if remainingSpace >= itemQuantity then
-                        return true;
-                    end
-                end
-            end
-            return false;
-        end
-        function LootF:LootItems(numItems)
-            local lootThreshold = (select(2,GetLootMethod()) == 0) and GetLootThreshold() or 10;
-            for i = numItems, 1, -1 do
-                local itemLink = GetLootSlotLink(i);
-                local slotType = GetLootSlotType(i);
-                local quantity, _, quality, locked, isQuestItem = select(3, GetLootSlotInfo(i));
-                if locked or (quality and quality >= lootThreshold) then
-                    internal.isItemLocked = true;
-                else
-                    if slotType ~= Enum.LootSlotType.Item or (isQuestItem) or self:ProcessLootItem(itemLink, quantity) then
-                        LootFrame.selectedQuality = quality;
-                        LootFrame.selectedSlot=LootFrame.selectedSlot or 1
-                        LootSlot(i);
-                        if MasterLooterFrame:IsShown() then
-                            MasterLooterFrame:Hide()
-                        else
-                            numItems = numItems - 1;
+    if PIG_MaxTocversion() then
+        if ElvUI or NDui then return end
+        if PIGA["CVars"]["Fast_Loot"] and not CVarsfun.LootFUI then
+            local GetContainerNumFreeSlots=GetContainerNumFreeSlots or C_Container and C_Container.GetContainerNumFreeSlots
+            local internal = {isLooting = false,isHidden = false,isItemLocked = false}
+            local LootF = CreateFrame("Frame")
+            CVarsfun.LootFUI=LootF
+            LootF:SetToplevel(true);
+            LootF:Hide();
+            function LootF:ProcessLootItem(itemLink, itemQuantity)
+                local itemFamily = GetItemFamily(itemLink);
+                for i = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
+                    local free, bagFamily = GetContainerNumFreeSlots(i);
+                    if (not bagFamily or bagFamily == 0) or (itemFamily and bit.band(itemFamily, bagFamily) > 0) then
+                        if free > 0 then
+                            return true;
                         end
                     end
                 end
-            end
-            if numItems > 0 then
-                self:ShowLootFrame(true);
-            end
-            if IsFishingLoot() then
-                PlaySound(SOUNDKIT.FISHING_REEL_IN, "master");
-            end
-        end
-        function LootF:ShowLootFrame(show)
-            if show then
-                internal.isHidden = false;
-                LootFrame:SetFrameStrata("HIGH");
-                LootFrame:SetParent(UIParent);
-                if GetCVarBool("lootUnderMouse") then
-                    local x, y = GetCursorPosition();
-                    x = x / LootFrame:GetEffectiveScale();
-                    y = y / LootFrame:GetEffectiveScale();
-                    LootFrame:ClearAllPoints();
-                    LootFrame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x - 40, y + 20);
-                    LootFrame:GetCenter();
-                    LootFrame:Raise();
-                else
-                    LootFrame:ClearAllPoints();
-                    LootFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 20, -125);
-                end
-            else
-                LootFrame:SetParent(LootF);
-                internal.isHidden = true;
-            end
-        end
-        LootF:SetScript("OnEvent", function(self,event,autoLoot,arg2)
-        	if event=="LOOT_READY" or event=="LOOT_OPENED" then
-        		if not internal.isLooting then
-        			internal.isLooting = true;
-        			local numItems = GetNumLootItems();
-        	        if numItems == 0 then
-        	            return;
-        	        end
-        	        if autoLoot or (autoLoot == nil and GetCVarBool("autoLootDefault") ~= IsModifiedClick("AUTOLOOTTOGGLE")) then
-        	            self:LootItems(numItems);
-        	        else
-        	            self:ShowLootFrame(true);
-        	        end
-        	    end
-        	elseif event=="LOOT_CLOSED" then
-        		internal.isLooting = false;
-        	    internal.isHidden = false;
-        	    internal.isItemLocked = false;
-        	    self:ShowLootFrame(false);
-            elseif event=="UI_ERROR_MESSAGE" then
-                if tContains(({ERR_INV_FULL,ERR_ITEM_MAX_COUNT}), arg2) then
-                    if internal.isLooting and internal.isHidden then
-                        self:ShowLootFrame(true);
+                local inventoryItemCount = GetItemCount(itemLink);
+                if inventoryItemCount > 0 then
+                    local itemStackSize = select(8, GetItemInfo(itemLink));
+                    if itemStackSize > 1 then
+                        local remainingSpace = (itemStackSize - inventoryItemCount) % itemStackSize;
+                        if remainingSpace >= itemQuantity then
+                            return true;
+                        end
                     end
                 end
-        	end
-        end)
-        function LootF.LootOnInit(onoff)
-           	if onoff then
-                SetCVar("autoLootRate", "0")
-                LootF:RegisterEvent("LOOT_READY")
-                LootF:RegisterEvent("LOOT_OPENED");
-        		LootF:RegisterEvent("LOOT_CLOSED");
-                LootF:RegisterEvent("UI_ERROR_MESSAGE");
-            else
-            	SetCVar("autoLootRate", "150")
-                LootF:UnregisterAllEvents();
-                LootFrame:SetFrameStrata("HIGH");
-                LootFrame:SetParent(UIParent);
-                internal.isLooting = false;
-                internal.isHidden = false;
-                internal.isItemLocked = false;
+                return false;
+            end
+            function LootF:LootItems(numItems)
+                local lootThreshold = (select(2,GetLootMethod()) == 0) and GetLootThreshold() or 10;
+                for i = numItems, 1, -1 do
+                    local itemLink = GetLootSlotLink(i);
+                    local slotType = GetLootSlotType(i);
+                    local quantity, _, quality, locked, isQuestItem = select(3, GetLootSlotInfo(i));
+                    if locked or (quality and quality >= lootThreshold) then
+                        internal.isItemLocked = true;
+                    else
+                        if slotType ~= Enum.LootSlotType.Item or (isQuestItem) or self:ProcessLootItem(itemLink, quantity) then
+                            LootFrame.selectedQuality = quality;
+                            LootFrame.selectedSlot=LootFrame.selectedSlot or 1
+                            LootSlot(i);
+                            if MasterLooterFrame:IsShown() then
+                                MasterLooterFrame:Hide()
+                            else
+                                numItems = numItems - 1;
+                            end
+                        end
+                    end
+                end
+                if numItems > 0 then
+                    self:ShowLootFrame(true);
+                end
+                if IsFishingLoot() then
+                    PlaySound(SOUNDKIT.FISHING_REEL_IN, "master");
+                end
+            end
+            function LootF:ShowLootFrame(show)
+                if show then
+                    internal.isHidden = false;
+                    LootFrame:SetFrameStrata("HIGH");
+                    LootFrame:SetParent(UIParent);
+                    if GetCVarBool("lootUnderMouse") then
+                        local x, y = GetCursorPosition();
+                        x = x / LootFrame:GetEffectiveScale();
+                        y = y / LootFrame:GetEffectiveScale();
+                        LootFrame:ClearAllPoints();
+                        LootFrame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x - 40, y + 20);
+                        LootFrame:GetCenter();
+                        LootFrame:Raise();
+                    else
+                        LootFrame:ClearAllPoints();
+                        LootFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 20, -125);
+                    end
+                else
+                    LootFrame:SetParent(LootF);
+                    internal.isHidden = true;
+                end
+            end
+            LootF:SetScript("OnEvent", function(self,event,autoLoot,arg2)
+            	if event=="LOOT_READY" or event=="LOOT_OPENED" then
+            		if not internal.isLooting then
+            			internal.isLooting = true;
+            			local numItems = GetNumLootItems();
+            	        if numItems == 0 then
+            	            return;
+            	        end
+            	        if autoLoot or (autoLoot == nil and GetCVarBool("autoLootDefault") ~= IsModifiedClick("AUTOLOOTTOGGLE")) then
+            	            self:LootItems(numItems);
+            	        else
+            	            self:ShowLootFrame(true);
+            	        end
+            	    end
+            	elseif event=="LOOT_CLOSED" then
+            		internal.isLooting = false;
+            	    internal.isHidden = false;
+            	    internal.isItemLocked = false;
+            	    self:ShowLootFrame(false);
+                elseif event=="UI_ERROR_MESSAGE" then
+                    if tContains(({ERR_INV_FULL,ERR_ITEM_MAX_COUNT}), arg2) then
+                        if internal.isLooting and internal.isHidden then
+                            self:ShowLootFrame(true);
+                        end
+                    end
+            	end
+            end)
+            function LootF.LootOnInit(onoff)
+               	if onoff then
+                    SetCVar("autoLootRate", "0")
+                    LootF:RegisterEvent("LOOT_READY")
+                    LootF:RegisterEvent("LOOT_OPENED");
+            		LootF:RegisterEvent("LOOT_CLOSED");
+                    LootF:RegisterEvent("UI_ERROR_MESSAGE");
+                else
+                	SetCVar("autoLootRate", "150")
+                    LootF:UnregisterAllEvents();
+                    LootFrame:SetFrameStrata("HIGH");
+                    LootFrame:SetParent(UIParent);
+                    internal.isLooting = false;
+                    internal.isHidden = false;
+                    internal.isItemLocked = false;
+                end
             end
         end
-    end
-    if CVarsfun.LootFUI then
-        CVarsfun.LootFUI.LootOnInit(PIGA["CVars"]["Fast_Loot"])
+        if CVarsfun.LootFUI then
+            CVarsfun.LootFUI.LootOnInit(PIGA["CVars"]["Fast_Loot"])
+        end
     end
 end
 -------------------

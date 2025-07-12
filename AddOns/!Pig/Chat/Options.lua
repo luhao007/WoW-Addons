@@ -2,7 +2,6 @@ local addonName, addonTable = ...;
 local L=addonTable.locale
 local gsub = _G.string.gsub
 local match = _G.string.match
-local _, _, _, tocversion = GetBuildInfo()
 local Fun=addonTable.Fun
 --------------
 local Create=addonTable.Create
@@ -39,7 +38,7 @@ local function guanbiGuolv()
 	-- 	ConsoleExec("portal TW")
 	-- end
 	-- SetCVar("profanityFilter", "0")
-	-- if tocversion>90000 then
+	-- if PIG_MaxTocversion(90000,true) then
 	-- 	local Old_fun = C_BattleNet.GetFriendGameAccountInfo
 	-- 	C_BattleNet.GetFriendGameAccountInfo = function(...)
 	-- 		local gameAccountInfo = Old_fun(...)

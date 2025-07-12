@@ -2,7 +2,6 @@ local addonName, addonTable = ...;
 local L=addonTable.locale
 local gsub = _G.string.gsub 
 local match = _G.string.match
-local _, _, _, tocversion = GetBuildInfo()
 ---
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame

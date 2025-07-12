@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local gsub = _G.string.gsub
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
@@ -22,7 +21,9 @@ local GetContainerNumSlots = C_Container.GetContainerNumSlots
 local GetContainerItemID = C_Container.GetContainerItemID
 local PickupContainerItem =C_Container.PickupContainerItem
 local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
-
+local GetItemQualityColor=GetItemQualityColor or C_Item and C_Item.GetItemQualityColor
+local GetDetailedItemLevelInfo=GetDetailedItemLevelInfo or C_Item and C_Item.GetDetailedItemLevelInfo
+local GetCoinTextureString= GetCoinTextureString or  C_CurrencyInfo and C_CurrencyInfo.GetCoinTextureString
 ---自身角色和观察目标信息---------------
 if not InspectTalentFrameSpentPoints then InspectTalentFrameSpentPoints = CreateFrame("Frame") end
 local XWidth, XHeight =CharacterHeadSlot:GetWidth(),CharacterHeadSlot:GetHeight()
@@ -166,9 +167,9 @@ end
 local function Load_addonsFun(FrameX)
 	ADD_UI_Puls(FrameX)
 	FrameX:HookScript("OnShow", function(self,event,arg1)
-		if tocversion<20000 then
+		if PIG_MaxTocversion(20000) then
 			FasongYCqingqiu(InspectNameText:GetText(),4)
-		elseif tocversion<50000 then
+		elseif PIG_MaxTocversion() then
 			FasongYCqingqiu(InspectNameText:GetText(),3)
 		end
 		if _G[Data.LongInspectUIUIname] then
@@ -225,9 +226,9 @@ local function Character_xiuliG()--修理费用
 	if PaperDollFrame.xiuli then return end
 	PaperDollFrame.xiuli = CreateFrame("Frame",nil,PaperDollFrame);  
 	PaperDollFrame.xiuli:SetSize(110,20);
-	if tocversion<40000 then
+	if PIG_MaxTocversion(40000) then
 		PaperDollFrame.xiuli:SetPoint("BOTTOMLEFT", PaperDollFrame, "BOTTOMLEFT", 22, 88);
-	elseif tocversion<50000 then
+	elseif PIG_MaxTocversion() then
 		if ElvUI then
 			PaperDollFrame.xiuli:SetPoint("TOPLEFT", PaperDollFrame, "TOPLEFT", 8, -42);
 		else
@@ -259,7 +260,7 @@ local function Character_xiuliG()--修理费用
 	local function GetInventoryrepaircost(i)
 		if not PaperDollFrame:IsVisible() then if xiuliinfo.myTicker then xiuliinfo.myTicker:Cancel() end return end
 		local solt=xiuliinfo.solt[i]
-		if tocversion<50000 then 
+		if PIG_MaxTocversion() then 
 			PIG_TooltipUI:ClearLines();
 			local hasItem,_,repairCost = PIG_TooltipUI:SetInventoryItem("player", solt)
 			xiuliinfo.repaircost=xiuliinfo.repaircost+repairCost
@@ -290,7 +291,7 @@ local function Character_xiuliG()--修理费用
 	end);
 end
 local function Character_Mingzhong()--命中说明
-	if tocversion>40000 then return end
+	if PIG_MaxTocversion(40000,true) then return end
 	if PaperDollFrame.MingZhong then return end
 	PaperDollFrame.MingZhong = CreateFrame("Button",nil,PaperDollFrame, "UIPanelInfoButton");  
 	PaperDollFrame.MingZhong:SetSize(16,16);
@@ -301,7 +302,7 @@ local function Character_Mingzhong()--命中说明
 	PaperDollFrame.MingZhong.Wl = PIGFrame(PaperDollFrame.MingZhong);
 	PaperDollFrame.MingZhong.Wl:PIGSetBackdrop(1);
 	PaperDollFrame.MingZhong.Wl:SetWidth(200);
-	if tocversion<40000 then
+	if PIG_MaxTocversion(40000) then
 		PaperDollFrame.MingZhong.Wl:SetPoint("TOPLEFT", PaperDollFrame, "TOPRIGHT",-31,-15);
 		PaperDollFrame.MingZhong.Wl:SetPoint("BOTTOMLEFT", PaperDollFrame, "BOTTOMRIGHT",0,75);
 	else
@@ -312,7 +313,7 @@ local function Character_Mingzhong()--命中说明
 
 	PaperDollFrame.MingZhong.Wl.title1 = PIGFontString(PaperDollFrame.MingZhong.Wl,{"TOPLEFT", PaperDollFrame.MingZhong.Wl, "TOPLEFT", 4, -6},"关于物理命中");
 	local mingzhongshuomingTXT
-	if tocversion<20000 then
+	if PIG_MaxTocversion(20000) then
 		mingzhongshuomingTXT=
 		"同级:基础命中率95%(5%)\n骷髅BOSS:基础命中率92%(8%)\n"..
 		"双持惩罚:基础命中率-19%\n\n"..
@@ -322,7 +323,7 @@ local function Character_Mingzhong()--命中说明
 		"|cffFFD700种族武器专精：|r\n"..
 		"人类的剑/双手剑/锤/双手锤与兽人的斧/双手斧武器技能提高5点，会产生效果："..
 		"会使武器技能和BOSS防御等级差值不大于10，不需要额外1%命中，再加上5点武器技能本身提供的1%命中，此时你将只需要6%命中即可。但武器技能的作用还不止于此，也会大量降低你的普攻偏斜。"
-	elseif tocversion<30000 then
+	elseif PIG_MaxTocversion(30000) then
 		mingzhongshuomingTXT=
 		"同级:基础命中率95%(5%)\n骷髅BOSS:基础命中率91.4%(9%)\n"..
 		"双持惩罚:基础命中率减去19%\n"..
@@ -335,7 +336,7 @@ local function Character_Mingzhong()--命中说明
 		"盗贼/狂暴战/增强萨,天赋自带5%/5%/6%的命中，双持的时候需要23%/23%/22%的命中\n"..
 		"不过狂暴战/增强萨达到9%命中之后，暴击收益更高，只需堆到9%保证技能命中后尽量堆暴击，盗贼因为天赋回能尽量堆满命中\n"..
 		"坦克:达到9%技能全命中后优先考虑生存属性"
-	elseif tocversion<40000 then
+	elseif PIG_MaxTocversion(40000) then
 		mingzhongshuomingTXT=
 		"|cff00FF00WLK%1命中需要≈32.8命中等级|r\n"..
 		"|cffFF8C00命中率需求:|r\n"..
@@ -363,14 +364,14 @@ local function Character_Mingzhong()--命中说明
 	PaperDollFrame.MingZhong.Fs:Hide()
 	PaperDollFrame.MingZhong.Fs.title1 = PIGFontString(PaperDollFrame.MingZhong.Fs,{"TOPLEFT", PaperDollFrame.MingZhong.Fs, "TOPLEFT", 6, -6},"关于法系命中(抵抗)");
 	local FSmingzhongshuomingTXT
-	if tocversion<20000 then
+	if PIG_MaxTocversion(20000) then
 		FSmingzhongshuomingTXT=
 		"|cffFF8C00注意:法术命中上限是99%|r\n同级:基础命中率96%(3%)\n骷髅BOSS:基础命中率83%(16%)\n"
-	elseif tocversion<30000 then
+	elseif PIG_MaxTocversion(30000) then
 		FSmingzhongshuomingTXT=
 		"|cffFF8C00注意:法术命中上限是99%|r\n同级:基础命中率96%(3%)\n骷髅BOSS:基础命中率83%(16%)\n"..
 		"TBC法系命中率\n1%≈12.6法系命中等级"
-	elseif tocversion<40000 then
+	elseif PIG_MaxTocversion(40000) then
 		FSmingzhongshuomingTXT=
 		"|cff00FF00WLK1%法系命中率≈26.2法系命中等级|r\n"..
 		"|cffFF8C00命中率需求:|r\n"..
@@ -1389,7 +1390,7 @@ local function add_AutoEquip(ManageEquip)
 end
 function FramePlusfun.Character_Shuxing()
 	if not PIGA["FramePlus"]["Character_Shuxing"] then return end
-	if tocversion<30000 then
+	if PIG_MaxTocversion(30000) then
 		if PaperDollFrame.pigBGF then return end
 		local CharacterFW = {384,570,2}
 		if C_Engraving and C_Engraving.IsEngravingEnabled() then CharacterFW[3]=3 end
@@ -1677,7 +1678,7 @@ function FramePlusfun.Character_Shuxing()
 				CharacterCategory2_1.tooltip2=format(CHANCE_TO_CRIT, RangedCritChanceV);
 				--
 				local SpellHitModifierV=GetSpellHitModifier() or 0.0001
-				if tocversion>20000 then
+				if PIG_MaxTocversion(20000,true) then
 					SpellHitModifierV=GetSpellHitModifier()/7
 				end
 				CharacterSetText(CharacterCategory3_1,Round(SpellHitModifierV).."%")
@@ -1950,7 +1951,7 @@ function FramePlusfun.Character_Shuxing()
 			end
 		end
 		HideUIPanel(CharacterFrame);
-	elseif tocversion<40000 then
+	elseif PIG_MaxTocversion(40000) then
 		if NDui then return end
 		local kaiqiq=GetCVar("equipmentManager")
 		if kaiqiq=="0" then
@@ -1998,7 +1999,7 @@ function FramePlusfun.Character_Shuxing()
 				end
 			end
 		end
-	elseif tocversion<50000 then
+	elseif PIG_MaxTocversion() then
 		PaperDollFrame:HookScript("OnShow", function()
 			CharacterFrame:Expand()
 		end)
@@ -2010,7 +2011,7 @@ function FramePlusfun.UpdatePoint(fuji)
 	if not fuji then return end
 	if fuji.ZBLsit then
 		FramePlusfun.C_PointData={-1,0,fuji}
-		if tocversion<50000 then
+		if PIG_MaxTocversion(50000) then
 			if ElvUI then
 				FramePlusfun.C_PointData[1],FramePlusfun.C_PointData[2]=-33,-12
 			elseif NDui then
@@ -2023,6 +2024,10 @@ function FramePlusfun.UpdatePoint(fuji)
 			else
 				FramePlusfun.C_PointData[1],FramePlusfun.C_PointData[2]=-34,-12.6
 			end
+
+		end
+		if fuji:GetName()==Data.LongInspectUIUIname  then
+			FramePlusfun.C_PointData[1],FramePlusfun.C_PointData[2]=-34,-12.6
 		end
 		fuji.ZBLsit:SetPoint("TOPLEFT", FramePlusfun.C_PointData[3], "TOPRIGHT",FramePlusfun.C_PointData[1],FramePlusfun.C_PointData[2])
 	end

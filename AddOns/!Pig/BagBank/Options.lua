@@ -1,6 +1,5 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
-local _, _, _, tocversion = GetBuildInfo()
 ---
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
@@ -67,6 +66,12 @@ local function Other_bagErrtishi()
 	return false
 end
 ---
+BagBankfun.BAGmeihangshu=0
+if PIG_MaxTocversion(40000) then
+	BagBankfun.BAGmeihangshu=BagBankfun.BAGmeihangshu+2
+else
+	BagBankfun.BAGmeihangshu=BagBankfun.BAGmeihangshu+4
+end
 BagBankF.Zhenghe = PIGCheckbutton(BagBankF,{"TOPLEFT",BagBankF,"TOPLEFT",20,-20},{"启用背包/银行整合","整合背包/银行包裹到一个界面"})
 BagBankF.Zhenghe:SetScript("OnClick", function (self)
 	if self:GetChecked() then
@@ -144,7 +149,7 @@ local BAG_SetList = {
 	{"战利品放入左边包",GetInsertItemsLeftToRight,false},
 	{"反向整理",BagBankfun.GetSortBagsRightToLeft,false},
 }
-if tocversion<100000 then
+if PIG_MaxTocversion() then
 	table.insert(BAG_SetList,4,{"根据品质染色装备边框","wupinRanse",true})
 	table.insert(BAG_SetList,5,{"新物品提示","NewItem",false})
 end
@@ -180,15 +185,11 @@ BagBankF.SetListF.hangNUMTXT = PIGFontString(BagBankF.SetListF,{"TOPLEFT",BagBan
 local BagmeihangN= {8,16,1}
 BagBankF.SetListF.hangNUM = PIGSlider(BagBankF.SetListF,{"LEFT", BagBankF.SetListF.hangNUMTXT,"RIGHT",4,0},BagmeihangN)	
 BagBankF.SetListF.hangNUM.Slider:HookScript("OnValueChanged", function(self, arg1)
-	if tocversion<20000 then
+	PIGA["BagBank"]["BAGmeihangshu"] = arg1-BagBankfun.BAGmeihangshu
+	if PIG_MaxTocversion() then
 		if _G[BagBankfun.BagUIName] then _G[BagBankfun.BagUIName].meihang=arg1 end
-    	PIGA["BagBank"]["BAGmeihangshu"] = arg1;
-	elseif tocversion<90000 then
-		if _G[BagBankfun.BagUIName] then _G[BagBankfun.BagUIName].meihang=arg1 end
-		PIGA["BagBank"]["BAGmeihangshu_WLK"] = arg1;
 	else
 		ContainerFrameCombinedBags.meihang=arg1
-		PIGA["BagBank"]["BAGmeihangshu_retail"] = arg1;
 	end
 	if _G[BagBankfun.BagUIName] and _G[BagBankfun.BagUIName]:IsShown() or ContainerFrameCombinedBags and ContainerFrameCombinedBags:IsShown() then
 		CloseAllBags()
@@ -201,7 +202,7 @@ local BAGsuofangbili = {0.8,1.4,0.01,{["Right"]="%"}}
 BagBankF.SetListF.suofang = PIGSlider(BagBankF.SetListF,{"LEFT", BagBankF.SetListF.suofangTXT,"RIGHT",4,0},BAGsuofangbili)	
 BagBankF.SetListF.suofang.Slider:HookScript("OnValueChanged", function(self, arg1)
 	PIGA["BagBank"]["BAGsuofangBili"] = arg1;
-	if tocversion<100000 then
+	if PIG_MaxTocversion() then
 		if _G[BagBankfun.BagUIName] then _G[BagBankfun.BagUIName].suofang=arg1 end
 	else
 		ContainerFrameCombinedBags.suofang=arg1
@@ -242,13 +243,7 @@ BagBankF.SetListF:HookScript("OnShow", function(self)
 		end
 	end
 	self.suofang:PIGSetValue(PIGA["BagBank"]["BAGsuofangBili"])
-	if tocversion<20000 then
-		self.hangNUM:PIGSetValue(PIGA["BagBank"]["BAGmeihangshu"])
-	elseif tocversion<90000 then
-		self.hangNUM:PIGSetValue(PIGA["BagBank"]["BAGmeihangshu_WLK"])
-	else
-		self.hangNUM:PIGSetValue(PIGA["BagBank"]["BAGmeihangshu_retail"])
-	end
+	self.hangNUM:PIGSetValue(PIGA["BagBank"]["BAGmeihangshu"]+BagBankfun.BAGmeihangshu)
 end)
 BagBankF:HookScript("OnShow", function(self)
 	self.SetListF:Hide()

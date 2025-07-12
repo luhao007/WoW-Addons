@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local Create = addonTable.Create
 local PIGFrame=Create.PIGFrame
 local PIGFontString=Create.PIGFontString
@@ -291,7 +290,7 @@ function Create.BagBankFrame(fuji,Point,UIName,data,FrameLevel)
 		frameX.moneyframe:SetSize(160,22);
 		frameX.moneyframe:SetPoint("BOTTOMRIGHT", frameX, "BOTTOMRIGHT", -8, 7)
 	else
-		if tocversion<100000 then
+		if PIG_MaxTocversion() then
 			frameX = CreateFrame("Frame", UIName, fuji,"BackdropTemplate")
 			Create.BagBankFrameBG(frameX)
 			frameX.Close = CreateFrame("Button",nil,frameX, "UIPanelCloseButton");  
@@ -315,7 +314,7 @@ function Create.BagBankFrame(fuji,Point,UIName,data,FrameLevel)
 	end
 	frameX:SetScale(data["suofang"])
 	frameX.wupin = CreateFrame("Frame", nil, frameX,"BackdropTemplate")
-	if tocversion<100000 then
+	if PIG_MaxTocversion() then
 		frameX.wupin:SetBackdrop( { bgFile = "interface/framegeneral/ui-background-marble.blp" });
 		if ElvUI or NDui then
 			frameX.wupin:SetBackdropColor(0, 0, 0, 0.3);

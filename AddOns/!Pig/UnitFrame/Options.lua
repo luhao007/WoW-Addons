@@ -1,6 +1,5 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
-local _, _, _, tocversion = GetBuildInfo()
 ---
 local Create=addonTable.Create
 local PIGDownMenu=Create.PIGDownMenu
@@ -97,7 +96,7 @@ end)
 -------------------
 local mubiaoF =PIGOptionsList_R(RTabFrame,L["UNIT_TABNAME3"],90)
 mubiaoF.PlusText = {"血量百分比/职业/种族","显示目标血量百分比/职业/种族！\r|cff00FFFF小提示：|r\r目标职业图标可以点击，"..KEY_BUTTON1.."观察/"..KEY_BUTTON2.."交易"}
-if tocversion<30000 then
+if PIG_MaxTocversion(30000) then
 	mubiaoF.PlusText= {"血量/血量百分比/职业/种族","显示目标血量/血量百分比/职业/种族！\r|cff00FFFF小提示：|r\r目标职业图标可以点击，"..KEY_BUTTON1.."观察/"..KEY_BUTTON2.."交易"}
 end
 mubiaoF.Plus=PIGCheckbutton_R(mubiaoF,mubiaoF.PlusText)
@@ -142,7 +141,7 @@ mubiaoF.Yisu:SetScript("OnClick", function (self)
 end);
 local function BigDebuff()
 	if PIGA["UnitFrame"]["TargetFrame"]["BigDebuff"] then
-		if tocversion<50000 then
+		if PIG_MaxTocversion(50000) then
 			TargetFrameToT:SetPoint("BOTTOMRIGHT", TargetFrame, "BOTTOMRIGHT", -4, -12);
 			hooksecurefunc("TargetFrame_UpdateDebuffAnchor", function(self, debuffName, index)
 				local buff = _G[debuffName..index];

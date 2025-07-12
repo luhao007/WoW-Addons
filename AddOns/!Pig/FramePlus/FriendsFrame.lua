@@ -1,5 +1,4 @@
 local _, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local match = _G.string.match
 local GetRaceClassTXT=addonTable.Fun.GetRaceClassTXT
 local ClasseNameID=addonTable.Data.ClasseNameID
@@ -212,9 +211,7 @@ function FramePlusfun.Friends()
 	end
 
 	--屏蔽页
-	if tocversion>100000 and tocversion<110000 then
-
-	elseif tocversion<50000 then
+	if PIG_MaxTocversion() then
 		FriendsFrameIgnoreScrollFrame:SetWidth(butWidth)
 		for i = 1, IGNORES_TO_DISPLAY, 1 do
 			local button = _G["FriendsFrameIgnoreButton"..i]
@@ -247,9 +244,7 @@ function FramePlusfun.Friends()
 	--查询页
 	local WhohangH,WhoiconH=17.2,14
 	local WhoFrameHeaderP={24,24,24,190,188,200}
-	if tocversion>100000 and tocversion<110000 then
-
-	elseif tocversion<50000 then
+	if PIG_MaxTocversion() then
 		if NDui then
 			WhoFrameHeaderP={26,26,26,190,180,200}
 		else
@@ -493,7 +488,7 @@ function FramePlusfun.Friends()
 	end
 
 	--公会
-	if tocversion<40000 then
+	if PIG_MaxTocversion() then
 		local GuildFrameHeaderP={24,24,24,120,140,90,150}
 		local function PIGGuildList_But(elvuiopen)
 			GuildFrameTotals:SetPoint("LEFT",GuildFrame,"LEFT",70,174);
@@ -698,7 +693,7 @@ function FramePlusfun.Friends()
 			end
 			_G["RaidGroupButton"..i.."Level"]:SetWidth(40)
 		end
-		if tocversion<20000 then
+		if PIG_MaxTocversion(20000) then
 			if PIGA["Common"]["SHAMAN_Color"] then
 				hooksecurefunc("RaidGroupFrame_Update", function()
 					for i=1,40 do

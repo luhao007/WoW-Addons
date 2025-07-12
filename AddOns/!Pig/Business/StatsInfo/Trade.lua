@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 --

@@ -1,6 +1,5 @@
 ﻿local _, addonTable = ...;
 local L=addonTable.locale
-local _, _, _, tocversion = GetBuildInfo()
 local match = _G.string.match
 local floor=floor
 --
@@ -115,7 +114,7 @@ function CombatPlusfun.AttackBar(open)
 			end
 			AttackBar:SetScale(PIGA["CombatPlus"]["AttackBar"]["Scale"])
 			local PointfujiUI=PlayerCastingBarFrame
-			if tocversion<50000 then
+			if PIG_MaxTocversion() then
 				PointfujiUI=CastingBarFrame
 			end
 			AttackBar:SetPoint("BOTTOM", PointfujiUI, "TOP", PIGA["CombatPlus"]["AttackBar"]["Xpianyi"], PIGA["CombatPlus"]["AttackBar"]["Ypianyi"]);

@@ -1,7 +1,6 @@
 local addonName, addonTable = ...;
 local GDKPInfo=addonTable.GDKPInfo
 function GDKPInfo.ADD_Trade(RaidR)
-	local _, _, _, tocversion = GetBuildInfo()
 	local Create, Data, Fun, L, Default, Default_Per= unpack(PIG)
 	local PIGFrame=Create.PIGFrame
 	local PIGLine=Create.PIGLine

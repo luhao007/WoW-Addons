@@ -1,7 +1,6 @@
 local _, addonTable = ...;
 local addonName, addonTable = ...;
 local L=addonTable.locale
-local _, _, _, tocversion = GetBuildInfo()
 ---
 local Create=addonTable.Create
 local PIGOptionsList=Create.PIGOptionsList
@@ -17,10 +16,9 @@ local RTabFrame =Create.PIGOptionsList_RF(fuFrame)
 PigLayoutFun.RTabFrame=RTabFrame
 --=====================
 addonTable.PigLayout = function()
-	local Vtocversion=50000
 	PigLayoutFun.Options_Mode()
 	PigLayoutFun.Options_TopBar()
 	PigLayoutFun.Options_InfoBar()
-	PigLayoutFun.Options_ActionBar(tocversion<Vtocversion)
-	PigLayoutFun.Options_ChatUI(tocversion<Vtocversion)
+	PigLayoutFun.Options_ActionBar(PIG_MaxTocversion())
+	PigLayoutFun.Options_ChatUI(PIG_MaxTocversion())
 end

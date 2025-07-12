@@ -1,5 +1,4 @@
 local _, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local CommonInfo=addonTable.CommonInfo
 ----自动对话
 local function duorenwuduihua()

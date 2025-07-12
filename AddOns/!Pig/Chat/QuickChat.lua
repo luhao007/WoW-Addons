@@ -1,6 +1,5 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
-local _, _, _, tocversion = GetBuildInfo()
 ------------
 local Fun=addonTable.Fun
 local GetPIGID=Fun.GetPIGID
@@ -486,7 +485,7 @@ function QuickChatfun.TabBut()
 	--团队通知--
 	QuickTabBut.RAID_WARNING = ADD_chatbut(QuickTabBut,"Mes",L["CHAT_QUKBUTNAME"][6],"rw",{1, 0.282, 0},"RAID_WARNING")
 	--战场/副本--
-	if tocversion<30000 then
+	if PIG_MaxTocversion(30000) then
 		QuickTabBut.INSTANCE_CHAT = ADD_chatbut(QuickTabBut,"Mes",L["CHAT_QUKBUTNAME"][7],"bg",{1, 0.498, 0},"INSTANCE_CHAT")
 	else
 		QuickTabBut.INSTANCE_CHAT = ADD_chatbut(QuickTabBut,"Mes",L["CHAT_QUKBUTNAME"][7],"i",{1, 0.498, 0},"INSTANCE_CHAT")

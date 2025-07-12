@@ -1,5 +1,4 @@
 local _, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local FramePlusfun=addonTable.FramePlusfun
 local ActionFun=addonTable.Fun.ActionFun
 local PIGUseKeyDown=ActionFun.PIGUseKeyDown
@@ -8,16 +7,13 @@ local Update_State=ActionFun.Update_State
 local Data=addonTable.Data
 local butW = ActionButton1:GetWidth()
 local PIGSkillinfo={
-	["bookType"]=nil,
+	["bookType"]=PIG_GetSpellBookType(),
 	["butnum"]=10,
 	["Width"]=butW,
 	["Height"]=butW,
 }
-if tocversion<50000 then
+if PIG_MaxTocversion() then
 	PIGSkillinfo.butnum= 8
-	PIGSkillinfo.bookType=BOOKTYPE_SPELL
-else
-	PIGSkillinfo.bookType=Enum.SpellBookSpellBank.Player
 end
 local IsCurrentSpell=IsCurrentSpell or C_Spell and C_Spell.IsCurrentSpell
 local GetSpellTexture=GetSpellTexture or C_Spell and C_Spell.GetSpellTexture
@@ -51,7 +47,7 @@ local function ADD_Skill_QK_Button(fujiui,uiname,ly)
 	fujiui.ButList={}
 	for F=1,PIGSkillinfo.butnum do
 		local But
-		if tocversion<40000 then
+		if PIG_MaxTocversion(40000) then
 			But = CreateFrame("CheckButton",nil, fujiui, "SecureActionButtonTemplate,ActionButtonTemplate");
 			But.NormalTexture:SetAlpha(0);
 		else
@@ -138,7 +134,7 @@ local function ADD_Skill_QK_Button(fujiui,uiname,ly)
 	end);
 end
 local function ADD_Skill_QK()
-	if tocversion<50000 then
+	if PIG_MaxTocversion() then
 		ADD_Skill_QK_Button(TradeSkillFrame,"Skill")
 	else
 		ADD_Skill_QK_Button(ProfessionsFrame,"Skill","Mainline") 
@@ -151,7 +147,7 @@ end
 function FramePlusfun.Skill_QKbut()
 	if not PIGA["FramePlus"]["Skill_QKbut"] then return end
 	if NDui then return end
-	if tocversion<50000 then
+	if PIG_MaxTocversion() then
 		PIG_ADDON_LOADED("Blizzard_TradeSkillUI",ADD_Skill_QK)
 		PIG_ADDON_LOADED("Blizzard_CraftUI",ADD_Craft_QK)
 	else
@@ -240,7 +236,7 @@ local function TradeSkillFunc()
 				end);
 			else
 				local regions = {TradeSkillFrame:GetRegions()}
-				if tocversion<20000 then
+				if PIG_MaxTocversion(20000) then
 					--隐藏全部折叠附近纹理
 					TradeSkillExpandTabLeft:Hide()
 					TradeSkillExpandTabRight:Hide()
@@ -257,7 +253,7 @@ local function TradeSkillFunc()
 					regions[8]:Hide()
 					regions[9]:Hide()
 					regions[10]:Hide()
-				elseif tocversion<30000 then
+				elseif PIG_MaxTocversion(30000) then
 					--隐藏全部折叠附近纹理
 					TradeSkillExpandTabLeft:Hide()
 					TradeSkillHorizontalBarLeft:Hide()
@@ -271,7 +267,7 @@ local function TradeSkillFunc()
 					regions[5]:Hide()
 					regions[6]:Hide()
 					regions[8]:Hide()
-				elseif tocversion<50000 then
+				elseif PIG_MaxTocversion() then
 					--隐藏全部折叠附近纹理
 					TradeSkillExpandTabLeft:Hide()
 					TradeSkillExpandTabRight:Hide()
@@ -330,9 +326,9 @@ local function CraftFunc()
 			CraftSkillBorderLeft:SetAlpha(0)
 			CraftSkillBorderRight:SetAlpha(0)
 			---
-			if tocversion<20000 then
+			if PIG_MaxTocversion(20000) then
 
-			elseif tocversion<30000 then
+			elseif PIG_MaxTocversion(30000) then
 				CraftFrameAvailableFilterCheckButton:ClearAllPoints()
 				CraftFrameAvailableFilterCheckButton:SetPoint("TOPLEFT", CraftFrame, "TOPLEFT", 84, -42)
 				CraftFrameFilterDropDown:ClearAllPoints()
@@ -412,7 +408,7 @@ end
 function FramePlusfun.Skill()
 	if not PIGA["FramePlus"]["Skill"] then return end
 	if NDui then return end
-	if tocversion<50000 then
+	if PIG_MaxTocversion() then
 		PIG_ADDON_LOADED("Blizzard_TradeSkillUI",TradeSkillFunc)
 		PIG_ADDON_LOADED("Blizzard_CraftUI",CraftFunc)
 	end

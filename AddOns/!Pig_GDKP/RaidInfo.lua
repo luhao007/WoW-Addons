@@ -1,7 +1,6 @@
 local addonName, addonTable = ...;
 local GDKPInfo=addonTable.GDKPInfo
 function GDKPInfo.ADD_RaidInfo(RaidR)
-	local _, _, _, tocversion = GetBuildInfo()
 	local Create, Data, Fun, L, Default, Default_Per= unpack(PIG)
 	-----
 	local PIGFrame=Create.PIGFrame
@@ -45,7 +44,7 @@ function GDKPInfo.ADD_RaidInfo(RaidR)
 	--全部
 	fujiF.All = CreateFrame("Frame", nil, fujiF);
 	fujiF.All:SetSize(cl_iconH*2, cl_iconH);
-	fujiF.All:SetPoint("TOPLEFT",fujiF,"TOPLEFT",16,-13);
+	fujiF.All:SetPoint("TOPLEFT",fujiF,"TOPLEFT",10,-13);
 	fujiF.All.Tex = fujiF.All:CreateTexture(nil, "BORDER");
 	fujiF.All.Tex:SetTexture("interface/glues/charactercreate/ui-charactercreate-factions.blp");
 	fujiF.All.Tex:SetPoint("LEFT", fujiF.All, "LEFT", 0,0);
@@ -88,8 +87,8 @@ function GDKPInfo.ADD_RaidInfo(RaidR)
 		fujiF.RRButList[id]=zhize
 		zhize:SetSize(cl_iconH*2-4, cl_iconH);
 		if id==1 then
-			if tocversion<100000 then
-				zhize:SetPoint("LEFT",fujiF.classButList[#cl_Name],"RIGHT",20,0);
+			if PIG_MaxTocversion() then
+				zhize:SetPoint("LEFT",fujiF.classButList[#cl_Name],"RIGHT",10,0);
 			else
 				zhize:SetPoint("TOPLEFT",fujiF.yedibuF,"BOTTOMLEFT",460,-2);
 			end
@@ -115,7 +114,7 @@ function GDKPInfo.ADD_RaidInfo(RaidR)
 		fujiF.RRfenGButList[id]=fenG
 		fenG:SetSize(cl_iconH*2-4, cl_iconH);
 		if id==1 then
-			fenG:SetPoint("LEFT",fujiF.RRButList[#zhizeIcon],"RIGHT",20,0);
+			fenG:SetPoint("LEFT",fujiF.RRButList[#zhizeIcon],"RIGHT",10,0);
 		else
 			fenG:SetPoint("LEFT",fujiF.RRfenGButList[id-1],"RIGHT",0,0);
 		end

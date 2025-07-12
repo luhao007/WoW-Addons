@@ -1,7 +1,6 @@
 local addonName, addonTable = ...;
 local GDKPInfo=addonTable.GDKPInfo
 function GDKPInfo.ADD_Fakuan(RaidR)
-	local _, _, _, tocversion = GetBuildInfo()
 	local Create, Data, Fun, L, Default, Default_Per= unpack(PIG)
 	-----
 	local PIGFrame=Create.PIGFrame

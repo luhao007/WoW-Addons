@@ -1,7 +1,6 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
 local match = _G.string.match
-local _, _, _, tocversion = GetBuildInfo()
 local Create = addonTable.Create
 local PIGFontString=Create.PIGFontString
 -----------

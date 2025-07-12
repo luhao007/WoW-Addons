@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local L=addonTable.locale
 local Data = addonTable.Data
 local Create = addonTable.Create
@@ -10,7 +9,7 @@ local PIGEnter=Create.PIGEnter
 local UIname="PIG_QuickButUI"
 Data.QuickButUIname=UIname
 local QuickPData = {ActionButton1:GetWidth(),200,200}
-if tocversion<100000 then
+if PIG_MaxTocversion() then
 	QuickPData[1]=QuickPData[1]-10
 else
 	QuickPData[1]=QuickPData[1]-16

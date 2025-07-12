@@ -326,6 +326,9 @@
 					GameTooltip:SetOwner(self, "ANCHOR_LEFT");
 					GameTooltip.NineSlice:SetCenterColor(0, 0, 0, 1 * Atlas.db.profile.options.frames.alpha);
 					GameTooltip:SetText(self.tooltiptitle, 1, 1, 1, nil, false);
+					if (self.encounterID and C_EncounterJournal.IsEncounterComplete(self.encounterID)) then
+						GameTooltip_AddColoredLine(GameTooltip, DUNGEON_ENCOUNTER_DEFEATED, RED_FONT_COLOR);
+					end
 					GameTooltip:AddLine(self.tooltiptext, nil, nil, nil, true);
 					if (self.overviewDescription) then
 						GameTooltip:AddLine("\n"..OVERVIEW, 1, 1, 1, 1)
@@ -391,7 +394,38 @@
 					</Anchors>
 				</Texture>
 			</Layer>
+			<Layer level="OVERLAY">
+				<Texture parentKey="DefeatedOpacity" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.bgImage" relativePoint="TOPLEFT" x="-1" y="1"/>
+						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.bgImage" relativePoint="BOTTOMRIGHT" x="1" y="-1"/>
+					</Anchors>
+					<Color r="0.0" g="0.0" b="0.0" a="0.4"/>
+				</Texture>
+				<MaskTexture parentKey="OpacityCircleMask" file="Interface\CharacterFrame\TempPortraitAlphaMask" hWrapMode="CLAMPTOBLACKADDITIVE" vWrapMode="CLAMPTOBLACKADDITIVE">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.DefeatedOpacity"/>
+						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.DefeatedOpacity"/>
+					</Anchors>
+					<MaskedTextures>
+						<MaskedTexture childKey="DefeatedOpacity"/>
+					</MaskedTextures>
+				</MaskTexture>
+			</Layer>
 		</Layers>
+		<Frames>
+			<Frame parentKey="DefeatedOverlay" setAllPoints="true">
+				<Layers>
+					<Layer level="OVERLAY">
+						<Texture parentKey="DefeatedCross" atlas="Map-MarkedDefeated" useAtlasSize="true">
+							<Anchors>
+								<Anchor point="BOTTOMRIGHT" x="4" y="-4"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+		</Frames>
 		<NormalTexture file="Interface\EncounterJournal\UI-EncounterJournalTextures">
 			<TexCoords left="0.84960938" right="0.97070313" top="0.42871094" bottom="0.48828125"/>
 		</NormalTexture>
@@ -429,6 +463,43 @@
 					else
 					end
 				else
+				end
+			</OnClick>
+		</Scripts>
+	</Button>
+
+	<Button name="AtlasFrameBossButtonTemplateClassic" inherits="AtlasMapButtonTemplate" virtual="true">
+		<Size x="50" y="49"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentbgImage" parentKey="bgImage">
+					<Size x="36" y="36"/>
+					<Anchors>
+						<Anchor point="CENTER" x="0" y="0"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<NormalTexture file="Interface\EncounterJournal\UI-EncounterJournalTextures">
+			<TexCoords left="0.84960938" right="0.97070313" top="0.42871094" bottom="0.48828125"/>
+		</NormalTexture>
+		<PushedTexture file="Interface\EncounterJournal\UI-EncounterJournalTextures">
+			<TexCoords left="0.77734375" right="0.89843750" top="0.26953125" bottom="0.32910156"/>
+		</PushedTexture>
+		<HighlightTexture file="Interface\EncounterJournal\UI-EncounterJournalTextures">
+			<TexCoords left="0.68945313" right="0.81054688" top="0.33300781" bottom="0.39257813"/>
+		</HighlightTexture>
+		<Scripts>
+			<OnLoad>
+				self:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+			</OnLoad>
+			<OnClick>
+				if (IsShiftKeyDown() and self.link) then
+					if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
+						ChatEdit_InsertLink(self.link);
+					end
+				elseif (button == "LeftButton") then
+					Atlas:AdventureJournal_EncounterButton_OnClick(self.instanceID, self.encounterID);
 				end
 			</OnClick>
 		</Scripts>

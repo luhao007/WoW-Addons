@@ -2,7 +2,6 @@ local addonName, addonTable = ...;
 local L=addonTable.locale
 local match = _G.string.match
 local gsub = _G.string.gsub 
-local _, _, _, tocversion = GetBuildInfo()
 local Data = {}
 ----------
 MAX_CONTAINER_ITEMS=MAX_CONTAINER_ITEMS or 36
@@ -85,9 +84,9 @@ local zhizeAtlas = {"ui-lfg-roleicon-tank","ui-lfg-roleicon-healer","ui-lfg-role
 Data.zhizeAtlas=zhizeAtlas
 --装备编号
 Data.buwei={}
-if tocversion<50000 then
+if PIG_MaxTocversion() then
 	Data.buwei.FEET={"FEETSLOT",FEETSLOT.."部","Feet",true}
-	if tocversion<20000 then
+	if PIG_MaxTocversion(20000) then
 		Data.buwei.HANDS={"HANDSSLOT",HANDSSLOT,"Hands",true}
 	else
 		Data.buwei.HANDS={"HANDSSLOT",HANDSSLOT.."部","Hands",true}
@@ -110,17 +109,18 @@ Data.InvSlot = {
 		[18]={"RANGEDSLOT",RANGEDSLOT,"Ranged",true},[19]={"TABARDSLOT",TABARDSLOT,"Tabard",false},
 	}
 }
-if tocversion<50000 then
+if PIG_MaxTocversion(50000) then
 	table.insert(Data.InvSlot["ALLID"],18,18)
 	table.insert(Data.InvSlot["ID"],18)
 	table.insert(Data.InvSlot["CID"],18)
-	if tocversion<20000 then
+	if PIG_MaxTocversion(20000) then
 		if GetLocale() == "zhTW" then
 			Data.InvSlot.Name[10][2]=Data.InvSlot.Name[10][2].."部"
 		end
 	end
 end
 --装备颜色
+local GetItemQualityColor=GetItemQualityColor or C_Item and C_Item.GetItemQualityColor
 Data.Quality= {}
 for k,v in pairs(Enum.ItemQuality) do
 	Data.Quality[v]={["Name"]={},["RGB"]={},["HEX"]={}}
@@ -139,12 +139,12 @@ Data.bagData = {
 	["bankbag"]=6,
 	["ItemWH"]=_G["BankFrameItem1"]:GetWidth()+5,
 }
-if tocversion>20000 then
+if PIG_MaxTocversion(20000,true) then
 	Data.bagData["bankmun"]=28;
 	Data.bagData["bankID"]={-1,5,6,7,8,9,10,11};
 	Data.bagData["bankbag"]=7;
 end
-if tocversion>100000 then
+if PIG_MaxTocversion(100000,true) then
 	Data.bagData["bagIDMax"]= NUM_TOTAL_BAG_FRAMES
 	Data.bagData["bagID"]={0,1,2,3,4,5}
 	Data.bagData["bankID"]={-1,6,7,8,9,10,11,12}
@@ -161,17 +161,14 @@ local ItemTypeLsit = {
 	{133939,{{7,9}}},--商品/草药
 	{136244,{{7,12}}},--商品/附魔
 }
+local GetItemSubClassInfo=GetItemSubClassInfo or C_Item and C_Item.GetItemSubClassInfo
 for iv=1,#ItemTypeLsit do
 	local Subname = GetItemSubClassInfo(ItemTypeLsit[iv][2][1][1],ItemTypeLsit[iv][2][1][2])
 	ItemTypeLsit[iv][3]=Subname or NONE
 end
 Data.ItemTypeLsit=ItemTypeLsit
 --专业信息
-Data.SkillbookType=BOOKTYPE_SPELL
-if tocversion<50000 then
-else
-	Data.SkillbookType=Enum.SpellBookSpellBank.Player
-end	
+Data.SkillbookType=PIG_GetSpellBookType()
 local Skill_List = {
 	["top"]={
 		746,--急救
@@ -195,20 +192,20 @@ local Skill_List = {
 		7620,--"钓鱼"
 	},
 };
-if tocversion<30000 then
+if PIG_MaxTocversion(30000) then
 	table.insert(Skill_List.top,5149)--训练
 	table.insert(Skill_List.top,2842)--毒药
 end
-if tocversion>40000 then
+if PIG_MaxTocversion(40000,true) then
 	--table.insert(Skill_List.top,195127)--考古
 	--table.insert(Skill_List.bot,80451)--勘探
 end
-if tocversion>100000 then
+if PIG_MaxTocversion(100000,true) then
 	table.insert(Skill_List.top,61422)--10.0熔炼
 	table.insert(Skill_List.top,193290)--草药学日志
 	table.insert(Skill_List.top,271990)--钓鱼日志
 end
-if tocversion<80000 then
+if PIG_MaxTocversion(80000) then
 	table.insert(Skill_List.top,2575)--采矿
 else
 	table.insert(Skill_List.bot,2575)--采矿
@@ -254,13 +251,13 @@ end
 
 function Data.Get_Skill_Info(one)
 	local SkillData = {["top"]={},["bot"]={}}
-	if tocversion<40000 then
+	if PIG_MaxTocversion(40000) then
 		local _, _, tabOffset, numEntries = GetSpellTabInfo(1)
 		for j=tabOffset + 1, tabOffset + numEntries do
 			local spellName, _ ,spellID=GetSpellBookItemName(j, Data.SkillbookType)
 			if Save_data(SkillData,spellName,spellID,one) then return SkillData end
 		end
-	elseif tocversion<50000 then
+	elseif PIG_MaxTocversion(60000)then
 		for _, i in pairs{GetProfessions()} do
 			local offset, numSlots = select(3, GetSpellTabInfo(i))
 			for j = offset+1, offset+numSlots do
@@ -296,7 +293,7 @@ end
 -- 		["WLK"]={603,615,616,624,631,649,724},
 -- 	},
 -- }
--- if tocversion<20000 then
+-- if PIG_MaxTocversion(20000) then
 -- 	table.insert(InstanceList,{DUNGEONS,"Party","Vanilla"})
 -- 	table.insert(InstanceList,{GUILD_INTEREST_RAID,"Raid","Vanilla"})
 -- 	table.insert(InstanceID_id["Raid"]["Vanilla"],249)--奥妮克希亚的巢穴
@@ -306,7 +303,7 @@ end
 -- 	table.insert(InstanceList,{DUNGEONS.."(TBC)","Party","TBC"})
 -- 	table.insert(InstanceList,{GUILD_INTEREST_RAID,"Raid","Vanilla"})
 -- 	table.insert(InstanceList,{GUILD_INTEREST_RAID.."(TBC)","Raid","TBC"})
--- 	if tocversion<30000 then
+-- 	if PIG_MaxTocversion(30000) then
 -- 		table.insert(InstanceID_id["Raid"]["Vanilla"],249)
 -- 		table.insert(InstanceID_id["Raid"]["Vanilla"],533)
 -- 	else
@@ -330,7 +327,7 @@ local function Getfubendata()
 		FBdataUI.jicinum=FBdataUI.jicinum+1
 		return
 	end
-	if tocversion<40000 then
+	if PIG_MaxTocversion(40000) then
 		--系统活动类型(地下城2/团队114/任务和地图116/PVP118/自定义120)
 		local categories = C_LFGList.GetAvailableCategories();
 		for i=1, #categories do
@@ -341,7 +338,7 @@ local function Getfubendata()
 				for _,groupID in ipairs(activityGroups) do
 					local groupName, groupOrderIndex = C_LFGList.GetActivityGroupInfo(groupID);
 					local NewIDID = tonumber(categoryID..groupID)
-					if tocversion<20000 or CategoryInfo.name==groupName then
+					if PIG_MaxTocversion(20000) or CategoryInfo.name==groupName then
 						FBdataUI.FBName.Category[NewIDID]=CategoryInfo.name
 					else
 						FBdataUI.FBName.Category[NewIDID]=CategoryInfo.name.."-"..groupName

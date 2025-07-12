@@ -38,7 +38,7 @@ end
 -- AddOn namespace.
 -- ----------------------------------------------------------------------------
 local FOLDER_NAME, private = ...
-local addon = LibStub("AceAddon-3.0"):NewAddon(private.addon_name, "AceConsole-3.0")
+local addon = LibStub("AceAddon-3.0"):NewAddon(private.addon_name, "AceConsole-3.0", "AceEvent-3.0")
 
 addon.constants = private.constants
 addon.Templates = private.Templates
@@ -49,8 +49,6 @@ addon.Notes = select(3, C_AddOns.GetAddOnInfo(addon.Name))
 _G.Atlas = addon
 
 local L = LibStub("AceLocale-3.0"):GetLocale(private.addon_name)
-local BZ = Atlas_GetLocaleLibBabble("LibBabble-SubZone-3.0")
-local BB = Atlas_GetLocaleLibBabble("LibBabble-Boss-3.0")
 local LibDialog = LibStub("LibDialog-1.0")
 local AceDB = LibStub("AceDB-3.0")
 local LibDD = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
@@ -302,6 +300,12 @@ local function bossButtonUpdate(button, encounterID, instanceID, b_iconImage, mo
 			button.uiModelSceneID = uiModelSceneID
 			if (iconImage) then
 				SetPortraitTextureFromCreatureDisplayID(button.bgImage, displayInfo)
+			end
+			if button.DefeatedOverlay then
+				local complete = C_EncounterJournal.IsEncounterComplete(encounterID);
+				button.DefeatedOpacity:SetShown(complete);
+				button.DefeatedOverlay:SetShown(complete);
+				button.bgImage:SetDesaturation(complete and 0.7 or 0);
 			end
 		end
 	end
@@ -760,17 +764,18 @@ function addon:MapAddNPCButton()
 			if (info_x == nil) then info_x = -18; end
 			if (info_y == nil) then info_y = -18; end
 
-			if (WoWRetail and info_id < 10000 and profile.options.frames.showBossPotrait) then
+			if ((WoWRetail or WoWClassic) and info_id < 10000 and profile.options.frames.showBossPotrait) then
 				bossbutton = _G["AtlasMapBossButton"..bossindex]
+				local template = WoWRetail and "AtlasFrameBossButtonTemplate" or "AtlasFrameBossButtonTemplateClassic"
 				if (not bossbutton) then
-					bossbutton = CreateFrame("Button", "AtlasMapBossButton"..bossindex, AtlasFrame, "AtlasFrameBossButtonTemplate")
+					bossbutton = CreateFrame("Button", "AtlasMapBossButton"..bossindex, AtlasFrame, template)
 				end
 				bossButtonCleanUp(bossbutton)
 				bossButtonUpdate(bossbutton, info_id, base.JournalInstanceID, true)
 
 				bossbuttonS = _G["AtlasMapBossButtonS"..bossindexS]
 				if (not bossbuttonS) then
-					bossbuttonS = CreateFrame("Button", "AtlasMapBossButtonS"..bossindexS, AtlasFrameSmall, "AtlasFrameBossButtonTemplate")
+					bossbuttonS = CreateFrame("Button", "AtlasMapBossButtonS"..bossindexS, AtlasFrameSmall, template)
 				end
 				bossButtonCleanUp(bossbuttonS)
 				bossButtonUpdate(bossbuttonS, info_id, base.JournalInstanceID, true)
@@ -1052,7 +1057,7 @@ function Atlas_MapRefresh(mapID)
 	AtlasText_LevelRange_Text:SetText(tLR)
 
 	-- Map's Recommended Level Range
-	if (WoWRetail) then
+	if (WoWRetail or WoWClassic) then
 		local tRLR = ""
 		if (minRecLevel or minRecLevelH or minRecLevelM) then
 			local tmp_RLR = L["ATLAS_STRING_RECLEVELRANGE"]..L["Colon"]
@@ -1746,6 +1751,9 @@ function addon:OnEnable()
 		registerModule(k)
 	end
 
+	-- Register for events
+	self:RegisterEvent("BOSS_KILL");
+
 	AtlasFrame:SetPortraitToAsset("Interface\\WorldMap\\WorldMap-Icon");
 	AtlasFrame:SetTitle(ATLAS_TITLE_VERSION);
 	AtlasFrameSmall:SetPortraitToAsset("Interface\\WorldMap\\WorldMap-Icon");
@@ -1777,4 +1785,33 @@ function addon:Refresh()
 	else
 		addon.WorldMap.Button:Hide()
 	end
+end
+
+function addon:BOSS_KILL(_, encounterID)
+	local zoneID = ATLAS_DROPDOWNS[profile.options.dropdowns.module][profile.options.dropdowns.zone]
+	local t = AtlasMaps_NPC_DB[zoneID]
+	local i = 1
+	if (t) then
+		while (t[i]) do
+			local button = _G["AtlasMapBossButton"..i]
+			if button then
+				local complete = C_EncounterJournal.IsEncounterComplete(button.encounterID);
+				button.DefeatedOpacity:SetShown(complete);
+				button.DefeatedOverlay:SetShown(complete);
+				button.bgImage:SetDesaturation(complete and 0.7 or 0);
+			end
+
+			button = _G["AtlasMapBossButtonS"..i]
+			if button then
+				local complete = C_EncounterJournal.IsEncounterComplete(button.encounterID);
+				button.DefeatedOpacity:SetShown(complete);
+				button.DefeatedOverlay:SetShown(complete);
+				button.bgImage:SetDesaturation(complete and 0.7 or 0);
+			end
+
+			i = i + 1
+		end
+	end
+
+	-- TODO: replace boss image in list with an X when defeated
 end

@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local L=addonTable.locale
 local Fun=addonTable.Fun
 local Create=addonTable.Create
@@ -79,18 +78,18 @@ function BusinessInfo.SkillCD(StatsInfo)
 	-- {13399,133651,11020},--培植种子
 	-- {21935,135863,17716},--雪王9000型
 	-- {26265,134249,21540},--制造艾露恩之石
-	if tocversion<20000 then
+	if PIG_MaxTocversion(20000) then
 		table.insert(Skill_list[2].IsCD,19566)
 		table.insert(Skill_list[3].IsCD,{11480,11479,17187,17559,17560,17561,17562,17563,17564,17565,17566,25146})
 		table.insert(Skill_list[5].IsCD,18560)
-	elseif tocversion<30000 then
+	elseif PIG_MaxTocversion(30000) then
 		table.insert(Skill_list[2].IsCD,19566)
 		table.insert(Skill_list[3].IsCD,{32766,32765,29688,28566,28567,28568,28569,28580,28581,28582,28583,28584,28585})
 		table.insert(Skill_list[5].IsCD,26751)
 		table.insert(Skill_list[5].IsCD,31373)
 		table.insert(Skill_list[5].IsCD,36686)
 		table.insert(Skill_list[10].IsCD,47280)
-	elseif tocversion<40000 then
+	elseif PIG_MaxTocversion(40000) then
 		table.insert(Skill_list[2].IsCD,19566)
 		table.insert(Skill_list[3].IsCD,60893)
 		table.insert(Skill_list[3].IsCD,{66663,66662,66658,66664,53774,53775,53776,53781,53777,53782,53773,53771,53779,53780,53783,53784})
@@ -204,7 +203,7 @@ function BusinessInfo.SkillCD(StatsInfo)
 	end
 	local function GetPlayerSkillInfo()
 		table.clear(Skill_Learned)
-		if tocversion<40000 then
+		if PIG_MaxTocversion(40000) then
 			for skillIndex = 1, GetNumSkillLines() do
 				local skillName, isHeader, isExpanded, skillRank, numTempPoints, skillModifier,skillMaxRank, isAbandonable= GetSkillLineInfo(skillIndex)
 				if isAbandonable then
@@ -487,7 +486,7 @@ function BusinessInfo.SkillCD(StatsInfo)
 	fujiF:RegisterEvent("SKILL_LINES_CHANGED")
 	fujiF:RegisterEvent("BAG_UPDATE_COOLDOWN")
 	fujiF:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED","player"); 
-	if tocversion<40000 then         
+	if PIG_MaxTocversion() then         
 		fujiF:RegisterEvent("TRADE_SKILL_UPDATE")
 	else
 		fujiF:RegisterEvent("TRADE_SKILL_LIST_UPDATE")

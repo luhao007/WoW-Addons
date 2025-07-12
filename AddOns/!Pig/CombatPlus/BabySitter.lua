@@ -1,6 +1,5 @@
 ﻿local _, addonTable = ...;
 local L=addonTable.locale
-local _, _, _, tocversion = GetBuildInfo()
 --------
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
@@ -19,7 +18,7 @@ local GetContainerItemLink=GetContainerItemLink or C_Container and C_Container.G
 local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 local CombatPlusfun=addonTable.CombatPlusfun
 -----------------------
-if tocversion>19999 then function CombatPlusfun.BabySitter() end return end
+if PIG_MaxTocversion(20000,true) then function CombatPlusfun.BabySitter() end return end
 local CombatPlusF,CombatPlusBut =PIGOptionsList_R(CombatPlusfun.RTabFrame,L["COMBAT_TABNAME4"],90)
 ---
 local function ammotipsFun(ly)
@@ -207,10 +206,10 @@ local function DangerWarningFun()
 		DangerWarningUI:RegisterEvent("VIGNETTE_MINIMAP_UPDATED")
 		DangerWarningUI:RegisterEvent("VIGNETTES_UPDATED")
 	end
-	if tocversion > 40000 then
-	    SetCVar("nameplateMaxDistance", "100")
+	if PIG_MaxTocversion() then
+		SetCVar("nameplateMaxDistance", "41")
 	else
-	    SetCVar("nameplateMaxDistance", "41")
+	    SetCVar("nameplateMaxDistance", "100")
 	end
 	-- DangerWarningUI:UnregisterEvent("ZONE_CHANGED")
 	-- DangerWarningUI:UnregisterEvent("ZONE_CHANGED_NEW_AREA")
@@ -265,7 +264,7 @@ CombatPlusF.DangerWarning:Disable();
 
 --宠物喂食
 local function PetHappinessFun()
-	if tocversion>29999 then return end
+	if PIG_MaxTocversion(30000,true) then return end
 	local _, classId = UnitClassBase("player");
 	if classId~=3 then return end
 	local function ADD_PetButFun()
@@ -680,7 +679,7 @@ local function PetHappinessFun()
 				[12218] = 3,
 			},
 		};
-		if tocversion<20000 then
+		if PIG_MaxTocversion(20000) then
 			local Bread_60 = {[1113] = 1,[1114] = 1,[1487] = 1,[5349] = 1,[8075] = 1,[22895] = 1}
 			for k,v in pairs(Bread_60) do
 				FoodList[5][k]=v

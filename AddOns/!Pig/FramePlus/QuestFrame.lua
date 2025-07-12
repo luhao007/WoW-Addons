@@ -2,13 +2,12 @@ local _, addonTable = ...;
 local FramePlusfun=addonTable.FramePlusfun
 --任务界面扩展--------------------
 function FramePlusfun.Quest()
-	local _, _, _, tocversion = GetBuildInfo()
 	local Create=addonTable.Create
 	local PIGButton=Create.PIGButton
 	if not PIGA["FramePlus"]["Quest"] then return end
 	if NDui then return end
 	local maxWWW = 250
-	if tocversion<50000 then
+	if PIG_MaxTocversion() then
 		local function gengxinLVQR()--显示任务等级
 			local numEntries, numQuests = GetNumQuestLogEntries();
 			if (numEntries == 0) then return end
@@ -16,15 +15,20 @@ function FramePlusfun.Quest()
 				local questIndex = i + FauxScrollFrame_GetOffset(QuestLogListScrollFrame);		
 				if (questIndex <= numEntries) then
 					local title, level, questTag, isHeader = GetQuestLogTitle(questIndex)
-					if not isHeader then
-						QuestLogDummyText:SetText(" ["..level.."]"..title)
-						if tocversion<30000 then
+					if not isHeader then	
+						if PIG_MaxTocversion(30000) then
+							QuestLogDummyText:SetText(" ["..level.."]"..title)
 							local questLogTitle = _G["QuestLogTitle"..i.."NormalText"]
 							local questCheck = _G["QuestLogTitle"..i.."Check"]
 							questLogTitle:SetText(" ["..level.."]"..title)
 							questCheck:SetPoint("LEFT", questLogTitle, "LEFT", QuestLogDummyText:GetWidth()+2, 0);
-						elseif tocversion<50000 then
+						elseif PIG_MaxTocversion() then
 							local questLogbut = _G["QuestLogListScrollFrameButton"..i]
+							if not QuestLogDummyText then
+								QuestLogDummyText = questLogbut:CreateFontString();
+								QuestLogDummyText:SetFontObject(GameFontNormal);
+							end
+							QuestLogDummyText:SetText(" ["..level.."]"..title)
 							questLogbut.normalText:SetText(" ["..level.."]"..title)
 							local PIG_tempWidth = 0
 							PIG_tempWidth = 275 - 15 - questLogbut.tag:GetWidth();
@@ -47,7 +51,7 @@ function FramePlusfun.Quest()
 		hooksecurefunc("QuestLog_Update", function()
 			gengxinLVQR()
 		end)
-		if tocversion<30000 then
+		if PIG_MaxTocversion(30000) then
 			if QUESTS_DISPLAYED==6 then 
 				local xssdadas = 714
 				UIPanelWindows["QuestLogFrame"].width = xssdadas

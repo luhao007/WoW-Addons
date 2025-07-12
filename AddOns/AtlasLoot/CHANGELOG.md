@@ -1,5 +1,17 @@
 ﻿# Changelog
 
+## 9.8.1 - July 8, 2025
+### Added
+- Added Chrono Corsair to Collections
+### Fixed
+- Fixed error on bonus rolls
+- Updated Timely Buzzbee acquisition method in Collections
+
+## 9.8.0 - July 8, 2025
+### Added
+- Added WoD Timewalking rewards, including the brand-new cosmetic items
+- Added artifact relic item overlay on Legion artifact relics
+
 ## 9.7.0 - July 1, 2025
 ### Added
 - Added Legacy of Scholomance instance to the Dragonflight module

@@ -429,6 +429,68 @@ data["TIMEWALKINGEVENT"]   = {
 				{ 204, "244162:12264",                [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Bondo's Spare Mechano-Clamps
 			},
 		},
+		{ -- Warlords of Draenor
+			name = EXPANSION_NAME5,
+			[NORMAL_DIFF] = {
+				{ 1,   234716,                        "mount",                                 [PRICE_EXTRA_ITTYPE] = "timewarped:5000" }, -- Nightfall Skyreaver's Reins
+				{ 2,   167894,                        "mount",                                 [PRICE_EXTRA_ITTYPE] = "timewarped:5000" }, -- Beastlord's Irontusk
+				{ 3,   167895,                        "mount",                                 [PRICE_EXTRA_ITTYPE] = "timewarped:5000" }, -- Beastlord's Warwolf
+				{ 4,   168014,                        [PRICE_EXTRA_ITTYPE] = "timewarped:750" },                               -- Banner of the Burning Blade
+				{ 5,   168012,                        [PRICE_EXTRA_ITTYPE] = "timewarped:500" },                               -- Apexis Focusing Shard
+				{ 6,   234906,                        [PRICE_EXTRA_ITTYPE] = "timewarped:500" },                               -- Auchenai Tabard
+				{ 7,   234907,                        [PRICE_EXTRA_ITTYPE] = "timewarped:500" },                               -- Tattered Iron Horde Tabard
+				{ 9,   167924,                        [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Commendation of the Arakkoa Outcasts
+				{ 10,  167925,                        [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Commendation of the Order of the Awakened
+				{ 11,  167926,                        [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Commendation of the Steamwheedle Preservation Society
+				{ 12,  167927,                        [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Commendation of the Saberstalkers
+				{ 13,  [ATLASLOOT_IT_HORDE] = 167928, [ATLASLOOT_IT_ALLIANCE] = 167929,        [PRICE_EXTRA_ITTYPE] = "timewarped:50" }, -- Commendation of the Frostwolf Orcs / Council of Exarchs
+				{ 14,  [ATLASLOOT_IT_HORDE] = 167930, [ATLASLOOT_IT_ALLIANCE] = 167932,        [PRICE_EXTRA_ITTYPE] = "timewarped:50" }, -- Commendation of the Laughing Skull Orcs / Sha'tari Defense
+				{ 15,  [ATLASLOOT_IT_HORDE] = 168017, [ATLASLOOT_IT_ALLIANCE] = 168018,        [PRICE_EXTRA_ITTYPE] = "timewarped:50" }, -- Commendation of the Vol'jin's Headhunters / Hand of the Prophet
+				{ 16,  234901,                        [PRICE_EXTRA_ITTYPE] = "timewarped:4000" },                              -- Ensemble: Karabor Priest's Vestments
+				{ 17,  234902,                        [PRICE_EXTRA_ITTYPE] = "timewarped:4000" },                              -- Ensemble: Shattrath Artificer's Regalia
+				{ 18,  234903,                        [PRICE_EXTRA_ITTYPE] = "timewarped:4000" },                              -- Ensemble: Gorgrond Cragstalker's Hunting Gear
+				{ 19,  234904,                        [PRICE_EXTRA_ITTYPE] = "timewarped:4000" },                              -- Ensemble: Shadowmoon Anchorite's Guardplate
+				{ 20,  244726,                        [PRICE_EXTRA_ITTYPE] = "timewarped:3000" },                              -- Time-Lost Sight of the Shadowmoon
+				{ 21,  244785,                        [PRICE_EXTRA_ITTYPE] = "timewarped:1800" },                              -- Time-Lost Wolfbite, Legacy of Garad
+				{ 22,  244730,                        [PRICE_EXTRA_ITTYPE] = "timewarped:2000" },                              -- Razorwall of the Foundry
+				{ 23,  244725,                        [PRICE_EXTRA_ITTYPE] = "timewarped:2500" },                              -- Frostwall Defender's Axe
+				{ 24,  244734,                        [PRICE_EXTRA_ITTYPE] = "timewarped:1200" },                              -- Anchorite's Crystal Torch
+				{ 25,  244732,                        [PRICE_EXTRA_ITTYPE] = "timewarped:1000" },                              -- Lunarfall Scout's Shortsword
+				{ 26,  244731,                        [PRICE_EXTRA_ITTYPE] = "timewarped:1200" },                              -- Rangari Climbing Hooks
+				{ 27,  244721,                        [PRICE_EXTRA_ITTYPE] = "timewarped:1000" },                              -- Crystalsmith's Energy Focus
+				{ 28,  244727,                        [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Warsong Raider's Longbow
+				{ 29,  244729,                        [PRICE_EXTRA_ITTYPE] = "timewarped:1200" },                              -- Mok'gol Howling Shield
+				{ 30,  244724,                        [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Vindicator's Taladite Warmaul
+				{ 101, 244723,                        [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Blade of the Pale Flame
+				{ 102, 244787,                        [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Elodor Attuning Beacon
+				{ 103, 244786,                        [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Grom'gar Hunting Spear
+				{ 104, 244776,                        [PRICE_EXTRA_ITTYPE] = "timewarped:1000" },                              -- Truesteel Gavel
+				{ 105, 244733,                        [PRICE_EXTRA_ITTYPE] = "timewarped:1000" },                              -- Aruuna Miner's Pick
+				{ 106, 244722,                        [PRICE_EXTRA_ITTYPE] = "timewarped:1000" },                              -- Bloodied Ashran Battletome
+				{ 107, 244728,                        [PRICE_EXTRA_ITTYPE] = "timewarped:1200" },                              -- Lunarfall Rifle
+				{ 108, 244784,                        [PRICE_EXTRA_ITTYPE] = "timewarped:1000" },                              -- Beastmaster's Lost Hatchet
+				{ 110, "116765:10845",                [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Positive Pantaloons
+				{ 111, "116834:10845",                [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Whitesea's Waistwrap
+				{ 112, "119226:10845",                [PRICE_EXTRA_ITTYPE] = "timewarped:100" },                               -- Blammo's Blammer
+				{ 113, "119370:10845",                [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Rattlekilt
+				{ 114, "119372:10845",                [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Ironstudded Scale Girdle
+				{ 115, "119382:10845",                [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Hershak's Heavy Legguards
+				{ 116, "119384:10845",                [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Krud's Girthy Girdle
+				{ 117, "119396:10845",                [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Shadowspeaker's Shard
+				{ 118, "127296:10845",                [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Twisted Taboo Handwraps
+				{ 119, "127304:10845",                [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Cave Keeper Wraps
+				{ 120, "127311:10845",                [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Serpentine Gloves
+				{ 121, "127319:10845",                [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Krag'goth's Iron Gauntlets
+				{ 122, "127320:10845",                [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Mo'gruth's Discarded Parade Helm
+				{ 123, "127339:10845",                [PRICE_EXTRA_ITTYPE] = "timewarped:100" },                               -- Forgotten Champion's Blade
+				{ 124, "113287:10845",                [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Shard of Scorn
+				{ 125, "116110:10845",                [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Zorkra's Hood
+				{ 126, "109057:10845",                [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Frogskin Diving Cap
+				{ 127, "109074:10845",                [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Fine Void-Chain Cinch
+				{ 128, "112096:10845",                [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Dented Ogre Skullcap
+				{ 129, "113557:10845",                [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Dragonrider's Tinkered Leggings
+			},
+		},
 		{ -- Mists of Pandaria
 			name = EXPANSION_NAME4,
 			[NORMAL_DIFF] = {
@@ -1090,7 +1152,7 @@ data["MOUNTS"]             = {
 				{ 130, 205208, "mount", [PRICE_EXTRA_ITTYPE] = "timewarped:5000" },      -- Sandy Shalewing
 				{ 201, 234730, "mount", [PRICE_EXTRA_ITTYPE] = "timewarped:5000" },      -- Broodling of Sinestra
 				{ 202, 228760, "mount", [ACH_EXTRA_ITTYPE] = 40976 },                    -- Reins of the Coldflame Tempest
-				{ 203, 232624, "mount", [ACH_EXTRA_ITTYPE] = 41056 },                    -- Timely Buzzbee
+				{ 203, 232624, "mount", [PRICE_EXTRA_ITTYPE] = "timewarped:5000" },      -- Timely Buzzbee
 				{ 204, 235650, "mount", [PRICE_EXTRA_ITTYPE] = "tender:700" },           -- Pearlescent Butterfly
 				{ 205, 235287, "mount" },                                                -- Sha-Warped Riding Tiger
 				{ 206, 223158, "mount", [ACH_EXTRA_ITTYPE] = 40097 },                    -- Raging Cinderbee
@@ -1170,6 +1232,7 @@ data["MOUNTS"]             = {
 				{ 420, 245936, "mount", [PRICE_EXTRA_ITTYPE] = "tender:325" },           -- Unarmored Deathtusk Felboar
 				{ 421, 243596, "mount", [PRICE_EXTRA_ITTYPE] = "tender:575" },           -- Wailing Banshee's Charger
 				{ 422, 243594, "mount" },                                                -- Forsaken's Grotesque Charger
+				{ 423, 238739, "mount", [ACH_EXTRA_ITTYPE] = 41779 },                    -- Chrono Corsair
 				-- { 329, 223570, "mount" }, -- Reins of the Ebonhide Ramolith (not yet available)
 				-- { 321, 235554, "mount" }, -- Midnight Darkmoon Charger (not yet available)
 				-- { 323, 235659, "mount" }, -- Midnight Butterfly (not yet available)

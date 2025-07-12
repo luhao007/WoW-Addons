@@ -165,7 +165,7 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 	end);
 	if ContainerFrameCombinedBags:IsShown() then CloseAllBags() end
 	if GetCVar("combinedBags")=="0" then SetCVar("combinedBags","1") end
-	ContainerFrameCombinedBags.meihang=PIGA["BagBank"]["BAGmeihangshu_retail"]
+	ContainerFrameCombinedBags.meihang=PIGA["BagBank"]["BAGmeihangshu"]+BagBankfun.BAGmeihangshu
 	ContainerFrameCombinedBags.suofang=PIGA["BagBank"]["BAGsuofangBili"]
 	hooksecurefunc(ContainerFrameCombinedBags, "UpdateItems", function()	
 		for i, itemButton in ContainerFrameCombinedBags:EnumerateValidItems() do

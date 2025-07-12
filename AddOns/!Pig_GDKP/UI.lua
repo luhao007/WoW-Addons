@@ -2,7 +2,6 @@ local addonName, addonTable = ...;
 local GDKPInfo=addonTable.GDKPInfo
 function GDKPInfo.ADD_UI()
 	if not PIGA["GDKP"]["Open"] then return end
-	local _, _, _, tocversion = GetBuildInfo()
 	local Create, Data, Fun, L, Default, Default_Per= unpack(PIG)
 	-----
 	local PIGFrame=Create.PIGFrame

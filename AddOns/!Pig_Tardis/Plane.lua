@@ -2,7 +2,6 @@ local addonName, addonTable = ...;
 local TardisInfo=addonTable.TardisInfo
 function TardisInfo.Plane(Activate)
 	if not PIGA["Tardis"]["Plane"]["Open"] then return end
-	local _, _, _, tocversion = GetBuildInfo()
 	local Create, Data, Fun, L= unpack(PIG)
 	local sub = _G.string.sub 
 	---------------------------
@@ -34,7 +33,7 @@ function TardisInfo.Plane(Activate)
 	fujiF.ZJweimianID:SetTextColor(1, 1, 1, 1);
 	-----
 	fujiF.JieshouInfoList={};
-	fujiF.GetBut=TardisInfo.GetInfoBut(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",180,-30},300,2)
+	fujiF.GetBut=TardisInfo.GetInfoBut(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",180,-30},3,2)
 	fujiF.GetBut.ButName=L["TARDIS_PLANE"]
 	fujiF.GetBut:HookScript("OnClick", function (self)
 		if self.yanchiNerMsg then
@@ -224,7 +223,7 @@ function TardisInfo.Plane(Activate)
 	    return zuixiaozhiweimian[2]
 	end
 	local zhuchengmapid = {}
-	if tocversion<40000 then
+	if PIG_MaxTocversion() then
 		zhuchengmapid = {
 			1454,--奥格
 			1456,--雷霆崖
@@ -459,7 +458,7 @@ function TardisInfo.Plane(Activate)
 				return false
 			end
 		end
-		if tocversion<40000 then
+		if PIG_MaxTocversion() then
 			for i=1, GetMaxBattlefieldID() do
 				local status, mapName= GetBattlefieldStatus(i);
 				if ( status and status ~= "none" ) then
@@ -485,18 +484,14 @@ function TardisInfo.Plane(Activate)
 			PIGSendAddonMessage(InvF.Biaotou,SMessage,"WHISPER",waname)
 		end
 	end
-	if tocversion<40000 then
-		fujiF:RegisterEvent("CHAT_MSG_GUILD");--收到团队领导信息
-		fujiF:RegisterEvent("CHAT_MSG_YELL");--收到组队信息
-		fujiF:RegisterEvent("CHAT_MSG_PARTY");--收到组队信息
-		fujiF:RegisterEvent("CHAT_MSG_PARTY_LEADER");--当组长发送或接收消息时触发。
-		fujiF:RegisterEvent("CHAT_MSG_RAID");--收到团队信息
-		fujiF:RegisterEvent("CHAT_MSG_RAID_LEADER");--收到团队领导信息
+	if PIG_MaxTocversion() then
+		fujiF:RegisterEvent("CHAT_MSG_CHANNEL");
 	end
 	fujiF:RegisterEvent("CHAT_MSG_ADDON");
 	fujiF:RegisterEvent("PLAYER_TARGET_CHANGED"); 
 	fujiF:RegisterEvent("PLAYER_ENTERING_WORLD");   
 	fujiF:SetScript("OnEvent",function(self, event, arg1, arg2, arg3, arg4, arg5,_,_,_,arg9)
+		--print(event, arg1, arg2, arg3, arg4, arg5,_,_,_,arg9)
 		if event=="PLAYER_ENTERING_WORLD" then
 			PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm]=PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm] or {}
 			GetWeimianID(self)

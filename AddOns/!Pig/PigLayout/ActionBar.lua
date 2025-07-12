@@ -1,5 +1,4 @@
 local _, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 ---
 local PigLayoutFun=addonTable.PigLayoutFun
 function PigLayoutFun.Options_ActionBar(openxx)
@@ -195,7 +194,7 @@ local function Update_1_3(WidthX)
 	MainMenuBarLeftEndCap:ClearAllPoints();
 	MainMenuBarLeftEndCap:SetPoint("BOTTOMRIGHT", MainMenuBarArtFrame, "BOTTOMLEFT", 34, 0);
 	MainMenuBarRightEndCap:ClearAllPoints();
-	MainMenuBarRightEndCap:SetPoint("BOTTOMLEFT", MainMenuBarArtFrame, "BOTTOMRIGHT", -22, 0);
+	MainMenuBarRightEndCap:SetPoint("BOTTOMLEFT", MainMenuBarArtFrame, "BOTTOMRIGHT", -34, 0);
 end
 local function Update_Vertical(mode,WidthX)
 	VerticalMultiBarsContainer:UnregisterEvent("PLAYER_REGEN_ENABLED");
@@ -432,7 +431,10 @@ end)
 --=====
 local WWW=26
 local Old_MicroBut = PIGCopyTable(MICRO_BUTTONS)
-local Diy_MicroBut = {"EJMicroButton","MacroMicroButton","AddonsMicroButton","MainMenuBarBackpackButton"}
+local Diy_MicroBut = {"MacroMicroButton","AddonsMicroButton","MainMenuBarBackpackButton"}
+if PIG_MaxTocversion(40000) then
+	table.insert(Diy_MicroBut,1,"EJMicroButton")
+end
 --重建菜单列表
 local GameMenu = {}
 local PIG_MICRO_BUTTONS = {}
@@ -465,6 +467,7 @@ local BlizzardIcon = {
 	["PIG_LFGMicroButton"]={Normal="hud-microbutton-LFG-Up",Pushed="hud-microbutton-LFG-Down",Disabled="hud-microbutton-LFG-Disabled"},
 	["PIG_MainMenuMicroButton"]={Normal="hud-microbutton-MainMenu-Up",Pushed="hud-microbutton-MainMenu-Down",Disabled="hud-microbutton-MainMenu-Disabled"},
 	["PIG_EJMicroButton"]={Normal="hud-microbutton-EJ-Up",Pushed="hud-microbutton-EJ-Down",Disabled="hud-microbutton-EJ-Disabled"},
+	["PIG_StoreMicroButton"]={Normal="hud-microbutton-BStore-Up",Pushed="hud-microbutton-BStore-Down",Disabled="hud-microbutton-BStore-Disabled"},
 	["PIG_CharacterMicroButton"]={Normal="hud-microbutton-Character-Up",Pushed="hud-microbutton-Character-Down",Disabled="",icon={"MicroButtonPortrait",{WWW*0.17,-WWW*0.16,-WWW*0.162,WWW*0.16},nil,"groupfinder-waitdot"}},
 	["PIG_PVPMicroButton"]={Normal="hud-microbutton-Character-Up",Pushed="hud-microbutton-Character-Down",Disabled="",icon={"PVPMicroButtonTexture",{WWW*0.18,-WWW*0.23,-WWW*0.19,WWW*0.17},"communities-create-button-wow-alliance"}},
 	["PIG_MacroMicroButton"]={Normal="hud-microbutton-Character-Up",Pushed="hud-microbutton-Character-Down",Disabled="",icon={"diy",{WWW*0.18,-WWW*0.26,-WWW*0.16,WWW*0.18},136377}},
@@ -654,7 +657,8 @@ local function CZPoints(fujik,uix)
 end
 local function SetEnableDisable(bizbut)
 	local playerLevel = UnitLevel("player");
-	if ( playerLevel < bizbut.minLevel ) then
+	bizbut.minLevel=bizbut.minLevel or 10
+	if PIG_MaxTocversion(50000) and playerLevel < bizbut.minLevel or C_SpecializationInfo and C_SpecializationInfo.CanPlayerUseTalentSpecUI and not C_SpecializationInfo.CanPlayerUseTalentSpecUI() then
 		bizbut:Disable();
 		if bizbut and bizbut.icon then
 			bizbut.icon:SetDesaturated(true)
@@ -664,6 +668,15 @@ local function SetEnableDisable(bizbut)
 		if bizbut and bizbut.icon then
 			bizbut.icon:SetDesaturated(false)
 		end
+	end
+end
+local function Update_TalentMicroButtonAlert()
+	if not TalentMicroButtonAlert then return end
+	TalentMicroButtonAlert:ClearAllPoints()
+	if PIGA["PigLayout"]["MicroMenu"]["AnchorPoint"]=="TOP" then
+		TalentMicroButtonAlert:SetPoint('TOP', TalentMicroButton, 'BOTTOM', 0, 0)
+	else
+		TalentMicroButtonAlert:SetPoint('BOTTOM', TalentMicroButton, 'TOP', 0, 10)
 	end
 end
 local UpdateMicroButFun = {
@@ -701,6 +714,10 @@ local UpdateMicroButFun = {
 			MainMenuMicroButton:SetButtonState("NORMAL");
 			MainMenuMicroButton_SetNormal();
 		end
+		MainMenuMicroButton:ClearAllPoints()
+	    MainMenuMicroButton:SetPoint('TOPLEFT', PIG_MainMenuMicroButton, 'TOPLEFT', 0, 0)
+	    MainMenuMicroButton:SetPoint('BOTTOMRIGHT', PIG_MainMenuMicroButton, 'BOTTOMRIGHT', 0, 0)
+	    MainMenuMicroButton:SetHitRectInsets(0,0,0,0);
 	end,
 	["PIG_PVPMicroButton"]=function(self)
 		local bizbut = _G[GameMenu["PIG_PVPMicroButton"]]
@@ -829,7 +846,7 @@ function fujiF.add_MicroMenu()
 		MainMenuBarBackpackButton:ClearAllPoints();
 		MainMenuBarBackpackButton:SetPoint("BOTTOMRIGHT",UIParent,"BOTTOMRIGHT",-1,1);
 	end
-	if tocversion<30000 then
+	if PIG_MaxTocversion(30000) then
 		MinimapToggleButton:SetSize(28,28);
 		MinimapToggleButton:SetPoint("CENTER",MinimapCluster,"TOPRIGHT",-16,-16);
 		MinimapToggleButton:SetNormalTexture("orderhall-commandbar-mapbutton-up")
@@ -1019,6 +1036,7 @@ function fujiF.add_MicroMenu()
 				MicroBut:SetScale(PIGA["PigLayout"]["MicroMenu"]["Scale"])
 			end
 		end
+		Update_TalentMicroButtonAlert()
 	end
 	fujiF.UpdateUIScaleXY()
 end

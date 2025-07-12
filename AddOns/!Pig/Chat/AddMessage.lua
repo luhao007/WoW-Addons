@@ -4,7 +4,6 @@ local find = _G.string.find
 local gsub = _G.string.gsub
 local match = _G.string.match
 local gmatch=_G.string.gmatch
-local _, _, _, tocversion = GetBuildInfo()
 local Data=addonTable.Data
 local Fun=addonTable.Fun
 --------------
@@ -172,7 +171,7 @@ local function PindaoName(text)
 				local text=text:gsub("|h%[小队%]|h", "|h%["..JJM[3].."%]|h")--小队
 				--xuhao
 				local text=text:gsub("|h%[(%d+)%. "..TRADE.." %- 城市%]|h", "|h%[%1%.交%]|h")
-				if tocversion>99999 then
+				if PIG_MaxTocversion(100000,true) then
 					local text=text:gsub("|h%[(%d+)%. "..TRADE.." %(服务%) %- 城市%]|h", "|h%[%1%.服%]|h")
 					local text=text:gsub("|h%[(%d+)%. 新手聊天%]|h", "|h%[%1%.新%]|h")
 					return text
@@ -185,7 +184,7 @@ local function PindaoName(text)
 				local text=text:gsub("|h%[小隊%]|h", "|h%["..JJM[3].."%]|h")--小队
 				--xuhao
 				local text=text:gsub("|h%[(%d+)%. "..TRADE.." %- 城鎮%]|h", "|h%[%1%.交%]|h")
-				if tocversion>99999 then
+				if PIG_MaxTocversion(100000,true) then
 					local text=text:gsub("|h%[(%d+)%. "..TRADE.." %(服務%) %- 城鎮%]|h", "|h%[%1%.服%]|h")
 					local text=text:gsub("|h%[(%d+)%. 新手聊天%]|h", "|h%[%1%.新%]|h")
 					return text
@@ -246,7 +245,7 @@ function QuickChatfun.PIGMessage()
 		if ( strsub(text, 1, 11) ~= "garrmission" ) then return end
 		local nametext = strsub(text, 13);
 		local gnid,name_server = strsplit(":", nametext);--lineID, chatType, chatTarget
-		if tocversion<100000 then
+		if PIG_MaxTocversion() then
 			local name,server = strsplit("-",name_server)
 			if PIG_OptionsUI.Realm==server then
 				name_server = name

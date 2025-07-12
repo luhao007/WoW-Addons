@@ -1,6 +1,6 @@
 ## Interface: 110107
 ## Author: nanderson11, Lag, Proteyer, Arith
-## Version: v9.7.0
+## Version: v9.8.1
 
 ## Title: AtlasLoot |cFF0099FF[Cataclysm]|r
 ## Notes: AtlasLoot loot tables from Cataclysm

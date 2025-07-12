@@ -2,7 +2,6 @@ local addonName, addonTable = ...;
 local L=addonTable.locale
 local find = _G.string.find
 local ceil = math.ceil
-local _, _, _, tocversion = GetBuildInfo()
 local GetContainerNumSlots = C_Container.GetContainerNumSlots
 local GetContainerItemLink=C_Container.GetContainerItemLink
 --
@@ -285,12 +284,9 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 	-----
 	local uidata = {
 		["ButW"]=BagdangeW,
-		["meihang"]=PIGA["BagBank"]["BAGmeihangshu"],
+		["meihang"]=PIGA["BagBank"]["BAGmeihangshu"]+BagBankfun.BAGmeihangshu,
 		["suofang"]=PIGA["BagBank"]["BAGsuofangBili"],
 	}
-	if tocversion>19999 then
-		uidata.meihang=PIGA["BagBank"]["BAGmeihangshu_WLK"]
-	end
 	Data.UILayout[BagBankfun.BagUIName]={"CENTER","CENTER",420,-10}
 	local BAGheji=BagBankFrame(UIParent,nil,BagBankfun.BagUIName,uidata)
 	Create.PIG_SetPoint(BagBankfun.BagUIName)
@@ -389,7 +385,7 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 		end
 	end);
 	---=====================
-	if tocversion>30000 then
+	if PIG_MaxTocversion(30000,true) then
 		hooksecurefunc("ManageBackpackTokenFrame", function(backpack)
 			BackpackTokenFrame:ClearAllPoints();
 			BackpackTokenFrame:SetPoint("TOPRIGHT", _G[BagBankfun.BagUIName].moneyframe, "TOPLEFT", -4, 5);

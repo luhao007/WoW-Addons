@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local L=addonTable.locale
 --------
 local Create = addonTable.Create
@@ -122,12 +121,12 @@ QuickButUI.ButList[3]=function()
 			GameTooltip:SetPoint("BOTTOMLEFT",AutoTrinketList,"BOTTOMRIGHT",0,0);
 			GameTooltip:SetBagItem(self.bagID, self.slot)
 			GameTooltip:Show();
-			if tocversion<100000 then
+			if GameTooltip_HideShoppingTooltips then
+				GameTooltip_HideShoppingTooltips(GameTooltip);
+			else
 				local tooltip, anchorFrame, shoppingTooltip1, shoppingTooltip2 = GameTooltip_InitializeComparisonTooltips(GameTooltip);
 				shoppingTooltip1:Hide()
 				shoppingTooltip2:Hide()
-			else
-				GameTooltip_HideShoppingTooltips(GameTooltip);
 			end
 		end)
 		hangBut:SetScript("OnLeave", function()

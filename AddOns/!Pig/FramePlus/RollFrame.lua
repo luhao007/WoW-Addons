@@ -1,5 +1,4 @@
 local _, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local L=addonTable.locale
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
@@ -11,7 +10,7 @@ local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInst
 ---------------
 local FramePlusfun=addonTable.FramePlusfun
 function FramePlusfun.Roll()
-	if tocversion>50000 then return end
+	if PIG_MaxTocversion(50000,true) then return end
 	if not PIGA["FramePlus"]["Roll"] then return end
 	if ElvUI or NDui then return end
 	UIParent:UnregisterEvent("START_LOOT_ROLL")

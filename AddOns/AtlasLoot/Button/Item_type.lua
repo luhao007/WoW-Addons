@@ -16,7 +16,6 @@ local split = string.split
 
 -- WoW
 local GetItemInfo, IsEquippableItem = C_Item.GetItemInfo, C_Item.IsEquippableItem
-local IsAzeriteItem = C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID
 
 -- AL
 local GetAlTooltip = AtlasLoot.Tooltip.GetTooltip
@@ -74,7 +73,7 @@ AtlasLoot:AddInitFunc(OnInit)
 function Item.OnSet(button, second)
 	if not button then return end
 	if second and button.__atlaslootinfo.secType then
-		if button.ItemID and IsAzeriteItem(button.ItemID) then
+		if button.ItemID and C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(button.ItemID) then
 			button.__atlaslootinfo.secType = nil
 			button.secButton:Hide()
 		else
@@ -255,6 +254,11 @@ function Item.Refresh(button)
 		ITEM_QUALITY_COLORS[itemQuality].b,
 		1
 	)
+	if IsArtifactRelicItem(button.ItemString or button.ItemID) then
+		button.qualityBorder:SetTexture("Interface\\Artifacts\\RelicIconFrame");
+	else
+		button.qualityBorder:SetTexture("Interface\\Common\\WhiteIconFrame");
+	end
 
 	if C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(button.ItemString or button.ItemID) then
 		button.overlay:SetAtlas("AzeriteIconFrame");

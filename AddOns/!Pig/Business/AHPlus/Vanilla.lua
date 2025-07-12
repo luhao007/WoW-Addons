@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local gsub = _G.string.gsub
 local L=addonTable.locale
 local Create=addonTable.Create

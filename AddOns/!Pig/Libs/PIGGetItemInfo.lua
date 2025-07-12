@@ -3,7 +3,6 @@ local char=string.char
 local sub = _G.string.sub
 local gsub = _G.string.gsub
 local match = _G.string.match
-local _, _, _, tocversion = GetBuildInfo()
 ----
 local Fun=addonTable.Fun
 
@@ -171,7 +170,7 @@ local function jieya_NumberString_2(sss)
 end
 local function GetRuneList(kaishi,jieshu)
     local DataList = {};
-    if tocversion<20000 then
+    if PIG_MaxTocversion(20000) then
         for slot = kaishi,jieshu do
             if C_Engraving and C_Engraving.IsEngravingEnabled() and C_Engraving.IsEquipmentSlotEngravable(slot) then
                 local engravingInfo = C_Engraving.GetRuneForEquipmentSlot(slot);

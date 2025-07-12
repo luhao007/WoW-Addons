@@ -1,5 +1,4 @@
 ﻿local _, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local Create = addonTable.Create
 local PIGFontString=Create.PIGFontString
 ---
@@ -52,7 +51,7 @@ local function Update_MaxMp()
 end
 local function HideHPMPTT()
 	local function shuaxintoumingdu(toumingdu)
-		if tocversion<100000 then
+		if PIG_MaxTocversion() then
 			PlayerFrameHealthBarText:SetAlpha(toumingdu);
 			PlayerFrameManaBarText:SetAlpha(toumingdu);
 			PetFrameHealthBarText:SetAlpha(toumingdu);
@@ -78,7 +77,7 @@ local function HideHPMPTT()
 	PetFrameHealthBar:HookScript("OnLeave", yinHPMP)
 	PetFrameManaBar:HookScript("OnEnter", xianHPMP)
 	PetFrameManaBar:HookScript("OnLeave", yinHPMP)
-	if tocversion<100000 then
+	if PIG_MaxTocversion() then
 		PlayerFrameHealthBar:HookScript("OnEnter",xianHPMP);
 		PlayerFrameManaBar:HookScript("OnEnter", xianHPMP)
 		PlayerFrameHealthBar:HookScript("OnLeave", yinHPMP)
@@ -108,7 +107,7 @@ function UnitFramefun.Zishen()
 								tile = true, tileSize = 0, edgeSize = 10, insets = { left = 1, right = 1, top = 1, bottom = 1 }});
 			PlayerFrame.ziji:SetBackdropBorderColor(1, 1, 1, 0.6);
 			PlayerFrame.ziji:SetWidth(70);
-			if tocversion<100000 then
+			if PIG_MaxTocversion() then
 				PlayerFrame.ziji:SetPoint("TOPLEFT", PlayerFrame, "TOPRIGHT", -4, -20);
 				PlayerFrame.ziji:SetPoint("BOTTOMLEFT", PlayerFrame, "BOTTOMRIGHT", -4, 32);
 			else
@@ -120,7 +119,7 @@ function UnitFramefun.Zishen()
 					local point, relativeTo, relativePoint, xOfs, yOfs = TargetFrame:GetPoint()
 					local xOfs=xOfs or 250
 					local yOfs=yOfs or -4
-					if tocversion<100000 then
+					if PIG_MaxTocversion() then
 						if floor(xOfs+0.5)==250 and floor(yOfs+0.5)==-4 then
 							TargetFrame:ClearAllPoints();
 							TargetFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 350, -4);
@@ -140,7 +139,7 @@ function UnitFramefun.Zishen()
 						Update_TargetFrame()
 					end
 				end); 
-				if tocversion<100000 then
+				if PIG_MaxTocversion() then
 					hooksecurefunc("UIParent_UpdateTopFramePositions", function()
 						Update_TargetFrame()
 					end)

@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local _G = _G
 local CreateFrame = CreateFrame
 local CreateTexture=CreateTexture
@@ -97,7 +96,7 @@ function Create.PIGFrame(Parent,Point,WH,UIName,ESCOFF,Template)
 	end
 	function frameX:PIGClose(Ww,Hh,CloseUI)
 		local WwHH = {22,22}
-		if tocversion>100000 then
+		if PIG_MaxTocversion(100000,true) then
 			WwHH[1]=21;WwHH[2]=21;
 		end
 		local Ww = Ww or WwHH[1]

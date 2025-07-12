@@ -2,7 +2,6 @@ local addonName, addonTable = ...;
 local TardisInfo=addonTable.TardisInfo
 function TardisInfo.Yell(Activate)
 	if not PIGA["Tardis"]["Yell"]["Open"] then return end
-	local _, _, _, tocversion = GetBuildInfo()
 	local Create, Data, Fun, L= unpack(PIG)
 	local PIGFrame=Create.PIGFrame
 	local PIGEnter=Create.PIGEnter
@@ -57,7 +56,7 @@ function TardisInfo.Yell(Activate)
 	---
 	local fubenMoshi ={10,15,20,25,40};
 	local fubenMoshi_peizhi = {}
-	if tocversion<20000 then
+	if PIG_MaxTocversion(20000) then
 		local englishFaction = UnitFactionGroup("player")
 		if englishFaction=="Alliance" then
 			for id=1,#Roles_List do
@@ -401,9 +400,9 @@ function TardisInfo.Yell(Activate)
 	---职责确认
 	fujiF.topF.zhiyeXZ.RolesJC=PIGButton(fujiF.topF.zhiyeXZ,{"LEFT",fujiF.topF.zhiyeXZ.zhuanhuanPR,"RIGHT", 30,0},{100,20},"职责确认")
 	fujiF.topF.zhiyeXZ.RolesJC:SetScript("OnClick", function (self)
-		if tocversion<20000 then
+		if PIG_MaxTocversion(20000) then
 			--LFGListingRolePollButton_OnClick(self, button)
-		elseif tocversion<30000 then
+		elseif PIG_MaxTocversion(30000) then
 			LFGListingRolePollButton_OnClick(self, button)
 		else
 			InitiateRolePoll()

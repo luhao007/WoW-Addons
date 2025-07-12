@@ -1,5 +1,4 @@
 local _, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local L=addonTable.locale
 local Data=addonTable.Data
 local Quality = Data.Quality

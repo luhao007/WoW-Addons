@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local L=addonTable.locale
 -------
 local Create = addonTable.Create
@@ -21,7 +20,7 @@ PIG_SetF.Openshezhi:SetScript("OnClick", function ()
 end)
 -- function PIG_SetF:OnRefresh()
 -- 	--PIG_SetF.EditBoxUI:Show()
--- 	--PIG_SetF.EditBoxUI:SetText("撒发射点发射点")
+-- 	--PIG_SetF.EditBoxUI:SetText("-------------")
 -- end
 if Settings and Settings.RegisterCanvasLayoutCategory then
 	local category, layout = Settings.RegisterCanvasLayoutCategory(PIG_SetF,addonName)
@@ -365,9 +364,19 @@ local function YDButtonP_OnUpdate()
 		end
 	end
 end
+local function ClickShowSet()
+	if PIG_OptionsUI:IsShown() then	
+		PIG_OptionsUI:Hide();
+	else
+		MiniMapBut.Snf:Hide();
+		PIG_OptionsUI:Show();
+	end
+end
 local function addonsClick(button)
 	GameTooltip:Hide()
-	if button=="LeftButton" then
+	if button=="RightButton" or PIGA["Map"]["MiniButShouNa_YN"]==2 and button=="LeftButton" then
+		ClickShowSet()
+	else
 		if IsControlKeyDown() then
 			PIG_BugcollectUI:Show()
 			MiniMapBut.error:Hide();
@@ -376,12 +385,7 @@ local function addonsClick(button)
 		else
 			if PIGA["Map"]["MiniButShouNa_YN"]==1 then
 				if PIG_OptionsUI.IsOpen_NDui() and not PIG_OptionsUI.IsOpen_NDui("Map","DisableMinimap") and RecycleBinToggleButton then
-					if PIG_OptionsUI:IsShown() then	
-						PIG_OptionsUI:Hide();
-					else
-						MiniMapBut.Snf:Hide();
-						PIG_OptionsUI:Show();
-					end
+					ClickShowSet()
 				else
 					MiniMapBut.Snf.tishi:Hide();
 					if MiniMapBut.Snf:IsShown() then	
@@ -401,13 +405,6 @@ local function addonsClick(button)
 					MiniMapBut.Snf:Show();
 				end
 			end
-		end
-	else
-		if PIG_OptionsUI:IsShown() then	
-			PIG_OptionsUI:Hide();
-		else
-			MiniMapBut.Snf:Hide();
-			PIG_OptionsUI:Show();
 		end
 	end
 end
@@ -503,7 +500,7 @@ function MiniMapBut:ButPoint()
 				MiniMapBut.Border:ClearAllPoints();	
 				MiniMapBut.Border:SetPoint("TOPLEFT", -1, 0);
 				MiniMapBut.Border:Show()
-				if tocversion<100000 then
+				if PIG_MaxTocversion() then
 					MiniMapBut.pianyi = 56
 				else
 					MiniMapBut.pianyi = 82

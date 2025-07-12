@@ -1,6 +1,5 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
-local _, _, _, tocversion = GetBuildInfo()
 ---
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
@@ -348,7 +347,7 @@ fujiF.TopF.QuestsEnd.PlayBut:SetScript("OnClick", function()
 	PIG_PlaySoundFile(AudioData.QuestEnd[PIGA["Common"]["QuestsEndAudio"]])
 end)
 ----
-if tocversion>19999 then
+if PIG_MaxTocversion(20000,true) then
 	fujiF.TopF.SetFocus = PIGCheckbutton_R(fujiF.TopF,{"快速设置焦点","按后方设置的快捷键后点击头像快速设置焦点"},true)
 	fujiF.TopF.SetFocus:SetScript("OnClick", function (self)
 		if self:GetChecked() then

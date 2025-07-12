@@ -10,6 +10,29 @@ local L =addonTable.locale
 local Fun = {}
 addonTable.Fun=Fun
 -------------
+function PIG_GetSpellBookType()
+	if Enum.SpellBookSpellBank and Enum.SpellBookSpellBank.Player then
+		return Enum.SpellBookSpellBank.Player
+	else
+		return BOOKTYPE_SPELL
+	end
+end
+function PIG_MaxTocversion(ver,max)
+	local maxver = ver or 60000
+	if max then
+		if tocversion>maxver then
+			return true
+		else
+			return false
+		end
+	else
+		if tocversion<maxver then
+			return true
+		else
+			return false
+		end
+	end
+end
 local voiceID = C_TTSSettings.GetVoiceOptionID(0)
 function PIG_PlaySoundFile(url)
 	if url[2]=="AI" then
@@ -239,8 +262,10 @@ function Fun.RGBToHex(t)
 	return format("%02x%02x%02x", r, g, b)
 end
 -----
+local GetSpecialization = GetSpecialization or C_SpecializationInfo and C_SpecializationInfo.GetSpecialization
+local GetSpecializationInfo = GetSpecializationInfo or C_SpecializationInfo and C_SpecializationInfo.GetSpecializationInfo
 local function Update_LootTxt(but)
-	if tocversion<50000 then
+	if PIG_MaxTocversion() then
 		if IsInGroup() then
 			but:Enable()
 			local lootmethod= GetLootMethod();
@@ -277,7 +302,7 @@ local function Update_LootTxt(but)
 end
 function Fun.Update_LootType(uix,funx,set)
 	uix:RegisterEvent("PLAYER_ENTERING_WORLD")
-	if tocversion<50000 then
+	if PIG_MaxTocversion() then
 		uix:RegisterEvent("GROUP_ROSTER_UPDATE");
 		uix:RegisterEvent("PARTY_LOOT_METHOD_CHANGED");--战利品方法改变时触发
 	else
@@ -288,7 +313,7 @@ function Fun.Update_LootType(uix,funx,set)
 		funx(Update_LootTxt(self))
 	end)
 	uix:HookScript("OnClick", function (self)
-		if tocversion<50000 then
+		if PIG_MaxTocversion() then
 			local lootmethod, _, _ = GetLootMethod();
 			if lootmethod=="freeforall" then
 				SetLootMethod("master","player")

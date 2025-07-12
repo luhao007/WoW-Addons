@@ -1,6 +1,5 @@
 ﻿local _, addonTable = ...;
 local L=addonTable.locale
-local _, _, _, tocversion = GetBuildInfo()
 --
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
@@ -150,7 +149,7 @@ local function ADD_HPMPBarUI(fujiSetUI,setV)
 	end
 	if PIGA["CombatPlus"]["HPMPBar"]["HpShow"] then
 		HPMPBar.HPBar=add_HPMPBar(HPMPBar)
-		if tocversion<90000 then
+		if PIG_MaxTocversion() then
 			HPMPBar.HPBar:RegisterUnitEvent("UNIT_HEALTH_FREQUENT","player");
 		else
 			HPMPBar.HPBar:RegisterUnitEvent("UNIT_HEALTH","player");
@@ -462,7 +461,7 @@ local function ADD_HPMPBarUI(fujiSetUI,setV)
 	end);
 end
 function CombatPlusfun.HPMPBar()
-	if tocversion<50000 then
+	if PIG_MaxTocversion() then
 		local CombatPlusF,CombatPlustabbut =PIGOptionsList_R(CombatPlusfun.RTabFrame,L["COMBAT_TABNAME3"],100)
 		CombatPlusF.Open = PIGCheckbutton_R(CombatPlusF,{"启用个人资源条","在屏幕上显示个人资源条"})
 		CombatPlusF.Open:SetScript("OnClick", function (self)

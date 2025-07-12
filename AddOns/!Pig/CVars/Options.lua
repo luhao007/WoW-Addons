@@ -1,6 +1,5 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
-local _, _, _, tocversion = GetBuildInfo()
 ---
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
@@ -140,10 +139,10 @@ EaseUseF.diyF:SetHeight(100)
 EaseUseF.diyF:PIGSetBackdrop(0)
 
 local diyInfo={}
-if tocversion<50000 then
+if PIG_MaxTocversion() then
     table.insert(diyInfo,{"Fast_Loot",false,"加快拾取速度","在开启自动拾取时加快你的拾取速度(在队长分配不起作用)"})
 end
-if tocversion<20000 then
+if PIG_MaxTocversion(20000) then
 	table.insert(diyInfo,{"Shaman_Blue",true,USE..BLUE_GEM..ClassFile_Name["SHAMAN"]..CLASS_COLORS})
 	function CVarsfun.Shaman_Blue()
     	if not PIGA["CVars"]["Shaman_Blue"] then return end  
@@ -293,7 +292,7 @@ local function ADD_DownMenu(fujik,min,max,menu,CVarsV,CVarsN,Point,W,rl)
 end
 ----------
 local chaoyuanshijuVVV = {"cameraDistanceMaxZoomFactor","2.6"}
-if tocversion<80000 then
+if PIG_MaxTocversion(80000) then
 	chaoyuanshijuVVV = {"cameraDistanceMaxZoomFactor","4"}
 end
 local function chaoyuanshijujihuo()
@@ -312,7 +311,7 @@ local CVarsList1 = {
 	{"新版TAB","TargetNearestUseNew","1","0","使用7.2版后的TAB选取目标功能,战斗中不会Tab到战斗外目标,不会Tab到你的角色或镜头看不到的目标。\n关闭后将启用旧版的选取最近目标。",false},
 	{"反河蟹","overrideArchive","0","1","恢复某些模型的和谐之前的样子，例如骷髅药水不再是长肉的骷髅",true},
 }
-if tocversion>100000 then
+if PIG_MaxTocversion(100000,true) then
 	table.insert(CVarsList1,9,{CAMERA_FOV,"cameraFov","90",GetCVarDefault("cameraFov"),"启用最大镜头视野范围",false})
 end
 for i=1,#CVarsList1 do

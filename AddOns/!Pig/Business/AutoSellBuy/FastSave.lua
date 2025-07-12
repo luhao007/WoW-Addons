@@ -1,7 +1,6 @@
 local _, addonTable = ...;
 local BusinessInfo=addonTable.BusinessInfo
 function BusinessInfo.FastSave()
-	local _, _, _, tocversion = GetBuildInfo()
 	local L=addonTable.locale
 	local Create=addonTable.Create
 	local PIGOptionsList_R=Create.PIGOptionsList_R
@@ -25,7 +24,7 @@ function BusinessInfo.FastSave()
 	local GnName,GnUI,GnIcon,FrameLevel = unpack(BusinessInfo.AutoSellBuyData)
 	local _GN,_GNE = "存储","Save"
 	local fujiF,fujiTabBut=PIGOptionsList_R(_G[GnUI].F,"存",50,"Left")
-	if tocversion<50000 then
+	if PIG_MaxTocversion() then
 		fujiF.cunGV =PIGFontString(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",10,-9},"|cff00FFFF(设置为单个角色独享)|r")
 	else
 		fujiF.cunGV =PIGFontString(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",10,-9},MAXIMUM..BANK_DEPOSIT_MONEY_BUTTON_LABEL..BONUS_ROLL_REWARD_MONEY.."|cff00FFFF(设置为单个角色独享)|r")
@@ -41,7 +40,7 @@ function BusinessInfo.FastSave()
 	--取
 	local fujiF_Take,fujiTabBut_Take=PIGOptionsList_R(_G[GnUI].F,"取",50,"Left")
 	local _GN_Take,_GNE_Take = "取出","Take"
-	if tocversion<50000 then
+	if PIG_MaxTocversion() then
 		fujiF_Take.tiquGV =PIGFontString(fujiF_Take,{"TOPLEFT",fujiF_Take,"TOPLEFT",10,-9},"|cff00FFFF(设置为单个角色独享)|r")
 	else
 		fujiF_Take.tiquGV =PIGFontString(fujiF_Take,{"TOPLEFT",fujiF_Take,"TOPLEFT",10,-9},MAXIMUM..BANK_WITHDRAW_MONEY_BUTTON_LABEL..BONUS_ROLL_REWARD_MONEY.."|cff00FFFF(设置为单个角色独享)|r")
@@ -74,7 +73,7 @@ function BusinessInfo.FastSave()
 				for ib=1,#NewItemTypeLsit[typeid][2] do
 					if NewItemTypeLsit[typeid][2][ib][2] then
 						if classID==NewItemTypeLsit[typeid][2][ib][1] and subclassID==NewItemTypeLsit[typeid][2][ib][2] then
-							if tocversion<20000 then
+							if PIG_MaxTocversion(20000) then
 								UseContainerItem(bag,slot,nil, nil, BankFrame:IsShown() and (BankFrame.selectedTab == 2));
 							else
 								UseContainerItem(bag,slot,nil, BankFrame.GetActiveBankType and BankFrame:GetActiveBankType(), BankFrame:IsShown() and BankFrame.selectedTab == 2);
@@ -82,7 +81,7 @@ function BusinessInfo.FastSave()
 						end
 					else
 						if classID==NewItemTypeLsit[typeid][2][ib][1] then
-							if tocversion<20000 then
+							if PIG_MaxTocversion(20000) then
 								UseContainerItem(bag,slot,nil, nil, BankFrame:IsShown() and (BankFrame.selectedTab == 2));
 							else
 								UseContainerItem(bag,slot,nil, BankFrame.GetActiveBankType and BankFrame:GetActiveBankType(), BankFrame:IsShown() and BankFrame.selectedTab == 2);
@@ -94,7 +93,7 @@ function BusinessInfo.FastSave()
 		end
 	end
 	local function PIGRunUseItem(button,typeid,data)
-		--if tocversion<20000 then PIG_OptionsUI:ErrorMsg("功能正在修复...") return end
+		--if PIG_MaxTocversion(20000) then PIG_OptionsUI:ErrorMsg("功能正在修复...") return end
 		local shujudata={{},{}}
 		if button=="LeftButton" then
 			if NewItemTypeLsit[typeid][2]=="G" then
@@ -147,7 +146,7 @@ function BusinessInfo.FastSave()
 		savebut:SetSize(www,hhh);
 		BankFrame.typeList[ib]=savebut
 		if ib==#NewItemTypeLsit then
-			if tocversion<50000 then
+			if PIG_MaxTocversion() then
 				savebut:SetPoint("TOPRIGHT",fujiUI,"TOPRIGHT",-56,-40);
 			else
 				savebut:SetPoint("TOPRIGHT",fujiUI,"TOPRIGHT",-50,-29);

@@ -1,6 +1,5 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
-local _, _, _, tocversion = GetBuildInfo()
 ---
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
@@ -61,7 +60,7 @@ FramePlusF.AddonList:SetScript("OnClick", function (self)
 		PIG_OptionsUI.RLUI:Show()
 	end
 end);
-if tocversion<20000 then
+if PIG_MaxTocversion(20000) then
 	local tooltip = "整合追踪类技能，点击小地图追踪技能按钮选择其他追踪技能！";
 	FramePlusF.Tracking = PIGCheckbutton_R(FramePlusF,{"整合追踪技能",tooltip})
 	FramePlusF.Tracking:SetScript("OnClick", function (self)
@@ -174,9 +173,9 @@ FrameExtF.Macro:SetScript("OnClick", function (self)
 	PIG_OptionsUI.RLUI:Show()
 end)
 ---
-if tocversion<50000 then
+if PIG_MaxTocversion() then
 	FrameExtF.Quest = PIGCheckbutton_R(FrameExtF,{"任务界面扩展",""})
-	if tocversion<30000 then
+	if PIG_MaxTocversion(30000) then
 		FrameExtF.Quest.tooltip= "扩展任务界面为两列,左边任务列表，右边任务详情,显示任务等级";
 	else
 		FrameExtF.Quest.tooltip= "任务列表显示任务等级";
@@ -203,7 +202,7 @@ if tocversion<50000 then
 	end)
 	
 	FrameExtF.Talent = PIGCheckbutton_R(FrameExtF,{"天赋界面扩展"," "})
-	if tocversion<30000 then
+	if PIG_MaxTocversion(30000) then
 		FrameExtF.Talent.tooltip= "在一页显示三系天赋";
 	else
 		FrameExtF.Talent.tooltip= "在一页显示三系天赋和雕文";
@@ -273,11 +272,11 @@ end)
 
 --角色信息UI扩展
 local newText=Fun.Delmaohaobiaodain(REPAIR_COST)
-if tocversion<30000 then
+if PIG_MaxTocversion(30000) then
 	CharacterF.Shuxingtishi=CHARACTER_INFO.."扩展("..PAPERDOLL_SIDEBAR_STATS.."/"..EQUIPMENT_MANAGER.."/"..newText.."/"..COMBAT_RATING_NAME6.."说明"..")"
-elseif tocversion<40000 then
+elseif PIG_MaxTocversion(40000) then
 	CharacterF.Shuxingtishi=CHARACTER_INFO.."扩展("..EQUIPMENT_MANAGER.."/"..newText.."/"..COMBAT_RATING_NAME6.."说明"..")"
-elseif tocversion<50000 then
+elseif PIG_MaxTocversion() then
 	CharacterF.Shuxingtishi="常驻"..DISPLAY..PAPERDOLL_SIDEBAR_STATS
 else
 	CharacterF.Shuxingtishi=CHARACTER_INFO..DISPLAY..newText
@@ -313,7 +312,7 @@ LootRollF.Loot:SetScript("OnClick", function (self)
 end)
 ---
 function FramePlusfun.LootMasterErr() end
-if tocversion<50000 then
+if PIG_MaxTocversion() then
 	--修复队长分配错误
 	function FramePlusfun.LootMasterErr()
 		if PIGA["FramePlus"]["LootMasterErr"] then

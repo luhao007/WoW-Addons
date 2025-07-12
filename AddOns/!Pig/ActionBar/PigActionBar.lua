@@ -1,6 +1,5 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
-local _, _, _, tocversion = GetBuildInfo()
 ---
 local Create = addonTable.Create
 local PIGFrame=Create.PIGFrame
@@ -498,8 +497,7 @@ local function ADD_ActionBar(index)
 		piganniu:RegisterEvent("ACTIONBAR_SHOWGRID");
 		piganniu:RegisterEvent("ACTIONBAR_HIDEGRID");
 		piganniu:RegisterEvent("TRADE_SKILL_CLOSE")
-		if tocversion>90000 then
-		else
+		if PIG_MaxTocversion() then
 			piganniu:RegisterEvent("CRAFT_CLOSE")
 		end
 		piganniu:RegisterEvent("CVAR_UPDATE");

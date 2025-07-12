@@ -1,6 +1,5 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
-local _, _, _, tocversion = GetBuildInfo()
 ---
 local Create=addonTable.Create
 local PIGSlider = Create.PIGSlider
@@ -28,7 +27,19 @@ Actiontabbut:Selected()
 --------
 local function ActionBar_Ranse()
 	if not PIGA["ActionBar"]["Ranse"] then return end
-	if tocversion<50000 then
+	if ActionButton_UpdateRangeIndicator then
+		hooksecurefunc("ActionButton_UpdateRangeIndicator", function(self, checksRange, inRange)
+			if self.action == nil then return end
+			local isUsable, notEnoughMana = IsUsableAction(self.action)
+			if ( checksRange and not inRange ) then
+				_G[self:GetName().."Icon"]:SetVertexColor(0.5, 0.1, 0.1)
+			elseif isUsable ~= true or notEnoughMana == true then
+				_G[self:GetName().."Icon"]:SetVertexColor(0.4, 0.4, 0.4)
+			else
+				_G[self:GetName().."Icon"]:SetVertexColor(1, 1, 1)
+			end
+		end)
+	else
 		hooksecurefunc("ActionButton_OnUpdate", function(self, elapsed)
 			if self.rangeTimer == TOOLTIP_UPDATE_TIME and self.action then
 				local range = false
@@ -40,18 +51,6 @@ local function ActionBar_Ranse()
 					ActionButton_UpdateUsable(self)
 				end;
 				self.range = range
-			end
-		end)
-	else
-		hooksecurefunc("ActionButton_UpdateRangeIndicator", function(self, checksRange, inRange)
-			if self.action == nil then return end
-			local isUsable, notEnoughMana = IsUsableAction(self.action)
-			if ( checksRange and not inRange ) then
-				_G[self:GetName().."Icon"]:SetVertexColor(0.5, 0.1, 0.1)
-			elseif isUsable ~= true or notEnoughMana == true then
-				_G[self:GetName().."Icon"]:SetVertexColor(0.4, 0.4, 0.4)
-			else
-				_G[self:GetName().."Icon"]:SetVertexColor(1, 1, 1)
 			end
 		end)
 	end
@@ -83,7 +82,7 @@ ActionF.Cooldowns:SetScript("OnClick", function (self)
 	ActionCD()
 end);
 
-if tocversion<20000 then
+if PIG_MaxTocversion(20000) then
 	function ActionBarfun.ActionBar_Cailiao()
 		if not PIGA["ActionBar"]["Cailiao"] then return end
 		local function update_Count(text)
@@ -159,7 +158,7 @@ local function ActionBar_PetTishi()
 			local spname= PIGGetSpellInfo(2649)
 			table.insert(chaofengjinengName,spname)
 		elseif classId==9 then
-			if tocversion<80000 then
+			if PIG_MaxTocversion() then
 				local spname= PIGGetSpellInfo(3716)
 				local spname1= PIGGetSpellInfo(33698)
 				--local spname2= PIGGetSpellInfo(17735)
@@ -179,7 +178,7 @@ local function ActionBar_PetTishi()
 		PETtips:SetSize(Width,Height);
 		PETtips.Icon = PETtips:CreateTexture(nil, "ARTWORK");
 		PETtips.Icon:SetTexture("interface/common/help-i.blp");
-		if tocversion<80000 then
+		if PIG_MaxTocversion() then
 			PETtips.Icon:SetSize(Width*1.6,Height*1.6);
 		else
 			PETtips.Icon:SetSize(Width*1.2,Height*1.2);
@@ -254,7 +253,7 @@ ActionF.AutoFanye:SetScript("OnClick", function (self)
 	end
 	ActionBar_AutoFanye()
 end)
-if tocversion<100000 then
+if PIG_MaxTocversion() then
 	local function xianshitutentiao()
 		if InCombatLockdown() then return end
 		MultiCastActionBarFrame_Update(MultiCastActionBarFrame)

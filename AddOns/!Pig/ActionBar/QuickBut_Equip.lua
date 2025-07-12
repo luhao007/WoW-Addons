@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 --------
 local Create = addonTable.Create
 local PIGFrame=Create.PIGFrame
@@ -18,7 +17,7 @@ local PickupContainerItem =C_Container.PickupContainerItem
 local QuickButUI=_G[Data.QuickButUIname]
 QuickButUI.ButList[5]=function()
 	if not PIGA["QuickBut"]["Open"] or not PIGA["QuickBut"]["Equip"] then return end
-	if tocversion<30000 and not PIGA["FramePlus"]["Character_Shuxing"] then return end
+	if PIG_MaxTocversion(30000) and not PIGA["FramePlus"]["Character_Shuxing"] then return end
 	if QuickButUI.Equip then return end
 	QuickButUI.Equip=true	
 	---1装备按钮
@@ -60,7 +59,7 @@ QuickButUI.ButList[5]=function()
 		EquipBut.BGtex = PIGFrame(EquipBut,{"CENTER",EquipBut,"CENTER",0, 0},{butW, butW})
 		EquipBut.BGtex:PIGSetBackdrop(0.2,0.2)
 		EquipBut.BGtex:SetFrameLevel(EquipBut:GetFrameLevel()-1)
-		if tocversion<20000 then
+		if PIG_MaxTocversion(20000) then
 			EquipBut:SetNormalTexture("interface/timer/bigtimernumbers.blp");
 			EquipBut:GetNormalTexture():SetTexCoord(PIG_EquipmentData.NumTexCoord[i][1],PIG_EquipmentData.NumTexCoord[i][2],PIG_EquipmentData.NumTexCoord[i][3],PIG_EquipmentData.NumTexCoord[i][4]);
 		end
@@ -94,7 +93,7 @@ QuickButUI.ButList[5]=function()
 		end);
 		EquipBut:HookScript("OnClick", function(self,button)
 			PlaySound(SOUNDKIT.IG_CHARACTER_INFO_OPEN);
-			if tocversion<30000 then
+			if PIG_MaxTocversion(30000) then
 				if button=="LeftButton" then
 					PIG_EquipmentData.Equip_Use(self:GetID())
 				else
@@ -109,7 +108,7 @@ QuickButUI.ButList[5]=function()
 						C_EquipmentSet.UseEquipmentSet(erqid)
 						PIG_OptionsUI:ErrorMsg("更换<"..name..">配装成功")
 						-- if IsShiftKeyDown() then
-						-- 	if tocversion<50000 then
+						-- 	if PIG_MaxTocversion() then
 						-- 		GearManagerDialog_Update();	
 						-- 		local bianjibutid
 						-- 		for ixx=1,PIG_EquipmentData.anniushu do
@@ -154,7 +153,7 @@ QuickButUI.ButList[5]=function()
 						PIG_OptionsUI:ErrorMsg(CANNOT_UNEQUIP_COMBAT)
 					else
 						ShowUIPanel(CharacterFrame);
-						if tocversion<50000 then
+						if PIG_MaxTocversion() then
 							GearManagerDialog:Show();
 							GearManagerDialogSaveSet_OnClick()
 						else
@@ -221,7 +220,7 @@ QuickButUI.ButList[5]=function()
 		self.tips:Hide()
 		self.cunzainum=0
 		if AutoRuneListUI and AutoRuneListUI:IsShown() then AutoEquip.xuyaoShow=true;AutoRuneListUI:Hide() end
-		if tocversion<30000 then
+		if PIG_MaxTocversion(30000) then
 			for id = 1, PIG_EquipmentData.anniushu do
 				local fujikj = AutoEquipList.ButList[id]
 				fujikj.name:SetTextColor(0.8, 0.8, 0.8, 0.8);

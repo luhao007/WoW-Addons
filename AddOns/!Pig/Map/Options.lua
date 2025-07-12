@@ -1,6 +1,5 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
-local _, _, _, tocversion = GetBuildInfo()
 ---
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
@@ -234,7 +233,7 @@ WorldMapF.WorldMapXY:SetScript("OnClick", function (self)
 		PIG_OptionsUI.RLUI:Show()
 	end
 end);
-if tocversion<100000 then
+if PIG_MaxTocversion() then
 	WorldMapF.WorldMapWind = PIGCheckbutton_R(WorldMapF,{L["MAP_WORDWIND"],L["MAP_WORDWINDTIPS"]},true)
 	WorldMapF.WorldMapWind:SetScript("OnClick", function (self)
 		if self:GetChecked() then
@@ -288,7 +287,7 @@ if tocversion<100000 then
 end
 WorldMapF:HookScript("OnShow", function (self)
 	WorldMapF.WorldMapXY:SetChecked(PIGA["Map"]["WorldMapXY"])
-	if tocversion<100000 then
+	if PIG_MaxTocversion() then
 		WorldMapF.WorldMapWind:SetChecked(PIGA["Map"]["WorldMapWind"])
 		WorldMapF.WorldMapLV:SetChecked(PIGA["Map"]["WorldMapLV"])
 		WorldMapF.WorldMapSkill:SetChecked(PIGA["Map"]["WorldMapSkill"])
@@ -300,7 +299,7 @@ end);
 --==================================
 addonTable.Map = function()
 	Mapfun.WorldMap_XY()
-	if tocversion<100000 then
+	if PIG_MaxTocversion() then
 		Mapfun.WorldMap_Wind()
 		Mapfun.WorldMap_LVSkill()
 		Mapfun.WorldMap_Miwu()

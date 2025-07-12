@@ -1,5 +1,4 @@
 ﻿local _, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 ----------------------------------------
 local L=addonTable.locale
 local Create=addonTable.Create
@@ -20,6 +19,7 @@ local PIGFontStringBG=Create.PIGFontStringBG
 local format=string.format
 local Data=addonTable.Data
 local Fun=addonTable.Fun
+local AudioData=addonTable.AudioList.Data
 local PigLayoutFun=addonTable.PigLayoutFun
 local RTabFrame =PigLayoutFun.RTabFrame
 local fujiF,fujiBut =PIGOptionsList_R(RTabFrame,INFO.."条",90)
@@ -262,7 +262,7 @@ local MenuList = {
 		["COUNTDOWN"]=function() PigPulldata.morenCD=PIGA["PigLayout"]["topMenu"]["daojishiTime"] end
 	},
 }
-if tocversion>100000 then
+if PIG_MaxTocversion(100000,true) then
 	MenuList.Tips["LEAVE"]=MenuList.Tips["LEAVE"].."\n".."shift+"..KEY_BUTTON1.."-|cffFFFFff"..INSTANCE_WALK_IN_LEAVE.."|r"
 	MenuList.Icon["CONVERT_TO"]={"groupfinder-waitdot",{UpdateIcon_Coord_Size,0,1,0,1,biaojiW-6,biaojiW-4}}
 	MenuList.Icon["RESET"]={"GM-raidMarker-reset",{UpdateIcon_Coord,0.1,0.9,0.04,0.84}}
@@ -345,7 +345,7 @@ local InfoList_L = {
 					end
 					C_Timer.After(1,function() ListEventFun(butui) end)
 				end
-				if tocversion>50000 then
+				if PIG_MaxTocversion(50000,true) then
 					rootDescription:CreateRadio(PLAYER_DIFFICULTY1, IsSelected, SetSelected, 1);
 					rootDescription:CreateRadio(PLAYER_DIFFICULTY2, IsSelected, SetSelected, 2);
 					rootDescription:CreateRadio(PLAYER_DIFFICULTY6, IsSelected, SetSelected, 23);
@@ -436,10 +436,10 @@ local InfoList_L = {
 		end,	
 	},
 }
-if tocversion>20000 then
+if PIG_MaxTocversion(20000,true) then
 	table.insert(InfoList_L.Index,3,"DIFFICULTY")
 end
-if tocversion>100000 then
+if PIG_MaxTocversion(100000,true) then
 	InfoList_L.Icon["LOOT"][2]=20
 end
 ----
@@ -779,15 +779,15 @@ local function add_Options(peizhiT)
 		function checkbutOpen.F.SecondsAudio:PIGDownMenu_Update_But()
 			local info = {}
 			info.func = self.PIGDownMenu_SetValue
-			for i=1,4,1 do
-			    info.text, info.arg1 = SecondsAudioList[i], i
-			    info.checked = i==PIGA["PigLayout"][peizhiT]["SecondsAudio"]
+			for i=1,#AudioData.Countdown,1 do
+			    info.text, info.arg1 = AudioData.Countdown[i][1], i
+			    info.checked = i==PIGA["Common"]["CountdownAudio"]
 				self:PIGDownMenu_AddButton(info)
 			end 
 		end
 		function checkbutOpen.F.SecondsAudio:PIGDownMenu_SetValue(value,arg1,arg2)
 			self:PIGDownMenu_SetText(value)
-			PIGA["PigLayout"][peizhiT]["SecondsAudio"]=arg1
+			PIGA["Common"]["CountdownAudio"]=arg1
 			PIGCloseDropDownMenus()
 		end
 		checkbutOpen.F.EndAudio=PIGDownMenu(checkbutOpen.F,{"LEFT",checkbutOpen.F.SecondsAudio,"RIGHT",80,0},{180})
@@ -832,8 +832,12 @@ local function add_Options(peizhiT)
 		for i=1,listNum do
 			checkbutOpen.topMenuListBut[i]:SetChecked(not PIGA["PigLayout"][peizhiT]["HideBut"][ListIndex[i]])
 		end
-		if self.daojishiTime then self.daojishiTime:PIGSetValue(PIGA["PigLayout"][peizhiT]["daojishiTime"]) end
-		if self.TimeBGHide then self.TimeBGHide:SetChecked(PIGA["PigLayout"][peizhiT]["TimeBGHide"]) end
+		if peizhiT=="topMenu" then
+			--self.SecondsAudio:PIGDownMenu_SetText(AudioData.Countdown[PIGA["PigLayout"][peizhiT]["CountdownAudio"]][1])
+			--self.EndAudio:PIGDownMenu_SetText(AudioData.Countdown[PIGA["PigLayout"][peizhiT]["CountdownEndAudio"]][1])
+			self.daojishiTime:PIGSetValue(PIGA["PigLayout"][peizhiT]["daojishiTime"])
+			self.TimeBGHide:SetChecked(PIGA["PigLayout"][peizhiT]["TimeBGHide"])
+		end
 	end);
 	fujiF:HookScript("OnShow", function ()
 		checkbutOpen:SetChecked(PIGA["PigLayout"][peizhiT]["Open"]);

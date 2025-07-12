@@ -12,7 +12,6 @@ local function shifoucunzai(beibaoInfo,dataX)
 	return false
 end
 function BusinessInfo.FastDrop()
-	local _, _, _, tocversion = GetBuildInfo()
 	local L=addonTable.locale
 	local Data=addonTable.Data
 	local Create=addonTable.Create

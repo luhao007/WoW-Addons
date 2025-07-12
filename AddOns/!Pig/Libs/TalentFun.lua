@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 --
 local Create = addonTable.Create
 local PIGFrame=Create.PIGFrame
@@ -13,11 +12,13 @@ local yasuo_NumberString=Fun.yasuo_NumberString
 local jieya_NumberString=Fun.jieya_NumberString
 local ALA=addonTable.ALA
 local TalentData=addonTable.Data.TalentData
+local GetSpecialization = GetSpecialization or C_SpecializationInfo and C_SpecializationInfo.GetSpecialization
+local GetSpecializationInfo = GetSpecializationInfo or C_SpecializationInfo and C_SpecializationInfo.GetSpecializationInfo
 --------
 local function max_tianfudianshu(level)
-	if tocversion<40000 then
+	if PIG_MaxTocversion(40000) then
 		return max(level-9,0)
-	elseif tocversion<50000 then
+	elseif PIG_MaxTocversion(50000) then
 		local shengyuV=0
 		if level>9 then shengyuV=shengyuV+1 end
 		if level>10 then shengyuV=shengyuV+1 end
@@ -144,7 +145,7 @@ function TalentData.add_TalentUI(frameX)
 	for ixx=1,3 do
 		frameX.TalentF.ButListDian[ixx]=PIGFontString(frameX.TalentF,{"TOPLEFT", frameX.TalentF, "TOPLEFT", 214*(ixx-1)+84,-27});
 	end
-	if tocversion>30000 and tocversion<50000 then 
+	if PIG_MaxTocversion(30000,true) and PIG_MaxTocversion(50000) then 
 		frameX.TalentF.Glyph = PIGFrame(frameX.TalentF,{"BOTTOMLEFT", frameX.TalentF, "TOPLEFT", 0, 1},{TalentData.tianfuW+140,34});
 		frameX.TalentF.Glyph:PIGSetBackdrop(1);
 
@@ -164,7 +165,7 @@ function TalentData.add_TalentUI(frameX)
 		shezhitishi(frameX.TalentF.Glyph,frameX.TalentF.Glyph.Glyph4)
 		shezhitishi(frameX.TalentF.Glyph,frameX.TalentF.Glyph.Glyph5)
 		shezhitishi(frameX.TalentF.Glyph,frameX.TalentF.Glyph.Glyph6)
-		if tocversion>40000 then
+		if PIG_MaxTocversion(40000,true) then
 			frameX.TalentF.Glyph:SetHeight(50)
 			frameX.TalentF.Glyph.biaoti3 = PIGFontString(frameX.TalentF.Glyph,{"BOTTOMLEFT", frameX.TalentF.Glyph.biaoti1, "TOPLEFT", 0,2},PRIME_GLYPH..": ");
 			frameX.TalentF.Glyph.Glyph7 = PIGFontString(frameX.TalentF.Glyph,{"LEFT", frameX.TalentF.Glyph.biaoti3, "RIGHT", 0,0});
@@ -298,7 +299,7 @@ function TalentData.add_TalentUI(frameX)
 						else
 							tianfuF.dianshu:SetTextColor(0, 1, 0, 1);
 						end
-						if tocversion<40000 then
+						if PIG_MaxTocversion(40000) then
 							tianfuF.Icon:SetTexture(GetSpellTexture(TalentData.tianfuID[zhiye][i][ii][iii][1]))
 						else
 							tianfuF.Icon:SetTexture(TalentData.tianfuID_ICON[zhiye][i][ii][iii])
@@ -311,7 +312,7 @@ function TalentData.add_TalentUI(frameX)
 							tianfuF:SetScript("OnEnter", function (self)
 								GameTooltip:ClearLines();
 								GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
-								if tocversion<40000 then
+								if PIG_MaxTocversion(40000) then
 									GameTooltip:SetHyperlink("spell:"..TalentData.tianfuID[zhiye][i][ii][iii][huoqudianshu])
 								else
 									GameTooltip:SetHyperlink("talent:"..TalentData.tianfuID[zhiye][i][ii][iii][huoqudianshu])
@@ -323,7 +324,7 @@ function TalentData.add_TalentUI(frameX)
 							tianfuF:SetScript("OnEnter", function (self)
 								GameTooltip:ClearLines();
 								GameTooltip:SetOwner(self,"ANCHOR_RIGHT");
-								if tocversion<40000 then
+								if PIG_MaxTocversion(40000) then
 									GameTooltip:SetHyperlink("spell:"..TalentData.tianfuID[zhiye][i][ii][iii][1])
 								else
 									GameTooltip:SetHyperlink("talent:"..TalentData.tianfuID[zhiye][i][ii][iii][1])
@@ -363,7 +364,7 @@ function TalentData.add_TalentUI(frameX)
 			end
 		end
 		---
-		if tocversion>30000 and tocversion<50000 then
+		if PIG_MaxTocversion(30000,true) and PIG_MaxTocversion(50000) then
 			for i=1,TalentData.GLYPH_NUM do
 				self.Glyph["Glyph"..i]:SetTextColor(0.5, 0.5, 0.5, 1);
 				self.Glyph["Glyph"..i]:SetText(NONE)
@@ -452,7 +453,7 @@ local GetActiveTalentGroup=GetActiveTalentGroup or PIGGetActiveTalentGroup
 function TalentData.GetTianfuIcon(guancha,zhiye)
 	local zuidazhi = {"--",132222,0}
 	local index = GetActiveTalentGroup(guancha,false)
-	if tocversion<40000 then
+	if PIG_MaxTocversion(40000) then
 		local numTabs = GetNumTalentTabs(guancha)
 		for ti=1,numTabs do
 			local itemlistTalentmax = {["pointsSpent"]=0,["name"]=zuidazhi[1],["icon"]=zuidazhi[2]}
@@ -464,7 +465,7 @@ function TalentData.GetTianfuIcon(guancha,zhiye)
 				zuidazhi={itemlistTalentmax.name, itemlistTalentmax.icon or tianfuTabIcon[zhiye][ti] or zuidazhi[2], itemlistTalentmax.pointsSpent}
 			end
 		end
-	elseif tocversion<50000 then
+	elseif PIG_MaxTocversion(50000) then
 		local masteryIndex = GetPrimaryTalentTree();
 		if masteryIndex then
 			local _, name, _, icon, pointsSpent, background, previewPointsSpent = GetTalentTabInfo(masteryIndex,guancha,false,index);
@@ -561,7 +562,7 @@ local function GetTianfuData(activeGroup,guancha)
 end
 function TalentData.GetTianfuNum(guancha)
 	local txt = ""
-	if tocversion<50000 then
+	if PIG_MaxTocversion(50000) then
 		local numGroup = GetNumTalentGroups(guancha, false)
 		local activeGroup = GetActiveTalentGroup(guancha, false)	
 		local code1=GetTianfuData(activeGroup,guancha)
@@ -573,8 +574,8 @@ function TalentData.GetTianfuNum(guancha)
 				txt = txt.."&"..GetTianfuData(1,guancha)
 			end
 		end
-	elseif tocversion<100000 then
-	 -- local currentSpec = GetSpecialization()
+	elseif PIG_MaxTocversion(100000) then
+	 -- local currentSpec = C_SpecializationInfo.GetSpecialization()
 		 -- TFInfo=TFInfo..currentSpec.."-"
 		 -- for i=1,MAX_TALENT_TIERS do
 		 -- 	local tierAvailable, selectedTalent, tierUnlockLevel = GetTalentTierInfo(i, 1, false, "player")
@@ -585,7 +586,7 @@ function TalentData.GetTianfuNum(guancha)
 		 -- 	end
 		 -- end
 	else
-		-- local currentSpec = GetSpecialization()
+		-- local currentSpec = C_SpecializationInfo.GetSpecialization()
 		-- TFInfo=TFInfo..currentSpec.."-"
 		-- local exportStream = ExportUtil.MakeExportDataStream();
 		-- local configID = C_ClassTalents.GetActiveConfigID()
@@ -632,7 +633,7 @@ local function GetGlyphData(activeGroup)
 end
 function TalentData.GetGlyphNum()
 	local txt = ""
-	if tocversion>30000 and tocversion<50000 then
+	if PIG_MaxTocversion(30000,true) and PIG_MaxTocversion(50000) then
 		local numGroup = GetNumTalentGroups(false, false)
 		local activeGroup = GetActiveTalentGroup(false, false)
 		local code1 =GetGlyphData(activeGroup);
@@ -673,6 +674,7 @@ end
 local TalentTabRole = {
 	["DEATHKNIGHT"]={["鲜血"]=1,["冰霜"]=4,["邪恶"]=4},
 	["DRUID"] ={["平衡"]=3,["野性战斗"]=4,["恢复"]=2},
+	["EVOKER"] = {["恩护"]=2,["湮灭"]=3,["增辉"]=3}, 
 	["HUNTER"] ={["野兽控制"]=5,["射击"]=5,["生存"]=5},
 	["MAGE"] ={["奥术"]=3,["火焰"]=3,["冰霜"]=3},
 	["PALADIN"] ={["神圣"]=2,["防护"]=1,["惩戒"]=4},
@@ -683,7 +685,23 @@ local TalentTabRole = {
 	["WARRIOR"] ={["武器"]=4,["狂怒"]=4,["防护"]=1},
 	["MONK"] = {["酒仙"]=1,["织雾"]=2,["踏风"]=4},
 	["DEMONHUNTER"] = {["浩劫"]=4,["复仇"]=1},
-	["EVOKER"] = {["恩护"]=2,["湮灭"]=3,["增辉"]=3}, 
+	
+};
+local TalentIDRole = {
+	["DEATHKNIGHT"]={[250]=1,[251]=4,[252]=4},
+	["DRUID"] ={[102]=3,[103]=4,[104]=1,[105]=2},
+	["EVOKER"] = {[1467]=2,[1468]=3,[1473]=3}, 
+	["HUNTER"] ={[253]=5,[254]=5,[255]=5},
+	["MAGE"] ={[62]=3,[63]=3,[64]=3},
+	["PALADIN"] ={[65]=2,[66]=1,[70]=4},
+	["PRIEST"] ={[256]=2,[257]=2,[258]=3},
+	["ROGUE"] ={[259]=4,[260]=4,[261]=4},
+	["SHAMAN"] ={[262]=3,[263]=4,[264]=2},
+	["WARLOCK"] ={[265]=3,[266]=3,[267]=3},
+	["WARRIOR"] ={[71]=4,[72]=4,[73]=1},
+	["MONK"] = {[268]=1,[270]=2,[269]=4},
+	["DEMONHUNTER"] = {[577]=4,[581]=1},
+	
 };
 local function Player_Stats_1(activeGroup,guancha)
 	local txt = ""
@@ -723,7 +741,7 @@ local function PIG_GetSpellBonusDamage()--法术伤害加成
 end
 Fun.PIG_GetSpellBonusDamage=PIG_GetSpellBonusDamage
 local function GetStatsData(role)
-	local shuxing = ""
+	local shuxing = ""	
 	if role==1 then
 		local base, effectiveArmor, armor, bonusArmor= UnitArmor("player");
 		local dodgeChance = GetDodgeChance()
@@ -765,16 +783,24 @@ local function GetStatsData(role)
 		local ratingBonus = GetCombatRatingBonus(20);--CR_HASTE_SPELL加速百分比
 		shuxing=shuxing..RAID_BUFF_4..string.format("%.2f",ratingBonus).."%"
 	elseif role==4 then--近战属性
-		local base, posBuff, negBuff = UnitAttackPower("player");
-		local effective = base + posBuff + negBuff
-		shuxing=shuxing..MELEE..ATTACK_POWER..effective.." "
-		local HitModifierV=GetHitModifier()--命中百分比
-		local ratingBonus = GetCombatRatingBonus(6);--CR_HIT_MELEE
-		shuxing=shuxing..MELEE..ACTION_RANGE_DAMAGE..string.format("%.2f",HitModifierV+ratingBonus).."% "
-		local CritChanceV=GetCritChance()--暴击率百分比
-		shuxing=shuxing..MELEE..RAID_BUFF_6..string.format("%.2f",CritChanceV).."% "
-		local armorPen = GetArmorPenetration()--返回由于护甲穿透而忽略的物理攻击忽略的目标护甲的百分比
-		shuxing=shuxing..ARMOR..SPELL_PENETRATION..string.format("%.2f",armorPen).."%"
+		if PIG_MaxTocversion() then
+			local base, posBuff, negBuff = UnitAttackPower("player");
+			local effective = base + posBuff + negBuff
+			shuxing=shuxing..MELEE..ATTACK_POWER..effective.." "
+			local HitModifierV=GetHitModifier()--命中百分比
+			local ratingBonus = GetCombatRatingBonus(6);--CR_HIT_MELEE
+			shuxing=shuxing..MELEE..ACTION_RANGE_DAMAGE..string.format("%.2f",HitModifierV+ratingBonus).."% "
+			local CritChanceV=GetCritChance()--暴击率百分比
+			shuxing=shuxing..MELEE..RAID_BUFF_6..string.format("%.2f",CritChanceV).."% "
+			local armorPen = GetArmorPenetration()--返回由于护甲穿透而忽略的物理攻击忽略的目标护甲的百分比
+			shuxing=shuxing..ARMOR..SPELL_PENETRATION..string.format("%.2f",armorPen).."%"
+		else
+			local base, posBuff, negBuff = UnitAttackPower("player");
+			local effective = base + posBuff + negBuff
+			shuxing=shuxing..MELEE..ATTACK_POWER..effective.." "
+			local CritChanceV=GetCritChance()--暴击率百分比
+			shuxing=shuxing..MELEE..RAID_BUFF_6..string.format("%.2f",CritChanceV).."% "
+		end
 	elseif role==5 then--远程属性
 		local attackPower, posBuff, negBuff = UnitRangedAttackPower("player")
 		local effective = attackPower + posBuff + negBuff
@@ -788,20 +814,20 @@ local function GetStatsData(role)
 		shuxing=shuxing..ARMOR..SPELL_PENETRATION..string.format("%.2f",armorPen).."%"
 	else
 		shuxing=ERR_LFG_ROLE_CHECK_FAILED
-	end
+	end	
 	return shuxing
 end
-local function Player_Stats_2(tianfu)
+local function Player_Stats_2(tianfuID)
 	local classFilename, classId = UnitClassBase("player");
-	local role=TalentTabRole[classFilename][tianfu]
+	local role=TalentIDRole[classFilename][tianfuID]
 	return GetStatsData(role)
 end
 function TalentData.Player_Stats()
 	local Info = "装等"
 	local avgItemLevel, avgItemLevelEquipped, avgItemLevelPvP = GetAverageItemLevel();
 	local Info = Info..string.format("%.1f",avgItemLevelEquipped)
-	if tocversion<50000 then
-		local tianfutxt = " 天赋"
+	if PIG_MaxTocversion(50000) then
+		local tianfutxt = " "..TALENT
 		local numGroup = GetNumTalentGroups(false, false)
 		local activeGroup = GetActiveTalentGroup(false, false)
 		local zhutianfu1,zhutianfu2=Player_Stats_1(activeGroup,false)
@@ -817,7 +843,10 @@ function TalentData.Player_Stats()
 		end
 		Info =Info..tianfutxt.." "..Player_Stats_2(zhutianfu1)
 	else
-
+		local specIndex = GetSpecialization()--当前专精
+		local specId, name, description, icon = GetSpecializationInfo(specIndex)
+		local name=name ~= "" and name or NONE
+		Info =Info.." "..SPECIALIZATION..":"..name.." "..Player_Stats_2(specId)
 	end
 	return Info
 end

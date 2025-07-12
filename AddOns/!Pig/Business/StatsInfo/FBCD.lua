@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local L=addonTable.locale
 local Fun=addonTable.Fun
 local Create=addonTable.Create
@@ -72,7 +71,7 @@ function BusinessInfo.FBCD(StatsInfo)
 		hideOnEscape = true,
 	}
 	---
-	local OldMode = tocversion>49999 or PIGA["StatsInfo"]["InstancesCD"]["Mode"]==2
+	local OldMode = PIG_MaxTocversion(50000,true) or PIGA["StatsInfo"]["InstancesCD"]["Mode"]==2
 	local funamelist = {[836]=-2,[839]=-1}--ZUG/MC--BOSS数-1
 	local function GetBossNUM_1(name)
 		for k,v in pairs(funamelist) do
@@ -250,17 +249,17 @@ function BusinessInfo.FBCD(StatsInfo)
 			end
 			return jiludata
 		end
-		if tocversion<20000 then
+		if PIG_MaxTocversion(20000) then
 			local raid60 = {836,838,839,840,842,843,841}
 			table.insert(insList_RAIDS,{"["..RAIDS.."]-"..EXPANSION_NAME0,raid60})
 			PIGA["StatsInfo"]["InstancesCD"]["Records"]=PIGA["StatsInfo"]["InstancesCD"]["Records"] or morenRecords(raid60)
-		elseif tocversion<30000 then
+		elseif PIG_MaxTocversion(30000) then
 			table.insert(insList_RAIDS,{"["..RAIDS.."]-"..EXPANSION_NAME0,{836,838,839,840,842,843,841}})
 			table.insert(insList_DUNGEONS,{"["..DUNGEONS.."]-"..EXPANSION_NAME1,{903,904,905,906,907,908,909,910,911,912,913,914,915,916,917,918}})
 			local tbcid = {844,845,846,847,848,849,850,851,852}
 			table.insert(insList_RAIDS,{"["..RAIDS.."]-"..EXPANSION_NAME1,tbcid})
 			PIGA["StatsInfo"]["InstancesCD"]["Records"]=PIGA["StatsInfo"]["InstancesCD"]["Records"] or morenRecords(tbcid)
-		elseif tocversion<40000 then
+		elseif PIG_MaxTocversion(40000) then
 			table.insert(insList_RAIDS,{"["..RAIDS.."]-"..EXPANSION_NAME0,{836,839,840,842,843}})
 			table.insert(insList_DUNGEONS,{"["..DUNGEONS.."]-"..EXPANSION_NAME1,{903,904,905,906,907,908,909,910,911,912,913,914,915,916,917,918}})
 			table.insert(insList_RAIDS,{"["..RAIDS.."]-"..EXPANSION_NAME1,{844,845,846,847,848,849,850,851,852}})
@@ -270,7 +269,11 @@ function BusinessInfo.FBCD(StatsInfo)
 			local wlkid = {1095,841,1101,1102,1156,1106,1100,1110}
 			table.insert(insList_RAIDS,{"["..RAIDS.."]-"..EXPANSION_NAME2,wlkid})
 			PIGA["StatsInfo"]["InstancesCD"]["Records"]=PIGA["StatsInfo"]["InstancesCD"]["Records"] or morenRecords(wlkid)
-		elseif tocversion<50000 then
+		elseif PIG_MaxTocversion(50000) then
+			table.insert(insList_DUNGEONS,{"["..DUNGEONS.."]-"..EXPANSION_NAME3,{}})
+			table.insert(insList_RAIDS,{"["..RAIDS.."]-"..EXPANSION_NAME3,{}})
+			PIGA["StatsInfo"]["InstancesCD"]["Records"]=PIGA["StatsInfo"]["InstancesCD"]["Records"] or {}
+		elseif PIG_MaxTocversion(60000) then
 			table.insert(insList_DUNGEONS,{"["..DUNGEONS.."]-"..EXPANSION_NAME3,{}})
 			table.insert(insList_RAIDS,{"["..RAIDS.."]-"..EXPANSION_NAME3,{}})
 			PIGA["StatsInfo"]["InstancesCD"]["Records"]=PIGA["StatsInfo"]["InstancesCD"]["Records"] or {}
@@ -350,7 +353,7 @@ end)
 		fujiF.CDTimeT = PIGFontString(fujiF,{"TOPLEFT", fujiF, "TOPLEFT", 204, -5},"重置剩余:")
 		fujiF.CDTime7 = PIGFontString(fujiF,{"LEFT", fujiF.CDTimeT, "RIGHT", 5, 0},"常规团本:"..disp_time(GetInstancesCD_1()))
 		fujiF.CDTime7:SetTextColor(0,1,0, 1);
-		if tocversion<20000 then
+		if PIG_MaxTocversion(20000) then
 			fujiF.CDTime5 = PIGFontString(fujiF,{"LEFT", fujiF.CDTime7, "RIGHT", 20, 0},"黑龙MM:"..disp_time(CDNextInterval(5,5,18,7,GetServerTime())))
 			fujiF.CDTime5:SetTextColor(0,1,0, 1);
 			fujiF.CDTime3 = PIGFontString(fujiF,{"LEFT", fujiF.CDTime5, "RIGHT", 20, 0},"ZUG/废墟:"..disp_time(CDNextInterval(3,5,21,7,GetServerTime())))
@@ -452,7 +455,7 @@ end)
 				but.dfpiayiV_X=xxx
 				but.errpiayiV_X=xxx-hang_Height*0.5
 				but.dfpiayiV_Y=yyy
-				if tocversion<20000 then
+				if PIG_MaxTocversion(20000) then
 					but:SetPoint("LEFT", self, "LEFT", xxx, 0);
 				else
 					but:SetPoint("TOPLEFT", self, "TOPLEFT", xxx, yyy);
@@ -464,7 +467,7 @@ end)
 				if min<max then	
 					but.icon:SetAtlas("DungeonSkull")
 					but.jindu:SetText(min.."/"..max)
-					if tocversion<20000 then
+					if PIG_MaxTocversion(20000) then
 						but:SetPoint("LEFT", self, "LEFT", but.errpiayiV_X, 0);
 					else
 						but:SetPoint("TOPLEFT", self, "TOPLEFT", but.errpiayiV_X, but.dfpiayiV_Y);
@@ -512,7 +515,7 @@ end)
 				for ii=#insList_RAIDS[i][2],1,-1 do
 					if PIGA["StatsInfo"]["InstancesCD"]["Records"][insList_RAIDS[i][2][ii]] then
 						local activityInfo = C_LFGList.GetActivityInfoTable(insList_RAIDS[i][2][ii]);
-						if tocversion<50000 then
+						if PIG_MaxTocversion() then
 							table.insert(insList_biaoti,{biaotiName[insList_RAIDS[i][2][ii]],activityInfo.shortName})
 						else
 							table.insert(insList_biaoti,{biaotiName[insList_RAIDS[i][2][ii]],activityInfo.fullName})
@@ -524,7 +527,7 @@ end)
 				for ii=#insList_DUNGEONS[i][2],1,-1 do
 					if PIGA["StatsInfo"]["InstancesCD"]["Records"][insList_DUNGEONS[i][2][ii]] then
 						local activityInfo = C_LFGList.GetActivityInfoTable(insList_DUNGEONS[i][2][ii]);
-						if tocversion<50000 then
+						if PIG_MaxTocversion() then
 							table.insert(insList_biaoti,{biaotiName[insList_DUNGEONS[i][2][ii]],activityInfo.shortName})
 						else
 							table.insert(insList_biaoti,{biaotiName[insList_DUNGEONS[i][2][ii]],activityInfo.fullName})

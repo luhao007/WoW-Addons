@@ -1,12 +1,11 @@
 local _, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local Create=addonTable.Create
 local PIGDownMenu=Create.PIGDownMenu
 --
 local FramePlusfun=addonTable.FramePlusfun
 -----------------------------------
 function FramePlusfun.Tracking()
-	if tocversion>19999 then return end
+	if PIG_MaxTocversion(20000,true) then return end
 	if not PIGA["FramePlus"]["Tracking"] then return end
 	if FramePlusfun.TrackingOpen then return end
 	FramePlusfun.TrackingOpen=true

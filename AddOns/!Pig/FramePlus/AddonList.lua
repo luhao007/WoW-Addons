@@ -1,5 +1,4 @@
 local _, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
 local PIGLine=Create.PIGLine

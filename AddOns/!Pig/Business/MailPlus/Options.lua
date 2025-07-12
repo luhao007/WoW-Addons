@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local fmod=math.fmod
 local L=addonTable.locale
 local Create=addonTable.Create
@@ -385,7 +384,7 @@ function BusinessInfo.MailPlus_ADDUI()
 	InboxFrame.ItemBox.ButList={}
 	for i=1,boxitemdata.boxbutNum do
 		local itemBut
-		if tocversion<50000 then
+		if PIG_MaxTocversion() then
 			itemBut = CreateFrame("Button", nil, InboxFrame.ItemBox);
 			itemBut:SetHighlightTexture(130718);
 			itemBut.icon = itemBut:CreateTexture()
@@ -962,7 +961,7 @@ function BusinessInfo.MailPlus_ADDUI()
 	end
 	--
 	SendMailFrame.ItemList.butList={}
-	if tocversion<50000 then
+	if PIG_MaxTocversion() then
 		SendMailFrame.ItemList.ButTemplate="ItemButtonTemplate"
 	else
 		SendMailFrame.ItemList.ButTemplate="EnchantingItemButtonAnimTemplate"
@@ -1145,7 +1144,7 @@ function BusinessInfo.MailPlus_ADDUI()
 		SendMailSubjectEditBox:SetWidth(156)
 		SendMailSubjectEditBoxMiddle:SetWidth(154)
 		SendStationeryBackgroundRight:ClearAllPoints();
-		if tocversion<50000 then
+		if PIG_MaxTocversion() then
 			SendMailSubjectEditBox:SetPoint("TOPLEFT", "SendMailNameEditBox", "BOTTOMLEFT", -34,0);
 			MailEditBox:SetSize(line_W1-2,174)
 			MailEditBox:SetPoint("TOPLEFT", "SendMailFrame", "TOPLEFT", 10,-86);

@@ -1,6 +1,5 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
-local _, _, _, tocversion = GetBuildInfo()
 local Create=addonTable.Create
 local PIGEnter=Create.PIGEnter
 local PIGFontString=Create.PIGFontString
@@ -9,6 +8,7 @@ local GetContainerNumSlots =GetContainerNumSlots or C_Container and C_Container.
 local GetContainerItemLink=GetContainerItemLink or C_Container and C_Container.GetContainerItemLink
 local GetContainerItemID=GetContainerItemID or C_Container and C_Container.GetContainerItemID
 local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
+local GetItemInfo=GetItemInfo or C_Item and C_Item.GetItemInfo
 ----
 local find = _G.string.find
 local sub = _G.string.sub
@@ -21,7 +21,7 @@ local bagIDMax= Data.bagData["bagIDMax"]
 local function Update_itemLV_(itemButton, id, slot)
 	if itemButton.ZLV then
 		if itemButton.ZLV then itemButton.ZLV:SetText("") end
-		if tocversion<100000 then
+		if PIG_MaxTocversion() then
 			local itemLink = GetContainerItemLink(id, slot)
 			if itemLink then
 				local _,_,itemQuality,_,_,_,_,_,_,_,_,classID = GetItemInfo(itemLink);
@@ -86,7 +86,7 @@ end
 function BagBankfun.Bag_Item_lv(frame, size, id)
 	if not PIGA["BagBank"]["wupinLV"] then return end
 	if id==-2 then return end
-	if tocversion<100000 then
+	if PIG_MaxTocversion() then
 		if frame and size then
 			local fujiFF=frame:GetName()
 			for slot =1, size do
@@ -123,7 +123,7 @@ end
 --刷新背包染色
 function BagBankfun.Bag_Item_Ranse(frame, size, id)
 	if not PIGA["BagBank"]["wupinRanse"] then return end
-	if tocversion<100000 then
+	if PIG_MaxTocversion() then
 		if id==-2 then return end
 		if frame and size then
 			local numFreeSlots, bagType = C_Container.GetContainerNumFreeSlots(id)
@@ -238,7 +238,7 @@ function BagBankfun.Update_BankFrame_Height(BagdangeW)
 	end
 	local hangShuALL=ceil(banbagzongshu/BankFrame.meihang)
 	local hangallgao=hangShuALL*BagdangeW
-	if tocversion<100000 then
+	if PIG_MaxTocversion() then
 		BankFrame:SetWidth(BagdangeW*BankFrame.meihang+36)
 		BankFrame:SetHeight(hangallgao+106);
 	else
@@ -292,7 +292,7 @@ function BagBankfun.addfenleibagbut(fujiui,uiname)
 			BankSlotsFrame.Bag5,
 			BankSlotsFrame.Bag6,
 		}
-		if tocversion>19999 then
+		if PIG_MaxTocversion(20000,true) then
 			table.insert(bankicon, BankSlotsFrame.Bag7);
 		end
 		baginfo.icon=bankicon
@@ -358,7 +358,7 @@ function BagBankfun.addfenleibagbut(fujiui,uiname)
 		local OLD_OnValueChanged=fameXX.PortraitButton:GetScript("OnEnter") or function() end
 		fameXX.PortraitButton:SetScript("OnEnter", function (self)
 			local BagID = self:GetParent():GetBagID()
-			if tocversion<100000 then
+			if PIG_MaxTocversion() then
 				local frameID = IsBagOpen(BagID)
 				if frameID then
 					OLD_OnValueChanged(self)
@@ -379,7 +379,7 @@ function BagBankfun.addfenleibagbut(fujiui,uiname)
 		end);
 		fameXX.PortraitButton:HookScript("OnLeave", function (self)
 			local BagID = self:GetParent():GetBagID()
-			if tocversion<100000 then
+			if PIG_MaxTocversion() then
 				local frameID = IsBagOpen(BagID)
 				if frameID then
 					for slot = 1, MAX_CONTAINER_ITEMS do
@@ -601,12 +601,12 @@ local function update_iconname(framef)
 		if itemID then
 			local itemID, itemType, itemSubType, itemEquipLoc, icon, classID, subclassID = GetItemInfoInstant(itemID)
 			if classID==2 or classID==4 then
-				if tocversion<30000 then
+				if PIG_MaxTocversion(30000) then
 					local ItemLink=GetContainerItemLink(BagID,slotID)
 					if ItemLink then
 						if GetEqiconName(framef,ItemLink) then return end
 					end
-				elseif tocversion<50000 then
+				elseif PIG_MaxTocversion() then
 					PIG_TooltipUI:ClearLines();
 					PIG_TooltipUI:SetBagItem(BagID,slotID);
 				    local hangname = PIG_TooltipUI:GetName()

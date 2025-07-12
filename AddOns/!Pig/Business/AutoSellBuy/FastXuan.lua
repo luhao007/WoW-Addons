@@ -1,8 +1,7 @@
 local _, addonTable = ...;
 local BusinessInfo=addonTable.BusinessInfo
 function BusinessInfo.FastXuan()
-	local _, _, _, tocversion = GetBuildInfo()
-	if tocversion>50000 then return end
+	if PIG_MaxTocversion(50000,true) then return end
 	local L=addonTable.locale
 	local Data=addonTable.Data
 	local Fun=addonTable.Fun

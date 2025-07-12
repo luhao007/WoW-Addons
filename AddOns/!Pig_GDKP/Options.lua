@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local Create, Data, Fun, L, Default, Default_Per= unpack(PIG)
 local PIGFrame=Create.PIGFrame
 local PIGLine=Create.PIGLine

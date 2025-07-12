@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local L=addonTable.locale
 local fmod=math.fmod
 local match = _G.string.match
@@ -193,7 +192,7 @@ function BusinessInfo.Item(StatsInfo)
 	fujiF.ItemList.BOTTOM.listbut={}
 	for i=1,lixianNum do
 		local itemBut
-		if tocversion<100000 then
+		if PIG_MaxTocversion(100000) then
 			itemBut = CreateFrame("Button", nil, fujiF.ItemList.BOTTOM);
 			itemBut:SetHighlightTexture(130718);
 			itemBut.icon = itemBut:CreateTexture()
@@ -442,7 +441,7 @@ function BusinessInfo.Item(StatsInfo)
 	fujiF:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_SHOW")
 	fujiF:RegisterEvent("PLAYERBANKSLOTS_CHANGED")
 	fujiF:RegisterEvent("MAIL_SHOW");
-	if tocversion>20000 then fujiF:RegisterEvent("GUILDBANKBAGSLOTS_CHANGED") end
+	if PIG_MaxTocversion(20000) then fujiF:RegisterEvent("GUILDBANKBAGSLOTS_CHANGED") end
 	fujiF:SetScript("OnEvent", function(self,event,arg1,arg2)
 		if event == "MAIL_SHOW" then
 			MailFrame_OnShow(self)

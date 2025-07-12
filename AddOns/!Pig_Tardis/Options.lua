@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local Create, Data, Fun, L, Default, Default_Per= unpack(PIG)
 local PIGFrame=Create.PIGFrame
 local PIGLine=Create.PIGLine
@@ -112,34 +111,34 @@ function TardisInfo.ADD_Options()
 	for i=1,#shelistx do
 		ADD_setckbut(shelistx[i][1],shelistx[i][2])
 	end
-	if tocversion<100000 and tocversion>30000 then
-		fuFrame.SetListF.cheduiLanguage = PIGFrame(fuFrame.SetListF)
-		fuFrame.SetListF.cheduiLanguage:SetPoint("BOTTOMLEFT",fuFrame.SetListF,"BOTTOMLEFT",0,0);
-		fuFrame.SetListF.cheduiLanguage:SetPoint("BOTTOMRIGHT",fuFrame.SetListF,"BOTTOMRIGHT",0,0);
-		fuFrame.SetListF.cheduiLanguage:SetHeight(260);
-		local enabled = C_LFGList.GetLanguageSearchFilter();
-		-- local languages = C_LFGList.GetAvailableLanguageSearchFilter();--系统过滤器选择列表
-		-- for k,v in pairs(languages) do
-		-- 	enabled[k] = true;
-		-- end
-		local defaults = C_LFGList.GetDefaultLanguageSearchFilter();--默认过滤
-		for k,v in pairs(defaults) do
-			enabled[k] = true;
-		end
-		enabled["enUS"] = true;
-		enabled["zhTW"] = true;
-		enabled["zhCN"] = true;
-		C_LFGList.SaveLanguageSearchFilter(enabled)
-		for k,v in pairs(enabled) do
-			local text = _G["LFG_LIST_LANGUAGE_"..string.upper(k)];
-			local langua = PIGCheckbutton_R(fuFrame.SetListF.cheduiLanguage,{text,text})
-			langua:Disable()
-			langua:SetChecked(v)
-			langua:SetScript("OnClick", function (self)
-				self:SetChecked(true)
-			end);
-		end
-	end
+	-- if PIG_MaxTocversion() then
+	-- 	fuFrame.SetListF.cheduiLanguage = PIGFrame(fuFrame.SetListF)
+	-- 	fuFrame.SetListF.cheduiLanguage:SetPoint("BOTTOMLEFT",fuFrame.SetListF,"BOTTOMLEFT",0,0);
+	-- 	fuFrame.SetListF.cheduiLanguage:SetPoint("BOTTOMRIGHT",fuFrame.SetListF,"BOTTOMRIGHT",0,0);
+	-- 	fuFrame.SetListF.cheduiLanguage:SetHeight(260);
+	-- 	local enabled = C_LFGList.GetLanguageSearchFilter();
+	-- 	-- local languages = C_LFGList.GetAvailableLanguageSearchFilter();--系统过滤器选择列表
+	-- 	-- for k,v in pairs(languages) do
+	-- 	-- 	enabled[k] = true;
+	-- 	-- end
+	-- 	local defaults = C_LFGList.GetDefaultLanguageSearchFilter();--默认过滤
+	-- 	for k,v in pairs(defaults) do
+	-- 		enabled[k] = true;
+	-- 	end
+	-- 	enabled["enUS"] = true;
+	-- 	enabled["zhTW"] = true;
+	-- 	enabled["zhCN"] = true;
+	-- 	C_LFGList.SaveLanguageSearchFilter(enabled)
+	-- 	for k,v in pairs(enabled) do
+	-- 		local text = _G["LFG_LIST_LANGUAGE_"..string.upper(k)];
+	-- 		local langua = PIGCheckbutton_R(fuFrame.SetListF.cheduiLanguage,{text,text})
+	-- 		langua:Disable()
+	-- 		langua:SetChecked(v)
+	-- 		langua:SetScript("OnClick", function (self)
+	-- 			self:SetChecked(true)
+	-- 		end);
+	-- 	end
+	-- end
 	TardisInfo.ADD_UI()
 end
 --======

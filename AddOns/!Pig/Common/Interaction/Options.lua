@@ -1,6 +1,5 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
-local _, _, _, tocversion = GetBuildInfo()
 ---
 local Create=addonTable.Create
 local PIGLine=Create.PIGLine
@@ -101,7 +100,7 @@ fujiF.AutoRepair:SetScript("OnClick", function (self)
 		PIGA["Interaction"]["AutoRepair"]=false;
 	end
 end);
-if tocversion>19999 then
+if PIG_MaxTocversion(20000,true) then
 	fujiF.GonghuiRepair = PIGCheckbutton(fujiF,{"LEFT",fujiF.AutoRepair,"RIGHT",200,0},{"优先使用公会资金", "修理时优先使用公会资金"})
 	fujiF.GonghuiRepair:SetScript("OnClick", function (self)
 		if self:GetChecked() then

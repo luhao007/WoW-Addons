@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 --------------------------------------------
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
@@ -8,10 +7,9 @@ local PIGFontString=Create.PIGFontString
 local CommonInfo=addonTable.CommonInfo
 local FasongYCqingqiu=addonTable.Fun.FasongYCqingqiu
 ---
-local gelibanban = 40000
 local listNameFun={
 	[STATUS_TEXT_TARGET..INFO]=function(wanjiaName)
-		if tocversion<gelibanban then
+		if PIG_MaxTocversion() then
 			C_FriendList.SendWho(WHO_TAG_EXACT..wanjiaName, Enum.SocialWhoOrigin.Item);
 		else
 			C_FriendList.SendWho(WHO_TAG_EXACT..wanjiaName, Enum.SocialWhoOrigin.ITEM);
@@ -141,7 +139,7 @@ function CommonInfo.Interactionfun.RightPlus()
 			PigRightF:SetHeight(caidanH*num+12);
 			PigRightF:Show();
 		end
-		if tocversion<100000 then
+		if PIG_MaxTocversion() then
 			DropDownList1:HookScript("OnShow", function(self)
 				Show_RightF(PigRightF.listName)
 		    end)
@@ -200,11 +198,11 @@ function CommonInfo.Interactionfun.RightPlus()
 			-- _G["RightF_TAB_"..i.."UnCheck"]:Hide()
 			tabhang:SetScript("OnEnter", function (self)
 				self.Highlight:Show()
-				if tocversion<100000 then DropDownList1.RF = true end
+				if PIG_MaxTocversion() then DropDownList1.RF = true end
 			end)
 			tabhang:SetScript("OnLeave", function (self)
 				self.Highlight:Hide()
-				if tocversion<100000 then DropDownList1.RF = nil end
+				if PIG_MaxTocversion() then DropDownList1.RF = nil end
 			end)
 			tabhang:SetScript("OnClick", function(self)
 				ClickGongNeng(self:GetText(),PigRightF)

@@ -1,5 +1,4 @@
 local _, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local L=addonTable.locale
 ---
 local Fun=addonTable.Fun
@@ -10,6 +9,7 @@ local PIGFontString=Create.PIGFontString
 local PIGCheckbutton=Create.PIGCheckbutton
 local Data=addonTable.Data
 local BusinessInfo=addonTable.BusinessInfo
+local GetItemInfo=GetItemInfo or C_Item and C_Item.GetItemInfo
 local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 local baocunnum = 40
 --------------
@@ -176,7 +176,7 @@ local function zhixingdianjiFUn(framef)
 	end);
 end
 function BusinessInfo.QuicAuc()
-	if tocversion<50000 then
+	if PIG_MaxTocversion() then
 		if PIGA["AHPlus"]["QuicAuc"] then
 			if NDui then
 				local NDui_BagName,slotnum = Data.NDui_BagName[1],Data.NDui_BagName[2]
@@ -225,7 +225,7 @@ end)
 function BusinessInfo.AHPlus_ADDUI()
 	if PIGA["AHPlus"]["Open"] then
 		BusinessInfo.QuicAuc()
-		if tocversion<90000 then--9.2.7暗影国度跨服务器包括宝石、草药、合剂、消耗品等。不过，武器和盔甲这类非商品类物品仍然只能在单个服务器内交易，并不会跨服共享
+		if PIG_MaxTocversion(90000) then--9.2.7暗影国度跨服务器包括宝石、草药、合剂、消耗品等。不过，武器和盔甲这类非商品类物品仍然只能在单个服务器内交易，并不会跨服共享
 			PIGA["AHPlus"]["CacheData"][PIG_OptionsUI.Realm]=PIGA["AHPlus"]["CacheData"][PIG_OptionsUI.Realm] or {}
 		end
 		if IsAddOnLoaded("Blizzard_AuctionHouseUI") then

@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local Create, Data, Fun, L= unpack(PIG)
 local match = _G.string.match
 ------------------------

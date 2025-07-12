@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 ------------------------
 local tianfuBG = {
 	["DEATHKNIGHT"]={136864,136865,136866,136867,136868,136869,136870,136871,136872,136873,136874,136875},
@@ -5390,16 +5389,16 @@ local TalentData={
 	["GetTianfuTXT"] = function() end,
 	["GLYPH_NUM"]=6,
 }
-if tocversion<20000 then
-elseif tocversion<30000 then
+if PIG_MaxTocversion(20000) then
+elseif PIG_MaxTocversion(30000) then
 	TalentData.tianfuH = 480
 	TalentData.PIGtianfuhangshu = 9
 	TalentData.tianfuID=tianfuID_TBC
-elseif tocversion<40000 then
+elseif PIG_MaxTocversion(40000) then
 	TalentData.tianfuH = 570
 	TalentData.PIGtianfuhangshu = 11
 	TalentData.tianfuID=tianfuID_WLK
-elseif tocversion<50000 then
+elseif PIG_MaxTocversion(50000) then
 	TalentData.tianfuID=tianfuID_CTM
 	TalentData.tianfuID_ICON=tianfuID_CTM_ICON
 	TalentData.GLYPH_NUM=9

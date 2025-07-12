@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.8.0 - July 9, 2025
+### Added
+- Retail: Added a defeated indicator to boss portraits and boss tooltips, like the built-in instance map (Note that this will only be as good as the built-in map, which sometimes doesn't mark bosses as defeated)
+### Changed
+- Cata/MoP: Enabled boss portraits on the map (if enabled in Atlas options) and in the boss list
+### Fixed
+- Retail: Fix position of EJ loot frame
+
 ## 3.7.1 - July 3, 2025
 ### Fixed
 - Cata/MoP: Remove dungeon journal buttons for instances that aren't in the game just yet
@@ -591,7 +599,7 @@ v1.41.00 (Apr. 14, 2017)
 v1.40.06 (Apr. 13, 2017)
 ------------------------
 - Checking deprecated plugins now will recognize the alpha build's version
-  if specifed; or will ignore those set "v3.7.1" as the version
+  if specifed; or will ignore those set "v3.8.0" as the version
   number to be changed by CurseForge's auto-packaging.
 
 v1.40.05 (Apr. 13, 2017)

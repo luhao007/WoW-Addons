@@ -1,7 +1,6 @@
 local _, addonTable = ...;
 local BusinessInfo=addonTable.BusinessInfo
 function BusinessInfo.FastFen()
-	local _, _, _, tocversion = GetBuildInfo()
 	local L=addonTable.locale
 	local Data=addonTable.Data
 	local Fun=addonTable.Fun
@@ -25,7 +24,7 @@ function BusinessInfo.FastFen()
 	local _GN,_GNE = "分解","Fen"
 	local BindingName = GnUI.."_".._GNE
 	local IconSpell = {132853,13262}
-	if tocversion<20000 then IconSpell[1]=135952 end
+	if PIG_MaxTocversion(20000) then IconSpell[1]=135952 end
 	local fujiF,fujiTabBut=PIGOptionsList_R(_G[GnUI].F,"分",50,"Left")
 	BusinessInfo.ADDScroll(fujiF,_GN,_GNE,17,{false,"AutoSellBuy",_GNE.."_List"})
 	------

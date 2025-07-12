@@ -1,5 +1,4 @@
 local _, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 --------
 local Create = addonTable.Create
 local PIGFrame=Create.PIGFrame
@@ -12,7 +11,7 @@ local EngravingSlot=Data.EngravingSlot
 -----
 local QuickButUI=_G[Data.QuickButUIname]
 QuickButUI.ButList[4]=function()
-	if tocversion>20000 or not PIGA["QuickBut"]["Open"] or not PIGA["QuickBut"]["Rune"] then return end
+	if PIG_MaxTocversion(20000,true) or not PIGA["QuickBut"]["Open"] or not PIGA["QuickBut"]["Rune"] then return end
 	if not C_Engraving or C_Engraving and not C_Engraving.IsEngravingEnabled() then return end
 	if QuickButUI.Rune then return end
 	QuickButUI.Rune=true	

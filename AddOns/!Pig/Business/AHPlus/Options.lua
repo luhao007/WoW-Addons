@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local L=addonTable.locale
 local Create=addonTable.Create
 local PIGSlider=Create.PIGSlider
@@ -12,6 +11,7 @@ local PIGQuickBut=Create.PIGQuickBut
 ------
 local BusinessInfo=addonTable.BusinessInfo
 local fuFrame,fuFrameBut = BusinessInfo.fuFrame,BusinessInfo.fuFrameBut
+local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 
 local GnName= "拍卖助手"
 BusinessInfo.AHPlusData={}
@@ -19,7 +19,7 @@ BusinessInfo.AHPlusData={}
 function BusinessInfo.AHPlusOptions()
 	fuFrame.GNNUM=fuFrame.GNNUM+3
 	local AHPlus_tooltip="在拍卖行界面增加一个缓存单价按钮，时光徽章界面显示历史价格";
-	if tocversion<50000 then
+	if PIG_MaxTocversion() then
 		AHPlus_tooltip="在拍卖行浏览列表显示一口价，和涨跌百分比。界面增加一个缓存单价按钮，时光徽章界面显示历史价格";
 	end
 	fuFrame.AHPlus =PIGCheckbutton(fuFrame,{"TOPLEFT",fuFrame,"TOPLEFT",20,-20},{GnName, AHPlus_tooltip})
@@ -50,7 +50,7 @@ function BusinessInfo.AHPlusOptions()
 			PIGA["AHPlus"]["AHtooltip"]=false;
 		end
 	end);
-	if tocversion<50000 then
+	if PIG_MaxTocversion() then
 		fuFrame.AHPlus.AHUIoff =PIGCheckbutton(fuFrame.AHPlus,{"LEFT",fuFrame.AHPlus.AHtooltip,"RIGHT",220,0},{"禁止专业面板关闭","拍卖界面打开时禁止系统的专业面板自动关闭功能"})
 		fuFrame.AHPlus.AHUIoff:SetScript("OnClick", function (self)
 			if self:GetChecked() then

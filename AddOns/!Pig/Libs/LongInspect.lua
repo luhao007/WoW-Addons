@@ -1,7 +1,6 @@
 local addonName, addonTable = ...;
 local sub = _G.string.sub
 local match = _G.string.match
-local _, _, _, tocversion = GetBuildInfo()
 local Create = addonTable.Create
 -------------
 local Fun=addonTable.Fun

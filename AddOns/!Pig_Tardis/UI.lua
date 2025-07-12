@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local Create, Data, Fun, L= unpack(PIG)
 ---------------------------------
 local PIGFrame=Create.PIGFrame
@@ -66,15 +65,8 @@ function TardisInfo.ADD_UI()
 		PIGA["Tardis"][vfname]["DaojishiCD"]=GetServerTime();
 		fujiF.JieshouInfoList={};
 		fujiF.GetBut.yanchiNerMsg=nil
-		if tocversion<40000 then
+		if PIG_MaxTocversion() then
 			SendChatMessage(InfoMsgList[gnindexID],"CHANNEL",nil,fujiF.GetBut.PIGID)
-			-- PIGSendAddonMessage(InvF.Biaotou,InfoMsgList[gnindexID],"YELL")
-			-- if IsInGuild() then PIGSendAddonMessage(InvF.Biaotou,InfoMsgList[gnindexID],"GUILD") end
-			-- if IsInRaid() then
-			-- 	if IsInRaid(LE_PARTY_CATEGORY_HOME) then PIGSendAddonMessage(InvF.Biaotou,InfoMsgList[gnindexID],"RAID") end
-			-- elseif IsInGroup() then
-			-- 	if IsInGroup(LE_PARTY_CATEGORY_HOME) then PIGSendAddonMessage(InvF.Biaotou,InfoMsgList[gnindexID],"PARTY") end
-			-- end
 		else
 			PIGSendAddonMessage(InvF.Biaotou,InfoMsgList[gnindexID],"CHANNEL",fujiF.GetBut.PIGID)
 		end

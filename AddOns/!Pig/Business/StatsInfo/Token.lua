@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local L=addonTable.locale
 local Create=addonTable.Create
 local fmod=math.fmod
@@ -207,7 +206,7 @@ function BusinessInfo.Token(StatsInfo)
 	end
 	local function GetTokenInfo()
 		local TokensInfo = {}
-		if tocversion<100000 then
+		if PIG_MaxTocversion(100000) then
 			local currencyListSize = numButtons
 			for index=1,currencyListSize do
 				local name, isHeader, isExpanded, isUnused, isWatched, count, icon, maxQuantity, maxEarnable, quantityEarned, isTradeable, itemID = GetCurrencyListInfo(index)

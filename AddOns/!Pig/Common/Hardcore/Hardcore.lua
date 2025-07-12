@@ -1,6 +1,5 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
-if tocversion>20000 then return end
+if PIG_MaxTocversion(20000,true) then return end
 local active = C_GameRules.IsHardcoreActive()
 if not active then return end
 ---

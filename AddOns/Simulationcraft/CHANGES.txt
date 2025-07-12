@@ -1,16 +1,10 @@
-lightweight tag 01c0d09969708cfaab5495220ba85c46ed1bd0ba patch-11.2.0
+lightweight tag febe6299e6cf2ebfb60d9ce4280c67068d8be344 patch-11.2.0-01
 Author:	Dave Hendler <sollaires@gmail.com>
-Date:	Wed Jun 25 14:27:14 2025 -0700
+Date:	Wed Jul 9 10:56:54 2025 -0700
 
-commit 01c0d09969708cfaab5495220ba85c46ed1bd0ba
+commit febe6299e6cf2ebfb60d9ce4280c67068d8be344
 Author: Dave Hendler <sollaires@gmail.com>
-Date:   Wed Jun 25 14:27:14 2025 -0700
+Date:   Wed Jul 9 10:56:54 2025 -0700
 
-    Bump version to 11.2
-
-commit fa61babd1135dc75c4a43296527e9ca18e62c2ed
-Author: Dave Hendler <sollaires@gmail.com>
-Date:   Wed Jun 25 14:26:40 2025 -0700
-
-    Fix an issue with Spark Burst tooltip not being found because of pattern matching
+    Add Undermine Gilded achievement
 

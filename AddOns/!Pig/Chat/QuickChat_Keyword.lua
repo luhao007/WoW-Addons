@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local gsub = _G.string.gsub 
 local find = _G.string.find
 local sub = _G.string.sub
@@ -204,7 +203,7 @@ function QuickChatfun.QuickBut_Keyword()
 		["KeywordF_x"]={0,56,0,56},
 		["ToBotBut"]={"minimal-scrollbar-arrow-returntobottom","minimal-scrollbar-arrow-returntobottom-down","minimal-scrollbar-arrow-returntobottom","minimal-scrollbar-arrow-returntobottom-over"},
 	}
-	if tocversion<100000 then 
+	if PIG_MaxTocversion() then 
 		TiquCanshu["KeywordF_x"]={0,56,-14,56} 
 		TiquCanshu["ToBotBut"]={"interface/chatframe/ui-chaticon-scrollend-up.blp","interface/chatframe/ui-chaticon-scrollend-down.blp","interface/chatframe/ui-chaticon-scrollend-disabled.blp","interface/chatframe/ui-chaticon-blinkhilight.blp"}
 	end
@@ -254,7 +253,7 @@ function QuickChatfun.QuickBut_Keyword()
 	ChatF99.ScrollToBottomButton:SetPushedTexture(TiquCanshu["ToBotBut"][2])
 	ChatF99.ScrollToBottomButton:SetDisabledTexture(TiquCanshu["ToBotBut"][3])
 	ChatF99.ScrollToBottomButton:SetHighlightTexture(TiquCanshu["ToBotBut"][4]);
-	if tocversion<100000 then
+	if PIG_MaxTocversion() then
 		ChatF99.ScrollToBottomButton:SetSize(24,24);
 		ChatF99.ScrollToBottomButton.hilight = ChatF99.ScrollToBottomButton:CreateTexture(nil,"OVERLAY");
 		ChatF99.ScrollToBottomButton.hilight:SetTexture("interface/chatframe/ui-chaticon-blinkhilight.blp");
@@ -273,7 +272,7 @@ function QuickChatfun.QuickBut_Keyword()
 		PlaySound(SOUNDKIT.IG_CHAT_BOTTOM);
 		local ggff = self:GetParent()
 		ggff:ScrollToBottom();
-		if tocversion<100000 then
+		if PIG_MaxTocversion() then
 			self:Hide();
 			self.hilight:Hide();
 		else
@@ -287,7 +286,7 @@ function QuickChatfun.QuickBut_Keyword()
 		ChatF99.ScrollToBottomButton:Show()
 		FCF_FadeInScrollbar(self)
 		if delta == 1 then
-			if tocversion<100000 then
+			if PIG_MaxTocversion() then
 				self.ScrollToBottomButton:Show();
 				self.ScrollToBottomButton.hilight:Show();
 			else
@@ -297,7 +296,7 @@ function QuickChatfun.QuickBut_Keyword()
 		elseif delta == -1 then
 			self:ScrollDown()
 			if self:GetScrollOffset()==0 then
-				if tocversion<100000 then
+				if PIG_MaxTocversion() then
 					self.ScrollToBottomButton:Hide();
 					self.ScrollToBottomButton.hilight:Hide();
 				else
@@ -1023,7 +1022,7 @@ function QuickChatfun.QuickBut_Keyword()
 	BlackF.F.BlackF.tishi1:SetJustifyH("LEFT");
 
 	local DFKeywords = "WOW，收G，出G，收米，出米，出大米，收大米，纯手工，急速升级，价格实惠，加V，+V，效率#升级，极速，+V，WLK499，躺赢，"
-	if tocversion<20000 then
+	if PIG_MaxTocversion(20000) then
 		Keywords=DFKeywords..
 		"0.01，0.02，0.03，0.04，0.05，0.06，0.07，0.08，0.09，0.1，0.11，0.12，"..
 		"1-10，1-20，1-30，1-40，1-50，1-60，8-20，15-31，15-25，20-40，25-30，15-30，25-40，30-40，40-48，"..
@@ -1034,11 +1033,11 @@ function QuickChatfun.QuickBut_Keyword()
 		"血月#优惠，血月#特价，血月#1R，血月#一R，血月#一波，血月#刷刷，血月#嘎嘎，血月#特惠，帮做#血月，帮做#鲜血之月，急速#帮写，坑杀#血月，"..
 		"航空，全图，中转，全球中转，"..
 		"附魔#平价，附魔#真人，附魔#专业#披风，附魔#单手#双手，武#盾#胸，附魔#代工，附魔#拆卸"
-	elseif tocversion<30000 then
+	elseif PIG_MaxTocversion(30000) then
 		Keywords=DFKeywords
-	elseif tocversion<40000 then
+	elseif PIG_MaxTocversion(40000) then
 		Keywords=DFKeywords
-	elseif tocversion<50000 then
+	elseif PIG_MaxTocversion(50000) then
 		Keywords=DFKeywords
 	else
 		Keywords=DFKeywords

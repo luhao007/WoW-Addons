@@ -1,6 +1,5 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
-local _, _, _, tocversion = GetBuildInfo()
 local match = _G.string.match
 local find = _G.string.find
 --
@@ -24,7 +23,11 @@ local TalentData=Data.TalentData
 local Fun=addonTable.Fun
 local GetRuneData=Fun.GetRuneData
 local GetItemStats=GetItemStats or C_Item and C_Item.GetItemStats
+local GetItemGem=GetItemGem or C_Item and C_Item.GetItemGem
 local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
+local GetDetailedItemLevelInfo=GetDetailedItemLevelInfo or C_Item and C_Item.GetDetailedItemLevelInfo
+local GetSpecialization = GetSpecialization or C_SpecializationInfo and C_SpecializationInfo.GetSpecialization
+local GetSpecializationInfo = GetSpecializationInfo or C_SpecializationInfo and C_SpecializationInfo.GetSpecializationInfo
 -------------
 local ListWWWHHH = {206,425,18,36,6}--3Gembut/4buweiW/5宝石+附魔+符文数
 --获取宝石槽位信息add
@@ -219,7 +222,7 @@ local function PIGGetTaozhuang(statsg)
 end
 local function PIGGetItemStats(Parent,soltlink)
 	if not Parent:IsVisible() then return end	
-	if tocversion<50000 then
+	if PIG_MaxTocversion() then
 		PIG_TooltipUI:ClearLines();
 		PIG_TooltipUI:SetHyperlink(soltlink)
 		local quality = C_Item.GetItemQualityByID(soltlink) or 1
@@ -246,7 +249,7 @@ local function ShowItemTaozhuang(Parent,datax)
 		Parent.xuhaoID = 0
 		wipe(Parent.allstats)
 		for k,v in pairs(datax) do
-			if tocversion<50000 then
+			if PIG_MaxTocversion() then
 				PIG_TooltipUI:ClearLines();
 				PIG_TooltipUI:SetHyperlink(v)
 			else
@@ -318,7 +321,7 @@ local function ShowItemList(Parent,unit,datax,fuwen)
 	            end)
 	        	---
 				local baoshiinfo=PIGGetGemList(itemLink)
-				if tocversion<50000 and tocversion>29999 and k==6 then table.insert(baoshiinfo,55655) end
+				if PIG_MaxTocversion() and PIG_MaxTocversion(29999,true) and k==6 then table.insert(baoshiinfo,55655) end
 			    local baoshiNUM=#baoshiinfo
 			    fujikk.dataxInfo.baoshiNUM=baoshiNUM
 				for Gemid=1,baoshiNUM do
@@ -446,7 +449,7 @@ local function ShowItemList(Parent,unit,datax,fuwen)
 		--INVTYPE_WEAPONMAINHAND--主手
 		--INVTYPE_SHIELD--副手
 		--INVTYPE_WEAPON--单手
-		if tocversion<50000 then
+		if PIG_MaxTocversion() then
 			if datax[18] then wuqiLV[3][1] = GetDetailedItemLevelInfo(datax[18]) end
 			--新计算方式(主+副手/远程*2取其大者)
 			if wuqiLV[1][1]>0 or wuqiLV[2][1]>0 or wuqiLV[3][1]>0 then
@@ -572,7 +575,7 @@ local function add_ItemList(fujik,miaodian,ziji)
 				clsit:SetPoint("TOPLEFT",ZBLsit,"TOPLEFT",ZBLsit.LeftJG,-54);
 			end
 		else
-			if tocversion<50000 then
+			if PIG_MaxTocversion(50000) then
 				clsit:SetPoint("TOPLEFT",ZBLsit.ListHang[InvSlot["ID"][i-1]],"BOTTOMLEFT",0,-2);
 			else
 				clsit:SetPoint("TOPLEFT",ZBLsit.ListHang[InvSlot["ID"][i-1]],"BOTTOMLEFT",0,-3.2);
@@ -714,7 +717,7 @@ local function add_ItemList(fujik,miaodian,ziji)
 			self.level=Level
 			self.zhiyeID=classId
 			self.zhiye=classFilename
-			if tocversion<50000 then
+			if PIG_MaxTocversion(50000) then
 				jichuxinxi.Talent=TalentData.GetTianfuIcon(IS_guacha,classFilename)
 				jichuxinxi.OpenTF=function()
 					if IS_guacha then
@@ -726,7 +729,7 @@ local function add_ItemList(fujik,miaodian,ziji)
 							self.TalentF:Show_Tianfu(TalentData.GetTianfuNum(true))
 						end
 					else
-						if tocversion<20000 then
+						if PIG_MaxTocversion(20000) then
 							PlayerTalentFrame_LoadUI();
 							if ( PlayerTalentFrame:IsShown() ) then
 								HideUIPanel(PlayerTalentFrame);
@@ -747,11 +750,11 @@ local function add_ItemList(fujik,miaodian,ziji)
 				if IS_guacha then
 					local specID = GetInspectSpecialization(unit)
 					local id, name, description, icon = GetSpecializationInfoByID(specID)
-					jichuxinxi.Talent={name, icon or 132222, 1}
+					jichuxinxi.Talent={name ~= "" and name or NONE, icon or 132222, 1}
 				else
 					local specIndex = GetSpecialization()--当前专精
 					local id, name, description, icon = GetSpecializationInfo(specIndex)
-					jichuxinxi.Talent={name, icon or 132222, 1}
+					jichuxinxi.Talent={name ~= "" and name or NONE, icon or 132222, 1}
 				end
 				jichuxinxi.OpenTF=function()
 					if IS_guacha then
@@ -759,10 +762,18 @@ local function add_ItemList(fujik,miaodian,ziji)
 							PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);
 							PIG_OptionsUI:ErrorMsg("请专心战斗");
 						else
-							InspectPaperDollFrameTalentsButtonMixin:OnClick()
+							if InspectPaperDollFrameTalentsButtonMixin then
+								InspectPaperDollFrameTalentsButtonMixin:OnClick()
+							else
+								InspectFrameTab3:Click()
+							end
 						end
 					else
-						PlayerSpellsMicroButtonMixin:OnClick()
+						if PlayerSpellsMicroButtonMixin then
+							PlayerSpellsMicroButtonMixin:OnClick()
+						else
+							TalentMicroButton:Click()
+						end
 					end
 				end
 			end

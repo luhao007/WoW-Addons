@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local Create = addonTable.Create
 local PIGFontString=Create.PIGFontString
 local Mapfun=addonTable.Mapfun
@@ -27,9 +26,9 @@ function Mapfun.WorldMap_XY()
 	WorldMapFrame.xyf:SetSize(340,26);
 	czWeizhi()
 	local mapxydata = {["x"]={4, 0, 14}}
-	if tocversion<30000 then
+	if PIG_MaxTocversion(30000) then
 
-	elseif tocversion<40000 then
+	elseif PIG_MaxTocversion(40000) then
 		mapxydata.x[1]=10
 		mapxydata.x[2]=-1
 		mapxydata.x[3]=13
@@ -74,7 +73,7 @@ end
 ----
 function Mapfun.WorldMap_Wind()
 	if not PIGA["Map"]["WorldMapWind"] then return end
-	if tocversion<50000 then
+	if PIG_MaxTocversion() then
 		---SetCVar("miniWorldMap", 0)
 		UIPanelWindows["WorldMapFrame"] = nil
 		WorldMapFrame:SetIgnoreParentScale(false)

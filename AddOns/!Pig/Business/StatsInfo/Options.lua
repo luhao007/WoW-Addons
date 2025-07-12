@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local L=addonTable.locale
 local Create=addonTable.Create
 local PIGLine=Create.PIGLine
@@ -97,7 +96,7 @@ function BusinessInfo.StatsInfoOptions()
 		end
 	end);
 	local greenTexture = "interface/common/indicator-green.blp"
-	if tocversion<100000 then
+	if PIG_MaxTocversion(100000) then
 		local CreateIcons = "Interface/Glues/CharacterCreate/CharacterCreateIcons"
 		local Texwidth,Texheight = 500,500
 		GameTooltip:HookScript("OnTooltipSetItem", function(self)
@@ -537,7 +536,7 @@ function BusinessInfo.StatsInfoOptions()
 		TradeFrame.zhiye:SetSize(www,hhh);
 		TradeFrame.zhiye:SetPoint("TOP", TradeFrame, "TOP", 6, 18);
 		TradeFrame.zhiye.Border = TradeFrame.zhiye:CreateTexture(nil, "BORDER");
-		if tocversion>90000 then TradeFrame.zhiye:SetFrameLevel(555) end
+		if PIG_MaxTocversion(90000,true) then TradeFrame.zhiye:SetFrameLevel(555) end
 		TradeFrame.zhiye.Border:SetTexture("Interface/Minimap/MiniMap-TrackingBorder");
 		TradeFrame.zhiye.Border:SetSize(www+24,hhh+24);
 		TradeFrame.zhiye.Border:ClearAllPoints();
@@ -550,12 +549,12 @@ function BusinessInfo.StatsInfoOptions()
 		TradeFrame.dengji = CreateFrame("Button", nil, TradeFrame);
 		TradeFrame.dengji:SetSize(www+2,hhh);
 		TradeFrame.dengji:SetPoint("TOP", TradeFrame, "TOP", 48, -34);
-		if tocversion>90000 then TradeFrame.dengji:SetFrameLevel(555) end
+		if PIG_MaxTocversion(90000,true) then TradeFrame.dengji:SetFrameLevel(555) end
 		TradeFrame.dengji.Border = TradeFrame.dengji:CreateTexture(nil, "ARTWORK");
 		TradeFrame.dengji.Border:SetTexture("Interface/Minimap/MiniMap-TrackingBorder");
 		TradeFrame.dengji.Border:SetSize(www+28,hhh+24);
 		TradeFrame.dengji.Border:ClearAllPoints();
-		if tocversion<90000 then
+		if PIG_MaxTocversion(90000) then
 			TradeFrame.dengji.Border:SetPoint("CENTER", 11, -12);
 		else
 			TradeFrame.dengji.Border:SetPoint("CENTER", 10, -12);

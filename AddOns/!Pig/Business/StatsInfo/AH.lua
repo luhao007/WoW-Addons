@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 -- local fmod=math.fmod
 local match = _G.string.match
 local Fun=addonTable.Fun

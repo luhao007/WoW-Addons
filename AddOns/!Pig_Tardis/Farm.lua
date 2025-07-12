@@ -2,7 +2,6 @@ local addonName, addonTable = ...;
 local TardisInfo=addonTable.TardisInfo
 function TardisInfo.Farm(Activate)
 	if not PIGA["Tardis"]["Farm"]["Open"] then return end
-	local _, _, _, tocversion = GetBuildInfo()
 	local Create, Data, Fun, L= unpack(PIG)
 	local PIGFrame=Create.PIGFrame
 	local PIGEnter=Create.PIGEnter

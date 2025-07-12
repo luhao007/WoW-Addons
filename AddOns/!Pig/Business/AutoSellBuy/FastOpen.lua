@@ -1,7 +1,6 @@
 local _, addonTable = ...;
 local BusinessInfo=addonTable.BusinessInfo
 function BusinessInfo.FastOpen()
-	local _, _, _, tocversion = GetBuildInfo()
 	local L=addonTable.locale
 	local Data=addonTable.Data
 	local Fun=addonTable.Fun

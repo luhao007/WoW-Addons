@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local Create, Data, Fun, L= unpack(PIG)
 local match = _G.string.match
 ------------------------
@@ -228,7 +227,7 @@ function TardisInfo.Houche(Activate)
 			self.err:SetText("请先加入"..pindao.."频道");
 			return
 		end
-		if tocversion<80000 then
+		if PIG_MaxTocversion() then
 			SendChatMessage(GetInfoMsg..TabF.selectedCategory..TabF.selectedGroup..TabF.selectedActivity,"CHANNEL",nil,self.PIGID)
 		else
 			PIGSendAddonMessage(Biaotou,GetInfoMsg..TabF.selectedCategory..TabF.selectedGroup..TabF.selectedActivity,"CHANNEL",self.PIGID)
@@ -864,7 +863,7 @@ function TardisInfo.Houche(Activate)
 				if arg9~=pindao then return end
 				if arg1==GetInfoMsg..FCTabF.selectedCategory..FCTabF.selectedGroup..FCTabF.selectedActivity or arg1==GetInfoMsg..FCTabF.selectedCategory..FCTabF.selectedGroup.."0" then
 					local waname = arg2
-					if tocversion<40000 then
+					if PIG_MaxTocversion() then
 						waname = arg5
 					end
 					fasongBendiMsg(waname)
@@ -882,7 +881,7 @@ function TardisInfo.Houche(Activate)
 				local qianzhui = arg2:sub(1,2)
 				if qianzhui=="!H" then
 					local waname = arg4
-					if tocversion<40000 then
+					if PIG_MaxTocversion() then
 						waname = arg5
 					end
 					local houzhui = arg2:sub(3,-1)

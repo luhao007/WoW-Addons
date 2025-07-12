@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local Create=addonTable.Create
 local PIGCheckbutton=Create.PIGCheckbutton
 local PIGFontString=Create.PIGFontString
@@ -14,7 +13,7 @@ local UIdataWHXY={
 	allwww = 715,
 	previewT = "previewTalentsOption"--"previewTalents"
 }
-if tocversion>20000 then
+if PIG_MaxTocversion(20000,true) then
 	UIdataWHXY.gundongHH=636
 	UIdataWHXY.ScrollPY=-90
 	UIdataWHXY.allwww = 920
@@ -382,7 +381,7 @@ local function Uptate_FrameX()
 		local activeTalentGroup, numTalentGroups = GetActiveTalentGroup(false, PlayerTalentFrame.pet), GetNumTalentGroups(false, PlayerTalentFrame.pet);
         PlayerTalentFrame_UpdateControls(activeTalentGroup, numTalentGroups)
 	end)
-	if tocversion>20000 then
+	if PIG_MaxTocversion(20000,true) then
 		hooksecurefunc("PlayerTalentFrame_ShowGlyphFrame", function()
 			if not GlyphFrame.big then
 				if PIG_OptionsUI.IsOpen_ElvUI() then
@@ -429,7 +428,7 @@ local function Uptate_FrameX()
 	local old_TalentFrame_Update=TalentFrame_Update
 	TalentFrame_Update=function(self)
 		if self==PlayerTalentFrame then
-			if tocversion>20000 then PlayerTalentFrame_ShowGlyphFrame();end
+			if PIG_MaxTocversion(20000,true) then PlayerTalentFrame_ShowGlyphFrame();end
 			PanelTemplates_SetTab(self, 1);--pig
 		end
 		old_TalentFrame_Update(self)
@@ -467,7 +466,7 @@ local function Uptate_FrameX()
 	if PIG_OptionsUI.IsOpen_NDui() then
 		PlayerTalentFrame:SetSize(UIdataWHXY.allwww,UIdataWHXY.gundongHH);
 	else
-		if tocversion<20000 then
+		if PIG_MaxTocversion(20000) then
 			PlayerTalentFrame:SetSize(UIdataWHXY.allwww,UIdataWHXY.gundongHH-20);
 		else
 			PlayerTalentFrame:SetSize(UIdataWHXY.allwww,UIdataWHXY.gundongHH-76);
@@ -615,7 +614,7 @@ local function Uptate_FrameX()
     end);
 end
 function FramePlusfun.Talent()
-	if tocversion<40000 then
+	if PIG_MaxTocversion(40000) then
 		if not PIGA["FramePlus"]["Talent"] then return end
 		if IsAddOnLoaded("Blizzard_TalentUI") then
 			Uptate_FrameX()
