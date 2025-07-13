@@ -300,24 +300,8 @@ function RSWorldMapButtonMixin:SetupMenu()
 					end)
 				npcFilter:SetEnabled(function() 
 					local npcInfo = RSNpcDB.GetInternalNpcInfo(npcID)
-					if (npcInfo and RSConfigDB.IsWeeklyRepNpcFilterEnabled()) then
-						if (npcInfo.warbandQuestID) then
-							for _, questID in ipairs(npcInfo.warbandQuestID) do
-								if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
-									return false
-								end
-							end
-						elseif (RSMapDB.GetContinentOfMap(mapID) == RSConstants.KHAZ_ALGAR and not RSUtils.Contains(RSConstants.IGNORE_NPCS_REPUTATION, npcID) and not RSUtils.Contains(RSConstants.TWW_MAPS_WITHOUT_REP, mapID)) then
-							if (npcInfo.questID) then
-								for _, questID in ipairs(npcInfo.questID) do
-									if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
-										return false
-									end
-								end
-							else
-								return false
-							end
-						end
+					if (npcInfo and RSConfigDB.IsWeeklyRepNpcFilterEnabled() and RSMapDB.GetContinentOfMap(mapID) == RSConstants.KHAZ_ALGAR and not RSUtils.Contains(RSConstants.IGNORE_NPCS_REPUTATION, npcID) and not RSUtils.Contains(RSConstants.TWW_MAPS_WITHOUT_REP, mapID)) then
+						return false
 					end
 					
 					return true				

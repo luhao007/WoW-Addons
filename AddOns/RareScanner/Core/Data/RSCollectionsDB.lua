@@ -490,6 +490,14 @@ local function UpdateNotCollectedMountIDs(routines, routineTextOutput)
 			C_MountJournal.SetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_NOT_COLLECTED, notColletedFilter);
 			C_MountJournal.SetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_UNUSABLE, notUnusableFilter);
 			
+			-- Process hidden mounts
+			for _, mountID in ipairs (private.HIDDEN_MOUNT_IDS) do
+				local name, _, _, _, _, _, _, _, _, _, isCollected, _ = C_MountJournal.GetMountInfoByID(mountID)
+				if (not isCollected) then
+					table.insert(private.dbglobal.not_colleted_mounts_ids, mountID)
+				end
+			end
+			
 			RSLogger:PrintDebugMessage(string.format("UpdateNotCollectedMountIDs. [%s no conseguidas].", RSUtils.GetTableLength(private.dbglobal.not_colleted_mounts_ids)))
 			
 			if (routineTextOutput) then
