@@ -1,9 +1,9 @@
 local _, app = ...;
-local L, settings = app.L.SETTINGS_MENU, app.Settings;
+local L, settings = app.L, app.Settings;
 
 -- Global locals
-local pairs, ipairs, tonumber, math_floor, select, tostring, tinsert, tremove, RETRIEVING_DATA
-	= pairs, ipairs, tonumber, math.floor, select, tostring, tinsert, tremove, RETRIEVING_DATA;
+local pairs, ipairs, tonumber, math_floor, select, type, tostring, tinsert, tremove, RETRIEVING_DATA
+	= pairs, ipairs, tonumber, math.floor, select, type, tostring, tinsert, tremove, RETRIEVING_DATA;
 local Colorize = app.Modules.Color.Colorize;
 local GetNumberWithZeros = app.Modules.Color.GetNumberWithZeros;
 local IsRetrieving = app.Modules.RetrievingData.IsRetrieving;
@@ -123,7 +123,7 @@ local ConversionMethods = setmetatable({
 		end
 	end,
 	professionName = function(spellID, reference)
-		return IsRetrievingConversionMethod(GetSpellName(app.SkillIDToSpellID[spellID] or 0), reference)
+		return IsRetrievingConversionMethod(GetSpellName(app.SkillDB.SkillToSpell[spellID] or 0), reference)
 	end,
 }, {
 	__index = function(t, key)
@@ -174,12 +174,19 @@ local function ProcessInformationType(t, reference, tooltipInfo)
 	if val then
 		local text = ConversionMethods[t.informationTypeID](val, reference)
 		if text then
-			tinsert(tooltipInfo, { left = t.text, right = text});
+			tinsert(tooltipInfo, { left = t.text, right = text });
 		end
 	end
 end
 local CreateInformationType = app.CreateClass("InformationType", "informationTypeID", {
 	textLower = function(t)
+		if not t.text then
+			print("TEXT MISSING FOR INFORMATION TYPE");
+			for key,value in pairs(t) do
+				print("  ", key, value);
+			end
+			t.text = "WTF";
+		end
 		local textLower = t.text:lower();
 		t.textLower = textLower;
 		return textLower;
@@ -263,8 +270,8 @@ local function ProcessForCompletedBy(t, reference, tooltipInfo)
 		BuildKnownByInfoForKind(tooltipInfo, L.COMPLETED_BY);
 	end
 
-	-- Pre-MOP Known By types
-	if app.GameBuildVersion < 50000 then
+	-- Pre-WOD Known By types
+	if app.GameBuildVersion < 60000 then
 		id = reference.achievementID;
 		if id then
 			-- Prior to Cata, Achievements were not tracked account wide
@@ -471,6 +478,50 @@ local function GetSpecsString(specs, includeNames, trim)
 	return app.TableConcat(icons);
 end
 app.GetSpecsString = GetSpecsString
+
+-- Cost Helper Functions
+local function formatNumericWithCommas(amount)
+    local k
+    while true do
+        amount, k = tostring(amount):gsub("^(-?%d+)(%d%d%d)", '%1,%2')
+        if k == 0 then
+            break
+        end
+    end
+    return amount
+end
+local function GetMoneyString(amount)
+    if amount > 0 then
+        local formatted
+        local gold, silver, copper = math_floor(amount / 100 / 100), math_floor((amount / 100) % 100),
+            math_floor(amount % 100)
+        if gold > 0 then
+            formatted = formatNumericWithCommas(gold) .. "|T237618:0|t"
+        end
+        if silver > 0 then
+            formatted = (formatted or "") .. silver .. "|T237620:0|t"
+        end
+        if copper > 0 then
+            formatted = (formatted or "") .. copper .. "|T237617:0|t"
+        end
+        return formatted
+    end
+    return amount
+end
+local CostCurrencyCache = setmetatable({}, {
+	__index = function(t, id)
+		local o = app.CreateCurrencyClass(id);
+		t[id] = o;
+		return o;
+	end
+});
+local CostItemCache = setmetatable({}, {
+	__index = function(t, id)
+		local o = app.CreateItem(id);
+		t[id] = o;
+		return o;
+	end
+});
 
 -- The post processor uses a dynamic list to append additional entries as needed.
 local AppendedInformationTextEntries = {};
@@ -986,7 +1037,7 @@ local InformationTypes = {
 		end,
 	}),
 	CreateInformationType("criteriaID", { text = "Criteria ID" }),
-	CreateInformationType("currencyID", { text = "Currency ID" }),
+	CreateInformationType("currencyID", { text = L.CURRENCY_ID }),
 	CreateInformationType("difficultyID", { text = L.DIFFICULTY_ID }),
 	CreateInformationType("displayID", { text = L.DISPLAY_ID }),
 	CreateInformationType("encounterID", { text = L.ENCOUNTER_ID }),
@@ -1104,6 +1155,52 @@ local InformationTypes = {
 	CreateInformationType("b", { text = L.BINDING, priority = 9000, ShouldDisplayInExternalTooltips = false, }),
 	CreateInformationType("iLvl", { text = L.ITEM_LEVEL, priority = 9000 }),
 	CreateInformationType("__type", { text = L.OBJECT_TYPE, priority = 9001, ShouldDisplayInExternalTooltips = false, }),
+	CreateInformationType("Cost", { text = L.COST, priority = 9002,
+		Process = function(t, reference, tooltipInfo)
+			if reference.cost then
+				if type(reference.cost) == "table" then
+					local _, name, icon, amount;
+					for k,v in pairs(reference.cost) do
+						_ = v[1];
+						if _ == "g" then
+							tooltipInfo[#tooltipInfo + 1] = {
+								left = (k == 1 and t.text),
+								right = GetMoneyString(v[2]),
+							};
+						else
+							if _ == "i" then
+								local item = CostItemCache[v[2]];
+								name = item.text;
+								icon = item.icon;
+							elseif _ == "c" then
+								local currency = CostCurrencyCache[v[2]];
+								name = currency.text;
+								icon = currency.icon;
+							end
+							if not name then
+								reference.working = true;
+								name = RETRIEVING_DATA;
+							end
+							name = (icon and ("|T" .. icon .. ":0|t") or "") .. name;
+							_ = (v[3] or 1);
+							if _ > 1 then
+								name = _ .. "x  " .. name;
+							end
+							tooltipInfo[#tooltipInfo + 1] = {
+								left = (k == 1 and t.text),
+								right = name,
+							};
+						end
+					end
+				else
+					tooltipInfo[#tooltipInfo + 1] = {
+						left = t.text,
+						right = GetMoneyString(reference.cost),
+					};
+				end
+			end
+		end,
+	});
 
 	-- Summary Information Types
 	CreateInformationType("Repeatables", { text = "Repeatables", priority = 10999, ShouldDisplayInExternalTooltips = false,
@@ -1178,9 +1275,16 @@ local InformationTypes = {
 			end
 		end,
 	}),
+	CreateInformationType("sourceIgnored", { text = "sourceIgnored", priority = 11001, HideCheckBox = true, ForceActive = true, ShouldDisplayInExternalTooltips = false, 
+		Process = function(t, reference, tooltipInfo)
+			if reference.sourceIgnored then
+				tinsert(tooltipInfo, { left = L.DOES_NOT_CONTRIBUTE_TO_PROGRESS, wrap = true });
+			end
+		end,
+	}),
 	
 	CreateInformationType("SpecializationRequirements", {
-		priority = 9002,
+		priority = 9003,
 		text = "Specializations",
 		Process = app.GameBuildVersion >= 50000 and function(t, reference, tooltipInfo)
 			local specs = reference.specs;
@@ -1192,7 +1296,7 @@ local InformationTypes = {
 					return;
 				end
 			end
-			
+
 			-- specs is already filtered/sorted to only current class
 			if specs and #specs > 0 then
 				tinsert(tooltipInfo, { right = app.GetSpecsString(specs, true, true) });
@@ -1206,7 +1310,7 @@ local InformationTypes = {
 			end
 		end,
 	});
-	
+
 	-- We want this after most of the regular fields.
 	CreateInformationType("OnTooltip", {
 		priority = 10000,

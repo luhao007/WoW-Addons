@@ -48,12 +48,11 @@ local function CreateHash(t)
 			hash = hash .. ":" .. t.achievementID;
 		elseif key == "itemID" and t.modItemID and t.modItemID ~= t.itemID then
 			hash = key .. t.modItemID;
-		elseif key == "creatureID" then
-			if t.encounterID then hash = hash .. ":" .. t.encounterID; end
+		elseif key == "npcID" or key == "creatureID" then
 			local difficultyID = GetRelativeValue(t, "difficultyID");
 			if difficultyID then hash = hash .. "-" .. difficultyID; end
 		elseif key == "encounterID" then
-			if t.creatureID then hash = hash .. ":" .. t.creatureID; end
+			if t.npcID then hash = hash .. ":" .. t.npcID; end
 			local difficultyID = GetRelativeValue(t, "difficultyID");
 			if difficultyID then hash = hash .. "-" .. difficultyID; end
 			if t.crs then
@@ -265,13 +264,14 @@ local DefaultFields = {
 };
 
 if app.IsRetail then
+	local TryColorizeName = app.TryColorizeName
 	-- Crieve doesn't see these fields being included as necessary,
 	-- future research project is to look into seeing if this is something we want to keep or put somewhere else. (such as a function)
 	-- Default text should be a valid link or name
 	-- In Retail, text can be colored and can be based on a variety of possible fields
 	-- trying to individually maintain variable coloring in every object class is quite absurd
 	DefaultFields.text = function(t)
-		return t.link or app.TryColorizeName(t);
+		return t.link or TryColorizeName(t)
 	end
 end
 

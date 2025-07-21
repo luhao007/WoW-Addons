@@ -1,5 +1,15 @@
 ﻿# Changelog
 
+## 9.9.0 - July 15, 2025
+### Added
+- Added Legion Timewalking rewards, including the brand-new cosmetic items
+- Updated Cataclysm Timewalking rewards
+- Added AtlasLoot button to the Addon Compartment
+### Fixed
+- Fixed name of the first boss in Battle of Dazar'alor
+- Fixed tooltip/model/etc of the bosses in Battle of Dazar'alor so that they vary by faction as needed
+- Fixed the two Jadefire Masters items that vary by faction
+
 ## 9.8.1 - July 8, 2025
 ### Added
 - Added Chrono Corsair to Collections

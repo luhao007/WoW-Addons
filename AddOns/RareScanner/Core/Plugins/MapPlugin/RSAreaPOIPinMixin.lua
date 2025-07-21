@@ -153,4 +153,14 @@ function RSAreaPOIPinMixin:OnMouseDown(button)
 			RSMinimap.RefreshAllData(true)
 		end
 	end
+	
+	if (not InCombatLockdown() and self:DoesMapTypeAllowSuperTrack()) then
+		self:AdjustPointsOffset(1, -1);
+	end
+end
+
+function RSAreaPOIPinMixin:OnMouseUp(button)
+	if (not InCombatLockdown() and self:DoesMapTypeAllowSuperTrack()) then
+		self:AdjustPointsOffset(-1, 1);
+	end
 end

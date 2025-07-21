@@ -96,7 +96,6 @@ do
 	local KEY = "npcID"
 	local cache = app.CreateCache(KEY, "NPC")
 	cache.DefaultFunctions.name = function(t)
-		app.DirectGroupRefresh(t, true)
 		local _t, id = cache.GetCached(t)
 		local name = NPCNameFromID[id]
 		_t.name = name
@@ -238,6 +237,7 @@ end
 
 app.CreateNPC = function(id, t)
 	if id < 1 then
+		print("HEY! USE app.CreateCustomHeader(", id, ") instead!");
 		return CreateCustomHeader(id, t)
 	else
 		return CreateNPC(id, t)

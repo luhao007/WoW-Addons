@@ -100,6 +100,7 @@ AtlasLoot.AtlasLootDBDefaults = {
 			shown = true,
 			locked = false,
 			minimapPos = 218,
+			showInCompartment = true,
 		},
 		Button = { -- Button
 			["*"] = {

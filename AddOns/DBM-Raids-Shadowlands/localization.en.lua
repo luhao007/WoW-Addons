@@ -114,7 +114,8 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization(2439)
 
 L:SetMiscLocalization({
-	Fragment		= "Fragment "--Space is intentional, leave a space to add a number after it
+	Fragment		= "Fragment ",--Space is intentional, leave a space to add a number after it
+	PrePull			= "RAAAaaaarrGGHHHH!"
 })
 
 ---------------------------
@@ -161,7 +162,11 @@ L:SetMiscLocalization({
 ---------------------------
 --  Sylvanas Windrunner --
 ---------------------------
---L= DBM:GetModLocalization(2441)
+L= DBM:GetModLocalization(2441)
+
+L:SetMiscLocalization({
+	PrePull	= "Azeroth's champions. You've arrived at last."
+})
 
 -------------
 --  Trash  --

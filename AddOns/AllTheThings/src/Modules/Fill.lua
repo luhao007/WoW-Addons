@@ -111,7 +111,7 @@ local function GetRelativeFieldInSet(group, field, set)
 	end
 end
 
-local Scopes = {"TOOLTIP","LIST"}
+local Scopes = {"TOOLTIP","LIST","POPOUT"}
 local FillSettings = {
 	Container = "Fillers",
 	ScopesIgnored = {},
@@ -314,7 +314,7 @@ for scope,priority in pairs(ScopeFillPriority) do
 	end
 end
 app.AddEventHandler("OnStartup", function()
-	FillSettings.Tooltips.NPC = app.L.SETTINGS_MENU.FILL_NPC_DATA_CHECKBOX_TOOLTIP
+	FillSettings.Tooltips.NPC = app.L.FILL_NPC_DATA_CHECKBOX_TOOLTIP
 	FillSettings.Tooltips.SYMLINK = "Fills content which has alternate & notable availability under additional Sources.\nThis concept is generally utilized to help show content which may be Sourced under a general 'Rewards' (or similar) group in the Main list but can more-clearly be shown under specific Sources (multiple Vendors,etc.) when within the Mini list or Tooltips.\n\nNOTE: Tooltips where a Symlink is available will show this text:\n"..app.Modules.Color.Colorize(app.L.SYM_ROW_INFORMATION, app.Colors.SymLink)
 	FillSettings.Col = ArrayAppend({NAME}, Scopes)
 	local names = {"[]"}
@@ -556,9 +556,9 @@ local function SkipFillingGroup(group, FillData)
 	-- do not fill 'saved' groups in ATT tooltips
 	-- or groups directly under saved groups unless in Debug mode
 	if not app.MODE_DEBUG then
-		-- only ignored filling saved 'quest' groups (unless it's an Item, which we ignore the ignore... :D)
+		-- only ignore filling non-repeatable saved 'quest' groups (unless it's an Item, which we ignore the ignore... :D)
 		if group.questID then
-			if not group.itemID and group.saved then
+			if not (group.itemID or group.repeatable) and group.saved then
 				return true
 			end
 			-- don't fill under locked quests
@@ -568,8 +568,8 @@ local function SkipFillingGroup(group, FillData)
 		end
 		-- root fills of a thing from a saved parent should still show their contains, so don't use .parent
 		local parent = rawget(group, "parent");
-		-- direct parent is a saved quest, then do not fill with stuff
-		if parent and parent.questID and (parent.saved or parent.locked) then return true; end
+		-- direct parent is a non-repeatable saved quest, then do not fill with stuff
+		if parent and parent.questID and not parent.repeatable and (parent.saved or parent.locked) then return true; end
 	end
 end
 -- Fills the group and returns an array of the next layer of groups to fill
@@ -646,6 +646,7 @@ local FillGroups = function(group)
 	if skipFull then return end
 	-- Check if this group is inside a Window or not
 	local groupWindow = app.GetRelativeRawWithField(group, "window");
+	local fillScope = groupWindow and (groupWindow.Suffix == "CurrentInstance" and "LIST" or "POPOUT") or "TOOLTIP"
 	-- Setup the FillData for this fill operation
 	local FillData = {
 		Included = {},
@@ -656,14 +657,14 @@ local FillGroups = function(group)
 		-- TODO: Fillers can provide context requirements for themselves to be utilized for a given
 		-- fill operation.
 		-- i.e. provided the Root/Window/Instance/Combat -- the Filler may return that it should not be included
-		Fillers = ActiveFillFunctions[groupWindow and "LIST" or "TOOLTIP"],
+		Fillers = ActiveFillFunctions[fillScope],
 		SkipLevel = app.GetSkipLevel(),
 		Root = group,
 		FillRecipes = group.recipeID or app.ReagentsDB[group.itemID or 0],
 		-- Debug = group.itemID == 207026
 	};
 
-	-- app.PrintDebug("FillGroups",group.__type,group,app:SearchLink(group))
+	-- app.PrintDebug("FillGroups",group.__type,group,"Fillers",fillScope,app:SearchLink(group))
 	-- app.PrintTable(FillData)
 
 	-- Fill the group with all nestable content

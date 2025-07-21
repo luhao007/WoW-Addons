@@ -12,13 +12,11 @@ local SetPortraitTextureFromDisplayID = SetPortraitTextureFromCreatureDisplayID
 
 local GetTradeSkillTexture = app.WOWAPI.GetTradeSkillTexture
 local GetSpellIcon = app.WOWAPI.GetSpellIcon
-local GetItemInfo = app.WOWAPI.GetItemInfo
 local GetFactionName = app.WOWAPI.GetFactionName
 local Callback = app.CallbackHandlers.Callback
 local AfterCombatOrDelayedCallback = app.CallbackHandlers.AfterCombatOrDelayedCallback
 local DelayedCallback = app.CallbackHandlers.DelayedCallback
 local IsRetrieving = app.Modules.RetrievingData.IsRetrieving
-local Colorize = app.Modules.Color.Colorize
 local GetProgressColorText = app.Modules.Color.GetProgressColorText
 local GetNumberWithZeros = app.Modules.Color.GetNumberWithZeros
 local GetProgressColor = app.Modules.Color.GetProgressColor
@@ -132,7 +130,7 @@ local function UpdateWindow(self, force, got)
 		self.HasPendingUpdate = true;
 		force = nil;
 	end
-	-- app.PrintDebug(Colorize("Update:", app.Colors.ATT),self.Suffix,
+	-- app.PrintDebug(Colorize("Update:", app.DefaultColors.ATT),self.Suffix,
 	-- 	force and "FORCE" or "SOFT",
 	-- 	visible and "VISIBLE" or "HIDDEN",
 	-- 	got and "COLLECTED" or "PASSIVE",
@@ -144,6 +142,7 @@ local function UpdateWindow(self, force, got)
 		wipe(rowData)
 
 		data.expanded = true;
+		local didUpdate
 		if not self.doesOwnUpdate and force then
 			self:ToggleExtraFilters(true)
 			-- app.PrintDebug(Colorize("TLUG", app.Colors.Time),self.Suffix)
@@ -151,6 +150,7 @@ local function UpdateWindow(self, force, got)
 			self.HasPendingUpdate = nil;
 			-- app.PrintDebugPrior("Done")
 			self:ToggleExtraFilters()
+			didUpdate = true
 		end
 
 		-- Should the groups in this window be expanded prior to processing the rows for display
@@ -197,6 +197,7 @@ local function UpdateWindow(self, force, got)
 
 		self:Refresh();
 		-- app.PrintDebugPrior("Update:Done")
+		app.HandleEvent("OnWindowUpdated", self, didUpdate)
 		return true;
 	else
 		local expireTime = self.ExpireTime;
@@ -336,6 +337,11 @@ local function GetUpgradeIconForTooltip(data, iconOnly)
 		return L[iconOnly and "UPGRADE_ICON" or "UPGRADE_TEXT"];
 	end
 end
+local function GetCatalystIcon(data, iconOnly)
+	if data.filledCatalyst then
+		return L[iconOnly and "CATALYST_ICON" or "CATALYST_TEXT"];
+	end
+end
 local function GetCostIconForRow(data, iconOnly)
 	-- cost only for filled groups, or if itself is a cost
 	if data.filledCost or data.isCost or (data.progress == data.total and ((data.costTotal or 0) > 0)) then
@@ -390,6 +396,11 @@ local function GetProgressTextForRow(data)
 	end
 	-- Upgrade (show upgrade icon)
 	icon = GetUpgradeIconForRow(data, true);
+	if icon then
+		__Text[#__Text + 1] = icon
+	end
+	-- Upgrade (show upgrade icon)
+	icon = GetCatalystIcon(data, true);
 	if icon then
 		__Text[#__Text + 1] = icon
 	end
@@ -451,6 +462,11 @@ local function GetProgressTextForTooltip(data)
 	end
 	-- Upgrade (show upgrade icon)
 	icon = GetUpgradeIconForTooltip(data, iconOnly);
+	if icon then
+		__Text[#__Text + 1] = icon
+	end
+	-- Catalyst (show catalyst icon)
+	icon = GetCatalystIcon(data, iconOnly);
 	if icon then
 		__Text[#__Text + 1] = icon
 	end
@@ -520,6 +536,14 @@ local function SetRowData(self, row, data)
 		local text = data.text;
 		if IsRetrieving(text) then
 			text = RETRIEVING_DATA;
+
+			local AsyncRefreshFunc = data.AsyncRefreshFunc
+			if AsyncRefreshFunc then
+				AsyncRefreshFunc(data)
+			else
+				-- app.PrintDebug("No Async Refresh Func for Type!",data.__type)
+				Callback(self.Update, self)
+			end
 		end
 		local leftmost, relative, rowPad = row, "LEFT", 8;
 		local x = CalculateRowIndent(data) * rowPad + rowPad;
@@ -1448,34 +1472,6 @@ local function AddQuestInfoToTooltip(info, quests, reference)
 		end
 	end
 end
-local function formatNumericWithCommas(amount)
-    local k
-    while true do
-        amount, k = tostring(amount):gsub("^(-?%d+)(%d%d%d)", '%1,%2')
-        if k == 0 then
-            break
-        end
-    end
-    return amount
-end
-local function GetMoneyString(amount)
-    if amount > 0 then
-        local formatted
-        local gold, silver, copper = math_floor(amount / 100 / 100), math_floor((amount / 100) % 100),
-            math_floor(amount % 100)
-        if gold > 0 then
-            formatted = formatNumericWithCommas(gold) .. "|T237618:0|t"
-        end
-        if silver > 0 then
-            formatted = (formatted or "") .. silver .. "|T237620:0|t"
-        end
-        if copper > 0 then
-            formatted = (formatted or "") .. copper .. "|T237617:0|t"
-        end
-        return formatted
-    end
-    return amount
-end
 
 -- Returns true if any subgroup of the provided group is currently expanded, otherwise nil
 local function HasExpandedSubgroup(group)
@@ -1814,52 +1810,6 @@ app.AddEventHandler("RowOnEnter", function(self)
 		end
 	end
 
-	-- TODO: Convert cost to an InformationType.
-	if reference.cost then
-		if type(reference.cost) == "table" then
-			local _, name, icon, amount;
-			for k,v in pairs(reference.cost) do
-				_ = v[1];
-				if _ == "i" then
-					_,name,_,_,_,_,_,_,_,icon = GetItemInfo(v[2]);
-					amount = v[3];
-					if amount > 1 then
-						amount = formatNumericWithCommas(amount) .. "x ";
-					else
-						amount = "";
-					end
-				elseif _ == "c" then
-					amount = v[3];
-					local currencyData = C_CurrencyInfo.GetCurrencyInfo(v[2]);
-					name = C_CurrencyInfo.GetCurrencyLink(v[2], amount) or (currencyData and currencyData.name) or "Unknown";
-					icon = currencyData and currencyData.iconFileID or nil;
-					if amount > 1 then
-						amount = formatNumericWithCommas(amount) .. "x ";
-					else
-						amount = "";
-					end
-				elseif _ == "g" then
-					name = "";
-					icon = nil;
-					amount = GetMoneyString(v[2]);
-				end
-				if not name then
-					reference.working = true;
-					name = RETRIEVING_DATA;
-				end
-				tooltipInfo[#tooltipInfo + 1] = {
-					left = (k == 1 and L.COST),
-					right = amount .. (icon and ("|T" .. icon .. ":0|t") or "") .. name,
-				}
-			end
-		else
-			tooltipInfo[#tooltipInfo + 1] = {
-				left = L.COST,
-				right = GetMoneyString(reference.cost),
-			}
-		end
-	end
-
 	-- Additional information (search will insert this information if found in search)
 	if tooltip.ATT_AttachComplete == nil then
 		-- an item used for a faction which is repeatable
@@ -1874,14 +1824,7 @@ app.AddEventHandler("RowOnEnter", function(self)
 		-- Add any ID toggle fields
 		app.ProcessInformationTypes(tooltipInfo, reference);
 	end
-
-	-- Ignored for Source/Progress
-	if reference.sourceIgnored then
-		tooltipInfo[#tooltipInfo + 1] = {
-			left = L.DOES_NOT_CONTRIBUTE_TO_PROGRESS,
-			wrap = true,
-		}
-	end
+	
 	-- Further conditional texts that can be displayed
 	if reference.timeRemaining then
 		tooltipInfo[#tooltipInfo + 1] = {

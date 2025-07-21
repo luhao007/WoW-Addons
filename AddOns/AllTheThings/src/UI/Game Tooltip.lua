@@ -249,8 +249,8 @@ ModelAssignmentFunctions = {
 
 ModelAssignmentFunctions.Add(TrySetDisplayInfos)
 ModelAssignmentFunctions.Add(TrySetRawModel)
--- Using DisplayID directly seems completely broken in Classic, so instead we have to set the creature itself
-if app.IsRetail then
+-- Using DisplayID directly seems completely broken pre-MOP, so instead we have to set the creature itself
+if app.GameBuildVersion >= 50000 then
 	ModelAssignmentFunctions.Add(TrySetDisplayID)
 else
 	ModelAssignmentFunctions.Add(TrySetCreature)

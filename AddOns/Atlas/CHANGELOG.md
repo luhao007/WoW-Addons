@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.9.0 - July 14, 2025
+### Added
+- Added separate options for the scale and transparency of the small Atlas map, so that you can easily toggle back and forth between a full-size Atlas map, and a minimap-like Atlas map
+- When the small Atlas map is partially transparent, hovering over it will bring it back to full opacity
+### Changed
+- Apply map autoselect (if enabled) to the small Atlas map as well
+### Removed
+- Removed option to check for disabled modules
+### Fixed
+- Retail: Fixed Addon Compartment button
+- Retail: Fixed AtlasLoot button showing on maps that didn't have an instance associated with them
+- Retail: Fixed Hylbrande's position in Tazavesh (Blizzard map is wrong)
+
 ## 3.8.0 - July 9, 2025
 ### Added
 - Retail: Added a defeated indicator to boss portraits and boss tooltips, like the built-in instance map (Note that this will only be as good as the built-in map, which sometimes doesn't mark bosses as defeated)
@@ -599,7 +612,7 @@ v1.41.00 (Apr. 14, 2017)
 v1.40.06 (Apr. 13, 2017)
 ------------------------
 - Checking deprecated plugins now will recognize the alpha build's version
-  if specifed; or will ignore those set "v3.8.0" as the version
+  if specifed; or will ignore those set "v3.9.0" as the version
   number to be changed by CurseForge's auto-packaging.
 
 v1.40.05 (Apr. 13, 2017)

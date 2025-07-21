@@ -429,6 +429,78 @@ data["TIMEWALKINGEVENT"]   = {
 				{ 204, "244162:12264",                [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Bondo's Spare Mechano-Clamps
 			},
 		},
+		{ -- Legion
+			name = EXPANSION_NAME6,
+			[NORMAL_DIFF] = {
+				{ 1,   234721,         "mount",                                 [PRICE_EXTRA_ITTYPE] = "timewarped:5000" }, -- Ur'zul Fleshripper Bridle
+				{ 2,   187595,         "mount",                                 [PRICE_EXTRA_ITTYPE] = "timewarped:5000" }, -- Favor of the Val'sharah Hippogryph
+				{ 3,   187591,         [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Nightborne Guard's Vigilance
+				{ 4,   207114,         [PRICE_EXTRA_ITTYPE] = "timewarped:1000" },                              -- Grimoire of the Fiendish Imp
+				{ 6,   141018,         [PRICE_EXTRA_ITTYPE] = "timewarped:150" },                               -- Sargerei Blood Vessel
+				{ 7,   187596,         [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Broken Isles Meat Delivery
+				{ 8,   187597,         [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Broken Isles Fish Delivery
+				{ 9,   187598,         [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Broken Isles Cloth Delivery
+				{ 10,  187599,         [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Broken Isles Herb Delivery
+				{ 11,  187600,         [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Broken Isles Ore Delivery
+				{ 12,  187601,         [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Broken Isles Leather Delivery
+				{ 13,  187604,         [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Broken Isles Enchantment Delivery
+				{ 14,  187605,         [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Broken Isles Gem Delivery
+				{ 16,  146941,         [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Valarjar Insignia
+				{ 17,  146942,         [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Dreamweaver Insignia
+				{ 18,  146943,         [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Court of Farondis Insignia
+				{ 19,  146944,         [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Highmountain Tribe Insignia
+				{ 20,  146945,         [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Wardens Insignia
+				{ 21,  146946,         [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Nightfallen Insignia
+				{ 22,  146950,         [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Legionfall Insignia
+				{ 23,  152957,         [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Army of the Light Insignia
+				{ 24,  152960,         [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Argussian Reach Insignia
+				{ 26,  234945,         [PRICE_EXTRA_ITTYPE] = "timewarped:4000" },                              -- Ensemble: Invasion Stalker's Guise
+				{ 27,  234946,         [PRICE_EXTRA_ITTYPE] = "timewarped:4000" },                              -- Ensemble: Broken Shore Battlemender's Gear
+				{ 28,  244824,         [PRICE_EXTRA_ITTYPE] = "timewarped:2500" },                              -- Time-Lost Dreadbow of the Banshee
+				{ 29,  187562,         [PRICE_EXTRA_ITTYPE] = "timewarped:3000" },                              -- Replica Aegis of Aggramar
+				{ 30,  234949,         [PRICE_EXTRA_ITTYPE] = "timewarped:1800" },                              -- Howling Echoes
+				{ 101, 234955,         [PRICE_EXTRA_ITTYPE] = "timewarped:1800" },                              -- Hate-Sculpted Magma
+				{ 102, 234956,         [PRICE_EXTRA_ITTYPE] = "timewarped:1200" },                              -- Rod of Crystalline Energies
+				{ 103, 234957,         [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Monstrous Gluttony
+				{ 104, 234958,         [PRICE_EXTRA_ITTYPE] = "timewarped:1200" },                              -- Fenryr's Bloodstained Fang
+				{ 105, 234959,         [PRICE_EXTRA_ITTYPE] = "timewarped:1200" },                              -- Key to the Halls
+				{ 106, 234947,         [PRICE_EXTRA_ITTYPE] = "timewarped:2500" },                              -- Ensemble: Drake Hunter's Kit
+				{ 107, 234948,         [PRICE_EXTRA_ITTYPE] = "timewarped:2500" },                              -- Ensemble: Drekirjar Warrior's Battlegear
+				{ 108, 188209,         [PRICE_EXTRA_ITTYPE] = "timewarped:500" },                               -- Ensemble: Ravencrest's Battleplate
+				{ 109, 244837,         [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Mage-Forged Dragonblade
+				{ 110, 244836,         [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Cane of the Runic Wanderer
+				{ 111, 244834,         [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Hippogryph Lancer's Magespear
+				{ 112, 244833,         [PRICE_EXTRA_ITTYPE] = "timewarped:1200" },                              -- Stonedark Chieftain's Bartered Tool
+				{ 113, 244828,         [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Nightforged Spellblade
+				{ 114, 244823,         [PRICE_EXTRA_ITTYPE] = "timewarped:2500" },                              -- Silver Dragonblade of the Resistance
+				{ 115, 227287,         [PRICE_EXTRA_ITTYPE] = "timewarped:2000" },                              -- Skovald's Resolve
+				{ 116, 227294,         [PRICE_EXTRA_ITTYPE] = "timewarped:2500" },                              -- Ravencrest's Wrath
+				{ 117, 234954,         [PRICE_EXTRA_ITTYPE] = "timewarped:1200" },                              -- Corrupted Knot
+				{ 118, 244830,         [PRICE_EXTRA_ITTYPE] = "timewarped:1000" },                              -- Krokuun Tunneler's Axe
+				{ 119, 244827,         [PRICE_EXTRA_ITTYPE] = "timewarped:1000" },                              -- Valarjar Sparring Buckler
+				{ 121, "187563:10845", [PRICE_EXTRA_ITTYPE] = "timewarped:35" },                                -- Suramar Guard's Shield
+				{ 122, "187564:10845", [PRICE_EXTRA_ITTYPE] = "timewarped:35" },                                -- Nightborne Arcshield
+				{ 123, "187565:10845", [PRICE_EXTRA_ITTYPE] = "timewarped:100" },                               -- Argussian Reach Longbow
+				{ 124, "187566:10845", [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Arcsmasher
+				{ 125, "187567:10845", [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Nightborne Arcsaber
+				{ 126, "187578:10845", [PRICE_EXTRA_ITTYPE] = "timewarped:100" },                               -- Warpcaster's Staff
+				{ 127, "187579:10845", [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Nar'thalas Ceremonial Tunic
+				{ 128, "187580:10845", [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Nar'thalas Ceremonial Legwraps
+				{ 129, "187581:10845", [PRICE_EXTRA_ITTYPE] = "timewarped:35" },                                -- Nar'thalas Scrollmantle
+				{ 130, "187582:10845", [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Thorignir Heartguard
+				{ 201, "187583:10845", [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Thorignir Breeches
+				{ 202, "187584:10845", [PRICE_EXTRA_ITTYPE] = "timewarped:35" },                                -- Thorignir Spaulders
+				{ 203, "187585:10845", [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Leyguard Cuirass
+				{ 204, "187586:10845", [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Leyguard Greaves
+				{ 205, "187587:10845", [PRICE_EXTRA_ITTYPE] = "timewarped:35" },                                -- Leyguard Mantle
+				{ 206, "187588:10845", [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Black Rook Elite Chestguard
+				{ 207, "187589:10845", [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Black Rook Elite Legguards
+				{ 208, "187590:10845", [PRICE_EXTRA_ITTYPE] = "timewarped:35" },                                -- Black Rook Elite Shoulderplates
+				-- These items seem to be gone from the vendor, possibly because they have the same appearance as cheaper timewarped items
+				--{ 110, 234952,         [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Crux of Blind Faith
+				--{ 111, 234953,         [PRICE_EXTRA_ITTYPE] = "timewarped:1200" },                              -- Edge of the First Blade
+			},
+		},
 		{ -- Warlords of Draenor
 			name = EXPANSION_NAME5,
 			[NORMAL_DIFF] = {
@@ -574,15 +646,53 @@ data["TIMEWALKINGEVENT"]   = {
 		{ -- Cataclysm
 			name = EXPANSION_NAME3,
 			[NORMAL_DIFF] = {
-				{ 1,  133511,                        [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                            -- Gurboggle's Gleaming Bauble
-				{ 3,  67414,                         [PRICE_EXTRA_ITTYPE] = "timewarped:150" },                             -- Bag of Shiny Things
-				{ 8,  133160,                        [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                              -- Commendation of Therazane
-				{ 9,  133154,                        [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                              -- Commendation of the Ramkahen
-				{ 10, [ATLASLOOT_IT_HORDE] = 133150, [ATLASLOOT_IT_ALLIANCE] = 133151,        [PRICE_EXTRA_ITTYPE] = "timewarped:50" }, -- Commendation of the Wildhammer Clan / Commendation of the Dragonmaw Clan
-				{ 16, 133542,                        [PRICE_EXTRA_ITTYPE] = "timewarped:3000" },                            -- Tosselwrench's Mega-Accurate Simulation Viewfinder
-				{ 18, [ATLASLOOT_IT_HORDE] = 133545, [ATLASLOOT_IT_ALLIANCE] = 49602,         [PRICE_EXTRA_ITTYPE] = "timewarped:10" }, -- Earl Black Tea / "New!" Kaja'Cola
-				{ 23, 133159,                        [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                              -- Commendation of The Earthen Ring
-				{ 24, 133152,                        [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                              -- Commendation of the Guardians of Hyjal
+				{ 1,   234730,                           "mount",                                 [PRICE_EXTRA_ITTYPE] = "timewarped:5000" }, -- Broodling of Sinestra
+				{ 2,   133542,                           [PRICE_EXTRA_ITTYPE] = "timewarped:3000" },                              -- Tosselwrench's Mega-Accurate Simulation Viewfinder
+				{ 3,   133511,                           [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Gurboggle's Gleaming Bauble
+				{ 4,   [ATLASLOOT_IT_ALLIANCE] = 234860, [PRICE_EXTRA_ITTYPE] = "timewarped:500" },                               -- Explorer's League Deepholm Expedition Tabard
+				{ 5,   [ATLASLOOT_IT_HORDE] = 234861,    [PRICE_EXTRA_ITTYPE] = "timewarped:500" },                               -- Reliquary Tabard
+				{ 7,   67414,                            [PRICE_EXTRA_ITTYPE] = "timewarped:150" },                               -- Bag of Shiny Things
+				{ 8,   [ATLASLOOT_IT_HORDE] = 133545,    [ATLASLOOT_IT_ALLIANCE] = 49602,         [PRICE_EXTRA_ITTYPE] = "timewarped:10" }, -- Earl Black Tea / "New!" Kaja'Cola
+				{ 9,   21548,                            [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Pattern: Stormshroud Gloves
+				{ 10,  15764,                            [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Pattern: Stormshroud Shoulders
+				{ 11,  15753,                            [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Pattern: Stormshroud Armor
+				{ 12,  14493,                            [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Pattern: Robe of Winter Nightag
+				{ 13,  13497,                            [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Recipe: Greater Arcane Protection Potion
+				{ 14,  13308,                            [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Schematic: Ice Deflector
+				{ 15,  12227,                            [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Recipe: Lean Wolf Steak
+				{ 16,  5489,                             [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Recipe: Lean Venison
+				{ 17,  3734,                             [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Recipe: Big Bear Steak
+				{ 19,  133160,                           [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Commendation of Therazane
+				{ 20,  133154,                           [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Commendation of the Ramkahen
+				{ 21,  [ATLASLOOT_IT_HORDE] = 133150,    [ATLASLOOT_IT_ALLIANCE] = 133151,        [PRICE_EXTRA_ITTYPE] = "timewarped:50" }, -- Commendation of the Wildhammer Clan / Dragonmaw Clan
+				{ 22,  133159,                           [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Commendation of The Earthen Ring
+				{ 23,  133152,                           [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Commendation of the Guardians of Hyjal
+				{ 25,  234855,                           [PRICE_EXTRA_ITTYPE] = "timewarped:2500" },                              -- Ensemble: Vestments of the Twisted Grove
+				{ 26,  234856,                           [PRICE_EXTRA_ITTYPE] = "timewarped:2500" },                              -- Ensemble: Twilight Zealot's Battleplate
+				{ 27,  234857,                           [PRICE_EXTRA_ITTYPE] = "timewarped:2500" },                              -- Ensemble: Twilight Hunter's Guise
+				{ 28,  234859,                           [PRICE_EXTRA_ITTYPE] = "timewarped:2500" },                              -- Ensemble: Twilight Acolyte's Regalia
+				{ 30,  "133520:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Seal of the Grand Architect
+				{ 101, "133521:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Band of Reconstruction
+				{ 102, "133522:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Ring of Torn Flesh
+				{ 103, "133523:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Emergency Descent Loop
+				{ 104, "133524:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Signet of the Resolute
+				{ 105, "133525:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Bones of the Damned
+				{ 106, "133526:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Lightwarper Vestments
+				{ 107, "133527:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Ghostworld Chestguard
+				{ 108, "133528:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Decaying Herbalist's Robes
+				{ 109, "133529:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Belt of Hidden Keys
+				{ 110, "133530:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Cord of Dragon Sinew
+				{ 111, "133531:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Blinding Girdle of Truth
+				{ 112, "133532:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Vestal's Irrepressible Girdle
+				{ 113, "133533:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Flashing Bracers of Warmth
+				{ 114, "133534:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Dragonbelly Bracers
+				{ 115, "133535:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Bracers of Manifold Pockets
+				{ 116, "133536:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Bracers of the Black Dream
+				{ 117, "133537:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Kiroptyric Sigil
+				{ 118, "133538:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Bottled Wishes
+				{ 119, "133539:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Reflection of the Light
+				{ 120, "133540:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Rotting Skull
+				{ 121, "133541:10845",                   [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Fire of the Deep
 			},
 		},
 		{ -- Wrath of the Lich King

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2440, "DBM-Raids-Shadowlands", 2, 1193)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240428104702")
+mod:SetRevision("20250719035005")
 mod:SetCreatureID(175559)
 mod:SetEncounterID(2422)
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
@@ -10,6 +10,7 @@ mod:DisableBossDeathKill()--Instructs mod to ignore 175559 deaths, since it dies
 mod:SetHotfixNoticeRev(20211006000000)
 mod:SetMinSyncRevision(20211006000000)
 mod.respawnTime = 29
+mod:SetZone(2450)
 
 mod:RegisterCombat("combat")
 

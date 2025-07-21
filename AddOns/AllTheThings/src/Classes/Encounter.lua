@@ -71,6 +71,7 @@ else
 				return t;
 			end
 		end
+		print("@CRIEVE: INVALID ENCOUNTER " .. id);
 		return setmetatable({
 			encounterID = id,
 			text = "@CRIEVE: INVALID ENCOUNTER " .. id,

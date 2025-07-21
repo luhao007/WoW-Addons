@@ -128,7 +128,7 @@ do
 	},
 	"WithItem", {
 		ImportFrom = "Item",
-		ImportFields = { "name", "link", "icon", "tsm", "costCollectibles" },
+		ImportFields = { "name", "link", "icon", "tsm", "costCollectibles", "AsyncRefreshFunc" },
 	},
 	function(t) return t.itemID end)
 	app.AddEventHandler("OnRefreshCollections", function()

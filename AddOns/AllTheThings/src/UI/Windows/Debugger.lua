@@ -303,9 +303,9 @@ local KeyMaps = setmetatable({
 	itemid = "modItemID",
 	mount = "spellID",
 	mountid = "spellID",
-	n = "creatureID",
-	npc = "creatureID",
-	npcid = "creatureID",
+	n = "npcID",
+	npc = "npcID",
+	npcid = "npcID",
 	o = "objectID",
 	object = "objectID",
 	r = "spellID",
@@ -472,19 +472,19 @@ app.LoadDebugger = function()
 
 			local function CategorizeObject(info)
 				if info.isVendor then
-					return app.CreateNPC(app.HeaderConstants.VENDORS, { g = { info }})
+					return app.CreateCustomHeader(app.HeaderConstants.VENDORS, { g = { info }})
 				elseif info.questID then
 					if info.isWorldQuest then
-						return app.CreateNPC(app.HeaderConstants.WORLD_QUESTS, { g = { info }})
+						return app.CreateCustomHeader(app.HeaderConstants.WORLD_QUESTS, { g = { info }})
 					else
-						return app.CreateNPC(app.HeaderConstants.QUESTS, { g = { info }})
+						return app.CreateCustomHeader(app.HeaderConstants.QUESTS, { g = { info }})
 					end
 				elseif info.npcID then
-					return app.CreateNPC(app.HeaderConstants.ZONE_DROPS, { g = { info }})
+					return app.CreateCustomHeader(app.HeaderConstants.ZONE_DROPS, { g = { info }})
 				elseif info.objectID then
-					return app.CreateNPC(app.HeaderConstants.TREASURES, { g = { info }})
+					return app.CreateCustomHeader(app.HeaderConstants.TREASURES, { g = { info }})
 				elseif info.unit then
-					return app.CreateNPC(app.HeaderConstants.DROPS, { g = { info }})
+					return app.CreateCustomHeader(app.HeaderConstants.DROPS, { g = { info }})
 				end
 				return info
 			end

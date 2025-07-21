@@ -13,7 +13,7 @@ from toc import TOC
 logger = logging.getLogger('manager')
 
 CLASSIC_ERA_VER = '11401'
-CLASSIC_VER = '30404'
+CLASSIC_VER = '30405'
 RETAIL_VER = '110107'
 
 
@@ -626,7 +626,7 @@ class Manager:
                 '			ShowCursorOnMap = false,']
         )
         utils.rm_tree('Addons/Titan/Libs')
-        utils.remove_libs_in_file('Addons/Titan/Titan.toc',
+        utils.remove_libs_in_file('Addons/Titan/Titan.toc' if utils.get_platform() == 'retail' else 'Addons/Titan/Titan_Mainline.toc',
                                     ['Libs'])
 
         for f in ['Cata', 'Vanilla', 'Wrath', 'Classic']:

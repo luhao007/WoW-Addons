@@ -534,7 +534,7 @@ local function Create_Frames()
 	config:SetFrameStrata("FULLSCREEN") -- FULLSCREEN
 	config:Hide()                    --
 	config:SetWidth(90)
-	config:SetHeight(200)
+	config:SetHeight(170)
 
 	config:SetScript("OnShow", function(self)
 	end)

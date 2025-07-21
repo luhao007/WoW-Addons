@@ -483,6 +483,7 @@ if C_Heirloom and app.GameBuildVersion >= 30000 then
 		-- Prior to Cataclysm, we need to collect transmog the same way as we do for items.
 		tinsert(heirloomDefinition, "AsTransmog");
 		tinsert(heirloomDefinition, {
+			CACHE = function() return "Sources"; end,
 			collectible = function(t)
 				return t.collectibleAsCost or app.Settings.Collectibles.Transmog;
 			end,
@@ -502,6 +503,7 @@ if C_Heirloom and app.GameBuildVersion >= 30000 then
 		local AccountSources;
 		tinsert(heirloomDefinition, "AsTransmog");
 		tinsert(heirloomDefinition, {
+			CACHE = function() return "Sources"; end,
 			collectible = function(t)
 				return t.collectibleAsCost or app.Settings.Collectibles.Transmog;
 			end,

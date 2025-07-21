@@ -60,6 +60,18 @@ local LDB = LibStub("LibDataBroker-1.1"):NewDataObject("Atlas", {
 	type = "launcher",
 	text = L["ATLAS_TITLE"],
 	icon = "Interface\\WorldMap\\WorldMap-Icon",
+	OnClick = function(_, button)
+		if button == "LeftButton" then
+			Atlas_Toggle()
+		elseif button == "RightButton" then
+			addon:OpenOptions()
+		end
+	end,
+	OnTooltipShow = function(tooltip)
+		if not tooltip or not tooltip.AddLine then return end
+		tooltip:AddLine("|cffffffff"..ATLAS_TITLE)
+		tooltip:AddLine(ATLAS_LDB_HINT)
+	end
 })
 
 local minimapButton = LibStub("LibDBIcon-1.0")
@@ -616,8 +628,6 @@ end
 
 -- Simple function to toggle the visibility of the Atlas frame
 function Atlas_Toggle()
-	addon:isModuleOrPluginLoaded()
-	if (ATLAS_MODULE_MENUS == 0 and ATLAS_PLUGIN_MENUS == 0) then return end
 	if (ATLAS_SMALLFRAME_SELECTED) then
 		if (AtlasFrameSmall:IsVisible()) then
 			HideUIPanel(AtlasFrameSmall)
@@ -1613,74 +1623,6 @@ function addon:CheckAddonStatus(addonName)
 	end
 end
 
--- Detect if not all modules / plugins are installed
-local function check_Modules()
-	if (not profile.options.checkMissingModules) then
-		return
-	end
-	local Module_List = addon.constants.moduleList
-
-	-- Check for outdated modules, build a list of them, then disable them and tell the player
-	local List = {}
-	for _, module in pairs(Module_List) do
-		local loadable = select(4, C_AddOns.GetAddOnInfo(module))
-		local enabled = C_AddOns.GetAddOnEnableState(module, UnitName("player"))
-		if ((enabled == 0) or (not loadable)) then
-			tinsert(List, module)
-		end
-	end
-	if (#List > 0) then
-		local textList = ""
-		for _, str in pairs(List) do
-			textList = textList.."\n"..str
-		end
-
-		LibDialog:Register("DetectMissing", {
-			text = L["ATLAS_MISSING_MODULE"].."\n|cff6666ff"..textList.."|r\n",
-			buttons = {
-				{
-					text = CLOSE,
-				},
-				{
-					text = L["ATLAS_OPEN_ADDON_LIST"],
-					on_click = AddonList_Show,
-				},
-			},
-			width = 500,
-			show_while_dead = false,
-			hide_on_escape = true,
-		})
-		LibDialog:Spawn("DetectMissing")
-	end
-end
-
-function addon:isModuleOrPluginLoaded()
-	if (ATLAS_MODULE_MENUS == 0 and ATLAS_PLUGIN_MENUS == 0) then
-		LibDialog:Register("NeedModuleOrPlugin", {
-			text = L["ATLAS_NO_MODULE_OR_PLUGIN"],
-			buttons = {
-				{
-					text = CLOSE,
-				},
-				{
-					text = L["ATLAS_OPEN_ADDON_LIST"],
-					on_click = AddonList_Show,
-				},
-			},
-			width = 400,
-			show_while_dead = false,
-			hide_on_escape = true,
-		})
-		LibDialog:Spawn("NeedModuleOrPlugin")
-
-		LDB.OnTooltipShow = function(tooltip)
-			if not tooltip or not tooltip.AddLine then return end
-			tooltip:AddLine("|cffffffff"..L["ATLAS_TITLE"])
-			tooltip:AddLine(L["ATLAS_NO_MODULE_OR_PLUGIN"])
-		end
-	end
-end
-
 -- Initializes everything relating to saved variables and data in other lua files
 -- This should be called ONLY when we're sure our variables are in memory
 local function initialization()
@@ -1702,25 +1644,12 @@ local function initialization()
 	Atlas_Refresh()
 	addon:UpdateLock()
 	addon:UpdateAlpha()
+	addon:UpdateSmallAlpha()
 	addon:UpdateScale()
+	addon:UpdateSmallScale()
 	AtlasFrame:SetClampedToScreen(profile.options.frames.clamp)
 	AtlasFrameSmall:SetClampedToScreen(profile.options.frames.clamp)
 
-	-- Make an LDB object
-	LDB.OnClick = function(self, button)
-		if button == "LeftButton" then
-			Atlas_Toggle()
-		elseif button == "RightButton" then
-			addon:OpenOptions()
-		end
-	end
-	LDB.OnTooltipShow = function(tooltip)
-		if not tooltip or not tooltip.AddLine then return end
-		tooltip:AddLine("|cffffffff"..ATLAS_TITLE)
-		tooltip:AddLine(ATLAS_LDB_HINT)
-	end
-
-	check_Modules()
 	if (profile.options.worldMapButton) then
 		addon.WorldMap.Button:Show()
 	else
@@ -1758,6 +1687,7 @@ function addon:OnEnable()
 	AtlasFrame:SetTitle(ATLAS_TITLE_VERSION);
 	AtlasFrameSmall:SetPortraitToAsset("Interface\\WorldMap\\WorldMap-Icon");
 	AtlasFrameSmall:SetTitle(ATLAS_TITLE_VERSION);
+	AtlasFrameSmallCloseButton:SetPropagateMouseMotion(true)
 
 	-- On retail, adjust the position of the lock button
 	if (WoWRetail) then
@@ -1777,7 +1707,9 @@ function addon:Refresh()
 	AtlasFrameDropDown_OnShow()
 	addon:UpdateLock()
 	addon:UpdateAlpha()
+	addon:UpdateSmallAlpha()
 	addon:UpdateScale()
+	addon:UpdateSmallScale()
 	AtlasFrame:SetClampedToScreen(profile.options.frames.clamp)
 	AtlasFrameSmall:SetClampedToScreen(profile.options.frames.clamp)
 	if (profile.options.worldMapButton) then

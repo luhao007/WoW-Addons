@@ -89,7 +89,7 @@ local CachedMapData = setmetatable({}, {
 							end
 						end
 
-						local o = app.CreateNPC(headerID);
+						local o = app.CreateCustomHeader(headerID);
 						tinsert(groups, o);
 						t[headerID] = o;
 						o.g = {};

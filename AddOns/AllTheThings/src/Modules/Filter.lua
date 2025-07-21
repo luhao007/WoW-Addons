@@ -260,7 +260,7 @@ app.IsRetail and function(item)
 end or function(item)
 	local requireSkill = item.requireSkill;
 	if requireSkill and (not item.professionID or not GetRelativeValue(item, "DontEnforceSkillRequirements") or FilterBind(item)) then
-		requireSkill = app.SkillIDToSpellID[requireSkill];
+		requireSkill = app.SkillDB.SkillToSpell[requireSkill];
 		return requireSkill and ActiveSkills[requireSkill];
 	else
 		return true;

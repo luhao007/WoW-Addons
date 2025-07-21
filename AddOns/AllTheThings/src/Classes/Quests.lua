@@ -21,7 +21,6 @@ local C_QuestLog_ReadyForTurnIn = C_QuestLog.ReadyForTurnIn or IsQuestComplete;
 local C_QuestLog_IsOnQuest = C_QuestLog.IsOnQuest;
 local GetQuestLogRewardInfo =
 	  GetQuestLogRewardInfo;
-local HORDE_FACTION_ID = Enum.FlightPathFaction.Horde;
 
 -- WoW API Cache
 local GetFactionName = app.WOWAPI.GetFactionName;
@@ -62,6 +61,10 @@ end
 -- Load Quest Lib
 local RequestLoadQuestByID, ResetQuestName, QuestNameFromID;
 local RefreshQuestIDs = {}
+local function QuestAsyncRefreshFunc(t)
+	RefreshQuestIDs[t.questID] = t
+	return true
+end
 local C_QuestLog_RequestLoadQuestByID = C_QuestLog.RequestLoadQuestByID;
 if C_QuestLog_RequestLoadQuestByID and pcall(app.RegisterEvent, app, "QUEST_DATA_LOAD_RESULT") then
 	local QuestsRequested = {};
@@ -153,6 +156,7 @@ if C_QuestLog_RequestLoadQuestByID and pcall(app.RegisterEvent, app, "QUEST_DATA
 			-- app.PrintDebug("No Server QuestData",questID)
 			QuestNameFromServer[questID] = false;
 		end
+		app.ReshowGametooltip()
 
 		-- see if this Quest is awaiting Reward population & Updates
 		local questObject = QuestsToPopulate[questID];
@@ -622,55 +626,6 @@ local function GetQuestIndicator(t)
 		elseif OneTimeQuests[questID] then
 			return app.asset("Interface_Quest_Arrow");
 		end
-	end
-end
-local NonQuestDataKeys = {
-	aqd = 1,
-	hqd = 1,
-	otherQuestData = 1,
-	g = 1,
-}
-local function ResolveQuestData(t)
-	local aqd, hqd = t.aqd, t.hqd;
-	if aqd and hqd then
-		local questData, otherQuestData;
-		if app.FactionID == HORDE_FACTION_ID then
-			questData = hqd;
-			otherQuestData = aqd;
-		else
-			questData = aqd;
-			otherQuestData = hqd;
-		end
-
-		-- Move over the quest data's groups.
-		if questData.g then
-			if not t.g then
-				t.g = questData.g;
-			else
-				for _,o in ipairs(questData.g) do
-					tinsert(t.g, 1, o);
-				end
-			end
-			questData.g = nil;
-		end
-		app.AssignChildren(otherQuestData)
-		otherQuestData.parent = t.parent
-
-		-- Apply this quest's current data into the other faction's quest. (this is for tooltip caching and source quest resolution)
-		for key,value in pairs(t) do
-			if not NonQuestDataKeys[key] then
-				otherQuestData[key] = value;
-			end
-		end
-
-		-- Apply the faction specific quest data to this object.
-		for key,value in pairs(questData) do t[key] = value; end
-		t.otherQuestData = otherQuestData;
-		t.aqd = nil
-		t.hqd = nil
-		otherQuestData.nmr = 1;
-	else
-		error("Missing AQD / HQD: " .. (aqd and true or false) .. " " .. (hqd and true or false));
 	end
 end
 
@@ -1613,6 +1568,9 @@ end
 
 -- Quest Lib
 local createQuest = app.CreateClass("Quest", "questID", {
+	AsyncRefreshFunc = function()
+		return QuestAsyncRefreshFunc
+	end,
 	CollectibleType = function() return "Quests" end,
 	text = app.IsClassic and function(t)
 		if t.repeatable then return "|cff0070DD" .. t.name .. "|r"; end
@@ -1620,13 +1578,7 @@ local createQuest = app.CreateClass("Quest", "questID", {
 	end or nil,
 	name = function(t)
 		-- TODO: need app.GetAutomaticHeaderData to provide name if not returned from server prior to using QuestNameDefault
-		local questID = t.questID
-		local name = QuestNameFromID[questID]
-		if name then return name end
-
-		-- hook the current group into a cache so that when its name is retrieved it can refresh automatically
-		RefreshQuestIDs[questID] = t
-		return RETRIEVING_DATA
+		return QuestNameFromID[t.questID] or RETRIEVING_DATA
 	end,
 	icon = function(t)
 		-- TODO: need app.GetAutomaticHeaderData to provide icon
@@ -1851,10 +1803,6 @@ local createQuest = app.CreateClass("Quest", "questID", {
 );
 
 app.CreateQuest = createQuest;
-app.CreateQuestWithFactionData = function(t)
-	ResolveQuestData(t);
-	return createQuest(t.questID, t);
-end
 app.CreateQuestObjective = app.CreateClass("Objective", "objectiveID", {
 	text = function(t)
 		return t.name;
@@ -2057,7 +2005,6 @@ else
 	app.AddEventRegistration("CRITERIA_UPDATE", RefreshAllQuestInfo)
 end
 app.AddEventRegistration("BAG_NEW_ITEMS_UPDATED", softRefresh)
-app.AddEventRegistration("QUEST_REMOVED", softRefresh)
 app.AddEventRegistration("QUEST_WATCH_UPDATE", softRefresh)
 app.AddEventRegistration("QUEST_ACCEPTED", function(questLogIndex, questID)
 	if not questID then questID = questLogIndex; end	-- NOTE: In Classic there's an extra parameter.
@@ -2068,14 +2015,14 @@ app.AddEventRegistration("QUEST_ACCEPTED", function(questLogIndex, questID)
 	PrintQuestInfoViaCallback(questID, true);
 	CheckFollowupQuests(questID);
 	-- TODO: could figure a way to basically do UpdateRawID but simply DirectGroupRefresh the results instead
-	app.HandleEvent("OnRefreshWindows")
+	app.CallbackEvent("OnRefreshWindows")
 end)
 app.AddEventRegistration("QUEST_REMOVED", function(questID)
 	if not questID then return end
 	softRefresh();
 	-- app.PrintDebug("QUEST_REMOVED",questID)
 	-- TODO: could figure a way to basically do UpdateRawID but simply DirectGroupRefresh the results instead
-	app.HandleEvent("OnRefreshWindows")
+	app.CallbackEvent("OnRefreshWindows")
 end)
 app.AddEventRegistration("QUEST_TURNED_IN", function(questID)
 	if not questID then return end
@@ -2269,7 +2216,7 @@ if app.IsRetail then
 			for i,sourceQuestID in ipairs(sourceQuests) do
 				if not addedQuests[sourceQuestID] then
 					addedQuests[sourceQuestID] = true;
-					local qs = sourceQuestID < 1 and SearchForField("creatureID", math.abs(sourceQuestID)) or SearchForField("questID", sourceQuestID);
+					local qs = sourceQuestID < 1 and SearchForField("npcID", math.abs(sourceQuestID)) or SearchForField("questID", sourceQuestID);
 					if qs and #qs > 0 then
 						local i, sq = #qs,nil;
 						while not sq and i > 0 do
@@ -2731,5 +2678,4 @@ app.IsQuestFlaggedCompleted = IsQuestFlaggedCompleted;
 app.IsQuestFlaggedCompletedForObject = IsQuestFlaggedCompletedForObject;
 app.IsQuestReadyForTurnIn = C_QuestLog_ReadyForTurnIn;
 app.IsQuestSaved = IsQuestSaved;
-app.ResolveQuestData = ResolveQuestData;
 end

@@ -56,7 +56,7 @@ local function CacheFlightPathDataForTarget(nodes)
 		---@diagnostic disable-next-line: undefined-field
 		local type, _, _, _, _, npcID = ("-"):split(guid);
 		if type == "Creature" and npcID then
-			local searchResults = SearchForField("creatureID", tonumber(npcID));
+			local searchResults = SearchForField("npcID", tonumber(npcID));
 			if searchResults and #searchResults > 0 then
 				local count = 0;
 				for i,group in ipairs(searchResults) do

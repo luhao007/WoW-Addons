@@ -1,6 +1,6 @@
 ## Interface: 110107
 ## Author: AtlasQuest Team
-## Version: v5.2.13
+## Version: v5.3.0
 
 ## Title: AtlasQuest
 ## Notes: Shows the Quests for dungeons and battlegrounds.
@@ -10,6 +10,7 @@
 ## IconTexture: Interface\lfgframe\lfgicon-quest
 
 ## RequiredDeps: Atlas
+## OptionalDeps: DevTool
 ## LoadOnDemand: 0
 
 ## SavedVariables: AtlasQuest_Options,AtlasQuestDB

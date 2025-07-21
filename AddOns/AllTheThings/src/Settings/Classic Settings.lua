@@ -1,5 +1,5 @@
 local appName, app = ...;
-local L = app.L.SETTINGS_MENU;
+local L = app.L;
 local settings = app.Settings;
 
 -- Settings Class
@@ -114,10 +114,12 @@ local TooltipSettingsBase = {
 		["Auto:ProfessionList"] = true,
 		["Celebrate"] = true,
 		["Channel"] = "Master",
+		["Cost"] = true,
 		["Screenshot"] = false,
 		["DisplayInCombat"] = true,
 		["Enabled"] = true,
 		["Enabled:Mod"] = "None",
+		["EnablePetCageTooltips"] = true,
 		["CompletedBy"] = true,
 		["KnownBy"] = true,
 		["Locations"] = 5,
@@ -859,7 +861,7 @@ Mixin(ATTSettingsPanelMixin, ATTSettingsObjectMixin);
 
 Mixin(settings, ATTSettingsPanelMixin);
 
-local Categories, AddOnCategoryID, RootCategoryID = {}, appName, nil;
+local OptionsPages, AddOnCategoryID, RootCategoryID = {}, appName, nil;
 local openToCategory = Settings and Settings.OpenToCategory or InterfaceOptionsFrame_OpenToCategory;
 settings.Open = function(self)
 	if not openToCategory(RootCategoryID or AddOnCategoryID) then
@@ -882,7 +884,7 @@ settings.CreateOptionsPage = function(self, text, parentCategory, isRootCategory
 			Settings.RegisterAddOnCategory(category);
 			AddOnCategoryID = category.ID;
 		else
-			parentCategory = Categories[parentCategory or appName];
+			parentCategory = OptionsPages[parentCategory or appName];
 			category = Settings.RegisterCanvasLayoutSubcategory(parentCategory.category, subcategory, text)
 			if isRootCategory then RootCategoryID = category.ID; end
 		end
@@ -893,7 +895,7 @@ settings.CreateOptionsPage = function(self, text, parentCategory, isRootCategory
 		if text ~= appName then subcategory.parent = parentCategory or appName; end
 		InterfaceOptions_AddCategory(subcategory);
 	end
-	Categories[text] = subcategory;
+	OptionsPages[text] = subcategory;
 
 	-- Common Header
 	local logo = subcategory:CreateTexture(nil, "ARTWORK");

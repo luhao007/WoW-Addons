@@ -1,6 +1,6 @@
 ## Interface: 110107
 ## Author: John Wellesz
-## Version: 2.7.28
+## Version: 2.7.29
 
 ## Title: Decursive |cffff00ff -Ace3-|r
 ## Notes: Afflictions display and cleaning for solo, group and raid with advanced filtering and priority system.
@@ -14,14 +14,14 @@
 
 ## SavedVariables: DecursiveDB
 
-## X-Max-Interface: 110107
+## X-Max-Interface: 110200
 ## X-Min-Interface: 11507
-## X-Incompatible-With: 30403
+## X-Incompatible-With: 30405, 30406, 30407, 40402, 40403, 40404, 40405
 ## X-License: GNU GPL V3
 ## X-LoadOn-Class: Mage, Priest, Paladin, Druid, Hunter, Warlock, Shaman, Monk, Deathknight, Evoker
 ## X-LoadOn-Slash: /decursive, /dcr
 ## X-Embeds: Ace3, LibQTip-1.0, LibDataBroker-1.1, LibDBIcon-1.0, !BugGrabber, LibDualSpec-1.0
-## X-ReleaseDate: "2025-05-08T21:13:45Z"
+## X-ReleaseDate: "2025-07-20T23:08:26Z"
 ## X-Category: Combat
 ## X-Website: http://www.2072productions.com/to/decursive.php
 ## X-Credits: Sylvin (Full french translation), Peter Sun, Ananhaid (ZhTW and zhCN translation), Fenlis, Chkid (koKR translation), Hemathio, Swix, Athariel, StingerSoft (Russian Translation), Freydis88, Floyddotnet, Vilogity, Dessa, Farook (German translation)

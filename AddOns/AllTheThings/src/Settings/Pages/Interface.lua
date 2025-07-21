@@ -1,5 +1,5 @@
 local appName, app = ...;
-local L, settings, ipairs = app.L.SETTINGS_MENU, app.Settings, ipairs;
+local L, settings, ipairs = app.L, app.Settings, ipairs;
 
 -- Settings: Interface Page
 local child = settings:CreateOptionsPage(L.INTERFACE_PAGE, appName);
@@ -192,6 +192,23 @@ function(self)
 end)
 checkboxExceptNPCs:SetATTTooltip(L.NOT_DISPLAY_IN_COMBAT_NPCS_CHECKBOX_TOOLTIP)
 checkboxExceptNPCs:AlignAfter(checkboxDisplayInCombat)
+
+local checkboxPetCageTooltips = child:CreateCheckBox(L.PET_CAGE_TOOLTIPS_CHECKBOX,
+function(self)
+	self:SetChecked(settings:GetTooltipSetting("EnablePetCageTooltips"))
+	if not settings:GetTooltipSetting("Enabled") then
+		self:Disable()
+		self:SetAlpha(0.4)
+	else
+		self:Enable()
+		self:SetAlpha(1)
+	end
+end,
+function(self)
+	settings:SetTooltipSetting("EnablePetCageTooltips", self:GetChecked())
+end)
+checkboxPetCageTooltips:SetATTTooltip(L.PET_CAGE_TOOLTIPS_CHECKBOX_TOOLTIP)
+checkboxPetCageTooltips:AlignAfter(checkboxExceptNPCs)
 
 local checkboxSummarizeThings = child:CreateCheckBox(L.SUMMARIZE_CHECKBOX,
 function(self)
@@ -808,17 +825,6 @@ end)
 checkboxFillDynamicQuests:SetATTTooltip(L.FILL_DYNAMIC_QUESTS_CHECKBOX_TOOLTIP)
 checkboxFillDynamicQuests:AlignBelow(checkboxModelPreview)
 
--- TODO: remove after a few versions from ATT 4.5
-local checkboxFillNPCData = child:CreateCheckBox(L.FILL_NPC_DATA_CHECKBOX,
-function(self)
-	self:SetAlpha(0.5)
-end,
-function(self)
-	self:SetChecked(false)
-end)
-checkboxFillNPCData:SetATTTooltip("|cffFF0000This option is deprecated and has been replaced by the 'NPC' Filler on the 'Interface > Fillers' tab|r")
-checkboxFillNPCData:AlignBelow(checkboxFillDynamicQuests)
-
 checkboxNestedQuestChains = child:CreateCheckBox(L.NESTED_QUEST_CHAIN_CHECKBOX,
 function(self)
 	self:SetChecked(settings:GetTooltipSetting("QuestChain:Nested"))
@@ -827,7 +833,7 @@ function(self)
 	settings:SetTooltipSetting("QuestChain:Nested", self:GetChecked())
 end)
 checkboxNestedQuestChains:SetATTTooltip(L.NESTED_QUEST_CHAIN_CHECKBOX_TOOLTIP)
-checkboxNestedQuestChains:AlignBelow(checkboxFillNPCData)
+checkboxNestedQuestChains:AlignBelow(checkboxFillDynamicQuests)
 end
 
 local checkboxSortByProgress = child:CreateCheckBox(L.SORT_BY_PROGRESS_CHECKBOX,

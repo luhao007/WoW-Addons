@@ -824,7 +824,7 @@ local function HarvestExploration()
 							end
 						else
 							byExplorationID = {};
-							explorationHeader = app.CreateNPC(app.HeaderConstants.EXPLORATION);
+							explorationHeader = app.CreateCustomHeader(app.HeaderConstants.EXPLORATION);
 							explorationHeader.ByExplorationID = byExplorationID;
 							explorationHeader.g = {};
 							explorationHeader.u = object.u;

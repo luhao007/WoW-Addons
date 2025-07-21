@@ -611,6 +611,7 @@ do
 	local setmetatable, tonumber, wipe = setmetatable, tonumber, wipe
 	-- probably fine to only have 1 Runner for cost collector... I mean how many popouts can one person make...
 	local CollectorRunner = app.CreateRunner("cost_collector")
+	CollectorRunner.SetPerFrameDefault(25)
 	local function AddCost(costType, id, amount)
 		-- app.PrintDebug("Cost",costType.type,id,amount)
 		costType[id] = costType[id] + amount
@@ -690,16 +691,16 @@ do
 		Collector.__text = text
 		group.text = (text or "").."  "..BLIZZARD_STORE_PROCESSING
 		group.OnSetVisibility = app.ReturnTrue
-		-- app.PrintDebug("StartUpdating",group.text)
+		-- app.PrintDebug("AGC:Start",group.text)
 		app.DirectGroupUpdate(group)
 	end
 	local function EndUpdating(Collector)
 		local group = Collector.__group
 		if not group then return end
 
-		-- app.PrintDebug("AGC:End")
-		-- app.PrintTable(Collector.Data)
 		group.text = Collector.__text
+		-- app.PrintDebug("AGC:End",group.text)
+		-- app.PrintTable(Collector.Data)
 		-- Build all the cost data which is available to the current filters into the cost group
 		local costItems = group.g
 		for costKey,costType in pairs(Collector.Data) do
@@ -720,6 +721,8 @@ do
 						-- 	costThing = app.CreateRawText(
 						-- 		app.SearchForObject("itemID", id, "field")
 						-- 			or app.CreateItem(id), amount)
+						else
+							costThing = nil
 						end
 						if costThing then
 							costItems[#costItems + 1] = costThing
@@ -748,7 +751,6 @@ do
 
 		Collector.ScanGroups = function(group, costGroup)
 			Collector.__group = costGroup
-			CollectorRunner.SetPerFrame(25)
 			CollectorRunner.Run(StartUpdating, Collector)
 			local g = group.g
 			if g then
@@ -841,11 +843,13 @@ local function BuildTotalCost(group)
 
 	local Collector = app.Modules.Costs.GetCostCollector()
 
-	local function RefreshCollector(data)
+	local function RefreshCollector(data, didUpdate)
+		if not didUpdate then return end
 		if data then
 			-- don't process the refresh if there was a data provided to the event and it's a different window and not a Thing
 			if not data.__type and data ~= group.window then return end
 		end
+
 		-- app.PrintDebug("RefreshCollector",group.window.Suffix,data and (data.Suffix or app:SearchLink(data)))
 		wipe(costGroup.g)
 		Collector.ScanGroups(group, costGroup)
@@ -854,15 +858,7 @@ local function BuildTotalCost(group)
 	-- we need to make sure we have a window reference for this group's Collector
 	-- so that when the window is expired, we know to remove the necessary Handler(s)
 	if group.window then
-		-- changing settings should refresh the Collector...
-		group.window:AddEventHandler("OnRecalculate_NewSettings", RefreshCollector)
-		-- force refresh should refresh collector...
-		group.window:AddEventHandler("OnRefreshCollections", RefreshCollector)
-		-- when the window is done filling, we can run the collector
-		group.window:AddEventHandler("OnWindowFillComplete", RefreshCollector)
-		-- when something is collected/removed, refresh the collector
-		group.window:AddEventHandler("OnThingCollected", RefreshCollector)
-		group.window:AddEventHandler("OnThingRemoved", RefreshCollector)
+		group.window:AddEventHandler("OnWindowUpdated", RefreshCollector)
 	end
 
 	-- Add the cost group to the popout

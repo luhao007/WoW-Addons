@@ -1,6 +1,6 @@
 ## Interface: 110107
 ## Author: Crieve
-## Version: 4.5.8
+## Version: 4.5.10
 
 ## Title: AllTheThings
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF收集控助手|r |cFFFFE00AAllTheThings|r
@@ -49,17 +49,6 @@ lib\Audio.lua
 
 # Load localization modules
 locales\Default Locale.lua
-locales\en.lua
-locales\de.lua
-locales\es.lua
-locales\mx.lua
-locales\fr.lua
-locales\it.lua
-locales\ko.lua
-locales\pt.lua
-locales\ru.lua
-locales\cn.lua
-locales\tw.lua
 
 # Search Cache
 src\Cache.lua
@@ -70,7 +59,6 @@ src\Modules\RetrievingData.lua
 src\Modules\Catalyst.lua
 src\Modules\Collection.lua
 src\Modules\CustomCollect.lua
-src\Modules\ExtraCategories.lua
 src\Modules\FactionData.lua
 src\Modules\Fill.lua
 src\Modules\Color.lua
@@ -146,6 +134,9 @@ src\Settings\Settings.xml
 
 # Load primary addon source files
 AllTheThings.lua
+
+# Classic Specific Modules
+# src\Classes\Classic\Mounts & Battle Pets.lua
 src\UI\Game Tooltip.lua
 src\UI\Minimap Button.lua
 src\UI\Waypoints.lua
@@ -163,4 +154,4 @@ db\Retail\Categories.lua
 src\UI\Windows\Debugger.lua
 
 # Finally, prepare the Data Cache
-# src\Root.lua
+src\Root.lua

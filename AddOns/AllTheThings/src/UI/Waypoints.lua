@@ -380,7 +380,7 @@ app.AddEventHandler("OnReady", function()
 										local achGroup = SearchForObject("achievementID", o.achievementID, "key")
 										tooltip:AddDoubleLine(L.CRITERIA_FOR, achGroup.text or GetAchievementLink(o.achievementID));
 									else
-										if key == "npcID" then key = "creatureID"; end
+										if key == "creatureID" then key = "npcID"; end
 										AttachTooltipSearchResults(tooltip, SearchForField, key, o.keyval);
 									end
 								end

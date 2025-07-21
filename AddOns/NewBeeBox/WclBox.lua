@@ -61,3 +61,15 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
         eventFrame:UnregisterEvent("PLAYER_LOGIN")
     end
 end)
+
+
+-- WA功能模块
+local loadedFrame = CreateFrame("FRAME")
+loadedFrame:RegisterEvent("ADDON_LOADED")
+loadedFrame:SetScript("OnEvent", function(_, _, addonName)
+  if addonName == "NewBeeBox" then
+    if WeakAuras and WeakAuras.AddCompanionData and WagoAppCompanionData then
+      WeakAuras.AddCompanionData(WagoAppCompanionData)
+    end
+  end
+end)

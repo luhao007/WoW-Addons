@@ -1,8 +1,14 @@
 # <DBM Mod> Raids (SL)
 
-## [r24](https://github.com/DeadlyBossMods/DBM-Shadowlands/tree/r24) (2025-04-22)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Shadowlands/compare/r23...r24) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Shadowlands/releases)
+## [r25](https://github.com/DeadlyBossMods/DBM-Shadowlands/tree/r25) (2025-07-19)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Shadowlands/compare/r24...r25) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Shadowlands/releases)
 
-- apparently i never remembered to bump tocs  
-- Because DBT can't get it's shit together, all 77 (and counting) mods that do this just need to work around core bug  
-- Update localization.ru.lua (#8)  
+- micro optimize shadowlands raid mods with zone scoping.  
+-  - Sylvanas Windrunner will no longer report false wipe during final cutscene  
+     - Sylvanas Windrunner mod now has an pre combat rp timer  
+     - The nine now has a pre combat rp timer  
+     - The jailer will no longer show heal azeroth timers/warnings that make no sense (and are a bit broken) for solo runs. that's legacy mythic strat stuff that no longer fits  
+     - Prototype Pantheon will be more aggressive in canceling timers on phase change  
+     - Misc timer adjustments  
+- Add 11.2 TOC  
+- toc bumps for ptr  
