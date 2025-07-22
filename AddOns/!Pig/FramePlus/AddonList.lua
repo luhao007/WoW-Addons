@@ -1,4 +1,5 @@
 local _, addonTable = ...;
+local L=addonTable.locale
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
 local PIGLine=Create.PIGLine
@@ -9,14 +10,55 @@ local PIGDiyTex=Create.PIGDiyTex
 local PIGCheckbutton=Create.PIGCheckbutton
 local PIGFontString=Create.PIGFontString
 ----
+local Data=addonTable.Data
 local GetNumAddOns=GetNumAddOns or C_AddOns and C_AddOns.GetNumAddOns
 local DisableAllAddOns=DisableAllAddOns or C_AddOns and C_AddOns.DisableAllAddOns
 local EnableAddOn=EnableAddOn or C_AddOns and C_AddOns.EnableAddOn
 local DisableAddOn=DisableAddOn or C_AddOns and C_AddOns.DisableAddOn
 local FramePlusfun=addonTable.FramePlusfun
 ------
+function FramePlusfun.AddonQuickBut()
+	if not PIGA["FramePlus"]["AddonQuickBut"] then return end
+	local UIname="PIG_AddonQuickBut"
+	local butx= CreateFrame("DropdownButton",UIname,UIParent);
+	Data.UILayout[UIname]={"CENTER","CENTER",0,100}
+	Create.PIG_SetPoint(UIname)
+	Create.PIGSetMovable(butx)
+	butx:SetSize(24,24);
+	butx:SetHighlightTexture("Interface/Buttons/ButtonHilight-Square")
+	butx.icon = butx:CreateTexture();
+	butx.icon:SetTexture(130781);
+	butx.icon:SetPoint("CENTER",butx,"CENTER",0,0);
+	butx.icon:SetSize(24,24);
+	butx.tooltipText = MicroButtonTooltipText(ADDONS..L["CONFIG_TABNAME"],"");
+	butx.newbieText = "载入你已保存的插件状态配置";
+	butx:HookScript("OnEnter", function(self)
+		GameTooltip_SetDefaultAnchor(GameTooltip, self);
+		GameTooltip_AddNewbieTip(self, self.tooltipText, 1.0, 1.0, 1.0, self.newbieText);
+	end)
+	butx:HookScript("OnMouseDown", function(self)
+		self.icon:SetPoint("CENTER",butx,"CENTER",-1.5,-1.5);
+		if self.menu then
+			self.menu:ClearAllPoints()
+			self.menu:SetPoint("TOPLEFT",self,"BOTTOMLEFT",0,1)
+	    end
+	end);
+	butx:HookScript("OnMouseUp", function(self)
+		self.icon:SetPoint("CENTER",butx,"CENTER",0,0);
+	end);
+	butx:SetupMenu(function(dropdown, rootDescription)
+		rootDescription:SetTag("PIG_MENU_ADDONSMICROBUT");
+		for adi=1,#PIGA["FramePlus"]["AddonStatus"] do
+			rootDescription:CreateButton(string.format(GUILDBANK_NAME_CONFIG,LOAD_ADDON)..PIGA["FramePlus"]["AddonStatus"][adi][1],function() AddonList.PIG_loadAddon_(adi) end);
+		end
+		rootDescription:CreateButton(RELOADUI,function() ReloadUI(); end);
+		rootDescription:CreateButton(EDIT..ADDONS..L["CONFIG_TABNAME"],function() if InCombatLockdown() then PIGTopMsg:add(ERR_NOT_IN_COMBAT) return end ShowUIPanel(AddonList) end);
+	end);
+	if PIG_OptionsUI.AddonQuickBut then PIG_OptionsUI.AddonQuickBut(butx) end
+end
 function FramePlusfun.AddonList()
 	if not PIGA["FramePlus"]["AddonList"] then return end
+	FramePlusfun.AddonQuickBut()
 	local maxsize,butnum = 90,10 
 	local oldWww = AddonList:GetWidth()
 	if AddonList.ScrollBox then
@@ -286,7 +328,7 @@ function FramePlusfun.AddonList()
 		if self.daojishi>=10 then self:Hide() end
 	end)
 	TispUI:RegisterEvent("PLAYER_ENTERING_WORLD");
-	TispUI:SetScript("OnEvent",function (self,event,arg1,arg2,arg3,arg4,arg5)		
+	TispUI:SetScript("OnEvent",function (self,event,arg1,arg2,arg3,arg4,arg5)
 		local inInstance, instanceType =IsInInstance()
 		if instanceType=="raid" or instanceType=="party" or instanceType=="pvp" or instanceType=="arena" then
 			local cunzaipeizhi = {}

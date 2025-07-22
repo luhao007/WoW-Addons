@@ -170,11 +170,11 @@ function BagBankfun.Bag_Item_Ranse(frame, size, id)
 	end
 end
 ---
-function BagBankfun.xuanzhuangsanjiao(self,open)
-	if open then
-		self:SetRotation(-3.1415926, {x=0.4, y=0.5})
+function BagBankfun.UpdateIconDirection(Tex1,showui)
+	if showui then
+		Tex1:SetRotation(-3.1415926, {x=0.4, y=0.5})
 	else
-		self:SetRotation(0, {x=0.4, y=0.5})
+		Tex1:SetRotation(0, {x=0.4, y=0.5})
 	end
 end
 ----
@@ -297,7 +297,8 @@ function BagBankfun.addfenleibagbut(fujiui,uiname)
 		end
 		baginfo.icon=bankicon
 	end
-	function fujiui:Show_Hide_but(showV)
+	function fujiui:ShowHide_butList(event)
+		local showV = event and fujiui.ButLsit[1]:IsShown() or not fujiui.ButLsit[1]:IsShown() 
 		local numSlots,full = GetNumBankSlots();
 		for vb=1,#baginfo.id do
 			local fameXX = fujiui.ButLsit[vb]

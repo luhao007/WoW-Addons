@@ -210,7 +210,6 @@ function Create.PIGDownMenu(fuF,Point,SizeWH,EasyMenu,UIname)
 			PIGCloseDropDownMenus()
 		end)
 		DownMenu.Button = CreateFrame("Button",nil,DownMenu);
-		DownMenu.Button:SetHighlightTexture("interface/buttons/ui-common-mousehilight.blp");
 		DownMenu.Button:SetSize(Height,Height);
 		DownMenu.Button:SetPoint("RIGHT",DownMenu,"RIGHT",0,0);
 		DownMenu.Button.UpTex = DownMenu.Button:CreateTexture();
@@ -234,6 +233,7 @@ function Create.PIGDownMenu(fuF,Point,SizeWH,EasyMenu,UIname)
 		DownMenu.Text:SetFont(FontUrl,14)
 		DownMenu.Text:SetJustifyH("RIGHT");
 	end
+	DownMenu.Button:SetHighlightTexture("Interface/Buttons/ButtonHilight-Square");
 	DownMenu.Button:RegisterForClicks("LeftButtonUp","RightButtonUp");
 	local function zhixing_Show(fujiFrame)
 		local xialaMenu = PIG_DropDown[1].dropdown

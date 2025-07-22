@@ -394,6 +394,8 @@ L["OPTIONS_RACE_CAP_DESC"] = "If you enable farming mode for a race, the Main wi
 --[[Translation missing --]]
 L["OPTIONS_RACE_CAP_KEYSTONE_DESC"] = "Automatically applies keystones (uncommon fragments) for checked races."
 --[[Translation missing --]]
+L["OPTIONS_RACE_CAP_KEYSTONE_FOSSIL_NOTE"] = "Note: There are no keystones for Fossil."
+--[[Translation missing --]]
 L["OPTIONS_RACE_CAP_KEYSTONE_TITLE"] = "Auto-keystone"
 --[[Translation missing --]]
 L["OPTIONS_RACE_CAP_PRIORITY_DESC"] = "Priority currently only applies to waypoint generation order. Automatic waypoints will point to the prioritized races before pointing to other (otherwise closer) digsites. Smaller number means higher priority."
@@ -586,9 +588,9 @@ L["TOOLTIP_KEYSTONES_YOUHAVE_INYOURBAGS_PLURAL"] = "s"
 --[[Translation missing --]]
 L["TOOLTIP_LEFTCLICK_SOLVE"] = "Left click to solve this artifact"
 --[[Translation missing --]]
-L["TOOLTIP_MAIN_RELEVANCY_DISABLE"] = "Show all races. \\n\\n|cFF00FF00Right click to open settings and customize relevancy options.|r"
+L["TOOLTIP_MAIN_RELEVANCY_DISABLE"] = "Show all races. |n|n|cFF00FF00Right click to open settings and customize relevancy options.|r"
 --[[Translation missing --]]
-L["TOOLTIP_MAIN_RELEVANCY_ENABLE"] = "Only show relevant races. \\n\\n|cFF00FF00Right click to open settings and customize relevancy options.|r"
+L["TOOLTIP_MAIN_RELEVANCY_ENABLE"] = "Only show relevant races. |n|n|cFF00FF00Right click to open settings and customize relevancy options.|r"
 --[[Translation missing --]]
 L["TOOLTIP_NEW"] = "New"
 --[[Translation missing --]]

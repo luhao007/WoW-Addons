@@ -17,7 +17,6 @@ local zhengliIcon="interface/containerframe/bags.blp"
 local BagdangeW=ContainerFrame1Item1:GetWidth()+5
 local wwc,hhc = 24,24
 ------
-local xuanzhuangsanjiao=BagBankfun.xuanzhuangsanjiao
 local Bag_Item_lv=BagBankfun.Bag_Item_lv
 local Bag_Item_Ranse=BagBankfun.Bag_Item_Ranse
 local Bank_Item_lv=BagBankfun.Bank_Item_lv
@@ -352,15 +351,9 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 	BAGheji.fenlei:SetScript("OnMouseUp", function (self)
 		self.Tex:SetPoint("CENTER",BAGheji.fenlei,"CENTER",2,0);
 	end);
-	BAGheji.fenlei.show=false
 	BAGheji.fenlei:SetScript("OnClick",  function (self)
-		if self.show then
-			self.show=false
-		else
-			self.show=true
-		end
-		xuanzhuangsanjiao(self.Tex,self.show)
-		BAGheji:Show_Hide_but(self.show)
+		BAGheji:ShowHide_butList()
+		BagBankfun.UpdateIconDirection(self.Tex,BAGheji.ButLsit[1]:IsShown())
 	end);
 	BagBankfun.addfenleibagbut(BAGheji,"PIG_CharacterBag_")
 	--钥匙
@@ -505,7 +498,6 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 	end)
 	-----
 	BAGheji:RegisterEvent("PLAYER_ENTERING_WORLD");
-	--BAGheji:RegisterEvent("BAG_UPDATE_DELAYED")
 	BAGheji:RegisterEvent("AUCTION_HOUSE_SHOW")
 	BAGheji:RegisterEvent("PLAYERBANKBAGSLOTS_CHANGED")
 	BAGheji:RegisterUnitEvent("UNIT_PORTRAIT_UPDATE","player")
@@ -522,16 +514,12 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 				end)
 			end
 		elseif event=="BAG_CONTAINER_UPDATE" or event=="PLAYERBANKBAGSLOTS_CHANGED" then
-			self:Show_Hide_but(self.fenlei.show)
+			C_Timer.After(0.1,function() self:ShowHide_butList(true) end) 
 			if BankSlotsFrame:IsShown() then
-				BankSlotsFrame:Show_Hide_but(BankSlotsFrame.fenlei.show)
+				BankSlotsFrame:ShowHide_butList(true)
 				for banki=2,#bagData["bankID"] do
 					OpenBag(bagData["bankID"][banki])
 				end
-			end
-		elseif event=="PLAYERBANKBAGSLOTS_CHANGED" then
-			if BankSlotsFrame:IsShown() then
-				BankSlotsFrame:Show_Hide_but(BankSlotsFrame.fenlei.show)
 			end
 		elseif event=="BAG_UPDATE_DELAYED" then
 			if self:IsShown() then
@@ -608,15 +596,9 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 	BankSlotsFrame.fenlei:SetScript("OnMouseUp", function (self)
 		self.Tex:SetPoint("CENTER",BankSlotsFrame.fenlei,"CENTER",2,0);
 	end);
-	BankSlotsFrame.fenlei.show=false
 	BankSlotsFrame.fenlei:SetScript("OnClick",  function (self)
-		if self.show then
-			self.show=false
-		else
-			self.show=true
-		end
-		xuanzhuangsanjiao(self.Tex,self.show)
-		BankSlotsFrame:Show_Hide_but(self.show)
+		BankSlotsFrame:ShowHide_butList()
+		BagBankfun.UpdateIconDirection(self.Tex,BankSlotsFrame.ButLsit[1]:IsShown())
 	end);
 	BagBankfun.addfenleibagbut(BankSlotsFrame,"PIG_CharacterBANK_")
 	Create.BagBankFrameBG(BankFrame,true)

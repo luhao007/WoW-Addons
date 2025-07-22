@@ -247,7 +247,14 @@ MiniMapBut.error:SetSize(18,18);
 MiniMapBut.error:SetAlpha(0.7);
 MiniMapBut.error:SetPoint("CENTER", 0, 0);
 MiniMapBut.error:Hide();
-local function Showaddonstishi(self,laiyuan)
+function MiniMapBut:SetTooltipV(ly)
+	if ly==1 then
+		self.TooltipV=L["MAP_NIMIBUT_TIPS1"]
+	else
+		self.TooltipV=L["MAP_NIMIBUT_TIPS2"]
+	end
+end
+function MiniMapBut.Showaddonstishi(self,laiyuan)
 	GameTooltip:ClearLines();
 	if laiyuan then
 		GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT",-2,16);
@@ -255,15 +262,11 @@ local function Showaddonstishi(self,laiyuan)
 		GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT",-24,0);
 	end
 	GameTooltip:AddLine("|cffFF00FF"..addonName.."|r-"..PIGGetAddOnMetadata(addonName, "Version"))
-	if PIG_OptionsUI.IsOpen_NDui() and not PIG_OptionsUI.IsOpen_NDui("Map","DisableMinimap") then
-		GameTooltip:AddLine(L["MAP_NIMIBUT_TIPS2"])
-	else
-		GameTooltip:AddLine(L["MAP_NIMIBUT_TIPS1"])
-	end
+	GameTooltip:AddLine(self.TooltipV)
 	GameTooltip:Show();
 end	
 MiniMapBut:SetScript("OnEnter", function(self)
-	Showaddonstishi(self)
+	self.Showaddonstishi(self)
 end);
 MiniMapBut:SetScript("OnLeave", function()
 	GameTooltip:ClearLines();
@@ -372,11 +375,19 @@ local function ClickShowSet()
 		PIG_OptionsUI:Show();
 	end
 end
-local function addonsClick(button)
-	GameTooltip:Hide()
-	if button=="RightButton" or PIGA["Map"]["MiniButShouNa_YN"]==2 and button=="LeftButton" then
-		ClickShowSet()
+local function ClickShowSNF()
+	if MiniMapBut.Snf:IsShown() then	
+		MiniMapBut.Snf:Hide();
 	else
+		PIG_OptionsUI:Hide();
+		MiniMapBut.Snf:Show();
+		MiniMapBut.Snf.xiaoshidaojishi = 1.5;
+		MiniMapBut.Snf.zhengzaixianshi = true;
+	end
+end
+function MiniMapBut.minimapButClickFun(button)
+	GameTooltip:Hide()
+	if button=="LeftButton" then
 		if IsControlKeyDown() then
 			PIG_BugcollectUI:Show()
 			MiniMapBut.error:Hide();
@@ -384,33 +395,18 @@ local function addonsClick(button)
 			ReloadUI()
 		else
 			if PIGA["Map"]["MiniButShouNa_YN"]==1 then
-				if PIG_OptionsUI.IsOpen_NDui() and not PIG_OptionsUI.IsOpen_NDui("Map","DisableMinimap") and RecycleBinToggleButton then
-					ClickShowSet()
-				else
-					MiniMapBut.Snf.tishi:Hide();
-					if MiniMapBut.Snf:IsShown() then	
-						MiniMapBut.Snf:Hide();
-					else
-						PIG_OptionsUI:Hide();
-						MiniMapBut.Snf:Show();
-						MiniMapBut.Snf.xiaoshidaojishi = 1.5;
-						MiniMapBut.Snf.zhengzaixianshi = true;
-					end
-				end
-			else	
-				MiniMapBut.Snf.tishi:Show();
-				if MiniMapBut.Snf:IsShown() then
-					MiniMapBut.Snf:Hide();
-				else
-					MiniMapBut.Snf:Show();
-				end
+				ClickShowSNF()
+			else
+				ClickShowSet()
 			end
 		end
+	elseif button=="RightButton" then
+		ClickShowSet()
 	end
 end
 MiniMapBut:SetScript("OnClick", function(event, button)
 	PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);
-	addonsClick(button)
+	MiniMapBut.minimapButClickFun(button)
 end)
 local MiniMapButYD = CreateFrame("Frame", nil);
 MiniMapButYD:Hide();
@@ -438,10 +434,12 @@ function MiniMapBut:CZMinimapInfo()
 end
 local www,hhh = 33,33
 function MiniMapBut:ButPoint()
-	if PIG_OptionsUI.MiniMapBut.DiyMiniMap then
-		PIG_OptionsUI.MiniMapBut:DiyMiniMap()
-		return
+	if PIGA["Map"]["MiniButShouNa_YN"]==1 then 
+		MiniMapBut:SetTooltipV(1)
+	else
+		MiniMapBut:SetTooltipV(2)
 	end
+	if PIG_OptionsUI.MiniMapBut.DiyMiniMap then return end
 	if PIG_OptionsUI.IsOpen_ElvUI() then
 		local function ElvUIPoint()
 			if MinimapPanel and MinimapPanel:IsVisible() then
@@ -543,7 +541,6 @@ end
 MiniMapBut.Snf = PIGFrame(MiniMapBut,nil,{200, 100});
 MiniMapBut.Snf:PIGSetBackdrop()
 MiniMapBut.Snf:Hide();
-MiniMapBut.Snf:SetFrameLevel(1)
 MiniMapBut.Snf.tishi = PIGFontString(MiniMapBut.Snf,nil,L["MAP_NIMIBUT_TIPS3"])
 MiniMapBut.Snf.tishi:SetPoint("TOPLEFT", MiniMapBut.Snf, "TOPLEFT", 6, -6);
 MiniMapBut.Snf.tishi:SetPoint("BOTTOMRIGHT", MiniMapBut.Snf, "BOTTOMRIGHT", -6, 6);
@@ -571,10 +568,10 @@ MiniMapBut.Snf:SetScript("OnLeave", function(self)
 end)
 --正式服系统地图部分插件下拉列表
 function PIGCompartmentClick(addonName, buttonName, menuButtonFrame)
-    addonsClick(buttonName)
+    MiniMapBut.minimapButClickFun(buttonName)
 end
 function PIGCompartmentEnter(addonName, menuButtonFrame)
-	Showaddonstishi(menuButtonFrame,true)	
+	MiniMapBut.Showaddonstishi(menuButtonFrame,true)	
 end
 function PIGCompartmentLeave(addonName, menuButtonFrame)
 	GameTooltip:ClearLines();

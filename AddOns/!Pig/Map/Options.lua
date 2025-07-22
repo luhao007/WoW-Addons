@@ -28,6 +28,7 @@ MiniMapF:Show()
 MiniMaptabbut:Selected()
 ----------------------
 function MiniMapF.PIGChecked()
+	MiniMapF.MinimapXY:SetChecked(PIGA["Map"]["MinimapXY"])
 	MiniMapF.Minimap_but:SetChecked(PIGA["Map"]["MinimapBut"])
 	MiniMapF.Minimap_but_BS:SetEnabled(PIGA["Map"]["MinimapBut"])
 	MiniMapF.Minimap_but_SN:SetEnabled(PIGA["Map"]["MinimapBut"])
@@ -42,7 +43,53 @@ function MiniMapF.PIGChecked()
 		MiniMapF.Minimap_but_SN.Smeihangshu:SetEnabled(false)
 	end
 end
-MiniMapF.Minimap_but = PIGCheckbutton_R(MiniMapF,{L["MAP_NIMIBUT"],L["MAP_NIMIBUTTIPS"]})
+MiniMapF.MinimapXY = PIGCheckbutton_R(MiniMapF,{L["MAP_WORDXY"],L["MAP_WORDXYTIPS"]},true)
+MiniMapF.MinimapXY:SetScript("OnClick", function (self)
+	if self:GetChecked() then
+		PIGA["Map"]["MinimapXY"]=true;
+	else
+		PIGA["Map"]["MinimapXY"]=false;
+	end
+	Mapfun.Minimap_XY()
+end);
+function Mapfun.Minimap_XY()
+	if Minimap.PIG_XY then
+		Minimap.PIG_XY:SetShown(PIGA["Map"]["MinimapXY"]) 
+		return
+	end
+	if not PIGA["Map"]["MinimapXY"] then return end
+	Minimap.PIG_XY = CreateFrame("Frame", nil, Minimap);
+	Minimap.PIG_XY:SetSize(60,16);
+	Minimap.PIG_XY:SetPoint("TOP",Minimap,"TOP",0,0);
+	Minimap.PIG_XY.zuobiaoX = PIGFontString(Minimap.PIG_XY,{"TOP", Minimap.PIG_XY, "TOP", 0, 0},"","OUTLINE")
+	Minimap.PIG_XY.zuobiaoX:SetTextColor(1, 1, 0, 1);
+	Minimap.PIG_XY:RegisterEvent("PLAYER_ENTERING_WORLD")
+	Minimap.PIG_XY:HookScript("OnEvent", function (self,event,arg1)
+		if event=="PLAYER_ENTERING_WORLD" then
+			local inInstance, instanceType =IsInInstance()
+			self.inInstance=inInstance
+		end		
+	end)
+	Minimap.PIG_XY.fpsTime = 0;
+	Minimap.PIG_XY:SetScript("OnUpdate", function (self,elapsed)
+		if self.inInstance then
+			self.zuobiaoX:SetText("--    --");
+		else
+			local timeLeft = self.fpsTime - elapsed
+			if timeLeft <= 0 then
+				self.fpsTime = 0.25;
+				local mapinfo = C_Map.GetBestMapForUnit("player"); 
+				if not mapinfo then return end
+				local pos = C_Map.GetPlayerMapPosition(mapinfo,"player");
+				if not pos then return end
+				self.zuobiaoX:SetText(format("%.1f",pos.x*100).."   "..format("%.1f",pos.y*100));
+			else
+				self.fpsTime = timeLeft;
+			end
+		end
+	end)
+end
+MiniMapF.Minimap_but = PIGCheckbutton_R(MiniMapF,{L["MAP_NIMIBUT"],L["MAP_NIMIBUTTIPS"]},true)
 MiniMapF.Minimap_but:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["Map"]["MinimapBut"]=true;
@@ -85,7 +132,7 @@ end)
 --按钮位置
 MiniMapF.Minimap_but_Pointbiaoti=PIGFontString(MiniMapF,{"TOPLEFT",MiniMapF,"TOPLEFT",20,-200},"小地图按钮位置:")
 local mapPointList = {"附着于小地图","附着于聊天框","自由模式(可随意拖动)"};
-MiniMapF.Minimap_but_Point=PIGDownMenu(MiniMapF,{"TOPLEFT",MiniMapF.Minimap_but_Pointbiaoti,"BOTTOMLEFT",30,-6},{180,24})
+MiniMapF.Minimap_but_Point=PIGDownMenu(MiniMapF,{"TOPLEFT",MiniMapF.Minimap_but_Pointbiaoti,"BOTTOMLEFT",20,-6},{250})
 function MiniMapF.Minimap_but_Point:PIGDownMenu_Update_But()
 	local info = {}
 	info.func = self.PIGDownMenu_SetValue
@@ -208,7 +255,7 @@ MiniMapF:HookScript("OnShow", function (self)
 	if PIG_OptionsUI.MiniMapBut.DiyMiniMap then
 		self.Minimap_but_Point:Disable();
 		self.CZinfo:Disable();
-		self.Minimap_but_Point:PIGDownMenu_SetText("被外部插件控制")
+		self.Minimap_but_Point:PIGDownMenu_SetText("被外部插件"..PIG_OptionsUI.MiniMapBut.EXaddonName.."控制")
 	elseif PIG_OptionsUI.IsOpen_ElvUI() then
 		self.Minimap_but_Point:Disable();
 		self.CZinfo:Disable();
@@ -298,6 +345,7 @@ WorldMapF:HookScript("OnShow", function (self)
 end);
 --==================================
 addonTable.Map = function()
+	Mapfun.Minimap_XY()
 	Mapfun.WorldMap_XY()
 	if PIG_MaxTocversion() then
 		Mapfun.WorldMap_Wind()

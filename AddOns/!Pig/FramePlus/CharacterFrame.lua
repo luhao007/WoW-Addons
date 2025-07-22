@@ -548,7 +548,9 @@ local function add_AutoEquip(ManageEquip)
 	local function _createFlyoutBG (buttonAnchor)
 		local numBGs = buttonAnchor["numBGs"];
 		numBGs = numBGs + 1;
-		local texture = buttonAnchor:CreateTexture(nil, nil, "PaperDollFrameFlyoutTexture");
+		local texture = buttonAnchor:CreateTexture();
+		texture:SetTexture("Interface/PaperDollInfoFrame/UI-GearManager-Flyout");
+		texture:Hide()
 		buttonAnchor["bg" .. numBGs] = texture;
 		buttonAnchor["numBGs"] = numBGs;
 		return texture;
@@ -806,7 +808,8 @@ local function add_AutoEquip(ManageEquip)
 		local buttons = PaperDollFrameItemFlyout.buttons;
 		local buttonAnchor = PaperDollFrameItemFlyoutButtons;	
 		local numButtons = #buttons;
-		local button = CreateFrame("BUTTON", "PaperDollFrameItemFlyoutButtons" .. numButtons + 1, buttonAnchor, "PIGpopoutButton_Flyout_ButtonTemplate");
+		local button = CreateFrame("BUTTON", "PaperDollFrameItemFlyoutButtons" .. numButtons + 1, buttonAnchor, "ItemButtonTemplate");
+		button.cooldown = CreateFrame("Cooldown", nil, button, "CooldownFrameTemplate");
 		button:HookScript("OnEnter", function(self)
 			if self.UpdateTooltip then self.UpdateTooltip(); end
 			PaperDollFrameItemFlyout.FlyoutButShow=nil 

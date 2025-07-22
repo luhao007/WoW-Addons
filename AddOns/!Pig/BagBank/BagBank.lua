@@ -12,7 +12,6 @@ local BagBankfun=addonTable.BagBankfun
 local wwc,hhc = 24,24
 local BagdangeW=bagData.ItemWH
 ------
-local xuanzhuangsanjiao=BagBankfun.xuanzhuangsanjiao
 local Bag_Item_lv=BagBankfun.Bag_Item_lv
 local Bank_Item_lv=BagBankfun.Bank_Item_lv
 local jisuanBANKzongshu=BagBankfun.jisuanBANKzongshu
@@ -297,7 +296,7 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 			PIG_SetTabSelct()
 		elseif event=="BAG_CONTAINER_UPDATE" or event=="PLAYERBANKBAGSLOTS_CHANGED" then
 			if BankSlotsFrame:IsShown() then
-				BankSlotsFrame:Show_Hide_but(BankSlotsFrame.fenlei.show)
+				BankSlotsFrame:ShowHide_butList(true)
 			end
 		elseif event=="PLAYERBANKSLOTS_CHANGED" then
 			Bank_Item_lv(BankFrame,nil,arg1)
@@ -322,15 +321,9 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 	BankSlotsFrame.fenlei:SetScript("OnMouseUp", function (self)
 		self.Tex:SetPoint("CENTER",BankSlotsFrame.fenlei,"CENTER",2,0);
 	end);
-	BankSlotsFrame.fenlei.show=false
 	BankSlotsFrame.fenlei:SetScript("OnClick",  function (self)
-		if self.show then
-			self.show=false
-		else
-			self.show=true
-		end
-		xuanzhuangsanjiao(self.Tex,self.show)
-		BankSlotsFrame:Show_Hide_but(self.show)	
+		BankSlotsFrame:ShowHide_butList()
+		BagBankfun.UpdateIconDirection(self.Tex,BankSlotsFrame.ButLsit[1]:IsShown())
 	end);
 	BagBankfun.addfenleibagbut(BankSlotsFrame,"PIG_CharacterBANK_")
 end

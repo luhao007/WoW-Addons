@@ -77,49 +77,53 @@ for i=1,10 do
 end
 PIG_OptionsUI.MiniMapBut.ShouNaButList={};
 PIG_OptionsUI.MiniMapBut.MiniList={};
-local function gengxinMBweizhi(newValue)
-	local meipaishu=newValue or PIGA["Map"]["MiniButShouNa_hang"];--每排按钮数
-	local hangshuV = math.ceil(#PIG_OptionsUI.MiniMapBut.ShouNaButList/meipaishu)
-	PIG_OptionsUI.MiniMapBut.Snf:SetSize(meipaishu*35+30, hangshuV*35+30)
-	for i=1, #PIG_OptionsUI.MiniMapBut.ShouNaButList,1 do
-		_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[i]]:Show()
-		_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[i]]:SetParent(PIG_OptionsUI.MiniMapBut.Snf)
-		_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[i]]:HookScript("OnEnter", function()
-			PIG_OptionsUI.MiniMapBut.Snf.zhengzaixianshi = nil;
-		end)
-		_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[i]]:HookScript("OnLeave", function()
-			PIG_OptionsUI.MiniMapBut.Snf.xiaoshidaojishi = 1.5;
-			PIG_OptionsUI.MiniMapBut.Snf.zhengzaixianshi = true;
-		end)
-		-- _G[PIG_OptionsUI.MiniMapBut.ShouNaButList[i]]:HookScript("PostClick", function ()
-		-- 	PIG_OptionsUI.MiniMapBut.Snf:Hide();
-		-- end);
-	end	
-	for iiii=1, hangshuV,1 do
-		if iiii==1 then
-			for xxxx=1, iiii*meipaishu, 1 do
-				if xxxx==1 then
-					_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[xxxx]]:ClearAllPoints();
-					_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[xxxx]]:SetPoint("TOPLEFT", PIG_OptionsUI.MiniMapBut.Snf, "TOPLEFT", 15, -15)
-				else
-					if _G[PIG_OptionsUI.MiniMapBut.ShouNaButList[xxxx]] then
+local function UpdateButPoint()
+	PIG_OptionsUI.MiniMapBut.Snf.tishi:Show();
+	local meipaishu=PIGA["Map"]["MiniButShouNa_hang"];--每排按钮数
+	local ButListNum=#PIG_OptionsUI.MiniMapBut.ShouNaButList
+	if ButListNum>0 then
+		PIG_OptionsUI.MiniMapBut.Snf.tishi:Hide()
+		local hangshuV = math.ceil(ButListNum/meipaishu)
+		PIG_OptionsUI.MiniMapBut.Snf:SetSize(meipaishu*35+30, hangshuV*35+30)
+		for i=1, ButListNum,1 do
+			_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[i]]:Show()
+			_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[i]]:SetParent(PIG_OptionsUI.MiniMapBut.Snf)
+			_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[i]]:HookScript("OnEnter", function()
+				PIG_OptionsUI.MiniMapBut.Snf.zhengzaixianshi = nil;
+			end)
+			_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[i]]:HookScript("OnLeave", function()
+				PIG_OptionsUI.MiniMapBut.Snf.xiaoshidaojishi = 1.5;
+				PIG_OptionsUI.MiniMapBut.Snf.zhengzaixianshi = true;
+			end)
+			-- _G[PIG_OptionsUI.MiniMapBut.ShouNaButList[i]]:HookScript("PostClick", function ()
+			-- 	PIG_OptionsUI.MiniMapBut.Snf:Hide();
+			-- end);
+		end	
+		for iiii=1, hangshuV,1 do
+			if iiii==1 then
+				for xxxx=1, iiii*meipaishu, 1 do
+					if xxxx==1 then
 						_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[xxxx]]:ClearAllPoints();
-						_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[xxxx]]:SetPoint("TOPLEFT", PIG_OptionsUI.MiniMapBut.Snf, "TOPLEFT", 35*(xxxx-1)+15, -15)
+						_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[xxxx]]:SetPoint("TOPLEFT", PIG_OptionsUI.MiniMapBut.Snf, "TOPLEFT", 15, -15)
+					else
+						if _G[PIG_OptionsUI.MiniMapBut.ShouNaButList[xxxx]] then
+							_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[xxxx]]:ClearAllPoints();
+							_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[xxxx]]:SetPoint("TOPLEFT", PIG_OptionsUI.MiniMapBut.Snf, "TOPLEFT", 35*(xxxx-1)+15, -15)
+						end
 					end
 				end
-			end
-		else
-			for xxxx=(iiii-1)*meipaishu+1, iiii*meipaishu, 1 do
-				if xxxx-(iiii-1)*meipaishu==1 then
-					_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[xxxx]]:ClearAllPoints();
-					_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[xxxx]]:SetPoint("TOPLEFT", PIG_OptionsUI.MiniMapBut.Snf, "TOPLEFT", 15, -35*(iiii-1)-15)
-				else
-					if _G[PIG_OptionsUI.MiniMapBut.ShouNaButList[xxxx]] then
+			else
+				for xxxx=(iiii-1)*meipaishu+1, iiii*meipaishu, 1 do
+					if xxxx-(iiii-1)*meipaishu==1 then
 						_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[xxxx]]:ClearAllPoints();
-						_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[xxxx]]:SetPoint("TOPLEFT", PIG_OptionsUI.MiniMapBut.Snf, "TOPLEFT", 35*(xxxx-(iiii-1)*meipaishu-1)+15, -35*(iiii-1)-15)
+						_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[xxxx]]:SetPoint("TOPLEFT", PIG_OptionsUI.MiniMapBut.Snf, "TOPLEFT", 15, -35*(iiii-1)-15)
+					else
+						if _G[PIG_OptionsUI.MiniMapBut.ShouNaButList[xxxx]] then
+							_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[xxxx]]:ClearAllPoints();
+							_G[PIG_OptionsUI.MiniMapBut.ShouNaButList[xxxx]]:SetPoint("TOPLEFT", PIG_OptionsUI.MiniMapBut.Snf, "TOPLEFT", 35*(xxxx-(iiii-1)*meipaishu-1)+15, -35*(iiii-1)-15)
+						end
 					end
 				end
-				
 			end
 		end
 	end
@@ -142,8 +146,12 @@ local function insertminiBut(data,uiname)
 	table.insert(data,uiname)
 end
 local function SN_MiniMapBut()
-	if RecycleBinToggleButton then return end
-	local children = { Minimap:GetChildren() };
+	if RecycleBinToggleButton then--如果玩家NDui收纳功能启用插件
+		PIG_OptionsUI.MiniMapBut.Snf.tishi:SetText("|cffFF0000NDui收纳功能启用,已禁用"..addonName.."收纳功能|r")
+		PIG_OptionsUI.MiniMapBut.Snf.tishi:Show();
+		return 
+	end
+	local children = {Minimap:GetChildren()};
 	for i=1,#children do
 		local uiname = children[i]:GetName()
 		if uiname then
@@ -155,10 +163,13 @@ local function SN_MiniMapBut()
 			end
 		end
 	end
-	gengxinMBweizhi(newValue)
+	UpdateButPoint()
 end
 function PIG_OptionsUI.MiniMapBut.SN_MiniMapBut()
-	if PIGA["Map"]["MiniButShouNa_YN"]==1 then	
+	if PIG_OptionsUI.MiniMapBut.DiyMiniMap then
+		PIG_OptionsUI.MiniMapBut:DiyMiniMap()
+	end
+	if PIGA["Map"]["MiniButShouNa_YN"]==1 then
 		C_Timer.After(0.1, SN_MiniMapBut);
 		C_Timer.After(1, SN_MiniMapBut);
 		C_Timer.After(6, SN_MiniMapBut);

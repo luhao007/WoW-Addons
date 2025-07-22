@@ -172,6 +172,11 @@ function Create.PIGSetMovable(LeftUI,MovableUI,KeyDown,Per,CombatLock)
 			local point, _, relativePoint, offsetX, offsetY = MovableUI:GetPoint()
 			local offsetX = floor(offsetX*100+0.5)*0.01
 			local offsetY = floor(offsetY*100+0.5)*0.01
+			if PIGA["PigLayout"]["TopBar"]["Open"] then
+				if relativePoint=="TOP" or relativePoint=="TOPLEFT" or relativePoint=="TOPRIGHT" then
+					offsetY=offsetY+PIGA["PigLayout"]["TopBar"]["Height"]
+				end
+			end
 			if MovableUI.Per then
 				PIGA_Per["Pig_UI"][uiname]={point, relativePoint, offsetX, offsetY}
 			else
@@ -219,6 +224,7 @@ function Create.PIGLine(Parent,Point,Y,H,LR,Color,UIName)
 	if ElvUI or NDui then
 		LR[1] = LR[1]
 		LR[2] = LR[2]
+	elseif Point=="LR" then
 	else
 		LR[1] = LR[1]+3
 		LR[2] = LR[2]-3
@@ -256,6 +262,11 @@ function Create.PIGLine(Parent,Point,Y,H,LR,Color,UIName)
 		frameX:SetEndPoint("BOTTOM",Y,LR[2])
 		-- frameX:SetPoint("TOP",Parent,"TOP",Y,LR[1]);
 		-- frameX:SetPoint("BOTTOM",Parent,"BOTTOM",Y,LR[2]);
+	elseif Point=="LR" then
+		frameX:SetStartPoint("LEFT",LR[1],Y)
+		frameX:SetEndPoint("RIGHT",LR[2],Y)
+		-- frameX:SetPoint("TOP",Parent,"TOP",Y,LR[1]);
+		-- frameX:SetPoint("BOTTOM",Parent,"BOTTOM",Y,LR[2]);
 	end
 	return frameX
 end
@@ -291,7 +302,7 @@ function Create.PIG_ResPoint(UIname)
 		local point, relativePoint, offsetX, offsetY, World=unpack(UILayout[UIname])
 		_G[UIname]:ClearAllPoints();
 		if World then
-			_G[MovUIName]:SetPoint(point or "CENTER", WorldFrame, relativePoint or "CENTER", offsetX or 0, offsetY or 0);
+			_G[UIname]:SetPoint(point or "CENTER", WorldFrame, relativePoint or "CENTER", offsetX or 0, offsetY or 0);
 		else
 			_G[UIname]:SetPoint(point or "CENTER",UIParent,relativePoint or "CENTER", offsetX or 0, offsetY or 0)
 		end

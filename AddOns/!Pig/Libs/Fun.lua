@@ -207,11 +207,11 @@ else
 		end
 	end
 end
-function Fun.PIGSetAtlas(buticon,Atlas)
+function Fun.PIGSetAtlas(buticon,Atlas,useAtlasSize,hWrapMode,vWrapMode)
 	if not addonTable.Data.AtlasInfo then return false end
 	for k,v in pairs(addonTable.Data.AtlasInfo) do
 		if v[Atlas] then
-			buticon:SetTexture(k)
+			buticon:SetTexture(k,hWrapMode,vWrapMode)
 			buticon:SetTexCoord(v[Atlas][3], v[Atlas][4], v[Atlas][5], v[Atlas][6])
 			return true
 		end

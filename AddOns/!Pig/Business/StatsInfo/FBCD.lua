@@ -341,15 +341,6 @@ function BusinessInfo.FBCD(StatsInfo)
 			fujiF.Update_List()
 			PIGCloseDropDownMenus()
 		end
-		local soundFile = "Sound\\Creature\\Ragnaros\\Ragnaros_Death.ogg"
-PlaySoundFile(soundFile, "Master", function(handle, errorReason)
-    if errorReason then
-        print("音频文件不存在或加载失败:", errorReason)
-    else
-        print("音频文件存在，已播放")
-        StopSound(handle)  -- 停止播放
-    end
-end)
 		fujiF.CDTimeT = PIGFontString(fujiF,{"TOPLEFT", fujiF, "TOPLEFT", 204, -5},"重置剩余:")
 		fujiF.CDTime7 = PIGFontString(fujiF,{"LEFT", fujiF.CDTimeT, "RIGHT", 5, 0},"常规团本:"..disp_time(GetInstancesCD_1()))
 		fujiF.CDTime7:SetTextColor(0,1,0, 1);

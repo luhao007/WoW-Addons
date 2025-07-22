@@ -1,6 +1,9 @@
 local addonName, addonTable = ...;
 local Url="Interface/AddOns/"..addonName.."/Audio/"
 local AudioList = {
+	["Countdown"]={--倒计时语音
+		{"倒计时语音(露露)",Url.."Countdown"},
+	},
 	["QuestEnd"]={--任务完成
 		{"任务完成(露露)",Url.."QuestEnd_1.ogg"},
 		{"工作完成(露露)",Url.."QuestEnd_2.ogg"},
