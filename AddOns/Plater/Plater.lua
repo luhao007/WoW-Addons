@@ -55,14 +55,23 @@ local abs = math.abs
 local format = string.format
 local GetSpellInfo = GetSpellInfo or function(spellID) if not spellID then return nil end local si = C_Spell.GetSpellInfo(spellID) if si then return si.name, nil, si.iconID, si.castTime, si.minRange, si.maxRange, si.spellID, si.originalIconID end end
 local UnitIsUnit = UnitIsUnit
-local type = type
 local select = select
 local UnitGUID = UnitGUID
-local strsplit = strsplit
 local lower = string.lower
-local floor = floor
 local max = math.max
 local min = math.min
+
+local IsPlayerSpell = IsPlayerSpell
+
+if (not IsPlayerSpell) then
+	IsPlayerSpell = function(spellID)
+		local spellBank = Enum.SpellBookSpellBank.Player
+		return C_SpellBook.IsSpellKnown(spellID, spellBank)
+	end
+end
+
+local GetSpecialization = C_SpecializationInfo and C_SpecializationInfo.GetSpecialization or GetSpecialization
+local GetSpecializationInfo = C_SpecializationInfo and C_SpecializationInfo.GetSpecializationInfo or GetSpecializationInfo
 
 local IS_WOW_PROJECT_MAINLINE = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
 local IS_WOW_PROJECT_NOT_MAINLINE = WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE
@@ -679,7 +688,7 @@ Plater.AnchorNamesByPhraseId = {
 			end
 		
 		else
-			-- WotLK and classic
+			-- classic and such
 			local classLoc, class = UnitClass ("player")
 			if (class) then
 				if (class == "WARRIOR") then
@@ -699,7 +708,7 @@ Plater.AnchorNamesByPhraseId = {
 					elseif IsPlayerSpell(17877) then
 						lowExecute = 0.2
 					else
-						lowExecute = 0.25
+						lowExecute = 0.20
 					end
 				elseif (class == "HUNTER") then
 					-- Kill Shot
@@ -721,8 +730,14 @@ Plater.AnchorNamesByPhraseId = {
 					
 					-- SW:D is available to all priest specs
 					if IsPlayerSpell(32379) then
-						lowExecute = 0.25
+						lowExecute = 0.20
 					end
+				
+				elseif (class == "DEATHKNIGHT") then
+					if IsPlayerSpell(130735) or IsPlayerSpell(130736) or IsPlayerSpell(114866) then --Soul Reaper
+						lowExecute = 0.35
+					end
+				
 				end
 			end
 		
@@ -5650,7 +5665,7 @@ function Plater.OnInit() --private --~oninit ~init
 
 			--quick hide the nameplate if the unit doesn't exists or if the unit died
 			if (DB_USE_QUICK_HIDE and (IS_WOW_PROJECT_MAINLINE)) then
-				if (not UnitExists (unitFrame.unit) or self.CurrentHealth < 1) then
+				if ((not UnitExists (unitFrame.unit) and not UnitIsVisible(unitFrame.unit)) or self.CurrentHealth < 1) then
 					--the unit died!
 					unitFrame:Hide()
 					Plater.EndLogPerformanceCore("Plater-Core", "Health", "OnUpdateHealth")
@@ -6683,7 +6698,7 @@ end
 			end
 			
 			--check shield ~shield
-			if (IS_WOW_PROJECT_MAINLINE) then
+			if (UnitGetTotalAbsorbs) then
 				if (profile.indicator_shield) then
 					local amountAbsorb = UnitGetTotalAbsorbs(tickFrame.PlateFrame[MEMBER_UNITID])
 					if (amountAbsorb and amountAbsorb > 0) then
@@ -10050,7 +10065,7 @@ end
 		local useQuestie = false
 		local QuestieTooltips = QuestieLoader and QuestieLoader._modules["QuestieTooltips"]
 		if QuestieTooltips then
-			ScanQuestTextCache = QuestieTooltips.GetTooltip("m_"..plateFrame [MEMBER_NPCID])
+			ScanQuestTextCache = QuestieTooltips.GetTooltip("m_"..(plateFrame [MEMBER_NPCID] or "N/A"))
 			if not ScanQuestTextCache then
 				ScanQuestTextCache = {}
 			end
@@ -10660,7 +10675,7 @@ end
 			Plater.AlignAuraFrames (buffFrame2)
 			--buffFrame2:SetAlpha (DB_AURA_ALPHA)
 		end
-		Plater.RunScriptTriggersForAuraIcons (unitFrame)
+		Plater.RunScriptTriggersForAuraIcons (self)
 	end
 	
 	--return the health bar and the unitname text

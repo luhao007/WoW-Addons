@@ -319,16 +319,16 @@ end
 local function Update_UIUnitPoint()
 	if PIGA["Config_Unit"] then
 		local TopBarY = 0
-		if PIGA["PigLayout"]["TopBar"]["Open"] then
-			if relativePoint=="TOP" or relativePoint=="TOPLEFT" or relativePoint=="TOPRIGHT" then
-				TopBarY=PIGA["PigLayout"]["TopBar"]["Height"]
-			end
-		end
 		for k,v in pairs(PIGA["Config_Unit"]) do
 			local point, relativePoint, offsetX, offsetY=unpack(v)
 			if point and relativePoint and offsetX and offsetY then
 				local uixx=_G[k]
 				uixx:ClearAllPoints();
+				if PIGA["PigLayout"]["TopBar"]["Open"] then
+					if relativePoint=="TOP" or relativePoint=="TOPLEFT" or relativePoint=="TOPRIGHT" then
+						TopBarY=PIGA["PigLayout"]["TopBar"]["Height"]
+					end
+				end
 				uixx:SetPoint(point, UIParent, relativePoint, offsetX, offsetY+TopBarY);
 				uixx:SetUserPlaced(true)
 			end
@@ -338,14 +338,14 @@ local function Update_UIUnitPoint()
 end
 --加载外部插件的PIG配置
 addonTable.ShareConfig = function()
-	for k,v in pairs(addonTable.ShareDB) do
-		local Title=PIGGetAddOnMetadata(k, "Title")
-		PigConfigFun.fuFrameBut.Text:SetText(PigConfigFun.fuFrameBut.Text:GetText().."+|cff00FFFF("..v.name..")|r")
-		local fujiF,fujiBut =PIGOptionsList_R(RTabFrame,v.name,100)
+	for adname,adDB in pairs(addonTable.ShareDB) do
+		PigConfigFun.fuFrameBut.Text:SetText(PigConfigFun.fuFrameBut.Text:GetText().."+|cff00FFFF("..adDB.TitleName..")|r")
+		local fujiF,fujiBut =PIGOptionsList_R(RTabFrame,adDB.TitleName,100)
 		_G[Data.ExportImportUIname].ClickButFunX=LoadSameValue
 		fujiF.tispext1 = PIGFontString(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",10,-10})
 		fujiF.tispext1:SetJustifyH("LEFT");
-		local VersionTXT=PIGGetAddOnMetadata(k, "Version")
+		local Title=PIGGetAddOnMetadata(adname, "Title")
+		local VersionTXT=PIGGetAddOnMetadata(adname, "Version")
 		fujiF.tispext1:SetText("检测到外部配置(来自|cff00FFFF<"..Title.."|r|cff00FF0Fv"..VersionTXT.."|r), 你的部分"..addonName.."配置将被接管")
 		fujiF.tispext1:SetTextColor(1, 0.2, 0, 1);
 		fujiF.tispext2 = PIGFontString(fujiF,{"TOPLEFT",fujiF.tispext1,"BOTTOMLEFT",0,-8},"外部配置载入状态:")
@@ -353,27 +353,10 @@ addonTable.ShareConfig = function()
 		fujiF.tispext2:SetTextColor(1, 0.2, 0, 1);
 		fujiF.tispext3 = PIGFontString(fujiF,{"LEFT",fujiF.tispext2,"RIGHT",0,0},"成功")
 		fujiF.tispext3:SetTextColor(0, 1, 0, 1);
-		local bendijiluV=PIGA["Ver"][k] or 0
-		if tonumber(VersionTXT)>bendijiluV or PIGA["ShareRL"..k] then
-			PIGA["ShareRL"..k]=nil
-			PIGA["ActionBarEnabled"]=nil
-			if v.config~="" then
-				local errtxt = _G[Data.ExportImportUIname].Is_PIGString(v.config)
-				if errtxt then
-					fujiF.tispext3:SetTextColor(1, 0, 0, 1);
-					fujiF.tispext3:SetText("失败,原因:"..errtxt)
-				else
-					PIGA["Ver"][k]=tonumber(VersionTXT)
-					Update_UIUnitPoint()
-				end
-			end
-		end
-		Update_UIActionBarPoint()
-		fujiF.butRL = PIGButton(fujiF,{"LEFT",fujiF.tispext3,"RIGHT",4,0},{80,20},"重新载入")
-		PIGEnter(fujiF.butRL,"如果你因为某些原因丢失此作者设置的配置，请点此重新载入\n注意只会重新载入被接管的那部分"..addonName.."配置")
+		fujiF.butRL = PIGButton(fujiF,{"LEFT",fujiF.tispext3,"RIGHT",4,0},{80,20},"重置设置")
+		PIGEnter(fujiF.butRL,"如遇异常情况，请点此重置此作者配置\n注意只会重置被接管的那部分"..addonName.."设置")
 		fujiF.butRL:SetScript("OnClick", function ()
-			PIGA["Ver"][k]=nil
-			PIGA["ActionBarEnabled"]=nil
+			adDB.ResetConfig()
 			ReloadUI()
 		end);
 		fujiF.tabbot=PIGFrame(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",0,-72})
@@ -381,7 +364,19 @@ addonTable.ShareConfig = function()
 		fujiF.tabbot:PIGSetBackdrop(0,1)
 		fujiF.tabbot.tisp=PIGFontString(fujiF.tabbot,{"BOTTOMLEFT",fujiF.tabbot,"TOPLEFT",10,2},"以下设置为外部插件提供，非"..addonName.."功能，相关问题请咨询对应作者")
 		fujiF.tabbot.tisp:SetTextColor(1, 0.2, 0, 1);
-		v.addui(fujiF.tabbot)
+		adDB.CreateSetting(fujiF.tabbot)
+		--外部作者设置的加载配置的条件
+		local ConfigDB = adDB.LoadingCondition(VersionTXT)
+		if ConfigDB then
+			local errtxt = _G[Data.ExportImportUIname].Is_PIGString(ConfigDB)		
+			if errtxt then
+				fujiF.tispext3:SetTextColor(1, 0, 0, 1);
+				fujiF.tispext3:SetText("失败,原因:"..errtxt)
+			else
+				Update_UIUnitPoint()
+			end
+		end
+		Update_UIActionBarPoint()
 		return
 	end
 end

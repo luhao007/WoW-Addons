@@ -1,6 +1,6 @@
 ## Interface: 110107
 ## Author: VV
-## Version: 10.1.4
+## Version: 10.2.1
 
 ## Title: GladiatorlosSA_zhCN_VV
 ## Notes: GSA plugin for Chinese voice set
@@ -8,8 +8,6 @@
 ## Notes-zhCN: PVP技能語音提示
 
 ## IconTexture: Interface\AddOns\GladiatorlosSA2_zhCN_VV\Icons\VV_GSA2.tga
-
-## RequiredDeps: GladiatorlosSA2
 
 ## X-Part-Of: GladiatorlosSA2
 

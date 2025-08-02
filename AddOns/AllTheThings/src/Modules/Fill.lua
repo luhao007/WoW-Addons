@@ -102,7 +102,7 @@ end
 local function GetNpcIDForDrops(group)
 	-- assuming for any 'crs' references on an encounter/header group that all crs are linked to the same resulting content
 	-- Fyrakk Assaults uses two headers with 'crs' test that when changing this check
-	return group.npcID or group.creatureID or ((group.encounterID or group.isWorldQuest) and group.crs and group.crs[1])
+	return group.npcID or ((group.encounterID or group.isWorldQuest) and group.crs and group.crs[1])
 end
 local function GetRelativeFieldInSet(group, field, set)
 	if group then

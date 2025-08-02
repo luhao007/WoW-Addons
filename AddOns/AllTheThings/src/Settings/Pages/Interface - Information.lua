@@ -19,7 +19,7 @@ local GetSpellIcon = app.WOWAPI.GetSpellIcon;
 local IsQuestFlaggedCompletedOnAccount = app.WOWAPI.IsQuestFlaggedCompletedOnAccount;
 
 -- Settings: Interface Page
-local child = settings:CreateOptionsPage("Information", L.INTERFACE_PAGE)
+local child = settings:CreateOptionsPage(L.INFORMATION_PAGE, L.INTERFACE_PAGE)
 
 -- Conversion Methods for specific formats for a given Information Type.
 local function GetCoordString(x, y)
@@ -777,7 +777,7 @@ local InformationTypes = {
 	}),
 	CreateInformationType("maps", { text = L.MAPS, priority = 2.6,
 		Process = function(t, reference, tooltipInfo)
-			local maps = reference.maps;
+			local maps = reference.maps or reference.maps_disp
 			if not maps or #maps == 0 then
 				local coords = reference.coords
 				if coords and #coords > 0 then
@@ -1036,7 +1036,7 @@ local InformationTypes = {
 			end
 		end,
 	}),
-	CreateInformationType("criteriaID", { text = "Criteria ID" }),
+	CreateInformationType("criteriaID", { text = L.CRITERIA_ID }),
 	CreateInformationType("currencyID", { text = L.CURRENCY_ID }),
 	CreateInformationType("difficultyID", { text = L.DIFFICULTY_ID }),
 	CreateInformationType("displayID", { text = L.DISPLAY_ID }),
@@ -1203,7 +1203,7 @@ local InformationTypes = {
 	});
 
 	-- Summary Information Types
-	CreateInformationType("Repeatables", { text = "Repeatables", priority = 10999, ShouldDisplayInExternalTooltips = false,
+	CreateInformationType("Repeatables", { text = L.REPEATABLES_LABEL, priority = 10999, ShouldDisplayInExternalTooltips = false,
 		Process = function(t, reference, tooltipInfo)
 			if reference.isWorldQuest then tinsert(tooltipInfo, { left = L.DURING_WQ_ONLY }); end
 			if reference.isDaily then tinsert(tooltipInfo, { left = L.COMPLETED_DAILY });
@@ -1275,17 +1275,17 @@ local InformationTypes = {
 			end
 		end,
 	}),
-	CreateInformationType("sourceIgnored", { text = "sourceIgnored", priority = 11001, HideCheckBox = true, ForceActive = true, ShouldDisplayInExternalTooltips = false, 
+	CreateInformationType("sourceIgnored", { text = "sourceIgnored", priority = 11001, HideCheckBox = true, ForceActive = true, ShouldDisplayInExternalTooltips = false,
 		Process = function(t, reference, tooltipInfo)
 			if reference.sourceIgnored then
 				tinsert(tooltipInfo, { left = L.DOES_NOT_CONTRIBUTE_TO_PROGRESS, wrap = true });
 			end
 		end,
 	}),
-	
+
 	CreateInformationType("SpecializationRequirements", {
 		priority = 9003,
-		text = "Specializations",
+		text = L.SPEC_CHECKBOX,
 		Process = app.GameBuildVersion >= 50000 and function(t, reference, tooltipInfo)
 			local specs = reference.specs;
 			if not specs then

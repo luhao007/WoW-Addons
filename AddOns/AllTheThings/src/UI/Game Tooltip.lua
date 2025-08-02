@@ -84,7 +84,7 @@ local function CalculateModelRotation(number)
 	return number and ((number * pi) / 180) or MODELFRAME_DEFAULT_ROTATION;
 end
 local function GetCreatureID(reference)
-	local creatureID = reference.creatureID or (reference.qgs and reference.qgs[1]);
+	local creatureID = reference.npcID or (reference.qgs and reference.qgs[1]);
 	if creatureID then return creatureID; end
 
 	if reference.providers then

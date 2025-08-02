@@ -250,9 +250,11 @@ function Create.PIGDiyTex(fuF,Point,WH,UIName,TemplateP)
 	if Point then
 		But:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5])
 	end
+	local iconX = WH and WH[7] or 0
+	local iconY = WH and WH[8] or 0
 	But.icon = But:CreateTexture(nil, TemplateP);
 	But.icon:SetSize(WwwTex,HhhTex)
-	But.icon:SetPoint("CENTER",0,0);
+	But.icon:SetPoint("CENTER",iconX,iconY);
 	if type(icontex)=="number" then
 		But.icon:SetTexture(icontex);
 	else

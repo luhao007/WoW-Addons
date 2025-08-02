@@ -76,7 +76,7 @@ end
 ---@class DBM
 local DBM = private:GetPrototype("DBM")
 _G.DBM = DBM
-DBM.Revision = parseCurseDate("20250720225837")
+DBM.Revision = parseCurseDate("20250801093109")
 DBM.TaintedByTests = false -- Tests may mess with some internal state, you probably don't want to rely on DBM for an important boss fight after running it in test mode
 
 local fakeBWVersion, fakeBWHash = 391, "1adddef"--391.1
@@ -5576,7 +5576,7 @@ do
 	function DBM:RAID_BOSS_WHISPER(msg)
 		--Make it easier for devs to detect whispers they are unable to see
 		--TINTERFACE\\ICONS\\ability_socererking_arcanewrath.blp:20|t You have been branded by |cFFF00000|Hspell:156238|h[Arcane Wrath]|h|r!"
-		if msg and msg ~= "" and IsInGroup() and not _G["BigWigs"] and not IsTrialAccount() then
+		if msg and msg ~= "" and #msg < 255 and IsInGroup() and not _G["BigWigs"] and not IsTrialAccount() then
 			ChatThrottleLib:SendAddonMessage("ALERT", "Transcriptor", msg, IsInGroup(2) and "INSTANCE_CHAT" or IsInRaid() and "RAID" or "PARTY")--Alert prio used since time accuracy is paramount for accurate logging
 		end
 	end
@@ -9175,7 +9175,7 @@ function bossModPrototype:ReceiveSync(event, sender, revision, ...)
 	end
 end
 
----@param revision number|string Either a number in the format "202101010000" (year, month, day, hour, minute) or string "20250720225837" to be auto set by packager
+---@param revision number|string Either a number in the format "202101010000" (year, month, day, hour, minute) or string "20250728044310" to be auto set by packager
 function bossModPrototype:SetRevision(revision)
 	revision = parseCurseDate(revision or "")
 	if not revision or type(revision) == "string" then

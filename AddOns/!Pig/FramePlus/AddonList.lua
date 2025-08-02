@@ -54,7 +54,9 @@ function FramePlusfun.AddonQuickBut()
 		rootDescription:CreateButton(RELOADUI,function() ReloadUI(); end);
 		rootDescription:CreateButton(EDIT..ADDONS..L["CONFIG_TABNAME"],function() if InCombatLockdown() then PIGTopMsg:add(ERR_NOT_IN_COMBAT) return end ShowUIPanel(AddonList) end);
 	end);
-	if PIG_OptionsUI.AddonQuickBut then PIG_OptionsUI.AddonQuickBut(butx) end
+	for adname,adDB in pairs(addonTable.ShareDB) do	
+		if adDB.AddonQuickBut then adDB.AddonQuickBut(butx) return end
+	end
 end
 function FramePlusfun.AddonList()
 	if not PIGA["FramePlus"]["AddonList"] then return end

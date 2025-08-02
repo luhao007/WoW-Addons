@@ -186,7 +186,7 @@ L:SetOptionLocalization({
 ---------------------------
 -- High Tinker Mekkatorgue (Horde) --
 ---------------------------
-L= DBM:GetModLocalization(2332)
+L= DBM:GetModLocalization(2334)
 
 L:SetMiscLocalization({
 	WallRP	= "The High Tinker fought bravely"--. But in the end... it wasn't enough. Thank the tides he had one last trick up his sleeve to carry him to safety!

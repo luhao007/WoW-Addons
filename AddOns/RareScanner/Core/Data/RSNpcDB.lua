@@ -474,7 +474,7 @@ function RSNpcDB.GetBestInternalNpcCoordinates(npcID, mapID)
 			local coords = {}
 			for _, coordinates in ipairs (overlay) do
 				local xo, yo = strsplit("-", coordinates)
-				local distance = RSUtils.DistanceBetweenCoords(playerx, xo, playery, yo);
+				local distance = RSUtils.DistanceBetweenCoords(playerx, RSUtils.FixCoord(xo), playery, RSUtils.FixCoord(yo));
 				if (distance >= 0 and distance <= 0.02) then
 					tinsert(distances, distance)
 					coords[distance] = {}

@@ -82,34 +82,6 @@ local PetIDSpeciesIDHelper = setmetatable({}, {
 		return speciesID;
 	end
 });
-local onTooltipForBattlePet;
-if C_PetJournal_GetPetStats then
-	onTooltipForBattlePet = function(t, tooltipInfo)
-		local speciesID = t.speciesID;
-		if speciesID then
-			local totalPets, ownedPets = C_PetJournal_GetNumPets()
-			if ownedPets > 0 then
-				local index = 0;
-				local petID, s, owned, customName, level, health, maxHealth, power, speed, rarity;
-				for i=1,ownedPets do
-					petID, s, owned, customName, level = C_PetJournal_GetPetInfoByIndex(i);
-					if petID and speciesID == s then
-						index = index + 1;
-						if index == 1 then
-							tinsert(tooltipInfo, { left = " " });
-							tinsert(tooltipInfo, { left = app.L.OWNED_PET });
-						end
-						health, maxHealth, power, speed, rarity = C_PetJournal_GetPetStats(petID);
-						tinsert(tooltipInfo, {
-							left = LEVEL .. " " .. level .. " (" .. _G["BATTLE_PET_BREED_QUALITY" .. rarity] .. ")",
-							right = health .. " / " .. maxHealth .. " [" .. power .. " | " .. speed .. "]"
-						});
-					end
-				end
-			end
-		end
-	end
-end
 
 local PerCharacterSpecies = {
 	[280] = true, 	-- Guild Page [A]
@@ -168,9 +140,6 @@ app.CreateSpecies = app.CreateClass(CLASSNAME, KEY, {
 	perCharacter = function(t)
 		return PerCharacterSpecies[t.speciesID]
 	end,
-	OnTooltip = onTooltipForBattlePet and function(t)
-		return onTooltipForBattlePet;
-	end or nil,
 },
 "WithItem", {
 	ImportFrom = "Item",
@@ -276,6 +245,39 @@ app.AddEventRegistration("PET_JOURNAL_PET_DELETED", function(petID, speciesID)
 	end
 end)
 app.AddSimpleCollectibleSwap(CLASSNAME, CACHE)
+if C_PetJournal_GetPetStats then
+	app.AddEventHandler("OnLoad", function()
+		app.Settings.CreateInformationType("Owned Pets", {
+			priority = 11000,
+			text = app.L.OWNED_PETS,
+			Process = function(t, data, tooltipInfo)
+				local speciesID = data.speciesID;
+				if speciesID then
+					local totalPets, ownedPets = C_PetJournal_GetNumPets()
+					if ownedPets > 0 then
+						local index = 0;
+						local petID, s, owned, customName, level, health, maxHealth, power, speed, rarity;
+						for i=1,ownedPets do
+							petID, s, owned, customName, level = C_PetJournal_GetPetInfoByIndex(i);
+							if petID and speciesID == s then
+								index = index + 1;
+								if index == 1 then
+									tinsert(tooltipInfo, { left = " " });
+									tinsert(tooltipInfo, { left = app.L.OWNED_PETS });
+								end
+								health, maxHealth, power, speed, rarity = C_PetJournal_GetPetStats(petID);
+								tinsert(tooltipInfo, {
+									left = LEVEL .. " " .. level .. " (" .. _G["BATTLE_PET_BREED_QUALITY" .. rarity] .. ")",
+									right = health .. " / " .. maxHealth .. " [" .. power .. " | " .. speed .. "]"
+								});
+							end
+						end
+					end
+				end
+			end
+		});
+	end);
+end
 
 local C_PetBattles_GetAbilityInfoByID
 	= C_PetBattles.GetAbilityInfoByID

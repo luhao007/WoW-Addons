@@ -137,7 +137,7 @@ app.CreateFaction = app.CreateClass("Faction", KEY, {
 		end
 	end,
 	name = function(t)
-		return GetFactionName(t[KEY]) or (t.creatureID and app.NPCNameFromID[t.creatureID]) or (FACTION .. " #" .. t[KEY]);
+		return GetFactionName(t[KEY]) or (t.npcID and app.NPCNameFromID[t.npcID]) or (FACTION .. " #" .. t[KEY]);
 	end,
 	description = function(t)
 		if not t.lore then return L.FACTION_SPECIFIC_REP; end

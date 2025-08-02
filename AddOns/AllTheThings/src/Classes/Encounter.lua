@@ -64,7 +64,7 @@ else
 			t.encounterID = id;
 			return t;
 		else
-			local npcID = t.creatureID or (t.crs and t.crs[1]) or t.npcID or (t.qgs and t.qgs[1]);
+			local npcID = t.npcID or (t.crs and t.crs[1]) or (t.qgs and t.qgs[1]);
 			if npcID then
 				t = app.CreateNPC(npcID, t);
 				t.encounterID = id;

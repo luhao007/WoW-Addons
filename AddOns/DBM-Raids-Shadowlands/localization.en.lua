@@ -96,7 +96,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Remnant	= "Remnant"
+	Remnant			= "Remnant",
+	PortalRP		= "Secure the area! Fortify our perimeter!"
 })
 
 ---------------------------
@@ -115,7 +116,7 @@ L= DBM:GetModLocalization(2439)
 
 L:SetMiscLocalization({
 	Fragment		= "Fragment ",--Space is intentional, leave a space to add a number after it
-	PrePull			= "RAAAaaaarrGGHHHH!"
+	PrePull			= "Fools. You fight a battle you cannot win."
 })
 
 ---------------------------
@@ -157,7 +158,11 @@ L:SetMiscLocalization({
 ---------------------------
 --  Kel'Thuzad --
 ---------------------------
---L= DBM:GetModLocalization(2440)
+L= DBM:GetModLocalization(2440)
+
+L:SetMiscLocalization({
+	WallRP	= "How fitting that we should face one another here, upon the precipice of Death's victory."
+})
 
 ---------------------------
 --  Sylvanas Windrunner --
@@ -247,6 +252,10 @@ L:SetOptionLocalization({
 	Auto				= "'on you' alert with auto assigned partner. Chat bubbles show unique symbols for matchups",
 	Generic				= "'on you' alert with no assignments. Chat bubbles show generic symbols for two debuffs",--Default
 	None				= "'on you' alert with no assignments. No Chat bubbles"
+})
+
+L:SetMiscLocalization({
+	PrePull				= "It is done. The final chamber of the Sepulcher opens before me."
 })
 
 ---------------------------

@@ -858,6 +858,68 @@ data["TIMEWALKINGEVENT"]   = {
 				{ 223, "129853:10845",                [PRICE_EXTRA_ITTYPE] = "timewarped:25", },                               -- Aftershock Waistguard
 			},
 		},
+		{ -- Classic
+			name = EXPANSION_NAME0,
+			[NORMAL_DIFF] = {
+				{ 1,   224398,                           "mount",                                 [PRICE_EXTRA_ITTYPE] = "timewarped:5000" }, -- Reins of the Frayfeather Hippogryph
+				{ 2,   224406,                           "pet4592",                               [PRICE_EXTRA_ITTYPE] = "timewarped:2200" }, -- Misty
+				{ 3,   224410,                           "pet4593",                               [PRICE_EXTRA_ITTYPE] = "timewarped:2200" }, -- Craggles
+				{ 4,   224192,                           [PRICE_EXTRA_ITTYPE] = "timewarped:200" },                               -- Practice Ravager
+				{ 6,   224190,                           [PRICE_EXTRA_ITTYPE] = "timewarped:25" },                                -- Kreeg's Hardy Draught
+				{ 7,   6522,                             [PRICE_EXTRA_ITTYPE] = "timewarped:2" },                                 -- Deviate Fish
+				{ 8,   6657,                             [PRICE_EXTRA_ITTYPE] = "timewarped:10" },                                -- Savory Deviate Delight
+				{ 9,   8529,                             [PRICE_EXTRA_ITTYPE] = "timewarped:10" },                                -- Noggenfogger Elixir
+				{ 10,  225378,                           [PRICE_EXTRA_ITTYPE] = "timewarped:200", [ATLASLOOT_IT_AMOUNT1] = 25 },  -- Mohawk Grenade
+				{ 12,  224558,                           [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Commendation of the Brood of Nozdormu
+				{ 13,  224561,                           [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Commendation of the Hydraxian Waterlords
+				{ 14,  224567,                           [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Commendation of the Argent Dawn
+				{ 15,  224566,                           [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Commendation of the Timbermaw Hold
+				{ 16,  224570,                           [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Commendation of the Zandalar Tribe
+				{ 17,  224571,                           [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Commendation of the Thorium Brotherhood
+				{ 18,  [ATLASLOOT_IT_ALLIANCE] = 224565, [PRICE_EXTRA_ITTYPE] = "timewarped:50" },                                -- Commendation of the Wintersaber Trainers
+				{ 20,  227703,                           [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Farstrider's Huntsblade
+				{ 21,  227704,                           [PRICE_EXTRA_ITTYPE] = "timewarped:2500" },                              -- Claymore of the Knight's Pledge
+				{ 22,  227705,                           [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Runed-Ice Dirk
+				{ 23,  227706,                           [PRICE_EXTRA_ITTYPE] = "timewarped:2500" },                              -- Doomreaper's Scythe
+				{ 24,  227707,                           [PRICE_EXTRA_ITTYPE] = "timewarped:2500" },                              -- Doomwail Reaper
+				{ 25,  227709,                           [PRICE_EXTRA_ITTYPE] = "timewarped:2500" },                              -- Kirin Tor Adept's Stave
+				{ 26,  227711,                           [PRICE_EXTRA_ITTYPE] = "timewarped:2500" },                              -- Tusked Branch of War
+				{ 27,  227712,                           [PRICE_EXTRA_ITTYPE] = "timewarped:2000" },                              -- Emberswirl Bulwark
+				{ 28,  227717,                           [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Sermons of the Naaru
+				{ 29,  227714,                           [PRICE_EXTRA_ITTYPE] = "timewarped:2000" },                              -- Gilded Drakecrest Shield
+				{ 30,  227718,                           [PRICE_EXTRA_ITTYPE] = "timewarped:2500" },                              -- Bearded Branch of Lore
+				{ 101, 234624,                           [PRICE_EXTRA_ITTYPE] = "timewarped:1500" },                              -- Longsword of the Knight's Pledge
+				{ 103, "234862:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25", },                               -- Ogre Captain's Armor
+				{ 104, "224853:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25", },                               -- Adventurer's Pith Helmet
+				{ 105, "224854:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25", },                               -- Holy Shroud
+				{ 106, "224855:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25", },                               -- Helm of Narv
+				{ 107, "224856:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25", },                               -- Mugthol's Helm
+				{ 108, "224857:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25", },                               -- Feet of the Lynx
+				{ 109, "224858:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25", },                               -- Coldstone Slippers
+				{ 110, "224859:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25", },                               -- Caverndeep Trudgers
+				{ 111, "224860:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25", },                               -- Boots of Avoidance
+				{ 112, "225181:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25", },                               -- Unearthed Bands
+				{ 113, "225182:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25", },                               -- Aristocratic Cuffs
+				{ 114, "225183:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25", },                               -- Slimescale Bracers
+				{ 115, "225184:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25", },                               -- Runed Golem Shackles
+				{ 116, "225186:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25", },                               -- Freezing Band
+				{ 117, "225187:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:25", },                               -- Blackmetal Cape
+				{ 118, "225188:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:50", },                               -- Lefty's Brass Knuckle
+				{ 119, "225189:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:100", },                              -- Lightforged Blade
+				{ 120, "225190:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:100", },                              -- Pendulum of Doom
+				{ 121, "225191:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:50", },                               -- Gut Ripper
+				{ 122, "225192:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:100", },                              -- Bow of Searing Arrows
+				{ 123, "225193:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:100", },                              -- Elemental Mage Staff
+				{ 124, "225194:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:35", },                               -- Redbeard Crest
+				{ 125, "225195:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:50", },                               -- Axe of the Deep Woods
+				{ 126, "225196:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:100", },                              -- Grimlok's Charge
+				{ 127, "225197:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:50", },                               -- Crimson Shocker
+				{ 128, "225198:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:100", },                              -- Warden Staff
+				{ 129, "225199:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:50", },                               -- Flurry Axe
+				{ 130, "225200:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:50", },                               -- Alcor's Sunrazor
+				{ 201, "225201:11072",                   [PRICE_EXTRA_ITTYPE] = "timewarped:100", },                              -- Precisely Calibrated Rifle
+			},
+		},
 	},
 }
 

@@ -13,6 +13,9 @@ local RSGeneralOptions = private.NewLib("RareScannerGeneralOptions")
 -- RareScanner database libraries
 local RSConfigDB = private.ImportLib("RareScannerConfigDB")
 
+-- RareScanner services
+local RSMacro = private.ImportLib("RareScannerMacro")
+
 -- RareScanner internal libraries
 local RSConstants = private.ImportLib("RareScannerConstants")
 
@@ -215,8 +218,32 @@ function RSGeneralOptions.GetGeneralOptions()
 					end,
 					width = "full",
 				},
-				ignoreCompletedEntities = {
+				scanWithMacro = {
 					order = 11,
+					name = AL["ENABLE_SCAN_MACRO"],
+					desc = AL["ENABLE_SCAN_MACRO_DESC"],
+					type = "toggle",
+					get = function() return RSConfigDB.IsScanningWithMacro() end,
+					set = function(_, value)
+						RSConfigDB.SetScanningWithMacro(value)
+						if (value) then
+							RSMacro.CreateMacro()
+						else
+							RSMacro.DeleteMacro()
+						end
+					end,
+					validate = function(_, value)
+						-- Check numer of macros
+						if (not RSMacro.IsAvailableMacroSlot()) then
+							return AL["ENABLE_SCAN_MACRO_ERROR"]
+						end
+						
+						return true
+					end,
+					width = "full",
+				},
+				ignoreCompletedEntities = {
+					order = 12,
 					name = AL["IGNORE_SCAN_COMPLETED_ENTITIES"],
 					desc = AL["IGNORE_SCAN_COMPLETED_ENTITIES_DESC"],
 					type = "toggle",
@@ -227,7 +254,7 @@ function RSGeneralOptions.GetGeneralOptions()
 					width = "full",
 				},
 				showMaker = {
-					order = 12,
+					order = 13,
 					name = AL["ENABLE_MARKER"],
 					desc = AL["ENABLE_MARKER_DESC"],
 					type = "toggle",
@@ -238,7 +265,7 @@ function RSGeneralOptions.GetGeneralOptions()
 					width = "full",
 				},
 				marker = {
-					order = 13,
+					order = 14,
 					type = "select",
 					dialogControl = 'RS_Markers',
 					name = AL["MARKER"],
@@ -252,12 +279,12 @@ function RSGeneralOptions.GetGeneralOptions()
 					disabled = function() return not RSConfigDB.IsDisplayingMarkerOnTarget() end,
 				},
 				separatorWaypoints = {
-					order = 14,
+					order = 15,
 					type = "header",
 					name = AL["INGAME_WAYPOINTS"],
 				},
 				enableWaypointsSupport = {
-					order = 15,
+					order = 16,
 					name = AL["ENABLE_WAYPOINTS_SUPPORT"],
 					desc = AL["ENABLE_WAYPOINTS_SUPPORT_DESC"],
 					type = "toggle",
@@ -271,7 +298,7 @@ function RSGeneralOptions.GetGeneralOptions()
 					width = "full",
 				},
 				autoWaypoints = {
-					order = 16,
+					order = 17,
 					name = AL["ENABLE_AUTO_WAYPOINTS"],
 					desc = AL["ENABLE_AUTO_WAYPOINTS_DESC"],
 					type = "toggle",
@@ -283,12 +310,12 @@ function RSGeneralOptions.GetGeneralOptions()
 					disabled = function() return not RSConfigDB.IsWaypointsSupportEnabled() end,
 				},
 				separatorTomtomWaypoints = {
-					order = 17,
+					order = 18,
 					type = "header",
 					name = AL["TOMTOM_WAYPOINTS"],
 				},
 				enableTomtomSupport = {
-					order = 18,
+					order = 19,
 					name = AL["ENABLE_TOMTOM_SUPPORT"],
 					desc = AL["ENABLE_TOMTOM_SUPPORT_DESC"],
 					type = "toggle",
@@ -303,7 +330,7 @@ function RSGeneralOptions.GetGeneralOptions()
 					disabled = function() return not TomTom end,
 				},
 				autoTomtomWaypoints = {
-					order = 19,
+					order = 20,
 					name = AL["ENABLE_AUTO_TOMTOM_WAYPOINTS"],
 					desc = AL["ENABLE_AUTO_TOMTOM_WAYPOINTS_DESC"],
 					type = "toggle",

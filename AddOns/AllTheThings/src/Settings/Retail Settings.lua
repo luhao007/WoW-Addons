@@ -122,6 +122,7 @@ local TooltipSettingsBase = {
 		["Enabled:Mod"] = "None",
 		["EnablePetCageTooltips"] = true,
 		["Expand:Difficulty"] = true,
+		["Expand:MiniList"] = true,
 		["IncludeOriginalSource"] = true,
 		["LootSpecializations"] = true,
 		["WorldMapButton"] = true,
@@ -137,6 +138,7 @@ local TooltipSettingsBase = {
 		["MainListScale"] = 1,
 		["MiniListScale"] = 1,
 		["Objectives"] = false,
+		["Owned Pets"] = true,
 		["Precision"] = 2,
 		["PlayDeathSound"] = false,
 		["Progress"] = true,
@@ -214,6 +216,11 @@ local TooltipSettingsBase = {
 		["u"] = true,
 	},
 };
+local UnobtainableSettingsBase = {
+	__index = {
+		[7] = true,	-- Trading Post
+	}
+};
 
 local RawSettings;
 local function SetupRawSettings()
@@ -224,6 +231,7 @@ local function SetupRawSettings()
 	setmetatable(RawSettings.General, GeneralSettingsBase)
 	setmetatable(RawSettings.Tooltips, TooltipSettingsBase)
 	setmetatable(RawSettings.Filters, FilterSettingsBase)
+	setmetatable(RawSettings.Unobtainable, UnobtainableSettingsBase)
 end
 settings.Initialize = function(self)
 	-- app.PrintDebug("settings.Initialize")
@@ -810,7 +818,7 @@ settings.GetUnobtainableFilter = function(self, u)
 	return not u or RawSettings.Unobtainable[u]
 end
 settings.SetUnobtainableFilter = function(self, u, value)
-	self:SetValue("Unobtainable", u, value and true or nil)
+	self:SetValue("Unobtainable", u, value)
 	self:UpdateMode(1);
 end
 

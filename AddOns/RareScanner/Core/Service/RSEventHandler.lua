@@ -21,6 +21,7 @@ local RSButtonHandler = private.ImportLib("RareScannerButtonHandler")
 local RSMinimap = private.ImportLib("RareScannerMinimap")
 local RSEntityStateHandler = private.ImportLib("RareScannerEntityStateHandler")
 local RSProvider = private.ImportLib("RareScannerProvider")
+local RSMacro = private.ImportLib("RareScannerMacro")
 
 -- RareScanner internal libraries
 local RSConstants = private.ImportLib("RareScannerConstants")
@@ -579,6 +580,9 @@ local function OnPlayerLogin(rareScannerButton)
 			end
 		end);
 	end)
+	
+	-- Init macro
+	RSMacro.CreateMacro()
 	
 	rareScannerButton:UnregisterEvent("PLAYER_LOGIN")
 end

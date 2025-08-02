@@ -3,7 +3,7 @@ if not app.IsClassic then return; end	-- This is only available in Classic!
 local L, settings = app.L, app.Settings;
 
 -- Settings: General Page
-local child = settings:CreateOptionsPage("Phases", appName)
+local child = settings:CreateOptionsPage(L.PHASES_PAGE, appName)
 local DescriptionLabel = child:CreateFontString(nil, "ARTWORK", "GameFontNormal");
 if child.separator then
 	DescriptionLabel:SetPoint("TOPLEFT", child.separator, "BOTTOMLEFT", 8, -8);
@@ -69,7 +69,7 @@ UnobtainableSettingsBase.__index[11] = true;
 function CreateExpansionPage(expansionID)
 	local expansion = app.CreateExpansion(expansionID);
 	local expansionName = "|T" .. expansion.icon .. ":0|t " .. expansion.text;
-	local page = settings:CreateOptionsPage(expansionName, "Phases")
+	local page = settings:CreateOptionsPage(expansionName, L.PHASES_PAGE)
 	local label = page:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge");
 	if page.separator then
 		label:SetPoint("TOPLEFT", page.separator, "BOTTOMLEFT", 8, -8);

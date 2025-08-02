@@ -345,15 +345,15 @@ fuFrame.GridLine = PIGButton(fuFrame,{"TOPLEFT",fuFrame,"TOPLEFT",20,-380},{100,
 fuFrame.GridLine:SetScript("OnClick", function (self)
 	if not self.addyes then
 		self.addyes=true
-		PIGLine(UIParent,"C",nil,nil,{24,0},{1,0,0,1})
-		PIGLine(UIParent,"LR",nil,nil,nil,{1,0,0,1})
+		PIGLine(UIParent,"C",nil,2,{24,0},{1,0,0,1})
+		PIGLine(UIParent,"LR",nil,2,nil,{1,0,0,1})
 		local WowWidth=GetScreenWidth();
 		local Width1=WowWidth*0.05
 		for i=1,10 do
-			PIGLine(UIParent,"C",-Width1*i,nil,{24,0},{1,1,0,1})
-			PIGLine(UIParent,"C",Width1*i,nil,{24,0},{1,1,0,1})
-			PIGLine(UIParent,"LR",Width1*i,nil,nil,{1,1,0,1})
-			PIGLine(UIParent,"LR",-Width1*i,nil,nil,{1,1,0,1})
+			PIGLine(UIParent,"C",-Width1*i,2,{24,0},{1,1,0,1})
+			PIGLine(UIParent,"C",Width1*i,2,{24,0},{1,1,0,1})
+			PIGLine(UIParent,"LR",Width1*i,2,nil,{1,1,0,1})
+			PIGLine(UIParent,"LR",-Width1*i,2,nil,{1,1,0,1})
 		end
 	end
 end)

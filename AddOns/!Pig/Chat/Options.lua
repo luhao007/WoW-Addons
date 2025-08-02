@@ -557,7 +557,6 @@ ChatF.extinfoF.ShowLinkIcon:SetScript("OnClick", function (self)
 		PIGA["Chat"]["ShowLinkIcon"]=false;
 	end
 end);
---LINK显示装备等级
 ChatF.extinfoF.ShowLinkLV = PIGCheckbutton_R(ChatF.extinfoF,{"物品链接显示装等","聊天栏发送的物品链接会显示装等"})
 ChatF.extinfoF.ShowLinkLV:SetScript("OnClick", function (self)
 	if self:GetChecked() then
@@ -566,7 +565,6 @@ ChatF.extinfoF.ShowLinkLV:SetScript("OnClick", function (self)
 		PIGA["Chat"]["ShowLinkLV"]=false;
 	end
 end);
---LINK显示装备部位
 ChatF.extinfoF.ShowLinkSlots = PIGCheckbutton_R(ChatF.extinfoF,{"物品链接显示部位","聊天栏发送的物品链接会显示部位"})
 ChatF.extinfoF.ShowLinkSlots:SetScript("OnClick", function (self)
 	if self:GetChecked() then
@@ -575,7 +573,6 @@ ChatF.extinfoF.ShowLinkSlots:SetScript("OnClick", function (self)
 		PIGA["Chat"]["ShowLinkSlots"]=false;
 	end
 end);
---LINK显示装备部位
 ChatF.extinfoF.ShowLinkGem = PIGCheckbutton_R(ChatF.extinfoF,{"物品链接显示宝石孔位","聊天栏发送的物品链接会显示宝石孔位"})
 ChatF.extinfoF.ShowLinkGem:SetScript("OnClick", function (self)
 	if self:GetChecked() then
@@ -590,7 +587,7 @@ ChatF.extinfoF:HookScript("OnShow", function (self)
 	self.ShowLinkIcon:SetChecked(PIGA["Chat"]["ShowLinkIcon"])
 	self.ShowLinkLV:SetChecked(PIGA["Chat"]["ShowLinkLV"])
 	self.ShowLinkSlots:SetChecked(PIGA["Chat"]["ShowLinkSlots"])
-	self.ShowLinkSlots:SetChecked(PIGA["Chat"]["ShowLinkGem"])
+	self.ShowLinkGem:SetChecked(PIGA["Chat"]["ShowLinkGem"])
 end);
 
 --快捷频道切换按钮=============

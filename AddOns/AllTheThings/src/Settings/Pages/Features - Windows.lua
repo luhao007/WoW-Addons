@@ -104,7 +104,7 @@ app.AddEventHandler("OnSettingsRefreshed", function()
 			UpdateButtonText(button, window);
 			
 			-- TODO: Preferred new style, once we get the window template designed
-			--settings:CreateOptionsPage("/" .. window.Commands[1], "Windows")
+			--settings:CreateOptionsPage("/" .. window.Commands[1], L.WINDOWS_PAGE)
 		end
 	end
 	local parent = child.separator or child;

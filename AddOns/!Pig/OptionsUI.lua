@@ -228,344 +228,6 @@ function Pig_Options:ErrorMsg(message, Color)
 	infotip:AddMessage(message, r, g, b, 1);
 	PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);
 end
----小地图按钮
-local MiniMapBut = CreateFrame("Button","PIG_MiniMapBut",UIParent);
-Pig_Options.MiniMapBut=MiniMapBut
-MiniMapBut:SetMovable(true)
-MiniMapBut:EnableMouse(true)
-MiniMapBut:RegisterForClicks("LeftButtonUp","RightButtonUp")
-MiniMapBut:RegisterForDrag("LeftButton")
-MiniMapBut:SetFrameStrata("MEDIUM")
-MiniMapBut:SetFrameLevel(MiniMapBut:GetFrameLevel()+1);
-MiniMapBut.Border = MiniMapBut:CreateTexture(nil,"BORDER");
-MiniMapBut.icon = MiniMapBut:CreateTexture(nil, "BACKGROUND");
-MiniMapBut.icon:SetTexture("Interface/AddOns/"..addonName.."/Libs/logo32.blp");
-MiniMapBut.icon:SetPoint("CENTER", 0, 0);
-MiniMapBut.error = MiniMapBut:CreateTexture(nil, "BORDER");
-MiniMapBut.error:SetTexture("interface/common/voicechat-muted.blp");
-MiniMapBut.error:SetSize(18,18);
-MiniMapBut.error:SetAlpha(0.7);
-MiniMapBut.error:SetPoint("CENTER", 0, 0);
-MiniMapBut.error:Hide();
-function MiniMapBut:SetTooltipV(ly)
-	if ly==1 then
-		self.TooltipV=L["MAP_NIMIBUT_TIPS1"]
-	else
-		self.TooltipV=L["MAP_NIMIBUT_TIPS2"]
-	end
-end
-function MiniMapBut.Showaddonstishi(self,laiyuan)
-	GameTooltip:ClearLines();
-	if laiyuan then
-		GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT",-2,16);
-	else
-		GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT",-24,0);
-	end
-	GameTooltip:AddLine("|cffFF00FF"..addonName.."|r-"..PIGGetAddOnMetadata(addonName, "Version"))
-	GameTooltip:AddLine(self.TooltipV)
-	GameTooltip:Show();
-end	
-MiniMapBut:SetScript("OnEnter", function(self)
-	self.Showaddonstishi(self)
-end);
-MiniMapBut:SetScript("OnLeave", function()
-	GameTooltip:ClearLines();
-	GameTooltip:Hide() 
-end);
-local function YDButtonP(mode,xpos,ypos)
-	if mode==1 or mode==3 then
-		MiniMapBut:ClearAllPoints();
-		if mode==1 then
-			if PIG_OptionsUI.IsOpen_NDui() and not PIG_OptionsUI.IsOpen_NDui("Map","DisableMinimap") then
-				local xpos=xpos or PIGA["Map"]["MinimapPoint_NDui"][1]
-				local ypos=ypos or PIGA["Map"]["MinimapPoint_NDui"][2]
-				MiniMapBut:SetPoint("BOTTOMLEFT",Minimap,"BOTTOMLEFT",xpos,ypos)
-				PIGA["Map"]["MinimapPoint_NDui"][1]=xpos
-				PIGA["Map"]["MinimapPoint_NDui"][2]=ypos
-			elseif PIG_OptionsUI.IsOpen_ElvUI() then
-				local xpos=xpos or PIGA["Map"]["MinimapPoint_ElvUI"][1]
-				local ypos=ypos or PIGA["Map"]["MinimapPoint_ElvUI"][2]
-				MiniMapBut:SetPoint("BOTTOMLEFT",Minimap,"BOTTOMLEFT",xpos,ypos)
-				PIGA["Map"]["MinimapPoint_ElvUI"][1]=xpos
-				PIGA["Map"]["MinimapPoint_ElvUI"][2]=ypos
-			else
-				local xpos=xpos or PIGA["Map"]["MinimapPos"]
-				local banjing = Minimap:GetWidth()*0.5+8
-				local pianyi =MiniMapBut.pianyi
-				MiniMapBut:SetPoint("TOPLEFT",Minimap,"TOPLEFT",pianyi-2-(banjing*cos(xpos)),(banjing*sin(xpos))-pianyi)
-				PIGA["Map"]["MinimapPos"]=xpos
-			end
-		elseif mode==3 then
-			local xpos=xpos or PIGA["Map"]["MinimapPointXY"][1]
-			local ypos=ypos or PIGA["Map"]["MinimapPointXY"][2]
-			MiniMapBut:SetPoint("CENTER",UIParent,"CENTER",xpos,ypos)
-			PIGA["Map"]["MinimapPointXY"][1]=xpos
-			PIGA["Map"]["MinimapPointXY"][2]=ypos
-		end
-	end
-end
-local function YDButtonP_OnUpdate()	
-	local mode = PIGA["Map"]["MinimapPointMode"]
-	local UIScale = UIParent:GetEffectiveScale()
-	local xpos,ypos = GetCursorPosition()
-	local xpos = xpos/UIScale
-	local ypos = ypos/UIScale
-	local left, bottom, width, height = Minimap:GetScaledRect()
-	local left = left/UIScale
-    local bottom = bottom/UIScale
-    local width = width/UIScale
-    local height = height/UIScale
-	local Pigleft, Pigbottom, Pigwidth, Pigheight  = MiniMapBut:GetScaledRect()
-	local Pigleft = Pigleft/UIScale
-    local Pigbottom = Pigbottom/UIScale
-    local Pigwidth = Pigwidth/UIScale
-    local Pigheight = Pigheight/UIScale
-	local Pigwidth2 = Pigwidth*0.5
-	local Pigheight2 = Pigheight*0.5
-	if mode==3 then
-		local MinibutW3 = Pigwidth2-4
-		local WowWidth2=GetScreenWidth()*0.5;
-		local WowHeight2=GetScreenHeight()*0.5;
-		local xpos = xpos-WowWidth2
-		local ypos = ypos-WowHeight2
-		if xpos>WowWidth2-MinibutW3 then xpos=WowWidth2-MinibutW3 end
-		if xpos<-WowWidth2+MinibutW3 then xpos=-WowWidth2+MinibutW3 end
-		if ypos>WowHeight2-MinibutW3 then ypos=WowHeight2-MinibutW3 end
-		if ypos<-WowHeight2+MinibutW3 then ypos=-WowHeight2+MinibutW3 end
-		YDButtonP(mode,xpos,ypos)
-		MiniMapBut.Snf:ClearAllPoints();
-		local Pointinfo = {"RIGHT", "LEFT", "TOP", "BOTTOM", -2, 25}
-		if xpos<0 then
-			Pointinfo[1]="LEFT"
-			Pointinfo[2]="RIGHT"
-		end
-		if ypos<0 then
-			Pointinfo[3]="BOTTOM"
-			Pointinfo[4]="TOP"
-			Pointinfo[6]=0
-		end
-		MiniMapBut.Snf:SetPoint(Pointinfo[3]..Pointinfo[1], MiniMapBut, Pointinfo[4]..Pointinfo[2], Pointinfo[5], Pointinfo[6]);
-	else
-		if PIG_OptionsUI.IsOpen_NDui() and not PIG_OptionsUI.IsOpen_NDui("Map","DisableMinimap") or PIG_OptionsUI.IsOpen_ElvUI() then
-			local xpos = xpos-left-Pigwidth2
-			local ypos = ypos-bottom-Pigheight2
-			if xpos<0 then xpos=0 end--X左边
-			local rightbianp = width-Pigwidth
-			if xpos>rightbianp then--X右边
-				xpos=rightbianp
-			end
-			if ypos<0 then ypos=0 end--下
-			local topbianp = height-Pigheight
-			if ypos>topbianp then
-				ypos=topbianp
-			end
-			YDButtonP(mode,xpos,ypos)
-		else
-			local xpos = left-xpos+width*0.5
-			local ypos = ypos-bottom-width*0.5
-			YDButtonP(mode,math.deg(math.atan2(ypos,xpos)))
-		end
-	end
-end
-local function ClickShowSet()
-	if PIG_OptionsUI:IsShown() then	
-		PIG_OptionsUI:Hide();
-	else
-		MiniMapBut.Snf:Hide();
-		PIG_OptionsUI:Show();
-	end
-end
-local function ClickShowSNF()
-	if MiniMapBut.Snf:IsShown() then	
-		MiniMapBut.Snf:Hide();
-	else
-		PIG_OptionsUI:Hide();
-		MiniMapBut.Snf:Show();
-		MiniMapBut.Snf.xiaoshidaojishi = 1.5;
-		MiniMapBut.Snf.zhengzaixianshi = true;
-	end
-end
-function MiniMapBut.minimapButClickFun(button)
-	GameTooltip:Hide()
-	if button=="LeftButton" then
-		if IsControlKeyDown() then
-			PIG_BugcollectUI:Show()
-			MiniMapBut.error:Hide();
-		elseif IsShiftKeyDown() then
-			ReloadUI()
-		else
-			if PIGA["Map"]["MiniButShouNa_YN"]==1 then
-				ClickShowSNF()
-			else
-				ClickShowSet()
-			end
-		end
-	elseif button=="RightButton" then
-		ClickShowSet()
-	end
-end
-MiniMapBut:SetScript("OnClick", function(event, button)
-	PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);
-	MiniMapBut.minimapButClickFun(button)
-end)
-local MiniMapButYD = CreateFrame("Frame", nil);
-MiniMapButYD:Hide();
-function MiniMapBut.zhucetuodong(ONOFF)
-	if ONOFF then
-		MiniMapButYD:SetScript("OnUpdate",YDButtonP_OnUpdate)
-		MiniMapBut:SetScript("OnDragStart", function(self)
-			self:LockHighlight();MiniMapButYD:Show();
-		end)
-		MiniMapBut:SetScript("OnDragStop", function(self)
-			self:UnlockHighlight();MiniMapButYD:Hide();
-		end)
-	else
-		MiniMapButYD:SetScript("OnUpdate",nil)
-		MiniMapBut:SetScript("OnDragStart",nil)
-		MiniMapBut:SetScript("OnDragStop",nil)
-	end
-end
-function MiniMapBut:CZMinimapInfo()
-	PIGA["Map"]["MinimapPos"]=addonTable.Default["Map"]["MinimapPos"]
-	PIGA["Map"]["MinimapPointXY"]=addonTable.Default["Map"]["MinimapPointXY"]
-	PIGA["Map"]["MinimapPoint_NDui"]=addonTable.Default["Map"]["MinimapPoint_NDui"]
-	PIGA["Map"]["MinimapPoint_ElvUI"]=addonTable.Default["Map"]["MinimapPoint_ElvUI"]
-	YDButtonP(PIGA["Map"]["MinimapPointMode"]);
-end
-local www,hhh = 33,33
-function MiniMapBut:ButPoint()
-	if PIGA["Map"]["MiniButShouNa_YN"]==1 then 
-		MiniMapBut:SetTooltipV(1)
-	else
-		MiniMapBut:SetTooltipV(2)
-	end
-	if PIG_OptionsUI.MiniMapBut.DiyMiniMap then return end
-	if PIG_OptionsUI.IsOpen_ElvUI() then
-		local function ElvUIPoint()
-			if MinimapPanel and MinimapPanel:IsVisible() then
-				MiniMapBut:ClearAllPoints();	
-				MiniMapBut:SetPoint("TOPLEFT",MinimapPanel,"TOPLEFT",0.8,-0.6)
-				MiniMapBut:SetPoint("BOTTOMLEFT",MinimapPanel,"BOTTOMLEFT",0,0.6)
-				local hhhh = MinimapPanel:GetHeight()	
-				MiniMapBut:SetWidth(hhhh-1.2);
-				MiniMapBut.icon:SetAllPoints(MiniMapBut)
-				local wwww = MinimapPanel:GetWidth()	
-				local DataTextwww = (wwww-hhhh-2)*0.5
-				if MinimapPanel_DataText1 then
-					MinimapPanel_DataText1:SetWidth(DataTextwww)
-					MinimapPanel_DataText1:SetPoint("LEFT",MinimapPanel,"LEFT",hhhh,0)
-					MinimapPanel_DataText2:SetWidth(DataTextwww)
-				end
-				MiniMapBut.Snf:SetPoint("TOPRIGHT", MiniMapBut, "BOTTOMLEFT", -2, 20);
-				MiniMapBut.icon:SetTexCoord(0.1,0.88,0.1,0.9)
-				return
-			else
-				C_Timer.After(0.2,ElvUIPoint)
-			end
-		end
-		C_Timer.After(0.2,ElvUIPoint)
-	end
-	local mode = PIGA["Map"]["MinimapPointMode"]
-	local ButpingXY = {["W"]=www,["H"]=hhh,["iconW"]=www-10,["iconH"]=hhh-10}
-	PIGA["Map"]["MinimapPointXY"]=PIGA["Map"]["MinimapPointXY"] or addonTable.Default["Map"]["MinimapPointXY"]
-	PIGA["Map"]["MinimapPoint_NDui"]=PIGA["Map"]["MinimapPoint_NDui"] or addonTable.Default["Map"]["MinimapPoint_NDui"]
-	PIGA["Map"]["MinimapPoint_ElvUI"]=PIGA["Map"]["MinimapPoint_ElvUI"] or addonTable.Default["Map"]["MinimapPoint_ElvUI"]
-	MiniMapBut.Snf:ClearAllPoints();
-	MiniMapBut:ClearNormalTexture()
-	MiniMapBut:ClearPushedTexture()
-	MiniMapBut.zhucetuodong(false)
-	if mode == 1 or mode == 3 then
-		MiniMapBut.pianyi = 0
-		MiniMapBut.zhucetuodong(true)
-		if mode == 1 then--小地图
-			if PIG_OptionsUI.IsOpen_ElvUI() or PIG_OptionsUI.IsOpen_NDui() and not PIG_OptionsUI.IsOpen_NDui("Map","DisableMinimap") then
-				if PIG_OptionsUI.IsOpen_ElvUI() then
-					ButpingXY.W,ButpingXY.H=www-14,hhh-14
-					ButpingXY.iconW,ButpingXY.iconH=www-14,hhh-14
-				elseif PIG_OptionsUI.IsOpen_NDui() then
-					ButpingXY.W,ButpingXY.H=www-12,hhh-12
-					ButpingXY.iconW,ButpingXY.iconH=www-12,hhh-12
-				end
-				MiniMapBut:SetHighlightTexture("Interface/Buttons/ButtonHilight-Square");
-				MiniMapBut.Border:Hide()
-			else
-				MiniMapBut:SetHighlightTexture("Interface/Minimap/UI-Minimap-ZoomButton-Highlight");
-				MiniMapBut.Border:SetDrawLayer("BORDER",1)
-				MiniMapBut.icon:SetDrawLayer("BACKGROUND",1)
-				--MiniMapBut.Border:SetAtlas("ui-lfg-roleicon-incentive")
-				MiniMapBut.Border:SetTexture("Interface/Minimap/MiniMap-TrackingBorder");
-				MiniMapBut.Border:SetSize(56,56);
-				MiniMapBut.Border:ClearAllPoints();	
-				MiniMapBut.Border:SetPoint("TOPLEFT", -1, 0);
-				MiniMapBut.Border:Show()
-				if PIG_MaxTocversion() then
-					MiniMapBut.pianyi = 56
-				else
-					MiniMapBut.pianyi = 82
-				end
-			end
-		elseif mode == 3 then--自由
-			MiniMapBut.Border:Hide()
-			MiniMapBut:SetHighlightAtlas("chatframe-button-highlight");
-		end
-		MiniMapBut.Snf:SetPoint("TOPRIGHT", MiniMapBut, "BOTTOMLEFT", -2, 20);
-		YDButtonP(mode);
-	elseif mode == 2 then--聊天框
-		MiniMapBut.Border:Hide()
-		MiniMapBut:ClearAllPoints();	
-		if PIG_OptionsUI.IsOpen_NDui() and not PIG_OptionsUI.IsOpen_NDui("Map","DisableMinimap") then
-			ButpingXY.W,ButpingXY.H=21,21
-			ButpingXY.iconW,ButpingXY.iconH=20,20
-			MiniMapBut:SetPoint("TOP",ChatFrameChannelButton,"BOTTOM",0,-1);
-			MiniMapBut:SetHighlightTexture("Interface/Buttons/ButtonHilight-Square");
-		elseif PIG_OptionsUI.IsOpen_ElvUI() then
-			ButpingXY.W,ButpingXY.H=21,21
-			ButpingXY.iconW,ButpingXY.iconH=20,20
-			MiniMapBut:SetPoint("RIGHT",ChatFrameChannelButton,"LEFT",0,0);
-			MiniMapBut:SetHighlightTexture("Interface/Buttons/ButtonHilight-Square");
-		else
-			ButpingXY.W,ButpingXY.H=27,26
-			ButpingXY.iconW,ButpingXY.iconH=17,17
-			MiniMapBut:SetPoint("BOTTOM",ChatFrameChannelButton,"TOP",0,2);
-			MiniMapBut:SetNormalAtlas("chatframe-button-up")
-			MiniMapBut:SetPushedAtlas("chatframe-button-down")
-			MiniMapBut:SetHighlightAtlas("chatframe-button-highlight");
-		end
-		MiniMapBut.icon:SetDrawLayer("ARTWORK",1)
-		MiniMapBut.Snf:SetPoint("BOTTOMLEFT", MiniMapBut, "TOPRIGHT", 2, 2);
-	end
-	if PIG_OptionsUI.IsOpen_ElvUI() or PIG_OptionsUI.IsOpen_NDui() and not PIG_OptionsUI.IsOpen_NDui("Map","DisableMinimap") then MiniMapBut.icon:SetTexCoord(0.1,0.88,0.1,0.9) end
-	MiniMapBut:SetSize(ButpingXY.W,ButpingXY.H);
-	MiniMapBut.icon:SetSize(ButpingXY.iconW,ButpingXY.iconH);	
-end
-MiniMapBut.Snf = PIGFrame(MiniMapBut,nil,{200, 100});
-MiniMapBut.Snf:PIGSetBackdrop()
-MiniMapBut.Snf:Hide();
-MiniMapBut.Snf.tishi = PIGFontString(MiniMapBut.Snf,nil,L["MAP_NIMIBUT_TIPS3"])
-MiniMapBut.Snf.tishi:SetPoint("TOPLEFT", MiniMapBut.Snf, "TOPLEFT", 6, -6);
-MiniMapBut.Snf.tishi:SetPoint("BOTTOMRIGHT", MiniMapBut.Snf, "BOTTOMRIGHT", -6, 6);
-MiniMapBut.Snf.tishi:Hide();
-MiniMapBut.Snf:SetScript("OnUpdate", function(self, ssss)
-	if self.zhengzaixianshi==nil then
-		return;
-	else
-		if self.zhengzaixianshi==true then
-			if self.xiaoshidaojishi<= 0 then
-				self:Hide();
-				self.zhengzaixianshi = nil;
-			else
-				self.xiaoshidaojishi = self.xiaoshidaojishi - ssss;	
-			end
-		end
-	end
-end)
-MiniMapBut.Snf:SetScript("OnEnter", function(self)
-	self.zhengzaixianshi = nil;
-end)
-MiniMapBut.Snf:SetScript("OnLeave", function(self)
-	self.xiaoshidaojishi = 1.5;
-	self.zhengzaixianshi = true;
-end)
 --正式服系统地图部分插件下拉列表
 function PIGCompartmentClick(addonName, buttonName, menuButtonFrame)
     MiniMapBut.minimapButClickFun(buttonName)
@@ -576,4 +238,63 @@ end
 function PIGCompartmentLeave(addonName, menuButtonFrame)
 	GameTooltip:ClearLines();
 	GameTooltip:Hide() 
+end
+--
+if PIG_MaxTocversion(40000) and PIG_MaxTocversion(20000,true) then
+	SpellBookFrame.SpellRepair =Create.PIGCheckbutton(SpellBookFrame,{"BOTTOMLEFT",SpellBookFrame,"TOPLEFT",70,-12},{"临时修复技能书插入宏问题"})
+	SpellBookFrame.SpellRepair:SetChecked(false)
+	local ziframe = {SpellBookSpellIconsFrame:GetChildren()}
+	SpellBookFrame.SpellRepair:SetScript("OnClick", function (self)
+		for i=1,#ziframe do
+			ziframe[i]:UpdateButton()
+		end
+	end);
+	for i=1,#ziframe do
+		local butx=ziframe[i]
+		local namet=_G[butx:GetName().."SpellName"]
+		namet:SetPoint("LEFT",butx,"LEFT",5,6);
+		butx.cp = CreateFrame("Button",nil,butx, "UIPanelButtonTemplate");
+		butx.cp:SetSize(60,20);
+		butx.cp:SetPoint("BOTTOMLEFT",butx,"BOTTOMLEFT",50,-2);
+		butx.cp:SetText("插入宏");
+		butx.cp:SetScale(0.8);
+		butx.cp:SetScript("OnClick", function(self, button)
+			local slot, slotType = SpellBook_GetSpellBookSlot(self:GetParent());
+			local spellName, _, spellID = GetSpellBookItemName(slot, SpellBookFrame.bookType);
+			if ( MacroFrameText and MacroFrameText:HasFocus() ) then
+				local spellName, subSpellName = GetSpellBookItemName(slot, SpellBookFrame.bookType);
+				if ( spellName and not IsPassiveSpell(slot, SpellBookFrame.bookType) ) then
+					if ( subSpellName and (strlen(subSpellName) > 0) ) then
+						ChatEdit_InsertLink(spellName.."("..subSpellName..")");
+					else
+						ChatEdit_InsertLink(spellName);
+					end
+				end
+				return;
+			else
+				local tradeSkillLink, tradeSkillSpellID = GetSpellTradeSkillLink(slot, SpellBookFrame.bookType);
+				if ( tradeSkillSpellID ) then
+					ChatEdit_InsertLink(tradeSkillLink);
+				else
+					ChatEdit_InsertLink(GetSpellLink(slot, SpellBookFrame.bookType));
+				end
+				return;
+			end
+		end)
+		hooksecurefunc(butx, "UpdateButton", function(self)	
+			if SpellBookFrame.SpellRepair:GetChecked() then
+				if self:IsEnabled() then
+					self.cp:Show()
+					local namet=_G[butx:GetName().."SpellName"]
+					local point, parent, relativePoint, xOffset, yOffset = namet:GetPoint(1);
+					namet:SetPoint(point, parent, relativePoint, xOffset, yOffset + 10);
+				else
+					self.cp:Hide()
+				end
+			else
+				self.cp:Hide()
+			end
+			
+		end)
+	end
 end

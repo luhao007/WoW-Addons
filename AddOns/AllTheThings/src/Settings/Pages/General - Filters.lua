@@ -2,7 +2,7 @@ local _, app = ...;
 local L, settings = app.L, app.Settings;
 
 -- Settings: General Page
-local child = settings:CreateOptionsPage("Filters", "General")
+local child = settings:CreateOptionsPage(L.FILTERS_PAGE, L.GENERAL_PAGE)
 
 -- Top 1
 local headerWeaponsAndArmor = child:CreateHeaderLabel(L.ITEM_FILTER_LABEL)

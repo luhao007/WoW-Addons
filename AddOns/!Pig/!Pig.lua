@@ -24,8 +24,7 @@ PIGUI:SetScript("OnEvent",function(self, event, arg1)
 	elseif event=="PLAYER_LOGIN" then
 		addonTable.ShareConfig()
 		addonTable.Get_PlayerRealmData()
-		PIG_OptionsUI.MiniMapBut:ButPoint()
-		PIG_OptionsUI.MiniMapBut.MinimapBut()
+		addonTable.UpdateMiniButPoint()
 		addonTable.CVars()
 		---
 		addonTable.Map()
@@ -41,7 +40,7 @@ PIGUI:SetScript("OnEvent",function(self, event, arg1)
 		addonTable.PigLayout()
 		--
 		_G[Data.QuickButUIname]:Add()
-		PIG_OptionsUI.MiniMapBut.SN_MiniMapBut()
+		addonTable.CollectMiniMapBut()
 		------------------------------
 		if not PIGA["Other"]["PigLoad"] then
 			PIG_print(L["ABOUT_LOAD"]..L["ABOUT_REMINDER"])

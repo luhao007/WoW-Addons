@@ -1,274 +1,150 @@
 # AllTheThings
 
-## [4.5.10](https://github.com/ATTWoWAddon/AllTheThings/tree/4.5.10) (2025-07-20)
-[Full Changelog](https://github.com/ATTWoWAddon/AllTheThings/compare/4.5.9...4.5.10) [Previous Releases](https://github.com/ATTWoWAddon/AllTheThings/releases)
+## [4.5.11](https://github.com/ATTWoWAddon/AllTheThings/tree/4.5.11) (2025-07-27)
+[Full Changelog](https://github.com/ATTWoWAddon/AllTheThings/compare/4.5.10...4.5.11) [Previous Releases](https://github.com/ATTWoWAddon/AllTheThings/releases)
 
-- Retail: Shifted the Achievements category closer to the other dynamic categories and changes how caching works.  
-- [DB] Mists: fix Forest Spiderling pet  
-- [Logic] Fixed a bunch of remaining uses of 'creatureID' where 'npcID' is directly accessible  
-- [Parser] Fixed creatureID not converting to npcID in all cases (now that creatureID export use is switched to npcID)  
-- Update Toy/MountDB for 11.2.0.62049  
-- [DB] A bunch of NYI stuff from Cata/MoP  
-- MOP: Updated WAGO DB  
-- [Parser] headerID is now treated as its own distinct data type rather than piggybacking off of npcID.  
-- Update Highmaul with Instancehelper  
-- Replaced some comments mentioning npcID, these should be creatureIDs  
-- PTR: 11.2.0 build 62049 updates  
-- [Parser] Cleaning up some comments and ordering. (no logic changes yet)  
-- [DB] Added a couple missing object names manually since they aren't found on Wowhead  
-- [Logic] Quest accept/remove refresh is now triggered as a callback (sometimes it happens a lot in one game frame)  
-- [Logic] Retail: Conduits are considered a 'Thing' by the code properly  
-    [DB] Added a vignette NPCID for 'Voltstrike the Charged' prior to spawning  
-    [Logic] Retail: Fixed another raw table used in an ATT list  
-- [DB] 'Titan Console Overcharged' is removed in TWW S3  
-- Fixed a duplicated power value in the battle pet tooltip. Also now referencing the localized string for OWNED\_PET.  
-- [DB] Auchindoun converted to use InstanceHelper to give a standard structure example for WoD dungeons [WIP]  
-- [Parser] Added 'BossWithHeader' function to InstanceHelper (niche situations where the content of the Boss should be wrapped in a particular header)  
-- [DB] WotLK Fishing: Wrong school ID  
-- Owned pets es/mx (#2105)  
-    * Owned pets es/mx  
-    * Shadowlands corrected name in mx  
-- CUSTOM\_COLLECTS\_REASONS should now inherit esMX from esES.  
-- Added a placeholder OWNED\_PETS localization string.  
-- MOP+: Added Owned Pets to the Battle Pet tooltip.  
-- Fix a few reported errors  
-- cn update. (#2104)  
-- Removed unnecessary Reference Counting for Custom Headers now that the old system has been cleaned up.  
-- Fixed a bug with Debug Mode where the mini list would potentially link to an invalid data object.  
-- Changed the Cooking Supplies vendors in Northrend Dalaran to display only one header for all the items you can buy from there.  
-- [DB] Refactored WoD common dungeon drops to remove duplication  
-    [DB] Removed duplicated TW sources of WoD common dungeon drops  
-    [DB] Converted WoD TW dungeons to accurately pull the proper set of common drops (no Warforged in TW)  
-    [DB] Refactored Auchindoun to remove duplication and properly show content in applicable multi-difficulty headers (like we do elsewhere in ATT)  
-- WRATH: Updated the Commander Kolurg / Commander Stoutbeard encounter to use both encounterIDs utilizing AQD/HQD.  
-    Updated the ResolveQuestData function to pass the most accurate data to the parent object, this will allow the aqd/hqd's metatable to become the parent if one isn't included.  
-- [DB] Simplified a shortcut for making a WoD Warforged header  
-- Deprecated OnSourceInit, we only use OnInit now.  
-- Classic: Updated the Honored Key logic to utilize the TooltipDB.  
-- [DB] TBC Alchemy + Cooking  
-- AQD/HQD Consolidation: Parser now handles these fields and injects a resolution function call before calling to the class constructor.  
-- Artifact headers in mx and es (#2103)  
-- OVERCHARGED\_DELVES is no longer undefined when building for Beta.  
-- Updates for 11.2.0.62049  
-- Update Crucible of Storms with InstanceHelper  
-- Classic: TrySetDisplayID appears to be functional in MOP.  
-- Rebuilt LocalizationDB for all flavors to include updated ES/MX localizations.  
-- Fixed the COMPLETE\_ICON, this one is also just supposed to be an icon.  
-- Update translations to es and mx (#2101)  
-    * restore  
-    * Icons  
-    * about  
-    * settings  
-    * features  
-    * filters  
-    * general  
-    * Information  
-    * Interface  
-    * Interface - Accessibility  
-    * Fillers  
-    * profiles  
-    * Retail settings  
-    * UI  
-    * Corrects in default locale  
-    * Fix the gender of Lord queen  
-- Fix a few reported errors  
-- [DB] Vanilla Tailoring  
-- [Logic] Retail: Added 'Achievements' Dynamic group (TBD: removing the current static Achievements category from Main list)  
-- [Logic] Retail: Fixed a few more places where raw table data was used in ATT rows  
-    [Logic] Retail: Cosmic Infuser (/attmaps) now includes showing how many times a given map has been 'mapped' by data  
-- [Locales] Now that the color table was fixed, reverting the TOC load order change.  
-- [Locales] Player Titles and Ranks now reference the DefaultColors rather than the dynamic Colors table in game.  
-- [Locales] Moved Player Rank and Titles to the Tooltip Strings folder and fixed the load order to handle this change.  
-- [Parser] Removed references to the /locales folder in Debug Mode.  
-- [Locales] Added Player Rank and Titles to the Tooltip Strings folder.  
-- [Parser] Added a couple error check conditions to InstanceHelper  
-- [DB] Classic: added level 58 and level 70 character boosts and adjusted expansions per boost (all of the boosts were opened up right before or on prepatch of next xpac)  
-- Sort Recipes  
-- Harvest: 11.2.0.62049  
-- Harvest: 11.2.0.61981  
-- Harvest: 11.2.0.61871  
-- Harvest: 11.2.0.61787  
-- Harvest: 11.2.0.61703  
-- Harvest: 11.2.0.61684  
-- Harvest: 11.2.0.61624  
-- Harvest: 11.1.7.61967  
-- Harvest: 11.1.7.61965  
-- Harvest: 11.1.7.61609  
-- Harvest: 5.5.0.62071  
-- Harvest: 5.5.0.62044  
-- Harvest: 5.5.0.61879  
-- Harvest: 5.5.0.61820  
-- Harvest: 5.5.0.61798  
-- Harvest: 5.5.0.61767  
-- Harvest: 5.5.0.61735  
-- Harvest: 5.5.0.61632  
-- Harvest: 3.4.5.62072  
-- Harvest: 3.4.5.61996  
-- Harvest: 3.4.5.61937  
-- Harvest: 3.4.5.61934  
-- Harvest: 3.4.5.61815  
-- Harvest: 3.4.4.61581  
-- Harvest: 1.15.7.61582  
-- Dedupe Maw of Souls  
-- [Logic] Retail: Gave a 'key' to the Root window so my debugging logic doesn't complain about it  
-- [Logic] Retail: Upgraded a lot of old existing ATT lists to use real RawText objects instead of raw tables  
-- [Logic] Retail: ATT Main list now actually inherits base class fields so that things can be more consistent  
-- [Logic] Retail: ATT now loads via Root.lua instead of 'OnLoad' event  
-- Classic: Removed unused reference to app.Categories.Achievements, which doesn't exist in this flavor to avoid confusing myself later.  
-- Update Maw of Souls with InstanceHelper  
-- Classic: Added the sort order for retail exclusive categories  
-- Retail: Fixed a bug with the CollectedWarband Information Type.  
-- Classic: Removed the print statement from getAchievementCategory.  
-- Classic: Now forcing the sort order of the Achievements Dynamic Category to match Blizzard's UI.  
-- Removed unused src\Modules\ExtraCategories.lua file. Parser will eventually build this and external addon extensions will utilize the ATTC:CreateWindow API to build extension windows.  
-- Refactored the word variable "Categories" in the Settings to "OptionsPages" to avoid having the file appear in searches looking for references to "Categories", which will be receiving an overhaul in the coming weeks.  
-- Classic: Turned off "sourceIgnored" on the Enchanting recipe list.  
-- Classic: All windows naturally record their last cached progress/total values.  
-- Classic: Adjusted the Windows section of the settings menu to force an update if a window has a pending refresh.  
-- Classic: Added support for 'sourceIgnored'.  
-    Moved the tooltip display logic for 'sourceIgnored' to an information type.  
-- Classic: Removed the unused UpdateRowProgress function.  
-- [DB] Small formatting issue  
-- [DB] Mists: apply Classic phases for Legendary quest chain  
-- Updated CUSTOM\_COLLECTS\_REASONS and ABBREVIATIONS.  
-- Updated how NEW\_VERSION\_FLAVORS is built.  
-- [DB] NYI: two versions of Hellreaver that never got added  
-- Rebuilt all headerIDs and DBs now that old style headers are no longer a part of the ecosystem.  
-- Updated Legion Artifact logic to not require a specific headerID as a parent.  
-- [DB] NYI: a BUNCH of staves  
-- [DB] Migrate header: artifact. (#1933)  
-    * [DB] Migrate header: Base Appearance.  
-    * [DB] Migrate header: Class Hall Campaign.  
-    * [DB] Migrate header: Balance of Power.  
-    * [DB] Migrate header: Prestige Rewards.  
-    * [DB] Migrate header: Challenge Appearance.  
-    * [DB] Migrate header: Hidden Appearance.  
-    * Removed old locale files as well as old references to the legacy headerID system.  
-    ---------  
-    Co-authored-by: Crieve <dylanfortune@live.com>  
-- new texts for updating att  
-- Linked CURRENCY\_ID to the Information type.  
-- Categorized all localization files by running the new Localization Converter tool. This program will find the first reference of the locale and make an association to that source file for categorization.  
-- Localization strings (#2099)  
-    * Added Localization String files generated by the Localization Converter tool that look correct and don't need additional automation. (do not touch these yet, automation is going to replace all content, these are intended to show if/when they get changed incorrectly!)  
-    * Fixed exporting localization strings that start with square brackets.  
-    * Updated the tool to check for dependencies  
-    * Removed all single line comments from the locale files (using the tool)  
-    * Removed some more!  
-    * Removed all finished strings  
-    * Added simple Settings Menu localizations. Added the ability to nest localization strings within additional folders.  
-    * SETTINGS\_MENU no longer a special L category  
-    * Purged references to SETTINGS\_MENU.  
-    * Removed simple localization strings.  
-    * Apparently wasn't accounting for nested folders.  
-    * Removed a bunch of extra indenting  
-    * And in Default Locale  
-    * Apparently the converter doesn't like commas.  
-    * This was breaking parsing.  
-    * Added some more simple localization added as a result of fixing the converter.  
-    * Removed successfully simplified locales.  
-    * Single quoted strings and multiline locales are bad  
-    * Deprecated app.ccColors table in favor of using color string constants with proper color string handling.  
-    * ATT is a DefaultColor, not a Color that can be modified later.  
-    * Removed successfully simplified locales.  
-    * Added simple color converting.  
-    * Removed successfully simplified locales.  
-    * Removed the unused DRAKEWATCHERMANUSCRIPTS\_CHECKBOX locale strings.  
-    * Adjusted some more malformed strings.  
-    * Added some more simple strings.  
-    * Manually fixed some localization strings' readable text.  
-    * Removed successfully simplified locales.  
-    * Manually updated a number of localization strings.  
-    * Manually converted the rest picked up by the converter tool.  
-    * Removed successfully simplified locales.  
-    * DRAGONFLIGHT doesn't exist.  
-    * [Parser] Added Localization Strings  
-    * Fixed some broken readable strings.  
-    * [Parser] Now exports localization strings!  
-    * Deprecated locales\en.lua and merged the rest into the Default Locale file.  
-    * Deprecated all locale files and merged the rest into the Default Locale file.  
-    * [Locales] Now parsing icon into the text dynamically.  
-    * [Locales] Now parsing color into the text dynamically.  
-    * [DB] Rebuilt all DBs to include localization generated by Parser.  
-- Revert "new version update texts"  
-- new version update texts  
-- Diablo Event: Exact portal coordinates and some cosmetic updates to the file  
-- Added the Localization Converter tool. (WARNING: Do NOT run this!)  
-    Added a blank shortcut for creating a localization string to our database.  
-- [Logic] Remove the Fill NPCs checkbox from settings (leaving locale strings for later clean up since partially-used still)  
-- Revert "[Settings] Remove deprecated Fill NPCs checkbox (this is controlled by a Filler)"  
-- [DB] Mists: fix classic phase being applied to ExpansionFeatures root oops  
-- [DB] Classic: update promotions and in-game shop items  
-- "Just Keep Swimming" was mentioned on the Going Away blue post  
-- Sort locale english + removed duplicated key OPEN\_MINILIST\_FOR (#2096)  
-    * Sort entrys in english  
-    removed duplicated key entry of OPEN\_MINILIST\_FOR  
-    * Sort english locals  
-- Removed the unused ABOUT\_PAGE locale.  
-- Fixed localization pull request.  
-- [Logic] Retail: Catalyst adjustments to account for situations where a BoE/BoA Item has a nested BoP Item which can Catalyst, and may not have an Upgrade track (e.g. DF Primalist Tokens)  
-- First batch of changes in locals in all languages to match files 1:1 with english locals, Sorting existing keys, translated missing keys to es and mx. the rest of languages added in TODO. (#2089)  
-    * General text entries  
-    * Social module  
-    * Settings  
-    * Instructional Text  
-    * Event text  
-    * Tooltip Text  
-    * Filter Text  
-    * Icons and Collection Text  
-- [DB] Converted to proper Catalyst structure for VotI [WIP some catalyst logic adjustments to account for niche scenarios with this Tier)  
-- [Settings] Remove deprecated Fill NPCs checkbox (this is controlled by a Filler)  
-- [DB] Some prep data to allow the 'Primalist tokens to properly show their contained Item's catalyst results in tooltips  
-- The Pet Cage toggle no longer requires a reload to work.  
-- Added an option to explicitly enable/disable Pet Cage tooltip integration.  
-- TSM no longer has a battle pet induced tooltip seizure.  
-- Battle Pet Tooltips now respect the CanAttachTooltips requirements.  
-- Add Zanj'ir toy secondary source, sort 11.2 toy, fixes #2090  
-- [Logic] Retail: Catalyst Items now generate more accurately in some situations (e.g. hopefully this fixes the situation where 5/8 items sometimes show they catalyze into an upgradable item)  
-- [Logic] Retail: Items which are assigned 'bonuses' prior to being referenced will now properly include those bonuses into the Item's Link when generated  
-- Whoops, that should be "tooltip". Not the global.  
-- Fixed a race condition with battle pet tooltips  
-- Added Battle Pet tooltips!  
-- PTR 11.2.0: "In Search of Darkness" story finally completed. Thanks to Blizz for finally fixing it.  
-    - Added a couple of new items to Vendors  
-    - Source all Phase Conduits (Temporary placed into Flight Paths)  
-- Update Mount/Pet/ToyDB for 11.2.0.61981  
-- Rework Trial of Valor to use InstanceHelper (#2087)  
-- [DB] Adjust 'The Hataclysm' description to note semantics of required difficulty  
+- Couple missing boss entries so that criteria can nest under them  
 - Fix some reported errors  
-- MOP: Added the preprocessor RETAIL\_STYLE\_FILL\_ENABLED since Classic doesn't support Retail styled filling in the mini list and will need the header present for the associated zones instead.  
-- Timeline out Dastardly Duos, update shop items, parse  
-- Add new Legion Timewalking items  
-- Add new shop items, pet missing  
-- [DB] Fixed 'Unclaimed Black Market Container' filling themselves in Lists (where all other BMAH content is already filled)  
-- [DB] Fixed BMAH triple loading itself into various maps  
-    [Parser] Reparsed  
-- Fixed timeline constant DELETED\_9\_0\_1  
-- The "not" symlink command no longer fails to match multiple elements.  
-    Retail: The Black Market Auction House is no longer attempting to flip your RAM.  
-- updated some bmah notes based on this https://www.wowhead.com/news/new-black-market-auction-house-listings-in-8-2-5-revealed-tusks-of-mannoroth-295182  
-- [DB] Few more Sealed Tome objects in Karazhan  
-- Merge branch 'master' of https://github.com/ATTWoWAddon/AllTheThings  
-- [DB] Adjusted structure of Grimoire of the Ancient Observer  
-- Fixed some missing timeline constants.  
-- MOP: Updated Black Market Auction House based on the most accurate availability timeline values. (likely need to double check during each classic expansion)  
-- MOP: Updated level requirements on the Peak of Serenity.  
-- [DB] Classic: NYI things  
-- [Logic] Adjusted handling of app.ReshowGametooltip to internally protect spam with a Callback  
-    [Logic] Refreshing tooltips when Retrieving data is found is now much more reliable (shared appearances are still unreliable, WIP)  
-- [Logic] Retail: Fixed an issue with async loading on Items/Quests in tooltip Contains  
-    [Logic] Added app.ReshowGametooltip to re-draw the current GameTooltip if one is shown  
-- Figured out a new missing WoD treasure.  
-- MOP: Peak of Serenity moved to its own Expansion Features file.  
-- [DB] Classic: add Classic 187 gear for level 80 boost  
-- [DB] Mists: add Classic Level 85 boosted gear  
-- PTR: 11.2.0 build 61871 updates  
-    - added conquest gear  
-    - fixed wrong timeline for some pvp s3 headers  
-    - fixed timeline for s2 item (due to additional source)  
-    - added Reshii Hood / Reshii Mantle  
-- [DB] TWW Delve S2 achieves are removed with S3  
-- [DB] Mists: update Missing DB and do a little parse  
-- [DB] Mists: all the NYI cloth items starting with 'Art Template Cloth' (help me)  
-- [DB] Mists: NYI Monster weapons!  
-- [DB] Some comment clarity  
+- MOP: Fixed phaseID assignments for MOP\_PHASE\_LANDFALL / MOP\_PHASE\_ONE.  
+- MOP: Fixed some incorrect timeline assignments for 5.1.0 that should have been 5.0.4.  
+- Refactor Ny'alotha achievements and encounters for consistency and automation  
+- [PAT] Ran the Provider Automation Tool against a couple Pandaria files. (some of them did not parse correctly and are excluded)  
+- [Logic] Fixed ATT still attaching to tooltips that it should not and sometimes resulting in lag spikes due to other addons' hidden tooltip spam (fixes #2097)  
+- Update Ny'alotha with InstanceHelper  
+- PTR 11.2.0: Purple Peat Warrant  
+    - One more "Bee" daily  
+    - Add "Devourer Attack" mini-bosses to Rares  
+    - The K'aresh Trust Renown 9 quests  
+    - Two more World Quests  
+- [Logic] Retail: Source lines should once again show Unobtainable even when the Source exists but the root of the tooltip is removed from that Source  
+- MOP: Added the original Bottled Tornado itemID.  
+- MOP: Mysterious Fruit Pile wasn't added until 6.2.3  
+    Also began refactoring The Jade Forest and Valley of the Four Winds in order to add objectives.  
+- [Parser] Quick fix for NYI species getting assigned real NPCs and showing NYI tooltips on real pet battles  
+- [Logic] Moved the missing FP master check into the /att check-fps command for people on Git instead of it being tacked into every refresh  
+- [DB] Adjusted the structure of TWW Engineering 'Invent'  
+- Added a Flight Master debugger to Git. If there are missing flight masters it will now report that in a clickable popout.  
+- Added a missing flight master for the Ruins of Gilneas.  
+- Added missing flight masters to all Pandaria zones.  
+- [Logic] Retail: Total Cost calculation switched back to a single, shared Runner  
+    [Logic] Retail: Total Costs now ignore certain row types in situations where the Cost is not pertinent to the content of the window  
+- Added flight masters to the Vale of Eternal Blossoms.  
+- Mistfall Village, Vale of Eternal Blossoms wasn't added until 8.3.0  
+- Added flight masters to the Jade Forest.  
+- Moved The August Celestials to their own Expansion Features file rather than spread them through Pandaria.  
+- [DB] Reparse so Trading Post filter matches the data  
+    [Logic] It's now possible to turn off the Trading Post filter :smile:  
+- Changed Trading Post filter ID to 7.  
+- [Logic] Retail: Catalyst logic can now properly find SL:S4 Catalyst results  
+    [DB] Cleaned up and refactored the SL:S4 catalyst data to properly work for Catalyst tooltips (tossed the PvP Catalyst listings since those are just duplicated from the PvP Sources anyway... Classic Shadowlands can deal with setting that up properly when it exists again, which surely it will, definitely)  
+- [DB] Fix DH SL:S4 Tier Cloak disappearing  
+- [DB] Fixed Vault of Incarnates off-piece Catalyst Items showing the wrong data in tooltips  
+- PetDB and WagoData's BattlePetSpecies tables now merge into npcID rather than cr.  
+- Added Trading Post filter.  
+- Updated Battle Pets in Pandaria and added coordinates to some of the pets based on their localized spawn points if they had specific spawns rather than zone wide.  
+    Also terminated the use of symlinking battle pets in Pandaria.  
+- [Logic] Prep for Trading Post filter  
+- Marked Folded Ghost Iron, Spiritguard Bracers, and Lightsteel Bracers as removed from game / not available in MOP.  
+- Moved quests related to some of the scenarios to the scenarios themselves.  
+- Updated the structure for Clawlord Kril'mandar and all of his associated makrura minions.  
+- Fixed Coffer Key Shard cost assignment.  
+- Fix not collected icon showing next to text string  
+- [DB] Couple fixes  
+- Removed a number of World Drops from The Jade Forest. There's no need to clog the tooltips in the zone with non-specific drops.  
+    Classic: The Zone Drops header no longer shows at the top of the list due to a weird design choice for stolen rep tokens.  
+- MOP: Moved the Zandalari Warbringers and Warscouts into the Zandalari Incursions Expansion Features file.  
+    Added a short description for Jade Warrior Statue.  
+- Added map constant for TOWNLONG\_STEPPES\_NIUZAO\_CATACOMBS.  
+    Adjusted the coordinate for Huggalon the Heart Watcher in the Catacombs.  
+- Added a note for Wodin's Mantid Shanker in the Jade Forest.  
+- [Logic] Vignette logic improvements  
+    * Fixed Vignettes initially scanning prior to Vignette Settings being cached  
+    * Vignettes now only try to 'super track' one time per batch to reduce redundant API calls  
+    * Vignettes now refresh in proper sequence when changing Vignette settings (prior it was refreshing then changing the setting, so it didn't take effect until another Vignette udpate happened)  
+    * Added a /att reset-vignettes command in case the User wants previous reported Vignettes to allow reporting again  
+    * Removed the Event 'OnReportNearbySettingsChanged' since it's no longer necessary  
+- MOP: Added Cloud Serpent Riding and the BOA item you can use to learn it for your alts.  
+- [Logic] Retail: Attempt to fix a rare, random Lua error from Mount refresh  
+- [DB] Mists: update Ancient Guo-Lai Cache content  
+- [DB] Mists: His Name Was... Stormstout was added in WoD  
+- MOP: Based on feedback, adjusted the structure of the quests to show daily quests at the top of the list for Order of the Cloud Serpent. (this also allows us to remove shared source data)  
+    Classic: Order of the Cloud Serpent dailies now specify a maximum, making daily quests collectible until you reach Exalted with the faction so that their objective data is visible in game.  
+    Fixed a data entry bug for the quest The Secrets of Guo-Lai.  
+- [DB] Mists: fix wording for Vale phase onupdate description  
+- MOP: Updated the Order of the Cloud Serpent and moved it to the Expansion Features section of the addon to reduce the length of the tooltip and help distinguish between content related to The Jade Forest itself vs the Order's quest chain and dailies.  
+- [DB] Mists: Vale of Eternal Blossoms quest sweep  
+- Added a Function Template for dynamically updating the cost of a repeatable quest based on the number of turnins are required to reach the max reputation threshold. (GenerateOnUpdateForRepeatableQuestWithCost) (This will be used for the Onyx Egg in the Order of the Cloud Serpent file)  
+- Added a reputation calculation helper function "CalculateRemainingTurnIns".  
+- Added a checkbox for turning on/off the mini list's auto expand feature. (This might not work in Retail, but definitely does in Classic!)  
+- Shrine of Fellowship is a place, not an object name.  
+- MOP: Moved Restore Balance to the Broken Incense Burner treasure object.  
+- [Logic] Retail: Cost collector now uses the respective ATT list's Runner instead of being shared between popouts. This seems to make the update sequence more reliable  
+- [DB] Sort a few recipes better  
+- [DB] Mists: add missing Inscription recipes  
+- Fix a few reported quest and object errors, sort some items  
+- Fixed the quest giver for Back in Yak.  
+- [Parser] Added a Tier file for SL S4  
+- [DB] Fixed 'What's Your Sign?' getting snapped during WoD dungeon cleanup  
+- PTR: 11.2.0 build 62136 update (mostly profession stuff)  
+- [DB] Mists/WoD: set timelines for level 90 class trials  
+- Generate Missing Files: Retail  
+- Splash Zone wrong ID  
+- Harvest: 11.2.0.62136  
+- [DB] Some extra info for cauldron LoU achieves  
+- [DB] Fixed 'Cloth Scavenging' to properly use lockCriteria instead of being a fake weird breadcrumb  
+- [Logic] Fixed a Lua error when trying to output a debug message about bad GetOwner calls on EmbeddedItemTooltip (blizzard made this tooltip weird...)  
+- But with a real timeline  
+- motes of harmory now show up as obtainable and as world drop from mop  
+- removed 1 layer of skinning  
+- [DB] Mists: WoD journal version of His Name Was... Stormstout is not available in MoP ofc  
+- [DB] NYI: some MoP daggers  
+- Update es and mx (#2111)  
+- Fix comment typo  
+- cn update. (#2109)  
+- Update Tomb of Sargeras with InstanceHelper  
+- [Parser] Added a bit more Criteria incorporation to remediate the remaining Achievements with lingering 'achievement\_criteria' symlinks  
+    [DB] Adjusted 'Inspector Gagetzan' for proper automation  
+    [Parser] Added a couple map merge mappings from weird Blizzard values  
+- [DB] Cata+ Classic: Copper Vein bug  
+- [Logic] Retail: Couple creatureID removals that weren't pushed  
+- [Misc] Some commented testing/memory comments  
+- [DB] TBC Tailoring reagents and vendors  
+- [Logic] Retail: Fixed a few more cases of non-object rows in ATT lists  
+- [Logic] Retail: Cleaned up the Sync window and now use proper object types for row data  
+- [Parser] Fixed PetDB storing pointless data  
+    [Parser] Added validation for crs/npcID fields now that they're cleaned up from containing custom headers  
+- [DB] Refactored WoD CBD to no longer use fake NPCIDs as instance names via custom headers since those are now broken. Instead they now use 'maps\_disp' to indicate the related instances where certain slot pieces are available.  
+    [DB] Fixed Garrison Inn WoD CBD symlinks  
+- normal plus header too  
+- violet hold bosses are now grouped  
+- bubbledown ofc  
+- voti lfr is removed  
+- [Logic] Added handling of 'maps\_disp' to allow showing maps information in tooltips without also linking that data into those maps (similar to c\_disp and r\_disp)  
+- [Parser] Added a PASS\_THRU\_FIELDS root config to quickly allow new fields through the Parser which don't require parser handling  
+- [Locales] Moved some to their correct folders. Removed a duplicate locale file.  
+- [DB] WoD: UBRS upgraded to InstanceHelper  
+- [Locales] Added some more.  
+- Missed Cata/MOP.  
+- [Locales] Added locale template files for a bunch of the settings menu.  
+- [DB] WoD: EB upgraded to InstanceHelper  
+- [DB] WoD: SKY upgraded to InstanceHelper  
+- [DB] WoD: SBG upgraded to InstanceHelper  
+- [DB] WoD: ID upgraded to InstanceHelper  
+- [DB] WoD: GRD upgraded to InstanceHelper  
+- [DB] WoD: BSM upgraded to InstanceHelper  
+- BMAH The Binding warning is useless in TWW with xmog restrictions lif… (#2107)  
+    BMAH The Binding warning is useless in TWW with xmog restrictions lifted and coins transfers of DMF tickets  
+- Retail: Headers!  
+- MOP: There are two Master Chengs.  
+- [Logic] Retail: Fixed a few base-level fields for Visual Headers  
+- [Logic] More removals of unnecessary creatureID references  
+- Classic: Added a referemce tp tje DEBIG\_LOGIN locale.  
+- You can now turn on/off "Owned Pets" in the tooltip.  
+- [DB] TBC Inscription + JC + LW + Mining  
+- [Parser] Fix encounterHash when using custom header values  
+    [DB] Fixed celestial tournament WBs criteria  
+- [DB] Restructuring alchemy vials, TBC Enchanting + Inscription  
+- MOP: Added the original Dread Pirate Ring to the STV Fishing Tournament quests.  
+- PTR 11.2.0: Sojourner of K'aresh completed  
+    - Manaforge Vandals Vendors have been moved  
+    - Renown 8 quests for The K'aresh Trust  

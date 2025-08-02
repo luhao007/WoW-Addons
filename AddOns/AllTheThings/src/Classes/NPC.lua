@@ -272,7 +272,7 @@ local function GetDisplayID(data)
 	-- don't create a displayID for groups with a sourceID/itemID/difficultyID/mapID
 	if data.sourceID or data.difficultyID or data.mapID or data.itemID then return false end
 
-	local npcID = data.npcID or data.creatureID
+	local npcID = data.npcID
 	if npcID then return NPCDisplayIDFromID[npcID] end
 
 	local qgs = data.qgs

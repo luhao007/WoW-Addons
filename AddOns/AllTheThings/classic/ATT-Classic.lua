@@ -1737,7 +1737,7 @@ function app:GetDataCache()
 
 		-- Yourself.
 		tinsert(g, app.CreateUnit("player", {
-			description = "Awarded for logging in.\n\nGood job! YOU DID IT!\n\nOnly visible while in Debug Mode.",
+			description = L.DEBUG_LOGIN,
 			races = { app.RaceIndex },
 			c = { app.ClassIndex },
 			r = app.FactionID,

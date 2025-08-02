@@ -38,8 +38,8 @@ local function PlotCachedCoords()
 					local root,rootByCreatureID,rootByObjectID = {},{},{};
 					for key,group in pairs(datas) do
 						local creatureID, objectID;
-						if group.npcID or group.creatureID then
-							creatureID = group.npcID or group.creatureID;
+						if group.npcID then
+							creatureID = group.npcID
 						elseif group.objectID then
 							objectID = group.objectID;
 						else

@@ -387,7 +387,7 @@ local function OnLoad(self)
 		buttonTextFunction = GetButtonText, 
 		tooltipTitle = L["TITAN_AMMO_TOOLTIP"],
 		tooltipTextFunction = GetTooltipText,
-		icon = "Interface\\AddOns\\TitanAmmo\\TitanThrown",
+		icon = "Interface\\AddOns\\TitanAmmo\\TitanClassicThrown",
 		iconWidth = 16,
 		controlVariables = {
 			ShowIcon = true,

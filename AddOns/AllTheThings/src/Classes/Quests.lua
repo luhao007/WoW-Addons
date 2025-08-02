@@ -1640,7 +1640,7 @@ local createQuest = app.CreateClass("Quest", "questID", {
 		local parent = t.parent
 		if not parent then return end
 
-		local qg = parent.creatureID or parent.npcID;
+		local qg = parent.npcID
 		if qg and qg > 0 then return qg; end
 	end,
 	coords = function(t)

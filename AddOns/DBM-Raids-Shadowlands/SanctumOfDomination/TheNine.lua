@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2439, "DBM-Raids-Shadowlands", 2, 1193)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250719035005")
+mod:SetRevision("20250727090201")
 mod:SetCreatureID(175726)--Skyja (TODO, add other 2 and set health to highest?)
 mod:SetEncounterID(2429)
 mod:SetUsedIcons(8, 7, 6, 4, 3, 2, 1)
@@ -13,7 +13,7 @@ mod:SetZone(2450)
 mod:RegisterCombat("combat")
 
 mod:RegisterEvents(
-	"CHAT_MSG_MONSTER_YELL"
+	"CHAT_MSG_MONSTER_SAY"
 )
 
 mod:RegisterEventsInCombat(
@@ -500,14 +500,16 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 end
 --]]
 
---"<1.37 14:44:35> [CHAT_MSG_MONSTER_YELL] RAAAaaaarrGGHHHH!#Highlord Bolvar Fordragon###Sylvanas Windrunner##0#0##0#1215#nil#0#false#false#false#false",
---"<6.57 14:44:40> [CHAT_MSG_MONSTER_SAY] Val'kyr! You are bound to me! Strike down my foes!#Sylvanas Windrunner###Omegal##0#0##0#1216#nil#0#false#false#false#false",
---"<14.18 14:44:48> [CHAT_MSG_MONSTER_SAY] As you command, Dark Lady!#Skyja###Omegal##0#0##0#1217#nil#0#false#false#false#false",
---"<16.77 14:44:51> [NAME_PLATE_UNIT_ADDED] Signe#Creature-0-3878-2450-20078-177094-00007A941C",
---"<16.77 14:44:51> [NAME_PLATE_UNIT_ADDED] Kyra#Creature-0-3878-2450-20078-177095-00007A941C",
---"<18.05 14:44:52> [PLAYER_TARGET_CHANGED] -1 Hostile (elite Humanoid) - Kyra # Creature-0-3878-2450-20078-177095-00007A941C",
---"<18.64 14:44:52> [PLAYER_REGEN_DISABLED] +Entering combat!",
-function mod:CHAT_MSG_MONSTER_YELL(msg)
+--"<283.68 19:23:04> [CHAT_MSG_MONSTER_SAY] Fools. You fight a battle you cannot win.#Sylvanas Windrunner###Omegal##0#0##0#1185#nil#0#false#false#false#false",
+--"<289.33 19:23:10> [CHAT_MSG_MONSTER_SAY] We will stop you, Sylvanas!#Highlord Bolvar Fordragon###Omegal##0#0##0#1186#nil#0#false#false#false#false",
+--"<296.37 19:23:17> [CHAT_MSG_MONSTER_SAY] Fordragon. A fallen king without a throne. You will answer for your defiance!#Sylvanas Windrunner###Omegal##0#0##0#1187#nil#0#false#false#false#false",
+--"<304.84 19:23:25> [CHAT_MSG_MONSTER_YELL] RAAAaaaarrGGHHHH!#Highlord Bolvar Fordragon###Sylvanas Windrunner##0#0##0#1189#nil#0#false#false#false#false",
+--"<309.59 19:23:30> [CHAT_MSG_MONSTER_SAY] Val'kyr! You are bound to me! Strike down my foes!#Sylvanas Windrunner###Omegal##0#0##0#1190#nil#0#false#false#false#false",
+--"<317.21 19:23:38> [CHAT_MSG_MONSTER_SAY] As you command, Dark Lady!#Skyja###Omegal##0#0##0#1191#nil#0#false#false#false#false",
+--"<320.09 19:23:40> [NAME_PLATE_UNIT_ADDED] Signe#Creature-0-3781-2450-10896-177094-0000041050",
+--"<320.09 19:23:40> [NAME_PLATE_UNIT_ADDED] Kyra#Creature-0-3781-2450-10896-177095-0000041050",
+--"<320.64 19:23:41> [DBM_Debug] ENCOUNTER_START event fired: 2429 The Nine 16 20#nil",
+function mod:CHAT_MSG_MONSTER_SAY(msg)
 	if (msg == L.PrePull or msg:find(L.PrePull)) and self:LatencyCheck() then
 		self:SendSync("NineRP")
 	end
@@ -515,6 +517,6 @@ end
 
 function mod:OnSync(msg)
 	if msg == "NineRP" and self:AntiSpam(10, 1) then
-		timerRP:Start(15.4)
+		timerRP:Start(36.4)
 	end
 end

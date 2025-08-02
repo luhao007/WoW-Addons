@@ -969,7 +969,7 @@ app.CreateMap = app.CreateClass("Map", "mapID", {
 },
 "WithHeader", {
 	["name"] = function(t)
-		return app.NPCNameFromID[t.headerID] or GetMapName(t.mapID);
+		return L.HEADER_NAMES[t.headerID] or GetMapName(t.mapID);
 	end,
 	["icon"] = function(t)
 		return L.HEADER_ICONS[t.headerID] or app.asset("Category_Zones");
@@ -982,10 +982,9 @@ app.CreateMap = app.CreateClass("Map", "mapID", {
 	end,
 	["ShouldShowEventSchedule"] = app.ReturnTrue,
 }, (function(t)
-	local creatureID = t.creatureID or t.npcID;
+	local creatureID = t.npcID
 	if creatureID and creatureID < 0 then
 		t.headerID = creatureID;
-		t.creatureID = nil;
 		t.npcID = nil;
 		return true;
 	elseif t.headerID then
@@ -1087,7 +1086,7 @@ end
 app.CreateInstance = app.CreateClass("Instance", "instanceID", instanceFields,
 "WithHeader", {
 	["name"] = function(t)
-		return app.NPCNameFromID[t.headerID] or instanceFields.name(t);
+		return L.HEADER_NAMES[t.headerID] or instanceFields.name(t);
 	end,
 	["icon"] = function(t)
 		return L.HEADER_ICONS[t.headerID] or app.asset("Category_Zones");
@@ -1102,10 +1101,9 @@ app.CreateInstance = app.CreateClass("Instance", "instanceID", instanceFields,
 	if t.headerID then
 		return true;
 	else
-		local creatureID = t.creatureID or t.npcID;
+		local creatureID = t.npcID
 		if creatureID and creatureID < 0 then
 			t.headerID = creatureID;
-			t.creatureID = nil;
 			t.npcID = nil;
 			return true;
 		end

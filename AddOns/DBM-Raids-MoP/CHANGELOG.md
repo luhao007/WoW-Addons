@@ -1,9 +1,12 @@
 # <DBM Mod> Raids (MoP)
 
-## [r180](https://github.com/DeadlyBossMods/DBM-MoP/tree/r180) (2025-04-22)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-MoP/compare/r179...r180) [Previous Releases](https://github.com/DeadlyBossMods/DBM-MoP/releases)
+## [r181](https://github.com/DeadlyBossMods/DBM-MoP/tree/r181) (2025-07-27)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-MoP/compare/r180...r181) [Previous Releases](https://github.com/DeadlyBossMods/DBM-MoP/releases)
 
-- apparently i never remembered to bump tocs  
-- Update RU locale (#63)  
-    * Update localization.ru.lua  
-    * Update localization.ru.lua  
+- Update localization.ru.lua (#64)  
+- Cull unnessesary use of SendChatMessage and update others for future compat  
+- Add 11.2 TOC  
+- this timer too  
+- define weak aura/api spell key for legacy timer  
+- toc bumps for ptr  
+- Initial MoP TOC support  

@@ -304,6 +304,10 @@ local VisualHeaderFields = {
 	__type = function() return "VisualHeader" end,
 	hash = BaseClass__class.hash,
 	text = BaseClass__class.text,
+	total = BaseClass__class.total,
+	progress = BaseClass__class.progress,
+	costTotal = BaseClass__class.costTotal,
+	upgradeTotal = BaseClass__class.upgradeTotal,
 }
 local CreateVisualHeader, CreateVisualHeader__class = app.CreateClass("VisualHeader", "noKey-VisualHeader", VisualHeaderFields);
 app.CreateVisualHeader = CreateVisualHeader
@@ -344,13 +348,9 @@ for _,field in ipairs({
 	"expanded",
 	"indent",
 	"g",
-	"progress",
-	"total",
 	"visible",
 	"rawlink",
 	"sourceIgnored",
-	"costTotal",
-	"upgradeTotal",
 	"iconPath",
 	"tooltipInfo",
 	"working",

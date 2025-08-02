@@ -1020,104 +1020,221 @@ function Fun.Key_fenge(str,fengefu,geshihua,daifengefu)
 end
 --=================
 --压缩数字
+-- local pig_yasuo = {}
+-- local pig_jieya = {}
+-- do
+-- 	local xuhao = 1
+-- 	for asciiCode = string.byte('A'), string.byte('Z') do
+-- 		local char = char(asciiCode)
+-- 		pig_yasuo[xuhao]=char
+-- 		xuhao=xuhao+1
+-- 	end
+-- 	for asciiCode = string.byte('a'), string.byte('z') do
+-- 		local char = char(asciiCode)
+-- 		pig_yasuo[xuhao]=char
+-- 		xuhao=xuhao+1
+-- 	end
+-- 	for asciiCode = string.byte('A'), string.byte('Z') do
+-- 		local char = char(asciiCode)
+-- 		pig_yasuo[xuhao]=char..char
+-- 		xuhao=xuhao+1
+-- 	end
+-- 	for asciiCode = string.byte('a'), string.byte('z') do
+-- 		local char = char(asciiCode)
+-- 		pig_yasuo[xuhao]=char..char
+-- 		xuhao=xuhao+1
+-- 	end
+-- 	for asciiCode = string.byte('A'), string.byte('Z') do
+-- 		local char = char(asciiCode)
+-- 		local charmin = lower(char)
+-- 		pig_yasuo[xuhao]=char..charmin
+-- 		xuhao=xuhao+1
+-- 	end
+-- 	for asciiCode = string.byte('A'), string.byte('Z') do
+-- 		local char = char(asciiCode)
+-- 		local charmin = lower(char)
+-- 		pig_yasuo[xuhao]=charmin..char
+-- 		xuhao=xuhao+1
+-- 	end
+-- 	for k,v in pairs(pig_yasuo) do
+-- 		pig_jieya[v]=k
+-- 	end
+-- end
 local pig_yasuo = {}
 local pig_jieya = {}
 do
-	local xuhao = 1
-	for asciiCode = string.byte('A'), string.byte('Z') do
-		local char = char(asciiCode)
-		pig_yasuo[xuhao]=char
-		xuhao=xuhao+1
-	end
-	for asciiCode = string.byte('a'), string.byte('z') do
-		local char = char(asciiCode)
-		pig_yasuo[xuhao]=char
-		xuhao=xuhao+1
-	end
-	for asciiCode = string.byte('A'), string.byte('Z') do
-		local char = char(asciiCode)
-		pig_yasuo[xuhao]=char..char
-		xuhao=xuhao+1
-	end
-	for asciiCode = string.byte('a'), string.byte('z') do
-		local char = char(asciiCode)
-		pig_yasuo[xuhao]=char..char
-		xuhao=xuhao+1
-	end
-	for asciiCode = string.byte('A'), string.byte('Z') do
-		local char = char(asciiCode)
-		local charmin = lower(char)
-		pig_yasuo[xuhao]=char..charmin
-		xuhao=xuhao+1
-	end
-	for asciiCode = string.byte('A'), string.byte('Z') do
-		local char = char(asciiCode)
-		local charmin = lower(char)
-		pig_yasuo[xuhao]=charmin..char
-		xuhao=xuhao+1
-	end
-	for k,v in pairs(pig_yasuo) do
-		pig_jieya[v]=k
-	end
+    local xuhao = 1
+    for asciiCode = string.byte('A'), string.byte('Z') do
+        local char = char(asciiCode)
+        pig_yasuo[xuhao] = char
+        xuhao = xuhao + 1
+    end
+    for asciiCode = string.byte('a'), string.byte('z') do
+        local char = char(asciiCode)
+        pig_yasuo[xuhao] = char
+        xuhao = xuhao + 1
+    end
+    for asciiCode = string.byte('A'), string.byte('Z') do
+        local char = char(asciiCode)
+        pig_yasuo[xuhao] = char .. char
+        xuhao = xuhao + 1
+    end
+    for asciiCode = string.byte('a'), string.byte('z') do
+        local char = char(asciiCode)
+        pig_yasuo[xuhao] = char .. char
+        xuhao = xuhao + 1
+    end
+    for asciiCode = string.byte('A'), string.byte('Z') do
+        local char = char(asciiCode)
+        local charmin = char:lower()
+        pig_yasuo[xuhao] = char .. charmin
+        xuhao = xuhao + 1
+    end
+    for asciiCode = string.byte('A'), string.byte('Z') do
+        local char = char(asciiCode)
+        local charmin = char:lower()
+        pig_yasuo[xuhao] = charmin .. char
+        xuhao = xuhao + 1
+    end
+    for k, v in pairs(pig_yasuo) do
+        pig_jieya[v] = k
+    end
 end
 function Fun.yasuo_NumberString(sss)
-	if not sss or sss=="" then return "" end
+    if not sss or sss == "" then return "" end
     local txtmsg = ""
     local count = 1
-    local lastDigit=nil
+    local lastDigit = nil
     for i = 1, #sss do
         local str = sss:sub(i, i)
         if str == lastDigit then
             count = count + 1
         else
-			if lastDigit then
-				local str = sss:sub(i, i)
-	            if count > 1 then
-	                txtmsg = txtmsg .. tostring(lastDigit) .. pig_yasuo[count]
-	            else
-	                txtmsg = txtmsg .. tostring(lastDigit)
-	            end
-	        end
+            if lastDigit then
+                if count > 1 then
+                    local compChar = pig_yasuo[count]
+                    if compChar then
+                        txtmsg = txtmsg .. lastDigit .. compChar
+                    else
+                        txtmsg = txtmsg .. lastDigit .. tostring(count)
+                    end
+                else
+                    txtmsg = txtmsg .. lastDigit
+                end
+            end
             count = 1
             lastDigit = str
         end
     end
     if count > 1 then
-        txtmsg = txtmsg .. tostring(lastDigit) .. pig_yasuo[count]
-    elseif count == 1 then
-        txtmsg = txtmsg .. tostring(lastDigit)
+        local compChar = pig_yasuo[count]
+        if compChar then
+            txtmsg = txtmsg .. lastDigit .. compChar
+        else
+            txtmsg = txtmsg .. lastDigit .. tostring(count)
+        end
+    else
+        txtmsg = txtmsg .. lastDigit
     end
+
     return txtmsg
 end
 function Fun.jieya_NumberString(sss)
-	if not sss or sss=="" then return "" end
+    if not sss or sss == "" then return "" end
     local txtdec = ""
-    local zifutxt = nil
-    local count = 0
-    for i = 1, #sss do
+    local i = 1
+    while i <= #sss do
         local char = sss:sub(i, i)
-        local char1 = sss:sub(i+1, i+1)
-        if char:match("%A") then
-			txtdec=txtdec..char
-            zifutxt = char
-        elseif char:match("%a") and char1:match("%a") then
-        	if zifutxt then
-        		for ix=2,pig_jieya[char..char1] do
-        			txtdec=txtdec..zifutxt
-        		end
+        if char:match("%d") then
+            local digit = char
+            i = i + 1
+            local nextChar1 = sss:sub(i, i)
+            if nextChar1 and pig_jieya[nextChar1] then
+                local repeatCount = pig_jieya[nextChar1]
+                for _ = 1, repeatCount do
+                    txtdec = txtdec .. digit
+                end
+                i = i + 1
+            else
+                local nextChar2 = sss:sub(i, i + 1)
+                if nextChar2 and #nextChar2 == 2 and pig_jieya[nextChar2] then
+                    local repeatCount = pig_jieya[nextChar2]
+                    for _ = 1, repeatCount do
+                        txtdec = txtdec .. digit
+                    end
+                    i = i + 2
+                else
+                    txtdec = txtdec .. digit
+                end
             end
-            zifutxt = nil
-        elseif char:match("%a") then
-        	if zifutxt then
-        		for ix=2,pig_jieya[char] do
-        			txtdec=txtdec..zifutxt
-        		end
-            end
-            zifutxt = nil
+        else
+            txtdec = txtdec .. char
+            i = i + 1
         end
     end
+
     return txtdec
 end
+-- function Fun.yasuo_NumberString(sss)
+-- 	if not sss or sss=="" then return "" end
+--     local txtmsg = ""
+--     local count = 1
+--     local lastDigit=nil
+--     for i = 1, #sss do
+--         local str = sss:sub(i, i)
+--         if str == lastDigit then
+--             count = count + 1
+--         else
+-- 			if lastDigit then
+-- 				local str = sss:sub(i, i)
+-- 	            if count > 1 then
+-- 	                txtmsg = txtmsg .. tostring(lastDigit) .. pig_yasuo[count]
+-- 	            else
+-- 	                txtmsg = txtmsg .. tostring(lastDigit)
+-- 	            end
+-- 	        end
+--             count = 1
+--             lastDigit = str
+--         end
+--     end
+--     if count > 1 then
+--         txtmsg = txtmsg .. tostring(lastDigit) .. pig_yasuo[count]
+--     elseif count == 1 then
+--         txtmsg = txtmsg .. tostring(lastDigit)
+--     end
+--     return txtmsg
+-- end
+-- function Fun.jieya_NumberString(sss)
+-- 	if not sss or sss=="" then return "" end
+--     local txtdec = ""
+--     local zifutxt = nil
+--     local count = 0
+--     for i = 1, #sss do
+--         local char = sss:sub(i, i)
+--         local char1 = sss:sub(i+1, i+1)
+--         if char:match("%A") then
+-- 			txtdec=txtdec..char
+--             zifutxt = char
+--         elseif char:match("%a") and char1:match("%a") then
+--         	if zifutxt then
+--         		print(char,char1)
+--         		print(pig_jieya[char..char1])
+--         		for ix=2,pig_jieya[char..char1] do
+--         			txtdec=txtdec..zifutxt
+--         		end
+--             end
+--             zifutxt = nil
+--         elseif char:match("%a") then
+--         	if zifutxt then
+--         		for ix=2,pig_jieya[char] do
+--         			txtdec=txtdec..zifutxt
+--         		end
+--             end
+--             zifutxt = nil
+--         end
+--     end
+--     return txtdec
+-- end
 --压缩配置
 local pig_teshuzifu = {"&","@","#"}
 function Fun.quchu_teshufuhao(str)

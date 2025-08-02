@@ -85,7 +85,6 @@ local function GroupMatchesParams(group, key, value, ignoreModID)
 		if group.otherFactionQuestID == value then return true; end
 	-- NPCID can be contained in other fields as well (for now)
 	elseif key == "npcID" or key == "creatureID" then
-		if group.creatureID == value then return true; end
 		if group.npcID == value then return true; end
 		-- treat encounters with this NPC as a match for the NPC
 		if group.encounterID then

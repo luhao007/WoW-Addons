@@ -1,5 +1,11 @@
 ﻿# Changelog
 
+## 9.10.0 - July 22, 2025
+### Added
+- Added Classic Timewalking rewards
+### Fixed
+- Fixed droprate placeholder showing up in tooltip for some MoP content
+
 ## 9.9.0 - July 15, 2025
 ### Added
 - Added Legion Timewalking rewards, including the brand-new cosmetic items

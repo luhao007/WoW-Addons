@@ -1,6 +1,7 @@
 @cont1nuity:
-- Fixing broken glow.
-- Fixing broken load conditions for affixes.
-- Adding option to only show buffs on the personal bar which would show on the default one.
-- Adding 'resetcvar(s)' command.
+- Changing Drain Soul execute for MoP classic.
+- Fixing an error in quest tracking for MoP for certain units.
+- Changing SW:D execute for MoP classic.
+- Adding 'Soul Reaper' as DK execute for MoP classic.
+- Enabling absorb shields when available (MoP classic prep).
 

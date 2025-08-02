@@ -53,7 +53,7 @@ local MYTHIC_SOO_DIFF = data:AddDifficulty(AL["Mythic"], "myhticSoOWithPreset", 
 	},
 }, 16)
 
-local NORMAL_ITTYPE = data:AddItemTableType("Item", "Droprate")
+--local NORMAL_ITTYPE = data:AddItemTableType("Item", "Droprate")
 local RAID_ITTYPE = data:AddItemTableType("Item", "Item") -- Normal, Thunder-/Warforged...
 local AC_ITTYPE = data:AddItemTableType("Achievement", "Item")
 

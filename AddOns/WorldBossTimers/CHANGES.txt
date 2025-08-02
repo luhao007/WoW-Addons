@@ -1,12 +1,24 @@
-tag 1a367730c1272f4574bea865cc4220e8fedc2317 v1.12.23
+tag 246a357f92c5b87a2f22acd69e5b33377dffaf8e v1.12.24
 Author:	Filip Stenstrom <filip.stenstrom.4488@gmail.com>
-Date:	Sun Jul 20 12:23:41 2025 +0200
+Date:	Sat Aug 2 15:49:18 2025 +0200
 
-v1.12.23
+MoP fixes
 
-commit 53889cc75437e4b9bb111ec0fe7aa326a70cc1c4
+commit 73682c1c30e6018fc3ff93bc9fb7c78065beca27
 Author: Filip Stenstrom <filip.stenstrom.4488@gmail.com>
-Date:   Sun Jul 20 12:22:33 2025 +0200
+Date:   Sat Aug 2 15:48:20 2025 +0200
 
-    Try use single .toc
+    Bump to v1.12.24
+
+commit 4b4babd3c1a3522ba7a636b3ab854331b6a861a0
+Author: Filip Stenstrom <filip.stenstrom.4488@gmail.com>
+Date:   Sat Aug 2 15:46:04 2025 +0200
+
+    Update Galleon spawn time
+
+commit a09563b58b916a2e83400a30d7915cee2645390e
+Author: Filip Stenstrom <filip.stenstrom.4488@gmail.com>
+Date:   Fri Aug 1 21:33:20 2025 +0200
+
+    Fixes for MoP
 

@@ -318,6 +318,14 @@ function RSConfigDB.SetScanningWorldMapVignettes(value)
 	private.db.general.scanWorldmapVignette = value
 end
 
+function RSConfigDB.IsScanningWithMacro()
+	return private.db.general.scanWithMacro
+end
+
+function RSConfigDB.SetScanningWithMacro(value)
+	private.db.general.scanWithMacro = value
+end
+
 function RSConfigDB.IsIgnoringCompletedEntities()
 	return private.db.general.ignoreCompletedEntities
 end

@@ -254,6 +254,7 @@ RSConstants.PROFILE_DEFAULTS = {
 			scanOnPetBattle = true,
 			scanOnRacingQuest = true,
 			scanWorldmapVignette = true,
+			scanWithMacro = false,
 			ignoreCompletedEntities = true,
 			showMaker = true,
 			marker = 8,
@@ -431,6 +432,16 @@ RSConstants.PROFILE_DEFAULTS = {
 
 ---============================================================================
 -- Name of the RareScanner's button
+---============================================================================
+
+RSConstants.RARESCANNER_MACRO_NAME = "RS_MACRO"
+RSConstants.RARESCANNER_MACRO_ICON = "Interface/Icons/Icon_upgradestone_rare"
+RSConstants.RARESCANNER_MACRO_TARGET_MAX_DISTANCE = 0.1 --map distance
+RSConstants.RARESCANNER_MACRO_UPDATE_NPCS_DISTANCE = 0.05 --map distance
+RSConstants.RARESCANNER_MACRO_REFRESH_TIMER = 5 --seconds
+
+---============================================================================
+-- Macro settings
 ---============================================================================
 
 RSConstants.RS_BUTTON_NAME = "RARESCANNER_BUTTON"

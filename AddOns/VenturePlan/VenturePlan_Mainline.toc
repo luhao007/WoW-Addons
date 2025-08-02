@@ -1,6 +1,6 @@
 ## Interface: 110107
 ## Author: foxlit
-## Version: 4.42e
+## Version: 4.42f
 
 ## Title: Venture Plan
 ## Notes: Interface improvements for Adventures.

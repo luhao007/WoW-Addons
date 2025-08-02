@@ -1390,8 +1390,8 @@ local function AddSourceLinesForTooltip(tooltipInfo, paramA, paramB)
 			text = app.GenerateSourcePathForTooltip(parent);
 			-- app.PrintDebug("SourceLocation",text,FilterInGame(j),FilterSettings(parent),FilterCharacter(parent))
 			if showUnsorted or (not text:match(L.UNSORTED) and not text:match(L.HIDDEN_QUEST_TRIGGERS)) then
-				-- doesn't meet current unobtainable filters from the Thing itself
-				if not FilterInGame(parent) then
+				-- doesn't meet current unobtainable filters from the Thing itself and its parent chain
+				if not FilterInGame(j) or not FilterInGame(parent) then
 					unobtainable[#unobtainable + 1] = text..UnobtainableTexture
 				else
 					-- something user would currently see in a list or not
@@ -1972,7 +1972,7 @@ local function BuildSourceParent(group)
 	end
 	-- group with some Source-able data can be treated as specific Source
 	if not specificSource and (
-		group.npcID or group.creatureID or group.crs or group.providers
+		group.npcID or group.crs or group.providers
 	) then
 		specificSource = true;
 	end
@@ -2019,7 +2019,7 @@ local function BuildSourceParent(group)
 					if parentKey and parent[parentKey] and parent.hash ~= groupHash then
 						-- only show certain types of parents as sources.. typically 'Game World Things'
 						-- or if the parent is directly tied to an NPC
-						if thingKeys[parentKey] or parent.npcID or parent.creatureID then
+						if thingKeys[parentKey] or parent.npcID then
 							-- add the parent for display later
 							parent = CreateObject(parent, true)
 							parents[#parents + 1] = parent
@@ -2042,8 +2042,8 @@ local function BuildSourceParent(group)
 					parent = parent.parent;
 				end
 				-- Things tagged with an npcID should show that NPC as a Source
-				if thing.key ~= "npcID" and (thing.npcID or thing.creatureID) then
-					local parentNPC = CreateObject(SearchForObject("npcID", thing.npcID or thing.creatureID, "field") or {["npcID"] = thing.npcID or thing.creatureID}, true)
+				if thing.key ~= "npcID" and thing.npcID then
+					local parentNPC = CreateObject(SearchForObject("npcID", thing.npcID, "field") or {["npcID"] = thing.npcID}, true)
 					parents[#parents + 1] = parentNPC
 					-- achievement criteria can nest inside their Source for clarity
 					if isAchievement and KeepSourced[thing.key] then
@@ -2503,9 +2503,9 @@ end)();
 
 do	-- Main Data
 -- Returns {name,icon} for a known HeaderConstants NPCID
-local function SimpleNPCGroup(npcID, t)
+local function SimpleHeaderGroup(npcID, t)
 	if t then
-		t.name = app.NPCNameFromID[npcID]
+		t.name = L.HEADER_NAMES[npcID]
 		t.icon = L.HEADER_ICONS[npcID]
 		if t.suffix then
 			t.name = t.name .. " (".. t.suffix ..")"
@@ -2513,7 +2513,7 @@ local function SimpleNPCGroup(npcID, t)
 		end
 	else
 		t = {
-				name = app.NPCNameFromID[npcID],
+				name = L.HEADER_NAMES[npcID],
 				icon = L.HEADER_ICONS[npcID]
 			}
 	end
@@ -2727,7 +2727,7 @@ function app:GetDataCache()
 
 	-- Trading Post
 	if app.Categories.TradingPost then
-		db = app.CreateRawText(L.TRADING_POST);	-- Probably some global string Later
+		db = app.CreateRawText(TRANSMOG_SOURCE_7);
 		db.g = app.Categories.TradingPost;
 		db.icon = app.asset("Category_TradingPost");
 		tinsert(g, db);
@@ -2735,7 +2735,7 @@ function app:GetDataCache()
 
 	-- Track Deaths!
 	tinsert(g, app:CreateDeathClass());
-	
+
 	-- Yourself.
 	tinsert(g, app.CreateUnit("player", {
 		["description"] = L.DEBUG_LOGIN,
@@ -2753,10 +2753,10 @@ function app:GetDataCache()
 			end
 		end
 	}));
-	
+
 	-- Module-based Groups
 	app.HandleEvent("OnAddExtraMainCategories", g)
-	
+
 	-- app.PrintMemoryUsage()
 	-- app.PrintDebug("Begin Cache Prime")
 	CacheFields(rootData);
@@ -2812,13 +2812,13 @@ function app:GetDataCache()
 			}),
 
 			-- Achievements
-			app.CreateDynamicHeader("achievementID", SimpleNPCGroup(app.HeaderConstants.ACHIEVEMENTS)),
+			app.CreateDynamicHeader("achievementID", SimpleHeaderGroup(app.HeaderConstants.ACHIEVEMENTS)),
 
 			-- Artifacts
-			app.CreateDynamicHeader("artifactID", SimpleNPCGroup(app.HeaderConstants.ARTIFACTS)),
+			app.CreateDynamicHeader("artifactID", SimpleHeaderGroup(app.HeaderConstants.ARTIFACTS)),
 
 			-- Azerite Essences
-			app.CreateDynamicHeader("azeriteessenceID", SimpleNPCGroup(app.HeaderConstants.AZERITE_ESSENCES)),
+			app.CreateDynamicHeader("azeriteessenceID", SimpleHeaderGroup(app.HeaderConstants.AZERITE_ESSENCES)),
 
 			-- Battle Pets
 			app.CreateDynamicHeader("speciesID", {
@@ -2839,7 +2839,7 @@ function app:GetDataCache()
 			}),
 
 			-- Conduits
-			app.CreateDynamicHeader("conduitID", SimpleNPCGroup(app.HeaderConstants.CONDUITS, {suffix=EXPANSION_NAME8})),
+			app.CreateDynamicHeader("conduitID", SimpleHeaderGroup(app.HeaderConstants.CONDUITS, {suffix=EXPANSION_NAME8})),
 
 			-- Currencies
 			app.CreateDynamicHeaderByValue("currencyID", {
@@ -2862,14 +2862,14 @@ function app:GetDataCache()
 			}),
 
 			-- Followers
-			app.CreateDynamicHeader("followerID", SimpleNPCGroup(app.HeaderConstants.FOLLOWERS)),
+			app.CreateDynamicHeader("followerID", SimpleHeaderGroup(app.HeaderConstants.FOLLOWERS)),
 
 			-- Garrison Buildings
 			-- TODO: doesn't seem to work...
-			-- app.CreateDynamicHeader("garrisonbuildingID", SimpleNPCGroup(app.HeaderConstants.BUILDINGS)),
+			-- app.CreateDynamicHeader("garrisonbuildingID", SimpleHeaderGroup(app.HeaderConstants.BUILDINGS)),
 
 			-- Heirlooms
-			app.CreateDynamicHeader("heirloomID", SimpleNPCGroup(app.HeaderConstants.HEIRLOOMS)),
+			app.CreateDynamicHeader("heirloomID", SimpleHeaderGroup(app.HeaderConstants.HEIRLOOMS)),
 
 			-- Illusions
 			app.CreateDynamicHeader("illusionID", {
@@ -2884,10 +2884,10 @@ function app:GetDataCache()
 			}),
 
 			-- Mount Mods
-			app.CreateDynamicHeader("mountmodID", SimpleNPCGroup(app.HeaderConstants.MOUNT_MODS)),
+			app.CreateDynamicHeader("mountmodID", SimpleHeaderGroup(app.HeaderConstants.MOUNT_MODS)),
 
 			-- Pet Battles
-			app.CreateDynamicHeader("pb", SimpleNPCGroup(app.HeaderConstants.PET_BATTLES, {dynamic_withsubgroups = true})),
+			app.CreateDynamicHeader("pb", SimpleHeaderGroup(app.HeaderConstants.PET_BATTLES, {dynamic_withsubgroups = true})),
 
 			-- Professions
 			app.CreateDynamicHeaderByValue("professionID", {
@@ -2898,7 +2898,7 @@ function app:GetDataCache()
 			}),
 
 			-- Runeforge Powers
-			app.CreateDynamicHeader("runeforgepowerID", SimpleNPCGroup(app.HeaderConstants.LEGENDARIES, {suffix=EXPANSION_NAME8})),
+			app.CreateDynamicHeader("runeforgepowerID", SimpleHeaderGroup(app.HeaderConstants.LEGENDARIES, {suffix=EXPANSION_NAME8})),
 
 			-- Titles
 			app.CreateDynamicHeader("titleID", {
@@ -2955,11 +2955,10 @@ function app:GetDataCache()
 	}));
 
 	-- The Main Window's Data
-	app.refreshDataForce = true;
 	-- app.PrintMemoryUsage("Prime.Data Ready")
 	local primeWindow = app:GetWindow("Prime");
 	primeWindow:SetData(rootData);
-	-- app.PrintMemoryUsage("Prime Window Data Set")
+	-- app.PrintMemoryUsage("Prime Window Data Building...")
 	primeWindow:BuildData();
 
 	-- Function to build a hidden window's data
@@ -2997,6 +2996,7 @@ function app:GetDataCache()
 	BuildHiddenWindowData(L.HIDDEN_CURRENCY_TRIGGERS, "Interface_Vendor", L.HIDDEN_CURRENCY_TRIGGERS_DESC, "HiddenCurrencyTriggers", { _hqt = true, _nosearch = true, Color = app.Colors.ChatLinkHQT })
 	BuildHiddenWindowData(L.HIDDEN_QUEST_TRIGGERS, "Interface_Quest", L.HIDDEN_QUEST_TRIGGERS_DESC, "HiddenQuestTriggers", { _hqt = true, _nosearch = true, Color = app.Colors.ChatLinkHQT })
 	BuildHiddenWindowData(L.SOURCELESS, "WindowIcon_Unsorted", L.SOURCELESS_DESC, "Sourceless", { _missing = true, _unsorted = true, _nosearch = true, Color = app.Colors.TooltipWarning })
+	-- app.PrintMemoryUsage("Hidden Windows Data Done")
 
 	-- a single Unsorted window to collect all base Unsorted windows
 	-- TODO: migrate this logic once Window creation is revised
@@ -3025,7 +3025,7 @@ function app:GetDataCache()
 	})
 
 	-- StartCoroutine("VerifyRecursionUnsorted", function() app.VerifyCache(); end, 5);
-	-- app.PrintDebug("Finished loading data cache")
+	-- app.PrintMemoryUsage("Finished loading data cache")
 	-- app.PrintMemoryUsage()
 	app.GetDataCache = function()
 		-- app.PrintDebug("Cached data cache")
@@ -3123,8 +3123,7 @@ customWindowUpdates.AchievementHarvester = function(self, ...)
 				partitionStart = j * self.PartitionSize;
 				partitionGroups = {};
 				-- define a sub-group for a range of quests
-				partition = {
-					["text"] = tostring(partitionStart + 1).."+",
+				partition = app.CreateRawText(tostring(partitionStart + 1).."+", {
 					["icon"] = app.asset("Interface_Quest_header"),
 					["visible"] = true,
 					["OnClick"] = function(row, button)
@@ -3133,7 +3132,7 @@ customWindowUpdates.AchievementHarvester = function(self, ...)
 						-- no return so that it acts like a normal row
 					end,
 					["g"] = partitionGroups,
-				};
+				})
 				for i=1,self.PartitionSize,1 do
 					tinsert(partitionGroups, dlo(obj, "text", overrides, partitionStart + i));
 				end
@@ -3854,8 +3853,7 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 					["description"] = L.MINI_LIST_DESC,
 					["visible"] = true,
 					["g"] = {
-						{
-							["text"] = L.UPDATE_LOCATION_NOW,
+						app.CreateRawText(L.UPDATE_LOCATION_NOW, {
 							["icon"] = 134269,
 							["description"] = L.UPDATE_LOCATION_NOW_DESC,
 							["OnClick"] = function(row, button)
@@ -3863,7 +3861,7 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 								return true;
 							end,
 							["OnUpdate"] = app.AlwaysShowUpdate,
-						},
+						}),
 					},
 				}));
 				self:BuildData();
@@ -3934,15 +3932,13 @@ customWindowUpdates.ItemFilter = function(self, force)
 			end
 
 			-- Item Filter
-			local data = {
-				['text'] = L.ITEM_FILTER_TEXT,
+			local data = app.CreateRawText(L.ITEM_FILTER_TEXT, {
 				['icon'] = app.asset("Category_ItemSets"),
 				["description"] = L.ITEM_FILTER_DESCRIPTION,
 				['visible'] = true,
 				['back'] = 1,
 				['g'] = {
-					{
-						['text'] = L.ITEM_FILTER_BUTTON_TEXT,
+					app.CreateRawText(L.ITEM_FILTER_BUTTON_TEXT, {
 						['icon'] = 134246,
 						['description'] = L.ITEM_FILTER_BUTTON_DESCRIPTION,
 						['visible'] = true,
@@ -3993,9 +3989,9 @@ customWindowUpdates.ItemFilter = function(self, force)
 							end);
 							return true;
 						end,
-					},
+					}),
 				},
-			};
+			});
 
 			self:SetData(data);
 			self:BuildData();
@@ -4060,7 +4056,7 @@ customWindowUpdates.NWP = function(self, force)
 			})
 
 			-- Dynamic category headers
-			-- TODO: If possible, change the creation of names and icons to SimpleNPCGroup to take the localized names
+			-- TODO: If possible, change the creation of names and icons to SimpleHeaderGroup to take the localized names
 			local headers = {
 				{ id = "achievementID", name = ACHIEVEMENTS, icon = app.asset("Category_Achievements") },
 				{ id = "sourceID", name = "Appearances", icon = 135276 },
@@ -4251,7 +4247,7 @@ customWindowUpdates.awp = function(self, force)	-- TODO: Change this to remember
 				})
 
 				-- Dynamic category headers
-				-- TODO: If possible, change the creation of names and icons to SimpleNPCGroup to take the localized names
+				-- TODO: If possible, change the creation of names and icons to SimpleHeaderGroup to take the localized names
 				local headers = {
 					{ id = "achievementID", name = ACHIEVEMENTS, icon = app.asset("Category_Achievements") },
 					{ id = "sourceID", name = "Appearances", icon = 135276 },
@@ -4936,7 +4932,7 @@ customWindowUpdates.Random = function(self)
 					AddRandomCategoryButton(L.DUNGEON, app.asset("Difficulty_Normal"), L.DUNGEON_DESC, "Dungeon"),
 					AddRandomCategoryButton(L.FACTIONS, app.asset("Category_Factions"), L.FACTION_DESC, "Factions"),
 					-- missing locale values
-					-- AddRandomCategoryButton(app.NPCNameFromID[app.HeaderConstants.FOLLOWERS], L.HEADER_ICONS[app.HeaderConstants.FOLLOWERS], L.FOLLOWER_DESC, "Follower"),
+					-- AddRandomCategoryButton(L.HEADER_NAMES[app.HeaderConstants.FOLLOWERS], L.HEADER_ICONS[app.HeaderConstants.FOLLOWERS], L.FOLLOWER_DESC, "Follower"),
 					AddRandomCategoryButton(L.INSTANCE, app.asset("Category_D&R"), L.INSTANCE_DESC, "Instance"),
 					AddRandomCategoryButton(L.ITEM, app.asset("Interface_Zone_drop"), L.ITEM_DESC, "Item"),
 					AddRandomCategoryButton(L.MOUNT, app.asset("Category_Mounts"), L.MOUNT_DESC, "Mount"),
@@ -5151,22 +5147,20 @@ customWindowUpdates.Sync = function(self)
 				end
 			end
 
-			local syncHeader = {
-				['text'] = L.ACCOUNT_MANAGEMENT,
-				['icon'] = app.asset("WindowIcon_AccountManagement"),
-				["description"] = L.ACCOUNT_MANAGEMENT_TOOLTIP,
-				['visible'] = true,
-				['back'] = 1,
-				['OnUpdate'] = app.AlwaysShowUpdate,
+			local syncHeader = app.CreateRawText(L.ACCOUNT_MANAGEMENT, {
+				icon = app.asset("WindowIcon_AccountManagement"),
+				description = L.ACCOUNT_MANAGEMENT_TOOLTIP,
+				visible = true,
+				back = 1,
+				OnUpdate = app.AlwaysShowUpdate,
 				OnClick = app.UI.OnClick.IgnoreRightClick,
-				['g'] = {
-					{
-						['text'] = L.ADD_LINKED_CHARACTER_ACCOUNT,
-						['icon'] = app.asset("Button_Add"),
-						['description'] = L.ADD_LINKED_CHARACTER_ACCOUNT_TOOLTIP,
-						['visible'] = true,
-						['OnUpdate'] = app.AlwaysShowUpdate,
-						['OnClick'] = function(row, button)
+				g = {
+					app.CreateRawText(L.ADD_LINKED_CHARACTER_ACCOUNT, {
+						icon = app.asset("Button_Add"),
+						description = L.ADD_LINKED_CHARACTER_ACCOUNT_TOOLTIP,
+						visible = true,
+						OnUpdate = app.AlwaysShowUpdate,
+						OnClick = function(row, button)
 							app:ShowPopupDialogWithEditBox(L.ADD_LINKED_POPUP, "", function(cmd)
 								if cmd and cmd ~= "" then
 									AllTheThingsAD.LinkedAccounts[cmd] = true;
@@ -5175,40 +5169,38 @@ customWindowUpdates.Sync = function(self)
 							end);
 							return true;
 						end,
-					},
+					}),
 					-- Characters Section
-					{
-						['text'] = L.CHARACTERS,
-						['icon'] = 526421,
-						["description"] = L.SYNC_CHARACTERS_TOOLTIP,
-						['visible'] = true,
-						['expanded'] = true,
+					app.CreateRawText(L.CHARACTERS, {
+						icon = 526421,
+						description = L.SYNC_CHARACTERS_TOOLTIP,
+						visible = true,
+						expanded = true,
 						['g'] = {},
 						OnClick = app.UI.OnClick.IgnoreRightClick,
-						['OnUpdate'] = function(data)
+						OnUpdate = function(data)
 							local g = {};
 							for guid,character in pairs(ATTCharacterData) do
 								if character then
 									tinsert(g, app.CreateUnit(guid, {
-										['datalink'] = guid,
-										['OnClick'] = OnRightButtonDeleteCharacter,
-										['OnTooltip'] = OnTooltipForCharacter,
-										["OnUpdate"] = app.AlwaysShowUpdate,
+										datalink = guid,
+										OnClick = OnRightButtonDeleteCharacter,
+										OnTooltip = OnTooltipForCharacter,
+										OnUpdate = app.AlwaysShowUpdate,
 										name = character.name,
 										lvl = character.lvl,
-										['visible'] = true,
+										visible = true,
 									}));
 								end
 							end
 
 							if #g < 1 then
-								tinsert(g, {
-									['text'] = L.NO_CHARACTERS_FOUND,
-									['icon'] = 526421,
-									['visible'] = true,
+								tinsert(g, app.CreateRawText(L.NO_CHARACTERS_FOUND, {
+									icon = 526421,
+									visible = true,
 									OnClick = app.UI.OnClick.IgnoreRightClick,
-									["OnUpdate"] = app.AlwaysShowUpdate,
-								});
+									OnUpdate = app.AlwaysShowUpdate,
+								}));
 							else
 								data.SortType = "textAndLvl";
 							end
@@ -5216,17 +5208,16 @@ customWindowUpdates.Sync = function(self)
 							AssignChildren(data);
 							return true;
 						end,
-					},
+					}),
 
 					-- Linked Accounts Section
-					{
-						['text'] = L.LINKED_ACCOUNTS,
-						['icon'] = 526421,
-						["description"] = L.LINKED_ACCOUNTS_TOOLTIP,
-						['visible'] = true,
+					app.CreateRawText(L.LINKED_ACCOUNTS, {
+						icon = 526421,
+						description = L.LINKED_ACCOUNTS_TOOLTIP,
+						visible = true,
 						['g'] = {},
 						OnClick = app.UI.OnClick.IgnoreRightClick,
-						['OnUpdate'] = function(data)
+						OnUpdate = function(data)
 							data.g = {};
 							local charactersByName = {};
 							for guid,character in pairs(ATTCharacterData) do
@@ -5239,52 +5230,49 @@ customWindowUpdates.Sync = function(self)
 								local character = charactersByName[playerName];
 								if character then
 									tinsert(data.g, app.CreateUnit(playerName, {
-										['datalink'] = playerName,
-										['OnClick'] = OnRightButtonDeleteLinkedAccount,
-										['OnTooltip'] = OnTooltipForLinkedAccount,
-										["OnUpdate"] = app.AlwaysShowUpdate,
-										['visible'] = true,
+										datalink = playerName,
+										OnClick = OnRightButtonDeleteLinkedAccount,
+										OnTooltip = OnTooltipForLinkedAccount,
+										OnUpdate = app.AlwaysShowUpdate,
+										visible = true,
 									}));
 								elseif playerName:find("#") then
 									-- Garbage click handler for unsync'd account data.
-									tinsert(data.g, {
-										['text'] = playerName,
-										['datalink'] = playerName,
-										['icon'] = 526421,
-										['OnClick'] = OnRightButtonDeleteLinkedAccount,
-										['OnTooltip'] = OnTooltipForLinkedAccount,
-										['OnUpdate'] = app.AlwaysShowUpdate,
-										['visible'] = true,
-									});
+									tinsert(data.g, app.CreateRawText(playerName, {
+										datalink = playerName,
+										icon = 526421,
+										OnClick = OnRightButtonDeleteLinkedAccount,
+										OnTooltip = OnTooltipForLinkedAccount,
+										OnUpdate = app.AlwaysShowUpdate,
+										visible = true,
+									}));
 								else
 									-- Garbage click handler for unsync'd character data.
-									tinsert(data.g, {
-										['text'] = playerName,
-										['datalink'] = playerName,
-										['icon'] = 374212,
-										['OnClick'] = OnRightButtonDeleteLinkedAccount,
-										['OnTooltip'] = OnTooltipForLinkedAccount,
-										['OnUpdate'] = app.AlwaysShowUpdate,
-										['visible'] = true,
-									});
+									tinsert(data.g, app.CreateRawText(playerName, {
+										datalink = playerName,
+										icon = 374212,
+										OnClick = OnRightButtonDeleteLinkedAccount,
+										OnTooltip = OnTooltipForLinkedAccount,
+										OnUpdate = app.AlwaysShowUpdate,
+										visible = true,
+									}));
 								end
 							end
 
 							if #data.g < 1 then
-								tinsert(data.g, {
-									['text'] = L.NO_LINKED_ACCOUNTS,
-									['icon'] = 526421,
-									['visible'] = true,
+								tinsert(data.g, app.CreateRawText(L.NO_LINKED_ACCOUNTS, {
+									icon = 526421,
+									visible = true,
 									OnClick = app.UI.OnClick.IgnoreRightClick,
-									["OnUpdate"] = app.AlwaysShowUpdate,
-								});
+									OnUpdate = app.AlwaysShowUpdate,
+								}));
 							end
 							AssignChildren(data);
 							return true;
 						end,
-					},
+					}),
 				}
-			};
+			});
 
 			self.Reset = function()
 				self:SetData(syncHeader);
@@ -5492,6 +5480,8 @@ customWindowUpdates.list = function(self, force, got)
 			visible = true,
 			total = 0,
 			progress = 0,
+			costTotal = 0,
+			upgradeTotal = 0,
 		};
 		local PartitionUpdateFields = {
 			total = true,
@@ -6791,7 +6781,7 @@ app.ProcessAuctionData = function()
 			["description"] = L.ALL_THE_BATTLEPETS_DESC,
 			["priority"] = 4,
 		}),
-		["questID"] = app.CreateCustomHeader(app.HeaderConstants.QUESTS, {	-- Quests
+		["questID"] = app.CreateCustomHeader(app.HeaderConstants.QUESTS, {
 			["icon"] = 464068,
 			["description"] = L.ALL_THE_QUESTS_DESC,
 			["priority"] = 5,
@@ -6801,7 +6791,7 @@ app.ProcessAuctionData = function()
 			["description"] = L.ALL_THE_RECIPES_DESC,
 			["priority"] = 6,
 		}),
-		["itemID"] = app.CreateRawText("General", {					-- General
+		["itemID"] = app.CreateRawText(L.GENERAL_PAGE, {
 			["icon"] = 334365,
 			["description"] = L.ALL_THE_ILLUSIONS_DESC,
 			["priority"] = 7,
@@ -7091,7 +7081,7 @@ local function PrePopulateAchievementSymlinks()
 		end
 		app.FillRunner.SetPerFrame(25)
 	end
-	app.RemoveEventHandler(PrePopulateAchievementSymlinks)
+	Callback(app.RemoveEventHandler, PrePopulateAchievementSymlinks)
 	-- app.PrintDebug("Done:FillAchSym")
 end
 app.AddEventHandler("OnRefreshCollectionsDone", PrePopulateAchievementSymlinks)
@@ -7257,3 +7247,8 @@ app.Wait_OnStartupDone = true
 app.AddEventHandler("OnStartupDone", function() app.Wait_OnStartupDone = nil end)
 
 -- app.PrintMemoryUsage("AllTheThings.EOF");
+-- app.AddEventHandler("Addon.Memory", function(info)
+-- 	app.PrintMemoryUsage(info)
+-- end)
+-- app.LinkEventSequence("OnStartupDone", "Addon.Memory")
+-- app.LinkEventSequence("OnWindowFillComplete", "Addon.Memory")
