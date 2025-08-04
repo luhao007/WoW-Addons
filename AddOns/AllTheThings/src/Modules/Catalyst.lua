@@ -2,8 +2,8 @@
 local _, app = ...;
 
 -- Globals
-local setmetatable,tonumber,ipairs,tremove,unpack
-	= setmetatable,tonumber,ipairs,tremove,unpack
+local setmetatable,tonumber,ipairs,tremove,unpack,string_match
+	= setmetatable,tonumber,ipairs,tremove,unpack,string.match
 local GameTooltip = GameTooltip
 
 -- WOWAPI
@@ -23,7 +23,7 @@ app.Modules.Catalyst = api
 -- then narrow down the matching armor slot, apply the bonusIDs to the new item, and render into tooltip
 
 -- Helpful Reference: https://www.raidbots.com/static/data/live/item-conversions.json
--- Wago: https://wago.tools/db2/ItemBonus?build=11.1.5.60568&filter%5BType%5D=37&page=2
+-- Wago: https://wago.tools/db2/ItemBonus?filter%5BType%5D=37&page=2
 -- References the CatalystID of the corresponding Catalyst object which contains the available Catalyst results in ATT
 -- Blizzard likely has some other meaning for the value I've used for 'catalystID' but it seems to correlate to this purpose
 local PossibleCatalystBonusIDLookups = app.ItemConversionDB
@@ -31,6 +31,7 @@ if not PossibleCatalystBonusIDLookups then
 	app.print("Catalyst Module missing ItemConversionDB! Cannot load!")
 	return
 end
+local BonusCatalysts = PossibleCatalystBonusIDLookups.BonusCatalysts
 
 local CatalystArmorSlots = {
 	["INVTYPE_HEAD"] = true,
@@ -105,6 +106,29 @@ local function IncludeOtherClassCatalystResults(data)
 	end
 	return true
 end
+local ItemUpgradeLevelMatch = ITEM_UPGRADE_TOOLTIP_FORMAT_STRING:gsub("%%d/%%d", "(%%d+)/%%d+")
+ItemUpgradeLevelMatch = ItemUpgradeLevelMatch:gsub("%%s","[^%s]+")
+local function CheckGameTooltipForUpgradeLevel()
+	local tooltipData = GameTooltip and GameTooltip:GetTooltipData()
+	-- not sure how this could happen
+	if not tooltipData then return true end
+
+	-- only need to check tooltip data if it matches the data we are testing to catalyst
+	if not tooltipData.id then return true end
+
+	tooltipData = tooltipData.lines
+	-- not sure how this could happen either
+	if not tooltipData then return true end
+
+	-- scan first 3 lines possibly for an Upgrade Level
+	local level
+	local text
+	for i=1,3 do
+		text = tooltipData[i]
+		level = string_match(text and text.leftText or "", ItemUpgradeLevelMatch)
+		if level then return tonumber(level) end
+	end
+end
 
 local function GetCatalystSlot(data)
 	local link = data.link
@@ -144,21 +168,21 @@ local function GetCatalysts(data)
 	data._cata = 0
 	local bonuses = data.bonuses
 	if not bonuses or #bonuses < 1 then return end
-	local bonusID = containsAnyKey(PossibleCatalystBonusIDLookups, bonuses)
+
+	local bonusID = containsAnyKey(BonusCatalysts, bonuses)
 	if not bonusID then return end
+
 	local slot = GetCatalystSlot(data)
 	if not slot then return end
 
-	local catalystID = PossibleCatalystBonusIDLookups[bonusID]
+	local catalystID = BonusCatalysts[bonusID]
 	local upgradeInfo = C_Item_GetItemUpgradeInfo(data.link)
 	-- app.PrintDebug("Can Catalyst!",catalystID,bonusID,app:SearchLink(data))
-	-- app.PrintTable(upgradeInfo)
-	if not upgradeInfo then return end -- shouldn't happen
-
+	if not upgradeInfo then upgradeInfo = app.EmptyTable end
 	local upgradeTrackID = upgradeInfo.trackStringID
 	local upgradeLevel = upgradeInfo.currentLevel or 0
 
-	-- Non-Upgrade cases
+	-- Non-Upgrade cases (use bonusID to find the matching upgradeTrackID lookup)
 	if not upgradeTrackID then
 		-- app.PrintDebug("Non-upgrade Item",data.link)
 		-- app.PrintTable(upgradeInfo)
@@ -166,11 +190,18 @@ local function GetCatalysts(data)
 		if upgradeLevel == 2 and upgradeInfo.maxLevel == 3 then
 			-- Primalist converts to Normal
 			upgradeTrackID = 973
-		-- SL Items
+		-- past upgrade items (Blizz returns no upgrade info because why...?)
+		-- TODO: if Blizzard ever fixes C_Item.GetItemUpgradeInfo returning nothing useful for old season items, this can all be simplified/removed
 		elseif upgradeLevel == 0 then
-			-- use the bonusID as the trackID directly as it's 1:1 with difficulty
-			upgradeTrackID = bonusID
+			-- use the mapped upgradeTrack for the bonusID
+			upgradeTrackID = PossibleCatalystBonusIDLookups.BonusUpgradeTracks[bonusID]
+			-- then we need to scan the current tooltip to determine whether the item showing an actual upgrade level above it's mapped
+			-- upgrade track ID because THANKS BLIZZARD clearly there's no reason I would want to actually KNOW that information from an API
+			-- which says "GetItemUpgradeInfo" just because the item cannot be upgraded "further", the "current" upgrade level is still
+			-- IMPORTANT to some game functionality... reeeee
+			upgradeLevel = CheckGameTooltipForUpgradeLevel() or 0
 		end
+		-- app.PrintDebug("Using UpgradeTrackID",upgradeTrackID,"@",upgradeLevel)
 	end
 
 	-- If our upgrade level is 5+ then the item is actually on the next matching trackID for catalyst output

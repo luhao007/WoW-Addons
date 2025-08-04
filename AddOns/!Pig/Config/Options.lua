@@ -45,6 +45,7 @@ StaticPopupDialogs["PIG_CONFIG_ZAIRUQUEREN"] = {
 		if addonTable[arg1[1]] then
 			PIGA=addonTable[arg1[1]];
 			PIGA_Per=addonTable[arg1[1].."_Per"];
+			if DefaultF.ResetShareConfig then DefaultF.ResetShareConfig() end
 			ReloadUI()
 		else
 			PIG_OptionsUI:ErrorMsg(string.format(ERR_ARENA_TEAM_PLAYER_NOT_FOUND_S,arg1[2]),"R")
@@ -359,6 +360,7 @@ addonTable.ShareConfig = function()
 			adDB.ResetConfig()
 			ReloadUI()
 		end);
+		DefaultF.ResetShareConfig=adDB.ResetConfig
 		fujiF.tabbot=PIGFrame(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",0,-72})
 		fujiF.tabbot:SetPoint("BOTTOMRIGHT", fujiF, "BOTTOMRIGHT", 0, 0);
 		fujiF.tabbot:PIGSetBackdrop(0,1)
@@ -368,7 +370,7 @@ addonTable.ShareConfig = function()
 		--外部作者设置的加载配置的条件
 		local ConfigDB = adDB.LoadingCondition(VersionTXT)
 		if ConfigDB then
-			local errtxt = _G[Data.ExportImportUIname].Is_PIGString(ConfigDB)		
+			local errtxt = _G[Data.ExportImportUIname].Is_PIGString(ConfigDB)
 			if errtxt then
 				fujiF.tispext3:SetTextColor(1, 0, 0, 1);
 				fujiF.tispext3:SetText("失败,原因:"..errtxt)

@@ -502,11 +502,11 @@ fuFrame:SetScript("OnEvent",function(self, event, arg1, arg2, arg3, arg4, arg5)
 		else
 			PIG_OptionsUI.SendExtVerInfo(addonName.."#U#"..PIG_OptionsUI:GetVer_NUM(addonName))
 		end
+		ADD_Options()
 	elseif event=="ADDON_LOADED" and arg1 == addonName then
 		self:UnregisterEvent("ADDON_LOADED")
 		addonTable.Load_Config()
 		PIG_OptionsUI:SetVer_EXT(arg1)
-		ADD_Options()
 	end
 end)
 -------

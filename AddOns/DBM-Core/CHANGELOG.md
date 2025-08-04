@@ -1,8 +1,9 @@
 # DBM - Core
 
-## [11.2.4-22-g0576240](https://github.com/DeadlyBossMods/DeadlyBossMods/tree/05762407d3ea549e399791bb4b43c5a4e7b5a488) (2025-08-01)
-[Full Changelog](https://github.com/DeadlyBossMods/DeadlyBossMods/compare/11.2.4...05762407d3ea549e399791bb4b43c5a4e7b5a488) [Previous Releases](https://github.com/DeadlyBossMods/DeadlyBossMods/releases)
+## [11.2.4-23-gc05075e](https://github.com/DeadlyBossMods/DeadlyBossMods/tree/c05075e010cae80e68fc326517b2d475f332342c) (2025-08-03)
+[Full Changelog](https://github.com/DeadlyBossMods/DeadlyBossMods/compare/11.2.4...c05075e010cae80e68fc326517b2d475f332342c) [Previous Releases](https://github.com/DeadlyBossMods/DeadlyBossMods/releases)
 
+- STATICPOPUP\_NUMDIALOGS no longer exists  
 - Few timer fixes  
 - Replace test data with pull that isn't bugged  
 - Push Nexus King updates  

@@ -1,6 +1,6 @@
 ## Interface: 110107
 ## Author: geligasi
-## Version: 1.55
+## Version: 1.56
 
 ## Title: !Pig_GDKP
 ## Notes: GDKP Assistant

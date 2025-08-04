@@ -29,7 +29,7 @@ local GetDetailedItemLevelInfo=GetDetailedItemLevelInfo or C_Item and C_Item.Get
 local GetSpecialization = GetSpecialization or C_SpecializationInfo and C_SpecializationInfo.GetSpecialization
 local GetSpecializationInfo = GetSpecializationInfo or C_SpecializationInfo and C_SpecializationInfo.GetSpecializationInfo
 -------------
-local ListWWWHHH = {206,425,18,36,6}--3Gembut/4buweiW/5宝石+附魔+符文数
+local ListWWWHHH = {206,425,18,36,6}--3hangH,Gembut/4buweiW/5宝石+附魔+符文数
 --获取宝石槽位信息add
 local function PIGGetGemList(Link)
 	local baoshiinfo = {}
@@ -508,7 +508,7 @@ local function ShowItemList(Parent,unit,datax,fuwen)
 	end
 	--调整UI宽度
 	local biaotiwidth1 = Parent.pingjunLV:GetStringWidth()+Parent.pingjunLV_V:GetStringWidth()
-	local biaotiwidth2 = Parent.talent_1:GetStringWidth()+Parent.talent_1v:GetStringWidth()
+	local biaotiwidth2 = Parent.talentBut.talent_1:GetStringWidth()+Parent.talentBut.talent_1v:GetStringWidth()
 	local biaotiwidth = biaotiwidth1+biaotiwidth2+ListWWWHHH[3]+14
 	if biaotiwidth>Parent.ALLWWWW then
 		Parent.ALLWWWW=biaotiwidth
@@ -529,16 +529,22 @@ local function GetItemMuluData(Parent,unit,ItemData)
 	ShowItemTaozhuang(Parent,ItemData)
 end
 ------
-local function add_ItemList(fujik,miaodian,ziji)
+local function add_ItemList(fujik,miaodian,ZBLsit_C,TalentUI)
 	if GearManagerDialog then GearManagerDialog:SetFrameLevel(10) end
-	local ZBLsit = PIGFrame(fujik,nil,{ListWWWHHH[1],ListWWWHHH[2]});
+	local PointXY = {-33,-13}
+	if PIG_MaxTocversion(50000) then
+	else
+		PointXY[1]=-1
+		PointXY[2]=0
+	end
+	local ZBLsit = PIGFrame(fujik,{"TOPLEFT", fujik, "TOPRIGHT",PointXY[1],PointXY[2]},{ListWWWHHH[1],ListWWWHHH[2]},nil,nil,nil,{["ElvUI"]={2,0,2,0},["NDui"]={-1,-2,-1,0}});
 	ZBLsit.classes = ZBLsit:CreateTexture();
 	ZBLsit.classes:SetTexture("Interface/TargetingFrame/UI-Classes-Circles");
 	if NDui then
-		ZBLsit:PIGSetBackdrop(0.5,nil,nil,nil,0);
+		ZBLsit:PIGSetBackdrop(0.5);
 		ZBLsit.LeftJG,ZBLsit.TopJG=4,3 
 	else
-		ZBLsit:PIGSetBackdrop(0.88,nil,nil,nil,0);
+		ZBLsit:PIGSetBackdrop(0.8);
 		ZBLsit.LeftJG,ZBLsit.TopJG=6,6
 	end
 	ZBLsit.classes:SetPoint("TOPLEFT",ZBLsit,"TOPLEFT",ZBLsit.LeftJG,-ZBLsit.TopJG);
@@ -548,31 +554,30 @@ local function add_ItemList(fujik,miaodian,ziji)
 	ZBLsit.pingjunLV = PIGFontString(ZBLsit,{"TOPLEFT",ZBLsit,"TOPLEFT",ZBLsit.LeftJG,-24-ZBLsit.TopJG},STAT_AVERAGE_ITEM_LEVEL..":","OUTLINE");
 	ZBLsit.pingjunLV_V = PIGFontString(ZBLsit,{"LEFT",ZBLsit.pingjunLV,"RIGHT",0,0},"--","OUTLINE");
 	ZBLsit.pingjunLV_V:SetTextColor(1,1,1,1);
+
 	ZBLsit.talentBut = CreateFrame("Button", nil, ZBLsit);
-	ZBLsit.talentBut:SetPoint("TOPRIGHT",ZBLsit,"TOPRIGHT",-3,-20-ZBLsit.TopJG);
-	ZBLsit.talentBut:SetSize(90,ListWWWHHH[3]+6);
-	ZBLsit.talenthilight = ZBLsit.talentBut:CreateTexture(nil,"HIGHLIGHT");
-	ZBLsit.talenthilight:SetTexture("interface/paperdollinfoframe/ui-character-tab-highlight.blp");
-	ZBLsit.talenthilight:SetPoint("TOPLEFT",ZBLsit.talentBut,"TOPLEFT",-2,6);
-	ZBLsit.talenthilight:SetPoint("BOTTOMRIGHT",ZBLsit.talentBut,"BOTTOMRIGHT",4,-6);
-	ZBLsit.talenthilight:SetBlendMode("ADD")
-	ZBLsit.talentTex = ZBLsit:CreateTexture();
-	ZBLsit.talentTex:SetPoint("TOPRIGHT",ZBLsit,"TOPRIGHT",-ZBLsit.LeftJG,-22-ZBLsit.TopJG);
-	ZBLsit.talentTex:SetSize(ListWWWHHH[3],ListWWWHHH[3]);
-	ZBLsit.talent_1v = PIGFontString(ZBLsit,{"RIGHT",ZBLsit.talentTex,"LEFT",0,0},"","OUTLINE");
-	ZBLsit.talent_1v:SetTextColor(1,1,1,1);
-	ZBLsit.talent_1 = PIGFontString(ZBLsit,{"RIGHT",ZBLsit.talent_1v,"LEFT",0,0},SPECIALIZATION..":","OUTLINE");
+	ZBLsit.talentBut:SetPoint("TOPRIGHT",ZBLsit,"TOPRIGHT",-3,-22-ZBLsit.TopJG);
+	ZBLsit.talentBut:SetSize(90,ListWWWHHH[3]);
+	ZBLsit.talentBut:SetHighlightTexture("Interface/Buttons/ButtonHilight-Square");
+	ZBLsit.talentBut.talentIcon = ZBLsit.talentBut:CreateTexture();
+	ZBLsit.talentBut.talentIcon:SetPoint("BOTTOMRIGHT",ZBLsit.talentBut,"BOTTOMRIGHT",-2,0);
+	ZBLsit.talentBut.talentIcon:SetSize(ListWWWHHH[3],ListWWWHHH[3]);
+
+	ZBLsit.talentBut.talent_1v = PIGFontString(ZBLsit.talentBut,{"RIGHT",ZBLsit.talentBut.talentIcon,"LEFT",0,0},"","OUTLINE");
+	ZBLsit.talentBut.talent_1v:SetTextColor(1,1,1,1);
+	ZBLsit.talentBut.talent_1 = PIGFontString(ZBLsit.talentBut,{"RIGHT",ZBLsit.talentBut.talent_1v,"LEFT",0,0},SPECIALIZATION..":","OUTLINE");
+
 	PIGLine(ZBLsit,"TOP",-43-ZBLsit.TopJG,nil,{1,-1},{0.2,0.2,0.2,0.9})
 	ZBLsit.ListHang={}
 	for i=1,#InvSlot["ID"] do
-		local clsit = PIGFrame(ZBLsit,nil,{ListWWWHHH[4],ListWWWHHH[3]});
+		local clsit = PIGFrame(ZBLsit,nil,{ListWWWHHH[4],ListWWWHHH[3]-3.7});
 		ZBLsit.ListHang[InvSlot["ID"][i]]=clsit
 		clsit:PIGSetBackdrop(0)
 		if i==1 then
 			if C_Engraving and C_Engraving and C_Engraving.IsEngravingEnabled() then
-				clsit:SetPoint("TOPLEFT",ZBLsit,"TOPLEFT",ListWWWHHH[3]+ZBLsit.LeftJG+3,-54);
+				clsit:SetPoint("TOPLEFT",ZBLsit,"TOPLEFT",ListWWWHHH[3]+ZBLsit.LeftJG+3,-52);
 			else
-				clsit:SetPoint("TOPLEFT",ZBLsit,"TOPLEFT",ZBLsit.LeftJG,-54);
+				clsit:SetPoint("TOPLEFT",ZBLsit,"TOPLEFT",ZBLsit.LeftJG,-52);
 			end
 		else
 			if PIG_MaxTocversion(50000) then
@@ -599,7 +604,7 @@ local function add_ItemList(fujik,miaodian,ziji)
 			clsit.ButGem[Gemid]=Gembut
 			Gembut:SetBackdrop({edgeFile = "Interface/AddOns/"..addonName.."/Libs/Pig_Border.blp", edgeSize = 10});
 			Gembut:SetBackdropBorderColor(0, 0, 0, 1);
-			Gembut:SetSize(ListWWWHHH[3],ListWWWHHH[3]);
+			Gembut:SetSize(ListWWWHHH[3]+12,ListWWWHHH[3]);
 			if Gemid==1 then
 				Gembut:SetPoint("LEFT",clsit.itemlink,"RIGHT",0,-1);
 			elseif Gemid==6 then
@@ -643,8 +648,10 @@ local function add_ItemList(fujik,miaodian,ziji)
 			taozhuant:SetPoint("TOPLEFT",ZBLsit.ListTao[tid-1],"BOTTOMLEFT",0,-1);
 		end
 	end
-	if ziji then
-		ZBLsit:SetPoint("TOPLEFT", fujik.ZBLsit, "TOPRIGHT",-1,0);
+	if ZBLsit_C then
+		ZBLsit:SetPoint("TOPLEFT", fujik.ZBLsit, "TOPRIGHT",-2,0);
+	end
+	if TalentUI then
 		TalentData.add_TalentUI(ZBLsit)
 	end
 	--
@@ -652,13 +659,12 @@ local function add_ItemList(fujik,miaodian,ziji)
 	function ZBLsit:CZ_ItemList()
 		if self.TalentF then self.TalentF:Hide() self.TalentF:CZ_Tianfu() end
 		local Parent=self:GetParent()
-		addonTable.FramePlusfun.UpdatePoint(Parent)
 		self.WJname:SetText(_G[Data.LongInspectUIUIname].fullnameX)
 		self.pingjunLV_V:SetText("--")
 		_G[Data.LongInspectUIUIname].ZBLsit.itemLV=nil
 		self.classes:SetTexCoord(0,0,0,0);
-		self.talent_1v:SetText("--")
-		self.talentTex:SetTexture(132222);
+		self.talentBut.talent_1v:SetText("--")
+		self.talentBut.talentIcon:SetTexture(132222);
 		self.talentBut:SetScript("OnClick", nil)
 		local ListName = self:GetName()
 		for i = 1, #InvSlot["ID"] do
@@ -785,8 +791,8 @@ local function add_ItemList(fujik,miaodian,ziji)
 			self.WJname:SetTextColor(color.r, color.g, color.b,1);
 		end
 		--天赋
-		self.talent_1v:SetText(jichuxinxi.Talent[1])
-		self.talentTex:SetTexture(jichuxinxi.Talent[2]);
+		self.talentBut.talent_1v:SetText(jichuxinxi.Talent[1])
+		self.talentBut.talentIcon:SetTexture(jichuxinxi.Talent[2]);
 		self.talentBut:SetScript("OnClick", function (self)
 			jichuxinxi.OpenTF()
 		end)
@@ -831,6 +837,23 @@ local function add_ItemList(fujik,miaodian,ziji)
 	ZBLsit:HookScript("OnHide", function(self)
 		if self.allstats_Ticker then self.allstats_Ticker:Cancel() end
 	end);
+	ZBLsit:HookScript("OnShow", function(self)
+		if PIG_MaxTocversion(50000) and fujik==PaperDollFrame then
+			-- if C_Engraving and C_Engraving.IsEngravingEnabled() then
+			-- 	hooksecurefunc("ToggleEngravingFrame", function()
+			-- 		FramePlusfun.UpdatePoint(PaperDollFrame)
+			-- 	end)
+			-- end
+			if NDui then
+				self:ClearAllPoints();
+				if NDui and NDuiStatPanel and NDuiStatPanel:IsShown() then
+					self:SetPoint("TOPLEFT", NDuiStatPanel, "TOPRIGHT",2,1)
+				else
+					self:SetPoint("TOPLEFT", fujik, "TOPRIGHT",-34,-15)
+				end
+			end
+		end
+	end)
 	if GetAverageItemLevel then
 		ZBLsit:RegisterEvent("PLAYER_AVG_ITEM_LEVEL_UPDATE");
 		ZBLsit:HookScript("OnEvent", function(self,event,arg1)
@@ -847,10 +870,10 @@ function Create.PIGItemListUI(laiyuan)
 	if laiyuan==PaperDollFrame then
 		laiyuan.ZBLsit = add_ItemList(laiyuan,laiyuan)
 	elseif laiyuan==InspectFrame then
-		laiyuan.ZBLsit = add_ItemList(laiyuan,laiyuan,true)
-		laiyuan.ZBLsit_C = add_ItemList(laiyuan,laiyuan.ZBLsit)
+		laiyuan.ZBLsit = add_ItemList(laiyuan,laiyuan,nil,true)
+		laiyuan.ZBLsit_C = add_ItemList(laiyuan,laiyuan.ZBLsit,true,true)
 	elseif laiyuan==_G[Data.LongInspectUIUIname] then
-		laiyuan.ZBLsit = add_ItemList(laiyuan,laiyuan,true)
+		laiyuan.ZBLsit = add_ItemList(laiyuan,laiyuan,nil,true)
 	end
 end
 -- hooksecurefunc("NotifyInspect", function(unit)

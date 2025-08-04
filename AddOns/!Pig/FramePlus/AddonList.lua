@@ -134,8 +134,8 @@ function FramePlusfun.AddonList()
 		ReloadUI();
 	end
 	AddonList.PIG_loadAddon_=PIG_loadAddon_
-	AddonList.pigSavebut.F=PIGFrame(AddonList.pigSavebut,{"TOP",AddonList,"TOP",-10,-58},{240,280})
-	AddonList.pigSavebut.F:PIGSetBackdrop(nil,nil,nil,nil,0)
+	AddonList.pigSavebut.F=PIGFrame(AddonList.pigSavebut,{"TOP",AddonList,"TOP",-10,-58},{240,280},nil,nil,nil,{["ElvUI"]={0,0,0,1},["NDui"]={0,0,0,0}})
+	AddonList.pigSavebut.F:PIGSetBackdrop()
 	AddonList.pigSavebut.F:Hide()
 	AddonList.pigSavebut.F:PIGClose()
 	AddonList:HookScript("OnHide", function (self) self.pigSavebut.F:Hide() end);
@@ -193,20 +193,20 @@ function FramePlusfun.AddonList()
 		for i=1,#ConditionList do
 			CheckedV[ConditionList[i][1]]=AddonList.pigSavebut.F.ConditionButList[ConditionList[i][1]]:GetChecked()
 		end
-		local AddonStatus = {}
+		local NewAddonStatus = {}
 		for id=1,GetNumAddOns() do
 			local name, title, notes, loadable=PIGGetAddOnInfo(id)
 			local loadablex = PIGGetAddOnEnableState(id, PIG_OptionsUI.Name)
 			if loadablex>0 then
-				AddonStatus[name]=true
+				NewAddonStatus[name]=true
 			end
 		end
 		local oldID = GetSetExist(newtxt)
 		if oldID then
-			PIGA["FramePlus"]["AddonStatus"][oldID][2]=AddonStatus
+			PIGA["FramePlus"]["AddonStatus"][oldID][2]=NewAddonStatus
 			PIGA["FramePlus"]["AddonStatus"][oldID][3]=CheckedV
 		else
-			table.insert(PIGA["FramePlus"]["AddonStatus"],{newtxt,AddonStatus,CheckedV})
+			table.insert(PIGA["FramePlus"]["AddonStatus"],{newtxt,NewAddonStatus,CheckedV})
 		end
 		AddonList.L_List.Updata_List()
 		AddonList.pigSavebut.F:Hide()
@@ -219,9 +219,9 @@ function FramePlusfun.AddonList()
 		AddonList.pigSavebut.F:Hide()
 	end);
 	--
-	AddonList.L_List=PIGFrame(AddonList,{"TOPRIGHT",AddonList,"TOPLEFT",0,0})
-	AddonList.L_List:PIGSetBackdrop(nil,nil,nil,nil,0)
-	AddonList.L_List:SetPoint("BOTTOMRIGHT",AddonList,"BOTTOMLEFT",0,0);
+	AddonList.L_List=PIGFrame(AddonList,{"TOPRIGHT",AddonList,"TOPLEFT",0,2},nil,nil,nil,nil,{["ElvUI"]={0,-2,0,2},["NDui"]={0,-1,0,1}})
+	AddonList.L_List:PIGSetBackdrop()
+	AddonList.L_List:PIGSetPoint({"BOTTOMRIGHT",AddonList,"BOTTOMLEFT",0,-2});
 	AddonList.L_List:SetWidth(160);
 	AddonList.L_List.title = PIGFontString(AddonList.L_List,{"TOP", AddonList.L_List, "TOP", 0, -4},"插件状态配置",nil,13.4)
 	AddonList.L_List.topline = PIGLine(AddonList.L_List,"TOP",-22,nil,nil,{0.3,0.3,0.3,0.5})
@@ -272,21 +272,21 @@ function FramePlusfun.AddonList()
 		AddonList.L_List.Updata_List()
 	end);
 
-	local TispUI=PIGFrame(UIParent,{"TOP",UIParent,"TOP",0,-100},{320,200},"PIG_AddonConfigUI",true)
-	TispUI:PIGSetBackdrop(nil,nil,nil,nil,0)
+	local TispUI=PIGFrame(UIParent,{"TOP",UIParent,"TOP",0,-100},{320,200},"PIG_AddonConfigUI",true,nil,{["ElvUI"]={0,0,0,0},["NDui"]={0,0,0,0}})
+	TispUI:PIGSetBackdrop()
 	TispUI:Hide()
 	TispUI:PIGClose()
 	TispUI.title = PIGFontString(TispUI,{"TOP", TispUI, "TOP", 0, -10},"","OUTLINE")
 	TispUI.butList={}
 	for i=1,butnum do
-		local cgbut = PIGButton(TispUI,nil,{130,24},"",nil,nil,nil,nil,0)
-		TispUI.butList[i]=cgbut
+		local LoadBut = PIGButton(TispUI,nil,{240,24},"载入",nil,nil,nil,nil,0)
+		TispUI.butList[i]=LoadBut
 		if i==1 then
-			cgbut:SetPoint("TOP",TispUI,"TOP",0,-30);
+			LoadBut:SetPoint("TOP",TispUI,"TOP",0,-30);
 		else
-			cgbut:SetPoint("TOP",TispUI.butList[i-1],"BOTTOM",0,-6);
+			LoadBut:SetPoint("TOP",TispUI.butList[i-1],"BOTTOM",0,-6);
 		end
-		cgbut:HookScript("OnClick", function (self)
+		LoadBut:HookScript("OnClick", function (self)
 			PIG_loadAddon_(self:GetID())
 		end);
 	end
@@ -296,26 +296,24 @@ function FramePlusfun.AddonList()
 		end
 		self.title:SetText("检测到<\124cffff0000"..ConditionName[instanceType].."\124r>配置，点击可启用")
 		for i=1,#datax do
-			TispUI.butList[i]:SetID(datax[i])
 			TispUI.butList[i]:Show()
+			TispUI.butList[i]:SetID(datax[i])
 			TispUI.butList[i]:SetText(PIGA["FramePlus"]["AddonStatus"][datax[i]][1])
 		end
-		TispUI:SetHeight(#datax*30+50)
+		TispUI:SetHeight(#datax*30+60)
 		self.daojishi=0
 	 	self:Show()
 	end 
 	local function duibiaoneirong(tb1,tb2)
-		local hejilist={}
 		for k,v in pairs(tb1) do
-			hejilist[k]=v
+			--print(k,tb2[k],v)
+			if v==true and tb2[k]==nil then
+				return false 
+			end
 		end
 		for k,v in pairs(tb2) do
-			hejilist[k]=v
-		end
-		for k,v in pairs(hejilist) do
-			if tb1[k] == nil then return false end
-			if tb2[k] == nil then return false end
-			if tb1[k]~=tb2[k] then
+			--print(k,tb1[k],v)
+			if v==true and tb1[k]==nil then
 				return false 
 			end
 		end
@@ -335,21 +333,23 @@ function FramePlusfun.AddonList()
 		if instanceType=="raid" or instanceType=="party" or instanceType=="pvp" or instanceType=="arena" then
 			local cunzaipeizhi = {}
 			local datax = PIGA["FramePlus"]["AddonStatus"]
-			for i=1,#datax do
-				if datax[i][3][instanceType] then
-					table.insert(cunzaipeizhi,i)
+			for ic=1,#datax do
+				if datax[ic][3][instanceType] then
+					table.insert(cunzaipeizhi,ic)
 				end
 			end
 			if #cunzaipeizhi>0 then
-				local AddonStatus = {}
+				local CurrentStatus = {}
 				for id=1,GetNumAddOns() do	
 					local name, title, notes, loadable=PIGGetAddOnInfo(id)
-					if loadable then
-						AddonStatus[name]=loadable
+					local loadablex = PIGGetAddOnEnableState(id, PIG_OptionsUI.Name)
+					if loadablex>0 then
+						CurrentStatus[name]=true
 					end
 				end
-				for i=1,#cunzaipeizhi do
-					if duibiaoneirong(AddonStatus,PIGA["FramePlus"]["AddonStatus"][cunzaipeizhi[i]][2]) then
+				--查找是已有配置载入插件
+				for ic=1,#cunzaipeizhi do
+					if duibiaoneirong(CurrentStatus,PIGA["FramePlus"]["AddonStatus"][cunzaipeizhi[ic]][2]) then
 						return
 					end
 				end

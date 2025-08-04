@@ -156,11 +156,6 @@ local function ADD_UI_Puls(laiyuan)
 	end
 	---	
 	if PIGA["FramePlus"]["Character_ItemList"] then
-		if C_Engraving and C_Engraving.IsEngravingEnabled() then
-			hooksecurefunc("ToggleEngravingFrame", function()
-				FramePlusfun.UpdatePoint(PaperDollFrame)
-			end)
-		end
 		PIGItemListUI(laiyuan)
 	end
 end
@@ -2009,29 +2004,4 @@ function FramePlusfun.Character_Shuxing()
 	end
 	Character_Mingzhong()
 	Character_xiuliG()
-end
-function FramePlusfun.UpdatePoint(fuji)
-	if not fuji then return end
-	if fuji.ZBLsit then
-		FramePlusfun.C_PointData={-1,0,fuji}
-		if PIG_MaxTocversion(50000) then
-			if ElvUI then
-				FramePlusfun.C_PointData[1],FramePlusfun.C_PointData[2]=-33,-12
-			elseif NDui then
-				if NDuiStatPanel and NDuiStatPanel:IsShown() then
-					FramePlusfun.C_PointData[3]=NDuiStatPanel
-					FramePlusfun.C_PointData[1],FramePlusfun.C_PointData[2]=2,1
-				else
-					FramePlusfun.C_PointData[1],FramePlusfun.C_PointData[2]=-36,-15
-				end
-			else
-				FramePlusfun.C_PointData[1],FramePlusfun.C_PointData[2]=-34,-12.6
-			end
-
-		end
-		if fuji:GetName()==Data.LongInspectUIUIname  then
-			FramePlusfun.C_PointData[1],FramePlusfun.C_PointData[2]=-34,-12.6
-		end
-		fuji.ZBLsit:SetPoint("TOPLEFT", FramePlusfun.C_PointData[3], "TOPRIGHT",FramePlusfun.C_PointData[1],FramePlusfun.C_PointData[2])
-	end
 end

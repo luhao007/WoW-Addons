@@ -1,10 +1,16 @@
-lightweight tag febe6299e6cf2ebfb60d9ce4280c67068d8be344 patch-11.2.0-01
+lightweight tag 08c3230b2f813b990e3e4387fcc43f663c47db8c 11.2.0-02
 Author:	Dave Hendler <sollaires@gmail.com>
-Date:	Wed Jul 9 10:56:54 2025 -0700
+Date:	Fri Jul 18 10:54:03 2025 -0700
 
-commit febe6299e6cf2ebfb60d9ce4280c67068d8be344
+commit 08c3230b2f813b990e3e4387fcc43f663c47db8c
 Author: Dave Hendler <sollaires@gmail.com>
-Date:   Wed Jul 9 10:56:54 2025 -0700
+Date:   Fri Jul 18 10:54:03 2025 -0700
 
-    Add Undermine Gilded achievement
+    Handle 11.2 bank changes, add support for warband bank
+
+commit 254db9d01919cbd7510ce380bd13a15c295896ef
+Author: Dave Hendler <sollaires@gmail.com>
+Date:   Wed Jul 16 20:39:45 2025 -0700
+
+    Fix alpha version
 

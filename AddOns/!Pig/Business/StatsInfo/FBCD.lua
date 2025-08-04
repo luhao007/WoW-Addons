@@ -87,6 +87,7 @@ function BusinessInfo.FBCD(StatsInfo)
 	fujiF.tispBG:SetPoint("BOTTOMRIGHT",fujiF,"BOTTOMRIGHT",0,0);
 	fujiF.tispBG:SetFrameLevel(fujiF.tispBG:GetFrameLevel()-1)
 	MiniMapBut:HookScript("OnEnter", function(self)
+		if InCombatLockdown() then return end
 		if not PIGA["StatsInfo"]["InstancesCD"]["MinibutTisp"] then return end
 		local offsetWW = fujiF:GetWidth()
 		local offsetHH = fujiF:GetHeight()

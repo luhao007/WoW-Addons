@@ -1,6 +1,6 @@
 ## Interface: 110107
 ## Author: Crieve
-## Version: 4.5.11
+## Version: 4.5.12
 
 ## Title: AllTheThings |cfd9b9b9b(Wrath)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF收集控助手|r |cFFFFE00AAllTheThings|r

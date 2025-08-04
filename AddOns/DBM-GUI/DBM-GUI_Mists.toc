@@ -28,7 +28,7 @@
 ## LoadOnDemand: 1
 ## DefaultState: enabled
 ## Author: MysticalOS, QartemisT
-## Version: 11.2.4-22-g0576240
+## Version: 11.2.4-23-gc05075e
 ## X-Website: https://deadlybossmods.com
 
 Polyfills.xml

@@ -374,7 +374,7 @@ local function SaveErrorInfo(databc, Newmsg)
 end
 ----
 local PIGerrotFUN=function() end
-local PIG_ERR_OR_NUM,PIG_ERR_OR_SSS = 6,3--错误阈值/冷却
+local PIG_ERR_OR_NUM,PIG_ERR_OR_SSS = 10,3--错误阈值/冷却
 local PIG_LAST_TIME = 0
 local HAVE_PASSED_NUM = 0
 function PIGerrotFUN(event,msg1,msg2)

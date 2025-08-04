@@ -549,23 +549,9 @@ QuickButF.ModF.Spell:SetScript("OnClick", function (self)
 		PIG_OptionsUI.RLUI:Show()
 	end
 end)
-QuickButF.ModF.Spell.Close = PIGCheckbutton(QuickButF.ModF.Spell,{"LEFT",QuickButF.ModF.Spell.Text,"RIGHT",30,0},{"使用后关闭界面"});
-QuickButF.ModF.Spell.Close:SetScript("OnClick", function (self)
-	if self:GetChecked() then
-		PIGA["QuickBut"]["SpellClose"]=true;
-	else
-		PIGA["QuickBut"]["SpellClose"]=false;
-	end
-end)
-QuickButF.ModF.Spell.CZ = PIGButton(QuickButF.ModF.Spell,{"LEFT",QuickButF.ModF.Spell.Close.Text,"RIGHT",30,0},{76,20},"恢复默认");
-QuickButF.ModF.Spell.CZ:SetScript("OnClick", function (self)
-	PIGA_Per["QuickBut"]["ActionData"]={}
-	PIG_OptionsUI.RLUI:Show()
-end)
 QuickButF.ModF:HookScript("OnShow", function(self)
 	self.Lushi:SetChecked(PIGA["QuickBut"]["Lushi"])
 	self.Spell:SetChecked(PIGA["QuickBut"]["Spell"])
-	self.Spell.Close:SetChecked(PIGA["QuickBut"]["SpellClose"])
 	self.BGbroadcast:SetChecked(PIGA["QuickBut"]["BGbroadcast"])
 	if self.QKButRune then
 		self.QKButRune:SetChecked(PIGA["QuickBut"]["Rune"])
@@ -1189,7 +1175,7 @@ QuickButUI.ButList[7]=function()
 			end
 		end)
 		---
-		Zhushou_List.Close=PIGDiyBut(Zhushou_List,{"BOTTOM",Zhushou_List,"TOP",0,0},{26},nil,"SecureHandlerClickTemplate")
+		Zhushou_List.Close=PIGDiyBut(Zhushou_List,{"BOTTOMRIGHT",Zhushou_List,"TOPRIGHT",0,0},{26},nil,"SecureHandlerClickTemplate")
 		Zhushou_List.Close:SetAttribute("_onclick",[=[
 			if button == "LeftButton" then
 				local ref=self:GetFrameRef("frame1")
@@ -1201,6 +1187,34 @@ QuickButUI.ButList[7]=function()
 			end
 		]=])
 		Zhushou_List.Close:SetFrameRef("frame1", Zhushou_List);
+		Zhushou_List.ClickClose = PIGCheckbutton(Zhushou_List,{"RIGHT",Zhushou_List.Close,"LEFT",-butW*0.4,0},{"","按钮点击使用后关闭界面"});
+		Zhushou_List.ClickClose:SetScript("OnClick", function (self)
+			if self:GetChecked() then
+				PIGA["QuickBut"]["SpellClose"]=true;
+			else
+				PIGA["QuickBut"]["SpellClose"]=false;
+			end
+		end)
+		Zhushou_List.ClickClose:SetScript("OnShow", function (self)
+			self:SetChecked(PIGA["QuickBut"]["SpellClose"])
+		end)
+		Zhushou_List.Reset = PIGDiyBut(Zhushou_List,{"RIGHT",Zhushou_List.ClickClose,"LEFT",-4,0},{21,nil,21,nil,"common-icon-undo"})
+		Zhushou_List.Reset:SetScript("OnClick", function (self)
+			StaticPopup_Show ("ZHUSHOU_LISTRESET");
+		end)
+		StaticPopupDialogs["ZHUSHOU_LISTRESET"] = {
+			text = "|cffff0000重置|r"..CLASS..BINDING_HEADER_ACTIONBAR.."为默认(需要重载界面)\n确定重置?",
+			button1 = YES,
+			button2 = NO,
+			OnAccept = function()
+				PIGA_Per["QuickBut"]["ActionData"]={}
+				ReloadUI();
+			end,
+			timeout = 0,
+			whileDead = true,
+			hideOnEscape = true,
+		}
+
 		Zhushou_List.ButList={}
 		for i=1,gaoNum*kuanNum do
 			local zhushoubut

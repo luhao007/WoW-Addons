@@ -1,5 +1,6 @@
 local addonName, addonTable = ...;
 local _G = _G
+local match = _G.string.match
 local CreateFrame = CreateFrame
 local CreateTexture=CreateTexture
 ---------------------------
@@ -39,32 +40,79 @@ Create.edgeFile = "Interface/AddOns/"..addonName.."/Libs/Pig_Border.blp"
 Create.Backdropinfo={bgFile = Create.bgFile,edgeFile = Create.edgeFile, edgeSize = 6,}
 Create.BackdropColor={0.08, 0.08, 0.08, 0.5}
 Create.BackdropBorderColor={0, 0, 0, 1}
-function Create.PIGFrame(Parent,Point,WH,UIName,ESCOFF,Template)
+local function _SetPoint(ui,Point)
+	if ui.Ext then
+		if ElvUI and ui.Ext.ElvUI then
+			if Point[3]:match("BOTTOM") then
+				ui:SetPoint(Point[1],Point[2],Point[3],Point[4]+ui.Ext.ElvUI[1],Point[5]+ui.Ext.ElvUI[2]);
+				return
+			elseif Point[3]:match("TOP") then
+				ui:SetPoint(Point[1],Point[2],Point[3],Point[4]+ui.Ext.ElvUI[1],Point[5]+ui.Ext.ElvUI[2]);
+				return
+			end
+		elseif NDui and ui.Ext.NDui then
+			if Point[3]:match("BOTTOM") then
+				ui:SetPoint(Point[1],Point[2],Point[3],Point[4]+ui.Ext.NDui[1],Point[5]+ui.Ext.NDui[2]);
+				return
+			elseif Point[3]:match("TOP") then
+				ui:SetPoint(Point[1],Point[2],Point[3],Point[4]+ui.Ext.NDui[1],Point[5]+ui.Ext.NDui[2]);
+				return
+			end
+		end
+	end
+	ui:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5]);
+end
+local function _SetBackdrop(ui,BGAlpha,BorderAlpha,Color,BorderColor)
+	ui:SetBackdrop(Create.Backdropinfo)
+	local BackdropColor=Color or Create.BackdropColor
+	local BackdropBorderColor=BorderColor or Create.BackdropBorderColor
+	local BGAlpha = BGAlpha or BackdropColor[4]
+	ui:SetBackdropColor(BackdropColor[1], BackdropColor[2], BackdropColor[3], BGAlpha);
+	local BorderAlpha = BorderAlpha or BackdropBorderColor[4]
+	ui:SetBackdropBorderColor(BackdropBorderColor[1], BackdropBorderColor[2], BackdropBorderColor[3], BorderAlpha);
+end
+function Create.PIGFrame(Parent,Point,WH,UIName,ESCOFF,Template,Ext)
 	--if UIName then print(UIName) end
 	local Template=Template or "BackdropTemplate"
 	local frameX = CreateFrame("Frame", UIName, Parent,Template)
+	frameX.Ext=Ext
 	if WH then
-		frameX:SetSize(WH[1],WH[2]);
+		frameX:SetSize(WH[1],WH[2]+4);
 	end
 	if Point then
-		frameX:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5]);
+		_SetPoint(frameX,Point)
 	end
 	frameX:EnableMouse(true)
 	if ESCOFF then
 		frameX:Hide()
 		tinsert(UISpecialFrames,UIName);
 	end
-	function frameX:PIGSetBackdrop(BGAlpha,BorderAlpha,Color,BorderColor,Angle)--nil,nil,nil,nil,0
-		self.Angle=Angle
-		if Angle==0 then
-			if ElvUI or NDui then
-				self:SetBackdrop(Create.Backdropinfo)
-				local BackdropColor=Color or Create.BackdropColor
-				local BackdropBorderColor=BorderColor or Create.BackdropBorderColor
-				local BGAlpha = BGAlpha or BackdropColor[4]
-				self:SetBackdropColor(BackdropColor[1], BackdropColor[2], BackdropColor[3], BGAlpha);
-				local BorderAlpha = BorderAlpha or BackdropBorderColor[4]
-				self:SetBackdropBorderColor(BackdropBorderColor[1], BackdropBorderColor[2], BackdropBorderColor[3], BorderAlpha);
+	function frameX:PIGSetPoint(Point)
+		if self.Ext then
+			if ElvUI and self.Ext.ElvUI then
+				if Point[3]:match("BOTTOM") then
+					self:SetPoint(Point[1],Point[2],Point[3],Point[4]+self.Ext.ElvUI[3],Point[5]+self.Ext.ElvUI[4]);
+					return
+				elseif Point[3]:match("TOP") then
+					self:SetPoint(Point[1],Point[2],Point[3],Point[4]+self.Ext.ElvUI[3],Point[5]+self.Ext.ElvUI[4]);
+					return
+				end
+			elseif NDui and self.Ext.NDui then
+				if Point[3]:match("BOTTOM") then
+					self:SetPoint(Point[1],Point[2],Point[3],Point[4]+self.Ext.NDui[3],Point[5]+self.Ext.NDui[4]);
+					return
+				elseif Point[3]:match("TOP") then
+					self:SetPoint(Point[1],Point[2],Point[3],Point[4]+self.Ext.NDui[3],Point[5]+self.Ext.NDui[4]);
+					return
+				end
+			end
+		end
+		self:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5]);
+	end
+	function frameX:PIGSetBackdrop(BGAlpha,BorderAlpha,Color,BorderColor)
+		if self.Ext then
+			if ElvUI and self.Ext.ElvUI or NDui and self.Ext.NDui then
+				_SetBackdrop(self,BGAlpha,BorderAlpha,Color,BorderColor)
 			else
 				self:SetBackdrop( { bgFile = Create.bgFile,
 				edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
@@ -72,20 +120,8 @@ function Create.PIGFrame(Parent,Point,WH,UIName,ESCOFF,Template)
 				self:SetBackdropColor(0, 0, 0, 0.8);
 				self:SetBackdropBorderColor(0.6, 0.6, 0.6, 1);
 			end
-		elseif Angle==1 then
-			self:SetBackdrop( { bgFile = Create.bgFile,
-			edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-			tile = false, tileSize = 0, edgeSize = 16, insets = { left = 4, right = 4, top = 4, bottom = 4 } });
-			self:SetBackdropColor(0, 0, 0, 0.8);
-			self:SetBackdropBorderColor(0.6, 0.6, 0.6, 1);
 		else
-			self:SetBackdrop(Create.Backdropinfo)
-			local BackdropColor=Color or Create.BackdropColor
-			local BackdropBorderColor=BorderColor or Create.BackdropBorderColor
-			local BGAlpha = BGAlpha or BackdropColor[4]
-			self:SetBackdropColor(BackdropColor[1], BackdropColor[2], BackdropColor[3], BGAlpha);
-			local BorderAlpha = BorderAlpha or BackdropBorderColor[4]
-			self:SetBackdropBorderColor(BackdropBorderColor[1], BackdropBorderColor[2], BackdropBorderColor[3], BorderAlpha);
+			_SetBackdrop(self,BGAlpha,BorderAlpha,Color,BorderColor)
 		end
 	end
 	function frameX:PIGSetMovable(MovableUI,KeyDown,Per,CombatLock)

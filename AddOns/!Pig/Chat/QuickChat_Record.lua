@@ -285,7 +285,7 @@ function QuickChatfun.QuickBut_Jilu()
 		local numBNetTotal = BNGetNumFriends()
 		for bnid=1,numBNetTotal do
 			local bninfo=C_BattleNet.GetAccountInfoByID(bnid)
-			if duibiID==bninfo.battleTag then
+			if bninfo and duibiID==bninfo.battleTag then
 				return bninfo.accountName,bnid
 			end
 		end

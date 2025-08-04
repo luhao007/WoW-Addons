@@ -27,13 +27,13 @@ function TardisInfo.Plane(Activate)
 	local fujiF,fujiTabBut=PIGOptionsList_R(InvF.F,L["TARDIS_PLANE"],80,"Bot")
 	if Activate then fujiF:Show() fujiTabBut:Selected() end
 	-----------------
-	fujiF.zijiweimian = PIGFontString(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",10,-8},"你的区域ID:");
+	fujiF.zijiweimian = PIGFontString(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",10,-8},"你的位面:");
 	fujiF.zijiweimian:SetTextColor(0, 0.98, 0.6, 1);
-	fujiF.ZJweimianID = PIGFontString(fujiF,{"LEFT", fujiF.zijiweimian, "RIGHT", 0, 0},"点击NPC获取");
+	fujiF.ZJweimianID = PIGFontString(fujiF,{"LEFT", fujiF.zijiweimian, "RIGHT", 4, 0},"点击NPC获取");
 	fujiF.ZJweimianID:SetTextColor(1, 1, 1, 1);
 	-----
 	fujiF.JieshouInfoList={};
-	fujiF.GetBut=TardisInfo.GetInfoBut(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",180,-30},3,2)
+	fujiF.GetBut=TardisInfo.GetInfoBut(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",180,-30},300,2)
 	fujiF.GetBut.ButName=L["TARDIS_PLANE"]
 	fujiF.GetBut:HookScript("OnClick", function (self)
 		if self.yanchiNerMsg then
@@ -61,7 +61,7 @@ function TardisInfo.Plane(Activate)
 	local Tooltip1= "|cffFFFF00当双方都打开此选项时可以直接申请组队，如只有一方打开则只能"..L["CHAT_WHISPER"].."申请对方组队|r";
 	local Tooltip2 = "\n|cffFF0000关闭后其他玩家将不会自动接收你的申请\n(注意你在24小时内只能开关一次)|r"
 	local Tooltip = Tooltip1..Tooltip2
-	fujiF.AutoInvite =PIGCheckbutton(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",420,-10},{"|cff00FF00自动接受"..L["TARDIS_PLANE"].."申请(主城/单人/未排本或战场生效)|r",Tooltip})
+	fujiF.AutoInvite =PIGCheckbutton(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",420,-10},{"|cff00FF00自动接受"..L["TARDIS_PLANE"].."申请(未组队/未排本/未排战场时生效)|r",Tooltip})
 	fujiF.AutoInvite.help = PIGFontString(fujiF.AutoInvite,{"TOPLEFT", fujiF.AutoInvite, "BOTTOMLEFT", 20, -4},"我为人人，人人为我。请不要做精致的利己主义者");
 	fujiF.AutoInvite.help:SetTextColor(0, 1, 1, 1);
 	fujiF.AutoInvite:SetScript("OnClick", function (self)
@@ -78,8 +78,6 @@ function TardisInfo.Plane(Activate)
 			StaticPopup_Show("OPEN_WEIMIANSHENQING");
 		end
 	end);
-	fujiF.AutoInvite:SetChecked(PIGA["Tardis"]["Plane"]["AutoInvite"]);
-
 	StaticPopupDialogs["OPEN_WEIMIANSHENQING"] = {
 		text = addonName..GnName.."-"..L["TARDIS_PLANE"].."：\n|cffFFFF00确定关闭自动接受玩家"..L["TARDIS_PLANE"].."申请吗？|r\n"..Tooltip2,
 		button1 = OKAY,
@@ -95,7 +93,7 @@ function TardisInfo.Plane(Activate)
 		whileDead = true,
 		hideOnEscape = true,
 	}
-	fujiF.AutoInvite.HelpTXT = PIGFontString(fujiF.AutoInvite,{"LEFT", fujiF.AutoInvite.Text, "RIGHT", 20, 0},"助人为乐+");
+	fujiF.AutoInvite.HelpTXT = PIGFontString(fujiF.AutoInvite,{"LEFT", fujiF.AutoInvite.Text, "RIGHT", 10, 0},"功德+");
 	fujiF.AutoInvite.HelpNum = PIGFontString(fujiF.AutoInvite,{"LEFT", fujiF.AutoInvite.HelpTXT, "RIGHT", 2, 0},0);
 	fujiF.AutoInvite.HelpNum:SetTextColor(0, 1, 0, 1);
 	-------------
@@ -112,7 +110,7 @@ function TardisInfo.Plane(Activate)
 	local hang_Width = fujiF.nr:GetWidth();
 	fujiF.nr.Scroll = CreateFrame("ScrollFrame",nil,fujiF.nr, "FauxScrollFrameTemplate");  
 	fujiF.nr.Scroll:SetPoint("TOPLEFT",fujiF.nr,"TOPLEFT",2,-24);
-	fujiF.nr.Scroll:SetPoint("BOTTOMRIGHT",fujiF.nr,"BOTTOMRIGHT",-190,2);
+	fujiF.nr.Scroll:SetPoint("BOTTOMRIGHT",fujiF.nr,"BOTTOMRIGHT",-20,2);
 	fujiF.nr.Scroll.ScrollBar:SetScale(0.8);
 	fujiF.nr.Scroll:SetScript("OnVerticalScroll", function(self, offset)
 	    FauxScrollFrame_OnVerticalScroll(self, offset, hang_Height, fujiF.Update_hang)
@@ -197,158 +195,149 @@ function TardisInfo.Plane(Activate)
 			fujiF.Update_hang()
 		end)
 	end
-	-----
-	local function panduanweimianID(weimianbianhao,zoneID)
-		local zuixiaozhiweimian={nil,"?"}
-		for x=1,#weimianbianhao do	
-			local ChazhiV=0
-			local ChazhiV=zoneID-weimianbianhao[x]
-			if ChazhiV<0 then
-				ChazhiV=weimianbianhao[x]-zoneID
-			end
-			if ChazhiV<100 then
-				if zuixiaozhiweimian[1] then
-					if ChazhiV<zuixiaozhiweimian[1] then
-						zuixiaozhiweimian[1]=ChazhiV
-						zuixiaozhiweimian[2]=x
-						return zuixiaozhiweimian[2]
-					end
-				else
-			    	zuixiaozhiweimian[1]=ChazhiV
-			    	zuixiaozhiweimian[2]=x
-			    	return zuixiaozhiweimian[2]
-			    end
-			end
-	    end
-	    return zuixiaozhiweimian[2]
-	end
+	----
 	local zhuchengmapid = {}
 	if PIG_MaxTocversion() then
 		zhuchengmapid = {
 			1454,--奥格
-			1456,--雷霆崖
-			1458,--幽暗城
-			1954,--银月城
+			-- 1456,--雷霆崖
+			-- 1458,--幽暗城
+			-- 1954,--银月城
 			1453,--暴风城
-			1455,--铁炉堡
-			1457,--达纳苏斯
-			1947,--埃索达
-			125,--达拉然
-			126,--达拉然
+			-- 1455,--铁炉堡
+			-- 1457,--达纳苏斯
+			-- 1947,--埃索达
+			-- 125,--达拉然
+			-- 126,--达拉然
 		}
 	else
 		zhuchengmapid = {
 			85,--奥格
-			88,--雷霆崖
-			--1458,--幽暗城
-			110,--银月城
+			-- 88,--雷霆崖
+			-- --1458,--幽暗城
+			-- 110,--银月城
 			84,--暴风城
-			87,--铁炉堡
-			89,--达纳苏斯
-			103,--埃索达
-			125,--达拉然
-			126,--达拉然
-			111,--沙塔斯
+			-- 87,--铁炉堡
+			-- 89,--达纳苏斯
+			-- 103,--埃索达
+			-- 125,--达拉然
+			-- 126,--达拉然
+			-- 111,--沙塔斯
 		}
 	end
 	local function IsMapIDzhucheng(MapID)
 		for i=1,#zhuchengmapid do
-			if tonumber(MapID)==zhuchengmapid[i] then
+			if MapID==zhuchengmapid[i] then
 				return true
 			end
 		end
 		return false
 	end
-	local function paixuxiaoda(element1, elemnet2)
-	    return element1 < elemnet2
-	end
-	local function IsOldWMID(MapID,zoneID)
-		local MapID=tonumber(MapID)
-	    if MapID==1453 or MapID==1454 then
-			for xx=1,#oldshuju do
-				if zoneID==oldshuju[xx][1] then
-					return true
-				end
+	local function IsZoneIDRepeat(olddata,zoneID)
+		for i=1,#olddata do
+			if zoneID==olddata[i] then
+				return true
 			end
 		end
 		return false
 	end
-	------------
+	local function updateInfoList(oldData, newIds)
+	    local now = GetServerTime()
+	    local halfHourAgo = now - 21600
+	    local dataDict = {}
+	    for _, entry in ipairs(oldData) do
+	        local id = entry[1]
+	        local time = entry[2]
+	        dataDict[id] = time
+	    end
+	    for _, id in ipairs(newIds) do
+	        dataDict[id] = now  -- 更新或新增
+	    end
+	    local newSet = {} -- 将 newIds 转为集合（字典）以便快速查找
+	    for _, id in ipairs(newIds) do
+	        newSet[id] = true
+	    end
+	    local result = {}
+	    for id, time in pairs(dataDict) do
+	        if newSet[id] then
+	            table.insert(result, {id, time})
+	        else
+	            if time > halfHourAgo then
+	                table.insert(result, {id, time})
+	            end
+	        end
+	    end
+	    table.sort(result, function(a, b)
+	        return a[1] < b[1]
+	    end)
+	    return result
+	end
+	local function paixuxiaoda(element1, elemnet2)
+	    return element1 < elemnet2
+	end
 	function fujiF.filtrateData()
-		fujiF.New_InfoList = {};
+		fujiF.New_ZhuCzoneID = {};
 		fujiF.New_WMindexID = {};
-		local dqTime=GetServerTime()
-		local ItemsNum = #fujiF.JieshouInfoList;
-		if ItemsNum>0 then
-			local oldshuju = PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm]
-			for x=#oldshuju,1,-1 do
-				if oldshuju[x] then
-					if oldshuju[x][2] then
-						local libaiji=date("%w",dqTime)
-						local yiguoquTime=dqTime-oldshuju[x][2]
-						if yiguoquTime and yiguoquTime>604800 then
-							table.remove(oldshuju,x);
-						else
-							if libaiji=="4" then
-								if yiguoquTime>86400 then
-									table.remove(oldshuju,x);
-								end
-							elseif libaiji=="5" then
-								if yiguoquTime>172800 then
-									table.remove(oldshuju,x);
-								end
-							elseif libaiji=="6" then
-								if yiguoquTime>259200 then
-									table.remove(oldshuju,x);
-								end
-							elseif libaiji=="7" then
-								if yiguoquTime>345600 then
-									table.remove(oldshuju,x);
-								end
-							elseif libaiji=="1" then
-								if yiguoquTime>432000 then
-									table.remove(oldshuju,x);
-								end
-							elseif libaiji=="2" then
-								if yiguoquTime>518400 then
-									table.remove(oldshuju,x);
-								end
-							-- elseif libaiji=="3" then
-							-- 	if yiguoquTime>604800 then
-							-- 		table.remove(oldshuju,x);
-							-- 	end
-							end
-						end
-					end
-				end
+		local oldshuju = PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm]
+		for i=#oldshuju,1,-1 do
+			if type(oldshuju[i][1])=="string" then
+				table.remove(oldshuju,i)
 			end
-			for x=1,ItemsNum do
-				local zoneID, MapID = strsplit("^", fujiF.JieshouInfoList[x][1]);
-				if IsMapIDzhucheng(MapID) then
-					table.insert(fujiF.New_InfoList,fujiF.JieshouInfoList[x])
-				end
-				if not IsOldWMID(oldshuju,MapID,zoneID) then
-					table.insert(oldshuju,{zoneID,dqTime})
-				end
-			end
-			for x=1,#oldshuju do
-				table.insert(fujiF.New_WMindexID,tonumber(oldshuju[x][1]))
-			end
-			table.sort(fujiF.New_WMindexID, paixuxiaoda)
 		end
+		local dqTime=GetServerTime()
+		local PlanesNum = #fujiF.JieshouInfoList;
+		if PlanesNum>0 then
+			--提取奥格/暴风区域ID
+			for i=1,PlanesNum do
+				local zoneID, MapID = strsplit("^", fujiF.JieshouInfoList[i][1]);
+				local zoneID, MapID = tonumber(zoneID), tonumber(MapID)
+				if IsMapIDzhucheng(MapID) and not IsZoneIDRepeat(fujiF.New_ZhuCzoneID,zoneID) then
+					table.insert(fujiF.New_ZhuCzoneID,zoneID)
+				end
+			end
+			if #fujiF.New_ZhuCzoneID>0 then
+				PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm]=updateInfoList(oldshuju, fujiF.New_ZhuCzoneID)
+			end
+		end
+		--刷新存储的位面序列
+		for i=1,#oldshuju do
+			table.insert(fujiF.New_WMindexID,oldshuju[i][1])
+		end
+	end
+	local function findExactOrClosest(idList, target)
+		if next(idList)==nil then return false, 1 end
+	    local exactIndex = nil
+	    local closestIndex = 1
+	    local minDiff = math.abs(idList[1] - target)
+	    for i, id in ipairs(idList) do
+	        if id == target then
+	            exactIndex = i
+	        end
+	        local diff = math.abs(id - target)
+	        if diff < minDiff then
+	            minDiff = diff
+	            closestIndex = i
+	        elseif diff == minDiff then
+	        end
+	    end
+	    if exactIndex then
+	        return true, exactIndex
+	    else
+	        return false, closestIndex
+	    end
 	end
 	function fujiF.Update_hang()
 		fujiF.GetBut.jindutishi:SetText("上次获取:刚刚");
 		for i = 1, hang_NUM do
 			fujiF.nr.ButList[i]:Hide()	
 		end
-		local ItemsData = fujiF.New_InfoList;
-		local ItemsNum = #ItemsData;
-		if ItemsNum>0 then
+		local ItemsData = fujiF.JieshouInfoList;
+		local PlanesNum = #ItemsData;
+		if PlanesNum>0 then
 			fujiF.GetBut.err:SetText("");
 			local ZJweimianjeishou = fujiF.AutoInvite:GetChecked()
-		    local ZJweimianID = panduanweimianID(fujiF.New_WMindexID,tonumber(fujiF.DQweimianID))
-		    FauxScrollFrame_Update(fujiF.nr.Scroll, ItemsNum, hang_NUM, hang_Height);
+			local ZJExactly,ZJweimianID = findExactOrClosest(fujiF.New_WMindexID, fujiF.DQweimianID)
+		    FauxScrollFrame_Update(fujiF.nr.Scroll, PlanesNum, hang_NUM, hang_Height);
 		    local offset = FauxScrollFrame_GetOffset(fujiF.nr.Scroll);
 		    for i = 1, hang_NUM do
 		    	local dangqian = i+offset;
@@ -360,8 +349,7 @@ function TardisInfo.Plane(Activate)
 					fujikk.zoneID:SetText(zoneID);
 					local weizhi = C_Map.GetMapInfo(MapID).name
 					fujikk.Weizhi:SetText(weizhi);
-					--
-				    local weimianID = panduanweimianID(fujiF.New_WMindexID,tonumber(zoneID))
+				    local Exactly,weimianID = findExactOrClosest(fujiF.New_WMindexID, tonumber(zoneID))
 					fujikk.Weimian:SetText(weimianID);
 					fujikk.miyu:SetID(dangqian)
 					fujikk.miyu.wjName=ItemsData[dangqian][2]		
@@ -386,7 +374,7 @@ function TardisInfo.Plane(Activate)
 						else
 							fujikk.autoinv:SetTextColor(1, 0, 0, 0.9);
 						end
-						if weimianID~="?" and weimianID==ZJweimianID then
+						if weimianID==ZJweimianID then
 							fujikk.miyu:Disable()
 							fujikk.miyu:SetText("同"..L["TARDIS_PLANE"]);
 						else
@@ -406,13 +394,18 @@ function TardisInfo.Plane(Activate)
 	end
 	-----
 	fujiF:HookScript("OnShow", function(self)
+		self.AutoInvite:SetChecked(PIGA["Tardis"]["Plane"]["AutoInvite"]);
 		self.AutoInvite.HelpNum:SetText(PIGA["Tardis"]["Plane"]["HelpNum"])
-		if self.DQweimianID then
-			self.ZJweimianID:SetText(self.DQweimianID);
-		else
-			self.ZJweimianID:SetText("点击NPC获取");
-		end
+		self:UpdateWeimianID()
 	end);
+	function fujiF:UpdateWeimianID()
+		if self.DQweimianID and self:IsShown() then
+			self.filtrateData()
+			local ZJExactly,ZJweimianID = findExactOrClosest(self.New_WMindexID, self.DQweimianID)
+			self.ZJweimianID:SetText("|cffFF0000"..ZJweimianID.."|r ("..self.DQweimianID..")");
+			self.GetBut.err:SetText("");
+		end
+	end
 	-------
 	local function GetWeimianID(self)
 		if UnitIsPlayer("target") then return end
@@ -423,14 +416,11 @@ function TardisInfo.Plane(Activate)
 			local unitType, _, serverID, instanceID, zoneID, npcID = strsplit("-", mubiaoGUID);
 			if zoneID and unitType=="Creature" then
 				self.DQweimianID=zoneID
-				if self:IsShown() then
-					self.ZJweimianID:SetText(zoneID);
-					fujiF.GetBut.err:SetText("");
-				end
+				fujiF:UpdateWeimianID()
 				local MapID=C_Map.GetBestMapForUnit("player")
 				if MapID then
 					self.WeimianInfo=zoneID.."^"..MapID
-					if MapID==1453 or MapID==1454 then
+					if IsMapIDzhucheng(MapID) then
 						local oldinfo = PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm]
 						for x=1,#oldinfo do
 							if zoneID==oldinfo[x][1] then

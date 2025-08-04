@@ -90,8 +90,8 @@ local function Show_Glyphinfo(self,fwid,from)
 	end
 end
 function TalentData.add_TalentUI(frameX)
-	frameX.TalentF = PIGFrame(frameX,{"TOPLEFT", frameX, "TOPRIGHT", -3, 0},{TalentData.tianfuW+140,TalentData.tianfuH});
-	frameX.TalentF:PIGSetBackdrop(1,nil,nil,nil,0);
+	frameX.TalentF = PIGFrame(frameX,{"TOPLEFT", frameX, "TOPRIGHT", -3, 0},{TalentData.tianfuW+140,TalentData.tianfuH},nil,nil,nil,{["ElvUI"]={0,0,0,0},["NDui"]={0,0,0,0}});
+	frameX.TalentF:PIGSetBackdrop(1);
 	frameX.TalentF:SetFrameLevel(frameX.TalentF:GetFrameLevel()+6)
 	frameX.TalentF:Hide()
 	frameX.TalentF:PIGClose()
@@ -146,10 +146,10 @@ function TalentData.add_TalentUI(frameX)
 		frameX.TalentF.ButListDian[ixx]=PIGFontString(frameX.TalentF,{"TOPLEFT", frameX.TalentF, "TOPLEFT", 214*(ixx-1)+84,-27});
 	end
 	if PIG_MaxTocversion(30000,true) and PIG_MaxTocversion(50000) then 
-		frameX.TalentF.Glyph = PIGFrame(frameX.TalentF,{"BOTTOMLEFT", frameX.TalentF, "TOPLEFT", 0, 1},{TalentData.tianfuW+140,34});
+		frameX.TalentF.Glyph = PIGFrame(frameX.TalentF,{"BOTTOMLEFT", frameX.TalentF, "TOPLEFT", 0, -2},{TalentData.tianfuW+140,38},nil,nil,nil,{["ElvUI"]={0,0,0,0},["NDui"]={0,0,0,0}});
 		frameX.TalentF.Glyph:PIGSetBackdrop(1);
 
-		frameX.TalentF.Glyph.biaoti2 = PIGFontString(frameX.TalentF.Glyph,{"BOTTOMLEFT", frameX.TalentF.Glyph, "BOTTOMLEFT", 4,2},MINOR_GLYPH..": ");
+		frameX.TalentF.Glyph.biaoti2 = PIGFontString(frameX.TalentF.Glyph,{"BOTTOMLEFT", frameX.TalentF.Glyph, "BOTTOMLEFT", 4,6},MINOR_GLYPH..": ");
 		frameX.TalentF.Glyph.Glyph2 = PIGFontString(frameX.TalentF.Glyph,{"LEFT", frameX.TalentF.Glyph.biaoti2, "RIGHT", 0,0});
 		frameX.TalentF.Glyph.Glyph3 = PIGFontString(frameX.TalentF.Glyph,{"LEFT", frameX.TalentF.Glyph.biaoti2, "RIGHT", 180,0});
 		frameX.TalentF.Glyph.Glyph5 = PIGFontString(frameX.TalentF.Glyph,{"LEFT", frameX.TalentF.Glyph.biaoti2, "RIGHT", 360,0});

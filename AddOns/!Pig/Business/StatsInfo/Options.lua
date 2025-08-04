@@ -562,6 +562,17 @@ function BusinessInfo.StatsInfoOptions()
 		TradeFrame.dengji.Text = PIGFontString(TradeFrame.dengji,{"CENTER", TradeFrame.dengji, "CENTER", 0, 0})
 		hooksecurefunc("TradeFrame_OnShow", function(self)
 			if(UnitExists("NPC"))then
+				if PIG_OptionsUI.IsOpen_ElvUI() or PIG_OptionsUI.IsOpen_NDui() then
+					TradeFrame.zhiye.Border:Hide()
+					TradeFrame.dengji.Border:Hide()
+				end
+				if PIG_OptionsUI.IsOpen_ElvUI() then
+					TradeFrame.zhiye:SetPoint("TOP", TradeFrame, "TOP", 52, 2);
+					TradeFrame.dengji:SetPoint("TOP", TradeFrame, "TOP", 52, -14);
+				else
+					TradeFrame.zhiye:SetPoint("TOP", TradeFrame, "TOP", 6, 18);
+					TradeFrame.dengji:SetPoint("TOP", TradeFrame, "TOP", 48, -34);
+				end
 				local IconCoord = CLASS_ICON_TCOORDS[select(2,UnitClass("NPC"))];
 				TradeFrame.zhiye.Icon:SetTexCoord(unpack(IconCoord));--切出子区域
 				local jibie = UnitLevel("NPC")

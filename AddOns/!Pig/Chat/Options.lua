@@ -420,13 +420,13 @@ local function WhoWhisper_Fun()
 		end)
 		button.senmsgFun=true
 	end
-	WhoFrame.senmsg.bianji.F=PIGFrame(WhoFrame.senmsg.bianji,{"TOPLEFT",WhoFrame.senmsg.bianji,"TOPRIGHT",4,0},{300,200})
-	WhoFrame.senmsg.bianji.F:PIGSetBackdrop(1,nil,nil,nil,0)
+	WhoFrame.senmsg.bianji.F=PIGFrame(WhoFrame.senmsg.bianji,{"TOPLEFT",WhoFrame.senmsg.bianji,"TOPRIGHT",4,0},{300,200},nil,nil,nil,{["ElvUI"]={0,0,0,0},["NDui"]={0,0,0,0}})
+	WhoFrame.senmsg.bianji.F:PIGSetBackdrop(1)
 	WhoFrame.senmsg.bianji.F:PIGClose()
 	WhoFrame.senmsg.bianji.F:Hide()
 	WhoFrame.senmsg.bianji.F.biaoti = PIGFontString(WhoFrame.senmsg.bianji.F,{"TOP", WhoFrame.senmsg.bianji.F, "TOP", 0,-4},"密语内容");
-	WhoFrame.senmsg.bianji.F.NR=PIGFrame(WhoFrame.senmsg.bianji.F,{"TOPLEFT", WhoFrame.senmsg.bianji.F, "TOPLEFT", 3,-26})
-	WhoFrame.senmsg.bianji.F.NR:SetPoint("BOTTOMRIGHT", WhoFrame.senmsg.bianji.F, "BOTTOMRIGHT", -3,3);
+	WhoFrame.senmsg.bianji.F.NR=PIGFrame(WhoFrame.senmsg.bianji.F,{"TOPLEFT", WhoFrame.senmsg.bianji.F, "TOPLEFT", 4,-26})
+	WhoFrame.senmsg.bianji.F.NR:SetPoint("BOTTOMRIGHT", WhoFrame.senmsg.bianji.F, "BOTTOMRIGHT", -5,3);
 	WhoFrame.senmsg.bianji.F.NR:PIGSetBackdrop(0,0.6,nil,{1, 1, 0})
 	WhoFrame.senmsg.bianji.F.NR.E = CreateFrame("EditBox", nil, WhoFrame.senmsg.bianji.F.NR);
 	WhoFrame.senmsg.bianji.F.NR.E:SetPoint("TOPLEFT", WhoFrame.senmsg.bianji.F.NR, "TOPLEFT", 2,-2);

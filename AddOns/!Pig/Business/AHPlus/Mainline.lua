@@ -87,9 +87,9 @@ function BusinessInfo.AHPlus_Mainline()
 		end
 		Show_hangdata(Mfuji)	
 	end)
-	AuctionHouseFrame.BrowseResultsFrame.qushiUI=PIGFrame(AuctionHouseFrame.BrowseResultsFrame)
+	AuctionHouseFrame.BrowseResultsFrame.qushiUI=PIGFrame(AuctionHouseFrame.BrowseResultsFrame,nil,nil,nil,nil,nil,{["ElvUI"]={0,0,0,0},["NDui"]={0,0,0,0}})
 	AuctionHouseFrame.BrowseResultsFrame.qushiUI:SetSize(328,204);
-	AuctionHouseFrame.BrowseResultsFrame.qushiUI:PIGSetBackdrop(1,nil,nil,nil,0)
+	AuctionHouseFrame.BrowseResultsFrame.qushiUI:PIGSetBackdrop(1)
 	AuctionHouseFrame.BrowseResultsFrame.qushiUI:SetFrameStrata("HIGH")
 	AuctionHouseFrame.BrowseResultsFrame.qushiUI.qushiF=BusinessInfo.ADD_qushi(AuctionHouseFrame.BrowseResultsFrame.qushiUI,true)
 	AuctionHouseFrame.BrowseResultsFrame.qushiUI.qushiF:SetPoint("TOPLEFT", AuctionHouseFrame.BrowseResultsFrame.qushiUI, "TOPLEFT",4, -24);

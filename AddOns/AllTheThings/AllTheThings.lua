@@ -1174,7 +1174,7 @@ local function AddContainsData(group, tooltipInfo)
 	if not working and not app.ActiveRowReference then
 		app.Sort(group.g, app.SortDefaults.Hierarchy, true);
 	end
-	-- app.PrintDebug("SummarizeThings",app:SearchLink(group),group.g and #group.g)
+	-- app.PrintDebug("SummarizeThings",app:SearchLink(group),group.g and #group.g,working)
 	local entries = {};
 	-- app.Debugging = "CONTAINS-"..group.hash;
 	ContainsLimit = app.Settings:GetTooltipSetting("ContainsCount") or 25;
@@ -1857,7 +1857,7 @@ local function GetSearchResults(method, paramA, paramB, options)
 
 	group.isBaseSearchResult = true;
 
-	return group
+	return group, group.working
 end
 app.GetCachedSearchResults = function(method, paramA, paramB, options)
 	if options and options.IgnoreCache then
@@ -4329,6 +4329,9 @@ customWindowUpdates.RaidAssistant = function(self)
 			-- Define the different window configurations that the mini list will switch to based on context.
 			local raidassistant, lootspecialization, dungeondifficulty, raiddifficulty, legacyraiddifficulty;
 			local GetDifficultyInfo, GetInstanceInfo = GetDifficultyInfo, GetInstanceInfo;
+
+			local GetSpecialization = app.WOWAPI.GetSpecialization
+			local GetSpecializationInfo = app.WOWAPI.GetSpecializationInfo
 
 			-- Raid Assistant
 			local switchDungeonDifficulty = function(row, button)
