@@ -27,10 +27,12 @@ function TardisInfo.Plane(Activate)
 	local fujiF,fujiTabBut=PIGOptionsList_R(InvF.F,L["TARDIS_PLANE"],80,"Bot")
 	if Activate then fujiF:Show() fujiTabBut:Selected() end
 	-----------------
-	fujiF.zijiweimian = PIGFontString(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",10,-8},"你的位面:");
-	fujiF.zijiweimian:SetTextColor(0, 0.98, 0.6, 1);
-	fujiF.ZJweimianID = PIGFontString(fujiF,{"LEFT", fujiF.zijiweimian, "RIGHT", 4, 0},"点击NPC获取");
-	fujiF.ZJweimianID:SetTextColor(1, 1, 1, 1);
+	fujiF.ZJbiaoti = PIGFontString(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",10,-8},"你的位面:");
+	fujiF.ZJbiaoti:SetTextColor(0, 0.98, 0.6, 1);
+	fujiF.ZJPlaneID = PIGFontString(fujiF,{"LEFT", fujiF.ZJbiaoti, "RIGHT", 4, 0},"?");
+	fujiF.ZJPlaneID:SetTextColor(1, 0, 0, 1);
+	fujiF.ZJZoneID = PIGFontString(fujiF,{"LEFT", fujiF.ZJPlaneID, "RIGHT", 6, 0},"点击NPC获取");
+	fujiF.ZJZoneID:SetTextColor(0.6, 0.6, 0.6, 1);
 	-----
 	fujiF.JieshouInfoList={};
 	fujiF.GetBut=TardisInfo.GetInfoBut(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",180,-30},300,2)
@@ -43,7 +45,7 @@ function TardisInfo.Plane(Activate)
 			fujiF.Update_hang()
 			self:daojishiCDFUN()
 		else
-			if fujiF.ZJweimianID:GetText()=="点击NPC获取" then
+			if fujiF.ZJZoneID:GetText()=="点击NPC获取" then
 				self.err:SetText("请点击任意NPC");
 				return 
 			end
@@ -135,9 +137,7 @@ function TardisInfo.Plane(Activate)
 			self:SetBackdropColor(unpack(xuanzhongBG[1]));
 		end);
 		liebiao.Weimian = PIGFontString(liebiao,{"LEFT", liebiao, "LEFT",biaotiName[1][2], 0});
-		liebiao.Weimian:SetTextColor(0,0.98,0.6, 1);
 		liebiao.zoneID = PIGFontString(liebiao,{"LEFT", liebiao, "LEFT", biaotiName[2][2], 0});
-		liebiao.zoneID:SetTextColor(0.9,0.9,0.9, 0.9);
 		liebiao.zoneID:SetJustifyH("LEFT");
 
 		liebiao.Name = CreateFrame("Frame", nil, liebiao);
@@ -164,7 +164,6 @@ function TardisInfo.Plane(Activate)
 			end
 		end)
 		liebiao.Weizhi = PIGFontString(liebiao,{"LEFT", liebiao, "LEFT", biaotiName[4][2], 0});
-		liebiao.Weizhi:SetTextColor(0.6,0.6,0.6, 0.1);
 		liebiao.Weizhi:SetJustifyH("LEFT");
 
 		liebiao.autoinv = PIGFontString(liebiao,{"LEFT", liebiao, "LEFT", biaotiName[5][2], 0});
@@ -188,7 +187,6 @@ function TardisInfo.Plane(Activate)
 				end
 				editBox:SetText("/WHISPER " ..wjName.." "..hasText.."方便的话组我换个"..L["TARDIS_PLANE"].."，谢谢");
 			elseif self:GetText()=="请求换"..L["TARDIS_PLANE"] then
-				--SendChatMessage("方便的话组我换个"..L["TARDIS_PLANE"].."，谢谢", "WHISPER", nil, wjName);
 				PIGSendAddonMessage(InvF.Biaotou,shenqingMSG,"WHISPER",wjName)
 			end
 			fujiF.New_InfoList[self:GetID()][3]=true
@@ -275,6 +273,24 @@ function TardisInfo.Plane(Activate)
 	local function paixuxiaoda(element1, elemnet2)
 	    return element1 < elemnet2
 	end
+	local function findExactOrClosest(idList, target)
+	    if next(idList) == nil then 
+	        return "≈", 0 
+	    end
+	    local closestIndex = 1
+	    local minDiff = math.abs(idList[1] - target)
+	    for i, id in ipairs(idList) do
+	        if id == target then
+	            return "", i
+	        end
+	        local diff = math.abs(id - target)
+	        if diff < minDiff then
+	            minDiff = diff
+	            closestIndex = i
+	        end
+	    end
+	    return "≈", closestIndex
+	end
 	function fujiF.filtrateData()
 		fujiF.New_ZhuCzoneID = {};
 		fujiF.New_WMindexID = {};
@@ -303,28 +319,10 @@ function TardisInfo.Plane(Activate)
 		for i=1,#oldshuju do
 			table.insert(fujiF.New_WMindexID,oldshuju[i][1])
 		end
-	end
-	local function findExactOrClosest(idList, target)
-		if next(idList)==nil then return false, 1 end
-	    local exactIndex = nil
-	    local closestIndex = 1
-	    local minDiff = math.abs(idList[1] - target)
-	    for i, id in ipairs(idList) do
-	        if id == target then
-	            exactIndex = i
-	        end
-	        local diff = math.abs(id - target)
-	        if diff < minDiff then
-	            minDiff = diff
-	            closestIndex = i
-	        elseif diff == minDiff then
-	        end
-	    end
-	    if exactIndex then
-	        return true, exactIndex
-	    else
-	        return false, closestIndex
-	    end
+		fujiF.GetBut.err:SetText("");
+		local ZJExactly,ZJDQlayerID = findExactOrClosest(fujiF.New_WMindexID, fujiF.DQZoneID)
+		fujiF.ZJPlaneID:SetText(ZJExactly..ZJDQlayerID)
+		fujiF.NewZJPlaneID=ZJDQlayerID
 	end
 	function fujiF.Update_hang()
 		fujiF.GetBut.jindutishi:SetText("上次获取:刚刚");
@@ -334,9 +332,7 @@ function TardisInfo.Plane(Activate)
 		local ItemsData = fujiF.JieshouInfoList;
 		local PlanesNum = #ItemsData;
 		if PlanesNum>0 then
-			fujiF.GetBut.err:SetText("");
-			local ZJweimianjeishou = fujiF.AutoInvite:GetChecked()
-			local ZJExactly,ZJweimianID = findExactOrClosest(fujiF.New_WMindexID, fujiF.DQweimianID)
+			local ZJAutoInviteChecked = fujiF.AutoInvite:GetChecked()
 		    FauxScrollFrame_Update(fujiF.nr.Scroll, PlanesNum, hang_NUM, hang_Height);
 		    local offset = FauxScrollFrame_GetOffset(fujiF.nr.Scroll);
 		    for i = 1, hang_NUM do
@@ -349,8 +345,8 @@ function TardisInfo.Plane(Activate)
 					fujikk.zoneID:SetText(zoneID);
 					local weizhi = C_Map.GetMapInfo(MapID).name
 					fujikk.Weizhi:SetText(weizhi);
-				    local Exactly,weimianID = findExactOrClosest(fujiF.New_WMindexID, tonumber(zoneID))
-					fujikk.Weimian:SetText(weimianID);
+				    local Exactly,DQlayerID = findExactOrClosest(fujiF.New_WMindexID, tonumber(zoneID))
+					fujikk.Weimian:SetText(Exactly..DQlayerID);
 					fujikk.miyu:SetID(dangqian)
 					fujikk.miyu.wjName=ItemsData[dangqian][2]		
 					if autoinv=="Y" then
@@ -358,28 +354,28 @@ function TardisInfo.Plane(Activate)
 					else
 						fujikk.autoinv:SetText(NO);
 					end
+					fujikk.Weizhi:SetTextColor(0.5,0.5,0.5, 0.1);
+					fujikk.zoneID:SetTextColor(0.5,0.5,0.5, 0.8);
 					if ItemsData[dangqian][3] then
 						fujikk.miyu:Disable()
 						fujikk.miyu:SetText("已发送请求");
 						fujikk.Weimian:SetTextColor(0.5,0.5,0.5, 0.9);
-						fujikk.zoneID:SetTextColor(0.5,0.5,0.5, 0.9);
 						fujikk.Name.T:SetTextColor(0.5,0.5,0.5, 0.9);
 						fujikk.autoinv:SetTextColor(0.5,0.5,0.5, 0.9);
 					else
-						fujikk.Weimian:SetTextColor(0,0.98,0.6, 1);
-						fujikk.zoneID:SetTextColor(0.9,0.9,0.9, 0.9);
+						fujikk.Weimian:SetTextColor(1,0.1,0.1, 1);
 						fujikk.Name.T:SetTextColor(0,0.98,0.6, 1);
 						if autoinv=="Y" then
 							fujikk.autoinv:SetTextColor(0, 1, 0, 0.9);
 						else
 							fujikk.autoinv:SetTextColor(1, 0, 0, 0.9);
 						end
-						if weimianID==ZJweimianID then
+						if DQlayerID==fujiF.NewZJPlaneID then
 							fujikk.miyu:Disable()
 							fujikk.miyu:SetText("同"..L["TARDIS_PLANE"]);
 						else
 							fujikk.miyu:Enable()
-							if autoinv=="Y" and ZJweimianjeishou then
+							if autoinv=="Y" and ZJAutoInviteChecked then
 								fujikk.miyu:SetText("请求换"..L["TARDIS_PLANE"]);
 							else
 								fujikk.miyu:SetText(L["CHAT_WHISPER"]);
@@ -396,18 +392,16 @@ function TardisInfo.Plane(Activate)
 	fujiF:HookScript("OnShow", function(self)
 		self.AutoInvite:SetChecked(PIGA["Tardis"]["Plane"]["AutoInvite"]);
 		self.AutoInvite.HelpNum:SetText(PIGA["Tardis"]["Plane"]["HelpNum"])
-		self:UpdateWeimianID()
+		self:UpdateZoneID()
 	end);
-	function fujiF:UpdateWeimianID()
-		if self.DQweimianID and self:IsShown() then
+	function fujiF:UpdateZoneID()
+		if self.DQZoneID and self:IsShown() then
+			self.ZJZoneID:SetText(self.DQZoneID);
 			self.filtrateData()
-			local ZJExactly,ZJweimianID = findExactOrClosest(self.New_WMindexID, self.DQweimianID)
-			self.ZJweimianID:SetText("|cffFF0000"..ZJweimianID.."|r ("..self.DQweimianID..")");
-			self.GetBut.err:SetText("");
 		end
 	end
 	-------
-	local function GetWeimianID(self)
+	function fujiF:GetWeimianID()
 		if UnitIsPlayer("target") then return end
 		local inInstance =IsInInstance()
 		if inInstance then return end
@@ -415,19 +409,19 @@ function TardisInfo.Plane(Activate)
 		if mubiaoGUID then
 			local unitType, _, serverID, instanceID, zoneID, npcID = strsplit("-", mubiaoGUID);
 			if zoneID and unitType=="Creature" then
-				self.DQweimianID=zoneID
-				fujiF:UpdateWeimianID()
+				self.DQZoneID=tonumber(zoneID)
+				self:UpdateZoneID()
 				local MapID=C_Map.GetBestMapForUnit("player")
 				if MapID then
-					self.WeimianInfo=zoneID.."^"..MapID
+					self.WeimianInfo=self.DQZoneID.."^"..MapID
 					if IsMapIDzhucheng(MapID) then
 						local oldinfo = PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm]
 						for x=1,#oldinfo do
-							if zoneID==oldinfo[x][1] then
+							if self.DQZoneID==oldinfo[x][1] then
 								return
 							end
 						end
-						table.insert(oldinfo,{zoneID,GetServerTime()})
+						table.insert(oldinfo,{self.DQZoneID,GetServerTime()})
 					end
 				end
 			end
@@ -484,9 +478,9 @@ function TardisInfo.Plane(Activate)
 		--print(event, arg1, arg2, arg3, arg4, arg5,_,_,_,arg9)
 		if event=="PLAYER_ENTERING_WORLD" then
 			PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm]=PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm] or {}
-			GetWeimianID(self)
+			self:GetWeimianID()
 		elseif event=="PLAYER_TARGET_CHANGED" then
-			GetWeimianID(self)
+			self:GetWeimianID()
 		elseif event=="CHAT_MSG_CHANNEL" then
 			if arg1==GetInfoMsg and arg9==pindao then
 				fasongBendiMsg(self,arg5)
@@ -506,7 +500,7 @@ function TardisInfo.Plane(Activate)
 								else
 									PIG_InviteUnit(arg5)
 									PIGA["Tardis"]["Plane"]["HelpNum"]=PIGA["Tardis"]["Plane"]["HelpNum"]+1
-									PIG_OptionsUI:ErrorMsg("助人为乐+"..PIGA["Tardis"]["Plane"]["HelpNum"])
+									PIG_OptionsUI:ErrorMsg("功德+"..PIGA["Tardis"]["Plane"]["HelpNum"])
 								end
 							end
 						end

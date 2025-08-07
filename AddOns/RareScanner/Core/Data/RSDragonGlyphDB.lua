@@ -43,6 +43,12 @@ function RSDragonGlyphDB.SetDragonGlyphCollected(glyphID)
 	end
 end
 
+function RSDragonGlyphDB.GetDragonGlyphCollected(glyphID)
+	if (glyphID) then
+		return private.dbglobal.dragon_glyphs_collected[glyphID]
+	end
+end
+
 ---============================================================================
 -- Dragon glyphs internal database
 ----- Stores information included with the addon
@@ -60,25 +66,16 @@ function RSDragonGlyphDB.GetInternalDragonGlyphInfo(glyphID)
 	return nil
 end
 
-function RSDragonGlyphDB.GetChildDragonGlyphID(parentGlyphID, description)
+function RSDragonGlyphDB.IsDragonGlyph(parentGlyphID)
 	if (parentGlyphID) then
-		-- Fix description for Azj-Kahet, Hallowfall, The Ringing Deeps, Isle of Dorn
-		if (parentGlyphID == 40705 or parentGlyphID == 40704 or parentGlyphID == 40703 or parentGlyphID == 40166) then
-			local desc, _ = strsplit(",", description, 2)
-			description = desc
-		end
-	
-		for glyphID, info in pairs (private.DRAGON_GLYPHS) do
+		for _, info in pairs (private.DRAGON_GLYPHS) do
 			if (info.parent and info.parent == parentGlyphID) then
-				local name = RSDragonGlyphDB.GetDragonGlyphName(glyphID)
-				if (RSUtils.Contains(name, description)) then
-					return glyphID
-				end
+				return true
 			end
 		end
 	end
 
-	return nil
+	return false
 end
 
 function RSDragonGlyphDB.GetInternalDragonGlyphCoordinates(glyphID, mapID)

@@ -1,4 +1,4 @@
-## Interface: 110107
+## Interface: 110200
 ## Author: Sylvanaar (Sylvaan - Zul'Jin/US-Horde)
 ## Version: 3.5.15
 

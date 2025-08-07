@@ -1,8 +1,13 @@
 # DBM - Core
 
-## [11.2.4-23-gc05075e](https://github.com/DeadlyBossMods/DeadlyBossMods/tree/c05075e010cae80e68fc326517b2d475f332342c) (2025-08-03)
-[Full Changelog](https://github.com/DeadlyBossMods/DeadlyBossMods/compare/11.2.4...c05075e010cae80e68fc326517b2d475f332342c) [Previous Releases](https://github.com/DeadlyBossMods/DeadlyBossMods/releases)
+## [11.2.5](https://github.com/DeadlyBossMods/DeadlyBossMods/tree/11.2.5) (2025-08-05)
+[Full Changelog](https://github.com/DeadlyBossMods/DeadlyBossMods/compare/11.2.4...11.2.5) [Previous Releases](https://github.com/DeadlyBossMods/DeadlyBossMods/releases)
 
+- prep new core tag  
+- fix lua error in MoP challenge modes. closes https://github.com/DeadlyBossMods/DeadlyBossMods/issues/1701 and closes https://github.com/DeadlyBossMods/DBM-MoP/issues/66  
+- fix regressions and avoid duplicate callbacks better  
+- helps to hit save before pushing.  
+- make zone combat scanner more equipped to deal with 3 similtanious mods accessing zone combat scanner at once (affixes, trash, boss)  
 - STATICPOPUP\_NUMDIALOGS no longer exists  
 - Few timer fixes  
 - Replace test data with pull that isn't bugged  

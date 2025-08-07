@@ -127,6 +127,10 @@ function RSVignetteDataProviderMixin:ShouldShowVignette(vignetteInfo)
 	
 	-- Removes icon if filtered
 	if (shouldShow) then
+		if (RSConfigDB.IsShowingFilteredIngameMapIcons()) then
+			return shouldShow
+		end
+	
 		local _, _, _, _, _, vignetteObjectID = strsplit("-", vignetteInfo.objectGUID)
 		local entityID = tonumber(vignetteObjectID)
 

@@ -41,6 +41,7 @@ local PRICE_INFO = {
 	["spiritofharmony"]            = { itemID = 76061 }, -- Spirit of Harmony
 	["trickytreat"]                = { itemID = 33226 }, -- Tricky Treat
 	["ancestrycoin"]               = { itemID = 21100 }, -- Coin of Ancestry
+	["styletoken"]                 = { itemID = 151134 }, -- Trial of Style Token
 	["forlorn"]                    = { itemID = 66998 }, -- Essence of the Forlorn, Added in patch 4.0.1.12984
 	["65000"]                      = { itemID = 65000 }, -- Crown of the Forlorn Protector
 	["65001"]                      = { itemID = 65001 }, -- Crown of the Forlorn Conqueror

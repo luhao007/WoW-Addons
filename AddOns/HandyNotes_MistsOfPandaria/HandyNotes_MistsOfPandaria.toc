@@ -1,5 +1,5 @@
-## Interface: 110107
-## Version: 120
+## Interface: 110200
+## Version: 121
 
 ## Title: HandyNotes: Mists of Pandaria
 ## Notes: Mists of Pandaria Notes

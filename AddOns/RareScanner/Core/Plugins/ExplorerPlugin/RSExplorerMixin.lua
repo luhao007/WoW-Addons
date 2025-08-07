@@ -9,6 +9,7 @@ local AL = LibStub("AceLocale-3.0"):GetLocale("RareScanner");
 
 -- RareScanner database libraries
 local RSNpcDB = private.ImportLib("RareScannerNpcDB")
+local RSContainerDB = private.ImportLib("RareScannerContainerDB")
 local RSCollectionsDB = private.ImportLib("RareScannerCollectionsDB")
 local RSGeneralDB = private.ImportLib("RareScannerGeneralDB")
 local RSMapDB = private.ImportLib("RareScannerMapDB")
@@ -23,6 +24,7 @@ local RSUtils = private.ImportLib("RareScannerUtils")
 -- RareScanner service libraries
 local RSMap = private.ImportLib("RareScannerMap")
 local RSNpcPOI = private.ImportLib("RareScannerNpcPOI")
+local RSContainerPOI = private.ImportLib("RareScannerContainerPOI")
 local RSLootTooltip = private.ImportLib("RareScannerLootTooltip")
 
 -- Thirdparty
@@ -53,9 +55,9 @@ local function MapByName_Sort(mapIDs)
 	table.sort(mapIDs, comparison)
 end
 
-local function AddContinentDropDownValue(npcID, npcInfo, continentDropDownValuesNotSorted)
-	if (RSNpcDB.IsInternalNpcMultiZone(npcID)) then
-		for mapID, _ in pairs (npcInfo.zoneID) do
+local function AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
+	if ((source == RSConstants.ITEM_SOURCE.NPC and RSNpcDB.IsInternalNpcMultiZone(entityID)) or (source == RSConstants.ITEM_SOURCE.CONTAINER and RSContainerDB.IsInternalContainerMultiZone(entityID))) then
+		for mapID, _ in pairs (entityInfo.zoneID) do
 			local continentID = RSMapDB.GetContinentOfMap(mapID)
 			if (continentID) then
 				if (not continentDropDownValuesNotSorted[continentID]) then
@@ -67,21 +69,54 @@ local function AddContinentDropDownValue(npcID, npcInfo, continentDropDownValues
 			end
 		end
 	else
-		local continentID = RSMapDB.GetContinentOfMap(npcInfo.zoneID)
+		local continentID = RSMapDB.GetContinentOfMap(entityInfo.zoneID)
 		if (continentID) then
 			if (not continentDropDownValuesNotSorted[continentID]) then
 				continentDropDownValuesNotSorted[continentID] = {}
 			end
-			if (not RSUtils.Contains(continentDropDownValuesNotSorted[continentID], npcInfo.zoneID)) then
-				table.insert(continentDropDownValuesNotSorted[continentID], npcInfo.zoneID)
+			if (not RSUtils.Contains(continentDropDownValuesNotSorted[continentID], entityInfo.zoneID)) then
+				table.insert(continentDropDownValuesNotSorted[continentID], entityInfo.zoneID)
 			end
 		end
 	end
 end
 
-local function PopulateContinentDropDown(mainFrame, continentDropDown)
-	local collectionsLoot = RSCollectionsDB.GetAllEntitiesCollectionsLoot()[RSConstants.ITEM_SOURCE.NPC]
-	
+local function AddEntityContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
+	local collectionsLoot = RSCollectionsDB.GetAllEntitiesCollectionsLoot()[source]
+
+	if (filters[RSConstants.EXPLORER_FILTER_DROP_MOUNTS] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.MOUNT]) > 0) then
+		AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
+	elseif (filters[RSConstants.EXPLORER_FILTER_DROP_PETS] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.PET]) > 0) then
+		AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
+	elseif (filters[RSConstants.EXPLORER_FILTER_DROP_TOYS] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.TOY]) > 0) then
+		AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
+	elseif (filters[RSConstants.EXPLORER_FILTER_DROP_APPEARANCES] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.APPEARANCE]) > 0) then
+		if (filters[RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES]) then
+			for _, itemID in pairs(collectionsLoot[entityID][RSConstants.ITEM_TYPE.APPEARANCE]) do
+				if (RSCollectionsDB.IsNotCollectedClassAppearance(itemID)) then
+					AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
+					break
+				end
+			end
+		else
+			AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
+		end
+	elseif (filters[RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.DRAKEWATCHER]) > 0) then
+		AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
+	elseif (filters[RSConstants.EXPLORER_FILTER_PART_ACHIEVEMENT] and RSAchievementDB.GetNotCompletedAchievementLink(entityID)) then
+		AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
+	elseif (filters[RSConstants.EXPLORER_FILTER_WITHOUT_COLLECTIBLES] and (not collectionsLoot or not collectionsLoot[entityID])) then
+		AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
+	else
+		for groupKey, _ in pairs(RSCollectionsDB.GetItemGroups()) do	
+			if (filters[string.format(RSConstants.EXPLORER_FILTER_DROP_CUSTOM, groupKey)] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][string.format(RSConstants.ITEM_TYPE.CUSTOM, groupKey)]) > 0) then
+				AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
+			end
+		end
+	end
+end
+
+local function PopulateContinentDropDown(mainFrame, continentDropDown)	
 	currentContinentDropDownValues = { }
 	local continentDropDownValuesNotSorted = { }
 	if (RSUtils.GetTableLength(filters) > 0) then
@@ -105,36 +140,31 @@ local function PopulateContinentDropDown(mainFrame, continentDropDown)
 			
 			-- Add if matches collections
 			if (not filtered) then
-				if (filters[RSConstants.EXPLORER_FILTER_DROP_MOUNTS] and collectionsLoot and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.MOUNT]) > 0) then
-					AddContinentDropDownValue(npcID, npcInfo, continentDropDownValuesNotSorted)
-				elseif (filters[RSConstants.EXPLORER_FILTER_DROP_PETS] and collectionsLoot and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.PET]) > 0) then
-					AddContinentDropDownValue(npcID, npcInfo, continentDropDownValuesNotSorted)
-				elseif (filters[RSConstants.EXPLORER_FILTER_DROP_TOYS] and collectionsLoot and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.TOY]) > 0) then
-					AddContinentDropDownValue(npcID, npcInfo, continentDropDownValuesNotSorted)
-				elseif (filters[RSConstants.EXPLORER_FILTER_DROP_APPEARANCES] and collectionsLoot and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.APPEARANCE]) > 0) then
-					if (filters[RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES]) then
-						for _, itemID in pairs(collectionsLoot[npcID][RSConstants.ITEM_TYPE.APPEARANCE]) do
-							if (RSCollectionsDB.IsNotCollectedClassAppearance(itemID)) then
-								AddContinentDropDownValue(npcID, npcInfo, continentDropDownValuesNotSorted)
-								break
-							end
-						end
-					else
-						AddContinentDropDownValue(npcID, npcInfo, continentDropDownValuesNotSorted)
-					end
-				elseif (filters[RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER] and collectionsLoot and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.DRAKEWATCHER]) > 0) then
-					AddContinentDropDownValue(npcID, npcInfo, continentDropDownValuesNotSorted)
-				elseif (filters[RSConstants.EXPLORER_FILTER_PART_ACHIEVEMENT] and RSAchievementDB.GetNotCompletedAchievementLink(npcID)) then
-					AddContinentDropDownValue(npcID, npcInfo, continentDropDownValuesNotSorted)
-				elseif (filters[RSConstants.EXPLORER_FILTER_WITHOUT_COLLECTIBLES] and (not collectionsLoot or not collectionsLoot[npcID])) then
-					AddContinentDropDownValue(npcID, npcInfo, continentDropDownValuesNotSorted)
-				else
-					for groupKey, _ in pairs(RSCollectionsDB.GetItemGroups()) do	
-						if (filters[string.format(RSConstants.EXPLORER_FILTER_DROP_CUSTOM, groupKey)] and collectionsLoot and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][string.format(RSConstants.ITEM_TYPE.CUSTOM, groupKey)]) > 0) then
-							AddContinentDropDownValue(npcID, npcInfo, continentDropDownValuesNotSorted)
-						end
-					end
-				end
+				AddEntityContinentDropDownValue(npcID, npcInfo, continentDropDownValuesNotSorted, RSConstants.ITEM_SOURCE.NPC)
+			end
+		end
+		
+		for containerID, containerInfo in pairs (RSContainerDB.GetAllInternalContainerInfo()) do
+			local filtered = false
+			
+			-- Ignore if part of a disabled event
+			if (RSContainerDB.IsDisabledEvent(containerID)) then
+				filtered = true
+			end
+			
+			-- Ignore if dead
+			if (not filters[RSConstants.EXPLORER_FILTER_DEAD] and RSContainerDB.IsContainerOpened(containerID)) then
+				filtered = true
+			end
+			
+			-- Ignore if filtered
+			if (not filtered and not filters[RSConstants.EXPLORER_FILTER_FILTERED] and RSConfigDB.GetContainerFiltered(containerID) ~= nil) then
+				filtered = true
+			end
+			
+			-- Add if matches collections
+			if (not filtered) then
+				AddEntityContinentDropDownValue(containerID, containerInfo, continentDropDownValuesNotSorted, RSConstants.ITEM_SOURCE.CONTAINER)
 			end
 		end
     end
@@ -573,7 +603,11 @@ local function ToggleEntityState(element, elementData)
 	end
 	
 	if (elementData.filtered) then
-		element.PortraitFrame.Portrait:SetDesaturated(1)
+		if (elementData.isNpc) then
+			element.PortraitFrame.Portrait:SetDesaturated(1)
+		else
+			element.PortraitFrame.Treasure:SetDesaturated(1)
+		end
 		element.MountTexture:SetDesaturated(1)
 		element.PetTexture:SetDesaturated(1)
 		element.ToyTexture:SetDesaturated(1)
@@ -581,7 +615,11 @@ local function ToggleEntityState(element, elementData)
 		element.AppearanceTexture:SetDesaturated(1)
 		element.CustomTexture:SetDesaturated(1)
 	else
-		element.PortraitFrame.Portrait:SetDesaturated(nil)
+		if (elementData.isNpc) then
+			element.PortraitFrame.Portrait:SetDesaturated(nil)
+		else
+			element.PortraitFrame.Treasure:SetDesaturated(nil)
+		end
 		element.MountTexture:SetDesaturated(nil)
 		element.PetTexture:SetDesaturated(nil)
 		element.ToyTexture:SetDesaturated(nil)
@@ -592,11 +630,6 @@ local function ToggleEntityState(element, elementData)
 end
 
 function RSExplorerRareList:OnElementInitialize(element, elementData)
-	local retOk, _ = pcall(SetPortraitTextureFromCreatureDisplayID, element.PortraitFrame.Portrait, elementData.displayID)
-	if (not retOk) then
-		RSLogger:PrintDebugMessage(string.format("RSExplorerRareList:UpdateData: [npcID=%s][displayID=%s] Error al cargar el portaretrato.", npcID, elementData.npcInfo.displayID or "nil"))
-	end
-	
 	local activeTextures = 0
 	activeTextures = ToggleButtonTexture(activeTextures, element.MountTexture, elementData.hasMissingMount)
 	activeTextures = ToggleButtonTexture(activeTextures, element.PetTexture, elementData.hasMissingPet)
@@ -613,15 +646,30 @@ function RSExplorerRareList:OnElementInitialize(element, elementData)
 	
 	element.Name:SetText(elementData.name)
 	
-	ToggleEntityState(element, elementData)
-	
-	if (elementData.custom) then
+	if (elementData.isContainer) then
+		element.PortraitFrame.Treasure:Show()
+		element.PortraitFrame.Portrait:Hide()
 		element.PortraitFrame.RareOverlay:Hide()
-		element.PortraitFrame.CustomOverlay:Show()
-	else
-		element.PortraitFrame.RareOverlay:Show()
 		element.PortraitFrame.CustomOverlay:Hide()
+	else
+		element.PortraitFrame.Portrait:Show()
+		element.PortraitFrame.Treasure:Hide()
+		
+		local retOk, _ = pcall(SetPortraitTextureFromCreatureDisplayID, element.PortraitFrame.Portrait, elementData.displayID)
+		if (not retOk) then
+			RSLogger:PrintDebugMessage(string.format("RSExplorerRareList:UpdateData: [npcID=%s][displayID=%s] Error al cargar el portaretrato.", elementData.entityID, elementData.displayID or "nil"))
+		end
+	
+		if (elementData.custom) then
+			element.PortraitFrame.RareOverlay:Hide()
+			element.PortraitFrame.CustomOverlay:Show()
+		else
+			element.PortraitFrame.RareOverlay:Show()
+			element.PortraitFrame.CustomOverlay:Hide()
+		end
 	end
+	
+	ToggleEntityState(element, elementData)
 	
 	element:RegisterForClicks("LeftButtonUp", "RightButtonDown");
 	element:SetScript("OnClick", function(element, button) self:OnElementClick(element, elementData, button) end);
@@ -635,14 +683,26 @@ function RSExplorerRareList:OnElementClick(element, elementData, button)
 		self.selectionBehavior:ClearSelections()
 		self.selectionBehavior:Select(element);
 	elseif (button == "RightButton") then
-		if (RSConfigDB.GetNpcFiltered(elementData.npcID) ~= nil) then
-			RSLogger:PrintMessage(AL["ENABLED_SEARCHING_RARE"]..elementData.name)
-			RSConfigDB.DeleteNpcFiltered(elementData.npcID)
-			elementData.filtered = false
+		if (elementData.isNpc) then
+			if (RSConfigDB.GetNpcFiltered(elementData.entityID) ~= nil) then
+				RSLogger:PrintMessage(AL["ENABLED_SEARCHING_ENTITIE"]..elementData.name)
+				RSConfigDB.DeleteNpcFiltered(elementData.entityID)
+				elementData.filtered = false
+			else
+				RSLogger:PrintMessage(AL["DISABLED_SEARCHING_ENTITIE"]..elementData.name)
+				RSConfigDB.SetNpcFiltered(elementData.entityID)
+				elementData.filtered = true
+			end
 		else
-			RSLogger:PrintMessage(AL["DISABLED_SEARCHING_RARE"]..elementData.name)
-			RSConfigDB.SetNpcFiltered(elementData.npcID)
-			elementData.filtered = true
+			if (RSConfigDB.GetContainerFiltered(elementData.entityID) ~= nil) then
+				RSLogger:PrintMessage(AL["ENABLED_SEARCHING_ENTITIE"]..elementData.name)
+				RSConfigDB.DeleteContainerFiltered(elementData.entityID)
+				elementData.filtered = false
+			else
+				RSLogger:PrintMessage(AL["DISABLED_SEARCHING_ENTITIE"]..elementData.name)
+				RSConfigDB.SetContainerFiltered(elementData.entityID)
+				elementData.filtered = true
+			end
 		end
 		
 		ToggleEntityState(element, elementData)
@@ -653,9 +713,9 @@ function RSExplorerRareList:OnElementEnter(element, elementData)
 	local mainFrame = self:GetParent()
 	local tooltip = mainFrame.Tooltip
 	tooltip:SetOwner(element, "ANCHOR_LEFT")
-	tooltip:SetText(RSNpcDB.GetNpcName(elementData.npcID))
+	tooltip:SetText(elementData.name)
 	tooltip:AddLine(AL["EXPLORER_BUTTON_TOOLTIP1"], 1, 1, 1)
-	if (RSConfigDB.GetNpcFiltered(elementData.npcID) ~= nil) then
+	if (RSConfigDB.GetNpcFiltered(elementData.entityID) ~= nil) then
 		tooltip:AddLine(AL["EXPLORER_BUTTON_TOOLTIP2"], 1, 1, 1)
 	else
 		tooltip:AddLine(AL["EXPLORER_BUTTON_TOOLTIP3"], 1, 1, 1)
@@ -739,10 +799,15 @@ function RSExplorerRareList:OnElementSelectionChanged(elementData, selected)
    	end
     
     local mainFrame = self:GetParent()	
-	local internalInfo = RSNpcDB.GetInternalNpcInfoByMapID(elementData.npcID, self.mapID)
+	local internalInfo = {}
+	if (elementData.isNpc) then
+		internalInfo = RSNpcDB.GetInternalNpcInfoByMapID(elementData.entityID, self.mapID)
+	else
+		internalInfo = RSContainerDB.GetInternalContainerInfoByMapID(elementData.entityID, self.mapID)
+	end
 	
 	-- Name
-	mainFrame.RareInfo.Name:SetText(RSNpcDB.GetNpcName(elementData.npcID))
+	mainFrame.RareInfo.Name:SetText(elementData.name)
 	
 	-- Map
 	local mapFrame = mainFrame.RareInfo.Map
@@ -762,18 +827,26 @@ function RSExplorerRareList:OnElementSelectionChanged(elementData, selected)
 		
 	-- Icons / Skull
 	mapFrame.iconsPool:ReleaseAll()
-	local npcPOI = RSNpcPOI.GetNpcPOI(elementData.npcID, self.mapID, internalInfo, RSGeneralDB.GetAlreadyFoundEntity(elementData.npcID))
-	if (npcPOI) then
-		local mainIcon = mapFrame.iconsPool:Acquire();
-		AddIcon(mainIcon, npcPOI.Texture, tonumber(internalInfo.x), tonumber(internalInfo.y))
+	local entityPOI
+	if (elementData.isNpc) then
+		entityPOI = RSNpcPOI.GetNpcPOI(elementData.entityID, self.mapID, internalInfo, RSGeneralDB.GetAlreadyFoundEntity(elementData.entityID))
+	else
+		entityPOI = RSContainerPOI.GetContainerPOI(elementData.entityID, self.mapID, internalInfo, RSGeneralDB.GetAlreadyFoundEntity(elementData.entityID))
 	end
 	
-	-- Achievement
-	if (RSUtils.GetTableLength(npcPOI.achievementIDs) > 0) then
-		for _, achievementID in ipairs(npcPOI.achievementIDs) do
-			mainFrame.RareInfo.AchievementIcon.achievementLink = RSAchievementDB.GetCachedAchievementInfo(achievementID).link
-			mainFrame.RareInfo.AchievementIcon:Show()
-			break
+	if (entityPOI) then
+		local mainIcon = mapFrame.iconsPool:Acquire();
+		AddIcon(mainIcon, entityPOI.Texture, tonumber(internalInfo.x), tonumber(internalInfo.y))
+	
+		-- Achievement
+		if (RSUtils.GetTableLength(entityPOI.achievementIDs) > 0) then
+			for _, achievementID in ipairs(entityPOI.achievementIDs) do
+				mainFrame.RareInfo.AchievementIcon.achievementLink = RSAchievementDB.GetCachedAchievementInfo(achievementID).link
+				mainFrame.RareInfo.AchievementIcon:Show()
+				break
+			end
+		else
+			mainFrame.RareInfo.AchievementIcon:Hide()
 		end
 	else
 		mainFrame.RareInfo.AchievementIcon:Hide()
@@ -803,10 +876,66 @@ function RSExplorerRareList:OnElementSelectionChanged(elementData, selected)
 	end
 end
 
-function RSExplorerRareList:AddToDataProvider(npcID, npcInfo, npcName)
+function RSExplorerRareList:AddEntityToDataProvider(entityID, entityInfo, entityName, itemSource)
+	local collectionsLoot = RSCollectionsDB.GetAllEntitiesCollectionsLoot()[itemSource]
+	
+	if (filters[RSConstants.EXPLORER_FILTER_DROP_MOUNTS] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.MOUNT]) > 0) then
+		self:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
+	end
+		
+	if (filters[RSConstants.EXPLORER_FILTER_DROP_PETS] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.PET]) > 0) then
+		self:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
+	end
+				
+	if (filters[RSConstants.EXPLORER_FILTER_DROP_TOYS] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.TOY]) > 0) then
+		self:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
+	end
+				
+	if (filters[RSConstants.EXPLORER_FILTER_DROP_APPEARANCES] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.APPEARANCE]) > 0) then
+		if (filters[RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES]) then
+			for _, itemID in pairs(collectionsLoot[entityID][RSConstants.ITEM_TYPE.APPEARANCE]) do
+				if (RSCollectionsDB.IsNotCollectedClassAppearance(itemID)) then
+					self:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
+					break
+				end
+			end
+		else
+			self:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
+		end
+	end
+				
+	if (filters[RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.DRAKEWATCHER]) > 0) then
+		self:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
+	end
+	
+	for groupKey, _ in pairs(RSCollectionsDB.GetItemGroups()) do	
+		if (filters[string.format(RSConstants.EXPLORER_FILTER_DROP_CUSTOM, groupKey)] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][string.format(RSConstants.ITEM_TYPE.CUSTOM, groupKey)]) > 0) then
+			self:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
+		end
+	end
+				
+	if (filters[RSConstants.EXPLORER_FILTER_PART_ACHIEVEMENT] and RSAchievementDB.GetNotCompletedAchievementLink(entityID, self.mapID)) then
+		self:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
+	end
+				
+	if (filters[RSConstants.EXPLORER_FILTER_WITHOUT_COLLECTIBLES]) then
+		if (not collectionsLoot or not collectionsLoot[entityID]) then
+			self:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
+		elseif (filters[RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.APPEARANCE]) > 0) then
+			for _, itemID in pairs(collectionsLoot[entityID][RSConstants.ITEM_TYPE.APPEARANCE]) do
+				if (not RSCollectionsDB.IsNotCollectedClassAppearance(itemID)) then
+					self:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
+					break
+				end
+			end
+		end
+	end
+end
+
+function RSExplorerRareList:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
 	local alreadyAdded = false
-	self.dataProvider:ForEach(function(entityInfo)
-		if (entityInfo.npcID == npcID) then
+	self.dataProvider:ForEach(function(elementData)
+		if (elementData.entityID == entityID) then
 			alreadyAdded = true
 		end
 	end);
@@ -815,37 +944,46 @@ function RSExplorerRareList:AddToDataProvider(npcID, npcInfo, npcName)
 		return
 	end
 	
-	local entityInfo = {}
-	entityInfo.npcID = npcID
-	entityInfo.mapID = npcInfo.zoneID
-	entityInfo.displayID = npcInfo.displayID
-	entityInfo.name = npcName
-	entityInfo.filtered = RSConfigDB.GetNpcFiltered(npcID) ~= nil
-	entityInfo.dead = RSNpcDB.IsNpcKilled(npcID)
-	entityInfo.custom = npcInfo.custom
+	local elementData = {}
+	elementData.entityID = entityID
+	elementData.mapID = entityInfo.zoneID
+	elementData.name = entityName
+	
+	if (itemSource == RSConstants.ITEM_SOURCE.NPC) then
+		elementData.displayID = entityInfo.displayID
+		elementData.filtered = RSConfigDB.GetNpcFiltered(entityID) ~= nil
+		elementData.dead = RSNpcDB.IsNpcKilled(entityID)
+		elementData.custom = entityInfo.custom
+		elementData.isNpc = true
+	else
+		elementData.filtered = RSConfigDB.GetContainerFiltered(entityID) ~= nil
+		elementData.dead = RSContainerDB.IsContainerOpened(entityID)
+		elementData.custom = false
+		elementData.isContainer = true
+	end
 	
 	-- add extra information
 	local collectionsLoot = RSCollectionsDB.GetAllEntitiesCollectionsLoot()
-	if (collectionsLoot[RSConstants.ITEM_SOURCE.NPC] and collectionsLoot[RSConstants.ITEM_SOURCE.NPC][npcID]) then
-		if (RSUtils.GetTableLength(collectionsLoot[RSConstants.ITEM_SOURCE.NPC][npcID][RSConstants.ITEM_TYPE.MOUNT]) > 0) then
-			entityInfo.hasMissingMount = true
+	if (collectionsLoot[itemSource] and collectionsLoot[itemSource][entityID]) then
+		if (RSUtils.GetTableLength(collectionsLoot[itemSource][entityID][RSConstants.ITEM_TYPE.MOUNT]) > 0) then
+			elementData.hasMissingMount = true
 		else
-			entityInfo.hasMissingMount = false
+			elementData.hasMissingMount = false
 		end
-		if (RSUtils.GetTableLength(collectionsLoot[RSConstants.ITEM_SOURCE.NPC][npcID][RSConstants.ITEM_TYPE.PET]) > 0) then
-			entityInfo.hasMissingPet = true
+		if (RSUtils.GetTableLength(collectionsLoot[itemSource][entityID][RSConstants.ITEM_TYPE.PET]) > 0) then
+			elementData.hasMissingPet = true
 		else
-			entityInfo.hasMissingPet = false
+			elementData.hasMissingPet = false
 		end
-		if (RSUtils.GetTableLength(collectionsLoot[RSConstants.ITEM_SOURCE.NPC][npcID][RSConstants.ITEM_TYPE.TOY]) > 0) then
-			entityInfo.hasMissingToy = true
+		if (RSUtils.GetTableLength(collectionsLoot[itemSource][entityID][RSConstants.ITEM_TYPE.TOY]) > 0) then
+			elementData.hasMissingToy = true
 		else
-			entityInfo.hasMissingToy = false
+			elementData.hasMissingToy = false
 		end
-		if (RSUtils.GetTableLength(collectionsLoot[RSConstants.ITEM_SOURCE.NPC][npcID][RSConstants.ITEM_TYPE.APPEARANCE]) > 0) then
+		if (RSUtils.GetTableLength(collectionsLoot[itemSource][entityID][RSConstants.ITEM_TYPE.APPEARANCE]) > 0) then
 			if (RSConfigDB.IsSearchingClassAppearances()) then
 				local found = false
-				for _, itemID in pairs(collectionsLoot[RSConstants.ITEM_SOURCE.NPC][npcID][RSConstants.ITEM_TYPE.APPEARANCE]) do
+				for _, itemID in pairs(collectionsLoot[itemSource][entityID][RSConstants.ITEM_TYPE.APPEARANCE]) do
 					if (RSCollectionsDB.IsNotCollectedClassAppearance(itemID)) then
 						found = true
 						break
@@ -853,32 +991,32 @@ function RSExplorerRareList:AddToDataProvider(npcID, npcInfo, npcName)
 				end
 				
 				if (found) then
-					entityInfo.hasMissingAppearance = true
+					elementData.hasMissingAppearance = true
 				end
 			else
-				entityInfo.hasMissingAppearance = true
+				elementData.hasMissingAppearance = true
 			end
 		else
-			entityInfo.hasMissingAppearance = false
+			elementData.hasMissingAppearance = false
 		end
-		if (RSUtils.GetTableLength(collectionsLoot[RSConstants.ITEM_SOURCE.NPC][npcID][RSConstants.ITEM_TYPE.DRAKEWATCHER]) > 0) then
-			entityInfo.hasMissingDrakewatcher = true
+		if (RSUtils.GetTableLength(collectionsLoot[itemSource][entityID][RSConstants.ITEM_TYPE.DRAKEWATCHER]) > 0) then
+			elementData.hasMissingDrakewatcher = true
 		else
-			entityInfo.hasMissingDrakewatcher = false
+			elementData.hasMissingDrakewatcher = false
 		end
 		
 		-- for custom items we show the texture only if they user is not filtering for an specific group
 		for groupKey, _ in pairs(RSCollectionsDB.GetItemGroups()) do	
-			if (RSUtils.GetTableLength(collectionsLoot[RSConstants.ITEM_SOURCE.NPC][npcID][string.format(RSConstants.ITEM_TYPE.CUSTOM, groupKey)]) > 0 and RSConfigDB.IsSearchingCustom(groupKey)) then
-				entityInfo.hasMissingCustom = true
+			if (RSUtils.GetTableLength(collectionsLoot[itemSource][entityID][string.format(RSConstants.ITEM_TYPE.CUSTOM, groupKey)]) > 0 and RSConfigDB.IsSearchingCustom(groupKey)) then
+				elementData.hasMissingCustom = true
 				break
 			else
-				entityInfo.hasMissingCustom = false
+				elementData.hasMissingCustom = false
 			end
 		end
 	end
 	
-	self.dataProvider:Insert(entityInfo);
+	self.dataProvider:Insert(elementData);
 end
 
 function RSExplorerRareList:RefreshDataProvider()
@@ -887,7 +1025,7 @@ function RSExplorerRareList:RefreshDataProvider()
 
 	self.mapID = RSConfigDB.GetExplorerMapID()
 	
-	-- Load list
+	-- Load rare NPC list
 	for npcID, npcName in pairs(RSNpcDB.GetAllNpcNames()) do
 		if (RSNpcDB.IsInternalNpcInMap(npcID, self.mapID, false, true)) then
 			local npcInfo = RSNpcDB.GetInternalNpcInfoByMapID(npcID, self.mapID)
@@ -905,62 +1043,36 @@ function RSExplorerRareList:RefreshDataProvider()
 				end
 			
 				if (not filtered) then
-					local collectionsLoot = RSCollectionsDB.GetAllEntitiesCollectionsLoot()[RSConstants.ITEM_SOURCE.NPC]
-					
-					if (filters[RSConstants.EXPLORER_FILTER_DROP_MOUNTS] and collectionsLoot and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.MOUNT]) > 0) then
-						self:AddToDataProvider(npcID, npcInfo, npcName)
-					end
-						
-					if (filters[RSConstants.EXPLORER_FILTER_DROP_PETS] and collectionsLoot and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.PET]) > 0) then
-						self:AddToDataProvider(npcID, npcInfo, npcName)
-					end
-								
-					if (filters[RSConstants.EXPLORER_FILTER_DROP_TOYS] and collectionsLoot and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.TOY]) > 0) then
-						self:AddToDataProvider(npcID, npcInfo, npcName)
-					end
-								
-					if (filters[RSConstants.EXPLORER_FILTER_DROP_APPEARANCES] and collectionsLoot and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.APPEARANCE]) > 0) then
-						if (filters[RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES]) then
-							for _, itemID in pairs(collectionsLoot[npcID][RSConstants.ITEM_TYPE.APPEARANCE]) do
-								if (RSCollectionsDB.IsNotCollectedClassAppearance(itemID)) then
-									self:AddToDataProvider(npcID, npcInfo, npcName)
-									break
-								end
-							end
-						else
-							self:AddToDataProvider(npcID, npcInfo, npcName)
-						end
-					end
-								
-					if (filters[RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER] and collectionsLoot and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.DRAKEWATCHER]) > 0) then
-						self:AddToDataProvider(npcID, npcInfo, npcName)
-					end
-					
-					for groupKey, _ in pairs(RSCollectionsDB.GetItemGroups()) do	
-						if (filters[string.format(RSConstants.EXPLORER_FILTER_DROP_CUSTOM, groupKey)] and collectionsLoot and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][string.format(RSConstants.ITEM_TYPE.CUSTOM, groupKey)]) > 0) then
-							self:AddToDataProvider(npcID, npcInfo, npcName)
-						end
-					end
-								
-					if (filters[RSConstants.EXPLORER_FILTER_PART_ACHIEVEMENT] and RSAchievementDB.GetNotCompletedAchievementLink(npcID, self.mapID)) then
-						self:AddToDataProvider(npcID, npcInfo, npcName)
-					end
-								
-					if (filters[RSConstants.EXPLORER_FILTER_WITHOUT_COLLECTIBLES]) then
-						if (not collectionsLoot or not collectionsLoot[npcID]) then
-							self:AddToDataProvider(npcID, npcInfo, npcName)
-						elseif (filters[RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES] and collectionsLoot and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.APPEARANCE]) > 0) then
-							for _, itemID in pairs(collectionsLoot[npcID][RSConstants.ITEM_TYPE.APPEARANCE]) do
-								if (not RSCollectionsDB.IsNotCollectedClassAppearance(itemID)) then
-									self:AddToDataProvider(npcID, npcInfo, npcName)
-									break
-								end
-							end
-						end
-					end
+					self:AddEntityToDataProvider(npcID, npcInfo, npcName, RSConstants.ITEM_SOURCE.NPC)
 				end
 			else
 				RSLogger:PrintDebugMessage(string.format("RSExplorerRareList:RefreshDataProvider: [npcID=%s]. Saltado por no tener informacion o displayID", npcID))
+			end
+		end
+	end
+	
+	-- Load container list
+	for containerID, _ in pairs(RSContainerDB.GetAllInternalContainerInfo()) do
+		if (RSContainerDB.IsInternalContainerInMap(containerID, self.mapID, false, true)) then
+			local containerInfo = RSContainerDB.GetInternalContainerInfoByMapID(containerID, self.mapID)
+			
+			if (containerInfo) then
+				local filtered = false
+				-- Ignore if opened
+				if (not filters[RSConstants.EXPLORER_FILTER_DEAD] and RSContainerDB.IsContainerOpened(containerID)) then
+					filtered = true
+				end
+				
+				-- Ignore if filtered
+				if (not filtered and not filters[RSConstants.EXPLORER_FILTER_FILTERED] and RSConfigDB.GetContainerFiltered(containerID) ~= nil) then
+					filtered = true
+				end
+			
+				if (not filtered) then
+					self:AddEntityToDataProvider(containerID, containerInfo, RSContainerDB.GetContainerName(containerID), RSConstants.ITEM_SOURCE.CONTAINER)
+				end
+			else
+				RSLogger:PrintDebugMessage(string.format("RSExplorerRareList:RefreshDataProvider: [containerID=%s]. Saltado por no tener informacion", containerID))
 			end
 		end
 	end
@@ -972,9 +1084,15 @@ end
 function RSExplorerRareList:AddItems(elementData, parentFrame, itemType, customGroupKeys)
 	local mainFrame = self:GetParent()
 	
-	local collectionsLoot = RSCollectionsDB.GetAllEntitiesCollectionsLoot()[RSConstants.ITEM_SOURCE.NPC]
-	if (collectionsLoot and collectionsLoot[elementData.npcID]) then
-		local itemIDs = collectionsLoot[elementData.npcID][itemType]
+	local collectionsLoot
+	if (elementData.isNpc) then
+		collectionsLoot = RSCollectionsDB.GetAllEntitiesCollectionsLoot()[RSConstants.ITEM_SOURCE.NPC]
+	else
+		collectionsLoot = RSCollectionsDB.GetAllEntitiesCollectionsLoot()[RSConstants.ITEM_SOURCE.CONTAINER]
+	end
+	
+	if (collectionsLoot and collectionsLoot[elementData.entityID]) then
+		local itemIDs = collectionsLoot[elementData.entityID][itemType]
 		
 	    if (RSUtils.GetTableLength(itemIDs) > 0) then
 			local xOffset = 0
@@ -1630,10 +1748,10 @@ function RSExplorerLoot:RefreshDataProvider()
 	self.dataProvider:Flush()
 	
 	for key, name in pairs(RSCollectionsDB.GetItemGroups()) do
-		local entityInfo = {}
-		entityInfo.name = name
-		entityInfo.key = key
-		self.dataProvider:Insert(entityInfo);
+		local elementData = {}
+		elementData.name = name
+		elementData.key = key
+		self.dataProvider:Insert(elementData);
 	end
 	
 	-- Autoselects the first element

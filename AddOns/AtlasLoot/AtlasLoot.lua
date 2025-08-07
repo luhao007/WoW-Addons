@@ -6,7 +6,6 @@ local _G = getfenv(0)
 
 -- Libraries
 local assert, type, pairs, next = assert, type, pairs, next
-local wipe = wipe
 local table = table
 local tinsert = table.insert
 -- ----------------------------------------------------------------------------
@@ -16,12 +15,6 @@ local AtlasLoot = _G.AtlasLoot
 local AL = AtlasLoot.Locales
 
 local LibStub = _G.LibStub
-local LibDialog = LibStub("LibDialog-1.0")
-
--- lua
-
--- WoW
--- DisableAddOn
 
 local EventFrame = CreateFrame("FRAME")
 EventFrame:RegisterEvent("ADDON_LOADED")
@@ -62,20 +55,7 @@ function AtlasLoot:OnInitialize()
 	local _, _, _, _, reason = C_AddOns.GetAddOnInfo("AtlasLoot_Loader")
 	if reason ~= "MISSING" then
 		C_AddOns.DisableAddOn("AtlasLoot_Loader")
-
-		LibDialog:Register("ATLASLOOT_LOADER_ADDON_ERROR", {
-			text = AL["AtlasLoot_Loader_is_no_longer_in_use"],
-			buttons = {
-				{
-					text = OKAY,
-				},
-			},
-			width = 500,
-			is_exclusive = true,
-			show_while_dead = true,
-			hide_on_escape = true,
-		})
-		LibDialog:Spawn("ATLASLOOT_LOADER_ADDON_ERROR")
+		AtlasLoot:Print(AL["AtlasLoot_Loader_is_no_longer_in_use"])
 	end
 end
 

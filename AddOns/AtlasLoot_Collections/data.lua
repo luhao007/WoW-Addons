@@ -1405,6 +1405,8 @@ data["MOUNTS"]             = {
 				{ 421, 243596, "mount", [PRICE_EXTRA_ITTYPE] = "tender:575" },           -- Wailing Banshee's Charger
 				{ 422, 243594, "mount" },                                                -- Forsaken's Grotesque Charger
 				{ 423, 238739, "mount", [ACH_EXTRA_ITTYPE] = 41779 },                    -- Chrono Corsair
+				{ 424, 243572, "mount", [PRICE_EXTRA_ITTYPE] = "tender:0" },             -- Grandmaster's Prophetic Board
+				{ 425, 243591, "mount", [PRICE_EXTRA_ITTYPE] = "tender:700" },           -- Grandmaster's Royal Board
 				-- { 329, 223570, "mount" }, -- Reins of the Ebonhide Ramolith (not yet available)
 				-- { 321, 235554, "mount" }, -- Midnight Darkmoon Charger (not yet available)
 				-- { 323, 235659, "mount" }, -- Midnight Butterfly (not yet available)
@@ -1466,6 +1468,8 @@ data["MOUNTS"]             = {
 				{ 113, 192766, "mount", [PRICE_EXTRA_ITTYPE] = "tender:600" }, -- Amber Skitterfly
 				{ 114, 221814, "mount", [PRICE_EXTRA_ITTYPE] = "tender:700" }, -- Pearlescent Goblin Wave Shredder
 				{ 115, 210973, "mount", [PRICE_EXTRA_ITTYPE] = "lovetoken:270" }, -- Heartseeker Mana Ray
+				{ 116, 223449, "mount", [PRICE_EXTRA_ITTYPE] = "tender:600" }, -- Kor'kron Warsaber
+				{ 117, 223469, "mount", [PRICE_EXTRA_ITTYPE] = "tender:600" }, -- Sentinel War Wolf
 
 			},
 			[HORDE_DIFF] = {
@@ -6415,6 +6419,7 @@ data["COMPANIONS"]         = {
 				{ 218, 212786, "pet4409", [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:250" }, -- Lovely Duckling
 				{ 219, 223145, "pet4548", [PRICE_EXTRA_ITTYPE] = "tender:500" },   -- Marrlok
 				{ 220, 206174, "pet3582", [PRICE_EXTRA_ITTYPE] = "tender:500" },   -- Blub
+				{ 221, 223474, "pet4566", [PRICE_EXTRA_ITTYPE] = "tender:300" },   -- Worgli the Apprehensive
 				-- { 12,  193068 }, -- Time-Lost Treeflitter
 				-- { 21,  193380 }, -- Pink Salamanther
 				-- { 26,  193587 }, -- Time-Lost Duck

@@ -7,6 +7,12 @@ local extDefault ={
 		["Open"] = true,
 		["DaojishiCD"]=0,
 	},
+	["Invite"]={
+		["Open"] = true,
+		["Template"]={},
+		["YellTemp"]={},
+		["YellMsg"]="",
+	},
 	["Houche"]={
 		["Open"] = true,
 		["AutoInvite"]=true,
@@ -30,7 +36,6 @@ local extDefault ={
 	["Yell"]={
 		["Open"] = true,
 		["ShowDesktopBut"]=false,
-		["mubiaoNum"]={{},{},{},},
 		["Yell_NR"]="[Pig]....",
 		["Yell_CHANNEL"]={["SAY"] = true},
 		["MaxPlayerNum"]=40,

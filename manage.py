@@ -14,7 +14,7 @@ logger = logging.getLogger('manager')
 
 CLASSIC_ERA_VER = '11401'
 CLASSIC_VER = '30405'
-RETAIL_VER = '110107'
+RETAIL_VER = '110200'
 
 
 def available_on(platforms: list[PLATFORM]) -> Callable:

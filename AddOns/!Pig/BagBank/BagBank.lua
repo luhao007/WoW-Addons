@@ -179,39 +179,39 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 			end
 		end
 	end)
-	for i=1,bagData["bankbag"] do
-		local xframe = bagData["bagIDMax"]+i+1
-		local framef=_G["ContainerFrame"..xframe];
-		hooksecurefunc(framef, "UpdateItems", function()	
-			for i, itemButton in framef:EnumerateValidItems() do
-				BagBankfun.add_Itemslot_ZLV_ranse(itemButton,BagdangeW)--银行包裹格子
-				if PIGA["BagBank"]["JunkShow"] then
-					local bagID = itemButton:GetBagID();
-					local itemID, itemLink, icon, stackCount, quality=PIGGetContainerItemInfo(bagID, itemButton:GetID())
-					itemButton.JunkIcon:Hide();
-					if quality and quality==0 then
-						itemButton.JunkIcon:Show();
-					end
-				end
-			end
-		end)
-	end
+	-- for i=1,bagData["bankbag"] do
+	-- 	local xframe = bagData["bagIDMax"]+i+1
+	-- 	local framef=_G["ContainerFrame"..xframe];
+	-- 	hooksecurefunc(framef, "UpdateItems", function()	
+	-- 		for i, itemButton in framef:EnumerateValidItems() do
+	-- 			BagBankfun.add_Itemslot_ZLV_ranse(itemButton,BagdangeW)--银行包裹格子
+	-- 			if PIGA["BagBank"]["JunkShow"] then
+	-- 				local bagID = itemButton:GetBagID();
+	-- 				local itemID, itemLink, icon, stackCount, quality=PIGGetContainerItemInfo(bagID, itemButton:GetID())
+	-- 				itemButton.JunkIcon:Hide();
+	-- 				if quality and quality==0 then
+	-- 					itemButton.JunkIcon:Show();
+	-- 				end
+	-- 			end
+	-- 		end
+	-- 	end)
+	-- end
 	
 	--银行默认格子
-	for slot = 1, bagData["bankmun"] do
-		local famrr=_G["BankFrameItem"..slot]
-		BagBankfun.add_Itemslot_ZLV_ranse(famrr,BagdangeW)
-	end
+	-- for slot = 1, bagData["bankmun"] do
+	-- 	local famrr=_G["BankFrameItem"..slot]
+	-- 	BagBankfun.add_Itemslot_ZLV_ranse(famrr,BagdangeW)
+	-- end
 	--银行打开时关闭背包不关闭银行的背包
-	hooksecurefunc("ToggleAllBags", function()
-		if PIGA["BagBank"]["Zhenghe"] then
-			if BankFrame:IsShown() then
-				for i = bagData["bagIDMax"] + 1, NUM_CONTAINER_FRAMES do
-					OpenBag(i)
-				end
-			end
-		end
-	end)
+	-- hooksecurefunc("ToggleAllBags", function()
+	-- 	if PIGA["BagBank"]["Zhenghe"] then
+	-- 		if BankFrame:IsShown() then
+	-- 			for i = bagData["bagIDMax"] + 1, NUM_CONTAINER_FRAMES do
+	-- 				OpenBag(i)
+	-- 			end
+	-- 		end
+	-- 	end
+	-- end)
 	function ContainerFrameCombinedBags:GetColumns()
 		if self:IsCombinedBagContainer() then
 			return self.meihang
@@ -262,68 +262,68 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 		end
 	end)
 
-	---系统银行========================
-	BankFrame.meihang=17 or PIGA["BagBank"]["BANKmeihangshu_retail"]
-	BankFrame.suofang=1 or PIGA["BagBank"]["BANKsuofangBili"]
+	-- ---系统银行========================
+	-- BankFrame.meihang=17 or PIGA["BagBank"]["BANKmeihangshu_retail"]
+	-- BankFrame.suofang=1 or PIGA["BagBank"]["BANKsuofangBili"]
 	---可移动
-	BankFrame:RegisterForDrag("LeftButton")
-	BankFrame:SetMovable(true)
-	BankFrame:SetClampedToScreen(true)
-	BankFrame:SetScript("OnDragStart",function(self)
-	    self:StartMoving();
-	    self:SetUserPlaced(false)
-	end)
-	BankFrame:SetScript("OnDragStop",function(self)
-	    self:StopMovingOrSizing()
-	    self:SetUserPlaced(false)
-	end)
-	hooksecurefunc("BankFrame_UpdateAnchoringForPanel", function()
-		local accountBankSelected = BankFrame.activeTabIndex == 3;
-		local xOffset, yOffset = -340, -33;
-		BankItemSearchBox:SetPoint("TOPRIGHT", BankItemSearchBox:GetParent(), "TOPRIGHT", xOffset, yOffset);
-	end)
-	BankItemAutoSortButton:ClearAllPoints();
-	BankItemAutoSortButton:SetPoint("TOPRIGHT", BankItemSearchBox:GetParent(), "TOPRIGHT", -11, -29);
-	BankFrame:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_SHOW")
-	BankFrame:RegisterEvent("BAG_CONTAINER_UPDATE")
-	BankFrame:RegisterEvent("PLAYERBANKBAGSLOTS_CHANGED")
-	BankFrame:HookScript("OnEvent", function (self,event,arg1)
-		if event=="PLAYER_INTERACTION_MANAGER_FRAME_SHOW" and arg1==8 then
-			zhegnheBANK()
-			for i=2,#bagData["bankID"] do
-				OpenBag(bagData["bankID"][i])
-			end
-			PIG_SetTabSelct()
-		elseif event=="BAG_CONTAINER_UPDATE" or event=="PLAYERBANKBAGSLOTS_CHANGED" then
-			if BankSlotsFrame:IsShown() then
-				BankSlotsFrame:ShowHide_butList(true)
-			end
-		elseif event=="PLAYERBANKSLOTS_CHANGED" then
-			Bank_Item_lv(BankFrame,nil,arg1)
-		end
-	end)
-	for id=1,3 do		
-		PIG_SelectTabTex(id)
-	end
-	--分类设置
-	BankSlotsFrame.fenlei = CreateFrame("Button",nil,BankSlotsFrame, "TruncatedButtonTemplate");
-	BankSlotsFrame.fenlei:SetHighlightTexture("interface/buttons/ui-common-mousehilight.blp");
-	BankSlotsFrame.fenlei:SetSize(20,24);
-	BankSlotsFrame.fenlei:SetPoint("TOPLEFT",BankSlotsFrame,"TOPLEFT",56,-30);
-	BankSlotsFrame.fenlei.Tex = BankSlotsFrame.fenlei:CreateTexture(nil, "BORDER");
-	BankSlotsFrame.fenlei.Tex:SetAtlas("common-icon-forwardarrow")
-	BankSlotsFrame.fenlei.Tex:SetRotation(0)
-	BankSlotsFrame.fenlei.Tex:SetSize(22,20);
-	BankSlotsFrame.fenlei.Tex:SetPoint("CENTER",BankSlotsFrame.fenlei,"CENTER",2,0);
-	BankSlotsFrame.fenlei:SetScript("OnMouseDown", function (self)
-		self.Tex:SetPoint("CENTER",BankSlotsFrame.fenlei,"CENTER",3,-1);
-	end);
-	BankSlotsFrame.fenlei:SetScript("OnMouseUp", function (self)
-		self.Tex:SetPoint("CENTER",BankSlotsFrame.fenlei,"CENTER",2,0);
-	end);
-	BankSlotsFrame.fenlei:SetScript("OnClick",  function (self)
-		BankSlotsFrame:ShowHide_butList()
-		BagBankfun.UpdateIconDirection(self.Tex,BankSlotsFrame.ButLsit[1]:IsShown())
-	end);
-	BagBankfun.addfenleibagbut(BankSlotsFrame,"PIG_CharacterBANK_")
+	-- BankFrame:RegisterForDrag("LeftButton")
+	-- BankFrame:SetMovable(true)
+	-- BankFrame:SetClampedToScreen(true)
+	-- BankFrame:SetScript("OnDragStart",function(self)
+	--     self:StartMoving();
+	--     self:SetUserPlaced(false)
+	-- end)
+	-- BankFrame:SetScript("OnDragStop",function(self)
+	--     self:StopMovingOrSizing()
+	--     self:SetUserPlaced(false)
+	-- end)
+	-- hooksecurefunc("BankFrame_UpdateAnchoringForPanel", function()
+	-- 	local accountBankSelected = BankFrame.activeTabIndex == 3;
+	-- 	local xOffset, yOffset = -340, -33;
+	-- 	BankItemSearchBox:SetPoint("TOPRIGHT", BankItemSearchBox:GetParent(), "TOPRIGHT", xOffset, yOffset);
+	-- end)
+	-- BankItemAutoSortButton:ClearAllPoints();
+	-- BankItemAutoSortButton:SetPoint("TOPRIGHT", BankItemSearchBox:GetParent(), "TOPRIGHT", -11, -29);
+	-- BankFrame:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_SHOW")
+	-- BankFrame:RegisterEvent("BAG_CONTAINER_UPDATE")
+	-- BankFrame:RegisterEvent("PLAYERBANKBAGSLOTS_CHANGED")
+	-- BankFrame:HookScript("OnEvent", function (self,event,arg1)
+	-- 	if event=="PLAYER_INTERACTION_MANAGER_FRAME_SHOW" and arg1==8 then
+	-- 		zhegnheBANK()
+	-- 		for i=2,#bagData["bankID"] do
+	-- 			OpenBag(bagData["bankID"][i])
+	-- 		end
+	-- 		PIG_SetTabSelct()
+	-- 	elseif event=="BAG_CONTAINER_UPDATE" or event=="PLAYERBANKBAGSLOTS_CHANGED" then
+	-- 		if BankSlotsFrame:IsShown() then
+	-- 			BankSlotsFrame:ShowHide_butList(true)
+	-- 		end
+	-- 	elseif event=="PLAYERBANKSLOTS_CHANGED" then
+	-- 		Bank_Item_lv(BankFrame,nil,arg1)
+	-- 	end
+	-- end)
+	-- for id=1,3 do		
+	-- 	PIG_SelectTabTex(id)
+	-- end
+	-- --分类设置
+	-- BankSlotsFrame.fenlei = CreateFrame("Button",nil,BankSlotsFrame, "TruncatedButtonTemplate");
+	-- BankSlotsFrame.fenlei:SetHighlightTexture("interface/buttons/ui-common-mousehilight.blp");
+	-- BankSlotsFrame.fenlei:SetSize(20,24);
+	-- BankSlotsFrame.fenlei:SetPoint("TOPLEFT",BankSlotsFrame,"TOPLEFT",56,-30);
+	-- BankSlotsFrame.fenlei.Tex = BankSlotsFrame.fenlei:CreateTexture(nil, "BORDER");
+	-- BankSlotsFrame.fenlei.Tex:SetAtlas("common-icon-forwardarrow")
+	-- BankSlotsFrame.fenlei.Tex:SetRotation(0)
+	-- BankSlotsFrame.fenlei.Tex:SetSize(22,20);
+	-- BankSlotsFrame.fenlei.Tex:SetPoint("CENTER",BankSlotsFrame.fenlei,"CENTER",2,0);
+	-- BankSlotsFrame.fenlei:SetScript("OnMouseDown", function (self)
+	-- 	self.Tex:SetPoint("CENTER",BankSlotsFrame.fenlei,"CENTER",3,-1);
+	-- end);
+	-- BankSlotsFrame.fenlei:SetScript("OnMouseUp", function (self)
+	-- 	self.Tex:SetPoint("CENTER",BankSlotsFrame.fenlei,"CENTER",2,0);
+	-- end);
+	-- BankSlotsFrame.fenlei:SetScript("OnClick",  function (self)
+	-- 	BankSlotsFrame:ShowHide_butList()
+	-- 	BagBankfun.UpdateIconDirection(self.Tex,BankSlotsFrame.ButLsit[1]:IsShown())
+	-- end);
+	-- BagBankfun.addfenleibagbut(BankSlotsFrame,"PIG_CharacterBANK_")
 end

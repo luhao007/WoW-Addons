@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.9.1 - August 5, 2025
+### Changed
+- Retail: Updated TOC to 11.2.0
+- Removed the one use of LibDialog and replaced with a print
+### Fixed
+- MoP: Added dungeon journal buttons for raids that are available now
+- Retail/MoP: Fixed Mogu'shan Vaults dungeon journal map button going to Terrace of Endless Spring
+
 ## 3.9.0 - July 14, 2025
 ### Added
 - Added separate options for the scale and transparency of the small Atlas map, so that you can easily toggle back and forth between a full-size Atlas map, and a minimap-like Atlas map
@@ -612,7 +620,7 @@ v1.41.00 (Apr. 14, 2017)
 v1.40.06 (Apr. 13, 2017)
 ------------------------
 - Checking deprecated plugins now will recognize the alpha build's version
-  if specifed; or will ignore those set "v3.9.0" as the version
+  if specifed; or will ignore those set "v3.9.1" as the version
   number to be changed by CurseForge's auto-packaging.
 
 v1.40.05 (Apr. 13, 2017)

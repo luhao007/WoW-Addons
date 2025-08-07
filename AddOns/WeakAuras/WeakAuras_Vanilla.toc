@@ -1,6 +1,6 @@
-## Interface: 110107
+## Interface: 110200
 ## Author: The WeakAuras Team
-## Version: 5.20.0
+## Version: 5.20.1
 
 ## Title: WeakAuras
 ## Notes: A powerful, comprehensive utility for displaying graphics and information based on buffs, debuffs, and other triggers.

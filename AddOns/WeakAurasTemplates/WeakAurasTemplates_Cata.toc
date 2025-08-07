@@ -1,6 +1,6 @@
-## Interface: 110107
+## Interface: 110200
 ## Author: The WeakAuras Team
-## Version: 5.20.0
+## Version: 5.20.1
 
 ## Title: WeakAuras Templates
 ## Notes: Templates for WeakAuras

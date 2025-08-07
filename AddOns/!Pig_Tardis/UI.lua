@@ -103,6 +103,7 @@ function TardisInfo.ADD_UI()
 	-- TardisInfo.Chedui()
 	TardisInfo.Farm(true)
 	TardisInfo.Plane()
+	--TardisInfo.Invite()
 	TardisInfo.Yell()
 	
 end

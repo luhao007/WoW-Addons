@@ -45,11 +45,22 @@ local cl_Name_Role={
 local ClasseID={};
 local ClasseNameID={}
 local ClassFile_Name={};
-for index=1,GetNumClasses() do
-	if (index == 10) and (GetClassicExpansionLevel() <= LE_EXPANSION_CATACLYSM) then
-		index = 11;
-	end
-	local className, classFile, classID = PIGGetClassInfo(index)
+local expansionLevel = GetClassicExpansionLevel()
+local classIDs
+if expansionLevel == 0 or expansionLevel == 1 then
+    classIDs = {1,2,3,4,5,7,8,9,11}
+elseif expansionLevel == 2 then
+    classIDs = {1,2,3,4,5,6,7,8,9,11}
+elseif expansionLevel == 4 then
+    classIDs = {1,2,3,4,5,6,7,8,9,10,11} 
+-- elseif expansionLevel == 6 then
+-- 	classIDs = {1,2,3,4,5,6,7,8,9,10,11,12} 
+else
+	classIDs = {1,2,3,4,5,6,7,8,9,10,11,12,13} 
+end
+for index=1,#classIDs do
+	local classID=classIDs[index]
+	local className, classFile, classID = PIGGetClassInfo(classID)
 	if classFile then
 		table.insert(cl_Name,{classFile,cl_Name_Role[classFile],className, classID})
 		ClasseID[classFile]= classID
@@ -137,7 +148,7 @@ Data.bagData = {
 	["bankID"]={-1,5,6,7,8,9,10},
 	["bankmun"]=24,
 	["bankbag"]=6,
-	["ItemWH"]=_G["BankFrameItem1"]:GetWidth()+5,
+	["ItemWH"]=42,
 }
 if PIG_MaxTocversion(20000,true) then
 	Data.bagData["bankmun"]=28;
@@ -148,6 +159,10 @@ if PIG_MaxTocversion(100000,true) then
 	Data.bagData["bagIDMax"]= NUM_TOTAL_BAG_FRAMES
 	Data.bagData["bagID"]={0,1,2,3,4,5}
 	Data.bagData["bankID"]={-1,6,7,8,9,10,11,12}
+elseif PIG_MaxTocversion(110200) then
+	Data.bagData.ItemWH=_G["BankFrameItem1"]:GetWidth()+5
+else
+	Data.bagData.ItemWH=ContainerFrameCombinedBags.Items[1]:GetWidth()+5
 end
 --物品类型
 local ItemTypeLsit = {

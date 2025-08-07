@@ -71,9 +71,10 @@ local function HandleEntityWithoutVignette(rareScannerButton, unitID, trackingSy
 		end
 	elseif (unitType == "Object") then
 		local containerID = entityID and tonumber(entityID) or nil
+		local containerName = UnitName(unitID)
+		local containerDbName = RSContainerDB.GetContainerName(containerID)
 		-- If the container didn't have a vignette this is the last chance to get the name
-		if (RSContainerDB.GetInternalContainerInfo(containerID) and not RSContainerDB.GetContainerName(containerID)) then
-			local containerName = UnitName(unitID)
+		if (RSContainerDB.GetInternalContainerInfo(containerID) and (containerDbName or containerDbName ~= containerName)) then
 			if (containerName) then
 				RSContainerDB.SetContainerName(containerName)
 			end
@@ -246,9 +247,9 @@ local function OnLootOpened()
 					-- Records the loot obtained
 					local itemLink = GetLootSlotLink(i)
 					if (itemLink) then
-						local _, _, _, lootType, id, _, _, _, _, _, _, _, _, _, name = string.find(itemLink, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?")
+						local _, _, _, lootType, id = string.find(itemLink, "|cnIQ?(%d*):|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?")
 						if (lootType == "item") then
-							local itemID = id and tonumber(id) or nil
+						local itemID = id and tonumber(id) or nil
 							RSContainerDB.AddItemToContainerLootFound(containerID, itemID)
 						end
 					end
@@ -261,8 +262,7 @@ local function OnLootOpened()
 				if (RSGeneralDB.GetAlreadyFoundEntity(npcID) or RSNpcDB.GetInternalNpcInfo(npcID)) then
 					local itemLink = GetLootSlotLink(i)
 					if (itemLink) then
-						local _, _, _, lootType, id, _, _, _, _, _, _, _, _, _, name = string.find(itemLink, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?")
-						
+						local _, _, _, lootType, id = string.find(itemLink, "|cnIQ?(%d*):|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?")
 						if (lootType == "item") then
 							local itemID = id and tonumber(id) or nil
 							RSNpcDB.AddItemToNpcLootFound(npcID, itemID)
@@ -455,24 +455,36 @@ local function OnAchievementCriteriaEarned(achievementID)
 	for i=1, GetAchievementNumCriteria(achievementID) do
 		local _, _, completed = GetAchievementCriteriaInfo(achievementID, i)
 	   	if (completed) then
-			for _, entityID in ipairs(private.ACHIEVEMENT_TARGET_IDS[achievementID]) do
-				local containerInfo = RSContainerDB.GetInternalContainerInfo(entityID)
-				if (containerInfo) then
-					if (containerInfo.criteria == i and not RSContainerDB.IsContainerOpened(entityID)) then
-						RSLogger:PrintDebugMessage(string.format("Contenedor con criteria [%s][%s]. Completado.", achievementID, entityID))
-						RSContainerDB.SetContainerOpened(entityID)
-						RSMinimap.RefreshEntityState(entityID)
-						refresh = true
-					end
-				else
-					local npcInfo = RSNpcDB.GetInternalNpcInfo(entityID)
-					if (npcInfo) then
-						if (npcInfo.criteria == i and not RSNpcDB.IsNpcKilled(entityID)) then
-							RSLogger:PrintDebugMessage(string.format("NPC con criteria [%s][%s]. Completado.", achievementID, entityID))
-							RSNpcDB.SetNpcKilled(entityID)
+	   		-- If container/NPC
+	   		if (private.ACHIEVEMENT_TARGET_IDS[achievementID]) then
+				for _, entityID in ipairs(private.ACHIEVEMENT_TARGET_IDS[achievementID]) do
+					local containerInfo = RSContainerDB.GetInternalContainerInfo(entityID)
+					if (containerInfo) then
+						if (containerInfo.criteria == i and not RSContainerDB.IsContainerOpened(entityID)) then
+							RSLogger:PrintDebugMessage(string.format("Contenedor con criteria [%s][%s]. Completado.", achievementID, entityID))
+							RSContainerDB.SetContainerOpened(entityID)
 							RSMinimap.RefreshEntityState(entityID)
 							refresh = true
 						end
+					else
+						local npcInfo = RSNpcDB.GetInternalNpcInfo(entityID)
+						if (npcInfo) then
+							if (npcInfo.criteria == i and not RSNpcDB.IsNpcKilled(entityID)) then
+								RSLogger:PrintDebugMessage(string.format("NPC con criteria [%s][%s]. Completado.", achievementID, entityID))
+								RSNpcDB.SetNpcKilled(entityID)
+								RSMinimap.RefreshEntityState(entityID)
+								refresh = true
+							end
+						end
+					end
+				end
+			elseif (RSDragonGlyphDB.IsDragonGlyph(achievementID)) then
+		   		for glyphID, info in pairs (private.DRAGON_GLYPHS) do
+					if (info.parent and info.parent == achievementID and info.criteria == i and not RSDragonGlyphDB.GetDragonGlyphCollected(glyphID)) then
+						RSLogger:PrintDebugMessage(string.format("Glifo con criteria [%s][%s]. Completado.", achievementID, glyphID))
+						RSDragonGlyphDB.SetDragonGlyphCollected(glyphID)
+						RSMinimap.HideIcon(glyphID)
+						refresh = true
 					end
 				end
 			end
@@ -492,18 +504,14 @@ end
 
 local function OnCriteriaEarned(parentAchievementID, description)
 	if (parentAchievementID) then
-		-- Update drakewatcher progress
 		RSLogger:PrintDebugMessage(string.format("Criteria del logro [%s][%s]. Completado.", parentAchievementID, description))
-		local achievementID = RSDragonGlyphDB.GetChildDragonGlyphID(parentAchievementID, description)
-		if (achievementID) then
-			RSLogger:PrintDebugMessage(string.format("Logro de glifo [%s]. Completado.", achievementID))
-			RSDragonGlyphDB.SetDragonGlyphCollected(achievementID)
-			RSMinimap.HideIcon(achievementID)
-		
-			-- Update achievements cache
-			RSAchievementDB.RefreshAchievementCache(parentAchievementID)
-		elseif (RSUtils.Contains(private.ACHIEVEMENT_WITH_CRITERIA, parentAchievementID)) then
+		if (RSUtils.Contains(private.ACHIEVEMENT_WITH_CRITERIA, parentAchievementID)) then
 			OnAchievementCriteriaEarned(parentAchievementID)
+		elseif (RSDragonGlyphDB.IsDragonGlyph(parentAchievementID)) then
+			-- This type of achievement doesn't update inmediately
+			C_Timer.After(0.2, function() 
+				OnAchievementCriteriaEarned(parentAchievementID) 
+			end)
 		end
 	end
 end

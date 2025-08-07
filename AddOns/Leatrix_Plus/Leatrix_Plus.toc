@@ -1,6 +1,6 @@
-## Interface: 110107
+## Interface: 110200
 ## Author: Leatrix
-## Version: 11.1.15
+## Version: 11.2.00
 
 ## Title: Leatrix Plus
 ## Notes: For support, visit leatrix.com.

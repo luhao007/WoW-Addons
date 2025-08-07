@@ -3,17 +3,17 @@
 --     W o w h e a d   L o o t e r     --
 --                                     --
 --                                     --
---    Patch: 11.1.7                    --
+--    Patch: 11.2.0                    --
 --    E-mail: feedback@wowhead.com     --
 --                                     --
 -----------------------------------------
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2025-06-17";
+local WL_ADDON_UPDATED = "2025-08-05";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
-local WL_VERSION = 110107;
+local WL_VERSION = 110200;
 local WL_VERSION_PATCH = 0;
 local WL_ADDONNAME, WL_ADDONTABLE = ...
 

@@ -1,5 +1,5 @@
 ## Interface: 11506, 11507, 20504, 30405, 40402, 40401, 50500, 110105, 110107, 110200
-## Version: v11.1.9
+## Version: v11.2.0
 ## Title: Lib: Specialization
 ## Notes: A library for transmitting your talent string and specialization to other players, that developers can embed in their addons.
 # Notes-deDE: A library for transmitting your talent string and specialization to other players, that developers can embed in their addons.

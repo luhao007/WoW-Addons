@@ -1,18 +1,12 @@
-tag 8c09b1543dd01ca887eeec8ae4d732971c3f7e88 v1.12.26
+tag 4c9aebde3ae138b0659895548834219161e23515 v1.12.27
 Author:	Filip Stenstrom <filip.stenstrom.4488@gmail.com>
-Date:	Sat Aug 2 17:45:10 2025 +0200
+Date:	Wed Aug 6 22:27:08 2025 +0200
 
-Fix tests
+Update for 11.2
 
-commit 54ed37ced0c582852a64c3cce0675938a73a85bc
+commit 3b6a006d9569420ac58edb759307408388984d1e
 Author: Filip Stenstrom <filip.stenstrom.4488@gmail.com>
-Date:   Sat Aug 2 17:44:11 2025 +0200
+Date:   Wed Aug 6 22:26:41 2025 +0200
 
-    Bump to v1.12.26
-
-commit c56aaadb9e4c49d6067bf79329b70375b4dcb81d
-Author: Filip Stenstrom <filip.stenstrom.4488@gmail.com>
-Date:   Sat Aug 2 17:43:45 2025 +0200
-
-    Fix unit test
+    Update interface version for 11.2
 

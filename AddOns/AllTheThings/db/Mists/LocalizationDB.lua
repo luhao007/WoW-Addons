@@ -1186,11 +1186,8 @@ localize(L.HEADER_NAMES, {
 	[-258] = select(2,GetAchievementInfo(6938))..": Season 11",
 	[-259] = select(2,GetAchievementInfo(8214))..": Season 12",
 	[-260] = select(2,GetAchievementInfo(8791))..": Season 13",
-	[-261] = "Honor Gear Tyrannical Season",
 	[-262] = select(2,GetAchievementInfo(8643)),
-	[-263] = "Honor Gear Grievous Season",
 	[-264] = select(2,GetAchievementInfo(8666)),
-	[-265] = "Honor Gear Prideful Season",
 	[-291] = ARENA,
 	[-292] = BATTLEGROUNDS,
 	[-295] = "Elite Gear",
@@ -1462,11 +1459,8 @@ localize(L.HEADER_ICONS, {
 	[-258] = 236235,
 	[-259] = 838515,
 	[-260] = 838515,
-	[-261] = 838515,
 	[-262] = 838515,
-	[-263] = 838515,
 	[-264] = 838515,
-	[-265] = 838515,
 	[-291] = 236329,
 	[-292] = 132487,
 	[-295] = 311232,
@@ -1695,6 +1689,9 @@ _.Modules.Events.SetEventInformation(133900, {
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=7,["monthDay"]=26,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=7,["monthDay"]=26,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=8,["monthDay"]=2,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=8,["monthDay"]=2,["weekday"]=1,["year"]=2026})
 });
+_.Modules.Events.SetEventInformation(1262, {
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=6,["weekday"]=1,["year"]=2022},{["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=27,["weekday"]=1,["year"]=2022})
+});
 _.Modules.Events.SetEventInformation(133899, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=2,["year"]=2024},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=4,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=3,["year"]=2025},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=5,["year"]=2026}),
@@ -1704,9 +1701,6 @@ _.Modules.Events.SetEventInformation(133889, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=4,["year"]=2024},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=1,["year"]=2024}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=5,["year"]=2025},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=2,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=6,["year"]=2026},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=3,["year"]=2026})
-});
-_.Modules.Events.SetEventInformation(1262, {
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=6,["weekday"]=1,["year"]=2022},{["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=27,["weekday"]=1,["year"]=2022})
 });
 
 -- Filter Database Module
@@ -12518,9 +12512,6 @@ localize(L.HEADER_NAMES, {
 	[-258] = select(2,GetAchievementInfo(6938))..": Saison 11",
 	[-259] = select(2,GetAchievementInfo(8214))..": Saison 12",
 	[-260] = select(2,GetAchievementInfo(8791))..": Saison 13",
-	[-261] = "Équipement Honneur Saison Tyrannique",
-	[-263] = "Équipement Honneur Saison Dramatique",
-	[-265] = "Équipement Honneur Saison Orgueilleux",
 	[-295] = "Équipement Élite",
 	[-296] = "Équipement Gladiateur",
 	[-318] = "Ensembles Tier 0.5",
@@ -20610,9 +20601,6 @@ localize(L.HEADER_NAMES, {
 	[-258] = select(2,GetAchievementInfo(6938))..": Сезон 11",
 	[-259] = select(2,GetAchievementInfo(8214))..": Сезон 12",
 	[-260] = select(2,GetAchievementInfo(8791))..": Сезон 13",
-	[-261] = "Доспехи Деспотичного гладиатора за очки чести",
-	[-263] = "Доспехи Бездушного гладиатора за очки чести",
-	[-265] = "Доспехи Гордого гладиатора за очки чести",
 	[-295] = "Элитные доспехи",
 	[-296] = "Доспехи Гладиатора",
 	[-318] = "Комплекты T0.5",
@@ -26674,9 +26662,6 @@ localize(L.HEADER_NAMES, {
 	[-258] = select(2,GetAchievementInfo(6938))..": Temporada 11",
 	[-259] = select(2,GetAchievementInfo(8214))..": Temporada 12",
 	[-260] = select(2,GetAchievementInfo(8791))..": Temporada 13",
-	[-261] = "Equipo de honor de la temporada tiránica",
-	[-263] = "Equipo de honor de la temporada severa",
-	[-265] = "Equipo de honor de la temporada orgullosa",
 	[-295] = "Equipo de Elite",
 	[-296] = "Equipo de Gladiador",
 	[-298] = "Titulos de honor",
@@ -30539,9 +30524,6 @@ localize(L.HEADER_NAMES, {
 	[-258] = select(2,GetAchievementInfo(6938)).."：第11赛季",
 	[-259] = select(2,GetAchievementInfo(8214)).."：第12赛季",
 	[-260] = select(2,GetAchievementInfo(8791)).."：第13赛季",
-	[-261] = "荣誉装备暴虐赛季",
-	[-263] = "荣誉装备恶孽赛季",
-	[-265] = "荣誉装备骄矜赛季",
 	[-295] = "精锐装备",
 	[-296] = "角斗士装备",
 	[-298] = HONOR .. PAPERDOLL_SIDEBAR_TITLES,
@@ -33501,9 +33483,6 @@ localize(L.HEADER_NAMES, {
 	[-258] = select(2,GetAchievementInfo(6938)).."：第11賽季",
 	[-259] = select(2,GetAchievementInfo(8214)).."：第12賽季",
 	[-260] = select(2,GetAchievementInfo(8791)).."：第13賽季",
-	[-261] = "榮譽裝備暴虐賽季",
-	[-263] = "榮譽裝備惡孽賽季",
-	[-265] = "榮譽裝備驕矜賽季",
 	[-295] = "精英裝備",
 	[-296] = "鬥士裝備",
 	[-318] = "T0.5套裝",

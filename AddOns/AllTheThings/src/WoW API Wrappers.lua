@@ -47,6 +47,7 @@ end
 -- ChatInfo APIs
 local C_ChatInfo = C_ChatInfo
 AssignAPIWrapper("SendChatMessage", C_ChatInfo and C_ChatInfo.SendChatMessage , SendChatMessage);
+AssignAPIWrapper("SendAddonMessage", C_ChatInfo and C_ChatInfo.SendAddonMessage , SendAddonMessage);
 
 -- Faction APIs
 local C_Reputation = C_Reputation;

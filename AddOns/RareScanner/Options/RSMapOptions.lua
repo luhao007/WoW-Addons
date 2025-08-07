@@ -284,6 +284,22 @@ function RSMapOptions.GetMapOptions()
 							width = "full",
 							disabled = function() return (not RSConfigDB.IsShowingNpcs() and not RSConfigDB.IsShowingContainers() and not RSConfigDB.IsShowingEvents()) or (not RSConfigDB.IsShowingNotDiscoveredNpcs() and not RSConfigDB.IsShowingNotDiscoveredContainers() and not RSConfigDB.IsShowingNotDiscoveredEvents()) end,
 						},
+						separatorIngame = {
+							order = 18,
+							type = "header",
+							name = AL["MAP_INGAME_ICONS"],
+						},
+						displayFilteredIngameIcons = {
+							order = 19,
+							type = "toggle",
+							name = AL["DISPLAY_MAP_FILTERED_INGAME_ICONS"],
+							desc = AL["DISPLAY_MAP_FILTERED_INGAME_ICONS_DESC"],
+							get = function() return RSConfigDB.IsShowingFilteredIngameMapIcons() end,
+							set = function(_, value)
+								RSConfigDB.SetShowingFilteredIngameMapIcons(value)
+							end,
+							width = "full",
+						},
 					},
 				},
 				timers = {

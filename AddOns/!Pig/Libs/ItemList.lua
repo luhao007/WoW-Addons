@@ -604,7 +604,7 @@ local function add_ItemList(fujik,miaodian,ZBLsit_C,TalentUI)
 			clsit.ButGem[Gemid]=Gembut
 			Gembut:SetBackdrop({edgeFile = "Interface/AddOns/"..addonName.."/Libs/Pig_Border.blp", edgeSize = 10});
 			Gembut:SetBackdropBorderColor(0, 0, 0, 1);
-			Gembut:SetSize(ListWWWHHH[3]+12,ListWWWHHH[3]);
+			Gembut:SetSize(ListWWWHHH[3],ListWWWHHH[3]);
 			if Gemid==1 then
 				Gembut:SetPoint("LEFT",clsit.itemlink,"RIGHT",0,-1);
 			elseif Gemid==6 then
@@ -649,7 +649,7 @@ local function add_ItemList(fujik,miaodian,ZBLsit_C,TalentUI)
 		end
 	end
 	if ZBLsit_C then
-		ZBLsit:SetPoint("TOPLEFT", fujik.ZBLsit, "TOPRIGHT",-2,0);
+		ZBLsit:SetPoint("TOPLEFT", miaodian, "TOPRIGHT",-2,0);
 	end
 	if TalentUI then
 		TalentData.add_TalentUI(ZBLsit)
@@ -713,7 +713,7 @@ local function add_ItemList(fujik,miaodian,ZBLsit_C,TalentUI)
 			end
 		else
 			local IS_guacha=false
-			if unit~="player" and self:GetParent():GetName()=="InspectFrame" then
+			if unit~="player" and self:GetParent():GetParent():GetName()=="InspectFrame" then
 				IS_guacha=true
 			end
 			local cName=GetUnitName(unit, true)
@@ -870,8 +870,8 @@ function Create.PIGItemListUI(laiyuan)
 	if laiyuan==PaperDollFrame then
 		laiyuan.ZBLsit = add_ItemList(laiyuan,laiyuan)
 	elseif laiyuan==InspectFrame then
-		laiyuan.ZBLsit = add_ItemList(laiyuan,laiyuan,nil,true)
-		laiyuan.ZBLsit_C = add_ItemList(laiyuan,laiyuan.ZBLsit,true,true)
+		laiyuan.ZBLsit = add_ItemList(InspectPaperDollFrame,InspectPaperDollFrame,nil,true)
+		laiyuan.ZBLsit_C = add_ItemList(InspectPaperDollFrame,laiyuan.ZBLsit,true,true)
 	elseif laiyuan==_G[Data.LongInspectUIUIname] then
 		laiyuan.ZBLsit = add_ItemList(laiyuan,laiyuan,nil,true)
 	end

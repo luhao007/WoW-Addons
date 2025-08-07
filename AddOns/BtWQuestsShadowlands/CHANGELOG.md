@@ -1,3 +1,7 @@
+# v6.20
+
+- Updated for 11.2.0
+
 # v6.19
 
 - Updated for 11.1.5

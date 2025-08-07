@@ -1,6 +1,6 @@
-## Interface: 110107
+## Interface: 110200
 ## Author: nanderson11
-## Version: v3.9.0
+## Version: v3.9.1
 
 ## Title: Atlas
 ## Notes: Instance Map Browser
@@ -9,7 +9,7 @@
 
 ## IconTexture: Interface\WorldMap\WorldMap-Icon
 
-## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibBabble-Boss-3.0, LibBabble-Faction-3.0, LibDBIcon-1.0, LibDialog-1.0, DevTool
+## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibBabble-Boss-3.0, LibBabble-Faction-3.0, LibDBIcon-1.0, DevTool
 
 ## SavedVariables: AtlasDB
 

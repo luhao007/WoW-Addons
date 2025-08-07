@@ -89,9 +89,9 @@ function TardisInfo.ADD_Options()
 	--
 	local shelistx = {
 		-- {"Chedui",L["TARDIS_CHEDUI"]},
-		-- {"Houche",L["TARDIS_HOUCHE"]},
 		{"Farm",L["TARDIS_CHETOU"]},
 		{"Plane",L["TARDIS_PLANE"]},
+		{"Invite",GROUPS},
 		{"Yell",L["TARDIS_YELL"]},
 	}
 	local function ADD_setckbut(peizhiV,txtV)

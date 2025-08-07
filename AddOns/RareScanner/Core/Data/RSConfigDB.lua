@@ -379,6 +379,18 @@ function RSConfigDB.SetShowingOldNotDiscoveredMapIcons(value)
 end
 
 ---============================================================================
+-- Ingame filters database
+---============================================================================
+
+function RSConfigDB.IsShowingFilteredIngameMapIcons()
+	return private.db.map.displayFilteredIngameMapIcons
+end
+
+function RSConfigDB.SetShowingFilteredIngameMapIcons(value)
+	private.db.map.displayFilteredIngameMapIcons = value
+end
+
+---============================================================================
 -- NPC filters database
 ---============================================================================
 

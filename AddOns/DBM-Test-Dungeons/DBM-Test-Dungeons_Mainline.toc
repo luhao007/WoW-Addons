@@ -1,4 +1,4 @@
-## Interface: 110107
+## Interface: 110200
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Tests|r|cffffe00a>|r |cff69ccf0Tests for Dungeon mods|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本助手|r |cFF69CCF0测试功能|r |cFF22B14C地下城|r
@@ -13,3 +13,12 @@
 ## X-Part-Of: DBM-Core
 
 Dragonflight/UldamanLegacyOfTyr/TheLostDwarves.lua
+
+Shadowlands/Tazavesh/Zephex_HardMode_Kill.lua
+Shadowlands/Tazavesh/GrandMenagerie_HardMode_Kill.lua
+Shadowlands/Tazavesh/MailroomMayhem_HardMode_Kill.lua
+Shadowlands/Tazavesh/MyzasOasis_HardMode_Kill.lua
+Shadowlands/Tazavesh/Soazmi_HardMode_Kill.lua
+Shadowlands/Tazavesh/Hylbrande_HardMode_Kill.lua
+Shadowlands/Tazavesh/TimecapnHooktail_HardMode_Kill.lua
+Shadowlands/Tazavesh/Soleah_HardMode_Kill.lua

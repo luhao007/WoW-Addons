@@ -162,10 +162,13 @@ end
 local function Load_addonsFun(FrameX)
 	ADD_UI_Puls(FrameX)
 	FrameX:HookScript("OnShow", function(self,event,arg1)
-		if PIG_MaxTocversion(20000) then
-			FasongYCqingqiu(InspectNameText:GetText(),4)
-		elseif PIG_MaxTocversion() then
-			FasongYCqingqiu(InspectNameText:GetText(),3)
+		local namex=InspectNameText:GetText()
+		if namex and namex~="" and namex==NAME then
+			if PIG_MaxTocversion(20000) then
+				FasongYCqingqiu(InspectNameText:GetText(),4)
+			elseif PIG_MaxTocversion() then
+				FasongYCqingqiu(InspectNameText:GetText(),3)
+			end
 		end
 		if _G[Data.LongInspectUIUIname] then
 			_G[Data.LongInspectUIUIname]:Hide()

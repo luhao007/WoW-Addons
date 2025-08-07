@@ -1,0 +1,29 @@
+## Interface: 110200
+## Author: geligasi
+## Version: 1.63
+
+## Title: !Pig_Tardis
+## Notes: Invite enhancement
+## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r |cFFFFFFFFPig工具箱|r |cFF69CCF0时空之门|r
+## Notes-zhCN: |cffFF8C00!Pig组队增强功能|r
+
+## IconTexture: Interface/AddOns/!Pig/Libs/logo32.blp
+
+## AddonCompartmentFunc: PIGCompartmentClick_Tardis
+## AddonCompartmentFuncOnEnter: PIGCompartmentEnter_Tardis
+## AddonCompartmentFuncOnLeave: PIGCompartmentLeave_Tardis
+
+## RequiredDeps: !Pig
+
+## SavedVariables: PIGT
+## SavedVariablesPerCharacter: PIGT_Per
+
+## X-Part-Of: !Pig
+
+Default.lua
+Options.lua
+UI.lua
+Farm.lua
+Plane.lua
+Invite.lua
+Yell.lua

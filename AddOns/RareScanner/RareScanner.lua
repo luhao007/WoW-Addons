@@ -221,8 +221,9 @@ scanner_button.FilterEntityButton:SetScript("OnClick", function(self)
 			-- Filter every container with the same name
 			local containerName = RSContainerDB.GetContainerName(entityID)
 			if (containerName) then
-				for containerID, name in pairs(RSContainerDB.GetAllContainerNames()) do
-					if (name == containerName) then
+				for containerID, _ in pairs(RSContainerDB.GetAllInternalContainerInfo()) do
+					local name = RSContainerDB.GetContainerName(containerID)
+					if (name and name == containerName) then
 						if (RSConfigDB.GetDefaultContainerFilter() == RSConstants.ENTITY_FILTER_WORLDMAP) then
 							RSConfigDB.SetContainerFiltered(containerID, RSConstants.ENTITY_FILTER_ALL)
 						else
@@ -854,7 +855,9 @@ local function RefreshDatabaseData(previousDbVersion)
 				local _, name, _, completed, _, _, _, _, _, _, _, _ = GetAchievementInfo(glyphID)
 				if (name) then
 					RSDragonGlyphDB.SetDragonGlyphName(glyphID, name)
-					RSDragonGlyphDB.SetDragonGlyphCollected(completed)
+					if (completed) then
+						RSDragonGlyphDB.SetDragonGlyphCollected(glyphID)
+					end
 				end
 			end
 		end, 

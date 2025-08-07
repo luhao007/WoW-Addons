@@ -13,7 +13,10 @@ function FramePlusfun.Friends()
 	if not PIGA["FramePlus"]["Friends"] then return end
 	FriendsFrame:Hide()
 	local www = FriendsFrame:GetWidth()
-	local butWidth_2 = www*2
+	local butWidth_2 = www*1.7
+	if PIG_MaxTocversion(110200) then
+		butWidth_2 = www*2
+	end
 	local butWidth = www*2-40
 	FriendsFrame:SetWidth(butWidth_2)
 	local hangH,iconH,texW = 28,16,500
@@ -483,7 +486,7 @@ function FramePlusfun.Friends()
 				button.tooltip1 = info.fullName.." - "..info.area;
 				button.tooltip2 = info.fullGuildName;
 			end
-			WhoFrame.senmsg.listUpdate(button)
+			if WhoFrame.senmsg then WhoFrame.senmsg.listUpdate(button) end
 		end)
 	end
 
@@ -669,7 +672,7 @@ function FramePlusfun.Friends()
 	end
 
 	--团队==============
-	RaidFrameRaidDescription:SetWidth(butWidth+10)
+	if RaidFrameRaidDescription then RaidFrameRaidDescription:SetWidth(butWidth+10) end
 	local function SETRaidUIFrame()
 		for i=1,8 do
 			local uix = _G["RaidGroup"..i]

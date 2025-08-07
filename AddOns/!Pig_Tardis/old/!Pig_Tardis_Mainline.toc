@@ -1,0 +1,24 @@
+﻿## Interface: 110107
+## Title: !Pig_Tardis
+## Title-zhCN: !Pig |cff00FF00[时空之门]|r
+## Title-zhTW: !Pig |cff00FF00[時空之門]|r
+## Notes: Invite enhancement
+## Notes-zhCN: |cffFF8C00!Pig组队增强功能|r
+## Notes-zhTW: |cffFF8C00!Pig組隊增強功能|r
+## IconTexture: Interface/AddOns/!Pig/Libs/logo32.blp
+## AddonCompartmentFunc: PIGCompartmentClick_Tardis
+## AddonCompartmentFuncOnEnter: PIGCompartmentEnter_Tardis
+## AddonCompartmentFuncOnLeave: PIGCompartmentLeave_Tardis
+## RequiredDeps: !Pig
+## Author: geligasi
+## Version: 1.60
+## SavedVariables: PIGT
+## SavedVariablesPerCharacter: PIGT_Per
+Default.lua
+Options.lua
+UI.lua
+Farm.lua
+Chedui.lua
+Houche.lua
+Plane.lua
+Yell.lua

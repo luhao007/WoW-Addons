@@ -98,21 +98,21 @@ function RSHyperlinks.HookHyperLinks()
 --						else
 --							RSConfigDB.SetNpcFiltered(entityID)
 --						end
---						RSLogger:PrintMessage(AL["DISABLED_SEARCHING_RARE"]..(name and name or entityIDs))
+--						RSLogger:PrintMessage(AL["DISABLED_SEARCHING_ENTITIE"]..(name and name or entityIDs))
 --					elseif (type == CONTAINER_TYPE) then
 --						if (RSConfigDB.GetDefaultContainerFilter() == RSConstants.ENTITY_FILTER_ALERTS) then
 --							RSConfigDB.SetContainerFiltered(entityID, RSConstants.ENTITY_FILTER_ALL)
 --						else
 --							RSConfigDB.SetContainerFiltered(entityID)
 --						end
---						RSLogger:PrintMessage(AL["DISABLED_SEARCHING_RARE"]..(name and name or entityIDs))
+--						RSLogger:PrintMessage(AL["DISABLED_SEARCHING_ENTITIE"]..(name and name or entityIDs))
 --					elseif (type == EVENT_TYPE) then
 --						if (RSConfigDB.GetDefaultEventFilter() == RSConstants.ENTITY_FILTER_ALERTS) then
 --							RSConfigDB.SetEventFiltered(entityID, RSConstants.ENTITY_FILTER_ALL)
 --						else
 --							RSConfigDB.SetEventFiltered(entityID)
 --						end
---						RSLogger:PrintMessage(AL["DISABLED_SEARCHING_RARE"]..(name and name or entityIDs))
+--						RSLogger:PrintMessage(AL["DISABLED_SEARCHING_ENTITIE"]..(name and name or entityIDs))
 --					end
 --					RSProvider.RefreshAllDataProviders()
 --					RSMinimap.RefreshEntityState(entityID)

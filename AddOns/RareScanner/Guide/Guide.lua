@@ -942,6 +942,34 @@ private.NPC_GUIDE = {
 		[RSConstants.DOT..3] = { x = 0.7180, y = 0.4280, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
 		[RSConstants.DOT..4] = { x = 0.7240, y = 0.4750, comment = AL["NOTE_FLAMES_RADIANCE_INCURSION_NPCS_1"] };
 	}; --Whisperer Bravefort
+	["2459982371"] = {
+		[RSConstants.DOT..1] = { x = 0.7698, y = 0.3179, comment = AL["NOTE_245998_1"] };
+		[RSConstants.DOT..2] = { x = 0.7271, y = 0.3472, comment = AL["NOTE_245998_2"] };
+		[RSConstants.DOT..3] = { x = 0.7258, y = 0.2845, comment = AL["NOTE_245998_3"] };
+		[RSConstants.DOT..4] = { x = 0.7179, y = 0.3461, comment = AL["NOTE_245998_4"] };
+		[RSConstants.FLAG] = { x = 0.7543, y = 0.3032, comment = AL["NOTE_245998_5"] };
+	}; --Heka'tamos <the Elemental Disjunction>
+	["2385402472"] = {
+		[RSConstants.FLAG] = { x = 0.4848, y = 0.5874, comment = AL["NOTE_238540_1"] };
+	}; --Grubber
+	["2419202371"] = {
+		[RSConstants.FLAG] = { x = 0.6626, y = 0.8040, comment = AL["NOTE_241920_1"] };
+	}; --Purple Peat
+	["2381352371"] = {
+		[RSConstants.FLAG] = { x = 0.6633, y = 0.8038, comment = AL["NOTE_238135_1"] };
+	}; --Shatterpulse
+	["2348452371"] = {
+		[RSConstants.FLAG] = { x = 0.7583, y = 0.3289, comment = AL["NOTE_234845_1"] };
+	}; --Sthaarbs <the Mindroiler>
+	["2385362371"] = {
+		[RSConstants.FLAG] = { x = 0.6628, y = 0.8040, comment = AL["NOTE_238536_1"] };
+	}; --Hollowbane
+	["2419562472"] = {
+		[RSConstants.FLAG] = { x = 0.4846, y = 0.5840, comment = AL["NOTE_241956_1"] };
+	}; --Arcana-Monger So'zer
+	["2383842472"] = {
+		[RSConstants.FLAG] = { x = 0.4846, y = 0.5840, comment = AL["NOTE_238384_1"] };
+	}; --Xy'vox the Twisted
 }
 
 ---============================================================================
@@ -2158,6 +2186,33 @@ private.CONTAINER_GUIDE = {
 		[RSConstants.FLAG..2] = { x = 0.3773, y = 0.6451, comment = AL["NOTE_355035_1"] };
 		[RSConstants.FLAG..3] = { x = 0.3813, y = 0.6671, comment = AL["NOTE_355035_1"] };
 	}; --Chosen Runecoffer
+	["5038232472"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4801, y = 0.6301 };
+	}; --Mailroom Distribution
+	["5581092472"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4399, y = 0.1570 };
+	}; --Ba'key's Aromatic Broker Cookies Recipes
+	["5024712371"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6880, y = 0.4788 };
+	}; --Tumbled Package
+	["5000462371"] = {
+		[RSConstants.FLAG..1] = { x = 0.6830, y = 0.4530, comment = AL["NOTE_500046_1"], questID = 86066 };
+		[RSConstants.FLAG..2] = { x = 0.6986, y = 0.6056, comment = AL["NOTE_500046_2"], questID = 86067 };
+		[RSConstants.FLAG..3] = { x = 0.75490, y = 0.3981, comment = AL["NOTE_500046_3"], questID = 86065 };
+	}; --Gift of the brothers
+	["5024372371"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6075, y = 0.4204 };
+	}; --Wastelander Stash
+	["5479952371"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5685, y = 0.2410 };
+	}; --Warglaive of the Audacious Hunter
+	["5480012472"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4797, y = 0.6315 };
+	}; --P.O.S.T. Master's Prototype Parcel and Postage Presser
+	["5033752371"] = {
+		[RSConstants.FLAG..1] = { x = 0.6655, y = 0.4480, comment = AL["NOTE_503375_1"] };
+		[RSConstants.FLAG..2] = { x = 0.7623, y = 0.3122, comment = AL["NOTE_503375_2"] };
+	}; --Ancient Coffer
 }
 
 ---============================================================================

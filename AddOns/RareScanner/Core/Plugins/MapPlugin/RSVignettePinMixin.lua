@@ -72,14 +72,18 @@ function RSVignettePinMixin:OnAcquired(vignetteGUID, vignetteInfo, frameIndex)
 	local _, _, _, _, _, vignetteObjectID = strsplit("-", self:GetObjectGUID())
 	if (self:GetVignetteType() == Enum.VignetteType.Treasure) then
 		local containerID = tonumber(vignetteObjectID)
-		if (not RSContainerDB.GetContainerName(containerID) and self:GetVignetteName()) then
-			RSContainerDB.SetContainerName(containerID, self:GetVignetteName())
+		local containerName = self:GetVignetteName()
+		local containerDbName = RSContainerDB.GetContainerName(containerID)
+		if (containerName and (not containerDbName or containerDbName ~= containerName)) then
+			RSContainerDB.SetContainerName(containerID, containerName)
 		end
 	elseif (self:GetVignetteType() == Enum.VignetteType.Normal) then
 		if (RSConstants.IsContainerAtlas(self.vignetteInfo.atlasName)) then
 			local containerID = tonumber(vignetteObjectID)
-			if (not RSContainerDB.GetContainerName(containerID) and self:GetVignetteName()) then
-				RSContainerDB.SetContainerName(containerID, self:GetVignetteName())
+			local containerName = self:GetVignetteName()
+			local containerDbName = RSContainerDB.GetContainerName(containerID)
+			if (containerName and (not containerDbName or containerDbName ~= containerName)) then
+				RSContainerDB.SetContainerName(containerID, containerName)
 			end
 		end
 	end

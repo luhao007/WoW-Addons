@@ -1,0 +1,41 @@
+﻿## Interface: 50500
+## Title: !Pig
+## Title-zhCN: !Pig
+## Title-zhTW: !Pig
+## Notes: A toolbox. Integrating many small features can greatly reduce the number of plug-ins you have
+## Notes-zhCN: 一个工具箱。整合很多小功能，可以极大减少你的插件数量
+## Notes-zhTW: 一個工具箱。整合很多小功能，可以極大減少你的插件數量
+## IconTexture: Interface/AddOns/!Pig/Libs/logo32.blp
+## Category-enUS: Toolbox
+## Category-zhCN: 工具箱
+## Category-zhTW: 工具箱
+## AddonCompartmentFunc: PIGCompartmentClick
+## AddonCompartmentFuncOnEnter: PIGCompartmentEnter
+## AddonCompartmentFuncOnLeave: PIGCompartmentLeave
+## Author: geligasi
+## Version:9.19
+## SavedVariables: PIGA
+## SavedVariablesPerCharacter: PIGA_Per
+Localization\Localization.xml
+Error.lua
+Libs\Libs.xml
+Config\Default.lua
+OptionsUI.lua
+Common\Common.xml
+Business\Business.xml
+Chat\Chat.xml
+ActionBar\ActionBar_Vanilla.xml
+CombatPlus\CombatPlus.xml
+Tooltip\Tooltip.xml
+FramePlus\FramePlus.xml
+UnitFrame\UnitFrame.xml
+BagBank\BagBank_Vanilla.xml
+Map\Map.xml
+CVars\CVars.xml
+PigLayout\PigLayout.xml
+Ext.lua
+Config\Config.xml
+About.lua
+Audio.lua
+Debug.lua
+!Pig.lua
