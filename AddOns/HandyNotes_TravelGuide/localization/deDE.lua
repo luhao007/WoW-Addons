@@ -149,6 +149,9 @@ L["Teleporter to Undermine"] = "Teleporter nach Lorenhall"
 L["Teleporter to Dornogal"] = "Teleporter nach Dornogal"
 L["Portal to Mechagon Island"] = "Portal zur Insel Mechagon"
 L["Portal to Maldraxxus"] = "Portal nach Maldraxxus"
+L["Portal to K'aresh"] = "Portal nach K'aresh"
+L["Portal to Tazavesh"] = "Portal nach Tazavesh"
+L["Portal to Revendreth"] = "Portal nach Revendreth"
 
 --==========================================DRAGONFLIGHT==========================================--
 
@@ -324,4 +327,6 @@ L["Portal to the Sepulcher"] = "Portal zum Grabmal"
 L["Waygate to Un'Goro Crater"] = "Tor zum Krater von Un'Goro"
 L["The Masonary"] = "Die Freimaurerei"
 L["inside the Blackrock Mountain"] = "innerhalb des Schwarzfels"
+
+L["Revealed Portal to Naxxramas"] = "Aufgedecktes Portal nach Naxxramas"
 end

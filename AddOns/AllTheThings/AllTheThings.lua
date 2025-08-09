@@ -3736,6 +3736,7 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 					MergeProperties(header, group, true);
 					NestObjects(header, group.g);
 				end
+				local externalMaps = {}
 				-- then merge all mapped groups into the list
 				for _,group in ipairs(mapGroups) do
 					-- app.PrintDebug("Mapping:",app:SearchLink(group))
@@ -3780,8 +3781,22 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 
 					-- If relative to a difficultyID, then merge it into one.
 					if difficultyID then group = app.CreateDifficulty(difficultyID, { g = { group } }); end
+
+					-- If we're trying to map in another 'map', nest it into a special group for external maps
+					if group.instanceID or group.mapID then
+						externalMaps[#externalMaps + 1] = group
+						group = nil
+					end
 					-- app.PrintDebug("Merge as Mapped:",app:SearchLink(group))
 					MergeObject(groups, group);
+				end
+
+				-- Nest our external maps into a special header to reduce minilist header spam
+				if #externalMaps > 0 then
+					local externalMapHeader = app.CreateRawText(TRACKER_FILTER_REMOTE_ZONES, {icon=450908,description=L.REMOTE_ZONES_DESCRIPTION})
+					externalMapHeader.SortType = "Global";
+					NestObjects(externalMapHeader, externalMaps)
+					MergeObject(groups, externalMapHeader)
 				end
 
 				if #rootGroups == 0 then
@@ -3829,7 +3844,7 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 				-- check to expand groups after they have been built and updated
 				-- dont re-expand if the user has previously full-collapsed the minilist
 				-- need to force expand if so since the groups haven't been updated yet
-				if not expanded and not self.fullCollapsed then
+				if not expanded and not self.fullCollapsed and app.Settings:GetTooltipSetting("Expand:MiniList") then
 					self.ExpandInfo = { Expand = true };
 				end
 				self.CurrentMaps = currentMaps;

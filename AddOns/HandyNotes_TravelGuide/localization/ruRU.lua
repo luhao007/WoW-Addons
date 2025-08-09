@@ -150,6 +150,9 @@ L["Portal to Azj-Kahet"] = "Портал в Аз-Кахет"
 -- L["Rocket Drill to Kaja'Coast"] = ""
 L["Teleporter to Undermine"] = "Телепорт в Нижнюю Шахту"
 L["Teleporter to Dornogal"] = "Телепорт в Дорногал"
+L["Portal to K'aresh"] = "Портал в К'ареш"
+L["Portal to Tazavesh"] = "Портал на Тазавеш"
+L["Portal to Revendreth"] = "Портал в Ревендрет"
 
 --==========================================DRAGONFLIGHT==========================================--
 
@@ -325,4 +328,6 @@ L["Portal to the Sepulcher"] = "Портал в Гробницу"
 L["Waygate to Un'Goro Crater"] = "Врата к кратеру Ун'Горо"
 L["The Masonary"] = "Каменоломня"
 L["inside the Blackrock Mountain"] = "внутри Черной горы"
+
+L["Revealed Portal to Naxxramas"] = "Открытый портал в Наксрамас"
 end

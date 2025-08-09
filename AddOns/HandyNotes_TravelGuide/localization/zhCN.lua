@@ -151,6 +151,9 @@ L["Teleporter to Undermine"] = "前往安德麦的传送器"
 L["Teleporter to Dornogal"] = "前往多恩诺嘉尔的传送器"
 L["Portal to Mechagon Island"] = "通往麦卡贡岛的传送门"
 L["Portal to Maldraxxus"] = "通往玛卓克萨斯的传送门"
+L["Portal to K'aresh"] = "通往卡雷什的传送门"
+L["Portal to Tazavesh"] = "通往塔扎维什的传送门"
+L["Portal to Revendreth"] = "通往雷文德斯的传送门"
 
 --==========================================DRAGONFLIGHT==========================================--
 
@@ -326,4 +329,6 @@ L["Portal to the Sepulcher"] = "通往墓地的传送门"
 L["Waygate to Un'Goro Crater"] = "通往安戈洛环形山"
 L["The Masonary"] = "石匠区"
 L["inside the Blackrock Mountain"] = "在黑石山内部"
+
+L["Revealed Portal to Naxxramas"] = "显现出的通往纳克萨玛斯的传送门"
 end

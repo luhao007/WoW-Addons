@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: Breen
-## Version: 4.15
+## Version: v4.16
 
 ## Title: BtWQuests: Mists of Pandaria
 ## Notes: Mists of Pandaria quest data for BtWQuests
@@ -15,6 +15,9 @@
 ## X-BtWQuests-Expansion-Image: UI-Expansion 0 0.90625 0 0.8125
 ## X-BtWQuests-Expansion-Movie-ID: 115
 ## X-Part-Of: BtWQuests
+## X-Curse-Project-ID: 297379
+## X-WoWI-ID: 25547
+## X-Wago-ID: 7x61kAG1
 
 Defines.lua
 

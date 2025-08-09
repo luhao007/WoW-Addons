@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: Breen
-## Version: 1.16
+## Version: v1.17
 
 ## Title: BtWQuests: Shadowlands Prologue
 ## Notes: Shadowlands Prologue quest data for BtWQuests
@@ -16,6 +16,9 @@
 ## X-BtWQuests-Expansion-Image: UI-Expansion 0 0.90625 0 0.8125
 ## X-BtWQuests-Expansion-Movie-ID: 936
 ## X-Part-Of: BtWQuests
+## X-Curse-Project-ID: 401899
+## X-WoWI-ID: 25660
+## X-Wago-ID: Mj6j54NR
 
 Defines.lua
 

@@ -1,3 +1,7 @@
+# v30.16
+
+- Updated for 11.2.0
+
 # v30.15
 
 - Updated for 11.1.5

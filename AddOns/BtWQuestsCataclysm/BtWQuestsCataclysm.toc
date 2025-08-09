@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: Breen
-## Version: 2.15
+## Version: v2.16
 
 ## Title: BtWQuests: Cataclysm
 ## Notes: Cataclysm quest data for BtWQuests
@@ -15,6 +15,9 @@
 ## X-BtWQuests-Expansion-Image: UI-Expansion 0 0.90625 0 0.8125
 ## X-BtWQuests-Expansion-Movie-ID: 23
 ## X-Part-Of: BtWQuests
+## X-Curse-Project-ID: 297378
+## X-WoWI-ID: 25552
+## X-Wago-ID: WqKQOoNx
 
 Defines.lua
 

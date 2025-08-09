@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: Breen
-## Version: 53.23
+## Version: v53.24
 
 ## Title: BtWQuests: Battle for Azeroth
 ## Notes: Battle for Azeroth quest data for BtWQuests
@@ -16,6 +16,9 @@
 ## X-BtWQuests-Expansion-Image: UI-Expansion 0 0.90625 0 0.8125
 ## X-BtWQuests-Expansion-Movie-ID: 852
 ## X-Part-Of: BtWQuests
+## X-Curse-Project-ID: 297381
+## X-WoWI-ID: 25792
+## X-Wago-ID: JZKb2JK1
 
 Defines.lua
 

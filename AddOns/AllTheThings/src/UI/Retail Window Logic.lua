@@ -1387,8 +1387,10 @@ function app:CreateMiniListForGroup(group, forceFresh)
 		end
 
 		popout:BuildData();
-		-- always expand all groups on initial creation
-		ExpandGroupsRecursively(popout.data, true, true);
+		-- always expand all groups on initial creation if enabled
+		if app.Settings:GetTooltipSetting("Expand:MiniList") then
+			ExpandGroupsRecursively(popout.data, true, true);
+		end
 		-- Adjust some update/refresh logic if this is a Quest Chain window
 		if popout.isQuestChain then
 			local oldUpdate = popout.Update;

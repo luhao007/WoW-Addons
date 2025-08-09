@@ -149,6 +149,9 @@ L["Teleporter to Undermine"] = true
 L["Teleporter to Dornogal"] = true
 L["Portal to Mechagon Island"] = true
 L["Portal to Maldraxxus"] = true
+L["Portal to K'aresh"] = true
+L["Portal to Tazavesh"] = true
+L["Portal to Revendreth"] = true
 
 --==========================================DRAGONFLIGHT==========================================--
 
@@ -247,7 +250,7 @@ L["Portal to Jade Forest"] = true
 L["Portal to Pandaria"] = true
 L["Portal to Isle of Thunder"] = true
 L["Portal to Shado-Pan Garrison"] = true
-L["Portal to Peak of Serenity"]= true
+L["Portal to Peak of Serenity"] = true
 
 -------------------------------------------------CATA-----------------------------------------------
 
@@ -324,4 +327,6 @@ L["Portal to the Sepulcher"] = true
 L["Waygate to Un'Goro Crater"] = true
 L["The Masonary"] = true
 L["inside the Blackrock Mountain"] = true
+
+L["Revealed Portal to Naxxramas"] = true
 end

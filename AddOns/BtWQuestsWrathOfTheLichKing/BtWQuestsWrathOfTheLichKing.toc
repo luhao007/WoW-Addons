@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: Breen
-## Version: 1.20
+## Version: v1.21
 
 ## Title: BtWQuests: Wrath of the Lich King
 ## Notes: Wrath of the Lich King quest data for BtWQuests
@@ -15,6 +15,9 @@
 ## X-BtWQuests-Expansion-Image: UI-Expansion 0 0.90625 0 0.8125
 ## X-BtWQuests-Expansion-Movie-ID: 18
 ## X-Part-Of: BtWQuests
+## X-Curse-Project-ID: 297377
+## X-WoWI-ID: 25784
+## X-Wago-ID: RBKpQyGE
 
 Defines.lua
 

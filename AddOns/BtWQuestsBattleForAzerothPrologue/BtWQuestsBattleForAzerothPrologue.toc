@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: Breen
-## Version: 15.14
+## Version: v15.15
 
 ## Title: BtWQuests: Battle for Azeroth Prologue
 ## Notes: Battle for Azeroth Prologue quest data for BtWQuests
@@ -15,6 +15,9 @@
 ## X-BtWQuests-Expansion: 7
 ## X-BtWQuests-Expansion-Image: UI-Expansion 0 0.90625 0 0.8125
 ## X-Part-Of: BtWQuests
+## X-Curse-Project-ID: 297383
+## X-WoWI-ID: 24769
+## X-Wago-ID: WYK9rXGL
 
 Defines.lua
 
