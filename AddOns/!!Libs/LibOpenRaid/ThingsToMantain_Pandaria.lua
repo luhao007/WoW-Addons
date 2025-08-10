@@ -1,9 +1,8 @@
 
---data for cataclysm expansion
---ToDo: Cata Data needed
+--data for mists of pandaria expansion
 
 local versionString, revision, launchDate, gameVersion = GetBuildInfo()
-if (gameVersion >= 50000 or gameVersion < 30000) then
+if (gameVersion >= 60000 or gameVersion < 50000) then
     return
 end
 
@@ -615,6 +614,9 @@ elseif (GetBuildInfo():match ("%d") == "3") then
 	LIB_OPEN_RAID_SPELL_CUSTOM_NAMES = {}
 
 elseif (GetBuildInfo():match ("%d") == "4") then
+	LIB_OPEN_RAID_SPELL_CUSTOM_NAMES = {}
+
+elseif (GetBuildInfo():match ("%d") == "5") then
 	LIB_OPEN_RAID_SPELL_CUSTOM_NAMES = {}
 
 else

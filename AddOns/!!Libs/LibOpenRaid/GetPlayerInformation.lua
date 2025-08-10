@@ -17,6 +17,8 @@ local CONST_TALENT_VERSION_DRAGONFLIGHT = 5
 
 local CONST_BTALENT_VERSION_COVENANTS = 9
 
+local CONST_GLOBALCOOLDOWN_SPELLID = 61304
+
 local CONST_SPELLBOOK_CLASSSPELLS_TABID = 2
 local CONST_SPELLBOOK_GENERAL_TABID = 1
 local CONST_ISITEM_BY_TYPEID = {
@@ -24,6 +26,9 @@ local CONST_ISITEM_BY_TYPEID = {
     [11] = true, --attack items
     [12] = true, --utility items
 }
+
+local GetSpecialization = C_SpecializationInfo and C_SpecializationInfo.GetSpecialization or GetSpecialization
+local GetSpecializationInfo = C_SpecializationInfo and C_SpecializationInfo.GetSpecializationInfo or GetSpecializationInfo
 
 local GetInventoryItemLink = GetInventoryItemLink
 
@@ -93,28 +98,34 @@ local IsShadowlands = function()
     end
 end
 
---information about the player character to send, each expansion has its own system and data can be different
---it's always a number
-function openRaidLib.UnitInfoManager.GetPlayerInfo1()
-    if (IsShadowlands()) then
-        --return the renown level within the player covenant
-        local renown = C_CovenantSanctumUI.GetRenownLevel() or 1
-        return renown
+function openRaidLib.GetHeroTalentId()
+    if (IsTWWExpansion()) then
+        local configId = C_ClassTalents.GetActiveConfigID()
+        if (not configId) then
+            return
+        end
+        local configInfo = C_Traits.GetConfigInfo(configId)
+        for treeIndex, treeId in ipairs(configInfo.treeIDs) do
+            local treeNodes = C_Traits.GetTreeNodes(treeId)
+            for nodeIdIndex, treeNodeID in ipairs(treeNodes) do
+                local traitNodeInfo = C_Traits.GetNodeInfo(configId, treeNodeID)
+                if (traitNodeInfo) then
+                    local activeEntry = traitNodeInfo.activeEntry
+                    if (activeEntry) then
+                        local entryId = activeEntry.entryID
+                        local rank = activeEntry.rank
+                        if (rank > 0) then
+                            local entryInfo = C_Traits.GetEntryInfo(configId, entryId)
+                            if (not entryInfo.definitionID and entryInfo.subTreeID) then
+                                return entryInfo.subTreeID
+                            end
+                        end
+                    end
+                end
+            end
+        end
     end
-
-    return 0
-end
-
---information about the player character to send, each expansion has its own system and data can be different
---it's always a number
-function openRaidLib.UnitInfoManager.GetPlayerInfo2()
-    if (IsShadowlands()) then
-        --return which covenant the player picked
-        local covenant = C_Covenants.GetActiveCovenantID() or 0
-        return covenant
-    end
-
-    return 0
+	return
 end
 
 --default player class-spec talent system
@@ -153,6 +164,15 @@ local getDragonflightTalentsExportedString = function()
 
 
     end
+end
+
+---@return string
+local getDragonlightTalentAsString = function()
+	local activeConfigID = C_ClassTalents.GetActiveConfigID()
+	if (activeConfigID and activeConfigID > 0) then
+		return C_Traits.GenerateImportString(activeConfigID)
+	end
+	return ""
 end
 
 local getDragonflightTalentsAsIndexTable = function()
@@ -196,6 +216,82 @@ local getDragonflightTalentsAsIndexTable = function()
     end
 
     return allTalents
+end
+
+function openRaidLib.GetSpellIdsFromTalentString(talentString)
+    C_AddOns.LoadAddOn("Blizzard_PlayerSpells")
+    local talentsFrame = PlayerSpellsFrame.TalentsFrame
+    talentsFrame:Show()
+
+    local spellIds = {}
+
+    local importStream = ExportUtil.MakeImportDataStream(talentString)
+    local headerValid, serializationVersion, specID, treeHash = talentsFrame:ReadLoadoutHeader(importStream)
+
+    local currentSerializationVersion = C_Traits.GetLoadoutSerializationVersion()
+    if (not headerValid or serializationVersion ~= currentSerializationVersion) then
+        return spellIds
+    end
+
+    local treeInfo = talentsFrame:GetTreeInfo()
+    local configID = talentsFrame:GetConfigID()
+    local treeID = treeInfo.ID
+
+    if (treeInfo and configID) then
+        local loadoutContent = talentsFrame:ReadLoadoutContent(importStream, treeInfo.ID)
+        local loadoutEntryInfo = talentsFrame:ConvertToImportLoadoutEntryInfo(configID, treeInfo.ID, loadoutContent)
+
+        if (loadoutContent and loadoutEntryInfo) then
+            for i = 1, #loadoutEntryInfo do
+                local thisTrait = loadoutEntryInfo[i]
+                local entryID = thisTrait.selectionEntryID
+                if (entryID and entryID > 0) then
+                    local traitEntryInfo = C_Traits.GetEntryInfo(configID, entryID)
+                    if (traitEntryInfo) then
+                        local definitionID = traitEntryInfo.definitionID
+                        if (definitionID) then
+                            local traitDefinitionInfo = C_Traits.GetDefinitionInfo(definitionID)
+                            if (traitDefinitionInfo) then
+                                spellIds[traitDefinitionInfo.spellID] = true
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    return spellIds
+end
+
+function openRaidLib.GetDragonFlightTalentsAsString()
+    local talents = getDragonlightTalentAsString()
+
+    --if is tww
+    if (IsTWWExpansion()) then
+        local heroTalentId = openRaidLib.GetHeroTalentId()
+        if (heroTalentId) then
+            talents = talents .. "@HT" .. openRaidLib.GetHeroTalentId()
+        end
+    end
+
+    return talents
+end
+
+function openRaidLib.ParseTalentString(talentString)
+    local heroTalentId = talentString:match("@HT(%d+)")
+    if (heroTalentId) then
+        heroTalentId = tonumber(heroTalentId)
+        if (heroTalentId) then
+            --remove the hero talent from the string
+            talentString = talentString:gsub("@HT%d+", "")
+            return talentString, heroTalentId
+        else
+            return talentString
+        end
+    else
+        return talentString
+    end
 end
 
 --creates two tables, one with indexed talents and another with pairs values ([talentId] = true)
@@ -249,9 +345,9 @@ function openRaidLib.UnitInfoManager.GetPlayerTalents()
 end
 
 function openRaidLib.UnitInfoManager.GetPlayerPvPTalents()
-    if (IsDragonflight()) then
-        return {}
-    end
+    --if (IsDragonflight()) then
+    --    return {}
+    --end
 
     local talentsPvP = {0, 0, 0}
     local talentList = C_SpecializationInfo.GetAllSelectedPvpTalentIDs()
@@ -325,16 +421,6 @@ function openRaidLib.UnitInfoManager.GetPlayerConduits()
     return conduits
 end
 
-function openRaidLib.UnitInfoManager.GetPlayerBorrowedTalents()
-    local borrowedTalentVersion = openRaidLib.GetBorrowedTalentVersion()
-
-    if (borrowedTalentVersion == CONST_BTALENT_VERSION_COVENANTS) then
-        return openRaidLib.UnitInfoManager.GetPlayerConduits()
-    end
-
-    return {}
-end
-
 
 function openRaidLib.GearManager.GetPlayerItemLevel()
     if (_G.GetAverageItemLevel) then
@@ -398,7 +484,7 @@ function openRaidLib.GearManager.GetPlayerGemsAndEnchantInfo()
         local itemLink = GetInventoryItemLink("player", equipmentSlotId)
         if (itemLink) then
             --get the information from the item
-            local _, itemId, enchantId, gemId1, gemId2, gemId3, gemId4, suffixId, uniqueId, levelOfTheItem, specId, upgradeInfo, instanceDifficultyId, numBonusIds, restLink = strsplit(":", itemLink)
+            local itemQuality, hyperlinkType, itemId, enchantId, gemId1, gemId2, gemId3, gemId4, suffixId, uniqueId, levelOfTheItem, specId, upgradeInfo, instanceDifficultyId, numBonusIds, restLink = strsplit(":", itemLink)
             local gemsIds = {gemId1, gemId2, gemId3, gemId4}
 
             --enchant
@@ -456,36 +542,40 @@ function openRaidLib.GearManager.BuildPlayerEquipmentList()
         local itemLink = GetInventoryItemLink("player", equipmentSlotId)
         if (itemLink) then
             --local itemStatsTable = {}
-            local itemID, enchantID, gemID1, gemID2, gemID3, gemID4, suffixID, uniqueID, linkLevel, specializationID, modifiersMask, itemContext = select(2, strsplit(":", itemLink))
-            itemID = tonumber(itemID)
+            --local linkOptions = {LinkUtil.ExtractLink(itemLink)} [1] 'item' [2] itemlink string [3] item name
+            --local link = linkTable[2]
+
+            local _, linkOptions = LinkUtil.ExtractLink(itemLink);
 
             local effectiveILvl, isPreview, baseILvl = GetDetailedItemLevelInfo(itemLink)
             if (not effectiveILvl) then
                 openRaidLib.mainControl.scheduleUpdatePlayerData()
                 effectiveILvl = 0
+
+                local itemID, enchantID, gemID1, gemID2, gemID3, gemID4, suffixID, uniqueID, linkLevel, specializationID, modifiersMask, itemContext = strsplit(":", linkOptions)
+                itemID = tonumber(itemID)
+
                 openRaidLib.__errors[#openRaidLib.__errors+1] = "Fail to get Item Level: " .. (itemID or "invalid itemID") .. " " .. (itemLink and itemLink:gsub("|H", "") or "invalid itemLink")
             end
 
             local itemStatsTable = GetItemStats(itemLink)
-            --GetItemStats(itemLink, itemStatsTable)
             local gemSlotsAvailable = itemStatsTable and itemStatsTable.EMPTY_SOCKET_PRISMATIC or 0
 
-            local noPrefixItemLink = itemLink : gsub("^|c%x%x%x%x%x%x%x%x|Hitem", "")
+            --linkOptions = "212092::213481::::::80:63::35:7:6652:10397:10390:10371:10256:1527:10255:1:28:2462:::::"
+
+            local noPrefixItemLink = linkOptions --itemLink:gsub("^|c%x%x%x%x%x%x%x%x|Hitem", "")
             local linkTable = {strsplit(":", noPrefixItemLink)}
-            local numModifiers = linkTable[14]
+            local numModifiers = linkTable[13]
+
             numModifiers = numModifiers and tonumber(numModifiers) or 0
 
-            for i = #linkTable, 14 + numModifiers + 1, -1 do
+            for i = #linkTable, 13 + numModifiers + 1, -1 do
                 table.remove(linkTable, i)
             end
 
             local newItemLink = table.concat(linkTable, ":")
             newItemLink = newItemLink
             equipmentList[#equipmentList+1] = {equipmentSlotId, gemSlotsAvailable, effectiveILvl, newItemLink}
-
-            if (equipmentSlotId == 2) then
-                debug = {itemLink:gsub("|H", ""), newItemLink}
-            end
         end
     end
 
@@ -521,6 +611,9 @@ end
 
 local addCooldownToTable = function(cooldowns, cooldownsHash, cooldownSpellId, timeNow)
     local timeLeft, charges, startTimeOffset, duration, auraDuration = openRaidLib.CooldownManager.GetPlayerCooldownStatus(cooldownSpellId)
+
+    --local spellInfo = C_Spell.GetSpellInfo(cooldownSpellId)
+    --print(spellInfo.name, "charges:", charges)
 
     cooldowns[#cooldowns+1] = cooldownSpellId
     cooldowns[#cooldowns+1] = timeLeft
@@ -861,8 +954,13 @@ function openRaidLib.CooldownManager.GetPlayerCooldownStatus(spellId)
                     return 0, 1, 0, 0, 0 --time left, charges, startTime
                 else
                     local timeLeft = start + duration - GetTime()
-                    local startTimeOffset = start - GetTime()
-                    return ceil(timeLeft), 0, ceil(startTimeOffset), duration, buffDuration --time left, charges, startTime, duration, buffDuration
+                    local globalCooldownInfo = GetSpellCooldown(CONST_GLOBALCOOLDOWN_SPELLID)
+                    if (globalCooldownInfo.startTime ~= 0 and globalCooldownInfo.duration >= timeLeft) then
+                        return 0, 1, 0, 0, 0 --time left, charges, startTime
+                    else
+                        local startTimeOffset = start - GetTime()
+                        return ceil(timeLeft), 0, ceil(startTimeOffset), duration, buffDuration --time left, charges, startTime, duration, buffDuration
+                    end
                 end
             else
                 local start, duration = GetSpellCooldown(spellId)
@@ -870,8 +968,13 @@ function openRaidLib.CooldownManager.GetPlayerCooldownStatus(spellId)
                     return 0, 1, 0, 0, 0 --time left, charges, startTime
                 else
                     local timeLeft = start + duration - GetTime()
-                    local startTimeOffset = start - GetTime()
-                    return ceil(timeLeft), 0, ceil(startTimeOffset), duration, buffDuration --time left, charges, startTime, duration, buffDuration
+                    local gcStart, gcDuration = GetSpellCooldown(CONST_GLOBALCOOLDOWN_SPELLID)
+                    if (gcStart ~= 0 and gcDuration >= timeLeft) then
+                        return 0, 1, 0, 0, 0 --time left, charges, startTime
+                    else
+                        local startTimeOffset = start - GetTime()
+                        return ceil(timeLeft), 0, ceil(startTimeOffset), duration, buffDuration --time left, charges, startTime, duration, buffDuration
+                    end
                 end
             end
 
