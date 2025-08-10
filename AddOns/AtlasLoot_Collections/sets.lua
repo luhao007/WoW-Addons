@@ -1196,6 +1196,225 @@ local SetTable = {
 		},
 	},
 
+	["Tier34"] = { -- T34 Sets
+		name = format(AL["Tier %d Sets"], 34),
+		sourceTemplate = {
+			EJ_GetInstanceInfo(1302).." - "..EJ_GetEncounterInfo(2747), -- Chest
+			EJ_GetInstanceInfo(1302).." - "..EJ_GetEncounterInfo(2685), -- Hands
+			EJ_GetInstanceInfo(1302).." - "..EJ_GetEncounterInfo(2687), -- Head
+			EJ_GetInstanceInfo(1302).." - "..EJ_GetEncounterInfo(2686), -- Legs
+			EJ_GetInstanceInfo(1302).." - "..EJ_GetEncounterInfo(2688), -- Shoulder
+		},
+		{                                                      -- Deathknight, Hollow Sentinel's Wake
+			name = ALIL["DEATHKNIGHT"],
+			subSetName = "dk",
+			icon = "dk",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				237631, -- Hollow Sentinel's Breastplate
+				237629, -- Hollow Sentinel's Gauntlets
+				237628, -- Hollow Sentinel's Stonemask
+				237627, -- Hollow Sentinel's Stonekilt
+				237626, -- Hollow Sentinel's Perches
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Demon Hunter, Charhound's Vicious Hunt
+			name = ALIL["DEMONHUNTER"],
+			subSetName = "demonhunter",
+			icon = "dh",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				237694, -- Charhound's Vicious Bindings
+				237692, -- Charhound's Vicious Felclaws
+				237691, -- Charhound's Vicious Scalp
+				237690, -- Charhound's Vicious Hidecoat
+				237689, -- Charhound's Vicious Hornguards
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Druid, Ornaments of the Mother Eagle
+			name = ALIL["DRUID"],
+			subSetName = "druid",
+			icon = "druid",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				237685, -- Vest of the Mother Eagle
+				237683, -- Wings of the Mother Eagle
+				237682, -- Skymane of the Mother Eagle
+				237681, -- Breeches of the Mother Eagle
+				237680, -- Ritual Pauldrons of the Mother Eagle
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Evoker, Spellweaver's Immaculate Design
+			name = ALIL["EVOKER"],
+			subSetName = "evoker",
+			icon = "evoker",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				237658, -- Spellweaver's Immaculate Crestward
+				237656, -- Spellweaver's Immaculate Scaleguards
+				237655, -- Spellweaver's Immaculate Focus
+				237654, -- Spellweaver's Immaculate Runeslacks
+				237653, -- Spellweaver's Immaculate Pauldrons
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Hunter, Midnight Herald's Pledge
+			name = ALIL["HUNTER"],
+			subSetName = "hunter",
+			icon = "hunter",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				237649, -- Midnight Herald's Hauberk
+				237647, -- Midnight Herald's Gloves
+				237646, -- Midnight Herald's Cowl
+				237645, -- Midnight Herald's Petticoat
+				237644, -- Midnight Herald's Shadowguards
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Mage, Augur's Ephemeral Plumage
+			name = ALIL["MAGE"],
+			subSetName = "mage",
+			icon = "mage",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				237721, -- Augur's Ephemeral Habiliments
+				237719, -- Augur's Ephemeral Mitts
+				237718, -- Augur's Ephemeral Wide-Brim
+				237717, -- Augur's Ephemeral Trousers
+				237716, -- Augur's Ephemeral Orbs of Power
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Monk, Crash of Fallen Storms
+			name = ALIL["MONK"],
+			subSetName = "monk",
+			icon = "monk",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				237676, -- Gi of Fallen Storms
+				237674, -- Grasp of Fallen Storms
+				237673, -- Half-Mask of Fallen Storms
+				237672, -- Legwraps of Fallen Storms
+				237671, -- Glyphs of Fallen Storms
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Paladin, Vows of the Lucent Battalion
+			name = ALIL["PALADIN"],
+			subSetName = "paladin",
+			icon = "pala",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				237622, -- Cuirass of the Lucent Battalion
+				237620, -- Protectors of the Lucent Battalion
+				237619, -- Lightmane of the Lucent Battalion
+				237618, -- Cuisses of the Lucent Battalion
+				237617, -- Chargers of the Lucent Battalion
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Priest, Eulogy to a Dying Star
+			name = ALIL["PRIEST"],
+			subSetName = "priest",
+			icon = "priest",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				237712, -- Dying Star's Cassock
+				237710, -- Dying Star's Caress
+				237709, -- Dying Star's Veil
+				237708, -- Dying Star's Leggings
+				237707, -- Dying Star's Pyrelights
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Rogue, Shroud of the Sudden Eclipse
+			name = ALIL["ROGUE"],
+			subSetName = "rogue",
+			icon = "rogue",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				237667, -- Tactical Vest of the Sudden Eclipse
+				237665, -- Deathgrips of the Sudden Eclipse
+				237664, -- Hood of the Sudden Eclipse
+				237663, -- Pants of the Sudden Eclipse
+				237662, -- Smokemantle of the Sudden Eclipse
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Shaman, Howls of Channeled Fury
+			name = ALIL["SHAMAN"],
+			subSetName = "shaman",
+			icon = "shaman",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				237640, -- Furs of Channeled Fury
+				237638, -- Claws of Channeled Fury
+				237637, -- Aspect of Channeled Fury
+				237636, -- Tassets of Channeled Fury
+				237635, -- Fangs of Channeled Fury
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Warlock, Inquisitor's Feast of Madness
+			name = ALIL["WARLOCK"],
+			subSetName = "warlock",
+			icon = "warlock",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				237703, -- Inquisitor's Robes of Madness
+				237701, -- Inquisitor's Clutches of Madness
+				237700, -- Inquisitor's Portal to Madness
+				237699, -- Inquisitor's Leggings of Madness
+				237698, -- Inquisitor's Gaze of Madness
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Warrior, Chains of the Living Weapon
+			name = ALIL["WARRIOR"],
+			subSetName = "warrior",
+			icon = "warri",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				237613, -- Living Weapon's Bulwark
+				237611, -- Living Weapon's Crushers
+				237610, -- Living Weapon's Faceshield
+				237609, -- Living Weapon's Legguards
+				237608, -- Living Weapon's Ramparts
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+	},
+
 	["Tier33"] = { -- T33 Sets
 		name = format(AL["Tier %d Sets"], 33),
 		sourceTemplate = {

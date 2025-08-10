@@ -13,7 +13,6 @@ local AtlasLoot = _G.AtlasLoot
 local WorldMap = {}
 AtlasLoot.WorldMap = WorldMap
 local AL = AtlasLoot.Locales
-local GetAlTooltip = AtlasLoot.Tooltip.GetTooltip
 local profile
 
 AtlasLootWorldMapButtonMixin = {}
@@ -23,19 +22,12 @@ function AtlasLootWorldMapButtonMixin:OnLoad()
 end
 
 function AtlasLootWorldMapButtonMixin:OnEnter()
-	local tooltip = GetAlTooltip()
-	tooltip:ClearLines()
-	if owner and type(owner) == "table" then
-		tooltip:SetOwner(owner[1], owner[2], owner[3], owner[4])
-	else
-		tooltip:SetOwner(self, "ANCHOR_RIGHT")
-	end
-	tooltip:AddLine(AL["Click to open AtlasLoot window"])
-	tooltip:Show()
+	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+	GameTooltip:SetText(AL["Click to open AtlasLoot window"], nil, nil, nil, nil, 1)
 end
 
 function AtlasLootWorldMapButtonMixin:OnLeave()
-	GetAlTooltip():Hide()
+	GameTooltip:Hide()
 end
 
 function AtlasLootWorldMapButtonMixin:OnClick()

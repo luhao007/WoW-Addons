@@ -35,7 +35,18 @@ function TardisInfo.Plane(Activate)
 	fujiF.ZJZoneID:SetTextColor(0.6, 0.6, 0.6, 1);
 	-----
 	fujiF.JieshouInfoList={};
-	fujiF.GetBut=TardisInfo.GetInfoBut(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",180,-30},300,2)
+	if PIGA["Tardis"]["Plane"]["HelpNum"]>300 then
+		fujiF.CoolCD=30
+	elseif PIGA["Tardis"]["Plane"]["HelpNum"]>200 then
+		fujiF.CoolCD=60
+	elseif PIGA["Tardis"]["Plane"]["HelpNum"]>100 then
+		fujiF.CoolCD=120
+	elseif PIGA["Tardis"]["Plane"]["HelpNum"]>50 then
+		fujiF.CoolCD=180
+	else
+		fujiF.CoolCD=300
+	end
+	fujiF.GetBut=TardisInfo.GetInfoBut(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",180,-30},fujiF.CoolCD,2)
 	fujiF.GetBut.ButName=L["TARDIS_PLANE"]
 	fujiF.GetBut:HookScript("OnClick", function (self)
 		if self.yanchiNerMsg then
@@ -189,7 +200,7 @@ function TardisInfo.Plane(Activate)
 			elseif self:GetText()=="请求换"..L["TARDIS_PLANE"] then
 				PIGSendAddonMessage(InvF.Biaotou,shenqingMSG,"WHISPER",wjName)
 			end
-			fujiF.New_InfoList[self:GetID()][3]=true
+			fujiF.JieshouInfoList[self:GetID()][3]=true
 			fujiF.Update_hang()
 		end)
 	end

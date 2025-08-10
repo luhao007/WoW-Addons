@@ -75,6 +75,9 @@ function Create.PIGQuickBut(QkButUI,Tooltip,Icon,ShowGnUI,FrameLevel,Template)
 	else
 		But:SetNormalAtlas(Icon)
 	end
+	if PIG_OptionsUI.IsOpen_ElvUI() or PIG_OptionsUI.IsOpen_NDui() then
+		But:GetNormalTexture():SetTexCoord(0.1,0.9,0.1,0.9)
+	end
 	But:SetHighlightTexture(130718);
 	But:SetSize(butW-2,butW-2);
 	if geshu==0 then

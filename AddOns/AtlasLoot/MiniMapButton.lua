@@ -63,7 +63,7 @@ AtlasLoot:AddInitFunc(MiniMapButton.Init)
 
 function MiniMapButton.ResetFrames()
 	profile.minimap.minimapPos = 218;
-	ALButton:Refresh("AtlasLoot");
+	ALButton:Refresh("AtlasLoot", profile.minimap);
 end
 
 function MiniMapButton.Toggle()

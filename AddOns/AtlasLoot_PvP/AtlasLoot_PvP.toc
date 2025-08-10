@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: nanderson11, Lag, Proteyer, Arith
-## Version: v9.11.0
+## Version: v9.13.0
 
 ## Title: AtlasLoot |cFF0099FF[PvP]|r
 ## Notes: AtlasLoot loot tables of PvP Items

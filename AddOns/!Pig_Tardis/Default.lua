@@ -11,6 +11,9 @@ local extDefault ={
 		["Open"] = true,
 		["Template"]={},
 		["YellTemp"]={},
+		["CMD"]="777",
+		["CMD_Msg"]=false,
+		["Yell_CHANNEL"]={["SAY"] = true},
 		["YellMsg"]="",
 	},
 	["Houche"]={
@@ -36,14 +39,12 @@ local extDefault ={
 	["Yell"]={
 		["Open"] = true,
 		["ShowDesktopBut"]=false,
-		["Yell_NR"]="[Pig]....",
+		["YellTemp"]={},
+		["CMD"]="888",
+		["CMD_Msg"]=false,
 		["Yell_CHANNEL"]={["SAY"] = true},
-		["MaxPlayerNum"]=40,
-		["jinzuCMD"]="888",
-		["jinzuCMD_inv"]=false,
-		["InvMode"]=1,
-		["InvMode1_Info"]={},
-		["Yell_CD"]=300,
+		["YellMsg"]="",
+		["Conditions"]={},
 	},
 }
 Default["Tardis"]=extDefault

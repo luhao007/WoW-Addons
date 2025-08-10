@@ -21,6 +21,8 @@ local RSLogger = private.ImportLib("RareScannerLogger")
 local RSWaypoints = private.ImportLib("RareScannerWaypoints")
 local RSRecentlySeenTracker = private.ImportLib("RareScannerRecentlySeenTracker")
 local RSCustomNpcs = private.ImportLib("RareScannerCustomNpcs")
+local RSProvider = private.ImportLib("RareScannerProvider")
+local RSMinimap = private.ImportLib("RareScannerMinimap")
 
 -- RareScanner other addons integration services
 local RSTomtom = private.ImportLib("RareScannerTomtom")
@@ -33,6 +35,7 @@ local RARESCANNER_CMD = "rarescanner"
 local RARESCANNERS_CMD = "rs"
 
 function RSCommandLine.SlashCommand(command, ...)
+	local refreshMap = false
 	if (command == RSConstants.CMD_TOGGLE_MAP_ICONS) then
 		if (not private.db.map.cmdToggle) then
 			RSCommandLine.CmdHide()
@@ -41,6 +44,7 @@ function RSCommandLine.SlashCommand(command, ...)
 			RSCommandLine.CmdShow()
 			private.db.map.cmdToggle = false
 		end
+		refreshMap = true
 	elseif (command == RSConstants.CMD_TOGGLE_ALERTS) then
 		if (not private.db.general.cmdToggleAlerts) then
 			RSCommandLine.CmdDisableAlerts()
@@ -51,14 +55,17 @@ function RSCommandLine.SlashCommand(command, ...)
 		end
 	elseif (command == RSConstants.CMD_TOGGLE_RARES) then
 		RSCommandLine.CmdToggleRares()
+		refreshMap = true
 	elseif (command == RSConstants.CMD_TOGGLE_RARES_ALERTS) then
 		RSCommandLine.CmdToggleRaresAlerts()
 	elseif (command == RSConstants.CMD_TOGGLE_EVENTS) then
 		RSCommandLine.CmdToggleEvents()
+		refreshMap = true
 	elseif (command == RSConstants.CMD_TOGGLE_EVENTS_ALERTS) then
 		RSCommandLine.CmdToggleEventsAlerts()
 	elseif (command == RSConstants.CMD_TOGGLE_TREASURES) then
 		RSCommandLine.CmdToggleTreasures()
+		refreshMap = true
 	elseif (command == RSConstants.CMD_TOGGLE_TREASURES_ALERTS) then
 		RSCommandLine.CmdToggleTreasuresAlerts()
 	elseif (command == RSConstants.CMD_TOGGLE_SCANNING_WORLD_MAP_VIGNETTES) then
@@ -76,6 +83,7 @@ function RSCommandLine.SlashCommand(command, ...)
 		RSRecentlySeenTracker.AddPendingAnimation(tonumber(entityID), mapID, x, y, true)
 	elseif (command == RSConstants.CMD_TOGGLE_DRAGON_GLYPHS) then
 		RSCommandLine.CmdToggleDragonGlyphs()
+		refreshMap = true
 	elseif (command == RSConstants.CMD_OPEN_EXPLORER) then
 		RSExplorerFrame:Show()
 	elseif (RSUtils.Contains(command, RSConstants.CMD_IMPORT)) then
@@ -109,6 +117,11 @@ function RSCommandLine.SlashCommand(command, ...)
 		print("|cFFFBFF00   /"..RARESCANNERS_CMD.." "..RSConstants.CMD_TOGGLE_RARES_ALERTS.." |cFF00FFFB"..AL["CMD_HELP9"])
 		print("|cFFFBFF00   /"..RARESCANNERS_CMD.." "..RSConstants.CMD_TOGGLE_SCANNING_WORLD_MAP_VIGNETTES.." |cFF00FFFB"..AL["CMD_HELP10"])
 		print("|cFFFBFF00   /"..RARESCANNERS_CMD.." "..RSConstants.CMD_IMPORT.." |cFFFFFFFBstring".." |cFF00FFFB"..AL["CMD_HELP13"])
+	end
+	
+	if (refreshMap) then
+		RSProvider.RefreshAllDataProviders()
+		RSMinimap.RefreshAllData(true)
 	end
 end
 

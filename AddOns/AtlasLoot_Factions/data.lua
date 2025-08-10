@@ -327,28 +327,181 @@ data["TWWFACTIONS"] = {
 			CoinTexture = "Reputation",
 			[NORMAL_DIFF] = {
 				{ 1,   "f2688rep31" },
-				{ 2,   233288 },                                                                           -- Radiant Recruit's Tabard
+				{ 2,   233288 },                                                                                                                        -- Radiant Recruit's Tabard
 				{ 4,   "f2688rep32" },
-				{ 5,   238850,                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Arathi Entertainer's Flame
+				{ 5,   238850,                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" },                                    -- Arathi Entertainer's Flame
 				{ 7,   "f2688rep33" },
 				{ 8,   238986,                                     "pet4794",                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:6500" }, -- Mister Mans
 				{ 10,  "f2688rep34" },
-				{ 11,  238852,                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Flame's Radiance Banner
+				{ 11,  238852,                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" },                                    -- Flame's Radiance Banner
 				{ 13,  "f2688rep35" },
-				{ 14,  233289 },                                                                           -- Radiant Stalwart's Tabard
+				{ 14,  233289 },                                                                                                                        -- Radiant Stalwart's Tabard
 				{ 16,  "f2688rep36" },
-				{ 17,  239693,                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Radiant Lynx Whistle
+				{ 17,  239693,                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" },                                    -- Radiant Lynx Whistle
 				{ 18,  241188,                                     "pet4804",                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:6500" }, -- Swiftpaw
 				{ 20,  "f2688rep37" },
-				{ 21,  238824,                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3250" }, -- Radiant Traveler's Backpack
+				{ 21,  238824,                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3250" },                                    -- Radiant Traveler's Backpack
 				{ 23,  "f2688rep38" },
-				{ 24,  238837,                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3250" }, -- Delver's Dirigible Schematic: Pale Paint
-				{ 25,  238839,                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" }, -- Delver's Dirigible Schematic: Arathi Decal
+				{ 24,  238837,                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3250" },                                    -- Delver's Dirigible Schematic: Pale Paint
+				{ 25,  238839,                                     [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                    -- Delver's Dirigible Schematic: Arathi Decal
 				{ 27,  "f2688rep39" },
 				{ 28,  238829,                                     "mount",                                       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:8125" }, -- Radiant Imperial Lynx
 				{ 101, "f2688rep40" },
-				{ 102, "237433:11977:6652:10394:10392:1498:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" }, -- Necklace of the Devout
-				{ 103, 233290 },                                                                           -- Sacred Templar's Tabard
+				{ 102, "237433:11977:6652:10394:10392:1498:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                    -- Necklace of the Devout
+				{ 103, 233290 },                                                                                                                        -- Sacred Templar's Tabard
+			}
+		},
+		{ -- The K'aresh Trust
+			FactionID = 2658,
+			CoinTexture = "Reputation",
+			[NORMAL_DIFF] = {
+				{ 1,   "f2658rep35" },
+				{ 2,   239487,                                [PRICE_EXTRA_ITTYPE] = "210814:150" },                                                -- Pattern: Pure Dexterous Fiber
+				{ 3,   239485,                                [PRICE_EXTRA_ITTYPE] = "210814:150" },                                                -- Pattern: Pure Energizing Fiber
+				{ 4,   239486,                                [PRICE_EXTRA_ITTYPE] = "210814:150" },                                                -- Pattern: Pure Chronomantic Fiber
+				{ 5,   239488,                                [PRICE_EXTRA_ITTYPE] = "210814:150" },                                                -- Pattern: Pure Precise Fiber
+				{ 6,   244043,                                [PRICE_EXTRA_ITTYPE] = "210814:150" },                                                -- Technique: Contract: The K'aresh Trust
+				{ 7,   244334,                                [PRICE_EXTRA_ITTYPE] = "210814:150" },                                                -- Technique: Vantus Rune: Manaforge Omega
+				{ 9,   "f2658rep36" },
+				{ 10,  245967,                                [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:1625" },                                     -- Shawl of the Trust
+				{ 12,  "f2658rep37" },
+				{ 13,  "245975:12282:12239:3197:10255",       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Consortium Brute's Chestguard
+				{ 14,  "245976:12282:12239:3197:10255",       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Consortium Skirmisher's Cuirass
+				{ 15,  "245977:12282:12239:3197:10255",       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Consortium Scout's Jacket
+				{ 16,  "245978:12282:12239:3197:10255",       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2600" },                                     -- Consortium Magi's Robes
+				{ 18,  "f2658rep42" },
+				{ 19,  235855,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Ethereal Tome of Tailoring Knowledge
+				{ 20,  235856,                                [PRICE_EXTRA_ITTYPE] = "210814:75" },                                                 -- Ethereal Tome of Skinning Knowledge
+				{ 21,  235857,                                [PRICE_EXTRA_ITTYPE] = "210814:75" },                                                 -- Ethereal Tome of Mining Knowledge
+				{ 22,  235858,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Ethereal Tome of Leatherworking Knowledge
+				{ 23,  235859,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Ethereal Tome of Jewelcrafting Knowledge
+				{ 24,  235860,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Ethereal Tome of Inscription Knowledge
+				{ 25,  235861,                                [PRICE_EXTRA_ITTYPE] = "210814:75" },                                                 -- Ethereal Tome of Herbalism Knowledge
+				{ 26,  235862,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Ethereal Tome of Engineering Knowledge
+				{ 27,  235863,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Ethereal Tome of Enchanting Knowledge
+				{ 28,  235864,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Ethereal Tome of Blacksmithing Knowledge
+				{ 29,  235865,                                [PRICE_EXTRA_ITTYPE] = "210814:50" },                                                 -- Ethereal Tome of Alchemy Knowledge
+				{ 101, "f2658rep43" },
+				{ 102, 245969,                                [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3250" },                                     -- Mantle of the Trust
+				{ 104, "f2658rep44" },
+				{ 105, 245693,                                [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:2250" },                                     -- K'areshi Ribbon Stash
+				{ 107, "f2658rep45" },
+				{ 108, 242729,                                "mount",                                       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:8125" }, -- Ruby Void Creeper
+				{ 110, "f2658rep46" },
+				{ 111, "245971:12290:12239:12921:3210:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Consortium Brute's Clasp
+				{ 112, "245972:12290:12239:12921:3210:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Consortium Skirmisher's Armbands
+				{ 113, "245973:12290:12239:12921:3210:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Consortium Scout's Armlets
+				{ 114, "245974:12290:12239:12921:3210:10255", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:3900" },                                     -- Consortium Magi's Cuffs
+				{ 116, "f2658rep47" },
+				{ 117, 245980,                                [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:1150" },                                     -- Inter-Phase Scoop
+				{ 118, 245979,                                [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:1150" },                                     -- Arcano-Charged Wrench
+				{ 119, 245981,                                [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:1150" },                                     -- K'areshi Multi-Tool
+				{ 121, "f2658rep48" },
+				{ 122, 243191,                                [PRICE_EXTRA_ITTYPE] = "money:1000000000" },                                          -- Ethereal Augment Rune
+				{ 124, "f2658rep49" },
+				{ 125, 237484,                                "mount",                                       [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:11375" }, -- Terror of the Wastes
+			}
+		},
+		{ -- Manaforge Vandals
+			FactionID = 2736,
+			CoinTexture = "Reputation",
+			[NORMAL_DIFF] = {
+				{ 1,   "f2736rep32" },
+				{ 2,   248969,      [PRICE_EXTRA_ITTYPE] = "245510:1" }, -- Ensemble: Hollow Sentinel's Wingdrapes
+				{ 3,   248971,      [PRICE_EXTRA_ITTYPE] = "245510:1" }, -- Ensemble: Vicious Charhound's Felcovers
+				{ 4,   248972,      [PRICE_EXTRA_ITTYPE] = "245510:1" }, -- Ensemble: Plumes of the Mother Eagle
+				{ 5,   248973,      [PRICE_EXTRA_ITTYPE] = "245510:1" }, -- Ensemble: Spellweaver's Immaculate Runecloaks
+				{ 6,   248976,      [PRICE_EXTRA_ITTYPE] = "245510:1" }, -- Ensemble: Midnight Herald's Shrouds
+				{ 7,   248977,      [PRICE_EXTRA_ITTYPE] = "245510:1" }, -- Ensemble: Augur's Ephemeral Brilliance
+				{ 8,   248978,      [PRICE_EXTRA_ITTYPE] = "245510:1" }, -- Ensemble: Breeze of Fallen Storms
+				{ 9,   248979,      [PRICE_EXTRA_ITTYPE] = "245510:1" }, -- Ensemble: Gilded Cloaks of the Lucent Battalion
+				{ 10,  248980,      [PRICE_EXTRA_ITTYPE] = "245510:1" }, -- Ensemble: Memories of a Dying Star
+				{ 11,  248981,      [PRICE_EXTRA_ITTYPE] = "245510:1" }, -- Ensemble: Capes of the Sudden Eclipse
+				{ 12,  248982,      [PRICE_EXTRA_ITTYPE] = "245510:1" }, -- Ensemble: Shawls of Channeled Fury
+				{ 13,  248983,      [PRICE_EXTRA_ITTYPE] = "245510:1" }, -- Ensemble: Inquisitor's All-Seeing Madness
+				{ 14,  248984,      [PRICE_EXTRA_ITTYPE] = "245510:1" }, -- Ensemble: Living Weapon's Capes
+				{ 16,  "f2736rep38" },
+				{ 17,  186640,      "mount" },              -- Vandal's Gearglider
+				{ 18,  249709 },                            -- Formula: Gleeful Glamour - Ethereal
+				{ 19,  249703 },                            -- Technique: Deal: Cartel Ba
+				{ 20,  249705 },                            -- Technique: Deal: Cartel Om
+				{ 21,  249701 },                            -- Technique: Deal: Cartel Zo
+				{ 23,  "f2736rep42" },
+				{ 24,  249145,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Gamma Shockmace
+				{ 25,  249146,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Gamma Plexhammer
+				{ 26,  249147,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Gamma Beamglaive
+				{ 27,  249148,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Gamma Lightshiv
+				{ 28,  249149,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Gamma Recurve
+				{ 29,  249150,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Gamma Warpblade
+				{ 30,  249151,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Gamma Spire
+				{ 101, 249152,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Gamma Ward
+				{ 102, 249153,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Gamma Staff
+				{ 103, 249154,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Gamma Greatsword
+				{ 104, 249155,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Gamma Reactor
+				{ 105, 249156,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Gamma Phaseblade
+				{ 106, 249157,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Gamma Shard
+				{ 107, 249158,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Gamma Caster
+				{ 108, 249159,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Gamma Baton
+				{ 109, 249160,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Gamma Hatchet
+				{ 110, 249161,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Gamma Blade
+				{ 111, 249162,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Tyrant Maul
+				{ 112, 249163,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Gamma Starcrusher
+				{ 113, 249164,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Cosmic Shockmace
+				{ 114, 249165,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Umbral Shockmace
+				{ 115, 249166,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Devouring Shockmace
+				{ 116, 249167,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Cosmic Plexhammer
+				{ 117, 249168,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Umbral Plexhammer
+				{ 118, 249169,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Devouring Plexhammer
+				{ 119, 249170,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Cosmic Beamglaive
+				{ 120, 249171,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Umbral Beamglaive
+				{ 121, 249172,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Devouring Beamglaive
+				{ 122, 249173,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Cosmic Lightshiv
+				{ 123, 249174,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Umbral Lightshiv
+				{ 124, 249175,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Devouring Lightshiv
+				{ 125, 249176,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Cosmic Recurve
+				{ 126, 249177,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Umbral Recurve
+				{ 127, 249178,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Devouring Recurve
+				{ 128, 249179,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Cosmic Warpblade
+				{ 129, 249180,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Umbral Warpblade
+				{ 130, 249181,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Devouring Warpblade
+				{ 201, 249182,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Cosmic Spire
+				{ 202, 249183,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Umbral Spire
+				{ 203, 249184,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Devouring Spire
+				{ 204, 249185,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Cosmic Ward
+				{ 205, 249186,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Umbral Ward
+				{ 206, 249187,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Devouring Ward
+				{ 207, 249188,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Cosmic Staff
+				{ 208, 249189,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Umbral Staff
+				{ 209, 249190,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Devouring Staff
+				{ 210, 249191,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Cosmic Greatsword
+				{ 211, 249192,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Umbral Greatsword
+				{ 212, 249193,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Devouring Greatsword
+				{ 213, 249194,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Cosmic Reactor
+				{ 214, 249195,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Umbral Reactor
+				{ 215, 249196,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Devouring Reactor
+				{ 216, 249197,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Cosmic Phaseblade
+				{ 217, 249198,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Umbral Phaseblade
+				{ 218, 249199,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Devouring Phaseblade
+				{ 219, 249200,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Cosmic Shard
+				{ 220, 249201,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Umbral Shard
+				{ 221, 249202,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Devouring Shard
+				{ 222, 249203,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Cosmic Caster
+				{ 223, 249204,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Umbral Caster
+				{ 224, 249205,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Devouring Caster
+				{ 225, 249206,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Cosmic Baton
+				{ 226, 249207,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Umbral Baton
+				{ 227, 249208,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Devouring Baton
+				{ 228, 249209,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Cosmic Hatchet
+				{ 229, 249210,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Umbral Hatchet
+				{ 230, 249211,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Devouring Hatchet
+				{ 301, 249212,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Cosmic Blade
+				{ 302, 249213,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Umbral Blade
+				{ 303, 249214,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Devouring Blade
+				{ 304, 249215,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Cosmic Starcrusher
+				{ 305, 249216,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Umbral Starcrusher
+				{ 306, 249217,      [PRICE_EXTRA_ITTYPE] = "246727:1" }, -- Manaforge Raider's Devouring Starcrusher
+				{ 308, "f2736rep44" },
+				{ 309, 242728,      "mount" },              -- The Bone Freezer
 			}
 		},
 	}

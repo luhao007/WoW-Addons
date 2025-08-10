@@ -895,9 +895,9 @@ function BusinessInfo.MailPlus_ADDUI()
 	local lixianNum,meihang,BagdangeW=(#bagData["bagID"])*MAX_CONTAINER_ITEMS,10,20
 	local function But_Click(self)
 		if BankFrame.GetActiveBankType then
-			C_Container.UseContainerItem(self.BagID, self.SlotID, nil, BankFrame:GetActiveBankType(), BankFrame:IsShown() and BankFrame.selectedTab == 2);
+			C_Container.UseContainerItem(self.BagID, self.SlotID, nil, BankFrame:GetActiveBankType(), false);
 		else
-			C_Container.UseContainerItem(self.BagID, self.SlotID, nil, BankFrame:IsShown() and (BankFrame.selectedTab == 2));
+			C_Container.UseContainerItem(self.BagID, self.SlotID, nil, false);
 		end
 	end
 	local function PIG_allbagSet(DQitemID)

@@ -63,7 +63,7 @@ ClientInfo:OnModuleLoad(function()
 		[ClientInfo.FEATURES.CRAFTING_QUALITY] = LibTSMWoW.IsRetail(),
 		[ClientInfo.FEATURES.C_TRADE_SKILL_UI] = LibTSMWoW.IsRetail(),
 		[ClientInfo.FEATURES.C_TOOLTIP_INFO] = LibTSMWoW.IsRetail(),
-		[ClientInfo.FEATURES.BLACK_MARKET_AH] = LibTSMWoW.IsRetail(),
+		[ClientInfo.FEATURES.BLACK_MARKET_AH] = LibTSMWoW.IsRetail() or LibTSMWoW.IsPandaClassic(),
 		[ClientInfo.FEATURES.REGION_WIDE_TRADING] = LibTSMWoW.IsRetail(),
 		[ClientInfo.FEATURES.CRAFTING_ORDERS] = LibTSMWoW.IsRetail(),
 		[ClientInfo.FEATURES.CHARACTER_SPECIALIZATION] = LibTSMWoW.IsRetail(),

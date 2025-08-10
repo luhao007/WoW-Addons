@@ -131,17 +131,19 @@ data["Alchemy"] = {
 		{ --AlchemyPotions
 			name = AL["Potions"],
 			[TWW_DIFF] = {
-				{ 1,  211878, 430590, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Algari Healing Potion
-				{ 2,  212239, 430591, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Algari Mana Potion
-				{ 3,  212242, 430592, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Cavedweller's Delight
-				{ 4,  212245, 430593, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Slumbering Soul Serum
-				{ 6,  212260, 430598, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Frontline Potion
-				{ 7,  212254, 430596, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Grotesque Vial
-				{ 8,  212266, 430600, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Potion of the Reborn Cheetah
-				{ 9,  212257, 430597, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Potion of Unwavering Focus
-				{ 10, 212263, 430599, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Tempered Potion
-				{ 11, 212251, 430595, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Draught of Shocking Revelations
-				{ 12, 212248, 430594, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Draught of Silent Footfalls
+				{ 1,  211878, 430590,  [ATLASLOOT_IT_AMOUNT1] = 5 },                          -- Algari Healing Potion
+				{ 2,  212239, 430591,  [ATLASLOOT_IT_AMOUNT1] = 5 },                          -- Algari Mana Potion
+				{ 3,  212242, 430592,  [ATLASLOOT_IT_AMOUNT1] = 5 },                          -- Cavedweller's Delight
+				{ 4,  212245, 430593,  [ATLASLOOT_IT_AMOUNT1] = 5 },                          -- Slumbering Soul Serum
+				{ 5,  244835, 1238010, [ATLASLOOT_IT_AMOUNT1] = 5, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Invigorating Healing Potion
+				{ 7,  212260, 430598,  [ATLASLOOT_IT_AMOUNT1] = 5 },                          -- Frontline Potion
+				{ 8,  212254, 430596,  [ATLASLOOT_IT_AMOUNT1] = 5 },                          -- Grotesque Vial
+				{ 9,  212266, 430600,  [ATLASLOOT_IT_AMOUNT1] = 5 },                          -- Potion of the Reborn Cheetah
+				{ 10, 212257, 430597,  [ATLASLOOT_IT_AMOUNT1] = 5 },                          -- Potion of Unwavering Focus
+				{ 11, 212263, 430599,  [ATLASLOOT_IT_AMOUNT1] = 5 },                          -- Tempered Potion
+				{ 12, 212251, 430595,  [ATLASLOOT_IT_AMOUNT1] = 5 },                          -- Draught of Shocking Revelations
+				{ 13, 212248, 430594,  [ATLASLOOT_IT_AMOUNT1] = 5 },                          -- Draught of Silent Footfalls
+				{ 14, 248331, 1246966, [ATLASLOOT_IT_AMOUNT1] = 5, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Umbral Essentia
 			},
 			[BFA_DIFF] = {
 				{ 1,   163225, 279165 }, -- Battle Potion of Stamina
@@ -2731,6 +2733,7 @@ data["Enchanting"] = {
 				{ 101, 224321, 445329 },                                                      -- Gleeful Glamour - Vulpera
 				{ 102, 224322, 445397 },                                                      -- Gleeful Glamour - Worgen
 				{ 103, 224323, 445345 },                                                      -- Gleeful Glamour - Zandalari Troll
+				{ 104, 249706, 1249469 },                                                     -- Gleeful Glamour - Ethereal
 			},
 			[BFA_DIFF] = {
 				{ 1, 162110, 278418 }, -- Disenchanting Rod
@@ -3825,11 +3828,15 @@ data["Inscription"] = {
 		{ --Contracts
 			name = AL["Contracts"],
 			[TWW_DIFF] = {
-				{ 1, 222597, 444220, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Contract: Council of Dornogal
-				{ 2, 222600, 444217, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Contract: Assembly of the Deeps
-				{ 3, 222603, 444218, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Contract: Hallowfall Arathi
-				{ 4, 222606, 444219, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Contract: The Severed Threads
-				{ 5, 232532, 471132, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Contract: The Cartels of Undermine
+				{ 1,  222597, 444220,  [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Contract: Council of Dornogal
+				{ 2,  222600, 444217,  [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Contract: Assembly of the Deeps
+				{ 3,  222603, 444218,  [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Contract: Hallowfall Arathi
+				{ 4,  222606, 444219,  [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Contract: The Severed Threads
+				{ 5,  232532, 471132,  [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Contract: The Cartels of Undermine
+				{ 6,  243821, 1236170, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Contract: The K'aresh Trust
+				{ 8,  249702, 1249466 },                          -- Deal: Cartel Ba
+				{ 9,  249704, 1249468 },                          -- Deal: Cartel Om
+				{ 10, 249700, 1249463 },                          -- Deal: Cartel Zo
 			},
 			[BFA_DIFF] = {
 				{ 1,  153661, 256275 }, -- Contract: Proudmoore Admiralty
@@ -3978,8 +3985,9 @@ data["Inscription"] = {
 		{ --InscriptionRunes
 			name = AL["Runes"],
 			[TWW_DIFF] = {
-				{ 1, 226034, 444203 },                          -- Vantus Rune: Nerub-ar Palace
-				{ 2, 232935, 472951, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Vantus Rune: Liberation of Undermine
+				{ 1, 226034, 444203 },                           -- Vantus Rune: Nerub-ar Palace
+				{ 2, 232935, 472951,  [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Vantus Rune: Liberation of Undermine
+				{ 3, 244147, 1236908, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Vantus Rune: Manaforge Omega
 			},
 			[BFA_DIFF] = {
 				{ 1, 153673, 256303 }, -- Vantus Rune: Uldir
@@ -4151,6 +4159,9 @@ data["Inscription"] = {
 		},
 		{ --InscriptionMisc
 			name = AL["Miscellaneous"],
+			[TWW_DIFF] = {
+				{ 1, 246809, 1243994, [PRICE_EXTRA_ITTYPE] = "money:5000000" }, -- Inspired Writer's Quill
+			},
 			[BFA_DIFF] = {
 				{ 1, 162114, 278422 }, -- Crimson Ink Well
 			},
@@ -8068,9 +8079,13 @@ data["Tailoring"] = {
 		{ --TailoringArmorEnhancements
 			name = AL["Armor Enhancements"],
 			[TWW_DIFF] = {
-				{ 1, 222888, 446999 }, -- Weavercloth Spellthread
-				{ 2, 222894, 447001 }, -- Daybreak Spellthread
-				{ 3, 222891, 447000 }, -- Sunset Spellthread
+				{ 1, 222888, 446999 },                           -- Weavercloth Spellthread
+				{ 2, 222894, 447001 },                           -- Daybreak Spellthread
+				{ 3, 222891, 447000 },                           -- Sunset Spellthread
+				{ 5, 238045, 1228344, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Pure Chronomantic Fiber
+				{ 6, 238042, 1228343, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Pure Dexterous Fiber
+				{ 7, 238046, 1228338, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Pure Energizing Fiber
+				{ 8, 238044, 1228342, [PRICE_EXTRA_ITTYPE] = "210814:150" }, -- Pure Precise Fiber
 			},
 			[BFA_DIFF] = {
 				{ 1, "prof279182" }, -- Resilient Spellthread

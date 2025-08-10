@@ -75,79 +75,6 @@ Pig_Options.L.F.ListBOT:SetPoint("BOTTOMRIGHT", Pig_Options.L, "BOTTOMRIGHT", 0,
 Pig_Options.R = CreateFrame("Frame", nil, Pig_Options)
 Pig_Options.R:SetPoint("TOPLEFT", Pig_Options, "TOPLEFT", OptionsLFW+OptionsJG, 0)
 Pig_Options.R:SetPoint("BOTTOMRIGHT", Pig_Options, "BOTTOMRIGHT", 0, BottomHHH)
---右侧顶部
-Pig_Options.R.top = PIGFrame(Pig_Options.R)
-Pig_Options.R.top:SetHeight(24)
-Pig_Options.R.top:SetPoint("TOPLEFT", Pig_Options.R, "TOPLEFT", 0, -2)
-Pig_Options.R.top:SetPoint("TOPRIGHT", Pig_Options.R, "TOPRIGHT", -2, 0)
-Pig_Options.R.top:PIGSetBackdrop()
-Pig_Options.R.top:PIGSetMovableNoSave(Pig_Options)
-Pig_Options.R.top:PIGClose(25,25,Pig_Options)
-Pig_Options.R.top.Ver = CreateFrame("Frame", nil, Pig_Options.R.top)
-Pig_Options.R.top.Ver:SetPoint("TOPLEFT", Pig_Options.R.top, "TOPLEFT", 0, 0)
-Pig_Options.R.top.Ver:SetPoint("BOTTOMRIGHT", Pig_Options.R.top, "BOTTOMRIGHT", -30, 0)
-Pig_Options.VersionID=0
-function Pig_Options:GetVer_NUM(EXTaddname,ly)
-	if ly=="audio" then
-		return Pig_Options.R.top.audioVer and Pig_Options.R.top.audioVer[EXTaddname].VersionID or 0
-	else
-		return Pig_Options.R.top.Ver and Pig_Options.R.top.Ver[EXTaddname].VersionID or 0
-	end
-end
-function Pig_Options:GetVer_TXT(EXTaddname,ly)
-	if ly=="audio" then
-		return Pig_Options.R.top.audioVer and Pig_Options.R.top.audioVer[EXTaddname].VersionTXT or 0
-	else
-		return Pig_Options.R.top.Ver and Pig_Options.R.top.Ver[EXTaddname].VersionTXT or 0
-	end
-end
-function Pig_Options:SetVer_EXT(EXTaddname,ly)
-	local VersionTXT=PIGGetAddOnMetadata(EXTaddname, "Version")
-	local VersionID=tonumber(VersionTXT)
-	if ly=="audio" then
-		Pig_Options.R.top.audioVer=Pig_Options.R.top.audioVer or{}
-		Pig_Options.R.top.audioVer[EXTaddname]=Pig_Options.R.top.audioVer[EXTaddname] or {}
-		Pig_Options.R.top.audioVer[EXTaddname].VersionID=VersionID
-		Pig_Options.R.top.audioVer[EXTaddname].VersionTXT=VersionTXT
-	else
-		local name, title, notes, loadable = PIGGetAddOnInfo(EXTaddname)
-		local ziframe = {Pig_Options.R.top.Ver:GetChildren()}
-		local verF = PIGFrame(Pig_Options.R.top.Ver,nil,{0.0001,20})
-		Pig_Options.R.top.Ver[EXTaddname]=verF
-		if #ziframe==0 then
-			verF:SetPoint("LEFT", Pig_Options.R.top.Ver, "LEFT", 4, -2)
-		else
-			verF:SetPoint("LEFT", ziframe[#ziframe].txt, "RIGHT", 0, 0)
-		end
-		verF.txt = PIGFontString(verF,{"LEFT", verF, "LEFT", 0, 0})
-		verF.New = verF:CreateTexture();
-		verF.New:SetAtlas("loottoast-arrow-purple");
-		verF.New:SetSize(14,15);
-		verF.New:SetPoint("BOTTOMLEFT", verF.txt, "TOPRIGHT", -6, -11);
-		verF.New:Hide()
-		verF.VersionTXT=VersionTXT
-		verF.VersionID=VersionID
-	end
-end
-Pig_Options:HookScript("OnShow", function (self)
-	for EXTaddname,v in pairs(L["PIGaddonList"]) do
-		if self.R.top.Ver[EXTaddname] then
-			local verF = Pig_Options.R.top.Ver[EXTaddname]
-			local VerTXT = "|cffFFD700%s:|r|cff00FF00%s|r"
-			if EXTaddname==addonName then
-				verF.txt:SetText(string.format(VerTXT,GAME_VERSION_LABEL,verF.VersionTXT))
-			else
-				verF.txt:SetText("|cff00FFFF + |r"..string.format(VerTXT,L["PIGaddonList"][EXTaddname],verF.VersionTXT))
-			end
-			if PIGA["Ver"][EXTaddname] and verF.VersionID<PIGA["Ver"][EXTaddname] then
-				verF.New:Show()
-				if EXTaddname==addonName then
-					self.UpdateVer:Show()
-				end
-			end
-		end
-	end
-end);
 --右侧内容
 Pig_Options.R.F = PIGFrame(Pig_Options.R)
 Pig_Options.R.F:PIGSetBackdrop()
@@ -184,6 +111,25 @@ Pig_Options.RLUI:HookScript("OnShow", function ()
 	Pig_Options.UpdateVer:Hide()
 end);
 --PIG_OptionsUI.RLUI:Show()
+--自动邀请开启状态
+Pig_Options.AutoInvite={}
+function Pig_Options:IsAutoInviteOpen(daname)
+	for k,v in pairs(Pig_Options.AutoInvite) do
+		if k~=daname then
+			if self.AutoInvite.Farm then
+				self:ErrorMsg(L["PIGaddonList"][L.extLsit[3]].."-自动邀请处于开启状态，请先关闭");
+				return true
+			elseif self.AutoInvite.Yell then
+				self:ErrorMsg(L["PIGaddonList"][L.extLsit[1]].."喊话-自动邀请处于开启状态，请先关闭");
+				return true
+			elseif self.AutoInvite.Invite then
+				self:ErrorMsg(L["PIGaddonList"][L.extLsit[1]]..GROUPS.."-自动邀请处于开启状态，请先关闭");
+				return true
+			end
+		end
+	end
+	return false
+end
 --作者
 Pig_Options.lianxizuozhe=PIGFrame(Pig_Options,{"CENTER",Pig_Options,"CENTER",80,20},{320,320})
 Pig_Options.lianxizuozhe:PIGSetBackdrop(1)
@@ -192,7 +138,7 @@ Pig_Options.lianxizuozhe:Hide()
 Pig_Options.lianxizuozhe:SetFrameLevel(20)
 PIGFontString(Pig_Options.lianxizuozhe,{"TOP", Pig_Options.lianxizuozhe, "TOP", 0, -10},L["ADDON_AUTHOR"])
 Pig_Options.lianxizuozhe.wx = Pig_Options.lianxizuozhe:CreateTexture()
-Pig_Options.lianxizuozhe.wx:SetTexture("Interface\\AddOns\\"..addonName.."\\Libs\\wx.blp");
+Pig_Options.lianxizuozhe.wx:SetTexture("Interface/AddOns/"..addonName.."/Libs/wx.blp");
 Pig_Options.lianxizuozhe.wx:SetSize(240,240);
 Pig_Options.lianxizuozhe.wx:SetPoint("CENTER",Pig_Options.lianxizuozhe,"CENTER", 0, 0);
 Pig_Options:HookScript("OnHide", function (self)

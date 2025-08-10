@@ -13,12 +13,13 @@ function FramePlusfun.Friends()
 	if not PIGA["FramePlus"]["Friends"] then return end
 	FriendsFrame:Hide()
 	local www = FriendsFrame:GetWidth()
-	local butWidth_2 = www*1.7
+	local butWidthall = www*1.7
 	if PIG_MaxTocversion(110200) then
-		butWidth_2 = www*2
+		butWidthall = www*1.9
 	end
-	local butWidth = www*2-40
-	FriendsFrame:SetWidth(butWidth_2)
+	FriendsFrame:SetWidth(butWidthall)
+	local butWidth = butWidthall-40
+	local butWidth_2 = butWidth*0.5
 	local hangH,iconH,texW = 28,16,500
 	--在线状态
 	local FriendsFrameStatusDropdown=FriendsFrameStatusDropdown or FriendsFrameStatusDropDown
@@ -26,15 +27,14 @@ function FramePlusfun.Friends()
 	FriendsFrameStatusDropdown:SetWidth(wwwdd+6)
 	--好友列表
 	if FriendsFrameFriendsScrollFrame then
-		FriendsFrameFriendsScrollFrame:SetWidth(butWidth)
+		FriendsFrameFriendsScrollFrame:SetWidth(butWidth+6)
 		FriendsFrameFriendsScrollFrameTop:Hide()
 		FriendsFrameFriendsScrollFrameBottom:Hide()
 		FriendsFrameFriendsScrollFrameMiddle:Hide()
 		local buttons = FriendsFrameFriendsScrollFrame.buttons
 		for ix=1,#buttons do
 			local xuio = _G["FriendsFrameFriendsScrollFrameButton"..ix]
-			xuio:SetWidth(butWidth)
-			xuio.info:SetWidth(www-90)
+			xuio:SetWidth(butWidth+6)
 		end
 	else
 		FriendsListFrame.ScrollBox:SetWidth(butWidth)
@@ -107,10 +107,10 @@ function FramePlusfun.Friends()
 		button.status:SetPoint("LEFT",button,"LEFT",4,0);
 		button.name:ClearAllPoints();
 		button.name:SetPoint("LEFT",button,"LEFT",20,0);
-		button.name:SetSize(www-20,button:GetHeight())
+		button.name:SetSize(butWidth_2,button:GetHeight())
 		button.info:ClearAllPoints();
 		button.info:SetPoint("LEFT",button.name,"RIGHT",0,0);
-		button.info:SetSize(www-20,button:GetHeight())
+		button.info:SetSize(butWidth_2-60,button:GetHeight())
 		button.gameIcon:ClearAllPoints();
 		button.gameIcon:SetPoint("RIGHT",button,"RIGHT",-28,0);
 		button.gameIcon:SetSize(20,20);
@@ -254,11 +254,13 @@ function FramePlusfun.Friends()
 			WhoFrameHeaderP={26,26,26,190,180,200}
 		end
 	end
-	WhoFrameEditBox:SetHeight(32);
-	WhoFrameEditBox:ClearAllPoints();
-	WhoFrameTotals:SetPoint("BOTTOM",WhoFrameListInset,"BOTTOM",-80,-39)
-	WhoFrameEditBox:SetPoint("BOTTOMLEFT",WhoFrame,"BOTTOMLEFT",10,20);
-	WhoFrameEditBox:SetPoint("BOTTOMRIGHT",WhoFrame,"BOTTOMRIGHT",-10,20);
+	if PIG_MaxTocversion() then
+		WhoFrameTotals:SetPoint("BOTTOM",WhoFrameListInset,"BOTTOM",-80,-39)
+		WhoFrameEditBox:SetHeight(32);
+		WhoFrameEditBox:ClearAllPoints();
+		WhoFrameEditBox:SetPoint("BOTTOMLEFT",WhoFrame,"BOTTOMLEFT",10,20);
+		WhoFrameEditBox:SetPoint("BOTTOMRIGHT",WhoFrame,"BOTTOMRIGHT",-10,20);
+	end
 	if ElvUI then
 		local E= unpack(ElvUI)
 		if E.private.skins.blizzard.enable and E.private.skins.blizzard.friends then
@@ -672,24 +674,29 @@ function FramePlusfun.Friends()
 	end
 
 	--团队==============
-	if RaidFrameRaidDescription then RaidFrameRaidDescription:SetWidth(butWidth+10) end
+	local RaWidth = butWidthall-24
+	if PIG_MaxTocversion() then
+		RaWidth = butWidthall-14
+	end
+	local RaWidth_2 = RaWidth*0.5
+	if RaidFrameRaidDescription then RaidFrameRaidDescription:SetWidth(RaWidth-14) end
 	local function SETRaidUIFrame()
 		for i=1,8 do
 			local uix = _G["RaidGroup"..i]
-			uix:SetWidth(www-6)
+			uix:SetWidth(RaWidth_2)
 			local regions = {uix:GetRegions()}
 			regions[1]:SetAllPoints(uix)
 			for ii=1,5 do
 				local Slots = _G["RaidGroup"..i.."Slot"..ii]
-				Slots:SetWidth(www-10)
+				Slots:SetWidth(RaWidth_2-6)
 			end
 		end
 		for i=1,40 do
 			local But = _G["RaidGroupButton"..i]
-			But:SetWidth(www-10)
+			But:SetWidth(RaWidth_2-6)
 			local Name = _G["RaidGroupButton"..i.."Name"]
-			Name:SetWidth(www*0.45)
-			Name:SetPoint("LEFT", But, "LEFT", 50, 0);
+			Name:SetWidth(RaWidth_2*0.45)
+			Name:SetPoint("LEFT", But, "LEFT", 40, 0);
 			_G["RaidGroupButton"..i.."Class"]:SetWidth(76)
 			if _G["RaidGroupButton"..i.."Class"].text then
 				_G["RaidGroupButton"..i.."Class"].text:SetWidth(76)

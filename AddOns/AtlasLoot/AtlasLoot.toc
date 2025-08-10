@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: nanderson11, Lag, Proteyer, Arith
-## Version: v9.11.0
+## Version: v9.13.0
 
 ## Title: AtlasLoot |cFF22B14C[Core]|r
 ## Notes: Shows the possible loot from the bosses
@@ -41,7 +41,6 @@ Core\EncounterJournal.lua
 Core\ItemQuery.lua
 Data\BonusID_re.lua
 Core\ItemString.lua
-Core\MapPOI.lua
 Core\AtlasIntegration.lua
 Core\WorldMapIntegration.xml
 Core\Transmog.lua

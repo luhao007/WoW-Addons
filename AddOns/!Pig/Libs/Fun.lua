@@ -887,6 +887,14 @@ function Fun.Get_LVminmaxTxt(fubenID,danjiaCF)
 	local min,max = Get_LVminmax(fubenID,danjiaCF)
 	return min.."#"..max
 end
+-- 去除所有 |c 和 |H 格式标签，只保留 [文本] 中的“显示名”
+local function GetVisibleLength(text)
+    local visible = text:gsub("|H.-|h(.-)|h|r", "%1")  -- 替换物品链接为显示名
+    					:gsub("|c%x%x%x%x%x%x%x%x", "")  -- 移除所有颜色开始
+						:gsub("|r", "")                      -- 移除所有重置符（可选）
+                        :gsub("|T.-|t", "")                   -- 去除图标
+    return #visible
+end
 function Fun.Get_famsg(laiyuan,famsg,CMD_Opne,CMDtxt,otdata)
 	if laiyuan=="yell" then
 		if CMD_Opne then
@@ -913,7 +921,8 @@ function Fun.Get_famsg(laiyuan,famsg,CMD_Opne,CMDtxt,otdata)
 	elseif laiyuan=="Farm_chedui" then
 
 	end
-	return famsg
+
+	return famsg,GetVisibleLength(famsg)
 end
 ----
 function Fun.Key_hebing(str,fengefu)

@@ -199,48 +199,61 @@ data["Halls of Atonement"] = {
 		{ -- Halkias, the Sin-Stained Goliath
 			EncounterJournalID = 2406,
 			[NORMAL_DUNGEON_DIFF] = {
-				{ 1,  181736 }, -- Flame Accretion
-				{ 2,  178813 }, -- Sinlight Shroud
-				{ 3,  178830 }, -- Shardskin Sabatons
-				{ 4,  178817 }, -- Hood of Refracted Shadows
-				{ 5,  182629 }, -- Memory of the Crimson Runes
-				{ 6,  182681 }, -- Vengeful Shock
-				{ 7,  178827 }, -- Sin Stained Pendant
+				{ 1,  178813 }, -- Sinlight Shroud
+				{ 2,  178830 }, -- Shardskin Sabatons
+				{ 3,  178817 }, -- Hood of Refracted Shadows
+				{ 4,  178827 }, -- Sin Stained Pendant
+				{ 5,  178818 }, -- Halkias's Towering Pillars
+				{ 7,  182629 }, -- Memory of the Crimson Runes
 				{ 8,  183380 }, -- Memory of a Seismic Reverberation
-				{ 9,  181848 }, -- Accelerated Cold
-				{ 10, 178818 }, -- Halkias's Towering Pillars
-				{ 11, 181640 }, -- Tumbling Technique
-				{ 12, 181845 }, -- Exaltation
+				{ 9,  181736 }, -- Flame Accretion
+				{ 10, 182681 }, -- Vengeful Shock
+				{ 11, 181848 }, -- Accelerated Cold
+				{ 12, 181640 }, -- Tumbling Technique
+				{ 13, 181845 }, -- Exaltation
 			},
 			[HEROIC_DUNGEON_DIFF] = {
-				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				--GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				{ 1, 178827 }, -- Sin Stained Pendant
+				{ 2, 246276 }, -- Sinlight Shoulderpads
+				{ 3, 246273 }, -- Vest of Refracted Shadows
+				{ 4, 178818 }, -- Halkias's Towering Pillars
+				{ 5, 178830 }, -- Shardskin Sabatons
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				--GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
 			},
 		},
 		{ -- Echelon
 			EncounterJournalID = 2387,
 			[NORMAL_DUNGEON_DIFF] = {
-				{ 1,  183487 }, -- Layered Mane
-				{ 2,  178815 }, -- Soaring Decimator's Hauberk
-				{ 3,  181735 }, -- Hack and Slash
-				{ 4,  178834 }, -- Stoneguardian's Morningstar
-				{ 5,  183184 }, -- Stinging Strike
-				{ 6,  178825 }, -- Pulsating Stoneheart
-				{ 7,  182470 }, -- Demonic Momentum
-				{ 8,  182127 }, -- Shake the Foundations
-				{ 9,  178812 }, -- Wing Commander's Helmet
-				{ 10, 183511 }, -- Deeper Daggers
-				{ 11, 178833 }, -- Stonefiend Shaper's Mitts
-				{ 12, 178819 }, -- Skyterror's Stonehide Leggings
-				{ 13, 183349 }, -- Memory of the Deeptremor Stone
+				{ 1,  178815 }, -- Soaring Decimator's Hauberk
+				{ 2,  178834 }, -- Stoneguardian's Morningstar
+				{ 3,  178825 }, -- Pulsating Stoneheart
+				{ 4,  178812 }, -- Wing Commander's Helmet
+				{ 5,  178833 }, -- Stonefiend Shaper's Mitts
+				{ 6,  178819 }, -- Skyterror's Stonehide Leggings
+				{ 8,  183349 }, -- Memory of the Deeptremor Stone
+				{ 9,  183487 }, -- Layered Mane
+				{ 10, 181735 }, -- Hack and Slash
+				{ 11, 183184 }, -- Stinging Strike
+				{ 12, 182470 }, -- Demonic Momentum
+				{ 13, 182127 }, -- Shake the Foundations
+				{ 14, 183511 }, -- Deeper Daggers
 			},
 			[HEROIC_DUNGEON_DIFF] = {
-				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				--GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				{ 1, 178834 }, -- Stoneguardian's Morningstar
+				{ 2, 178812 }, -- Wing Commander's Helmet
+				{ 3, 178815 }, -- Soaring Decimator's Hauberk
+				{ 4, 178833 }, -- Stonefiend Shaper's Mitts
+				{ 5, 178819 }, -- Skyterror's Stonehide Leggings
+				{ 6, 246344 }, -- Cursed Stone Idol
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				--GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
 			},
 		},
 		{ -- High Adjudicator Aleez
@@ -251,57 +264,71 @@ data["Halls of Atonement"] = {
 				{ 3,  178828 }, -- Nathrian Tabernacle
 				{ 4,  178832 }, -- Gloves of Haunting Fixation
 				{ 5,  178821 }, -- Mantle of Ephemeral Visages
-				{ 6,  181963 }, -- Blood Bond
-				{ 7,  178814 }, -- Breastplate of Otherworldly Influence
-				{ 8,  182675 }, -- Untempered Dedication
-				{ 9,  183306 }, -- Memory of the Righteous Bulwark
-				{ 10, 181505 }, -- Resplendent Mist
-				{ 11, 181867 }, -- Swift Penitence
+				{ 6,  178814 }, -- Breastplate of Otherworldly Influence
+				{ 8,  183306 }, -- Memory of the Righteous Bulwark
+				{ 9,  181963 }, -- Blood Bond
+				{ 10, 182675 }, -- Untempered Dedication
+				{ 11, 181505 }, -- Resplendent Mist
+				{ 12, 181867 }, -- Swift Penitence
 			},
 			[HEROIC_DUNGEON_DIFF] = {
-				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				--GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				{ 1, 246284 }, -- Nathrian Reliquary
+				{ 2, 178821 }, -- Mantle of Ephemeral Visages
+				{ 3, 178814 }, -- Breastplate of Otherworldly Influence
+				{ 4, 178832 }, -- Gloves of Haunting Fixation
+				{ 5, 178822 }, -- Cord of the Dark Word
+				{ 6, 178826 }, -- Sunblood Amethyst
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
-				{ 16, "ac12550" }, -- AC: Mythic: Freehold "Pecking Order"
+				--GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				--{ 16, "ac12550" }, -- AC: Mythic: Freehold "Pecking Order"
+				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
 			},
 		},
 		{ -- Lord Chamberlain
 			EncounterJournalID = 2413,
 			[NORMAL_DUNGEON_DIFF] = {
-				{ 1,  182685 }, -- Increased Scrutiny
-				{ 2,  183495 }, -- Lashing Scars
-				{ 3,  181639 }, -- Siphoned Malice
-				{ 4,  181461 }, -- Ice Bite
-				{ 5,  183275 }, -- Memory of the Firestorm
-				{ 6,  182348 }, -- Lavish Harvest
-				{ 7,  183500 }, -- Fade to Nothing
-				{ 8,  178823 }, -- Waistcord of Dark Devotion
-				{ 9,  183477 }, -- Precise Alignment
-				{ 10, 178831 }, -- Slippers of Leavened Station
-				{ 11, 182288 }, -- Impenetrable Gloom
-				{ 12, 183241 }, -- Memory of the Dark Titan
-				{ 13, 183076 }, -- Diabolic Bloodstone
-				{ 14, 182598 }, -- Demon Muzzle
-				{ 15, 178820 }, -- Pauldrons of Unleashed Pride
-				{ 16, 178824 }, -- Signet of the False Accuser
-				{ 17, 182331 }, -- Empowered Release
-				{ 18, 181774 }, -- Imbued Reflections
-				{ 19, 182463 }, -- Harrowing Punishment
-				{ 20, 182777 }, -- Hallowed Discernment
-				{ 21, 181944 }, -- Resonant Words
-				{ 22, 182962 }, -- Catastrophic Origin
-				{ 23, 182130 }, -- Shattered Perceptions
-				{ 24, 182751 }, -- Tyrant's Soul
-				{ 25, 178829 }, -- Nathrian Ferula
-				{ 26, 183474 }, -- Endless Thirst
-				{ 27, 178816 }, -- Nathrian Usurper's Mask
+				{ 1,  178823 }, -- Waistcord of Dark Devotion
+				{ 2,  178831 }, -- Slippers of Leavened Station
+				{ 3,  178820 }, -- Pauldrons of Unleashed Pride
+				{ 4,  178824 }, -- Signet of the False Accuser
+				{ 5,  178829 }, -- Nathrian Ferula
+				{ 6,  178816 }, -- Nathrian Usurper's Mask
+				{ 8,  183275 }, -- Memory of the Firestorm
+				{ 9,  183241 }, -- Memory of the Dark Titan
+				{ 10, 182685 }, -- Increased Scrutiny
+				{ 11, 183495 }, -- Lashing Scars
+				{ 12, 181639 }, -- Siphoned Malice
+				{ 13, 181461 }, -- Ice Bite
+				{ 14, 182348 }, -- Lavish Harvest
+				{ 15, 183500 }, -- Fade to Nothing
+				{ 16, 183477 }, -- Precise Alignment
+				{ 17, 182288 }, -- Impenetrable Gloom
+				{ 18, 183076 }, -- Diabolic Bloodstone
+				{ 19, 182598 }, -- Demon Muzzle
+				{ 20, 182331 }, -- Empowered Release
+				{ 21, 181774 }, -- Imbued Reflections
+				{ 22, 182463 }, -- Harrowing Punishment
+				{ 23, 182777 }, -- Hallowed Discernment
+				{ 24, 181944 }, -- Resonant Words
+				{ 25, 182962 }, -- Catastrophic Origin
+				{ 26, 182130 }, -- Shattered Perceptions
+				{ 27, 182751 }, -- Tyrant's Soul
+				{ 28, 183474 }, -- Endless Thirst
 			},
 			[HEROIC_DUNGEON_DIFF] = {
-				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				--GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				{ 1, 178829 }, -- Nathrian Ferula
+				{ 2, 178816 }, -- Nathrian Usurper's Mask
+				{ 3, 246286 }, -- Spaulders of Unleashed Pride
+				{ 4, 178823 }, -- Waistcord of Dark Devotion
+				{ 5, 178831 }, -- Slippers of Leavened Station
+				{ 6, 178824 }, -- Signet of the False Accuser
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				--GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
 			},
 		},
 	}
@@ -766,19 +793,20 @@ data["Tazavesh, the Veiled Market"] = {
 		{ -- Zo'phex the Sentinel
 			EncounterJournalID = 2437,
 			[HEROIC_DUNGEON_DIFF] = {
-				{ 1,  181841 }, -- Reinforced Shell
-				{ 2,  182338 }, -- Pure Concentration
-				{ 3,  182110 }, -- Crippling Hex
-				{ 4,  185824 }, -- Blade of Grievous Harm
-				{ 5,  185780 }, -- Interrogator's Flensing Blade
-				{ 6,  185793 }, -- Cyphered Gloves
-				{ 7,  185815 }, -- Vambraces of Verification
-				{ 8,  181962 }, -- Mental Recovery
-				{ 9,  185816 }, -- Confiscated Bracers of Concealment
-				{ 10, 185791 }, -- Knuckle-Dusting Handwraps
-				{ 11, 183498 }, -- Cloaked in Shadows
-				{ 12, 182330 }, -- Demonic Parole
-				{ 13, 183468 }, -- Born Anew
+				{ 1, 185824 }, -- Blade of Grievous Harm
+				{ 2, 185780 }, -- Interrogator's Flensing Blade
+				{ 3, 185793 }, -- Cyphered Gloves
+				{ 4, 185815 }, -- Vambraces of Verification
+				{ 5, 185816 }, -- Confiscated Bracers of Concealment
+				{ 6, 185791 }, -- Knuckle-Dusting Handwraps
+
+				--[[ { 8,  181841 }, -- Reinforced Shell
+				{ 9,  182338 }, -- Pure Concentration
+				{ 10, 182110 }, -- Crippling Hex
+				{ 11, 181962 }, -- Mental Recovery
+				{ 12, 183498 }, -- Cloaked in Shadows
+				{ 13, 182330 }, -- Demonic Parole
+				{ 14, 183468 }, -- Born Anew ]]
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
@@ -787,19 +815,22 @@ data["Tazavesh, the Veiled Market"] = {
 		{ -- The Grand Menagerie
 			EncounterJournalID = 2454,
 			[HEROIC_DUNGEON_DIFF] = {
-				{ 1,  185814 }, -- Auctioneer's Counting Bracers
-				{ 2,  183044 }, -- Kilrogg's Cunning
-				{ 3,  185792 }, -- Achillite's Unbreakable Grip
-				{ 4,  185809 }, -- Venza's Powderbelt
-				{ 5,  181836 }, -- Spirit Drain
-				{ 6,  185777 }, -- Fang of Alcruux
-				{ 7,  181512 }, -- Dizzying Tumble
-				{ 8,  184587 }, -- Ambuscade
-				{ 9,  181469 }, -- Indelible Victory
-				{ 10, 185821 }, -- Gluttonous Rondel
-				{ 11, 181756 }, -- Incantation of Swiftness
-				{ 12, 185840 }, -- Seal of the Panoply
-				{ 13, 185794 }, -- Gavel Pounders
+				{ 1, 185814 }, -- Auctioneer's Counting Bracers
+				{ 2, 185792 }, -- Achillite's Unbreakable Grip
+				{ 3, 185809 }, -- Venza's Powderbelt
+				{ 4, 185777 }, -- Fang of Alcruux
+				{ 5, 185821 }, -- Gluttonous Rondel
+				-- { 6,  185840 }, -- Seal of the Panoply
+				-- { 7,  185794 }, -- Gavel Pounders
+				{ 6, 246282 }, -- Order Bashers
+				{ 7, 246281 }, -- Ring of the Panoply
+
+				--[[ { 9,  183044 }, -- Kilrogg's Cunning
+				{ 10, 181836 }, -- Spirit Drain
+				{ 11, 181512 }, -- Dizzying Tumble
+				{ 12, 184587 }, -- Ambuscade
+				{ 13, 181469 }, -- Indelible Victory
+				{ 14, 181756 }, -- Incantation of Swiftness ]]
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
@@ -808,21 +839,23 @@ data["Tazavesh, the Veiled Market"] = {
 		{ -- Mailroom Mayhem
 			EncounterJournalID = 2436,
 			[HEROIC_DUNGEON_DIFF] = {
-				{ 1,  181837 }, -- Clear Mind
-				{ 2,  186534 }, -- Gizmo
-				{ 3,  185846 }, -- Miniscule Mailemental in an Envelope
-				{ 4,  182325 }, -- Ravenous Consumption
-				{ 5,  190652 }, -- Ticking Sack of Terror
-				{ 5,  182584 }, -- Cheetah's Vigor
-				{ 6,  185811 }, -- Package Protector
-				{ 7,  183497 }, -- Recuperator
-				{ 8,  185845 }, -- First Class Healing Distributor
-				{ 10, 185817 }, -- Bracers of Autonomous Classification
-				{ 11, 185787 }, -- Implacable Weatherproof Treads
-				{ 12, 182461 }, -- Echoing Blessings
-				{ 13, 185808 }, -- Discount Mail-Order Belt
-				{ 14, 185807 }, -- Pan-Dimensional Packing Cord
-				{ 15, 183465 }, -- Ursine Vigor
+				{ 1,  185846 }, -- Miniscule Mailemental in an Envelope
+				{ 2,  190652 }, -- Ticking Sack of Terror
+				{ 3,  185811 }, -- Package Protector
+				{ 4,  185845 }, -- First Class Healing Distributor
+				{ 5,  185817 }, -- Bracers of Autonomous Classification
+				{ 6,  185787 }, -- Implacable Weatherproof Treads
+				{ 7,  185808 }, -- Discount Mail-Order Belt
+				{ 8,  185807 }, -- Pan-Dimensional Packing Cord
+
+				--[[ { 10, 181837 }, -- Clear Mind
+				{ 11, 182325 }, -- Ravenous Consumption
+				{ 12, 182584 }, -- Cheetah's Vigor
+				{ 13, 183497 }, -- Recuperator
+				{ 14, 182461 }, -- Echoing Blessings
+				{ 15, 183465 }, -- Ursine Vigor ]]
+
+				{ 16, 186534, "pet3110" }, -- Gizmo
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
@@ -831,19 +864,21 @@ data["Tazavesh, the Veiled Market"] = {
 		{ -- Myza's Oasis
 			EncounterJournalID = 2452,
 			[HEROIC_DUNGEON_DIFF] = {
-				{ 1,  185812 }, -- Acoustically Alluring Censer
-				{ 2,  181464 }, -- Winter's Protection
-				{ 3,  182460 }, -- Accrued Vitality
-				{ 4,  185783 }, -- Yasahm the Riftbreaker
-				{ 5,  182106 }, -- Refreshing Waters
-				{ 6,  181508 }, -- Fortifying Ingredients
-				{ 7,  182656 }, -- Disturb the Peace
-				{ 8,  185802 }, -- Breakbeat Shoulderguards
-				{ 9,  185789 }, -- Sabatons of Measured Time
-				{ 10, 185806 }, -- Improvisational Cinch
-				{ 11, 185842 }, -- Ornately Engraved Amplifier
-				{ 12, 183470 }, -- Born of the Wilds
-				{ 13, 185804 }, -- Harmonious Spaulders
+				{ 1, 185812 }, -- Acoustically Alluring Censer
+				{ 2, 185783 }, -- Yasahm the Riftbreaker
+				{ 3, 185802 }, -- Breakbeat Shoulderguards
+				{ 4, 185789 }, -- Sabatons of Measured Time
+				{ 5, 185842 }, -- Ornately Engraved Amplifier
+				{ 6, 185804 }, -- Harmonious Spaulders
+				-- { 7,  185806 }, -- Improvisational Cinch
+				{ 7, 246287 }, -- Improvisational Girdle
+
+				--[[ { 9,  181464 }, -- Winter's Protection
+				{ 10, 182460 }, -- Accrued Vitality
+				{ 11, 182106 }, -- Refreshing Waters
+				{ 12, 181508 }, -- Fortifying Ingredients
+				{ 13, 182656 }, -- Disturb the Peace
+				{ 14, 183470 }, -- Born of the Wilds ]]
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
@@ -852,19 +887,21 @@ data["Tazavesh, the Veiled Market"] = {
 		{ -- So'azmi
 			EncounterJournalID = 2451,
 			[HEROIC_DUNGEON_DIFF] = {
-				{ 1,  185782 }, -- Robes of Midnight Bargains
-				{ 2,  181826 }, -- Translucent Image
-				{ 3,  182132 }, -- Unending Grip
-				{ 4,  182449 }, -- Resolute Barrier
-				{ 5,  182318 }, -- Viscous Ink
-				{ 6,  185843 }, -- Duplicating Drape
-				{ 7,  185800 }, -- Orbitwarp Culottes
-				{ 8,  181707 }, -- Diverted Energy
-				{ 9,  185786 }, -- So'azmi's Fractal Vest
-				{ 10, 185836 }, -- Codex of the First Technique
-				{ 11, 185778 }, -- First Fist of the So Cartel
-				{ 12, 185798 }, -- Quantum Leapers
-				{ 13, 182605 }, -- Tactical Retreat
+				{ 1, 185778 }, -- First Fist of the So Cartel
+				{ 2, 185782 }, -- Robes of Midnight Bargains
+				{ 3, 185786 }, -- So'azmi's Fractal Vest
+				{ 4, 185836 }, -- Codex of the First Technique
+				{ 5, 185798 }, -- Quantum Leapers
+				-- { 6,  185843 }, -- Duplicating Drape
+				-- { 7,  185800 }, -- Orbitwarp Culottes
+				{ 6, 246285 }, -- Fluxphase Culottes
+
+				--[[ { 9,  181826 }, -- Translucent Image
+				{ 10, 182132 }, -- Unending Grip
+				{ 11, 182449 }, -- Resolute Barrier
+				{ 12, 182318 }, -- Viscous Ink
+				{ 13, 181707 }, -- Diverted Energy
+				{ 14, 182605 }, -- Tactical Retreat ]]
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
@@ -873,19 +910,22 @@ data["Tazavesh, the Veiled Market"] = {
 		{ -- Hylbrande
 			EncounterJournalID = 2448,
 			[HEROIC_DUNGEON_DIFF] = {
-				{ 1,  182336 }, -- Golden Path
-				{ 2,  180943 }, -- Cacophonous Roar
-				{ 3,  185805 }, -- Hylbrande's Retrofitted Shoulderguards
-				{ 4,  183467 }, -- Tireless Pursuit
-				{ 5,  185779 }, -- Spire of Expurgation
-				{ 6,  183501 }, -- Rushed Setup
-				{ 7,  181373 }, -- Harm Denial
-				{ 8,  185810 }, -- Skyreaver, Greataxe of the Keepers
-				{ 9,  185788 }, -- Codebreaker's Cunning Sandals
-				{ 10, 185803 }, -- Stoneflesh Spaulders
-				{ 11, 185781 }, -- Drape of Titanic Dreams
-				{ 12, 182105 }, -- Astral Protection
-				{ 13, 185790 }, -- Treads of Titanic Deconversion
+				{ 1, 185810 }, -- Skyreaver, Greataxe of the Keepers
+				{ 2, 185779 }, -- Spire of Expurgation
+				{ 3, 185805 }, -- Hylbrande's Retrofitted Shoulderguards
+				{ 4, 185803 }, -- Stoneflesh Spaulders
+				-- { 5, 185781 }, -- Drape of Titanic Dreams
+				-- { 6, 185790 }, -- Treads of Titanic Deconversion
+				-- { 7,  185788 }, -- Codebreaker's Cunning Sandals
+				{ 5, 246275 }, -- Codebreaker's Cunning Handwraps
+				{ 6, 246280 }, -- Boots of Titanic Deconversion
+
+				--[[ { 9,  182336 }, -- Golden Path
+				{ 10, 180943 }, -- Cacophonous Roar
+				{ 11, 183467 }, -- Tireless Pursuit
+				{ 12, 183501 }, -- Rushed Setup
+				{ 13, 181373 }, -- Harm Denial
+				{ 14, 182105 }, -- Astral Protection ]]
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
@@ -894,19 +934,21 @@ data["Tazavesh, the Veiled Market"] = {
 		{ -- Timecap'n Hooktail
 			EncounterJournalID = 2449,
 			[HEROIC_DUNGEON_DIFF] = {
-				{ 1,  183502 }, -- Prepared for All
-				{ 2,  182469 }, -- Rejuvenating Wind
-				{ 3,  181498 }, -- Grounding Surge
-				{ 4,  185820 }, -- Cabochon of the Infinite Flight
-				{ 5,  180842 }, -- Stalwart Guardian
-				{ 6,  182466 }, -- Shade of Terror
-				{ 7,  181975 }, -- Hardened Bones
-				{ 8,  185797 }, -- Rakishly Tipped Tricorne
-				{ 9,  185796 }, -- Dragonbane Diadem
-				{ 10, 185776 }, -- Hooktail's Commanding Gaze
-				{ 11, 185823 }, -- Fatebreaker, Destroyer of Futures
-				{ 12, 185795 }, -- Cowl of Branching Fate
-				{ 13, 185841 }, -- Timetwister Tulwar
+				{ 1, 185797 }, -- Rakishly Tipped Tricorne
+				{ 2, 185796 }, -- Dragonbane Diadem
+				{ 3, 185823 }, -- Fatebreaker, Destroyer of Futures
+				{ 4, 185795 }, -- Cowl of Branching Fate
+				{ 5, 185841 }, -- Timetwister Tulwar
+				{ 6, 185820 }, -- Cabochon of the Infinite Flight
+				-- { 7, 185776 }, -- Hooktail's Commanding Gaze
+				{ 7, 246283 }, -- Crown of Absolute Command
+
+				--[[ { 9,  183502 }, -- Prepared for All
+				{ 10, 182469 }, -- Rejuvenating Wind
+				{ 11, 181498 }, -- Grounding Surge
+				{ 12, 180842 }, -- Stalwart Guardian
+				{ 13, 182466 }, -- Shade of Terror
+				{ 14, 181975 }, -- Hardened Bones ]]
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
@@ -915,22 +957,24 @@ data["Tazavesh, the Veiled Market"] = {
 		{ -- So'leah
 			EncounterJournalID = 2455,
 			[HEROIC_DUNGEON_DIFF] = {
-				{ 1,  186638 }, -- Cartel Master's Gearglider
-				{ 2,  185784 }, -- Novaburst Warplate
+				{ 1,  185822 }, -- Staff of Fractured Spacetime
+				{ 2,  185819 }, -- Event Horizon's Edge
 				{ 3,  185801 }, -- Anomalous Starlit Breeches
-				{ 4,  182304 }, -- Divine Call
-				{ 5,  182109 }, -- Totemic Surge
-				{ 6,  185822 }, -- Staff of Fractured Spacetime
-				{ 7,  181838 }, -- Charitable Soul
-				{ 8,  182316 }, -- Fel Defender
-				{ 9,  185813 }, -- Signet of Collapsing Stars
-				{ 10, 181510 }, -- Lingering Numbness
-				{ 11, 185785 }, -- Embrace of the Relicbinder
-				{ 12, 185819 }, -- Event Horizon's Edge
-				{ 13, 183466 }, -- Innate Resolve
-				{ 14, 185799 }, -- Hyperlight Leggings
-				{ 15, 182480 }, -- Reversal of Fortune
-				{ 16, 190958 }, -- So'leah's Secret Technique
+				{ 4,  185799 }, -- Hyperlight Leggings
+				{ 5,  185813 }, -- Signet of Collapsing Stars
+				{ 6,  190958 }, -- So'leah's Secret Technique
+				-- { 7,  185784 }, -- Novaburst Warplate
+				-- { 8, 185785 }, -- Embrace of the Relicbinder
+
+				--[[ { 10, 182304 }, -- Divine Call
+				{ 11, 182109 }, -- Totemic Surge
+				{ 12, 181838 }, -- Charitable Soul
+				{ 13, 182316 }, -- Fel Defender
+				{ 14, 181510 }, -- Lingering Numbness
+				{ 15, 183466 }, -- Innate Resolve
+				{ 16, 182480 }, -- Reversal of Fortune ]]
+
+				{ 18, 186638, "mount" }, -- Cartel Master's Gearglider
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,

@@ -98,13 +98,13 @@ function BusinessInfo.FastDrop()
 			if QuickButUI[_GNE] then return end
 			QuickButUI[_GNE]=true
 			local QuickTooltip = KEY_BUTTON1.."-|cff00FFFF".._GN.."指定物品|r\n"..KEY_BUTTON2.."-|cff00FFFF打开"..GnName.."|r"
-			local QkBut=PIGQuickBut(nil,QuickTooltip,130841,nil,FrameLevel)
-			QkBut:GetNormalTexture():SetPoint("TOPLEFT",QkBut,"TOPLEFT",-9,9);
-			QkBut:GetNormalTexture():SetPoint("BOTTOMRIGHT",QkBut,"BOTTOMRIGHT",9,-9);
-			QkBut.TexX1 = QkBut:CreateTexture();
-			QkBut.TexX1:SetTexture(136453);
-			QkBut.TexX1:SetPoint("TOPLEFT",QkBut,"TOPLEFT",-1,1);
-			QkBut.TexX1:SetPoint("BOTTOMRIGHT",QkBut,"BOTTOMRIGHT",1,-1);
+			local QkBut=PIGQuickBut(nil,QuickTooltip,136453,nil,FrameLevel)
+			if not PIG_OptionsUI.IsOpen_ElvUI() and not PIG_OptionsUI.IsOpen_NDui() then
+				QkBut.TexX1 = QkBut:CreateTexture();
+				QkBut.TexX1:SetTexture(130841);
+				QkBut.TexX1:SetPoint("TOPLEFT",QkBut,"TOPLEFT",-10.6,10.6);
+				QkBut.TexX1:SetPoint("BOTTOMRIGHT",QkBut,"BOTTOMRIGHT",10.6,-10.6);
+			end
 			QkBut:SetScript("OnClick", function(self,button)
 				if button=="LeftButton" then
 					PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON);

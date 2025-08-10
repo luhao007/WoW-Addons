@@ -175,7 +175,8 @@ for i=1,UIDROPDOWNMENU_MAXLEVELS do
 		CheckBut:HookScript("OnLeave", function (self)
 			PIGDownMenu_StartCounting(self:GetParent())
 		end)
-		CheckBut:HookScript("OnClick", function (self)
+		CheckBut:RegisterForClicks("LeftButtonUp","RightButtonUp")
+		CheckBut:HookScript("OnClick", function (self,button)
 			if self.isNotRadio then
 				local xchecked = self:GetChecked()
 				self.checked = xchecked
@@ -186,7 +187,7 @@ for i=1,UIDROPDOWNMENU_MAXLEVELS do
 				end
 				self:SetChecked(true);
 			end
-			self.func(PIG_DropDown[1].dropdown,self.value,self.arg1,self.arg2,self.checked)
+			self.func(PIG_DropDown[1].dropdown,self.value,self.arg1,self.arg2,self.checked,button)
 		end);
 	end
 end
@@ -237,7 +238,8 @@ function Create.PIGDownMenu(fuF,Point,SizeWH,EasyMenu,UIname)
 	DownMenu.Button:RegisterForClicks("LeftButtonUp","RightButtonUp");
 	local function zhixing_Show(fujiFrame)
 		local xialaMenu = PIG_DropDown[1].dropdown
-		if PIG_DropDown[1]:IsShown() and xialaMenu==fujiFrame then
+		--if PIG_DropDown[1]:IsShown() and xialaMenu==fujiFrame then
+		if PIG_DropDown[1]:IsShown() then
 			PIG_DropDown[1]:Hide()
 		else
 			for g=1,UIDROPDOWNMENU_MAXLEVELS do

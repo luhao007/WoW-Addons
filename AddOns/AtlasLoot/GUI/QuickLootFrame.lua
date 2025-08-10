@@ -1,6 +1,5 @@
 local ALName, ALPrivate = ...
 local AtlasLoot = _G.AtlasLoot
-local GUI = AtlasLoot.GUI
 local ItemDB = AtlasLoot.ItemDB
 local Button = AtlasLoot.Button
 local QLF = {}
@@ -132,7 +131,7 @@ local function CreateItemButton()
 
 	button.secButton:SetHighlightTexture("Interface\\buttons\\buttonhilight-square", "ADD")
 	button.secButton.OriSetNormalTexture = button.secButton.SetNormalTexture
-	button.secButton.type = "secButton" -- now we can use button functions ;)
+	button.secButton.type = "secButton"
 	button.secButton.obj = button
 	button.secButton:SetScript("OnEnter", AtlasLoot.Button.API.Button_OnEnter)
 	button.secButton:SetScript("OnLeave", AtlasLoot.Button.API.Button_OnLeave)
@@ -223,7 +222,7 @@ end
 
 local function SelectionButton_SetButtonType(button, typ, val)
 	if typ == "spec" then
-		local id, name, description, icon, background, role = GetSpecializationInfo(val)
+		local id, name, description, icon = GetSpecializationInfo(val)
 
 		button.icon:SetTexture(icon)
 
@@ -233,7 +232,6 @@ local function SelectionButton_SetButtonType(button, typ, val)
 
 		button.info = { name, description, id }
 		button:Show()
-		--elseif type(typ) == "table" then
 	else
 		button.icon:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
 		button:SetScript("OnEnter", nil)
@@ -339,12 +337,10 @@ function QLF:SetAtlasLootBonusRollItemTableOLD(addonName, contentName, boss, dif
 	-- set title
 	frame.topTitleFrame.text:SetText(moduleData[contentName]:GetName() or "")
 	frame.titleFrame.text:SetText(format(PAGE_NAME_DIFF, moduleData[contentName]:GetNameForItemTable(boss) or "", diffData.name))
-	--frame.titleFrame.text:SetText(moduleData[contentName]:GetNameForItemTable(boss) or "")
 
 	-- set items
 	local item, itemID
 	local count = 0
-	local newHeight = QLF_FRAME_MIN_HEIGHT_STD
 	for i = 1, #items do
 		item = items[i]
 		itemID = type(item[2]) == "number" and item[2] or tonumber(match(item[2], "i(%d+)"))
@@ -375,7 +371,6 @@ function QLF:SetEncounterJournalBonusRoll(tierID, difficultyID, instanceID, enco
 	if not self.frame then QLF:Create() end
 	if not self.frame:IsShown() then self.frame:Show() end
 	AtlasLoot.EncounterJournal:ClearLootQuery()
-	--ClearItemButtons()
 	self.currentShownInfo = {
 		type = "ejbr",
 		typeInfo = { tierID, difficultyID, instanceID, encounterID },
@@ -384,7 +379,6 @@ function QLF:SetEncounterJournalBonusRoll(tierID, difficultyID, instanceID, enco
 	-- We want a spec selection
 	QLF:SetSelection("spec")
 
-	-- TopTitle with
 	self.frame.topTitleFrame.text:SetText(EJ_GetInstanceInfo(instanceID) or "")
 	self.frame.titleFrame.text:SetText(format(PAGE_NAME_DIFF, EJ_GetEncounterInfo(encounterID) or "", DIF_INFO[difficultyID]))
 

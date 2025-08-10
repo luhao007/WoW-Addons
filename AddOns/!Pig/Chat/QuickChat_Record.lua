@@ -133,9 +133,9 @@ function QuickChatfun.QuickBut_Jilu()
 	end
 
 	--密语记录UI================
-	local UIname,www,hhh,hang_Height,hang_NUM = "PIG_WhisperRecord",170,310,22,12
+	local UIname,www,hang_Height,hang_NUM = "PIG_WhisperRecord",170,22,12
 	Data.UILayout[UIname]={"CENTER","CENTER",0,70}
-	local miyijiluF=PIGFrame(UIParent,nil,{www,hhh},UIname,true)
+	local miyijiluF=PIGFrame(UIParent,nil,{www,(hang_Height+2)*hang_NUM+20},UIname,true)
 	Create.PIG_SetPoint(UIname)
 	miyijiluF:PIGSetBackdrop(0.66)
 	miyijiluF:PIGSetMovable()
@@ -167,7 +167,9 @@ function QuickChatfun.QuickBut_Jilu()
 			miyijiluF.shezhiF:Show();
 		end
 	end)
-	miyijiluF.shezhiF=PIGFrame(miyijiluF.shezhi,{"TOPRIGHT",miyijiluF,"TOPLEFT",-1,0},{www,hhh})
+	miyijiluF.shezhiF=PIGFrame(miyijiluF.shezhi,{"TOPRIGHT",miyijiluF,"TOPLEFT",-1,0})
+	miyijiluF.shezhiF:SetPoint("BOTTOMRIGHT",miyijiluF,"BOTTOMLEFT",-1,0);
+	miyijiluF.shezhiF:SetWidth(www)
 	miyijiluF.shezhiF:PIGSetBackdrop()
 	miyijiluF.shezhiF:PIGClose()
 	miyijiluF.shezhiF:Hide()

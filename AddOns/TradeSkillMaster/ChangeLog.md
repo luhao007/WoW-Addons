@@ -1,5 +1,5 @@
-## v4.14.42 Changes
+## v4.14.43 Changes
 
-* [Retail] Fixed issues with bank quantity calculation
+* [MoP] Added BMAH scanning
 
 [Known Issues](https://support.tradeskillmaster.com/en_US/known_issues)

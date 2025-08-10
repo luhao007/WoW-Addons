@@ -143,7 +143,7 @@ function TardisInfo.ADD_Options()
 end
 --======
 fuFrame:HookScript("OnShow", function (self)
-	if PIGA["Ver"][addonName] and PIG_OptionsUI:GetVer_NUM(addonName)<PIGA["Ver"][addonName] then
+	if self.yiGenxing then
 		self.UpdateVer:Show()
 	end
 	self.Open:SetChecked(PIGA["Tardis"]["Open"])
@@ -162,12 +162,7 @@ fuFrame:SetScript("OnEvent",function(self, event, arg1, arg2, arg3, arg4, arg5)
 	if event=="CHAT_MSG_ADDON" then
 		PIG_OptionsUI.GetExtVerInfo(self,addonName,PIG_OptionsUI:GetVer_NUM(addonName), arg1, arg2, arg3, arg4, arg5)
 	elseif event=="PLAYER_LOGIN" then
-		PIGA["Ver"][addonName]=PIGA["Ver"][addonName] or 0
-		if PIGA["Ver"][addonName]>PIG_OptionsUI:GetVer_NUM(addonName) then
-			self.yiGenxing=true;
-		else
-			PIG_OptionsUI.SendExtVerInfo(addonName.."#U#"..PIG_OptionsUI:GetVer_NUM(addonName))
-		end
+		PIG_OptionsUI.SendExtVerInfo(addonName.."#U#"..PIG_OptionsUI:GetVer_NUM(addonName),addonName,self)
 	elseif event=="ADDON_LOADED" and arg1 == addonName then
 		self:UnregisterEvent("ADDON_LOADED")
 		addonTable.Load_Config()

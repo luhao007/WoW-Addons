@@ -16,7 +16,6 @@ local AtlasLoot = _G.AtlasLoot
 local ClickHandler = {}
 AtlasLoot.ClickHandler = ClickHandler
 local Proto = {}
-local AL = AtlasLoot.Locales
 
 -- lua
 local setmetatable = setmetatable
@@ -97,7 +96,7 @@ function ClickHandler:GetLocMouseButtons()
 		}
 		for i = 1, 100 do
 			if _G["KEY_BUTTON"..i] then
-				MOUSE_BUTTON_LOC[#MOUSE_BUTTON_LOC + 1] = { preSet["Button"..i] or "Button"..i, _G["KEY_BUTTON"..i] }
+				MOUSE_BUTTON_LOC[#MOUSE_BUTTON_LOC + 1] = { preSet["Button"..i] or ("Button"..i), _G["KEY_BUTTON"..i] }
 			else
 				break
 			end

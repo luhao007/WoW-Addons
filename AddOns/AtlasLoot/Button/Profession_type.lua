@@ -86,7 +86,7 @@ function Prof.OnMouseAction(button, mouseButton)
 	if not mouseButton then return end
 	mouseButton = ProfClickHandler:Get(mouseButton)
 	if mouseButton == "ChatLink" then
-		AtlasLoot.Button:AddChatLink(button.tsLink or "spell:"..button.SpellID)
+		AtlasLoot.Button:AddChatLink(button.tsLink or ("spell:"..button.SpellID))
 	end
 end
 

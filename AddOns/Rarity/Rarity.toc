@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: Allara
-## Version: 1.0 (r746-release)
+## Version: 1.0 (r746-release-2)
 
 ## Title: Rarity
 ## Notes: Tracks rare drops, including companions and mounts

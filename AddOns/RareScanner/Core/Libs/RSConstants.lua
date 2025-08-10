@@ -28,7 +28,7 @@ RSConstants.LOOT_ITEM_ID = nil
 ---============================================================================
 
 RSConstants.CURRENT_DB_VERSION = 188
-RSConstants.CURRENT_LOOT_DB_VERSION = 177
+RSConstants.CURRENT_LOOT_DB_VERSION = 178
 
 ---============================================================================
 -- Current maps (newer)
@@ -348,7 +348,7 @@ RSConstants.PROFILE_DEFAULTS = {
 			displayOldNotDiscoveredMapIcons = true,
 			displayDragonGlyphsIcons = true,
 			displayAlreadyCompletedEventIcons = false,
-			displayFilteredIngameMapIcons = false,
+			displayFilteredIngameMapIcons = true,
 			maxSeenTime = 0,
 			maxSeenTimeContainer = 0,
 			maxSeenTimeEvent = 5,

@@ -223,16 +223,16 @@ data["The Stonevault"] = {
 			},
 			[HEROIC_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
-				{ 8,  223121 }, -- Formula: Enchanted Weathered Harbinger Crest
-				{ 9,  223122 }, -- Formula: Enchanted Runed Harbinger Crest
-				{ 10, 223123 }, -- Formula: Enchanted Gilded Harbinger Crest
-				{ 11, 223088 }, -- Design: Elusive Blasphemite
+				{ 16, 223088 }, -- Design: Elusive Blasphemite
+				{ 17, 223121 }, -- Formula: Enchanted Weathered Harbinger Crest
+				{ 18, 223122 }, -- Formula: Enchanted Runed Harbinger Crest
+				{ 19, 223123 }, -- Formula: Enchanted Gilded Harbinger Crest
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
-				{ 12, 221093 }, -- Deeply Corrupted Coil
-				{ 13, 223087 }, -- Design: Culminating Blasphemite
-				{ 14, 226683, "mount" }, -- Malfunctioning Mechsuit
+				{ 8,  221093 }, -- Deeply Corrupted Coil
+				{ 10, 226683, "mount" }, -- Malfunctioning Mechsuit
+				{ 20, 223087 }, -- Design: Culminating Blasphemite
 			},
 		},
 	}
@@ -257,9 +257,11 @@ data["Priory of the Sacred Flame"] = {
 			},
 			[HEROIC_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				{ 7, nil }
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				{ 7, nil }
 			},
 		},
 		{ -- Baron Braunpyke
@@ -274,9 +276,11 @@ data["Priory of the Sacred Flame"] = {
 			},
 			[HEROIC_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				{ 7, 252009 }, -- Bloodstained Memento
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				{ 7, 252009 }, -- Bloodstained Memento
 			},
 		},
 		{ -- Prioress Murrpray
@@ -293,16 +297,16 @@ data["Priory of the Sacred Flame"] = {
 			},
 			[HEROIC_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
-				{ 9,  223121 }, -- Formula: Enchanted Weathered Harbinger Crest
-				{ 10, 223122 }, -- Formula: Enchanted Runed Harbinger Crest
-				{ 11, 223123 }, -- Formula: Enchanted Gilded Harbinger Crest
-				{ 12, 223088 }, -- Design: Elusive Blasphemite
-				{ 13, 223098 }, -- Pattern: Waders of the Unifying Flame
-				{ 14, 223117 }, -- Formula: Enchant Ring - Radiant Mastery
-				{ 15, 223115 }, -- Formula: Enchant Ring - Radiant Critical Strike
-				{ 16, 223116 }, -- Formula: Enchant Ring - Radiant Haste
-				{ 17, 223118 }, -- Formula: Enchant Ring - Radiant Versatility
-				{ 18, 223120 }, -- Formula: Enchant Weapon - Authority of Radiant Power
+				{ 16, 223098 }, -- Pattern: Waders of the Unifying Flame
+				{ 17, 223088 }, -- Design: Elusive Blasphemite
+				{ 18, 223121 }, -- Formula: Enchanted Weathered Harbinger Crest
+				{ 19, 223122 }, -- Formula: Enchanted Runed Harbinger Crest
+				{ 20, 223123 }, -- Formula: Enchanted Gilded Harbinger Crest
+				{ 21, 223117 }, -- Formula: Enchant Ring - Radiant Mastery
+				{ 22, 223115 }, -- Formula: Enchant Ring - Radiant Critical Strike
+				{ 23, 223116 }, -- Formula: Enchant Ring - Radiant Haste
+				{ 24, 223118 }, -- Formula: Enchant Ring - Radiant Versatility
+				{ 25, 223120 }, -- Formula: Enchant Weapon - Authority of Radiant Power
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
@@ -336,45 +340,48 @@ data["Ara-Kara, City of Echoes"] = {
 		{ -- Anub'zekt
 			EncounterJournalID = 2584,
 			[NORMAL_DUNGEON_DIFF] = {
-				{ 1, 221154 }, -- Swarmcaller's Shroud
+				{ 1, 219316 }, -- Ceaseless Swarmgland
 				{ 2, 221158 }, -- Burrower's Cinch
 				{ 3, 221156 }, -- Cryptbound Headpiece
 				{ 4, 221155 }, -- Swarm Monarch's Spaulders
 				{ 5, 221157 }, -- Unbreakable Beetlebane Bindings
-				{ 6, 219316 }, -- Ceaseless Swarmgland
-				{ 7, 219315 }, -- Refracting Aggression Module
+				{ 6, 221154 }, -- Swarmcaller's Shroud
+				--{ 7, 219315 }, -- Refracting Aggression Module
 			},
 			[HEROIC_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				{ 6, nil },
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				{ 6, nil },
 			},
 		},
 		{ -- Ki'katal the Harvester
 			EncounterJournalID = 2585,
 			[NORMAL_DUNGEON_DIFF] = {
 				{ 1, 221164 }, -- Archaic Venomancer's Footwraps
-				{ 2, 221160 }, -- Blight Hunter's Scalpelglaive
+				{ 2, 221163 }, -- Whispering Mask
 				{ 3, 221162 }, -- Claws of Tainted Ichor
 				{ 4, 221161 }, -- Experimental Goresilk Chestguard
 				{ 5, 219317 }, -- Harvester's Edict
 				{ 6, 221159 }, -- Harvester's Interdiction
 				{ 7, 221165 }, -- Unceremonious Bloodletter
-				{ 8, 221163 }, -- Whispering Mask
+				{ 8, 221160 }, -- Blight Hunter's Scalpelglaive
 			},
 			[HEROIC_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
-				{ 9,  223121 }, -- Formula: Enchanted Weathered Harbinger Crest
-				{ 10, 223122 }, -- Formula: Enchanted Runed Harbinger Crest
-				{ 11, 223123 }, -- Formula: Enchanted Gilded Harbinger Crest
-				{ 12, 223088 }, -- Design: Elusive Blasphemite
-				{ 13, 223142 }, -- Formula: Enchant Ring - Cursed Mastery
-				{ 14, 223143 }, -- Formula: Enchant Ring - Cursed Versatility
-				{ 15, 223141 }, -- Formula: Enchant Ring - Cursed Critical Strike
+				{ 8,  nil },
+				{ 16, 223088 }, -- Design: Elusive Blasphemite
+				{ 17, 223121 }, -- Formula: Enchanted Weathered Harbinger Crest
+				{ 18, 223122 }, -- Formula: Enchanted Runed Harbinger Crest
+				{ 19, 223123 }, -- Formula: Enchanted Gilded Harbinger Crest
+				{ 20, 223142 }, -- Formula: Enchant Ring - Cursed Mastery
+				{ 21, 223143 }, -- Formula: Enchant Ring - Cursed Versatility
+				{ 22, 223141 }, -- Formula: Enchant Ring - Cursed Critical Strike
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
 			},
 		},
 	}
@@ -713,9 +720,11 @@ data["Operation Floodgate"] = {
 			},
 			[HEROIC_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				{ 6, 251880 }, -- Momma's Mega Medallion
+				{ 7, 246278 }, -- Overpressure Platelegs
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
 			},
 		},
 		{ -- Demolition Duo
@@ -729,9 +738,10 @@ data["Operation Floodgate"] = {
 			},
 			[HEROIC_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				{ 6, 246279 }, -- Fizzlefuse Cuffs
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
 			},
 		},
 		{ -- Swampface
@@ -742,13 +752,14 @@ data["Operation Floodgate"] = {
 				{ 3, 234506 }, -- Muckdiver's Wading Plate
 				{ 4, 234495 }, -- Razorchoke Slacks
 				{ 5, 232543 }, -- Ringing Ritual Mud
-				{ 6, 236768, "pet4759" }, -- Craboom
+				{ 8, 236768, "pet4759" }, -- Craboom
 			},
 			[HEROIC_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				{ 6, 246277 }, -- Swampface's Oozewalkers
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
 			},
 		},
 		{ -- Geezle Gigazap
@@ -761,6 +772,70 @@ data["Operation Floodgate"] = {
 				{ 5, 234504 }, -- Jumpstarter's Scaffold-Scrapers
 				{ 6, 234501 }, -- Portable Power Generator
 				{ 7, 234496 }, -- Saboteur's Rubber Jacket
+			},
+			[HEROIC_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[MYTHICD_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+		},
+	}
+}
+
+data["Eco-Dome Al'dani"] = {
+	EncounterJournalID = 1303,
+	MapID = 2449,
+	--AtlasMapID = "EcoDomeAldani",
+	ContentType = DUNGEON_CONTENT,
+	items = {
+		{ -- Azhiccar
+			EncounterJournalID = 2675,
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1, 242470 }, -- Mandibular Bonewhacker
+				{ 2, 242464 }, -- Swarmite's Frenzied Pedicel
+				{ 3, 242472 }, -- Consumed Wastelander's Epaulets
+				{ 4, 242468 }, -- Al'dani Attendant's Gauze
+				{ 5, 242475 }, -- Eco-Dome Access Bands
+				{ 6, 242473 }, -- Spittle-Stained Trousers
+				{ 7, 242497 }, -- Azhiccaran Parapodia
+			},
+			[HEROIC_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[MYTHICD_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+		},
+		{ -- Taah'bat and A'wazj
+			EncounterJournalID = 2676,
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1, 242481 }, -- Spellstrike Warplance
+				{ 2, 242476 }, -- Taahbat's Desert Carbine
+				{ 3, 242477 }, -- Wasteland Devotee's Wrappings
+				{ 4, 242482 }, -- Reinforced Stalkerhide Vest
+				{ 5, 242479 }, -- Girdle of Absolute Faith
+				{ 6, 242483 }, -- Greaves of the Wild Pair
+				{ 7, 242495 }, -- Incorporeal Warpclaw
+			},
+			[HEROIC_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[MYTHICD_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+		},
+		{ -- Soul-Scribe
+			EncounterJournalID = 2677,
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1, 242487 }, -- Fatebound Crusader
+				{ 2, 242484 }, -- Soul-Scribe's Tabiqa Dagger
+				{ 3, 242493 }, -- Starlit Safeguard
+				{ 4, 242486 }, -- Mantle of Wounded Fate
+				{ 5, 242488 }, -- Tunic of Sworn Revenge
+				{ 6, 242490 }, -- Ancient Oracle's Caress
+				{ 7, 242491 }, -- Whispers of K'aresh
+				{ 8, 242494 }, -- Lily of the Eternal Weave
 			},
 			[HEROIC_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
@@ -1262,6 +1337,247 @@ data["Liberation of Undermine"] = {
 			[HEROIC_PRE_DIFF] = NORMAL_RAID_DIFF,
 			[MYTHIC_PRE_DIFF] = NORMAL_RAID_DIFF,
 			[RF_DIFF] = NORMAL_RAID_DIFF,
+		},
+	}
+}
+
+data["Manaforge Omega"] = {
+	EncounterJournalID = 1302,
+	MapID = 2460,
+	--AtlasMapID = "ManaforgeOmega",
+	ContentType = RAID_CONTENT,
+	TableType = RAID_ITTYPE,
+	items = {
+		{ -- Plexus Sentinel
+			EncounterJournalID = 2684,
+			[NORMAL_RAID_DIFF] = {
+				{ 1,  237739 }, -- Obliteration Beamglaive
+				{ 2,  237813 }, -- Factory-Issue Plexhammer
+				{ 3,  237736 }, -- Overclocked Plexhammer
+				{ 4,  237525 }, -- Irradiated Impurity Filter
+				{ 5,  237547 }, -- Mounted Manacannons
+				{ 6,  237528 }, -- Manaforged Displacement Chassis
+				{ 7,  237523 }, -- Arcanotech Wrist-Matrix
+				{ 8,  237534 }, -- Singed Sievecuffs
+				{ 9,  237533 }, -- Atomic Phasebelt
+				{ 10, 237543 }, -- Chambersieve Waistcoat
+				{ 11, 237551 }, -- Sterilized Expulsion Boots
+				{ 12, 237567 }, -- Logic Gate: Alpha
+				{ 13, 242394 }, -- Eradicating Arcanocore
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+		{ -- Loom'ithar
+			EncounterJournalID = 2686,
+			[NORMAL_RAID_DIFF] = {
+				{ 1,  237729 }, -- Prodigious Gene Splicer
+				{ 2,  237732 }, -- Piercing Strandbow
+				{ 3,  237723 }, -- Ward of the Weaving-Beast
+				{ 4,  237552 }, -- Deathbound Shoulderpads
+				{ 5,  237545 }, -- Discarded Nutrient Shackles
+				{ 6,  237522 }, -- Colossal Lifetether
+				{ 7,  237524 }, -- Laced Lair-Steppers
+				{ 8,  242395 }, -- Astral Antenna
+				{ 9,  242393 }, -- Loom'ithar's Living Silk
+				{ 10, 237593 }, -- Dreadful Silken Offering
+				{ 11, 237594 }, -- Mystic Silken Offering
+				{ 12, 237595 }, -- Venerated Silken Offering
+				{ 13, 237596 }, -- Zenith Silken Offering
+				{ 14, 224435 }, -- Pattern: Duskthread Lining
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+		{ -- Soulbinder Naazindhri
+			EncounterJournalID = 2685,
+			[NORMAL_RAID_DIFF] = {
+				{ 1,  237730 }, -- Voidglass Spire
+				{ 2,  237738 }, -- Unbound Training Claws
+				{ 3,  237568 }, -- Chrysalis of Sundered Souls
+				{ 4,  237527 }, -- Frock of Spirit's Reunion
+				{ 5,  237546 }, -- Bindings of Lost Essence
+				{ 6,  237550 }, -- Fresh Ethereal Fetters
+				{ 7,  237539 }, -- Deathspindle Talons
+				{ 8,  242398 }, -- Naazindhri's Mystic Lash
+				{ 9,  242391 }, -- Soulbinder's Embrace
+				{ 10, 237585 }, -- Dreadful Binding Agent
+				{ 11, 237586 }, -- Mystic Binding Agent
+				{ 12, 237587 }, -- Venerated Binding Agent
+				{ 13, 237588 }, -- Zenith Binding Agent
+				{ 15, 250104 }, -- Soulbinder's Nethermantle
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+		{ -- Forgeweaver Araz
+			EncounterJournalID = 2687,
+			[NORMAL_RAID_DIFF] = {
+				{ 1,  237726 }, -- Marvel of Technomancy
+				{ 2,  237737 }, -- Photon Sabre Prime
+				{ 3,  237724 }, -- Iris of the Dark Beyond
+				{ 4,  237529 }, -- Harvested Attendant's Uniform
+				{ 5,  237526 }, -- Breached Containment Guards
+				{ 6,  237538 }, -- Forgeweaver's Journal Holster
+				{ 7,  237553 }, -- Laboratory Test Slippers
+				{ 8,  237570 }, -- Logic Gate: Omega
+				{ 9,  242402 }, -- Araz's Ritual Forge
+				{ 10, 237589 }, -- Dreadful Foreboding Beaker
+				{ 11, 237590 }, -- Mystic Foreboding Beaker
+				{ 12, 237591 }, -- Venerated Foreboding Beaker
+				{ 13, 237592 }, -- Zenith Foreboding Beaker
+				{ 14, 223048 }, -- Plans: Siphoning Stiletto
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+		{ -- The Soul Hunters
+			EncounterJournalID = 2688,
+			[NORMAL_RAID_DIFF] = {
+				{ 1,  237727 }, -- Collapsing Phaseblades
+				{ 2,  237741 }, -- Event Horizon
+				{ 3,  237569 }, -- Duskblaze's Desperation
+				{ 4,  237541 }, -- Darksorrow's Corrupted Carapace
+				{ 5,  237561 }, -- Yoke of Enveloping Hatred
+				{ 6,  237549 }, -- Bloodwrath's Gnarled Claws
+				{ 7,  237554 }, -- Clasp of Furious Freedom
+				{ 8,  242401 }, -- Brand of Ceaseless Ire
+				{ 9,  242397 }, -- Sigil of the Cosmic Hunt
+				{ 10, 243308 }, -- Interloper's Chain Boots
+				{ 11, 243307 }, -- Interloper's Plated Sabatons
+				{ 12, 243306 }, -- Interloper's Reinforced Sandals
+				{ 13, 243305 }, -- Interloper's Silken Striders
+				{ 14, 237597 }, -- Dreadful Yearning Cursemark
+				{ 15, 237598 }, -- Mystic Yearning Cursemark
+				{ 16, 237599 }, -- Venerated Yearning Cursemark
+				{ 17, 237600 }, -- Zenith Yearning Cursemark
+				{ 18, 223097 }, -- Pattern: Adrenal Surge Clasp
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+		{ -- Fractillus
+			EncounterJournalID = 2747,
+			[NORMAL_RAID_DIFF] = {
+				{ 1,  237728 }, -- Voidglass Kris
+				{ 2,  237733 }, -- Lacerated Current Caster
+				{ 3,  237742 }, -- Fractillus' Last Breath
+				{ 4,  237536 }, -- Bite of the Astral Wastes
+				{ 5,  237558 }, -- Conjoined Glass Bracers
+				{ 6,  237530 }, -- Shrapnel-Fused Legguards
+				{ 7,  237565 }, -- Kinetic Dunerunners
+				{ 8,  242392 }, -- Diamantine Voidcore
+				{ 9,  242396 }, -- Unyielding Netherprism
+				{ 10, 237581 }, -- Dreadful Voidglass Contaminant
+				{ 11, 237582 }, -- Mystic Voidglass Contaminant
+				{ 12, 237583 }, -- Venerated Voidglass Contaminant
+				{ 13, 237584 }, -- Zenith Voidglass Contaminant
+				{ 14, 223094 }, -- Design: Magnificent Jeweler's Setting
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+		{ -- Nexus-King Salhadaar
+			EncounterJournalID = 2690,
+			[NORMAL_RAID_DIFF] = {
+				{ 1,  243365 }, -- Maw of the Void
+				{ 2,  237734 }, -- Oath-Breaker's Recompense
+				{ 3,  237740 }, -- Vengeful Netherspike
+				{ 4,  237735 }, -- Voidglass Sovereign's Blade
+				{ 5,  237548 }, -- Twilight Tyrant's Veil
+				{ 6,  242406 }, -- Salhadaar's Folly
+				{ 7,  237532 }, -- Beacons of False Righteousness
+				{ 8,  237555 }, -- Pactbound Vambraces
+				{ 9,  237544 }, -- Royal Voidscale Gauntlets
+				{ 10, 237557 }, -- Reaper's Dreadbelt
+				{ 11, 237531 }, -- Elite Shadowguard Legwraps
+				{ 12, 237564 }, -- Darkrider Sabatons
+				{ 13, 237556 }, -- Sandals of Scarred Servitude
+				{ 14, 242400 }, -- Nexus-King's Command
+				{ 15, 242403 }, -- Perfidious Projector
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+		},
+		{ -- Dimensius, the All-Devouring
+			EncounterJournalID = 2691,
+			[NORMAL_RAID_DIFF] = {
+				{ 1,  237725 }, -- Supermassive Starcrusher
+				{ 2,  237731 }, -- Ergospheric Cudgel
+				{ 3,  237535 }, -- Artoshion's Abyssal Stare
+				{ 4,  237537 }, -- Claws of Failed Resistance
+				{ 5,  237562 }, -- Time-Compressed Wristguards
+				{ 6,  237540 }, -- Winged Gamma Handlers
+				{ 7,  237559 }, -- Singularity Cincture
+				{ 8,  237563 }, -- Ultradense Fission Girdle
+				{ 9,  237542 }, -- Stellar Navigation Slacks
+				{ 10, 237560 }, -- Greaves of Shattered Space
+				{ 11, 242405 }, -- Band of the Shattered Soul
+				{ 12, 242404 }, -- All-Devouring Nucleus
+				{ 13, 242399 }, -- Screams of a Forgotten Sky
+				{ 14, 237602 }, -- Hungering Void Curio
+				{ 15, 223144 }, -- Formula: Enchant Weapon - Authority of the Depths
+				{ 16, 246565 }, -- Cosmic Hearthstone
+			},
+			[HEROIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
+			[MYTHIC_PRE_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+				{ 17, 243061, "mount" }, -- Unbound Star-Eater
+			},
+			[RF_DIFF] = {
+				GetItemsFromDiff = NORMAL_RAID_DIFF,
+			},
 		},
 	}
 }

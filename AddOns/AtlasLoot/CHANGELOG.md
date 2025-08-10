@@ -1,5 +1,32 @@
 ﻿# Changelog
 
+## 9.13.0 - August 10, 2025
+### Added
+- Added The K'aresh Trust renown track
+- Added Manaforge Vandals raid renown track
+- Added Tier 34 sets
+- Added TWW 11.2 Alchemy, Enchanting, Inscription and Tailoring recipes
+- Added TWW 11.2 tabards to Collections
+
+## 9.12.0 - August 9, 2025
+### Added
+- Added Manaforge Omega instance loot
+- Added Eco-Dome Al'dani instance loot
+- Added Bloodstained Memento to Baron Braunpyke in Heroic and Mythic
+- Added Momma's Mega Medallion and Overpressure Platelegs to Big M.O.M.M.A. in Heroic and Mythic
+- Added Fizzlefuse Cuffs to Demolition Duo in Heroic and Mythic
+- Added Swampface's Oozewalkers to Swampface in Heroic and Mythic
+### Changed
+- Changed Halls of Atonement instance loot on Heroic and Mythic for TWW Season 3
+- Changed Tazavesh, the Veiled Market instance loot for TWW Season 3
+### Removed
+- Removed Glorious Defender's Poleaxe from Captain Dailcry in Heroic and Mythic
+- Removed Swarmcaller's Shroud from Anub'zekt in Heroic and Mythic
+- Removed Refracting Aggression Module from Anub'zekt in all difficulties
+- Removed Blight Hunter's Scalpelglaive from Ki'katal the Harvester in Heroic and Mythic
+### Fixed
+- Fixed number of items in the Clear List button tooltip
+
 ## 9.11.0 - August 5, 2025
 ### Added
 - Added Trial of Style items to World Events

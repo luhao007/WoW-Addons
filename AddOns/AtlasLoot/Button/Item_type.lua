@@ -112,7 +112,7 @@ function Item.OnMouseAction(button, mouseButton)
 	if mouseButton == "ChatLink" then
 		local itemInfo, itemLink = GetItemInfo(button.ItemString or button.ItemID)
 		itemLink = itemLink or button.ItemString
-		AtlasLoot.Button:AddChatLink(itemLink or "item:"..button.ItemID)
+		AtlasLoot.Button:AddChatLink(itemLink or ("item:"..button.ItemID))
 	elseif mouseButton == "DressUp" then
 		local itemInfo, itemLink = GetItemInfo(button.ItemString or button.ItemID)
 		itemLink = itemLink or button.ItemString
@@ -174,9 +174,9 @@ function Item.OnMouseAction(button, mouseButton)
 			frame:SetRotation(frame.curRotation)
 		end
 	elseif mouseButton == "Azerite" then
-		local itemInfo, itemLink = GetItemInfo(button.ItemString or button.ItemID)
+		local _, itemLink = GetItemInfo(button.ItemString or button.ItemID)
 		itemLink = itemLink or button.ItemString
-		HandleModifiedItemClick(GetFixedLink(itemLink or "item:"..button.ItemID))
+		HandleModifiedItemClick(GetFixedLink(itemLink or ("item:"..button.ItemID)))
 	end
 end
 

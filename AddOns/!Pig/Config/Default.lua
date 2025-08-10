@@ -2,6 +2,7 @@ local _, addonTable = ...;
 
 addonTable.Default = {
 	["Ver"]={},
+	["VerC"]={},
 	["Error"] = {
 		["ErrorDB"] = {},
 		["ErrorTishi"] = false,
@@ -257,7 +258,6 @@ addonTable.Default = {
 		["BAGmeihangshu"]=8,
 		["BAGsuofangBili"]=1,
 		["BANKmeihangshu"]=16,
-		["BANKmeihangshu_retail"]=17,
 		["BANKsuofangBili"]=1,
 		["jiaoyiOpen"]=true,
 		["AHOpen"]=true,
