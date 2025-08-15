@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: Zensunim of Dragonblight
-## Version: 5.18.1
+## Version: 5.18.4
 
 ## Title: GTFO
 ## Notes: GTFO, you're dying!

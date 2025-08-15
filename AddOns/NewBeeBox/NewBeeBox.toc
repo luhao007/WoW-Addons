@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: wclbox.com
-## Version: 1.0.24
+## Version: 1.0.26
 
 ## Title: 新手盒子游戏助手
 ## Notes: 用于新手盒子内角色数据识别同步的插件

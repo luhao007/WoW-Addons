@@ -1,5 +1,20 @@
 ﻿# Changelog
 
+## 9.14.0 - August 14, 2025
+### Added
+- Added TWW 11.2 mounts to Collections
+- Added TWW 11.2 pets to Collections
+- Added TWW 11.2 toys to Collections
+- Added Zo'ya and Looker Gaz'kreth Jr. to Manaforge Vandals
+- Added Eye of Extermination pet to The Eye of the Jailer in Mythic
+- Added Vengeance's Reins to Sylvanas Windrunner in Mythic
+- Added Fractal Cypher of the Zereth Overseer to The Jailer in Mythic
+### Changed
+- Reordered Shadowlands instance loot so that gear and conduits/memories are grouped together
+### Fixed
+- More items will be highlighted by the transmog filter, such as Shadowlands dungeons on Mythic
+- Fixed the height of the mount button tooltip
+
 ## 9.13.0 - August 10, 2025
 ### Added
 - Added The K'aresh Trust renown track

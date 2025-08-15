@@ -27,6 +27,12 @@ local loot_spec_name = ""
 local current_spec = ""
 
 -- ******************************** Functions *******************************
+local LootMethod = nil
+if C_PartyInfo and C_PartyInfo.GetLootMethod then
+	LootMethod = C_PartyInfo.GetLootMethod
+else
+	LootMethod = GetLootMethod
+end
 
 --[[
 -- **************************************************************************
@@ -170,7 +176,7 @@ function TitanPanelLootTypeButton_GetButtonText(id)
 	dungeondiff = "";
 
 	if (GetNumSubgroupMembers() > 0) or (GetNumGroupMembers() > 0) then
-		lootTypeText = TitanLootMethod[GetLootMethod()].text;
+		lootTypeText = TitanLootMethod[LootMethod()].text;
 		lootThreshold = GetLootThreshold();
 		color = _G["ITEM_QUALITY_COLORS"][lootThreshold];
 	else
@@ -260,7 +266,7 @@ end
 function TitanPanelLootTypeButton_GetTooltipText()
 	local party = ""
 	if (GetNumSubgroupMembers() > 0) or (GetNumGroupMembers() > 0) then
-		local lootTypeText = TitanLootMethod[GetLootMethod()].text;
+		local lootTypeText = TitanLootMethod[LootMethod()].text;
 		local lootThreshold = GetLootThreshold();
 		local itemQualityDesc = _G["ITEM_QUALITY"..lootThreshold.."_DESC"];
 		local color = _G["ITEM_QUALITY_COLORS"][lootThreshold];

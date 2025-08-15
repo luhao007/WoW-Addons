@@ -1,6 +1,8 @@
 BuildEnv(...)
 
-debug = C_AddOns.IsAddOnLoaded('!!!!!tdDevTools') and print or nop
+local IsAddOnLoaded = C_AddOns and C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+
+debug = IsAddOnLoaded('!!!!!tdDevTools') and print or nop
 
 Addon = LibStub('AceAddon-3.0'):GetAddon('MeetingStone')
 

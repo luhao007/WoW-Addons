@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: ykiigor
-## Version: 5195
+## Version: 5205
 
 ## Title: Method Raid Tools
 ## Notes: Method Raid Tools
@@ -44,6 +44,7 @@ Timers.lua
 RaidAttendance.lua
 Encounter.lua
 LootHistory.lua
+Coins.lua
 WhoPulled.lua
 Pets.lua
 AutoLogging.lua

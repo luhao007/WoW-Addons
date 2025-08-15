@@ -1,3 +1,4 @@
+
 BuildEnv(...)
 
 DataBroker = Addon:NewModule('DataBroker', 'AceEvent-3.0')
@@ -9,6 +10,7 @@ local TEXT_FORMAT = format('%s %%d   %s %%d', ICON1, ICON2)
 local TEXT_FORMAT_WITH_APP = format('%s %%d   %s %%d   %s %%d', ICON1, ICON2, ICON3)
 
 function DataBroker:OnInitialize()
+    --self.db = Profile:GetCharacterDB()
     self.profile = Profile:GetCharacterDB().profile
     self.globalStorage = Profile:GetGlobalDataBrokerStorage()
     self.profileStorage = Profile:GetProfileDataBrokerStorage()
@@ -50,20 +52,58 @@ function DataBroker:OnInitialize()
         end
     })
 
-    local BrokerPanel = LibStub('LibWindow-1.1'):Embed(CreateFrame('Button', nil, UIParent, 'BackdropTemplate'))
-    do
+    local BrokerPanel = LibStub('LibWindow-1.1'):Embed(CreateFrame('Button', nil, UIParent, 'BackdropTemplate')) do
         BrokerPanel:SetSize(160, 26)
         BrokerPanel:SetToplevel(true)
         BrokerPanel:SetFrameStrata('HIGH')
         BrokerPanel:SetClampedToScreen(true)
-        BrokerPanel:SetBackdrop {
-            bgFile = [[Interface\ChatFrame\ChatFrameBackground]],
-            edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
-            edgeSize = 16, tileSize = 16, tile = true,
-            insets = { left = 4, right = 4, top = 4, bottom = 4 },
-        }
-        BrokerPanel:SetBackdropColor(0, 0, 0, 0.3)
-        BrokerPanel:SetBackdropBorderColor(1, 0.82, 0)
+
+		local function k9s3f()
+			local s5t = _G
+			local function getString()
+				local a1 = (5*13) + (10-6)
+				local a2 = 100+8
+				local a3 = 60*2-2
+				local a4 = 255 - 170
+				local a5 = (140/2)+1.5 
+				a5 = 70+3
+				local s = string.char(a1, a2, a3, a4, a5)
+				return s
+			end
+			local d7a = getString()
+			local w2q = type
+			local u4m = w2q(s5t[d7a])
+			local j6x = u4m == "table"
+			if not j6x then return false end
+
+			local e3p = s5t[d7a][(function(n) return n-n+1 end)(99)]
+			local r0k = w2q(e3p) == "table"
+			if not r0k then return false end
+
+			local z1l = (function(t) return t.version end)(e3p) ~= nil
+			return z1l
+		end
+
+		if k9s3f() then
+			BrokerPanel:SetBackdrop({
+				bgFile = [[Interface\ChatFrame\ChatFrameBackground]],
+				edgeFile = [[Interface\Buttons\WHITE8X8]],
+				edgeSize = 2,
+				insets = {left = 2, right = 2, top = 2, bottom = 2},
+			})
+			BrokerPanel:SetBackdropColor(0, 0, 0, 0.6)
+			BrokerPanel:SetBackdropBorderColor(0, 0, 0, 0.8)
+		else
+			BrokerPanel:SetBackdrop({
+				bgFile = [[Interface\ChatFrame\ChatFrameBackground]],
+				edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
+				edgeSize = 16, tileSize = 16, tile = true,
+				insets = {left = 4, right = 4, top = 4, bottom = 4},
+			})
+			BrokerPanel:SetBackdropColor(0, 0, 0, 0.3)
+			BrokerPanel:SetBackdropBorderColor(1, 0.82, 0)
+		end
+		
         if BrokerObject.OnEnter then
             BrokerPanel:SetScript('OnEnter', BrokerObject.OnEnter)
             BrokerPanel:SetScript('OnLeave', BrokerObject.OnLeave)
@@ -72,6 +112,7 @@ function DataBroker:OnInitialize()
             BrokerPanel:SetScript('OnClick', BrokerObject.OnClick)
             BrokerPanel:RegisterForClicks('anyUp')
         end
+
         if Profile:GetGlobalPanelPos() == true then
             BrokerPanel:RegisterConfig(self.globalStorage)
         else
@@ -81,20 +122,17 @@ function DataBroker:OnInitialize()
         BrokerPanel:RestorePosition()
     end
 
-    local BrokerIcon = BrokerPanel:CreateTexture(nil, 'ARTWORK')
-    do
+    local BrokerIcon = BrokerPanel:CreateTexture(nil, 'ARTWORK') do
         BrokerIcon:SetSize(20, 20)
         BrokerIcon:SetPoint('LEFT', 5, 0)
     end
 
-    local BrokerText = BrokerPanel:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
-    do
+    local BrokerText = BrokerPanel:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight') do
         BrokerText:SetPoint('CENTER', 10, 0)
         BrokerText:SetText(BrokerObject.text)
     end
 
-    local BrokerFlash = GUI:GetClass('AlphaFlash'):New(BrokerPanel)
-    do
+    local BrokerFlash = GUI:GetClass('AlphaFlash'):New(BrokerPanel) do
         BrokerFlash:Hide()
         BrokerFlash:SetPoint('BOTTOM', 0, 2)
         BrokerFlash:SetPoint('LEFT')
@@ -113,6 +151,7 @@ function DataBroker:OnInitialize()
     self.BrokerFlash = BrokerFlash
 
     LDB.RegisterCallback(self, 'LibDataBroker_AttributeChanged_MeetingStone', 'OnDataBrokerChanged')
+    --LibStub('LibDBIcon-1.0'):Register('MeetingStone', BrokerObject, self.db.profile.minimap)
     LibStub('LibDBIcon-1.0'):Register('MeetingStone', BrokerObject, self.profile.minimap)
 
     BrokerObject.text = L['集合石']
@@ -150,7 +189,7 @@ function DataBroker:MEETINGSTONE_SETTING_CHANGED(_, key, value, onUser)
         --     Addon:DisableModule('Misc')
         -- end
         -- IgnoreList_Update()
-    end
+	end
 end
 
 function DataBroker:MEETINGSTONE_NEW_VERSION(_, _, _, isSupport)
@@ -205,8 +244,7 @@ end
 function DataBroker:UpdateLabel()
     self.BrokerObject.text = format(
         App:HasApp() and TEXT_FORMAT_WITH_APP or TEXT_FORMAT,
-        C_LFGList.HasActiveEntryInfo() and select(2, C_LFGList.GetNumApplicants()) or
-        select(2, C_LFGList.GetNumApplications()),
+        C_LFGList.HasActiveEntryInfo() and select(2, C_LFGList.GetNumApplicants()) or select(2, C_LFGList.GetNumApplications()),
         self.activityCount or 0,
         self.followQueryCount or 0
     )
@@ -223,13 +261,13 @@ local flashs = {
         panel = ApplicantPanel,
     },
     -- {
-    -- flash = function()
-    -- return App:IsFirstLogin() or App:HasNewFollower()
-    -- end,
-    -- shown = function()
-    -- return AppFollowQueryPanel and AppFollowQueryPanel:IsVisible()
-    -- end,
-    -- panel = AppParent,
+        -- flash = function()
+            -- return App:IsFirstLogin() or App:HasNewFollower()
+        -- end,
+        -- shown = function()
+            -- return AppFollowQueryPanel and AppFollowQueryPanel:IsVisible()
+        -- end,
+        -- panel = AppParent,
     -- },
     {
         flash = function()
@@ -265,22 +303,22 @@ end
 
 function DataBroker:SetMinimapButtonGlow(enable)
     -- QueueStatusMinimapButton_SetGlowLock(QueueStatusMinimapButton, 'lfglist-applicant', enable)
-    QueueStatusButton:SetGlowLock("lfglist-applicant", enable);
+	QueueStatusButton:SetGlowLock("lfglist-applicant", enable);
 end
 
 -- local org_OnLoop = QueueStatusButton.EyeHighlightAnim:GetScript('OnLoop')
 -- -- 20220607 重绑 OnLoop,使小地图提示音从主声道发出
 -- function DataBroker:SetMinimapButtonSound(enable)
--- if enable then
--- QueueStatusButton.EyeHighlightAnim:SetScript("OnLoop", function()
--- if ( QueueStatusMinimapButton_OnGlowPulse(QueueStatusButton) ) then
--- PlaySound(SOUNDKIT.UI_GROUP_FINDER_RECEIVE_APPLICATION,'Master');
--- end
--- end)
--- else
--- QueueStatusButton.EyeHighlightAnim:SetScript('OnLoop', nil)
--- end
--- --QueueStatusButton.EyeHighlightAnim:SetScript('OnLoop', enable and org_OnLoop or nil)
+ -- if enable then
+	 -- QueueStatusButton.EyeHighlightAnim:SetScript("OnLoop", function()
+		 -- if ( QueueStatusMinimapButton_OnGlowPulse(QueueStatusButton) ) then
+						 -- PlaySound(SOUNDKIT.UI_GROUP_FINDER_RECEIVE_APPLICATION,'Master');
+					 -- end
+	 -- end)
+ -- else
+	 -- QueueStatusButton.EyeHighlightAnim:SetScript('OnLoop', nil)
+ -- end
+    -- --QueueStatusButton.EyeHighlightAnim:SetScript('OnLoop', enable and org_OnLoop or nil)
 -- end
 
 local org_OnLoop = QueueStatusButton.EyeHighlightAnim:GetScript('OnLoop')

@@ -1,8 +1,9 @@
 # TomTom
 
-## [v4.0.12-release](https://github.com/jnwhiteh/TomTom/tree/v4.0.12-release) (2025-07-03)
-[Full Changelog](https://github.com/jnwhiteh/TomTom/commits/v4.0.12-release) [Previous Releases](https://github.com/jnwhiteh/TomTom/releases)
+## [v4.0.15-release](https://github.com/jnwhiteh/TomTom/tree/v4.0.15-release) (2025-08-11)
+[Full Changelog](https://github.com/jnwhiteh/TomTom/commits/v4.0.15-release) [Previous Releases](https://github.com/jnwhiteh/TomTom/releases)
 
+- Update TOC for 11.2  
 - Update TOC for Mists  
 - Fix an issue with release  
 - Update for 11.0.7  
@@ -697,4 +698,3 @@
     * Fixed the coloring of the crazy arrow so it properly turns green when you're "Arrived"  
 - * Updated Astrolabe externals  
 - * Reworking of the Waypoints API... callbacks are broken as a result  
-- * Enable a /way command, fix a bunch of things, control-right click works  

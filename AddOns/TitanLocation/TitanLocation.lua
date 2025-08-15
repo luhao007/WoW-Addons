@@ -136,7 +136,6 @@ local function RealmUpdate()
 end
 ---local Function to throttle down unnecessary updates
 local function CheckForPositionUpdate()
-	local mapID = C_Map.GetBestMapForUnit("player")
 	local tempx, tempy = GetPlayerMapPosition()
 
 	-- If unknown then use 0,0
@@ -180,20 +179,20 @@ local function SetCoordText(player, cursor)
 
 	player_frame:SetText(player or "");
 	cursor_frame:SetText(cursor or "");
+	player_frame:ClearAllPoints()
+	cursor_frame:ClearAllPoints()
 
-	if TITAN_ID == "Titan" then
+	local mloc = TitanGetVar(TITAN_LOCATION_ID, "CoordsLoc")
+
+	if WorldMapFrame.MiniBorderFrame then -- older style world map
 		-- Determine where to show the text
-		player_frame:ClearAllPoints()
-		cursor_frame:ClearAllPoints()
-
-		local mloc = TitanGetVar(TITAN_LOCATION_ID, "CoordsLoc")
 		if mloc == "Top" then
 			if WorldMapFrame:IsMaximized() then
-				TitanMapPlayerLocation:SetPoint("TOPLEFT", WorldMapFrame.BorderFrame, "TOPLEFT", 10, -5)
+				player_frame:SetPoint("TOPLEFT", WorldMapFrame.BorderFrame, "TOPLEFT", 10, -5)
 			else
-				TitanMapPlayerLocation:SetPoint("TOPLEFT", WorldMapFrame.MiniBorderFrame, "TOPLEFT", 20, -33)
+				player_frame:SetPoint("TOPLEFT", WorldMapFrame.MiniBorderFrame, "TOPLEFT", 20, -5)
 			end
-			TitanMapCursorLocation:SetPoint("RIGHT", WorldMapFrame.MaximizeMinimizeFrame, "LEFT", 0, 0)
+			cursor_frame:SetPoint("RIGHT", WorldMapFrame.MaximizeMinimizeFrame, "LEFT", 0, 0)
 		elseif mloc == "Bottom" then
 			player_frame:SetPoint("BOTTOMRIGHT", world_frame, "BOTTOM", -10, 10)
 			cursor_frame:SetPoint("BOTTOMLEFT", world_frame, "BOTTOM", 0, 10)
@@ -205,20 +204,21 @@ local function SetCoordText(player, cursor)
 		end
 	else -- current retail
 		-- Position the text
-		local anchor = world_frame.BorderFrame.MaximizeMinimizeFrame
-		if world_frame:IsMaximized() then
-			-- map should be 'full' screen
-			player_frame:ClearAllPoints();
-			cursor_frame:ClearAllPoints();
-			player_frame:SetPoint("RIGHT", anchor, "LEFT", 0, 0)
-			cursor_frame:SetPoint("TOP", player_frame, "BOTTOM", 0, -5)
-			world_frame.TitanSize = "large"
+		if mloc == "Top" then
+			if WorldMapFrame:IsMaximized() then
+				player_frame:SetPoint("TOPLEFT", world_frame, "TOPLEFT", 20, -5)
+			else
+				player_frame:SetPoint("TOPLEFT", world_frame, "TOPLEFT", 100, -5)
+			end
+			cursor_frame:SetPoint("TOPLEFT", player_frame, "TOPRIGHT", 5, 0)
+		elseif mloc == "Bottom" then
+			player_frame:SetPoint("BOTTOMRIGHT", world_frame, "BOTTOM", -10, 10)
+			cursor_frame:SetPoint("BOTTOMLEFT", world_frame, "BOTTOM", 0, 10)
 		else
-			player_frame:ClearAllPoints();
-			cursor_frame:ClearAllPoints();
-			player_frame:SetPoint("RIGHT", anchor, "LEFT", 0, 0)
-			cursor_frame:SetPoint("LEFT", world_frame.BorderFrame.Tutorial, "RIGHT", 0, 0)
-			world_frame.TitanSize = "small"
+			-- Correct to the default of bottom
+			TitanSetVar(TITAN_LOCATION_ID, "CoordsLoc", "Bottom")
+			player_frame:SetPoint("BOTTOMRIGHT", world_frame, "BOTTOM", -10, 10)
+			cursor_frame:SetPoint("BOTTOMLEFT", world_frame, "BOTTOM", 0, 10)
 		end
 	end
 end
@@ -463,6 +463,8 @@ local function GetButtonText(id)
 		-- Coordinates text, if requested
 		if TitanGetVar(TITAN_LOCATION_ID, "ShowCoordsText") then
 			if place.px == 0 and place.py == 0 then
+				xy_text = ""
+			elseif place.px == nil or place.py == nil then
 				xy_text = ""
 			else
 				xy_text = format(TitanGetVar(TITAN_LOCATION_ID, "CoordsFormat"), 100 * place.px, 100 * place.py)

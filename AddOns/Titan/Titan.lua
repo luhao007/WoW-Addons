@@ -65,6 +65,18 @@ end
 function TitanPanel_SaveCustomProfile()
 	-- Create the dialog box code we'll need...
 
+	---helper to get the edit box depending on expansion API
+	---@param self table
+	---@return table
+	local function GetBox(self)
+		if self.editBox then
+			-- Older version of API
+			return self.editBox
+		else
+			return self:GetEditBox()
+		end
+	end
+
 	-- helper to actually write the profile to the Titan saved vars
 	local function Write_profile(name)
 		local currentprofilevalue, _, _ = TitanUtils_GetPlayer()
@@ -85,7 +97,7 @@ function TitanPanel_SaveCustomProfile()
 	end
 	-- helper to handle getting the profile name from the user
 	local function Get_profile_name(self)
-		local rawprofileName = self.editBox:GetText();
+		local rawprofileName = GetBox(self):GetText();
 		-- remove any spaces the user may have typed in the name
 		local conc2profileName = string.gsub(rawprofileName, " ", "");
 		if conc2profileName == "" then return; end
@@ -148,10 +160,10 @@ function TitanPanel_SaveCustomProfile()
 			Get_profile_name(self)
 		end,
 		OnShow = function(self)
-			self.editBox:SetFocus();
+			GetBox(self):SetFocus();
 		end,
 		OnHide = function(self)
-			self.editBox:SetText("");
+			GetBox(self):SetText("");
 		end,
 		EditBoxOnEnterPressed = function(self)
 			-- We need to get the parent because self refers to the edit box.

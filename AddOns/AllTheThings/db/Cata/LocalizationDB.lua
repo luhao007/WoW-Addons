@@ -869,12 +869,12 @@ _.CategoryNames = {
 	[184] = "Explosives",
 	[185] = "Goggles",
 	[188] = "Devices",
-	[220] = "Chest",
+	[220] = INVTYPE_CHEST,
 	[224] = "Legs",
-	[227] = "Weapons",
+	[227] = AUCTION_CATEGORY_WEAPONS,
 	[251] = "Helms",
-	[252] = "Shoulders",
-	[253] = "Chest",
+	[252] = SHOULDERSLOT,
+	[253] = INVTYPE_CHEST,
 	[254] = "Bracers",
 	[255] = "Gloves",
 	[256] = "Belts",
@@ -924,7 +924,7 @@ _.CategoryNames = {
 	[867] = "Prisms & Statues",
 	[868] = "Reagents",
 	[869] = "Crowns",
-	[932] = "Chest",
+	[932] = INVTYPE_CHEST,
 	[933] = "Bracers",
 	[935] = "Belts",
 	[1126] = "Glyphs",
@@ -1244,7 +1244,7 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-342] = "This item has a Unique Appearance. You must collect this item specifically to earn the appearance.",
 	[-343] = "This list contains Unobtainable items that the ATT Discord has reported as bugs that Blizzard has yet to fix.\n\nNOTE: All filters are ignored within this list for visibility. Only items removed from the game due to negligence rather than a gigantic fire breathing dragon are present on this list.\n\nTo Blizzard Devs: Please fix the items and encounters listed below.",
 	[-353] = "Also known as 'Lower' Blackrock Spire.",
-	[-354] = "One member of your group must have completed the Seal of Ascension quest chain in order for the fires to light and the door to open to this portion of the instance. Also known as 'Upper' Blackrock Spire.",
+	[-354] = "Also known as 'Upper' Blackrock Spire.",
 	[-355] = "This part of the instance can be accessed from the eastern-most portal. (right side)",
 	[-356] = "This part of the instance can be accessed from the northern-most portal.",
 	[-357] = "This part of the instance can be accessed from the western-most portal. (left side)",
@@ -8129,6 +8129,7 @@ localize(_.CategoryNames, {
 	[108] = "Forschung",
 	[185] = "Schutzbrille",
 	[785] = "Tinte",
+	[1126] = "Glyphe",
 });
 localize(L.HEADER_NAMES, {
 	[-11] = "Neuer Charakter",
@@ -10561,6 +10562,7 @@ localize(_.CategoryNames, {
 	[108] = "Recherches",
 	[185] = "Lunettes",
 	[785] = "Encre",
+	[1126] = "Glyphe",
 });
 localize(L.HEADER_NAMES, {
 	[-11] = "Nouveau personnage",
@@ -12747,6 +12749,7 @@ localize(_.CategoryNames, {
 	[108] = "Ricerca",
 	[185] = "Visori",
 	[785] = "Tinta",
+	[1126] = "Glifo",
 });
 localize(L.HEADER_NAMES, {
 	[-11] = "Nuovo personaggio",
@@ -14510,6 +14513,7 @@ localize(_.CategoryNames, {
 	[108] = "Pesquisa",
 	[185] = "Tecnóculos",
 	[785] = "Tinta",
+	[1126] = "Glifo",
 });
 localize(L.HEADER_NAMES, {
 	[-11] = "Novo personagem",
@@ -16722,6 +16726,7 @@ L.EVENT_SCHEDULE = "Расписание События";
 L.EVENT_START = "Начало:";
 L.EVENT_WHERE = "Когда:";
 L.EXPAND_DIFFICULTY_CHECKBOX = "Развернуть Текущую Сложность";
+L.EXPAND_DIFFICULTY_CHECKBOX_TOOLTIP = "Включите данную опцию, если Вы хотите автоматически разворачивать заголовки текущей сложности в мини списке, когда Вы входите в подземелье или рейд.\n\nПример: Разворачивать только Героический заголовок, когда в Героической сложности подземелья.";
 L.EXPANSION_THINGS_LABEL = "Штучки Дополнений";
 L.EXPLORATION_CHECKBOX = "Исследование (неточное)";
 L.EXPLORATION_CHECKBOX_TOOLTIP = "Включите для отслеживания исследования зон под открытым небом.\n\nИнформация, предоставляемая этой опцией, в настоящее время неточная и нуждается в доработке, поэтому используйте её с осторожностью.";
@@ -16960,6 +16965,7 @@ L.RECENTLY_MADE_OBTAINABLE_PT2 = "|cFFFF0000Чем больше информац
 L.RECIPES_CHECKBOX = "Рецепты";
 L.RECIPES_CHECKBOX_TOOLTIP = "Включите для отслеживания рецептов для Ваших профессий\n\nПримечание: Вы должны открыть Ваши профессии, чтобы кэшировать известные рецепты.";
 L.REFRESHING_COLLECTION = "Обновление коллекции ...";
+L.REMOTE_ZONES_DESCRIPTION = "Контент, который доступен в текущей зоне, но формально заимствован из другой зоны.";
 L.REMOVED_WITH_PATCH = "Убрано в патче";
 L.REMOVED_WITH_PATCH_FORMAT = "Удалено в %s";
 L.REPORT_COLLECTED_THINGS_CHECKBOX = "Сообщать о Собранных Штучках";
@@ -17158,6 +17164,7 @@ localize(_.CategoryNames, {
 	[108] = "Исследование",
 	[185] = "очки",
 	[785] = "Чернила",
+	[1126] = "Символ",
 });
 localize(L.HEADER_NAMES, {
 	[-11] = "Новый персонаж",
@@ -19386,12 +19393,8 @@ localize(_.CategoryNames, {
 	[184] = "폭발물",
 	[185] = "고글",
 	[188] = "장치",
-	[220] = "가슴",
 	[224] = "다리",
-	[227] = "무기",
 	[251] = "머리",
-	[252] = "어깨",
-	[253] = "가슴",
 	[254] = "손목",
 	[255] = "손",
 	[256] = "허리",
@@ -19411,9 +19414,9 @@ localize(_.CategoryNames, {
 	[866] = "장비",
 	[868] = "재료",
 	[869] = "머리",
-	[932] = "가슴",
 	[933] = "손목",
 	[935] = "허리",
+	[1126] = "문양",
 });
 localize(L.HEADER_NAMES, {
 	[-11] = "새로운 캐릭터",
@@ -22201,12 +22204,8 @@ localize(_.CategoryNames, {
 	[184] = "Explosivos",
 	[185] = "Gafas",
 	[188] = "Dispositivos",
-	[220] = "Pecho",
 	[224] = "Piernas",
-	[227] = "Armas",
 	[251] = "Cascos",
-	[252] = "Hombros",
-	[253] = "Pecho",
 	[254] = "Muñecas",
 	[255] = "Guantes",
 	[256] = "Cintura",
@@ -22256,6 +22255,9 @@ localize(_.CategoryNames, {
 	[867] = "Prismas y estatuas",
 	[868] = "Componentes",
 	[869] = "Coronas",
+	[933] = "Brazales",
+	[935] = "Cintura",
+	[1126] = "Glifos",
 });
 localize(L.HEADER_NAMES, {
 	[-11] = "Nuevo personaje",
@@ -25068,6 +25070,7 @@ L.EVENT_SCHEDULE = "事件时间表";
 L.EVENT_START = "开始:";
 L.EVENT_WHERE = "地点:";
 L.EXPAND_DIFFICULTY_CHECKBOX = "展开当前难度";
+L.EXPAND_DIFFICULTY_CHECKBOX_TOOLTIP = "启用此选项后，在进入地下城或团队副本时，迷你列表中将仅自动展开与当前激活难度相匹配的难度标题。\n\n示例：当进入英雄难度地下城时，仅展开英雄难度标题。";
 L.EXPAND_MINILIST_CHECKBOX = "展开迷你列表";
 L.EXPAND_MINILIST_CHECKBOX_TOOLTIP = "启用此选项后，在每次游戏会话中首次查看迷你列表时，将自动展开其中包含的所有分组。";
 L.EXPANSION_ID = "资料片 ID";
@@ -25375,6 +25378,7 @@ L.RECIPES_CHECKBOX = "配方";
 L.RECIPES_CHECKBOX_TOOLTIP = "启用此选项可追踪你的专业图纸。\n\n注意：你必须打开专业列表才能缓存这些。";
 L.REFRESHING_COLLECTION = "刷新收藏…";
 L.RELOG_REQUIRED = "使用此功能后，通常需要注销并重新登录，以便在游戏服务器上正确领取所有物品。";
+L.REMOTE_ZONES_DESCRIPTION = "包含当前区域可用但实际源自其他区域的内容。";
 L.REMOVED_WITH_PATCH = "随补丁移除";
 L.REMOVED_WITH_PATCH_CLASSIC_FORMAT = "该物品是随补丁 %s 移除的";
 L.REMOVED_WITH_PATCH_FORMAT = "补丁 %s 中被删除";
@@ -28082,7 +28086,6 @@ L.WRONG_FACTION = "可能需要在另一個陣營中查看此內容。";
 L.ZONE_DESC = "點擊此按鈕可依據缺少的內容選擇隨機地區。";
 localize(_.CategoryNames, {
 	[106] = "卡片",
-	[227] = "武器",
 });
 localize(L.HEADER_NAMES, {
 	[-17] = "職業試玩",

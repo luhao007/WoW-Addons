@@ -13,16 +13,11 @@ local type = type
 local tonumber = tonumber
 local str_match = string.match
 
--- WoW
-local C_MountJournal = _G.C_MountJournal
-local C_MountJournal_GetMountInfo, C_MountJournal_GetMountInfoExtra = C_MountJournal.GetMountInfoByID, C_MountJournal.GetMountInfoExtraByID
-
 local MOUNT_FACTION_TEXTURES = {
 	[0] = "MountJournalIcons-Horde",
 	[1] = "MountJournalIcons-Alliance"
 }
 local MOUNT_LOC = _G.MOUNT
-local MOUNT_COLOR = "|cffffff00"
 local USE_ITEM_BUTTON = "b1"
 local MOUNT_OVERLAY = "Interface\\PetBattles\\PetJournal"
 local NO_MOUNT_TEXTURE = "Interface\\Icons\\MountJournalPortrait"
@@ -130,8 +125,8 @@ function Mount.OnLeave(button)
 end
 
 function Mount.Refresh(button)
-	local name, _, icon, _, _, _, isFactionSpecific, faction = C_MountJournal_GetMountInfo(button.MountIndex)
-	local creatureDisplayID, descriptionText, sourceText = C_MountJournal_GetMountInfoExtra(button.MountIndex)
+	local name, _, icon, _, _, _, isFactionSpecific, faction = C_MountJournal.GetMountInfoByID(button.MountIndex)
+	local creatureDisplayID, descriptionText, sourceText = C_MountJournal.GetMountInfoExtraByID(button.MountIndex)
 
 	if button.type == "secButton" then
 
@@ -243,7 +238,7 @@ function Mount.ShowToolTipFrame(button)
 	frame.icon:SetTexture(button.info[2] or NO_MOUNT_TEXTURE)
 	tmp = frame.name:GetHeight() + frame.source:GetHeight()
 	frame.icon:SetSize(tmp, tmp)
-	frame:SetHeight(tmp + 155)
+	frame:SetHeight(tmp + 173)
 
 	frame.desc:SetText(button.info[4])
 

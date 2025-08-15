@@ -1,10 +1,11 @@
+
 BuildEnv(...)
 
 Applicant = Addon:NewClass('Applicant', Object)
 
 local AceSerializer = LibStub('AceSerializer-3.0')
 
-Applicant:InitAttr {
+Applicant:InitAttr{
     'ID',
     'Status',
     'PendingStatus',
@@ -35,7 +36,7 @@ Applicant:InitAttr {
     'RoleID',
     'RoleName',
     'ActivityID',
-    'DungeonScore',
+	'DungeonScore',
     'BestDungeonScore',
     'FactionIndex',
     'SpecID',
@@ -63,19 +64,19 @@ function Applicant:Constructor(id, index, activityId, isMythicPlusActivity)
     local isNew = info.isNew
     local comment = info.comment
     local orderID = info.displayOrderID
-    local name, class, localizedClass, level, itemLevel, honorLevel, tank, healer, damage, assignedRole, relationship, dungeonScore, pvpItemLevel, factionGroup, raceID, specId = C_LFGList.GetApplicantMemberInfo(id, index)
-    local userFactionIndex = factionGroup
-    local msg, isMeetingStone, progression, pvpRating, source = DecodeDescriptionData(comment)
+	local name, class, localizedClass, level, itemLevel, honorLevel, tank, healer, damage, assignedRole, relationship, dungeonScore, pvpItemLevel, factionGroup, raceID, specId = C_LFGList.GetApplicantMemberInfo(id, index)
+	local userFactionIndex  = factionGroup
+    local msg, isMeetingStone, progression, pvpRating, source  = DecodeDescriptionData(comment)
 
-    local activeEntryInfo = C_LFGList.GetActiveEntryInfo();
-    activityID = activeEntryInfo.activityIDs[1]
-
-    local bestDungeonScoreForEntry = C_LFGList.GetApplicantDungeonScoreForListing(id, index, activityID);
-    local pvpRatingInfo = C_LFGList.GetApplicantPvpRatingInfoForListing(id, index, activityID);
-
-    -- local bestDungeonScoreForEntry = nil
-    -- local pvpRatingInfo = nil
-
+	local activeEntryInfo = C_LFGList.GetActiveEntryInfo();
+	activityID = activeEntryInfo.activityIDs[1]
+	
+	local bestDungeonScoreForEntry = C_LFGList.GetApplicantDungeonScoreForListing(id, index, activityID);
+	local pvpRatingInfo = C_LFGList.GetApplicantPvpRatingInfoForListing(id, index, activityID);
+	
+	 -- local bestDungeonScoreForEntry = nil
+	 -- local pvpRatingInfo = nil
+	
     self:SetID(id)
     self:SetActivityID(activityId)
     self:SetStatus(status)
@@ -104,9 +105,9 @@ function Applicant:Constructor(id, index, activityId, isMythicPlusActivity)
     self:SetFactionIndex(userFactionIndex)
     self:SetSpecID(specId)
     self:SetIsMeetingStone(isMeetingStone)
-    if (pvpRatingInfo) then
-        self:SetPvPRating(pvpRatingInfo.rating)
-    end
+	if(pvpRatingInfo) then
+		self:SetPvPRating(pvpRatingInfo.rating)
+	end
     self:SetSource(source)
     if isMeetingStone then
         self:SetProgression(progression)

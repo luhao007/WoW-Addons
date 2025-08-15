@@ -610,7 +610,11 @@ Plater.AnchorNamesByPhraseId = {
 				if (class == "PRIEST") then
 					-- SW:D is available to all priest specs
 					if IsPlayerSpell(32379) then
-						lowExecute = 0.20
+						if IsPlayerSpell(392507) then
+							lowExecute = 0.35 -- Deathspeaker
+						else
+							lowExecute = 0.20
+						end
 					end
 					
 				elseif (class == "MAGE") then
@@ -1132,7 +1136,7 @@ Plater.AnchorNamesByPhraseId = {
 				return spec and GetSpecializationRole (spec) == "TANK"
 			end
 			return assignedRole == "TANK"
-		elseif IS_WOW_PROJECT_CLASSIC_WRATH then
+		elseif IS_WOW_PROJECT_CLASSIC_WRATH or IS_WOW_PROJECT_CLASSIC_MOP then
 			local assignedRole = UnitGroupRolesAssigned ("player")
 			if assignedRole == "NONE" and UnitLevel ("player") >= 10 then
 				if (IS_WOW_PROJECT_CLASSIC_MOP) then
@@ -1213,6 +1217,8 @@ Plater.AnchorNamesByPhraseId = {
 			else
 				return UnitGroupRolesAssigned (unit) == "TANK"
 			end
+		elseif IS_WOW_PROJECT_CLASSIC_MOP then
+			return UnitGroupRolesAssigned (unit) == "TANK"
 		else
 			return GetPartyAssignment("MAINTANK", unit)
 		end
@@ -1221,7 +1227,7 @@ Plater.AnchorNamesByPhraseId = {
 	
 	-- toggle Threat Color Mode between tank / dps (CLASSIC)
 	function Plater.ToggleThreatColorMode()
-		if IS_WOW_PROJECT_NOT_MAINLINE and not IS_WOW_PROJECT_CLASSIC_WRATH then
+		if IS_WOW_PROJECT_NOT_MAINLINE and not IS_WOW_PROJECT_CLASSIC_WRATH and not IS_WOW_PROJECT_CLASSIC_MOP then
 			Plater.db.profile.tank_threat_colors = not Plater.db.profile.tank_threat_colors
 			Plater.RefreshTankCache()
 			if Plater.PlayerIsTank then
@@ -1238,7 +1244,7 @@ Plater.AnchorNamesByPhraseId = {
 			Plater.PlayerIsTank = true
 		else
 			TANK_CACHE [UnitName ("player")] = false
-			if IS_WOW_PROJECT_MAINLINE or IS_WOW_PROJECT_CLASSIC_WRATH then
+			if IS_WOW_PROJECT_MAINLINE or IS_WOW_PROJECT_CLASSIC_WRATH or IS_WOW_PROJECT_CLASSIC_MOP then
 				Plater.PlayerIsTank = false
 			else
 				Plater.PlayerIsTank = false or Plater.db.profile.tank_threat_colors
@@ -4563,7 +4569,7 @@ function Plater.OnInit() --private --~oninit ~init
 		if IS_WOW_PROJECT_MAINLINE then
 			Plater.EventHandlerFrame:RegisterEvent ("PLAYER_SPECIALIZATION_CHANGED")
 			Plater.EventHandlerFrame:RegisterEvent (C_Traits and "TRAIT_CONFIG_UPDATED" or "PLAYER_TALENT_UPDATE")
-		elseif IS_WOW_PROJECT_CLASSIC_WRATH then
+		elseif IS_WOW_PROJECT_CLASSIC_WRATH or IS_WOW_PROJECT_CLASSIC_MOP then
 			Plater.EventHandlerFrame:RegisterEvent ("ACTIVE_TALENT_GROUP_CHANGED")
 			Plater.EventHandlerFrame:RegisterEvent ("PLAYER_TALENT_UPDATE")
 		end
@@ -4589,7 +4595,7 @@ function Plater.OnInit() --private --~oninit ~init
 		if IS_WOW_PROJECT_NOT_MAINLINE then -- tank spec detection
 			Plater.EventHandlerFrame:RegisterEvent ("UNIT_INVENTORY_CHANGED")
 			Plater.EventHandlerFrame:RegisterEvent ("UPDATE_SHAPESHIFT_FORM")
-			if IS_WOW_PROJECT_CLASSIC_WRATH then
+			if IS_WOW_PROJECT_CLASSIC_WRATH or IS_WOW_PROJECT_CLASSIC_MOP then
 				Plater.EventHandlerFrame:RegisterEvent ("TALENT_GROUP_ROLE_CHANGED")
 			end
 		elseif Plater.PlayerClass == "DRUID" then
@@ -4973,7 +4979,7 @@ function Plater.OnInit() --private --~oninit ~init
 				castBar.finished = false
 				castBar.value = 0
 				castBar.maxValue = (castTime or 3)
-				castBar.canInterrupt = castNoInterrupt or math.random (1, 2) == 1
+				castBar.canInterrupt = not castNoInterrupt or math.random (1, 2) == 1
 				--castBar.canInterrupt = true
 				--castBar.channeling = true
 				castBar:UpdateCastColor()
@@ -10338,7 +10344,7 @@ end
 			return assignedRole
 			
 		else
-			if IS_WOW_PROJECT_CLASSIC_WRATH then
+			if IS_WOW_PROJECT_CLASSIC_WRATH or IS_WOW_PROJECT_CLASSIC_MOP then
 				local assignedRole = UnitGroupRolesAssigned (unitFrame.unit)
 				if (assignedRole and assignedRole ~= "NONE") then
 					return assignedRole
@@ -12121,6 +12127,7 @@ end
 			table.wipe(SCRIPT_AURA_TRIGGER_CACHE)
 			table.wipe(SCRIPT_CASTBAR_TRIGGER_CACHE)
 			table.wipe(SCRIPT_UNIT_TRIGGER_CACHE)
+			table.wipe(platerInternal.Scripts.CurrentCastScripts)
 			Plater.CompileAllScripts (scriptType, noHotReload)
 			
 			Plater.EndLogPerformanceCore("Plater-Core", "Mod/Script", "WipeAndRecompileAllScripts - script")
@@ -12655,6 +12662,12 @@ end
 				--extract the function
 				scriptFunctions[scriptType] = compiledScript()
 			end
+		end
+
+		--add castbar scripts to the current list for previews
+		if (scriptObject.ScriptType == 2) then
+			local currentScripts = platerInternal.Scripts.CurrentCastScripts
+			DF.table.addunique(currentScripts, scriptObject.Name)
 		end
 		
 		--trigger container is the table with spellIds for auras and/or spellcast

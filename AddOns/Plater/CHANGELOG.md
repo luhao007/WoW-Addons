@@ -1,7 +1,14 @@
+@Wtz_LASR:
+- NpcColorPanels: Add Remove All Renames Button.
+
 @cont1nuity:
-- Changing Drain Soul execute for MoP classic.
-- Fixing an error in quest tracking for MoP for certain units.
-- Changing SW:D execute for MoP classic.
-- Adding 'Soul Reaper' as DK execute for MoP classic.
-- Enabling absorb shields when available (MoP classic prep).
+- MoP has spec specific ghost auras.
+- Recognizing 'Deathspeaker' as 35% execute for priests.
+- Tank recognition adjustments for MoP.
+
+@Lynn:
+- Updated the wording of the priority tooltip.
+
+@gareth3001:
+- Improve/fix the cast bar script previews.
 

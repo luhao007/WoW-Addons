@@ -108,6 +108,11 @@ if C_QuestLog_RequestLoadQuestByID and pcall(app.RegisterEvent, app, "QUEST_DATA
 	-- will be called with the QuestID and Success of the data lookup event. Additional params will be provided as a
 	-- 3rd parameter table to the callback
 	RequestLoadQuestByID = function(questID, questObjectRef, ...)
+		if type(questID) ~= "number" then
+			app.PrintDebug("RequestLoadQuestByID: NON-NUMBER QUESTID",questID, questObjectRef, ...)
+			app.PrintDebug(debugstack())
+			return
+		end
 		-- only allow requests once per frame until received
 		if QuestsRequested[questID] then return end
 
@@ -567,8 +572,13 @@ local function CollectibleAsLocked(t, locked)
 end
 local function CollectibleAsQuestOrAsLocked(t)
 	local locked = t.locked
-	return (not locked and CollectibleAsQuest(t))
+	return (not locked and (t.CollectibleAsQuest or CollectibleAsQuest)(t))
 		or CollectibleAsLocked(t, locked);
+end
+local function CollectibleAsReputationQuest(t)
+	if app.Settings.Collectibles.Quests then
+		return app.Settings.Collectibles.Reputations or CollectibleAsQuest(t);
+	end
 end
 -- Returns whether the provided Quest group is expected to be available to the current character or another character when in debug/account mode
 app.IsQuestAvailable = function(t)
@@ -1618,7 +1628,12 @@ local createQuest = app.CreateClass("Quest", "questID", {
 		return "quest:"..t.questID
 	end,
 	RefreshCollectionOnly = true,
-	collectible = CollectibleAsQuest,
+	CollectibleAsQuest = function()
+		return CollectibleAsQuest;
+	end,
+	collectible = function(t)
+		return t:CollectibleAsQuest();
+	end,
 	collected = IsQuestFlaggedCompletedForObject,
 	altcollected = function(t)
 		local altQuests = t.altQuests;
@@ -1720,10 +1735,8 @@ local createQuest = app.CreateClass("Quest", "questID", {
 },
 "WithReputation", {
 	-- Classic: Quests which give Reputation are always collectible if tracking Quests & Reputations
-	collectible = app.IsClassic and function(t)
-		if app.Settings.Collectibles.Quests then
-			return app.Settings.Collectibles.Reputations or CollectibleAsQuest(t);
-		end
+	CollectibleAsQuest = app.IsClassic and function()
+		return CollectibleAsReputationQuest;
 	end or nil,
 	-- Classic: Quests which give Reputation are considered collected if tracking Reputations
 	-- and the corresponding Faction is not collected. Even if the Quest itself is not complete.

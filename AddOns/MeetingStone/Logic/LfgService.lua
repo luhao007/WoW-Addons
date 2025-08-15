@@ -60,14 +60,13 @@ function LfgService:UpdateActivity(id)
     end
 
     local activity = self:GetActivity(id)
-
     if not activity then
         self:CacheActivity(id)
         self:SendMessage('MEETINGSTONE_ACTIVITIES_COUNT_UPDATED', #self.activityList)
     else
-        -- activity:Update()
-        -- if activity:GetNumMembers() == 5 then
-        if not activity:Update() then
+		--activity:Update() 
+        --if activity:GetNumMembers() == 5 then
+		if not activity:Update() then
             self:RemoveActivity(id)
         end
     end
@@ -88,7 +87,6 @@ function LfgService:_CacheActivity(id)
     if not activity:Update() then
         return
     end
-
     if self.activityId and activity:GetActivityID() ~= self.activityId then
         return
     end
@@ -112,7 +110,6 @@ function LfgService:LFG_LIST_SEARCH_RESULTS_RECEIVED(event)
     table.wipe(self.activityRemoved)
 
     self.inSearch = false
-
     local applications = C_LFGList.GetApplications()
 
     self.activityApps = self.activityApps or {} --abyui 9.1.5 applications also in SearchResults
@@ -175,8 +172,8 @@ function LfgService:IsDirty()
 end
 
 function LfgService:GetSearchResultMemberInfo(...)
-    local info = C_LFGList.GetSearchResultPlayerInfo(...);
-    if (info) then
-        return info.assignedRole, info.classFilename, info.className, info.specName, info.isLeader;
-    end
-end
+    local info = C_LFGList.GetSearchResultPlayerInfo(...)
+	if (info) then
+		return info.assignedRole, info.classFilename, info.className, info.specName, info.isLeader;
+	end
+end    

@@ -4,6 +4,7 @@ SettingPanel = Addon:NewModule(CreateFrame('Frame', nil, MainPanel), 'SettingPan
 
 local BINDING_KEY = 'MEETINGSTONE_TOGGLE'
 local UIScaleTimer = nil
+local IsAddOnLoaded = C_AddOns and C_AddOns.IsAddOnLoaded or IsAddOnLoaded
 
 function SettingPanel:OnInitialize()
     GUI:Embed(self, 'Owner')
@@ -28,14 +29,13 @@ function SettingPanel:OnInitialize()
     local globalOptions = {
         ['enableIgnoreTitle'] = true,
         ['showclassico']      = true,
-        ['showspecico']       = true,
-        ['showSmRoleIco']     = true,
+		['showspecico']      = true,
+		['showSmRoleIco']      = true,
         ['classIcoMsOnly']    = true,
         ['showWindClassIco']  = true,
         ['useWindSkin']       = true,
         ['enableRaiderIO']    = true,
         ['enableLeaderColor'] = true,
-        ['enableClassFilter'] = true,
         ['globalPanelPos']    = true
     }
 
@@ -53,6 +53,7 @@ function SettingPanel:OnInitialize()
         end,
         set = function(items, value)
             local item = items[#items]
+
             if globalOptions[item] == true then
                 if Profile:SaveGlobalOption(item, value) then
                     GUI:CallWarningDialog(L['需要重载UI！'], true, nil, ReloadUI)
@@ -128,7 +129,7 @@ function SettingPanel:OnInitialize()
                 width = 'full',
                 order = order(),
             },
-            showspecico = {
+			showspecico = {
                 type = 'toggle',
                 name = L['显示专精图标'],
                 hidden = function()
@@ -137,7 +138,7 @@ function SettingPanel:OnInitialize()
                 width = 'full',
                 order = order(),
             },
-            showSmRoleIco = {
+			showSmRoleIco = {
                 type = 'toggle',
                 name = L['显示小职责图标'],
                 hidden = function()
@@ -149,7 +150,7 @@ function SettingPanel:OnInitialize()
             classIcoMsOnly = {
                 type = 'toggle',
                 name = L['只在集合石上显示职业图标(触发重载UI)'],
-                hidden = function()
+				hidden = function()
                     return not Profile:GetShowClassIco()
                 end,
                 width = 'full',
@@ -170,12 +171,6 @@ function SettingPanel:OnInitialize()
                     return not RaiderIO
                 end,
             },
-            enableClassFilter = {
-                type = 'toggle',
-                name = L['显示大秘境职业过滤(触发重载UI)'],
-                width = 'full',
-                order = order(),
-            },
             -- 增加wind职业图标设置选项
             showWindClassIco = {
                 type = 'toggle',
@@ -183,10 +178,10 @@ function SettingPanel:OnInitialize()
                 width = 'full',
                 order = order(),
                 hidden = function()
-                    return not C_AddOns.IsAddOnLoaded("ElvUI_WindTools")
+                    return not IsAddOnLoaded("ElvUI_WindTools")
                 end,
                 disabled = function()
-                    return not C_AddOns.IsAddOnLoaded("ElvUI_WindTools")
+                    return not IsAddOnLoaded("ElvUI_WindTools")
                 end
             },
             -- 增加wind职业图标设置选项
@@ -196,10 +191,10 @@ function SettingPanel:OnInitialize()
                 width = 'full',
                 order = order(),
                 hidden = function()
-                    return not C_AddOns.IsAddOnLoaded("ElvUI_WindTools")
+                    return not IsAddOnLoaded("ElvUI_WindTools")
                 end,
                 disabled = function()
-                    return not C_AddOns.IsAddOnLoaded("ElvUI_WindTools")
+                    return not IsAddOnLoaded("ElvUI_WindTools")
                 end
             },
             uiScale = {

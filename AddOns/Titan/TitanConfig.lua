@@ -16,54 +16,6 @@ local TitanSkinToRemove = "None";
 local TitanSkinName, TitanSkinPath = "", "";
 local TitanGlobalProfile = ""
 
-local function TitanPanel_ScreenAdjustReload()
-	if TitanPanelGetVar("ScreenAdjust") then
-		-- if set then clear it - the screen will adjust
-		TitanPanelBarButton_ToggleScreenAdjust()
-	else
-		-- if NOT set then need a reload - the screen will NOT adjust
-		StaticPopupDialogs["TITAN_RELOAD"] = {
-			text = TitanUtils_GetNormalText(L["TITAN_PANEL_MENU_TITLE"]) .. "\n\n"
-				.. L["TITAN_PANEL_RELOAD"],
-			button1 = ACCEPT,
-			button2 = CANCEL,
-			OnAccept = function(self)
-				TitanPanelToggleVar("ScreenAdjust");
-				ReloadUI();
-			end,
-			showAlert = 1,
-			timeout = 0,
-			whileDead = 1,
-			hideOnEscape = 1
-		};
-		StaticPopup_Show("TITAN_RELOAD");
-	end
-end
-local function TitanPanel_AuxScreenAdjustReload()
-	if TitanPanelGetVar("AuxScreenAdjust") then
-		-- if set then clear it - the screen will adjust
-		TitanPanelBarButton_ToggleAuxScreenAdjust()
-	else
-		-- if NOT set then need a reload - the screen will NOT adjust
-		StaticPopupDialogs["TITAN_RELOAD"] = {
-			text = TitanUtils_GetNormalText(L["TITAN_PANEL_MENU_TITLE"]) .. "\n\n"
-				.. L["TITAN_PANEL_RELOAD"],
-			button1 = ACCEPT,
-			button2 = CANCEL,
-			OnAccept = function(self)
-				TitanPanelToggleVar("AuxScreenAdjust");
-				ReloadUI();
-				--				TitanPanelBarButton_ToggleAuxScreenAdjust();
-			end,
-			showAlert = 1,
-			timeout = 0,
-			whileDead = 1,
-			hideOnEscape = 1
-		};
-		StaticPopup_Show("TITAN_RELOAD");
-	end
-end
-
 TITAN_PANEL_CONFIG = {
 	topic = {
 		About          = L["TITAN_PANEL"],
@@ -443,7 +395,7 @@ local function TitanUpdateAdj(t, pos)
 			name = "Vertical Adjustment", --L["TITAN_PANEL_TRANS_MENU_TEXT_SHORT"],
 			order = position,
 			min = -200,
-			max = 0,
+			max = 600,
 			step = 1,
 			get = function(info)
 				local frame_str = info[1]

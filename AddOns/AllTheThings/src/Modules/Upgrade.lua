@@ -346,6 +346,8 @@ local BonusIDNextUnlock = {
 	-- [11988] = 11989,
 	-- [11989] = 0,
 	-- [11990] = 0,
+	-- [12371] = 0,
+	-- [12372] = 0,
 
 	-- Myth [https://wago.tools/db2/ItemBonus?build=11.1.0.59538&filter%5BType%5D=34&filter%5BValue_0%5D=442&page=1&sort%5BParentItemBonusListID%5D=asc]
 	-- [11991] = 0,
@@ -354,6 +356,8 @@ local BonusIDNextUnlock = {
 	-- [11994] = 0,
 	-- [11995] = 0,
 	-- [11996] = 0,
+	-- [12375] = 0,
+	-- [12376] = 0,
 
 	-- 11.2
 	-- Explorer

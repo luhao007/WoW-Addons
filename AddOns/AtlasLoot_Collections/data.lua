@@ -1407,17 +1407,42 @@ data["MOUNTS"]             = {
 				{ 423, 238739, "mount", [ACH_EXTRA_ITTYPE] = 41779 },                    -- Chrono Corsair
 				{ 424, 243572, "mount", [PRICE_EXTRA_ITTYPE] = "tender:0" },             -- Grandmaster's Prophetic Board
 				{ 425, 243591, "mount", [PRICE_EXTRA_ITTYPE] = "tender:700" },           -- Grandmaster's Royal Board
+				{ 426, 250240, "mount", [ACH_EXTRA_ITTYPE] = 61017 },                    -- Phase-Lost Slateback
+				{ 427, 238051, "mount", [QUEST_EXTRA_ITTYPE] = 91782 },                  -- Delver's Mana-Skimmer
+				{ 428, 246160, "mount" },                                                -- Sthaarbs's Last Lunch
+				{ 429, 242733, "mount", [QUEST_EXTRA_ITTYPE] = 90769 },                  -- Blue Barry
+				{ 430, 246159, "mount" },                                                -- Translocated Gorger
+				{ 501, 242734, "mount" },                                                -- Curious Slateback
+				{ 502, 243061, "mount" },                                                -- Unbound Star-Eater
+				{ 503, 237485, "mount", [ACH_EXTRA_ITTYPE] = 41980 },                    -- Terror of the Night
+				{ 504, 242713, "mount" },                                                -- Resplendent K'arroc
+				{ 505, 242714, "mount", [ACH_EXTRA_ITTYPE] = 41597 },                    -- Umbral K'arroc
+				{ 506, 246067, "mount" },                                                -- Pearlescent Krolusk
+				{ 507, 246445, "mount", [QUEST_EXTRA_ITTYPE] = 91413 },                  -- Reins of the Royal Voidwing
+				{ 508, 248248, "mount", [ACH_EXTRA_ITTYPE] = 41973 },                    -- Azure Void Flyer
+				{ 509, 247822, "mount", [ACH_EXTRA_ITTYPE] = 42172 },                    -- Scarlet Void Flyer
+				{ 510, 243157, "mount", [ACH_EXTRA_ITTYPE] = 42043 },                    -- Vicious Void Creeper
+				{ 511, 232617, "mount", [ACH_EXTRA_ITTYPE] = 41049 },                    -- Astral Gladiator's Fel Bat
+				{ 512, 186640, "mount" },                                                -- Vandal's Gearglider
+				{ 513, 242728, "mount" },                                                -- The Bone Freezer
+				{ 514, 242729, "mount", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:8125" }, -- Ruby Void Creeper
+				{ 515, 237484, "mount", [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:11375" }, -- Terror of the Wastes
+				{ 516, 242730, "mount", [PRICE_EXTRA_ITTYPE] = "untetheredCoin:7" },     -- Acidic Void Creeper
+				{ 517, 242717, "mount", [PRICE_EXTRA_ITTYPE] = "untetheredCoin:10" },    -- Lavender K'arroc
+				{ 518, 246698, "mount" },                                                -- Sunwarmed Furline
 				-- { 329, 223570, "mount" }, -- Reins of the Ebonhide Ramolith (not yet available)
 				-- { 321, 235554, "mount" }, -- Midnight Darkmoon Charger (not yet available)
 				-- { 323, 235659, "mount" }, -- Midnight Butterfly (not yet available)
 				-- { 325, 235557, "mount" }, -- Snowy Darkmoon Charger (not yet available)
 				-- { 327, 235658, "mount" }, -- Spring Butterfly (not yet available)
+				-- { 327, 186639, "mount" }, -- Xy Trustee's Gearglider (not yet available)
 			},
 			[HORDE_DIFF] = {
 				GetItemsFromDiff = ALLIANCE_DIFF,
 				{ 117, 229988, "mount", [ACH_EXTRA_ITTYPE] = 41129 },          -- Vicious Electro Eel
 				{ 228, 217987, "mount", [PRICE_EXTRA_ITTYPE] = "residualMemories:20000" }, -- Remembered Wind Rider
 				{ 318, 221813, "mount", [ACH_EXTRA_ITTYPE] = 40397 },          -- Vicious Skyflayer
+				{ 510, 243159, "mount", [ACH_EXTRA_ITTYPE] = 42042 },          -- Vicious Void Creeper
 			},
 		},
 		{ -- Dragonflight
@@ -6439,6 +6464,30 @@ data["COMPANIONS"]         = {
 				{ 413, 245543, "pet4849", [PRICE_EXTRA_ITTYPE] = "timewarped:2200" },     -- Flotsam Harvester
 				{ 414, 245574, "pet4852", [PRICE_EXTRA_ITTYPE] = "timewarped:2200" },     -- Lil' Daz'ti
 				{ 415, 205013, "pet3518", [ACH_EXTRA_ITTYPE] = 41092 },                   -- Reek
+				{ 416, 239082, "pet4796" },                                               -- Sa'bak's Blessed
+				{ 417, 246451, "pet4858" },                                               -- Shadefur Brewthief
+				{ 418, 245272, "pet4846" },                                               -- Heka'Tarnos, Bringer of Discord
+				{ 419, 245254, "pet4842" },                                               -- Duskthief
+				{ 420, 245214, "pet4838" },                                               -- Palek'ti, the Mouth of Nothingness
+				{ 421, 244915, "pet4834" },                                               -- Jimmy
+				{ 422, 245269, "pet4845" },                                               -- Mr. Long-Legs
+				{ 423, 243158, "pet4813" },                                               -- Ixthal the Observling
+				{ 424, 245256, "pet4843" },                                               -- Sao'rhon
+				{ 425, 246723, "pet4860" },                                               -- Unfazed Diver
+				{ 426, 245255, "pet4841", [ACH_EXTRA_ITTYPE] = 41979 },                   -- Starlight
+				{ 427, 244910, "pet4829", [PRICE_EXTRA_ITTYPE] = "untetheredCoin:4" },    -- Penumbral Terror
+				{ 428, 244467, "pet4825" },                                               -- Veridian Thorntail
+				{ 429, 245274, "pet4848" },                                               -- Cerulean Lapbug
+				{ 430, 245273, "pet4847" },                                               -- Copper Lapbug
+				{ 501, 244907, "pet4827" },                                               -- Dread Horrorling
+				{ 502, 244909, "pet4828" },                                               -- Impartial Watcher
+				{ 503, 244916, "pet4835" },                                               -- Cyan Siphonmite
+				{ 504, 244468, "pet4826" },                                               -- Scrappy Thorntail
+				{ 505, 245252, "pet4840" },                                               -- Graceful Cosmic Ray Pup
+				{ 506, 245215, "pet4839" },                                               -- Shimmering Inchshifter
+				{ 507, 245212, "pet4836" },                                               -- Vitriolic Inchshifter
+				{ 508, 245253, "pet4844" },                                               -- Inquisitive Cosmic Ray Pup
+				{ 509, 244914, "pet4833" },                                               -- Xanthous Siphonmite
 				-- { 311, 233057, "pet4709" }, -- Rock Hound Mica
 				-- { 312, 221764, "pet4519" }, -- Burntram
 				-- { 317, 222969, "pet4474" }, -- Anub'Rekyute
@@ -6649,6 +6698,19 @@ data["TOYS"]               = {
 				{ 229, 245942, [PRICE_EXTRA_ITTYPE] = "timewarped:1000" }, -- Sea-Blessed Shrine
 				{ 230, 246227, [PRICE_EXTRA_ITTYPE] = "timewarped:1000" }, -- Lightning-Blessed Spire
 				{ 301, 235016, [ACH_EXTRA_ITTYPE] = 42241 },         -- Redeployment Module
+				{ 302, 244470, [QUEST_EXTRA_ITTYPE] = 91089 },       -- Etheric Victory
+				{ 303, 246903, [PRICE_EXTRA_ITTYPE] = "untetheredCoin:3" }, -- Guise of the Phase Diver
+				{ 304, 246905, [PRICE_EXTRA_ITTYPE] = "untetheredCoin:3" }, -- Overtuned K'areshi Goggles
+				{ 305, 246907, [PRICE_EXTRA_ITTYPE] = "untetheredCoin:3" }, -- Broker Supply Crate
+				{ 306, 246908, [PRICE_EXTRA_ITTYPE] = "untetheredCoin:3" }, -- K'areshi Supply Crate
+				{ 307, 250722, [PRICE_EXTRA_ITTYPE] = "untetheredCoin:3" }, -- Ethereal Stall
+				{ 308, 246565 },                                     -- Cosmic Hearthstone
+				{ 309, 245970 },                                     -- P.O.S.T. Master's Express Hearthstone
+				{ 310, 242323 },                                     -- Chowdar's Favorite Ribbon
+				{ 311, 244792, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:10" }, -- Etheric Brannmorpher
+				{ 312, 243056, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:10" }, -- Delver's Mana-Bound Ethergate
+				-- { 310, 249713 },                                     -- Cartel Transmorpher (currently unobtainable)
+				-- { 310, 245946 },                                     -- Brewer's Balloon
 			}
 		},
 		{ -- Dragonflight

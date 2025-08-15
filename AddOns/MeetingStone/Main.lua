@@ -1,7 +1,10 @@
 
 BuildEnv(...)
 
-debug = C_AddOns.IsAddOnLoaded('!!!!!tdDevTools') and print or nop
+local IsAddOnLoaded = C_AddOns and C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+
+
+debug = IsAddOnLoaded('!!!!!tdDevTools') and print or nop
 
 Addon = LibStub('AceAddon-3.0'):NewAddon('MeetingStone', 'AceEvent-3.0', 'LibModule-1.0', 'LibClass-2.0', 'AceHook-3.0')
 
@@ -41,13 +44,16 @@ function Addon:OnInitialize()
 	InitMeetingStoneClass()
 	
 	--2022-11-18 部分人反馈小图标隐藏后打不开，增加命令打开方式 /ms  、 /meetingstone
-	SlashCmdList["MeetingStone"] = function() MainPanel:Show() end;
+	SlashCmdList["MeetingStone"] = function() 
+		Addon:CheckLevel()
+		MainPanel:Show() 
+	end;
     _G["SLASH_MeetingStone1"] = "/ms";
     _G["SLASH_MeetingStone2"] = "/meetingstone";
 end
 
 function Addon:OnEnable()
-    if C_AddOns.IsAddOnLoaded('RaidBuilder') then
+    if IsAddOnLoaded('RaidBuilder') then
         DisableAddOn('RaidBuilder')
         GUI:CallWarningDialog(L.FoundRaidBuilder, true, nil, ReloadUI)
         return
@@ -77,6 +83,7 @@ function Addon:MEETINGSTONE_NEW_VERSION(_, version, url, isSupport, changeLog)
 end
 
 function Addon:Toggle()
+	Addon:CheckLevel()
     if Logic:IsSupport() then
         if MainPanel:IsShown() then
             Addon:HideModule('MainPanel')
@@ -91,6 +98,7 @@ function Addon:Toggle()
             elseif C_LFGList.HasActiveEntryInfo() then
                 MainPanel:SelectPanel(ManagerPanel)
             end
+			
             Addon:ShowModule('MainPanel')
         end
     else
@@ -141,3 +149,9 @@ end
 --     end
 --     return self.hooks.SetItemRef(link, text, button, chatFrame)
 -- end
+function Addon:CheckLevel()
+	local level = UnitLevel("player")
+    if level<50 then
+		print('11.0后等级低于50级无法使用集合石')
+	end
+end

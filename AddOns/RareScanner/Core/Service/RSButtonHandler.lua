@@ -160,6 +160,11 @@ local function FixVignetteInfo(vignetteInfo)
 		vignetteInfo.atlasName = RSConstants.EVENT_VIGNETTE
 	end
 	
+	-- This container might show up with an icon with crosses
+	if (entityID == RSConstants.PVP_CONTAINER) then
+		vignetteInfo.atlasName = RSConstants.CONTAINER_VIGNETTE
+	end
+	
 	-- This container keeps updating the ID, so create one based on its coordinates
 	if (entityID == RSConstants.MISLAID_CURIOSITY) then
 		local mapID = C_Map.GetBestMapForUnit("player")

@@ -1,5 +1,5 @@
 ## Interface: 110200
-## Version: Plater-v611-Retail
+## Version: Plater-v612-Retail
 
 ## Title: Plater
 ## Notes: Nameplate addon designed for advanced users.

@@ -2,16 +2,8 @@
 -- Localized Lua globals.
 -- ----------------------------------------------------------------------------
 -- Functions
-local _G                                                           = getfenv(0)
-local next, pairs                                                  = _G.next, _G.pairs
-
--- Libraries
-
--- WoW
-local C_TransmogCollection_GetItemInfo                             = C_TransmogCollection.GetItemInfo
-local C_TransmogCollection_PlayerCanCollectSource                  = C_TransmogCollection.PlayerCanCollectSource
-local C_TransmogCollection_PlayerHasTransmogItemModifiedAppearance = C_TransmogCollection.PlayerHasTransmogItemModifiedAppearance
-
+local _G                    = getfenv(0)
+local next, pairs           = _G.next, _G.pairs
 
 -- ----------------------------------------------------------------------------
 -- AddOn namespace.
@@ -34,18 +26,23 @@ local TRANSMOG_UPDATE_EVENT = "TRANSMOG_SOURCE_COLLECTABILITY_UPDATE" -- sourceI
 	false	can collect, not collected
 	true	can collect, collected
 ]]
-function Proto:IsItemUnlocked(itemID, sourceID, callbackFunc, callbackArg)
-	if not itemID and not sourceID then return end
+function Proto:IsItemUnlocked(itemStringOrID, sourceID, callbackFunc, callbackArg)
+	if not itemStringOrID and not sourceID then return end
 	local appearanceID, isInfoReady, canCollect
-	if itemID then
-		appearanceID, sourceID = C_TransmogCollection_GetItemInfo(itemID)
+	if itemStringOrID then
+		appearanceID, sourceID = C_TransmogCollection.GetItemInfo(itemStringOrID)
+	end
+	if itemStringOrID and not appearanceID and strfind(itemStringOrID, ":") then
+		-- sometimes the link won't actually give us an appearance, but itemID will
+		local parsedItem = AtlasLoot.ItemString.Parse(itemStringOrID)
+		appearanceID, sourceID = C_TransmogCollection.GetItemInfo(parsedItem.itemID)
 	end
 	if not sourceID then return end
-	isInfoReady, canCollect = C_TransmogCollection_PlayerCanCollectSource(sourceID)
+	isInfoReady, canCollect = C_TransmogCollection.PlayerCanCollectSource(sourceID)
 
 	if isInfoReady then
 		if canCollect then
-			canCollect = C_TransmogCollection_PlayerHasTransmogItemModifiedAppearance(sourceID)
+			canCollect = C_TransmogCollection.PlayerHasTransmogItemModifiedAppearance(sourceID)
 		else
 			canCollect = nil
 		end

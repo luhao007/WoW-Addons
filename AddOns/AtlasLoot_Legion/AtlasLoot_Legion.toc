@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: nanderson11, Lag, Proteyer, Arith
-## Version: v9.13.0
+## Version: v9.14.0
 
 ## Title: AtlasLoot |cFF0099FF[Legion]|r
 ## Notes: AtlasLoot loot tables from Legion

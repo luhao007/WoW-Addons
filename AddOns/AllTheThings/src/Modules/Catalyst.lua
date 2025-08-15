@@ -33,6 +33,68 @@ if not PossibleCatalystBonusIDLookups then
 end
 local BonusCatalysts = PossibleCatalystBonusIDLookups.BonusCatalysts
 
+local BonusIDUpgradeTiers = {
+	-- TWW:S2
+	-- Veteran
+	[11969] = 11965,
+	[11970] = 11965,
+	[11971] = 11965,
+	[11972] = 11965,
+	[11973] = 11966,
+	[11974] = 11966,
+	[11975] = 11966,
+	[11976] = 11966,
+	-- Champion
+	[11977] = 11966,
+	[11978] = 11966,
+	[11979] = 11966,
+	[11980] = 11966,
+	[11981] = 11967,
+	[11982] = 11967,
+	[11983] = 11967,
+	[11984] = 11967,
+	-- Hero
+	[11985] = 11967,
+	[11986] = 11967,
+	[11987] = 11967,
+	[11988] = 11967,
+	[11989] = 11998,
+	[11990] = 11998,
+	[12371] = 11998,
+	[12372] = 11998,
+	-- Myth
+	[11991] = 11998,
+	[11992] = 11998,
+	[11993] = 11998,
+	[11994] = 11998,
+	[11995] = 11998,
+	[11996] = 11998,
+	[12375] = 11998,
+	[12376] = 11998,
+}
+
+-- apparently Blizzard decided that removing all Upgrade info from old season items was beneficial to someone, so now we have to add all this
+-- extra mapping data to retroactively show properly catalyst outputs from old season items
+local BonusIDReMappers = {
+	-- Bonus 11964 is from TWW:S2 Delve content, but can actually map to any difficulty depending on other bonusID starting in TWW:S3, wtffff
+	[11964] = function(data)
+		-- so for this bonusID, we need to actually determine the proper tier of the item based on old Upgrade bonusIDs
+		-- which Blizzard no longer includes in exportable Wago data
+		local bonuses = data.bonuses
+		if not bonuses or #bonuses < 1 then return end
+
+		local newBonusID = containsAnyKey(BonusIDUpgradeTiers, bonuses)
+		-- if it's not a L/N/H bonusID, it must be M
+		return BonusIDUpgradeTiers[newBonusID]
+	end
+}
+-- Bonus 11965 was previously LFR mode, but upgraded variants need to check their Upgrade bonusIDs
+BonusIDReMappers[11965] = BonusIDReMappers[11964]
+-- Bonus 11966 was previously Normal mode, but upgraded variants need to check their Upgrade bonusIDs
+BonusIDReMappers[11966] = BonusIDReMappers[11964]
+-- Bonus 11967 was previously Heroic mode, but upgraded variants need to check their Upgrade bonusIDs
+BonusIDReMappers[11967] = BonusIDReMappers[11964]
+
 local CatalystArmorSlots = {
 	["INVTYPE_HEAD"] = true,
 	["INVTYPE_SHOULDER"] = true,
@@ -111,14 +173,14 @@ ItemUpgradeLevelMatch = ItemUpgradeLevelMatch:gsub("%%s","[^%s]+")
 local function CheckGameTooltipForUpgradeLevel()
 	local tooltipData = GameTooltip and GameTooltip:GetTooltipData()
 	-- not sure how this could happen
-	if not tooltipData then return true end
+	if not tooltipData then return end
 
 	-- only need to check tooltip data if it matches the data we are testing to catalyst
-	if not tooltipData.id then return true end
+	if not tooltipData.id then return end
 
 	tooltipData = tooltipData.lines
 	-- not sure how this could happen either
-	if not tooltipData then return true end
+	if not tooltipData then return end
 
 	-- scan first 3 lines possibly for an Upgrade Level
 	local level
@@ -182,10 +244,19 @@ local function GetCatalysts(data)
 	local upgradeTrackID = upgradeInfo.trackStringID
 	local upgradeLevel = upgradeInfo.currentLevel or 0
 
+	local remappedBonusID
 	-- Non-Upgrade cases (use bonusID to find the matching upgradeTrackID lookup)
 	if not upgradeTrackID then
 		-- app.PrintDebug("Non-upgrade Item",data.link)
 		-- app.PrintTable(upgradeInfo)
+		-- Old Items whose catalyst-bonusID doesn't directly indicate the proper appearance tier anymore for some reason
+		local remapperFunc = BonusIDReMappers[bonusID]
+		if remapperFunc then
+			-- app.PrintDebug("remapping bonusID",bonusID)
+			remappedBonusID = bonusID
+			bonusID = remapperFunc(data)
+			-- app.PrintDebug("-->",bonusID)
+		end
 		-- Primalist Items, DF S1
 		if upgradeLevel == 2 and upgradeInfo.maxLevel == 3 then
 			-- Primalist converts to Normal
@@ -226,7 +297,11 @@ local function GetCatalysts(data)
 	end
 
 	local newBonuses = app.CloneArray(bonuses)
-	tremove(newBonuses, app.indexOf(newBonuses, bonusID))
+	if remappedBonusID then
+		tremove(newBonuses, app.indexOf(newBonuses, remappedBonusID))
+	else
+		tremove(newBonuses, app.indexOf(newBonuses, bonusID))
+	end
 	local catalystResult
 	for i=1,#catalystResults do
 		catalystResult = catalystResults[i]

@@ -180,6 +180,7 @@ local PRICE_INFO = {
 	["vintageKajaCola"]            = { currencyID = 3220 }, -- Vintage Kaja'Cola Can
 	["emptyKajaCola"]              = { currencyID = 3218 }, -- Empty Kaja'Cola Can
 	["displacedCorruptedMementos"] = { currencyID = 3149 }, -- Displaced Corrupted Mementos
+	["untetheredCoin"]             = { currencyID = 3303 }, -- Untethered Coin
 
 	-- others
 	["money"]                      = { func = C_CurrencyInfo.GetCoinTextureString },
