@@ -10,7 +10,7 @@
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2025-08-05";
+local WL_ADDON_UPDATED = "2025-08-14";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
 local WL_VERSION = 110200;
@@ -2663,6 +2663,7 @@ function wlSeenWorldQuests()
         2133, -- Zaralek Cavern
         2200, -- Emerald Dream
         2346, -- Undermine
+        2371, -- K'aresh
     };
     for _, extraUiMapId in ipairs(extraUiMapIds) do
         table.insert(checkMaps, C_Map.GetMapInfo(extraUiMapId));

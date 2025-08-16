@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: Soulstorm
-## Version: v1.12.27
+## Version: v1.12.28
 
 ## Title: WorldBossTimers
 ## Notes: Creates timers for world bosses
