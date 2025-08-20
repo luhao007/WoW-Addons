@@ -75,7 +75,7 @@ def get_platform() -> PLATFORM:
 
 
 def remove_libs_in_file(path: str | Path, libs: Iterable[str]):
-    def process(lines: Iterable[str]) -> list[str]:
+    def process(lines: Iterable[str]) -> Iterable[str]:
         return [line for line in lines
                 if not any(f'{lib}'.lower() in line.lower()
                             or f'{lib.replace('\\', '/')}'.lower() in line.lower()
