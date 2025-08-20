@@ -19,6 +19,7 @@ local intermissionStarted = false
 local miceSpawnedCounter = 0
 local miceSpawnedUID = {}
 local collectedMiceDuringIntermissionCounter = 0
+local announceMiceSpawned = false
 
 ------------------------------------------------------
 ---- Loomithar
@@ -35,6 +36,8 @@ local littleUnboundSoulsUID = {}
 ------------------------------------------------------
 ---- The Soul Hunters
 ------------------------------------------------------
+local blindfoldData = {}
+local blindfoldTicker
 local blindfoldCounter = 0
 local blindfoldUID = {}
 
@@ -65,14 +68,18 @@ function core._2810:PlexusSentinel()
 
     -- Detect how many mice have spawned
     if core.type == "SPELL_SUMMON" and core.spellId == 1233439 then
-        if core.destName ~= nil and holdingMouseUID[core.spawn_uid_dest] == nil then
+        if core.destName ~= nil and miceSpawnedUID[core.spawn_uid_dest] == nil then
             miceSpawnedCounter = miceSpawnedCounter + 1
             miceSpawnedUID[core.spawn_uid_dest] = core.spawn_uid_dest
 
             -- Start a time then after 2 seconds announce how many mice have spawned
-            C_Timer.After(2, function()
-                core:sendMessage(L["Shared_MiceSpawned"] .. " " .. miceSpawnedCounter .. "/" .. core.groupSize, true) --TODO: Localisation
-            end)
+            if announceMiceSpawned == false then
+                announceMiceSpawned = true
+                C_Timer.After(2, function()
+                    core:sendMessage(format(L["Shared_HasSpawned2"], miceSpawnedCounter .. " " .. getNPCName(243803)), true)
+                    announceMiceSpawned = false
+                end)
+            end
         end
     end
 
@@ -82,7 +89,7 @@ function core._2810:PlexusSentinel()
             holdingMouseCounter = holdingMouseCounter + 1
             collectedMiceDuringIntermissionCounter = collectedMiceDuringIntermissionCounter + 1
             holdingMouseUID[core.spawn_uid_dest_Player] = core.spawn_uid_dest_Player
-            core:sendMessage(core.destName .. " " .. L["Shared_HasGained"] .. " " .. C_Spell.GetSpellLink(1233449) .. " (" .. collectedMiceDuringIntermissionCounter .. "/" .. miceSpawnedCounter .. ") (" .. holdingMouseCounter .. "/" .. core.groupSize .. ")",true)
+            core:sendMessage(core.destName .. " " .. L["Shared_HasGained"] .. " " .. C_Spell.GetSpellLink(1233449) .. " " .. L["Shared_Intermission"] .. " (" .. collectedMiceDuringIntermissionCounter .. "/" .. miceSpawnedCounter .. ") " .. L["Shared_Total"] .. " (" .. holdingMouseCounter .. "/" .. core.groupSize .. ")",true)
             InfoFrame_SetPlayerComplete(core.destName)
         end
     end
@@ -92,7 +99,7 @@ function core._2810:PlexusSentinel()
     if core.type == "SPELL_AURA_REMOVED" and (core.spellId == 1220618 or core.spellId == 1220981 or core.spellId == 1220982) then
         -- If not all mice have been collected then fail the achievement
         if collectedMiceDuringIntermissionCounter < miceSpawnedCounter then
-            core:getAchievementFailed()
+            core:getAchievementFailedWithMessageAfter("(" .. L["Shared_Intermission"] .. " " .. collectedMiceDuringIntermissionCounter .. "/" .. miceSpawnedCounter .. ")" )
         end
 
         -- Reset intermission variables reading for next intermission
@@ -119,6 +126,8 @@ function core._2810:Loomithar()
 
     if core:getBlizzardTrackingStatus(41613, 1) == true then
         core:getAchievementSuccess()
+    else
+        core:getAchievementFailed()
     end
 end
 
@@ -145,6 +154,12 @@ function core._2810:ForgeweaverAraz()
     -- https://www.wowhead.com/spell=1244502/forged-echo
     -- https://www.wowhead.com/spell=1248816/void-forged-echo
 
+    --SPELL_AURA_APPLIED,Creature-0-1631-2810-18952-241923-00001DA34E,"Arcane Echo",0xa48,0x80000000,Creature-0-1631-2810-18952-241923-00001DA34E,"Arcane Echo",0xa48,0x80000000,1248816,"Void Forged Echo",0x20,BUFF
+
+    if core.type == "SPELL_AURA_APPLIED" and core.spellId == 1248816 then
+        core:sendMessage(format(L["Shared_KillTheAddNow"], getNPCName(241923)),true)
+    end
+
     if core:getBlizzardTrackingStatus(41615, 1) == true then
         core:getAchievementSuccess()
     end
@@ -153,34 +168,48 @@ end
 function core._2810:SoulHunters()
     -- Defeat the Soul Hunters after all players have worn Adarus' spare blindfold at least 1 time in Manaforge Omega on Normal difficulty or higher.
 
+    -- Update header each tick
     InfoFrame_UpdatePlayersOnInfoFrameWithAdditionalInfo()
-    InfoFrame_SetHeaderCounter(L["Shared_PlayersWithBuff"],blindfoldCounter,core.groupSize)
+    InfoFrame_SetHeaderCounter(L["Shared_PlayersWithBuff"], blindfoldCounter, core.groupSize)
 
-    --https://www.wowhead.com/spell=1247656/adarus-spare-blindfold
-    --https://www.wowhead.com/ptr-2/spell=1246980/blindfolded
+    -- Blindfold applied or refreshed
+    if (core.type == "SPELL_AURA_APPLIED" or core.type == "SPELL_AURA_REFRESH") and core.spellId == 1246980 then
+        local uid = core.spawn_uid_dest_Player
+        if core.destName then
+            -- Always reset tracking info on refresh
+            blindfoldData[uid] = {
+                startTime = GetTime(),
+                duration = 59, -- full duration in seconds
+                destName = core.destName,
+                uid = core.spawn_uid_dest_Player,
+            }
 
-    -- Player has put on the blindfold
-    if core.type == "SPELL_AURA_APPLIED" and core.spellId == 1246980 then --1246980
-        if core.destName ~= nil and blindfoldUID[core.spawn_uid_dest_Player] == nil then
-            blindfoldCounter = holdingMouseCounter + 1
-            blindfoldUID[core.spawn_uid_dest_Player] = core.spawn_uid_dest_Player
-            core:sendMessage(core.destName .. " " .. L["Shared_HasGained"] .. " " .. C_Spell.GetSpellLink(1246980) .. " (" .. blindfoldCounter .. "/" .. core.groupSize .. ")",true)
+            if blindfoldUID[uid] == nil then
+                -- Update frame immediately to reset countdown
+                InfoFrame_SetPlayerNeutralWithMessage(core.destName, 59)
+            end
 
-            -- We need to track that it was worn for the full duration otherwise it won't count towards the achievment
-            -- InfoFrame show white with additional text with countdown on how long is left
-            -- Only go green once they have worn for full minute
-            local playerDestName = core.destName
-            local playerTimeRemaining = 59
-            InfoFrame_SetPlayerNeutralWithMessage(core.destName, playerTimeRemaining)
+            -- Start single global ticker if not running
+            if not blindfoldTicker then
+                blindfoldTicker = C_Timer.NewTicker(1, function()
+                    local now = GetTime()
+                    for puid, data in pairs(blindfoldData) do
+                        if not data.completed then
+                            local elapsed = now - data.startTime
+                            local remaining = math.ceil(data.duration - elapsed)
 
-            C_Timer.NewTicker(1, function()
-                -- Check if player is still wearing the blindfold
-                playerTimeRemaining = playerTimeRemaining - 1
-                InfoFrame_SetPlayerNeutralWithMessage(playerDestName, playerTimeRemaining)
-            end, playerTimeRemaining)
+                            if remaining >= 0 and blindfoldUID[data.uid] == nil then
+                                -- Update info frame with remaining time
+                                InfoFrame_SetPlayerNeutralWithMessage(data.destName, remaining)
+                            end
+                        end
+                    end
+                end)
+            end
         end
     end
 
+    -- Achievement complete check
     if core:getBlizzardTrackingStatus(41616, 1) == true then
         core:getAchievementSuccess()
     end
@@ -209,7 +238,7 @@ function core._2810:DimensiusTheAllDevouring()
     InfoFrame_SetHeaderCounter(L["Shared_PlayersWithBuff"],reverseGravityCounter,core.groupSize)
 
     -- Player hit by Reverse Gravity
-    if (core.type == "SPELL_AURA_APPLIED") and (core.spellId == 1243577) or (core.type == "SPELL_DAMAGE" and core.spellId == 1243581) then
+    if (core.type == "SPELL_AURA_APPLIED" and core.spellId == 1243577) or (core.type == "SPELL_DAMAGE" and core.spellId == 1243581) then
         if core.destName ~= nil and reverseGravityUID[core.spawn_uid_dest_Player] == nil then
             reverseGravityCounter = reverseGravityCounter + 1
             reverseGravityUID[core.spawn_uid_dest_Player] = core.spawn_uid_dest_Player
@@ -218,14 +247,13 @@ function core._2810:DimensiusTheAllDevouring()
         end
     end
 
-    if core:getBlizzardTrackingStatus(41619 , 1) == true then
+    if core:getBlizzardTrackingStatus(41619, 1) == true then
         core:getAchievementSuccess()
     end
 end
 
 function core._2810:TrackAdditional()
     -- Loom'ithar - Voted
-    -- TODO: Track what players have voted for on info frame
     if (core.type == "SPELL_AURA_APPLIED" or core.type == "SPELL_AURA_REMOVED") and core.spellId == 1246718 then
         core.IATInfoFrame:ToggleOn()
         core.IATInfoFrame:SetHeading(GetAchievementLink(41613))
@@ -236,33 +264,26 @@ function core._2810:TrackAdditional()
         for player2, status in pairs(core.InfoFrame_PlayersTable) do
             local buffFound = false
             local _, _, player_UID2 = strsplit("-", UnitGUID(player2))
-            for i=1,40 do
-                local auraData = C_UnitAuras.GetDebuffDataByIndex(player2, i)
-                if auraData ~= nil and auraData.spellId == 1246718 then
+
+            local spellInfo = C_Spell.GetSpellInfo(1246718)
+            if spellInfo ~= nil then
+                local aura = C_UnitAuras.GetAuraDataBySpellName(player2, spellInfo.name)
+                if aura then
                     buffFound = true
                 end
             end
+
             if buffFound == true then
                 InfoFrame_SetPlayerComplete(player2)
                 if votedUID[player_UID2] == nil then
                     votedUID[player_UID2] = player_UID2
                     votedCounter = votedCounter + 1
                 end
-            else
-                if core.encounterStarted == true then
-                    core:getAchievementFailedWithMessageAfter("(" .. player2 .. ")")
-                end
-
-                InfoFrame_SetPlayerFailed(player2)
-                if votedUID[player_UID2] ~= nil then
-                    votedUID[player_UID2] = nil
-                    votedCounter = votedCounter - 1
-                end
             end
         end
 
         --Update with any changes
-        InfoFrame_SetHeaderCounter(C_Spell.GetSpellLink(356731) .. " " .. L["Core_Counter"],votedCounter,core.groupSize)
+        InfoFrame_SetHeaderCounter(C_Spell.GetSpellLink(1246718) .. " " .. L["Core_Counter"],votedCounter,core.groupSize)
         InfoFrame_UpdatePlayersOnInfoFrame()
 
         --Hide if no one has the debuff anymore
@@ -270,6 +291,44 @@ function core._2810:TrackAdditional()
             core.IATInfoFrame:ToggleOff()
         end
     end
+end
+
+function core._2810:InstanceCleanup()
+    core._2810.Events:UnregisterEvent("UNIT_AURA")
+end
+
+core._2810.Events:SetScript("OnEvent", function(self, event, ...)
+    return self[event] and self[event](self, event, ...)
+end)
+
+function core._2810:InitialSetup()
+    core._2810.Events:RegisterEvent("UNIT_AURA")
+end
+
+function core._2810.Events:UNIT_AURA(self, unitID)
+	if next(core.currentBosses) ~= nil then
+        if core.currentBosses[1].encounterID == 3122 then
+			-- I See... Absolutely Nothing
+			local name, realm = UnitName(unitID)
+            local unitType, destID, spawn_uid_dest = strsplit("-",UnitGUID(unitID));
+
+            local spellInfo = C_Spell.GetSpellInfo(1247671)
+
+            if spellInfo ~= nil then
+                local aura = C_UnitAuras.GetAuraDataBySpellName(unitID, spellInfo.name)
+                if aura then
+                    if name ~= nil then
+                        if blindfoldUID[spawn_uid_dest] == nil then
+                            blindfoldUID[spawn_uid_dest] = spawn_uid_dest
+                            blindfoldCounter = blindfoldCounter + 1
+                            core:sendMessage(name .. " " .. L["Shared_HasGained"] .. " " .. C_Spell.GetSpellLink(1247671) .. " (" .. blindfoldCounter .. "/" .. core.groupSize .. ")", true)
+                            InfoFrame_SetPlayerCompleteWithMessage(name, "")
+                        end
+                    end
+                end
+            end
+		end
+	end
 end
 
 function core._2810:ClearVariables()
@@ -282,6 +341,7 @@ function core._2810:ClearVariables()
     miceSpawnedCounter = 0
     miceSpawnedUID = {}
     collectedMiceDuringIntermissionCounter = 0
+    announceMiceSpawned = false
 
     ------------------------------------------------------
     ---- Loomithar
@@ -298,6 +358,11 @@ function core._2810:ClearVariables()
     ------------------------------------------------------
     ---- The Soul Hunters
     ------------------------------------------------------
+    blindfoldData = {}
+    if blindfoldTicker then
+        blindfoldTicker:Cancel()
+        blindfoldTicker = nil
+    end
     blindfoldCounter = 0
     blindfoldUID = {}
 

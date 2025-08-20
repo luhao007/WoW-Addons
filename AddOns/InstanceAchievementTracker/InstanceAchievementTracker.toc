@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: Whizzey
-## Version: 5.29.0
+## Version: 5.30.0
 
 ## Title: Instance Achievement Tracker
 ## Notes: An addon for tracking the completion/faliure of instance achievements.

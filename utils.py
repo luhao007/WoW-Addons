@@ -1,10 +1,10 @@
-from collections.abc import Callable, Iterable
 import functools
 import logging
 import os
 import shutil
+from collections.abc import Callable, Iterable
 from pathlib import Path
-from typing import Optional, Literal
+from typing import Literal, Optional
 
 from chardet.enums import LanguageFilter
 from chardet.universaldetector import UniversalDetector
@@ -46,29 +46,40 @@ def process_file(path: str | Path,
     logger.info('Done.')
 
 
-def rm_tree(path: str | Path):
+def remove(path: str | Path):
     if os.path.exists(path):
         logger.info('Removing %s...', path)
-        shutil.rmtree(path)
+        if str(path).endswith('.lua'):
+            os.remove(path)
+        else:
+            shutil.rmtree(path)
 
 
 PLATFORM = Literal['retail', 'classic', 'classic_era']
 
 @functools.lru_cache
 def get_platform() -> PLATFORM:
-    path = os.getcwd()
+    path: str = os.getcwd()
     while path:
+        path: str
+        last: str
         path, last = os.path.split(path)
         if last.startswith('_') and last.endswith('_'):
-            return last[1:-1]
+            platform = last[1:-1]
+            if platform in ('retail', 'classic', 'classic_era'):
+                return platform
+            else:
+                raise RuntimeError(f'Unknown platform: {platform}')
 
     return 'retail'
 
 
 def remove_libs_in_file(path: str | Path, libs: Iterable[str]):
-    def process(lines):
+    def process(lines: Iterable[str]) -> list[str]:
         return [line for line in lines
-                if not any(f'{lib}\\'.lower() in line.lower() for lib in libs)]
+                if not any(f'{lib}'.lower() in line.lower()
+                            or f'{lib.replace('\\', '/')}'.lower() in line.lower()
+                           for lib in libs)]
 
     process_file(path, process)
 
@@ -76,11 +87,20 @@ def remove_libs_in_file(path: str | Path, libs: Iterable[str]):
 @functools.lru_cache
 def get_libraries_list() -> list[str]:
     root = Path('AddOns/!!Libs')
-    paths = [root, root / 'Ace3', root / 'Ace3' / 'AceConfig-3.0', root / 'LibBabble']
-    libs = sum([[lib for lib in os.listdir(path) if os.path.isdir(path / lib)] for path in paths], [])
+    paths = [root, root / 'Ace3', root / 'Ace3' / 'AceConfig-3.0',
+             root / 'LibBabble']
+    libs: list[str] = []
+    libs = sum([[lib for lib in os.listdir(path)
+                 if os.path.isdir(path / lib)] for path in paths], libs)
     libs += ['HereBeDragons-2.0']       # Alternative name
     libs += ['LibUIDropDownMenu']       # We got an "!" mark in the lib name
     libs += ['LibTranslit']             # Alternative name
+
+    # individual files
+    libs += ['LibStub.lua',
+             'CallbackHandler-1.0.lua',
+             'LibDataBroker-1.1.lua',
+             'LibSharedMedia-3.0.lua']
     return libs
 
 
@@ -103,7 +123,7 @@ def remove_libraries_all(addon: str, lib_path: Optional[str] = None):
     print(f'Removing {libs} in {addon}')
 
     for lib in libs:
-        rm_tree(Path('AddOns') / addon / lib_path / lib)
+            remove(Path('AddOns') / addon / lib_path / lib)
 
     # Remove lib entry in root folder
     lib_files = [Path('AddOns') / addon / f"{addon.split('/')[-1]}{postfix}" for postfix in (['.xml'] + TOCS)]
@@ -113,7 +133,9 @@ def remove_libraries_all(addon: str, lib_path: Optional[str] = None):
         remove_libs_in_file(path, [f'{lib_path}\\{lib}' for lib in libs])
 
     # Remove lib entry in lib folder
-    xmls = ['Includes.xml', 'Libs.xml', 'load_libs.xml', 'main.xml', 'Manifest.xml', 'Files.xml', 'embeds.xml']
+    xmls = ['Includes.xml', 'Libs.xml', 'load_libs.xml', 'lib.xml',
+            'lib_wrath.xml', 'main.xml', 'Manifest.xml', 'Files.xml',
+            'embeds.xml']
     lib_files = [Path('Addons') / addon / lib_path / lib_file for lib_file in xmls]
     lib_files = [path for path in lib_files if os.path.exists(str(path))]
     for path in lib_files:
@@ -123,7 +145,7 @@ def remove_libraries_all(addon: str, lib_path: Optional[str] = None):
 def remove_libraries(libs: Iterable[str], root: str, xml_path: str):
     """Remove selected embedded libraries from root and xml."""
     for lib in libs:
-        rm_tree(Path(root) / lib)
+        remove(Path(root) / lib)
 
     remove_libs_in_file(xml_path, libs)
 
@@ -131,8 +153,8 @@ def remove_libraries(libs: Iterable[str], root: str, xml_path: str):
 def change_defaults(path: str, defaults: str | list[str]):
     defaults = [defaults] if isinstance(defaults, str) else defaults
 
-    def handle(lines):
-        ret = []
+    def handle(lines: Iterable[str]) -> Iterable[str]:
+        ret: list[str] = []
         for line in lines:
             for default in defaults:
                 if line.startswith(default.split('= ')[0] + '= '):

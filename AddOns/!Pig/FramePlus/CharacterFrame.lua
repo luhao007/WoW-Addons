@@ -14,7 +14,8 @@ local InvSlot=Data.InvSlot
 local EngravingSlot=Data.EngravingSlot
 local TalentData=Data.TalentData
 local FramePlusfun=addonTable.FramePlusfun
-local FasongYCqingqiu=addonTable.Fun.FasongYCqingqiu
+local Fun=addonTable.Fun
+local FasongYCqingqiu=Fun.FasongYCqingqiu
 ----
 local GetContainerNumFreeSlots = C_Container.GetContainerNumFreeSlots
 local GetContainerNumSlots = C_Container.GetContainerNumSlots
@@ -209,13 +210,8 @@ function FramePlusfun.Character_ADD()
 		Load_addonsFun(InspectFrame)
 	else
 		if PIGA["FramePlus"]["Character_ItemLevel"] or PIGA["FramePlus"]["Character_ItemColor"] or PIGA["FramePlus"]["Character_ItemList"] then
-			local InspectPIG = CreateFrame("Frame")
-			InspectPIG:RegisterEvent("ADDON_LOADED")
-			InspectPIG:HookScript("OnEvent", function(self,event,arg1)
-				if event=="ADDON_LOADED" and arg1=="Blizzard_InspectUI" then
-					self:UnregisterEvent("ADDON_LOADED");
-					Load_addonsFun(InspectFrame)
-				end
+			Fun.IsAddOnLoaded("Blizzard_InspectUI",function()
+				Load_addonsFun(InspectFrame)
 			end)
 		end
 	end
@@ -1939,18 +1935,9 @@ function FramePlusfun.Character_Shuxing()
 					end
 				end)
 			end
-			if IsAddOnLoaded("Blizzard_EngravingUI") then
-				add_fuwenUICZ()
-			else	
-				local fujianjiazai = CreateFrame("FRAME")
-				fujianjiazai:RegisterEvent("ADDON_LOADED")
-				fujianjiazai:SetScript("OnEvent", function(self, event, arg1)
-					if arg1 == "Blizzard_EngravingUI" then
-						self:UnregisterEvent("ADDON_LOADED")
-						add_fuwenUICZ()
-					end
-				end)
-			end
+			Fun.IsAddOnLoaded("Blizzard_EngravingUI",function()
+		        add_fuwenUICZ()
+			end)
 		end
 		HideUIPanel(CharacterFrame);
 	elseif PIG_MaxTocversion(40000) then

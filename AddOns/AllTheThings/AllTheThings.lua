@@ -2835,7 +2835,7 @@ function app:GetDataCache()
 
 			-- Character Unlocks
 			app.CreateDynamicHeader("characterUnlock", {
-				name = CHARACTER.." "..UNLOCK.."s",
+				name = L.CHARACTERUNLOCKS_CHECKBOX,
 				icon = app.asset("Category_ItemSets")
 			}),
 
@@ -3793,7 +3793,7 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 
 				-- Nest our external maps into a special header to reduce minilist header spam
 				if #externalMaps > 0 then
-					local externalMapHeader = app.CreateRawText(TRACKER_FILTER_REMOTE_ZONES, {icon=450908,description=L.REMOTE_ZONES_DESCRIPTION})
+					local externalMapHeader = app.CreateRawText(TRACKER_FILTER_REMOTE_ZONES, {icon=450908,description=L.REMOTE_ZONES_DESCRIPTION,external=true})
 					externalMapHeader.SortType = "Global";
 					NestObjects(externalMapHeader, externalMaps)
 					MergeObject(groups, externalMapHeader)
@@ -3803,9 +3803,12 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 					-- if only one group in the map root, then shift it up as the map root instead
 					local headerGroups = header.g;
 					if #headerGroups == 1 then
-						header.g = nil;
-						MergeProperties(header, headerGroups[1], true);
-						NestObjects(header, headerGroups[1].g);
+						local topGroup = headerGroups[1]
+						if not topGroup.external then
+							header.g = nil;
+							MergeProperties(header, topGroup, true);
+							NestObjects(header, topGroup.g);
+						end
 					else
 						app.PrintDebug("No root Map groups!",mapID)
 					end

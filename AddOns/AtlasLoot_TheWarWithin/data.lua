@@ -786,7 +786,7 @@ data["Operation Floodgate"] = {
 data["Eco-Dome Al'dani"] = {
 	EncounterJournalID = 1303,
 	MapID = 2449,
-	--AtlasMapID = "EcoDomeAldani",
+	AtlasMapID = "EcoDomeAldani",
 	ContentType = DUNGEON_CONTENT,
 	items = {
 		{ -- Azhiccar
@@ -1344,7 +1344,7 @@ data["Liberation of Undermine"] = {
 data["Manaforge Omega"] = {
 	EncounterJournalID = 1302,
 	MapID = 2460,
-	--AtlasMapID = "ManaforgeOmega",
+	AtlasMapID = "ManaforgeOmegaA",
 	ContentType = RAID_CONTENT,
 	TableType = RAID_ITTYPE,
 	items = {

@@ -1610,8 +1610,8 @@ private.CONTAINER_INFO = {
 	[500689] = { zoneID = 2369, artID = { 1919 }, x = 3290, y = 2029, overlay = { "3306-2055" }, reset = true }; --Seafarer's Cache
 	[500690] = { zoneID = 2369, artID = { 1919 }, x = 4604, y = 8752, overlay = { "4589-8763" }, reset = true }; --Seafarer's Cache
 	[505503] = { zoneID = 2369, artID = { 1919 }, x = 4169, y = 4603, overlay = { "4168-4586" }, reset = false, questID = { 86765 } }; --Ashvane Issued Workboots
-	[499082] = { zoneID = 2371, artID = { 1923 }, x = 5971, y = 5368, overlay = { "5394-5496","6008-6092","5976-5365","5397-5925" }, reset = false, questID = { 92348 }, minieventID = 42 }; --Abandoned Lockbox
-	[499086] = { zoneID = 2371, artID = { 1923 }, x = 5498, y = 6247, overlay = { "5369-6405" }, reset = false, questID = { 91352 }, minieventID = 42 }; --Lightly-Dented Luggage
+	[499082] = { zoneID = 2371, artID = { 1923 }, x = 5971, y = 5376, overlay = { "5394-5496","6008-6092","5976-5365","5397-5925" }, reset = false, questID = { 92348 }, minieventID = 42 }; --Abandoned Lockbox
+	[499086] = { zoneID = 2371, artID = { 1923 }, x = 5498, y = 6247, overlay = { "5369-6405","5490-6240","5570-6420" }, reset = false, questID = { 91352 }, minieventID = 42 }; --Lightly-Dented Luggage
 	[499093] = { zoneID = 2371, artID = { 1923 }, x = 6974, y = 5227, overlay = { "6974-5230" }, reset = false, questID = { 85837 }, minieventID = 42 }; --Forlorn Wind Chime
 	[499097] = { zoneID = 2371, artID = { 1923 }, x = 5449, y = 2450, overlay = { "5445-2444" }, reset = false, questID = { 85840 }, minieventID = 42 }; --Sand-Worn Coffer
 	[500046] = { zoneID = 2371, artID = { 1923 }, x = 7606, y = 4522, overlay = { "7610-4526" }, reset = false, questID = { 85959 }, minieventID = 42 }; --Gift of the Brothers
@@ -1624,43 +1624,48 @@ private.CONTAINER_INFO = {
 	[503375] = { zoneID = 2371, artID = { 1923 }, x = 6092, y = 3839, overlay = { "6090-3835" }, reset = false, questID = { 86416 }, minieventID = 42 }; --Ancient Coffer
 	[504172] = { zoneID = 2371, artID = { 1923 }, x = 6411, y = 4399, overlay = { "6410-4397" }, reset = false, questID = { 86492 }, minieventID = 42 }; --Ixthar's Favorite Crystal
 	[516444] = { zoneID = {
-				[2371] = { x = 5330, y = 4995, artID = { 1923 }, overlay = { "4138-2074","4283-1689","4722-1588","6259-2325","6739-4205","6405-4693","6369-4065","5948-4862","7141-7431","7159-4671","7797-4869","8016-5360","7650-5546","7218-6091","7483-3703","5053-3618","4987-3822","5497-3086","7018-2456","4994-2548","7347-4508","4860-2718","5761-2176","5992-6304","6930-5508","5330-4995","6126-5984","6590-4912","5094-6935","5211-6827","5371-6402","5476-4822","5673-1744","5677-2082","5974-5374","5384-5932","5792-2428","5523-2644","4939-4905","6099-5583","4570-5630","4590-1970","4680-6260","4710-6720","5110-6540","5700-5320","5780-6090","5870-2840","7090-5130","7460-4810","7940-4680","4310-5360","4390-2640","5280-1970","5930-5800" } };
+				[2371] = { x = 7944, y = 4682, artID = { 1923 }, overlay = { "4138-2074","4283-1689","4722-1588","6259-2325","6739-4205","6405-4693","6369-4065","5948-4862","7141-7431","7159-4671","7797-4869","8016-5360","7650-5546","7218-6091","7483-3703","5053-3618","4987-3822","5497-3086","7018-2456","4994-2548","7347-4508","4860-2718","5761-2176","5992-6304","6930-5508","5330-4995","6126-5984","6590-4912","5094-6935","5211-6827","5371-6402","5476-4822","5673-1744","5677-2082","5974-5374","5384-5932","5792-2428","5523-2644","4939-4905","6099-5583","4570-5630","4590-1970","4680-6260","4710-6720","5110-6540","5700-5320","5780-6090","5870-2840","7090-5130","7460-4810","7940-4680","4310-5360","4390-2640","5280-1970","5930-5800" } };
 				[2472] = { x = 5110, y = 7117, artID = { 1987 }, overlay = { "7184-3037","6289-6747","4059-5931","4043-3217","3135-6155","4182-2042","4725-3558","3401-3604","3744-8060","5110-7117","5800-6080" } };
 				[2477] = { x = 4450, y = 3560, artID = { 1995 }, overlay = { "4450-3560" } };
 			  }, reset = true }; --Ethereal Pocket-Storage
+	[516571] = { zoneID = {
+				[2371] = { x = 7020, y = 2460, artID = { 1923 }, overlay = { "4140-2070","4290-1690","4310-5360","4390-2640","4570-5620","4590-1970","4670-6250","4720-1580","4720-6720","4860-2720","4940-4900","4990-2540","4990-3830","5050-3620","5100-6940","5110-6540","5210-6820","5280-1970","5330-5000","5370-6410","5380-5930","5480-4820","5500-3090","5520-2640","5670-1740","5680-2080","5710-5320","5770-6090","5790-2430","5870-2840","5930-5800","5950-4870","5980-5380","5990-6310","6100-5580","6130-5990","6260-2320","6370-4070","6410-4690","6590-4910","6740-4210","6930-5510","7020-2460","7090-5130","7160-4670","7220-6100","7350-4510","7450-4810","7480-3710","7800-4870" } };
+				[2472] = { x = 5110, y = 7117, artID = { 1987 }, overlay = { "3140-6130","3420-3620","3730-8080","4040-3200","4040-5910","4200-2040","4740-3580","5100-7130","5820-6120","6310-6730" } };
+			  }, reset = true }; --Broker Exchequer
 	[516626] = { zoneID = {
-				[2371] = { x = 5851, y = 5342, artID = { 1923 }, overlay = { "4881-3914","5851-5342","5839-5796","5377-4538","4599-5079","4457-5979","4619-6381","4803-6702","5262-6699","5204-6811","5061-5806","4988-5382","5653-5945","6140-5750","5986-6024","7272-2413","7024-3163","7720-4362","7411-4454","8139-4940","7724-5087","7594-5815","6588-4902","6486-4011","6154-4139","6123-3904","6207-4695","6100-2727","5884-2915","5766-1825","5234-2716","4585-2469","4669-2018","4736-1718","4880-1897","4910-1546","4434-1692","4337-1621","4097-2726","4204-2329","6877-7993","5620-4845" } };
+				[2371] = { x = 5851, y = 5342, artID = { 1923 }, overlay = { "4881-3914","5851-5342","5839-5796","5377-4538","4599-5079","4457-5979","4619-6381","4803-6702","5262-6699","5204-6811","5061-5806","4988-5382","5653-5945","6140-5750","5986-6024","7272-2413","7024-3163","7720-4362","7411-4454","8139-4940","7724-5087","7594-5815","6588-4902","6486-4011","6154-4139","6123-3904","6207-4695","6100-2727","5884-2915","5766-1825","5234-2716","4585-2469","4669-2018","4736-1718","4880-1897","4910-1546","4434-1692","4337-1621","4097-2726","4204-2329","6877-7993","5620-4845","4960-2730","5100-3680","5210-4810","5240-6470","5780-2240","6810-3180","6840-5230","7190-3460","7700-3060" } };
 				[2472] = { x = 3859, y = 6444, artID = { 1987 }, overlay = { "6408-8176","5986-5612","4489-6221","4487-6934","4447-7948","3859-6444","3206-5978","4185-4533","4042-3220","4508-5104","3773-3935","5966-3307" } };
-			  }, reset = true }; --Objects
-	[527414] = { zoneID = 2371, artID = { 1923 }, x = 5208, y = 6833, overlay = { "5208-6833" }, reset = false, questID = { 89378 }, minieventID = 42 }; --Objects
-	[529525] = { zoneID = 2371, artID = { 1923 }, x = 5250, y = 4680, overlay = { "5249-4677" }, reset = false, questID = { 90511 }, minieventID = 42 }; --Objects
-	[529537] = { zoneID = 2371, artID = { 1923 }, x = 7801, y = 4894, overlay = { "7799-4894" }, reset = false, questID = { 90514 }, minieventID = 42 }; --Objects
-	[529539] = { zoneID = 2371, artID = { 1923 }, x = 7831, y = 6155, overlay = { "7833-6153" }, reset = false, questID = { 90515 }, minieventID = 42 }; --Objects
-	[529591] = { zoneID = 2371, artID = { 1923 }, x = 8071, y = 5266, overlay = { "8072-5267" }, reset = false, questID = { 90521 }, minieventID = 42 }; --Objects
-	[529643] = { zoneID = 2371, artID = { 1923 }, x = 5103, y = 6515, overlay = { "5104-6509" }, reset = false, questID = { 90522 }, minieventID = 42 }; --Objects
-	[529664] = { zoneID = 2371, artID = { 1923 }, x = 4916, y = 1801, overlay = { "4919-1804" }, reset = false, questID = { 90527 }, minieventID = 42 }; --Objects
-	[529669] = { zoneID = 2371, artID = { 1923 }, x = 6442, y = 4271, overlay = { "6443-4268" }, reset = false, questID = { 90532 }, minieventID = 42 }; --Objects
+			  }, reset = true }; --Phase-Lost Pocket-Storage
+	[527414] = { zoneID = 2371, artID = { 1923 }, x = 5208, y = 6833, overlay = { "5208-6833" }, reset = false, questID = { 89378 }, minieventID = 42 }; --Ethereal Voidforged Container
+	[529525] = { zoneID = 2371, artID = { 1923 }, x = 5246, y = 4687, overlay = { "5249-4677" }, reset = false, questID = { 90511 }, minieventID = 42 }; --Light-Soaked Cleaver
+	[529537] = { zoneID = 2371, artID = { 1923 }, x = 7798, y = 4897, overlay = { "7799-4894" }, reset = false, questID = { 90514 }, minieventID = 42 }; --Efrat's Forgotten Bulwark
+	[529539] = { zoneID = 2371, artID = { 1923 }, x = 7831, y = 6155, overlay = { "7833-6153" }, reset = false, questID = { 90515 }, minieventID = 42 }; --Petrified Branch of Janaa
+	[529591] = { zoneID = 2371, artID = { 1923 }, x = 8072, y = 5267, overlay = { "8072-5267" }, reset = false, questID = { 90521 }, minieventID = 42 }; --Sufaadi Skiff Lantern
+	[529643] = { zoneID = 2371, artID = { 1923 }, x = 5103, y = 6510, overlay = { "5104-6509" }, reset = false, questID = { 90522 }, minieventID = 42 }; --Tulwar of the Golden Guard
+	[529664] = { zoneID = 2371, artID = { 1923 }, x = 4917, y = 1808, overlay = { "4919-1804" }, reset = false, questID = { 90527 }, minieventID = 42 }; --Shadowguard Crusher
+	[529669] = { zoneID = 2371, artID = { 1923 }, x = 6437, y = 4273, overlay = { "6443-4268" }, reset = false, questID = { 90532 }, minieventID = 42 }; --Korgorath's Talon
 	[547995] = { zoneID = {
 				[2371] = { x = 5843, y = 2258, artID = { 1923 }, overlay = { "5843-2258" } };
 				[2477] = { x = 6277, y = 5209, artID = { 1995 }, overlay = { "6250-5237" } };
-			  }, reset = false, questID = { 91055 }, minieventID = 42 }; --Objects
-	[548010] = { zoneID = 2371, artID = { 1923 }, x = 5081, y = 3529, overlay = { "5081-3534" }, reset = false, questID = { 91057 }, minieventID = 42 }; --Objects
+			  }, reset = false, questID = { 91055 }, minieventID = 42 }; --null
+	[548010] = { zoneID = 2371, artID = { 1923 }, x = 5081, y = 3530, overlay = { "5081-3534" }, reset = false, questID = { 91057 }, minieventID = 42 }; --Phaseblade of the Void Marches
 	[548597] = { zoneID = {
 				[2371] = { x = 6994, y = 7081, artID = { 1923 }, overlay = { "6994-7081" } };
 				[2472] = { x = 6515, y = 1471, artID = { 1987 }, overlay = { "6515-1471" } };
-			  }, reset = false, questID = { 91058 }, minieventID = 42 }; --Objects
+			  }, reset = false, questID = { 91058 }, minieventID = 42 }; --null
+	[549326] = { zoneID = {
+				[2371] = { x = 6408, y = 8176, artID = { 1923 }, overlay = { "7724-5087","8133-4933","4880-1890","4880-3830","4960-2730","5100-3680","5210-4810","5780-2240","6408-8176" } };
+				[2472] = { x = 3950, y = 2330, artID = { 1987 }, overlay = { "3190-5930","3410-1180","3760-3960","3870-6410","3930-2290","4200-5900","4430-7920","4460-6900","4500-6200","4520-2540","4540-5090","4970-2780","5940-3300" } };
+			  }, reset = true }; --Phase-Lost Exchequer
 	[558108] = { zoneID = 2371, artID = { 1923 }, x = 4963, y = 2676, overlay = { "4963-2676" }, reset = false, questID = { 91643 }, minieventID = 41, criteria = 2 }; --Multiversal Energy Dynamics and the Murmuration Paradox
 	[558110] = { zoneID = 2371, artID = { 1923 }, x = 4229, y = 2093, overlay = { "4229-2093" }, reset = false, questID = { 91646 }, minieventID = 41, criteria = 3 }; --From Vengeance to Void
 	[558112] = { zoneID = 2371, artID = { 1923 }, x = 7212, y = 2940, overlay = { "7212-2940" }, reset = false, questID = { 91647 }, minieventID = 41, criteria = 4 }; --The Facets of K'aresh
 	[558372] = { zoneID = 2371, artID = { 1923 }, x = 4892, y = 5715, overlay = { "4892-5715" }, reset = false, questID = { 91686 }, minieventID = 41, criteria = 10 }; --Geologist Field Journal
-	[558375] = { zoneID = {
-				[2371] = { x = 6400, y = 7760, artID = { 1923 }, overlay = { "6400-7760" } };
-				[2472] = { x = 3823, y = 4562, artID = { 1987 }, overlay = { "3823-4562" } };
-			  }, reset = false, questID = { 91687 }, minieventID = 41, criteria = 5 }; --null
+	[558375] = { zoneID = 2472, artID = { 1987 }, x = 3823, y = 4562, overlay = { "3823-4562" }, reset = false, questID = { 91687 }, minieventID = 41, criteria = 5 }; --Checklist of Minor Pleasures
 	[505476] = { zoneID = 2375, artID = { 1925 }, x = 2645, y = 2297, overlay = { "2660-2390" }, questReset = true, questID = { 86732 } }; --Stone Carver's Scramseax
 	[503823] = { zoneID = 2472, artID = { 1987 }, x = 4798, y = 6420, overlay = { "4812-6418" }, reset = false, questID = { 86467 }, minieventID = 42 }; --Mailroom Distribution
-	[529533] = { zoneID = 2472, artID = { 1987 }, x = 2372, y = 4677, overlay = { "2368-4681" }, reset = false, questID = { 90512 }, minieventID = 42 }; --Objects
-	[548001] = { zoneID = 2472, artID = { 1987 }, x = 4745, y = 6986, overlay = { "4747-6998" }, reset = false, questID = { 91056 }, minieventID = 42 }; --Objects
+	[529533] = { zoneID = 2472, artID = { 1987 }, x = 2372, y = 4677, overlay = { "2368-4681" }, reset = false, questID = { 90512 }, minieventID = 42 }; --Spear of Fallen Memories
+	[548001] = { zoneID = 2472, artID = { 1987 }, x = 4747, y = 6998, overlay = { "4747-6998" }, reset = false, questID = { 91056 }, minieventID = 42 }; --P.O.S.T. Master's Prototype Parcel and Postage Presser
 	[558090] = { zoneID = 2472, artID = { 1987 }, x = 3733, y = 2574, overlay = { "3729-2571" }, reset = false, questID = { 91640 }, minieventID = 41, criteria = 7 }; --A Dog-eared Book
 	[558105] = { zoneID = 2472, artID = { 1987 }, x = 5845, y = 9149, overlay = { "5845-9149" }, reset = false, questID = { 91642 }, minieventID = 41, criteria = 8 }; --Mysterious Notebook
 	[558109] = { zoneID = 2472, artID = { 1987 }, x = 4632, y = 1857, overlay = { "4632-1857" }, reset = false, questID = { 91645 }, minieventID = 41, criteria = 6 }; --Ba'key's Aromatic Broker Cookies Recipes

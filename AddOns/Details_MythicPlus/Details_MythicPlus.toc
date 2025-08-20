@@ -1,0 +1,48 @@
+## Interface: 110200
+## Version: #DMP.20250814.012
+
+## Title: Details!: Mythic Plus Extension
+## Notes: Add Mythic Plus stuff on Details!
+## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r |cFFFFFFFF伤害统计|r |cFF69CCF0插件|r |cFF22B14C大秘境助手|r
+## Notes-zhCN: 显示大秘境统计数据，支持计时条
+
+## IconTexture: Interface\AddOns\Details\images\minimap
+
+## RequiredDeps: Details
+
+## SavedVariables: Details_MythicPlusDB
+## SavedVariablesPerCharacter: Details_MythicPlus_CharacterDB
+
+## X-Wago-ID: 4N2m7QGL
+## X-Curse-Project-ID: 1220909
+## X-Part-Of: Details
+
+locales\enUS.lua
+locales\deDE.lua
+locales\esES.lua
+locales\esMX.lua
+locales\frFR.lua
+locales\itIT.lua
+locales\koKR.lua
+locales\ptBR.lua
+locales\ruRU.lua
+locales\zhCN.lua
+locales\zhTW.lua
+
+start.lua
+templates.lua
+frames.lua
+parser.lua
+options.lua
+scoreboard_column.lua
+scoreboard.lua
+scoreboard_layout.lua
+scoreboard_runselectordropdown.lua
+activityframe.lua
+events.lua
+functions.lua
+slash.lua
+rundata.lua
+migrations.lua
+comm.lua
+public.lua

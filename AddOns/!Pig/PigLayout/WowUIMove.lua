@@ -2,6 +2,7 @@ local _, addonTable = ...;
 local Create=addonTable.Create
 local PIGFontString=Create.PIGFontString
 local PigLayoutFun=addonTable.PigLayoutFun
+local Fun=addonTable.Fun
 --------
 local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 --初始系统已经加载的UI
@@ -161,6 +162,15 @@ local function MovingFun(MovingUI,Frame)
 end
 --
 local function SetMovingEvent(v)
+	if v[2]=="Blizzard_Collections" then
+		if WardrobeTransmogFrame then
+    		local checkBox = _G.WardrobeTransmogFrame.ToggleSecondaryAppearanceCheckbox;
+		    local label = checkBox.Label;
+		    label:ClearAllPoints();
+		    label:SetPoint('LEFT', checkBox, 'RIGHT', 2, 1);
+		    label:SetPoint('RIGHT', checkBox, 'RIGHT', 160, 1);
+		end
+	end
 	if v[3] then
 		for k1,v1 in pairs(v[3]) do
 			MovingFun(_G[v[1]],_G[v1])
@@ -198,26 +208,8 @@ function PigLayoutFun.BlizzardUI_Move()
 		end
 	end
 	for k,v in pairs(UINameList_AddOn) do
-		if IsAddOnLoaded(v[2]) then
-			SetMovingEvent(v)
-	    else
-	        local bizzUIFRAME = CreateFrame("Frame")
-	        bizzUIFRAME:RegisterEvent("ADDON_LOADED")
-	        bizzUIFRAME:SetScript("OnEvent", function(self, event, arg1)
-	            if arg1 == v[2] then
-	            	self:UnregisterEvent("ADDON_LOADED")
-	            	if arg1=="Blizzard_Collections" then
-	            		if WardrobeTransmogFrame then
-		            		local checkBox = _G.WardrobeTransmogFrame.ToggleSecondaryAppearanceCheckbox;
-						    local label = checkBox.Label;
-						    label:ClearAllPoints();
-						    label:SetPoint('LEFT', checkBox, 'RIGHT', 2, 1);
-						    label:SetPoint('RIGHT', checkBox, 'RIGHT', 160, 1);
-						end
-					end
-					SetMovingEvent(v)
-	            end
-	        end)
-	    end
+		Fun.IsAddOnLoaded(v[2],function()
+	       SetMovingEvent(v)
+		end)
 	end
 end

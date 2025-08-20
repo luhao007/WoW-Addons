@@ -863,22 +863,22 @@ _.CategoryNames = {
 	[184] = "Explosives",
 	[185] = "Goggles",
 	[188] = "Devices",
-	[218] = "Helms",
+	[218] = HEADSLOT,
 	[219] = SHOULDERSLOT,
 	[220] = INVTYPE_CHEST,
 	[221] = "Gauntlets",
-	[222] = "Bracers",
-	[223] = "Belts",
+	[222] = WRISTSLOT,
+	[223] = WAISTSLOT,
 	[224] = "Legs",
-	[225] = "Boots",
+	[225] = FEETSLOT,
 	[227] = AUCTION_CATEGORY_WEAPONS,
-	[251] = "Helms",
+	[251] = HEADSLOT,
 	[252] = SHOULDERSLOT,
 	[253] = INVTYPE_CHEST,
-	[255] = "Gloves",
-	[256] = "Belts",
-	[257] = "Pants",
-	[258] = "Boots",
+	[255] = HANDSSLOT,
+	[256] = WAISTSLOT,
+	[257] = LEGSSLOT,
+	[258] = FEETSLOT,
 	[259] = "Cloaks",
 }
 _.CategoryIcons = {
@@ -21060,6 +21060,7 @@ L.YOU_DID_IT = "ВЫ СДЕЛАЛИ ЭТО!";
 L.ZONE_DESC = "Нажмите эту кнопку для выбора случайной локации, основываясь на несобранных Штучках.";
 localize(_.CategoryNames, {
 	[3] = "карт Таро",
+	[106] = "Карты",
 	[185] = "очки",
 });
 localize(L.HEADER_NAMES, {
@@ -23484,17 +23485,8 @@ localize(_.CategoryNames, {
 	[184] = "폭발물",
 	[185] = "고글",
 	[188] = "장치",
-	[218] = "머리",
 	[221] = "손",
-	[222] = "손목",
-	[223] = "허리",
 	[224] = "다리",
-	[225] = "발",
-	[251] = "머리",
-	[255] = "손",
-	[256] = "허리",
-	[257] = "다리",
-	[258] = "발",
 	[259] = "등",
 });
 localize(L.HEADER_NAMES, {
@@ -25989,6 +25981,7 @@ L.EVENT_SCHEDULE = "Horario del evento";
 L.EVENT_START = "Inicio:";
 L.EVENT_WHERE = "Dónde:";
 L.EXPAND_DIFFICULTY_CHECKBOX = "Expandir la dificultad actual";
+L.EXPAND_DIFFICULTY_CHECKBOX_TOOLTIP = "Activa esta opción si deseas expandir automáticamente solo los encabezados de dificultad coincidentes en la mini lista que corresponden a la dificultad activa al ingresar a una mazmorra o banda.\n\nEjemplo: expande solo el encabezado Heroico al ingresar a una mazmorra de dificultad Heroica.";
 L.EXPAND_MINILIST_CHECKBOX = "Expandir mini listas";
 L.EXPAND_MINILIST_CHECKBOX_TOOLTIP = "Habilite esta opción para expandir automáticamente todos los grupos contenidos en las mini listas cuando las vea por primera vez por sesión de juego.";
 L.EXPANSION_ID = "Expansión ID";
@@ -26293,6 +26286,7 @@ L.RECIPES_CHECKBOX = "Recetas";
 L.RECIPES_CHECKBOX_TOOLTIP = "Activa esta opción para rastrear recetas para tu profesión.\n\nNOTA: Debes abrir tu lista de profesiones para cargar la información de estas.";
 L.REFRESHING_COLLECTION = "Refrescando colección ...";
 L.RELOG_REQUIRED = "Después de usar esto, normalmente es necesario cerrar sesión e iniciar sesión para recolectar todos los elementos correctamente en los servidores del juego.";
+L.REMOTE_ZONES_DESCRIPTION = "Contiene contenido que está disponible en la Zona actual, pero que se obtiene directamente de otra Zona.";
 L.REMOVED_WITH_PATCH = "Eliminado en el Parche";
 L.REMOVED_WITH_PATCH_CLASSIC_FORMAT = "Esto se elimina con un parche %s";
 L.REMOVED_WITH_PATCH_FORMAT = "Eliminado en el parche %s";
@@ -26530,17 +26524,8 @@ localize(_.CategoryNames, {
 	[184] = "Explosivos",
 	[185] = "Gafas",
 	[188] = "Dispositivos",
-	[218] = "Cascos",
 	[221] = "Guanteletes",
-	[222] = "Muñecas",
-	[223] = "Cintura",
 	[224] = "Piernas",
-	[225] = "Botas",
-	[251] = "Cascos",
-	[255] = "Guantes",
-	[256] = "Cintura",
-	[257] = "Pantalones",
-	[258] = "Botas",
 	[259] = "Capas",
 });
 localize(L.HEADER_NAMES, {
@@ -28998,6 +28983,7 @@ L.DUNGEON_DIFF_DESC = "Ajuste de dificultad para calabozos.\n\nHaz click aquí p
 L.DUNGEON_DIFF_DESC_2 = "Este ajuste te permite personalizar la dificultad de un calabozo.\n\nHaz click en esta línea para volver al Asistente de Banda.";
 L.ENCOUNTER_ID = "ID de Encuentro";
 L.EVENT_ID = "ID de Evento";
+L.EXPAND_DIFFICULTY_CHECKBOX_TOOLTIP = "Activa esta opción si deseas expandir automáticamente solo los encabezados de dificultad coincidentes en la mini lista que corresponden a la dificultad activa al ingresar a un calabozo o banda.\n\nEjemplo: expande solo el encabezado Heroico al ingresar a un calabozo de dificultad Heroica.";
 L.EXPANSION_ID = "ID de Expansión";
 L.EXPLORATION_ID = "ID de Exploración";
 L.FACTION_DESC = "Haz click en este botón para seleccionar una facción aleatoria en función de lo que te falta.";

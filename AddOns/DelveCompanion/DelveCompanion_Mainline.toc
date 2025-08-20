@@ -1,0 +1,48 @@
+## Interface: 110200
+## Author: FunDeliveryGames
+## Version: v0.9
+
+## Title: Delve Companion
+## Notes: One-stop addon to make Delves experience even better!
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF地下堡助手|r |cFFFFE00ADelveCompanion|r
+## Notes-zhCN: 在冒险者日志中添加“地下堡”分页
+
+## IconTexture: interface/icons/ui_delves
+
+## AddonCompartmentFunc: DelveCompanionCompartmentOnClick
+## AddonCompartmentFuncOnEnter: DelveCompanionCompartmentOnEnter
+## AddonCompartmentFuncOnLeave: DelveCompanionCompartmentOnLeave
+
+## OptionalDeps: TomTom, MapPinEnhanced
+
+## SavedVariables: DelveCompanionAccountData
+## SavedVariablesPerCharacter: DelveCompanionCharacterData
+
+## X-Category: Delves
+## X-Curse-Project-ID: 1218457
+## X-WoWI-ID: 26915
+## X-Wago-ID: ZKxq4kGk
+## X-Website: https://github.com/FunDeliveryGames/wow-delve-companion
+
+# Core
+Source\Core\Include.xml
+
+# Localization
+Locale\Lockit.xml
+
+# Data
+Data\Include.xml
+
+# Utility
+Source\Utility\Include.xml
+
+# Settings
+Source\Settings\Include.xml
+
+# Modules
+Source\Modules\TooltipExtension\Include.xml
+Source\Modules\DelvesList\Include.xml
+Source\Modules\DelvesDashboard\Include.xml
+
+# Addon init. Should be the last one
+Source\Bootstrap.lua

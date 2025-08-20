@@ -7,5 +7,4 @@
 ## Author: Adirelle, Nebula
 ## OptionalDeps: Ace3
 
-LibStub.lua
 LibDualSpec-1.0.lua

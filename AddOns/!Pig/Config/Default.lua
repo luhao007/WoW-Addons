@@ -485,6 +485,7 @@ addonTable.Default_Per = {
 		["ActionData"] = {},
 		["EquipList"]={},
 		["TrinketMode"]=1,
+		["LockTrinket"]=0,
 		["TrinketList"]={},
 		["LushiID"]=6948,
 	},

@@ -13,7 +13,6 @@
 
 ## X-Curse-Project-ID: 695703
 
-libs\LibStub.lua
 libs\EditModeExpanded-1.0\EditModeExpanded-1.0.xml
 
 Locales\enus.lua

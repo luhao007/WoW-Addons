@@ -345,6 +345,7 @@ local AreaIDNameMapper = setmetatable({}, {__index = function(t,key)
 	local keyid = tonumber(key)
 	local name
 	while id < 25000 do
+		-- ref. https://wago.tools/db2/AreaTable
 		name = C_Map_GetAreaInfo(id)
 		if name then
 			t[name] = id
@@ -390,7 +391,7 @@ local function PrintDiscordInformationForExploration(o)
 		y = math_floor(y * 1000) / 10
 		coord = x .. ", " .. y;
 	end
-	if not x or not y then app.PrintDebug("Area has no valid coords on mapID",mapID) return end
+	if not x or not y then app.print("Area",areaID,"has no valid coords on mapID",mapID) end
 
 	local luaFormat = "visit_exploration(%d,{coord={%.1f,%.1f,%d}}),\t-- %s"
 	tinsert(info, luaFormat:format(areaID,x or 0,y or 0,mapID,text));
@@ -429,10 +430,10 @@ local function CacheAndUpdateExploration(explorationIDTable)
 	end
 	RefreshExplorationData(rawAreaIDdata)
 end
-local function GetExplorationBySubzone()
+local function GetExplorationBySubzone(mapID)
 	local subzone = GetSubZoneText()
 	if subzone and subzone ~= "" then
-		local mapObject = app.SearchForObject("mapID",app.RealMapID,"key")
+		local mapObject = app.SearchForObject("mapID",mapID,"key")
 		if mapObject and mapObject.g then
 			for _,o in ipairs(mapObject.g) do
 				if o.headerID == app.HeaderConstants.EXPLORATION and o.g then
@@ -447,20 +448,47 @@ local function GetExplorationBySubzone()
 		end
 		if not app.Contributor then return end
 		local expectedAreaID = AreaIDNameMapper[subzone]
+		if not expectedAreaID then return end
 		-- don't report an area which is actually mapped in another zone already
-		if not app.SearchForObject("explorationID", expectedAreaID) then
-			local e = app.CreateExploration(expectedAreaID, { mapID = app.RealMapID, name = subzone})
+		local mappedExploration = app.SearchForObject("explorationID", expectedAreaID)
+		-- app.PrintDebug("mappedExploration",mappedExploration,mappedExploration and mappedExploration.__type)
+		-- not in ATT at all
+		if not mappedExploration then
+			local e = app.CreateExploration(expectedAreaID, { mapID = mapID, name = subzone})
 			PrintDiscordInformationForExploration(e);
 			return e
+		-- in ATT as NYI or Unsorted
+		elseif mappedExploration._missing or app.GetRelativeValue(mappedExploration, "_nyi") then
+			-- inject some data into the exploration object so we can report about it properly
+			mappedExploration.mapID = mapID
+			mappedExploration.name = subzone
+			PrintDiscordInformationForExploration(mappedExploration);
+		else
+			-- local explorationMapID = app.GetRelativeValue(mappedExploration, "mapID")
+			-- in ATT under a different map
+			-- dont want this... areas don't match maps in all cases
+			-- if explorationMapID and explorationMapID ~= mapID then
+			-- 	app.print("Found exploration area",
+			-- 		expectedAreaID,
+			-- 		app:SearchLink(mappedExploration),
+			-- 		"but it's linked to a different map!",
+			-- 		explorationMapID,
+			-- 		app:RawSearchLink("mapID",explorationMapID))
+			-- end
+			-- in ATT without coords, likely means it can't be detected in API since it would be populated
+			if C_Map_GetPlayerMapPosition(mapID, "player") and not mappedExploration.coords then
+				PrintDiscordInformationForExploration(mappedExploration);
+			end
 		end
+		return mappedExploration
 	end
 end
-local function CheckIfExplorationIsMissing()
+local function CheckIfExplorationIsMissing(mapID)
 	-- do a manual check by way of the sub-zone name (since this is what correlates to the exploration name players see in ATT)
 	-- we will provide a manual collection by way of exact player position having a specific subzone name when performing a check
-	local explorationForSubzone = GetExplorationBySubzone()
+	local explorationForSubzone = GetExplorationBySubzone(mapID)
 	if explorationForSubzone then
-		-- app.PrintDebug("SubzoneExplorationFind",mapID,pos.x,pos.y,app:SearchLink(explorationForSubzone))
+		-- app.PrintDebug("SubzoneExplorationFind",explorationForSubzone,app:SearchLink(explorationForSubzone))
 		local areaID = explorationForSubzone.explorationID
 		local characterExploration = app.CurrentCharacter.Exploration
 		-- don't know how areaID could be nil here...
@@ -476,13 +504,16 @@ end
 local function CheckExplorationForPlayerPosition()
 	local mapID = C_Map_GetBestMapForUnit("player");
 	if not mapID then return; end
-	-- instances don't contain areas
-	if IsInInstance() then return end
-	CheckIfExplorationIsMissing()
+	-- instances don't contain areas -- well technically they can, but they won't have coords
+	-- if IsInInstance() then return end
+	CheckIfExplorationIsMissing(mapID)
 	local pos = C_Map_GetPlayerMapPosition(mapID, "player");
 	if not pos then return; end
 	local areaIDs = C_MapExplorationInfo_GetExploredAreaIDsAtPosition(mapID, pos);
 	if not areaIDs then return end;
+
+	-- test manually:
+	-- /dump C_MapExplorationInfo.GetExploredAreaIDsAtPosition(ATTC.RealMapID, C_Map.GetPlayerMapPosition(ATTC.RealMapID, "player"))
 
 	local characterExploration = app.CurrentCharacter.Exploration
 	local newAreas = {};
@@ -520,9 +551,16 @@ else
 	app.AddEventHandler("OnRefreshCollections", CheckExplorationForPlayerPosition)
 end
 app.AddEventRegistration("MAP_EXPLORATION_UPDATED", CheckExplorationForCurrentLocation)
+local MapExplorationEventIDs = {
+	[372] = true,
+	[396] = true,
+	[408] = true,
+}
 app.AddEventRegistration("UI_INFO_MESSAGE", function(messageID, ...)
-	-- app.PrintDebug("UI_INFO_MESSAGE", messageID, ...)
-	if messageID == 372 or messageID == 396 then CheckExplorationForCurrentLocation(); end
+	if MapExplorationEventIDs[messageID] then
+		-- app.PrintDebug("UI_INFO_MESSAGE", messageID, ...)
+		CheckExplorationForCurrentLocation()
+	end
 end)
 --
 app.ChatCommands.Add("realtime-exploration-check", function(args)

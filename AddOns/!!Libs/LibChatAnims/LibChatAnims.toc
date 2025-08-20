@@ -4,9 +4,7 @@
 ## Notes: UIFrameFlash to Animation conversion library for Floating Chat Frame functions.
 ## Author: Funkydude
 ## X-Category: Library
-## OptionalDeps: LibStub
 ## X-License: All Rights Reserved
 
 embeds.xml
 LibChatAnims\LibChatAnims.xml
-

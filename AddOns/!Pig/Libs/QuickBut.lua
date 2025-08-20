@@ -44,22 +44,20 @@ function QuickBut:UpdateWidth()
 	end
 end
 function QuickBut:Add()
-	C_Timer.After(0.1,function()
-		QuickBut.ButList[1]()
-		-- [1]总开关[2]战场通报[3]饰品管理[4]符文管理[5]装备管理
-		-- [6]炉石/专业[7]职业辅助技能[8]角色信息统计
-		-- [9]售卖助手丢弃[10]售卖助手开[11]售卖助手分[12]售卖助手选矿
-		-------
-		-- [13]时空之门[14]时空之门喊话[15]开团助手[16]带本助手
-		-- [17]带本助手-跟随,
-		-- [18],
-		-- [19],AFK
-		for i=2,19 do
-			local xfun = self.ButList[i] or function() end
-			xfun()
-		end
-		self:UpdateWidth()
-	end)
+	QuickBut.ButList[1]()
+	-- [1]总开关[2]战场通报[3]饰品管理[4]符文管理[5]装备管理
+	-- [6]炉石/专业[7]职业辅助技能[8]角色信息统计
+	-- [9]售卖助手丢弃[10]售卖助手开[11]售卖助手分[12]售卖助手选矿
+	-------
+	-- [13]时空之门[14]时空之门喊话[15]开团助手[16]带本助手
+	-- [17]带本助手-跟随,
+	-- [18],
+	-- [19],AFK
+	for i=2,19 do
+		local xfun = self.ButList[i] or function() end
+		xfun()
+	end
+	self:UpdateWidth()
 end
 --创建功能动作条按钮
 local WowHeight=GetScreenHeight();

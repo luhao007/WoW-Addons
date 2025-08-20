@@ -16,4 +16,5 @@
 CheckBox.lua
 MeetingStoneEX.lua
 IgnoreListPanel.lua
+MysticRemark.lua
 

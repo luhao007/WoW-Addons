@@ -7,7 +7,7 @@ function MainPanel:OnInitialize()
     GUI:Embed(self, 'Refresh', 'Help', 'Blocker')
 
     self:SetSize(922, 447)
-	self:SetText(L['集合石'] .. ' 开心快乐每一天 ' .. ADDON_VERSION .. ' 202508008')
+	self:SetText(L['集合石'] .. ' 开心快乐每一天 ' .. ADDON_VERSION .. ' ' .. ADDON_VERSION_DATE)
     --self:SetIcon(ADDON_LOGO)
     self:EnableUIPanel(true)
     self:SetTabStyle('BOTTOM')
@@ -318,7 +318,6 @@ function MainPanel:OnInitialize()
             GameTooltip:SetOwner(self, 'ANCHOR_CURSOR')
             GameTooltip:SetText(
                 '|cFFFF8040点|r|cFFFF8040击|r|cFFFF8040复|r|cFFFF8040制|r|cFFFF0080(|r|cFF8080C0不|r|cFF8080C0行|r|cFF8080C0就|r|cFF8080C0多|r|cFF8080C0点|r|cFF8080C0几|r|cFF8080C0下|r|cFFFF0080)|r')
-            --GameTooltip:AddLine('|cFF0080FFhttps://ngabbs.com/read.php?tid=35102502|r', 1, 1, 1, true)
             GameTooltip:Show()
         end)
         CopyUpdUrlBtn:SetScript('OnLeave', function()
@@ -328,6 +327,32 @@ function MainPanel:OnInitialize()
 
         CopyUpdUrlBtn:SetScript('OnClick', function()
             ApplyUrlButton(CopyUpdUrlBtn,'https://gitee.com/xmmmmm/meeting-stone_-happy')
+        end)
+    end
+    -- 增加加群反馈
+    local JoinQUrlBtn
+    JoinQUrlBtn = CreateFrame('Button', nil, self)
+    do
+        JoinQUrlBtn:SetNormalFontObject('GameFontNormalSmall')
+        JoinQUrlBtn:SetHighlightFontObject('GameFontHighlightSmall')
+        JoinQUrlBtn:SetSize(70, 22)
+        JoinQUrlBtn:SetPoint('RIGHT', CopyUpdUrlBtn, -75, 0)
+        JoinQUrlBtn:SetText('|Hurl:https://gitee.com/xmmmmm/meeting-stone_-happy|h|cff00ffff[Bug反馈]|r|h')
+
+        JoinQUrlBtn:SetScript('OnEnter', function()
+            local GameTooltip = self.GameTooltip
+            GameTooltip:SetOwner(self, 'ANCHOR_CURSOR')
+            GameTooltip:SetText(
+                '|cFFFF8040点|r|cFFFF8040击|r|cFFFF8040复|r|cFFFF8040制|r|cFFFF0080(|r|cFF8080C0不|r|cFF8080C0行|r|cFF8080C0就|r|cFF8080C0多|r|cFF8080C0点|r|cFF8080C0几|r|cFF8080C0下|r|cFFFF0080)|r')
+            GameTooltip:Show()
+        end)
+        JoinQUrlBtn:SetScript('OnLeave', function()
+            local GameTooltip = self.GameTooltip
+            GameTooltip:Hide()
+        end)
+
+        JoinQUrlBtn:SetScript('OnClick', function()
+            ApplyUrlButton(JoinQUrlBtn,'https://jq.qq.com/?_wv=1027&k=R04aQLlV')
         end)
     end
 end

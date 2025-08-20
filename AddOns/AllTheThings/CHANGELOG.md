@@ -1,72 +1,120 @@
 # AllTheThings
 
-## [4.6.3](https://github.com/ATTWoWAddon/AllTheThings/tree/4.6.3) (2025-08-13)
-[Full Changelog](https://github.com/ATTWoWAddon/AllTheThings/compare/4.6.2...4.6.3) [Previous Releases](https://github.com/ATTWoWAddon/AllTheThings/releases)
+## [4.6.4](https://github.com/ATTWoWAddon/AllTheThings/tree/4.6.4) (2025-08-17)
+[Full Changelog](https://github.com/ATTWoWAddon/AllTheThings/compare/4.6.3...4.6.4) [Previous Releases](https://github.com/ATTWoWAddon/AllTheThings/releases)
 
-- [DB] Found some Entropy in  the raid  
-- MOP: Added Tihan, Scepter of the Sleeping Emperor to SONT.  
-- [DB] Mists: add some more Celestial bag mounts/pets  
-- MOP: Added Cloak of Peacock Feathers to Scarlet Halls and Vial of Dragon's Blood to Mogu'shan Palace.  
-- [Logic] Another remapped TWW:S2 bonusID needed  
-- [DB] Vanilla: "sourcing" already sourced spell books post Cata.  
-- MOP: Added Dagger of the Seven Stars to Stormstout Brewery.  
-- [DB] Fixed MFO H/M duplicating all Heroic items  
-- MOP: Steelskin, Qiang's Impervious Shield also drops from Flameweaver in SM: Armory.  
-- [DB] Refactor some MFO HQTs  
-- MOP: The Sigils only drop from the last bosses.  
-- [DB] Fix the Vandals Renown 2 quest  
-- [DB] HQT after MFO completion  
-- [DB] Added a full Normal MFO set of HQTs  
-- [Logic] Retail: Auto headers support 'Encounter' names  
-- MOP: Fixed itemID for the Eye of the Ancient Spirit shield and added Lei Shen's Final Orders to Scholomance.  
-- Fixed retail brackets.  
-- MOP: Confirmed shield vendor cost, they only appear to classes that can use shields.  
-- MOP: Added Starshatter to Raigonn as well.  
-- MOP: Added Eye of the Ancient Spirit to Raigonn.  
-- MOP: Added back in the Raid Finder loot tables so that we can quickly see when an item was left off of the vendor.  
-- K'aresh: 'Warrant: Hollowbane'  
-    - Added a few more 'Ecological Variety' quests  
-- [DB] Cataclysm: Sourcing an unsorted neck.  
-- MOP: Let's merge that with the bag so the bag shows the names of the items as it doesn't appear to be just mounts.  
-- MOP: Added all of the confirmed mounts and pets to the Satchel.  
-- MOP: Confirmed Heavenly Onyx Cloud Serpent from the satchel. (Feelsbadman)  
-- MOP: Updated Celestial Dungeons. Added some confirmed boss drops from the last bosses.  
-- Fix some reported errors  
-- [DB] Vanilla: Sourcing some bags and Nolkai's Band.  
-- K'aresh: lockCriteria for Renown 11 Treasures  
-    - Parse Retail and PTR  
-- [Parser] Fixed a logic gap that caused many Items to not get their appropriate questID or other linked data assigned  
-    [DB] Updated TWW Wago files  
-- Added the npc IDs for Stay Klaxxi.  
-- K'aresh: Fix a comment placement  
-- K'aresh: 'Warrant: Shatterpulse' quest data  
-    - 'Ethereal Voidforged Container' treasure data  
-    - Added 'Shatterpulse' Rare  
-    - Added 'Broker Exchequer' and 'Phase-Lost Exchequer' (R11 Treasures)  
-- [DB] More account-wide quests  
-- [Logic] Fix for possible issue where a non-numeric questID gets passed into the quest loading function (haven't seen this happen myself yet...)  
+- MOP: Fixed a coordinate for a Golden Lotus quest.  
+- Fix a few minor errors, add Stay A While  
+- Manaforge Vandals: Fix the cost appearing on Vendors rather on items alone  
+    (You buy FROM the Vendors, not the Vendors themselves. They aren't so cheap...)  
+- s3 astral  
+- Autolocalized more World Drops categories  
+- Added all NYI items from Manaforge Omega.  
+- Added all NYI unknown source IDs.  
+- Sourced all Tier Sets of TWW Season 3.  
 - [PAT] Updated source file format based on current standards.  
-- Parse SeasonStart  
-- [DB] 4th HQT for restored coffer key  
-- Bump actions/checkout from 2 to 5 (#2142)  
-- Clean description doublespacing  
-- Fix some reported errors  
-- Reparsed  
-- Some more Tailoring Clean up  
-- Some Tailoring NYI sorting  
-- First Aid should now be included in Tailoring  
-- [Locale] finished the profession categories in es and mx. (#2141)  
-- [DB] Mists: fix unused header IDs from Celestial dungeons commit (e547c0d9c80d0d6171be8530e5dc91255fae69ed)  
-- Parse Mists  
-- [DB] Mists: implement Celestial dungeons  
-    - Added achievements  
-    - Added daily quests  
-    - Added vendor with current rewards and costs based on wowhead (will verify in-game, currently unobtainable items are commented in code)  
-    - Added placeholder for satchels and mounts, but they're not implemented yet  
-- [DB] Fix a few errors in comments  
-- BFA Tailoring  
-- Legion Tailoring Update  
-- [DB] Mists: add constants for MoP dungeon maps and do small fixes to Scholo maps  
-- [Logic[ Retail: Fixes for static popup with an Editbox  
-- Untimeline scenario boxes which are still ingame  
-- MOP: Added objectives to some Golden Lotus quests.  
+- [Logic] Retail: Fixed some minilist logic where a map with only Remote Zone content showing would turn the 'Remote Zones' into the root of the minilist  
+- Fix a few minor errors  
+- Legion Remix: A few more quests (including dailies)  
+    - Gear rewards depend on the zone  
+    - Looks like Timeless Scrolls from Pandaria Remix made it into general creature drops  
+- Fix some reported errors, parse  
+- Remix: Create 'Infinite Bazaar' header for future use  
+- Legion Remix: Quest Revision  
+    - Added all Remix Artifact weapons to the first quest they can be obtained  
+    - Correct mistakes found through 2nd playthrough  
+- [DB] Legion - Broken Shore: Sourcing Portal-Stones and Sentinax Beacons  
+- Legion Remix: More quests  
+    - Moved gear obtained from Caches to general Rewards as they are not localized to Dalaran  
+- 11.2.0.62610 achievement fixes  
+- [DB] Mists: Fix NYI quest 31697.  
+- [DB] Couple data tweaks  
+- [DB] Mists: gate Battlefield content behind Escalation phase  
+- [PAT] Updated source file format based on current standards.  
+- [DB] Gilded Stash isn't removed  
+- [DB] Added reward for Voidborne Victor  
+- Legion Remix: Introductory Quest Chain finished  
+    - Infinite Bazaar file prepped for data population  
+- Adjust MFO HQTs, add sym to K'aresh cache  
+- Update PTR Wago files for 11.2.5.62554  
+- [Logic] Maps detection updates  
+    * Fixed ATT not reporting any Exploration which was under NYI  
+    * Added some other Exploration checks to report Areas which are found in game but have no valid coords  
+    * Instance-based Areas should also be able to report but without coords (untested, lel)  
+- Updated Remix: Legion removed patch  
+    at least 11.2.7, maybe even later  
+    this also makes it visible on PTR again  
+- Updated Remix: Legion eventID  
+    hopefully automatic dates detection should work now?  
+- Updated Remix: Legion dates  
+    We should be using the eventID for this, not hardcoded dates  
+- Fixed PTR parser config  
+    Doesn't matter right now but we don't want to keep adjusting build number with every build  
+- Fix many reported errors, sort K'aresh rare drops out of common drops header (which was supposed to be temp)  
+- MOP: Fixed the coordinates for What Comes to Pass.  
+- cosmetic is removed  
+- special note for starlight beacon  
+- Legion Remix: Starting quests  
+- [DB] Add note for Celestial dailies  
+- [DB] Mists: fix quest ID for Scholo Celestial daily  
+- [DB] Mists: added Aqua Strider to Satchel of Celestial Chance  
+- [DB] Unsorted item is sourced  
+- [PAT] Updated source file format based on current standards.  
+- Update Mount/Pet/ToyDB for 11.2.5.62554  
+- [DB] MFO: Another H HQT  
+- Legion Remix: New Character gear  
+- [DB] MFO: Added Priest-only quest from Dimensius  
+- [DB] MFO: H Bone Melter HQT  
+- [Logic] Retail: Fixed Lua error when loading Debugger window  
+- Legion Remix: Update timeline  
+- [DB] Partially adjusted TWW Mining Crafted Items to better represent the desired standard (also the one last deposit I've never seen, reeeee)  
+- [DB] Found a Delve trinket  
+- K'aresh: Update a couple descriptions  
+- MOP: Added Beads of the Mogu'shi to Shado-Pan Monastery.  
+- MOP: Added Elegion, the Fanged Crescent to Mogu'shan Palace.  
+- MOP: Added Gara'kal, Fist of the Spiritbinder to Temple of the Jade Serpent.  
+- Harvest: 11.2.5.62554  
+- Harvest: 11.2.0.62493  
+- Harvest: 11.2.0.62438  
+- Harvest: 5.5.0.62518  
+- Harvest: 5.5.0.62422  
+- Harvest: 3.4.5.62423  
+- Update Harvester to handle 11.2.5  
+- Added Heroic Plexus Sentinel ID  
+- [Locale] Abbreviations in es and mx (#2144)  
+    * Update the description of the checkbox expand difficulty in es and mx  
+    * Abbreviations updated in es and mx  
+    Antorus is of legion  
+    * Fix the translation of characters unlocks  
+    * clean entries  
+- [DB] Mists: add coordinates to Mai the Jade Shaper  
+- [DB] Mists - Jewelcrafting: source epic gem recipes  
+- [DB] Mists: gate Warlock Green Fire quest line behind ToT phase  
+- [DB] Gate some PvP epic gems behind ToT  
+- [DB] Mists: fix PvP vendors for Malevolent season  
+- [DB] Mists: added Golden Water Strider to Satchel of Celestial Chance  
+- [DB] Timeline WoD versions of MoP PvP vendors  
+- [DB] Celestial Riding Crane is confirmed from le Celestial Chance bag  
+- Added all fireworks from 'Bundle of Fireworks'.  
+- [DB] Mists: Assault on Zan'vess scenario is in the game already  
+- [DB] Molten Core: Zone drop armour no longer BoE.  
+- [Logic] Retail: Total Cost is now far more reliable in calculating when a new popout is created  
+- [DB] Adjust a couple MFO HQTs  
+- [DB] WotLK: Sourcing Fetch Ball.  
+- Reprioritized the layout of the Read Me  
+- Added Normal Dimensius ID  
+- [Locale] headers and descriptions, Removed the message of removed from the game of dalaran fireworks, still available via DF engineering (#2143)  
+    * [Locale] Celestial dungeons header in DE, ES, MX, FR and PT  
+    * [Locale] Burden of Eternity items in es and mx  
+    * [Locale] Severed Threads Pact header in es and mx  
+    * [Locale] Nightfall header in all languages  
+    * [Locale] War mode gear header in es and mx  
+    * Dalaran firework still avaliable to players since DF  
+- [Logic] Retail: Fixed a logic gap where completed content in a popout could be included for Cost calculations  
+- [Logic] Retail: Prioritize current Class/Race content when sorting the Contains portion of a Tooltip  
+- Added Normal Velaryn Bloodwrath ID  
+- Added Forgeweaver Araz normal ID  
+- [DB] Parse for Git users  
+- Fix some more reported errors  
+- [DB] Mists: add Challenger Wuli as Horde quest giver for Celestial + Challenge mode dungeons  
+- [DB] Mists: add Challenger Soong as quest giver for Celestial + Challenge mode dungeon dailies  

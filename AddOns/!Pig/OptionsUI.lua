@@ -1,3 +1,6 @@
+    "javascript.preferences.organizeImports": {
+
+    },
 local addonName, addonTable = ...;
 local L=addonTable.locale
 -------
@@ -170,7 +173,7 @@ function Pig_Options:ErrorMsg(message, Color)
 		r, g, b = 1, 0, 0
 	else
 		r, g, b = 1, 1, 0
-	end	
+	end
 	infotip:AddMessage(message, r, g, b, 1);
 	PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);
 end
@@ -179,11 +182,11 @@ function PIGCompartmentClick(addonName, buttonName, menuButtonFrame)
     MiniMapBut.minimapButClickFun(buttonName)
 end
 function PIGCompartmentEnter(addonName, menuButtonFrame)
-	MiniMapBut.Showaddonstishi(menuButtonFrame,true)	
+	MiniMapBut.Showaddonstishi(menuButtonFrame,true)
 end
 function PIGCompartmentLeave(addonName, menuButtonFrame)
 	GameTooltip:ClearLines();
-	GameTooltip:Hide() 
+	GameTooltip:Hide()
 end
 --
 if PIG_MaxTocversion(40000) and PIG_MaxTocversion(20000,true) then
@@ -227,7 +230,7 @@ if PIG_MaxTocversion(40000) and PIG_MaxTocversion(20000,true) then
 				return;
 			end
 		end)
-		hooksecurefunc(butx, "UpdateButton", function(self)	
+		hooksecurefunc(butx, "UpdateButton", function(self)
 			if SpellBookFrame.SpellRepair:GetChecked() then
 				if self:IsEnabled() then
 					self.cp:Show()
@@ -240,7 +243,7 @@ if PIG_MaxTocversion(40000) and PIG_MaxTocversion(20000,true) then
 			else
 				self.cp:Hide()
 			end
-			
+
 		end)
 	end
 end

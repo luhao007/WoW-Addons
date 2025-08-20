@@ -1,11 +1,12 @@
 local _, addonTable = ...;
 -------------
-local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 local FramePlusfun=addonTable.FramePlusfun
 FramePlusfun.pigMacroyijiazai = nil
 function FramePlusfun.Macro()
 	if not PIGA["FramePlus"]["Macro"] then return end
 	if FramePlusfun.pigMacroyijiazai then return end
+	local Fun=addonTable.Fun
+	local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 	local function SETMacroFrame()
 		FramePlusfun.pigMacroyijiazai=true
 		--MacroFrame.MacroSelector:SetCustomStride(10);
@@ -79,16 +80,7 @@ function FramePlusfun.Macro()
 			end)			
 		end)
 	end
-	if IsAddOnLoaded("Blizzard_MacroUI") then
-		SETMacroFrame()
-    else
-        local shequFRAME = CreateFrame("Frame")
-        shequFRAME:RegisterEvent("ADDON_LOADED")
-        shequFRAME:SetScript("OnEvent", function(self, event, arg1)
-        	if arg1=="Blizzard_MacroUI" then
-        		self:UnregisterEvent("ADDON_LOADED")
-        		SETMacroFrame()			
-			end
-        end)
-    end
+	Fun.IsAddOnLoaded("Blizzard_MacroUI",function()
+        SETMacroFrame()
+	end)
 end

@@ -15,16 +15,16 @@ L.pigname =addonName.."_"
 L.extLsit ={L.pigname.."Tardis",L.pigname.."GDKP",L.pigname.."Farm"}
 L["PIGaddonList"] = {
 	[addonName]=L["ADDON_NAME"],
-	[L.extLsit[1]]="时空之门",
+	[L.extLsit[1]]="汇合石-时空之门",
 	[L.extLsit[2]]="金团助手",
 	[L.extLsit[3]]="带本助手",
 }
 if Locale == "zhTW" then
-	L["PIGaddonList"][L.extLsit[1]]="時空之門"
+	L["PIGaddonList"][L.extLsit[1]]="匯合石-時空之門"
 	L["PIGaddonList"][L.extLsit[2]]="金團助手"
 	L["PIGaddonList"][L.extLsit[3]]="帶本助手"
 elseif Locale == "enUS" then
-	L["PIGaddonList"][L.extLsit[1]]="Tardis"
+	L["PIGaddonList"][L.extLsit[1]]="LFG-Tardis"
 	L["PIGaddonList"][L.extLsit[2]]="GDKP"
 	L["PIGaddonList"][L.extLsit[3]]="Farm"
 end

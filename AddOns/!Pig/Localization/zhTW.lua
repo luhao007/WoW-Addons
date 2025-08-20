@@ -211,9 +211,9 @@ L["CVAR_TABNAME2"] = "姓名版";
 L["CVAR_TABNAME3"] = "自身高亮";
 L["CVAR_TABNAME4"] = "高級";
 --Invite
-L["TARDIS_TABNAME"] = "時空之門";
+L["TARDIS_TABNAME"] = "匯合石";
 L["TARDIS_CHEDUI"] = "車隊";
-L["TARDIS_CHETOU"] = "車頭";
+L["TARDIS_FARM"] = "坐車";
 L["TARDIS_HOUCHE"] = "候車室";
 L["TARDIS_HOUCHE_1"] = "乘客";
 L["TARDIS_PLANE"] = "位麵";

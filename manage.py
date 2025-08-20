@@ -1,14 +1,14 @@
-from collections.abc import Callable
 import functools
 import logging
 import os
-from pathlib import Path
 import shutil
+from collections.abc import Callable
+from pathlib import Path
 from xml.etree import ElementTree
 
 import utils
-from utils import PLATFORM
 from toc import TOC
+from utils import PLATFORM
 
 logger = logging.getLogger('manager')
 
@@ -28,7 +28,7 @@ def available_on(platforms: list[PLATFORM]) -> Callable:
 
 
 def lib_babble_to_toc() -> list[str]:
-    ret = []
+    ret: list[str] = []
     root = Path('Addons/!!Libs')
     if os.path.exists(root / 'LibBabble'):
         ret.append('# LibBabbles\n')
@@ -348,7 +348,7 @@ class Manager:
                     break
 
             for embed in embeds:
-                utils.rm_tree(root / lib / embed)
+                utils.remove(root / lib / embed)
 
             if os.path.exists(root / lib / 'embeds.xml'):
                 os.remove(root / lib / 'embeds.xml')
@@ -437,7 +437,7 @@ class Manager:
     @staticmethod
     @available_on(['classic_era'])
     def handle_goodleader():
-        utils.rm_tree('Addons/GoodLeader/Libs/tdGUI/Libs')
+        utils.remove('Addons/GoodLeader/Libs/tdGUI/Libs')
         utils.remove_libs_in_file('Addons/GoodLeader/Libs/tdGUI/Load.xml',
                                     ['Libs'])
 
@@ -449,7 +449,7 @@ class Manager:
 
             local = folder[-4:]
             if local in ['deDE', 'esES', 'esMX', 'frFR', 'itIT', 'koKR', 'ptBR', 'ruRU', 'zhTW']:
-                utils.rm_tree(Path('Addons') / folder)
+                utils.remove(Path('Addons') / folder)
 
     @staticmethod
     @available_on(['retail'])
@@ -466,7 +466,7 @@ class Manager:
     def handle_meetinghorn():
         if not os.path.exists('Addons/MeetingHorn'):
             return
-        utils.rm_tree('Addons/MeetingHorn/Libs/tdGUI/Libs')
+        utils.remove('Addons/MeetingHorn/Libs/tdGUI/Libs')
         utils.remove_libs_in_file('Addons/MeetingHorn/Libs/tdGUI/Load.xml',
                                     ['Libs'])
 
@@ -518,7 +518,7 @@ class Manager:
 
     @staticmethod
     def handle_prat():
-        utils.rm_tree('AddOns/Prat-3.0_Libraries')
+        utils.remove('AddOns/Prat-3.0_Libraries')
         utils.remove_libs_in_file('Addons/Prat-3.0/Libs.xml',
                                     ['Libs'])
 
@@ -625,7 +625,7 @@ class Manager:
             ['			ShowCoordsOnMap = false,',
                 '			ShowCursorOnMap = false,']
         )
-        utils.rm_tree('Addons/Titan/Libs')
+        utils.remove('Addons/Titan/Libs')
         utils.remove_libs_in_file('Addons/Titan/Titan.toc' if utils.get_platform() == 'retail' else 'Addons/Titan/Titan_Mainline.toc',
                                     ['Libs'])
 
@@ -646,7 +646,7 @@ class Manager:
     def handle_tsm():
         if not os.path.exists('Addons/TradeSkillMaster'):
             return
-        utils.rm_tree('AddOns/TradeSkillMaster/External/EmbeddedLibs/')
+        utils.remove('AddOns/TradeSkillMaster/External/EmbeddedLibs/')
 
         utils.process_file(
             'AddOns/TradeSkillMaster/TradeSkillMaster.toc',
@@ -664,7 +664,7 @@ class Manager:
         if not os.path.exists('Addons/UnitFramesPlus'):
             return
         if utils.get_platform() == 'classic_era':
-            utils.rm_tree('AddOns/UnitFramesPlus_MobHealth')
+            utils.remove('AddOns/UnitFramesPlus_MobHealth')
 
             utils.remove_libraries_all('UnitFramesPlus_Cooldown')
 
@@ -687,7 +687,7 @@ class Manager:
     @staticmethod
     @available_on(['classic'])
     def handle_vuhdo():
-        utils.rm_tree('Addons/Vuhdo/Libs/LibBase64-1.0/LibStub')
+        utils.remove('Addons/Vuhdo/Libs/LibBase64-1.0/LibStub')
 
         utils.change_defaults(
             'Addons/VuhDo/VuhDoDefaults.lua',

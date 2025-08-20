@@ -881,9 +881,9 @@ _.CategoryNames = {
 	[868] = "Reagents",
 	[869] = "Crowns",
 	[932] = INVTYPE_CHEST,
-	[933] = "Bracers",
-	[935] = "Belts",
-	[936] = "Pants",
+	[933] = WRISTSLOT,
+	[935] = WAISTSLOT,
+	[936] = LEGSSLOT,
 }
 _.CategoryIcons = {
 	[2] = 132108,
@@ -30660,6 +30660,7 @@ L.YOU_DID_IT = "ВЫ СДЕЛАЛИ ЭТО!";
 L.ZONE_DESC = "Нажмите эту кнопку для выбора случайной локации, основываясь на несобранных Штучках.";
 localize(_.CategoryNames, {
 	[3] = "карт Таро",
+	[106] = "Карты",
 	[185] = "очки",
 });
 localize(L.HEADER_NAMES, {
@@ -34207,9 +34208,6 @@ localize(_.CategoryNames, {
 	[866] = "장비",
 	[868] = "재료",
 	[869] = "머리",
-	[933] = "손목",
-	[935] = "허리",
-	[936] = "다리",
 });
 localize(L.HEADER_NAMES, {
 	[-11] = "새로운 캐릭터",
@@ -37822,6 +37820,7 @@ L.EVENT_SCHEDULE = "Horario del evento";
 L.EVENT_START = "Inicio:";
 L.EVENT_WHERE = "Dónde:";
 L.EXPAND_DIFFICULTY_CHECKBOX = "Expandir la dificultad actual";
+L.EXPAND_DIFFICULTY_CHECKBOX_TOOLTIP = "Activa esta opción si deseas expandir automáticamente solo los encabezados de dificultad coincidentes en la mini lista que corresponden a la dificultad activa al ingresar a una mazmorra o banda.\n\nEjemplo: expande solo el encabezado Heroico al ingresar a una mazmorra de dificultad Heroica.";
 L.EXPAND_MINILIST_CHECKBOX = "Expandir mini listas";
 L.EXPAND_MINILIST_CHECKBOX_TOOLTIP = "Habilite esta opción para expandir automáticamente todos los grupos contenidos en las mini listas cuando las vea por primera vez por sesión de juego.";
 L.EXPANSION_ID = "Expansión ID";
@@ -38126,6 +38125,7 @@ L.RECIPES_CHECKBOX = "Recetas";
 L.RECIPES_CHECKBOX_TOOLTIP = "Activa esta opción para rastrear recetas para tu profesión.\n\nNOTA: Debes abrir tu lista de profesiones para cargar la información de estas.";
 L.REFRESHING_COLLECTION = "Refrescando colección ...";
 L.RELOG_REQUIRED = "Después de usar esto, normalmente es necesario cerrar sesión e iniciar sesión para recolectar todos los elementos correctamente en los servidores del juego.";
+L.REMOTE_ZONES_DESCRIPTION = "Contiene contenido que está disponible en la Zona actual, pero que se obtiene directamente de otra Zona.";
 L.REMOVED_WITH_PATCH = "Eliminado en el Parche";
 L.REMOVED_WITH_PATCH_CLASSIC_FORMAT = "Esto se elimina con un parche %s";
 L.REMOVED_WITH_PATCH_FORMAT = "Eliminado en el parche %s";
@@ -38379,9 +38379,6 @@ localize(_.CategoryNames, {
 	[867] = "Prismas y estatuas",
 	[868] = "Componentes",
 	[869] = "Coronas",
-	[933] = "Brazales",
-	[935] = "Cintura",
-	[936] = "Pantalones",
 });
 localize(L.HEADER_NAMES, {
 	[-11] = "Nuevo personaje",
@@ -42026,6 +42023,7 @@ L.DUNGEON_DIFF_DESC = "Ajuste de dificultad para calabozos.\n\nHaz click aquí p
 L.DUNGEON_DIFF_DESC_2 = "Este ajuste te permite personalizar la dificultad de un calabozo.\n\nHaz click en esta línea para volver al Asistente de Banda.";
 L.ENCOUNTER_ID = "ID de Encuentro";
 L.EVENT_ID = "ID de Evento";
+L.EXPAND_DIFFICULTY_CHECKBOX_TOOLTIP = "Activa esta opción si deseas expandir automáticamente solo los encabezados de dificultad coincidentes en la mini lista que corresponden a la dificultad activa al ingresar a un calabozo o banda.\n\nEjemplo: expande solo el encabezado Heroico al ingresar a un calabozo de dificultad Heroica.";
 L.EXPANSION_ID = "ID de Expansión";
 L.EXPLORATION_ID = "ID de Exploración";
 L.FACTION_DESC = "Haz click en este botón para seleccionar una facción aleatoria en función de lo que te falta.";

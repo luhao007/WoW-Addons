@@ -1,0 +1,47 @@
+## Interface: 110200
+## Author: Team Robot, Inc.
+## Version: 165
+
+## Title: Ask Mr. Robot
+## Notes: Gear import/export, combat logging, and more.
+## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r |cFFFFFFFF机器人模拟|r |cFFFFE00AAskMrRobot|r
+## Notes-zhCN: 生成可以在AskMrRobot网站模拟的字符串
+
+## IconTexture: Interface\AddOns\AskMrRobot\Media\icon.tga
+
+## AddonCompartmentFunc: AskMrRobot_AddonCompartmentFunc
+
+## SavedVariables: AskMrRobotDb4
+
+
+localization\enUS.lua
+localization\ruRU.lua
+localization\ptBR.lua
+localization\frFR.lua
+localization\itIT.lua
+
+AskMrRobot-Serializer\AskMrRobot-Serializer.xml
+
+Core.lua
+Constants.lua
+ui\Ui.lua
+
+ui\AmrUiLabel.lua
+ui\AmrUiButton.lua
+ui\AmrUiTextButton.lua
+ui\AmrUiCheckBox.lua
+ui\AmrUiTextarea.lua
+ui\AmrUiDropDown.lua
+ui\AmrUiPanel.lua
+ui\AmrUiFrame.lua
+ui\AmrUiTabGroup.lua
+ui\AmrUiIcon.lua
+ui\AmrUiScrollFrame.lua
+
+Export.lua
+Import.lua
+Junk.lua
+Shopping.lua
+Gear.lua
+CombatLog.lua
+Options.lua

@@ -1,4 +1,5 @@
 local _, addonTable = ...;
+local Fun=addonTable.Fun
 local match = _G.string.match
 local GetRaceClassTXT=addonTable.Fun.GetRaceClassTXT
 local ClasseNameID=addonTable.Data.ClasseNameID
@@ -15,7 +16,7 @@ function FramePlusfun.Friends()
 	local www = FriendsFrame:GetWidth()
 	local butWidthall = www*1.7
 	if PIG_MaxTocversion(110200) then
-		butWidthall = www*1.9
+		butWidthall = www*1.8
 	end
 	FriendsFrame:SetWidth(butWidthall)
 	local butWidth = butWidthall-40
@@ -40,7 +41,7 @@ function FramePlusfun.Friends()
 		FriendsListFrame.ScrollBox:SetWidth(butWidth)
 	end
     ---- 
-    WOW_PROJECT_WRATH_CLASSIC=WOW_PROJECT_WRATH_CLASSIC or 11
+    local PROJECT_WRATH=WOW_PROJECT_WRATH_CLASSIC or 11
     local function GetTisp_TXT(ProjectID,richPresence)
 		if richPresence:match("-") then
 			local ProjectName, realmName = strsplit("-", richPresence);
@@ -53,7 +54,7 @@ function FramePlusfun.Friends()
 				else
 					return "(经典60-"..realmName
 				end
-			elseif ProjectID==WOW_PROJECT_WRATH_CLASSIC then
+			elseif ProjectID==PROJECT_WRATH then
 				return "(巫妖王-"..realmName
 			elseif ProjectID==WOW_PROJECT_MAINLINE then
 				return "(正式服-"..realmName
@@ -246,12 +247,12 @@ function FramePlusfun.Friends()
 
 	--查询页
 	local WhohangH,WhoiconH=17.2,14
-	local WhoFrameHeaderP={24,24,24,190,188,200}
+	local WhoFrameHeaderP={24,24,24,180,168,174}
 	if PIG_MaxTocversion() then
 		if NDui then
-			WhoFrameHeaderP={26,26,26,190,180,200}
+			WhoFrameHeaderP={26,26,26,180,160,174}
 		else
-			WhoFrameHeaderP={26,26,26,190,180,200}
+			WhoFrameHeaderP={26,26,26,180,160,174}
 		end
 	end
 	if PIG_MaxTocversion() then
@@ -494,7 +495,7 @@ function FramePlusfun.Friends()
 
 	--公会
 	if PIG_MaxTocversion() then
-		local GuildFrameHeaderP={24,24,24,120,140,90,150}
+		local GuildFrameHeaderP={24,24,24,120,140,70,112}
 		local function PIGGuildList_But(elvuiopen)
 			GuildFrameTotals:SetPoint("LEFT",GuildFrame,"LEFT",70,174);
 			GuildFrameGuildListToggleButton:Hide()
@@ -725,29 +726,5 @@ function FramePlusfun.Friends()
 			end
 		end
 	end
-	local RaidUIFRAME = CreateFrame("Frame")
-	if IsAddOnLoaded("Blizzard_RaidUI") then
-		if InCombatLockdown() then
-			RaidUIFRAME:RegisterEvent("PLAYER_REGEN_ENABLED")
-		else
-			SETRaidUIFrame()
-		end
-    else
-        RaidUIFRAME:RegisterEvent("ADDON_LOADED")
-    end
-	RaidUIFRAME:SetScript("OnEvent", function(self, event, arg1)
-    	if event=="ADDON_LOADED" then
-    		if arg1=="Blizzard_RaidUI" then
-	    		self:UnregisterEvent("ADDON_LOADED")
-	    		if InCombatLockdown() then
-					self:RegisterEvent("PLAYER_REGEN_ENABLED")
-				else
-					SETRaidUIFrame()
-	    		end
-	    	end
-		elseif event=="PLAYER_REGEN_ENABLED" then
-			SETRaidUIFrame()
-			self:UnregisterEvent(event)
-		end
-    end)
+	Fun.IsAddOnLoaded("Blizzard_RaidUI",SETRaidUIFrame)
 end

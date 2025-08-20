@@ -22,13 +22,13 @@ function TardisInfo.Farm(Activate)
 	local shenqingMSG = shenqingMSG_T..shenqingMSG_V;
 	local tihuankuohao=Fun.tihuankuohao
 	----
-	local fujiF,fujiTabBut=PIGOptionsList_R(InvF.F,L["TARDIS_CHETOU"],80,"Bot")
+	local fujiF,fujiTabBut=PIGOptionsList_R(InvF.F,L["TARDIS_FARM"],80,"Bot")
 	if Activate then fujiF:Show() fujiTabBut:Selected() end
 	----------------------------------
 	fujiF.JieshouInfoList={};
 	fujiF.yishenqingList={}
 	fujiF.GetBut=TardisInfo.GetInfoBut(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",180,-30},30,2)
-	fujiF.GetBut.ButName=L["TARDIS_CHETOU"]
+	fujiF.GetBut.ButName=L["TARDIS_FARM"]
 	fujiF.GetBut:HookScript("OnClick", function (self)
 		if self.yanchiNerMsg then
 			self.Highlight:Hide()
@@ -292,7 +292,7 @@ function TardisInfo.Farm(Activate)
 				end
 			end
 		else
-			fujiF.GetBut.err:SetText("未获取到"..L["TARDIS_CHETOU"].."信息，请稍后再试!");
+			fujiF.GetBut.err:SetText("未获取到"..L["TARDIS_FARM"].."信息，请稍后再试!");
 		end
 	end
 	------

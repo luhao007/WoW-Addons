@@ -419,7 +419,7 @@ function BrowsePanel:OnInitialize()
 
     local ActivityLabel = self:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
     do
-        ActivityLabel:SetPoint('TOPLEFT', MainPanel, 'TOPLEFT', 70, -30)
+        ActivityLabel:SetPoint('TOPLEFT', MainPanel, 'TOPLEFT', 30, -30)
         ActivityLabel:SetText(L['活动类型'])
     end
 
@@ -438,10 +438,32 @@ function BrowsePanel:OnInitialize()
                     C_LFGList.SetSearchToActivity(data.activityId)
                     self:StartSet()
                     self.ActivityDropdown:SetValue(data.value)
-                    self:EndSet()
+                    self:EndSet()  
                 else
+                    if data.value == 'mplus' or data.value == '2-0-0-0' then
+                        self:StartSet()
+                        self.ActivityDropdown:SetValue('2-0-0-0')
+                        self:EndSet()  
+                        self:DoSearch()
+                    end    
                     C_LFGList.ClearSearchTextFields()
                 end
+                
+                --if data.value == 'mplus' or data.value == '2-0-0-0' then
+                    --if self.BlzFilterPanel then
+                        --self.BlzFilterPanel:Show()
+                    --end 
+                    if self.ExFilterPanel then
+                        self.ExFilterPanel:Hide()
+                    end 
+                --else
+                    if self.BlzFilterPanel then
+                        self.BlzFilterPanel:Hide()
+                    end
+                    --if self.ExFilterPanel then
+                        --self.ExFilterPanel:Show()
+                    --end 
+                --end    
             end
             -- Modification end
         end)
@@ -451,7 +473,7 @@ function BrowsePanel:OnInitialize()
     do
         GUI:Embed(AdvFilterPanel, 'Refresh')
         AdvFilterPanel:SetSize(200, 360)
-        AdvFilterPanel:SetPoint('TOPLEFT', MainPanel, 'TOPRIGHT', -2, -30)
+        AdvFilterPanel:SetPoint('TOPLEFT', MainPanel, 'TOPRIGHT', -2, -10)
         AdvFilterPanel:SetFrameLevel(ActivityList:GetFrameLevel() + 5)
         AdvFilterPanel:EnableMouse(true)
         AdvFilterPanel:Hide()
@@ -566,9 +588,9 @@ function BrowsePanel:OnInitialize()
             end
             AdvButton.Shine = Shine
             AdvButton:SetScript('OnClick', function()
-                Profile:ClearProfileKeyNew('advShine')
-                Shine:Stop()
-                Shine:Hide()
+                -- Profile:ClearProfileKeyNew('advShine')
+                -- Shine:Stop()
+                -- Shine:Hide()
                 AdvButton:SetScript('OnClick', function()
                     self.AdvFilterPanel:SetShown(not self.AdvFilterPanel:IsShown())
                 end)
@@ -924,6 +946,7 @@ function BrowsePanel:OnShow()
     self.SearchBox:SetParent(self)
     self.SearchBox:SetPoint('LEFT', self.ActivityDropdown, 'RIGHT', 20, 0)
     self.SearchBox:SetWidth(220)
+
 end
 
 -- Modification begin
@@ -1009,8 +1032,7 @@ function BrowsePanel:DoSearch()
     self.RefreshFilterButton:Disable()
     self:Search()
     self:CancelTimer(self.disableRefreshTimer)
-    --移除3秒的刷新等待时间
-    self.disableRefreshTimer = self:ScheduleTimer('OnRefreshTimer', 0)
+    self.disableRefreshTimer = self:ScheduleTimer('OnRefreshTimer', 3)
 end
 
 function BrowsePanel:Search()
@@ -1035,7 +1057,7 @@ function BrowsePanel:Search()
     end
 
     if self.SearchBox:GetText() ~= activityItem.fullName then
-        activityId = nil
+       activityId = nil
     end
 
     Profile:SetLastSearchCode(searchCode)

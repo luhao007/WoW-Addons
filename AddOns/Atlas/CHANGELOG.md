@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.10.0 - August 18, 2025
+### Added
+- Retail: Added Eco-Dome Al'dani map
+- Retail: Added external area of Manaforge Omega map
+- Retail: Added translations for instance names and zone names for TWW and a few remaining cases in Dragonflight
+
 ## 3.9.1 - August 5, 2025
 ### Changed
 - Retail: Updated TOC to 11.2.0
@@ -620,7 +626,7 @@ v1.41.00 (Apr. 14, 2017)
 v1.40.06 (Apr. 13, 2017)
 ------------------------
 - Checking deprecated plugins now will recognize the alpha build's version
-  if specifed; or will ignore those set "v3.9.1" as the version
+  if specifed; or will ignore those set "v3.10.0" as the version
   number to be changed by CurseForge's auto-packaging.
 
 v1.40.05 (Apr. 13, 2017)

@@ -226,7 +226,6 @@ function GDKPInfo.ADD_Trade(RaidR)
 		end
 		for id=1,#self.ChatItems_Show do
 			if self.ItemButList[id] then
-				print(111)
 				self.ItemButList[id]:Show()
 				self.ItemButList[id].itemID=self.ChatItems_Show[id][1]
 				self.ItemButList[id].bagID=self.ChatItems_Show[id][2]
@@ -380,14 +379,17 @@ function GDKPInfo.ADD_Trade(RaidR)
 				local shifaV=PIGTradeF.fenGModeV-self.DebtbenciG.qianG*10000
 				if shifaV>=0 then
 					self.ListF.benciG:SetText(shifaV*0.0001)
-					if shifaV>0 then self.ListF.TradeBut.zhifuGV=shifaV*0.0001;self.ListF.TradeBut:Show() end
+					if shifaV>0 then
+						--self.ListF.TradeBut.zhifuGV=shifaV*0.0001;
+						--self.ListF.TradeBut:Show() 
+					end
 				else
 					self.ListF.benciG:SetText("|cffFF0000"..(shifaV*0.0001).."资不抵债|r")
 				end
 			else
-				self.ListF.TradeBut.zhifuGV=PIGTradeF.fenGModeV*0.0001
 				self.ListF.benciG:SetText(PIGTradeF.fenGModeV*0.0001)
-				self.ListF.TradeBut:Show()
+				--self.ListF.TradeBut.zhifuGV=PIGTradeF.fenGModeV*0.0001
+				--self.ListF.TradeBut:Show()
 			end
 			self.ListF.DqianG:SetText(self.DebtbenciG.qianG)
 			self:Show()

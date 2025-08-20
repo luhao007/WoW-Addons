@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: nanderson11, Lag, Proteyer, Arith
-## Version: v9.14.0
+## Version: v9.14.1
 
 ## Title: AtlasLoot |cFF0099FF[Classic]|r
 ## Notes: AtlasLoot loot tables from Classic

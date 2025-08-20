@@ -211,11 +211,11 @@ L["CVAR_TABNAME2"] = "姓名版";
 L["CVAR_TABNAME3"] = "自身高亮";
 L["CVAR_TABNAME4"] = "高级";
 --Invite
-L["TARDIS_TABNAME"] = "时空之门";
+L["TARDIS_TABNAME"] = "汇合石";
 L["TARDIS_CHEDUI"] = "车队";
-L["TARDIS_CHETOU"] = "车头";
 L["TARDIS_HOUCHE"] = "候车室";
 L["TARDIS_HOUCHE_1"] = "乘客";
+L["TARDIS_FARM"] = "坐车";
 L["TARDIS_PLANE"] = "位面";
 L["TARDIS_YELL"] = "喊话";
 L["TARDIS_RECEIVEDATA"] = "正在接收数据...";

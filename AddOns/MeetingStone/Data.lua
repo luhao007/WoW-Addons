@@ -5,6 +5,7 @@ L = LibStub('AceLocale-3.0'):GetLocale('MeetingStone')
 ADDON_NAME = ...
 ADDON_LOGO = [[Interface\AddOns\]] .. ADDON_NAME .. [[\Media\Logo]]
 ADDON_VERSION = C_AddOns.GetAddOnMetadata(ADDON_NAME, 'Version')
+ADDON_VERSION_DATE = C_AddOns.GetAddOnMetadata(ADDON_NAME, 'VersionDate')
 ADDON_VERSION_SHORT = ADDON_VERSION:gsub('(%d)%d(%d)%d%d%.(%d%d)', '%1%2%3')
 ADDON_REGIONSUPPORT = GetCurrentRegion() == 5 or true --GetCurrentRegion() == 4 and GetLocale() == "zhCN"
 ADDON_SERVER = (NETEASE_SERVER_PREFIX or 'S1') .. UnitFactionGroup('player')
@@ -343,15 +344,11 @@ CATEGORY = {
             [326] = true, -- 破晨号
             [323] = true, -- 艾拉-卡拉，回响之城
             [325] = true, -- 驭雷栖巢
-            [362] = true, -- 尼鲁巴尔王宫
             [371] = true, -- 水闸行动
-            [373] = true, -- 九号挖掘场
-            [374] = true, -- 闸板陋巷
+            [362] = true, -- 尼鲁巴尔王宫
             [377] = true, -- 解放安德麦
-            [378] = true, -- 法力熔炉：欧米伽
-            [381] = true, -- 奥尔达尼生态圆顶
-            [394] = true, -- 档案馆突袭
-            [395] = true, -- 虚空之锋庇护所
+            [378] = true, -- 法力熔炉
+            [381] = true, -- 生态原顶
         },
         activities = {
             [1289] = true, -- 世界首领

@@ -168,7 +168,6 @@ local ABBREVIATIONS = {
 	["Yor'sahj the Unsleeping"] = "Yor'sahj",
 	-- DF
 	["Aberrus, the Shadowed Crucible"] = "Aberrus",
-	["Antorus, the Burning Throne"] = "Antorus",
 	["Amirdrassil, the Dream's Hope"] = "Amirdrassil",
 	["Kazzara, the Hellforged"] = "Kazzara",
 	["Larodar, Keeper of the Flame"] = "Larodar",
@@ -176,6 +175,7 @@ local ABBREVIATIONS = {
 	["Tindral Sageswift, Seer of the Flame"] = "Tindral Sageswift",
 	-- Legion
 	["Il'gynoth, The Heart of Corruption"] = "Il'gynoth",
+	["Antorus, the Burning Throne"] = "Antorus",
 	-- BFA
 	["Ny'alotha, the Waking City"] = "Ny'alotha",
 	-- SL
@@ -297,31 +297,47 @@ if localeString == "esES" or localeString == "esMX" then
 	L.EXPANSION_DATA[13].lore = "The Last Titan es la duodécima expansión de World of Warcraft y la última entrega de la saga Alma del Mundo.";
 	
 	for key,value in pairs({
-		["Antorus, el Trono Ardiente"] = "Antorus",	-- ["Antorus, the Burning Throne"] = "Antorus"
-		["Evento pre lanzamiento"] = "Pre",
-		["Características de expansión"] = "EF",
-		[GROUP_FINDER] = "D&R",	-- ["Dungeons & Raids"] = "D&R"
-		["The Burning Crusade"] = "BC",
-		["Burning Crusade"] = "BC",
-		["The BC"] = "BC",
-		["Wrath of the Lich King"] = "WotLK",
-		["Cataclismo "] = "Cata ",
-		["Las Tierras Sombrías"] = "SL",
-		["Shadowlands"] = "SL",
-		["Jugador contra Jugador"] = "JcJ",
-		["Buscador de bandas"] = "LFR",
-		["Normal"] = "N",
-		["Heroica"] = "H",
-		["Mítica"] = "M",
-		["Ny'alotha, Ciudad del Despertar"] = "Ny'alotha",	-- ["Ny'alotha, the Waking City"] = "Ny'alotha"
-		["Tazavesh, el Mercado Velado"] = "Tazavesh",	-- ["Tazavesh, the Veiled Market"] = "Tazavesh"
-		["10 jugadores"] = "10M",
-		["10 jugadores (Heroico)"] = "10M (H)",
-		["25 jugadores"] = "25M",
-		["25 jugadores (Heroico)"] = "25M (H)",
-		["Misiones de emisario"] = "Emissary",
-		[TRACKER_HEADER_WORLD_QUESTS] = "WQ",	-- ["World Quests"] = "WQ"
-		["Curia:"] = "Cov:",
+		["Expansion Features"] = "CE",
+		[GROUP_FINDER] = "BdG",
+		["Dungeons & Raids"] = "MyB",
+		-- Expansion sorted
+		["Wrath of the Lich King"] = "Lich",
+		-- Dungeon & Raid
+		["Raid Finder"] = "BdB",
+		["Looking For Raid"] = "BdB",
+		["10 Player"] = "10",
+		["10 Player (Heroic)"] = "10 (H)",
+		["25 Player"] = "25",
+		["25 Player (Heroic)"] = "25 (H)",
+		[BATTLEGROUNDS] = "CdB",
+		-- Dungeon & Raid Names
+		-- Classic
+		["Scarlet Monastery of Old"] = "ME: Viejo",
+		-- Cata
+		["Majordomo Staghelm"] = "Mayordomo",
+		["Omnotron Defense System"] = "Omnitron",
+		["Theralion and Valiona"] = "TheralionyValiona",
+		-- DF
+		["Tindral Sageswift, Seer of the Flame"] = "Tindral Sabioveloz",
+		-- TWW
+		["Enterprising Hero: The War Within Season Two"] = "Héroe Emprendedor: TWW T2",
+		["The War Within Keystone Legend: SeasonTwo"] = "TWW Leyenda de la piedra angular: T2",
+		["Vexie and the Geargrinders"] = "Vexie y los Cadenas",
+		-- Outdoor Zones
+		["Quartermaster Miranda Breechlock"] = "Intendente Miranda",
+		["Season "] = "T ",
+		["The Azure Span"] = "Tierras Azures",
+		["The Forbidden Reach"] = "Confín Olvidado",
+		["The Superbloom"] = "Superfloración",
+		["The Waking Shores"] = "Orillas del Despertar",
+		["The Primalist Future"] = "Futuro primalista",
+		["The Storm's Fury"] = "Furia de la tormenta",
+		["WoW Anniversary"] = "Aniversario",
+
+		[BLACK_MARKET_AUCTION_HOUSE] = "CSMN",
+		["Emissary Quests"] = "Emisario",
+		[TRACKER_HEADER_WORLD_QUESTS] = "MM",
+		["Covenant:"] = "Curia:",
 	})
 	do ABBREVIATIONS[key] = value; end
 	
@@ -341,36 +357,46 @@ if localeString == "esES" or localeString == "esMX" then
 		L.EXPANSION_DATA[13].lore = "The Last Titan es la duodécima expansión de World of Warcraft y la última entrega de la saga Worldsoul.";
 		
 		for key,value in pairs({
-			["Antorus, el Trono Ardiente"] = "Antorus",	-- ["Antorus, the Burning Throne"] = "Antorus"
-			["Evento pre expansión"] = "Pre",
-			["Características de expansión"] = "EF",
-			[GROUP_FINDER] = "D&R",	-- ["Dungeons & Raids"] = "D&R"
-			["The Burning Crusade"] = "BC",
-			["Burning Crusade"] = "BC",
-			["The BC"] = "BC",
-			["Wrath of the Lich King"] = "WotLK",
-			["Cataclysm "] = "Cata ",
-			["Mists of Pandaria"] = "MoP",
-			["Warlords of Draenor"] = "WoD",
-			["Battle for Azeroth"] = "BFA",
-			["Las Tierras de las Sombras"] = "SL",
-			["Shadowlands"] = "SL",
-			["Jugador contra Jugador"] = "JcJ",
-			["Raid Finder"] = "LFR",
-			["Buscador de bandas"] = "LFR",
-			["Normal"] = "N",
-			["Heroica"] = "H",
-			["Mítica"] = "M",
-			["Ny'alotha, la ciudad despierta"] = "Ny'alotha",	-- ["Ny'alotha, the Waking City"] = "Ny'alotha"
-			["Tazavesh, el Mercado Velado"] = "Tazavesh",	-- ["Tazavesh, the Veiled Market"] = "Tazavesh"
-			["10 jugadores"] = "10M",
-			["10 jugadores (Heroico)"] = "10M (H)",
-			["25 jugadores"] = "25M",
-			["25 jugadores (Heroico)"] = "25M (H)",
-			["Misiones de emisario"] = "Emissary",
-			[TRACKER_HEADER_WORLD_QUESTS] = "WQ",	-- ["World Quests"] = "WQ"
-			["WoW Anniversary"] = "Anniversary",
-			["Pacto:"] = "Cov:",
+			["Expansion Features"] = "CE",
+			[GROUP_FINDER] = "BdG",
+			["Dungeons & Raids"] = "CyB",
+			-- Expansion sorted
+			["Wrath of the Lich King"] = "Lich",
+			-- Dungeon & Raid
+			["Raid Finder"] = "BdB",
+			["Looking For Raid"] = "BdB",
+			["10 Player"] = "10",
+			["10 Player (Heroic)"] = "10 (H)",
+			["25 Player"] = "25",
+			["25 Player (Heroic)"] = "25 (H)",
+			[BATTLEGROUNDS] = "CdB",
+			-- Dungeon & Raid Names
+			-- Classic
+			["Scarlet Monastery of Old"] = "ME: Viejo",
+			-- Cata
+			["Majordomo Staghelm"] = "Mayordomo",
+			["Omnotron Defense System"] = "Omnitron",
+			["Theralion and Valiona"] = "TheralionyValiona",
+			-- DF
+			["Tindral Sageswift, Seer of the Flame"] = "Yescal Sabioveloz",
+			-- TWW
+			["Enterprising Hero: The War Within Season Two"] = "Héroe Emprendedor: TWW T2",
+			["The War Within Keystone Legend: SeasonTwo"] = "TWW Leyenda de la piedra angular: T2",
+			["Vexie and the Geargrinders"] = "Vexie y los rugemotores",
+			-- Outdoor Zones
+			["Quartermaster Miranda Breechlock"] = "Intendente Miranda",
+			["Season "] = "T ",
+			["The Azure Span"] = "Trecho Azur",
+			["The Forbidden Reach"] = "Confín Prohibido",
+			["The Superbloom"] = "Superflorecimiento",
+			["The Waking Shores"] = "Costas del Despertar",
+			["The Primalist Future"] = "Futuro primalista",
+			["The Storm's Fury"] = "Furia de la tormenta",
+			["WoW Anniversary"] = "Aniversario",
+			[BLACK_MARKET_AUCTION_HOUSE] = "CSMN",
+			["Emissary Quests"] = "Emisario",
+			[TRACKER_HEADER_WORLD_QUESTS] = "MM",
+			["Covenant:"] = "Pacto:",
 		})
 		do ABBREVIATIONS[key] = value; end
 	end

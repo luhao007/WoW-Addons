@@ -239,14 +239,11 @@ local function JoinPIG_D(pindaoName)
 	hooksecurefunc(ChannelFrame.ChannelList, "Update", function()
 		JoinPIG_D_1(pindaoName)
 	end)
-	local pindaojinzhiPPP = CreateFrame("Frame")
-    pindaojinzhiPPP:RegisterEvent("ADDON_LOADED")
-    pindaojinzhiPPP:SetScript("OnEvent", function(self, event, arg1)
-        if arg1=="Blizzard_Communities" then
-        	self:UnregisterEvent("ADDON_LOADED")
+	Fun.IsAddOnLoaded("Blizzard_Communities",function()
+		if ChannelFrame:IsShown() then
         	ChannelFrame:Hide()
-        	ChannelFrame:Show()
-		end
+       		ChannelFrame:Show()
+       	end
 	end)
 end
 local function JoinPIGALL(pindaoName)
@@ -984,7 +981,7 @@ local function zhanlianhuiche()
 end
 ---
 local ADDName= {"PIG"}
-local ChatpindaoMAX = addonTable.Fun.ChatpindaoMAX
+local ChatpindaoMAX = Fun.ChatpindaoMAX
 ChatF.ycBut = CreateFrame("Button", nil, ChatF);
 ChatF.ycBut:SetSize(16,16);
 ChatF.ycBut:SetPoint("BOTTOMRIGHT",ChatF,"BOTTOMRIGHT",0,0);

@@ -102,8 +102,9 @@ function BusinessInfo.FastDrop()
 			if not PIG_OptionsUI.IsOpen_ElvUI() and not PIG_OptionsUI.IsOpen_NDui() then
 				QkBut.TexX1 = QkBut:CreateTexture();
 				QkBut.TexX1:SetTexture(130841);
-				QkBut.TexX1:SetPoint("TOPLEFT",QkBut,"TOPLEFT",-10.6,10.6);
-				QkBut.TexX1:SetPoint("BOTTOMRIGHT",QkBut,"BOTTOMRIGHT",10.6,-10.6);
+				QkBut.TexX1:SetAlpha(0.4)
+				QkBut.TexX1:SetPoint("CENTER",0.6,-0.4);
+				QkBut.TexX1:SetSize(QkBut:GetHeight()*1.64,QkBut:GetHeight()*1.64);
 			end
 			QkBut:SetScript("OnClick", function(self,button)
 				if button=="LeftButton" then

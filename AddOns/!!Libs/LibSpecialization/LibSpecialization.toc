@@ -24,7 +24,6 @@
 ## Category-zhCN: 函数库
 ## Category-zhTW: 函式庫
 ## Author: Funkeh
-## OptionalDeps: LibStub
 ## AllowLoadGameType: mainline, mists, cata
 ## X-Curse-Project-ID: 615588
 

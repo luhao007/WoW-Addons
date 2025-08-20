@@ -576,10 +576,8 @@ local function add_barUI(peizhiT,set)
 	local barUIxx = PIGFrame(UIParent,nil,{(HHH+3)*listNum+5,gnData.barHH},UIname)
 	Create.PIG_SetPoint(UIname)
 	barUIxx:PIGSetBackdrop(0.4,0.9,nil,{0.3,0.3,0.3})
-	barUIxx.yidong = PIGFrame(barUIxx)
+	barUIxx.yidong = PIGFrame(barUIxx,{"RIGHT",barUIxx,"LEFT",1,0},{12, gnData.barHH})
 	barUIxx.yidong:PIGSetBackdrop(0.4,0.9,nil,{0.3,0.3,0.3})
-	barUIxx.yidong:SetSize(12, gnData.barHH)
-	barUIxx.yidong:SetPoint("RIGHT",barUIxx,"LEFT",1,0);
 	barUIxx.yidong:PIGSetMovable(barUIxx)
 	barUIxx.yidong:SetScript("OnEnter", function (self)
 		self:SetBackdropBorderColor(0,0.8,1,0.9);

@@ -10,6 +10,16 @@ local L =addonTable.locale
 local Fun = {}
 addonTable.Fun=Fun
 -------------
+local IsAddOnLoaded = IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
+function Fun.IsAddOnLoaded(AddOnName,funx)
+	if IsAddOnLoaded(AddOnName) then
+		funx()
+	else
+		EventUtil.ContinueOnAddOnLoaded(AddOnName, function()
+			funx()
+		end)
+	end
+end
 function PIG_GetSpellBookType()
 	if Enum.SpellBookSpellBank and Enum.SpellBookSpellBank.Player then
 		return Enum.SpellBookSpellBank.Player

@@ -17,7 +17,6 @@
 ## Category-zhCN: 函数库
 ## Category-zhTW: 函式庫
 
-## OptionalDeps: LibStub, CallbackHandler-1.0
 
 ## X-Curse-Project-ID: 298617
 

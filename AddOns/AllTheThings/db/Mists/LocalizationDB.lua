@@ -873,14 +873,14 @@ _.CategoryNames = {
 	[220] = INVTYPE_CHEST,
 	[224] = "Legs",
 	[227] = AUCTION_CATEGORY_WEAPONS,
-	[251] = "Helms",
+	[251] = HEADSLOT,
 	[252] = SHOULDERSLOT,
 	[253] = INVTYPE_CHEST,
-	[254] = "Bracers",
-	[255] = "Gloves",
-	[256] = "Belts",
-	[257] = "Pants",
-	[258] = "Boots",
+	[254] = WRISTSLOT,
+	[255] = HANDSSLOT,
+	[256] = WAISTSLOT,
+	[257] = LEGSSLOT,
+	[258] = FEETSLOT,
 	[733] = "Mounts",
 	[778] = "Staves & Off-Hands",
 	[779] = "Inks",
@@ -946,8 +946,8 @@ _.CategoryNames = {
 	[868] = "Reagents",
 	[869] = "Crowns",
 	[932] = INVTYPE_CHEST,
-	[933] = "Bracers",
-	[935] = "Belts",
+	[933] = WRISTSLOT,
+	[935] = WAISTSLOT,
 	[1126] = "Glyphs",
 }
 _.CategoryIcons = {
@@ -1638,7 +1638,6 @@ _.Modules.Events.SetEventInformation(242, {
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=10,["monthDay"]=22,["weekday"]=5,["year"]=2026},{["hour"]=10,["minute"]=0,["month"]=1,["monthDay"]=7,["weekday"]=5,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(133900, {
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=8,["monthDay"]=10,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=8,["monthDay"]=10,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=8,["monthDay"]=17,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=8,["monthDay"]=17,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=8,["monthDay"]=24,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=8,["monthDay"]=24,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=8,["monthDay"]=31,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=8,["monthDay"]=31,["weekday"]=1,["year"]=2025}),
@@ -1690,7 +1689,8 @@ _.Modules.Events.SetEventInformation(133900, {
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=7,["monthDay"]=19,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=7,["monthDay"]=19,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=7,["monthDay"]=26,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=7,["monthDay"]=26,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=8,["monthDay"]=2,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=8,["monthDay"]=2,["weekday"]=1,["year"]=2026}),
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=8,["monthDay"]=9,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=8,["monthDay"]=9,["weekday"]=1,["year"]=2026})
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=8,["monthDay"]=9,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=8,["monthDay"]=9,["weekday"]=1,["year"]=2026}),
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=8,["monthDay"]=16,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=8,["monthDay"]=16,["weekday"]=1,["year"]=2026})
 });
 _.Modules.Events.SetEventInformation(1262, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=6,["weekday"]=1,["year"]=2022},{["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=27,["weekday"]=1,["year"]=2022})
@@ -9707,6 +9707,7 @@ localize(L.HEADER_NAMES, {
 	[-591] = "Wanderfest",
 	[-648] = "Erinnerung an Scholomance",
 	[-654] = "Abbauen",
+	[-655] = "Himmlischen Dungeons",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-36] = "Es muss möglicherweise ein bestimmter Feiertag aktiv sein, um hier genannte Dinge abschließen zu können.",
@@ -12701,6 +12702,7 @@ localize(L.HEADER_NAMES, {
 	[-591] = "Festival de l’explorateur",
 	[-648] = "Souvenir de Scholomance",
 	[-654] = "Récolte",
+	[-655] = "Donjons astraux",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-47] = "Contient des objets de récompenses ou disponibles dans d’autres contenus de la section qui les contient.\nIls sont regroupés ici dans le but de réduire la duplication de nombreuses sources possibles.",
@@ -17686,6 +17688,7 @@ localize(L.HEADER_NAMES, {
 	[-591] = "Festival do Andarilho",
 	[-648] = "Lembrança de Scolomântia",
 	[-654] = "Colhendo",
+	[-655] = "Masmorras Celestiais",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-341] = "Os itens nesta lista são aparências compartilhadas do item acima. No Modo de Aparência Única, esta lista pode ajudá-lo a entender por que ou não um item específico seria marcado como Coletado.",
@@ -20815,6 +20818,7 @@ localize(_.CategoryNames, {
 	[3] = "карт Таро",
 	[104] = "Чернила",
 	[105] = "ясного разума",
+	[106] = "Карты",
 	[108] = "Исследование",
 	[185] = "очки",
 	[779] = "Чернила",
@@ -23595,12 +23599,6 @@ localize(_.CategoryNames, {
 	[185] = "고글",
 	[188] = "장치",
 	[224] = "다리",
-	[251] = "머리",
-	[254] = "손목",
-	[255] = "손",
-	[256] = "허리",
-	[257] = "다리",
-	[258] = "발",
 	[779] = "잉크",
 	[784] = "장비",
 	[785] = "잉크",
@@ -23619,8 +23617,6 @@ localize(_.CategoryNames, {
 	[866] = "장비",
 	[868] = "재료",
 	[869] = "머리",
-	[933] = "손목",
-	[935] = "허리",
 	[1126] = "문양",
 });
 localize(L.HEADER_NAMES, {
@@ -26389,6 +26385,7 @@ L.EVENT_SCHEDULE = "Horario del evento";
 L.EVENT_START = "Inicio:";
 L.EVENT_WHERE = "Dónde:";
 L.EXPAND_DIFFICULTY_CHECKBOX = "Expandir la dificultad actual";
+L.EXPAND_DIFFICULTY_CHECKBOX_TOOLTIP = "Activa esta opción si deseas expandir automáticamente solo los encabezados de dificultad coincidentes en la mini lista que corresponden a la dificultad activa al ingresar a una mazmorra o banda.\n\nEjemplo: expande solo el encabezado Heroico al ingresar a una mazmorra de dificultad Heroica.";
 L.EXPAND_MINILIST_CHECKBOX = "Expandir mini listas";
 L.EXPAND_MINILIST_CHECKBOX_TOOLTIP = "Habilite esta opción para expandir automáticamente todos los grupos contenidos en las mini listas cuando las vea por primera vez por sesión de juego.";
 L.EXPANSION_ID = "Expansión ID";
@@ -26693,6 +26690,7 @@ L.RECIPES_CHECKBOX = "Recetas";
 L.RECIPES_CHECKBOX_TOOLTIP = "Activa esta opción para rastrear recetas para tu profesión.\n\nNOTA: Debes abrir tu lista de profesiones para cargar la información de estas.";
 L.REFRESHING_COLLECTION = "Refrescando colección ...";
 L.RELOG_REQUIRED = "Después de usar esto, normalmente es necesario cerrar sesión e iniciar sesión para recolectar todos los elementos correctamente en los servidores del juego.";
+L.REMOTE_ZONES_DESCRIPTION = "Contiene contenido que está disponible en la Zona actual, pero que se obtiene directamente de otra Zona.";
 L.REMOVED_WITH_PATCH = "Eliminado en el Parche";
 L.REMOVED_WITH_PATCH_CLASSIC_FORMAT = "Esto se elimina con un parche %s";
 L.REMOVED_WITH_PATCH_FORMAT = "Eliminado en el parche %s";
@@ -26939,12 +26937,6 @@ localize(_.CategoryNames, {
 	[185] = "Gafas",
 	[188] = "Dispositivos",
 	[224] = "Piernas",
-	[251] = "Cascos",
-	[254] = "Muñecas",
-	[255] = "Guantes",
-	[256] = "Cintura",
-	[257] = "Pantalones",
-	[258] = "Botas",
 	[733] = "Monturas",
 	[778] = "Bastones y mano izquierda",
 	[779] = "Tintas",
@@ -27009,8 +27001,6 @@ localize(_.CategoryNames, {
 	[867] = "Prismas y estatuas",
 	[868] = "Componentes",
 	[869] = "Coronas",
-	[933] = "Brazales",
-	[935] = "Cintura",
 	[1126] = "Glifos",
 });
 localize(L.HEADER_NAMES, {
@@ -27123,6 +27113,7 @@ localize(L.HEADER_NAMES, {
 	[-648] = "Recuerdo de Scholomance",
 	[-652] = "Incursiones zandalari",
 	[-654] = "Cosecha",
+	[-655] = "Mazmorras celestiales",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-36] = "Es posible que deba estar activo un día festivo específico para que pueda completar las cosas referenciadas en esta sección.",
@@ -27143,6 +27134,7 @@ localize(L.HEADER_DESCRIPTIONS, {
 localize(L.HEADER_LORE, {
 	[-74] = "Uno de estos dragones aparecerá aleatoriamente en las coordenadas asociadas en todo Azeroth.",
 	[-318] = "Los conjuntos de clase del Conjunto de Mazmorra nivel 2, comúnmente conocidos como Tier 0.5, se obtienen al completar una larga cadena de misiones para mejorar el primer conjunto disponible como botín en las mazmorras del final del juego y convertirlo en versiones más poderosas. En el WoW actual, estos conjuntos son codiciados por los coleccionistas, ya que la cadena de misiones se eliminó por completo del juego con Cataclysm. ¡En WoW Classic, deberías completar esta cadena de misiones con todos tus personajes antes de esa fecha!",
+	[-389] = "Los siguientes objetos se pueden crear usando una Carga de la Eternidad en una Ficha de Armadura Atemporal para una dosis doble de RNG inútil.",
 });
 localize(ObjectNames, {
 	[31] = "Estatua de león antigua",
@@ -29928,6 +29920,7 @@ L.DUNGEON_DIFF_DESC = "Ajuste de dificultad para calabozos.\n\nHaz click aquí p
 L.DUNGEON_DIFF_DESC_2 = "Este ajuste te permite personalizar la dificultad de un calabozo.\n\nHaz click en esta línea para volver al Asistente de Banda.";
 L.ENCOUNTER_ID = "ID de Encuentro";
 L.EVENT_ID = "ID de Evento";
+L.EXPAND_DIFFICULTY_CHECKBOX_TOOLTIP = "Activa esta opción si deseas expandir automáticamente solo los encabezados de dificultad coincidentes en la mini lista que corresponden a la dificultad activa al ingresar a un calabozo o banda.\n\nEjemplo: expande solo el encabezado Heroico al ingresar a un calabozo de dificultad Heroica.";
 L.EXPANSION_ID = "ID de Expansión";
 L.EXPLORATION_ID = "ID de Exploración";
 L.FACTION_DESC = "Haz click en este botón para seleccionar una facción aleatoria en función de lo que te falta.";
@@ -30122,6 +30115,7 @@ localize(L.HEADER_NAMES, {
 	[-527] = "Paquete heroico infundido por los sha",
 	[-591] = "Festival del errante",
 	[-654] = "Cosechando",
+	[-655] = "Calabozos celestiales",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-44] = "Esta sección solo mostrará las profesiones de tu personaje actual fuera del modo Cuenta y Debug.",

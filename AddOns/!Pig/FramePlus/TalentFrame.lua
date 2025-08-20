@@ -1,4 +1,5 @@
 local addonName, addonTable = ...;
+local Fun=addonTable.Fun
 local Create=addonTable.Create
 local PIGCheckbutton=Create.PIGCheckbutton
 local PIGFontString=Create.PIGFontString
@@ -616,17 +617,8 @@ end
 function FramePlusfun.Talent()
 	if PIG_MaxTocversion(40000) then
 		if not PIGA["FramePlus"]["Talent"] then return end
-		if IsAddOnLoaded("Blizzard_TalentUI") then
-			Uptate_FrameX()
-		else
-			local tianfuFrame = CreateFrame("Frame")
-			tianfuFrame:RegisterEvent("ADDON_LOADED")
-			tianfuFrame:SetScript("OnEvent", function(self, event, arg1)
-			    if arg1 == "Blizzard_TalentUI" then
-					Uptate_FrameX()
-			        self:UnregisterEvent("ADDON_LOADED")
-			    end
-			end)
-		end
+		Fun.IsAddOnLoaded("Blizzard_TalentUI",function()
+	        Uptate_FrameX()
+		end)
 	end
 end

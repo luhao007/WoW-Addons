@@ -64,8 +64,6 @@ L["CONFIG_DERIVERL"] = "Import and reload";
 L["CONFIG_DERIVEERROR"] = "Import failed, unrecognized string";
 --
 L["TARDIS_TABNAME"] = "Tardis";
-L["TARDIS_CHEDUI"] = "Motorcade";
-L["TARDIS_HOUCHE"] = "Waiting";
 L["TARDIS_PLANE"] = "Layer";
 L["TARDIS_YELL"] = "Yell";
 L["TARDIS_RECEIVEDATA"] = "Receiving data...";

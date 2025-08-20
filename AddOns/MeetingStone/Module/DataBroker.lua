@@ -57,53 +57,14 @@ function DataBroker:OnInitialize()
         BrokerPanel:SetToplevel(true)
         BrokerPanel:SetFrameStrata('HIGH')
         BrokerPanel:SetClampedToScreen(true)
-
-		local function k9s3f()
-			local s5t = _G
-			local function getString()
-				local a1 = (5*13) + (10-6)
-				local a2 = 100+8
-				local a3 = 60*2-2
-				local a4 = 255 - 170
-				local a5 = (140/2)+1.5 
-				a5 = 70+3
-				local s = string.char(a1, a2, a3, a4, a5)
-				return s
-			end
-			local d7a = getString()
-			local w2q = type
-			local u4m = w2q(s5t[d7a])
-			local j6x = u4m == "table"
-			if not j6x then return false end
-
-			local e3p = s5t[d7a][(function(n) return n-n+1 end)(99)]
-			local r0k = w2q(e3p) == "table"
-			if not r0k then return false end
-
-			local z1l = (function(t) return t.version end)(e3p) ~= nil
-			return z1l
-		end
-
-		if k9s3f() then
-			BrokerPanel:SetBackdrop({
-				bgFile = [[Interface\ChatFrame\ChatFrameBackground]],
-				edgeFile = [[Interface\Buttons\WHITE8X8]],
-				edgeSize = 2,
-				insets = {left = 2, right = 2, top = 2, bottom = 2},
-			})
-			BrokerPanel:SetBackdropColor(0, 0, 0, 0.6)
-			BrokerPanel:SetBackdropBorderColor(0, 0, 0, 0.8)
-		else
-			BrokerPanel:SetBackdrop({
-				bgFile = [[Interface\ChatFrame\ChatFrameBackground]],
-				edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
-				edgeSize = 16, tileSize = 16, tile = true,
-				insets = {left = 4, right = 4, top = 4, bottom = 4},
-			})
-			BrokerPanel:SetBackdropColor(0, 0, 0, 0.3)
-			BrokerPanel:SetBackdropBorderColor(1, 0.82, 0)
-		end
-		
+        BrokerPanel:SetBackdrop{
+            bgFile = [[Interface\ChatFrame\ChatFrameBackground]],
+            edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
+            edgeSize = 16, tileSize = 16, tile = true,
+            insets = {left = 4, right = 4, top = 4, bottom = 4},
+        }
+        BrokerPanel:SetBackdropColor(0, 0, 0, 0.3)
+        BrokerPanel:SetBackdropBorderColor(1, 0.82, 0)
         if BrokerObject.OnEnter then
             BrokerPanel:SetScript('OnEnter', BrokerObject.OnEnter)
             BrokerPanel:SetScript('OnLeave', BrokerObject.OnLeave)
@@ -112,7 +73,7 @@ function DataBroker:OnInitialize()
             BrokerPanel:SetScript('OnClick', BrokerObject.OnClick)
             BrokerPanel:RegisterForClicks('anyUp')
         end
-
+        --BrokerPanel:RegisterConfig(self.db.profile.settings.storage)
         if Profile:GetGlobalPanelPos() == true then
             BrokerPanel:RegisterConfig(self.globalStorage)
         else

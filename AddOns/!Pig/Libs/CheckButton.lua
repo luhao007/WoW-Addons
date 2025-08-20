@@ -43,8 +43,11 @@ local function add_Checkbutton(mode,fuF,Point,Text,WH,UIName,id)
 		But.Text:SetText(Text[1]);
 		But.tooltip = Text[2] or Text[1]
 	end
-	local wrappedWidth = But.Text:GetWrappedWidth()
-	But:SetHitRectInsets(0,-wrappedWidth,0,0)
+	function But:UpdateHitRectInsets()
+		local wrappedWidth = self.Text:GetWrappedWidth()
+		self:SetHitRectInsets(0,-wrappedWidth,0,0)
+	end
+	But:UpdateHitRectInsets()
 	hooksecurefunc(But, "SetChecked", function(self,bool)
 		if bool then
 			self:SetBackdropColor(morenColor[3][1],morenColor[3][2],morenColor[3][3],1);

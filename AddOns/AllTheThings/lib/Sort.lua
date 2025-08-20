@@ -207,6 +207,22 @@ app.SortDefaults = setmetatable({
 		elseif bcomp then
 			return false;
 		end
+		-- Specific Class stuff for the current character should prioritize
+		acomp = not a.nmc
+		bcomp = not b.nmc
+		if acomp then
+			if not bcomp then return true; end
+		elseif bcomp then
+			return false;
+		end
+		-- Race-based stuff for the current character should prioritize
+		acomp = not a.nmr
+		bcomp = not b.nmr
+		if acomp then
+			if not bcomp then return true; end
+		elseif bcomp then
+			return false;
+		end
 		-- Otherwise order by container size
 		acomp = a.g
 		bcomp = b.g

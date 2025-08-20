@@ -111,7 +111,7 @@ local function PIG_tiquMsg(msgx,nameX)
 			end
 		end
 	end
-	if InspectFrame and InspectFrame:IsShown() and InspectNameText:GetText()==nameX or Tardis_UI and Tardis_UI:IsShown() or Pig_playerStatsUI and Pig_playerStatsUI:IsShown() then--观察/时空
+	if InspectFrame and InspectFrame:IsShown() and InspectNameText:GetText()==nameX or _G[Data.TardisUI] and _G[Data.TardisUI]:IsShown() or Pig_playerStatsUI and Pig_playerStatsUI:IsShown() then--观察/时空
 		local qianzhui = msgx:sub(1, 3)
 		if qianzhui == "!T-" or qianzhui == "!G-" or qianzhui == "!R-" or qianzhui == "!I-" then
 			local leixing = msgx:sub(2, 2)	

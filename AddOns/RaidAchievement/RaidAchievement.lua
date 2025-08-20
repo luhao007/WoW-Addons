@@ -6,7 +6,7 @@ if GetLocale()=="deDE" or GetLocale()=="ruRU" or GetLocale()=="zhTW" or GetLocal
 end
 
 
-	raversion=11.200
+	raversion=11.201
 	local raverstiptext="alpha"
 	if string.len(raversion)==7 then
 		raverstiptext="beta"
@@ -2211,6 +2211,9 @@ function raplaysound(i,achievid,criteria)
 
 --i 1 - фейл, 2 - килл босс!, 3 - просто получить ачивку
 achlinnk=GetAchievementLink(achievid)
+if not achlinnk then
+    achlinnk = "[Achievement "..tostring(achievid).." not found]"
+end
 
 --звук при фейле
 if i==1 then
