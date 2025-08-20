@@ -159,7 +159,7 @@ class Manager:
             def process(config: ElementTree.Element,
                         addon: str,
                         lines: Iterable[str]) -> Iterable[str]:
-                toc = TOC(list(lines))
+                toc = TOC(lines)
 
                 toc.tags['Interface'] = self.interface
                 toc.tags['Title-zhCN'] = self.get_title(addon)

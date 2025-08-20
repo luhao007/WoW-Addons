@@ -1,6 +1,9 @@
+from collections.abc import Iterable
+
+
 class TOC:
 
-    def __init__(self, lines: list[str]):
+    def __init__(self, lines: Iterable[str]):
         """TOC Handler.
 
         :param lines [str]: lines of the TOC file.
@@ -19,13 +22,13 @@ class TOC:
         else:
             self.contents = []
 
-    def tags_to_line(self, tags: list[str]) -> list[str]:
+    def tags_to_line(self, tags: Iterable[str]) -> Iterable[str]:
         return [f'## {tag}: {self.tags[tag]}\n'
                 for tag in tags if tag in self.tags]
 
     def trim_contents(self):
         prev = ''
-        removes = set([])
+        removes: set[int] = set([])
         for i, line in enumerate(self.contents):
             # Remove emtpy line following empty lines or comments
             if line == '\n':
@@ -46,7 +49,7 @@ class TOC:
         for i in sorted(removes, reverse=True):
             self.contents.pop(i)
 
-    def to_lines(self) -> list[str]:
+    def to_lines(self) -> Iterable[str]:
         keys = [['Interface', 'Author', 'Version'],
 
                 # Addon info in list
@@ -66,7 +69,7 @@ class TOC:
                 # Saved variables
                 ['SavedVariables', 'SavedVariablesPerCharacter']]
 
-        ret = []
+        ret: list[str] = []
         for key in keys:
             tag = [k for k in key if k in self.tags.keys()]
             if not tag:
