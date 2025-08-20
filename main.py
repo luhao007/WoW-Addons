@@ -1,9 +1,11 @@
 import logging
+
 import click
 
+import utils
 # from instawow_manager import InstawowManager
 from manage import Manager
-import utils
+
 
 # CN WOW is stuck at 3.4.3, where the official classic is bumped to 4.4.0.
 # Thus the install/updte function would not work.
@@ -32,7 +34,7 @@ def _manage():
 @click.option('--verbose', '-v', help='Show more logs',
               is_flag=True, default=False)
 @click.pass_context
-def main(ctx, verbose):
+def main(ctx: click.Context, verbose: bool):
     """luhao007's Addon Manager."""
     if verbose:
         logging.basicConfig(level=logging.INFO)

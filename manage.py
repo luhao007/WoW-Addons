@@ -2,7 +2,7 @@ import functools
 import logging
 import os
 import shutil
-from collections.abc import Callable
+from collections.abc import Callable, Iterable
 from pathlib import Path
 from xml.etree import ElementTree
 
@@ -17,12 +17,12 @@ CLASSIC_VER = '30405'
 RETAIL_VER = '110200'
 
 
-def available_on(platforms: list[PLATFORM]) -> Callable:
+def available_on(platforms: list[PLATFORM]) -> Callable[..., Callable[..., None]]:
     def decorator(func: Callable[..., None]) -> Callable[..., None]:
-        def wrapper(*args, **kwargs) -> None:
+        def wrapper() -> None:
             platform = utils.get_platform()
             if platform in platforms:
-                func(*args, **kwargs)
+                func()
         return wrapper
     return decorator
 
@@ -75,24 +75,37 @@ class Manager:
         self.process_lib_tocs()
 
     @functools.lru_cache
-    def get_addon_config(self, addon: str) -> ElementTree:
-        return self.config.find(f'.//*[@name="{addon}"]')
+    def get_addon_config(self, addon: str) -> ElementTree.Element:
+        config = self.config.find(f'.//*[@name="{addon}"]')
+        if config is None:
+            raise ValueError(f'Addon config for {addon} not found!')
+        return config
 
     @functools.lru_cache
     def get_addon_parent_config(self, addon: str) -> ElementTree.Element:
-        return self.config.find(f'.//*[@name="{addon}"]../..')
+        config = self.config.find(f'.//*[@name="{addon}"]../..')
+        if config is None:
+            raise ValueError(f'Parent config for {addon} not found!')
+        return config
+
+    def _get_text_from_xml(self, xml: ElementTree.Element,
+                           tag: str, default: str = '') -> str:
+        element = xml.find(tag)
+        if element is None:
+            return default
+        return element.text if element.text else default
 
     def get_title(self, addon: str) -> str:
-        parts = []
+        parts: list[str] = []
 
         config = self.get_addon_config(addon)
         if config.tag.endswith('SubAddon'):
             parent_config = self.get_addon_parent_config(addon)
-            cat = parent_config.find('Category').text
-            title = parent_config.find('Title').text
+            cat = self._get_text_from_xml(parent_config, 'Category')
+            title = self._get_text_from_xml(parent_config, 'Title')
         else:
-            cat = config.find('Category').text
-            title = config.find('Title').text
+            cat = self._get_text_from_xml(config, 'Category')
+            title = self._get_text_from_xml(config, 'Title')
 
         colors = {
             '基础库': 'C41F3B',     # Red - DK
@@ -114,7 +127,7 @@ class Manager:
         parts.append(f'|cFFFFFFFF{title}|r')
 
         if config.tag.endswith('SubAddon'):
-            sub = config.find('Title').text
+            sub = self._get_text_from_xml(config, 'Title')
             if sub == '设置':
                 color = 'FF0055FF'
             else:
@@ -123,10 +136,7 @@ class Manager:
         elif not (('DBM' in addon and addon != 'DBM-Core') or
                   'Grail-' in addon or
                   addon == '!!Libs'):
-            if config.find('Title-en') is not None:
-                title_en = config.find('Title-en').text
-            else:
-                title_en = addon
+            title_en = self._get_text_from_xml(config, 'Title-en', addon)
             parts.append(f'|cFFFFE00A{title_en}|r')
 
         ext = config.find('TitleExtra')
@@ -137,29 +147,30 @@ class Manager:
 
     def process_toc(self):
         for addon in os.listdir('AddOns'):
-            config = self.get_addon_config(addon)
-            if not config:
+            try:
+                config = self.get_addon_config(addon)
+            except ValueError:
                 for file in os.listdir(os.path.join('AddOns', addon)):
                     if '.toc' in file:
                         logger.warning('%s not found!', addon)
                         break
                 continue
 
-            def process(config: ElementTree,
+            def process(config: ElementTree.Element,
                         addon: str,
-                        lines: list[str]) -> list[str]:
-                toc = TOC(lines)
+                        lines: Iterable[str]) -> Iterable[str]:
+                toc = TOC(list(lines))
 
                 toc.tags['Interface'] = self.interface
                 toc.tags['Title-zhCN'] = self.get_title(addon)
 
-                note = config.find('Notes')
-                if note is not None:
-                    toc.tags['Notes-zhCN'] = note.text
+                note = self._get_text_from_xml(config, 'Notes')
+                if note is not '':
+                    toc.tags['Notes-zhCN'] = note
 
                 if config.tag.endswith('SubAddon'):
                     parent_config = self.get_addon_parent_config(addon)
-                    toc.tags['X-Part-Of'] = parent_config.get('name')
+                    toc.tags['X-Part-Of'] = self._get_text_from_xml(parent_config, 'name')
                 elif addon in ['DBM-Core', 'Auc-Advanced', 'TomCats']:
                     toc.tags['X-Part-Of'] = addon
                 elif addon in ['+Wowhead_Looter']:
@@ -285,7 +296,7 @@ class Manager:
 
     @staticmethod
     def handle_lib_graph():
-        def handle_graph(lines):
+        def handle_graph(lines: Iterable[str]) -> Iterable[str]:
             orig = 'local TextureDirectory\n'
             tar = 'local TextureDirectory = "Interface\\\\AddOns\\\\!!Libs' + \
                     '\\\\LibGraph-2.0\\\\LibGraph-2.0\\\\"\n'
@@ -293,6 +304,7 @@ class Manager:
             if orig not in lines:
                 return lines
 
+            lines = list(lines)
             # Comment out the block discovering TextureDirectory
             # The dictory discovery system is not working here
             start = lines.index(orig)
@@ -395,8 +407,8 @@ class Manager:
     @staticmethod
     @available_on(['classic', 'retail'])
     def handle_btwquest():
-        def process(lines):
-            ret = []
+        def process(lines: Iterable[str]) -> Iterable[str]:
+            ret: list[str] = []
             minimap = False
             for line in lines:
                 if 'minimapShown' in line:
@@ -551,7 +563,7 @@ class Manager:
         major, minor, patch = version.split(' ')[0].split('.')
         major = major.replace('v', '')
 
-        def handle(lines):
+        def handle(lines: Iterable[str]) -> Iterable[str]:
             func = 'function QuestieLib:GetAddonVersionInfo()'
             start = 0
             for i, line in enumerate(lines):
@@ -559,6 +571,7 @@ class Manager:
                     start = i
                     break
 
+            lines = list(lines)
             ret = lines[:start+1]
             ret.append(f'    return {major}, {minor}, {patch}\n')
             ret.append('end\n')
@@ -668,8 +681,8 @@ class Manager:
 
             utils.remove_libraries_all('UnitFramesPlus_Cooldown')
 
-        def process(lines):
-            ret = []
+        def process(lines: Iterable[str]) -> Iterable[str]:
+            ret: list[str] = []
             minimap = False
             for line in lines:
                 if 'minimap = {' in line:
