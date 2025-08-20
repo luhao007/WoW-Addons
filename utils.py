@@ -150,7 +150,7 @@ def remove_libraries(libs: Iterable[str], root: str, xml_path: str):
     remove_libs_in_file(xml_path, libs)
 
 
-def change_defaults(path: str, defaults: str | list[str]):
+def change_defaults(path: str, defaults: str | Iterable[str]):
     defaults = [defaults] if isinstance(defaults, str) else defaults
 
     def handle(lines: Iterable[str]) -> Iterable[str]:
