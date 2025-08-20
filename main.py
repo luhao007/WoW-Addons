@@ -3,6 +3,7 @@ import logging
 import click
 
 import utils
+
 # from instawow_manager import InstawowManager
 from manage import Manager
 
@@ -14,9 +15,9 @@ class Context:
 
     def __init__(self, ctx: click.Context, verbose: bool):
         """Basic content for CLI."""
-        ctx.params['log_level'] = verbose
+        ctx.params["log_level"] = verbose
         platform = utils.get_platform()
-        self.game_flavour = 'vanilla_classic' if platform == 'classic_era' else platform
+        self.game_flavour = "vanilla_classic" if platform == "classic_era" else platform
         # self.manager = InstawowManager(self.game_flavour, False)
         # self.manager_lib = InstawowManager(self.game_flavour, True)
         # ctx.call_on_close(self.manager.conn.close)
@@ -24,15 +25,14 @@ class Context:
 
 
 def _manage():
-    print('Modifying addons to fit each other...')
+    print("Modifying addons to fit each other...")
     Manager().process()
     Manager().process_libs()
-    print('Done!')
+    print("Done!")
 
 
-@click.group(context_settings={'help_option_names': ('-h', '--help')})
-@click.option('--verbose', '-v', help='Show more logs',
-              is_flag=True, default=False)
+@click.group(context_settings={"help_option_names": ("-h", "--help")})
+@click.option("--verbose", "-v", help="Show more logs", is_flag=True, default=False)
 @click.pass_context
 def main(ctx: click.Context, verbose: bool):
     """luhao007's Addon Manager."""

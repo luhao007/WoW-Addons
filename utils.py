@@ -9,53 +9,60 @@ from typing import Literal, Optional
 from chardet.enums import LanguageFilter
 from chardet.universaldetector import UniversalDetector
 
-logger = logging.getLogger('process')
+logger = logging.getLogger("process")
 
-TOCS = ['.toc'] + [f'{s}{p}.toc' for s in ('-', '_') for p in ('Classic', 'BCC', 'WOTLKC', 'Mainline', 'TBC', 'Vanilla', 'Wrath', 'Cata')]
+TOCS = [".toc"] + [
+    f"{s}{p}.toc"
+    for s in ("-", "_")
+    for p in ("Classic", "BCC", "WOTLKC", "Mainline", "TBC", "Vanilla", "Wrath", "Cata")
+]
 
-def process_file(path: str | Path,
-                 func: Callable[[Iterable[str]], Iterable[str]]) -> None:
+
+def process_file(
+    path: str | Path, func: Callable[[Iterable[str]], Iterable[str]]
+) -> None:
     """Helper function to process the files.
 
     :param str path: Path of the file.
     :param function func: A function with the input of lines of the file
                           and returns the output lines after processing.
     """
-    logger.info('Processing %s...', path)
+    logger.info("Processing %s...", path)
 
-    with open(path, 'rb') as file:
+    with open(path, "rb") as file:
         file_bytes = file.read()
 
     detector = UniversalDetector(LanguageFilter.CHINESE)
     detector.feed(file_bytes)
-    encoding = detector.close()['encoding']
+    encoding = detector.close()["encoding"]
     if encoding is None:
-        logger.warning('Could not detect encoding for %s, using utf-8.', path)
-        encoding = 'utf-8'
+        logger.warning("Could not detect encoding for %s, using utf-8.", path)
+        encoding = "utf-8"
 
     lines = file_bytes.decode(encoding).splitlines()
-    lines = [line.rstrip()+'\n' for line in lines]
-    while lines[-1].strip() == '':
+    lines = [line.rstrip() + "\n" for line in lines]
+    while lines[-1].strip() == "":
         lines = lines[:-1]
     new_lines = func(lines.copy())
 
     if new_lines != lines:
-        with open(path, 'w', encoding='utf-8') as file:
+        with open(path, "w", encoding="utf-8") as file:
             file.writelines(new_lines)
 
-    logger.info('Done.')
+    logger.info("Done.")
 
 
 def remove(path: str | Path):
     if os.path.exists(path):
-        logger.info('Removing %s...', path)
-        if str(path).endswith('.lua'):
+        logger.info("Removing %s...", path)
+        if str(path).endswith(".lua"):
             os.remove(path)
         else:
             shutil.rmtree(path)
 
 
-PLATFORM = Literal['retail', 'classic', 'classic_era']
+PLATFORM = Literal["retail", "classic", "classic_era"]
+
 
 @functools.lru_cache
 def get_platform() -> PLATFORM:
@@ -64,79 +71,105 @@ def get_platform() -> PLATFORM:
         path: str
         last: str
         path, last = os.path.split(path)
-        if last.startswith('_') and last.endswith('_'):
+        if last.startswith("_") and last.endswith("_"):
             platform = last[1:-1]
-            if platform in ('retail', 'classic', 'classic_era'):
+            if platform in ("retail", "classic", "classic_era"):
                 return platform
             else:
-                raise RuntimeError(f'Unknown platform: {platform}')
+                raise RuntimeError(f"Unknown platform: {platform}")
 
-    return 'retail'
+    return "retail"
 
 
 def remove_libs_in_file(path: str | Path, libs: Iterable[str]):
     def process(lines: Iterable[str]) -> Iterable[str]:
-        return [line for line in lines
-                if not any(f'{lib}'.lower() in line.lower()
-                            or f'{lib.replace('\\', '/')}'.lower() in line.lower()
-                           for lib in libs)]
+        return [
+            line
+            for line in lines
+            if not any(
+                f"{lib}".lower() in line.lower()
+                or f'{lib.replace('\\', '/')}'.lower() in line.lower()
+                for lib in libs
+            )
+        ]
 
     process_file(path, process)
 
 
 @functools.lru_cache
 def get_libraries_list() -> list[str]:
-    root = Path('AddOns/!!Libs')
-    paths = [root, root / 'Ace3', root / 'Ace3' / 'AceConfig-3.0',
-             root / 'LibBabble']
+    root = Path("AddOns/!!Libs")
+    paths = [root, root / "Ace3", root / "Ace3" / "AceConfig-3.0", root / "LibBabble"]
     libs: list[str] = []
-    libs = sum([[lib for lib in os.listdir(path)
-                 if os.path.isdir(path / lib)] for path in paths], libs)
-    libs += ['HereBeDragons-2.0']       # Alternative name
-    libs += ['LibUIDropDownMenu']       # We got an "!" mark in the lib name
-    libs += ['LibTranslit']             # Alternative name
+    libs = sum(
+        [
+            [lib for lib in os.listdir(path) if os.path.isdir(path / lib)]
+            for path in paths
+        ],
+        libs,
+    )
+    libs += ["HereBeDragons-2.0"]  # Alternative name
+    libs += ["LibUIDropDownMenu"]  # We got an "!" mark in the lib name
+    libs += ["LibTranslit"]  # Alternative name
 
     # individual files
-    libs += ['LibStub.lua',
-             'CallbackHandler-1.0.lua',
-             'LibDataBroker-1.1.lua',
-             'LibSharedMedia-3.0.lua']
+    libs += [
+        "LibStub.lua",
+        "CallbackHandler-1.0.lua",
+        "LibDataBroker-1.1.lua",
+        "LibSharedMedia-3.0.lua",
+    ]
     return libs
 
 
 def remove_libraries_all(addon: str, lib_path: Optional[str] = None):
     """Remove all duplicate embedded libraries."""
     if not lib_path:
-        for lib in ['Libs', 'Lib', 'ExternalLibs']:
-            path = Path('Addons') / addon / lib
+        for lib in ["Libs", "Lib", "ExternalLibs"]:
+            path = Path("Addons") / addon / lib
             if os.path.exists(path):
                 lib_path = lib
                 break
         else:
             return
 
-    libs = set(get_libraries_list()).intersection(os.listdir(Path('AddOns') / addon / lib_path))
+    libs = set(get_libraries_list()).intersection(
+        os.listdir(Path("AddOns") / addon / lib_path)
+    )
 
     if not libs:
         return
 
-    print(f'Removing {libs} in {addon}')
+    print(f"Removing {libs} in {addon}")
 
     for lib in libs:
-            remove(Path('AddOns') / addon / lib_path / lib)
+        remove(Path("AddOns") / addon / lib_path / lib)
 
     # Remove lib entry in root folder
-    lib_files = [Path('AddOns') / addon / f"{addon.split('/')[-1]}{postfix}" for postfix in (['.xml'] + TOCS)]
-    lib_files += [Path('Addons') / addon / file for file in ['embeds.xml', 'include.xml']]
+    lib_files = [
+        Path("AddOns") / addon / f"{addon.split('/')[-1]}{postfix}"
+        for postfix in ([".xml"] + TOCS)
+    ]
+    lib_files += [
+        Path("Addons") / addon / file for file in ["embeds.xml", "include.xml"]
+    ]
     lib_files = [path for path in lib_files if os.path.exists(str(path))]
     for path in lib_files:
-        remove_libs_in_file(path, [f'{lib_path}\\{lib}' for lib in libs])
+        remove_libs_in_file(path, [f"{lib_path}\\{lib}" for lib in libs])
 
     # Remove lib entry in lib folder
-    xmls = ['Includes.xml', 'Libs.xml', 'load_libs.xml', 'lib.xml',
-            'lib_wrath.xml', 'main.xml', 'Manifest.xml', 'Files.xml',
-            'embeds.xml']
-    lib_files = [Path('Addons') / addon / lib_path / lib_file for lib_file in xmls]
+    xmls = [
+        "Includes.xml",
+        "Libs.xml",
+        "load_libs.xml",
+        "lib.xml",
+        "lib_wrath.xml",
+        "main.xml",
+        "Manifest.xml",
+        "Files.xml",
+        "embeds.xml",
+    ]
+    lib_files = [Path("Addons") / addon / lib_path / lib_file for lib_file in xmls]
     lib_files = [path for path in lib_files if os.path.exists(str(path))]
     for path in lib_files:
         remove_libs_in_file(path, libs)
@@ -157,8 +190,8 @@ def change_defaults(path: str, defaults: str | Iterable[str]):
         ret: list[str] = []
         for line in lines:
             for default in defaults:
-                if line.startswith(default.split('= ')[0] + '= '):
-                    ret.append(default+'\n')
+                if line.startswith(default.split("= ")[0] + "= "):
+                    ret.append(default + "\n")
                     break
             else:
                 ret.append(line)
@@ -168,18 +201,18 @@ def change_defaults(path: str, defaults: str | Iterable[str]):
 
 
 def lib_to_toc(lib: str) -> str:
-    if lib == 'Krowi_WorldMapButtons':
-        return 'Krowi_WorldMapButtons\\Krowi_WorldMapButtons-1.4.xml\n'
-    root = Path('Addons/!!Libs')
+    if lib == "Krowi_WorldMapButtons":
+        return "Krowi_WorldMapButtons\\Krowi_WorldMapButtons-1.4.xml\n"
+    root = Path("Addons/!!Libs")
     subdir = os.listdir(root / lib)
-    for script in ['lib.xml', 'load.xml', f'{lib}.xml', f'{lib}.lua', 'Core.lua']:
+    for script in ["lib.xml", "load.xml", f"{lib}.xml", f"{lib}.lua", "Core.lua"]:
         if script in subdir:
-            return f'{lib}\\{script}\n'
+            return f"{lib}\\{script}\n"
 
     if lib in subdir:
         subdir = os.listdir(root / lib / lib)
-        for script in [f'{lib}.xml', f'{lib}.lua']:
+        for script in [f"{lib}.xml", f"{lib}.lua"]:
             if script in subdir:
-                return f'{lib}\\{lib}\\{script}\n'
+                return f"{lib}\\{lib}\\{script}\n"
 
-    raise RuntimeError(f'{lib} not handled!')
+    raise RuntimeError(f"{lib} not handled!")
