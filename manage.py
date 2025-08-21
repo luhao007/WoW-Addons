@@ -172,7 +172,7 @@ class Manager:
                 toc.tags["Title-zhCN"] = self.get_title(addon)
 
                 note = self._get_text_from_xml(config, "Notes")
-                if note is not "":
+                if note != "":
                     toc.tags["Notes-zhCN"] = note
 
                 if config.tag.endswith("SubAddon"):
@@ -502,6 +502,31 @@ class Manager:
 
     @staticmethod
     @available_on(["retail"])
+    def handle_hekili():
+        if not os.path.exists("Addons/Hekili"):
+            return
+
+        utils.remove_libraries(
+            ["LibStub"],
+            "AddOns/Hekili/Libs/AceGUI-3.0_SFX-Widgets",
+            "AddOns/Hekili/embeds.xml",
+        )
+        utils.remove_libraries(
+            ["LibStub"],
+            "AddOns/Hekili/Libs/SpellFlashCore/libs/BigLibTimer",
+            "AddOns/Hekili/embeds.xml",
+        )
+
+    @staticmethod
+    @available_on(["retail"])
+    def handle_iat():
+        if not os.path.exists("Addons/InstanceAchievementTracker"):
+            return
+
+        utils.remove("Addons/InstanceAchievementTracker/Libs/LibDBCompartment/Libs")
+
+    @staticmethod
+    @available_on(["retail"])
     def handle_meetingstone():
         if not os.path.exists("Addons/MeetingStone"):
             return
@@ -706,6 +731,14 @@ class Manager:
     @available_on(["classic"])
     def handle_talentemu():
         utils.change_defaults("AddOns/TalentEmuX/setting.lua", ["		minimap = false,"])
+
+    @staticmethod
+    @available_on(["retail"])
+    def handle_tdBattlePetScript():
+        utils.remove("Addons/tdBattlePetScript/Libs/tdGUI/Libs")
+        utils.remove_libs_in_file(
+            "Addons/tdBattlePetScript/Libs/tdGUI/Load.xml", ["Libs"]
+        )
 
     @staticmethod
     def handle_titan():
