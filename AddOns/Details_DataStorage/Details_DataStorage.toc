@@ -13,6 +13,6 @@
 
 ## SavedVariables: DetailsDataStorage
 
-## X-Part-Of: Details
+## X-Part-Of: 
 
 Details_DataStorage.lua

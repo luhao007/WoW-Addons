@@ -9,7 +9,7 @@
 ## LoadOnDemand: 1
 
 ## X-Child-Of: MikScrollingBattleText
-## X-Part-Of: MikScrollingBattleText
+## X-Part-Of: 
 
 Localization\localization.xml
 

@@ -10,7 +10,7 @@
 
 ## SavedVariablesPerCharacter: crraspisokon
 
-## X-Part-Of: RaidAchievement
+## X-Part-Of: 
 
 RaidAchievement_CataRaids.lua
 RaidAchievement_CataRaids.xml

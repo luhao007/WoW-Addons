@@ -12,6 +12,6 @@
 ## SavedVariables: Details_StreamerDB
 
 ## X-Wago-ID: VBNB9MGx
-## X-Part-Of: Details
+## X-Part-Of: 
 
 Details_Streamer.lua

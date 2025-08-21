@@ -10,7 +10,7 @@
 
 ## SavedVariablesPerCharacter: chraspisokon
 
-## X-Part-Of: RaidAchievement
+## X-Part-Of: 
 
 RaidAchievement_CataHeroics.lua
 RaidAchievement_CataHeroicsbosses.lua

@@ -15,7 +15,7 @@
 
 ## X-Wago-ID: 4N2m7QGL
 ## X-Curse-Project-ID: 1220909
-## X-Part-Of: Details
+## X-Part-Of: 
 
 locales\enUS.lua
 locales\deDE.lua

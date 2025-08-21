@@ -10,7 +10,7 @@
 
 ## SavedVariablesPerCharacter: legionrraspisokon
 
-## X-Part-Of: RaidAchievement
+## X-Part-Of: 
 
 RaidAchievement_LegionRaids.lua
 RaidAchievement_LegionRaids.xml

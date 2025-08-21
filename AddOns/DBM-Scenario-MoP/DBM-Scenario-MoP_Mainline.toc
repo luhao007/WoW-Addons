@@ -32,7 +32,7 @@
 ## X-DBM-Mod-MinExpansion: 4
 ## X-Curse-Project-ID: 85688
 ## X-WoWI-ID: 23199
-## X-Part-Of: DBM-Core
+## X-Part-Of: 
 
 localization.en.lua
 localization.kr.lua

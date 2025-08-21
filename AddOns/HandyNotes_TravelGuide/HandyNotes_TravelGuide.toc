@@ -16,7 +16,7 @@
 
 ## X-Date: 2025-08-08
 ## X-Category: Map
-## X-Part-Of: HandyNotes
+## X-Part-Of: 
 
 # LOCALIZATION FILES
 localization\locales.xml

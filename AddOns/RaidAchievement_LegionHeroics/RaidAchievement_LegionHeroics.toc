@@ -10,7 +10,7 @@
 
 ## SavedVariablesPerCharacter: legionhraspisokon
 
-## X-Part-Of: RaidAchievement
+## X-Part-Of: 
 
 RaidAchievement_LegionHeroics.lua
 RaidAchievement_LegionHeroicsbosses.lua

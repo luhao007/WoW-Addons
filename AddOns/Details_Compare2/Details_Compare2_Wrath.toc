@@ -9,6 +9,6 @@
 
 ## RequiredDeps: Details
 
-## X-Part-Of: Details
+## X-Part-Of: 
 
 Details_Compare2.lua

@@ -16,7 +16,7 @@
 ## X-BtWQuests-Expansion-Movie-ID: 470
 ## X-BtWQuests-Category-Range: 701-728
 ## X-BtWQuests-Chain-Range: 70101-72804,7001,7002
-## X-Part-Of: BtWQuests
+## X-Part-Of: 
 ## X-Curse-Project-ID: 297374
 ## X-WoWI-ID: 24770
 ## X-Wago-ID: BO67n0N3

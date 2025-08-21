@@ -29,7 +29,7 @@
 ## X-DBM-Mod-MapID: 1763, 1754, 1762, 1864, 1822, 1877, 1594, 1841, 1771, 1862, 2097
 ## X-DBM-Mod-MinCoreRevision: 17286
 ## X-DBM-Mod-MinExpansion: 7
-## X-Part-Of: DBM-Core
+## X-Part-Of: 
 
 localization.en.lua
 localization.de.lua

@@ -9,6 +9,6 @@
 
 ## IconTexture: Interface\AddOns\GladiatorlosSA2_zhCN_VV\Icons\VV_GSA2.tga
 
-## X-Part-Of: GladiatorlosSA2
+## X-Part-Of: 
 
 GladiatorlosSA2_zhCN.lua

@@ -11,7 +11,7 @@
 ## OptionalDeps: Ace3
 
 ## X-Wago-ID: Rn6VJW6d
-## X-Part-Of: Details
+## X-Part-Of: 
 
 enUS.lua
 ptBR.lua

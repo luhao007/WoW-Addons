@@ -13,7 +13,7 @@
 ## SavedVariables: HandyNotes_CataclysmDB
 
 ## X-Embeds: Ace3
-## X-Part-Of: HandyNotes
+## X-Part-Of: 
 
 embeds.xml
 core\core.xml

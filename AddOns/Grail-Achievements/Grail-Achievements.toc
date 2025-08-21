@@ -12,6 +12,6 @@
 ## Dependencies: Grail
 ## LoadOnDemand: 1
 
-## X-Part-Of: Grail
+## X-Part-Of: 
 
 Grail-Achievements.lua

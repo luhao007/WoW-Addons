@@ -12,7 +12,7 @@
 	</Addon>
 	<Addon name="!Pig">
 		<Title>Pig工具箱</Title>
-		<Category>功能</Category>
+		<Category>功能</Category>/Hand
 		<SubAddons>
 			<SubAddon name="!Pig_Tardis">
 				<Title>时空之门</Title>
@@ -1151,6 +1151,10 @@
 			<SubAddon name="HandyNotes_Legion">
 				<Title>宝藏/稀有</Title>
 				<TitleExtra>军团再临</TitleExtra>
+			</SubAddon>
+			<SubAddon name="HandyNotes_MapNotes">
+				<Title>地图标记</Title>
+				<Notes>显示副本入口，主城NPC等信息</Notes>
 			</SubAddon>
 			<SubAddon name="HandyNotes_MistsOfPandaria">
 				<Title>宝藏/稀有</Title>

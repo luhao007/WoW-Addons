@@ -10,7 +10,7 @@
 ## DefaultState: enabled
 
 ## X-DBM-Test: true
-## X-Part-Of: DBM-Core
+## X-Part-Of: 
 
 Dragonflight/UldamanLegacyOfTyr/TheLostDwarves.lua
 

@@ -13,6 +13,6 @@
 
 ## SavedVariables: 
 
-## X-Part-Of: Titan
+## X-Part-Of: 
 
 TitanBag.lua

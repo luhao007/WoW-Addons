@@ -28,7 +28,7 @@
 ## X-Curse-Project-ID: 101956
 ## X-WoWI-ID: 24535
 ## X-Wago-ID: LvNAkBKo
-## X-Part-Of: DBM-Core
+## X-Part-Of: 
 
 localization.en.lua
 localization.br.lua

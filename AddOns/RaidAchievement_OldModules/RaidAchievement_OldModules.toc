@@ -7,7 +7,7 @@
 
 ## Dependencies: RaidAchievement
 
-## X-Part-Of: RaidAchievement
+## X-Part-Of: 
 
 RaidAchievement_OldModules.lua
 RaidAchievement_OldModules.xml

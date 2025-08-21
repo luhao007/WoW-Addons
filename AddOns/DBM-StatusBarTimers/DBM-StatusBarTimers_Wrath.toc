@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: MysticalOS, QartemisT
-## Version: 11.2.10
+## Version: 11.2.11
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Core|r|cffffe00a>|r |cff69ccf0Status Bar Timers|r
 ## Notes: DBM - status bar timer library
@@ -15,6 +15,6 @@
 ## SavedVariables: DBT_AllPersistentOptions
 
 ## X-Website: https://deadlybossmods.com
-## X-Part-Of: DBM-Core
+## X-Part-Of: 
 
 DBT.lua

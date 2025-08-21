@@ -10,7 +10,7 @@
 
 ## SavedVariablesPerCharacter: preaspisokon
 
-## X-Part-Of: RaidAchievement
+## X-Part-Of: 
 
 RaidAchievement_Ulduar.lua
 RaidAchievement_Uldabosses.lua

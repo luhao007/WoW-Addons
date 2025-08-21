@@ -10,7 +10,7 @@
 
 ## SavedVariablesPerCharacter: nxraspisokon
 
-## X-Part-Of: RaidAchievement
+## X-Part-Of: 
 
 RaidAchievement_Naxxramas.lua
 RaidAchievement_Naxxramasbosses.lua

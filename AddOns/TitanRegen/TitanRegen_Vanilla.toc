@@ -12,6 +12,6 @@
 
 ## SavedVariables: 
 
-## X-Part-Of: Titan
+## X-Part-Of: 
 
 TitanRegen.lua

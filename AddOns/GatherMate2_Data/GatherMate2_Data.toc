@@ -12,7 +12,7 @@
 ## X-Category: Map
 ## X-Email: sal.scotto@gmail.com
 ## X-Curse-Project-ID: 26737
-## X-Part-Of: GatherMate2
+## X-Part-Of: 
 
 MiningData.lua
 HerbalismData.lua

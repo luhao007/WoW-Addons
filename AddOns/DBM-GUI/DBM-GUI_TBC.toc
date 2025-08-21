@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: MysticalOS, QartemisT
-## Version: 11.2.10
+## Version: 11.2.11
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Core|r|cffffe00a>|r |cff69ccf0Options GUI|r
 ## Notes: GUI for Deadly Boss Mods
@@ -14,7 +14,7 @@
 ## DefaultState: enabled
 
 ## X-Website: https://deadlybossmods.com
-## X-Part-Of: DBM-Core
+## X-Part-Of: 
 
 Polyfills.xml
 

@@ -12,7 +12,7 @@
 ## Dependencies: Grail
 ## LoadOnDemand: 1
 
-## X-Part-Of: Grail
+## X-Part-Of: 
 
 Grail-Reputations-_retail_.lua
 Grail-Reputations-_classic_.lua

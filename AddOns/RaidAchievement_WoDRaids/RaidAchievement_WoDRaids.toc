@@ -10,7 +10,7 @@
 
 ## SavedVariablesPerCharacter: wodrraspisokon
 
-## X-Part-Of: RaidAchievement
+## X-Part-Of: 
 
 RaidAchievement_WoDRaids.lua
 RaidAchievement_WoDRaids.xml

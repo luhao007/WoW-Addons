@@ -10,7 +10,7 @@
 ## RequiredDeps: Details
 ## OptionalDeps: Ace3
 
-## X-Part-Of: Details
+## X-Part-Of: 
 
 enUS.lua
 ptBR.lua

@@ -11,6 +11,6 @@
 
 ## SavedVariables: Details_StreamerDB
 
-## X-Part-Of: Details
+## X-Part-Of: 
 
 Details_Streamer.lua

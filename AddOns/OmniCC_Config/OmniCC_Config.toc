@@ -11,7 +11,7 @@
 ## Dependencies: OmniCC
 ## LoadOnDemand: 1
 
-## X-Part-Of: OmniCC
+## X-Part-Of: 
 
 embeds.xml
 localization\localization.xml

@@ -10,7 +10,7 @@
 
 ## SavedVariablesPerCharacter: icraspisokon
 
-## X-Part-Of: RaidAchievement
+## X-Part-Of: 
 
 RaidAchievement_Icecrown.lua
 RaidAchievement_Icecrown.xml

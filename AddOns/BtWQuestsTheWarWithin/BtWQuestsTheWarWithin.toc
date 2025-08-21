@@ -15,7 +15,7 @@
 ## X-BtWQuests-Expansion: 10
 ## X-BtWQuests-Expansion-Image: UI-Expansion 0 0.90625 0 0.8125
 ## X-BtWQuests-AutoLoad: 1
-## X-Part-Of: BtWQuests
+## X-Part-Of: 
 
 Defines.lua
 

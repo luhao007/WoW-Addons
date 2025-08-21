@@ -15,7 +15,7 @@
 ## X-BtWQuests-Expansion: 7
 ## X-BtWQuests-Expansion-Image: UI-Expansion 0 0.90625 0 0.8125
 ## X-BtWQuests-Expansion-Movie-ID: 852
-## X-Part-Of: BtWQuests
+## X-Part-Of: 
 ## X-Curse-Project-ID: 297381
 ## X-WoWI-ID: 25792
 ## X-Wago-ID: JZKb2JK1

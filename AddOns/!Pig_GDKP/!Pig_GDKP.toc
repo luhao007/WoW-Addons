@@ -15,7 +15,7 @@
 
 ## RequiredDeps: !Pig
 
-## X-Part-Of: !Pig
+## X-Part-Of: 
 
 Default.lua
 Options.lua

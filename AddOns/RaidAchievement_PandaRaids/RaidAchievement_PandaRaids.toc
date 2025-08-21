@@ -10,7 +10,7 @@
 
 ## SavedVariablesPerCharacter: prraspisokon
 
-## X-Part-Of: RaidAchievement
+## X-Part-Of: 
 
 RaidAchievement_PandaRaids.lua
 RaidAchievement_PandaRaids.xml

@@ -41,7 +41,7 @@
 ## X-DBM-Mod-Name-itIT: Eventi Mondiali
 ## X-DBM-Mod-Sort: 1054
 ## X-DBM-Mod-MinCoreRevision: 12473
-## X-Part-Of: DBM-Core
+## X-Part-Of: 
 
 localization.en.lua
 localization.ru.lua

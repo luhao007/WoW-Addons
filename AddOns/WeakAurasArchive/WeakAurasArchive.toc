@@ -12,5 +12,5 @@
 
 ## SavedVariables: WeakAurasArchive
 
-## X-Part-Of: WeakAuras
+## X-Part-Of: 
 
