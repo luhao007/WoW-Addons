@@ -84,33 +84,61 @@ end
 local function AddEntityContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
 	local collectionsLoot = RSCollectionsDB.GetAllEntitiesCollectionsLoot()[source]
 
-	if (filters[RSConstants.EXPLORER_FILTER_DROP_MOUNTS] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.MOUNT]) > 0) then
+	local alreadyAdded = false
+	if (not alreadyAdded and filters[RSConstants.EXPLORER_FILTER_DROP_MOUNTS] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.MOUNT]) > 0) then
 		AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
-	elseif (filters[RSConstants.EXPLORER_FILTER_DROP_PETS] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.PET]) > 0) then
+		alreadyAdded = true
+	end
+	
+	if (not alreadyAdded and filters[RSConstants.EXPLORER_FILTER_DROP_PETS] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.PET]) > 0) then
 		AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
-	elseif (filters[RSConstants.EXPLORER_FILTER_DROP_TOYS] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.TOY]) > 0) then
+		alreadyAdded = true
+	end
+	
+	if (not alreadyAdded and filters[RSConstants.EXPLORER_FILTER_DROP_TOYS] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.TOY]) > 0) then
 		AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
-	elseif (filters[RSConstants.EXPLORER_FILTER_DROP_APPEARANCES] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.APPEARANCE]) > 0) then
+		alreadyAdded = true
+	end
+	
+	if (not alreadyAdded and filters[RSConstants.EXPLORER_FILTER_DROP_APPEARANCES] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.APPEARANCE]) > 0) then
 		if (filters[RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES]) then
 			for _, itemID in pairs(collectionsLoot[entityID][RSConstants.ITEM_TYPE.APPEARANCE]) do
 				if (RSCollectionsDB.IsNotCollectedClassAppearance(itemID)) then
 					AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
+					alreadyAdded = true
 					break
 				end
 			end
 		else
 			AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
+			alreadyAdded = true
 		end
-	elseif (filters[RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.DRAKEWATCHER]) > 0) then
+	end
+	
+	if (not alreadyAdded and filters[RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.DRAKEWATCHER]) > 0) then
 		AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
-	elseif (filters[RSConstants.EXPLORER_FILTER_PART_ACHIEVEMENT] and RSAchievementDB.GetNotCompletedAchievementLink(entityID)) then
-		AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
-	elseif (filters[RSConstants.EXPLORER_FILTER_WITHOUT_COLLECTIBLES] and (not collectionsLoot or not collectionsLoot[entityID])) then
-		AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
-	else
-		for groupKey, _ in pairs(RSCollectionsDB.GetItemGroups()) do	
-			if (filters[string.format(RSConstants.EXPLORER_FILTER_DROP_CUSTOM, groupKey)] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][string.format(RSConstants.ITEM_TYPE.CUSTOM, groupKey)]) > 0) then
-				AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
+		alreadyAdded = true
+	end
+	
+	if (not alreadyAdded and filters[RSConstants.EXPLORER_FILTER_ACHIEVEMENT_CRITERIA] and entityInfo.achievementID) then
+		local isContainer = source == RSConstants.ITEM_SOURCE.CONTAINER and true or false
+	
+		if (RSAchievementDB.IsNotCompletedAchievementCriteria(entityID, entityInfo.achievementID, entityInfo.questID, entityInfo.criteria, isContainer)) then
+			AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
+			alreadyAdded = true
+		end
+	end
+	
+	if (not alreadyAdded) then
+		if (filters[RSConstants.EXPLORER_FILTER_WITHOUT_COLLECTIBLES] and (not collectionsLoot or not collectionsLoot[entityID])) then
+			AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
+			alreadyAdded = true
+		else
+			for groupKey, _ in pairs(RSCollectionsDB.GetItemGroups()) do	
+				if (filters[string.format(RSConstants.EXPLORER_FILTER_DROP_CUSTOM, groupKey)] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][string.format(RSConstants.ITEM_TYPE.CUSTOM, groupKey)]) > 0) then
+					AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
+					alreadyAdded = true
+				end
 			end
 		end
 	end
@@ -369,6 +397,24 @@ local function FilterDropDownMenu_SetupMenu(dropDown, rootDescription)
 			end
 		end
 	end
+
+	local missingAchievementFilter = collectionsSubmenu:CreateRadio(AL["EXPLORER_FILTER_ACHIEVEMENT"], 
+		function(filterKey) return filters[filterKey] end, 
+		function(filterKey)
+			-- Overriden by SetResponder
+		end,
+		RSConstants.EXPLORER_FILTER_ACHIEVEMENT_CRITERIA)
+	missingAchievementFilter:SetResponder(function(filterKey)
+		if (filters[filterKey]) then
+			RSConfigDB.SetSearchingMissingAchievementCriteria(false)
+			filters[filterKey] = nil
+		else
+			RSConfigDB.SetSearchingMissingAchievementCriteria(true)
+			filters[filterKey] = true
+		end
+		
+		return MenuResponse.Refresh;
+	end)
 
 	-- State menu
 	local stateSubmenu = rootDescription:CreateButton(AL["EXPLORER_FILTER_STATE"]);
@@ -841,7 +887,7 @@ function RSExplorerRareList:OnElementSelectionChanged(elementData, selected)
 		-- Achievement
 		if (RSUtils.GetTableLength(entityPOI.achievementIDs) > 0) then
 			for _, achievementID in ipairs(entityPOI.achievementIDs) do
-				mainFrame.RareInfo.AchievementIcon.achievementLink = RSAchievementDB.GetCachedAchievementInfo(achievementID).link
+				mainFrame.RareInfo.AchievementIcon.achievementLink = RSAchievementDB.GetCachedAchievementLink(achievementID)
 				mainFrame.RareInfo.AchievementIcon:Show()
 				break
 			end
@@ -876,55 +922,72 @@ function RSExplorerRareList:OnElementSelectionChanged(elementData, selected)
 	end
 end
 
-function RSExplorerRareList:AddEntityToDataProvider(entityID, entityInfo, entityName, itemSource)
-	local collectionsLoot = RSCollectionsDB.GetAllEntitiesCollectionsLoot()[itemSource]
+function RSExplorerRareList:AddEntityToDataProvider(entityID, entityInfo, entityName, source)
+	local collectionsLoot = RSCollectionsDB.GetAllEntitiesCollectionsLoot()[source]
+	local alreadyAdded = false
 	
-	if (filters[RSConstants.EXPLORER_FILTER_DROP_MOUNTS] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.MOUNT]) > 0) then
-		self:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
+	if (not alreadyAdded and filters[RSConstants.EXPLORER_FILTER_DROP_MOUNTS] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.MOUNT]) > 0) then
+		self:AddToDataProvider(entityID, entityInfo, entityName, source)
+		alreadyAdded = true
 	end
 		
-	if (filters[RSConstants.EXPLORER_FILTER_DROP_PETS] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.PET]) > 0) then
-		self:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
+	if (not alreadyAdded and filters[RSConstants.EXPLORER_FILTER_DROP_PETS] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.PET]) > 0) then
+		self:AddToDataProvider(entityID, entityInfo, entityName, source)
+		alreadyAdded = true
 	end
 				
-	if (filters[RSConstants.EXPLORER_FILTER_DROP_TOYS] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.TOY]) > 0) then
-		self:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
+	if (not alreadyAdded and filters[RSConstants.EXPLORER_FILTER_DROP_TOYS] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.TOY]) > 0) then
+		self:AddToDataProvider(entityID, entityInfo, entityName, source)
+		alreadyAdded = true
 	end
 				
-	if (filters[RSConstants.EXPLORER_FILTER_DROP_APPEARANCES] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.APPEARANCE]) > 0) then
+	if (not alreadyAdded and filters[RSConstants.EXPLORER_FILTER_DROP_APPEARANCES] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.APPEARANCE]) > 0) then
 		if (filters[RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES]) then
 			for _, itemID in pairs(collectionsLoot[entityID][RSConstants.ITEM_TYPE.APPEARANCE]) do
 				if (RSCollectionsDB.IsNotCollectedClassAppearance(itemID)) then
-					self:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
+					self:AddToDataProvider(entityID, entityInfo, entityName, source)
+					alreadyAdded = true
 					break
 				end
 			end
 		else
-			self:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
+			self:AddToDataProvider(entityID, entityInfo, entityName, source)
+			alreadyAdded = true
 		end
 	end
 				
-	if (filters[RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.DRAKEWATCHER]) > 0) then
-		self:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
+	if (not alreadyAdded and filters[RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.DRAKEWATCHER]) > 0) then
+		self:AddToDataProvider(entityID, entityInfo, entityName, source)
+		alreadyAdded = true
 	end
 	
-	for groupKey, _ in pairs(RSCollectionsDB.GetItemGroups()) do	
-		if (filters[string.format(RSConstants.EXPLORER_FILTER_DROP_CUSTOM, groupKey)] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][string.format(RSConstants.ITEM_TYPE.CUSTOM, groupKey)]) > 0) then
-			self:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
+	if (not alreadyAdded) then
+		for groupKey, _ in pairs(RSCollectionsDB.GetItemGroups()) do	
+			if (filters[string.format(RSConstants.EXPLORER_FILTER_DROP_CUSTOM, groupKey)] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][string.format(RSConstants.ITEM_TYPE.CUSTOM, groupKey)]) > 0) then
+				self:AddToDataProvider(entityID, entityInfo, entityName, source)
+				alreadyAdded = true
+			end
 		end
 	end
 				
-	if (filters[RSConstants.EXPLORER_FILTER_PART_ACHIEVEMENT] and RSAchievementDB.GetNotCompletedAchievementLink(entityID, self.mapID)) then
-		self:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
+	if (not alreadyAdded and filters[RSConstants.EXPLORER_FILTER_ACHIEVEMENT_CRITERIA] and entityInfo.achievementID) then
+		local isContainer = source == RSConstants.ITEM_SOURCE.CONTAINER and true or false
+			
+		if (RSAchievementDB.IsNotCompletedAchievementCriteria(entityID, entityInfo.achievementID, entityInfo.questID, entityInfo.criteria, isContainer)) then
+			self:AddToDataProvider(entityID, entityInfo, entityName, source)
+			alreadyAdded = true
+		end
 	end
 				
-	if (filters[RSConstants.EXPLORER_FILTER_WITHOUT_COLLECTIBLES]) then
+	if (not alreadyAdded and filters[RSConstants.EXPLORER_FILTER_WITHOUT_COLLECTIBLES]) then
 		if (not collectionsLoot or not collectionsLoot[entityID]) then
-			self:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
+			self:AddToDataProvider(entityID, entityInfo, entityName, source)
+			alreadyAdded = true
 		elseif (filters[RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.APPEARANCE]) > 0) then
 			for _, itemID in pairs(collectionsLoot[entityID][RSConstants.ITEM_TYPE.APPEARANCE]) do
 				if (not RSCollectionsDB.IsNotCollectedClassAppearance(itemID)) then
-					self:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
+					self:AddToDataProvider(entityID, entityInfo, entityName, source)
+					alreadyAdded = true
 					break
 				end
 			end
@@ -933,17 +996,6 @@ function RSExplorerRareList:AddEntityToDataProvider(entityID, entityInfo, entity
 end
 
 function RSExplorerRareList:AddToDataProvider(entityID, entityInfo, entityName, itemSource)
-	local alreadyAdded = false
-	self.dataProvider:ForEach(function(elementData)
-		if (elementData.entityID == entityID) then
-			alreadyAdded = true
-		end
-	end);
-	
-	if (alreadyAdded) then
-		return
-	end
-	
 	local elementData = {}
 	elementData.entityID = entityID
 	elementData.mapID = entityInfo.zoneID
@@ -1841,6 +1893,7 @@ function RSExplorerMixin:Initialize()
 	filters[RSConstants.EXPLORER_FILTER_DROP_APPEARANCES] = RSConfigDB.IsSearchingAppearances()
 	filters[RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES] = RSConfigDB.IsSearchingClassAppearances()
 	filters[RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER] = RSConfigDB.IsSearchingDrakewatcher()
+	filters[RSConstants.EXPLORER_FILTER_ACHIEVEMENT_CRITERIA] = RSConfigDB.IsSearchingMissingAchievementCriteria()
 	filters[RSConstants.EXPLORER_FILTER_DEAD] = RSConfigDB.IsShowDead()
 	filters[RSConstants.EXPLORER_FILTER_FILTERED] = RSConfigDB.IsShowFiltered()
 	filters[RSConstants.EXPLORER_FILTER_WITHOUT_COLLECTIBLES] = RSConfigDB.IsShowWithoutCollectibles()

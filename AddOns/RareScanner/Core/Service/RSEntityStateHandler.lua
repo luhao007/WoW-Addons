@@ -187,19 +187,10 @@ local function SetContainerOpenByZone(containerID, mapID, loadingAddon)
 
 	-- It it is a part of an achievement it won't come back (at least that we say so)
 	local containerWithAchievement = false;
-	if (containerInternalInfo.reset == nil) then 
-		if (private.ACHIEVEMENT_ZONE_IDS[mapID]) then
-			for _, achievementID in ipairs(private.ACHIEVEMENT_ZONE_IDS[mapID]) do
-				for _, objectiveID in ipairs(private.ACHIEVEMENT_TARGET_IDS[achievementID]) do
-					if (objectiveID == containerID) then
-						RSLogger:PrintDebugMessage(string.format("Contenedor [%s]. No se puede abrir de nuevo (por formar parte de un logro)", containerID))
-						RSContainerDB.SetContainerOpened(containerID)
-						containerWithAchievement = true;
-						break;
-					end
-				end
-			end
-		end
+	if (containerInternalInfo.reset == nil and containerInternalInfo.achievementID) then
+		RSLogger:PrintDebugMessage(string.format("Contenedor [%s]. No se puede abrir de nuevo (por formar parte de un logro)", containerID))
+		RSContainerDB.SetContainerOpened(containerID)
+		containerWithAchievement = true;
 	end
 
 	if (not containerWithAchievement) then

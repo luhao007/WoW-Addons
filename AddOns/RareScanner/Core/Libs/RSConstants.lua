@@ -300,7 +300,8 @@ RSConstants.PROFILE_DEFAULTS = {
 			filterWeeklyRep = false
 		},
 		containerFilters = {
-			defaultContainerFilterType = RSConstants.ENTITY_FILTER_ALL
+			defaultContainerFilterType = RSConstants.ENTITY_FILTER_ALL,
+			filterAchievements = false
 		},
 		eventFilters = {
 			defaultEventFilterType = RSConstants.ENTITY_FILTER_ALL
@@ -318,6 +319,7 @@ RSConstants.PROFILE_DEFAULTS = {
 			searchingAppearances = true,
 			searchingClassAppearances = true,
 			searchingDrakewatcher = true,
+			searchingMissingAchievementCriteria = true,
 			showFiltered = true,
 			showDead = true,
 			showWithoutCollectibles = false,
@@ -1173,7 +1175,7 @@ RSConstants.EXPLORER_FILTER_DROP_APPEARANCES = 4
 RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES = 10
 RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER = 9
 RSConstants.EXPLORER_FILTER_DROP_CUSTOM = "c%s"
-RSConstants.EXPLORER_FILTER_PART_ACHIEVEMENT = 5
+RSConstants.EXPLORER_FILTER_ACHIEVEMENT_CRITERIA = 5
 RSConstants.EXPLORER_FILTER_DEAD = 6
 RSConstants.EXPLORER_FILTER_FILTERED = 7
 RSConstants.EXPLORER_FILTER_WITHOUT_COLLECTIBLES = 8

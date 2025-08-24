@@ -174,13 +174,13 @@ function RSNpcPOI.GetNpcPOI(npcID, mapID, npcInfo, alreadyFoundInfo)
 	POI.isDead = RSNpcDB.IsNpcKilled(npcID)
 	POI.isDiscovered = POI.isDead or alreadyFoundInfo ~= nil
 	POI.isFriendly = RSNpcDB.IsInternalNpcFriendly(npcID)
-	POI.achievementIDs = RSAchievementDB.GetNotCompletedAchievementIDsByMap(npcID, mapID)
 	
 	if (npcInfo) then
 		POI.worldmap = npcInfo.worldmap
 		POI.factionID = npcInfo.factionID
 		POI.minieventID = npcInfo.minieventID
 		POI.custom = npcInfo.custom
+		POI.achievementIDs = RSAchievementDB.GetNotCompletedAchievementIDsByMap(npcID, mapID, npcInfo.achievementID, npcInfo.questID, npcInfo.criteria)
 	end
 	
 	-- Coordinates
@@ -292,10 +292,13 @@ local function IsNpcPOIFiltered(npcID, mapID, artID, npcInfo, questTitles, vigne
 	end
 	
 	-- Skip if not completed achievement and is filtered
-	local isNotCompletedAchievement = RSUtils.GetTableLength(RSAchievementDB.GetNotCompletedAchievementIDsByMap(npcID, mapID)) > 0;
-	if (not RSConfigDB.IsShowingAchievementRareNPCs() and isNotCompletedAchievement) then
-		RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Filtrado NPC con logro.", npcID))
-		return true
+	local isNotCompletedAchievement = false
+	if (npcInfo) then
+		isNotCompletedAchievement = RSUtils.GetTableLength(RSAchievementDB.GetNotCompletedAchievementIDsByMap(npcID, mapID, npcInfo.achievementID, npcInfo.questID, npcInfo.criteria)) > 0;
+		if (not RSConfigDB.IsShowingAchievementRareNPCs() and isNotCompletedAchievement) then
+			RSLogger:PrintDebugMessageEntityID(npcID, string.format("Saltado NPC [%s]: Filtrado NPC con logro.", npcID))
+			return true
+		end
 	end
 	
 	-- Skip if profession and filtered

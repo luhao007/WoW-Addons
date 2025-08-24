@@ -268,8 +268,8 @@ local function AddAchievementTooltip(tooltip, pin, addSeparator, isLink)
 				j = 10
 			end
 			
-			tooltip:SetCell(line, j, "|T"..RSAchievementDB.GetCachedAchievementInfo(achievementID).icon..":24|t", nil, "LEFT", 1, nil, nil, nil, nil, 24, 24)
-			tooltip:SetCellScript(line, j, "OnEnter", showAchievementTooltip, { RSAchievementDB.GetCachedAchievementInfo(achievementID).link, isLink })
+			tooltip:SetCell(line, j, "|T"..RSAchievementDB.GetCachedAchievementIcon(achievementID)..":24|t", nil, "LEFT", 1, nil, nil, nil, nil, 24, 24)
+			tooltip:SetCellScript(line, j, "OnEnter", showAchievementTooltip, { RSAchievementDB.GetCachedAchievementLink(achievementID), isLink })
 			tooltip:SetCellScript(line, j, "OnLeave", hideItemToolTip)
 			
 			if (floor(j%10) == 0) then

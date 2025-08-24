@@ -280,7 +280,7 @@ function RSWorldMapButtonMixin:SetupMenu()
 						text = text.."|A:"..RSConstants.PROFFESION_ICON_ATLAS..":18:18::::|a "..npcName
 					elseif (npcInfo.minieventID and RSConstants.MINIEVENTS_WORLDMAP_FILTERS[npcInfo.minieventID] and RSConstants.MINIEVENTS_WORLDMAP_FILTERS[npcInfo.minieventID].atlas) then
 						text = text.."|A:"..RSConstants.MINIEVENTS_WORLDMAP_FILTERS[npcInfo.minieventID].atlas..":18:18::::|a "..npcName
-					elseif (RSUtils.GetTableLength(RSAchievementDB.GetNotCompletedAchievementIDsByMap(npcID, mapID)) > 0) then
+					elseif (RSUtils.GetTableLength(RSAchievementDB.GetNotCompletedAchievementIDsByMap(npcID, mapID, npcInfo.achievementID, npcInfo.questID, npcInfo.criteria)) > 0) then
 						text = text.."|A:"..RSConstants.ACHIEVEMENT_ICON_ATLAS..":18:18::::|a "..npcName
 					else
 						text = text..npcName
@@ -429,6 +429,15 @@ function RSWorldMapButtonMixin:SetupMenu()
 			containersSubmenu:CreateDivider()
 			containersSubmenu:CreateTitle(AL["MAP_MENU_FILTER"])
 			
+			local containersAchievementFilter = containersSubmenu:CreateCheckbox(AL["MAP_MENU_FILTER_CONTAINERS_ACHIEVEMENT"], function() return RSConfigDB.IsAchievementContainerFilterEnabled() end, 
+				function()
+					if (RSConfigDB.IsAchievementContainerFilterEnabled()) then
+						RSConfigDB.SetAchievementContainerFilterEnabled(false)
+					else
+						RSConfigDB.SetAchievementContainerFilterEnabled(true)
+					end
+				end)
+			
 	    	local containersFilterSubmenu = containersSubmenu:CreateButton(AL["MAP_MENU_FILTER_CONTAINERS"])
 			containersFilterSubmenu:SetScrollMode(500)
 			containersFilterSubmenu:CreateTitle(AL["MAP_MENU_FILTER_DESELECT"])
@@ -473,7 +482,7 @@ function RSWorldMapButtonMixin:SetupMenu()
 						text = text.."|A:"..RSConstants.PROFFESION_ICON_ATLAS..":18:18::::|a "..containerName
 					elseif (containerInfo.minieventID and RSConstants.MINIEVENTS_WORLDMAP_FILTERS[containerInfo.minieventID] and RSConstants.MINIEVENTS_WORLDMAP_FILTERS[containerInfo.minieventID].atlas) then
 						text = text.."|A:"..RSConstants.MINIEVENTS_WORLDMAP_FILTERS[containerInfo.minieventID].atlas..":18:18::::|a "..containerName
-					elseif (RSUtils.GetTableLength(RSAchievementDB.GetNotCompletedAchievementIDsByMap(containerID, mapID)) > 0) then
+					elseif (RSUtils.GetTableLength(RSAchievementDB.GetNotCompletedAchievementIDsByMap(containerID, mapID, containerInfo.achievementID, containerInfo.questID, containerInfo.criteria)) > 0) then
 						text = text.."|A:"..RSConstants.ACHIEVEMENT_ICON_ATLAS..":18:18::::|a "..containerName
 					elseif (RSUtils.Contains(RSConstants.CONTAINERS_WITHOUT_VIGNETTE, containerID)) then
 						text = text.."|A:"..RSConstants.NOT_TRACKABLE_ICON_ATLAS..":18:18::::|a "..containerName
@@ -493,6 +502,14 @@ function RSWorldMapButtonMixin:SetupMenu()
 							RSConfigDB.SetContainerFiltered(containerID)
 						end
 					end)
+				containerFilter:SetEnabled(function() 
+					local conatinerInfo = RSContainerDB.GetInternalContainerInfo(containerID)
+					if (conatinerInfo and RSConfigDB.IsAchievementContainerFilterEnabled() and conatinerInfo.achievementID and RSUtils.GetTableLength(RSAchievementDB.GetNotCompletedAchievementIDsByMap(containerID, mapID, containerInfo.achievementID, containerInfo.questID, containerInfo.criteria, true)) == 0) then
+						return false
+					end
+					
+					return true				
+				end)
 			end
 		end
 		
@@ -592,7 +609,7 @@ function RSWorldMapButtonMixin:SetupMenu()
 						text = text.."|A:"..RSConstants.PROFFESION_ICON_ATLAS..":18:18::::|a "..eventName
 					elseif (eventInfo.minieventID and RSConstants.MINIEVENTS_WORLDMAP_FILTERS[eventInfo.minieventID] and RSConstants.MINIEVENTS_WORLDMAP_FILTERS[eventInfo.minieventID].atlas) then
 						text = text.."|A:"..RSConstants.MINIEVENTS_WORLDMAP_FILTERS[eventInfo.minieventID].atlas..":18:18::::|a "..eventName
-					elseif (RSUtils.GetTableLength(RSAchievementDB.GetNotCompletedAchievementIDsByMap(eventID, mapID)) > 0) then
+					elseif (RSUtils.GetTableLength(RSAchievementDB.GetNotCompletedAchievementIDsByMap(eventID, mapID, eventInfo.achievementID, eventInfo.questID, eventInfo.criteria)) > 0) then
 						text = text.."|A:"..RSConstants.ACHIEVEMENT_ICON_ATLAS..":18:18::::|a "..eventName
 					else
 						text = text..eventName

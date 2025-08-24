@@ -15,6 +15,7 @@ local AL = LibStub("AceLocale-3.0"):GetLocale("RareScanner");
 local RSNpcDB = private.ImportLib("RareScannerNpcDB")
 local RSContainerDB = private.ImportLib("RareScannerContainerDB")
 local RSConfigDB = private.ImportLib("RareScannerConfigDB")
+local RSAchievementDB = private.ImportLib("RareScannerAchievementDB")
 
 -- RareScanner libraries
 local RSConstants = private.ImportLib("RareScannerConstants")
@@ -1503,15 +1504,18 @@ function RSCollectionsDB.ApplyFilters(filters, callback)
 		
 		local removeNPCFilterByCollectionRoutine = RSRoutines.LoopRoutineNew()
 		removeNPCFilterByCollectionRoutine:Init(RSNpcDB.GetAllInternalNpcInfo, 500, 
-			function(context, npcID, _)
+			function(context, npcID, npcInfo)
 				local removeFilter = false
-				if (filters[RSConstants.EXPLORER_FILTER_DROP_MOUNTS] and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.MOUNT]) > 0) then
+				if (not removeFilter and filters[RSConstants.EXPLORER_FILTER_DROP_MOUNTS] and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.MOUNT]) > 0) then
 					removeFilter = true
-				elseif (filters[RSConstants.EXPLORER_FILTER_DROP_PETS] and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.PET]) > 0) then
+				end
+				if (not removeFilter and filters[RSConstants.EXPLORER_FILTER_DROP_PETS] and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.PET]) > 0) then
 					removeFilter = true
-				elseif (filters[RSConstants.EXPLORER_FILTER_DROP_TOYS] and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.TOY]) > 0) then
+				end
+				if (not removeFilter and filters[RSConstants.EXPLORER_FILTER_DROP_TOYS] and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.TOY]) > 0) then
 					removeFilter = true
-				elseif (filters[RSConstants.EXPLORER_FILTER_DROP_APPEARANCES] and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.APPEARANCE]) > 0) then
+				end
+				if (not removeFilter and filters[RSConstants.EXPLORER_FILTER_DROP_APPEARANCES] and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.APPEARANCE]) > 0) then
 					if (filters[RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES]) then
 						for _, itemID in pairs(collectionsLoot[npcID][RSConstants.ITEM_TYPE.APPEARANCE]) do
 							if (RSCollectionsDB.IsNotCollectedClassAppearance(itemID)) then
@@ -1522,9 +1526,16 @@ function RSCollectionsDB.ApplyFilters(filters, callback)
 					else
 						removeFilter = true
 					end
-				elseif (filters[RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER] and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.DRAKEWATCHER]) > 0) then
+				end
+				if (not removeFilter and filters[RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER] and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][RSConstants.ITEM_TYPE.DRAKEWATCHER]) > 0) then
 					removeFilter = true
-				else
+				end
+				if (not removeFilter and filters[RSConstants.EXPLORER_FILTER_ACHIEVEMENT_CRITERIA] and npcInfo.achievementID) then			
+					if (RSAchievementDB.IsNotCompletedAchievementCriteria(npcID, npcInfo.achievementID, npcInfo.criteria)) then
+						removeFilter = true
+					end
+				end
+				if (not removeFilter) then
 					for groupKey, _ in pairs(RSCollectionsDB.GetItemGroups()) do
 						local droppedGroupKey = string.format(RSConstants.ITEM_TYPE.CUSTOM, groupKey)				
 						if (filters[string.format(RSConstants.EXPLORER_FILTER_DROP_CUSTOM, groupKey)] and collectionsLoot[npcID] and RSUtils.GetTableLength(collectionsLoot[npcID][droppedGroupKey]) > 0) then
@@ -1558,15 +1569,18 @@ function RSCollectionsDB.ApplyFilters(filters, callback)
 		
 		local removeContainerFilterByCollectionRoutine = RSRoutines.LoopRoutineNew()
 		removeContainerFilterByCollectionRoutine:Init(RSContainerDB.GetAllInternalContainerInfo, 500, 
-			function(context, containerID, _)
+			function(context, containerID, containerInfo)
 				local removeFilter = false
-				if (filters[RSConstants.EXPLORER_FILTER_DROP_MOUNTS] and collectionsLoot[containerID] and RSUtils.GetTableLength(collectionsLoot[containerID][RSConstants.ITEM_TYPE.MOUNT]) > 0) then
+				if (not removeFilter and filters[RSConstants.EXPLORER_FILTER_DROP_MOUNTS] and collectionsLoot[containerID] and RSUtils.GetTableLength(collectionsLoot[containerID][RSConstants.ITEM_TYPE.MOUNT]) > 0) then
 					removeFilter = true
-				elseif (filters[RSConstants.EXPLORER_FILTER_DROP_PETS] and collectionsLoot[containerID] and RSUtils.GetTableLength(collectionsLoot[containerID][RSConstants.ITEM_TYPE.PET]) > 0) then
+				end
+				if (not removeFilter and filters[RSConstants.EXPLORER_FILTER_DROP_PETS] and collectionsLoot[containerID] and RSUtils.GetTableLength(collectionsLoot[containerID][RSConstants.ITEM_TYPE.PET]) > 0) then
 					removeFilter = true
-				elseif (filters[RSConstants.EXPLORER_FILTER_DROP_TOYS] and collectionsLoot[containerID] and RSUtils.GetTableLength(collectionsLoot[containerID][RSConstants.ITEM_TYPE.TOY]) > 0) then
+				end
+				if (not removeFilter and filters[RSConstants.EXPLORER_FILTER_DROP_TOYS] and collectionsLoot[containerID] and RSUtils.GetTableLength(collectionsLoot[containerID][RSConstants.ITEM_TYPE.TOY]) > 0) then
 					removeFilter = true
-				elseif (filters[RSConstants.EXPLORER_FILTER_DROP_APPEARANCES] and collectionsLoot[containerID] and RSUtils.GetTableLength(collectionsLoot[containerID][RSConstants.ITEM_TYPE.APPEARANCE]) > 0) then
+				end
+				if (not removeFilter and filters[RSConstants.EXPLORER_FILTER_DROP_APPEARANCES] and collectionsLoot[containerID] and RSUtils.GetTableLength(collectionsLoot[containerID][RSConstants.ITEM_TYPE.APPEARANCE]) > 0) then
 					if (filters[RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES]) then
 						for _, itemID in pairs(collectionsLoot[containerID][RSConstants.ITEM_TYPE.APPEARANCE]) do
 							if (RSCollectionsDB.IsNotCollectedClassAppearance(itemID)) then
@@ -1577,9 +1591,26 @@ function RSCollectionsDB.ApplyFilters(filters, callback)
 					else
 						removeFilter = true
 					end
-				elseif (filters[RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER] and collectionsLoot[containerID] and RSUtils.GetTableLength(collectionsLoot[containerID][RSConstants.ITEM_TYPE.DRAKEWATCHER]) > 0) then
+				end
+				if (not removeFilter and filters[RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER] and collectionsLoot[containerID] and RSUtils.GetTableLength(collectionsLoot[containerID][RSConstants.ITEM_TYPE.DRAKEWATCHER]) > 0) then
 					removeFilter = true
-				else
+				end
+				if (not removeFilter and filters[RSConstants.EXPLORER_FILTER_ACHIEVEMENT_CRITERIA] and containerInfo.achievementID) then			
+					-- If quest completed then the achievement criteria is completed too
+					if (containerInfo.questID) then
+						for _, questID in pairs(containerInfo.questID) do
+							if (not C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
+								removeFilter = true
+								break
+							end
+						end
+					else
+						if (RSAchievementDB.IsNotCompletedAchievementCriteria(containerID, containerInfo.achievementID, containerInfo.criteria, true)) then
+							removeFilter = true
+						end
+					end
+				end
+				if (not removeFilter) then
 					for groupKey, _ in pairs(RSCollectionsDB.GetItemGroups()) do
 						local droppedGroupKey = string.format(RSConstants.ITEM_TYPE.CUSTOM, groupKey)				
 						if (filters[string.format(RSConstants.EXPLORER_FILTER_DROP_CUSTOM, groupKey)] and collectionsLoot[containerID] and RSUtils.GetTableLength(collectionsLoot[containerID][droppedGroupKey]) > 0) then

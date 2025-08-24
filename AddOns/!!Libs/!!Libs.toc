@@ -65,6 +65,7 @@ Krowi_WorldMapButtons-1.4\Krowi_WorldMapButtons-1.4.xml
 LibAHTab\LibAHTab.xml
 LibAlts-1.0\lib.xml
 LibChatAnims\LibChatAnims.xml
+LibClass-2.0\LibClass-2.0.xml
 LibCustomGlow-1.0\LibCustomGlow-1.0.xml
 LibDBIcon-1.0\lib.xml
 LibDDI-1.0\lib.xml

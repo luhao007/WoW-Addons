@@ -39,7 +39,7 @@ private.CONTAINER_INFO = {
 				[2248] = { x = 2903, y = 6161, artID = { 1833 }, overlay = { "2910-6180","3860-7830","4010-6150","5610-3040","5770-4190","5990-7100","6460-2310","7470-5770","7910-4670" } };
 				[2255] = { x = 7660, y = 7650, artID = { 1852 }, overlay = { "6270-6630","6870-5520","7270-4290","7660-7650","5460-5380" } };
 				[2346] = { x = 6360, y = 3260, artID = { 1899 }, overlay = { "3320-6780","3580-1990","4660-6370","5040-1490","5040-8540","5210-4840","6320-3270","6330-7910","6890-6150" } };
-				[2369] = { x = 4250, y = 2880, artID = { 1919 }, overlay = { "3990-5130","4250-2880","4710-4450","5220-7080" } };
+				[2369] = { x = 4250, y = 2880, artID = { 1919 }, overlay = { "3990-5130","4250-2880","4710-4450","5220-7080","5250-3530" } };
 				[2371] = { x = 6610, y = 4090, artID = { 1923 }, overlay = { "4270-5780","4580-5200","5100-6820","5760-5710","6580-4880","6610-4090","7240-4530","7520-2540","7820-4910" } };
 			  }, reset = true }; --War Supply Chest
 	[386140] = { zoneID = 84, artID = { 89 }, x = 7517, y = 8611, overlay = { "7517-8611" }, reset = false, questID = { 73952 }, event = 3, minieventID = 8 }; --Rumble Foil Bag
@@ -47,58 +47,58 @@ private.CONTAINER_INFO = {
 	[387696] = { zoneID = 84, artID = { 89 }, x = 3124, y = 3763, overlay = { "3124-3763","2730-4270" }, reset = false, questID = { 74844 }, event = 3, minieventID = 8 }; --Rumble Coin Bag
 	[387697] = { zoneID = 85, artID = { 90 }, x = 5517, y = 7882, overlay = { "5439-7760","5500-7870" }, reset = false, questID = { 74845 }, event = 3, minieventID = 8 }; --Rumble Coin Bag
 	[387718] = { zoneID = 85, artID = { 90 }, x = 5410, y = 7557, overlay = { "5410-7557" }, reset = false, questID = { 74848 }, event = 3, minieventID = 8 }; --Rumble Foil Bag
-	[211990] = { zoneID = 371, artID = { 383 }, x = 2638, y = 2834, overlay = { "2638-2834" }, reset = false, minieventID = 28, criteria = 1 }; --Hozen Speech
-	[213327] = { zoneID = 371, artID = { 383 }, x = 6770, y = 2950, overlay = { "6770-2950" }, reset = false, minieventID = 32, criteria = 1 }; --The Saurok
-	[213333] = { zoneID = 371, artID = { 383 }, x = 4228, y = 1747, overlay = { "4228-1747" }, reset = false, minieventID = 31, criteria = 3 }; --Spirit Binders
-	[213362] = { zoneID = 371, artID = { 383 }, x = 5100, y = 9999, overlay = { "5100-9999" }, reset = false, questID = { 31396 }, minieventID = 27 }; --Ship's Locker
-	[213363] = { zoneID = 371, artID = { 383 }, x = 3942, y = 0723, overlay = { "3942-0723" }, reset = false, questID = { 31397 }, minieventID = 26 }; --Wodin's Mantid Shanker
+	[211990] = { zoneID = 371, artID = { 383 }, x = 2638, y = 2834, overlay = { "2638-2834" }, reset = false, achievementID = { 6850 }, minieventID = 28, criteria = 1 }; --Hozen Speech
+	[213327] = { zoneID = 371, artID = { 383 }, x = 6770, y = 2950, overlay = { "6770-2950" }, reset = false, achievementID = { 6716 }, minieventID = 32, criteria = 1 }; --The Saurok
+	[213333] = { zoneID = 371, artID = { 383 }, x = 4228, y = 1747, overlay = { "4228-1747" }, reset = false, achievementID = { 6754 }, minieventID = 31, criteria = 3 }; --Spirit Binders
+	[213362] = { zoneID = 371, artID = { 383 }, x = 5100, y = 9999, overlay = { "5100-9999" }, reset = false, questID = { 31396 }, achievementID = { 7997 }, minieventID = 27 }; --Ship's Locker
+	[213363] = { zoneID = 371, artID = { 383 }, x = 3942, y = 0723, overlay = { "3942-0723" }, reset = false, questID = { 31397 }, achievementID = { 7284 }, minieventID = 26 }; --Wodin's Mantid Shanker
 	[213364] = { zoneID = {
 				[371] = { x = 4414, y = 2852, artID = { 383 }, overlay = { "4414-2852" } };
 				[373] = { x = 4028, y = 4175, artID = { 385 }, overlay = { "4028-4175","3921-7080","3353-7785","6440-5941","4626-2314","3721-2393" } };
-			  }, reset = false, questID = { 31399 }, minieventID = 26 }; --null
-	[213366] = { zoneID = 371, artID = { 383 }, x = 2622, y = 3235, overlay = { "2622-3235" }, reset = false, questID = { 31400 }, minieventID = 27 }; --Ancient Pandaren Tea Pot
-	[213368] = { zoneID = 371, artID = { 383 }, x = 3196, y = 2776, overlay = { "3196-2776" }, reset = false, questID = { 31401 }, minieventID = 27 }; --Lucky Pandaren Coin
-	[213415] = { zoneID = 371, artID = { 383 }, x = 3576, y = 3047, overlay = { "3576-3047" }, reset = false, minieventID = 29, criteria = 3 }; --The First Monks
-	[213421] = { zoneID = 371, artID = { 383 }, x = 5590, y = 5680, overlay = { "5590-5680" }, reset = false, minieventID = 33, criteria = 3 }; --The Emperor's Burden - Part 3
-	[213512] = { zoneID = 371, artID = { 383 }, x = 3738, y = 3012, overlay = { "3738-3012" }, reset = false, minieventID = 30, criteria = 2 }; --Xin Wo Yin the Broken Hearted
+			  }, reset = false, questID = { 31399 }, achievementID = { 7284 }, minieventID = 26 }; --null
+	[213366] = { zoneID = 371, artID = { 383 }, x = 2622, y = 3235, overlay = { "2622-3235" }, reset = false, questID = { 31400 }, achievementID = { 7997 }, minieventID = 27 }; --Ancient Pandaren Tea Pot
+	[213368] = { zoneID = 371, artID = { 383 }, x = 3196, y = 2776, overlay = { "3196-2776" }, reset = false, questID = { 31401 }, achievementID = { 7997 }, minieventID = 27 }; --Lucky Pandaren Coin
+	[213415] = { zoneID = 371, artID = { 383 }, x = 3576, y = 3047, overlay = { "3576-3047" }, reset = false, achievementID = { 6858 }, minieventID = 29, criteria = 3 }; --The First Monks
+	[213421] = { zoneID = 371, artID = { 383 }, x = 5590, y = 5680, overlay = { "5590-5680" }, reset = false, achievementID = { 6855 }, minieventID = 33, criteria = 3 }; --The Emperor's Burden - Part 3
+	[213512] = { zoneID = 371, artID = { 383 }, x = 3738, y = 3012, overlay = { "3738-3012" }, reset = false, achievementID = { 7230 }, minieventID = 30, criteria = 2 }; --Xin Wo Yin the Broken Hearted
 	[213741] = { zoneID = 371, artID = { 383 }, x = 4490, y = 6460, overlay = { "4490-6460","4640-6530","4700-6738","4640-7010" }, reset = false, questID = { 31402 }, minieventID = 26 }; --Ancient Jinyu Staff
-	[213742] = { zoneID = 371, artID = { 383 }, x = 4122, y = 1385, overlay = { "4122-1385","4300-1160","4180-1770" }, reset = false, questID = { 31403 }, minieventID = 26 }; --Hammer of Ten Thunders
-	[213748] = { zoneID = 371, artID = { 383 }, x = 2349, y = 3506, overlay = { "2349-3506" }, reset = false, questID = { 31404 }, minieventID = 27 }; --Pandaren Ritual Stone
-	[214337] = { zoneID = 371, artID = { 383 }, x = 6245, y = 2753, overlay = { "6245-2753" }, reset = false, questID = { 31866 }, minieventID = 27 }; --Stash of Gems
-	[214338] = { zoneID = 371, artID = { 383 }, x = 4630, y = 8070, overlay = { "4630-8070" }, reset = false, questID = { 31865 }, minieventID = 27 }; --Offering of Remembrance
-	[214339] = { zoneID = 371, artID = { 383 }, x = 2463, y = 5327, overlay = { "2463-5327" }, reset = false, questID = { 31864 }, minieventID = 27 }; --Chest of Supplies
-	[215779] = { zoneID = 371, artID = { 383 }, x = 6601, y = 8758, overlay = { "6601-8758" }, reset = false, minieventID = 34, criteria = 1 }; --Watersmithing
-	[215799] = { zoneID = 371, artID = { 383 }, x = 4710, y = 4510, overlay = { "4710-4510" }, reset = false, minieventID = 33, criteria = 1 }; --The Emperor's Burden - Part 1
-	[64272] = { zoneID = 371, artID = { 383 }, x = 3920, y = 4660, overlay = { "3920-4660" }, reset = false, questID = { 31307 }, minieventID = 26 }; --Jade Warrior Statue
-	[213413] = { zoneID = 376, artID = { 388 }, x = 1883, y = 3168, overlay = { "1883-3168" }, reset = false, minieventID = 29, criteria = 1 }; --Pandaren Fighting Tactics
-	[213459] = { zoneID = 376, artID = { 388 }, x = 2021, y = 5589, overlay = { "2021-5589" }, reset = false, minieventID = 35, criteria = 1 }; --The Birthplace of Liu Lang
-	[213460] = { zoneID = 376, artID = { 388 }, x = 5506, y = 4713, overlay = { "5506-4713" }, reset = false, minieventID = 35, criteria = 2 }; --A Most Famous Bill of Sale
-	[213461] = { zoneID = 376, artID = { 388 }, x = 3459, y = 6383, overlay = { "3459-6383" }, reset = false, minieventID = 35, criteria = 3 }; --The Wandering Widow
+	[213742] = { zoneID = 371, artID = { 383 }, x = 4122, y = 1385, overlay = { "4122-1385","4300-1160","4180-1770" }, reset = false, questID = { 31403 }, achievementID = { 7284 }, minieventID = 26 }; --Hammer of Ten Thunders
+	[213748] = { zoneID = 371, artID = { 383 }, x = 2349, y = 3506, overlay = { "2349-3506" }, reset = false, questID = { 31404 }, achievementID = { 7997 }, minieventID = 27 }; --Pandaren Ritual Stone
+	[214337] = { zoneID = 371, artID = { 383 }, x = 6245, y = 2753, overlay = { "6245-2753" }, reset = false, questID = { 31866 }, achievementID = { 7997 }, minieventID = 27 }; --Stash of Gems
+	[214338] = { zoneID = 371, artID = { 383 }, x = 4630, y = 8070, overlay = { "4630-8070" }, reset = false, questID = { 31865 }, achievementID = { 7997 }, minieventID = 27 }; --Offering of Remembrance
+	[214339] = { zoneID = 371, artID = { 383 }, x = 2463, y = 5327, overlay = { "2463-5327" }, reset = false, questID = { 31864 }, achievementID = { 7997 }, minieventID = 27 }; --Chest of Supplies
+	[215779] = { zoneID = 371, artID = { 383 }, x = 6601, y = 8758, overlay = { "6601-8758" }, reset = false, achievementID = { 6846 }, minieventID = 34, criteria = 1 }; --Watersmithing
+	[215799] = { zoneID = 371, artID = { 383 }, x = 4710, y = 4510, overlay = { "4710-4510" }, reset = false, achievementID = { 6855 }, minieventID = 33, criteria = 1 }; --The Emperor's Burden - Part 1
+	[64272] = { zoneID = 371, artID = { 383 }, x = 3920, y = 4660, overlay = { "3920-4660" }, reset = false, questID = { 31307 }, achievementID = { 7284 }, minieventID = 26 }; --Jade Warrior Statue
+	[213413] = { zoneID = 376, artID = { 388 }, x = 1883, y = 3168, overlay = { "1883-3168" }, reset = false, achievementID = { 6858 }, minieventID = 29, criteria = 1 }; --Pandaren Fighting Tactics
+	[213459] = { zoneID = 376, artID = { 388 }, x = 2021, y = 5589, overlay = { "2021-5589" }, reset = false, achievementID = { 6856 }, minieventID = 35, criteria = 1 }; --The Birthplace of Liu Lang
+	[213460] = { zoneID = 376, artID = { 388 }, x = 5506, y = 4713, overlay = { "5506-4713" }, reset = false, achievementID = { 6856 }, minieventID = 35, criteria = 2 }; --A Most Famous Bill of Sale
+	[213461] = { zoneID = 376, artID = { 388 }, x = 3459, y = 6383, overlay = { "3459-6383" }, reset = false, achievementID = { 6856 }, minieventID = 35, criteria = 3 }; --The Wandering Widow
 	[213649] = { zoneID = 376, artID = { 388 }, x = 4361, y = 3748, overlay = { "4361-3748" }, reset = false, questID = { 31406 }, minieventID = 26 }; --Cache of Pilfered Goods
 	[213650] = { zoneID = 376, artID = { 388 }, x = 2372, y = 2833, overlay = { "2372-2833" }, reset = false, questID = { 31405 }, minieventID = 27 }; --Virmen Treasure Cache
 	[213749] = { zoneID = 376, artID = { 388 }, x = 1540, y = 2910, overlay = { "1540-2910","1910-3790","1750-3570","1500-3370","1900-4250" }, reset = false, questID = { 31407 }, minieventID = 26 }; --Staff of the Hidden Master
 	[213750] = { zoneID = 376, artID = { 388 }, x = 7510, y = 5510, overlay = { "7510-5510" }, reset = false, questID = { 31408 }, minieventID = 27 }; --Saurok Stone Tablet
 	[214340] = { zoneID = 376, artID = { 388 }, x = 9209, y = 3908, overlay = { "9209-3908" }, reset = false, questID = { 31869 }, minieventID = 27 }; --Boat-Building Instructions
-	[215780] = { zoneID = 376, artID = { 388 }, x = 6119, y = 3467, overlay = { "6119-3467" }, reset = false, minieventID = 34, criteria = 2 }; --Waterspeakers
-	[215785] = { zoneID = 376, artID = { 388 }, x = 8324, y = 2116, overlay = { "8324-2116" }, reset = false, minieventID = 28, criteria = 3 }; --Embracing the Passions
+	[215780] = { zoneID = 376, artID = { 388 }, x = 6119, y = 3467, overlay = { "6119-3467" }, reset = false, achievementID = { 6846 }, minieventID = 34, criteria = 2 }; --Waterspeakers
+	[215785] = { zoneID = 376, artID = { 388 }, x = 8324, y = 2116, overlay = { "8324-2116" }, reset = false, achievementID = { 6850 }, minieventID = 28, criteria = 3 }; --Embracing the Passions
 	[226956] = { zoneID = 376, artID = { 388 }, x = 5206, y = 6377, overlay = { "5206-6377" }, reset = false, questID = { 37246 } }; --Mysterious Fruit Pile
 	[64004] = { zoneID = 376, artID = { 388 }, x = 4680, y = 2460, overlay = { "4680-2460" }, reset = false, questID = { 31284 }, minieventID = 26 }; --Ghostly Pandaren Fisherman <Fisherman>
 	[64191] = { zoneID = 376, artID = { 388 }, x = 4541, y = 3838, overlay = { "4541-3838" }, reset = false, questID = { 31292 }, minieventID = 26 }; --Ghostly Pandaren Craftsman <Woodcrafter>
-	[211994] = { zoneID = 379, artID = { 391 }, x = 4574, y = 6188, overlay = { "4574-6188" }, reset = false, minieventID = 28, criteria = 4 }; --The Hozen Ravage
+	[211994] = { zoneID = 379, artID = { 391 }, x = 4574, y = 6188, overlay = { "4574-6188" }, reset = false, achievementID = { 6850 }, minieventID = 28, criteria = 4 }; --The Hozen Ravage
 	[213328] = { zoneID = {
 				[379] = { x = 7751, y = 9531, artID = { 391 }, overlay = { "7751-9531" } };
 				[433] = { x = 4603, y = 0410, artID = { 445 }, overlay = { "4603-0410" } };
 				[434] = { x = 5512, y = 1590, artID = { 446 }, overlay = { "5512-1590" } };
-			  }, reset = false, minieventID = 32, criteria = 2 }; --null
+			  }, reset = false, achievementID = { 6716 }, minieventID = 32, criteria = 2 }; --null
 	[213331] = { zoneID = {
 				[379] = { x = 5059, y = 4799, artID = { 391 }, overlay = { "5059-4799" } };
 				[385] = { x = 5830, y = 7145, artID = { 396 }, overlay = { "5830-7145" } };
-			  }, reset = false, minieventID = 31, criteria = 1 }; --null
-	[213417] = { zoneID = 379, artID = { 391 }, x = 5029, y = 7929, overlay = { "5029-7929" }, reset = false, minieventID = 36, criteria = 1 }; --Yaungol Tactics
-	[213438] = { zoneID = 379, artID = { 391 }, x = 4467, y = 5240, overlay = { "4467-5240" }, reset = false, minieventID = 30, criteria = 3 }; --Ren Yun the Blind
-	[213443] = { zoneID = 379, artID = { 391 }, x = 6777, y = 4834, overlay = { "6777-4834" }, reset = false, minieventID = 33, criteria = 6 }; --The Emperor's Burden - Part 6
-	[213455] = { zoneID = 379, artID = { 391 }, x = 4100, y = 4236, overlay = { "4100-4236" }, reset = false, minieventID = 33, criteria = 7 }; --The Emperor's Burden - Part 7
-	[213511] = { zoneID = 379, artID = { 391 }, x = 6303, y = 4081, overlay = { "6303-4081" }, reset = false, minieventID = 29, criteria = 5 }; --Victory in Kun-Lai
+			  }, reset = false, achievementID = { 6754 }, minieventID = 31, criteria = 1 }; --null
+	[213417] = { zoneID = 379, artID = { 391 }, x = 5029, y = 7929, overlay = { "5029-7929" }, reset = false, achievementID = { 6847 }, minieventID = 36, criteria = 1 }; --Yaungol Tactics
+	[213438] = { zoneID = 379, artID = { 391 }, x = 4467, y = 5240, overlay = { "4467-5240" }, reset = false, achievementID = { 7230 }, minieventID = 30, criteria = 3 }; --Ren Yun the Blind
+	[213443] = { zoneID = 379, artID = { 391 }, x = 6777, y = 4834, overlay = { "6777-4834" }, reset = false, achievementID = { 6855 }, minieventID = 33, criteria = 6 }; --The Emperor's Burden - Part 6
+	[213455] = { zoneID = 379, artID = { 391 }, x = 4100, y = 4236, overlay = { "4100-4236" }, reset = false, achievementID = { 6855 }, minieventID = 33, criteria = 7 }; --The Emperor's Burden - Part 7
+	[213511] = { zoneID = 379, artID = { 391 }, x = 6303, y = 4081, overlay = { "6303-4081" }, reset = false, achievementID = { 6858 }, minieventID = 29, criteria = 5 }; --Victory in Kun-Lai
 	[213751] = { zoneID = {
 				[379] = { x = 7471, y = 7486, artID = { 391 }, overlay = { "7471-7486" } };
 				[381] = { x = 5532, y = 7020, artID = { 395 }, overlay = { "5532-7020" } };
@@ -123,41 +123,41 @@ private.CONTAINER_INFO = {
 	[213842] = { zoneID = 379, artID = { 391 }, x = 7120, y = 6260, overlay = { "7120-6260","7010-6390" }, reset = false, questID = { 31421 }, minieventID = 26 }; --Stash of Yaungol Weapons
 	[214407] = { zoneID = 379, artID = { 391 }, x = 4790, y = 7347, overlay = { "4790-7347" }, reset = false, questID = { 31868 }, minieventID = 27 }; --Mo-Mo's Treasure Chest
 	[214438] = { zoneID = 379, artID = { 391 }, x = 6421, y = 4511, overlay = { "6421-4511" }, reset = false, questID = { 31420 }, minieventID = 27 }; --Ancient Mogu Tablet
-	[215783] = { zoneID = 379, artID = { 391 }, x = 7446, y = 8352, overlay = { "7446-8352" }, reset = false, minieventID = 34, criteria = 4 }; --Role Call
-	[215797] = { zoneID = 379, artID = { 391 }, x = 4383, y = 5122, overlay = { "4383-5122" }, reset = false, minieventID = 33, criteria = 2 }; --The Emperor's Burden - Part 2
-	[215798] = { zoneID = 379, artID = { 391 }, x = 7174, y = 6301, overlay = { "7174-6301" }, reset = false, minieventID = 36, criteria = 3 }; --Yaungoil
+	[215783] = { zoneID = 379, artID = { 391 }, x = 7446, y = 8352, overlay = { "7446-8352" }, reset = false, achievementID = { 6846 }, minieventID = 34, criteria = 4 }; --Role Call
+	[215797] = { zoneID = 379, artID = { 391 }, x = 4383, y = 5122, overlay = { "4383-5122" }, reset = false, achievementID = { 6855 }, minieventID = 33, criteria = 2 }; --The Emperor's Burden - Part 2
+	[215798] = { zoneID = 379, artID = { 391 }, x = 7174, y = 6301, overlay = { "7174-6301" }, reset = false, achievementID = { 6847 }, minieventID = 36, criteria = 3 }; --Yaungoil
 	[64227] = { zoneID = 379, artID = { 391 }, x = 3517, y = 7632, overlay = { "3517-7632" }, reset = false, questID = { 31304 }, minieventID = 26 }; --Frozen Trail Packer
-	[213418] = { zoneID = 388, artID = { 400 }, x = 6540, y = 4998, overlay = { "6540-4998" }, reset = false, minieventID = 36, criteria = 2 }; --Dominance
-	[213420] = { zoneID = 388, artID = { 400 }, x = 8410, y = 7284, overlay = { "8410-7284" }, reset = false, minieventID = 36, criteria = 4 }; --Trapped in a Strange Land
-	[213445] = { zoneID = 388, artID = { 400 }, x = 3775, y = 6290, overlay = { "3775-6290" }, reset = false, minieventID = 33, criteria = 5 }; --The Emperor's Burden - Part 5
+	[213418] = { zoneID = 388, artID = { 400 }, x = 6540, y = 4998, overlay = { "6540-4998" }, reset = false, achievementID = { 6847 }, minieventID = 36, criteria = 2 }; --Dominance
+	[213420] = { zoneID = 388, artID = { 400 }, x = 8410, y = 7284, overlay = { "8410-7284" }, reset = false, achievementID = { 6847 }, minieventID = 36, criteria = 4 }; --Trapped in a Strange Land
+	[213445] = { zoneID = 388, artID = { 400 }, x = 3775, y = 6290, overlay = { "3775-6290" }, reset = false, achievementID = { 6855 }, minieventID = 33, criteria = 5 }; --The Emperor's Burden - Part 5
 	[213844] = { zoneID = 388, artID = { 400 }, x = 6580, y = 8610, overlay = { "6580-8610" }, reset = false, questID = { 31426 }, minieventID = 27 }; --Amber Encased Moth
 	[213956] = { zoneID = {
 				[388] = { x = 3646, y = 6123, artID = { 400 }, overlay = { "3646-6123" } };
 				[389] = { x = 5648, y = 6458, artID = { 401 }, overlay = { "5648-6458" } };
 			  }, reset = false, questID = { 31423 }, minieventID = 27 }; --null
-	[213959] = { zoneID = 388, artID = { 400 }, x = 5116, y = 5733, overlay = { "5116-5733","5250-5770","5280-5620","5560-6100","5590-5550","5740-5670" }, reset = false, questID = { 31424 }, minieventID = 27 }; --Hardened Sap of Kri'vess
+	[213959] = { zoneID = 388, artID = { 400 }, x = 5116, y = 5733, overlay = { "5116-5733","5250-5770","5280-5620","5560-6100","5590-5550","5740-5670" }, reset = false, questID = { 31424 }, achievementID = { 7997 }, minieventID = 27 }; --Hardened Sap of Kri'vess
 	[213960] = { zoneID = 388, artID = { 400 }, x = 6630, y = 4470, overlay = { "6630-4470","6680-4800" }, reset = false, questID = { 31425 }, minieventID = 26 }; --Yaungol Fire Carrier
 	[213961] = { zoneID = 388, artID = { 400 }, x = 6282, y = 3405, overlay = { "6282-3405" }, reset = false, questID = { 31427 }, minieventID = 27 }; --Abandoned Crate of Goods
-	[213334] = { zoneID = 390, artID = { 402 }, x = 4025, y = 7748, overlay = { "4025-7748" }, reset = false, minieventID = 31, criteria = 4 }; --The Thunder King
-	[213414] = { zoneID = 390, artID = { 402 }, x = 5291, y = 6872, overlay = { "5291-6872" }, reset = false, minieventID = 29, criteria = 2 }; --Always Remember
-	[213416] = { zoneID = 390, artID = { 402 }, x = 2661, y = 2148, overlay = { "2661-2148" }, reset = false, minieventID = 29, criteria = 4 }; --Together, We Are Strong
-	[213456] = { zoneID = 390, artID = { 402 }, x = 6770, y = 4429, overlay = { "6770-4429" }, reset = false, minieventID = 33, criteria = 8 }; --The Emperor's Burden - Part 8
-	[211993] = { zoneID = 418, artID = { 430 }, x = 5242, y = 8770, overlay = { "5242-8770" }, reset = false, minieventID = 28, criteria = 2 }; --Hozen Maturity
-	[213330] = { zoneID = 418, artID = { 430 }, x = 3282, y = 2942, overlay = { "3282-2942" }, reset = false, minieventID = 32, criteria = 4 }; --The Last Stand
-	[213332] = { zoneID = 418, artID = { 430 }, x = 5095, y = 3165, overlay = { "5095-3165" }, reset = false, minieventID = 31, criteria = 2 }; --The Lost Dynasty
-	[213407] = { zoneID = 418, artID = { 430 }, x = 8140, y = 1142, overlay = { "8140-1142" }, reset = false, minieventID = 30, criteria = 1 }; --Quan Tou Kuo the Two Fisted
-	[213422] = { zoneID = 418, artID = { 430 }, x = 4047, y = 5665, overlay = { "4047-5665" }, reset = false, minieventID = 33, criteria = 4 }; --The Emperor's Burden - Part 4
+	[213334] = { zoneID = 390, artID = { 402 }, x = 4025, y = 7748, overlay = { "4025-7748" }, reset = false, achievementID = { 6754 }, minieventID = 31, criteria = 4 }; --The Thunder King
+	[213414] = { zoneID = 390, artID = { 402 }, x = 5291, y = 6872, overlay = { "5291-6872" }, reset = false, achievementID = { 6858 }, minieventID = 29, criteria = 2 }; --Always Remember
+	[213416] = { zoneID = 390, artID = { 402 }, x = 2661, y = 2148, overlay = { "2661-2148" }, reset = false, achievementID = { 6858 }, minieventID = 29, criteria = 4 }; --Together, We Are Strong
+	[213456] = { zoneID = 390, artID = { 402 }, x = 6770, y = 4429, overlay = { "6770-4429" }, reset = false, achievementID = { 6855 }, minieventID = 33, criteria = 8 }; --The Emperor's Burden - Part 8
+	[211993] = { zoneID = 418, artID = { 430 }, x = 5242, y = 8770, overlay = { "5242-8770" }, reset = false, achievementID = { 6850 }, minieventID = 28, criteria = 2 }; --Hozen Maturity
+	[213330] = { zoneID = 418, artID = { 430 }, x = 3282, y = 2942, overlay = { "3282-2942" }, reset = false, achievementID = { 6716 }, minieventID = 32, criteria = 4 }; --The Last Stand
+	[213332] = { zoneID = 418, artID = { 430 }, x = 5095, y = 3165, overlay = { "5095-3165" }, reset = false, achievementID = { 6754 }, minieventID = 31, criteria = 2 }; --The Lost Dynasty
+	[213407] = { zoneID = 418, artID = { 430 }, x = 8140, y = 1142, overlay = { "8140-1142" }, reset = false, achievementID = { 7230 }, minieventID = 30, criteria = 1 }; --Quan Tou Kuo the Two Fisted
+	[213422] = { zoneID = 418, artID = { 430 }, x = 4047, y = 5665, overlay = { "4047-5665" }, reset = false, achievementID = { 6855 }, minieventID = 33, criteria = 4 }; --The Emperor's Burden - Part 4
 	[213651] = { zoneID = 418, artID = { 430 }, x = 4228, y = 9195, overlay = { "4228-9195" }, reset = false, questID = { 31410 }, minieventID = 26 }; --Equipment Locker
 	[213653] = { zoneID = 418, artID = { 430 }, x = 5080, y = 4930, overlay = { "5080-4930" }, reset = false, questID = { 31409 }, minieventID = 26 }; --Pandaren Fishing Spear
 	[214403] = { zoneID = 418, artID = { 430 }, x = 5216, y = 7341, overlay = { "5216-7341" }, reset = false, questID = { 31863 }, minieventID = 27 }; --Stack of Papers
 	[214439] = { zoneID = 418, artID = { 430 }, x = 5237, y = 8865, overlay = { "5237-8865" }, reset = false, questID = { 31411 }, minieventID = 26 }; --Barrel of Banana Infused Rum
-	[215765] = { zoneID = 418, artID = { 430 }, x = 7220, y = 3097, overlay = { "7220-3097" }, reset = false, minieventID = 35, criteria = 4 }; --Waiting for the Turtle
-	[215782] = { zoneID = 418, artID = { 430 }, x = 3053, y = 3863, overlay = { "3053-3863" }, reset = false, minieventID = 34, criteria = 3 }; --Origins
-	[213329] = { zoneID = 422, artID = { 434 }, x = 6743, y = 6080, overlay = { "6743-6080" }, reset = false, minieventID = 32, criteria = 3 }; --The Deserters
-	[213409] = { zoneID = 422, artID = { 434 }, x = 4835, y = 3285, overlay = { "4835-3285" }, reset = false, minieventID = 37, criteria = 1 }; --Cycle of the Mantid
-	[213410] = { zoneID = 422, artID = { 434 }, x = 5991, y = 5514, overlay = { "5991-5514" }, reset = false, minieventID = 37, criteria = 2 }; --Mantid Society
-	[213411] = { zoneID = 422, artID = { 434 }, x = 5250, y = 1003, overlay = { "5250-1003" }, reset = false, minieventID = 37, criteria = 3 }; --Amber
-	[213412] = { zoneID = 422, artID = { 434 }, x = 3553, y = 3261, overlay = { "3553-3261" }, reset = false, minieventID = 37, criteria = 4 }; --The Empress
+	[215765] = { zoneID = 418, artID = { 430 }, x = 7220, y = 3097, overlay = { "7220-3097" }, reset = false, achievementID = { 6856 }, minieventID = 35, criteria = 4 }; --Waiting for the Turtle
+	[215782] = { zoneID = 418, artID = { 430 }, x = 3053, y = 3863, overlay = { "3053-3863" }, reset = false, achievementID = { 6846 }, minieventID = 34, criteria = 3 }; --Origins
+	[213329] = { zoneID = 422, artID = { 434 }, x = 6743, y = 6080, overlay = { "6743-6080" }, reset = false, achievementID = { 6716 }, minieventID = 32, criteria = 3 }; --The Deserters
+	[213409] = { zoneID = 422, artID = { 434 }, x = 4835, y = 3285, overlay = { "4835-3285" }, reset = false, achievementID = { 6857 }, minieventID = 37, criteria = 1 }; --Cycle of the Mantid
+	[213410] = { zoneID = 422, artID = { 434 }, x = 5991, y = 5514, overlay = { "5991-5514" }, reset = false, achievementID = { 6857 }, minieventID = 37, criteria = 2 }; --Mantid Society
+	[213411] = { zoneID = 422, artID = { 434 }, x = 5250, y = 1003, overlay = { "5250-1003" }, reset = false, achievementID = { 6857 }, minieventID = 37, criteria = 3 }; --Amber
+	[213412] = { zoneID = 422, artID = { 434 }, x = 3553, y = 3261, overlay = { "3553-3261" }, reset = false, achievementID = { 6857 }, minieventID = 37, criteria = 4 }; --The Empress
 	[213962] = { zoneID = 422, artID = { 434 }, x = 7180, y = 3610, overlay = { "7180-3610" }, reset = false, questID = { 31666 }, minieventID = 26 }; --Wind-Reaver's Dagger of Quick Strikes
 	[213964] = { zoneID = 422, artID = { 434 }, x = 4870, y = 3000, overlay = { "4870-3000" }, reset = false, questID = { 31430 }, minieventID = 26 }; --Malik's Stalwart Spear
 	[213966] = { zoneID = 422, artID = { 434 }, x = 3300, y = 3010, overlay = { "3300-3010" }, reset = false, questID = { 31431 }, minieventID = 26 }; --Amber Encased Necklace
@@ -170,19 +170,19 @@ private.CONTAINER_INFO = {
 	[65552] = { zoneID = 422, artID = { 434 }, x = 4200, y = 6220, overlay = { "4080-6340","4120-6460","4200-6220","4220-6380" }, reset = false, questID = { 31432 }, minieventID = 26 }; --Glinting Rapana Whelk
 	[213845] = { zoneID = 433, artID = { 445 }, x = 7492, y = 7647, overlay = { "7492-7647" }, reset = false, questID = { 31428 }, minieventID = 27 }; --The Hammer of Folly
 	[214325] = { zoneID = 433, artID = { 445 }, x = 5468, y = 7129, overlay = { "5468-7129" }, reset = false, questID = { 31867 }, minieventID = 27 }; --Forgotten Lockbox
-	[218427] = { zoneID = 504, artID = { 521 }, x = 3530, y = 7020, overlay = { "3530-7020" }, reset = false, minieventID = 38, criteria = 1 }; --Coming of Age
-	[218428] = { zoneID = 504, artID = { 521 }, x = 6602, y = 4462, overlay = { "6602-4462" }, reset = false, minieventID = 38, criteria = 2 }; --For Council and King
-	[218429] = { zoneID = 504, artID = { 521 }, x = 3630, y = 7035, overlay = { "3630-7035" }, reset = false, minieventID = 38, criteria = 3 }; --Shadows of the Loa
-	[218430] = { zoneID = 504, artID = { 521 }, x = 5265, y = 4138, overlay = { "5265-4138" }, reset = false, minieventID = 38, criteria = 4 }; --The Dark Prophet Zul
-	[218431] = { zoneID = 504, artID = { 521 }, x = 4018, y = 4075, overlay = { "4018-4075" }, reset = false, minieventID = 39, criteria = 1 }; --Lei Shen
-	[218432] = { zoneID = 504, artID = { 521 }, x = 4707, y = 5991, overlay = { "4707-5991" }, reset = false, minieventID = 39, criteria = 2 }; --The Sacred Mount
-	[218433] = { zoneID = 504, artID = { 521 }, x = 3489, y = 6559, overlay = { "3489-6559" }, reset = false, minieventID = 39, criteria = 3 }; --Unity at a Price
-	[218434] = { zoneID = 504, artID = { 521 }, x = 6075, y = 6878, overlay = { "6075-6878" }, reset = false, minieventID = 39, criteria = 4 }; --The Pandaren Problem
-	[218435] = { zoneID = 504, artID = { 521 }, x = 3583, y = 5471, overlay = { "3583-5471" }, reset = false, minieventID = 40, criteria = 1 }; --Agents of Order
-	[218436] = { zoneID = 504, artID = { 521 }, x = 5929, y = 2626, overlay = { "5929-2626" }, reset = false, minieventID = 40, criteria = 2 }; --Shadow, Storm, and Stone
-	[218437] = { zoneID = 504, artID = { 521 }, x = 4992, y = 2035, overlay = { "4992-2035" }, reset = false, minieventID = 40, criteria = 3 }; --The Curse and the Silence
-	[218438] = { zoneID = 504, artID = { 521 }, x = 6253, y = 3772, overlay = { "6253-3772" }, reset = false, minieventID = 40, criteria = 4 }; --Age of a Hundred Kings
-	[224626] = { zoneID = 525, artID = { 542 }, x = 3032, y = 5086, overlay = { "3032-5086" }, reset = false, questID = { 33497 } }; --Vignette POI Object: Time-Warped Tower
+	[218427] = { zoneID = 504, artID = { 521 }, x = 3530, y = 7020, overlay = { "3530-7020" }, reset = false, achievementID = { 8049 }, minieventID = 38, criteria = 1 }; --Coming of Age
+	[218428] = { zoneID = 504, artID = { 521 }, x = 6602, y = 4462, overlay = { "6602-4462" }, reset = false, achievementID = { 8049 }, minieventID = 38, criteria = 2 }; --For Council and King
+	[218429] = { zoneID = 504, artID = { 521 }, x = 3630, y = 7035, overlay = { "3630-7035" }, reset = false, achievementID = { 8049 }, minieventID = 38, criteria = 3 }; --Shadows of the Loa
+	[218430] = { zoneID = 504, artID = { 521 }, x = 5265, y = 4138, overlay = { "5265-4138" }, reset = false, achievementID = { 8049 }, minieventID = 38, criteria = 4 }; --The Dark Prophet Zul
+	[218431] = { zoneID = 504, artID = { 521 }, x = 4018, y = 4075, overlay = { "4018-4075" }, reset = false, achievementID = { 8050 }, minieventID = 39, criteria = 1 }; --Lei Shen
+	[218432] = { zoneID = 504, artID = { 521 }, x = 4707, y = 5991, overlay = { "4707-5991" }, reset = false, achievementID = { 8050 }, minieventID = 39, criteria = 2 }; --The Sacred Mount
+	[218433] = { zoneID = 504, artID = { 521 }, x = 3489, y = 6559, overlay = { "3489-6559" }, reset = false, achievementID = { 8050 }, minieventID = 39, criteria = 3 }; --Unity at a Price
+	[218434] = { zoneID = 504, artID = { 521 }, x = 6075, y = 6878, overlay = { "6075-6878" }, reset = false, achievementID = { 8050 }, minieventID = 39, criteria = 4 }; --The Pandaren Problem
+	[218435] = { zoneID = 504, artID = { 521 }, x = 3583, y = 5471, overlay = { "3583-5471" }, reset = false, achievementID = { 8051 }, minieventID = 40, criteria = 1 }; --Agents of Order
+	[218436] = { zoneID = 504, artID = { 521 }, x = 5929, y = 2626, overlay = { "5929-2626" }, reset = false, achievementID = { 8051 }, minieventID = 40, criteria = 2 }; --Shadow, Storm, and Stone
+	[218437] = { zoneID = 504, artID = { 521 }, x = 4992, y = 2035, overlay = { "4992-2035" }, reset = false, achievementID = { 8051 }, minieventID = 40, criteria = 3 }; --The Curse and the Silence
+	[218438] = { zoneID = 504, artID = { 521 }, x = 6253, y = 3772, overlay = { "6253-3772" }, reset = false, achievementID = { 8051 }, minieventID = 40, criteria = 4 }; --Age of a Hundred Kings
+	[224626] = { zoneID = 525, artID = { 542 }, x = 3032, y = 5086, overlay = { "3032-5086" }, reset = false, questID = { 33497 }, achievementID = { 7284 } }; --Vignette POI Object: Time-Warped Tower
 	[224686] = { zoneID = 525, artID = { 542 }, x = 6090, y = 4260, overlay = { "6090-4260" }, reset = false, questID = { 33511 } }; --Devourer's Gutstone
 	[229367] = { zoneID = 525, artID = { 542 }, x = 5720, y = 5210, overlay = { "5720-5210" }, reset = false, questID = { 34476 } }; --Frozen Orc Skeleton
 	[227793] = { zoneID = 535, artID = { 552 }, x = 3650, y = 9610, overlay = { "3650-9610" }, reset = false, questID = { 34182 } }; --Aarko's Family Treasure
@@ -238,7 +238,7 @@ private.CONTAINER_INFO = {
 	[273222] = { zoneID = 830, artID = { 855 }, x = 6952, y = 6283, overlay = { "6300-6820","6760-6990","6780-6230","6780-7140","6820-6040","6920-8410","6940-6270","6970-7850","6980-5770","7080-7670","7090-7360","7140-6140","7180-7530","7280-6490","7350-7130","7410-6780","7500-6940","7510-6440" }, questReset = true, questID = { 48000 } }; --Eredar War Supplies
 	[277343] = { zoneID = 830, artID = { 855 }, x = 7517, y = 6974, overlay = { "7510-6980" } }; --Long-Lost Augari Treasure
 	[277344] = { zoneID = 830, artID = { 855 }, x = 5591, y = 7429, overlay = { "5590-7420" } }; --Precious Augari Keepsakes
-	[277561] = { zoneID = 862, artID = { 887 }, x = 4949, y = 6526, overlay = { "4950-6530" }, questID = { 49257 } }; --Warlord's Cache
+	[277561] = { zoneID = 862, artID = { 887 }, x = 4949, y = 6526, overlay = { "4950-6530" }, questID = { 49257 }, achievementID = { 12851 } }; --Warlord's Cache
 	[278456] = { zoneID = 862, artID = { 887 }, x = 5633, y = 2072, overlay = { "5640-2070","5690-1950","5780-1830","5850-1940","5940-2070","5970-1920" }, questReset = true }; --Treasure Chest
 	[278459] = { zoneID = 862, artID = { 887 }, x = 4614, y = 5995, overlay = { "4570-6020","4580-6240","4600-6470","4670-5130","4700-6220","4730-6640","4750-6060","4770-5330","4770-6860","4830-6220","4840-5440","4840-6520" }, questReset = true, questID = { 50723 } }; --Treasure Chest
 	[278460] = { zoneID = 862, artID = { 887 }, x = 5256, y = 4719, overlay = { "4890-3900","4890-4070","4890-4240","5000-3970","5010-4090","5110-4170","5260-4710" }, questReset = true, questID = { 50722 } }; --Treasure Chest
@@ -249,17 +249,17 @@ private.CONTAINER_INFO = {
 	[278716] = { zoneID = 862, artID = { 887 }, x = 7382, y = 6587, overlay = { "7260-6070","7270-6490","7340-6370","7380-6590","7490-6310","7510-6640","7620-6020","7670-6150","7720-5890","7720-6650","7730-6410" }, questReset = true, questID = { 50719 } }; --Treasure Chest
 	[278793] = { zoneID = 862, artID = { 887 }, x = 6335, y = 1542, overlay = { "6200-1700","6340-1540","6380-1770","6460-1940","6500-1640","6710-2340","6890-2220","6910-1980","7140-2840" }, questReset = true }; --Treasure Chest
 	[278795] = { zoneID = 862, artID = { 887 }, x = 7417, y = 2892, overlay = { "7170-2470","7300-2210","7410-2660","7420-2270","7420-2890","7440-2390","7650-2500" }, questReset = true }; --Treasure Chest
-	[279609] = { zoneID = 862, artID = { 887 }, x = 5171, y = 8687, overlay = { "1900-2560","1910-2380","1910-2720","1930-2880","1940-2220","2030-2470","2040-2150","2040-2640","2110-2290","2120-2900","2150-2470","2180-2130","2200-2800","2220-2590","2280-2710","2290-2370","2320-2490","2400-2840","2440-2600","2450-2960","2470-2440","2520-2830","2560-2660","2600-2510","2650-2850","2700-2690" } }; --Spoils of Pandaria
-	[281092] = { zoneID = 862, artID = { 887 }, x = 6471, y = 2167, overlay = { "6470-2170" }, questID = { 50259 } }; --Witch Doctor's Hoard
+	[279609] = { zoneID = 862, artID = { 887 }, x = 5171, y = 8687, overlay = { "1900-2560","1910-2380","1910-2720","1930-2880","1940-2220","2030-2470","2040-2150","2040-2640","2110-2290","2120-2900","2150-2470","2180-2130","2200-2800","2220-2590","2280-2710","2290-2370","2320-2490","2400-2840","2440-2600","2450-2960","2470-2440","2520-2830","2560-2660","2600-2510","2650-2850","2700-2690" }, achievementID = { 12851 } }; --Spoils of Pandaria
+	[281092] = { zoneID = 862, artID = { 887 }, x = 6471, y = 2167, overlay = { "6470-2170" }, questID = { 50259 }, achievementID = { 12851 } }; --Witch Doctor's Hoard
 	[281176] = { zoneID = 862, artID = { 887 }, x = 7167, y = 4127, overlay = { "7160-4130" } }; --Jani's Stash
 	[281365] = { zoneID = 862, artID = { 887 }, x = 6273, y = 2057, overlay = { "6270-2050" } }; --Jani's Stash
-	[281655] = { zoneID = 862, artID = { 887 }, x = 5143, y = 2661, overlay = { "5140-2670" }, questID = { 50582,50950 } }; --Gift of the Brokenhearted
-	[281898] = { zoneID = 862, artID = { 887 }, x = 3878, y = 3443, overlay = { "3880-3440" }, questReset = true, questID = { 50707 } }; --Dazar's Forgotten Chest
+	[281655] = { zoneID = 862, artID = { 887 }, x = 5143, y = 2661, overlay = { "5140-2670" }, questID = { 50582,50950 }, achievementID = { 12851 } }; --Gift of the Brokenhearted
+	[281898] = { zoneID = 862, artID = { 887 }, x = 3878, y = 3443, overlay = { "3880-3440" }, questReset = true, questID = { 50707 }, achievementID = { 12851 } }; --Dazar's Forgotten Chest
 	[281903] = { zoneID = 862, artID = { 887 }, x = 4208, y = 7250, overlay = { "3990-7640","4060-7750","4110-7480","4210-7260","4270-7370","4390-7420" }, questReset = true }; --Treasure Chest
 	[281904] = { zoneID = 862, artID = { 887 }, x = 4213, y = 4165, overlay = { "3870-3770","3920-3930","3980-4280","3980-4410","4020-3730","4020-4150","4050-3900","4140-4210","4190-4330","4210-3720" } }; --Treasure Chest
 	[281905] = { zoneID = 862, artID = { 887 }, x = 8108, y = 4071, overlay = { "7840-3760","8010-3840","8090-3740","8110-4070","8170-3940","8210-4280","8340-3860","8340-4240" }, questReset = true, questID = { 50728 } }; --Treasure Chest
 	[281906] = { zoneID = 862, artID = { 887 }, x = 5675, y = 7539, overlay = { "5280-8670","5480-8880","5480-9060","5680-7540","5810-7570","5870-7970","5870-8110","6000-7910","6150-7510" }, questReset = true }; --Treasure Chest
-	[284455] = { zoneID = 862, artID = { 887 }, x = 7182, y = 1677, overlay = { "7190-1680" }, questID = { 50949 } }; --The Exile's Lament
+	[284455] = { zoneID = 862, artID = { 887 }, x = 7182, y = 1677, overlay = { "7190-1680" }, questID = { 50949 }, achievementID = { 12851 } }; --The Exile's Lament
 	[288604] = { zoneID = 862, artID = { 887 }, x = 7910, y = 5299, overlay = { "7480-5040","7570-5140","7720-5120","7910-5300","7980-5110","8010-5510","8090-5330","8140-5540","8240-5210","8240-5440" }, questReset = true, questID = { 51346 } }; --Treasure Chest
 	[290135] = { zoneID = {
 				[862] = { x = 4200, y = 3460, artID = { 887 }, overlay = { "4200-3460","4610-6630","4790-6490","4810-6650","5290-3520","6590-3390","6720-3630","6810-3850","7070-3480","7150-3380","7640-3690" } };
@@ -271,15 +271,15 @@ private.CONTAINER_INFO = {
 				[1161] = { x = 4380, y = 9100, artID = { 1138 }, overlay = { "4380-9100" } };
 				[1165] = { x = 3470, y = 1440, artID = { 1143 }, overlay = { "3470-1440","3500-1840","3680-1850","4940-6480","5040-7040","5120-6940","5170-6830","5310-6040" } };
 			  } }; --null
-	[290725] = { zoneID = 862, artID = { 887 }, x = 5296, y = 4719, overlay = { "5290-4720" }, questReset = true, questID = { 51624 } }; --Riches of Tor'nowa
+	[290725] = { zoneID = 862, artID = { 887 }, x = 5296, y = 4719, overlay = { "5290-4720" }, questReset = true, questID = { 51624 }, achievementID = { 12851 } }; --Riches of Tor'nowa
 	[272633] = { zoneID = 863, artID = { 888 }, x = 8176, y = 3052, overlay = { "8180-3040" } }; --Cursed Chest
-	[277715] = { zoneID = 863, artID = { 888 }, x = 4306, y = 5078, overlay = { "4300-5070" } }; --Cursed Nazmani Chest
-	[277885] = { zoneID = 863, artID = { 888 }, x = 3544, y = 5498, overlay = { "3540-5500" } }; --Wunja's Trove
-	[278436] = { zoneID = 863, artID = { 888 }, x = 6679, y = 1734, overlay = { "6670-1730" } }; --Shipwrecked Chest
-	[278437] = { zoneID = 863, artID = { 888 }, x = 4277, y = 2619, overlay = { "4280-2620" } }; --Offering to Bwonsamdi
-	[279253] = { zoneID = 863, artID = { 888 }, x = 7768, y = 3613, overlay = { "7760-3610" } }; --Lucky Horace's Lucky Chest
-	[279260] = { zoneID = 863, artID = { 888 }, x = 3563, y = 8560, overlay = { "3570-8560" } }; --"Cleverly" Disguised Chest
-	[279299] = { zoneID = 863, artID = { 888 }, x = 4621, y = 8297, overlay = { "4620-8290" } }; --Venomous Seal
+	[277715] = { zoneID = 863, artID = { 888 }, x = 4306, y = 5078, overlay = { "4300-5070" }, achievementID = { 12771 } }; --Cursed Nazmani Chest
+	[277885] = { zoneID = 863, artID = { 888 }, x = 3544, y = 5498, overlay = { "3540-5500" }, achievementID = { 12771 } }; --Wunja's Trove
+	[278436] = { zoneID = 863, artID = { 888 }, x = 6679, y = 1734, overlay = { "6670-1730" }, achievementID = { 12771 } }; --Shipwrecked Chest
+	[278437] = { zoneID = 863, artID = { 888 }, x = 4277, y = 2619, overlay = { "4280-2620" }, achievementID = { 12771 } }; --Offering to Bwonsamdi
+	[279253] = { zoneID = 863, artID = { 888 }, x = 7768, y = 3613, overlay = { "7760-3610" }, achievementID = { 12771 } }; --Lucky Horace's Lucky Chest
+	[279260] = { zoneID = 863, artID = { 888 }, x = 3563, y = 8560, overlay = { "3570-8560" }, achievementID = { 12771 } }; --"Cleverly" Disguised Chest
+	[279299] = { zoneID = 863, artID = { 888 }, x = 4621, y = 8297, overlay = { "4620-8290" }, achievementID = { 12771 } }; --Venomous Seal
 	[279325] = { zoneID = 863, artID = { 888 }, x = 6122, y = 5762, overlay = { "5940-5600","6010-5390","6120-5750","6130-5280","6230-5440","6260-5660" }, questReset = true }; --Treasure Chest
 	[279352] = { zoneID = {
 				[863] = { x = 1990, y = 5180, artID = { 888 }, overlay = { "1990-5180","2220-4640","2400-4580","2400-7140","2430-5930","2560-3740","2640-8870","2660-8670","2700-4050","2770-3830","2980-8870","3020-3500","3120-3710" } };
@@ -290,9 +290,9 @@ private.CONTAINER_INFO = {
 	[279373] = { zoneID = 863, artID = { 888 }, x = 4227, y = 5915, overlay = { "3960-5480","4010-5720","4090-5600","4110-5100","4110-5230","4110-5810","4160-6570","4170-6180","4230-5920","4340-4880","4530-4840" }, questReset = true }; --Treasure Chest
 	[279378] = { zoneID = 863, artID = { 888 }, x = 7001, y = 3912, overlay = { "6710-3140","6880-3160","6940-3030","7000-3920","7040-3110","7110-2640","7110-3500","7180-3400","7210-3690","7250-3180","7430-3170","7690-3040","7780-2870","7860-3000","7990-2970","8000-3170" }, questReset = true }; --Treasure Chest
 	[279379] = { zoneID = 863, artID = { 888 }, x = 5459, y = 2114, overlay = { "5380-2280","5430-1940","5430-2140","5910-2220","5940-2540","6070-2080","6110-1940" }, questReset = true }; --Treasure Chest
-	[279689] = { zoneID = 863, artID = { 888 }, x = 6209, y = 3487, overlay = { "6210-3500" } }; --Lost Nazmani Treasure
-	[280504] = { zoneID = 863, artID = { 888 }, x = 7687, y = 6214, overlay = { "7680-6210" } }; --Swallowed Chest
-	[280522] = { zoneID = 863, artID = { 888 }, x = 7789, y = 4636, overlay = { "7790-4630" } }; --Partially-Digested Treasure
+	[279689] = { zoneID = 863, artID = { 888 }, x = 6209, y = 3487, overlay = { "6210-3500" }, achievementID = { 12771 } }; --Lost Nazmani Treasure
+	[280504] = { zoneID = 863, artID = { 888 }, x = 7687, y = 6214, overlay = { "7680-6210" }, achievementID = { 12771 } }; --Swallowed Chest
+	[280522] = { zoneID = 863, artID = { 888 }, x = 7789, y = 4636, overlay = { "7790-4630" }, achievementID = { 12771 } }; --Partially-Digested Treasure
 	[281381] = { zoneID = 863, artID = { 888 }, x = 8089, y = 4675, overlay = { "8090-4690" } }; --Jani's Stash
 	[281388] = { zoneID = 863, artID = { 888 }, x = 3401, y = 7512, overlay = { "3400-7520" } }; --Jani's Stash
 	[281390] = { zoneID = 863, artID = { 888 }, x = 6852, y = 3281, overlay = { "6840-3280" } }; --Jani's Stash
@@ -300,7 +300,7 @@ private.CONTAINER_INFO = {
 	[282722] = { zoneID = 863, artID = { 888 }, x = 3344, y = 4914, overlay = { "2970-5320","3030-4890","3040-4760","3070-4520","3120-4970","3140-6140","3160-4330","3230-4840","3260-4960","3310-4370" }, questReset = true }; --Treasure Chest
 	[282723] = { zoneID = 863, artID = { 888 }, x = 3051, y = 7319, overlay = { "2520-7800","2810-8190","2830-7160","2900-6990","3040-7320","3060-7440","3170-7840","3220-7670","3370-7630","3420-7930","3470-6970","4470-7290","4690-7400","4810-8160","4910-8080","4940-7720","4980-7940" }, questReset = true }; --Treasure Chest
 	[272622] = { zoneID = 864, artID = { 889 }, x = 3039, y = 8876, overlay = { "3040-8870" } }; --Cursed Treasure
-	[280951] = { zoneID = 864, artID = { 889 }, x = 4659, y = 8801, overlay = { "4440-9220","4659-8801" }, reset = false, questID = { 50237 } }; --Ashvane Spoils
+	[280951] = { zoneID = 864, artID = { 889 }, x = 4659, y = 8801, overlay = { "4440-9220","4659-8801" }, reset = false, questID = { 50237 }, achievementID = { 12849 } }; --Ashvane Spoils
 	[282647] = { zoneID = 864, artID = { 889 }, x = 4697, y = 4655, overlay = { "4690-4660" } }; --Jani's Stash
 	[282664] = { zoneID = 864, artID = { 889 }, x = 5626, y = 1537, overlay = { "5626-1537" }, reset = false, questID = { 50890 } }; --Jani's Stash
 	[282668] = { zoneID = 864, artID = { 889 }, x = 4936, y = 8440, overlay = { "4940-8440" } }; --Jani's Stash
@@ -318,17 +318,17 @@ private.CONTAINER_INFO = {
 	[284419] = { zoneID = 864, artID = { 889 }, x = 4167, y = 8146, overlay = { "4160-8160","4180-7940","4350-8350","4480-8130","4490-7880","4640-8120","4740-7340","4750-7760","4770-7570","4810-7440","4870-7830","4890-7290","5020-7630","5050-7220","5080-7080","5120-7340" }, questReset = true, questID = { 50925 } }; --Treasure Chest
 	[284420] = { zoneID = 864, artID = { 889 }, x = 5500, y = 6727, overlay = { "5240-7790","5270-7650","5300-7910","5310-7460","5440-7280","5460-7540","5500-6730","5500-6950","5600-7180","5640-7000" }, questReset = true, questID = { 50926 } }; --Treasure Chest
 	[284421] = { zoneID = 864, artID = { 889 }, x = 5363, y = 5323, overlay = { "5300-4870","5320-5550","5340-5140","5360-5320","5380-4960","5410-5470","5440-4780","5540-5670","5620-5240","5670-5520","5740-5700","5940-5380" }, questReset = true, questID = { 50928 } }; --Treasure Chest
-	[287239] = { zoneID = 864, artID = { 889 }, x = 4820, y = 6469, overlay = { "4820-6470" }, reset = false, questID = { 51093 } }; --Grayal's Last Offering
-	[287304] = { zoneID = 864, artID = { 889 }, x = 4978, y = 7939, overlay = { "4980-7930" }, reset = false, questID = { 51132 } }; --Lost Explorer's Bounty
-	[287318] = { zoneID = 864, artID = { 889 }, x = 4718, y = 5846, overlay = { "4720-5840" }, reset = false, questID = { 51133 } }; --Sandfury Reserve
-	[287320] = { zoneID = 864, artID = { 889 }, x = 4450, y = 2614, overlay = { "4440-2610" }, reset = false, questID = { 51135 } }; --Stranded Cache
-	[287324] = { zoneID = 864, artID = { 889 }, x = 5774, y = 6463, overlay = { "5770-6460" }, reset = false, questID = { 51136 } }; --Excavator's Greed
-	[287326] = { zoneID = 864, artID = { 889 }, x = 2934, y = 8740, overlay = { "2940-8740" }, reset = false, questID = { 51137 } }; --Zem'lan's Buried Treasure
+	[287239] = { zoneID = 864, artID = { 889 }, x = 4820, y = 6469, overlay = { "4820-6470" }, reset = false, questID = { 51093 }, achievementID = { 12849 } }; --Grayal's Last Offering
+	[287304] = { zoneID = 864, artID = { 889 }, x = 4978, y = 7939, overlay = { "4980-7930" }, reset = false, questID = { 51132 }, achievementID = { 12849 } }; --Lost Explorer's Bounty
+	[287318] = { zoneID = 864, artID = { 889 }, x = 4718, y = 5846, overlay = { "4720-5840" }, reset = false, questID = { 51133 }, achievementID = { 12849 } }; --Sandfury Reserve
+	[287320] = { zoneID = 864, artID = { 889 }, x = 4450, y = 2614, overlay = { "4440-2610" }, reset = false, questID = { 51135 }, achievementID = { 12849 } }; --Stranded Cache
+	[287324] = { zoneID = 864, artID = { 889 }, x = 5774, y = 6463, overlay = { "5770-6460" }, reset = false, questID = { 51136 }, achievementID = { 12849 } }; --Excavator's Greed
+	[287326] = { zoneID = 864, artID = { 889 }, x = 2934, y = 8740, overlay = { "2940-8740" }, reset = false, questID = { 51137 }, achievementID = { 12849 } }; --Zem'lan's Buried Treasure
 	[287493] = { zoneID = 864, artID = { 889 }, x = 3072, y = 8879, overlay = { "2940-8780","3072-8879" } }; --Cursed Treasure
 	[290770] = { zoneID = 864, artID = { 889 }, x = 5051, y = 8850, overlay = { "4940-8020","4970-8730","5040-8870","5060-8490","5160-8710","5200-8240","5230-8520","5240-7940","5260-8120","5390-8650","5420-8800","5480-8530","5500-8160","5580-8610" }, questReset = true, questID = { 51673 } }; --Treasure Chest
-	[294316] = { zoneID = 864, artID = { 889 }, x = 5702, y = 1113, overlay = { "5710-1110" }, reset = false, questID = { 52992 } }; --Lost Offerings of Kimbul
-	[294317] = { zoneID = 864, artID = { 889 }, x = 4059, y = 8575, overlay = { "4060-8570" }, reset = false, questID = { 52994 } }; --Deadwood Chest
-	[294319] = { zoneID = 864, artID = { 889 }, x = 2654, y = 4535, overlay = { "2640-4530" }, reset = false, questID = { 53004 } }; --Sandsunken Treasure
+	[294316] = { zoneID = 864, artID = { 889 }, x = 5702, y = 1113, overlay = { "5710-1110" }, reset = false, questID = { 52992 }, achievementID = { 12849 } }; --Lost Offerings of Kimbul
+	[294317] = { zoneID = 864, artID = { 889 }, x = 4059, y = 8575, overlay = { "4060-8570" }, reset = false, questID = { 52994 }, achievementID = { 12849 } }; --Deadwood Chest
+	[294319] = { zoneID = 864, artID = { 889 }, x = 2654, y = 4535, overlay = { "2640-4530" }, reset = false, questID = { 53004 }, achievementID = { 12849 } }; --Sandsunken Treasure
 	[296581] = { zoneID = 864, artID = { 889 }, x = 2948, y = 5930, overlay = { "2940-5940" }, reset = false, questID = { 53137 } }; --Skye's Pet Rock
 	[311902] = { zoneID = 864, artID = { 889 }, x = 4183, y = 4242, overlay = { "4130-4320" } }; --Loose Parts
 	[311903] = { zoneID = 864, artID = { 889 }, x = 4167, y = 4266, overlay = { "4170-4260" } }; --Loose Parts
@@ -376,20 +376,20 @@ private.CONTAINER_INFO = {
 	[275071] = { zoneID = 895, artID = { 920 }, x = 8728, y = 7383, overlay = { "8730-7380","8780-7590","8800-7960","8840-7840","8870-7280","8900-7630","8930-7110","8990-7820","9000-7520" }, questReset = true }; --Small Treasure Chest
 	[275074] = { zoneID = 895, artID = { 920 }, x = 6693, y = 1623, overlay = { "6690-1640","6700-2130","6880-1740","6890-1930","6960-1480","6980-1270","7040-1700","7160-1820","7230-1700" }, questReset = true, questID = { 48619 } }; --Small Treasure Chest
 	[275076] = { zoneID = 895, artID = { 920 }, x = 4853, y = 1829, overlay = { "4400-1940","4440-2100","4470-1820","4540-2010","4540-2230","4640-1820","4640-2340","4740-1960","4850-1830","4890-1670" }, questReset = true }; --Small Treasure Chest
-	[279750] = { zoneID = 895, artID = { 920 }, x = 6736, y = 5163, overlay = { "6740-5170" } }; --Hay Covered Chest
+	[279750] = { zoneID = 895, artID = { 920 }, x = 6736, y = 5163, overlay = { "6740-5170" }, achievementID = { 12852 } }; --Hay Covered Chest
 	[280751] = { zoneID = 895, artID = { 920 }, x = 4100, y = 1207, overlay = { "3940-1580","3960-1340","4100-1210","4100-1420","4120-1610","4260-1720","4330-1500","4510-1530","4640-1510","4910-1460" }, questReset = true }; --Small Treasure Chest
-	[281397] = { zoneID = 895, artID = { 920 }, x = 7249, y = 5814, overlay = { "7240-5810" }, reset = false, questID = { 50442 } }; --Cutwater Treasure Chest
+	[281397] = { zoneID = 895, artID = { 920 }, x = 7249, y = 5814, overlay = { "7240-5810" }, reset = false, questID = { 50442 }, achievementID = { 12852 } }; --Cutwater Treasure Chest
 	[284469] = { zoneID = {
 				[895] = { x = 7189, y = 3969, artID = { 920 }, overlay = { "7189-3969" } };
 				[1161] = { x = 5940, y = 8690, artID = { 1138 }, overlay = { "5940-8690","6030-8230","6140-7800","6370-7560","6640-8030","6700-8540","7020-8550","7120-8250" } };
 			  }, questReset = true }; --null
-	[293852] = { zoneID = 895, artID = { 920 }, x = 5500, y = 4610, overlay = { "5500-4610" } }; --Buried Treasure Chest
-	[293880] = { zoneID = 895, artID = { 920 }, x = 2929, y = 2530, overlay = { "2930-2530" } }; --Buried Treasure Chest
-	[293881] = { zoneID = 895, artID = { 920 }, x = 9050, y = 7540, overlay = { "9050-7540" } }; --Buried Treasure Chest
-	[293884] = { zoneID = 895, artID = { 920 }, x = 4900, y = 3760, overlay = { "4900-3760" } }; --Buried Treasure Chest
-	[293962] = { zoneID = 895, artID = { 920 }, x = 5602, y = 3319, overlay = { "5600-3310" }, reset = false, questID = { 52866 } }; --Precarious Noble Cache
-	[293964] = { zoneID = 895, artID = { 920 }, x = 6177, y = 6274, overlay = { "6170-6280" }, reset = false, questID = { 52867 } }; --Forgotten Smuggler's Stash
-	[293965] = { zoneID = 895, artID = { 920 }, x = 7265, y = 2133, overlay = { "7260-2140" }, reset = false, questID = { 52870 } }; --Scrimshaw Cache
+	[293852] = { zoneID = 895, artID = { 920 }, x = 5500, y = 4610, overlay = { "5500-4610" }, achievementID = { 12852 } }; --Buried Treasure Chest
+	[293880] = { zoneID = 895, artID = { 920 }, x = 2929, y = 2530, overlay = { "2930-2530" }, achievementID = { 12852 } }; --Buried Treasure Chest
+	[293881] = { zoneID = 895, artID = { 920 }, x = 9050, y = 7540, overlay = { "9050-7540" }, achievementID = { 12852 } }; --Buried Treasure Chest
+	[293884] = { zoneID = 895, artID = { 920 }, x = 4900, y = 3760, overlay = { "4900-3760" }, achievementID = { 12852 } }; --Buried Treasure Chest
+	[293962] = { zoneID = 895, artID = { 920 }, x = 5602, y = 3319, overlay = { "5600-3310" }, reset = false, questID = { 52866 }, achievementID = { 12852 } }; --Precarious Noble Cache
+	[293964] = { zoneID = 895, artID = { 920 }, x = 6177, y = 6274, overlay = { "6170-6280" }, reset = false, questID = { 52867 }, achievementID = { 12852 } }; --Forgotten Smuggler's Stash
+	[293965] = { zoneID = 895, artID = { 920 }, x = 7265, y = 2133, overlay = { "7260-2140" }, reset = false, questID = { 52870 }, achievementID = { 12852 } }; --Scrimshaw Cache
 	[302954] = { zoneID = {
 				[895] = { x = 7960, y = 2020, artID = { 920 }, overlay = { "7960-2020" } };
 				[1161] = { x = 9191, y = 0183, artID = { 920,1138 }, overlay = { "9191-0183" } };
@@ -409,26 +409,26 @@ private.CONTAINER_INFO = {
 	[291228] = { zoneID = 896, artID = { 921 }, x = 2213, y = 5574, overlay = { "1820-5920","1840-5430","1940-5760","2040-5200","2040-5500","2100-5780","2210-5570","2310-5270","2410-5640","2520-4990","2670-5170" }, questReset = true }; --Small Treasure Chest
 	[291229] = { zoneID = 896, artID = { 921 }, x = 3199, y = 5756, overlay = { "2280-6430","2430-6040","2510-6330","2560-6140","2590-6550","2640-5890","2820-5910","3200-5740" }, questReset = true }; --Small Treasure Chest
 	[291230] = { zoneID = 896, artID = { 921 }, x = 3731, y = 6587, overlay = { "3370-7200","3610-5680","3620-6150","3640-7160","3740-6590","3760-5940","3790-5700","3800-6360","3870-6480","3930-6170","4460-7440" }, questReset = true }; --Small Treasure Chest
-	[297825] = { zoneID = 896, artID = { 921 }, x = 3371, y = 3007, overlay = { "3370-3010" } }; --Web-Covered Chest
-	[297828] = { zoneID = 896, artID = { 921 }, x = 2574, y = 1994, overlay = { "2580-1990" } }; --Merchant's Chest
-	[297878] = { zoneID = 896, artID = { 921 }, x = 1850, y = 5133, overlay = { "1840-5130" } }; --Hexed Chest
-	[297879] = { zoneID = 896, artID = { 921 }, x = 5560, y = 5181, overlay = { "5560-5180" } }; --Bespelled Chest
-	[297880] = { zoneID = 896, artID = { 921 }, x = 6776, y = 7368, overlay = { "6770-7370" } }; --Ensorcelled Chest
-	[297881] = { zoneID = 896, artID = { 921 }, x = 2545, y = 2418, overlay = { "2540-2410" } }; --Enchanted Chest
-	[297891] = { zoneID = 896, artID = { 921 }, x = 6329, y = 6585, overlay = { "6330-6580" } }; --Runebound Cache
-	[297892] = { zoneID = 896, artID = { 921 }, x = 4421, y = 2769, overlay = { "4420-2780" } }; --Runebound Chest
-	[297893] = { zoneID = 896, artID = { 921 }, x = 3368, y = 7173, overlay = { "3370-7170" } }; --Runebound Coffer
-	[298920] = { zoneID = 896, artID = { 921 }, x = 2440, y = 4860, overlay = { "2430-4840" } }; --Stolen Thornspeaker Cache
+	[297825] = { zoneID = 896, artID = { 921 }, x = 3371, y = 3007, overlay = { "3370-3010" }, achievementID = { 12995 } }; --Web-Covered Chest
+	[297828] = { zoneID = 896, artID = { 921 }, x = 2574, y = 1994, overlay = { "2580-1990" }, achievementID = { 12995 } }; --Merchant's Chest
+	[297878] = { zoneID = 896, artID = { 921 }, x = 1850, y = 5133, overlay = { "1840-5130" }, achievementID = { 12995 } }; --Hexed Chest
+	[297879] = { zoneID = 896, artID = { 921 }, x = 5560, y = 5181, overlay = { "5560-5180" }, achievementID = { 12995 } }; --Bespelled Chest
+	[297880] = { zoneID = 896, artID = { 921 }, x = 6776, y = 7368, overlay = { "6770-7370" }, achievementID = { 12995 } }; --Ensorcelled Chest
+	[297881] = { zoneID = 896, artID = { 921 }, x = 2545, y = 2418, overlay = { "2540-2410" }, achievementID = { 12995 } }; --Enchanted Chest
+	[297891] = { zoneID = 896, artID = { 921 }, x = 6329, y = 6585, overlay = { "6330-6580" }, achievementID = { 12995 } }; --Runebound Cache
+	[297892] = { zoneID = 896, artID = { 921 }, x = 4421, y = 2769, overlay = { "4420-2780" }, achievementID = { 12995 } }; --Runebound Chest
+	[297893] = { zoneID = 896, artID = { 921 }, x = 3368, y = 7173, overlay = { "3370-7170" }, achievementID = { 12995 } }; --Runebound Coffer
+	[298920] = { zoneID = 896, artID = { 921 }, x = 2440, y = 4860, overlay = { "2430-4840" }, achievementID = { 12995 } }; --Stolen Thornspeaker Cache
 	[277384] = { zoneID = 903, artID = { 928 }, x = 2998, y = 7406, overlay = { "2998-7406" } }; --Abandoned Treasure
 	[28441] = { zoneID = 903, x = 2998, y = 7406, overlay = { "2998-7406" } }; --Objects
-	[279042] = { zoneID = 942, artID = { 967 }, x = 5859, y = 8387, overlay = { "5860-8390" }, reset = false, questID = { 49811 } }; --Smuggler's Stash
-	[280619] = { zoneID = 942, artID = { 967 }, x = 4285, y = 4723, overlay = { "4290-4720" }, reset = false, questID = { 50089 } }; --Old Ironbound Chest
-	[281494] = { zoneID = 942, artID = { 967 }, x = 4897, y = 8410, overlay = { "4900-8400" }, reset = false, questID = { 50526 } }; --Frosty Treasure Chest
+	[279042] = { zoneID = 942, artID = { 967 }, x = 5859, y = 8387, overlay = { "5860-8390" }, reset = false, questID = { 49811 }, achievementID = { 12853 } }; --Smuggler's Stash
+	[280619] = { zoneID = 942, artID = { 967 }, x = 4285, y = 4723, overlay = { "4290-4720" }, reset = false, questID = { 50089 }, achievementID = { 12853 } }; --Old Ironbound Chest
+	[281494] = { zoneID = 942, artID = { 967 }, x = 4897, y = 8410, overlay = { "4900-8400" }, reset = false, questID = { 50526 }, achievementID = { 12853 } }; --Frosty Treasure Chest
 	[281646] = { zoneID = 942, artID = { 967 }, x = 6658, y = 7106, overlay = { "6660-7120" }, reset = false, questID = { 50576 } }; --Honey Vat
-	[282153] = { zoneID = 942, artID = { 967 }, x = 6721, y = 4320, overlay = { "6720-4320" }, reset = false, questID = { 50734 } }; --Sunken Strongbox
-	[284448] = { zoneID = 942, artID = { 967 }, x = 5991, y = 3906, overlay = { "5990-3910" }, reset = false, questID = { 50937 } }; --Hidden Scholar's Chest
+	[282153] = { zoneID = 942, artID = { 967 }, x = 6721, y = 4320, overlay = { "6720-4320" }, reset = false, questID = { 50734 }, achievementID = { 12853 } }; --Sunken Strongbox
+	[284448] = { zoneID = 942, artID = { 967 }, x = 5991, y = 3906, overlay = { "5990-3910" }, reset = false, questID = { 50937 }, achievementID = { 12853 } }; --Hidden Scholar's Chest
 	[287531] = { zoneID = 942, artID = { 967 }, x = 6564, y = 6124, overlay = { "6130-6300","6180-6520","6420-5830","6490-6010","6520-6240","6680-6080","6564-6124" }, questReset = true }; --Small Treasure Chest
-	[289647] = { zoneID = 942, artID = { 967 }, x = 6692, y = 1206, overlay = { "6700-1210" }, reset = false, questID = { 51449 } }; --Weathered Treasure Chest
+	[289647] = { zoneID = 942, artID = { 967 }, x = 6692, y = 1206, overlay = { "6700-1210" }, reset = false, questID = { 51449 }, achievementID = { 12853 } }; --Weathered Treasure Chest
 	[291244] = { zoneID = 942, artID = { 967 }, x = 6994, y = 5702, overlay = { "6810-5070","6870-5200","6930-5790","6990-5160","6990-5610","7000-5280","7010-5910","7100-5820" }, questReset = true, questID = { 51927 } }; --Small Treasure Chest
 	[291246] = { zoneID = 942, artID = { 967 }, x = 6666, y = 4375, overlay = { "4830-4540","4840-4210","4910-4710","4940-4390","4960-4580","5060-4410","5070-4660","6560-4380","6610-4040","6620-4530","6690-4260","6740-4130","6760-4440","7640-3530","7670-3750","7720-3410","7790-3200","7790-3520","7790-3790","7840-3630","7950-3700","7960-3540" }, questReset = true }; --Small Treasure Chest
 	[291254] = { zoneID = 942, artID = { 967 }, x = 6025, y = 4295, overlay = { "5930-4240","5970-3900","6040-4160","6110-3870","6120-4040","6680-3610" }, questReset = true }; --Small Treasure Chest
@@ -444,61 +444,61 @@ private.CONTAINER_INFO = {
 	[291265] = { zoneID = 942, artID = { 967 }, x = 2901, y = 5773, overlay = { "2620-6190","2680-6350","2820-6150","2900-5780","3000-5140","3010-4750","3040-4330","3090-4540","3120-5140","3130-4070","3160-4940","3330-4510","3430-4380" } }; --Small Treasure Chest
 	[291266] = { zoneID = 942, artID = { 967 }, x = 3885, y = 4199, overlay = { "3510-3440","3540-3120","3620-2740","3740-3390","3790-4400","3800-2710","3840-3810","3860-3180","3890-2500","3890-4200","3900-4470","4060-2630" }, questReset = true }; --Small Treasure Chest
 	[291267] = { zoneID = 942, artID = { 967 }, x = 5942, y = 5154, overlay = { "5760-5090","5940-5140","6030-4960","6090-5120","6120-4640","6220-4880" }, questReset = true }; --Small Treasure Chest
-	[293349] = { zoneID = 942, artID = { 967 }, x = 5821, y = 6368, overlay = { "5820-6360" } }; --Discarded Lunchbox
-	[293350] = { zoneID = 942, artID = { 967 }, x = 4443, y = 7353, overlay = { "4440-7340" } }; --Carved Wooden Chest
-	[294173] = { zoneID = 942, artID = { 967 }, x = 3669, y = 2323, overlay = { "3670-2330" }, reset = false, questID = { 52976 } }; --Venture Co. Supply Chest
-	[294174] = { zoneID = 942, artID = { 967 }, x = 4600, y = 3069, overlay = { "4600-3060" } }; --Forgotten Chest
+	[293349] = { zoneID = 942, artID = { 967 }, x = 5821, y = 6368, overlay = { "5820-6360" }, achievementID = { 12853 } }; --Discarded Lunchbox
+	[293350] = { zoneID = 942, artID = { 967 }, x = 4443, y = 7353, overlay = { "4440-7340" }, achievementID = { 12853 } }; --Carved Wooden Chest
+	[294173] = { zoneID = 942, artID = { 967 }, x = 3669, y = 2323, overlay = { "3670-2330" }, reset = false, questID = { 52976 }, achievementID = { 12853 } }; --Venture Co. Supply Chest
+	[294174] = { zoneID = 942, artID = { 967 }, x = 4600, y = 3069, overlay = { "4600-3060" }, achievementID = { 12853 } }; --Forgotten Chest
 	[294311] = { zoneID = 942, artID = { 967 }, x = 8211, y = 4402, overlay = { "7780-4210","7870-5740","7910-4330","7960-5520","8170-5010","8220-4400","8420-5450","8470-5330","8540-5040","8600-5230" }, questReset = true }; --Small Treasure Chest
 	[303039] = { zoneID = 942, artID = { 967 }, x = 3215, y = 6623, overlay = { "3210-6620" } }; --Curious Grain Sack
 	[303170] = { zoneID = 942, artID = { 967 }, x = 3288, y = 6965, overlay = { "3290-6970" } }; --Curious Grain Sack
 	[328883] = { zoneID = 942, artID = { 967 }, x = 7232, y = 5224, overlay = { "7232-5224","2560-7330","3340-3290","4090-6210","4740-3220","5720-5130","6180-3100","6300-2130","6640-7000" } }; --Fresh Jelly Deposit
-	[292673] = { zoneID = 1161, artID = { 1138 }, x = 5600, y = 9110, overlay = { "5600-9110" } }; --A Damp Scroll
-	[292674] = { zoneID = 1161, artID = { 1138 }, x = 6120, y = 7809, overlay = { "6120-7810" } }; --A Damp Scroll
-	[292675] = { zoneID = 1161, artID = { 1138 }, x = 6300, y = 8180, overlay = { "6300-8180" } }; --A Damp Scroll
-	[292676] = { zoneID = 1161, artID = { 1138 }, x = 7100, y = 8440, overlay = { "7100-8440" } }; --A Damp Scroll
-	[292677] = { zoneID = 1161, artID = { 1138 }, x = 6720, y = 7980, overlay = { "6720-7980" } }; --A Damp Scroll
-	[292686] = { zoneID = 1161, artID = { 1138 }, x = 5519, y = 9012, overlay = { "5580-9100" } }; --Ominous Altar
-	[276735] = { zoneID = 1165, artID = { 1143 }, x = 3828, y = 0714, overlay = { "3830-0730" }, questID = { 48938 } }; --Offerings of the Chosen
+	[292673] = { zoneID = 1161, artID = { 1138 }, x = 5600, y = 9110, overlay = { "5600-9110" }, achievementID = { 12852 } }; --A Damp Scroll
+	[292674] = { zoneID = 1161, artID = { 1138 }, x = 6120, y = 7809, overlay = { "6120-7810" }, achievementID = { 12852 } }; --A Damp Scroll
+	[292675] = { zoneID = 1161, artID = { 1138 }, x = 6300, y = 8180, overlay = { "6300-8180" }, achievementID = { 12852 } }; --A Damp Scroll
+	[292676] = { zoneID = 1161, artID = { 1138 }, x = 7100, y = 8440, overlay = { "7100-8440" }, achievementID = { 12852 } }; --A Damp Scroll
+	[292677] = { zoneID = 1161, artID = { 1138 }, x = 6720, y = 7980, overlay = { "6720-7980" }, achievementID = { 12852 } }; --A Damp Scroll
+	[292686] = { zoneID = 1161, artID = { 1138 }, x = 5519, y = 9012, overlay = { "5580-9100" }, achievementID = { 12852 } }; --Ominous Altar
+	[276735] = { zoneID = 1165, artID = { 1143 }, x = 3828, y = 0714, overlay = { "3830-0730" }, questID = { 48938 }, achievementID = { 12851 } }; --Offerings of the Chosen
 	[277336] = { zoneID = {
 				[1165] = { x = 4423, y = 1318, artID = { 1143 }, overlay = { "3790-0930","3910-1480","4220-1420","4420-1340","4520-1240","4670-1640","4910-1020","4940-1630","5240-1240","5240-1740" } };
 				[1167] = { x = 4330, y = 4829, artID = { 1147 }, overlay = { "4330-4830","4330-4990","4350-5130","4440-6290","4440-6440","4530-6110","4590-6290","4670-6060","4700-2950","4740-3070","4810-2730","4830-3190","4860-3020","4880-2900","5620-8480","5640-8730","5720-8410","5790-8220","5790-8570","5830-8720","5850-8340","5900-8450","5910-8200","6420-2900","6490-3810","6530-3100","6540-2640","6540-3990","6570-2760","6620-3210","6630-3670","6640-2980","6640-4070","6650-3850","6730-2820","6760-4020","6780-3880","6820-3040","6850-2770","6920-3170","6930-2900","6960-3040","7000-3280" } };
 			  }, questReset = true, questID = { 49142 } }; --null
-	[284454] = { zoneID = 1165, artID = { 1143 }, x = 5930, y = 8866, overlay = { "5920-8880" }, questID = { 50947,50948 } }; --Da White Shark's Bounty
-	[288596] = { zoneID = 1165, artID = { 1143 }, x = 4442, y = 2692, overlay = { "4440-2670" }, questID = { 51338 } }; --Cache of Secrets
+	[284454] = { zoneID = 1165, artID = { 1143 }, x = 5930, y = 8866, overlay = { "5920-8880" }, questID = { 50947,50948 }, achievementID = { 12851 } }; --Da White Shark's Bounty
+	[288596] = { zoneID = 1165, artID = { 1143 }, x = 4442, y = 2692, overlay = { "4440-2670" }, questID = { 51338 }, achievementID = { 12851 } }; --Cache of Secrets
 	[316863] = { zoneID = 1165, artID = { 1143 }, x = 4667, y = 2976, overlay = { "4667-2976" }, reset = false }; --Lost Zandalari Relic
 	[273901] = { zoneID = 1169, artID = { 974 }, x = 2743, y = 6676, overlay = { "2910-5130","3580-2940","5020-6480","5140-2180","6130-6180","6130-6310","7010-2130","7080-2020","7600-5890","2743-6676" } }; --Small Treasure Chest
-	[324414] = { zoneID = 1355, artID = { 1186 }, x = 5492, y = 4861, overlay = { "5490-4870" }, weeklyReset = true, questID = { 55475 } }; --Slimy Cocoon
-	[324415] = { zoneID = 1355, artID = { 1186 }, x = 7179, y = 2581, overlay = { "7180-2570" }, weeklyReset = true, questID = { 55471 } }; --Slimy Cocoon
-	[324416] = { zoneID = 1355, artID = { 1186 }, x = 4572, y = 2412, overlay = { "4570-2410" }, weeklyReset = true, questID = { 55477 } }; --Slimy Cocoon
-	[324417] = { zoneID = 1355, artID = { 1186 }, x = 3282, y = 3954, overlay = { "3280-3960" }, weeklyReset = true, questID = { 55478 } }; --Slimy Cocoon
-	[326394] = { zoneID = 1355, artID = { 1186 }, x = 8528, y = 3858, overlay = { "8520-3860" }, questID = { 55938 } }; --Arcane Chest
-	[326395] = { zoneID = 1355, artID = { 1186 }, x = 4395, y = 1691, overlay = { "4390-1680" }, questID = { 55963,56975,55987 } }; --Glowing Arcane Trunk
-	[326396] = { zoneID = 1355, artID = { 1186 }, x = 6421, y = 2858, overlay = { "6410-2840" }, questID = { 55962,55996 } }; --Glowing Arcane Trunk
-	[326397] = { zoneID = 1355, artID = { 1186 }, x = 5563, y = 1449, overlay = { "5570-1440" }, questID = { 55961,55998 } }; --Glowing Arcane Trunk
-	[326398] = { zoneID = 1355, artID = { 1186 }, x = 3722, y = 1917, overlay = { "3720-1920" }, questID = { 55960,55999,56974 } }; --Glowing Arcane Trunk
-	[326399] = { zoneID = 1355, artID = { 1186 }, x = 3790, y = 0644, overlay = { "3790-0640" }, questID = { 55959,56343 } }; --Glowing Arcane Trunk
-	[326400] = { zoneID = 1355, artID = { 1186 }, x = 6140, y = 2285, overlay = { "6140-2280" }, questID = { 55958,56359 } }; --Glowing Arcane Trunk
-	[326401] = { zoneID = 1355, artID = { 1186 }, x = 8035, y = 2981, overlay = { "8030-2980" }, questID = { 55939 } }; --Arcane Chest
-	[326402] = { zoneID = 1355, artID = { 1186 }, x = 7477, y = 5319, overlay = { "7480-5320" }, questID = { 55940 } }; --Arcane Chest
-	[326403] = { zoneID = 1355, artID = { 1186 }, x = 7326, y = 3580, overlay = { "7330-3580" }, questID = { 55941 } }; --Arcane Chest
-	[326404] = { zoneID = 1355, artID = { 1186 }, x = 7952, y = 2716, overlay = { "7940-2710" }, questID = { 55942 } }; --Arcane Chest
-	[326405] = { zoneID = 1355, artID = { 1186 }, x = 6431, y = 3335, overlay = { "6430-3340" }, questID = { 55943 } }; --Arcane Chest
-	[326406] = { zoneID = 1355, artID = { 1186 }, x = 5632, y = 3378, overlay = { "5640-3390" }, questID = { 55944 } }; --Arcane Chest
-	[326407] = { zoneID = 1355, artID = { 1186 }, x = 5283, y = 4977, overlay = { "5290-4980" }, questID = { 55945 } }; --Arcane Chest
-	[326408] = { zoneID = 1355, artID = { 1186 }, x = 5800, y = 3506, overlay = { "5810-3510" }, questID = { 55946 } }; --Arcane Chest
-	[326409] = { zoneID = 1355, artID = { 1186 }, x = 3971, y = 4919, overlay = { "3970-4920" }, questID = { 55956 } }; --Arcane Chest
-	[326410] = { zoneID = 1355, artID = { 1186 }, x = 5061, y = 4995, overlay = { "5060-5000" }, questID = { 55955 } }; --Arcane Chest
-	[326411] = { zoneID = 1355, artID = { 1186 }, x = 3446, y = 4036, overlay = { "3440-4030" }, questID = { 55954 } }; --Arcane Chest
-	[326412] = { zoneID = 1355, artID = { 1186 }, x = 2594, y = 3240, overlay = { "2590-3250" }, questID = { 55953 } }; --Arcane Chest
-	[326413] = { zoneID = 1355, artID = { 1186 }, x = 3464, y = 4357, overlay = { "3470-4340" }, questID = { 55952 } }; --Arcane Chest
-	[326414] = { zoneID = 1355, artID = { 1186 }, x = 4845, y = 8737, overlay = { "4840-8730" }, questID = { 55951 } }; --Arcane Chest
-	[326415] = { zoneID = 1355, artID = { 1186 }, x = 3871, y = 7441, overlay = { "3870-7440" }, questID = { 55950 } }; --Arcane Chest
-	[326416] = { zoneID = 1355, artID = { 1186 }, x = 4957, y = 6448, overlay = { "4940-6440" }, questID = { 55949 } }; --Arcane Chest
-	[326417] = { zoneID = 1355, artID = { 1186 }, x = 4334, y = 5818, overlay = { "4330-5810" }, questID = { 55948 } }; --Arcane Chest
-	[326418] = { zoneID = 1355, artID = { 1186 }, x = 3796, y = 6059, overlay = { "3800-6040" }, questID = { 55957 } }; --Arcane Chest
-	[326419] = { zoneID = 1355, artID = { 1186 }, x = 4474, y = 4891, overlay = { "4480-4880" }, questID = { 55947 } }; --Arcane Chest
-	[329783] = { zoneID = 1355, artID = { 1186 }, x = 8053, y = 3193, overlay = { "8040-3190" }, questID = { 56547,56548,56977 } }; --Glowing Arcane Trunk
-	[332220] = { zoneID = 1355, artID = { 1186 }, x = 2485, y = 3526, overlay = { "2490-3520" }, questID = { 56912,56913 } }; --Glowing Arcane Trunk
+	[324414] = { zoneID = 1355, artID = { 1186 }, x = 5492, y = 4861, overlay = { "5490-4870" }, weeklyReset = true, questID = { 55475 }, achievementID = { 13715 } }; --Slimy Cocoon
+	[324415] = { zoneID = 1355, artID = { 1186 }, x = 7179, y = 2581, overlay = { "7180-2570" }, weeklyReset = true, questID = { 55471 }, achievementID = { 13715 } }; --Slimy Cocoon
+	[324416] = { zoneID = 1355, artID = { 1186 }, x = 4572, y = 2412, overlay = { "4570-2410" }, weeklyReset = true, questID = { 55477 }, achievementID = { 13715 } }; --Slimy Cocoon
+	[324417] = { zoneID = 1355, artID = { 1186 }, x = 3282, y = 3954, overlay = { "3280-3960" }, weeklyReset = true, questID = { 55478 }, achievementID = { 13715 } }; --Slimy Cocoon
+	[326394] = { zoneID = 1355, artID = { 1186 }, x = 8528, y = 3858, overlay = { "8520-3860" }, questID = { 55938 }, achievementID = { 13549 } }; --Arcane Chest
+	[326395] = { zoneID = 1355, artID = { 1186 }, x = 4395, y = 1691, overlay = { "4390-1680" }, questID = { 55963,56975,55987 }, achievementID = { 13549 } }; --Glowing Arcane Trunk
+	[326396] = { zoneID = 1355, artID = { 1186 }, x = 6421, y = 2858, overlay = { "6410-2840" }, questID = { 55962,55996 }, achievementID = { 13549 } }; --Glowing Arcane Trunk
+	[326397] = { zoneID = 1355, artID = { 1186 }, x = 5563, y = 1449, overlay = { "5570-1440" }, questID = { 55961,55998 }, achievementID = { 13549 } }; --Glowing Arcane Trunk
+	[326398] = { zoneID = 1355, artID = { 1186 }, x = 3722, y = 1917, overlay = { "3720-1920" }, questID = { 55960,55999,56974 }, achievementID = { 13549 } }; --Glowing Arcane Trunk
+	[326399] = { zoneID = 1355, artID = { 1186 }, x = 3790, y = 0644, overlay = { "3790-0640" }, questID = { 55959,56343 }, achievementID = { 13549 } }; --Glowing Arcane Trunk
+	[326400] = { zoneID = 1355, artID = { 1186 }, x = 6140, y = 2285, overlay = { "6140-2280" }, questID = { 55958,56359 }, achievementID = { 13549 } }; --Glowing Arcane Trunk
+	[326401] = { zoneID = 1355, artID = { 1186 }, x = 8035, y = 2981, overlay = { "8030-2980" }, questID = { 55939 }, achievementID = { 13549 } }; --Arcane Chest
+	[326402] = { zoneID = 1355, artID = { 1186 }, x = 7477, y = 5319, overlay = { "7480-5320" }, questID = { 55940 }, achievementID = { 13549 } }; --Arcane Chest
+	[326403] = { zoneID = 1355, artID = { 1186 }, x = 7326, y = 3580, overlay = { "7330-3580" }, questID = { 55941 }, achievementID = { 13549 } }; --Arcane Chest
+	[326404] = { zoneID = 1355, artID = { 1186 }, x = 7952, y = 2716, overlay = { "7940-2710" }, questID = { 55942 }, achievementID = { 13549 } }; --Arcane Chest
+	[326405] = { zoneID = 1355, artID = { 1186 }, x = 6431, y = 3335, overlay = { "6430-3340" }, questID = { 55943 }, achievementID = { 13549 } }; --Arcane Chest
+	[326406] = { zoneID = 1355, artID = { 1186 }, x = 5632, y = 3378, overlay = { "5640-3390" }, questID = { 55944 }, achievementID = { 13549 } }; --Arcane Chest
+	[326407] = { zoneID = 1355, artID = { 1186 }, x = 5283, y = 4977, overlay = { "5290-4980" }, questID = { 55945 }, achievementID = { 13549 } }; --Arcane Chest
+	[326408] = { zoneID = 1355, artID = { 1186 }, x = 5800, y = 3506, overlay = { "5810-3510" }, questID = { 55946 }, achievementID = { 13549 } }; --Arcane Chest
+	[326409] = { zoneID = 1355, artID = { 1186 }, x = 3971, y = 4919, overlay = { "3970-4920" }, questID = { 55956 }, achievementID = { 13549 } }; --Arcane Chest
+	[326410] = { zoneID = 1355, artID = { 1186 }, x = 5061, y = 4995, overlay = { "5060-5000" }, questID = { 55955 }, achievementID = { 13549 } }; --Arcane Chest
+	[326411] = { zoneID = 1355, artID = { 1186 }, x = 3446, y = 4036, overlay = { "3440-4030" }, questID = { 55954 }, achievementID = { 13549 } }; --Arcane Chest
+	[326412] = { zoneID = 1355, artID = { 1186 }, x = 2594, y = 3240, overlay = { "2590-3250" }, questID = { 55953 }, achievementID = { 13549 } }; --Arcane Chest
+	[326413] = { zoneID = 1355, artID = { 1186 }, x = 3464, y = 4357, overlay = { "3470-4340" }, questID = { 55952 }, achievementID = { 13549 } }; --Arcane Chest
+	[326414] = { zoneID = 1355, artID = { 1186 }, x = 4845, y = 8737, overlay = { "4840-8730" }, questID = { 55951 }, achievementID = { 13549 } }; --Arcane Chest
+	[326415] = { zoneID = 1355, artID = { 1186 }, x = 3871, y = 7441, overlay = { "3870-7440" }, questID = { 55950 }, achievementID = { 13549 } }; --Arcane Chest
+	[326416] = { zoneID = 1355, artID = { 1186 }, x = 4957, y = 6448, overlay = { "4940-6440" }, questID = { 55949 }, achievementID = { 13549 } }; --Arcane Chest
+	[326417] = { zoneID = 1355, artID = { 1186 }, x = 4334, y = 5818, overlay = { "4330-5810" }, questID = { 55948 }, achievementID = { 13549 } }; --Arcane Chest
+	[326418] = { zoneID = 1355, artID = { 1186 }, x = 3796, y = 6059, overlay = { "3800-6040" }, questID = { 55957 }, achievementID = { 13549 } }; --Arcane Chest
+	[326419] = { zoneID = 1355, artID = { 1186 }, x = 4474, y = 4891, overlay = { "4480-4880" }, questID = { 55947 }, achievementID = { 13549 } }; --Arcane Chest
+	[329783] = { zoneID = 1355, artID = { 1186 }, x = 8053, y = 3193, overlay = { "8040-3190" }, questID = { 56547,56548,56977 }, achievementID = { 13549 } }; --Glowing Arcane Trunk
+	[332220] = { zoneID = 1355, artID = { 1186 }, x = 2485, y = 3526, overlay = { "2490-3520" }, questID = { 56912,56913 }, achievementID = { 13549 } }; --Glowing Arcane Trunk
 	[325659] = { zoneID = 1462, artID = { 1276 }, x = 4330, y = 4977, overlay = { "4320-4940","4910-3020","5210-5310","5320-4170","5700-3840" }, questReset = true, questID = { 55547 } }; --Mechanized Chest
 	[325660] = { zoneID = 1462, artID = { 1276 }, x = 3567, y = 3831, overlay = { "2040-7140","3090-5170","3540-3830","4000-5410" }, questReset = true, questID = { 55548 } }; --Mechanized Chest
 	[325661] = { zoneID = 1462, artID = { 1276 }, x = 5996, y = 6355, overlay = { "6010-6340","6590-6440","6720-5640","7340-5340","8040-4820" }, questReset = true, questID = { 55549 } }; --Mechanized Chest
@@ -509,17 +509,17 @@ private.CONTAINER_INFO = {
 	[325666] = { zoneID = 1462, artID = { 1276 }, x = 4836, y = 7593, overlay = { "4840-7580","5730-8220","6220-7400","6660-7770" }, questReset = true, questID = { 55554 } }; --Mechanized Chest
 	[325667] = { zoneID = 1462, artID = { 1276 }, x = 6362, y = 6716, overlay = { "6340-6730","7220-6540","7640-6590","8110-7220","8510-6330" }, questReset = true, questID = { 55555 } }; --Mechanized Chest
 	[325668] = { zoneID = 1462, artID = { 1276 }, x = 2178, y = 8304, overlay = { "1200-8540","2040-7700","2170-8300","2480-6540" }, questReset = true, questID = { 55556 } }; --Mechanized Chest
-	[173449] = { zoneID = 1525, artID = { 1306 }, x = 3772, y = 6925, overlay = { "3772-6925" }, questID = { 61990 } }; --Objects
-	[173488] = { zoneID = 1525, artID = { 1306 }, x = 5737, y = 4334, overlay = { "5737-4334" }, questID = { 62063 } }; --Objects
-	[173603] = { zoneID = 1525, artID = { 1306 }, x = 7995, y = 3714, overlay = { "7999-3700" }, questID = { 62156 } }; --Objects
-	[349565] = { zoneID = 1525, artID = { 1306 }, x = 6932, y = 7796, overlay = { "6930-7800" }, questID = { 59833 } }; --Chest of Envious Dreams
+	[173449] = { zoneID = 1525, artID = { 1306 }, x = 3772, y = 6925, overlay = { "3772-6925" }, questID = { 61990 }, achievementID = { 14314 } }; --Objects
+	[173488] = { zoneID = 1525, artID = { 1306 }, x = 5737, y = 4334, overlay = { "5737-4334" }, questID = { 62063 }, achievementID = { 14314 } }; --Objects
+	[173603] = { zoneID = 1525, artID = { 1306 }, x = 7995, y = 3714, overlay = { "7999-3700" }, questID = { 62156 }, achievementID = { 14314 } }; --Objects
+	[349565] = { zoneID = 1525, artID = { 1306 }, x = 6932, y = 7796, overlay = { "6930-7800" }, questID = { 59833 }, achievementID = { 14314 } }; --Chest of Envious Dreams
 	[349792] = { zoneID = 1525, artID = { 1306 }, x = 6418, y = 7265, overlay = { "6420-7270" }, reset = false, questID = { 59883 } }; --Filcher's Prize
-	[349793] = { zoneID = 1525, artID = { 1306 }, x = 6844, y = 6445, overlay = { "6840-6440" }, questID = { 59884 } }; --Wayfarer's Abandoned Spoils
-	[349794] = { zoneID = 1525, artID = { 1306 }, x = 6152, y = 5864, overlay = { "6140-5850" }, questID = { 59885 } }; --Remlate's Hidden Cache
-	[349795] = { zoneID = 1525, artID = { 1306 }, x = 4639, y = 5817, overlay = { "4640-5810" }, questID = { 59886 } }; --Fleeing Soul's Bundle
-	[349796] = { zoneID = 1525, artID = { 1306 }, x = 7484, y = 5706, overlay = { "7483-5723","7540-5540","7630-5390" }, reset = false, questID = { 59887 } }; --Gilded Plum Chest
-	[349797] = { zoneID = 1525, artID = { 1306 }, x = 5185, y = 5954, overlay = { "5180-5960" }, questID = { 59888 } }; --Abandoned Curios
-	[349798] = { zoneID = 1525, artID = { 1306 }, x = 3104, y = 5505, overlay = { "3110-5510" }, questID = { 59889 } }; --Smuggled Cache
+	[349793] = { zoneID = 1525, artID = { 1306 }, x = 6844, y = 6445, overlay = { "6840-6440" }, questID = { 59884 }, achievementID = { 14314 } }; --Wayfarer's Abandoned Spoils
+	[349794] = { zoneID = 1525, artID = { 1306 }, x = 6152, y = 5864, overlay = { "6140-5850" }, questID = { 59885 }, achievementID = { 14314 } }; --Remlate's Hidden Cache
+	[349795] = { zoneID = 1525, artID = { 1306 }, x = 4639, y = 5817, overlay = { "4640-5810" }, questID = { 59886 }, achievementID = { 14314 } }; --Fleeing Soul's Bundle
+	[349796] = { zoneID = 1525, artID = { 1306 }, x = 7484, y = 5706, overlay = { "7483-5723","7540-5540","7630-5390" }, reset = false, questID = { 59887 }, achievementID = { 14314 } }; --Gilded Plum Chest
+	[349797] = { zoneID = 1525, artID = { 1306 }, x = 5185, y = 5954, overlay = { "5180-5960" }, questID = { 59888 }, achievementID = { 14314 } }; --Abandoned Curios
+	[349798] = { zoneID = 1525, artID = { 1306 }, x = 3104, y = 5505, overlay = { "3110-5510" }, questID = { 59889 }, achievementID = { 14314 } }; --Smuggled Cache
 	[351487] = { zoneID = 1525, artID = { 1306 }, x = 6658, y = 4280, overlay = { "6660-4280" }, questReset = true, questID = { 60197 }, worldmap = true }; --Secret Treasure
 	[351540] = { zoneID = 1525, artID = { 1306 }, x = 7385, y = 4630, overlay = { "7380-4640" }, questReset = true, questID = { 60196 }, worldmap = true }; --Secret Treasure
 	[351541] = { zoneID = 1525, artID = { 1306 }, x = 4252, y = 5035, overlay = { "4250-5030" }, questReset = true, questID = { 60198 }, worldmap = true }; --Secret Treasure
@@ -553,14 +553,14 @@ private.CONTAINER_INFO = {
 	[354206] = { zoneID = 1525, artID = { 1306 }, x = 4524, y = 2934, overlay = { "2870-6040","4520-2940","6220-4490" }, questReset = true, questID = { 61045 }, worldmap = true }; --Greedstone
 	[354211] = { zoneID = 1525, artID = { 1306 }, x = 4593, y = 2915, overlay = { "2910-5960","4600-2910","6260-4400" }, questReset = true, questID = { 61045 }, worldmap = true }; --Greed's Reward
 	[356757] = { zoneID = 1525, artID = { 1306 }, x = 7256, y = 3432, overlay = { "7190-3440" }, questReset = true, questID = { 61045 } }; --Greed's Desire
-	[357487] = { zoneID = 1525, artID = { 1306 }, x = 3840, y = 4424, overlay = { "3820-4420" }, questID = { 61999 } }; --Stylish Parasol
+	[357487] = { zoneID = 1525, artID = { 1306 }, x = 3840, y = 4424, overlay = { "3820-4420" }, questID = { 61999 }, achievementID = { 14314 } }; --Stylish Parasol
 	[357565] = { zoneID = 1525, artID = { 1306 }, x = 7368, y = 7543, overlay = { "7370-7530" }, reset = false, questID = { 62196 } }; --Forgotten Angler's Rod
-	[357584] = { zoneID = 1525, artID = { 1306 }, x = 7017, y = 6005, overlay = { "7017-6005" }, questID = { 62164 } }; --Vyrtha's Dredglaive
-	[357683] = { zoneID = 1525, artID = { 1306 }, x = 2970, y = 3724, overlay = { "2970-3724" }, questID = { 62198 } }; --Outcast's Makeshift Muckpool
-	[357697] = { zoneID = 1525, artID = { 1306 }, x = 6281, y = 7530, overlay = { "6280-7530" }, questID = { 62199 } }; --Taskmaster's Trove
+	[357584] = { zoneID = 1525, artID = { 1306 }, x = 7017, y = 6005, overlay = { "7017-6005" }, questID = { 62164 }, achievementID = { 14314 } }; --Vyrtha's Dredglaive
+	[357683] = { zoneID = 1525, artID = { 1306 }, x = 2970, y = 3724, overlay = { "2970-3724" }, questID = { 62198 }, achievementID = { 14314 } }; --Outcast's Makeshift Muckpool
+	[357697] = { zoneID = 1525, artID = { 1306 }, x = 6281, y = 7530, overlay = { "6280-7530" }, questID = { 62199 }, achievementID = { 14314 } }; --Taskmaster's Trove
 	[358040] = { zoneID = 1525, artID = { 1306 }, x = 6736, y = 3032, overlay = { "6734-3025" }, questID = { 62252 } }; --Catacombs Cache
-	[358292] = { zoneID = 1525, artID = { 1306 }, x = 6301, y = 7236, overlay = { "6290-7230" }, questID = { 62199 } }; --Ingress and Egress Rites
-	[358298] = { zoneID = 1525, artID = { 1306 }, x = 4736, y = 5534, overlay = { "4740-5530" }, questID = { 62243 } }; --Forbidden Chamber Lockbox
+	[358292] = { zoneID = 1525, artID = { 1306 }, x = 6301, y = 7236, overlay = { "6290-7230" }, questID = { 62199 }, achievementID = { 14314 } }; --Ingress and Egress Rites
+	[358298] = { zoneID = 1525, artID = { 1306 }, x = 4736, y = 5534, overlay = { "4740-5530" }, questID = { 62243 }, achievementID = { 14314 } }; --Forbidden Chamber Lockbox
 	[324413] = { zoneID = 1527, artID = { 1343 }, x = 8158, y = 5359, overlay = { "7830-5070","8060-5120","8080-5610","8160-5370","8450-4540","8490-6190","8500-5090","8500-5400" } }; --Amathet Cache
 	[325626] = { zoneID = 1527, artID = { 1343 }, x = 6446, y = 3415, overlay = { "6450-3410","6690-2410","6740-4290","7330-7350","7370-5040","7600-4200","8310-6020" } }; --Amathet Reliquary
 	[325973] = { zoneID = 1527, artID = { 1343 }, x = 7221, y = 6422, overlay = { "7030-5810","7120-6840","7130-5930","7220-6410","7310-7290","7370-7400","7400-7090","7430-6470","7830-6200","7910-6490" } }; --Amathet Cache
@@ -606,11 +606,11 @@ private.CONTAINER_INFO = {
 	[334345] = { zoneID = 1533, artID = { 1321 }, x = 2705, y = 1932, overlay = { "2710-1940" } }; --Treasure of Courage
 	[334346] = { zoneID = 1533, artID = { 1321 }, x = 2685, y = 2473, overlay = { "2680-2470" }, questReset = true }; --Treasure of Purity
 	[336428] = { zoneID = 1533, artID = { 1321 }, x = 4295, y = 8305, overlay = { "4290-8300" }, questReset = true, questID = { 57708 } }; --Aspirant's Chest
-	[339601] = { zoneID = 1533, artID = { 1321 }, x = 5350, y = 8037, overlay = { "5350-8037" }, questID = { 58298 } }; --Scroll of Aeons
+	[339601] = { zoneID = 1533, artID = { 1321 }, x = 5350, y = 8037, overlay = { "5350-8037" }, questID = { 58298 }, achievementID = { 14311 } }; --Scroll of Aeons
 	[339625] = { zoneID = 1533, artID = { 1321 }, x = 5173, y = 6880, overlay = { "5173-6880" }, questID = { 58319 } }; --Sophia's Gift
-	[339641] = { zoneID = 1533, artID = { 1321 }, x = 5203, y = 8607, overlay = { "5210-8610" }, questID = { 58329 } }; --Purifying Draught
+	[339641] = { zoneID = 1533, artID = { 1321 }, x = 5203, y = 8607, overlay = { "5210-8610" }, questID = { 58329 }, achievementID = { 14311 } }; --Purifying Draught
 	[344588] = { zoneID = 1533, artID = { 1321 }, x = 4150, y = 4910, overlay = { "4150-4910" }, questID = { 62650 } }; --Stewart's Stewpendous Stew
-	[352428] = { zoneID = 1533, artID = { 1321 }, x = 5866, y = 7135, overlay = { "5860-7140" }, questID = { 60478 } }; --Vesper of Virtues
+	[352428] = { zoneID = 1533, artID = { 1321 }, x = 5866, y = 7135, overlay = { "5860-7140" }, questID = { 60478 }, achievementID = { 14311 } }; --Vesper of Virtues
 	[352754] = { zoneID = 1533, artID = { 1321 }, x = 4523, y = 8320, overlay = { "4520-8320" }, questReset = true, questID = { 60596 }, worldmap = true }; --Silver Strongbox
 	[352998] = { zoneID = 1533, artID = { 1321 }, x = 4074, y = 6721, overlay = { "4070-6720" }, questReset = true, questID = { 60625 }, worldmap = true }; --Silver Strongbox
 	[353019] = { zoneID = 1533, artID = { 1321 }, x = 6090, y = 8023, overlay = { "6090-8030" }, questReset = true, questID = { 60627 }, worldmap = true }; --Silver Strongbox
@@ -638,44 +638,44 @@ private.CONTAINER_INFO = {
 	[353873] = { zoneID = 1533, artID = { 1321 }, x = 4857, y = 5231, overlay = { "4850-5250" }, questReset = true, questID = { 60876 }, worldmap = true }; --Hidden Hoard
 	[353875] = { zoneID = 1533, artID = { 1321 }, x = 5954, y = 8942, overlay = { "5715-9272","3434-1828","5954-8942" }, questReset = true, questID = { 60882 } }; --Test of Penitence
 	[353876] = { zoneID = 1533, artID = { 1321 }, x = 5954, y = 8942, overlay = { "3440-1830","5710-9270","5950-8950","5860-9240" }, questReset = true, questID = { 60882 } }; --Virtue of Penitence
-	[353940] = { zoneID = 1533, artID = { 1321 }, x = 6487, y = 7114, overlay = { "6480-7120" }, questID = { 60890 } }; --Gift of Vesiphone
-	[353941] = { zoneID = 1533, artID = { 1321 }, x = 7047, y = 3645, overlay = { "7050-3650" }, questID = { 60892 } }; --Gift of Chyrus
-	[353942] = { zoneID = 1533, artID = { 1321 }, x = 3508, y = 5805, overlay = { "3510-5810" }, questID = { 60893 } }; --Gift of Agthia
-	[353943] = { zoneID = 1533, artID = { 1321 }, x = 4060, y = 1890, overlay = { "4060-1890" }, questID = { 60894 } }; --Gift of Thenios
-	[353944] = { zoneID = 1533, artID = { 1321 }, x = 2759, y = 2180, overlay = { "2760-2170" }, questID = { 60895 } }; --Gift of Devos
-	[354202] = { zoneID = 1533, artID = { 1321 }, x = 4611, y = 4536, overlay = { "4610-4540" }, questID = { 61006 } }; --Abandoned Stockpile
-	[354208] = { zoneID = 1533, artID = { 1321 }, x = 4050, y = 4980, overlay = { "4040-4980" }, questID = { 61044 } }; --Stolen Equipment
-	[354213] = { zoneID = 1533, artID = { 1321 }, x = 5933, y = 6091, overlay = { "5930-6090" }, questID = { 61048 } }; --Lost Disciple's Notes
-	[354214] = { zoneID = 1533, artID = { 1321 }, x = 5823, y = 3999, overlay = { "5820-4000" }, questID = { 61049 } }; --Larion Tamer's Harness
-	[354275] = { zoneID = 1533, artID = { 1321 }, x = 5147, y = 1795, overlay = { "5147-1795" }, questID = { 61052 } }; --Experimental Construct Part
-	[354289] = { zoneID = 1533, artID = { 1321 }, x = 3584, y = 4812, overlay = { "3584-4812" }, questID = { 61053 } }; --Windsmith's Tools
+	[353940] = { zoneID = 1533, artID = { 1321 }, x = 6487, y = 7114, overlay = { "6480-7120" }, questID = { 60890 }, achievementID = { 14311 } }; --Gift of Vesiphone
+	[353941] = { zoneID = 1533, artID = { 1321 }, x = 7047, y = 3645, overlay = { "7050-3650" }, questID = { 60892 }, achievementID = { 14311 } }; --Gift of Chyrus
+	[353942] = { zoneID = 1533, artID = { 1321 }, x = 3508, y = 5805, overlay = { "3510-5810" }, questID = { 60893 }, achievementID = { 14311 } }; --Gift of Agthia
+	[353943] = { zoneID = 1533, artID = { 1321 }, x = 4060, y = 1890, overlay = { "4060-1890" }, questID = { 60894 }, achievementID = { 14311 } }; --Gift of Thenios
+	[353944] = { zoneID = 1533, artID = { 1321 }, x = 2759, y = 2180, overlay = { "2760-2170" }, questID = { 60895 }, achievementID = { 14311 } }; --Gift of Devos
+	[354202] = { zoneID = 1533, artID = { 1321 }, x = 4611, y = 4536, overlay = { "4610-4540" }, questID = { 61006 }, achievementID = { 14311 } }; --Abandoned Stockpile
+	[354208] = { zoneID = 1533, artID = { 1321 }, x = 4050, y = 4980, overlay = { "4040-4980" }, questID = { 61044 }, achievementID = { 14311 } }; --Stolen Equipment
+	[354213] = { zoneID = 1533, artID = { 1321 }, x = 5933, y = 6091, overlay = { "5930-6090" }, questID = { 61048 }, achievementID = { 14311 } }; --Lost Disciple's Notes
+	[354214] = { zoneID = 1533, artID = { 1321 }, x = 5823, y = 3999, overlay = { "5820-4000" }, questID = { 61049 }, achievementID = { 14311 } }; --Larion Tamer's Harness
+	[354275] = { zoneID = 1533, artID = { 1321 }, x = 5147, y = 1795, overlay = { "5147-1795" }, questID = { 61052 }, achievementID = { 14311 } }; --Experimental Construct Part
+	[354289] = { zoneID = 1533, artID = { 1321 }, x = 3584, y = 4812, overlay = { "3584-4812" }, questID = { 61053 }, achievementID = { 14311 } }; --Windsmith's Tools
 	[354649] = { zoneID = 1533, artID = { 1321 }, x = 4038, y = 4086, overlay = { "3740-4170","3810-4050","3940-4150","4010-4040","4080-3920" }, questID = { 61000 } }; --Relic Hoard
 	[354849] = { zoneID = 1533, artID = { 1321 }, x = 3259, y = 2336, overlay = { "3260-2330" }, questID = { 61083 } }; --Aspirant's Belongings
 	[354859] = { zoneID = 1533, artID = { 1321 }, x = 4632, y = 6717, overlay = { "4470-6570","4500-6440","4540-6670","4540-6840","4630-6380","4670-6660","4720-6460" }, questReset = true, questID = { 61091 } }; --Worthy Aspirant's Cache
-	[355286] = { zoneID = 1533, artID = { 1321 }, x = 5648, y = 1714, overlay = { "5640-1720" }, questID = { 61150 } }; --Memorial Offerings
+	[355286] = { zoneID = 1533, artID = { 1321 }, x = 5648, y = 1714, overlay = { "5640-1720" }, questID = { 61150 }, achievementID = { 14311 } }; --Memorial Offerings
 	[355435] = { zoneID = 1533, artID = { 1321 }, x = 3604, y = 2654, overlay = { "3600-2520" }, reset = false, questID = { 61183 } }; --Vesper of the Silver Wind
 	[356818] = { zoneID = 1533, artID = { 1321 }, x = 6020, y = 7814, overlay = { "6020-7820" }, questReset = true, questID = { 61688 } }; --Penitence of Purity
 	[356819] = { zoneID = 1533, artID = { 1321 }, x = 6026, y = 7817, overlay = { "6026-7817" }, questReset = true, questID = { 61688 }, worldmap = true }; --Test of Penitence
 	[356823] = { zoneID = 1533, artID = { 1321 }, x = 6104, y = 1508, overlay = { "6100-1510" }, questID = { 61698 } }; --Cloudwalker's Coffer
-	[169664] = { zoneID = 1536, artID = { 1323 }, x = 3274, y = 2127, overlay = { "3274-2127" }, reset = false, questID = { 60587 } }; --Objects
+	[169664] = { zoneID = 1536, artID = { 1323 }, x = 3274, y = 2127, overlay = { "3274-2127" }, reset = false, questID = { 60587 }, achievementID = { 14312 } }; --Objects
 	[171337] = { zoneID = 1536, artID = { 1323 }, x = 5262, y = 1469, overlay = { "5368-3679","5471-3752","5262-1469" }, questReset = true, questID = { 61111 }, worldmap = true }; --Objects
-	[335649] = { zoneID = 1536, artID = { 1323 }, x = 5143, y = 4847, overlay = { "5140-4840" }, reset = false, questID = { 61128 } }; --Sorrowbane
+	[335649] = { zoneID = 1536, artID = { 1323 }, x = 5143, y = 4847, overlay = { "5140-4840" }, reset = false, questID = { 61128 }, achievementID = { 14312 } }; --Sorrowbane
 	[335655] = { zoneID = 1536, artID = { 1323 }, x = 5143, y = 4847, overlay = { "5130-4840" }, reset = false, questID = { 61127 } }; --Oonar's Arm
 	[341424] = { zoneID = {
 				[1536] = { x = 2450, y = 3162, artID = { 1323 }, overlay = { "2450-3162" } };
 				[1649] = { x = 3457, y = 5551, artID = { 1613 }, overlay = { "3457-5551" } };
-			  }, reset = false, questID = { 58710 } }; --null
-	[345456] = { zoneID = 1536, artID = { 1323 }, x = 4831, y = 1630, overlay = { "4840-1630" }, reset = false, questID = { 59244 } }; --Chest of Eyes
+			  }, reset = false, questID = { 58710 }, achievementID = { 14312 } }; --null
+	[345456] = { zoneID = 1536, artID = { 1323 }, x = 4831, y = 1630, overlay = { "4840-1630" }, reset = false, questID = { 59244 }, achievementID = { 14312 } }; --Chest of Eyes
 	[345458] = { zoneID = 1536, artID = { 1323 }, x = 4985, y = 4964, overlay = { "4870-4880","4890-4600","4890-4740","4940-4490","4990-4960","5070-4600","5090-4860","5120-4730","5140-4440","5220-4890","5240-4740" } }; --Prize Bag
 	[345459] = { zoneID = 1536, artID = { 1323 }, x = 3316, y = 8110, overlay = { "3260-7800","3320-8100","3340-7260","3520-7640","3680-7870" }, questReset = true }; --Bladesworn Supply Cache
-	[347444] = { zoneID = 1536, artID = { 1323 }, x = 4725, y = 6215, overlay = { "4720-6210" }, reset = false, questID = { 59358 } }; --Ornate Bone Shield
+	[347444] = { zoneID = 1536, artID = { 1323 }, x = 4725, y = 6215, overlay = { "4720-6210" }, reset = false, questID = { 59358 }, achievementID = { 14312 } }; --Ornate Bone Shield
 	[348521] = { zoneID = 1536, artID = { 1323 }, x = 5588, y = 3885, overlay = { "5590-3890" }, reset = false, questID = { 59429 } }; --Strange Growth
 	[350802] = { zoneID = 1536, artID = { 1323 }, x = 5495, y = 2612, overlay = { "5495-2612","5310-2100","5500-1780","5540-2440","5580-2300","5600-2160","5670-1820" } }; --Web Sealed Chest
-	[351980] = { zoneID = 1536, artID = { 1323 }, x = 6240, y = 6000, overlay = { "6240-6000" }, reset = false, questID = { 60311 } }; --Misplaced Supplies
+	[351980] = { zoneID = 1536, artID = { 1323 }, x = 6240, y = 6000, overlay = { "6240-6000" }, reset = false, questID = { 60311 }, achievementID = { 14312 } }; --Misplaced Supplies
 	[352086] = { zoneID = 1536, artID = { 1323 }, x = 4412, y = 4002, overlay = { "4410-4000" }, questID = { 60368 } }; --Blackhound Cache
 	[352596] = { zoneID = 1536, artID = { 1323 }, x = 3481, y = 5500, overlay = { "3480-5490","3640-4530","3640-4980","3670-4250","3740-5580","3870-4700","3970-5180","4000-4390","4080-4710","4080-5470" }, questReset = true, questID = { 60556 }, worldmap = true }; --Sprouting Growth
 	[353231] = { zoneID = 1536, artID = { 1323 }, x = 3386, y = 7634, overlay = { "3040-7780","3330-8160","3380-7640","3620-8160" }, questReset = true, questID = { 60662 }, worldmap = true }; --Bonebound Chest
-	[353380] = { zoneID = 1536, artID = { 1323 }, x = 3079, y = 2874, overlay = { "3080-2870" }, reset = false, questID = { 60730 } }; --Halis's Lunch Pail
+	[353380] = { zoneID = 1536, artID = { 1323 }, x = 3079, y = 2874, overlay = { "3080-2870" }, reset = false, questID = { 60730 }, achievementID = { 14312 } }; --Halis's Lunch Pail
 	[353626] = { zoneID = 1536, artID = { 1323 }, x = 3814, y = 4258, overlay = { "3810-4270" } }; --Locked Toolbox
 	[353627] = { zoneID = 1536, artID = { 1323 }, x = 3793, y = 4543, overlay = { "3793-4543" } }; --Battlefront Rations
 	[354852] = { zoneID = 1536, artID = { 1323 }, x = 7554, y = 4555, overlay = { "6530-4960","6690-4380","6880-4720","7100-5080","7340-4980","7540-4560","7610-4940" }, questReset = true, questID = { 61090 }, worldmap = true }; --Sprouting Growth
@@ -685,13 +685,13 @@ private.CONTAINER_INFO = {
 	[355036] = { zoneID = 1536, artID = { 1323 }, x = 6587, y = 2472, overlay = { "6480-3330","6590-2470","6910-2770","6960-3350" }, questReset = true, worldmap = true }; --Runebound Coffer
 	[355037] = { zoneID = 1536, artID = { 1323 }, x = 3491, y = 3092, overlay = { "2730-4600","2870-3420","3120-2520","3220-3710","3240-2560","3490-3090" }, questReset = true, questID = { 61120 }, worldmap = true }; --Runebound Coffer
 	[355038] = { zoneID = 1536, artID = { 1323 }, x = 6588, y = 2461, overlay = { "6480-3330","6590-2470","6900-2760","6960-3350" }, questReset = true, questID = { 61116 }, worldmap = true }; --Runebound Coffer
-	[355865] = { zoneID = 1536, artID = { 1323 }, x = 5986, y = 7906, overlay = { "5986-7906" }, reset = false, questID = { 61444 } }; --Vat of Conspicuous Slime
-	[355872] = { zoneID = 1536, artID = { 1323 }, x = 6613, y = 5027, overlay = { "6613-5027","7360-5000","7540-4320" }, reset = false, questID = { 61451 } }; --Stolen Jar
-	[355880] = { zoneID = 1536, artID = { 1323 }, x = 4238, y = 2333, overlay = { "4238-2333" }, reset = false, questID = { 61470 } }; --The Necronom-i-nom
-	[355886] = { zoneID = 1536, artID = { 1323 }, x = 5765, y = 7581, overlay = { "5770-7590" }, reset = false, questID = { 61474 } }; --Plaguefallen Chest
-	[355947] = { zoneID = 1536, artID = { 1323 }, x = 7288, y = 5365, overlay = { "7280-5360" }, reset = false, questID = { 61484 } }; --Glutharn's Stash
-	[355980] = { zoneID = 1536, artID = { 1323 }, x = 6466, y = 2475, overlay = { "6470-2470" }, reset = false, questID = { 61539 } }; --Ritualist's Cache
-	[356535] = { zoneID = 1536, artID = { 1323 }, x = 3173, y = 7003, overlay = { "3180-7000" }, reset = false, questID = { 61491 } }; --Runespeaker's Trove
+	[355865] = { zoneID = 1536, artID = { 1323 }, x = 5986, y = 7906, overlay = { "5986-7906" }, reset = false, questID = { 61444 }, achievementID = { 14312 } }; --Vat of Conspicuous Slime
+	[355872] = { zoneID = 1536, artID = { 1323 }, x = 6613, y = 5027, overlay = { "6613-5027","7360-5000","7540-4320" }, reset = false, questID = { 61451 }, achievementID = { 14312 } }; --Stolen Jar
+	[355880] = { zoneID = 1536, artID = { 1323 }, x = 4238, y = 2333, overlay = { "4238-2333" }, reset = false, questID = { 61470 }, achievementID = { 14312 } }; --The Necronom-i-nom
+	[355886] = { zoneID = 1536, artID = { 1323 }, x = 5765, y = 7581, overlay = { "5770-7590" }, reset = false, questID = { 61474 }, achievementID = { 14312 } }; --Plaguefallen Chest
+	[355947] = { zoneID = 1536, artID = { 1323 }, x = 7288, y = 5365, overlay = { "7280-5360" }, reset = false, questID = { 61484 }, achievementID = { 14312 } }; --Glutharn's Stash
+	[355980] = { zoneID = 1536, artID = { 1323 }, x = 6466, y = 2475, overlay = { "6470-2470" }, reset = false, questID = { 61539 }, achievementID = { 14312 } }; --Ritualist's Cache
+	[356535] = { zoneID = 1536, artID = { 1323 }, x = 3173, y = 7003, overlay = { "3180-7000" }, reset = false, questID = { 61491 }, achievementID = { 14312 } }; --Runespeaker's Trove
 	[364531] = { zoneID = 1536, artID = { 1323 }, x = 2729, y = 4610, overlay = { "2720-4610","2860-3410","3120-2520","3220-3710","3240-2560","3490-3080" }, questReset = true, questID = { 61115 }, worldmap = true }; --Runebound Coffer
 	[368205] = { zoneID = 1543, artID = { 1329,1693 }, x = 3216, y = 6738, overlay = { "3040-5600","3220-6740" }, zoneQuestId = { 63543 }, questID = { 63815 } }; --Mawsworn Cache
 	[368206] = { zoneID = 1543, artID = { 1329,1693 }, x = 3009, y = 6497, overlay = { "3020-6500" }, zoneQuestId = { 63543 } }; --Mawsworn Cache
@@ -715,16 +715,16 @@ private.CONTAINER_INFO = {
 	[368952] = { zoneID = 1543, artID = { 1693,1329 }, x = 1910, y = 3320, overlay = { "1910-3320","2530-3330","2530-3830","2780-4180" }, covenantAssaultReset = 0, zoneQuestId = { 63823 }, questID = { 64059 } }; --Stolen Anima Vessel
 	[368953] = { zoneID = 1543, artID = { 1693,1329 }, x = 1720, y = 4790, overlay = { "1720-4790","1860-4260","1890-5030","2260-4840" }, covenantAssaultReset = 0, zoneQuestId = { 63823 }, questID = { 64060 } }; --Stolen Anima Vessel
 	[369141] = { zoneID = 1543, artID = { 1329,1693 }, x = 2771, y = 6168, overlay = { "2780-6140","3500-6970" }, zoneQuestId = { 63543 }, questID = { 64209 } }; --Mawsworn Cache
-	[369216] = { zoneID = 1543, artID = { 1329,1693 }, x = 6916, y = 4517, overlay = { "6920-4520" }, reset = false, questID = { 64256 } }; --Helsworn Chest
-	[369224] = { zoneID = 1543, artID = { 1329,1693 }, x = 6649, y = 6227, overlay = { "6640-6220" }, questID = { 64261 } }; --Jeweled Heart of Ezekiel
+	[369216] = { zoneID = 1543, artID = { 1329,1693 }, x = 6916, y = 4517, overlay = { "6920-4520" }, reset = false, questID = { 64256 }, achievementID = { 15099 } }; --Helsworn Chest
+	[369224] = { zoneID = 1543, artID = { 1329,1693 }, x = 6649, y = 6227, overlay = { "6640-6220" }, questID = { 64261 }, achievementID = { 15099 } }; --Jeweled Heart of Ezekiel
 	[369227] = { zoneID = 1543, artID = { 1693,1329 }, x = 5096, y = 8542, overlay = { "4740-7630","4770-8640","5090-8540" }, covenantAssaultReset = 1, questID = { 64265 } }; --Stolen Anima Vessel
 	[369235] = { zoneID = 1543, artID = { 1693,1329 }, x = 3564, y = 4627, overlay = { "3240-4320","3570-4630","3620-4200","3840-4840","4440-4770" }, covenantAssaultReset = 1, questID = { 64269 } }; --Stolen Anima Vessel
 	[369236] = { zoneID = 1543, artID = { 1693,1329 }, x = 2744, y = 4959, overlay = { "2740-4940" }, covenantAssaultReset = 1, questID = { 64270 } }; --Stolen Anima Vessel
 	[369262] = { zoneID = 1543, artID = { 1329,1693 }, x = 4459, y = 5140, overlay = { "4440-5150" }, questID = { 64283 } }; --Zovaal's Vault
 	[170406] = { zoneID = 1565, artID = { 1338 }, x = 2890, y = 4777, overlay = { "5346-5950","2890-4777" }, questReset = true, questID = { 60829 }, worldmap = true }; --Objects
-	[171156] = { zoneID = 1565, artID = { 1338 }, x = 5601, y = 2101, overlay = { "5601-2101" }, reset = false, questID = { 61072 } }; --Objects
-	[171206] = { zoneID = 1565, artID = { 1338 }, x = 3185, y = 4363, overlay = { "3185-4363" }, reset = false, questID = { 61085 } }; --Objects
-	[171484] = { zoneID = 1565, artID = { 1338 }, x = 4195, y = 3266, overlay = { "4195-3266" }, reset = false, questID = { 61147 } }; --Objects
+	[171156] = { zoneID = 1565, artID = { 1338 }, x = 5601, y = 2101, overlay = { "5601-2101" }, reset = false, questID = { 61072 }, achievementID = { 14313 } }; --Objects
+	[171206] = { zoneID = 1565, artID = { 1338 }, x = 3185, y = 4363, overlay = { "3185-4363" }, reset = false, questID = { 61085 }, achievementID = { 14313 } }; --Objects
+	[171484] = { zoneID = 1565, artID = { 1338 }, x = 4195, y = 3266, overlay = { "4195-3266" }, reset = false, questID = { 61147 }, achievementID = { 14313 } }; --Objects
 	[171699] = { zoneID = 1565, artID = { 1338 }, x = 2629, y = 5897, overlay = { "2629-5897" }, reset = false, questID = { 61192 } }; --Objects
 	[353233] = { zoneID = 1565, artID = { 1338 }, x = 1956, y = 5888, overlay = { "1960-5890","2240-6190","2820-6170","3010-6040","3120-5340" }, questID = { 60664 }, worldmap = true }; --Enchanted Chest
 	[353306] = { zoneID = 1565, artID = { 1338 }, x = 5445, y = 4971, overlay = { "5440-4970" }, questReset = true, questID = { 60672 }, worldmap = true }; --Decayed Husk
@@ -747,32 +747,32 @@ private.CONTAINER_INFO = {
 	[353771] = { zoneID = 1565, artID = { 1338 }, x = 4815, y = 3485, overlay = { "4820-3490" }, questReset = true, questID = { 60792 }, worldmap = true }; --Dim Lunarlight Pod
 	[353772] = { zoneID = 1565, artID = { 1338 }, x = 5545, y = 3861, overlay = { "5540-3860" }, questReset = true, questID = { 60793 }, worldmap = true }; --Dim Lunarlight Pod
 	[353773] = { zoneID = 1565, artID = { 1338 }, x = 6117, y = 5680, overlay = { "6120-5690" }, questReset = true, questID = { 60794 }, worldmap = true }; --Dim Lunarlight Pod
-	[354645] = { zoneID = 1565, artID = { 1338 }, x = 4827, y = 2038, overlay = { "4820-2040" }, questID = { 62187 } }; --Lost Satchel
-	[354646] = { zoneID = 1565, artID = { 1338 }, x = 5294, y = 3730, overlay = { "5290-3740" }, questID = { 61065 } }; --Ancient Cloudfeather Egg
-	[354647] = { zoneID = 1565, artID = { 1338 }, x = 4821, y = 3928, overlay = { "4820-3920" }, questID = { 61067 } }; --Hearty Dragon Plume
-	[354648] = { zoneID = 1565, artID = { 1338 }, x = 3618, y = 6519, overlay = { "3620-6520" }, questID = { 61068 } }; --Darkreach Supplies
-	[354650] = { zoneID = 1565, artID = { 1338 }, x = 3764, y = 3707, overlay = { "3760-3630" }, questID = { 61070 } }; --Dreamsong Heart
-	[354651] = { zoneID = 1565, artID = { 1338 }, x = 3642, y = 2505, overlay = { "3640-2510" }, questID = { 62259 } }; --Enchanted Dreamcatcher
-	[354652] = { zoneID = 1565, artID = { 1338 }, x = 4970, y = 5587, overlay = { "4970-5590" }, questID = { 61073 } }; --Faerie Trove
-	[354662] = { zoneID = 1565, artID = { 1338 }, x = 4482, y = 7587, overlay = { "4480-7580" }, questID = { 61175 } }; --Elusive Faerie Cache
-	[354911] = { zoneID = 1565, artID = { 1338 }, x = 7668, y = 2975, overlay = { "7660-2980" }, questID = { 62186 } }; --Swollen Anima Seed
-	[355041] = { zoneID = 1565, artID = { 1338 }, x = 6392, y = 3754, overlay = { "6392-3754" }, reset = false, questID = { 61074 } }; --Cache of the Moon
-	[355358] = { zoneID = 1565, artID = { 1338 }, x = 6780, y = 3462, overlay = { "6780-3462" }, questID = { 61165 } }; --Harmonic Chest
-	[355418] = { zoneID = 1565, artID = { 1338 }, x = 3622, y = 6527, overlay = { "3622-6527" }, questID = { 61110 } }; --Cache of the Night
+	[354645] = { zoneID = 1565, artID = { 1338 }, x = 4827, y = 2038, overlay = { "4820-2040" }, questID = { 62187 }, achievementID = { 14313 } }; --Lost Satchel
+	[354646] = { zoneID = 1565, artID = { 1338 }, x = 5294, y = 3730, overlay = { "5290-3740" }, questID = { 61065 }, achievementID = { 14313 } }; --Ancient Cloudfeather Egg
+	[354647] = { zoneID = 1565, artID = { 1338 }, x = 4821, y = 3928, overlay = { "4820-3920" }, questID = { 61067 }, achievementID = { 14313 } }; --Hearty Dragon Plume
+	[354648] = { zoneID = 1565, artID = { 1338 }, x = 3618, y = 6519, overlay = { "3620-6520" }, questID = { 61068 }, achievementID = { 14313 } }; --Darkreach Supplies
+	[354650] = { zoneID = 1565, artID = { 1338 }, x = 3764, y = 3707, overlay = { "3760-3630" }, questID = { 61070 }, achievementID = { 14313 } }; --Dreamsong Heart
+	[354651] = { zoneID = 1565, artID = { 1338 }, x = 3642, y = 2505, overlay = { "3640-2510" }, questID = { 62259 }, achievementID = { 14313 } }; --Enchanted Dreamcatcher
+	[354652] = { zoneID = 1565, artID = { 1338 }, x = 4970, y = 5587, overlay = { "4970-5590" }, questID = { 61073 }, achievementID = { 14313 } }; --Faerie Trove
+	[354662] = { zoneID = 1565, artID = { 1338 }, x = 4482, y = 7587, overlay = { "4480-7580" }, questID = { 61175 }, achievementID = { 14313 } }; --Elusive Faerie Cache
+	[354911] = { zoneID = 1565, artID = { 1338 }, x = 7668, y = 2975, overlay = { "7660-2980" }, questID = { 62186 }, achievementID = { 14313 } }; --Swollen Anima Seed
+	[355041] = { zoneID = 1565, artID = { 1338 }, x = 6392, y = 3754, overlay = { "6392-3754" }, reset = false, questID = { 61074 }, achievementID = { 14313 } }; --Cache of the Moon
+	[355358] = { zoneID = 1565, artID = { 1338 }, x = 6780, y = 3462, overlay = { "6780-3462" }, questID = { 61165 }, achievementID = { 14313 } }; --Harmonic Chest
+	[355418] = { zoneID = 1565, artID = { 1338 }, x = 3622, y = 6527, overlay = { "3622-6527" }, questID = { 61110 }, achievementID = { 14313 } }; --Cache of the Night
 	[356820] = { zoneID = 1565, artID = { 1338 }, x = 5168, y = 3235, overlay = { "5168-3235" }, questID = { 61691 } }; --Large Lunarlight Pod
 	[291046] = { zoneID = 1635, artID = { 1394 }, x = 4982, y = 4025, overlay = { "4982-4025" } }; --Lever Locked Chest
 	[352433] = { zoneID = 1650, artID = { 1614 }, x = 6231, y = 7139, overlay = { "6231-7139" } }; --Cache of Eyes
 	[164624] = { zoneID = 1805, artID = { 1514 }, x = 5309, y = 5147, overlay = { "5494-3364","5309-5147" } }; --Objects
 	[368876] = { zoneID = 1961, artID = { 1648 }, x = 6025, y = 3918, overlay = { "5740-3740","5870-3340","6020-3900","6290-3470" }, questID = { 64021 } }; --Mawsworn Cache
-	[369148] = { zoneID = 1961, artID = { 1648 }, x = 3834, y = 4293, overlay = { "3840-4280" }, questID = { 64222 } }; --Glittering Nest Material
-	[369149] = { zoneID = 1961, artID = { 1648 }, x = 6896, y = 2988, overlay = { "6890-2990" }, questID = { 64234 } }; --Forgotten Feather
-	[369172] = { zoneID = 1961, artID = { 1648 }, x = 5299, y = 1475, overlay = { "5300-1490" }, questID = { 64238 } }; --Lost Memento
-	[369183] = { zoneID = 1961, artID = { 1648 }, x = 4734, y = 2921, overlay = { "4740-2920" }, questID = { 64241 } }; --Dislodged Nest
-	[369194] = { zoneID = 1961, artID = { 1648 }, x = 2958, y = 5341, overlay = { "2950-5340" }, questID = { 64244 } }; --Anima Laden Egg
+	[369148] = { zoneID = 1961, artID = { 1648 }, x = 3834, y = 4293, overlay = { "3840-4280" }, questID = { 64222 }, achievementID = { 15099 } }; --Glittering Nest Material
+	[369149] = { zoneID = 1961, artID = { 1648 }, x = 6896, y = 2988, overlay = { "6890-2990" }, questID = { 64234 }, achievementID = { 15099 } }; --Forgotten Feather
+	[369172] = { zoneID = 1961, artID = { 1648 }, x = 5299, y = 1475, overlay = { "5300-1490" }, questID = { 64238 }, achievementID = { 15099 } }; --Lost Memento
+	[369183] = { zoneID = 1961, artID = { 1648 }, x = 4734, y = 2921, overlay = { "4740-2920" }, questID = { 64241 }, achievementID = { 15099 } }; --Dislodged Nest
+	[369194] = { zoneID = 1961, artID = { 1648 }, x = 2958, y = 5341, overlay = { "2950-5340" }, questID = { 64244 }, achievementID = { 15099 } }; --Anima Laden Egg
 	[369200] = { zoneID = 1961, artID = { 1648 }, x = 6209, y = 5526, overlay = { "6200-5550" }, questID = { 64247 } }; --Spectral Bound Chest
-	[369204] = { zoneID = 1961, artID = { 1648 }, x = 5047, y = 8448, overlay = { "5040-8430" }, questID = { 64252 } }; --Displaced Relic
-	[369225] = { zoneID = 1961, artID = { 1648 }, x = 4013, y = 5892, overlay = { "4020-5890" }, questID = { 64264 } }; --Infested Vestige
-	[369232] = { zoneID = 1961, artID = { 1648 }, x = 4536, y = 6715, overlay = { "4530-6700" }, questID = { 64268 } }; --Offering Box
+	[369204] = { zoneID = 1961, artID = { 1648 }, x = 5047, y = 8448, overlay = { "5040-8430" }, questID = { 64252 }, achievementID = { 15099 } }; --Displaced Relic
+	[369225] = { zoneID = 1961, artID = { 1648 }, x = 4013, y = 5892, overlay = { "4020-5890" }, questID = { 64264 }, achievementID = { 15099 } }; --Infested Vestige
+	[369232] = { zoneID = 1961, artID = { 1648 }, x = 4536, y = 6715, overlay = { "4530-6700" }, questID = { 64268 }, achievementID = { 15099 } }; --Offering Box
 	[369292] = { zoneID = 1961, artID = { 1648 }, x = 4727, y = 7673, overlay = { "4440-7580","4440-7740","4570-8150","4720-7680","5070-6720","5400-7600","5420-7200","5540-6530","5630-6740","5670-7260" }, resetTimer = 720, questID = { 64792 } }; --Relic Cache
 	[369294] = { zoneID = 1961, artID = { 1648 }, x = 4535, y = 4938, overlay = { "4400-5600","4540-4940","4620-5670","4900-5220","4910-5440","5490-5040","5640-5500","5730-4810","5740-4980" }, resetTimer = 720, questID = { 64791 } }; --Relic Cache
 	[369295] = { zoneID = 1961, artID = { 1648 }, x = 3292, y = 4539, overlay = { "3100-4560","3290-4220","3290-4540","3420-4400","3470-4600","3710-5340","3820-5160","3900-5440","3940-5030","4100-5060" }, resetTimer = 720, questID = { 64788 } }; --Pile of Bones
@@ -796,56 +796,56 @@ private.CONTAINER_INFO = {
 	[369438] = { zoneID = 1961, artID = { 1648 }, x = 2464, y = 5627, overlay = { "2470-5650" }, questID = { 64470 } }; --Riftbound Cache
 	[369439] = { zoneID = 1961, artID = { 1648 }, x = 6099, y = 3529, overlay = { "5420-5460","5480-4260","5540-6510","6100-3540","6180-5890" }, questID = { 64471 } }; --Riftbound Cache
 	[369440] = { zoneID = 1961, artID = { 1648 }, x = 4620, y = 3191, overlay = { "4610-3180","5080-3290","5630-1830","6430-3040" }, questID = { 64472 } }; --Riftbound Cache
-	[369757] = { zoneID = 1970, artID = { 1650 }, x = 5873, y = 7301, overlay = { "5879-7310" }, questID = { 64545 } }; --Submerged Chest
-	[370140] = { zoneID = 1970, artID = { 1650 }, x = 3821, y = 3719, overlay = { "3825-3723" }, questID = { 64667 } }; --Damaged Jiro Stash
-	[373543] = { zoneID = 1970, artID = { 1650 }, x = 5883, y = 7725, overlay = { "5884-7706" }, questID = { 65173 } }; --Library Vault
-	[373561] = { zoneID = 1970, artID = { 1650 }, x = 6699, y = 6951, overlay = { "6690-6940" }, questID = { 65178 } }; --Forgotten Proto-Vault
+	[369757] = { zoneID = 1970, artID = { 1650 }, x = 5873, y = 7301, overlay = { "5879-7310" }, questID = { 64545 }, achievementID = { 15331 } }; --Submerged Chest
+	[370140] = { zoneID = 1970, artID = { 1650 }, x = 3821, y = 3719, overlay = { "3825-3723" }, questID = { 64667 }, achievementID = { 15331 } }; --Damaged Jiro Stash
+	[373543] = { zoneID = 1970, artID = { 1650 }, x = 5883, y = 7725, overlay = { "5884-7706" }, questID = { 65173 }, achievementID = { 15331 } }; --Library Vault
+	[373561] = { zoneID = 1970, artID = { 1650 }, x = 6699, y = 6951, overlay = { "6690-6940" }, questID = { 65178 }, achievementID = { 15331 } }; --Forgotten Proto-Vault
 	[373568] = { zoneID = 1970, artID = { 1650 }, x = 4202, y = 5181, overlay = { "4202-5181" }, questID = { 65183 } }; --Locked Provis Cache
 	[373579] = { zoneID = 1970, artID = { 1650 }, x = 5182, y = 7791, overlay = { "3523-4371","5176-7788","4800-6640","3430-4450" }, questID = { 65184 } }; --Prying Eye Discovery
-	[374976] = { zoneID = 1970, artID = { 1650 }, x = 5259, y = 6297, overlay = { "5264-6304" }, questID = { 65270 } }; --Symphonic Vault
+	[374976] = { zoneID = 1970, artID = { 1650 }, x = 5259, y = 6297, overlay = { "5264-6304" }, questID = { 65270 }, achievementID = { 15331 } }; --Symphonic Vault
 	[375272] = { zoneID = 1970, artID = { 1650 }, x = 6068, y = 3052, overlay = { "6059-3053" }, questID = { 65441 } }; --Mawsworn Cache
-	[375281] = { zoneID = 1970, artID = { 1650 }, x = 3790, y = 6518, overlay = { "3790-6518" }, questID = { 65447 } }; --Stolen Relic
+	[375281] = { zoneID = 1970, artID = { 1650 }, x = 3790, y = 6518, overlay = { "3790-6518" }, questID = { 65447 }, achievementID = { 15331 } }; --Stolen Relic
 	[375290] = { zoneID = {
 				[1970] = { x = 5563, y = 3296, artID = { 1650 }, overlay = { "4481-5079","4695-4522","5432-6958","4262-7647","4648-7916","5003-7672","5288-5864","5486-4804","5140-9117","4095-6130","5576-2774","3892-3008","4674-6741","6555-3675","4768-2617","7763-6104","6633-2576","4960-6573","6658-2219","2910-5180","3270-5670","3370-6970","3470-6890","3540-5170","3610-4310","3620-3840","3690-4700","3780-3250","3780-3940","3790-4110","3810-4550","3820-3130","3920-4240","3930-5820","3960-5470","4010-3800","4100-3240","4140-7530","4280-2130","4310-8980","4350-6490","4440-8710","4470-2240","4510-8310","4520-3720","4530-0710","4530-4100","4580-0490","4580-7140","4590-4230","4680-2310","4720-0860","4740-9570","4750-4780","4840-7980","4860-6670","4910-3210","4920-1220","4940-1030","5000-0370","5030-4240","5080-3240","5110-2770","5110-6520","5130-0540","5130-2950","5170-0920","5180-7200","5190-4370","5210-0440","5210-5290","5240-6160","5270-7520","5300-5090","5310-6380","5320-8560","5330-3480","5340-9410","5380-7130","5400-7260","5420-7620","5430-8420","5460-3850","5500-5180","5520-6180","5560-3310","5560-5570","5620-4030","5680-6490","5720-8180","5740-7580","5750-6740","5780-4420","5860-2020","5870-4550","5880-7830","5890-5280","5930-6420","5940-2490","5940-8210","5960-3250","5970-7950","5990-6110","6000-7150","6060-5120","6090-6960","6140-4810","6160-6020","6330-1950","6330-6850","6380-5700","6440-5400","6470-5800","6520-6460","6680-3580","7110-2870","7450-6060","7680-6240","7740-5090","7750-4510","7750-5910","7820-5270","4540-1010","4540-3140","6040-4303","4875-3466" } };
 				[2029] = { x = 4820, y = 3890, artID = { 1712 }, overlay = { "4820-3890" } };
 				[2030] = { x = 6140, y = 4400, artID = { 1713 }, overlay = { "6140-4400","6250-4330" } };
 			  }, reset = true }; --null
-	[375354] = { zoneID = 1970, artID = { 1650 }, x = 6001, y = 1798, overlay = { "6001-1798" }, questID = { 65465 } }; --Domination Cache
+	[375354] = { zoneID = 1970, artID = { 1650 }, x = 6001, y = 1798, overlay = { "6001-1798" }, questID = { 65465 }, achievementID = { 15331 } }; --Domination Cache
 	[375362] = { zoneID = 1970, artID = { 1650 }, x = 4064, y = 5971, overlay = { "4045-5663","5110-6454","5910-6467","4859-7899","5442-5872","4955-6541","5518-5594","7638-5056","4068-5051","5423-8180","6854-3609","2910-5470","3120-5680","3300-5530","3500-5590","3550-5210","3640-5010","3760-4540","3900-4050","4070-5980","4230-7320","4310-6520","4330-4360","4360-7380","4520-6660","4820-6660","4840-5950","5230-6060","5320-7220","5640-6330","5640-8460","5970-6230","5990-7130","6080-7260","6200-4200","6300-4040","6540-4230","7460-6190","7590-4340","7620-5630","7690-6010","7740-5510" }, reset = true }; --Avian Nest
 	[375363] = { zoneID = 1970, artID = { 1650 }, x = 5990, y = 1665, overlay = { "6324-2103","4599-2430","4665-2676","4547-4648","4879-4242","4570-0410","4580-0530","4640-0190","4680-1230","4720-0280","4730-4350","4740-0830","4780-0140","4810-4820","4940-0970","5010-4470","5070-0990","5080-5040","5120-0370","5170-0810","5200-0620","5760-2300","5840-4020","5940-3140","5990-1670","6100-1970","6100-3060","6300-2490","6650-2550","6660-3220","6760-2960","6020-3240" }, reset = true }; --Mawsworn Supply Chest
 	[375366] = { zoneID = 1970, artID = { 1650 }, x = 5621, y = 2733, overlay = { "5320-3509","6138-3828","5540-3280","5620-2730" }, reset = true }; --Tarachnid Eggs
-	[375369] = { zoneID = 1970, artID = { 1650 }, x = 3897, y = 7320, overlay = { "3897-7320" }, questID = { 65480 } }; --Gnawed Valise
+	[375369] = { zoneID = 1970, artID = { 1650 }, x = 3897, y = 7320, overlay = { "3897-7320" }, questID = { 65480 }, achievementID = { 15331 } }; --Gnawed Valise
 	[375373] = { zoneID = {
 				[1970] = { x = 6576, y = 4043, artID = { 1650 }, overlay = { "4065-7591","4111-7291","5897-6093","6024-5615","5995-5356","5969-4569","5990-5122","7000-3419","4063-6996","3956-7768","4360-8320","4410-9030","4700-9600","4880-4480","5060-9300","5090-5200","5100-4670","5230-4690","5290-6010","5400-8850","5470-4680","5770-4360","6040-4890","6210-7480","6390-7230","6570-4030","6760-4030","5829-5625" } };
 				[2028] = { x = 5010, y = 7490, artID = { 1711 }, overlay = { "5010-7490","7840-7440" } };
 			  }, reset = true }; --null
-	[375376] = { zoneID = 1970, artID = { 1650 }, x = 5159, y = 0991, overlay = { "5155-0991" }, questID = { 65487 } }; --Fallen Vault
-	[375382] = { zoneID = 1970, artID = { 1650 }, x = 5675, y = 6416, overlay = { "5675-6416" }, questID = { 65489 } }; --Crushed Supply Crate
+	[375376] = { zoneID = 1970, artID = { 1650 }, x = 5159, y = 0991, overlay = { "5155-0991" }, questID = { 65487 }, achievementID = { 15331 } }; --Fallen Vault
+	[375382] = { zoneID = 1970, artID = { 1650 }, x = 5675, y = 6416, overlay = { "5675-6416" }, questID = { 65489 }, achievementID = { 15331 } }; --Crushed Supply Crate
 	[375403] = { zoneID = 1970, artID = { 1650 }, x = 5344, y = 2568, overlay = { "4205-3421","6440-6345","5341-2574","5290-4580","5040-4130","5170-4110","5420-2730","6320-6430","5310-4760","6430-6480","4300-3310","4120-3260","6410-6140" }, questID = { 65501 } }; --Pulp-Covered Relic
 	[375404] = { zoneID = 1970, artID = { 1650 }, x = 6086, y = 3785, overlay = { "6475-3366","6089-3788","6319-2584","6010-2580","6600-2690","6140-1750" }, questID = { 65611 } }; --Sandworn Chest
-	[375405] = { zoneID = 1970, artID = { 1650 }, x = 4975, y = 8724, overlay = { "4975-8724" }, questID = { 65503 } }; --Filched Artifact
-	[375408] = { zoneID = 1970, artID = { 1650 }, x = 6115, y = 3714, overlay = { "6115-3714" }, questID = { 65520 } }; --Architect's Reserve
-	[375411] = { zoneID = 1970, artID = { 1650 }, x = 5366, y = 7261, overlay = { "5366-7261" }, questID = { 65522 } }; --Mistaken Ovoid
-	[375413] = { zoneID = 1970, artID = { 1650 }, x = 3516, y = 7023, overlay = { "3499-6989" }, questID = { 65523 } }; --Drowned Broker Supplies
-	[375422] = { zoneID = 1970, artID = { 1650 }, x = 3524, y = 4411, overlay = { "3524-4411" }, questID = { 65536 } }; --Overgrown Protofruit
-	[375423] = { zoneID = 1970, artID = { 1650 }, x = 3481, y = 5604, overlay = { "3481-5604" }, questID = { 65537 } }; --Offering to the First Ones
-	[375478] = { zoneID = 1970, artID = { 1650 }, x = 4671, y = 3083, overlay = { "4665-3093" }, questID = { 65540 } }; --Protomineral Extractor
-	[375481] = { zoneID = 1970, artID = { 1650 }, x = 6083, y = 4288, overlay = { "6088-4296" }, questID = { 65542 } }; --Pilfered Curio
-	[375483] = { zoneID = 1970, artID = { 1650 }, x = 3404, y = 6764, overlay = { "3404-6764" }, questID = { 65543 } }; --Stolen Scroll
-	[375484] = { zoneID = 1970, artID = { 1650 }, x = 3713, y = 7829, overlay = { "3710-7830" }, questID = { 65545 } }; --Grateful Boon
-	[375485] = { zoneID = 1970, artID = { 1650 }, x = 5257, y = 7147, overlay = { "5257-7147" }, questID = { 65546 } }; --Protoflora Harvester
-	[375492] = { zoneID = 1970, artID = { 1650 }, x = 7748, y = 5822, overlay = { "7751-5822" }, questID = { 65565 } }; --Syntactic Vault
-	[375496] = { zoneID = 1970, artID = { 1650 }, x = 4743, y = 9523, overlay = { "4743-9523" }, questID = { 65576 } }; --Bushel of Progenitor Produce
+	[375405] = { zoneID = 1970, artID = { 1650 }, x = 4975, y = 8724, overlay = { "4975-8724" }, questID = { 65503 }, achievementID = { 15331 } }; --Filched Artifact
+	[375408] = { zoneID = 1970, artID = { 1650 }, x = 6115, y = 3714, overlay = { "6115-3714" }, questID = { 65520 }, achievementID = { 15331 } }; --Architect's Reserve
+	[375411] = { zoneID = 1970, artID = { 1650 }, x = 5366, y = 7261, overlay = { "5366-7261" }, questID = { 65522 }, achievementID = { 15331 } }; --Mistaken Ovoid
+	[375413] = { zoneID = 1970, artID = { 1650 }, x = 3516, y = 7023, overlay = { "3499-6989" }, questID = { 65523 }, achievementID = { 15331 } }; --Drowned Broker Supplies
+	[375422] = { zoneID = 1970, artID = { 1650 }, x = 3524, y = 4411, overlay = { "3524-4411" }, questID = { 65536 }, achievementID = { 15331 } }; --Overgrown Protofruit
+	[375423] = { zoneID = 1970, artID = { 1650 }, x = 3481, y = 5604, overlay = { "3481-5604" }, questID = { 65537 }, achievementID = { 15331 } }; --Offering to the First Ones
+	[375478] = { zoneID = 1970, artID = { 1650 }, x = 4671, y = 3083, overlay = { "4665-3093" }, questID = { 65540 }, achievementID = { 15331 } }; --Protomineral Extractor
+	[375481] = { zoneID = 1970, artID = { 1650 }, x = 6083, y = 4288, overlay = { "6088-4296" }, questID = { 65542 }, achievementID = { 15331 } }; --Pilfered Curio
+	[375483] = { zoneID = 1970, artID = { 1650 }, x = 3404, y = 6764, overlay = { "3404-6764" }, questID = { 65543 }, achievementID = { 15331 } }; --Stolen Scroll
+	[375484] = { zoneID = 1970, artID = { 1650 }, x = 3713, y = 7829, overlay = { "3710-7830" }, questID = { 65545 }, achievementID = { 15331 } }; --Grateful Boon
+	[375485] = { zoneID = 1970, artID = { 1650 }, x = 5257, y = 7147, overlay = { "5257-7147" }, questID = { 65546 }, achievementID = { 15331 } }; --Protoflora Harvester
+	[375492] = { zoneID = 1970, artID = { 1650 }, x = 7748, y = 5822, overlay = { "7751-5822" }, questID = { 65565 }, achievementID = { 15331 } }; --Syntactic Vault
+	[375496] = { zoneID = 1970, artID = { 1650 }, x = 4743, y = 9523, overlay = { "4743-9523" }, questID = { 65573 }, achievementID = { 15331 } }; --Bushel of Progenitor Produce
 	[375530] = { zoneID = 1970, artID = { 1650 }, x = 3661, y = 4388, overlay = { "3792-6539","3468-6100","3584-4792","4956-7523","5923-7722","5589-5250","4857-4051","5330-3966","4888-1009","6686-4550","5231-5560","7821-5436","3809-4464","5937-4582","6908-3682","4558-3784","2940-5730","3590-3750","3660-4390","3670-7140","3760-3210","3780-5690","4040-4120","4410-6490","4420-8730","4440-5470","4540-5700","4560-4160","4570-0570","4640-0220","4640-9580","4690-4450","4790-2640","5060-2660","5060-9340","5090-0770","5120-7700","5200-2930","5250-0560","5390-5970","5450-4780","5660-2540","5850-5710","5860-2110","6100-4280","6230-4290","6360-6130","6520-6420","6640-3600","6660-4300","6770-3280","7580-6270","8110-4520" }, reset = true }; --Forgotten Treasure Vault
-	[375973] = { zoneID = 1970, artID = { 1650 }, x = 3574, y = 5538, overlay = { "3574-5546" }, reset = false, questID = { 65739 } }; --Firim in Exile, Part 1
-	[375982] = { zoneID = 1970, artID = { 1650 }, x = 4172, y = 6244, overlay = { "4177-6246" }, reset = false, questID = { 65741 } }; --Firim in Exile, Part 2
-	[375983] = { zoneID = 1970, artID = { 1650 }, x = 3758, y = 4613, overlay = { "3753-4601" }, reset = false, questID = { 65742 } }; --Firim in Exile, Part 3
-	[375984] = { zoneID = 1970, artID = { 1650 }, x = 4983, y = 7653, overlay = { "4981-7656" }, reset = false, questID = { 65743 } }; --Firim in Exile, Part 4
-	[375985] = { zoneID = 1970, artID = { 1650 }, x = 3894, y = 3115, overlay = { "3902-3109" }, reset = false, questID = { 65744 } }; --Firim in Exile, Part 5
-	[375986] = { zoneID = 1970, artID = { 1650 }, x = 6735, y = 2509, overlay = { "6742-2517" }, reset = false, questID = { 65745 } }; --Firim in Exile, Part 6
-	[375987] = { zoneID = 1970, artID = { 1650 }, x = 6486, y = 3369, overlay = { "6483-3364" }, reset = false, questID = { 65746 } }; --Firim in Exile, Part 7
-	[195939] = { zoneID = 2022, artID = { 1706 }, x = 4060, y = 4116, overlay = { "4048-4136" }, reset = false, questID = { 70599 } }; --Objects
-	[375668] = { zoneID = 2022, artID = { 1706 }, x = 5855, y = 5301, overlay = { "5854-5303" }, reset = false, questID = { 65646 } }; --Misty Treasure Chest
+	[375973] = { zoneID = 1970, artID = { 1650 }, x = 3574, y = 5538, overlay = { "3574-5546" }, reset = false, questID = { 65739 }, achievementID = { 15509 } }; --Firim in Exile, Part 1
+	[375982] = { zoneID = 1970, artID = { 1650 }, x = 4172, y = 6244, overlay = { "4177-6246" }, reset = false, questID = { 65741 }, achievementID = { 15509 } }; --Firim in Exile, Part 2
+	[375983] = { zoneID = 1970, artID = { 1650 }, x = 3758, y = 4613, overlay = { "3753-4601" }, reset = false, questID = { 65742 }, achievementID = { 15509 } }; --Firim in Exile, Part 3
+	[375984] = { zoneID = 1970, artID = { 1650 }, x = 4983, y = 7653, overlay = { "4981-7656" }, reset = false, questID = { 65743 }, achievementID = { 15509 } }; --Firim in Exile, Part 4
+	[375985] = { zoneID = 1970, artID = { 1650 }, x = 3894, y = 3115, overlay = { "3902-3109" }, reset = false, questID = { 65744 }, achievementID = { 15509 } }; --Firim in Exile, Part 5
+	[375986] = { zoneID = 1970, artID = { 1650 }, x = 6735, y = 2509, overlay = { "6742-2517" }, reset = false, questID = { 65745 }, achievementID = { 15509 } }; --Firim in Exile, Part 6
+	[375987] = { zoneID = 1970, artID = { 1650 }, x = 6486, y = 3369, overlay = { "6483-3364" }, reset = false, questID = { 65746 }, achievementID = { 15509 } }; --Firim in Exile, Part 7
+	[195939] = { zoneID = 2022, artID = { 1706 }, x = 4060, y = 4116, overlay = { "4048-4136" }, reset = false, questID = { 70599 }, achievementID = { 16297 } }; --Objects
+	[375668] = { zoneID = 2022, artID = { 1706 }, x = 5855, y = 5301, overlay = { "5854-5303" }, reset = false, questID = { 65646 }, achievementID = { 16297 } }; --Misty Treasure Chest
 	[376175] = { zoneID = 2022, artID = { 1706 }, x = 4315, y = 6738, overlay = { "4315-6738" } }; --Fullsails Supply Chest
 	[376386] = { zoneID = {
 				[2022] = { x = 6611, y = 7353, artID = { 1706 }, overlay = { "3474-9011","3738-9279","4550-9443","4333-8741","3761-9619","4922-7876","5345-4419","4562-9145","3931-3939","2763-8923","4369-5888","5030-3070","7170-5870","5593-3782","4760-7370","5726-6267","5404-4683","1610-9020","1900-8700","1910-8540","1910-9570","2220-8850","2290-8470","2310-8120","2310-8740","2360-8890","2370-9100","2370-9660","2520-7880","2560-9150","2590-8250","2610-8580","2710-8390","2900-8680","2910-9010","2990-7740","3010-7970","3030-8360","3310-8630","3410-8710","3470-8590","3550-8030","3550-8250","3630-8600","3830-9520","3890-8430","4120-5750","4200-6470","4200-6710","4210-5990","4240-3590","4240-6130","4270-6900","4330-8610","4360-7110","4380-7250","4490-4910","4680-7960","5070-2930","5420-8400","5440-8540","5510-3950","5520-6160","5530-4880","5640-5050","5760-7410","5800-4080","5910-7320","5950-3660","5950-6780","5980-6220","6020-6500","6120-6570","6220-6640","6260-4060","6270-6860","6290-7780","6290-7990","6320-5460","6350-7550","6370-6980","6380-3970","6500-6960","6520-5470","6580-3940","6580-5620","6610-7360","6680-4070","6710-6810","6730-7360","6740-6960","6820-6640","6850-6870","6860-7300","7000-3960","7020-3780","7070-7080","7080-4120","7140-6620","7270-5980","7490-4650","7510-4240","7650-5060","7700-2910","7700-4220","7730-5990","7780-5290","7830-4270","7840-2990","7860-5550","7930-3330","7930-5190","7980-2700","7980-4330","8060-3500","8060-4140","8130-4280","8190-3950","8210-3560","8240-5010","8360-4480","8400-3380","1680-9400","1760-9070","1820-8960","1890-9090","2180-9330","2210-9070","2360-9280","2500-8800","2510-8660","2520-9480","2770-8660","3150-8240","3220-7970","3250-8140","3420-8340","3590-8780","3660-7980","3710-8500","3770-7900","3990-4860","4030-4320","4040-5320","4070-4130","4100-5890","4120-5100","4150-7930","4160-4280","4170-7770","4190-4840","4190-5560","4230-3970","4240-6340","4260-9460","4280-5190","4300-8870","4310-4530","4320-6560","4350-8250","4360-4020","4370-4940","4420-4790","4420-6490","4430-6760","4430-9040","4440-6620","4440-8160","4490-5890","4490-6130","4500-3940","4520-3220","4520-6350","4540-3730","4540-5360","4560-8500","4560-8650","4560-8820","4570-8380","4580-7320","4580-8240","4590-5980","4610-2780","4610-6590","4630-6440","4650-3880","4650-5430","4680-6740","4700-5630","4700-8560","4720-5160","4730-7740","4740-5340","4740-6500","4750-3210","4760-6300","4770-7060","4780-2900","4790-4440","4830-5750","4830-6050","4840-5100","4860-7630","4870-4790","4890-8530","4900-2520","4900-3950","4900-8030","4930-5290","4930-6410","4940-5530","4940-8420","4990-7430","5000-5910","5000-6180","5010-4070","5010-4910","5020-4510","5020-5750","5040-7780","5050-6400","5070-5640","5070-7590","5080-6550","5090-5300","5100-5140","5140-7950","5170-8180","5210-6710","5240-4990","5250-8020","5260-7680","5260-7820","5290-3390","5290-8350","5300-8530","5350-2590","5350-6980","5360-2940","5360-5120","5370-4980","5390-3260","5420-7080","5430-7740","5440-5350","5440-6280","5440-7600","5440-7900","5470-6580","5480-5490","5490-5110","5490-6710","5500-4100","5520-7150","5550-3080","5560-2800","5580-2640","5580-7740","5590-3410","5600-5710","5600-8230","5640-8440","5660-5190","5680-4820","5690-3860","5700-5550","5700-5940","5710-7210","5710-7730","5740-7910","5750-8180","5780-8060","5790-3540","5790-5240","5790-5630","5810-4970","5820-5110","5830-4740","5860-3800","5880-3940","5880-8450","5920-4490","5930-7090","5960-3490","5960-7860","5960-8160","5980-5240","6030-3830","6040-8260","6060-7960","6120-7780","6180-5510","6270-3790","6340-5680","6410-5990","6460-5780","6510-6440","6580-6220","6600-5980","6630-5760","6660-6350","6670-5340","6670-6500","6710-6230","6720-3590","6730-6000","6780-5770","6790-6350","6810-4050","6840-5540","6860-3710","6860-5960","6960-6150","6990-6840","7030-6380","7110-6490","7190-3680","7220-3890","7860-2490","8320-3640","3740-8300","3760-8170","3970-8100","4080-4960","4350-9220","4630-8920","4740-4600","4830-2650","5080-2620","5120-3490","5220-3090","5380-6440","5430-6850","5770-8340","6380-4150","6820-6170","3440-8180","3740-8980","3790-9100","3910-7800","3940-8640","3970-8930","3980-7670","3990-9160","4040-8490","4050-7560","4120-4650","4130-9470","4160-8740","4180-8240","4240-8060","4320-7720","4350-7870","4430-5080","4470-3560","4550-8070","4570-3470","4710-5780","4720-5990","4720-8700","4740-3970","4760-4250","4790-5500","4810-5880","4840-8770","4860-3710","4920-4680","4940-3540","4970-8220","5010-3810","5030-4790","5090-2790","5120-7340","5140-4670","5200-2850","5210-2680","5260-6290","5580-7480","5630-7970","5730-8730","5870-4250","6440-6300","6900-5750","5340-2100" } };
@@ -908,25 +908,25 @@ private.CONTAINER_INFO = {
 	[380619] = { zoneID = 2022, artID = { 1706 }, x = 6553, y = 2569, overlay = { "6550-2570" }, reset = false, questID = { 70312 }, prof = 164 }; --Curious Ingots
 	[380641] = { zoneID = 2022, artID = { 1706 }, x = 4912, y = 7754, overlay = { "4912-7754" }, reset = false, questID = { 70275 }, prof = 202 }; --Overcharged Tesla Coil
 	[380643] = { zoneID = 2022, artID = { 1706 }, x = 5749, y = 8364, overlay = { "5750-8360" }, reset = false, questID = { 70320 }, prof = 333 }; --Flashfrozen Scroll
-	[380653] = { zoneID = 2022, artID = { 1706 }, x = 4674, y = 3117, overlay = { "4674-3126" }, reset = false, questID = { 70345 } }; --Yennu's Kite
-	[380654] = { zoneID = 2022, artID = { 1706 }, x = 6928, y = 4655, overlay = { "6931-4658" }, reset = false, questID = { 70346 } }; --Dead Man's Chestplate
+	[380653] = { zoneID = 2022, artID = { 1706 }, x = 4674, y = 3117, overlay = { "4674-3126" }, reset = false, questID = { 70345 }, achievementID = { 16297 } }; --Yennu's Kite
+	[380654] = { zoneID = 2022, artID = { 1706 }, x = 6928, y = 4655, overlay = { "6931-4658" }, reset = false, questID = { 70346 }, achievementID = { 16297 } }; --Dead Man's Chestplate
 	[380822] = { zoneID = 2022, artID = { 1706 }, x = 3394, y = 6369, overlay = { "3390-6370" }, reset = false, questID = { 70273 }, prof = 755 }; --Igneous Gem
-	[380840] = { zoneID = 2022, artID = { 1706 }, x = 4847, y = 8517, overlay = { "4848-8518" }, reset = false, questID = { 70378 } }; --Torn Riding Pack
+	[380840] = { zoneID = 2022, artID = { 1706 }, x = 4847, y = 8517, overlay = { "4848-8518" }, reset = false, questID = { 70378 }, achievementID = { 16297 } }; --Torn Riding Pack
 	[381042] = { zoneID = {
 				[2022] = { x = 6903, y = 6372, artID = { 1706 }, overlay = { "6960-6550","6840-6240","6900-6370","6800-6510" } };
 				[2024] = { x = 7956, y = 3824, artID = { 1707 }, overlay = { "7510-3730","7730-4120","7650-3750","7960-3820","7320-3800","7830-3700" } };
 				[2025] = { x = 3556, y = 8533, artID = { 1708 }, overlay = { "3560-8530","3890-8510","4890-5850","5140-6090","4690-6030" } };
 				[2199] = { x = 4582, y = 4941, artID = { 1805 }, overlay = { "4560-4950","7110-7340" } };
 			  }, factionID = { 2507,2510 } }; --null
-	[381045] = { zoneID = 2022, artID = { 1706 }, x = 6579, y = 4182, overlay = { "6582-4182" }, reset = false, questID = { 70600 } }; --Golden Dragon Goblet
-	[381153] = { zoneID = 2022, artID = { 1706 }, x = 6139, y = 7081, overlay = { "6134-7078" }, reset = false, questID = { 70598 } }; --Ruby Gem Cluster
+	[381045] = { zoneID = 2022, artID = { 1706 }, x = 6579, y = 4182, overlay = { "6582-4182" }, reset = false, questID = { 70600 }, achievementID = { 16297 } }; --Golden Dragon Goblet
+	[381153] = { zoneID = 2022, artID = { 1706 }, x = 6139, y = 7081, overlay = { "6134-7078" }, reset = false, questID = { 70598 }, achievementID = { 16297 } }; --Ruby Gem Cluster
 	[382029] = { zoneID = {
 				[2022] = { x = 3276, y = 8668, artID = { 1706 }, overlay = { "3276-8668","3540-8540","3550-8420","4430-9040" } };
 				[2023] = { x = 8813, y = 3051, artID = { 1705 }, overlay = { "6668-2565","7493-5496","3869-6675","7194-2418","7481-8858","8989-3275","8612-1614","7913-2059","4906-3382","6788-5305","7636-5115","8902-2408","7550-1830","4468-6402","4885-7034","9088-2276","2987-7164","2030-3290","2220-6080","2270-3030","2370-3740","2370-6770","2410-5820","2590-6130","2600-4620","2770-5550","2980-5200","3090-5080","3260-3740","3260-4230","3280-4660","3600-6360","3650-3270","3880-5570","3960-5440","4110-3790","4230-5560","4290-4940","4330-4440","4330-6640","4440-3240","4500-3840","4510-5340","4630-5360","4730-6080","4800-5340","4970-6940","5010-2500","5010-4540","5080-5510","5190-6270","5410-5710","5500-2810","5520-7080","5530-2540","5550-8200","5590-4350","5620-2690","5670-2500","5760-4870","5790-2570","5970-2090","5990-2350","6040-2520","6040-5730","6090-1470","6110-4820","6120-5940","6130-2160","6140-5470","6150-2720","6190-3080","6200-1650","6210-1180","6210-1310","6210-1510","6220-2540","6230-2260","6280-1830","6280-7420","6350-2100","6360-2890","6400-2620","6410-1580","6440-1360","6450-1110","6490-1980","6500-2480","6520-6030","6540-3010","6560-6640","6580-3610","6580-8150","6610-4860","6640-1990","6640-2890","6680-5530","6700-3570","6720-2100","6720-2700","6730-3820","6760-2940","6760-3380","6780-4730","6840-3500","6850-3760","6880-3080","6880-4580","6900-3310","6910-7880","6920-3590","6990-2280","7010-3180","7020-4140","7060-2950","7130-3360","7170-6090","7170-6410","7270-2790","7280-3240","7300-3450","7340-2310","7340-3040","7480-2630","7500-3130","7500-3590","7540-2850","7620-3650","7640-3040","7640-5480","7670-6260","7680-8570","7690-1920","7700-6650","7760-4610","7800-3020","7800-7330","7820-7940","7840-2870","7850-3470","7860-4030","7880-3260","7890-3710","7960-7600","7960-7990","8010-2810","8010-2940","8020-3870","8020-5350","8030-2490","8030-2650","8040-6030","8100-3230","8110-3760","8150-2580","8170-3650","8230-2940","8240-5650","8260-3490","8280-2360","8280-4020","8310-3330","8310-6600","8320-4170","8330-3610","8350-2950","8370-1830","8370-2510","8400-3850","8400-4540","8430-5970","8480-2720","8480-4040","8500-4470","8530-2920","8580-3280","8610-3470","8620-3000","8620-4670","8630-3140","8660-3670","8670-5930","8680-5330","8690-1340","8740-4470","8760-5590","8820-1420","8830-2950","8870-3840","8870-4020","8900-4200","8940-2120","8960-2920","9000-3510","9040-2660","9040-4040","9210-3330","8505-1478","5740-2330","6030-2700","6460-1810","6480-2130","6550-1220","6990-3730","7000-3880","7440-2200","7600-2360","7650-2120","7690-2500","7730-2300","7870-1840","7880-2610","7890-2370","8040-2320","8060-1870","8100-2080","8130-1740","8170-1510","8190-1630","8210-1880","8220-3100","8240-2180","8300-2000","8310-1470","8360-1690","8370-1270","8370-2160","8520-1700","8550-1910","8570-1300","8700-2100","8710-1830","8730-1650" } };
 				[2024] = { x = 5831, y = 2622, artID = { 1707 }, overlay = { "2752-4630","3515-3955","5388-3560","0620-4160","1920-5100","2010-2530","2400-3680","2430-4700","2620-6870","2980-2620","3010-2940","3240-2920","4040-3210","4200-4240","4590-6570","5030-4430","5530-6500","5830-2620","5940-1970","6830-1740","7270-5900" } };
 				[2262] = { x = 5750, y = 5060, artID = { 1858 }, overlay = { "5740-5070" } };
 			  }, reset = true, factionID = { 2507 } }; --null
-	[382325] = { zoneID = 2022, artID = { 1706 }, x = 2944, y = 4704, overlay = { "2944-4700" }, reset = false, questID = { 72020 } }; --Onyx Gem Cluster
+	[382325] = { zoneID = 2022, artID = { 1706 }, x = 2944, y = 4704, overlay = { "2944-4700" }, reset = false, questID = { 72020 }, achievementID = { 16297 } }; --Onyx Gem Cluster
 	[383732] = { zoneID = {
 				[2022] = { x = 8005, y = 5256, artID = { 1706 }, overlay = { "6622-5967","3380-6440","3800-7270","4570-7650","6200-8410","6220-8820","6330-7920","6330-8090","6510-6070","6610-3080","6640-6100","6660-6390","6710-5000","6760-6080","6780-7340","6810-5310","6820-4830","6840-5980","6890-5110","6900-5600","6910-5760","6920-5420","6940-7230","6960-5940","6980-4810","7070-7070","7140-4850","7280-4670","7280-7000","7370-6880","7420-6500","7470-6380","7520-4850","7610-4590","7610-6260","7650-5100","7680-4940","7740-4520","7770-5200","7790-5850","7830-5470","7880-5680","7920-4780","8010-5250","8060-3500","8070-4080","8170-4580","8180-4730","8190-4270","8230-4430","8290-3860","8340-4890","8350-4460","8460-3920" } };
 				[2023] = { x = 7468, y = 5786, artID = { 1705 }, overlay = { "7448-5591","2060-4290","2250-4510","2260-5040","2270-5750","2280-6470","2290-2650","2300-3020","2340-4710","2390-4130","2390-6760","2420-5550","2530-4330","2560-4710","2620-5500","2640-2470","2770-5340","2780-2640","2780-5040","2780-5210","2900-5100","2910-5320","3070-5370","3110-2840","3140-5240","3570-5240","3770-5530","3770-6660","3810-6830","3920-5390","4040-5560","4110-5440","4150-4680","4170-4440","4200-6420","4210-4110","4220-5530","4230-3980","4230-4790","4280-2970","4290-3780","4290-5710","4300-4640","4310-6060","4330-5880","4410-3270","4420-3440","4440-6670","4480-6970","4590-6620","4740-6090","4770-6670","4790-6790","4820-5070","4830-4830","4860-4640","4880-6910","4890-7050","4900-5170","4930-4540","4930-5290","4940-6600","5010-6500","5040-7130","5070-5460","5080-6880","5120-5580","5140-6600","5170-2560","5180-4380","5180-7440","5200-5950","5210-6230","5210-7090","5240-2750","5260-4190","5270-6490","5280-4540","5280-6070","5290-6320","5300-2940","5300-7530","5330-2630","5340-4310","5390-4430","5410-6580","5420-2860","5460-6820","5680-4520","5680-4690","5840-4610","5900-4780","5990-4700","6120-4730","6200-4850","6210-3740","6470-4800","6570-4680","6600-3720","6640-3430","6660-3550","6690-2890","6730-4500","6740-4660","6800-3480","6800-4390","6870-3120","6930-3320","6930-3610","7030-3200","7060-2940","7160-2840","7230-3540","7350-3590","7350-5870","7370-2740","7470-5790","7490-3570","7550-3730","7560-5640","7570-2620","7680-5270","7690-3740","7690-5490","7770-3640","7840-3800","7840-3920","7850-5310","7870-4910","7940-4790","7940-5200","8000-4670","8010-5000","6180-8230","6830-2980" } };
@@ -952,7 +952,7 @@ private.CONTAINER_INFO = {
 	[387721] = { zoneID = 2022, artID = { 1706 }, x = 3459, y = 6378, overlay = { "3459-6378" }, reset = false, questID = { 74851 }, event = 3, minieventID = 8 }; --Rumble Foil Bag
 	[405585] = { zoneID = 2022, artID = { 1706 }, x = 5644, y = 1932, overlay = { "5644-1932" }, reset = false, questID = { 75039 }, event = 3, minieventID = 8 }; --Rumble Foil Bag
 	[376581] = { zoneID = 2023, artID = { 1705 }, x = 3244, y = 3885, overlay = { "5089-6650","3270-3711","3478-3706","3610-4173","7346-5614","2530-3740","3540-6580","4940-6770","7520-4150","3130-7060","3220-6810","7180-5670","7460-3920","7470-4040","8651-5071","3240-3900","8370-5340","8540-5470","8640-5330","3350-4250" }, factionID = { 2507,2503 } }; --Clan Chest
-	[377900] = { zoneID = 2023, artID = { 1705 }, x = 3246, y = 3820, overlay = { "3243-3815" }, reset = false, questID = { 67049 } }; --Nokhud Warspear
+	[377900] = { zoneID = 2023, artID = { 1705 }, x = 3246, y = 3820, overlay = { "3243-3815" }, reset = false, questID = { 67049 }, achievementID = { 16299 } }; --Nokhud Warspear
 	[378010] = { zoneID = 2023, artID = { 1705 }, x = 5317, y = 6894, overlay = { "5328-6891" }, reset = false, questID = { 74399 } }; --Forgotten Dragon Treasure
 	[380548] = { zoneID = 2023, artID = { 1705 }, x = 6181, y = 1301, overlay = { "6175-1302" }, reset = false, questID = { 70263 }, prof = 755 }; --Forgotten Jewelry Box
 	[380577] = { zoneID = 2023, artID = { 1705 }, x = 2506, y = 3489, overlay = { "2520-3540" }, reset = false, questID = { 70282 }, prof = 755 }; --Lofty Malygite
@@ -964,11 +964,11 @@ private.CONTAINER_INFO = {
 	[380612] = { zoneID = 2023, artID = { 1705 }, x = 8573, y = 2519, overlay = { "8570-2520" }, reset = false, questID = { 70307 }, prof = 773 }; --Sign Language Reference Sheet
 	[380620] = { zoneID = 2023, artID = { 1705 }, x = 8111, y = 3785, overlay = { "8111-3787" }, reset = false, questID = { 70313 }, prof = 164 }; --Ancient Spear Shards
 	[380709] = { zoneID = 2023, artID = { 1705 }, x = 5091, y = 6652, overlay = { "5090-6650" }, reset = false, questID = { 70353 }, prof = 164 }; --Falconer Gauntlet Drawings
-	[380842] = { zoneID = 2023, artID = { 1705 }, x = 8230, y = 7339, overlay = { "8230-7338" }, reset = false, questID = { 70379 } }; --Gold Coin
-	[380847] = { zoneID = 2023, artID = { 1705 }, x = 3325, y = 5541, overlay = { "3321-5534" }, reset = false, questID = { 70391 } }; --Emerald Gem Cluster
-	[380859] = { zoneID = 2023, artID = { 1705 }, x = 5201, y = 5832, overlay = { "5198-5839" }, reset = false, questID = { 70400 } }; --Tuskarr Toy Boat
-	[380860] = { zoneID = 2023, artID = { 1705 }, x = 7346, y = 5616, overlay = { "7349-5614" }, reset = false, questID = { 70402 } }; --Centaur Horn
-	[380991] = { zoneID = 2023, artID = { 1705 }, x = 7055, y = 3553, overlay = { "7064-3537" }, reset = false, questID = { 67950 } }; --Dirt Mound
+	[380842] = { zoneID = 2023, artID = { 1705 }, x = 8230, y = 7339, overlay = { "8230-7338" }, reset = false, questID = { 70379 }, achievementID = { 16299 } }; --Gold Coin
+	[380847] = { zoneID = 2023, artID = { 1705 }, x = 3325, y = 5541, overlay = { "3321-5534" }, reset = false, questID = { 70391 }, achievementID = { 16299 } }; --Emerald Gem Cluster
+	[380859] = { zoneID = 2023, artID = { 1705 }, x = 5201, y = 5832, overlay = { "5198-5839" }, reset = false, questID = { 70400 }, achievementID = { 16299 } }; --Tuskarr Toy Boat
+	[380860] = { zoneID = 2023, artID = { 1705 }, x = 7346, y = 5616, overlay = { "7349-5614" }, reset = false, questID = { 70402 }, achievementID = { 16299 } }; --Centaur Horn
+	[380991] = { zoneID = 2023, artID = { 1705 }, x = 7055, y = 3553, overlay = { "7064-3537" }, reset = false, questID = { 67950 }, achievementID = { 16299 } }; --Dirt Mound
 	[381712] = { zoneID = 2023, artID = { 1705 }, x = 5600, y = 7878, overlay = { "5600-7878" }, reset = false, questID = { 71033 }, worldmap = true }; --Water-Bound Chest
 	[386138] = { zoneID = 2023, artID = { 1705 }, x = 1909, y = 8197, overlay = { "1909-8197" }, reset = false, questID = { 73928 }, event = 3, minieventID = 8 }; --Rumble Coin Bag
 	[392031] = { zoneID = 2023, artID = { 1705 }, x = 8179, y = 7797, overlay = { "8179-7797" }, reset = false, questID = { 75036 }, event = 3, minieventID = 8 }; --Rumble Foil Bag
@@ -977,7 +977,7 @@ private.CONTAINER_INFO = {
 				[2023] = { x = 1909, y = 8197, artID = { 1705 }, overlay = { "1909-8197" } };
 				[2239] = { x = 9100, y = 9200, artID = { 1847 }, overlay = { "9100-9200" } };
 			  }, reset = false, questID = { 75040 }, event = 3, minieventID = 8 }; --null
-	[195373] = { zoneID = 2024, artID = { 1707 }, x = 2654, y = 4629, overlay = { "2654-4629" }, reset = false, questID = { 70441 } }; --Objects
+	[195373] = { zoneID = 2024, artID = { 1707 }, x = 2654, y = 4629, overlay = { "2654-4629" }, reset = false, questID = { 70441 }, achievementID = { 16300 } }; --Objects
 	[376582] = { zoneID = 2024, artID = { 1707 }, x = 0939, y = 3787, overlay = { "4500-5220","0720-4510","0840-4070","0940-3790","4580-5620","4690-5420","5580-6870","5650-6570","5690-6790","5760-6970","5880-6840","5890-5480","5900-6670","6050-5900","5920-5660" }, reset = true, factionID = { 2507,2511 } }; --Tuskarr Chest
 	[376583] = { zoneID = {
 				[2024] = { x = 3466, y = 4539, artID = { 1707 }, overlay = { "3490-3190","1050-3110","1200-3670","1220-3520","1240-2200","1280-3410","1380-3820","1380-3940","1440-2180","1450-2050","1500-3110","1610-3520","1620-3890","1790-3600","1810-3480","1840-3840","2140-4230","2200-3970","2320-4370","2450-4020","2490-4230","3410-3410","3460-4540","3540-4800","3560-3410","3580-4660","5820-4140","5850-4270","0970-2910","0980-3250" } };
@@ -999,18 +999,18 @@ private.CONTAINER_INFO = {
 	[380616] = { zoneID = 2024, artID = { 1707 }, x = 6704, y = 1317, overlay = { "6700-1320" }, reset = false, questID = { 70309 }, prof = 171 }; --Small Basket of Firewater Powder
 	[380623] = { zoneID = 2024, artID = { 1707 }, x = 5314, y = 6612, overlay = { "5310-6530" }, reset = false, questID = { 70314 }, prof = 164 }; --Spelltouched Tongs
 	[380647] = { zoneID = 2024, artID = { 1707 }, x = 3849, y = 5915, overlay = { "3849-5915" }, questID = { 70336 }, prof = 333 }; --Forgotton Arcane Tome
-	[380843] = { zoneID = 2024, artID = { 1707 }, x = 5462, y = 2932, overlay = { "5461-2932" }, reset = false, questID = { 70380 } }; --Rubber Fish
-	[381110] = { zoneID = 2024, artID = { 1707 }, x = 4510, y = 5932, overlay = { "4513-5939" }, reset = false, questID = { 70603 } }; --Forgotten Jewel Box
-	[381157] = { zoneID = 2024, artID = { 1707 }, x = 4867, y = 2468, overlay = { "4863-2466" }, reset = false, questID = { 70605 } }; --Sapphire Gem Cluster
-	[381158] = { zoneID = 2024, artID = { 1707 }, x = 5397, y = 4374, overlay = { "5396-4377" }, reset = false, questID = { 70604 } }; --Gnoll Fiend Flail
-	[381160] = { zoneID = 2024, artID = { 1707 }, x = 7485, y = 5500, overlay = { "7490-5500" }, reset = false, questID = { 70606 } }; --Lost Compass
+	[380843] = { zoneID = 2024, artID = { 1707 }, x = 5462, y = 2932, overlay = { "5461-2932" }, reset = false, questID = { 70380 }, achievementID = { 16300 } }; --Rubber Fish
+	[381110] = { zoneID = 2024, artID = { 1707 }, x = 4510, y = 5932, overlay = { "4513-5939" }, reset = false, questID = { 70603 }, achievementID = { 16300 } }; --Forgotten Jewel Box
+	[381157] = { zoneID = 2024, artID = { 1707 }, x = 4867, y = 2468, overlay = { "4863-2466" }, reset = false, questID = { 70605 }, achievementID = { 16300 } }; --Sapphire Gem Cluster
+	[381158] = { zoneID = 2024, artID = { 1707 }, x = 5397, y = 4374, overlay = { "5396-4377" }, reset = false, questID = { 70604 }, achievementID = { 16300 } }; --Gnoll Fiend Flail
+	[381160] = { zoneID = 2024, artID = { 1707 }, x = 7485, y = 5500, overlay = { "7490-5500" }, reset = false, questID = { 70606 }, achievementID = { 16300 } }; --Lost Compass
 	[383733] = { zoneID = 2024, artID = { 1707 }, x = 1106, y = 4086, overlay = { "1126-4352","1504-2211","1666-3792","1214-3509","6456-5882","1326-4238","1503-3287","3423-4591","5943-5520","1245-4136","3625-4754","0940-3950","0960-4210","1110-4080","1140-3220","1350-3830","1390-2170","1540-2060","1570-1940","1610-4010","1740-3310","1740-3900","1920-4040","2020-4210","3430-4410","4030-5090","4170-4920","5780-5360","5870-5950","5930-5830","6050-4930","6050-6110","6070-5190","6260-5200","6430-6110","6550-6160","6580-5900","6820-5970" }, reset = true, factionID = { 2507 } }; --Disturbed Dirt
 	[383735] = { zoneID = 2024, artID = { 1707 }, x = 6655, y = 3062, overlay = { "6720-1176","4685-2239","4781-2742","4415-3091","4591-2866","4975-2567","6609-1129","5020-6360","1660-4980","4640-2450","4810-1610","4920-2410","4920-6560","4940-6120","4960-6250","5050-2200","5710-4190","5720-4310","5850-4120","6510-3010","6520-3140","6590-1300","6600-2830","6600-3640","6620-3860","6670-3140","6880-4650","6920-4440","7070-4390","7180-3340","7230-4320","7290-3890","7330-4070","7470-4040","7540-3940","7680-4030","7840-3310","7890-3090","7900-2870" }, reset = true, factionID = { 2507 } }; --Disturbed Dirt
 	[386139] = { zoneID = 2024, artID = { 1707 }, x = 0749, y = 4754, overlay = { "0749-4754" }, reset = false, questID = { 73936 }, event = 3, minieventID = 8 }; --Rumble Coin Bag
 	[392032] = { zoneID = 2024, artID = { 1707 }, x = 5738, y = 3773, overlay = { "5738-3773" }, reset = false, questID = { 75037 }, event = 3, minieventID = 8 }; --Rumble Foil Bag
 	[405587] = { zoneID = 2024, artID = { 1707 }, x = 0747, y = 4755, overlay = { "0747-4755" }, reset = false, questID = { 75041 }, event = 3, minieventID = 8 }; --Rumble Foil Bag
 	[194856] = { zoneID = 2025, artID = { 1708 }, x = 5608, y = 4097, overlay = { "5608-4097" }, reset = false, questID = { 70287 }, prof = 773 }; --Objects
-	[196172] = { zoneID = 2025, artID = { 1708 }, x = 4945, y = 6291, overlay = { "4945-6291" }, questID = { 70611 } }; --Objects
+	[196172] = { zoneID = 2025, artID = { 1708 }, x = 4945, y = 6291, overlay = { "4945-6291" }, questID = { 70611 }, achievementID = { 16301 } }; --Objects
 	[198604] = { zoneID = 2025, artID = { 1708 }, x = 5247, y = 8360, overlay = { "5247-8360" }, reset = false, questID = { 72355 } }; --Objects
 	[380545] = { zoneID = 2025, artID = { 1708 }, x = 5692, y = 4366, overlay = { "5691-4372" }, reset = false, questID = { 70261 }, prof = 755 }; --Painter's Pretty Jewel
 	[380550] = { zoneID = 2025, artID = { 1708 }, x = 5627, y = 4118, overlay = { "5620-4120" }, reset = false, questID = { 70264 }, prof = 773 }; --Forgetful Apprentice's Tome
@@ -1027,11 +1027,11 @@ private.CONTAINER_INFO = {
 	[380618] = { zoneID = 2025, artID = { 1708 }, x = 5223, y = 8054, overlay = { "5223-8054" }, reset = false, questID = { 70311 }, prof = 164 }; --Draconic Flux
 	[380652] = { zoneID = 2025, artID = { 1708 }, x = 5990, y = 7035, overlay = { "5990-7040" }, reset = false, questID = { 70342 }, prof = 333 }; --Fractured Titanic Sphere
 	[380763] = { zoneID = 2025, artID = { 1708 }, x = 5868, y = 4589, overlay = { "5860-4580" }, reset = false, questID = { 70372 }, prof = 197 }; --Ancient Dragonweave Loom
-	[380867] = { zoneID = 2025, artID = { 1708 }, x = 5261, y = 7676, overlay = { "5260-7673" }, reset = false, questID = { 70408 } }; --Amber Gem Cluster
-	[381094] = { zoneID = 2025, artID = { 1708 }, x = 6023, y = 4163, overlay = { "6023-4160" }, reset = false, questID = { 70609 } }; --Elegant Canvas Brush
-	[381107] = { zoneID = 2025, artID = { 1708 }, x = 5813, y = 8004, overlay = { "5815-8005" }, reset = false, questID = { 70608 } }; --Sand Pile
-	[381216] = { zoneID = 2025, artID = { 1708 }, x = 6483, y = 1657, overlay = { "6486-1655" }, reset = false, questID = { 70610 } }; --Surveyor's Magnifying Glass
-	[381223] = { zoneID = 2025, artID = { 1708 }, x = 3395, y = 7696, overlay = { "3396-7695" }, reset = false, questID = { 70607 } }; --Cracked Hourglass
+	[380867] = { zoneID = 2025, artID = { 1708 }, x = 5261, y = 7676, overlay = { "5260-7673" }, reset = false, questID = { 70408 }, achievementID = { 16301 } }; --Amber Gem Cluster
+	[381094] = { zoneID = 2025, artID = { 1708 }, x = 6023, y = 4163, overlay = { "6023-4160" }, reset = false, questID = { 70609 }, achievementID = { 16301 } }; --Elegant Canvas Brush
+	[381107] = { zoneID = 2025, artID = { 1708 }, x = 5813, y = 8004, overlay = { "5815-8005" }, reset = false, questID = { 70608 }, achievementID = { 16301 } }; --Sand Pile
+	[381216] = { zoneID = 2025, artID = { 1708 }, x = 6483, y = 1657, overlay = { "6486-1655" }, reset = false, questID = { 70610 }, achievementID = { 16301 } }; --Surveyor's Magnifying Glass
+	[381223] = { zoneID = 2025, artID = { 1708 }, x = 3395, y = 7696, overlay = { "3396-7695" }, reset = false, questID = { 70607 }, achievementID = { 16301 } }; --Cracked Hourglass
 	[383734] = { zoneID = {
 				[2025] = { x = 3569, y = 7141, artID = { 1708 }, overlay = { "3557-6763","3288-6887","5566-8219","3244-7309","3722-7063","5027-8320","5120-3726","4791-6169","3653-7317","5348-5975","5558-8459","6105-7953","3441-7142","3320-6716","3464-6178","3400-6490","3460-6600","3540-7000","3570-7140","3570-8450","3640-7570","3700-7700","3710-7190","3740-6840","3760-7970","3820-8200","3900-8420","3910-7960","3970-8210","4080-8440","4100-8250","4260-6640","4370-8440","4440-7920","4620-7800","4640-7210","4710-4720","4790-7270","4790-8100","4850-5140","4910-7190","4950-4830","4950-7730","4950-7990","4980-4410","5000-6060","5040-7820","5110-5960","5240-4620","5330-5120","5330-7640","5340-8740","5360-4580","5400-7920","5410-7090","5420-3820","5420-4140","5430-3980","5440-3380","5460-6650","5500-7710","5520-7460","5540-3200","5550-6880","5570-6740","5600-2870","5600-5300","5680-8090","5690-7410","5700-3040","5700-3540","5710-6770","5710-8270","5720-3160","5770-5690","5800-2880","5810-5270","5820-6150","5870-4820","5870-8630","5950-2830","5950-3130","6040-7770","6060-3010","6230-3450","6230-6120","6230-6970","6810-8600","3680-8370" } };
 				[2112] = { x = 1350, y = 6320, artID = { 1748 }, overlay = { "1320-6320" } };
@@ -1058,32 +1058,32 @@ private.CONTAINER_INFO = {
 				[2026] = { x = 7110, y = 3730, artID = { 1709 }, overlay = { "7110-3730" } };
 				[2118] = { x = 7110, y = 3727, artID = { 1709 }, overlay = { "7110-3727" } };
 			  }, reset = false, questID = { 66932 } }; --null
-	[375493] = { zoneID = 2027, artID = { 1710 }, x = 6558, y = 5026, overlay = { "6556-5031","6670-4930" }, reset = false, questID = { 65566 } }; --Ripened Protopear
-	[373548] = { zoneID = 2030, artID = { 1713 }, x = 5179, y = 8619, overlay = { "5157-8596","5100-8780","5230-8790","5280-8680" }, questID = { 65175 } }; --Template Archive
-	[375495] = { zoneID = 2066, artID = { 1728 }, x = 4912, y = 3432, overlay = { "4833-3648","4912-3432" }, reset = false, questID = { 65572 } }; --Undulating Foliage
+	[375493] = { zoneID = 2027, artID = { 1710 }, x = 6558, y = 5026, overlay = { "6556-5031","6670-4930" }, reset = false, questID = { 65566 }, achievementID = { 15331 } }; --Ripened Protopear
+	[373548] = { zoneID = 2030, artID = { 1713 }, x = 5179, y = 8619, overlay = { "5157-8596","5100-8780","5230-8790","5280-8680" }, questID = { 65175 }, achievementID = { 15331 } }; --Template Archive
+	[375495] = { zoneID = 2066, artID = { 1728 }, x = 4912, y = 3432, overlay = { "4833-3648","4912-3432" }, reset = false, questID = { 65572 }, achievementID = { 15331 } }; --Undulating Foliage
 	[382195] = { zoneID = 2085, artID = { 1736 }, x = 2781, y = 2595, overlay = { "2781-2595" } }; --Elemental Bound Chest
 	[385958] = { zoneID = 2112, artID = { 1748 }, x = 4550, y = 4711, overlay = { "4574-4719" }, reset = false, questID = { 73180 }, event = 3, minieventID = 8 }; --Rumble Coin Bag
 	[387719] = { zoneID = 2112, artID = { 1748 }, x = 4607, y = 4644, overlay = { "4623-4664" }, reset = false, questID = { 74849 }, event = 3, minieventID = 8 }; --Rumble Foil Bag
 	[191992] = { zoneID = 2118, artID = { 1709 }, x = 4183, y = 2305, overlay = { "4183-2305" }, reset = false, questID = { 67013 } }; --Objects
-	[200618] = { zoneID = 2133, artID = { 1775 }, x = 4296, y = 6039, overlay = { "4296-6039" }, reset = false, questID = { 75232 } }; --Objects
-	[385565] = { zoneID = 2133, artID = { 1775 }, x = 2852, y = 4793, overlay = { "2852-4793" }, reset = false }; --Blazing Shadowflame Chest
-	[386079] = { zoneID = 2133, artID = { 1775 }, x = 2982, y = 4056, overlay = { "2976-4054" }, questID = { 73395 } }; --Well-Chewed Chest
-	[386086] = { zoneID = 2133, artID = { 1775 }, x = 3231, y = 3925, overlay = { "3233-3935" }, questID = { 73410 } }; --Seething Cache
+	[200618] = { zoneID = 2133, artID = { 1775 }, x = 4296, y = 6039, overlay = { "4296-6039" }, reset = false, questID = { 75232 }, achievementID = { 17786 } }; --Objects
+	[385565] = { zoneID = 2133, artID = { 1775 }, x = 2852, y = 4793, overlay = { "2852-4793" }, reset = false, achievementID = { 17786 } }; --Blazing Shadowflame Chest
+	[386079] = { zoneID = 2133, artID = { 1775 }, x = 2982, y = 4056, overlay = { "2976-4054" }, questID = { 73395 }, achievementID = { 17786 } }; --Well-Chewed Chest
+	[386086] = { zoneID = 2133, artID = { 1775 }, x = 3231, y = 3925, overlay = { "3233-3935" }, questID = { 73410 }, achievementID = { 17786 } }; --Seething Cache
 	[386088] = { zoneID = 2133, artID = { 1775 }, x = 4193, y = 4710, overlay = { "3818-4990","4005-5126","4165-4451","4104-4878","4080-5030","4200-4720" }, questID = { 73548 } }; --Ritual Offerings
 	[386089] = { zoneID = 2133, artID = { 1775 }, x = 3603, y = 4453, overlay = { "3049-4365","3597-4449","3262-4410","3309-3991","3190-3960","3540-4180" }, questID = { 73551 } }; --Ritual Offerings
 	[386090] = { zoneID = 2133, artID = { 1775 }, x = 3005, y = 5141, overlay = { "3005-5141","3513-5224","3237-5047","3641-5221","3198-5275","2900-5490" }, questID = { 73552 } }; --Ritual Offerings
 	[386091] = { zoneID = 2133, artID = { 1775 }, x = 2858, y = 4869, overlay = { "2733-4216","2687-4621","2878-4415","2820-4630","2820-5140","2860-4880" }, questID = { 73553 } }; --Ritual Offerings
-	[386104] = { zoneID = 2133, artID = { 1775 }, x = 3663, y = 4880, overlay = { "3663-4880" }, questID = { 73697 } }; --Ancient Zaqali Chest
-	[386123] = { zoneID = 2133, artID = { 1775 }, x = 3002, y = 4195, overlay = { "3005-4193" }, questID = { 73706 } }; --Charred Egg
-	[388896] = { zoneID = 2133, artID = { 1775 }, x = 3639, y = 7426, overlay = { "3639-7426" }, questID = { 74986 } }; --Crystal-encased Chest
-	[388911] = { zoneID = 2133, artID = { 1775 }, x = 4305, y = 8256, overlay = { "4305-8256" }, questID = { 74995 } }; --Old Trunk
+	[386104] = { zoneID = 2133, artID = { 1775 }, x = 3663, y = 4880, overlay = { "3663-4880" }, questID = { 73697 }, achievementID = { 17786 } }; --Ancient Zaqali Chest
+	[386123] = { zoneID = 2133, artID = { 1775 }, x = 3002, y = 4195, overlay = { "3005-4193" }, questID = { 73706 }, achievementID = { 17786 } }; --Charred Egg
+	[388896] = { zoneID = 2133, artID = { 1775 }, x = 3639, y = 7426, overlay = { "3639-7426" }, questID = { 74986 }, achievementID = { 17786 } }; --Crystal-encased Chest
+	[388911] = { zoneID = 2133, artID = { 1775 }, x = 4305, y = 8256, overlay = { "4305-8256" }, questID = { 74995 }, achievementID = { 17786 } }; --Old Trunk
 	[389111] = { zoneID = 2133, artID = { 1775 }, x = 6206, y = 5533, overlay = { "6179-5493" }, questID = { 75015 } }; --Waterlogged Bundle
-	[389114] = { zoneID = 2133, artID = { 1775 }, x = 6269, y = 5377, overlay = { "6269-5377" }, questID = { 75019 } }; --Long-Lost Cache
+	[389114] = { zoneID = 2133, artID = { 1775 }, x = 6269, y = 5377, overlay = { "6269-5377" }, questID = { 75019 }, achievementID = { 17786 } }; --Long-Lost Cache
 	[392580] = { zoneID = 2133, artID = { 1775 }, x = 4853, y = 4860, overlay = { "4847-4863" }, reset = false, questID = { 75180 }, prof = 202 }; --Misplaced Aberrus Outflow Blueprints
 	[392581] = { zoneID = 2133, artID = { 1775 }, x = 4818, y = 2793, overlay = { "4815-2789" }, reset = false, questID = { 75183 }, prof = 202 }; --Haphazardly Discarded Bombs
 	[392582] = { zoneID = 2133, artID = { 1775 }, x = 5056, y = 4796, overlay = { "5051-4794" }, reset = false, questID = { 75184 }, prof = 202 }; --Defective Survival Pack
 	[392587] = { zoneID = 2133, artID = { 1775 }, x = 3779, y = 5887, overlay = { "3783-5884" }, reset = false, questID = { 75186 }, prof = 202 }; --Busted Wyrmhole Generator
-	[392591] = { zoneID = 2133, artID = { 1775 }, x = 5601, y = 0307, overlay = { "5604-0304" }, reset = false, questID = { 75187 } }; --Chest of the Flights
+	[392591] = { zoneID = 2133, artID = { 1775 }, x = 5601, y = 0307, overlay = { "5604-0304" }, reset = false, questID = { 75187 }, achievementID = { 17786 } }; --Chest of the Flights
 	[392593] = { zoneID = 2133, artID = { 1775 }, x = 4985, y = 5922, overlay = { "4989-5925" }, reset = false, questID = { 75188 }, prof = 202 }; --Inconspicuous Data Miner
 	[396019] = { zoneID = 2133, artID = { 1775 }, x = 6066, y = 4625, overlay = { "6066-4625" }, questID = { 75302 } }; --Stolen Stash
 	[396020] = { zoneID = {
@@ -1125,24 +1125,24 @@ private.CONTAINER_INFO = {
 	[386165] = { zoneID = {
 				[2150] = { x = 1168, y = 6266, artID = { 1785 }, overlay = { "1168-6266" } };
 				[2151] = { x = 5456, y = 5666, artID = { 1781 }, overlay = { "5506-5553","5430-5834","5144-5327","4760-4050","5130-5850","5300-5390","5750-4160","5770-6340","5930-6230","7480-3760","5346-3936","5030-4390","5120-5700","5280-5910","5330-3610","5380-4210","5380-5620","5480-3460","5480-3680","5490-4270","5580-6780","5680-6870","5710-6610","5800-6770","5830-3770","5850-6100","5890-6620","5920-4200","5940-6350","6140-4160","7240-5310","7730-3870","3850-3730","4030-3210","4130-3370","4810-4440","4880-4160","4880-4610","4950-4930","5030-5210","5130-4690","5140-5510","5230-4910","7490-5760" } };
-			  }, reset = true }; --null
+			  }, reset = true, achievementID = { 17526 } }; --null
 	[386166] = { zoneID = {
 				[2150] = { x = 4235, y = 4770, artID = { 1785 }, overlay = { "4235-4770" } };
 				[2151] = { x = 4125, y = 5189, artID = { 1781 }, overlay = { "4571-5657","4375-5726","5017-3590","7085-4359","4635-5466","5620-4428","6868-4721","6049-5607","4397-5563","5678-5822","4115-5189","3210-4450","3890-6330","4030-3200","4110-3370","4650-3450","4690-3580","4730-4250","5750-5590","5830-5990","6280-5390","6310-4320","7730-3890","5016-5486","3680-7990","3870-4620","3890-7050","4000-5070","4020-5350","4060-6320","4150-5760","4240-6160","4290-4980","4320-3510","4320-4250","4340-5190","4380-6220","4400-5930","4520-6180","4800-4430","4800-5790","4880-4620","4950-4930","5060-3760","5350-5320","5470-4990","5860-4760","6950-4950","7480-3760","5425-5431","3140-4880","3460-4550","3620-7850","3690-4660","3690-7660","3700-1320","3710-7130","3720-7480","3730-6760","3770-8220","3790-6510","3800-4720","3810-7260","3850-3730","3970-2470","4040-4190","4190-5940","4250-4490","4310-4690","4440-6050","4460-3850","4510-1650","4530-4600","4680-1830","4700-1550","4740-6080","4760-4040","4880-4150","4950-4250","5030-4400","5100-5380","5120-4700","5360-3640","5580-5580","5600-4620","5780-4910","5790-5160","5930-5290","5940-5820","5970-4980","6400-5000","6720-4940","6730-4360","6930-4370","7080-4760","7120-5000","7210-4640","2980-4820","3720-7340","3580-1740","3690-2260","4280-1930","3140-5010","3790-2170","4470-5800","3310-4320" } };
-			  }, reset = true }; --null
-	[384763] = { zoneID = 2151, artID = { 1781 }, x = 4589, y = 1606, overlay = { "4465-3232","5025-7245","5314-7800","6973-7771","6782-6841","6258-4945","4672-7515","4115-4444","4090-1120","2840-4200","3610-3400","3820-5040","3920-2430","5480-9250","5720-2260","5790-6270","6290-4370","5073-3678","4590-1600","5490-3440","5670-5540" }, reset = true }; --Forbidden Hoard
-	[386167] = { zoneID = 2151, artID = { 1781 }, x = 3793, y = 2165, overlay = { "3963-2455","3140-4880","3460-4560","3620-7860","2970-4830","3140-5020","3210-4420","3310-4310","3570-1740","3680-7990","3690-2260","3710-1330","3710-7120","3710-7330","3720-7490","3740-6780","3770-8210","3790-2170","3790-6510","3800-7250","3900-7060","3910-6330","4500-1640","4670-1840","4710-1530","3690-7650","4270-1950" }, reset = true }; --Irontide Stash
-	[386168] = { zoneID = 2151, artID = { 1781 }, x = 7918, y = 6292, overlay = { "7104-6732","7915-6518","7080-6910","7180-6990","7310-6890","7760-6470","7920-6280","7970-5970","7210-6790","7700-7330" }, reset = true }; --Farscale Cache
-	[386172] = { zoneID = 2151, artID = { 1781 }, x = 3903, y = 6334, overlay = { "3800-6510","3890-7030","3900-6330","3620-7870","3680-7990","3690-7660","3710-7130","3710-7330","3730-7490","3740-6780","3770-8210","3800-7250" }, reset = true }; --Morqut Provisions
-	[386174] = { zoneID = 2151, artID = { 1781 }, x = 5604, y = 4420, overlay = { "5838-5988","4270-1940","4960-4920","5030-4400","5110-5370","5780-4910","6940-4360","3140-4890","3460-4550","4940-4250","5010-5480","5350-5320","5750-5590","5860-4750","5980-4990","6300-4310","6400-5010","6860-4710","7210-4640","6943-4947","3210-4430","3310-4320","3700-1310","4500-1650","4680-1840","4700-1550","4740-6080","4760-4040","4800-5810","4810-4440","4870-4150","4880-4610","5140-4700","5350-3650","5430-5440","5470-4990","5580-5580","5600-4620","5610-4420","5680-5830","5730-4420","5780-5160","5930-5280","5940-5820","6040-5600","6300-5370","6720-4940","6730-4340","7080-4760","7090-4370","7120-5000","2980-4820","3560-1740","3690-2260","3790-2180","3960-2460","3140-5010" }, reset = true }; --Avian Trove
-	[386179] = { zoneID = 2151, artID = { 1781 }, x = 5028, y = 5216, overlay = { "5291-5401","5030-5220","5120-5700","5140-5510","5150-5340","5380-5620","4309-7894","5130-5850","5230-4910","5280-5920","5430-5830","5510-5550" }, reset = true }; --Spellsworn Reserves
-	[386208] = { zoneID = 2151, artID = { 1781 }, x = 6692, y = 5822, overlay = { "7114-5586","7212-6283","7230-6140","6560-6300","6700-5810","6830-5550","6830-6420","6850-5870","6980-5940","7070-6330","7110-6000","7190-5810" }, reset = true }; --Storm-Eater Cairn
-	[386212] = { zoneID = 2151, artID = { 1781 }, x = 7269, y = 5501, overlay = { "7088-5303","6830-5435","7180-5470","7300-5910","7360-5680","7230-5720" }, reset = true }; --Stonescaled Cairn
-	[386213] = { zoneID = 2151, artID = { 1781 }, x = 7237, y = 5306, overlay = { "7483-5751","5740-4230","7240-5300","5480-3690","5830-3770","5910-4200" }, reset = true }; --Blazing Cairn
+			  }, reset = true, achievementID = { 17526 } }; --null
+	[384763] = { zoneID = 2151, artID = { 1781 }, x = 4589, y = 1606, overlay = { "4465-3232","5025-7245","5314-7800","6973-7771","6782-6841","6258-4945","4672-7515","4115-4444","4090-1120","2840-4200","3610-3400","3820-5040","3920-2430","5480-9250","5720-2260","5790-6270","6290-4370","5073-3678","4590-1600","5490-3440","5670-5540" }, reset = true, achievementID = { 17526 } }; --Forbidden Hoard
+	[386167] = { zoneID = 2151, artID = { 1781 }, x = 3793, y = 2165, overlay = { "3963-2455","3140-4880","3460-4560","3620-7860","2970-4830","3140-5020","3210-4420","3310-4310","3570-1740","3680-7990","3690-2260","3710-1330","3710-7120","3710-7330","3720-7490","3740-6780","3770-8210","3790-2170","3790-6510","3800-7250","3900-7060","3910-6330","4500-1640","4670-1840","4710-1530","3690-7650","4270-1950" }, reset = true, achievementID = { 17526 } }; --Irontide Stash
+	[386168] = { zoneID = 2151, artID = { 1781 }, x = 7918, y = 6292, overlay = { "7104-6732","7915-6518","7080-6910","7180-6990","7310-6890","7760-6470","7920-6280","7970-5970","7210-6790","7700-7330" }, reset = true, achievementID = { 17526 } }; --Farscale Cache
+	[386172] = { zoneID = 2151, artID = { 1781 }, x = 3903, y = 6334, overlay = { "3800-6510","3890-7030","3900-6330","3620-7870","3680-7990","3690-7660","3710-7130","3710-7330","3730-7490","3740-6780","3770-8210","3800-7250" }, reset = true, achievementID = { 17526 } }; --Morqut Provisions
+	[386174] = { zoneID = 2151, artID = { 1781 }, x = 5604, y = 4420, overlay = { "5838-5988","4270-1940","4960-4920","5030-4400","5110-5370","5780-4910","6940-4360","3140-4890","3460-4550","4940-4250","5010-5480","5350-5320","5750-5590","5860-4750","5980-4990","6300-4310","6400-5010","6860-4710","7210-4640","6943-4947","3210-4430","3310-4320","3700-1310","4500-1650","4680-1840","4700-1550","4740-6080","4760-4040","4800-5810","4810-4440","4870-4150","4880-4610","5140-4700","5350-3650","5430-5440","5470-4990","5580-5580","5600-4620","5610-4420","5680-5830","5730-4420","5780-5160","5930-5280","5940-5820","6040-5600","6300-5370","6720-4940","6730-4340","7080-4760","7090-4370","7120-5000","2980-4820","3560-1740","3690-2260","3790-2180","3960-2460","3140-5010" }, reset = true, achievementID = { 17526 } }; --Avian Trove
+	[386179] = { zoneID = 2151, artID = { 1781 }, x = 5028, y = 5216, overlay = { "5291-5401","5030-5220","5120-5700","5140-5510","5150-5340","5380-5620","4309-7894","5130-5850","5230-4910","5280-5920","5430-5830","5510-5550" }, reset = true, achievementID = { 17526 } }; --Spellsworn Reserves
+	[386208] = { zoneID = 2151, artID = { 1781 }, x = 6692, y = 5822, overlay = { "7114-5586","7212-6283","7230-6140","6560-6300","6700-5810","6830-5550","6830-6420","6850-5870","6980-5940","7070-6330","7110-6000","7190-5810" }, reset = true, achievementID = { 17526 } }; --Storm-Eater Cairn
+	[386212] = { zoneID = 2151, artID = { 1781 }, x = 7269, y = 5501, overlay = { "7088-5303","6830-5435","7180-5470","7300-5910","7360-5680","7230-5720" }, reset = true, achievementID = { 17526 } }; --Stonescaled Cairn
+	[386213] = { zoneID = 2151, artID = { 1781 }, x = 7237, y = 5306, overlay = { "7483-5751","5740-4230","7240-5300","5480-3690","5830-3770","5910-4200" }, reset = true, achievementID = { 17526 } }; --Blazing Cairn
 	[386214] = { zoneID = {
 				[2151] = { x = 5340, y = 3610, artID = { 1781 }, overlay = { "5340-3610","5920-4200","5740-4250","5830-3740","5470-3660","6140-4160","5350-3930","5390-4210","5490-3460","5500-4270" } };
 				[2154] = { x = 6548, y = 2235, artID = { 1784 }, overlay = { "6548-2235" } };
-			  }, reset = true }; --null
+			  }, reset = true, achievementID = { 17526 } }; --null
 	[405303] = { zoneID = 2200, artID = { 1806 }, x = 5924, y = 5891, overlay = { "5930-5880" }, reset = true, minieventID = 9 }; --Dreamseed Cache
 	[405320] = { zoneID = 2200, artID = { 1806 }, x = 5460, y = 6772, overlay = { "5460-6770" }, reset = true, minieventID = 9 }; --Dreamseed Cache
 	[405321] = { zoneID = 2200, artID = { 1806 }, x = 6391, y = 6481, overlay = { "6390-6490" }, reset = true, minieventID = 9 }; --Dreamseed Cache
@@ -1183,23 +1183,23 @@ private.CONTAINER_INFO = {
 	[406998] = { zoneID = 2200, artID = { 1806 }, x = 4080, y = 4343, overlay = { "4080-4340" }, reset = true, minieventID = 9 }; --Dreamseed Cache
 	[407001] = { zoneID = 2200, artID = { 1806 }, x = 4083, y = 4357, overlay = { "4080-4340" }, reset = true, minieventID = 9 }; --Dreamseed Cache
 	[407006] = { zoneID = 2200, artID = { 1806 }, x = 3847, y = 5918, overlay = { "3840-5930" }, reset = true, minieventID = 9 }; --Dreamseed Cache
-	[407739] = { zoneID = 2200, artID = { 1806 }, x = 3410, y = 5637, overlay = { "3409-5634" }, reset = false, questID = { 77872 } }; --Triflesnatch's Roving Trove
-	[407862] = { zoneID = 2200, artID = { 1806 }, x = 4749, y = 3484, overlay = { "4749-3484" }, reset = false, questID = { 77858 } }; --Hidden Moonkin Stash
-	[408107] = { zoneID = 2200, artID = { 1806 }, x = 3913, y = 6549, overlay = { "3910-6551" }, reset = false, questID = { 77950 } }; --Crystalline Glowblossom
-	[408706] = { zoneID = 2200, artID = { 1806 }, x = 6164, y = 5952, overlay = { "6161-5954" }, reset = false, questID = { 78005 } }; --Magical Bloom
-	[408707] = { zoneID = 2200, artID = { 1806 }, x = 5520, y = 5728, overlay = { "5526-5724" }, reset = false, questID = { 78006 } }; --Odd Burl
+	[407739] = { zoneID = 2200, artID = { 1806 }, x = 3410, y = 5637, overlay = { "3409-5634" }, reset = false, questID = { 77872 }, achievementID = { 19317 } }; --Triflesnatch's Roving Trove
+	[407862] = { zoneID = 2200, artID = { 1806 }, x = 4749, y = 3484, overlay = { "4749-3484" }, reset = false, questID = { 77858 }, achievementID = { 19317 } }; --Hidden Moonkin Stash
+	[408107] = { zoneID = 2200, artID = { 1806 }, x = 3913, y = 6549, overlay = { "3910-6551" }, reset = false, questID = { 77950 }, achievementID = { 19317 } }; --Crystalline Glowblossom
+	[408706] = { zoneID = 2200, artID = { 1806 }, x = 6164, y = 5952, overlay = { "6161-5954" }, reset = false, questID = { 78005 }, achievementID = { 19317 } }; --Magical Bloom
+	[408707] = { zoneID = 2200, artID = { 1806 }, x = 5520, y = 5728, overlay = { "5526-5724" }, reset = false, questID = { 78006 }, achievementID = { 19317 } }; --Odd Burl
 	[408719] = { zoneID = 2200, artID = { 1806 }, x = 3845, y = 6188, overlay = { "6344-7357","5954-6343","5248-3824","4695-3523","5500-2529","4225-4827","3915-4368","3559-5401","3293-6562","4310-7189","6648-6314","4018-3110","5557-5494","5427-1503","3820-5578","4102-2751","3806-3268","4037-4206","3772-5019","5491-4043","3456-6932","3847-6184","2620-3150","3110-3140","3320-2120","3330-2540","3480-2020","3600-6290","3670-4600","3680-4410","3740-3140","3770-2110","3880-2750","3930-5810","3950-2290","4010-2430","4020-3460","4090-4980","4130-5460","4220-6680","4410-2290","4470-3490","4470-4990","4870-3440","5160-2980","5180-2610","5400-4140","5410-1940","5420-3220","5470-5390","5530-4280","5590-5820","5720-5350","5760-5820","5780-2590","5900-2520","6010-8130","6210-2930","6310-3960","6500-4140","6590-5220","6600-5020","6600-8460","6640-7020","2830-2800","2850-3410","3280-5440","3450-4410","3520-5030","3520-6610","3850-2520","4140-4600","4460-2450","4550-2590","4650-2520","4740-3070","4830-2230","5140-3230","5140-4240","5200-2100","5300-3370","5330-4330","5410-5550","5460-2930","5490-3910","5580-3720","5690-4210","5890-3800","5920-6820","5940-5370","6010-4200","6010-5620","6050-3510","6050-4530","6100-6210","6130-6580","6180-7910","6180-8600","6200-7450","6210-5700","6330-3670","6550-7420","6730-5920","3340-2900","3970-5230","5110-1900","5130-1450","5290-4010","5690-4880","6290-4900","6390-4360" }, reset = true }; --Small Somnut
 	[408720] = { zoneID = 2200, artID = { 1806 }, x = 4733, y = 3064, overlay = { "3525-5022","2620-3140","2830-2810","3110-3150","3280-5430","3320-2120","3330-2530","3340-2900","3450-4420","3480-2020","3560-5400","3670-4600","3740-3140","3770-2110","3770-5020","3810-3270","3820-5580","3850-2520","3870-2750","3920-4370","3950-2300","3970-5230","4010-2430","4020-3110","4030-3460","4040-4210","4090-4980","4100-2760","4130-5450","4140-4600","4220-6680","4230-4820","4310-7190","4410-2280","4450-2450","4470-3500","4470-5000","4550-2590","4650-2520","4690-3530","4730-3070","4830-2230","4870-3440","5140-3230","5150-4240","5170-2970","5180-2630","5230-3880","5300-3370","5330-4330","5400-4140","5400-5540","5410-1940","5420-3200","5460-2930","5460-5400","5490-3910","5490-4040","5500-2570","5530-4190","5560-5490","5580-3710","5590-5820","5690-4210","5690-4880","5720-5340","5760-5820","5780-2600","5890-3800","5900-2510","5910-6830","5940-5360","5950-6350","6010-5620","6010-8140","6020-4200","6050-4530","6100-6210","6130-6580","6190-7450","6210-5700","6290-4900","6310-3960","6390-4350","6470-4160","6550-7420","6600-5220","6600-8460","6610-5020","6620-6320","6640-7010","6700-6200","6730-5920","2860-3410","3680-4410","5100-1900","5130-1460","5200-2100","6180-7910","6180-8600","6210-2930","6330-3670","6340-7350","5420-1500","6050-3510" }, reset = true }; --Laden Somnut
 	[409220] = { zoneID = 2200, artID = { 1806 }, x = 3840, y = 5930, overlay = { "3840-5930" }, reset = true, minieventID = 9 }; --Dreamseed Cache
 	[409221] = { zoneID = 2200, artID = { 1806 }, x = 3845, y = 5919, overlay = { "3840-5930" }, reset = true, minieventID = 9 }; --Dreamseed Cache
-	[409222] = { zoneID = 2200, artID = { 1806 }, x = 4704, y = 5308, overlay = { "4704-5305" }, reset = false, questID = { 78107 } }; --Boon of Ursol
+	[409222] = { zoneID = 2200, artID = { 1806 }, x = 4704, y = 5308, overlay = { "4704-5305" }, reset = false, questID = { 78107 }, achievementID = { 19317 } }; --Boon of Ursol
 	[409223] = { zoneID = 2200, artID = { 1806 }, x = 4267, y = 7392, overlay = { "4270-7390" }, reset = true, minieventID = 9 }; --Dreamseed Cache
 	[409224] = { zoneID = 2200, artID = { 1806 }, x = 4267, y = 7395, overlay = { "4270-7390" }, reset = true, minieventID = 9 }; --Dreamseed Cache
 	[409225] = { zoneID = 2200, artID = { 1806 }, x = 4262, y = 7399, overlay = { "4270-7390" }, reset = true, minieventID = 9 }; --Dreamseed Cache
 	[409226] = { zoneID = 2200, artID = { 1806 }, x = 4877, y = 8040, overlay = { "4870-8040" }, reset = true, minieventID = 9 }; --Dreamseed Cache
 	[409227] = { zoneID = 2200, artID = { 1806 }, x = 4870, y = 8050, overlay = { "4870-8040" }, reset = true, minieventID = 9 }; --Dreamseed Cache
 	[409228] = { zoneID = 2200, artID = { 1806 }, x = 4872, y = 8042, overlay = { "4870-8040" }, reset = true, minieventID = 9 }; --Dreamseed Cache
-	[409440] = { zoneID = 2200, artID = { 1806 }, x = 3721, y = 3072, overlay = { "3726-3068" }, reset = false, questID = { 78120 } }; --Pineshrew Pile
+	[409440] = { zoneID = 2200, artID = { 1806 }, x = 3721, y = 3072, overlay = { "3726-3068" }, reset = false, questID = { 78120 }, achievementID = { 19317 } }; --Pineshrew Pile
 	[409844] = { zoneID = 2200, artID = { 1806 }, x = 5111, y = 5865, overlay = { "5110-5860" }, reset = true, minieventID = 9 }; --Dreamseed Cache
 	[409847] = { zoneID = 2200, artID = { 1806 }, x = 5107, y = 5875, overlay = { "5110-5870" }, reset = true, minieventID = 9 }; --Dreamseed Cache
 	[409848] = { zoneID = 2200, artID = { 1806 }, x = 5106, y = 5862, overlay = { "5110-5870" }, reset = true, minieventID = 9 }; --Dreamseed Cache
@@ -1221,9 +1221,9 @@ private.CONTAINER_INFO = {
 	[411065] = { zoneID = {
 				[2200] = { x = 6337, y = 7299, artID = { 1806 }, overlay = { "6342-7297" } };
 				[2254] = { x = 6320, y = 3521, artID = { 1850 }, overlay = { "6351-3604" } };
-			  }, reset = false, questID = { 78359 } }; --null
-	[411066] = { zoneID = 2200, artID = { 1806 }, x = 6407, y = 1920, overlay = { "6421-1926" }, reset = false, questID = { 78360 } }; --Boon of Aviana
-	[411067] = { zoneID = 2200, artID = { 1806 }, x = 3298, y = 8321, overlay = { "3311-8326" }, reset = false, questID = { 78361 } }; --Boon of Goldrinn
+			  }, reset = false, questID = { 78359 }, achievementID = { 19317 } }; --null
+	[411066] = { zoneID = 2200, artID = { 1806 }, x = 6407, y = 1920, overlay = { "6421-1926" }, reset = false, questID = { 78360 }, achievementID = { 19317 } }; --Boon of Aviana
+	[411067] = { zoneID = 2200, artID = { 1806 }, x = 3298, y = 8321, overlay = { "3311-8326" }, reset = false, questID = { 78361 }, achievementID = { 19317 } }; --Boon of Goldrinn
 	[411168] = { zoneID = 2200, artID = { 1806 }, x = 5565, y = 2748, overlay = { "5564-2751" }, reset = false, questID = { 78411 }, prof = 773 }; --Winnie's Notes on Flora and Fauna
 	[411169] = { zoneID = 2200, artID = { 1806 }, x = 6347, y = 7153, overlay = { "6350-7151" }, reset = false, questID = { 78412 }, prof = 773 }; --Grove Keeper's Pillar
 	[411170] = { zoneID = 2200, artID = { 1806 }, x = 3599, y = 4662, overlay = { "3603-4664" }, reset = false, questID = { 78413 }, prof = 773 }; --Primalist Shadowbinding Rune
@@ -1240,7 +1240,7 @@ private.CONTAINER_INFO = {
 	[222304] = { zoneID = {
 				[2213] = { x = 0853, y = 3057, artID = { 1816 }, overlay = { "0853-3057" } };
 				[2255] = { x = 3432, y = 7565, artID = { 1852 }, overlay = { "3432-7565" } };
-			  }, reset = false, questID = { 82085 }, minieventID = 16, criteria = 18 }; --null
+			  }, reset = false, questID = { 82085 }, achievementID = { 40762 }, minieventID = 16, criteria = 18 }; --null
 	[441108] = { zoneID = {
 				[2213] = { x = 4474, y = 8516, artID = { 1816 }, overlay = { "4470-8530" } };
 				[2214] = { x = 6254, y = 4870, artID = { 1817 }, overlay = { "6254-4870" } };
@@ -1258,35 +1258,35 @@ private.CONTAINER_INFO = {
 	[446101] = { zoneID = {
 				[2213] = { x = 3160, y = 2078, artID = { 1816 }, overlay = { "3163-2076" } };
 				[2255] = { x = 4236, y = 7227, artID = { 1852 }, overlay = { "4236-7227" } };
-			  }, reset = false, questID = { 82720 }, minieventID = 18 }; --null
+			  }, reset = false, questID = { 82720 }, achievementID = { 40828 }, minieventID = 18 }; --null
 	[446421] = { zoneID = {
 				[2213] = { x = 6738, y = 7434, artID = { 1816 }, overlay = { "6738-7441" } };
 				[2255] = { x = 5482, y = 9085, artID = { 1852 }, overlay = { "5482-9085" } };
-			  }, reset = false, questID = { 82727 }, minieventID = 18 }; --null
+			  }, reset = false, questID = { 82727 }, achievementID = { 40828 }, minieventID = 18 }; --null
 	[454313] = { zoneID = {
 				[2213] = { x = 3826, y = 3557, artID = { 1816 }, overlay = { "3826-3557" } };
 				[2255] = { x = 4469, y = 7739, artID = { 1852 }, overlay = { "4469-7739" } };
-			  }, reset = false, minieventID = 21, criteria = 6 }; --null
+			  }, reset = false, achievementID = { 40542 }, minieventID = 21, criteria = 6 }; --null
 	[454316] = { zoneID = {
 				[2213] = { x = 3842, y = 3227, artID = { 1816 }, overlay = { "3842-3227" } };
 				[2255] = { x = 4469, y = 7628, artID = { 1852 }, overlay = { "4469-7628" } };
-			  }, reset = false, minieventID = 21, criteria = 8 }; --null
+			  }, reset = false, achievementID = { 40542 }, minieventID = 21, criteria = 8 }; --null
 	[454320] = { zoneID = {
 				[2213] = { x = 3706, y = 3273, artID = { 1816 }, overlay = { "3706-3273" } };
 				[2255] = { x = 4423, y = 7640, artID = { 1852 }, overlay = { "4423-7640" } };
-			  }, reset = false, minieventID = 21, criteria = 7 }; --null
+			  }, reset = false, achievementID = { 40542 }, minieventID = 21, criteria = 7 }; --null
 	[454328] = { zoneID = {
 				[2213] = { x = 2767, y = 5460, artID = { 1816 }, overlay = { "2767-5460" } };
 				[2255] = { x = 4095, y = 8410, artID = { 1852 }, overlay = { "4095-8410" } };
-			  }, reset = false, minieventID = 21, criteria = 1 }; --null
+			  }, reset = false, achievementID = { 40542 }, minieventID = 21, criteria = 1 }; --null
 	[454330] = { zoneID = {
 				[2213] = { x = 3855, y = 3771, artID = { 1816 }, overlay = { "3855-3771" } };
 				[2255] = { x = 4474, y = 7812, artID = { 1852 }, overlay = { "4474-7812" } };
-			  }, reset = false, minieventID = 21, criteria = 10 }; --null
+			  }, reset = false, achievementID = { 40542 }, minieventID = 21, criteria = 10 }; --null
 	[454332] = { zoneID = {
 				[2213] = { x = 3822, y = 3902, artID = { 1816 }, overlay = { "3822-3902" } };
 				[2255] = { x = 4466, y = 7859, artID = { 1852 }, overlay = { "4466-7859" } };
-			  }, reset = false, minieventID = 21, criteria = 9 }; --null
+			  }, reset = false, achievementID = { 40542 }, minieventID = 21, criteria = 9 }; --null
 	[455938] = { zoneID = 2213, artID = { 1816 }, x = 5021, y = 1676, overlay = { "5031-1682" }, reset = false, questID = { 83929 }, prof = 197 }; --Nerubian's Pincushion
 	[455947] = { zoneID = {
 				[2213] = { x = 4448, y = 4946, artID = { 1816 }, overlay = { "4448-4946" } };
@@ -1319,54 +1319,54 @@ private.CONTAINER_INFO = {
 	[456927] = { zoneID = {
 				[2213] = { x = 2366, y = 5109, artID = { 1816 }, overlay = { "2366-5109" } };
 				[2255] = { x = 3956, y = 8277, artID = { 1852 }, overlay = { "3956-8277" } };
-			  }, reset = false, minieventID = 21, criteria = 11 }; --null
+			  }, reset = false, achievementID = { 40542 }, minieventID = 21, criteria = 11 }; --null
 	[456928] = { zoneID = {
 				[2213] = { x = 7797, y = 4105, artID = { 1816 }, overlay = { "7797-4105" } };
 				[2255] = { x = 5854, y = 7932, artID = { 1852 }, overlay = { "5854-7932" } };
-			  }, reset = false, minieventID = 21, criteria = 12 }; --null
-	[226624] = { zoneID = 2214, artID = { 1817 }, x = 4114, y = 4644, overlay = { "4114-4644" }, reset = false, questID = { 83475 }, minieventID = 20, spellID = 455981, criteria = 1 }; --Objects
-	[226638] = { zoneID = 2214, artID = { 1817 }, x = 5484, y = 9341, overlay = { "5484-9341" }, reset = false, questID = { 83479 }, minieventID = 20, spellID = 456001, criteria = 2 }; --Objects
-	[226639] = { zoneID = 2214, artID = { 1817 }, x = 5954, y = 6117, overlay = { "5954-6117" }, reset = false, questID = { 83480 }, minieventID = 20, spellID = 456002, criteria = 3 }; --Objects
-	[226640] = { zoneID = 2214, artID = { 1817 }, x = 6492, y = 4878, overlay = { "6492-4878" }, reset = false, questID = { 83481 }, minieventID = 20, spellID = 456004, criteria = 4 }; --Objects
-	[226641] = { zoneID = 2214, artID = { 1817 }, x = 5223, y = 2250, overlay = { "5223-2250" }, reset = false, questID = { 83482 }, minieventID = 20, spellID = 456005, criteria = 5 }; --Objects
-	[226642] = { zoneID = 2214, artID = { 1817 }, x = 4214, y = 1410, overlay = { "4214-1410" }, reset = false, questID = { 83483 }, minieventID = 20, spellID = 456006, criteria = 6 }; --Objects
-	[420053] = { zoneID = 2214, artID = { 1817 }, x = 6472, y = 3893, overlay = { "6469-3883" }, reset = false, questID = { 79308 }, minieventID = 13 }; --Webbed Knapsack
-	[433733] = { zoneID = 2214, artID = { 1817 }, x = 4631, y = 5348, overlay = { "4631-5348" }, reset = false, questID = { 80485 }, minieventID = 13 }; --Forgotten Treasure
-	[441358] = { zoneID = 2214, artID = { 1817 }, x = 3515, y = 1739, overlay = { "3515-1739" }, reset = false, questID = { 82049 }, minieventID = 16, criteria = 6 }; --A Skull on a Sign
-	[441555] = { zoneID = 2214, artID = { 1817 }, x = 4605, y = 5825, overlay = { "4605-5825" }, reset = false, questID = { 82053 }, minieventID = 16, criteria = 9 }; --Wax-Drenched Sign
-	[441563] = { zoneID = 2214, artID = { 1817 }, x = 4730, y = 7242, overlay = { "4724-7240" }, reset = false, questID = { 82052 }, minieventID = 16, criteria = 8 }; --Submerged Sign
-	[441577] = { zoneID = 2214, artID = { 1817 }, x = 6720, y = 4240, overlay = { "6724-4240" }, reset = false, questID = { 82051 }, minieventID = 16, criteria = 7 }; --Warning: Collapsed Tunnel
-	[441578] = { zoneID = 2214, artID = { 1817 }, x = 6077, y = 5613, overlay = { "6074-5620" }, reset = false, questID = { 82054 }, minieventID = 16, criteria = 10 }; --Kobold Warning Sign
-	[444071] = { zoneID = 2214, artID = { 1817 }, x = 5892, y = 6310, overlay = { "5892-6310" }, reset = false, questID = { 82230 }, minieventID = 13 }; --Cursed Pickaxe
-	[444087] = { zoneID = 2214, artID = { 1817 }, x = 5122, y = 1395, overlay = { "5123-1385" }, reset = false, questID = { 82235 }, minieventID = 13 }; --Munderut's Forgotten Stash
-	[444115] = { zoneID = 2214, artID = { 1817 }, x = 4134, y = 1743, overlay = { "4134-1745" }, reset = false, questID = { 82239 }, minieventID = 13 }; --Discarded Toolbox
-	[444256] = { zoneID = 2214, artID = { 1817 }, x = 5485, y = 6439, overlay = { "5485-6439" }, reset = false, questID = { 82819 }, minieventID = 13 }; --Kaja'Cola Machine
-	[445403] = { zoneID = 2214, artID = { 1817 }, x = 5477, y = 3027, overlay = { "5477-3027" }, reset = false, questID = { 82818 }, minieventID = 13 }; --Scary Dark Chest
-	[446151] = { zoneID = 2214, artID = { 1817 }, x = 4408, y = 4895, overlay = { "4408-4895" }, reset = false, questID = { 82820 }, minieventID = 13 }; --Dislodged Blockage
-	[446341] = { zoneID = 2214, artID = { 1817 }, x = 4489, y = 3162, overlay = { "4489-3162" }, reset = false, questID = { 82464 }, minieventID = 13 }; --Dusty Prospector's Chest
+			  }, reset = false, achievementID = { 40542 }, minieventID = 21, criteria = 12 }; --null
+	[226624] = { zoneID = 2214, artID = { 1817 }, x = 4114, y = 4644, overlay = { "4114-4644" }, reset = false, questID = { 83475 }, achievementID = { 40473 }, minieventID = 20, spellID = 455981, criteria = 1 }; --Objects
+	[226638] = { zoneID = 2214, artID = { 1817 }, x = 5484, y = 9341, overlay = { "5484-9341" }, reset = false, questID = { 83479 }, achievementID = { 40473 }, minieventID = 20, spellID = 456001, criteria = 2 }; --Objects
+	[226639] = { zoneID = 2214, artID = { 1817 }, x = 5954, y = 6117, overlay = { "5954-6117" }, reset = false, questID = { 83480 }, achievementID = { 40473 }, minieventID = 20, spellID = 456002, criteria = 3 }; --Objects
+	[226640] = { zoneID = 2214, artID = { 1817 }, x = 6492, y = 4878, overlay = { "6492-4878" }, reset = false, questID = { 83481 }, achievementID = { 40473 }, minieventID = 20, spellID = 456004, criteria = 4 }; --Objects
+	[226641] = { zoneID = 2214, artID = { 1817 }, x = 5223, y = 2250, overlay = { "5223-2250" }, reset = false, questID = { 83482 }, achievementID = { 40473 }, minieventID = 20, spellID = 456005, criteria = 5 }; --Objects
+	[226642] = { zoneID = 2214, artID = { 1817 }, x = 4214, y = 1410, overlay = { "4214-1410" }, reset = false, questID = { 83483 }, achievementID = { 40473 }, minieventID = 20, spellID = 456006, criteria = 6 }; --Objects
+	[420053] = { zoneID = 2214, artID = { 1817 }, x = 6472, y = 3893, overlay = { "6469-3883" }, reset = false, questID = { 79308 }, achievementID = { 40724 }, minieventID = 13 }; --Webbed Knapsack
+	[433733] = { zoneID = 2214, artID = { 1817 }, x = 4631, y = 5348, overlay = { "4631-5348" }, reset = false, questID = { 80485 }, achievementID = { 40724 }, minieventID = 13 }; --Forgotten Treasure
+	[441358] = { zoneID = 2214, artID = { 1817 }, x = 3515, y = 1739, overlay = { "3515-1739" }, reset = false, questID = { 82049 }, achievementID = { 40762 }, minieventID = 16, criteria = 6 }; --A Skull on a Sign
+	[441555] = { zoneID = 2214, artID = { 1817 }, x = 4605, y = 5825, overlay = { "4605-5825" }, reset = false, questID = { 82053 }, achievementID = { 40762 }, minieventID = 16, criteria = 9 }; --Wax-Drenched Sign
+	[441563] = { zoneID = 2214, artID = { 1817 }, x = 4730, y = 7242, overlay = { "4724-7240" }, reset = false, questID = { 82052 }, achievementID = { 40762 }, minieventID = 16, criteria = 8 }; --Submerged Sign
+	[441577] = { zoneID = 2214, artID = { 1817 }, x = 6720, y = 4240, overlay = { "6724-4240" }, reset = false, questID = { 82051 }, achievementID = { 40762 }, minieventID = 16, criteria = 7 }; --Warning: Collapsed Tunnel
+	[441578] = { zoneID = 2214, artID = { 1817 }, x = 6077, y = 5613, overlay = { "6074-5620" }, reset = false, questID = { 82054 }, achievementID = { 40762 }, minieventID = 16, criteria = 10 }; --Kobold Warning Sign
+	[444071] = { zoneID = 2214, artID = { 1817 }, x = 5892, y = 6310, overlay = { "5892-6310" }, reset = false, questID = { 82230 }, achievementID = { 40724 }, minieventID = 13 }; --Cursed Pickaxe
+	[444087] = { zoneID = 2214, artID = { 1817 }, x = 5122, y = 1395, overlay = { "5123-1385" }, reset = false, questID = { 82235 }, achievementID = { 40724 }, minieventID = 13 }; --Munderut's Forgotten Stash
+	[444115] = { zoneID = 2214, artID = { 1817 }, x = 4134, y = 1743, overlay = { "4134-1745" }, reset = false, questID = { 82239 }, achievementID = { 40724 }, minieventID = 13 }; --Discarded Toolbox
+	[444256] = { zoneID = 2214, artID = { 1817 }, x = 5485, y = 6439, overlay = { "5485-6439" }, reset = false, questID = { 82819 }, achievementID = { 40724 }, minieventID = 13 }; --Kaja'Cola Machine
+	[445403] = { zoneID = 2214, artID = { 1817 }, x = 5477, y = 3027, overlay = { "5477-3027" }, reset = false, questID = { 82818 }, achievementID = { 40724 }, minieventID = 13 }; --Scary Dark Chest
+	[446151] = { zoneID = 2214, artID = { 1817 }, x = 4408, y = 4895, overlay = { "4408-4895" }, reset = false, questID = { 82820 }, achievementID = { 40724 }, minieventID = 13 }; --Dislodged Blockage
+	[446341] = { zoneID = 2214, artID = { 1817 }, x = 4489, y = 3162, overlay = { "4489-3162" }, reset = false, questID = { 82464 }, achievementID = { 40724 }, minieventID = 13 }; --Dusty Prospector's Chest
 	[446495] = { zoneID = 2214, artID = { 1817 }, x = 5937, y = 3777, overlay = { "5738-3588","5835-3324","6183-3630","6422-4005","6675-4462","6702-3963","6792-3631","6048-3159","5457-2547","5611-2317","5201-2277","5500-3061","5370-2356","6453-3616","6753-3828","3899-1420","3713-0748","3959-1006","3820-1208","6812-4023","6521-3728","3894-0586","6004-3835","7027-4276","3741-0997","3950-1241","5942-3503","5236-2464","6327-2877","6285-3144","3834-0690","3954-0700","3984-0880","5124-2040","5154-2810","5184-3070","5334-2160","5334-2750","5404-2960","5534-2670","5594-2460","5624-2810","5674-2630","5764-3010","5854-3750","5914-3150","5984-2940","6044-3320","6064-3670","6164-2940","6184-3250","6204-3470","6204-4000","6214-4280","6284-4470","6314-3800","6344-4170","6354-4350","6544-4130","6664-3520","6864-4160","6884-4530","6914-4350","6954-3430","7024-4440" }, reset = true }; --Pile of Refuse
 	[446496] = { zoneID = 2214, artID = { 1817 }, x = 6004, y = 3835, overlay = { "3740-0809","5337-2743","5409-2961","6571-4187","5152-2806","3894-0586","5589-2453","3904-1420","3954-0700","4014-1180","5184-3070","5254-2340","5334-2160","5374-2350","5444-3150","5554-2660","5614-2310","5764-3020","5834-3320","5944-3500","6004-3840","6044-3320","6164-2940","6194-3130","6204-3480","6204-4000","6284-2830","6284-4470","6384-3900","6434-4010","6454-3620","6664-3520","6954-3430","3817-1209","3744-1000","3834-0690","3984-0880","5114-2270","5124-2040","5244-2470","5454-2540","5624-2820","5674-2640","5744-3590","5844-3750","5914-3160","5984-2940","6054-3160","6064-3670","6174-3260","6214-4270","6314-3800","6344-4180","6354-4340","6524-3730","6564-4030","6674-4460","6694-3950","6754-3840","6784-3640","6804-4020","6864-4150","6874-4530","6914-4350","7024-4280","7024-4430","3954-1010","6184-3620" }, reset = true }; --Enormous Pile of Refuse
 	[452696] = { zoneID = 2214, artID = { 1817 }, x = 3974, y = 2731, overlay = { "4590-1280","4714-1465","5370-1445","5038-1026","5293-0727","3737-2116","4119-2509","6241-4760","5712-5193","5705-5791","5520-5244","5429-5998","5280-6185","5326-7942","5367-7625","5677-5523","5829-6677","5993-6375","6242-6883","6059-7616","5706-8239","5648-8666","5754-9173","5837-8740","5631-9451","5888-9468","3901-2343","4962-2342","5254-1566","5513-3645","5769-4432","5920-5102","5574-4124","5996-4515","4880-1879","4219-1265","5283-1287","5350-0961","4794-1748","4883-0821","5214-4112","5641-5949","6279-6269","6004-6105","5740-6281","6459-6313","6239-6470","4524-1860","4461-0660","5190-4455","5372-3942","6151-4857","5770-6463","5611-4989","5744-8115","3720-1844","3708-1612","3835-2219","5928-7624","5482-6491","5855-8237","6313-5304","4646-2342","5517-5431","3942-2784","3998-2917","6103-6814","3605-2144","3923-1735","5309-4423","3805-2985","3494-1850","3824-2460","3954-3030","4094-2740","4134-1500","4164-1740","4404-1460","4504-1160","4544-1530","4684-0590","4724-0840","4844-1240","5034-1300","5214-3850","5224-5370","5254-3690","5344-3770","5364-4850","5394-8090","5404-5130","5424-6260","5424-6760","5454-9190","5464-9350","5484-4520","5514-6120","5524-7730","5544-6770","5624-8090","5624-9140","5654-4470","5654-5340","5674-4740","5704-8950","5774-4910","5774-6150","5774-8520","5794-5480","5794-8360","5804-4740","5824-9570","5874-6540","5914-7920","5914-9210","5934-4980","5974-9610","5994-6540","6064-8050","6124-5200","6154-6170","6164-7740","6224-8050","6244-7840","6304-6590","6464-4540","6484-5230","6514-5000" }, reset = true }; --Machine Speaker's Reliquary
 	[452697] = { zoneID = 2214, artID = { 1817 }, x = 5346, y = 3758, overlay = { "3905-2350","5465-9355","5989-9238","5788-5208","6131-7997","6151-4857","4728-0830","4962-2342","4590-1280","5794-5481","6120-5194","5933-4980","4120-2505","3714-1620","3814-2990","3924-1740","3944-2780","3954-3030","4094-2750","4134-1510","4164-1740","4464-0670","4524-1870","4544-1530","5194-4450","5204-3850","5214-4120","5224-1400","5224-5370","5254-3690","5304-0730","5324-7940","5364-7620","5374-3950","5394-8090","5404-5140","5424-6260","5504-3650","5544-6770","5574-4120","5614-4990","5624-5920","5674-5520","5744-6270","5774-6470","5824-9250","5834-8820","6034-6110","6154-6170","6234-6470","6304-6590","6314-5300","6344-6830","6454-6320","6471-4546","3494-1850","3604-2150","3624-1850","3734-2120","3794-1820","3824-2460","3834-2220","4224-1270","4404-1460","4504-1170","4654-2340","4794-1740","4834-1240","4884-1880","5004-0940","5034-1300","5244-1570","5284-6190","5314-4430","5344-3770","5354-0960","5364-1440","5424-4840","5424-6760","5434-6010","5454-9190","5484-4520","5514-5240","5514-5430","5514-6120","5524-7730","5624-8100","5624-9130","5654-4460","5654-5340","5664-9490","5674-4740","5684-8570","5694-5110","5694-5780","5694-8960","5714-8240","5724-8750","5744-4910","5744-8120","5774-6150","5794-8360","5814-4750","5824-9570","5854-8240","5884-6550","5914-7920","5924-5110","5934-7630","5974-9610","5994-6380","6054-4480","6054-6490","6104-6820","6164-7740","6244-4760","6244-7850","6284-6270","6484-5230","6514-5000","4004-2920","4684-0590","4714-1470","4884-0820","5284-1290","5824-6670","6054-7620" }, reset = true }; --Etched Machine Speaker's Reliquary
 	[452706] = { zoneID = 2214, artID = { 1817 }, x = 4874, y = 3552, overlay = { "5321-3487","5099-5766","4873-5693","4719-5109","4097-4060","3855-3598","4950-3988","4570-4231","4827-4507","5182-6676","4952-6802","5147-7561","5277-7049","4984-6331","4445-6112","5596-7536","5504-7070","5848-7308","5797-7758","5977-8348","5649-7912","4958-7466","5245-6852","4139-3865","4121-3457","4985-3252","5199-2569","4983-2523","5173-3207","4618-3788","4896-2709","4520-4495","4167-3152","3815-3262","4009-3407","4569-4803","4745-4774","5020-3522","4391-3589","5595-6857","4702-4643","5067-6877","4813-6300","4914-4678","5119-6371","4657-6352","4920-5369","5353-7163","5404-8718","4570-5860","4811-7355","5104-5549","4835-6499","4879-5537","4548-7071","5458-3563","5085-3023","4756-3641","4390-3749","4678-4483","4793-6728","4733-5642","4482-6733","4745-2691","3724-3680","3804-3820","3854-3430","3854-4240","3904-3070","3944-3260","3954-3980","4004-3820","4074-3690","4294-3890","4424-6580","4474-4050","4474-6230","4574-6440","4604-3640","4654-2890","4704-3420","4724-7240","4754-3100","4764-6910","4784-5780","4794-3260","4804-3940","4824-2840","4824-4300","4844-5220","4874-3560","4894-3700","4894-4900","4894-6960","4904-7160","4954-6000","4994-3120","4994-3390","5074-2820","5114-7050","5324-3240","5364-7310","5394-8540","5414-8260","5664-3220","5964-8510","6124-8370","6164-8930","6174-8170","6224-8450","4654-5950" }, reset = true }; --Deep-Lost Satchel
 	[452710] = { zoneID = 2214, artID = { 1817 }, x = 5090, y = 3017, overlay = { "3815-3262","4926-5366","5385-8533","3781-3802","4506-3601","5173-3207","4844-5215","5037-7393","4801-3942","5606-7441","4649-5939","3975-3461","4874-3552","4958-6206","4722-5107","4390-3749","4108-3193","5458-3563","3724-3690","3854-3600","3904-3070","3924-4220","3944-3270","3954-3980","4104-3360","4104-3830","4184-3670","4294-3890","4424-6580","4524-4490","4654-2890","4664-3740","4704-4640","4724-7240","4744-2690","4754-3100","4754-3640","4764-6910","4784-5780","4794-3260","4794-6730","4844-4210","4894-2710","4894-4580","4904-7160","4984-2560","4984-6730","4994-3400","5024-3520","5074-7530","5084-3020","5104-5550","5124-2570","5394-3310","5594-6860","5664-3220","5844-7300","5353-7163","3854-3430","4004-4120","4474-4050","4474-6230","4484-6730","4554-7070","4564-4240","4574-4800","4594-3880","4664-6350","4674-4480","4704-3420","4734-5640","4744-4780","4814-6300","4814-7360","4834-6490","4874-4750","4874-5690","4884-5540","4894-4900","4894-6960","4954-3990","4964-5990","4984-3250","4994-3120","5024-6990","5074-2820","5104-5770","5114-6370","5184-6670","5244-6860","5274-7050","5324-3490","5374-7310","5404-8720","5414-8260","5504-7070","5654-7920","5794-7760","5954-8510","5974-8350","6124-8370","6164-8930","6174-8170","4574-6440","4824-2850","4894-3700","4984-6330","5074-6880" }, reset = true }; --Brimming Deep-Lost Satchel
-	[454404] = { zoneID = 2214, artID = { 1817 }, x = 4019, y = 1355, overlay = { "4019-1355" }, reset = false, minieventID = 11, criteria = 2 }; --Hathlaz's Plaque
-	[454405] = { zoneID = 2214, artID = { 1817 }, x = 5874, y = 3630, overlay = { "5874-3630" }, reset = false, minieventID = 11, criteria = 1 }; --Attwogaz's Plaque
-	[454406] = { zoneID = 2214, artID = { 1817 }, x = 3899, y = 4087, overlay = { "3899-4087" }, reset = false, minieventID = 11, criteria = 3 }; --Krattdaz's Plaque
-	[454407] = { zoneID = 2214, artID = { 1817 }, x = 5084, y = 3010, overlay = { "5084-3010" }, reset = false, minieventID = 11, criteria = 4 }; --Uisgaz's Plaque
-	[454408] = { zoneID = 2214, artID = { 1817 }, x = 4442, y = 3174, overlay = { "4442-3174" }, reset = false, minieventID = 11, criteria = 5 }; --Venedaz's Plaque
-	[454412] = { zoneID = 2214, artID = { 1817 }, x = 5502, y = 9369, overlay = { "5502-9369" }, reset = false, minieventID = 11, criteria = 6 }; --Merunth's Plaque
-	[454414] = { zoneID = 2214, artID = { 1817 }, x = 4520, y = 4902, overlay = { "4520-4902" }, reset = false, minieventID = 11, criteria = 7 }; --Varerko's Plaque
-	[454416] = { zoneID = 2214, artID = { 1817 }, x = 4434, y = 7060, overlay = { "4434-7060" }, reset = false, minieventID = 11, criteria = 8 }; --Alfritha's Plaque
-	[454417] = { zoneID = 2214, artID = { 1817 }, x = 6134, y = 8380, overlay = { "6134-8380" }, reset = false, minieventID = 11, criteria = 9 }; --Gundrig's Plaque
-	[454418] = { zoneID = 2214, artID = { 1817 }, x = 5990, y = 5574, overlay = { "5990-5574" }, reset = false, minieventID = 11, criteria = 10 }; --Sathilga's Plaque
-	[455269] = { zoneID = 2214, artID = { 1817 }, x = 4174, y = 2880, overlay = { "4174-2880" }, reset = false, minieventID = 14, criteria = 1 }; --Notes On The Machine Speakers I
-	[455274] = { zoneID = 2214, artID = { 1817 }, x = 4474, y = 2590, overlay = { "4474-2590" }, reset = false, minieventID = 14, criteria = 2 }; --Notes On The Machine Speakers II
-	[455275] = { zoneID = 2214, artID = { 1817 }, x = 4692, y = 1448, overlay = { "4692-1448" }, reset = false, minieventID = 14, criteria = 3 }; --Notes On The Machine Speakers III
-	[455276] = { zoneID = 2214, artID = { 1817 }, x = 3573, y = 2099, overlay = { "3573-2099" }, reset = false, minieventID = 14, criteria = 4 }; --Notes On The Machine Speakers IV
-	[455277] = { zoneID = 2214, artID = { 1817 }, x = 5953, y = 5878, overlay = { "5953-5878" }, reset = false, minieventID = 14, criteria = 5 }; --Notes On The Machine Speakers V
-	[455278] = { zoneID = 2214, artID = { 1817 }, x = 6094, y = 7950, overlay = { "6094-7950" }, reset = false, minieventID = 14, criteria = 6 }; --Notes On The Machine Speakers VI
-	[455890] = { zoneID = 2214, artID = { 1817 }, x = 6203, y = 3344, overlay = { "6203-3342" }, reset = false, questID = { 83030 }, minieventID = 13 }; --Waterlogged Refuse
+	[454404] = { zoneID = 2214, artID = { 1817 }, x = 4019, y = 1355, overlay = { "4019-1355" }, reset = false, achievementID = { 40504 }, minieventID = 11, criteria = 2 }; --Hathlaz's Plaque
+	[454405] = { zoneID = 2214, artID = { 1817 }, x = 5874, y = 3630, overlay = { "5874-3630" }, reset = false, achievementID = { 40504 }, minieventID = 11, criteria = 1 }; --Attwogaz's Plaque
+	[454406] = { zoneID = 2214, artID = { 1817 }, x = 3899, y = 4087, overlay = { "3899-4087" }, reset = false, achievementID = { 40504 }, minieventID = 11, criteria = 3 }; --Krattdaz's Plaque
+	[454407] = { zoneID = 2214, artID = { 1817 }, x = 5084, y = 3010, overlay = { "5084-3010" }, reset = false, achievementID = { 40504 }, minieventID = 11, criteria = 4 }; --Uisgaz's Plaque
+	[454408] = { zoneID = 2214, artID = { 1817 }, x = 4442, y = 3174, overlay = { "4442-3174" }, reset = false, achievementID = { 40504 }, minieventID = 11, criteria = 5 }; --Venedaz's Plaque
+	[454412] = { zoneID = 2214, artID = { 1817 }, x = 5502, y = 9369, overlay = { "5502-9369" }, reset = false, achievementID = { 40504 }, minieventID = 11, criteria = 6 }; --Merunth's Plaque
+	[454414] = { zoneID = 2214, artID = { 1817 }, x = 4520, y = 4902, overlay = { "4520-4902" }, reset = false, achievementID = { 40504 }, minieventID = 11, criteria = 7 }; --Varerko's Plaque
+	[454416] = { zoneID = 2214, artID = { 1817 }, x = 4434, y = 7060, overlay = { "4434-7060" }, reset = false, achievementID = { 40504 }, minieventID = 11, criteria = 8 }; --Alfritha's Plaque
+	[454417] = { zoneID = 2214, artID = { 1817 }, x = 6134, y = 8380, overlay = { "6134-8380" }, reset = false, achievementID = { 40504 }, minieventID = 11, criteria = 9 }; --Gundrig's Plaque
+	[454418] = { zoneID = 2214, artID = { 1817 }, x = 5990, y = 5574, overlay = { "5990-5574" }, reset = false, achievementID = { 40504 }, minieventID = 11, criteria = 10 }; --Sathilga's Plaque
+	[455269] = { zoneID = 2214, artID = { 1817 }, x = 4174, y = 2880, overlay = { "4174-2880" }, reset = false, achievementID = { 40628 }, minieventID = 14, criteria = 1 }; --Notes On The Machine Speakers I
+	[455274] = { zoneID = 2214, artID = { 1817 }, x = 4474, y = 2590, overlay = { "4474-2590" }, reset = false, achievementID = { 40628 }, minieventID = 14, criteria = 2 }; --Notes On The Machine Speakers II
+	[455275] = { zoneID = 2214, artID = { 1817 }, x = 4692, y = 1448, overlay = { "4692-1448" }, reset = false, achievementID = { 40628 }, minieventID = 14, criteria = 3 }; --Notes On The Machine Speakers III
+	[455276] = { zoneID = 2214, artID = { 1817 }, x = 3573, y = 2099, overlay = { "3573-2099" }, reset = false, achievementID = { 40628 }, minieventID = 14, criteria = 4 }; --Notes On The Machine Speakers IV
+	[455277] = { zoneID = 2214, artID = { 1817 }, x = 5953, y = 5878, overlay = { "5953-5878" }, reset = false, achievementID = { 40628 }, minieventID = 14, criteria = 5 }; --Notes On The Machine Speakers V
+	[455278] = { zoneID = 2214, artID = { 1817 }, x = 6094, y = 7950, overlay = { "6094-7950" }, reset = false, achievementID = { 40628 }, minieventID = 14, criteria = 6 }; --Notes On The Machine Speakers VI
+	[455890] = { zoneID = 2214, artID = { 1817 }, x = 6203, y = 3344, overlay = { "6203-3342" }, reset = false, questID = { 83030 }, achievementID = { 40724 }, minieventID = 13 }; --Waterlogged Refuse
 	[455942] = { zoneID = 2214, artID = { 1817 }, x = 6005, y = 6035, overlay = { "5999-6032" }, reset = false, questID = { 83925 }, prof = 197 }; --Earthen Stitcher's Snips
 	[455943] = { zoneID = 2214, artID = { 1817 }, x = 4468, y = 3284, overlay = { "4465-3286" }, reset = false, questID = { 83924 }, prof = 197 }; --Runed Earthen Pins
 	[455950] = { zoneID = 2214, artID = { 1817 }, x = 6158, y = 6190, overlay = { "6153-6190" }, reset = false, questID = { 83917 }, prof = 393 }; --Fungarian's Rich Tannin
@@ -1389,25 +1389,25 @@ private.CONTAINER_INFO = {
 	[456015] = { zoneID = 2214, artID = { 1817 }, x = 4349, y = 3316, overlay = { "4354-3315" }, reset = false, questID = { 83850 }, prof = 164 }; --Ringing Hammer Vise
 	[456022] = { zoneID = 2214, artID = { 1817 }, x = 6076, y = 6176, overlay = { "6080-6174" }, reset = false, questID = { 83843 }, prof = 171 }; --Engraved Stirring Rod
 	[456023] = { zoneID = 2214, artID = { 1817 }, x = 3804, y = 2412, overlay = { "3805-2417" }, reset = false, questID = { 83842 }, prof = 171 }; --Reinforced Beaker
-	[499605] = { zoneID = 2214, artID = { 1817 }, x = 7290, y = 7313, overlay = { "7290-7313" }, reset = false, questID = { 86570 }, minieventID = 23, criteria = 1 }; --Rocket Drill Safety Manual
-	[502914] = { zoneID = 2214, artID = { 1817 }, x = 6725, y = 9808, overlay = { "6725-9808" }, reset = false, questID = { 86569 }, minieventID = 23, criteria = 5 }; --Extractor Drill X-78 Safety Guide
-	[225641] = { zoneID = 2215, artID = { 1818 }, x = 4630, y = 2784, overlay = { "4630-2784" }, reset = false, questID = { 83299 }, minieventID = 17 }; --Objects
-	[419695] = { zoneID = 2215, artID = { 1818 }, x = 7677, y = 5382, overlay = { "7677-5382" }, reset = false, questID = { 79275 }, minieventID = 17 }; --Spore-Covered Coffer
+	[499605] = { zoneID = 2214, artID = { 1817 }, x = 7290, y = 7313, overlay = { "7290-7313" }, reset = false, questID = { 86570 }, achievementID = { 41588 }, minieventID = 23, criteria = 1 }; --Rocket Drill Safety Manual
+	[502914] = { zoneID = 2214, artID = { 1817 }, x = 6725, y = 9808, overlay = { "6725-9808" }, reset = false, questID = { 86569 }, achievementID = { 41588 }, minieventID = 23, criteria = 5 }; --Extractor Drill X-78 Safety Guide
+	[225641] = { zoneID = 2215, artID = { 1818 }, x = 4630, y = 2784, overlay = { "4630-2784" }, reset = false, questID = { 83299 }, achievementID = { 40848 }, minieventID = 17 }; --Objects
+	[419695] = { zoneID = 2215, artID = { 1818 }, x = 7677, y = 5382, overlay = { "7677-5382" }, reset = false, questID = { 79275 }, achievementID = { 40848 }, minieventID = 17 }; --Spore-Covered Coffer
 	[428472] = { zoneID = 2215, artID = { 1818 }, x = 6656, y = 1517, overlay = { "6656-1514" }, reset = false, questID = { 81612 } }; --Captain Lancekat's Discretionary Funds
 	[433377] = { zoneID = 2215, artID = { 1818 }, x = 6473, y = 2948, overlay = { "6564-2945","6490-3040" }, questID = { 80420 } }; --Harvest Box
 	[435008] = { zoneID = 2215, artID = { 1818 }, x = 6162, y = 3264, overlay = { "6305-3071","6160-3270" } }; --Farmhand Stash
-	[437211] = { zoneID = 2215, artID = { 1818 }, x = 5836, y = 2717, overlay = { "5838-2715" }, reset = false, questID = { 81468 }, minieventID = 17 }; --Illuminated Footlocker
+	[437211] = { zoneID = 2215, artID = { 1818 }, x = 5836, y = 2717, overlay = { "5838-2715" }, reset = false, questID = { 81468 }, achievementID = { 40848 }, minieventID = 17 }; --Illuminated Footlocker
 	[437302] = { zoneID = 2215, artID = { 1818 }, x = 5608, y = 1454, overlay = { "5608-1454" }, reset = false, questID = { 81518 } }; --Fisherman's Pouch
-	[441606] = { zoneID = 2215, artID = { 1818 }, x = 5579, y = 6954, overlay = { "5579-6954" }, reset = false, questID = { 81971 }, minieventID = 17 }; --Jewel of the Cliffs
-	[441611] = { zoneID = 2215, artID = { 1818 }, x = 3022, y = 3875, overlay = { "3022-3877" }, reset = false, questID = { 81972 }, minieventID = 17 }; --Windswept Satchel
-	[441628] = { zoneID = 2215, artID = { 1818 }, x = 2573, y = 3844, overlay = { "2570-3850" }, reset = false, questID = { 82061 }, minieventID = 16, criteria = 11 }; --Captain's Chest
-	[441633] = { zoneID = 2215, artID = { 1818 }, x = 2507, y = 5371, overlay = { "2507-5371" }, reset = false, questID = { 82063 }, minieventID = 16, criteria = 12 }; --A Worn Down Book
-	[441637] = { zoneID = 2215, artID = { 1818 }, x = 7824, y = 4041, overlay = { "7820-4030" }, reset = false, questID = { 82064 }, minieventID = 16, criteria = 13 }; --A Weathered Tome
-	[441638] = { zoneID = 2215, artID = { 1818 }, x = 5006, y = 1386, overlay = { "5005-1382" }, reset = false, questID = { 81978 }, minieventID = 17 }; --Lost Memento
-	[441688] = { zoneID = 2215, artID = { 1818 }, x = 7140, y = 3670, overlay = { "7140-3670" }, reset = false, questID = { 82065 }, minieventID = 16, criteria = 14 }; --A Tattered Note
-	[441720] = { zoneID = 2215, artID = { 1818 }, x = 6221, y = 4556, overlay = { "6220-4560" }, reset = false, questID = { 82066 }, minieventID = 16, criteria = 15 }; --A Scout's Journal
+	[441606] = { zoneID = 2215, artID = { 1818 }, x = 5579, y = 6954, overlay = { "5579-6954" }, reset = false, questID = { 81971 }, achievementID = { 40848 }, minieventID = 17 }; --Jewel of the Cliffs
+	[441611] = { zoneID = 2215, artID = { 1818 }, x = 3022, y = 3875, overlay = { "3022-3877" }, reset = false, questID = { 81972 }, achievementID = { 40848 }, minieventID = 17 }; --Windswept Satchel
+	[441628] = { zoneID = 2215, artID = { 1818 }, x = 2573, y = 3844, overlay = { "2570-3850" }, reset = false, questID = { 82061 }, achievementID = { 40762 }, minieventID = 16, criteria = 11 }; --Captain's Chest
+	[441633] = { zoneID = 2215, artID = { 1818 }, x = 2507, y = 5371, overlay = { "2507-5371" }, reset = false, questID = { 82063 }, achievementID = { 40762 }, minieventID = 16, criteria = 12 }; --A Worn Down Book
+	[441637] = { zoneID = 2215, artID = { 1818 }, x = 7824, y = 4041, overlay = { "7820-4030" }, reset = false, questID = { 82064 }, achievementID = { 40762 }, minieventID = 16, criteria = 13 }; --A Weathered Tome
+	[441638] = { zoneID = 2215, artID = { 1818 }, x = 5006, y = 1386, overlay = { "5005-1382" }, reset = false, questID = { 81978 }, achievementID = { 40848 }, minieventID = 17 }; --Lost Memento
+	[441688] = { zoneID = 2215, artID = { 1818 }, x = 7140, y = 3670, overlay = { "7140-3670" }, reset = false, questID = { 82065 }, achievementID = { 40762 }, minieventID = 16, criteria = 14 }; --A Tattered Note
+	[441720] = { zoneID = 2215, artID = { 1818 }, x = 6221, y = 4556, overlay = { "6220-4560" }, reset = false, questID = { 82066 }, achievementID = { 40762 }, minieventID = 16, criteria = 15 }; --A Scout's Journal
 	[441723] = { zoneID = 2215, artID = { 1818 }, x = 6438, y = 2607, overlay = { "6610-2803","6490-2570" } }; --Farm Satchel
-	[441800] = { zoneID = 2215, artID = { 1818 }, x = 4594, y = 4511, overlay = { "4593-4512" }, reset = false, questID = { 82005 }, minieventID = 17 }; --Sunken Cache
+	[441800] = { zoneID = 2215, artID = { 1818 }, x = 4594, y = 4511, overlay = { "4593-4512" }, reset = false, questID = { 82005 }, achievementID = { 40848 }, minieventID = 17 }; --Sunken Cache
 	[444798] = { zoneID = 2215, artID = { 1818 }, x = 7682, y = 4781, overlay = { "3610-6000","2692-5867","2725-5289","3399-4773","4181-6670","4322-7121","4681-5901","5548-5313","5834-6846","5323-6213","6146-6267","6501-6280","5425-5670","3664-4637","7428-4391","7146-5452","6848-5929","6732-6616","6623-3968","7146-4222","6979-2834","6699-2877","6879-2705","6253-3416","5850-3891","5093-4106","5600-4347","4835-2605","4338-3063","4015-2983","3810-3407","3368-4026","3380-4427","3732-4991","5837-4942","5654-5454","5225-6102","5379-6665","4974-7020","4530-6882","3722-6791","2736-6124","6368-5163","6709-4197","5870-4205","7124-4416","7280-5165","7635-5524","6467-3825","6763-4089","6353-4360","5498-6194","5538-7071","6013-6966","6204-3673","7182-4691","6067-2815","5393-3770","6129-2600","5764-4095","6587-2307","5066-6150","6196-2855","4206-6368","2751-5617","4598-5709","3826-3941","6421-2760","7340-4090","6140-3335","4331-6043","7530-4265","4823-6802","4584-6676","4481-6133","6051-6390","5890-6122","6145-3931","7574-3972","6347-3599","4103-8305","6209-5548","3814-6545","3796-7102","4900-5955","4938-5557","4022-5685","6882-5477","4937-6261","4180-7667","2520-5410","2790-4940","3130-5370","3280-3850","3280-4580","3450-7580","3460-7070","3470-7410","3500-3380","3560-7940","3610-3620","3610-4920","3650-7170","3660-8170","3680-7740","3710-5750","3750-6000","3760-8310","3790-7930","3810-5630","3820-5480","3820-7690","3830-3750","3870-6170","3870-7000","3880-8340","3900-6720","3900-8160","3910-6380","3910-7550","3930-7350","3950-3570","3980-5940","4050-7990","4090-6320","4090-7570","4140-3630","4160-8070","4190-7120","4190-7370","4200-2880","4260-8240","4270-2290","4270-6940","4310-6460","4350-7870","4370-6180","4390-6320","4400-6800","4410-6630","4430-7740","4510-2280","4520-2860","4520-5260","4540-5420","4540-6320","4560-6530","4590-7610","4610-5540","4680-2390","4680-6810","4690-2130","4740-6530","4750-2820","4830-2060","4850-3520","4870-3370","4900-3660","4920-2150","4950-6620","4960-3140","5060-2470","5060-3250","5060-3780","5070-5590","5080-6580","5090-7090","5100-3480","5150-3070","5180-6300","5200-3600","5200-5830","5220-4200","5230-6860","5260-3890","5310-5030","5320-4060","5350-5900","5370-5500","5410-5340","5460-6470","5500-3950","5510-5180","5510-5470","5510-6880","5600-5630","5610-6470","5630-6110","5680-6580","5700-6970","5720-3810","5740-5840","5750-6290","5770-6000","5780-4300","5850-3700","5870-7030","5890-6510","5910-5950","5930-3510","5990-2970","5990-3640","6000-3170","6000-4880","6010-3390","6060-5140","6100-4970","6200-5970","6210-5730","6240-4530","6270-5400","6280-2520","6310-4090","6330-6670","6340-2970","6360-4590","6420-6040","6430-6410","6450-3080","6460-4480","6470-6730","6510-2440","6540-2780","6640-4840","6640-5340","6670-6480","6700-5890","6730-6080","6750-2560","6760-3760","6760-4910","6770-3310","6790-4620","6800-4310","6800-6770","6810-3090","6810-5760","6880-5130","6890-3500","6990-3700","7020-2990","7060-4800","7070-3210","7070-3530","7090-5310","7090-6000","7110-3380","7200-6530","7230-4820","7250-5940","7280-6340","7300-6150","7330-4590","7370-5270","7430-5140","7480-4960","7480-5390","7520-5270","7550-4790","7590-4580","7620-4390","7650-5080","7680-4790","7790-4430","2200-5780","2360-5800","2510-5580","2630-5470","2740-5140","3520-7720","3540-4080","3610-7510","3630-4800","3830-5840","3860-4490","3990-4420","4030-7770","4330-7540","4450-2400","4450-7530","4450-8230","4500-8040","4510-1970","4540-2640","4570-3700","4740-3240","4800-3060","4960-5830","5050-2020","5110-6900","5560-5950","5900-4070","6110-4620","6440-4270","6520-3600","6590-3320","6600-2610","6700-3620","6770-2390","7690-4010" }, reset = true }; --Arathi Treasure Hoard
 	[444799] = { zoneID = 2215, artID = { 1818 }, x = 5872, y = 7040, overlay = { "5326-1567","6172-1741","5858-4620","5351-5897","3561-7936","2412-5235","4728-6818","2510-5570","3070-5250","3100-6190","3220-5210","3660-4640","3700-7220","3760-8310","3850-3730","3890-6540","3910-6370","4100-8310","4170-6330","4180-7670","4280-6930","4340-6050","4370-6180","4380-7700","4470-1390","4510-1970","4580-6670","4590-7610","4610-5540","4670-1720","4680-5760","4800-5980","4900-3300","4950-5550","4960-3140","4960-5080","4980-1660","5000-4900","5070-5590","5090-7090","5130-1680","5140-4940","5160-3070","5190-6610","5200-3590","5220-4200","5270-4770","5330-2360","5330-6220","5370-5510","5370-6550","5390-2680","5430-5660","5460-3530","5490-1830","5490-3800","5500-5480","5540-3330","5560-5950","5590-1420","5590-2430","5650-4260","5690-2230","5720-4010","5720-4800","5750-6290","5800-3870","5820-2970","5830-6850","5910-1640","5920-5950","5990-4890","6000-2410","6070-2810","6100-3730","6130-0630","6150-3380","6220-3940","6270-3540","6330-3410","6330-6670","6340-1470","6380-2690","6410-2830","6450-3080","6540-2790","6630-3970","6700-4200","6790-4620","6910-3430","7060-4800","7130-4420","7170-6060","7200-6520","7250-5950","7260-6190","7430-4390","7640-5420","7790-4430","3826-3941","2300-5420","2510-5410","2640-5320","2790-4950","2870-5370","2940-5140","2940-6260","2970-4590","3130-5370","3190-5700","3320-5870","3370-4140","3380-7000","3410-5020","3450-7590","3480-5610","3520-7730","3540-4080","3610-4920","3610-7500","3620-4800","3620-6000","3690-6880","3710-5750","3730-5000","3790-7920","3800-3410","3800-7100","3820-7690","3830-5860","3860-7400","3870-5710","3890-8340","3900-8160","3950-3570","3990-5930","4020-5690","4030-7780","4050-7990","4160-8070","4180-6680","4190-7130","4200-7370","4310-6470","4320-7540","4330-7120","4340-1320","4350-1440","4370-1670","4410-6630","4450-4240","4500-2280","4520-6790","4530-5250","4540-5420","4670-2390","4720-4420","4800-3060","4800-4770","4800-6540","4810-1490","4810-1700","4840-1880","4860-1380","4900-3650","4920-6700","4930-5360","4940-6260","4970-5820","5010-1910","5050-2480","5070-6160","5100-3480","5170-4690","5230-2940","5260-3890","5310-3290","5320-4060","5350-3110","5390-2890","5410-5340","5430-1390","5470-2000","5500-3940","5510-6890","5540-7070","5550-5320","5570-6250","5630-6120","5640-2950","5650-4550","5670-6580","5690-5510","5730-2450","5740-5840","5760-3200","5770-2800","5770-6010","5790-1500","5840-3700","5900-4070","5990-3640","5990-4550","6000-3170","6010-3380","6040-2060","6050-6400","6060-5150","6080-1910","6140-1300","6140-4570","6150-6270","6170-2280","6200-2740","6200-5970","6280-2520","6290-1920","6310-1740","6350-4590","6370-1050","6470-6730","6520-2430","6580-2310","6670-6490","6700-5880","6710-2180","6730-6080","6760-3760","6770-3320","6770-4090","6790-2700","6810-3090","6880-5120","6880-5470","6910-3650","6980-2840","7020-2990","7070-3210","7080-3530","7110-3370","7140-5460","7230-4820","7370-5270","7480-4960","7590-4580","3400-4770","3580-5370","3710-6590","3850-4490","3870-6990","4130-3630","4270-2290","4330-3070","4350-7870","4390-6320","4400-6790","4450-8230","4470-6080","4540-6320","4570-3700","4570-6530","4680-5900","4840-2610","4980-7010","5030-1430","5060-3790","5070-2930","5090-4110","5180-6300","5200-5820","5220-6110","5230-6860","5310-5030","5350-2010","5460-6460","5520-2820","5520-5190","5600-5630","5610-6470","5680-4950","5780-5180","5880-7030","5900-4980","5940-3510","5990-2970","6010-6970","6100-4970","6130-1500","6210-5540","6210-5730","6290-3710","6310-4090","6350-4370","6370-2120","6370-5170","6420-6030","6430-6410","6460-4470","6500-6280","6640-4840","6650-5340","6750-2550","6760-4910","6770-2390","6810-5760","7150-4220","7180-4700","7330-4590","7340-4100","7570-3970","7620-4390","7690-4010","2200-5780","2360-5790","2490-5130","2630-5470","2680-4830","2690-5860","2740-5140","2740-6130","2750-5610","2860-5870","2970-4980","3280-3850","3280-4580","3380-4420","3470-7080","3470-7410","3500-3390","3500-5210","3500-5910","3610-3620","3660-5170","3670-8060","3680-7750","3750-6000","3820-5480","3870-6160","3900-6710","3920-7550","4020-2990","4090-7570","4260-8240","4440-1530","4450-7530","4500-8040","4520-2860","4520-4100","4530-2640","4740-3240","4830-2060","4850-3520","5050-3240","5110-6900","5290-2190","5310-3780","5310-4890","5330-1790","5490-3190","5500-2240","5570-2600","5600-4810","5700-6970","5740-2660","5790-4300","5870-4210","5890-6120","5890-6510","5900-5190","5970-2230","6130-1060","6130-2610","6190-2860","6270-5400","6310-1200","6340-2970","6440-1860","6440-4270","6450-3890","6520-3590","6590-3310","6600-2610","6700-2870","6710-3610","6730-6620","6800-4310","6800-6780","6850-5930","7090-5310","7290-5160","7440-5140","7480-5390","7530-4270","7550-4790","7650-5080","7680-4790" }, reset = true }; --Potent Concentrated Shadow
 	[444801] = { zoneID = 2215, artID = { 1818 }, x = 6876, y = 5127, overlay = { "4426-7735","4324-7541","3752-4572","6372-5164","5613-6466","6331-6675","7372-5266","6103-3727","4902-3244","5503-6190","4184-7114","7126-4418","7172-6065","5287-6797","7215-4159","6597-2616","6283-2515","6209-5548","5498-3948","5102-3474","2741-5138","3806-5638","4179-6669","6758-4911","6770-3314","6128-2605","5094-5652","5162-6565","5177-6292","4527-6885","4546-5419","4823-6802","4464-6728","3926-7349","2530-5650","2630-5320","2750-5620","2750-6120","2800-4940","3280-3850","3400-4760","3450-7580","3470-7070","3520-7730","3540-4080","3610-4900","3610-7510","3670-8060","3710-5760","3710-7220","3790-7930","3800-7100","3830-3750","3830-3940","3830-5850","3870-6990","3880-6160","3910-8150","3920-6390","3920-7540","3950-3570","4020-2980","4030-7770","4050-7980","4090-7570","4100-8310","4130-3630","4160-8070","4190-7370","4260-3090","4260-7720","4280-6940","4320-7120","4350-7870","4390-6480","4450-7510","4450-8230","4490-6140","4520-5260","4540-6330","4600-5710","4610-5540","4680-5900","4690-2130","4750-2830","4800-6540","4810-3070","4820-2060","4840-2610","4860-3520","4900-3660","4900-5950","4920-2140","4940-5550","4950-6620","4960-5830","4970-7010","5050-2020","5050-6270","5060-3250","5060-3780","5090-4110","5150-3070","5200-3600","5210-5830","5220-6110","5230-4190","5310-5020","5320-3780","5330-4060","5330-6220","5350-5900","5370-5580","5410-5340","5460-6470","5490-3820","5520-5190","5540-7070","5560-5950","5600-4350","5600-5630","5630-6120","5650-5450","5670-6580","5710-4010","5710-6970","5720-3810","5740-5840","5780-6330","5830-6850","5840-4940","5870-4210","5890-6510","5900-4070","5910-3860","5950-5960","5990-3640","6000-4880","6020-6960","6050-6390","6070-2810","6110-4630","6170-3470","6200-5970","6210-5720","6320-4090","6350-3600","6360-3350","6360-4600","6420-6040","6440-4270","6450-3080","6450-3890","6490-6290","6520-3600","6590-2310","6590-3310","6630-3970","6640-4840","6650-5340","6670-6480","6700-2870","6700-5900","6710-3610","6710-4190","6720-6080","6760-3760","6800-4310","6810-5750","6820-3090","6880-5130","6990-3690","7020-2990","7060-4800","7070-3210","7080-3530","7100-3380","7180-4700","7230-4820","7230-6460","7250-5940","7260-6200","7280-6340","7340-4080","7430-4390","7480-5400","7530-4270","7550-4780","7570-3980","7590-4590","7620-4380","7640-5420","7650-5070","7690-4000","7790-4430","3680-6880","3680-7740","3880-8340","3980-5940","4330-6040","4510-2280","4540-2630","4570-3700","5500-5480","5770-6000","5870-7040","6010-3390","6060-5140","6100-4970","6150-6270","6200-2850","6730-6620","6750-2560","6770-2390","6880-2700","6980-2840","7140-5450","7330-4590","3990-4425","2200-5780","2370-5790","2520-5400","2630-5470","2690-5860","3130-5380","3280-4580","3360-4130","3380-4420","3500-3380","3560-7940","3610-3620","3610-6000","3680-4700","3710-6590","3730-5000","3760-6010","3760-8310","3810-3410","3820-7690","3830-5470","3850-4490","3890-6540","3900-6720","4020-5690","4090-6310","4200-2880","4210-6360","4260-8240","4280-2290","4390-6320","4450-2400","4500-8040","4510-1970","4510-6570","4520-2860","4580-6680","4590-7620","4670-2400","4710-6700","4740-3240","5060-2470","5070-6150","5090-7100","5110-6900","5260-3890","5360-6560","5510-6880","5550-5310","5790-4300","5850-3700","5890-6130","5940-3510","5990-2970","6010-3160","6140-3340","6140-3930","6240-4530","6270-5400","6290-3710","6340-2970","6360-4360","6380-2690","6430-6410","6460-4470","6470-6730","6520-2430","6540-2790","6790-4620","6800-6770","6850-5930","6880-5470","6890-3500","7090-5310","7290-5160","7440-5150","7480-4960","7530-5270","7680-4790","3470-7410","6760-4080" }, reset = true }; --Brimming Arathi Treasure Hoard
@@ -1415,20 +1415,20 @@ private.CONTAINER_INFO = {
 	[444804] = { zoneID = 2215, artID = { 1818 }, x = 5948, y = 5966, overlay = { "7642-5420","5746-2662","5325-2354","5412-2617","5346-2014","5047-2016","4338-1313","4864-1377","6131-1063","7530-4265","7262-6193","4535-2637","4527-2860","4451-4252","4546-5419","4399-6793","4920-2145","6008-3386","5786-4298","5182-5607","5502-5470","4690-5755","5837-4942","5987-4624","5682-4947","5690-5517","5573-6259","5767-5997","5890-6120","4919-6694","3858-7395","3900-8156","6444-1863","5714-3813","4668-5443","4971-4824","3482-5319","3575-5556","2518-5412","2637-5314","2367-5796","2536-5657","2295-5420","4265-8247","6642-2081","3700-7220","3900-6720","4020-5690","4190-7370","4330-6040","4390-6320","4710-4430","4710-6700","4810-1500","4930-5370","5030-1420","5060-2480","5150-3820","5290-2190","5310-4890","5400-2880","5430-3070","5470-1990","5490-2370","5500-1720","5510-6880","5520-3760","5540-7070","5550-3510","5600-4340","5780-6320","6100-4960","6460-4480","6470-6730","6520-2430","6640-4830","6700-5890","6710-4200","6730-6080","6850-5930","6880-5470","7090-5310","7090-6000","7150-5460","7200-6530","7250-5940","7570-3980","7680-4790","2920-5624","2410-5240","2630-5460","2680-4830","2690-5860","2740-5150","2740-6130","2750-5610","2860-4590","2860-5870","2870-5370","2940-6270","2970-4980","2990-5220","3020-5860","3130-5370","3190-5100","3280-4580","3310-5880","3380-4420","3400-4770","3410-5020","3420-5550","3470-7080","3470-7410","3500-5910","3560-7940","3610-4920","3610-6000","3610-7510","3620-4800","3650-8170","3660-5180","3690-6880","3690-7100","3710-5750","3710-6590","3730-5000","3750-4570","3760-8310","3780-7930","3810-5630","3820-5480","3820-7690","3830-3940","3830-5850","3850-3730","3870-6160","3870-7000","3880-8340","3920-7550","3950-3570","3950-6420","3980-5940","4030-7770","4090-6310","4090-7570","4140-3630","4180-6670","4190-7120","4200-2880","4210-6370","4260-7720","4270-4380","4280-2290","4310-6460","4350-1440","4350-7870","4370-1670","4410-6630","4410-7640","4470-6080","4500-8040","4510-1980","4520-5260","4520-6790","4540-6330","4560-6540","4570-3700","4580-6680","4590-7620","4670-1720","4680-5900","4690-1540","4740-3240","4740-6530","4780-6860","4800-4770","4810-1690","4810-3070","4810-5980","4830-2060","4850-3520","4870-3370","4900-3660","4900-5080","4940-5560","4940-6270","4960-3140","4960-5840","5040-4580","5060-3240","5070-2930","5070-6150","5080-1770","5080-6580","5090-7100","5110-6900","5150-3070","5170-4690","5180-6290","5190-5360","5200-3600","5200-5830","5210-5010","5220-6110","5230-2940","5230-6860","5260-3890","5270-4770","5310-3290","5320-4070","5320-6220","5330-1560","5330-1790","5350-5900","5370-5500","5370-6560","5390-3770","5410-5340","5430-1390","5430-5670","5460-6460","5490-3200","5500-2240","5500-3950","5520-2820","5540-3330","5550-5310","5560-5950","5570-2600","5590-1410","5600-2420","5600-4820","5600-5630","5610-6470","5630-6110","5640-2960","5650-4550","5670-6580","5690-2230","5700-1600","5710-6970","5720-4790","5730-2440","5740-5840","5770-2800","5780-5180","5790-1500","5810-2980","5830-3860","5830-4040","5840-6840","5850-3700","5860-4620","5870-4210","5880-7030","5890-6510","5920-5950","5940-3510","5970-2230","5990-2970","5990-3640","6000-2410","6010-3170","6010-6960","6040-2060","6050-6400","6080-1920","6100-4230","6110-4630","6140-0630","6150-3380","6150-6270","6170-2280","6200-2740","6230-3950","6250-4530","6270-3540","6270-4650","6290-1920","6290-3710","6310-1200","6310-4090","6330-3410","6330-6670","6350-4370","6370-1040","6410-2830","6420-6030","6440-4270","6450-3080","6450-3890","6500-6280","6520-3600","6590-2310","6590-3320","6600-2610","6620-3970","6640-2820","6650-5340","6670-6480","6710-3620","6730-6620","6740-3980","6760-3760","6760-4910","6770-2390","6790-4620","6800-2700","6800-4310","6810-3090","6810-5760","6880-5130","6910-3430","6910-3650","6980-2830","7020-2990","7060-4800","7070-3210","7070-3530","7130-4420","7150-4220","7180-4700","7230-4820","7280-6350","7330-4590","7340-4090","7370-5270","7430-4390","7440-5140","7480-4950","7520-5270","7590-4580","7620-4390","7640-5080","7790-4440","2200-5780","2490-5140","2800-4940","3040-5110","3040-5730","3100-6190","3190-5700","3280-3850","3360-4140","3450-7580","3500-3390","3520-7730","3540-4080","3610-3620","3680-7740","3760-6010","3810-3410","3820-6540","3850-4490","3990-4420","4020-2980","4050-7990","4100-8300","4160-8070","4280-6940","4320-7120","4330-3060","4330-7540","4380-6180","4450-2400","4450-8230","4460-1390","4510-2280","4520-4090","4670-2390","4690-2130","4750-2820","4840-1870","4840-2610","4980-1670","4980-7010","5090-4110","5100-3480","5220-4200","5490-1840","5510-5190","5710-4010","5760-3190","5900-1640","5900-5180","6000-4880","6060-5140","6070-2810","6110-3730","6130-1500","6130-2610","6140-1300","6170-1740","6190-2860","6200-5730","6210-5540","6210-5970","6270-5400","6290-2520","6310-1740","6340-1460","6340-2970","6370-2120","6370-5160","6380-0610","6380-2690","6430-6410","6530-0880","6550-1130","6720-2180","6750-2560","6770-3320","6800-6780","7110-3380","7290-5160","7480-5390","7560-4800","7690-4010","2870-6090","4610-5550","5120-5500" }, reset = true }; --Concentrated Shadow
 	[444866] = { zoneID = 2215, artID = { 1818 }, x = 4970, y = 4814, overlay = { "5413-3280","5434-3074","6341-1467","6073-1915","5761-3190","4962-5083","2300-5430","2410-5230","2490-5140","2680-4840","2860-5880","2880-6110","2910-5630","2930-5140","2940-6260","2970-4980","3040-5740","3190-5700","3200-5100","3310-5880","3490-5310","3500-5910","3510-5000","3570-5550","4340-1310","4360-1550","4470-1400","4710-4420","4870-1370","4970-4830","4980-1660","5010-1910","5040-4580","5090-2840","5180-5360","5210-5010","5270-4770","5290-1640","5290-2190","5330-1800","5330-2360","5350-2020","5390-2690","5390-2880","5460-3540","5490-1840","5500-1710","5500-2240","5500-2370","5510-2820","5530-3430","5590-1410","5600-4810","5680-4940","5690-1600","5730-2440","5790-5190","5810-2980","5860-4620","5900-1630","5970-2230","5990-4630","6100-4230","6130-1500","6140-4570","6260-4650","6300-1200","6380-0610","6440-1860","6550-1130","6640-2090","4450-4260","4800-4770","5430-1390","5470-1990","5640-2960","5650-4550","6310-1740","2860-4590","2870-5370","3030-5870","3050-5110","3060-5250","3100-6190","3410-5560","3660-5180","4270-4380","4370-1670","4520-4100","4670-1720","4690-1540","4800-1690","4810-1490","4840-1870","4930-5370","5030-1420","5080-1770","5120-5500","5170-4690","5220-2940","5310-4890","5570-2610","5600-2170","5630-2310","5640-3380","5720-4790","5740-2670","5770-2800","5780-5740","5790-1490","5790-5560","5800-2190","5920-5000","6010-2410","6040-2060","6130-0630","6130-1060","6140-1300","6170-1740","6170-2280","6290-1920","6370-1040","6380-2120","6530-0880","6720-2190" } }; --Overflowing Kobyss Ritual Cache
 	[451967] = { zoneID = 2215, artID = { 1818 }, x = 6201, y = 3176, overlay = { "6196-3179","6520-3400" }, questID = { 82996 } }; --Hillhelm Lunchbox
-	[453167] = { zoneID = 2215, artID = { 1818 }, x = 4213, y = 5902, overlay = { "4176-5829" }, reset = false, questID = { 83263 }, minieventID = 17 }; --Disturbed Lynx Treasure
-	[453274] = { zoneID = 2215, artID = { 1818 }, x = 5513, y = 5186, overlay = { "5513-5193" }, reset = false, questID = { 83273 }, minieventID = 17 }; --Smuggler's Treasure
+	[453167] = { zoneID = 2215, artID = { 1818 }, x = 4213, y = 5902, overlay = { "4176-5829" }, reset = false, questID = { 83263 }, achievementID = { 40848 }, minieventID = 17 }; --Disturbed Lynx Treasure
+	[453274] = { zoneID = 2215, artID = { 1818 }, x = 5513, y = 5186, overlay = { "5513-5193" }, reset = false, questID = { 83273 }, achievementID = { 40848 }, minieventID = 17 }; --Smuggler's Treasure
 	[453374] = { zoneID = 2215, artID = { 1818 }, x = 5951, y = 5966, overlay = { "5964-5940" }, reset = false, questID = { 83284 } }; --Shadowed Essence
-	[453741] = { zoneID = 2215, artID = { 1818 }, x = 4004, y = 5113, overlay = { "4003-5117" }, reset = false, questID = { 83298 }, minieventID = 17 }; --Loremaster's Reward
-	[453749] = { zoneID = 2215, artID = { 1818 }, x = 4874, y = 6472, overlay = { "4880-6470" }, reset = false, questID = { 83309 }, minieventID = 15, criteria = 6 }; --Palawltar's Codex of Dimensional Structure
-	[453751] = { zoneID = 2215, artID = { 1818 }, x = 6935, y = 4393, overlay = { "6930-4390" }, reset = false, questID = { 83310 }, minieventID = 15, criteria = 3 }; --Care and Feeding of the Imperial Lynx
-	[453752] = { zoneID = 2215, artID = { 1818 }, x = 6420, y = 2816, overlay = { "6421-2810" }, reset = false, questID = { 83311 }, minieventID = 15, criteria = 7 }; --Shadow Curfew Guidelines
-	[453753] = { zoneID = 2215, artID = { 1818 }, x = 5657, y = 6510, overlay = { "5660-6510" }, reset = false, questID = { 83312 }, minieventID = 15, criteria = 10 }; --Beledar- The Emperor's Vision
-	[453754] = { zoneID = 2215, artID = { 1818 }, x = 7022, y = 5685, overlay = { "7020-5680" }, reset = false, questID = { 83313 }, minieventID = 15, criteria = 9 }; --The Song of Renilash
-	[453755] = { zoneID = 2215, artID = { 1818 }, x = 4813, y = 3955, overlay = { "4811-3956" }, reset = false, questID = { 83314 }, minieventID = 15, criteria = 1 }; --The Big Book of Arathi Idioms
-	[453937] = { zoneID = 2215, artID = { 1818 }, x = 4389, y = 4992, overlay = { "4390-4997" }, reset = false, minieventID = 15, criteria = 2 }; --500 Dishes Using Cave Fish and Mushrooms
-	[454797] = { zoneID = 2215, artID = { 1818 }, x = 5781, y = 5180, overlay = { "5780-5180" }, reset = false, minieventID = 15, criteria = 5 }; --From the Depths They Come
-	[455038] = { zoneID = 2215, artID = { 1818 }, x = 6869, y = 4150, overlay = { "6870-4150" }, reset = false, minieventID = 15, criteria = 4 }; --Light's Gambit Playbook
-	[455183] = { zoneID = 2215, artID = { 1818 }, x = 5980, y = 2211, overlay = { "5977-2208" }, reset = false, minieventID = 15, criteria = 8 }; --Shadow Curfew Journal
+	[453741] = { zoneID = 2215, artID = { 1818 }, x = 4004, y = 5113, overlay = { "4003-5117" }, reset = false, questID = { 83298 }, achievementID = { 40848 }, minieventID = 17 }; --Loremaster's Reward
+	[453749] = { zoneID = 2215, artID = { 1818 }, x = 4874, y = 6472, overlay = { "4880-6470" }, reset = false, questID = { 83309 }, achievementID = { 40622 }, minieventID = 15, criteria = 6 }; --Palawltar's Codex of Dimensional Structure
+	[453751] = { zoneID = 2215, artID = { 1818 }, x = 6935, y = 4393, overlay = { "6930-4390" }, reset = false, questID = { 83310 }, achievementID = { 40622 }, minieventID = 15, criteria = 3 }; --Care and Feeding of the Imperial Lynx
+	[453752] = { zoneID = 2215, artID = { 1818 }, x = 6420, y = 2816, overlay = { "6421-2810" }, reset = false, questID = { 83311 }, achievementID = { 40622 }, minieventID = 15, criteria = 7 }; --Shadow Curfew Guidelines
+	[453753] = { zoneID = 2215, artID = { 1818 }, x = 5657, y = 6510, overlay = { "5660-6510" }, reset = false, questID = { 83312 }, achievementID = { 40622 }, minieventID = 15, criteria = 10 }; --Beledar- The Emperor's Vision
+	[453754] = { zoneID = 2215, artID = { 1818 }, x = 7022, y = 5685, overlay = { "7020-5680" }, reset = false, questID = { 83313 }, achievementID = { 40622 }, minieventID = 15, criteria = 9 }; --The Song of Renilash
+	[453755] = { zoneID = 2215, artID = { 1818 }, x = 4813, y = 3955, overlay = { "4811-3956" }, reset = false, questID = { 83314 }, achievementID = { 40622 }, minieventID = 15, criteria = 1 }; --The Big Book of Arathi Idioms
+	[453937] = { zoneID = 2215, artID = { 1818 }, x = 4389, y = 4992, overlay = { "4390-4997" }, reset = false, achievementID = { 40622 }, minieventID = 15, criteria = 2 }; --500 Dishes Using Cave Fish and Mushrooms
+	[454797] = { zoneID = 2215, artID = { 1818 }, x = 5781, y = 5180, overlay = { "5780-5180" }, reset = false, achievementID = { 40622 }, minieventID = 15, criteria = 5 }; --From the Depths They Come
+	[455038] = { zoneID = 2215, artID = { 1818 }, x = 6869, y = 4150, overlay = { "6870-4150" }, reset = false, achievementID = { 40622 }, minieventID = 15, criteria = 4 }; --Light's Gambit Playbook
+	[455183] = { zoneID = 2215, artID = { 1818 }, x = 5980, y = 2211, overlay = { "5977-2208" }, reset = false, achievementID = { 40622 }, minieventID = 15, criteria = 8 }; --Shadow Curfew Journal
 	[455940] = { zoneID = 2215, artID = { 1818 }, x = 4009, y = 6811, overlay = { "4009-6813" }, reset = false, questID = { 83927 }, prof = 197 }; --Royal Outfitter's Protractor
 	[455941] = { zoneID = 2215, artID = { 1818 }, x = 4930, y = 6228, overlay = { "4930-6228" }, reset = false, questID = { 83926 }, prof = 197 }; --Arathi Rotary Cutter
 	[455948] = { zoneID = 2215, artID = { 1818 }, x = 4228, y = 5389, overlay = { "4229-5393" }, reset = false, questID = { 83919 }, prof = 393 }; --Arathi Craftsman's Spokeshave
@@ -1455,7 +1455,7 @@ private.CONTAINER_INFO = {
 	[457251] = { zoneID = 2215, artID = { 1818 }, x = 6451, y = 3159, overlay = { "6451-3159","6490-3340" } }; --Old Rotting Crate
 	[457270] = { zoneID = 2215, artID = { 1818 }, x = 6520, y = 2771, overlay = { "6542-2710","6380-2680" }, questID = { 84341 } }; --Surveyor's Box
 	[457271] = { zoneID = 2215, artID = { 1818 }, x = 6254, y = 1632, overlay = { "6254-1632" }, reset = false, questID = { 84342 } }; --Crabber Supplies
-	[463979] = { zoneID = 2215, artID = { 1818 }, x = 5264, y = 6000, overlay = { "5264-6000" }, reset = false, minieventID = 15, criteria = 11 }; --Lightspark Sky Academy Gradebook
+	[463979] = { zoneID = 2215, artID = { 1818 }, x = 5264, y = 6000, overlay = { "5264-6000" }, reset = false, achievementID = { 40622 }, minieventID = 15, criteria = 11 }; --Lightspark Sky Academy Gradebook
 	[421179] = { zoneID = 2239, artID = { 1847 }, x = 5473, y = 7730, overlay = { "5468-7720" }, reset = false, questID = { 79473 } }; --Kaldorei Bedroll
 	[421180] = { zoneID = 2239, artID = { 1847 }, x = 5248, y = 1780, overlay = { "5254-1770" }, reset = false, questID = { 79494 } }; --Kaldorei Backpack
 	[421181] = { zoneID = 2239, artID = { 1847 }, x = 3135, y = 1609, overlay = { "3130-1612" }, reset = false, questID = { 79496 } }; --Kaldorei Dagger
@@ -1468,28 +1468,28 @@ private.CONTAINER_INFO = {
 	[421339] = { zoneID = 2239, artID = { 1847 }, x = 5844, y = 5185, overlay = { "5844-5190" }, reset = false, questID = { 79498 } }; --Kaldorei Horn
 	[421555] = { zoneID = 2239, artID = { 1847 }, x = 2910, y = 2890, overlay = { "2910-2890" }, reset = false, questID = { 79520 } }; --Kaldorei Moon Bow
 	[135238] = { zoneID = 2248, artID = { 1833 }, x = 5987, y = 7111, overlay = { "5987-7111" } }; --null
-	[441183] = { zoneID = 2248, artID = { 1833 }, x = 3729, y = 5253, overlay = { "3730-5260" }, reset = false, questID = { 82038 }, minieventID = 16, criteria = 1 }; --Galan's Edict
-	[441223] = { zoneID = 2248, artID = { 1833 }, x = 4408, y = 3013, overlay = { "4400-3020" }, reset = false, questID = { 82046 }, minieventID = 16, criteria = 3 }; --Stone of The Unbound
-	[441231] = { zoneID = 2248, artID = { 1833 }, x = 7812, y = 2784, overlay = { "7813-2784" }, reset = false, questID = { 82045 }, minieventID = 16, criteria = 2 }; --Titan Console
-	[441278] = { zoneID = 2248, artID = { 1833 }, x = 4211, y = 8025, overlay = { "4210-8020" }, reset = false, questID = { 82048 }, minieventID = 16, criteria = 5 }; --Watcher of the South
-	[441284] = { zoneID = 2248, artID = { 1833 }, x = 5721, y = 2001, overlay = { "5720-2000" }, reset = false, questID = { 82047 }, minieventID = 16, criteria = 4 }; --Watcher of the North
-	[443318] = { zoneID = 2248, artID = { 1833 }, x = 4851, y = 3004, overlay = { "4851-3004" }, reset = false, questID = { 83242 }, minieventID = 12 }; --Tree's Treasure
-	[443638] = { zoneID = 2248, artID = { 1833 }, x = 5959, y = 2460, overlay = { "5971-2869","5959-2460" }, reset = false, questID = { 82251 }, minieventID = 12 }; --Mosswool Flower
+	[441183] = { zoneID = 2248, artID = { 1833 }, x = 3729, y = 5253, overlay = { "3730-5260" }, reset = false, questID = { 82038 }, achievementID = { 40762 }, minieventID = 16, criteria = 1 }; --Galan's Edict
+	[441223] = { zoneID = 2248, artID = { 1833 }, x = 4408, y = 3013, overlay = { "4400-3020" }, reset = false, questID = { 82046 }, achievementID = { 40762 }, minieventID = 16, criteria = 3 }; --Stone of The Unbound
+	[441231] = { zoneID = 2248, artID = { 1833 }, x = 7812, y = 2784, overlay = { "7813-2784" }, reset = false, questID = { 82045 }, achievementID = { 40762 }, minieventID = 16, criteria = 2 }; --Titan Console
+	[441278] = { zoneID = 2248, artID = { 1833 }, x = 4211, y = 8025, overlay = { "4210-8020" }, reset = false, questID = { 82048 }, achievementID = { 40762 }, minieventID = 16, criteria = 5 }; --Watcher of the South
+	[441284] = { zoneID = 2248, artID = { 1833 }, x = 5721, y = 2001, overlay = { "5720-2000" }, reset = false, questID = { 82047 }, achievementID = { 40762 }, minieventID = 16, criteria = 4 }; --Watcher of the North
+	[443318] = { zoneID = 2248, artID = { 1833 }, x = 4851, y = 3004, overlay = { "4851-3004" }, reset = false, questID = { 83242 }, achievementID = { 40434 }, minieventID = 12 }; --Tree's Treasure
+	[443638] = { zoneID = 2248, artID = { 1833 }, x = 5959, y = 2460, overlay = { "5971-2869","5959-2460" }, reset = false, questID = { 82251 }, achievementID = { 40434 }, minieventID = 12 }; --Mosswool Flower
 	[443754] = { zoneID = 2248, artID = { 1833 }, x = 6600, y = 2663, overlay = { "2400-6359","6600-2663","2920-6040","3520-7610","3850-3950","4160-7440","4340-7920","4450-2100","4790-1930","5440-6490","5920-2740","6090-2130","6710-2880","6730-3090" } }; --Earthen Coffer
 	[443756] = { zoneID = 2248, artID = { 1833 }, x = 4335, y = 7921, overlay = { "3851-3950","2910-6040","3520-7610","4160-7450","4460-2100","4790-1930","5430-6490","5920-2740","6090-2130","6710-2870","6730-3090","4340-7920","6600-2660" } }; --Ladened Earthen Coffer
-	[444022] = { zoneID = 2248, artID = { 1833 }, x = 4062, y = 5986, overlay = { "4062-5986" }, reset = false, questID = { 82227 }, minieventID = 12 }; --Magical Treasure Chest
+	[444022] = { zoneID = 2248, artID = { 1833 }, x = 4062, y = 5986, overlay = { "4062-5986" }, reset = false, questID = { 82227 }, achievementID = { 40434 }, minieventID = 12 }; --Magical Treasure Chest
 	[444065] = { zoneID = 2248, artID = { 1833 }, x = 6022, y = 6257, overlay = { "7487-5115","3389-7932","7415-3789","3490-3920","4560-6020","5100-8410","5120-6730","6020-6260","6370-4720","7000-5390","7400-6020" }, reset = true }; --Elemental Geode
 	[444066] = { zoneID = 2248, artID = { 1833 }, x = 4208, y = 5647, overlay = { "4207-5644","2020-5840","3850-8280","3880-2500","4430-5500","4480-3190","5360-1930","6240-3840","6340-7320","6460-4200","7440-5810","7790-4540" }, reset = true }; --Keeper's Stash
 	[444091] = { zoneID = 2248, artID = { 1833 }, x = 5098, y = 8406, overlay = { "5098-8406","3400-7980","3490-3920","4560-6020","5120-6730","6020-6260","6370-4720","7000-5380","7370-3710","7400-6010","7490-5120" } }; --Earthbound Geode
 	[444094] = { zoneID = 2248, artID = { 1833 }, x = 7791, y = 4540, overlay = { "4428-5500","2020-5840","3850-8280","3880-2500","4210-5640","4480-3190","5360-1920","6240-3840","6340-7320","6460-4200","7440-5820","7790-4550" } }; --Keeper's Vault
-	[444137] = { zoneID = 2248, artID = { 1833 }, x = 3690, y = 4224, overlay = { "3686-4224" }, reset = false, questID = { 82246 }, minieventID = 12 }; --Thak's Treasure
-	[444215] = { zoneID = 2248, artID = { 1833 }, x = 5398, y = 1918, overlay = { "5401-1898" }, reset = false, questID = { 82252 }, minieventID = 12 }; --Mysterious Orb
-	[444233] = { zoneID = 2248, artID = { 1833 }, x = 5500, y = 6562, overlay = { "5499-6564" }, reset = false, questID = { 82142 }, minieventID = 12 }; --Mushroom Cap
-	[444773] = { zoneID = 2248, artID = { 1833 }, x = 7726, y = 2443, overlay = { "7723-2445" }, reset = false, questID = { 82287 }, minieventID = 12 }; --Jade Pearl
-	[444894] = { zoneID = 2248, artID = { 1833 }, x = 4889, y = 6086, overlay = { "4889-6086" }, reset = false, questID = { 82326 }, minieventID = 12 }; --Shimmering Opal Lily
-	[444899] = { zoneID = 2248, artID = { 1833 }, x = 6256, y = 4326, overlay = { "6256-4326" }, reset = false, questID = { 82325 }, minieventID = 12 }; --Kobold Pickaxe
-	[446473] = { zoneID = 2248, artID = { 1833 }, x = 5620, y = 6094, overlay = { "5621-6091" }, reset = false, questID = { 82714 }, minieventID = 12 }; --Infused Cinderbrew
-	[446476] = { zoneID = 2248, artID = { 1833 }, x = 5912, y = 2350, overlay = { "5912-2346" }, reset = false, questID = { 82715 }, minieventID = 12 }; --Web-Wrapped Axe
+	[444137] = { zoneID = 2248, artID = { 1833 }, x = 3690, y = 4224, overlay = { "3686-4224" }, reset = false, questID = { 82246 }, achievementID = { 40434 }, minieventID = 12 }; --Thak's Treasure
+	[444215] = { zoneID = 2248, artID = { 1833 }, x = 5398, y = 1918, overlay = { "5401-1898" }, reset = false, questID = { 82252 }, achievementID = { 40434 }, minieventID = 12 }; --Mysterious Orb
+	[444233] = { zoneID = 2248, artID = { 1833 }, x = 5500, y = 6562, overlay = { "5499-6564" }, reset = false, questID = { 82142 }, achievementID = { 40434 }, minieventID = 12 }; --Mushroom Cap
+	[444773] = { zoneID = 2248, artID = { 1833 }, x = 7726, y = 2443, overlay = { "7723-2445" }, reset = false, questID = { 82287 }, achievementID = { 40434 }, minieventID = 12 }; --Jade Pearl
+	[444894] = { zoneID = 2248, artID = { 1833 }, x = 4889, y = 6086, overlay = { "4889-6086" }, reset = false, questID = { 82326 }, achievementID = { 40434 }, minieventID = 12 }; --Shimmering Opal Lily
+	[444899] = { zoneID = 2248, artID = { 1833 }, x = 6256, y = 4326, overlay = { "6256-4326" }, reset = false, questID = { 82325 }, achievementID = { 40434 }, minieventID = 12 }; --Kobold Pickaxe
+	[446473] = { zoneID = 2248, artID = { 1833 }, x = 5620, y = 6094, overlay = { "5621-6091" }, reset = false, questID = { 82714 }, achievementID = { 40434 }, minieventID = 12 }; --Infused Cinderbrew
+	[446476] = { zoneID = 2248, artID = { 1833 }, x = 5912, y = 2350, overlay = { "5912-2346" }, reset = false, questID = { 82715 }, achievementID = { 40434 }, minieventID = 12 }; --Web-Wrapped Axe
 	[455944] = { zoneID = 2248, artID = { 1833 }, x = 5617, y = 6098, overlay = { "5620-6102" }, reset = false, questID = { 83923 }, prof = 197 }; --Earthen Tape Measure
 	[455952] = { zoneID = 2248, artID = { 1833 }, x = 6003, y = 2809, overlay = { "6003-2799" }, reset = false, questID = { 83915 }, prof = 393 }; --Earthen Worker's Beams
 	[455961] = { zoneID = 2248, artID = { 1833 }, x = 5815, y = 6206, overlay = { "5818-6203" }, reset = false, questID = { 83906 }, prof = 186 }; --Earthen Miner's Gavel
@@ -1519,10 +1519,10 @@ private.CONTAINER_INFO = {
 				[2422] = { x = 4250, y = 5910, artID = { 1948 }, overlay = { "4190-5910","5880-3990","6110-4060","6440-2600","6520-2910","2940-6720","2990-6850","4170-5680","5910-3830","6110-3940","6530-3050" } };
 				[2452] = { x = 3630, y = 7930, artID = { 1990 }, overlay = { "3630-7930","4400-8420","4680-7170","5060-4550","5170-6350","6150-1070" } };
 			  }, reset = true }; --null
-	[222283] = { zoneID = 2255, artID = { 1852 }, x = 7112, y = 6232, overlay = { "7112-6232" }, reset = false, questID = { 82082 }, minieventID = 16, criteria = 16 }; --Objects
-	[222369] = { zoneID = 2255, artID = { 1852 }, x = 7543, y = 3323, overlay = { "7543-3323" }, reset = false, questID = { 82069 }, minieventID = 16, criteria = 19 }; --Objects
-	[222381] = { zoneID = 2255, artID = { 1852 }, x = 5407, y = 1888, overlay = { "5407-1888" }, reset = false, questID = { 82067 }, minieventID = 16, criteria = 20 }; --Objects
-	[222634] = { zoneID = 2255, artID = { 1852 }, x = 5838, y = 8951, overlay = { "5838-8951" }, reset = false, questID = { 82079 }, minieventID = 16, criteria = 17 }; --Objects
+	[222283] = { zoneID = 2255, artID = { 1852 }, x = 7112, y = 6232, overlay = { "7112-6232" }, reset = false, questID = { 82082 }, achievementID = { 40762 }, minieventID = 16, criteria = 16 }; --Objects
+	[222369] = { zoneID = 2255, artID = { 1852 }, x = 7543, y = 3323, overlay = { "7543-3323" }, reset = false, questID = { 82069 }, achievementID = { 40762 }, minieventID = 16, criteria = 19 }; --Objects
+	[222381] = { zoneID = 2255, artID = { 1852 }, x = 5407, y = 1888, overlay = { "5407-1888" }, reset = false, questID = { 82067 }, achievementID = { 40762 }, minieventID = 16, criteria = 20 }; --Objects
+	[222634] = { zoneID = 2255, artID = { 1852 }, x = 5838, y = 8951, overlay = { "5838-8951" }, reset = false, questID = { 82079 }, achievementID = { 40762 }, minieventID = 16, criteria = 17 }; --Objects
 	[444797] = { zoneID = 2255, artID = { 1852 }, x = 3457, y = 3680, overlay = { "3457-3680","6501-2387","5012-5065" }, reset = true }; --Threadspun Cache
 	[444844] = { zoneID = 2255, artID = { 1852 }, x = 2290, y = 5029, overlay = { "7644-5811","2286-5024" }, reset = false }; --Stashed Loot
 	[445277] = { zoneID = 2255, artID = { 1852 }, x = 5182, y = 2988, overlay = { "3570-3924","5180-3000","3460-3690","5010-5070" }, reset = true }; --Hunter's Threadspun Cache
@@ -1530,24 +1530,24 @@ private.CONTAINER_INFO = {
 	[446097] = { zoneID = {
 				[2255] = { x = 6742, y = 9077, artID = { 1852 }, overlay = { "6742-9071" } };
 				[2256] = { x = 6742, y = 9071, artID = { 1853 }, overlay = { "6742-9071" } };
-			  }, reset = false, questID = { 82718 }, minieventID = 18 }; --null
-	[446135] = { zoneID = 2255, artID = { 1852 }, x = 5452, y = 5080, overlay = { "5452-5080" }, reset = false, questID = { 82721 }, minieventID = 18 }; --Niffen Stash
-	[446140] = { zoneID = 2255, artID = { 1852 }, x = 3878, y = 3722, overlay = { "3878-3722" }, reset = false, questID = { 82722 }, minieventID = 18 }; --Missing Scout's Pack
-	[446299] = { zoneID = 2255, artID = { 1852 }, x = 6748, y = 2754, overlay = { "6745-2758" }, reset = false, questID = { 82719 }, minieventID = 18 }; --Silk-Spun Supplies
+			  }, reset = false, questID = { 82718 }, achievementID = { 40828 }, minieventID = 18 }; --null
+	[446135] = { zoneID = 2255, artID = { 1852 }, x = 5452, y = 5080, overlay = { "5452-5080" }, reset = false, questID = { 82721 }, achievementID = { 40828 }, minieventID = 18 }; --Niffen Stash
+	[446140] = { zoneID = 2255, artID = { 1852 }, x = 3878, y = 3722, overlay = { "3878-3722" }, reset = false, questID = { 82722 }, achievementID = { 40828 }, minieventID = 18 }; --Missing Scout's Pack
+	[446299] = { zoneID = 2255, artID = { 1852 }, x = 6748, y = 2754, overlay = { "6745-2758" }, reset = false, questID = { 82719 }, achievementID = { 40828 }, minieventID = 18 }; --Silk-Spun Supplies
 	[446404] = { zoneID = {
 				[2255] = { x = 6273, y = 8789, artID = { 1852 }, overlay = { "6273-8789" } };
 				[2256] = { x = 6273, y = 8789, artID = { 1853 }, overlay = { "6273-8789" } };
-			  }, reset = false, questID = { 82520 }, minieventID = 18 }; --null
-	[446419] = { zoneID = 2255, artID = { 1852 }, x = 3406, y = 6095, overlay = { "3406-6101" }, reset = false, questID = { 82525 }, minieventID = 18 }; --Concealed Contraband
-	[446420] = { zoneID = 2255, artID = { 1852 }, x = 7863, y = 3320, overlay = { "7861-3319" }, reset = false, questID = { 82527 }, minieventID = 18 }; --"Weaving Supplies"
-	[446423] = { zoneID = 2255, artID = { 1852 }, x = 4956, y = 4370, overlay = { "4956-4370" }, reset = false, questID = { 82529 }, minieventID = 18 }; --Nest Egg
-	[454335] = { zoneID = 2255, artID = { 1852 }, x = 4010, y = 3980, overlay = { "4010-3980" }, minieventID = 19, criteria = 1 }; --Entomological Essay on Grubs, Volume 1
-	[454336] = { zoneID = 2255, artID = { 1852 }, x = 3979, y = 4050, overlay = { "3979-4050" }, minieventID = 19, criteria = 2 }; --Entomological Essay on Grubs, Volume 2
-	[454338] = { zoneID = 2255, artID = { 1852 }, x = 3909, y = 4258, overlay = { "3979-4050","3910-4250" }, minieventID = 19, criteria = 3 }; --Entomological Essay on Grubs, Volume 3
-	[454343] = { zoneID = 2255, artID = { 1852 }, x = 6296, y = 3118, overlay = { "6296-3118" }, reset = false, minieventID = 21, criteria = 2 }; --Ethos of War, Part 1
-	[454344] = { zoneID = 2255, artID = { 1852 }, x = 6669, y = 3129, overlay = { "6669-3129" }, reset = false, minieventID = 21, criteria = 3 }; --Ethos of War, Part 2
-	[454348] = { zoneID = 2255, artID = { 1852 }, x = 4886, y = 2399, overlay = { "4886-2399" }, reset = false, minieventID = 21, criteria = 4 }; --Ethos of War, Part 3
-	[454350] = { zoneID = 2255, artID = { 1852 }, x = 4325, y = 2557, overlay = { "4325-2557" }, reset = false, minieventID = 21, criteria = 5 }; --Ethos of War, Part 4
+			  }, reset = false, questID = { 82520 }, achievementID = { 40828 }, minieventID = 18 }; --null
+	[446419] = { zoneID = 2255, artID = { 1852 }, x = 3406, y = 6095, overlay = { "3406-6101" }, reset = false, questID = { 82525 }, achievementID = { 40828 }, minieventID = 18 }; --Concealed Contraband
+	[446420] = { zoneID = 2255, artID = { 1852 }, x = 7863, y = 3320, overlay = { "7861-3319" }, reset = false, questID = { 82527 }, achievementID = { 40828 }, minieventID = 18 }; --"Weaving Supplies"
+	[446423] = { zoneID = 2255, artID = { 1852 }, x = 4956, y = 4370, overlay = { "4956-4370" }, reset = false, questID = { 82529 }, achievementID = { 40828 }, minieventID = 18 }; --Nest Egg
+	[454335] = { zoneID = 2255, artID = { 1852 }, x = 4010, y = 3980, overlay = { "4010-3980" }, achievementID = { 40629 }, minieventID = 19, criteria = 1 }; --Entomological Essay on Grubs, Volume 1
+	[454336] = { zoneID = 2255, artID = { 1852 }, x = 3979, y = 4050, overlay = { "3979-4050" }, achievementID = { 40629 }, minieventID = 19, criteria = 2 }; --Entomological Essay on Grubs, Volume 2
+	[454338] = { zoneID = 2255, artID = { 1852 }, x = 3909, y = 4258, overlay = { "3979-4050","3910-4250" }, achievementID = { 40629 }, minieventID = 19, criteria = 3 }; --Entomological Essay on Grubs, Volume 3
+	[454343] = { zoneID = 2255, artID = { 1852 }, x = 6296, y = 3118, overlay = { "6296-3118" }, reset = false, achievementID = { 40542 }, minieventID = 21, criteria = 2 }; --Ethos of War, Part 1
+	[454344] = { zoneID = 2255, artID = { 1852 }, x = 6669, y = 3129, overlay = { "6669-3129" }, reset = false, achievementID = { 40542 }, minieventID = 21, criteria = 3 }; --Ethos of War, Part 2
+	[454348] = { zoneID = 2255, artID = { 1852 }, x = 4886, y = 2399, overlay = { "4886-2399" }, reset = false, achievementID = { 40542 }, minieventID = 21, criteria = 4 }; --Ethos of War, Part 3
+	[454350] = { zoneID = 2255, artID = { 1852 }, x = 4325, y = 2557, overlay = { "4325-2557" }, reset = false, achievementID = { 40542 }, minieventID = 21, criteria = 5 }; --Ethos of War, Part 4
 	[455939] = { zoneID = 2255, artID = { 1852 }, x = 5325, y = 5309, overlay = { "5327-5312" }, reset = false, questID = { 83928 }, prof = 197 }; --Nerubian Quilt
 	[455946] = { zoneID = 2255, artID = { 1852 }, x = 5649, y = 5522, overlay = { "5654-5523" }, reset = false, questID = { 83921 }, prof = 393 }; --Carapace Shiner
 	[455962] = { zoneID = 2255, artID = { 1852 }, x = 5997, y = 5397, overlay = { "5999-5400" }, reset = false, questID = { 83905 }, prof = 165 }; --Curved Nerubian Skinning Knife
@@ -1557,7 +1557,7 @@ private.CONTAINER_INFO = {
 	[456002] = { zoneID = 2255, artID = { 1852 }, x = 5734, y = 4407, overlay = { "5735-4403" }, reset = false, questID = { 83865 }, prof = 333 }; --Void Shard
 	[456010] = { zoneID = 2255, artID = { 1852 }, x = 5298, y = 5126, overlay = { "5295-5125" }, reset = false, questID = { 83855 }, prof = 164 }; --Spiderling's Wire Brush
 	[456018] = { zoneID = 2255, artID = { 1852 }, x = 4282, y = 5736, overlay = { "4282-5736" }, reset = false, questID = { 83847 }, prof = 171 }; --Dark Apothecary's Vial
-	[444354] = { zoneID = 2339, artID = { 1895 }, x = 5817, y = 3014, overlay = { "5830-3010" }, reset = false, questID = { 82716 }, minieventID = 12 }; --Turtle's Thanks
+	[444354] = { zoneID = 2339, artID = { 1895 }, x = 5817, y = 3014, overlay = { "5830-3010" }, reset = false, questID = { 82716 }, achievementID = { 40434 }, minieventID = 12 }; --Turtle's Thanks
 	[455945] = { zoneID = 2339, artID = { 1895 }, x = 6148, y = 1863, overlay = { "6156-1849" }, reset = false, questID = { 83922 }, prof = 197 }; --Dornogal Seam Ripper
 	[455953] = { zoneID = 2339, artID = { 1895 }, x = 2871, y = 5174, overlay = { "2877-5164" }, reset = false, questID = { 83914 }, prof = 393 }; --Dornogal Carving Knife
 	[455960] = { zoneID = 2339, artID = { 1895 }, x = 3665, y = 7926, overlay = { "3665-7926" }, reset = false, questID = { 83907 }, prof = 186 }; --Dornogal Chisel
@@ -1569,36 +1569,36 @@ private.CONTAINER_INFO = {
 	[456008] = { zoneID = 2339, artID = { 1895 }, x = 5794, y = 5697, overlay = { "5794-5697" }, reset = false, questID = { 83859 }, prof = 333 }; --Silver Dornogal Rod
 	[456016] = { zoneID = 2339, artID = { 1895 }, x = 4757, y = 2622, overlay = { "4757-2622" }, reset = false, questID = { 83849 }, prof = 164 }; --Dornogal Hammer
 	[456025] = { zoneID = 2339, artID = { 1895 }, x = 3254, y = 6007, overlay = { "3245-6033" }, reset = false, questID = { 83840 }, prof = 171 }; --Earthen Iron Powder
-	[467468] = { zoneID = 2346, artID = { 1899 }, x = 2394, y = 4521, overlay = { "2381-4538" }, reset = false, questID = { 85072 }, minieventID = 24 }; --Muff's Auto-Locker
+	[467468] = { zoneID = 2346, artID = { 1899 }, x = 2394, y = 4521, overlay = { "2381-4538" }, reset = false, questID = { 85072 }, achievementID = { 40948 }, minieventID = 24 }; --Muff's Auto-Locker
 	[469857] = { zoneID = 2346, artID = { 1899 }, x = 3115, y = 6323, overlay = { "2390-5220","2420-4090","2470-4580","2540-5910","2580-3250","2610-7040","2730-2840","2850-4710","2950-2650","3130-6330","3280-2170","3330-8330","3440-2410","3490-7700","3540-8710","3640-4780","3730-4000","3870-9090","4020-2610","4220-2000","4450-5980","4610-7720","4620-3340","4700-6810","4940-0910","5030-4770","5040-8840","5050-7570","5070-5860","5100-3480","5440-5410","5790-8030","5830-1600","5900-2570","5940-0820","6160-5120","6200-1550","6500-8920","6520-7700","6570-3410","6820-3120","6190-3750" }, reset = true }; --Overflowing Dumpster
 	[469858] = { zoneID = 2346, artID = { 1899 }, x = 3966, y = 5670, overlay = { "4373-6918","2628-3856","4358-3875","3449-4050","5694-1333","6306-0733","5854-2619","5729-4249","6430-3465","7137-2554","3144-2106","2914-5645","3636-8537","5193-7147","4664-5800","6630-8225","6088-3622","6970-2799","6560-1471","5355-2784","4432-3659","2633-3641","2960-2493","2373-5472","3070-6605","3754-5907","3775-7641","4512-6463","5275-5360","4147-9399","4253-7339","3878-8914","3356-7933","4827-5834","3597-5696","6943-2515","5204-3784","3623-6283","5027-5325","3718-4430","4374-2374","2440-5630","2460-5250","2520-3510","2600-4230","2780-2770","3600-3250","3740-8780","3840-2330","3950-5660","4000-6110","4110-8170","4290-1680","4300-3570","4560-8560","4960-6740","4980-4110","5010-2900","5070-1000","5240-4890","5250-6510","5350-5190","5880-0820","6360-5430","6390-8840","6700-8740","7090-7080","7110-5620","2430-6040","2500-4360","2530-6450","2560-4740","2640-6640","2720-5800","2840-6290","2940-7010","3010-2380","3030-7550","3100-7210","3200-6950","3220-4140","3240-3090","3250-6300","3330-6030","3340-5170","3390-2480","3480-2990","3490-3730","3530-4280","3540-7030","3610-7250","3690-5110","3740-8180","3880-4270","3930-2640","4100-7370","4220-2600","4230-8880","4440-1260","4510-7060","4800-3890","4800-4980","5070-4940","5090-3720","5100-5170","5140-8590","5200-5660","5400-3450","5440-3010","5460-5060","5480-1070","5520-8100","5630-8410","5640-2940","5740-1090","5910-1640","5940-2060","5980-8140","6020-2270","6070-0940","6070-4790","6170-1730","6330-8360","6520-5510","6610-1880","6700-3400","6750-3290","7760-7030" }, reset = true }; --Shiny Trash Can
-	[474393] = { zoneID = 2346, artID = { 1899 }, x = 7125, y = 8596, overlay = { "7147-8588" }, reset = false, questID = { 85114 }, minieventID = 24 }; --Muff's Auto-Locker
-	[474396] = { zoneID = 2346, artID = { 1899 }, x = 7527, y = 2303, overlay = { "7514-2294" }, reset = false, questID = { 85115 }, minieventID = 24 }; --Muff's Auto-Locker
-	[474397] = { zoneID = 2346, artID = { 1899 }, x = 5650, y = 5579, overlay = { "5667-5547" }, reset = false, questID = { 85116 }, minieventID = 24 }; --Muff's Auto-Locker
-	[474398] = { zoneID = 2346, artID = { 1899 }, x = 3418, y = 8262, overlay = { "3418-8262" }, reset = false, questID = { 85117 }, minieventID = 24 }; --Muff's Auto-Locker
-	[476066] = { zoneID = 2346, artID = { 1899 }, x = 4092, y = 2138, overlay = { "4092-2138" }, reset = false, questID = { 85422 }, minieventID = 22 }; --Abandoned Toolbox
-	[476068] = { zoneID = 2346, artID = { 1899 }, x = 7479, y = 8002, overlay = { "7469-7984" }, reset = false, questID = { 85424 }, minieventID = 22 }; --Papa's Prized Putter
-	[476070] = { zoneID = 2346, artID = { 1899 }, x = 6973, y = 2171, overlay = { "6973-2171" }, reset = false, questID = { 85426 }, minieventID = 22 }; --Potent Potable
-	[476071] = { zoneID = 2346, artID = { 1899 }, x = 2677, y = 4265, overlay = { "2677-4265" }, reset = false, questID = { 85425 }, minieventID = 22 }; --Unsupervised Takeout
-	[477363] = { zoneID = 2346, artID = { 1899 }, x = 3950, y = 6102, overlay = { "3950-6102" }, reset = false, questID = { 85492 }, minieventID = 22 }; --Particularly Nice Lamp
-	[477373] = { zoneID = 2346, artID = { 1899 }, x = 6374, y = 3226, overlay = { "6374-3226" }, reset = false, questID = { 85494 }, minieventID = 22 }; --Marooned Floatmingo
-	[477374] = { zoneID = 2346, artID = { 1899 }, x = 5337, y = 5263, overlay = { "5340-5260" }, reset = false, questID = { 85495 }, minieventID = 22 }; --Uncracked Cold Ones
-	[477376] = { zoneID = 2346, artID = { 1899 }, x = 4353, y = 5159, overlay = { "4353-5159" }, reset = false, questID = { 85496 }, minieventID = 22 }; --Trick Deck of Cards
-	[490816] = { zoneID = 2346, artID = { 1899 }, x = 4849, y = 4317, overlay = { "4849-4317" }, reset = false, questID = { 85683 }, minieventID = 22 }; --Unexploded Fireworks
-	[493305] = { zoneID = 2346, artID = { 1899 }, x = 4955, y = 9034, overlay = { "4955-9034" }, reset = false, questID = { 85698 }, minieventID = 22 }; --Exploded Plunger
-	[495592] = { zoneID = 2346, artID = { 1899 }, x = 3893, y = 5970, overlay = { "3895-5963" }, reset = false, questID = { 85814 }, minieventID = 22 }; --Blackened Dice
-	[499090] = { zoneID = 2346, artID = { 1899 }, x = 5601, y = 5172, overlay = { "5601-5172" }, reset = false, questID = { 85856 }, minieventID = 22 }; --Fireworks Hat
-	[499119] = { zoneID = 2346, artID = { 1899 }, x = 5932, y = 1904, overlay = { "5936-1914" }, reset = false, questID = { 85858 }, minieventID = 22 }; --Lonely Tub
-	[499207] = { zoneID = 2346, artID = { 1899 }, x = 4979, y = 6565, overlay = { "4979-6565" }, reset = false, questID = { 85868 }, minieventID = 22 }; --Suspicious Book
-	[502893] = { zoneID = 2346, artID = { 1899 }, x = 3962, y = 2692, overlay = { "3962-2692" }, reset = false, questID = { 86572 }, minieventID = 23, criteria = 3 }; --First Half of Noggenfogger's Journal
-	[502902] = { zoneID = 2346, artID = { 1899 }, x = 3280, y = 5904, overlay = { "3280-5904" }, reset = false, questID = { 86571 }, minieventID = 23, criteria = 4 }; --Second Half of Noggenfogger's Journal
-	[502903] = { zoneID = 2346, artID = { 1899 }, x = 6095, y = 6441, overlay = { "6095-6441" }, reset = false, questID = { 86573 }, minieventID = 23, criteria = 6 }; --Gallywix's Notes
-	[502908] = { zoneID = 2346, artID = { 1899 }, x = 2730, y = 7077, overlay = { "2730-7077" }, reset = false, questID = { 86567 }, minieventID = 23, criteria = 2 }; --A Threatening Letter
-	[502917] = { zoneID = 2346, artID = { 1899 }, x = 6561, y = 1420, overlay = { "6561-1420" }, reset = false, questID = { 86568 }, minieventID = 23, criteria = 7 }; --Misplaced Work Order
-	[504096] = { zoneID = 2346, artID = { 1899 }, x = 4226, y = 8217, overlay = { "4226-8217" }, reset = false, questID = { 86487 }, minieventID = 22 }; --Crumpled Schematics
+	[474393] = { zoneID = 2346, artID = { 1899 }, x = 7125, y = 8596, overlay = { "7147-8588" }, reset = false, questID = { 85114 }, achievementID = { 40948 }, minieventID = 24 }; --Muff's Auto-Locker
+	[474396] = { zoneID = 2346, artID = { 1899 }, x = 7527, y = 2303, overlay = { "7514-2294" }, reset = false, questID = { 85115 }, achievementID = { 40948 }, minieventID = 24 }; --Muff's Auto-Locker
+	[474397] = { zoneID = 2346, artID = { 1899 }, x = 5650, y = 5579, overlay = { "5667-5547" }, reset = false, questID = { 85116 }, achievementID = { 40948 }, minieventID = 24 }; --Muff's Auto-Locker
+	[474398] = { zoneID = 2346, artID = { 1899 }, x = 3418, y = 8262, overlay = { "3418-8262" }, reset = false, questID = { 85117 }, achievementID = { 40948 }, minieventID = 24 }; --Muff's Auto-Locker
+	[476066] = { zoneID = 2346, artID = { 1899 }, x = 4092, y = 2138, overlay = { "4092-2138" }, reset = false, questID = { 85422 }, achievementID = { 41217 }, minieventID = 22 }; --Abandoned Toolbox
+	[476068] = { zoneID = 2346, artID = { 1899 }, x = 7479, y = 8002, overlay = { "7469-7984" }, reset = false, questID = { 85424 }, achievementID = { 41217 }, minieventID = 22 }; --Papa's Prized Putter
+	[476070] = { zoneID = 2346, artID = { 1899 }, x = 6973, y = 2171, overlay = { "6973-2171" }, reset = false, questID = { 85426 }, achievementID = { 41217 }, minieventID = 22 }; --Potent Potable
+	[476071] = { zoneID = 2346, artID = { 1899 }, x = 2677, y = 4265, overlay = { "2677-4265" }, reset = false, questID = { 85425 }, achievementID = { 41217 }, minieventID = 22 }; --Unsupervised Takeout
+	[477363] = { zoneID = 2346, artID = { 1899 }, x = 3950, y = 6102, overlay = { "3950-6102" }, reset = false, questID = { 85492 }, achievementID = { 41217 }, minieventID = 22 }; --Particularly Nice Lamp
+	[477373] = { zoneID = 2346, artID = { 1899 }, x = 6374, y = 3226, overlay = { "6374-3226" }, reset = false, questID = { 85494 }, achievementID = { 41217 }, minieventID = 22 }; --Marooned Floatmingo
+	[477374] = { zoneID = 2346, artID = { 1899 }, x = 5337, y = 5263, overlay = { "5340-5260" }, reset = false, questID = { 85495 }, achievementID = { 41217 }, minieventID = 22 }; --Uncracked Cold Ones
+	[477376] = { zoneID = 2346, artID = { 1899 }, x = 4353, y = 5159, overlay = { "4353-5159" }, reset = false, questID = { 85496 }, achievementID = { 41217 }, minieventID = 22 }; --Trick Deck of Cards
+	[490816] = { zoneID = 2346, artID = { 1899 }, x = 4849, y = 4317, overlay = { "4849-4317" }, reset = false, questID = { 85683 }, achievementID = { 41217 }, minieventID = 22 }; --Unexploded Fireworks
+	[493305] = { zoneID = 2346, artID = { 1899 }, x = 4955, y = 9034, overlay = { "4955-9034" }, reset = false, questID = { 85698 }, achievementID = { 41217 }, minieventID = 22 }; --Exploded Plunger
+	[495592] = { zoneID = 2346, artID = { 1899 }, x = 3893, y = 5970, overlay = { "3895-5963" }, reset = false, questID = { 85814 }, achievementID = { 41217 }, minieventID = 22 }; --Blackened Dice
+	[499090] = { zoneID = 2346, artID = { 1899 }, x = 5601, y = 5172, overlay = { "5601-5172" }, reset = false, questID = { 85856 }, achievementID = { 41217 }, minieventID = 22 }; --Fireworks Hat
+	[499119] = { zoneID = 2346, artID = { 1899 }, x = 5932, y = 1904, overlay = { "5936-1914" }, reset = false, questID = { 85858 }, achievementID = { 41217 }, minieventID = 22 }; --Lonely Tub
+	[499207] = { zoneID = 2346, artID = { 1899 }, x = 4979, y = 6565, overlay = { "4979-6565" }, reset = false, questID = { 85868 }, achievementID = { 41217 }, minieventID = 22 }; --Suspicious Book
+	[502893] = { zoneID = 2346, artID = { 1899 }, x = 3962, y = 2692, overlay = { "3962-2692" }, reset = false, questID = { 86572 }, achievementID = { 41588 }, minieventID = 23, criteria = 3 }; --First Half of Noggenfogger's Journal
+	[502902] = { zoneID = 2346, artID = { 1899 }, x = 3280, y = 5904, overlay = { "3280-5904" }, reset = false, questID = { 86571 }, achievementID = { 41588 }, minieventID = 23, criteria = 4 }; --Second Half of Noggenfogger's Journal
+	[502903] = { zoneID = 2346, artID = { 1899 }, x = 6095, y = 6441, overlay = { "6095-6441" }, reset = false, questID = { 86573 }, achievementID = { 41588 }, minieventID = 23, criteria = 6 }; --Gallywix's Notes
+	[502908] = { zoneID = 2346, artID = { 1899 }, x = 2730, y = 7077, overlay = { "2730-7077" }, reset = false, questID = { 86567 }, achievementID = { 41588 }, minieventID = 23, criteria = 2 }; --A Threatening Letter
+	[502917] = { zoneID = 2346, artID = { 1899 }, x = 6561, y = 1420, overlay = { "6561-1420" }, reset = false, questID = { 86568 }, achievementID = { 41588 }, minieventID = 23, criteria = 7 }; --Misplaced Work Order
+	[504096] = { zoneID = 2346, artID = { 1899 }, x = 4226, y = 8217, overlay = { "4226-8217" }, reset = false, questID = { 86487 }, achievementID = { 41217 }, minieventID = 22 }; --Crumpled Schematics
 	[463539] = { zoneID = 2369, artID = { 1919 }, x = 6845, y = 9432, overlay = { "6843-9432" }, questReset = true, zoneQuestId = { 84850 }, questID = { 84527 } }; --Pilfered Earthen Chest
 	[464233] = { zoneID = 2369, artID = { 1919 }, x = 6243, y = 9080, overlay = { "6243-9080" }, questReset = true, zoneQuestId = { 84851 }, questID = { 84529 } }; --Bilge Rat Supply Chest
-	[474822] = { zoneID = 2369, artID = { 1919 }, x = 5213, y = 3309, overlay = { "5619-1453","3241-6923","3036-6605","5981-6912","6952-6681","4996-6058","6068-5263","4879-3748","3100-7240","3210-5690","3740-7540","3790-3870","3800-8490","3880-2040","3900-5180","3920-4410","3960-6700","4170-4650","4200-1650","4410-6390","4560-7130","4790-6990","4910-5820","4920-4640","4930-1760","4970-7610","5190-6570","5210-3250","5210-7090","5300-4070","5320-5460","5370-7540","5380-4490","5530-6950","5680-5690","5740-8570","5980-2060","6080-6230","6170-6150","6210-4440","6240-6760","6560-8040","6560-8770","6690-7820","6830-7360","7180-5880","7640-4790","4780-3430","5010-1250","5160-3760","5410-3720","5420-6030","5780-7810" }, reset = true }; --Runed Storm Cache
+	[474822] = { zoneID = 2369, artID = { 1919 }, x = 5213, y = 3309, overlay = { "5619-1453","3241-6923","3036-6605","5981-6912","6952-6681","4996-6058","6068-5263","4879-3748","3100-7240","3210-5690","3740-7540","3790-3870","3800-8490","3880-2040","3900-5180","3920-4410","3960-6700","4170-4650","4200-1650","4410-6390","4560-7130","4790-6990","4910-5820","4920-4640","4930-1760","4970-7610","5190-6570","5210-3250","5210-7090","5300-4070","5320-5460","5370-7540","5380-4490","5530-6950","5680-5690","5740-8570","5980-2060","6080-6230","6170-6150","6210-4440","6240-6760","6560-8040","6560-8770","6690-7820","6830-7360","7180-5880","7640-4790","4780-3430","5010-1250","5160-3760","5410-3720","5420-6030","5780-7810" }, reset = true, achievementID = { 41131 } }; --Runed Storm Cache
 	[493375] = { zoneID = 2369, artID = { 1919 }, x = 6794, y = 7348, overlay = { "6756-7350" }, questReset = true, zoneQuestId = { 84852 }, questID = { 86171,85714 } }; --Rune-Sealed Coffer
 	[494499] = { zoneID = 2369, artID = { 1919 }, x = 6688, y = 8946, overlay = { "4007-0819","3906-1369","4166-7592","1077-3860","3661-3138","0670-0450","1050-3290","1340-4090","1830-1240","1830-6600","1870-9390","2110-3900","2180-6650","2330-9570","2440-3250","2970-7820","3140-8240","3340-2010","3410-8170","3670-8650","3750-0400","3820-7660","3990-7940","4030-9680","4190-3230","4340-8660","4780-7930","5050-9630","5130-8020","5300-8180","5880-0770","6340-9270","6490-2420","6650-1990","6700-0310","6840-0510","6960-8960","7070-9370","7120-1990","7140-8340","7360-5810","7410-9010","7710-4820","7730-8630","7740-6010","7770-2610","7800-1190","7940-9890","8010-6340","8110-7110","8130-0200","8230-1600","8240-8740","8370-2550","8420-6080","8740-8650","8830-8360","8840-5240","8950-2890","9110-3820","9240-5420","0740-1120","0900-1740","1130-2060","1180-6530","1250-0330","1330-2640","1340-5060","1370-5670","1420-6410","1590-2800","1590-3450","1790-5400","1890-0380","1930-7300","1980-8870","2160-1290","2380-0430","2400-9030","2580-7390","2670-1640","2820-2820","2870-0850","3100-9430","3130-8860","3130-9840","3600-2580","3640-7860","3670-2170","3720-9450","3840-2870","4190-0950","4410-9630","4590-1090","4770-8610","4860-9470","4960-0400","5280-6000","5350-9230","5480-0440","5610-9390","5820-8840","6010-9400","6340-0910","6700-8950","6730-9640","6950-1410","7120-8600","7310-2600","7410-9620","7440-8370","7500-1190","7530-2460","7650-2030","7750-0180","7780-9150","7800-5620","7820-1780","7930-8430","8140-9010","8200-4930","8220-2090","8440-5210","8460-7790","8490-8690","8710-7170","8850-6250","8930-3510","8940-8010","9280-6080" }, reset = true }; --Seafarer's Cache
 	[500682] = { zoneID = 2369, artID = { 1919 }, x = 6953, y = 8957, overlay = { "7776-2623","1040-3290","8709-7174","7708-4834","8185-4913","2342-7038","1860-9390","2100-3950","2330-9580","2500-8160","2570-7380","2820-2830","2870-0190","2960-7820","3120-9830","3410-8160","3680-3120","3990-7910","4180-3210","4340-8650","4600-1070","4730-0510","4780-7940","4800-8580","4840-8950","5150-8010","5650-9390","6480-2420","6680-1980","6700-0310","7140-8330","7310-2630","7360-5800","7400-9650","7640-2030","7710-8640","7750-6020","7780-5610","8030-6390","8070-7830","8130-0190","8420-6070","8580-4670","8610-2840","8810-8340","8860-6250","8930-8020","9200-4620","9260-6080","0670-0460","0920-1750","1070-5000","1090-3850","1140-2060","1180-6550","1330-4110","1340-5060","1380-5640","1540-5220","1540-7450","1740-8090","1830-1270","2040-6030","2090-7850","2140-3100","2160-6660","2170-1270","2370-0420","2390-1020","2410-2120","2650-1630","3090-1240","3100-9450","3120-8260","3160-8870","3330-9930","3360-0720","3520-9310","3590-2580","3620-1690","3660-7900","3670-8620","3730-9460","3800-7650","3840-2880","3880-1360","4020-0790","4030-9670","4040-9200","4170-7610","4380-8120","4410-9610","4500-9160","4740-9650","4890-9500","4950-0380","5310-8180","5460-0450","5800-8840","5890-0730","6010-9440","6080-0140","6330-0930","6330-9270","6680-8940","6720-9610","6860-0520","6940-1430","6950-8970","7130-2000","7140-8610","7380-9000","7430-8380","7540-2460","7830-1800","7870-0670","7940-9880","8120-0940","8130-7120","8200-2110","8200-8490","8220-8780","8370-2610","8380-4700","8420-5210","8440-7810","8440-7970","8490-8660","8830-5280","8930-3510","8940-2920","8970-6820","9120-3800","9240-5420" }, reset = true }; --Seafarer's Cache
@@ -1610,65 +1610,65 @@ private.CONTAINER_INFO = {
 	[500689] = { zoneID = 2369, artID = { 1919 }, x = 3290, y = 2029, overlay = { "3306-2055" }, reset = true }; --Seafarer's Cache
 	[500690] = { zoneID = 2369, artID = { 1919 }, x = 4604, y = 8752, overlay = { "4589-8763" }, reset = true }; --Seafarer's Cache
 	[505503] = { zoneID = 2369, artID = { 1919 }, x = 4169, y = 4603, overlay = { "4168-4586" }, reset = false, questID = { 86765 } }; --Ashvane Issued Workboots
-	[499082] = { zoneID = 2371, artID = { 1923 }, x = 5971, y = 5376, overlay = { "5394-5496","6008-6092","5976-5365","5397-5925" }, reset = false, questID = { 92348 }, minieventID = 42 }; --Abandoned Lockbox
-	[499086] = { zoneID = 2371, artID = { 1923 }, x = 5498, y = 6247, overlay = { "5369-6405","5490-6240","5570-6420" }, reset = false, questID = { 91352 }, minieventID = 42 }; --Lightly-Dented Luggage
-	[499093] = { zoneID = 2371, artID = { 1923 }, x = 6974, y = 5227, overlay = { "6974-5230" }, reset = false, questID = { 85837 }, minieventID = 42 }; --Forlorn Wind Chime
-	[499097] = { zoneID = 2371, artID = { 1923 }, x = 5449, y = 2450, overlay = { "5445-2444" }, reset = false, questID = { 85840 }, minieventID = 42 }; --Sand-Worn Coffer
-	[500046] = { zoneID = 2371, artID = { 1923 }, x = 7606, y = 4522, overlay = { "7610-4526" }, reset = false, questID = { 85959 }, minieventID = 42 }; --Gift of the Brothers
-	[502437] = { zoneID = 2371, artID = { 1923 }, x = 6053, y = 4206, overlay = { "6054-4212" }, reset = false, questID = { 86301 }, minieventID = 42 }; --Wastelander Stash
-	[502452] = { zoneID = 2371, artID = { 1923 }, x = 6537, y = 6360, overlay = { "6534-6362" }, reset = false, questID = { 86304 }, minieventID = 42 }; --Tumbled Package
-	[502471] = { zoneID = 2371, artID = { 1923 }, x = 7022, y = 4772, overlay = { "7020-4772" }, reset = false, questID = { 86306 }, minieventID = 42 }; --Rashaal's Vase
-	[502485] = { zoneID = 2371, artID = { 1923 }, x = 7506, y = 5533, overlay = { "7506-5534" }, reset = false, questID = { 86308 }, minieventID = 42 }; --Shattered Crystals
-	[502547] = { zoneID = 2371, artID = { 1923 }, x = 7777, y = 2795, overlay = { "7778-2786" }, reset = false, questID = { 86322 }, minieventID = 42 }; --Skeletal Tail Bones
-	[502603] = { zoneID = 2371, artID = { 1923 }, x = 5868, y = 3428, overlay = { "5864-3434" }, reset = false, questID = { 86323 }, minieventID = 42 }; --Crudely Stitched Sack
-	[503375] = { zoneID = 2371, artID = { 1923 }, x = 6092, y = 3839, overlay = { "6090-3835" }, reset = false, questID = { 86416 }, minieventID = 42 }; --Ancient Coffer
-	[504172] = { zoneID = 2371, artID = { 1923 }, x = 6411, y = 4399, overlay = { "6410-4397" }, reset = false, questID = { 86492 }, minieventID = 42 }; --Ixthar's Favorite Crystal
+	[499082] = { zoneID = 2371, artID = { 1923 }, x = 5971, y = 5376, overlay = { "5394-5496","6008-6092","5976-5365","5397-5925" }, reset = false, questID = { 92348 }, achievementID = { 42741 }, minieventID = 42 }; --Abandoned Lockbox
+	[499086] = { zoneID = 2371, artID = { 1923 }, x = 5498, y = 6247, overlay = { "5369-6405","5490-6240","5570-6420" }, reset = false, questID = { 91352 }, achievementID = { 42741 }, minieventID = 42 }; --Lightly-Dented Luggage
+	[499093] = { zoneID = 2371, artID = { 1923 }, x = 6974, y = 5227, overlay = { "6974-5230" }, reset = false, questID = { 85837 }, achievementID = { 42741 }, minieventID = 42 }; --Forlorn Wind Chime
+	[499097] = { zoneID = 2371, artID = { 1923 }, x = 5449, y = 2450, overlay = { "5445-2444" }, reset = false, questID = { 85840 }, achievementID = { 42741 }, minieventID = 42 }; --Sand-Worn Coffer
+	[500046] = { zoneID = 2371, artID = { 1923 }, x = 7606, y = 4522, overlay = { "7610-4526" }, reset = false, questID = { 85959 }, achievementID = { 42741 }, minieventID = 42 }; --Gift of the Brothers
+	[502437] = { zoneID = 2371, artID = { 1923 }, x = 6053, y = 4206, overlay = { "6054-4212" }, reset = false, questID = { 86301 }, achievementID = { 42741 }, minieventID = 42 }; --Wastelander Stash
+	[502452] = { zoneID = 2371, artID = { 1923 }, x = 6537, y = 6360, overlay = { "6534-6362" }, reset = false, questID = { 86304 }, achievementID = { 42741 }, minieventID = 42 }; --Tumbled Package
+	[502471] = { zoneID = 2371, artID = { 1923 }, x = 7022, y = 4772, overlay = { "7020-4772" }, reset = false, questID = { 86306 }, achievementID = { 42741 }, minieventID = 42 }; --Rashaal's Vase
+	[502485] = { zoneID = 2371, artID = { 1923 }, x = 7506, y = 5533, overlay = { "7506-5534" }, reset = false, questID = { 86308 }, achievementID = { 42741 }, minieventID = 42 }; --Shattered Crystals
+	[502547] = { zoneID = 2371, artID = { 1923 }, x = 7777, y = 2795, overlay = { "7778-2786" }, reset = false, questID = { 86322 }, achievementID = { 42741 }, minieventID = 42 }; --Skeletal Tail Bones
+	[502603] = { zoneID = 2371, artID = { 1923 }, x = 5868, y = 3428, overlay = { "5864-3434" }, reset = false, questID = { 86323 }, achievementID = { 42741 }, minieventID = 42 }; --Crudely Stitched Sack
+	[503375] = { zoneID = 2371, artID = { 1923 }, x = 6092, y = 3839, overlay = { "6090-3835" }, reset = false, questID = { 86416 }, achievementID = { 42741 }, minieventID = 42 }; --Ancient Coffer
+	[504172] = { zoneID = 2371, artID = { 1923 }, x = 6411, y = 4399, overlay = { "6410-4397" }, reset = false, questID = { 86492 }, achievementID = { 42741 }, minieventID = 42 }; --Ixthar's Favorite Crystal
 	[516444] = { zoneID = {
 				[2371] = { x = 7944, y = 4682, artID = { 1923 }, overlay = { "4138-2074","4283-1689","4722-1588","6259-2325","6739-4205","6405-4693","6369-4065","5948-4862","7141-7431","7159-4671","7797-4869","8016-5360","7650-5546","7218-6091","7483-3703","5053-3618","4987-3822","5497-3086","7018-2456","4994-2548","7347-4508","4860-2718","5761-2176","5992-6304","6930-5508","5330-4995","6126-5984","6590-4912","5094-6935","5211-6827","5371-6402","5476-4822","5673-1744","5677-2082","5974-5374","5384-5932","5792-2428","5523-2644","4939-4905","6099-5583","4570-5630","4590-1970","4680-6260","4710-6720","5110-6540","5700-5320","5780-6090","5870-2840","7090-5130","7460-4810","7940-4680","4310-5360","4390-2640","5280-1970","5930-5800" } };
 				[2472] = { x = 5110, y = 7117, artID = { 1987 }, overlay = { "7184-3037","6289-6747","4059-5931","4043-3217","3135-6155","4182-2042","4725-3558","3401-3604","3744-8060","5110-7117","5800-6080" } };
-				[2477] = { x = 4450, y = 3560, artID = { 1995 }, overlay = { "4450-3560" } };
+				[2477] = { x = 4450, y = 3560, artID = { 1995 }, overlay = { "4450-3560","4520-3350" } };
 			  }, reset = true }; --Ethereal Pocket-Storage
 	[516571] = { zoneID = {
-				[2371] = { x = 7020, y = 2460, artID = { 1923 }, overlay = { "4140-2070","4290-1690","4310-5360","4390-2640","4570-5620","4590-1970","4670-6250","4720-1580","4720-6720","4860-2720","4940-4900","4990-2540","4990-3830","5050-3620","5100-6940","5110-6540","5210-6820","5280-1970","5330-5000","5370-6410","5380-5930","5480-4820","5500-3090","5520-2640","5670-1740","5680-2080","5710-5320","5770-6090","5790-2430","5870-2840","5930-5800","5950-4870","5980-5380","5990-6310","6100-5580","6130-5990","6260-2320","6370-4070","6410-4690","6590-4910","6740-4210","6930-5510","7020-2460","7090-5130","7160-4670","7220-6100","7350-4510","7450-4810","7480-3710","7800-4870" } };
+				[2371] = { x = 5330, y = 4995, artID = { 1923 }, overlay = { "4140-2070","4290-1690","4310-5360","4390-2640","4570-5620","4590-1970","4670-6250","4720-1580","4720-6720","4860-2720","4940-4900","4990-2540","4990-3830","5050-3620","5100-6940","5110-6540","5210-6820","5280-1970","5330-5000","5370-6410","5380-5930","5480-4820","5500-3090","5520-2640","5670-1740","5680-2080","5710-5320","5770-6090","5790-2430","5870-2840","5930-5800","5950-4870","5980-5380","5990-6310","6100-5580","6130-5990","6260-2320","6370-4070","6410-4690","6590-4910","6740-4210","6930-5510","7020-2460","7090-5130","7160-4670","7220-6100","7350-4510","7450-4810","7480-3710","7800-4870","7650-5550","7940-4680","8020-5370" } };
 				[2472] = { x = 5110, y = 7117, artID = { 1987 }, overlay = { "3140-6130","3420-3620","3730-8080","4040-3200","4040-5910","4200-2040","4740-3580","5100-7130","5820-6120","6310-6730" } };
 			  }, reset = true }; --Broker Exchequer
 	[516626] = { zoneID = {
 				[2371] = { x = 5851, y = 5342, artID = { 1923 }, overlay = { "4881-3914","5851-5342","5839-5796","5377-4538","4599-5079","4457-5979","4619-6381","4803-6702","5262-6699","5204-6811","5061-5806","4988-5382","5653-5945","6140-5750","5986-6024","7272-2413","7024-3163","7720-4362","7411-4454","8139-4940","7724-5087","7594-5815","6588-4902","6486-4011","6154-4139","6123-3904","6207-4695","6100-2727","5884-2915","5766-1825","5234-2716","4585-2469","4669-2018","4736-1718","4880-1897","4910-1546","4434-1692","4337-1621","4097-2726","4204-2329","6877-7993","5620-4845","4960-2730","5100-3680","5210-4810","5240-6470","5780-2240","6810-3180","6840-5230","7190-3460","7700-3060" } };
 				[2472] = { x = 3859, y = 6444, artID = { 1987 }, overlay = { "6408-8176","5986-5612","4489-6221","4487-6934","4447-7948","3859-6444","3206-5978","4185-4533","4042-3220","4508-5104","3773-3935","5966-3307" } };
 			  }, reset = true }; --Phase-Lost Pocket-Storage
-	[527414] = { zoneID = 2371, artID = { 1923 }, x = 5208, y = 6833, overlay = { "5208-6833" }, reset = false, questID = { 89378 }, minieventID = 42 }; --Ethereal Voidforged Container
-	[529525] = { zoneID = 2371, artID = { 1923 }, x = 5246, y = 4687, overlay = { "5249-4677" }, reset = false, questID = { 90511 }, minieventID = 42 }; --Light-Soaked Cleaver
-	[529537] = { zoneID = 2371, artID = { 1923 }, x = 7798, y = 4897, overlay = { "7799-4894" }, reset = false, questID = { 90514 }, minieventID = 42 }; --Efrat's Forgotten Bulwark
-	[529539] = { zoneID = 2371, artID = { 1923 }, x = 7831, y = 6155, overlay = { "7833-6153" }, reset = false, questID = { 90515 }, minieventID = 42 }; --Petrified Branch of Janaa
-	[529591] = { zoneID = 2371, artID = { 1923 }, x = 8072, y = 5267, overlay = { "8072-5267" }, reset = false, questID = { 90521 }, minieventID = 42 }; --Sufaadi Skiff Lantern
-	[529643] = { zoneID = 2371, artID = { 1923 }, x = 5103, y = 6510, overlay = { "5104-6509" }, reset = false, questID = { 90522 }, minieventID = 42 }; --Tulwar of the Golden Guard
-	[529664] = { zoneID = 2371, artID = { 1923 }, x = 4917, y = 1808, overlay = { "4919-1804" }, reset = false, questID = { 90527 }, minieventID = 42 }; --Shadowguard Crusher
-	[529669] = { zoneID = 2371, artID = { 1923 }, x = 6437, y = 4273, overlay = { "6443-4268" }, reset = false, questID = { 90532 }, minieventID = 42 }; --Korgorath's Talon
+	[527414] = { zoneID = 2371, artID = { 1923 }, x = 5205, y = 6832, overlay = { "5208-6833" }, reset = false, questID = { 89378 }, achievementID = { 42730,42741 }, minieventID = 42 }; --Ethereal Voidforged Container
+	[529525] = { zoneID = 2371, artID = { 1923 }, x = 5246, y = 4687, overlay = { "5249-4677" }, reset = false, questID = { 90511 }, achievementID = { 42741 }, minieventID = 42 }; --Light-Soaked Cleaver
+	[529537] = { zoneID = 2371, artID = { 1923 }, x = 7798, y = 4897, overlay = { "7799-4894" }, reset = false, questID = { 90514 }, achievementID = { 42741 }, minieventID = 42 }; --Efrat's Forgotten Bulwark
+	[529539] = { zoneID = 2371, artID = { 1923 }, x = 7831, y = 6155, overlay = { "7833-6153" }, reset = false, questID = { 90515 }, achievementID = { 42741 }, minieventID = 42 }; --Petrified Branch of Janaa
+	[529591] = { zoneID = 2371, artID = { 1923 }, x = 8072, y = 5267, overlay = { "8072-5267" }, reset = false, questID = { 90521 }, achievementID = { 42741 }, minieventID = 42 }; --Sufaadi Skiff Lantern
+	[529643] = { zoneID = 2371, artID = { 1923 }, x = 5103, y = 6510, overlay = { "5104-6509" }, reset = false, questID = { 90522 }, achievementID = { 42738,42741 }, minieventID = 42 }; --Tulwar of the Golden Guard
+	[529664] = { zoneID = 2371, artID = { 1923 }, x = 4917, y = 1808, overlay = { "4919-1804" }, reset = false, questID = { 90527 }, achievementID = { 42741 }, minieventID = 42 }; --Shadowguard Crusher
+	[529669] = { zoneID = 2371, artID = { 1923 }, x = 6437, y = 4273, overlay = { "6443-4268" }, reset = false, questID = { 90532 }, achievementID = { 42741 }, minieventID = 42 }; --Korgorath's Talon
 	[547995] = { zoneID = {
 				[2371] = { x = 5843, y = 2258, artID = { 1923 }, overlay = { "5843-2258" } };
 				[2477] = { x = 6277, y = 5209, artID = { 1995 }, overlay = { "6250-5237" } };
-			  }, reset = false, questID = { 91055 }, minieventID = 42 }; --null
-	[548010] = { zoneID = 2371, artID = { 1923 }, x = 5081, y = 3530, overlay = { "5081-3534" }, reset = false, questID = { 91057 }, minieventID = 42 }; --Phaseblade of the Void Marches
+			  }, reset = false, questID = { 91055 }, achievementID = { 42741 }, minieventID = 42 }; --null
+	[548010] = { zoneID = 2371, artID = { 1923 }, x = 5081, y = 3530, overlay = { "5081-3534" }, reset = false, questID = { 91057 }, achievementID = { 42738,42741 }, minieventID = 42 }; --Phaseblade of the Void Marches
 	[548597] = { zoneID = {
 				[2371] = { x = 6994, y = 7081, artID = { 1923 }, overlay = { "6994-7081" } };
 				[2472] = { x = 6515, y = 1471, artID = { 1987 }, overlay = { "6515-1471" } };
-			  }, reset = false, questID = { 91058 }, minieventID = 42 }; --null
+			  }, reset = false, questID = { 91058 }, achievementID = { 42741 }, minieventID = 42 }; --null
 	[549326] = { zoneID = {
-				[2371] = { x = 6408, y = 8176, artID = { 1923 }, overlay = { "7724-5087","8133-4933","4880-1890","4880-3830","4960-2730","5100-3680","5210-4810","5780-2240","6408-8176" } };
+				[2371] = { x = 4605, y = 5086, artID = { 1923 }, overlay = { "7724-5087","8133-4933","4880-1890","4880-3830","4960-2730","5100-3680","5210-4810","5780-2240","6408-8176","4605-5086" } };
 				[2472] = { x = 3950, y = 2330, artID = { 1987 }, overlay = { "3190-5930","3410-1180","3760-3960","3870-6410","3930-2290","4200-5900","4430-7920","4460-6900","4500-6200","4520-2540","4540-5090","4970-2780","5940-3300" } };
 			  }, reset = true }; --Phase-Lost Exchequer
-	[558108] = { zoneID = 2371, artID = { 1923 }, x = 4963, y = 2676, overlay = { "4963-2676" }, reset = false, questID = { 91643 }, minieventID = 41, criteria = 2 }; --Multiversal Energy Dynamics and the Murmuration Paradox
-	[558110] = { zoneID = 2371, artID = { 1923 }, x = 4229, y = 2093, overlay = { "4229-2093" }, reset = false, questID = { 91646 }, minieventID = 41, criteria = 3 }; --From Vengeance to Void
-	[558112] = { zoneID = 2371, artID = { 1923 }, x = 7212, y = 2940, overlay = { "7212-2940" }, reset = false, questID = { 91647 }, minieventID = 41, criteria = 4 }; --The Facets of K'aresh
-	[558372] = { zoneID = 2371, artID = { 1923 }, x = 4892, y = 5715, overlay = { "4892-5715" }, reset = false, questID = { 91686 }, minieventID = 41, criteria = 10 }; --Geologist Field Journal
-	[558375] = { zoneID = 2472, artID = { 1987 }, x = 3823, y = 4562, overlay = { "3823-4562" }, reset = false, questID = { 91687 }, minieventID = 41, criteria = 5 }; --Checklist of Minor Pleasures
+	[558108] = { zoneID = 2371, artID = { 1923 }, x = 4963, y = 2676, overlay = { "4963-2676" }, reset = false, questID = { 91643 }, achievementID = { 60890 }, minieventID = 41, criteria = 2 }; --Multiversal Energy Dynamics and the Murmuration Paradox
+	[558110] = { zoneID = 2371, artID = { 1923 }, x = 4229, y = 2093, overlay = { "4229-2093" }, reset = false, questID = { 91646 }, achievementID = { 60890 }, minieventID = 41, criteria = 3 }; --From Vengeance to Void
+	[558112] = { zoneID = 2371, artID = { 1923 }, x = 7212, y = 2940, overlay = { "7212-2940" }, reset = false, questID = { 91647 }, achievementID = { 60890 }, minieventID = 41, criteria = 4 }; --The Facets of K'aresh
+	[558372] = { zoneID = 2371, artID = { 1923 }, x = 4892, y = 5715, overlay = { "4892-5715" }, reset = false, questID = { 91686 }, achievementID = { 60890 }, minieventID = 41, criteria = 10 }; --Geologist Field Journal
 	[505476] = { zoneID = 2375, artID = { 1925 }, x = 2645, y = 2297, overlay = { "2660-2390" }, questReset = true, questID = { 86732 } }; --Stone Carver's Scramseax
-	[503823] = { zoneID = 2472, artID = { 1987 }, x = 4798, y = 6420, overlay = { "4812-6418" }, reset = false, questID = { 86467 }, minieventID = 42 }; --Mailroom Distribution
-	[529533] = { zoneID = 2472, artID = { 1987 }, x = 2372, y = 4677, overlay = { "2368-4681" }, reset = false, questID = { 90512 }, minieventID = 42 }; --Spear of Fallen Memories
-	[548001] = { zoneID = 2472, artID = { 1987 }, x = 4747, y = 6998, overlay = { "4747-6998" }, reset = false, questID = { 91056 }, minieventID = 42 }; --P.O.S.T. Master's Prototype Parcel and Postage Presser
-	[558090] = { zoneID = 2472, artID = { 1987 }, x = 3733, y = 2574, overlay = { "3729-2571" }, reset = false, questID = { 91640 }, minieventID = 41, criteria = 7 }; --A Dog-eared Book
-	[558105] = { zoneID = 2472, artID = { 1987 }, x = 5845, y = 9149, overlay = { "5845-9149" }, reset = false, questID = { 91642 }, minieventID = 41, criteria = 8 }; --Mysterious Notebook
-	[558109] = { zoneID = 2472, artID = { 1987 }, x = 4632, y = 1857, overlay = { "4632-1857" }, reset = false, questID = { 91645 }, minieventID = 41, criteria = 6 }; --Ba'key's Aromatic Broker Cookies Recipes
-	[558115] = { zoneID = 2472, artID = { 1987 }, x = 4168, y = 3981, overlay = { "4168-3981" }, reset = false, questID = { 91648 }, minieventID = 41, criteria = 9 }; --Coins: An Oath We Exchange
-	[558117] = { zoneID = 2472, artID = { 1987 }, x = 3678, y = 5806, overlay = { "3678-5806" }, reset = false, questID = { 91649 }, minieventID = 41, criteria = 1 }; --I Have Become Void!
+	[503823] = { zoneID = 2472, artID = { 1987 }, x = 4798, y = 6420, overlay = { "4812-6418" }, reset = false, questID = { 86467 }, achievementID = { 42741 }, minieventID = 42 }; --Mailroom Distribution
+	[529533] = { zoneID = 2472, artID = { 1987 }, x = 2372, y = 4677, overlay = { "2368-4681" }, reset = false, questID = { 90512 }, achievementID = { 42741 }, minieventID = 42 }; --Spear of Fallen Memories
+	[548001] = { zoneID = 2472, artID = { 1987 }, x = 4747, y = 6998, overlay = { "4747-6998" }, reset = false, questID = { 91056 }, achievementID = { 42741 }, minieventID = 42 }; --P.O.S.T. Master's Prototype Parcel and Postage Presser
+	[558090] = { zoneID = 2472, artID = { 1987 }, x = 3733, y = 2574, overlay = { "3729-2571" }, reset = false, questID = { 91640 }, achievementID = { 60890 }, minieventID = 41, criteria = 7 }; --A Dog-eared Book
+	[558105] = { zoneID = 2472, artID = { 1987 }, x = 5845, y = 9149, overlay = { "5845-9149" }, reset = false, questID = { 91642 }, achievementID = { 60890 }, minieventID = 41, criteria = 8 }; --Mysterious Notebook
+	[558109] = { zoneID = 2472, artID = { 1987 }, x = 4632, y = 1857, overlay = { "4632-1857" }, reset = false, questID = { 91645 }, achievementID = { 60890 }, minieventID = 41, criteria = 6 }; --Ba'key's Aromatic Broker Cookies Recipes
+	[558115] = { zoneID = 2472, artID = { 1987 }, x = 4168, y = 3981, overlay = { "4168-3981" }, reset = false, questID = { 91648 }, achievementID = { 60890 }, minieventID = 41, criteria = 9 }; --Coins: An Oath We Exchange
+	[558117] = { zoneID = 2472, artID = { 1987 }, x = 3678, y = 5806, overlay = { "3678-5806" }, reset = false, questID = { 91649 }, achievementID = { 60890 }, minieventID = 41, criteria = 1 }; --I Have Become Void!
+	[558375] = { zoneID = 2472, artID = { 1987 }, x = 3823, y = 4562, overlay = { "3823-4562" }, reset = false, questID = { 91687 }, achievementID = { 60890 }, minieventID = 41, criteria = 5 }; --Checklist of Minor Pleasures
 }

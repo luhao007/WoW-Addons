@@ -51,7 +51,7 @@ class TOC:
 
     def to_lines(self) -> Iterable[str]:
         keys = [
-            ["Interface", "Author", "Version"],
+            ["Interface", "Author", "Version", "VersionDate"],
             # Addon info in list
             ["Title", "Notes", "Title-zhCN", "Notes-zhCN"],
             # Addon icon in list

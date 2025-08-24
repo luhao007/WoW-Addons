@@ -111,8 +111,29 @@ end
 function RSContainerDB.GetInternalContainerInfoByMapID(containerID, mapID)
 	if (containerID and mapID) then
 		if (RSContainerDB.IsInternalContainerMultiZone(containerID)) then
-			for internalMapID, containerInfo in pairs (RSContainerDB.GetInternalContainerInfo(containerID).zoneID) do
+			for internalMapID, zoneInfo in pairs (RSContainerDB.GetInternalContainerInfo(containerID).zoneID) do
 				if (internalMapID == mapID) then
+					local containerInfo = {}
+					RSUtils.CloneTable(RSContainerDB.GetInternalContainerInfo(containerID), containerInfo)
+					containerInfo.zoneID = internalMapID
+					containerInfo.x = zoneInfo.x
+					containerInfo.y = zoneInfo.y
+					containerInfo.artID = zoneInfo.artID
+					containerInfo.overlay = zoneInfo.overlay
+					return containerInfo
+				end
+			end
+			
+			-- Then check if there is a matching subMapID in the database
+			for internalMapID, zoneInfo in pairs (RSContainerDB.GetInternalContainerInfo(containerID).zoneID) do
+				if (RSMapDB.IsMapInParentMap(mapID, internalMapID)) then
+					local containerInfo = {}
+					RSUtils.CloneTable(RSContainerDB.GetInternalContainerInfo(containerID), containerInfo)
+					containerInfo.zoneID = internalMapID
+					containerInfo.x = zoneInfo.x
+					containerInfo.y = zoneInfo.y
+					containerInfo.artID = zoneInfo.artID
+					containerInfo.overlay = zoneInfo.overlay
 					return containerInfo
 				end
 			end

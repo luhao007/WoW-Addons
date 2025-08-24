@@ -61,10 +61,10 @@ function RSEventPOI.GetEventPOI(eventID, mapID, eventInfo, alreadyFoundInfo)
 	POI.foundTime = alreadyFoundInfo and alreadyFoundInfo.foundTime
 	POI.isCompleted = RSEventDB.IsEventCompleted(eventID)
 	POI.isDiscovered = POI.isCompleted or alreadyFoundInfo ~= nil
-	POI.achievementIDs = RSAchievementDB.GetNotCompletedAchievementIDsByMap(eventID, mapID)
 	
 	if (eventInfo) then
 		POI.worldmap = eventInfo.worldmap
+		POI.achievementIDs = RSAchievementDB.GetNotCompletedAchievementIDsByMap(eventID, mapID, eventInfo.achievementID, eventInfo.questID, eventInfo.criteria)
 	end
 	
 	-- Coordinates

@@ -228,20 +228,22 @@ hookPetJournal.init = function()
             self.button1:SetText(format("%.1f", self.locktime))
         end
     end
-    for i = 1, STATICPOPUP_NUMDIALOGS do
-        _G["StaticPopup" .. i].itemFrame:HookScript(
-            "OnEnter",
-            function(self)
-                if self:GetParent().which == "BATTLE_PET_RELEASE" then
-                    if self.petID then
-                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-                        BattlePetToolTip_ShowLink(C_PetJournal.GetBattlePetLink(self.petID))
+    if STATICPOPUP_NUMDIALOGS then
+        for i = 1, STATICPOPUP_NUMDIALOGS do
+            _G["StaticPopup" .. i].itemFrame:HookScript(
+                "OnEnter",
+                function(self)
+                    if self:GetParent().which == "BATTLE_PET_RELEASE" then
+                        if self.petID then
+                            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                            BattlePetToolTip_ShowLink(C_PetJournal.GetBattlePetLink(self.petID))
+                        end
                     end
                 end
-            end
-        )
-        _G["StaticPopup" .. i].itemFrame:HookScript("OnLeave", GameTooltip_Hide)
-    end
+            )
+            _G["StaticPopup" .. i].itemFrame:HookScript("OnLeave", GameTooltip_Hide)
+        end
+    fi
     ---需要修改，某些状态下不能继续事件
     hooksecurefunc(
         "StaticPopup_Show",
