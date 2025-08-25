@@ -1531,11 +1531,17 @@ local function Create_Frames()
 			TitanRepair_RepairItems();
 		end,
 		OnShow = function(self)
-			MoneyFrame_Update(self.moneyFrame, TR.repair_total);
+			local mf = {}
+			if self.MoneyFrame then
+				mf = self.MoneyFrame -- retail as of 11.2.0 / TWW / Aug 2025
+			else
+				mf = self.moneyFrame -- older popup scheme
+			end
+			MoneyFrame_Update(mf, TR.repair_total);
 		end,
 		hasMoneyFrame = 1,
 		timeout = 0,
-		hideOnEscape = 1
+		hideOnEscape = 1,
 	};
 
 

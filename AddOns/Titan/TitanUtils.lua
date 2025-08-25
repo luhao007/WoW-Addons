@@ -2580,9 +2580,9 @@ function TitanPrint(message, msg_type)
 	local pre = TitanUtils_GetGoldText(L["TITAN_PANEL_PRINT"] .. ": ")
 	local msg = ""
 	if msg_type == "error" then
-		dtype = TitanUtils_GetRedText("Error: ")
+		dtype = TitanUtils_GetRedText(L["TITAN_PANEL_ERROR"])
 	elseif msg_type == "warning" then
-		dtype = TitanUtils_GetHexText("Warning: ", Titan_Global.colors.yellow)
+		dtype = TitanUtils_GetHexText(L["TITAN_PANEL_WARNING"], Titan_Global.colors.yellow)
 	elseif msg_type == "plain" then
 		pre = ""
 	elseif msg_type == "header" then

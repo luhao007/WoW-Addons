@@ -15,6 +15,17 @@ Green - 'header' - Titan or plugin
 Highlight - notes. tips. and details
 --]]
 Titan_Global.recent_changes = ""
+.. TitanUtils_GetGoldText("8.3.4 : 2025/08/24\n")
+.. TitanUtils_GetGreenText("Titan : \n")
+.. TitanUtils_GetHighlightText(""
+.. "-  LootType : \n"
+.. "-  - : Fix error per Curse comments (line 179).\n"
+.. "-  ClassicLootType : \n"
+.. "-  - : Prep for API change to GetLootMethod.\n"
+.. "-  Internal : \n"
+.. "-  - : Config updates to Vars and Bars All when choosing skins versus color.\n"
+.. "-  - : New locale strings for the above Config change.\n"
+)
 .. TitanUtils_GetGoldText("8.3.3 : 2025/08/12\n")
 .. TitanUtils_GetGreenText("Titan : \n")
 .. TitanUtils_GetHighlightText(""
@@ -25,7 +36,7 @@ Titan_Global.recent_changes = ""
 .. "-  - : Fix rare error that shows error on button text.\n"
 .. "-  Internally : \n"
 .. "-  - : Fix profile not saving (#1439).\n"
-.. "-  - : Expand GB widget adjust (allow 'up').\n"
+.. "-  - : Expand Battle Ground widget adjust (allow 'up').\n"
 .. "-  - : Make Classic TOC show as Classic to help avoid confusion.\n"
 )
 .. TitanUtils_GetGoldText("8.3.2 : 2025/08/01\n")

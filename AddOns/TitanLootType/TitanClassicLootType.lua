@@ -30,7 +30,14 @@ TitanLootMethod["roundrobin"]      = { text = L["TITAN_LOOTTYPE_ROUND_ROBIN"] };
 TitanLootMethod["master"]          = { text = L["TITAN_LOOTTYPE_MASTER_LOOTER"] };
 TitanLootMethod["group"]           = { text = L["TITAN_LOOTTYPE_GROUP_LOOT"] };
 TitanLootMethod["needbeforegreed"] = { text = L["TITAN_LOOTTYPE_NEED_BEFORE_GREED"] };
---TitanLootMethod["personalloot"] = {text = L["TITAN_LOOTTYPE_PERSONAL"]};
+TitanLootMethod["personalloot"] = {text = L["TITAN_LOOTTYPE_PERSONAL"]};
+-- For new method...
+TitanLootMethod[0] = {text = L["TITAN_LOOTTYPE_FREE_FOR_ALL"]};
+TitanLootMethod[1] = {text = L["TITAN_LOOTTYPE_ROUND_ROBIN"]};
+TitanLootMethod[2] = {text = L["TITAN_LOOTTYPE_MASTER_LOOTER"]};
+TitanLootMethod[3] = {text = L["TITAN_LOOTTYPE_GROUP_LOOT"]};
+TitanLootMethod[4] = {text = L["TITAN_LOOTTYPE_NEED_BEFORE_GREED"]};
+TitanLootMethod[5] = {text = L["TITAN_LOOTTYPE_PERSONAL"]};
 
 local TOCNAME                      = "TitanLootType"
 local Track                        = {}
@@ -115,6 +122,14 @@ local function LootDebug(msg, mtype)
 	if show then
 		TitanPluginDebug(TITAN_LOOTTYPE_ID, tostring(msg))
 	end
+end
+
+-- Might be overkill but prepare for an API update...
+local LootMethod = nil
+if C_PartyInfo and C_PartyInfo.GetLootMethod then
+	LootMethod = C_PartyInfo.GetLootMethod
+else
+	LootMethod = GetLootMethod
 end
 
 
@@ -448,40 +463,12 @@ VAR: None
 OUT: true / false
 --]]
 local function IsLead()
-	--[[
-lootmethod, masterlooterPartyID, masterlooterRaidID = GetLootMethod()
-lootmethod
-String (LootMethod) - One of 'freeforall', 'roundrobin', 'master', 'group', 'needbeforegreed'. Appears to be 'freeforall' if you are not grouped.: At least as of 7.3 the possible return values appear to be "freeforall", "master", "group" and "personalloot". "roundrobin" and "needbeforegreed" appear to be deprecated.
-masterlooterPartyID
-Number - Returns 0 if player is the mater looter, 1-4 if party member is master looter (corresponding to party1-4) and nil if the master looter isn't in the player's party or master looting is not used.
-masterlooterRaidID
-Number - Returns index of the master looter in the raid (corresponding to a raidX unit), or nil if the player is not in a raid or master looting is not used.
-
-raidIndex = UnitInRaid("unit")
-raidIndex of "unit" if he is in your raid group, otherwise nil.
-
-isTrue = UnitInParty("arg1")
-inGroup = IsInGroup([groupType])
-
-isTrue = UnitIsGroupLeader("unit"[, groupType])
-isLeader = IsRaidLeader()
-
-isLeader = UnitIsGroupLeader("unit" or "player name") -- may need in later patches?
---]]
-	--[[
-	if IsInRaid() and IsRaidLeader() then
-		return true
-	end
-	if IsInGroup() and UnitIsGroupLeader("player") then
-		return true
-	end
---]]
 	if UnitIsGroupLeader("player") then
 		return true
 	end
 	-- The way this flows is both leader AND master looter will have the extra buttons
-	local lootmethod, masterlooterPartyID, masterlooterRaidID = GetLootMethod()
-	if lootmethod == "master" then
+	local lootmethod, masterlooterPartyID, masterlooterRaidID = LootMethod()
+	if (lootmethod == "master") or (lootmethod == 3) then
 		if IsInRaid() and (masterlooterRaidID == UnitInRaid("player")) then
 			return true
 		end
@@ -1490,7 +1477,7 @@ function TitanPanelLootTypeButton_GetButtonText(id)
 	--	if (GetNumSubgroupMembers() > 0) or (GetNumGroupMembers() > 0) then
 
 	if IsInRaid() or IsInGroup() then
-		lootTypeText = TitanLootMethod[GetLootMethod()].text;
+		lootTypeText = TitanLootMethod[LootMethod()].text;
 		lootThreshold = GetLootThreshold();
 		color = _G["ITEM_QUALITY_COLORS"][lootThreshold];
 	else
@@ -1511,7 +1498,7 @@ OUT: None
 function TitanPanelLootTypeButton_GetTooltipText()
 	--	if (GetNumSubgroupMembers() > 0) or (GetNumGroupMembers() > 0) then
 	if IsInRaid() or IsInGroup() then
-		local lootTypeText = TitanLootMethod[GetLootMethod()].text;
+		local lootTypeText = TitanLootMethod[LootMethod()].text;
 		local lootThreshold = GetLootThreshold();
 		local itemQualityDesc = _G["ITEM_QUALITY" .. lootThreshold .. "_DESC"];
 		local color = _G["ITEM_QUALITY_COLORS"][lootThreshold];

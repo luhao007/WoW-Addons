@@ -481,6 +481,7 @@ local function Format_coord(coord)
 	return (tostring(format("%0.2f", coord)))
 end
 
+local color_trans = 0
 --[[ local
 NAME: TitanUpdateConfigBars
 DESC: Allow the user to control each Titan bar.
@@ -489,6 +490,11 @@ VAR:  None
 OUT:  None
 --]]
 local function TitanUpdateConfigBars(t, pos)
+	local function IfColor(info)
+		local frame_str = TitanVariables_GetFrameName(info[1])
+		return (TitanBarDataVars[frame_str].texure == Titan_Global.COLOR)
+	end
+
 	local args = t
 	local position = pos
 
@@ -518,7 +524,7 @@ local function TitanUpdateConfigBars(t, pos)
 		}
 		-- ======
 		-- Build bar options (right side)
-		args[v.name].args = {} -- ,args caused the nesting / right side
+		args[v.name].args = {} -- args[].args causes the nesting on right side
 		position = position + 1 -- Title divider
 		args[v.name].args.title = {
 			type = "header",
@@ -591,7 +597,7 @@ local function TitanUpdateConfigBars(t, pos)
 				return TitanBarDataVars[frame_str].hide_in_combat
 			end,
 			set = function(info)
-				local frame_str                            = TitanVariables_GetFrameName(info[1])
+				local frame_str = TitanVariables_GetFrameName(info[1])
 				TitanBarDataVars[frame_str].hide_in_combat =
 					not TitanBarDataVars[frame_str].hide_in_combat
 			end,
@@ -623,253 +629,185 @@ local function TitanUpdateConfigBars(t, pos)
 				TitanPanelBarButton_DisplayBarsWanted("Bar reset to default position - " .. tostring(info[1]))
 			end,
 		}
---[[
-		position = position + 1 -- spacer
-		args[v.name].args.position_spacer = {
-			order = position,
-			type = "description",
-			width = "full",
-			name = " ",
-		}
-		position = position + 1 -- reset pos
-		args[v.name].args.offset_x_num = {
-			order = position,
-			name = " X ",
-			desc = "",
-			disabled = (v.vert == TITAN_TOP or v.vert == TITAN_BOTTOM),
-			type = "input",
-			width = ".2",
-			get = function(info)
-				local frame_str = TitanVariables_GetFrameName(info[1])
-				local res = TitanBarDataVars[frame_str].off_x
-print("Config X get"
-.." ".. tostring(info[1])..""
-.." ".. tostring(frame_str)..""
-.." ".. tostring(res)..""
-)
-				return Format_coord(res)
-			end,
-			set = function(info, val)
-				local frame_str = TitanVariables_GetFrameName(info[1])
-print("Config X set"
-.." ".. tostring(frame_str)..""
-.." ".. tostring(val)..""
-)
-				local num = tonumber(val)
-				if num == nil then
-					-- invalid num yell at user :)
-					TitanPrint("error", "X not a number")
-				else
-					TitanBarDataVars[frame_str].off_x = val
-				end
-			end,
-		}
-		position = position + 1 -- reset pos
-		args[v.name].args.offset_y_num = {
-			order = position,
-			name = " Y ",
-			desc = "",
-			disabled = (v.vert == TITAN_TOP or v.vert == TITAN_BOTTOM),
-			type = "input",
-			width = ".2",
-			get = function(info)
-				local frame_str = TitanVariables_GetFrameName(info[1])
-				local res = TitanBarDataVars[frame_str].off_y
-print("Config Y get"
-.." ".. tostring(frame_str)..""
-.." ".. tostring(res)..""
-)
-				return Format_coord(res)
-			end,
-			set = function(info, val)
-				local frame_str = TitanVariables_GetFrameName(info[1])
-print("Config Y set"
-.." ".. tostring(frame_str)..""
-.." ".. tostring(val)..""
-)
-				local num = tonumber(val)
-				if num == nil then
-					-- invalid num yell at user :)
-					TitanPrint("error", "Y not a number")
-				else
-					TitanBarDataVars[frame_str].off_y = val
-				end
-			end,
-		}
---]]
--- ======
+
+		-- ======
 		-- Background group
 		position = position + 1 -- background
-		args[v.name].args.back = {
-			type = "header",
-			name = "=== " .. BACKGROUND .. " ===",
+		args[v.name].args.background = {
+			name = BACKGROUND,
+			type = "group",
+			inline = true,
 			order = position,
-		}
-		position = position + 1 -- select background
-		args[v.name].args.settextousebar = {
-			name = "",    --L["TITAN_PANEL_MENU_GLOBAL_SKIN"],
-			desc = "",    --L["TITAN_PANEL_MENU_GLOBAL_SKIN_TIP"],
-			order = position,
-			type = "select",
-			width = "full",
-			style = "radio",
-			get = function(info)
-				local frame_str = TitanVariables_GetFrameName(info[1])
-				return TitanBarDataVars[frame_str].texure
-			end,
-			set = function(info, val)
-				local frame_str                    = TitanVariables_GetFrameName(info[1])
-				TitanBarDataVars[frame_str].texure = val
-				TitanPanel_SetBarTexture(frame_str)
-			end,
-			values = {
-				[Titan_Global.SKIN] = L["TITAN_PANEL_SKINS_TITLE"],
-				[Titan_Global.COLOR] = COLOR,
-			},
-		}
-		position = position + 1 -- Title divider
-		args[v.name].args.skintitle = {
-			type = "header",
-			name = L["TITAN_PANEL_SKINS_TITLE"],
-			order = position,
-			width = "full",
-		}
-		position = position + 1 -- Skin select
-		args[v.name].args.skinselect = {
-			type = "select",
-			width = "normal",
-			name = "", --v.locale_name,
-			order = position,
-			disabled = function(info)
-				local frame_str = TitanVariables_GetFrameName(info[1])
-				return (TitanBarDataVars[frame_str].texure == Titan_Global.COLOR)
-			end,
-			get = function(info)
-				local frame_str = TitanVariables_GetFrameName(info[1])
-				return TitanBarDataVars[frame_str].skin.path
-			end,
-			set = function(info, val)
-				local frame_str                       = TitanVariables_GetFrameName(info[1])
-				TitanBarDataVars[frame_str].skin.path = val
-				TitanPanel_SetBarTexture(frame_str)
-				if TitanSkinToRemove == TitanPanelGetVar("Texture" .. info[1]) then
-					TitanSkinToRemove = "None"
-				end
-			end,
-			values = function(info)
-				local Skinlist  = {}
-				local frame_str = TitanVariables_GetFrameName(info[1])
-				for _, val in pairs(TitanSkins) do
-					if val.path ~= TitanBarDataVars[frame_str].skin.path then
-						--						if val.path ~= TitanPanelGetVar("Texture"..v.name) then
-						Skinlist[val.path] = TitanUtils_GetHexText(val.name, Titan_Global.colors.green)
-					else
-						Skinlist[val.path] = TitanUtils_GetHexText(val.name, Titan_Global.colors.yellow)
-					end
-				end
-				table.sort(Skinlist, function(a, b)
-					return string.lower(TitanSkins[a].name)
-						< string.lower(TitanSkins[b].name)
-				end)
-				return Skinlist
-			end,
-		}
-		position = position + 1 -- spacer
-		args[v.name].args.skinspacer = {
-			order = position,
-			type = "description",
-			width = "5",
-			name = " ",
-		}
-		position = position + 1 -- selected skin
-		args[v.name].args.skinselected = {
-			name = "",
-			image = function(info)
-				local frame_str = TitanVariables_GetFrameName(info[1])
-				local vert      = TitanBarData[frame_str].vert
-				if vert == TITAN_SHORT then
-					vert = TITAN_TOP
-				else
-					-- Use it as is
-				end
-				return TitanBarDataVars[frame_str].skin.path .. "TitanPanelBackground" .. vert .. "0"
-			end,
-			imageWidth = 256,
-			order = position,
-			type = "description",
-			width = .5,   --"60",
-		}
-		position = position + 1 -- transparency
-		args[v.name].args.trans = {
-			type = "range",
-			width = "full",
-			name = L["TITAN_PANEL_TRANS_MENU_TEXT_SHORT"],
-			order = position,
-			min = 0,
-			max = 1,
-			step = 0.01,
-			disabled = function(info)
-				local frame_str = TitanVariables_GetFrameName(info[1])
-				return (TitanBarDataVars[frame_str].texure == Titan_Global.COLOR)
-			end,
-			get = function(info)
-				local frame_str = TitanVariables_GetFrameName(info[1])
-				return TitanBarDataVars[frame_str].skin.alpha
-			end,
-			set = function(info, a)
-				local frame_str = TitanVariables_GetFrameName(info[1])
-				_G[frame_str]:SetAlpha(a)
-				TitanBarDataVars[frame_str].skin.alpha = a
-			end,
-		}
-		position = position + 1 -- Title divider
-		args[v.name].args.colortitle = {
-			type = "header",
-			name = COLOR,
-			order = position,
-			width = "full",
-		}
-		position = position + 1 -- spacer
-		args[v.name].args.colorspacer = {
-			order = position,
-			type = "description",
-			width = "full",
-			name = " ",
-		}
-		position = position + 1 -- reset pos
-		args[v.name].args.colorselect = {
-			type = "color",
-			width = "Full",
-			name = "Select Bar Color", -- L["TITAN_PANEL_MENU_RESET_POSITION"],
-			order = position,
-			--				disabled = (v.vert == TITAN_TOP or v.vert == TITAN_BOTTOM),
-			hasAlpha = true,
-			disabled = function(info)
-				local frame_str = TitanVariables_GetFrameName(info[1])
-				return (TitanBarDataVars[frame_str].texure == Titan_Global.SKIN)
-			end,
-			get = function(info)
-				local frame_str = TitanVariables_GetFrameName(info[1])
-				local color     = TitanBarDataVars[frame_str].color
-				return color.r,
-					color.g,
-					color.b,
-					color.alpha
-			end,
-			set = function(info, r, g, b, a)
-				local frame_str                         = TitanVariables_GetFrameName(info[1])
+			args = {
+				settextousebar = {
+					name = "",    --L["TITAN_PANEL_MENU_GLOBAL_SKIN"],
+					desc = "",    --L["TITAN_PANEL_MENU_GLOBAL_SKIN_TIP"],
+					order = 110,
+					type = "select",
+					width = "full",
+					style = "radio",
+					get = function(info)
+						local frame_str = TitanVariables_GetFrameName(info[1])
+						return TitanBarDataVars[frame_str].texure
+					end,
+					set = function(info, val)
+						local frame_str = TitanVariables_GetFrameName(info[1])
+						TitanBarDataVars[frame_str].texure = val
+						TitanPanel_SetBarTexture(frame_str)
+					end,
+					values = {
+						[Titan_Global.SKIN] = L["TITAN_PANEL_SKINS_TITLE"],
+						[Titan_Global.COLOR] = COLOR,
+					},
+				},
+				colorgroup = {
+					name = "",
+					type = "group",
+					inline = true,
+					hidden = function(info)
+						return not IfColor(info)
+					end,
+					order = 110,
+					args = {
+						colortitle = {
+							type = "header",
+							name = COLOR,
+							order = 320,
+							width = "full",
+						},
+						colorspacer = {
+							order = 330,
+							type = "description",
+							width = "full",
+							name = " ",
+						},
+						colorselect = {
+							type = "color",
+							width = "Full",
+							name = "Select Bar Color", -- L["TITAN_PANEL_MENU_RESET_POSITION"],
+							order = 340,
+							--				disabled = (v.vert == TITAN_TOP or v.vert == TITAN_BOTTOM),
+							hasAlpha = true,
+							get = function(info)
+								local frame_str = TitanVariables_GetFrameName(info[1])
+								local color     = TitanBarDataVars[frame_str].color
+								return color.r,
+									color.g,
+									color.b,
+									color.alpha
+							end,
+							set = function(info, r, g, b, a)
+								local frame_str                         = TitanVariables_GetFrameName(info[1])
 
-				TitanBarDataVars[frame_str].color.r     = r
-				TitanBarDataVars[frame_str].color.g     = g
-				TitanBarDataVars[frame_str].color.b     = b
-				TitanBarDataVars[frame_str].color.alpha = a
-				TitanPanel_SetBarTexture(frame_str)
-			end,
+								TitanBarDataVars[frame_str].color.r     = r
+								TitanBarDataVars[frame_str].color.g     = g
+								TitanBarDataVars[frame_str].color.b     = b
+								TitanBarDataVars[frame_str].color.alpha = a
+								TitanPanel_SetBarTexture(frame_str)
+								color_trans = a
+							end,
+						},
+					},
+				},
+				skingroup = {
+					name = "",
+					type = "group",
+					inline = true,
+					hidden = function(info)
+						return IfColor(info)
+					end,
+					order = 111,
+					args = {
+						skintitle = {
+							type = "header",
+							name = L["TITAN_PANEL_SKINS_TITLE"],
+							order = 120,
+							width = "full",
+						},
+						skinselect = {
+							type = "select",
+							width = "normal",
+							name = "", --v.locale_name,
+							order = 130,
+							get = function(info)
+								local frame_str = TitanVariables_GetFrameName(info[1])
+								return TitanBarDataVars[frame_str].skin.path
+							end,
+							set = function(info, val)
+								local frame_str                       = TitanVariables_GetFrameName(info[1])
+								TitanBarDataVars[frame_str].skin.path = val
+								TitanPanel_SetBarTexture(frame_str)
+								if TitanSkinToRemove == TitanPanelGetVar("Texture" .. info[1]) then
+									TitanSkinToRemove = "None"
+								end
+							end,
+							values = function(info)
+								local Skinlist  = {}
+								local frame_str = TitanVariables_GetFrameName(info[1])
+								for _, val in pairs(TitanSkins) do
+									if val.path ~= TitanBarDataVars[frame_str].skin.path then
+										--						if val.path ~= TitanPanelGetVar("Texture"..v.name) then
+										Skinlist[val.path] = TitanUtils_GetHexText(val.name, Titan_Global.colors.green)
+									else
+										Skinlist[val.path] = TitanUtils_GetHexText(val.name, Titan_Global.colors.yellow)
+									end
+								end
+								table.sort(Skinlist, function(a, b)
+									return string.lower(TitanSkins[a].name)
+										< string.lower(TitanSkins[b].name)
+								end)
+								return Skinlist
+							end,
+						},
+						skinspacer = {
+							order = 200,
+							type = "description",
+							width = "5",
+							name = " ",
+						},
+						skinselected = {
+							name = "",
+							image = function(info)
+								local frame_str = TitanVariables_GetFrameName(info[1])
+								local vert      = TitanBarData[frame_str].vert
+								if vert == TITAN_SHORT then
+									vert = TITAN_TOP
+								else
+									-- Use it as is
+								end
+								return TitanBarDataVars[frame_str].skin.path .. "TitanPanelBackground" .. vert .. "0"
+							end,
+							imageWidth = 256,
+							order = 300,
+							type = "description",
+							width = .5,   --"60",
+						},
+						trans = {
+							type = "range",
+							width = "full",
+							name = L["TITAN_PANEL_TRANS_MENU_TEXT_SHORT"],
+							order = 310,
+							min = 0,
+							max = 1,
+							step = 0.01,
+							get = function(info)
+								local frame_str = TitanVariables_GetFrameName(info[1])
+								return TitanBarDataVars[frame_str].skin.alpha
+							end,
+							set = function(info, a)
+								local frame_str = TitanVariables_GetFrameName(info[1])
+								_G[frame_str]:SetAlpha(a)
+								TitanBarDataVars[frame_str].skin.alpha = a
+							end,
+						},
+					},
+				},
+			}
 		}
 	end
 
 	-- Config Tables changed!
-	AceConfigRegistry:NotifyChange("Titan Panel Bars")
+--	AceConfigRegistry:NotifyChange("Titan Panel Bars")
 	--[===[
 print("Color new:"
 .." "..tostring(format("%0.1f", r))..""
@@ -891,232 +829,344 @@ end
 local optionsGlobals = {
 	name = TITAN_PANEL_CONFIG.topic.globals,
 	type = "group",
-	args = {
-		confdesc = {
-			order = 10,
-			width = "full",
-			type = "header",
-			name = L["TITAN_PANEL_MENU_GLOBAL_SKIN_TITLE"],
-		},
-		setskinuseglobal = {
-			name = "", --L["TITAN_PANEL_MENU_GLOBAL_SKIN"],
-			desc = "", --L["TITAN_PANEL_MENU_GLOBAL_SKIN_TIP"],
-			order = 15,
-			type = "select",
-			width = "full",
-			style = "radio",
-			get = function() return TitanBarDataVars["Global"].texure end,
-			set = function(_, v)
-				TitanBarDataVars["Global"].texure = v
-				for idx, val in pairs(TitanBarData) do
-					TitanPanel_SetBarTexture(idx)
-				end
-			end,
-			values = {
-				[Titan_Global.SKIN] = L["TITAN_PANEL_SKINS_TITLE"],
-				[Titan_Global.COLOR] = COLOR,
-				[Titan_Global.NONE] = NONE,
+	args = { }
+	}
+	
+local function TitanUpdateConfigBarsAll(t, pos)
+
+	local function IfHide(check)
+		local tex = TitanBarDataVars["Global"].texure
+		local res = true -- assume we need to hide
+		
+		if (tex == check) then
+			res = false
+		else
+			res = true
+		end
+		return res
+	end
+
+	local args = t
+	local position = pos
+
+	wipe(args)
+
+	--====== New group of options
+	position = position + 1
+	args.hidecombatspacer = { -- spacer
+		order = position,
+		type = "description",
+		width = "full",
+		name = " ",
+	}
+	position = position + 1
+	args.confcombatdesc = {
+		order = position,
+		width = "full",
+		type = "header",
+		name = L["TITAN_PANEL_MENU_COMMAND"],
+	}
+	position = position + 1
+	args.setcombatuseglobal = {
+		name = L["TITAN_PANEL_MENU_HIDE_IN_COMBAT"],
+		desc = L["TITAN_PANEL_MENU_HIDE_IN_COMBAT_DESC"],
+		order = position,
+		type = "toggle",
+		width = "full",
+		get = function() return TitanPanelGetVar("HideBarsInCombat") end,
+		set = function() TitanPanelToggleVar("HideBarsInCombat"); end,
+	}
+	position = position + 1
+	args.arenaspacer = { -- spacer
+		order = position,
+		type = "description",
+		width = "full",
+		name = " ",
+	}
+	position = position + 1
+	args.confarenadesc = {
+		order = position,
+		width = "full",
+		type = "header",
+		name = BATTLEGROUND .. " / " .. ARENA,
+	}
+	position = position + 1
+	args.setarenauseglobal = {
+		name = HIDE .. " " .. L["TITAN_PANEL_MENU_TOP_BARS"]
+			.. " - " .. BATTLEGROUND .. " / " .. ARENA,
+		desc = "Hide"
+			.. " " .. TitanBarData[TitanVariables_GetFrameName("Bar")].locale_name
+			.. " and"
+			.. " " .. TitanBarData[TitanVariables_GetFrameName("Bar2")].locale_name
+			.. " in " .. BATTLEGROUND .. " / " .. ARENA,
+		order = position,
+		type = "toggle",
+		width = "full",
+		--disabled = (TITAN_ID == "Titan~Classic"), --? Allow in all version ??
+		get = function() return TitanPanelGetVar("HideBarsInPVP") end,
+		set = function()
+			TitanPanelToggleVar("HideBarsInPVP")
+			TitanPanelBarButton_DisplayBarsWanted("HideBarsInPVP"
+				.. " " .. tostring(TitanPanelGetVar("HideBarsInPVP")))
+		end,
+	}
+	position = position + 1
+	args.topbarspacer = { -- spacer
+		order = position,
+		type = "description",
+		width = "full",
+		name = " ",
+	}
+	position = position + 1
+	args.conftopbardesc = {
+		order = position,
+		width = "full",
+		type = "header",
+		name = L["TITAN_PANEL_MENU_TOP_BARS"],
+	}
+	position = position + 1
+	args.settopbar = {
+		name = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
+		desc = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
+		order = position,
+		type = "toggle",
+		width = "full",
+		disabled = (Titan_Global.switch.can_edit_ui == true),
+		get = function() return TitanPanelGetVar("ScreenAdjust") end,
+		set = function() TitanPanel_ScreenAdjustReload() end,
+	}
+	position = position + 1
+	args.bottombarspacer = { -- spacer
+		order = position,
+		type = "description",
+		width = "full",
+		name = " ",
+	}
+	position = position + 1
+	args.confbottombardesc = {
+		order = position,
+		width = "full",
+		type = "header",
+		name = L["TITAN_PANEL_MENU_BOTTOM_BARS"],
+	}
+	position = position + 1
+	args.setbottombar = {
+		name = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
+		desc = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
+		order = position,
+		type = "toggle",
+		width = "full",
+		disabled = (Titan_Global.switch.can_edit_ui == true),
+		get = function() return TitanPanelGetVar("AuxScreenAdjust") end,
+		set = function() TitanPanel_AuxScreenAdjustReload() end,
+	}
+
+	--====== Global skins options
+	position = position + 1
+	args.confbottombardesc = {
+		order = position,
+		width = "full",
+		type = "header",
+		name = L["TITAN_PANEL_MENU_GLOBAL_SKIN_TITLE"],
+	}
+	-- Background group
+	position = position + 1 -- background
+	args.background = {
+		name = "",
+		type = "group",
+		inline = true,
+		order = position,
+		args = {
+			setskinuseglobal = {
+				name = "", --L["TITAN_PANEL_MENU_GLOBAL_SKIN"],
+				desc = "", --L["TITAN_PANEL_MENU_GLOBAL_SKIN_TIP"],
+				order = 20,
+				type = "select",
+				width = "full",
+				style = "radio",
+				get = function(info) 
+					return TitanBarDataVars["Global"].texure 
+				end,
+				set = function(_, v)
+					TitanBarDataVars["Global"].texure = v
+					for idx, val in pairs(TitanBarData) do
+						TitanPanel_SetBarTexture(idx)
+					end
+					--AceConfigRegistry:NotifyChange("Titan Panel Globals")
+				end,
+				values = {
+					[Titan_Global.SKIN] = L["TITAN_PANEL_SKINS_TITLE"],
+					[Titan_Global.COLOR] = COLOR,
+					[Titan_Global.NONE] = NONE,
+				},
+			},
+			--====== Skins options
+			skinsoptions = {
+				name = "",
+				type = "group",
+				order = 100,
+				hidden = function(info)
+					return IfHide(Titan_Global.SKIN)
+				end,
+				args = {
+					confskindesc = {
+						order = 120,
+						width = "full",
+						type = "description",
+						name = "", --L["TITAN_PANEL_SKINS_TITLE"],
+					},
+					setskinglobal = {
+						order = 130,
+						type = "select",
+						width = "normal",
+						name = " ", --L["TITAN_PANEL_SKINS_LIST_TITLE"],
+						desc = L["TITAN_PANEL_SKINS_SET_DESC"],
+						get = function(info) 
+							return TitanBarDataVars["Global"].skin.path 
+						end,
+						set = function(_, v)
+							TitanBarDataVars["Global"].skin.path = v --TitanPanelSetVar("TexturePath", v);
+							if TitanBarDataVars["Global"].texure == Titan_Global.SKIN then
+								for idx, val in pairs(TitanBarData) do
+									TitanPanel_SetBarTexture(idx)
+								end
+							end
+						end,
+						values = function()
+							local Skinlist = {}
+							local v;
+							for _, v in pairs(TitanSkins) do
+								if v.path ~= TitanBarDataVars["Global"].skin.path then --TitanPanelGetVar("TexturePath") then
+									Skinlist[v.path] = TitanUtils_GetHexText(v.name, Titan_Global.colors.green)
+								else
+									Skinlist[v.path] = TitanUtils_GetHexText(v.name, Titan_Global.colors.yellow)
+								end
+							end
+							table.sort(Skinlist, function(a, b)
+								return string.lower(TitanSkins[a].name)
+									< string.lower(TitanSkins[b].name)
+							end)
+							return Skinlist
+						end,
+					},
+					show_skin_top_desc = {
+						type = "description",
+						name = "",
+						order = 140,
+						width = "5",
+					},
+					show_skin_global_top = {
+						type = "description",
+						name = "",
+						image = function()
+							return TitanBarDataVars["Global"].skin.path .. "TitanPanelBackgroundTop0"
+						end,
+						imageWidth = 256,
+						order = 150,
+						width = .5,
+					},
+					show_trans_slider = {
+						type = "range",
+						width = "full",
+						name = L["TITAN_PANEL_TRANS_MENU_TEXT_SHORT"],
+						order = 160,
+						min = 0,
+						max = 1,
+						step = 0.01,
+						get = function(info)
+							return TitanBarDataVars["Global"].skin.alpha
+						end,
+						set = function(info, a)
+							TitanBarDataVars["Global"].skin.alpha = a
+							for idx, val in pairs(TitanBarData) do
+								TitanPanel_SetBarTexture(idx)
+							end
+						end,
+					},
+				},
+			},
+
+			--====== Color options
+			coloroptions = {
+				name = "",
+				type = "group",
+				order = 200,
+				hidden = function(info)
+					return IfHide(Titan_Global.COLOR)
+				end,
+				args = {
+					confcolordesc = {
+						order = 100,
+						width = "full",
+						type = "description",
+						name = "", --COLOR,
+					},
+					show_skin_color_picker = {
+						type = "color",
+						width = "Full",
+						name = "Select Bar Color", -- L["TITAN_PANEL_MENU_RESET_POSITION"],
+						order = 110,
+						hasAlpha = true,
+						get = function(info)
+							local color = TitanBarDataVars["Global"].color
+							return color.r,
+								color.g,
+								color.b,
+								color.alpha
+						end,
+						set = function(info, r, g, b, a)
+							TitanBarDataVars["Global"].color.r = r
+							TitanBarDataVars["Global"].color.g = g
+							TitanBarDataVars["Global"].color.b = b
+							TitanBarDataVars["Global"].color.alpha = a
+							if TitanBarDataVars["Global"].texure == Titan_Global.COLOR then
+								for idx, val in pairs(TitanBarData) do
+									TitanPanel_SetBarTexture(idx)
+								end
+							end
+						end,
+					},
+					confcolortrans = {
+						order = 130,
+						width = "full",
+						type = "description",
+						name = function()
+							local res =""
+								..L["TITAN_PANEL_TRANS_MENU_TEXT_SHORT"].." "
+								..tostring(format("%0.1f", TitanBarDataVars["Global"].color.alpha))
+							
+							return res
+						end,
+					},
+				},
+			},
+			
+			--====== None options
+			noneoptions = {
+				name = "",
+				type = "group",
+				order = 300,
+				hidden = function(info)
+					return IfHide(Titan_Global.NONE)
+				end,
+				args = {
+					confcolordesc = {
+						order = 100,
+						width = "full",
+						type = "description",
+						name = NONE,
+					},
+				},
 			},
 		},
-		confskindesc = {
-			order = 20,
-			width = "full",
-			type = "description",
-			name = L["TITAN_PANEL_SKINS_TITLE"],
-		},
-		setskinglobal = {
-			order = 21,
-			type = "select",
-			width = "30",
-			name = " ", --L["TITAN_PANEL_SKINS_LIST_TITLE"],
-			desc = L["TITAN_PANEL_SKINS_SET_DESC"],
-			get = function() return TitanBarDataVars["Global"].skin.path end,
-			set = function(_, v)
-				TitanBarDataVars["Global"].skin.path = v --TitanPanelSetVar("TexturePath", v);
-				if TitanBarDataVars["Global"].texure == Titan_Global.SKIN then
-					for idx, val in pairs(TitanBarData) do
-						TitanPanel_SetBarTexture(idx)
-					end
-				end
-			end,
-			values = function()
-				local Skinlist = {}
-				local v;
-				for _, v in pairs(TitanSkins) do
-					if v.path ~= TitanBarDataVars["Global"].skin.path then --TitanPanelGetVar("TexturePath") then
-						Skinlist[v.path] = TitanUtils_GetHexText(v.name, Titan_Global.colors.green)
-					else
-						Skinlist[v.path] = TitanUtils_GetHexText(v.name, Titan_Global.colors.yellow)
-					end
-				end
-				table.sort(Skinlist, function(a, b)
-					return string.lower(TitanSkins[a].name)
-						< string.lower(TitanSkins[b].name)
-				end)
-				return Skinlist
-			end,
-		},
-		show_skin_top_desc = {
-			type = "description",
-			name = "",
-			order = 30,
-			width = "10",
-		},
-		show_skin_global_top = {
-			type = "description",
-			name = "",
-			image = function()
-				return TitanBarDataVars["Global"].skin.path .. "TitanPanelBackgroundTop0"
-				--				return TitanPanelGetVar("TexturePath").."TitanPanelBackgroundTop0"
-			end,
-			imageWidth = 256,
-			order = 31,
-			width = "60",
-		},
-		confcolorspacer = { -- spacer
-			order = 50,
-			type = "description",
-			width = "full",
-			name = " ",
-		},
-		confcolordesc = {
-			order = 51,
-			width = "full",
-			type = "description",
-			name = COLOR,
-		},
-		show_skin_color_picker = {
-			type = "color",
-			width = "Full",
-			name = "Select Bar Color", -- L["TITAN_PANEL_MENU_RESET_POSITION"],
-			order = 55,
-			--				disabled = (v.vert == TITAN_TOP or v.vert == TITAN_BOTTOM),
-			hasAlpha = true,
-			get = function()
-				local color = TitanBarDataVars["Global"].color
-				return color.r,
-					color.g,
-					color.b,
-					color.alpha
-			end,
-			set = function(info, r, g, b, a)
-				--[===[
-print("Color new:"
-.." "..tostring(format("%0.1f", r))..""
-.." "..tostring(format("%0.1f", g))..""
-.." "..tostring(format("%0.1f", b))..""
-.." "..tostring(format("%0.1f", a))..""
-)
---]===]
-				TitanBarDataVars["Global"].color.r = r
-				TitanBarDataVars["Global"].color.g = g
-				TitanBarDataVars["Global"].color.b = b
-				TitanBarDataVars["Global"].color.alpha = a
-				if TitanBarDataVars["Global"].texure == Titan_Global.COLOR then
-					for idx, val in pairs(TitanBarData) do
-						TitanPanel_SetBarTexture(idx)
-					end
-				end
-			end,
-		},
-		hidecombatspacer = { -- spacer
-			order = 100,
-			type = "description",
-			width = "full",
-			name = " ",
-		},
-		confcombatdesc = {
-			order = 101,
-			width = "full",
-			type = "header",
-			name = L["TITAN_PANEL_MENU_COMMAND"],
-		},
-		setcombatuseglobal = {
-			name = L["TITAN_PANEL_MENU_HIDE_IN_COMBAT"],
-			desc = L["TITAN_PANEL_MENU_HIDE_IN_COMBAT_DESC"],
-			order = 105,
-			type = "toggle",
-			width = "full",
-			get = function() return TitanPanelGetVar("HideBarsInCombat") end,
-			set = function() TitanPanelToggleVar("HideBarsInCombat"); end,
-		},
-		arenaspacer = { -- spacer
-			order = 200,
-			type = "description",
-			width = "full",
-			name = " ",
-		},
-		confarenadesc = {
-			order = 201,
-			width = "full",
-			type = "header",
-			name = BATTLEGROUND .. " / " .. ARENA,
-		},
-		setarenauseglobal = {
-			name = HIDE .. " " .. L["TITAN_PANEL_MENU_TOP_BARS"]
-				.. " - " .. BATTLEGROUND .. " / " .. ARENA,
-			desc = "Hide"
-				.. " " .. TitanBarData[TitanVariables_GetFrameName("Bar")].locale_name
-				.. " and"
-				.. " " .. TitanBarData[TitanVariables_GetFrameName("Bar2")].locale_name
-				.. " in " .. BATTLEGROUND .. " / " .. ARENA,
-			order = 205,
-			type = "toggle",
-			width = "full",
-			--disabled = (TITAN_ID == "Titan~Classic"), --? Allow in all version ??
-			get = function() return TitanPanelGetVar("HideBarsInPVP") end,
-			set = function()
-				TitanPanelToggleVar("HideBarsInPVP")
-				TitanPanelBarButton_DisplayBarsWanted("HideBarsInPVP"
-					.. " " .. tostring(TitanPanelGetVar("HideBarsInPVP")))
-			end,
-		},
-		topbarspacer = { -- spacer
-			order = 300,
-			type = "description",
-			width = "full",
-			name = " ",
-		},
-		conftopbardesc = {
-			order = 301,
-			width = "full",
-			type = "header",
-			name = L["TITAN_PANEL_MENU_TOP_BARS"],
-		},
-		settopbar = {
-			name = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
-			desc = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
-			order = 305,
-			type = "toggle",
-			width = "full",
-			disabled = (Titan_Global.switch.can_edit_ui == true),
-			get = function() return TitanPanelGetVar("ScreenAdjust") end,
-			set = function() TitanPanel_ScreenAdjustReload() end,
-		},
-		bottombarspacer = { -- spacer
-			order = 400,
-			type = "description",
-			width = "full",
-			name = " ",
-		},
-		confbottombardesc = {
-			order = 401,
-			width = "full",
-			type = "header",
-			name = L["TITAN_PANEL_MENU_BOTTOM_BARS"],
-		},
-		setbottombar = {
-			name = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
-			desc = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
-			order = 405,
-			type = "toggle",
-			width = "full",
-			disabled = (Titan_Global.switch.can_edit_ui == true),
-			get = function() return TitanPanelGetVar("AuxScreenAdjust") end,
-			set = function() TitanPanel_AuxScreenAdjustReload() end,
-		},
 	}
-}
+end
+
+local function BuildBarsAll()
+	TitanUpdateConfigBarsAll(optionsGlobals.args, 1000)
+	AceConfigRegistry:NotifyChange("Titan Panel Globals")
+end
+
 -------------
 
 --============= Plugins
@@ -2288,30 +2338,87 @@ NOTE:
 - On the flip side a user can add a custom skin to the Titan saved variables then later delete the skin from the file system. This will not cause an error when the user tries to use (show) that skin but Titan will show a 'blank' skin.
 :NOTE
 --]]
-local function TitanPanel_AddNewSkin(skinname, skinpath)
-	-- name and path must be provided
-	if not skinname or not skinpath then return end
+local function TitanPanel_AddNewSkin(skinname, skin_path)
+	local out_str = "Start : "
+	local msg_type = "warning" -- assume something went wrong :)
 
-	-- name cannot be empty or "None", path cannot be empty
-	if skinname == "" or skinname == L["TITAN_PANEL_NONE"] or skinpath == "" then
-		return
+	local skinpath = TitanSkinsCustomPath .. skin_path .. TitanSkinsPathEnd
+	-- name and path must be provided
+	if skinname and skinpath then -- continue
+
+		-- name cannot be empty or "None", path cannot be empty
+		if skinname == "" or skinname == L["TITAN_PANEL_NONE"] or skinpath == "" then
+			out_str = L["TITAN_PANEL_SKINS_BLANK_VALUE"]
+		else
+			-- Assume the skin is already in the Titan saved variables list
+			local found
+			for _, i in pairs(TitanSkins) do
+				if i.name == skinname or i.path == skinpath then
+					found = true
+					break
+				end
+			end
+
+			-- The skin is new so add it to the Titan saved variables list
+			if found then
+				out_str = L["TITAN_PANEL_SKINS_ALREADY_LISTED"] 
+			else
+				table.insert(TitanSkins, { name = skinname, path = skinpath })
+				msg_type = "info"
+				out_str = L["TITAN_PANEL_SKINS_ADDED"]
+			end
+		end
+	else
+		out_str = L["TITAN_PANEL_SKINS_NO_VALUE"]
 	end
 
-	-- Assume the skin is already in the Titan saved variables list
-	local found
-	for _, i in pairs(TitanSkins) do
-		if i.name == skinname or i.path == skinpath then
-			found = true
-			break
+	-- Regardless of result, rebuild Skin list
+	BuildSkins()
+
+	out_str = out_str
+		.." '"..tostring(skinname).."'"
+		.."\n Full Path:"..tostring(skinpath)..""
+	TitanPrint(out_str, msg_type)
+end
+
+--[[ local
+NAME: Remove_Skin
+DESC: Remove requested skin from selectable list. 
+VAR: skinname - the file name to use
+VAR: skinpath - the file path to use
+OUT:  None
+NOTE:
+- Blizz *does not allow* LUA to access the user file system dynamically so the skins have to be input by hand. Titan can not search for available skins in the Artwork folder.
+- On the flip side a user can add a custom skin to the Titan saved variables then later delete the skin from the file system. This will not cause an error when the user tries to use (show) that skin but Titan will show a 'blank' skin.
+:NOTE
+--]]
+local function Remove_Skin(skinname)
+	local out_str = "Start : "
+	local msg_type = "warning" -- assume something went wrong :)
+	local found = false
+
+	if skinname == "None" then 
+		out_str = L["TITAN_PANEL_SKINS_NONE_SELECTED"]
+	else
+		local k, v;
+		for k, v in pairs(TitanSkins) do
+			if v.name == skinname then
+				table.remove(TitanSkins, k)
+				found = true
+				break
+			end
+		end
+		if found then
+			msg_type = "info"
+			out_str = L["TITAN_PANEL_SKINS_REMOVED"]
+		else
+			out_str = L["TITAN_PANEL_SKINS_NONE_SELECTED"]
 		end
 	end
 
-	-- The skin is new so add it to the Titan saved variables list
-	if not found then
-		table.insert(TitanSkins, { name = skinname, path = skinpath })
-	end
-
-	BuildSkins()
+	out_str = out_str
+		.." '"..tostring(skinname).."'"
+	TitanPrint(out_str, msg_type)
 end
 
 --[[ local
@@ -2359,7 +2466,7 @@ local optionsSkinsCustom = {
 			type = "input",
 			width = "full",
 			get = function() return TitanSkinPath end,
-			set = function(_, v) TitanSkinPath = TitanSkinsCustomPath .. v .. TitanSkinsPathEnd end,
+			set = function(_, v) TitanSkinPath = v end,
 
 		},
 		addnewskin = {
@@ -2368,13 +2475,11 @@ local optionsSkinsCustom = {
 			type = "execute",
 			desc = L["TITAN_PANEL_SKINS_ADD_DESC"],
 			func = function()
-				if TitanSkinName ~= "" and TitanSkinPath ~= "" then
 					TitanPanel_AddNewSkin(TitanSkinName, TitanSkinPath)
 					TitanSkinName = ""
 					TitanSkinPath = ""
 					-- Config Tables changed!
 					AceConfigRegistry:NotifyChange("Titan Panel Skin Custom")
-				end
 			end,
 		},
 		nulloption2 = {
@@ -2406,10 +2511,10 @@ local optionsSkinsCustom = {
 						and v.path ~= "Interface\\AddOns\\Titan\\Artwork\\"
 						and v.titan ~= true
 					then
-						Skinlist[v.path] = TitanUtils_GetHexText(v.name, Titan_Global.colors.green)
+						Skinlist[v.name] = TitanUtils_GetHexText(v.name, Titan_Global.colors.green)
 					end
 					if v.path == TitanSkinToRemove then
-						Skinlist[v.path] = TitanUtils_GetHexText(v.name, Titan_Global.colors.yellow)
+						Skinlist[v.name] = TitanUtils_GetHexText(v.name, Titan_Global.colors.yellow)
 					end
 				end
 				if TitanSkinToRemove ~= "None" then
@@ -2418,8 +2523,8 @@ local optionsSkinsCustom = {
 					Skinlist["None"] = TitanUtils_GetHexText(L["TITAN_PANEL_NONE"], Titan_Global.colors.yellow)
 				end
 				table.sort(Skinlist, function(a, b)
-					return string.lower(TitanSkins[a].name)
-						< string.lower(TitanSkins[b].name)
+					return string.lower(a)
+						< string.lower(b)
 				end)
 				return Skinlist
 			end,
@@ -2430,17 +2535,10 @@ local optionsSkinsCustom = {
 			name = L["TITAN_PANEL_SKINS_REMOVE_BUTTON"],
 			desc = L["TITAN_PANEL_SKINS_REMOVE_BUTTON_DESC"],
 			func = function()
-				if TitanSkinToRemove == "None" then return end
-				local k, v;
-				for k, v in pairs(TitanSkins) do
-					if v.path == TitanSkinToRemove then
-						table.remove(TitanSkins, k)
-						TitanSkinToRemove = "None"
-						-- Config Tables changed!
-						AceConfigRegistry:NotifyChange("Titan Panel Skin Custom")
-						break
-					end
-				end
+				Remove_Skin(TitanSkinToRemove)
+				TitanSkinToRemove = "None"
+				-- Config Tables changed!
+				AceConfigRegistry:NotifyChange("Titan Panel Skin Custom")
 			end,
 		},
 		nulloption4 = {
@@ -3075,6 +3173,7 @@ function TitanUpdateConfig(action)
 		TitanUpdateChars()
 		BuildSkins()
 		BuildBars()
+		BuildBarsAll()
 		BuildAdj()
 		BuildAdv()
 	end

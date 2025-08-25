@@ -62,7 +62,7 @@ class TOC:
             # Addon icon in list
             ["IconTexture", "IconAtlas"],
             # Addon category in list
-            ["Category", "Category-zhCN"],
+            ["Category", "Category-zhCN", "Group"],
             # New tags added in 10.0 for the dropdown menu next to minimap
             [
                 "AddonCompartmentFunc",
@@ -74,6 +74,7 @@ class TOC:
                 "RequiredDeps",
                 "Dependencies",
                 "OptionalDeps",
+                "OptionalDependencies",
                 "LoadOnDemand",
                 "LoadWith",
                 "LoadManagers",
@@ -105,6 +106,7 @@ class TOC:
         # Ignore extra languages
         extra_languages = [
             "deDE",
+            "enUS",
             "esES",
             "esMX",
             "frFR",
@@ -117,7 +119,9 @@ class TOC:
         missing_keys = [k for k in missing_keys if k[-4:] not in extra_languages]
 
         if missing_keys:
-            logging.warning(f"Unknown tags found: {missing_keys}")
+            logging.warning(
+                f"Unknown tags found: {missing_keys} in {self.tags['Title']}"
+            )
 
         self.trim_contents()
         ret += self.contents

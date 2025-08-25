@@ -13,14 +13,22 @@ local TITAN_BUTTON = "TitanPanel"..TITAN_LOOTTYPE_ID.."Button"
 
 local _G = getfenv(0);
 local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
-local TitanLootMethod = {};
 local updateTable = {TITAN_LOOTTYPE_ID, TITAN_PANEL_UPDATE_ALL};
+
+local TitanLootMethod = {};
 TitanLootMethod["freeforall"] = {text = L["TITAN_LOOTTYPE_FREE_FOR_ALL"]};
 TitanLootMethod["roundrobin"] = {text = L["TITAN_LOOTTYPE_ROUND_ROBIN"]};
 TitanLootMethod["master"] = {text = L["TITAN_LOOTTYPE_MASTER_LOOTER"]};
 TitanLootMethod["group"] = {text = L["TITAN_LOOTTYPE_GROUP_LOOT"]};
 TitanLootMethod["needbeforegreed"] = {text = L["TITAN_LOOTTYPE_NEED_BEFORE_GREED"]};
 TitanLootMethod["personalloot"] = {text = L["TITAN_LOOTTYPE_PERSONAL"]};
+-- For new method... which returns a number rather than a string
+TitanLootMethod[0] = {text = L["TITAN_LOOTTYPE_FREE_FOR_ALL"]};
+TitanLootMethod[1] = {text = L["TITAN_LOOTTYPE_ROUND_ROBIN"]};
+TitanLootMethod[2] = {text = L["TITAN_LOOTTYPE_MASTER_LOOTER"]};
+TitanLootMethod[3] = {text = L["TITAN_LOOTTYPE_GROUP_LOOT"]};
+TitanLootMethod[4] = {text = L["TITAN_LOOTTYPE_NEED_BEFORE_GREED"]};
+TitanLootMethod[5] = {text = L["TITAN_LOOTTYPE_PERSONAL"]};
 
 -- ******************************** Variables *******************************
 local loot_spec_name = ""

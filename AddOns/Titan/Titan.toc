@@ -1,8 +1,8 @@
 ## Interface: 110200
 ## Author: Titan Panel Dev Team
-## Version: 8.3.3
+## Version: 8.3.4
 
-## Title: Titan Panel [|cffeda55f_Core_|r] |cff00aa008.3.3|r
+## Title: Titan Panel [|cffeda55f_Core_|r] |cff00aa008.3.4|r
 ## Notes: Adds display bars to show and control information/launcher plugins.
 ## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r|cFFFFFFFF泰坦面板|r |cFFFFE00ATitan|r
 ## Notes-zhCN: 在屏幕顶端/底端增加一个可视化侧边栏

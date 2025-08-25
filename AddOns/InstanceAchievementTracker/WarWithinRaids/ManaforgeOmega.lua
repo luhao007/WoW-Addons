@@ -42,6 +42,22 @@ local blindfoldCounter = 0
 local blindfoldUID = {}
 
 ------------------------------------------------------
+---- Fractillus
+------------------------------------------------------
+local columACounter = 0
+local columBCounter = 0
+local columCCounter = 0
+local columDCounter = 0
+local columECounter = 0
+local columFCounter = 0
+local playerLanes = {}
+local playersInAnyLane = {}
+local fourthWallsBroken = 0
+local initialMessageAnnounced = false
+local playersSpawnUID = {}
+local playersbreakUID = {}
+
+------------------------------------------------------
 ---- Dimensius The All Devouring
 ------------------------------------------------------
 local reverseGravityCounter = 0
@@ -135,7 +151,7 @@ function core._2810:SoulbinderNaazindhri()
     -- Defeat Soulbinder Naazindhri after defeating all Little Unbound Souls in Manaforge Omega on Normal difficulty or higher.
 
     -- Detect when all 4 Little Unbound Souls are defeated
-    if core.type == "UNIT_DIED" and core.destID == 248707 then
+    if core.type == "UNIT_DIED" and core.destID == "248707" then
         if littleUnboundSoulsUID[core.spawn_uid_dest] == nil then
             littleUnboundSoulsUID[core.spawn_uid_dest] = core.spawn_uid_dest
             littleUnboundSouls = littleUnboundSouls + 1
@@ -157,7 +173,7 @@ function core._2810:ForgeweaverAraz()
     --SPELL_AURA_APPLIED,Creature-0-1631-2810-18952-241923-00001DA34E,"Arcane Echo",0xa48,0x80000000,Creature-0-1631-2810-18952-241923-00001DA34E,"Arcane Echo",0xa48,0x80000000,1248816,"Void Forged Echo",0x20,BUFF
 
     if core.type == "SPELL_AURA_APPLIED" and core.spellId == 1248816 then
-        core:sendMessage(format(L["Shared_KillTheAddNow"], getNPCName(241923)),true)
+        core:sendMessage(format(L["Shared_KillTheAddNow"], C_Spell.GetSpellInfo(1248816).name),true)
     end
 
     if core:getBlizzardTrackingStatus(41615, 1) == true then
@@ -218,7 +234,261 @@ end
 function core._2810:Fractillus()
     -- Defeat Fractillus after destroying a fourth wall 18 times in Manaforge Omega on Normal difficulty or higher.
 
+    if initialMessageAnnounced == false then
+        local playersNotInLane = L["ManaforgeOmega_PlayersNotInLane"] .. ": "
+        local playerFound = false
+        for k,player in pairs(core:getPlayersInGroupForAchievement()) do
+            if playersInAnyLane[player] == nil then
+                playersNotInLane = playersNotInLane .. player .. ", "
+                playerFound = true
+            end
+        end
+
+        if playerFound == true then
+            core:sendMessageSafe(playersNotInLane,true)
+        end
+
+        initialMessageAnnounced = true
+    end
+
+    InfoFrame_UpdatePlayersOnInfoFrameWithAdditionalInfo()
+    InfoFrame_SetHeaderMessage(
+        InfoFrame_GetIcon(1) .. " : " .. columACounter .. " " ..
+        InfoFrame_GetIcon(2) .. " : " .. columBCounter .. " " ..
+        InfoFrame_GetIcon(3) .. " : " .. columCCounter .. " " ..
+        InfoFrame_GetIcon(4) .. " : " .. columDCounter .. " " ..
+        InfoFrame_GetIcon(7) .. " : " .. columECounter .. " " ..
+        InfoFrame_GetIcon(6) .. " : " .. columFCounter .. "\n"
+    )
+    core.IATInfoFrame:SetSubHeading2(L["Shared_Notes"])
+    core.IATInfoFrame:SetText2(L["ManaforgeOmega_TrackingLanes"] .."\n\n", 200)
+
+    -- Wall spawning
+
+    -- Player (SPELL_AURA_APPLIED) or Tank (SPELL_CAST_START) is marked to spawn a wall
+    -- https://www.wowhead.com/spell=1233411/crystalline-shockwave
+    if (core.type == "SPELL_AURA_APPLIED" and core.spellId == 1233411) or (core.type == "SPELL_CAST_START" and core.spellId == 1231871) then
+        if core.destName ~= nil then
+            --core:sendDebugMessage("Wall spawn soon detected for " .. core.destName)
+
+            -- Mark player on infoframe as spawning
+            -- If they are spawning into a row with too many walls already then mark them as failed
+            if playerLanes[core.spawn_uid_dest_Player] == "A" then
+                if columACounter == 5 then
+                    InfoFrame_SetPlayerFailedWithMessage(core.destName, InfoFrame_GetIcon(6) .. " " .. L["Shared_Spawn"])
+                else
+                    InfoFrame_SetPlayerCompleteWithMessage(core.destName, InfoFrame_GetIcon(6) .. " " .. L["Shared_Spawn"])
+                end
+            elseif playerLanes[core.spawn_uid_dest_Player] == "B" then
+                if columBCounter == 5 then
+                    InfoFrame_SetPlayerFailedWithMessage(core.destName, InfoFrame_GetIcon(7) .. " " .. L["Shared_Spawn"])
+                else
+                    InfoFrame_SetPlayerCompleteWithMessage(core.destName, InfoFrame_GetIcon(7) .. " " .. L["Shared_Spawn"])
+                end
+            elseif playerLanes[core.spawn_uid_dest_Player] == "C" then
+                if columCCounter == 5 then
+                    InfoFrame_SetPlayerFailedWithMessage(core.destName, InfoFrame_GetIcon(4) .. " " .. L["Shared_Spawn"])
+                else
+                    InfoFrame_SetPlayerCompleteWithMessage(core.destName, InfoFrame_GetIcon(4) .. " " .. L["Shared_Spawn"])
+                end
+            elseif playerLanes[core.spawn_uid_dest_Player] == "D"  then
+                if columDCounter == 5 then
+                    InfoFrame_SetPlayerFailedWithMessage(core.destName, InfoFrame_GetIcon(3) .. " " .. L["Shared_Spawn"])
+                else
+                    InfoFrame_SetPlayerCompleteWithMessage(core.destName, InfoFrame_GetIcon(3) .. " " .. L["Shared_Spawn"])
+                end
+            elseif playerLanes[core.spawn_uid_dest_Player] == "E" then
+                if columECounter == 5 then
+                    InfoFrame_SetPlayerFailedWithMessage(core.destName, InfoFrame_GetIcon(2) .. " " .. L["Shared_Spawn"])
+                else
+                    InfoFrame_SetPlayerCompleteWithMessage(core.destName, InfoFrame_GetIcon(2) .. " " .. L["Shared_Spawn"])
+                end
+            elseif playerLanes[core.spawn_uid_dest_Player] == "F" then
+                if columFCounter == 5 then
+                    InfoFrame_SetPlayerFailedWithMessage(core.destName, InfoFrame_GetIcon(1) .. " " .. L["Shared_Spawn"])
+                else
+                    InfoFrame_SetPlayerCompleteWithMessage(core.destName, InfoFrame_GetIcon(1) .. " " .. L["Shared_Spawn"])
+                end
+            end
+
+            -- Add to spawn table
+            playersSpawnUID[core.destName] = core.destName
+        end
+    end
+
+    -- Player has spawned a wall
+    if (core.type == "SPELL_AURA_REMOVED" and core.spellId == 1233411) or (core.type == "SPELL_CAST_SUCCESS" and core.spellId == 1231871) then
+        --core:sendDebugMessage("Wall spawn detected event for " .. core.destName .. core.type .. " " .. core.spellId)
+        -- A wall has been spawned. We need to increment the counter for the lane the player is in
+        if core.destName ~= nil then
+            if playerLanes[core.spawn_uid_dest_Player] == "A" then
+                columACounter = columACounter + 1
+                --core:sendDebugMessage("Column A counter is now " .. columACounter .. " after wall spawned by " .. core.destName)
+                InfoFrame_SetPlayerNeutralWithMessage(core.destName, InfoFrame_GetIcon(6))
+            elseif playerLanes[core.spawn_uid_dest_Player] == "B" then
+                columBCounter = columBCounter + 1
+                --core:sendDebugMessage("Column B counter is now " .. columBCounter .. " after wall spawned by " .. core.destName)
+                InfoFrame_SetPlayerNeutralWithMessage(core.destName, InfoFrame_GetIcon(7))
+            elseif playerLanes[core.spawn_uid_dest_Player] == "C" then
+                columCCounter = columCCounter + 1
+                --core:sendDebugMessage("Column C counter is now " .. columCCounter .. " after wall spawned by " .. core.destName)
+                InfoFrame_SetPlayerNeutralWithMessage(core.destName, InfoFrame_GetIcon(4))
+            elseif playerLanes[core.spawn_uid_dest_Player] == "D" then
+                columDCounter = columDCounter + 1
+                --core:sendDebugMessage("Column D counter is now " .. columDCounter .. " after wall spawned by " .. core.destName)
+                InfoFrame_SetPlayerNeutralWithMessage(core.destName, InfoFrame_GetIcon(3))
+            elseif playerLanes[core.spawn_uid_dest_Player] == "E" then
+                columECounter = columECounter + 1
+                --core:sendDebugMessage("Column E counter is now " .. columECounter .. " after wall spawned by " .. core.destName)
+                InfoFrame_SetPlayerNeutralWithMessage(core.destName, InfoFrame_GetIcon(2))
+            elseif playerLanes[core.spawn_uid_dest_Player] == "F" then
+                columFCounter = columFCounter + 1
+                --core:sendDebugMessage("Column F counter is now " .. columFCounter .. " after wall spawned by " .. core.destName)
+                InfoFrame_SetPlayerNeutralWithMessage(core.destName, InfoFrame_GetIcon(1))
+            end
+
+            -- Remove from spawn table
+            if playersSpawnUID[core.destName] ~= nil then
+                playersSpawnUID[core.destName] = nil
+            end
+        end
+    end
+
+    -- Wall breaking
+
+    -- Player is going to break a wall
+    if core.type == "SPELL_AURA_APPLIED" and core.spellId == 1227373 then
+        if core.destName ~= nil then
+            --core:sendDebugMessage("Wall break soon detected for " .. core.destName)
+
+            -- Mark Infoframe failed if player are breaking a lane with less than four walls
+            if playerLanes[core.spawn_uid_dest_Player] == "A" then
+                if columACounter < 4 then
+                    InfoFrame_SetPlayerFailedWithMessage(core.destName, InfoFrame_GetIcon(6) .. " " .. L["Shared_Break"])
+                else
+                    InfoFrame_SetPlayerCompleteWithMessage(core.destName, InfoFrame_GetIcon(6) .. " " .. L["Shared_Break"])
+                end
+            elseif playerLanes[core.spawn_uid_dest_Player] == "B" then
+                if columBCounter < 4 then
+                    InfoFrame_SetPlayerFailedWithMessage(core.destName, InfoFrame_GetIcon(7) .. " " .. L["Shared_Break"])
+                else
+                    InfoFrame_SetPlayerCompleteWithMessage(core.destName, InfoFrame_GetIcon(7) .. " " .. L["Shared_Break"])
+                end
+            elseif playerLanes[core.spawn_uid_dest_Player] == "C" then
+                if columCCounter < 4 then
+                    InfoFrame_SetPlayerFailedWithMessage(core.destName, InfoFrame_GetIcon(4) .. " " .. L["Shared_Break"])
+                else
+                    InfoFrame_SetPlayerCompleteWithMessage(core.destName, InfoFrame_GetIcon(4) .. " " .. L["Shared_Break"])
+                end
+            elseif playerLanes[core.spawn_uid_dest_Player] == "D" then
+                if columDCounter < 4 then
+                    InfoFrame_SetPlayerFailedWithMessage(core.destName, InfoFrame_GetIcon(3) .. " " .. L["Shared_Break"])
+                else
+                    InfoFrame_SetPlayerCompleteWithMessage(core.destName, InfoFrame_GetIcon(3) .. " " .. L["Shared_Break"])
+                end
+            elseif playerLanes[core.spawn_uid_dest_Player] == "E" then
+                if columECounter < 4 then
+                    InfoFrame_SetPlayerFailedWithMessage(core.destName, InfoFrame_GetIcon(2) .. " " .. L["Shared_Break"])
+                else
+                    InfoFrame_SetPlayerCompleteWithMessage(core.destName, InfoFrame_GetIcon(2) .. " " .. L["Shared_Break"])
+                end
+            elseif playerLanes[core.spawn_uid_dest_Player] == "F" then
+                if columFCounter < 4 then
+                    InfoFrame_SetPlayerFailedWithMessage(core.destName, InfoFrame_GetIcon(1) .. " " .. L["Shared_Break"])
+                else
+                    InfoFrame_SetPlayerCompleteWithMessage(core.destName, InfoFrame_GetIcon(1) .. " " .. L["Shared_Break"])
+                end
+            end
+
+            -- Add to break table
+            playersbreakUID[core.destName] = core.destName
+        end
+    end
+
+    -- Player has broken a wall
+    -- https://www.wowhead.com/spell=1227373/shattershell
+    if core.type == "SPELL_AURA_REMOVED" and core.spellId == 1227373 then
+        -- A wall has been spawned. We need to increment the counter for the lane the player is in
+        if core.destName ~= nil then
+            local currentName = core.destName
+            local currentSpawnUIDDestPlayer = core.spawn_uid_dest_Player
+            -- We need to wait a moment to see if the player is dead or not
+            C_Timer.After(0.5, function()
+                if UnitIsDeadOrGhost(currentName) == false then
+                    -- If any counters are at 4 then increment the fourth wall broken counter
+                    if columACounter >= 4 or columBCounter >= 4 or columCCounter >= 4 or columDCounter >= 4 or columECounter >= 4 or columFCounter >= 4 then
+                        fourthWallsBroken = fourthWallsBroken + 1
+                        core:sendMessage(core:getAchievement() .. " " .. L["Shared_WallBroken"] .. " (" .. fourthWallsBroken .. "/18)",true)
+                    end
+
+                    if playerLanes[currentSpawnUIDDestPlayer] == "A" then
+                        if columACounter < 4 then
+                            core:sendMessage("(" .. currentName .. " " .. L["ManaforgeOmega_PlayerBrokeWrongWall"] .. ")", true)
+                        end
+                        if columACounter > 0 then
+                            columACounter = columACounter - 1
+                        end
+                        --core:sendDebugMessage("Column A counter is now " .. columACounter .. " after wall broken by " .. currentName)
+                        InfoFrame_SetPlayerNeutralWithMessage(currentName, InfoFrame_GetIcon(6))
+                    elseif playerLanes[currentSpawnUIDDestPlayer] == "B" then
+                        if columBCounter < 4 then
+                            core:sendMessage("(" .. currentName .. " " .. L["ManaforgeOmega_PlayerBrokeWrongWall"] .. ")", true)
+                        end
+                        if columBCounter > 0 then
+                            columBCounter = columBCounter - 1
+                        end
+                        --core:sendDebugMessage("Column B counter is now " .. columBCounter .. " after wall broken by " .. currentName)
+                        InfoFrame_SetPlayerNeutralWithMessage(currentName, InfoFrame_GetIcon(7))
+                    elseif playerLanes[currentSpawnUIDDestPlayer] == "C" then
+                        if columCCounter < 4 then
+                            core:sendMessage("(" .. currentName .. " " .. L["ManaforgeOmega_PlayerBrokeWrongWall"] .. ")", true)
+                        end
+                        if columCCounter > 0 then
+                            columCCounter = columCCounter - 1
+                        end
+                        --core:sendDebugMessage("Column C counter is now " .. columCCounter .. " after wall broken by " .. currentName)
+                        InfoFrame_SetPlayerNeutralWithMessage(currentName, InfoFrame_GetIcon(4))
+                    elseif playerLanes[currentSpawnUIDDestPlayer] == "D" then
+                        if columDCounter < 4 then
+                            core:sendMessage("(" .. currentName .. " " .. L["ManaforgeOmega_PlayerBrokeWrongWall"] .. ")", true)
+                        end
+                        if columDCounter > 0 then
+                            columDCounter = columDCounter - 1
+                        end
+                        --core:sendDebugMessage("Column D counter is now " .. columDCounter .. " after wall broken by " .. currentName)
+                        InfoFrame_SetPlayerNeutralWithMessage(currentName, InfoFrame_GetIcon(3))
+                    elseif playerLanes[currentSpawnUIDDestPlayer] == "E" then
+                        if columECounter < 4 then
+                            core:sendMessage("(" .. currentName .. " " .. L["ManaforgeOmega_PlayerBrokeWrongWall"] .. ")", true)
+                        end
+                        if columECounter > 0 then
+                            columECounter = columECounter - 1
+                        end
+                        --core:sendDebugMessage("Column E counter is now " .. columECounter .. " after wall broken by " .. currentName)
+                        InfoFrame_SetPlayerNeutralWithMessage(currentName, InfoFrame_GetIcon(2))
+                    elseif playerLanes[currentSpawnUIDDestPlayer] == "F" then
+                        if columFCounter < 4 then
+                            core:sendMessage("(" .. currentName .. " " .. L["ManaforgeOmega_PlayerBrokeWrongWall"] .. ")", true)
+                        end
+                        if columFCounter > 0 then
+                            columFCounter = columFCounter - 1
+                        end
+                        --core:sendDebugMessage("Column F counter is now " .. columFCounter .. " after wall broken by " .. currentName)
+                        InfoFrame_SetPlayerNeutralWithMessage(currentName, InfoFrame_GetIcon(1))
+                    end
+
+                end
+
+                -- Remove from break table
+                if playersbreakUID[currentName] ~= nil then
+                    playersbreakUID[currentName] = nil
+                end
+            end)
+        end
+    end
+
     if core:getBlizzardTrackingStatus(41617) == true then
+        -- If our fourth wall broken counter is less than 18 then announce achievement is successfull but our tracker has encounted an error
         core:getAchievementSuccess()
     end
 end
@@ -238,7 +508,7 @@ function core._2810:DimensiusTheAllDevouring()
     InfoFrame_SetHeaderCounter(L["Shared_PlayersWithBuff"],reverseGravityCounter,core.groupSize)
 
     -- Player hit by Reverse Gravity
-    if (core.type == "SPELL_AURA_APPLIED" and core.spellId == 1243577) or (core.type == "SPELL_DAMAGE" and core.spellId == 1243581) then
+    if (core.type == "SPELL_AURA_APPLIED" and core.spellId == 1243577) or ((core.type == "SPELL_DAMAGE" or core.type == "SPELL_ABSORBED") and core.spellId == 1243581) then
         if core.destName ~= nil and reverseGravityUID[core.spawn_uid_dest_Player] == nil then
             reverseGravityCounter = reverseGravityCounter + 1
             reverseGravityUID[core.spawn_uid_dest_Player] = core.spawn_uid_dest_Player
@@ -295,6 +565,7 @@ end
 
 function core._2810:InstanceCleanup()
     core._2810.Events:UnregisterEvent("UNIT_AURA")
+    core._2810.Events:UnregisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 end
 
 core._2810.Events:SetScript("OnEvent", function(self, event, ...)
@@ -303,6 +574,124 @@ end)
 
 function core._2810:InitialSetup()
     core._2810.Events:RegisterEvent("UNIT_AURA")
+    core._2810.Events:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+end
+
+function core._2810.Events:UNIT_SPELLCAST_SUCCEEDED(self, unitTarget, castGUID, spellID)
+	--"<13.04 21:01:51> [UNIT_SPELLCAST_SUCCEEDED] PLAYER_SPELL{秋怜} -Column A Aura- [[raid5:Cast-3-5773-2810-3675-1223483-0030716DAF:1223483]]",
+    --"<32.63 21:02:10> [UNIT_SPELLCAST_SUCCEEDED] PLAYER_SPELL{季夜} -Column B Aura- [[party2:Cast-3-5773-2810-3675-1223484-0062F16DC2:1223484]]",
+    --"<34.71 21:02:13> [UNIT_SPELLCAST_SUCCEEDED] PLAYER_SPELL{Snowfive} -Column C Aura- [[raid8:Cast-3-5773-2810-3675-1223485-0052F16DC4:1223485]]",
+    --"<37.72 21:02:16> [UNIT_SPELLCAST_SUCCEEDED] PLAYER_SPELL{Gigitti} -Column D Aura- [[raid2:Cast-3-5773-2810-3675-1223486-0064716DC7:1223486]]",
+    --"<43.54 21:02:21> [UNIT_SPELLCAST_SUCCEEDED] PLAYER_SPELL{Gigitti} -Column E Aura- [[raid2:Cast-3-5773-2810-3675-1223489-0058F16DCD:1223489]]",
+    --"<47.41 21:02:25> [UNIT_SPELLCAST_SUCCEEDED] PLAYER_SPELL{Mal} -Column F Aura- [[raid6:Cast-3-5773-2810-3675-1223493-003B716DD1:1223493]]",
+
+    -- When we receive a spell cast success for one of the column auras we need to get the guid of the player then check which UID table they are in
+    if spellID == 1223483 or spellID == 1223484 or spellID == 1223485 or spellID == 1223486 or spellID == 1223489 or spellID == 1223493 then
+        core.IATInfoFrame:ToggleOn()
+        core.IATInfoFrame:SetHeading(GetAchievementLink(41617))
+        InfoFrame_UpdatePlayersOnInfoFrameWithAdditionalInfo()
+
+       InfoFrame_SetHeaderMessage(
+            InfoFrame_GetIcon(1) .. " : " .. columACounter .. " " ..
+            InfoFrame_GetIcon(2) .. " : " .. columBCounter .. " " ..
+            InfoFrame_GetIcon(3) .. " : " .. columCCounter .. " " ..
+            InfoFrame_GetIcon(4) .. " : " .. columDCounter .. " " ..
+            InfoFrame_GetIcon(7) .. " : " .. columECounter .. " " ..
+            InfoFrame_GetIcon(6) .. " : " .. columFCounter .. "\n"
+        )
+        core.IATInfoFrame:SetSubHeading2(L["Shared_Notes"])
+        core.IATInfoFrame:SetText2(L["ManaforgeOmega_TrackingLanes"] .."\n\n", 200)
+
+        -- Get player guid
+        local unitType, destID, spawn_uid_dest = strsplit("-",UnitGUID(unitTarget))
+        local name, realm = UnitName(unitTarget)
+
+        -- Mark sure they are on InfoFrame if they join late as InfoFrame does not reset properly here due to always being shown for boss
+        -- if core.InfoFrame_PlayersTable[player] == nil then
+        --     core.InfoFrame_PlayersTable[player] = {1,""}
+        -- end
+
+        --core:sendDebugMessage("Wall aura detected for " .. unitTarget .. " with spellID " .. spellID .. " and UID " .. spawn_uid_dest)
+
+        -- Store which lane the player is in
+        if spellID == 1223483 then
+            playerLanes[spawn_uid_dest] = "A"
+            --core:sendDebugMessage("Player " .. unitTarget .. " is in lane A")
+            core._2810:UpdatePlayerLane(name, 6, "A")
+        elseif spellID == 1223484 then
+            playerLanes[spawn_uid_dest] = "B"
+            --core:sendDebugMessage("Player " .. unitTarget .. " is in lane B")
+            core._2810:UpdatePlayerLane(name, 7, "B")
+        elseif spellID == 1223485 then
+            playerLanes[spawn_uid_dest] = "C"
+            --core:sendDebugMessage("Player " .. unitTarget .. " is in lane C")
+            core._2810:UpdatePlayerLane(name, 4, "C")
+        elseif spellID == 1223486 then
+            playerLanes[spawn_uid_dest] = "D"
+            --core:sendDebugMessage("Player " .. unitTarget .. " is in lane D")
+            core._2810:UpdatePlayerLane(name, 3, "D")
+        elseif spellID == 1223489 then
+            playerLanes[spawn_uid_dest] = "E"
+            --core:sendDebugMessage("Player " .. unitTarget .. " is in lane E")
+            core._2810:UpdatePlayerLane(name, 2, "E")
+        elseif spellID == 1223493 then
+            playerLanes[spawn_uid_dest] = "F"
+            --core:sendDebugMessage("Player " .. unitTarget .. " is in lane F")
+            core._2810:UpdatePlayerLane(name, 1, "F")
+        end
+
+        playersInAnyLane[name] = name
+    end
+end
+
+function core._2810:UpdatePlayerLane(name, icon, lane)
+    local currentStatus = InfoFrame_GetPlayerStatusWithMessage(name)
+
+    if currentStatus == 2 or currentStatus == 3 then
+        -- Green or Red
+
+        -- Check which table they are in and update accordingly
+        if playersSpawnUID[name] ~= nil then
+            -- Check if the lane they are in has 5 walls already spawned
+            if lane == "A" and columACounter == 5 then
+                InfoFrame_SetPlayerFailedWithMessage(name, InfoFrame_GetIcon(icon) .. " " .. L["Shared_Spawn"])
+            elseif lane == "B" and columBCounter == 5 then
+                InfoFrame_SetPlayerFailedWithMessage(name, InfoFrame_GetIcon(icon) .. " " .. L["Shared_Spawn"])
+            elseif lane == "C" and columCCounter == 5 then
+                InfoFrame_SetPlayerFailedWithMessage(name, InfoFrame_GetIcon(icon) .. " " .. L["Shared_Spawn"])
+            elseif lane == "D" and columDCounter == 5 then
+                InfoFrame_SetPlayerFailedWithMessage(name, InfoFrame_GetIcon(icon) .. " " .. L["Shared_Spawn"])
+            elseif lane == "E" and columECounter == 5 then
+                InfoFrame_SetPlayerFailedWithMessage(name, InfoFrame_GetIcon(icon) .. " " .. L["Shared_Spawn"])
+            elseif lane == "F" and columFCounter == 5 then
+                InfoFrame_SetPlayerFailedWithMessage(name, InfoFrame_GetIcon(icon) .. " " .. L["Shared_Spawn"])
+            else
+                InfoFrame_SetPlayerCompleteWithMessage(name, InfoFrame_GetIcon(icon) .. " " .. L["Shared_Spawn"])
+            end
+        elseif playersbreakUID[name] ~= nil then
+            -- Check if the lane they are has 4 or more walls spawned
+            if lane == "A" and columACounter < 4 then
+                InfoFrame_SetPlayerFailedWithMessage(name, InfoFrame_GetIcon(icon) .. " " .. L["Shared_Break"])
+            elseif lane == "B" and columBCounter < 4 then
+                InfoFrame_SetPlayerFailedWithMessage(name, InfoFrame_GetIcon(icon) .. " " .. L["Shared_Break"])
+            elseif lane == "C" and columCCounter < 4 then
+                InfoFrame_SetPlayerFailedWithMessage(name, InfoFrame_GetIcon(icon) .. " " .. L["Shared_Break"])
+            elseif lane == "D" and columDCounter < 4 then
+                InfoFrame_SetPlayerFailedWithMessage(name, InfoFrame_GetIcon(icon) .. " " .. L["Shared_Break"])
+            elseif lane == "E" and columECounter < 4 then
+                InfoFrame_SetPlayerFailedWithMessage(name, InfoFrame_GetIcon(icon) .. " " .. L["Shared_Break"])
+            elseif lane == "F" and columFCounter < 4 then
+                InfoFrame_SetPlayerFailedWithMessage(name, InfoFrame_GetIcon(icon) .. " " .. L["Shared_Break"])
+            else
+                InfoFrame_SetPlayerCompleteWithMessage(name, InfoFrame_GetIcon(icon) .. " " .. L["Shared_Break"])
+            end
+        else
+            InfoFrame_SetPlayerCompleteWithMessage(name, InfoFrame_GetIcon(icon))
+        end
+    else
+        -- Neutral
+        InfoFrame_SetPlayerNeutralWithMessage(name, InfoFrame_GetIcon(icon))
+    end
 end
 
 function core._2810.Events:UNIT_AURA(self, unitID)
@@ -371,4 +760,18 @@ function core._2810:ClearVariables()
     ------------------------------------------------------
     reverseGravityCounter = 0
     reverseGravityUID = {}
+
+    ------------------------------------------------------
+    ---- Fractillus
+    ------------------------------------------------------
+    columACounter = 0
+    columBCounter = 0
+    columCCounter = 0
+    columDCounter = 0
+    columECounter = 0
+    columFCounter = 0
+    fourthWallsBroken = 0
+    initialMessageAnnounced = false
+    playersSpawnUID = {}
+    playersbreakUID = {}
 end

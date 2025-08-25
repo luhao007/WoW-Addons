@@ -1,8 +1,8 @@
 ## Interface: 110200
 ## Author: Titan Panel Development Team (http://www.titanpanel.org)
-## Version: 8.3.3
+## Version: 8.3.4
 
-## Title: Titan Panel [|cffeda55fLootType|r] |cff00aa008.3.3|r
+## Title: Titan Panel [|cffeda55fLootType|r] |cff00aa008.3.4|r
 ## Notes: Adds group loot and instance difficulty information to Titan Panel
 ## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r|cFFFFFFFF泰坦面板|r |cFF69CCF0分配方式|r
 ## Notes-zhCN: 泰坦面板的分配方式模块

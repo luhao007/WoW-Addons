@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: MysticalOS, QartemisT
-## Version: 11.2.11
+## Version: 11.2.12
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Core|r|cffffe00a>|r |cff69ccf0Main Core|r
 ## Notes: Deadly Boss Mods
@@ -9,9 +9,12 @@
 
 ## IconTexture: Interface\AddOns\DBM-Core\textures\dbm_airhorn
 
+## Category: DBM
 ## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
+## Group: DBM-Core
 
 ## Dependencies: DBM-StatusBarTimers
+## OptionalDependencies: LibStub, CallbackHandler-1.0, LibSharedMedia-3.0, LibChatAnims, LibDBIcon-1.0, LibDeflate, LibSerialize, LibSpecialization, LibKeystone, CustomNames, Masque, ChatThrottleLib
 ## LoadOnDemand: 0
 ## DefaultState: enabled
 
