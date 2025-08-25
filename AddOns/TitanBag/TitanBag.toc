@@ -13,8 +13,6 @@
 
 ## Dependencies: Titan
 
-## SavedVariables: 
-
 ## X-Part-Of: Titan
 
 TitanBag.lua

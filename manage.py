@@ -191,6 +191,13 @@ class Manager:
                     if parent_name is None:
                         raise ValueError(f"Parent name for {addon} not found!")
                     toc.tags["X-Part-Of"] = parent_name
+                    if (
+                        # DBM actually depends on DBM-StatusBarTimers, not the opposite
+                        addon != "DBM-StatusBarTimers"
+                        and toc.tags.get("Dependencies", "") == ""
+                        and toc.tags.get("RequiredDeps", "") == ""
+                    ):
+                        toc.tags["RequiredDeps"] = parent_name
                 elif addon in ["DBM-Core", "Auc-Advanced", "TomCats"]:
                     toc.tags["X-Part-Of"] = addon
                 elif addon in ["+Wowhead_Looter"]:
@@ -236,9 +243,14 @@ class Manager:
         toc.tags["Title"] = "Libraries"
         toc.tags["Notes"] = "Libraries"
         toc.tags["Title-zhCN"] = (
-            "|cFFFFE00A<|r|cFFC41F3B基础库|r|cFFFFE00A>|r |cFFFFFFFF|cFF7FFF7FAce核心库|r |cFFFF0000必须加载|r|r"
+            "|cFFFFE00A<|r|cFFC41F3B基础库|r|cFFFFE00A>|r |cFFFFFFFF|cFF7FFF7FACE核心库|r |cFFFF0000必须加载|r|r"
         )
         toc.tags["Notes-zhCN"] = "插件基础函数库|N|CFFFF0000必须加载|R"
+
+        toc.tags["Category"] = (
+            f"|cFFFFE00A*<|r|cFFC41F3B基础库|r|cFFFFE00A>|r |cFFFF0000必须加载|r"
+        )
+        toc.tags["IconTexture"] = "Interface\\Icons\\INV_Misc_Bag_10_Black"
 
         toc.contents = [
             "# Common Handler Libs\n",

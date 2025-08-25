@@ -9,13 +9,9 @@
 
 ## Category-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r
 
-## Dependencies: 
-## OptionalDeps: 
+## RequiredDeps: Titan
 ## DefaultState: Enabled
 
-## SavedVariables: 
-
-## X-Child-Of: 
 ## X-Part-Of: Titan
 
 StarterLDB.lua

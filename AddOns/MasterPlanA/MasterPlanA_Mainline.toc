@@ -9,6 +9,8 @@
 
 ## Category-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r
 
+## RequiredDeps: MasterPlan
+
 ## SavedVariables: MasterPlanAG
 
 ## X-Part-Of: MasterPlan

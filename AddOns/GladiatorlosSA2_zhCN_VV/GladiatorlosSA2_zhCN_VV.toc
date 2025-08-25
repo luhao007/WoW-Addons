@@ -11,6 +11,8 @@
 
 ## Category-zhCN: |cFFFFE00A<|r|cFF8787EDPVP|r|cFFFFE00A>|r
 
+## RequiredDeps: GladiatorlosSA2
+
 ## X-Part-Of: GladiatorlosSA2
 
 GladiatorlosSA2_zhCN.lua

@@ -10,7 +10,6 @@
 ## Category-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r
 
 ## Dependencies: Titan
-## OptionalDeps: 
 
 ## SavedVariables: TitanClassicLootTypeSaved
 

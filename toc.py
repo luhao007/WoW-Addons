@@ -24,7 +24,11 @@ class TOC:
             self.contents = []
 
     def tags_to_line(self, tags: Iterable[str]) -> Iterable[str]:
-        return [f"## {tag}: {self.tags[tag]}\n" for tag in tags if tag in self.tags]
+        return [
+            f"## {tag}: {self.tags[tag]}\n"
+            for tag in tags
+            if self.tags.get(tag, "") != ""
+        ]
 
     def trim_contents(self):
         prev = ""
@@ -78,7 +82,7 @@ class TOC:
             # Saved variables
             ["SavedVariables", "SavedVariablesPerCharacter"],
             # Extra meta tags
-            [k for k in self.tags if k.startswith("X-")],
+            [k for k in self.tags.keys() if k.startswith("X-")],
         ]
 
         ret: list[str] = []
@@ -86,11 +90,27 @@ class TOC:
             tag = [k for k in key if k in self.tags.keys()]
             if not tag:
                 continue
-            ret += self.tags_to_line(tag)
-            ret += ["\n"]
+            tag_lines = self.tags_to_line(tag)
+            if tag_lines:
+                ret += tag_lines
+                ret += ["\n"]
 
-        all_keys = sum(keys, [])
+        all_keys = [key for sublist in keys for key in sublist]
         missing_keys = set(self.tags.keys()) - set(all_keys)
+
+        # Ignore extra languages
+        extra_languages = [
+            "deDE",
+            "esES",
+            "esMX",
+            "frFR",
+            "itIT",
+            "koKR",
+            "ptBR",
+            "ruRU",
+            "zhTW",
+        ]
+        missing_keys = [k for k in missing_keys if k[-4:] not in extra_languages]
 
         if missing_keys:
             logging.warning(f"Unknown tags found: {missing_keys}")

@@ -3,8 +3,12 @@
 
 ## Title: Libraries
 ## Notes: Libraries
-## Title-zhCN: |cFFFFE00A<|r|cFFC41F3B基础库|r|cFFFFE00A>|r |cFFFFFFFF|cFF7FFF7FAce核心库|r |cFFFF0000必须加载|r|r
+## Title-zhCN: |cFFFFE00A<|r|cFFC41F3B基础库|r|cFFFFE00A>|r |cFFFFFFFF|cFF7FFF7FACE核心库|r |cFFFF0000必须加载|r|r
 ## Notes-zhCN: 插件基础函数库|N|CFFFF0000必须加载|R
+
+## IconTexture: Interface\Icons\INV_Misc_Bag_10_Black
+
+## Category: |cFFFFE00A*<|r|cFFC41F3B基础库|r|cFFFFE00A>|r |cFFFF0000必须加载|r
 
 # Common Handler Libs
 Ace3\LibStub\LibStub.lua
