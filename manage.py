@@ -194,6 +194,8 @@ class Manager:
                     if (
                         # DBM actually depends on DBM-StatusBarTimers, not the opposite
                         addon != "DBM-StatusBarTimers"
+                        # MasterPlanA is just a separate part of MasterPlan
+                        and addon != "MasterPlanA"
                         and toc.tags.get("Dependencies", "") == ""
                         and toc.tags.get("RequiredDeps", "") == ""
                     ):

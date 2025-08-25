@@ -56,7 +56,7 @@ class TOC:
 
     def to_lines(self) -> Iterable[str]:
         keys = [
-            ["Interface", "Author", "Version", "VersionDate"],
+            ["Interface", "Author", "Version", "License"],
             # Addon info in list
             ["Title", "Notes", "Title-zhCN", "Notes-zhCN"],
             # Addon icon in list
@@ -83,6 +83,10 @@ class TOC:
             ["SavedVariables", "SavedVariablesPerCharacter"],
             # Extra meta tags
             [k for k in self.tags.keys() if k.startswith("X-")],
+            # Addition tags for specific use cases
+            [
+                "VersionDate",  # MeetingStoneEX - Used for grabbing the version date
+            ],
         ]
 
         ret: list[str] = []
