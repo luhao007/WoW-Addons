@@ -4,10 +4,11 @@
 
 ## Title: Quest Counter
 ## Notes: A simple addon to view the current number of quests in your log.
-## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r |cFFFFFFFF任务计数|r |cFFFFE00AQuest_Counter|r
+## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r|cFFFFFFFF任务计数|r |cFFFFE00AQuest_Counter|r
 ## Notes-zhCN: 显示任务计数
 
 ## IconTexture: 4675649
 
+## Category-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r
 
 Config.lua

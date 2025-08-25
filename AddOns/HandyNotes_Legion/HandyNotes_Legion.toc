@@ -3,9 +3,11 @@
 
 ## Title: HandyNotes: Legion
 ## Notes: Legion Notes
-## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0宝藏/稀有|r |cFF22B14C军团再临|r
+## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r|cFFFFFFFF地图标记|r |cFF69CCF0宝藏/稀有|r |cFF22B14C军团再临|r
 
 ## IconTexture: 236415
+
+## Category-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r
 
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: Ace3

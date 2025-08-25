@@ -1,3 +1,4 @@
+import logging
 from collections.abc import Iterable
 
 
@@ -56,6 +57,8 @@ class TOC:
             ["Title", "Notes", "Title-zhCN", "Notes-zhCN"],
             # Addon icon in list
             ["IconTexture", "IconAtlas"],
+            # Addon category in list
+            ["Category", "Category-zhCN"],
             # New tags added in 10.0 for the dropdown menu next to minimap
             [
                 "AddonCompartmentFunc",
@@ -74,6 +77,8 @@ class TOC:
             ],
             # Saved variables
             ["SavedVariables", "SavedVariablesPerCharacter"],
+            # Extra meta tags
+            [k for k in self.tags if k.startswith("X-")],
         ]
 
         ret: list[str] = []
@@ -84,9 +89,11 @@ class TOC:
             ret += self.tags_to_line(tag)
             ret += ["\n"]
 
-        # Extra meta tags
-        ret += self.tags_to_line(k for k in self.tags if k.startswith("X-"))
-        ret += ["\n"]
+        all_keys = sum(keys, [])
+        missing_keys = set(self.tags.keys()) - set(all_keys)
+
+        if missing_keys:
+            logging.warning(f"Unknown tags found: {missing_keys}")
 
         self.trim_contents()
         ret += self.contents

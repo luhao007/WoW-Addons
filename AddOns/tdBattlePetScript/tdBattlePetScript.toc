@@ -4,8 +4,10 @@
 
 ## Title: Pet Battle Scripts
 ## Notes: Battle Pet Combat Scripting
-## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF宠物对战脚本|r |cFFFFE00AtdBattlePetScript|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF宠物对战脚本|r |cFFFFE00AtdBattlePetScript|r
 ## Notes-zhCN: 让宠物对战使用一键对战脚本
+
+## Category-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r
 
 ## OptionalDeps: Ace3, Rematch, ElvUI
 ## LoadManagers: AddonLoader

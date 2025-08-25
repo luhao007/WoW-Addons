@@ -4,10 +4,12 @@
 
 ## Title: War Plan
 ## Notes: Interface replacement for War Campaign missions.
-## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r |cFFFFFFFF阵营战役助手|r |cFFFFE00AWarPlan|r
+## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r|cFFFFFFFF阵营战役助手|r |cFFFFE00AWarPlan|r
 ## Notes-zhCN: 战役任务界面替换。
 
 ## IconTexture: Interface/Icons/Icon_TreasureMap
+
+## Category-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r
 
 ## SavedVariables: WarPlanData
 ## SavedVariablesPerCharacter: WarPlanDataPC

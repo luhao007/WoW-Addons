@@ -4,10 +4,12 @@
 
 ## Title: AtlasLoot |cFF0099FF[Factions]|r
 ## Notes: AtlasLoot loot tables from factions
-## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本掉落|r |cFF69CCF0阵营|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本掉落|r |cFF69CCF0阵营|r
 ## Notes-zhCN: AtlasLoot 阵营物品列表
 
 ## IconTexture: Interface\Icons\INV_Box_01
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
 
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1

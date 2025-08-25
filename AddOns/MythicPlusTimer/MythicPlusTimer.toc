@@ -4,13 +4,14 @@
 
 ## Title: MythicPlusTimer
 ## Notes: Custom Mythic+ timer appearance
-## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF大秘境计时|r |cFFFFE00AMythicPlusTimer|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF大秘境计时|r |cFFFFE00AMythicPlusTimer|r
 ## Notes-zhCN: 在大秘境中显示一个计时器
 
 ## IconTexture: Interface\Icons\ability_racial_timeismoney
 
-## SavedVariables: MythicPlusTimerDB
+## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
 
+## SavedVariables: MythicPlusTimerDB
 
 addon.lua
 locales.lua

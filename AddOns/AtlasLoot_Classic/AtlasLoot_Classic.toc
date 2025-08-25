@@ -4,10 +4,12 @@
 
 ## Title: AtlasLoot |cFF0099FF[Classic]|r
 ## Notes: AtlasLoot loot tables from Classic
-## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本掉落|r |cFF69CCF0经典旧世|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本掉落|r |cFF69CCF0经典旧世|r
 ## Notes-zhCN: AtlasLoot 经典旧世副本掉落列表
 
 ## IconTexture: Interface\Icons\INV_Box_01
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
 
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1

@@ -4,10 +4,12 @@
 
 ## Title: Mythic Dungeon Tools
 ## Notes: Tool for planning and optimizing Mythic+ dungeon runs
-## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF大秘境工具|r |cFFFFE00AMythicDungeonTools|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF大秘境工具|r |cFFFFE00AMythicDungeonTools|r
 ## Notes-zhCN: 大秘境工具包
 
 ## IconTexture: Interface\AddOns\MythicDungeonTools\Textures\MDTFull
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
 
 ## OptionalDeps: !!AddonLocale, LibStub, Ace3, WagoAnalytics
 

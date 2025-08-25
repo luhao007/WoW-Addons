@@ -4,10 +4,12 @@
 
 ## Title: BlizzMove - Debugging plugin
 ## Notes: This Load-On-Demand plugin allows for retrieving debugging information.
-## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF窗口移动|r |cFF69CCF0错误调试|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r|cFFFFFFFF窗口移动|r |cFF69CCF0错误调试|r
 ## Notes-zhCN: 获取报错信息以用于调试
 
 ## IconTexture: interface/cursor/ui-cursor-move.blp
+
+## Category-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r
 
 ## RequiredDeps: BlizzMove
 ## LoadOnDemand: 1

@@ -4,10 +4,12 @@
 
 ## Title: Venture Plan
 ## Notes: Interface improvements for Adventures.
-## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r |cFFFFFFFF冒险助手|r |cFFFFE00AVenturePlan|r
+## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r|cFFFFFFFF冒险助手|r |cFFFFE00AVenturePlan|r
 ## Notes-zhCN: 冒险界面改进。
 
 ## IconTexture: Interface/Icons/Sanctum_Features_MissionTable
+
+## Category-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r
 
 ## SavedVariablesPerCharacter: VP_SPC
 

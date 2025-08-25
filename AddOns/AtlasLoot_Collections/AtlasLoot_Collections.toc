@@ -4,10 +4,12 @@
 
 ## Title: AtlasLoot |cFF0099FF[Collections]|r
 ## Notes: AtlasLoot collections loot tables (e.g. Mounts & Pets)
-## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本掉落|r |cFF69CCF0套装|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本掉落|r |cFF69CCF0套装|r
 ## Notes-zhCN: AtlasLoot 套装列表
 
 ## IconTexture: Interface\Icons\INV_Box_01
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
 
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1

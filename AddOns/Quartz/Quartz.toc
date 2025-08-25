@@ -4,8 +4,10 @@
 
 ## Title: Quartz
 ## Notes: Modular casting bar.
-## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r |cFFFFFFFF施法条|r |cFFFFE00AQuartz|r
+## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r|cFFFFFFFF施法条|r |cFFFFE00AQuartz|r
 ## Notes-zhCN: 模块化施法条。
+
+## Category-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r
 
 ## OptionalDeps: Ace3, LibDualSpec-1.0, LibWindow-1.1, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, SharedMedia
 

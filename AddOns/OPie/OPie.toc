@@ -4,10 +4,12 @@
 
 ## Title: OPie
 ## Notes: Group abilities into rings that appear when you hold down a binding.
-## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r |cFFFFFFFF环形动作条|r |cFFFFE00AOPie|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r|cFFFFFFFF环形动作条|r |cFFFFE00AOPie|r
 ## Notes-zhCN: 当你按下快捷键时显示一个环形的技能分组.
 
 ## IconTexture: Interface/AddOns/OPie/gfx/opie_ring_icon
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r
 
 ## AddonCompartmentFunc: OPie_OpenSettings
 

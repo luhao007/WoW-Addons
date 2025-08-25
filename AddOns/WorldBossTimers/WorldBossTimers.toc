@@ -4,12 +4,13 @@
 
 ## Title: WorldBossTimers
 ## Notes: Creates timers for world bosses
-## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF世界首领计时器|r |cFFFFE00AWorldBossTimers|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF世界首领计时器|r |cFFFFE00AWorldBossTimers|r
 
 ## IconTexture: 656169
 
-## SavedVariables: WorldBossTimersDB
+## Category-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r
 
+## SavedVariables: WorldBossTimersDB
 
 embeds.xml
 

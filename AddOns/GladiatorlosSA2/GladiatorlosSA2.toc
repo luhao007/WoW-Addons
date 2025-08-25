@@ -4,12 +4,13 @@
 
 ## Title: GladiatorlosSA
 ## Notes: PvP Sound Alerter
-## Title-zhCN: |cFFFFE00A<|r|cFF8787EDPVP|r|cFFFFE00A>|r |cFFFFFFFF角斗士助手|r |cFFFFE00AGladiatorlosSA2|r
+## Title-zhCN: |cFFFFE00A<|r|cFF8787EDPVP|r|cFFFFE00A>|r|cFFFFFFFF角斗士助手|r |cFFFFE00AGladiatorlosSA2|r
 
 ## IconTexture: interface\icons\spell_misc_emotionangry.blp
 
-## SavedVariables: GladiatorlosSADB
+## Category-zhCN: |cFFFFE00A<|r|cFF8787EDPVP|r|cFFFFE00A>|r
 
+## SavedVariables: GladiatorlosSADB
 
 embeds.xml
 Locales\locales.xml

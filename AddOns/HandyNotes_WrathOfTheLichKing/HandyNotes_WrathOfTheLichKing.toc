@@ -3,9 +3,11 @@
 
 ## Title: HandyNotes: Wrath of the Lich King
 ## Notes: Wrath of the Lich King Notes
-## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF地图标记|r |cFF69CCF0宝藏/稀有|r |cFF22B14C巫妖王之怒|r
+## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r|cFFFFFFFF地图标记|r |cFF69CCF0宝藏/稀有|r |cFF22B14C巫妖王之怒|r
 
 ## IconTexture: 630787
+
+## Category-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r
 
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: Ace3

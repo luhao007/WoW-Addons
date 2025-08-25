@@ -4,10 +4,12 @@
 
 ## Title: Hekili
 ## Notes: Priority helper based on SimulationCraft action lists.
-## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r |cFFFFFFFF技能提示|r |cFFFFE00AHekili|r
+## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r|cFFFFFFFF技能提示|r |cFFFFE00AHekili|r
 ## Notes-zhCN: 提示技能优先级
 
 ## IconTexture: Interface\AddOns\Hekili\Textures\LOGO-ORANGE.blp
+
+## Category-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r
 
 ## OptionalDeps: AddOnSkins, ButtonForge, ConsolePort, ElvUI, LibDualSpec-1.0, Masque, WeakAuras
 

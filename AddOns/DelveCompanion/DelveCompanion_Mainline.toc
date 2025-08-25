@@ -4,10 +4,12 @@
 
 ## Title: Delve Companion
 ## Notes: One-stop addon to make Delves experience even better!
-## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF地下堡助手|r |cFFFFE00ADelveCompanion|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF地下堡助手|r |cFFFFE00ADelveCompanion|r
 ## Notes-zhCN: 在冒险者日志中添加“地下堡”分页
 
 ## IconTexture: interface/icons/ui_delves
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
 
 ## AddonCompartmentFunc: DelveCompanionCompartmentOnClick
 ## AddonCompartmentFuncOnEnter: DelveCompanionCompartmentOnEnter

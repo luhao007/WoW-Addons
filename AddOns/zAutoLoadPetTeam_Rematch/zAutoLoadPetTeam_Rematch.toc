@@ -4,10 +4,11 @@
 
 ## Title: AutoLoadPetTeam For Rematch
 ## Notes: 宠物自动换队-适配Rematch版
-## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF自动载入宠物队伍|r |cFFFFE00AzAutoLoadPetTeam_Rematch|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF自动载入宠物队伍|r |cFFFFE00AzAutoLoadPetTeam_Rematch|r
+
+## Category-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r
 
 ## SavedVariables: BattleLog,PBLMData
-
 
 Init.lua
 Option.lua

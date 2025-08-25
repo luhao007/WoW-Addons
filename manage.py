@@ -100,17 +100,13 @@ class Manager:
             return default
         return element.text if element.text else default
 
-    def get_title(self, addon: str) -> str:
-        parts: list[str] = []
-
+    def get_category(self, addon: str) -> str:
         config = self.get_addon_config(addon)
         if config.tag.endswith("SubAddon"):
             parent_config = self.get_addon_parent_config(addon)
             cat = self._get_text_from_xml(parent_config, "Category")
-            title = self._get_text_from_xml(parent_config, "Title")
         else:
             cat = self._get_text_from_xml(config, "Category")
-            title = self._get_text_from_xml(config, "Title")
 
         colors = {
             "基础库": "C41F3B",  # Red - DK
@@ -127,7 +123,17 @@ class Manager:
             "辅助": "FFFFFF",  # White - Priest
         }
         color = colors.get(cat, "FFF569")  # Unknown defaults to Rogue Yellow
-        parts.append(f"|cFFFFE00A<|r|cFF{color}{cat}|r|cFFFFE00A>|r")
+        return f"|cFFFFE00A<|r|cFF{color}{cat}|r|cFFFFE00A>|r"
+
+    def get_title(self, addon: str) -> str:
+        parts: list[str] = []
+
+        config = self.get_addon_config(addon)
+        if config.tag.endswith("SubAddon"):
+            parent_config = self.get_addon_parent_config(addon)
+            title = self._get_text_from_xml(parent_config, "Title")
+        else:
+            title = self._get_text_from_xml(config, "Title")
 
         parts.append(f"|cFFFFFFFF{title}|r")
 
@@ -169,11 +175,15 @@ class Manager:
                 toc = TOC(lines)
 
                 toc.tags["Interface"] = self.interface
-                toc.tags["Title-zhCN"] = self.get_title(addon)
+                toc.tags["Title-zhCN"] = self.get_category(addon) + self.get_title(
+                    addon
+                )
 
                 note = self._get_text_from_xml(config, "Notes")
                 if note != "":
                     toc.tags["Notes-zhCN"] = note
+
+                toc.tags["Category-zhCN"] = self.get_category(addon)
 
                 if config.tag.endswith("SubAddon"):
                     parent_config = self.get_addon_parent_config(addon)

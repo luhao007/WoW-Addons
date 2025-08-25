@@ -4,10 +4,12 @@
 
 ## Title: Edit Mode Expanded
 ## Notes: Expands Edit Mode to apply to other frames
-## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r |cFFFFFFFF编辑模式增强|r |cFFFFE00AEditModeExpanded|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r|cFFFFFFFF编辑模式增强|r |cFFFFE00AEditModeExpanded|r
 ## Notes-zhCN: 增加编辑模式种可调节的窗体
 
 ## IconTexture: 4555600
+
+## Category-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r
 
 ## SavedVariables: EditModeExpandedADB
 

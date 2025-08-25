@@ -3,10 +3,12 @@
 ## Version: 4.6.5
 
 ## Title: AllTheThings |cfd9b9b9b(Wrath)|r
-## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF收集控助手|r |cFFFFE00AAllTheThings|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF收集控助手|r |cFFFFE00AAllTheThings|r
 ## Notes-zhCN: 追踪账号完成度，提示诸如任务、飞行点、配方等各个分类的收集和完成情况
 
 ## IconTexture: Interface/Addons/AllTheThings/assets/logo_32x32
+
+## Category-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r
 
 ## AddonCompartmentFunc: AllTheThings_MinimapButtonOnClick
 ## AddonCompartmentFuncOnEnter: AllTheThings_MinimapButtonOnEnter

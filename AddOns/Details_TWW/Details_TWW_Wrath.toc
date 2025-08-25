@@ -4,8 +4,10 @@
 
 ## Title: Details! Skin TWW |cff8080ffv1.3.8|r
 ## Notes: Adds the 'The War Within' Skin to Details.|n|cffbbbbbbBy Karl-Heinz Schneider|r|n|n|TInterface/Addons/Details_TWW/Textures/coffee:12:12|t |cff82c5ffbuymeacoffee.com/karlheinzschneider|r
-## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r |cFFFFFFFF伤害统计|r |cFF69CCF0皮肤|r |cFF22B14C地心之战|r
+## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r|cFFFFFFFF伤害统计|r |cFF69CCF0皮肤|r |cFF22B14C地心之战|r
 ## Notes-zhCN: 地心之战皮肤
+
+## Category-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r
 
 ## Dependencies: Details
 ## OptionalDeps: Ace3

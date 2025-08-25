@@ -4,7 +4,9 @@
 
 ## Title: WeakAuras Options
 ## Notes: Options for WeakAuras
-## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r |cFFFFFFFF辅助增强|r |cFF0055FF设置|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r|cFFFFFFFF辅助增强|r |cFF0055FF设置|r
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r
 
 ## Dependencies: WeakAuras
 ## LoadOnDemand: 1

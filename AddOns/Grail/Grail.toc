@@ -4,14 +4,15 @@
 
 ## Title: Grail
 ## Notes: Knows about quests
-## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r |cFFFFFFFF本地数据库|r |cFFFFE00AGrail|r
+## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r|cFFFFFFFF本地数据库|r |cFFFFE00AGrail|r
 ## Notes-zhCN: 本地数据库，包含任务，成就，NPC等数据
 
 ## IconTexture: Interface\Icons\achievement_quests_completed_06
 
+## Category-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r
+
 ## SavedVariables: GrailDatabase
 ## SavedVariablesPerCharacter: GrailDatabasePlayer
-
 
 Grail.lua
 

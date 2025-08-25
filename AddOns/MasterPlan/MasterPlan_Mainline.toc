@@ -4,9 +4,11 @@
 
 ## Title: Master Plan
 ## Notes: Garrison missions UI tweaks.
-## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r |cFFFFFFFF要塞助手|r |cFFFFE00AMasterPlan|r
+## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r|cFFFFFFFF要塞助手|r |cFFFFE00AMasterPlan|r
 
 ## IconTexture: 1001491
+
+## Category-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r
 
 ## RequiredDeps: Blizzard_GarrisonUI, MasterPlanA
 ## LoadOnDemand: 1

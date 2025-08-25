@@ -3,10 +3,12 @@
 
 ## Title: Atlas |r|cFF0099FF[World Events]|r
 ## Notes: An Atlas Plugin that displays world events maps.
-## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本地图|r |cFF69CCF0世界事件|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本地图|r |cFF69CCF0世界事件|r
 ## Notes-zhCN: Atlas 世界事件地图插件。
 
 ## IconTexture: Interface\WorldMap\WorldMap-Icon
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
 
 ## RequiredDeps: Atlas
 

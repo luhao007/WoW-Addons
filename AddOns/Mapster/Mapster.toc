@@ -4,8 +4,10 @@
 
 ## Title: Mapster
 ## Notes: Simple Map Mod
-## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r |cFFFFFFFF地图增强|r |cFFFFE00AMapster|r
+## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r|cFFFFFFFF地图增强|r |cFFFFE00AMapster|r
 ## Notes-zhCN: 简单实用的地图模块
+
+## Category-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r
 
 ## OptionalDeps: Ace3, LibWindow-1.1
 

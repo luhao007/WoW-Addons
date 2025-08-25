@@ -4,10 +4,12 @@
 
 ## Title: GladiatorlosSA_zhCN_VV
 ## Notes: GSA plugin for Chinese voice set
-## Title-zhCN: |cFFFFE00A<|r|cFF8787EDPVP|r|cFFFFE00A>|r |cFFFFFFFF角斗士助手|r |cFF69CCF0VV语音包|r
+## Title-zhCN: |cFFFFE00A<|r|cFF8787EDPVP|r|cFFFFE00A>|r|cFFFFFFFF角斗士助手|r |cFF69CCF0VV语音包|r
 ## Notes-zhCN: PVP技能語音提示
 
 ## IconTexture: Interface\AddOns\GladiatorlosSA2_zhCN_VV\Icons\VV_GSA2.tga
+
+## Category-zhCN: |cFFFFE00A<|r|cFF8787EDPVP|r|cFFFFE00A>|r
 
 ## X-Part-Of: GladiatorlosSA2
 

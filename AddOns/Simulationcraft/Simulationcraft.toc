@@ -4,10 +4,12 @@
 
 ## Title: Simulationcraft
 ## Notes: Constructs SimC export strings
-## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r |cFFFFFFFF输出模拟器|r |cFFFFE00ASimulationcraft|r
+## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r|cFFFFFFFF输出模拟器|r |cFFFFE00ASimulationcraft|r
 ## Notes-zhCN: 模拟当前人物的输出，来确认哪个装备属性更好。
 
 ## IconTexture: Interface\Addons\SimulationCraft\logo
+
+## Category-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r
 
 ## SavedVariables: SimulationCraftDB
 

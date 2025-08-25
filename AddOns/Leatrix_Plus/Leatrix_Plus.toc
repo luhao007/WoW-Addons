@@ -4,10 +4,12 @@
 
 ## Title: Leatrix Plus
 ## Notes: For support, visit leatrix.com.
-## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r |cFFFFFFFF功能百宝箱|r |cFFFFE00ALeatrix_Plus|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r|cFFFFFFFF功能百宝箱|r |cFFFFE00ALeatrix_Plus|r
 ## Notes-zhCN: 如需支持，请访问 leatrix.com。
 
 ## IconTexture: Interface\HELPFRAME\ReportLagIcon-Movement
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r
 
 ## AddonCompartmentFunc: LeaPlusGlobalMiniBtnClickFunc
 

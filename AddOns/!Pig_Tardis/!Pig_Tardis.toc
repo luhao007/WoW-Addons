@@ -4,10 +4,12 @@
 
 ## Title: !Pig_Tardis
 ## Notes: Invite enhancement
-## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r |cFFFFFFFFPig工具箱|r |cFF69CCF0时空之门|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r|cFFFFFFFFPig工具箱|r |cFF69CCF0时空之门|r
 ## Notes-zhCN: |cffFF8C00!Pig组队增强功能|r
 
 ## IconTexture: Interface/AddOns/!Pig/Libs/logo32.blp
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r
 
 ## AddonCompartmentFunc: PIGCompartmentClick_Tardis
 ## AddonCompartmentFuncOnEnter: PIGCompartmentEnter_Tardis

@@ -6,7 +6,6 @@
 ## Title-zhCN: |cFFFFE00A<|r|cFFC41F3B基础库|r|cFFFFE00A>|r |cFFFFFFFF|cFF7FFF7FAce核心库|r |cFFFF0000必须加载|r|r
 ## Notes-zhCN: 插件基础函数库|N|CFFFF0000必须加载|R
 
-
 # Common Handler Libs
 Ace3\LibStub\LibStub.lua
 Ace3\CallbackHandler-1.0\CallbackHandler-1.0.xml

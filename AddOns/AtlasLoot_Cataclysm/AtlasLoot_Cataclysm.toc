@@ -4,10 +4,12 @@
 
 ## Title: AtlasLoot |cFF0099FF[Cataclysm]|r
 ## Notes: AtlasLoot loot tables from Cataclysm
-## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本掉落|r |cFF69CCF0大地的裂变|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本掉落|r |cFF69CCF0大地的裂变|r
 ## Notes-zhCN: AtlasLoot 大地的裂变副本掉落列表
 
 ## IconTexture: Interface\Icons\INV_Box_01
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
 
 ## Dependencies: AtlasLoot
 ## LoadOnDemand: 1

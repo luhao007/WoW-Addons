@@ -4,10 +4,12 @@
 
 ## Title: Atlas |r|cFF0099FF[Class Order Halls]|r
 ## Notes: Map of Class Order Halls
-## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r |cFFFFFFFF副本地图|r |cFF69CCF0职业大厅|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本地图|r |cFF69CCF0职业大厅|r
 ## Notes-zhCN: 职业大厅地图
 
 ## IconTexture: Interface\WorldMap\WorldMap-Icon
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
 
 ## RequiredDeps: Atlas
 

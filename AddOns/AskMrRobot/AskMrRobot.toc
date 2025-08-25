@@ -4,15 +4,16 @@
 
 ## Title: Ask Mr. Robot
 ## Notes: Gear import/export, combat logging, and more.
-## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r |cFFFFFFFF机器人模拟|r |cFFFFE00AAskMrRobot|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r|cFFFFFFFF机器人模拟|r |cFFFFE00AAskMrRobot|r
 ## Notes-zhCN: 生成可以在AskMrRobot网站模拟的字符串
 
 ## IconTexture: Interface\AddOns\AskMrRobot\Media\icon.tga
 
+## Category-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r
+
 ## AddonCompartmentFunc: AskMrRobot_AddonCompartmentFunc
 
 ## SavedVariables: AskMrRobotDb4
-
 
 localization\enUS.lua
 localization\ruRU.lua
