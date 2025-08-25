@@ -10,6 +10,7 @@ local db = AtlasLoot.db
 local Addons = _G.AtlasLoot.Addons
 local FavAddon = _G.AtlasLoot.Addons:GetAddon("Favourites")
 
+local AceGUI = LibStub("AceGUI-3.0")
 local AC = LibStub("AceConfig-3.0");
 local ACD = LibStub("AceConfigDialog-3.0");
 
@@ -20,6 +21,54 @@ local function UpdateItemFrame(addon)
 	if AtlasLoot.GUI.frame and AtlasLoot.GUI.frame:IsShown() then
 		AtlasLoot.GUI.ItemFrame:Refresh(true)
 	end
+end
+
+local function ImportItemList(listName, listID, isGlobal)
+	---@class AceGUIFrame
+	local frame = AceGUI:Create("Frame")
+	frame:SetTitle(AL["Import item list"])
+	frame:SetStatusText(listName)
+	frame:SetCallback("OnClose", function(widget) AceGUI:Release(widget) end)
+	frame:SetLayout("Flow")
+
+	---@class AceGUICheckBox
+	local checkBox = AceGUI:Create("CheckBox")
+	checkBox:SetValue(false)
+	checkBox:SetLabel(AL["Replace existing items"])
+	frame:AddChild(checkBox)
+
+	---@class AceGUIMultiLineEditBox
+	local multiEditbox = AceGUI:Create("MultiLineEditBox")
+	multiEditbox:SetText("")
+	multiEditbox:SetFocus()
+	multiEditbox:SetFullWidth(true)
+	multiEditbox:SetFullHeight(true)
+	multiEditbox:SetCallback("OnEnterPressed", function(self, script, text)
+		local addedItems = FavAddon:ImportItemList(listID, isGlobal, text, checkBox:GetValue())
+		UpdateItemFrame(FavAddon)
+		AtlasLoot:Print(format(AL["Added |cff00ff00%d|r items into list |cff00ff00%s|r."], addedItems or 0, listName))
+		frame:Hide()
+	end)
+	frame:AddChild(multiEditbox)
+end
+
+local function ExportItemList(listName, listString)
+	---@class AceGUIFrame
+	local frame = AceGUI:Create("Frame")
+	frame:SetTitle(AL["Export item list"])
+	frame:SetStatusText(listName)
+	frame:SetCallback("OnClose", function(widget) AceGUI:Release(widget) end)
+	frame:SetLayout("Fill")
+
+	---@class AceGUIMultiLineEditBox
+	local multiEditbox = AceGUI:Create("MultiLineEditBox")
+	multiEditbox:SetText(listString or "")
+	multiEditbox:HighlightText(0)
+	multiEditbox:DisableButton(true)
+	multiEditbox:SetFocus()
+	multiEditbox:SetFullWidth(true)
+	multiEditbox:SetFullHeight(true)
+	frame:AddChild(multiEditbox)
 end
 
 local options = {

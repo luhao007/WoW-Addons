@@ -91,39 +91,13 @@
 						<FontString parentKey="ModifiersLabel" font="GameFontHighlightLarge"
 							text="MODS">
 							<Anchors>
-								<Anchor point="RIGHT" relativeKey="$parent.OverchargedWidget"
+								<Anchor point="RIGHT" relativeKey="$parent.AffixWidget"
 									relativePoint="LEFT" x="-5" y="0" />
 							</Anchors>
 						</FontString>
 					</Layer>
 				</Layers>
 				<Frames>
-					<Frame parentKey="OverchargedWidget"
-						inherits="DelveCompanionCustomActionWidgetTemplate" hidden="true">
-						<Size x="50" y="50" />
-						<KeyValues>
-							<KeyValue key="layoutIndex" value="1" type="number" />
-							<KeyValue key="iconSizeX" value="30" type="number" />
-							<KeyValue key="iconSizeY" value="30" type="number" />
-							<KeyValue key="useMask" value="true" type="boolean" />
-							<KeyValue key="maskSizeOffset" value="15" type="number" />
-							<KeyValue key="displayLabel" value="false" type="boolean" />
-							<KeyValue key="tooltipAnchor" value="ANCHOR_RIGHT" type="string" />
-						</KeyValues>
-						<Layers>
-							<Layer level="OVERLAY">
-								<Texture parentKey="Ring" atlas="charactercreate-ring-metallight">
-									<Anchors>
-										<Anchor point="TOPLEFT" relativePoint="CENTER" x="-30"
-											y="30" />
-										<Anchor point="BOTTOMRIGHT" relativePoint="CENTER" x="30"
-											y="-30" />
-									</Anchors>
-								</Texture>
-							</Layer>
-						</Layers>
-					</Frame>
-
 					<Frame parentKey="AffixWidget"
 						inherits="DelveCompanionCustomActionWidgetTemplate">
 						<Size x="50" y="50" />

@@ -19,6 +19,6 @@
 ## X-DBM-MusicPack-GlobalName: DBMMPSoundEventsPack
 ## X-Curse-Project-ID: 289311
 ## X-Wago-ID: qv63WD6b
-## X-Part-Of: 
+## X-Part-Of: DBM-Core
 
 LoadList.lua

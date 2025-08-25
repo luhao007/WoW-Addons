@@ -29,7 +29,7 @@ local cache = {}
 
 function ChatLink:Register(type, findString, createChatStringFunc, getFunc, onClickFunc, findClickString)
 	if type_register[type] then return end
-	register[#register+1] = { START_FIND_STRING..findString..END_FIND_STRING, createChatStringFunc, getFunc, onClickFunc, START_HL_FIND_STRING..findClickString..END_HL_FIND_STRING }
+	register[#register + 1] = { START_FIND_STRING..findString..END_FIND_STRING, createChatStringFunc, getFunc, onClickFunc, START_HL_FIND_STRING..findClickString..END_HL_FIND_STRING }
 	type_register[type] = #register
 end
 
@@ -39,7 +39,7 @@ function ChatLink:GetChatLink(type, ...)
 end
 
 function AtlasLoot:Send(msg)
-	SendChatMessage(ChatLink:GetChatLink("InstanceLink", msg), "SAY")
+	C_ChatInfo.SendChatMessage(ChatLink:GetChatLink("InstanceLink", msg), "SAY")
 end
 
 ChatLink:Register("InstanceLink", "IL:([%w%d%s_- ]+)", function(ini) return "IL:"..ini end, function(...) return ... end, function(cacheTable, ...) print(...) end, "([%w%d%s_-]+)")
@@ -49,11 +49,11 @@ local function ChatFilter(_, _, msg, ...)
 	local new = ""
 	local ende, tmp
 	local start, finish
-	for k,v in ipairs(register) do
+	for k, v in ipairs(register) do
 		ende = false
-		
+
 		repeat
-			start, finish = str_find(msg,v[1])
+			start, finish = str_find(msg, v[1])
 			if start then
 				tmp = v[3](select(3, str_find(msg, v[1])))
 				new = new..START_HL_STRING..tmp..END_HL_STRING
@@ -62,11 +62,11 @@ local function ChatFilter(_, _, msg, ...)
 			else
 				ende = true
 			end
-		until(ende)
+		until (ende)
 	end
 	if new ~= "" then
-        return false, new, ...
-    end
+		return false, new, ...
+	end
 end
 
 ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", ChatFilter)
@@ -87,37 +87,37 @@ ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT", ChatFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT_LEADER", ChatFilter)
 
 hooksecurefunc("ChatFrame_OnHyperlinkShow", function(self, link, text, button)
-    if(link == "atlasloot") then	
-		if(IsShiftKeyDown()) then
+	if (link == "atlasloot") then
+		if (IsShiftKeyDown()) then
 			local editbox = GetCurrentKeyBoardFocus()
-			if(editbox) then
+			if (editbox) then
 				editbox:Insert(text)
 			end
 		else
 			local start, finish
-			for k,v in ipairs(register) do
+			for k, v in ipairs(register) do
 				start, finish = str_find(text, v[5])
 				if start then
-					v[4](cache[str_sub(text, start, finish)], select(3,str_find(text, v[5])))
+					v[4](cache[str_sub(text, start, finish)], select(3, str_find(text, v[5])))
 					--cache[text:sub(start, finish)][1]
 				end
 			end
 		end
-    end
+	end
 end)
 
 local OriginalSetHyperlink = ItemRefTooltip.SetHyperlink
 function ItemRefTooltip:SetHyperlink(link, ...)
-    if(link and str_sub(link, 0, 9) == "atlasloot") then
-        return
-    end
-    return OriginalSetHyperlink(self, link, ...)
+	if (link and str_sub(link, 0, 9) == "atlasloot") then
+		return
+	end
+	return OriginalSetHyperlink(self, link, ...)
 end
 
 local OriginalHandleModifiedItemClick = HandleModifiedItemClick
 function HandleModifiedItemClick(link, ...)
-    if(link and str_find(link, "|Hatlasloot|h")) then
-        return
-    end
-    return OriginalHandleModifiedItemClick(link, ...)
- end
+	if (link and str_find(link, "|Hatlasloot|h")) then
+		return
+	end
+	return OriginalHandleModifiedItemClick(link, ...)
+end

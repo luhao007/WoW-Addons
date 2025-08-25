@@ -14,6 +14,6 @@
 
 ## SavedVariablesPerCharacter: GrailWhenPlayer
 
-## X-Part-Of: 
+## X-Part-Of: Grail
 
 Grail-When.lua

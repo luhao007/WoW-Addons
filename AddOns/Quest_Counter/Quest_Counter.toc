@@ -1,9 +1,13 @@
 ## Interface: 110200
+## Author: Raelsion
+## Version: v11.2.0.X-8.5.25
+
 ## Title: Quest Counter
 ## Notes: A simple addon to view the current number of quests in your log.
-## Version: v11.2.0.X-8.5.25
-## Author: Raelsion
+## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r |cFFFFFFFF任务计数|r |cFFFFE00AQuest_Counter|r
+## Notes-zhCN: 显示任务计数
+
 ## IconTexture: 4675649
-## Category: Quests & Leveling
+
 
 Config.lua

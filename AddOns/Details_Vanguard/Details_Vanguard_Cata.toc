@@ -13,6 +13,6 @@
 ## SavedVariablesPerCharacter: _detalhes_databaseVanguard
 
 ## X-Wago-ID: ZQ6abgKW
-## X-Part-Of: 
+## X-Part-Of: Details
 
 Details_Vanguard.lua

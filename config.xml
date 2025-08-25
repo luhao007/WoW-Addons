@@ -12,7 +12,7 @@
 	</Addon>
 	<Addon name="!Pig">
 		<Title>Pig工具箱</Title>
-		<Category>功能</Category>/Hand
+		<Category>功能</Category>
 		<SubAddons>
 			<SubAddon name="!Pig_Tardis">
 				<Title>时空之门</Title>
@@ -1493,6 +1493,11 @@
 	<Addon name="Questie">
 		<Title>任务助手</Title>
 		<Notes>在地图和小地图上提供任务指引，在怪物身上提示任务进度</Notes>
+		<Category>任务</Category>
+	</Addon>
+	<Addon name="Quest_Counter">
+		<Title>任务计数</Title>
+		<Notes>显示任务计数</Notes>
 		<Category>任务</Category>
 	</Addon>
 	<Addon name="RaidAchievement">

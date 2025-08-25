@@ -955,6 +955,114 @@ data["Legacy of Scholomance"] = {
 	}
 }
 
+data["Scarlet Monastery of Old"] = {
+	name = GetRealZoneText(189), -- C_Spell.GetSpellName(419654),
+	--AtlasMapID = "CL_",
+	ContentType = DUNGEON_CONTENT,
+	items = {
+		{
+			name = AL["Graveyard"],
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1,  "INV_Box_01", nil, AL["Interrogator Vishas"],                         nil },
+				{ 2,  7682 }, -- Torturing Poker
+				{ 3,  7683 }, -- Bloody Brass Knuckles
+				{ 5,  "INV_Box_01", nil, AL["Bloodmage Thalnos"],                           nil },
+				{ 6,  7685 }, -- Orb of the Forgotten Seer
+				{ 7,  7684 }, -- Bloodmage Mantle
+				{ 9,  "INV_Box_01", nil, AL["Azshir the Sleepless"].." ("..AL["Rare"]..")", nil },
+				{ 10, 7709 }, -- Blighted Leggings
+				{ 11, 7708 }, -- Necrotic Wand
+				{ 12, 7731 }, -- Ghostshard Talisman
+				{ 16, "INV_Box_01", nil, AL["Fallen Champion"].." ("..AL["Rare"]..")",      nil },
+				{ 17, 7691 }, -- Embalmed Shroud
+				{ 18, 7690 }, -- Ebon Vise
+				{ 19, 7689 }, -- Morbid Dawn
+				{ 21, "INV_Box_01", nil, AL["Ironspine"].." ("..AL["Rare"]..")",            nil },
+				{ 22, 7688 }, -- Ironspine's Ribcage
+				{ 23, 7687 }, -- Ironspine's Fist
+				{ 24, 7686 }, -- Ironspine's Eye
+			},
+		},
+		{
+			name = AL["Library"],
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1,  "INV_Box_01", nil, AL["Houndmaster Loksey"], nil },
+				{ 2,  7710 }, -- Loksey's Training Stick
+				{ 3,  7756 }, -- Dog Training Gloves
+				{ 4,  3456 }, -- Dog Whistle
+				{ 6,  "INV_Box_01", nil, AL["Arcanist Doan"],      nil },
+				{ 7,  7714 }, -- Hypnotic Blade
+				{ 8,  7713 }, -- Illusionary Rod
+				{ 9,  7712 }, -- Mantle of Doan
+				{ 10, 7711 }, -- Robe of Doan
+			},
+		},
+		{
+			name = AL["Armory"],
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1, "INV_Box_01", nil, AL["Herod"],           nil },
+				{ 2, 7719 }, -- Raging Berserker's Helm
+				{ 3, 7718 }, -- Herod's Shoulder
+				{ 4, 10330 }, -- Scarlet Leggings
+				{ 5, 7717 }, -- Ravager
+				{ 7, "INV_Box_01", nil, AL["Scarlet Trainee"], nil },
+				{ 8, 23192 }, -- Tabard of the Scarlet Crusade
+			},
+		},
+		{
+			name = AL["Cathedral"],
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1,  "INV_Box_01", nil, AL["High Inquisitor Fairbanks"],  nil },
+				{ 2,  19507 }, -- Inquisitor's Shawl
+				{ 3,  19508 }, -- Branded Leather Bracers
+				{ 4,  19509 }, -- Dusty Mail Boots
+				{ 6,  "INV_Box_01", nil, AL["Scarlet Commander Mograine"], nil },
+				{ 7,  7724 }, -- Gauntlets of Divinity
+				{ 8,  10330 }, -- Scarlet Leggings
+				{ 9,  7726 }, -- Aegis of the Scarlet Commander
+				{ 10, 7723 }, -- Mograine's Might
+				{ 12, "INV_Box_01", nil, AL["High Inquisitor Whitemane"],  nil },
+				{ 13, 7720 }, -- Whitemane's Chapeau
+				{ 14, 7722 }, -- Triune Amulet
+				{ 15, 7721 }, -- Hand of Righteousness
+			},
+		},
+		{
+			name = AL["Trash Mobs"],
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1,  7755 }, -- Flintrock Shoulders
+				{ 2,  7727 }, -- Watchman Pauldrons
+				{ 3,  1992 }, -- Swampchill Fetish
+				{ 4,  2262 }, -- Mark of Kern
+				{ 5,  7787 }, -- Resplendent Guardian
+				{ 6,  7729 }, -- Chesterfall Musket
+				{ 7,  7761 }, -- Steelclaw Reaver
+				{ 8,  5756 }, -- Sliverblade
+				{ 9,  7736 }, -- Fight Club
+				{ 10, 8225 }, -- Tainted Pierce
+				{ 11, 7757 }, -- Windweaver Staff
+				{ 12, 7758 }, -- Ruthless Shiv
+				{ 13, 7760 }, -- Warchief Kilt
+				{ 14, 7754 }, -- Harbinger Boots
+				{ 15, 7753 }, -- Bloodspiller
+				-- These might also drop in Old SM, but I'm not sure
+				--{ 1,  5819 }, -- Sunblaze Coif
+				--{ 4,  7728 }, -- Beguiler Robes
+				--{ 5,  7759 }, -- Archon Chestpiece
+				--{ 14, 7752 }, -- Dreamslayer
+				--{ 15, 8226 }, -- The Butcher
+				--{ 16, 7786 }, -- Headsplitter
+				--{ 21, 7730 }, -- Cobalt Crusher
+				{ 16, 10329 }, -- Scarlet Belt
+				{ 17, 10332 }, -- Scarlet Boots
+				{ 18, 10328 }, -- Scarlet Chestpiece
+				{ 19, 10331 }, -- Scarlet Gauntlets
+				{ 20, 10333 }, -- Scarlet Wristguards
+			},
+		},
+	}
+}
+
 -- /////////////////////////////////
 -- Raid
 -- /////////////////////////////////

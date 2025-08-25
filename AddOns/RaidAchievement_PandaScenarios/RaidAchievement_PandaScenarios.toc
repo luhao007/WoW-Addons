@@ -10,7 +10,7 @@
 
 ## SavedVariablesPerCharacter: pzraspisokon
 
-## X-Part-Of: 
+## X-Part-Of: RaidAchievement
 
 RaidAchievement_PandaScenarios.lua
 RaidAchievement_PandaScenariosbosses.lua

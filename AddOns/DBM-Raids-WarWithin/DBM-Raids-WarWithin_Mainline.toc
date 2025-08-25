@@ -31,7 +31,7 @@
 ## X-Curse-Project-ID: 3358
 ## X-WoWI-ID: 8814
 ## X-Wago-ID: qv633o6b
-## X-Part-Of: 
+## X-Part-Of: DBM-Core
 
 localization.en.lua
 localization.kr.lua

@@ -14,7 +14,7 @@
 ## DefaultState: enabled
 
 ## X-Website: https://deadlybossmods.com
-## X-Part-Of: 
+## X-Part-Of: DBM-Core
 
 Polyfills.xml
 

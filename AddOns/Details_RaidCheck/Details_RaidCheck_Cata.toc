@@ -10,6 +10,6 @@
 ## RequiredDeps: Details
 
 ## X-Wago-ID: WL6Jk2Kv
-## X-Part-Of: 
+## X-Part-Of: Details
 
 Details_RaidCheck.lua

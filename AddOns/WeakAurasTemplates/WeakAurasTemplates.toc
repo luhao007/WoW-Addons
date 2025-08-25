@@ -13,7 +13,7 @@
 ## DefaultState: Enabled
 
 ## X-Category: Interface Enhancements
-## X-Part-Of: 
+## X-Part-Of: WeakAuras
 
 locales.xml
 

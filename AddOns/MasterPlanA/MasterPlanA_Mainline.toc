@@ -9,6 +9,6 @@
 
 ## SavedVariables: MasterPlanAG
 
-## X-Part-Of: 
+## X-Part-Of: MasterPlan
 
 ..\MasterPlan\PlanA\PlanA.xml

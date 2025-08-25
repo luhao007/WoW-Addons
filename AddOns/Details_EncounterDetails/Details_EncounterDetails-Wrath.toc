@@ -12,7 +12,7 @@
 
 ## SavedVariablesPerCharacter: EncounterDetailsDB
 
-## X-Part-Of: 
+## X-Part-Of: Details
 
 enUS.lua
 ptBR.lua

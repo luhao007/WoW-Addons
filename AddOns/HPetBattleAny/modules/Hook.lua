@@ -243,7 +243,7 @@ hookPetJournal.init = function()
             )
             _G["StaticPopup" .. i].itemFrame:HookScript("OnLeave", GameTooltip_Hide)
         end
-    fi
+    end
     ---需要修改，某些状态下不能继续事件
     hooksecurefunc(
         "StaticPopup_Show",

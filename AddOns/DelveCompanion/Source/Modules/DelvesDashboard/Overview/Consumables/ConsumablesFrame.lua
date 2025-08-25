@@ -97,7 +97,7 @@ end
 function DelveCompanion_OverviewConsumablesFrameMixin:OnShow()
     -- Logger.Log("OverviewConsumablesFrame OnShow start")
 
-    DelveCompanion:CacheKeysCount()
+    DelveCompanion:CacheCollectedConsumables()
     self:UpdateConsumables()
 
     self:RegisterEvent("CURRENCY_DISPLAY_UPDATE")

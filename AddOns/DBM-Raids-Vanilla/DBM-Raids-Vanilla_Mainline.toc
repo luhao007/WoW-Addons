@@ -33,7 +33,7 @@
 ## X-Curse-Project-ID: 16442
 ## X-WoWI-ID: 11700
 ## X-Wago-ID: 7x61xpN1
-## X-Part-Of: 
+## X-Part-Of: DBM-Core
 
 locale.generated.lua
 

@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: FunDeliveryGames
-## Version: v0.9
+## Version: v0.9.1
 
 ## Title: Delve Companion
 ## Notes: One-stop addon to make Delves experience even better!

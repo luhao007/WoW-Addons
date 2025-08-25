@@ -1,5 +1,14 @@
 ﻿# Changelog
 
+## 9.15.0 - August 24, 2025
+### Added
+- Added Scarlet Monastery of Old to the Dragonflight module
+### Fixed
+- Fixed Import and Export List buttons in Favorites settings
+- Fixed error when adding notes to favorites
+- Fixed adding notes to favorites that are item strings
+- Fixed Clear List button not clearing favorites that are item strings
+
 ## 9.14.1 - August 18, 2025
 ### Added
 - Added Atlas map buttons for Eco-Dome Al'dani and Manaforge Omega

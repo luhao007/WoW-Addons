@@ -13,7 +13,7 @@
 ## SavedVariables: HandyNotes_TheBurningCrusadeDB
 
 ## X-Embeds: Ace3
-## X-Part-Of: 
+## X-Part-Of: HandyNotes
 
 embeds.xml
 core\core.xml

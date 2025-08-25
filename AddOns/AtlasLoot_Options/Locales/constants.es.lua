@@ -55,3 +55,5 @@ AL["Always marks items as favourite for every profile if enabled."] = "Siempre m
 AL["Always marks items as favourite for profile |cff00ff00%s|r if enabled."] = "Siempre marcar como favorito para perfil |cff00ff00%s|r si está activado."
 AL["Icon"] = "Icono"
 AL["Remove |cffff0000%d|r items from list."] = "Quitar |cffff0000%d|r objetos de la lista."
+AL["Replace existing items"] = "Reemplazar objetos existentes"
+AL["Added |cff00ff00%d|r items into list |cff00ff00%s|r."] = "|cff00ff00%d|r añadidos a la lista |cff00ff00%s|r"

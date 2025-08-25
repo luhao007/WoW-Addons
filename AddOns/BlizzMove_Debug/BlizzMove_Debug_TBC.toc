@@ -13,7 +13,7 @@
 ## LoadOnDemand: 1
 
 ## X-License: GNU General Public License version 3 (GPLv3)
-## X-Part-Of: 
+## X-Part-Of: BlizzMove
 
 # Libraries
 Libs\json.lua

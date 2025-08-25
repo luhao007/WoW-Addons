@@ -13,7 +13,7 @@
 ## SavedVariablesPerCharacter: EncounterDetailsDB
 
 ## X-Wago-ID: 7nGvv0Gx
-## X-Part-Of: 
+## X-Part-Of: Details
 
 enUS.lua
 ptBR.lua

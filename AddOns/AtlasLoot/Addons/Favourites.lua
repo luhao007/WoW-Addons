@@ -6,7 +6,6 @@ local Addons = AtlasLoot.Addons
 local AL = AtlasLoot.Locales
 local ItemDB = AtlasLoot.ItemDB
 local Favourites = Addons:RegisterNewAddon("Favourites")
-local Tooltip = AtlasLoot.Tooltip
 local Comm = LibStub:GetLibrary("AceComm-3.0")
 
 -- lua
@@ -27,7 +26,7 @@ local NEW_LIST_ID_PATTERN = "%s%s"
 local TEXT_WITH_TEXTURE = "|T%s:0|t %s"
 local TEXT_WITH_ATLAS = "|A:%s:12:12|a %s"
 local ATLAS_ICON_IDENTIFIER = "#"
-local IMPORT_EXPORT_DELIMITER, IMPORT_PATTERN, EXPORT_PATTERN = ",", "(%w+):(%d+)(:?([^,]*))", "%s:%d:%s"
+local IMPORT_EXPORT_DELIMITER, IMPORT_PATTERN = ",", "(%w+):([^;]+)(;?([^,]*))"
 local STD_ICON, STD_ICON2
 local KEY_WEAK_MT = { __mode = "k" }
 
@@ -309,22 +308,8 @@ end
 local function PopulateListNotes(db, dest)
 	for k, v in pairs(db) do
 		if v.notes then
-			local cleanup = false
 			for item, note in pairs(v.notes) do
-				if (type(item) == "string") or not v[item] then
-					cleanup = true
-				end
 				dest[k.."-"..item] = "  "..format(TEXT_WITH_TEXTURE, "Interface/FriendsFrame/UI-FriendsFrame-Note:8:8:0:0:8:8", "|cffB0B0B0"..note.."|r")
-			end
-			if cleanup then
-				-- Fix string item ids in db
-				local notesFixed = {}
-				for item, note in pairs(v.notes) do
-					if v[tonumber(item)] then
-						notesFixed[tonumber(item)] = note
-					end
-				end
-				v.notes = notesFixed
 			end
 		end
 	end
@@ -347,7 +332,7 @@ local function ClearActiveList(self)
 	local new = {}
 
 	for k, v in pairs(self.activeList) do
-		if type(k) ~= "number" and k ~= "mainItems" then
+		if type(k) ~= "number" and not strfind(k, "item:") and k ~= "mainItems" and k ~= "notes" then
 			new[k] = v
 		end
 	end
@@ -510,7 +495,7 @@ function Favourites:UpdateDb()
 	-- init item count
 	local numItems = 0
 	for k in pairs(self.activeList) do
-		if k ~= "__name" and k ~= "__icon" then
+		if k ~= "__name" and k ~= "__icon" and k ~= "notes" and k ~= "mainItems" then
 			numItems = numItems + 1
 		end
 	end
@@ -714,23 +699,45 @@ function Favourites:GetItemNote(itemID, list)
 	if not list.notes then
 		return nil
 	end
-	return list.notes[tonumber(itemID)]
+
+	-- If there's an item string, strip the spec id from it
+	local item
+	if (strfind(itemID, ":")) then
+		-- Remove spec ID from the displayed item
+		local parsedItem = AtlasLoot.ItemString.Parse(itemID)
+		parsedItem.specializationID = nil
+		item = AtlasLoot.ItemString.Create(parsedItem)
+	else
+		item = tonumber(itemID)
+	end
+	return list.notes[item]
 end
 
-function Favourites:SetItemNote(itemID, note, list, listID)
+function Favourites:SetItemNote(itemID, note, list)
 	if not list then
-		return self:SetItemNote(itemID, note, self.activeList, self.activeListID)
+		return self:SetItemNote(itemID, note, self.activeList)
 	end
 	if not list.notes then
 		list.notes = {}
 	end
 
-	--Remove note if its an empty string
+	-- Remove note if its an empty string
 	if note == "" then
 		note = nil
 	end
 
-	list.notes[tonumber(itemID)] = note
+	-- If there's an item string, strip the spec id from it
+	local item
+	if (strfind(itemID, ":")) then
+		-- Remove spec ID from the displayed item
+		local parsedItem = AtlasLoot.ItemString.Parse(itemID)
+		parsedItem.specializationID = nil
+		item = AtlasLoot.ItemString.Create(parsedItem)
+	else
+		item = tonumber(itemID)
+	end
+	list.notes[item] = note
+
 	-- Refresh cache
 	ListNoteCache = {}
 	PopulateListNotes(self.db.lists, ListNoteCache)
@@ -934,11 +941,13 @@ function Favourites:GetFavouriteItemText(itemId, listId)
 	local listData = self.db.lists[listId] or self.globalDb.lists[listId]
 	local obsolete = self:IsItemEquippedOrObsolete(itemId, listId)
 	local text = ""
+
 	if obsolete then
 		text = format(TEXT_WITH_TEXTURE, tostring(listData.__icon or STD_ICON), "|cffB0B0B0"..(listData.__name or LIST_BASE_NAME).."|r")
 	else
 		text = format(TEXT_WITH_TEXTURE, tostring(listData.__icon or STD_ICON), (listData.__name or LIST_BASE_NAME))
 	end
+
 	if ListNoteCache[listId.."-"..itemId] then
 		text = text..ListNoteCache[listId.."-"..itemId]
 		if obsolete == "equipped" then
@@ -947,6 +956,7 @@ function Favourites:GetFavouriteItemText(itemId, listId)
 			text = text.." |cffB0B0B0"..AL["(obsolete)"].."|r"
 		end
 	end
+
 	return text
 end
 
@@ -1167,11 +1177,10 @@ function Favourites:ExportItemList(listID, isGlobalList)
 	if not list then return end
 	local ret = {}
 	for entry in pairs(list) do
-		if strsub(entry, 1, 2) ~= "__" then
-			local exportString = format(EXPORT_PATTERN, "i", entry, list.notes and list.notes[entry] or "")
-			if strsub(exportString, -1) == ":" then
-				-- Remove tailing ":" if no note is supplied
-				exportString = strsub(exportString, 1, -2)
+		if strsub(entry, 1, 2) ~= "__" and entry ~= "notes" and entry ~= "mainItems" then
+			local exportString = (strfind(entry, ":")) and entry or "i:"..entry
+			if list.notes and list.notes[entry] then
+				exportString = exportString..";"..list.notes[entry]
 			end
 			ret[#ret + 1] = exportString
 		end
@@ -1192,12 +1201,16 @@ function Favourites:ImportItemList(listID, isGlobalList, newList, replace)
 		for i = 1, #stList do
 			local eType, entry, _, note = strmatch(stList[i], IMPORT_PATTERN)
 			if entry then
-				entry = tonumber(entry)
-				if eType == "i" and not list[entry] and ItemExist(entry) then
+				if eType == "i" then
+					entry = tonumber(entry)
+				elseif eType == "item" then
+					entry = "item:"..entry
+				end
+				if not list[entry] and ItemExist(entry) then
 					list[entry] = true
 					if note and note ~= "" then
 						local noteLC = strlower(note)
-						list.notes[tonumber(entry)] = note
+						list.notes[entry] = note
 						if strmatch(noteLC, "bis") or strmatch(noteLC, "best") then
 							-- Set as main item
 							local slotId = nil

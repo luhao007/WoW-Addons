@@ -89,7 +89,7 @@ app.ArrayAppend = function(a1, ...)
 end
 -- Allows for returning a reversed array. Will do nothing for un-ordered tables or tables with a single entry
 app.ReverseOrder = function(a)
-	if a[1] and a[2] then
+	if a and a[1] and a[2] then
 		local b, n, j = {}, #a, 1;
 		for i=n,1,-1 do
 			b[j] = a[i];

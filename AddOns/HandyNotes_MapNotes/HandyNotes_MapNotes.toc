@@ -16,7 +16,7 @@
 ## X-License: All Rights Reserved
 ## X-Curse-Project-ID: 912524
 ## X-Localizations: enUS, enGB, deDE, esES, esMX, frFR, ruRU, itIT, ptBR, koKR, zhCN, zhTW
-## X-Part-Of: 
+## X-Part-Of: HandyNotes
 
 ExternalLibs\ExternalLibs.xml
 Locales\Locales.xml

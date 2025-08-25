@@ -13,7 +13,7 @@
 ## X-Website: https://github.com/Karl-HeinzSchneider/WoW-Details-Skin-TheWarWithin
 ## X-Curse-Project-ID: 1083704
 ## X-Date: 20250808221400
-## X-Part-Of: 
+## X-Part-Of: Details
 
 # Libs
 Core.lua

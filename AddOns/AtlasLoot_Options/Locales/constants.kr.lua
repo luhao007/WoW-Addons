@@ -56,3 +56,5 @@ AL["Always marks items as favourite for every profile if enabled."] = "활성화
 AL["Always marks items as favourite for profile |cff00ff00%s|r if enabled."] = "활성화하면 |cff00ff00%s|r 프로필에서 항상 즐겨찾는 아이템을 표시합니다."
 AL["Icon"] = "아이콘"
 AL["Remove |cffff0000%d|r items from list."] = "목록의 |cffff0000%d|r 아이템 제거"
+AL["Replace existing items"] = "기존 아이템 교체"
+AL["Added |cff00ff00%d|r items into list |cff00ff00%s|r."] = "|cff00ff00%s|r 목록에 |cff00ff00%d|r 아이템 추가됨"

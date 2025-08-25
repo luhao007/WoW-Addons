@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: Crieve
-## Version: 4.6.4
+## Version: 4.6.5
 
 ## Title: AllTheThings |cfd9b9b9b(Wrath)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r |cFFFFFFFF收集控助手|r |cFFFFE00AAllTheThings|r
@@ -143,7 +143,7 @@ src\UI\Shared Window Logic.lua
 src\UI\Classic Window Logic.lua
 
 # Load expansion specific category database.
-db\Wrath\Categories.lua
+db\Wrath\Categories.xml
 
 # Window Definitions
 src\UI\Windows\Windows.xml

@@ -30,7 +30,7 @@
 ## X-Curse-Project-ID: 43971
 ## X-WoWI-ID: 21469
 ## X-Wago-ID: RBKpErGE
-## X-Part-Of: 
+## X-Part-Of: DBM-Core
 
 localization.en.lua
 localization.de.lua

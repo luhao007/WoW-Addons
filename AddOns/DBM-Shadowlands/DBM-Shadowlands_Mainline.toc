@@ -30,7 +30,7 @@
 ## X-DBM-Mod-MinExpansion: 8
 ## X-Curse-Project-ID: 723031
 ## X-Wago-ID: RqGYOE6g
-## X-Part-Of: 
+## X-Part-Of: DBM-Core
 
 localization.en.lua
 localization.kr.lua

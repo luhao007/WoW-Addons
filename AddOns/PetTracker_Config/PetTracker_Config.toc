@@ -9,6 +9,6 @@
 ## LoadOnDemand: 1
 
 ## X-Category: Battle Pets
-## X-Part-Of: 
+## X-Part-Of: PetTracker
 
 ..\PetTracker\addons\config\config.xml

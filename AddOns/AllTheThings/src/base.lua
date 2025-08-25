@@ -9,6 +9,7 @@ local rawget, ipairs, pairs, tinsert, setmetatable, print,math_sqrt,math_floor,g
 local appName, app = ...;
 app.EmptyFunction = function() end;
 app.EmptyTable = setmetatable({}, { __newindex = app.EmptyFunction });
+app.Categories = {};
 
 
 -- Generate the version identifier.

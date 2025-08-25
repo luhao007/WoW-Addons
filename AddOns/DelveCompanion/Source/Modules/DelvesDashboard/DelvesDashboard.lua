@@ -14,8 +14,6 @@ local Lockit = DelveCompanion.Lockit
 
 ---@type string
 local LOOT_INFO_BUTTON_PARENT_KEY = "ShowLootInfoButton"
----@type string
-local TITAN_CONSOLE_BUTTON_PARENT_KEY = "ShowTitanConsoleButton"
 
 ---@type number
 local DASHBOARD_PANELS_DEFAULT_SPACING = 5
@@ -31,28 +29,6 @@ local DASHBOARD_PANELS_CUSTOM_SPACING = -20
 ---@field Companion DashboardCompanion
 local DelvesDashboard = {}
 DelveCompanion.DelvesDashboard = DelvesDashboard
-
---- Add a button to open Overcharged Titan Console.
----@param parent any
-local function CreateTitanConsoleButton(parent)
-    local button = CreateFrame("Button",
-        "$parent." .. TITAN_CONSOLE_BUTTON_PARENT_KEY,
-        parent,
-        "DelveCompanionLootInfoButtonTemplate")
-    button:SetParentKey(TITAN_CONSOLE_BUTTON_PARENT_KEY)
-
-    button:SetTextToFit(_G["GENERIC_TRAIT_FRAME_TITAN_CONSOLE_TITLE"])
-
-    button:ClearAllPoints()
-    button:SetPoint("RIGHT", parent[LOOT_INFO_BUTTON_PARENT_KEY], "LEFT", -5)
-
-    button:HookScript("OnClick", function()
-        GenericTraitUI_LoadUI()
-        GenericTraitFrame:SetSystemID(22)
-        GenericTraitFrame:SetTreeID(1061)
-        ToggleFrame(GenericTraitFrame)
-    end)
-end
 
 --- Add a button to open Delves' Loot info.
 ---@param parent any
@@ -130,12 +106,6 @@ local function InitDelvesDashboard()
         DelvesDashboardFrame:HookScript("OnHide", function()
             DelvesDashboard.LootInfo:Hide()
         end)
-    end
-
-    do
-        if C_QuestLog.IsQuestFlaggedCompleted(DelveCompanion.Config.TITAN_CONSOLE_UNLOCK_QUEST) then
-            CreateTitanConsoleButton(DelvesDashboardFrame)
-        end
     end
 
     do

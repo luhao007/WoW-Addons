@@ -12,7 +12,7 @@
 
 ## X-Category: Map & Minimap
 ## X-Curse-Project-ID: 91286
-## X-Part-Of: 
+## X-Part-Of: HandyNotes
 
 Core.lua
 Data.lua

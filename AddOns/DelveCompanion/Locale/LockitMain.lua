@@ -61,7 +61,7 @@ Lockit.UI_LOOT_INFO_DESCRIPTION = "Complete a delve to get:"
 
 -- Tooltips Extension
 
-Lockit.UI_BOUNTIFUL_KEYS_COUNT_CACHES_PREFIX = "Keys from caches"
+Lockit.UI_BOUNTIFUL_KEYS_COUNT_CACHES_PREFIX = "Keys from Caches"
 
 -- Compartment (these are shown hovering over the addon in the corresponding dropdown menu)
 
@@ -115,8 +115,8 @@ Lockit.UI_SETTINGS_ADDON_LINK_POPUP_TEXT = "|cnGREEN_FONT_COLOR:Ctrl + C|r to co
 -- Shared
 
 Lockit.UI_ADDON_NAME = "Delve Companion"
-Lockit.UI_DELVE_STORY_VARIANT_COMPLETED_SEQUENCE = format("%s %s", "|A:common-icon-checkmark:15:15|a", _G["CRITERIA_COMPLETED"])
-Lockit.UI_DELVE_STORY_VARIANT_NOT_COMPLETED_SEQUENCE = format("%s %s", "|A:QuestLegendary:15:15|a", _G["CRITERIA_NOT_COMPLETED"])
+Lockit.UI_DELVE_STORY_VARIANT_COMPLETED_SEQUENCE = format("%s %s", "|A:common-icon-checkmark:15:15|a", _G["ACHIEVEMENTFRAME_FILTER_COMPLETED"])
+Lockit.UI_DELVE_STORY_VARIANT_NOT_COMPLETED_SEQUENCE = format("%s %s", "|A:QuestLegendary:15:15|a", _G["ACHIEVEMENTFRAME_FILTER_INCOMPLETE"])
 
 -- Debug
 

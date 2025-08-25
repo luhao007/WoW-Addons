@@ -11,7 +11,7 @@
 
 ## RequiredDeps: !Pig
 
-## X-Part-Of: 
+## X-Part-Of: !Pig
 
 AudioList.lua
 Options.lua

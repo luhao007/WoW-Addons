@@ -25,13 +25,35 @@ function DelveCompanion_DelveProgressWidgetMixin:OnLoad()
 end
 
 ---@param self DelvesProgressWidget
+---@param storyAchID number ID of the achivement "Complete all story variants of a Delve"
+---@param chestAchID number ID of the achivement "Find all hidden chests in a Delve"
 function DelveCompanion_DelveProgressWidgetMixin:Init(storyAchID, chestAchID)
     local defs = DelveCompanion.Definitions
 
     -- Story progress
     do
         local achID = storyAchID
+
         self.Story:SetFrameInfo(defs.CodeType.Achievement, achID)
+        self.Story:SetOnClick(function() OpenAchievementFrameToAchievement(achID) end)
+    end
+
+    -- Chest progress
+    do
+        local achID = chestAchID
+
+        self.Chest:SetFrameInfo(defs.CodeType.Achievement, achID)
+        self.Chest:SetOnClick(function() OpenAchievementFrameToAchievement(achID) end)
+    end
+
+    self:Update()
+end
+
+---@param self DelvesProgressWidget
+function DelveCompanion_DelveProgressWidgetMixin:Update()
+    -- Story progress
+    do
+        local achID = self.Story.frameCode
 
         local totalCount = GetAchievementNumCriteria(achID)
         local completedCount = 0
@@ -47,13 +69,11 @@ function DelveCompanion_DelveProgressWidgetMixin:Init(storyAchID, chestAchID)
             text = _G["DIM_GREEN_FONT_COLOR"]:WrapTextInColorCode(text)
         end
         self.Story:SetLabelText(text)
-        self.Story:SetOnClick(function() OpenAchievementFrameToAchievement(achID) end)
     end
 
     -- Chest progress
     do
-        local achID = chestAchID
-        self.Chest:SetFrameInfo(defs.CodeType.Achievement, achID)
+        local achID = self.Chest.frameCode
 
         ---@type number, number
         local quantity, reqQuantity = select(4, GetAchievementCriteriaInfo(achID, 1))
@@ -62,7 +82,6 @@ function DelveCompanion_DelveProgressWidgetMixin:Init(storyAchID, chestAchID)
             text = _G["DIM_GREEN_FONT_COLOR"]:WrapTextInColorCode(text)
         end
         self.Chest:SetLabelText(text)
-        self.Chest:SetOnClick(function() OpenAchievementFrameToAchievement(achID) end)
     end
 end
 

@@ -12,6 +12,6 @@
 
 ## SavedVariablesPerCharacter: _detalhes_databaseVanguard
 
-## X-Part-Of: 
+## X-Part-Of: Details
 
 Details_Vanguard.lua

@@ -32,7 +32,6 @@ function DelveCompanion:InitDelvesData()
         ---@field storyVariant string Localized label of the current story of the Delve.
         ---@field isStoryCompleted boolean Whether player has completed the current storyVariant.
         ---@field isBountiful boolean Whether this Delve is bountiful now.
-        ---@field isOvercharged boolean Whether this Delve is overcharged today.
         local data = {
             config = delveConfig,
             poiID = nil,
@@ -41,8 +40,7 @@ function DelveCompanion:InitDelvesData()
             delveName = delveMap.name,
             storyVariant = nil,
             isStoryCompleted = false,
-            isBountiful = false,
-            isOvercharged = false
+            isBountiful = false
         }
 
         table.insert(delvesData, data)
@@ -70,12 +68,6 @@ function DelveCompanion:UpdateDelvesData()
             delveData.isBountiful = false
         end
 
-        -- Overcharged
-        if delveConfig.overchargedUiWidgetID then
-            local visInfo = C_UIWidgetManager.GetSpacerVisualizationInfo(delveConfig.overchargedUiWidgetID)
-            delveData.isOvercharged = visInfo and visInfo.shownState == 1
-        end
-
         local delvePoiInfo = C_AreaPoiInfo.GetAreaPOIInfo(parentMapID, delveData.poiID)
         -- Active story
         if delvePoiInfo and delvePoiInfo.tooltipWidgetSet then
@@ -89,14 +81,23 @@ function DelveCompanion:UpdateDelvesData()
                         if visInfo and visInfo.orderIndex == 0 then
                             delveData.storyVariant = visInfo.text
 
+                            -- Some story variants are not included into the achievement (as they were added with content updates during the expansion).
+                            -- The primary goal here is to highlight achievement completion, so such variants are marked as "completed". The addon doesn't track whether players have completed them.
+                            local isVariantInAchievement = false
                             local achID = delveData.config.achievements.story
+
                             for index = 1, GetAchievementNumCriteria(achID), 1 do
                                 local criteriaString, _, completed = GetAchievementCriteriaInfo(achID, index)
 
                                 if string.find(string.lower(delveData.storyVariant), string.lower(criteriaString)) then
                                     delveData.isStoryCompleted = completed
+                                    isVariantInAchievement = true
                                     break
                                 end
+                            end
+
+                            if not isVariantInAchievement then
+                                delveData.isStoryCompleted = true
                             end
                         end
                     end
@@ -121,17 +122,32 @@ function DelveCompanion:CanRetrieveDelveWidgetIDInfo()
     return continent ~= nil and continent == self.Config.KHAZ_ALGAR_MAP_ID
 end
 
---- Cache number of [Restored Coffer Keys](https://www.wowhead.com/currency=3028/restored-coffer-key) player has got from Caches this week.
+--- Cache number of consumables (Keys, Shards, etc.) player has collected.
 ---@param self DelveCompanion
-function DelveCompanion:CacheKeysCount()
-    local keysCollected = 0
-    for _, questId in ipairs(self.Config.BOUNTIFUL_KEY_QUESTS_DATA) do
-        if C_QuestLog.IsQuestFlaggedCompleted(questId) then
-            keysCollected = keysCollected + 1
+function DelveCompanion:CacheCollectedConsumables()
+    -- [Restored Coffer Keys](https://www.wowhead.com/currency=3028/restored-coffer-key) player has got from Caches this week.
+    do
+        local keysCollected = 0
+        for _, questId in ipairs(self.Config.BOUNTIFUL_KEY_QUESTS_DATA) do
+            if C_QuestLog.IsQuestFlaggedCompleted(questId) then
+                keysCollected = keysCollected + 1
+            end
         end
+
+        self.Variables.keysCollected = keysCollected
     end
 
-    self.Variables.keysCollected = keysCollected
+    -- [Coffer Key Shards](https://www.wowhead.com/item=245653/coffer-key-shard) player has got from Caches this week.
+    do
+        local shardsCollected = 0
+        for _, questId in ipairs(self.Config.KEY_SHARD_QUESTS_DATA) do
+            if C_QuestLog.IsQuestFlaggedCompleted(questId) then
+                shardsCollected = shardsCollected + 1
+            end
+        end
+
+        self.Variables.shardsCollected = shardsCollected * DelveCompanion.Config.KEY_SHARDS_PER_CACHE
+    end
 end
 
 --- Try to retrieve `uiMapID` of the parent map with `Enum.UIMapType.Continent` for the given [uiMapID](https://warcraft.wiki.gg/wiki/UiMapID).

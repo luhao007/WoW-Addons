@@ -43,7 +43,7 @@
 ## X-DBM-Mod-Sort: 1054
 ## X-DBM-Mod-LoadCID: 20130,18166
 ## X-DBM-Mod-MinCoreRevision: 12473
-## X-Part-Of: 
+## X-Part-Of: DBM-Core
 
 localization.en.lua
 localization.ru.lua

@@ -10,7 +10,7 @@
 
 ## X-Repple: 辅助
 ## X-Website: http://isler-wowui.googlecode.com
-## X-Part-Of: 
+## X-Part-Of: CritSound
 
 Localization.lua
 Options.lua

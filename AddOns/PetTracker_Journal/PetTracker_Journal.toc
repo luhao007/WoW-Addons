@@ -10,6 +10,6 @@
 ## LoadWith: Blizzard_Collections
 
 ## X-Category: Battle Pets
-## X-Part-Of: 
+## X-Part-Of: PetTracker
 
 ..\PetTracker\addons\journal\journal.xml

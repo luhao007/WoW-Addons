@@ -13,7 +13,7 @@
 ## SavedVariables: WeakAurasOptionsSaved
 
 ## X-Category: Interface Enhancements
-## X-Part-Of: 
+## X-Part-Of: WeakAuras
 
 embeds.xml
 locales.xml

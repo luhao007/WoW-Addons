@@ -177,9 +177,10 @@ class Manager:
 
                 if config.tag.endswith("SubAddon"):
                     parent_config = self.get_addon_parent_config(addon)
-                    toc.tags["X-Part-Of"] = self._get_text_from_xml(
-                        parent_config, "name"
-                    )
+                    parent_name = parent_config.get("name")
+                    if parent_name is None:
+                        raise ValueError(f"Parent name for {addon} not found!")
+                    toc.tags["X-Part-Of"] = parent_name
                 elif addon in ["DBM-Core", "Auc-Advanced", "TomCats"]:
                     toc.tags["X-Part-Of"] = addon
                 elif addon in ["+Wowhead_Looter"]:

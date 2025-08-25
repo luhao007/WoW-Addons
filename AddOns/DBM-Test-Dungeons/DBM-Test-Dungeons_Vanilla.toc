@@ -10,7 +10,7 @@
 ## DefaultState: enabled
 
 ## X-DBM-Test: true
-## X-Part-Of: 
+## X-Part-Of: DBM-Core
 
 Vanilla/KarazhanCrypts/KaigyMaryla.lua
 Vanilla/KarazhanCrypts/SairuhMaryla.lua

@@ -12,6 +12,6 @@
 
 ## SavedVariables: TitanClassicLootTypeSaved
 
-## X-Part-Of: 
+## X-Part-Of: Titan
 
 TitanClassicLootType.xml

@@ -53,7 +53,7 @@ local MYTHIC_SOO_DIFF = data:AddDifficulty(AL["Mythic"], "myhticSoOWithPreset", 
 	},
 }, 16)
 
---local NORMAL_ITTYPE = data:AddItemTableType("Item", "Droprate")
+local NORMAL_ITTYPE = data:AddItemTableType("Item", "Item")
 local RAID_ITTYPE = data:AddItemTableType("Item", "Item") -- Normal, Thunder-/Warforged...
 local AC_ITTYPE = data:AddItemTableType("Achievement", "Item")
 
@@ -234,71 +234,71 @@ data["GateoftheSettingSun"] = {
 		{ --GotSSKiptilak
 			EncounterJournalID = 655,
 			[NORMAL_DIFF] = {
-				{ 1, 80920, 20 }, -- Fallout Filter
-				{ 2, 80921, 20 }, -- Saboteur's Stabilizing Bracers
-				{ 3, 80934, 20 }, -- Pendant of Precise Timing
+				{ 1, 80920 }, -- Fallout Filter
+				{ 2, 80921 }, -- Saboteur's Stabilizing Bracers
+				{ 3, 80934 }, -- Pendant of Precise Timing
 			},
 			[HEROIC_DIFF] = {
-				{ 1,  81104,   20 }, -- Fallout-Filtering Hood
-				{ 2,  81090,   20 }, -- Saboteur's Stabilizing Bracers
-				{ 3,  81190,   20 }, -- Grenadier's Belt
-				{ 4,  81095,   20 }, -- Pendant of Precise Timing
-				{ 5,  81191,   20 }, -- Pulled Grenade Pin
+				{ 1,  81104 }, -- Fallout-Filtering Hood
+				{ 2,  81090 }, -- Saboteur's Stabilizing Bracers
+				{ 3,  81190 }, -- Grenadier's Belt
+				{ 4,  81095 }, -- Pendant of Precise Timing
+				{ 5,  81191 }, -- Pulled Grenade Pin
 				{ 16, "ac6479" }
 			},
 		},
 		{ --GotSSGadok
 			EncounterJournalID = 675,
 			[NORMAL_DIFF] = {
-				{ 1, 80922, 20 }, -- Airstream Treads
-				{ 2, 80923, 20 }, -- Impaler's Girdle
-				{ 3, 80924, 20 }, -- Acid-Scarred Spaulders
+				{ 1, 80922 }, -- Airstream Treads
+				{ 2, 80923 }, -- Impaler's Girdle
+				{ 3, 80924 }, -- Acid-Scarred Spaulders
 			},
 			[HEROIC_DIFF] = {
-				{ 1, 81229, 20 }, -- Bomber's Precision Gloves
-				{ 2, 81111, 20 }, -- Airstream Treads
-				{ 3, 81085, 20 }, -- Impaler's Girdle
-				{ 4, 81098, 20 }, -- Acid-Scarred Spaulders
-				{ 5, 81192, 20 }, -- Vision of the Predator
+				{ 1, 81229 }, -- Bomber's Precision Gloves
+				{ 2, 81111 }, -- Airstream Treads
+				{ 3, 81085 }, -- Impaler's Girdle
+				{ 4, 81098 }, -- Acid-Scarred Spaulders
+				{ 5, 81192 }, -- Vision of the Predator
 			},
 		},
 		{ --GotSSRimok
 			EncounterJournalID = 676,
 			[NORMAL_DIFF] = {
-				{ 1, 80926, 20 }, -- Leggings of the Frenzy
-				{ 2, 80925, 20 }, -- Swarmcall Helm
-				{ 3, 80933, 20 }, -- Mantid Trochanter
+				{ 1, 80926 }, -- Leggings of the Frenzy
+				{ 2, 80925 }, -- Swarmcall Helm
+				{ 3, 80933 }, -- Mantid Trochanter
 			},
 			[HEROIC_DIFF] = {
-				{ 1, 81106, 20 }, -- Leggings of the Frenzy
-				{ 2, 81105, 20 }, -- Swarmcall Helm
-				{ 3, 81230, 20 }, -- Ri'mok's Shattered Scale
-				{ 4, 81232, 20 }, -- Viscous Ring
-				{ 5, 81088, 20 }, -- Mantid Trochanter
+				{ 1, 81106 }, -- Leggings of the Frenzy
+				{ 2, 81105 }, -- Swarmcall Helm
+				{ 3, 81230 }, -- Ri'mok's Shattered Scale
+				{ 4, 81232 }, -- Viscous Ring
+				{ 5, 81088 }, -- Mantid Trochanter
 			},
 		},
 		{ --GotSSRaigonn
 			EncounterJournalID = 649,
 			[NORMAL_DIFF] = {
-				{ 1, 80929, 20 }, -- Wall-Breaker Legguards
-				{ 2, 80928, 20 }, -- Treads of Fixation
-				{ 3, 80930, 20 }, -- Swarmbringer Chestguard
-				{ 4, 80927, 20 }, -- Hive Protector's Gauntlets
-				{ 5, 80932, 20 }, -- Carapace Breaker
-				{ 6, 80931, 20 }, -- Shield of the Protectorate
+				{ 1, 80929 }, -- Wall-Breaker Legguards
+				{ 2, 80928 }, -- Treads of Fixation
+				{ 3, 80930 }, -- Swarmbringer Chestguard
+				{ 4, 80927 }, -- Hive Protector's Gauntlets
+				{ 5, 80932 }, -- Carapace Breaker
+				{ 6, 80931 }, -- Shield of the Protectorate
 			},
 			[HEROIC_DIFF] = {
-				{ 1,  87546,   1 }, -- Klatith, Fangs of the Swarm
-				{ 2,  81234,   20 }, -- Drape of the Screeching Swarm
-				{ 3,  81235,   20 }, -- Shoulders of Engulfing Winds
-				{ 4,  81236,   20 }, -- Frenzyswarm Bracers
-				{ 5,  81091,   20 }, -- Wall-Breaker Legguards
-				{ 6,  81112,   20 }, -- Treads of Fixation
-				{ 7,  81109,   20 }, -- Swarmbringer Chestguard
-				{ 8,  81100,   20 }, -- Hive Protector's Gauntlets
-				{ 9,  81094,   20 }, -- Carapace Breaker
-				{ 10, 81233,   20 }, -- Impervious Carapace
-				{ 11, 81097,   20 }, -- Shield of the Protectorate
+				{ 1,  87546 }, -- Klatith, Fangs of the Swarm
+				{ 2,  81234 }, -- Drape of the Screeching Swarm
+				{ 3,  81235 }, -- Shoulders of Engulfing Winds
+				{ 4,  81236 }, -- Frenzyswarm Bracers
+				{ 5,  81091 }, -- Wall-Breaker Legguards
+				{ 6,  81112 }, -- Treads of Fixation
+				{ 7,  81109 }, -- Swarmbringer Chestguard
+				{ 8,  81100 }, -- Hive Protector's Gauntlets
+				{ 9,  81094 }, -- Carapace Breaker
+				{ 10, 81233 }, -- Impervious Carapace
+				{ 11, 81097 }, -- Shield of the Protectorate
 				{ 16, "ac6759" },
 				{ 17, "ac6945" },
 			},
@@ -317,18 +317,18 @@ data["MoguShanPalace"] = {
 		{ --MoguShanTrialKing
 			EncounterJournalID = 708,
 			[NORMAL_DIFF] = {
-				{ 1, 85178, 33 }, -- Conflagrating Gloves
-				{ 2, 85176, 33 }, -- Hurricane Belt
-				{ 3, 85175, 33 }, -- Crest of the Clan Lords
-				{ 4, 85179, 33 }, -- Meteoric Greathelm
-				{ 5, 85177, 33 }, -- Whirling Dervish Choker
+				{ 1, 85178 }, -- Conflagrating Gloves
+				{ 2, 85176 }, -- Hurricane Belt
+				{ 3, 85175 }, -- Crest of the Clan Lords
+				{ 4, 85179 }, -- Meteoric Greathelm
+				{ 5, 85177 }, -- Whirling Dervish Choker
 			},
 			[HEROIC_DIFF] = {
-				{ 1, 81240, 20 }, -- Conflagrating Gloves
-				{ 2, 81238, 20 }, -- Hurricane Belt
-				{ 3, 81237, 20 }, -- Crest of the Clan Lords
-				{ 4, 81241, 20 }, -- Meteoric Greathelm
-				{ 5, 81239, 20 }, -- Whirling Dervish Choker
+				{ 1, 81240 }, -- Conflagrating Gloves
+				{ 2, 81238 }, -- Hurricane Belt
+				{ 3, 81237 }, -- Crest of the Clan Lords
+				{ 4, 81241 }, -- Meteoric Greathelm
+				{ 5, 81239 }, -- Whirling Dervish Choker
 			},
 		},
 		{ --MoguShanGekkan
@@ -352,30 +352,30 @@ data["MoguShanPalace"] = {
 		{ --MoguShanXin
 			EncounterJournalID = 698,
 			[NORMAL_DIFF] = {
-				{ 1,  85194,   33 }, -- Regal Silk Shoulderpads
-				{ 2,  85192,   33 }, -- Soulbinder Treads
-				{ 3,  85187,   33 }, -- Boots of Plummeting Death
-				{ 4,  85189,   33 }, -- Groundshaker Bracers
-				{ 5,  85193,   33 }, -- Mind's Eye Breastplate
-				{ 6,  85186,   33 }, -- Axebreaker Gauntlets
-				{ 7,  85191,   33 }, -- Mindcapture Pendant
-				{ 8,  85188,   33 }, -- Blade Trap Signet
-				{ 9,  85190,   33 }, -- Firescribe Dagger
-				{ 10, 85185,   33 }, -- Ghostheart
+				{ 1,  85194 }, -- Regal Silk Shoulderpads
+				{ 2,  85192 }, -- Soulbinder Treads
+				{ 3,  85187 }, -- Boots of Plummeting Death
+				{ 4,  85189 }, -- Groundshaker Bracers
+				{ 5,  85193 }, -- Mind's Eye Breastplate
+				{ 6,  85186 }, -- Axebreaker Gauntlets
+				{ 7,  85191 }, -- Mindcapture Pendant
+				{ 8,  85188 }, -- Blade Trap Signet
+				{ 9,  85190 }, -- Firescribe Dagger
+				{ 10, 85185 }, -- Ghostheart
 				{ 16, "ac6755" },
 			},
 			[HEROIC_DIFF] = {
-				{ 1,  87542,   1 }, -- Mogu'Dar, Blade of the Thousand Slaves
-				{ 2,  81257,   20 }, -- Regal Silk Shoulderpads
-				{ 3,  81255,   20 }, -- Soulbinder Treads
-				{ 4,  81249,   20 }, -- Boots of Plummeting Death
-				{ 5,  81252,   20 }, -- Groundshaker Bracers
-				{ 6,  81256,   20 }, -- Mind's Eye Breastplate
-				{ 7,  81248,   20 }, -- Axebreaker Gauntlets
-				{ 8,  81254,   20 }, -- Mindcapture Pendant
-				{ 9,  81251,   20 }, -- Blade Trap Signet
-				{ 10, 81253,   20 }, -- Firescribe Dagger
-				{ 11, 81247,   20 }, -- Ghostheart
+				{ 1,  87542 }, -- Mogu'Dar, Blade of the Thousand Slaves
+				{ 2,  81257 }, -- Regal Silk Shoulderpads
+				{ 3,  81255 }, -- Soulbinder Treads
+				{ 4,  81249 }, -- Boots of Plummeting Death
+				{ 5,  81252 }, -- Groundshaker Bracers
+				{ 6,  81256 }, -- Mind's Eye Breastplate
+				{ 7,  81248 }, -- Axebreaker Gauntlets
+				{ 8,  81254 }, -- Mindcapture Pendant
+				{ 9,  81251 }, -- Blade Trap Signet
+				{ 10, 81253 }, -- Firescribe Dagger
+				{ 11, 81247 }, -- Ghostheart
 				{ 16, "ac6756" },
 				{ 17, "ac6736" },
 			},
@@ -585,47 +585,47 @@ data["ShadoPanMonastery"] = {
 		{ --ShadoPanCloudstrike
 			EncounterJournalID = 673,
 			[NORMAL_DIFF] = {
-				{ 1, 80909, 33 }, -- Azure Serpent Chestguard
-				{ 2, 80910, 33 }, -- Leggings of the Charging Soul
-				{ 3, 80908, 33 }, -- Sparkbreath Girdle
+				{ 1, 80909 }, -- Azure Serpent Chestguard
+				{ 2, 80910 }, -- Leggings of the Charging Soul
+				{ 3, 80908 }, -- Sparkbreath Girdle
 			},
 			[HEROIC_DIFF] = {
-				{ 1, 81179, 20 }, -- Star Summoner Bracers
-				{ 2, 81110, 20 }, -- Azure Serpent Chestguard
-				{ 3, 81092, 20 }, -- Leggings of the Charging Soul
-				{ 4, 81086, 20 }, -- Sparkbreath Girdle
-				{ 5, 81180, 20 }, -- Cloudstrike Pendant
+				{ 1, 81179 }, -- Star Summoner Bracers
+				{ 2, 81110 }, -- Azure Serpent Chestguard
+				{ 3, 81092 }, -- Leggings of the Charging Soul
+				{ 4, 81086 }, -- Sparkbreath Girdle
+				{ 5, 81180 }, -- Cloudstrike Pendant
 			},
 		},
 		{ --ShadoPanSnowdrift
 			EncounterJournalID = 657,
 			[NORMAL_DIFF] = {
-				{ 1, 80912, 33 }, -- Gauntlets of Resolute Fury
-				{ 2, 80911, 33 }, -- Quivering Heart Girdle
-				{ 3, 80937, 33 }, -- Snowdrift's Bladed Staff
+				{ 1, 80912 }, -- Gauntlets of Resolute Fury
+				{ 2, 80911 }, -- Quivering Heart Girdle
+				{ 3, 80937 }, -- Snowdrift's Bladed Staff
 			},
 			[HEROIC_DIFF] = {
-				{ 1,  81101,   20 }, -- Gauntlets of Resolute Fury
-				{ 2,  81087,   20 }, -- Quivering Heart Girdle
-				{ 3,  81182,   20 }, -- Eye of the Tornado
-				{ 4,  81181,   20 }, -- Heart of Fire
-				{ 5,  81108,   20 }, -- Snowdrift's Bladed Staff
+				{ 1,  81101 }, -- Gauntlets of Resolute Fury
+				{ 2,  81087 }, -- Quivering Heart Girdle
+				{ 3,  81182 }, -- Eye of the Tornado
+				{ 4,  81181 }, -- Heart of Fire
+				{ 5,  81108 }, -- Snowdrift's Bladed Staff
 				{ 16, "ac6477" },
 			},
 		},
 		{ --ShadoPanShaViolence
 			EncounterJournalID = 685,
 			[NORMAL_DIFF] = {
-				{ 1, 80913, 33 }, -- Gloves of Enraged Slaughter
-				{ 2, 80915, 33 }, -- Spike-Soled Stompers
-				{ 3, 80883, 33 }, -- Crescent of Ichor
+				{ 1, 80913 }, -- Gloves of Enraged Slaughter
+				{ 2, 80915 }, -- Spike-Soled Stompers
+				{ 3, 80883 }, -- Crescent of Ichor
 			},
 			[HEROIC_DIFF] = {
-				{ 1,  81102,   20 }, -- Gloves of Enraged Slaughter
-				{ 2,  81185,   20 }, -- Bladed Smoke Bracers
-				{ 3,  81113,   20 }, -- Spike-Soled Stompers
-				{ 4,  81184,   20 }, -- Necklace of Disorientation
-				{ 5,  81089,   20 }, -- Crescent of Ichor
+				{ 1,  81102 }, -- Gloves of Enraged Slaughter
+				{ 2,  81185 }, -- Bladed Smoke Bracers
+				{ 3,  81113 }, -- Spike-Soled Stompers
+				{ 4,  81184 }, -- Necklace of Disorientation
+				{ 5,  81089 }, -- Crescent of Ichor
 				{ 16, "ac6926" },
 				{ 17, "ac6472" },
 			},
@@ -633,26 +633,26 @@ data["ShadoPanMonastery"] = {
 		{ --ShadoPanTaranZhu
 			EncounterJournalID = 686,
 			[NORMAL_DIFF] = {
-				{ 1,  80919,   33 }, -- Darkbinder Leggings
-				{ 2,  80916,   33 }, -- Shadowspine Shoulderguards
-				{ 3,  80917,   33 }, -- Blastwalker Footguards
-				{ 4,  80918,   33 }, -- Mindbinder Plate Gloves
-				{ 5,  80936,   33 }, -- Warmace of Taran Zhu
-				{ 6,  80935,   33 }, -- Shield of Blind Hate
+				{ 1,  80919 }, -- Darkbinder Leggings
+				{ 2,  80916 }, -- Shadowspine Shoulderguards
+				{ 3,  80917 }, -- Blastwalker Footguards
+				{ 4,  80918 }, -- Mindbinder Plate Gloves
+				{ 5,  80936 }, -- Warmace of Taran Zhu
+				{ 6,  80935 }, -- Shield of Blind Hate
 				{ 16, "ac6469" },
 			},
 			[HEROIC_DIFF] = {
-				{ 1,  87543,   1 }, -- Ka'eng, Breath of the Shadow
-				{ 2,  81188,   20 }, -- Robes of Fevered Dreams
-				{ 3,  81093,   20 }, -- Darkbinder Leggings
-				{ 4,  81099,   20 }, -- Shadowspine Shoulderguards
-				{ 5,  81114,   20 }, -- Blastwalker Footguards
-				{ 6,  81187,   20 }, -- Hateshatter Chestplate
-				{ 7,  81103,   20 }, -- Mindbinder Plate Gloves
-				{ 8,  81189,   20 }, -- Ring of Malice
-				{ 9,  81186,   20 }, -- Seal of Hateful Meditation
-				{ 10, 81107,   20 }, -- Warmace of Taran Zhu
-				{ 11, 81096,   20 }, -- Shield of Blind Hate
+				{ 1,  87543 }, -- Ka'eng, Breath of the Shadow
+				{ 2,  81188 }, -- Robes of Fevered Dreams
+				{ 3,  81093 }, -- Darkbinder Leggings
+				{ 4,  81099 }, -- Shadowspine Shoulderguards
+				{ 5,  81114 }, -- Blastwalker Footguards
+				{ 6,  81187 }, -- Hateshatter Chestplate
+				{ 7,  81103 }, -- Mindbinder Plate Gloves
+				{ 8,  81189 }, -- Ring of Malice
+				{ 9,  81186 }, -- Seal of Hateful Meditation
+				{ 10, 81107 }, -- Warmace of Taran Zhu
+				{ 11, 81096 }, -- Shield of Blind Hate
 				{ 16, "ac6470" },
 				{ 17, "ac6471" },
 			},
@@ -671,82 +671,82 @@ data["SiegeofNiuzaoTemple"] = {
 		{ --NTJinbak
 			EncounterJournalID = 693,
 			[NORMAL_DIFF] = {
-				{ 1, 100952, 33 }, -- Hood of Viridian Residue
-				{ 2, 100953, 33 }, -- Girdle of Soothing Detonation
-				{ 3, 100954, 33 }, -- Sap-Encrusted Legplates
-				{ 4, 100950, 33 }, -- Engraved Amber Pendant
-				{ 5, 100951, 33 }, -- Flashfrozen Resin Globule
+				{ 1, 100952 }, -- Hood of Viridian Residue
+				{ 2, 100953 }, -- Girdle of Soothing Detonation
+				{ 3, 100954 }, -- Sap-Encrusted Legplates
+				{ 4, 100950 }, -- Engraved Amber Pendant
+				{ 5, 100951 }, -- Flashfrozen Resin Globule
 			},
 			[HEROIC_DIFF] = {
-				{ 1, 81262, 20 }, -- Hood of Viridian Residue
-				{ 2, 81272, 20 }, -- Girdle of Soothing Detonation
-				{ 3, 81270, 20 }, -- Sap-Encrusted Legplates
-				{ 4, 81271, 20 }, -- Engraved Amber Pendant
-				{ 5, 81263, 20 }, -- Flashfrozen Resin Globule
+				{ 1, 81262 }, -- Hood of Viridian Residue
+				{ 2, 81272 }, -- Girdle of Soothing Detonation
+				{ 3, 81270 }, -- Sap-Encrusted Legplates
+				{ 4, 81271 }, -- Engraved Amber Pendant
+				{ 5, 81263 }, -- Flashfrozen Resin Globule
 			},
 		},
 		{ --NTVojak
 			EncounterJournalID = 738,
 			[NORMAL_DIFF] = {
-				{ 1, 100956, 33 }, -- Bombardment Bracers
-				{ 2, 100957, 33 }, -- Chestwrap of Arcing Flame
-				{ 3, 100958, 33 }, -- Archer's Precision Grips
-				{ 4, 100959, 33 }, -- Sightfinder Helm
-				{ 5, 100955, 33 }, -- Siege-Captain's Scimitar
+				{ 1, 100956 }, -- Bombardment Bracers
+				{ 2, 100957 }, -- Chestwrap of Arcing Flame
+				{ 3, 100958 }, -- Archer's Precision Grips
+				{ 4, 100959 }, -- Sightfinder Helm
+				{ 5, 100955 }, -- Siege-Captain's Scimitar
 			},
 			[HEROIC_DIFF] = {
-				{ 1,  81276,   20 }, -- Bombardment Bracers
-				{ 2,  81275,   20 }, -- Chestwrap of Arcing Flame
-				{ 3,  81277,   20 }, -- Archer's Precision Grips
-				{ 4,  81274,   20 }, -- Sightfinder Helm
-				{ 5,  81273,   20 }, -- Siege-Captain's Scimitar
+				{ 1,  81276 }, -- Bombardment Bracers
+				{ 2,  81275 }, -- Chestwrap of Arcing Flame
+				{ 3,  81277 }, -- Archer's Precision Grips
+				{ 4,  81274 }, -- Sightfinder Helm
+				{ 5,  81273 }, -- Siege-Captain's Scimitar
 				{ 16, "ac6688" },
 			},
 		},
 		{ --NTPavalak
 			EncounterJournalID = 692,
 			[NORMAL_DIFF] = {
-				{ 1, 100961, 33 }, -- Aerial Bombardment Cloak
-				{ 2, 100962, 33 }, -- Breezebinder Handwraps
-				{ 3, 100964, 33 }, -- Siegeworn Bracers
-				{ 4, 100963, 33 }, -- Vial of Ichorous Blood
-				{ 5, 100960, 33 }, -- Tempestuous Longbow
+				{ 1, 100961 }, -- Aerial Bombardment Cloak
+				{ 2, 100962 }, -- Breezebinder Handwraps
+				{ 3, 100964 }, -- Siegeworn Bracers
+				{ 4, 100963 }, -- Vial of Ichorous Blood
+				{ 5, 100960 }, -- Tempestuous Longbow
 			},
 			[HEROIC_DIFF] = {
-				{ 1,  81282,   20 }, -- Aerial Bombardment Cloak
-				{ 2,  81281,   20 }, -- Breezebinder Handwraps
-				{ 3,  81280,   20 }, -- Siegeworn Bracers
-				{ 4,  81264,   20 }, -- Vial of Ichorous Blood
-				{ 5,  81279,   20 }, -- Tempestuous Longbow
+				{ 1,  81282 }, -- Aerial Bombardment Cloak
+				{ 2,  81281 }, -- Breezebinder Handwraps
+				{ 3,  81280 }, -- Siegeworn Bracers
+				{ 4,  81264 }, -- Vial of Ichorous Blood
+				{ 5,  81279 }, -- Tempestuous Longbow
 				{ 16, "ac6485" },
 			},
 		},
 		{ --NTNeronok
 			EncounterJournalID = 727,
 			[NORMAL_DIFF] = {
-				{ 1,  100971, 33 }, -- Breezeswept Hood
-				{ 2,  100972, 33 }, -- Whisperwind Spaulders
-				{ 3,  100967, 33 }, -- Windblast Helm
-				{ 4,  100968, 33 }, -- Galedodger Chestguard
-				{ 5,  100974, 33 }, -- Belt of Totemic Binding
-				{ 6,  100975, 33 }, -- Airbender Sandals
-				{ 7,  100970, 33 }, -- Spaulders of Immovable Stone
-				{ 8,  100969, 33 }, -- Anchoring Sabatons
-				{ 9,  100965, 33 }, -- Ner'onok's Razor Katar
-				{ 10, 100973, 33 }, -- Gustwalker Staff
+				{ 1,  100971 }, -- Breezeswept Hood
+				{ 2,  100972 }, -- Whisperwind Spaulders
+				{ 3,  100967 }, -- Windblast Helm
+				{ 4,  100968 }, -- Galedodger Chestguard
+				{ 5,  100974 }, -- Belt of Totemic Binding
+				{ 6,  100975 }, -- Airbender Sandals
+				{ 7,  100970 }, -- Spaulders of Immovable Stone
+				{ 8,  100969 }, -- Anchoring Sabatons
+				{ 9,  100965 }, -- Ner'onok's Razor Katar
+				{ 10, 100973 }, -- Gustwalker Staff
 			},
 			[HEROIC_DIFF] = {
-				{ 1,  87547,   1 },
-				{ 2,  81289,   20 }, -- Breezeswept Hood
-				{ 3,  81291,   20 }, -- Whisperwind Spaulders
-				{ 4,  81283,   20 }, -- Windblast Helm
-				{ 5,  81285,   20 }, -- Galedodger Chestguard
-				{ 6,  81290,   20 }, -- Belt of Totemic Binding
-				{ 7,  81292,   20 }, -- Airbender Sandals
-				{ 8,  81287,   20 }, -- Spaulders of Immovable Stone
-				{ 9,  81284,   20 }, -- Anchoring Sabatons
-				{ 10, 81286,   20 }, -- Ner'onok's Razor Katar
-				{ 11, 81288,   20 }, -- Gustwalker Staff
+				{ 1,  87547 },
+				{ 2,  81289 }, -- Breezeswept Hood
+				{ 3,  81291 }, -- Whisperwind Spaulders
+				{ 4,  81283 }, -- Windblast Helm
+				{ 5,  81285 }, -- Galedodger Chestguard
+				{ 6,  81290 }, -- Belt of Totemic Binding
+				{ 7,  81292 }, -- Airbender Sandals
+				{ 8,  81287 }, -- Spaulders of Immovable Stone
+				{ 9,  81284 }, -- Anchoring Sabatons
+				{ 10, 81286 }, -- Ner'onok's Razor Katar
+				{ 11, 81288 }, -- Gustwalker Staff
 				{ 16, "ac6763" },
 				{ 17, "ac6822" },
 			},
@@ -765,16 +765,16 @@ data["StormstoutBrewery"] = {
 		{ --BreweryOokOok
 			EncounterJournalID = 668,
 			[NORMAL_DIFF] = {
-				{ 1, 80897, 33 }, -- Bracers of Displaced Air
-				{ 2, 80896, 33 }, -- Nimbletoe Chestguard
-				{ 3, 80892, 33 }, -- Ook's Hozen Slicer
+				{ 1, 80897 }, -- Bracers of Displaced Air
+				{ 2, 80896 }, -- Nimbletoe Chestguard
+				{ 3, 80892 }, -- Ook's Hozen Slicer
 			},
 			[HEROIC_DIFF] = {
-				{ 1,  81064,   20 }, -- Bracers of Displaced Air
-				{ 2,  81080,   20 }, -- Nimbletoe Chestguard
-				{ 3,  81134,   20 }, -- Barreldodger Boots
-				{ 4,  81133,   20 }, -- Empty Fruit Barrel
-				{ 5,  81061,   20 }, -- Ook's Hozen Slicer
+				{ 1,  81064 }, -- Bracers of Displaced Air
+				{ 2,  81080 }, -- Nimbletoe Chestguard
+				{ 3,  81134 }, -- Barreldodger Boots
+				{ 4,  81133 }, -- Empty Fruit Barrel
+				{ 5,  81061 }, -- Ook's Hozen Slicer
 				{ 16, "ac6089" },
 			},
 		},
@@ -796,26 +796,26 @@ data["StormstoutBrewery"] = {
 		{ --BreweryYanZhu
 			EncounterJournalID = 670,
 			[NORMAL_DIFF] = {
-				{ 1,  80903,   33 }, -- Fermenting Belt
-				{ 2,  80900,   33 }, -- Fizzy Spaulders
-				{ 3,  80902,   33 }, -- Uncasked Chestguard
-				{ 4,  80901,   33 }, -- Sudsy Legplates
-				{ 5,  80894,   33 }, -- Gao's Keg Tapper
-				{ 6,  80895,   33 }, -- Yan-Zhu's Pressure Valve
+				{ 1,  80903 }, -- Fermenting Belt
+				{ 2,  80900 }, -- Fizzy Spaulders
+				{ 3,  80902 }, -- Uncasked Chestguard
+				{ 4,  80901 }, -- Sudsy Legplates
+				{ 5,  80894 }, -- Gao's Keg Tapper
+				{ 6,  80895 }, -- Yan-Zhu's Pressure Valve
 				{ 16, "ac6457" },
 			},
 			[HEROIC_DIFF] = {
-				{ 1,  87545,   1 }, -- Inelava, Spirit of Inebriation
-				{ 2,  81059,   20 }, -- Fermenting Belt
-				{ 3,  81068,   20 }, -- Fizzy Spaulders
-				{ 4,  81081,   20 }, -- Uncasked Chestguard
-				{ 5,  81078,   20 }, -- Sudsy Legplates
-				{ 6,  81141,   20 }, -- Alemental Seal
-				{ 7,  81139,   20 }, -- Lime-Rimmed Signet
-				{ 8,  81138,   20 }, -- Carbonic Carbuncle
-				{ 9,  81062,   20 }, -- Gao's Keg Tapper
-				{ 10, 81140,   20 }, -- Wort Sitrring Rod
-				{ 11, 81066,   20 }, -- Yan-Zhu's Pressure Valve
+				{ 1,  87545 }, -- Inelava, Spirit of Inebriation
+				{ 2,  81059 }, -- Fermenting Belt
+				{ 3,  81068 }, -- Fizzy Spaulders
+				{ 4,  81081 }, -- Uncasked Chestguard
+				{ 5,  81078 }, -- Sudsy Legplates
+				{ 6,  81141 }, -- Alemental Seal
+				{ 7,  81139 }, -- Lime-Rimmed Signet
+				{ 8,  81138 }, -- Carbonic Carbuncle
+				{ 9,  81062 }, -- Gao's Keg Tapper
+				{ 10, 81140 }, -- Wort Sitrring Rod
+				{ 11, 81066 }, -- Yan-Zhu's Pressure Valve
 				{ 16, "ac6456" },
 			},
 		},
@@ -833,72 +833,72 @@ data["TempleOfTheJadeSerpent"] = {
 		{ --TJSMari
 			EncounterJournalID = 672,
 			[NORMAL_DIFF] = {
-				{ 1, 80862, 33 }, -- Treads of Corrupted Water
-				{ 2, 80860, 33 }, -- Waterburst Helm
-				{ 3, 80861, 33 }, -- Riverbed Chestguard
+				{ 1, 80862 }, -- Treads of Corrupted Water
+				{ 2, 80860 }, -- Waterburst Helm
+				{ 3, 80861 }, -- Riverbed Chestguard
 			},
 			[HEROIC_DIFF] = {
-				{ 1,  81123,   20 }, -- Wind-Soaked Drape
-				{ 2,  81072,   20 }, -- Treads of Corrupted Water
-				{ 3,  81075,   20 }, -- Waterburst Helm
-				{ 4,  81083,   20 }, -- Riverbed Chestguard
-				{ 5,  81124,   20 }, -- Crystallized Droplet
+				{ 1,  81123 }, -- Wind-Soaked Drape
+				{ 2,  81072 }, -- Treads of Corrupted Water
+				{ 3,  81075 }, -- Waterburst Helm
+				{ 4,  81083 }, -- Riverbed Chestguard
+				{ 5,  81124 }, -- Crystallized Droplet
 				{ 16, "ac6460" },
 			},
 		},
 		{ --TJSStonestep
 			EncounterJournalID = 664,
 			[NORMAL_DIFF] = {
-				{ 1, 80864, 33 }, -- Girdle of Endemic Anger
-				{ 2, 80865, 33 }, -- Sunheart Waistband
-				{ 3, 80863, 33 }, -- Stonestep Boots
+				{ 1, 80864 }, -- Girdle of Endemic Anger
+				{ 2, 80865 }, -- Sunheart Waistband
+				{ 3, 80863 }, -- Stonestep Boots
 			},
 			[HEROIC_DIFF] = {
-				{ 1, 81058, 20 }, -- Girdle of Endemic Anger
-				{ 2, 81126, 20 }, -- Leggings of Whispered Dreams
-				{ 3, 81060, 20 }, -- Sunheart Waistband
-				{ 4, 81073, 20 }, -- Stonestep Boots
-				{ 5, 81125, 20 }, -- Windswept Pages
+				{ 1, 81058 }, -- Girdle of Endemic Anger
+				{ 2, 81126 }, -- Leggings of Whispered Dreams
+				{ 3, 81060 }, -- Sunheart Waistband
+				{ 4, 81073 }, -- Stonestep Boots
+				{ 5, 81125 }, -- Windswept Pages
 			},
 		},
 		{ --TJSFlameheart
 			EncounterJournalID = 658,
 			[NORMAL_DIFF] = {
-				{ 1, 80866, 33 }, -- Cape of Entanglement
-				{ 2, 80867, 33 }, -- Serpentstrike Shoulderpads
-				{ 3, 80872, 33 }, -- Firebelcher Hand Cannon
+				{ 1, 80866 }, -- Cape of Entanglement
+				{ 2, 80867 }, -- Serpentstrike Shoulderpads
+				{ 3, 80872 }, -- Firebelcher Hand Cannon
 			},
 			[HEROIC_DIFF] = {
-				{ 1, 81084, 20 }, -- Cape of Entanglement
-				{ 2, 81127, 20 }, -- Flameheart Sandals
-				{ 3, 81070, 20 }, -- Serpentstrike Shoulderpads
-				{ 4, 81128, 20 }, -- Signet of Dancing Jade
-				{ 5, 81067, 20 }, -- Firebelcher Hand Cannon
+				{ 1, 81084 }, -- Cape of Entanglement
+				{ 2, 81127 }, -- Flameheart Sandals
+				{ 3, 81070 }, -- Serpentstrike Shoulderpads
+				{ 4, 81128 }, -- Signet of Dancing Jade
+				{ 5, 81067 }, -- Firebelcher Hand Cannon
 			},
 		},
 		{ --TJSShaDoubt
 			EncounterJournalID = 335,
 			[NORMAL_DIFF] = {
-				{ 1,  80868,   33 }, -- Doubtridden Shoulderguards
-				{ 2,  80870,   33 }, -- Chestguard of Despair
-				{ 3,  80871,   33 }, -- Neverdare Shoulders
-				{ 4,  80869,   33 }, -- Hopecrusher Gauntlets
-				{ 5,  80873,   33 }, -- Dubious Handaxe
-				{ 6,  80874,   33 }, -- Staff of Trembling Will
+				{ 1,  80868 }, -- Doubtridden Shoulderguards
+				{ 2,  80870 }, -- Chestguard of Despair
+				{ 3,  80871 }, -- Neverdare Shoulders
+				{ 4,  80869 }, -- Hopecrusher Gauntlets
+				{ 5,  80873 }, -- Dubious Handaxe
+				{ 6,  80874 }, -- Staff of Trembling Will
 				{ 16, "ac6757" },
 			},
 			[HEROIC_DIFF] = {
-				{ 1,  87544,   1 }, -- Je'lyu, Spirit of the Serpent
-				{ 2,  81129,   20 }, -- Cloak of Failing Will
-				{ 3,  81132,   20 }, -- Paralyzing Gloves
-				{ 4,  81071,   20 }, -- Doubtridden Shoulderguards
-				{ 5,  81082,   20 }, -- Chestguard of Despair
-				{ 6,  81069,   20 }, -- Neverdare Shoulders
-				{ 7,  81074,   20 }, -- Hopecrusher Gauntlets
-				{ 8,  81130,   20 }, -- Binding of Broken Dreams
-				{ 9,  81131,   20 }, -- Mindbreaker Pendant
-				{ 10, 81063,   20 }, -- Dubious Handaxe
-				{ 11, 81079,   20 }, -- Staff of Trembling Will
+				{ 1,  87544 }, -- Je'lyu, Spirit of the Serpent
+				{ 2,  81129 }, -- Cloak of Failing Will
+				{ 3,  81132 }, -- Paralyzing Gloves
+				{ 4,  81071 }, -- Doubtridden Shoulderguards
+				{ 5,  81082 }, -- Chestguard of Despair
+				{ 6,  81069 }, -- Neverdare Shoulders
+				{ 7,  81074 }, -- Hopecrusher Gauntlets
+				{ 8,  81130 }, -- Binding of Broken Dreams
+				{ 9,  81131 }, -- Mindbreaker Pendant
+				{ 10, 81063 }, -- Dubious Handaxe
+				{ 11, 81079 }, -- Staff of Trembling Will
 				{ 16, "ac6758" },
 				{ 17, "ac6926" },
 				{ 18, "ac6475" },

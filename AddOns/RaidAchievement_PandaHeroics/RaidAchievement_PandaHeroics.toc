@@ -10,7 +10,7 @@
 
 ## SavedVariablesPerCharacter: phraspisokon
 
-## X-Part-Of: 
+## X-Part-Of: RaidAchievement
 
 RaidAchievement_PandaHeroics.lua
 RaidAchievement_PandaHeroicsbosses.lua

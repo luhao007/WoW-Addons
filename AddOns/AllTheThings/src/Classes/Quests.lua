@@ -1286,9 +1286,7 @@ local criteriaFuncs = {
         return ("[%d] %s"):format(questID, questName or RETRIEVING_DATA);
     end,
 
-    spellID = function(spellID)
-        return app.CurrentCharacter.Spells[spellID] or app.CurrentCharacter.ActiveSkills[spellID];
-    end,
+    -- spellID = app.IsSpellKnownHelper,	-- defined in OnLoad event
 	label_spellID = L.LOCK_CRITERIA_SPELL_LABEL,
     -- text_spellID = app.GetSpellName,	-- defined in OnLoad event
 
@@ -1346,6 +1344,7 @@ local criteriaFuncs = {
 };
 app.AddEventHandler("OnLoad", function()
 	criteriaFuncs.text_spellID = app.GetSpellName
+	criteriaFuncs.spellID = app.IsSpellKnownHelper
 end)
 local AWQuestLockers = setmetatable({
 	-- sourceID is account-wide, so any lock via that will lock account-wide

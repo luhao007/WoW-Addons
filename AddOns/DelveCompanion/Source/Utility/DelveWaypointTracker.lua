@@ -11,7 +11,6 @@ local Lockit = DelveCompanion.Lockit
 --#region Constants
 
 local BOUNTIFUL_ICON_SEQUENCE = "|A:delves-bountiful:24:24|a"
-local OVERCHARGED_ICON_SEQUENCE = "|TInterface\\Icons\\achievement_legionpvp2tier5:20|t"
 local TOM_TOM_WAYPOINT_DISTANCE_CLEAR = 10
 local MPE_DELVE_REGULAR_ATLAS_NAME = "delves-regular"
 local MPE_DELVE_BOUNTIFUL_ATLAS_NAME = "delves-bountiful"
@@ -266,10 +265,6 @@ function DelveCompanion_DelveWaypointMixin:DisplayDelveTooltip(owner, anchor, de
         iconsSequence = string.join("", iconsSequence, BOUNTIFUL_ICON_SEQUENCE)
     end
 
-    if delveData.isOvercharged then
-        iconsSequence = string.join("", iconsSequence, OVERCHARGED_ICON_SEQUENCE)
-    end
-
     -- Title + icons
     GameTooltip_AddColoredDoubleLine(tooltip,
         delveData.delveName, iconsSequence,
@@ -279,7 +274,7 @@ function DelveCompanion_DelveWaypointMixin:DisplayDelveTooltip(owner, anchor, de
     GameTooltip_AddHighlightLine(tooltip, delveData.parentMapName, true)
     -- Active story + completion state
     do
-        if DelveCompanion.Variables.isPTR and delveData.storyVariant then
+        if delveData.storyVariant ~= nil then
             local completionText = delveData.isStoryCompleted and Lockit.UI_DELVE_STORY_VARIANT_COMPLETED_SEQUENCE or
                 Lockit.UI_DELVE_STORY_VARIANT_NOT_COMPLETED_SEQUENCE
             local completionColor = delveData.isStoryCompleted and _G["DIM_GREEN_FONT_COLOR"]

@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: nanderson11, Arith
-## Version: v9.14.1
+## Version: v9.15.0
 
 ## Title: AtlasLoot |cFF0099FF[Shadowlands]|r
 ## Notes: AtlasLoot loot tables from Shadowlands
@@ -16,6 +16,6 @@
 ## X-License: GPL v2
 ## X-Website: https://github.com/nanderson11/AtlasLootEnhanced
 ## X-AtlasLoot-LootModule: 1
-## X-Part-Of: 
+## X-Part-Of: AtlasLoot
 
 data.lua

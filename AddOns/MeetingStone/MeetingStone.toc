@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Version: 11.2.0
-## VersionDate: 20250823_2
+## VersionDate: 20250825
 
 ## Title: Meeting Stone
 ## Title-zhCN: |cFFFFE00A<|r|cFFF48CBA社交|r|cFFFFE00A>|r |cFFFFFFFF集合石|r |cFFFFE00AMeetingStone|r

@@ -13,7 +13,7 @@
 
 ## X-Curse-Project-ID: 95571
 ## X-Wago-ID: Rn6VpLGd
-## X-Part-Of: 
+## X-Part-Of: Titan
 
 Libs\ElioteDropDownMenu-1.0\ElioteDropDownMenu-1.0.lua
 Libs\Elib-4.0\Elib-4.0.lua

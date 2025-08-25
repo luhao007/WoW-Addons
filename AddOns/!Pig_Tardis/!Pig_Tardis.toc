@@ -18,7 +18,7 @@
 ## SavedVariables: PIGT
 ## SavedVariablesPerCharacter: PIGT_Per
 
-## X-Part-Of: 
+## X-Part-Of: !Pig
 
 Default.lua
 Options.lua

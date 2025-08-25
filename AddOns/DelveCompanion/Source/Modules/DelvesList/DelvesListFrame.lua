@@ -108,6 +108,7 @@ function DelveCompanion_DelvesListFrameMixin:InitDelvesList()
                     local progressWidget = self:CreateDelveProgressWidget(self.DelvesListScroll.Content,
                         delveConfig)
                     progressWidget:SetPoint("TOPLEFT", instanceButton, "BOTTOMLEFT", 0, 0)
+                    instanceButton.progressWidget = progressWidget
                 end
             end
         end
@@ -141,12 +142,6 @@ function DelveCompanion_DelvesListFrameMixin:OnLoad()
 
     do
         self.ModifiersContainer.ModifiersLabel:SetText(_G["MODIFIERS_COLON"])
-
-        if not DelveCompanion.Variables.isPTR then
-            self.ModifiersContainer.OverchargedWidget:Show()
-            self.ModifiersContainer.OverchargedWidget:SetFrameInfo(DelveCompanion.Definitions.CodeType.Spell,
-                Config.OVERCHARGED_SPELL_CODE)
-        end
 
         self.ModifiersContainer.AffixWidget:SetFrameInfo(DelveCompanion.Definitions.CodeType.Spell,
             Config.NEMESIS_AFFIX_SPELL_CODE)
@@ -192,7 +187,6 @@ end
 
 ---@class DelvesListModifiersContainer : HorizontalLayoutFrame
 ---@field ModifiersLabel FontString
----@field OverchargedWidget CustomActionWidget
 ---@field AffixWidget CustomActionWidget
 
 --- `DelveCompanionDelvesListFrameTemplate`

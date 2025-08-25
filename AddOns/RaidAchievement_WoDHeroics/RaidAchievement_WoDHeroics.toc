@@ -10,7 +10,7 @@
 
 ## SavedVariablesPerCharacter: wodhraspisokon
 
-## X-Part-Of: 
+## X-Part-Of: RaidAchievement
 
 RaidAchievement_WoDHeroics.lua
 RaidAchievement_WoDHeroicsbosses.lua

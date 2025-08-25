@@ -266,7 +266,7 @@ local function SlotButton_OnClick(self, button, down)
 				self:SetSlotItem()
 			end
 		end
-	elseif self.ItemID then
+	elseif self.ItemString or self.ItemID then
 		if button == "LeftButton" then
 			local b = ItemButtonType.ItemClickHandler:Get(button)
 			ItemButtonType.OnMouseAction(self, button)
@@ -274,7 +274,7 @@ local function SlotButton_OnClick(self, button, down)
 				UpdateItemFrame(true)
 			end
 		elseif button == "RightButton" then
-			GUI:OnItemNoteChange(self.ItemID)
+			GUI:OnItemNoteChange(self.ItemString or self.ItemID)
 		end
 	end
 end
@@ -454,7 +454,6 @@ local function Slot_CreateSlotButton(parFrame, slotID, modelFrame)
 	frame.count:SetPoint("BOTTOMRIGHT", frame.icon, "BOTTOMRIGHT", -3, 2)
 	frame.count:SetJustifyH("RIGHT")
 	frame.count:SetHeight(15)
-	frame.count:SetText(0)
 
 	frame.ownedItem = frame:CreateTexture(nil, "OVERLAY")
 	frame.ownedItem:SetPoint("BOTTOMLEFT", frame.icon)
@@ -921,7 +920,7 @@ function GUI:Create()
 			hasEditBox = true,
 			OnAccept = function(self, data, data2)
 				if gui.popupNoteId then
-					Favourites:SetItemNote(gui.popupNoteId, self.editBox:GetText())
+					Favourites:SetItemNote(gui.popupNoteId, self.EditBox:GetText())
 					gui.popupNoteId = nil
 				end
 			end,
@@ -930,12 +929,12 @@ function GUI:Create()
 	end
 end
 
-function GUI:OnItemNoteChange(itemId, note)
+function GUI:OnItemNoteChange(itemId)
 	self.popupNoteId = itemId
-	local itemName, itemLink = C_Item.GetItemInfo(itemId)
+	local _, itemLink = C_Item.GetItemInfo(itemId)
 	local itemNote = Favourites:GetItemNote(itemId)
 	local popup = StaticPopup_Show("ATLASLOOT_FAVOURITE_NOTE_POPUP", itemLink)
-	popup.editBox:SetText(itemNote or "")
+	popup.EditBox:SetText(itemNote or "")
 end
 
 function GUI:UpdateStyle()

@@ -28,7 +28,7 @@
 ## X-DBM-Mod-Sort: 217
 ## X-DBM-Mod-MapID: 369,1043
 ## X-DBM-Mod-MinCoreRevision: 12473
-## X-Part-Of: 
+## X-Part-Of: DBM-Core
 
 localization.en.lua
 localization.kr.lua

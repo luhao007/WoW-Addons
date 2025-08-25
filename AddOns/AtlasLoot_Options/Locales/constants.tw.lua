@@ -56,3 +56,5 @@ AL["Always marks items as favourite for every profile if enabled."] = "啟用時
 AL["Always marks items as favourite for profile |cff00ff00%s|r if enabled."] = "啟用時，設定檔 |cff00ff00%s|r 永遠都會將物品設為最愛。"
 AL["Icon"] = "圖示"
 AL["Remove |cffff0000%d|r items from list."] = "從清單中移除 |cffff0000%d|r 項物品。"
+AL["Replace existing items"] = "取代已有的物品"
+AL["Added |cff00ff00%d|r items into list |cff00ff00%s|r."] = "新增 |cff00ff00%d|r 項物品到清單 |cff00ff00%s|r。"
