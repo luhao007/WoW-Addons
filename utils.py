@@ -108,9 +108,12 @@ def get_libraries_list() -> list[str]:
         ],
         libs,
     )
-    libs += ["HereBeDragons-2.0"]  # Alternative name
-    libs += ["LibUIDropDownMenu"]  # We got an "!" mark in the lib name
-    libs += ["LibTranslit"]  # Alternative name
+    libs += [
+        "HereBeDragons-2.0",  # Alternative name, with the version number
+        "LibUIDropDownMenu",  # We got an "!" mark in the lib name
+        "LibTranslit",  # Alternative name, witout version number
+        "Krowi_WorldMapButtons",  # Alternative name, without version number
+    ]
 
     # individual files
     libs += [
@@ -161,6 +164,7 @@ def remove_libraries_all(addon: str, lib_path: Optional[str] = None):
     xmls = [
         "Includes.xml",
         "Libs.xml",
+        "ExternalLibs.xml",
         "load_libs.xml",
         "lib.xml",
         "lib_wrath.xml",

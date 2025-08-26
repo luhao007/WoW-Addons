@@ -1,0 +1,28 @@
+## Interface: 110200
+## Title: HandyNotes_NaxxFrozenRunes
+## Notes: Frozen Rune locations in Naxxramas
+## IconTexture: Interface/Addons/HandyNotes_NaxxFrozenRunes/HandyNotes_NaxxFrozenRunes.blp
+## Author: Keyboardturner
+## Version: 15
+## DefaultState: enabled
+## SavedVariables: HandyNotes_NaxxFrozenRunesDB
+## RequiredDeps: HandyNotes
+## X-Curse-Project-ID: 888364
+## X-WoWI-ID: 26607
+## X-Wago-ID: ZKbex961
+
+## Category-enUS: Map
+## Category-deDE: Karte
+## Category-esES: Mapa
+## Category-esMX: Mapa
+## Category-frFR: Carte
+## Category-itIT: Mappa
+## Category-koKR: 지도
+## Category-ptBR: Mapa
+## Category-ruRU: Карта
+## Category-zhCN: 地图
+## Category-zhTW: 地圖
+
+handler.lua
+config.lua
+nodes.lua
