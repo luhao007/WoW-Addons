@@ -5,7 +5,9 @@
 
 ## IconTexture: Interface/AddOns/DBM-Core/textures/dbm_airhorn
 
+## Category: DBM
 ## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
+## Group: DBM-Test
 
 ## Dependencies: DBM-Test
 ## LoadOnDemand: 1

@@ -11,6 +11,7 @@
 	<Script file="CheckButton.lua" />
 	<Script file="EditBox.lua" />
 	<Script file="Slider.lua" />
+	<Script file="ScrollFrame.lua" />
 	<Script file="StatusBar.lua" />
 	<Script file="DownMenu.lua" />
 	<Script file="BlizzardUI.lua" />

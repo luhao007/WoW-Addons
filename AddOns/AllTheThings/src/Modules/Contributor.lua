@@ -331,11 +331,14 @@ MobileDB.Creature = {
 	 [90474] = true,	-- Kor'vas Bloodthorn
 	 [96038] = true,	-- Rivermane Shaman
 	 [99343] = true,	-- Kor'vas Bloodthorn
+	[100786] = true,	-- Snowfeather
 	[108961] = true,	-- Sergeant Dalton
 	[101344] = true,	-- Hooded Priestess (Horde)
 	[101527] = true,	-- Blingtron 6000
 	[102333] = true,	-- Hooded Priestess (Alliance)
+	[103506] = true,	-- Ritssyn Flamescowl
 	[105637] = true,	-- Scowling Rosa <Texts and Specialty Goods>
+	[112666] = true,	-- Asha Ravensong
 	[113686] = true,	-- Archmage Khadgar
 	[113857] = true,	-- Light's Heart
 	[115785] = true,	-- Direbeak Hatchling
@@ -741,6 +744,7 @@ MobileDB.GameObject = {
 	[209448] = true,	-- Portal Energy Focus (Well of Eternity)
 	[209506] = true,	-- Stolen Treats, (q:7043 [A], q:6983 [H])
 	[209507] = true,	-- Hard Tearwood Reed (q:29662)
+	[209547] = true,	-- Murozond's Temporal Cache
 	[209665] = true,	-- Abandoned Stone Blocks
 	[209671] = true,	-- Kun-Pai Ritual Charm (q:29789)
 	[209774] = true,	-- Kun-Pai Ritual Charm (q:29789)
@@ -777,6 +781,7 @@ MobileDB.GameObject = {
 	[236262] = true,	-- Finalize Garrison Plot
 	[236263] = true,	-- Finalize Garrison Plot
 	[237039] = true,	-- Crate of Surplus Materials (q:37087, 37060)
+	[241275] = true,	-- Skyfire Medical Supplies (q:38036)
 	[241568] = true,	-- Offering Shrine
 	[241726] = true,	-- Leystone Deposit
 	[241743] = true,	-- Felslate Deposit
@@ -1070,6 +1075,7 @@ MobileDB.GameObject = {
 	[334736] = true,	-- Glimmering Chest
 	[334751] = true,	-- Zanj'ir Weapon Rack (q:57333)
 	[334839] = true,	-- Suspicious Crate (q:57090)
+	[338224] = true,	-- Cache of the Fire Lord
 	[340023] = true,	-- Diagnostic Console: Uldir (q:58506)
 	[340025] = true,	-- Diagnostic Console: Uldaman (q:58506)
 	[340026] = true,	-- Diagnostic Console: Ulduar (q:58506)
@@ -1142,8 +1148,10 @@ MobileDB.GameObject = {
 	[375530] = true,	-- Forgotten Treasure Vault
 	[376386] = true,	-- Disturbed Dirt
 	[376426] = true,	-- Magic-Bound Chest
+	[376584] = true,	-- Dracthyr Supply Chest
 	[376587] = true,	-- Expedition Scout's Pack
 	[378802] = true,	-- Corrupted Dragon Egg
+	[379159] = true,	-- Shovel
 	[379248] = true,	-- Draconium Deposit
 	[379252] = true,	-- Draconium Deposit
 	[379263] = true,	-- Rich Draconium Deposit
@@ -1172,6 +1180,7 @@ MobileDB.GameObject = {
 	[381957] = true,	-- Lush Bubble Poppy
 	[381960] = true,	-- Lush Hochenblume
 	[382029] = true,	-- Disturbed Dirt
+	[382031] = true,	-- Oily Dropcap
 	[382033] = true,	-- Djaradin Supply Jar
 	[382071] = true,	-- Full Fishing Net
 	[382079] = true,	-- Dragonscale Expedition Flag
@@ -1215,6 +1224,7 @@ MobileDB.GameObject = {
 	[390140] = true,	-- Lambent Saxifrage
 	[390142] = true,	-- Lambent Bubble Poppy
 	[396020] = true,	-- Stolen Stash
+	[398751] = true,	-- Lush Bubble Poppy
 	[398754] = true,	-- Lush Saxifrage
 	[398755] = true,	-- Bubble Poppy
 	[398756] = true,	-- Writhebark
@@ -1341,6 +1351,7 @@ MobileDB.GameObject = {
 	[439342] = true,	-- Arathi Crate (q:81620)
 	[441181] = true,	-- Research Cache (q:81908)
 	[441225] = true,	-- Deepwalker Crate (q:81908)
+	[441966] = true,	-- Moldy Chest
 	[443754] = true,	-- Earthen Coffer
 	[444105] = true,	-- Escape Rope (q:81691)
 	[444798] = true,	-- Arathi Treasure Hoard
@@ -1355,7 +1366,9 @@ MobileDB.GameObject = {
 	[446496] = true,	-- Enormous Pile of Refuse
 	[449528] = true,	-- Opal-Mining Tools
 	[451579] = true,	-- Used Fuel Drum (Ringing Deeps)
+	[451830] = true,	-- Heavy Trunk
 	[452696] = true,	-- Machine Speaker's Reliquary
+	[452697] = true,	-- Etched Machine Speaker's Reliquary
 	[452706] = true,	-- Deep-Lost Satchel
 	[452893] = true,	-- Kaja'mite Stockpile
 	[452923] = true,	-- Chillburst Canister (q:83148)
@@ -1375,6 +1388,8 @@ MobileDB.GameObject = {
 	[461478] = true,	-- For Rent Sign
 	[461540] = true,	-- Leftover Costume
 	[462533] = true,	-- Spare Excavation Rocket
+	[464729] = true,	-- Bountiful Heavy Trunk
+	[464761] = true,	-- Bountiful Heavy Trunk
 	[465064] = true,	-- Old Scroll
 	[465067] = true,	-- Faded Pages
 	[465208] = true,	-- Crystal Chunk (q:84430)
@@ -1482,6 +1497,7 @@ MobileDB.GameObject = {
 	[516757] = true,	-- Voidbane Stash
 	[516836] = true,	-- Voidbane Gem
 	[516994] = true,	-- Tazavesh Trash (q:87376)
+	[516995] = true,	-- Tazavesh Trash (q:87376)
 	[517000] = true,	-- Tazavesh Trash (q:87376)
 	[517389] = true,	-- Zo'kita Fruit (q:87420)
 	[517405] = true,	-- Tazavesh Trash (q:87426)
@@ -1490,23 +1506,44 @@ MobileDB.GameObject = {
 	[517672] = true,	-- Emergency Exit (qs: 75874, 83121, 83123, 84121)
 	[519856] = true,	-- Stolen Veilshard (q:87548)
 	[522157] = true,	-- Bomb Pile (Nightfall)
+	[523378] = true,	-- Portal to Nagrand
 	[523414] = true,	-- Snake Nest (q:88658)
 	[523415] = true,	-- Fragrant Dreaming Glory (q:88658)
 	[523491] = true,	-- Desolate Deposit
 	[523494] = true,	-- Marsh Moss (q:88657)
+	[523499] = true,	-- Marsh Moss (q:88657)
 	[523512] = true,	-- Rich Desolate Deposit
 	[523535] = true,	-- Torch (Nightfall)
+	[523615] = true,	-- Fragrant Dreaming Glory (q:88658)
 	[523689] = true,	-- Mossy Snake Bed (q:88666)
 	[524223] = true,	-- K'arroc Egg (q:88671)
+	[524348] = true,	-- Snake Egg (q:88672)
+	[526951] = true,	-- Challenger's Cache (Operation: Floodgate)
+	[526959] = true,	-- Challenger's Cache (Priory of the Sacred Flame)
+	[526962] = true,	-- Challenger's Cache (The Dawnbreaker)
+	[526963] = true,	-- Challenger's Cache (Ara'kara, City of Echoes)
+	[526972] = true,	-- Challenger's Cache (Tazavesh, the Veiled Market - Streets)
+	[526977] = true,	-- Challenger's Cache (Tazavesh, the Veiled Market - Gambit)
+	[526979] = true,	-- Challenger's Cache (Halls of Atonement)
+	[526980] = true,	-- Challenger's Cache (Eco-Dome Al'dani)
 	[527488] = true,	-- Phantom Bloom
 	[527489] = true,	-- Lush Phantom Bloom
+	[528080] = true,	-- Missing Token Box (q:89505)
+	[528082] = true,	-- Missing Luggage (q:89505)
+	[528283] = true,	-- Vesto's Stolen Goods (q:89505)
+	[528358] = true,	-- Uncharged Crystal
 	[529289] = true,	-- Spore Sample (q: 88711)
+	[531961] = true,	-- Untethered Xy'bucha
 	[536867] = true,	-- Swoopwing Eggs (q: 90773)
 	[537690] = true,	-- Prosperity Pebble (q: 90770)
 	[543115] = true,	-- Funny Candle
 	[547532] = true,	-- Ky'veza's Etheric Cache
 	[549326] = true,	-- Phase-Lost Exchequer
+	[549999] = true,	-- Energy Urn
+	[562348] = true,	-- Spoils of the Nexus-King
 	[567732] = true,	-- Kaja'6-Pack
+	[578955] = true,	-- Flickering Spoils
+	[578956] = true,	-- Shadowed Flickering Spoils
 }
 
 local ReturnEmptyFunctionMeta = { __index = function() return app.ReturnFalse end}
@@ -1684,16 +1721,16 @@ local UnknownObjectsCache = setmetatable({}, { __index = function(t, objectID)
 	return o
 end})
 local LastSoftInteract = {}
-local RegisterUNIT_SPELLCAST_START, UnregisterUNIT_SPELLCAST_START
+local RegisterUNIT_SPELLCAST_SENT, UnregisterUNIT_SPELLCAST_SENT
 -- Allows automatically tracking nearby ObjectID's and running check functions on them for data verification
 local function OnPLAYER_SOFT_INTERACT_CHANGED(previousGuid, newGuid)
 	-- app.PrintDebug("PLAYER_SOFT_INTERACT_CHANGED",previousGuid,newGuid)
 
-	-- previousGuid == newGuid when the player distance becomes close enough or far enough to change interaction cursor
+	-- previousGuid == newGuid when the player distance becomes close enough to interact
 	if not newGuid or previousGuid ~= newGuid then
 		LastSoftInteract.GuidType = nil
 		LastSoftInteract.ID = nil
-		UnregisterUNIT_SPELLCAST_START()
+		UnregisterUNIT_SPELLCAST_SENT()
 		return
 	end
 
@@ -1702,13 +1739,13 @@ local function OnPLAYER_SOFT_INTERACT_CHANGED(previousGuid, newGuid)
 	id = tonumber(id)
 	LastSoftInteract.GuidType = guidtype
 	LastSoftInteract.ID = id
-	-- app.PrintDebug(guidtype,id)
+	-- app.PrintDebug("Interact:",guidtype,id)
 
 	-- only check object soft-interact (for now)
 	if guidtype ~= "GameObject" then return end
 
-	-- close enough to an object to open, track potential looting via mouseclick for a few seconds
-	RegisterUNIT_SPELLCAST_START(10)
+	-- close enough to an object to open, track potential looting via mouseclick/interact for a few seconds
+	RegisterUNIT_SPELLCAST_SENT(10)
 
 	local objRef = app.SearchForObject("objectID", id)
 	-- only check sourced objects
@@ -1730,11 +1767,11 @@ local function OnPLAYER_SOFT_INTERACT_CHANGED(previousGuid, newGuid)
 end
 AddEventFunc("PLAYER_SOFT_INTERACT_CHANGED", OnPLAYER_SOFT_INTERACT_CHANGED)
 
--- UNIT_SPELLCAST_START
+-- UNIT_SPELLCAST_SENT
 -- Allows handling some special logic in special cases for special spell casts
-local SpellIDHandlers = {
+local SpellIDHandlers = setmetatable({
 	-- Opening (on Objects)
-	[6478] = function(source)
+	[6478] = function(source, dest)
 		if source ~= "player" then return end
 
 		-- Verify 'Opening' cast, report ObjectID if not Sourced
@@ -1745,7 +1782,7 @@ local SpellIDHandlers = {
 		-- if it's Sourced, we've already checked it via PLAYER_SOFT_INTERACT_CHANGED
 		if objRef then return end
 
-		local tooltipName = GameTooltipTextLeft1:GetText()
+		local tooltipName = dest or (GameTooltipTextLeft1 and GameTooltipTextLeft1:GetText())
 		objRef = UnknownObjectsCache[id]
 		local objID = objRef.keyval
 		-- report openable object
@@ -1756,31 +1793,42 @@ local SpellIDHandlers = {
 			Name = tooltipName or "(No Tooltip Text Available)",
 		})
 	end
-}
+}, { __index = function(t, key)
+	if app.Debugging then
+		return function(source, dest)
+			if dest then
+				app.PrintDebug(app.Modules.Color.Colorize("Object Interact SpellID", app.Colors.LockedWarning),key,source,dest)
+			end
+		end
+	end
+end})
 -- Other 'Opening' spells
 SpellIDHandlers[3365] = SpellIDHandlers[6478]
+SpellIDHandlers[6247] = SpellIDHandlers[6478]
+SpellIDHandlers[6477] = SpellIDHandlers[6478]
 
-local RegisteredUNIT_SPELLCAST_START
-local function OnUNIT_SPELLCAST_START(...)
-	-- app.PrintDebug("UNIT_SPELLCAST_START",...)
-	local source, _, id = ...
+local RegisteredUNIT_SPELLCAST_SENT
+local function OnUNIT_SPELLCAST_SENT(...)
+	-- app.PrintDebug("UNIT_SPELLCAST_SENT",...)
+	local source, dest, _, id = ...
 	local spellHandler = SpellIDHandlers[id]
 	if not spellHandler then return end
 
-	spellHandler(source)
+	spellHandler(source, dest)
+	UnregisterUNIT_SPELLCAST_SENT()
 end
-UnregisterUNIT_SPELLCAST_START = function()
-	if not RegisteredUNIT_SPELLCAST_START then return end
-	-- app.PrintDebug("Unregister.UNIT_SPELLCAST_START")
-	app:UnregisterEvent("UNIT_SPELLCAST_START")
-	RegisteredUNIT_SPELLCAST_START = nil
+UnregisterUNIT_SPELLCAST_SENT = function()
+	if not RegisteredUNIT_SPELLCAST_SENT then return end
+	-- app.PrintDebug("Unregister.UNIT_SPELLCAST_SENT")
+	app:UnregisterEvent("UNIT_SPELLCAST_SENT")
+	RegisteredUNIT_SPELLCAST_SENT = nil
 end
-RegisterUNIT_SPELLCAST_START = function(secTilRemove)
-	if RegisteredUNIT_SPELLCAST_START then return end
-	RegisteredUNIT_SPELLCAST_START = true
-	-- app.PrintDebug("Register.UNIT_SPELLCAST_START",secTilRemove)
-	app:RegisterFuncEvent("UNIT_SPELLCAST_START",OnUNIT_SPELLCAST_START)
-	app.CallbackHandlers.DelayedCallback(UnregisterUNIT_SPELLCAST_START, secTilRemove or 0.5)
+RegisterUNIT_SPELLCAST_SENT = function(secTilRemove)
+	if RegisteredUNIT_SPELLCAST_SENT then return end
+	RegisteredUNIT_SPELLCAST_SENT = true
+	-- app.PrintDebug("Register.UNIT_SPELLCAST_SENT",secTilRemove)
+	app:RegisterFuncEvent("UNIT_SPELLCAST_SENT",OnUNIT_SPELLCAST_SENT)
+	app.CallbackHandlers.DelayedCallback(UnregisterUNIT_SPELLCAST_SENT, secTilRemove or 0.5)
 end
 
 -- PLAYER_SOFT_TARGET_INTERACTION
@@ -1795,7 +1843,7 @@ local function OnPLAYER_SOFT_TARGET_INTERACTION()
 	if IgnoredChecksByType.GameObject.coord(LastSoftInteract.ID) then return end
 
 	-- If the player attempts to interact, hook for spell cast start event
-	RegisterUNIT_SPELLCAST_START()
+	RegisterUNIT_SPELLCAST_SENT()
 end
 AddEventFunc("PLAYER_SOFT_TARGET_INTERACTION", OnPLAYER_SOFT_TARGET_INTERACTION)
 

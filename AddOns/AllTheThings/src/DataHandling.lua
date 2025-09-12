@@ -152,7 +152,7 @@ BaseSetGroupVisibility = function(parent, group)
 			-- source ignored group which is determined to be visible should ensure the parent is also visible
 			if visible == 2 or group.sourceIgnored then
 				parent.forceShow = true
-				-- app.PrintDebug("SGV:ForceParent",parent.text,"via Source Ignored",group.text)
+				-- app.PrintDebug("SGV:ForceParent",parent.text,group.sourceIgnored and "via Source Ignored" or "via Hierarchy",group.text)
 			end
 			return
 		end
@@ -314,11 +314,13 @@ local function AdjustParentVisibility(group)
 	local parent = group and rawget(group, "parent")
 	if not parent then return end
 
-	-- app.PrintDebug("APV:",app:SearchLink(group),"->",app:SearchLink(parent))
 	if not parent.window then
 		group.visible = nil
+	end
+	if not group.window then
 		SetGroupVisibility(parent, group)
 	end
+	-- app.PrintDebug("APV:",app:SearchLink(group),group.visible,"->",app:SearchLink(parent))
 	AdjustParentVisibility(parent)
 end
 
@@ -584,12 +586,11 @@ local SourceSpecificFields = {
 	end,
 -- Returns the 'most obtainable' unobtainable value from the provided set of unobtainable values
 	["u"] = function(...)
-		-- app.PrintDebug("GetMostObtainableValue:")
+		-- app.PrintDebug("GetMostObtainableValue:",...)
 		local max, check, new = -1, nil, nil
 		local phases = L.PHASES
 		local phase, u
 		local vals = select("#", ...)
-		-- app.PrintDebug(...)
 		for i=1,vals do
 			u = select(i, ...)
 			-- missing u value means NOT unobtainable
@@ -918,7 +919,7 @@ app.__CreateObject = CreateObject;
 
 local function GetHash(t)
 	local hash = app.CreateHash(t);
-	app.PrintDebug(Colorize("No base .hash for t:",app.Colors.ChatLinkError),hash,t.text);
+	app.PrintDebug(Colorize("No base .hash for t:",app.Colors.ChatLinkError),hash,t.text,t.__type);
 	app.PrintTable(t)
 	return hash;
 end

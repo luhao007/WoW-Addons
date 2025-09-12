@@ -731,7 +731,7 @@ local FillGroups = function(group, options)
 				NextLayer[#NextLayer + 1] = FillGroupsLayered(FillLayer[i], FillData)
 			end
 			wipearray(FillLayer)
-			FillLayer = app.ArrayAppend(FillLayer, NextLayer)
+			FillLayer = app.ArrayAppend(FillLayer, unpack(NextLayer))
 		end
 
 		AssignGroupFilledTag(group)

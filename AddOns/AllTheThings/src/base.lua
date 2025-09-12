@@ -38,13 +38,6 @@ app.ReturnTrue = function() return true; end
 app.ReturnFalse = function() return false; end
 
 -- Faction Specific Data
-local IgnoredOtherQuestFields = {
-	otherQuestData = 1,
-	coords = 1,
-	coord = 1,
-	maps = 1,
-	g = 1,
-}
 local HORDE_FACTION_ID = Enum.FlightPathFaction.Horde;
 app.ResolveQuestData = function(t)
 	local aqd, hqd = t.aqd, t.hqd;
@@ -59,24 +52,9 @@ app.ResolveQuestData = function(t)
 			otherQuestData = hqd;
 		end
 
-		-- Apply this quest's current data into the other faction's quest. (this is for tooltip caching and source quest resolution)
-		for key,value in pairs(t) do
-			if not IgnoredOtherQuestFields[key] and not otherQuestData[key] then
-				otherQuestData[key] = value;
-			end
-		end
-		app.AssignChildren(otherQuestData)
-		t.otherQuestData = otherQuestData;
-		otherQuestData.parent = t.parent
-		otherQuestData.nmr = 1;
-		if not getmetatable(otherQuestData) then
-			otherQuestData.coords = nil;
-			otherQuestData.coord = nil;
-			otherQuestData.maps = nil;
-		end
-
-		-- Move over the quest data's groups.
+		-- Move over the quest data's groups. (This is never used...)
 		if questData.g then
+			-- app.PrintDebug("move quest groups",t.hash,questData.hash)
 			local g = t.g;
 			if g then
 				for _,o in ipairs(questData.g) do
@@ -87,12 +65,30 @@ app.ResolveQuestData = function(t)
 			end
 		end
 
-		-- Apply the faction specific quest data to this object.
+		-- Apply the common data to the faction group
 		for key,value in pairs(t) do
 			if not questData[key] then
 				questData[key] = value;
 			end
 		end
+
+		-- we know nmr based on matching faction
+		questData.nmr = false
+
+		-- Link some other data if the other data is a real Type that someone might search/tooltip directly in-game
+		if otherQuestData.__type then
+			otherQuestData.nmr = true
+			otherQuestData.g = questData.g
+			-- force faction associations
+			aqd.r = 2
+			hqd.r = 1
+			-- this is a bit weird, but we otherwise have no 'nice' way to hook our Typed-group into the
+			-- actual Main list via parent hierarchy since it is being created and just orphaned within the context
+			-- of the current faction data Type
+			otherQuestData.parent = questData
+		end
+		questData.otherQuestData = otherQuestData
+
 		return questData;
 	else
 		error("Missing AQD / HQD: " .. (aqd and 1 or 0) .. " " .. (hqd and 1 or 0));

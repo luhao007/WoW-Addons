@@ -100,7 +100,6 @@ BINDING_NAME_MDTWAYPOINT = L["New Patrol Waypoint at Cursor Position"]
 BINDING_NAME_MDTUNDODRAWING = L["undoDrawing"]
 BINDING_NAME_MDTREDODRAWING = L["redoDrawing"]
 
----@diagnostic disable-next-line: duplicate-set-field
 function SlashCmdList.MYTHICDUNGEONTOOLS(cmd, editbox)
   cmd = cmd:lower()
   local rqst, arg = strsplit(' ', cmd)
@@ -180,6 +179,8 @@ local defaultSavedVars = {
     presets = {},
     currentPreset = {},
     newDataCollectionActive = false,
+    fadeOutDuringCombat = false,
+    fadeOutAlpha = 0.5,
     colorPaletteInfo = {
       autoColoring = true,
       forceColorBlindMode = false,
@@ -247,6 +248,8 @@ do
           if v <= 0 then db.currentPreset[k] = 1 end
         end
       end
+      -- Initialize fade frame for combat transparency
+      MDT:InitializeFadeFrame()
       eventFrame:UnregisterEvent("ADDON_LOADED")
     end
   end
@@ -339,8 +342,7 @@ function MDT:GetNumDungeons()
 end
 
 function MDT:GetDungeonName(idx, forceEnglish)
-  -- don't fail hard for legacy dungeons
-  if forceEnglish and MDT.mapInfo[idx].englishName then
+  if forceEnglish and MDT.mapInfo[idx] and MDT.mapInfo[idx].englishName then
     return MDT.mapInfo[idx].englishName
   end
   return MDT.dungeonList[idx]
@@ -389,6 +391,34 @@ function MDT:ShowInterfaceInternal(force)
       self.draggedBlip = nil
     end
     MDT:UpdateBottomText()
+  end
+end
+
+function MDT:InitializeFadeFrame()
+  if self.fadeFrame then return end
+  self.fadeFrame = CreateFrame("Frame")
+  self.fadeFrame:SetScript("OnEvent", function(self, event)
+    if not MDT or not MDT.main_frame or not db then return end
+    if event == "PLAYER_REGEN_DISABLED" then
+      MDT.main_frame:SetAlpha(db.fadeOutAlpha or 0.5)
+    elseif event == "PLAYER_REGEN_ENABLED" then
+      MDT.main_frame:SetAlpha(1)
+    end
+  end)
+  self:UpdateFadeEventRegistration()
+end
+
+function MDT:UpdateFadeEventRegistration()
+  if not self.fadeFrame then return end
+  if db and db.fadeOutDuringCombat then
+    self.fadeFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
+    self.fadeFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
+  else
+    self.fadeFrame:UnregisterEvent("PLAYER_REGEN_DISABLED")
+    self.fadeFrame:UnregisterEvent("PLAYER_REGEN_ENABLED")
+    if self.main_frame then
+      self.main_frame:SetAlpha(1)
+    end
   end
 end
 
@@ -2250,6 +2280,7 @@ end
 function MDT:EnsureDBTables()
   --dungeonIdx doesnt exist
   local seasonList = MDT:GetSeasonList()
+  db.selectedDungeonList = db.selectedDungeonList or defaultSavedVars.global.selectedDungeonList
   if not MDT.dungeonList[db.currentDungeonIdx] or string.find(MDT.dungeonList[db.currentDungeonIdx], ">") or
       not db.selectedDungeonList or not seasonList[db.selectedDungeonList] then
     db.currentDungeonIdx = defaultSavedVars.global.currentDungeonIdx
@@ -2535,6 +2566,7 @@ function MDT:CheckCurrentZone(init)
   if dungeonIdx and (not lastUpdatedDungeonIdx or dungeonIdx ~= lastUpdatedDungeonIdx) then
     lastUpdatedDungeonIdx = dungeonIdx
     MDT:UpdateToDungeon(dungeonIdx, nil, init)
+    MDT:SetDungeonList(nil, dungeonIdx)
   end
 end
 
@@ -3189,7 +3221,7 @@ function MDT:MakeSettingsFrame(frame)
   frame.settingsFrame:SetTitle(L["Settings"])
   local frameWidth = 300
   frame.settingsFrame:SetWidth(frameWidth)
-  frame.settingsFrame:SetHeight(350)
+  frame.settingsFrame:SetHeight(400)
   frame.settingsFrame:EnableResize(false)
   frame.settingsFrame:SetLayout("Flow")
   frame.settingsFrame.statustext:GetParent():Hide()
@@ -3234,6 +3266,32 @@ function MDT:MakeSettingsFrame(frame)
     MDT:ReloadPullButtons()
   end)
   frame.settingsFrame:AddChild(frame.forcesCheckbox)
+
+  -- Initialize database values if they don't exist
+  if db.fadeOutDuringCombat == nil then db.fadeOutDuringCombat = false end
+  if db.fadeOutAlpha == nil then db.fadeOutAlpha = 0.5 end
+
+  frame.fadeOutCheckbox = AceGUI:Create("CheckBox")
+  frame.fadeOutCheckbox:SetLabel(L["Make window transparent in combat"])
+  frame.fadeOutCheckbox:SetWidth(frameWidth - 10)
+  frame.fadeOutCheckbox:SetValue(db.fadeOutDuringCombat)
+  frame.fadeOutCheckbox:SetCallback("OnValueChanged", function(widget, callbackName, value)
+    db.fadeOutDuringCombat = value
+    frame.fadeOutAlphaSlider:SetDisabled(not value)
+    MDT:UpdateFadeEventRegistration()
+  end)
+  frame.settingsFrame:AddChild(frame.fadeOutCheckbox)
+
+  frame.fadeOutAlphaSlider = AceGUI:Create("Slider")
+  frame.fadeOutAlphaSlider:SetLabel(L["Combat Transparency"])
+  frame.fadeOutAlphaSlider:SetWidth(frameWidth - 10)
+  frame.fadeOutAlphaSlider:SetSliderValues(0.1, 1.0, 0.1)
+  frame.fadeOutAlphaSlider:SetValue(db.fadeOutAlpha)
+  frame.fadeOutAlphaSlider:SetDisabled(not db.fadeOutDuringCombat)
+  frame.fadeOutAlphaSlider:SetCallback("OnValueChanged", function(widget, callbackName, value)
+    db.fadeOutAlpha = value
+  end)
+  frame.settingsFrame:AddChild(frame.fadeOutAlphaSlider)
 
   frame.AutomaticColorsCheck = AceGUI:Create("CheckBox")
   frame.AutomaticColorsCheck:SetLabel(L["Automatically color pulls"])

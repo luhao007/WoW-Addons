@@ -1,6 +1,7 @@
 ## Interface: 110200
 ## Author: Beezer
 ## Version: 12.0
+## License: All Rights Reserved
 
 ## Title: TinyTooltip-Reforged |cFF69CCF0by Beezer|r
 ## Notes: |cff4488ffTinyTooltip (Reforged)|r|n Options use /ttr|n Reset use /ttr reset

@@ -9,6 +9,7 @@
 
 ## IconTexture: 4675649
 
+## Category: Quests & Leveling
 ## Category-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r
 
 Config.lua

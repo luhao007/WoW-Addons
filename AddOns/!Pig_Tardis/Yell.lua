@@ -234,7 +234,7 @@ function TardisInfo.Yell(Activate)
 		table.insert(PIGA["Tardis"]["Yell"]["YellTemp"],{fujiF.botF.YellF.SaveYellTemp.F.E:GetText(),fujiF.botF.YellF.E:GetText()})
 		fujiF.botF.YellF.SaveYellTemp.F:Hide()
 	end)
-	fujiF.botF.YellF.SaveYellTemp.F.OffBut=PIGButton(fujiF.botF.YellF.SaveYellTemp.F,{"BOTTOM",fujiF.botF.YellF.SaveYellTemp.F,"BOTTOM", 50,30},{50,24},"取消")
+	fujiF.botF.YellF.SaveYellTemp.F.OffBut=PIGButton(fujiF.botF.YellF.SaveYellTemp.F,{"BOTTOM",fujiF.botF.YellF.SaveYellTemp.F,"BOTTOM", 50,30},{50,24},CANCEL)
 	fujiF.botF.YellF.SaveYellTemp.F.OffBut:SetScript("OnClick", function (self)
 		fujiF.botF.YellF.SaveYellTemp.F:Hide()
 	end)
@@ -318,11 +318,11 @@ function TardisInfo.Yell(Activate)
 	QuickButUI.ButList[TardisInfo.uidata[5]+1]=function()
 		if not PIGA["QuickBut"]["Open"] or not PIGA["Tardis"]["Open"] then return end
 		if PIGA["Tardis"]["Yell"]["ShowDesktopBut"] then
-			if QuickButUI.ShowDesktopButOpen then
-				QuickButUI.ShowDesktopButOpen.yincang=nil
+			if fujiF.botF.ShowDesktopBut.ButUI then
+				fujiF.botF.ShowDesktopBut.ButUI.yincang=nil
 				local fujiww = QuickButUI.nr:GetHeight()
-				QuickButUI.ShowDesktopButOpen:Show()
-				QuickButUI.ShowDesktopButOpen:SetWidth(fujiww)
+				fujiF.botF.ShowDesktopBut.ButUI:Show()
+				fujiF.botF.ShowDesktopBut.ButUI:SetWidth(fujiww)
 				QuickButUI:UpdateWidth()
 				return 
 			end
@@ -399,14 +399,15 @@ function TardisInfo.Yell(Activate)
 				GameTooltip:Hide() 
 			end)
 		else
-			if QuickButUI.ShowDesktopButOpen then
-				QuickButUI.ShowDesktopButOpen:Hide()
-				QuickButUI.ShowDesktopButOpen:SetWidth(0.0001)
-				QuickButUI.ShowDesktopButOpen.yincang=true
+			if fujiF.botF.ShowDesktopBut.ButUI then
+				fujiF.botF.ShowDesktopBut.ButUI:Hide()
+				fujiF.botF.ShowDesktopBut.ButUI:SetWidth(0.0001)
+				fujiF.botF.ShowDesktopBut.ButUI.yincang=true
 				QuickButUI:UpdateWidth()
 			end
 		end
 	end
+	QuickButUI.ButList[TardisInfo.uidata[5]+1]()
 	--喊话按钮
 	fujiF.botF.yellbut = PIGButton(fujiF.botF,{"BOTTOMLEFT",fujiF.botF.YellF,"BOTTOMRIGHT",4,10},{100,25},SEND_LABEL..L["TARDIS_YELL"]);
 	fujiF.botF.yellbut:SetScript("OnClick", function (self)

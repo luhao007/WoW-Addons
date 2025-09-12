@@ -25,8 +25,8 @@ private.CONTINENT_ZONE_IDS = {
 	[9997] = { zonefilter = true, npcfilter = true, zones = {35,219,229,237,243,251,274,279,280,301,302,306,316,317,318,616,677,703,706,713,731,733,749,845,897,903,974,1004,1015,1041,1490,1663,1666,1675,1669,1674,1677,1683,1692,2093,2303} }; --Dungeons or scenarios
 	[9996] = { zonefilter = true, npcfilter = true, zones = {366,508,764,850,909,2047,2166,2406} }; --Raids
 	[9995] = { zonefilter = false, npcfilter = true, zones = {0} }; --Unknown
-	[9994] = { zonefilter = true, npcfilter = false, zones = {981,1022,1032,1033,1034,1035,1036,1037,1336,1337,1501,1502} }; --Expedition islands
-	[9993] = { zonefilter = true, npcfilter = false, zones = {2302,2310,2312,2347,2249,2250,2251,2259,2269,2277,2301,2302,2310,2347,2348,2396,2420,2453} }; --Delves
+	[9994] = { zonefilter = true, npcfilter = true, zones = {981,1022,1032,1033,1034,1035,1036,1037,1336,1337,1501,1502} }; --Expedition islands
+	[9993] = { zonefilter = true, npcfilter = true, zones = {2302,2310,2312,2347,2249,2250,2251,2259,2269,2277,2301,2302,2310,2347,2348,2396,2420,2453} }; --Delves
 }
 
 private.SUBZONES_IDS = {
@@ -219,11 +219,6 @@ private.ZONES_WITHOUT_VIGNETTE = {
 	--[2151]  = { 1781 }; --The forbidden reach
 	--[2199]  = { 1805 }; --Tyrhold reservoir
 	--[2200]  = { 1806 }; --Emerald dream
-	[2310] = { 1881 }; --Skittering Breach (delve)
-	[2312] = { 1882 }; --Mycomancer Cavern (delve)
-	[2302] = { 1874 }; --The Dead Pit (delve)
-	[2250] = { 1836 }; --Kriegval's Rest (delve)
-	[2269] = { 1861 }; --Earthcrawl Mines (delve)
 }
 
 private.RESETABLE_KILLS_ZONE_IDS = {

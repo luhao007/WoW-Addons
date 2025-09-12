@@ -282,10 +282,16 @@ local function ActionBar_Layout()
 		end
 	end);
 	local function Update_BarPoint(BarUI)
+		--print(StanceBarFrame:IsVisible(),MultiCastSummonSpellButton:IsVisible())
 		local Xoffset= 10
-		if BarUI==PetActionButton1 and StanceBarFrame:IsShown() then
-			local sswww=StanceButton1:GetWidth()
-			Xoffset= Xoffset+sswww*3+20
+		if BarUI==PetActionButton1 then
+			if StanceBarFrame:IsVisible() then
+				local sswww=StanceButton1:GetWidth()
+				Xoffset= Xoffset+sswww*3+20
+			elseif MultiCastSummonSpellButton and MultiCastSummonSpellButton:IsVisible() then
+				local sswww=MultiCastSummonSpellButton:GetWidth()
+				Xoffset= Xoffset+sswww*6+20
+			end
 		end
 		local barOpen = IS_bar34Show()
 		if BarUI==MultiCastActionBarFrame then
@@ -790,12 +796,9 @@ local MicroButLoad = {
 			EventUtil.ContinueOnAddOnLoaded("Blizzard_GroupFinder_VanillaStyle", function()
 				local bizbut = _G[GameMenu["PIG_LFGMicroButton"]]
 				bizbut:RegisterForClicks("LeftButtonUp","RightButtonUp")
-				if IsAddOnLoaded("MeetingHorn") then
-					bizbut.LeftClickFun = MeetingHornDataBroker:GetScript("OnClick")
-				end
 				bizbut:HookScript("OnClick", function (self,button)
 					if self.LeftClickFun and button=="LeftButton" then
-						self.LeftClickFun()
+						self.LeftClickFun(self,button,true)
 					else
 						ToggleLFGParentFrame();
 					end

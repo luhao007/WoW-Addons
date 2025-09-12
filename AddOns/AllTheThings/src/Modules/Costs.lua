@@ -969,7 +969,8 @@ local SkipPurchases = {
 	currencyID = {
 		[515] = 1,		-- Darkmoon Prize Ticket
 		[1166] = 1.5,	-- Timewarped Badge
-		[2778] = 2.5,	-- Bronze
+		[2778] = 2.5,	-- Bronze (Remix: Pandaria)
+		[3252] = 2.5,	-- Bronze (Remix: Legion)
 	},
 	LearnedTypes = {
 		Toy = 1,

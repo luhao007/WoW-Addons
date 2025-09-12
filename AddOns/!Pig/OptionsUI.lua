@@ -160,6 +160,7 @@ infotip:SetFrameStrata("DIALOG")
 infotip:SetTimeVisible(2)
 infotip:SetFadeDuration(0.5)
 PIGSetFont(infotip,16,"OUTLINE")
+-- PIG_OptionsUI:ErrorMsg("message", "R")
 function Pig_Options:ErrorMsg(message, Color)
 	local r, g, b
 	if Color=="G" then

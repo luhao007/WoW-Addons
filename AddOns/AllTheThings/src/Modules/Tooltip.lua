@@ -491,6 +491,7 @@ for i,guid in ipairs({
 	"Player-4372-03E59A78",	-- Xisis-Atiesh
 	"Player-4372-03E6CD1C",	-- Quickibanki-Atiesh
 	"Player-4372-03FDCBF9",	-- Muttstuff-Atiesh
+	"Player-4372-0404C87F",	-- Grandmasark-Atiesh
 }) do
 	PLAYER_TOOLTIPS[guid] = tooltipFunction;
 end

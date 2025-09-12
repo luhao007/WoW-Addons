@@ -4,7 +4,6 @@
 -- @Date   : 2017-9-8 10:35:51
 
 BuildEnv(...)
-local IsAddOnLoaded = C_AddOns and C_AddOns.IsAddOnLoaded or IsAddOnLoaded
 
 if not ADDON_REGIONSUPPORT then
     return
@@ -18,7 +17,7 @@ function CombatStat:OnInitialize()
     self.groupUnits = {}
     self.data = Profile:GetCombatData()
 
-    if IsAddOnLoaded('!!!!!tdDevTools') then
+    if C_AddOns.IsAddOnLoaded('!!!!!tdDevTools') then
         self:Debug()
     end
 end

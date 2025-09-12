@@ -8,6 +8,7 @@
 
 ## IconTexture: Interface/Addons/PetTracker/art/compass
 
+## Category: Battle Pets
 ## Category-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r
 
 ## OptionalDeps: WoWUnit

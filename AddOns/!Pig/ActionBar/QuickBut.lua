@@ -228,7 +228,7 @@ QuickButUI.ButList[1]=function()
 	if PIGA["QuickBut"]["Lock"] then QuickButUI.yidong:Hide() end
 	QuickButUI.yidong:PIGSetBackdrop()
 	QuickButUI.yidong:PIGSetMovable(QuickButUI,nil,nil,true)
-	QuickButUI.yidong:SetScript("OnMouseUp", function (self,Button)
+	QuickButUI.yidong:HookScript("OnMouseUp", function (self,Button)
 		if Button=="RightButton" then
 			if PIG_OptionsUI:IsShown() then
 				PIG_OptionsUI:Hide()
@@ -239,7 +239,7 @@ QuickButUI.ButList[1]=function()
 			end
 		end
 	end);
-	QuickButUI.yidong:SetScript("OnEnter", function (self)
+	QuickButUI.yidong:HookScript("OnEnter", function (self)
 		self:SetBackdropBorderColor(0,0.8,1, 0.9);
 		GameTooltip:ClearLines();
 		GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",0,0);
@@ -247,17 +247,16 @@ QuickButUI.ButList[1]=function()
 		GameTooltip:AddLine(KEY_BUTTON1.."拖拽-|cff00FFff"..TUTORIAL_TITLE2.."|r\n"..KEY_BUTTON2.."-|cff00FFff"..SETTINGS.."|r")	
 		GameTooltip:Show();
 	end);
-	QuickButUI.yidong:SetScript("OnLeave", function (self)
+	QuickButUI.yidong:HookScript("OnLeave", function (self)
 		self:SetBackdropBorderColor(0, 0, 0, 1);
 		GameTooltip:ClearLines();
 		GameTooltip:Hide() 
 	end)
-	QuickButUI.yidong.t = PIGFontString(QuickButUI.yidong,nil,"拖\n动",nil,9)
-	QuickButUI.yidong.t:SetAllPoints(QuickButUI.yidong)
+	QuickButUI.yidong.t = PIGFontString(QuickButUI.yidong,{"CENTER",QuickButUI.yidong,"CENTER",0,0},"拖\n动",nil,9)
 	QuickButUI.yidong.t:SetTextColor(0.8, 0.8, 0.8, 0.8)
 	QuickButUI.nr=PIGFrame(QuickButUI,{"TOPLEFT",QuickButUI.yidong,"TOPRIGHT",1,0})
-	QuickButUI.nr:PIGSetBackdrop()
 	QuickButUI.nr:SetPoint("BOTTOMRIGHT", QuickButUI, "BOTTOMRIGHT", 0, 0);
+	QuickButUI.nr:PIGSetBackdrop()
 end
 --战场通告
 QuickButUI.ButList[2]=function()
@@ -676,7 +675,16 @@ QuickButUI.ButList[7]=function()
 		local Zhushou=PIGQuickBut(nil,Tooltip,Icon,nil,nil,"SecureHandlerClickTemplate")
 		local IconTEX=Zhushou:GetNormalTexture()
 		local IconCoord = CLASS_ICON_TCOORDS[PIG_OptionsUI.ClassData.classFile];
-		IconTEX:SetTexCoord(unpack(IconCoord));
+		if PIG_OptionsUI.IsOpen_ElvUI() or PIG_OptionsUI.IsOpen_NDui() then
+			local left, right, top, bottom = unpack(IconCoord);
+			local left   = left+0.02;
+			local right  = right  - 0.02;
+			local top    = top+0.02;
+			local bottom = bottom - 0.02;
+			IconTEX:SetTexCoord(left, right, top, bottom);
+		else
+			IconTEX:SetTexCoord(unpack(IconCoord));
+		end
 		Zhushou.arrow = Zhushou:CreateTexture(nil,"ARTWORK");
 		Zhushou.arrow:SetDrawLayer("ARTWORK", 7)
 		Zhushou.arrow.chushijiaodu=0

@@ -632,12 +632,46 @@ local function TitanUpdateConfigBars(t, pos)
 
 		-- ======
 		-- Background group
+		position = position + 1 -- global background
+		args[v.name].args.globalbackground = {
+			name = BACKGROUND,
+			type = "group",
+			inline = true,
+			order = position,
+			hidden = function(info)
+				local hide = false
+				if TitanBarDataVars["Global"].texure == Titan_Global.NONE then
+					hide = true
+				else
+					hide = false -- skin or color is set global
+				end
+				return hide
+			end,
+			args = {
+				globalskins = {
+					type = "header",
+					name = L["TITAN_PANEL_MENU_GLOBAL_SKIN_TITLE"],
+					order = 100,
+					width = "full",
+				},
+			},
+		}
+
 		position = position + 1 -- background
 		args[v.name].args.background = {
 			name = BACKGROUND,
 			type = "group",
 			inline = true,
 			order = position,
+			hidden = function(info)
+				local hide = false
+				if TitanBarDataVars["Global"].texure == Titan_Global.NONE then
+					hide = false
+				else
+					hide = true -- skin or color is set global
+				end
+				return hide
+			end,
 			args = {
 				settextousebar = {
 					name = "",    --L["TITAN_PANEL_MENU_GLOBAL_SKIN"],
@@ -802,7 +836,7 @@ local function TitanUpdateConfigBars(t, pos)
 						},
 					},
 				},
-			}
+			},
 		}
 	end
 

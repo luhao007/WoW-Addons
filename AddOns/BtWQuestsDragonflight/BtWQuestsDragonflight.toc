@@ -8,6 +8,7 @@
 ## Notes-zhCN: BtWQuests 巨龙时代模块
 
 ## Category-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r
+## Group: BtWQuests
 
 ## Dependencies: BtWQuests
 ## OptionalDeps: BtWQuestsDragonflightPrologue

@@ -35,12 +35,11 @@ else
 	Titan_Global.switch.game_ammo  = false
 end
 
-Titan_Global.switch.guild_bank  = true -- if guild bank exists
--- as of May 2025 Classic Era does not have guild bank; the routine exists in all versions
-if CanGuildBankRepair() then
-	Titan_Global.switch.guild_bank  = true
+Titan_Global.switch.classic_era  = false -- Classic Era only
+if Titan_Global.wowversion < 20000 then 
+	Titan_Global.switch.classic_era  = true
 else
-	Titan_Global.switch.guild_bank  = false
+	Titan_Global.switch.classic_era  = false
 end
 
 Titan_Global.AdjList = {         -- TODO : localize

@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: VV
-## Version: 10.2.1
+## Version: 10.1.4
 
 ## Title: GladiatorlosSA_zhCN_VV
 ## Notes: GSA plugin for Chinese voice set

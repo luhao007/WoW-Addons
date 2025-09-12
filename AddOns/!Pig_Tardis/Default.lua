@@ -27,6 +27,7 @@ local extDefault ={
 		["Open"] = true,
 		["ADD_Level"]=0,
 		["ADD_comment"]="",
+		["ApplyTemp"]={},
 	},
 	["Plane"]={
 		["Open"] = true,

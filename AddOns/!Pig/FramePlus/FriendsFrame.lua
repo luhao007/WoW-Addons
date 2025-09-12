@@ -14,7 +14,7 @@ function FramePlusfun.Friends()
 	if not PIGA["FramePlus"]["Friends"] then return end
 	FriendsFrame:Hide()
 	local www = FriendsFrame:GetWidth()
-	local butWidthall = www*1.7
+	local butWidthall = www*1.64
 	if PIG_MaxTocversion(110200) then
 		butWidthall = www*1.8
 	end
@@ -247,7 +247,7 @@ function FramePlusfun.Friends()
 
 	--查询页
 	local WhohangH,WhoiconH=17.2,14
-	local WhoFrameHeaderP={24,24,24,180,168,174}
+	local WhoFrameHeaderP={26,26,26,180,168,178}
 	if PIG_MaxTocversion() then
 		if NDui then
 			WhoFrameHeaderP={26,26,26,180,160,174}
@@ -468,9 +468,9 @@ function FramePlusfun.Friends()
 			button.Level:SetWidth(WhoFrameHeaderP[3]-2)
 			button.Level:SetJustifyH("CENTER")
 			button.Name:ClearAllPoints();
-			button.Name:SetPoint("LEFT", button.Level, "RIGHT", 4, 0);
-			button.Name:SetWidth(WhoFrameHeaderP[4]-6)
-			button.Variable:SetWidth(WhoFrameHeaderP[5])
+			button.Name:SetPoint("LEFT", button.Level, "RIGHT", 2, 0);
+			button.Name:SetWidth(WhoFrameHeaderP[4]-10)
+			button.Variable:SetWidth(WhoFrameHeaderP[5]-6)
 			------
 			local HighlightTex = button:GetHighlightTexture()
 			HighlightTex:SetAllPoints(button)
@@ -681,7 +681,7 @@ function FramePlusfun.Friends()
 	end
 	local RaWidth_2 = RaWidth*0.5
 	if RaidFrameRaidDescription then RaidFrameRaidDescription:SetWidth(RaWidth-14) end
-	local function SETRaidUIFrame()
+	local function PIGRaidUIFrame()
 		for i=1,8 do
 			local uix = _G["RaidGroup"..i]
 			uix:SetWidth(RaWidth_2)
@@ -726,5 +726,10 @@ function FramePlusfun.Friends()
 			end
 		end
 	end
-	Fun.IsAddOnLoaded("Blizzard_RaidUI",SETRaidUIFrame)
+	UIParentLoadAddOn("Blizzard_RaidUI");
+	Fun.IsAddOnLoaded("Blizzard_RaidUI",PIGRaidUIFrame)
+	hooksecurefunc("RaidClassButton_Update", function()
+		RaidFrame:RegisterEvent("UNIT_PET");
+	end)
+	RaidFrame:UnregisterEvent("UNIT_PET");
 end

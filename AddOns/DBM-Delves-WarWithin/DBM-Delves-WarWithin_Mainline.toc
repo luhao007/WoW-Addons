@@ -1,12 +1,13 @@
 ## Interface: 110200
 ## Author: MysticalOS
-## Version: r209
+## Version: r212
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cff4565ffDelves (TWW)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本助手|r |cFF69CCF0地下堡|r |cFF22B14C地心之战|r
 
 ## IconTexture: Interface\AddOns\DBM-Core\textures\dbm_airhorn
 
+## Category: DBM
 ## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
 
 ## RequiredDeps: DBM-Core

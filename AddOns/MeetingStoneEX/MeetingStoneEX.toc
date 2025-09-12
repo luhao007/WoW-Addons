@@ -1,5 +1,5 @@
 ## Interface: 110200
-## Version: 11.2.0
+## Version: 20240309
 
 ## Title: Meeting Stone EX
 ## Title-zhCN: |cFFFFE00A<|r|cFFF48CBA社交|r|cFFFFE00A>|r|cFFFFFFFF集合石 开心快乐版|r |cFFFFE00AMeetingStoneEX|r
@@ -12,10 +12,9 @@
 ## RequiredDeps: MeetingStone
 ## LoadManagers: AddonLoader
 
+## X-Min-Interface: 110000
 ## X-LoadOn-Always: delayed
-## X-Vendor: AbyUI
 
 CheckBox.lua
 MeetingStoneEX.lua
 IgnoreListPanel.lua
-MysticRemark.lua

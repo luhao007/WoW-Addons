@@ -130,7 +130,7 @@ local function UpdateWindow(self, force, got)
 		self.HasPendingUpdate = true;
 		force = nil;
 	end
-	-- app.PrintDebug(Colorize("Update:", app.DefaultColors.ATT),self.Suffix,
+	-- app.PrintDebug(app.Modules.Color.Colorize("Update:", app.DefaultColors.ATT),self.Suffix,
 	-- 	force and "FORCE" or "SOFT",
 	-- 	visible and "VISIBLE" or "HIDDEN",
 	-- 	got and "COLLECTED" or "PASSIVE",
@@ -314,7 +314,7 @@ end
 end
 app.GetIndicatorIcon = GetIndicatorIcon
 local function SetIndicatorIcon(self, data)
-	local texture = app.GetIndicatorIcon(data);
+	local texture = GetIndicatorIcon(data);
 	if texture then
 		self:SetTexture(texture);
 		return true;

@@ -761,13 +761,27 @@ local InformationTypes = {
 	CreateInformationType("description", { text = L.DESCRIPTIONS, priority = 2.5,
 		Process = function(t, reference, tooltipInfo)
 			local description = reference.description
-				or GetRelativeValue(reference, "sharedDescription")
+			local sharedDescription = GetRelativeValue(reference, "sharedDescription")
 				-- duplicated search results loose their parent references in order to prevent issues in filtering/tooltips
 				-- so also check the active row reference for accuracy if the tooltip is in context of a row
 				or GetRelativeValue(app.ActiveRowReference, "sharedDescription")
 			if description then
+				if sharedDescription then
+					tinsert(tooltipInfo, {
+						left = description.."\n"..sharedDescription,
+						color = app.Colors.TooltipDescription,
+						wrap = true,
+					});
+				else
+					tinsert(tooltipInfo, {
+						left = description,
+						color = app.Colors.TooltipDescription,
+						wrap = true,
+					});
+				end
+			elseif sharedDescription then
 				tinsert(tooltipInfo, {
-					left = description,
+					left = sharedDescription,
 					color = app.Colors.TooltipDescription,
 					wrap = true,
 				});

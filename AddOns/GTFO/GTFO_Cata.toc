@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: Zensunim of Dragonblight
-## Version: 5.18.6
+## Version: 5.19
 
 ## Title: GTFO
 ## Notes: GTFO, you're dying!
@@ -9,6 +9,7 @@
 
 ## IconTexture: Interface\Icons\spell_fire_fire
 
+## Category: Combat
 ## Category-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r
 
 ## DefaultState: Enabled

@@ -807,8 +807,14 @@ function RSTooltip.ShowLinkTooltip(pin, chatFrame)
 	-- Filtered state
 	AddFilterStateTooltip(tooltip, pin, true)
 	
-	tooltip:SmartAnchorTo(chatFrame, true)
-    --tooltip:SetPoint("BOTTOMLEFT", chatFrame, "TOPLEFT")
+	-- Some chat addons replace the chatframe causing issues
+	local retOk = pcall(function() tooltip:SmartAnchorTo(chatFrame, true) end)
+	if (not retOk) then
+		tooltip:ClearAllPoints()
+    	tooltip:SetClampedToScreen(true)
+    	tooltip:SetPoint("CENTER")
+	end
+	
 	tooltip:Show()
 end
 

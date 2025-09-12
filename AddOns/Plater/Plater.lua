@@ -610,8 +610,8 @@ Plater.AnchorNamesByPhraseId = {
 				if (class == "PRIEST") then
 					-- SW:D is available to all priest specs
 					if IsPlayerSpell(32379) then
-						if IsPlayerSpell(392507) then
-							lowExecute = 0.35 -- Deathspeaker
+						if IsPlayerSpell(392507) or IsPlayerSpell(390972) then
+							lowExecute = 0.35 -- Deathspeaker or Twist of Fate
 						else
 							lowExecute = 0.20
 						end
@@ -1209,7 +1209,7 @@ Plater.AnchorNamesByPhraseId = {
 
 	--return true if the unit is in tank role
 	local function IsUnitEffectivelyTank (unit)
-		if IS_WOW_PROJECT_MAINLINE then
+		if IS_WOW_PROJECT_MAINLINE or IS_WOW_PROJECT_CLASSIC_MOP then
 			return UnitGroupRolesAssigned (unit) == "TANK"
 		elseif IS_WOW_PROJECT_CLASSIC_WRATH then
 			if IsInRaid() then
@@ -1217,8 +1217,6 @@ Plater.AnchorNamesByPhraseId = {
 			else
 				return UnitGroupRolesAssigned (unit) == "TANK"
 			end
-		elseif IS_WOW_PROJECT_CLASSIC_MOP then
-			return UnitGroupRolesAssigned (unit) == "TANK"
 		else
 			return GetPartyAssignment("MAINTANK", unit)
 		end

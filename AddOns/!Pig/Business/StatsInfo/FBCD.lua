@@ -44,17 +44,34 @@ function BusinessInfo.FBCD(StatsInfo)
 	fujiF:Show()
 	fujiTabBut:Selected()
 	PIGA["StatsInfo"]["InstancesCD"]["Mode"]=PIGA["StatsInfo"]["InstancesCD"]["Mode"] or 1
-	fujiF.SetMode = PIGDiyBut(fujiF,{"TOPLEFT", fujiF, "TOPLEFT", 10, -6},{20,20,23,23,"MagePortalAlliance"})
+	fujiF.SetMode = PIGDiyBut(fujiF,nil,{17,17,nil,nil,"common-icon-undo"})
+	local Tooltipx = {"","在"..addonName.."小地图按钮鼠标提示\n注意:为了节省性能开销，战斗中无效"}
+	fujiF.MinibutTisp = PIGCheckbutton(fujiF,{"LEFT",fujiF.SetMode,"RIGHT",4,0},Tooltipx,{14,14})
+	fujiF.MinibutTisp:SetScript("OnClick", function (self)
+		if self:GetChecked() then
+			PIGA["StatsInfo"]["InstancesCD"]["MinibutTisp"]=true
+		else
+			PIGA["StatsInfo"]["InstancesCD"]["MinibutTisp"]=false
+		end
+	end);
+	if PIGA["StatsInfo"]["InstancesCD"]["Mode"]==1 then
+		fujiF.SetMode:SetPoint("TOPLEFT", fujiF, "TOPLEFT", 10, -6)
+		fujiF.SetMode:SetSize(18,18)
+		fujiF.SetMode.icon:SetSize(18,18)
+		fujiF.MinibutTisp:SetSize(16,16)
+		fujiF.SetMode.tisptxt="切换为旧版记录模式？\n需要重载界面"
+	else
+		fujiF.SetMode:SetPoint("TOPLEFT", fujiF, "TOPLEFT", 10, -2);
+		fujiF.SetMode.tisptxt="切换为新版记录模式？\n需要重载界面"
+	end
+	if PIG_MaxTocversion(50000,true) then
+		PIGA["StatsInfo"]["InstancesCD"]["Mode"]=2
+		fujiF.SetMode:Hide()
+	end
+	PIGEnter(fujiF.SetMode,fujiF.SetMode.tisptxt)
 	fujiF.SetMode:SetScript("OnClick", function ()
 		StaticPopup_Show("STATSINFOINSTANCESCDMODE");
 	end);
-	if PIGA["StatsInfo"]["InstancesCD"]["Mode"]==1 then
-		fujiF.SetMode.tisptxt="切换为旧版记录模式？\n需要重载界面"
-	else
-		fujiF.SetMode:SetPoint("TOPLEFT", fujiF, "TOPLEFT", 10, 0);
-		fujiF.SetMode.tisptxt="切换为新版记录模式？\n需要重载界面"
-	end
-	PIGEnter(fujiF.SetMode,fujiF.SetMode.tisptxt)
 	StaticPopupDialogs["STATSINFOINSTANCESCDMODE"] = {
 		text = fujiF.SetMode.tisptxt,
 		button1 = YES,
@@ -71,15 +88,7 @@ function BusinessInfo.FBCD(StatsInfo)
 		whileDead = true,
 		hideOnEscape = true,
 	}
-	local Tooltipx = {"","在"..addonName.."小地图按钮鼠标提示\n注意:为了节省性能开销，战斗中无效"}
-	fujiF.MinibutTisp = PIGCheckbutton(fujiF,{"LEFT",fujiF.SetMode,"RIGHT",2,0},Tooltipx,{16,16})
-	fujiF.MinibutTisp:SetScript("OnClick", function (self)
-		if self:GetChecked() then
-			PIGA["StatsInfo"]["InstancesCD"]["MinibutTisp"]=true
-		else
-			PIGA["StatsInfo"]["InstancesCD"]["MinibutTisp"]=false
-		end
-	end);
+	local OldMode = PIGA["StatsInfo"]["InstancesCD"]["Mode"]==2
 	local MiniMapBut=addonTable.Mapfun.MiniMapBut
 	fujiF.tispBG=PIGFrame(fujiF)
 	fujiF.tispBG:PIGSetBackdrop(1,1)
@@ -106,7 +115,6 @@ function BusinessInfo.FBCD(StatsInfo)
 		fujiF.tispBG:Hide()
 	end);
 	---
-	local OldMode = PIG_MaxTocversion(50000,true) or PIGA["StatsInfo"]["InstancesCD"]["Mode"]==2
 	local funamelist = {[836]=-2,[839]=-1}--ZUG/MC--BOSS数-1
 	local function GetBossNUM_1(name)
 		for k,v in pairs(funamelist) do
@@ -334,6 +342,7 @@ function BusinessInfo.FBCD(StatsInfo)
 		---
 		fujiF.Setfuben = PIGDownMenu(fujiF,{"TOPLEFT", fujiF, "TOPLEFT", 54, -10},{126,22})
 		fujiF.Setfuben:PIGDownMenu_SetText("选择监控副本")
+		fujiF.Setfuben.fenlie={2,40}
 		function fujiF.Setfuben:PIGDownMenu_Update_But(level, menuList)
 			local info = {}
 			if (level or 1) == 1 then

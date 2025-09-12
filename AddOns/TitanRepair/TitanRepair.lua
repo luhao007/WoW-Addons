@@ -89,8 +89,6 @@ local slots = {
 	[18] = {name = "RANGEDSLOT"},
 }
 
-TR.guild_bank = Titan_Global.switch.guild_bank
-
 -- WoW changed the parse string for items...
 if Titan_Global.wowversion < 100000 then
     -- Not retail
@@ -652,7 +650,7 @@ Realized the Disable also changes the button so the DeSat is redundent
 	end
 
 	-- Use Guild Bank funds
-	if TR.guild_bank and TitanGetVar(TITAN_REPAIR_ID,"UseGuildBank") then
+	if CanGuildBankRepair() and TitanGetVar(TITAN_REPAIR_ID,"UseGuildBank") then
 		local withdrawLimit = GetGuildBankWithdrawMoney();
 		local guildBankMoney = GetGuildBankMoney();
 
@@ -1114,7 +1112,7 @@ local function GetTooltipText()
 
 	-- Show the guild - if player is in one
 	--GUILDBANK_REPAIR
-	if TR.guild_bank and IsInGuild() then
+	if CanGuildBankRepair() and IsInGuild() then
 		out = out..TitanUtils_GetGoldText(GUILD).."\n"
 		local name, rank, index, realm = GetGuildInfo("player")
 		out = out..TitanUtils_GetHighlightText(name).." : ".."\t"..TitanUtils_GetHighlightText(rank).."\n"
@@ -1337,14 +1335,19 @@ local function CreateMenu()
 			info.checked = TitanGetVar(TITAN_REPAIR_ID,"AutoRepairReport");
 			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
 
-			if TR.guild_bank then
+			if Titan_Global.switch.classic_era then
+				-- skip, no guild bank available
+			else
+				local g_enable = false -- assume not in guild
+				if IsInGuild() and CanGuildBankRepair() then
+					g_enable = true
+				end
 				info = {}
 				info.text = L["TITAN_REPAIR_GBANK_USEFUNDS"]
+				info.disabled = not g_enable
 				info.func = function() TitanToggleVar(TITAN_REPAIR_ID, "UseGuildBank"); end
 				info.checked = TitanGetVar(TITAN_REPAIR_ID,"UseGuildBank");
 				TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-			else
-				-- skip
 			end
 		end
 

@@ -284,11 +284,14 @@ local PrintQuestInfo
 local DoQuestPrints
 local IgnoreErrorQuests = {}
 do
-	local function UpdateDoQuestPrints()
-		DoQuestPrints = app.IsReady and app.Settings:GetTooltipSetting("Report:CompletedQuests")
-	end
-	app.AddEventHandler("OnSettingsRefreshed", UpdateDoQuestPrints)
-	app.AddEventHandler("OnReady", UpdateDoQuestPrints)
+	app.AddEventHandler("Settings.OnSet", function(container, key, value)
+		if container == "Tooltips" and key == "Report:CompletedQuests" then
+			DoQuestPrints = value or nil
+		end
+	end)
+	app.AddEventHandler("OnReady", function()
+		DoQuestPrints = app.Settings:GetTooltipSetting("Report:CompletedQuests")
+	end)
 end
 local function PrintQuestInfoCallback(questID, success, params)
 	-- app.PrintDebug("PrintQuestInfoCallback",questID,success,params and unpack(params))
@@ -871,7 +874,7 @@ app.CheckInaccurateQuestInfo = function(questRef, questChange, forceShow)
 		-- This now checks recursively outwards to ensure that an in-game quest isn't buried inside a removed header
 		local inGame = not GetRelativeByFunc(questRef, NotInGame)
 		-- repeatable or not previously completed or the accepted quest was immediately completed prior to the check, or character in party sync
-		local incomplete = (questRef.repeatable or not completed or LastQuestTurnedIn == completed or IsPartySyncActive);
+		local incomplete = (questRef.repeatable or not completed or LastQuestTurnedIn == completed or IsPartySyncActive) or app.IsClassic;
 		-- not missing pre-requisites
 		local metPrereq = not questRef.missingReqs;
 		if forceShow or not (

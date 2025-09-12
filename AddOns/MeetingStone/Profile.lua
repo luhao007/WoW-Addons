@@ -26,18 +26,18 @@ function Profile:OnInitialize()
             ignoreHash        = {},
             spamWord          = {},
             searchProfiles    = {},
-            enableIgnoreTitle = true,
             globalPanelPos    = false,
+            enableIgnoreTitle = true,
             showclassico      = true,
-			showspecico      = false,
-			showSmRoleIco     = false,
+            showspecico       = false,
+            showSmRoleIco     = false,
             classIcoMsOnly    = true,
             showWindClassIco  = false,
             useWindSkin       = true,
-            useNDuiSkin       = true,
             enableRaiderIO    = true,
             enableLeaderColor = true,
-            filters           = {},
+            enableClassFilter = false,
+            filters           = {}
         },
     }
 
@@ -72,11 +72,13 @@ function Profile:OnInitialize()
 
     self.chatGroupListeningTemp = { APP_WHISPER = {} }
     self.ignoreCache = {}
-
     self.gdb = LibStub('AceDB-3.0'):New('MEETINGSTONE_UI_DB', gdb, true)
     self.cdb = LibStub('AceDB-3.0'):New('MEETINGSTONE_CHARACTER_DB', cdb)
 
+    -- self.gdb.global.dataBrokerStorage = nil
+
     local settingVersion = self:GetLastCharacterVersion()
+
     if settingVersion < 70300.12 then
         self.cdb.profile.settings.onlyms = nil
 
@@ -94,9 +96,9 @@ function Profile:OnInitialize()
         self.cdb.profile.lastSearchCode = self.cdb.profile.lastSearchValue or self.cdb.profile.lastSearchCode
         self.cdb.profile.lastSearchValue = nil
     end
-    --if settingVersion < 80000.03 then
-    --    wipe(self.cdb.profile.searchHistoryList)
-    --end
+    if settingVersion < 80000.03 then
+        -- wipe(self.cdb.profile.searchHistoryList)
+    end
     self.cdb.profile.version = ADDON_VERSION
 
     self.cdb.RegisterCallback(self, 'OnDatabaseShutdown')
@@ -159,14 +161,6 @@ function Profile:GetGlobalOption(key)
     return self.gdb.global[key]
 end
 
-function Profile:GetEnableIgnoreTitle()
-    return self:GetGlobalOption('enableIgnoreTitle')
-end
-
-function Profile:GetGlobalPanelPos()
-    return self:GetGlobalOption('globalPanelPos')
-end
-
 function Profile:GetGlobalDataBrokerStorage()
     if not self.gdb.global.dataBrokerStorage then
         self.gdb.global.dataBrokerStorage = self.cdb.profile.settings.storage
@@ -179,12 +173,12 @@ function Profile:GetProfileDataBrokerStorage()
     return self.cdb.profile.settings.storage
 end
 
-function Profile:GetShowClassIco()
-    return self:GetGlobalOption('showclassico')
+function Profile:GetEnableIgnoreTitle()
+    return self:GetGlobalOption('enableIgnoreTitle')
 end
 
-function Profile:GetClassIcoMsOnly()
-    return self:GetGlobalOption('classIcoMsOnly')
+function Profile:GetShowClassIco()
+    return self:GetGlobalOption('showclassico')
 end
 
 function Profile:GetShowSpecIco()
@@ -195,20 +189,29 @@ function Profile:GetShowSmRoleIco()
     return self:GetGlobalOption('showSmRoleIco')
 end
 
+function Profile:GetClassIcoMsOnly()
+    return self:GetGlobalOption('classIcoMsOnly')
+end
+
 function Profile:GetShowWindClassIco()
     return self:GetGlobalOption('showWindClassIco')
+end
+
+function Profile:GetEnableClassFilter()
+    return self:GetGlobalOption('enableClassFilter')
 end
 
 function Profile:GetUseWindSkin()
     return self:GetGlobalOption('useWindSkin')
 end
-function Profile:GetUseNDuiSkin()
-    return self:GetGlobalOption('useNDuiSkin')
-end
 
 function Profile:GetEnableRaiderIO()
     local region = GetPlayerRegion()
     return self:GetGlobalOption('enableRaiderIO') and region ~= "CN"
+end
+
+function Profile:GetGlobalPanelPos()
+    return self:GetGlobalOption('globalPanelPos')
 end
 
 function Profile:GetEnableLeaderColor()
@@ -217,11 +220,11 @@ end
 
 function Profile:SaveGlobalOption(key, value)
     local needReload = {
-        ['showclassico']     = true,
-        ['classIcoMsOnly']   = true,
-        ['showWindClassIco'] = true,
-        ['useWindSkin']      = true,
-        ['useNDuiSkin']      = true,
+        ['showclassico']      = true,
+        ['classIcoMsOnly']    = true,
+        ['showWindClassIco']  = true,
+        ['useWindSkin']       = true,
+        ['enableClassFilter'] = true,
         ['globalPanelPos']    = true
     }
 

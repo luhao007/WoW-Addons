@@ -27,8 +27,8 @@ RSConstants.LOOT_ITEM_ID = nil
 -- Current versions
 ---============================================================================
 
-RSConstants.CURRENT_DB_VERSION = 188
-RSConstants.CURRENT_LOOT_DB_VERSION = 180
+RSConstants.CURRENT_DB_VERSION = 190
+RSConstants.CURRENT_LOOT_DB_VERSION = 182
 
 ---============================================================================
 -- Current maps (newer)
@@ -696,6 +696,7 @@ RSConstants.NPCS_WITH_PRE_EVENT = {
 	[137180] = 137183;
 	-- Mechagon
 	[154342] = 151934;
+	[152932] = 153000;
 	-- Korthia
 	[179759] = 179760;
 	[180145] = 179859;
@@ -724,6 +725,7 @@ RSConstants.NPCS_WITH_PRE_EVENT = {
 	[356677] = 156340;
 	[6896] = 167078;
 	[6894] = 156339;
+	[170548] = 170439;
 	-- Revendredth
 	[165230] = 165206;
 	[166483] = 166521;
@@ -855,6 +857,7 @@ RSConstants.NPCS_WITH_PRE_EVENT = {
 	[527973] = 241956;
 	[241987] = 241956;
 	[516961] = 238384;
+	[527868] = 241920;
 }
 
 -- Contains that spawn after completing an event

@@ -11,6 +11,8 @@
 
 ## Category-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r
 
+## OptionalDependencies: Ace3, LibRealmInfo, LibDBIcon, LibDataBroker-1.1
+
 ## SavedVariables: SimulationCraftDB
 
 ## X-Curse-Project-ID: 82745

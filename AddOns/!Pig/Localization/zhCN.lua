@@ -213,8 +213,8 @@ L["CVAR_TABNAME4"] = "高级";
 --Invite
 L["TARDIS_TABNAME"] = "汇合石";
 L["TARDIS_CHEDUI"] = "车队";
-L["TARDIS_HOUCHE"] = "候车室";
-L["TARDIS_HOUCHE_1"] = "乘客";
+L["TARDIS_CHEDUI_1"] = "找车队";
+L["TARDIS_CHEDUI_2"] = "找乘客";
 L["TARDIS_FARM"] = "坐车";
 L["TARDIS_PLANE"] = "位面";
 L["TARDIS_YELL"] = "喊话";

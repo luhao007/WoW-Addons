@@ -34,8 +34,12 @@ QuickButUI.ButList[5]=function()
 	local Tooltip = KEY_BUTTON1.."-|cff00FFFF展开切换按钮|r\n"..KEY_BUTTON2.."-|cff00FFFF卸下身上有耐久装备|r"
 	local AutoEquip=PIGQuickBut(GnUI,Tooltip,Icon)
 	local butW = AutoEquip:GetHeight()
-	AutoEquip:GetNormalTexture():SetPoint("TOPLEFT", -3, 0);
-	AutoEquip:GetNormalTexture():SetPoint("BOTTOMRIGHT", 3, 0);
+	local IconTEX=AutoEquip:GetNormalTexture()
+	if PIG_OptionsUI.IsOpen_ElvUI() or PIG_OptionsUI.IsOpen_NDui() then
+		IconTEX:SetTexCoord(0.19,0.85,0.14,0.87);
+	else
+		IconTEX:SetTexCoord(0.11,0.92,0.06,1);
+	end
 	AutoEquip.tips = PIGFontString(AutoEquip,nil,"你没有已保存的配装，\n"..ClickTooltip,"OUTLINE");
 	AutoEquip.tips:SetJustifyH("RIGHT")
 	AutoEquip.tips:SetTextColor(1, 0, 0, 1)

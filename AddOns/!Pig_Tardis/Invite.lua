@@ -779,6 +779,22 @@ function TardisInfo.Invite(Activate)
 	fujiF.DesktopUI=LFGIconUI
 	LFGIconUI.Cooldown = CreateFrame("Cooldown", nil, LFGIconUI, "CooldownFrameTemplate")
 	LFGIconUI.Cooldown:SetAllPoints()
+	LFGIconUI.Texture = LFGIconUI:CreateTexture()
+	LFGIconUI.Texture:SetTexture(136317);
+	LFGIconUI.Texture:SetSize(LFGIW*1.3,LFGIW*1.3);
+	LFGIconUI.Texture:SetPoint("CENTER", 0, 0);
+	local EyeTemplate_OnUpdate= EyeTemplate_OnUpdate or function(self, elapsed)
+		local textureInfo = LFG_EYE_TEXTURES[self.queueType or "default"];
+		AnimateTexCoords(self.Texture, textureInfo.width, textureInfo.height, textureInfo.iconSize, textureInfo.iconSize, textureInfo.frames, elapsed, textureInfo.delay)
+	end
+	local EyeTemplate_StartAnimating= EyeTemplate_StartAnimating or function(eye)
+		eye:SetScript("OnUpdate", EyeTemplate_OnUpdate);
+	end
+	local EyeTemplate_StopAnimating= EyeTemplate_StopAnimating or function(eye)
+		eye:SetScript("OnUpdate", nil);
+		local textureInfo = LFG_EYE_TEXTURES[eye.queueType or "default"];
+		eye.Texture:SetTexCoord(0, textureInfo.iconSize / textureInfo.width, 0, textureInfo.iconSize / textureInfo.height);
+	end
 	LFGIconUI:HookScript("OnClick", function(self,button)
 		if button=="LeftButton" then
 			if self.Cooldown:GetCooldownDuration()>0 then
@@ -795,10 +811,6 @@ function TardisInfo.Invite(Activate)
 			end
 		end
 	end);
-	LFGIconUI.Texture = LFGIconUI:CreateTexture()
-	LFGIconUI.Texture:SetTexture(136317);
-	LFGIconUI.Texture:SetSize(LFGIW*1.3,LFGIW*1.3);
-	LFGIconUI.Texture:SetPoint("CENTER", 0, 0);
 	--根据指令邀请
 	local function OFF_autoInvite(msg)
 		PIG_OptionsUI.AutoInvite.Invite=nil;
@@ -847,6 +859,7 @@ function TardisInfo.Invite(Activate)
 				self:RegisterEvent("CHAT_MSG_SYSTEM")
 				PIG_OptionsUI:ErrorMsg("已|cff00FF00开启|r自动邀请");
 				LFGIconUI:Show()
+
 				EyeTemplate_StartAnimating(LFGIconUI)
 			end
 		end

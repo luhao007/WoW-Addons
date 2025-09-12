@@ -4,15 +4,14 @@ BrowsePanel = Addon:NewModule(CreateFrame('Frame'), 'BrowsePanel', 'AceEvent-3.0
     'AceBucket-3.0')
 
 function BrowsePanel:OnInitialize()
+    local playerRegion = GetPlayerRegion()
+
     local gameLocale = GetLocale()
     local lang
-	local shortlang
     if gameLocale == "zhTW" then
         lang = 'zhCN'
-		shortlang = 'TW'
     else
         lang = 'zhTW'
-		shortlang = 'CN'
     end
 
     local enabled = C_LFGList.GetLanguageSearchFilter();
@@ -73,7 +72,7 @@ function BrowsePanel:OnInitialize()
             key = 'Title',
             text = L['活动标题'],
             style = 'LEFT',
-            width = 160,
+            width = 150,
             showHandler = function(activity)
                 if activity:IsUnusable() then
                     return activity:GetSummary(), GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b
@@ -88,15 +87,15 @@ function BrowsePanel:OnInitialize()
             key = 'ActivityName',
             text = L['活动类型'],
             style = 'LEFT',
-            width = 190,
+            width = 170,
             showHandler = function(activity)
                 local activeName = activity:GetName()
                 activeName = string.gsub(activeName, "塔扎维什：索·莉亚的宏图", "塔扎维什：宏图")
                 activeName = string.gsub(activeName, "塔扎维什：琳彩天街", "塔扎维什：天街")
-				 activeName = string.gsub(activeName, "葛拉克朗殞命之地 - 恆龍黎明", "殞命")
-                activeName = string.gsub(activeName, "姆多茲諾高地 - 恆龍黎明", "高地")
-                activeName = string.gsub(activeName, "迦拉克隆的陨落 - 永恒黎明", "陨落")
-                activeName = string.gsub(activeName, "姆诺兹多的崛起 - 永恒黎明", "崛起")
+                activeName = string.gsub(activeName, "恆龍黎明：葛拉克朗殞命之地", "恆龍黎明-殞命-上")
+                activeName = string.gsub(activeName, "恆龍黎明：姆多茲諾高地", "恆龍黎明-高地-下")
+                activeName = string.gsub(activeName, "永恒黎明：迦拉克隆的陨落", "永恒黎明-陨落-上")
+                activeName = string.gsub(activeName, "永恒黎明：姆诺兹多的崛起", "永恒黎明-崛起-下")
                 if activity:IsUnusable() then
                     return activeName, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b
                 elseif activity:IsAnyFriend() then
@@ -187,7 +186,7 @@ function BrowsePanel:OnInitialize()
             {
                 key = 'ItemLeave',
                 text = L['要求'],
-                width = 40,
+                width = 55,
                 textHandler = function(activity)
                     -- PVP状态要求列也显示装等
                     -- if activity:IsArenaActivity() then
@@ -238,7 +237,7 @@ function BrowsePanel:OnInitialize()
         }, {
             key = 'LeaderScore',
             text = L['分数'],
-            width = 50,
+            width = 60,
             textHandler = function(activity)
                 if activity:IsArenaActivity() then
                     local pvpRating = activity:GetLeaderPvpRating()
@@ -269,7 +268,7 @@ function BrowsePanel:OnInitialize()
         }, {
             key = 'Summary',
             text = L['说明'],
-            width = 208,
+            width = 215,
             class = Addon:GetClass('SummaryGrid'),
             formatHandler = function(grid, activity)
                 grid:SetActivity(activity)
@@ -419,7 +418,7 @@ function BrowsePanel:OnInitialize()
 
     local ActivityLabel = self:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
     do
-        ActivityLabel:SetPoint('TOPLEFT', MainPanel, 'TOPLEFT', 30, -30)
+        ActivityLabel:SetPoint('TOPLEFT', MainPanel, 'TOPLEFT', 70, -30)
         ActivityLabel:SetText(L['活动类型'])
     end
 
@@ -438,34 +437,10 @@ function BrowsePanel:OnInitialize()
                     C_LFGList.SetSearchToActivity(data.activityId)
                     self:StartSet()
                     self.ActivityDropdown:SetValue(data.value)
-                    self:EndSet()  
+                    self:EndSet()
                 else
-                    if data.value == 'mplus' or data.value == '2-0-0-0' then
-                        -- self:StartSet()
-                        -- self.ActivityDropdown:SetValue('2-0-0-0')
-                        -- self:EndSet()  
-                        C_Timer.After(1, function()
-                            self:DoSearch()
-                        end)
-                    end    
                     C_LFGList.ClearSearchTextFields()
                 end
-                
-                if data.value == 'mplus' then
-                    if self.BlzFilterPanel then
-                        self.BlzFilterPanel:Show()
-                    end 
-                    if self.ExFilterPanel then
-                        self.ExFilterPanel:Hide()
-                    end 
-                else
-                    if self.BlzFilterPanel then
-                        self.BlzFilterPanel:Hide()
-                    end
-                    if self.ExFilterPanel then
-                        self.ExFilterPanel:Show()
-                    end 
-                end    
             end
             -- Modification end
         end)
@@ -475,7 +450,7 @@ function BrowsePanel:OnInitialize()
     do
         GUI:Embed(AdvFilterPanel, 'Refresh')
         AdvFilterPanel:SetSize(200, 360)
-        AdvFilterPanel:SetPoint('TOPLEFT', MainPanel, 'TOPRIGHT', -2, -10)
+        AdvFilterPanel:SetPoint('TOPLEFT', MainPanel, 'TOPRIGHT', -2, -30)
         AdvFilterPanel:SetFrameLevel(ActivityList:GetFrameLevel() + 5)
         AdvFilterPanel:EnableMouse(true)
         AdvFilterPanel:Hide()
@@ -494,10 +469,10 @@ function BrowsePanel:OnInitialize()
 
     local filters = {
         { key = 'LeaderScore', text = L['团长大秘境评分'], min = 0, max = 5000, step = 1 },
-        { key = 'ItemLevel',   text = L['装备等级'],          min = 0, max = 999,  step = 10 },
-        { key = 'BossKilled',  text = L['Boss击杀数量'],      min = 0, max = 15,   step = 1 },
-        { key = 'Age',         text = L['活动创建时长'],    min = 0, max = 1440, step = 10 },
-        { key = 'Members',     text = L['队伍人数'],          min = 0, max = 40,   step = 1 },
+        { key = 'ItemLevel', text = L['装备等级'], min = 0, max = 999, step = 10 },
+        { key = 'BossKilled', text = L['Boss击杀数量'], min = 0, max = 15, step = 1 },
+        { key = 'Age', text = L['活动创建时长'], min = 0, max = 1440, step = 10 },
+        { key = 'Members', text = L['队伍人数'], min = 0, max = 40, step = 1 },
     }
 
     local function RefreshFilter()
@@ -586,33 +561,21 @@ function BrowsePanel:OnInitialize()
             do
                 Shine:SetPoint('TOPLEFT', 5, -5)
                 Shine:SetPoint('BOTTOMRIGHT', -5, 5)
-               -- Shine:Start()
+                -- Shine:Start()
             end
             AdvButton.Shine = Shine
             AdvButton:SetScript('OnClick', function()
-                -- Profile:ClearProfileKeyNew('advShine')
-                -- Shine:Stop()
-                -- Shine:Hide()
+                Profile:ClearProfileKeyNew('advShine')
+                Shine:Stop()
+                Shine:Hide()
                 AdvButton:SetScript('OnClick', function()
                     self.AdvFilterPanel:SetShown(not self.AdvFilterPanel:IsShown())
-                    if self.ExFilterPanel then
-                        self.ExFilterPanel:Hide()
-                    end 
-                    if self.BlzFilterPanel then
-                        self.BlzFilterPanel:Hide()
-                    end    
                 end)
                 AdvButton:GetScript('OnClick')(AdvButton)
             end)
         else
             AdvButton:SetScript('OnClick', function()
                 self.AdvFilterPanel:SetShown(not self.AdvFilterPanel:IsShown())
-                if self.ExFilterPanel then
-                    self.ExFilterPanel:Hide()
-                end 
-                if self.BlzFilterPanel then
-                    self.BlzFilterPanel:Hide()
-                end    
             end)
         end
     end
@@ -662,17 +625,15 @@ function BrowsePanel:OnInitialize()
     -- NoticeBp()
     -- end)
     -- end
-	
-	function setAutoInvite(checked) 
-		if checked then
-			ConsoleExec("portal "..shortlang)
-			ConsoleExec("profanityFilter 1")
-		else 
-			ConsoleExec("portal TW")
-			ConsoleExec("profanityFilter 0")
-		end
-		return checked
-	end
+
+    function setAutoInvite(checked)
+        if checked then
+            ConsoleExec("profanityFilter 1")
+        else
+            ConsoleExec("profanityFilter 0")
+        end
+        return checked
+    end
 
     local AutoJoinCheckBox = GUI:GetClass('CheckBox'):New(self)
     do
@@ -680,9 +641,9 @@ function BrowsePanel:OnInitialize()
         AutoJoinCheckBox:SetText(L['自动进组'])
         --AutoJoinCheckBox.tooltip(['自动同意来自集合石的邀请'])
         AutoJoinCheckBox:SetSize(24, 24)
-		AutoJoinCheckBox:SetChecked(setAutoInvite(not not Profile:GetSetting('AUTO_JOIN')))
+        AutoJoinCheckBox:SetChecked(setAutoInvite(not not Profile:GetSetting('AUTO_JOIN')))
         AutoJoinCheckBox:SetScript("OnClick", function()
-			Profile:SetSetting('AUTO_JOIN', AutoJoinCheckBox:GetChecked())
+            Profile:SetSetting('AUTO_JOIN', AutoJoinCheckBox:GetChecked())
             NoticeBp()
         end)
         -- 2022-11-19 修改提示位置
@@ -699,9 +660,8 @@ function BrowsePanel:OnInitialize()
             --MEETINGSTONE_UI_E_POINTS.AutoJoinCheckBox = false
             logText('\124cFFFF0000关闭\124r' .. '自动进组')
         end
-		setAutoInvite(AutoJoinCheckBox:GetChecked())
+        setAutoInvite(AutoJoinCheckBox:GetChecked())
     end
-
 
     LFDRoleCheckPopup:SetScript("OnShow", function()
         if AutoJoinCheckBox:GetChecked() then
@@ -716,6 +676,9 @@ function BrowsePanel:OnInitialize()
 
     LFGListInviteDialog:SetScript("OnShow", function(self)
         if AutoJoinCheckBox:GetChecked() then
+            ConsoleExec("profanityFilter 1")
+            ConsoleExec("portal CN")
+
             local _, status, _, _, role = C_LFGList.GetApplicationInfo(LFGListInviteDialog.resultID)
             if status == "invited" then
                 LFGListInviteDialog.AcceptButton:Click()
@@ -723,6 +686,8 @@ function BrowsePanel:OnInitialize()
             if status == "inviteaccepted" then
                 LFGListInviteDialog.AcknowledgeButton:Click()
             end
+
+            ConsoleExec("portal " .. playerRegion)
         end
     end)
 
@@ -733,7 +698,7 @@ function BrowsePanel:OnInitialize()
 
 
     --if (MEETINGSTONE_UI_E_POINTS ~= nil and MEETINGSTONE_UI_E_POINTS.AutoJoinCheckBox ~= nil) then
-        --AutoJoinCheckBox:SetChecked(MEETINGSTONE_UI_E_POINTS.AutoJoinCheckBox)
+    --AutoJoinCheckBox:SetChecked(MEETINGSTONE_UI_E_POINTS.AutoJoinCheckBox)
     --end
 
     local ActivityTotals = self:CreateFontString(nil, 'ARTWORK', 'GameFontHighlightRight')
@@ -960,7 +925,6 @@ function BrowsePanel:OnShow()
     self.SearchBox:SetParent(self)
     self.SearchBox:SetPoint('LEFT', self.ActivityDropdown, 'RIGHT', 20, 0)
     self.SearchBox:SetWidth(220)
-
 end
 
 -- Modification begin
@@ -1046,7 +1010,8 @@ function BrowsePanel:DoSearch()
     self.RefreshFilterButton:Disable()
     self:Search()
     self:CancelTimer(self.disableRefreshTimer)
-    self.disableRefreshTimer = self:ScheduleTimer('OnRefreshTimer', 3)
+    --移除3秒的刷新等待时间
+    self.disableRefreshTimer = self:ScheduleTimer('OnRefreshTimer', 0)
 end
 
 function BrowsePanel:Search()
@@ -1071,11 +1036,11 @@ function BrowsePanel:Search()
     end
 
     if self.SearchBox:GetText() ~= activityItem.fullName then
-       activityId = nil
+        activityId = nil
     end
 
     Profile:SetLastSearchCode(searchCode)
-    LfgService:Search(categoryId, baseFilter, activityId, activityItem.value == 'mplus')
+    LfgService:Search(categoryId, baseFilter, activityId)
     self:UpdateFilters()
 
     self.searchTimer = nil

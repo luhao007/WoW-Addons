@@ -432,6 +432,12 @@ function RSConfigDB.IsNpcFiltered(npcID)
 		elseif (RSNpcDB.IsInternalNpcMultiZone(npcID) and not RSUtils.Contains(RSConstants.IGNORE_NPCS_REPUTATION, npcID)) then
 			local khazAlgar = false
 			for mapID, _ in pairs (npcInfo.zoneID) do
+				-- If dungeons/delve/raid ignore
+				local mapInfo = C_Map.GetMapInfo(mapID)
+				if (mapInfo and mapInfo.mapType == Enum.UIMapType.Dungeon) then
+					break
+				end
+				
 				if (RSMapDB.GetContinentOfMap(mapID) == RSConstants.KHAZ_ALGAR and not RSUtils.Contains(RSConstants.TWW_MAPS_WITHOUT_REP, mapID)) then
 					khazAlgar = true
 					break

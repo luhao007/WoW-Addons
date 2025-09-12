@@ -9,7 +9,9 @@
 ## IconTexture: Interface\AddOns\WagoAppCompanion\logo.png
 
 ## Category-zhCN: |cFFFFE00A<|r|cFFFFFFFF辅助|r|cFFFFE00A>|r
+## Group: WagoAppCompanion
 
+## OptionalDependencies: WeakAuras
 ## LoadOnDemand: 0
 ## DefaultState: Enabled
 

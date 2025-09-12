@@ -480,6 +480,11 @@
 		<Notes>自定义的额外动作条</Notes>
 		<Category>界面</Category>
 	</Addon>
+	<Addon name="CauseseDB">
+		<Title>Causese数据库</Title>
+		<Notes>配合Causese的WA使用</Notes>
+		<Category>副本</Category>
+	</Addon>
 	<Addon name="CensusPlusClassic">
 		<Title>人口普查</Title>
 		<Notes>统计服务器中的人口数量</Notes>
@@ -1156,6 +1161,10 @@
 				<Title>地图标记</Title>
 				<Notes>显示副本入口，主城NPC等信息</Notes>
 			</SubAddon>
+			<SubAddon name="HandyNotes_NaxxFrozenRunes">
+				<Title>宝藏/稀有</Title>
+				<TitleExtra>NAXX冰冻符文</TitleExtra>
+			</SubAddon>
 			<SubAddon name="HandyNotes_MistsOfPandaria">
 				<Title>宝藏/稀有</Title>
 				<TitleExtra>熊猫人之谜</TitleExtra>
@@ -1270,6 +1279,11 @@
 		<Title>小地图按钮整合</Title>
 		<Notes>将小地图的按钮整合成一个</Notes>
 		<Category>界面</Category>
+	</Addon>
+	<Addon name="MDTGuide">
+		<Title>大秘境工具路线图</Title>
+		<Notes>配合MDT显示一个微缩地图</Notes>
+		<Category>副本</Category>
 	</Addon>
 	<Addon name="MeetingStone">
 		<Title>集合石</Title>
@@ -1548,6 +1562,10 @@
 				<Title>巫妖王之怒小队</Title>
 			</SubAddon>
 		</SubAddons>
+	</Addon>
+	<Addon name="RaiderIO">
+		<Title>Raider.IO数据</Title>
+		<Category>副本</Category>
 	</Addon>
 	<Addon name="RaidLedger">
 		<Title>金团账本</Title>

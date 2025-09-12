@@ -719,6 +719,24 @@ class Manager:
         )
 
     @staticmethod
+    @available_on(["retail"])
+    def handle_rio():
+        # Remove the embedded databases
+        for realm in ["US", "TW", "KR", "EU"]:
+            for contents in ["F", "M", "R"]:
+                path = f"AddOns/RaiderIO_DB_{realm}_{contents}"
+                if os.path.exists(path):
+                    shutil.rmtree(path)
+            for contents in ["recruitment", "mythicplus", "raiding"]:
+                for lua in ["lookup", "characters"]:
+                    for suffix in ["db", "db_classic"]:
+                        path = (
+                            f"AddOns/RaiderIO/db/{suffix}_{contents}_{realm}_{lua}.lua"
+                        )
+                        if os.path.exists(path):
+                            os.remove(path)
+
+    @staticmethod
     @available_on(["classic", "retail"])
     def handle_rs():
         utils.change_defaults(

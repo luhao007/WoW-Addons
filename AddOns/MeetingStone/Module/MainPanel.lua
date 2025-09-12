@@ -4,10 +4,18 @@ BuildEnv(...)
 MainPanel = Addon:NewModule(GUI:GetClass('Panel'):New(UIParent), 'MainPanel', 'AceEvent-3.0', 'AceBucket-3.0')
 
 function MainPanel:OnInitialize()
+    --修复不再同一个地区无法组队
+    local pre = C_BattleNet.GetFriendGameAccountInfo
+    C_BattleNet.GetFriendGameAccountInfo = function(...)
+        local gameAccountInfo = pre(...)
+        gameAccountInfo.isInCurrentRegion = true
+        return gameAccountInfo;
+    end
+
     GUI:Embed(self, 'Refresh', 'Help', 'Blocker')
 
     self:SetSize(922, 447)
-	self:SetText(L['集合石'] .. ' 开心快乐每一天 ' .. ADDON_VERSION .. ' ' .. ADDON_VERSION_DATE)
+    self:SetText(L['集合石'] .. ' 开心快乐每一天 ' .. ADDON_VERSION)
     --self:SetIcon(ADDON_LOGO)
     self:EnableUIPanel(true)
     self:SetTabStyle('BOTTOM')
@@ -311,13 +319,14 @@ function MainPanel:OnInitialize()
         CopyUpdUrlBtn:SetHighlightFontObject('GameFontHighlightSmall')
         CopyUpdUrlBtn:SetSize(70, 22)
         CopyUpdUrlBtn:SetPoint('TOPRIGHT', MainPanel, -30, 0)
-        CopyUpdUrlBtn:SetText('|Hurl:https://gitee.com/xmmmmm/meeting-stone_-happy|h|cff00ffff[更新地址]|r|h')
+        CopyUpdUrlBtn:SetText('|Hurl:https://ngabbs.com/read.php?tid=35102502|h|cff00ffff[更新地址]|r|h')
 
         CopyUpdUrlBtn:SetScript('OnEnter', function()
             local GameTooltip = self.GameTooltip
             GameTooltip:SetOwner(self, 'ANCHOR_CURSOR')
             GameTooltip:SetText(
                 '|cFFFF8040点|r|cFFFF8040击|r|cFFFF8040复|r|cFFFF8040制|r|cFFFF0080(|r|cFF8080C0不|r|cFF8080C0行|r|cFF8080C0就|r|cFF8080C0多|r|cFF8080C0点|r|cFF8080C0几|r|cFF8080C0下|r|cFFFF0080)|r')
+            GameTooltip:AddLine('|cFF0080FFhttps://ngabbs.com/read.php?tid=35102502|r', 1, 1, 1, true)
             GameTooltip:Show()
         end)
         CopyUpdUrlBtn:SetScript('OnLeave', function()
@@ -326,33 +335,7 @@ function MainPanel:OnInitialize()
         end)
 
         CopyUpdUrlBtn:SetScript('OnClick', function()
-            ApplyUrlButton(CopyUpdUrlBtn,'https://gitee.com/xmmmmm/meeting-stone_-happy')
-        end)
-    end
-    -- 增加加群反馈
-    local JoinQUrlBtn
-    JoinQUrlBtn = CreateFrame('Button', nil, self)
-    do
-        JoinQUrlBtn:SetNormalFontObject('GameFontNormalSmall')
-        JoinQUrlBtn:SetHighlightFontObject('GameFontHighlightSmall')
-        JoinQUrlBtn:SetSize(70, 22)
-        JoinQUrlBtn:SetPoint('RIGHT', CopyUpdUrlBtn, -75, 0)
-        JoinQUrlBtn:SetText('|Hurl:https://gitee.com/xmmmmm/meeting-stone_-happy|h|cff00ffff[Bug反馈]|r|h')
-
-        JoinQUrlBtn:SetScript('OnEnter', function()
-            local GameTooltip = self.GameTooltip
-            GameTooltip:SetOwner(self, 'ANCHOR_CURSOR')
-            GameTooltip:SetText(
-                '|cFFFF8040点|r|cFFFF8040击|r|cFFFF8040复|r|cFFFF8040制|r|cFFFF0080(|r|cFF8080C0不|r|cFF8080C0行|r|cFF8080C0就|r|cFF8080C0多|r|cFF8080C0点|r|cFF8080C0几|r|cFF8080C0下|r|cFFFF0080)|r')
-            GameTooltip:Show()
-        end)
-        JoinQUrlBtn:SetScript('OnLeave', function()
-            local GameTooltip = self.GameTooltip
-            GameTooltip:Hide()
-        end)
-
-        JoinQUrlBtn:SetScript('OnClick', function()
-            ApplyUrlButton(JoinQUrlBtn,'https://jq.qq.com/?_wv=1027&k=R04aQLlV')
+            ApplyUrlButton(CopyUpdUrlBtn, 'https://ngabbs.com/read.php?tid=35102502')
         end)
     end
 end
@@ -426,6 +409,7 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
             local info = activity:GetLeaderScoreInfo()
             if info and info.mapScore and info.mapScore > 0 then
                 local color = GetSpecificDungeonOverallScoreRarityColor(info.mapScore)
+
                 local levelText = format(info.finishedSuccess and "|cff00ff00%d层|r" or "|cff7f7f7f%d层|r",
                     info.bestRunLevel or 0)
                 tooltip:AddLine(format("队长当前副本: %s / %s", color:WrapTextInColorCode(info.mapScore), levelText))
@@ -551,7 +535,7 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
     tooltip:AddLine('ID: ' .. activity:GetID())
     tooltip:AddLine('Loot: ' .. tostring(activity:GetLoot()))
     tooltip:AddLine('Mode: ' .. tostring(activity:GetMode()))
-    --@end-debug@]=]
+    --@end-debug@]==]]=]
 
     tooltip:Show()
 end
@@ -567,9 +551,6 @@ function MainPanel:OpenApplicantTooltip(applicant)
     local itemLevel = applicant:GetItemLevel()
     local comment = applicant:GetMsg()
     local useHonorLevel = applicant:IsUseHonorLevel()
-    local specId = applicant:GetSpecID()
-
-    
 
     GameTooltip:SetOwner(self, 'ANCHOR_NONE')
     GameTooltip:SetPoint('TOPLEFT', self, 'TOPRIGHT', 0, 0)
@@ -577,14 +558,7 @@ function MainPanel:OpenApplicantTooltip(applicant)
     if name then
         local classTextColor = RAID_CLASS_COLORS[class]
         GameTooltip:AddHeader(name, classTextColor.r, classTextColor.g, classTextColor.b)
-        local classSpecializationName = localizedClass
-        if specId then
-            local specName = GetSpecNameBySpecID(specId)
-            if specName then
-                classSpecializationName = CLUB_FINDER_LOOKING_FOR_CLASS_SPEC:format(specName, classSpecializationName)
-            end
-        end    
-        GameTooltip:AddLine(string.format(UNIT_TYPE_LEVEL_TEMPLATE, level, classSpecializationName), 1, 1, 1)
+        GameTooltip:AddLine(string.format(UNIT_TYPE_LEVEL_TEMPLATE, level, localizedClass), 1, 1, 1)
     else
         GameTooltip:AddHeader(UnitName('none'), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
     end
@@ -604,6 +578,7 @@ function MainPanel:OpenApplicantTooltip(applicant)
         local info = applicant:GetBestDungeonScore()
         if info and info.mapScore and info.mapScore > 0 then
             local color = GetSpecificDungeonOverallScoreRarityColor(info.mapScore)
+
             local levelText = format(info.finishedSuccess and "|cff00ff00%d层|r" or "|cff7f7f7f%d层|r",
                 info.bestRunLevel or 0)
             GameTooltip:AddLine(format("当前副本: %s / %s", color:WrapTextInColorCode(info.mapScore), levelText))
@@ -654,9 +629,9 @@ function MainPanel:OpenApplicantTooltip(applicant)
         end
     end
 
-    if RaiderIO and RaiderIO.GetProfile and Profile:GetEnableRaiderIO() then
-        RaiderIOService:appendRaiderIOData(applicant:GetName(), applicant:GetDungeonScore(), GameTooltip)
-    end
+    -- if RaiderIO and RaiderIO.GetProfile and Profile:GetEnableRaiderIO() then
+    --     RaiderIOService:appendRaiderIOData(applicant:GetName(), applicant:GetDungeonScore(), GameTooltip)
+    -- end
 
     GameTooltip:Show()
 end
@@ -675,11 +650,4 @@ function MainPanel:OpenRecentPlayerTooltip(player)
     tooltip:AddLine(player:GetNameText())
     tooltip:AddLine(player:GetNotes(), 1, 1, 1, true)
     tooltip:Show()
-end
-function GetSpecNameBySpecID(specID, playerSex)
-	playerSex = playerSex or UnitSex("player");
-	if playerSex then
-		return select(2, GetSpecializationInfoByID(specID, playerSex));
-	end
-	return "";
 end

@@ -15,6 +15,17 @@ Green - 'header' - Titan or plugin
 Highlight - notes. tips. and details
 --]]
 Titan_Global.recent_changes = ""
+.. TitanUtils_GetGoldText("8.3.5 : 2025/08/27\n")
+.. TitanUtils_GetGreenText("Titan : \n")
+.. TitanUtils_GetHighlightText(""
+.. "-  Repair : \n"
+.. "-  - : Restore accidently removed 'use guild funds' option.\n"
+.. "-  Loot : \n"
+.. "-  - : Classic : Restore ability to resize Loot window frame.\n"
+.. "-  - : Retail : Get ahead of deprecated APIs GetSpecialization and GetSpecializationInfo into C_SpecializationInfo.\n"
+.. "-  Internal : \n"
+.. "-  - : Config updates to Vars and Bars All when choosing global versus single bar values.\n"
+)
 .. TitanUtils_GetGoldText("8.3.4 : 2025/08/24\n")
 .. TitanUtils_GetGreenText("Titan : \n")
 .. TitanUtils_GetHighlightText(""
@@ -47,19 +58,6 @@ Titan_Global.recent_changes = ""
 .. "-  Internally : \n"
 .. "-  - : Several tweaks for MoP.\n"
 )
-.. TitanUtils_GetGoldText("8.3.0 : 2025/07/2\n")
-.. TitanUtils_GetGreenText("Titan : \n")
-.. TitanUtils_GetHighlightText(""
-.. "-  Major change : \n"
-.. "-  - : Titan users will have their Titan options reset.\n"
-.. "-  - : Titan plugin options should be the same after update.\n"
-.. "-  - : Titan 3rd party plugins for Classic must be updated.\n"
-.. "-  Internally : \n"
-.. "-  - : TitanClassic is no longer an ID.\n"
-.. "-  - : Titan Classic 3rd party plugins must use Titan as the dependency in TOC, not TitanClassic.\n"
-.. "-  - : Saved variables will be in Titan.lua rather than TitanCLassic.lua.\n"
-)
-
 .. "\n\n"
 
 --[[ Var Notes

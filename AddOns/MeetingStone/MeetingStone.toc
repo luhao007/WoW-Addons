@@ -1,5 +1,5 @@
 ## Interface: 110200
-## Version: 11.2.0
+## Version: 20240309
 
 ## Title: Meeting Stone
 ## Title-zhCN: |cFFFFE00A<|r|cFFF48CBA社交|r|cFFFFE00A>|r|cFFFFFFFF集合石|r |cFFFFE00AMeetingStone|r
@@ -14,8 +14,10 @@
 ## SavedVariables: MEETINGSTONE_UI_DB,MEETINGSTONE_UI_E_POINTS
 ## SavedVariablesPerCharacter: MEETINGSTONE_CHARACTER_DB
 
+## X-Min-Interface: 110000
 ## X-LoadOn-Always: delayed
-
-## VersionDate: 20250825
+## X-Curse-Project-ID: 868166
+## X-WoWI-ID: 26582
+## X-Wago-ID: ZKbee961
 
 Load.xml

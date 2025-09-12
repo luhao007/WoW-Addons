@@ -1,0 +1,14 @@
+## Interface: 110200
+
+## Title: CauseseDB
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFFCausese数据库|r |cFFFFE00ACauseseDB|r
+## Notes-zhCN: 配合Causese的WA使用
+
+## IconTexture: Interface\AddOns\CauseseDB\Media\Textures\icon.blp
+
+## Category: Causese
+## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
+
+embeds.xml
+db.lua
+functions.lua

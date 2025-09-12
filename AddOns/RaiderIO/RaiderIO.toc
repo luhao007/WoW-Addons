@@ -1,0 +1,32 @@
+## Interface: 110200
+## Author: Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)
+## Version: 11.2.0 (v202509120600)
+
+## Title: Raider.IO Mythic Plus, Raiding, and Recruitment
+## Notes: Shows Raider.IO Mythic+ Score, Raid Progress, and Recruitment status in-game. Make sure to load one or more region DB.
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFFRaider.IO数据|r |cFFFFE00ARaiderIO|r
+
+## IconTexture: Interface\AddOns\RaiderIO\icons\logo
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
+
+## SavedVariables: RaiderIO_Config, RaiderIO_LastCharacter, RaiderIO_MissingCharacters, RaiderIO_MissingServers, RaiderIO_CachedRuns, RaiderIO_RWF, RaiderIO_CompletedReplays
+
+## X-Website: https://raider.io
+## X-AddonProvider: github
+## X-Curse-Project-ID: 279257
+## X-Wago-ID: b6mb0XKP
+
+db/db_client_characters.lua
+db/db_client_config.lua
+db/db_client_guilds.lua
+db/db_client_recent_characters.lua
+db/db_client_replays.lua
+db/db_dungeons.lua
+db/db_realms.lua
+db/db_regions.lua
+db/db_score_stats.lua
+db/db_score_tiers_prev.lua
+db/db_score_tiers.lua
+db/db_titles.lua
+core.xml

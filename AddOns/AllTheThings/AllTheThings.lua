@@ -254,20 +254,39 @@ local ResolveFunctions = {
 	["select"] = function(finalized, searchResults, o, cmd, field, ...)
 		local cache, val;
 		local vals = select("#", ...);
-		local Search = SearchForObject
-		for i=1,vals do
-			val = select(i, ...) + (SelectMod or 0)
-			if field == "modItemID" then
-				-- this is really dumb but direct raw values don't 'always' properly match generated values...
-				-- but splitting the value apart and putting it back together searches accurately
-				val = GetGroupItemIDWithModID(nil, GetItemIDAndModID(val))
+		if vals > 3 then
+			local searches = {}
+			for i=1,vals do
+				val = select(i, ...) + (SelectMod or 0)
+				if field == "modItemID" then
+					-- this is really dumb but direct raw values don't 'always' properly match generated values...
+					-- but splitting the value apart and putting it back together searches accurately
+					val = GetGroupItemIDWithModID(nil, GetItemIDAndModID(val))
+				end
+				cache = SearchForObject(field, val, "field", true)
+				if cache and #cache > 0 then
+					searches[#searches + 1] = cache
+				else
+					-- TODO: re-enable after all catalystID's are re-structured
+					-- app.print("Failed to select ", field, val);
+				end
 			end
-			cache = Search(field, val, "field", true);
-			if cache and #cache > 0 then
-				ArrayAppend(searchResults, cache)
-			else
-				-- TODO: re-enable after all catalystID's are re-structured
-				-- app.print("Failed to select ", field, val);
+			ArrayAppend(searchResults, unpack(searches))
+		else
+			for i=1,vals do
+				val = select(i, ...) + (SelectMod or 0)
+				if field == "modItemID" then
+					-- this is really dumb but direct raw values don't 'always' properly match generated values...
+					-- but splitting the value apart and putting it back together searches accurately
+					val = GetGroupItemIDWithModID(nil, GetItemIDAndModID(val))
+				end
+				cache = SearchForObject(field, val, "field", true)
+				if cache and #cache > 0 then
+					ArrayAppend(searchResults, cache)
+				else
+					-- TODO: re-enable after all catalystID's are re-structured
+					-- app.print("Failed to select ", field, val);
+				end
 			end
 		end
 		SelectMod = nil
@@ -277,7 +296,7 @@ local ResolveFunctions = {
 		level = level or 1;
 		-- an search for the specific 'o' to retrieve the source parent since the parent is not always actually attached to the reference resolving the symlink
 		local parent
-		local searchedObject = app.SearchForObject(o.key, o.keyval, "key");
+		local searchedObject = SearchForObject(o.key, o.keyval, "key");
 		if searchedObject then
 			parent = searchedObject.parent;
 			while level > 1 do
@@ -1012,7 +1031,6 @@ ResolveSymbolicLink = function(o, refonly)
 		return
 	end
 	local cloned = {};
-	-- app.PrintDebug("Symbolic Link for", oKey,oKey and o[oKey], "contains", #cloned, "values after filtering.")
 	local sHash, clone
 	local Fill = app.FillGroups
 	for i=1,#finalized do
@@ -1058,6 +1076,7 @@ ResolveSymbolicLink = function(o, refonly)
 		o.resolved = cloned;
 		-- app.PrintDebug("Object Results",oHash,#cloned)
 	end
+	-- app.PrintDebug("Symbolic Link for", oKey,oKey and o[oKey], "contains", #cloned, "values after filtering.")
 	return cloned;
 end
 app.ResolveSymbolicLink = ResolveSymbolicLink

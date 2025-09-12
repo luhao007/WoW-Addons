@@ -318,7 +318,8 @@ local function OnChatMsgMonster(rareScannerButton, message, name, guid)
 		local _, _, _, _, _, id = strsplit("-", guid)
 		local npcID = id and tonumber(id) or nil
 		if (npcID) then
-			SimulateRareFound(rareScannerButton, npcID, mapID, RSNpcDB.GetNpcName(npcID))
+			local finalNpcID = RSNpcDB.GetFinalNpcID(npcID)
+			SimulateRareFound(rareScannerButton, finalNpcID, mapID, RSNpcDB.GetNpcName(finalNpcID))
 			return
 		end
 	end

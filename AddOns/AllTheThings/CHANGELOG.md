@@ -1,131 +1,97 @@
 # AllTheThings
 
-## [4.6.5](https://github.com/ATTWoWAddon/AllTheThings/tree/4.6.5) (2025-08-24)
-[Full Changelog](https://github.com/ATTWoWAddon/AllTheThings/compare/4.6.4...4.6.5) [Previous Releases](https://github.com/ATTWoWAddon/AllTheThings/releases)
+## [4.6.8](https://github.com/ATTWoWAddon/AllTheThings/tree/4.6.8) (2025-09-07)
+[Full Changelog](https://github.com/ATTWoWAddon/AllTheThings/compare/4.6.7...4.6.8) [Previous Releases](https://github.com/ATTWoWAddon/AllTheThings/releases)
 
-- [DB] Mists - Inscription: alphabetically fix MoP technique items up to Hand of Sacrifice  
-- MOP: Moved The Anglers to its own Expansion Features file.  
-- Removed 'Restored Artifact' from expansions where you can't get it.  
-- [DB] Sourcing Zangar Trout and WotLK Scrolls.  
-- MOP: Added the MOP\_BEFORE\_SOO preprocessor flag. Added coordinates specify to this flag to prevent post 5.4 coordinates from being plotted when the flag is available and pre-5.4 coordinates from being plotted when absent.  
-- Fixed The War Within typo in folder structure  
-- [DB] Update Class Trials & Boosts  
-    Add level 70 Boost.  
-    Update 60, 50, 48, 120, 110, 100 Boost timeline.  
-- [Misc.] Fix classic references.  
-- Retail: notes for some hqts other seems to be wrong?  
-- final df promo iotems are now unavailable via promo (still in shop tho!)  
-- changed pandaria from 05 to 06 and maelstrom from 06 to 05 (it came with cata, so before pandaria)  
-- m+ resil achievements now only produce up to 18 unobtainable "things" and not ~160 anymore  
-- Added back Explorations which are used by Achievement Criterias and are causing parser warnings when missing.  
-- Fix some reported errors, parse  
-- I don't know why this got pushed too when it was not in the commit...  
-- Fixed error report for instance explorations.  
-- Added Explorations into the Harvester and harvested raw Explorations.  
-- [DB] Deepwind Gorge was added in 5.3, not 5.2  
-- [DB] Mists: Deepwind Gorge is already available  
-- Revert "[DB] Mists: MSV Raid Finder caches didn't get timeline applied properly + omit unnecessary information in Classic to reduce db size"  
-- [DB] Mists: MSV Raid Finder caches didn't get timeline applied properly + omit unnecessary information in Classic to reduce db size  
-- [DB] Update header of Midnight pack.  
-    Use temporary headers of Midnight.  
-    Update timeline.  
-- [DB] Update description for Midnight expansion.  
-- [Locale] Update: expansion - Midnight.  
-- Removed all NYI Explorations as most of these will be implemented.  
-    NYI Explorations will be added back whenever we are done with sorting the obtainable ones.  
-- Exploration should not report any coords when in instance.  
-- Fix some minor errors  
+- missed ,,,  
+- [Logic] Improved the Quest report events  
+- MOP: A New Fate needs to have races on it.  
+- weekly pod quests to track weekly pods are now used to track weely pods  
+- [DB] Mists: Silkworm Cocoon and the pets it drops are supposedly available with Landfall  
+- MOP: Updated Nomi's section in Cooking.  
+- [DB] 'Ethereal Delves' 91780 is once per account, non-account-wide (because :clap: Blizzard :clap: logic)  
+- Dropped some old unused code for timeline harvesting from Wowhead  
+- [DB] Misc TBC/WotLK drops, duplicate Floating Wreckage  
+- MOP: Fixed map assignments and coordinates for Widow's Wail quests.  
 - [PAT] Updated source file format based on current standards.  
-- [Logic] Retail: Some general Filler performance improvements  
-    * Fill module localizes a couple more functions and warns in chat if they don't exist  
-    * Skip logic for filling under an unavailable Quest or parent Quest now uses the same logic from the Quest module  
-- [DB] Moving remaining vanilla vendor reagents  
-- [Logic] Fix possible Lua error when using ReverseOrder()  
-- [DB] Cleaned up some duplication due to new versions of TWW Caches each patch being copy-pasta each time  
-- [Logic] Retail: Fixed a logic issue where some valid Achievement Criteria names wouldn't be shown  
-- [DB] Mists: The Peak of Serenity - Complete Your Training is not in the game  
-- [DB] Inscription: readd preprocessors to omit glyphs in retail  
-- [DB] Inscription: sort crafted glyphs based on original glyph names  
-- [DB] Fixed a couple disappeared items from S2 in Mechagon  
-- Legion Remix: Ensembles added to Unicus <Exclusive Ensembles>  
-- MOP: Fixed the World Drops category. (added to the white list)  
-- Merge branch 'master' of https://github.com/ATTWoWAddon/AllTheThings  
-- Cleaned up alot of Khaz  
-- MOP: Straw Hats sold by Gina require Best Friend with Old Hillpaw.  
+- MOP: Finished Darkshore objectives.  
 - Fix some reported errors  
-- Adjust Midnight Dungeon Templates  
-- the expansion specific m+ & m0 headers are now together as sometimes the files were split and sometimes now. now they all have the same design  
-- created global delve achievement header. there are probably more universal (e.g. not limited to tww) but dont have to jump the gun. for now only moved the complete x amount of delves  
-- delves now use \_TWW ending, so they dont cause issues with future delves  
-- Some Prep for Midnight  
-- [Logic] Retail: Added a GetFiller(name) to allow retrieval of a specific Filler function if needed  
-    [Logic] Retail: FillGroups now accepts an options param to allow specifying a specific set of Fillers to be used for the Fill operation (as opposed to being determined solely by the context of the filled group)  
-- MOP: Adjusted the phase requirements for upcoming phase one releases.  
-- [Parser] Now supports "release" on Phases.  
-- MOP: Added a note to Lobstmourne.  
-- visual cleanup for note in mechagon  
-- ["description"] = "Requires the 4th Upgrade unlocked from the Reshii Wraps.  
-- finished my manual slave work  
-- MOP: Added the Halberd of the Unscathed for Stay Klaxxi.  
-- better formating  
-- only 1 bag per week can contain special loot  
-- phase diving tresures requires r4  
-- added Recipe: Venerable Potion of Invisibility  
-- added argus header to legion remix zones to fit with "retail"  
-- parsing error  
-- moving folder into broken isles (split into 2 commits to see errors)  
-- argus is now under broken isles  
-- some karesh treasure fixes  
-- Legion Remix: Pets and Toys added to Horos <Rare Collections>  
-- [DB] Fixing erroneous capitalisation in header  
-- [DB] Fixed the Lock Criteria check for Spells to actually use the proper function instead of cached ATT Spell data  
-- [DB] Pet Grooming Kit, Cata Cooking recipes rewarded from ach,  
-- Fix some reported errors  
-- Added Manaforge Omega's savedInstanceID.  
-- Parser test.  
-- [Parser] Now exporting Categories list in Invariant Culture order.  
-- 12.0 tendies trackers  
-- Fixed a delve weapon to not be under cosmetics.  
-- Fix some reported errors  
-- [DB] MFO: Another Renown 3 quest  
-    [DB] Found a delve item  
-    Parsed  
-- [DB] MFO Renown 3 quest  
-- [DB] MFO: HQTs  
-- Add new Midnight collector items (missing itemids, ensemble)  
-- Legion Remix: More 'Infinite Research' Quests and more Achievements  
-- Setup preorder items pending ids  
-- Boralus world quest edit  
-- [DB] Mists: update Wago build files to build 5.5.0.62655  
-- [DB] Add timeline to ensembles that were added to Brawler's Guild vendors in BfA  
-- [DB] Classic: fix redundant "maps" assignment warning  
-- Add Contributor tooltip for Wouter (:  
-- Fix many reported quest and object errors  
-- Added the new Goblin quest.  
+- MOP: Added some Darkshore objectives and some missing objectDB data.  
+- Legion Remix + Retail Legion Quests  
+    - More 'Infinite Research' 1-off quests  
+    - Gear Drops for all zones  
+    - Update quests (Coordinates, Providers)  
+- MOP: Adjusted some Teldrassil quest objectives.  
+- MOP: Added missing objective data for Mossy Tumors.  
+- Whoops.  
+- Classic: Disabled the "Incomplete" check for Quests.  
+- MOP: The Deadmines is now "Deadmines" as of 5.0.1. Adjusted sort order based on this new truth.  
+- Various ru locale updates  
 - [PAT] Updated source file format based on current standards.  
-- [DB] MFO: M HQT  
-    [DB] Tazavesh HQT & timeline fix  
-    [DB] Delve seasonal quest description & crests hax  
-- s3  
-- Revert "m+ resi achievements are real (lul)"  
-- m+ resi achievements are real (lul)  
-- Legion Remix: Create a separate header for Remix quests so that they can be separated from "Regular" Legion quests  
-- Exploration: Add some (Legion) Dalaran points  
-- Legion Remix: Achievement Categories  
-    - Thanks @Myrhial and @gbrage  
-- Fixed items from 'K'areshi Voidstone'.  
-- Legion Remix: Dungeons  
-    - Enable "Class Achievements"  
-    - 1 more "Infinite Research" quest  
-    - Reputation Insignias  
-- [DB] Mists: complete Celestial dungeon end boss loot tables  
-- [DB] Mists: split up Celestial daily quests into Alliance and Horde versions  
-- [DB] Mists: change quest ID for Celestial Challenge: Sha of Doubt  
-- Updated Midnight icon  
-    Tweaked to match the newlogo blizzard put out e.g more blue void  
-- [DB] Moves some vendor reagents to Crafted Items/Common Vendor Items  
-- [DB] Couple Isle of Dorn boxes  
+- MOP: Jade Crane Chick is available from an item as well.  
+- MOP: Seal of the Profane drops in Scarlet Halls.  
+- MOP: Kri'tak, Imperial Scepter of the Swarm drops from Stormstout Brewery.  
+- MOP: Vizier's Ruby Signet drops from Taran Zhu in Shado-Pan Monastery.  
+- Retail: 92488 hqt, Phase Diver's Cache now exist and some delve qi  
+- [DB] TBC - Zangarmarsh: Wicker Chest  
+- Fix some reported errors  
+- I forgot DF dungeons.  
+- Sorted all DF explorations.  
+- Finished sorting all TWW explorations.  
+    Due to API limitations, I moved all instance explorations to NYI for now.  
+- [DB] MFO: Added Warbound versions of Tokens so that tooltips display accurately  
+- [PAT] Updated source file format based on current standards.  
+- Legion Remix + Retail Legion Quests  
+    - Move 'Infinite Research' repeatables from Bazaar to Quests  
+    - Added quest items to a dozen quests  
+    - Switch raw item rewards to Ensembles for some achievements  
+- [DB] Cataclysm: Grim Batol is back to normal.  
+- Found more Dragonflight explorations.  
+- [Logic] Retail: Attempted to fix old TWW:S1 items from showing the wrong Catalyst outputs due to Blizzard changes in 11.2  
+- MOP: The Forgotten Lockbox in the Veiled Stair is now marked as a Bounty as it has not been lootable all expansion so far.  
+- Added report function to expand exploration report window as new areas are discovered.  
+- Flying through Dragonflight and finding everything possible.  
+- MOP: Sarkan made a new alt.  
+- Legion Remix: Content Revision  
+    - A few new Ensembles  
+    - Updated Zone Icons  
+    - Detach duplication of Argus related Achievements into separate header  
+- Wago: PTR 11.2.5 build 62940  
+- nyi  
+- Fix some reported errors  
+- sorted mountdb again  
+- correct timeline  
+- added new tourni toys  
+- [Config] Update build.  
+- [Timeline] Update 4.4.2 build.  
+- [Timeline] Update 5.5.1 date & 5.5.0 build.  
+- Format.  
+- Temporarily disable Exploration reports until they are mostly sorted using mapping by zone.  
+- [Locale]Update zhCN/chTW: Celestial Dungeons.  
+- MOP: Painful Thorned Ring can drop from Raigonn.  
+- MOP: Added Tier Tokens to Common Boss Drops and the Scimitar of Seven Stars to Scholomance.  
+- Updated Sheepie.  
 - Fix a few minor errors  
-- [DB] 91179/91180 appear to be the first two Pinnacle caches of the week  
-- Legion Remix: MOUNTS!!!  
-- [Parser] Split Categories.lua into several category files to fix a table constant overflow issue occuring on Retail PTR builds of the database.  
+- [DB] Couple more MFO Renown quests/Spoils of Nexus-King  
+- [Parser] InstanceHelper now supports 'BossObjects' to automatically assign object providers to Encounters (for situations where the Boss loot is contained in an Object instead of the Boss directly)  
+- [DB] MFO: Renown 5 quest  
+- Add new Cata Timewalking rewards, fix some reported errors, parse  
+- Flawless Crystal Scale is a HQT  
+- Removed temporary description fix.  
+- Mardum: Revision of the revision  
+    Ref. 415081b0ef868b88ac0e8ee7b49c5e1eb5e8d04d  
+- Mardum: Content revision  
+- [PAT] Updated source file format based on current standards.  
+- [DB] More phase-diving  
+    * Simplified Phase-diving Treasure descriptions using 'sharedDescription' and the implication of requiring Phase-diving due to Source structure  
+- [Logic] 'description' and 'sharedDescription' can now be independently combined within tooltips  
+- [Contrib] Identified another Opening spell to track for objects  
+- [DB] More phase diving orbs  
+- [Contrib] Added a Debugging-only method to attempt to identify object interact Spell casts which are not currently tracked  
+- [DB] Did some phase diving & other minor fixes/adjustments  
+- [Contrib] Fixed some potential issues with Object detection  
+    * Now detecting on UNIT\_SPELLCAST\_SENT instead of \_START so we can capture Instant spells which open objects as well  
+    * Added spell 6247 as an Opening spell detection  
+    * Using the game-provided "destination" of the Opening spell cast if available so that non-tooltip driven Opening events can also display the object name in the report dialog  
+- [DB] Added Dornogal info for 'The Eastern Kingdoms Cup Begins [H]'  
+- [DB] 'The Long Hunt' is locked for non-loyalists  

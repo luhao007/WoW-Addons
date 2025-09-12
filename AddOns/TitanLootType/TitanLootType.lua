@@ -34,14 +34,36 @@ TitanLootMethod[5] = {text = L["TITAN_LOOTTYPE_PERSONAL"]};
 local loot_spec_name = ""
 local current_spec = ""
 
--- ******************************** Functions *******************************
+-- ******************************** Deprecated Retail Functions *******************************
+-- Diag marked per line to make deprecation obvious
+
 local LootMethod = nil
 if C_PartyInfo and C_PartyInfo.GetLootMethod then
 	LootMethod = C_PartyInfo.GetLootMethod
 else
+---@diagnostic disable-next-line: undefined-global
 	LootMethod = GetLootMethod
 end
 
+-- As of 11.2.0
+local GetSpec = nil
+-- 1-4 ; nil or 5 (Initial) assume none
+if C_SpecializationInfo and C_SpecializationInfo.GetSpecialization then
+	GetSpec = C_SpecializationInfo.GetSpecialization
+else
+	GetSpec = GetSpecialization
+end
+
+-- As of 11.2.0
+local GetSpecInfo = nil
+-- New C routine has more params and returns more values!
+if C_SpecializationInfo and C_SpecializationInfo.GetSpecializationInfo then
+	GetSpecInfo = C_SpecializationInfo.GetSpecializationInfo
+else
+	GetSpecInfo = GetSpecializationInfo
+end
+
+-- ******************************** Functions *******************************
 --[[
 -- **************************************************************************
 -- NAME : TitanPanelLootTypeButton_OnLoad()
@@ -208,11 +230,11 @@ function TitanPanelLootTypeButton_GetButtonText(id)
 	-- Determine current spec
 	local spec = 0
 	local id, name, descr, icon, role, is_rec, is_allowed 
-	spec = GetSpecialization() -- 1-4 ; nil or 5 (Initial) assume none
+	spec = GetSpec()
 	if spec == nil or spec == 5 then 
 		name = (NONE or "None...")
 	else 
-		id, name, descr, icon, role, is_rec, is_allowed = GetSpecializationInfo(spec)
+		id, name, descr, icon, role, is_rec, is_allowed = GetSpecInfo(spec)
 	end
 	current_spec = name -- for tool tip
 
@@ -229,7 +251,7 @@ function TitanPanelLootTypeButton_GetButtonText(id)
 print("T Loot"
 .." "..tostring(spec).." "
 .." "..tostring(loot_spec).." "
---.." "..tostring(GetSpecializationInfo(spec)).." "
+--.." "..tostring(GetSpecInfo(spec)).." "
 .." "..tostring(name).." "
 )
 --]]

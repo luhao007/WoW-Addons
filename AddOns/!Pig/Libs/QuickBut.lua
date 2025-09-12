@@ -18,7 +18,7 @@ else
 end
 Data.UILayout[UIname]={"BOTTOM","BOTTOM",QuickPData[2],QuickPData[3]}
 local QuickBut=PIGFrame(UIParent,nil,{QuickPData[1]+14,QuickPData[1]},UIname)
-QuickBut:PIGSetMovable()
+--QuickBut:PIGSetMovable()
 QuickBut:Hide()
 QuickBut.ButList={}
 function QuickBut:UpdateWidth()

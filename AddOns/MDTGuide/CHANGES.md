@@ -1,0 +1,2 @@
+- Fix boss kill detection in enemy forces mode
+- Color dead enemies of current pull in enemy forces mode

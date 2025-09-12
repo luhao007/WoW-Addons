@@ -11,15 +11,13 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	local PIGSetFont=Create.PIGSetFont
 	local PIGDiyBut=Create.PIGDiyBut
 	local FasongYCqingqiu=Fun.FasongYCqingqiu
-	-- -----------------
+	---------------
+	local gsub = _G.string.gsub
 	local TalentData=Data.TalentData
 	local GetTianfuIcon_YC=TalentData.GetTianfuIcon_YC
 	local GnName,GnUI,GnIcon,FrameLevel = unpack(TardisInfo.uidata)
 	local InvF=_G[GnUI]
 	local RolesName=InvF.RolesName
-	local addPlayerListF=InvF.addPlayerListF
-	local addPlayerListBut_1=InvF.addPlayerListBut_1
-	local addPlayerListBut_2=InvF.addPlayerListBut_2
 	local UpdatehangEnter=InvF.UpdatehangEnter
 	----
 	FCTabF:HookScript("OnShow", function (self)
@@ -27,14 +25,14 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	end);
 
 	--创建车队
-	FCTabF.ADD.Category_T=PIGFontString(FCTabF.ADD,{"TOPLEFT",FCTabF.ADD,"TOPLEFT",20,-20},"选择要创建车队类型")
+	FCTabF.ADD.Category_T=PIGFontString(FCTabF.ADD,{"TOPLEFT",FCTabF.ADD,"TOPLEFT",20,-20},LFG_LIST_SELECT..CALENDAR_CREATE_EVENT..TYPE)
 	FCTabF.ADD.CategorieButList={}
 	for i=1,8 do
 		local ckbut = PIGCheckbutton(FCTabF.ADD)
 		FCTabF.ADD.CategorieButList[i]=ckbut
 		if i==1 then
 			ckbut:SetPoint("TOPLEFT",FCTabF.ADD,"TOPLEFT",20,-40)
-		elseif i==4 then
+		elseif i==5 then
 			ckbut:SetPoint("TOPLEFT",FCTabF.ADD.CategorieButList[1],"TOPLEFT",0,-30)
 		else
 			ckbut:SetPoint("LEFT",FCTabF.ADD.CategorieButList[i-1].Text,"RIGHT",8,0)
@@ -49,6 +47,14 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	function FCTabF.ADD:CategorieIsChecked(BOT)
 		for i=1,#self.CategorieButList do
 			self.CategorieButList[i]:SetChecked(BOT)
+		end
+	end
+	function FCTabF.ADD:CategorieSetChecked(CategorieID)
+		for i=1,#self.CategorieButList do
+			if self.CategorieButList[i]:GetID()==CategorieID then
+				self.CategorieButList[i]:SetChecked(true)
+				return
+			end
 		end
 	end
 	function FCTabF.ADD:CategorieIsEnabled(BOT)
@@ -77,7 +83,7 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 		local ActivityGroups = C_LFGList.GetAvailableActivityGroups(FCTabF.selectedCategory)
 		for i=1,#ActivityGroups,1 do
 			local groupID = ActivityGroups[i];
-			local name = C_LFGList.GetActivityGroupInfo(groupID);
+			local name = C_LFGList.GetActivityGroupInfo(groupID) or ""
 		    info.text, info.arg1, info.arg2 = name, groupID, "group";
 		    info.checked = groupID == FCTabF.selectedGroup
 			self:PIGDownMenu_AddButton(info)
@@ -192,51 +198,7 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	FCTabF.ADD.PrivateGroup=PIGFrame(FCTabF.ADD,{"TOPLEFT",FCTabF.ADD.CrossFactionGroup,"BOTTOMLEFT",0,-10},{FCTabF.ADD.Width,24})
 	FCTabF.ADD.PrivateGroup:Hide()
 	FCTabF.ADD.PrivateGroup.CheckButton = PIGCheckbutton(FCTabF.ADD.PrivateGroup,{"LEFT",FCTabF.ADD.PrivateGroup,"LEFT",0,0},{"仅对公会/好友可见",LFG_LIST_PRIVATE_TOOLTIP})
-
-	FCTabF.ADD.Role=PIGFrame(FCTabF.ADD,{"TOPLEFT",FCTabF.ADD.PrivateGroup,"BOTTOMLEFT",0,-18},{FCTabF.ADD.Width,42})
-	FCTabF.ADD.Role:Hide()
-	FCTabF.ADD.Role.biao=PIGFontString(FCTabF.ADD.Role,{"LEFT",FCTabF.ADD.Role,"LEFT",0,0},"职\n责")
-	function FCTabF.ADD.Role_checkButton(self)
-		local roleFf = self:GetParent()
-		if ( self:GetChecked() ) then
-			PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
-		else
-			PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
-		end
-		local leader, tank, healer, dps = GetLFGRoles();
-		local dialog = LFGListCreateRoleDialog
-		if dialog.exclusive then
-			local setDPS = false;
-			local setTank = false;
-			local setHealer = false;
-			if roleFf:GetID() == 1 then
-				setDPS = true;
-			elseif roleFf:GetID() == 2 then
-				setTank = true;
-			elseif roleFf:GetID() == 3 then
-				setHealer = true;
-			end
-			SetLFGRoles(leader, setTank, setHealer, setDPS);
-			local _, tank, healer, dps = GetLFGRoles();
-			local roleFff = roleFf:GetParent()
-			roleFff.T.checkButton:SetChecked(tank);
-			roleFff.H.checkButton:SetChecked(healer);
-			roleFff.D.checkButton:SetChecked(dps);
-			FCTabF.ADD:ListGroupButton_Update()
-		end
-	end
-	local function addRoleSetBut(index,roleID)
-		local RoleBut = CreateFrame("Button",nil,FCTabF.ADD.Role,"LFGRoleButtonWithBackgroundAndRewardTemplate",roleID);
-		RoleBut:SetPoint("LEFT",FCTabF.ADD.Role.biao,"RIGHT",4+(index-1)*50,0);
-		RoleBut:SetSize(40,40);
-		RoleBut.role=RolesName[index]
-		RoleBut:SetNormalAtlas(PIGGetIconForRole(RoleBut.role, false), TextureKitConstants.IgnoreAtlasSize);
-		RoleBut.checkButton:SetScript("OnClick", FCTabF.ADD.Role_checkButton)
-		return RoleBut
-	end
-	FCTabF.ADD.Role.T = addRoleSetBut(1,2)
-	FCTabF.ADD.Role.H = addRoleSetBut(2,3)
-	FCTabF.ADD.Role.D = addRoleSetBut(3,1)
+	FCTabF.ADD.Role = InvF.addRoleSetBut(FCTabF.ADD,40,{"TOPLEFT",FCTabF.ADD.PrivateGroup,"BOTTOMLEFT",20,-18},3)
 	FCTabF.ADD.Role:SetScript("OnShow", function(self)
 		local availTank, availHealer, availDPS = C_LFGList.GetAvailableRoles();
 		self.T:SetShown(availTank);
@@ -300,7 +262,10 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
     --
     FCTabF.ADD.ListGroupButton=PIGButton(FCTabF.ADD,{"BOTTOM",FCTabF.ADD,"BOTTOM",0,40},{100,30})
     FCTabF.ADD.ListGroupButton:Hide()
+    FCTabF.ADD.ListGroupButton.error=PIGFontString(FCTabF.ADD.ListGroupButton,{"BOTTOMLEFT",FCTabF.ADD.ListGroupButton,"TOPLEFT",0,4})
+	FCTabF.ADD.ListGroupButton.error:SetTextColor(1,0,0,1);
 	FCTabF.ADD.ListGroupButton:SetScript("OnClick", function (self)
+		FCTabF.EditMode=nil
 		local itemLevel = tonumber(FCTabF.ADD.ItemLevel.EditBox:GetText()) or 0;
 		local privateGroup = FCTabF.ADD.PrivateGroup.CheckButton:GetChecked();
 		local chosenRole;
@@ -338,8 +303,6 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 			C_LFGList.CreateListing(createData)
 		end
 	end);
-	FCTabF.ADD.ADDerror=PIGFontString(FCTabF.ADD,{"BOTTOMLEFT",FCTabF.ADD.ListGroupButton,"TOPLEFT",0,4})
-	FCTabF.ADD.ADDerror:SetTextColor(1,0,0,1);
 
 	FCTabF.ADD.RemoveBut=PIGButton(FCTabF.ADD,{"BOTTOM",FCTabF.ADD,"BOTTOM",280,40},{100,30},PET_DISMISS.."车队")
 	FCTabF.ADD.RemoveBut:Hide()
@@ -383,7 +346,7 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 				errorText = string.format(LFG_LIST_TOO_MANY_FOR_ACTIVITY, maxNumPlayers);
 			elseif (mythicPlusDisableActivity) then
 				errorText = LFG_AUTHENTICATOR_BUTTON_MYTHIC_PLUS_TOOLTIP;
-			elseif (LFGListEntryCreation_GetSanitizedName(self) == "") then
+			elseif LFGListEntryCreation_GetSanitizedName(self) == "" then
 				errorText = LFG_LIST_MUST_HAVE_NAME;
 			elseif self.ItemLevel.warningText then
 				errorText = self.ItemLevel.warningText
@@ -393,7 +356,7 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 				errorText = LFGListUtil_GetActiveQueueMessage(false);
 			end
 		end
-		self.ADDerror:SetText(errorText)
+		self.ListGroupButton.error:SetText(errorText)
 		self.ListGroupButton:SetEnabled(not errorText and not mythicPlusDisableActivity);
 	end
 
@@ -410,12 +373,7 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	FCTabF.DQ.Name_V:SetWidth(FCTabF.DQ.Width-8);
 	FCTabF.DQ.Name_V:SetJustifyH("LEFT")
 
-	FCTabF.DQ.ItemLevel_T=PIGFontString(FCTabF.DQ,{"TOPLEFT",FCTabF.DQ.Name_T,"BOTTOMLEFT",0,-34},LFG_LIST_ITEM_LEVEL_REQ)
-	FCTabF.DQ.ItemLevel_T:SetTextColor(0,0.98,0.6, 1);
-	FCTabF.DQ.ItemLevel_V=PIGFontString(FCTabF.DQ,{"LEFT",FCTabF.DQ.ItemLevel_T,"RIGHT",4,0},0)
-	FCTabF.DQ.ItemLevel_V:SetTextColor(0.9,0.9,0.9,1);
-
-	FCTabF.DQ.EntryName = PIGFrame(FCTabF.DQ,{"TOPLEFT",FCTabF.DQ.ItemLevel_T,"BOTTOMLEFT",0,-10})
+	FCTabF.DQ.EntryName = PIGFrame(FCTabF.DQ,{"TOPLEFT",FCTabF.DQ.Name_T,"BOTTOMLEFT",0,-24})
 	FCTabF.DQ.EntryName:SetSize(FCTabF.DQ.Width-24,54)
 	FCTabF.DQ.EntryName.T=PIGFontString(FCTabF.DQ.EntryName,{"TOPLEFT",FCTabF.DQ.EntryName,"TOPLEFT",0,0},"标题")
 	FCTabF.DQ.EntryName.T:SetTextColor(0,0.98,0.6, 1);
@@ -425,13 +383,10 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	FCTabF.DQ.EntryName.V:SetJustifyH("LEFT")
 	FCTabF.DQ.EntryName.V:SetNonSpaceWrap(true)
 
-	FCTabF.DQ.Description_T=PIGFontString(FCTabF.DQ,{"TOPLEFT",FCTabF.DQ.EntryName,"BOTTOMLEFT",0,-4},LFG_LIST_DETAILS)
+	FCTabF.DQ.Description_T=PIGFontString(FCTabF.DQ,{"TOPLEFT",FCTabF.DQ.EntryName,"BOTTOMLEFT",0,-10},LFG_LIST_DETAILS)
 	FCTabF.DQ.Description_T:SetTextColor(0,0.98,0.6, 1);
-	FCTabF.DQ.DescriptionScroll = CreateFrame("ScrollFrame",nil,FCTabF.DQ, "UIPanelScrollFrameTemplate"); 
-	FCTabF.DQ.DescriptionScroll:SetPoint("TOPLEFT",FCTabF.DQ.Description_T,"BOTTOMLEFT",0,-2);
-	FCTabF.DQ.DescriptionScroll:SetSize(FCTabF.DQ.Width-28,156)
-	FCTabF.DQ.DescriptionScroll.ScrollBar:SetScale(0.7);
-	FCTabF.DQ.Description = PIGFrame(FCTabF.DQ.DescriptionScroll,nil,{FCTabF.DQ.DescriptionScroll:GetWidth()+4,20})
+	FCTabF.DQ.DescriptionScroll = Create.PIGScrollFrame(FCTabF.DQ,{"TOPLEFT",FCTabF.DQ.Description_T,"BOTTOMLEFT",0,-2},{FCTabF.DQ.Width-28,156})
+	FCTabF.DQ.Description = PIGFrame(FCTabF.DQ.DescriptionScroll,nil,{FCTabF.DQ.DescriptionScroll:GetWidth()+2,20})
 	FCTabF.DQ.Description.V=PIGFontString(FCTabF.DQ.Description,{"TOPLEFT",FCTabF.DQ.Description,"TOPLEFT",0,0})
 	FCTabF.DQ.Description.V:SetTextColor(0.9,0.9,0.9,1);
 	FCTabF.DQ.Description.V:SetWidth(FCTabF.DQ.Description:GetWidth())
@@ -439,17 +394,23 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	FCTabF.DQ.Description.V:SetNonSpaceWrap(true)
 	FCTabF.DQ.DescriptionScroll:SetScrollChild(FCTabF.DQ.Description)
 
+	FCTabF.DQ.ItemLevel_T=PIGFontString(FCTabF.DQ,{"BOTTOMLEFT",FCTabF.DQ,"BOTTOMLEFT",10,100},LFG_LIST_ITEM_LEVEL_REQ)
+	FCTabF.DQ.ItemLevel_T:SetTextColor(0,0.98,0.6, 1);
+	FCTabF.DQ.ItemLevel_V=PIGFontString(FCTabF.DQ,{"LEFT",FCTabF.DQ.ItemLevel_T,"RIGHT",4,0},0)
+	FCTabF.DQ.ItemLevel_V:SetTextColor(0.9,0.9,0.9,1);
+
 	local _, localizedFaction = UnitFactionGroup("player");
 	FCTabF.DQ.CrossFactionGroup=PIGFrame(FCTabF.DQ,{"BOTTOMLEFT",FCTabF.DQ,"BOTTOMLEFT",10,72},{200,20})
 	FCTabF.DQ.CrossFactionGroup.CheckButton = PIGCheckbutton(FCTabF.DQ.CrossFactionGroup,{"LEFT",FCTabF.DQ.CrossFactionGroup,"LEFT",0,0},{LFG_LIST_CROSS_FACTION:format(localizedFaction),LFG_LIST_CROSS_FACTION_TOOLTIP:format(localizedFaction)},{16,16})
-	FCTabF.DQ.CrossFactionGroup.CheckButton:Hide()
+	FCTabF.DQ.CrossFactionGroup.CheckButton:Disable()
 	FCTabF.DQ.PrivateGroup=PIGFrame(FCTabF.DQ,{"BOTTOMLEFT",FCTabF.DQ,"BOTTOMLEFT",10,50},{200,20})
 	FCTabF.DQ.PrivateGroup.CheckButton = PIGCheckbutton(FCTabF.DQ.PrivateGroup,{"LEFT",FCTabF.DQ.PrivateGroup,"LEFT",0,0},{"仅对公会/好友可见",LFG_LIST_PRIVATE_TOOLTIP},{16,16})
 	FCTabF.DQ.PrivateGroup.CheckButton:Disable()
 
 	FCTabF.DQ.EditButton=PIGButton(FCTabF.DQ,{"BOTTOMLEFT",FCTabF.DQ,"BOTTOMLEFT",10,18},{80,22},EDIT.."车队")
 	FCTabF.DQ.EditButton:HookScript("OnClick", function (self)
-		FCTabF:UpdateEditMode("Edit")
+		FCTabF.EditMode=true
+		FCTabF:UpdateEditMode()
 	end);
 
 	FCTabF.DQ.RemoveEntryButton=PIGButton(FCTabF.DQ,{"LEFT",FCTabF.DQ.EditButton,"RIGHT",20,0},{80,22},PET_DISMISS.."车队")
@@ -462,13 +423,14 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	FCTabF.DQ.Apply=PIGFrame(FCTabF.DQ,{"TOPLEFT",FCTabF.DQ,"TOPLEFT",FCTabF.DQ.Width,-34})
 	FCTabF.DQ.Apply:SetPoint("BOTTOMRIGHT",FCTabF.DQ,"BOTTOMRIGHT",-16,2);
 	FCTabF.DQ.Apply:PIGSetBackdrop(0)
-	FCTabF.DQ.Apply.LFM_TITLE=PIGFontString(FCTabF.DQ.Apply,{"BOTTOMLEFT",FCTabF.DQ.Apply,"TOPLEFT",10,6},"正在"..LFM_TITLE)
+	FCTabF.DQ.Apply.LFM_TITLE=PIGFontString(FCTabF.DQ.Apply,{"BOTTOMLEFT",FCTabF.DQ.Apply,"TOPLEFT",10,6},LOOKING..PLAYERS_IN_GROUP)
 	FCTabF.DQ.Apply.LFM_TITLE:SetTextColor(0,1,0,1);
 	FCTabF.DQ.Apply.RefreshButton = PIGButton(FCTabF.DQ.Apply,{"BOTTOMRIGHT",FCTabF.DQ.Apply,"TOPRIGHT",-180,4},{60,22},LFG_LIST_REFRESH)
 	FCTabF.DQ.Apply.RefreshButton:HookScript("OnClick", function (self)
 		C_LFGList.RefreshApplicants();
 	end);
 	FCTabF.DQ.Apply.AutoAcceptButton = PIGCheckbutton(FCTabF.DQ.Apply,{"BOTTOMRIGHT",FCTabF.DQ.Apply,"TOPRIGHT",-80,6},{LFG_LIST_AUTO_ACCEPT},{16,16})
+	FCTabF.DQ.Apply.AutoAcceptButton:Disable()
 	FCTabF.DQ.Apply.AutoAcceptButton:HookScript("OnClick", function (self)
 		if ( self:GetChecked() ) then
 			PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
@@ -477,123 +439,33 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 		end
 		LFGListUtil_SetAutoAccept(self:GetChecked());
 	end);
-	FCTabF.DQ.Apply.AutoAcceptButton:Disable()
-
-	-- FCTabF.DQ.Apply.UnempoweredCover=PIGFrame(FCTabF.DQ.Apply,{"TOPLEFT",FCTabF.DQ.Apply,"TOPLEFT",0,0})
-	-- FCTabF.DQ.Apply.UnempoweredCover:SetPoint("BOTTOMRIGHT",FCTabF.DQ.Apply,"BOTTOMRIGHT",0,0);
-	-- FCTabF.DQ.Apply.UnempoweredCover:PIGSetBackdrop(1)
-	-- FCTabF.DQ.Apply.UnempoweredCover:Hide()
-	-- FCTabF.DQ.Apply.UnempoweredCover.err = PIGFontString(FCTabF.DQ.Apply.UnempoweredCover,{"CENTER", FCTabF.DQ.Apply.UnempoweredCover, "CENTER",0, 40});
-	-- FCTabF.DQ.Apply.UnempoweredCover.err:SetText(LFG_LIST_GROUP_FORMING);
-	--五人本人员显示模式
-	FCTabF.DQ.Apply.RoleEnumerate=addPlayerListF(FCTabF.DQ.Apply,{"LEFT", FCTabF.DQ.Apply.LFM_TITLE, "RIGHT", 4, 1})
-	FCTabF.DQ.Apply.RoleEnumerate:HookScript("OnEnter", function (self)
-		EnterF:Update_PlayersList(self,true)
-	end);
-	FCTabF.DQ.Apply.RoleEnumerate:HookScript("OnLeave", function (self)
-		EnterF:Hide()
-	end);
-	FCTabF.DQ.Apply.RoleEnumerate.T,FCTabF.DQ.Apply.RoleEnumerate.Tjiao=addPlayerListBut_1(FCTabF.DQ.Apply.RoleEnumerate,1,1)
-	FCTabF.DQ.Apply.RoleEnumerate.H,FCTabF.DQ.Apply.RoleEnumerate.Hjiao=addPlayerListBut_1(FCTabF.DQ.Apply.RoleEnumerate,2,2)
-	FCTabF.DQ.Apply.RoleEnumerate.D,FCTabF.DQ.Apply.RoleEnumerate.Djiao=addPlayerListBut_1(FCTabF.DQ.Apply.RoleEnumerate,3,3)
-	FCTabF.DQ.Apply.RoleEnumerate.D1,FCTabF.DQ.Apply.RoleEnumerate.D1jiao=addPlayerListBut_1(FCTabF.DQ.Apply.RoleEnumerate,4,3)
-	FCTabF.DQ.Apply.RoleEnumerate.D2,FCTabF.DQ.Apply.RoleEnumerate.D2jiao=addPlayerListBut_1(FCTabF.DQ.Apply.RoleEnumerate,5,3)
-	function FCTabF.DQ.Apply.RoleEnumerate:RestoreDefault(Alpha)
+	FCTabF.DQ.Apply.UnempoweredCover=PIGFrame(FCTabF.DQ.Apply,{"TOPLEFT",FCTabF.DQ.Apply,"TOPLEFT",0,0})
+	FCTabF.DQ.Apply.UnempoweredCover:SetPoint("BOTTOMRIGHT",FCTabF.DQ.Apply,"BOTTOMRIGHT",0,0);
+	FCTabF.DQ.Apply.UnempoweredCover:PIGSetBackdrop(1)
+	FCTabF.DQ.Apply.UnempoweredCover:SetFrameLevel(FCTabF.DQ.Apply:GetFrameLevel()+5)
+	FCTabF.DQ.Apply.UnempoweredCover.err = PIGFontString(FCTabF.DQ.Apply.UnempoweredCover,{"CENTER", FCTabF.DQ.Apply.UnempoweredCover, "CENTER",0, 40});
+	FCTabF.DQ.Apply.UnempoweredCover.err:SetText(LFG_LIST_GROUP_FORMING);
+	function FCTabF.DQ.Apply.UnempoweredCover:Update_Show(errtxt)
+		self.err:SetText(errtxt)
 		self:Show()
-		self.T:SetTexCoord(0,1,0,1);
-		self.H:SetTexCoord(0,1,0,1);
-		self.D:SetTexCoord(0,1,0,1);
-		self.D1:SetTexCoord(0,1,0,1);
-		self.D2:SetTexCoord(0,1,0,1);
-		self.T:SetAtlas("bags-roundhighlight");
-		self.H:SetAtlas("bags-roundhighlight");
-		self.D:SetAtlas("bags-roundhighlight");
-		self.D1:SetAtlas("bags-roundhighlight");
-		self.D2:SetAtlas("bags-roundhighlight");
-		self.T:SetAlpha(Alpha);
-		self.H:SetAlpha(Alpha);
-		self.D:SetAlpha(Alpha);
-		self.D1:SetAlpha(Alpha);
-		self.D2:SetAlpha(Alpha);	
 	end
-	function FCTabF.DQ.Apply.RoleEnumerate:Update_Show(zhizex,Coord)
-		self[zhizex]:SetAlpha(1);
-		self[zhizex]:SetTexture("Interface/TargetingFrame/UI-Classes-Circles");
-		self[zhizex]:SetTexCoord(unpack(CLASS_ICON_TCOORDS[Coord]));
-	end
-	--其他人员显示模式
-	FCTabF.DQ.Apply.RoleCount=addPlayerListF(FCTabF.DQ.Apply,{"LEFT", FCTabF.DQ.Apply.LFM_TITLE, "RIGHT", 4, 1})
-	FCTabF.DQ.Apply.RoleCount:HookScript("OnEnter", function (self)
-		EnterF:Update_PlayersList(self,true)
-	end);
-	FCTabF.DQ.Apply.RoleCount:HookScript("OnLeave", function (self)
-		EnterF:Hide()
-	end);
-	FCTabF.DQ.Apply.RoleCount.T,FCTabF.DQ.Apply.RoleCount.TNum=addPlayerListBut_2(FCTabF.DQ.Apply.RoleCount,1)	
-	FCTabF.DQ.Apply.RoleCount.H,FCTabF.DQ.Apply.RoleCount.HNum=addPlayerListBut_2(FCTabF.DQ.Apply.RoleCount,2)
-	FCTabF.DQ.Apply.RoleCount.D,FCTabF.DQ.Apply.RoleCount.DNum=addPlayerListBut_2(FCTabF.DQ.Apply.RoleCount,3)
-	FCTabF.DQ.DQplayers = {}
-	function FCTabF.DQ:Update_ApplyPlayers()
+	--成员显示模式
+	InvF.addPlayerShowMode(FCTabF.DQ,{"LEFT", FCTabF.DQ.Apply.LFM_TITLE, "RIGHT", 4, 1},true)
+	function FCTabF.DQ:Update_PlayerShowMode()
 		if not self:IsVisible() then return end
 		C_Timer.After(0.4,function()
-			if LFGListUtil_IsEntryEmpowered() then
-				self.RemoveEntryButton:Show();
-				self.EditButton:Show();
-				self.Apply.RefreshButton:Enable();
-				self.Apply.Scroll.errt:SetText(LFG_LIST_NO_APPLICANTS)
-				
-			else
-				self.RemoveEntryButton:Hide();
-				self.EditButton:Hide();
-				self.Apply.RefreshButton:Disable();
-				self.Apply.Scroll.errt:SetText(LFG_LIST_GROUP_FORMING)
-			end
-			if ( IsRestrictedAccount() ) then
-				self.EditButton:Disable();
-			else
-				self.EditButton:Enable();
-			end
-			local empowered = LFGListUtil_IsEntryEmpowered();
-			self.Apply.RoleEnumerate:Hide()
-			self.Apply.RoleCount:Hide()
+			self.EditButton:SetEnabled(not IsRestrictedAccount())
+			self:ShowMode_Restore()
 			if not C_LFGList.HasActiveEntryInfo() then return end
 			local activeEntryInfo = C_LFGList.GetActiveEntryInfo();
 			local activityID=activeEntryInfo.activityIDs[1]
 			local activityInfo = C_LFGList.GetActivityInfoTable(activityID);
-			if activityInfo.displayType == Enum.LFGListDisplayType.RoleEnumerate then
-				self.Apply.RoleEnumerate:RestoreDefault(0.4)
-				wipe(self.DQplayers)
-				for ix=1,#RolesName do
-					self.DQplayers[RolesName[ix]]={}
-				end
-				for p=1, MAX_PARTY_MEMBERS do
-					local name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML, combatRole = GetRaidRosterInfo(p);
-					if name and combatRole then
-						table.insert(self.DQplayers[combatRole],fileName)
-					end
-				end
-				if #self.DQplayers[RolesName[1]]>0 then
-					self.Apply.RoleEnumerate:Update_Show("T",self.DQplayers[RolesName[1]][1])
-				end
-				if #self.DQplayers[RolesName[2]]>0 then
-					self.Apply.RoleEnumerate:Update_Show("H",self.DQplayers[RolesName[2]][1])
-				end
-				if #self.DQplayers[RolesName[3]]>0 then
-					self.Apply.RoleEnumerate:Update_Show("D",self.DQplayers[RolesName[3]][1])
-					if self.DQplayers[RolesName[3]][2] then
-						self.Apply.RoleEnumerate:Update_Show("D1",self.DQplayers[RolesName[3]][2])
-					end
-					if self.DQplayers[RolesName[3]][3] then
-						self.Apply.RoleEnumerate:Update_Show("D2",self.DQplayers[RolesName[3]][3])
-					end
-				end
+			if activityInfo.displayType==Enum.LFGListDisplayType.RoleEnumerate then
+				self.RoleEnumerate:Restore_But(0.2)
+				self.RoleEnumerate:Update_But("ADD",false)
 			else
-				local displayData = GetGroupMemberCountsForDisplay();
-				self.Apply.RoleCount:Show()		
-				self.Apply.RoleCount.TNum:SetText(displayData.TANK);
-				self.Apply.RoleCount.HNum:SetText(displayData.HEALER);
-				self.Apply.RoleCount.DNum:SetText(displayData.DAMAGER);
-				--self.Apply.RoleCount.NONum:SetText(displayData.NOROLE)
+				self.RoleCount:Restore_But()
+				self.RoleCount:Update_But(GetGroupMemberCountsForDisplay(),false)
 			end
 		end)
 	end
@@ -609,7 +481,6 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	FCTabF.DQ.Apply.Scroll = CreateFrame("Frame", nil, FCTabF.DQ.Apply)
 	FCTabF.DQ.Apply.Scroll:SetPoint("TOPLEFT",FCTabF.DQ.Apply,"TOPLEFT",0,-24);
 	FCTabF.DQ.Apply.Scroll:SetPoint("BOTTOMRIGHT",FCTabF.DQ.Apply,"BOTTOMRIGHT",0,0);
-	FCTabF.DQ.Apply.Scroll.errt=PIGFontString(FCTabF.DQ.Apply.Scroll,{"CENTER",FCTabF.DQ.Apply.Scroll,"CENTER",0,40})
 	FCTabF.DQ.Apply.Scroll.ScrollBox = CreateFrame("Frame", nil, FCTabF.DQ.Apply.Scroll, "WowScrollBoxList")
 	FCTabF.DQ.Apply.Scroll.ScrollBar = CreateFrame("EventFrame", nil, FCTabF.DQ.Apply.Scroll, "MinimalScrollBar")
 	FCTabF.DQ.Apply.Scroll.ScrollBar:SetPoint("TOPLEFT", FCTabF.DQ.Apply.Scroll.ScrollBox, "TOPRIGHT",4,0)
@@ -628,13 +499,11 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 		end);
     end
 	local function CZ_tianfuShow_1(txt,tex,tisp)
-		txt:SetTextColor(0.6,0.6,0.6);
-		txt:SetText(" - -");
-		tex:SetDesaturated(true)
+		txt:SetText(" - - ");
 		tex:SetTexture("interface/icons/ability_marksmanship.blp");
 		tisp=nil
 	end
-	local function CZ_tianfuShow(uix)
+	local function Clear_Showtianfu(uix)
 		uix.getCount=0
 		CZ_tianfuShow_1(uix.zhu,uix.zhutex,uix.tftisp1)
 		CZ_tianfuShow_1(uix.fu,uix.futex,uix.tftisp2)
@@ -645,45 +514,43 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 		if class and nameX then
 			local tfdd_1, tfdd_2=GetTianfuIcon_YC(class,nameX)
 			if tfdd_1[1]=="--" and uix.getCount<5 then
-				uix.getCount=uix.getCount+1
 				C_Timer.After(0.5,function()
+					uix.getCount=uix.getCount+1
 					Update_Showtianfu(uix,class,nameX)
 				end)
 			else
 				if tfdd_1[1]~="--" then
 					uix.tftisp1=tfdd_1
-					uix.zhu:SetTextColor(1,1,0);
-					uix.zhutex:SetDesaturated(false)		
 					uix.zhu:SetText(tfdd_1[1]);
 					uix.zhutex:SetTexture(tfdd_1[2]);
 				end
 				if tfdd_2[1]~="--" then
 					uix.tftisp2=tfdd_2
-					uix.fu:SetTextColor(1,1,0);
-					uix.futex:SetDesaturated(false)
 					uix.fu:SetText(tfdd_2[1]);
 					uix.futex:SetTexture(tfdd_2[2]);
 				end
 			end
 		end
 	end
-    local function UpdateApplicant_1(member, appID, memberIdx, applicationStatus)	
+    local function UpdateApplicant_1(member, appID, memberIdx, applicationStatus)
 		local name, class, localizedClass, level, itemLevel, honorLevel, tank, healer, damage, assignedRole, relationship, dungeonScore, pvpItemLevel = C_LFGList.GetApplicantMemberInfo(appID, memberIdx);
-		local rPerc, gPerc, bPerc, argbHex = GetClassColor(class);
 		member.allname=name
-		member.Role:SetAtlas(PIGGetIconForRole(assignedRole, false));
-		member.Class:SetTexCoord(unpack(CLASS_ICON_TCOORDS[class]));
-		member.nameF.name:SetText(name.."("..level..")");
-		member.iLvl:SetText(floor(itemLevel));
 		member.tianfuF.name=name
 		if applicationStatus=="applied" or applicationStatus== "invited" then
 			FasongYCqingqiu(name,2)
 			member:Updata_IsEnabled(false)
+			local rPerc, gPerc, bPerc, argbHex = GetClassColor(class);
 			member.nameF.name:SetTextColor(rPerc, gPerc, bPerc);
-			CZ_tianfuShow(member.tianfuF)
-			Update_Showtianfu(member.tianfuF,class,name)
+		else
+			member:Updata_IsEnabled(true)
 		end
+		member.Role:SetAtlas(InvF.lfgroleNameIcon[assignedRole]);
+		member.Class:SetTexCoord(unpack(CLASS_ICON_TCOORDS[class]));
+		member.nameF.name:SetText(name.."("..level..")");
+		member.iLvl:SetText(floor(itemLevel));
+		Clear_Showtianfu(member.tianfuF)
 		member:Show();
+		Update_Showtianfu(member.tianfuF,class,name)
 	end
 	local function add_MemberList(MemberBut)
 		local frame=MemberBut:GetParent()
@@ -700,13 +567,13 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 		-- PF.Faction:SetPoint("LEFT", PF, "LEFT", 0,0);
 		-- PF.Faction:SetSize(Apphang_Height-2,Apphang_Height-2);
    		PF.Role = PF:CreateTexture();
-		PF.Role:SetPoint("LEFT", PF, "LEFT", 1,0);
+		PF.Role:SetPoint("LEFT", PF, "LEFT", 0,0);
 		PF.Role:SetSize(Apphang_Height-2,Apphang_Height-2);
 		PF.Role:SetAlpha(0.9);
 		UIEnterLeave(PF.Role,frame.highlight)
 		PF.Class = PF:CreateTexture();
-		PF.Class:SetTexture("interface/glues/charactercreate/ui-charactercreate-classes.blp")
-		PF.Class:SetPoint("LEFT", PF.Role, "RIGHT", 1,0);
+		PF.Class:SetTexture("Interface/TargetingFrame/UI-Classes-Circles")
+		PF.Class:SetPoint("LEFT", PF.Role, "RIGHT", 0,0);
 		PF.Class:SetSize(Apphang_Height-4,Apphang_Height-4);
 		PF.Class:SetAlpha(0.9);
 		UIEnterLeave(PF.Class,frame.highlight)
@@ -766,6 +633,7 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 			PF.Role:SetDesaturated(Effective)
 			PF.Class:SetDesaturated(Effective)
 			PF.item:SetEnabled(not Effective)
+			PF.item.icon:SetDesaturated(Effective)
 			PF.tianfuF.zhutex:SetDesaturated(Effective)
 			PF.tianfuF.futex:SetDesaturated(Effective)
 			if Effective then
@@ -774,8 +642,8 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 				PF.tianfuF.fu:SetTextColor(0.5,0.5,0.5,1);
 				PF.iLvl:SetTextColor(0.5,0.5,0.5,1);
 			else
-				PF.tianfuF.zhu:SetTextColor(1,1,1,1);
-				PF.tianfuF.fu:SetTextColor(1,1,1,1);
+				PF.tianfuF.zhu:SetTextColor(1,1,0,1);
+				PF.tianfuF.fu:SetTextColor(1,1,0,1);
 				PF.iLvl:SetTextColor(0,0.98,0.6, 1);
 			end
 		end
@@ -807,7 +675,6 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 				if not self.ListBut[iG] then
 					self.ListBut[iG]=add_MemberList(self,iG)
 				end
-				self.ListBut[iG]:Updata_IsEnabled(true)
 				UpdateApplicant_1(self.ListBut[iG], AppID, iG, applicantInfo.applicationStatus);
 			end
 		end
@@ -930,18 +797,32 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	end
 	function FCTabF.DQ.Apply.Scroll:Update_list()
 		if not self:IsVisible() then return end
-		FCTabF.DQ.Apply.Scroll.errt:Show()
 		local view = self.ScrollBox:GetView()
 		view:SetDataProvider(CreateDataProvider())
 		local DataProvider = view:GetDataProvider();
 		local applicants = C_LFGList.GetApplicants();
 		if #applicants>0 then
-			FCTabF.DQ.Apply.Scroll.errt:Hide()
+			FCTabF.DQ.Apply.UnempoweredCover:Hide()
 			LFGListUtil_SortApplicants(applicants);
 			for index = 1, #applicants do
 				DataProvider:Insert({index=index, AppID=applicants[index]});
 			end
 		end
+	end
+	function FCTabF.DQ.Apply:Update_Applylist()
+		C_Timer.After(0.4,function()
+			local Empowered=LFGListUtil_IsEntryEmpowered()
+			FCTabF.DQ.RemoveEntryButton:SetShown(Empowered);
+			FCTabF.DQ.EditButton:SetShown(Empowered);
+			FCTabF.DQ.Apply.RefreshButton:SetEnabled(Empowered);
+			if Empowered then
+				FCTabF.DQ.Apply.UnempoweredCover:Update_Show(LFG_LIST_NO_APPLICANTS)
+			else
+				FCTabF.DQ.Apply.UnempoweredCover:Update_Show(LFG_LIST_GROUP_FORMING)
+			end
+			if not Empowered then return end
+			self.Scroll:Update_list()
+		end)
 	end
 	----
 	function FCTabF:Update_ShownADD(bot,editMode)
@@ -959,10 +840,10 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	end
 	function FCTabF:ClearActivityADD()
 		--C_LFGList.ClearCreationTextFields();
+		self.editMode = nil
 		self.selectedCategory = nil;
 		self.selectedGroup = nil;
 		self.selectedActivity = nil;
-		self.ADD.editMode = nil
 		self.ADD:CategorieIsChecked(false)
 		self.ADD:CategorieIsEnabled(true)
 		self.ADD.ItemLevel.CheckButton:SetChecked(false);
@@ -971,13 +852,13 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 		self.ADD.ItemLevel.EditBox:SetText("");
 		self.ADD.GroupDropDown:PIGDownMenu_SetText("")
 		self.ADD.ActivityDropDown:PIGDownMenu_SetText("")
-		self.ADD.ADDerror:SetText("");
+		self.ADD.ListGroupButton.error:SetText("");
 		self:Update_ShownADD(false)
 	end
-	function FCTabF:UpdateActivityADD(editMode)
+	function FCTabF:UpdateActivityADD()
 		self.ADD:Show()
-		if editMode and C_LFGList.HasActiveEntryInfo() then
-			self:Update_ShownADD(true,editMode)
+		if self.EditMode and C_LFGList.HasActiveEntryInfo() then
+			self:Update_ShownADD(true,self.EditMode)
 			self.ADD:CategorieIsEnabled(false)
 			self.ADD.GroupDropDown:Disable()
 			self.ADD.ActivityDropDown:Disable()
@@ -986,13 +867,14 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 			self.selectedActivity=activityID
 			local activityInfo = C_LFGList.GetActivityInfoTable(activityID);	
 			self.selectedCategory=activityInfo.categoryID
+			FCTabF.ADD:CategorieSetChecked(self.selectedCategory)
 			if self.selectedCategory==120 then
 				self.ADD.GroupDropDown:Hide()
 				self.ADD.ActivityDropDown:Hide()
 			else
 				self.ADD.ActivityDropDown:PIGDownMenu_SetText(activityInfo.fullName)
-				local Groupname = C_LFGList.GetActivityGroupInfo(activityInfo.groupFinderActivityGroupID)
-				self.ADD.GroupDropDown:PIGDownMenu_SetText(Groupname)
+				local name = C_LFGList.GetActivityGroupInfo(activityInfo.groupFinderActivityGroupID) or ""
+				self.ADD.GroupDropDown:PIGDownMenu_SetText(name)
 			end
 			self.ADD.ItemLevel.EditBox:SetText(activeEntryInfo.requiredItemLevel)
 			self.ADD.PrivateGroup.CheckButton:SetChecked(activeEntryInfo.privateGroup);
@@ -1010,7 +892,7 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 				local categoryInfo = C_LFGList.GetLfgCategoryInfo(self.selectedCategory);
 				local activityGroups = C_LFGList.GetAvailableActivityGroups(self.selectedCategory)
 				self.selectedGroup=self.selectedGroup or activityGroups[1] or 0
-				local name = C_LFGList.GetActivityGroupInfo(self.selectedGroup)
+				local name = C_LFGList.GetActivityGroupInfo(self.selectedGroup) or ""
 				self.ADD.GroupDropDown:PIGDownMenu_SetText(name)
 				local activities = C_LFGList.GetAvailableActivities(self.selectedCategory,self.selectedGroup)
 				self.selectedActivity=self.selectedActivity or activities[1] or 0
@@ -1056,25 +938,20 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	end
 	function FCTabF:UpdateActivityDQ()
 		self.DQ:Show()
-		if C_LFGList.HasActiveEntryInfo() then
-			local activeEntryInfo = C_LFGList.GetActiveEntryInfo();
-			local activityID=activeEntryInfo.activityIDs[1]
-			local activityInfo = C_LFGList.GetActivityInfoTable(activityID);	
-			local categoryInfo= C_LFGList.GetLfgCategoryInfo(activityInfo.categoryID)
-			local huodongname=FCTabF.tabListName[categoryInfo.name] or categoryInfo.name
-			self.DQ.Category_V:SetText(huodongname);
-			self.DQ.Name_V:SetText(activityInfo.fullName);
-			self.DQ.ItemLevel_V:SetText(activeEntryInfo.requiredItemLevel);
-			self.DQ.EntryName.V:SetText(activeEntryInfo.name);
-			self.DQ.Description.V:SetText(activeEntryInfo.comment);
-			local shouldDisableCrossFactionToggle = (categoryInfo.allowCrossFaction) and not (activityInfo.allowCrossFaction);
-			self.DQ.CrossFactionGroup.CheckButton:SetChecked(shouldDisableCrossFactionToggle)
-			self.DQ.PrivateGroup.CheckButton:SetChecked(activeEntryInfo.privateGroup);
-			self.DQ:Update_ApplyPlayers()
-			self.DQ.Apply.Scroll:Update_list()
-		else
-			self:UpdateActivityADD()
-		end
+		local activeEntryInfo = C_LFGList.GetActiveEntryInfo();
+		local activityID=activeEntryInfo.activityIDs[1]
+		local activityInfo = C_LFGList.GetActivityInfoTable(activityID);	
+		local categoryInfo= C_LFGList.GetLfgCategoryInfo(activityInfo.categoryID)
+		local huodongname=FCTabF.tabListName[categoryInfo.name] or categoryInfo.name
+		self.DQ.Category_V:SetText(huodongname);
+		self.DQ.Name_V:SetText(activityInfo.fullName);
+		self.DQ.ItemLevel_V:SetText(activeEntryInfo.requiredItemLevel);
+		self.DQ.EntryName.V:SetText(activeEntryInfo.name);
+		self.DQ.Description.V:SetText(activeEntryInfo.comment);
+		local shouldDisableCrossFactionToggle = (categoryInfo.allowCrossFaction) and not (activityInfo.allowCrossFaction);
+		self.DQ.CrossFactionGroup.CheckButton:SetChecked(shouldDisableCrossFactionToggle)
+		self.DQ.PrivateGroup.CheckButton:SetChecked(activeEntryInfo.privateGroup);
+		self.DQ:Update_PlayerShowMode()
 	end
 	function FCTabF:UpdateEditMode(Mode)
 		if not self:IsVisible() then return end
@@ -1083,29 +960,21 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 		end
 		self.ADD:Hide()
 		self.DQ:Hide()
-		if Mode=="New" then
+		if C_LFGList.HasActiveEntryInfo() and not self.EditMode then
 			self:UpdateActivityDQ()
-		elseif Mode=="Edit" then
-			self:UpdateActivityADD(true)
-		elseif Mode=="Rem" then
-			self:UpdateActivityADD()
 		else
-			if C_LFGList.HasActiveEntryInfo() then
-				self:UpdateActivityDQ()
-			else
-				self:UpdateActivityADD()
-			end
+			self:UpdateActivityADD()
 		end
 	end
 	----------
-	FCTabF:RegisterEvent("LFG_LIST_APPLICANT_UPDATED");--來自申请人狀態改變
-	FCTabF:RegisterEvent("LFG_LIST_APPLICANT_LIST_UPDATED");--列表刷新
-	FCTabF:RegisterEvent("LFG_LIST_ACTIVE_ENTRY_UPDATE");--自己创建活动变动时
-	FCTabF:RegisterEvent("LFG_LIST_AVAILABILITY_UPDATE");--列表可用性更新
+	FCTabF:RegisterEvent("LFG_LIST_APPLICANT_UPDATED");
+	FCTabF:RegisterEvent("LFG_LIST_APPLICANT_LIST_UPDATED");
+	FCTabF:RegisterEvent("LFG_LIST_ACTIVE_ENTRY_UPDATE");
+	FCTabF:RegisterEvent("LFG_LIST_AVAILABILITY_UPDATE");
 	FCTabF:RegisterEvent("GROUP_ROSTER_UPDATE");
 	FCTabF:HookScript("OnEvent", function(self,event,arg1)
 		--print(event,arg1)
-		if event=="LFG_LIST_APPLICANT_UPDATED" then
+		if event=="LFG_LIST_APPLICANT_UPDATED" then--來自申请人狀態改變
 			if ( not LFGListUtil_IsEntryEmpowered() ) then--你不是队长则清除
 				C_LFGList.RemoveApplicant(arg1);
 			else
@@ -1116,20 +985,15 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 					self.DQ.Apply.Scroll:Update_hang(frame, arg1)
 				end
 			end
-		elseif event=="LFG_LIST_AVAILABILITY_UPDATE" then
-
-		elseif event=="LFG_LIST_APPLICANT_LIST_UPDATED" then
-			self.DQ.Apply.Scroll:Update_list()
-		elseif event=="GROUP_ROSTER_UPDATE" then
-			self.DQ:Update_ApplyPlayers()
-		elseif event=="LFG_LIST_ACTIVE_ENTRY_UPDATE" then--Mode值(true新建/false编辑/nil取消)
-			if arg1==true then
-				self:UpdateEditMode("New")
-			elseif arg1==false then
-				self:UpdateEditMode("New")
-			elseif arg1==nil then
-				self:UpdateEditMode()
-			end
+		elseif event=="LFG_LIST_AVAILABILITY_UPDATE" then--列表可用性更新/职责变化
+			self.DQ:Update_PlayerShowMode()
+			self.DQ.Apply:Update_Applylist()
+		elseif event=="GROUP_ROSTER_UPDATE" then--职责变化
+			self.DQ:Update_PlayerShowMode()
+		elseif event=="LFG_LIST_APPLICANT_LIST_UPDATED" then--申请人列表刷新
+			self.DQ.Apply:Update_Applylist()
+		elseif event=="LFG_LIST_ACTIVE_ENTRY_UPDATE" then--自己创建活动变动时Mode值(true新建/false编辑/nil取消)
+			self:UpdateEditMode(arg1)
 		end
 	end);
 end

@@ -35,7 +35,7 @@ function Create.Update_SaveTempF(self,extEdit)
 	self.SaveBut:Disable()
 	self.error:SetText("")
 	if extEdit and extEdit=="" then
-		self.error:SetText("喊话内容不能为空")
+		self.error:SetText("内容不能为空")
 		return
 	end
 	local tpname = self.E:GetText():gsub(" ", "")

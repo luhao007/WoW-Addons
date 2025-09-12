@@ -10,6 +10,7 @@
 ## IconTexture: Interface\lfgframe\lfgicon-quest
 
 ## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
+## Group: AtlasQuest
 
 ## RequiredDeps: Atlas
 ## OptionalDeps: DevTool

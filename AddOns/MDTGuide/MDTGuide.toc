@@ -1,0 +1,18 @@
+## Interface: 110200
+## Version: 1.41
+
+## Title: MDTGuide
+## Notes: Guide mode for Mythic Dungeon Tools.
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF大秘境工具路线图|r |cFFFFE00AMDTGuide|r
+## Notes-zhCN: 配合MDT显示一个微缩地图
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
+
+## OptionalDeps: MythicDungeonTools
+
+## SavedVariables: MDTGuideDB, MDTGuideActive, MDTGuideOptions
+
+Data.lua
+Util.lua
+Route.lua
+Main.lua

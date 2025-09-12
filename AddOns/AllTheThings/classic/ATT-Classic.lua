@@ -1066,17 +1066,6 @@ local function GetSearchResults(method, paramA, paramB, ...)
 			break;
 		end
 	end
-	local d,description = {};
-	for i,j in ipairs(group) do
-		if j.description and not d[j.description] then
-			d[j.description] = true;
-			if description then
-				description = description .. "\n\n" .. j.description;
-			else
-				description = j.description;
-			end
-		end
-	end
 
 	-- Create a list of sources
 	if isTopLevelSearch then
@@ -1133,9 +1122,6 @@ local function GetSearchResults(method, paramA, paramB, ...)
 		group.e = mostAccessibleSource.e;
 		group.u = mostAccessibleSource.u;
 		group.f = mostAccessibleSource.f;
-	end
-	if description then
-		group.description = description;
 	end
 
 	-- Resolve Cost

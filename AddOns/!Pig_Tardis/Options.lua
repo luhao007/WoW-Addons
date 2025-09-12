@@ -91,13 +91,11 @@ function TardisInfo.ADD_Options()
 	fuFrame.SetListF:SetPoint("BOTTOMRIGHT",fuFrame,"BOTTOMRIGHT",0,0);
 	--
 	local shelistx = {	
+		{"Chedui",L["TARDIS_CHEDUI"]},
 		{"Farm",L["TARDIS_FARM"]},
 		{"Plane",L["TARDIS_PLANE"]},
 		{"Yell",L["TARDIS_YELL"]},
 	}
-	if PIG_MaxTocversion(40000) and PIG_MaxTocversion(20000,true) then
-		table.insert(shelistx,1,{"Chedui",L["TARDIS_CHEDUI"]})
-	end
 	if PIG_MaxTocversion(20000) then
 		table.insert(shelistx,#shelistx,{"Invite",GROUPS})
 	end

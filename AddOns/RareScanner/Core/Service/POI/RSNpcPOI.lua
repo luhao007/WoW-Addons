@@ -417,6 +417,9 @@ local function IsNpcPOIFiltered(npcID, mapID, artID, npcInfo, questTitles, vigne
 	
 	-- Skip if it doesn't drop weekly rep anymore
 	if (npcInfo and not RSConfigDB.IsShowingWeeklyRepFilterEnabled()) then
+		-- If dungeons/delve/raid ignore
+		local mapInfo = C_Map.GetMapInfo(mapID)
+		
 		if (npcInfo.warbandQuestID) then
 			for _, questID in ipairs(npcInfo.warbandQuestID) do
 				if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
@@ -425,7 +428,7 @@ local function IsNpcPOIFiltered(npcID, mapID, artID, npcInfo, questTitles, vigne
 				end
 			end
 		-- Also hide one time kill rare NPCs at Khaz Algar
-		elseif (RSMapDB.GetContinentOfMap(mapID) == RSConstants.KHAZ_ALGAR and not RSUtils.Contains(RSConstants.IGNORE_NPCS_REPUTATION, npcID) and not RSUtils.Contains(RSConstants.TWW_MAPS_WITHOUT_REP, mapID)) then
+		elseif (mapInfo and mapInfo.mapType ~= Enum.UIMapType.Dungeon and RSMapDB.GetContinentOfMap(mapID) == RSConstants.KHAZ_ALGAR and not RSUtils.Contains(RSConstants.IGNORE_NPCS_REPUTATION, npcID) and not RSUtils.Contains(RSConstants.TWW_MAPS_WITHOUT_REP, mapID)) then
 			if (npcInfo.questID) then
 				for _, questID in ipairs(npcInfo.questID) do
 					if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then

@@ -32,6 +32,8 @@ local SV, playerClass, playerRegion, playerMinLevel, playerMaxLevel, playerRace,
 local registeredAddons, playerSpecs, playerAddons, variableCount = {}, {}, {}, {}
 
 local isRetail = WOW_PROJECT_ID == (WOW_PROJECT_MAINLINE or 1)
+local isMop = WOW_PROJECT_ID == (WOW_PROJECT_MISTS_CLASSIC or 19)
+local isCata = WOW_PROJECT_ID == (WOW_PROJECT_CATACLYSM_CLASSIC or 14)
 
 do
 	local tostring, pairs, ipairs, debugstack, debuglocals, tIndexOf, tinsert, match =
@@ -81,6 +83,34 @@ do
 		end)
 	end
 
+	local function updatePlayerSpecs()
+		if isRetail then
+			local currentSpec = GetSpecialization()
+			if currentSpec then
+				local playerSpec = GetSpecializationInfo(currentSpec)
+				if not tIndexOf(playerSpecs, playerSpec) then
+					tinsert(playerSpecs, playerSpec)
+				end
+			end
+		elseif isMop then
+			local currentSpec = C_SpecializationInfo.GetSpecialization()
+			if currentSpec then
+				local playerSpec = C_SpecializationInfo.GetSpecializationInfo(currentSpec)
+				if not tIndexOf(playerSpecs, playerSpec) then
+					tinsert(playerSpecs, playerSpec)
+				end
+			end
+		elseif isCata then
+			local currentSpec = GetPrimaryTalentTree()
+			if currentSpec and GetTalentTabInfo(currentSpec) then
+				local playerSpec = GetTalentTabInfo(currentSpec)
+				if not tIndexOf(playerSpecs, playerSpec) then
+					tinsert(playerSpecs, playerSpec)
+				end
+			end
+		end
+	end
+
 	local frame = CreateFrame("Frame")
 	frame:RegisterEvent("PLAYER_LOGIN")
 	frame:RegisterEvent("PLAYER_LEVEL_UP")
@@ -100,13 +130,7 @@ do
 			end
 			local _, _, _playerClass = UnitClass("player")
 			playerClass = _playerClass
-			if isRetail then
-				local currentSpec = GetSpecialization()
-				if currentSpec then
-					local playerSpec = GetSpecializationInfo(currentSpec)
-					tinsert(playerSpecs, playerSpec)
-				end
-			end
+			updatePlayerSpecs()
 			local _, _, _playerRace = UnitRace("player")
 			playerRace = _playerRace
 			playerFaction = UnitFactionGroup("player") or "Neutral"
@@ -132,13 +156,7 @@ do
 			frame:RegisterEvent("ADDONS_UNLOADING")
 		-- Handles when the player changes their specialization
 		elseif event == "PLAYER_SPECIALIZATION_CHANGED" then
-			local currentSpec = GetSpecialization()
-			if currentSpec then
-				local playerSpec = GetSpecializationInfo(currentSpec)
-				if not tIndexOf(playerSpecs, playerSpec) then
-					tinsert(playerSpecs, playerSpec)
-				end
-			end
+			updatePlayerSpecs()
 		-- Handles when the player levels up
 		elseif event == "PLAYER_LEVEL_UP" then
 			playerMaxLevel = arg1

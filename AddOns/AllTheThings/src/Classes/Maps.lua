@@ -366,6 +366,10 @@ end})
 local ReportedAreas = {};
 app.AddEventHandler("OnReportReset", function() wipe(ReportedAreas) end)
 local function PrintDiscordInformationForExploration(o)
+	-- Temporarily disabled reports for users until we have most areas sorted.
+	-- We can't rely on the ID guessing based on the area name when we miss so many still.
+	if true then return end
+
 	if not app.Contributor then return end
 	local areaID = o.explorationID;
 	if not areaID or ReportedAreas[areaID] then return; end
@@ -398,7 +402,7 @@ local function PrintDiscordInformationForExploration(o)
 		luaFormat = "visit_exploration(%d,{coord={%.1f,%.1f,%d}}),\t-- %s"
 		tinsert(info, luaFormat:format(areaID,x or 0,y or 0,mapID,text));
 	else
-		luaFormat = "visit_exploration(%d),\t-- %s"
+		luaFormat = "instance_exploration(%d),\t-- %s"
 		tinsert(info, luaFormat:format(areaID,text));
 	end
 	tinsert(info, "");
@@ -422,6 +426,47 @@ local function PrintDiscordInformationForExploration(o)
 	app:SetupReportDialog(popupID, text, info);
 	app.print("Found Unmapped Area:", app:Linkify(text, app.Colors.ChatLinkError, "dialog:" .. popupID));
 	app.Audio:PlayReportSound();
+end
+
+-- Reporting (all areas remembered in a single report window)
+local ExplorationReportLines = {}
+local function PrintDiscordInformationForAllExplorations(o)
+    if not app.Contributor then return end
+    local areaID = o.explorationID
+    if not areaID or ReportedAreas[areaID] then return end
+    ReportedAreas[areaID] = o
+
+    local text = o.text or "???"
+    local mapID = o.mapID
+    if mapID then
+        text = text .. " (" .. GetMapName(mapID) .. ")"
+    end
+
+    local position, coord = mapID and C_Map_GetPlayerMapPosition(mapID, "player"), nil
+    local x, y
+    if position then
+        x, y = position:GetXY()
+        x = math_floor(x * 1000) / 10
+        y = math_floor(y * 1000) / 10
+        coord = x .. ", " .. y
+    end
+    if not x or not y then
+        app.print("Area", areaID, "has no valid coords on mapID", mapID)
+    end
+
+    local luaFormat
+    if not IsInInstance() then
+        luaFormat = "visit_exploration(%d,{coord={%.1f,%.1f,%d}}),\t-- %s"
+       tinsert(ExplorationReportLines, luaFormat:format(areaID, x or 0, y or 0, mapID, text))
+    else
+        luaFormat = "instance_exploration(%d),\t-- %s"
+        tinsert(ExplorationReportLines, luaFormat:format(areaID, text))
+    end
+
+    local popupID = "exploration-report-" .. areaID
+    app:SetupReportDialog(popupID, "Exploration Reports", ExplorationReportLines)
+    app.print("Found Unmapped Area:", app:Linkify(text, app.Colors.ChatLinkError, "dialog:" .. popupID))
+    app.Audio:PlayReportSound()
 end
 local RefreshExplorationData = app.IsClassic and (function(data)
 	app:RefreshDataQuietly("RefreshExploration", true);

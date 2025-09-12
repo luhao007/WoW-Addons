@@ -12,13 +12,31 @@ function Create.PIGSetFont(fuji,zihao,Miaobian)
 	local zihao = zihao or 14
 	fuji:SetFont(FontUrl,zihao,Miaobian)
 end
-function Create.PIGFontString(fuF,Point,Text,Miaobian,Zihao,UIName,Level)
+function Create.PIGFontString(fuF,Point,Text,Miaobian,Zihao,UIName,Level,OnEnter)
 	local Text = Text or ""
 	local Font = fuF:CreateFontString(UIName,Level);
 	if Point then Font:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5]); end	
 	Create.PIGSetFont(Font,Zihao,Miaobian)
 	Font:SetTextColor(1, 0.843, 0, 1);
 	Font:SetText(Text);
+	if OnEnter then
+		Font:HookScript("OnEnter", function (self)
+			if self:IsTruncated() then
+				GameTooltip:ClearLines();
+				GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",0,0);
+				if self.biaoti then
+					GameTooltip:AddLine(self.biaoti,1,1,0, 0.9)
+				end
+				GameTooltip:AddLine(self:GetText(), 0.9,0.9,0.9, true)
+				GameTooltipTextLeft2:SetNonSpaceWrap(true)
+				GameTooltip:Show();
+			end
+		end);
+		Font:HookScript("OnLeave", function (self)
+			GameTooltip:ClearLines();
+			GameTooltip:Hide() 
+		end);
+	end
 	return Font
 end
 function Create.PIGFontStringBG(fuF,Point,Text,WH,Zihao,UIName)
