@@ -263,74 +263,34 @@ fuFrame.GetItem.E:SetPoint("RIGHT",fuFrame.GetItem,"LEFT",-4,0);
 fuFrame.GetItem.E:SetFontObject(ChatFontNormal);
 fuFrame.GetItem.E:SetAutoFocus(false);
 --输出副本ID
--- fuFrame.mudidi=PIGDownMenu(fuFrame,{"TOPLEFT",fuFrame,"TOPLEFT",20,-300},{200,24})
--- fuFrame.mudidi:PIGDownMenu_SetText(NONE)
--- function fuFrame.mudidi:PIGDownMenu_Update_But(level, menuList)
--- 	local info = {}
--- 	if (level or 1) == 1 then
--- 		for ix=1,#Data.FBindexCategory do
--- 			local categoryID=Data.FBindexCategory[ix]
--- 			info.func = nil
--- 			info.text= Data.FBName.Category[categoryID]
--- 			--info.checked = categoryID ==PIGA_Per["Farm"]["Fuben_ID"][1]
--- 			local data2={categoryID,Data.FBdata[categoryID]}
--- 			info.menuList, info.hasArrow = data2, true
--- 			self:PIGDownMenu_AddButton(info)
--- 		end
--- 	else
--- 		info.func = self.PIGDownMenu_SetValue
--- 		local Categorieid,menudata=menuList[1],menuList[2]
--- 		local Newkeys = {}
--- 		for kkk in pairs(menudata) do
--- 		    table.insert(Newkeys, kkk)
--- 		end
--- 		table.sort(Newkeys, function(akk, bkk) return tonumber(akk) < tonumber(bkk) end)
--- 		for ii=1, #Newkeys do
--- 			--info.text=menudata[Newkeys[ii]][1]..Newkeys[ii]
--- 			info.text= menudata[Newkeys[ii]][1]
--- 			info.arg1= {Categorieid,Newkeys[ii]};
--- 			--info.checked = Newkeys[ii] == PIGA_Per["Farm"]["Fuben_ID"][2]
--- 			self:PIGDownMenu_AddButton(info, level)
--- 		end
--- 	end
--- end
--- function fuFrame.mudidi:PIGDownMenu_SetValue(value,arg1)
--- 	-- PIGA_Per["Farm"]["Fuben_ID"]=arg1
--- 	-- self:PIGDownMenu_SetText(Data.FBdata[arg1[1]][arg1[2]][1])
--- 	-- fuFrame:Update_danjia()
--- 	PIGCloseDropDownMenus()
--- end
 fuFrame.FBdataID=PIGDownMenu(fuFrame,{"TOPLEFT",fuFrame,"TOPLEFT",20,-300},{200,24})
 fuFrame.FBdataID:PIGDownMenu_SetText(DUNGEONS..RAIDS.."-ID")
 function fuFrame.FBdataID:PIGDownMenu_Update_But(level, menuList)
 	local info = {}
 	if (level or 1) == 1 then
-		for ix=1,#Data.FBindexCategory do
-			local categoryID=Data.FBindexCategory[ix]
-			info.func = nil
-			info.notCheckable=true
-			info.text= Data.FBName.Category[categoryID]
-			local data2={categoryID,Data.FBdata[categoryID]}
-			info.menuList, info.hasArrow = data2, true
-			self:PIGDownMenu_AddButton(info)
+		local List=Fun.PIG_GetCategories(4)
+		for ix=1,#List do
+			local GroupList,GroupData=Fun.PIG_GetGroups(List[ix][1])
+			for ixx=1,#GroupList do
+				info.func = nil
+				info.notCheckable=true
+				info.text= List[ix][2].."-"..GroupList[ixx][2]
+				info.menuList, info.hasArrow = GroupData[GroupList[ixx][1]], true
+				self:PIGDownMenu_AddButton(info)
+			end
 		end
 	else
 		info.func = self.PIGDownMenu_SetValue
 		info.notCheckable=true
-		local Categorieid,menudata=menuList[1],menuList[2]
-		local Newkeys = {}
-		for kkk in pairs(menudata) do
-		    table.insert(Newkeys, kkk)
-		end
-		table.sort(Newkeys, function(akk, bkk) return tonumber(akk) < tonumber(bkk) end)
-		for ii=1, #Newkeys do
-			info.text=menudata[Newkeys[ii]][1]..Newkeys[ii]
+		for acid=1, #menuList do
+			info.text= menuList[acid][1]..menuList[acid][2]
+			info.arg1= menuList[acid][1]
 			self:PIGDownMenu_AddButton(info, level)
 		end
 	end 
 end
 function fuFrame.FBdataID:PIGDownMenu_SetValue(value,arg1,arg2)
-	print(value)
+	print(INFO..": "..value,arg1)
 	PIGCloseDropDownMenus()
 end
 -----------------

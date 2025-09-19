@@ -36,20 +36,31 @@ end
 
 local function GetReportPlayerLocation()
 	local mapID, px, py, fake = app.GetPlayerPosition()
+	local difficultyID = app.GetCurrentDifficultyID()
+	local diffVal = (difficultyID and difficultyID ~= 0 and ("Diff: "..difficultyID) or "")
 	if fake then
-		return UNKNOWN..", "..UNKNOWN..", "..tostring(mapID or UNKNOWN).." ("..(app.GetMapName(mapID) or "??")..")"
+		return UNKNOWN..", "..UNKNOWN..", "..tostring(mapID or UNKNOWN).." \""..(app.GetMapName(mapID) or "??").."\""..diffVal
 	end
 	-- floor coords to nearest tenth
 	if px then px = round(px, 1) end
 	if py then py = round(py, 1) end
-	return tostring(px or UNKNOWN)..", "..tostring(py or UNKNOWN)..", "..tostring(mapID or UNKNOWN).." ("..(app.GetMapName(mapID) or "??")..")"
+	return tostring(px or UNKNOWN)..", "..tostring(py or UNKNOWN)..", "..tostring(mapID or UNKNOWN).." \""..(app.GetMapName(mapID) or "??").."\""..diffVal
 end
 
 local function DoReport(reporttype, id)
-	local dialogID = reporttype.."_"..id
+	local dialogID = reporttype.."-"..id
 	-- app.PrintDebug("Contributor.DoReport",reporttype,id)
 
 	local reportData = Reports[reporttype][id]
+	-- report-based fields
+	local chatlink = reportData.CHATLINK
+	reportData.CHATLINK = nil
+	-- ordered report data
+	local orderedReportData = {}
+	for i=1,#reportData do
+		orderedReportData[#orderedReportData + 1] = reportData[i]
+	end
+	app.wipearray(reportData)
 	-- keyed report data
 	local keyedData = {}
 	for k,v in pairs(reportData) do
@@ -57,20 +68,25 @@ local function DoReport(reporttype, id)
 	end
 	-- common report data
 	reportData[#reportData + 1] = "### "..reporttype..":"..id
-	reportData[#reportData + 1] = "```elixir"	-- discord fancy box start
-	for _,text in pairs(keyedData) do
-		reportData[#reportData + 1] = text
+	reportData[#reportData + 1] = "```vbnet"	-- discord fancy box start (testing: https://highlightjs.org/demo)
+	-- add ordered data
+	for i=1,#orderedReportData do
+		reportData[#reportData + 1] = orderedReportData[i]
+	end
+	-- add keyed data
+	for i=1,#keyedData do
+		reportData[#reportData + 1] = keyedData[i]
 	end
 	-- common report data
 	reportData[#reportData + 1] = "---- User Info ----"
 	reportData[#reportData + 1] = "PlayerLocation: "..GetReportPlayerLocation()
-	reportData[#reportData + 1] = "L:"..app.Level.." R:"..app.RaceID.." ("..app.Race..") C:"..app.ClassIndex.." ("..app.Class..")"
-	reportData[#reportData + 1] = "ver: "..app.Version
-	reportData[#reportData + 1] = "build: "..app.GameBuildVersion
+	reportData[#reportData + 1] = "Character: L:"..app.Level.." R:"..app.RaceID.." ("..app.Race..") C:"..app.ClassIndex.." ("..app.Class..")"
+	reportData[#reportData + 1] = "ATT: "..app.Version
+	reportData[#reportData + 1] = "GameBuild: "..app.GameBuildVersion
 	reportData[#reportData + 1] = "```";	-- discord fancy box end
 
 	if app:SetupReportDialog(dialogID, "Contributor Report: " .. dialogID, reportData) then
-		app.print(app:Linkify("Contributor Report: "..dialogID, app.Colors.ChatLinkError, "dialog:" .. dialogID));
+		app.print(app:Linkify(chatlink or "Contributor Report: "..dialogID, app.Colors.ChatLinkError, "dialog:" .. dialogID));
 		app.Audio:PlayReportSound();
 	end
 
@@ -79,19 +95,27 @@ local function DoReport(reporttype, id)
 	reportData.REPORTED = true
 end
 
-local function AddReportData(reporttype, id, data)
+local function AddReportData(reporttype, id, data, chatlink)
 	-- app.PrintDebug("Contributor.AddReportData",reporttype,id)
 	-- app.PrintTable(data)
 	local reportData = Reports[reporttype][id]
 	if reportData.REPORTED then app.PrintDebug("Duplicate Report Ignored",reporttype,id) return end
 
 	if type(data) == "table" then
+		-- add any ordered data first
+		for i=1,#data do
+			reportData[#reportData + 1] = data[i]
+		end
+		app.wipearray(data)
+		-- add/replace keyed data
 		for k,v in pairs(data) do
 			reportData[k] = v
 		end
 	else
 		reportData[#reportData + 1] = tostring(data)
 	end
+
+	reportData.CHATLINK = chatlink
 	-- after adding data for a report, we will trigger that report shortly afterwards in case more data is added elsewhere within
 	-- that timeframe
 	DelayedCallback(DoReport, 0.25, reporttype, id)
@@ -99,6 +123,15 @@ end
 
 api.DoReport = function(id, text)
 	AddReportData("test", id, text)
+end
+api.AddReportData = AddReportData
+
+local function BuildGenericReportData(objRef, id)
+	return {
+		id = id,
+		type = (objRef and objRef.__type or UNKNOWN),
+		[objRef and objRef.key or "RefID"] = (objRef and objRef[objRef.key]) or UNKNOWN,
+	}
 end
 
 -- Used to override the precision of coord accuracy based on irregularly sized maps
@@ -114,7 +147,9 @@ local MapPrecisionOverrides = {
 	 [629] = 3,	-- Aegwynn's Gallery
 	 [647] = 3,	-- Acherus The Ebon Hold, The Heart of Acherus
 	 [648] = 3,	-- Acherus The Ebon Hold, Hall of Command
+	 [695] = 3,	-- Skyhold
 	 [720] = 3,	-- Mardum The Shattered Abyss, Upper Command Center
+	 [721] = 3,	-- Mardum The Shattered Abyss, Lower Command Center
 	 [831] = 7,	-- The Vindicaar, Krokuun Upper
 	 [832] = 7,	-- The Vindicaar, Krokuun Lower
 	 [883] = 7,	-- The Vindicaar, Eredath Upper
@@ -151,7 +186,7 @@ local function Check_coords(objRef, id, maxCoordDistance)
 	if not coords then return end
 
 	local relCoords = not objRef.coords
-	local dist, sameMap, check
+	local dist, sameMap
 	local closest = 9999
 	maxCoordDistance = MapPrecisionOverrides[mapID] or maxCoordDistance or 1
 	for _,coord in ipairs(coords) do
@@ -165,22 +200,20 @@ local function Check_coords(objRef, id, maxCoordDistance)
 	if sameMap then
 		-- quest has an accurate coord on accurate map
 		if closest > maxCoordDistance then
+			local reportData = BuildGenericReportData(objRef, id)
 			-- round to the tenth
 			closest = round(closest, 1)
-			AddReportData(objRef.__type,id,{
-				[objRef.key or "ID"] = id,
-				VerifyOrAddCoords = ("Closest %s Coordinates are off by: %d on mapID: %d"):format(relCoords and "relative" or "existing", closest, mapID),
-			})
-			check = 1
+			reportData.VerifyOrAddCoords = ("Closest %s Coordinates are off by: %d on mapID: %d"):format(relCoords and "relative" or "existing", closest, mapID)
+			AddReportData(objRef.__type,id,reportData)
+			return 1
 		end
 	else
-		AddReportData(objRef.__type,id,{
-			[objRef.key or "ID"] = id,
-			MissingMap = "No Coordinates on current Map!",
-		})
-		check = 1
+		local reportData = BuildGenericReportData(objRef, id)
+		reportData.MissingMap = "No Coordinates on current Map!"
+		AddReportData(objRef.__type,id,reportData)
+		return 1
 	end
-	return check or true
+	return true
 end
 
 -- Temporary implementation until better, global DB(s) provides similar data references
@@ -329,6 +362,7 @@ MobileDB.Creature = {
 	 [88026] = true,	-- John J. Keeshan
 	 [88027] = true,	-- Impsy
 	 [90474] = true,	-- Kor'vas Bloodthorn
+	 [93538] = true,	-- Dariness the Learned
 	 [96038] = true,	-- Rivermane Shaman
 	 [99343] = true,	-- Kor'vas Bloodthorn
 	[100786] = true,	-- Snowfeather
@@ -336,8 +370,11 @@ MobileDB.Creature = {
 	[101344] = true,	-- Hooded Priestess (Horde)
 	[101527] = true,	-- Blingtron 6000
 	[102333] = true,	-- Hooded Priestess (Alliance)
+	[102381] = true,	-- Jandvik Warrior (Brandolf)
 	[103506] = true,	-- Ritssyn Flamescowl
 	[105637] = true,	-- Scowling Rosa <Texts and Specialty Goods>
+	[110538] = true,	-- Valewalker Farodin
+	[112663] = true,	-- Danica the Reclaimer
 	[112666] = true,	-- Asha Ravensong
 	[113686] = true,	-- Archmage Khadgar
 	[113857] = true,	-- Light's Heart
@@ -495,6 +532,7 @@ MobileDB.GameObject = {
 	[176793] = true,	-- Bundle of Wood (q:5545)
 	[177243] = true,	-- Demon Portal (q:5581)
 	[177789] = true,	-- Augustus' Receipt Book (q:27534)
+	[177928] = true,	-- Onyxia's Gate
 	[178144] = true,	-- Troll Chest (q:13874 [A], q:6462 [H])
 	[179528] = true,	-- Warpwood Pod
 	[179828] = true,	-- Dark Iron Pillow (q:28057)
@@ -513,6 +551,7 @@ MobileDB.GameObject = {
 	[184125] = true,	-- Main Chambers Access Panel
 	[184126] = true,	-- Main Chambers Access Panel
 	[184383] = true,	-- Ethereum Transponder Zeta
+	[184568] = true,	-- Lady Vashj Bridge Console
 	[186591] = true,	-- Spotted Hippogryph Down (q:11269, 11271)
 	[186903] = true,	-- Pirate Booty (q:25054)
 	[187333] = true,	-- Bloodberry Bush (q:11546)
@@ -526,16 +565,24 @@ MobileDB.GameObject = {
 	[194100] = true,	-- Bear's Paw (q:13526)
 	[194107] = true,	-- Encrusted Clam (q:13520)
 	[194150] = true,	-- Jadefire Brazier (q:13572)
+	[194200] = true,	-- Rare Cache of Winter [Hodir]
 	[194204] = true,	-- Twilight Plans (q:13596)
 	[194208] = true,	-- Fuming Toadstool (q:13598)
 	[194209] = true,	-- Fuming Toadstool (q:13598)
+	[194255] = true,	-- Ancient Gate of the Keepers
+	[194307] = true,	-- Cache of Winter [Hodir]
+	[194312] = true,	-- Cache of Storms [Thorim]
 	[194482] = true,	-- Horde Explosives (q:13698)
+	[194519] = true,	-- Harpoon Gun
+	[194822] = true,	-- Gift of the Observer [Algalon The Observer]
+	[194956] = true,	-- Cache of Innovation [Mimiron]
 	[195002] = true,	-- Lava Fissure (q:13880)
 	[195007] = true,	-- Slain Wildkin Feather (q:13578)
 	[195012] = true,	-- Sunken Scrap Metal (q:13883)
 	[195021] = true,	-- Glittering Shell (q:13882)
 	[195037] = true,	-- Silithid Egg (q:13904)
 	[195042] = true,	-- Greymist Debris (q:13909)
+	[195046] = true,	-- Cache of Living Stone [Kologarn]
 	[195054] = true,	-- Mud-Crusted Ancient Disc (q:13912)
 	[195055] = true,	-- Buried Debris (q:13918)
 	[195074] = true,	-- Melithar's Stolen Bags (q:28715)
@@ -557,6 +604,7 @@ MobileDB.GameObject = {
 	[195587] = true,	-- Living Ire Thyme (q:14263)
 	[195601] = true,	-- Element 116 (q:14254)
 	[195602] = true,	-- Animate Besalt Chunk (q:14250)
+	[195635] = true,	-- Champion's Cache [] 25 Heroic
 	[195656] = true,	-- Ancient Tablet Fragment (q:14268)
 	[195657] = true,	-- Ancient Tablet Fragment (q:14268)
 	[195658] = true,	-- Ancient Tablet Fragment (q:14268)
@@ -588,6 +636,8 @@ MobileDB.GameObject = {
 	[202159] = true,	-- Discarded Supplies (q:24701)
 	[202160] = true,	-- Discarded Supplies (q:24701)
 	[202198] = true,	-- Steamwheedle Crate (q:25048)
+	[202240] = true,	-- Deathbringer's Cache [Deathbringer Saurfang] 25 Normal
+	[202339] = true,	-- Cache of the Dreamwalker [Valithria Dreamwalker] 25 Normal
 	[202351] = true,	-- Rockin' Powder (q:24946)
 	[202405] = true,	-- Northwatch Supply Crate (q:25002)
 	[202420] = true,	-- Ancient Hieroglyphs (q:25565)
@@ -756,11 +806,13 @@ MobileDB.GameObject = {
 	[211399] = true,	-- Broken Bamboo Stalk (q:29795)
 	[211400] = true,	-- Broken Bamboo Stalk (q:29795)
 	[211401] = true,	-- Broken Bamboo Stalk (q:29795)
+	[214385] = true,	-- Cache of Pure Energy
 	[215135] = true,	-- Sprinkler
 	[215137] = true,	-- Sprinkler
 	[216150] = true,	-- Horde Supply Crate (q:32144)
 	[215162] = true,	-- Pest Repeller
 	[215163] = true,	-- Pest Repeller
+	[215356] = true,	-- Cache of Tsulong
 	[216229] = true,	-- Hastily Abandoned Lumber (q:32149)
 	[218950] = true,	-- Mantid Archaeology Find
 	[220908] = true,	-- Mist-Covered Treasure Chest
@@ -776,6 +828,9 @@ MobileDB.GameObject = {
 	[230527] = true,	-- Tree Marking (q:34375)
 	[230544] = true,	-- Frostwolf Shamanstone
 	[231012] = true,	-- Garrison Blueprint: Barracks
+	[233028] = true,	-- Tears of the Vale
+	[233029] = true,	-- Vault of Forbidden Treasures
+	[233030] = true,	-- Unlocked Stockpile of Pandaren Spoils
 	[234105] = true,	-- Arakkoa Archaeology Find
 	[234106] = true,	-- Ogre Archaeology Find
 	[236262] = true,	-- Finalize Garrison Plot
@@ -785,7 +840,13 @@ MobileDB.GameObject = {
 	[241568] = true,	-- Offering Shrine
 	[241726] = true,	-- Leystone Deposit
 	[241743] = true,	-- Felslate Deposit
+	[243290] = true,	-- Spoils of the Assault [Hellfire Assault] ?
+	[243308] = true,	-- Spoils of the Assault [Hellfire Assault] Mythic
+	[243309] = true,	-- Spoils of the Assault [Hellfire Assault] ?
+	[243566] = true,	-- Sargerei Warspoils [Socrethar] Mythic
+	[243567] = true,	-- Sargerei Warspoils [Socrethar] ?
 	[244449] = true,	-- Reflective Mirror
+	[244774] = true,	-- Aethril
 	[244775] = true,	-- Dreamleaf
 	[244778] = true,	-- Starlight Rose
 	[245324] = true,	-- Rich Leystone Deposit
@@ -917,6 +978,8 @@ MobileDB.GameObject = {
 	[279044] = true,	-- Zandalari Rushes
 	[279293] = true,	-- Sweetleaf Bush
 	[279346] = true,	-- Urn of Voices
+	[279654] = true,	-- Freya's Heroic Gift [Freya]
+	[279655] = true,	-- Cache of Heroic Innovation [Mimiron]
 	[280335] = true,	-- Essence Collector
 	[280571] = true,	-- Essence Collector
 	[280572] = true,	-- Essence Collector
@@ -996,6 +1059,7 @@ MobileDB.GameObject = {
 	[292535] = true,	-- Altar of Kimbul (q:47578)
 	[292764] = true,	-- Metal Scraps (q:52142 & q:52160)
 	[292765] = true,	-- Discarded Toolbox (q:52142 & q:52160)
+	[292835] = true,	-- Titan Console (Uldir)
 	[292868] = true,	-- Horde Banner (q:52222)
 	[292917] = true,	-- Sparkling Tidescale (q:52258)
 	[293121] = true,	-- Horde Banner (q:52276)
@@ -1017,6 +1081,10 @@ MobileDB.GameObject = {
 	[294170] = true,	-- Sealed Tideblood (q:52968)
 	[296252] = true,	-- Box of Large Azerite Grenades (q:52252)
 	[296855] = true,	-- Truffle
+	[297850] = true,	-- Iron Cache []
+	[297860] = true,	-- General's Cache [General Vezax]
+	[297873] = true,	-- Titan's Cache [Yogg'Saron]
+	[297899] = true,	-- Cache of Toys [XT-002 Deconstuctor]
 	[305839] = true,	-- Shortfuse Special
 	[305840] = true,	-- Bag of Bombs
 	[307028] = true,	-- Azerite Grenades (q:53950)
@@ -1056,6 +1124,7 @@ MobileDB.GameObject = {
 	[326214] = true,	-- Fetid Limb
 	[326594] = true,	-- Arcane Tome
 	[326598] = true,	-- Zin'anthid
+	[326651] = true,	-- Catapult (q:55989)
 	[326727] = true,	-- Shipwrecked Lager (q: 56001 & q: 56265)
 	[327146] = true,	-- Harpy Totem (q: 55881)
 	[327158] = true,	-- Neptulian Clam (q: 56153 & 56035)
@@ -1119,10 +1188,17 @@ MobileDB.GameObject = {
 	[356596] = true,	-- Feather Cap (q:61406)
 	[356597] = true,	-- Lacy Bell Morel (q:61406)
 	[356696] = true,	-- Alexandros Mograine's Substantial Tribute (Ember Court)
+	[356763] = true,	-- Rune of the Chosen
+	[356764] = true,	-- Rune of the Chosen
+	[356765] = true,	-- Rune of the Chosen
 	[356885] = true,	-- Stolen Memento (Ember Court)
 	[358297] = true,	-- Purified Nectar (q:62276)
 	[363824] = true,	-- Cage (q:62720)
 	[364345] = true,	-- A Faintly Glowing Seed
+	[364975] = true,	-- Prime Scroll (q:63054)
+	[364976] = true,	-- Prime Scroll (q:63055)
+	[364983] = true,	-- Scroll of Dark Empowerment (q:63064)
+	[364950] = true,	-- Scroll of Dark Empowerment (q:63056, 63063)
 	[367940] = true,	-- Theotar's Egg (Ember Court)
 	[367942] = true,	-- Temel's Egg (Ember Court)
 	[367943] = true,	-- Prince Renathal's Egg (Ember Court)
@@ -1132,7 +1208,9 @@ MobileDB.GameObject = {
 	[368604] = true,	-- Mawsworn Cage
 	[368605] = true,	-- Cage (SoD)
 	[368606] = true,	-- Cage (SoD)
+	[368617] = true,	-- Memorial to Archivist Roh-Gema
 	[368638] = true,	-- Shipping Documents (q:63979)
+	[368677] = true,	-- Memorial to Archivist Roh-Kiel
 	[369306] = true,	-- Bundle of Writings (q:64224)
 	[369308] = true,	-- Undelivered Mail (q:64224)
 	[369309] = true,	-- Unattended Books (q:64224)
@@ -1146,8 +1224,11 @@ MobileDB.GameObject = {
 	[375241] = true,	-- Bubble Poppy
 	[375290] = true,	-- Cypher Bound Chest
 	[375530] = true,	-- Forgotten Treasure Vault
+	[376036] = true,	-- Nomad Cache
 	[376386] = true,	-- Disturbed Dirt
 	[376426] = true,	-- Magic-Bound Chest
+	[376519] = true,	-- Vine Wrapped Chest
+	[376583] = true,	-- Decay Covered Chest
 	[376584] = true,	-- Dracthyr Supply Chest
 	[376587] = true,	-- Expedition Scout's Pack
 	[378802] = true,	-- Corrupted Dragon Egg
@@ -1156,6 +1237,7 @@ MobileDB.GameObject = {
 	[379252] = true,	-- Draconium Deposit
 	[379263] = true,	-- Rich Draconium Deposit
 	[379267] = true,	-- Rich Draconium Deposit
+	[380834] = true,	-- Decay Tainted Chest
 	[381042] = true,	-- Shimmering Chest
 	[381104] = true,	-- Rich Serevite Deposit
 	[381105] = true,	-- Rich Serevite Deposit
@@ -1178,9 +1260,11 @@ MobileDB.GameObject = {
 	[381519] = true,	-- Infurious Serevite Deposit
 	[381673] = true,	-- Gorloc Crystals
 	[381957] = true,	-- Lush Bubble Poppy
+	[381959] = true,	-- Lush Saxifrage
 	[381960] = true,	-- Lush Hochenblume
 	[382029] = true,	-- Disturbed Dirt
 	[382031] = true,	-- Oily Dropcap
+	[382032] = true,	-- Flowering Inferno Pod
 	[382033] = true,	-- Djaradin Supply Jar
 	[382071] = true,	-- Full Fishing Net
 	[382079] = true,	-- Dragonscale Expedition Flag
@@ -1196,9 +1280,12 @@ MobileDB.GameObject = {
 	[382116] = true,	-- Dragonscale Expedition Flag
 	[382118] = true,	-- Dragonscale Expedition Flag
 	[382120] = true,	-- Dragonscale Expedition Flag
+	[382283] = true,	-- Oozing Claw Thistle [Dragon Isle Resources]
 	[382284] = true,	-- Mature Gift of the Grove [Dragon Isle Resources]
+	[382286] = true,	-- Singing River Bell [Dragon Isle Resources]
 	[382291] = true,	-- Mature Highland Milkweed [Dragon Isle Resources]
 	[382292] = true,	-- Ripe Cuppressa [Dragon Isle Resources]
+	[382294] = true,	-- Blooming Titian Orchid [Dragon Isle Resources]
 	[382299] = true,	-- Sundered Flame Supply Crate [Dragon Isle Resources]
 	[382300] = true,	-- Maruukai Supplies
 	[383732] = true,	-- Tuskarr Tacklebox
@@ -1215,7 +1302,11 @@ MobileDB.GameObject = {
 	[386108] = true,	-- Dragonscale Expedition Flag
 	[386165] = true,	-- Obsidian Coffer
 	[386166] = true,	-- Bone Pile
+	[386179] = true,	-- Spellsworn Reserves
+	[386383] = true,	-- Discarded Toy
 	[386521] = true,	-- Toxin Antidote
+	[386524] = true,	-- Toxin Antidote
+	[387516] = true,	-- Infused Spear
 	[387725] = true,	-- Glowing Crystal (q:74518)
 	[387727] = true,	-- Sulfuric Crystal (q:74518)
 	[387729] = true,	-- Magma Crystal (q:74518)
@@ -1280,6 +1371,7 @@ MobileDB.GameObject = {
 	[407703] = true,	-- Hochenblume
 	[407725] = true,	-- Missing Fruit
 	[408054] = true,	-- Shiversnap Blossom
+	[408134] = true,	-- Enchanted Thicket
 	[408327] = true,	-- Wild Greens
 	[408328] = true,	-- Rubyscale Melon
 	[408329] = true,	-- Orangeroot
@@ -1309,6 +1401,7 @@ MobileDB.GameObject = {
 	[411755] = true,	-- Flickerflame Candles (q:78635, q:82519)
 	[411878] = true,	-- Intriguing Scrap (q:79205)
 	[411930] = true,	-- Blackpowder Barrel
+	[413046] = true,	-- Bismuth
 	[413126] = true,	-- Box of Artisanal Goods (q:78369 [A], q:78984 [H])
 	[413246] = true,	-- Elemental Silt Mound
 	[413590] = true,	-- Bountiful Coffer
@@ -1340,6 +1433,7 @@ MobileDB.GameObject = {
 	[423714] = true,	-- Duskstem Stalk
 	[425875] = true,	-- Nerubian Explosive Cache (q:78555)
 	[452948] = true,	-- Hallowfall Farm Supplies
+	[453968] = true,	-- Torch (q:82583)
 	[428699] = true,	-- Sizzling Barrel (q:79205)
 	[433370] = true,	-- War Supply Chest
 	[434861] = true,	-- Ever-Blossoming Fungi
@@ -1361,6 +1455,7 @@ MobileDB.GameObject = {
 	[444802] = true,	-- Kobyss Ritual Cache
 	[444804] = true,	-- Concentrated Shadow
 	[444866] = true,	-- Overflowing Kobyss Ritual Cache
+	[446146] = true,	-- Recovered Nightfall Relics [Rasha'nan]
 	[446357] = true,	-- Chest of Dynamite (q:82615)
 	[446495] = true,	-- Pile of Refuse
 	[446496] = true,	-- Enormous Pile of Refuse
@@ -1386,6 +1481,7 @@ MobileDB.GameObject = {
 	[457291] = true,	-- Skull (q:83641)
 	[457292] = true,	-- Essence of Death (q:83641)
 	[461478] = true,	-- For Rent Sign
+	[461482] = true,	-- Hidden Trove
 	[461540] = true,	-- Leftover Costume
 	[462533] = true,	-- Spare Excavation Rocket
 	[464729] = true,	-- Bountiful Heavy Trunk
@@ -1407,6 +1503,7 @@ MobileDB.GameObject = {
 	[474084] = true,	-- Salvageable Scrap (q:85051)
 	[474086] = true,	-- Salvageable Scrap (q:85051)
 	[474147] = true,	-- Portal to K'aresh (q:85082)
+	[474242] = true,	-- Portal to Stormsong Valley
 	[474822] = true,	-- Runed Storm Cache (Treasure)
 	[475190] = true,	-- Supply Crate (q:84704)
 	[475252] = true,	-- Survey Device (q:84252)
@@ -1432,11 +1529,13 @@ MobileDB.GameObject = {
 	[495091] = true,	-- Improvised Explosive
 	[495583] = true,	-- Missing Shipment (wq:85812)
 	[495603] = true,	-- Loose Sand (wq:85822)
+	[495605] = true,	-- Sealed Coffer (wq:85822)
 	[499099] = true,	-- Entropic Egg (wq:84962)
 	[499620] = true,	-- Runed Storm Cache @ 68.4, 73.8, 2369 (q:84726)
 	[499863] = true,	-- Runed Storm Cache @ 39.4, 20.1, 2369 (q:84726)
 	[499928] = true,	-- Darkfuse Research Notes
 	[499949] = true,	-- Stolen Research Crate (q:85730)
+	[500095] = true,	-- Powdered De-Pollutant
 	[500096] = true,	-- Unseemly Growth
 	[500203] = true,	-- Resold Goods
 	[500407] = true,	-- Runed Storm Cache (Treasure)
@@ -1518,6 +1617,7 @@ MobileDB.GameObject = {
 	[523689] = true,	-- Mossy Snake Bed (q:88666)
 	[524223] = true,	-- K'arroc Egg (q:88671)
 	[524348] = true,	-- Snake Egg (q:88672)
+	[525189] = true,	-- Portal to the Oasis
 	[526951] = true,	-- Challenger's Cache (Operation: Floodgate)
 	[526959] = true,	-- Challenger's Cache (Priory of the Sacred Flame)
 	[526962] = true,	-- Challenger's Cache (The Dawnbreaker)
@@ -1539,7 +1639,9 @@ MobileDB.GameObject = {
 	[543115] = true,	-- Funny Candle
 	[547532] = true,	-- Ky'veza's Etheric Cache
 	[549326] = true,	-- Phase-Lost Exchequer
+	[549986] = true,	-- Energy Barrel
 	[549999] = true,	-- Energy Urn
+	[550001] = true,	-- Energy Pyramid
 	[562348] = true,	-- Spoils of the Nexus-King
 	[567732] = true,	-- Kaja'6-Pack
 	[578955] = true,	-- Flickering Spoils
@@ -1576,7 +1678,7 @@ local GuidTypeProviders = {
 }
 
 local ProviderTypeChecks = {
-	n = function(objID, objRef, providers, providerID)
+	n = function(objID, objRef, providers, providerID, reportData)
 		-- app.PrintDebug("Check.n",objID,providerID,app:SearchLink(objRef))
 		-- app.PrintTable(providers)
 		-- app.PrintTable(objRef.qgs)
@@ -1602,18 +1704,14 @@ local ProviderTypeChecks = {
 			end
 		end
 		if not found then
-			AddReportData(objRef.__type,objID, {
-				[objRef.key or "ID"] = objID,
-				QuestGiver = "Missing Quest Giver: "..providerID..", -- "..(app.NPCNameFromID[providerID] or UNKNOWN),
-			})
+			reportData.MissingProvider = "Missing Quest Giver!"
+			AddReportData(objRef.__type,objID,reportData)
 		end
 	end,
-	o = function(objID, objRef, providers, providerID)
+	o = function(objID, objRef, providers, providerID, reportData)
 		if not providers then
-			AddReportData(objRef.__type,objID, {
-				[objRef.key or "ID"] = objID,
-				QuestGiver = "Missing Object Provider: "..providerID..", -- "..(app.ObjectNames[providerID] or UNKNOWN),
-			})
+			reportData.MissingProvider = "Missing Object Provider!"
+			AddReportData(objRef.__type,objID,reportData)
 			return
 		end
 		local found
@@ -1621,10 +1719,8 @@ local ProviderTypeChecks = {
 			if provider[1] == "o" and provider[2] == providerID then found = 1 break end
 		end
 		if not found then
-			AddReportData(objRef.__type,objID, {
-				[objRef.key or "ID"] = objID,
-				QuestGiver = "Missing Object Provider: "..providerID..", -- "..(app.ObjectNames[providerID] or UNKNOWN),
-			})
+			reportData.MissingProvider = "Missing Object Provider!"
+			AddReportData(objRef.__type,objID,reportData)
 		end
 	end,
 	-- TODO: Items are weird, maybe handle eventually
@@ -1632,10 +1728,10 @@ local ProviderTypeChecks = {
 	-- end,
 }
 
-local function Check_providers(objID, objRef, providerType, id)
+local function Check_providers(objID, objRef, providerType, id, reportData)
 	local providerTypeCheck = ProviderTypeChecks[providerType]
 	if providerTypeCheck then
-		providerTypeCheck(objID, objRef, objRef.providers, id)
+		providerTypeCheck(objID, objRef, objRef.providers, id, reportData)
 	end
 end
 
@@ -1655,12 +1751,16 @@ local function OnQUEST_DETAIL(...)
 		return
 	end
 
-	local objRef = app.SearchForObject("questID", questID, "field")
-	-- app.PrintDebug("Contributor.OnQUEST_DETAIL.ref",objRef and objRef.hash)
-	if not objRef then
-		-- this is reported from Quest class
+	-- don't check the same quest back to back (had cases where QUEST_DETAIL fires twice within 1ms for some reason?)
+	if api.LastQUEST_DETAIL == questID then
+		app.PrintDebug(app.Modules.Color.Colorize("Contrib Check attempted twice on Quest!",app.Colors.LockedWarning),questID)
 		return
 	end
+	api.LastQUEST_DETAIL = questID
+
+	local objRef = app.SearchForObject("questID", questID, "field")
+	-- app.PrintDebug("Contributor.OnQUEST_DETAIL.ref",objRef and objRef.hash)
+	app.CheckInaccurateQuestInfo(objRef, "viewed")
 
 	local guid = UnitGUID("questnpc") or UnitGUID("npc")
 	local providerid, guidtype, _
@@ -1678,33 +1778,43 @@ local function OnQUEST_DETAIL(...)
 		end
 		return
 	end
-	app.PrintDebug(guidtype,providerid,app.NPCNameFromID[providerid] or app.ObjectNames[providerid]," => Quest #", questID)
+	local providerType = GuidTypeProviders[guidtype]
+	app.PrintDebug(guidtype,providerid,app.GetNameFromProvider(providerType, providerid)," => Quest #", questID)
+
+	local questData = BuildGenericReportData(objRef, questID)
+	questData.provider = providerid..", -- "..(app.GetNameFromProvider(providerType, providerid)
+		or (GameTooltipTextLeft1 and GameTooltipTextLeft1:GetText()) or UNKNOWN)
+	questData.providerType = providerType
 
 	-- check coords
 	if not IgnoredChecksByType[guidtype].coord(providerid) then
-		if not Check_coords(objRef, objRef.keyval) then
+		local checkCoords = Check_coords(objRef, objRef.keyval)
+		if not checkCoords then
 			-- is this quest listed directly under an NPC which has coords instead? check that NPC for coords
 			-- e.g. Garrison NPCs Bronzebeard/Saurfang
 			local questParent = objRef.parent
 			if questParent and questParent.__type == "NPC" then
-				if not Check_coords(questParent, questParent.keyval) then
-					AddReportData(objRef.__type,questID,{
-						[objRef.key or "ID"] = questID,
-						MissingCoords = "No Coordinates for this quest under NPC!",
-					})
+				checkCoords = Check_coords(questParent, questParent.keyval)
+				if not checkCoords then
+					questData.MissingCoordsUnderNPC = "No Coordinates for this quest under NPC!"
+					AddReportData(objRef.__type,questID,questData)
+				elseif checkCoords == 1 then
+					-- Check_coords did a report, so add more info for the quest parent
+					AddReportData(questParent,questParent.keyval,questData)
 				end
 			else
-				AddReportData(objRef.__type,questID,{
-					[objRef.key or "ID"] = questID,
-					MissingCoords = "No Coordinates for this quest!",
-				})
+				questData.MissingCoords = "No Coordinates for this quest!"
+				AddReportData(objRef.__type,questID,questData)
 			end
+		elseif checkCoords == 1 then
+			-- Check_coords did a report, so add more info
+			AddReportData(objRef.__type,questID,questData)
 		end
 	end
 
 	-- check provider
 	if not IgnoredChecksByType[guidtype].provider(providerid) then
-		Check_providers(questID, objRef, GuidTypeProviders[guidtype], providerid)
+		Check_providers(questID, objRef, GuidTypeProviders[guidtype], providerid, questData)
 	end
 	-- app.PrintDebug("Contributor.OnQUEST_DETAIL.Done")
 end
@@ -1756,12 +1866,13 @@ local function OnPLAYER_SOFT_INTERACT_CHANGED(previousGuid, newGuid)
 	if not IgnoredChecksByType[guidtype].coord(id) then
 		-- object auto-detect can happen from rather far, so using 2 distance
 		local objID = objRef.keyval
-		if not Check_coords(objRef, objID, 2) then
-			AddReportData(objRef.__type,objID,{
-				[objRef.key or "ID"] = objID,
-				["objectID"] = id,
-				MissingCoords = ("No Coordinates for this %s!"):format(objRef.__type),
-			})
+		local checkCoords = Check_coords(objRef, objID, 2)
+		if not checkCoords then
+			local reportData = BuildGenericReportData(objRef, id)
+			reportData.MissingCoords = ("No Coordinates for this %s!"):format(objRef.__type)
+			AddReportData(objRef.__type,objID,reportData)
+		elseif checkCoords == 1 then
+			-- no extra data to add for object detection
 		end
 	end
 end
@@ -1786,12 +1897,11 @@ local SpellIDHandlers = setmetatable({
 		objRef = UnknownObjectsCache[id]
 		local objID = objRef.keyval
 		-- report openable object
-		AddReportData(objRef.__type,objID,{
-			[objRef.key or "ID"] = objID,
-			["objectID"] = id,
-			NotSourced = "Openable Object not Sourced!",
-			Name = tooltipName or "(No Tooltip Text Available)",
-		})
+		local reportData = BuildGenericReportData(objRef, id)
+		reportData.NotSourced = "Openable Object not Sourced!"
+		reportData.Name = tooltipName or "(No Tooltip Text Available)"
+		reportData.objectID = id
+		AddReportData(objRef.__type,objID,reportData)
 	end
 }, { __index = function(t, key)
 	if app.Debugging then

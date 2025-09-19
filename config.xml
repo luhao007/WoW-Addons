@@ -1437,6 +1437,11 @@
 			</SubAddon>
 		</SubAddons>
 	</Addon>
+	<Addon name="OmniCD">
+		<Title>队友冷却</Title>
+		<Notes>在小队面板中显示队友的技能冷却</Notes>
+		<Category>战斗</Category>
+	</Addon>
 	<Addon name="OPie">
 		<Title>环形动作条</Title>
 		<Category>功能</Category>

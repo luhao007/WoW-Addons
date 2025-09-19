@@ -1,5 +1,16 @@
 # Changelog
 
+## 3.11.0 - September 13, 2025
+### Changed
+- UI updates to the boss list, including a new scrollbar and only clickable entries will highlight when moused over
+- UI updates to the main dropdowns, so they match the visual style of dropdowns in each version of WoW
+### Removed
+- Retail: Removed role mechanics from tooltips
+### Fixed
+- Retail: Fixed empty boss portrait in BRD
+- Retail: Fixed minimum gear level tooltip not hiding
+- MoP: Fixed buttons not showing tooltip hints to open the journal
+
 ## 3.10.0 - August 18, 2025
 ### Added
 - Retail: Added Eco-Dome Al'dani map
@@ -626,7 +637,7 @@ v1.41.00 (Apr. 14, 2017)
 v1.40.06 (Apr. 13, 2017)
 ------------------------
 - Checking deprecated plugins now will recognize the alpha build's version
-  if specifed; or will ignore those set "v3.10.0" as the version
+  if specifed; or will ignore those set "v3.11.0" as the version
   number to be changed by CurseForge's auto-packaging.
 
 v1.40.05 (Apr. 13, 2017)

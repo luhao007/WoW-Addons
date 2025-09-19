@@ -164,12 +164,22 @@ QuickButF.ModF.QKButEquip:SetScript("OnClick", function (self)
 		PIG_OptionsUI.RLUI:Show();
 	end
 end)
+QuickButF.ModF.AddonList = PIGCheckbutton_R(QuickButF.ModF,{string.format(L["ACTION_ADDQUICKBUT"],ADDONS..CHAT_MODERATE)},true)
+QuickButF.ModF.AddonList:SetScript("OnClick", function (self)
+	if self:GetChecked() then
+		PIGA["QuickBut"]["AddonList"]=true
+		QuickButUI.ButList[6]()
+	else
+		PIGA["QuickBut"]["AddonList"]=false
+		PIG_OptionsUI.RLUI:Show();
+	end
+end)
 local Lushi_tooltip = {string.format(L["ACTION_ADDQUICKBUT"],TUTORIAL_TITLE31.."/"..TRADE_SKILLS),string.format(L["ACTION_ADDQUICKBUTTIS"],TUTORIAL_TITLE31.."/"..TRADE_SKILLS)}
 QuickButF.ModF.Lushi=PIGCheckbutton_R(QuickButF.ModF,Lushi_tooltip,true)
 QuickButF.ModF.Lushi:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["QuickBut"]["Lushi"]=true;
-		QuickButUI.ButList[6]()
+		QuickButUI.ButList[7]()
 	else
 		PIGA["QuickBut"]["Lushi"]=false;
 		PIG_OptionsUI.RLUI:Show()
@@ -179,7 +189,7 @@ QuickButF.ModF.Spell=PIGCheckbutton_R(QuickButF.ModF,{string.format(L["ACTION_AD
 QuickButF.ModF.Spell:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["QuickBut"]["Spell"]=true;
-		QuickButUI.ButList[7]()
+		QuickButUI.ButList[8]()
 	else
 		PIGA["QuickBut"]["Spell"]=false;
 		PIG_OptionsUI.RLUI:Show()
@@ -195,6 +205,7 @@ QuickButF.ModF:HookScript("OnShow", function(self)
 		self.QKButRune.RuneShow:SetChecked(PIGA["QuickBut"]["RuneShow"])
 	end
 	self.QKButEquip:SetChecked(PIGA["QuickBut"]["Equip"])
+	self.AddonList:SetChecked(PIGA["QuickBut"]["AddonList"])
 	if PIG_MaxTocversion(20000) then
 		self.QKButEquip:SetEnabled(PIGA["FramePlus"]["Character_Shuxing"])
 		self.QKButEquip.errt:SetShown(not PIGA["FramePlus"]["Character_Shuxing"])
@@ -304,7 +315,7 @@ QuickButUI.ButList[2]=function()
 	end
 end
 --炉石专业按钮----
-QuickButUI.ButList[6]=function()
+QuickButUI.ButList[7]=function()
 	if PIGA["QuickBut"]["Open"] and PIGA["QuickBut"]["Lushi"] then
 		if QuickButUI.LushiOpen then return end
 		QuickButUI.LushiOpen=true
@@ -628,7 +639,7 @@ if PIG_MaxTocversion() then
 		end)
 	end
 end
-QuickButUI.ButList[7]=function()
+QuickButUI.ButList[8]=function()
 	local PigMacroEventCount_QK =0;
 	local PigMacroDeleted_QK = false;
 	local PigMacroCount_QK=0

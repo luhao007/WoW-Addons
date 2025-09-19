@@ -365,12 +365,13 @@ local AreaIDNameMapper = setmetatable({}, {__index = function(t,key)
 end})
 local ReportedAreas = {};
 app.AddEventHandler("OnReportReset", function() wipe(ReportedAreas) end)
-local function PrintDiscordInformationForExploration(o)
+local function PrintDiscordInformationForExploration(o, type)
 	-- Temporarily disabled reports for users until we have most areas sorted.
 	-- We can't rely on the ID guessing based on the area name when we miss so many still.
 	if true then return end
 
 	if not app.Contributor then return end
+	if not type then return end
 	local areaID = o.explorationID;
 	if not areaID or ReportedAreas[areaID] then return; end
 	ReportedAreas[areaID] = o;
@@ -397,13 +398,25 @@ local function PrintDiscordInformationForExploration(o)
 	end
 	if not x or not y then app.print("Area",areaID,"has no valid coords on mapID",mapID) end
 
+	local inInstance = IsInInstance()
 	local luaFormat
-	if not IsInInstance() then
-		luaFormat = "visit_exploration(%d,{coord={%.1f,%.1f,%d}}),\t-- %s"
-		tinsert(info, luaFormat:format(areaID,x or 0,y or 0,mapID,text));
-	else
-		luaFormat = "instance_exploration(%d),\t-- %s"
-		tinsert(info, luaFormat:format(areaID,text));
+
+	if type == "subzone" then
+		if inInstance then
+			luaFormat = "visit_exploration(%d),\t-- %s"
+			tinsert(info, luaFormat:format(areaID, text))
+		else
+			luaFormat = "visit_exploration(%d,{coord={%.1f,%.1f,%d}}),\t-- %s"
+			tinsert(info, luaFormat:format(areaID, x or 0, y or 0, mapID, text))
+		end
+	elseif type == "zone" then
+		if inInstance then
+			luaFormat = "map_exploration(%d),\t-- %s"
+			tinsert(info, luaFormat:format(areaID, text))
+		else
+			luaFormat = "map_exploration(%d,{coord={%.1f,%.1f,%d}}),\t-- %s"
+			tinsert(info, luaFormat:format(areaID, x or 0, y or 0, mapID, text))
+		end
 	end
 	tinsert(info, "");
 	tinsert(info, "areaID: " .. (areaID or "??"));
@@ -424,14 +437,15 @@ local function PrintDiscordInformationForExploration(o)
 
 	local popupID = "area-" .. areaID;
 	app:SetupReportDialog(popupID, text, info);
-	app.print("Found Unmapped Area:", app:Linkify(text, app.Colors.ChatLinkError, "dialog:" .. popupID));
+	app.print("Found Unmapped Area (" .. type .. "):", app:Linkify(text, app.Colors.ChatLinkError, "dialog:" .. popupID))
 	app.Audio:PlayReportSound();
 end
 
 -- Reporting (all areas remembered in a single report window)
 local ExplorationReportLines = {}
-local function PrintDiscordInformationForAllExplorations(o)
+local function PrintDiscordInformationForAllExplorations(o, type)
     if not app.Contributor then return end
+	if not type then return end
     local areaID = o.explorationID
     if not areaID or ReportedAreas[areaID] then return end
     ReportedAreas[areaID] = o
@@ -454,18 +468,30 @@ local function PrintDiscordInformationForAllExplorations(o)
         app.print("Area", areaID, "has no valid coords on mapID", mapID)
     end
 
-    local luaFormat
-    if not IsInInstance() then
-        luaFormat = "visit_exploration(%d,{coord={%.1f,%.1f,%d}}),\t-- %s"
-       tinsert(ExplorationReportLines, luaFormat:format(areaID, x or 0, y or 0, mapID, text))
-    else
-        luaFormat = "instance_exploration(%d),\t-- %s"
-        tinsert(ExplorationReportLines, luaFormat:format(areaID, text))
-    end
+	local inInstance = IsInInstance()
+	local luaFormat
+
+	if type == "subzone" then
+		if inInstance then
+			luaFormat = "visit_exploration(%d),\t-- %s"
+			tinsert(ExplorationReportLines, luaFormat:format(areaID, text))
+		else
+			luaFormat = "visit_exploration(%d,{coord={%.1f,%.1f,%d}}),\t-- %s"
+			tinsert(ExplorationReportLines, luaFormat:format(areaID, x or 0, y or 0, mapID, text))
+		end
+	elseif type == "zone" then
+		if inInstance then
+			luaFormat = "map_exploration(%d),\t-- %s"
+			tinsert(ExplorationReportLines, luaFormat:format(areaID, text))
+		else
+			luaFormat = "map_exploration(%d,{coord={%.1f,%.1f,%d}}),\t-- %s"
+			tinsert(ExplorationReportLines, luaFormat:format(areaID, x or 0, y or 0, mapID, text))
+		end
+	end
 
     local popupID = "exploration-report-" .. areaID
     app:SetupReportDialog(popupID, "Exploration Reports", ExplorationReportLines)
-    app.print("Found Unmapped Area:", app:Linkify(text, app.Colors.ChatLinkError, "dialog:" .. popupID))
+    app.print("Found Unmapped Area (" .. type .. "):", app:Linkify(text, app.Colors.ChatLinkError, "dialog:" .. popupID))
     app.Audio:PlayReportSound()
 end
 local RefreshExplorationData = app.IsClassic and (function(data)
@@ -481,15 +507,24 @@ local function CacheAndUpdateExploration(explorationIDTable)
 	end
 	RefreshExplorationData(rawAreaIDdata)
 end
-local function GetExplorationBySubzone(mapID)
+local function GetExplorationByZoneOrSubzone(mapID)
 	local subzone = GetSubZoneText()
+    local zone = GetRealZoneText()
+	local name, type
 	if subzone and subzone ~= "" then
+		name = subzone
+		type = "subzone"
+	elseif zone and zone ~= "" then
+		name = zone
+		type = "zone"
+	end
+    if name then
 		local mapObject = app.SearchForObject("mapID",mapID,"key")
 		if mapObject and mapObject.g then
 			for _,o in ipairs(mapObject.g) do
 				if o.headerID == app.HeaderConstants.EXPLORATION and o.g then
 					for _,e in ipairs(o.g) do
-						if e.name == subzone and e.__type == "Exploration" and e.coords then
+						if e.name == name and e.__type == "Exploration" and e.coords then
 							return e
 						end
 					end
@@ -498,22 +533,22 @@ local function GetExplorationBySubzone(mapID)
 			end
 		end
 		if not app.Contributor then return end
-		local expectedAreaID = AreaIDNameMapper[subzone]
+		local expectedAreaID = AreaIDNameMapper[name]
 		if not expectedAreaID then return end
 		-- don't report an area which is actually mapped in another zone already
 		local mappedExploration = app.SearchForObject("explorationID", expectedAreaID)
 		-- app.PrintDebug("mappedExploration",mappedExploration,mappedExploration and mappedExploration.__type)
 		-- not in ATT at all
 		if not mappedExploration then
-			local e = app.CreateExploration(expectedAreaID, { mapID = mapID, name = subzone})
-			PrintDiscordInformationForExploration(e);
+			local e = app.CreateExploration(expectedAreaID, { mapID = mapID, name = name})
+			PrintDiscordInformationForExploration(e, type);
 			return e
 		-- in ATT as NYI or Unsorted
 		elseif mappedExploration._missing or app.GetRelativeValue(mappedExploration, "_nyi") then
 			-- inject some data into the exploration object so we can report about it properly
 			mappedExploration.mapID = mapID
-			mappedExploration.name = subzone
-			PrintDiscordInformationForExploration(mappedExploration);
+			mappedExploration.name = name
+			PrintDiscordInformationForExploration(mappedExploration, type);
 		else
 			-- local explorationMapID = app.GetRelativeValue(mappedExploration, "mapID")
 			-- in ATT under a different map
@@ -528,23 +563,23 @@ local function GetExplorationBySubzone(mapID)
 			-- end
 			-- in ATT without coords, likely means it can't be detected in API since it would be populated
 			if C_Map_GetPlayerMapPosition(mapID, "player") and not mappedExploration.coords then
-				PrintDiscordInformationForExploration(mappedExploration);
+				PrintDiscordInformationForExploration(mappedExploration, type);
 			end
 		end
 		return mappedExploration
 	end
 end
 local function CheckIfExplorationIsMissing(mapID)
-	-- do a manual check by way of the sub-zone name (since this is what correlates to the exploration name players see in ATT)
-	-- we will provide a manual collection by way of exact player position having a specific subzone name when performing a check
-	local explorationForSubzone = GetExplorationBySubzone(mapID)
-	if explorationForSubzone then
-		-- app.PrintDebug("SubzoneExplorationFind",explorationForSubzone,app:SearchLink(explorationForSubzone))
-		local areaID = explorationForSubzone.explorationID
+	-- do a manual check by way of the zone or sub-zone name (since this is what correlates to the exploration name players see in ATT)
+	-- we will provide a manual collection by way of exact player position having a specific zone or subzone name when performing a check
+	local explorationForZoneOrSubzone = GetExplorationByZoneOrSubzone(mapID)
+	if explorationForZoneOrSubzone then
+		-- app.PrintDebug("ZoneOrSubzoneExplorationFind",explorationForZoneOrSubzone,app:SearchLink(explorationForZoneOrSubzone))
+		local areaID = explorationForZoneOrSubzone.explorationID
 		local characterExploration = app.CurrentCharacter.Exploration
 		-- don't know how areaID could be nil here...
 		if areaID and not characterExploration[areaID] then
-			-- app.PrintDebug("Manual cached Exploration by Subzone name")
+			-- app.PrintDebug("Manual cached Exploration by Zone or Subzone name")
 			-- we won't use regular caching since we're manually checking instead of the expected API utilization
 			-- maybe eventually blizzard will fix the API
 			characterExploration[areaID] = 2

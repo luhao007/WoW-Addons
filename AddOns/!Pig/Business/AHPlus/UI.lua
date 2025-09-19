@@ -176,7 +176,7 @@ local function zhixingdianjiFUn(framef)
 	end);
 end
 function BusinessInfo.QuicAuc()
-	if PIG_MaxTocversion() then
+	if PIG_MaxTocversion(40000) then
 		if PIGA["AHPlus"]["QuicAuc"] then
 			if NDui then
 				local NDui_BagName,slotnum = Data.NDui_BagName[1],Data.NDui_BagName[2]

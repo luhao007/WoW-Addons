@@ -1,6 +1,7 @@
 <Ui>
 	<Script file="AudioList.lua" />
 	<Script file="Fun.lua" />
+	<Script file="LFG.lua" />
 	<Script file="ActionFun.lua" />	
 	<Script file="PIGGetItemInfo.lua" />
 	<Script file="Data.lua" />

@@ -534,8 +534,13 @@ local function add_ItemList(fujik,miaodian,ZBLsit_C,TalentUI)
 	local PointXY = {-33,-13}
 	if PIG_MaxTocversion(50000) then
 	else
-		PointXY[1]=-1
-		PointXY[2]=0
+		if fujik==_G[Data.LongInspectUIUIname] then
+			PointXY[1]=-34
+			PointXY[2]=-13
+		else
+			PointXY[1]=-1
+			PointXY[2]=0
+		end
 	end
 	local ZBLsit = PIGFrame(fujik,{"TOPLEFT", fujik, "TOPRIGHT",PointXY[1],PointXY[2]},{ListWWWHHH[1],ListWWWHHH[2]},nil,nil,nil,{["ElvUI"]={2,0,2,0},["NDui"]={-1,-2,-1,0}});
 	ZBLsit.classes = ZBLsit:CreateTexture();
@@ -837,23 +842,6 @@ local function add_ItemList(fujik,miaodian,ZBLsit_C,TalentUI)
 	ZBLsit:HookScript("OnHide", function(self)
 		if self.allstats_Ticker then self.allstats_Ticker:Cancel() end
 	end);
-	ZBLsit:HookScript("OnShow", function(self)
-		if PIG_MaxTocversion(50000) and fujik==PaperDollFrame then
-			-- if C_Engraving and C_Engraving.IsEngravingEnabled() then
-			-- 	hooksecurefunc("ToggleEngravingFrame", function()
-			-- 		FramePlusfun.UpdatePoint(PaperDollFrame)
-			-- 	end)
-			-- end
-			if NDui then
-				self:ClearAllPoints();
-				if NDui and NDuiStatPanel and NDuiStatPanel:IsShown() then
-					self:SetPoint("TOPLEFT", NDuiStatPanel, "TOPRIGHT",2,1)
-				else
-					self:SetPoint("TOPLEFT", fujik, "TOPRIGHT",-34,-15)
-				end
-			end
-		end
-	end)
 	if GetAverageItemLevel then
 		ZBLsit:RegisterEvent("PLAYER_AVG_ITEM_LEVEL_UPDATE");
 		ZBLsit:HookScript("OnEvent", function(self,event,arg1)

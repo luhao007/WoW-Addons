@@ -136,6 +136,17 @@ function RSMapDB.GetContinentOfMap(mapID)
 	return nil
 end
 
+function RSMapDB.GetParentMapID(mapID)
+	if (mapID) then
+		local mapInfo = C_Map.GetMapInfo(mapID)
+		if (mapInfo) then
+			return mapInfo.parentMapID
+		end
+	end
+	
+	return nil
+end
+
 function RSMapDB.IsMapInCurrentExpansion(mapID)
 	if (not mapID) then
 		return false

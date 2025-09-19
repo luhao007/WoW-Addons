@@ -382,7 +382,7 @@ app.AddEventHandler("OnStartup", function()
 	-- add a refresh fillers event
 	app.AddEventHandler("Fill.RefreshFillers", RefreshActiveFillFunctions, true)
 	-- if settings changes are detected during recalculate, then re-sync those settings to the Fill priority
-	app.AddEventHandler("OnRecalculate_NewSettings", SyncFillPriorityFromSettings)
+	app.AddEventHandler("OnRecalculate_NewSettings", SyncFillPriorityFromSettings, true)
 	-- new fillers added after startup (maybe other addons idk) need to sync from settings
 	app.AddEventHandler("Fill.OnAddFiller", SyncFillPriorityFromSettings)
 	-- add event sequences for filler changes later (this ensures that the refresh event is performed via callback)

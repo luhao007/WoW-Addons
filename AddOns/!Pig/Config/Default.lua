@@ -241,6 +241,7 @@ addonTable.Default = {
 		["Rune"]=true,
 		["RuneShow"]=false,
 		["Equip"]=true,
+		["AddonList"]=true,
 		["Trinket"]=true,
 		["TrinketFenli"]=false,
 		["TrinketFenliPailie"]=1,

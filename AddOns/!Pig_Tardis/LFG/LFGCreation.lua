@@ -1,6 +1,6 @@
 local addonName, addonTable = ...;
 local TardisInfo=addonTable.TardisInfo
-function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
+function TardisInfo.LFGCreation(FCTabF,EnterF)
 	local Create, Data, Fun, L= unpack(PIG)
 	local PIGFrame=Create.PIGFrame
 	local PIGLine=Create.PIGLine
@@ -11,6 +11,7 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	local PIGSetFont=Create.PIGSetFont
 	local PIGDiyBut=Create.PIGDiyBut
 	local FasongYCqingqiu=Fun.FasongYCqingqiu
+	local PIG_GetCategories=Fun.PIG_GetCategories
 	---------------
 	local gsub = _G.string.gsub
 	local TalentData=Data.TalentData
@@ -27,34 +28,9 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	--创建车队
 	FCTabF.ADD.Category_T=PIGFontString(FCTabF.ADD,{"TOPLEFT",FCTabF.ADD,"TOPLEFT",20,-20},LFG_LIST_SELECT..CALENDAR_CREATE_EVENT..TYPE)
 	FCTabF.ADD.CategorieButList={}
-	for i=1,8 do
-		local ckbut = PIGCheckbutton(FCTabF.ADD)
-		FCTabF.ADD.CategorieButList[i]=ckbut
-		if i==1 then
-			ckbut:SetPoint("TOPLEFT",FCTabF.ADD,"TOPLEFT",20,-40)
-		elseif i==5 then
-			ckbut:SetPoint("TOPLEFT",FCTabF.ADD.CategorieButList[1],"TOPLEFT",0,-30)
-		else
-			ckbut:SetPoint("LEFT",FCTabF.ADD.CategorieButList[i-1].Text,"RIGHT",8,0)
-		end
-		ckbut:HookScript("OnClick", function (self)
-			FCTabF:ClearActivityADD()
-			self:SetChecked(true)
-			FCTabF.selectedCategory=self:GetID()
-			FCTabF:UpdateActivityADD()
-		end)
-	end
 	function FCTabF.ADD:CategorieIsChecked(BOT)
 		for i=1,#self.CategorieButList do
 			self.CategorieButList[i]:SetChecked(BOT)
-		end
-	end
-	function FCTabF.ADD:CategorieSetChecked(CategorieID)
-		for i=1,#self.CategorieButList do
-			if self.CategorieButList[i]:GetID()==CategorieID then
-				self.CategorieButList[i]:SetChecked(true)
-				return
-			end
 		end
 	end
 	function FCTabF.ADD:CategorieIsEnabled(BOT)
@@ -62,79 +38,117 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 			self.CategorieButList[i]:SetEnabled(BOT)
 		end
 	end
-	FCTabF.ADD:HookScript("OnShow", function (self)
+	function FCTabF.ADD:CategorieSetChecked(selectedCategory)
 		for i=1,#self.CategorieButList do
-			self.CategorieButList[i]:Hide()
-			if FCTabF.tabList[i] then
-				self.CategorieButList[i]:Show()
-				self.CategorieButList[i].Text:SetText(FCTabF.tabList[i][2])
-				self.CategorieButList[i]:SetID(FCTabF.tabList[i][1])
-				self.CategorieButList[i]:UpdateHitRectInsets()
+			if selectedCategory==self.CategorieButList[i]:GetID() then
+				self.CategorieButList[i]:SetChecked(true)
+				return
 			end
+		end
+	end
+	FCTabF.ADD:HookScript("OnShow", function (self)
+		if not self.tabList then
+			self.tabList=PIG_GetCategories()
+		end
+		for i=1,#self.tabList do
+			if not self.CategorieButList[i] then
+				self.CategorieButList[i] = PIGCheckbutton(self)
+				if i==1 then
+					self.CategorieButList[i]:SetPoint("TOPLEFT",self,"TOPLEFT",20,-40)
+				elseif i==5 then
+					self.CategorieButList[i]:SetPoint("TOPLEFT",self.CategorieButList[1],"TOPLEFT",0,-30)
+				else
+					self.CategorieButList[i]:SetPoint("LEFT",self.CategorieButList[i-1].Text,"RIGHT",8,0)
+				end
+				self.CategorieButList[i]:HookScript("OnClick", function (self)
+					FCTabF.ADD:Clear_Activity()
+					self:SetChecked(true)
+					FCTabF.selectedCategory=self:GetID()
+					FCTabF.ADD:Update_Activity()
+				end)
+			end
+			self.CategorieButList[i]:Show()
+			self.CategorieButList[i].Text:SetText(FCTabF.tabList[i][2])
+			self.CategorieButList[i]:SetID(FCTabF.tabList[i][1])
+			self.CategorieButList[i]:UpdateHitRectInsets()
 		end
 	end);
 
-	FCTabF.ADD.GroupDropDown =PIGDownMenu(FCTabF.ADD,{"TOPLEFT",FCTabF.ADD.Category_T,"TOPLEFT",0,-110},{FCTabF.ADD.Width,nil})
+	FCTabF.ADD.GroupDropDown =PIGDownMenu(FCTabF.ADD,{"TOPLEFT",FCTabF.ADD.Category_T,"TOPLEFT",0,-106},{FCTabF.ADD.Width,nil})
 	FCTabF.ADD.GroupDropDown:Hide()
 	FCTabF.ADD.GroupDropDown.t=PIGFontString(FCTabF.ADD.GroupDropDown,{"BOTTOMLEFT",FCTabF.ADD.GroupDropDown,"TOPLEFT",0,4},"目的地")
 	function FCTabF.ADD.GroupDropDown:PIGDownMenu_Update_But()
 		local info = {}
 		info.func = self.PIGDownMenu_SetValue
-		local ActivityGroups = C_LFGList.GetAvailableActivityGroups(FCTabF.selectedCategory)
-		for i=1,#ActivityGroups,1 do
-			local groupID = ActivityGroups[i];
-			local name = C_LFGList.GetActivityGroupInfo(groupID) or ""
-		    info.text, info.arg1, info.arg2 = name, groupID, "group";
-		    info.checked = groupID == FCTabF.selectedGroup
+		local GroupList,GroupData=Fun.PIG_GetGroups(FCTabF.selectedCategory)
+		for ixx=1,#GroupList do
+			info.text= GroupList[ixx][2]
+			info.arg1=GroupList[ixx][1]
+			info.checked = GroupList[ixx][1] == FCTabF.selectedGroup
 			self:PIGDownMenu_AddButton(info)
-		end 
+		end
 	end
 	function FCTabF.ADD.GroupDropDown:PIGDownMenu_SetValue(value,arg1,arg2)
 		self:PIGDownMenu_SetText(value)
 		FCTabF.selectedGroup=arg1
-		local activities = C_LFGList.GetAvailableActivities(FCTabF.selectedCategory,FCTabF.selectedGroup)
-		FCTabF.selectedActivity=activities[1] or 0
-		FCTabF:UpdateActivityADD()
+		FCTabF.selectedActivity=nil
+		FCTabF.ADD:Update_Activity()
 		PIGCloseDropDownMenus()
 	end
 	--
 	FCTabF.ADD.ActivityDropDown =PIGDownMenu(FCTabF.ADD,{"TOPLEFT",FCTabF.ADD.GroupDropDown,"BOTTOMLEFT",0,-8},{FCTabF.ADD.Width,nil})
 	FCTabF.ADD.ActivityDropDown:Hide()
-	local function panduancunzaitongName(heji,name1)
-		for i=1,#heji do
-			if heji[i][1]==name1 then
-				return false
-			end
-		end
-		return true
-	end
 	function FCTabF.ADD.ActivityDropDown:PIGDownMenu_Update_But()
 		local info = {}
 		info.func = self.PIGDownMenu_SetValue
-		local Activities = C_LFGList.GetAvailableActivities(FCTabF.selectedCategory,FCTabF.selectedGroup)
-		local newActivities = {}
-		for i=1,#Activities,1 do
-			local ActivityInfo= C_LFGList.GetActivityInfoTable(Activities[i])
-			if FCTabF.selectedGroup==300 then
-				if panduancunzaitongName(newActivities,ActivityInfo.fullName) then
-					table.insert(newActivities,{ActivityInfo.fullName,Activities[i]})
-				end
-			else
-				table.insert(newActivities,{ActivityInfo.fullName,Activities[i]})
+		if FCTabF.selectedGroup then
+			local Activities = self.downData[FCTabF.selectedGroup]
+			for acid=1, #Activities do
+				info.text= Activities[acid][2]
+				info.arg1= Activities[acid][1]
+				info.checked = Activities[acid][1] == FCTabF.selectedActivity
+				self:PIGDownMenu_AddButton(info, level,acid==#Activities)
+			end
+		else
+			local Activities = self.downData
+			for acid=1, #Activities do
+				info.text= Activities[acid][2]
+				info.arg1= Activities[acid][1]
+				info.checked = Activities[acid][1] == FCTabF.selectedActivity
+				self:PIGDownMenu_AddButton(info, level, acid==#Activities)
 			end
 		end
-		for i=1,#newActivities,1 do
-		    info.text, info.arg1, info.arg2 = newActivities[i][1], newActivities[i][2], "activity";
-		    info.checked = newActivities[i][2] == FCTabF.selectedActivity
-			self:PIGDownMenu_AddButton(info)
-		end 
 	end
 	function FCTabF.ADD.ActivityDropDown:PIGDownMenu_SetValue(value,arg1,arg2)
 		self:PIGDownMenu_SetText(value)
 		FCTabF.selectedActivity=arg1
-		FCTabF:UpdateActivityADD()
+		FCTabF.ADD:Update_Activity()
 		PIGCloseDropDownMenus()
 	end
+	---
+	local PlaystyleList={Enum.LFGEntryPlaystyle.Standard,Enum.LFGEntryPlaystyle.Casual, Enum.LFGEntryPlaystyle.Hardcore}
+	FCTabF.ADD.PlayStyleDropdown =PIGDownMenu(FCTabF.ADD,{"TOPRIGHT",FCTabF.ADD.ActivityDropDown,"BOTTOMRIGHT",0,-8},{FCTabF.ADD.Width-66,nil})
+	FCTabF.ADD.PlayStyleDropdown:Hide()
+	FCTabF.ADD.PlayStyleLabel=PIGFontString(FCTabF.ADD,{"RIGHT",FCTabF.ADD.PlayStyleDropdown,"LEFT",-4,0})
+	function FCTabF.ADD.PlayStyleDropdown:PIGDownMenu_Update_But()
+		local info = {}
+		info.func = self.PIGDownMenu_SetValue
+		local activityInfo = C_LFGList.GetActivityInfoTable(FCTabF.selectedActivity);
+		for acid=1, #PlaystyleList do
+			local text = C_LFGList.GetPlaystyleString(PlaystyleList[acid], activityInfo);
+			info.text= text
+			info.arg1= PlaystyleList[acid]
+			info.checked = PlaystyleList[acid] == FCTabF.selectedPlaystyle
+			self:PIGDownMenu_AddButton(info)
+		end
+	end
+	function FCTabF.ADD.PlayStyleDropdown:PIGDownMenu_SetValue(value,arg1,arg2)
+		self:PIGDownMenu_SetText(value)
+		FCTabF.selectedPlaystyle=arg1
+		FCTabF.ADD:Update_Activity()
+		PIGCloseDropDownMenus()
+	end
+	----
 	local function SetEditBoxBG(eui,bgui)
 		local BGx = eui.BG or bgui
 		BGx:PIGSetBackdrop(0,0.8,nil,{0.5, 0.5, 0.5})
@@ -153,7 +167,7 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	end
 	FCTabF.ADD.ItemLevel=PIGFrame(FCTabF.ADD,{"TOPLEFT",FCTabF.ADD.ActivityDropDown,"BOTTOMLEFT",0,-40},{FCTabF.ADD.Width,24})
 	FCTabF.ADD.ItemLevel:Hide()
-	FCTabF.ADD.ItemLevel.CheckButton = PIGCheckbutton(FCTabF.ADD.ItemLevel,{"LEFT",FCTabF.ADD.ItemLevel,"LEFT",0,0},{LFG_LIST_ITEM_LEVEL_REQ,LFG_LIST_ITEM_LEVEL_REQ})
+	FCTabF.ADD.ItemLevel.CheckButton = PIGCheckbutton(FCTabF.ADD.ItemLevel,{"LEFT",FCTabF.ADD.ItemLevel,"LEFT",0,0},{LFG_LIST_ITEM_LEVEL_REQ})
 	FCTabF.ADD.ItemLevel.EditBox = CreateFrame("EditBox", nil, FCTabF.ADD.ItemLevel);
 	FCTabF.ADD.ItemLevel.EditBox:SetPoint("LEFT", FCTabF.ADD.ItemLevel.CheckButton.Text, "RIGHT", 6,0);
 	FCTabF.ADD.ItemLevel.EditBox:SetPoint("RIGHT", FCTabF.ADD.ItemLevel, "RIGHT", -90,0);
@@ -172,7 +186,76 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	FCTabF.ADD.ItemLevel.maxlvt=PIGFontString(FCTabF.ADD.ItemLevel,{"LEFT",FCTabF.ADD.ItemLevel.EditBox,"RIGHT",10,0},"当前")
 	FCTabF.ADD.ItemLevel.maxlv=PIGFontString(FCTabF.ADD.ItemLevel,{"LEFT",FCTabF.ADD.ItemLevel.maxlvt,"RIGHT",0,0})
 
-	FCTabF.ADD.VoiceChat=PIGFrame(FCTabF.ADD,{"TOPLEFT",FCTabF.ADD.ItemLevel,"BOTTOMLEFT",0,-10},{FCTabF.ADD.Width,24})
+	--PVP相关
+	FCTabF.ADD.PvpItemLevel=PIGFrame(FCTabF.ADD,{"TOPLEFT",FCTabF.ADD.ActivityDropDown,"BOTTOMLEFT",0,-40},{FCTabF.ADD.Width,24})
+	FCTabF.ADD.PvpItemLevel:Hide()
+	FCTabF.ADD.PvpItemLevel.CheckButton = PIGCheckbutton(FCTabF.ADD.PvpItemLevel,{"LEFT",FCTabF.ADD.PvpItemLevel,"LEFT",0,0},{LFG_LIST_ITEM_LEVEL_PVP})
+	FCTabF.ADD.PvpItemLevel.EditBox = CreateFrame("EditBox", nil, FCTabF.ADD.PvpItemLevel);
+	FCTabF.ADD.PvpItemLevel.EditBox:SetPoint("LEFT", FCTabF.ADD.PvpItemLevel.CheckButton.Text, "RIGHT", 6,0);
+	FCTabF.ADD.PvpItemLevel.EditBox:SetPoint("RIGHT", FCTabF.ADD.PvpItemLevel, "RIGHT", -90,0);
+	FCTabF.ADD.PvpItemLevel.EditBox:SetHeight(20);
+	PIGSetFont(FCTabF.ADD.PvpItemLevel.EditBox,14,"OUTLINE")
+	FCTabF.ADD.PvpItemLevel.EditBox:SetMaxLetters(6)
+	FCTabF.ADD.PvpItemLevel.EditBox:SetNumeric(true)
+	FCTabF.ADD.PvpItemLevel.EditBox:SetAutoFocus(false)
+	FCTabF.ADD.PvpItemLevel.EditBox.BG=PIGFrame(FCTabF.ADD.PvpItemLevel.EditBox,{"TOPLEFT", FCTabF.ADD.PvpItemLevel.EditBox, "TOPLEFT", -4,0})
+	FCTabF.ADD.PvpItemLevel.EditBox.BG:SetPoint("BOTTOMRIGHT", FCTabF.ADD.PvpItemLevel.EditBox, "BOTTOMRIGHT", 4,0);
+	FCTabF.ADD.PvpItemLevel.EditBox.BG:SetFrameLevel(FCTabF.ADD.PvpItemLevel.EditBox:GetFrameLevel()-1)
+	SetEditBoxBG(FCTabF.ADD.PvpItemLevel.EditBox)
+	FCTabF.ADD.PvpItemLevel.EditBox:SetScript("OnTextChanged", function(self)
+		FCTabF.ADD:ListGroupButton_Update()
+	end);
+	FCTabF.ADD.PvpItemLevel.maxlvt=PIGFontString(FCTabF.ADD.PvpItemLevel,{"LEFT",FCTabF.ADD.PvpItemLevel.EditBox,"RIGHT",10,0},"当前")
+	FCTabF.ADD.PvpItemLevel.maxlv=PIGFontString(FCTabF.ADD.PvpItemLevel,{"LEFT",FCTabF.ADD.PvpItemLevel.maxlvt,"RIGHT",0,0})
+
+	FCTabF.ADD.PVPRating=PIGFrame(FCTabF.ADD,{"TOPLEFT",FCTabF.ADD.PvpItemLevel,"BOTTOMLEFT",0,-10},{FCTabF.ADD.Width,24})
+	FCTabF.ADD.PVPRating:Hide()
+	FCTabF.ADD.PVPRating.CheckButton = PIGCheckbutton(FCTabF.ADD.PVPRating,{"LEFT",FCTabF.ADD.PVPRating,"LEFT",0,0},{GROUP_FINDER_PVP_RATING_REQ_LABEL})
+	FCTabF.ADD.PVPRating.EditBox = CreateFrame("EditBox", nil, FCTabF.ADD.PVPRating);
+	FCTabF.ADD.PVPRating.EditBox:SetPoint("LEFT", FCTabF.ADD.PVPRating.CheckButton.Text, "RIGHT", 6,0);
+	FCTabF.ADD.PVPRating.EditBox:SetPoint("RIGHT", FCTabF.ADD.PVPRating, "RIGHT", -10,0);
+	FCTabF.ADD.PVPRating.EditBox:SetHeight(20);
+	PIGSetFont(FCTabF.ADD.PVPRating.EditBox,14,"OUTLINE")
+	FCTabF.ADD.PVPRating.EditBox:SetAutoFocus(false)
+	FCTabF.ADD.PVPRating.EditBox.BG=PIGFrame(FCTabF.ADD.PVPRating.EditBox,{"TOPLEFT", FCTabF.ADD.PVPRating.EditBox, "TOPLEFT", -4,0})
+	FCTabF.ADD.PVPRating.EditBox.BG:SetPoint("BOTTOMRIGHT", FCTabF.ADD.PVPRating.EditBox, "BOTTOMRIGHT", 4,0);
+	FCTabF.ADD.PVPRating.EditBox.BG:PIGSetBackdrop(0,0.8,nil,{0.5, 0.5, 0.5})
+	FCTabF.ADD.PVPRating.EditBox.BG:SetFrameLevel(FCTabF.ADD.PVPRating.EditBox:GetFrameLevel()-1)
+	SetEditBoxBG(FCTabF.ADD.PVPRating.EditBox)
+	FCTabF.ADD.PVPRating.EditBox:SetScript("OnTextChanged", function(self)
+		FCTabF.ADD:ListGroupButton_Update()
+	end);
+	
+	--史诗钥石
+	FCTabF.ADD.MythicPlusRating=PIGFrame(FCTabF.ADD,{"TOPLEFT",FCTabF.ADD.PvpItemLevel,"BOTTOMLEFT",0,-10},{FCTabF.ADD.Width,24})
+	FCTabF.ADD.MythicPlusRating:Hide()
+	FCTabF.ADD.MythicPlusRating.CheckButton = PIGCheckbutton(FCTabF.ADD.MythicPlusRating,{"LEFT",FCTabF.ADD.MythicPlusRating,"LEFT",0,0},{GROUP_FINDER_MYTHIC_RATING_REQ_LABEL})
+	FCTabF.ADD.MythicPlusRating.EditBox = CreateFrame("EditBox", nil, FCTabF.ADD.MythicPlusRating);
+	FCTabF.ADD.MythicPlusRating.EditBox:SetPoint("LEFT", FCTabF.ADD.MythicPlusRating.CheckButton.Text, "RIGHT", 6,0);
+	FCTabF.ADD.MythicPlusRating.EditBox:SetPoint("RIGHT", FCTabF.ADD.MythicPlusRating, "RIGHT", -90,0);
+	FCTabF.ADD.MythicPlusRating.EditBox:SetHeight(20);
+	PIGSetFont(FCTabF.ADD.MythicPlusRating.EditBox,14,"OUTLINE")
+	FCTabF.ADD.MythicPlusRating.EditBox:SetMaxLetters(6)
+	FCTabF.ADD.MythicPlusRating.EditBox:SetNumeric(true)
+	FCTabF.ADD.MythicPlusRating.EditBox:SetAutoFocus(false)
+	FCTabF.ADD.MythicPlusRating.EditBox.BG=PIGFrame(FCTabF.ADD.MythicPlusRating.EditBox,{"TOPLEFT", FCTabF.ADD.MythicPlusRating.EditBox, "TOPLEFT", -4,0})
+	FCTabF.ADD.MythicPlusRating.EditBox.BG:SetPoint("BOTTOMRIGHT", FCTabF.ADD.MythicPlusRating.EditBox, "BOTTOMRIGHT", 4,0);
+	FCTabF.ADD.MythicPlusRating.EditBox.BG:SetFrameLevel(FCTabF.ADD.MythicPlusRating.EditBox:GetFrameLevel()-1)
+	SetEditBoxBG(FCTabF.ADD.MythicPlusRating.EditBox)
+	FCTabF.ADD.MythicPlusRating.EditBox:SetScript("OnTextChanged", function(self)
+		FCTabF.ADD:ListGroupButton_Update()
+	end);
+	---
+	FCTabF.ADD.CrossFactionGroup=PIGFrame(FCTabF.ADD,{"BOTTOMLEFT",FCTabF.ADD,"BOTTOMLEFT",20,60},{FCTabF.ADD.Width*0.5,24})
+	FCTabF.ADD.CrossFactionGroup:Hide()
+	local _, localizedFaction = UnitFactionGroup("player");
+	FCTabF.ADD.CrossFactionGroup.CheckButton = PIGCheckbutton(FCTabF.ADD.CrossFactionGroup,{"LEFT",FCTabF.ADD.CrossFactionGroup,"LEFT",0,0},{LFG_LIST_CROSS_FACTION:format(localizedFaction),LFG_LIST_CROSS_FACTION_TOOLTIP:format(localizedFaction)})
+	
+	FCTabF.ADD.PrivateGroup=PIGFrame(FCTabF.ADD,{"LEFT",FCTabF.ADD.CrossFactionGroup,"RIGHT",10,0},{FCTabF.ADD.Width*0.5,24})
+	FCTabF.ADD.PrivateGroup:Hide()
+	FCTabF.ADD.PrivateGroup.CheckButton = PIGCheckbutton(FCTabF.ADD.PrivateGroup,{"LEFT",FCTabF.ADD.PrivateGroup,"LEFT",0,0},{"仅对公会/好友可见",LFG_LIST_PRIVATE_TOOLTIP})
+
+	FCTabF.ADD.VoiceChat=PIGFrame(FCTabF.ADD,{"BOTTOMLEFT",FCTabF.ADD.CrossFactionGroup,"TOPLEFT",0,10},{FCTabF.ADD.Width,24})
 	FCTabF.ADD.VoiceChat:Hide()
 	FCTabF.ADD.VoiceChat.CheckButton = PIGCheckbutton(FCTabF.ADD.VoiceChat,{"LEFT",FCTabF.ADD.VoiceChat,"LEFT",0,0},{LFG_LIST_VOICE_CHAT,LFG_LIST_VOICE_CHAT_INSTR})
 	FCTabF.ADD.VoiceChat.CheckButton:Disable()
@@ -182,23 +265,14 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	FCTabF.ADD.VoiceChat.EditBox:SetHeight(20);
 	PIGSetFont(FCTabF.ADD.VoiceChat.EditBox,14,"OUTLINE")
 	FCTabF.ADD.VoiceChat.EditBox:SetAutoFocus(false)
-	FCTabF.ADD.VoiceChat.EditBox:Disable()
 	FCTabF.ADD.VoiceChat.EditBox.BG=PIGFrame(FCTabF.ADD.VoiceChat.EditBox,{"TOPLEFT", FCTabF.ADD.VoiceChat.EditBox, "TOPLEFT", -4,0})
 	FCTabF.ADD.VoiceChat.EditBox.BG:SetPoint("BOTTOMRIGHT", FCTabF.ADD.VoiceChat.EditBox, "BOTTOMRIGHT", 4,0);
 	FCTabF.ADD.VoiceChat.EditBox.BG:PIGSetBackdrop(0,0.8,nil,{0.5, 0.5, 0.5})
 	FCTabF.ADD.VoiceChat.EditBox.BG:SetFrameLevel(FCTabF.ADD.VoiceChat.EditBox:GetFrameLevel()-1)
 	SetEditBoxBG(FCTabF.ADD.VoiceChat.EditBox)
-	---
-	FCTabF.ADD.CrossFactionGroup=PIGFrame(FCTabF.ADD,{"TOPLEFT",FCTabF.ADD.VoiceChat,"BOTTOMLEFT",0,-10},{FCTabF.ADD.Width,24})
-	FCTabF.ADD.CrossFactionGroup:Hide()
-	local _, localizedFaction = UnitFactionGroup("player");
-	FCTabF.ADD.CrossFactionGroup.CheckButton = PIGCheckbutton(FCTabF.ADD.CrossFactionGroup,{"LEFT",FCTabF.ADD.CrossFactionGroup,"LEFT",0,0},{LFG_LIST_CROSS_FACTION:format(localizedFaction),LFG_LIST_CROSS_FACTION_TOOLTIP:format(localizedFaction)})
-	FCTabF.ADD.CrossFactionGroup.CheckButton:Disable()
-	
-	FCTabF.ADD.PrivateGroup=PIGFrame(FCTabF.ADD,{"TOPLEFT",FCTabF.ADD.CrossFactionGroup,"BOTTOMLEFT",0,-10},{FCTabF.ADD.Width,24})
-	FCTabF.ADD.PrivateGroup:Hide()
-	FCTabF.ADD.PrivateGroup.CheckButton = PIGCheckbutton(FCTabF.ADD.PrivateGroup,{"LEFT",FCTabF.ADD.PrivateGroup,"LEFT",0,0},{"仅对公会/好友可见",LFG_LIST_PRIVATE_TOOLTIP})
-	FCTabF.ADD.Role = InvF.addRoleSetBut(FCTabF.ADD,40,{"TOPLEFT",FCTabF.ADD.PrivateGroup,"BOTTOMLEFT",20,-18},3)
+
+	--职责
+	FCTabF.ADD.Role = InvF.addRoleSetBut(FCTabF.ADD,40,{"BOTTOMLEFT",FCTabF.ADD,"BOTTOMLEFT",50,10},3)
 	FCTabF.ADD.Role:SetScript("OnShow", function(self)
 		local availTank, availHealer, availDPS = C_LFGList.GetAvailableRoles();
 		self.T:SetShown(availTank);
@@ -209,21 +283,6 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 		self.H.checkButton:SetChecked(healer);
 		self.D.checkButton:SetChecked(dps);
 	end)
-
-	-- 未启用
-	-- FCTabF.ADD.PVPRating=PIGFrame(FCTabF.ADD)
-	-- FCTabF.ADD.PVPRating.EditBox = CreateFrame("EditBox", nil, FCTabF.ADD.PVPRating);
-	-- FCTabF.ADD.PVPRating.EditBox:SetAutoFocus(false)
-	-- FCTabF.ADD.PVPRating.CheckButton = PIGCheckbutton(FCTabF.ADD.PVPRating)
-	-- FCTabF.ADD.PvpItemLevel=PIGFrame(FCTabF.ADD)
-	-- FCTabF.ADD.PvpItemLevel.CheckButton = PIGCheckbutton(FCTabF.ADD.PvpItemLevel)
-	-- FCTabF.ADD.PvpItemLevel.EditBox = CreateFrame("EditBox", nil, FCTabF.ADD.PvpItemLevel);
-	-- FCTabF.ADD.PvpItemLevel.EditBox:SetAutoFocus(false)
-	-- FCTabF.ADD.MythicPlusRating=PIGFrame(FCTabF.ADD)
-	-- FCTabF.ADD.MythicPlusRating.EditBox = CreateFrame("EditBox", nil, FCTabF.ADD.MythicPlusRating);
-	-- FCTabF.ADD.MythicPlusRating.EditBox:SetAutoFocus(false)
-	-- FCTabF.ADD.MythicPlusRating.CheckButton = PIGCheckbutton(FCTabF.ADD.MythicPlusRating)
-
 	--标题
 	local NameBox = LFGListFrame.EntryCreation.Name
 	NameBox:SetMultiLine(true)
@@ -259,107 +318,306 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
     DescriptionBox.BottomRightTex:Hide()
 	FCTabF.ADD.DescriptionF.t=PIGFontString(FCTabF.ADD.DescriptionF,{"BOTTOMLEFT",FCTabF.ADD.DescriptionF,"TOPLEFT",0,2},LFG_LIST_DETAILS)
 	SetEditBoxBG(DescriptionBox.EditBox,FCTabF.ADD.DescriptionF)
+	--
+	FCTabF.ADD.WorkingCover=PIGFrame(FCTabF.ADD)
+	FCTabF.ADD.WorkingCover:PIGSetBackdrop(1)
+	FCTabF.ADD.WorkingCover:SetAllPoints(FCTabF.ADD)
+	FCTabF.ADD.WorkingCover:SetFrameLevel(FCTabF.ADD:GetFrameLevel()+10)
+	FCTabF.ADD.WorkingCover:Hide()
+	FCTabF.ADD.WorkingCover.error=PIGFontString(FCTabF.ADD.WorkingCover,{"CENTER",FCTabF.ADD.WorkingCover,"CENTER",0,0},LFG_LIST_CREATING_ENTRY)
     --
-    FCTabF.ADD.ListGroupButton=PIGButton(FCTabF.ADD,{"BOTTOM",FCTabF.ADD,"BOTTOM",0,40},{100,30})
+	FCTabF.ADD.ListGroupButton=PIGButton(FCTabF.ADD,{"BOTTOMLEFT",FCTabF.ADD,"BOTTOMLEFT",FCTabF.ADD.Width+100,40},{100,30})
     FCTabF.ADD.ListGroupButton:Hide()
     FCTabF.ADD.ListGroupButton.error=PIGFontString(FCTabF.ADD.ListGroupButton,{"BOTTOMLEFT",FCTabF.ADD.ListGroupButton,"TOPLEFT",0,4})
 	FCTabF.ADD.ListGroupButton.error:SetTextColor(1,0,0,1);
 	FCTabF.ADD.ListGroupButton:SetScript("OnClick", function (self)
-		FCTabF.EditMode=nil
-		local itemLevel = tonumber(FCTabF.ADD.ItemLevel.EditBox:GetText()) or 0;
-		local privateGroup = FCTabF.ADD.PrivateGroup.CheckButton:GetChecked();
-		local chosenRole;
-		if FCTabF.ADD.Role.T.checkButton:GetChecked() then
-			chosenRole = "TANK";
-		elseif FCTabF.ADD.Role.H.checkButton:GetChecked() then
-			chosenRole = "HEALER";
-		elseif FCTabF.ADD.Role.D.checkButton:GetChecked() then
-			chosenRole = "DAMAGER";
+		FCTabF.ADD:LFGListEntryCreation_ListGroup()
+	end);
+	FCTabF.ADD.RemoveBut=PIGButton(FCTabF.ADD,{"LEFT",FCTabF.ADD.ListGroupButton,"RIGHT",80,0},{100,30},PET_DISMISS.."车队")
+	FCTabF.ADD.RemoveBut:Hide()
+	FCTabF.ADD.RemoveBut:HookScript("OnClick", function (self)
+		C_LFGList.RemoveListing()
+	end);
+	local function IsEditBoxLVOK(eui,myItemLevel,selectedActivity)
+		local eItemLevel = eui.EditBox:GetNumber();
+		if myItemLevel=="Mythic" then
+			if C_LFGList.ValidateRequiredDungeonScore(eItemLevel) then
+				if eItemLevel>0 then
+					eui.CheckButton:SetChecked(true)
+				else
+					eui.CheckButton:SetChecked(false)
+				end
+			else
+				eui.CheckButton:SetChecked(false)
+				return true
+			end
+		elseif myItemLevel=="Rating" then
+			if C_LFGList.ValidateRequiredPvpRatingForActivity(selectedActivity, eItemLevel) then
+				if eItemLevel>0 then
+					eui.CheckButton:SetChecked(true)
+				else
+					eui.CheckButton:SetChecked(false)
+				end
+			else
+				eui.CheckButton:SetChecked(false)
+				return true
+			end
+		else
+			if eItemLevel>myItemLevel or Mythic then
+				eui.CheckButton:SetChecked(false)
+				return true
+			else
+				if eItemLevel>0 then
+					eui.CheckButton:SetChecked(true)
+				else
+					eui.CheckButton:SetChecked(false)
+				end
+			end
 		end
+	end
+	function FCTabF.ADD:ListGroupButton_Update()
+		if not self:IsVisible() then return end
+		local isPartyLeader = UnitIsGroupLeader("player", LE_PARTY_CATEGORY_HOME);
+		if ( IsInGroup(LE_PARTY_CATEGORY_HOME) and not isPartyLeader ) then
+			self.ListGroupButton:SetEnabled(false);
+			self.ListGroupButton.error:SetText(LFG_LIST_NOT_LEADER)
+		else
+			local myItemLevel,_, avgItemLevelPvP = GetAverageItemLevel();
+			self.ItemLevel.maxlv:SetText(floor(myItemLevel*100+5)*0.01)
+			self.PvpItemLevel.maxlv:SetText(floor(avgItemLevelPvP*100+5)*0.01)
+
+			local errorText;
+			if PIG_MaxTocversion(50000) then--正式服根据天赋自动检测
+				if ( ( self.Role.T:IsShown() and self.Role.T.checkButton:GetChecked())
+					or ( self.Role.H:IsShown() and self.Role.H.checkButton:GetChecked())
+					or ( self.Role.D:IsShown() and self.Role.D.checkButton:GetChecked()) ) then
+					self.Role.warningText = nil;
+				else
+					self.Role.warningText = LFG_LIST_MUST_SELECT_ROLE;
+				end
+			else
+				self.Role:Hide()
+			end
+			local activityInfo = C_LFGList.GetActivityInfoTable(FCTabF.selectedActivity)
+			local maxNumPlayers = activityInfo and  activityInfo.maxNumPlayers or 0;
+			local mythicPlusDisableActivity = not C_LFGList.IsPlayerAuthenticatedForLFG(activityInfo.categoryID) and (activityInfo.isMythicPlusActivity and not C_LFGList.GetKeystoneForActivity(FCTabF.selectedActivity));
+			if ( maxNumPlayers > 0 and GetNumGroupMembers(LE_PARTY_CATEGORY_HOME) >= maxNumPlayers ) then
+				errorText = string.format(LFG_LIST_TOO_MANY_FOR_ACTIVITY, maxNumPlayers);
+			elseif (mythicPlusDisableActivity) then
+				errorText = LFG_AUTHENTICATOR_BUTTON_MYTHIC_PLUS_TOOLTIP;
+			elseif ( LFGListEntryCreation_GetSanitizedName(self) == "" ) then
+				errorText = LFG_LIST_MUST_HAVE_NAME;
+			elseif self.ItemLevel:IsShown() and IsEditBoxLVOK(self.ItemLevel,myItemLevel) then
+				errorText = LFG_LIST_ILVL_ABOVE_YOURS
+			elseif self.PvpItemLevel:IsShown() and IsEditBoxLVOK(self.PvpItemLevel,avgItemLevelPvP) then
+				errorText = LFG_LIST_PVP_RATING_ABOVE_YOURS
+			elseif self.MythicPlusRating:IsShown() and IsEditBoxLVOK(self.MythicPlusRating,"Mythic") then
+				errorText =  LFG_LIST_DUNGEON_SCORE_ABOVE_YOURS
+			elseif self.PVPRating:IsShown() and IsEditBoxLVOK(self.PVPRating,"Rating",FCTabF.selectedActivity) then
+				errorText = LFG_LIST_PVP_RATING_ABOVE_YOURS;
+			elseif self.Role.warningText then
+				errorText=self.Role.warningText
+			else
+				errorText = LFGListUtil_GetActiveQueueMessage(false);
+			end
+			self.ListGroupButton:SetEnabled(not errorText and not mythicPlusDisableActivity);
+
+			if activityInfo.isMythicPlusActivity and C_InstanceLeaver.IsPlayerLeaver() then
+				if not errorText then
+					errorText = RED_FONT_COLOR:WrapTextInColorCode(MYTHIC_PLUS_DESERTER_FLAGGED_SHORT);
+				else
+					errorText = errorText.."|n|n"..RED_FONT_COLOR:WrapTextInColorCode(MYTHIC_PLUS_DESERTER_FLAGGED_SHORT);
+				end
+			end
+			self.ListGroupButton.error:SetText(errorText)
+		end
+	end
+	local function _LFGListEntryCreation_ListGroupInternal(self, activityID, itemLevel, autoAccept, privateGroup, questID, mythicPlusRating, pvpRating, selectedPlaystyle, isCrossFaction)
+		--print(activityID, itemLevel, autoAccept, privateGroup, questID, mythicPlusRating, pvpRating, selectedPlaystyle, isCrossFaction)
 		local createData = {
-			activityIDs = { FCTabF.selectedActivity },
-			questID = 0,
-			isAutoAccept = false,--自动接受申请
-			isCrossFactionListing = false,
-			playstyle = nil,
-			requiredDungeonScore = 0,
+			activityIDs = { activityID },
+			questID = questID,
+			isAutoAccept = autoAccept,
+			isCrossFactionListing = isCrossFaction,
 			isPrivateGroup = privateGroup,
+			playstyle = selectedPlaystyle,
+			requiredDungeonScore = mythicPlusRating,
 			requiredItemLevel = itemLevel,
-			requiredPvpRating = 0,
-			--honorLevel = 0,
+			requiredPvpRating = pvpRating,
 		};
-		if self:GetText()=="更新车队" then
+		
+		if FCTabF.EditMode then
+			FCTabF.EditMode=nil
 			local activeEntryInfo = C_LFGList.GetActiveEntryInfo();
-			createData.activityIDs=activeEntryInfo.activityIDs
 			createData.isAutoAccept = activeEntryInfo.autoAccept;
 			createData.questID = activeEntryInfo.questID;
-			if activeEntryInfo.isCrossFactionListing == createData.isCrossFactionListing then
+			if activeEntryInfo.isCrossFactionListing == isCrossFaction then
 				C_LFGList.UpdateListing(createData);
 			else
 				C_LFGList.RemoveListing();
 				C_LFGList.CreateListing(createData);
 			end
 		else
-			C_LFGList.CreateListing(createData)
-		end
-	end);
-
-	FCTabF.ADD.RemoveBut=PIGButton(FCTabF.ADD,{"BOTTOM",FCTabF.ADD,"BOTTOM",280,40},{100,30},PET_DISMISS.."车队")
-	FCTabF.ADD.RemoveBut:Hide()
-	FCTabF.ADD.RemoveBut:HookScript("OnClick", function (self)
-		FCTabF:ClearActivityADD()
-		C_LFGList.RemoveListing()
-	end);
-	function FCTabF.ADD:ListGroupButton_Update()
-		if not self:IsVisible() then return end
-		local errorText;
-		local isPartyLeader = UnitIsGroupLeader("player", LE_PARTY_CATEGORY_HOME);
-		if ( IsInGroup(LE_PARTY_CATEGORY_HOME) and not isPartyLeader ) then
-			errorText = LFG_LIST_NOT_LEADER;
-		else
-			local myItemLevel = GetAverageItemLevel();
-			self.ItemLevel.maxlv:SetText(myItemLevel)
-			local eItemLevel = self.ItemLevel.EditBox:GetNumber();
-			if eItemLevel>myItemLevel then
-				self.ItemLevel.CheckButton:SetChecked(false)
-				self.ItemLevel.warningText = LFG_LIST_ILVL_ABOVE_YOURS
-			else
-				self.ItemLevel.warningText = nil
-				if eItemLevel>0 then
-					self.ItemLevel.CheckButton:SetChecked(true)
-				else
-					self.ItemLevel.CheckButton:SetChecked(false)
-				end
-			end
-			if ( ( self.Role.T:IsShown() and self.Role.T.checkButton:GetChecked())
-				or ( self.Role.H:IsShown() and self.Role.H.checkButton:GetChecked())
-				or ( self.Role.D:IsShown() and self.Role.D.checkButton:GetChecked()) ) then
-				self.Role.warningText = nil;
-			else
-				self.Role.warningText = LFG_LIST_MUST_SELECT_ROLE;
-			end
-			FCTabF.selectedActivity=FCTabF.selectedActivity or LFGListFrame.EntryCreation.selectedActivity or 0
-			local activityInfo = C_LFGList.GetActivityInfoTable(FCTabF.selectedActivity) or {}
-			local maxNumPlayers = activityInfo and  activityInfo.maxNumPlayers or 0;
-			local mythicPlusDisableActivity = not C_LFGList.IsPlayerAuthenticatedForLFG(FCTabF.selectedActivity) and (activityInfo.isMythicPlusActivity and not C_LFGList.GetKeystoneForActivity(FCTabF.selectedActivity));
-			if ( maxNumPlayers > 0 and GetNumGroupMembers(LE_PARTY_CATEGORY_HOME) >= maxNumPlayers ) then
-				errorText = string.format(LFG_LIST_TOO_MANY_FOR_ACTIVITY, maxNumPlayers);
-			elseif (mythicPlusDisableActivity) then
-				errorText = LFG_AUTHENTICATOR_BUTTON_MYTHIC_PLUS_TOOLTIP;
-			elseif LFGListEntryCreation_GetSanitizedName(self) == "" then
-				errorText = LFG_LIST_MUST_HAVE_NAME;
-			elseif self.ItemLevel.warningText then
-				errorText = self.ItemLevel.warningText
-			elseif self.Role.warningText then
-				errorText = self.Role.warningText
-			else
-				errorText = LFGListUtil_GetActiveQueueMessage(false);
+			if(C_LFGList.CreateListing(createData)) then
+				self.WorkingCover:Show();
 			end
 		end
-		self.ListGroupButton.error:SetText(errorText)
-		self.ListGroupButton:SetEnabled(not errorText and not mythicPlusDisableActivity);
 	end
+	function FCTabF.ADD:LFGListEntryCreation_ListGroup()
+		local itemLevel;
+		if(self.ItemLevel:IsShown()) then
+			itemLevel = tonumber(self.ItemLevel.EditBox:GetText()) or 0;
+		else
+			itemLevel = tonumber(self.PvpItemLevel.EditBox:GetText()) or 0;
+		end
+		local pvpRating =  tonumber(self.PVPRating.EditBox:GetText()) or 0;
+		local mythicPlusRating =  tonumber(self.MythicPlusRating.EditBox:GetText()) or 0;
+		local autoAccept = false;
+		local privateGroup = self.PrivateGroup.CheckButton:GetChecked();
+		local isCrossFaction =  self.CrossFactionGroup:IsShown() and not self.CrossFactionGroup.CheckButton:GetChecked();
+		local selectedPlaystyle = self.PlayStyleDropdown:IsShown() and FCTabF.selectedPlaystyle or nil;
+		_LFGListEntryCreation_ListGroupInternal(self, FCTabF.selectedActivity, itemLevel, autoAccept, privateGroup, 0, mythicPlusRating, pvpRating, selectedPlaystyle, isCrossFaction);
+	end
+	function FCTabF.ADD:Update_ShownBut(bot,editMode)
+		self.NameF:SetShown(bot)
+		self.DescriptionF:SetShown(bot)
+		self.VoiceChat:SetShown(bot)
+		self.PrivateGroup:SetShown(bot)
+		self.Role:SetShown(bot and PIG_MaxTocversion(50000))
+		self.ListGroupButton:SetShown(bot)
+		self.RemoveBut:SetShown(editMode)
+	end
+	function FCTabF.ADD:Clear_Activity()
+		--C_LFGList.ClearCreationTextFields();
+		FCTabF.editMode = nil
+		FCTabF.selectedCategory = nil;
+		FCTabF.selectedGroup = nil;
+		FCTabF.selectedActivity = nil;
+		self:CategorieIsChecked(false)
+		self:CategorieIsEnabled(true)
+		self.ItemLevel.CheckButton:SetChecked(false);
+		self.PrivateGroup.CheckButton:SetChecked(false);
+		self.CrossFactionGroup.CheckButton:SetChecked(false);
+		self.ItemLevel.EditBox:SetText("");
+		self.GroupDropDown:PIGDownMenu_SetText("")
+		self.ActivityDropDown:PIGDownMenu_SetText("")
+		self.ListGroupButton.error:SetText("");
+		self:Update_ShownBut(false)
+	end
+	function FCTabF.ADD:Update_Activity()
+		self:Show()
+		if FCTabF.EditMode and C_LFGList.HasActiveEntryInfo() then
+			self:Update_ShownBut(true,FCTabF.EditMode)
+			self:CategorieIsEnabled(false)
+			self.GroupDropDown:Disable()
+			self.ActivityDropDown:Disable()
+			local activeEntryInfo = C_LFGList.GetActiveEntryInfo();
+			local activityID=activeEntryInfo.activityIDs[1]
+			FCTabF.selectedActivity=activityID
+			local activityInfo = C_LFGList.GetActivityInfoTable(activityID);	
+			FCTabF.selectedCategory=activityInfo.categoryID
+			self:CategorieSetChecked(FCTabF.selectedCategory)
+			self.ActivityDropDown:PIGDownMenu_SetText(activityInfo.fullName)
+			local GroupList,GroupData=Fun.PIG_GetGroups(FCTabF.selectedCategory)
+			if #GroupList>0 then
+				self.GroupDropDown:PIGDownMenu_SetText(Fun.GetGroupName(FCTabF.selectedGroup,GroupList))
+			else
+				self.GroupDropDown:Hide()
+			end
+			self.ItemLevel.EditBox:SetText(activeEntryInfo.requiredItemLevel)
+			self.PrivateGroup.CheckButton:SetChecked(activeEntryInfo.privateGroup);
+			self.CrossFactionGroup.CheckButton:SetChecked(activeEntryInfo.allowCrossFaction)
+			self.ListGroupButton:SetText("更新车队")
+			self.RemoveBut:Show()
+		else
+			if FCTabF.selectedCategory then
+				self:Update_ShownBut(true)
+				self:CategorieIsEnabled(true)
+				self.GroupDropDown:Enable()
+				self.ActivityDropDown:Enable()
+				self.ListGroupButton:SetText("创建车队")
+				local GroupList,GroupData=Fun.PIG_GetGroups(FCTabF.selectedCategory)
+				self.ActivityDropDown.downData= GroupData
+				if #GroupList>0 then
+					self.GroupDropDown:Show()
+					self.ActivityDropDown:Show()
+					FCTabF.selectedGroup=FCTabF.selectedGroup or GroupList[1][1]
+					self.GroupDropDown:PIGDownMenu_SetText(Fun.GetGroupName(FCTabF.selectedGroup,GroupList))
+					local activities=GroupData[FCTabF.selectedGroup]
+					FCTabF.selectedActivity=FCTabF.selectedActivity or activities[1][1]
+					self.ActivityDropDown:PIGDownMenu_SetText(Fun.GetactivityName(FCTabF.selectedActivity,activities))
+				else
+					self.GroupDropDown:Hide()
+					self.ActivityDropDown:Show()
+					FCTabF.selectedActivity=FCTabF.selectedActivity or GroupData[1][1]
+					self.ActivityDropDown:PIGDownMenu_SetText(Fun.GetactivityName(FCTabF.selectedActivity,GroupData))
+				end
 
+				local activityInfo = C_LFGList.GetActivityInfoTable(FCTabF.selectedActivity);
+				if activityInfo then
+					self.ItemLevel:SetShown(not activityInfo.isPvpActivity);
+					self.PvpItemLevel:SetShown(activityInfo.isPvpActivity);
+					self.MythicPlusRating:SetShown(activityInfo.isMythicPlusActivity);
+					self.PVPRating:SetShown(activityInfo.isRatedPvpActivity);
+					local categoryInfo= C_LFGList.GetLfgCategoryInfo(FCTabF.selectedCategory)
+					self.CrossFactionGroup:SetShown(categoryInfo.allowCrossFaction);
+					local shouldShowPlayStyleDropdown = (categoryInfo.showPlaystyleDropdown) and (activityInfo.isMythicPlusActivity or activityInfo.isRatedPvpActivity or activityInfo.isCurrentRaidActivity or activityInfo.isMythicActivity);
+					if(shouldShowPlayStyleDropdown) then
+						FCTabF.selectedPlaystyle=FCTabF.selectedPlaystyle or 1
+						local labelText;
+						if(activityInfo.isRatedPvpActivity) then
+							labelText = LFG_PLAYSTYLE_LABEL_PVP
+						elseif (activityInfo.isMythicPlusActivity) then
+							labelText = LFG_PLAYSTYLE_LABEL_PVE;
+						else
+							labelText = LFG_PLAYSTYLE_LABEL_PVE_MYTHICZERO;
+						end
+						self.PlayStyleLabel:SetText(labelText);
+						local text = C_LFGList.GetPlaystyleString(FCTabF.selectedPlaystyle, activityInfo);
+						self.PlayStyleDropdown:PIGDownMenu_SetText(text)
+					else
+						FCTabF.selectedPlaystyle = nil
+					end
+					self.PlayStyleLabel:SetShown(shouldShowPlayStyleDropdown);
+					self.PlayStyleDropdown:SetShown(shouldShowPlayStyleDropdown);
+				end
+				self:ListGroupButton_Update()
+			else
+				self:Clear_Activity()
+			end
+		end
+		--处理外服账号未绑定手机
+		-- local isAccountSecured = C_LFGList.IsPlayerAuthenticatedForLFG(FCTabF.selectedActivity);
+		-- self.Name.editBoxEnabled = isAccountSecured;
+		-- self.Description.editBoxEnabled = isAccountSecured;
+		-- self.Name:SetEnabled(isAccountSecured);
+		-- self.Description.EditBox:SetEnabled(isAccountSecured);
+		-- self.Name.LockButton:SetShown(not isAccountSecured);
+		-- self.Description.LockButton:SetShown(not isAccountSecured);
+		-- local descInstructions = nil;
+		-- if isAccountSecured then
+		-- 	self.NameF:PIGSetBackdrop(0,0.8,nil,{0, 1, 1})
+		-- 	self.DescriptionF:PIGSetBackdrop(0,0.8,nil,{0, 1, 1})
+		-- else
+		-- 	self.NameF:PIGSetBackdrop(0,0.6,nil,{0.3, 0.3, 0.3})
+		-- 	self.DescriptionF:PIGSetBackdrop(0,0.6,nil,{0.3, 0.3, 0.3})
+		-- 	descInstructions = LFG_AUTHENTICATOR_DESCRIPTION_BOX;
+		-- end
+		-- self.Description.EditBox.Instructions:SetText(descInstructions or DESCRIPTION_OF_YOUR_GROUP);
+		-- if FCTabF.selectedCategory==118 then
+		-- 	if(not isAccountSecured) then
+		-- 		if not caozuo then
+		-- 			C_LFGList.SetEntryTitle(1064, 0, FCTabF.selectedPlaystyle);
+		-- 		end
+		-- 	end
+		-- elseif FCTabF.selectedCategory==GROUP_FINDER_CATEGORY_ID_DUNGEONS or FCTabF.selectedCategory==114 then
+		-- 	if((activityInfo and activityInfo.isMythicPlusActivity) or not isAccountSecured) then
+		-- 		if not caozuo then
+		-- 			C_LFGList.SetEntryTitle(FCTabF.selectedActivity, FCTabF.selectedGroup, FCTabF.selectedPlaystyle);
+		-- 		end
+		-- 	end
+		-- end
+	end
 	--当前活动
 	FCTabF.DQ.Category_T=PIGFontString(FCTabF.DQ,{"TOPLEFT",FCTabF.DQ,"TOPLEFT",10,-10},"车队类型")
 	FCTabF.DQ.Category_T:SetTextColor(0,0.98,0.6, 1);
@@ -398,6 +656,20 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	FCTabF.DQ.ItemLevel_T:SetTextColor(0,0.98,0.6, 1);
 	FCTabF.DQ.ItemLevel_V=PIGFontString(FCTabF.DQ,{"LEFT",FCTabF.DQ.ItemLevel_T,"RIGHT",4,0},0)
 	FCTabF.DQ.ItemLevel_V:SetTextColor(0.9,0.9,0.9,1);
+	FCTabF.DQ.PvpItemLevel_T=PIGFontString(FCTabF.DQ,{"BOTTOMLEFT",FCTabF.DQ,"BOTTOMLEFT",10,100},LFG_LIST_ITEM_LEVEL_PVP)
+	FCTabF.DQ.PvpItemLevel_T:SetTextColor(0,0.98,0.6, 1);
+	FCTabF.DQ.PvpItemLevel_V=PIGFontString(FCTabF.DQ,{"LEFT",FCTabF.DQ.PvpItemLevel_T,"RIGHT",4,0},0)
+	FCTabF.DQ.PvpItemLevel_V:SetTextColor(0.9,0.9,0.9,1);
+
+	FCTabF.DQ.PVPRating_T=PIGFontString(FCTabF.DQ,{"BOTTOMLEFT",FCTabF.DQ,"BOTTOMLEFT",10,120},GROUP_FINDER_PVP_RATING_REQ_LABEL)
+	FCTabF.DQ.PVPRating_T:SetTextColor(0,0.98,0.6, 1);
+	FCTabF.DQ.PVPRating_V=PIGFontString(FCTabF.DQ,{"LEFT",FCTabF.DQ.PVPRating_T,"RIGHT",4,0},0)
+	FCTabF.DQ.PVPRating_V:SetTextColor(0.9,0.9,0.9,1);
+	FCTabF.DQ.MythicPlusRating_T=PIGFontString(FCTabF.DQ,{"BOTTOMLEFT",FCTabF.DQ,"BOTTOMLEFT",10,120},GROUP_FINDER_MYTHIC_RATING_REQ_LABEL)
+	FCTabF.DQ.MythicPlusRating_T:SetTextColor(0,0.98,0.6, 1);
+	FCTabF.DQ.MythicPlusRating_V=PIGFontString(FCTabF.DQ,{"LEFT",FCTabF.DQ.MythicPlusRating_T,"RIGHT",4,0},0)
+	FCTabF.DQ.MythicPlusRating_V:SetTextColor(0.9,0.9,0.9,1);
+	
 
 	local _, localizedFaction = UnitFactionGroup("player");
 	FCTabF.DQ.CrossFactionGroup=PIGFrame(FCTabF.DQ,{"BOTTOMLEFT",FCTabF.DQ,"BOTTOMLEFT",10,72},{200,20})
@@ -415,7 +687,6 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 
 	FCTabF.DQ.RemoveEntryButton=PIGButton(FCTabF.DQ,{"LEFT",FCTabF.DQ.EditButton,"RIGHT",20,0},{80,22},PET_DISMISS.."车队")
 	FCTabF.DQ.RemoveEntryButton:HookScript("OnClick", function (self)
-		FCTabF:ClearActivityADD()
 		C_LFGList.RemoveListing()
 	end);
 
@@ -429,7 +700,7 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	FCTabF.DQ.Apply.RefreshButton:HookScript("OnClick", function (self)
 		C_LFGList.RefreshApplicants();
 	end);
-	FCTabF.DQ.Apply.AutoAcceptButton = PIGCheckbutton(FCTabF.DQ.Apply,{"BOTTOMRIGHT",FCTabF.DQ.Apply,"TOPRIGHT",-80,6},{LFG_LIST_AUTO_ACCEPT},{16,16})
+	FCTabF.DQ.Apply.AutoAcceptButton = PIGCheckbutton(FCTabF.DQ.Apply,{"BOTTOMRIGHT",FCTabF.DQ.Apply,"TOPRIGHT",-120,6},{LFG_LIST_AUTO_ACCEPT,CLUB_FINDER_COMMUNITY_AUTO_ACCEPT},{16,16})
 	FCTabF.DQ.Apply.AutoAcceptButton:Disable()
 	FCTabF.DQ.Apply.AutoAcceptButton:HookScript("OnClick", function (self)
 		if ( self:GetChecked() ) then
@@ -454,7 +725,6 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	function FCTabF.DQ:Update_PlayerShowMode()
 		if not self:IsVisible() then return end
 		C_Timer.After(0.4,function()
-			self.EditButton:SetEnabled(not IsRestrictedAccount())
 			self:ShowMode_Restore()
 			if not C_LFGList.HasActiveEntryInfo() then return end
 			local activeEntryInfo = C_LFGList.GetActiveEntryInfo();
@@ -471,7 +741,7 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	end
 	--申请人
 	local Apphang_Height,Apphang_NUM,Apphang_Width=25,15,FCTabF.DQ.Apply:GetWidth();
-	local AppbiaotiName={{"申请人(|cffFF80FF点击"..L["CHAT_WHISPER"].."|r)",6},{"天赋",164},{"装等",272},{"申请留言",324},{"操作",584}}
+	local AppbiaotiName={{"申请人(|cffFF80FF点击"..L["CHAT_WHISPER"].."|r)",6},{"天赋",200},{"装等",300},{"申请留言",324},{"操作",584}}
 	for i=1,#AppbiaotiName do
 		local biaoti=PIGFontString(FCTabF.DQ.Apply,{"TOPLEFT",FCTabF.DQ.Apply,"TOPLEFT",AppbiaotiName[i][2],-5},AppbiaotiName[i][1])
 		biaoti:SetTextColor(1,1,0, 0.9);
@@ -734,18 +1004,7 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 			end
 		end
     end
-    function FCTabF.DQ.Apply.Scroll:initialize()
-		local view = CreateScrollBoxListLinearView()
-	    view:SetElementExtent(Apphang_Height)
-	    view:SetPadding(0,0,0,0,1)
-	    ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, view)
-        view:SetElementInitializer("Frame", function(frame, elementData)
-        	FCTabF.DQ.Apply.Scroll.add_hang(frame)
-        	FCTabF.DQ.Apply.Scroll:Update_hang(frame,elementData.AppID)
-	    end)
-	end
-	FCTabF.DQ.Apply.Scroll:initialize()
-	function FCTabF.DQ.Apply.Scroll:Update_hang(frame,AppID)
+    function FCTabF.DQ.Apply.Scroll:Update_hang(frame,AppID)
 		frame:Updata_IsEnabled(true)
     	frame.applicantID=AppID
 		local applicantInfo = C_LFGList.GetApplicantInfo(AppID);
@@ -795,6 +1054,17 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 			frame.caozuoF.Status:SetPoint("LEFT", frame.caozuoF, "LEFT", 4, 0);
 		end
 	end
+    function FCTabF.DQ.Apply.Scroll:initialize()
+		local view = CreateScrollBoxListLinearView()
+	    view:SetElementExtent(Apphang_Height)
+	    view:SetPadding(0,0,0,0,1)
+	    ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, view)
+        view:SetElementInitializer("Frame", function(frame, elementData)
+        	FCTabF.DQ.Apply.Scroll.add_hang(frame)
+        	FCTabF.DQ.Apply.Scroll:Update_hang(frame,elementData.AppID)
+	    end)
+	end
+	FCTabF.DQ.Apply.Scroll:initialize()
 	function FCTabF.DQ.Apply.Scroll:Update_list()
 		if not self:IsVisible() then return end
 		local view = self.ScrollBox:GetView()
@@ -810,6 +1080,7 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 		end
 	end
 	function FCTabF.DQ.Apply:Update_Applylist()
+		self.EditButton:SetEnabled(not IsRestrictedAccount())
 		C_Timer.After(0.4,function()
 			local Empowered=LFGListUtil_IsEntryEmpowered()
 			FCTabF.DQ.RemoveEntryButton:SetShown(Empowered);
@@ -824,146 +1095,44 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 			self.Scroll:Update_list()
 		end)
 	end
-	----
-	function FCTabF:Update_ShownADD(bot,editMode)
-		self.ADD.GroupDropDown:SetShown(bot)
-		self.ADD.ActivityDropDown:SetShown(bot)
-		self.ADD.ItemLevel:SetShown(bot)
-		self.ADD.NameF:SetShown(bot)
-		self.ADD.DescriptionF:SetShown(bot)
-		self.ADD.VoiceChat:SetShown(bot)
-		self.ADD.CrossFactionGroup:SetShown(bot)
-		self.ADD.PrivateGroup:SetShown(bot)
-		self.ADD.Role:SetShown(bot)
-		self.ADD.ListGroupButton:SetShown(bot)
-		self.ADD.RemoveBut:SetShown(editMode)
-	end
-	function FCTabF:ClearActivityADD()
-		--C_LFGList.ClearCreationTextFields();
-		self.editMode = nil
-		self.selectedCategory = nil;
-		self.selectedGroup = nil;
-		self.selectedActivity = nil;
-		self.ADD:CategorieIsChecked(false)
-		self.ADD:CategorieIsEnabled(true)
-		self.ADD.ItemLevel.CheckButton:SetChecked(false);
-		self.ADD.PrivateGroup.CheckButton:SetChecked(false);
-		self.ADD.CrossFactionGroup.CheckButton:SetChecked(false);
-		self.ADD.ItemLevel.EditBox:SetText("");
-		self.ADD.GroupDropDown:PIGDownMenu_SetText("")
-		self.ADD.ActivityDropDown:PIGDownMenu_SetText("")
-		self.ADD.ListGroupButton.error:SetText("");
-		self:Update_ShownADD(false)
-	end
-	function FCTabF:UpdateActivityADD()
-		self.ADD:Show()
-		if self.EditMode and C_LFGList.HasActiveEntryInfo() then
-			self:Update_ShownADD(true,self.EditMode)
-			self.ADD:CategorieIsEnabled(false)
-			self.ADD.GroupDropDown:Disable()
-			self.ADD.ActivityDropDown:Disable()
-			local activeEntryInfo = C_LFGList.GetActiveEntryInfo();
-			local activityID=activeEntryInfo.activityIDs[1]
-			self.selectedActivity=activityID
-			local activityInfo = C_LFGList.GetActivityInfoTable(activityID);	
-			self.selectedCategory=activityInfo.categoryID
-			FCTabF.ADD:CategorieSetChecked(self.selectedCategory)
-			if self.selectedCategory==120 then
-				self.ADD.GroupDropDown:Hide()
-				self.ADD.ActivityDropDown:Hide()
-			else
-				self.ADD.ActivityDropDown:PIGDownMenu_SetText(activityInfo.fullName)
-				local name = C_LFGList.GetActivityGroupInfo(activityInfo.groupFinderActivityGroupID) or ""
-				self.ADD.GroupDropDown:PIGDownMenu_SetText(name)
-			end
-			self.ADD.ItemLevel.EditBox:SetText(activeEntryInfo.requiredItemLevel)
-			self.ADD.PrivateGroup.CheckButton:SetChecked(activeEntryInfo.privateGroup);
-			self.ADD.CrossFactionGroup.CheckButton:SetChecked(activeEntryInfo.allowCrossFaction)
-			self.ADD.ListGroupButton:SetText("更新车队")
-			self.ADD.RemoveBut:Show()
-		else
-			if self.selectedCategory then
-				self:Update_ShownADD(true)
-				if self.selectedCategory==120 then
-					self.ADD.GroupDropDown:Hide()
-					self.ADD.ActivityDropDown:Hide()
-				end
-				self.ADD.ListGroupButton:SetText("创建车队")			
-				local categoryInfo = C_LFGList.GetLfgCategoryInfo(self.selectedCategory);
-				local activityGroups = C_LFGList.GetAvailableActivityGroups(self.selectedCategory)
-				self.selectedGroup=self.selectedGroup or activityGroups[1] or 0
-				local name = C_LFGList.GetActivityGroupInfo(self.selectedGroup) or ""
-				self.ADD.GroupDropDown:PIGDownMenu_SetText(name)
-				local activities = C_LFGList.GetAvailableActivities(self.selectedCategory,self.selectedGroup)
-				self.selectedActivity=self.selectedActivity or activities[1] or 0
-				local activityInfo = C_LFGList.GetActivityInfoTable(self.selectedActivity)
-				self.ADD.ActivityDropDown:PIGDownMenu_SetText(activityInfo.fullName)
-				self.ADD:ListGroupButton_Update()
-			else
-				self:ClearActivityADD()
-			end
-		end
-		--处理外服账号未绑定手机
-		-- self.selectedPlaystyle=1
-		-- local isAccountSecured = C_LFGList.IsPlayerAuthenticatedForLFG(self.selectedActivity);
-		-- self.Name.editBoxEnabled = isAccountSecured;
-		-- self.Description.editBoxEnabled = isAccountSecured;
-		-- self.Name:SetEnabled(isAccountSecured);
-		-- self.Description.EditBox:SetEnabled(isAccountSecured);
-		-- self.Name.LockButton:SetShown(not isAccountSecured);
-		-- self.Description.LockButton:SetShown(not isAccountSecured);
-		-- local descInstructions = nil;
-		-- if isAccountSecured then
-		-- 	self.NameF:PIGSetBackdrop(0,0.8,nil,{0, 1, 1})
-		-- 	self.DescriptionF:PIGSetBackdrop(0,0.8,nil,{0, 1, 1})
-		-- else
-		-- 	self.NameF:PIGSetBackdrop(0,0.6,nil,{0.3, 0.3, 0.3})
-		-- 	self.DescriptionF:PIGSetBackdrop(0,0.6,nil,{0.3, 0.3, 0.3})
-		-- 	descInstructions = LFG_AUTHENTICATOR_DESCRIPTION_BOX;
-		-- end
-		-- self.Description.EditBox.Instructions:SetText(descInstructions or DESCRIPTION_OF_YOUR_GROUP);
-		-- if self.selectedCategory==118 then
-		-- 	if(not isAccountSecured) then
-		-- 		if not caozuo then
-		-- 			C_LFGList.SetEntryTitle(1064, 0, self.selectedPlaystyle);
-		-- 		end
-		-- 	end
-		-- elseif self.selectedCategory==GROUP_FINDER_CATEGORY_ID_DUNGEONS or self.selectedCategory==114 then
-		-- 	if((activityInfo and activityInfo.isMythicPlusActivity) or not isAccountSecured) then
-		-- 		if not caozuo then
-		-- 			C_LFGList.SetEntryTitle(self.selectedActivity, self.selectedGroup, self.selectedPlaystyle);
-		-- 		end
-		-- 	end
-		-- end
-	end
-	function FCTabF:UpdateActivityDQ()
-		self.DQ:Show()
+	function FCTabF.DQ:Update_Activity()
+		self:Show()
 		local activeEntryInfo = C_LFGList.GetActiveEntryInfo();
 		local activityID=activeEntryInfo.activityIDs[1]
 		local activityInfo = C_LFGList.GetActivityInfoTable(activityID);	
 		local categoryInfo= C_LFGList.GetLfgCategoryInfo(activityInfo.categoryID)
-		local huodongname=FCTabF.tabListName[categoryInfo.name] or categoryInfo.name
-		self.DQ.Category_V:SetText(huodongname);
-		self.DQ.Name_V:SetText(activityInfo.fullName);
-		self.DQ.ItemLevel_V:SetText(activeEntryInfo.requiredItemLevel);
-		self.DQ.EntryName.V:SetText(activeEntryInfo.name);
-		self.DQ.Description.V:SetText(activeEntryInfo.comment);
-		local shouldDisableCrossFactionToggle = (categoryInfo.allowCrossFaction) and not (activityInfo.allowCrossFaction);
-		self.DQ.CrossFactionGroup.CheckButton:SetChecked(shouldDisableCrossFactionToggle)
-		self.DQ.PrivateGroup.CheckButton:SetChecked(activeEntryInfo.privateGroup);
-		self.DQ:Update_PlayerShowMode()
+		self.Category_V:SetText(categoryInfo.name);
+		self.Name_V:SetText(activityInfo.fullName);
+		self.PvpItemLevel_T:SetShown(activityInfo.isPvpActivity);
+		self.PvpItemLevel_V:SetShown(activityInfo.isPvpActivity);
+		self.ItemLevel_T:SetShown(not activityInfo.isPvpActivity);
+		self.ItemLevel_V:SetShown(not activityInfo.isPvpActivity);
+		self.PvpItemLevel_V:SetText(activeEntryInfo.requiredItemLevel);
+		self.ItemLevel_V:SetText(activeEntryInfo.requiredItemLevel);
+		self.MythicPlusRating_T:SetShown(activityInfo.isMythicPlusActivity);
+		self.MythicPlusRating_V:SetShown(activityInfo.isMythicPlusActivity);
+		self.PVPRating_T:SetShown(activityInfo.isRatedPvpActivity);
+		self.PVPRating_V:SetShown(activityInfo.isRatedPvpActivity);
+		self.EntryName.V:SetText(activeEntryInfo.name);
+		self.Description.V:SetText(activeEntryInfo.comment);
+		self.CrossFactionGroup:SetShown(categoryInfo.allowCrossFaction);
+		self.CrossFactionGroup.CheckButton:SetChecked(not activeEntryInfo.isCrossFactionListing)
+		self.PrivateGroup.CheckButton:SetChecked(activeEntryInfo.privateGroup);
+		self:Update_PlayerShowMode()
+		self.Apply:Update_Applylist()
 	end
+	----
 	function FCTabF:UpdateEditMode(Mode)
 		if not self:IsVisible() then return end
 		if not self.tabList then
-			self.tabList,self.tabListName=GetCategorieData()
+			self.tabList=PIG_GetCategories()
 		end
 		self.ADD:Hide()
 		self.DQ:Hide()
 		if C_LFGList.HasActiveEntryInfo() and not self.EditMode then
-			self:UpdateActivityDQ()
+			self.DQ:Update_Activity()
 		else
-			self:UpdateActivityADD()
+			self.ADD:Update_Activity()
 		end
 	end
 	----------
@@ -971,6 +1140,7 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 	FCTabF:RegisterEvent("LFG_LIST_APPLICANT_LIST_UPDATED");
 	FCTabF:RegisterEvent("LFG_LIST_ACTIVE_ENTRY_UPDATE");
 	FCTabF:RegisterEvent("LFG_LIST_AVAILABILITY_UPDATE");
+	FCTabF:RegisterEvent("LFG_LIST_ENTRY_CREATION_FAILED");
 	FCTabF:RegisterEvent("GROUP_ROSTER_UPDATE");
 	FCTabF:HookScript("OnEvent", function(self,event,arg1)
 		--print(event,arg1)
@@ -992,7 +1162,11 @@ function TardisInfo.LFGCreation(FCTabF,GetCategorieData,EnterF)
 			self.DQ:Update_PlayerShowMode()
 		elseif event=="LFG_LIST_APPLICANT_LIST_UPDATED" then--申请人列表刷新
 			self.DQ.Apply:Update_Applylist()
+		elseif ( event == "LFG_LIST_ENTRY_CREATION_FAILED" ) then
+			self.ADD.WorkingCover:Hide();
 		elseif event=="LFG_LIST_ACTIVE_ENTRY_UPDATE" then--自己创建活动变动时Mode值(true新建/false编辑/nil取消)
+			self.EditMode=nil
+			self.ADD.WorkingCover:Hide();
 			self:UpdateEditMode(arg1)
 		end
 	end);

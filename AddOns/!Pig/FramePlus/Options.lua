@@ -48,28 +48,6 @@ FramePlusF.Skill_QKbut:SetScript("OnClick", function (self)
 		PIG_OptionsUI.RLUI:Show()
 	end
 end);
-
-------
-FramePlusF.AddonList = PIGCheckbutton_R(FramePlusF,{"增强插件列表(插件启用状态保存)","增强插件列表，让你可以按需开启插件"},true)
-FramePlusF.AddonList:SetScript("OnClick", function (self)
-	if self:GetChecked() then
-		PIGA["FramePlus"]["AddonList"]=true;
-		FramePlusfun.AddonList()
-	else
-		PIGA["FramePlus"]["AddonList"]=false
-		PIG_OptionsUI.RLUI:Show()
-	end
-end);
-FramePlusF.AddonList.addQuickBut = PIGCheckbutton(FramePlusF.AddonList,{"LEFT", FramePlusF.AddonList.Text, "RIGHT", 2, 0},{"快捷切换按钮","在桌面增加一个快捷切换按钮"})
-FramePlusF.AddonList.addQuickBut:SetScript("OnClick", function (self)
-	if self:GetChecked() then
-		PIGA["FramePlus"]["AddonQuickBut"]=true;
-		FramePlusfun.AddonQuickBut()
-	else
-		PIGA["FramePlus"]["AddonQuickBut"]=nil
-		PIG_OptionsUI.RLUI:Show()
-	end
-end);
 if PIG_MaxTocversion(20000) then
 	local tooltip = "整合追踪类技能，点击小地图追踪技能按钮选择其他追踪技能！";
 	FramePlusF.Tracking = PIGCheckbutton_R(FramePlusF,{"整合追踪技能",tooltip},true)
@@ -87,8 +65,6 @@ end
 FramePlusF:HookScript("OnShow", function(self)
 	self.BuffTime:SetChecked(PIGA["FramePlus"]["BuffTime"])
 	self.Skill_QKbut:SetChecked(PIGA["FramePlus"]["Skill_QKbut"])
-	self.AddonList:SetChecked(PIGA["FramePlus"]["AddonList"])
-	self.AddonList.addQuickBut:SetChecked(PIGA["FramePlus"]["AddonQuickBut"])
 	if self.Tracking then self.Tracking:SetChecked(PIGA["FramePlus"]["Tracking"]) end
 end)
 
@@ -328,7 +304,6 @@ addonTable.FramePlus = function()
 	FramePlusfun.BuffTime()
 	FramePlusfun.Skill_QKbut()
 	FramePlusfun.Tracking()
-	FramePlusfun.AddonList()
 	FramePlusfun.Loot()
 	FramePlusfun.LootMasterErr()
 	FramePlusfun.Roll()

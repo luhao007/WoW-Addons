@@ -189,7 +189,7 @@ function TardisInfo.GetInfoBut(fuF,Point,daojiCDtime,jinduS,butTXT,jindutiaoW,Ge
 			self:Show();
 		else
 			self:Hide()
-			GetBut:gengxin_hang(GetBut)
+			GetBut:Update_DataHang()
 		end
 	end);
 	------

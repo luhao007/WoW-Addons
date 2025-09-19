@@ -58,7 +58,7 @@ local function Visibility_Total_Thing(group)
 	end
 end
 local function Visibility_Cost(group)
-	if (group.costTotal or 0) > 0 then
+	if group.costTotal > 0 then
 		-- app.PrintDebug("SGV.cost",group.hash,visible,group.costTotal)
 		return true
 	end
@@ -257,10 +257,10 @@ local function UpdateGroup(group, parent)
 
 		-- Increment the parent group's totals if the group is not ignored for sources
 		if parent and not group.sourceIgnored then
-			parent.total = (parent.total or 0) + group.total
-			parent.progress = (parent.progress or 0) + group.progress
-			parent.costTotal = (parent.costTotal or 0) + (group.costTotal or 0)
-			parent.upgradeTotal = (parent.upgradeTotal or 0) + (group.upgradeTotal or 0)
+			parent.total = parent.total + group.total
+			parent.progress = parent.progress + group.progress
+			parent.costTotal = parent.costTotal + group.costTotal
+			parent.upgradeTotal = parent.upgradeTotal + group.upgradeTotal
 		-- else
 			-- print("Ignoring progress/total",group.progress,"/",group.total,"for group",group.text)
 		end
@@ -297,10 +297,10 @@ local function AdjustParentProgress(group, progChange, totalChange, costChange, 
 	if not parent then return end
 
 	-- app.PrintDebug("APP:",parent.progress,progChange,parent.total,totalChange,costChange,upgradeChange,app:SearchLink(parent))
-	parent.total = (parent.total or 0) + totalChange
-	parent.progress = (parent.progress or 0) + progChange
-	parent.costTotal = (parent.costTotal or 0) + costChange
-	parent.upgradeTotal = (parent.upgradeTotal or 0) + upgradeChange
+	parent.total = parent.total + totalChange
+	parent.progress = parent.progress + progChange
+	parent.costTotal = parent.costTotal + costChange
+	parent.upgradeTotal = parent.upgradeTotal + upgradeChange
 	-- Assign cost cache
 	-- app.PrintDebug("END:",parent.progress,parent.total)
 	-- verify visibility of the group, always a 'group' since it is already a parent of another group, as long as it's not the root window data
@@ -375,7 +375,7 @@ local function DirectGroupUpdate(group, got)
 		return
 	end
 	local prevTotal, prevProg, prevCost, prevUpgrade
-		= group.total or 0, group.progress or 0, group.costTotal or 0, group.upgradeTotal or 0
+		= group.total, group.progress, group.costTotal, group.upgradeTotal
 	TopLevelUpdateGroup(group)
 	local progChange, totalChange, costChange, upgradeChange
 		= group.progress - prevProg, group.total - prevTotal, group.costTotal - prevCost, group.upgradeTotal - prevUpgrade

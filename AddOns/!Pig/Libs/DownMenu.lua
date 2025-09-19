@@ -40,13 +40,71 @@ local function PIGDownMenu_OnUpdate(self, elapsed)
 		self.showTimer = self.showTimer - elapsed;
 	end
 end
-local function panduandianjichu()
+local function IsClickMouseOver()
+	if not PIG_DropDown[1]:IsShown() then return false end
+	local foci = GetMouseFoci();
+	if not foci then return end
 	for i=1, UIDROPDOWNMENU_MAXLEVELS do
-		if PIG_DropDown[i]:IsMouseOver() then
+		if i==1 then
+			if PIG_DropDown[i].dropdown and foci[1]==PIG_DropDown[i].dropdown then
+				return true
+			elseif PIG_DropDown[i].dropdown and PIG_DropDown[i].dropdown.Button and foci[1]==PIG_DropDown[i].dropdown.Button then
+				return true
+			end
+		end
+		if foci[1]==PIG_DropDown[i] then
 			return true
 		end
+		for ii=1,listshumu do
+			if foci[1]==PIG_DropDown[i].ButList[ii] then
+				return true
+			end
+		end
+		for ixx=1,#PIG_DropDown[i].extFlist do
+			if foci[1]==PIG_DropDown[i].extFlist[ixx] then
+				return true
+			end
+		end
 	end
+	-- for i=1, UIDROPDOWNMENU_MAXLEVELS do
+	-- 	if PIG_DropDown[i]:IsMouseOver() or i==1 and PIG_DropDown[1].dropdown and PIG_DropDown[1].dropdown:IsMouseOver() or i==1 and PIG_DropDown[1].dropdown and PIG_DropDown[1].dropdown.Button:IsMouseOver() then
+	-- 		return true
+	-- 	else
+	-- 		for ixx=1,#PIG_DropDown[i].extFlist do
+	-- 			if PIG_DropDown[i].extFlist[ixx]:IsMouseOver() then
+	-- 				return true
+	-- 			end
+	-- 		end
+	-- 	end
+	-- end
 	return false
+end
+local function Update_DownExtPoint(xialaMenu,ListFff,i,ckbut)
+	if xialaMenu:PIGDownMenu_PointLR() then
+		if i then ListFff:SetPoint("TOPRIGHT",PIG_DropDown[i], "TOPLEFT", 2,6); end
+		for extFID=1,#ListFff.extFlist do
+			ListFff.extFlist[extFID]:ClearAllPoints();
+			if extFID==1 then
+				ListFff.extFlist[extFID]:SetPoint("TOPRIGHT",ListFff,"TOPLEFT",2,0);
+				ListFff.extFlist[extFID]:SetPoint("BOTTOMRIGHT",ListFff,"BOTTOMLEFT",2,0);
+			else
+				ListFff.extFlist[extFID]:SetPoint("TOPRIGHT",ListFff.extFlist[extFID-1],"TOPLEFT",2,0);
+				ListFff.extFlist[extFID]:SetPoint("BOTTOMRIGHT",ListFff.extFlist[extFID-1],"BOTTOMLEFT",2,0);
+			end
+		end
+	else
+		if i then ListFff:SetPoint("TOPLEFT",ckbut, "TOPRIGHT", 2,6);end
+		for extFID=1,#ListFff.extFlist do
+			ListFff.extFlist[extFID]:ClearAllPoints();
+			if extFID==1 then
+				ListFff.extFlist[extFID]:SetPoint("TOPLEFT",ListFff,"TOPRIGHT",-2,0);
+				ListFff.extFlist[extFID]:SetPoint("BOTTOMLEFT",ListFff,"BOTTOMRIGHT",-2,0);
+			else
+				ListFff.extFlist[extFID]:SetPoint("TOPLEFT",ListFff.extFlist[extFID-1],"TOPRIGHT",-2,0);
+				ListFff.extFlist[extFID]:SetPoint("BOTTOMLEFT",ListFff.extFlist[extFID-1],"BOTTOMRIGHT",-2,0);
+			end
+		end
+	end
 end
 ----
 for i=1,UIDROPDOWNMENU_MAXLEVELS do
@@ -77,35 +135,6 @@ for i=1,UIDROPDOWNMENU_MAXLEVELS do
 			end
 		end
 	end)
-	-- if i == 1 then
-	-- 	PIGDownList.lieF={}
-	-- 	PIGDownList.lieF[1]=PIGDownList
-	-- 	PIGDownList:HookScript("OnHide", function(self)
-	-- 		PIGDownList.extFlist
-	-- 		for i=2,UIDROPDOWNMENU_MAXLEVELS do
-	-- 			PIG_DropDown[i]:Hide()
-	-- 		end
-	-- 	end)
-	-- else
-	-- 	
-	-- 	
-	-- 	for ix=1,5 do
-	-- 		local erjiF = CreateFrame("Frame", nil, PIGDownList,"BackdropTemplate");
-	-- 		erjiF:SetBackdrop(Create.Backdropinfo)
-	-- 		erjiF:SetBackdropColor(0.1, 0.1, 0.1, 1);
-	-- 		erjiF:SetBackdropBorderColor(0, 0, 0, 1);
-	-- 		if ix==1 then
-	-- 			erjiF:SetPoint("TOPLEFT",PIGDownList,"TOPRIGHT",0,0);
-	-- 			erjiF:SetPoint("BOTTOMLEFT",PIGDownList,"BOTTOMRIGHT",0,0);
-	-- 		else
-	-- 			erjiF:SetPoint("TOPLEFT",PIGDownList.extFlist[ix-1],"TOPRIGHT",0,0);
-	-- 			erjiF:SetPoint("BOTTOMLEFT",PIGDownList.extFlist[ix-1],"BOTTOMRIGHT",0,0);
-	-- 		end
-	-- 		erjiF:Hide()
-	-- 		erjiF.maxWidth=0
-	-- 		PIGDownList.extFlist[ix]=erjiF
-	-- 	end
-	-- end
 	PIGDownList.ButList={}
 	for ii=1,listshumu do
 		local CheckBut = CreateFrame("CheckButton", nil, PIGDownList);
@@ -166,7 +195,7 @@ for i=1,UIDROPDOWNMENU_MAXLEVELS do
 				local ListFff = PIG_DropDown[newi]
 				ListFff.maxWidth = 0;
 				ListFff.numButtons = 0;
-				ListFff:SetPoint("TOPLEFT",self, "TOPRIGHT", 2,6);
+				ListFff.leftPoint=nil
 				for iix=1,listshumu do
 					ListFff.ButList[iix]:Hide()
 				end
@@ -178,6 +207,8 @@ for i=1,UIDROPDOWNMENU_MAXLEVELS do
 				local xialaMenu = fujilist.dropdown
 				xialaMenu:PIGDownMenu_Update_But(newi,self.menuList)
 				ListFff:Show()
+				ListFff:ClearAllPoints();
+				Update_DownExtPoint(xialaMenu,ListFff,i,self)
 			end
 		end)
 		CheckBut:HookScript("OnLeave", function (self)
@@ -200,7 +231,30 @@ for i=1,UIDROPDOWNMENU_MAXLEVELS do
 		end);
 	end
 end
+EventRegistry:RegisterFrameEventAndCallback("GLOBAL_MOUSE_DOWN", function(buttonID, buttonName)
+	if not IsClickMouseOver(buttonID, buttonName) then
+		PIGCloseDropDownMenus()
+	end
+end);
 --------------
+local function Update_extFlistF(listFrame,Lid)
+	if not listFrame.extFlist[Lid] then
+		local erjiF = CreateFrame("Frame", nil, listFrame,"BackdropTemplate");
+		erjiF:SetBackdrop(Create.Backdropinfo)
+		erjiF:SetBackdropColor(0.1, 0.1, 0.1, 1);
+		erjiF:SetBackdropBorderColor(0, 0, 0, 1);
+		erjiF:HookScript("OnEnter", function (self)
+			PIGDownMenu_StopCounting(listFrame)
+		end)
+		erjiF:HookScript("OnLeave", function (self)
+			PIGDownMenu_StartCounting(listFrame)
+		end)
+		erjiF:SetFrameLevel(listFrame:GetFrameLevel())
+		erjiF.maxWidth=0
+		listFrame.extFlist[Lid]=erjiF
+	end
+	listFrame.extFlist[Lid]:Show()
+end
 function Create.PIGDownMenu(fuF,Point,SizeWH,EasyMenu,UIname,lie)
 	local DownMenu = CreateFrame("Frame", UIname, fuF,"BackdropTemplate");
 	DownMenu.EasyMenu=EasyMenu
@@ -226,6 +280,7 @@ function Create.PIGDownMenu(fuF,Point,SizeWH,EasyMenu,UIname,lie)
 		DownMenu.Button.UpTex:SetAtlas("NPE_ArrowDown")
 		DownMenu.Button.UpTex:SetSize(Height-3,Height+6);
 		DownMenu.Button.UpTex:SetPoint("CENTER", 0, -1);
+		DownMenu.Button:SetHitRectInsets(-Width+Height,0,0,0)
 		DownMenu.Button:HookScript("OnMouseDown", function(self)
 			if self:IsEnabled() then
 				self.UpTex:SetPoint("CENTER", 1.5, -2.5);
@@ -236,7 +291,7 @@ function Create.PIGDownMenu(fuF,Point,SizeWH,EasyMenu,UIname,lie)
 				self.UpTex:SetPoint("CENTER", 0, -1);
 			end
 		end);
-
+		
 		DownMenu.Text = DownMenu:CreateFontString();
 		DownMenu.Text:SetWidth(Width-(Height+3));
 		DownMenu.Text:SetPoint("RIGHT", DownMenu.Button, "LEFT", -2, 0);
@@ -246,8 +301,7 @@ function Create.PIGDownMenu(fuF,Point,SizeWH,EasyMenu,UIname,lie)
 	DownMenu.Button:SetHighlightTexture("Interface/Buttons/ButtonHilight-Square");
 	DownMenu.Button:RegisterForClicks("LeftButtonUp","RightButtonUp");
 	local function zhixing_Show(fujiFrame)
-		local xialaMenu = PIG_DropDown[1].dropdown
-		--if PIG_DropDown[1]:IsShown() and xialaMenu==fujiFrame then
+		if fujiFrame.EasyMenu=="DJEasyMenu" then return end
 		if PIG_DropDown[1]:IsShown() then
 			PIG_DropDown[1]:Hide()
 		else
@@ -273,15 +327,16 @@ function Create.PIGDownMenu(fuF,Point,SizeWH,EasyMenu,UIname,lie)
 				PIG_DropDown[1]:SetPoint("TOPLEFT",fujiFrame, "BOTTOMLEFT", 0,0);
 			end
 			fujiFrame:PIGDownMenu_Update_But()
-			PIG_DropDown[1]:Show()
+			if PIG_DropDown[1].numButtons>0 then
+				PIG_DropDown[1]:Show()
+				Update_DownExtPoint(fujiFrame,PIG_DropDown[1])
+			end
 		end
 	end
 	DownMenu.Button:HookScript("OnClick", function(self, button)
 		local fujiFrame = self:GetParent()
 		if button=="LeftButton" then
-			if fujiFrame.EasyMenu~="DJEasyMenu" then
-				zhixing_Show(fujiFrame)
-			end
+			zhixing_Show(fujiFrame)
 		end
 	end)
 	function DownMenu:PIGDownMenu_SetText(Text)
@@ -297,7 +352,28 @@ function Create.PIGDownMenu(fuF,Point,SizeWH,EasyMenu,UIname,lie)
 		self:PIGDownMenu_AddButton("null")
 		return {}
 	end
-	function DownMenu:PIGDownMenu_AddButton(info, level)
+	function DownMenu:PIGDownMenu_PointLR()
+		if PIG_DropDown[1]:IsVisible() then
+			local offsetall = GetScreenWidth()
+			local offsetrrr = PIG_DropDown[1]:GetRight();
+			if offsetrrr then
+				local hejiWWW=0
+				for icc=2,UIDROPDOWNMENU_MAXLEVELS do
+					if PIG_DropDown[icc]:IsShown() then
+						hejiWWW=hejiWWW+PIG_DropDown[icc]:GetWidth()
+						for wid=1,#PIG_DropDown[icc].extFlist do
+							if PIG_DropDown[icc].extFlist[wid]:IsShown() then
+								hejiWWW=hejiWWW+PIG_DropDown[icc].extFlist[wid]:GetWidth()
+							end
+						end
+					end
+				end
+				return hejiWWW-(offsetall-offsetrrr)>0
+			end
+		end
+		return false
+	end
+	function DownMenu:PIGDownMenu_AddButton(info, level,maxnum)
 		if ( not level ) then
 			level = 1;
 		end
@@ -313,13 +389,6 @@ function Create.PIGDownMenu(fuF,Point,SizeWH,EasyMenu,UIname,lie)
 		local index = listFrame and (listFrame.numButtons + 1) or 1;
 		listFrame.numButtons = index;
 		local CheckBut=PIG_DropDown[level].ButList[index]
-		if index==1 then
-			CheckBut:SetPoint("TOPLEFT",listFrame,"TOPLEFT",4,-4);
-			CheckBut:SetPoint("TOPRIGHT",listFrame,"TOPRIGHT",-4,-4);
-		else
-			CheckBut:SetPoint("TOPLEFT",listFrame.ButList[index-1],"BOTTOMLEFT",0,0);
-			CheckBut:SetPoint("TOPRIGHT",listFrame.ButList[index-1],"BOTTOMRIGHT",0,0);
-		end
 		CheckBut:Show()
 		CheckBut.Text:SetText(info.text)
 		CheckBut.value=info.text
@@ -369,52 +438,29 @@ function Create.PIGDownMenu(fuF,Point,SizeWH,EasyMenu,UIname,lie)
 				CheckBut.ExpandArrow:Hide();
 			end
 		end
+		if index==1 then
+			CheckBut:SetPoint("TOPLEFT",listFrame,"TOPLEFT",4,-4);
+			CheckBut:SetPoint("TOPRIGHT",listFrame,"TOPRIGHT",-4,-4);
+		else
+			CheckBut:SetPoint("TOPLEFT",listFrame.ButList[index-1],"BOTTOMLEFT",0,0);
+			CheckBut:SetPoint("TOPRIGHT",listFrame.ButList[index-1],"BOTTOMRIGHT",0,0);
+		end
 		local width = CheckBut.Text:GetStringWidth()
-		if self.fenlie and self.fenlie[1]==level then
-			local function ShowEXT_UI(Lid,index,maxnum)
-				local NewLid=Lid-1
-				if not listFrame.extFlist[NewLid] then
-					local erjiF = CreateFrame("Frame", nil, listFrame,"BackdropTemplate");
-					erjiF:SetBackdrop(Create.Backdropinfo)
-					erjiF:SetBackdropColor(0.1, 0.1, 0.1, 1);
-					erjiF:SetBackdropBorderColor(0, 0, 0, 1);
-					if NewLid==1 then
-						erjiF:SetPoint("TOPLEFT",listFrame,"TOPRIGHT",0,0);
-						erjiF:SetPoint("BOTTOMLEFT",listFrame,"BOTTOMRIGHT",0,0);
-					else
-						erjiF:SetPoint("TOPLEFT",listFrame.extFlist[NewLid-1],"TOPRIGHT",0,0);
-						erjiF:SetPoint("BOTTOMLEFT",listFrame.extFlist[NewLid-1],"BOTTOMRIGHT",0,0);
+		if index>40 then--菜单总数大于40，多列显示
+			local lienum=math.ceil(listshumu/40)
+			for leiID=2,lienum do
+				local extFID=leiID-1
+				if index>=extFID*40+1 and index<=leiID*40 then
+					if index==extFID*40+1 then
+						Update_extFlistF(listFrame,extFID,index,maxnum)
+						CheckBut:ClearAllPoints();
+						CheckBut:SetPoint("TOPLEFT", listFrame.extFlist[extFID],"TOPLEFT",4,-4);
+						CheckBut:SetPoint("TOPRIGHT", listFrame.extFlist[extFID],"TOPRIGHT",4,-4);
 					end
-					erjiF.maxWidth=0
-					listFrame.extFlist[NewLid]=erjiF
-				end
-				listFrame.extFlist[NewLid]:Show()
-				if width>listFrame.extFlist[NewLid].maxWidth then
-					listFrame.extFlist[NewLid].maxWidth=width
-				end
-				listFrame.extFlist[NewLid]:SetWidth(listFrame.extFlist[NewLid].maxWidth+ButHeight+26)
-				if index==maxnum then
-					CheckBut:ClearAllPoints();
-					CheckBut:SetPoint("TOPLEFT", listFrame.extFlist[NewLid],"TOPLEFT",4,-4);
-					CheckBut:SetPoint("TOPRIGHT", listFrame.extFlist[NewLid],"TOPRIGHT",4,-4);
-				end
-			end
-			local lienum=math.ceil(listshumu/self.fenlie[2])
-			for leiID=1,lienum do
-				if leiID==1 then
-					if index<self.fenlie[2] then
-						listFrame:SetHeight(index*ButHeight+10)
-					else
-						listFrame:SetHeight(self.fenlie[2]*ButHeight+10)
+					if width>listFrame.extFlist[extFID].maxWidth then
+						listFrame.extFlist[extFID].maxWidth=width
 					end
-					if width>listFrame.maxWidth then
-						listFrame.maxWidth=width
-					end
-					listFrame:SetWidth(listFrame.maxWidth+ButHeight+26)
-				else
-					if index>=(leiID-1)*self.fenlie[2]+1 and index<=leiID*self.fenlie[2] then
-						ShowEXT_UI(leiID,index,(leiID-1)*self.fenlie[2]+1)
-					end
+					listFrame.extFlist[extFID]:SetWidth(listFrame.extFlist[extFID].maxWidth+ButHeight+26)
 				end
 			end
 		else

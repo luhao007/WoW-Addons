@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: The WeakAuras Team
-## Version: 5.20.2
+## Version: 5.20.4
 
 ## Title: WeakAuras Model Paths
 ## Notes: Model paths for WeakAuras
@@ -10,6 +10,7 @@
 
 ## Dependencies: WeakAuras, WeakAurasOptions
 ## LoadOnDemand: 1
+## AllowLoadGameType: cata
 ## DefaultState: Enabled
 
 ## X-Category: Interface Enhancements

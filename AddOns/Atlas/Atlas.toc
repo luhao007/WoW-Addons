@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: nanderson11
-## Version: v3.10.0
+## Version: v3.11.0
 
 ## Title: Atlas
 ## Notes: Instance Map Browser
@@ -28,6 +28,7 @@ Data\AreaIDs.lua
 Libs\Libs.xml
 Locale\Locales.xml
 
+Core\Mixins.lua
 Core\FontsTemplates.xml
 Core\Templates.lua
 Core\Templates.xml

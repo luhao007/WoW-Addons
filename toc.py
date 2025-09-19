@@ -55,6 +55,7 @@ class TOC:
             self.contents.pop(i)
 
     def to_lines(self) -> Iterable[str]:
+        # https://warcraft.wiki.gg/wiki/TOC_format
         keys = [
             ["Interface", "Author", "Version", "License"],
             # Addon info in list
@@ -78,11 +79,14 @@ class TOC:
                 "LoadOnDemand",
                 "LoadWith",
                 "LoadManagers",
+                "AllowLoadGameType",
+                "OnlyBetaAndPTR",
                 "DefaultState",
             ],
             # Saved variables
             ["SavedVariables", "SavedVariablesPerCharacter"],
             # Extra meta tags
+            ["AllowAddOnTableAccess"],
             [k for k in self.tags.keys() if k.startswith("X-")],
             # Addition tags for specific use cases
             [

@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: Crieve
-## Version: 4.6.8
+## Version: 4.6.9
 
 ## Title: AllTheThings
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF收集控助手|r |cFFFFE00AAllTheThings|r
@@ -72,6 +72,7 @@ src\Modules\Model.lua
 #src\Modules\Reagent.lua
 src\Modules\Search.lua
 src\Modules\Social.lua
+src\Modules\Symlink.lua
 src\Modules\Tooltip.lua
 src\Modules\Upgrade.lua
 src\Modules\Vignette.lua

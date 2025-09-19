@@ -253,12 +253,6 @@ end
 local function bossButtonUpdate(button, encounterID, instanceID, b_iconImage, moduleData)
 	if (WoWClassicEra) then return end
 
-	local rolesByFlag = {
-		[0] = "TANK",
-		[1] = "DAMAGER",
-		[2] = "HEALER"
-	}
-
 	button:SetID(encounterID)
 	button.encounterID = encounterID
 	if (instanceID and instanceID ~= 0) then
@@ -266,41 +260,11 @@ local function bossButtonUpdate(button, encounterID, instanceID, b_iconImage, mo
 	end
 	button.AtlasModule = moduleData or nil
 
-	local ejbossname, description, _, rootSectionID, link = EJ_GetEncounterInfo(encounterID)
+	local ejbossname, description, _, _, link = EJ_GetEncounterInfo(encounterID)
 	if (ejbossname) then
 		button.tooltiptitle = ejbossname
 		button.tooltiptext = description
 		button.link = link
-
-		local sectionInfo = C_EncounterJournal.GetSectionInfo(rootSectionID)
-
-		if (sectionInfo and addon:EncounterJournal_IsHeaderTypeOverview(sectionInfo.headerType)) then
-			button.overviewDescription = sectionInfo.description or nil
-			local nextSectionID = sectionInfo.firstChildSectionID or nil
-
-			local spec, role
-
-			spec = GetSpecialization()
-			if (spec) then
-				role = GetSpecializationRole(spec)
-			else
-				role = "DAMAGER"
-			end
-
-			local description
-			local i = 1
-			while nextSectionID do
-				local flag1 = C_EncounterJournal.GetSectionIconFlags(nextSectionID)
-				sectionInfo = C_EncounterJournal.GetSectionInfo(nextSectionID)
-				if (role == rolesByFlag[flag1]) then
-					description = gsub(sectionInfo.description, "$bullet;", "- ")
-					button.roleOverview = "|cffffffff"..sectionInfo.title.."|r".."\n"..description
-					break
-				end
-				i = i + 1
-				nextSectionID = sectionInfo.firstChildSectionID
-			end
-		end
 
 		if (b_iconImage) then
 			local id, name, description, displayInfo, iconImage, uiModelSceneID = EJ_GetCreatureInfo(1, encounterID)
@@ -323,7 +287,7 @@ local function bossButtonUpdate(button, encounterID, instanceID, b_iconImage, mo
 end
 
 local function searchText(text)
-	local zoneID = ATLAS_DROPDOWNS[profile.options.dropdowns.module][profile.options.dropdowns.zone]
+	local zoneID = ATLAS_DROPDOWNS[profile.options.dropdowns.module][profile.options.dropdowns.zone] or ATLAS_DROPDOWNS[1][1]
 	local mapdata = AtlasMaps
 	local base = mapdata[zoneID]
 
@@ -336,18 +300,42 @@ local function searchText(text)
 	end
 
 	-- Populate the scroll frame entries list, the update func will do the rest
+	wipe(ATLAS_SCROLL_LIST)
 	local i = 1
 	while (data[i] ~= nil) do
-		ATLAS_SCROLL_LIST[i] = data[i][1]
-		if (data[i][2] ~= nil) then
-			ATLAS_SCROLL_ID[i] = { data[i][2], base.JournalInstanceID or 0, data[i][3] or "", data[i][4] or "" }
+		if (data[i][3] and data[i][3] ~= "") then
+			ATLAS_SCROLL_LIST[i] = {
+				type = "Item",
+				data = {
+					text = data[i][1],
+					itemID = data[i][2],
+					fallbackName = data[i][4],
+				}
+			}
+		elseif (type(data[i][2]) == "number" and data[i][2] < 10000 and select(4, GetBuildInfo()) > 40000) then
+			ATLAS_SCROLL_LIST[i] = {
+				type = "Boss",
+				data = {
+					text = data[i][1],
+					encounterID = data[i][2],
+					instanceID = base.JournalInstanceID or 0,
+					module = base.Module or base.ALModule or nil
+				}
+			}
+		elseif (type(data[i][2]) == "string") then
+			local achievementID = strmatch(data[i][2], "ac=(%d+)")
+			ATLAS_SCROLL_LIST[i] = {
+				type = "Achievement",
+				data = { achievementID = tonumber(achievementID) }
+			}
 		else
-			ATLAS_SCROLL_ID[i] = { 0, 0, "", "" }
+			ATLAS_SCROLL_LIST[i] = {
+				type = "String",
+				data = { text = data[i][1] }
+			}
 		end
 		i = i + 1
 	end
-
-	ATLAS_CUR_LINES = i - 1
 end
 
 function addon:SearchAndRefresh(text)
@@ -385,54 +373,14 @@ function addon:SearchLFG_Enter(button)
 	end
 end
 
-local function parse_entry_strings(typeStr, id, preStr, index, lineplusoffset)
-	if (typeStr == "item") then
-		local itemID = id
-		local itemName = C_Item.GetItemInfo(itemID)
-		itemName = itemName or C_Item.GetItemInfo(itemID) or preStr or ""
-		if (itemName) then _G["AtlasEntry"..index.."_Text"]:SetText(ATLAS_SCROLL_LIST[lineplusoffset]..itemName); end
-	end
-end
-
 function Atlas_ScrollBar_Update()
-	local zoneID = ATLAS_DROPDOWNS[profile.options.dropdowns.module] and ATLAS_DROPDOWNS[profile.options.dropdowns.module][profile.options.dropdowns.zone] or ATLAS_DROPDOWNS[1][1]
-	local mapdata = AtlasMaps
-	local base = mapdata[zoneID]
+	if (AtlasFrameBottomInset.ScrollBox) then
+		local DataProvider = CreateDataProvider(ATLAS_SCROLL_LIST)
+		local ScrollView = AtlasFrameBottomInset.ScrollBox:GetView()
+		ScrollView:SetDataProvider(DataProvider)
+	end
 
 	GameTooltip:Hide()
-	local lineplusoffset
-	FauxScrollFrame_Update(AtlasScrollBar, ATLAS_CUR_LINES, ATLAS_NUM_LINES, 15)
-	for i = 1, ATLAS_NUM_LINES do
-		local button = _G["AtlasEntry"..i]
-		if button then bossButtonCleanUp(button); end
-
-		lineplusoffset = i + FauxScrollFrame_GetOffset(AtlasScrollBar)
-		if (lineplusoffset <= ATLAS_CUR_LINES) then
-			_G["AtlasEntry"..i.."_Text"]:SetText(ATLAS_SCROLL_LIST[lineplusoffset])
-			if (ATLAS_SCROLL_ID[lineplusoffset]) then
-				if (type(ATLAS_SCROLL_ID[lineplusoffset][1]) == "number") then
-					local id = ATLAS_SCROLL_ID[lineplusoffset][1]
-					bossButtonUpdate(button, ATLAS_SCROLL_ID[lineplusoffset][1], ATLAS_SCROLL_ID[lineplusoffset][2], false, base.Module or base.ALModule)
-				elseif (type(ATLAS_SCROLL_ID[lineplusoffset][1]) == "string") then
-					-- handling achievement
-					local spos, epos = strfind(ATLAS_SCROLL_ID[lineplusoffset][1], "ac=")
-					if (spos) then
-						local achievementID = strsub(ATLAS_SCROLL_ID[lineplusoffset][1], epos + 1)
-						achievementID = tonumber(achievementID)
-						addon:AchievementButtonUpdate(button, achievementID)
-					end
-				else
-				end
-
-				if (ATLAS_SCROLL_ID[lineplusoffset][3] and ATLAS_SCROLL_ID[lineplusoffset][3] ~= "") then
-					parse_entry_strings(ATLAS_SCROLL_ID[lineplusoffset][3], ATLAS_SCROLL_ID[lineplusoffset][1], ATLAS_SCROLL_ID[lineplusoffset][4], i, lineplusoffset)
-				end
-			end
-			button:Show()
-		elseif (button) then
-			button:Hide()
-		end
-	end
 end
 
 local function simpleSearch(data, text)
@@ -596,11 +544,6 @@ function Atlas_OnLoad(self)
 
 	-- Dragging involves some special registration
 	self:RegisterForDrag("LeftButton")
-end
-
--- Main Atlas event handler
-function Atlas_OnEvent(self, event, ...)
-	local arg1 = ...
 end
 
 --Called whenever the Atlas frame is displayed
@@ -942,7 +885,6 @@ function Atlas_MapRefresh(mapID)
 	local icontext_instance
 
 	if (base.DungeonID) then
-		-- name, typeID, subtypeID, minLevel, maxLevel, recLevel, minRecLevel, maxRecLevel, expansionLevel, groupID, textureFilename, difficulty, maxPlayers, description, isHoliday, bonusRepAmount, minPlayers, isTimeWalker, _, minGearLevel = GetLFGDungeonInfo(dungeonID)
 		if (GetLFGDungeonInfo) then
 			_, typeID, subtypeID, minLevel, maxLevel, _, minRecLevel, maxRecLevel, _, _, _, _, maxPlayers, _, _, _, _, _, _, minGearLevel = GetLFGDungeonInfo(base.DungeonID)
 		end
@@ -1346,18 +1288,6 @@ function Atlas_Refresh(mapID)
 	AtlasSearchEditBox:SetText("")
 	AtlasSearchEditBox:ClearFocus()
 
-	-- Create and align any new entry buttons that we need
-	for i = 1, ATLAS_CUR_LINES do
-		if (not _G["AtlasEntry"..i]) then
-			local f = CreateFrame("Button", "AtlasEntry"..i, AtlasFrame, "AtlasEntryTemplate")
-			if i == 1 then
-				f:SetPoint("TOPLEFT", "AtlasScrollBar", "TOPLEFT", 16, -2)
-			else
-				f:SetPoint("TOPLEFT", "AtlasEntry"..(i - 1), "BOTTOMLEFT")
-			end
-		end
-	end
-
 	Atlas_ScrollBar_Update()
 
 	-- Deal with the switch to entrance/instance button here
@@ -1561,10 +1491,8 @@ function addon:DungeonMinGearLevelToolTip(self)
 
 	if (checkInstanceHasGearLevel() or base.MinGearLevel) then
 		GameTooltip:SetOwner(self, "ANCHOR_TOP")
-		GameTooltip.NineSlice:SetCenterColor(0, 0, 0, 1 * profile.options.frames.alpha)
 		GameTooltip:SetText(str, 1, 1, 1, nil, 1)
 		GameTooltip:AddLine(STAT_AVERAGE_ITEM_LEVEL_TOOLTIP)
-		GameTooltip:SetScale(profile.options.frames.boss_description_scale * profile.options.frames.scale)
 		GameTooltip:Show()
 	end
 end
@@ -1610,9 +1538,20 @@ function addon:CheckAddonStatus(addonName)
 	end
 end
 
--- Initializes everything relating to saved variables and data in other lua files
--- This should be called ONLY when we're sure our variables are in memory
-local function initialization()
+-- ///////////////////////////////////////////////////////
+function addon:OnInitialize()
+	self.db = AceDB:New("AtlasDB", addon.constants.defaults, true)
+
+	profile = self.db.profile
+
+	minimapButton:Register("Atlas", LDB, self.db.profile.minimap)
+	self:RegisterChatCommand("atlasbutton", Atlas_ButtonToggle2)
+	self:RegisterChatCommand("atlas", Atlas_Toggle)
+
+	self.db.RegisterCallback(self, "OnProfileChanged", "Refresh")
+	self.db.RegisterCallback(self, "OnProfileCopied", "Refresh")
+	self.db.RegisterCallback(self, "OnProfileReset", "Refresh")
+
 	-- Make the Atlas window go all the way to the edge of the screen, exactly
 	AtlasFrame:SetClampRectInsets(12, 0, -12, 0)
 	AtlasFrameSmall:SetClampRectInsets(12, 0, -12, 0)
@@ -1628,7 +1567,6 @@ local function initialization()
 	end
 
 	-- Now that saved variables have been loaded, update everything accordingly
-	Atlas_Refresh()
 	addon:UpdateLock()
 	addon:UpdateAlpha()
 	addon:UpdateSmallAlpha()
@@ -1642,23 +1580,7 @@ local function initialization()
 	else
 		addon.WorldMap.Button:Hide()
 	end
-end
 
--- ///////////////////////////////////////////////////////
-function addon:OnInitialize()
-	self.db = AceDB:New("AtlasDB", addon.constants.defaults, true)
-
-	profile = self.db.profile
-
-	minimapButton:Register("Atlas", LDB, self.db.profile.minimap)
-	self:RegisterChatCommand("atlasbutton", Atlas_ButtonToggle2)
-	self:RegisterChatCommand("atlas", Atlas_Toggle)
-
-	self.db.RegisterCallback(self, "OnProfileChanged", "Refresh")
-	self.db.RegisterCallback(self, "OnProfileCopied", "Refresh")
-	self.db.RegisterCallback(self, "OnProfileReset", "Refresh")
-
-	initialization()
 	self:SetupOptions()
 end
 
@@ -1680,8 +1602,48 @@ function addon:OnEnable()
 	if (WoWRetail) then
 		AtlasFrameLockButton:SetPoint("RIGHT", "AtlasFrameCloseButton", "LEFT", 6, 0)
 		AtlasFrameSmallLockButton:SetPoint("RIGHT", "AtlasFrameSmallCloseButton", "LEFT", 6, 0)
-		AtlasScrollBar:SetPoint("TOPLEFT", 516, -202)
 	end
+
+	-- Create scroll frame
+	local ScrollBox = CreateFrame("Frame", nil, AtlasFrameBottomInset, "WowScrollBoxList")
+	ScrollBox:SetPoint("TOPLEFT", 15, -5)
+	ScrollBox:SetSize(456, 389)
+
+	local ScrollBar
+	if WoWRetail then
+		ScrollBar = CreateFrame("EventFrame", nil, AtlasFrameBottomInset, "MinimalScrollBar")
+		ScrollBar:SetPoint("TOPLEFT", ScrollBox, "TOPRIGHT")
+		ScrollBar:SetPoint("BOTTOMLEFT", ScrollBox, "BOTTOMRIGHT")
+	else
+		ScrollBar = CreateFrame("EventFrame", nil, AtlasFrameBottomInset, "WowClassicScrollBar")
+		ScrollBar:SetPoint("TOPLEFT", ScrollBox, "TOPRIGHT", -3, 6)
+		ScrollBar:SetPoint("BOTTOMLEFT", ScrollBox, "BOTTOMRIGHT", -3, -7)
+	end
+
+	local DataProvider = CreateDataProvider()
+	local ScrollView = CreateScrollBoxListLinearView()
+	ScrollView:SetDataProvider(DataProvider)
+
+	ScrollUtil.InitScrollBoxListWithScrollBar(ScrollBox, ScrollBar, ScrollView)
+
+	local function Initializer(frame, data)
+		frame.data = data.data
+		frame:Init(data.data)
+	end
+
+	local function CustomFactory(factory, data)
+		local template = "Atlas"..data.type.."EntryTemplate"
+		factory(template, Initializer)
+	end
+
+	ScrollView:SetElementFactory(CustomFactory)
+
+	ScrollBar:SetHideIfUnscrollable(true)
+
+	AtlasFrameBottomInset.ScrollBox = ScrollBox
+
+	-- Initial data fetch
+	Atlas_Refresh()
 end
 
 function addon:Refresh()

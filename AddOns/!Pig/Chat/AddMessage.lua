@@ -21,6 +21,22 @@ local gemList = {
 	["EMPTY_SOCKET_BLUE"]=136256,--蓝色
 	["EMPTY_SOCKET_RED"]=136258,--红色
 	["EMPTY_SOCKET_YELLOW"]=136259,--黄色
+	["EMPTY_SOCKET_YELLOW"]=136259,--煞化
+}
+local gemList = {
+    ["EMPTY_SOCKET_META"]      = 136257,  -- 多彩
+    ["EMPTY_SOCKET_RED"]       = 136258,  -- 红色
+    ["EMPTY_SOCKET_YELLOW"]    = 136259,  -- 黄色
+    ["EMPTY_SOCKET_BLUE"]      = 136256,  -- 蓝色
+    ["EMPTY_SOCKET_PRISMATIC"] = 458977,  -- 棱彩 (可变色插槽)
+    ["EMPTY_SOCKET"]           = 136260,  -- 通用空插槽
+    ["EMPTY_SOCKET_COGWHEEL"]  = 407324,  -- 
+    ["EMPTY_SOCKET_HYDRAULIC"] = 407325,  --煞化
+    ["EMPTY_SOCKET_PUNCHCARD_BLUE"]  = 2958629,  -- 铭文卡-蓝色
+    ["EMPTY_SOCKET_PUNCHCARD_RED"]   = 2958630,  -- 铭文卡-红色
+    ["EMPTY_SOCKET_PUNCHCARD_YELLOW"] = 2958631, -- 铭文卡-黄色
+    ["EMPTY_SOCKET_DOMINATION"] = 4095404, -- 支配插槽 (Domination)
+    ["EMPTY_SOCKET_GREEN"] = 136256,  -- 蓝色槽常被用作绿色（旧版兼容）
 }
 local function GetGemList(linkx)
 	local baoshiinfo = {}
@@ -102,6 +118,7 @@ local function ShowZb_Link_Icon(newText)
 					if PIGA["Chat"]["ShowLinkGem"] and #v.Gem>0 then
 						local GemTxt = ""
 						for ixx=1,#v.Gem do
+							print(v.Gem[ixx])
 							GemTxt=GemTxt.."|T"..gemList[v.Gem[ixx]]..":0|t"
 						end
 						newText=newText:gsub("(|cff%w%w%w%w%w%w|"..k.."|h%[.-%]|h|r)","%1"..GemTxt);

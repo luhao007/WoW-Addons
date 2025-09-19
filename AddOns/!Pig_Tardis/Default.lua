@@ -25,8 +25,10 @@ local extDefault ={
 	},
 	["Chedui"]={
 		["Open"] = true,
-		["ADD_Level"]=0,
-		["ADD_comment"]="",
+		["Favorite_Siji"]={},
+		["Ban_Siji"]={},
+		["Favorite_Chengke"]={},
+		["Ban_Chengke"]={},
 		["ApplyTemp"]={},
 	},
 	["Plane"]={

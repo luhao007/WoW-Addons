@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: MysticalOS, QartemisT
-## Version: 11.2.13
+## Version: 11.2.16
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Core|r|cffffe00a>|r |cff69ccf0Main Core|r
 ## Notes: Deadly Boss Mods
@@ -18,12 +18,11 @@
 ## LoadOnDemand: 0
 ## DefaultState: enabled
 
-## SavedVariables: DBM_AllSavedOptions, DBM_MinimapIcon, DBM_AnnoyingPopupDisables, DBM_ModsToLoadWithFullTestSupport
+## SavedVariables: DBM_AllSavedOptions, DBM_MinimapIcon, DBM_AnnoyingPopupDisables, DBM_ModsToLoadWithFullTestSupport, DBM_Keystones
 ## SavedVariablesPerCharacter: DBM_UsedProfile, DBM_UseDualProfile, DBM_CharSavedRevision
 
 ## X-Min-Interface: 110200
 ## X-Curse-Project-ID: 3358
-## X-WoWI-ID: 8814
 ## X-Wago-ID: qv633o6b
 ## X-Website: https://deadlybossmods.com
 ## X-Part-Of: DBM-Core
@@ -80,6 +79,7 @@ DBM-Nameplate.lua
 # GUI Features
 modules\gui\Latency.lua
 modules\gui\Durability.lua
+modules\gui\Keystones.lua
 
 # Modules
 modules\Commands.lua

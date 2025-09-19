@@ -1,16 +1,22 @@
-lightweight tag 08c3230b2f813b990e3e4387fcc43f663c47db8c 11.2.0-02
+lightweight tag 96f7d5b15c95e81cc43c71219718926d8a31752e 11.2.0-03
 Author:	Dave Hendler <sollaires@gmail.com>
-Date:	Fri Jul 18 10:54:03 2025 -0700
+Date:	Wed Sep 17 21:51:01 2025 -0500
 
-commit 08c3230b2f813b990e3e4387fcc43f663c47db8c
+commit 96f7d5b15c95e81cc43c71219718926d8a31752e
 Author: Dave Hendler <sollaires@gmail.com>
-Date:   Fri Jul 18 10:54:03 2025 -0700
+Date:   Wed Sep 17 21:51:01 2025 -0500
 
-    Handle 11.2 bank changes, add support for warband bank
+    Bump version
 
-commit 254db9d01919cbd7510ce380bd13a15c295896ef
+commit 50b744380b9a193ef0b6d3e2961dcf896f28d87b
 Author: Dave Hendler <sollaires@gmail.com>
-Date:   Wed Jul 16 20:39:45 2025 -0700
+Date:   Wed Sep 17 21:50:47 2025 -0500
 
-    Fix alpha version
+    Add Gilded of the Ethereal achievement
+
+commit f0aefe97ee252ee8ba9aa7111a645f24f8ccdbb3
+Author: Dave Hendler <sollaires@gmail.com>
+Date:   Sat Aug 2 14:36:36 2025 -0700
+
+    Bump for 11.2 release
 

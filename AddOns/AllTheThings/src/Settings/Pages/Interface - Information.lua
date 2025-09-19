@@ -489,6 +489,7 @@ local function formatNumericWithCommas(amount)
     end
     return amount
 end
+app.formatNumericWithCommas = formatNumericWithCommas
 local function GetMoneyString(amount)
     if amount > 0 then
         local formatted
@@ -1324,7 +1325,7 @@ local InformationTypes = {
 				tinsert(tooltipInfo, { right = app.GetSpecsString(specs, true, true) });
 			end
 		end,
-	});
+	}),
 
 	-- We want this after most of the regular fields.
 	CreateInformationType("OnTooltip", {
@@ -1335,7 +1336,7 @@ local InformationTypes = {
 			local OnTooltip = reference.OnTooltip;
 			if OnTooltip then OnTooltip(reference, tooltipInfo); end
 		end,
-	});
+	}),
 };
 settings.InformationTypes = InformationTypes;
 

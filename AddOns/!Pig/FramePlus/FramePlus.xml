@@ -1,6 +1,5 @@
 <Ui>
 	<Script file="Options.lua" />
-	<Script file="AddonList.lua" />
 	<Script file="LootFrame.lua" />
 	<Script file="RollFrame.lua" />
 	<Script file="BuffTime.lua" />

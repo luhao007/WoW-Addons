@@ -7,6 +7,7 @@ function TardisInfo.Chedui(Activate)
 	local PIGButton = Create.PIGButton
 	local PIGFontString=Create.PIGFontString
 	local PIGLine=Create.PIGLine
+	local PIGDiyBut=Create.PIGDiyBut
 	local PIGOptionsList_RF=Create.PIGOptionsList_RF
 	local PIGOptionsList_R=Create.PIGOptionsList_R
 	-- 
@@ -32,7 +33,30 @@ function TardisInfo.Chedui(Activate)
 	for i=1,#cl_Name do
 		table.insert(ClassesName,cl_Name[i][1])
 	end
-	---------
+	function InvF.UpdateLevelColor(Text,minv,maxv,textStr)
+		local playerLevel = UnitLevel("player");
+		if playerLevel>=minv and playerLevel<=maxv then
+			if textStr then
+				return "|cffffff00" .. textStr .. "|r"
+			else
+				Text:SetTextColor(1, 1, 0, 1);
+			end
+		elseif playerLevel<minv then
+			if textStr then
+				return "|cffff0000" .. textStr .. "|r"
+			else
+				Text:SetTextColor(1, 0, 0, 1);
+			end
+		elseif playerLevel>maxv then
+			if textStr then
+				return "|cff00ff00" .. textStr .. "|r"
+			else
+				Text:SetTextColor(0, 1, 0, 1);
+			end
+		end
+	end
+
+	---底部活动TAB
 	local fujiF,fujiTabBut=PIGOptionsList_R(InvF.F,LFG_LIST_ACTIVITY,80,"Bot")
 	if Activate then
 		fujiF:Show()
@@ -40,12 +64,15 @@ function TardisInfo.Chedui(Activate)
 	end
 	fujiF.F=PIGOptionsList_RF(fujiF,28,nil,{4,4,4})
 	fujiF.F:PIGSetBackdrop()
+
+
 	--人员详情提示
-	local tishikWW,Enter_Height,ClassesNum = 162,18,#ClassesName
+	local tishikWW,Enter_Height,ClassesNum = 165,18,#ClassesName
+	local EnterFHeight=ClassesNum*Enter_Height+70
 	fujiF.F.EnterF = PIGFrame(fujiF.F);
 	fujiF.F.EnterF:PIGSetBackdrop(1)
 	fujiF.F.EnterF:SetClampedToScreen(true)
-	fujiF.F.EnterF:SetSize(tishikWW*3-2,ClassesNum*Enter_Height+60);
+	fujiF.F.EnterF:SetSize(tishikWW*3-2,EnterFHeight);
 	fujiF.F.EnterF:SetFrameLevel(fujiF.F:GetFrameLevel()+10)	
 	fujiF.F.EnterF:Hide()
 	fujiF.F.EnterF:HookScript("OnEnter", function (self)
@@ -61,10 +88,9 @@ function TardisInfo.Chedui(Activate)
 	fujiF.F.EnterF.errtishi:SetFrameLevel(fujiF.F.EnterF:GetFrameLevel()+6)
 	fujiF.F.EnterF.errtishi.t=PIGFontString(fujiF.F.EnterF.errtishi,{"CENTER", fujiF.F.EnterF.errtishi, "CENTER", 0,0},LFG_LIST_ENTRY_DELISTED,"OUTLINE");
 	fujiF.F.EnterF.errtishi.t:SetTextColor(1,0,0,1);
-
 	fujiF.F.EnterF.RoleTab={}
 	for ix=1,#RolesName do
-		local RoleF = PIGFrame(fujiF.F.EnterF,nil,{tishikWW,ClassesNum*Enter_Height+60});
+		local RoleF = PIGFrame(fujiF.F.EnterF,nil,{tishikWW,EnterFHeight});
 		RoleF:PIGSetBackdrop(1)
 		fujiF.F.EnterF.RoleTab[ix]=RoleF
 		if ix==1 then
@@ -236,135 +262,20 @@ function TardisInfo.Chedui(Activate)
 			end
 		end
 		local NewHNhhhh=self.NewHNUM*Enter_Height+36
-		if NewHNhhhh>ClassesNum*Enter_Height+60 then
+		if NewHNhhhh>EnterFHeight then
 			fujiF.F.EnterF:SetHeight(NewHNhhhh);
 			for ix=1,#fujiF.F.EnterF.RoleTab do
 				fujiF.F.EnterF.RoleTab[ix]:SetHeight(NewHNhhhh);
 			end
 		else
-			fujiF.F.EnterF:SetHeight(ClassesNum*Enter_Height+60);
-		end
-	end
-	----
-	InvF.ActTypeFilters={}
-	InvF.FilterData3={}
-	fujiF.F.CategorieCC=0
-	local function GetCategorieData()
-		local listD,nameD={},{}
-		local cunzail = C_LFGList.GetAvailableCategories()
-		if #cunzail==0 and fujiF.F.CategorieCC<5 then
-			fujiF.F.CategorieCC=fujiF.F.CategorieCC+1
-			C_Timer.After(0.1,function() GetCategorieData() end)
-		else
-			--系统活动类型(地下城2/团队114/任务和地图116/PVP118/自定义120){{DUNGEONS,2},{GUILD_INTEREST_RAID,114},{OTHER,120}}--活动类型
-			--local baseFilters = LFGListFrame and LFGListFrame.baseFilters;
-			for _,v in pairs(C_LFGList.GetAvailableCategories(baseFilters)) do
-				if C_LFGList.GetPremadeGroupFinderStyle()==1 then
-					InvF.ActTypeFilters[v]={ALL,"收藏团长"}
-					--InvF.FilterData3[v]={{"符合"..LEVEL,90001},{LFG_LIST_NEW_PLAYER_FRIENDLY_HEADER,90002}}
-				elseif C_LFGList.GetPremadeGroupFinderStyle()==2 then
-					InvF.ActTypeFilters[v]={ALL,L["TARDIS_CHEDUI_1"],L["TARDIS_CHEDUI_2"]}
-					---90001-欢迎新手90002-适合当前级别
-					InvF.FilterData3[v]={{"符合"..LEVEL,90001},{LFG_LIST_NEW_PLAYER_FRIENDLY_HEADER,90002}}
-				end
-				local kkdfin= C_LFGList.GetLfgCategoryInfo(v)
-				local renwuname=kkdfin.name:match(QUESTS_LABEL)
-				if renwuname then
-					nameD[kkdfin.name]=QUESTS_LABEL
-					kkdfin.name=QUESTS_LABEL
-				end
-				if kkdfin.name==CUSTOM then
-					table.insert(listD,{v,kkdfin.name})
-				else
-					table.insert(listD,{v,kkdfin.name})
-				end
-			end
-			for i=1,#listD do
-				if listD[i][1]==114 then
-					table.remove(listD,i);
-					table.insert(listD,1,{114,GUILD_INTEREST_RAID})
-					break
-				end
-			end
-		end
-		return listD,nameD
-	end
-	--
-	function InvF.UpdateLevelColor(Text,minv,maxv,textStr)
-		local playerLevel = UnitLevel("player");
-		if playerLevel>=minv and playerLevel<=maxv then
-			if textStr then
-				return "|cffffff00" .. textStr .. "|r"
-			else
-				Text:SetTextColor(1, 1, 0, 1);
-			end
-		elseif playerLevel<minv then
-			if textStr then
-				return "|cffff0000" .. textStr .. "|r"
-			else
-				Text:SetTextColor(1, 0, 0, 1);
-			end
-		elseif playerLevel>maxv then
-			if textStr then
-				return "|cff00ff00" .. textStr .. "|r"
-			else
-				Text:SetTextColor(0, 1, 0, 1);
+			fujiF.F.EnterF:SetHeight(EnterFHeight);
+			for ix=1,#fujiF.F.EnterF.RoleTab do
+				fujiF.F.EnterF.RoleTab[ix]:SetHeight(EnterFHeight);
 			end
 		end
 	end
-	local function PIG_GetActivityGroupInfo(groupID)
-		local name = C_LFGList.GetActivityGroupInfo(groupID) or ""
-		return name:gsub("Raids",RAIDS)
-	end
-	local function panduancunzaitongName(heji,name1)
-		for i=1,#heji do
-			if heji[i][1]==name1 then
-				return false
-			end
-		end
-		return true
-	end
-	--排序
-	local function ActivitySortComparator(lhs, rhs)
-	    local lhsName, lhsMinLevel, lhsMaxLevel = lhs[1], lhs[3], lhs[4]
-	    local rhsName, rhsMinLevel, rhsMaxLevel = rhs[1], rhs[3], rhs[4]
-	    if lhsMaxLevel ~= rhsMaxLevel then
-	        if lhsMaxLevel == 0 or rhsMaxLevel == 0 then
-	            return rhsMaxLevel == 0
-	        end
-	        return lhsMaxLevel < rhsMaxLevel
-	    end
-	    if lhsMinLevel ~= rhsMinLevel then
-	        return lhsMinLevel < rhsMinLevel
-	    end
-	    return strcmputf8i(lhsName, rhsName) > 0
-	end
-	function InvF.GetActivities(Ndata,selectedCategory,group)
-		wipe(Ndata)
-		if selectedCategory then
-			Ndata.groups={}
-			Ndata.Activs={}
-			local ActivityGroups = C_LFGList.GetAvailableActivityGroups(selectedCategory)
-			for i=1,#ActivityGroups,1 do
-				local groupID = ActivityGroups[i];
-				local groupname = PIG_GetActivityGroupInfo(groupID);
-				table.insert(Ndata.groups,{groupID,groupname})
-				Ndata.Activs[groupID]={}
-				local Activities = C_LFGList.GetAvailableActivities(selectedCategory,groupID)
-				for ii=1,#Activities,1 do
-					local ActivityInfo= C_LFGList.GetActivityInfoTable(Activities[ii])
-					if groupID==300 then
-						if panduancunzaitongName(Ndata.Activs[groupID],ActivityInfo.fullName) then
-							table.insert(Ndata.Activs[groupID],{ActivityInfo.fullName,Activities[ii],ActivityInfo.minLevelSuggestion,ActivityInfo.maxLevelSuggestion})
-						end
-					else
-						table.insert(Ndata.Activs[groupID],{ActivityInfo.fullName,Activities[ii],ActivityInfo.minLevelSuggestion,ActivityInfo.maxLevelSuggestion})
-					end
-				end
-				table.sort(Ndata.Activs[groupID], ActivitySortComparator)
-			end
-		end
-	end
+
+
 	--显示模式
 	local roleHeight,rolejiange=hang_Height*0.8,4
 	local function UpdatehangEnter(uix,fujie)
@@ -553,25 +464,22 @@ function TardisInfo.Chedui(Activate)
 			if C_LFGList.GetPremadeGroupFinderStyle()==1 then
 				local UIroleID=roleFf:GetID()
 				local leader, tank, healer, dps = GetLFGRoles();
-				local dialog = LFGListCreateRoleDialog
-				if dialog.exclusive then
-					local setDPS = false;
-					local setTank = false;
-					local setHealer = false;
-					if UIroleID == 1 then
-						setDPS = true;
-					elseif UIroleID == 2 then
-						setTank = true;
-					elseif UIroleID == 3 then
-						setHealer = true;
-					end
-					SetLFGRoles(leader, setTank, setHealer, setDPS);
-					local _, tank, healer, dps = GetLFGRoles();
-					local roleFff = roleFf:GetParent()
-					roleFff.T.checkButton:SetChecked(tank);
-					roleFff.H.checkButton:SetChecked(healer);
-					roleFff.D.checkButton:SetChecked(dps);	
+				local setDPS = false;
+				local setTank = false;
+				local setHealer = false;
+				if UIroleID == 1 then
+					setDPS = true;
+				elseif UIroleID == 2 then
+					setTank = true;
+				elseif UIroleID == 3 then
+					setHealer = true;
 				end
+				SetLFGRoles(leader, setTank, setHealer, setDPS);
+				local _, tank, healer, dps = GetLFGRoles();
+				local roleFff = roleFf:GetParent()
+				roleFff.T.checkButton:SetChecked(tank);
+				roleFff.H.checkButton:SetChecked(healer);
+				roleFff.D.checkButton:SetChecked(dps);
 			elseif C_LFGList.GetPremadeGroupFinderStyle()==2 then
 				local roles = C_LFGListRoles.GetSavedRoles();
 				local UIroleID=roleFf.roleID
@@ -633,77 +541,332 @@ function TardisInfo.Chedui(Activate)
 	end
 	InvF.addRoleSetBut=addRoleSetBut
 	InvF.SetEditBoxBG=SetEditBoxBG
-	-------------
-	local TabF,TabBut=PIGOptionsList_R(fujiF.F,"找"..LFG_LIST_ACTIVITY,70)
-	--刷新按钮
-	TabF.RefreshBut=PIGButton(TabF,{"TOPRIGHT",TabF,"TOPRIGHT",-20,-7},{74,21},REFRESH)
-	TabF.RefreshBut:Disable()
-	TabF.RefreshBut:HookScript("OnClick", function (self)
-		TabF:Update_Search()
-	end);
-	--重置
-	TabF.ResetBut=PIGButton(TabF,{"TOP",TabF.RefreshBut,"BOTTOM",0,-9.6},{74,21},RESET)
-	TabF.ResetBut:Disable()
-	TabF.ResetBut:HookScript("OnClick", function (self)
-		TabF.ResetSearchFilter()
-	end);
+
+
+	--车头右键
+	local listName={INVTYPE_RANGED..INSPECT,"收藏司机",ADD_FRIEND,CALENDAR_COPY_EVENT..NAME,IGNORE.."司机",CANCEL}
+	local RightlistNameFun=Fun.RightlistNameFun
+	RightlistNameFun["收藏司机"]=function(wanjiaName,FavoriteIcon)
+		PIGA["Tardis"]["Chedui"]["Ban_Siji"][wanjiaName]=nil
+		PIGA["Tardis"]["Chedui"]["Favorite_Siji"][wanjiaName]=true
+		PIG_OptionsUI:ErrorMsg("已收藏司机-"..wanjiaName, "G")
+		FavoriteIcon:Show()
+	end
+	RightlistNameFun[IGNORE.."司机"]=function(wanjiaName,FavoriteIcon)
+		PIGA["Tardis"]["Chedui"]["Favorite_Siji"][wanjiaName]=nil
+		PIGA["Tardis"]["Chedui"]["Ban_Siji"][wanjiaName]=true
+		PIG_OptionsUI:ErrorMsg("已"..IGNORE.."司机-"..wanjiaName, "R")
+		FavoriteIcon:Hide()
+	end
+	local caidanW,caidanH=150,20
+	local beijingico=DropDownList1MenuBackdrop.NineSlice.Center:GetTexture()
+	local beijing1,beijing2,beijing3,beijing4=DropDownList1MenuBackdrop.NineSlice.Center:GetVertexColor()
+	local Biankuang1,Biankuang2,Biankuang3,Biankuang4=DropDownList1MenuBackdrop:GetBackdropBorderColor()
+	InvF.RGN=PIGFrame(InvF,nil,{caidanW,caidanH*#listName+24})
+	InvF.RGN:SetFrameLevel(InvF:GetFrameLevel()+20)
+	InvF.RGN:PIGSetBackdrop(0.9)
+	InvF.RGN:SetScript("OnUpdate", function(self, ssss)
+		if not self.zhengzaixianshi then return end
+		if self.zhengzaixianshi then
+			if self.xiaoshidaojishi<= 0 then
+				self:Hide();
+				self.zhengzaixianshi = nil;
+			else
+				self.xiaoshidaojishi = self.xiaoshidaojishi - ssss;	
+			end
+		end
+	end)
+	InvF.RGN:SetScript("OnEnter", function(self)
+		self.zhengzaixianshi = nil;
+	end)
+	InvF.RGN:SetScript("OnLeave", function(self)
+		self.xiaoshidaojishi = 1.5;
+		self.zhengzaixianshi = true;
+	end)
+	---
+	InvF.RGN.name = PIGFontString(InvF.RGN,{"TOP",InvF.RGN,"TOP",0,-4});
+	------
+	InvF.RGN.ButList={}
+	for i=1,#listName do
+		local gntab = CreateFrame("Frame", nil, InvF.RGN);
+		InvF.RGN.ButList[i]=gntab
+		gntab:SetSize(caidanW,caidanH);
+		if i==1 then
+			gntab:SetPoint("TOPLEFT", InvF.RGN, "TOPLEFT", 4, -22);
+		else
+			gntab:SetPoint("TOPLEFT", InvF.RGN.ButList[i-1], "BOTTOMLEFT", 0, 0);
+		end
+		gntab.Title = PIGFontString(gntab,{"LEFT", gntab, "LEFT", 6, 0},listName[i]);
+		gntab.Title:SetTextColor(1, 1, 1, 1)
+		gntab.highlight1 = gntab:CreateTexture(nil, "BORDER");
+		gntab.highlight1:SetTexture("interface/buttons/ui-listbox-highlight.blp");
+		gntab.highlight1:SetPoint("CENTER", gntab, "CENTER", -3,0);
+		gntab.highlight1:SetSize(caidanW-18,16);
+		gntab.highlight1:SetAlpha(0.9);
+		gntab.highlight1:Hide();
+		gntab:SetScript("OnEnter", function(self)
+			self.highlight1:Show()
+			InvF.RGN.zhengzaixianshi = nil;
+		end);
+		gntab:SetScript("OnLeave", function(self)
+			self.highlight1:Hide()
+			InvF.RGN.xiaoshidaojishi = 1.5;
+			InvF.RGN.zhengzaixianshi = true;
+		end);
+		gntab:SetScript("OnMouseDown", function(self)
+			self.Title:SetPoint("LEFT", self, "LEFT", 7.4, -1.4);
+		end);
+		gntab:SetScript("OnMouseUp", function(self)
+			if i==#listName then
+				InvF.RGN:Hide()
+			else
+				self.Title:SetPoint("LEFT", self, "LEFT", 6, 0);
+				InvF.RGN:Hide();
+				RightlistNameFun[self.Title:GetText()](InvF.RGN.name.X,InvF.RGN.FavoriteIcon)
+			end
+		end);
+	end
+
+
+	--创建子TAB--------------
+	---找活动
+	local function addtabF(ly)
+		local ff,ffbut=PIGOptionsList_R(fujiF.F,ly..LFG_LIST_ACTIVITY,70)
+		--刷新按钮
+		ff.RefreshBut=PIGButton(ff,{"TOPRIGHT",ff,"TOPRIGHT",-20,-7},{74,21},REFRESH)
+		ff.RefreshBut:Disable()
+		ff.RefreshBut:HookScript("OnClick", function (self)
+			ff:Update_Search()
+		end);
+		--重置
+		ff.ResetBut=PIGButton(ff,{"TOP",ff.RefreshBut,"BOTTOM",0,-9.6},{74,21},RESET)
+		ff.ResetBut:Disable()
+		ff.ResetBut:HookScript("OnClick", function (self)
+			ff.ResetSearchFilter()
+		end);
+		return ff,ffbut
+	end
+	local TabF,TabBut=addtabF("PVE")
+	if C_LFGList.GetPremadeGroupFinderStyle()==1 then
+		local TabF_PVP,TabBut_PVP=addtabF("PVP")
+		TabBut:HookScript("OnClick", function (self)
+			fujiF.F.PVPShow=nil
+			TabF_PVP.PIGReset_SearchResults()
+		end)
+		TabBut_PVP:HookScript("OnClick", function (self)
+			fujiF.F.PVPShow=true
+			TabF.PIGReset_SearchResults()
+		end)
+	end
+	--我的车队/--创建活动
 	local FCTabF,FCTabBut=PIGOptionsList_R(fujiF.F,"我的"..LFG_LIST_ACTIVITY,80)
-	--我的车队
 	FCTabF.DQ=PIGFrame(FCTabF,{"TOPLEFT",FCTabF,"TOPLEFT",0,0})
 	FCTabF.DQ:SetPoint("BOTTOMRIGHT",FCTabF,"BOTTOMRIGHT",0,0);
 	FCTabF.DQ.Width=200
 	FCTabF.DQ:Hide()
-	--创建活动
 	FCTabF.ADD=PIGFrame(FCTabF,{"TOPLEFT",FCTabF,"TOPLEFT",0,0})
 	FCTabF.ADD:SetPoint("BOTTOMRIGHT",FCTabF,"BOTTOMRIGHT",0,0);
 	if PIG_MaxTocversion(20000) then
 		FCTabF.ADD.Width=500
 	else
-		FCTabF.ADD.Width=300
+		FCTabF.ADD.Width=340
 	end
 	FCTabF.ADD:Hide()
-	if C_LFGList.GetPremadeGroupFinderStyle()==1 then--正式服寻求组队
-		if PIG_MaxTocversion(50000) then
-			TardisInfo.LFGList(TabF,GetCategorieData,fujiF.F.EnterF)
-			TardisInfo.LFGCreation(FCTabF,GetCategorieData,fujiF.F.EnterF)
-			MiniMapLFGFrame:HookScript("OnClick", function (self,button)
-				if button == "LeftButton" then
-					local inBattlefield, showScoreboard = QueueStatus_InActiveBattlefield();
-					if ( IsInLFDBattlefield() ) then
-						inBattlefield = true;
-						showScoreboard = true;
-					end
-					if ( inBattlefield ) then
 
-						if ( showScoreboard ) then
-							TogglePVPScoreboardOrResults();
-						end
-					else
-						local lfgListActiveEntry = C_LFGList.HasActiveEntryInfo();
-						if ( lfgListActiveEntry ) then
-							if InvF:IsShown() then
-								InvF:Hide()
-							else
-								InvF:Show()
-								Create.Show_TabBut_R(InvF.F,fujiF,fujiTabBut)
-							end
-						else
-							PVEFrame_ShowFrame()
-							--LFGListUtil_OpenBestWindow(true);
-							--local mode = GetLFGMode(LE_LFG_CATEGORY_LFD);
-							-- if ( mode == "queued" or mode == "rolecheck" or mode == "proposal" or mode == "suspended" ) then
-								--LFGListUtil_OpenBestWindow(true);
-							--end
-						end
-					end
-				end
-			end);
+	--收藏
+	local FavoritesF,FavoritesBut=PIGOptionsList_R(fujiF.F,FAVORITES.."/"..IGNORE,80)
+	local Apphang_Height,Fwww=20,fujiF.F:GetWidth()*0.25
+	local biaotiList={FAVORITES.."司机",IGNORE.."司机",FAVORITES.."乘客",IGNORE.."乘客"}
+	local VFList={"Favorite_Siji","Ban_Siji","Favorite_Chengke","Ban_Chengke"}
+	FavoritesF.Flist={}
+	local function UIEnterLeave(uix,highui)
+    	uix:HookScript("OnEnter", function ()
+			highui:Show()
+		end);
+		uix:HookScript("OnLeave", function ()
+			highui:Hide()
+		end);
+    end
+	for i=1,#biaotiList do
+		local Fx=PIGFrame(FavoritesF)
+		FavoritesF.Flist[i]=Fx
+		Fx:PIGSetBackdrop(0)
+		Fx:SetPoint("TOPLEFT",FavoritesF,"TOPLEFT",Fwww*(i-1)+2,-24);
+		Fx:SetPoint("BOTTOMLEFT",FavoritesF,"BOTTOMLEFT",Fwww*(i-1)+2,4);
+		Fx:SetWidth(Fwww-16);
+		Fx.biaoti=PIGFontString(Fx,{"BOTTOM", Fx, "TOP", 0,1},biaotiList[i]);
+		Fx.Scroll = CreateFrame("Frame", nil, Fx)
+		Fx.Scroll:SetPoint("TOPLEFT",Fx,"TOPLEFT",0,0);
+		Fx.Scroll:SetPoint("BOTTOMRIGHT",Fx,"BOTTOMRIGHT",0,0);
+		Fx.Scroll.ScrollBox = CreateFrame("Frame", nil, Fx.Scroll, "WowScrollBoxList")
+		Fx.Scroll.ScrollBar = CreateFrame("EventFrame", nil, Fx.Scroll, "MinimalScrollBar")
+		Fx.Scroll.ScrollBar:SetPoint("TOPLEFT", Fx.Scroll.ScrollBox, "TOPRIGHT",4,0)
+		Fx.Scroll.ScrollBar:SetPoint("BOTTOMLEFT", Fx.Scroll.ScrollBox, "BOTTOMRIGHT",4,0)
+		local anchorsWithBar = {
+	        CreateAnchor("TOPLEFT", Fx.Scroll, "TOPLEFT", 1, -1),
+	        CreateAnchor("BOTTOMRIGHT", Fx.Scroll, "BOTTOMRIGHT", 0, 1),
+	    }
+	    ScrollUtil.AddManagedScrollBarVisibilityBehavior(Fx.Scroll.ScrollBox, Fx.Scroll.ScrollBar, anchorsWithBar, anchorsWithBar);
+		function Fx.Scroll.add_hang(frame)
+			if frame.bg then return end
+			frame.bg = frame:CreateTexture();
+			frame.bg:SetTexture("interface/characterframe/ui-party-background.blp");
+			frame.bg:SetBlendMode("ADD")
+			frame.bg:SetAllPoints(frame)
+			frame.bg:SetColorTexture(0.1, 0.1, 0.1, 0.3)
+			frame.highlight = frame:CreateTexture(nil,"HIGHLIGHT");
+			frame.highlight:SetTexture("interface/buttons/ui-listbox-highlight2.blp");
+			frame.highlight:SetBlendMode("ADD")
+			frame.highlight:SetAllPoints(frame)
+			frame.highlight:SetAlpha(0.2);
+			frame.highlight:Hide()
+			frame.del = PIGDiyBut(frame, {"LEFT", frame, "LEFT", 2, 0},{16,16})
+			frame.del:HookScript("OnClick", function(self)
+				PIGA["Tardis"]["Chedui"][VFList[i]][self.allname]=nil
+				Fx.Scroll:Update_Allhang()
+			end)
+			frame.name= PIGFontString(frame,{"LEFT", frame, "LEFT",20, 0});
+			frame.name:SetTextColor(1, 1, 1, 1)
+			UIEnterLeave(frame,frame.highlight)
+			UIEnterLeave(frame.del,frame.highlight)
+	    end
+	    function Fx.Scroll:Update_hang(frame,elementData)
+			frame.name:SetText(elementData.name)
+			frame.del.allname=elementData.name
 		end
+	    function Fx.Scroll:initialize()
+			local view = CreateScrollBoxListLinearView()
+		    view:SetElementExtent(Apphang_Height)
+		    view:SetPadding(0,0,0,0,1)
+		    ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, view)
+	        view:SetElementInitializer("Frame", function(frame, elementData)
+	        	Fx.Scroll.add_hang(frame)
+	        	Fx.Scroll:Update_hang(frame,elementData)
+		    end)
+		end
+		Fx.Scroll:initialize()
+		function Fx.Scroll:Update_Allhang()
+			if not self:IsVisible() then return end
+			local view = self.ScrollBox:GetView()
+			view:SetDataProvider(CreateDataProvider())
+			local DataProvider = view:GetDataProvider();
+			for k,v in pairs(PIGA["Tardis"]["Chedui"][VFList[i]]) do
+				DataProvider:Insert({index=index, name=k});
+			end
+		end
+		Fx:HookScript("OnShow", function (self)
+			self.Scroll:Update_Allhang()
+		end);
+	end
+    ------------
+	fujiF.F:HookScript("OnShow", function (self)
+		FavoritesF:Hide()
+		FavoritesBut:NotSelected()
+		local EntryInfo = C_LFGList.HasActiveEntryInfo()
+		if EntryInfo then
+			TabF:Hide()
+			TabBut:NotSelected()
+			if C_LFGList.GetPremadeGroupFinderStyle()==1 then
+				TabF_PVP:Hide()
+				TabBut_PVP:NotSelected()
+			end
+			FCTabF:Show()
+			FCTabBut:Selected()
+		else
+			FCTabF:Hide()
+			FCTabBut:NotSelected()
+			if fujiF.F.PVPShow then
+				TabF_PVP:Show()
+				TabBut_PVP:Selected()
+			else
+				TabF:Show()
+				TabBut:Selected()
+			end
+		end
+	end);
+	----------
+	if C_LFGList.GetPremadeGroupFinderStyle()==1 then--正式服寻求组队
+		-- TardisInfo.LFGList(TabF,fujiF.F.EnterF,4)
+		-- TardisInfo.LFGList(TabF_PVP,fujiF.F.EnterF,8)
+		-- TardisInfo.LFGCreation(FCTabF,fujiF.F.EnterF)
+		-- GroupFinderFrameGroupButton3:HookScript("OnClick", function (self,button)
+		-- 	-- LFGListFrame.EntryCreation.Name:SetParent(LFGListFrame.EntryCreation)
+		-- 	-- LFGListFrame.EntryCreation.Name:SetSize(288,22)
+	 --    	-- LFGListFrame.EntryCreation.Name:ClearAllPoints()
+	 --    	-- LFGListFrame.EntryCreation.Name:SetPoint("TOPLEFT", LFGListFrame.EntryCreation.NameLabel, "BOTTOMLEFT", 5, -5)
+		-- 	-- LFGListFrame.EntryCreation.Description:SetParent(LFGListFrame.EntryCreation)
+		-- 	-- LFGListFrame.EntryCreation.Description:SetSize(283,46)
+	 --    	-- LFGListFrame.EntryCreation.Description:ClearAllPoints()
+	 --    	-- LFGListFrame.EntryCreation.Description:SetPoint("TOPLEFT", LFGListFrame.EntryCreation.DescriptionLabel, "BOTTOMLEFT", 5, -10)
+		-- -- 	if InvF:IsShown() then
+		-- -- 		InvF:Hide()
+		-- -- 	else
+		-- -- 		PVEFrame_ToggleFrame()
+		-- -- 		InvF:Show()
+		-- -- 		Create.Show_TabBut_R(InvF.F,fujiF,fujiTabBut)
+		-- -- 	end
+		-- end)
+		-- if PIG_MaxTocversion(50000) then
+		-- 	MiniMapLFGFrame:HookScript("OnClick", function (self,button)
+		-- 		if button == "LeftButton" then
+		-- 			local inBattlefield, showScoreboard = QueueStatus_InActiveBattlefield();
+		-- 			if ( IsInLFDBattlefield() ) then
+		-- 				inBattlefield = true;
+		-- 				showScoreboard = true;
+		-- 			end
+		-- 			if ( inBattlefield ) then
+		-- 				if ( showScoreboard ) then
+		-- 					TogglePVPScoreboardOrResults();
+		-- 				end
+		-- 			else
+		-- 				local lfgListActiveEntry = C_LFGList.HasActiveEntryInfo();
+		-- 				if ( lfgListActiveEntry ) then
+		-- 					if InvF:IsShown() then
+		-- 						InvF:Hide()
+		-- 					else
+		-- 						InvF:Show()
+		-- 						Create.Show_TabBut_R(InvF.F,fujiF,fujiTabBut)
+		-- 					end
+		-- 				else
+		-- 					PVEFrame_ShowFrame()
+		-- 				end
+		-- 			end
+		-- 		end
+		-- 	end);
+		-- else
+		-- 	QueueStatusButton:HookScript("OnClick", function (self,button)
+		-- 		if button == "LeftButton" then
+		-- 			local inBattlefield, showScoreboard = QueueStatus_InActiveBattlefield();
+		-- 			if ( IsInLFDBattlefield() ) then
+		-- 				inBattlefield = true;
+		-- 				showScoreboard = true;
+		-- 			end	
+		-- 			if ( inBattlefield ) then
+		-- 				if ( showScoreboard ) then
+		-- 					TogglePVPScoreboardOrResults();
+		-- 				end
+		-- 			else
+		-- 				local lfgListActiveEntry = C_LFGList.HasActiveEntryInfo();
+		-- 				if ( lfgListActiveEntry ) then
+		-- 					if InvF:IsShown() then
+		-- 						InvF:Hide()
+		-- 					else
+		-- 						InvF:Show()
+		-- 						Create.Show_TabBut_R(InvF.F,fujiF,fujiTabBut)
+		-- 					end
+		-- 					PVEFrame_ToggleFrame()
+		-- 				else
+		-- 					PVEFrame_ToggleFrame()
+		-- 				end
+		-- 			end
+		-- 		end
+		-- 	end);
+		-- end
 	elseif C_LFGList.GetPremadeGroupFinderStyle()==2 then--经典寻求组队
 		if not C_GameRules.IsHardcoreActive() then return end
 		Fun.IsAddOnLoaded("Blizzard_GroupFinder_VanillaStyle",function()
-			TardisInfo.LFGList_Vanilla(TabF,GetCategorieData,fujiF.F.EnterF)
-			TardisInfo.LFGCreation_Vanilla(FCTabF,GetCategorieData,fujiF.F.EnterF)
+			TardisInfo.LFGList_Vanilla(TabF,fujiF.F.EnterF)
+			TardisInfo.LFGCreation_Vanilla(FCTabF,fujiF.F.EnterF)
 			local function LeftClickFun(self,button,Micro)
 				if button == "LeftButton" then
 					if InvF:IsShown() then
@@ -719,19 +882,4 @@ function TardisInfo.Chedui(Activate)
 			if _G["LFGMicroButton"] then _G["LFGMicroButton"].LeftClickFun=LeftClickFun end
 		end)
 	end
-	-----
-	fujiF.F:HookScript("OnShow", function (self)
-		local EntryInfo = C_LFGList.HasActiveEntryInfo()
-		if EntryInfo then
-			TabF:Hide()
-			TabBut:NotSelected()
-			FCTabF:Show()
-			FCTabBut:Selected()
-		else
-			FCTabF:Hide()
-			FCTabBut:NotSelected()
-			TabF:Show()
-			TabBut:Selected()
-		end
-	end);
 end

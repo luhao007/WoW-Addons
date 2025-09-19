@@ -188,8 +188,6 @@ Off Screen]=] ] = "L’aura est hors écran"
 	L["Aura: '%s'"] = "Aura : '%s'"
 	L["Auto-Clone (Show All Matches)"] = "Clonage Automatique (Afficher tous les résultats)"
 	L["Automatic length"] = "Longueur automatique"
-	--[[Translation missing --]]
-	L["Available Voices are system specific"] = "Available Voices are system specific"
 	L["Backdrop Color"] = "Couleur de Fond"
 	L["Backdrop in Front"] = "Fond Devant"
 	L["Backdrop Style"] = "Style de Fond"
@@ -1029,6 +1027,8 @@ every 3 events starting from 2nd and ending at 11th: 2-11/3]=]
 	L["Stop Motion Settings"] = "Stop Motion Settings"
 	L["Stop Sound"] = "Arrêter le son"
 	--[[Translation missing --]]
+	L["Stretched by Foreground"] = "Stretched by Foreground"
+	--[[Translation missing --]]
 	L["Sub Elements"] = "Sub Elements"
 	--[[Translation missing --]]
 	L["Sub Option %i"] = "Sub Option %i"
@@ -1173,8 +1173,8 @@ Upgrade your version of WeakAuras or wait for next release before installing thi
 	L["Url: %s"] = "Url: %s"
 	L["Use Display Info Id"] = "Utiliser les informations d'identifiant de l'affichage"
 	L["Use SetTransform"] = "Utiliser SetTransform"
-	L["Used in Auras:"] = "Utilisé(e) dans les Auras:"
 	L["Used in auras:"] = "Utilisé dans les auras:"
+	L["Used in Auras:"] = "Utilisé(e) dans les Auras:"
 	--[[Translation missing --]]
 	L["Uses Texture Coordinates to rotate the texture."] = "Uses Texture Coordinates to rotate the texture."
 	--[[Translation missing --]]
@@ -1195,7 +1195,8 @@ Upgrade your version of WeakAuras or wait for next release before installing thi
 	L["Vertical Bar"] = "Barre verticale"
 	L["View"] = "Vue"
 	L["View custom code"] = "Afficher le code personnalisé"
-	L["Voice"] = "Voix"
+	--[[Translation missing --]]
+	L["Voice Settings"] = "Voice Settings"
 	--[[Translation missing --]]
 	L["We thank"] = "We thank"
 	--[[Translation missing --]]

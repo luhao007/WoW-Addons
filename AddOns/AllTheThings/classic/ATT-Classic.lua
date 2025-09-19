@@ -490,7 +490,7 @@ ResolveSymbolicLink = function(o)
 						local results = ResolveSymbolicLink(setmetatable({sym=commands}, {__index=o}));
 						if results then
 							for k,result in ipairs(results) do
-								tinsert(searchResults, result);
+								tinsert(finalized, result);
 							end
 						end
 					end

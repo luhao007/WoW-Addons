@@ -5,6 +5,9 @@ local ADDON_NAME, private = ...
 
 local RSAchievementDB = private.NewLib("RareScannerAchievementDB")
 
+-- RareScanner database libraries
+local RSMapDB = private.ImportLib("RareScannerMapDB")
+
 -- RareScanner internal libraries
 local RSLogger = private.ImportLib("RareScannerLogger")
 local RSUtils = private.ImportLib("RareScannerUtils")
@@ -86,16 +89,23 @@ function RSAchievementDB.GetCachedAchievementIcon(achievementID)
 end
 
 function RSAchievementDB.GetNotCompletedAchievementIDsByMap(entityID, mapID, achievementIDs, questIDs, criteriaIndex, isContainer)
-	if (achievementIDs and mapID and entityID and private.ACHIEVEMENT_ZONE_IDS[mapID]) then
-		local notCompletedAchievementIDs = { }
-		
-		for _, achievementID in ipairs(private.ACHIEVEMENT_ZONE_IDS[mapID]) do
-			if (RSUtils.Contains(achievementIDs, achievementID) and not IsAchievementCompleted(achievementID, entityID, questIDs, criteriaIndex, isContainer)) then
-				tinsert(notCompletedAchievementIDs, achievementID);
-			end
+	if (achievementIDs and mapID and entityID) then
+		local parentMapID = mapID
+		while (not private.ACHIEVEMENT_ZONE_IDS[parentMapID] and parentMapID) do
+			parentMapID = RSMapDB.GetParentMapID(parentMapID)
 		end
 		
-		return notCompletedAchievementIDs
+		if (parentMapID and private.ACHIEVEMENT_ZONE_IDS[parentMapID]) then
+			local notCompletedAchievementIDs = { }
+			
+			for _, achievementID in ipairs(private.ACHIEVEMENT_ZONE_IDS[parentMapID]) do
+				if (RSUtils.Contains(achievementIDs, achievementID) and not IsAchievementCompleted(achievementID, entityID, questIDs, criteriaIndex, isContainer)) then
+					tinsert(notCompletedAchievementIDs, achievementID);
+				end
+			end
+			
+			return notCompletedAchievementIDs
+		end
 	end
 
 	return nil

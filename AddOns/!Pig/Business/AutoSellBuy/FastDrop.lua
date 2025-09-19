@@ -11,7 +11,7 @@ local function shifoucunzai(beibaoInfo,dataX)
 	end
 	return false
 end
-function BusinessInfo.FastDrop()
+function BusinessInfo.FastDrop(QuickButUI_index)
 	local L=addonTable.locale
 	local Data=addonTable.Data
 	local Create=addonTable.Create
@@ -93,19 +93,12 @@ function BusinessInfo.FastDrop()
 		end
 	end
 	local QuickButUI=_G[Data.QuickButUIname]
-	QuickButUI.ButList[9]=function()	
+	QuickButUI.ButList[QuickButUI_index]=function()	
 		if PIGA["QuickBut"]["Open"] and PIGA["AutoSellBuy"]["Open"] and PIGA["AutoSellBuy"]["AddBut"] then
 			if QuickButUI[_GNE] then return end
 			QuickButUI[_GNE]=true
 			local QuickTooltip = KEY_BUTTON1.."-|cff00FFFF".._GN.."指定物品|r\n"..KEY_BUTTON2.."-|cff00FFFF打开"..GnName.."|r"
-			local QkBut=PIGQuickBut(nil,QuickTooltip,136453,nil,FrameLevel)
-			if not PIG_OptionsUI.IsOpen_ElvUI() and not PIG_OptionsUI.IsOpen_NDui() then
-				QkBut.TexX1 = QkBut:CreateTexture();
-				QkBut.TexX1:SetTexture(130841);
-				QkBut.TexX1:SetAlpha(0.4)
-				QkBut.TexX1:SetPoint("CENTER",0.6,-0.4);
-				QkBut.TexX1:SetSize(QkBut:GetHeight()*1.64,QkBut:GetHeight()*1.64);
-			end
+			local QkBut=PIGQuickBut(nil,QuickTooltip,134152,nil,FrameLevel)----133799
 			QkBut:SetScript("OnClick", function(self,button)
 				if button=="LeftButton" then
 					PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON);

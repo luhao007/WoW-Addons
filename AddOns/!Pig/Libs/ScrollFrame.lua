@@ -7,8 +7,14 @@ local PIGSetFont=Create.PIGSetFont
 function Create.PIGScrollFrame(fujik,Point,WH,BarW)
 	local BarW=BarW or 16
 	local Scroll = CreateFrame("ScrollFrame",nil,fujik); 
-	Scroll:SetPoint(unpack(Point));
-	Scroll:SetSize(WH[1],WH[2] or WH[1])
+	if Point then
+		Scroll:SetPoint("TOPLEFT",fujik,"TOPLEFT",Point[1],Point[2]);
+		Scroll:SetPoint("BOTTOMRIGHT",fujik,"BOTTOMRIGHT",Point[3],Point[4]);
+	end
+	if WH then
+		Scroll:SetSize(WH[1],WH[2] or WH[1])
+	end
+	Scroll.ScrollChildFrame = CreateFrame("Frame", nil, Scroll);
 	Scroll.ScrollBar = CreateFrame("Slider", nil, Scroll)
 	Scroll.ScrollBar:SetPoint("TOPLEFT",Scroll,"TOPRIGHT",0,-BarW);
 	Scroll.ScrollBar:SetPoint("BOTTOMLEFT",Scroll,"BOTTOMRIGHT",0,BarW);
@@ -42,19 +48,29 @@ function Create.PIGScrollFrame(fujik,Point,WH,BarW)
 	Scroll.ScrollBar.ScrollDownButton:SetScript("OnClick",UIPanelScrollBarScrollDownButton_OnClick)
 
 	Scroll.ScrollBar.ThumbTexture = Scroll.ScrollBar:CreateTexture(nil, "ARTWORK");
-	Scroll.ScrollBar.ThumbTexture:SetSize(BarW, 24);
+	Scroll.ScrollBar.ThumbTexture:SetWidth(BarW);
 	Scroll.ScrollBar.ThumbTexture:SetPoint("TOP",Scroll.ScrollBar,"TOP",0,0);
 	Scroll.ScrollBar:SetThumbTexture(Scroll.ScrollBar.ThumbTexture);
-	local thumbtop = Scroll.ScrollBar:CreateTexture(nil, "ARTWORK");
-	thumbtop:SetAtlas("minimal-scrollbar-small-thumb-top-over", true);
+	local thumbtop = Scroll.ScrollBar:CreateTexture(nil, "BORDER");
+	thumbtop:SetAtlas("minimal-scrollbar-small-thumb-top", true);
 	thumbtop:SetPoint("TOP",Scroll.ScrollBar.ThumbTexture,"TOP",0,0);
-	local thumbbottom = Scroll.ScrollBar:CreateTexture(nil, "ARTWORK");
-	thumbbottom:SetAtlas("minimal-scrollbar-small-thumb-bottom-over", true);
+	local thumbtopHIGHLIGHT = Scroll.ScrollBar:CreateTexture(nil, "HIGHLIGHT");
+	thumbtopHIGHLIGHT:SetAtlas("minimal-scrollbar-small-thumb-top-over", true);
+	thumbtopHIGHLIGHT:SetPoint("TOP",Scroll.ScrollBar.ThumbTexture,"TOP",0,0);
+	local thumbbottom = Scroll.ScrollBar:CreateTexture(nil, "BORDER");
+	thumbbottom:SetAtlas("minimal-scrollbar-small-thumb-bottom", true);
 	thumbbottom:SetPoint("BOTTOM",Scroll.ScrollBar.ThumbTexture,"BOTTOM",0,0);
-	local thumbmiddle = Scroll.ScrollBar:CreateTexture(nil, "ARTWORK");
-	thumbmiddle:SetAtlas("minimal-scrollbar-small-thumb-middle-over", true);
+	local thumbbottomHIGHLIGHT = Scroll.ScrollBar:CreateTexture(nil, "HIGHLIGHT");
+	thumbbottomHIGHLIGHT:SetAtlas("minimal-scrollbar-small-thumb-bottom-over", true);
+	thumbbottomHIGHLIGHT:SetPoint("BOTTOM",Scroll.ScrollBar.ThumbTexture,"BOTTOM",0,0);
+	local thumbmiddle = Scroll.ScrollBar:CreateTexture(nil, "BORDER");
+	thumbmiddle:SetAtlas("minimal-scrollbar-small-thumb-middle", true);
 	thumbmiddle:SetPoint("TOPLEFT", thumbtop, "BOTTOMLEFT");
 	thumbmiddle:SetPoint("BOTTOMRIGHT", thumbbottom, "TOPRIGHT");
+	local thumbmiddleHIGHLIGHT = Scroll.ScrollBar:CreateTexture(nil, "HIGHLIGHT");
+	thumbmiddleHIGHLIGHT:SetAtlas("minimal-scrollbar-small-thumb-middle-over", true);
+	thumbmiddleHIGHLIGHT:SetPoint("TOPLEFT", thumbtop, "BOTTOMLEFT");
+	thumbmiddleHIGHLIGHT:SetPoint("BOTTOMRIGHT", thumbbottom, "TOPRIGHT");
 
 	local beginTexture = Scroll.ScrollBar:CreateTexture(nil, "ARTWORK");
 	beginTexture:SetAtlas("minimal-scrollbar-track-top", true);
@@ -70,6 +86,24 @@ function Create.PIGScrollFrame(fujik,Point,WH,BarW)
 		UIPanelScrollBar_OnValueChanged(self, value)
 	end)
 	UIPanelScrollFrame_OnLoad(Scroll)
+	function Scroll:UpdateThumbTexture(numItems, numToDisplay, buttonHeight)
+	    local scrollBar = self.ScrollBar or self.scrollBar
+	    if not scrollBar then return end
+	    local thumb = scrollBar.ThumbTexture
+	    if not thumb then return end
+	    local trackHeight = self:GetHeight() - (scrollBar.ScrollUpButton and scrollBar.ScrollUpButton:GetHeight() or 0) - 
+	                                      (scrollBar.ScrollDownButton and scrollBar.ScrollDownButton:GetHeight() or 0)
+	    local contentHeight = numItems * buttonHeight
+	    local viewHeight = numToDisplay * buttonHeight
+	    local thumbHeight
+	    if contentHeight > viewHeight then
+	        thumbHeight = math.max(24, (viewHeight / contentHeight) * trackHeight)
+	    else
+	        thumbHeight = trackHeight
+	    end
+	    thumb:SetHeight(thumbHeight)
+	end
+	Scroll.ScrollBar.ThumbTexture:SetHeight(50)
 	Scroll:SetScript("OnScrollRangeChanged", function(self, xrange, yrange)
 		ScrollFrame_OnScrollRangeChanged(self, xrange, yrange)
 	end)

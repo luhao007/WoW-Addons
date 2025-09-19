@@ -74,11 +74,13 @@ local function add_Button(MODE,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 		end)
 		But:HookScript("OnMouseDown", function(self)
 			if self:IsEnabled() and not self.NoClickTextOpen then
-				self.Text:SetPoint("CENTER", 1.5, -1.5);
+				local point, relativeTo, relativePoint, offsetX, offsetY = self.Text:GetPoint()
+				self.Text:SetPoint(point,self,relativePoint, offsetX+1.5, offsetY-1.5);
 			end
 		end);
 		But:HookScript("OnMouseUp", function(self)
-			self.Text:SetPoint("CENTER", 0, 0);
+			local point, relativeTo, relativePoint, offsetX, offsetY = self.Text:GetPoint()
+			self.Text:SetPoint(point,self,relativePoint, offsetX-1.5, offsetY+1.5);
 		end);
 		function But:SetText(TextN)
 			self.Text:SetText(TextN);
@@ -308,7 +310,9 @@ local function PIGTabBut(fuF,Point,WH,Text,UIName)
 	PIGSetFont(But.Text,Zihao,Miaobian)
 	But.Text:SetTextColor(TextColor[1], TextColor[2], TextColor[3], TextColor[4])
 	But.Text:SetText(Text);
-	
+	function But:SetText(TextN)
+		self.Text:SetText(TextN);
+	end
 	function But:Selected()
 		PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB);
 		self.ShowUI=true;

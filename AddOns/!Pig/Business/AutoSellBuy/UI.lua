@@ -24,7 +24,7 @@ local BusinessInfo=addonTable.BusinessInfo
 local GnName,GnUI,GnIcon,FrameLevel = unpack(BusinessInfo.AutoSellBuyData)
 local Width,Height,biaotiH  = 300, 550, 21;
 --父框架
-function BusinessInfo.AutoSellBuy_ADDUI()
+function BusinessInfo.AutoSellBuy_ADDUI(QuickButUI_index)
 	if not PIGA["AutoSellBuy"]["Open"] then return end
 	if _G[GnUI] then return end	
 	PIGModbutton(GnName,GnIcon,GnUI,FrameLevel)
@@ -41,10 +41,10 @@ function BusinessInfo.AutoSellBuy_ADDUI()
 	--
 	BusinessInfo.AutoSell()
 	BusinessInfo.AutoBuy()
-	BusinessInfo.FastDrop()
-	BusinessInfo.FastOpen()
-	BusinessInfo.FastFen()
-	BusinessInfo.FastXuan()
+	BusinessInfo.FastDrop(QuickButUI_index)
+	BusinessInfo.FastOpen(QuickButUI_index+1)
+	BusinessInfo.FastFen(QuickButUI_index+2)
+	BusinessInfo.FastXuan(QuickButUI_index+3)
 	BusinessInfo.FastSave()
 end
 function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)

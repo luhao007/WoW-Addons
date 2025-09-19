@@ -1,11 +1,11 @@
 ## Interface: 110200
 ## Author: Leatrix
-## Version: 11.2.07
+## Version: 11.2.08
 
 ## Title: Leatrix Plus
-## Notes: For support, visit leatrix.com.
+## Notes: curseforge.com/wow/addons/leatrix-plus
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r|cFFFFFFFF功能百宝箱|r |cFFFFE00ALeatrix_Plus|r
-## Notes-zhCN: 如需支持，请访问 leatrix.com。
+## Notes-zhCN: curseforge.com/wow/addons/leatrix-plus
 
 ## IconTexture: Interface\HELPFRAME\ReportLagIcon-Movement
 

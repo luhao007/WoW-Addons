@@ -1,11 +1,12 @@
 local addonName, addonTable = ...;
 local TardisInfo=addonTable.TardisInfo
-function TardisInfo.LFGList_Vanilla(TabF,GetCategorieData,EnterF)
+function TardisInfo.LFGList_Vanilla(TabF,EnterF,baseFilters)
 	local Create, Data, Fun, L= unpack(PIG)
 	local match = _G.string.match
 	---------------------
 	local PIGFrame=Create.PIGFrame
 	local PIGLine=Create.PIGLine
+	local PIGEnter=Create.PIGEnter
 	local PIGButton = Create.PIGButton
 	local PIGCheckbutton=Create.PIGCheckbutton
 	local PIGFontString=Create.PIGFontString
@@ -13,6 +14,7 @@ function TardisInfo.LFGList_Vanilla(TabF,GetCategorieData,EnterF)
 	local PIGDiyBut=Create.PIGDiyBut
 	local PIGDownMenu=Create.PIGDownMenu
 	local FasongYCqingqiu=Fun.FasongYCqingqiu
+	local PIG_GetCategories=Fun.PIG_GetCategories
 	------
 	local GnName,GnUI,GnIcon,FrameLevel = unpack(TardisInfo.uidata)
 	local InvF=_G[GnUI]
@@ -48,6 +50,8 @@ function TardisInfo.LFGList_Vanilla(TabF,GetCategorieData,EnterF)
 	end
 
 	TabF.CategorieButList={}
+	TabF.ActTypeFilters={}
+	TabF.FilterData3={}
 	function TabF:Enabled_Categorie(BOT)
 		for i=1,#TabF.CategorieButList do
 			TabF.CategorieButList[i]:SetEnabled(BOT)
@@ -55,11 +59,16 @@ function TardisInfo.LFGList_Vanilla(TabF,GetCategorieData,EnterF)
 	end
 	TabF:HookScript("OnShow", function (self)
 		if not TabF.tabList then
-			TabF.tabList=GetCategorieData()
+			TabF.tabList=PIG_GetCategories(baseFilters)
+			for i=1,#TabF.tabList do
+				TabF.ActTypeFilters[TabF.tabList[i][1]]={ALL,L["TARDIS_CHEDUI_1"],L["TARDIS_CHEDUI_2"]}
+				---90001-欢迎新手90002-适合当前级别
+				TabF.FilterData3[TabF.tabList[i][1]]={{"符合"..LEVEL,90001},{LFG_LIST_NEW_PLAYER_FRIENDLY_HEADER,90002}}
+			end
 		end
 		for i=1,#TabF.tabList do
 			if not TabF.CategorieButList[i] then
-				TabF.CategorieButList[i] = PIGCheckbutton(TabF)
+				TabF.CategorieButList[i] = PIGCheckbutton(TabF,nil,nil,nil,nil,nil,nil,1)
 				if i==1 then
 					TabF.CategorieButList[i]:SetPoint("TOPLEFT",TabF,"TOPLEFT",10,-10)
 				else
@@ -71,10 +80,7 @@ function TardisInfo.LFGList_Vanilla(TabF,GetCategorieData,EnterF)
 					end
 					self:SetChecked(true)
 					TabF.selectedCategory=self:GetID()
-					TabF:Refresh_ActType()
-					TabF:Refresh_Difficulty()
-					TabF:Refresh_FilterData3()
-					wipe(TabF.selectedFBData)
+					TabF.ResetFilters()	
 					TabF:Update_Search()
 				end)
 			end
@@ -89,22 +95,31 @@ function TardisInfo.LFGList_Vanilla(TabF,GetCategorieData,EnterF)
 	--找队员还是找队伍
 	TabF.ActTypeList={}
 	TabF.selectActType=0
-	function TabF:Enabled_ActType(BOT)
+	function TabF:Shown_ActType(BOT)
 		for i=1,#TabF.ActTypeList do
-			TabF.ActTypeList[i]:SetEnabled(BOT)
+			TabF.ActTypeList[i]:SetShown(BOT)
 		end
 	end
-	function TabF:Refresh_ActType()
-		for i=1,#self.ActTypeList do
-			self.ActTypeList[i]:Hide()
+	function TabF:GetNextCategorie()
+		for ibut=#TabF.CategorieButList,1,-1 do
+			if TabF.CategorieButList[ibut]:IsShown() then
+				return ibut
+			end
 		end
-		self.selectActType=0
-		if InvF.ActTypeFilters[self.selectedCategory] then
-			for i=1,#InvF.ActTypeFilters[self.selectedCategory] do
+		return 0
+	end
+	function TabF:Update_ActType()
+		self:Shown_ActType(false)
+		self.selectActType=self.selectActType or 0
+		if TabF.ActTypeFilters[self.selectedCategory] then
+			for i=1,#TabF.ActTypeFilters[self.selectedCategory] do
 				if not self.ActTypeList[i] then
-					self.ActTypeList[i] = PIGCheckbutton(TabF)
+					self.ActTypeList[i] = PIGCheckbutton(TabF,nil,nil,nil,nil,nil,nil,1)
 					if i==1 then
-						self.ActTypeList[i]:SetPoint("TOPLEFT",TabF,"TOPLEFT",10,-40)
+						self.ActTypeList[i].fenge = self.ActTypeList[i]:CreateTexture();
+						self.ActTypeList[i].fenge:SetAtlas("GreenCross")
+						self.ActTypeList[i].fenge:SetSize(26,26);
+						self.ActTypeList[i].fenge:SetPoint("RIGHT",self.ActTypeList[i],"LEFT",-2, 0);
 					else
 						self.ActTypeList[i]:SetPoint("LEFT",TabF.ActTypeList[i-1].Text,"RIGHT",8,0)
 					end
@@ -117,106 +132,93 @@ function TardisInfo.LFGList_Vanilla(TabF,GetCategorieData,EnterF)
 						TabF.Update_HangALL(nil,true)
 					end)
 				end
+				if i==1 then
+					self.ActTypeList[i]:ClearAllPoints();
+					local nexbutID=TabF:GetNextCategorie()
+					if nexbutID>0 then
+						self.ActTypeList[i]:SetPoint("LEFT",TabF.CategorieButList[nexbutID].Text,"RIGHT",30,0)
+					else
+						self.ActTypeList[i]:SetPoint("TOPLEFT",TabF,"TOPLEFT",10,-40)
+					end
+				end
 				self.ActTypeList[i].ActTypeID=i-1
 				self.ActTypeList[i]:Show()
 				self.ActTypeList[i]:SetChecked(i==1 or false)
-				self.ActTypeList[i].Text:SetText(InvF.ActTypeFilters[self.selectedCategory][i])
+				self.ActTypeList[i].Text:SetText(TabF.ActTypeFilters[self.selectedCategory][i])
 				self.ActTypeList[i]:UpdateHitRectInsets()
 			end
 		end
 	end
 	--难度过滤
-	-- 1-地下城
-	-- 2-地下城英雄
-	-- 3-10人团队
-	-- 4-25人团队
-	-- 5-10人团队（英雄）	
-	-- 6-25人团队（英雄）
-	-- 9-40人团队
-	-- 148-20人团队
-	local DifficuData = {[2]={DUNGEON_DIFFICULTY_5PLAYER,RAID_DIFFICULTY1},[114]={RAID_DIFFICULTY_20PLAYER,RAID_DIFFICULTY_40PLAYER}}
-	local DifficuIDs = {[2]={1,3},[114]={148,9}}
-	TabF.DifficultyList={}
+	TabF.DifficultyButList={}
 	TabF.selectDifficulty=0
-	local function addDifficultyBut(i)
-		if not TabF.DifficultyList[i] then
-			local ckbut = PIGCheckbutton(TabF)
-			ckbut:Hide()
-			TabF.DifficultyList[i]=ckbut
-			if i==1 then
-				ckbut:SetPoint("LEFT",TabF.CategorieButList[#TabF.CategorieButList].Text,"RIGHT",36,0)
-				ckbut.fenge = ckbut:CreateTexture();
-				ckbut.fenge:SetAtlas("GreenCross")
-				ckbut.fenge:SetSize(26,26);
-				ckbut.fenge:SetPoint("RIGHT",ckbut,"LEFT",-2, 0);
-			else
-				ckbut:SetPoint("LEFT",TabF.DifficultyList[i-1].Text,"RIGHT",8,0)
-			end
-			ckbut:HookScript("OnClick", function (self)
-				for ix=1,#TabF.DifficultyList do
-					TabF.DifficultyList[ix]:SetChecked(false)
-				end
-				self:SetChecked(true)
-				TabF.selectDifficulty=self.DifficuIDs
-				TabF.Update_HangALL(nil,true)
-			end)
-			return ckbut
+	function TabF:Shown_Difficulty(BOT)
+		for i=1,#TabF.DifficultyButList do
+			TabF.DifficultyButList[i]:SetShown(BOT)
 		end
 	end
-	function TabF:Enabled_Difficulty(BOT)
-		for i=1,#TabF.DifficultyList do
-			TabF.DifficultyList[i]:SetEnabled(BOT)
-		end
-	end
-	function TabF:Refresh_Difficulty()
-		self.SearchBox:SetText("")
-		for i=1,#self.DifficultyList do
-			self.DifficultyList[i]:Hide()
-		end
-		self.selectDifficulty=0
-		if DifficuData[self.selectedCategory] then
-			for ixx=1,#DifficuData[self.selectedCategory]+1 do
-				addDifficultyBut(ixx)
-				self.DifficultyList[ixx]:Show()
-				if ixx==1 then
-					self.DifficultyList[ixx].DifficuIDs=0
-					self.DifficultyList[ixx]:SetChecked(true)
-					self.DifficultyList[ixx].Text:SetText(ALL)
-				else
-					self.DifficultyList[ixx].DifficuIDs=DifficuIDs[self.selectedCategory][ixx-1]
-					self.DifficultyList[ixx]:SetChecked(false)
-					self.DifficultyList[ixx].Text:SetText(DifficuData[self.selectedCategory][ixx-1])
-					self.DifficultyList[ixx]:UpdateHitRectInsets()
+	function TabF:Update_Difficulty()
+		TabF:Shown_Difficulty(false)
+		self.selectDifficulty=self.selectDifficulty or 0
+		local GroupList,GroupData,DifficultyD=Fun.PIG_GetGroups(self.selectedCategory,baseFilters)
+		if #DifficultyD>1 then
+			for i=1,#DifficultyD do
+				if not TabF.DifficultyButList[i] then
+					self.DifficultyButList[i] = PIGCheckbutton(TabF,nil,nil,nil,nil,nil,nil,1)
+					self.DifficultyButList[i]:Hide()
+					if i==1 then
+						self.DifficultyButList[i]:SetPoint("TOPLEFT",TabF,"TOPLEFT",10,-40)
+					else
+						self.DifficultyButList[i]:SetPoint("LEFT",TabF.DifficultyButList[i-1].Text,"RIGHT",8,0)
+					end
+					self.DifficultyButList[i]:HookScript("OnClick", function (self)
+						for ix=1,#TabF.DifficultyButList do
+							TabF.DifficultyButList[ix]:SetChecked(false)
+						end
+						self:SetChecked(true)
+						TabF.selectDifficulty=self.DifficuIDs
+						TabF.Update_HangALL(nil,true)
+					end)
 				end
+				self.DifficultyButList[i]:Show()
+				self.DifficultyButList[i].DifficuIDs=DifficultyD[i][1]
+				self.DifficultyButList[i]:SetChecked(self.selectDifficulty==DifficultyD[i][1])
+				self.DifficultyButList[i].Text:SetText(DifficultyD[i][2])
+				self.DifficultyButList[i]:UpdateHitRectInsets()
 			end
 		end
+	end
+	function TabF:GetNextbutpnim()
+		for ibut=#TabF.DifficultyButList,1,-1 do
+			if TabF.DifficultyButList[ibut]:IsShown() then
+				return ibut
+			end
+		end
+		return 0
 	end
 	--三级过滤
 	TabF.FilterData3List={}
 	TabF.selectFilterData3={}
-	function TabF:Enabled_FilterData3(BOT)
+	function TabF:Shown_FilterData3(BOT)
 		for i=1,#TabF.FilterData3List do
-			TabF.FilterData3List[i]:SetEnabled(BOT)
+			TabF.FilterData3List[i]:SetShown(BOT)
 		end
 	end
-	function TabF:Refresh_FilterData3()
-		for i=1,#self.FilterData3List do
-			self.FilterData3List[i]:Hide()
-		end
-		wipe(TabF.selectFilterData3)
-		if InvF.FilterData3[self.selectedCategory] then
-			for ixx=1,#InvF.FilterData3[self.selectedCategory] do
-				if not self.FilterData3List[ixx] then
-					self.FilterData3List[ixx] = PIGCheckbutton(TabF)
-					if ixx==1 then
-						self.FilterData3List[ixx].fenge = self.FilterData3List[ixx]:CreateTexture();
-						self.FilterData3List[ixx].fenge:SetAtlas("GreenCross")
-						self.FilterData3List[ixx].fenge:SetSize(26,26);
-						self.FilterData3List[ixx].fenge:SetPoint("RIGHT",self.FilterData3List[ixx],"LEFT",-2, 0);
+	function TabF:Update_FilterData3()
+		TabF:Shown_FilterData3(false)
+		if TabF.FilterData3[self.selectedCategory] then
+			for i=1,#TabF.FilterData3[self.selectedCategory] do
+				if not self.FilterData3List[i] then
+					self.FilterData3List[i] = PIGCheckbutton(TabF)
+					if i==1 then
+						self.FilterData3List[i].fenge = self.FilterData3List[i]:CreateTexture();
+						self.FilterData3List[i].fenge:SetAtlas("GreenCross")
+						self.FilterData3List[i].fenge:SetSize(26,26);
+						self.FilterData3List[i].fenge:SetPoint("RIGHT",self.FilterData3List[i],"LEFT",-2, 0);
 					else
-						self.FilterData3List[ixx]:SetPoint("LEFT",TabF.FilterData3List[ixx-1].Text,"RIGHT",8,0)
+						self.FilterData3List[i]:SetPoint("LEFT",TabF.FilterData3List[i-1].Text,"RIGHT",8,0)
 					end
-					self.FilterData3List[ixx]:HookScript("OnClick", function (self)
+					self.FilterData3List[i]:HookScript("OnClick", function (self)
 						if TabF.selectFilterData3[self.FilterData3ID] then
 							TabF.selectFilterData3[self.FilterData3ID]=nil
 						else
@@ -226,16 +228,23 @@ function TardisInfo.LFGList_Vanilla(TabF,GetCategorieData,EnterF)
 						TabF.Update_HangALL(nil,true)
 					end)
 				end
-				if ixx==1 then
-					self.FilterData3List[ixx]:ClearAllPoints();
-					self.FilterData3List[ixx]:SetPoint("LEFT",TabF.ActTypeList[#InvF.ActTypeFilters[self.selectedCategory]].Text,"RIGHT",30,0)
+				if i==1 then
+					self.FilterData3List[i]:ClearAllPoints();
+					local nexbutID=TabF:GetNextbutpnim()
+					if nexbutID>0 then
+						self.FilterData3List[i].fenge:Show()
+						self.FilterData3List[i]:SetPoint("LEFT",TabF.DifficultyButList[nexbutID].Text,"RIGHT",30,0)
+					else
+						self.FilterData3List[i].fenge:Hide()
+						self.FilterData3List[i]:SetPoint("TOPLEFT",TabF,"TOPLEFT",10,-40)
+					end
 				end
-				self.selectFilterData3[InvF.FilterData3[self.selectedCategory][ixx][2]]=nil
-				self.FilterData3List[ixx].FilterData3ID=InvF.FilterData3[self.selectedCategory][ixx][2]
-				self.FilterData3List[ixx]:Show()
-				self.FilterData3List[ixx]:SetChecked(false)
-				self.FilterData3List[ixx].Text:SetText(InvF.FilterData3[self.selectedCategory][ixx][1])
-				self.FilterData3List[ixx]:UpdateHitRectInsets()
+				self.selectFilterData3[TabF.FilterData3[self.selectedCategory][i][2]]=nil
+				self.FilterData3List[i].FilterData3ID=TabF.FilterData3[self.selectedCategory][i][2]
+				self.FilterData3List[i]:Show()
+				self.FilterData3List[i]:SetChecked(false)
+				self.FilterData3List[i].Text:SetText(TabF.FilterData3[self.selectedCategory][i][1])
+				self.FilterData3List[i]:UpdateHitRectInsets()
 			end
 		end
 	end
@@ -267,31 +276,44 @@ function TardisInfo.LFGList_Vanilla(TabF,GetCategorieData,EnterF)
 	TabF.FilterFB=PIGDownMenu(TabF,{"TOPRIGHT",TabF.SearchBoxBG,"BOTTOMRIGHT",0,-8},{90,22})
 	TabF.FilterFB:PIGDownMenu_SetText(FILTER)
 	TabF.FilterFB:Hide()
-	function TabF.FilterFB:PIGDownMenu_Update_But()
+	function TabF.FilterFB:PIGDownMenu_Update_But(level,menuList)
 		if not TabF.selectedCategory then return end
-		self.fenlie=nil
-		if TabF.selectedCategory==2 then
-			--self.fenlie={1,10}
-		elseif TabF.selectedCategory==116 then
-			self.fenlie={1,18}
-		end
-		InvF.GetActivities(TabF.FilterFBData,TabF.selectedCategory)
 		local info = {}
-		info.func = self.PIGDownMenu_SetValue
-		for i=1,#TabF.FilterFBData.groups,1 do
-			local groupID=TabF.FilterFBData.groups[i][1]
-			info.isTitle=true
-			info.text = TabF.FilterFBData.groups[i][2]
-			self:PIGDownMenu_AddButton(info)
-			for ii=1,#TabF.FilterFBData.Activs[groupID] do
-				local ActivityD=TabF.FilterFBData.Activs[groupID][ii]
-				info.isTitle=nil
+		if (level or 1) == 1 then
+			local GroupList,GroupData=Fun.PIG_GetGroups(TabF.selectedCategory,baseFilters)
+			if #GroupList>1 then
+				info.func = nil
 				info.isNotRadio=true
-			    info.text, info.arg1 = InvF.UpdateLevelColor(nil,ActivityD[3],ActivityD[4],ActivityD[1]), ActivityD[2]
-			    info.checked = TabF.selectedFBData[ActivityD[2]]
-				self:PIGDownMenu_AddButton(info)
+				local CategoryInfo= C_LFGList.GetLfgCategoryInfo(TabF.selectedCategory)
+				for ixx=1,#GroupList do
+					info.text= GroupList[ixx][2]
+					info.menuList, info.hasArrow = GroupData[GroupList[ixx][1]], true
+					info.checked = Fun.IsAvailGroups(TabF.selectedFBData,GroupData[GroupList[ixx][1]],true)
+					self:PIGDownMenu_AddButton(info)
+				end
+			else
+				info.func = self.PIGDownMenu_SetValue
+				info.isNotRadio=true
+				if #GroupList==1 then
+					GroupData=GroupData[GroupList[1][1]]
+				end
+				for ixx=1,#GroupData do
+					info.text= InvF.UpdateLevelColor(nil,GroupData[ixx][3],GroupData[ixx][4],GroupData[ixx][2].."("..GroupData[ixx][3].."-"..GroupData[ixx][4]..")")
+					info.arg1= GroupData[ixx][1]
+					info.checked = TabF.selectedFBData[GroupData[ixx][1]]
+					self:PIGDownMenu_AddButton(info)
+				end
 			end
-		end 
+		else
+			info.func = self.PIGDownMenu_SetValue
+			info.isNotRadio=true
+			for acid=1, #menuList do
+				info.text= InvF.UpdateLevelColor(nil,menuList[acid][3],menuList[acid][4],menuList[acid][2])
+				info.arg1= menuList[acid][1]
+				info.checked = TabF.selectedFBData[menuList[acid][1]]
+				self:PIGDownMenu_AddButton(info, level,acid==#menuList)
+			end
+		end
 	end
 	function TabF.FilterFB:PIGDownMenu_SetValue(value,arg1,arg2,checked)
 		if checked then
@@ -302,8 +324,61 @@ function TardisInfo.LFGList_Vanilla(TabF,GetCategorieData,EnterF)
 		TabF.Update_HangALL(nil,true)
 		PIGCloseDropDownMenus()
 	end
+	--收藏团长
+	TabF.selectFavorite=0
+	TabF.FavoriteBut = CreateFrame("CheckButton", nil, TabF);
+	TabF.FavoriteBut:SetSize(22,22);
+	TabF.FavoriteBut:SetPoint("RIGHT",TabF.FilterFB,"LEFT",-38,0);
+	TabF.FavoriteBut:SetHitRectInsets(0,-34,0,0);
+	TabF.FavoriteBut:SetMotionScriptsWhileDisabled(true)
+	TabF.FavoriteBut:Hide()
+	TabF.FavoriteBut.Text=PIGFontString(TabF.FavoriteBut,{"LEFT",TabF.FavoriteBut,"RIGHT",0,0},"收藏")
+	TabF.FavoriteBut.Text:SetTextColor(1, 0.1, 1, 1);
+	PIGEnter(TabF.FavoriteBut,"只显示收藏的团长")
+	TabF.FavoriteBut.TexC = TabF.FavoriteBut:CreateTexture(nil, "BORDER");
+	TabF.FavoriteBut.TexC:SetTexture("interface/common/friendship-heart.blp");
+	--TabF.FavoriteBut.TexC:SetAtlas("auctionhouse-icon-favorite")
+	TabF.FavoriteBut.TexC:SetSize(34,32);
+	if PIG_MaxTocversion(50000) then
+		TabF.FavoriteBut.TexC:SetPoint("CENTER",TabF.FavoriteBut,"CENTER",0,-3);
+	else
+		TabF.FavoriteBut.TexC:SetPoint("CENTER",TabF.FavoriteBut,"CENTER",0,0);
+	end
+	TabF.FavoriteBut:SetScript("OnClick", function (self)
+		if TabF.selectFavorite==0 then
+			TabF.selectFavorite=1
+		elseif TabF.selectFavorite==1 then
+			TabF.selectFavorite=0
+		end
+		TabF:Enabled_Favorite(TabF.selectFavorite==1)
+		TabF.Update_HangALL(nil,true)
+	end);
+	function TabF:Enabled_Favorite(BOT)
+		TabF.FavoriteBut.TexC:SetDesaturated(not BOT)
+		if BOT then
+			TabF.FavoriteBut.Text:SetTextColor(1, 0.1, 1, 1);
+		else
+			TabF.FavoriteBut.Text:SetTextColor(0.5, 0.5, 0.5, 1);
+		end
+	end
+	function TabF:Update_Favorite()
+		self.FavoriteBut:Show()
+		self.selectFavorite=self.selectFavorite or 0
+		self:Enabled_Favorite(TabF.selectFavorite==1)
+	end
+	--
+	function TabF.ResetFilters()
+		TabF.selectActType=0
+		TabF.selectFavorite=0 
+		TabF.selectDifficulty=0 
+		wipe(TabF.selectFilterData3)
+		wipe(TabF.selectedFBData)
+		TabF.SearchBox:SetText("")
+		--C_LFGList.ClearSearchResults();
+		C_LFGList.ClearSearchTextFields();
+	end
 	function TabF.IsSearchFilter()
-		if TabF.selectActType~=0 or TabF.selectDifficulty~=0 or next(TabF.selectFilterData3)~=nil or next(TabF.selectedFBData)~=nil or
+		if TabF.selectActType~=0 or TabF.selectDifficulty~=0 or TabF.selectFavorite~=0 or next(TabF.selectFilterData3)~=nil or next(TabF.selectedFBData)~=nil or
 			TabF.SearchBox:GetText() ~= "" then
 			TabF.ResetBut:Enable()
 		else
@@ -312,34 +387,38 @@ function TardisInfo.LFGList_Vanilla(TabF,GetCategorieData,EnterF)
 	end
 	function TabF.ResetSearchFilter()
 		TabF.ResetBut:Disable()
-		--C_LFGList.ClearSearchResults();
-		C_LFGList.ClearSearchTextFields();
-		TabF:Refresh_ActType()
-		TabF:Refresh_Difficulty()
-		TabF:Refresh_FilterData3()
-		wipe(TabF.selectedFBData)
+		TabF.ResetFilters()
+		TabF:Update_Favorite()
+		TabF:Update_Difficulty()
+		TabF:Update_ActType()
+		TabF:Update_FilterData3()
 		TabF.Update_HangALL(nil,true)
 	end
 	function TabF:DelayUpdateButEnable()
 		TabF.RefreshBut:SetText(REFRESH)
 		TabF.RefreshBut:Enable()
+		TabF.ResetBut:Show()
 		TabF.SearchBoxBG:Show()
-		if TabF.selectedCategory~=120 then TabF.FilterFB:Show() end
+		TabF.FilterFB:Show()
+		TabF.FavoriteBut:Show()
 		TabF:Enabled_Categorie(true)
-		TabF:Enabled_ActType(true)
-		TabF:Enabled_Difficulty(true)
-		TabF:Enabled_FilterData3(true)
+		TabF:Update_Favorite()
+		TabF:Update_Difficulty(true)
+		TabF:Update_ActType(true)
+		TabF:Update_FilterData3(true)
 	end
 	function TabF:Update_Search()
 		TabF.Returned=false
 		TabF.RefreshBut:SetText(SEARCHING)
 		TabF.RefreshBut:Disable()
+		TabF.ResetBut:Hide()
 		TabF.SearchBoxBG:Hide()
 		TabF.FilterFB:Hide()
+		TabF.FavoriteBut:Hide()
 		TabF:Enabled_Categorie(false)
-		TabF:Enabled_ActType(false)
-		TabF:Enabled_Difficulty(false)
-		TabF:Enabled_FilterData3(false)
+		TabF:Shown_Difficulty(false)
+		TabF:Shown_FilterData3(false)
+		TabF:Shown_ActType(false)
 		TabF.Reset_HangALL()
 		local languages = C_LFGList.GetLanguageSearchFilter();
 		C_LFGList.Search(TabF.selectedCategory, 0, 0, languages);--[1大分类][2小分类(5疑似自己建立队伍)][1推荐,2不推荐,4PVE,8PVP][语言过滤]
@@ -353,7 +432,7 @@ function TardisInfo.LFGList_Vanilla(TabF,GetCategorieData,EnterF)
 	TabF.F:SetPoint("BOTTOMRIGHT",TabF,"BOTTOMRIGHT",0,0);
 	TabF.F:PIGSetBackdrop()
 	--
-	local biaotiName={{"目的地",2},{"司机(|cffFF80FF左"..L["CHAT_WHISPER"].."右"..INSPECT.."|r)",260},{MEMBERS,394},{"详情",510},{"操作",800}}
+	local biaotiName={{"目的地",2},{"司机(|cffFF80FF"..L["CHAT_WHISPER"].."/"..SLASH_TEXTTOSPEECH_MENU.."|r)",260},{MEMBERS,394},{"详情",510},{"操作",800}}
 	for i=1,#biaotiName do
 		local biaoti=PIGFontString(TabF.F,{"TOPLEFT",TabF.F,"TOPLEFT",biaotiName[i][2],-5},biaotiName[i][1])
 		biaoti:SetTextColor(1,1,0, 0.9);
@@ -417,10 +496,14 @@ function TardisInfo.LFGList_Vanilla(TabF,GetCategorieData,EnterF)
 		hangL.chetou.Role = hangL.chetou:CreateTexture(nil,"ARTWORK");
 		hangL.chetou.Role:SetSize(hang_Height*0.6,hang_Height*0.6);
 		hangL.chetou.Role:SetPoint("TOPLEFT", hangL.chetou.Class, "TOPLEFT", -3,6);
+		hangL.chetou.Favorite = hangL.chetou:CreateTexture(nil,"ARTWORK");
+		hangL.chetou.Favorite:SetTexture("interface/common/friendship-heart.blp");
+		hangL.chetou.Favorite:SetSize(hang_Height*1,hang_Height*0.8);
+		hangL.chetou.Favorite:SetPoint("BOTTOMRIGHT", hangL.chetou.Class, "BOTTOMLEFT", 5,-5);
 		hangL.chetou.new = hangL.chetou:CreateTexture(nil,"ARTWORK");
-		hangL.chetou.new:SetSize(hang_Height*0.7,hang_Height*0.7);
+		hangL.chetou.new:SetSize(hang_Height*0.6,hang_Height*0.56);
 		hangL.chetou.new:SetAtlas("newplayerchat-chaticon-newcomer")
-		hangL.chetou.new:SetPoint("RIGHT", hangL.chetou.Class, "LEFT", 1, 0);
+		hangL.chetou.new:SetPoint("BOTTOM", hangL.chetou.Favorite, "TOP", 0.6,-5);
 		hangL.chetou.level = PIGFontString(hangL.chetou,{"LEFT", hangL.chetou.Role, "RIGHT", -3,2},99,"OUTLINE",11);
 		hangL.chetou.name = PIGFontString(hangL.chetou,{"LEFT", hangL.chetou, "LEFT", hang_Height*0.8, 0});
 		hangL.chetou:SetScript("OnMouseUp", function(self,button)
@@ -435,8 +518,21 @@ function TardisInfo.LFGList_Vanilla(TabF,GetCategorieData,EnterF)
 					ChatEdit_ActivateChat(editBox)
 					editBox:SetText("/WHISPER " ..allname.." ".. hasText);
 				end
-			else
-				FasongYCqingqiu(allname)
+			elseif button=="RightButton" then
+				InvF.RGN:ClearAllPoints();
+				InvF.RGN:SetPoint("TOPLEFT",self,"BOTTOMLEFT",0,0);
+				InvF.RGN.name:SetText(allname);
+				local wrappedWidth = InvF.RGN.name:GetWrappedWidth()
+				if wrappedWidth>150 then
+					InvF.RGN:SetWidth(wrappedWidth+8)
+				else
+					InvF.RGN:SetWidth(150)
+				end
+				InvF.RGN.name.X=allname;
+				InvF.RGN.FavoriteIcon=self.Favorite
+				InvF.RGN.xiaoshidaojishi = 1.5;
+				InvF.RGN.zhengzaixianshi = true;
+				InvF.RGN:Show()
 			end
 		end)
 		--成员显示模式
@@ -508,24 +604,28 @@ function TardisInfo.LFGList_Vanilla(TabF,GetCategorieData,EnterF)
 			end
 		end
 		function hangL:Updata_LeaderChengke(searchResultInfo,inviteFunc,bestDisplayType)
-			self.chetou.new:SetShown(searchResultInfo.newPlayerFriendly)
 			local resultID=self.resultID
 			local leaderInfo = C_LFGList.GetSearchResultLeaderInfo(resultID);
 			local nameColor = NORMAL_FONT_COLOR;
-			if (leaderInfo and leaderInfo.classFilename) then
-				self.chetou.Class:SetTexCoord(unpack(CLASS_ICON_TCOORDS[leaderInfo.classFilename]));
-				nameColor = RAID_CLASS_COLORS[leaderInfo.classFilename];
+			if leaderInfo then
+				if leaderInfo.classFilename then
+					self.chetou.Class:SetTexCoord(unpack(CLASS_ICON_TCOORDS[leaderInfo.classFilename]));
+					nameColor = RAID_CLASS_COLORS[leaderInfo.classFilename];
+				end
+				self.chetou.Class:SetDesaturated(searchResultInfo.isDelisted);
+				self.chetou.Favorite:SetDesaturated(searchResultInfo.isDelisted)
+				self.chetou.new:SetDesaturated(searchResultInfo.isDelisted)
+				self.chetou.Role:SetDesaturated(searchResultInfo.isDelisted)
+				self.chetou.Role:SetAtlas(InvF.RolesNameIcon[leaderInfo.assignedRole])
+				self.chetou.level:SetText(leaderInfo.level);
+				if leaderInfo.level==GetMaxPlayerLevel() then
+					self.chetou.level:Hide()
+				else
+					self.chetou.level:Show()
+				end
 			end
-			self.chetou.Class:SetDesaturated(searchResultInfo.isDelisted);
-			self.chetou.new:SetDesaturated(searchResultInfo.isDelisted)
-			self.chetou.Role:SetDesaturated(searchResultInfo.isDelisted)
-			self.chetou.Role:SetAtlas(RolesNameIcon[leaderInfo.assignedRole])
-			self.chetou.level:SetText(leaderInfo.level);
-			if leaderInfo.level==GetMaxPlayerLevel() then
-				self.chetou.level:Hide()
-			else
-				self.chetou.level:Show()
-			end
+			self.chetou.Favorite:SetShown(PIGA["Tardis"]["Chedui"]["Favorite_Siji"][searchResultInfo.leaderName])
+			self.chetou.new:SetShown(searchResultInfo.newPlayerFriendly)
 			local allname=searchResultInfo.leaderName or UNKNOWNOBJECT
 			self.allname=allname
 			local wjName, fuwiqi = strsplit("-", allname);
@@ -776,6 +876,23 @@ function TardisInfo.LFGList_Vanilla(TabF,GetCategorieData,EnterF)
 		end
 		return false
 	end
+	--过滤收藏司机
+	local function IsShowFavorite(searchResultInfo)
+		if TabF.selectFavorite==0 then
+			if not PIGA["Tardis"]["Chedui"]["Ban_Siji"][searchResultInfo.leaderName] then
+				return true
+			end
+		elseif TabF.selectFavorite==1 then
+			if PIGA["Tardis"]["Chedui"]["Favorite_Siji"][searchResultInfo.leaderName] then
+				return true
+			end
+		elseif TabF.selectFavorite==2 then
+			if PIGA["Tardis"]["Chedui"]["Ban_Siji"][searchResultInfo.leaderName] then
+				return true
+			end
+		end
+		return false
+	end
 	--过滤队伍还是队员
 	local function IsShowActType(searchResultInfo)
 		if TabF.selectActType==0 then
@@ -789,25 +906,25 @@ function TardisInfo.LFGList_Vanilla(TabF,GetCategorieData,EnterF)
 	end
 	--3级过滤
 	local function IsFilterData3(minlv,maxlv,newPlayerFriendly)
-		for k,v in pairs(TabF.selectFilterData3) do
-			if k==90001 then
+		if next(TabF.selectFilterData3) then
+			for k,v in pairs(TabF.selectFilterData3) do
 				if v then
-					local Level = UnitLevel("player");
-					if Level>=minlv and Level<=maxlv then
-						return true
+					if k==90001 then
+						local Level = UnitLevel("player");
+						if Level<minlv or Level>maxlv then
+							return false
+						end
+					elseif k==90002 then
+						if not newPlayerFriendly then
+							return false
+						end
 					end
-					return false
-				end
-			elseif k==90002 then
-				if v then
-					if newPlayerFriendly then
-						return true
-					end
-					return false
 				end
 			end
-		end	
-		return true
+			return true
+		else
+			return true
+		end
 	end
 	local function IsShowFBData(activityID)
 		if next(TabF.selectedFBData) then
@@ -817,8 +934,9 @@ function TardisInfo.LFGList_Vanilla(TabF,GetCategorieData,EnterF)
 				end
 			end
 			return false
+		else
+			return true
 		end
-		return true
 	end
 	function TabF.PIGGetSearchResults()
 		TabF.Returned=true
@@ -839,7 +957,7 @@ function TardisInfo.LFGList_Vanilla(TabF,GetCategorieData,EnterF)
 					local activityID=searchResultInfo.activityIDs[acid]
 					local ActivityInfo= C_LFGList.GetActivityInfoTable(activityID)
 					local activityName = C_LFGList.GetActivityFullName(activityID, nil, searchResultInfo.isWarMode);
-					if IsShowDifficulty(ActivityInfo.difficultyID or -1) and IsShowActType(searchResultInfo) and
+					if IsShowDifficulty(ActivityInfo.difficultyID or -1) and IsShowActType(searchResultInfo) and IsShowFavorite(searchResultInfo) and
 						IsFilterData3(ActivityInfo.minLevelSuggestion,ActivityInfo.maxLevelSuggestion,searchResultInfo.newPlayerFriendly) and
 						IsShowFBData(activityID) and IsShowSearchData(activityName or "",searchText) then
 							table.insert(TabF.JieshouInfoList_Filte,TabF.JieshouInfoList[i])

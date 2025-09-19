@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: The WeakAuras Team
-## Version: 5.20.2
+## Version: 5.20.4
 
 ## Title: WeakAuras Archive
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r|cFFFFFFFF辅助增强|r |cFF69CCF0存档|r

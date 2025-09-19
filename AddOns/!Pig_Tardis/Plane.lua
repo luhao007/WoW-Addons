@@ -8,6 +8,7 @@ function TardisInfo.Plane(Activate)
 	local PIGFrame=Create.PIGFrame
 	local PIGLine=Create.PIGLine
 	local PIGButton = Create.PIGButton
+	local PIGEnter = Create.PIGEnter
 	local PIGCheckbutton=Create.PIGCheckbutton
 	local PIGOptionsList_R=Create.PIGOptionsList_R
 	local PIGFontString=Create.PIGFontString
@@ -35,17 +36,16 @@ function TardisInfo.Plane(Activate)
 	fujiF.ZJZoneID:SetTextColor(0.6, 0.6, 0.6, 1);
 	-----
 	fujiF.JieshouInfoList={};
-	if PIGA["Tardis"]["Plane"]["HelpNum"]>300 then
-		fujiF.CoolCD=30
-	elseif PIGA["Tardis"]["Plane"]["HelpNum"]>200 then
-		fujiF.CoolCD=60
-	elseif PIGA["Tardis"]["Plane"]["HelpNum"]>100 then
-		fujiF.CoolCD=120
-	elseif PIGA["Tardis"]["Plane"]["HelpNum"]>50 then
-		fujiF.CoolCD=180
-	else
-		fujiF.CoolCD=300
+	local CoolCDList = {{500,30},{400,60},{300,120},{200,180},{100,240}}
+	local function GetCoolCD()
+		for i=1,#CoolCDList do
+			if PIGA["Tardis"]["Plane"]["HelpNum"]>CoolCDList[i][1] then
+				return CoolCDList[i][2]
+			end
+		end
+		return 300
 	end
+	fujiF.CoolCD=GetCoolCD()
 	fujiF.GetBut=TardisInfo.GetInfoBut(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",180,-30},fujiF.CoolCD,2)
 	fujiF.GetBut.ButName=L["TARDIS_PLANE"]
 	fujiF.GetBut:HookScript("OnClick", function (self)
@@ -65,7 +65,7 @@ function TardisInfo.Plane(Activate)
 		end
 	end);
 	fujiF.GetBut.daojishiJG=PIGA["Tardis"]["Plane"]["DaojishiCD"]
-	function fujiF.GetBut.gengxin_hang()
+	function fujiF.GetBut.Update_DataHang()
 		fujiF.GetBut.yanchiNerMsg=false
 		fujiF.filtrateData()
 		fujiF.Update_hang()
@@ -109,6 +109,21 @@ function TardisInfo.Plane(Activate)
 	fujiF.AutoInvite.HelpTXT = PIGFontString(fujiF.AutoInvite,{"LEFT", fujiF.AutoInvite.Text, "RIGHT", 10, 0},"功德+");
 	fujiF.AutoInvite.HelpNum = PIGFontString(fujiF.AutoInvite,{"LEFT", fujiF.AutoInvite.HelpTXT, "RIGHT", 2, 0},0);
 	fujiF.AutoInvite.HelpNum:SetTextColor(0, 1, 0, 1);
+	fujiF.AutoInvite.HelpFF=PIGFrame(fujiF.AutoInvite,{"LEFT", fujiF.AutoInvite.Text, "RIGHT", 10, 0},{90,16});
+	fujiF.AutoInvite.HelpFF:SetScript("OnEnter", function (self)
+		GameTooltip:ClearLines();
+		GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",0,0);
+		GameTooltip:AddLine("提示：")
+		GameTooltip:AddLine("默认刷新CD为300秒")
+		for i=#CoolCDList,1,-1 do
+			GameTooltip:AddLine("功德>"..CoolCDList[i][1]..",刷新CD减少为"..CoolCDList[i][2].."秒")
+		end
+		GameTooltip:Show();
+	end);
+	fujiF.AutoInvite.HelpFF:SetScript("OnLeave", function ()
+		GameTooltip:ClearLines();
+		GameTooltip:Hide() 
+	end);
 	-------------
 	fujiF.nr=PIGFrame(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",4,-60})
 	fujiF.nr:SetPoint("BOTTOMRIGHT", fujiF, "BOTTOMRIGHT", -4, 4);
@@ -260,9 +275,9 @@ function TardisInfo.Plane(Activate)
 	        dataDict[id] = time
 	    end
 	    for _, id in ipairs(newIds) do
-	        dataDict[id] = now  -- 更新或新增
+	        dataDict[id] = now 
 	    end
-	    local newSet = {} -- 将 newIds 转为集合（字典）以便快速查找
+	    local newSet = {} 
 	    for _, id in ipairs(newIds) do
 	        newSet[id] = true
 	    end
@@ -305,10 +320,9 @@ function TardisInfo.Plane(Activate)
 	function fujiF.filtrateData()
 		fujiF.New_ZhuCzoneID = {};
 		fujiF.New_WMindexID = {};
-		local oldshuju = PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm]
-		for i=#oldshuju,1,-1 do
-			if type(oldshuju[i][1])=="string" then
-				table.remove(oldshuju,i)
+		for i=#PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm],1,-1 do
+			if type(PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm][i][1])=="string" then
+				table.remove(PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm],i)
 			end
 		end
 		local dqTime=GetServerTime()
@@ -323,12 +337,12 @@ function TardisInfo.Plane(Activate)
 				end
 			end
 			if #fujiF.New_ZhuCzoneID>0 then
-				PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm]=updateInfoList(oldshuju, fujiF.New_ZhuCzoneID)
+				PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm]=updateInfoList(PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm], fujiF.New_ZhuCzoneID)
 			end
 		end
 		--刷新存储的位面序列
-		for i=1,#oldshuju do
-			table.insert(fujiF.New_WMindexID,oldshuju[i][1])
+		for i=1,#PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm] do
+			table.insert(fujiF.New_WMindexID,PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm][i][1])
 		end
 		fujiF.GetBut.err:SetText("");
 		local ZJExactly,ZJDQlayerID = findExactOrClosest(fujiF.New_WMindexID, fujiF.DQZoneID)

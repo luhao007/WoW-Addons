@@ -727,9 +727,15 @@ function FramePlusfun.Friends()
 		end
 	end
 	UIParentLoadAddOn("Blizzard_RaidUI");
-	Fun.IsAddOnLoaded("Blizzard_RaidUI",PIGRaidUIFrame)
-	hooksecurefunc("RaidClassButton_Update", function()
-		RaidFrame:RegisterEvent("UNIT_PET");
-	end)
+	RaidFrame:UnregisterEvent("UNIT_NAME_UPDATE");
 	RaidFrame:UnregisterEvent("UNIT_PET");
+	Fun.IsAddOnLoaded("Blizzard_RaidUI",PIGRaidUIFrame)
+	RaidFrame:HookScript("OnEvent", function(self,event,arg1)
+		if event=="GROUP_ROSTER_UPDATE" then
+			if IsInRaid() then
+				RaidFrame:RegisterEvent("UNIT_NAME_UPDATE");
+				RaidFrame:RegisterEvent("UNIT_PET");
+			end
+		end
+	end);
 end

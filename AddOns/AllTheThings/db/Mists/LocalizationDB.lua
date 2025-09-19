@@ -671,6 +671,8 @@ L.SHOW_ALL_SEASONAL = "All Seasonal Events";
 L.SHOW_ALL_SEASONAL_TOOLTIP = "Enable this setting to show all seasonal events, instead of only currently active seasonal events.\n\nNOTE: Seasonal Events will automatically be visible as active 7 days in advance.";
 L.SHOW_BOE_CHECKBOX = "BoE/Warbound Items";
 L.SHOW_BOE_CHECKBOX_TOOLTIP = "Enable this setting if you want to show Bind-on-Equip/Account items.\n\nDisabling this setting is useful for when you are trying to finish a Classic Dungeon for a character and don't want to farm specifically for items that can be farmed on alts or on the Auction House.\n\nIE: Don't lose your mind grinding for Pendulum of Doom.";
+L.SHOW_CHALLENGE_MASTER_CHECKBOX = CHALLENGE_MODE_REALM_BEST;
+L.SHOW_CHALLENGE_MASTER_CHECKBOX_TOOLTIP = "Enable this setting if you want to show content which requires achieving Realm Best times in Challenge Modes.";
 L.SHOW_COLLECTED_THINGS_CHECKBOX = "Show Collected Things";
 L.SHOW_COLLECTED_THINGS_CHECKBOX_TOOLTIP = "Enable this option to see Things which have already been Collected.\n\nWe recommend you turn this setting off as it will conserve the space in the mini list and allow you to quickly see what you are missing from the zone.";
 L.SHOW_COLLECTION_PROGRESS_CHECKBOX = "Collection Progress";
@@ -1309,6 +1311,7 @@ localize(L.HEADER_NAMES, {
 	[-655] = "Celestial Dungeons",
 	[-656] = "Brawler's Guild",
 	[-657] = "Krasarang Wilds Campaign",
+	[-658] = select(2,GetAchievementInfo(61406)),
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-36] = "A specific holiday may need to be active for you to complete the referenced Things within this section.",
@@ -1583,6 +1586,7 @@ localize(L.HEADER_ICONS, {
 	[-654] = 134427,
 	[-655] = 840010,
 	[-656] = 132356,
+	[-658] = 133783,
 });
 localize(L.HEADER_EVENTS, {
 	[-37] = 1,
@@ -1606,6 +1610,7 @@ localize(L.HEADER_EVENTS, {
 	[-588] = 6,
 	[-591] = 133900,
 	[-592] = 242,
+	[-658] = 1501,
 });
 localize(L.EVENT_REMAPPING, {
 	[141] = 14,
@@ -1638,7 +1643,6 @@ _.Modules.Events.SetEventInformation(242, {
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=10,["monthDay"]=22,["weekday"]=5,["year"]=2026},{["hour"]=10,["minute"]=0,["month"]=1,["monthDay"]=7,["weekday"]=5,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(133900, {
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=7,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=9,["monthDay"]=7,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=14,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=9,["monthDay"]=14,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=21,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=9,["monthDay"]=21,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=28,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=9,["monthDay"]=28,["weekday"]=1,["year"]=2025}),
@@ -1690,7 +1694,11 @@ _.Modules.Events.SetEventInformation(133900, {
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=8,["monthDay"]=16,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=8,["monthDay"]=16,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=8,["monthDay"]=23,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=8,["monthDay"]=23,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=8,["monthDay"]=30,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=8,["monthDay"]=30,["weekday"]=1,["year"]=2026}),
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=6,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=9,["monthDay"]=6,["weekday"]=1,["year"]=2026})
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=6,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=9,["monthDay"]=6,["weekday"]=1,["year"]=2026}),
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=13,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=9,["monthDay"]=13,["weekday"]=1,["year"]=2026})
+});
+_.Modules.Events.SetEventInformation(1501, {
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=1,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=1,["year"]=2025})
 });
 _.Modules.Events.SetEventInformation(133899, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=2,["year"]=2024},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=4,["year"]=2025}),

@@ -60,8 +60,8 @@ app.TableConcat = function(tbl, field, def, sep, i, j)
 		sep = sep or ""
 		if field then
 			local tblvals = {};
-			for _,val in ipairs(tbl) do
-				tblvals[#tblvals + 1] = val[field] or def
+			for i=1,#tbl do
+				tblvals[#tblvals + 1] = tbl[i][field] or def
 			end
 			return table_concat(tblvals, sep, i, j);
 		else

@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: nanderson11
-## Version: v3.10.0
+## Version: v3.11.0
 
 ## Title: Atlas
 ## Notes: Instance Map Browser
@@ -31,6 +31,7 @@ Core\Templates.xml
 Core\IngameLocales.lua
 
 # Core
+Core\Mixins.lua
 Core\Atlas.lua
 Core\AtlasFrame.lua
 Core\Atlas.xml
