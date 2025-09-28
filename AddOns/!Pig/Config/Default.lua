@@ -201,6 +201,8 @@ addonTable.Default = {
 			["Tips"]=true,
 			["record"]={},
 			["jichengBlack"]=true,
+			["AudioOpen"]=true,
+			["AudioID"]=1,
 		},
 		["PARTY"]={
 			["Open"]=true,
@@ -266,7 +268,7 @@ addonTable.Default = {
 		["NewItem"]=true,
 	},
 	["FramePlus"] = {
-		["AddonList"]=true,
+		--["AddonList"]=true,
 		["AddonStatus"]={},
 		["UIWidget"] = false,
 		["UIWidgetPointX"]=0;

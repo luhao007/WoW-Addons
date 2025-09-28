@@ -591,6 +591,7 @@ local function TitanUpdateConfigBars(t, pos)
 			type = "toggle",
 			width = .75, --"fill",
 			name = L["TITAN_PANEL_MENU_HIDE_IN_COMBAT"],
+			desc = L["TITAN_PANEL_MENU_HIDE_IN_COMBAT_DESC"],
 			order = position,
 			get = function(info)
 				local frame_str = TitanVariables_GetFrameName(info[1])
@@ -600,6 +601,23 @@ local function TitanUpdateConfigBars(t, pos)
 				local frame_str = TitanVariables_GetFrameName(info[1])
 				TitanBarDataVars[frame_str].hide_in_combat =
 					not TitanBarDataVars[frame_str].hide_in_combat
+			end,
+		}
+		position = position + 1 -- PvP hide toggle
+		args[v.name].args.hideinpvp = {
+			type = "toggle",
+			width = .75, --"fill",
+			name = L["TITAN_PANEL_MENU_HIDE_IN_COMBAT"].." PvP",
+			desc = L["TITAN_PANEL_MENU_HIDE_IN_COMBAT_DESC"],
+			order = position,
+			get = function(info)
+				local frame_str = TitanVariables_GetFrameName(info[1])
+				return TitanBarDataVars[frame_str].hide_in_pvp
+			end,
+			set = function(info)
+				local frame_str = TitanVariables_GetFrameName(info[1])
+				TitanBarDataVars[frame_str].hide_in_pvp =
+					not TitanBarDataVars[frame_str].hide_in_pvp
 			end,
 		}
 		position = position + 1 -- spacer
@@ -893,64 +911,7 @@ local function TitanUpdateConfigBarsAll(t, pos)
 		width = "full",
 		name = " ",
 	}
-	position = position + 1
-	args.confcombatdesc = {
-		order = position,
-		width = "full",
-		type = "header",
-		name = L["TITAN_PANEL_MENU_COMMAND"],
-	}
-	position = position + 1
-	args.setcombatuseglobal = {
-		name = L["TITAN_PANEL_MENU_HIDE_IN_COMBAT"],
-		desc = L["TITAN_PANEL_MENU_HIDE_IN_COMBAT_DESC"],
-		order = position,
-		type = "toggle",
-		width = "full",
-		get = function() return TitanPanelGetVar("HideBarsInCombat") end,
-		set = function() TitanPanelToggleVar("HideBarsInCombat"); end,
-	}
-	position = position + 1
-	args.arenaspacer = { -- spacer
-		order = position,
-		type = "description",
-		width = "full",
-		name = " ",
-	}
-	position = position + 1
-	args.confarenadesc = {
-		order = position,
-		width = "full",
-		type = "header",
-		name = BATTLEGROUND .. " / " .. ARENA,
-	}
-	position = position + 1
-	args.setarenauseglobal = {
-		name = HIDE .. " " .. L["TITAN_PANEL_MENU_TOP_BARS"]
-			.. " - " .. BATTLEGROUND .. " / " .. ARENA,
-		desc = "Hide"
-			.. " " .. TitanBarData[TitanVariables_GetFrameName("Bar")].locale_name
-			.. " and"
-			.. " " .. TitanBarData[TitanVariables_GetFrameName("Bar2")].locale_name
-			.. " in " .. BATTLEGROUND .. " / " .. ARENA,
-		order = position,
-		type = "toggle",
-		width = "full",
-		--disabled = (TITAN_ID == "Titan~Classic"), --? Allow in all version ??
-		get = function() return TitanPanelGetVar("HideBarsInPVP") end,
-		set = function()
-			TitanPanelToggleVar("HideBarsInPVP")
-			TitanPanelBarButton_DisplayBarsWanted("HideBarsInPVP"
-				.. " " .. tostring(TitanPanelGetVar("HideBarsInPVP")))
-		end,
-	}
-	position = position + 1
-	args.topbarspacer = { -- spacer
-		order = position,
-		type = "description",
-		width = "full",
-		name = " ",
-	}
+
 	position = position + 1
 	args.conftopbardesc = {
 		order = position,
@@ -960,8 +921,8 @@ local function TitanUpdateConfigBarsAll(t, pos)
 	}
 	position = position + 1
 	args.settopbar = {
-		name = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
-		desc = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
+		name = L["TITAN_PANEL_MENU_TOP_BARS"].." "..L["TITAN_PANEL_MENU_DISABLE_PUSH"],
+--		desc = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
 		order = position,
 		type = "toggle",
 		width = "full",
@@ -985,8 +946,8 @@ local function TitanUpdateConfigBarsAll(t, pos)
 	}
 	position = position + 1
 	args.setbottombar = {
-		name = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
-		desc = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
+		name = L["TITAN_PANEL_MENU_BOTTOM_BARS"].." "..L["TITAN_PANEL_MENU_DISABLE_PUSH"],
+--		desc = L["TITAN_PANEL_MENU_DISABLE_PUSH"],
 		order = position,
 		type = "toggle",
 		width = "full",
@@ -995,205 +956,6 @@ local function TitanUpdateConfigBarsAll(t, pos)
 		set = function() TitanPanel_AuxScreenAdjustReload() end,
 	}
 
-	--====== Global skins options
-	position = position + 1
-	args.confbottombardesc = {
-		order = position,
-		width = "full",
-		type = "header",
-		name = L["TITAN_PANEL_MENU_GLOBAL_SKIN_TITLE"],
-	}
-	-- Background group
-	position = position + 1 -- background
-	args.background = {
-		name = "",
-		type = "group",
-		inline = true,
-		order = position,
-		args = {
-			setskinuseglobal = {
-				name = "", --L["TITAN_PANEL_MENU_GLOBAL_SKIN"],
-				desc = "", --L["TITAN_PANEL_MENU_GLOBAL_SKIN_TIP"],
-				order = 20,
-				type = "select",
-				width = "full",
-				style = "radio",
-				get = function(info) 
-					return TitanBarDataVars["Global"].texure 
-				end,
-				set = function(_, v)
-					TitanBarDataVars["Global"].texure = v
-					for idx, val in pairs(TitanBarData) do
-						TitanPanel_SetBarTexture(idx)
-					end
-					--AceConfigRegistry:NotifyChange("Titan Panel Globals")
-				end,
-				values = {
-					[Titan_Global.SKIN] = L["TITAN_PANEL_SKINS_TITLE"],
-					[Titan_Global.COLOR] = COLOR,
-					[Titan_Global.NONE] = NONE,
-				},
-			},
-			--====== Skins options
-			skinsoptions = {
-				name = "",
-				type = "group",
-				order = 100,
-				hidden = function(info)
-					return IfHide(Titan_Global.SKIN)
-				end,
-				args = {
-					confskindesc = {
-						order = 120,
-						width = "full",
-						type = "description",
-						name = "", --L["TITAN_PANEL_SKINS_TITLE"],
-					},
-					setskinglobal = {
-						order = 130,
-						type = "select",
-						width = "normal",
-						name = " ", --L["TITAN_PANEL_SKINS_LIST_TITLE"],
-						desc = L["TITAN_PANEL_SKINS_SET_DESC"],
-						get = function(info) 
-							return TitanBarDataVars["Global"].skin.path 
-						end,
-						set = function(_, v)
-							TitanBarDataVars["Global"].skin.path = v --TitanPanelSetVar("TexturePath", v);
-							if TitanBarDataVars["Global"].texure == Titan_Global.SKIN then
-								for idx, val in pairs(TitanBarData) do
-									TitanPanel_SetBarTexture(idx)
-								end
-							end
-						end,
-						values = function()
-							local Skinlist = {}
-							local v;
-							for _, v in pairs(TitanSkins) do
-								if v.path ~= TitanBarDataVars["Global"].skin.path then --TitanPanelGetVar("TexturePath") then
-									Skinlist[v.path] = TitanUtils_GetHexText(v.name, Titan_Global.colors.green)
-								else
-									Skinlist[v.path] = TitanUtils_GetHexText(v.name, Titan_Global.colors.yellow)
-								end
-							end
-							table.sort(Skinlist, function(a, b)
-								return string.lower(TitanSkins[a].name)
-									< string.lower(TitanSkins[b].name)
-							end)
-							return Skinlist
-						end,
-					},
-					show_skin_top_desc = {
-						type = "description",
-						name = "",
-						order = 140,
-						width = "5",
-					},
-					show_skin_global_top = {
-						type = "description",
-						name = "",
-						image = function()
-							return TitanBarDataVars["Global"].skin.path .. "TitanPanelBackgroundTop0"
-						end,
-						imageWidth = 256,
-						order = 150,
-						width = .5,
-					},
-					show_trans_slider = {
-						type = "range",
-						width = "full",
-						name = L["TITAN_PANEL_TRANS_MENU_TEXT_SHORT"],
-						order = 160,
-						min = 0,
-						max = 1,
-						step = 0.01,
-						get = function(info)
-							return TitanBarDataVars["Global"].skin.alpha
-						end,
-						set = function(info, a)
-							TitanBarDataVars["Global"].skin.alpha = a
-							for idx, val in pairs(TitanBarData) do
-								TitanPanel_SetBarTexture(idx)
-							end
-						end,
-					},
-				},
-			},
-
-			--====== Color options
-			coloroptions = {
-				name = "",
-				type = "group",
-				order = 200,
-				hidden = function(info)
-					return IfHide(Titan_Global.COLOR)
-				end,
-				args = {
-					confcolordesc = {
-						order = 100,
-						width = "full",
-						type = "description",
-						name = "", --COLOR,
-					},
-					show_skin_color_picker = {
-						type = "color",
-						width = "Full",
-						name = "Select Bar Color", -- L["TITAN_PANEL_MENU_RESET_POSITION"],
-						order = 110,
-						hasAlpha = true,
-						get = function(info)
-							local color = TitanBarDataVars["Global"].color
-							return color.r,
-								color.g,
-								color.b,
-								color.alpha
-						end,
-						set = function(info, r, g, b, a)
-							TitanBarDataVars["Global"].color.r = r
-							TitanBarDataVars["Global"].color.g = g
-							TitanBarDataVars["Global"].color.b = b
-							TitanBarDataVars["Global"].color.alpha = a
-							if TitanBarDataVars["Global"].texure == Titan_Global.COLOR then
-								for idx, val in pairs(TitanBarData) do
-									TitanPanel_SetBarTexture(idx)
-								end
-							end
-						end,
-					},
-					confcolortrans = {
-						order = 130,
-						width = "full",
-						type = "description",
-						name = function()
-							local res =""
-								..L["TITAN_PANEL_TRANS_MENU_TEXT_SHORT"].." "
-								..tostring(format("%0.1f", TitanBarDataVars["Global"].color.alpha))
-							
-							return res
-						end,
-					},
-				},
-			},
-			
-			--====== None options
-			noneoptions = {
-				name = "",
-				type = "group",
-				order = 300,
-				hidden = function(info)
-					return IfHide(Titan_Global.NONE)
-				end,
-				args = {
-					confcolordesc = {
-						order = 100,
-						width = "full",
-						type = "description",
-						name = NONE,
-					},
-				},
-			},
-		},
-	}
 end
 
 local function BuildBarsAll()
@@ -2924,42 +2686,6 @@ local optionsAdvanced = {
 					get = function() return TitanAllGetVar("Registered") end,
 					set = function(_, a)
 						TitanAllSetVar("Registered", a);
-					end,
-				},
-			},
-		},
-		devoutputdesc = {
-			name = "Developer Only",
-			type = "group",
-			inline = true,
-			order = 200,
-			args = {
-				confdesc = {
-					order = 110,
-					type = "description",
-					name = "Debug Output",
-					cmdHidden = true
-				},
-				advname = {
-					name = "Tooltip",
-					desc = "Tooltip debug output to Chat",
-					order = 120,
-					type = "toggle",
-					width = "full",
-					get = function() return Titan_Global.debug.tool_tips end,
-					set = function(_, a)
-						Titan_Global.debug.tool_tips = not Titan_Global.debug.tool_tips
-					end,
-				},
-				advplugins = {
-					name = "Plugin",
-					desc = "Plugin debug output to Chat",
-					order = 130,
-					type = "toggle",
-					width = "full",
-					get = function() return Titan_Global.debug.plugin_text end,
-					set = function(_, a)
-						Titan_Global.debug.plugin_text = not Titan_Global.debug.plugin_text
 					end,
 				},
 			},

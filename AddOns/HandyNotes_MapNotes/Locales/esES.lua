@@ -2,6 +2,16 @@
 local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "esES")
 if not L then return end
 
+-- toggle maps
+L["Blocked in combat"] = "Bloqueado en combate"
+L["Required for"] = "Requerido para"
+L["Toggle Maps"] = "Alternar mapas"
+L["Toggle Maps function is disabled"] = "La función «Alternar mapas» está desactivada"
+L["Switch after battle"] = "Cambiar después del combate"
+L["Changing the world map via a MapNotes icon will be done after the battle, as this is no longer possible during the battle without causing an error"] = "El cambio del mapa del mundo mediante un icono de MapNotes se realizará después del combate, ya que esto ya no es posible durante el combate sin causar un error"
+L["Shows an information on the screen when a map change has been attempted in battle"] = "Muestra información en pantalla cuando se ha intentado un cambio de mapa en combate"
+L["Enables the ability to toggle the displayed world map by clicking on certain MapNotes icons"] = "Permite alternar el mapa del mundo mostrado al hacer clic en ciertos iconos de MapNotes"
+L["This was previously enabled automatically and is now an option to enable or disable"] = "Esto se activaba automáticamente antes y ahora es una opción para activar o desactivar"
 -- Flightmaster maps
 L["Button"] = "Botón"
 L["Show the MapNotes button on the Flightmap"] = "Mostrar el botón de MapNotes en el mapa de vuelo"
@@ -236,6 +246,7 @@ L["Reveals unexplored areas and shows the individual areas of each zone that are
 L["Description"] = "Descripción"
 L["Position of the real Instance Entrance"] = "Posición de la entrada de instancia real"
 L["Way to the Instance Entrance"] = "Camino a la entrada de instancia"
+L["Way to the Delve Entrance"] = "Camino a la entrada de las Profundidades"
 L["Also disables all Blizzard Instance icons on the zone map. However, these can be reactivated on the map at the top right under the 'Map filter' dungeon entrance magnifying glass. Disable and enable MapNotes VS again. blizzard, deactivates the instance icons on the zone map again"] = "También desactiva todos los símbolos de instancia de Blizzard en la tarjeta de zona. Sin embargo, estos se pueden reactivar en el mapa en la parte superior de las entradas de mazmorras de Lupe 'Filter' de la tarjeta. Una reactivación y activación de Mapnotes vs. Blizzard, desactiva los símbolos de instancia en la tarjeta de zona nuevamente"
 L["Hides certain Blizzard icons (e.g. Horde/Alliance/Neutral capitals icon or general travel icons on the map) and replaces them with almost identical MapNotes icons, providing additional information and functionality"] = "Oculto ciertos símbolos de tormenta de tormenta (por ejemplo, símbolos de las capitales de la Horde / alianza / símbolos de viaje neutros o generales en el mapa) y los reemplaza con símbolos de Mapnotes casi idénticos que ofrece información y funciones adicionales"
 L["Removes the Blizzard symbols only where MapNotes symbols and Blizzard symbols overlap, thereby making the tooltip and the function of the MapNote symbols usable again on the overlapping points"] = "Elimina los símbolos de la tormenta de nieve solo donde los símbolos de mapnotes y los símbolos de superposición de tormenta de nieve, lo que significa que la información sobre herramientas y la función de los símbolos de mapnote se pueden usar nuevamente en los puntos superpuestos"
@@ -258,6 +269,9 @@ L["Hide the MapNotes button on the worldmap"] = "Ocultar el botón Mapnotes en e
 L["hide MapNotes!"] = "ocultar notas de mapa!"
 L["Disable MapNotes, all icons will be hidden on each map and all categories will be disabled"] = "Desactive MapNotes, todos los iconos se ocultarán en cada mapa y todas las categorías se desactivarán"
 L["Adventure guide"] = "Guía de aventuras"
+L["Adventure guide function is disabled"] = "La función «Guía de aventuras» está desactivada"
+L["Clicking on an instance icon outside of a zone map does not open the adventure guide, but rather the world map where the instance is located"] = "Al hacer clic en un icono de instancia fuera de un mapa de zona no se abre la Guía de aventuras, sino el mapa del mundo de la zona donde se encuentra la instancia"
+L["The „Toggle Maps“ function is responsible for this"] = "La función «Alternar mapas» es la responsable"
 L["Left-clicking on a MapNotes raid (green), dungeon (blue) or multiple icon (green&blue) on the map opens the corresponding dungeon or raid map in the Adventure Guide"] = "Al hacer clic con el botón izquierdo en una incursión de MapNotes (verde), una mazmorra (azul) o un icono múltiple (verde y azul) en el mapa, se abre la mazmorra o el mapa de incursión correspondiente en la Guía de aventuras"
 L["TomTom waypoints"] = "Puntos de referencia de TomTom"
 L["extra information"] = "información extra"

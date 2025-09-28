@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: Cladhaire, Ludovicus
-## Version: v4.0.15-release
+## Version: v4.0.17-release
 ## License: All Rights Reserved
 
 ## Title: TomTom
@@ -21,8 +21,6 @@
 ## X-Curse-Project-ID: 18808
 ## X-WoWI-ID: 7032
 ## X-Wago-ID: Rn6VaONd
-
-libs\LibDropDown\embed.xml
 
 AddonCore.lua
 

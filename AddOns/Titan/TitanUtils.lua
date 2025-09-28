@@ -1940,14 +1940,11 @@ If someone where to start creating Titan frames after the registration process w
 		notes = notes,
 	}
 
-	-- Debug
-	if Titan_Global.debug.plugin_register then
-		TitanDebug("Queue Plugin"
+		Titan_Debug.Out('titan', 'plugin_register', "Queue Plugin"
 			--			.." '"..tostring(self:GetName()).."'"
 			.. " '" .. tostring(TitanUtils_GetButtonID(self:GetName())) .. "'"
 			.. " " .. tostring(TITAN_NOT_REGISTERED) .. ""
 		)
-	end
 end
 
 ---local Handle a Titan plugin that could not be registered.
@@ -2023,7 +2020,7 @@ NOTE:
 	local notes = ""
 	local str = ""
 
-	local self = plugin.self
+	local self = plugin.self -- plugin frame reference
 
 	if self and self:GetName() then
 		-- Check for the .registry where all the Titan plugin info is expected
@@ -2078,16 +2075,20 @@ NOTE:
 				result = TITAN_REGISTER_FAILED
 			else
 				-- We are almost done-
+				TitanPanelButton_AddMouseScripts(self)
+--[[
 				-- Allow mouse clicks on the plugin
 				local pluginID = TitanUtils_GetButtonID(self:GetName());
 				local plugin_id = TitanUtils_GetPlugin(pluginID);
 				if (plugin_id) then
 					self:RegisterForClicks("LeftButtonUp", "RightButtonUp", "MiddleButtonUp");
 					self:RegisterForDrag("LeftButton")
+-- Per an API change in 11.2.0, disable drag & drop for now...
 					if (plugin_id.id) then
 						TitanPanelDetectPluginMethod(plugin_id.id);
 					end
 				end
+--]]
 				result = TITAN_REGISTERED
 				-- determine the plugin category
 				cat = (self.registry.category or "General")
@@ -2120,16 +2121,14 @@ NOTE:
 		issue = "Can not determine plugin button name"
 	end
 
-	-- Debug
-	if Titan_Global.debug.plugin_register then
-		TitanDebug("Plugin RegProt"
+			Titan_Debug.Out('titan', 'plugin_register', "Plugin RegProt"
 			--			.." '"..tostring(self:GetName()).."'"
 			.. " '" .. tostring(id) .. "'"
 			.. " '" .. tostring(result) .. "'"
 			.. " '" .. tostring(str) .. "'"
 			.. " '" .. tostring(TitanPlugins[id].id) .. "'"
 		)
-	end
+
 	-- create and return the results
 	local ret_val = {}
 	ret_val.issue = (issue or "")
@@ -2194,14 +2193,10 @@ function TitanUtils_RegisterPlugin(plugin)
 				, "error")
 		end
 
-		-- Debug
-		if Titan_Global.debug.plugin_register then
-			local status = plugin.status
-			TitanDebug("Registering Plugin"
+			Titan_Debug.Out('titan', 'plugin_register', "Registering Plugin"
 				.. " " .. tostring(plugin.name) .. ""
-				.. " " .. tostring(status) .. ""
+				.. " " .. tostring(plugin.status) .. ""
 			)
-		end
 	end
 end
 
@@ -2257,7 +2252,7 @@ end
 --- Old "TitanPanelRightClickMenu_Prepare"..plugin_id.."Menu"
 --- New : .menuTextFunction in registry
 --- UIDropDownMenu_Initialize will place (part of) the error in the menu - it is not progagated out.
---- Set Titan_Global.debug.menu to output the error to Chat.
+--- Set Titan_Debug.titan.menu to output the error to Chat.
 local function TitanRightClickMenu_OnLoad(self, menu)
 	--[[
 - The function to create the menu is either
@@ -2317,13 +2312,11 @@ local function TitanRightClickMenu_OnLoad(self, menu)
 		end
 	end
 
-	if Titan_Global.debug.menu then
 		if err == "" then
 			-- all is good
 		else
-			TitanDebug(err, "error")
+			Titan_Debug.Out('titan', 'menu', "Error: "..err)
 		end
-	end
 	-- Under the cover the menu is built as DropDownList1
 	--	return DropDownList1, DropDownList1:GetHeight(), DropDownList1:GetWidth()
 	return menu, menu:GetHeight(), menu:GetWidth()
@@ -2740,23 +2733,22 @@ function TitanArgConvert(event, a1, a2, a3, a4, a5, a6)
 	)
 end
 
----Titan: Output a given table; up to a depth of 8 levels.
+---Titan: Output a given table; up to a depth of 8 levels. Can generate A LOT of output!
 ---@param tb table
 ---@param level integer? 1 or defaults to 1
 function TitanDumpTable(tb, level)
-	level = level or 1
-	local spaces = string.rep(' ', level * 2)
-	for k, v in pairs(tb) do
-		if type(v) ~= "table" then
-			print("[" .. level .. "]v'" .. spaces .. "[" .. tostring(k) .. "]='" .. tostring(v) .. "'")
-		else
-			print("[" .. level .. "]t'" .. spaces .. "[" .. tostring(k) .. "]")
-			level = level + 1
-			if level <= 8 then
-				TitanDumpTable(v, level)
-			end
-		end
-	end
+   level = level or 1
+   local spaces = string.rep(' ', level)
+   for k, v in pairs(tb) do
+      if type(v) == "table" then
+         print("[" .. level .. "]" .. spaces .. "[" .. tostring(k) .. "]" .. " "..type(v))
+         if level <= 8 then
+            TitanDumpTable(v, level+1)
+         end
+      else
+         print("[" .. level .. "]" ..spaces .. "[" .. tostring(k) .. "]='" .. tostring(v) .. "' "..type(v))
+      end
+   end
 end
 
 ---Titan: From a given table; find input in its indexes.

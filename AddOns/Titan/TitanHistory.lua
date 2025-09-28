@@ -15,6 +15,22 @@ Green - 'header' - Titan or plugin
 Highlight - notes. tips. and details
 --]]
 Titan_Global.recent_changes = ""
+.. TitanUtils_GetGoldText("8.4.0 : 2025/09/07\n")
+.. TitanUtils_GetGreenText("Titan : \n")
+.. TitanUtils_GetHighlightText(""
+.. "-  Titan : \n"
+.. "-  - : /titan reset working again; no reload needed!\n"
+.. "-  - : Hopefully fix bar transparency values resetting on logout or reload.\n"
+.. "-  - : Moved most bar settings from 'Bars - All' to each bar - use profiles instead.\n"
+.. "-  --- Bar skin / color settings\n"
+.. "-  --- Hide Bar during combat\n"
+.. "-  --- Hide Bar in PvP and BG zones\n"
+.. "-  - : Fix drag & drop of Titan plugins, per an API change in 11.2.0."
+.. "-  Internal : \n"
+.. "-  - : Global profiles should be working again.\n"
+.. "-  - : More debug statements on login, reload, profile reset.\n"
+.. "-  - : Removed code for old DewDrop and Tablet from tooltip code.\n"
+)
 .. TitanUtils_GetGoldText("8.3.5 : 2025/08/27\n")
 .. TitanUtils_GetGreenText("Titan : \n")
 .. TitanUtils_GetHighlightText(""

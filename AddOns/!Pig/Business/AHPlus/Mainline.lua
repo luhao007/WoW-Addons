@@ -106,10 +106,10 @@ function BusinessInfo.AHPlus_Mainline()
 	end
 	hooksecurefunc(AuctionHouseFrame.BrowseResultsFrame.ItemList.ScrollBox, "OnViewInitializedFrame", function(frame, elementData)
 		local Mfuji = elementData
-		if not Mfuji.updown then
-			if Mfuji.cells[2] then
-				Mfuji.cells[2]:SetPoint("TOPLEFT",Mfuji.cells[1],"TOPRIGHT",48,0);
-				Mfuji.cells[2]:SetPoint("BOTTOMLEFT",Mfuji.cells[1],"BOTTOMRIGHT",48,0);
+		if Mfuji.cells[2] then
+			Mfuji.cells[2]:SetPoint("TOPLEFT",Mfuji.cells[1],"TOPRIGHT",48,0);
+			Mfuji.cells[2]:SetPoint("BOTTOMLEFT",Mfuji.cells[1],"BOTTOMRIGHT",48,0);
+			if not Mfuji.cells[2].updown then
 				Mfuji.cells[2].updown = CreateFrame("Frame", nil, Mfuji.cells[2]);
 				Mfuji.cells[2].updown:SetSize(44,18);
 				Mfuji.cells[2].updown:SetPoint("RIGHT",Mfuji.cells[2],"LEFT",-2,0);

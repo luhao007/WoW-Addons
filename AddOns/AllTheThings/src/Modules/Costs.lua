@@ -639,6 +639,8 @@ app.AddEventHandler("OnLoad", function()
 		Process = function(t, reference, tooltipInfo)
 			if not app.Settings:GetTooltipSetting("Currencies") then return end
 
+			if not app.ThingKeys[reference.key] then return end
+
 			local id = reference[reference.key]
 			local currencyCount = CalculateTotalCosts(reference, id)
 			if currencyCount > 0 then

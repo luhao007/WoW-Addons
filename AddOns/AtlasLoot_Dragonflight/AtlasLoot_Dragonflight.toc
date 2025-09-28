@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: nanderson11, Arith
-## Version: v9.18.0
+## Version: v9.18.1
 
 ## Title: AtlasLoot |cFF0099FF[Dragonflight]|r
 ## Notes: AtlasLoot loot tables from Dragonflight

@@ -394,6 +394,7 @@ QuickButUI.ButList[3]=function()
 	--饰品切换界面
 	local Icon,anniushu,butW=136528,20,QuickButUI:GetHeight()
 	local TrinketSelectF = PIGFrame(UIParent)
+	TrinketSelectF:SetScale(PIGA["QuickBut"]["bili"]);
 	TrinketSelectF:PIGSetBackdrop(1)
 	TrinketSelectF:SetFrameLevel(QuickButUI:GetFrameLevel()+4)
 	TrinketSelectF:Hide()

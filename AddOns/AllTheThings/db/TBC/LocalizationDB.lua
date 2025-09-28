@@ -930,6 +930,7 @@ _.HeaderConstants = {
 	CRAFTED_ITEMS = -23,
 	DARKMOON_FAIRE_HEADER = -37,
 	DISCOVERY = -26,
+	EVENT_COMPLETION = -29,
 	EXPLORATION = -30,
 	FACTIONS = -31,
 	FEAST_OF_WINTER_VEIL_HEADER = -574,
@@ -980,6 +981,7 @@ localize(L.HEADER_NAMES, {
 	[-23] = LOOT_JOURNAL_LEGENDARIES_SOURCE_CRAFTED_ITEM,
 	[-25] = "Demon Trainer",
 	[-26] = BATTLE_PET_SOURCE_11,
+	[-29] = "Event Completion",
 	[-30] = "Exploration",
 	[-31] = FACTION,
 	[-32] = "Flight Paths",
@@ -1100,6 +1102,7 @@ localize(L.HEADER_NAMES, {
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-25] = "Warlocks can teach their demons new tricks. Some of the higher level grimoires can only be purchased from the Demon Trainer in your faction's capital cities.",
+	[-29] = "Contains things that are rewarded upon completing that event.",
 	[-36] = "A specific holiday may need to be active for you to complete the referenced Things within this section.",
 	[-43] = "This section contains Pet Battle related quests and tamers.",
 	[-44] = "This section will only show your current character's professions outside of Account and Debug Mode.",
@@ -1142,6 +1145,7 @@ localize(L.HEADER_ICONS, {
 	[-23] = _.asset("category_crafting"),
 	[-25] = 133738,
 	[-26] = 133739,
+	[-29] = _.asset("interface_rewards"),
 	[-30] = _.asset("category_exploration"),
 	[-31] = _.asset("category_factions"),
 	[-32] = _.asset("category_flightpaths"),
@@ -1374,6 +1378,7 @@ _.FilterConstants = {
 	DAGGERS = 20,
 	FINGER = 52,
 	FIST_WEAPONS = 34,
+	GEMS = 61,
 	GUNS = 31,
 	HELD_IN_OFF_HAND = 1,
 	HOLIDAY = 106,
@@ -1443,6 +1448,7 @@ L.FILTER_ID_TYPES = {
 	[55] = AUCTION_CATEGORY_CONSUMABLES,
 	[56] = GetItemClassInfo(5),
 	[57] = "Profession Equipment",
+	[61] = GetItemClassInfo(3),
 	[100] = MOUNTS,
 	[101] = AUCTION_CATEGORY_BATTLE_PETS,
 	[102] = TOY,
@@ -1490,6 +1496,7 @@ L.FILTER_ID_ICONS = {
 	[55] = 132812,
 	[56] = _.asset("interface_zone_drop"),
 	[57] = 132932,
+	[61] = 134129,
 	[100] = _.asset("category_mounts"),
 	[101] = _.asset("category_petjournal"),
 	[102] = _.asset("category_toybox"),
@@ -20713,6 +20720,7 @@ localize(L.HEADER_NAMES, {
 	[-588] = "Concours de pêche de Strangleronce",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-29] = "Contient des objets de récompenses ou disponibles dans d’autres contenus de la section qui les contient.\nIls sont regroupés ici dans le but de réduire la duplication de nombreuses sources possibles.",
 	[-47] = "Contient des objets de récompenses ou disponibles dans d’autres contenus de la section qui les contient.\nIls sont regroupés ici dans le but de réduire la duplication de nombreuses sources possibles.",
 	[-59] = "Un maître d'armes est un PNJ qui offre aux personnages la possibilité d'apprendre des compétences d'armes spécifiques, dont la disponibilité varie d'un maître d'armes à l'autre. Toutes les compétences d'armes peuvent être entraînées au niveau 1, à l'exception des armes d'hast qui nécessitent le niveau 20.\n\nL'entraînement avec un maître d'armes est devenu obsolète dans le patch 4.0.1, car toutes les compétences d'armes appropriées à la classe sont désormais apprises par chaque classe lors de sa création. Les maîtres d'armes ont été retirés du jeu peu de temps après.",
 	[-341] = "Les éléments de cette liste sont des apparences partagées pour l'élément ci-dessus. En mode Apparence unique, cette liste peut vous aider à comprendre pourquoi ou pourquoi un élément spécifique serait marqué Collecté.",
@@ -30751,6 +30759,7 @@ localize(L.HEADER_NAMES, {
 	[-588] = "Рыбомания Тернистой долины",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-29] = "Штучки, которые можно получить в награду с разного контента в родительской секции.\nОни собраны здесь, чтобы уменьшить количество источников, когда Штучка доступна из многих мест.",
 	[-36] = "Чтобы выполнить упомянутые в данной секции Штучки, может быть нужен какой-то праздник.",
 	[-44] = "Этот раздел будет отображать только профессии вашего текущего персонажа, если не включен Режим Аккаунта или Отладки.",
 	[-47] = "Штучки, которые можно получить в награду с разного контента в родительской секции.\nОни собраны здесь, чтобы уменьшить количество источников, когда Штучка доступна из многих мест.",
@@ -38477,6 +38486,7 @@ localize(L.HEADER_NAMES, {
 	[-611] = "Realeza Silitida",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-29] = "Contiene cosas que se otorgan como recompensa al completar ese evento.",
 	[-36] = "Es posible que deba estar activo un día festivo específico para que pueda completar las cosas referenciadas en esta sección.",
 	[-44] = "Esta sección solo mostrará las profesiones de tu personaje actual fuera del modo Cuenta y Depuración.",
 	[-47] = "Contiene cosas que son recompensadas o están disponibles en otro contenido dentro de la sección contenedora.\nSe consolidan aquí en un esfuerzo por reducir la duplicación de muchas fuentes posibles.",
@@ -42249,6 +42259,7 @@ localize(L.HEADER_NAMES, {
 	[-525] = "Paquete heroico Rasganorte WotLK Classic",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-29] = "Contiene cosas que se otorgan como recompensa al completar este evento.",
 	[-44] = "Esta sección solo mostrará las profesiones de tu personaje actual fuera del modo Cuenta y Debug.",
 });
 for key,value in pairs({
@@ -44850,6 +44861,7 @@ localize(L.HEADER_NAMES, {
 	[-19] = "首领共同掉落",
 	[-22] = "商人共同物品",
 	[-25] = "恶魔训练师",
+	[-29] = "事件完成",
 	[-30] = "探索",
 	[-32] = "飞行路线",
 	[-36] = "节日",
@@ -44911,6 +44923,7 @@ localize(L.HEADER_NAMES, {
 	[-588] = "荆棘谷钓鱼大赛",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-29] = "包含有奖励或可从包含部分中的其他内容获得的事物。\n在此处合并以减少来自许多可能重复来源。",
 	[-36] = "你可能需要在特定的节日活动中才能完成本节中的事物。",
 	[-44] = "此部分只会显示你当前角色的专业技能，除非处于账号模式或调试模式。",
 	[-47] = "包含有奖励或可从包含部分中的其他内容获得的事物。\n在此处合并以减少来自许多可能重复来源。",

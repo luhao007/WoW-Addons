@@ -1011,6 +1011,7 @@ _.HeaderConstants = {
 	DAY_OF_THE_DEAD_HEADER = -566,
 	DISCOVERY = -26,
 	DROPS = -27,
+	EVENT_COMPLETION = -29,
 	EXPLORATION = -30,
 	FACTIONS = -31,
 	FEAST_OF_WINTER_VEIL_HEADER = -574,
@@ -1064,6 +1065,7 @@ localize(L.HEADER_NAMES, {
 	[-23] = LOOT_JOURNAL_LEGENDARIES_SOURCE_CRAFTED_ITEM,
 	[-26] = BATTLE_PET_SOURCE_11,
 	[-27] = "Drops",
+	[-29] = "Event Completion",
 	[-30] = "Exploration",
 	[-31] = FACTION,
 	[-32] = "Flight Paths",
@@ -1234,8 +1236,12 @@ localize(L.HEADER_NAMES, {
 	[-611] = "Silithid Royalty",
 	[-612] = "Obsidian Fragment Exchange",
 	[-658] = select(2,GetAchievementInfo(61406)),
+	[-659] = "Twilight Assist",
+	[-660] = "Twilight Duo",
+	[-661] = "Twilight Zone",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-29] = "Contains things that are rewarded upon completing that event.",
 	[-36] = "A specific holiday may need to be active for you to complete the referenced Things within this section.",
 	[-43] = "This section contains Pet Battle related quests and tamers.",
 	[-44] = "This section will only show your current character's professions outside of Account and Debug Mode.",
@@ -1272,6 +1278,9 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-564] = "Located near the entrance, guests receive a mallet to whack some stuffed gnolls that pop out of nine barrels in the area. Players will have 60 seconds to earn 30 points. The gnolls come in three types: normal, Hogger, and baby, awarding 1 point, 3 points, or a knockdown, respectively.",
 	[-592] = "This is a yearly recurring event that occurs between the beginning of November and the end of the year.",
 	[-610] = "If the following are sorted somewhere, please delete them from this list. Thanks.",
+	[-659] = "Engage Sartharion with at least 1 of the 3 drakes alive and then defeat Sartharion.",
+	[-660] = "Engage Sartharion with at least 2 of the 3 drakes alive and then defeat Sartharion.",
+	[-661] = "Engage Sartharion with all 3 drakes alive and then defeat Sartharion.",
 });
 localize(L.HEADER_LORE, {
 	[-74] = "One of these dragons will spawn randomly at the associated coordinates across Azeroth.",
@@ -1291,6 +1300,7 @@ localize(L.HEADER_ICONS, {
 	[-23] = _.asset("category_crafting"),
 	[-26] = 133739,
 	[-27] = _.asset("category_worlddrops"),
+	[-29] = _.asset("interface_rewards"),
 	[-30] = _.asset("category_exploration"),
 	[-31] = _.asset("category_factions"),
 	[-32] = _.asset("category_flightpaths"),
@@ -1461,6 +1471,9 @@ localize(L.HEADER_ICONS, {
 	[-611] = 133575,
 	[-612] = 135241,
 	[-658] = 133783,
+	[-659] = 236469,
+	[-660] = 236473,
+	[-661] = 236471,
 });
 localize(L.HEADER_EVENTS, {
 	[-37] = 1,
@@ -1545,6 +1558,7 @@ _.FilterConstants = {
 	DAGGERS = 20,
 	FINGER = 52,
 	FIST_WEAPONS = 34,
+	GEMS = 61,
 	GLYPHS = 111,
 	GUNS = 31,
 	HELD_IN_OFF_HAND = 1,
@@ -1616,6 +1630,7 @@ L.FILTER_ID_TYPES = {
 	[55] = AUCTION_CATEGORY_CONSUMABLES,
 	[56] = GetItemClassInfo(5),
 	[57] = "Profession Equipment",
+	[61] = GetItemClassInfo(3),
 	[100] = MOUNTS,
 	[101] = AUCTION_CATEGORY_BATTLE_PETS,
 	[102] = TOY,
@@ -1665,6 +1680,7 @@ L.FILTER_ID_ICONS = {
 	[55] = 132812,
 	[56] = _.asset("interface_zone_drop"),
 	[57] = 132932,
+	[61] = 134129,
 	[100] = _.asset("category_mounts"),
 	[101] = _.asset("category_petjournal"),
 	[102] = _.asset("category_toybox"),
@@ -3947,6 +3963,7 @@ local ObjectNames = {
 	[192944] = "Golden Goblet",
 	[192945] = "Jade Statue",
 	[193051] = "Nerubian Scourge Egg",
+	[193059] = "Vrykul Weapons",
 	[193195] = "Pulsing Crystal",
 	[193196] = "Fordragon's Shield",
 	[193197] = "Saurfang's Battle Armor",
@@ -6682,6 +6699,7 @@ local ObjectModels = {
 	[192944] = 198358,
 	[192945] = 192711,
 	[193051] = 195037,
+	[193059] = 192721,
 	[193195] = 190693,
 	[193196] = 244242,
 	[193197] = 244115,
@@ -8209,6 +8227,9 @@ localize(L.HEADER_NAMES, {
 	[-586] = "Saisonfisch: Sommerbarsch",
 	[-587] = "Saisonfisch: Winterkalmar",
 	[-588] = "Anglerwettbewerb im Schlingendorntal",
+	[-659] = "Zwielicht-Assistent",
+	[-660] = "Zwielicht-Duo",
+	[-661] = "Zwielichtzone",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-36] = "Es muss möglicherweise ein bestimmter Feiertag aktiv sein, um hier genannte Dinge abschließen zu können.",
@@ -9537,6 +9558,7 @@ localize(ObjectNames, {
 	[192944] = "Goldener Kelch",
 	[192945] = "Jadestatue",
 	[193051] = "Ei der Geißelneruber",
+	[193059] = "Waffen der Vrykul",
 	[193195] = "Gefrorenes Herz",
 	[193196] = "Fordragons Schild",
 	[193197] = "Saurfangs Schlachtrüstung",
@@ -10676,8 +10698,12 @@ localize(L.HEADER_NAMES, {
 	[-586] = "Poisson de saison : bar d'été",
 	[-587] = "Poisson de saison : calmar d'hiver",
 	[-588] = "Concours de pêche de Strangleronce",
+	[-659] = "Aide Crépusculaire",
+	[-660] = "Duo Crépusculaire",
+	[-661] = "Chroniques des Crépusculaires",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-29] = "Contient des objets de récompenses ou disponibles dans d’autres contenus de la section qui les contient.\nIls sont regroupés ici dans le but de réduire la duplication de nombreuses sources possibles.",
 	[-47] = "Contient des objets de récompenses ou disponibles dans d’autres contenus de la section qui les contient.\nIls sont regroupés ici dans le but de réduire la duplication de nombreuses sources possibles.",
 	[-341] = "Les éléments de cette liste sont des apparences partagées pour l'élément ci-dessus. En mode Apparence unique, cette liste peut vous aider à comprendre pourquoi ou pourquoi un élément spécifique serait marqué Collecté.",
 	[-342] = "Cet article a une apparence unique. Vous devez collecter cet objet spécifiquement pour gagner l’apparence.",
@@ -12009,6 +12035,7 @@ localize(ObjectNames, {
 	[192944] = "Coupe dorée",
 	[192945] = "Statue de jade",
 	[193051] = "Œuf de nérubien du Fléau",
+	[193059] = "Armes vrykules",
 	[193195] = "Cristal vibrant",
 	[193196] = "Bouclier de Fordragon",
 	[193197] = "Armure de bataille de Saurcroc",
@@ -12820,6 +12847,9 @@ localize(L.HEADER_NAMES, {
 	[-564] = "Pesta-lo-Gnoll",
 	[-586] = "Pesce di stagione: spigola estiva",
 	[-587] = "Pesce di stagione: calamari invernali",
+	[-659] = "Assist Crepuscolare",
+	[-660] = "Doppietta Crepuscolare",
+	[-661] = "Zona del Crepuscolo",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-341] = "Gli elementi in questo elenco sono aspetti condivisi per l'elemento precedente. Nella modalità Aspetto unico, questo elenco può aiutarti a capire perché o perché un oggetto specifico verrebbe contrassegnato come Raccolto.",
@@ -13740,6 +13770,7 @@ localize(ObjectNames, {
 	[192944] = "Calice d'Oro",
 	[192945] = "Statua di Giada",
 	[193051] = "Uovo dei Nerubiani del Flagello",
+	[193059] = "Armi Vrykul",
 	[193195] = "Cristallo Pulsante",
 	[193196] = "Scudo di Domadraghi",
 	[193197] = "Armatura da Battaglia di Faucisaure",
@@ -14613,6 +14644,9 @@ localize(L.HEADER_NAMES, {
 	[-586] = "Peixe sazonal: robalo de verão",
 	[-587] = "Peixe sazonal: Lula de Inverno",
 	[-588] = "Festerê de Pesca da Selva do Espinhaço",
+	[-659] = "Assistente do Crepúsculo",
+	[-660] = "Dupla do Crepúsculo",
+	[-661] = "Além da Imaginação",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-341] = "Os itens nesta lista são aparências compartilhadas do item acima. No Modo de Aparência Única, esta lista pode ajudá-lo a entender por que ou não um item específico seria marcado como Coletado.",
@@ -15844,6 +15878,7 @@ localize(ObjectNames, {
 	[192944] = "Cálice Dourado",
 	[192945] = "Estátua de Jade",
 	[193051] = "Ovo Nerubiano do Flagelo",
+	[193059] = "Armas Vraikalen",
 	[193195] = "Cristal Pulsante",
 	[193196] = "Escudo de Fordragon",
 	[193197] = "Armadura de Batalha de Saurfang",
@@ -17332,8 +17367,12 @@ localize(L.HEADER_NAMES, {
 	[-587] = "Сезонная рыба: зимний кальмар",
 	[-588] = "Рыбомания Тернистой долины",
 	[-592] = "Годовщина WoW",
+	[-659] = "Сумеречные помощники",
+	[-660] = "Сумеречный дуэт",
+	[-661] = "Зона сумерек",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-29] = "Штучки, которые можно получить в награду с разного контента в родительской секции.\nОни собраны здесь, чтобы уменьшить количество источников, когда Штучка доступна из многих мест.",
 	[-36] = "Чтобы выполнить упомянутые в данной секции Штучки, может быть нужен какой-то праздник.",
 	[-44] = "Этот раздел будет отображать только профессии вашего текущего персонажа, если не включен Режим Аккаунта или Отладки.",
 	[-47] = "Штучки, которые можно получить в награду с разного контента в родительской секции.\nОни собраны здесь, чтобы уменьшить количество источников, когда Штучка доступна из многих мест.",
@@ -18672,6 +18711,7 @@ localize(ObjectNames, {
 	[192944] = "Золотой кубок",
 	[192945] = "Нефритовая статуя",
 	[193051] = "Нерубское яйцо Плети",
+	[193059] = "Оружие врайкулов",
 	[193195] = "Пульсирующий кристалл",
 	[193196] = "Щит Фордрагона",
 	[193197] = "Боевые доспехи Саурфанга",
@@ -19545,6 +19585,9 @@ localize(L.HEADER_NAMES, {
 	[-586] = "제철 생선: 여름 농어",
 	[-587] = "제철 생선: 겨울 오징어",
 	[-588] = "가시덤불 골짜기 낚시왕 선발대회",
+	[-659] = "황혼의 지원",
+	[-660] = "황혼의 2인조",
+	[-661] = "황혼 지대",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-341] = "이 목록의 항목은 위 항목의 공유 모양입니다. 고유 외형 모드에서 이 목록은 특정 항목이 수집됨으로 표시되는 이유와 이유를 이해하는 데 도움이 될 수 있습니다.",
@@ -20785,6 +20828,7 @@ localize(ObjectNames, {
 	[192944] = "황금 술잔",
 	[192945] = "비취 조각상",
 	[193051] = "네루비안 스컬지 알",
+	[193059] = "브리쿨 무기",
 	[193195] = "고동치는 수정",
 	[193196] = "폴드라곤의 방패",
 	[193197] = "사울팽의 전투 갑옷",
@@ -22443,8 +22487,12 @@ localize(L.HEADER_NAMES, {
 	[-588] = "Gran espectáculo de pesca de Tuercespina",
 	[-592] = "Aniversario de WoW",
 	[-611] = "Realeza Silitida",
+	[-659] = "Ayuda Crepuscular",
+	[-660] = "Dúo Crepuscular",
+	[-661] = "Dimensión Desconocida",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-29] = "Contiene cosas que se otorgan como recompensa al completar ese evento.",
 	[-36] = "Es posible que deba estar activo un día festivo específico para que pueda completar las cosas referenciadas en esta sección.",
 	[-44] = "Esta sección solo mostrará las profesiones de tu personaje actual fuera del modo Cuenta y Depuración.",
 	[-47] = "Contiene cosas que son recompensadas o están disponibles en otro contenido dentro de la sección contenedora.\nSe consolidan aquí en un esfuerzo por reducir la duplicación de muchas fuentes posibles.",
@@ -23776,6 +23824,7 @@ localize(ObjectNames, {
 	[192944] = "Cáliz dorado",
 	[192945] = "Estatua de jade",
 	[193051] = "Huevo de la Plaga nerubiano",
+	[193059] = "Armas vrykul",
 	[193195] = "Cristal pulsante",
 	[193196] = "Escudo de Fordragón",
 	[193197] = "Armadura de batalla de Colmillosauro",
@@ -24916,6 +24965,7 @@ localize(L.HEADER_NAMES, {
 	[-527] = "Paquete heroico infundido por los sha",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-29] = "Contiene cosas que se otorgan como recompensa al completar este evento.",
 	[-44] = "Esta sección solo mostrará las profesiones de tu personaje actual fuera del modo Cuenta y Debug.",
 	[-592] = "¡Es el aniversario de World of Warcraft! Desde el equipo de desarrollo de WoW, te damos las gracias por disfrutar del mundo de Azeroth y más allá junto a nosotros.",
 });
@@ -25719,6 +25769,7 @@ localize(L.HEADER_NAMES, {
 	[-19] = "首领共同掉落",
 	[-22] = "商人共同物品",
 	[-27] = "掉落",
+	[-29] = "事件完成",
 	[-30] = "探索",
 	[-32] = "飞行路线",
 	[-34] = "团队查找器",
@@ -25809,8 +25860,12 @@ localize(L.HEADER_NAMES, {
 	[-587] = "时令鱼类：冬鱿鱼",
 	[-588] = "荆棘谷钓鱼大赛",
 	[-592] = "魔兽世界周年庆",
+	[-659] = "暮光帮凶",
+	[-660] = "暮光二重奏",
+	[-661] = "暮光领域",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-29] = "包含有奖励或可从包含部分中的其他内容获得的事物。\n在此处合并以减少来自许多可能重复来源。",
 	[-36] = "你可能需要在特定的节日活动中才能完成本节中的事物。",
 	[-44] = "此部分只会显示你当前角色的专业技能，除非处于账号模式或调试模式。",
 	[-47] = "包含有奖励或可从包含部分中的其他内容获得的事物。\n在此处合并以减少来自许多可能重复来源。",
@@ -26950,6 +27005,7 @@ localize(ObjectNames, {
 	[192944] = "黄金酒杯",
 	[192945] = "碧玉雕像",
 	[193051] = "天灾蛛魔之卵",
+	[193059] = "维库人的武器",
 	[193195] = "脉动的水晶",
 	[193400] = "萨隆邪铁炸弹堆",
 	[193402] = "生锈的囚犯手提箱",
@@ -28266,6 +28322,9 @@ localize(L.HEADER_NAMES, {
 	[-587] = "季節性魚類：冬魷魚",
 	[-588] = "荊棘谷釣魚大賽",
 	[-592] = "《魔獸世界》週年紀念",
+	[-659] = "暮光協助",
+	[-660] = "暮光雙人組",
+	[-661] = "暮光地帶",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-36] = "你可能需要在特定節日的活動中才能完成本節中的事物。",

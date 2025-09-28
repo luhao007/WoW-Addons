@@ -167,17 +167,6 @@ Titan_Global.SKIN = "skin"
 Titan_Global.COLOR = "color"
 Titan_Global.NONE = "none"
 
--- For debug across Titan Panel
-Titan_Global.debug = {}
-Titan_Global.debug.events = false
-Titan_Global.debug.ldb_setup = false
-Titan_Global.debug.menu = false
-Titan_Global.debug.tool_tips = false
-Titan_Global.debug.plugin_text = false
-Titan_Global.debug.plugin_register = false
-Titan_Global.debug.plugin_register_deep = false
-Titan_Global.debug.movable = false
-
 -- For WoW localized strings / literals we are using
 Titan_Global.literals = {
 	low = LOW,
@@ -238,12 +227,3 @@ function Titan_Global.NewRegistry(id)
 	local reg = { id = id } ---@type PluginRegistryType
 	return reg
 end
-
--- Set the debug topics for Titan itself - not any plugins
-Titan_Global.dbg = Titan_Debug:New("Titan")
-Titan_Global.dbg:AddTopic("Startup")
-Titan_Global.dbg:AddTopic("Vars")
-
-Titan_Global.dbg:EnableDebug(false)
-Titan_Global.dbg:EnableTopic("Tooltip", false)
-Titan_Global.dbg:EnableTopic("Menu", false)

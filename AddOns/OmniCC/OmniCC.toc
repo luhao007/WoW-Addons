@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: Tuller
-## Version: 11.2.6
+## Version: 11.2.7
 
 ## Title: OmniCC
 ## Notes: Cooldown count for everything

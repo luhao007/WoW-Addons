@@ -2,6 +2,16 @@ local ADDON_NAME = ...
 local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "enUS", true)
 
 
+-- toggle maps
+L["Blocked in combat"] = true
+L["Required for"] = true
+L["Toggle Maps"] = true
+L["Toggle Maps function is disabled"] = true
+L["Switch after battle"] = true
+L["Changing the world map via a MapNotes icon will be done after the battle, as this is no longer possible during the battle without causing an error"] = true
+L["Shows an information on the screen when a map change has been attempted in battle"] = true
+L["Enables the ability to toggle the displayed world map by clicking on certain MapNotes icons"] = true
+L["This was previously enabled automatically and is now an option to enable or disable"] = true
 -- Flightmaster maps
 L["Button"] = true
 L["Show the MapNotes button on the Flightmap"] = true
@@ -236,6 +246,7 @@ L["Reveals unexplored areas and shows the individual areas of each zone that are
 L["Description"] = true
 L["Position of the real Instance Entrance"] = true
 L["Way to the Instance Entrance"] = true
+L["Way to the Delve Entrance"] = true
 L["Also disables all Blizzard Instance icons on the zone map. However, these can be reactivated on the map at the top right under the 'Map filter' dungeon entrance magnifying glass. Disable and enable MapNotes VS again. blizzard, deactivates the instance icons on the zone map again"] = true
 L["Hides certain Blizzard icons (e.g. Horde/Alliance/Neutral capitals icon or general travel icons on the map) and replaces them with almost identical MapNotes icons, providing additional information and functionality"] = true
 L["Removes the Blizzard symbols only where MapNotes symbols and Blizzard symbols overlap, thereby making the tooltip and the function of the MapNote symbols usable again on the overlapping points"] = true
@@ -258,6 +269,9 @@ L["Hide the MapNotes button on the worldmap"] = true
 L["hide MapNotes!"] = true
 L["Disable MapNotes, all icons will be hidden on each map and all categories will be disabled"] = true
 L["Adventure guide"] = true
+L["Adventure guide function is disabled"] = true
+L["Clicking on an instance icon outside of a zone map does not open the adventure guide, but rather the world map where the instance is located"] = true
+L["The „Toggle Maps“ function is responsible for this"] = true
 L["Left-clicking on a MapNotes raid (green), dungeon (blue) or multiple icon (green&blue) on the map opens the corresponding dungeon or raid map in the Adventure Guide"] = true
 L["TomTom waypoints"] = true
 L["extra information"] = true

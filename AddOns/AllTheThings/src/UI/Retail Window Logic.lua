@@ -2175,8 +2175,7 @@ app.AddEventHandler("RowOnEnter", function(self)
 	end
 	-- Add info in tooltip for the header of a Window for whether it is locked or not
 	if self.index == 0 then
-		local window = self:GetParent():GetParent();
-		if window and window.isLocked then
+		if window.isLocked then
 			tooltipInfo[#tooltipInfo + 1] = {
 				left = L.TOP_ROW_TO_UNLOCK,
 			}

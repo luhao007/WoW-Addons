@@ -26,11 +26,10 @@ local LocationTimer = {};
 local LocationTimerRunning = false
 
 -- Topic debug tool / scheme
-local dbg = Titan_Debug:New(TITAN_LOCATION_ID)
-dbg:EnableDebug(false)
-dbg:AddTopic("Map")
-dbg:EnableTopic("Events", false)
-dbg:EnableTopic("Flow", false)
+Titan_Debug.location = {}
+Titan_Debug.location.events = false
+Titan_Debug.location.flow = false
+Titan_Debug.location.map = false
 
 
 local place = {
@@ -89,7 +88,7 @@ local function Events(action, reason)
 	local msg = ""
 		.. " " .. tostring(action) .. ""
 		.. " " .. tostring(reason) .. ""
-	dbg:Out("Events", msg)
+	Titan_Debug.Out('location', 'events', msg)
 end
 
 ---local Get the player coordinates on x,y axis of the map of the zone / area they are in.
@@ -279,7 +278,7 @@ local msg = ""
 .. " " .. (format("%.2f", (bottom + height) or 0)) .. "]"
 .. " " .. (format("%.2f", cx)) .. ""
 .. " " .. (format("%.2f", cy)) .. ""
-	dbg:Out("Map", msg)
+	Titan_Debug.Out('location', 'map', msg)
 --]]
 		end
 
@@ -292,7 +291,7 @@ local msg = ""
 	local msg = ""
 		.. " " .. tostring(playerLocationText) .. ""
 		.. " " .. tostring(cursorLocationText) .. ""
-	dbg:Out("Map", msg)
+	Titan_Debug.Out('location', 'map', msg)
 
 	SetCoordText(playerLocationText, cursorLocationText)
 end
@@ -358,7 +357,7 @@ local function CoordFrames(action)
 			.. " " .. tostring(action) .. ""
 			.. " " .. tostring(place.show_on_map) .. ""
 			.. " " .. tostring(addon_conflict) .. ""
-	dbg:Out("Flow", msg)
+	Titan_Debug.Out('location', 'flow', msg)
 end
 
 ---local Adds player and cursor coords to the WorldMapFrame, unless the player has CT_MapMod
@@ -375,7 +374,7 @@ local function CreateMapFrames()
 
 	local msg =
 		"CreateMapFrames"
-	dbg:Out("Flow", msg)
+	Titan_Debug.Out('location', 'map', msg)
 
 	-- create the frame to hold the font strings, and simulate an "OnUpdate" script handler using C_Timer for efficiency
 	local frame = CreateFrame("FRAME", TITAN_MAP_FRAME, WorldMapFrame)
@@ -395,7 +394,7 @@ end
 local function OnShow(self)
 	local msg =
 		"_OnShow"
-	dbg:Out("Flow", msg)
+	Titan_Debug.Out('location', 'flow', msg)
 
 	if LocationTimerRunning then
 		-- Do not schedule a new one
@@ -574,7 +573,7 @@ local function OnEvent(self, event, ...)
 	local msg =
 			"_OnEvent"
 			.. " " .. tostring(event) .. ""
-	dbg:Out("Events", msg)
+	Titan_Debug.Out('location', 'events', msg)
 
 	ZoneUpdate(self);
 	--[[
@@ -812,9 +811,7 @@ local function OnLoad(self)
 		}
 	};
 
-	local msg =
-		"_OnLoad"
-	dbg:Out("Flow", msg)
+	Titan_Debug.Out('location', 'flow', "_Onload")
 end
 
 ---local Create needed frames

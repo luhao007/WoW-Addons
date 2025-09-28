@@ -1049,6 +1049,7 @@ _.HeaderConstants = {
 	DAY_OF_THE_DEAD_HEADER = -566,
 	DISCOVERY = -26,
 	DROPS = -27,
+	EVENT_COMPLETION = -29,
 	EXPLORATION = -30,
 	FACTIONS = -31,
 	FEAST_OF_WINTER_VEIL_HEADER = -574,
@@ -1105,6 +1106,7 @@ localize(L.HEADER_NAMES, {
 	[-23] = LOOT_JOURNAL_LEGENDARIES_SOURCE_CRAFTED_ITEM,
 	[-26] = BATTLE_PET_SOURCE_11,
 	[-27] = "Drops",
+	[-29] = "Event Completion",
 	[-30] = "Exploration",
 	[-31] = FACTION,
 	[-32] = "Flight Paths",
@@ -1312,8 +1314,12 @@ localize(L.HEADER_NAMES, {
 	[-656] = "Brawler's Guild",
 	[-657] = "Krasarang Wilds Campaign",
 	[-658] = select(2,GetAchievementInfo(61406)),
+	[-659] = "Twilight Assist",
+	[-660] = "Twilight Duo",
+	[-661] = "Twilight Zone",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-29] = "Contains things that are rewarded upon completing that event.",
 	[-36] = "A specific holiday may need to be active for you to complete the referenced Things within this section.",
 	[-43] = "This section contains Pet Battle related quests and tamers.",
 	[-44] = "This section will only show your current character's professions outside of Account and Debug Mode.",
@@ -1360,6 +1366,9 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-610] = "If the following are sorted somewhere, please delete them from this list. Thanks.",
 	[-652] = "The Zandalari Incursions into the main land of Pandaria began with the release of the Isle of Thunder. Warbringers can be found all around the continent with varying degrees of challenging solo mechanics and available mounts! Farm these with friends.",
 	[-654] = "The following goods can be harvested by planting seeds in Tilled Soil at Sunsong Ranch. You will earn Tillers reputation for harvesting crops and a chance to obtain replacement seeds from the crop.\n\nFUN FACT: Priests may cast Levitate on their crops, making them float.",
+	[-659] = "Engage Sartharion with at least 1 of the 3 drakes alive and then defeat Sartharion.",
+	[-660] = "Engage Sartharion with at least 2 of the 3 drakes alive and then defeat Sartharion.",
+	[-661] = "Engage Sartharion with all 3 drakes alive and then defeat Sartharion.",
 });
 localize(L.HEADER_LORE, {
 	[-74] = "One of these dragons will spawn randomly at the associated coordinates across Azeroth.",
@@ -1381,6 +1390,7 @@ localize(L.HEADER_ICONS, {
 	[-23] = _.asset("category_crafting"),
 	[-26] = 133739,
 	[-27] = _.asset("category_worlddrops"),
+	[-29] = _.asset("interface_rewards"),
 	[-30] = _.asset("category_exploration"),
 	[-31] = _.asset("category_factions"),
 	[-32] = _.asset("category_flightpaths"),
@@ -1587,6 +1597,9 @@ localize(L.HEADER_ICONS, {
 	[-655] = 840010,
 	[-656] = 132356,
 	[-658] = 133783,
+	[-659] = 236469,
+	[-660] = 236473,
+	[-661] = 236471,
 });
 localize(L.HEADER_EVENTS, {
 	[-37] = 1,
@@ -1643,7 +1656,6 @@ _.Modules.Events.SetEventInformation(242, {
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=10,["monthDay"]=22,["weekday"]=5,["year"]=2026},{["hour"]=10,["minute"]=0,["month"]=1,["monthDay"]=7,["weekday"]=5,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(133900, {
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=14,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=9,["monthDay"]=14,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=21,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=9,["monthDay"]=21,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=28,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=9,["monthDay"]=28,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=10,["monthDay"]=5,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=10,["monthDay"]=5,["weekday"]=1,["year"]=2025}),
@@ -1695,15 +1707,16 @@ _.Modules.Events.SetEventInformation(133900, {
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=8,["monthDay"]=23,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=8,["monthDay"]=23,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=8,["monthDay"]=30,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=8,["monthDay"]=30,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=6,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=9,["monthDay"]=6,["weekday"]=1,["year"]=2026}),
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=13,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=9,["monthDay"]=13,["weekday"]=1,["year"]=2026})
-});
-_.Modules.Events.SetEventInformation(1501, {
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=1,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=1,["year"]=2025})
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=13,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=9,["monthDay"]=13,["weekday"]=1,["year"]=2026}),
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=20,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=9,["monthDay"]=20,["weekday"]=1,["year"]=2026})
 });
 _.Modules.Events.SetEventInformation(133899, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=2,["year"]=2024},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=4,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=3,["year"]=2025},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=5,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=4,["year"]=2026},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=6,["year"]=2027})
+});
+_.Modules.Events.SetEventInformation(1501, {
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=1,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=1,["year"]=2025})
 });
 _.Modules.Events.SetEventInformation(133889, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=4,["year"]=2024},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=1,["year"]=2024}),
@@ -4341,6 +4354,7 @@ local ObjectNames = {
 	[192944] = "Golden Goblet",
 	[192945] = "Jade Statue",
 	[193051] = "Nerubian Scourge Egg",
+	[193059] = "Vrykul Weapons",
 	[193195] = "Pulsing Crystal",
 	[193196] = "Fordragon's Shield",
 	[193197] = "Saurfang's Battle Armor",
@@ -7639,6 +7653,7 @@ local ObjectModels = {
 	[192944] = 198358,
 	[192945] = 192711,
 	[193051] = 195037,
+	[193059] = 192721,
 	[193195] = 190693,
 	[193196] = 244242,
 	[193197] = 244115,
@@ -9805,6 +9820,9 @@ localize(L.HEADER_NAMES, {
 	[-648] = "Erinnerung an Scholomance",
 	[-654] = "Abbauen",
 	[-655] = "Himmlischen Dungeons",
+	[-659] = "Zwielicht-Assistent",
+	[-660] = "Zwielicht-Duo",
+	[-661] = "Zwielichtzone",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-36] = "Es muss möglicherweise ein bestimmter Feiertag aktiv sein, um hier genannte Dinge abschließen zu können.",
@@ -11132,6 +11150,7 @@ localize(ObjectNames, {
 	[192944] = "Goldener Kelch",
 	[192945] = "Jadestatue",
 	[193051] = "Ei der Geißelneruber",
+	[193059] = "Waffen der Vrykul",
 	[193195] = "Gefrorenes Herz",
 	[193196] = "Fordragons Schild",
 	[193197] = "Saurfangs Schlachtrüstung",
@@ -12818,8 +12837,12 @@ localize(L.HEADER_NAMES, {
 	[-648] = "Souvenir de Scholomance",
 	[-654] = "Récolte",
 	[-655] = "Donjons astraux",
+	[-659] = "Aide Crépusculaire",
+	[-660] = "Duo Crépusculaire",
+	[-661] = "Chroniques des Crépusculaires",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-29] = "Contient des objets de récompenses ou disponibles dans d’autres contenus de la section qui les contient.\nIls sont regroupés ici dans le but de réduire la duplication de nombreuses sources possibles.",
 	[-47] = "Contient des objets de récompenses ou disponibles dans d’autres contenus de la section qui les contient.\nIls sont regroupés ici dans le but de réduire la duplication de nombreuses sources possibles.",
 	[-49] = "Contient des objets de récompenses ou disponibles dans d’autres contenus de la section qui les contient.\nIls sont regroupés ici dans le but de réduire la duplication de nombreuses sources possibles.",
 	[-341] = "Les éléments de cette liste sont des apparences partagées pour l'élément ci-dessus. En mode Apparence unique, cette liste peut vous aider à comprendre pourquoi ou pourquoi un élément spécifique serait marqué Collecté.",
@@ -14154,6 +14177,7 @@ localize(ObjectNames, {
 	[192944] = "Coupe dorée",
 	[192945] = "Statue de jade",
 	[193051] = "Œuf de nérubien du Fléau",
+	[193059] = "Armes vrykules",
 	[193195] = "Cristal vibrant",
 	[193196] = "Bouclier de Fordragon",
 	[193197] = "Armure de bataille de Saurcroc",
@@ -15508,6 +15532,9 @@ localize(L.HEADER_NAMES, {
 	[-591] = "Festa del Nomade",
 	[-648] = "Ricordo di Scholomance",
 	[-654] = "Raccolta",
+	[-659] = "Assist Crepuscolare",
+	[-660] = "Doppietta Crepuscolare",
+	[-661] = "Zona del Crepuscolo",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-341] = "Gli elementi in questo elenco sono aspetti condivisi per l'elemento precedente. Nella modalità Aspetto unico, questo elenco può aiutarti a capire perché o perché un oggetto specifico verrebbe contrassegnato come Raccolto.",
@@ -16428,6 +16455,7 @@ localize(ObjectNames, {
 	[192944] = "Calice d'Oro",
 	[192945] = "Statua di Giada",
 	[193051] = "Uovo dei Nerubiani del Flagello",
+	[193059] = "Armi Vrykul",
 	[193195] = "Cristallo Pulsante",
 	[193196] = "Scudo di Domadraghi",
 	[193197] = "Armatura da Battaglia di Faucisaure",
@@ -17839,6 +17867,9 @@ localize(L.HEADER_NAMES, {
 	[-648] = "Lembrança de Scolomântia",
 	[-654] = "Colhendo",
 	[-655] = "Masmorras Celestiais",
+	[-659] = "Assistente do Crepúsculo",
+	[-660] = "Dupla do Crepúsculo",
+	[-661] = "Além da Imaginação",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-341] = "Os itens nesta lista são aparências compartilhadas do item acima. No Modo de Aparência Única, esta lista pode ajudá-lo a entender por que ou não um item específico seria marcado como Coletado.",
@@ -19069,6 +19100,7 @@ localize(ObjectNames, {
 	[192944] = "Cálice Dourado",
 	[192945] = "Estátua de Jade",
 	[193051] = "Ovo Nerubiano do Flagelo",
+	[193059] = "Armas Vraikalen",
 	[193195] = "Cristal Pulsante",
 	[193196] = "Escudo de Fordragon",
 	[193197] = "Armadura de Batalha de Saurfang",
@@ -21106,8 +21138,12 @@ localize(L.HEADER_NAMES, {
 	[-592] = "Годовщина WoW",
 	[-648] = "Воспоминание о Некроситете",
 	[-654] = "Сбор",
+	[-659] = "Сумеречные помощники",
+	[-660] = "Сумеречный дуэт",
+	[-661] = "Зона сумерек",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-29] = "Штучки, которые можно получить в награду с разного контента в родительской секции.\nОни собраны здесь, чтобы уменьшить количество источников, когда Штучка доступна из многих мест.",
 	[-36] = "Чтобы выполнить упомянутые в данной секции Штучки, может быть нужен какой-то праздник.",
 	[-44] = "Этот раздел будет отображать только профессии вашего текущего персонажа, если не включен Режим Аккаунта или Отладки.",
 	[-47] = "Штучки, которые можно получить в награду с разного контента в родительской секции.\nОни собраны здесь, чтобы уменьшить количество источников, когда Штучка доступна из многих мест.",
@@ -22449,6 +22485,7 @@ localize(ObjectNames, {
 	[192944] = "Золотой кубок",
 	[192945] = "Нефритовая статуя",
 	[193051] = "Нерубское яйцо Плети",
+	[193059] = "Оружие врайкулов",
 	[193195] = "Пульсирующий кристалл",
 	[193196] = "Щит Фордрагона",
 	[193197] = "Боевые доспехи Саурфанга",
@@ -23870,6 +23907,9 @@ localize(L.HEADER_NAMES, {
 	[-591] = "유랑객의 축제",
 	[-648] = "스칼로맨스의 기억",
 	[-654] = "채취",
+	[-659] = "황혼의 지원",
+	[-660] = "황혼의 2인조",
+	[-661] = "황혼 지대",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-341] = "이 목록의 항목은 위 항목의 공유 모양입니다. 고유 외형 모드에서 이 목록은 특정 항목이 수집됨으로 표시되는 이유와 이유를 이해하는 데 도움이 될 수 있습니다.",
@@ -25109,6 +25149,7 @@ localize(ObjectNames, {
 	[192944] = "황금 술잔",
 	[192945] = "비취 조각상",
 	[193051] = "네루비안 스컬지 알",
+	[193059] = "브리쿨 무기",
 	[193195] = "고동치는 수정",
 	[193196] = "폴드라곤의 방패",
 	[193197] = "사울팽의 전투 갑옷",
@@ -27333,8 +27374,12 @@ localize(L.HEADER_NAMES, {
 	[-652] = "Incursiones zandalari",
 	[-654] = "Cosecha",
 	[-655] = "Mazmorras celestiales",
+	[-659] = "Ayuda Crepuscular",
+	[-660] = "Dúo Crepuscular",
+	[-661] = "Dimensión Desconocida",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-29] = "Contiene cosas que se otorgan como recompensa al completar ese evento.",
 	[-36] = "Es posible que deba estar activo un día festivo específico para que pueda completar las cosas referenciadas en esta sección.",
 	[-44] = "Esta sección solo mostrará las profesiones de tu personaje actual fuera del modo Cuenta y Depuración.",
 	[-47] = "Contiene cosas que son recompensadas o están disponibles en otro contenido dentro de la sección contenedora.\nSe consolidan aquí en un esfuerzo por reducir la duplicación de muchas fuentes posibles.",
@@ -28667,6 +28712,7 @@ localize(ObjectNames, {
 	[192944] = "Cáliz dorado",
 	[192945] = "Estatua de jade",
 	[193051] = "Huevo de la Plaga nerubiano",
+	[193059] = "Armas vrykul",
 	[193195] = "Cristal pulsante",
 	[193196] = "Escudo de Fordragón",
 	[193197] = "Armadura de batalla de Colmillosauro",
@@ -30354,6 +30400,7 @@ localize(L.HEADER_NAMES, {
 	[-655] = "Calabozos celestiales",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-29] = "Contiene cosas que se otorgan como recompensa al completar este evento.",
 	[-44] = "Esta sección solo mostrará las profesiones de tu personaje actual fuera del modo Cuenta y Debug.",
 	[-49] = "Contiene cosas que se obtienen como recompensa al completar este escenario.",
 	[-592] = "¡Es el aniversario de World of Warcraft! Desde el equipo de desarrollo de WoW, te damos las gracias por disfrutar del mundo de Azeroth y más allá junto a nosotros.",
@@ -31161,6 +31208,7 @@ localize(L.HEADER_NAMES, {
 	[-19] = "首领共同掉落",
 	[-22] = "商人共同物品",
 	[-27] = "掉落",
+	[-29] = "事件完成",
 	[-30] = "探索",
 	[-32] = "飞行路线",
 	[-34] = "团队查找器",
@@ -31271,8 +31319,12 @@ localize(L.HEADER_NAMES, {
 	[-652] = "赞达拉入侵",
 	[-654] = "收获",
 	[-655] = "天神地下城",
+	[-659] = "暮光帮凶",
+	[-660] = "暮光二重奏",
+	[-661] = "暮光领域",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-29] = "包含有奖励或可从包含部分中的其他内容获得的事物。\n在此处合并以减少来自许多可能重复来源。",
 	[-36] = "你可能需要在特定的节日活动中才能完成本节中的事物。",
 	[-44] = "此部分只会显示你当前角色的专业技能，除非处于账号模式或调试模式。",
 	[-47] = "包含有奖励或可从包含部分中的其他内容获得的事物。\n在此处合并以减少来自许多可能重复来源。",
@@ -32416,6 +32468,7 @@ localize(ObjectNames, {
 	[192944] = "黄金酒杯",
 	[192945] = "碧玉雕像",
 	[193051] = "天灾蛛魔之卵",
+	[193059] = "维库人的武器",
 	[193195] = "脉动的水晶",
 	[193400] = "萨隆邪铁炸弹堆",
 	[193402] = "生锈的囚犯手提箱",
@@ -34261,6 +34314,9 @@ localize(L.HEADER_NAMES, {
 	[-592] = "《魔獸世界》週年紀念",
 	[-654] = "採集",
 	[-655] = "天尊地城",
+	[-659] = "暮光協助",
+	[-660] = "暮光雙人組",
+	[-661] = "暮光地帶",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-36] = "你可能需要在特定節日的活動中才能完成本節中的事物。",

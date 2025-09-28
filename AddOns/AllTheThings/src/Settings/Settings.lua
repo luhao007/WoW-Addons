@@ -169,7 +169,5 @@ else
 		or self:Get("Show:OnlyActiveEvents")
 		-- Hiding quest rewards that aren't available to your current character
 		or not self:Get("Show:UnavailablePersonalLoot")
-		-- Hiding Challenge Mode "Realm Best" achievements and titles
-		or self:Get("Hide:ChallengeMaster")
 	end
 end

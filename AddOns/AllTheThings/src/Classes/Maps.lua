@@ -361,7 +361,6 @@ local AreaIDNameMapper = setmetatable({}, {__index = function(t,key)
 		end
 		id = id + 1
 	end
-	app.PrintDebug("Ran out of AreaID and never found for",key)
 end})
 local ReportedAreas = {};
 app.AddEventHandler("OnReportReset", function() wipe(ReportedAreas) end)
@@ -440,7 +439,6 @@ local function PrintDiscordInformationForExploration(o, type)
 	app.print("Found Unmapped Area (" .. type .. "):", app:Linkify(text, app.Colors.ChatLinkError, "dialog:" .. popupID))
 	app.Audio:PlayReportSound();
 end
-
 -- Reporting (all areas remembered in a single report window)
 local ExplorationReportLines = {}
 local function PrintDiscordInformationForAllExplorations(o, type)
@@ -464,11 +462,12 @@ local function PrintDiscordInformationForAllExplorations(o, type)
         y = math_floor(y * 1000) / 10
         coord = x .. ", " .. y
     end
-    if not x or not y then
-        app.print("Area", areaID, "has no valid coords on mapID", mapID)
-    end
 
 	local inInstance = IsInInstance()
+	if not inInstance and (not x or not y) then
+		app.print("Area", areaID, "has no valid coords on mapID", mapID)
+	end
+
 	local luaFormat
 
 	if type == "subzone" then
@@ -507,67 +506,82 @@ local function CacheAndUpdateExploration(explorationIDTable)
 	end
 	RefreshExplorationData(rawAreaIDdata)
 end
+local function GetAreaIDForName(name, zonetype)
+    local id = AreaIDNameMapper[name]
+    if not id then
+        app.PrintDebug("No AreaID found for", zonetype, name)
+    end
+    return id
+end
 local function GetExplorationByZoneOrSubzone(mapID)
+	local results = {}
+	local zonesToCheck = {}
 	local subzone = GetSubZoneText()
-    local zone = GetRealZoneText()
-	local name, type
+	local zone = GetRealZoneText()
+
 	if subzone and subzone ~= "" then
-		name = subzone
-		type = "subzone"
-	elseif zone and zone ~= "" then
-		name = zone
-		type = "zone"
+		tinsert(zonesToCheck, { name = subzone, type = "subzone" })
 	end
-    if name then
-		local mapObject = app.SearchForObject("mapID",mapID,"key")
+	if zone and zone ~= "" then
+		tinsert(zonesToCheck, { name = zone, type = "zone" })
+	end
+
+	for _, entry in ipairs(zonesToCheck) do
+		local name, type = entry.name, entry.type
+		local foundExploration
+
+		-- Look in existing ATT data
+		local mapObject = app.SearchForObject("mapID", mapID, "key")
 		if mapObject and mapObject.g then
 			for _,o in ipairs(mapObject.g) do
 				if o.headerID == app.HeaderConstants.EXPLORATION and o.g then
 					for _,e in ipairs(o.g) do
 						if e.name == name and e.__type == "Exploration" and e.coords then
-							return e
+							foundExploration = e
+							break
 						end
 					end
-					break
+				end
+				if foundExploration then break end
+			end
+		end
+
+		-- If not found, try via AreaIDNameMapper
+		if not foundExploration and app.Contributor then
+			local expectedAreaID = GetAreaIDForName(name, type)
+			if expectedAreaID then
+				-- Don't report an area which is actually mapped in another zone already
+				local mappedExploration = app.SearchForObject("explorationID", expectedAreaID)
+				-- app.PrintDebug("mappedExploration",mappedExploration,mappedExploration and mappedExploration.__type)
+				-- Not in ATT at all
+				if not mappedExploration then
+					foundExploration = app.CreateExploration(expectedAreaID, { mapID = mapID, name = name })
+					PrintDiscordInformationForExploration(foundExploration, type)
+				-- In ATT as NYI or Unsorted
+				elseif mappedExploration._missing or app.GetRelativeValue(mappedExploration, "_nyi") then
+					-- Inject some data into the exploration object so we can report about it properly
+					mappedExploration.mapID = mapID
+					mappedExploration.name = name
+					PrintDiscordInformationForExploration(mappedExploration, type)
+					foundExploration = mappedExploration
+				else
+					-- in ATT without coords, likely means it can't be detected in API since it would be populated
+					if C_Map_GetPlayerMapPosition(mapID, "player") and not mappedExploration.coords then
+						PrintDiscordInformationForExploration(mappedExploration, type)
+					end
+					foundExploration = mappedExploration
 				end
 			end
 		end
-		if not app.Contributor then return end
-		local expectedAreaID = AreaIDNameMapper[name]
-		if not expectedAreaID then return end
-		-- don't report an area which is actually mapped in another zone already
-		local mappedExploration = app.SearchForObject("explorationID", expectedAreaID)
-		-- app.PrintDebug("mappedExploration",mappedExploration,mappedExploration and mappedExploration.__type)
-		-- not in ATT at all
-		if not mappedExploration then
-			local e = app.CreateExploration(expectedAreaID, { mapID = mapID, name = name})
-			PrintDiscordInformationForExploration(e, type);
-			return e
-		-- in ATT as NYI or Unsorted
-		elseif mappedExploration._missing or app.GetRelativeValue(mappedExploration, "_nyi") then
-			-- inject some data into the exploration object so we can report about it properly
-			mappedExploration.mapID = mapID
-			mappedExploration.name = name
-			PrintDiscordInformationForExploration(mappedExploration, type);
-		else
-			-- local explorationMapID = app.GetRelativeValue(mappedExploration, "mapID")
-			-- in ATT under a different map
-			-- dont want this... areas don't match maps in all cases
-			-- if explorationMapID and explorationMapID ~= mapID then
-			-- 	app.print("Found exploration area",
-			-- 		expectedAreaID,
-			-- 		app:SearchLink(mappedExploration),
-			-- 		"but it's linked to a different map!",
-			-- 		explorationMapID,
-			-- 		app:RawSearchLink("mapID",explorationMapID))
-			-- end
-			-- in ATT without coords, likely means it can't be detected in API since it would be populated
-			if C_Map_GetPlayerMapPosition(mapID, "player") and not mappedExploration.coords then
-				PrintDiscordInformationForExploration(mappedExploration, type);
-			end
+
+		-- Save if we found something
+		if foundExploration then
+			tinsert(results, foundExploration)
 		end
-		return mappedExploration
 	end
+
+	-- Return all explorations (could be 0, 1, or 2)
+	return results
 end
 local function CheckIfExplorationIsMissing(mapID)
 	-- do a manual check by way of the zone or sub-zone name (since this is what correlates to the exploration name players see in ATT)

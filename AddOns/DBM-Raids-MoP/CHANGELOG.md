@@ -1,12 +1,16 @@
 # <DBM Mod> Raids (MoP)
 
-## [r181](https://github.com/DeadlyBossMods/DBM-MoP/tree/r181) (2025-07-27)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-MoP/compare/r180...r181) [Previous Releases](https://github.com/DeadlyBossMods/DBM-MoP/releases)
+## [r182](https://github.com/DeadlyBossMods/DBM-MoP/tree/r182) (2025-09-23)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-MoP/compare/r181...r182) [Previous Releases](https://github.com/DeadlyBossMods/DBM-MoP/releases)
 
-- Update localization.ru.lua (#64)  
-- Cull unnessesary use of SendChatMessage and update others for future compat  
-- Add 11.2 TOC  
-- this timer too  
-- define weak aura/api spell key for legacy timer  
-- toc bumps for ptr  
-- Initial MoP TOC support  
+- fix lua error on sha of fear  
+- remove 5.5.0 toc  
+- toc bumps for current PTRs  
+- Upd RU locales (#67)  
+    * Update localization.ru.lua  
+    * Update localization.ru.lua  
+- remove useles range finder  
+- attempt to fix auto marking on lei shi when elected marker is out of range of mobs during protect cast, this will now have ALL assists attempt to mark.  
+- Update localization.ru.lua (#65)  
+- Remove 11.1.7 toc  
+- note  

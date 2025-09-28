@@ -1,5 +1,19 @@
 # Changelog
 
+## 3.12.0 - September 21, 2025
+### Added
+- MoP: Added loot browser that's slightly better than the Dungeon Journal by allowing you to filter by spec in addition to class (accessible by right clicking on a boss portrait)
+- Search works as you type
+- Retail/MoP: Search returns clickable items instead of just text
+### Changed
+- UI updates to the bottom bar
+- Retail: UI updates to the loot browser (accessible by right clicking on a boss portrait)
+### Fixed
+- MoP: Removed Gate of the Setting Sun, Siege of Niuzao Temple and Ulduar achievements that didn't get added until later
+- MoP: Fixed error when opening UBRS map
+- MoP: Fixed RFD, RFK and BFD using their Retail maps when they should be using Classic maps
+- MoP: Fixed Vanilla and WOTLK raids having dungeon journal buttons when those raids aren't yet in the dungeon journal
+
 ## 3.11.0 - September 13, 2025
 ### Changed
 - UI updates to the boss list, including a new scrollbar and only clickable entries will highlight when moused over
@@ -637,7 +651,7 @@ v1.41.00 (Apr. 14, 2017)
 v1.40.06 (Apr. 13, 2017)
 ------------------------
 - Checking deprecated plugins now will recognize the alpha build's version
-  if specifed; or will ignore those set "v3.11.0" as the version
+  if specifed; or will ignore those set "v3.12.0" as the version
   number to be changed by CurseForge's auto-packaging.
 
 v1.40.05 (Apr. 13, 2017)

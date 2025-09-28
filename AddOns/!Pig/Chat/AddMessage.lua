@@ -118,7 +118,6 @@ local function ShowZb_Link_Icon(newText)
 					if PIGA["Chat"]["ShowLinkGem"] and #v.Gem>0 then
 						local GemTxt = ""
 						for ixx=1,#v.Gem do
-							print(v.Gem[ixx])
 							GemTxt=GemTxt.."|T"..gemList[v.Gem[ixx]]..":0|t"
 						end
 						newText=newText:gsub("(|cff%w%w%w%w%w%w|"..k.."|h%[.-%]|h|r)","%1"..GemTxt);

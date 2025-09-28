@@ -2,6 +2,16 @@ local ADDON_NAME = ...
 local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "ruRU")
 if not L then return end
 
+-- toggle maps
+L["Blocked in combat"] = "Заблокировано в бою"
+L["Required for"] = "Требуется для"
+L["Toggle Maps"] = "Переключить карты"
+L["Toggle Maps function is disabled"] = "Функция «Переключение карт» отключена"
+L["Switch after battle"] = "Переключить после боя"
+L["Changing the world map via a MapNotes icon will be done after the battle, as this is no longer possible during the battle without causing an error"] = "Смена карты мира через значок MapNotes будет выполнена после боя, так как во время боя это больше невозможно без возникновения ошибки"
+L["Shows an information on the screen when a map change has been attempted in battle"] = "Показывает сообщение на экране, если во время боя была предпринята попытка сменить карту"
+L["Enables the ability to toggle the displayed world map by clicking on certain MapNotes icons"] = "Позволяет переключать отображаемую карту мира, щёлкая по определённым значкам MapNotes"
+L["This was previously enabled automatically and is now an option to enable or disable"] = "Ранее это было включено автоматически, теперь доступно как настраиваемая опция"
 -- Flightmaster maps
 L["Button"] = "Кнопка"
 L["Show the MapNotes button on the Flightmap"] = "Отображать кнопку MapNotes на карте полётов"
@@ -236,6 +246,7 @@ L["Reveals unexplored areas and shows the individual areas of each zone that are
 L["Description"] = "Описание"
 L["Position of the real Instance Entrance"] = "Положение ввода реального экземпляра"
 L["Way to the Instance Entrance"] = "Путь к вводу экземпляра"
+L["Way to the Delve Entrance"] = "Путь ко входу во Вылазки"
 L["Also disables all Blizzard Instance icons on the zone map. However, these can be reactivated on the map at the top right under the 'Map filter' dungeon entrance magnifying glass. Disable and enable MapNotes VS again. blizzard, deactivates the instance icons on the zone map again"] = "Также деактивирует все символы экземпляра Blizzard на карте зоны. Тем не менее, они могут быть реактивированы на карте в верхней части входов подземелий Lupe 'Карточный фильтр'. Реактививация и активация MapNotes Vs. Blizzard, снова деактивирует символы экземпляра на карте зоны"
 L["Hides certain Blizzard icons (e.g. Horde/Alliance/Neutral capitals icon or general travel icons on the map) and replaces them with almost identical MapNotes icons, providing additional information and functionality"] = "Скрытые определенные символы метели (например, символы столиц Орды / Альянс / Нейтральные или общие перемещения на карте) и заменяют их почти идентичными символами MapNotes, которые предлагают дополнительную информацию и функции"
 L["Removes the Blizzard symbols only where MapNotes symbols and Blizzard symbols overlap, thereby making the tooltip and the function of the MapNote symbols usable again on the overlapping points"] = "Удаляет символы Blizzard только там, где символы MapNotes и символы перекрытия Blizzard, что означает, что подсказка и функция символов MapNote можно использовать снова в перекрывающихся точках"
@@ -258,6 +269,9 @@ L["Hide the MapNotes button on the worldmap"] = "Скрыть кнопку MapNo
 L["hide MapNotes!"] = "скрыть заметки MapNotes!"
 L["Disable MapNotes, all icons will be hidden on each map and all categories will be disabled"] = "Отключите MapNotes, все значки будут скрыты на каждой карте и все категории будут отключены"
 L["Adventure guide"] = "Путеводитель по приключениям"
+L["Adventure guide function is disabled"] = "Функция «Путеводитель по приключениям» отключена"
+L["Clicking on an instance icon outside of a zone map does not open the adventure guide, but rather the world map where the instance is located"] = "Щелчок по значку подземелья вне карты зоны не открывает «Путеводитель по приключениям», а вместо этого открывает карту мира области, где находится подземелье"
+L["The „Toggle Maps“ function is responsible for this"] = "За это отвечает функция «Переключение карт»"
 L["Left-clicking on a MapNotes raid (green), dungeon (blue) or multiple icon (green&blue) on the map opens the corresponding dungeon or raid map in the Adventure Guide"] = "Нажатие левой кнопкой мыши на рейд MapNotes (зеленый), подземелье (синий) или несколько значков (зеленый и синий) на карте открывает соответствующую карту подземелья или рейда в Путеводителе приключений"
 L["TomTom waypoints"] = "Путевые точки TomTom"
 L["extra information"] = "Дополнительная информация"

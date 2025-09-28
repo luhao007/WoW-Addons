@@ -57,14 +57,29 @@ local function DoReport(reporttype, id)
 	reportData.CHATLINK = nil
 	-- ordered report data
 	local orderedReportData = {}
+	-- id/type are ordered first always if existing
+	if reportData.id then
+		orderedReportData[#orderedReportData + 1] = "id: "..reportData.id
+		reportData.id = nil
+	end
+	if reportData.type then
+		orderedReportData[#orderedReportData + 1] = "type: "..reportData.type
+		reportData.type = nil
+	end
 	for i=1,#reportData do
 		orderedReportData[#orderedReportData + 1] = reportData[i]
 	end
 	app.wipearray(reportData)
 	-- keyed report data
 	local keyedData = {}
+	local vtype
 	for k,v in pairs(reportData) do
-		keyedData[#keyedData + 1] = tostring(k)..": \""..tostring(v).."\""
+		vtype = type(v)
+		if vtype == "number" then
+			keyedData[#keyedData + 1] = tostring(k)..": "..tostring(v)
+		else
+			keyedData[#keyedData + 1] = tostring(k)..": \""..tostring(v).."\""
+		end
 	end
 	-- common report data
 	reportData[#reportData + 1] = "### "..reporttype..":"..id
@@ -145,6 +160,7 @@ end
 -- 5) That number goes into this table for the mapID
 local MapPrecisionOverrides = {
 	 [629] = 3,	-- Aegwynn's Gallery
+	 [643] = 2,	-- Sleeper's Barrow, Val'sharah
 	 [647] = 3,	-- Acherus The Ebon Hold, The Heart of Acherus
 	 [648] = 3,	-- Acherus The Ebon Hold, Hall of Command
 	 [695] = 3,	-- Skyhold
@@ -419,6 +435,7 @@ MobileDB.Creature = {
 	[168432] = true,	-- Ve'rayn <Assets and Liabilities>
 	[172854] = true,	-- Dredger Butler
 	[181085] = true,	-- Stratholme Supply Crate
+	[185549] = true,	-- Agrikus <Herbalism Trainer>
 	[185749] = true,	-- Gnoll Mon-Ark
 	[191494] = true,	-- Khanam Matra Sarest
 	[193985] = true,	-- Initiate Zorig
@@ -806,7 +823,10 @@ MobileDB.GameObject = {
 	[211399] = true,	-- Broken Bamboo Stalk (q:29795)
 	[211400] = true,	-- Broken Bamboo Stalk (q:29795)
 	[211401] = true,	-- Broken Bamboo Stalk (q:29795)
-	[214385] = true,	-- Cache of Pure Energy
+	[211627] = true,	-- Broken Control Console
+	[213076] = true,	-- Box of Fancy Stuff [] 25N
+	[214385] = true,	-- Cache of Pure Energy [Elegon] ?
+	[214386] = true,	-- Cache of Pure Energy [Elegon] 25H
 	[215135] = true,	-- Sprinkler
 	[215137] = true,	-- Sprinkler
 	[216150] = true,	-- Horde Supply Crate (q:32144)
@@ -828,9 +848,13 @@ MobileDB.GameObject = {
 	[230527] = true,	-- Tree Marking (q:34375)
 	[230544] = true,	-- Frostwolf Shamanstone
 	[231012] = true,	-- Garrison Blueprint: Barracks
+	[232093] = true,	-- Tears of the Vale [Immerseus] Normal
+	[232163] = true,	-- Vault of Forbidden Treasures [] Normal
+	[232165] = true,	-- Unlocked Stockpile of Pandaren Spoils [Spoils of Pandaria] Heroic
+	[232166] = true,	-- Unlocked Stockpile of Pandaren Spoils [Spoils of Pandaria] LFR
 	[233028] = true,	-- Tears of the Vale
-	[233029] = true,	-- Vault of Forbidden Treasures
-	[233030] = true,	-- Unlocked Stockpile of Pandaren Spoils
+	[233029] = true,	-- Vault of Forbidden Treasures [] ?
+	[233030] = true,	-- Unlocked Stockpile of Pandaren Spoils [Spoils of Pandaria] ?
 	[234105] = true,	-- Arakkoa Archaeology Find
 	[234106] = true,	-- Ogre Archaeology Find
 	[236262] = true,	-- Finalize Garrison Plot
@@ -933,10 +957,6 @@ MobileDB.GameObject = {
 	[273679] = true,	-- Sethrak Cage
 	[273836] = true,	-- Backpack (q:48585)
 	[273837] = true,	-- Supply Pouch (q:48585)
-	[273910] = true,	-- Small Treasure Chest (Tiragarde Sound)
-	[275071] = true,	-- Small Treasure Chest (Tiragarde Sound)
-	[275074] = true,	-- Small Treasure Chest (Tiragarde Sound)
-	[275076] = true,	-- Small Treasure Chest (Tiragarde Sound)
 	[275099] = true,	-- Saurolisk Egg
 	[276234] = true,	-- Riverbud
 	[276236] = true,	-- Star Moss
@@ -1045,15 +1065,9 @@ MobileDB.GameObject = {
 	[290903] = true,	-- Horde Banner (q:51438)
 	[290975] = true,	-- Silver Nugget (q:51707 & q:51743)
 	[290996] = true,	-- Temple of Rezan Map (q:51679)
-	[291213] = true,	-- Small Treasure Chest (Drustvar)
-	[291217] = true,	-- Small Treasure Chest (Drustvar)
-	[291222] = true,	-- Small Treasure Chest (Drustvar)
 	[291234] = true,	-- Steaming Fresh Carrion (q:47272)
 	[291235] = true,	-- Steaming Fresh Carrion (q:47272)
 	[291236] = true,	-- Steaming Fresh Carrion (q:47272)
-	[291246] = true,	-- Small Treasure Chest (Stormsong Valley)
-	[291254] = true,	-- Small Treasure Chest (Stormsong Valley)
-	[291258] = true,	-- Small Treasure Chest (Stormsong Valley)
 	[291261] = true,	-- Woven Idol
 	[292390] = true,	-- Horde Banner (q:52127)
 	[292535] = true,	-- Altar of Kimbul (q:47578)
@@ -1160,6 +1174,7 @@ MobileDB.GameObject = {
 	[349136] = true,	-- Forgotten Memorandum (q:59717)
 	[349274] = true,	-- Forgotten Memorandum (q:59717)
 	[349393] = true,	-- Battered Chest (q:59740)
+	[349543] = true,	-- Animacone
 	[349885] = true,	-- Guide To Marching (q:58622)
 	[350978] = true,	-- Queen's Conservatory Cache
 	[351473] = true,	-- Droplets of Anima (q:60176)
@@ -1230,8 +1245,14 @@ MobileDB.GameObject = {
 	[376519] = true,	-- Vine Wrapped Chest
 	[376583] = true,	-- Decay Covered Chest
 	[376584] = true,	-- Dracthyr Supply Chest
+	[376585] = true,	-- Icemaw Storage Cache
 	[376587] = true,	-- Expedition Scout's Pack
+	[376817] = true,	-- Storm Shorn Stump
+	[376818] = true,	-- Lightning Blasted Pine
+	[376827] = true,	-- Storm Totem
+	[376828] = true,	-- Wind Felled Tree
 	[378802] = true,	-- Corrupted Dragon Egg
+	[378819] = true,	-- Rock Wall
 	[379159] = true,	-- Shovel
 	[379248] = true,	-- Draconium Deposit
 	[379252] = true,	-- Draconium Deposit
@@ -1239,6 +1260,7 @@ MobileDB.GameObject = {
 	[379267] = true,	-- Rich Draconium Deposit
 	[380834] = true,	-- Decay Tainted Chest
 	[381042] = true,	-- Shimmering Chest
+	[381102] = true,	-- Serevite Deposit
 	[381104] = true,	-- Rich Serevite Deposit
 	[381105] = true,	-- Rich Serevite Deposit
 	[381106] = true,	-- Serevite Seam
@@ -1283,9 +1305,11 @@ MobileDB.GameObject = {
 	[382283] = true,	-- Oozing Claw Thistle [Dragon Isle Resources]
 	[382284] = true,	-- Mature Gift of the Grove [Dragon Isle Resources]
 	[382286] = true,	-- Singing River Bell [Dragon Isle Resources]
+	[382287] = true,	-- Blooming Fangtooth [Dragon Isle Resources]
 	[382291] = true,	-- Mature Highland Milkweed [Dragon Isle Resources]
 	[382292] = true,	-- Ripe Cuppressa [Dragon Isle Resources]
 	[382294] = true,	-- Blooming Titian Orchid [Dragon Isle Resources]
+	[382295] = true,	-- Blooming Magenta Titian Orchid [Dragon Isle Resources]
 	[382299] = true,	-- Sundered Flame Supply Crate [Dragon Isle Resources]
 	[382300] = true,	-- Maruukai Supplies
 	[383732] = true,	-- Tuskarr Tacklebox
@@ -1316,6 +1340,7 @@ MobileDB.GameObject = {
 	[390142] = true,	-- Lambent Bubble Poppy
 	[396020] = true,	-- Stolen Stash
 	[398751] = true,	-- Lush Bubble Poppy
+	[398753] = true,	-- Lush Hochenblume
 	[398754] = true,	-- Lush Saxifrage
 	[398755] = true,	-- Bubble Poppy
 	[398756] = true,	-- Writhebark
@@ -1404,6 +1429,7 @@ MobileDB.GameObject = {
 	[413046] = true,	-- Bismuth
 	[413126] = true,	-- Box of Artisanal Goods (q:78369 [A], q:78984 [H])
 	[413246] = true,	-- Elemental Silt Mound
+	[413563] = true,	-- Heavy Trunk (archival assault)
 	[413590] = true,	-- Bountiful Coffer
 	[414080] = true,	-- Molten Treatise Vol. 2
 	[414315] = true,	-- Mycobloom
@@ -1455,6 +1481,7 @@ MobileDB.GameObject = {
 	[444802] = true,	-- Kobyss Ritual Cache
 	[444804] = true,	-- Concentrated Shadow
 	[444866] = true,	-- Overflowing Kobyss Ritual Cache
+	[445609] = true,	-- Portal to the Surface
 	[446146] = true,	-- Recovered Nightfall Relics [Rasha'nan]
 	[446357] = true,	-- Chest of Dynamite (q:82615)
 	[446495] = true,	-- Pile of Refuse
@@ -1465,6 +1492,7 @@ MobileDB.GameObject = {
 	[452696] = true,	-- Machine Speaker's Reliquary
 	[452697] = true,	-- Etched Machine Speaker's Reliquary
 	[452706] = true,	-- Deep-Lost Satchel
+	[452710] = true,	-- Brimming Deep-Lost Satchel
 	[452893] = true,	-- Kaja'mite Stockpile
 	[452923] = true,	-- Chillburst Canister (q:83148)
 	[452972] = true,	-- Fallow Corn
@@ -1549,7 +1577,9 @@ MobileDB.GameObject = {
 	[500684] = true,	-- Seafarer's Cache
 	[500685] = true,	-- Seafarer's Cache
 	[500686] = true,	-- Seafarer's Cache
+	[500705] = true,	-- Portal to Mmarl (q:86186)
 	[500744] = true,	-- Rak-ush Mushroom (q:86188)
+	[500844] = true,	-- Portal to K'aresh (q:86191)
 	[502532] = true,	-- Charged Battery
 	[503044] = true,	-- Ultra-Pasteurized Flesh Substitute
 	[503050] = true,	-- Complainer Container 9000
@@ -1566,12 +1596,15 @@ MobileDB.GameObject = {
 	[504093] = true,	-- Web Bomb
 	[504181] = true,	-- Fallen Log (q:86356)
 	[504195] = true,	-- Web Bomb
+	[504225] = true,	-- Portal to K'aresh (q:86359)
 	[505258] = true,	-- Pestilential Necroray (q:86589)
 	[504311] = true,	-- Lifeblood Crystal
+	[505191] = true,	-- Portal to Maldraxxus (q:86587)
 	[506498] = true,	-- Gilded Stash
 	[506525] = true,	-- Plundered Artifacts
 	[506640] = true,	-- Faded Journal Page @ 39.3, 54.2, 2369 (q:85571)
 	[506696] = true,	-- Buried Treasure
+	[507026] = true,	-- Portal to K'aresh (q:86593)
 	[507470] = true,	-- Tool Rack (wq:86800)
 	[507768] = true,	-- Jettisoned Pile of Goblin-Bucks
 	[507867] = true,	-- Soggy Journal Page @ 51.4, 75.8, 2369 (q:85571)
@@ -1612,9 +1645,11 @@ MobileDB.GameObject = {
 	[523494] = true,	-- Marsh Moss (q:88657)
 	[523499] = true,	-- Marsh Moss (q:88657)
 	[523512] = true,	-- Rich Desolate Deposit
+	[523516] = true,	-- Portal to the Atrium
 	[523535] = true,	-- Torch (Nightfall)
 	[523615] = true,	-- Fragrant Dreaming Glory (q:88658)
 	[523689] = true,	-- Mossy Snake Bed (q:88666)
+	[523828] = true,	-- Extra Cushiony Moss (q:88669, 88981)
 	[524223] = true,	-- K'arroc Egg (q:88671)
 	[524348] = true,	-- Snake Egg (q:88672)
 	[525189] = true,	-- Portal to the Oasis
@@ -1628,9 +1663,11 @@ MobileDB.GameObject = {
 	[526980] = true,	-- Challenger's Cache (Eco-Dome Al'dani)
 	[527488] = true,	-- Phantom Bloom
 	[527489] = true,	-- Lush Phantom Bloom
+	[528074] = true,	-- Missing Voidband (q:89505)
 	[528080] = true,	-- Missing Token Box (q:89505)
 	[528082] = true,	-- Missing Luggage (q:89505)
 	[528283] = true,	-- Vesto's Stolen Goods (q:89505)
+	[528084] = true,	-- Missing Scrolls (q:89505)
 	[528358] = true,	-- Uncharged Crystal
 	[529289] = true,	-- Spore Sample (q: 88711)
 	[531961] = true,	-- Untethered Xy'bucha
@@ -1868,7 +1905,10 @@ local function OnPLAYER_SOFT_INTERACT_CHANGED(previousGuid, newGuid)
 		local objID = objRef.keyval
 		local checkCoords = Check_coords(objRef, objID, 2)
 		if not checkCoords then
-			local reportData = BuildGenericReportData(objRef, id)
+			local reportData = {
+				id = id,
+				type = "Object",
+			}
 			reportData.MissingCoords = ("No Coordinates for this %s!"):format(objRef.__type)
 			AddReportData(objRef.__type,objID,reportData)
 		elseif checkCoords == 1 then

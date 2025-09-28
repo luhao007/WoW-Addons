@@ -2,6 +2,16 @@
 local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "zhCN")
 if not L then return end
 
+-- toggle maps
+L["Blocked in combat"] = "战斗中被阻止"
+L["Required for"] = "需要于"
+L["Toggle Maps"] = "切換地圖"
+L["Toggle Maps function is disabled"] = "“切换地图”功能已禁用"
+L["Switch after battle"] = "战斗后切换"
+L["Changing the world map via a MapNotes icon will be done after the battle, as this is no longer possible during the battle without causing an error"] = "通过 MapNotes 图标更改世界地图将在战斗结束后进行，因为在战斗中这样做已无法避免错误"
+L["Shows an information on the screen when a map change has been attempted in battle"] = "当在战斗中尝试切换地图时，会在屏幕上显示提示"
+L["Enables the ability to toggle the displayed world map by clicking on certain MapNotes icons"] = "允许通过点击某些 MapNotes 图标来切换显示的世界地图"
+L["This was previously enabled automatically and is now an option to enable or disable"] = "此功能以前是自动启用的，现在可以选择启用或禁用"
 -- Flightmaster maps
 L["Button"] = "按鈕"
 L["Show the MapNotes button on the Flightmap"] = "在飛行地圖上顯示 MapNotes 按鈕"
@@ -236,6 +246,7 @@ L["Reveals unexplored areas and shows the individual areas of each zone that are
 L["Description"] = "描述"
 L["Position of the real Instance Entrance"] = "实际团队副本入口的位置"
 L["Way to the Instance Entrance"] = "前往团队副本入口的路径"
+L["Way to the Delve Entrance"] = "前往地下堡入口的道路"
 L["Also disables all Blizzard Instance icons on the zone map. However, these can be reactivated on the map at the top right under the 'Map filter' dungeon entrance magnifying glass. Disable and enable MapNotes VS again. blizzard, deactivates the instance icons on the zone map again"] = "同时禁用区域地图上的所有暴雪团队副本图标。不过，可以在地图右上方“地图过滤器”地下城入口放大镜内重新激活这些图标。暴雪，再次停用区域地图上的团队副本图标"
 L["Hides certain Blizzard icons (e.g. Horde/Alliance/Neutral capitals icon or general travel icons on the map) and replaces them with almost identical MapNotes icons, providing additional information and functionality"] = "隐藏某些暴雪图标（例如部落/联盟/中立主城图标或地图上的一般旅行图标），代之以几乎相同的 MapNotes 图标，提供更多信息和功能"
 L["Removes the Blizzard symbols only where MapNotes symbols and Blizzard symbols overlap, thereby making the tooltip and the function of the MapNote symbols usable again on the overlapping points"] = "仅在地图注释标记和暴雪图标重叠的地方移除暴雪图标，从而使鼠标提示和地图注释标记的功能在重叠点上再次可用"
@@ -258,6 +269,9 @@ L["Hide the MapNotes button on the worldmap"] = "隐藏世界地图上的mapnote
 L["hide MapNotes!"] = "隐藏地图注释！"
 L["Disable MapNotes, all icons will be hidden on each map and all categories will be disabled"] = "禁用MapNotes，每张地图上的所有图标将被隐藏，所有类别将被禁用"
 L["Adventure guide"] = "冒险指南"
+L["Adventure guide function is disabled"] = "“冒险指南”功能已禁用"
+L["Clicking on an instance icon outside of a zone map does not open the adventure guide, but rather the world map where the instance is located"] = "在区域地图之外点击副本图标不会打开“冒险指南”，而是会打开该副本所在区域的世界地图"
+L["The „Toggle Maps“ function is responsible for this"] = "这是由“切换地图”功能导致的"
 L["Left-clicking on a MapNotes raid (green), dungeon (blue) or multiple icon (green&blue) on the map opens the corresponding dungeon or raid map in the Adventure Guide"] = "左键单击地图上的 MapNotes 团队副本（绿色）、地下城（蓝色）或多个图标（绿色和蓝色）可在冒险指南中打开相应的地下城或团队地图"
 L["TomTom waypoints"] = "TomTom 航点"
 L["extra information"] = "更多信息"

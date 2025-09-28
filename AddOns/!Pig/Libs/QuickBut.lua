@@ -75,6 +75,11 @@ function Create.PIGQuickBut(QkButUI,Tooltip,Icon,ShowGnUI,FrameLevel,Template)
 	end
 	if PIG_OptionsUI.IsOpen_ElvUI() or PIG_OptionsUI.IsOpen_NDui() then
 		But:GetNormalTexture():SetTexCoord(0.1,0.9,0.1,0.9)
+	else
+		But._BACKGROUND = But:CreateTexture(nil, "BACKGROUND");
+		But._BACKGROUND:SetAtlas("search-iconframe-large");
+		But._BACKGROUND:SetPoint("TOPLEFT", But, "TOPLEFT", -0.8, 0.8);
+		But._BACKGROUND:SetPoint("BOTTOMRIGHT", But, "BOTTOMRIGHT", 0.8, -0.8);
 	end
 	But:SetHighlightTexture(130718);
 	But:SetSize(butW-2,butW-2);
