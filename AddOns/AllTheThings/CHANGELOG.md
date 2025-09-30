@@ -1,27 +1,16 @@
 # AllTheThings
 
-## [4.6.11](https://github.com/ATTWoWAddon/AllTheThings/tree/4.6.11) (2025-09-23)
-[Full Changelog](https://github.com/ATTWoWAddon/AllTheThings/compare/4.6.10...4.6.11) [Previous Releases](https://github.com/ATTWoWAddon/AllTheThings/releases)
+## [4.6.13](https://github.com/ATTWoWAddon/AllTheThings/tree/4.6.13) (2025-09-29)
+[Full Changelog](https://github.com/ATTWoWAddon/AllTheThings/compare/4.6.12...4.6.13) [Previous Releases](https://github.com/ATTWoWAddon/AllTheThings/releases)
 
-- added the new brewfest event  
-- Brewfest! ...hic!: Added new quests and items  
-    - Move 'Bar Tab' Quests to respective headers  
-    - Refactor code to decrease the number of duplicate keys  
-- [DB] Mists: another Celestial item  
-- Legion: Rework and add missing 'Champion Equipment'  
-- [DB] Mists: add a few ToES Celestial dungeon drops  
-- [DB] Vanilla world drop: Gouging Pick + Dark Rune  
-- [DB] Mists: fixed a description  
-- Change 'Ecological Stability' HQTs names.  
-- [DB] Mists: add Kilrak to Scarlet Halls  
-- Format.  
-- Retail & PTR backlog  
-    - Retail: Omega Oyster Outbreak wasn't NYI, it was curio r4 buff for main stat  
-    - Retail: Arcana-Monger So'zer rep weekly questID  
-    - PTR: added Ethereal Equipment Chest  
-    - PTR: added pvp upgrade things  
-    - PTR: moved remix ptr only stuff into NYI right away  
-- [DB] Improving 'Memory of Scholomance'  
-- [DB] Mists: apparently Moonfang IS available  
-- Quest adjustments for Ecological Stability and Ecological Variety  
-- Fix some reported quest and object errors  
+- [DB] Clean up the Brewfest file a bit so it doesn't have Lua syntax errors  
+- [DB] Filter some pvp relics Post-MoP  
+- [DB] Bubble down self on anniversary headers  
+- [DB] Retail: Switched `maps` use on many Items under Crafted Items to be `maps_disp` (map information will retain in their tooltips, but no longer force those Items to show up by default in those maps. Using the Object Filler will be the desired way to keep the context of what Location-based Thing provides those Items within the respective maps)  
+- [Logic] Retail: Added a quick command (/att reset-window <Suffix>) to allow resetting the Profile settings for an ATT Window (e.g. some users report windows have disappeared in some unknown way; this command should allow a user to reset that specific Window manually)  
+- [DB] Fixed Firefin Snapper School objectID  
+    [DB] Removed some use of `nomerge` which isn't necessary or expected  
+- [Logic] Retail: Fix an issue where forcibly-non-merged objects were able to infinitely-nest inside themselves when filling certain Location Minilists  
+- Fix some reported errors, add October 2025 Trading Post  
+- Brewfest: Add post-Cata coordinate for Barleybrew Festive Keg  
+- Simplify Brewfest HQT by trusting timelines  

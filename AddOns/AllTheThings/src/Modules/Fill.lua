@@ -35,8 +35,8 @@ local pairs,rawget,math_floor,unpack
 	= pairs,rawget,math.floor,unpack
 
 -- App locals
-local SearchForObject, SearchForField, GetRelativeValue, ArrayAppend, AssignChildren
-	= app.SearchForObject, app.SearchForField, app.GetRelativeValue, app.ArrayAppend, app.AssignChildren
+local SearchForObject, GetRelativeValue, ArrayAppend, AssignChildren
+	= app.SearchForObject, app.GetRelativeValue, app.ArrayAppend, app.AssignChildren
 local wipearray = app.wipearray
 
 -- Fill API Implementation
@@ -45,12 +45,10 @@ local api = {}
 app.Modules.Fill = api
 
 -- OnLoad locals
-local CreateObject, ResolveSymbolicLink, PriorityNestObjects, NPCExpandHeaders, ForceFillDB, IsQuestAvailable, DirectGroupUpdate
+local CreateObject, PriorityNestObjects, ForceFillDB, IsQuestAvailable, DirectGroupUpdate
 app.AddEventHandler("OnLoad", function()
 	CreateObject = app.__CreateObject
-	ResolveSymbolicLink = app.ResolveSymbolicLink
 	PriorityNestObjects = app.PriorityNestObjects
-	NPCExpandHeaders = app.HeaderData.FILLNPCS or app.EmptyTable
 	ForceFillDB = app.ForceFillDB
 	IsQuestAvailable = app.IsQuestAvailable
 	if not IsQuestAvailable then
@@ -94,30 +92,6 @@ local function DetermineRecipeOutputGroups(group, FillData)
 		search = (search and CreateObject(search)) or app.CreateItem(craftedItemID)
 		-- app.PrintDebug("DetermineRecipeOutput",search.hash,app:SearchLink(group),"=>",app:SearchLink(search))
 		return {search}
-	end
-end
-local function GetAllNestedGroupsByFunc(results, groups, func)
-	local g,o
-	for i=1,#groups do
-		o = groups[i]
-		if func(o) then results[#results + 1] = o end
-		g = o.g
-		if g then
-			for i=1,#g do
-				GetAllNestedGroupsByFunc(results, g[i], func)
-			end
-		end
-	end
-end
-local function GetNpcIDForDrops(group)
-	-- assuming for any 'crs' references on an encounter/header group that all crs are linked to the same resulting content
-	-- Fyrakk Assaults uses two headers with 'crs' test that when changing this check
-	return group.npcID or ((group.encounterID or group.isWorldQuest) and group.crs and group.crs[1])
-end
-local function GetRelativeFieldInSet(group, field, set)
-	if group then
-		local val = group[field]
-		return set[val] and val or GetRelativeFieldInSet(group.sourceParent or group.parent, field, set);
 	end
 end
 
@@ -220,90 +194,6 @@ local FillFunctions = {
 		end
 		return groups;
 	end,
-	-- TODO: Move to symlink module once added
-	SYMLINK = function(group, FillData)
-		if group.sym then
-			-- app.PrintDebug("DSG-Now",app:SearchLink(group));
-			local groups = ResolveSymbolicLink(group);
-			-- make sure this group doesn't waste time getting resolved again somehow
-			group.sym = nil;
-			if groups and #groups > 0 then
-				-- flag all nested symlinked content so that any NPC groups do not nest NPC data
-				local results = {}
-				GetAllNestedGroupsByFunc(results, groups, GetNpcIDForDrops)
-				for i=1,#results do
-					results[i].NestNPCDataSkip = true
-				end
-			end
-			-- app.PrintDebug("DSG",groups and #groups);
-			return groups;
-		end
-	end,
-	-- Pulls in Common drop content for specific NPCs if any exists
-	-- (so we don't need to always symlink every NPC which is included in common boss drops somewhere)
-	NPC = function(group, FillData)
-		if group.NestNPCDataSkip then return end
-
-		local npcID = GetNpcIDForDrops(group)
-		if not npcID then return end
-
-		-- app.PrintDebug("NPC Group",app:SearchLink(group),npcID)
-		-- search for groups of this NPC
-		local npcGroups = SearchForField("npcID", npcID);
-		if not npcGroups or #npcGroups == 0 then return end
-
-		-- see if there's a difficulty wrapping the fill group
-		local difficultyID = GetRelativeValue(group, "difficultyID");
-		if difficultyID then
-			-- app.PrintDebug("FillNPC.Diff",difficultyID)
-			-- can only fill npc groups for the npc which match the difficultyID
-			local headerID, groups, npcDiff, npcGroup
-			for i=1,#npcGroups do
-				npcGroup = npcGroups[i]
-				if npcGroup.hash ~= group.hash then
-					headerID = GetRelativeFieldInSet(npcGroup, "headerID", NPCExpandHeaders);
-					-- app.PrintDebug("DropCheck",app:SearchLink(npcGroup),"=>",headerID)
-					-- where headerID is allowed and the nested difficultyID matches
-					if headerID then
-						npcDiff = GetRelativeValue(npcGroup, "difficultyID");
-						-- copy the header under the NPC groups
-						if not npcDiff or npcDiff == difficultyID then
-							-- wrap the npcGroup in the matching header if it is not a header
-							if not npcGroup.headerID then
-								npcGroup = app.CreateCustomHeader(headerID, {g={CreateObject(npcGroup)}})
-							end
-							-- app.PrintDebug("IsDrop.Diff",difficultyID,group.hash,"<==",npcGroup.hash)
-							if groups then groups[#groups + 1] = CreateObject(npcGroup)
-							else groups = { CreateObject(npcGroup) }; end
-						end
-					end
-				end
-			end
-			return groups;
-		else
-			-- app.PrintDebug("FillNPC")
-			local headerID,groups,npcGroup
-			for i=1,#npcGroups do
-				npcGroup = npcGroups[i]
-				if npcGroup.hash ~= group.hash then
-					headerID = GetRelativeFieldInSet(npcGroup, "headerID", NPCExpandHeaders);
-					-- app.PrintDebug("DropCheck",app:SearchLink(npcGroup),"=>",headerID)
-					-- where headerID is allowed
-					if headerID then
-						-- copy the header under the NPC groups
-						-- wrap the npcGroup in the matching header if it is not a header
-						if not npcGroup.headerID then
-							npcGroup = app.CreateCustomHeader(headerID, {g={CreateObject(npcGroup)}})
-						end
-						-- app.PrintDebug("IsDrop",group.hash,"<==",npcGroup.hash)
-						if groups then groups[#groups + 1] = CreateObject(npcGroup)
-						else groups = { CreateObject(npcGroup) }; end
-					end
-				end
-			end
-			return groups;
-		end
-	end
 }
 
 do
@@ -315,7 +205,6 @@ for i=1,#Scopes do
 end
 -- TEMP: fill the Priority scopes with any remaining static values
 local tempPriority = {
-	"SYMLINK",
 	"REAGENT",
 }
 for scope,priority in pairs(ScopeFillPriority) do
@@ -324,8 +213,6 @@ for scope,priority in pairs(ScopeFillPriority) do
 	end
 end
 app.AddEventHandler("OnStartup", function()
-	FillSettings.Tooltips.NPC = app.L.FILL_NPC_DATA_CHECKBOX_TOOLTIP
-	FillSettings.Tooltips.SYMLINK = "Fills content which has alternate & notable availability under additional Sources.\nThis concept is generally utilized to help show content which may be Sourced under a general 'Rewards' (or similar) group in the Main list but can more-clearly be shown under specific Sources (multiple Vendors,etc.) when within the Mini list or Tooltips.\n\nNOTE: Tooltips where a Symlink is available will show this text:\n"..app.Modules.Color.Colorize(app.L.SYM_ROW_INFORMATION, app.Colors.SymLink)
 	FillSettings.Col = ArrayAppend({NAME}, Scopes)
 	local names = {"[]"}
 	for name,_ in pairs(FillFunctions) do
@@ -564,7 +451,7 @@ local function SkipFillingGroup(group, FillData)
 	if skipFill then return true end
 
 	skipFill = group.skipFill
-	if (skipFill and FillData.InWindow) or skipFill == 2 then return true; end
+	if (skipFill and FillData.InMinilist) or skipFill == 2 then return true; end
 
 	-- do not fill the same object twice in multiple Locations
 	local groupHash, included = group.hash, FillData.Included;
@@ -681,6 +568,7 @@ local FillGroups = function(group, options)
 		NextLayer = {},
 		-- CurrentLayer = 0,	-- debugging
 		InWindow = groupWindow and true or nil,
+		InMinilist = groupWindow and groupWindow.Suffix == "CurrentInstance" and true or nil,
 		-- TODO: Fillers can provide context requirements for themselves to be utilized for a given
 		-- fill operation.
 		-- i.e. provided the Root/Window/Instance/Combat -- the Filler may return that it should not be included

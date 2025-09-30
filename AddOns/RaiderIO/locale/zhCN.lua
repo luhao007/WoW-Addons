@@ -450,21 +450,21 @@ L["RAID_BOSS_SOD_7"] = "初诞者的卫士"
 L["RAID_BOSS_SOD_8"] = "命运撰写师罗-卡洛"
 L["RAID_BOSS_SOD_9"] = "克尔苏加德"
 --[[Translation missing --]]
---[[ L["RAID_BOSS_TOES_1"] = ""--]] 
---[[Translation missing --]]
 --[[ L["RAID_BOSS_ToES_1"] = ""--]] 
 --[[Translation missing --]]
---[[ L["RAID_BOSS_ToES_2"] = ""--]] 
+--[[ L["RAID_BOSS_TOES_1"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["RAID_BOSS_TOES_2"] = ""--]] 
 --[[Translation missing --]]
---[[ L["RAID_BOSS_TOES_3"] = ""--]] 
+--[[ L["RAID_BOSS_ToES_2"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["RAID_BOSS_ToES_3"] = ""--]] 
 --[[Translation missing --]]
---[[ L["RAID_BOSS_ToES_4"] = ""--]] 
+--[[ L["RAID_BOSS_TOES_3"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["RAID_BOSS_TOES_4"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_ToES_4"] = ""--]] 
 L["RAID_BOSS_TOTFW_1"] = "风之议会"
 L["RAID_BOSS_TOTFW_2"] = "奥拉基尔"
 L["RAID_BOSS_VOTI_1"] = "艾拉诺格"

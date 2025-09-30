@@ -1096,6 +1096,6 @@ app.AddEventHandler("OnLoad", function()
 	end,
 	{
 		SettingsIcon = app.asset("Currency"),
-		SettingsTooltip = "Fills any Purchases which can be made with a given Cost |T"..app.asset("Currency")..":0|t\n\nNOTE: A 'Purchase' is a loose term in that it essentially means it requires/consumes/uses/depletes/etc. the 'Cost' in order to be obtained.",
+		SettingsTooltip = app.L.FILL_COST_DATA_CHECKBOX_TOOLTIP,
 	})
 end)

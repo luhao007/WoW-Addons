@@ -279,10 +279,15 @@ L.FACTION_SPECIFIC_REP = "Not all reputations can be viewed on a single characte
 L.FACTIONS = "Factions";
 L.FAILED_ITEM_INFO = "Failed to acquire item information. The item may be invalid or may not have been cached on your server yet.";
 L.FEATURES_PAGE = FEATURES_LABEL;
+L.FILL_CATALYST_DATA_CHECKBOX_TOOLTIP = "Fills the Catalyst |T" .. _.asset("Interface_Catalyst") .. ":0|t result of the current Item if one is possible and determined via ATT.\n\nNOTE: This Filler is not applied to the ATT Mini List.";
+L.FILL_COST_DATA_CHECKBOX_TOOLTIP = "Fills any Purchases which can be made with a given Cost |T".._.asset("Currency")..":0|t\n\nNOTE: A 'Purchase' is a loose term in that it essentially means it requires/consumes/uses/depletes/etc. the 'Cost' in order to be obtained.";
 L.FILL_DYNAMIC_QUESTS_CHECKBOX = "Fill Dynamic Quests";
 L.FILL_DYNAMIC_QUESTS_CHECKBOX_TOOLTIP = "Enable this option if you want to allow Items/Currencies which are used to purchase collectible Things to be filled with those purchases when under automatically-populated Quests.\n\nFor example, this will cause the [World Quests] window to behave like the minilist rather than the Main list regarding Cost display.\nNote that in most cases, this will drastically increase the apparent content within the window.";
 L.FILL_NPC_DATA_CHECKBOX = "Fill NPC Data";
 L.FILL_NPC_DATA_CHECKBOX_TOOLTIP = "Enable this option if you want to fill all relevant data for a given NPC (Common Boss Drops, Drops, etc). This option may cause a significant amount of duplication, but the idea is that the NPC will remain visible if you need something available from that NPC.\n\nNote: A lot of Dragonflight outdoors content relies on this setting being enabled for accuracy due to how many Rares share common drops.\n\nDefault: Off";
+L.FILL_OBJECT_DATA_CHECKBOX_TOOLTIP = "Fills common data which is provided by a Sourced Object (e.g. Mining/Herbalism/Fishing nodes).";
+L.FILL_SYMLINK_DATA_CHECKBOX_TOOLTIP = "Fills content which has alternate & notable availability under additional Sources.\nThis concept is generally utilized to help show content which may be Sourced under a general 'Rewards' (or similar) group in the Main list but can more-clearly be shown under specific Sources (multiple Vendors, etc.) when within the Mini list or Tooltips.\n\nNOTE: Tooltips where a Symlink is available will show this text:\n%s";
+L.FILL_UPGRADE_DATA_CHECKBOX_TOOLTIP = "Fills any Upgrade |T".._.asset("Interface_Upgrade")..":0|t which is available to the given Item\n\nFor an ATT List this is typically shown if available for the default state of an Item as Sourced, whereas in Tooltips it is based on the raw Item data when shown.";
 L.FILLERS_EXPLANATION = "|cffFFFFFFFillers are mechanisms by which extra Data is 'filled' into/beneath other ATT content within various UI elements to show further use or purpose of a given Thing. For example, showing the resulting Purchases of an Item would be provided by a 'Filler'.\nThis tab allows you to modify your preferences of which Fillers will be active throughout ATT.|r";
 L.FILLERS_LABEL = "Fillers";
 L.FILTER_ID = "Filter ID";
@@ -480,6 +485,7 @@ L.NOT_TRADEABLE = "Not Tradeable";
 L.NOTHING_TO_SELECT_FROM = "There was nothing collectible (according to current Settings) to randomly select from. If 'Ad-Hoc Updates' is enabled in Settings, the Main list must be updated (/att) before using this window.";
 L.NPC = "NPC";
 L.NPC_ID = "NPC ID";
+L.OBJECT = "Object";
 L.OBJECT_ID = "Object ID";
 L.OBJECT_TYPE = "Object Type";
 L.OBJECTIVES = "Objectives";
@@ -1049,7 +1055,6 @@ _.HeaderConstants = {
 	DAY_OF_THE_DEAD_HEADER = -566,
 	DISCOVERY = -26,
 	DROPS = -27,
-	EVENT_COMPLETION = -29,
 	EXPLORATION = -30,
 	FACTIONS = -31,
 	FEAST_OF_WINTER_VEIL_HEADER = -574,
@@ -1106,7 +1111,6 @@ localize(L.HEADER_NAMES, {
 	[-23] = LOOT_JOURNAL_LEGENDARIES_SOURCE_CRAFTED_ITEM,
 	[-26] = BATTLE_PET_SOURCE_11,
 	[-27] = "Drops",
-	[-29] = "Event Completion",
 	[-30] = "Exploration",
 	[-31] = FACTION,
 	[-32] = "Flight Paths",
@@ -1313,13 +1317,11 @@ localize(L.HEADER_NAMES, {
 	[-655] = "Celestial Dungeons",
 	[-656] = "Brawler's Guild",
 	[-657] = "Krasarang Wilds Campaign",
-	[-658] = select(2,GetAchievementInfo(61406)),
 	[-659] = "Twilight Assist",
 	[-660] = "Twilight Duo",
 	[-661] = "Twilight Zone",
 });
 localize(L.HEADER_DESCRIPTIONS, {
-	[-29] = "Contains things that are rewarded upon completing that event.",
 	[-36] = "A specific holiday may need to be active for you to complete the referenced Things within this section.",
 	[-43] = "This section contains Pet Battle related quests and tamers.",
 	[-44] = "This section will only show your current character's professions outside of Account and Debug Mode.",
@@ -1390,7 +1392,6 @@ localize(L.HEADER_ICONS, {
 	[-23] = _.asset("category_crafting"),
 	[-26] = 133739,
 	[-27] = _.asset("category_worlddrops"),
-	[-29] = _.asset("interface_rewards"),
 	[-30] = _.asset("category_exploration"),
 	[-31] = _.asset("category_factions"),
 	[-32] = _.asset("category_flightpaths"),
@@ -1596,7 +1597,6 @@ localize(L.HEADER_ICONS, {
 	[-654] = 134427,
 	[-655] = 840010,
 	[-656] = 132356,
-	[-658] = 133783,
 	[-659] = 236469,
 	[-660] = 236473,
 	[-661] = 236471,
@@ -1623,7 +1623,6 @@ localize(L.HEADER_EVENTS, {
 	[-588] = 6,
 	[-591] = 133900,
 	[-592] = 242,
-	[-658] = 1501,
 });
 localize(L.EVENT_REMAPPING, {
 	[141] = 14,
@@ -1647,16 +1646,12 @@ localize(L.EVENT_REMAPPING, {
 });
 
 -- Programmatic Event Scheduling
-_.Modules.Events.SetEventInformation(444, {
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=14,["weekday"]=3,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=26,["weekday"]=4,["year"]=2025})
-});
 _.Modules.Events.SetEventInformation(242, {
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=10,["monthDay"]=22,["weekday"]=3,["year"]=2024},{["hour"]=10,["minute"]=0,["month"]=1,["monthDay"]=7,["weekday"]=3,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=10,["monthDay"]=22,["weekday"]=4,["year"]=2025},{["hour"]=10,["minute"]=0,["month"]=1,["monthDay"]=7,["weekday"]=4,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=10,["monthDay"]=22,["weekday"]=5,["year"]=2026},{["hour"]=10,["minute"]=0,["month"]=1,["monthDay"]=7,["weekday"]=5,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(133900, {
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=21,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=9,["monthDay"]=21,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=28,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=9,["monthDay"]=28,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=10,["monthDay"]=5,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=10,["monthDay"]=5,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=10,["monthDay"]=12,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=10,["monthDay"]=12,["weekday"]=1,["year"]=2025}),
@@ -1708,20 +1703,21 @@ _.Modules.Events.SetEventInformation(133900, {
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=8,["monthDay"]=30,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=8,["monthDay"]=30,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=6,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=9,["monthDay"]=6,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=13,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=9,["monthDay"]=13,["weekday"]=1,["year"]=2026}),
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=20,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=9,["monthDay"]=20,["weekday"]=1,["year"]=2026})
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=20,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=9,["monthDay"]=20,["weekday"]=1,["year"]=2026}),
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=27,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=9,["monthDay"]=27,["weekday"]=1,["year"]=2026})
 });
 _.Modules.Events.SetEventInformation(133899, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=2,["year"]=2024},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=4,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=3,["year"]=2025},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=5,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=4,["year"]=2026},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=6,["year"]=2027})
 });
-_.Modules.Events.SetEventInformation(1501, {
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=1,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=1,["year"]=2025})
-});
 _.Modules.Events.SetEventInformation(133889, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=4,["year"]=2024},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=1,["year"]=2024}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=5,["year"]=2025},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=2,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=6,["year"]=2026},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=3,["year"]=2026})
+});
+_.Modules.Events.SetEventInformation(444, {
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=14,["weekday"]=3,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=26,["weekday"]=4,["year"]=2025})
 });
 
 -- Filter Database Module
@@ -12842,7 +12838,6 @@ localize(L.HEADER_NAMES, {
 	[-661] = "Chroniques des Crépusculaires",
 });
 localize(L.HEADER_DESCRIPTIONS, {
-	[-29] = "Contient des objets de récompenses ou disponibles dans d’autres contenus de la section qui les contient.\nIls sont regroupés ici dans le but de réduire la duplication de nombreuses sources possibles.",
 	[-47] = "Contient des objets de récompenses ou disponibles dans d’autres contenus de la section qui les contient.\nIls sont regroupés ici dans le but de réduire la duplication de nombreuses sources possibles.",
 	[-49] = "Contient des objets de récompenses ou disponibles dans d’autres contenus de la section qui les contient.\nIls sont regroupés ici dans le but de réduire la duplication de nombreuses sources possibles.",
 	[-341] = "Les éléments de cette liste sont des apparences partagées pour l'élément ci-dessus. En mode Apparence unique, cette liste peut vous aider à comprendre pourquoi ou pourquoi un élément spécifique serait marqué Collecté.",
@@ -20595,10 +20590,15 @@ L.FACTION_MODE_TOOLTIP = "Включите данную настройку, ес
 L.FACTION_SPECIFIC_REP = "Не все репутации видны одному персонажу. Например, Всадники Песни Войны не видны Игрокам Альянса, а Среброкрылые Часовые - Игрокам Орды.";
 L.FACTIONS = "Фракции";
 L.FAILED_ITEM_INFO = "Не удалось получить информацию о предмете. Предмет может быть неправильный или ещё не был кэширован на Вашем сервере.";
+L.FILL_CATALYST_DATA_CHECKBOX_TOOLTIP = "Заполняет результат Катализатора |T" .. _.asset("Interface_Catalyst") .. ":0|t текущего предмета, если это возможно и определено через ATT.\n\nПРИМЕЧАНИЕ: Этот Заполнитель не применяется к мини-списку ATT.";
+L.FILL_COST_DATA_CHECKBOX_TOOLTIP = "Заполняет любые Покупки, которые можно сделать с данной Стоимостью |T".._.asset("Currency")..":0|t\n\nПРИМЕЧАНИЕ: 'Покупка' - это общее понятие, которое в основном означает, что она требует/потребляет/использует/истощает и т.д. 'Стоимость' для получения.";
 L.FILL_DYNAMIC_QUESTS_CHECKBOX = "Считать Валюту собираемой";
 L.FILL_DYNAMIC_QUESTS_CHECKBOX_TOOLTIP = "Включите данную опцию, если Вы хотите считать валюту/предметы, которые можно использовать для получения собираемых Штучек, тоже считать собираемыми в наградах Заданий.";
 L.FILL_NPC_DATA_CHECKBOX = "Расширенная вложенность для NPC";
 L.FILL_NPC_DATA_CHECKBOX_TOOLTIP = "Включите данную опцию, если Вы хотите видеть все вложенные данные для существ (Общая добыча, Добыча, и т.п.) отображаемых в мини-списке. Эта опция может привести к значительному дублированию Штучек, но идея в том, чтоб существа оставались в мини-списке, как будто с них что-то ещё нужно.\n\nПо умолчанию: отключено";
+L.FILL_OBJECT_DATA_CHECKBOX_TOOLTIP = "Заполняет общие данные, которые предоставляются Известным Объектом (например, узлы горного дела/травничества/рыбной ловли).";
+L.FILL_SYMLINK_DATA_CHECKBOX_TOOLTIP = "Заполняет контент, который имеет альтернативную и большую доступность через дополнительные Источники.\nЭта концепция обычно используется для отображения контента, который может быть получен из общей группы 'Награды' (или подобной) в Основном списке, но может быть более четко показан под конкретными Источниками (несколько Продавцов и т.д.) в Мини-списке или Всплывающих Подсказках.\n\nПРИМЕЧАНИЕ: В Подсказках, где доступен Симлинк, будет показан данный текст:\n%s";
+L.FILL_UPGRADE_DATA_CHECKBOX_TOOLTIP = "Заполняет любое Улучшение |T" .. _.asset("Interface_Upgrade") .. ":0|t, которое доступно для данного Предмета\n\nДля Списка ATT это обычно показывается, если Улучшение доступно для базового Известного Предмета, в то время как в Подсказках это основано на конкретной версии Предмета.";
 L.FILLERS_EXPLANATION = "|cffFFFFFFЗаполнители - это механизмы, с помощью которых дополнительные данные \"встраиваются\" в другие элементы интерфейса ATT или под ними, чтобы показать дальнейшее использование или назначение данного объекта. Например, отображение результатов покупок предмета будет предоставлено \"Заполнителем\".\nЭта вкладка позволяет вам изменить свои предпочтения относительно того, какие Заполнители будут активны в ATT.|r";
 L.FILLERS_LABEL = "Заполнители";
 L.FILTER_MINI_LIST_FOR_TIMERUNNING_CHECKBOX = "Фильтровать Мини Список для Путешествий во времени";
@@ -20749,6 +20749,7 @@ L.NOT_COLLECTED = "|T" .. _.asset("unknown") .. ":0|t |cffff9333Не Собра�
 L.NOT_DISPLAY_IN_COMBAT_NPCS_CHECKBOX = "Кроме НИП";
 L.NOT_DISPLAY_IN_COMBAT_NPCS_CHECKBOX_TOOLTIP = "Включите эту опцию, чтобы игнорировать отображение подсказок НИП во время боя.";
 L.NOTHING_TO_SELECT_FROM = "Не из чего делать случайный выбор. Если включена опция 'Обновлять только видимые окна', то предварительно нужно открыть Основной Список (/att).";
+L.OBJECT = "Объект";
 L.OBJECTIVES = "Цели";
 L.ONLY_RELEVANT_CHECKBOX = "Только Уместные";
 L.ONLY_RELEVANT_CHECKBOX_TOOLTIP = "Включите данную опцию, если Вы хотите видеть только те общие облики, которые Ваш персонаж может открыть.\n\nПримечание: Мы рекомендуем оставить эту опцию выключенной, поскольку знание требований для разблокирования может быть полезным для понимания, почему предмет считается Не Собранным.";
@@ -21143,7 +21144,6 @@ localize(L.HEADER_NAMES, {
 	[-661] = "Зона сумерек",
 });
 localize(L.HEADER_DESCRIPTIONS, {
-	[-29] = "Штучки, которые можно получить в награду с разного контента в родительской секции.\nОни собраны здесь, чтобы уменьшить количество источников, когда Штучка доступна из многих мест.",
 	[-36] = "Чтобы выполнить упомянутые в данной секции Штучки, может быть нужен какой-то праздник.",
 	[-44] = "Этот раздел будет отображать только профессии вашего текущего персонажа, если не включен Режим Аккаунта или Отладки.",
 	[-47] = "Штучки, которые можно получить в награду с разного контента в родительской секции.\nОни собраны здесь, чтобы уменьшить количество источников, когда Штучка доступна из многих мест.",
@@ -27379,7 +27379,6 @@ localize(L.HEADER_NAMES, {
 	[-661] = "Dimensión Desconocida",
 });
 localize(L.HEADER_DESCRIPTIONS, {
-	[-29] = "Contiene cosas que se otorgan como recompensa al completar ese evento.",
 	[-36] = "Es posible que deba estar activo un día festivo específico para que pueda completar las cosas referenciadas en esta sección.",
 	[-44] = "Esta sección solo mostrará las profesiones de tu personaje actual fuera del modo Cuenta y Depuración.",
 	[-47] = "Contiene cosas que son recompensadas o están disponibles en otro contenido dentro de la sección contenedora.\nSe consolidan aquí en un esfuerzo por reducir la duplicación de muchas fuentes posibles.",
@@ -30400,7 +30399,6 @@ localize(L.HEADER_NAMES, {
 	[-655] = "Calabozos celestiales",
 });
 localize(L.HEADER_DESCRIPTIONS, {
-	[-29] = "Contiene cosas que se otorgan como recompensa al completar este evento.",
 	[-44] = "Esta sección solo mostrará las profesiones de tu personaje actual fuera del modo Cuenta y Debug.",
 	[-49] = "Contiene cosas que se obtienen como recompensa al completar este escenario.",
 	[-592] = "¡Es el aniversario de World of Warcraft! Desde el equipo de desarrollo de WoW, te damos las gracias por disfrutar del mundo de Azeroth y más allá junto a nosotros.",
@@ -31208,7 +31206,6 @@ localize(L.HEADER_NAMES, {
 	[-19] = "首领共同掉落",
 	[-22] = "商人共同物品",
 	[-27] = "掉落",
-	[-29] = "事件完成",
 	[-30] = "探索",
 	[-32] = "飞行路线",
 	[-34] = "团队查找器",
@@ -31324,7 +31321,6 @@ localize(L.HEADER_NAMES, {
 	[-661] = "暮光领域",
 });
 localize(L.HEADER_DESCRIPTIONS, {
-	[-29] = "包含有奖励或可从包含部分中的其他内容获得的事物。\n在此处合并以减少来自许多可能重复来源。",
 	[-36] = "你可能需要在特定的节日活动中才能完成本节中的事物。",
 	[-44] = "此部分只会显示你当前角色的专业技能，除非处于账号模式或调试模式。",
 	[-47] = "包含有奖励或可从包含部分中的其他内容获得的事物。\n在此处合并以减少来自许多可能重复来源。",

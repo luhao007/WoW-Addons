@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.12.1 - September 29, 2025
+### Added
+- Atlas can now be opened in combat
+- MoP: Add boss portraits and buttons for UBRS
+### Changed
+- MoP: Updated TOC to 5.5.1
+### Fixed
+- MoP: Fix journal and journal map buttons for UBRS
+
 ## 3.12.0 - September 21, 2025
 ### Added
 - MoP: Added loot browser that's slightly better than the Dungeon Journal by allowing you to filter by spec in addition to class (accessible by right clicking on a boss portrait)
@@ -651,7 +660,7 @@ v1.41.00 (Apr. 14, 2017)
 v1.40.06 (Apr. 13, 2017)
 ------------------------
 - Checking deprecated plugins now will recognize the alpha build's version
-  if specifed; or will ignore those set "v3.12.0" as the version
+  if specifed; or will ignore those set "v3.12.1" as the version
   number to be changed by CurseForge's auto-packaging.
 
 v1.40.05 (Apr. 13, 2017)

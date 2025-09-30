@@ -1,4 +1,4 @@
-## Interface: 50500
+## Interface: 50501
 ## Title: Atlas
 ## Title-deDE: Atlas
 ## Title-esES: Atlas
@@ -22,7 +22,7 @@
 ## Notes-zhCN: |cff00CC33副本地图浏览器|r
 ## Notes-zhTW: Atlas 地圖集主程式
 ## Author: nanderson11
-## Version: v3.12.0
+## Version: v3.12.1
 ## X-Website: https://github.com/nanderson11/Atlas
 ## X-Category: Map
 ## X-License: GPLv2

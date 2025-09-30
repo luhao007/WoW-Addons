@@ -474,6 +474,23 @@ settings.SetWindowFromProfile = function(suffix)
 		settings.ApplyWindowColors(window)
 	end
 end
+app.ChatCommands.Add("reset-window", function(args)
+	local windowSuffix = args[2]
+	if not windowSuffix then
+		app.print("Usage: /att reset-window <WindowSuffix>");
+		return
+	end
+	if RawSettings and RawSettings.Windows and RawSettings.Windows[windowSuffix] then
+		RawSettings.Windows[windowSuffix] = nil
+		app.print("Reset window position for",windowSuffix)
+		app.print("Please reload your UI when ready. (/rl)")
+		return
+	end
+	app.print("Window position for",windowSuffix,"has not been stored in current Profile!")
+end, {
+	"Usage : /att reset-window <WindowSuffix>",
+	"Allows resetting the position of a specific ATT window stored in your current Profile.",
+});
 settings.Get = function(self, setting, container)
 	return RawSettings.General[setting]
 end

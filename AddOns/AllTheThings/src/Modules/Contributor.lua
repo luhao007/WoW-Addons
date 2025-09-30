@@ -191,13 +191,15 @@ local MapPrecisionOverrides = {
 	[2477] = 4,	-- Voidscar Cavern, K'aresh
 }
 
-local function Check_coords(objRef, id, maxCoordDistance)
+local function Check_coords(objRef, maxCoordDistance)
 	-- check coord distance
 	local mapID, px, py, fake = app.GetPlayerPosition()
 	-- fake player coords (instances, etc.) cannot be checked
 	if fake then return true end
 
 	if not objRef then return end
+
+	local id = objRef.keyval
 	local coords = app.GetRelativeValue(objRef, "coords")
 	if not coords then return end
 
@@ -441,6 +443,7 @@ MobileDB.Creature = {
 	[193985] = true,	-- Initiate Zorig
 	[197478] = true,	-- Herald Flaps
 	[197915] = true,	-- Lindormi
+	[199261] = true,	-- Holiday Enthusiast
 	-- #if BEFORE 10.2.7
 	[205127] = true,	-- Newsy
 	-- #endif
@@ -537,6 +540,7 @@ MobileDB.GameObject = {
 	[164779] = true,	-- Green Power Crystal
 	[164780] = true,	-- Red Power Crystal
 	[164958] = true,	-- Bloodpetal Sprout
+	[165739] = true,	-- Grim Guzzler Boar
 	[169243] = true,	-- Chest of The Seven (BRD)
 	[176208] = true,	-- Horgus' Skull (q:27387)
 	[176209] = true,	-- Shattered Sword of Marduk (q:27387)
@@ -587,10 +591,15 @@ MobileDB.GameObject = {
 	[194208] = true,	-- Fuming Toadstool (q:13598)
 	[194209] = true,	-- Fuming Toadstool (q:13598)
 	[194255] = true,	-- Ancient Gate of the Keepers
+	[194264] = true,	-- Lever
 	[194307] = true,	-- Cache of Winter [Hodir]
+	[194328] = true,	-- Freya's Gift [Freya]
 	[194312] = true,	-- Cache of Storms [Thorim]
 	[194482] = true,	-- Horde Explosives (q:13698)
 	[194519] = true,	-- Harpoon Gun
+	[194541] = true,	-- Harpoon Gun
+	[194542] = true,	-- Harpoon Gun
+	[194543] = true,	-- Harpoon Gun
 	[194822] = true,	-- Gift of the Observer [Algalon The Observer]
 	[194956] = true,	-- Cache of Innovation [Mimiron]
 	[195002] = true,	-- Lava Fissure (q:13880)
@@ -621,6 +630,7 @@ MobileDB.GameObject = {
 	[195587] = true,	-- Living Ire Thyme (q:14263)
 	[195601] = true,	-- Element 116 (q:14254)
 	[195602] = true,	-- Animate Besalt Chunk (q:14250)
+	[195633] = true,	-- Champion's Cache [] 25 Normal
 	[195635] = true,	-- Champion's Cache [] 25 Heroic
 	[195656] = true,	-- Ancient Tablet Fragment (q:14268)
 	[195657] = true,	-- Ancient Tablet Fragment (q:14268)
@@ -643,6 +653,7 @@ MobileDB.GameObject = {
 	[201737] = true,	-- Budding Flower (q:25028)
 	[201738] = true,	-- Budding Flower (q:25028)
 	[201792] = true,	-- Northwatch Siege Engine (q:24569)
+	[201874] = true,	-- Gunship Armory [Gunship Battle] 25 Normal
 	[201904] = true,	-- Mutilated Remains (q:24619)
 	[201924] = true,	-- Boar Skull (q:24653)
 	[201974] = true,	-- Raptor Egg (q:24741)
@@ -817,6 +828,7 @@ MobileDB.GameObject = {
 	[209774] = true,	-- Kun-Pai Ritual Charm (q:29789)
 	[211163] = true,	-- Pandaren Archaeology Find
 	[211174] = true,	-- Mogu Archaeology Find
+	[211277] = true,	-- Coffer of Forgotten Souls
 	[211394] = true,	-- Broken Bamboo Stalk (q:29795)
 	[211397] = true,	-- Broken Bamboo Stalk (q:29795)
 	[211398] = true,	-- Broken Bamboo Stalk (q:29795)
@@ -998,8 +1010,10 @@ MobileDB.GameObject = {
 	[279044] = true,	-- Zandalari Rushes
 	[279293] = true,	-- Sweetleaf Bush
 	[279346] = true,	-- Urn of Voices
+	[279649] = true,	-- Cache of the Leviathan
 	[279654] = true,	-- Freya's Heroic Gift [Freya]
 	[279655] = true,	-- Cache of Heroic Innovation [Mimiron]
+	[279656] = true,	-- Cache of Heroic Storms [Thorim]
 	[280335] = true,	-- Essence Collector
 	[280571] = true,	-- Essence Collector
 	[280572] = true,	-- Essence Collector
@@ -1045,6 +1059,7 @@ MobileDB.GameObject = {
 	[288192] = true,	-- Brineclaw Meat (q:51228)
 	[288601] = true,	-- Inconspicuous Seaforium Bomb
 	[288604] = true,	-- Treasure Chest (Zuldazar)
+	[288636] = true,	-- Council's Tribute [Council of Captains]
 	[290822] = true,	-- Dark Fissure
 	[290527] = true,	-- Urn of Vol'Jin (q:51516)
 	[290678] = true,	-- Altar of Gonk
@@ -1095,7 +1110,9 @@ MobileDB.GameObject = {
 	[294170] = true,	-- Sealed Tideblood (q:52968)
 	[296252] = true,	-- Box of Large Azerite Grenades (q:52252)
 	[296855] = true,	-- Truffle
+	[297832] = true,	-- Obsidian Cache [Sartharion] 10 Normal
 	[297850] = true,	-- Iron Cache []
+	[297852] = true,	-- Iron Cache []
 	[297860] = true,	-- General's Cache [General Vezax]
 	[297873] = true,	-- Titan's Cache [Yogg'Saron]
 	[297899] = true,	-- Cache of Toys [XT-002 Deconstuctor]
@@ -1135,6 +1152,7 @@ MobileDB.GameObject = {
 	[325875] = true,	-- Osmenite Deposit
 	[325881] = true,	-- Sand Pile (q:55681)
 	[325883] = true,	-- Highborne Relic (q: 55659)
+	[326139] = true,	-- Alcohol-Free Brewfest Sampler
 	[326214] = true,	-- Fetid Limb
 	[326594] = true,	-- Arcane Tome
 	[326598] = true,	-- Zin'anthid
@@ -1254,6 +1272,7 @@ MobileDB.GameObject = {
 	[378802] = true,	-- Corrupted Dragon Egg
 	[378819] = true,	-- Rock Wall
 	[379159] = true,	-- Shovel
+	[379195] = true,	-- Anvil
 	[379248] = true,	-- Draconium Deposit
 	[379252] = true,	-- Draconium Deposit
 	[379263] = true,	-- Rich Draconium Deposit
@@ -1306,6 +1325,7 @@ MobileDB.GameObject = {
 	[382284] = true,	-- Mature Gift of the Grove [Dragon Isle Resources]
 	[382286] = true,	-- Singing River Bell [Dragon Isle Resources]
 	[382287] = true,	-- Blooming Fangtooth [Dragon Isle Resources]
+	[382288] = true,	-- Ripe Winter Berries [Dragon Isle Resources]
 	[382291] = true,	-- Mature Highland Milkweed [Dragon Isle Resources]
 	[382292] = true,	-- Ripe Cuppressa [Dragon Isle Resources]
 	[382294] = true,	-- Blooming Titian Orchid [Dragon Isle Resources]
@@ -1458,6 +1478,7 @@ MobileDB.GameObject = {
 	[422154] = true,	-- Brann's Cozy Campfire
 	[423714] = true,	-- Duskstem Stalk
 	[425875] = true,	-- Nerubian Explosive Cache (q:78555)
+	[426994] = true,	-- Whispering Explosives (delve objective)
 	[452948] = true,	-- Hallowfall Farm Supplies
 	[453968] = true,	-- Torch (q:82583)
 	[428699] = true,	-- Sizzling Barrel (q:79205)
@@ -1650,8 +1671,11 @@ MobileDB.GameObject = {
 	[523615] = true,	-- Fragrant Dreaming Glory (q:88658)
 	[523689] = true,	-- Mossy Snake Bed (q:88666)
 	[523828] = true,	-- Extra Cushiony Moss (q:88669, 88981)
+	[523829] = true,	-- Cozy Heat Lamp (q:88669, 88981)
 	[524223] = true,	-- K'arroc Egg (q:88671)
 	[524348] = true,	-- Snake Egg (q:88672)
+	[525100] = true,	-- Fragrant Dreaming Glory q(88669, 88981)
+	[525110] = true,	-- Stove
 	[525189] = true,	-- Portal to the Oasis
 	[526951] = true,	-- Challenger's Cache (Operation: Floodgate)
 	[526959] = true,	-- Challenger's Cache (Priory of the Sacred Flame)
@@ -1673,9 +1697,11 @@ MobileDB.GameObject = {
 	[531961] = true,	-- Untethered Xy'bucha
 	[536867] = true,	-- Swoopwing Eggs (q: 90773)
 	[537690] = true,	-- Prosperity Pebble (q: 90770)
+	[540500] = true,	-- Brewfest Resources
 	[543115] = true,	-- Funny Candle
 	[547532] = true,	-- Ky'veza's Etheric Cache
 	[549326] = true,	-- Phase-Lost Exchequer
+	[549348] = true,	-- Stove
 	[549986] = true,	-- Energy Barrel
 	[549999] = true,	-- Energy Urn
 	[550001] = true,	-- Energy Pyramid
@@ -1825,19 +1851,19 @@ local function OnQUEST_DETAIL(...)
 
 	-- check coords
 	if not IgnoredChecksByType[guidtype].coord(providerid) then
-		local checkCoords = Check_coords(objRef, objRef.keyval)
+		local checkCoords = Check_coords(objRef)
 		if not checkCoords then
 			-- is this quest listed directly under an NPC which has coords instead? check that NPC for coords
 			-- e.g. Garrison NPCs Bronzebeard/Saurfang
 			local questParent = objRef.parent
 			if questParent and questParent.__type == "NPC" then
-				checkCoords = Check_coords(questParent, questParent.keyval)
+				checkCoords = Check_coords(questParent)
 				if not checkCoords then
 					questData.MissingCoordsUnderNPC = "No Coordinates for this quest under NPC!"
 					AddReportData(objRef.__type,questID,questData)
 				elseif checkCoords == 1 then
 					-- Check_coords did a report, so add more info for the quest parent
-					AddReportData(questParent,questParent.keyval,questData)
+					AddReportData(questParent,questData)
 				end
 			else
 				questData.MissingCoords = "No Coordinates for this quest!"
@@ -1903,7 +1929,7 @@ local function OnPLAYER_SOFT_INTERACT_CHANGED(previousGuid, newGuid)
 	if not IgnoredChecksByType[guidtype].coord(id) then
 		-- object auto-detect can happen from rather far, so using 2 distance
 		local objID = objRef.keyval
-		local checkCoords = Check_coords(objRef, objID, 2)
+		local checkCoords = Check_coords(objRef, 2)
 		if not checkCoords then
 			local reportData = {
 				id = id,
