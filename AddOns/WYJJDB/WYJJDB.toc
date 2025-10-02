@@ -1,0 +1,8 @@
+## Interface: 110200
+## Title: WYJJDB
+## IconTexture: Interface\AddOns\WYJJDB\Media\Textures\icon.tga
+
+db.lua
+functions.lua
+embeds.xml
+Soundpaths.lua

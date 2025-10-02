@@ -1,6 +1,6 @@
 ## Interface: 110200
 ## Author: Leatrix
-## Version: 11.2.09
+## Version: 11.2.10
 
 ## Title: Leatrix Plus
 ## Notes: curseforge.com/wow/addons/leatrix-plus

@@ -9,13 +9,38 @@ from typing import Literal, Optional
 from chardet.enums import LanguageFilter
 from chardet.universaldetector import UniversalDetector
 
-logger = logging.getLogger("process")
-
 TOCS = [".toc"] + [
     f"{s}{p}.toc"
     for s in ("-", "_")
     for p in ("Classic", "BCC", "WOTLKC", "Mainline", "TBC", "Vanilla", "Wrath", "Cata")
 ]
+
+
+class Color:
+    """ANSI color codes for terminal output."""
+
+    RED = "\033[91m"
+    GREEN = "\033[92m"
+    YELLOW = "\033[93m"
+    BLUE = "\033[94m"
+    MAGENTA = "\033[95m"
+    CYAN = "\033[96m"
+    WHITE = "\033[97m"
+    RESET = "\033[0m"
+
+
+@functools.lru_cache
+def get_logger(name: str) -> logging.Logger:
+    logger = logging.getLogger(name)
+    if not logger.hasHandlers():
+        handler = logging.StreamHandler()
+        formatter = logging.Formatter(
+            f"{Color.WHITE}%(asctime)s {Color.YELLOW}%(name)s"
+            f" {Color.GREEN}%(levelname)s {Color.WHITE}- %(message)s"
+        )
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+    return logger
 
 
 def process_file(
@@ -27,7 +52,10 @@ def process_file(
     :param function func: A function with the input of lines of the file
                           and returns the output lines after processing.
     """
-    logger.info("Processing %s...", path)
+    logger = get_logger("FileHandler")
+    logger.debug(
+        f"{Color.YELLOW}Processing {Color.GREEN}%s{Color.YELLOW}...{Color.RESET}", path
+    )
 
     with open(path, "rb") as file:
         file_bytes = file.read()
@@ -49,12 +77,16 @@ def process_file(
         with open(path, "w", encoding="utf-8") as file:
             file.writelines(new_lines)
 
-    logger.info("Done.")
+    logger.debug(f"{Color.YELLOW}Done.{Color.RESET}")
 
 
 def remove(path: str | Path):
+    logger = get_logger("FileHandler")
     if os.path.exists(path):
-        logger.info("Removing %s...", path)
+        logger.info(
+            f"{Color.YELLOW}Removing {Color.GREEN}%s{Color.YELLOW}...{Color.RESET}",
+            path,
+        )
         if str(path).endswith(".lua"):
             os.remove(path)
         else:
@@ -143,7 +175,10 @@ def remove_libraries_all(addon: str, lib_path: Optional[str] = None):
     if not libs:
         return
 
-    print(f"Removing {libs} in {addon}")
+    print(
+        f"{Color.YELLOW}Removing {Color.CYAN}{libs} {Color.YELLOW}in"
+        f" {Color.GREEN}{addon}"
+    )
 
     for lib in libs:
         remove(Path("AddOns") / addon / lib_path / lib)

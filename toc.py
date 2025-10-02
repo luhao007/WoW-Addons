@@ -1,5 +1,6 @@
-import logging
 from collections.abc import Iterable
+
+from utils import Color, get_logger
 
 
 class TOC:
@@ -123,8 +124,9 @@ class TOC:
         missing_keys = [k for k in missing_keys if k[-4:] not in extra_languages]
 
         if missing_keys:
-            logging.warning(
-                f"Unknown tags found: {missing_keys} in {self.tags['Title']}"
+            logger = get_logger("TOCHandler")
+            logger.warning(
+                f"{Color.RED}Unknown tags found: {Color.BLUE}{missing_keys} {Color.RED}in {Color.GREEN}{self.tags['Title']}{Color.RESET}"
             )
 
         self.trim_contents()

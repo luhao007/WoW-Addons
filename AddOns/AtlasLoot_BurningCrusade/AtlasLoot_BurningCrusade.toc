@@ -1,0 +1,24 @@
+## Interface: 110200
+## Author: nanderson11, Lag, Proteyer, Arith
+## Version: v9.18.1
+
+## Title: AtlasLoot |cFF0099FF[Burning Crusade]|r
+## Notes: AtlasLoot loot tables from Burning Crusade
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本掉落|r |cFF69CCF0燃烧的远征|r
+## Notes-zhCN: AtlasLoot 燃烧的远征副本掉落列表
+
+## IconTexture: Interface\Icons\INV_Box_01
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
+## Group: AtlasLoot
+
+## Dependencies: AtlasLoot
+## LoadOnDemand: 1
+
+## X-Category: Map
+## X-License: GPL v2
+## X-Website: https://github.com/nanderson11/AtlasLootEnhanced
+## X-AtlasLoot-LootModule: 1
+## X-Part-Of: AtlasLoot
+
+data.lua

@@ -3,9 +3,9 @@ import logging
 import click
 
 import utils
-
 # from instawow_manager import InstawowManager
 from manage import Manager
+from utils import Color
 
 
 # CN WOW is stuck at 3.4.3, where the official classic is bumped to 4.4.0.
@@ -25,10 +25,10 @@ class Context:
 
 
 def _manage():
-    print("Modifying addons to fit each other...")
+    print(f"{Color.YELLOW}Modifying addons to fit each other...{Color.RESET}")
     Manager().process()
     Manager().process_libs()
-    print("Done!")
+    print(f"{Color.YELLOW}Done!{Color.RESET}")
 
 
 @click.group(context_settings={"help_option_names": ("-h", "--help")})

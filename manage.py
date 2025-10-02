@@ -8,9 +8,9 @@ from xml.etree import ElementTree
 
 import utils
 from toc import TOC
-from utils import PLATFORM
+from utils import PLATFORM, Color, get_logger
 
-logger = logging.getLogger("manager")
+logger = get_logger("AddonManager")
 
 CLASSIC_ERA_VER = "11401"
 CLASSIC_VER = "30405"
@@ -165,7 +165,7 @@ class Manager:
             except ValueError:
                 for file in os.listdir(os.path.join("AddOns", addon)):
                     if ".toc" in file:
-                        logger.warning("%s not found!", addon)
+                        logger.warning(f"{Color.GREEN}%s {Color.RED}not found!{Color.RESET}", addon)
                         break
                 continue
 
@@ -393,7 +393,9 @@ class Manager:
         root = Path("Addons")
         for addon in os.listdir(root):
             if addon in libs or addon.startswith("Lib") or addon.startswith("!Lib"):
-                print(f"Moving {addon} to !!Libs...")
+                print(
+                    f"{Color.YELLOW}Moving {Color.GREEN}{addon}{Color.YELLOW} to !!Libs...{Color.RESET}"
+                )
                 shutil.copytree(
                     root / addon, root / "!!Libs" / addon, dirs_exist_ok=True
                 )
