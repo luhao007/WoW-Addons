@@ -1,4 +1,4 @@
-## Interface: 110200
+## Interface: 110205
 ## Author: Allara
 
 ## Title: Rarity [|caaedc99fOptions|r]
@@ -12,7 +12,7 @@
 ## Dependencies: Rarity
 ## LoadOnDemand: 1
 
-## X-Min-Interface: 110200, 50500, 11507
+## X-Min-Interface: 110205, 50501, 11507
 ## X-Part-Of: Rarity
 ## X-LoadOn-Slash: /rarity, /rare
 ## X-LoadOn-InterfaceOptions: Rarity

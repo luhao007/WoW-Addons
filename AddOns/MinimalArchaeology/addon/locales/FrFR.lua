@@ -7,14 +7,12 @@ L["BINDINGS_COMMANDS"] = "Commandes"
 L["BINDINGS_COMPANION_MORE"] = "Companion related commands, for more information type:"
 --[[Translation missing --]]
 L["BINDINGS_COMPANION_RESETPOS"] = "Resets the position of the Companion box"
---[[Translation missing --]]
-L["BINDINGS_HIDEMAIN"] = "Hide the main Minimal Archaeology Frame"
+L["BINDINGS_HIDEMAIN"] = "Masquer la fenêtre principale de Minimal Archaeology"
 --[[Translation missing --]]
 L["BINDINGS_MINARCH_CASTSURVEY"] = "Cast Survey"
 --[[Translation missing --]]
 L["BINDINGS_MINARCH_COMPANION_COMMANDS"] = "Minimal Archaeology Companion related Commands"
---[[Translation missing --]]
-L["BINDINGS_MINARCH_MAIN_COMMANDS"] = "Minimal Archaeology Commands"
+L["BINDINGS_MINARCH_MAIN_COMMANDS"] = "Commandes pour Minimal Archaeology"
 --[[Translation missing --]]
 L["BINDINGS_MINARCH_SHOWHIDE"] = "Show/Hide Minimal Archaeology"
 --[[Translation missing --]]

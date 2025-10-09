@@ -1202,7 +1202,7 @@ checkboxShowPvP:SetATTTooltip(L.SHOW_PVP_CHECKBOX_TOOLTIP)
 checkboxShowPvP:AlignBelow(checkboxShowPetBattles)
 
 if app.GameBuildVersion > 50000 and app.GameBuildVersion <= 70000 then
-	local checkboxShowChallengeMaster = child:CreateCheckBox("|TInterface\\Icons\\achievement_challengemode_platinum:0|t |c" .. app.DefaultColors.Default .. L.SHOW_CHALLENGE_MASTER_CHECKBOX,
+	local checkboxShowChallengeMaster = child:CreateCheckBox("|TInterface\\Icons\\achievement_challengemode_platinum:0|t " .. L.SHOW_CHALLENGE_MASTER_CHECKBOX,
 	function(self)
 		self:SetChecked(not settings:Get("Hide:ChallengeMaster"))	-- Inversed, so enabled = show
 		if app.MODE_DEBUG then

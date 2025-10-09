@@ -1,4 +1,4 @@
-## Interface: 110200
+## Interface: 110205
 ## Author: Wowhead
 ## Version: 110200
 

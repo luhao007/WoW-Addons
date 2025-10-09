@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.12.2 - October 7, 2025
+### Added
+- Retail: Added achievements to TBC instances
+- MoP: Added boss portraits and buttons to non-raid TBC instances
+### Changed
+- MoP: Changed TBC maps to the retail versions, which are generally the same but have a few questgivers that were added in Cataclysm
+- Retail: Updated TOC to 11.2.5
+### Fixed
+- Retail: Fix error on load
+- MoP: Fix possible error on boss kill
+- Vanilla: Fix a few instances not getting a difficulty color in the dropdowns
+
 ## 3.12.1 - September 29, 2025
 ### Added
 - Atlas can now be opened in combat
@@ -660,7 +672,7 @@ v1.41.00 (Apr. 14, 2017)
 v1.40.06 (Apr. 13, 2017)
 ------------------------
 - Checking deprecated plugins now will recognize the alpha build's version
-  if specifed; or will ignore those set "v3.12.1" as the version
+  if specifed; or will ignore those set "v3.12.2" as the version
   number to be changed by CurseForge's auto-packaging.
 
 v1.40.05 (Apr. 13, 2017)

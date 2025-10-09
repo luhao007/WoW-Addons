@@ -1,5 +1,24 @@
 ﻿# Changelog
 
+## 9.19.0 - October 9, 2025
+### Added
+- Added Legion Remix items to World Events (items from vendors and achievements, including the phase it's available in)
+- Expanded the Transmog highlight (renamed to Collected) to also work with mounts, pets and toys
+
+## 9.18.3 - October 7, 2025
+### Changed
+- Updated TOC to 11.2.5
+### Fixed
+- Fixed error on load
+
+## 9.18.2 - October 2, 2025
+### Added
+- Added October Trading Post items to Collections
+- Atlas maps can be opened in combat
+- Updated Harvest Festival items with some purchaseable fireworks that never got added to AtlasLoot
+### Fixed
+- Fixed Harvest Festival quest tooltip not showing the Horde quest for Horde
+
 ## 9.18.1 - September 25, 2025
 ### Added
 - Added new Brewfest loot

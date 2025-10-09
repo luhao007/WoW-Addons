@@ -1,4 +1,4 @@
-## Interface: 110200
+## Interface: 110205
 ## Author: Titan Panel Dev Team
 ## Version: 8.4.0
 

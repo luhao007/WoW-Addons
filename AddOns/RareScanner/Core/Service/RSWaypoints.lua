@@ -20,37 +20,39 @@ local function AddWaypoint(mapID, x, y)
 	C_Map.ClearUserWaypoint();
 
 	if (mapID and mapID ~= "" and x and y) then
-		local uiMapPoint = UiMapPoint.CreateFromCoordinates(mapID, tostring(RSUtils.FixCoord(x)), tostring(RSUtils.FixCoord(y)));
-		if (uiMapPoint) then
-			C_Map.SetUserWaypoint(uiMapPoint);
-			C_SuperTrack.SetSuperTrackedUserWaypoint(true);
+		local fixedX = RSUtils.FixCoord(x)
+		local fixedY = RSUtils.FixCoord(y)
+		
+		if (fixedX and fixedY) then
+			local uiMapPoint = UiMapPoint.CreateFromCoordinates(mapID, fixedX, fixedY);
+			if (uiMapPoint) then
+				C_Map.SetUserWaypoint(uiMapPoint);
+				C_SuperTrack.SetSuperTrackedUserWaypoint(true);
+			end
 		end
 	end
 end
 
 function RSWaypoints.AddWorldMapWaypoint(mapID, x, y)
-	if (RSConfigDB.IsAddingWorldMapIngameWaypoints() and mapID and mapID ~= "" and x and y) then
-		C_Map.ClearUserWaypoint();
-		local uiMapPoint = UiMapPoint.CreateFromCoordinates(mapID, tostring(RSUtils.FixCoord(x)), tostring(RSUtils.FixCoord(y)));
-		if (uiMapPoint) then
-			C_Map.SetUserWaypoint(uiMapPoint);
-			C_SuperTrack.SetSuperTrackedUserWaypoint(true);
-		end
+	if (not RSConfigDB.IsAddingWorldMapIngameWaypoints()) then
+		return
 	end
+	
+	AddWaypoint(mapID, x, y)
 end
 
 function RSWaypoints.AddWaypoint(mapID, x, y)
-	if (mapID and mapID ~= "" and x and y and RSConfigDB.IsWaypointsSupportEnabled()) then
-		AddWaypoint(mapID, x, y)
+	if (not RSConfigDB.IsWaypointsSupportEnabled()) then
+		return
 	end
+	
+	AddWaypoint(mapID, x, y)
 end
 
 function RSWaypoints.AddAutomaticWaypoint(mapID, x, y, manuallyFired)
-	-- If not automatic waypoints
 	if (not manuallyFired and not RSConfigDB.IsAddingWaypointsAutomatically()) then
 		return
 	end
 
-	-- Adds the waypoint
 	AddWaypoint(mapID, x, y)
 end

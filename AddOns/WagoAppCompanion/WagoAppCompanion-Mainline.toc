@@ -1,4 +1,4 @@
-## Interface: 110200
+## Interface: 110205
 ## Author: The Wago team
 ## Version: 1.0.0
 

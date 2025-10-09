@@ -101,6 +101,19 @@ local GeneralSettingsBase = {
 		["Window:BorderColor"] = { r = 1, g = 1, b = 1, a = 1 },
 		["Window:UseClassForBorder"] = false,
 		["PresetRestore"] = {},
+		-- Expansion Filters (disabled by default)
+		["ExpansionFilter:Enabled"] = false,
+		["ExpansionFilter:Classic"] = true,
+		["ExpansionFilter:TBC"] = app.GameBuildVersion >= 20000,
+		["ExpansionFilter:Wrath"] = app.GameBuildVersion >= 30000,
+		["ExpansionFilter:Cata"] = app.GameBuildVersion >= 40000,
+		["ExpansionFilter:MoP"] = app.GameBuildVersion >= 50000,
+		["ExpansionFilter:WoD"] = app.GameBuildVersion >= 60000,
+		["ExpansionFilter:Legion"] = app.GameBuildVersion >= 70000,
+		["ExpansionFilter:BfA"] = app.GameBuildVersion >= 80000,
+		["ExpansionFilter:SL"] = app.GameBuildVersion >= 90000,
+		["ExpansionFilter:DF"] = app.GameBuildVersion >= 100000,
+		["ExpansionFilter:TWW"] = app.GameBuildVersion >= 110000,
 	},
 };
 local FilterSettingsBase = {
@@ -308,6 +321,9 @@ settings.Initialize = function(self)
 		GeneralSettingsBase.__index[accountWideThing] = true
 		settings.AccountWide[thing] = true
 	end
+
+	-- Remove obsolete Settings keys
+	settings:Set("ExpansionFilter:Enabled", nil)
 
 	app._SettingsRefresh = GetTimePreciseSec()
 	settings._Initialize = true
@@ -593,13 +609,16 @@ settings.GetModeString = function(self)
 		local totalThingCount, thingCount, things = 0, 0, {};
 		for key,_ in pairs(GeneralSettingsBase.__index) do
 			keyPrefix, thingName = (":"):split(key)
-			if keyPrefix == "Thing" then
+			if keyPrefix == "Thing" or keyPrefix == "ExpansionFilter" then
 				totalThingCount = totalThingCount + 1
 				thingActive = settings:Get(key);
 				if thingActive then
 					-- Heirloom Upgrades only count when Heirlooms are enabled
 					-- This prevents the heirloom uprades and quests locked from being displayed as a mode.
-					if key ~= "Thing:HeirloomUpgrades" or settings:Get("Thing:Heirlooms") then
+					-- Only 'Things' in General settings count towards the mode string
+					if (key ~= "Thing:HeirloomUpgrades" or settings:Get("Thing:Heirlooms"))
+						and keyPrefix == "Thing"
+					then
 						thingCount = thingCount + 1
 						table.insert(things, thingName)
 					end
@@ -690,7 +709,7 @@ settings.GetShortModeString = function(self)
 		local solo = not app.MODE_DEBUG_OR_ACCOUNT
 		for key,_ in pairs(GeneralSettingsBase.__index) do
 			keyPrefix, thingName = (":"):split(key)
-			if keyPrefix == "Thing" then
+			if keyPrefix == "Thing" or keyPrefix == "ExpansionFilter" then
 				totalThingCount = totalThingCount + 1
 				thingActive = settings:Get(key);
 				if thingActive then

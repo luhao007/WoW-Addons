@@ -160,28 +160,29 @@ local PRICE_INFO = {
 	["tolbarad"]                   = { currencyID = 391 },
 	["worldtree"]                  = { currencyID = 416 },
 	["valor"]                      = { currencyID = 1191 },
-	["timewarped"]                 = { currencyID = 1166 },    -- Timewarped Badge
-	["honor"]                      = { currencyID = 1792 },    -- Honor
-	["stygia"]                     = { currencyID = 1767 },    -- Stygia, added in 9.0.1
-	["reservoiranima"]             = { currencyID = 1813 },    -- Reservoir Anima, added in 9.0.1
-	["sinstonefragments"]          = { currencyID = 1816 },    -- Sinstone Fragments, added in 9.0.1
-	["gratefuloffering"]           = { currencyID = 1885 },    -- Grateful Offering, added in 9.0.1
-	["catalogedresearch"]          = { currencyID = 1931 },    -- Cataloged Research, added in 9.1.0
-	["dragonSupplies"]             = { currencyID = 2003 },    -- Dragon Isles Supplies
-	["paracausalFlakes"]           = { currencyID = 2594 },    -- Paracausal Flakes
-	["tender"]                     = { currencyID = 2032 },    -- Trader's Tender
-	["resonanceCrystal"]           = { currencyID = 2815 },    -- Resonance Crystal
-	["kej"]                        = { currencyID = 3056 },    -- Kej
-	["flameBlessedIron"]           = { currencyID = 3090 },    -- Flame-Blessed Iron
-	["marketResearch"]             = { currencyID = 3226 },    -- Market Research
-	["mereldarDerbyMark"]          = { currencyID = 3055 },    -- Mereldar Derby Mark
-	["undercoin"]                  = { currencyID = 2803 },    -- Undercoin
-	["residualMemories"]           = { currencyID = 3089 },    -- ResidualMemories
-	["vintageKajaCola"]            = { currencyID = 3220 },    -- Vintage Kaja'Cola Can
-	["emptyKajaCola"]              = { currencyID = 3218 },    -- Empty Kaja'Cola Can
-	["displacedCorruptedMementos"] = { currencyID = 3149 },    -- Displaced Corrupted Mementos
-	["untetheredCoin"]             = { currencyID = 3303 },    -- Untethered Coin
-	["ridersOfAzerothBadge"]       = { currencyID = 2588 },    -- Riders of Azeroth Badge
+	["timewarped"]                 = { currencyID = 1166 }, -- Timewarped Badge
+	["honor"]                      = { currencyID = 1792 }, -- Honor
+	["stygia"]                     = { currencyID = 1767 }, -- Stygia, added in 9.0.1
+	["reservoiranima"]             = { currencyID = 1813 }, -- Reservoir Anima, added in 9.0.1
+	["sinstonefragments"]          = { currencyID = 1816 }, -- Sinstone Fragments, added in 9.0.1
+	["gratefuloffering"]           = { currencyID = 1885 }, -- Grateful Offering, added in 9.0.1
+	["catalogedresearch"]          = { currencyID = 1931 }, -- Cataloged Research, added in 9.1.0
+	["dragonSupplies"]             = { currencyID = 2003 }, -- Dragon Isles Supplies
+	["paracausalFlakes"]           = { currencyID = 2594 }, -- Paracausal Flakes
+	["tender"]                     = { currencyID = 2032 }, -- Trader's Tender
+	["resonanceCrystal"]           = { currencyID = 2815 }, -- Resonance Crystal
+	["kej"]                        = { currencyID = 3056 }, -- Kej
+	["flameBlessedIron"]           = { currencyID = 3090 }, -- Flame-Blessed Iron
+	["marketResearch"]             = { currencyID = 3226 }, -- Market Research
+	["mereldarDerbyMark"]          = { currencyID = 3055 }, -- Mereldar Derby Mark
+	["undercoin"]                  = { currencyID = 2803 }, -- Undercoin
+	["residualMemories"]           = { currencyID = 3089 }, -- ResidualMemories
+	["vintageKajaCola"]            = { currencyID = 3220 }, -- Vintage Kaja'Cola Can
+	["emptyKajaCola"]              = { currencyID = 3218 }, -- Empty Kaja'Cola Can
+	["displacedCorruptedMementos"] = { currencyID = 3149 }, -- Displaced Corrupted Mementos
+	["untetheredCoin"]             = { currencyID = 3303 }, -- Untethered Coin
+	["ridersOfAzerothBadge"]       = { currencyID = 2588 }, -- Riders of Azeroth Badge
+	["bronze"]                     = { currencyID = 3252 }, -- Bronze (Remix)
 
 	-- others
 	["money"]                      = { func = C_CurrencyInfo.GetCoinTextureString },

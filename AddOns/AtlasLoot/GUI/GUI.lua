@@ -460,7 +460,8 @@ local function TransmogButton_OnEnter(self, owner)
 	else
 		tooltip:SetOwner(self, "ANCHOR_RIGHT", -(self:GetWidth() * 0.5), 5)
 	end
-	tooltip:AddLine(TRANSMOGRIFY)
+	GameTooltip_SetTitle(tooltip, COLLECTED);
+	GameTooltip_AddNormalLine(tooltip, "Highlight collected and uncollected items, including transmogs, mounts, pets and toys.");
 	tooltip:Show()
 end
 
@@ -1137,18 +1138,16 @@ function GUI:Create()
 	frame.contentFrame.transmogButton:SetPoint("LEFT", frame.contentFrame.clasFilterButton, "RIGHT", 5, 0)
 	frame.contentFrame.transmogButton:SetScript("OnClick", TransmogButton_OnClick)
 	frame.contentFrame.transmogButton:SetScript("OnShow", TransmogButton_OnShow)
-	--frame.contentFrame.transmogButton:SetScript("OnHide", TransmogButton_OnHide)
-	--frame.contentFrame.transmogButton:SetScript("OnEvent", TransmogButton_OnEvent)
 	frame.contentFrame.transmogButton:SetScript("OnEnter", TransmogButton_OnEnter)
 	frame.contentFrame.transmogButton:SetScript("OnLeave", TransmogButton_OnLeave)
 	frame.contentFrame.transmogButton:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
 	frame.contentFrame.transmogButton:SetPushedTexture("Interface\\Buttons\\UI-Quickslot-Depress")
 	frame.contentFrame.transmogButton:CreateTexture(nil, "ARTWORK", "ActionBarFlyoutButton-IconFrame", -1)
-	--frame.contentFrame.transmogButton:Hide()
 
 	frame.contentFrame.transmogButton.texture = frame.contentFrame.transmogButton:CreateTexture(frameName.."-transmogButton-texture", "BORDER")
 	frame.contentFrame.transmogButton.texture:SetAllPoints(frame.contentFrame.transmogButton)
-	frame.contentFrame.transmogButton.texture:SetTexture("Interface\\Icons\\INV_Arcane_Orb")
+	frame.contentFrame.transmogButton.texture:SetTexture("Interface\\Icons\\inv_collections_armor_ammopouch_c_01_brown")
+
 
 	self.frame = frame
 

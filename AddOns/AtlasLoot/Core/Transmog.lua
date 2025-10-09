@@ -29,7 +29,51 @@ local TRANSMOG_UPDATE_EVENT = "TRANSMOG_SOURCE_COLLECTABILITY_UPDATE" -- sourceI
 function Proto:IsItemUnlocked(itemStringOrID, sourceID, callbackFunc, callbackArg)
 	if not itemStringOrID and not sourceID then return end
 	local appearanceID, isInfoReady, canCollect
+
 	if itemStringOrID then
+		local parsedItem = AtlasLoot.ItemString.Parse(itemStringOrID)
+
+		-- Toys
+		if C_ToyBox.GetToyInfo(parsedItem.itemID) then
+			local collected = PlayerHasToy(parsedItem.itemID);
+			if callbackFunc then
+				callbackFunc(callbackArg, collected)
+				return
+			else
+				return collected
+			end
+		end
+
+		-- Mounts
+		if C_MountJournal.GetMountFromItem(parsedItem.itemID) then
+			local mountID = C_MountJournal.GetMountFromItem(parsedItem.itemID);
+			local collected = select(11, C_MountJournal.GetMountInfoByID(mountID));
+
+			if callbackFunc then
+				callbackFunc(callbackArg, collected)
+				return
+			else
+				return collected
+			end
+		end
+
+		-- Pets
+		if C_PetJournal.GetPetInfoByItemID(parsedItem.itemID) then
+			local speciesID = select(13, C_PetJournal.GetPetInfoByItemID(parsedItem.itemID));
+			local collected = C_PetJournal.GetNumCollectedInfo(speciesID) > 0;
+
+			if callbackFunc then
+				callbackFunc(callbackArg, collected)
+				return
+			else
+				return collected
+			end
+		end
+
+		-- Ensembles
+		-- TODO
+
+		-- Appearances
 		appearanceID, sourceID = C_TransmogCollection.GetItemInfo(itemStringOrID)
 	end
 	if itemStringOrID and not appearanceID and strfind(itemStringOrID, ":") then

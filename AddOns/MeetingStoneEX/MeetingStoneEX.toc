@@ -1,4 +1,4 @@
-## Interface: 110200
+## Interface: 110205
 ## Version: 11.2.0
 
 ## Title: Meeting Stone EX
@@ -19,4 +19,3 @@ CheckBox.lua
 MeetingStoneEX.lua
 IgnoreListPanel.lua
 MysticRemark.lua
-

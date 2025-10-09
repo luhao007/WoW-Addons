@@ -265,6 +265,18 @@ L.EXPAND_DIFFICULTY_CHECKBOX = "Expand Current Difficulty";
 L.EXPAND_DIFFICULTY_CHECKBOX_TOOLTIP = "Enable this option if you want to automatically expand only the matching difficulty header(s) in the mini list which correspond to the active difficulty when entering a dungeon or raid.\n\nExample: Expand only the Heroic header when entering a Heroic difficulty dungeon.";
 L.EXPAND_MINILIST_CHECKBOX = "Expand Mini Lists";
 L.EXPAND_MINILIST_CHECKBOX_TOOLTIP = "Enable this option to automatically expand all groups contained within the mini lists when viewing them for the first time per game session.";
+L.EXPANSION_CURRENT_ONLY = "Current Only";
+L.EXPANSION_CURRENT_ONLY_TOOLTIP = "Show only current expansion content";
+L.EXPANSION_DISABLE_ALL = "Disable All";
+L.EXPANSION_DISABLE_ALL_TOOLTIP = "Hide content from all expansions";
+L.EXPANSION_ENABLE_ALL = "Enable All";
+L.EXPANSION_ENABLE_ALL_TOOLTIP = "Show content from all expansions";
+L.EXPANSION_EXPLAIN_LABEL = "Select which expansions' content you want to see in your collection windows.";
+L.EXPANSION_FILTER_ENABLE = "Enable Expansion Filtering";
+L.EXPANSION_FILTER_ENABLE_TOOLTIP = "|cffff0000Warning:|r The timeline information in the current Classic/WoD/Legion/BfA databases is incomplete and potentially highly inaccurate. Use with caution.";
+L.EXPANSION_FILTER_LABEL = "Filter by Expansion";
+L.EXPANSION_FILTER_TOOLTIP = "Toggle visibility of %s content";
+L.EXPANSION_FILTERS_PAGE = "Expansion Filters";
 L.EXPANSION_ID = "Expansion ID";
 L.EXPANSION_THINGS_LABEL = "Expansion Things";
 L.EXPLORATION_CHECKBOX = "Exploration (inaccurate)";
@@ -866,7 +878,6 @@ _.CategoryNames = {
 	[3] = "Tarot Decks",
 	[106] = "Card",
 	[107] = "Scrolls",
-	[168] = "Materials",
 	[227] = AUCTION_CATEGORY_WEAPONS,
 	[251] = HEADSLOT,
 	[252] = SHOULDERSLOT,
@@ -876,13 +887,11 @@ _.CategoryNames = {
 	[256] = WAISTSLOT,
 	[257] = LEGSSLOT,
 	[258] = FEETSLOT,
-	[867] = "Prisms & Statues",
 }
 _.CategoryIcons = {
 	[3] = 134492,
 	[106] = 134492,
 	[107] = 134939,
-	[168] = 133237,
 	[227] = 135580,
 	[251] = 133076,
 	[252] = 135032,
@@ -892,7 +901,6 @@ _.CategoryIcons = {
 	[256] = 132513,
 	[257] = 134592,
 	[258] = 132544,
-	[867] = 134096,
 }
 
 -- Custom Header Database Module
@@ -975,6 +983,7 @@ _.HeaderConstants = {
 	QUESTS = -45,
 	RAIDS = -77,
 	RARES = -46,
+	REMIX_LEGION = -104,
 	REMIX_MOP = -105,
 	REWARDS = -47,
 	SCENARIO_COMPLETION = -49,
@@ -1010,7 +1019,7 @@ _.HeaderConstants = {
 	ZULAMAN_CHEST_4 = -87,
 };
 _.HeaderData = {
-	IGNOREINMINILIST = {[-478]=1,[-420]=1,[-130]=1,[-105]=1,[-77]=1,[-76]=1,[-49]=1},
+	IGNOREINMINILIST = {[-478]=1,[-420]=1,[-130]=1,[-105]=1,[-104]=1,[-77]=1,[-76]=1,[-49]=1},
 	FILLNPCS = {[-98]=1,[-95]=1,[-94]=1,[-93]=1,[-90]=1,[-63]=1,[-47]=1,[-27]=1,[-22]=1,[-19]=1},
 };
 localize(L.HEADER_NAMES, {
@@ -1106,6 +1115,7 @@ localize(L.HEADER_NAMES, {
 	[-101] = AUCTION_CATEGORY_WEAPONS,
 	[-102] = INVTYPE_WRIST,
 	[-103] = "Expansion Pre-Launch",
+	[-104] = "Remix: Legion",
 	[-105] = "WoW Remix: Mists of Pandaria",
 	[-106] = "Winds of Mysterious Fortune",
 	[-115] = "Buildings",
@@ -1197,12 +1207,15 @@ localize(L.HEADER_NAMES, {
 	[-214] = ITEM_QUALITY6_DESC,
 	[-215] = ITEM_QUALITY1_DESC,
 	[-216] = ELITE,
+	[-217] = ITEM_QUALITY4_DESC,
 	[-219] = HEIRLOOMS,
 	[-220] = ITEM_QUALITY5_DESC,
 	[-221] = LOOT_JOURNAL_LEGENDARIES,
 	[-222] = ITEM_QUALITY0_DESC,
+	[-223] = ITEM_QUALITY3_DESC,
 	[-224] = "Thunderforged",
 	[-225] = string.format(GARRISON_CURRENT_LEVEL.." "..WARDROBE_SETS, 3),
+	[-227] = ITEM_QUALITY2_DESC,
 	[-228] = "Warforged",
 	[-229] = "Source IDs",
 	[-230] = "Trading Post",
@@ -1576,13 +1589,14 @@ localize(L.HEADER_NAMES, {
 	[-654] = "Harvesting",
 	[-656] = "Brawler's Guild",
 	[-657] = "Krasarang Wilds Campaign",
+	[-658] = select(2,GetAchievementInfo(61406)),
 	[-659] = "Twilight Assist",
 	[-660] = "Twilight Duo",
 	[-661] = "Twilight Zone",
 	[-662] = "Champion Equipment",
 	[-665] = "Brewfest Banquet",
-	[-666] = "|cffFF0000Ogom the Mangler seems just to spawn when you are doing the Daily 'Assault on the Iron Siegeworks'. This Quest wasn't active since the start of Legion and the buyable Quest 'Missive: Assault on the Iron Siegeworks' does not work either.|r",
-	[-667] = "|cFFFFFFFFStep 1:|r Conspicious Note",
+	[-677] = "|cffFF0000Ogom the Mangler seems just to spawn when you are doing the Daily 'Assault on the Iron Siegeworks'. This Quest wasn't active since the start of Legion and the buyable Quest 'Missive: Assault on the Iron Siegeworks' does not work either.|r",
+	[-678] = "|cFFFFFFFFStep 1:|r Conspicious Note",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-24] = "Contains things that are rewarded upon completing that event.",
@@ -1640,7 +1654,6 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-476] = "Get swept away in the Plunderstorm— a fun, new, limited-time, pirate-themed event of prodigious proportions lasting the next several weeks. Scour the map and try to be the last pirate standing while dashing across the Arathi Highlands to find abilities, upgrades, and loot to plunder just to survive!\n\nTo Play: Login to Retail WoW and select 'Plunderstorm' from the Game Mode on the top left of your Character Select screen.",
 	[-477] = "This ingame shop menu allows you to purchase new and returning rewards in exchange for Plunder earned during the event.",
 	[-479] = "These items were obtained by characters created during the Remix Event and were automatically transferred to Retail when the event ended.",
-	[-480] = "The Infinite Bazaar has multiple locations.",
 	[-481] = "The Ruins of Ahn'Qiraj and Temple of Ahn'Qiraj were not be immediately available with the release of Phase 5. Instead, server communities had to undertake a massive war effort to open the raids by gathering supplies to prepare for the war and completing an epic questline that ultimately culminates in the banging of a gong to open the gates and release the horrors within upon the world.\n\nOnce both factions have finished their contribution, there is a 5-day grace period where. Afterwards, there is a server-wide 10 hour event which spans several zones in Kalimdor the moment someone bangs the gong.\n\nHow quickly Ahn'Qiraj opens depends on the server and its faction balance.\n\nWe recommend delaying the War Effort as long as possible to allow for the most number of people to obtain the Scarab Lord mount as everyone that finishes The Scepter of the Shifting Sands quest line will be granted the same rewards!",
 	[-482] = "The Opening of the Dark Portal was a one-time event that happened between Prepatch and the launch of TBC and subsequentially removed after. The tabard is the only tabard in the game with the Flex emote built into it and is highly covetted by collectors. Highlord Kruul would spawn randomly outside of the major cities and max level zones of the time.",
 	[-483] = "In addition to all players on a realm working towards completing the War Effort, one player had to create the Scepter of the Shifting Sands - a very difficult task that could only be solved by a server's top guild back when the questline was added. After the war effort was finished and the army of the Alliance and the Horde arrived in Silithus, the Scepter of the Shifting Sands could be used on the Scarab Gong. Doing so resulted in the opening of Ahn'Qiraj. The first player to bang the Scarab Gong on each server would be rewarded with the Scarab Lord title (in Burning Crusade, the title will not be available in Classic!) and the Black Qiraji Resonating Crystal mount. Anyone else who followed them within 10 hours was rewarded with the title as well.\n\nAlthough it is still possible to complete the questline for the Scepter of the Shifting Sands after the gates have been opened on your server, doing so will not reward neither the Black Qiraji Resonating Crystal nor the Scarab Lord title.",
@@ -1649,7 +1662,7 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-508] = "Congrats on making it this far!  Now it's time to take your favorite li'l ghost on a world tour.",
 	[-514] = "These promotions happened during the time Shadowlands was the most recent content between 13th October 2020 & 25th October 2022.\n\nThey are listed in the order of their first appearance.",
 	[-515] = "These promotions happened during the time Dragonflight was the most recent expansion between 25th October 2022 & 24th July 2024.\n\nThey are listed in the order of their first appearance.",
-	[-516] = "These promotions happened during the time The War Within.\n\nThey are listed in the order of their first appearance.",
+	[-516] = "These promotions happened during the time The War Within was the most recent expansion.\n\nThey are listed in the order of their first appearance.",
 	[-517] = "Promotion for SteelSeries World of Warcraft Limited Edition Collection.",
 	[-518] = "Promotion for Razer Gaming Peripherals World of Warcraft Collection. Purchasing any item will award all three promotional codes.",
 	[-519] = "Amazon Prime Gaming offers in-game content for World of Warcraft Retail. Depending on your country, Amazon Prime (which includes Gaming) costs between 4-16 $/€ per month with the occasional monthly free trial available.\n\nCreate a Twitch account & connect it with your Prime Account. Next connect your B.Net Account with your Twitch Account. Lastly claim your monthly reward under 'gaming.amazon.com/loot/wow'.\n\nAmazon Prime also comes with a free Twitch subscription which you can use to support AllTheThings.\n\nTwitch.tv/Crieve\nTwitch.tv/Goldenshacal",
@@ -1791,6 +1804,7 @@ localize(L.HEADER_ICONS, {
 	[-101] = _.asset("weapon_type_epic"),
 	[-102] = 132606,
 	[-103] = 134289,
+	[-104] = _.asset("category_remix"),
 	[-105] = _.asset("category_remix"),
 	[-106] = 6439633,
 	[-115] = 1005027,
@@ -1872,12 +1886,15 @@ localize(L.HEADER_ICONS, {
 	[-214] = _.asset("weapon_type_artifact"),
 	[-215] = 135030,
 	[-216] = 237273,
+	[-217] = 135028,
 	[-219] = _.asset("weapon_type_heirloom"),
 	[-220] = _.asset("weapon_type_legendary"),
 	[-221] = _.asset("weapon_type_legendary"),
 	[-222] = 135025,
+	[-223] = 135023,
 	[-224] = 839979,
 	[-225] = 236489,
+	[-227] = 135024,
 	[-228] = 450907,
 	[-229] = 134400,
 	[-230] = _.asset("category_tradingpost"),
@@ -2243,6 +2260,7 @@ localize(L.HEADER_ICONS, {
 	[-652] = 838687,
 	[-654] = 134427,
 	[-656] = 132356,
+	[-658] = 133783,
 	[-659] = 236469,
 	[-660] = 236473,
 	[-661] = 236471,
@@ -2253,6 +2271,7 @@ localize(L.HEADER_EVENTS, {
 	[-37] = 1,
 	[-38] = 258,
 	[-70] = 239,
+	[-104] = 447,
 	[-105] = 437,
 	[-106] = 450,
 	[-476] = 444,
@@ -2298,6 +2317,7 @@ localize(L.HEADER_EVENTS, {
 	[-607] = 1262,
 	[-608] = 1397,
 	[-609] = 1509,
+	[-658] = 1501,
 });
 localize(L.EVENT_REMAPPING, {
 	[141] = 14,
@@ -2379,6 +2399,11 @@ localize(L.EVENT_REMAPPING, {
 	[1634] = 444,
 	[1635] = 444,
 	[1636] = 450,
+	[1640] = 447,
+	[1641] = 447,
+	[1642] = 447,
+	[1643] = 447,
+	[1644] = 447,
 	[1666] = 239,
 	[1667] = 239,
 	[1668] = 239,
@@ -2393,13 +2418,18 @@ localize(L.EVENT_REMAPPING, {
 	[1691] = 422,
 	[1692] = 422,
 	[1693] = 422,
+	[1697] = 447,
 });
 
 localize(L.EVENT_TIMERUNNING_SEASONS, {
 	[1] = 437,
+	[2] = 447,
 });
 
 -- Programmatic Event Scheduling
+_.Modules.Events.SetEventInformation(1501, {
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=1,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=1,["year"]=2025})
+});
 _.Modules.Events.SetEventInformation(1509, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=10,["monthDay"]=22,["weekday"]=3,["year"]=2024},{["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=7,["weekday"]=3,["year"]=2025})
 });
@@ -2439,7 +2469,6 @@ _.Modules.Events.SetEventInformation(242, {
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=10,["monthDay"]=22,["weekday"]=5,["year"]=2026},{["hour"]=10,["minute"]=0,["month"]=1,["monthDay"]=7,["weekday"]=5,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(133900, {
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=28,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=9,["monthDay"]=28,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=10,["monthDay"]=5,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=10,["monthDay"]=5,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=10,["monthDay"]=12,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=10,["monthDay"]=12,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=10,["monthDay"]=19,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=10,["monthDay"]=19,["weekday"]=1,["year"]=2025}),
@@ -2491,7 +2520,8 @@ _.Modules.Events.SetEventInformation(133900, {
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=6,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=9,["monthDay"]=6,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=13,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=9,["monthDay"]=13,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=20,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=9,["monthDay"]=20,["weekday"]=1,["year"]=2026}),
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=27,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=9,["monthDay"]=27,["weekday"]=1,["year"]=2026})
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=27,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=9,["monthDay"]=27,["weekday"]=1,["year"]=2026}),
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=10,["monthDay"]=4,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=10,["monthDay"]=4,["weekday"]=1,["year"]=2026})
 });
 _.Modules.Events.SetEventInformation(133899, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=2,["year"]=2024},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=4,["year"]=2025}),
@@ -2508,6 +2538,9 @@ _.Modules.Events.SetEventInformation(444, {
 });
 _.Modules.Events.SetEventInformation(437, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=5,["monthDay"]=16,["weekday"]=5,["year"]=2024},{["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=20,["weekday"]=3,["year"]=2024})
+});
+_.Modules.Events.SetEventInformation(447, {
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=10,["monthDay"]=7,["weekday"]=3,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=19,["weekday"]=2,["year"]=2026})
 });
 
 -- Filter Database Module
@@ -3440,7 +3473,7 @@ _.FlightPathNames = {
 	[1761] = "Prepfoot, Highmountain",
 	[1764] = "Starsong Refuge, Val'sharah",
 	[1766] = "Garden of the Moon, Val'sharah",
-	[1767] = "Nesingwary, Highmountain",
+	[1767] = "Nesingwary's Retreat, Highmountain",
 	[1774] = "Dalaran",
 	[1777] = "Sylvan Falls, Highmountain",
 	[1778] = "Stonehoof Watch, Highmountain",
@@ -8019,6 +8052,7 @@ local ObjectNames = {
 	[255828] = "Small Treasure Chest",
 	[255829] = "Small Treasure Chest",
 	[255963] = "Vrykul Ancestral Chest",
+	[256789] = "Fist of Ra-den",
 	[256790] = "Elven Treasure Chest",
 	[257290] = "Highmountain Clan Chest",
 	[257291] = "Nightborne Treasure Chest",
@@ -8099,6 +8133,7 @@ local ObjectNames = {
 	[272778] = "Rich Empyrium Deposit",
 	[272780] = "Empyrium Seam",
 	[272782] = "Astral Glory",
+	[272918] = "Gilded Triumvirate Chest",
 	[273052] = "Fel-Encrusted Herb",
 	[273053] = "Fel-Encrusted Herb Cluster",
 	[273193] = "Prickly Plum",
@@ -8633,6 +8668,7 @@ local ObjectNames = {
 	[307748] = "Venture Co. Letter",
 	[307778] = "Large Azerite Bomb",
 	[307836] = "Twilight Ore",
+	[309497] = "Pile of Disenchanted Metal",
 	[309498] = "Armor Stand",
 	[309505] = "Void Stone",
 	[309657] = "Gunpowder Keg",
@@ -9915,6 +9951,7 @@ local ObjectNames = {
 	[396019] = "Stolen Stash",
 	[396020] = "Stolen Stash",
 	[396339] = "Moth-Pilfered Pouch",
+	[398017] = "Underlight Moth Cocoon",
 	[398133] = "Bolts and Brass",
 	[398135] = "Discarded Dracothyst Drill",
 	[398138] = "Molten Scoutbot",
@@ -11193,9 +11230,12 @@ local ObjectNames = {
 	[527416] = "Suspicious Document",
 	[527488] = "Phantom Bloom",
 	[527489] = "Lush Phantom Bloom",
+	[527833] = "Archeology Chest",
 	[527842] = "Strange Metal Bar",
 	[528358] = "Uncharged Crystal",
 	[529289] = "Spore Sample",
+	[529396] = "Weapon Crate",
+	[529397] = "Curio Lockbox",
 	[529525] = "Light-Soaked Cleaver",
 	[529533] = "Spear of Fallen Memories",
 	[529537] = "Efrat's Forgotten Bulwark",
@@ -11295,7 +11335,6 @@ local ObjectNames = {
 	[13000028] = "|cFFFFFFFFStep 4:|r Luxurous Luxscale Scale",
 	[13000029] = "|cFFFFFFFFStep 5:|r Captured Cavitation Bubble",
 	[13000030] = "Purchase Red Crystal Monocle",
-	[13000031] = "Red Crystal Monocle",
 	[13000032] = "|cFFFFFFFFStep 3:|r Pick a Monocle (Or Don't!)",
 	[13000033] = "|cFFFFFFFFStep 4:|r Suramar Beams",
 	[13000034] = "|cFFFFFFFFStep 5:|r Cat Code",
@@ -12408,7 +12447,6 @@ local ObjectIcons = {
 	[13000028] = 1526615,
 	[13000029] = 462651,
 	[13000030] = 133146,
-	[13000031] = 133146,
 	[13000032] = 133146,
 	[13000033] = 3528282,
 	[13000034] = 656576,
@@ -15660,6 +15698,7 @@ local ObjectModels = {
 	[255828] = 1402225,
 	[255829] = 1402225,
 	[255963] = 1402263,
+	[256789] = 353152,
 	[256790] = 1349620,
 	[257290] = 1402225,
 	[257291] = 1349620,
@@ -15740,6 +15779,7 @@ local ObjectModels = {
 	[272778] = 1692857,
 	[272780] = 1693357,
 	[272782] = 1685295,
+	[272918] = 1062118,
 	[273052] = 1616103,
 	[273053] = 1616102,
 	[273193] = 305760,
@@ -16274,6 +16314,7 @@ local ObjectModels = {
 	[307748] = 1331239,
 	[307778] = 985362,
 	[307836] = 984397,
+	[309497] = 955847,
 	[309498] = 197910,
 	[309505] = 2387306,
 	[309657] = 1662881,
@@ -17555,6 +17596,7 @@ local ObjectModels = {
 	[396019] = 4621388,
 	[396020] = 4621388,
 	[396339] = 4182533,
+	[398017] = 608905,
 	[398133] = 999889,
 	[398135] = 999890,
 	[398138] = 2902889,
@@ -18596,9 +18638,12 @@ local ObjectModels = {
 	[527414] = 1664990,
 	[527415] = 5502807,
 	[527416] = 5007027,
+	[527833] = 942843,
 	[527842] = 929372,
 	[528358] = 1345286,
 	[529289] = 5201692,
+	[529396] = 1271629,
+	[529397] = 1341657,
 	[529673] = 198168,
 	[529677] = 197685,
 	[531961] = 243411,
@@ -19469,7 +19514,6 @@ L.QUEST_NAMES = {
 	[32286] = "Kill Mogu Blood-seekers (Roaming pairs, actively fighting scouts, and performing rituals on corpses)",
 	[32290] = "Unused",
 	[32291] = "[PH] The Fall of Shan Bu",
-	[32306] = "Lumber Collection Tracking",
 	[32311] = "Enlistment Orders",
 	[32312] = "Enlistment Orders",
 	[32313] = "Hunt Helheim",
@@ -21387,12 +21431,9 @@ L.QUEST_NAMES = {
 	[50145] = "Step 6: Kun-Lai Summit",
 	[50146] = "Step 7: Blackrock Mountain",
 	[50147] = "Step 8: Temple of Karabor",
-	[50181] = "Blue Crystal Monocle",
-	[50183] = "Yellow Crystal Monocle",
-	[50185] = "Green Crystal Monocle",
 	[50250] = "Posthaste",
 	[50384] = "Doug Test - Completable Quest4",
-	[52819] = _.L.HEADER_NAMES[-667],
+	[52819] = _.L.HEADER_NAMES[-678],
 	[52917] = "Grimmy Dialogue",
 	[53417] = "Lost Spawn of Krag'wa (The Shattered River)",
 	[53418] = "Lost Spawn of Krag'wa (Razorjaw River)",
@@ -22309,7 +22350,7 @@ L.QUEST_NAMES = {
 	[91524] = "Stay awhile and listen: Captaion Roderick Brewston",
 	[91532] = "Stay awhile and listen: Faerin Lothar",
 	[91534] = "Stay awhile and listen: Eitrigg",
-	[91894] = "Has rolled for Coren Special Loot (Daily Accountwide)",
+	[91894] = "Coren Special Loot (Daily Accountwide)",
 	[92627] = "An Arrested Development",
 	[92651] = "Deathless Attempt Finished",
 }
@@ -22543,6 +22584,18 @@ L.DUNGEON_DIFF_DESC = "Der Schwierigkeitsgrad für Instanzen.\n\nKlicke diese Ze
 L.DUNGEON_DIFF_DESC_2 = "Mit dieser Einstellung könnt Ihr den Schwierigkeitsgrad von Instanzen ändern.\n\nKlicke auf diese Zeile, um zum Raid Assistenten zurückzukehren.";
 L.DURING_WQ_ONLY = "Dies kann nur abgeschlossen werden, solange die Weltquest aktiv ist.";
 L.DYNAMIC_CATEGORY_SIMPLE = "Simpel";
+L.EXPANSION_CURRENT_ONLY = "Nur Aktuell";
+L.EXPANSION_CURRENT_ONLY_TOOLTIP = "Nur Inhalte der aktuellen Erweiterung anzeigen";
+L.EXPANSION_DISABLE_ALL = "Alle deaktivieren";
+L.EXPANSION_DISABLE_ALL_TOOLTIP = "Inhalte aller Erweiterungen ausblenden";
+L.EXPANSION_ENABLE_ALL = "Alle aktivieren";
+L.EXPANSION_ENABLE_ALL_TOOLTIP = "Inhalte aller Erweiterungen anzeigen";
+L.EXPANSION_EXPLAIN_LABEL = "Wähle aus, welche Erweiterungsinhalte du in deinen Sammlungsfenstern sehen möchtest.";
+L.EXPANSION_FILTER_ENABLE = "Erweiterungsfilterung aktivieren";
+L.EXPANSION_FILTER_ENABLE_TOOLTIP = "|cffff0000Warnung:|r Die Timeline-Informationen in den aktuellen Classic/WoD/Legion/BfA-Datenbanken sind unvollständig und möglicherweise sehr ungenau. Mit Vorsicht verwenden.";
+L.EXPANSION_FILTER_LABEL = "Nach Erweiterung filtern";
+L.EXPANSION_FILTER_TOOLTIP = "Sichtbarkeit von %s-Inhalten umschalten";
+L.EXPANSION_FILTERS_PAGE = "Erweiterungsfilter";
 L.EXPANSION_THINGS_LABEL = "Erweiterungs Dinge";
 L.FACTION_MODE = "Nur derzeitige Fraktion";
 L.FACTION_SPECIFIC_REP = "Nicht alle Fraktionen können mit einem Charakter angesehen werden. z.B. der Kriegshymnenklan kann nicht mit einem Allianz Charakter angesehen werden, und die Silberschwingen können nicht mit einem Horde Charakter angesehen werden.";
@@ -22932,8 +22985,8 @@ localize(L.HEADER_NAMES, {
 	[-660] = "Zwielicht-Duo",
 	[-661] = "Zwielichtzone",
 	[-662] = "Championausrüstung",
-	[-666] = "|cffFF0000Ogom der Mangler scheint gerade dann zu erscheinen, wenn Sie den täglichen „Angriff auf das Eiserne Belagerungswerk“ durchführen. Diese Quest war seit Beginn von Legion nicht mehr aktiv und die käufliche Quest „Missive: Angriff auf das Eiserne Belagerungswerk“ funktioniert auch nicht.|r",
-	[-667] = "|cFFFFFFFFSchritt 1:|r Auffällige Notiz",
+	[-677] = "|cffFF0000Ogom der Mangler scheint gerade dann zu erscheinen, wenn Sie den täglichen „Angriff auf das Eiserne Belagerungswerk“ durchführen. Diese Quest war seit Beginn von Legion nicht mehr aktiv und die käufliche Quest „Missive: Angriff auf das Eiserne Belagerungswerk“ funktioniert auch nicht.|r",
+	[-678] = "|cFFFFFFFFSchritt 1:|r Auffällige Notiz",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-36] = "Es muss möglicherweise ein bestimmter Feiertag aktiv sein, um hier genannte Dinge abschließen zu können.",
@@ -26129,6 +26182,7 @@ localize(ObjectNames, {
 	[255828] = "Kleine Schatztruhe",
 	[255829] = "Kleine Schatztruhe",
 	[255963] = "Erbtruhe der Vrykul",
+	[256789] = "Die Faust des Ra-den",
 	[256790] = "Elfische Schatztruhe",
 	[257290] = "Truhe des Hochbergklans",
 	[257291] = "Schatztruhe der Nachtgeborenen",
@@ -26205,6 +26259,7 @@ localize(ObjectNames, {
 	[272778] = "Reiches Empyriumvorkommen",
 	[272780] = "Empyriumflöz",
 	[272782] = "Astralwinde",
+	[272918] = "Vergoldete Truhe des Triumvirats",
 	[273052] = "Teufelsverkrustetes Kraut",
 	[273053] = "Teufelsverkrustetes Kräuterbüschel",
 	[273193] = "Stachelpflaume",
@@ -26735,6 +26790,7 @@ localize(ObjectNames, {
 	[307748] = "Brief der Venture Co.",
 	[307778] = "Große Azeritbombe",
 	[307836] = "Zwielichterz",
+	[309497] = "Haufen entzaubertes Metall",
 	[309498] = "Rüstungsständer",
 	[309505] = "Leerenstein",
 	[309657] = "Schießpulverfass",
@@ -28001,6 +28057,7 @@ localize(ObjectNames, {
 	[396019] = "Gestohlenes Lager",
 	[396020] = "Gestohlenes Lager",
 	[396339] = "Von Motten geplünderte Tasche",
+	[398017] = "Tiefenlichtmottenkokon",
 	[398133] = "Bolzen und Bronze",
 	[398135] = "Weggeworfener Drakothystbohrer",
 	[398138] = "Geschmolzener Späherbot",
@@ -28944,7 +29001,6 @@ localize(ObjectNames, {
 	[13000028] = "|cFFFFFFFFSchritt 4:|r Üppige Luxschuppenschuppe",
 	[13000029] = "|cFFFFFFFFSchritt 5:|r Eingefangene Kavitationsblase",
 	[13000030] = "Purchase Rotes Kristallmonokel",
-	[13000031] = "Rotes Kristallmonokel",
 	[13000032] = "|cFFFFFFFFSchritt 3:|r Pick a Monocle (Or Don't!)",
 	[13000033] = "|cFFFFFFFFSchritt 4:|r Suramar Beams",
 	[13000034] = "|cFFFFFFFFSchritt 5:|r Cat Code",
@@ -29052,6 +29108,18 @@ L.DYNAMIC_CATEGORY_LABEL = "Catégories dynamiques";
 L.DYNAMIC_CATEGORY_SIMPLE_TOOLTIP = "Générer des catégories dynamiques en se basant uniquement sur la catégorie la plus haute";
 L.DYNAMIC_CATEGORY_TOOLTIP_NOTE = "\n\n|cffff0000Requiert un rechargement|r";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX = "Intégrations des infobulles";
+L.EXPANSION_CURRENT_ONLY = "Actuel Uniquement";
+L.EXPANSION_CURRENT_ONLY_TOOLTIP = "Afficher uniquement le contenu de l'extension actuelle";
+L.EXPANSION_DISABLE_ALL = "Désactiver Tout";
+L.EXPANSION_DISABLE_ALL_TOOLTIP = "Masquer le contenu de toutes les extensions";
+L.EXPANSION_ENABLE_ALL = "Activer Tout";
+L.EXPANSION_ENABLE_ALL_TOOLTIP = "Afficher le contenu de toutes les extensions";
+L.EXPANSION_EXPLAIN_LABEL = "Sélectionnez le contenu des extensions que vous souhaitez voir dans vos fenêtres de collection.";
+L.EXPANSION_FILTER_ENABLE = "Activer le Filtrage par Extension";
+L.EXPANSION_FILTER_ENABLE_TOOLTIP = "|cffff0000Avertissement :|r Les informations de chronologie dans les bases de données actuelles Classic/WoD/Legion/BfA sont incomplètes et potentiellement très inexactes. À utiliser avec prudence.";
+L.EXPANSION_FILTER_LABEL = "Filtrer par Extension";
+L.EXPANSION_FILTER_TOOLTIP = "Basculer la visibilité du contenu de %s";
+L.EXPANSION_FILTERS_PAGE = "Filtres d'Extension";
 L.FACTION_MODE = "Faction uniquement";
 L.FACTION_MODE_TOOLTIP = "Activez cette option si vous souhaitez afficher les données du mode Compte uniquement pour les races et les classes de votre faction actuelle.";
 L.FAILED_ITEM_INFO = "Échec de l’acquisition des informations pour cet objet. Il se peut que l’objet soit pas valide ou qu’il n’ait pas encore été mis en cache sur votre serveur.";
@@ -29464,8 +29532,8 @@ localize(L.HEADER_NAMES, {
 	[-660] = "Duo Crépusculaire",
 	[-661] = "Chroniques des Crépusculaires",
 	[-662] = "Équipement de champion",
-	[-666] = "|cffFF0000Ogom le Mangler semble apparaître lorsque vous effectuez l'« Assaut quotidien sur les usines de siège de fer ». Cette quête n'était plus active depuis le début de Legion et la quête achetable « Missive : Assaut sur les usines de siège de fer » ne fonctionne pas non plus.|r",
-	[-667] = "|cFFFFFFFFÉtape 1:|r Note mise en évidence",
+	[-677] = "|cffFF0000Ogom le Mangler semble apparaître lorsque vous effectuez l'« Assaut quotidien sur les usines de siège de fer ». Cette quête n'était plus active depuis le début de Legion et la quête achetable « Missive : Assaut sur les usines de siège de fer » ne fonctionne pas non plus.|r",
+	[-678] = "|cFFFFFFFFÉtape 1:|r Note mise en évidence",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-24] = "Contient des objets de récompenses ou disponibles dans d’autres contenus de la section qui les contient.\nIls sont regroupés ici dans le but de réduire la duplication de nombreuses sources possibles.",
@@ -32677,6 +32745,7 @@ localize(ObjectNames, {
 	[255828] = "Petit coffre au trésor",
 	[255829] = "Petit coffre au trésor",
 	[255963] = "Coffre ancestral vrykul",
+	[256789] = "Poing de Ra Den",
 	[256790] = "Coffre au trésor elfique",
 	[257290] = "Coffre clanique de Haut-Roc",
 	[257291] = "Coffre au trésor sacrenuit",
@@ -32754,6 +32823,7 @@ localize(ObjectNames, {
 	[272778] = "Riche gisement d'empyrium",
 	[272780] = "Veine d'empyrium",
 	[272782] = "Astralée",
+	[272918] = "Coffre du triumvirat doré",
 	[273052] = "Herbe incrustée de corruption",
 	[273053] = "Touffe d’herbe incrustée de corruption",
 	[273193] = "Prune épineuse",
@@ -33286,6 +33356,7 @@ localize(ObjectNames, {
 	[307748] = "Lettre de la KapitalRisk",
 	[307778] = "Grande bombe d’azérite",
 	[307836] = "Minerai du Crépuscule",
+	[309497] = "Pile de métal désenchanté",
 	[309498] = "Présentoir à armure",
 	[309505] = "Pierre de Vide",
 	[309657] = "Baril de poudre à canon",
@@ -34535,6 +34606,7 @@ localize(ObjectNames, {
 	[396019] = "Butin volé",
 	[396020] = "Butin volé",
 	[396339] = "Bourse volée par les phalènes",
+	[398017] = "Cocon de phalène terradiance",
 	[398133] = "Boulons et cuivre",
 	[398135] = "Perceuse en dracothyste abandonnée",
 	[398138] = "Explorobot fondu",
@@ -35446,7 +35518,6 @@ localize(ObjectNames, {
 	[13000028] = "|cFFFFFFFFÉtape 4:|r Écaille de luxécaille luxueuse",
 	[13000029] = "|cFFFFFFFFÉtape 5:|r Bulle de cavitation emprisonnée",
 	[13000030] = "Acheter un Monocle de cristal rouge",
-	[13000031] = "Monocle de cristal rouge",
 	[13000032] = "|cFFFFFFFFÉtape 3:|r Choisir un monocle (Ou pas !)",
 	[13000033] = "|cFFFFFFFFÉtape 4:|r Raypons de Suramar",
 	[13000034] = "|cFFFFFFFFÉtape 5:|r Code du Chat",
@@ -35467,6 +35538,18 @@ L.APPEARANCES_CHECKBOX = "Aspetto";
 L.AZERITE_ESSENCES_CHECKBOX = "|T" .. _.asset("Expansion_BFA") .. ":0|t Essenze del Cuore di Azeroth";
 L.BATTLE_PETS_CHECKBOX = "Mascotte da combattimento";
 L.CATALYST = "Catalizzatore";
+L.EXPANSION_CURRENT_ONLY = "Solo Attuale";
+L.EXPANSION_CURRENT_ONLY_TOOLTIP = "Mostra solo contenuti dell'espansione attuale";
+L.EXPANSION_DISABLE_ALL = "Disabilita Tutto";
+L.EXPANSION_DISABLE_ALL_TOOLTIP = "Nascondi contenuti da tutte le espansioni";
+L.EXPANSION_ENABLE_ALL = "Abilita Tutto";
+L.EXPANSION_ENABLE_ALL_TOOLTIP = "Mostra contenuti da tutte le espansioni";
+L.EXPANSION_EXPLAIN_LABEL = "Seleziona quale contenuto delle espansioni vuoi vedere nelle tue finestre di collezione.";
+L.EXPANSION_FILTER_ENABLE = "Abilita Filtro Espansione";
+L.EXPANSION_FILTER_ENABLE_TOOLTIP = "|cffff0000Attenzione:|r Le informazioni sulla timeline nei database attuali di Classic/WoD/Legion/BfA sono incomplete e potenzialmente molto imprecise. Usare con cautela.";
+L.EXPANSION_FILTER_LABEL = "Filtra per Espansione";
+L.EXPANSION_FILTER_TOOLTIP = "Attiva/disattiva la visibilità del contenuto di %s";
+L.EXPANSION_FILTERS_PAGE = "Filtri Espansione";
 L.FOLLOWERS_CHECKBOX = "|T" .. _.asset("Expansion_WOD") .. ":0|t Seguaci & Avventurieri";
 L.NEW_VERSION_FLAVORS = {"perché AllTheThings ha fame."};
 L.PLAYER_RANK_AUTHOR = "|T" .. _.asset("logo_32x32") .. ":0|t |c" .. _.DefaultColors.White .. "Autore|r";
@@ -35608,8 +35691,8 @@ localize(L.HEADER_NAMES, {
 	[-660] = "Doppietta Crepuscolare",
 	[-661] = "Zona del Crepuscolo",
 	[-662] = "Equipaggiamento campione",
-	[-666] = "|cffFF0000Ogom the Mangler sembra apparire solo quando stai eseguendo l'\"Assalto alle officine d'assedio di ferro\" giornaliero. Questa missione non era attiva dall'inizio di Legion e neanche la missione acquistabile \"Missiva: Assalto alle officine d'assedio di ferro\" funziona.|r",
-	[-667] = "|cFFFFFFFFStep 1:|r Nota Vistosa",
+	[-677] = "|cffFF0000Ogom the Mangler sembra apparire solo quando stai eseguendo l'\"Assalto alle officine d'assedio di ferro\" giornaliero. Questa missione non era attiva dall'inizio di Legion e neanche la missione acquistabile \"Missiva: Assalto alle officine d'assedio di ferro\" funziona.|r",
+	[-678] = "|cFFFFFFFFStep 1:|r Nota Vistosa",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-106] = "Ottieni esperienza e reputazione bonus nel corso delle tue avventure ad Azeroth, e trova tesori misteriosi sulle Isole dei Draghi e a Khaz Algar!",
@@ -38585,6 +38668,7 @@ localize(ObjectNames, {
 	[255828] = "Cassa del Tesoro Piccola",
 	[255829] = "Cassa del Tesoro Piccola",
 	[255963] = "Cassa Ancestrale dei Vrykul",
+	[256789] = "Pugno di Ra-Den",
 	[256790] = "Cassa del Tesoro Elfica",
 	[257290] = "Cassa dei Clan di Alto Monte",
 	[257291] = "Cassa del Tesoro dei Nobili Oscuri",
@@ -38660,6 +38744,7 @@ localize(ObjectNames, {
 	[272778] = "Deposito Ricco d'Empirio",
 	[272780] = "Vena d'Empirio",
 	[272782] = "Gloria Astrale",
+	[272918] = "Forziere del Triumvirato Dorato",
 	[273052] = "Erba Vilincrostata",
 	[273053] = "Fascio d'Erba Vilincrostata",
 	[273193] = "Prugna Spinosa",
@@ -39179,6 +39264,7 @@ localize(ObjectNames, {
 	[307683] = "Bombe d'Azerite",
 	[307778] = "Bomba d'Azerite Grande",
 	[307836] = "Minerale del Crepuscolo",
+	[309497] = "Mucchio di Metallo Disincantato",
 	[309498] = "Supporto per Armatura",
 	[309657] = "Barile di Polvere da Sparo",
 	[309916] = "Piani di Battaglia di Gelbin Meccatork",
@@ -40355,6 +40441,7 @@ localize(ObjectNames, {
 	[396019] = "Scorte Rubate",
 	[396020] = "Scorte Rubate",
 	[396339] = "Borsello Trafugato da una Falena",
+	[398017] = "Bozzolo di Falena di Sottoluce",
 	[398133] = "Bulloni e Ottoni",
 	[398135] = "Trivella di Dracotista Abbandonata",
 	[398138] = "Esplorabot Fuso",
@@ -41099,7 +41186,6 @@ localize(ObjectNames, {
 	[9999920] = "|cFFFFFFFFStep 13:|r Placca Annerita",
 	[13000000] = "|cFFFFFFFFStep 1:|r Purchase Talismano del Rintracciamento del Vero Tesoro",
 	[13000030] = "Purchase Monocolo di Cristallo Rosso",
-	[13000031] = "Monocolo di Cristallo Rosso",
 	[13000037] = "|cFFFFFFFFStep 8:|r Mente Alveare",
 });
 for i,objectID in ipairs(ALLIANCE_BONFIRES) do ObjectNames[objectID] = "Falò dell'Alleanza"; end
@@ -41125,6 +41211,18 @@ L.COST = "Custo";
 L.COST_DESC = "Aqui contém uma visão geral detalhada do que é necessário para obter ou comprar isso";
 L.COST_TOTAL = "Custo total";
 L.DESCRIPTIONS = "Descrições";
+L.EXPANSION_CURRENT_ONLY = "Apenas Atual";
+L.EXPANSION_CURRENT_ONLY_TOOLTIP = "Mostrar apenas conteúdo da expansão atual";
+L.EXPANSION_DISABLE_ALL = "Desativar Tudo";
+L.EXPANSION_DISABLE_ALL_TOOLTIP = "Ocultar conteúdo de todas as expansões";
+L.EXPANSION_ENABLE_ALL = "Ativar Tudo";
+L.EXPANSION_ENABLE_ALL_TOOLTIP = "Mostrar conteúdo de todas as expansões";
+L.EXPANSION_EXPLAIN_LABEL = "Selecione qual conteúdo de expansões você deseja ver nas suas janelas de coleção.";
+L.EXPANSION_FILTER_ENABLE = "Ativar Filtragem por Expansão";
+L.EXPANSION_FILTER_ENABLE_TOOLTIP = "|cffff0000Aviso:|r As informações da linha do tempo nos bancos de dados atuais de Classic/WoD/Legion/BfA estão incompletas e potencialmente muito imprecisas. Use com cautela.";
+L.EXPANSION_FILTER_LABEL = "Filtrar por Expansão";
+L.EXPANSION_FILTER_TOOLTIP = "Alternar visibilidade do conteúdo de %s";
+L.EXPANSION_FILTERS_PAGE = "Filtros de Expansão";
 L.EXTRA_THINGS_LABEL = "Recursos Adicionais";
 L.FACTIONS = "Facções";
 L.FAILED_ITEM_INFO = "Falha ao adquirir informações sobre o item. O item pode ser inválido ou pode ainda não ter sido registrado em seu servidor.";
@@ -41317,8 +41415,8 @@ localize(L.HEADER_NAMES, {
 	[-660] = "Dupla do Crepúsculo",
 	[-661] = "Além da Imaginação",
 	[-662] = "Equipamento de Campeão",
-	[-666] = "|cffFF0000Ogom, o Mangler, parece surgir apenas quando você está fazendo o 'Assalto ao Cerco de Ferro' diário. Esta missão não estava ativa desde o início de Legion e a missão comprável 'Missiva: Assault on the Iron Siegeworks' também não funciona.|r",
-	[-667] = "|cFFFFFFFFStep 1:|r Bilhete Suspeito",
+	[-677] = "|cffFF0000Ogom, o Mangler, parece surgir apenas quando você está fazendo o 'Assalto ao Cerco de Ferro' diário. Esta missão não estava ativa desde o início de Legion e a missão comprável 'Missiva: Assault on the Iron Siegeworks' também não funciona.|r",
+	[-678] = "|cFFFFFFFFStep 1:|r Bilhete Suspeito",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-106] = "Ganhe bônus de experiência e reputação em suas aventuras em Azeroth e ache fortuitos mistérios nas Ilhas do Dragão e em Khaz Algar!",
@@ -44466,6 +44564,7 @@ localize(ObjectNames, {
 	[255828] = "Baú do Tesouro Pequeno",
 	[255829] = "Baú do Tesouro Pequeno",
 	[255963] = "Baú Ancestral Vraikal",
+	[256789] = "Punho de Ra-den",
 	[256790] = "Baú do Tesouro Élfico",
 	[257290] = "Baú de Clã de Alta Montanha",
 	[257291] = "Baú do Tesouro dos Filhos da Noite",
@@ -44541,6 +44640,7 @@ localize(ObjectNames, {
 	[272778] = "Depósito de Empirita Abundante",
 	[272780] = "Camada de Empirita",
 	[272782] = "Glória-astral",
+	[272918] = "Baú Dourado do Triunvirato",
 	[273052] = "Erva Incrustada de Vileza",
 	[273053] = "Feixe de Ervas Incrustadas de Vileza",
 	[273193] = "Ameixa-de-espinho",
@@ -45046,6 +45146,7 @@ localize(ObjectNames, {
 	[307748] = "Carta da Empreendimentos S.A.",
 	[307778] = "Bomba de Azerita Grande",
 	[307836] = "Minério Crepuscular",
+	[309497] = "Pilha de Metal Desencantado",
 	[309498] = "Estande de Armaduras",
 	[309505] = "Pedra do Caos",
 	[309657] = "Barrilete de Pólvora",
@@ -47140,7 +47241,6 @@ localize(ObjectNames, {
 	[13000028] = "|cFFFFFFFFStep 4:|r Escama de Luxescala Luxuosa",
 	[13000029] = "|cFFFFFFFFStep 5:|r Bolha de Cavitação Capturada",
 	[13000030] = "Purchase Monóculo de Cristal Vermelho",
-	[13000031] = "Monóculo de Cristal Vermelho",
 	[13000037] = "|cFFFFFFFFStep 8:|r A Mente Coletiva",
 });
 for i,objectID in ipairs(ALLIANCE_BONFIRES) do ObjectNames[objectID] = "Fogueira da Aliança"; end
@@ -47348,6 +47448,18 @@ L.EXPAND_DIFFICULTY_CHECKBOX = "Развернуть Текущую Сложно
 L.EXPAND_DIFFICULTY_CHECKBOX_TOOLTIP = "Включите данную опцию, если Вы хотите автоматически разворачивать заголовки текущей сложности в мини списке, когда Вы входите в подземелье или рейд.\n\nПример: Разворачивать только Героический заголовок, когда в Героической сложности подземелья.";
 L.EXPAND_MINILIST_CHECKBOX = "Разворачивать мини-списки";
 L.EXPAND_MINILIST_CHECKBOX_TOOLTIP = "Включите эту опцию, чтобы автоматически разворачивать все группы, содержащиеся в мини-списках, при первом просмотре их за игровую сессию.";
+L.EXPANSION_CURRENT_ONLY = "Только текущее";
+L.EXPANSION_CURRENT_ONLY_TOOLTIP = "Показать только контент текущего дополнения";
+L.EXPANSION_DISABLE_ALL = "Отключить все";
+L.EXPANSION_DISABLE_ALL_TOOLTIP = "Скрыть контент всех дополнений";
+L.EXPANSION_ENABLE_ALL = "Включить все";
+L.EXPANSION_ENABLE_ALL_TOOLTIP = "Показать контент всех дополнений";
+L.EXPANSION_EXPLAIN_LABEL = "Выберите дополнения, которые вы хотите видеть в окнах коллекции.";
+L.EXPANSION_FILTER_ENABLE = "Включить фильтрацию по дополнениям";
+L.EXPANSION_FILTER_ENABLE_TOOLTIP = "|cffff0000Внимание:|r Информация для Classic/WoD/Legion/BfA неполная и потенциально крайне неточная. Используйте с осторожностью.";
+L.EXPANSION_FILTER_LABEL = "Фильтр по дополнению";
+L.EXPANSION_FILTER_TOOLTIP = "Переключить видимость контента %s";
+L.EXPANSION_FILTERS_PAGE = "Фильтры дополнений";
 L.EXPANSION_THINGS_LABEL = "Штучки Дополнений";
 L.EXPLORATION_CHECKBOX = "Исследование (неточное)";
 L.EXPLORATION_CHECKBOX_TOOLTIP = "Включите для отслеживания исследования зон под открытым небом.\n\nИнформация, предоставляемая этой опцией, в настоящее время неточная и нуждается в доработке, поэтому используйте её с осторожностью.";
@@ -48065,8 +48177,8 @@ localize(L.HEADER_NAMES, {
 	[-660] = "Сумеречный дуэт",
 	[-661] = "Зона сумерек",
 	[-662] = "Снаряжение защитника",
-	[-666] = "|cffFF0000Огом Уничтожитель появляется только при выполнении ежедневного задания 'Штурм осадного лагеря Железной Орды'. Данное задание не было доступно со старта Легиона, а приобретаемое в гарнизоне задание 'Донесение: Штурм осадного лагеря Железной Орды' тоже не помогает.|r",
-	[-667] = "|cFFFFFFFFШаг 1:|r Примечательная записка",
+	[-677] = "|cffFF0000Огом Уничтожитель появляется только при выполнении ежедневного задания 'Штурм осадного лагеря Железной Орды'. Данное задание не было доступно со старта Легиона, а приобретаемое в гарнизоне задание 'Донесение: Штурм осадного лагеря Железной Орды' тоже не помогает.|r",
+	[-678] = "|cFFFFFFFFШаг 1:|r Примечательная записка",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-24] = "Штучки, которые можно получить в награду с разного контента в родительской секции.\nОни собраны здесь, чтобы уменьшить количество источников, когда Штучка доступна из многих мест.",
@@ -51295,6 +51407,7 @@ localize(ObjectNames, {
 	[255828] = "Маленький сундук с сокровищами",
 	[255829] = "Маленький сундук с сокровищами",
 	[255963] = "Сундук предков врайкулов",
+	[256789] = "Кулак Ра-дена",
 	[256790] = "Сундук с эльфийскими сокровищами",
 	[257290] = "Сундук Крутогорья",
 	[257291] = "Сундук с сокровищами ночнорожденных",
@@ -51375,6 +51488,7 @@ localize(ObjectNames, {
 	[272778] = "Богатые залежи эмпиреита",
 	[272780] = "Пласт эмпиреита",
 	[272782] = "Астральный вьюнок",
+	[272918] = "Золоченый сундук Триумвирата",
 	[273052] = "Покрытая Скверной трава",
 	[273053] = "Пучок покрытой Скверной травы",
 	[273193] = "Колючая слива",
@@ -51908,6 +52022,7 @@ localize(ObjectNames, {
 	[307748] = "Письмо Торговой компании",
 	[307778] = "Большая азеритовая бомба",
 	[307836] = "Сумеречная руда",
+	[309497] = "Груда потускневшего металла",
 	[309498] = "Стойка для доспехов",
 	[309505] = "Камень Бездны",
 	[309657] = "Бочонок с порохом",
@@ -53180,6 +53295,7 @@ localize(ObjectNames, {
 	[396019] = "Похищенные припасы",
 	[396020] = "Похищенные припасы",
 	[396339] = "Чародейский барьер Кадгара",
+	[398017] = "Кокон беспросветного мотылька",
 	[398133] = "Болты и латунь",
 	[398135] = "Использованный дракотистовый бур",
 	[398138] = "Огненный разведобот",
@@ -54092,7 +54208,6 @@ localize(ObjectNames, {
 	[13000028] = "|cFFFFFFFFШаг 4:|r Сверкающий фрагмент светящейся чешуи",
 	[13000029] = "|cFFFFFFFFШаг 5:|r Пойманный кавитационный пузырек",
 	[13000030] = "Купите Монокль из красного кристалла",
-	[13000031] = "Монокль из красного кристалла",
 	[13000032] = "|cFFFFFFFFШаг 3:|r Возьмите Монокль (или не берите!)",
 	[13000033] = "|cFFFFFFFFШаг 4:|r Лучи Сурамара",
 	[13000034] = "|cFFFFFFFFШаг 5:|r Кошачий Код",
@@ -54140,6 +54255,18 @@ L.APPEARANCES_CHECKBOX = "형상";
 L.AZERITE_ESSENCES_CHECKBOX = "|T" .. _.asset("Expansion_BFA") .. ":0|t 아제로스의 심장 정수";
 L.BATTLE_PETS_CHECKBOX = "전투 애완동물";
 L.CATALYST = "촉매";
+L.EXPANSION_CURRENT_ONLY = "현재만";
+L.EXPANSION_CURRENT_ONLY_TOOLTIP = "현재 확장팩 콘텐츠만 표시";
+L.EXPANSION_DISABLE_ALL = "모두 비활성화";
+L.EXPANSION_DISABLE_ALL_TOOLTIP = "모든 확장팩 콘텐츠 숨기기";
+L.EXPANSION_ENABLE_ALL = "모두 활성화";
+L.EXPANSION_ENABLE_ALL_TOOLTIP = "모든 확장팩 콘텐츠 표시";
+L.EXPANSION_EXPLAIN_LABEL = "컬렉션 창에 표시할 확장팩 콘텐츠를 선택하세요.";
+L.EXPANSION_FILTER_ENABLE = "확장팩 필터링 활성화";
+L.EXPANSION_FILTER_ENABLE_TOOLTIP = "|cffff0000경고:|r 현재 Classic/WoD/Legion/BfA 데이터베이스의 타임라인 정보는 불완전하고 매우 부정확할 수 있습니다. 주의해서 사용하세요.";
+L.EXPANSION_FILTER_LABEL = "확장팩별 필터";
+L.EXPANSION_FILTER_TOOLTIP = "%s 콘텐츠 표시 전환";
+L.EXPANSION_FILTERS_PAGE = "확장팩 필터";
 L.FOLLOWERS_CHECKBOX = "|T" .. _.asset("Expansion_WOD") .. ":0|t 추종자 및 동료";
 L.NEW_VERSION_FLAVORS = {"AllTheThings가 배고프기 때문입니다."};
 L.PLAYER_RANK_AUTHOR = "|T" .. _.asset("logo_32x32") .. ":0|t |c" .. _.DefaultColors.White .. "작가|r";
@@ -54162,7 +54289,6 @@ L.TITLES_CHECKBOX = "칭호";
 L.TRADING_POST = "교역소";
 localize(_.CategoryNames, {
 	[3] = "카드 묶음",
-	[168] = "재료",
 });
 localize(L.HEADER_NAMES, {
 	[-6] = "동맹 종족",
@@ -54283,8 +54409,8 @@ localize(L.HEADER_NAMES, {
 	[-660] = "황혼의 2인조",
 	[-661] = "황혼 지대",
 	[-662] = "용사 장비",
-	[-666] = "|cffFF0000약탈자 오곰은 일일 '철 공성 작업장 공격'을 수행할 때 생성되는 것 같습니다. 이 퀘스트는 Legion이 시작된 이후 활성화되지 않았으며 구매 가능한 퀘스트 'Missive: Iron Siegeworks 공격'도 작동하지 않습니다.|r",
-	[-667] = "|cFFFFFFFFStep 1:|r 눈에 띄는 쪽지",
+	[-677] = "|cffFF0000약탈자 오곰은 일일 '철 공성 작업장 공격'을 수행할 때 생성되는 것 같습니다. 이 퀘스트는 Legion이 시작된 이후 활성화되지 않았으며 구매 가능한 퀘스트 'Missive: Iron Siegeworks 공격'도 작동하지 않습니다.|r",
+	[-678] = "|cFFFFFFFFStep 1:|r 눈에 띄는 쪽지",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-106] = "아제로스를 모험하며 추가 경험치와 평판을 획득하고, 용의 섬과 카즈 알가르에서 수수께끼의 보물을 발견해 보십시오!",
@@ -59679,7 +59805,6 @@ localize(ObjectNames, {
 	[9999919] = "|cFFFFFFFFStep 12:|r 지혜의 큐브",
 	[13000000] = "|cFFFFFFFFStep 1:|r Purchase 진정한 보물 추적의 부적",
 	[13000030] = "Purchase 빨간색 수정 외눈안경",
-	[13000031] = "빨간색 수정 외눈안경",
 	[13000037] = "|cFFFFFFFFStep 8:|r 군체의식",
 });
 for i,objectID in ipairs(ALLIANCE_BONFIRES) do ObjectNames[objectID] = "얼라이언스 화톳불"; end
@@ -59920,6 +60045,18 @@ L.EXPAND_DIFFICULTY_CHECKBOX = "Expandir la dificultad actual";
 L.EXPAND_DIFFICULTY_CHECKBOX_TOOLTIP = "Activa esta opción si deseas expandir automáticamente solo los encabezados de dificultad coincidentes en la mini lista que corresponden a la dificultad activa al ingresar a una mazmorra o banda.\n\nEjemplo: expande solo el encabezado Heroico al ingresar a una mazmorra de dificultad Heroica.";
 L.EXPAND_MINILIST_CHECKBOX = "Expandir mini listas";
 L.EXPAND_MINILIST_CHECKBOX_TOOLTIP = "Habilite esta opción para expandir automáticamente todos los grupos contenidos en las mini listas cuando las vea por primera vez por sesión de juego.";
+L.EXPANSION_CURRENT_ONLY = "Solo Actual";
+L.EXPANSION_CURRENT_ONLY_TOOLTIP = "Mostrar solo contenido de la expansión actual";
+L.EXPANSION_DISABLE_ALL = "Deshabilitar Todo";
+L.EXPANSION_DISABLE_ALL_TOOLTIP = "Ocultar contenido de todas las expansiones";
+L.EXPANSION_ENABLE_ALL = "Habilitar Todo";
+L.EXPANSION_ENABLE_ALL_TOOLTIP = "Mostrar contenido de todas las expansiones";
+L.EXPANSION_EXPLAIN_LABEL = "Selecciona qué contenido de expansiones quieres ver en tus ventanas de colección.";
+L.EXPANSION_FILTER_ENABLE = "Habilitar Filtrado por Expansión";
+L.EXPANSION_FILTER_ENABLE_TOOLTIP = "|cffff0000Advertencia:|r La información de la línea temporal en las bases de datos actuales de Classic/WoD/Legion/BfA está incompleta y potencialmente muy inexacta. Úsalo con precaución.";
+L.EXPANSION_FILTER_LABEL = "Filtrar por Expansión";
+L.EXPANSION_FILTER_TOOLTIP = "Alternar visibilidad del contenido de %s";
+L.EXPANSION_FILTERS_PAGE = "Filtros de Expansión";
 L.EXPANSION_ID = "Expansión ID";
 L.EXPANSION_THINGS_LABEL = "Cosas de expansión";
 L.EXPLORATION_CHECKBOX = "Exploración (imprecisa)";
@@ -60454,8 +60591,6 @@ localize(_.CategoryNames, {
 	[3] = "Baraja de Tarot",
 	[106] = "Carta",
 	[107] = "Pergaminos",
-	[168] = "Materiales",
-	[867] = "Prismas y estatuas",
 });
 localize(L.HEADER_NAMES, {
 	[-2] = "Este",
@@ -60711,8 +60846,8 @@ localize(L.HEADER_NAMES, {
 	[-660] = "Dúo Crepuscular",
 	[-661] = "Dimensión Desconocida",
 	[-662] = "Equipo de campeón",
-	[-666] = "|cffFF0000Ogom the Mangler parece aparecer cuando estás realizando el 'Asalto a los Sitios de Hierro' diario. Esta misión no estuvo activa desde el inicio de Legion y la misión comprable 'Misiva: Asalto a los Sitios de Hierro' tampoco funciona.|r",
-	[-667] = "|cFFFFFFFFStep 1:|r Nota llamativa",
+	[-677] = "|cffFF0000Ogom the Mangler parece aparecer cuando estás realizando el 'Asalto a los Sitios de Hierro' diario. Esta misión no estuvo activa desde el inicio de Legion y la misión comprable 'Misiva: Asalto a los Sitios de Hierro' tampoco funciona.|r",
+	[-678] = "|cFFFFFFFFStep 1:|r Nota llamativa",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-24] = "Contiene recompensas que dan al completar el evento.",
@@ -63928,6 +64063,7 @@ localize(ObjectNames, {
 	[255828] = "Arqueta pequeña",
 	[255829] = "Arqueta pequeña",
 	[255963] = "Cofre ancestral vrykul",
+	[256789] = "Puño de Ra Den",
 	[256790] = "Arqueta élfica",
 	[257290] = "Cofre del clan Monte Alto",
 	[257291] = "Arqueta Nocheterna",
@@ -64004,6 +64140,7 @@ localize(ObjectNames, {
 	[272778] = "Depósito rico en empirium",
 	[272780] = "Veta de empirium",
 	[272782] = "Gloria astral",
+	[272918] = "Cofre dorado del Triunvirato",
 	[273052] = "Hierba con costra vil",
 	[273053] = "Manojo de hierba con costra vil",
 	[273193] = "Ciruela espinosa",
@@ -64533,6 +64670,7 @@ localize(ObjectNames, {
 	[307748] = "Carta de Ventura y Cía.",
 	[307778] = "Bomba de azerita grande",
 	[307836] = "Mena crepuscular",
+	[309497] = "Montón de metal desencantado",
 	[309498] = "Portaarmaduras",
 	[309505] = "Piedra del Vacío",
 	[309657] = "Barril de pólvora",
@@ -65758,6 +65896,7 @@ localize(ObjectNames, {
 	[396019] = "Alijo robado",
 	[396020] = "Alijo robado",
 	[396339] = "Bolsa birlada por unas polillas",
+	[398017] = "Capullo de polilla Sondaluz",
 	[398133] = "Tornillos y latón",
 	[398135] = "Taladro de dracotista descartado",
 	[398138] = "Explorabot de magma",
@@ -66571,7 +66710,6 @@ localize(ObjectNames, {
 	[13000028] = "|cFFFFFFFFStep 4:|r Escama de lujo de Escama Luminosa",
 	[13000029] = "|cFFFFFFFFStep 5:|r Burbuja de cavitación capturada",
 	[13000030] = "Purchase Monóculo de cristal rojo",
-	[13000031] = "Monóculo de cristal rojo",
 	[13000037] = "|cFFFFFFFFStep 8:|r La mente colmena",
 });
 for i,objectID in ipairs(ALLIANCE_BONFIRES) do ObjectNames[objectID] = "Fogata de la Alianza"; end
@@ -66912,7 +67050,7 @@ localize(L.HEADER_NAMES, {
 	[-590] = "Fiesta de los mil barcos",
 	[-591] = "Festival del errante",
 	[-654] = "Cosechando",
-	[-667] = "|cFFFFFFFFStep 1:|rNota sospechosa",
+	[-678] = "|cFFFFFFFFStep 1:|rNota sospechosa",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-29] = "Contiene cosas que se otorgan como recompensa al completar este evento.",
@@ -67355,6 +67493,18 @@ L.EXPAND_DIFFICULTY_CHECKBOX = "展开当前难度";
 L.EXPAND_DIFFICULTY_CHECKBOX_TOOLTIP = "启用此选项后，在进入地下城或团队副本时，迷你列表中将仅自动展开与当前激活难度相匹配的难度标题。\n\n示例：当进入英雄难度地下城时，仅展开英雄难度标题。";
 L.EXPAND_MINILIST_CHECKBOX = "展开迷你列表";
 L.EXPAND_MINILIST_CHECKBOX_TOOLTIP = "启用此选项后，在每次游戏会话中首次查看迷你列表时，将自动展开其中包含的所有分组。";
+L.EXPANSION_CURRENT_ONLY = "仅当前";
+L.EXPANSION_CURRENT_ONLY_TOOLTIP = "仅显示当前资料片的内容";
+L.EXPANSION_DISABLE_ALL = "禁用全部";
+L.EXPANSION_DISABLE_ALL_TOOLTIP = "隐藏所有资料片的内容";
+L.EXPANSION_ENABLE_ALL = "启用全部";
+L.EXPANSION_ENABLE_ALL_TOOLTIP = "显示所有资料片的内容";
+L.EXPANSION_EXPLAIN_LABEL = "选择您想在收藏窗口中看到的资料片内容。";
+L.EXPANSION_FILTER_ENABLE = "启用资料片过滤";
+L.EXPANSION_FILTER_ENABLE_TOOLTIP = "|cffff0000警告：|r当前Classic/WoD/Legion/BfA数据库中的时间线信息不完整，可能非常不准确。请谨慎使用。";
+L.EXPANSION_FILTER_LABEL = "按资料片过滤";
+L.EXPANSION_FILTER_TOOLTIP = "切换%s内容的可见性";
+L.EXPANSION_FILTERS_PAGE = "资料片过滤器";
 L.EXPANSION_ID = "资料片 ID";
 L.EXPANSION_THINGS_LABEL = "资料片事物";
 L.EXPLORATION_CHECKBOX = "探索(不精准)";
@@ -68188,8 +68338,8 @@ localize(L.HEADER_NAMES, {
 	[-660] = "暮光二重奏",
 	[-661] = "暮光领域",
 	[-662] = "勇士装备",
-	[-666] = "|cffFF0000绞肉机奥戈姆似乎只是在你做每日突袭钢铁军工厂的时候刷新的。这个任务从军团开始后就没有激活过，可购买的任务密报：突袭钢铁军工厂也不能用了。|r",
-	[-667] = "|cFFFFFFFF步骤1:|r 不起眼的纸条",
+	[-677] = "|cffFF0000绞肉机奥戈姆似乎只是在你做每日突袭钢铁军工厂的时候刷新的。这个任务从军团开始后就没有激活过，可购买的任务密报：突袭钢铁军工厂也不能用了。|r",
+	[-678] = "|cFFFFFFFF步骤1:|r 不起眼的纸条",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-24] = "包含完成事件时奖励的事物。",
@@ -71161,6 +71311,7 @@ localize(ObjectNames, {
 	[272778] = "富天界金矿脉",
 	[272780] = "天界金矿层",
 	[272782] = "星辰之耀",
+	[272918] = "执政团的镀金宝箱",
 	[273052] = "被邪能包裹的草药",
 	[273053] = "被邪能包裹的草药丛",
 	[273193] = "多刺球果",
@@ -73527,7 +73678,6 @@ localize(ObjectNames, {
 	[13000028] = "|cFFFFFFFF第4步:|r 奢侈的奢鳞之鳞",
 	[13000029] = "|cFFFFFFFF第5步:|r 捕获的空穴气泡",
 	[13000030] = "购买红色单片眼镜",
-	[13000031] = "红色单片眼镜",
 	[13000032] = "|cFFFFFFFF第3步:|r 选择一个单片眼镜（或不！）",
 	[13000033] = "|cFFFFFFFF第4步:|r 苏拉玛射线",
 	[13000034] = "|cFFFFFFFF第5步:|r 猫密码",
@@ -73746,6 +73896,18 @@ L.EVENT_SCHEDULE = "事件時程表";
 L.EVENT_START = "開始:";
 L.EVENT_WHERE = "地點:";
 L.EXPAND_DIFFICULTY_CHECKBOX = "展開當前難度";
+L.EXPANSION_CURRENT_ONLY = "僅當前";
+L.EXPANSION_CURRENT_ONLY_TOOLTIP = "僅顯示當前資料片的內容";
+L.EXPANSION_DISABLE_ALL = "停用全部";
+L.EXPANSION_DISABLE_ALL_TOOLTIP = "隱藏所有資料片的內容";
+L.EXPANSION_ENABLE_ALL = "啟用全部";
+L.EXPANSION_ENABLE_ALL_TOOLTIP = "顯示所有資料片的內容";
+L.EXPANSION_EXPLAIN_LABEL = "選擇您想在收藏視窗中看到的資料片內容。";
+L.EXPANSION_FILTER_ENABLE = "啟用資料片過濾";
+L.EXPANSION_FILTER_ENABLE_TOOLTIP = "|cffff0000警告：|r目前Classic/WoD/Legion/BfA資料庫中的時間線資訊不完整，可能非常不準確。請謹慎使用。";
+L.EXPANSION_FILTER_LABEL = "依資料片過濾";
+L.EXPANSION_FILTER_TOOLTIP = "切換%s內容的可見性";
+L.EXPANSION_FILTERS_PAGE = "資料片過濾器";
 L.EXPANSION_ID = "資料片 ID";
 L.EXPANSION_THINGS_LABEL = "資料片事物";
 L.EXPLORATION_CHECKBOX = "地圖探索(不精準)";

@@ -14,7 +14,7 @@ logger = get_logger("AddonManager")
 
 CLASSIC_ERA_VER = "11401"
 CLASSIC_VER = "30405"
-RETAIL_VER = "110200"
+RETAIL_VER = "110205"
 
 
 def available_on(
@@ -165,7 +165,9 @@ class Manager:
             except ValueError:
                 for file in os.listdir(os.path.join("AddOns", addon)):
                     if ".toc" in file:
-                        logger.warning(f"{Color.GREEN}%s {Color.RED}not found!{Color.RESET}", addon)
+                        logger.warning(
+                            f"{Color.GREEN}%s {Color.RED}not found!{Color.RESET}", addon
+                        )
                         break
                 continue
 
@@ -222,7 +224,8 @@ class Manager:
         for texture in os.listdir(root / "textures"):
             t = texture.split(".")[0]
             lines.append(
-                f'media:Register(media.MediaType.STATUSBAR, "{t}", "{p}\\\\textures\\\\{t}.tga")\n'
+                f'media:Register(media.MediaType.STATUSBAR, "{t}",'
+                f' "{p}\\\\textures\\\\{t}.tga")\n'
             )
 
         lines += ["\n", "-- Add fonts\n", "\n"]
@@ -230,7 +233,8 @@ class Manager:
         for texture in os.listdir(root / "fonts"):
             t = texture.split(".")[0]
             lines.append(
-                f'media:Register(media.MediaType.FONT, "{t}", "{p}\\\\fonts\\\\{t}.ttf", media.LOCALE_BIT_zhCN)\n'
+                f'media:Register(media.MediaType.FONT, "{t}",'
+                f' "{p}\\\\fonts\\\\{t}.ttf", media.LOCALE_BIT_zhCN)\n'
             )
 
         with open("AddOns/!!Libs/sharedmedia.lua", "w", encoding="utf-8") as file:
@@ -245,7 +249,8 @@ class Manager:
         toc.tags["Title"] = "Libraries"
         toc.tags["Notes"] = "Libraries"
         toc.tags["Title-zhCN"] = (
-            "|cFFFFE00A<|r|cFFC41F3B基础库|r|cFFFFE00A>|r |cFFFFFFFF|cFF7FFF7FACE核心库|r |cFFFF0000必须加载|r|r"
+            "|cFFFFE00A<|r|cFFC41F3B基础库|r|cFFFFE00A>|r"
+            " |cFFFFFFFF|cFF7FFF7FACE核心库|r |cFFFF0000必须加载|r|r"
         )
         toc.tags["Notes-zhCN"] = "插件基础函数库|N|CFFFF0000必须加载|R"
 
@@ -290,7 +295,7 @@ class Manager:
             "HereBeDragons\\HereBeDragons-2.0.lua\n",
             "HereBeDragons\\HereBeDragons-Pins-2.0.lua\n",
             "HereBeDragons\\HereBeDragons-Migrate.lua\n",
-            "\n" "# Dropdown menus\n",
+            "\n# Dropdown menus\n",
             "!LibUIDropDownMenu\\LibUIDropDownMenu\\LibUIDropDownMenu.xml\n",
             "\n",
         ]
@@ -394,7 +399,8 @@ class Manager:
         for addon in os.listdir(root):
             if addon in libs or addon.startswith("Lib") or addon.startswith("!Lib"):
                 print(
-                    f"{Color.YELLOW}Moving {Color.GREEN}{addon}{Color.YELLOW} to !!Libs...{Color.RESET}"
+                    f"{Color.YELLOW}Moving {Color.GREEN}{addon}{Color.YELLOW} to"
+                    f" !!Libs...{Color.RESET}"
                 )
                 shutil.copytree(
                     root / addon, root / "!!Libs" / addon, dirs_exist_ok=True
@@ -480,10 +486,8 @@ class Manager:
     def handle_details():
         utils.change_defaults(
             "Addons/Details/functions/profiles.lua",
-            (
-                "		minimap = {hide = true, radius = 160, minimapPos = 220, "
-                "onclick_what_todo = 1, text_type = 1, text_format = 3},"
-            ),
+            "		minimap = {hide = true, radius = 160, minimapPos = 220, "
+            "onclick_what_todo = 1, text_type = 1, text_format = 3},",
         )
 
         if os.path.exists("Addons/Details_Streamer"):

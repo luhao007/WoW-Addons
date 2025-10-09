@@ -1629,9 +1629,7 @@ function addon:OnEnable()
 		ScrollBar:SetPoint("BOTTOMLEFT", ScrollBox, "BOTTOMRIGHT", -3, -7)
 	end
 
-	local DataProvider = CreateDataProvider()
 	local ScrollView = CreateScrollBoxListLinearView()
-	ScrollView:SetDataProvider(DataProvider)
 
 	ScrollUtil.InitScrollBoxListWithScrollBar(ScrollBox, ScrollBar, ScrollView)
 
@@ -1648,6 +1646,9 @@ function addon:OnEnable()
 	ScrollView:SetElementFactory(CustomFactory)
 
 	ScrollBar:SetHideIfUnscrollable(true)
+
+	local DataProvider = CreateDataProvider()
+	ScrollView:SetDataProvider(DataProvider)
 
 	AtlasFrameBottomInset.ScrollBox = ScrollBox
 
@@ -1684,7 +1685,7 @@ function addon:BOSS_KILL(_, encounterID)
 	if (t) then
 		while (t[i]) do
 			local button = _G["AtlasMapBossButton"..i]
-			if button then
+			if button and button.DefeatedOpacity then
 				local complete = C_EncounterJournal.IsEncounterComplete(button.encounterID);
 				button.DefeatedOpacity:SetShown(complete);
 				button.DefeatedOverlay:SetShown(complete);
@@ -1692,7 +1693,7 @@ function addon:BOSS_KILL(_, encounterID)
 			end
 
 			button = _G["AtlasMapBossButtonS"..i]
-			if button then
+			if button and button.DefeatedOpacity then
 				local complete = C_EncounterJournal.IsEncounterComplete(button.encounterID);
 				button.DefeatedOpacity:SetShown(complete);
 				button.DefeatedOverlay:SetShown(complete);

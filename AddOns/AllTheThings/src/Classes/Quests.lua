@@ -2452,15 +2452,24 @@ if app.IsRetail then
 	-- and are often readily available
 	local SuperSpammyWorldQuestDrops = {
 		-- Items
+		-- LEG
 		[151568] = true,	-- Primal Sargerite
+		-- SL
 		[190189] = true,	-- Sandworn Relic
 
 		-- Currencies
+		-- LEG
 		[1220] = true,	-- Order Resources
-		[1533] = true,	-- Wakening Essence
 		[1508] = true,	-- Veiled Argunite
+		[1533] = true,	-- Wakening Essence
+		-- BFA
+		[1560] = true,	-- War Resources
+		-- SL
 		[1885] = true, 	-- Grateful Offering
+		-- DF
 		[2003] = true,	-- Dragon Isles Supplies
+		-- TWW
+		[2815] = true,	-- Resonance Crystals
 	};
 
 	-- Quest Harvesting Lib (http://www.wowinterface.com/forums/showthread.php?t=46934)
@@ -2493,8 +2502,8 @@ if app.IsRetail then
 		local numQuestRewards = GetNumQuestLogRewards(questID);
 		local skipCollectibleCurrencies = not app.Settings:GetTooltipSetting("WorldQuestsList:Currencies");
 		for j=1,numQuestRewards,1 do
-			-- app.PrintDebug("TPQR:REWARDINFO",questID,j,HaveQuestData(questID),GetQuestLogRewardInfo(j, questID))
 			local itemID = select(6, GetQuestLogRewardInfo(j, questID));
+			-- app.PrintDebug("TPQR:REWARDINFO",questID,j,HaveQuestData(questID),GetQuestLogRewardInfo(j, questID),"=>",itemID)
 			if itemID then
 				---@diagnostic disable-next-line: inject-field
 				QuestHarvester.AllTheThingsProcessing = true;
@@ -2539,9 +2548,9 @@ if app.IsRetail then
 
 						-- don't let cached groups pollute potentially inaccurate raw Data
 						item.link = nil;
-						-- block the group from being collectible as a cost if the option is not enabled for various 'currency' items
+						-- block the group from being filling if the option is not enabled and for various 'currency' items
 						if skipCollectibleCurrencies or SuperSpammyWorldQuestDrops[itemID] then
-							item.skipFill = true
+							item.skipFull = true
 						end
 						app.NestObject(questObject, item, true);
 					end
@@ -2562,9 +2571,9 @@ if app.IsRetail then
 				local item = app.CreateCurrencyClass(currencyID);
 				cachedCurrency = Search("currencyID", currencyID, "key");
 				app.MergeProperties(item, cachedCurrency, true);
-				-- block the group from being collectible as a cost if the option is not enabled
+				-- block the group from being filling if the option is not enabled and for various currencies
 				if skipCollectibleCurrencies or SuperSpammyWorldQuestDrops[currencyID] then
-					item.skipFill = true
+					item.skipFull = true
 				end
 				app.NestObject(questObject, item, true);
 			end

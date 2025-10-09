@@ -1,4 +1,4 @@
-## Interface: 110200
+## Interface: 110205
 ## Version: #Details.20250918.13734.165
 
 ## Title: Details! Damage Meter

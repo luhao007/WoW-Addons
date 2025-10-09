@@ -1453,6 +1453,8 @@ data["MOUNTS"]             = {
 				{ 520, 247793, "mount", [PRICE_EXTRA_ITTYPE] = "tender:650" },           -- Cinder-Plumed Highland Gryphon
 				{ 521, 247795, "mount", [PRICE_EXTRA_ITTYPE] = "tender:325" },           -- Ornery Breezestrider
 				{ 522, 248761, "mount" },                                                -- Brewfest Bomber
+				{ 523, 246921, "mount", [PRICE_EXTRA_ITTYPE] = "tender:0" },             -- Legion Forged Elekk
+				{ 524, 247723, "mount", [PRICE_EXTRA_ITTYPE] = "tender:700" },           -- The Headless Horseman's Hallowed Charger
 				-- { 329, 223570, "mount" }, -- Reins of the Ebonhide Ramolith (not yet available)
 				-- { 321, 235554, "mount" }, -- Midnight Darkmoon Charger (not yet available)
 				-- { 323, 235659, "mount" }, -- Midnight Butterfly (not yet available)
@@ -6511,6 +6513,8 @@ data["COMPANIONS"]         = {
 				{ 507, 245212, "pet4836" },                                               -- Vitriolic Inchshifter
 				{ 508, 245253, "pet4844" },                                               -- Inquisitive Cosmic Ray Pup
 				{ 509, 244914, "pet4833" },                                               -- Xanthous Siphonmite
+				{ 510, 205148, "pet3542", [PRICE_EXTRA_ITTYPE] = "tender:200" },          -- Soot-Stained Shalewing
+				{ 511, 246337, "pet4853", [PRICE_EXTRA_ITTYPE] = "tender:250" },          -- Rustyroot Fel Snooter
 				-- { 311, 233057, "pet4709" }, -- Rock Hound Mica
 				-- { 312, 221764, "pet4519" }, -- Burntram
 				-- { 317, 222969, "pet4474" }, -- Anub'Rekyute
@@ -6827,6 +6831,7 @@ data["TOYS"]               = {
 				{ 225, 204675, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:200" }, -- A Drake's Big Basket of Eggs
 				{ 226, 218112, [PRICE_EXTRA_ITTYPE] = "tender:200" },   -- Colorful Beach Chair
 				{ 227, 212518, [PRICE_EXTRA_ITTYPE] = "ridersOfAzerothBadge:40" }, -- Vial of Endless Draconic Scales
+				{ 228, 212525, [PRICE_EXTRA_ITTYPE] = "tender:200" },   -- Delicate Ebony Parasol
 			}
 		},
 	},

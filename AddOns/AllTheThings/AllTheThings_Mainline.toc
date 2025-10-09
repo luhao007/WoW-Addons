@@ -1,6 +1,6 @@
-## Interface: 110200
+## Interface: 110205
 ## Author: Crieve
-## Version: 4.6.13
+## Version: 4.7.0
 
 ## Title: AllTheThings
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF收集控助手|r |cFFFFE00AAllTheThings|r
@@ -17,7 +17,7 @@
 ## SavedVariables: ATTCharacterData, ATTAccountWideData, AllTheThingsSavedVariables, AllTheThingsSettings, AllTheThingsAD, AllTheThingsProfiles, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsArtifactsItems, AllTheThingsHarvestItems
 ## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter
 
-## X-Interface: 110200, 110205
+## X-Interface: 110205, 110207, 120000
 ## X-Wago-ID: yQKyY5K7
 ## X-Curse-Project-ID: 267285
 

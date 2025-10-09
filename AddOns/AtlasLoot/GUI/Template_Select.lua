@@ -192,9 +192,7 @@ function GUI.CreateSelect(self, height)
 	ScrollBar:SetPoint("TOPLEFT", ScrollBox, "TOPRIGHT", 0, -2)
 	ScrollBar:SetPoint("BOTTOMLEFT", ScrollBox, "BOTTOMRIGHT", 0, -2)
 
-	local DataProvider = CreateDataProvider()
 	local ScrollView = CreateScrollBoxListLinearView()
-	ScrollView:SetDataProvider(DataProvider)
 	ScrollUtil.InitScrollBoxListWithScrollBar(ScrollBox, ScrollBar, ScrollView)
 
 	-- Set selection behavior
@@ -260,6 +258,9 @@ function GUI.CreateSelect(self, height)
 		end
 	end
 	ScrollView:SetElementInitializer("AtlasLootSelectButtonTemplate", Initializer)
+
+	local DataProvider = CreateDataProvider()
+	ScrollView:SetDataProvider(DataProvider)
 
 	--[[ ScrollBar:SetHideIfUnscrollable(true)
 

@@ -49,7 +49,7 @@ if app.IsRetail then
 	GetBestObjectIDForName = function(name)
 		-- Uses a provided 'name' and scans the ObjectDB to find potentially matching ObjectID's,
 		-- then correlate those search results by closest distance to the player's current position
-		name = name:trim():lower()
+		name = name and name:trim():lower()
 		local o = objectNamesToIDs[name] or objectNamesToIDs[CleanColor(name)]
 		if not o or #o == 0 then return end
 
@@ -124,7 +124,7 @@ else
 		-- Uses a provided 'name' and scans the ObjectDB to find potentially matching ObjectID's,
 		-- then correlate those search results by closest distance to the player's current position
 		--print("GetBestObjectIDForName:", "'" .. (name or RETRIEVING_DATA) .. "'");
-		local o = objectNamesToIDs[name:trim():lower()]
+		local o = objectNamesToIDs[name and name:trim():lower()]
 		if o and #o > 0 then
 			local objects = {};
 			local mapID, px, py = GetPlayerPosition();
@@ -344,7 +344,7 @@ for i,guid in ipairs({
 	-- Eremeir
 	"Player-3675-06DC8D18",	-- Eremeir-MoonGuard US
 	-- Wouter
-	"Player-4467-0298B249",	-- Woutertje-Firemaw EU (Classic)
+	"Player-4454-06092222",	-- Wouter-Shek'zeer EU (Classic)
 }) do
 	PLAYER_TOOLTIPS[guid] = tooltipFunction;
 end
@@ -438,7 +438,7 @@ tooltipFunction = function(self, locClass, engClass, locRace, engRace, gender, n
 end
 for i,guid in ipairs({
 	-- Boomps characters
-	"Player-4372-000A8B35",	-- boomps
+	"Player-4385-05EEB94D",	-- boomps
 	"Player-4372-03A8F6D5",	-- boompsies
 	"Player-4372-01101CF9",	-- clothboy
 	"Player-4372-0101476E",	-- handydandy
@@ -451,9 +451,10 @@ for i,guid in ipairs({
 	"Player-4372-02E4EC05",	-- pharika
 	"Player-4372-02FD0FF7",	-- siguiente
 	"Player-4372-0378220F",	-- boompsie
-	"Player-4372-032CAB69",	-- kuchiki
+	"Player-4385-05EEB984",	-- kuchiki
 	"Player-4372-03BD6D65",	-- notebooks
 	"Player-4372-03C31D09",	-- boompie
+	"Player-4385-05ED7D13",	-- Sidetable
 }) do
 	PLAYER_TOOLTIPS[guid] = tooltipFunction;
 end
@@ -465,10 +466,10 @@ tooltipFunction = function(self, locClass, engClass, locRace, engRace, gender, n
 end
 for i,guid in ipairs({
 	-- Frax Characters
-	"Player-4372-016C6143",	-- Arvensus
+	"Player-4385-05EB74A3",	-- Arvensus
 	"Player-4372-02039686",	-- Branchmanagr
-	"Player-4372-012262B3",	-- Fraxinus
-	"Player-4372-013722F",	-- Fraxitaxi
+	"Player-4385-05EB7458",	-- Fraxinus
+	"Player-4385-05E6308A",	-- Fraxitaxi
 	"Player-4372-012CFF90",	-- Karagos
 	"Player-4372-013FC6C0",	-- Ränger
 }) do
