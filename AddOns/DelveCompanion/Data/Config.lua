@@ -72,7 +72,8 @@ Config.BOUNTIFUL_KEY_SOURCE_CACHES_DATA = {
     -- TWW Season 3
     244842,
     244865,
-    245611
+    245611,
+    255676
 }
 ---@type table<integer, number> Table of Quest IDs used to track [Coffer Key Shards](https://www.wowhead.com/item=245653/coffer-key-shard) player has received from Caches this week.
 Config.KEY_SHARD_QUESTS_DATA = {

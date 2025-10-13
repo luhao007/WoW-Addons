@@ -1,6 +1,11 @@
-## Interface: 110200
+## Interface: 110205
+
 ## Title: WYJJDB
+## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r|cFFFFFFFF忘忧景久语音包|r |cFFFFE00AWYJJDB|r
+
 ## IconTexture: Interface\AddOns\WYJJDB\Media\Textures\icon.tga
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r
 
 db.lua
 functions.lua

@@ -1,6 +1,6 @@
 ## Interface: 110205
 ## Author: axc450
-## Version: v1.11.6
+## Version: v1.11.8
 
 ## Title: Pet Battle Scripts
 ## Notes: Battle Pet Combat Scripting

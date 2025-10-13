@@ -1,6 +1,6 @@
 # Edit Mode Expanded
 
-## [11.2-010](https://github.com/teelolws/EditModeExpanded/tree/11.2-010) (2025-10-08)
-[Full Changelog](https://github.com/teelolws/EditModeExpanded/compare/11.2-009...11.2-010) [Previous Releases](https://github.com/teelolws/EditModeExpanded/releases)
+## [11.2-013](https://github.com/teelolws/EditModeExpanded/tree/11.2-013) (2025-10-11)
+[Full Changelog](https://github.com/teelolws/EditModeExpanded/compare/11.2-012...11.2-013) [Previous Releases](https://github.com/teelolws/EditModeExpanded/releases)
 
-- Cooldown manager support removed - no longer needed  
+- Update CooldownManager.lua  

@@ -55,6 +55,7 @@ local specTemplate = {
     custom1Name = "Custom 1",
     custom2Name = "Custom 2",
     noFeignedCooldown = false,
+    disable_items = false,
 
     abilities = {
         ['**'] = {
@@ -1292,6 +1293,7 @@ function Hekili:RestoreDefaults()
 
         if msg then
             C_Timer.After( 5, function()
+                Hekili:ReviewPacks()
                 if Hekili.DB.profile.notifications.enabled then Hekili:Notify( msg, 6 ) end
                 Hekili:Print( msg )
             end )
@@ -1317,6 +1319,7 @@ function Hekili:RestoreDefaults()
 
         if msg then
             C_Timer.After( 6, function()
+                Hekili:ReviewPacks()
                 if Hekili.DB.profile.notifications.enabled then Hekili:Notify( msg, 6 ) end
                 Hekili:Print( msg )
             end )
@@ -1338,6 +1341,8 @@ function Hekili:RestoreDefault( name )
             data.payload.version = default.version
             data.payload.date = default.version
             data.payload.builtIn = true
+
+            Hekili:ReviewPacks()
         end
     end
 end
@@ -1511,7 +1516,8 @@ all:RegisterAuras( {
     voidbinding = {
         id = 462661,
         duration = 30,
-        max_stack = 1
+        max_stack = 1,
+        shared = "player"
     },
     -- Priory of the Sacred Flame
     blessing_of_the_sacred_flame = {
@@ -2707,7 +2713,11 @@ do
         {
             name = "cavedwellers_delight",
             items = { 212242, 212243, 212244 }
-        }
+        },
+        {
+            name = "invigorating_healing_potion",
+            items = { 244835, 244838, 244839 }
+        }        
     }
 
 ---@diagnostic disable-next-line: need-check-nil

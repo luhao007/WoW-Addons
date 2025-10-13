@@ -970,6 +970,9 @@ private.NPC_GUIDE = {
 	["2383842472"] = {
 		[RSConstants.FLAG] = { x = 0.4846, y = 0.5840, comment = AL["NOTE_238384_1"] };
 	}; --Xy'vox the Twisted
+	["100495650"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5514, y = 0.4427 };
+	}; --Devouring Darkness
 }
 
 ---============================================================================
@@ -2213,6 +2216,50 @@ private.CONTAINER_GUIDE = {
 		[RSConstants.FLAG..1] = { x = 0.6655, y = 0.4480, comment = AL["NOTE_503375_1"] };
 		[RSConstants.FLAG..2] = { x = 0.7623, y = 0.3122, comment = AL["NOTE_503375_2"] };
 	}; --Ancient Coffer
+	["257978750"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3204, y = 0.4531 };
+	}; --Treasure Chest
+	["245537650"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5514, y = 0.4427 };
+	}; --Glimmering Treasure Chest
+	["245538650"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5514, y = 0.4427 };
+	}; --Small Treasure Chest
+	["245530650"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3834, y = 0.6128 };
+	}; --Glimmering Treasure Chest
+	["244494650"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4000, y = 0.5789 };
+	}; --Treasure Chest
+	["255828650"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4581, y = 0.2736 };
+	}; --Small Treasure Chest
+	["245547650"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4999, y = 0.5376 };
+	}; --Small Treasure Chest
+	["245550650"] = {
+		[RSConstants.ENTRANCE..1] = { x = 0.5158, y = 0.3746 };
+		[RSConstants.ENTRANCE..2] = { x = 0.4806, y = 0.3380 };
+	}; --Small Treasure Chest
+	["245551650"] = {
+		[RSConstants.ENTRANCE..1] = { x = 0.5158, y = 0.3746 };
+		[RSConstants.ENTRANCE..2] = { x = 0.4806, y = 0.3380 };
+	}; --Small Treasure Chest
+	["245543650"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4114, y = 0.7223 };
+	}; --Treasure Chest
+	["245601650"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4460, y = 0.7242 };
+	}; --Small Treasure Chest
+	["245548650"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4159, y = 0.4696 };
+	}; --Treasure Chest
+	["245602650"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4460, y = 0.7242 };
+	}; --Treasure Chest
+	["245532650"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4257, y = 0.2531 };
+	}; --Treasure Chest
 }
 
 ---============================================================================

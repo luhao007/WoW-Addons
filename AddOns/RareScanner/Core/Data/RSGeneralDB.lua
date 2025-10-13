@@ -186,18 +186,18 @@ function RSGeneralDB.AddAlreadyFoundEntity(entityID, mapID, x, y, artID, atlasNa
 	return nil
 end
 
-function RSGeneralDB.GetBestMapForUnit(entityID, atlasName)
-	local mapID = C_Map.GetBestMapForUnit("player")
-	if (mapID) then
-		return mapID
-	end
-	
+function RSGeneralDB.GetBestMapForUnit(entityID, atlasName)	
 	if (RSConstants.IsNpcAtlas(atlasName) and RSNpcDB.IsInternalNpcMonoZone(entityID)) then
 		local npcInfo = RSNpcDB.GetInternalNpcInfo(entityID)
 		return npcInfo.zoneID
-	elseif (RSConstants.IsNpcAtlas(atlasName) and RSContainerDB.IsInternalContainerMonoZone(entityID)) then
+	elseif (RSConstants.IsContainerAtlas(atlasName) and RSContainerDB.IsInternalContainerMonoZone(entityID)) then
 		local containerInfo = RSContainerDB.GetInternalContainerInfo(entityID)
 		return containerInfo.zoneID
+	end
+	
+	local mapID = C_Map.GetBestMapForUnit("player")
+	if (mapID) then
+		return mapID
 	end
 	
 	return nil

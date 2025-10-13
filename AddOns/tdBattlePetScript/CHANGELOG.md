@@ -1,3 +1,15 @@
+## v1.11.8
+
+### Other
+
+- Adopt to removed GameFontNormalGraySmall, just use GameFontNormalSmall.
+
+## v1.11.7
+
+### Other
+
+- Bumped TOC for patch 11.2.0
+
 ## v1.11.6
 
 ### Fixes

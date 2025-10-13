@@ -764,6 +764,10 @@
 				<Title>团队</Title>
 				<TitleExtra>军团再临</TitleExtra>
 			</SubAddon>
+			<SubAddon name="DBM-Raids-Midnight">
+				<Title>团队</Title>
+				<TitleExtra>至暗之夜</TitleExtra>
+			</SubAddon>
 			<SubAddon name="DBM-Raids-MoP">
 				<Title>团队</Title>
 				<TitleExtra>熊猫人之谜</TitleExtra>
@@ -1253,6 +1257,10 @@
 	<Addon name="Leatrix_Plus">
 		<Title>功能百宝箱</Title>
 		<Category>功能</Category>
+	</Addon>
+	<Addon name="LegionRemixHelper">
+		<Title>军团再临幻境新生助手</Title>
+		<Category>收藏</Category>
 	</Addon>
 	<Addon name="LootMonitor">
 		<Title>黑手检测</Title>
@@ -2013,6 +2021,10 @@
 		<Title>任务完成辅助</Title>
 		<Category>任务</Category>
 	</Addon>
+	<Addon name="WindDungeonHelper">
+		<Title>Wind地下城助手</Title>
+		<Category>副本</Category>
+	</Addon>
 	<Addon name="WorldBossTimers">
 		<Title>世界首领计时器</Title>
 		<Category>收藏</Category>
@@ -2029,6 +2041,10 @@
 		<Title>输出模拟器</Title>
 		<Notes>模拟当前人物的输出，来确认哪个装备属性更好。</Notes>
 		<Category>战斗</Category>
+	</Addon>
+	<Addon name="WYJJDB">
+		<Title>忘忧景久语音包</Title>
+		<Category>功能</Category>
 	</Addon>
 	<Addon name="zAutoLoadPetTeam_Rematch">
 		<Title>自动载入宠物队伍</Title>

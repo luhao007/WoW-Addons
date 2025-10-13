@@ -1,6 +1,6 @@
 ## Interface: 110205
 ## Author: Keyboardturner
-## Version: 15
+## Version: 16
 
 ## Title: HandyNotes_NaxxFrozenRunes
 ## Notes: Frozen Rune locations in Naxxramas

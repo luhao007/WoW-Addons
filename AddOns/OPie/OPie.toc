@@ -1,6 +1,6 @@
 ## Interface: 110205
 ## Author: foxlit
-## Version: Ånd 7.3a
+## Version: Ånd 7.4
 ## License: All rights reserved. Do not redistribute, in whole or in part, without explicit prior permission from the author.
 
 ## Title: OPie

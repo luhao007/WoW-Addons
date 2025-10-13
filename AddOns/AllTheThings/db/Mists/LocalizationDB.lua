@@ -1670,7 +1670,6 @@ _.Modules.Events.SetEventInformation(242, {
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=10,["monthDay"]=22,["weekday"]=5,["year"]=2026},{["hour"]=10,["minute"]=0,["month"]=1,["monthDay"]=7,["weekday"]=5,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(133900, {
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=10,["monthDay"]=5,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=10,["monthDay"]=5,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=10,["monthDay"]=12,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=10,["monthDay"]=12,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=10,["monthDay"]=19,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=10,["monthDay"]=19,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=10,["monthDay"]=26,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=10,["monthDay"]=26,["weekday"]=1,["year"]=2025}),
@@ -1722,7 +1721,8 @@ _.Modules.Events.SetEventInformation(133900, {
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=13,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=9,["monthDay"]=13,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=20,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=9,["monthDay"]=20,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=9,["monthDay"]=27,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=9,["monthDay"]=27,["weekday"]=1,["year"]=2026}),
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=10,["monthDay"]=4,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=10,["monthDay"]=4,["weekday"]=1,["year"]=2026})
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=10,["monthDay"]=4,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=10,["monthDay"]=4,["weekday"]=1,["year"]=2026}),
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=10,["monthDay"]=11,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=10,["monthDay"]=11,["weekday"]=1,["year"]=2026})
 });
 _.Modules.Events.SetEventInformation(133899, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=2,["year"]=2024},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=4,["year"]=2025}),
@@ -33776,12 +33776,13 @@ L.ADD_LINKED_POPUP = "請輸入要連接的角色或暴雪戰隊帳號的名稱�
 L.ADDED_BACK_WITH_PATCH_FORMAT = "更新 %s 中加入回歸";
 L.ADDED_WITH_PATCH = "隨更新加入";
 L.ADDED_WITH_PATCH_FORMAT = "更新 %s 中加入";
+L.ADDED_WITH_PATCH_TOOLTIP = "這會顯示每個資料片更新新增的所有內容。";
 L.ADDITIONAL_LABEL = "附加資訊";
 L.ADHOC_UNIQUE_COLLECTED_INFO = "此物品是唯一收藏但由於缺少暴雪 API 資訊而未能檢測到。\n\n將在下次強制刷新後修復。";
 L.ADHOC_UPDATES_CHECKBOX = "使用臨時視窗更新";
 L.ADHOC_UPDATES_CHECKBOX_TOOLTIP = "如果你想只更新可見的 ATT 視窗請啟用此選項。\n\n這可以大大減少載入時間並防止在某些情況下出現瘋狂掉幀。";
 L.AFTER_REFRESH = "刷新後";
-L.AH_SCAN_SUCCESSFUL_1 = "：成功掃描 ";
+L.AH_SCAN_SUCCESSFUL_1 = "：掃描成功 ";
 L.AH_SEARCH_BOE_ONLY = "使用此搜尋只能找到裝備綁定物品。";
 L.AH_SEARCH_NO_ITEMS_FOUND = "搜尋中找不到快取的物品。展開組並查看物品快取名稱，然後重試。使用此搜尋只能找到裝備綁定物品。";
 L.ALL_BUTTON_TOOLTIP = "點擊此按鈕一次啟用所有裝備篩選。";
@@ -33927,16 +33928,17 @@ L.EXPANSION_DISABLE_ALL_TOOLTIP = "隱藏所有資料片的內容";
 L.EXPANSION_ENABLE_ALL = "啟用全部";
 L.EXPANSION_ENABLE_ALL_TOOLTIP = "顯示所有資料片的內容";
 L.EXPANSION_EXPLAIN_LABEL = "選擇您想在收藏視窗中看到的資料片內容。";
-L.EXPANSION_FILTER_ENABLE = "啟用資料片過濾";
+L.EXPANSION_FILTER_ENABLE = "啟用資料片篩選";
 L.EXPANSION_FILTER_ENABLE_TOOLTIP = "|cffff0000警告：|r目前Classic/WoD/Legion/BfA資料庫中的時間線資訊不完整，可能非常不準確。請謹慎使用。";
-L.EXPANSION_FILTER_LABEL = "依資料片過濾";
+L.EXPANSION_FILTER_LABEL = "依資料片篩選";
 L.EXPANSION_FILTER_TOOLTIP = "切換%s內容的可見性";
-L.EXPANSION_FILTERS_PAGE = "資料片過濾器";
+L.EXPANSION_FILTERS_PAGE = "資料片篩選器";
 L.EXPANSION_ID = "資料片 ID";
 L.EXPANSION_THINGS_LABEL = "資料片事物";
 L.EXPLORATION_CHECKBOX = "地圖探索(不精準)";
 L.EXPLORATION_CHECKBOX_TOOLTIP = "啟用此選項可以追蹤戶外地圖的探索完成情況。\n\n目前這個選項所提供的資訊並不準確，需要加強，請謹慎使用。";
 L.EXTRA_THINGS_LABEL = "其他資源";
+L.FACTION_DESC = "點擊此按鈕將根據你未收集的內容隨機選擇一個陣營。";
 L.FACTION_ID = "陣營 ID";
 L.FACTION_MODE = "僅當前陣營";
 L.FACTION_MODE_TOOLTIP = "如果你想只看到你當前陣營的種族和職業的戰隊模式資料，請開啟此設定。";
@@ -33952,6 +33954,7 @@ L.FILTER_THINGS_BY_LEVEL_CHECKBOX = "等級限制";
 L.FILTER_THINGS_BY_LEVEL_CHECKBOX_TOOLTIP = "如果只想查看當前級別角色可用的事物，請啟用此設定。\n\n注意：這對新戰隊特別有用。";
 L.FILTER_THINGS_BY_SKILL_LEVEL_CHECKBOX = "無技能等級限制";
 L.FILTER_THINGS_BY_SKILL_LEVEL_CHECKBOX_TOOLTIP = "如果您只想查看遊戲環境中可用的最高技能級別可用的內容，請停用此設定。";
+L.FILTERS_PAGE = "篩選器";
 L.FLIGHT_PATH_ID = "飛行路線 ID";
 L.FLIGHT_PATHS = "飛行路線";
 L.FLIGHT_PATHS_CHECKBOX = "飛行路線";
@@ -33980,6 +33983,8 @@ L.HEIRLOOMS_CHECKBOX_TOOLTIP = "啟用此選項可追蹤你是否已解鎖傳家
 L.HEIRLOOMS_UPGRADES_CHECKBOX = "+升級";
 L.HEIRLOOMS_UPGRADES_CHECKBOX_TOOLTIP = "啟用此選項可專門追蹤單個傳家寶升級的收藏情況。\n\n我們都知道暴雪就是喜歡消耗你的金幣和靈魂，所以用這個切換來追蹤你的金幣。";
 L.HEIRLOOMS_UPGRADES_DESC = "這表明你是否已經將傳家寶升級到了一定的級別。\n\n安息吧…金幣。\n - Crieve";
+L.HIDDEN_CURRENCY_TRIGGERS = "隱藏貨幣觸發器";
+L.HIDDEN_CURRENCY_TRIGGERS_DESC = "這些貨幣是根據特定條件手動判定或觸發，主要供遊戲內部用於追蹤目的。";
 L.HIDDEN_QUEST_TRIGGERS = "隱藏任務觸發";
 L.HIDDEN_QUEST_TRIGGERS_DESC = "這些任務是依據特定的標準手動確定觸發的任務，主要用於遊戲內部的追蹤目的";
 L.ICON_LEGEND_STATUS_LABEL = "圖標圖例";
@@ -34158,6 +34163,7 @@ L.REAGENT_CACHE_OUT_OF_DATE = "快取已過期，打開專業技能介面後會�
 L.RECENTLY_MADE_OBTAINABLE = "|cFFFF0000如果你掉落了此項（除回收箱外的\n任何地方），請去 Discord 告訴我們從哪掉的！|r";
 L.RECENTLY_MADE_OBTAINABLE_PT2 = "|cFFFF0000提供越多資訊越好，謝謝！|r";
 L.RECIPES_CHECKBOX_TOOLTIP = "啟用此選項可追蹤你的專業技能圖紙。\n\n注意：你必須打開專業技能列表才能快取這些。";
+L.REMOTE_ZONES_DESCRIPTION = "包含在當前區域可取得，但來源直接來自另一個區域的內容。";
 L.REMOVED_WITH_PATCH = "隨更新移除";
 L.REMOVED_WITH_PATCH_CLASSIC_FORMAT = "該物品是隨更新 %s 移除的";
 L.REMOVED_WITH_PATCH_FORMAT = "更新 %s 中被刪除";
@@ -34252,6 +34258,8 @@ L.SOURCE_ID = "來源 ID";
 L.SOURCE_ID_MISSING = "請在 ATT Discord 的 #classic-errors 中回報此物品及其獲得地點！";
 L.SOURCE_LOCATIONS_CHECKBOX = "來源位置";
 L.SOURCE_LOCATIONS_CHECKBOX_TOOLTIP = "如果你想在指標提示中看到 ATT 資料庫中對象的完整來源位置路線，請啟用此選項。";
+L.SOURCELESS = "無來源";
+L.SOURCELESS_DESC = "這些物品已確認可取得，但目前尚未知道其來源，甚至無法確定是否仍可取得。";
 L.SOURCES = "來源";
 L.SOURCES_DESC = "顯示這個東西的來源。\n\n特別是特定商人/NPC，任務，戰鬥，等等。";
 L.SPEC_CHECKBOX = "專精";
@@ -34259,6 +34267,7 @@ L.SPEC_CHECKBOX_TOOLTIP = "啟用該選項，可以在遊戲客戶端提供的�
 L.SPECIES_ID = "品種 ID";
 L.SPELL_ID = "法術 ID";
 L.SPLIT = "按難度";
+L.STORE_IN_PROFILE_BUTTON_TOOLTIP = "預設情況下，ATT 會依角色儲存這些篩選器。\n\n勾選此選項可將這些篩選器儲存在目前的設定檔，而不是依角色儲存。";
 L.SUMMARIZE_CHECKBOX = "總結事物";
 L.SUMMARIZE_CHECKBOX_TOOLTIP = "啟用該選項可在指標提示中總結事物。例如，如果一個事物可以變成另一個事物的商人，那麼在指標提示中顯示另一個事物，以提供其多種用途的可見性。如果一個事物作為許多其他事物的容器，這個選項將顯示該容器所包含的所有其他事物。\n\n我們建議你保持此設定開啟。";
 L.SYM_ROW_INFORMATION = "點擊右鍵以查看來自其他位置的其它內容";
@@ -34281,6 +34290,7 @@ L.TITLE_UNIQUE_APPEARANCE = "獨特外觀 ";
 L.TITLES_CHECKBOX = "頭銜";
 L.TITLES_CHECKBOX_TOOLTIP = "啟用此選項可追蹤頭銜。\n\n這些可以讓你的角色脫穎而出，看起來你已經玩了一段時間。通常只有新玩家沒有頭銜。";
 L.TITLES_DESC = "頭銜會在你的戰隊中被追蹤，但是，你的角色必須符合某些頭銜的條件才能在該角色上使用。";
+L.TITLES_RAND_DESC = "點擊此按鈕即可依據你尚未取得的頭銜隨機挑選一個。";
 L.TOGGLE_ACCOUNT_MODE = "切換帳號模式";
 L.TOGGLE_BOEITEMS = "切換裝備綁定/拾取綁定物品";
 L.TOGGLE_COLLECTEDTHINGS = "隱藏/顯示已收藏項目";
@@ -34323,7 +34333,7 @@ L.UNOFFICIAL_SUPPORT_TOOLTIP = "注意：目前，WoW 的 API 不提供官方支
 L.UNSORTED = "未分類";
 L.UNSORTED_DESC = "此資料尚未在 ATT 中獲得 " .. _.Version .. "。";
 L.UNSORTED_DESC_2 = "這裡的物品存在於遊戲中，玩家可能會獲得，但 ATT 還沒有找到準確位置";
-L.UPDATE_LOCATION_NOW = "現在更新位置";
+L.UPDATE_LOCATION_NOW = "立即更新位置";
 L.UPDATE_LOCATION_NOW_DESC = "如果想強制更新當前的地圖資料請點擊這個按鈕！";
 L.UPDATE_WORLD_QUESTS = "立即更新世界任務";
 L.UPDATE_WORLD_QUESTS_DESC = "有時世界任務 API 很慢或無法返回新資料。如果希望在不更改區域的情況下強制刷新資料，請立即點擊此按鈕！\n\n" .. ALT_KEY_TEXT .. "點擊以包括當前可用的事物，可能不受時間限制";

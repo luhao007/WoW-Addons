@@ -1,5 +1,5 @@
 ## Interface: 110205
-## Version: 11.2.0
+## Version: 11.2.5
 
 ## Title: Meeting Stone
 ## Title-zhCN: |cFFFFE00A<|r|cFFF48CBA社交|r|cFFFFE00A>|r|cFFFFFFFF集合石|r |cFFFFE00AMeetingStone|r
@@ -16,6 +16,6 @@
 
 ## X-LoadOn-Always: delayed
 
-## VersionDate: 20250825
+## VersionDate: 20251010
 
 Load.xml

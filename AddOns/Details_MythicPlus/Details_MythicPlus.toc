@@ -1,5 +1,5 @@
 ## Interface: 110205
-## Version: #DMP.20250814.012
+## Version: #DMP.20250908.014
 
 ## Title: Details!: Mythic Plus Extension
 ## Notes: Add Mythic Plus stuff on Details!
@@ -48,3 +48,4 @@ rundata.lua
 migrations.lua
 comm.lua
 public.lua
+exportframe.lua

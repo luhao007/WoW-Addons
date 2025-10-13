@@ -1,5 +1,4 @@
 import functools
-import logging
 import os
 import shutil
 from collections.abc import Callable, Iterable

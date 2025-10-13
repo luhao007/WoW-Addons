@@ -756,7 +756,8 @@ do
         state.trinket.t1.__usable = false
         state.trinket.t1.__has_use_buff = false
         state.trinket.t1.__has_use_damage = false
-        state.trinket.t1.__use_buff_duration = nil
+        state.trinket.t1.__use_buff_duration = 0.01
+        state.trinket.t1.__proc = false
 
         if T1 then
             state.trinket.t1.__id = T1
@@ -800,7 +801,7 @@ do
                 state.trinket.t1.cooldown = state.cooldown.null_cooldown
             end
 
-            state.trinket.t1.__proc = FindStringInInventoryItemTooltip( "^" .. ITEM_SPELL_TRIGGER_ONEQUIP, 13, true, true )
+            if not isUsable then state.trinket.t1.__proc = FindStringInInventoryItemTooltip( "^" .. ITEM_SPELL_TRIGGER_ONEQUIP, 13, true, true ) end
         end
 
         local T2 = GetInventoryItemID( "player", 14 )
@@ -810,7 +811,8 @@ do
         state.trinket.t2.__usable = false
         state.trinket.t2.__has_use_buff = false
         state.trinket.t2.__has_use_damage = false
-        state.trinket.t2.__use_buff_duration = nil
+        state.trinket.t2.__use_buff_duration = 0.01
+        state.trinket.t2.__proc = false
         state.trinket.t2.ilvl = 0
 
         if T2 then
@@ -855,13 +857,22 @@ do
                 state.trinket.t2.cooldown = state.cooldown.null_cooldown
             end
 
-            state.trinket.t2.__proc = FindStringInInventoryItemTooltip( "^" .. ITEM_SPELL_TRIGGER_ONEQUIP, 14, true, true )
+            if not isUsable then state.trinket.t2.__proc = FindStringInInventoryItemTooltip( "^" .. ITEM_SPELL_TRIGGER_ONEQUIP, 14, true, true ) end
         end
 
         state.main_hand.size = 0
         state.off_hand.size = 0
 
         local MH = GetInventoryItemID( "player", 16 )
+
+        state.trinket.main_hand.__id = 0
+        state.trinket.main_hand.__ability = "null_cooldown"
+        state.trinket.main_hand.__usable = false
+        state.trinket.main_hand.__has_use_buff = false
+        state.trinket.main_hand.__has_use_damage = false
+        state.trinket.main_hand.__use_buff_duration = 0.01
+        state.trinket.main_hand.__proc = false
+        state.trinket.main_hand.ilvl = 0
 
         class.abilities.main_hand = class.abilities.actual_main_hand
 
@@ -897,7 +908,7 @@ do
                 state.trinket.main_hand.cooldown = state.cooldown.null_cooldown
             end
 
-            state.trinket.main_hand.__proc = FindStringInInventoryItemTooltip( "^" .. ITEM_SPELL_TRIGGER_ONEQUIP, 16, true, true )
+            if not isUsable then state.trinket.t2.__proc = FindStringInInventoryItemTooltip( "^" .. ITEM_SPELL_TRIGGER_ONEQUIP, 16, true, true ) end
         end
 
         for i = 1, 19 do
@@ -1201,14 +1212,17 @@ end
 
 local lowLevelWarned = false
 local noClassWarned = false
+-- Change here every expansion to automatically warn low-level users.
+local minimumLevel = 71
+local expansionName = "The War Within"
 
 -- Need to make caching system.
 RegisterUnitEvent( "UNIT_SPELLCAST_SUCCEEDED", "player", "target", function( event, unit, _, spellID )
     if not noClassWarned and not class.initialized then
-        Hekili:Notify( UnitClass( "player" ) .. " does not have any Hekili modules loaded (yet).\nWatch for updates.", 5 )
+        Hekili:Notify( UnitClass( "player" ) .. " does not have any Hekili modules loaded (yet).\nWatch for updates.", 10 )
         noClassWarned = true
-    elseif not lowLevelWarned and UnitLevel( "player" ) < 70 then
-        Hekili:Notify( "Hekili is designed for current content.\nUse below level 70 at your own risk.", 5 )
+    elseif not lowLevelWarned and UnitLevel( "player" ) < minimumLevel then
+        Hekili:Notify( "Hekili is designed for use in " .. expansionName .. " content.\nIt may not work as expected below level " .. minimumLevel .. ".", 10 )
         lowLevelWarned = true
     end
 
@@ -1280,60 +1294,30 @@ end
 
 RegisterUnitEvent( "UNIT_SPELLCAST_CHANNEL_START", "player", nil, function( event, unit, cast, spellID )
     local ability = class.abilities[ spellID ]
+    if not ability then return end
 
-    if ability then
-        Hekili:ForceUpdate( event )
-        if state.holds[ ability.key ] then Hekili:RemoveHold( ability.key, true ) end
-    end
+    if state.holds[ ability.key ] then Hekili:RemoveHold( ability.key, true ) end
+    Hekili:ForceUpdate( event )
 end )
 
 
 RegisterUnitEvent( "UNIT_SPELLCAST_CHANNEL_STOP", "player", nil, function( event, unit, cast, spellID )
-    local ability = class.abilities[ spellID ]
-    if ability then
-        Hekili:ForceUpdate( event )
-        if state.holds[ ability.key ] then Hekili:RemoveHold( ability.key, true ) end
-    end
+    Hekili:ForceUpdate( event )
+
 end )
 
 
 RegisterUnitEvent( "UNIT_SPELLCAST_CHANNEL_UPDATE", "player", nil, function( event, unit, _, spellID )
-    local ability = class.abilities[ spellID ]
-    if not ability or not ability.channeled then return end
-
-    state:RemoveSpellEvent( action, true, "CHANNEL_TICK" )
-    state:RemoveSpellEvent( action, true, "CHANNEL_FINISH", true )
-
-    local _, _, _, start, finish = UnitChannelInfo( "player" )
-
-    if start then
-        start = start / 1000
-        finish = finish / 1000
-
-        state:QueueEvent( ability.key, start, finish, "CHANNEL_FINISH", destGUID, true )
-
-        local tick_time = ability.tick_time or ( ability.aura and class.auras[ ability.aura ].tick_time )
-
-        if tick_time and tick_time > 0 then
-            local tick = tick_time
-
-            while ( start + tick < finish ) do
-                state:QueueEvent( ability.key, start, start + tick, "CHANNEL_TICK", destGUID, true )
-                tick = tick + tick_time
-            end
-        end
-    end
-
     Hekili:ForceUpdate( event )
 end )
 
 
 RegisterUnitEvent( "UNIT_SPELLCAST_STOP", "player", nil, function( event, unit, cast, spellID )
     local ability = class.abilities[ spellID ]
-    if ability then
-        Hekili:ForceUpdate( event )
-        if state.holds[ ability.key ] then Hekili:RemoveHold( ability.key, true ) end
-    end
+    if not ability then return end
+
+    if state.holds[ ability.key ] then Hekili:RemoveHold( ability.key, true ) end
+    Hekili:ForceUpdate( event )
 end )
 
 
