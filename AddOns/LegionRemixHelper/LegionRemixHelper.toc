@@ -3,11 +3,11 @@
 ## Version: 1.5.1
 
 ## Title: Legion Remix Helper
-## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r|cFFFFFFFF军团再临幻境新生助手|r |cFFFFE00ALegionRemixHelper|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF军团再临幻境新生助手|r |cFFFFE00ALegionRemixHelper|r
 
 ## IconTexture: Interface\Addons\LegionRemixHelper\Media\Textures\logo.tga
 
-## Category-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r
+## Category-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r
 
 ## DefaultState: enabled
 
