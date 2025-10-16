@@ -63,6 +63,15 @@ local L = {
     ["ScrappingUI.MinItemLevelDifference"] = "Minimale Itemlevel-Differenz",
     ["ScrappingUI.MinItemLevelDifferenceInstructions"] = "x Stufen unter dem ausgerüsteten Gegenstand",
     ["ScrappingUI.AutoScrap"] = "Auto-Verschrotten",
+    ["ScrappingUI.ScraperListTabTitle"] = "Item-Liste",
+    ["ScrappingUI.AdvancedSettingsTabTitle"] = "Mehr Einstellungen",
+    ["ScrappingUI.JewelryTraitsToKeep"] = "Schmuck-Traits zum Behalten",
+    ["ScrappingUI.AdvancedJewelryFilter"] = "Erweiterter Schmuck-Filter",
+    ["ScrappingUI.FilterCheckAll"] = "Alle auswählen",
+    ["ScrappingUI.FilterUncheckAll"] = "Alle abwählen",
+    ["ScrappingUI.Neck"] = "Hals-Traits",
+    ["ScrappingUI.Trinket"] = "Schmuckstück-Traits",
+    ["ScrappingUI.Finger"] = "Ring-Traits",
 
     -- Utils/ArtifactTraitUtils.lua
     ["ArtifactTraitUtils.NoItemEquipped"] = "Kein Gegenstand ausgerüstet.",

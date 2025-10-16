@@ -6,6 +6,7 @@ local match = _G.string.match
 local gmatch=_G.string.gmatch
 local Data=addonTable.Data
 local Fun=addonTable.Fun
+local _Get_GEM_EMPTY_SOCKET=Fun._Get_GEM_EMPTY_SOCKET
 --------------
 local QuickChatfun = addonTable.QuickChatfun
 local FasongYCqingqiu=addonTable.Fun.FasongYCqingqiu
@@ -16,28 +17,6 @@ local GetItemStats=GetItemStats or C_Item and C_Item.GetItemStats
 local wanjiaxinxil = {}
 local ClassColor=Data.ClassColor
 local Texwidth,Texheight = 500,500
-local gemList = {
-	["EMPTY_SOCKET_META"]=136257,--多彩
-	["EMPTY_SOCKET_BLUE"]=136256,--蓝色
-	["EMPTY_SOCKET_RED"]=136258,--红色
-	["EMPTY_SOCKET_YELLOW"]=136259,--黄色
-	["EMPTY_SOCKET_YELLOW"]=136259,--煞化
-}
-local gemList = {
-    ["EMPTY_SOCKET_META"]      = 136257,  -- 多彩
-    ["EMPTY_SOCKET_RED"]       = 136258,  -- 红色
-    ["EMPTY_SOCKET_YELLOW"]    = 136259,  -- 黄色
-    ["EMPTY_SOCKET_BLUE"]      = 136256,  -- 蓝色
-    ["EMPTY_SOCKET_PRISMATIC"] = 458977,  -- 棱彩 (可变色插槽)
-    ["EMPTY_SOCKET"]           = 136260,  -- 通用空插槽
-    ["EMPTY_SOCKET_COGWHEEL"]  = 407324,  -- 
-    ["EMPTY_SOCKET_HYDRAULIC"] = 407325,  --煞化
-    ["EMPTY_SOCKET_PUNCHCARD_BLUE"]  = 2958629,  -- 铭文卡-蓝色
-    ["EMPTY_SOCKET_PUNCHCARD_RED"]   = 2958630,  -- 铭文卡-红色
-    ["EMPTY_SOCKET_PUNCHCARD_YELLOW"] = 2958631, -- 铭文卡-黄色
-    ["EMPTY_SOCKET_DOMINATION"] = 4095404, -- 支配插槽 (Domination)
-    ["EMPTY_SOCKET_GREEN"] = 136256,  -- 蓝色槽常被用作绿色（旧版兼容）
-}
 local function GetGemList(linkx)
 	local baoshiinfo = {}
     local statsg = GetItemStats(linkx)
@@ -80,6 +59,7 @@ local function ShowZb_Link_Icon(newText)
 			end
 		end
 	end
+
 	if PIGA["Chat"]["ShowLinkIcon"] or PIGA["Chat"]["ShowLinkLV"] or PIGA["Chat"]["ShowLinkSlots"] then
 		if newText:match("Hitem:") then
 			local tihuanidlist = {}
@@ -104,7 +84,7 @@ local function ShowZb_Link_Icon(newText)
 			end
 			for k,v in pairs(tihuanidlist) do
 				if PIGA["Chat"]["ShowLinkIcon"] then
-					newText=newText:gsub("(|cff%w%w%w%w%w%w|"..k.."|h)","|T"..v.icon..":0|t%1");
+					newText=newText:gsub("(|cnIQ%d:|"..k.."|h)","|T"..v.icon..":0|t%1");
 				end
 				if PIGA["Chat"]["ShowLinkLV"] or PIGA["Chat"]["ShowLinkSlots"] then
 					local tihuanneirong = ""
@@ -118,9 +98,9 @@ local function ShowZb_Link_Icon(newText)
 					if PIGA["Chat"]["ShowLinkGem"] and #v.Gem>0 then
 						local GemTxt = ""
 						for ixx=1,#v.Gem do
-							GemTxt=GemTxt.."|T"..gemList[v.Gem[ixx]]..":0|t"
+							GemTxt=GemTxt.."|T".._Get_GEM_EMPTY_SOCKET(v.Gem[ixx])..":0|t"
 						end
-						newText=newText:gsub("(|cff%w%w%w%w%w%w|"..k.."|h%[.-%]|h|r)","%1"..GemTxt);
+						newText=newText:gsub("(|cnIQ%d:|"..k.."|h%[.-%]|h|r)","%1"..GemTxt);
 					end
 				end
 			end

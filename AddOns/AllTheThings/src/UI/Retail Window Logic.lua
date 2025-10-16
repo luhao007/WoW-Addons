@@ -2077,7 +2077,7 @@ app.AddEventHandler("RowOnEnter", function(self)
 		end
 	end
 
-	-- Show information about it becoming locked due to some criteira
+	-- Show information about it becoming locked due to some criteria
 	local lockCriteria = reference.lc;
 	if lockCriteria then
 		-- list the reasons this may become locked due to lock criteria

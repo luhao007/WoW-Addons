@@ -458,12 +458,12 @@ end})
 local CurrentCharacterFilterIDSet
 local ArmorTypeMogs = {
 	[2] = true,	-- Cosmetic
-	[3] = true, -- Cloaks
+	[3] = true,	-- Cloaks
 	[4] = true,	-- Cloth
-	[5] = true, -- Leather
-	[6] = true, -- Mail
-	[7] = true, -- Plate
-	[10] = true, -- Shirts
+	[5] = true,	-- Leather
+	[6] = true,	-- Mail
+	[7] = true,	-- Plate
+	[10] = true,	-- Shirts
 }
 local function MainOnlyCanTransmogAppearanceItem(knownItem)
 	return not knownItem.nmr and not knownItem.nmc and ArmorTypeMogs[knownItem.f] and CurrentCharacterFilterIDSet[knownItem.f]

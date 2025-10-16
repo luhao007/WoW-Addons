@@ -7,6 +7,7 @@ local defaultDatabase = {
         maxQuality = Enum.ItemQuality.Rare,
         minLevelDiff = 0,
         autoScrap = false,
+        advancedJeweleryFilter = false,
     },
     collectionsTab = {
         selected = 1,
@@ -55,11 +56,28 @@ local defaultDatabase = {
     version = nil
 }
 
+local defaultCharDatabase = {
+    char = {
+        scrapping = {
+            jeweleryTraitsToKeep = {
+                Neck = CopyTable(const.SCRAPPING_MACHINE.JEWELRY.NECK),
+                Finger = CopyTable(const.SCRAPPING_MACHINE.JEWELRY.FINGER),
+                Trinket = CopyTable(const.SCRAPPING_MACHINE.JEWELRY.TRINKET),
+            },
+        },
+    }
+}
+
 ---@class LegionRH : RasuAddonBase
 local addon = LibStub("RasuAddon"):CreateAddon(
     const.ADDON_NAME,
     "LegionRemixHelperDB",
-    defaultDatabase
+    defaultDatabase,
+    nil,
+    nil,
+    nil,
+    "LegionRemixHelperCharDB",
+    defaultCharDatabase
 )
 
 Private.Addon = addon

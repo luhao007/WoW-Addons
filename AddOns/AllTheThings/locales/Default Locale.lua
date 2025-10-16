@@ -112,7 +112,7 @@ local L = {
 		"",									-- 3, we want no icon for these
 		app.asset("status-seasonal-unavailable"),	-- 4 Seasonal unavailable
 		app.asset("status-seasonal-available"),	-- 5 Seasonal available
-		app.asset("status-unsorted"), -- 6 Unsorted
+		app.asset("status-unsorted"),	-- 6 Unsorted
 	},
 };
 L = setmetatable(L, { __index = function(t, k)

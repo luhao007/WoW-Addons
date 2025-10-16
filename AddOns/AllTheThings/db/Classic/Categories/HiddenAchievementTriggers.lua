@@ -2,6 +2,5 @@
 ---@diagnostic disable: deprecated
 local appName, _ = ...;
 local ach,x=_.CreateAchievement,_.CreateExpansion;
---STRUCTURE_REPLACEMENTS
 _.Categories.HiddenAchievementTriggers={
 x(1,{ach(15329),ach(15578)})};

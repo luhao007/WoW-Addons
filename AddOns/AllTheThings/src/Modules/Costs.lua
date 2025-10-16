@@ -43,11 +43,11 @@ local CostDebugIDs = {
 	-- [175142] = true,	-- All-Seeing Right Eye
 	-- [207026] = true,	-- Dreamsurge Coalescence
 	-- [205052] = true,	-- Miloh
-	-- [515] = true, -- DMF Ticket
-	-- [241] = true, -- Champion's Seal
-	-- [40610] = true, -- Chestguard of the Lost Conqueror [10M]
-	-- [194681] = true, -- Sugarwing Cupcake
-	-- [193215] = true, -- Scaleseeker Mezeri
+	-- [515] = true,	-- DMF Ticket
+	-- [241] = true,	-- Champion's Seal
+	-- [40610] = true,	-- Chestguard of the Lost Conqueror [10M]
+	-- [194681] = true,	-- Sugarwing Cupcake
+	-- [193215] = true,	-- Scaleseeker Mezeri
 }
 local function PrintDebug(id, ...)
 	if CostDebugIDs.ALL then

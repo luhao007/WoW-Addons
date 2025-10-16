@@ -208,8 +208,130 @@ private.CONTAINER_INFO = {
 	[244597] = { zoneID = 628, artID = { 651 }, x = 4610, y = 5520, overlay = { "4610-5520","4690-5410","5320-7250","5340-7130","5440-7260","5990-4590","6010-4760","6100-4910","6110-4570","6320-7340","6330-7520","6430-7240","6890-1970","6910-2190","7020-2000" } }; --Underbelly Hoard
 	[240638] = { zoneID = 630, artID = { 653 }, x = 5586, y = 5676, overlay = { "5590-5680" }, reset = false, questID = { 38365 } }; --Disputed Treasure
 	[253957] = { zoneID = 630, artID = { 653 }, x = 5048, y = 5209, overlay = { "5050-5210" }, reset = false, questID = { 44081 } }; --Treasure Chest
-	[241128] = { zoneID = 641, artID = { 664 }, x = 5551, y = 7770, overlay = { "5555-7761" }, reset = false, questID = { 38466 } }; --Unguarded Thistleleaf Treasure
-	[242350] = { zoneID = 641, artID = { 664 }, x = 6455, y = 8547, overlay = { "6455-8547" }, reset = false, questID = { 38900 } }; --Treasure Chest
+	[233107] = { zoneID = 634, artID = { 657 }, x = 6795, y = 5776, overlay = { "6795-5776" }, reset = false, questID = { 40083 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[241146] = { zoneID = 634, artID = { 657 }, x = 4261, y = 6580, overlay = { "4261-6580" }, reset = false, questID = { 38474 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
+	[241147] = { zoneID = 634, artID = { 657 }, x = 4064, y = 6853, overlay = { "4064-6853" }, reset = false, questID = { 38475 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[241148] = { zoneID = 634, artID = { 657 }, x = 4813, y = 7423, overlay = { "4813-7423" }, reset = false, questID = { 38476 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[241149] = { zoneID = 634, artID = { 657 }, x = 4234, y = 6113, overlay = { "4234-6113" }, reset = false, questID = { 38477 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[241150] = { zoneID = 634, artID = { 657 }, x = 3518, y = 6899, overlay = { "3518-6899" }, reset = false, questID = { 38478 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[241151] = { zoneID = 634, artID = { 657 }, x = 5202, y = 8058, overlay = { "5202-8058" }, reset = false, questID = { 38480 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[241152] = { zoneID = 634, artID = { 657 }, x = 4677, y = 8040, overlay = { "4677-8040" }, reset = false, questID = { 38481 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[241153] = { zoneID = 634, artID = { 657 }, x = 5033, y = 4099, overlay = { "5033-4099" }, reset = false, questID = { 38483 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[241154] = { zoneID = 634, artID = { 657 }, x = 4976, y = 7800, overlay = { "4976-7800" }, reset = false, questID = { 38485 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[241155] = { zoneID = 634, artID = { 657 }, x = 3948, y = 6518, overlay = { "3948-6518" }, reset = false, questID = { 38486 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
+	[241180] = { zoneID = 634, artID = { 657 }, x = 3503, y = 3660, overlay = { "3503-3660" }, reset = false, questID = { 38487 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
+	[241206] = { zoneID = 634, artID = { 657 }, x = 4175, y = 4605, overlay = { "4175-4605" }, reset = false, questID = { 38488 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[241207] = { zoneID = 634, artID = { 657 }, x = 4416, y = 6997, overlay = { "4416-6997" }, reset = false, questID = { 38489 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[241208] = { zoneID = 634, artID = { 657 }, x = 3274, y = 2791, overlay = { "3274-2791" }, reset = false, questID = { 38490 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
+	[241212] = { zoneID = 634, artID = { 657 }, x = 3314, y = 3606, overlay = { "3314-3606" }, reset = false, questID = { 38495 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
+	[241213] = { zoneID = 634, artID = { 657 }, x = 3956, y = 1930, overlay = { "3956-1930" }, reset = false, questID = { 38498 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[241280] = { zoneID = {
+				[634] = { x = 2726, y = 5732, artID = { 657 }, overlay = { "2726-5732" } };
+				[636] = { x = 1999, y = 4133, artID = { 659 }, overlay = { "1999-4133" } };
+			  }, reset = false, questID = { 38529 }, achievementID = { 11259 }, minieventID = 45 }; --null
+	[241518] = { zoneID = 634, artID = { 657 }, x = 6914, y = 4478, overlay = { "6914-4478" }, reset = false, questID = { 38637 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[241557] = { zoneID = 634, artID = { 657 }, x = 3111, y = 5598, overlay = { "3111-5598" }, reset = false, questID = { 38676 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
+	[241558] = { zoneID = 634, artID = { 657 }, x = 3573, y = 5410, overlay = { "3573-5410" }, reset = false, questID = { 38677 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
+	[241562] = { zoneID = 634, artID = { 657 }, x = 3592, y = 4793, overlay = { "3592-4793" }, reset = false, questID = { 38680 }, achievementID = { 11259 }, minieventID = 45 }; --Checklist of Minor Pleasures
+	[241564] = { zoneID = 634, artID = { 657 }, x = 4659, y = 6496, overlay = { "4659-6496" }, reset = false, questID = { 38681 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[241665] = { zoneID = 634, artID = { 657 }, x = 4798, y = 6237, overlay = { "4798-6237" }, reset = false, questID = { 38738 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
+	[241680] = { zoneID = 634, artID = { 657 }, x = 6193, y = 3224, overlay = { "6193-3224" }, reset = false, questID = { 38744 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[241717] = { zoneID = 634, artID = { 657 }, x = 4969, y = 4737, overlay = { "4969-4737" }, reset = false, questID = { 38763 }, achievementID = { 11259 }, minieventID = 45 }; --Glimmering Treasure Chest
+	[244887] = { zoneID = 634, artID = { 657 }, x = 5804, y = 4752, overlay = { "5804-4752" }, reset = false, questID = { 40082 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[244899] = { zoneID = 634, artID = { 657 }, x = 7333, y = 4151, overlay = { "7333-4151" }, reset = false, questID = { 40085 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[244901] = { zoneID = 634, artID = { 657 }, x = 6897, y = 4184, overlay = { "6897-4184" }, reset = false, questID = { 40086 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
+	[244902] = { zoneID = 634, artID = { 657 }, x = 5931, y = 5845, overlay = { "5931-5845" }, reset = false, questID = { 40088 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
+	[244903] = { zoneID = 634, artID = { 657 }, x = 6143, y = 6376, overlay = { "6143-6376" }, reset = false, questID = { 40089 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
+	[244904] = { zoneID = 634, artID = { 657 }, x = 5792, y = 6332, overlay = { "5792-6332" }, reset = false, questID = { 40090 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[244905] = { zoneID = 634, artID = { 657 }, x = 6266, y = 7360, overlay = { "6266-7360" }, reset = false, questID = { 40091 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[244909] = { zoneID = 634, artID = { 657 }, x = 6141, y = 4440, overlay = { "6141-4440" }, reset = false, questID = { 40093 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[244912] = { zoneID = 634, artID = { 657 }, x = 6084, y = 4274, overlay = { "6084-4274" }, reset = false, questID = { 40094 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[244913] = { zoneID = 634, artID = { 657 }, x = 5501, y = 4715, overlay = { "5501-4715" }, reset = false, questID = { 40095 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
+	[244917] = { zoneID = 634, artID = { 657 }, x = 8187, y = 6750, overlay = { "7842-6750" }, reset = false, questID = { 40099 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
+	[244928] = { zoneID = 634, artID = { 657 }, x = 6846, y = 2960, overlay = { "6846-2960" }, reset = false, questID = { 40108 }, achievementID = { 11259 }, minieventID = 45 }; --Glimmering Treasure Chest
+	[250984] = { zoneID = 634, artID = { 657 }, x = 7212, y = 5489, overlay = { "7212-5489" }, reset = false, questID = { 42628 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[250985] = { zoneID = 634, artID = { 657 }, x = 7515, y = 4947, overlay = { "7515-4947" }, reset = false, questID = { 42629 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
+	[250987] = { zoneID = 634, artID = { 657 }, x = 7396, y = 5224, overlay = { "7396-5224" }, reset = false, questID = { 42632 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[251713] = { zoneID = 634, artID = { 657 }, x = 6558, y = 5737, overlay = { "6558-5737" }, reset = false, questID = { 43187 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[251714] = { zoneID = 634, artID = { 657 }, x = 6999, y = 6718, overlay = { "6999-6718" }, reset = false, questID = { 43188 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[251716] = { zoneID = 634, artID = { 657 }, x = 4246, y = 3408, overlay = { "4246-3408" }, reset = false, questID = { 43189 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[251719] = { zoneID = 634, artID = { 657 }, x = 5322, y = 9315, overlay = { "5322-9315" }, reset = false, questID = { 43190 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
+	[251720] = { zoneID = 634, artID = { 657 }, x = 8240, y = 5451, overlay = { "8240-5451" }, reset = false, questID = { 43191 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[251723] = { zoneID = 634, artID = { 657 }, x = 7313, y = 4568, overlay = { "7313-4568" }, reset = false, questID = { 43194 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[251737] = { zoneID = 634, artID = { 657 }, x = 5006, y = 1816, overlay = { "5006-1816" }, reset = false, questID = { 43195 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
+	[251738] = { zoneID = 634, artID = { 657 }, x = 3206, y = 4719, overlay = { "3206-4719" }, reset = false, questID = { 43196 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
+	[251761] = { zoneID = 634, artID = { 657 }, x = 6537, y = 4311, overlay = { "6537-4311" }, reset = false, questID = { 43205 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[251762] = { zoneID = 634, artID = { 657 }, x = 4908, y = 6000, overlay = { "4908-6000" }, reset = false, questID = { 43207 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[251764] = { zoneID = 634, artID = { 657 }, x = 3721, y = 3866, overlay = { "3721-3866" }, reset = false, questID = { 43208 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[251772] = { zoneID = 634, artID = { 657 }, x = 7397, y = 5859, overlay = { "7397-5859" }, reset = false, questID = { 43237 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
+	[251776] = { zoneID = 634, artID = { 657 }, x = 4116, y = 4049, overlay = { "4116-4049" }, reset = false, questID = { 43238 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[251780] = { zoneID = 634, artID = { 657 }, x = 4370, y = 8010, overlay = { "4370-8010" }, reset = false, questID = { 43239 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[251782] = { zoneID = 634, artID = { 657 }, x = 4498, y = 3823, overlay = { "4498-3823" }, reset = false, questID = { 43240 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[251792] = { zoneID = 634, artID = { 657 }, x = 5055, y = 4124, overlay = { "5055-4124" }, reset = false, questID = { 43246 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[251820] = { zoneID = 634, artID = { 657 }, x = 4746, y = 3411, overlay = { "4746-3411" }, reset = false, questID = { 43255 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
+	[251851] = { zoneID = 634, artID = { 657 }, x = 6429, y = 3955, overlay = { "6429-3955" }, reset = false, questID = { 43302 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[251853] = { zoneID = 634, artID = { 657 }, x = 7567, y = 6059, overlay = { "7567-6059" }, reset = false, questID = { 43304 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[251854] = { zoneID = 634, artID = { 657 }, x = 7192, y = 4425, overlay = { "7192-4425" }, reset = false, questID = { 43305 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[251856] = { zoneID = 634, artID = { 657 }, x = 7440, y = 4183, overlay = { "7440-4183" }, reset = false, questID = { 43306 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[251857] = { zoneID = 634, artID = { 657 }, x = 7842, y = 7139, overlay = { "7842-7139" }, reset = false, questID = { 43307 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
+	[240519] = { zoneID = 641, artID = { 664 }, x = 4645, y = 8633, overlay = { "4645-8633" }, reset = false, questID = { 38277 }, achievementID = { 11258 }, minieventID = 44 }; --Treasure Chest
+	[240605] = { zoneID = 641, artID = { 664 }, x = 6469, y = 5126, overlay = { "6469-5126" }, reset = false, questID = { 38355 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[240608] = { zoneID = 641, artID = { 664 }, x = 5442, y = 7419, overlay = { "5442-7419" }, reset = false, questID = { 38359 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[240609] = { zoneID = 641, artID = { 664 }, x = 4339, y = 7590, overlay = { "4339-7590" }, reset = false, questID = { 38363 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[240612] = { zoneID = 641, artID = { 664 }, x = 4869, y = 7379, overlay = { "4869-7379" }, reset = false, questID = { 38366 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[240614] = { zoneID = 641, artID = { 664 }, x = 3995, y = 5462, overlay = { "3995-5462" }, reset = false, questID = { 38369 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[240619] = { zoneID = 641, artID = { 664 }, x = 7380, y = 3227, overlay = { "7380-3227" }, reset = false, questID = { 38371 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[240651] = { zoneID = 641, artID = { 664 }, x = 6739, y = 5341, overlay = { "6739-5341" }, reset = false, questID = { 38386 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[240652] = { zoneID = 641, artID = { 664 }, x = 4434, y = 8257, overlay = { "4434-8257" }, reset = false, questID = { 38387 }, achievementID = { 11258 }, minieventID = 44 }; --Treasure Chest
+	[240653] = { zoneID = 641, artID = { 664 }, x = 5150, y = 7779, overlay = { "5150-7779" }, reset = false, questID = { 38388 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[240654] = { zoneID = 641, artID = { 664 }, x = 6337, y = 8841, overlay = { "6337-8841" }, reset = false, questID = { 38389 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[240655] = { zoneID = 641, artID = { 664 }, x = 5403, y = 3486, overlay = { "5403-3486" }, reset = false, questID = { 38390 }, achievementID = { 11258 }, minieventID = 44 }; --Glimmering Treasure Chest
+	[240657] = { zoneID = 641, artID = { 664 }, x = 6587, y = 7918, overlay = { "6587-7918" }, reset = false, questID = { 38391 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[241128] = { zoneID = 641, artID = { 664 }, x = 5555, y = 7761, overlay = { "5555-7761" }, reset = false, questID = { 38466 } }; --Unguarded Thistleleaf Treasure
+	[241767] = { zoneID = 641, artID = { 664 }, x = 6943, y = 5994, overlay = { "6943-5994" }, reset = false, questID = { 38781 }, achievementID = { 11258 }, minieventID = 44 }; --Treasure Chest
+	[241772] = { zoneID = 641, artID = { 664 }, x = 6720, y = 5928, overlay = { "6720-5928" }, reset = false, questID = { 38782 }, achievementID = { 11258 }, minieventID = 44 }; --Treasure Chest
+	[241773] = { zoneID = 641, artID = { 664 }, x = 7017, y = 5697, overlay = { "7017-5697" }, reset = false, questID = { 38783 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[242242] = { zoneID = 641, artID = { 664 }, x = 5603, y = 8376, overlay = { "5603-8376" }, reset = false, questID = { 38861 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[242250] = { zoneID = 641, artID = { 664 }, x = 5495, y = 8055, overlay = { "5495-8055" }, reset = false, questID = { 38864 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[242328] = { zoneID = 641, artID = { 664 }, x = 4899, y = 8615, overlay = { "4899-8615" }, reset = false, questID = { 38886 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[242346] = { zoneID = 641, artID = { 664 }, x = 6048, y = 8214, overlay = { "6048-8214" }, reset = false, questID = { 38893 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[242350] = { zoneID = 641, artID = { 664 }, x = 6455, y = 8548, overlay = { "6456-8549" }, reset = false, questID = { 38900 }, achievementID = { 11258 }, minieventID = 44 }; --Treasure Chest
+	[242446] = { zoneID = 641, artID = { 664 }, x = 5988, y = 7227, overlay = { "5988-7227" }, reset = false, questID = { 38943 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[242642] = { zoneID = 641, artID = { 664 }, x = 6279, y = 7032, overlay = { "6279-7032" }, reset = false, questID = { 39069 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[242643] = { zoneID = 641, artID = { 664 }, x = 6303, y = 7696, overlay = { "6303-7696" }, reset = false, questID = { 39070 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[242644] = { zoneID = 641, artID = { 664 }, x = 6207, y = 6734, overlay = { "6207-6734" }, reset = false, questID = { 39071 }, achievementID = { 11258 }, minieventID = 44 }; --Treasure Chest
+	[242645] = { zoneID = 641, artID = { 664 }, x = 5622, y = 5730, overlay = { "5622-5730" }, reset = false, questID = { 39072 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[242646] = { zoneID = 641, artID = { 664 }, x = 6833, y = 4060, overlay = { "6833-4060" }, reset = false, questID = { 39073 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[242647] = { zoneID = 641, artID = { 664 }, x = 6538, y = 8626, overlay = { "6538-8626" }, reset = false, questID = { 39074 }, achievementID = { 11258 }, minieventID = 44 }; --Treasure Chest
+	[242660] = { zoneID = 641, artID = { 664 }, x = 4266, y = 5802, overlay = { "4266-5802" }, reset = false, questID = { 39077 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[242662] = { zoneID = 641, artID = { 664 }, x = 3864, y = 6718, overlay = { "3864-6718" }, reset = false, questID = { 39079 }, achievementID = { 11258 }, minieventID = 44 }; --Treasure Chest
+	[242663] = { zoneID = 641, artID = { 664 }, x = 3845, y = 6532, overlay = { "3845-6532" }, reset = false, questID = { 39080 }, achievementID = { 11258 }, minieventID = 44 }; --Treasure Chest
+	[242664] = { zoneID = 641, artID = { 664 }, x = 3381, y = 5825, overlay = { "3381-5825" }, reset = false, questID = { 39081 }, achievementID = { 11258 }, minieventID = 44 }; --Treasure Chest
+	[242665] = { zoneID = 641, artID = { 664 }, x = 4510, y = 6113, overlay = { "4510-6113" }, reset = false, questID = { 39083 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[242666] = { zoneID = 641, artID = { 664 }, x = 4322, y = 5487, overlay = { "4322-5487" }, reset = false, questID = { 39084 }, achievementID = { 11258 }, minieventID = 44 }; --Treasure Chest
+	[242667] = { zoneID = {
+				[641] = { x = 4049, y = 4457, artID = { 664 }, overlay = { "4049-4457" } };
+				[642] = { x = 4200, y = 8865, artID = { 665 }, overlay = { "4200-8865" } };
+			  }, reset = false, questID = { 39085 }, achievementID = { 11258 }, minieventID = 44 }; --null
+	[242668] = { zoneID = {
+				[641] = { x = 4098, y = 4275, artID = { 664 }, overlay = { "4098-4275" } };
+				[642] = { x = 5088, y = 5164, artID = { 665 }, overlay = { "5087-5165" } };
+			  }, reset = false, questID = { 39086 }, achievementID = { 11258 }, minieventID = 44 }; --null
+	[242669] = { zoneID = 641, artID = { 664 }, x = 6163, y = 7370, overlay = { "6163-7370" }, reset = false, questID = { 39087 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[242670] = { zoneID = 641, artID = { 664 }, x = 6106, y = 3422, overlay = { "6106-3422" }, reset = false, questID = { 39088 }, achievementID = { 11258 }, minieventID = 44 }; --Treasure Chest
+	[242671] = { zoneID = 641, artID = { 664 }, x = 6102, y = 7916, overlay = { "6102-7916" }, reset = false, questID = { 39089 }, achievementID = { 11258 }, minieventID = 44 }; --Glimmering Treasure Chest
+	[242675] = { zoneID = 641, artID = { 664 }, x = 5418, y = 7059, overlay = { "5418-7059" }, reset = false, questID = { 39093 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[242678] = { zoneID = 641, artID = { 664 }, x = 5451, y = 6047, overlay = { "5451-6047" }, reset = false, questID = { 39097 }, achievementID = { 11258 }, minieventID = 44 }; --Treasure Chest
+	[242683] = { zoneID = 641, artID = { 664 }, x = 6328, y = 7401, overlay = { "6328-7401" }, reset = false, questID = { 39102 }, achievementID = { 11258 }, minieventID = 44 }; --Treasure Chest
+	[242959] = { zoneID = 641, artID = { 664 }, x = 6657, y = 4091, overlay = { "6657-4091" }, reset = false, questID = { 39108 }, achievementID = { 11258 }, minieventID = 44 }; --Treasure Chest
+	[254126] = { zoneID = 641, artID = { 664 }, x = 7382, y = 5436, overlay = { "7382-5436" }, reset = false, questID = { 44135 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[254127] = { zoneID = 641, artID = { 664 }, x = 6271, y = 8526, overlay = { "6271-8526" }, reset = false, questID = { 44136 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[254128] = { zoneID = 641, artID = { 664 }, x = 4306, y = 8822, overlay = { "4306-8822" }, reset = false, questID = { 44138 }, achievementID = { 11258 }, minieventID = 44 }; --Treasure Chest
+	[254141] = { zoneID = 641, artID = { 664 }, x = 6391, y = 4557, overlay = { "6391-4557" }, reset = false, questID = { 44139 }, achievementID = { 11258 }, minieventID = 44 }; --Small Treasure Chest
+	[240649] = { zoneID = 649, artID = { 673 }, x = 6083, y = 5330, overlay = { "6083-5330" }, reset = false, questID = { 38383 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[241216] = { zoneID = 649, artID = { 673 }, x = 8332, y = 2458, overlay = { "8332-2458" }, reset = false, questID = { 38503 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
+	[241267] = { zoneID = 649, artID = { 673 }, x = 7986, y = 2469, overlay = { "7986-2469" }, reset = false, questID = { 38510 }, achievementID = { 11259 }, minieventID = 45 }; --Small Treasure Chest
+	[241272] = { zoneID = 649, artID = { 673 }, x = 1959, y = 4692, overlay = { "1959-4692" }, reset = false, questID = { 38516 }, achievementID = { 11259 }, minieventID = 45 }; --Treasure Chest
 	[243688] = { zoneID = 650, artID = { 674 }, x = 4964, y = 3775, overlay = { "4964-3775" }, reset = false, questID = { 39466 }, achievementID = { 11257 }, minieventID = 43 }; --Treasure Chest
 	[243773] = { zoneID = 650, artID = { 674 }, x = 4763, y = 4407, overlay = { "4763-4407" }, reset = false, questID = { 39503 }, achievementID = { 11257 }, minieventID = 43 }; --Treasure Chest
 	[244446] = { zoneID = 650, artID = { 674 }, x = 5220, y = 5140, overlay = { "5220-5140" }, reset = false, questID = { 39766 }, achievementID = { 11257 }, minieventID = 43 }; --Actually Safe Treasure Chest

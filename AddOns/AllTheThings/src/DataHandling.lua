@@ -179,8 +179,8 @@ end
 local function UpdateGroup(group, parent)
 	group.visible = nil
 
-	-- debug = group.itemID and group.factionID == 2045
-	-- if debug then print("UG",group.hash,parent and parent.hash) end
+	-- local debug = group.currencyID == 1220
+	-- if debug then app.PrintDebug("UG",group.hash,parent and parent.hash) end
 
 	-- Determine if this user can enter the instance or acquire the item and item is equippable/usable
 	-- Things which are determined to be a cost for something else which meets user filters will
@@ -188,17 +188,17 @@ local function UpdateGroup(group, parent)
 	local isCost = group.isCost
 	local valid = isCost or group.forceShow or group.wasFilled
 	-- if valid then
-	-- 	app.PrintDebug("Pre-valid group as from cost/forceShow/wasFilled/upgrade",group.isCost,group.forceShow,group.wasFilled,group.isUpgrade,app:SearchLink(group))
+	-- 	if debug then app.PrintDebug("Pre-valid group as from cost/forceShow/wasFilled/upgrade",group.isCost,group.forceShow,group.wasFilled,group.isUpgrade,app:SearchLink(group)) end
 	-- end
 	-- A group with a source parent means it has a different 'real' heirarchy than in the current window
 	-- so need to verify filtering based on that instead of only itself
 	if not valid then
 		if group.sourceParent then
 			valid = RecursiveGroupRequirementsFilter(group)
-			-- if debug then print("UG.RGRF",valid,"=>",group.sourceParent.hash) end
+			-- if debug then app.PrintDebug("UG.RGRF",valid,"=>",group.sourceParent.hash) end
 		else
 			valid = GroupFilter(group)
-			-- if debug then print("UG.GF",valid) end
+			-- if debug then app.PrintDebug("UG.GF",valid) end
 		end
 	end
 

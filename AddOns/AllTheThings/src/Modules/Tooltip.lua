@@ -199,15 +199,28 @@ else
 	end
 end
 
+-- For some reason, Blizzard puts some secure access functionality within the GetOwner() call on certain
+-- tooltips, which means when ATT checks the Owner via this function, a secure code taint error is thrown
+local function SafeGetOwner(tooltip)
+	local ok, owner = pcall(tooltip.GetOwner,tooltip)
+	if ok then return owner end
+end
+local function SafeGetName(tooltip)
+	local ok, name = pcall(tooltip.GetName,tooltip)
+	if ok then return name end
+	-- prevent potential nil concat errors
+	return ""
+end
+
 -- Server GUID
 local ServerUID = select(2, ("-"):split(app.GUID));
 
 -- Player Tooltip Functions
 local PLAYER_TOOLTIPS = {
 	["Player-4647-031D0890"] = function(self, locClass, engClass, locRace, engRace, gender, name, server)
-		local leftSide = _G[self:GetName() .. "TextLeft1"];
+		local leftSide = _G[SafeGetName(self) .. "TextLeft1"];
 		if leftSide then leftSide:SetText("|cff665a2c" .. name .. " the Time-Loser|r"); end
-		local rightSide = _G[self:GetName() .. "TextRight2"];
+		local rightSide = _G[SafeGetName(self) .. "TextRight2"];
 		if rightSide then rightSide:SetText(app.GetCollectionIcon(0)); end
 		self:AddLine("This scumbag abused an auto-invite addon to steal the Time-Lost Proto Drake from a person that had them on their friends list. ATT has deemed this unacceptable behaviour and will forever stain this player's reputation so long as they remain on the server.", 0.4, 0.8, 1, true);
 	end,
@@ -215,12 +228,12 @@ local PLAYER_TOOLTIPS = {
 
 -- AUTHOR GUIDs
 local tooltipFunction = function(self, locClass, engClass, locRace, engRace, gender, name, server)
-	local leftSide = _G[self:GetName() .. "TextLeft1"];
+	local leftSide = _G[SafeGetName(self) .. "TextLeft1"];
 	if leftSide then
 		leftSide:SetText(L.PLAYER_TITLE_THE_COMPLETIONIST:format(name));
 	end
-	local rightSide = _G[self:GetName() .. "TextRight2"];
-	leftSide = _G[self:GetName() .. "TextLeft2"];
+	local rightSide = _G[SafeGetName(self) .. "TextRight2"];
+	leftSide = _G[SafeGetName(self) .. "TextLeft2"];
 	if leftSide and rightSide and not ElvUI then
 		leftSide:SetText(L.TITLE);
 		leftSide:Show();
@@ -241,12 +254,12 @@ end
 
 -- CONTRIBUTOR GUIDS
 tooltipFunction = function(self, locClass, engClass, locRace, engRace, gender, name, server)
-	local leftSide = _G[self:GetName() .. "TextLeft1"];
+	local leftSide = _G[SafeGetName(self) .. "TextLeft1"];
 	if leftSide then
 		leftSide:SetText(L.PLAYER_TITLE_THE_CONTRIBUTOR:format(leftSide:GetText() or name));
 	end
-	local rightSide = _G[self:GetName() .. "TextRight2"];
-	leftSide = _G[self:GetName() .. "TextLeft2"];
+	local rightSide = _G[SafeGetName(self) .. "TextRight2"];
+	leftSide = _G[SafeGetName(self) .. "TextLeft2"];
 	if leftSide and rightSide and not ElvUI then
 		leftSide:SetText(L.TITLE);
 		leftSide:Show();
@@ -294,24 +307,24 @@ for i,guid in ipairs({
 	"Player-3391-0757575C",	-- Sianor-Silvermoon EU
 	"Player-3391-08D25BFA",	-- Smesue-Silvermoon EU
 	-- Danny Donkey
-	"Player-1402-0715EEC6", -- Skadefryden-Turalyon EU
-	"Player-1402-098AE1CC", -- Pessitank-Turalyon EU
-	"Player-1402-07F49282", -- Lommetjuven-Turalyon EU
-	"Player-1402-0A173E4E", -- Vådeskyttarn-Turalyon EU
-	"Player-1402-0A6F6AEF", -- Allianceelf-Turalyon EU
-	"Player-1402-0A716C0D", -- Allianceorc-Turalyon EU
-	"Player-1402-09D26257", -- Alliancetaur-Turalyon EU
-	"Player-1402-0A72B31C", -- Alliancetusk-Turalyon EU
-	"Player-1402-0A73A911", -- Alliancemate-Turalyon EU
+	"Player-1402-0715EEC6",	-- Skadefryden-Turalyon EU
+	"Player-1402-098AE1CC",	-- Pessitank-Turalyon EU
+	"Player-1402-07F49282",	-- Lommetjuven-Turalyon EU
+	"Player-1402-0A173E4E",	-- Vådeskyttarn-Turalyon EU
+	"Player-1402-0A6F6AEF",	-- Allianceelf-Turalyon EU
+	"Player-1402-0A716C0D",	-- Allianceorc-Turalyon EU
+	"Player-1402-09D26257",	-- Alliancetaur-Turalyon EU
+	"Player-1402-0A72B31C",	-- Alliancetusk-Turalyon EU
+	"Player-1402-0A73A911",	-- Alliancemate-Turalyon EU
 	-- Dead Serious
-	"Player-1305-08781C8A", -- Vultheus-Kazzak EU
-	"Player-1305-07A1A502", -- Krulgore-Kazzak EU
+	"Player-1305-08781C8A",	-- Vultheus-Kazzak EU
+	"Player-1305-07A1A502",	-- Krulgore-Kazzak EU
 	-- Molkree
-	"Player-1396-08C42356", -- Molkree-AzjolNerub EU
+	"Player-1396-08C42356",	-- Molkree-AzjolNerub EU
 	-- AlexSoft
-	"Player-3391-0C397003", -- Solitudo-Silvermoon EU
+	"Player-3391-0C397003",	-- Solitudo-Silvermoon EU
 	"Player-1614-09A3116A",	-- Бонпаль-Galakrond EU
-	"Player-1602-0A45D435", -- Энисофт-Gordunni EU
+	"Player-1602-0A45D435",	-- Энисофт-Gordunni EU
 	-- Gold
 	"Player-3679-0B1F96DB",	-- Gold-Aegwynn EU
 	"Player-1099-060EE8FF",	-- Saremy-Alleria EU
@@ -330,11 +343,11 @@ for i,guid in ipairs({
 	"Player-3676-0E1027D9",	-- Àldori-Area52 US
 	"Player-3676-0DC9ECFD",	-- Húlkstab-Area52 US
 	-- Sanctuari
-	"Player-63-08E17A71", -- Sanctuari-Ysera US
+	"Player-63-08E17A71",	-- Sanctuari-Ysera US
 	-- Jez
 	"Player-3676-0A6CC504",	-- Jezartroz-Area52 US
 	-- rootkit1337
-	"Player-3674-0B3F8DA8", -- Cerealm-TwistingNether EU
+	"Player-3674-0B3F8DA8",	-- Cerealm-TwistingNether EU
 	-- Exodius
 	"Player-1096-076FE799",	-- Felhaim-DefiasBrotherhood EU
 	"Player-1096-076FE593",	-- Exodiüs-DefiasBrotherhood EU
@@ -351,7 +364,7 @@ end
 
 -- EXTERMINATOR GUIDs
 tooltipFunction = function(self, locClass, engClass, locRace, engRace, gender, name, server)
-	local leftSide = _G[self:GetName() .. "TextLeft1"];
+	local leftSide = _G[SafeGetName(self) .. "TextLeft1"];
 	if leftSide then leftSide:SetText(L.PLAYER_TITLE_THE_EXTERMINATOR:format(name)); end
 end
 for i,guid in ipairs({
@@ -417,7 +430,7 @@ end
 
 -- GOLD_TYCOON GUIDs
 tooltipFunction = function(self, locClass, engClass, locRace, engRace, gender, name, server)
-	local leftSide = _G[self:GetName() .. "TextLeft1"];
+	local leftSide = _G[SafeGetName(self) .. "TextLeft1"];
 	if leftSide then leftSide:SetText(L.PLAYER_TITLE_GOLD_TYCOON:format(name)); end
 end
 for i,guid in ipairs({
@@ -433,7 +446,7 @@ end
 
 -- LORD_KING GUIDs
 tooltipFunction = function(self, locClass, engClass, locRace, engRace, gender, name, server)
-	local leftSide = _G[self:GetName() .. "TextLeft1"];
+	local leftSide = _G[SafeGetName(self) .. "TextLeft1"];
 	if leftSide then leftSide:SetText(L.PLAYER_TITLE_LORD_KING:format(name)); end
 end
 for i,guid in ipairs({
@@ -461,7 +474,7 @@ end
 
 -- LORD_QUEEN GUIDs
 tooltipFunction = function(self, locClass, engClass, locRace, engRace, gender, name, server)
-	local leftSide = _G[self:GetName() .. "TextLeft1"];
+	local leftSide = _G[SafeGetName(self) .. "TextLeft1"];
 	if leftSide then leftSide:SetText(L.PLAYER_TITLE_LORD_QUEEN:format(name)); end
 end
 for i,guid in ipairs({
@@ -478,28 +491,28 @@ end
 
 -- BRINGER_OF_FLAMES GUID
 tooltipFunction = function(self, locClass, engClass, locRace, engRace, gender, name, server)
-	local leftSide = _G[self:GetName() .. "TextLeft1"];
+	local leftSide = _G[SafeGetName(self) .. "TextLeft1"];
 	if leftSide then leftSide:SetText(L.PLAYER_TITLE_BRINGER_OF_FLAMES:format(name)); end
 end
 for i,guid in ipairs({
-	"Player-4372-03E59723",	-- Sarkan-Atiesh
-	"Player-4372-03E59B16",	-- Vapid-Atiesh
-	"Player-4372-03FB9D25",	-- Psark-Atiesh
+	"Player-4385-05E58854",	-- Sarkan-LeiShen
+	"Player-4385-05E93D50",	-- Vapid-LeiShen
+	"Player-4385-05F0D432",	-- Puckfagle-LeiShen (Psark)
+	"Player-4385-05EFBDAE",	-- Faletupe-LeiShen
+	"Player-4385-05E504CE",	-- Toiletcat-LeiShen
+	"Player-4385-05EB9627",	-- Muttstuff-LeiShen
+	"Player-4385-05EBB76F",	-- Grandmasark-LeiShen
 	"Player-4372-03E59A2D",	-- Trite-Atiesh
-	"Player-4372-03F43929",	-- Faletupe-Atiesh
-	"Player-4372-03F6DD89",	-- Toiletcat-Atiesh
 	"Player-4372-03F6AF1A",	-- Hoofsies-Atiesh
 	"Player-4372-03E59A78",	-- Xisis-Atiesh
 	"Player-4372-03E6CD1C",	-- Quickibanki-Atiesh
-	"Player-4372-03FDCBF9",	-- Muttstuff-Atiesh
-	"Player-4372-0404C87F",	-- Grandmasark-Atiesh
 }) do
 	PLAYER_TOOLTIPS[guid] = tooltipFunction;
 end
 
 -- KING_OF_THE_ASYLUM GUIDs
 tooltipFunction = function(self, locClass, engClass, locRace, engRace, gender, name, server)
-	local leftSide = _G[self:GetName() .. "TextLeft1"];
+	local leftSide = _G[SafeGetName(self) .. "TextLeft1"];
 	if leftSide then leftSide:SetText(L.PLAYER_TITLE_KING_OF_THE_ASYLUM:format(name)); end
 end
 for i,guid in ipairs({
@@ -515,7 +528,7 @@ end
 
 -- Pinkey GUID
 tooltipFunction = function(self, locClass, engClass, locRace, engRace, gender, name, server)
-	local leftSide = _G[self:GetName() .. "TextLeft1"];
+	local leftSide = _G[SafeGetName(self) .. "TextLeft1"];
 	if leftSide then leftSide:SetText(L.PLAYER_TITLE_PINKEY:format(leftSide:GetText() or name)); end
 end
 for i,guid in ipairs({
@@ -527,7 +540,7 @@ end
 
 -- SCARAB_LORD GUIDs
 tooltipFunction = function(self, locClass, engClass, locRace, engRace, gender, name, server)
-	local leftSide = _G[self:GetName() .. "TextLeft1"];
+	local leftSide = _G[SafeGetName(self) .. "TextLeft1"];
 	if leftSide then leftSide:SetText(L.PLAYER_TITLE_SCARAB_LORD:format(name)); end
 end
 for i,guid in ipairs({
@@ -539,7 +552,7 @@ end
 
 -- THE_HUGGLER GUIDs
 tooltipFunction = function(self, locClass, engClass, locRace, engRace, gender, name, server)
-	local leftSide = _G[self:GetName() .. "TextLeft1"];
+	local leftSide = _G[SafeGetName(self) .. "TextLeft1"];
 	if leftSide then leftSide:SetText(L.PLAYER_TITLE_THE_HUGGLER:format(name)); end
 end
 for i,guid in ipairs({
@@ -661,7 +674,7 @@ local function AttachTooltipInformationEntry(tooltip, entry)
 	else
 		local progressText = entry.progress;
 		if progressText and progressText ~= "" and progressText ~= "---" then
-			local prefix = tooltip:GetName() .. "Text";
+			local prefix = SafeGetName(tooltip) .. "Text";
 			local leftText = _G[prefix .. "Left1"];
 			if leftText then
 				local rightText = _G[prefix .. "Right1"];
@@ -700,7 +713,7 @@ app.AddEventHandler("OnReady", function()
 	end
 end)
 local function ClearTooltip(tooltip)
-	-- app.PrintDebug("Clear Tooltip",tooltip:GetName());
+	-- app.PrintDebug("Clear Tooltip",SafeGetName(tooltip));
 	tooltip.AllTheThingsProcessing = nil;
 	tooltip.ATT_AttachComplete = nil;
 end
@@ -806,12 +819,6 @@ or
 	end
 end
 
--- For some reason, Blizzard puts some secure access functionality within the GetOwner() call on certain
--- tooltips, which means when ATT checks the Owner via this function, a secure code taint error is thrown
-local function SafeGetOwner(tooltip)
-	local ok, owner = pcall(tooltip.GetOwner,tooltip)
-	if ok then return owner end
-end
 -- Tooltip API Differences between Modern and Legacy APIs.
 if TooltipDataProcessor and app.GameBuildVersion > 60000 then
 	-- 10.0.2
@@ -862,7 +869,7 @@ if TooltipDataProcessor and app.GameBuildVersion > 60000 then
 		if ttType then
 			ttId = ttdata.id;
 			-- Debugging without ATT exclusions
-			-- app.PrintDebug("TT",self:GetName(),ttType,ttId)
+			-- app.PrintDebug("TT",SafeGetName(self),ttType,ttId)
 			-- app.PrintTable(ttdata)
 			if IgnoredTypes[ttType] then
 				return true
@@ -870,7 +877,7 @@ if TooltipDataProcessor and app.GameBuildVersion > 60000 then
 		end
 
 		-- Debug all of the available fields on the self.
-		-- self:AddDoubleLine("Self", tostring(self:GetName()));
+		-- self:AddDoubleLine("Self", tostring(SafeGetName(self)));
 		-- for i,j in pairs(self) do
 		-- 	self:AddDoubleLine(tostring(i), tostring(j));
 		-- end
@@ -878,7 +885,7 @@ if TooltipDataProcessor and app.GameBuildVersion > 60000 then
 
 		-- Does this tooltip have an OnClear attached for ATT?
 		if not self.AllTheThingsOnTooltipClearedHook then
-			local tooltipName = self:GetName();
+			local tooltipName = SafeGetName(self);
 			if tooltipName and HookableTooltips[tooltipName] then
 				-- app.PrintDebug("Hooking ClearTooltip",tooltipName)
 				pcall(self.HookScript, self, "OnTooltipCleared", ClearTooltip)
@@ -896,7 +903,7 @@ if TooltipDataProcessor and app.GameBuildVersion > 60000 then
 
 		-- Does the tooltip have an owner?
 		local owner = SafeGetOwner(self)
-		-- app.PrintDebug("TT Owner",owner,owner:GetName())
+		-- app.PrintDebug("TT Owner",owner,SafeGetName(owner))
 		if owner then
 			if owner.SpellHighlightTexture	-- Action bars
 			or owner.TrainBook		-- Spellbook spell tooltips
@@ -917,7 +924,7 @@ if TooltipDataProcessor and app.GameBuildVersion > 60000 then
 
 			--[[--]
 			-- Debug all of the available fields on the owner.
-			self:AddDoubleLine("GetOwner", tostring(owner:GetName()));
+			self:AddDoubleLine("GetOwner", tostring(SafeGetName(owner)));
 			for i,j in pairs(owner) do
 				self:AddDoubleLine(tostring(i), tostring(j));
 			end
@@ -950,7 +957,7 @@ if TooltipDataProcessor and app.GameBuildVersion > 60000 then
 				else
 					self.AllTheThingsProcessing = target;
 				end
-			elseif self:GetName() == "ItemRefTooltip" then
+			elseif SafeGetName(self) == "ItemRefTooltip" then
 				-- only allow spell info to attach to chat-link standalone ItemRefTooltip
 				-- name, spellID
 				_, spellID = TooltipUtil.GetDisplayedSpell(self);
@@ -964,7 +971,7 @@ if TooltipDataProcessor and app.GameBuildVersion > 60000 then
 			end
 		end
 
-		-- app.PrintDebug(self:GetName(),link,target,spellID,id,ttType,ttId)
+		-- app.PrintDebug(SafeGetName(self),link,target,spellID,id,ttType,ttId)
 		-- app.PrintTable(ttdata)
 
 		--[[--]
@@ -1098,7 +1105,7 @@ else
 
 			-- Does this tooltip have an OnClear attached for ATT since it can handle content which ATT will attach to?
 			if not self.AllTheThingsOnTooltipClearedHook then
-				local tooltipName = self:GetName();
+				local tooltipName = SafeGetName(self);
 				if tooltipName and HookableTooltips[tooltipName] then
 					-- app.PrintDebug("Hooking ClearTooltip",tooltipName)
 					pcall(self.HookScript, self, "OnTooltipCleared", ClearTooltip)
@@ -1188,7 +1195,7 @@ else
 							if parent and parent.fanfareToys then
 								-- Toy Box, it needs a Show call.
 								-- Also the ToyBox UI is broken and returns the wrong item information when you look at any other item's tooltip before looking at the toybox.
-								local leftSide = _G[self:GetName() .. "TextLeft1"]:GetText();
+								local leftSide = _G[SafeGetName(self) .. "TextLeft1"]:GetText();
 								if itemName ~= leftSide then link = select(2, GetItemInfo(leftSide)); end
 								AttachTooltipSearchResults(self, SearchForLink, link);
 								self:Show();
@@ -1206,7 +1213,7 @@ else
 				-- If the owner has a ref, it's an ATT row. Ignore it.
 				if owner and owner.ref then return true; end
 
-				local objectID = GetBestObjectIDForName(_G[self:GetName() .. "TextLeft1"]:GetText());
+				local objectID = GetBestObjectIDForName(_G[SafeGetName(self) .. "TextLeft1"]:GetText());
 				if objectID then
 					AttachTooltipSearchResults(self, SearchForField, "objectID", objectID);
 					self:Show();

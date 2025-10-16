@@ -1,5 +1,6 @@
 local addonName, addonTable = ...;
 local gsub = _G.string.gsub
+local match = _G.string.match
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
 local PIGLine=Create.PIGLine
@@ -29,16 +30,33 @@ local GetCoinTextureString= GetCoinTextureString or  C_CurrencyInfo and C_Curren
 if not InspectTalentFrameSpentPoints then InspectTalentFrameSpentPoints = CreateFrame("Frame") end
 local XWidth, XHeight =CharacterHeadSlot:GetWidth(),CharacterHeadSlot:GetHeight()
 -----------------------
+local GetItemLevel=Fun.GetItemLevel
+local function Update_ItemLevel(framef,unit,ZBID)
+    local ItemLevel = GetItemLevel(unit, ZBID)
+    if ItemLevel == "RETRIEVING" and framef.attempt < 3 then
+    	framef.attempt = framef.attempt + 1
+        C_Timer.After(0.05, function()
+        	Update_ItemLevel(unit,ZBID)
+        end)
+    else
+    	framef.ZLV:SetText(ItemLevel or "")
+    end
+end
 local function Update_Level_V(framef,unit,ZBID)
 	framef.ZLV:SetText("");
 	local itemLink = GetInventoryItemLink(unit, ZBID)
 	if itemLink then
 		local quality = GetInventoryItemQuality(unit, ZBID)
 		if quality then
-			local effectiveILvl = GetDetailedItemLevelInfo(itemLink)
-			framef.ZLV:SetText(effectiveILvl);
 			local r, g, b = GetItemQualityColor(quality)
 			framef.ZLV:SetTextColor(r, g, b, 1);
+			if PIG_MaxTocversion(40000) then
+		    	local effectiveILvl = GetDetailedItemLevelInfo(itemLink)
+				framef.ZLV:SetText(effectiveILvl);
+			else
+				framef.attempt = 0
+				Update_ItemLevel(framef,unit,ZBID)
+			end
 		end
 	end
 end

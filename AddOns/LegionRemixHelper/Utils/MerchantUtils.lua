@@ -134,7 +134,7 @@ function merchantUtils:IsItemCollected(itemID)
     end
     local speciesID = select(13, C_PetJournal.GetPetInfoByItemID(itemID))
     if speciesID then -- pet
-        return self.collectionsUtils:GetPetCollectionFunction(speciesID)()
+        return self.collectionsUtils:GetPetCollectionFunction(speciesID, true)()
     end
     local mountID = C_MountJournal.GetMountFromItem(itemID)
     if mountID then -- mount

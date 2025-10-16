@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 87.1 - 2025-10-09
+### Fixed
+- FindIndex Error on achievement click from popup and ObjectTracker
+
 ## 87.0 - 2025-10-05
 ### Added
 - Missing season 2 and 3 transmog sets

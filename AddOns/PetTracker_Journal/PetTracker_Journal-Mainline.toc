@@ -9,6 +9,7 @@
 
 ## Category-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r
 
+## RequiredDep: Blizzard_MapCanvas
 ## Dependencies: PetTracker
 ## LoadOnDemand: 1
 ## LoadWith: Blizzard_Collections

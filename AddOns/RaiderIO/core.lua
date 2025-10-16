@@ -2872,6 +2872,8 @@ do
     ---@field public editBoxWidth? number
     ---@field public hasEditBox? boolean
     ---@field public hasWideEditBox? boolean
+    ---@field public maxLetters? number `0` removes the limit
+    ---@field public countInvisibleLetters? boolean Only used in tandem with `maxLetters`
     ---@field public hideOnEscape? boolean
     ---@field public OnAccept? fun(self: InternalStaticPopupFrame)
     ---@field public OnCancel? fun(self: InternalStaticPopupFrame)
@@ -2895,6 +2897,7 @@ do
         button2 = CLOSE,
         hasEditBox = true,
         hasWideEditBox = true,
+        maxLetters = 0,
         editBoxWidth = 350,
         preferredIndex = 3,
         timeout = 0,
@@ -3253,6 +3256,7 @@ do
         button2 = CLOSE,
         hasEditBox = true,
         hasWideEditBox = true,
+        maxLetters = 0,
         editBoxWidth = 350,
         preferredIndex = 3,
         timeout = 0,
@@ -7501,13 +7505,6 @@ if not IS_CLASSIC_ERA then
             frame:EnableMouse(false)
             frame:EnableMouseWheel(false)
             frame:SetToplevel(false)
-        end
-        -- this issue has been lingering for a while, so it might be worth to add this workaround to avoid taint breaking issues
-        -- it only affects the dropdown option "Report Advertisement" that would without this fix block due to taint
-        -- we can't avoid this because it automatically happens when we modify the dropdown menu (even when using the intended method)
-        -- https://github.com/Stanzilla/WoWUIBugs/issues/237
-        if LFGList_ReportAdvertisement and LFGList_ReportListing then
-            LFGList_ReportAdvertisement = LFGList_ReportListing
         end
     end
 

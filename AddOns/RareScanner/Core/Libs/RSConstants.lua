@@ -123,10 +123,14 @@ RSConstants.PANDARIA_GODS_MONSTERS_MINIEVENT = 40
 RSConstants.WARWITHIN_SECRETS_KARESHI_MINIEVENT = 41
 RSConstants.WARWITHIN_TREASURES_KARESH_MINIEVENT = 42
 RSConstants.LEGION_HIGHMOUNTAIN_MINIEVENT = 43
+RSConstants.LEGION_VALSHARAH_MINIEVENT = 44
+RSConstants.LEGION_STORMHEIM_MINIEVENT = 45
 
 -- Minievents that will have an option to filter/unfilter the icons from the worldmap
 RSConstants.MINIEVENTS_WORLDMAP_FILTERS = {
-	[RSConstants.LEGION_HIGHMOUNTAIN_MINIEVENT] = { active = true, containers = true, mapIDs = { 650, 652, 750 }, atlas = "Auctioneer", text = AL["MAP_MENU_SHOW_TREASURES_HIGHMOUNTAIN_CONTAINERS"] };
+	[RSConstants.LEGION_HIGHMOUNTAIN_MINIEVENT] = { active = true, containers = true, mapIDs = { 650, 651, 652, 654, 655, 657, 658, 659, 750 }, atlas = "Auctioneer", text = AL["MAP_MENU_SHOW_TREASURES_HIGHMOUNTAIN_CONTAINERS"] };
+	[RSConstants.LEGION_VALSHARAH_MINIEVENT] = { active = true, containers = true, mapIDs = { 641, 642 }, atlas = "Auctioneer", text = AL["MAP_MENU_SHOW_TREASURES_VALSHARAH_CONTAINERS"] };
+	[RSConstants.LEGION_STORMHEIM_MINIEVENT] = { active = true, containers = true, mapIDs = { 634, 636, 649 }, atlas = "Auctioneer", text = AL["MAP_MENU_SHOW_TREASURES_STORMHEIM_CONTAINERS"] };
 	[RSConstants.DRAGONFLIGHT_DREAMSURGE_MINIEVENT] = { active = true, npcs = true, mapIDs = { 2025, 2024, 2023, 2022 }, atlas = "dreamsurge_hub-icon", text = AL["MAP_MENU_SHOW_DREAMSURGE_RARE_NPCS"] };
 	[RSConstants.DRAGONFLIGHT_STORM_INVASTION_FIRE_MINIEVENT] = { active = true, npcs = true, mapIDs = { 2025, 2024, 2023, 2022 }, atlas = "ElementalStorm-Lesser-Fire", text = AL["MAP_MENU_SHOW_FIRE_PRIMALSTORM_RARE_NPCS"] };
 	[RSConstants.DRAGONFLIGHT_STORM_INVASTION_WATER_MINIEVENT] = { active = true, npcs = true, mapIDs = { 2025, 2024, 2023, 2022 }, atlas = "ElementalStorm-Lesser-Water", text = AL["MAP_MENU_SHOW_WATER_PRIMALSTORM_RARE_NPCS"] };

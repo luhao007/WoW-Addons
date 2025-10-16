@@ -328,7 +328,7 @@ function TardisInfo.Yell(Activate)
 			end
 			local WWHH = 24
 			local QuickTooltip = KEY_BUTTON1.."-|cff00FFFF"..L["TARDIS_YELL"].."|r\n"..KEY_BUTTON2.."-|cff00FFFF"..SETTINGS.."|r"
-			local QkBut=PIGQuickBut(nil,QuickTooltip,132333)
+			local QkBut=PIGQuickBut(nil,QuickTooltip,132351)
 			fujiF.botF.ShowDesktopBut.ButUI=QkBut
 			QkBut.Cooldown = CreateFrame("Cooldown",nil, QkBut, "CooldownFrameTemplate")
 			QkBut.Cooldown:SetAllPoints()
@@ -590,19 +590,23 @@ function TardisInfo.Yell(Activate)
 						SendChatMessage("[!Pig] 你已有队伍，请退组后再M", "WHISPER", nil, errPlayer);
 					end
 				end
-			elseif event=="CHAT_MSG_WHISPER" then
-				if PIGA["Tardis"]["Yell"]["Conditions"][1]["Open"] and arg1==PIGA["Tardis"]["Yell"]["CMD"] then
-					PIG_Invite_Fun(arg2)
-				else
-					for tjID=2,tiaojianNUM do
-						for _,key in pairs(fujiF.roleKeyTable[tjID]) do
-							if arg1:match(key) then
-								if tjID==2 then
-									PIG_Invite_Fun(arg2)
-								else
-									SendChatMessage("[!Pig] "..PIGA["Tardis"]["Yell"]["Conditions"][tjID]["HF"], "WHISPER", nil, arg2);
+			elseif event=="CHAT_MSG_WHISPER" then		
+				for tjID=1,tiaojianNUM do
+					if PIGA["Tardis"]["Yell"]["Conditions"][tjID]["Open"] then
+						if tjID==1 then
+							if arg1==PIGA["Tardis"]["Yell"]["CMD"] then
+								PIG_Invite_Fun(arg2)
+							end
+						else
+							for _,key in pairs(fujiF.roleKeyTable[tjID]) do
+								if arg1:match(key) then
+									if tjID==2 then
+										PIG_Invite_Fun(arg2)
+									else
+										SendChatMessage("[!Pig] "..PIGA["Tardis"]["Yell"]["Conditions"][tjID]["HF"], "WHISPER", nil, arg2);
+									end
+									return
 								end
-								return
 							end
 						end
 					end

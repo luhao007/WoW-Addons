@@ -30,10 +30,6 @@ constants.COLORS = {
     LIGHT_GREY = CreateColor(0.5, 0.5, 0.5, 1),
 }
 
-constants.SCRAPPING_MACHINE = {
-    MAX_SLOTS = 9,
-}
-
 constants.ITEM_QUALITY_BORDERS = {
     [Enum.ItemQuality.Poor] = "loottoast-itemborder-grey",
     [Enum.ItemQuality.Common] = "loottoast-itemborder-white",
@@ -116,17 +112,65 @@ constants.REMIX_ARTIFACT_TRAITS = {
         [246208] = 133488, -- I am My Scars!
     },
     JEWELRY_SLOTS = {
-        { INV_TYPE = Enum.InventoryType.IndexFingerType,  SLOT = 11, NAME = "FINGER" },
-        { INV_TYPE = Enum.InventoryType.IndexFingerType,  SLOT = 12, NAME = "FINGER" },
-        { INV_TYPE = Enum.InventoryType.IndexTrinketType, SLOT = 13, NAME = "TRINKET" },
-        { INV_TYPE = Enum.InventoryType.IndexTrinketType, SLOT = 14, NAME = "TRINKET" },
-        { INV_TYPE = Enum.InventoryType.IndexNeckType,    SLOT = 2,  NAME = "NECK" },
+        { INV_TYPE = Enum.InventoryType.IndexFingerType,  SLOT = INVSLOT_FINGER1, NAME = "FINGER" },
+        { INV_TYPE = Enum.InventoryType.IndexFingerType,  SLOT = INVSLOT_FINGER2, NAME = "FINGER" },
+        { INV_TYPE = Enum.InventoryType.IndexTrinketType, SLOT = INVSLOT_TRINKET1, NAME = "TRINKET" },
+        { INV_TYPE = Enum.InventoryType.IndexTrinketType, SLOT = INVSLOT_TRINKET2, NAME = "TRINKET" },
+        { INV_TYPE = Enum.InventoryType.IndexNeckType,    SLOT = INVSLOT_NECK,  NAME = "NECK" },
     },
     CALLBACK_CATEGORY_SPEC = "ArtifactTraitSpecUpdate",
     CALLBACK_CATEGORY_CONFIG = "ArtifactTraitConfigUpdate",
     CALLBACK_CATEGORY_EQUIPPED = "ArtifactTraitEquippedUpdate",
     CALLBACK_CATEGORY_ROW = "ArtifactTraitRowUpdate",
     CALLBACK_CATEGORY_CURRENCY = "ArtifactTraitCurrencyUpdate",
+}
+
+constants.SCRAPPING_MACHINE = {
+    MAX_SLOTS = 9,
+    JEWELRY = { -- for database we need to store as string keys
+        INV_TYPES = { -- these need to match with the DB keys
+            [Enum.InventoryType.IndexFingerType] = "Finger",
+            [Enum.InventoryType.IndexTrinketType] = "Trinket",
+            [Enum.InventoryType.IndexNeckType] = "Neck",
+        },
+        INV_SLOTS = {
+            INVSLOT_NECK,
+            INVSLOT_FINGER1,
+            INVSLOT_FINGER2,
+            INVSLOT_TRINKET1,
+            INVSLOT_TRINKET2,
+        },
+        NECK = {
+            ["246195"] = true, -- Brewing Storm
+            ["246191"] = true, -- Highmountain Fortitude
+            ["246196"] = true, -- Light's Vengeance
+            ["246192"] = true, -- Souls of the Caw
+            ["246194"] = true, -- Storm Surger
+            ["246193"] = true, -- Temporal Retaliation
+            ["246190"] = true, -- Touch of Malice
+            ["245996"] = true, -- Volatile Magics
+        },
+        FINGER = {
+            ["245998"] = true, -- Arcane Aegis
+            ["246197"] = true, -- Arcane Ward
+            ["246202"] = true, -- Brewing Storm
+            ["246200"] = true, -- Highmountain Fortitude
+            ["246198"] = true, -- I am My Scars!
+            ["246201"] = true, -- Temporal Retaliation
+            ["245997"] = true, -- Terror From Below
+            ["246199"] = true, -- Volatile Magics
+        },
+        TRINKET = {
+            ["246204"] = true, -- Arcane Aegis
+            ["246206"] = true, -- Arcane Ward
+            ["246208"] = true, -- I Am My Scars!
+            ["246207"] = true, -- Light's Vengeance
+            ["246203"] = true, -- Souls of the Caw
+            ["246205"] = true, -- Storm Surger
+            ["246000"] = true, -- Terror From Below
+            ["245999"] = true, -- Touch of Malice
+        },
+    }
 }
 
 constants.RESEARCH_TASKS = {
@@ -5013,7 +5057,7 @@ constants.ADDON_COMMS = {
 
 constants.TOOLTIP = {
     THREADS_BUFF_ID = 1232454,
-    VERS_INDEX = 8,
+    VERS_INDEX = 5,
     POWER_VERS_START = 115625,
     POWER_PER_VERS = 50000,
     POWER_CURRENCY_ID = 3268,

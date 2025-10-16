@@ -12,8 +12,8 @@ local PIGQuickBut=Create.PIGQuickBut
 local TardisInfo = {}
 addonTable.TardisInfo=TardisInfo
 ------------
-local QuickBut_ID=13
-local GnName,GnUI,GnIcon,FrameLevel = L["PIGaddonList"][addonName],"PIG_TardisUI",136011,30
+local QuickBut_ID=20
+local GnName,GnUI,GnIcon,FrameLevel = L["PIGaddonList"][addonName],"PIG_TardisUI","groupfinder-eye-frame",30
 TardisInfo.uidata={GnName,GnUI,GnIcon,FrameLevel,QuickBut_ID}
 Data.TardisUI=GnUI
 local fuFrame,fuFrameBut,Tooltip = unpack(Data.Ext[L.extLsit[1]])

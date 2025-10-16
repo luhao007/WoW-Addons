@@ -1,6 +1,6 @@
 ## Interface: 110205
 ## Author: Breen
-## Version: 10.0
+## Version: 10.1
 
 ## Title: BtWQuests: The War Within
 ## Notes: The War Within quest data for BtWQuests

@@ -2260,6 +2260,134 @@ private.CONTAINER_GUIDE = {
 	["245532650"] = {
 		[RSConstants.ENTRANCE] = { x = 0.4257, y = 0.2531 };
 	}; --Treasure Chest
+	["240655641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5327, y = 0.3803 };
+	}; --Glimmering Treasure Chest
+	["242668641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4205, y = 0.4569 };
+	}; --Glimmering Treasure Chest
+	["242667641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4205, y = 0.4569 };
+	}; --Small Treasure Chest
+	["242646641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6817, y = 0.4003 };
+	}; --Small Treasure Chest
+	["242660641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4277, y = 0.5848 };
+	}; --Small Treasure Chest
+	["242643641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6224, y = 0.7618 };
+	}; --Small Treasure Chest
+	["254141641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6419, y = 0.4541 };
+	}; --Small Treasure Chest
+	["240653641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5098, y = 0.7712 };
+	}; --Small Treasure Chest
+	["240608641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5454, y = 0.7361 };
+	}; --Small Treasure Chest
+	["242242641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5550, y = 0.8407 };
+	}; --Small Treasure Chest
+	["242250641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5399, y = 0.8223 };
+	}; --Small Treasure Chest
+	["242446641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6047, y = 0.7113 };
+	}; --Small Treasure Chest
+	["242642641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6274, y = 0.7132 };
+	}; --Small Treasure Chest
+	["242328641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4929, y = 0.8564 };
+	}; --Small Treasure Chest
+	["240605641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6515, y = 0.5128 };
+	}; --Small Treasure Chest
+	["240651641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6697, y = 0.5265 };
+	}; --Small Treasure Chest
+	["254126641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.7306, y = 0.5370 };
+	}; --Small Treasure Chest
+	["242675641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5398, y = 0.6967 };
+	}; --Treasure Chest
+	["254127641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6249, y = 0.8600 };
+	}; --Treasure Chest
+	["242346641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6204, y = 0.8610 };
+	}; --Treasure Chest
+	["241767641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6987, y = 0.6049 };
+	}; --Treasure Chest
+	["241772641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6592, y = 0.5637 };
+	}; --Treasure Chest
+	["242664641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3411, y = 0.5820 };
+	}; --Treasure Chest
+	["242678641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5407, y = 0.6109 };
+	}; --Treasure Chest
+	["240652641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4440, y = 0.8337 };
+	}; --Treasure Chest
+	["254128641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4374, y = 0.8977 };
+	}; --Treasure Chest
+	["242350641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6432, y = 0.8432 };
+	}; --Treasure Chest
+	["242644641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6201, y = 0.6823 };
+	}; --Treasure Chest
+	["242683641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6300, y = 0.7349 };
+	}; --Treasure Chest
+	["242647641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6602, y = 0.8630 };
+	}; --Treasure Chest
+	["242663641"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6602, y = 0.8630 };
+		[RSConstants.FLAG] = { x = 0.5479, y = 0.5279, comment = AL["NOTE_242663_1"] };
+	}; --Treasure Chest
+	["241717634"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4977, y = 0.4941 };
+	}; --Glimmering Treasure Chest
+	["251716634"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4220, y = 0.3496 };
+	}; --Glimmering Treasure Chest
+	["241564634"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4823, y = 0.6515 };
+	}; --Small Treasure Chest
+	["241153634"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5008, y = 0.4240 };
+	}; --Small Treasure Chest
+	["241180634"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3481, y = 0.3410 };
+	}; --Treasure Chest
+	["244901634"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6997, y = 0.4267 };
+	}; --Treasure Chest
+	["241146634"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4297, y = 0.6606 };
+	}; --Treasure Chest
+	["241208634"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3380, y = 0.2712 };
+	}; --Treasure Chest
+	["241280634"] = {
+		[RSConstants.ENTRANCE..1] = { x = 0.2996, y = 0.5507 };
+		[RSConstants.ENTRANCE..2] = { x = 0.3140, y = 0.5734 };
+	}; --Treasure Chest
+	["251738634"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3299, y = 0.4814 };
+	}; --Treasure Chest
+	["241216649"] = {
+		[RSConstants.ENTRANCE] = { x = 0.8455, y = 0.2091 };
+	}; --Treasure Chest
 }
 
 ---============================================================================

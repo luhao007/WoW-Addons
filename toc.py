@@ -74,6 +74,7 @@ class TOC:
             # Loading conditions
             [
                 "RequiredDeps",
+                "RequiredDep",
                 "Dependencies",
                 "OptionalDeps",
                 "OptionalDependencies",
@@ -126,7 +127,9 @@ class TOC:
         if missing_keys:
             logger = get_logger("TOCHandler")
             logger.warning(
-                f"{Color.RED}Unknown tags found: {Color.BLUE}{missing_keys} {Color.RED}in {Color.GREEN}{self.tags['Title']}{Color.RESET}"
+                f"{Color.RED}Unknown tags found:"
+                f" {Color.BLUE}{missing_keys} {Color.RED}in"
+                f" {Color.GREEN}{self.tags['Title']}{Color.RESET}"
             )
 
         self.trim_contents()

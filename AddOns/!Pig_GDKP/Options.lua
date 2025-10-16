@@ -16,7 +16,7 @@ local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInst
 local GDKPInfo = {}
 addonTable.GDKPInfo=GDKPInfo
 ------------
-local QuickBut_xuhaoID=15
+local QuickBut_xuhaoID=30
 local GnName,GnUI,GnIcon,FrameLevel = L["PIGaddonList"][addonName],"PIG_GDKPUI",133784,50
 GDKPInfo.uidata={GnName,GnUI,GnIcon,FrameLevel}
 local fuFrame,fuFrameBut,Tooltip = unpack(Data.Ext[L.extLsit[2]])

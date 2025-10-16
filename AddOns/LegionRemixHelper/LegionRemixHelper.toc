@@ -1,6 +1,6 @@
 ## Interface: 110205
 ## Author: Rasu | Larsj_02
-## Version: 1.5.1
+## Version: 1.6.1
 
 ## Title: Legion Remix Helper
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF军团再临幻境新生助手|r |cFFFFE00ALegionRemixHelper|r
@@ -12,6 +12,7 @@
 ## DefaultState: enabled
 
 ## SavedVariables: LegionRemixHelperDB
+## SavedVariablesPerCharacter: LegionRemixHelperCharDB
 
 ## X-Curse-Project-ID: 1352479
 ## X-Wago-ID: aNDmz26o
