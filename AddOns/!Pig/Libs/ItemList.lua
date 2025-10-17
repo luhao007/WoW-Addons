@@ -22,7 +22,7 @@ local TalentData=Data.TalentData
 --
 local Fun=addonTable.Fun
 local GetRuneData=Fun.GetRuneData
-local GetItemLevel=Fun.GetItemLevel
+local _GetItemLevel=Fun._GetItemLevel
 local _GetAverageItemLevel=Fun._GetAverageItemLevel
 local _Get_GEM_EMPTY_SOCKET=Fun._Get_GEM_EMPTY_SOCKET
 local GetItemStats=GetItemStats or C_Item and C_Item.GetItemStats
@@ -177,56 +177,62 @@ local function Show_fuwenBut_yanchi(Parent,hangUI,fuwenIcon,k)
 end
 
 --------------
-local function Update_ItemLevel(framef,unit,Slot,itemLink)
-	local Parent=framef:GetParent()
-    local ItemDX = GetItemLevel(unit, Slot,framef,itemLink)
-    if ItemDX == "RETRIEVING" and framef.attempt < 5 then
-    	framef.attempt = framef.attempt + 1
+local function Update_ItemLevel(unit,SlotID,SlotBut)
+	local Parent=SlotBut:GetParent()
+    local ItemDX = _GetItemLevel(unit,SlotID,SlotBut)
+    if ItemDX == "RETRIEVING" and Parent.SlotOKs[SlotID].TooltipCount < 10 then
+    	--print("RETRIEVING",unit,SlotID,itemLink,SlotBut,Parent.SlotOKs[SlotID].TooltipCount)
         C_Timer.After(0.05, function()
-        	Update_ItemLevel(framef,unit,Slot,itemLink)
+        	Parent.SlotOKs[SlotID].TooltipCount = Parent.SlotOKs[SlotID].TooltipCount + 1
+        	Update_ItemLevel(unit,SlotID,SlotBut)
         end)
     else
-    	framef.SlotOKs=nil
+    	Parent.SlotOKs[SlotID].laodnd=nil
     	if ItemDX then
-    		framef.iLv=ItemDX.itemLevel
-    		framef.itemlink.lv:SetText(ItemDX.itemLevel)
-    		local width = framef.itemlink.t:GetStringWidth()+framef.itemlink.lv:GetStringWidth()
-			framef.itemlink:SetWidth(width);
-			framef.hangMaxW = width+framef.GemNums*(ListWWWHHH[3]+1)+ListWWWHHH[4]+18
-			if framef.hangMaxW>Parent.hangMaxW then
-				Parent.hangMaxW=framef.hangMaxW
+    		local itemLevel,taodata=unpack(ItemDX)
+    		Parent.SlotOKs[SlotID].tao=taodata
+    		SlotBut.iLv=itemLevel
+    		SlotBut.itemlink.lv:SetText(itemLevel)
+    		local width = SlotBut.itemlink.t:GetStringWidth()+SlotBut.itemlink.lv:GetStringWidth()
+			SlotBut.itemlink:SetWidth(width);
+			SlotBut.hangMaxW = width+SlotBut.GemNums*(ListWWWHHH[3]+1)+ListWWWHHH[4]+18
+			if SlotBut.hangMaxW>Parent.hangMaxW then
+				Parent.hangMaxW=SlotBut.hangMaxW
 			end
 			Parent:SetWidth(Parent.hangMaxW)
 		end
     end
 end
-local function Update_SlotButton(framef,Slot,zbData)
-	local Parent=framef:GetParent()
+local function Update_SlotButton(SlotBut,SlotID,zbData)
+	local Parent=SlotBut:GetParent()
 	local unit=Parent.unit
 	local itemLink
 	if unit=="lx" or unit=="yc" then
-		itemLink=zbData[Slot]
+		itemLink=zbData[SlotID]
 	else
-		itemLink=GetInventoryItemLink(unit, Slot)
-	    if not itemLink and framef.attemptHang < 5 then
-	    	framef.attemptHang = framef.attemptHang + 1
-	        C_Timer.After(0.05, function()
-	        	Update_SlotButton(framef,Slot,zbData)
-	        end)
-	        return
-	    end
+		local itemId, unknown = GetInventoryItemID(unit, SlotID)
+		if itemId then
+			itemLink=GetInventoryItemLink(unit, SlotID)
+		    if not itemLink and Parent.SlotOKs[SlotID].itemCount < 10 then
+		    	Parent.SlotOKs[SlotID].itemCount = Parent.SlotOKs[SlotID].itemCount + 1
+		        C_Timer.After(0.05, function()
+		        	Update_SlotButton(SlotBut,SlotID,zbData)
+		        end)
+		        return
+		    end
+		end
 	end
 	if itemLink then
-		framef.itemLink=itemLink
-		framef.unittype=unit
-		framef.itemlink.t:SetText(itemLink)
-		framef.t:SetTextColor(0, 1, 1, 0.8);
-		framef:SetBackdropBorderColor(0, 1, 1, 0.5)
-		Update_GemList(framef,itemLink)
+		SlotBut.itemLink=itemLink
+		SlotBut.unittype=unit
+		SlotBut.itemlink.t:SetText(itemLink)
+		SlotBut.t:SetTextColor(0, 1, 1, 0.8);
+		SlotBut:SetBackdropBorderColor(0, 1, 1, 0.5)
+		Update_GemList(SlotBut,itemLink)
 		local fumoid = PIGGetEnchantID(itemLink)
-		local Enchantui=framef.ButGem[5]
+		local Enchantui=SlotBut.ButGem[5]
 		if fumoid>0 then
-			framef.GemNums=framef.GemNums+1
+			SlotBut.GemNums=SlotBut.GemNums+1
 			Enchantui:SetWidth(ListWWWHHH[3])
 			Enchantui:SetAlpha(1)
 			Enchantui.icon:SetDesaturated(false)
@@ -268,7 +274,7 @@ local function Update_SlotButton(framef,Slot,zbData)
 			end
 		else
 			if EnchantSlot[Slot] then
-				framef.GemNums=framef.GemNums+1
+				SlotBut.GemNums=SlotBut.GemNums+1
 				local itemID, itemType, itemSubType, itemEquipLoc = GetItemInfoInstant(itemLink)
 				if Slot==17 and itemEquipLoc=="INVTYPE_HOLDABLE" then 
 				else
@@ -287,7 +293,7 @@ local function Update_SlotButton(framef,Slot,zbData)
 			end
 		end
 		if C_Engraving and C_Engraving.IsEngravingEnabled() then
-			if EngravingSlot[Slot] then
+			if EngravingSlot[SlotID] then
 				local fuwenIcon=fujikk.ButGem[6]
 				fuwenIcon:SetBackdropBorderColor(0.5, 0.5, 0.5, 1);
 				fuwenIcon:SetWidth(ListWWWHHH[3])
@@ -297,39 +303,41 @@ local function Update_SlotButton(framef,Slot,zbData)
 				fuwenIcon:SetScript("OnEnter", function (self)
 						GameTooltip:ClearLines();
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,0);
-						GameTooltip:AddLine("|cff00FFFF["..addonName.."]:|r|cffFF0000"..InvSlot["Name"][Slot][2]..NONE..RUNES.."|r")
+						GameTooltip:AddLine("|cff00FFFF["..addonName.."]:|r|cffFF0000"..InvSlot["Name"][SlotID][2]..NONE..RUNES.."|r")
 						GameTooltip:Show();
 					end);
 				if unit=="player" or unit=="lx" then
-					if fuwen[Slot] then
+					if fuwen[SlotID] then
 						fujikk.dataxInfo.fuwenNum=1
-						Show_fuwenBut(fuwenIcon,fuwen[Slot])
+						Show_fuwenBut(fuwenIcon,fuwen[SlotID])
 					end
 				else
 					if Parent.fuwenBut_yanchi then Parent.fuwenBut_yanchi:Cancel() end
 					Parent.fuwenBut_yanchi=C_Timer.NewTimer(0.3,function()
-						Show_fuwenBut_yanchi(Parent,fujikk,fuwenIcon,Slot)
+						Show_fuwenBut_yanchi(Parent,fujikk,fuwenIcon,SlotID)
 					end)
 				end
 			end
 		end
-		framef.attempt=0
 		local itemID, itemType, itemSubType, itemEquipLoc = GetItemInfoInstant(itemLink)
-   		framef.itemEquipLoc=itemEquipLoc
-		Update_ItemLevel(framef,unit,Slot,itemLink)
+   		SlotBut.itemEquipLoc=itemEquipLoc
+   		Parent.SlotOKs[SlotID].TooltipCount=0
+		Update_ItemLevel(unit,SlotID,SlotBut)
+	else
+		Parent.SlotOKs[SlotID].laodnd=nil
 	end
 end
-local function Update_LevelTaozhuang(Parent,count)
-	local unit=Parent.unit
-	count=count+1
-	for Slot,But in pairs(Parent.ListHang) do
-		if But.SlotOKs and count<6 then
-			C_Timer.After(0.05, function()
-				Update_LevelTaozhuang(Parent,count)
+local function Update_LevelTaozhuang(Parent)
+	for SlotID,SlotBut in pairs(Parent.ListHang) do
+		if Parent.SlotOKs[SlotID].laodnd and Parent.TaoListCount<6 then
+			Parent.TaoListCount=Parent.TaoListCount+1
+			C_Timer.After(0.1, function()
+				Update_LevelTaozhuang(Parent)
 			end)
 			return
 		end
 	end
+	local unit=Parent.unit
 	if GetAverageItemLevel and unit=="player" then
 		local avgItemLevel, avgItemLevelEquipped, avgItemLevelPvP = GetAverageItemLevel();
 		Parent.pingjunLV_V:SetText(string.format("%.2f",avgItemLevelEquipped))
@@ -338,11 +346,16 @@ local function Update_LevelTaozhuang(Parent,count)
 	else
 		Parent.pingjunLV_V:SetText(_GetAverageItemLevel(Parent))
 	end
-	local taozhuangNum = #Parent.TaoList	
+	local taodata=Fun.Update_ListTaoName(Parent)
+	local taozhuangNum = #taodata
 	for tid=1,taozhuangNum do
 		local taoui = Parent.ListTao[tid]
-		taoui:SetText(string.format(BOSS_BANNER_LOOT_SET,Parent.TaoList[tid][1].."("..Parent.TaoList[tid][2].."/"..Parent.TaoList[tid][3]..")"))
-		local r, g, b =GetItemQualityColor(Parent.TaoList[tid][4] or 0)
+		if taodata[tid][3]==0 then
+			taoui:SetText(string.format(BOSS_BANNER_LOOT_SET,taodata[tid][1].."("..taodata[tid][2].."/??)"))
+		else
+			taoui:SetText(string.format(BOSS_BANNER_LOOT_SET,taodata[tid][1].."("..taodata[tid][2].."/"..taodata[tid][3]..")"))
+		end
+		local r, g, b =GetItemQualityColor(taodata[tid][4] or 0)
 		taoui:SetTextColor(r, g, b,1);
 		local taoui_width = taoui:GetStringWidth()+4
 		if taoui_width>Parent.hangMaxW then
@@ -353,18 +366,18 @@ local function Update_LevelTaozhuang(Parent,count)
 		Parent:SetHeight(ListWWWHHH[2]+(taozhuangNum-1)*(ListWWWHHH[3]-3))
 	end
 end
-local function UpdateItems_Inventory(Parent,zbData)
+local function UpdateItems_Inventory(Parent,zbData)	
 	if not Parent:IsVisible() then return end
 	Parent.hangMaxW=ListWWWHHH[1]
-	if not Parent.TaoList then Parent.TaoList = {} else wipe(Parent.TaoList) end
 	if not Parent.SlotOKs then Parent.SlotOKs = {} else wipe(Parent.SlotOKs) end
-	for Slot,But in pairs(Parent.ListHang) do
-		But.attemptHang=0
-		But.SlotOKs=true
-		But.iLv=0
-		Update_SlotButton(But,Slot,zbData)
+	for SlotID,SlotBut in pairs(Parent.ListHang) do
+		Parent.SlotOKs[SlotID]={laodnd=true,itemCount=0,TooltipCount=0,iLv=0,tao=nil}
+		Update_SlotButton(SlotBut,SlotID,zbData)
 	end
-	Update_LevelTaozhuang(Parent,0)
+	Parent.TaoListCount=0
+	C_Timer.After(0.4, function()
+		Update_LevelTaozhuang(Parent)
+	end)
 end
 ------
 local function add_ItemList(fujik,miaodian,ZBLsit_C,TalentUI)

@@ -31,6 +31,10 @@ ns.BlizzAreaPoisInfo = {
     7961, -- Portal to Dalaran from Searing Gorge - TWW Pre Event
     8001, -- Portal from Dornogal to Azj-Kahet
     8002, -- Portal from Azj-Kahet to Dornogal
+    8004, -- South Elevator from Deeps to Isle of Dorn
+    8006, -- South Elevator from Isle of Dorn to Deeps
+    8009, -- North Elevator from Isle of Dorn to Deeps
+    8010, -- North Elevator from Deeps to Isle of Dorn
     8171, -- Timeways Portal in Dornogal
     8247, -- Mole Machine from Deeps to Siren Isle
     8248, -- Zeppelin to Serin Isle from Isle of Dorn

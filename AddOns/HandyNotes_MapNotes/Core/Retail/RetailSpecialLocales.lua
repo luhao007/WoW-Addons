@@ -197,3 +197,87 @@ ns.bugSackTriggers = { -- RetailErrorMessage.lua
   zhTW = "bugsack: 在你的湯裡有一隻臭蟲啊！",
   koKR = "bugsack: 수프에 벌레가 있습니다",
 }
+
+ns.LOCALE_TARGETING = { -- RetailNpc.lua
+  enUS = [[target]],
+  deDE = [[anvisieren]],
+  frFR = [[cibler]],
+  esES = [[apuntar]],
+  esMX = [[apuntar]],
+  itIT = [[mirare]],
+  ptBR = [[mirar]],
+  ruRU = [[нацелить]],
+  koKR = [[대상 지정]],
+  zhCN = [[选定目标]],
+  zhTW = [[選定目標]],
+}
+
+ns.LOCALE_CACHING = { -- RetailNpc.lua
+  enUS = [[update npc name database]],
+  deDE = [[Aktualisiere NPC-Namen Datenbank]],
+  frFR = [[Mise à jour de la base de données des noms de PNJ]],
+  esES = [[Actualizando base de datos de nombres de PNJ]],
+  esMX = [[Actualizando base de datos de nombres de PNJ]],
+  itIT = [[Aggiornamento del database dei nomi degli NPC]],
+  ptBR = [[Atualizando banco de dados de nomes de NPC]],
+  ruRU = [[Обновление базы данных имён NPC]],
+  koKR = [[NPC 이름 데이터베이스 업데이트 중]],
+  zhCN = [[正在更新NPC名称数据库]],
+  zhTW = [[正在更新NPC名稱資料庫]],
+}
+
+ns.LOCALE_RETRY = { -- RetailNpc.lua
+  enUS = [[Database is being updated, please wait]],
+  deDE = [[Datenbank wird aktualisiert, bitte warten]],
+  frFR = [[Mise à jour de la base de données, veuillez patienter]],
+  esES = [[La base de datos se está actualizando, por favor espere]],
+  esMX = [[La base de datos se está actualizando, por favor espere]],
+  itIT = [[Il database è in fase di aggiornamento, attendere prego]],
+  ptBR = [[O banco de dados está sendo atualizado, por favor aguarde]],
+  ruRU = [[База данных обновляется, пожалуйста, подождите]],
+  koKR = [[데이터베이스를 업데이트하는 중입니다. 잠시만 기다려주세요]],
+  zhCN = [[数据库正在更新，请稍候]],
+  zhTW = [[資料庫正在更新，請稍候]],
+}
+
+ns.LOCALE_RETRY_DONE = { -- RetailNpc.lua
+  enUS = [[Database update completed]],
+  deDE = [[Datenbankaktualisierung abgeschlossen]],
+  frFR = [[Mise à jour de la base de données terminée]],
+  esES = [[Actualización de la base de datos completada]],
+  esMX = [[Actualización de la base de datos completada]],
+  itIT = [[Aggiornamento del database completato]],
+  ptBR = [[Atualização do banco de dados concluída]],
+  ruRU = [[Обновление базы данных завершено]],
+  koKR = [[데이터베이스 업데이트 완료]],
+  zhCN = [[数据库更新完成]],
+  zhTW = [[資料庫更新完成]],
+}
+
+ns.LOCALE_CACHING_DONE = { -- RetailNpc.lua
+  enUS = [[Database check completed]],
+  deDE = [[Datenbanküberprüfung abgeschlossen]],
+  frFR = [[Vérification de la base de données terminée]],
+  esES = [[Comprobación de la base de datos completada]],
+  esMX = [[Comprobación de la base de datos completada]],
+  itIT = [[Verifica del database completata]],
+  ptBR = [[Verificação do banco de dados concluída]],
+  ruRU = [[Проверка базы данных завершена]],
+  koKR = [[데이터베이스 확인 완료]],
+  zhCN = [[数据库检查完成]],
+  zhTW = [[資料庫檢查完成]],
+}
+
+ns.LOCALE_FOUND_MISSING = { -- RetailNpc.lua
+  enUS = "%s %s - %d found, %d missing",
+  deDE = "%s %s - %d gefunden, %d fehlen",
+  frFR = "%s %s - %d trouvés, %d manquants",
+  esES = "%s %s - %d encontrados, %d faltan",
+  esMX = "%s %s - %d encontrados, %d faltan",
+  itIT = "%s %s - %d trovati, %d mancanti",
+  ptBR = "%s %s - %d encontrados, %d faltando",
+  ruRU = "%s %s - %d найдено, %d отсутствуют",
+  koKR = "%s %s - %d 발견됨, %d 누락됨",
+  zhCN = "%s %s - 已找到 %d 个，缺少 %d 个",
+  zhTW = "%s %s - 已找到 %d 個，缺少 %d 個",
+}

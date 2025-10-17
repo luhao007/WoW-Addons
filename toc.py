@@ -86,7 +86,7 @@ class TOC:
                 "DefaultState",
             ],
             # Saved variables
-            ["SavedVariables", "SavedVariablesPerCharacter"],
+            ["LoadSavedVariablesFirst", "SavedVariables", "SavedVariablesPerCharacter"],
             # Extra meta tags
             ["AllowAddOnTableAccess"],
             [k for k in self.tags.keys() if k.startswith("X-")],

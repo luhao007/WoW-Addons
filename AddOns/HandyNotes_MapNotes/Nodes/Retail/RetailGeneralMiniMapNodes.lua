@@ -5,7 +5,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale(ADDON_NAME)
 function ns.LoadGeneralMiniMapLocationinfo(self)
 local db = ns.Addon.db.profile
 local minimap = ns.minimap
-ns._currentSourceFile = "RetailGeneralMiniMapminimap.lua"
+ns.currentSourceFile = "RetailGeneralMiniMapminimap.lua"
 
 --#####################################################################################################
 --##########################        function to hide all minimap below         ##########################

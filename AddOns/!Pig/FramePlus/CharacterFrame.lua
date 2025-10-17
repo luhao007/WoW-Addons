@@ -30,13 +30,13 @@ local GetCoinTextureString= GetCoinTextureString or  C_CurrencyInfo and C_Curren
 if not InspectTalentFrameSpentPoints then InspectTalentFrameSpentPoints = CreateFrame("Frame") end
 local XWidth, XHeight =CharacterHeadSlot:GetWidth(),CharacterHeadSlot:GetHeight()
 -----------------------
-local GetItemLevel=Fun.GetItemLevel
-local function Update_ItemLevel(framef,unit,ZBID)
-    local ItemLevel = GetItemLevel(unit, ZBID)
-    if ItemLevel == "RETRIEVING" and framef.attempt < 3 then
+local _GetItemLevel=Fun._GetItemLevel
+local function Update_ItemLevel(unit,ZBID,framef,itemLink)
+    local ItemLevel = _GetItemLevel(unit, ZBID,nil,itemLink)
+    if ItemLevel == "RETRIEVING" and framef.attempt < 10 then
     	framef.attempt = framef.attempt + 1
         C_Timer.After(0.05, function()
-        	Update_ItemLevel(unit,ZBID)
+        	Update_ItemLevel(unit,ZBID,framef,itemLink)
         end)
     else
     	framef.ZLV:SetText(ItemLevel or "")
@@ -50,13 +50,8 @@ local function Update_Level_V(framef,unit,ZBID)
 		if quality then
 			local r, g, b = GetItemQualityColor(quality)
 			framef.ZLV:SetTextColor(r, g, b, 1);
-			if PIG_MaxTocversion(40000) then
-		    	local effectiveILvl = GetDetailedItemLevelInfo(itemLink)
-				framef.ZLV:SetText(effectiveILvl);
-			else
-				framef.attempt = 0
-				Update_ItemLevel(framef,unit,ZBID)
-			end
+			framef.attempt = 0
+			Update_ItemLevel(unit,ZBID,framef,itemLink)
 		end
 	end
 end
@@ -69,6 +64,7 @@ local function Update_ranse_V(framef,unit,ZBID)
 		framef.ranse:Show()
 	end
 end
+shudshakdas=1
 local function Update_Data_ALL(laiyuan)--刷新数据
 	local LYname=""
 	if laiyuan==PaperDollFrame then
@@ -199,8 +195,11 @@ local function Load_addonsFun(FrameX)
 		if event=="INSPECT_READY" then
 			if self.unit then
 				local GUID=UnitGUID(self.unit)
-				if arg1==GUID then 
-					Update_Data_ALL(self)
+				if arg1==GUID then
+					if self.loadTicker then self.loadTicker:Cancel() end
+					self.loadTicker=C_Timer.NewTimer(0.2,function()
+						Update_Data_ALL(self)
+					end)
 				end
 			end
 		elseif event=="PLAYER_EQUIPMENT_CHANGED" then

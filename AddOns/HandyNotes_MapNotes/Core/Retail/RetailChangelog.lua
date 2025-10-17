@@ -53,6 +53,14 @@ function ns.ShowLoginChangelogWindow()
 
     local changelogText = ns.LOCALE_CHANGELOG_NEW[GetLocale()] or ns.LOCALE_CHANGELOG_NEW["enUS"]
     LoginChangeLogFrame.editBox:SetText("|cffffd700" .. changelogText)
+    LoginChangeLogFrame.editBox:SetScript("OnEscapePressed", function() end)
+    LoginChangeLogFrame.editBox:SetScript("OnEnterPressed", function() end)
+    LoginChangeLogFrame.editBox:EnableMouse(false)
+    LoginChangeLogFrame.editBox:SetCursorPosition(0)
+    LoginChangeLogFrame.editBox:ClearFocus()
+    LoginChangeLogFrame.editBox:SetScript("OnEditFocusGained", function(self)
+        self:ClearFocus()
+    end)
     LoginChangeLogFrame.scrollFrame:SetScrollChild(content)
     LoginChangeLogFrame.checkbox = CreateFrame("CheckButton", nil, LoginChangeLogFrame, "ChatConfigCheckButtonTemplate")
     LoginChangeLogFrame.checkbox:SetPoint("BOTTOMLEFT", 10, 10)
@@ -126,6 +134,15 @@ function ns.ShowMenuChangelogWindowNew()
 
   local changelogText = ns.LOCALE_CHANGELOG_NEW[GetLocale()] or ns.LOCALE_CHANGELOG_NEW["enUS"]
   ChangeLogFrameMenu.editBox:SetText("|cffffd700" .. changelogText)
+  ChangeLogFrameMenu.editBox:SetScript("OnEscapePressed", function() end)
+  ChangeLogFrameMenu.editBox:SetScript("OnEnterPressed", function() end)
+  ChangeLogFrameMenu.editBox:EnableMouse(false)
+  ChangeLogFrameMenu.editBox:SetCursorPosition(0)
+  ChangeLogFrameMenu.editBox:ClearFocus()
+  ChangeLogFrameMenu.editBox:SetScript("OnEditFocusGained", function(self)
+      self:ClearFocus()
+  end)
+
   ChangeLogFrameMenu.scrollFrame:SetScrollChild(content)
 
   ChangeLogFrameMenu.closeButton = CreateFrame("Button", nil, ChangeLogFrameMenu, "GameMenuButtonTemplate")
@@ -190,6 +207,15 @@ function ns.ShowMenuChangelogWindowOld_1()
 
   local changelogText = ns.LOCALE_CHANGELOG_OLD_1[GetLocale()] or ns.LOCALE_CHANGELOG_OLD_1["enUS"]
   ChangeLogFrameMenu.editBox:SetText("|cffffd700" .. changelogText)
+  ChangeLogFrameMenu.editBox:SetScript("OnEscapePressed", function() end)
+  ChangeLogFrameMenu.editBox:SetScript("OnEnterPressed", function() end)
+  ChangeLogFrameMenu.editBox:EnableMouse(false)
+  ChangeLogFrameMenu.editBox:SetCursorPosition(0)
+  ChangeLogFrameMenu.editBox:ClearFocus()
+  ChangeLogFrameMenu.editBox:SetScript("OnEditFocusGained", function(self)
+      self:ClearFocus()
+  end)
+
   ChangeLogFrameMenu.scrollFrame:SetScrollChild(content)
 
   ChangeLogFrameMenu.closeButton = CreateFrame("Button", nil, ChangeLogFrameMenu, "GameMenuButtonTemplate")
@@ -254,6 +280,15 @@ function ns.ShowMenuChangelogWindowOld_2()
 
   local changelogText = ns.LOCALE_CHANGELOG_OLD_2[GetLocale()] or ns.LOCALE_CHANGELOG_OLD_2["enUS"]
   ChangeLogFrameMenu.editBox:SetText("|cffffd700" .. changelogText)
+  ChangeLogFrameMenu.editBox:SetScript("OnEscapePressed", function() end)
+  ChangeLogFrameMenu.editBox:SetScript("OnEnterPressed", function() end)
+  ChangeLogFrameMenu.editBox:EnableMouse(false)
+  ChangeLogFrameMenu.editBox:SetCursorPosition(0)
+  ChangeLogFrameMenu.editBox:ClearFocus()
+  ChangeLogFrameMenu.editBox:SetScript("OnEditFocusGained", function(self)
+      self:ClearFocus()
+  end)
+
   ChangeLogFrameMenu.scrollFrame:SetScrollChild(content)
 
   ChangeLogFrameMenu.closeButton = CreateFrame("Button", nil, ChangeLogFrameMenu, "GameMenuButtonTemplate")

@@ -248,7 +248,9 @@ ns.icons = {
 ["PassageRaidMulti"] = iconLink .. "passageRaidMulti",
 ["PassageDungeonMulti"] = iconLink .. "PassageDungeonMulti",
 ["PassageCaveUp"] = iconLink .. "passageCaveUp", 
-["PassageCaveDown"] = iconLink .. "passageCaveDown", 
+["PassageCaveDown"] = iconLink .. "passageCaveDown",
+["PassageElevatorUp"] = iconLink .. "passageCaveUp", 
+["PassageElevatorDown"] = iconLink .. "passageCaveDown",
 --inside dungeon icons
 ["Exit"] = iconLink .. "Exit",
 ["PassageUpL"] = iconLink .. "passageupL",
@@ -565,6 +567,8 @@ TextIconMirror = TextIcon(iconLink .. "mirror")
 TextIconCarriage = TextIcon("interface/minimap/vehicle-carriage")
 TextIconMoleMachine = TextIcon(iconLink .. "MoleMachine")
 TextIconRocketDrill = TextIcon(iconLink .. "RocketDrill")
+TextIconPassageElevatorUp = TextIcon(iconLink .. "PassageCaveUp")
+TextIconPassageElevatorDown = TextIcon(iconLink .. "PassageCaveDown")
 --information
 TextIconCheck = TextIcon("Interface/Buttons/UI-CheckBox-Up")
 TextIconHorde = TextIcon("interface/pvprankbadges/pvprankhorde")

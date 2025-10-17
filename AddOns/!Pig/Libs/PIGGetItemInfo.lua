@@ -216,29 +216,85 @@ end
 --获取鼠标提示物品信息
 local MATCH_ITEM_LEVEL = ITEM_LEVEL:gsub('%%d', '(%%d+)')
 local MATCH_ITEM_LEVEL_ALT = ITEM_LEVEL_ALT:gsub('%%d(%s?)%(%%d%)', '%%d+%1%%((%%d+)%%)')
-local function IsRepeatName(datax,taoname,quality,maxnum)
-    --print(datax,taoname,type(quality),type(maxnum))
+local function addtaodataxx(datax,taoname,maxnum)
     for i=1,#datax do
-        if taoname==datax[i][1] and quality==datax[i][4] then
+        if taoname==datax[i][1] then
+            datax[i][2]=datax[i][2]+1
             if maxnum>datax[i][3] then
                datax[i][3]=maxnum
-            end
-            if datax[i][2] and datax[i][2]<maxnum then
-                datax[i][2]=datax[i][2]+1
             end
             return false
         end
     end
     return true
 end
-function Fun.GetItemLevel(unit, slot, framef,itemLink)
+function Fun.Update_ListTaoName(Parent)
+    local datax = {}
+    for SlotID,SlotBut in pairs(Parent.ListHang) do
+        if Parent.SlotOKs[SlotID].tao then
+            local taoname,minnum,maxnum,quality=unpack(Parent.SlotOKs[SlotID].tao)
+            if addtaodataxx(datax,taoname,maxnum) then
+                tinsert(datax,{taoname,1,maxnum,quality})
+            end
+        end
+    end
+    return datax
+end
+ local function GetTaoNameLevel(SlotBut,hangname,txtNum,t_lsit)
+    local itemLevel_1,taodata = 1,nil
+    if PIG_MaxTocversion(60000) then
+        if PIG_MaxTocversion(50000) then
+            local effectiveILvl, isPreview, baseILvl = GetDetailedItemLevelInfo(SlotBut.itemLink)
+            itemLevel_1=effectiveILvl or 0
+        end
+        for g = 2, txtNum do
+            local text = _G[hangname.."TextLeft" .. g]:GetText()
+            if text and text ~= '' then
+                if PIG_MaxTocversion(50000,true) then
+                    local itemLevel = text:match(MATCH_ITEM_LEVEL_ALT) or text:match(MATCH_ITEM_LEVEL)
+                    if itemLevel then
+                        itemLevel_1=tonumber(itemLevel) or 0
+                    end
+                end
+                local newText=text:gsub("（","(");
+                local newText=newText:gsub("）",")");
+                local kaishi,jieshu,taoname,minnum,maxnum = newText:find("(.+)%((%d)/(%d)%)")
+                if taoname and minnum and maxnum then
+                    if maxnum=="0" or tonumber(minnum)>tonumber(maxnum) then return "RETRIEVING" end
+                    local quality = C_Item.GetItemQualityByID(SlotBut.itemLink) or 1
+                    taodata={taoname,tonumber(minnum),tonumber(maxnum),quality}
+                end
+            end
+        end
+    else
+        for ix=2,#t_lsit.lines do
+            local text = t_lsit.lines[ix] and t_lsit.lines[ix].leftText
+            if text and text ~= '' then
+                local itemLevel = text:match(MATCH_ITEM_LEVEL_ALT) or text:match(MATCH_ITEM_LEVEL)
+                if itemLevel then
+                    itemLevel_1=tonumber(itemLevel) or 0
+                end
+                local newText=text:gsub("（","(");
+                local newText=newText:gsub("）",")");
+                local kaishi,jieshu,taoname,minnum,maxnum = newText:find("(.+)%((%d)/(%d)%)")
+                if taoname and minnum and maxnum then
+                    if maxnum=="0" or tonumber(minnum)>tonumber(maxnum) then return "RETRIEVING" end
+                    local quality = C_Item.GetItemQualityByID(SlotBut.itemLink) or 1
+                    taodata={taoname,tonumber(minnum),tonumber(maxnum),quality}
+                end
+            end
+        end
+    end
+    return {itemLevel_1,taodata}
+end
+function Fun._GetItemLevel(unit,SlotID,SlotBut,itemLink)
     PIG_TooltipUI:SetOwner(UIParent, "ANCHOR_NONE")
     PIG_TooltipUI:ClearLines();
     local Iteminfo
     if unit=="lx" or unit=="yc" then
-        Iteminfo = PIG_TooltipUI:SetHyperlink(itemLink)
+        Iteminfo = PIG_TooltipUI:SetHyperlink(SlotBut.itemLink)
     else
-        Iteminfo = PIG_TooltipUI:SetInventoryItem(unit, slot)
+        Iteminfo = PIG_TooltipUI:SetInventoryItem(unit, SlotID)
     end
     --PIG_TooltipUI:Show()
     --PIG_TooltipUI:Hide()
@@ -252,61 +308,17 @@ function Fun.GetItemLevel(unit, slot, framef,itemLink)
 	        end
 	    end
     	if PIG_MaxTocversion(50000) then
-		    local txtNum = PIG_TooltipUI:NumLines()
-		    if txtNum and txtNum>0 then
-		    	local text = _G[hangname.."TextLeft" .. 1]:GetText()
-		    	if text == RETRIEVING_ITEM_INFO then
-		            return "RETRIEVING"
-		        end
-		        local effectiveILvl, isPreview, baseILvl = GetDetailedItemLevelInfo(itemLink)
-			    if framef then
-			    	local Parent=framef:GetParent()
-		            if not framef.itemdata then framef.itemdata = {} else wipe(framef.itemdata) end
-		            framef.itemdata.itemLevel=effectiveILvl or 0
-			    	for g = 2, txtNum do
-				    	local text = _G[hangname.."TextLeft" .. g]:GetText()
-				    	if text and text ~= '' then
-		                    local newText=text:gsub("（","(");
-		                    local newText=newText:gsub("）",")");
-		                    local kaishi,jieshu,taoname,minnum,maxnum = newText:find("(.+)%((%d)/(%d)%)")
-		                    if taoname and minnum and maxnum then
-		                        local quality = C_Item.GetItemQualityByID(framef.itemLink) or 1
-		                        if IsRepeatName(Parent.TaoList,taoname,quality,tonumber(maxnum)) then
-		                            tinsert(Parent.TaoList,{taoname,1,tonumber(maxnum),quality})
-		                        end
-		                    end
-		                end
-				    end
-				    return framef.itemdata
-				else
-					return effectiveILvl
-				end
+		    if SlotBut then
+		    	return GetTaoNameLevel(SlotBut,hangname,txtNum)
+			else
+                local effectiveILvl, isPreview, baseILvl = GetDetailedItemLevelInfo(itemLink)
+				return effectiveILvl or 0
 			end
 	    elseif PIG_MaxTocversion(60000) then
 	    	local txtNum = PIG_TooltipUI:NumLines()
 		    if txtNum and txtNum>0 then
-			    if framef then
-			    	local Parent=framef:GetParent()
-		            if not framef.itemdata then framef.itemdata = {} else wipe(framef.itemdata) end
-			    	for g = 2, txtNum do
-				    	local text = _G[hangname.."TextLeft" .. g]:GetText()
-				    	if text and text ~= '' then
-				    		local itemLevel = text:match(MATCH_ITEM_LEVEL_ALT) or text:match(MATCH_ITEM_LEVEL)
-		                    if itemLevel then
-		                        framef.itemdata.itemLevel=tonumber(itemLevel) or 0
-		                    end
-		                    local newText=text:gsub("（","(");
-		                    local newText=newText:gsub("）",")");
-		                    local kaishi,jieshu,taoname,minnum,maxnum = newText:find("(.+)%((%d)/(%d)%)")
-		                    if taoname and minnum and maxnum then
-		                        local quality = C_Item.GetItemQualityByID(framef.itemLink) or 1
-		                        if IsRepeatName(Parent.TaoList,taoname,quality,tonumber(maxnum)) then
-		                            tinsert(Parent.TaoList,{taoname,1,tonumber(maxnum),quality})
-		                        end
-		                    end
-		                end
-				    end
-				    return framef.itemdata
+			    if SlotBut then
+				    return GetTaoNameLevel(SlotBut,hangname,txtNum)
 				else
 					local colormode = GetCVarBool('colorblindmode')
 		            local numLines = (colormode and 21 or 20) or (colormode and 4 or 3)
@@ -330,28 +342,8 @@ function Fun.GetItemLevel(unit, slot, framef,itemLink)
 	        if errorText == RETRIEVING_ITEM_INFO then
 	            return "RETRIEVING"
 	        end
-	        if framef then
-	        	local Parent=framef:GetParent()
-	            if not framef.itemdata then framef.itemdata = {} else wipe(framef.itemdata) end
-	            for ix=2,#t_lsit.lines do
-	                local text = t_lsit.lines[ix] and t_lsit.lines[ix].leftText
-	                if text and text ~= '' then
-	                    local itemLevel = text:match(MATCH_ITEM_LEVEL_ALT) or text:match(MATCH_ITEM_LEVEL)
-	                    if itemLevel then
-	                        framef.itemdata.itemLevel=tonumber(itemLevel) or 0
-	                    end
-	                    local newText=text:gsub("（","(");
-	                    local newText=newText:gsub("）",")");
-	                    local kaishi,jieshu,taoname,minnum,maxnum = newText:find("(.+)%((%d)/(%d)%)")
-	                    if taoname and minnum and maxnum then
-	                        local quality = C_Item.GetItemQualityByID(framef.itemLink) or 1
-	                        if IsRepeatName(Parent.TaoList,taoname,quality,tonumber(maxnum)) then
-	                            tinsert(Parent.TaoList,{taoname,1,tonumber(maxnum),quality})
-	                        end
-	                    end
-	                end
-	            end
-	            return framef.itemdata
+	        if SlotBut then
+                return GetTaoNameLevel(SlotBut,hangname,txtNum,t_lsit)
 	        else
 	            local colormode = GetCVarBool('colorblindmode')
 	            local numLines = (colormode and 21 or 20) or (colormode and 4 or 3)
@@ -374,7 +366,9 @@ function Fun._GetAverageItemLevel(Parent)
     Parent.wuqiLV={{0,"null"},{0,"null"},{0,"null"},0}
     for Slot,But in pairs(Parent.ListHang) do
         if Slot~=16 and Slot~=17 and Slot~=18 then
-            Parent.wuqiLV[4] = Parent.wuqiLV[4] + But.iLv
+            if But.iLv then
+                Parent.wuqiLV[4] = Parent.wuqiLV[4] + But.iLv
+            end
         end
     end
     --INVTYPE_2HWEAPON--双手

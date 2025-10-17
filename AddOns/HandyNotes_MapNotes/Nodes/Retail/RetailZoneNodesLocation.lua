@@ -4,7 +4,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale(ADDON_NAME)
 function ns.LoadZoneMapNodesLocationinfo(self)
 local db = ns.Addon.db.profile
 local nodes = ns.nodes
-ns._currentSourceFile = "RetailZoneNodesLocation.lua"
+ns.currentSourceFile = "RetailZoneNodesLocation.lua"
 
 --#####################################################################################################
 --##########################        function to hide all nodes below         ##########################
@@ -848,7 +848,11 @@ ns._currentSourceFile = "RetailZoneNodesLocation.lua"
             nodes[2214][72957320] = { npcID = 229022, mnID = 2346, name = L["Rocket drill"] .. " " .. L["Transport"], dnID = "", type = "RocketDrill", questID = 83151, wwwLink = "wowhead.com/quest=83151", showWWW = true, wwwName = BATTLE_PET_SOURCE_2 .. " " .. REQUIRES_LABEL .. " " .. "Down Undermine", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Mole Machine Deeps to Undermine
             nodes[2346][17285075] = { npcID = 233626, mnID = 2214, name = L["Rocket drill"] .. " " .. L["Transport"], dnID = "", type = "RocketDrill", questID = 83151, wwwLink = "wowhead.com/quest=83151", showWWW = true, wwwName = BATTLE_PET_SOURCE_2 .. " " .. REQUIRES_LABEL .. " " .. "Down Undermine", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Mole Machine from Undermine to Deeps
             nodes[2346][18795225] = { npcID = 233625, mnID = 862, name = L["Rocket drill"] .. " " .. L["Transport"], dnID = "", type = "RocketDrill", questID = 83933, wwwLink = "https://www.wowhead.com/quest=83933/the-kajacoast", showWWW = true, wwwName = BATTLE_PET_SOURCE_2 .. " " .. REQUIRES_LABEL .. " " .. "The Kaja'Coast", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Mole Machine from Undermine to Zandalar
-            nodes[2472][34741004] = { npcID = 234692, mnID = 2472, name ="", type = "TravelM", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Tazavesh Flightmaster
+            nodes[2472][34741004] = { npcID = 234692, mnID = 2472, name = "", type = "TravelM", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Tazavesh Flightmaster
+            nodes[2214][49194459] = { mnID = 2248, name = L["Elevator"], type = "PassageElevatorUp", questID = 82195, wwwLink = "https://https://www.wowhead.com/quest=82195/rust-and-redemption", showWWW = true, wwwName = BATTLE_PET_SOURCE_2 .. " " .. REQUIRES_LABEL .. " " .. "Rust and Redemption", showInZone = true, showOnContinent = false, showOnMinimap = false }
+            nodes[2214][61547692] = { mnID = 2248, name = L["Elevator"], type = "PassageElevatorUp", questID = 84220, wwwLink = "https://www.wowhead.com/quest=84220/passage-to-the-ringing-deeps", showWWW = true, wwwName = BATTLE_PET_SOURCE_2 .. " " .. REQUIRES_LABEL .. " " .. "Passage to the ringing deeps", showInZone = true, showOnContinent = false, showOnMinimap = false }
+            nodes[2248][67333102] = { mnID = 2214, name = L["Elevator"], type = "PassageElevatorDown", questID = 82195, wwwLink = "https://https://www.wowhead.com/quest=82195/rust-and-redemption", showWWW = true, wwwName = BATTLE_PET_SOURCE_2 .. " " .. REQUIRES_LABEL .. " " .. "Rust and Redemption", showInZone = true, showOnContinent = false, showOnMinimap = false }
+            nodes[2248][37427287] = { mnID = 2214, name = L["Elevator"], type = "PassageElevatorDown", questID = 84220, wwwLink = "https://www.wowhead.com/quest=84220/passage-to-the-ringing-deeps", showWWW = true, wwwName = BATTLE_PET_SOURCE_2 .. " " .. REQUIRES_LABEL .. " " .. "Passage to the ringing deeps", showInZone = true, showOnContinent = false, showOnMinimap = false }
           end
     
         -- Khaz Algar Zeppelin

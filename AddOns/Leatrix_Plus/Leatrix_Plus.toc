@@ -1,6 +1,6 @@
 ## Interface: 110205
 ## Author: Leatrix
-## Version: 11.2.12
+## Version: 11.2.14
 
 ## Title: Leatrix Plus
 ## Notes: curseforge.com/wow/addons/leatrix-plus
@@ -15,6 +15,7 @@
 
 ## OptionalDeps: Leatrix_enUS, ElvUI
 
+## LoadSavedVariablesFirst: true
 ## SavedVariables: LeaPlusDB
 
 ## X-Curse-Project-ID: 94855

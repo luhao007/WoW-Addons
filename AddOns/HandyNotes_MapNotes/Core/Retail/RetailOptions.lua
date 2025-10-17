@@ -1091,7 +1091,7 @@ ns.options = {
               width = 1.20,
               get = function() return ns.Addon.db.profile.activate.ToggleMap end,
               set = function(info, v) ns.Addon.db.profile.activate.ToggleMap = not not v
-                if ns.Addon.db.profile.MapChanging then ns._MapChangeLastSet = nil if ns.ChangingMapToPlayerZone then ns.ChangingMapToPlayerZone() end end
+                if ns.Addon.db.profile.MapChanging then ns.MapChangeLastSet = nil if ns.ChangingMapToPlayerZone then ns.ChangingMapToPlayerZone() end end
                 self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
                 if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.activate.ToggleMap then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", L["Toggle Maps"], "|cffff0000" .. L["is deactivated"]) else
                 if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.activate.ToggleMap then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00",L["Toggle Maps"], "|cff00ff00" .. L["is activated"]) end end end,
@@ -1162,7 +1162,7 @@ ns.options = {
               get = function() return ns.Addon.db.profile.activate.UseInBattle end,
               set = function(info, v) ns.Addon.db.profile.activate.UseInBattle = v 
                   ns.ForceUseInBattle(v, false)
-                  if ns.Addon.db.profile.MapChanging then ns._MapChangeLastSet = nil ns.ChangingMapToPlayerZone() end
+                  if ns.Addon.db.profile.MapChanging then ns.MapChangeLastSet = nil ns.ChangingMapToPlayerZone() end
                   self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
                   if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.activate.UseInBattle then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 " .. (ns.LOCALE_USE_IN_COMBAT_NAME and (ns.LOCALE_USE_IN_COMBAT_NAME[ns.locale] or ns.LOCALE_USE_IN_COMBAT_NAME.enUS)) .. "|cffff0000 ".. L["is deactivated"]) else
                   if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.activate.UseInBattle then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 " .. (ns.LOCALE_USE_IN_COMBAT_NAME and (ns.LOCALE_USE_IN_COMBAT_NAME[ns.locale] or ns.LOCALE_USE_IN_COMBAT_NAME.enUS)) .. "|cff00ff00 " .. L["is activated"]) end end 
@@ -1325,13 +1325,16 @@ ns.options = {
               disabled = function() return ns.Addon.db.profile.activate.HideMapNote end,
               type = "execute",
               name = " NPC " .. NAMES_LABEL .. " " .. UPDATE,
-              desc = "Update NPC name database",
+              desc = ns.LOCALE_CACHING[ns.locale] or ns.LOCALE_CACHING["enUS"],
               width = 2,
               order = 1.2,
               func = function(info, v) 
-                ns.RebuildNpcNameCache()
-                self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
-                end,
+              C_Timer.After(0.3, function()
+                  ns.RebuildNpcNameCache({ forceAll = true })
+                  self:FullUpdate()
+                  HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
+                end)
+              end,
               },
             },
           }, 
@@ -4664,7 +4667,7 @@ ns.options = {
                         if ns.Addon.db.profile.ChatMassage and ns.Addon.db.profile.showZoneDungeons then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. " " .. "|cffffff00" .. L["Zone map"], L["Dungeons"], L["icons"], "|cff00ff00" .. L["are shown"]) else 
                         if ns.Addon.db.profile.ChatMassage and not ns.Addon.db.profile.showZoneDungeons then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. " " .. "|cffffff00" .. L["Zone map"], L["Dungeons"], L["icons"], "|cffff0000" .. L["are hidden"])end end end,
                   },
-                 ZoneScaleDungeons = {
+                ZoneScaleDungeons = {
                   disabled = function() return not ns.Addon.db.profile.showZoneDungeons or ns.Addon.db.profile.activate.HideMapNote or not ns.Addon.db.profile.activate.ZoneMap or not ns.Addon.db.profile.activate.ZoneInstances or ns.Addon.db.profile.activate.ZoneInstanceSyncScaleAlpha end,
                   type = "range",
                   name = L["symbol size"],
@@ -5102,7 +5105,7 @@ ns.options = {
                   disabled = function() return ns.Addon.db.profile.activate.HideMapNote or not ns.Addon.db.profile.activate.ZoneMap or not ns.Addon.db.profile.activate.ZoneTransporting end,
                   type = "toggle",
                   name = TextIconCarriage:GetIconString() .. " " .. TextIconTravelL:GetIconString() .. " " .. TextIconMoleMachine:GetIconString() .. " " .. TextIconRocketDrill:GetIconString(),
-                  desc = L["Transport"] .. " " .. "\n" .."\n" .. TextIconCarriage:GetIconString() .. " " .. ns.Deepruntram .. "\n" .. " " .. ns.Stormwind .. " <= => "  .. ns.Ironforge .. "\n" .. TextIconTravelL:GetIconString() .. " " .. L["Transport"] .. "\n" .. " " .. ns.Korthia .. " <= => " .. ns.TheMaw .. "\n" .. TextIconMoleMachine:GetIconString() .. " - " .. TextIconRocketDrill:GetIconString() .. " " .. L["Mole Machine"] .. "\n" .. " (" .. EXPANSION_NAME10 .. ")",
+                  desc = L["Transport"] .. " " .. "\n\n" .. TextIconCarriage:GetIconString() .. " " .. ns.Deepruntram .. "\n" .. " " .. ns.Stormwind .. " <= => "  .. ns.Ironforge .. "\n\n" .. TextIconTravelL:GetIconString() .. " " .. L["Transport"] .. "\n" .. " " .. ns.Korthia .. " <= => " .. ns.TheMaw .. "\n\n" .. TextIconMoleMachine:GetIconString() .. " - " .. TextIconRocketDrill:GetIconString() .. " " .. L["Mole Machine"] .. "\n" .. " (" .. EXPANSION_NAME10 .. ")" .. "\n\n"  .. " " .. TextIconPassageElevatorUp:GetIconString() .. " " .. TextIconPassageElevatorDown:GetIconString().. " " .. L["Elevator"] .. "\n" .. " (" .. EXPANSION_NAME10 .. ")",
                   order = 5.1,
                   width = 0.50,
                   set = function(info, v) ns.Addon.db.profile[info[#info]] = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes") 
@@ -5543,7 +5546,7 @@ ns.options = {
                 showZonePaths = {
                   disabled = function() return ns.Addon.db.profile.activate.HideMapNote or not ns.Addon.db.profile.activate.ZoneMap or not ns.Addon.db.profile.activate.ZoneGeneral end,
                   type = "toggle",
-                  name = TextIconPathO:GetIconString() .. " " .. TextIconPathR:GetIconString() .. " " .. TextIconPathU:GetIconString() .. " " .. TextIconPathL:GetIconString(),
+                  name = TextIconPathO:GetIconString() .. " " .. TextIconPathR:GetIconString() .. " " .. TextIconPathU:GetIconString() .. " " .. TextIconPathL:GetIconString() .. " " .. TextIconPassageCaveUp:GetIconString() .. " " .. TextIconPassageCaveDown:GetIconString(),
                   desc = L["Paths"] .. "\n\n" .. L["Exit"] ..  " / " .. L["Entrance"] .. " / " .. L["Path"],
                   width = 0.50,
                   order = 3.1,
@@ -7089,7 +7092,7 @@ ns.options = {
                   disabled = function() return ns.Addon.db.profile.activate.HideMapNote or not ns.Addon.db.profile.activate.MiniMap or not ns.Addon.db.profile.activate.MiniMapTransporting end,
                   type = "toggle",
                   name = TextIconCarriage:GetIconString() .. " " .. TextIconTravelL:GetIconString() .. " " .. TextIconMoleMachine:GetIconString() .. " " .. TextIconRocketDrill:GetIconString(),
-                  desc = L["Transport"] .. " " .. "\n" .."\n" .. TextIconCarriage:GetIconString() .. " " .. ns.Deepruntram .. "\n" .. " " .. ns.Stormwind .. " <= => "  .. ns.Ironforge .. "\n" .. TextIconTravelL:GetIconString() .. " " .. L["Transport"] .. "\n" .. " " .. ns.Korthia .. " <= => " .. ns.TheMaw .. "\n" .. TextIconMoleMachine:GetIconString() .. " - " .. TextIconRocketDrill:GetIconString() .. " " .. L["Mole Machine"] .. "\n" .. " (" .. EXPANSION_NAME10 .. ")",
+                  desc = L["Transport"] .. " " .. "\n\n" .. TextIconCarriage:GetIconString() .. " " .. ns.Deepruntram .. "\n" .. " " .. ns.Stormwind .. " <= => "  .. ns.Ironforge .. "\n\n" .. TextIconTravelL:GetIconString() .. " " .. L["Transport"] .. "\n" .. " " .. ns.Korthia .. " <= => " .. ns.TheMaw .. "\n\n" .. TextIconMoleMachine:GetIconString() .. " - " .. TextIconRocketDrill:GetIconString() .. " " .. L["Mole Machine"] .. "\n" .. " (" .. EXPANSION_NAME10 .. ")" .. "\n\n"  .. " " .. TextIconPassageElevatorUp:GetIconString() .. " " .. TextIconPassageElevatorDown:GetIconString().. " " .. L["Elevator"] .. "\n" .. " (" .. EXPANSION_NAME10 .. ")",
                   order = 5.1,
                   width = 0.50,
                   set = function(info, v) ns.Addon.db.profile[info[#info]] = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes") 
@@ -7530,7 +7533,7 @@ ns.options = {
                 showMiniMapPaths = {
                   disabled = function() return ns.Addon.db.profile.activate.HideMapNote or not ns.Addon.db.profile.activate.MiniMap or not ns.Addon.db.profile.activate.MiniMapGeneral end,
                   type = "toggle",
-                  name = TextIconPathO:GetIconString() .. " " .. TextIconPathR:GetIconString() .. " " .. TextIconPathU:GetIconString() .. " " .. TextIconPathL:GetIconString(),
+                  name = TextIconPathO:GetIconString() .. " " .. TextIconPathR:GetIconString() .. " " .. TextIconPathU:GetIconString() .. " " .. TextIconPathL:GetIconString() .. " " .. TextIconPassageCaveUp:GetIconString() .. " " .. TextIconPassageCaveDown:GetIconString(),
                   desc = L["Paths"] .. "\n\n" .. L["Exit"] ..  " / " .. L["Entrance"] .. " / " .. L["Path"],
                   width = 0.50,
                   order = 3.1,

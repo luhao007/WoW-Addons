@@ -256,7 +256,11 @@ function FramePlusfun.Friends()
 		end
 	end
 	if PIG_MaxTocversion() then
-		WhoFrameTotals:SetPoint("BOTTOM",WhoFrameListInset,"BOTTOM",-80,-39)
+		if PIG_MaxTocversion(50000) then
+			WhoFrameTotals:SetPoint("BOTTOM",WhoFrameListInset,"BOTTOM",-80,-39)
+		else
+			WhoFrameTotals:SetPoint("BOTTOM",WhoFrameListInset,"BOTTOM",-80,-19)
+		end
 		WhoFrameEditBox:SetHeight(32);
 		WhoFrameEditBox:ClearAllPoints();
 		WhoFrameEditBox:SetPoint("BOTTOMLEFT",WhoFrame,"BOTTOMLEFT",10,20);
