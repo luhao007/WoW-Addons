@@ -718,8 +718,8 @@ do
                         or value.type == "PvEVendorH" or value.type == "PvEVendorA" or value.type == "MMInnkeeperH" or value.type == "MMInnkeeperA" or value.type == "MMStablemasterH" or value.type == "MMStablemasterA"
                         or value.type == "MMMailboxH" or value.type == "MMMailboxA" or value.type == "MMPvPVendorH" or value.type == "MMPvPVendorA" or value.type == "MMPvEVendorH" or value.type == "MMPvEVendorA" 
                         or value.type == "ZonePvEVendorH" or value.type == "ZonePvPVendorH" or value.type == "ZonePvEVendorA" or value.type == "ZonePvPVendorA" or value.type == "TradingPost" or value.type == "PassageCaveUp"
-                        or value.type == "PassageCaveDown" or value.type == "MountMerchant" or value.type == "Upgrade" or value.type == "ScoutingMap" or value.type == "RenownQuartermaster" or value.type == "PassageElevatorUp"
-                        or value.type == "PassageElevatorDown"
+                        or value.type == "PassageCaveDown" or value.type == "MountMerchant" or value.type == "Upgrade" or value.type == "ScoutingMap" or value.type == "RenownQuartermaster" or value.type == "RenownQuartermasterH" or value.type == "RenownQuartermasterA" 
+                        or value.type == "PassageElevatorUp" or value.type == "PassageElevatorDown"
 
       ns.classHallIcons = value.type == "CHMountMerchant" or value.type == "CHUpgrade" or value.type == "CHScoutingMap" or value.type == "CHMailbox" or value.type == "RedPathO" or value.type == "RedPathRO" or value.type == "RedPathLO" or value.type == "RedPathU" 
                       or value.type == "RedPathLU" or value.type == "RedPathRU" or value.type == "RedPathL" or value.type == "RedPathR" or value.type == "CHTravel" or value.type == "CHPortal" or value.type == "ArtifactForge" or value.type == "Recruit" 
@@ -1048,7 +1048,7 @@ do
           alpha = db.MiniMapAlphaPvEVendor
         end
 
-        if value.type == "RenownQuartermaster" then
+        if value.type == "RenownQuartermaster" or value.type == "RenownQuartermasterH" or value.type == "RenownQuartermasterA" then
           scale = db.MiniMapScaleRenownQuartermaster
           alpha = db.MiniMapAlphaRenownQuartermaster
         end
@@ -1115,7 +1115,7 @@ do
           alpha = db.DungeonMapAlphaTransport
         end
 
-        if value.type == "PvEVendor" or value.type == "PvPVendor" or value.type == "RenownQuartermaster" then
+        if value.type == "PvEVendor" or value.type == "PvPVendor" or value.type == "RenownQuartermaster" or value.type == "RenownQuartermasterH" or value.type == "RenownQuartermasterA" then
           scale = db.DungeonMapScaleVendor
           alpha = db.DungeonMapAlphaVendor
         end
@@ -1315,7 +1315,7 @@ do
           alpha = db.ZoneAlphaPvEVendor
         end
 
-        if value.type == "RenownQuartermaster" then
+        if value.type == "RenownQuartermaster" or value.type == "RenownQuartermasterH" or value.type == "RenownQuartermasterA" then
           scale = db.ZoneScaleRenownQuartermaster
           alpha = db.ZoneAlphaRenownQuartermaster
         end
@@ -1564,30 +1564,49 @@ local function setWaypoint(uiMapID, coord)
 
   if TomTom then
     local x, y = getCoordinatesForTomTom(coord)
+    local npcID_npcIDs1 = dungeon.npcID or dungeon.npcIDs1
+
+    local nodeName = dungeon.name
+    if (not nodeName or nodeName == "") and npcID_npcIDs1 then
+      local nameFromInfo = ns.GetNpcInfo and select(1, ns.GetNpcInfo(npcID_npcIDs1)) or nil
+      nodeName = nameFromInfo or (ns.GetNPCName and ns.GetNPCName(npcID_npcIDs1)) or tostring(npcID_npcIDs1)
+    end
+
+    if npcID_npcIDs1 and nodeName and nodeName ~= "" then
+      local _, npcTitle = ns.GetNpcInfo and ns.GetNpcInfo(npcID_npcIDs1) or nil, nil
+      if not npcTitle and ns.npcNameCache then
+        local t = ns.npcNameCache[npcID_npcIDs1]; npcTitle = t and t[2]
+      end
+      if npcTitle and npcTitle ~= "" and not npcTitle:match("%?%?+") then
+        nodeName = nodeName .. "\n" .. "|cffffd200(|r" .. npcTitle .. "|cffffd200)|r"
+      end
+    end
 
     local mnIDName = dungeon.mnID and getMNIDName(dungeon.mnID) or nil
     local title
     if mnIDName and mnIDName ~= "" then
-        if dungeon.name and dungeon.name ~= "" then
-            title = TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "\n" .. L["Way to"] .. "\n" .. dungeon.name .. " " .. mnIDName
-        else
-            title = TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "\n" .. L["Way to"] .. "\n" .. mnIDName
-        end
+      if nodeName and nodeName ~= "" then
+        title = TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. "|cffffd200" .. TARGET .. "|r " .. TextIconMNL4:GetIconString() .. "\n" .. nodeName .. " " .. mnIDName
+      else
+        title = TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. "|cffffd200" .. TARGET .. "|r " .. TextIconMNL4:GetIconString() .. "\n" .. mnIDName
+      end
+    elseif npcID_npcIDs1 then
+        title = TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. "|cffffd200" .. TARGET .. "|r " .. TextIconMNL4:GetIconString() .. "\n" .. (nodeName or tostring(npcID_npcIDs1))
     elseif dungeon.dnID and dungeon.dnID ~= "" then
-        title = TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "\n" .. L["Way to"] .. "\n" .. dungeon.dnID
+      title = TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. "|cffffd200" .. TARGET .. "|r " .. TextIconMNL4:GetIconString() .. "\n" .. dungeon.dnID
     elseif dungeon.TransportName and dungeon.TransportName ~= "" then
-        title = TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "\n" .. L["Way to"] .. "\n" .. dungeon.TransportName .. "\n" .. dungeon.name
-    elseif dungeon.name and dungeon.name ~= "" then
-        title = TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "\n" .. L["Way to"] .. "\n" .. dungeon.name
+      title = TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. "|cffffd200" .. TARGET .. "|r " .. TextIconMNL4:GetIconString() .. "\n" .. dungeon.TransportName .. (nodeName and ("\n" .. nodeName) or "")
+    elseif nodeName and nodeName ~= "" then
+      title = TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. "|cffffd200" .. TARGET .. "|r " .. TextIconMNL4:GetIconString() .. "\n" .. nodeName
     else
-        title = "Unbekannter Titel"  -- Fallback
+      title = " "
     end
 
-    TomTom:AddWaypoint(uiMapID, x, y, {
-      title = title,
-      persistent = nil,
-      minimap = true,
-      world = true
+    TomTom:AddWaypoint(uiMapID, x, y, { 
+      title = title, 
+      persistent = nil, 
+      minimap = true, 
+      world = true 
     })
 
   else
@@ -1600,11 +1619,11 @@ local function setWaypoint(uiMapID, coord)
     local x, y = getCoordinatesForBlizzard(coord)
     local mapInfo = C_Map.GetMapInfo(uiMapID)
     if mapInfo then
-        local point = UiMapPoint.CreateFromCoordinates(uiMapID, x, y)
-        if point then
-            C_Map.SetUserWaypoint(point)
-            C_SuperTrack.SetSuperTrackedUserWaypoint(true)
-        end
+      local point = UiMapPoint.CreateFromCoordinates(uiMapID, x, y)
+      if point then
+          C_Map.SetUserWaypoint(point)
+          C_SuperTrack.SetSuperTrackedUserWaypoint(true)
+      end
     end
   end
 end

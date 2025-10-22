@@ -2388,6 +2388,83 @@ private.CONTAINER_GUIDE = {
 	["241216649"] = {
 		[RSConstants.ENTRANCE] = { x = 0.8455, y = 0.2091 };
 	}; --Treasure Chest
+	["246254680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4954, y = 0.3388 };
+		[RSConstants.STEP1] = { x = 0.5193, y = 0.3187 };
+		[RSConstants.STEP2] = { x = 0.5108, y = 0.3075 };
+		[RSConstants.STEP3] = { x = 0.5092, y = 0.2996 };
+		[RSConstants.STEP4] = { x = 0.5173, y = 0.3138 };
+		[RSConstants.STEP5] = { x = 0.5215, y = 0.3270 };
+	}; --Dusty Coffer
+	["251052680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3449, y = 0.8416 };
+	}; --Protected Treasure Chest
+	["258034680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3449, y = 0.8416 };
+	}; --Protected Treasure Chest
+	["251052683"] = {
+		[RSConstants.FLAG..1] = { x = 0.6275, y = 0.7059, comment = AL["NOTE_251052_1"] };
+		[RSConstants.FLAG..2] = { x = 0.4100, y = 0.5691, comment = AL["NOTE_251052_1"] };
+	}; --Protected Treasure Chest
+	["252831680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4226, y = 0.2999 };
+	}; --Glimmering Treasure Chest
+	["252836680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.7927, y = 0.5751 };
+	}; --Small Treasure Chest
+	["252807680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.2284, y = 0.3581 };
+	}; --Small Treasure Chest
+	["252860680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4244, y = 0.7637 };
+	}; --Small Treasure Chest
+	["252829680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4954, y = 0.3388 };
+		[RSConstants.STEP1] = { x = 0.5193, y = 0.3187 };
+		[RSConstants.STEP2] = { x = 0.5187, y = 0.3069 };
+	}; --Small Treasure Chest
+	["252813680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.1940, y = 0.1947 };
+	}; --Small Treasure Chest
+	["246524680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3648, y = 0.7678 };
+	}; --Small Treasure Chest
+	["252806680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3648, y = 0.7678 };
+	}; --Small Treasure Chest
+	["257393680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4820, y = 0.7219 };
+	}; --Treasure Chest
+	["257545680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4820, y = 0.7137 };
+	}; --Treasure Chest
+	["252838680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.8284, y = 0.6785 };
+	}; --Treasure Chest
+	["252842680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4870, y = 0.7392 };
+	}; --Treasure Chest
+	["257546680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5029, y = 0.8026 };
+	}; --Treasure Chest
+	["252809680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.2048, y = 0.5045 };
+	}; --Treasure Chest
+	["252805680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.3133, y = 0.8403 };
+	}; --Treasure Chest
+	["252821680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.2984, y = 0.1617 };
+	}; --Treasure Chest
+	["252880680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.6114, y = 0.5554 };
+	}; --Treasure Chest
+	["252882680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.5775, y = 0.6244 };
+	}; --Treasure Chest
+	["252828680"] = {
+		[RSConstants.ENTRANCE] = { x = 0.4832, y = 0.3474 };
+	}; --Small Treasure Chest
 }
 
 ---============================================================================

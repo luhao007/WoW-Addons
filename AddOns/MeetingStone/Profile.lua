@@ -45,7 +45,7 @@ function Profile:OnInitialize()
         profile = {
             settings           = {
                 storage           = { point = 'TOP', x = 0, y = -20 },
-                panel             = true,
+                panel             = false,
                 panelLock         = false,
                 sound             = true,
                 ignore            = true,
@@ -54,7 +54,7 @@ function Profile:OnInitialize()
                 spamLengthEnabled = true,
                 spamLength        = 20,
             },
-            minimap            = {
+            minimap            = { hide = true,
                 minimapPos = 192.68,
             },
             searchHistoryList  = {},

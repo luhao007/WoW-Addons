@@ -562,7 +562,11 @@ class Manager:
             return
         utils.change_defaults(
             "Addons/MeetingStone/Profile.lua",
-            "            minimap = { hide = true,",
+            "            minimap            = { hide = true,",
+        )
+        utils.change_defaults(
+            "Addons/MeetingStone/Profile.lua",
+            "                panel             = false,",
         )
 
     @staticmethod

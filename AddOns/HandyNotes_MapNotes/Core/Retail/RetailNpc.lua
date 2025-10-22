@@ -18,7 +18,6 @@ local function getSVBucket()
   return (db and db.names and db.names[locNow]) or {}
 end
 
-
 local function normalizeID(id)
   if id == nil then return nil end
   local n = tonumber(id)
@@ -234,12 +233,17 @@ local function withAllCategoriesEnabled(fn)
   }
 
   local snapshot = {}
+  local EXCLUDE_TRUE = {
+    ["activate.HideMapNote"] = true,
+    ["DeveloperMode"] = true,
+  }
+
   local function override_bools(tbl, path)
     for k, v in pairs(tbl) do
       local keypath = path and (path .. "." .. k) or k
       if type(v) == "boolean" then
         snapshot[keypath] = v
-        if keypath ~= "activate.HideMapNote" then
+        if not EXCLUDE_TRUE[keypath] then
           tbl[k] = true
         end
       elseif type(v) == "table" then
@@ -396,7 +400,7 @@ function ns.NpcTooltips(tooltip, nodeData )
   if not nodeData then return end
 
   if nodeData.type ~= "LFR" and nodeData.npcID then
-    local npcName  = ns.GetNPCName(nodeData.npcID)
+    local npcName = ns.GetNPCName(nodeData.npcID)
     local npcTitle
     if not npcName then
       npcName, npcTitle = ns.GetNpcInfo(nodeData.npcID)

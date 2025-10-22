@@ -1,10 +1,189 @@
 local ADDON_NAME, ns = ...
 
-ns.CurrentAddonVersion = "3.1.2"
-ns.PreviousAddonVersion_1 = "3.1.1"
-ns.PreviousAddonVersion_2 = "3.1.0"
+ns.CurrentAddonVersion = "3.1.3"
+ns.PreviousAddonVersion_1 = "3.1.2"
 
-ns.LOCALE_CHANGELOG_NEW = { -- 3.1.2
+ns.LOCALE_CHANGELOG_3_1_ = { -- empty backup file
+  deDE = [[
+
+]],
+
+  enUS = [[
+
+]],
+
+  frFR = [[
+
+]],
+
+  itIT = [[
+
+]],
+
+  esES = [[
+
+]],
+
+  esMX = [[
+
+]],
+
+  ptBR = [[
+
+]],
+
+  ruRU = [[
+
+]],
+
+  zhCN = [[
+
+]],
+
+  zhTW = [[
+
+]],
+
+  koKR = [[
+
+]],
+}
+
+ns.LOCALE_CHANGELOG_3_1_3 = {
+  deDE = [[
+• Alte Änderungsprotokolle werden nun zusammengefasst unter „Über MapNotes“ angezeigt.
+
+• Unter „Über MapNotes“ findet sich nun auch der Punkt „Fehler“, in dem Informationen zum Melden von Fehlern erklärt werden.
+
+• Nordend und Scherbenwelt wurden mit NPC-Namen erweitert.
+
+• Die fehlenden NPC-Namen für die noch fehlenden Zonen werden in nächster Zeit ergänzt.
+
+• Ein paar kleine Anpassungen wurden ebenfalls vorgenommen.
+]],
+
+  enUS = [[
+• Older changelogs are now grouped together under "About MapNotes".
+
+• A new "Errors" section has been added under "About MapNotes", explaining how to report issues.
+
+• Northrend and Outland have been updated with additional NPC names.
+
+• Missing NPC names for remaining zones will be added soon.
+
+• Several minor adjustments have also been made.
+]],
+
+  frFR = [[
+• Les anciens journaux des modifications sont désormais regroupés sous « À propos de MapNotes ».
+
+• Une nouvelle section « Erreurs » a été ajoutée sous « À propos de MapNotes », expliquant comment signaler les problèmes.
+
+• Le Norfendre et l’Outreterre ont été enrichis de noms de PNJ supplémentaires.
+
+• Les noms de PNJ manquants pour les zones restantes seront ajoutés prochainement.
+
+• Quelques petits ajustements ont également été effectués.
+]],
+
+  itIT = [[
+• I vecchi registri delle modifiche sono ora raggruppati sotto "Informazioni su MapNotes".
+
+• È stata aggiunta una nuova sezione "Errori" sotto "Informazioni su MapNotes", che spiega come segnalare eventuali problemi.
+
+• Nordania e Terre Esterne sono state ampliate con nuovi nomi di PNG.
+
+• I nomi dei PNG mancanti per le restanti zone verranno aggiunti a breve.
+
+• Sono state inoltre apportate alcune piccole modifiche.
+]],
+
+  esES = [[
+• Los registros de cambios antiguos ahora se muestran agrupados en "Acerca de MapNotes".
+
+• Se ha añadido una nueva sección "Errores" en "Acerca de MapNotes", explicando cómo informar de problemas.
+
+• Rasganorte y Terrallende se han ampliado con nuevos nombres de PNJ.
+
+• Los nombres de PNJ que faltan para las zonas restantes se añadirán próximamente.
+
+• También se han realizado algunos pequeños ajustes.
+]],
+
+  esMX = [[
+• Los registros de cambios antiguos ahora se agrupan en "Acerca de MapNotes".
+
+• Se agregó una nueva sección "Errores" en "Acerca de MapNotes" con información sobre cómo reportar problemas.
+
+• Rasganorte y Terrallende fueron actualizados con nombres adicionales de PNJ.
+
+• Los nombres de PNJ faltantes para las zonas restantes se agregarán pronto.
+
+• También se realizaron algunos pequeños ajustes.
+]],
+
+  ptBR = [[
+• Os registros de alterações antigos agora são exibidos agrupados em "Sobre o MapNotes".
+
+• Foi adicionada uma nova seção "Erros" em "Sobre o MapNotes", explicando como relatar problemas.
+
+• Nortúndria e Terralém foram atualizadas com nomes adicionais de PNJs.
+
+• Os nomes de PNJs que faltam nas zonas restantes serão adicionados em breve.
+
+• Também foram feitas algumas pequenas melhorias.
+]],
+
+  ruRU = [[
+• Старые журналы изменений теперь объединены в разделе «О MapNotes».
+
+• В разделе «О MapNotes» появился новый пункт «Ошибки» с объяснением, как сообщать о проблемах.
+
+• Нордскол и Запределье дополнены именами НИПов.
+
+• Недостающие имена НИПов для оставшихся зон будут добавлены позже.
+
+• Также внесены некоторые небольшие исправления.
+]],
+
+  zhCN = [[
+• 旧的更新日志现在汇总显示在“关于 MapNotes”中。
+
+• 在“关于 MapNotes”中新增了“错误”部分，说明如何报告问题。
+
+• 诺森德和外域已补充更多 NPC 名称。
+
+• 其余区域缺少的 NPC 名称将于近期补充。
+
+• 同时进行了若干细微调整。
+]],
+
+  zhTW = [[
+• 舊的更新日誌現在會在「關於 MapNotes」中集中顯示。
+
+• 在「關於 MapNotes」中新增了「錯誤」區段，說明如何回報問題。
+
+• 諾森德與外域已新增更多 NPC 名稱。
+
+• 其餘區域缺少的 NPC 名稱將於近期補上。
+
+• 也進行了一些細部調整。
+]],
+
+  koKR = [[
+• 이전 변경 기록이 이제 "MapNotes 정보" 탭에서 함께 표시됩니다.
+
+• "MapNotes 정보"에 새로운 "오류" 항목이 추가되어 오류 신고 방법이 안내됩니다.
+
+• 노스렌드와 아웃랜드 지역의 NPC 이름이 추가되었습니다.
+
+• 나머지 지역의 누락된 NPC 이름은 곧 추가될 예정입니다.
+
+• 몇 가지 작은 수정 사항이 적용되었습니다.
+]],
+}
+
+ns.LOCALE_CHANGELOG_3_1_2 = {
   deDE = [[
 Hinweis:
 
@@ -259,7 +438,7 @@ Alterações:
 ]],
 }
 
-ns.LOCALE_CHANGELOG_OLD_1 = { -- 3.1.1
+ns.LOCALE_CHANGELOG_3_1_1 = {
   deDE = [[
 • Das Änderungsprotokoll wurde auf 3 „Changelogs“ erweitert, zu finden unter „About MapNotes“
 
@@ -278,7 +457,6 @@ ns.LOCALE_CHANGELOG_OLD_1 = { -- 3.1.1
   • MapNotes speichert für jeden eurer Charaktere die ursprünglich eingestellten Werte der Minikartensymbole von Blizzard, damit – wenn ihr die Optionen im Addon wieder deaktiviert – die ursprünglichen Einstellungen wie zuvor wiederhergestellt werden können
 
   • Änderungen werden sofort übernommen und treten in Kraft, werden im Blizzard-Minimap-Untermenü jedoch visuell noch falsch angezeigt, bis ihr einmal neu geladen (/reload) habt
-
 ]],
 
   enUS = [[
@@ -482,182 +660,10 @@ ns.LOCALE_CHANGELOG_OLD_1 = { -- 3.1.1
 ]],
 }
 
-ns.LOCALE_CHANGELOG_OLD_2 = { -- 3.1.0
-  deDE = [[
-• Umstellung von einigen externen Libs auf interne Logik
-
-• Zandalar- und Kul'Tiras-Symbole wurden mit NPC-Namen ergänzt
-
-• Instanzsymbole wurden auf allen Flugkarten hinzugefügt, von Vanilla bis TWW
-
-• Die Anzeige für Ruhmrüstmeister wurde aus der Symbolkategorie „PvE“ entfernt und hat nun eine eigene Option namens Ruhmrüstmeister
-  • Zu finden im Reiter „Capitals +“ und „Zone +“ unter Allgemeine Symbole
-  • Es wurde auch ein neues Symbol für die Ruhmrüstmeister erstellt
-]],
-
-  enUS = [[
-• Converted some external libs to internal logic
-
-• Zandalar and Kul'Tiras symbols now include NPC names
-
-• Instance symbols have been added to all flight maps, from Vanilla to TWW
-
-• Reputation Quartermasters have been removed from the "PvE" symbol category and now have their own option called Quartermasters
-  • Found in the "Capitals +" and "Zone +" tabs under General Symbols
-  • A new symbol has also been created for the Quartermasters
-]],
-
-  frFR = [[
-• Passage de certaines bibliothèques externes à une logique interne
-
-• Les symboles de Zandalar et de Kul'Tiras affichent désormais les noms des PNJ
-
-• Les symboles d’instance ont été ajoutés à toutes les cartes de vol, de Vanilla à TWW
-
-• Les intendants de réputation ont été retirés de la catégorie de symboles « JcE » et disposent maintenant de leur propre option appelée Intendants
-  • À trouver dans les onglets « Capitals + » et « Zone + » sous Symboles généraux
-  • Un nouveau symbole a également été créé pour les intendants
-]],
-
-  itIT = [[
-• Conversione di alcune librerie esterne in logica interna
-
-• I simboli di Zandalar e Kul'Tiras ora includono i nomi degli NPC
-
-• I simboli delle istanze sono stati aggiunti a tutte le mappe di volo, da Vanilla a TWW
-
-• I Quartiermastri della reputazione sono stati rimossi dalla categoria di simboli "PvE" e hanno ora una propria opzione chiamata Quartiermastri
-  • Si trovano nelle schede "Capitals +" e "Zone +" sotto Simboli generali
-  • È stato anche creato un nuovo simbolo per i Quartiermastri
-]],
-
-  esES = [[
-• Conversión de algunas librerías externas a lógica interna
-
-• Los símbolos de Zandalar y Kul'Tiras ahora incluyen nombres de PNJ
-
-• Se han añadido símbolos de mazmorras a todos los mapas de vuelo, desde Vanilla hasta TWW
-
-• Los intendentes de reputación se han eliminado de la categoría de símbolos «JcE» y ahora tienen su propia opción llamada Intendentes
-  • Se encuentran en las pestañas «Capitals +» y «Zone +» bajo Símbolos generales
-  • También se ha creado un nuevo símbolo para los Intendentes
-]],
-
-  esMX = [[
-• Conversión de algunas librerías externas a lógica interna
-
-• Los símbolos de Zandalar y Kul'Tiras ahora incluyen nombres de PNJ
-
-• Se han agregado símbolos de mazmorras a todos los mapas de vuelo, desde Vanilla hasta TWW
-
-• Los intendentes de reputación se han eliminado de la categoría de símbolos «JcE» y ahora tienen su propia opción llamada Intendentes
-  • Se encuentran en las pestañas «Capitals +» y «Zone +» bajo Símbolos generales
-  • También se creó un nuevo símbolo para los Intendentes
-]],
-
-  ptBR = [[
-• Conversão de algumas libs externas para lógica interna
-
-• Os símbolos de Zandalar e Kul'Tiras agora incluem nomes de NPCs
-
-• Símbolos de instâncias foram adicionados a todos os mapas de voo, de Vanilla até TWW
-
-• Os intendentes de reputação foram removidos da categoria de símbolos "PvE" e agora possuem sua própria opção chamada Intendentes
-  • Localizados nas abas "Capitals +" e "Zone +" em Símbolos gerais
-  • Um novo símbolo também foi criado para os Intendentes
-]],
-
-  ruRU = [[
-• Переход от некоторых внешних библиотек на внутреннюю логику
-
-• Символы Зандалара и Кул-Тираса теперь содержат имена НИПов
-
-• Символы подземелий добавлены на все карты полётов, от Vanilla до TWW
-
-• Торговцы за репутацию были убраны из категории символов «PvE» и теперь имеют отдельную опцию «Торговцы за репутацию»
-  • Находятся во вкладках «Capitals +» и «Zone +» в разделе Общие символы
-  • Также был создан новый символ для торговцев за репутацию
-]],
-
-  zhCN = [[
-• 部分外部库已转换为内部逻辑
-
-• 赞达拉和库尔提拉斯的符号现在包含 NPC 名称
-
-• 地图副本符号已添加到所有飞行地图，从经典旧世到 TWW
-
-• 声望军需官已从“PvE”符号类别中移除，现在有了单独的选项“军需官”
-  • 可在“Capitals +”和“Zone +”选项卡中的通用符号下找到
-  • 还为军需官创建了一个新的符号
-]],
-
-  zhTW = [[
-• 部分外部程式庫已轉換為內部邏輯
-
-• 贊達拉與庫爾提拉斯的符號現在包含 NPC 名稱
-
-• 副本符號已新增到所有飛行地圖，從經典舊世到 TWW
-
-• 聲望軍需官已從「PvE」符號類別中移除，現在有了單獨的選項「軍需官」
-  • 可在「Capitals +」和「Zone +」分頁中的一般符號下找到
-  • 同時也為軍需官建立了一個新的符號
-]],
-
-  koKR = [[
-• 일부 외부 라이브러리를 내부 로직으로 전환
-
-• 잔달라 및 쿨 티라스 심볼에 NPC 이름이 추가됨
-
-• 인스턴스 심볼이 바닐라부터 TWW까지 모든 비행 경로 지도에 추가됨
-
-• 평판 병참장교가 "PvE" 심볼 카테고리에서 제거되었으며 이제 "병참장교"라는 별도의 옵션이 있음
-  • "Capitals +" 및 "Zone +" 탭의 일반 심볼에서 찾을 수 있음
-  • 병참장교를 위한 새로운 심볼도 추가됨
-]],
-}
-
-ns.LOCALE_CHANGELOG_NEW_Empty = { -- empty file for new one
-  deDE = [[
-
-]],
-
-  enUS = [[
-
-]],
-
-  frFR = [[
-
-]],
-
-  itIT = [[
-
-]],
-
-  esES = [[
-
-]],
-
-  esMX = [[
-
-]],
-
-  ptBR = [[
-
-]],
-
-  ruRU = [[
-
-]],
-
-  zhCN = [[
-
-]],
-
-  zhTW = [[
-
-]],
-
-  koKR = [[
-
-]],
+ns.LOCALE_CHANGELOG_NEW = ns.LOCALE_CHANGELOG_3_1_3
+
+ns.LOCALE_OLDER_CHANGELOGS = {
+ -- { version = "3.1.3", table = ns.LOCALE_CHANGELOG_3_1_3 },
+  { version = "3.1.2", table = ns.LOCALE_CHANGELOG_3_1_2 },
+  { version = "3.1.1", table = ns.LOCALE_CHANGELOG_3_1_1 },
 }

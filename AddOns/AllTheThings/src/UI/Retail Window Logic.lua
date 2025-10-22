@@ -1522,12 +1522,14 @@ app.AddEventHandler("RowOnClick", function(self, button)
 				end
 			else
 				if self.index > 0 then
-					if reference.__dlo then
-						-- clone the underlying object of the DLO and create a popout of that instead of the DLO itself
-						app:CreateMiniListForGroup(reference.__o);
-						return;
+					if not reference.IgnorePopout then
+						if reference.__dlo then
+							-- clone the underlying object of the DLO and create a popout of that instead of the DLO itself
+							app:CreateMiniListForGroup(reference.__o);
+							return;
+						end
+						app:CreateMiniListForGroup(reference);
 					end
-					app:CreateMiniListForGroup(reference);
 				else
 					app.Settings:Open();
 				end

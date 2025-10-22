@@ -31,7 +31,6 @@ ClientInfo.FEATURES = EnumType.New("FEATURES", {
 	REGION_WIDE_TRADING = EnumType.NewValue(),
 	CRAFTING_ORDERS = EnumType.NewValue(),
 	CHARACTER_SPECIALIZATION = EnumType.NewValue(),
-	C_ITEM = EnumType.NewValue(),
 	WARBAND_BANK = EnumType.NewValue(),
 })
 local private = {
@@ -69,7 +68,6 @@ ClientInfo:OnModuleLoad(function()
 		[ClientInfo.FEATURES.REGION_WIDE_TRADING] = LibTSMWoW.IsRetail(),
 		[ClientInfo.FEATURES.CRAFTING_ORDERS] = LibTSMWoW.IsRetail(),
 		[ClientInfo.FEATURES.CHARACTER_SPECIALIZATION] = LibTSMWoW.IsRetail(),
-		[ClientInfo.FEATURES.C_ITEM] = LibTSMWoW.IsRetail(),
 		[ClientInfo.FEATURES.WARBAND_BANK] = LibTSMWoW.IsRetail(),
 	}
 end)

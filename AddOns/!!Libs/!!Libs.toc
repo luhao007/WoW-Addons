@@ -63,7 +63,6 @@ LibBabble\LibBabble-SubZone-3.0\lib.xml
 DRData-1.0\DRData-1.0.xml
 
 # Other Libs
-DF\load.xml
 Krowi_WorldMapButtons-1.4\Krowi_WorldMapButtons-1.4.xml
 LibAHTab\LibAHTab.xml
 LibAlts-1.0\lib.xml
@@ -72,6 +71,7 @@ LibClass-2.0\LibClass-2.0.xml
 LibCustomGlow-1.0\LibCustomGlow-1.0.xml
 LibDBIcon-1.0\lib.xml
 LibDDI-1.0\lib.xml
+LibDFramework-1.0\load.xml
 LibDialog-1.0\lib.xml
 LibDropDownMenu\LibDropDownMenu.xml
 LibDualSpec-1.0\LibDualSpec-1.0.lua

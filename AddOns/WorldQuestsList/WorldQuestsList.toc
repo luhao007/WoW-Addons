@@ -1,6 +1,6 @@
 ## Interface: 110205
 ## Author: ykiigor
-## Version: 117
+## Version: 118
 
 ## Title: World Quests List
 ## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r|cFFFFFFFF世界任务列表|r |cFFFFE00AWorldQuestsList|r

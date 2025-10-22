@@ -413,27 +413,28 @@ if PlayerGetTimerunningSeasonID and IsTimerunningActive then
 		if seasonID then return timerunningSeasons[seasonID]; end
 	end
 	local TimerunningEventIDs = {}
-	for i=1,#timerunningSeasons do
-		TimerunningEventIDs[timerunningSeasons[i]] = true
-	end
 	local TimerunningSeasonEventID
-	local GetRelativeRawWithField = app.GetRelativeRawWithField
 	local ThingKeys
 	local function OnlyTimerunning(group)
 		-- app.PrintDebug("F:TR",group.e,TimerunningSeasonEventID,group.__type,ThingKeys[group.key],group.e == TimerunningSeasonEventID)
 		if not ThingKeys[group.key] then return true end
-		return GetRelativeRawWithField(group, "e") == TimerunningSeasonEventID
+		-- don't filter any container groups in case they are NOT part of Timerunning but contain Timerunning Things
+		-- TODO: this isn't quite right still
+		if group.g then return true end
+		return group.e == TimerunningSeasonEventID
 	end
-	local function NotMoPRemixTimerunning(group)
-		-- app.PrintDebug("F:~TR",group.e,TimerunningSeasonEventID,group.__type,ThingKeys[group.key],not group.e or group.e ~= 437)
-		if not ThingKeys[group.key] then return true end
-		local e = GetRelativeRawWithField(group, "e")
+	local function NotTimerunning(group)
+		local e = group.e
+		-- app.PrintDebug("F:~TR",e,TimerunningSeasonEventID,group.__type,ThingKeys[group.key],not e or not TimerunningEventIDs[e])
 		return not e or not TimerunningEventIDs[e]
 	end
 
 	-- Add a Timerunning Filter that can be used for Live/Timerunning characters
 	-- The use of the respective filter would be enabled based on the setting
 	app.AddEventHandler("OnStartup", function()
+		for i=1,#timerunningSeasons do
+			TimerunningEventIDs[timerunningSeasons[i]] = true
+		end
 		ThingKeys = app.ThingKeys
 		local DefineFilter = app.Modules.Filter.DefineToggleFilter
 		TimerunningSeasonEventID = GetTimerunningSeason()
@@ -441,8 +442,8 @@ if PlayerGetTimerunningSeasonID and IsTimerunningActive then
 			-- app.PrintDebug("Added OnlyTimerunning filter")
 			DefineFilter("Timerunning", "A", OnlyTimerunning)
 		else
-			-- app.PrintDebug("Added NotMoPRemixTimerunning filter")
-			DefineFilter("Timerunning", "A", NotMoPRemixTimerunning)
+			-- app.PrintDebug("Added NotTimerunning filter")
+			DefineFilter("Timerunning", "A", NotTimerunning)
 		end
 	end)
 else

@@ -72,6 +72,7 @@ local L = {
     ["ScrappingUI.Neck"] = "목걸이 특성",
     ["ScrappingUI.Trinket"] = "장신구 특성",
     ["ScrappingUI.Finger"] = "반지 특성",
+    ["ScrappingUI.IgnoreFromEquipmentSets"] = "장비 세트의 아이템 무시",
 
     -- Utils/ArtifactTraitUtils.lua
     ["ArtifactTraitUtils.NoItemEquipped"] = "장착된 아이템이 없습니다.",
@@ -125,6 +126,8 @@ local L = {
     ["MerchantUtils.SettingsCategoryTooltip"] = "상점 기능 설정",
     ["MerchantUtils.HideCollectedMerchantItems"] = "수집된 상점 아이템 숨기기",
     ["MerchantUtils.HideCollectedMerchantItemsTooltip"] = "상점 창에서 이미 보유한 수집품 아이템을 숨깁니다.",
+    ["MerchantUtils.HideCollectedPetsAtLimit"] = "수집된 애완동물 숨기기 (제한 도달 시)",
+    ["MerchantUtils.HideCollectedPetsAtLimitTooltip"] = "애완동물이 수집 한도를 초과했을 때만 상점 창에서 숨깁니다.",
 
     -- Utils/QuestUtils.lua
     ["QuestUtils.SettingsCategoryPrefix"] = "자동 퀘스트",
@@ -137,8 +140,8 @@ local L = {
     ["QuestUtils.IgnoreEternusTooltip"] = "이터누스로부터 오는 퀘스트를 무시합니다.",
     ["QuestUtils.SuppressShift"] = "Shift로 비활성화",
     ["QuestUtils.SuppressShiftTooltip"] = "Shift를 누르고 있으면 자동 퀘스트 수락/완료를 비활성화합니다.",
-    ["QuestUtils.SuppressWorldTierIcon"] = "세계 티어 아이콘 숨기기",
-    ["QuestUtils.SuppressWorldTierIconTooltip"] = "미니맵 아래에 있는 세계 티어 아이콘을 숨깁니다.",
+    ["QuestUtils.SuppressWorldTierIcon"] = "세계 난이도 아이콘 숨기기",
+    ["QuestUtils.SuppressWorldTierIconTooltip"] = "미니맵 아래에 세계 난이도 아이콘을 숨깁니다.",
 
     -- Utils/QuickActionBarUtils.lua
     ["QuickActionBarUtils.SettingsCategoryPrefix"] = "빠른 실행바",

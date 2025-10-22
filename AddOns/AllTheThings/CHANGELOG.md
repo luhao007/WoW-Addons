@@ -1,189 +1,120 @@
 # AllTheThings
 
-## [4.7.2](https://github.com/ATTWoWAddon/AllTheThings/tree/4.7.2) (2025-10-15)
-[Full Changelog](https://github.com/ATTWoWAddon/AllTheThings/compare/4.7.1...4.7.2) [Previous Releases](https://github.com/ATTWoWAddon/AllTheThings/releases)
+## [4.7.3](https://github.com/ATTWoWAddon/AllTheThings/tree/4.7.3) (2025-10-19)
+[Full Changelog](https://github.com/ATTWoWAddon/AllTheThings/compare/4.7.2...4.7.3) [Previous Releases](https://github.com/ATTWoWAddon/AllTheThings/releases)
 
-- Legion: Source a few Quest Items  
-    - Remix: Infinite Bazaar should now show on mini list  
-- Update Mount/PetToyDB for 12.0.0.63854  
-- Update Mount/PetToyDB for 12.0.0.63728, 63854 pending wowhead intake, add Remix Shaman quest  
-- [DB] Adjusted some Assault on Dark Portal items/HQTs based on linked data  
-    [Parser] Fixed all coords being yeeted  
-    [Parser] Revised a bit more how data is linked to quests  
-- [Parser] Removed debug logging from structure replacements (it became way to spammy and pointless with the way it's multi-threaded now against multiple categories files)  
-    [Parser] Removed debug warning about duplicate Coords during merge  
-- MOP: Updated Sarkan's guids.  
-- Added one more mail Remix Emerald Nightmare item (should be Nighthold though).  
-- [Parser] Various fixes/improvements based on some ensemble/questID research  
-    * Removed warning about ensemble missing SpellID (this no longer directly dictates whether an ensemble is actually populated)  
-    * Adjusted logic concerning assignment of a questID provider and whether that questID can be assigned into the provider data if not already Sourced  
-    * SpellEffect of an Item which triggers a TransmogSet will now be assigned as the SpellID of that Item if not existing  
-    * Some fixes and additional type mappings for quest assignments from potential provider data  
-    * No longer adjusting providers of HQT and other 'irregular' Quest types (was weird seeing HQTs with Quest Items...)  
-- Fix some last minute errors  
-- Incorporate lower difficulty ensembles into Mythic Remix ensembles  
-- [Parser] 'extraTransmogSetItems' are now turned into nested Item Ensembles instead of Spell Ensembles (that way the ItemIDs are Sourced)  
-- Remove duplicate Haywire Servobot entry from PetDB  
-- [Parser] Fixed modID assignment to Ensemble Sources based on Wago data  
-- Add new 12 Month Sub mount  
-- [DB] Naxxramas: Typo  
-- moved dalaran zonerewards to infinite bazar quest rewards  
-- [DB] Prep Infinite Bazaar for nested Ensembles  
-- [Parser] Now supports the 'extraTransmogSetItems' which includes additional Ensemble Items inside another Ensemble (for situations where Blizzard makes multiple Ensembles, then removes some of them and makes the removed ones trigger from the remaining one)  
-- Fix some reported errors, move Remix Dalarn within the Broken Isles  
-- Update The Laboratory of Mardivas.lua (#2177)  
-    Zoomera need:  
-    Lesser Benthic Arcanocrystal : Strange Oceanic Sediment  
-    Greater Lithic Arcanocrystal : Strange Mineralized Water  
-    and not inverse  
-- [DB] Mists - Alchemy: fix Venerable Potion of Invisibility (original fixer never added the recipe lol)  
-- [DB] Fix a stoopid  
-- [DB] Mists - PvP: fix Malevolent Gladiator's Slasher and Hateful Gladiator's Staff  
-- [Parser] Reparsed for Git  
+- 2parse4me  
+- Artifact drops in Emerald Nightmare are LFR+  
+- [DB] Retail: Adjusted some winter veil achievements to automate properly  
+    [Parser] Better debug log for ignored CriteriaTree of an Achievement  
+- Remove zero-width space from translation (#2179)  
+    * Remove zero-width space from translation  
+    * Remove zero-width space: Remix: Legion.  
+    * Remove zero-width space: Winds of Mysterious Fortune.  
+    * Remove zero-width space: Warcraft Movie  
+    * Remove zero-width space: Nightfall.  
+    ---------  
+    Co-authored-by: Chun-Chi Hung <b10102229@gmail.com>  
 - [PAT] Updated source file format based on current standards.  
-- [Parser] Added Criteria Type 185 (Learn Toy) as an Item Provider  
-- [DB] MFO - Added Renown 11 quest  
-- [DB] Northern Barrens: Deckhand's Shirt clarification  
-- [DB] Cleaned up 'Get Hek'd' to not have Item's linked on Criteria which trigger from QuestID  
-- [Parser] Fixed an incorporation issue for Criteria where a spell would be directly assigned as a provider instead of added to \_spells (this allows for using a matching Item instead of Spell as provider)  
-    [Parser] ItemID merges now accept 'spellID'  
-    [DB] Fixed an unnecessary provider on 'Desert Rose' achievement  
-- [Parser] Reparsed for Git  
-- [DB] Cleaned up some PoA acheivements due to improved Criteria handling  
-- [DB] Cleaned up some Garrison achievements to current standards  
-- [Parser] Refactored more handling of Criteria cloning due to when in the Parse sequence it now takes place  
-    [Parser] Remove 'spell' providers if a 'npc' or 'item' provider also exists  
-- [DB] Crafted Items: Properly sourcing pre-MoP retail glyphs + misc  
-- [Parser] Fix bad comma in Maps constants  
-- [Parser] Incorporate\_DataCloning is now performed in parallel following the Incorporation stage  
-    * This fixes various data inaccuracies caused by previously running the logic prior to fully-incorporating data leading to cases where Criteria might persist an NPC provider while also getting Sourced under that NPC  
-- [Parser] PostProcess merge logic is now concurrent-safe and will be merged into Data using a consistent sort  
-- [DB] Mists - Celestial: somehow never added Scholomance to the Celestial map list oops  
-- [Parser] Added special key value combination for Criteria object type (combines CriteriaID/AchievementID to ensure a unique key for internal comparisons)  
-- [Parser] Added a shift extension to help with simple combining of multiple ID values to determine unique ID of a given Data  
-- [Parser] Added new Concurrent types to handle additional scenarios  
-    * ConcurrentDataList - designed to support a sortable set of Data objects  
-    * ConcurrentHashSet - designed to support typical HashSet implementation in a concurrent-safe context  
-- Alpha: build 63728 updates  
-    - added backlogged stuff from previous build Aratora quest chain and first part of Valeera quests  
-    - added dungeon npcIDs for bosses in Zul'Aman  
-    - Zul'Aman - main story quest chain  
-    - Zul'Aman - rares (all of them missing kill questIDs)  
-    - Zul'Aman - Flight Paths.  
-- [Parser] Added extensions of TryGetValue for Coords and Cost to simplify their use  
-    [Parser] Fixed 'single Object provider' warning when the Coords field has no actual data  
-    [Parser] Reparsed with latest Parser  
-- [Parser] Implemented use of the 'Coords' field type  
-    * 'coord'/'coords' now merge using Coords logic into a Coords type object on the data  
-    * coords validation now performed via Coords as an IProcessedField  
-    * coords export now performed as an IExportableField and includes sorting to ensure consistent export  
-    * Raw handling on 'coords' field converted to use Coords type  
-    [Parser] Simplified a bit of Cost merging  
-- [DB] Fixed a bad MapID using a header constant  
-- [Logic] Comment a debug print  
-- Legion Remix: Minor Bronze Caches can be bought from Pythagorus after obtaining the Cosmetic item(s)  
-- [Logic] Safely call tooltip:GetName() in case this is a situation where this can cause an access violation for the Client (I can't repro this with the same steps reported, so it's just a guess)  
-- Update Azsuna.lua  
-- [DB] Push all DB parses with newlines  
-- [Parser] Now defaulting to use newlines in [Git] pushes of Categories files (automated builds for Releases will continue to be compressed) [This should provide better diff insight of unexpected changes in Categories]  
-- Adjust Parser workflow to parse all versions and determine full success/failure as a final step prior to Artifact upload (#2175)  
-    * [Workflow] Test Parser workflow adjustments & forced error conditions for each Parse version  
-    * [Workflow] Fix echo command  
-    * [Workflow] Adjust final Parser check to look for failure  
-    * [Workflow] Trigger the workflow if the workflow itself is changed  
-    * [Workflow] Fixed final version check for powershell  
-    * [Workflow] Revert error globals to check full success  
-    * [Workflow] Wording adjusted  
-- [Misc] Typos/debug comments/unused table reference  
-- [Logic] Retail: Anything with a 'lockCriteria' will now show with the Breadcrumb color to help denote the nature of it possibly getting locked out  
-- [Logic] Fixed CharacterUnlocks with a QuestID cache mechanism using AccountWide Quests instead of AccountWide CharacterUnlocks to determine AccountWide collection  
-- [DB] Lots of small data fixes and structure revisions noticed during Parser debugging efforts  
-- [Parser] Fixed an issue with simplify structures logic  
-- [Parser] Rebuilt Parser with latest changes  
-- [Parser] Concurrency & cleanup revision (#2173)  
-    * [Parser] Added Validator function to validate a specific field value in regards to a reference data  
-    * [Parser] Added a Handler type to perform a sequence of Condition-based Actions against Data structures upon completion of a given ParseStage  
-    * [Parser] Added ItemID and CurrencyID validation for values in 'cost' fields  
-    [Parser] Added WARN log when a 'cost' currency is not Sourced (due to how ATT determines and propogates Cost, there needs to be a Sourced data for each Item/Currency which is used as a Cost, or it will not properly be updated)  
-    * [Parser] Added config setting 'UseExportNewlines' to let export of compressed categories use newlines between objects (should only be adjusted for debugging purposes)  
-    * [Parser] Properly track Sourced 'currencyID' groups  
-    * [Parser] Directly ignore 'g' and '\_\_parent' fields in MiniJSON-serialization of Dictionary types  
-    [Parser] Removed Dictionary serialization override to prevent stack overflows from certain keys  
-    * [Parser] Include Count when logging Orphaned Breadcrumb list  
-    * [Parser] QuestDB merging now utilizes the standard DB merge logic  
-    * Removed QUESTS container  
-    * Removed AllQuests container  
-    * No longer merging DB quest data into objects during Validation step  
-    * Quest DB now respects the MERGE\_OBJECT\_FIELDS allowed fields for merging into Objects  
-    * [Parser] Omit '\_\_parent' field from ItemDB merging  
-    * [Parser] Omit '\_\_parent' field from general Object merging  
-    * [Parser] Fixed SOURCED lookups failing to find existing Sourced data when using id values with a non-long Type  
-    * [Parser] Object merging now handles Concurrency  
-    [Parser] Shared object merging into objects now respects MERGE\_OBJECT\_FIELDS (since DB merges add all DB fields prior to MERGE\_OBJECT\_FIELDS existence, it needs to verify on merge-into step)  
-    [Parser] Shared object merging now uses proper Merge function instead of direct assignment (a bit slower, but also safer and accurate to our data handling expectations when we merge single values into an array field from different places)  
-    * [Parser] Exporting Category data is now sequential when Debugging (remains in parallel when run parser normally)  
-    * [Parser] More concurrency updates for existing storage  
-    * [Parser] Implementation and refactor of various parsing steps to utilize Handlers instead  
-    * CurrentParseStageHandler now updated to the Handler for the CurrentParseStage  
-    * Renamed some methods to better reflect their use and purpose in the parsing sequence  
-    * Added implementation for utilizing Handlers within the parsing sequence  
-    * Migrated many pieces of functionality and processing into Handler Actions for parallel processing  
-    * Added a couple lines of logging output to capture Handler-based Actions processing  
-    * Removed ParseStages: PostProcessing, Cleanup (no longer required due to Handler use)  
-    * Added tracking of '\_\_parent' data for each data by default  
-    * Track usage logic is now processed in parallel  
-    * [Parser] Remove 'nextQuests' from non-breadcrumbs  
-    * [Parser] Allow 'OnTooltip' DB merging for Items  
-    * [Parser] Block DB merging for Objectives and Criteria (prevents cross-contamination due to shared key fields with their parent groups)  
-    * [Parser] Source data after Validation phase so that Validation Handlers can accurately determine Sourced content at that stage  
-    * [Parser] Use proper Merge function for merging DB data into DB store (this ensures proper field naming and formatting in DB stores)  
-    * [Parser] Added more Merge fields for questID  
-    * [Parser] Retail: Revised how objective data is migrated to the parent quest utilizing [crs/qis/providers/g] to properly associate the data based on various conditions  
-    * [Parser] Prevent Criteria merging under other Things from forcing those Things obtainable via the \_u assignment from timeline checks  
-    * [Parser] Non-Sourced 'cost-currency' switched to a debug warning for now until they are fixed  
-    * [Parser] Merged 'g' content now re-applies the inherited fields logic to the merged content to ensure the timeline of the merged data is inherited if not otherwise defined  
-    * [Parser] Prevent 'g' from merging into DB from Objects even when allowed in MERGE\_OBJECT\_FIELDS for DB to Object merging  
-    * [Parser] Adjusted when data is added to Handlers due to stage-based removal of data needing to skip handling (initial implementation required handling of removed data, but this has changed and is no longer necessary)  
-    * [Parser] Fix merge from DB replacing existing non-array fields with a different value (array-based fields will still merge incoming DB data)  
-    * [Parser] Fixed the Validate\_headerID method name & location  
-    * [Parser] Comments & unnecessary code  
-    * [Parser] Handlers are now safe to use in a concurrent context  
-    * [Parser] Handlers storage is now safe for Concurrent use  
-    * [Contributor] Add a space in PlayerLocation of reports for the 'Diff' value  
-    * [Parser] Cloned data is now checked if it will directly go into a Sourced data and thereby skips some residual checking if so  
-    * [Parser] AssignFilterID now performed in one confined Action  
-    * [Parser] Merge logic slightly improved by only initially attempting fields which are actually assigned in MERGE\_OBJECT\_FIELDS  
-    * [Parser] Migrated a few missing Item merge fields to MERGE\_OBJECT\_FIELDS to ensure proper Filter assignment afterward (eventually all merge handling will be consistent via this mechanism instead of partially hard-coded for Items specifically making everything complicated)  
-    * [Parser] Retail: Adjusted handling of Objective Provider Items so we don't currently end up with Quest Items as Providers outside of the Quest being active  
-    * [Parser] Include 'ignoreBonus' as an itemID merged field  
-    [Parser] Moved handling of 'ignoreBonus' to Consolidate step since it relies on DB merge for accuracy  
-    [Parser] Fixed FilterID assignment in Ensemble-Sourced Items  
-    * [Parser] Fixed merging conditional item data for ensemble contents  
-    * [Parser] Retail: Quest Objective NPCs become Sourced under their Quest will no longer act as a Source for other data cloning  
-    * [Parser] Temporarily removed Encounters being treated as Sources for their corresponding 'crs' due to overzealous merging without respect to difficulty in some cases  
-    * [Parser] Prioritize recipeID > mountID > spellID Sources for Criteria  
-    * Rebuilt parser, just to fix the build action  
-    * [Parser] Removed the 'STRUCTURE\_REPLACEMENTS' comment from categories files  
-    * [Parser] Include 'minReputation' for Item merges  
+- Sorted all unknown sourceIDs from TWW.  
+- [Misc.] Remove zero-width space.  
+- [Misc.] Update GlobalStrings.  
+- [Misc.] Remove zero-width space.  
+- [DB] Added extra drop in AK  
+- [Parser] Adjusted SpellEffect regex to retain the trigger spell 64 type  
+    [Parser] Parser now follows spell triggers to obtain further incorporation data  
+    [Parser] Refactored some questID incorporation to better-determine questIDs in various situations  
+    [Parser] Debug: Added RETAIL\_STYLE\_FILL\_ENABLED pre-processor tag  
+    [DB] Removed unnecessary symlink from 'Letter of Note, Premier Party Planner' now that questID handling takes care of the same data association  
+- [Parser] Added 'customCollect' to sorted fields  
+    [Parser] Now properly sorts fields which consist of strings  
+- [Parser] Fixed a few fields potentially remaining in Export for certain object Types  
+- [DB] Symlink a once-per-account Valdrakken quest with partially-rewarded content  
+- Removed some newly sorted Remix raid items from unsorted.  
+- Added all Antorus Remix items.  
+- [Logic] Retail: Removed some logic which has been hiding Achievement Criteria under Achievement tooltips since 2020 [Think it's better to show the info since it's more accurate than Blizzard Achievement Criteria list baked into Achievement tooltips]  
+- [DB] Mists - Celestial: fix Jade Crane Chick pet from Celestial bags  
+- bringing order to the isles not ingame  
+- Added all Tomb of Sargeras Remix items.  
+- Removed unconfirmed Remix zone drop items (they will be mapped into Ensembles automatically for now).  
+- [Logic] Retail: Fixed right-click functionality on the 'Source(s)' header of a popout while still preventing popout of the group  
+- Merge branch 'master' of https://github.com/ATTWoWAddon/AllTheThings  
+- [Parser] Coord shift is now performed as a conditional Action on the Consolidate stage Handler & ignores shifting data with the '\_nocoordshift' tag  
+- more clarification/cleanup for hallows end stuff, including future proofing some description. hqt doesnt seem to exist.  
+- ghoulish set is limited per character, not acc  
+- [Parser] Added a SORTABLE\_FIELDS definition and refactored how field sorting is done in parser so that sorted fields can be adjusted without a rebuild (also removed 'difficulties' since some in-game logic relies on that being a specific order currently)  
+- following event layout for the special 1 per day items from brew fest  
+- Cleared some Remix unsorted items and did revision to outdoor gear (cloaks are next on radar).  
+- Fix some reported errors  
+- Mists: do a little parse  
+- Mists: harvest Wago db  
+- [DB] Mists - Hallow's End: add ilvl 489 Hallow's End loot  
+- "Hack" fix to unbreak the parser as per @AlexSoft1911 instructions  
+- Added all dungeon drops for Remix.  
+- Hallow's End: "Patched Harvest Golem" Ensemble no longer drops from the Dungeon Chest  
+    It has been added to the "Candy and Toy" vendors for sale. New "Horseman's Ghoulish" set has been added in adec759b713bee0187d1feeb458b32376efc0279  
+- [DB] Classic - Jewelcrafting: fix Prospecting spell ID header for some crafted items  
+- [DB] Mists - Celestial: add Celestial vendors to general Shrine zone maps for visibility  
+- Alpha: mapIDs a bit and sneaky quest  
+- Added all Nighthold Remix items.  
+- [PAT] Updated source file format based on current standards.  
+- Simplified symlink.  
+- [TOC] Update for 1.15.8 ptr.  
+- [Logic] Update MoP Classic phase.  
+- [TOC] Update for 5.5.2 ptr.  
+- [Parser] Fixed an issue where coords on Achievements in Ringing Deeps were being double-shifted  
+    [DB] Couple errors & Ringing Deeps Achievement infos  
+- [DB] 2 Vignettes for Tide Behemoth  
+    [Logic] Retail: Ignore an empty displayID  
+- [DB] Convert all manual partial\_achievement sym into achpart shortcuts  
+- [Parser] Added a 'achpart' shortcut to help make it cleaner to define partial achievements in ATT  
+    [DB] Use achpart in a couple new places [WIP]  
+- Fixed symlinks for 'Mote of a Broken Time'.  
+- Update some Hallow's End rewards  
 - Fix some reported quest and object errors  
-- [DB] Mists - Celestial: Gao-Rei, Staff of the Legendary Protector drops off High Inquisitor Whitemane  
-- [DB] Mists - Celestial: Jin'ya, Orb of the Waterspeaker drops off Darkmaster Gandling  
-- [Locale] Update zhCN/zhTW: Midnight.  
-- [DB] Mists - Celestial: Shin'ka, Execution of Dominion drops off Taran Zhu's chest  
-- Comment out Invasion Points in InstanceDB.lua  
-    They have the same mapID as The Emerald Nightmare raid, because of this EN lockouts display in the Invasion Points header  
-    Tracking of Invasion Points should still work through bosses questIDs  
-- Remix Trial of Valor items are not in Mote of a Broken Time currently.  
-- Unbrick Parser  
+- Moved 'Greyed Dragonscale Coif' in Remix to NYI.  
+- Fixed Trial of Valor Remix special items.  
+- [Parser] Added a QuestID-keyed Wago lookup for SpellEffects/Criteria to drastically-improve some portions of parser processing  
 - [PAT] Updated source file format based on current standards.  
-- Update Contributor.lua  
-- Forgot that Remix Emerald Nightmare LFR is in NYI.  
-- Added last item for Remix Emerald Nightmare raid.  
-- [DB] Vanilla edible mushrooms + drinks  
-- [DB] Fixing parser error.  
-- Legion: Minor stuff encountered during a play session  
-- [DB] Wards of the Dread Citadel headers with guide  
-- Sort some remix raid items, fix some tabs  
-- [DB] Legion: Half Eaten Candy Bar  
-- [DB]: Moving questline ends to The Wandering Isle  
-- Fix a few more reported errors  
+- Add the other 12 month sub mount everyone forgot about  
+- [DB] Eastern Plaguelands: Sorting more consumable rewards  
+- [Parser] Parsed for Git  
+- [Parser] Simplified check for compressable structures during export  
+    [Parser] Improved performance & consistency for structure replacements during export (repeated parses appear build identical categories now)  
+- [Parser] Remove parallel replacement handling when debugging so it's easier to debug  
+- [Wago] Adjusted SpellEffect regex to retain apply aura spell effects with a triggered spell (we can use this to find spells which trigger other spells which do something we can use)  
+    [Parser] Adjusted SpellEffect incorporation to additionally handle SpellEffect chaining via apply aura (this is not common, but it does apply questID automatically for some Items)  
+- Legion: Source a few Quest Items  
+- [Logic] Retail: Cleaned up IsSpellKnownByQuestComplete by using a metatable instead (this makes it cleaner/faster/easier to add more overrides in the future as needed)  
+- Fix some reported errors, fixes #2178  
+- [DB] Eastern Plaguelands: Sorting Sweet Tea  
+- [Logic] Added Spell learned override for Feldruid's Scornwing Idol  
+- Housing Decor: Update some placeholders with newly datamined items  
+- Revert "[PAT] Updated source file format based on current standards."  
+- [Logic] Retail: Revised Timerunning Filtering a bit  
+    * Non-Timerunning filtering should now be accurate in hiding Timerunning content  
+    * Timerunning filtering should now always show Timerunning content, even when nested inside of non-Timerunning content (However, some non-Timerunning content is now visible as a side-effect... will attempt to refine this further in the near future)  
+- [Parser] Added a 'repeatable' assignment on HQTs based on a SpellEffect using CLEAR\_QUEST (139)  
+    * Can be prevented by adding \_norepeatable if needed  
+    [Parser] Removed debug log of different object merge values (pretty spammy and not useful currently)  
+    [Parser] Updated Wago data & adjusted SpellEffect Regex to retain Effect type 139  
+    [DB] Marked various HQTs as no-repeatable based on personal confirmation  
+    [DB] Added missing map for Infinite Bazaar  
+    [DB] Removed 'isDaily' from some quest-based content (all of which has remained saved for quite a long while on my Main -- curious if anyone will complain these pop up for them)  
+    [Parser] Reparsed for Git  
+- [PAT] Updated source file format based on current standards.  
+- [Parser] Removed a 'cost' - 'provider' consolidation on Cost types on Achievements/Criteria  
+    [Parser] Parsed for Git  
+- [Parser] Re-added sorting to some fields which contain only 'long' values to help ensure consistent exports  
+- [Parser] Using ConcurrentDataList in a few more places where content is merged under other objects in an arbitrary manner to ensure consistent ordering  
+- [DB] Fixed some Dream Wardens HQT  
+- [Parser] cl() constructor doesn't need to include 'c' field since it's class-filtered by default  
+- [DB] Removed some HQTs which can now be linked on their respective Items instead  
+- [Parser] Added a debug warning to potentially remove certain HQTs which are linked by a single non-Quest Item such that the Item can simply hold the Quest directly  
+- Commit a release parse for git users  
+- [Parser] Adjustments to ID referencing  
+    * ID referencing is now done at the end of the Consolidation phase (prior to this it's possible for groups to be missing referenced ID fields)  
+    * IsItemReferenced now throws an exception if used prior to the Consolidation phase being complete  
+    * Fixed some checks against the referenced ID's to be checks against Sourced groups  
+    * Combined handling for referenced IDs & added 'qis' as referenced Items  
+    * Uncollectibles are now handled at the start of the Unsorted stage instead of after Validation stage to ensure all referenced Items are accounted for  

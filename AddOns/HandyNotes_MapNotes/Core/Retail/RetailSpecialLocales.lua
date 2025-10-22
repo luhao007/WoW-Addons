@@ -127,6 +127,218 @@ ns.LOCALE_SUPPRESS_ERRORS_NAME = { -- RetailOptions.lua
   zhTW = "抑制錯誤",
 }
 
+ns.LOCALE_ERRORS_CURSEFORGE = { -- RetailOptions.lua
+  deDE = [[
+
+Falls ihr irgendwelche Fehler findet, die von MapNotes ausgehen, und ihr sie auf „www.Curseforge.com/wow/addons/mapnotes“ meldet, dann füllt ein Fehlerprotokoll aus, damit man an diesen Fehler gezielt und auch schnell arbeiten kann.
+
+
+Eine allgemeine Nachricht im Chat innerhalb der Kommentarsektion ist dazu selten wirklich hilfreich.
+
+
+Dieses Fehlerprotokoll wird automatisch erstellt, wenn ihr unter „www.Curseforge.com/wow/addons/mapnotes“ auf „Probleme“ klickt und ein neues Problem eröffnet (www.Curseforge.com/wow/addons/mapnotes/issues/create).
+
+
+Da die Fehlersuche ohne wirkliche Hinweise oder zusätzliche Informationen der Spieler für den Addon-Entwickler oft sehr langwierig und komplex sein kann, ist jede zusätzliche Information immer hilfreich, um Fehler schnell zu finden und zu beheben.
+  
+
+  Vielen lieben Dank
+
+
+                    BadBoyBarny
+]],
+
+  enUS = [[
+If you find any errors originating from MapNotes, and you report them on “www.Curseforge.com/wow/addons/mapnotes”, please fill out a bug report so that the error can be addressed in a targeted and speedy manner.
+
+
+A general message in chat within the comment section is rarely truly helpful.
+
+
+This bug report is created automatically when you click “Issues” under “www.Curseforge.com/wow/addons/mapnotes” and open a new issue (www.Curseforge.com/wow/addons/mapnotes/issues/create).
+
+
+Since debugging without real hints or additional information from the players can often be very time-consuming and complex for the addon developer, any extra information is always helpful in identifying and fixing bugs quickly.
+
+
+  Many thanks
+
+
+                    BadBoyBarny
+]],
+
+  frFR = [[
+Si vous trouvez des erreurs provenant de MapNotes et que vous les signalez sur « www.Curseforge.com/wow/addons/mapnotes », merci de remplir un rapport de bug afin que l’erreur puisse être traitée de façon ciblée et rapide.
+
+
+Un message général dans le chat, dans la section des commentaires, est rarement vraiment utile.
+
+
+Ce rapport de bug est créé automatiquement lorsque vous cliquez sur « Issues » sous « www.Curseforge.com/wow/addons/mapnotes » et ouvrez un nouvel incident (www.Curseforge.com/wow/addons/mapnotes/issues/create).
+
+
+Étant donné que le débogage sans véritables indices ou informations supplémentaires des joueurs peut être très long et complexe pour le développeur de l’addon, toute information supplémentaire est toujours utile pour identifier et corriger les bogues rapidement.
+
+
+  Un grand merci
+
+
+                    BadBoyBarny
+]],
+
+  itIT = [[
+Se trovate degli errori che provengono da MapNotes e li segnalate su “www.Curseforge.com/wow/addons/mapnotes”, compilate un report di bug in modo che l’errore possa essere affrontato in modo mirato e rapido.
+
+
+Un messaggio generico nella chat, nella sezione dei commenti, è raramente veramente utile.
+
+
+Questo report di bug viene creato automaticamente quando cliccate su “Issues” sotto “www.Curseforge.com/wow/addons/mapnotes” e aprite una nuova segnalazione (www.Curseforge.com/wow/addons/mapnotes/issues/create).
+
+
+Poiché il debug senza veri indizi o informazioni aggiuntive dai giocatori può essere spesso molto lungo e complesso per lo sviluppatore dell’addon, qualsiasi informazione aggiuntiva è sempre utile per identificare e correggere i bug rapidamente.
+
+
+  Molte grazie
+
+
+                    BadBoyBarny
+]],
+
+  esES = [[
+Si encuentran errores que provienen de MapNotes y los informan en “www.Curseforge.com/wow/addons/mapnotes”, por favor completen un informe de error para que el fallo pueda ser tratado de manera focalizada y rápida.
+
+
+Un mensaje general en el chat dentro de la sección de comentarios rara vez es realmente útil.
+
+
+Este informe de error se crea automáticamente cuando hacen clic en “Issues” bajo “www.Curseforge.com/wow/addons/mapnotes” y abren un nuevo problema (www.Curseforge.com/wow/addons/mapnotes/issues/create).
+
+
+Dado que la depuración sin pistas reales o información adicional de los jugadores puede ser muy prolongada y compleja para el desarrollador del addon, cualquier información adicional siempre es útil para identificar y corregir errores rápidamente.
+  
+
+  Muchas gracias
+
+
+                    BadBoyBarny
+]],
+
+  esMX = [[
+Si encuentran errores que provienen de MapNotes y los reportan en “www.Curseforge.com/wow/addons/mapnotes”, por favor llenen un reporte de error para que el fallo pueda ser atendido de manera puntual y rápida.
+
+
+Un mensaje general en el chat dentro de la sección de comentarios rara vez resulta realmente útil.
+
+
+Este reporte de error se genera automáticamente cuando hacen clic en “Issues” bajo “www.Curseforge.com/wow/addons/mapnotes” y abren un nuevo problema (www.Curseforge.com/wow/addons/mapnotes/issues/create).
+
+
+Dado que la depuración sin pistas reales o información adicional de los jugadores puede resultar muy larga y compleja para el desarrollador del addon, cualquier información adicional siempre es útil para identificar y corregir los errores rápidamente.
+  
+
+  Muchas gracias
+
+
+                    BadBoyBarny
+]],
+
+  ptBR = [[
+Se você encontrar qualquer erro proveniente do MapNotes e relatá-lo em “www.Curseforge.com/wow/addons/mapnotes”, por favor preencha um relatório de bug para que o erro possa ser tratado de forma direcionada e rápida.
+
+
+Uma mensagem geral no chat, dentro da seção de comentários, raramente é realmente útil.
+
+
+Este relatório de bug é criado automaticamente quando você clica em “Issues” sob “www.Curseforge.com/wow/addons/mapnotes” e abre um novo problema (www.Curseforge.com/wow/addons/mapnotes/issues/create).
+
+
+Como depurar sem pistas reais ou informações adicionais dos jogadores pode ser muitas vezes muito demorado e complexo para o desenvolvedor do addon, qualquer informação extra é sempre útil para identificar e corrigir bugs rapidamente.
+
+
+  Muito obrigado
+
+
+                    BadBoyBarny
+]],
+
+  ruRU = [[
+Если вы обнаружите какие-либо ошибки, исходящие из MapNotes, и сообщите о них на «www.Curseforge.com/wow/addons/mapnotes», пожалуйста, заполните отчёт об ошибке, чтобы её можно было исправить целенаправленно и оперативно.
+
+
+Общий комментарий в чате в разделе комментариев редко бывает действительно полезен.
+
+
+Этот отчёт об ошибке создаётся автоматически, когда вы нажимаете «Issues» на «www.Curseforge.com/wow/addons/mapnotes» и открываете новую задачу (www.Curseforge.com/wow/addons/mapnotes/issues/create).
+
+
+Поскольку отладка без реальных подсказок или дополнительной информации от игроков часто оказывается очень трудоёмкой и сложной для разработчика аддона, любая дополнительная информация всегда полезна для быстрого обнаружения и исправления ошибок.
+  
+
+  Большое спасибо
+
+
+                    BadBoyBarny
+]],
+
+  zhCN = [[
+如果你发现任何源自 MapNotes 的错误，并在 “www.Curseforge.com/wow/addons/mapnotes” 上报告，请填写错误报告，以便该错误能够被有针对性和快速地处理。
+
+
+在评论区的聊天中发布一条通用消息很少真正有帮助。
+
+
+当你在 “www.Curseforge.com/wow/addons/mapnotes” 下点击“问题”（Issues）并创建一个新问题 (www.Curseforge.com/wow/addons/mapnotes/issues/create) 时，将自动生成此错误报告。
+
+
+由于没有真实提示或玩家提供的额外信息时调试通常对插件开发者而言非常耗时且复杂，任何额外信息始终有助于快速识别和修复错误。
+
+
+  万分感谢
+
+
+                    BadBoyBarny
+]],
+
+  zhTW = [[
+如果你發現任何來自 MapNotes 的錯誤，並在 “www.Curseforge.com/wow/addons/mapnotes” 上回報，請填寫錯誤報告，以便錯誤能被有針對性且快速地處理。
+
+
+在評論區聊天中發送一條通用訊息很少真正有用。
+
+
+當你在 “www.Curseforge.com/wow/addons/mapnotes” 下點擊 “Issues”（問題）並創建新問題 (www.Curseforge.com/wow/addons/mapnotes/issues/create) 時，會自動生成此錯誤報告。
+
+
+由於在沒有實際提示或玩家提供額外資訊時進行除錯，對插件開發者而言通常非常耗時且複雜，任何額外資訊始終有助於快速識別並修復錯誤。
+
+
+  非常感謝
+
+
+                    BadBoyBarny
+]],
+
+  koKR = [[
+MapNotes에서 발생하는 오류를 발견하여 “www.Curseforge.com/wow/addons/mapnotes” 에 보고할 경우, 오류를 보다 정확하고 신속하게 처리할 수 있도록 버그 리포트를 작성해 주세요.
+
+
+댓글 섹션 내 채팅에 일반적인 메시지를 남기는 것은 거의 도움이 되지 않습니다.
+
+
+이 버그 리포트는 “www.Curseforge.com/wow/addons/mapnotes” 아래의 “Issues” 항목을 클릭하고 새 문제를 열면 자동으로 생성됩니다 (www.Curseforge.com/wow/addons/mapnotes/issues/create).
+
+
+플레이어로부터의 실질적인 단서나 추가 정보 없이 디버깅하는 것은 애드온 개발자에게 매우 시간 소모적이고 복잡할 수 있으므로, 추가 정보는 항상 오류를 신속하게 파악하고 수정하는 데 유용합니다.
+
+
+  진심으로 감사드립니다
+
+
+                    BadBoyBarny
+]],
+}
+
 ns.LOCALE_COMBAT_LOCKED = { -- RetailErrorMessage.lua
   enUS = "> Map switching is blocked during combat ! <",
   deDE = "> Kartenwechsel im Kampf blockiert ! <",

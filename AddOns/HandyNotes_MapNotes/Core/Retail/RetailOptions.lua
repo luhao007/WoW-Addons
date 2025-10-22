@@ -5746,7 +5746,7 @@ ns.options = {
                 showZoneRenownQuartermaster = {
                   disabled = function() return ns.Addon.db.profile.activate.HideMapNote or not ns.Addon.db.profile.activate.ZoneMap or not ns.Addon.db.profile.activate.ZoneGeneral end,
                   type = "toggle",
-                  name = TextIconRenownQuartermaster:GetIconString(),
+                  name = TextIconRenownQuartermaster:GetIconString() .. " " .. TextIconRenownQuartermasterH:GetIconString() .. " " .. TextIconRenownQuartermasterA:GetIconString(),
                   desc = ns.RenownQuartermaster .. "\n" .. MERCHANT,
                   width = 0.50,
                   order = 8.1,
@@ -7733,7 +7733,7 @@ ns.options = {
                 showMiniMapRenownQuartermaster = {
                   disabled = function() return ns.Addon.db.profile.activate.HideMapNote or not ns.Addon.db.profile.activate.MiniMap or not ns.Addon.db.profile.activate.MiniMapGeneral end,
                   type = "toggle",
-                  name = TextIconRenownQuartermaster:GetIconString(),
+                  name = TextIconRenownQuartermaster:GetIconString() .. " " .. TextIconRenownQuartermasterH:GetIconString() .. " " .. TextIconRenownQuartermasterA:GetIconString(),
                   desc = ns.RenownQuartermaster .. "\n" .. MERCHANT,
                   width = 0.50,
                   order = 8.1,
@@ -8271,7 +8271,7 @@ ns.options = {
         showContinentPvPandPvEVendor = {
           disabled = function() return ns.Addon.db.profile.activate.HideMapNote or not ns.Addon.db.profile.activate.Continent end,
           type = "toggle",
-          name = TextIconPvPVendor:GetIconString() .. " " .. TextIconPvEVendor:GetIconString() .. " " .. TRANSMOG_SET_PVP .. " & " .. TRANSMOG_SET_PVE,
+          name = TextIconPvPVendor:GetIconString() .. " " .. TextIconPvEVendor:GetIconString() .. " " .. TextIconRenownQuartermaster:GetIconString() .. " " .. TRANSMOG_SET_PVP .. " & " .. TRANSMOG_SET_PVE,
           desc = TRANSMOG_SET_PVP .. "\n" .. WORLD_QUEST_REWARD_FILTERS_EQUIPMENT .. " / " .. AUCTION_CREATOR .. " / " .. MERCHANT .."\n\n" .. FACTION_NEUTRAL .. "\n" .. " " .. POSTMASTER_LETTER_TANARIS .. "\n" .. " " ..  POSTMASTER_LETTER_AREA52 .. "\n" .. " " ..  ns.Dalaran .. "\n" .. " " ..  ns.Oribos .. "\n\n" .. FACTION_HORDE .. "\n" .. " " .. L["Kun-Lai Summit"] .. "\n" .. " " .. ns.Orgrimmar .. "\n" .. " " .. ns.Warspear .. "\n" .. " " .. L["Zuldazar"] .. "\n\n" .. FACTION_ALLIANCE .. "\n" .. " " .. ns.Stormwind .. "\n" .. " " .. L["Valley of the Four Winds"] .. "\n" .. " " .. ns.Stormshield .. "\n" .. " " .. L["Boralus, Tiragarde Sound"] .."\n\n" .. TRANSMOG_SET_PVE .. "\n" .. WORLD_QUEST_REWARD_FILTERS_EQUIPMENT .. " / " .. AUCTION_CREATOR .. " / " .. MERCHANT .. "\n\n" ..FACTION_HORDE .. "\n" .. " " .. ns.Orgrimmar .. "\n" .. " " .. ns.Undercity .. "\n" .. " " .. ns.Shrine2Moons .. "\n\n" .. FACTION_NEUTRAL .. "\n" .. " " .. ns.Dalaran .. "\n" .. " " .. L["Icecrown"] .. "\n" .. " " .. L["Townlong Steppes"] .. "\n" .. " " .. ns.Oribos .. "\n\n" .. FACTION_ALLIANCE .. "\n" .. " " .. ns.Stormwind .. "\n" .. " " .. ns.Ironforge .. "\n" .. " " .. ns.Shrine7Stars,
           order = 33.1,
           width = 1.20,
@@ -9296,25 +9296,33 @@ ns.options = {
               },
             MNChangeLogOld_1 = {
               type = "execute",
-              name = GAME_VERSION_LABEL .. " " .. ns.PreviousAddonVersion_1,
+              name = PREVIOUS .. " " .. GAME_VERSION_LABEL,
               desc = L["Show MapNotes Changelog again"],
               width = 0.85,
               order = 1.3,
               func = function(info, v) self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
-                ns.ShowMenuChangelogWindowOld_1() 
+                ns.ShowMenuChangelogWindowOld() 
                 LibStub("AceConfigDialog-3.0"):Close("MapNotes")
                 end,
               },
-            MNChangeLogOld_2 = {
-              type = "execute",
-              name = GAME_VERSION_LABEL .. " " .. ns.PreviousAddonVersion_2,
-              desc = L["Show MapNotes Changelog again"],
-              width = 0.85,
-              order = 1.4,
-              func = function(info, v) self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
-                ns.ShowMenuChangelogWindowOld_2() 
-                LibStub("AceConfigDialog-3.0"):Close("MapNotes")
-                end,
+            },
+          }, 
+        Error = {
+          type = "group",
+          name = ERRORS,
+          desc = "",
+          order = 2,
+          args = {
+            ErrorTextheader = {
+              type = "header",
+              name = ERRORS,
+              width = 1,
+              order = 1.0,
+              },
+            ErrorText = {
+              type = "description",
+              name = "|cffffd700" .. (ns.LOCALE_USE_IN_COMBAT_NAME and (ns.LOCALE_ERRORS_CURSEFORGE[ns.locale] or ns.LOCALE_ERRORS_CURSEFORGE.enUS)),
+              order = 1.1,
               },
             },
           }, 
@@ -9322,18 +9330,18 @@ ns.options = {
           type = "group",
           name = PING_TYPE_ASSIST,
           desc = "",
-          order = 2,
+          order = 3,
           args = {
             SupportTextheader = {
               type = "header",
               name = PING_TYPE_ASSIST,
               width = 1,
-              order = 9.0,
+              order = 1.0,
               },
             SupportText = {
               type = "description",
               name = "|cffffd700" .. L["If you like this addon, feel free to support me via Paypal, Patreon or Ko-fi"] .. "\n\n" .. L["You can find the relevant links on:"] .. "\n\n" .. "Ko-Fi:" .. "\n" .. "• https://ko-fi.com/badboybarny" .. "\n\n" .. "Paypal:" .. "\n" .. "• BBB.Support@sol.at" .. "\n\n" .. "Curseforge:" .. "\n" .. "• www.curseforge.com/wow/addons/mapnotes" .. "\n" .. "• www.curseforge.com/members/badboybarny".. "\n\n" .. "Wago.io:" .. "\n" .. "• https://addons.wago.io/addons/mapnotes" .. "\n" .. "• https://addons.wago.io/user/BadBoyBarny" .. "\n\n\n" .. L["Any support is greatly appreciated"] .. "\n\n" .. L["Best regards"] .. "\n" .. "                      BadBoyBarny",
-              order = 9.1,
+              order = 1.1,
               },
             },
           }, 

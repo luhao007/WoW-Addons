@@ -286,6 +286,7 @@ ns.currentSourceFile = "RetailZoneMiniMapLocation.lua"
 
               if self.faction == "Horde" or db.activate.MiniMapEnemyFaction then
                 minimap[127][31103140] = { mnID = 85, name = "", type = "HPortal", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = L["Portal"] .. " ==> " .. ns.Orgrimmar } --  Dalaran to Orgrimmar Portal
+                minimap[117][77712829] = { mnID = 18, name = "", type = "HPortal", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = L["Portal"] .. " ==> " .. ns.RuinsofLordaeron } -- Fjord to Ruins of Lordaeron
               end
 
               if self.faction == "Alliance" or db.activate.MiniMapEnemyFaction then
@@ -297,7 +298,7 @@ ns.currentSourceFile = "RetailZoneMiniMapLocation.lua"
             if self.db.profile.showMiniMapZeppelins then 
 
               if self.faction == "Horde" or db.activate.MiniMapEnemyFaction then
-                minimap[114][41365356] = { mnID = 85, name = "", type = "HZeppelin", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = L["Zeppelin"] .. " ==> " .. ns.Orgrimmar  } -- Zeppelin from Borean Tundra to Ogrimmar
+                minimap[114][41205333] = { mnID = 85, name = "", type = "HZeppelin", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = L["Zeppelin"] .. " ==> " .. ns.Orgrimmar  } -- Zeppelin from Borean Tundra to Ogrimmar
               end
             end
 

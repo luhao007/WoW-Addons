@@ -915,18 +915,22 @@ local function GetSearchResults(method, paramA, paramB, options)
 		-- app.PrintDebug("Group Type",group.__type)
 
 		-- Special cases
+		-- This was added in https://github.com/ATTWoWAddon/AllTheThings/commit/97dfc7dd9d228f149635e7fcbccd1c22549316a4
+		-- in Dec 2020. I'm trying to figure out why other than forcibly reducing some Achievement tooltip size...
+		-- Going to remove this and see if any complaints since showing more accurate Achievement information than Blizz
+		-- default tooltip is probably a nicety - Runaway 2025-10-18
 		-- Don't show nested criteria of achievements (unless loading popout/row content)
-		if group.g and group.key == "achievementID" and app.GetSkipLevel() < 2 then
-			local noCrits = {};
-			-- print("achieve group",#group.g)
-			for i=1,#group.g do
-				if group.g[i].key ~= "criteriaID" then
-					tinsert(noCrits, group.g[i]);
-				end
-			end
-			group.g = noCrits;
-			-- print("achieve nocrits",#group.g)
-		end
+		-- if group.g and group.key == "achievementID" and app.GetSkipLevel() < 2 then
+		-- 	local noCrits = {};
+		-- 	-- print("achieve group",#group.g)
+		-- 	for i=1,#group.g do
+		-- 		if group.g[i].key ~= "criteriaID" then
+		-- 			tinsert(noCrits, group.g[i]);
+		-- 		end
+		-- 	end
+		-- 	group.g = noCrits;
+		-- 	-- print("achieve nocrits",#group.g)
+		-- end
 
 		-- Fill the search result but not if the search itself was skipped (Mark of Honor) or indicated to skip
 		if not options or not options.SkipFill then
@@ -1190,7 +1194,7 @@ local function BuildSourceParent(group)
 			skipFull = true,
 			SortPriority = -3.0,
 			g = {},
-			OnClick = app.UI.OnClick.IgnoreRightClick,
+			IgnorePopout=true,
 		})
 		for _,parent in ipairs(parents) do
 			-- if there's nothing nested under the parent, then force it to be visible
