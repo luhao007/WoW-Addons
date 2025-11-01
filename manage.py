@@ -12,7 +12,7 @@ from utils import PLATFORM, Color, get_logger
 logger = get_logger("AddonManager")
 
 CLASSIC_ERA_VER = "11401"
-CLASSIC_VER = "30405"
+CLASSIC_VER = "50502"
 RETAIL_VER = "110205"
 
 
@@ -458,8 +458,13 @@ class Manager:
         utils.change_defaults("Addons/Atlas/Data/Constants.lua", "			hide = true,")
 
     @staticmethod
-    @available_on(["classic", "classic_era"])
+    @available_on(["retail", "classic"])
     def handle_atlasloot():
+        utils.change_defaults("Addons/AtlasLoot/db.lua", "			shown = false,")
+
+    @staticmethod
+    @available_on(["classic_era"])
+    def handle_atlaslootclassic():
         utils.change_defaults("Addons/AtlasLootClassic/db.lua", "			shown = false,")
 
     @staticmethod
@@ -496,6 +501,7 @@ class Manager:
             )
 
     @staticmethod
+    @available_on(["retail"])
     def handle_fb():
         if not os.path.exists("Addons/FishingBuddy/"):
             return
@@ -741,7 +747,7 @@ class Manager:
         )
 
     @staticmethod
-    @available_on(["retail"])
+    @available_on(["retail", "classic"])
     def handle_rio():
         # Remove the embedded databases
         for realm in ["US", "TW", "KR", "EU"]:
@@ -793,11 +799,6 @@ class Manager:
         utils.change_defaults("Addons/Simulationcraft/core.lua", "        hide = true,")
 
     @staticmethod
-    @available_on(["classic"])
-    def handle_talentemu():
-        utils.change_defaults("AddOns/TalentEmuX/setting.lua", ["		minimap = false,"])
-
-    @staticmethod
     @available_on(["retail"])
     def handle_tdBattlePetScript():
         utils.remove("Addons/tdBattlePetScript/Libs/tdGUI/Libs")
@@ -814,11 +815,7 @@ class Manager:
         )
         utils.remove("Addons/Titan/Libs")
         utils.remove_libs_in_file(
-            (
-                "Addons/Titan/Titan.toc"
-                if utils.get_platform() == "retail"
-                else "Addons/Titan/Titan_Mainline.toc"
-            ),
+            "Addons/Titan/Titan.toc",
             ["Libs"],
         )
 

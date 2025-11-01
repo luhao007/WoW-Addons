@@ -1,16 +1,22 @@
-## Interface: 50500
-## X-Min-Interface: 50500
-## Category: DBM
-
-## Title:|cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cffff6010Raids (Cata)|r
-## Title-koKR:|cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cffff6010공격대 (대격변)|r
-## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM Мод|r|cffffe00a>|r |cffff6010Рейды (Катаклизм)|r
+## Interface: 110205
 ## Author: MysticalOS
-## LoadOnDemand: 1
+## Version: r256
+
+## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cffff6010Raids (Cata)|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本助手|r |cFF69CCF0团队|r |cFF22B14C大地的裂变|r
+
+## IconTexture: Interface\AddOns\DBM-Core\textures\dbm_airhorn
+
+## Category: DBM
+## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
+
 ## RequiredDeps: DBM-Core
+## LoadOnDemand: 1
+
 ## SavedVariables: DBMRaidsCata_AllSavedVars
 ## SavedVariablesPerCharacter: DBMRaidsCata_SavedStats
-## IconTexture: Interface\AddOns\DBM-Core\textures\dbm_airhorn
+
+## X-Min-Interface: 50500
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: CATA
@@ -26,7 +32,7 @@
 ## X-Curse-Project-ID: 43971
 ## X-WoWI-ID: 21469
 ## X-Wago-ID: RBKpErGE
-## Version: r255
+## X-Part-Of: DBM-Core
 
 localization.en.lua
 localization.de.lua

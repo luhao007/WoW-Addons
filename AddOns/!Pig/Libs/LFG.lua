@@ -500,7 +500,21 @@ function Fun.Get_GroupLv()
 end
 function Fun.Get_GroupLvTxt()
 	if is_slist() then return Fun.Base64_decod("LOmYn+WGhSgwLDAsMCwwKQ=="); end
-	if IsInGroup() then
+	if IsInRaid() then
+		local numgroup =GetNumGroupMembers()
+		if numgroup>0 then
+			local MsgNr=",队内("
+			for id=2,numgroup do
+				local dengjiKk = UnitLevel("Raid"..id);
+				if id==numgroup then
+					MsgNr=MsgNr..dengjiKk..")";
+				else
+					MsgNr=MsgNr..dengjiKk..",";
+				end
+			end
+			return MsgNr
+		end
+	elseif IsInGroup() then
 		local numgroup = GetNumSubgroupMembers()
 		if numgroup>0 then
 			local MsgNr=",队内("

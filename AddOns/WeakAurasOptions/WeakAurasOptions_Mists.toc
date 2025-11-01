@@ -1,20 +1,22 @@
-## Interface: 50501
-## Title: WeakAuras Options
+## Interface: 110205
 ## Author: The WeakAuras Team
 ## Version: 5.20.6
+
+## Title: WeakAuras Options
 ## Notes: Options for WeakAuras
-## Notes-esES: Opciones para WeakAuras
-## Notes-esMX: Opciones para WeakAuras
-## Notes-deDE: Optionen für WeakAuras
-## Notes-ruRU: Опции WeakAuras
-## Notes-zhTW: WeakAuras的設定
-## X-Category: Interface Enhancements
-## Globe-Main: WeakAuras
-## DefaultState: Enabled
-## LoadOnDemand: 1
+## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r|cFFFFFFFF辅助增强|r |cFF0055FF设置|r
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r
+
 ## Dependencies: WeakAuras
-## SavedVariables: WeakAurasOptionsSaved
+## LoadOnDemand: 1
 ## AllowLoadGameType: mists
+## DefaultState: Enabled
+
+## SavedVariables: WeakAurasOptionsSaved
+
+## X-Category: Interface Enhancements
+## X-Part-Of: WeakAuras
 
 embeds.xml
 locales.xml

@@ -126,6 +126,7 @@ RSConstants.LEGION_HIGHMOUNTAIN_MINIEVENT = 43
 RSConstants.LEGION_VALSHARAH_MINIEVENT = 44
 RSConstants.LEGION_STORMHEIM_MINIEVENT = 45
 RSConstants.LEGION_SURAMAR_MINIEVENT = 46
+RSConstants.LEGION_AZSUNA_MINIEVENT = 47
 
 -- Minievents that will have an option to filter/unfilter the icons from the worldmap
 RSConstants.MINIEVENTS_WORLDMAP_FILTERS = {
@@ -133,6 +134,7 @@ RSConstants.MINIEVENTS_WORLDMAP_FILTERS = {
 	[RSConstants.LEGION_VALSHARAH_MINIEVENT] = { active = true, containers = true, mapIDs = { 641, 642 }, atlas = "Auctioneer", text = AL["MAP_MENU_SHOW_TREASURES_VALSHARAH_CONTAINERS"] };
 	[RSConstants.LEGION_STORMHEIM_MINIEVENT] = { active = true, containers = true, mapIDs = { 634, 636, 649 }, atlas = "Auctioneer", text = AL["MAP_MENU_SHOW_TREASURES_STORMHEIM_CONTAINERS"] };
 	[RSConstants.LEGION_SURAMAR_MINIEVENT] = { active = true, containers = true, mapIDs = { 680, 682, 683, 684, 685, 686 }, atlas = "Auctioneer", text = AL["MAP_MENU_SHOW_TREASURES_SURAMAR_CONTAINERS"] };
+	[RSConstants.LEGION_AZSUNA_MINIEVENT] = { active = true, containers = true, mapIDs = { 630, 631 }, atlas = "Auctioneer", text = AL["MAP_MENU_SHOW_TREASURES_AZSUNA_CONTAINERS"] };
 	[RSConstants.DRAGONFLIGHT_DREAMSURGE_MINIEVENT] = { active = true, npcs = true, mapIDs = { 2025, 2024, 2023, 2022 }, atlas = "dreamsurge_hub-icon", text = AL["MAP_MENU_SHOW_DREAMSURGE_RARE_NPCS"] };
 	[RSConstants.DRAGONFLIGHT_STORM_INVASTION_FIRE_MINIEVENT] = { active = true, npcs = true, mapIDs = { 2025, 2024, 2023, 2022 }, atlas = "ElementalStorm-Lesser-Fire", text = AL["MAP_MENU_SHOW_FIRE_PRIMALSTORM_RARE_NPCS"] };
 	[RSConstants.DRAGONFLIGHT_STORM_INVASTION_WATER_MINIEVENT] = { active = true, npcs = true, mapIDs = { 2025, 2024, 2023, 2022 }, atlas = "ElementalStorm-Lesser-Water", text = AL["MAP_MENU_SHOW_WATER_PRIMALSTORM_RARE_NPCS"] };
@@ -446,7 +448,7 @@ RSConstants.PROFILE_DEFAULTS = {
 }
 
 ---============================================================================
--- Name of the RareScanner's button
+-- Macro settings
 ---============================================================================
 
 RSConstants.RARESCANNER_MACRO_NAME = "RS_MACRO"
@@ -456,7 +458,7 @@ RSConstants.RARESCANNER_MACRO_UPDATE_NPCS_DISTANCE = 0.05 --map distance
 RSConstants.RARESCANNER_MACRO_REFRESH_TIMER = 5 --seconds
 
 ---============================================================================
--- Macro settings
+-- Name of the RareScanner's button
 ---============================================================================
 
 RSConstants.RS_BUTTON_NAME = "RARESCANNER_BUTTON"

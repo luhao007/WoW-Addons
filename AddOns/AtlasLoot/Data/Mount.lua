@@ -1346,6 +1346,7 @@ local MOUNT_INFO = {
 		[1251399] = 250805, -- Reins of the Longhorned Argussian Talbuk
 		[1251398] = 250804, -- Longhorned Bleakhoof Talbuk
 		[1251396] = 250802, -- Reins of the Longhorned Sable Talbuk
+		[1245198] = 247721, -- The Headless Horseman's Ghoulish Charger
 		-- [449416] = 223570, -- Ebonhide Ramolith
 		-- [1217340] = 235554, -- Midnight Darkmoon Charger
 		-- [1218014] = 235659, -- Midnight Butterfly

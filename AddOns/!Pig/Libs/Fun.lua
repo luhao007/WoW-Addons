@@ -272,24 +272,69 @@ function Fun.RGBToHex(t)
 	return format("%02x%02x%02x", r, g, b)
 end
 -----
+local GetLootMethod=GetLootMethod or C_PartyInfo and C_PartyInfo.GetLootMethod
+local SetLootMethod=SetLootMethod or C_PartyInfo and C_PartyInfo.SetLootMethod
 local GetSpecialization = GetSpecialization or C_SpecializationInfo and C_SpecializationInfo.GetSpecialization
 local GetSpecializationInfo = GetSpecializationInfo or C_SpecializationInfo and C_SpecializationInfo.GetSpecializationInfo
+local lootList = {
+	[0]="freeforall",
+	[2]="master",
+	[1]="roundrobin",
+	[3]="group",
+	[4]="needbeforegreed",
+	[5]="personal",
+}
+local lootList_old = {}
+for k,v in pairs(lootList) do
+	lootList_old[v]=k
+end
+local lootListIDs = {
+	0,1,2,3,4
+}
+if PIG_MaxTocversion(60000,true) then
+	table.insert(lootListIDs,5)
+end
+local lootListIDNum=#lootListIDs-1
+local lootmethodName={
+	[0]=LOOT_FREE_FOR_ALL,
+	[2]=LOOT_MASTER_LOOTER,
+	[1]=LOOT_ROUND_ROBIN,
+	[3]=LOOT_GROUP_LOOT,
+	[4]=LOOT_NEED_BEFORE_GREED,
+	[5]=LOOT_PERSONAL_LOOT,
+}
+local lootmethodNameJ={
+	[0]="自由",
+	[2]="队长",
+	[1]="轮流",
+	[3]="队伍",
+	[4]="需求",
+	[5]="个人",
+}
+function Fun.Get_LootTypeData()
+	return lootListIDs,lootmethodName,lootmethodNameJ
+end
+function Fun.Get_LootTypeID(id)
+	if PIG_MaxTocversion(30000,true) and PIG_MaxTocversion(40000) then
+		return lootList[id]
+	else
+		return id
+	end
+end
+function Fun.PIG_GetLootMethod()
+	local lootmethodID,masterLootPartyID, masterLooterRaidID= GetLootMethod();
+	if PIG_MaxTocversion(30000,true) and PIG_MaxTocversion(40000) then
+		return lootList_old[lootmethodID],masterLootPartyID, masterLooterRaidID
+	else
+		return lootmethodID,masterLootPartyID, masterLooterRaidID
+	end
+end
 local function Update_LootTxt(but)
 	if PIG_MaxTocversion() then
 		if IsInGroup() then
 			but:Enable()
-			local lootmethod= GetLootMethod();
-			if lootmethod=="freeforall" then
-				return "\124cff00ff00自由\124r"
-			elseif lootmethod=="roundrobin" then 
-				return "\124cff00ff00轮流\124r"
-			elseif lootmethod=="master" then 
-				return "\124cff00ff00队长\124r"
-			elseif lootmethod=="group" then 
-				return "\124cff00ff00队伍\124r"
-			elseif lootmethod=="needbeforegreed" then 
-				return "\124cff00ff00需求\124r"
-			end
+			local lootmethodID= Fun.PIG_GetLootMethod()
+			return "\124cff00ff00"..lootmethodNameJ[lootmethodID].."\124r"
 		else
 			but:Disable();
 			return "\124cff555555单人\124r"
@@ -324,13 +369,16 @@ function Fun.Update_LootType(uix,funx,set)
 	end)
 	uix:HookScript("OnClick", function (self)
 		if PIG_MaxTocversion() then
-			local lootmethod, _, _ = GetLootMethod();
-			if lootmethod=="freeforall" then
-				SetLootMethod("master","player")
-			elseif lootmethod=="master" then
-				SetLootMethod("freeforall")
+			local lootmethodID= Fun.PIG_GetLootMethod()
+			if lootmethodID==lootListIDNum then
+				SetLootMethod(Fun.Get_LootTypeID(0))
 			else
-				SetLootMethod("freeforall")
+				local newlootID=lootmethodID+1;
+				if newlootID==2 then
+					SetLootMethod(Fun.Get_LootTypeID(newlootID),"player")
+				else
+					SetLootMethod(Fun.Get_LootTypeID(newlootID))
+				end
 			end
 		else
 			local numSpecializations = GetNumSpecializations()--总专精数

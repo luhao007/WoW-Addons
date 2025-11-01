@@ -116,11 +116,6 @@ local ResolveFunctions = {
 			local searches = {}
 			for i=1,vals do
 				val = select(i, ...) + (SelectMod or 0)
-				if field == "modItemID" then
-					-- this is really dumb but direct raw values don't 'always' properly match generated values...
-					-- but splitting the value apart and putting it back together searches accurately
-					val = GetGroupItemIDWithModID(nil, GetItemIDAndModID(val))
-				end
 				cache = SearchForObject(field, val, "field", true)
 				if cache and #cache > 0 then
 					searches[#searches + 1] = cache

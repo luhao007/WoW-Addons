@@ -30,23 +30,29 @@ local IsBoAOverride = C_Item.IsItemBindToAccountUntilEquip
 -- Ex. 87654 (ModID 23)=> 87654.023
 -- Ex. 102938 (ModID 1) (BonusID 4746) => 102938.00104746
 local function GetGroupItemIDWithModID(t, rawItemID, rawModID, rawBonusID)
-	local i, m, b;
+	local i, m, b, e
 	if t then
-		i = t.itemID or 0;
-		m = t.modID;
-		b = t.bonusID;
+		i = t.itemID or 0
+		m = t.modID
+		b = t.bonusID
+		e = t.extraID
 	else
-		i = rawItemID and tonumber(rawItemID) or 0;
-		m = rawModID and tonumber(rawModID);
-		b = rawBonusID and tonumber(rawBonusID);
+		i = rawItemID and tonumber(rawItemID) or 0
+		m = rawModID and tonumber(rawModID)
+		b = rawBonusID and tonumber(rawBonusID)
+	end
+	-- e can only exist in absence of m and b, but needs to not overlap modID space
+	if e then
+		i = i + (e/1000000)
+		return i
 	end
 	if m then
-		i = i + (m / 1000);
+		i = i + (m / 1000)
 	end
 	if b and b ~= 3524 then
-		i = i + (b / 100000000);
+		i = i + (b / 100000000)
 	end
-	return i;
+	return i
 end
 app.GetGroupItemIDWithModID = GetGroupItemIDWithModID;
 -- Returns the ItemID, ModID, BonusID of the provided ModItemID
@@ -141,34 +147,41 @@ end
 -- Imports the raw information from the rawlink into the specified group
 app.ImportRawLink = function(group, rawlink, ignoreSource)
 	rawlink = rawlink and rawlink:match("item[%-?%d:]+");
-	if rawlink and group then
-		group.rawlink = rawlink;
-		-- importing a rawlink will clear any cached upgrade info for the group
-		group._up = nil;
-		local _, linkItemID, enchantId, gemId1, gemId2, gemId3, gemId4, suffixId, uniqueId, linkLevel, specializationID, upgradeId, modID, bonusCount, bonusID1 = (":"):split(rawlink);
-		if linkItemID then
-			-- app.PrintDebug("IRL+",rawlink,linkItemID,modID,bonusCount,bonusID1);
-			-- set raw fields in the group based on the link
-			group.itemID = tonumber(linkItemID);
-			group.modID = modID and tonumber(modID) or nil;
-			-- only set the bonusID if there is actually bonusIDs indicated
-			if (tonumber(bonusCount) or 0) > 0 then
-				-- Don't use bonusID 3524 as an actual bonusID
-				local b = bonusID1 and tonumber(bonusID1) or nil;
-				if b ~= 3524 and b ~= 0 then
-					group.bonusID = b;
-				end
-			end
-			group.modItemID = nil;
-			if not ignoreSource then
-				-- maybe make this a class method...
-				app.GetGroupSourceID(group)
-			end
+	if not rawlink or not group then return end
+
+	group.rawlink = rawlink;
+	-- specific versions of a given Item can actually be BoA while the base version is typically BoP
+	-- so store the BoA flag for this instance of the Item
+	if IsBoAOverride(rawlink) then
+		group.b = 3
+	end
+	-- importing a rawlink will clear any cached upgrade info for the group
+	group._up = nil;
+	local _, linkItemID, enchantId, gemId1, gemId2, gemId3, gemId4, suffixId, uniqueId, linkLevel, specializationID, upgradeId, modID, bonusCount, bonusID1 = (":"):split(rawlink);
+	if not linkItemID then return end
+
+	-- app.PrintDebug("IRL+",rawlink,linkItemID,modID,bonusCount,bonusID1);
+	-- set raw fields in the group based on the link
+	group.itemID = tonumber(linkItemID);
+	group.modID = modID and tonumber(modID) or nil;
+	-- only set the bonusID if there is actually bonusIDs indicated
+	if (tonumber(bonusCount) or 0) > 0 then
+		-- Don't use bonusID 3524 as an actual bonusID
+		local b = bonusID1 and tonumber(bonusID1) or nil;
+		if b ~= 3524 and b ~= 0 then
+			group.bonusID = b;
 		end
-		-- specific versions of a given Item can actually be BoA while the base version is typically BoP
-		-- so store the BoA flag for this instance of the Item
-		if IsBoAOverride(rawlink) then
-			group.b = 3
+	end
+	group.modItemID = nil;
+	if not ignoreSource then
+		-- maybe make this a class method...
+		app.GetGroupSourceID(group)
+	end
+	-- really weird situations where both modID and bonusID are empty but item has a 'special' extra ID to distinguish (like artifactID)
+	if not group.modID and not group.modID then
+		local extraID = tonumber(rawlink:match(":::1:8:(%d+)"))
+		if extraID then
+			group.extraID = extraID
 		end
 	end
 end

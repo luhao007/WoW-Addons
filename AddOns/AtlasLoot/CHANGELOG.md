@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## 9.19.1 - October 22, 2025
+### Added
+- Added new Hallow's End loot
+
 ## 9.19.0 - October 9, 2025
 ### Added
 - Added Legion Remix items to World Events (items from vendors and achievements, including the phase it's available in)

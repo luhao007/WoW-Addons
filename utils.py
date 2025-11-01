@@ -12,7 +12,17 @@ from chardet.universaldetector import UniversalDetector
 TOCS = [".toc"] + [
     f"{s}{p}.toc"
     for s in ("-", "_")
-    for p in ("Classic", "BCC", "WOTLKC", "Mainline", "TBC", "Vanilla", "Wrath", "Cata")
+    for p in (
+        "Classic",
+        "BCC",
+        "WOTLKC",
+        "Mainline",
+        "TBC",
+        "Vanilla",
+        "Wrath",
+        "Cata",
+        "Mists",
+    )
 ]
 
 

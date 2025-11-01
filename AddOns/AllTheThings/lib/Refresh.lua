@@ -157,6 +157,7 @@ local function CacheAccountWideMiscQuests()
 		74576,	-- Restored Hakkari Bijou [Zul'Gurub]
 
 		-- No additional HQT on completion, and once per account
+		86535,	-- Test Run
 		88947,	-- Undermined Delves
 		91780,	-- Ethereal Delves
 

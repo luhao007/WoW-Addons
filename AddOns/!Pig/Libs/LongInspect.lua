@@ -20,7 +20,7 @@ local YCinfo_GET_MSG = {"!GETALL","!GETT-","!GETG-","!GETR-","!GETI-"};
 C_ChatInfo.RegisterAddonMessagePrefix(pig_PREFIX)
 local UIname="PIG_LongInspectUI"
 Data.LongInspectUIUIname=UIname
-Data.UILayout[UIname]={"TOPLEFT","TOPLEFT",0, -104}
+Data.UILayout[UIname]={"TOPLEFT","TOPLEFT",0, -116}
 ---------------
 local function Update_ShowItem(itemstxt,laiyuan)
 	local zbData = {}

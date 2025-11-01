@@ -1,24 +1,22 @@
-## Interface: 50501, 50502
+## Interface: 110205
+## Author: Kiatra, zaCade, Numy - github.com/Kiatra/BlizzMove/
+## Version: v3.7.11
+
 ## Title: BlizzMove
 ## Notes: Makes blizzard frames movable
-## Author: Kiatra, zaCade, Numy - github.com/Kiatra/BlizzMove/
+## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r|cFFFFFFFF窗口移动|r |cFFFFE00ABlizzMove|r
+## Notes-zhCN: 移动内置的各种窗口
+
 ## IconTexture: interface/cursor/ui-cursor-move.blp
+
+## Category-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r
+
+## OptionalDeps: Ace3
+
+## SavedVariables: BlizzMoveDB
+
 ## X-WoWI-ID: 23875
 ## X-Curse-Project-ID: 17809
-## Version: v3.7.11
-## OptionalDeps: Ace3
-## SavedVariables: BlizzMoveDB
-## Category-enUS: User Interface
-## Category-deDE: Benutzerinterface
-## Category-esES: Interfaz de usuario
-## Category-esMX: Interfaz de usuario
-## Category-frFR: Interface utilisateur
-## Category-itIT: Interfaccia utente
-## Category-koKR: 사용자 인터페이스
-## Category-ptBR: Interface do usuário
-## Category-ruRU: Интерфейс пользователя
-## Category-zhCN: 用户界面
-## Category-zhTW: 使用者介面
 
 # Libraries
 Libs\Libs.xml

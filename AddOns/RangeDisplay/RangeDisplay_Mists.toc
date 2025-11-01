@@ -1,14 +1,20 @@
-## Interface: 50501
-
-## Title: RangeDisplay
+## Interface: 110205
 ## Author: mitch0
 ## Version: v6.2.3
+
+## Title: RangeDisplay
 ## Notes: Estimated range display. Type /rangedisplay for config
-## Notes-ruRU: Дисплей с указанием расстояния до цели. Введите /rangedisplay для справки
-## LoadManagers: AddonLoader
-## X-LoadOn-Always: true
-## SavedVariables: RangeDisplayDB3
+## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r|cFFFFFFFF目标距离|r |cFFFFE00ARangeDisplay|r
+## Notes-zhCN: 显示与目标的距离。
+
+## Category-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r
+
 ## OptionalDeps: LibStub, CallbackHandler-1.0, LibRangeCheck-3.0, Ace3, LibSharedMedia-3.0, LibDualSpec-1.0
+## LoadManagers: AddonLoader
+
+## SavedVariables: RangeDisplayDB3
+
+## X-LoadOn-Always: true
 ## X-Category: Combat
 ## X-License: Public Domain
 ## X-RelSite-WoWI: 7297
@@ -29,6 +35,7 @@ libs\Ace3\AceLocale-3.0\AceLocale-3.0.xml
 libs\LibSharedMedia-3.0\lib.xml
 libs\LibDualSpec-1.0\LibDualSpec-1.0.lua
 #@end-no-lib-strip@
+
 libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
 
 localizations.lua

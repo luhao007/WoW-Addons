@@ -1019,6 +1019,7 @@ _.CategoryIcons = {
 -- Custom Header Database Module
 _.HeaderConstants = {
 	ACHIEVEMENTS = -12,
+	ARTIFACTS = -214,
 	BREWFEST_HEADER = -557,
 	CHEST = -90,
 	CHILDRENS_WEEK_HEADER = -559,
@@ -1029,6 +1030,7 @@ _.HeaderConstants = {
 	DAY_OF_THE_DEAD_HEADER = -566,
 	DISCOVERY = -26,
 	DROPS = -27,
+	EXPANSION_PRELAUNCH = -103,
 	EXPLORATION = -30,
 	FACTIONS = -31,
 	FEAST_OF_WINTER_VEIL_HEADER = -574,
@@ -1130,10 +1132,12 @@ localize(L.HEADER_NAMES, {
 	[-100] = INVTYPE_WAIST,
 	[-101] = AUCTION_CATEGORY_WEAPONS,
 	[-102] = INVTYPE_WRIST,
+	[-103] = "Expansion Pre-Launch",
 	[-210] = FACTION_ALLIANCE,
 	[-211] = FACTION_HORDE,
 	[-212] = COMBATLOG_FILTER_STRING_NEUTRAL_UNITS,
 	[-213] = BATTLE_PET_SOURCE_10,
+	[-214] = ITEM_QUALITY6_DESC,
 	[-215] = ITEM_QUALITY1_DESC,
 	[-217] = ITEM_QUALITY4_DESC,
 	[-219] = HEIRLOOMS,
@@ -1365,10 +1369,12 @@ localize(L.HEADER_ICONS, {
 	[-100] = 132513,
 	[-101] = _.asset("weapon_type_epic"),
 	[-102] = 132606,
+	[-103] = 134289,
 	[-210] = 374217,
 	[-211] = 374221,
 	[-212] = 374222,
 	[-213] = _.asset("category_ingameshop"),
+	[-214] = _.asset("weapon_type_artifact"),
 	[-215] = 135030,
 	[-217] = 135028,
 	[-219] = _.asset("weapon_type_heirloom"),
@@ -1537,10 +1543,13 @@ localize(L.EVENT_REMAPPING, {
 });
 
 -- Programmatic Event Scheduling
+_.Modules.Events.SetEventInformation(444, {
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=14,["weekday"]=3,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=26,["weekday"]=4,["year"]=2025})
+});
 _.Modules.Events.SetEventInformation(242, {
-	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=10,["monthDay"]=22,["weekday"]=3,["year"]=2024},{["hour"]=10,["minute"]=0,["month"]=1,["monthDay"]=7,["weekday"]=3,["year"]=2025}),
-	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=10,["monthDay"]=22,["weekday"]=4,["year"]=2025},{["hour"]=10,["minute"]=0,["month"]=1,["monthDay"]=7,["weekday"]=4,["year"]=2026}),
-	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=10,["monthDay"]=22,["weekday"]=5,["year"]=2026},{["hour"]=10,["minute"]=0,["month"]=1,["monthDay"]=7,["weekday"]=5,["year"]=2027})
+	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=7,["year"]=2024},{["hour"]=10,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=7,["year"]=2024}),
+	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=1,["year"]=2025},{["hour"]=10,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=1,["year"]=2025}),
+	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=2,["year"]=2026},{["hour"]=10,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=2,["year"]=2026})
 });
 _.Modules.Events.SetEventInformation(133899, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=2,["year"]=2024},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=4,["year"]=2025}),
@@ -1551,9 +1560,6 @@ _.Modules.Events.SetEventInformation(133889, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=4,["year"]=2024},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=1,["year"]=2024}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=5,["year"]=2025},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=2,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=6,["year"]=2026},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=3,["year"]=2026})
-});
-_.Modules.Events.SetEventInformation(444, {
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=14,["weekday"]=3,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=26,["weekday"]=4,["year"]=2025})
 });
 
 -- Filter Database Module
@@ -10679,6 +10685,7 @@ localize(L.HEADER_NAMES, {
 	[-85] = "Second coffre",
 	[-86] = "Troisième coffre",
 	[-87] = "Coffre final",
+	[-103] = "Pré-Lancement de l’Extension",
 	[-247] = select(2,GetAchievementInfo(2091))..": Saison 1",
 	[-248] = select(2,GetAchievementInfo(418))..": Saison 2",
 	[-249] = select(2,GetAchievementInfo(419))..": Saison 3",
@@ -17385,6 +17392,7 @@ localize(L.HEADER_NAMES, {
 	[-85] = "Второй Сундук",
 	[-86] = "Третий Сундук",
 	[-87] = "Последний Сундук",
+	[-103] = "Препатч",
 	[-243] = "Наложение чар на броню",
 	[-245] = "Наложение чар на оружие",
 	[-247] = select(2,GetAchievementInfo(2091))..": Сезон 1",
@@ -22521,6 +22529,7 @@ localize(L.HEADER_NAMES, {
 	[-86] = "Tercer cofre",
 	[-87] = "Cofre final",
 	[-97] = "Reliquias",
+	[-103] = "Evento de pre-parche",
 	[-229] = "Fuente IDs",
 	[-232] = "Parche 1.x.x",
 	[-235] = "Parche 2.x.x",
@@ -25061,6 +25070,7 @@ localize(L.HEADER_NAMES, {
 	[-36] = "Fiestas",
 	[-63] = "Botín de la zona",
 	[-74] = "Dragones de pesadilla",
+	[-103] = "Evento de pre-expansion",
 	[-525] = "Paquete heroico Rasganorte WotLK Classic",
 	[-526] = "Paquete heroico abrasador de Cataclysm Classic",
 	[-527] = "Paquete heroico infundido por los sha",
@@ -25902,6 +25912,7 @@ localize(L.HEADER_NAMES, {
 	[-85] = "二箱",
 	[-86] = "三箱",
 	[-87] = "最终宝箱",
+	[-103] = "资料片前夕",
 	[-219] = ITEM_QUALITY7_DESC,
 	[-247] = select(2,GetAchievementInfo(2091)).."：第1赛季",
 	[-248] = select(2,GetAchievementInfo(418)).."：第2赛季",
@@ -28403,6 +28414,7 @@ localize(L.HEADER_NAMES, {
 	[-85] = "第二個箱子",
 	[-86] = "第三個箱子",
 	[-87] = "最後的箱子",
+	[-103] = "資料片前夕",
 	[-247] = select(2,GetAchievementInfo(2091)).."：第1賽季",
 	[-248] = select(2,GetAchievementInfo(418)).."：第2賽季",
 	[-249] = select(2,GetAchievementInfo(419)).."：第3賽季",

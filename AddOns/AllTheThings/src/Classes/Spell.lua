@@ -20,16 +20,20 @@ local IsSpellKnown, GetNumSpellTabs, GetSpellTabInfo, IsSpellKnownOrOverridesKno
 	= app.WOWAPI.IsSpellKnown, GetNumSpellTabs, GetSpellTabInfo, app.WOWAPI.IsSpellKnownOrOverridesKnown
 
 local SpellQuestLinks = {
+	-- double check added Mount spells in Mount.lua [PerCharacterMountSpells/AccountWideMountSpells]
 	[390631] = 66444,	-- Ottuk Taming
 	[241857] = 46319,	-- Lunarwing
 	[231437] = 46319,	-- Lunarwing
-	[148972] = 32325,	-- Green Dread/Fel-Steed
-	[148970] = 32325,	-- Green Dread/Fel-Steed
+	[148972] = 32325,	-- Green Dreadsteed
+	[148970] = 32325,	-- Green Felsteed
 	[1255451] = 92638,	-- Feldruid's Scornwing Idol
 }
 local SpellQuestOverrides = setmetatable({}, { __index = function(t,key)
 	local questID = SpellQuestLinks[key]
-	if not questID then return end
+	if not questID then
+		t[key] = false
+		return
+	end
 
 	local saved = IsQuestFlaggedCompleted(questID)
 	if not saved then return end
@@ -37,13 +41,6 @@ local SpellQuestOverrides = setmetatable({}, { __index = function(t,key)
 	t[key] = saved
 	return saved
 end})
-app.AddEventHandler("OnStartup", function()
-	-- check all our overrides initially to cache any existing saved values
-	local _
-	for spellID,questID in pairs(SpellQuestLinks) do
-		_ = SpellQuestOverrides[spellID]
-	end
-end)
 -- Consolidates some spell checking
 ---@param spellID number
 ---@param rank? number

@@ -1,6 +1,6 @@
 # Prat 3.0
 
-## [3.9.71](https://github.com/Legacy-of-Sylvanaar/prat-3-0/tree/3.9.71) (2025-09-23)
-[Full Changelog](https://github.com/Legacy-of-Sylvanaar/prat-3-0/compare/3.9.70...3.9.71) [Previous Releases](https://github.com/Legacy-of-Sylvanaar/prat-3-0/releases)
+## [3.9.73](https://github.com/Legacy-of-Sylvanaar/prat-3-0/tree/3.9.73) (2025-10-28)
+[Full Changelog](https://github.com/Legacy-of-Sylvanaar/prat-3-0/compare/3.9.72...3.9.73) [Previous Releases](https://github.com/Legacy-of-Sylvanaar/prat-3-0/releases)
 
-- Mists/All: Update toc for 5.5.1 and merge toc lines (client restart is required)  
+- Remove 11.2.7 from the toc as it doesn't work on the 11.2.7 PTR  

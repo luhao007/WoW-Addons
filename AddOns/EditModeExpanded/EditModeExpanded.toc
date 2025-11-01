@@ -1,6 +1,6 @@
 ## Interface: 110205
 ## Author: Teelo
-## Version: 11.2-015
+## Version: 11.2-016
 
 ## Title: Edit Mode Expanded
 ## Notes: Expands Edit Mode to apply to other frames
@@ -65,6 +65,7 @@ FrameHandlers\ClassResources\Runes.lua
 FrameHandlers\ClassResources\SoulShards.lua
 
 Options.lua
+RegisterFrame.lua
 ResetFrame.lua
 HookOnce.lua
 AnchorToDropdown.lua

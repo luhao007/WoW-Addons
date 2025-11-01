@@ -4613,10 +4613,10 @@ customWindowUpdates.list = function(self, force, got)
 			or function(o, key)
 				local text = o.text;
 				if not IsRetrieving(text) then
-					if not self.VerifyGroupSourceID(o) then
-						DGR(o);
-						return "Harvesting..."
-					end
+					-- if not self.VerifyGroupSourceID(o) then
+					-- 	DGR(o);
+					-- 	return "Harvesting..."
+					-- end
 					return "#"..(o[dataType] or o.keyval or "?")..": "..text;
 				end
 			end,

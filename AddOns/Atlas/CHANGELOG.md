@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.12.4 - October 29, 2025
+### Changed
+- MoP: Updated TOC to 5.5.2
+
+## 3.12.3 - October 22, 2025
+### Changed
+- Classic Era: Updated TOC to 1.15.8
+
 ## 3.12.2 - October 7, 2025
 ### Added
 - Retail: Added achievements to TBC instances
@@ -672,7 +680,7 @@ v1.41.00 (Apr. 14, 2017)
 v1.40.06 (Apr. 13, 2017)
 ------------------------
 - Checking deprecated plugins now will recognize the alpha build's version
-  if specifed; or will ignore those set "v3.12.2" as the version
+  if specifed; or will ignore those set "v3.12.4" as the version
   number to be changed by CurseForge's auto-packaging.
 
 v1.40.05 (Apr. 13, 2017)

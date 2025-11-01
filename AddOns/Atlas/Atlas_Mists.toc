@@ -1,36 +1,24 @@
-## Interface: 50501
-## Title: Atlas
-## Title-deDE: Atlas
-## Title-esES: Atlas
-## Title-esMX: Atlas
-## Title-frFR: Atlas
-## Title-itIT: Atlas
-## Title-koKR: Atlas
-## Title-ptBR: Atlas
-## Title-ruRU: Atlas
-## Title-zhCN: Atlas
-## Title-zhTW: Atlas
-## Notes: Instance Map Browser
-## Notes-deDE: Instanzkarten-Browser
-## Notes-esES: Navegador de Mapas de Mazmorras
-## Notes-esMX: Navegador de Mapas de Mazmorras
-## Notes-frFR: Navigateur de cartes d'instances
-## Notes-itIT: Instance Map Browser
-## Notes-koKR: 인스턴스 지도 탐색기
-## Notes-ptBR: Buscador de Mapas de Instância
-## Notes-ruRU: Обозреватель подземелий
-## Notes-zhCN: |cff00CC33副本地图浏览器|r
-## Notes-zhTW: Atlas 地圖集主程式
+## Interface: 110205
 ## Author: nanderson11
-## Version: v3.12.2
+## Version: v3.12.4
+
+## Title: Atlas
+## Notes: Instance Map Browser
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本地图|r |cFFFFE00AAtlas|r
+## Notes-zhCN: |cff00CC33副本地图浏览器|r
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
+
+## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibBabble-Boss-3.0, LibBabble-SubZone-3.0, LibBabble-Faction-3.0, LibDBIcon-1.0
+
+## SavedVariables: AtlasDB
+
 ## X-Website: https://github.com/nanderson11/Atlas
 ## X-Category: Map
 ## X-License: GPLv2
 ## X-Credits: Forked from Atlas
 ## X-Localizations: enUS, deDE, esES, esMX, frFR, ruRU, zhTW, zhCN, ptBR, koKR
 ## X-Curse-Project-ID: 1115649
-## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibBabble-Boss-3.0, LibBabble-SubZone-3.0, LibBabble-Faction-3.0, LibDBIcon-1.0
-## SavedVariables: AtlasDB
 
 Data\Constants.lua
 Data\AreaIDs_ClassicEra.lua

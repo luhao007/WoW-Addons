@@ -135,8 +135,8 @@ local function ADD_Options()
 		if event=="LOOT_CLOSED" then
 			wipe(self.listdata)
 		elseif IsInGroup() then
-			local lootmethod, masterlooterPartyID, masterlooterRaidID= GetLootMethod();
-			if lootmethod=="master" and masterlooterPartyID==0 then
+			local lootmethodID,masterLootPartyID, masterLooterRaidID= Fun.PIG_GetLootMethod()
+			if lootmethodID==2 and masterlooterPartyID==0 then
 				local lootNum = GetNumLootItems()
 				if #self.listdata==0 then
 					for x=1,lootNum do

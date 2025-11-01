@@ -1,31 +1,29 @@
-## Interface: 50501
-## Title: Minimal Archaeology
+## Interface: 110205
 ## Author: Gyula Pataki, Joseph O'Connor, Josef Drexler
-## Email: gyussz@live.com
 ## Version: 11.2.2
+
+## Title: Minimal Archaeology
 ## Notes: Archaeology UI replacement, Archaeology History and more... - Mists of Pandaria Version
-## DefaultState: Enabled
-## LoadOnDemand: 0
-## SavedVariablesPerCharacter: MinArchOptions
-## SavedVariables: MinArchDB, MinArchDigsitesGlobalDB
+## Title-zhCN: |cFFFFE00A<|r|cFF0070DE专业|r|cFFFFE00A>|r|cFFFFFFFF考古助手|r |cFFFFE00AMinimalArchaeology|r
+## Notes-zhCN: 独立考古窗口
+
+## IconTexture: Interface\Icons\Trade_Archaeology_Dinosaurskeleton
+
+## Category-zhCN: |cFFFFE00A<|r|cFF0070DE专业|r|cFFFFE00A>|r
+
 ## AddonCompartmentFunc: MinArch_OnAddonCompartmentClick
 ## AddonCompartmentFuncOnEnter: MinArch_OnAddonCompartmentEnter
 ## AddonCompartmentFuncOnLeave: MinArch_OnAddonCompartmentLeave
+
+## LoadOnDemand: 0
+## DefaultState: Enabled
+
+## SavedVariables: MinArchDB, MinArchDigsitesGlobalDB
+## SavedVariablesPerCharacter: MinArchOptions
+
 ## X-Curse-Project-ID: 28160
 ## X-Wago-ID: nGvpwe6x
-## IconTexture: Interface\Icons\Trade_Archaeology_Dinosaurskeleton
-## Category-enUS: Professions
-## Category-deDE: Berufe
-## Category-esES: Profesiones
-## Category-esMX: Profesiones
-## Category-frFR: Métiers
-## Category-itIT: Professioni
-## Category-koKR: 전문 기술
-## Category-ptBR: Profissões
-## Category-ruRU: Профессии
-## Category-zhCN: 专业
-## Category-zhTW: 專業技能
-# Special thanks to joevt for the contribution
 
+# Special thanks to joevt for the contribution
 embeds.xml
 addon\addon-mists.xml

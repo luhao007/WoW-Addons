@@ -254,11 +254,11 @@ local function CreateRunner(name)
 					OnEnd();
 				end
 				Pushed = nil;
-				Reset();
 				if frameStartTime then
 					local diff = math.floor(100000 * (GetTimePreciseSec() - frameStartTime)) / 100
-					app.PrintDebug("FRC",name,"FrameTime","#",Config.PerFrame,diff,"ms Stutter @", math.ceil(1000 / diff))
+					app.PrintDebug("FRC",name,"FrameTime","#",Config.PerFrame - perFrame,diff,"ms Stutter @", math.ceil(1000 / diff))
 				end
+				Reset();
 				-- Yield false to kick the StackRun off the Stack to stop calling this coroutine since it is complete until Run is called again
 				c_yield(false);
 			end

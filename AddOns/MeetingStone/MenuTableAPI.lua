@@ -437,20 +437,31 @@ function ListOfDungeons(menuType)
     --local Dungeons = { 322, 324, 325, 327, 371,266,140,257} 
     --local Activitys = { 1282, 1281, 1283, 1286, 510, 683, 717, 1550}
     
-    local Dungeons =  C_LFGList.GetAvailableActivityGroups(GROUP_FINDER_CATEGORY_ID_DUNGEONS, bit.bor(Enum.LFGListFilter.CurrentSeason, Enum.LFGListFilter.PvE))
-    if #Dungeons then
-        Dungeons = { 323, 324, 326, 371, 381, 261,280,281}
-    end    
-    local Activitys = C_LFGList.GetAvailableActivities(GROUP_FINDER_CATEGORY_ID_DUNGEONS, bit.bor(Enum.LFGListFilter.CurrentSeason, Enum.LFGListFilter.PvE))
-    if #Activitys == 0 then
+    -- local Dungeons =  C_LFGList.GetAvailableActivityGroups(GROUP_FINDER_CATEGORY_ID_DUNGEONS, bit.bor(Enum.LFGListFilter.CurrentSeason, Enum.LFGListFilter.PvE))
+    -- if #Dungeons then
+    --     Dungeons = { 323, 324, 326, 371, 381, 261,280,281}
+    -- end
+    
+    local Dungeons
+    local Activitys
+    if MEETINGSTONE_CHARACTER_DB.Remix then
+        Dungeons = { 127, 128, 112, 114, 115, 120 ,113,117,118,121,119}
+        Activitys = {1793,1794,1782,1783,1785,1789,1788,1795,1790,1791,1787}
+    else
+        Dungeons = C_LFGList.GetAvailableActivityGroups(GROUP_FINDER_CATEGORY_ID_DUNGEONS, bit.bor(Enum.LFGListFilter.CurrentSeason, Enum.LFGListFilter.PvE))
+        if #Dungeons == 0 then        
+            Dungeons = { 323, 324, 326, 371, 381, 261 ,280,281}
+        end
         Activitys = {1284,1281,1285,1550,1694,699,1016,1017}
     end    
+ 
     --381/1694/生态 324/1281/修道院 326/1285/破晨号 371/1550/水闸 280/1016/天街 281/1017/宏图  261/699/赎罪 323/1284/回响
     
     -- C_MythicPlus.IsMythicPlusActive()
     -- C_LFGList.GetActivityInfoTable(i)
     -- /run for i=750,2000 do local info = C_LFGList.GetActivityInfoTable(i); if info then print(i, info.fullName) end end
-	
+    --/run local info = C_LFGList.GetAvailableActivities(GROUP_FINDER_CATEGORY_ID_DUNGEONS);for i=1,42 do local act= C_LFGList.GetActivityInfoTable(info[i]);print(info[i],act.fullName,act.groupFinderActivityGroupID) end
+
     for k, groupId in ipairs(Dungeons) do
         local data = {}
         local actInfo = C_LFGList.GetActivityInfoTable(Activitys[k])

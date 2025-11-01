@@ -104,13 +104,11 @@ local function MovingFun(MovingUI,Frame)
 	        if PIGA["FramePlus"]["BlizzardUI_Move_Save"] then
 	        	SetUIConfigData(MovingUIName)
 	        	local point, relativeTo, relativePoint, offsetX, offsetY = MovingUI:GetPoint()
-	        	local offsetX = floor(offsetX*100+0.5)*0.01
-				local offsetY = floor(offsetY*100+0.5)*0.01
-	       		PIGA["Blizzard_UI"][MovingUIName]["Point"]={point, relativePoint, offsetX, offsetY}
-	       		--if not InCombatLockdown() then SetUIPanelAttribute(MovingUI, "area", nil) end
-				-- print(offsetX,offsetY)
-				-- SetUIPanelAttribute(MovingUI, "xoffset", offsetX);
-				-- SetUIPanelAttribute(MovingUI, "yoffset", offsetY);
+				if point and relativePoint and offsetX and offsetY then
+					local offsetX = floor(offsetX*100+0.5)*0.01
+					local offsetY = floor(offsetY*100+0.5)*0.01
+					PIGA["Blizzard_UI"][MovingUIName]["Point"]={point, relativePoint, offsetX, offsetY}
+				end
 	       	end
 	    end)
 	    MovingUI:HookScript("OnShow",function(self)

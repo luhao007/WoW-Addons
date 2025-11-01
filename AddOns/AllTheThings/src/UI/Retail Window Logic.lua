@@ -1750,6 +1750,7 @@ app.AddEventHandler("RowOnEnter", function(self)
 	then
 		local link = reference.link or reference.tooltipLink or reference.silentLink
 		if link and link:sub(1, 1) ~= "[" then
+			-- app.PrintDebug("SetHyperlink!", link);
 			local ok, result = pcall(tooltip.SetHyperlink, tooltip, link);
 			if ok and result then
 				linkSuccessful = true;
@@ -1760,7 +1761,7 @@ app.AddEventHandler("RowOnEnter", function(self)
 			end
 			-- app.PrintDebug("Link:", link:gsub("|","\\"));
 			-- app.PrintDebug("Link Result!", result, refkey, reference.__type,"TT lines",tooltip:NumLines());
-		-- elseif link then app.PrintDebug("Ignore tooltip link",link) else
+		-- elseif link then app.PrintDebug("Ignore tooltip link",link)
 		end
 
 		-- Only if the link was unsuccessful.

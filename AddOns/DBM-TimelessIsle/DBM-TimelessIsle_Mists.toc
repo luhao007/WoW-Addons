@@ -1,15 +1,21 @@
-## Interface: 50500
-## X-Min-Interface: 50500
-## Category: DBM
-
-## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0World: Timeless Isle|r
-## Title-esES:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Isla Intemporal|r
-## Title-ruRU:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Мир: Вневременной остров|r
+## Interface: 110205
 ## Author: MysticalOS
-## LoadOnDemand: 1
-## RequiredDeps: DBM-Core
-## SavedVariables: DBMTimelessIsle_AllSavedVars
+## Version: r55
+
+## Title: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0World: Timeless Isle|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本助手|r |cFF69CCF0户外|r |cFF22B14C永恒岛|r
+
 ## IconTexture: Interface\AddOns\DBM-Core\textures\dbm_airhorn
+
+## Category: DBM
+## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
+
+## RequiredDeps: DBM-Core
+## LoadOnDemand: 1
+
+## SavedVariables: DBMTimelessIsle_AllSavedVars
+
+## X-Min-Interface: 50500
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: OTHER
 ## X-DBM-Mod-Category: MOP
@@ -21,7 +27,7 @@
 ## X-DBM-Mod-MapID: m554
 ## X-DBM-Mod-MinCoreRevision: 12473
 ## X-Curse-Project-ID: 84414
-## Version: r55
+## X-Part-Of: DBM-Core
 
 localization.en.lua
 localization.es.lua

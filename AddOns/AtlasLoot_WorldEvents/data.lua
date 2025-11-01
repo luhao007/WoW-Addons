@@ -1991,19 +1991,23 @@ data["HallowsEnd"]            = {
 		{ --Hallows End Headless Horseman
 			name = AL["Headless Horseman"].." ("..ALIL["Scarlet Monastery"]..")",
 			[NORMAL_DIFF] = {
-				{ 1,  "117363:3493" }, -- Band of the Petrified Pumpkin
-				{ 2,  "117364:3493" }, -- Seal of Ghoulish Glee
-				{ 3,  "117365:3493" }, -- The Horseman's Ring
-				{ 4,  "117362:3493" }, -- Wicked Witch's Signet
-				{ 6,  34068 },      -- Weighted Jack-o'-Lantern
-				{ 16, 54516 },      -- Loot-Filled Pumpkin
+				{ 1,  "117363:12380" }, -- Band of the Petrified Pumpkin
+				{ 2,  "117364:12380" }, -- Seal of Ghoulish Glee
+				{ 3,  "117365:12380" }, -- The Horseman's Ring
+				{ 4,  "117362:12380" }, -- Wicked Witch's Signet
+				{ 6,  34068 },        -- Weighted Jack-o'-Lantern
+				{ 16, 54516 },        -- Loot-Filled Pumpkin
 				{ 17, "117355:3493" }, -- The Horseman's Horrific Hood
 				{ 18, "117356:3493" }, -- The Horseman's Sinister Slicer
-				{ 19, 37012,        "mount" }, -- The Horseman's Reins
-				{ 20, 33292 },      -- Hallowed Helm
-				{ 21, 37011 },      -- Magic Broom
-				{ 22, 33154,        "pet162" }, -- Sinister Squashling
-				{ 23, 33226 },      -- Tricky Treat
+				{ 19, 37012,         "mount" }, -- The Horseman's Reins
+				{ 20, 247721,        "mount" }, -- The Headless Horseman's Ghoulish Charger
+				{ 21, 33292 },        -- Hallowed Helm
+				{ 22, 37011 },        -- Magic Broom
+				{ 23, 208680 },       -- Windborne Velocidrake: Hallow's End Armor
+				{ 24, 33154,         "pet162" }, -- Sinister Squashling
+				{ 25, 211271,        "pet3491" }, -- Arfus
+				{ 26, 247973 },       -- Ensemble: The Horseman's Ghoulish Collection
+				{ 27, 33226 },        -- Tricky Treat
 			},
 		},
 		{ --Hallows End Candy Toys
@@ -2017,48 +2021,68 @@ data["HallowsEnd"]            = {
 				{ 5,   33154,              "pet162",                                [PRICE_EXTRA_ITTYPE] = "trickytreat:150" }, -- Sinister Squashling
 				{ 6,   71076,              "pet321",                                [QUEST_EXTRA_ITTYPE] = 29413 }, -- Creepy Crate
 
-				{ 8,   116811,             [PRICE_EXTRA_ITTYPE] = "trickytreat:5" },                                -- "Lil' Starlet" Costume
-				{ 9,   116810,             [PRICE_EXTRA_ITTYPE] = "trickytreat:5" },                                -- "Mad Alchemist" Costume
-				{ 10,  116812,             [PRICE_EXTRA_ITTYPE] = "trickytreat:150" },                              -- "Yipp-Saron" Costume
+				{ 8,   116811,             [PRICE_EXTRA_ITTYPE] = "trickytreat:5",  [ATLASLOOT_IT_AMOUNT1] = 5 },   -- "Lil' Starlet" Costume
+				{ 9,   116810,             [PRICE_EXTRA_ITTYPE] = "trickytreat:5",  [ATLASLOOT_IT_AMOUNT1] = 5 },   -- "Mad Alchemist" Costume
+				{ 10,  116812,             [PRICE_EXTRA_ITTYPE] = "trickytreat:50", [ATLASLOOT_IT_AMOUNT1] = 5 },   -- "Yipp-Saron" Costume
+				{ 11,  139036,             [PRICE_EXTRA_ITTYPE] = "trickytreat:5",  [ATLASLOOT_IT_AMOUNT1] = 5 },   -- Ominous Pet Treat
 
 				-- Toys
-				{ 12,  163045,             [PRICE_EXTRA_ITTYPE] = "trickytreat:150" }, -- Headless Horseman's Hearthstone
-				{ 13,  151271,             [PRICE_EXTRA_ITTYPE] = "trickytreat:150" }, -- Horse Head Costume
-				{ 14,  151270,             [PRICE_EXTRA_ITTYPE] = "trickytreat:150" }, -- Horse Tail Costume
-				{ 15,  70722,              [PRICE_EXTRA_ITTYPE] = "trickytreat:150" }, -- Little Wickerman
+				{ 16,  163045,             [PRICE_EXTRA_ITTYPE] = "trickytreat:150" }, -- Headless Horseman's Hearthstone
+				{ 17,  151271,             [PRICE_EXTRA_ITTYPE] = "trickytreat:150" }, -- Horse Head Costume
+				{ 18,  151270,             [PRICE_EXTRA_ITTYPE] = "trickytreat:150" }, -- Horse Tail Costume
+				{ 19,  70722,              [PRICE_EXTRA_ITTYPE] = "trickytreat:100" }, -- Little Wickerman
 
 				-- Disguises
-				{ 16,  151268,             [PRICE_EXTRA_ITTYPE] = "trickytreat:200" }, -- Exquisite Costume Set: "Xavius"
-				{ 17,  138990,             [PRICE_EXTRA_ITTYPE] = "trickytreat:200" }, -- Exquisite Costume Set: "Deathwing"
-				{ 18,  128643,             [PRICE_EXTRA_ITTYPE] = "trickytreat:200" }, -- Exquisite Costume Set: "Deathwing"
-				{ 19,  116828,             [PRICE_EXTRA_ITTYPE] = "trickytreat:200" }, -- Exquisite Costume Set: "The Lich King"
-
-				-- Festive Transmog
-				{ 21,  139136, },                                          -- Hat of the Youngest Sister
-				{ 22,  139135, },                                          -- Hat of the Third Sister
-				{ 23,  139134, },                                          -- Hat of the Second Sister
-				{ 24,  139133, },                                          -- Hat of the First Sister
-				{ 25,  33292,              [PRICE_EXTRA_ITTYPE] = "trickytreat:150" }, -- Hallowed Helm
+				{ 21,  151268,             [PRICE_EXTRA_ITTYPE] = "trickytreat:200" }, -- Exquisite Costume Set: "Xavius"
+				{ 22,  138990,             [PRICE_EXTRA_ITTYPE] = "trickytreat:200" }, -- Exquisite Costume Set: "Deathwing"
+				{ 23,  128643,             [PRICE_EXTRA_ITTYPE] = "trickytreat:200" }, -- Exquisite Costume Set: "Deathwing"
+				{ 24,  116828,             [PRICE_EXTRA_ITTYPE] = "trickytreat:200" }, -- Exquisite Costume Set: "The Lich King"
 
 				-- Mounts
-				{ 27,  37011,              [PRICE_EXTRA_ITTYPE] = "trickytreat:150" }, -- Magic Broom
+				{ 26,  37011,              [PRICE_EXTRA_ITTYPE] = "trickytreat:50" }, -- Magic Broom
+
+				-- Festive Transmog
+				{ 101, 139136, },                                          -- Hat of the Youngest Sister
+				{ 102, 139135, },                                          -- Hat of the Third Sister
+				{ 103, 139134, },                                          -- Hat of the Second Sister
+				{ 104, 139133, },                                          -- Hat of the First Sister
+				{ 106, 33292,              [PRICE_EXTRA_ITTYPE] = "trickytreat:100" }, -- Hallowed Helm
+				{ 107, 208735,             [PRICE_EXTRA_ITTYPE] = "trickytreat:150" }, -- Bucket of Morbid Treats
+				{ 108, 230173,             [PRICE_EXTRA_ITTYPE] = "trickytreat:150" }, -- Ensemble: Prowler's Faded Headgear
+				{ 109, 230042,             [PRICE_EXTRA_ITTYPE] = "trickytreat:50" }, -- Prowler's Faded Shoulder Cape
+				{ 110, 247710,             [PRICE_EXTRA_ITTYPE] = "trickytreat:100" }, -- The Horseman's Ghoulish Great Blade
+				{ 111, 247706,             [PRICE_EXTRA_ITTYPE] = "trickytreat:100" }, -- The Horseman's Ghoulish Blade
+				{ 112, 247715,             [PRICE_EXTRA_ITTYPE] = "trickytreat:100" }, -- The Horseman's Ghoulish Bulwark
+				{ 116, 226690,             [PRICE_EXTRA_ITTYPE] = "trickytreat:100" }, -- Patched Harvest Golem's Head
+				{ 117, 226461,             [PRICE_EXTRA_ITTYPE] = "trickytreat:100" }, -- Patched Harvest Golem's Belt
+				{ 118, 226458,             [PRICE_EXTRA_ITTYPE] = "trickytreat:100" }, -- Patched Harvest Golem's Boots
+				{ 119, 226457,             [PRICE_EXTRA_ITTYPE] = "trickytreat:100" }, -- Patched Harvest Golem's Chest
+				{ 120, 226456,             [PRICE_EXTRA_ITTYPE] = "trickytreat:100" }, -- Patched Harvest Golem's Gloves
+				{ 121, 226455,             [PRICE_EXTRA_ITTYPE] = "trickytreat:100" }, -- Patched Harvest Golem's Pants
+				{ 122, 226454,             [PRICE_EXTRA_ITTYPE] = "trickytreat:100" }, -- Patched Harvest Golem's Pauldrons
+				{ 123, 226427,             [PRICE_EXTRA_ITTYPE] = "trickytreat:100" }, -- Patched Harvester's Claw
+				{ 124, 226453,             [PRICE_EXTRA_ITTYPE] = "trickytreat:100" }, -- Patched Harvest Golem's Post
 
 				-- Heirloom Upgrades
-				{ 101, 151614,             [PRICE_EXTRA_ITTYPE] = "trickytreat:450" },                 -- Weathered Heirloom Armor Casing
-				{ 102, 122340,             [PRICE_EXTRA_ITTYPE] = "trickytreat:450" },                 -- Timeworn Heirloom Armor Casing
-				{ 103, 122338,             [PRICE_EXTRA_ITTYPE] = "trickytreat:250" },                 -- Ancient Heirloom Armor Casing
-				-- Consumables
-				{ 116, 37585,              [PRICE_EXTRA_ITTYPE] = "trickytreat:2",  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Chewy Fel Taffy
-				{ 117, 37583,              [PRICE_EXTRA_ITTYPE] = "trickytreat:2",  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- G.N.E.R.D.S.
-				{ 118, 37582,              [PRICE_EXTRA_ITTYPE] = "trickytreat:2",  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Pyroblast Cinnamon Ball
-				{ 119, 37584,              [PRICE_EXTRA_ITTYPE] = "trickytreat:2",  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Soothing Spearmint Candy
-				{ 120, 37604,              [PRICE_EXTRA_ITTYPE] = "trickytreat:2",  [ATLASLOOT_IT_AMOUNT1] = 10 }, -- Tooth Pick
+				{ 201, 122338,             [PRICE_EXTRA_ITTYPE] = "trickytreat:250" }, -- Ancient Heirloom Armor Casing
+				{ 202, 122340,             [PRICE_EXTRA_ITTYPE] = "trickytreat:450" }, -- Timeworn Heirloom Armor Casing
+				{ 203, 151614,             [PRICE_EXTRA_ITTYPE] = "trickytreat:450" }, -- Weathered Heirloom Armor Casing
+				{ 204, 167731,             [PRICE_EXTRA_ITTYPE] = "trickytreat:450" }, -- Battle-Hardened Heirloom Armor Casing
+				{ 205, 187997,             [PRICE_EXTRA_ITTYPE] = "trickytreat:450" }, -- Eternal Heirloom Armor Casing
+				{ 206, 204336,             [PRICE_EXTRA_ITTYPE] = "trickytreat:450" }, -- Awakened Heirloom Armor Casing
 
-				{ 122, "INV_misc_food_25", nil,                                     AL["Special Rewards"],                   nil },
-				{ 123, 33117 }, -- Jack-o'-Lantern
-				{ 124, 20400 }, -- Pumpkin Bag
-				{ 126, 20516 }, -- Bobbing Apple
-				{ 127, 34068 }, -- Weighted Jack-o'-Lantern
+				-- Consumables
+				{ 216, 37585,              [PRICE_EXTRA_ITTYPE] = "trickytreat:2",  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Chewy Fel Taffy
+				{ 217, 37583,              [PRICE_EXTRA_ITTYPE] = "trickytreat:2",  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- G.N.E.R.D.S.
+				{ 218, 37582,              [PRICE_EXTRA_ITTYPE] = "trickytreat:2",  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Pyroblast Cinnamon Ball
+				{ 219, 37584,              [PRICE_EXTRA_ITTYPE] = "trickytreat:2",  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Soothing Spearmint Candy
+				{ 220, 37604,              [PRICE_EXTRA_ITTYPE] = "trickytreat:2",  [ATLASLOOT_IT_AMOUNT1] = 10 }, -- Tooth Pick
+
+				{ 222, "INV_misc_food_25", nil,                                     AL["Special Rewards"],                   nil },
+				{ 223, 33117 }, -- Jack-o'-Lantern
+				{ 224, 20400 }, -- Pumpkin Bag
+				{ 226, 20516 }, -- Bobbing Apple
+				{ 227, 34068 }, -- Weighted Jack-o'-Lantern
 			},
 			[HORDE_DIFF] = {
 				GetItemsFromDiff = ALLIANCE_DIFF,

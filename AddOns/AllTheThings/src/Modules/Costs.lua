@@ -753,8 +753,7 @@ do
 		if not group then return end
 
 		Collector.Reset()
-		local text = group.text
-		Collector.__text = text
+		local text = group.__text
 		group.text = (text or "").."  "..BLIZZARD_STORE_PROCESSING
 		group.OnSetVisibility = app.ReturnTrue
 		-- app.PrintDebug("AGC:Start",text)
@@ -764,7 +763,7 @@ do
 		local group = Collector.__group
 		if not group then return end
 
-		group.text = Collector.__text
+		group.text = group.__text
 		-- app.PrintDebug("AGC:End",group.text)
 		-- app.PrintTable(Collector.Data)
 		-- Build all the cost data which is available to the current filters into the cost group
@@ -816,7 +815,7 @@ do
 		Collector.Reset()
 	end
 	local function ScanSubCosts(Collector)
-		-- app.PrintDebug("SSC:Start",Collector.__text)
+		-- app.PrintDebug("SSC:Start",Collector.__group.__text)
 		local group = Collector.__group
 		if not group then return end
 
@@ -963,6 +962,8 @@ local function BuildTotalCost(group)
 		g = {},
 		OnClick = app.UI.OnClick.IgnoreRightClick,
 	});
+	-- keep an unmodified text copy
+	costGroup.__text = costGroup.text
 
 	local Collector = app.Modules.Costs.GetCostCollector(group)
 

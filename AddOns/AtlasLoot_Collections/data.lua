@@ -1455,6 +1455,7 @@ data["MOUNTS"]             = {
 				{ 522, 248761, "mount" },                                                -- Brewfest Bomber
 				{ 523, 246921, "mount", [PRICE_EXTRA_ITTYPE] = "tender:0" },             -- Legion Forged Elekk
 				{ 524, 247723, "mount", [PRICE_EXTRA_ITTYPE] = "tender:700" },           -- The Headless Horseman's Hallowed Charger
+				{ 525, 247721, "mount" },                                                -- The Headless Horseman's Ghoulish Charger
 				-- { 329, 223570, "mount" }, -- Reins of the Ebonhide Ramolith (not yet available)
 				-- { 321, 235554, "mount" }, -- Midnight Darkmoon Charger (not yet available)
 				-- { 323, 235659, "mount" }, -- Midnight Butterfly (not yet available)
@@ -6615,6 +6616,7 @@ data["COMPANIONS"]         = {
 				{ 219, 223145, "pet4548", [PRICE_EXTRA_ITTYPE] = "tender:500" },   -- Marrlok
 				{ 220, 206174, "pet3582", [PRICE_EXTRA_ITTYPE] = "tender:500" },   -- Blub
 				{ 221, 223474, "pet4566", [PRICE_EXTRA_ITTYPE] = "tender:300" },   -- Worgli the Apprehensive
+				{ 222, 211271, "pet3491" },                                        -- Arfus
 				-- { 12,  193068 }, -- Time-Lost Treeflitter
 				-- { 21,  193380 }, -- Pink Salamanther
 				-- { 26,  193587 }, -- Time-Lost Duck

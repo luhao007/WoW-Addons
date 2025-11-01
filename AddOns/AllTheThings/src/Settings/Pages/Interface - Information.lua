@@ -1501,7 +1501,7 @@ settings.CreateInformationType("LinkSourceID", {
 		local itemName = GetItemInfo(link)
 		-- If it doesn't, the source ID will need to be harvested.
 		local sourceID, success = app.GetSourceID(link);
-		-- app.PrintDebug("SourceIDs",data.modItemID,source,sourceID,success,link)
+		-- app.PrintDebug("SourceIDs",data.modItemID,rowSource,source,sourceID,success,link)
 		if sourceID and sourceID > 0 then
 			-- only save the source if it is different than what we already have, or being forced
 			if not source or source < 1 or source ~= sourceID then

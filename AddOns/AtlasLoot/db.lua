@@ -97,7 +97,7 @@ AtlasLoot.AtlasLootDBDefaults = {
 			},
 		},
 		minimap = {
-			shown = true,
+			shown = false,
 			locked = false,
 			minimapPos = 218,
 			showInCompartment = true,

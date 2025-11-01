@@ -1212,7 +1212,7 @@ local function GetSearchResults(method, paramA, paramB, ...)
 						local mapID = app.GetBestMapForGroup(entry, currentMapID);
 						if mapID and mapID ~= currentMapID then left = left .. " (" .. app.GetMapName(mapID) .. ")"; end
 						if entry.icon then item.prefix = item.prefix .. "|T" .. entry.icon .. ":0|t "; end
-						
+
 						-- If this entry has specialization requirements, let's attempt to show the specialization icons.
 						right = item.right;
 						local specs = entry.specs;
@@ -1224,7 +1224,7 @@ local function GetSearchResults(method, paramA, paramB, ...)
 								right = app.GetClassesString(c, false, false) .. right;
 							end
 						end
-						
+
 						tinsert(tooltipInfo, { left = item.prefix .. left, right = right });
 					end
 				else
@@ -1531,7 +1531,7 @@ function app:GetDataCache()
 			end
 		});
 		local g = rootData.g;
-		
+
 		-----------------------------------------
 		-- P R I M A R Y   C A T E G O R I E S --
 		-----------------------------------------
@@ -1611,7 +1611,7 @@ function app:GetDataCache()
 				g = app.Categories.ExpansionFeatures
 			});
 		end
-		
+
 		-----------------------------------------
 		-- L I M I T E D   C A T E G O R I E S --
 		-----------------------------------------
@@ -1670,13 +1670,13 @@ function app:GetDataCache()
 				isEventCategory = true,
 			});
 		end
-		
+
 		---------------------------------------
 		-- M A R K E T   C A T E G O R I E S --
 		---------------------------------------
 		-- Black Market
 		if app.Categories.BlackMarket then tinsert(g, app.Categories.BlackMarket[1]); end
-		
+
 		-- In-Game Store
 		if app.Categories.InGameShop then
 			tinsert(g, app.CreateCustomHeader(app.HeaderConstants.IN_GAME_SHOP, {
@@ -1684,7 +1684,7 @@ function app:GetDataCache()
 				expanded = false
 			}));
 		end
-		
+
 		-----------------------------------------
 		-- D Y N A M I C   C A T E G O R I E S --
 		-----------------------------------------

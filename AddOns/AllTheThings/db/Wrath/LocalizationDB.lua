@@ -988,6 +988,7 @@ _.CategoryIcons = {
 -- Custom Header Database Module
 _.HeaderConstants = {
 	ACHIEVEMENTS = -12,
+	ARTIFACTS = -214,
 	BREWFEST_HEADER = -557,
 	CHEST = -90,
 	CHILDRENS_WEEK_HEADER = -559,
@@ -997,6 +998,7 @@ _.HeaderConstants = {
 	DARKMOON_FAIRE_HEADER = -37,
 	DAY_OF_THE_DEAD_HEADER = -566,
 	DISCOVERY = -26,
+	EXPANSION_PRELAUNCH = -103,
 	EXPLORATION = -30,
 	FACTIONS = -31,
 	FEAST_OF_WINTER_VEIL_HEADER = -574,
@@ -1096,10 +1098,12 @@ localize(L.HEADER_NAMES, {
 	[-100] = INVTYPE_WAIST,
 	[-101] = AUCTION_CATEGORY_WEAPONS,
 	[-102] = INVTYPE_WRIST,
+	[-103] = "Expansion Pre-Launch",
 	[-210] = FACTION_ALLIANCE,
 	[-211] = FACTION_HORDE,
 	[-212] = COMBATLOG_FILTER_STRING_NEUTRAL_UNITS,
 	[-213] = BATTLE_PET_SOURCE_10,
+	[-214] = ITEM_QUALITY6_DESC,
 	[-215] = ITEM_QUALITY1_DESC,
 	[-217] = ITEM_QUALITY4_DESC,
 	[-219] = HEIRLOOMS,
@@ -1161,14 +1165,11 @@ localize(L.HEADER_NAMES, {
 	[-371] = "The Frostwing Halls",
 	[-388] = C_Map.GetAreaInfo(1769),
 	[-413] = select(1,GetCategoryInfo(14941)),
-	[-474] = "Elemental Unrest",
-	[-475] = select(2,GetAchievementInfo(4786)),
 	[-476] = "Plunderstorm",
 	[-481] = "The Ahn'Qiraj War Effort",
 	[-482] = "The Opening of the Dark Portal",
 	[-483] = "The Scepter of the Shifting Sands",
 	[-484] = "The Scourge Invasion",
-	[-485] = select(2,GetAchievementInfo(4790)),
 	[-520] = "BlizzCon",
 	[-521] = "Collector's Edition",
 	[-522] = "Heroic Edition",
@@ -1225,14 +1226,11 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-365] = "Stratholme is divided into two sides.\n\nThis side is commonly referred to as the \"Live\" or \"Scarlet\" side, which the Scarlet Crusade has taken over.",
 	[-366] = "Stratholme is divided into two sides.\n\nThis side is commonly referred to as the \"Dead\" or \"Scourge\" side, which the Scourge has taken over.",
 	[-367] = "You must kill all 6 mini bosses around the room in order to unlock the way to Jammal'an the Prophet.",
-	[-474] = "The Elemental Unrest was a world event that heralded the Cataclysm. The event culminated in elementals attacking Stormwind, Orgrimmar, Ironforge, and Thunder Bluff. Players defeating these elementals and freeing trapped citizens within their entire city were granted access to two special boss encounters.",
-	[-475] = "Operation: Gnomeregan was the name of Gelbin Mekkatorque's plan for the retaking of the surface of Gnomeregan. Only Alliance players between level 75 and 80 were able to serve during the operation, but lower level players helped by motivating other gnomes or by turning in items.",
 	[-476] = "Get swept away in the Plunderstorm— a fun, new, limited-time, pirate-themed event of prodigious proportions lasting the next several weeks. Scour the map and try to be the last pirate standing while dashing across the Arathi Highlands to find abilities, upgrades, and loot to plunder just to survive!\n\nTo Play: Login to Retail WoW and select 'Plunderstorm' from the Game Mode on the top left of your Character Select screen.",
 	[-481] = "The Ruins of Ahn'Qiraj and Temple of Ahn'Qiraj were not be immediately available with the release of Phase 5. Instead, server communities had to undertake a massive war effort to open the raids by gathering supplies to prepare for the war and completing an epic questline that ultimately culminates in the banging of a gong to open the gates and release the horrors within upon the world.\n\nOnce both factions have finished their contribution, there is a 5-day grace period where. Afterwards, there is a server-wide 10 hour event which spans several zones in Kalimdor the moment someone bangs the gong.\n\nHow quickly Ahn'Qiraj opens depends on the server and its faction balance.\n\nWe recommend delaying the War Effort as long as possible to allow for the most number of people to obtain the Scarab Lord mount as everyone that finishes The Scepter of the Shifting Sands quest line will be granted the same rewards!",
 	[-482] = "The Opening of the Dark Portal was a one-time event that happened between Prepatch and the launch of TBC and subsequentially removed after. The tabard is the only tabard in the game with the Flex emote built into it and is highly covetted by collectors. Highlord Kruul would spawn randomly outside of the major cities and max level zones of the time.",
 	[-483] = "In addition to all players on a realm working towards completing the War Effort, one player had to create the Scepter of the Shifting Sands - a very difficult task that could only be solved by a server's top guild back when the questline was added. After the war effort was finished and the army of the Alliance and the Horde arrived in Silithus, the Scepter of the Shifting Sands could be used on the Scarab Gong. Doing so resulted in the opening of Ahn'Qiraj. The first player to bang the Scarab Gong on each server would be rewarded with the Scarab Lord title (in Burning Crusade, the title will not be available in Classic!) and the Black Qiraji Resonating Crystal mount. Anyone else who followed them within 10 hours was rewarded with the title as well.\n\nAlthough it is still possible to complete the questline for the Scepter of the Shifting Sands after the gates have been opened on your server, doing so will not reward neither the Black Qiraji Resonating Crystal nor the Scarab Lord title.",
 	[-484] = "The Scourge Invasion was a world event in Patch 1.11 and again during the Wrath of the Lich King Pre-Patch during 3.0.1 that heralded the opening of Naxxramas, the citadel of the dreaded Kel'Thuzad.\n\nSeveral regions of Azeroth came under attack by Scourge forces. Members of the Argent Dawn organized a worldwide counter to the Scourge invasion, keeping an eye out for any necropolis sightings and passing on their information to all adventurers willing to aid them in their struggle.\n\nWith each victory against the Scourge, the defense grows stronger. As more and more invasion attempts are beaten back by the defenders, the Argent Dawn will be able to bestow increasingly more powerful blessings upon those fighting the invaders. If the mortal races focus on clearing the Scourge camps all over the world that have sprung up beneath each necropolis, perhaps the invasion can effectively be halted or even repelled. Those who wish to take up arms against the undead invaders should speak with a representative of the Argent Dawn to learn what regions need help and how the defense is holding up.",
-	[-485] = "Zalazane's Fall (also referred to as the Battle to reclaim the Echo Isles) was the final push by Vol'jin and the Darkspear tribe to retake the Echo Isles from the clutches of the evil Zalazane. It was a culminating event for the Horde to occur before the release of the next expansion, Cataclysm. Furthermore, all troll characters created after the liberation of the Echo Isles now have their new starting point there.",
 	[-534] = "These rewards are available to anyone who purchased the Collector's Edition for Starcraft II: Wings of Liberty.",
 	[-546] = "These were only available through the 2006 iCoke Promotion (China Only)",
 	[-547] = "This section is for miscellaneous promotions that took place in the real world or something to do with account management.",
@@ -1306,10 +1304,12 @@ localize(L.HEADER_ICONS, {
 	[-100] = 132513,
 	[-101] = _.asset("weapon_type_epic"),
 	[-102] = 132606,
+	[-103] = 134289,
 	[-210] = 374217,
 	[-211] = 374221,
 	[-212] = 374222,
 	[-213] = _.asset("category_ingameshop"),
+	[-214] = _.asset("weapon_type_artifact"),
 	[-215] = 135030,
 	[-217] = 135028,
 	[-219] = _.asset("weapon_type_heirloom"),
@@ -1371,14 +1371,11 @@ localize(L.HEADER_ICONS, {
 	[-371] = 343638,
 	[-388] = 236696,
 	[-413] = 236689,
-	[-474] = _.asset("expansion_cata"),
-	[-475] = 255139,
 	[-476] = 133168,
 	[-481] = 132594,
 	[-482] = 255348,
 	[-483] = 133062,
 	[-484] = 135228,
-	[-485] = 255135,
 	[-520] = _.asset("promotion_blizzcon"),
 	[-521] = _.asset("promotion_collector"),
 	[-522] = _.asset("weapon_type_heirloom"),
@@ -1460,10 +1457,13 @@ localize(L.EVENT_REMAPPING, {
 });
 
 -- Programmatic Event Scheduling
+_.Modules.Events.SetEventInformation(444, {
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=14,["weekday"]=3,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=26,["weekday"]=4,["year"]=2025})
+});
 _.Modules.Events.SetEventInformation(242, {
-	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=10,["monthDay"]=22,["weekday"]=3,["year"]=2024},{["hour"]=10,["minute"]=0,["month"]=1,["monthDay"]=7,["weekday"]=3,["year"]=2025}),
-	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=10,["monthDay"]=22,["weekday"]=4,["year"]=2025},{["hour"]=10,["minute"]=0,["month"]=1,["monthDay"]=7,["weekday"]=4,["year"]=2026}),
-	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=10,["monthDay"]=22,["weekday"]=5,["year"]=2026},{["hour"]=10,["minute"]=0,["month"]=1,["monthDay"]=7,["weekday"]=5,["year"]=2027})
+	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=7,["year"]=2024},{["hour"]=10,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=7,["year"]=2024}),
+	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=1,["year"]=2025},{["hour"]=10,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=1,["year"]=2025}),
+	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=2,["year"]=2026},{["hour"]=10,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=2,["year"]=2026})
 });
 _.Modules.Events.SetEventInformation(133899, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=2,["year"]=2024},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=4,["year"]=2025}),
@@ -1474,9 +1474,6 @@ _.Modules.Events.SetEventInformation(133889, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=4,["year"]=2024},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=1,["year"]=2024}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=5,["year"]=2025},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=2,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=6,["year"]=2026},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=3,["year"]=2026})
-});
-_.Modules.Events.SetEventInformation(444, {
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=14,["weekday"]=3,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=26,["weekday"]=4,["year"]=2025})
 });
 
 -- Filter Database Module
@@ -5684,22 +5681,6 @@ local phases = {
 		buildVersion = 30403,
 		state = 2,
 	},
-	[3303] = {
-		name = "Operation Zalazane",
-		description = "|cFFAAFFAAThis became available with the release of Operation Gnomeregan and Zalazane's Fall during Wrath Classic.|r",
-		lore = "|cFFFFAAAAIncluded Operation Gnomeregan and Zalazane's Fall|r",
-		minimumBuildVersion = 30400,
-		buildVersion = 30403,
-		state = 2,
-	},
-	[3304] = {
-		name = "Elemental Unrest",
-		description = "|cFFAAFFAAThis became available with the release of the Elemental Unrest Cataclysm Prepatch Event during Wrath Classic.|r",
-		lore = "|cFFFFAAAAThe Elemental Unrest Pre-Expansion Event?|r",
-		minimumBuildVersion = 30400,
-		buildVersion = 30404,
-		state = 2,
-	},
 };
 L.PHASES = phases;
 
@@ -7881,6 +7862,7 @@ localize(L.HEADER_NAMES, {
 	[-85] = "Second coffre",
 	[-86] = "Troisième coffre",
 	[-87] = "Coffre final",
+	[-103] = "Pré-Lancement de l’Extension",
 	[-247] = select(2,GetAchievementInfo(2091))..": Saison 1",
 	[-248] = select(2,GetAchievementInfo(418))..": Saison 2",
 	[-249] = select(2,GetAchievementInfo(419))..": Saison 3",
@@ -12530,6 +12512,7 @@ localize(L.HEADER_NAMES, {
 	[-85] = "Второй Сундук",
 	[-86] = "Третий Сундук",
 	[-87] = "Последний Сундук",
+	[-103] = "Препатч",
 	[-243] = "Наложение чар на броню",
 	[-245] = "Наложение чар на оружие",
 	[-247] = select(2,GetAchievementInfo(2091))..": Сезон 1",
@@ -12560,7 +12543,6 @@ localize(L.HEADER_NAMES, {
 	[-368] = "Штурм цитадели",
 	[-369] = "Чумодельня",
 	[-371] = "Залы Ледокрылых",
-	[-474] = "Буйство элементалей",
 	[-481] = "Война в Ан'Кираже",
 	[-482] = "Открытие Темного портала",
 	[-483] = "Скипетр Зыбучих песков",
@@ -16280,6 +16262,7 @@ localize(L.HEADER_NAMES, {
 	[-86] = "Tercer cofre",
 	[-87] = "Cofre final",
 	[-97] = "Reliquias",
+	[-103] = "Evento de pre-parche",
 	[-229] = "Fuente IDs",
 	[-232] = "Parche 1.x.x",
 	[-235] = "Parche 2.x.x",
@@ -17759,8 +17742,6 @@ for key,value in pairs({
 	[33] = "Fase 4",
 	[3301] = "Prioridad de la Agonía de sombras",
 	[3302] = "Sagrario rubí",
-	[3303] = "Operación Zalazane",
-	[3304] = "Inestabilidad elemental",
 })
 do phases[key].name = value; end
 for key,value in pairs({
@@ -17807,8 +17788,6 @@ for key,value in pairs({
 	[33] = "|cFFAAFFAAEsto no estuvo disponible hasta Fase 4 de Wrath Classic.|r",
 	[3301] = "|cFFAAFFAAEl portador de Agonias de sombras para todos los que no la tienen.|r",
 	[3302] = "|cFFAAFFAAEsto estuvo disponible con el lanzamiento del Sagrario rubí durante Wrath Classic.|r",
-	[3303] = "|cFFAAFFAAEsto estuvo disponible con el lanzamiento de Operación Gnomeregan y La Caída de Zalazane durante Wrath Classic.|r",
-	[3304] = "|cFFAAFFAAEsto estuvo disponible con el lanzamiento del evento Inestabilidad elemental previo al parche Cataclysm durante Wrath Classic.|r",
 })
 do phases[key].description = value; end
 for key,value in pairs({
@@ -17850,8 +17829,6 @@ for key,value in pairs({
 	[33] = "|cFFFFAAAAIncluía La ciudadela corona de hielo|r",
 	[3301] = "|cFFFFAAAADebido a la exclusividad de Agonía de Sombras y a que la prioridad no siempre se otorga a los coleccionistas en lugar de a los que sudan, Crieve decidió que era apropiado por ahora proporcionar un filtro para reducir el drama de hermandad.\n\nEste filtro se activará por defecto después del pre-parche de Cataclysm.\n\nSi de hecho tienes la prioridad de Agonía de Sombras, simplemente actívala.|r",
 	[3302] = "|cFFFFAAAAIncluía El sagrario rubí.|r",
-	[3303] = "|cFFFFAAAAIncluía Operación Gnomeregan y La Caída de Zalazane|r",
-	[3304] = "|cFFFFAAAA¿Inestabilidad elemental evento Pre-parche?|r",
 })
 do phases[key].lore = value; end
 for key,value in pairs({
@@ -18126,6 +18103,7 @@ localize(L.HEADER_NAMES, {
 	[-36] = "Fiestas",
 	[-63] = "Botín de la zona",
 	[-74] = "Dragones de pesadilla",
+	[-103] = "Evento de pre-expansion",
 	[-525] = "Paquete heroico Rasganorte WotLK Classic",
 	[-526] = "Paquete heroico abrasador de Cataclysm Classic",
 });
@@ -18145,7 +18123,6 @@ for key,value in pairs({
 do phases[key].description = value; end
 for key,value in pairs({
 	[1610] = "|cFFFFAAAAIncluía Ahn'Qiraj, y la nueva banda Arboleda de la Pesadillas|r",
-	[3304] = "|cFFFFAAAA¿Inestabilidad elemental evento Pre-Expansion?|r",
 })
 do phases[key].lore = value; end
 for key,value in pairs({
@@ -18968,6 +18945,7 @@ localize(L.HEADER_NAMES, {
 	[-85] = "二箱",
 	[-86] = "三箱",
 	[-87] = "最终宝箱",
+	[-103] = "资料片前夕",
 	[-219] = ITEM_QUALITY7_DESC,
 	[-247] = select(2,GetAchievementInfo(2091)).."：第1赛季",
 	[-248] = select(2,GetAchievementInfo(418)).."：第2赛季",
@@ -18998,7 +18976,6 @@ localize(L.HEADER_NAMES, {
 	[-368] = "进攻堡垒",
 	[-369] = "天灾工厂",
 	[-371] = "霜翼大厅",
-	[-474] = "元素动荡",
 	[-481] = "安其拉之战捐献",
 	[-482] = "开启黑暗之门",
 	[-483] = "流沙节杖",
@@ -20893,6 +20870,7 @@ localize(L.HEADER_NAMES, {
 	[-85] = "第二個箱子",
 	[-86] = "第三個箱子",
 	[-87] = "最後的箱子",
+	[-103] = "資料片前夕",
 	[-247] = select(2,GetAchievementInfo(2091)).."：第1賽季",
 	[-248] = select(2,GetAchievementInfo(418)).."：第2賽季",
 	[-249] = select(2,GetAchievementInfo(419)).."：第3賽季",
@@ -20909,7 +20887,6 @@ localize(L.HEADER_NAMES, {
 	[-342] = "獨特外觀",
 	[-350] = "四騎士",
 	[-355] = DUNGEON_FLOOR_DIREMAUL5.." (東)",
-	[-474] = "元素入侵",
 	[-481] = "安其拉之戰捐獻",
 	[-483] = "流沙節杖",
 	[-484] = "天譴軍團入侵",

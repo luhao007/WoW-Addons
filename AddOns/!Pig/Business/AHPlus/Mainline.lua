@@ -79,19 +79,21 @@ function BusinessInfo.AHPlus_Mainline()
 					if NewData then
 						local NewDataNum = #NewData
 						local OldGGGV_1 = NewData[NewDataNum]
-						local baifenbi = (minPrice/OldGGGV_1[1])*100+0.5
-						local baifenbi = floor(baifenbi)
-						hangui.cells[2].updown.Text:SetText(baifenbi.."%");
-						hangui.cells[2].updown.newName=newName
-						if baifenbi<100 then
-							hangui.cells[2].updown.Text:SetTextColor(0, 1, 0, 1);
-						elseif baifenbi>100 then
-							hangui.cells[2].updown.Text:SetTextColor(1, 0, 0, 1);
-						else
-							hangui.cells[2].updown.Text:SetTextColor(1, 1, 1, 1);
-						end
-						if minPrice~=OldGGGV_1[1] and GetServerTime()-OldGGGV_1[2]>300 then
-							BusinessInfo.ADD_Newdata(newName,minPrice,_xxitemLink,itemKey.itemID)
+						if OldGGGV_1 then
+							local baifenbi = (minPrice/OldGGGV_1[1])*100+0.5
+							local baifenbi = floor(baifenbi)
+							hangui.cells[2].updown.Text:SetText(baifenbi.."%");
+							hangui.cells[2].updown.newName=newName
+							if baifenbi<100 then
+								hangui.cells[2].updown.Text:SetTextColor(0, 1, 0, 1);
+							elseif baifenbi>100 then
+								hangui.cells[2].updown.Text:SetTextColor(1, 0, 0, 1);
+							else
+								hangui.cells[2].updown.Text:SetTextColor(1, 1, 1, 1);
+							end
+							if minPrice~=OldGGGV_1[1] and GetServerTime()-OldGGGV_1[2]>300 then
+								BusinessInfo.ADD_Newdata(newName,minPrice,_xxitemLink,itemKey.itemID)
+							end
 						end
 					else				
 						BusinessInfo.ADD_Newdata(newName,minPrice,_xxitemLink,itemKey.itemID)

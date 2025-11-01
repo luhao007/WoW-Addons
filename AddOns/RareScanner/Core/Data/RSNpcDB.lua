@@ -306,6 +306,23 @@ function RSNpcDB.GetCustomGroupsByMapID(mapID)
 	return groups
 end
 
+function RSNpcDB.IsCustomNpcInGroup(npcID, group)
+	if (not group or not npcID) then
+		return false
+	end
+	
+	local npcInfo = RSNpcDB.GetInternalNpcInfo(npcID)
+	if (not npcInfo) then
+		return false
+	elseif (not npcInfo.group) then
+		return false
+	elseif (npcInfo.group == group) then
+		return true
+	end
+	
+	return false
+end
+
 ---============================================================================
 -- NPC internal database (included with the addon and custom NPCs)
 ----- Stores NPCs information included with the addon and custom NPCs

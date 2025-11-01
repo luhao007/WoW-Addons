@@ -67,6 +67,9 @@ do
 		[241857] = 1,	-- Druid Lunarwing
 		[231437] = 1,	-- Druid Lunarwing (Owl)
 	}
+	local AccountWideMountSpells = {
+		1255451,	-- Feldruid's Scornwing Idol
+	}
 	app.CreateMount = app.CreateClass(CLASSNAME, KEY, {
 		CACHE = function() return CACHE end,
 		_cache = function(t)
@@ -154,7 +157,14 @@ do
 		-- Spell-based Mounts (don't appear in Mount Journal)
 		for spellID,_ in pairs(PerCharacterMountSpells) do
 			if IsSpellKnown(spellID) then
-				char[spellID] = true;
+				char[spellID] = true
+			else
+				none[spellID] = true
+			end
+		end
+		for _,spellID in ipairs(AccountWideMountSpells) do
+			if IsSpellKnown(spellID) then
+				acct[spellID] = true
 			else
 				none[spellID] = true
 			end
@@ -167,7 +177,8 @@ do
 		app.SetBatchCached("Spells", acct)
 		app.SetBatchCached("Spells", char)
 		app.SetBatchCached("Spells", none)
-		-- Account Cache (removals handled by Sync)
+		-- Account Cache
+		app.SetBatchAccountCached(CACHE, none)
 		app.SetBatchAccountCached(CACHE, acct, 1)
 	end);
 	app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, accountWideData)

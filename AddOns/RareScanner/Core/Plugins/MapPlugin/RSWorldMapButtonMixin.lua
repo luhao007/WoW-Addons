@@ -241,6 +241,7 @@ function RSWorldMapButtonMixin:SetupMenu()
 			npcsFilterSubmenu:SetScrollMode(500)
 			npcsFilterSubmenu:CreateTitle(AL["MAP_MENU_FILTER_DESELECT"])
 			
+			-- Select/deselect all
 			local npcDesSel = npcsFilterSubmenu:CreateButton(AL["MAP_MENU_FILTER_ALL"])
 			npcDesSel:SetResponder(function(data, menuInputData, menu)
 	    		local anySelected = true
@@ -263,6 +264,38 @@ function RSWorldMapButtonMixin:SetupMenu()
     
 				return MenuResponse.Refresh;
 			end)
+			
+			-- Select/deselect by group
+		    if (RSUtils.GetTableLength(groups) > 0) then
+				for _, group in ipairs(groups) do
+			    	local npcDesSelGroup = npcsFilterSubmenu:CreateButton(string.format(AL["MAP_MENU_FILTER_ALL_GROUP"], RSNpcDB.GetCustomNpcGroupByKey(group))) 
+			    	npcDesSelGroup:SetResponder(function(data, menuInputData, menu)
+			    		local anySelected = true
+		    			for npcID, _ in pairs (npcIDsWithNames) do
+		    				if (RSNpcDB.IsCustomNpcInGroup(npcID, group) and not RSConfigDB.GetNpcFiltered(npcID)) then
+		    					anySelected = false
+		    					break
+		    				end
+		    			end
+		    			
+		    			if (anySelected) then
+		    				for npcID, _ in pairs (npcIDsWithNames) do
+		    					if (RSNpcDB.IsCustomNpcInGroup(npcID, group)) then
+			    					RSConfigDB.DeleteNpcFiltered(npcID)
+			    				end
+			    			end
+		    			else
+		    				for npcID, _ in pairs (npcIDsWithNames) do
+		    					if (RSNpcDB.IsCustomNpcInGroup(npcID, group)) then
+			    					RSConfigDB.SetNpcFiltered(npcID)
+			    				end
+			    			end
+		    			end
+		    
+						return MenuResponse.Refresh;
+					end)
+				end
+			end
 	
 			for _, npcID in ipairs (RSUtils.GetSortedKeysByValue(npcIDsWithNames, function(a, b) return a < b end)) do
 				local npcName = npcIDsWithNames[npcID]

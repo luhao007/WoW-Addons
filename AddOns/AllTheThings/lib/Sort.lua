@@ -353,6 +353,12 @@ app.SortDefaults = setmetatable({
 			-- neither a or b exists, equality returns false
 			return false;
 		end
+		-- SortPriority
+		local acomp = a.SortPriority or 0
+		local bcomp = b.SortPriority or 0
+		if acomp ~= 0 or bcomp ~= 0 then
+			return acomp < bcomp
+		end
 		-- Any two similar-type groups with text
 		a = toLowerString(a.name);
 		b = toLowerString(b.name);
@@ -401,7 +407,31 @@ app.SortDefaults = setmetatable({
 		end
 	end,
 	progress = function(a, b)
-		return GetGroupSortValue(a) > GetGroupSortValue(b);
+		-- If either object doesn't exist
+		if a then
+			if not b then
+				return true;
+			end
+		elseif b then
+			return false;
+		else
+			-- neither a or b exists, equality returns false
+			return false;
+		end
+		-- SortPriority
+		local acomp = a.SortPriority or 0
+		local bcomp = b.SortPriority or 0
+		if acomp ~= 0 or bcomp ~= 0 then
+			return acomp < bcomp
+		end
+		-- progress value
+		local acomp = GetGroupSortValue(a)
+		local bcomp = GetGroupSortValue(b)
+		if acomp ~= bcomp then
+			return acomp > bcomp
+		end
+		-- identical progress, sort by name
+		return app.SortDefaults.name(a,b);
 	end,
 	IndexOneStrings = function(a,b)
 		return stringComparison(a[1], b[1]);

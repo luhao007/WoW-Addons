@@ -382,16 +382,10 @@ end
 ------
 local function add_ItemList(fujik,miaodian,ZBLsit_C,TalentUI)
 	if GearManagerDialog then GearManagerDialog:SetFrameLevel(10) end
-	local PointXY = {-33,-13}
-	if PIG_MaxTocversion(50000) then
-	else
-		if fujik==_G[Data.LongInspectUIUIname] then
-			PointXY[1]=-34
-			PointXY[2]=-13
-		else
-			PointXY[1]=-1
-			PointXY[2]=0
-		end
+	local PointXY = {-1,1}
+	if PIG_MaxTocversion(20000) and fujik==PaperDollFrame then
+		PointXY[1]=-34
+		PointXY[2]=-13
 	end
 	local ZBLsit = PIGFrame(fujik,{"TOPLEFT", fujik, "TOPRIGHT",PointXY[1],PointXY[2]},{ListWWWHHH[1],ListWWWHHH[2]},nil,nil,nil,{["ElvUI"]={2,0,2,0},["NDui"]={-1,-2,-1,0}});
 	ZBLsit.classes = ZBLsit:CreateTexture();
@@ -463,7 +457,9 @@ local function add_ItemList(fujik,miaodian,ZBLsit_C,TalentUI)
 			if fujikx.unittype=="yc" or fujikx.unittype=="lx" then
 				GameTooltip:SetHyperlink(fujikx.itemLink)
 			else
-				GameTooltip:SetInventoryItem(fujikx.unittype, fujikx.Slot)
+				if fujikx.unittype and fujikx.Slot then
+					GameTooltip:SetInventoryItem(fujikx.unittype, fujikx.Slot)
+				end
 			end
 			clsit:SetBackdropColor(0, 1, 1, 0.5)
 			clsit.t:SetTextColor(1, 1, 0.8, 1);
