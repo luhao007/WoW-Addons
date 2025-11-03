@@ -1456,6 +1456,8 @@ data["MOUNTS"]             = {
 				{ 523, 246921, "mount", [PRICE_EXTRA_ITTYPE] = "tender:0" },             -- Legion Forged Elekk
 				{ 524, 247723, "mount", [PRICE_EXTRA_ITTYPE] = "tender:700" },           -- The Headless Horseman's Hallowed Charger
 				{ 525, 247721, "mount" },                                                -- The Headless Horseman's Ghoulish Charger
+				{ 526, 250929, "mount", [PRICE_EXTRA_ITTYPE] = "tender:0" },             -- Prized Turkey
+				{ 527, 250926, "mount", [PRICE_EXTRA_ITTYPE] = "tender:500" },           -- Highlands Gobbler
 				-- { 329, 223570, "mount" }, -- Reins of the Ebonhide Ramolith (not yet available)
 				-- { 321, 235554, "mount" }, -- Midnight Darkmoon Charger (not yet available)
 				-- { 323, 235659, "mount" }, -- Midnight Butterfly (not yet available)

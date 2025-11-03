@@ -2163,19 +2163,36 @@ data["DayoftheDead"]          = {
 		{ --DayoftheDead
 			name = AL["Day of the Dead"],
 			[NORMAL_DIFF] = {
-				{ 1,  116856, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                  -- "Blooming Rose" Contender's Costume
-				{ 2,  116888, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                  -- "Night Demon" Contender's Costume
-				{ 3,  116889, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                  -- "Purple Phantom" Contender's Costume
-				{ 4,  116890, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                  -- "Santo's Sun" Contender's Costume
-				{ 5,  116891, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                  -- "Snowy Owl" Contender's Costume
-				{ 7,  46831,  "pet1351",                             [QUEST_EXTRA_ITTYPE] = 14174 }, -- Macabre Marionette
-				{ 16, 46718,  [PRICE_EXTRA_ITTYPE] = "money:10" },                       -- Orange Marigold
-				{ 17, 46861,  [PRICE_EXTRA_ITTYPE] = "money:10000" },                    -- Bouquet of Orange Marigolds
-				{ 19, 46710,  [PRICE_EXTRA_ITTYPE] = "money:2000" },                     -- Recipe: Bread of the Dead (p3 1)
-				{ 20, 46691 },                                                           -- Bread of the Dead
-				{ 22, 46690,  [PRICE_EXTRA_ITTYPE] = "money:25" },                       -- Candy Skull
-				{ 23, 46711,  [PRICE_EXTRA_ITTYPE] = "money:30" },                       -- Spirit Candle
-				{ 24, 46860,  [PRICE_EXTRA_ITTYPE] = "money:5" },                        -- Whimsical Skull Mask
+				{ 1,   116856, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                           -- "Blooming Rose" Contender's Costume
+				{ 2,   116888, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                           -- "Night Demon" Contender's Costume
+				{ 3,   116889, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                           -- "Purple Phantom" Contender's Costume
+				{ 4,   116890, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                           -- "Santo's Sun" Contender's Costume
+				{ 5,   116891, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                           -- "Snowy Owl" Contender's Costume
+				{ 7,   46831,  "pet1351",                               [QUEST_EXTRA_ITTYPE] = 14174 }, -- Macabre Marionette
+				{ 9,   208859, [PRICE_EXTRA_ITTYPE] = "money:500000000" },                         -- Cliffside Wylderdrake: Day of the Dead Armor
+				{ 10,  46860,  [PRICE_EXTRA_ITTYPE] = "money:1000000" },                           -- Whimsical Skull Mask
+				{ 11,  46861,  [PRICE_EXTRA_ITTYPE] = "money:1" },                                 -- Bouquet of Orange Marigolds
+				{ 12,  246154, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                           -- Marigold Remembrance Veil
+				{ 13,  246155, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                           -- Starflower Remembrance Veil
+				{ 14,  246156, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                           -- Lotus Remembrance Veil
+				{ 15,  246157, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                           -- Orchid Remembrance Veil
+				{ 16,  246158, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                           -- Heartblossom Remembrance Veil
+				{ 17,  246179, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                           -- Lotus Deathmask
+				{ 18,  246180, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                           -- Marigold Deathmask
+				{ 19,  246181, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                           -- Starflower Deathmask
+				{ 20,  246182, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                           -- Orchid Deathmask
+				{ 21,  246183, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                           -- Heartblossom Deathmask
+				{ 22,  246184, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                           -- Heartblossom Crown of the Dead
+				{ 23,  246185, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                           -- Orchid Crown of the Dead
+				{ 24,  246186, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                           -- Lotus Crown of the Dead
+				{ 25,  246187, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                           -- Starflower Crown of the Dead
+				{ 26,  246188, [PRICE_EXTRA_ITTYPE] = "money:1000000" },                           -- Marigold Crown of the Dead
+				{ 28,  188689, [PRICE_EXTRA_ITTYPE] = "money:1" },                                 -- Marigold Petal Offering Bowl
+				{ 29,  46710,  46691,                                   [PRICE_EXTRA_ITTYPE] = "money:2000" }, -- Recipe: Bread of the Dead
+				{ 30,  46718,  [PRICE_EXTRA_ITTYPE] = "money:10" },                                -- Orange Marigold
+				{ 101, 46690,  [PRICE_EXTRA_ITTYPE] = "money:25" },                                -- Candy Skull
+				{ 102, 46711,  [PRICE_EXTRA_ITTYPE] = "money:30" },                                -- Spirit Candle
+				{ 103, 79048,  [PRICE_EXTRA_ITTYPE] = "money:5" },                                 -- Whimsical Skull Mask
 			},
 		},
 	}

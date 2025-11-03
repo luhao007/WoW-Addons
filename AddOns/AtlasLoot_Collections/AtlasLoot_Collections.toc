@@ -1,6 +1,6 @@
 ## Interface: 110205
 ## Author: nanderson11, Lag, Proteyer, Arith
-## Version: v9.19.1
+## Version: v9.19.2
 
 ## Title: AtlasLoot |cFF0099FF[Collections]|r
 ## Notes: AtlasLoot collections loot tables (e.g. Mounts & Pets)
