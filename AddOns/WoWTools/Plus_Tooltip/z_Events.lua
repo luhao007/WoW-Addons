@@ -1,0 +1,666 @@
+
+local function Save()
+    return WoWToolsSave['Plus_Tootips']
+end
+
+
+
+--专业
+--lizzard_Professions.lua
+function WoWTools_TooltipMixin.Events:Blizzard_Professions()
+    WoWTools_DataMixin:Hook(Professions, 'SetupProfessionsCurrencyTooltip', function(currencyInfo)
+        if currencyInfo then
+            local nodeID = ProfessionsFrame.SpecPage:GetDetailedPanelNodeID()
+            local currencyTypesID = nodeID and Professions.GetCurrencyTypesID(nodeID)
+            if currencyTypesID then
+                GameTooltip_AddBlankLineToTooltip(GameTooltip)
+                self:Set_Currency(GameTooltip, currencyTypesID)--货币
+                GameTooltip:AddDoubleLine('nodeID', '|cffffffff'..nodeID..'|r')
+            end
+        end
+    end)
+
+    --专精，技能，查询
+    WoWTools_DataMixin:Hook(ProfessionsSpecPathMixin, 'OnEnter', function(f)
+        if f.nodeID then--f.nodeInfo.ID
+            GameTooltip:AddLine(' ')
+            GameTooltip:AddDoubleLine('nodeID '..f.nodeID, f.entryID and 'entryID '..f.entryID)
+
+            local name= self.WoWHead..'profession-trait/'..(f.nodeID or '')
+            self:Set_Web_Link(GameTooltip, {name=name})
+            --GameTooltip:Show()
+            WoWTools_DataMixin:Call('GameTooltip_CalculatePadding', GameTooltip)
+        end
+    end)
+end
+
+
+
+--[[
+Blizzard_TalentButtonSpend.lua
+TalentButtonSpendMixin
+local canPurchase = self:CanPurchaseRank();
+local canRefund = self:CanRefundRank();
+local canRepurchase = self:CanCascadeRepurchaseRanks();
+local isGhosted = self:IsGhosted();
+]]
+function WoWTools_TooltipMixin.Events:Blizzard_RemixArtifactUI()
+RemixArtifactFrame.Currency:ClearAllPoints()
+RemixArtifactFrame.Currency:SetPoint('RIGHT', RemixArtifactFrame.CommitConfigControls, 'LEFT')
+    RemixArtifactFrame.Currency:HookScript('OnEnter', function(f)
+        if GameTooltip:IsShown() or not f.traitCurrencyID or f.traitCurrencyID<=0 then
+            return
+        end
+        local overrideIcon = select(4, C_Traits.GetTraitCurrencyInfo(f.traitCurrencyID))
+
+        GameTooltip:SetOwner(f, "ANCHOR_BOTTOM")
+        GameTooltip:SetText('traitCurrencyID'..WoWTools_DataMixin.Icon.icon2..f.traitCurrencyID)
+        if overrideIcon then
+            GameTooltip:AddLine('|T'..overrideIcon..':0|t'..overrideIcon)
+        end
+        GameTooltip:Show()
+    end)
+
+
+--需要花费，提示
+    local function Setup_Coat(frame, treeID)
+        if not treeID or not frame:IsShown() then
+            return
+        end
+        local needCost=0
+        for btn in frame:EnumerateAllTalentButtons() do
+            local nodeID = btn:GetNodeID()
+            local cost = nodeID and frame:GetNodeCost(nodeID)--amount ID
+            local amount
+            local levelText
+            local data= btn:GetNodeInfo()
+            local scale=1
+            if data and data.currentRank and data.maxRanks and data.currentRank< data.maxRanks then
+                if not data.canRefundRank then
+                    for _, traitCurrencyCost in ipairs(cost) do
+                        local treeCurrency = frame.treeCurrencyInfoMap[traitCurrencyCost.ID];
+                        amount =  WoWTools_DataMixin:MK(traitCurrencyCost.amount, 3)
+                        if amount then
+                            needCost= needCost+ traitCurrencyCost.amount
+                            if treeCurrency and treeCurrency.quantity < traitCurrencyCost.amount then
+                                amount = WARNING_FONT_COLOR:WrapTextInColorCode(amount)
+                            elseif data.canPurchaseRank then
+                                amount= '|cnGREEN_FONT_COLOR:'..amount..'|r'
+                                scale=1.5
+                            end
+                            break
+                        end
+                    end
+                end
+
+                if data.currentRank>0 then
+                    levelText= '/'..data.maxRanks
+                end
+
+            end
+
+            if amount and not btn.costLabel then
+                btn.costLabel= WoWTools_LabelMixin:Create(btn)
+                btn.costLabel:SetPoint('TOP', btn, 'BOTTOM')
+            end
+            if btn.costLabel then
+                btn.costLabel:SetText(amount or '')
+                btn.costLabel:SetScale(scale)
+            end
+
+            if levelText and not btn.levelLabel then
+                btn.levelLabel= WoWTools_LabelMixin:Create(btn, {color={r=1,g=0,b=1}})
+                btn.levelLabel:SetPoint('LEFT', btn.SpendText, 'RIGHT')
+            end
+            if btn.levelLabel then
+                btn.levelLabel:SetText(levelText or '')
+            end
+        end
+
+        frame.NeedostLabe.needCost= needCost
+
+        frame.NeedostLabe:SetText(
+            needCost>0 and
+            (WoWTools_DataMixin.onlyChinese and '需求' or NEED)..' '..WoWTools_DataMixin:MK(needCost, 3)
+            or ''
+        )
+    end
+
+    RemixArtifactFrame.NeedostLabe= WoWTools_LabelMixin:Create(RemixArtifactFrame.CloseButton, {name='WoWToolsRemixArtifactNeetCostLable', mouse=true, color={r=1,g=1,b=1}})
+    RemixArtifactFrame.NeedostLabe:SetPoint('TOPRIGHT', RemixArtifactFrame.Currency, 'BOTTOMRIGHT')
+    RemixArtifactFrame.NeedostLabe:SetScript('OnLeave', function(f)
+        GameTooltip:Hide()
+        f:SetAlpha(1)
+    end)
+    RemixArtifactFrame.NeedostLabe:SetScript('OnEnter', function(f)
+        GameTooltip:SetOwner(f, "ANCHOR_BOTTOM")
+        GameTooltip:SetText(WoWTools_TooltipMixin.addName..WoWTools_DataMixin.Icon.icon2)
+        GameTooltip:AddLine(
+            format(
+                WoWTools_DataMixin.onlyChinese and "还需要再花费%i点%s" or GARRISON_TALENT_TREE_REQUIRED_CURRENCY_SPENT_FORMAT,
+                f.needCost or 0,
+                WoWTools_DataMixin.onlyChinese and '解锁' or UNLOCK
+            )
+        )
+
+        GameTooltip:Show()
+        f:SetAlpha(0.5)
+    end)
+
+    RemixArtifactFrame:HookScript('OnShow', function(frame)
+        Setup_Coat(frame, frame:GetTalentTreeID())
+    end)
+    RemixArtifactFrame:HookScript('OnEvent', function(frame, event, treeID)
+        if event == "TRAIT_TREE_CURRENCY_INFO_UPDATED" and treeID == frame:GetTalentTreeID() then
+            C_Timer.After(0.3, function()
+                Setup_Coat(frame, treeID)
+            end)
+        end
+    end)
+
+
+--学习, 还原 按钮
+    local b= WoWTools_ButtonMixin:Cbtn(RemixArtifactFrame.CloseButton, {
+        atlas='common-dropdown-icon-play',
+        size=23,
+        name= 'WoWToolsRemixArtifactAutoAceButton'
+    })
+    b:SetPoint('LEFT', RemixArtifactFrame.CommitConfigControls.UndoButton, 'RIGHT', 6, 0)
+    b:SetPushedAtlas('common-dropdown-icon-next')
+
+    b:SetScript('OnLeave', function() GameTooltip:Hide() end)
+    b:SetScript('OnEnter', function(f)
+        GameTooltip:SetOwner(f, 'ANCHOR_BOTTOM')
+        GameTooltip:SetText(
+            (InCombatLockdown() and '|cff606060' or '')
+            ..(WoWTools_DataMixin.onlyChinese and '学习' or LEARN)
+            ..WoWTools_DataMixin.Icon.left
+            ..WoWTools_DataMixin.Icon.icon2
+            ..WoWTools_DataMixin.Icon.right
+            ..(WoWTools_DataMixin.onlyChinese and '还原' or TRANSMOGRIFY_TOOLTIP_REVERT)
+        )
+        GameTooltip:Show()
+    end)
+
+    b:SetScript('OnClick', function(_, d)
+        if InCombatLockdown() then
+            return
+        end
+
+        for btn in RemixArtifactFrame:EnumerateAllTalentButtons() do
+            local data= btn:GetNodeInfo()
+            if d=='LeftButton' then
+                if data.canPurchaseRank then
+                    btn:Click(d)
+                end
+            elseif d=='RightButton' then
+                if data.canRefundRank then
+                    btn:Click(d)
+                end
+            end
+        end
+    end)
+
+--为最高级，添加 一键升级按钮
+C_Timer.After(0.5, function()
+    for btn in RemixArtifactFrame:EnumerateAllTalentButtons() do
+        local data= btn:GetNodeInfo() or {}
+
+        if data.maxRanks and data.maxRanks>20 then
+            b= CreateFrame('Button', nil, btn, 'WoWToolsButtonTemplate')
+            b:SetNormalAtlas('plunderstorm-icon-upgrade')
+            b:SetPoint('LEFT', btn, 'RIGHT', 4,0)
+            b:SetScript('OnClick', function(f)
+                if f.isIn then
+                    f.isStop= true
+                    return
+                end
+                local function setting()
+                    if not f.isStop
+                        and f:IsVisible()
+                        and not IsModifierKeyDown()
+                        and f:GetParent():GetNodeInfo().canPurchaseRank
+                        and not InCombatLockdown()
+                        and C_Traits.PurchaseRank(RemixArtifactFrame:GetConfigID(), f:GetParent():GetNodeID())
+                    then
+                        f.isIn= true
+                        C_Timer.After(0.1, setting)
+                    else
+                        f.isIn= nil
+                        f.isStop= nil
+                    end
+                end
+                setting()
+            end)
+            b:SetScript('OnEnter', function(f)
+                GameTooltip:SetOwner(f, 'ANCHOR_RIGHT')
+                GameTooltip:SetText(
+                    WoWTools_DataMixin.Icon.icon2
+                    ..(WoWTools_DataMixin.onlyChinese and '升到最高级' or format(LEARN_SKILL_TEMPLATE, HONOR_HIGHEST_RANK))
+                )
+                GameTooltip:Show()
+            end)
+        end
+    end
+end)
+
+
+end
+
+
+
+
+
+function WoWTools_TooltipMixin.Events:Blizzard_PlayerChoice()
+    WoWTools_DataMixin:Hook(PlayerChoicePowerChoiceTemplateMixin, 'OnEnter', function(f)
+        if f.optionInfo and f.optionInfo.spellID then
+            GameTooltip:ClearLines()
+            GameTooltip:SetSpellByID(f.optionInfo.spellID)
+            WoWTools_DataMixin:Call('GameTooltip_CalculatePadding', GameTooltip)
+        end
+    end)
+end
+
+
+
+
+
+
+
+
+--要塞，技能树
+function WoWTools_TooltipMixin.Events:Blizzard_OrderHallUI()
+
+    WoWTools_DataMixin:Hook(GarrisonTalentButtonMixin, 'OnEnter', function(f)--Blizzard_OrderHallTalents.lua
+        local info=f.talent--C_Garrison.GetTalentInfo(f.talent.id)
+        if not info or not info.id then
+            return
+        end
+        GameTooltip:AddLine(' ')
+        GameTooltip:AddDoubleLine('talentID '..info.id, info.icon and '|T'..info.icon..':0|t'..info.icon)
+        if info.ability and info.ability.id and info.ability.id>0 then
+            GameTooltip:AddDoubleLine('ability '..info.ability.id, info.ability.icon and '|T'..info.ability.icon..':0|t'..info.ability.icon)
+        end
+        WoWTools_DataMixin:Call('GameTooltip_CalculatePadding', GameTooltip)
+    end)
+    WoWTools_DataMixin:Hook(GarrisonTalentButtonMixin, 'SetTalent', function(f)--是否已激活, 和等级
+        local info= f.talent
+        if not info or not info.id then
+            return
+        end
+
+        if info.researched and not f.researchedTexture then
+            f.researchedTexture= f:CreateTexture(nil, 'OVERLAY')
+            local w,h= f:GetSize()
+            f.researchedTexture:SetSize(w/3, h/3)
+            f.researchedTexture:SetPoint('BOTTOMRIGHT')
+            f.researchedTexture:SetAtlas('common-icon-checkmark')
+        end
+        if f.researchedTexture then
+            f.researchedTexture:SetShown(info.researched)
+        end
+
+        local rank
+        if info.talentMaxRank and info.talentMaxRank>1 and info.talentRank~= info.talentMaxRank then
+            if not info.rankText then
+                info.rankText= WoWTools_LabelMixin:Create(f)
+                info.rankText:SetPoint('BOTTOMLEFT')
+            end
+            rank= '|cnGREEN_FONT_COLOR:'..(info.talentRank or 0)..'|r/'..info.talentMaxRank
+        end
+        if info.rankText then
+            info.rankText:SetText(rank or '')
+        end
+    end)
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function WoWTools_TooltipMixin.Events:Blizzard_GenericTraitUI()
+    GenericTraitFrame.Currency:HookScript('OnLeave', function(f)
+        f:SetAlpha(1)
+    end)
+    GenericTraitFrame.Currency:HookScript('OnEnter', function(f)
+        local currencyInfo = f:GetParent().treeCurrencyInfo and f:GetParent().treeCurrencyInfo[1] or {}
+
+        if not currencyInfo.traitCurrencyID or currencyInfo.traitCurrencyID<1 then
+            return
+        end
+
+        if not GameTooltip:IsShown() then
+            GameTooltip:SetOwner(f, "ANCHOR_LEFT")
+            GameTooltip:ClearLines()
+            GameTooltip:AddLine()
+        end
+
+        local icon = select(4, C_Traits.GetTraitCurrencyInfo(currencyInfo.traitCurrencyID))
+
+        GameTooltip:AddDoubleLine(
+            (WoWTools_DataMixin.onlyChinese and '数量' or AUCTION_HOUSE_QUANTITY_LABEL)..HEADER_COLON
+            ..(currencyInfo.quantity or 0)
+            ..'/'
+            ..(currencyInfo.maxQuantity or (WoWTools_DataMixin.onlyChinese and '无限' or UNLIMITED)),
+
+            (WoWTools_DataMixin.onlyChinese and '总花费：' or ITEM_UPGRADE_COST_LABEL)..(currencyInfo.spent or 0)
+        )
+        GameTooltip:AddDoubleLine(
+            icon and '|T'..icon..':'..WoWTools_TooltipMixin.iconSize..'|t|cffffffff'..icon,
+            'traitCurrencyID|cffffffff'..WoWTools_DataMixin.Icon.icon2..currencyInfo.traitCurrencyID
+        )
+
+        GameTooltip:Show()
+        f:SetAlpha(0.5)
+    end)
+
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+--宠物手册， 召唤随机，偏好宠物，技能ID 
+function WoWTools_TooltipMixin.Events:Blizzard_Collections()
+    if PetJournalSummonRandomFavoritePetButton_OnEnter then--11.1.7没了
+        WoWTools_DataMixin:Hook('PetJournalSummonRandomFavoritePetButton_OnEnter', function()--PetJournalSummonRandomFavoritePetButton
+            self:Set_Spell(GameTooltip, 243819)
+            --GameTooltip:Show()
+        end)
+    end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--天赋 ClassTalentSpecTabMixin
+function WoWTools_TooltipMixin.Events:Blizzard_PlayerSpells()
+    WoWTools_DataMixin:Hook(PlayerSpellsFrame.SpecFrame, 'UpdateSpecFrame', function(btn)
+        if not C_SpecializationInfo.IsInitialized() then
+            return
+        end
+
+        for frame in btn.SpecContentFramePool:EnumerateActive() do
+            if not frame.specIDLabel then
+                frame.specIcon= frame:CreateTexture(nil, 'BORDER')
+                frame.specIcon:SetPoint('TOP', frame.RoleIcon, 'BOTTOM', -2, -4)
+                frame.specIcon:SetSize(22,22)
+
+                frame.specIconBorder= frame:CreateTexture(nil, 'ARTWORK')
+                frame.specIconBorder:SetPoint('CENTER', frame.specIcon,1.2,-1.2)
+                frame.specIconBorder:SetAtlas('bag-border')
+                frame.specIconBorder:SetVertexColor(WoWTools_DataMixin.Player.r, WoWTools_DataMixin.Player.g, WoWTools_DataMixin.Player.b)
+                frame.specIconBorder:SetSize(32,32)
+
+                frame.specIDLabel= frame:CreateFontString(nil, 'ARTWORK', 'GameFontNormalMed2') --WoWTools_LabelMixin:Create(frame, {mouse=true, size=18, copyFont=frame.RoleName})
+                frame.specIDLabel:SetPoint('LEFT', frame.specIcon, 'RIGHT', 12, 0)
+                frame.specIDLabel:SetScript('OnLeave', function(s) s:SetAlpha(1) GameTooltip_Hide() end)
+                frame.specIDLabel:SetScript('OnEnter', function(s)
+                    GameTooltip:SetOwner(s, "ANCHOR_LEFT")
+                    GameTooltip:ClearLines()
+                    local specIndex= s:GetParent().specIndex
+                    if specIndex then
+                        local specID, name, _, icon= GetSpecializationInfo(specIndex)
+                        if specID then
+                            GameTooltip:AddDoubleLine(
+                                WoWTools_TextMixin:CN(name),
+                                icon and '|T'..icon..':0|t|cffffffff'..icon
+                            )
+                            GameTooltip:AddDoubleLine(
+                                'specID|cffffffff'..WoWTools_DataMixin.Icon.icon2..specID,
+                                'Index |cffffffff'..(specIndex or '')
+                            )
+                        end
+                    end
+                    GameTooltip:Show()
+                    s:SetAlpha(0.5)
+                end)
+            end
+            local specID, icon, _
+            if frame.specIndex then
+                specID, _, _, icon= GetSpecializationInfo(frame.specIndex)
+            end
+            frame.specIDLabel:SetText(specID or '')
+            frame.specIcon:SetTexture(icon or 0)
+        end
+    end)
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--挑战, AffixID
+function WoWTools_TooltipMixin.Events:Blizzard_ChallengesUI()
+    WoWTools_DataMixin:Hook(ChallengesKeystoneFrameAffixMixin, 'OnEnter',function(f)
+        if not f.affixID then
+            return
+        end
+        local name, description, filedataid = C_ChallengeMode.GetAffixInfo(f.affixID)
+        if (f.affixID or f.info) then
+            if (f.info) then
+                local tbl = CHALLENGE_MODE_EXTRA_AFFIX_INFO[f.info.key]
+                name = tbl.name
+                description = string.format(tbl.desc, f.info.pct)
+            else
+                name= WoWTools_TextMixin:CN(name)
+                description= WoWTools_TextMixin:CN(description)
+            end
+            GameTooltip:SetText(name, 1, 1, 1, 1, true)
+            GameTooltip:AddLine(description, nil, nil, nil, true)
+        end
+        GameTooltip:AddDoubleLine('affixID '..f.affixID, filedataid and '|T'..filedataid..':0|t'..filedataid or ' ')
+        self:Set_Web_Link(GameTooltip, {type='affix', id=f.affixID, name=name, isPetUI=false})--取得网页，数据链接
+        WoWTools_DataMixin:Call('GameTooltip_CalculatePadding', GameTooltip)
+        --GameTooltip:Show()
+    end)
+end
+
+
+
+--[[function WoWTools_TooltipMixin.Events:Blizzard_DelvesCompanionConfiguration()
+    WoWTools_DataMixin:Hook(CompanionConfigSlotTemplateMixin, 'OnEnter', function()
+        print('CompanionConfigSlotTemplateMixin')
+    end)
+end]]
+
+
+
+
+
+
+
+
+
+function WoWTools_TooltipMixin.Events:Blizzard_GameTooltip()
+    --装备，对比，提示
+
+    for i=1, 2 do
+        local tooltip= _G['ShoppingTooltip'..i]
+        tooltip.Portrait2= tooltip:CreateTexture(nil, 'BACKGROUND',nil, 2)--右上角图标
+        tooltip.Portrait2:SetPoint('TOPRIGHT',-2, -3)
+        tooltip.Portrait2:SetSize(40,40)
+
+        tooltip:HookScript('OnShow', function(t)
+            local data= t:GetPrimaryTooltipData()--{dataInstanceID type isAzeriteItem guid isAzeriteEmpoweredItem isCorruptedItem, lines}
+            local itemLink= data and data.guid and C_Item.GetItemLinkByGUID(data.guid)
+            local atlas, isUp
+            if itemLink then
+                if itemLink== select(2, GameTooltip:GetItem()) then
+                    atlas='QuestNormal'
+                elseif itemLink==GetInventoryItemLink('player', 11) or itemLink==GetInventoryItemLink('player', 13) then
+                    atlas='Adventures-Target-Indicator'
+                    isUp=true
+                elseif itemLink==GetInventoryItemLink('player', 12) or itemLink==GetInventoryItemLink('player', 14) then
+                    atlas='Adventures-Target-Indicator'
+                end
+            end
+
+            t.Portrait2:SetAtlas(atlas or WoWTools_DataMixin.Icon.Player:match('|A:(.-):') or 'QuestArtifactTurnin')
+
+            if isUp then
+                t.Portrait2:SetTexCoord(0,1,1,0)
+            else
+                t.Portrait2:SetTexCoord(0,1,0,1)
+            end
+        end)
+    end
+end
+
+
+
+
+
+
+
+--选项 SettingsTooltip
+function WoWTools_TooltipMixin.Events:Blizzard_Settings_Shared()
+    SettingsTooltip:HookScript('OnShow', function(tooltip)--选项面板，值提示
+        local frame= tooltip:GetOwner():GetParent()
+
+        for i=1, 4 do
+            if frame.GetSetting or frame.GetData then
+                break
+            else
+                frame= frame:GetParent()
+            end
+        end
+
+        local setting= frame.GetSetting and frame:GetSetting()
+        local data= frame.GetData and frame.GetData()
+
+        if not setting and data and data.data then
+            setting= data.data.cbSetting or data.data.setitings
+        end
+
+        local variable= setting and setting.variable and tostring(setting.variable)
+
+        if not variable then
+            return
+        end
+
+        if IsAltKeyDown() then
+            WoWTools_TooltipMixin:Show_URL(nil, nil, nil, variable)
+            return
+        end
+
+        local variableType= setting.variableType and tostring(setting.variableType) or type(setting.variableType)
+
+        local value= C_CVar.GetCVarInfo(variable) or ''
+
+        tooltip:AddLine(' ')
+        tooltip:AddLine(
+            'variable'..WoWTools_DataMixin.Icon.icon2..'|cffffffff'..variable
+        )
+        tooltip:AddLine(
+            'variableType'..WoWTools_DataMixin.Icon.icon2..'|cffffffff'..variableType.. '|r '..tostring(value)
+        )
+        tooltip:AddLine(
+            '|cnGREEN_FONT_COLOR:Alt'..WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '复制' or CALENDAR_COPY_EVENT)
+        )
+        tooltip:Show()
+    end)
+end
+
+
+
+
+
+
+
+
+function WoWTools_TooltipMixin.Events:Blizzard_SharedXML()
+--图标，修该, 提示，图标
+    local function Set_SetIconTexture(btn, iconTexture)
+        if not btn.Text then
+            btn.Text= WoWTools_LabelMixin:Create(btn, {color={r=1,g=1,b=1, mouse=true}})
+            --btn.Text:SetPoint('TOPRIGHT', btn, 'TOPLEFT', -6, 6)
+            btn.Text:SetPoint('BOTTOM', btn, 'TOP')
+            --btn.Text:SetPoint('BOTTOMRIGHT', btn:GetParent().SelectedIconText.SelectedIconHeader, 'TOPRIGHT')
+            --GearManagerPopupFrame.BorderBox.SelectedIconArea.SelectedIconText
+              --GearManagerPopupFrame.BorderBox.SelectedIconArea.SelectedIconButton
+
+            btn.Text:SetScript('OnLeave', function(label)
+                GameTooltip:Hide()
+                label:SetAlpha(1)
+            end)
+            btn.Text:SetScript('OnEnter', function(label)
+                GameTooltip:SetOwner(label, 'ANCHOR_LEFT')
+                GameTooltip:ClearLines()
+                local icon= label:GetText() or ''
+                GameTooltip:AddDoubleLine(
+                    self.addName..WoWTools_DataMixin.Icon.icon2,
+                    '|T'..icon..':0|t'..icon
+                )
+                GameTooltip:Show()
+                label:SetAlpha(0.5)
+            end)
+        end
+        btn.Text:SetText(iconTexture or '')
+    end
+--装备管理
+    WoWTools_DataMixin:Hook(GearManagerPopupFrame.BorderBox.SelectedIconArea.SelectedIconButton, 'SetIconTexture', function(...)
+        Set_SetIconTexture(...)
+    end)
+--图标，修改
+    WoWTools_DataMixin:Hook(SelectedIconButtonMixin, 'SetIconTexture', function(...)
+        Set_SetIconTexture(...)
+    end)
+end
+
+
+
+
+
+
+

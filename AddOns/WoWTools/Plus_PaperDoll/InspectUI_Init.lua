@@ -1,0 +1,294 @@
+
+--目标, 装备
+local function Save()
+    return WoWToolsSave['Plus_PaperDoll']
+end
+
+
+local KeystoneLabel--挑战, 分数
+local StatusLabel--装备，属性
+
+
+
+
+
+
+
+
+local function set_InspectPaperDollItemSlotButton_Update(frame)
+    local unit= InspectFrame.unit or 'target'
+
+    local slot= frame:GetID()
+	local link= (UnitExists(unit) and not Save().hide) and GetInventoryItemLink(unit, slot) or nil
+	WoWTools_DataMixin:Load(link, 'item')--加载 item quest spell
+
+    --set_Gem(frame, slot, link)
+
+    WoWTools_PaperDollMixin:Set_Item_Tips(frame, slot, link, false)
+    WoWTools_PaperDollMixin:Set_Slot_Num_Label(frame, slot, link and true or false)--栏位, 帐号最到物品等级
+    WoWTools_ItemMixin:SetItemStats(frame, link, {point=frame.icon})
+    if not frame.OnEnter and not Save().hide then
+        frame:SetScript('OnEnter', function(self)
+            if self.link then
+                GameTooltip:ClearLines()
+                GameTooltip:SetOwner(InspectFrame, "ANCHOR_RIGHT")
+                GameTooltip:SetHyperlink(self.link)
+                GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '链接至聊天栏' or COMMUNITIES_INVITE_MANAGER_LINK_TO_CHAT, WoWTools_DataMixin.Icon.left)
+                GameTooltip:Show()
+            end
+        end)
+        frame:SetScript('OnLeave', GameTooltip_Hide)
+        frame:SetScript('OnMouseDown', function(self)
+            WoWTools_ChatMixin:Chat(self.link, nil, true)
+            --local chat=SELECTED_DOCK_FRAME
+            --ChatFrame_OpenChat((chat.editBox:GetText() or '')..self.link, chat)
+
+        end)
+    end
+    frame.link= link
+
+    if link and not frame.itemLinkText then
+        frame.itemLinkText= WoWTools_LabelMixin:Create(frame, {size=16})
+        if slot==16 then
+            frame.itemLinkText:SetPoint('BOTTOMRIGHT', InspectPaperDollFrame, 'BOTTOMLEFT', 2, 9)
+            frame.itemLinkText.isLeft=true
+        elseif slot==17 then
+            frame.itemLinkText:SetPoint('BOTTOMLEFT', InspectPaperDollFrame, 'BOTTOMRIGHT', -3, 9)
+
+        elseif WoWTools_PaperDollMixin:Is_Left_Slot(slot) then
+            frame.itemLinkText:SetPoint('RIGHT', frame, 'LEFT', -4,0)
+            frame.itemLinkText.isLeft=true
+        else
+            frame.itemLinkText:SetPoint('LEFT', frame, 'RIGHT', 5, 0)
+        end
+
+
+        frame.itemBG= frame:CreateTexture(nil, 'BACKGROUND')
+        frame.itemBG:SetAtlas('ChallengeMode-guild-background')
+        frame.itemBG:SetAlpha(0.7)
+        frame.itemBG:SetPoint('TOPLEFT', frame.itemLinkText)
+        frame.itemBG:SetPoint('BOTTOMRIGHT', frame.itemLinkText)
+    end
+    if frame.itemLinkText then
+        if link then
+            local itemID= GetInventoryItemID(unit, slot)
+            local cnName= WoWTools_TextMixin:CN(nil, {itemID=itemID, isName=true})
+            if cnName then
+                cnName= cnName:match('|cff......(.+)|r') or cnName
+                local atlas= link:match('%[(.-) |A') or link:match('%[(.-)]')
+                if atlas then
+                    link= link:gsub(atlas, cnName)
+                end
+            end
+            local slotTexture= GetInventoryItemTexture(unit, slot)
+            if slotTexture then
+                if frame.itemLinkText.isLeft then
+                    link= link..'|T'..slotTexture..':22|t'
+                else
+                    link= '|T'..slotTexture..':22|t'..link
+                end
+            end
+        end
+        frame.itemLinkText:SetText(link or '')
+    end
+end
+
+
+
+
+
+
+
+
+
+
+local function set_InspectPaperDollFrame_SetLevel()--目标,天赋 装等
+    local key
+    local unit= InspectFrame.unit or 'target'
+    if not Save().hide and unit and UnitExists(unit) then
+        local guid= unit and UnitGUID(unit)
+        local info= guid and WoWTools_DataMixin.UnitItemLevel[guid]
+        if info then
+            local level= UnitLevel(unit)
+            local effectiveLevel= UnitEffectiveLevel(unit)
+            local sex = UnitSex(unit)
+
+            local text= WoWTools_UnitMixin:GetPlayerInfo(unit, guid, nil)
+
+            local icon, role = select(4, GetSpecializationInfoByID(info.specID, sex))
+            if icon and role then
+                text=text..'|T'..icon..':0|t'..WoWTools_DataMixin.Icon[role]
+            end
+            if level and level>0 then
+                text= text..level
+                if effectiveLevel~=level then
+                    text= text..'(|cnGREEN_FONT_COLOR:'..effectiveLevel..'|r)'
+                end
+            end
+            text= text..(sex== 2 and '|A:charactercreate-gendericon-male-selected:0:0|a' or sex==3 and '|A:charactercreate-gendericon-female-selected:0:0|a' or '|A:charactercreate-icon-customize-body-selected:0:0|a')
+            text= text.. info.itemLevel
+            if info.col then
+                text= info.col..text..'|r'
+            end
+            InspectLevelText:SetText(text)
+        end
+
+        info= C_PlayerInfo.GetPlayerMythicPlusRatingSummary(unit)--挑战, 分数
+        if info and info.currentSeasonScore and info.currentSeasonScore>0 then
+            key= WoWTools_ChallengeMixin:KeystoneScorsoColor(info.currentSeasonScore,true)
+        end
+    end
+
+    KeystoneLabel:SetText(key or '')
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+local function Init_UI()
+
+
+--显示/隐藏，按钮
+    WoWTools_PaperDollMixin:Init_ShowHideButton(InspectFrame)
+
+--更改, 名称大小
+    function InspectLevelText:set_font_size()
+        WoWTools_LabelMixin:Create(nil, {changeFont=self, size= Save().hide and 12 or 22, justifyH='CENTER'})
+    end
+
+    if not Save().hide then
+        InspectLevelText:set_font_size()
+    end
+
+--装备，属性
+    StatusLabel= WoWTools_LabelMixin:Create(InspectPaperDollFrame, {size=14})
+    StatusLabel:SetPoint('TOPLEFT', InspectFrameTab1, 'BOTTOMLEFT',0,-4)
+
+    WoWTools_TextureMixin:CreateBG(InspectPaperDollFrame, {point=StatusLabel})
+    --[[StatusLabel.Background= InspectPaperDollFrame:CreateTexture(nil, 'BACKGROUND')
+    StatusLabel.Background:SetPoint('TOPLEFT', StatusLabel, -2, 2)
+    StatusLabel.Background:SetPoint('BOTTOMRIGHT', StatusLabel, 2, -2)
+    StatusLabel.Background:SetAtlas('ChallengeMode-guild-background')
+    StatusLabel.Background:SetAlpha(0.5)]]
+
+    function InspectFrame:set_status_label()
+        local unit=self.unit
+        local text
+        if not Save().hide and UnitExists(unit) then
+            local tab={ 1,2,3,15,5,9, 10,6,7,8,11,12,13,14, 16,17}
+            local sta, newSta={}, {}
+            for _, slotID in pairs(tab) do
+                local itemLink= GetInventoryItemLink(unit, slotID)
+                for a,b in pairs(itemLink and C_Item.GetItemStats(itemLink) or {}) do
+                    sta[a]= (sta[a] or 0) +b
+                end
+            end
+            for a, b in pairs(sta) do
+                table.insert(newSta, {text=WoWTools_TextMixin:CN(_G[a] or a), value=b})
+            end
+            table.sort(newSta, function(a,b) return a.value> b.value end)
+            for index, info in pairs(newSta) do
+                text= text and text..'|n' or ''
+                local col= select(2, math.modf(index/2))==0 and '|cffffffff' or '|cffff7f00'
+                text= text..col..info.text..': '..WoWTools_DataMixin:MK(info.value, 3)..'|r'
+            end
+        end
+        StatusLabel:SetText(text or '')
+    end
+    InspectFrame:HookScript('OnShow', function(self)
+        self:set_status_label()
+    end)
+
+--挑战, 分数
+    KeystoneLabel=  WoWTools_LabelMixin:Create(InspectPaperDollFrame, {size=18})
+    KeystoneLabel:SetPoint('BOTTOMLEFT', 10, 5)
+
+--试衣间, 按钮
+    InspectPaperDollFrame.ViewButton:ClearAllPoints()
+    InspectPaperDollFrame.ViewButton:SetPoint('TOPRIGHT', -5, -28)
+    InspectPaperDollFrame.ViewButton:SetSize(28,28)
+    InspectPaperDollFrame.ViewButton:SetText(WoWTools_DataMixin.onlyChinese and '试' or WoWTools_TextMixin:sub(VIEW,1))
+    InspectPaperDollFrame.ViewButton:HookScript('OnLeave', GameTooltip_Hide)
+    InspectPaperDollFrame.ViewButton:HookScript('OnEnter', function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_LEFT")
+        GameTooltip:ClearLines()
+        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '试衣间' or DRESSUP_FRAME)
+        GameTooltip:Show()
+    end)
+
+--天赋，按钮
+    InspectPaperDollItemsFrame.InspectTalents:SetSize(28,28)
+    InspectPaperDollItemsFrame.InspectTalents:SetText(WoWTools_DataMixin.onlyChinese and '赋' or WoWTools_TextMixin:sub(TALENT,1))
+    InspectPaperDollItemsFrame.InspectTalents:HookScript('OnLeave', GameTooltip_Hide)
+    InspectPaperDollItemsFrame.InspectTalents:HookScript('OnEnter', function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_LEFT")
+        GameTooltip:ClearLines()
+        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '天赋' or INSPECT_TALENTS_BUTTON)
+        GameTooltip:Show()
+    end)
+
+    WoWTools_DataMixin:Hook('InspectPaperDollItemSlotButton_Update', function(self)--目标, 装备
+        set_InspectPaperDollItemSlotButton_Update(self)
+    end)
+    WoWTools_DataMixin:Hook('InspectPaperDollFrame_SetLevel', function()--目标,天赋 装等
+        set_InspectPaperDollFrame_SetLevel()
+    end)
+
+
+    --替换，原生 出错
+    function InspectGuildFrame_Update()
+        local guildPoints, guildNumMembers, guildName, guildRealmName = C_PaperDollInfo.GetInspectGuildInfo(InspectFrame.unit)
+        local _, guildFactionName = UnitFactionGroup(InspectFrame.unit)
+
+        InspectGuildFrame.guildName:SetText(guildName or '')
+        InspectGuildFrame.guildRealmName:SetFormattedText(WoWTools_DataMixin.onlyChinese and '服务器：%s' or INSPECT_GUILD_REALM, guildRealmName or '')
+
+        if ( guildFactionName and guildNumMembers ) then
+            InspectGuildFrame.guildLevel:SetFormattedText(WoWTools_DataMixin.onlyChinese and '%s公会' or INSPECT_GUILD_FACTION, guildFactionName)
+            InspectGuildFrame.guildNumMembers:SetFormattedText(WoWTools_DataMixin.onlyChinese and '%d名公会成员' or INSPECT_GUILD_NUM_MEMBERS, guildNumMembers)
+        end
+
+        local pointFrame = InspectGuildFrame.Points
+        pointFrame.SumText:SetText(guildPoints or '')
+        local width = pointFrame.SumText:GetStringWidth() + pointFrame.LeftCap:GetWidth() + pointFrame.RightCap:GetWidth() + pointFrame.Icon:GetWidth()
+        pointFrame:SetWidth(width)
+
+        SetDoubleGuildTabardTextures(InspectFrame.unit, InspectGuildFrameTabardLeftIcon, InspectGuildFrameTabardRightIcon, InspectGuildFrameBanner, InspectGuildFrameBannerBorder)
+    end
+end
+
+
+
+
+
+local function Init()
+    if C_AddOns.IsAddOnLoaded('Blizzard_InspectUI') then
+        Init_UI()
+    else
+        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
+             if arg1=='Blizzard_InspectUI' then
+                Init_UI()
+                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
+            end
+        end)
+    end
+
+    Init=function()end
+end
+
+
+
+
+
+function WoWTools_PaperDollMixin:Init_InspectUI()
+    Init()
+end
