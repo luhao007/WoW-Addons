@@ -395,18 +395,14 @@ L["RAID_BOSS_SOD_6"] = "痛苦工匠拉茲內爾"
 L["RAID_BOSS_SOD_7"] = "首創者的守護者"
 L["RAID_BOSS_SOD_8"] = "述命者羅卡洛"
 L["RAID_BOSS_SOD_9"] = "科爾蘇加德"
---[[Translation missing --]]
---[[ L["RAID_BOSS_TOES_1"] = ""--]] 
 L["RAID_BOSS_ToES_1"] = "豐泉守衛者"
+L["RAID_BOSS_TOES_1"] = "豐泉守衛者"
+L["RAID_BOSS_TOES_2"] = "楚龍"
 L["RAID_BOSS_ToES_2"] = "楚龍"
---[[Translation missing --]]
---[[ L["RAID_BOSS_TOES_2"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_TOES_3"] = ""--]] 
 L["RAID_BOSS_ToES_3"] = "蕾希"
+L["RAID_BOSS_TOES_3"] = "蕾希"
+L["RAID_BOSS_TOES_4"] = "恐懼之煞"
 L["RAID_BOSS_ToES_4"] = "恐懼之煞"
---[[Translation missing --]]
---[[ L["RAID_BOSS_TOES_4"] = ""--]] 
 L["RAID_BOSS_TOTFW_1"] = "風之議會"
 L["RAID_BOSS_TOTFW_2"] = "奧拉基爾"
 L["RAID_BOSS_VOTI_1"] = "伊拉諾格"
@@ -445,8 +441,7 @@ L["RAID_MSV"] = "魔古山寶庫"
 L["RAID_NP"] = "奈幽巴宮殿"
 L["RAID_RS"] = "晶紅聖所"
 L["RAID_ToES"] = "豐泉臺"
---[[Translation missing --]]
---[[ L["RAID_TOES"] = ""--]] 
+L["RAID_TOES"] = "豐泉台"
 L["RAID_TOTFW"] = "四風王座"
 L["RAIDERIO_AVERAGE_PLAYER_SCORE"] = "時限內%s層的平均分數"
 L["RAIDERIO_BEST_RUN"] = "Raider.IO M+最佳紀錄"

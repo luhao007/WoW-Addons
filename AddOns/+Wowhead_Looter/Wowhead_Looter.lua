@@ -10,7 +10,7 @@
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2025-10-07";
+local WL_ADDON_UPDATED = "2025-10-31";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
 local WL_VERSION = 110205;
@@ -1272,7 +1272,9 @@ function wlRegisterUnitQuote(name, how, language, text, name2)
     end
 
     -- language -> language known
-    if (language ~= "" and not wlLanguage[language]) or not name or not wlNpcInfo[name] or not wlUnit[wlSeasonId][wlNpcInfo[name].id] then
+    if (language ~= "" and not wlLanguage[language]) or
+            not name or not wlNpcInfo[name] or
+            not wlUnit[wlSeasonId] or not wlUnit[wlSeasonId][wlNpcInfo[name].id] then
         return;
     end
 
@@ -1385,7 +1387,7 @@ local WL_SPELL_SCRAPPING = (C_ScrappingMachineUI and C_ScrappingMachineUI.GetScr
 function wlGetCurrentScrappingItemLink()
     for idx = 0, 8 do
         local loc = C_ScrappingMachineUI.GetCurrentPendingScrapItemLocationByIndex(idx);
-        if loc then
+        if loc and loc.bagID and loc.slotIndex then
             local itemInfo = C_Container.GetContainerItemInfo(loc.bagID, loc.slotIndex);
             if itemInfo and itemInfo.hyperlink ~= nil then
                 return itemInfo.hyperlink;
