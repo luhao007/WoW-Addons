@@ -26,8 +26,6 @@ end
 
 
 
-
-
 --拾取
 function WoWTools_ItemMixin.Frames:LootFrame()
     WoWTools_DataMixin:Hook(LootFrameItemElementMixin, 'Init', function(btn)
@@ -67,19 +65,15 @@ end
 
 
 --容器，背包
-function WoWTools_ItemMixin.Frames:ContainerFrame_GenerateFrame()
+function WoWTools_ItemMixin.Frames:ContainerFrameCombinedBags()
     if C_AddOns.IsAddOnLoaded("Bagnon") then
         local itemButton = Bagnon.ItemSlot or Bagnon.Item
         if (itemButton) and (itemButton.Update)  then
             WoWTools_DataMixin:Hook(itemButton, 'Update', function(frame)
                 local slot, bag= frame:GetSlotAndBagID()
                 if slot and bag then
-                    if frame.hasItem then
-                        local slotID, bagID= frame:GetSlotAndBagID()--:GetID() GetBagID()
-                        WoWTools_ItemMixin:SetupInfo(frame, {bag={bag=bagID, slot=slotID}})
-                    else
-                        WoWTools_ItemMixin:SetupInfo(frame, {})
-                    end
+                    local slotID, bagID= frame:GetSlotAndBagID()
+                    WoWTools_ItemMixin:SetupInfo(frame, frame.hasItem and {bag={bag=bagID, slot=slotID}} or nil)
                 end
             end)
         end

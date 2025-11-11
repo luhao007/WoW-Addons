@@ -12,7 +12,7 @@ CONTAINER_OFFSET_X = -4;
 
 --背包 Bg FlatPanelBackgroundTemplate
 function WoWTools_TextureMixin.Frames:ContainerFrame1()
-    if C_AddOns.IsAddOnLoaded('ElvUI') then
+    if _G['ElvUI_ContainerFrame'] then
         return
     end
 

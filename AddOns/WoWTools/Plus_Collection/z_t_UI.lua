@@ -78,12 +78,12 @@ function WoWTools_TextureMixin.Events:Blizzard_Collections()
     self:SetNineSlice(ToyBox.iconsFrame)
     ToyBox.progressBar:DisableDrawLayer('BACKGROUND')
     self:SetStatusBar(ToyBox.progressBar)
-    self:SetButton(ToyBox.PagingFrame.PrevPageButton, {alpha=1})
-    self:SetButton(ToyBox.PagingFrame.NextPageButton, {alpha=1})
+    self:SetButton(ToyBox.PagingFrame.PrevPageButton, 1)
+    self:SetButton(ToyBox.PagingFrame.NextPageButton, 1)
 
 --传家宝
-    self:SetButton(HeirloomsJournal.PagingFrame.NextPageButton, {alpha=1})
-    self:SetButton(HeirloomsJournal.PagingFrame.PrevPageButton, {alpha=1})
+    self:SetButton(HeirloomsJournal.PagingFrame.NextPageButton, 1)
+    self:SetButton(HeirloomsJournal.PagingFrame.PrevPageButton, 1)
     self:SetEditBox(HeirloomsJournalSearchBox)
     self:HideFrame(HeirloomsJournal.iconsFrame)
     self:SetNineSlice(HeirloomsJournal.iconsFrame)
@@ -101,16 +101,16 @@ function WoWTools_TextureMixin.Events:Blizzard_Collections()
 
     self:SetStatusBar(WardrobeCollectionFrame.progressBar)
     self:SetEditBox(WardrobeCollectionFrameSearchBox)
-    for _, region in pairs({WardrobeCollectionFrame.ItemsCollectionFrame.SlotsFrame:GetChildren()}) do
+    --[[for _, region in pairs({WardrobeCollectionFrame.ItemsCollectionFrame.SlotsFrame:GetChildren()}) do
         if region:IsObjectType('Button') then
             local icon= region:GetNormalTexture()
             if icon then
                 self:SetAlphaColor(icon, true, nil, 1)
             end
         end
-    end
-    self:SetButton(WardrobeCollectionFrame.ItemsCollectionFrame.PagingFrame.PrevPageButton, {alpha=1})
-    self:SetButton(WardrobeCollectionFrame.ItemsCollectionFrame.PagingFrame.NextPageButton, {alpha=1})
+    end]]
+    self:SetButton(WardrobeCollectionFrame.ItemsCollectionFrame.PagingFrame.PrevPageButton, 1)
+    self:SetButton(WardrobeCollectionFrame.ItemsCollectionFrame.PagingFrame.NextPageButton, 1)
 
 --套装
     self:SetScrollBar(WardrobeCollectionFrame.SetsCollectionFrame.ListContainer)
@@ -121,8 +121,8 @@ function WoWTools_TextureMixin.Events:Blizzard_Collections()
     self:HideTexture(WardrobeCollectionFrame.SetsCollectionFrame.DetailsFrame.ModelFadeTexture)
 
 --营区
-    self:SetButton(WarbandSceneJournal.IconsFrame.Icons.Controls.PagingControls.PrevPageButton, {alpha=1})
-    self:SetButton(WarbandSceneJournal.IconsFrame.Icons.Controls.PagingControls.NextPageButton, {alpha=1})
+    self:SetButton(WarbandSceneJournal.IconsFrame.Icons.Controls.PagingControls.PrevPageButton, 1)
+    self:SetButton(WarbandSceneJournal.IconsFrame.Icons.Controls.PagingControls.NextPageButton, 1)
     self:SetCheckBox(WarbandSceneJournal.IconsFrame.Icons.Controls.ShowOwned.Checkbox)
 
 
@@ -152,8 +152,8 @@ function WoWTools_TextureMixin.Events:Blizzard_Collections()
 
 --试衣间，套装
     self:SetButton(WardrobeTransmogFrame.ModelScene.ClearAllPendingButton)
-    self:SetButton(WardrobeCollectionFrame.SetsTransmogFrame.PagingFrame.NextPageButton, {alpha=1})
-    self:SetButton(WardrobeCollectionFrame.SetsTransmogFrame.PagingFrame.PrevPageButton, {alpha=1})
+    self:SetButton(WardrobeCollectionFrame.SetsTransmogFrame.PagingFrame.NextPageButton, 1)
+    self:SetButton(WardrobeCollectionFrame.SetsTransmogFrame.PagingFrame.PrevPageButton, 1)
     self:SetCheckBox(WardrobeTransmogFrame.ToggleSecondaryAppearanceCheckbox)
     for _, btn in pairs(WardrobeCollectionFrame.SetsTransmogFrame.Models or {}) do
         btn:DisableDrawLayer('BACKGROUND')

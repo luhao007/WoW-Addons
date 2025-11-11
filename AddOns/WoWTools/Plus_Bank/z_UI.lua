@@ -1,8 +1,14 @@
 --SetTexture
 function WoWTools_TextureMixin.Frames:BankFrame()
+    self:SetUIButton(BankPanel.AutoDepositFrame.DepositButton)
+    self:SetUIButton(BankPanel.MoneyFrame.WithdrawButton)
+    self:SetUIButton(BankPanel.MoneyFrame.DepositButton)
+    self:SetUIButton(BankPanel.PurchasePrompt.TabCostFrame.PurchaseButton)
+    self:SetButton(BankFrameCloseButton)
+    self:SetCheckBox(BankPanel.AutoDepositFrame.IncludeReagentsCheckbox)
+
 --下面Tab
     self:SetTabButton(BankFrame)
-    self:SetButton(BankFrameCloseButton)
 
 --搜索框
     self:SetEditBox(BankItemSearchBox)
@@ -11,7 +17,6 @@ function WoWTools_TextureMixin.Frames:BankFrame()
     self:HideFrame(BankFrame, {show={[BankFrame.Background]=true}})
     BankFrame.Background:ClearAllPoints()
     BankFrame.Background:SetAllPoints()
-
 
 --BankPanel
     self:HideFrame(BankPanel)
@@ -32,6 +37,8 @@ function WoWTools_TextureMixin.Frames:BankFrame()
 
 --TabSettingsMenu
     self:SetIconSelectFrame(BankPanel.TabSettingsMenu)
+    self:SetUIButton(BankPanel.TabSettingsMenu.BorderBox.OkayButton)
+    self:SetUIButton(BankPanel.TabSettingsMenu.BorderBox.CancelButton)
 
 --button
     WoWTools_DataMixin:Hook(BankPanelItemButtonMixin, 'OnLoad', function(btn)

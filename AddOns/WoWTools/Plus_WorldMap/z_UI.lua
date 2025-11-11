@@ -74,8 +74,8 @@ function WoWTools_TextureMixin.Events:Blizzard_WorldMap()
         self:SetButton(frame.BountyDropdown)
     end
 
-    self:SetButton(WorldMapFrame.SidePanelToggle.CloseButton, {alpha=0.5})
-    self:SetButton(WorldMapFrame.SidePanelToggle.OpenButton, {alpha=0.5})
+    self:SetButton(WorldMapFrame.SidePanelToggle.CloseButton, 0.5)
+    self:SetButton(WorldMapFrame.SidePanelToggle.OpenButton, 0.5)
 
     self:SetFrame(WorldMapFrame.NavBar.overlay, {alpha=0})
 
@@ -151,7 +151,7 @@ function WoWTools_MoveMixin.Events:Blizzard_WorldMap()
             end
 
         elseif size and size[1] then
-            local w= size[1] -questLogWidth +2
+            local w= size[1] -questLogWidth-- +2
             WorldMapFrame.minimizedWidth= w
             WorldMapFrame.minimizedHeight= size[2] or minimizedHeight
             WorldMapFrame.BorderFrame.MaximizeMinimizeFrame:Minimize()

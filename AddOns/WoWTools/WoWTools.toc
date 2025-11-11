@@ -1,7 +1,7 @@
 ## Interface: 110205
 ## Title: |cffff00ffWoW|r|cff00ff00Tools|r
 ## Author: husandro
-## Version: 1.8.40
+## Version: 1.8.42
 ## Notes: |A:Icon-WoW:0:0|aWoW |cffff4800Plus|r|n|A:WoWShare-TwitterLogo:0:0|a|cff00ccffhttps://github.com/husandro/WoWTools|r
 ## SavedVariables: WoWToolsSave, WoWTools_WoWDate, WoWToolsPlayerDate
 ## DefaultState: Enabled
@@ -34,6 +34,7 @@ Source\Libs\LibRangeCheck-3.0.lua
 
 1_Mixin\StaticPopupDialogs.lua
 1_Mixin\Button.lua
+1_Mixin\Slider.lua
 1_Mixin\Cooldown.lua
 1_Mixin\Durabiliy.lua
 1_Mixin\EditBox.lua
@@ -47,13 +48,14 @@ Source\Libs\LibRangeCheck-3.0.lua
 1_Mixin\Menu.lua
 1_Mixin\Quest.lua
 1_Mixin\Random.lua
-##美服，欧服，服器语言，提示
-1_Mixin\Realm.lua
 1_Mixin\Text.lua
 1_Mixin\Time.lua
 1_Mixin\SetTooltip.lua
 1_Mixin\SetTooltip_Faction.lua
+1_Mixin\Aura.lua
 1_Mixin\PanelMixin.lua
+##美服，欧服，服器语言，提示
+1_Mixin\Realm.lua
 
 ##模板
 2_Template\Button.xml
@@ -65,7 +67,6 @@ Plus_Move\0a_Setup_Mixin.lua
 Plus_Move\0b_ScaleSizeButton_Mixin.lua
 Plus_Move\1_Init.lua
 Plus_Move\2_Add_Button.lua
-Plus_Move\3_Options.lua
 Plus_Move\Professions.lua
 Plus_Move\ProfessionsCustomerOrders.lua
 Plus_Move\ClassPower.lua
@@ -78,7 +79,6 @@ Plus_Texture\0_TextureMixin.lua
 Plus_Texture\1_Setup_Mixin.lua
 Plus_Texture\2_Init_BGMenu_Frame.lua
 Plus_Texture\3_Init.lua
-Plus_Texture\4_Options.lua
 Plus_Texture\ActionButton.lua
 Plus_Texture\ChatBubbles.lua
 Plus_Texture\ClassPower.lua
@@ -152,12 +152,9 @@ Plus_Color\Select_Color.lua
 Plus_Color\Other.lua
 Plus_Color\CODE.lua
 
-##光环
-Plus_Aura\0_AuraMixin.lua
-##Plus_Aura\0_Init.lua
 ##鼠标，提示
-Plus_Tooltip\0_Init.lua
-Plus_Tooltip\1_Panel.lua
+Plus_Tooltip\0_TooltipMixin.lua
+Plus_Tooltip\1_Init.lua
 Plus_Tooltip\2_Hook.lua
 Plus_Tooltip\2_AddTooltipPostCall.lua
 Plus_Tooltip\3_Set_Point.lua
@@ -280,7 +277,6 @@ Plus_WorldMap\Name_Dungeon.lua
 Plus_WorldMap\Name_FlightMap.lua
 Plus_WorldMap\Name_WorldQuest.lua
 Plus_WorldMap\z_Plus_Menu.lua
-Plus_WorldMap\z_Plus_SearchBox.lua
 Plus_WorldMap\z_Plus.lua
 Plus_WorldMap\z_UI.lua
 

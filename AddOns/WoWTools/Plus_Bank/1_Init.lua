@@ -39,7 +39,10 @@ end
 
 
 local function Init_Open_Menu()
-    Menu.ModifyMenu("MENU_MINIMAP_TRACKING", function(_, root)
+    Menu.ModifyMenu("MENU_MINIMAP_TRACKING", function(self, root)
+        if not self:IsMouseOver() then
+            return
+        end
         local sub= root:CreateCheckbox(
             (IsOpend and '' or '|cff606060')
             ..(WoWTools_DataMixin.onlyChinese and '银行' or BANK)
@@ -81,13 +84,21 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWTools' then
 
-            WoWToolsSave['Plus_Bank2']= WoWToolsSave['Plus_Bank2'] or CopyTable(P_Save)
+            
+
+            WoWToolsSave['Plus_Bank2']= WoWToolsSave['Plus_Bank2'] or P_Save
             P_Save=nil
 
             Save().filterSaveMoney=  Save().filterSaveMoney or {}
             WoWToolsSave['Plus_Bank']= nil
 
             WoWTools_BankMixin.addName= '|A:Banker:0:0|a'..(WoWTools_DataMixin.onlyChinese and '银行' or BANK)
+
+
+            if _G['ElvUI_BankContainerFrame'] then
+                self:UnregisterAllEvents()
+                return
+            end
 
 --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({

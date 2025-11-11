@@ -45,7 +45,7 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
     end)
 
---索引
+--物品信息
     sub2=sub:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '物品信息' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ITEMS, INFO), function()
         return Save().plusItem
     end, function()
@@ -56,10 +56,13 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
     end)
 
---重新加载UI
     sub:CreateDivider()
-    WoWTools_MenuMixin:Reload(sub)
-
+    WoWTools_MenuMixin:CVar(sub, 'bankAutoDepositReagents', nil, WoWTools_DataMixin.onlyChinese and '包括可交易的材料' or BANK_DEPOSIT_INCLUDE_REAGENTS_CHECKBOX_LABEL, function(show)
+        if BankPanel.AutoDepositFrame.IncludeReagentsCheckbox:IsVisible() then
+            BankPanel.AutoDepositFrame.IncludeReagentsCheckbox:SetChecked(show)
+        end
+    end)
+    WoWTools_MenuMixin:CVar(sub, 'bankConfirmTabCleanUp', nil, WoWTools_DataMixin.onlyChinese and '你确定要自动整理你的物品吗？|n该操作会影响所有的标签。' or BANK_CONFIRM_CLEANUP_PROMPT)
 
 
 
@@ -69,7 +72,8 @@ local function Init_Menu(self, root)
 --转化为联合的大包
     root:CreateSpacer()
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '转化为联合的大包' or BAG_COMMAND_CONVERT_TO_COMBINED,
+        '|cnWARNING_FONT_COLOR:'
+        ..(WoWTools_DataMixin.onlyChinese and '转化为联合的大包' or BAG_COMMAND_CONVERT_TO_COMBINED),
     function()
         return Save().allBank
     end, function()
@@ -83,7 +87,11 @@ local function Init_Menu(self, root)
         end
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI)
+        GameTooltip_AddErrorLine(tooltip,
+            WoWTools_DataMixin.onlyChinese and '“物品信息” 同时打，会卡' or (format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ITEMS, INFO)..': '..(TICKET_TYPE3 or 'Bug'))
+        )
+        tooltip:AddLine(' ')
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
     end)
 
 
@@ -129,11 +137,25 @@ local function Init_Menu(self, root)
 
 
 
---打开选项界面
+
     root:CreateDivider()
-    sub=WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_BankMixin.addName})
+    sub= root:CreateCheckbox(
+        WoWTools_DataMixin.onlyChinese and '禁用排序' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DISABLE, STABLE_FILTER_BUTTON_LABEL),
+    function()
+        return C_Container.GetBankAutosortDisabled() ()
+    end, function()
+        C_Container.SetBankAutosortDisabled(not C_Container.GetBankAutosortDisabled() and true or false)
+        return MenuResponse.Close
+    end)
+    sub:SetTooltip(function(tooltip)
+        tooltip:AddLine('C_Container'..WoWTools_DataMixin.Icon.icon2..'SetBankAutosortDisabled')
+    end)
+
+    root:CreateDivider()
 --重新加载UI
-    WoWTools_MenuMixin:Reload(sub)
+    WoWTools_MenuMixin:Reload(root)
+--打开选项界面
+    WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_BankMixin.addName})
 end
 
 

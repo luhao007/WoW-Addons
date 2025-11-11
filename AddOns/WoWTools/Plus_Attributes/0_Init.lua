@@ -104,7 +104,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWTools' then
 
-            WoWToolsSave['Plus_Attributes']= WoWToolsSave['Plus_Attributes'] or CopyTable(P_Save)
+            WoWToolsSave['Plus_Attributes']= WoWToolsSave['Plus_Attributes'] or P_Save
             P_Save=nil
 
             WoWTools_AttributesMixin.addName= '|A:charactercreate-icon-customize-body-selected:0:0|a'..(WoWTools_DataMixin.onlyChinese and '属性' or STAT_CATEGORY_ATTRIBUTES)
@@ -116,7 +116,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             })
             
 
-            WoWTools_PanelMixin:ReloadButton({panel=self, addName=WoWTools_AttributesMixin.addName, restTips=nil, checked=not Save().disabled, clearTips=nil, reload=false,--重新加载UI, 重置, 按钮
+            WoWTools_ButtonMixin:ReloadButton({panel=self, addName=WoWTools_AttributesMixin.addName, restTips=nil, checked=not Save().disabled, clearTips=nil, reload=false,--重新加载UI, 重置, 按钮
                 disabledfunc=function()
                     Save().disabled = not Save().disabled and true or nil
                     if not Save().disabled then

@@ -6,56 +6,11 @@ WoWTools_ItemMixin:SetupInfo(itemButton, {
     itemLink= itemLink,
     point= region,
 })
-
-
-GetItemQualityColor = C_Item.GetItemQualityColor;
-	GetItemInfoInstant = C_Item.GetItemInfoInstant;
-	GetItemSetInfo = C_Item.GetItemSetInfo;
-	GetItemChildInfo = C_Item.GetItemChildInfo;
-	DoesItemContainSpec = C_Item.DoesItemContainSpec;
-	GetItemGem = C_Item.GetItemGem;
-	GetItemCreationContext = C_Item.GetItemCreationContext;
-	GetItemIcon = C_Item.GetItemIconByID;
-	GetItemFamily = C_Item.GetItemFamily;
-	GetItemSpell = C_Item.GetItemSpell;
-	IsArtifactPowerItem = C_Item.IsArtifactPowerItem;
-	IsCurrentItem = C_Item.IsCurrentItem;
-	IsUsableItem = C_Item.IsUsableItem;
-	IsHelpfulItem = C_Item.IsHelpfulItem;
-	IsHarmfulItem = C_Item.IsHarmfulItem;
-	IsConsumableItem = C_Item.IsConsumableItem;
-	IsEquippableItem = C_Item.IsEquippableItem;这个会有BUG
-	IsEquippedItem = C_Item.IsEquippedItem;
-	IsEquippedItemType = C_Item.IsEquippedItemType;
-	ItemHasRange = C_Item.ItemHasRange;
-	IsItemInRange = C_Item.IsItemInRange;
-	GetItemClassInfo = C_Item.GetItemClassInfo;
-	GetItemInventorySlotInfo = C_Item.GetItemInventorySlotInfo;
-	BindEnchant = C_Item.BindEnchant;
-	ActionBindsItem = C_Item.ActionBindsItem;
-	ReplaceEnchant = C_Item.ReplaceEnchant;
-	ReplaceTradeEnchant = C_Item.ReplaceTradeEnchant;
-	ConfirmBindOnUse = C_Item.ConfirmBindOnUse;
-	ConfirmOnUse = C_Item.ConfirmOnUse;
-	ConfirmNoRefundOnUse = C_Item.ConfirmNoRefundOnUse;
-	DropItemOnUnit = C_Item.DropItemOnUnit;
-	EndBoundTradeable = C_Item.EndBoundTradeable;
-	EndRefund = C_Item.EndRefund;
-	GetItemInfo = C_Item.GetItemInfo;
-	GetDetailedItemLevelInfo = C_Item.GetDetailedItemLevelInfo;
-	GetItemSpecInfo = C_Item.GetItemSpecInfo;
-	GetItemUniqueness = C_Item.GetItemUniqueness;
-	GetItemCount = C_Item.GetItemCount;
-	PickupItem = C_Item.PickupItem;
-	GetItemSubClassInfo = C_Item.GetItemSubClassInfo;
-	UseItemByName = C_Item.UseItemByName;
-	EquipItemByName = C_Item.EquipItemByName;
-	ReplaceTradeskillEnchant = C_Item.ReplaceTradeskillEnchant;
-	GetItemCooldown = C_Item.GetItemCooldown;
-	IsCorruptedItem = C_Item.IsCorruptedItem;
-	IsCosmeticItem = C_Item.IsCosmeticItem;
-    IsDressableItem = C_Item.IsDressableItem;
 ]]
+local function Save()
+    return WoWToolsSave['Plus_ItemInfo']
+end
+
 
 local chargesStr= ITEM_SPELL_CHARGES:gsub('%%d', '%(%%d%+%)')--(%d+)次
 local keyStr= format(CHALLENGE_MODE_KEYSTONE_NAME,'(.+) ')--钥石
@@ -68,7 +23,7 @@ local itemLevelStr= ITEM_LEVEL:gsub('%%d', '%(%%d%+%)')--"物品等级：%d"
 local useStr=ITEM_SPELL_TRIGGER_ONUSE..'(.+)'--使用：
 local ITEM_SPELL_KNOWN= ITEM_SPELL_KNOWN
 
-local size= 10--字体大小
+--local size= 10--字体大小
 
 local heirloomWeapontemEquipLocTab={--传家宝 ，武器，itemEquipLoc
         ['INVTYPE_WEAPON']= true,
@@ -150,10 +105,12 @@ local function get_itemLeve_color(itemLink, itemLevel, itemEquipLoc, itemQuality
         return itemLevel
     end
 
+    local isTimerunning= PlayerIsTimerunning()
+
     local upLevel, downLevel
     local itemLinkPlayer =  GetInventoryItemLink('player', invSlot)
     if itemLinkPlayer then
-        if PlayerIsTimerunning() then
+        if isTimerunning then
             local numItem, numPlayer= 0, 0
             for _, num in pairs(C_Item.GetItemStats(itemLink) or {}) do
                 numItem= numItem +num
@@ -195,7 +152,8 @@ local function get_itemLeve_color(itemLink, itemLevel, itemEquipLoc, itemQuality
     else
         upLevel=true
     end
-    if upLevel or downLevel or PlayerIsTimerunning() then
+
+    if upLevel or downLevel or isTimerunning then
         return (upLevel and '|cnGREEN_FONT_COLOR:' or (downLevel and '|cnWARNING_FONT_COLOR:') or  '|cffffffff')
                 ..itemLevel..'|r'
     end
@@ -234,8 +192,16 @@ end
 
 
 
-
-
+local function Set_Label(label, tab)
+    local font
+    if WoWTools_DataMixin.onlyChinese and not LOCALE_zhCN then
+        font= 'Fonts\\ARHei.ttf'
+    else
+        font= label:GetFont()
+    end
+    label:SetFont(font, tab.size, 'OUTLINE')
+    label:SetTextColor(1,1,1,1)
+end
 
 
 
@@ -243,35 +209,44 @@ end
 
 
 local function Create_Label(frame, tab)
-    if frame.bottomLeftText or frame.topLeftText then
-        return
+    tab= tab or {}
+    if tab.size then
+        tab.size= tab.size + (Save().size or 10)
+    else
+        tab.size= Save().size or 10
     end
 
-    local labelInfo={
-        size=tab.size or size,
-        color=tab.color or {r=1, g=1, b=1},
-    }
+    local font= 'ChatFontNormal'--'SystemFont_Shadow_Small_Outline'
+    local layer= 'OVERLAY'
 
+--右边
+    frame.topRightText= frame:CreateFontString(nil, layer, font)--WoWTools_LabelMixin:Create(frame, labelInfo)
+    frame.topRightText:SetPoint('TOPRIGHT', tab.point or frame, 2, 1)
+    Set_Label(frame.topRightText, tab)
+    frame.topRightText:SetJustifyH('RIGHT')
 
-    frame.topLeftText=WoWTools_LabelMixin:Create(frame, labelInfo)
-    frame.topLeftText:SetPoint('TOPLEFT', tab.point or frame)
+    frame.rightText= frame:CreateFontString(nil, layer, font)--WoWTools_LabelMixin:Create(frame, labelInfo)
+    frame.rightText:SetPoint('RIGHT', tab.point or frame, 2, 0)
+    Set_Label(frame.rightText, tab)
+    frame.rightText:SetJustifyH('RIGHT')
 
-    frame.leftText=WoWTools_LabelMixin:Create(frame, labelInfo)
-    frame.leftText:SetPoint('LEFT', tab.point or frame)
+    frame.bottomRightText= frame:CreateFontString(nil, layer, font)--WoWTools_LabelMixin:Create(frame, labelInfo)
+    frame.bottomRightText:SetPoint('BOTTOMRIGHT', tab.point or frame, 2, -1)
+    Set_Label(frame.bottomRightText, tab)
+    frame.bottomRightText:SetJustifyH('RIGHT')
 
-    frame.bottomLeftText=WoWTools_LabelMixin:Create(frame, labelInfo)
-    frame.bottomLeftText:SetPoint('BOTTOMLEFT', tab.point or frame)
+--左边
+    frame.topLeftText= frame:CreateFontString(nil, layer, font) --WoWTools_LabelMixin:Create(frame, labelInfo)
+    frame.topLeftText:SetPoint('TOPLEFT', tab.point or frame, -2, 1)
+    Set_Label(frame.topLeftText, tab)
 
+    frame.leftText= frame:CreateFontString(nil, layer, font)--WoWTools_LabelMixin:Create(frame, labelInfo)
+    frame.leftText:SetPoint('LEFT', tab.point or frame, -2, 0)
+    Set_Label(frame.leftText, tab)
 
-    frame.topRightText=WoWTools_LabelMixin:Create(frame, labelInfo)
-    frame.topRightText:SetPoint('TOPRIGHT', tab.point or frame, 2,0)
-
-    frame.rightText=WoWTools_LabelMixin:Create(frame, labelInfo)
-    frame.rightText:SetPoint('RIGHT', tab.point or frame)
-
-    frame.bottomRightText=WoWTools_LabelMixin:Create(frame, labelInfo)
-    frame.bottomRightText:SetPoint('BOTTOMRIGHT', tab.point or frame)
-
+    frame.bottomLeftText=frame:CreateFontString(nil, layer, font)--WoWTools_LabelMixin:Create(frame, labelInfo)
+    frame.bottomLeftText:SetPoint('BOTTOMLEFT', tab.point or frame, -2, -1)
+    Set_Label(frame.bottomLeftText, tab)
 
     frame.setIDItem=frame:CreateTexture()
     frame.setIDItem:SetPoint('TOPLEFT', -4, 4)
@@ -282,9 +257,19 @@ local function Create_Label(frame, tab)
         frame.Count:ClearAllPoints()
         frame.Count:SetPoint('BOTTOMRIGHT')
     end
-
 end
 
+local function Clear_Label(frame)
+    if frame.topLeftText then
+        frame.topLeftText:SetText('')
+        frame.leftText:SetText('')
+        frame.bottomLeftText:SetText('')
+        frame.topRightText:SetText('')
+        frame.rightText:SetText('')
+        frame.bottomRightText:SetText('')
+        frame.setIDItem:Hide()
+    end
+end
 
 
 
@@ -340,7 +325,7 @@ local function Get_Info(tab)
         end
 
     elseif tab.bag then
-        containerInfo = C_Container.GetContainerItemInfo(tab.bag.bag, tab.bag.slot)
+        containerInfo = C_Container.GetContainerItemInfo(tab.bag.bag or -1, tab.bag.slot or -1)
         if containerInfo then
             itemLink= containerInfo.hyperlink
             itemID= containerInfo.itemID
@@ -417,6 +402,12 @@ local function Get_Info(tab)
 --炉石
     elseif itemID==6948 then
         bottomLeftText=WoWTools_TextMixin:sub(WoWTools_TextMixin:CN(GetBindLocation()), 3, 6, true)
+--住宅装饰--11.2.7
+
+--    elseif C_Item.IsDecorItem and C_Item.IsDecorItem(itemID) then
+
+-- C_Item.IsCurioItem(itemIDOrLink) or C_Item.IsRelicItem(itemIDOrLink)
+
 --宝箱
     elseif containerInfo and containerInfo.hasLoot then
         local dateInfo= WoWTools_ItemMixin:GetTooltip({bag=tab.bag, merchant=tab.merchant, guidBank=tab.guidBank, hyperLink=itemLink, red=true, onlyRed=true})--物品提示，信息
@@ -637,20 +628,24 @@ local function Get_Info(tab)
 
             local collectedIcon, isCollected= WoWTools_CollectedMixin:Item(itemLink, nil, true)--幻化
             bottomRightText= not isCollected and collectedIcon or bottomRightText
+--幻化，没有收集
             if isCollected==false then
-                topRightText= topRightText or WoWTools_TextMixin:sub(itemSubType, 2, 3, true)
-                if itemQuality and itemQuality<=1 then
-                    if itemMinLevel<=WoWTools_DataMixin.Player.Level then
-                        isRedItem=true
-                    else
-                        local dateInfo= WoWTools_ItemMixin:GetTooltip({
-                            bag=tab.bag, merchant=tab.merchant, guidBank=tab.guidBank, hyperLink=itemLink, itemID=itemID,
-                            onlyRed=true, red=true})--物品提示，信息
-                        isRedItem= dateInfo.red
+--当是 披风时，会提示布甲
+                if WoWTools_ItemMixin:GetEquipSlotID(itemEquipLoc)~=15 then
+                    topRightText= topRightText or WoWTools_TextMixin:sub(itemSubType, 2, 3, true)
+                    if itemQuality and itemQuality<=1 then
+                        if itemMinLevel<=WoWTools_DataMixin.Player.Level then
+                            isRedItem=true
+                        else
+                            local dateInfo= WoWTools_ItemMixin:GetTooltip({
+                                bag=tab.bag, merchant=tab.merchant, guidBank=tab.guidBank, hyperLink=itemLink, itemID=itemID,
+                                onlyRed=true, red=true})--物品提示，信息
+                            isRedItem= dateInfo.red
+                        end
                     end
-                end
-                if topRightText and isRedItem then
-                    topRightText= '|cnWARNING_FONT_COLOR:'..topRightText..'|r'
+                    if topRightText and isRedItem then
+                        topRightText= '|cnWARNING_FONT_COLOR:'..topRightText..'|r'
+                    end
                 end
             elseif containerInfo and itemQuality==0 then
                 topRightText= '|A:Coin-Silver:0:0|a'
@@ -789,21 +784,26 @@ end
 
 
 
+
 function WoWTools_ItemMixin:SetupInfo(frame, tab)
     if not frame then
         return
-    end
 
-    local topLeftText, leftText, bottomLeftText, topRightText, rightText, bottomRightText, setIDItem
-
-    if tab then
-        Create_Label(frame, tab)
-        topLeftText, leftText, bottomLeftText, topRightText, rightText, bottomRightText, setIDItem= Get_Info(tab)
-    end
-
-    if not frame.topRightText then
+    elseif not tab then
+        Clear_Label(frame)
+        frame._isSetItemInfo= nil
+        return
+    elseif frame._isSetItemInfo then
         return
     end
+
+    frame._isSetItemInfo=true
+
+    if not frame.topRightText then
+        Create_Label(frame, tab)
+    end
+
+    local topLeftText, leftText, bottomLeftText, topRightText, rightText, bottomRightText, setIDItem= Get_Info(tab or {})
 
     frame.topRightText:SetText(topRightText or '')
     frame.rightText:SetText(rightText or '')
@@ -812,7 +812,6 @@ function WoWTools_ItemMixin:SetupInfo(frame, tab)
     frame.topLeftText:SetText(topLeftText or '')
     frame.leftText:SetText(leftText or '')
     frame.bottomLeftText:SetText(bottomLeftText or '')
-
 
     if setIDItem then
         if type(setIDItem)=='number' then
@@ -827,6 +826,8 @@ function WoWTools_ItemMixin:SetupInfo(frame, tab)
     if frame.Count and frame.Count:GetText()=='1000' then
         frame.Count:SetText('1k')
     end
+
+    frame._isSetItemInfo= nil
 end
 
 

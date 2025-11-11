@@ -444,24 +444,25 @@ end
 
 
 
-
-
 local function Init_ItemInfo()
     if not Save().plusItem then
         return
     end
 
-    WoWTools_DataMixin:Hook(BankPanelItemButtonMixin, 'Refresh', function(btn)
-        if not C_Bank.AreAnyBankTypesViewable() then
-            return
+    local function Settings(self)
+        if C_Bank.AreAnyBankTypesViewable() then
+            local bag= self:GetBankTabID() or -1
+            local slot= self:GetContainerSlotID() or -1
+            local hasItem= C_Container.HasContainerItem(bag, slot)
+            WoWTools_ItemMixin:SetupInfo(self, hasItem and {bag={bag=bag, slot=slot}} or nil)
         end
-        WoWTools_ItemMixin:SetupInfo(btn, {
-            bag={
-                bag= btn:GetBankTabID(),
-                slot= btn:GetContainerSlotID()
-            }
-        })
-    end)
+    end
+
+    --WoWTools_DataMixin:Hook(BankPanelItemButtonMixin, 'InitItemLocation', Settings)
+    WoWTools_DataMixin:Hook(BankPanelItemButtonMixin, 'Init', Settings)
+    WoWTools_DataMixin:Hook(BankPanelItemButtonMixin, 'Refresh', Settings)
+    --WoWTools_DataMixin:Hook(BankPanelItemButtonMixin, 'RefreshItemInfo', Settings)
+    --WoWTools_DataMixin:Hook(BankPanelItemButtonMixin, 'OnEnter', Settings)
 
     Init_ItemInfo=function()end
 end

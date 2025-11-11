@@ -194,6 +194,11 @@ end
 
 
 local function Set_Icon(self, achievementID)
+    if achievementID==_G['WoWToolsAchievementBackButton'].achievementID
+        or achievementID==_G['WoWToolsAchievementNextButton'].achievementID
+    then
+        return
+    end
     self.achievementID= achievementID
     local texture= select(10, GetAchievementInfo(achievementID))
     self:SetNormalTexture(texture or 0)
@@ -213,7 +218,8 @@ end
 
 local function Init_Achievement()
 --选中，提示
-    local back= CreateFrame('Button', 'WoWToolsAchievementBackButton', AchievementFrameFilterDropdown, 'WoWToolsButtonTemplate')
+    local back= CreateFrame('Button', 'WoWToolsAchievementBackButton', AchievementFrame, 'WoWToolsButtonTemplate')
+    back:SetFrameStrata('HIGH')
     back:SetSize(20,20)
     back:SetPoint('LEFT', AchievementFrameFilterDropdown, 'RIGHT', 2, 0)
     back:SetNormalTexture(0)--'Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools.tga')
@@ -229,7 +235,8 @@ local function Init_Achievement()
     end)
 
 --点击，提示
-    local next= CreateFrame('Button', 'WoWToolsAchievementNextButton', AchievementFrameFilterDropdown, 'WoWToolsButtonTemplate')
+    local next= CreateFrame('Button', 'WoWToolsAchievementNextButton', AchievementFrame, 'WoWToolsButtonTemplate')
+    next:SetFrameStrata('HIGH')
     next:SetSize(20,20)
     next:SetPoint('LEFT', back, 'RIGHT')
     next:SetNormalTexture(0)--'Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools.tga')
@@ -260,7 +267,10 @@ local function Init_Achievement()
 
 
 --已完成，背景 alpha
-    Menu.ModifyMenu("MENU_ACHIEVEMENT_FILTER", function(_, root)
+    Menu.ModifyMenu("MENU_ACHIEVEMENT_FILTER", function(self, root)
+        if not self:IsMouseOver() then
+            return
+        end
         root:CreateDivider()
         local sub= root:CreateButton(
             WoWTools_DataMixin.onlyChinese and '已完成' or CRITERIA_COMPLETED,
@@ -637,7 +647,7 @@ panel:RegisterEvent("ADDON_LOADED")
 
 panel:SetScript("OnEvent", function(self, event, arg1)
     if arg1== 'WoWTools' then
-        WoWToolsSave['Plus_Achievement']= WoWToolsSave['Plus_Achievement'] or {}
+        WoWToolsSave['Plus_Achievement']= WoWToolsSave['Plus_Achievement'] or {completedAlpha=0.5}
         addName= '|A:UI-Achievement-Shield-NoPoints:0:0|a'..(WoWTools_DataMixin.onlyChinese and '成就' or ACHIEVEMENTS)
 
         --添加控制面板

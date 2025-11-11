@@ -1705,9 +1705,7 @@ private.NPC_INFO = {
 	[92631] = { zoneID = 634, artID = { 657 }, x = 4420, y = 2279, overlay = { "4420-2280" }, friendly = { "H" }, displayID = 30072, questID = { 38630 }, achievementID = { 11263 } }; --Dark Ranger Jess
 	[92633] = { zoneID = 634, artID = { 657 }, x = 4420, y = 2279, overlay = { "4420-2280" }, friendly = { "H" }, displayID = 63203, questID = { 38630 }, achievementID = { 11263 } }; --Assassin Huwe
 	[92634] = { zoneID = 634, artID = { 657 }, x = 4420, y = 2279, overlay = { "4420-2240" }, friendly = { "H" }, displayID = 63204, questID = { 38630 }, achievementID = { 11263 } }; --Apothecary Perez
-	[92682] = { zoneID = 634, artID = { 657 }, x = 5780, y = 4500, overlay = { "5780-4500" }, displayID = 25633, questID = { 38642 } }; --Helmouth Raider
 	[92685] = { zoneID = 634, artID = { 657 }, x = 5780, y = 4500, overlay = { "5780-4500" }, displayID = 25668, questID = { 38642 }, achievementID = { 11263 } }; --Captain Brvet
-	[92703] = { zoneID = 634, artID = { 657 }, x = 5780, y = 4500, overlay = { "5780-4500" }, displayID = 23553, questID = { 38642 } }; --Helmouth Raider
 	[92751] = { zoneID = 634, artID = { 657 }, x = 5980, y = 6811, overlay = { "5980-6800","6120-6820" }, displayID = 24814, questID = { 39031 }, achievementID = { 11263 } }; --Ivory Sentinel
 	[92763] = { zoneID = 634, artID = { 657 }, x = 6720, y = 3980, overlay = { "6720-3980" }, displayID = 25940, questID = { 38685 }, achievementID = { 11263 } }; --The Nameless King
 	[92951] = { zoneID = 634, artID = { 657 }, x = 4720, y = 5720, overlay = { "4720-5720" }, friendly = { "A" }, displayID = 63377, questID = { 38712 } }; --Houndmaster Ely

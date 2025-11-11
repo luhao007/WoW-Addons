@@ -103,7 +103,7 @@ function WoWTools_TextureMixin.Events:Blizzard_AchievementUI()--成就
     end
 --Search 结果
     self:SetScrollBar(AchievementFrame.SearchResults)
-    self:SetButton(AchievementFrame.SearchResults.CloseButton, {alpha=1})
+    self:SetButton(AchievementFrame.SearchResults.CloseButton, 1)
     self:SetFrame(AchievementFrame.SearchResults, {alpha=1})
 
 
@@ -294,8 +294,8 @@ function WoWTools_TextureMixin.Events:Blizzard_AuctionHouseUI()
     self:SetTabButton(AuctionHouseFrameBuyTab)
     self:SetTabButton(AuctionHouseFrameSellTab)
     self:SetTabButton(AuctionHouseFrameAuctionsTab)
-    self:SetButton(AuctionHouseFrame.SearchBar.FavoritesSearchButton, {alpha=1})
-    self:SetFrame(AuctionHouseFrame.SearchBar.FilterButton, {alpha= 0.3})
+    self:SetButton(AuctionHouseFrame.SearchBar.FavoritesSearchButton, 1)
+    self:SetFrame(AuctionHouseFrame.SearchBar.FilterButton)
 
     self:SetNineSlice(AuctionHouseFrame.CategoriesList)
     self:SetScrollBar(AuctionHouseFrame.CategoriesList)
@@ -307,6 +307,7 @@ function WoWTools_TextureMixin.Events:Blizzard_AuctionHouseUI()
     self:SetScrollBar(AuctionHouseFrameAuctionsFrame.AllAuctionsList)
     self:SetScrollBar(AuctionHouseFrameAuctionsFrame.SummaryList)
     self:SetNineSlice(AuctionHouseFrameAuctionsFrame.SummaryList)
+    self:SetButton(AuctionHouseFrameAuctionsFrame.AllAuctionsList.RefreshFrame.RefreshButton, 1)
 
 --购买
     self:SetEditBox(BidAmountGold)
@@ -325,7 +326,7 @@ function WoWTools_TextureMixin.Events:Blizzard_AuctionHouseUI()
     self:SetEditBox(AuctionHouseFrame.SearchBar.SearchBox)
 
 --出售, 商品
-    self:SetButton(AuctionHouseFrame.CommoditiesSellFrame.PostButton, {alpha=1})
+    self:SetButton(AuctionHouseFrame.CommoditiesSellFrame.PostButton, 1)
     self:SetNineSlice(AuctionHouseFrame.CommoditiesSellList)
     self:SetScrollBar(AuctionHouseFrame.CommoditiesSellList)
     self:SetNineSlice(AuctionHouseFrame.CommoditiesSellFrame)
@@ -341,7 +342,7 @@ function WoWTools_TextureMixin.Events:Blizzard_AuctionHouseUI()
 
 --出售，物品
     self:SetCheckBox(AuctionHouseFrame.ItemSellFrame.BuyoutModeCheckButton)
-    self:SetButton(AuctionHouseFrame.ItemSellFrame.PostButton, {alpha=1})
+    self:SetButton(AuctionHouseFrame.ItemSellFrame.PostButton, 1)
     self:SetNineSlice(AuctionHouseFrame.ItemSellList)
     self:SetScrollBar(AuctionHouseFrame.ItemSellList)
 
@@ -368,7 +369,7 @@ function WoWTools_TextureMixin.Events:Blizzard_AuctionHouseUI()
     self:SetScrollBar(AuctionHouseFrame.WoWTokenResults.DummyScrollBar)
     self:SetNineSlice(AuctionHouseFrame.WoWTokenResults)
 --购买
-    self:SetButton(AuctionHouseFrame.ItemBuyFrame.ItemList.RefreshFrame.RefreshButton, {alpha=1})
+    self:SetButton(AuctionHouseFrame.ItemBuyFrame.ItemList.RefreshFrame.RefreshButton, 1)
     self:SetNineSlice(AuctionHouseFrame.ItemBuyFrame.ItemDisplay)
     self:SetScrollBar(AuctionHouseFrame.ItemBuyFrame.ItemList)
     self:SetNineSlice(AuctionHouseFrame.ItemBuyFrame.ItemList)
@@ -854,8 +855,8 @@ end
 
 function WoWTools_TextureMixin.Events:Blizzard_ArchaeologyUI()
     self:SetButton(ArchaeologyFrameInfoButton)
-    self:SetButton(ArchaeologyFrameSummaryPagePrevPageButton, {alpha=1})
-    self:SetButton(ArchaeologyFrameSummaryPageNextPageButton, {alpha=1})
+    self:SetButton(ArchaeologyFrameSummaryPagePrevPageButton, 1)
+    self:SetButton(ArchaeologyFrameSummaryPageNextPageButton, 1)
     self:SetButton(ArchaeologyFrameCloseButton)
     self:SetNineSlice(ArchaeologyFrameInset)
     self:HideTexture(ArchaeologyFrameBg)
@@ -1033,7 +1034,7 @@ function WoWTools_TextureMixin.Events:Blizzard_CooldownViewer()
 
 
     self:SetButton(CooldownViewerSettingsCloseButton)
-    self:SetButton(CooldownViewerSettings.SettingsDropdown, {alpha=1})
+    self:SetButton(CooldownViewerSettings.SettingsDropdown, 1)
     self:SetEditBox(CooldownViewerSettings.SearchBox)
     self:SetNineSlice(CooldownViewerSettings)
 
@@ -1403,7 +1404,7 @@ function WoWTools_TextureMixin.Events:Blizzard_EditMode()
         self:SetCheckBox(f.Button)
     end)
 
-    --self:SetButton(EditModeManagerFrame.GridSpacingSlider.Slider.Back, {alpha=1})
+    --self:SetButton(EditModeManagerFrame.GridSpacingSlider.Slider.Back, 1)
 end
 
 
@@ -1581,22 +1582,31 @@ function WoWTools_TextureMixin.Events:Blizzard_StaticPopup_Game()
         if p then
 
             self:SetFrame(p.BG, {notAlpha=true})
+            self:SetAlphaColor(p.Separator, true)
 
             local edit= _G['StaticPopup'..i..'EditBox']
             if edit then
                 self:SetEditBox(edit)
                 self:SetNineSlice(edit, 1)
             end
-            --标准按钮
+
             self:SetUIButton(p:GetButton1())
             self:SetUIButton(p:GetButton2())
-            self:SetUIButton(p:GetButton3())--_G['StaticPopup'..i..'Button3'])
+            self:SetUIButton(p:GetButton3())
             self:SetUIButton(p:GetButton4())
             self:SetUIButton(_G['StaticPopup'..i..'ExtraButton'])
 
-            if _G['StaticPopup'..i] then
-                self:SetAlphaColor(_G['StaticPopup'..i].Separator, true)
-            end
+            self:SetAlphaColor(_G['StaticPopup'..i..'MoneyInputFrameGoldLeft'], true)
+            self:SetAlphaColor(_G['StaticPopup'..i..'MoneyInputFrameGoldMiddle'], true)
+            self:SetAlphaColor(_G['StaticPopup'..i..'MoneyInputFrameGoldRight'], true)
+
+            self:SetAlphaColor(_G['StaticPopup'..i..'MoneyInputFrameSilverLeft'], true)
+            self:SetAlphaColor(_G['StaticPopup'..i..'MoneyInputFrameSilverMiddle'], true)
+            self:SetAlphaColor(_G['StaticPopup'..i..'MoneyInputFrameSilverRight'], true)
+
+            self:SetAlphaColor(_G['StaticPopup'..i..'MoneyInputFrameCopperLeft'], true)
+            self:SetAlphaColor(_G['StaticPopup'..i..'MoneyInputFrameCopperMiddle'], true)
+            self:SetAlphaColor(_G['StaticPopup'..i..'MoneyInputFrameCopperRight'], true)
         end
     end
 end
@@ -1898,7 +1908,7 @@ end
 
 --货币
 function WoWTools_TextureMixin.Events:Blizzard_TokenUI()
-    self:SetButton(TokenFrame.CurrencyTransferLogToggleButton, {alpha=1})
+    self:SetButton(TokenFrame.CurrencyTransferLogToggleButton, 1)
     self:SetFrame(TokenFramePopup.Border, {alpha=1})
     self:SetButton(CurrencyTransferMenuCloseButton)
     self:SetFrame(TokenFrame)

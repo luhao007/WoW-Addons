@@ -42,7 +42,10 @@ end
 
 
 local function Init()
-    Menu.ModifyMenu("MENU_MINIMAP_TRACKING", function(_, root)
+    Menu.ModifyMenu("MENU_MINIMAP_TRACKING", function(self, root)
+        if not self:IsMouseOver() then
+            return
+        end
         local sub= root:CreateCheckbox(
             WoWTools_DataMixin.onlyChinese and '兽栏' or STABLE_STABLED_PET_LIST_LABEL
             ..WoWTools_DataMixin.Icon.icon2,
@@ -88,7 +91,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWTools' then
 
-            WoWToolsSave['Plus_StableFrame']= WoWToolsSave['Plus_StableFrame'] or CopyTable(P_Save)
+            WoWToolsSave['Plus_StableFrame']= WoWToolsSave['Plus_StableFrame'] or P_Save
             P_Save= nil
 
             WoWTools_HunterMixin.addName= '|A:groupfinder-icon-class-hunter:0:0|a'..(WoWTools_DataMixin.onlyChinese and '猎人兽栏' or  format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, UnitClass('player'), STABLE_STABLED_PET_LIST_LABEL))

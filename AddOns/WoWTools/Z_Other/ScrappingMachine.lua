@@ -532,7 +532,8 @@ local function Init()
     for btn in ScrappingMachineFrame.ItemSlots.scrapButtons:EnumerateActive() do
         if (btn) then
             WoWTools_DataMixin:Hook(btn, 'RefreshIcon', function(self)
-                WoWTools_ItemMixin:SetupInfo(self, {itemLink=self.itemLink})-- itemLocation= self.itemLocation})
+                local tab= (self.itemLink or self.itemLocation) and {itemLink=self.itemLink, itemLocation= self.itemLocation} or nil
+                WoWTools_ItemMixin:SetupInfo(self, tab)
             end)
         end
     end
@@ -562,7 +563,7 @@ panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
     if arg1== 'WoWTools' then
 
-        WoWToolsSave['Other_ScrappingMachine']= WoWToolsSave['Other_ScrappingMachine'] or CopyTable(P_Save)
+        WoWToolsSave['Other_ScrappingMachine']= WoWToolsSave['Other_ScrappingMachine'] or P_Save
         P_Save= nil
 
         addName= '|TInterface\\Icons\\inv_gizmo_03:0|t'..(WoWTools_DataMixin.onlyChinese and '拆解大师Mk1型' or SCRAPPING_MACHINE_TITLE)
