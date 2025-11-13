@@ -3,7 +3,7 @@ WoWTools_ObjectiveMixin={}
 
 --清除，全部，按钮
 function WoWTools_ObjectiveMixin:Add_ClearAll_Button(frame, tooltip, func)
-    if WoWTools_FrameMixin:IsLocked(frame) then
+    if not frame or WoWTools_FrameMixin:IsLocked(frame) then
         return
     end
     local btn= WoWTools_ButtonMixin:Cbtn(frame, {size=22, atlas='bags-button-autosort-up', alpha=0.2})
@@ -141,16 +141,18 @@ end
 
 
 --清除，配方
-local function clear_Recipe(isRecrafting)
+local function clear_Recipe(isPrint, isRecrafting)
     local num= 0
+    isRecrafting= isRecrafting and true or false
     for index, recipeID in pairs(C_TradeSkillUI.GetRecipesTracked(isRecrafting) or {}) do
         C_TradeSkillUI.SetRecipeTracked(recipeID, false, isRecrafting)
-        local itemLink= C_TradeSkillUI.GetRecipeItemLink(recipeID)
+        local itemLink= isPrint and C_TradeSkillUI.GetRecipeItemLink(recipeID)
         if itemLink then
             print(index..')', itemLink, isRecrafting and (WoWTools_DataMixin.onlyChinese and '再造' or PROFESSIONS_CRAFTING_FORM_OUTPUT_RECRAFT) or '')
         end
         num=num+1
     end
+    return num
 end
 function WoWTools_ObjectiveMixin:Clear_ProfessionsRecipe(isPrint, isRecrafting)
     if isRecrafting==nil then
@@ -246,6 +248,34 @@ function WoWTools_ObjectiveMixin:Clear_MonthlyActivities(isPring)
                   print(num..') ',
                     C_PerksActivities.GetPerksActivityChatLink(perksActivityID) or perksActivityID
                 )
+            end
+        end
+    end
+end
+
+
+--[[清除, 收藏
+Enum.ContentTrackingType={
+0	Appearance
+1	Mount
+2	Achievement
+3	Decor
+}
+]]
+function WoWTools_ObjectiveMixin:Clear_ContentTracking(isPring)
+    local num= 0
+    for _, trackableType in pairs(Enum.ContentTrackingType) do
+        local data= trackableType~=Enum.ContentTrackingType.Achievement and C_ContentTracking.GetTrackedIDs(trackableType)
+        if data then
+            for _, trackableID in pairs(data) do
+                local title= C_ContentTracking.GetTitle(trackableType, trackableID)
+                if title then
+                    C_ContentTracking.StopTracking(trackableType, trackableID, Enum.ContentTrackingStopType.Manual)
+                    num= num+1
+                    if isPring then
+                        print(num..') ', title, 'type'..trackableType, 'id'..trackableID)
+                    end
+                end
             end
         end
     end

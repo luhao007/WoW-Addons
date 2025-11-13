@@ -418,21 +418,21 @@ L["RAID_BOSS_SOD_7"] = "Guardião dos Primogênitos"
 L["RAID_BOSS_SOD_8"] = "Escreve-sinas Roh-Kalo"
 L["RAID_BOSS_SOD_9"] = "Kel'Thuzad"
 --[[Translation missing --]]
---[[ L["RAID_BOSS_TOES_1"] = ""--]] 
---[[Translation missing --]]
 --[[ L["RAID_BOSS_ToES_1"] = ""--]] 
 --[[Translation missing --]]
---[[ L["RAID_BOSS_ToES_2"] = ""--]] 
+--[[ L["RAID_BOSS_TOES_1"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["RAID_BOSS_TOES_2"] = ""--]] 
 --[[Translation missing --]]
---[[ L["RAID_BOSS_TOES_3"] = ""--]] 
+--[[ L["RAID_BOSS_ToES_2"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["RAID_BOSS_ToES_3"] = ""--]] 
 --[[Translation missing --]]
---[[ L["RAID_BOSS_ToES_4"] = ""--]] 
+--[[ L["RAID_BOSS_TOES_3"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["RAID_BOSS_TOES_4"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_ToES_4"] = ""--]] 
 L["RAID_BOSS_TOTFW_1"] = "O Conclave do Vento"
 L["RAID_BOSS_TOTFW_2"] = "Al'Akir"
 L["RAID_BOSS_VOTI_1"] = "Eranog"

@@ -10,7 +10,7 @@
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2025-10-31";
+local WL_ADDON_UPDATED = "2025-11-11";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
 local WL_VERSION = 110205;
@@ -4739,9 +4739,13 @@ end
 function wlCheckMythicAffixes()
     local level, affixes, wasEnergized = C_ChallengeMode.GetActiveKeystoneInfo();
     local displaySeasonId, milestoneSeasonId, rewardSeasonId = C_MythicPlus.GetCurrentSeasonValues();
+    wlSeasonCheck();
+    local seasonId = wlSeasonId:match("Season-(%d+)") or '0';
     if level and level > 0 and affixes then
         sort(affixes)
-        wlSeenDaily('a'..level..'.'..table.concat(affixes,'.')..':'..displaySeasonId..'.'..milestoneSeasonId..'.'..rewardSeasonId);
+        wlSeenDaily('a' .. level ..
+            '.' .. table.concat(affixes,'.') ..
+            ':' .. displaySeasonId .. '.' .. milestoneSeasonId .. '.' .. rewardSeasonId .. '.' .. seasonId);
     end
 end
 

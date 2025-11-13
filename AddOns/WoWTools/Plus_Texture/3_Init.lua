@@ -46,13 +46,11 @@ local P_Save={
     no={},--禁用
 }
 
-local Layout
+
 local function Save()
     return WoWToolsSave['Plus_Texture']
 end
-
-
-
+local Layout
 
 
 
@@ -67,8 +65,6 @@ end
 local function Init_Panel()
     local sub
     local tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
-
-
 
     WoWTools_PanelMixin:Header(Layout, WoWTools_DataMixin.onlyChinese and '材质' or TEXTURES_SUBHEADER)
 
@@ -101,13 +97,6 @@ local function Init_Panel()
 
 
     WoWTools_PanelMixin:Header(Layout, WoWTools_DataMixin.onlyChinese and '其它' or OTHER)
-
-
-
-
-
-
-
 
 
     sub= WoWTools_PanelMixin:OnlyCheck({
@@ -229,7 +218,27 @@ end
 
 
 
+local function Init()
+    for name, func in pairs(WoWTools_TextureMixin.Frames) do
+        if _G[name] and not Save().no[name] then
+            func(WoWTools_TextureMixin)
+        elseif WoWTools_DataMixin.Player.husandro then
+            print(WoWTools_TextureMixin.addName, 'Frames[|cnWARNING_FONT_COLOR:'..name..'|r]', '没有发现')
+        end
+        WoWTools_TextureMixin.Frames[name]= nil
+    end
 
+    for name, func in pairs(WoWTools_TextureMixin.Events) do
+        if C_AddOns.IsAddOnLoaded(name) then
+            if not Save().no[name] then
+                func(WoWTools_TextureMixin)
+            end
+            WoWTools_TextureMixin.Events[name]= nil
+        end
+    end
+
+    Init=function()end
+end
 
 
 
@@ -238,6 +247,13 @@ end
 
 local panel= CreateFrame("Frame")
 panel:RegisterEvent("ADDON_LOADED")
+
+local function Clear_Frame()
+    WoWTools_TextureMixin.Events={}
+    WoWTools_TextureMixin.Frames={}
+    panel:UnregisterEvent('ADDON_LOADED')
+    panel:SetScript('OnEvent', nil)
+end
 
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
@@ -250,6 +266,11 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             Save().no= Save().no or {}
 
             P_Save= nil
+
+            if C_AddOns.IsAddOnLoaded('ElvUI') then
+                Clear_Frame()
+                return
+            end
 
             WoWToolsPlayerDate['BGTexture']= WoWToolsPlayerDate['BGTexture'] or {}
 
@@ -283,63 +304,29 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 category= WoWTools_TextureMixin.Category,
             })
 
-
             if Save().disabled then
-                WoWTools_TextureMixin.Events={}
-                WoWTools_TextureMixin.Frames={}
-                self:UnregisterAllEvents()
+                Clear_Frame()
             else
-                if Save().disabledTexture then
-                    self:UnregisterEvent(event)
-                else
-                    self:RegisterEvent('PLAYER_ENTERING_WORLD')
-                    for name in pairs(WoWTools_TextureMixin.Events) do
-                        if C_AddOns.IsAddOnLoaded(name) then
-                             do
-                                if not Save().no[name] then
-                                    WoWTools_TextureMixin.Events[name](WoWTools_TextureMixin)
-                                end
-                            end
-                            WoWTools_TextureMixin.Events[name]= {}
-                        end
-                    end
-                end
+                Init_Panel()
 
                 WoWTools_TextureMixin:Init_Class_Power()--职业
                 WoWTools_TextureMixin:Init_Chat_Bubbles()--聊天泡泡
                 WoWTools_TextureMixin:Init_HelpTip()--隐藏教程
 
-                if C_AddOns.IsAddOnLoaded('Blizzard_Settings') then
-                    Init_Panel()
+                if Save().disabledTexture then
+                    self:UnregisterEvent(event)
+                else
+                    Init()
                 end
             end
 
         elseif WoWToolsSave then
             if WoWTools_TextureMixin.Events[arg1] then
-                do
-                    if not Save().no[arg1] then
-                        WoWTools_TextureMixin.Events[arg1](WoWTools_TextureMixin)
-                    end
+                if not Save().no[arg1] then
+                    WoWTools_TextureMixin.Events[arg1](WoWTools_TextureMixin)
                 end
-                WoWTools_TextureMixin.Events[arg1]= {}
-            end
-            if arg1=='Blizzard_Settings' then
-                Init_Panel()
+                WoWTools_TextureMixin.Events[arg1]= nil
             end
         end
-
-    elseif event=='PLAYER_ENTERING_WORLD' then--需要这个事件
-        for name in pairs(WoWTools_TextureMixin.Frames) do
-            do
-                if _G[name] and not Save().no[name] then
-                    WoWTools_TextureMixin.Frames[name](WoWTools_TextureMixin)
-
-                elseif WoWTools_DataMixin.Player.husandro then
-                    print(WoWTools_TextureMixin.addName, 'Frames[|cnWARNING_FONT_COLOR:'..name..'|r]', '没有发现')
-                end
-            end
-            WoWTools_TextureMixin.Frames[name]= {}
-        end
-        self:UnregisterEvent(event)
     end
 end)

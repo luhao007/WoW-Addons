@@ -57,6 +57,8 @@ end
 
 
 local function Init_Panel()
+    local reloadText= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+
     WoWTools_PanelMixin:Header(Layout, WoWTools_DataMixin.onlyChinese and '选项' or OPTIONS)
     local root
 
@@ -239,12 +241,12 @@ local function Init_Panel()
 
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_DataMixin.onlyChinese and '生命值' or HEALTH,
-        tooltip= WoWTools_TooltipMixin.addName,
+        tooltip= reloadText,
         GetValue= function() return not Save().hideHealth end,
         category= Category,
         SetValue= function()
             Save().hideHealth= not Save().hideHealth and true or nil
-            print(WoWTools_TooltipMixin.addName..WoWTools_DataMixin.Icon.icon2,  WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+            WoWTools_TooltipMixin:Init_StatusBar()
         end
     })
 
@@ -256,7 +258,7 @@ local function Init_Panel()
         category= Category,
         SetValue= function()
             Save().UNIT_POPUP_RIGHT_CLICK= not Save().UNIT_POPUP_RIGHT_CLICK and true or nil
-            print(WoWTools_TooltipMixin.addName..WoWTools_DataMixin.Icon.icon2,  WoWTools_TextMixin:GetShowHide(Save().UNIT_POPUP_RIGHT_CLICK), '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD))
+            print(WoWTools_TooltipMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_TextMixin:GetShowHide(Save().UNIT_POPUP_RIGHT_CLICK), reloadText)
         end
     })
 
@@ -351,6 +353,35 @@ local function Init_Panel()
         category= Category
     })
 
+
+
+
+
+
+
+
+    local function Add_Options(name)
+        WoWTools_PanelMixin:OnlyCheck({
+            name= name:gsub('Blizzard_', ''),
+            tooltip= reloadText,
+            category= Category,
+            Value= not Save().no[name],
+            GetValue= function() return not Save().no[name] end,
+            SetValue= function()
+                Save().no[name]= not Save().no[name] and true or nil
+            end
+        })
+    end
+
+    WoWTools_PanelMixin:Header(Layout, 'Event')
+    for name in pairs(WoWTools_TooltipMixin.Events) do
+        Add_Options(name)
+    end
+
+    WoWTools_PanelMixin:Header(Layout, 'Frame')
+    for name in pairs(WoWTools_TooltipMixin.Frames) do
+        Add_Options(name)
+    end
     Init_Panel=function()end
 end
 
@@ -385,13 +416,45 @@ end
 
 --初始
 local function Init()
+    WoWTools_DataMixin:Hook("GameTooltip_SetDefaultAnchor", function(frame, parent)
+        if Save().setDefaultAnchor and not (Save().inCombatDefaultAnchor and UnitAffectingCombat('player')) then
+            frame:ClearAllPoints()
+            frame:SetOwner(
+                parent,
+                Save().cursorRight and 'ANCHOR_CURSOR_RIGHT' or 'ANCHOR_CURSOR_LEFT',
+                Save().cursorX or 0,
+                Save().cursorY or 0
+            )
+        end
+    end)
+
+
+    for name in pairs(WoWTools_TooltipMixin.Events)do
+        if C_AddOns.IsAddOnLoaded(name) then
+            if not Save().no[name] then
+                WoWTools_TooltipMixin.Events[name](WoWTools_TooltipMixin)
+            end
+            WoWTools_TooltipMixin.Events[name]= nil
+        end
+    end
+
+
+
+    EventRegistry:RegisterFrameEventAndCallback("PLAYER_ENTERING_WORLD", function(owner)
+        for name in pairs(WoWTools_TooltipMixin.Frames) do
+            if _G[name] and not Save().no[name] then
+                WoWTools_TooltipMixin.Frames[name](WoWTools_TooltipMixin)
+            elseif WoWTools_DataMixin.Player.husandro then
+                print('Tooltip Frames 没有发现|cnWARNING_FONT_COLOR:', name)
+            end
+            WoWTools_TooltipMixin.Frames[name]= nil
+        end
+        EventRegistry:UnregisterCallback('PLAYER_ENTERING_WORLD', owner)
+    end)
+
 
 
     WoWTools_TooltipMixin:Init_StatusBar()--生命条提示
-    WoWTools_TooltipMixin:Init_Hook()
-    WoWTools_TooltipMixin:Init_BattlePet()
-    WoWTools_TooltipMixin:Init_Settings()
-    WoWTools_TooltipMixin:Init_SetPoint()
     WoWTools_TooltipMixin:Init_CVar()
 
     WoWTools_TooltipMixin:Set_Init_Item(GameTooltip)
@@ -419,11 +482,11 @@ end
 
 
 
+
+
 --Save().WidgetSetID = Save().WidgetSetID or 0
 local panel= CreateFrame("Frame")
 panel:RegisterEvent("ADDON_LOADED")
-
-
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWTools' then
@@ -432,7 +495,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             Save().no= Save().no or {}
             WoWTools_TooltipMixin.iconSize= Save().iconSize or 0
             P_Save= nil
-            --Save().AchievementFrameFilterDropDown= nil
 
             Category, Layout= WoWTools_PanelMixin:AddSubCategory({
                 name=WoWTools_TooltipMixin.addName,
@@ -466,38 +528,17 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             if Save().disabled then
                 WoWTools_TooltipMixin.Events= {}
+                WoWTools_TooltipMixin.Frames= {}
+                self:SetScript('OnEvent', nil)
                 self:UnregisterEvent(event)
 
             else
                 self:RegisterEvent('PLAYER_ENTERING_WORLD')
                 self:RegisterEvent('PLAYER_LEAVING_WORLD')
-
-                for name in pairs(WoWTools_TooltipMixin.Events)do
-                    if C_AddOns.IsAddOnLoaded(name) then
-                        if not Save().no[name] then
-                            WoWTools_TooltipMixin.Events[name](WoWTools_TooltipMixin)
-                        end
-                        WoWTools_TooltipMixin.Events[name]= {}
-                    end
-                end
-
-                EventRegistry:RegisterFrameEventAndCallback("PLAYER_ENTERING_WORLD", function(owner)
-                    for name in pairs(WoWTools_TooltipMixin.Frames)do
-                        if _G[name] and not Save().no[name] then
-                            WoWTools_TooltipMixin.EveFramesnts[name](WoWTools_TooltipMixin)
-                        elseif WoWTools_DataMixin.Player.husandro then
-                            print('Tooltip Frames 没有发现|cnWARNING_FONT_COLOR:', name)
-                        end
-                        WoWTools_TooltipMixin.Frames[name]= {}
-                    end
-                    EventRegistry:UnregisterCallback('PLAYER_ENTERING_WORLD', owner)
-                end)
-
-                Init()--初始
-
-                if C_AddOns.IsAddOnLoaded('Blizzard_Settings') then
+                do
                     Init_Panel()
                 end
+                Init()--初始
             end
 
 
@@ -508,11 +549,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 if not Save().no[arg1] then
                     WoWTools_TooltipMixin.Events[arg1](WoWTools_TooltipMixin)
                 end
-                WoWTools_TooltipMixin.Events[arg1]={}
-            end
-
-            if arg1=='Blizzard_Settings' then
-                Init_Panel()
+                WoWTools_TooltipMixin.Events[arg1]=nil
             end
         end
 

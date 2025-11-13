@@ -262,8 +262,14 @@ local function Init()
         WoWTools_ObjectiveMixin:Clear_MonthlyActivities(true)
     end)
 
-
-
+--收藏
+ WoWTools_ObjectiveMixin:Add_ClearAll_Button(
+        AdventureObjectiveTracker,
+        WoWTools_DataMixin.onlyChinese and '收藏' or FAVORITES,
+    function()
+        WoWTools_ObjectiveMixin:Clear_ContentTracking(true)
+    end)
+    
 
 
 
@@ -326,5 +332,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         Init()
     end
 
+    self:SetScript('OnEvent', nil)
     self:UnregisterEvent(event)
 end)
