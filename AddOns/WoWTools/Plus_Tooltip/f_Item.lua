@@ -53,12 +53,8 @@ local function Set_Value_Text(line)
 end
 
 local function Set_Value(tooltip)
-    if not WoWTools_DataMixin.onlyChinese then
-        return
-    end
-
-    local name= tooltip:GetName()
-     for i=5, tooltip:NumLines() or 0, 1 do
+    local name= tooltip:GetName() or 'GameTooltip'
+    for i=5, tooltip:NumLines() or 0, 1 do
         Set_Value_Text(_G[name..'TextLeft'..i])
         Set_Value_Text(_G[name..'TextRight'..i])
     end
@@ -176,6 +172,64 @@ end
 
 
 
+local StatsValue={
+    ['ITEM_MOD_VERSATILITY']= CR_VERSATILITY_DAMAGE_DONE,--全能 29
+
+    ['ITEM_MOD_HASTE_RATING_SHORT']= CR_HASTE_MELEE,--急速 18
+    ['ITEM_MOD_MASTERY_RATING_SHORT']= CR_MASTERY,--精通 26
+    ['ITEM_MOD_CRIT_RATING_SHORT']= CR_CRIT_MELEE,--爆击 9
+
+    ['ITEM_MOD_CR_AVOIDANCE_SHORT']= CR_AVOIDANCE,--闪避 21
+    ['ITEM_MOD_CR_LIFESTEAL_SHORT']= CR_LIFESTEAL,--吸血 17
+    ['ITEM_MOD_CR_SPEED_SHORT']= CR_SPEED,--加速 14
+    ['ITEM_MOD_BLOCK_RATING_SHORT']= CR_BLOCK,--格挡 5
+    ['ITEM_MOD_PARRY_RATING_SHORT'] = CR_PARRY,--招架 4
+}
+--次属性 %值
+local function Set_ItemStatus(tooltip, itemLink)
+    local stats= C_Item.GetItemStats(itemLink)
+
+    local find
+    for stat, va in pairs(stats) do
+        local value= nil
+        if StatsValue[stat] then
+            value= GetCombatRatingBonusForCombatRatingValue(StatsValue[stat], va)
+            if value then
+                value= format('%.2f%%', value)
+            end
+        end
+        stats[stat]= value
+        find= find or value
+    end
+    if not find then
+        return
+    end
+
+    local name= tooltip:GetName() or 'GameTooltip'
+
+    for i=5, tooltip:NumLines() or 0, 1 do
+        local line= _G[name..'TextLeft'..i]
+        local text= line:GetText()
+
+        for stat, value in pairs(stats) do
+            if text:find('%+.+ '.._G[stat]) then
+                line:SetText(text.. ' '..value)
+                stats[stat]= nil
+                break
+            end
+        end
+    end
+end
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -226,7 +280,7 @@ local function Set_keystonee(tooltip, itemLink)
 
     for index, info in pairs(new) do
         tooltip:AddDoubleLine(
-            (info.weekNum==0 and '|cff9e9e9e0|r' or info.weekNum or '')
+            (info.weekNum==0 and '|cff6262620|r' or info.weekNum or '')
             ..(info.weekMythicPlus and '|cnGREEN_FONT_COLOR:('..info.weekMythicPlus..') ' or '')
             ..WoWTools_UnitMixin:GetPlayerInfo(nil, info.guid, nil, {faction=info.faction, reName=true, reRealm=true})
             ..WoWTools_ChallengeMixin:KeystoneScorsoColor(info.score, false, nil)..(WoWTools_ChallengeMixin:KeystoneScorsoColor(info.score,true)),
@@ -321,8 +375,8 @@ local function Set_Item_Num(tooltip, itemID)
             tooltip:AddDoubleLine(
                 WoWTools_UnitMixin:GetPlayerInfo(nil, info.guid, nil, {faction=info.faction, reName=true, reRealm=true}),
 
-                (info.bank==0 and '|cff9e9e9e' or col)..WoWTools_DataMixin:MK(info.bank, 3)..'|r|A:Banker:0:0|a '
-                ..(info.bag==0 and '|cff9e9e9e' or col)..WoWTools_DataMixin:MK(info.bag, 3)..'|r|A:bag-main:0:0|a'
+                (info.bank==0 and '|cff626262' or col)..WoWTools_DataMixin:MK(info.bank, 3)..'|r|A:Banker:0:0|a '
+                ..(info.bag==0 and '|cff626262' or col)..WoWTools_DataMixin:MK(info.bag, 3)..'|r|A:bag-main:0:0|a'
             )
 
             if index>2 and not IsShiftKeyDown() then
@@ -411,7 +465,10 @@ function WoWTools_TooltipMixin:Set_Item(tooltip, itemLink, itemID)
 --装备
     if classID==2 or classID==4 then
         textLeft, text2Left= Set_Equip(self, tooltip, itemID, itemLink, itemLevel, itemEquipLoc, bindType, col)
-
+--次属性 %值
+        if not PlayerIsTimerunning() then
+            Set_ItemStatus(tooltip, itemLink)
+        end
 --炉石
     elseif itemID==6948 then
         textLeft= WoWTools_TextMixin:CN(GetBindLocation())

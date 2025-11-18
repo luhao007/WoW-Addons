@@ -67,7 +67,7 @@ local function Set_Script(btn)
             num= C_Item.GetItemCount(self.itemID, false, true, true, false)--  false, true, true)
         end
 
-        self.count:SetText(num==0 and '|cff9e9e9e0|r' or (num~=1 and num) or '')
+        self.count:SetText(num==0 and '|cff6262620|r' or (num~=1 and num) or '')
         self.numCount=num
         self:set_alpha()
     end
@@ -98,15 +98,17 @@ local function Set_Script(btn)
 
     btn:SetScript('OnShow', function(self)
         self:set_event()
+        self:settings()
     end)
     btn:SetScript('OnHide', function(self)
         self:set_event()
-        self.itemID=nil
-        if self:CanChangeAttribute() then
+        --self:settings()
+        --[[self.itemID=nil
+            if self:CanChangeAttribute() then
             self:SetAttribute("type1", nil)
             self:SetAttribute("item1", nil)
-        end
-        self.texture:SetTexture(0)
+        end]]
+        --self.texture:SetTexture(0)
         WoWTools_CooldownMixin:Setup(self)
     end)
 
@@ -173,7 +175,7 @@ local function Create_Button(index)
             anchor='ANCHOR_RIGHT',
             itemID=self.itemID,
             tooltip='|n|A:dressingroom-button-appearancelist-up:0:0|a'
-                ..(self:CanChangeAttribute() and '' or '|cff9e9e9e')
+                ..(self:CanChangeAttribute() and '' or '|cff626262')
                 ..(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU)..WoWTools_DataMixin.Icon.right,
         })
     end
@@ -204,9 +206,12 @@ local function Create_Button(index)
     end)
 
     btn:SetScript('OnMouseDown',function(self, d)
-        if d=='RightButton' and self:CanChangeAttribute() then
-            MenuUtil.CreateContextMenu(self, function(f, root)
-                root:CreateButton('|T'..(select(5, C_Item.GetItemInfoInstant(f.itemID)) or 0)..':0|t'..(WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE), function()
+        if d=='RightButton' and self:CanChangeAttribute() and self.itemID then
+            MenuUtil.CreateContextMenu(self, function(_, root)
+                root:CreateButton(
+                    '|T'..(select(5, C_Item.GetItemInfoInstant(self.itemID)) or 0)..':0|t'
+                    ..(WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE),
+                function()
                     Save().noUseItems[self.itemID]=true
                     Save().addItems[self.itemID]=nil
                     print(WoWTools_DataMixin.Icon.icon2..WoWTools_FoodMixin.addName, WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE, WoWTools_ItemMixin:GetLink(self.itemID))

@@ -126,15 +126,16 @@ local function Set_Load_Button()--LoadButtons
     local newTab={}
     local isOnlyIcon= Save().load_list_onlyIcon
 
+    local _GroupTab={}
     for i=1, C_AddOns.GetNumAddOns() do
-        --local group = C_AddOns.GetAddOnMetadata(i, "Group")
-
-        if not C_AddOns.GetAddOnDependencies(i) then
-
+        local group = C_AddOns.GetAddOnMetadata(i, "Group")
+        if not C_AddOns.GetAddOnDependencies(i) and not _GroupTab[group] then
+            _GroupTab[group]=1
 
             local texture = C_AddOns.GetAddOnMetadata(i, "IconTexture")
             local atlas = C_AddOns.GetAddOnMetadata(i, "IconAtlas")
             local name =  C_AddOns.GetAddOnName(i)
+
             if Save().fast[name] then
                 Save().fast[name]=i
             end
@@ -152,6 +153,7 @@ local function Set_Load_Button()--LoadButtons
             end
         end
     end
+    _GroupTab=nil
 
     local addNum= #newTab
     local isShow= Save().load_list and addNum>0
@@ -163,7 +165,6 @@ local function Set_Load_Button()--LoadButtons
 
     local size= Save().load_list_size or 23
     local isTop= Save().load_list_top
-
 
 
     for i, info in pairs(newTab) do
@@ -188,13 +189,11 @@ local function Set_Load_Button()--LoadButtons
        if not (info.atlas or info.texture) then
             local name= info.name or ''
             name= name:gsub('[^%a]', ''):gsub('^Lib', '')
-            name= name:sub(1, 3)
-            name= name:lower()
+            name= WoWTools_TextMixin:sub(name, 1, 2, true)
             btn.Text:SetText(name)
        else
             btn.Text:SetText("")
        end
-       
 
        btn:SetID(info.index)
 

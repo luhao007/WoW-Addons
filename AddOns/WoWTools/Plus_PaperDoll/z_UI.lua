@@ -1,24 +1,3 @@
-local function Save()
-    return WoWToolsSave['Plus_PaperDoll']
-end
-
-
-
-
-
-
-
-function WoWTools_MoveMixin.Frames:GearManagerPopupFrame()
-    self:Setup(GearManagerPopupFrame, {frame=CharacterFrame})
-end
-
-
-
-
-
-
-
---角色
 function WoWTools_MoveMixin.Frames:CharacterFrame()--:Init_CharacterFrame()--角色
     PaperDollFrame.TitleManagerPane:ClearAllPoints()
     PaperDollFrame.TitleManagerPane:SetPoint('TOPLEFT', CharacterFrameInsetRight, 4, -4)
@@ -89,7 +68,7 @@ function WoWTools_MoveMixin.Frames:CharacterFrame()--:Init_CharacterFrame()--角
         end
 
         local w, h= CharacterFrame:GetSize()--366 * 337   (40+4)*8
-        local scale= Save().itemSlotScale or 1
+        local scale= self:Save().CharacterSlotScale or 1
         local line= math.max(0, (h-60-32-37*8*scale)/8)
 
         --CharacterHeadSlot
@@ -144,7 +123,7 @@ function WoWTools_MoveMixin.Frames:CharacterFrame()--:Init_CharacterFrame()--角
 
 
     local function settings()
-        local scale= Save().itemSlotScale or 1
+        local scale= self:Save().CharacterSlotScale or 1
         for _, slot in pairs(WoWTools_PaperDollMixin.ItemButtons) do
             local btn= _G[slot]
             if btn and not WoWTools_FrameMixin:IsLocked(btn) then
@@ -153,7 +132,7 @@ function WoWTools_MoveMixin.Frames:CharacterFrame()--:Init_CharacterFrame()--角
         end
     end
 
-    if Save().itemSlotScale and Save().itemSlotScale~=1 then
+    if self:Save().CharacterSlotScale and self:Save().CharacterSlotScale~=1 then
         settings()
     end
 
@@ -186,28 +165,28 @@ function WoWTools_MoveMixin.Frames:CharacterFrame()--:Init_CharacterFrame()--角
             end
         end,
         sizeRestTooltipColorFunc=function(f)
-            return ((f.target.Expanded and self:Save().size['CharacterFrameExpanded']) or (not f.target.Expanded and self:Save().size['CharacterFrameCollapse'])) and '' or '|cff9e9e9e'
+            return ((f.target.Expanded and self:Save().size['CharacterFrameExpanded']) or (not f.target.Expanded and self:Save().size['CharacterFrameCollapse'])) and '' or '|cff626262'
         end,
         addMenu= function(frame, root)
             root:CreateDivider()
             local sub= root:CreateButton(
                 (WoWTools_DataMixin.onlyChinese and '装备栏位' or ORDER_HALL_EQUIPMENT_SLOTS)
                 ..' '
-                ..(Save().itemSlotScale or 1),
+                ..(self:Save().CharacterSlotScale or 1),
             function()
                 return MenuResponse.Open
             end)
 
             WoWTools_MenuMixin:ScaleRoot(frame, sub,
             function()
-                return Save().itemSlotScale or 1
+                return self:Save().CharacterSlotScale or 1
             end, function(value)
-                Save().itemSlotScale= value
+                self:Save().CharacterSlotScale= value
                 settings()
                 Set_Button_Point()
 
             end, function()
-                Save().itemSlotScale= 1
+                self:Save().CharacterSlotScale= 1
                 settings()
                 Set_Button_Point()
             end)
@@ -359,7 +338,6 @@ function WoWTools_TextureMixin.Frames:CharacterFrame()
 --声望
     self:SetScrollBar(ReputationFrame)
     self:SetMenu(ReputationFrame.filterDropdown)
-
     self:SetFrame(ReputationFrame.ReputationDetailFrame.Border)
     self:SetButton(ReputationFrame.ReputationDetailFrame.CloseButton)
     self:SetAlphaColor(ReputationFrame.ReputationDetailFrame.Divider)
@@ -368,6 +346,14 @@ function WoWTools_TextureMixin.Frames:CharacterFrame()
     self:SetCheckBox(ReputationFrame.ReputationDetailFrame.AtWarCheckbox)
     self:SetCheckBox(ReputationFrame.ReputationDetailFrame.MakeInactiveCheckbox)
     self:SetCheckBox(ReputationFrame.ReputationDetailFrame.WatchFactionCheckbox)
+    WoWTools_DataMixin:Hook(ReputationBarMixin, 'UpdateBarProgressText', function(f)
+        if not f.isSetTuexrue then
+            self:SetStatusBar(f)
+            self:SetAlphaColor(f.LeftTexture, nil, nil, 0.5)
+            self:SetAlphaColor(f.RightTexture, nil, nil, 0.5)
+            f.isSetTuexrue=true
+        end
+    end)
 
     WoWTools_DataMixin:Hook(ReputationFrame.ScrollBox, 'Update', function(f)
         if not f:HasView() then
@@ -396,3 +382,20 @@ function WoWTools_TextureMixin.Frames:CharacterFrame()
     self:Init_BGMenu_Frame(CharacterFrame)
 end
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function WoWTools_MoveMixin.Frames:GearManagerPopupFrame()
+    self:Setup(GearManagerPopupFrame, {frame=CharacterFrame})
+end

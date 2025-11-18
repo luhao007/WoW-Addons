@@ -47,8 +47,9 @@ end
 
 
 function WoWTools_MoveMixin.Events:Blizzard_HouseEditor()
-    HouseEditorFrame.StoragePanel.InputBlocker:ClearAllPoints()--HouseEditorStorageFrameTemplate
-    WoWTools_TextureMixin:CreateBG(HouseEditorFrame.StoragePanel, {isColor=true, isAllpoint=true, alpha=0.5})
+   
+    --WoWTools_TextureMixin:CreateBG(HouseEditorFrame.StoragePanel, {isColor=true, isAllpoint=true, alpha=0.5})
+    HouseEditorFrame.StoragePanel.SearchBox:SetPoint('TOPLEFT', 43, -20)--<Anchor point="TOPLEFT" x="20" y="-20"/>]]
 --编辑住宅器
     Set_Move(HouseEditorFrame.StoragePanel, 'HouseStorage', true)
 
@@ -60,13 +61,15 @@ function WoWTools_MoveMixin.Events:Blizzard_HouseEditor()
     Set_Move(HouseEditorFrame.ModeBar, 'HouseBar', false)
 
 --菜单
-    local menu= CreateFrame('DropdownButton', 'WoWToolsHouseEditorFrameMenuButton', HouseEditorFrame.StoragePanel.SearchBox, 'WoWToolsMenuButtonTemplate')
-    menu:SetPoint('RIGHT', HouseEditorFrame.StoragePanel.SearchBox, 'LEFT', -4, 0)
+    local menu= CreateFrame('DropdownButton', 'WoWToolsHouseEditorFrameMenuButton', HouseEditorFrame.StoragePanel, 'WoWToolsMenuButtonTemplate')
+    menu:SetPoint('TOPLEFT', 23, 0)
     function menu:set_scale()
         local s= WoWTools_MoveMixin:Save().scale['HouseStorage'] or 1
         HouseEditorFrame.StoragePanel:SetScale(s)
     end
     menu:set_scale()
+
+--菜单
     menu:SetupMenu(function(frame, root)
  --缩放
         WoWTools_MenuMixin:ScaleRoot(frame, root, function()
@@ -97,8 +100,20 @@ function WoWTools_MoveMixin.Events:Blizzard_HouseEditor()
             end
         end)
     end)
-    HouseEditorFrame.StoragePanel.SearchBox:SetPoint('TOPLEFT', 43, -20)--<Anchor point="TOPLEFT" x="20" y="-20"/>]]
 
+    C_Timer.After(0.1, function()
+        HouseEditorFrame.StoragePanel.ResizeButton:SetMinHeight(525)
+        HouseEditorFrame.StoragePanel.ResizeButton:SetMinWidth(220)--需要延迟
+        HouseEditorFrame.StoragePanel.ResizeButton.maxWidth = nil
+        HouseEditorFrame.StoragePanel.ResizeButton.maxHeight = nil
+        local size= self:Save().size['HouseStorage']
+        if size and size[1] then
+            HouseEditorFrame.StoragePanel:SetSize(size[1], size[2])
+        end
+        HouseEditorFrame.StoragePanel:HookScript('OnSizeChanged', function(_, w, h)
+            self:Save().size['HouseStorage']= {w, h}
+        end)
+    end)
 end
 
 

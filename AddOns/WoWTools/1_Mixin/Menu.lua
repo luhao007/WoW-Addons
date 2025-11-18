@@ -418,7 +418,7 @@ end)
 function WoWTools_MenuMixin:RestPoint(frame, root, point, SetValue)
     local sub= root:CreateButton(
         '|A:characterundelete-RestoreButton:0:0|a'
-        ..(point and '' or '|cff9e9e9e')
+        ..(point and '' or '|cff626262')
         ..(WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION),
         SetValue
     )
@@ -451,7 +451,7 @@ end
 function WoWTools_MenuMixin:Reload(root, isControlKeyDown)
     local sub=root:CreateButton(
         '|TInterface\\Vehicles\\UI-Vehicles-Button-Exit-Up:0|t'
-        ..(InCombatLockdown() and IsInInstance() and '|cff9e9e9e' or '')--e.IsEncouter_Start
+        ..(InCombatLockdown() and IsInInstance() and '|cff626262' or '')--e.IsEncouter_Start
         ..(WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI),
     function(data)
         if data and IsControlKeyDown() or not data then
@@ -599,7 +599,7 @@ end
 
 
 
---驭空术，return 名称，点数
+--[[驭空术，return 名称，点数 11.2.7 没有了
 function WoWTools_MenuMixin:GetDragonriding()
     local dragonridingConfigID = C_Traits.GetConfigIDBySystemID(1);
     if dragonridingConfigID then
@@ -607,32 +607,39 @@ function WoWTools_MenuMixin:GetDragonriding()
         local num= treeCurrencies[1] and treeCurrencies[1].quantity
         if num and num>=0 then
             return '|T'..(select(4, C_Traits.GetTraitCurrencyInfo(2563)) or 4728198)..':0|t'
-                ..(num==0 and '|cff9e9e9e' or '|cnGREEN_FONT_COLOR:')..num..'|r',
+                ..(num==0 and '|cff626262' or '|cnGREEN_FONT_COLOR:')..num..'|r',
 
                 num
         end
     end
+end]]
 
-end
-
---驭空术
+--驭空术 TraitUtil.OpenTraitFrame(Constants.MountDynamicFlightConsts.TREE_ID)
 function WoWTools_MenuMixin:OpenDragonriding(root)
     local configID = C_Traits.GetConfigIDByTreeID(Constants.MountDynamicFlightConsts.TREE_ID);
     local uiWidgetSetID = configID and C_Traits.GetTraitSystemWidgetSetID(configID) or nil
 
     local sub= root:CreateButton(
             '|A:dragonriding-barbershop-icon-protodrake:0:0|a'
-            ..(UnitAffectingCombat('player') and '|cff9e9e9e' or '')
-            ..(WoWTools_DataMixin.onlyChinese and '驭空术' or GENERIC_TRAIT_FRAME_DRAGONRIDING_TITLE)
-            ..(self:GetDragonriding() or ''),
+            ..((InCombatLockdown() or not DragonridingUtil.IsDragonridingUnlocked()) and '|cff626262' or '')
+            ..(WoWTools_DataMixin.onlyChinese and '驭空术' or GENERIC_TRAIT_FRAME_DRAGONRIDING_TITLE),
+            --..(self:GetDragonriding() or ''),
         function()
-            WoWTools_LoadUIMixin:GenericTraitUI(--加载，Trait，UI
+            if not DragonridingUtil.IsDragonridingTreeOpen() then
+                GenericTraitUI_LoadUI()
+                GenericTraitFrame:SetConfigIDBySystemID(Constants.MountDynamicFlightConsts.TRAIT_SYSTEM_ID)
+                GenericTraitFrame:SetTreeID(Constants.MountDynamicFlightConsts.TREE_ID)
+            end
+            if GenericTraitFrame then
+                ToggleFrame(GenericTraitFrame)
+            end
+            --[[WoWTools_LoadUIMixin:GenericTraitUI(--加载，Trait，UI
                 Constants.MountDynamicFlightConsts.TRAIT_SYSTEM_ID,
                 Constants.MountDynamicFlightConsts.TREE_ID
-            )
+            )]]
             return MenuResponse.Refresh
         end,
-        {widgetSetID=uiWidgetSetID, tooltip=WoWTools_DataMixin.onlyChinese and '巨龙群岛概要' or DRAGONFLIGHT_LANDING_PAGE_TITLE}
+        {widgetSetID=uiWidgetSetID}--, tooltip=WoWTools_DataMixin.onlyChinese and '巨龙群岛概要' or DRAGONFLIGHT_LANDING_PAGE_TITLE}
     )
     WoWTools_SetTooltipMixin:Set_Menu(sub)
 

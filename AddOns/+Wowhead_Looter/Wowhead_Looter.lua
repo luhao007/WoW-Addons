@@ -4740,7 +4740,7 @@ function wlCheckMythicAffixes()
     local level, affixes, wasEnergized = C_ChallengeMode.GetActiveKeystoneInfo();
     local displaySeasonId, milestoneSeasonId, rewardSeasonId = C_MythicPlus.GetCurrentSeasonValues();
     wlSeasonCheck();
-    local seasonId = wlSeasonId:match("Season-(%d+)") or '0';
+    local seasonId = wlSeasonId:match("Season%-(%d+)") or '0';
     if level and level > 0 and affixes then
         sort(affixes)
         wlSeenDaily('a' .. level ..

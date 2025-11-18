@@ -1,7 +1,7 @@
 ## Interface: 110205
 ## Title: |cffff00ffWoW|r|cff00ff00Tools|r
 ## Author: husandro
-## Version: 1.8.45
+## Version: 1.8.47
 ## Notes: |A:Icon-WoW:0:0|aWoW |cffff4800Plus|r|n|A:WoWShare-TwitterLogo:0:0|a|cff00ccffhttps://github.com/husandro/WoWTools|r
 ## SavedVariables: WoWToolsSave, WoWTools_WoWDate, WoWToolsPlayerDate
 ## DefaultState: Enabled
@@ -88,6 +88,7 @@ Plus_Texture\z_Frames.lua
 Plus_Texture\z_Events.lua
 Plus_Texture\z_SharedXML.lua
 
+
 ##坐骑， Tools 主要的，
 Tools\0_ToolsButtonMixin.lua
 Tools\1_Init.lua
@@ -135,23 +136,6 @@ Tools_B5_Food\Create_Button.lua
 ##法师传送门
 Tools_LL_MagePortal\LL_MagePortal.lua
 
-##WoWPlus
-##物品信息，显示包里，和商人，物品信息，现仅支持系统
-Plus_Item\0_ItemMixin.lua
-Plus_Item\0_SetupInfo.lua
-Plus_Item\1_Init.lua
-Plus_Item\Events.lua
-Plus_Item\Frames.lua
-##颜色选择器
-Plus_Color\0_ColorMixin.lua
-Plus_Color\1_Init.lua
-Plus_Color\2_Menu.lua
-Plus_Color\Log.lua
-Plus_Color\Edit.lua
-Plus_Color\Select_Color.lua
-Plus_Color\Other.lua
-Plus_Color\CODE.lua
-
 ##鼠标，提示
 Plus_Tooltip\0_TooltipMixin.lua
 Plus_Tooltip\1_Init.lua
@@ -176,6 +160,23 @@ Plus_Tooltip\z.StatusBar.lua
 Plus_Tooltip\z_CVar_Set.lua
 Plus_Tooltip\z_Events.lua
 Plus_Tooltip\z_Frames.lua
+
+##物品信息，显示包里，和商人，物品信息，现仅支持系统
+Plus_Item\0_ItemMixin.lua
+Plus_Item\0_SetupInfo.lua
+Plus_Item\1_Init.lua
+Plus_Item\Events.lua
+Plus_Item\Frames.lua
+
+##颜色选择器
+Plus_Color\0_ColorMixin.lua
+Plus_Color\1_Init.lua
+Plus_Color\2_Menu.lua
+Plus_Color\Log.lua
+Plus_Color\Edit.lua
+Plus_Color\Select_Color.lua
+Plus_Color\Other.lua
+Plus_Color\CODE.lua
 
 ##小地图，增强
 Plus_MiniMap\1_Init.lua
@@ -212,11 +213,10 @@ Plus_PaperDoll\z_UI.lua
 
 ##声望面板
 Plus_Faction\0_FactionMixin.lua
-Plus_Faction\1_Faction.lua
-Plus_Faction\Faction_Button_Init.lua
-Plus_Faction\Faction_Button_Other.lua
-Plus_Faction\Faction_TrackButton_Init.lua
-Plus_Faction\ScrollBox_Plus.lua
+Plus_Faction\1_Init.lua
+Plus_Faction\2_Menu.lua
+Plus_Faction\Plus.lua
+Plus_Faction\TrackButton.lua
 Plus_Faction\z_CHAT_MSG.lua
 Plus_Faction\z_CovenantRenown.lua
 Plus_Faction\z_MajorFactionRenownFrame.lua

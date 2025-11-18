@@ -326,7 +326,7 @@ function WoWTools_TextureMixin.Events:Blizzard_AuctionHouseUI()
     self:SetEditBox(AuctionHouseFrame.SearchBar.SearchBox)
 
 --出售, 商品
-    self:SetButton(AuctionHouseFrame.CommoditiesSellFrame.PostButton, 1)
+    self:SetButton(AuctionHouseFrame.CommoditiesSellFrame.PostButton, {alpha=1})
     self:SetNineSlice(AuctionHouseFrame.CommoditiesSellList)
     self:SetScrollBar(AuctionHouseFrame.CommoditiesSellList)
     self:SetNineSlice(AuctionHouseFrame.CommoditiesSellFrame)
@@ -342,7 +342,7 @@ function WoWTools_TextureMixin.Events:Blizzard_AuctionHouseUI()
 
 --出售，物品
     self:SetCheckBox(AuctionHouseFrame.ItemSellFrame.BuyoutModeCheckButton)
-    self:SetButton(AuctionHouseFrame.ItemSellFrame.PostButton, 1)
+    self:SetButton(AuctionHouseFrame.ItemSellFrame.PostButton, {alpha=1})
     self:SetNineSlice(AuctionHouseFrame.ItemSellList)
     self:SetScrollBar(AuctionHouseFrame.ItemSellList)
 
@@ -369,7 +369,7 @@ function WoWTools_TextureMixin.Events:Blizzard_AuctionHouseUI()
     self:SetScrollBar(AuctionHouseFrame.WoWTokenResults.DummyScrollBar)
     self:SetNineSlice(AuctionHouseFrame.WoWTokenResults)
 --购买
-    self:SetButton(AuctionHouseFrame.ItemBuyFrame.ItemList.RefreshFrame.RefreshButton, 1)
+    self:SetButton(AuctionHouseFrame.ItemBuyFrame.ItemList.RefreshFrame.RefreshButton, {alpha=1})
     self:SetNineSlice(AuctionHouseFrame.ItemBuyFrame.ItemDisplay)
     self:SetScrollBar(AuctionHouseFrame.ItemBuyFrame.ItemList)
     self:SetNineSlice(AuctionHouseFrame.ItemBuyFrame.ItemList)
@@ -674,7 +674,7 @@ end
 --欲龙术
 function WoWTools_TextureMixin.Events:Blizzard_GenericTraitUI()
     self:HideFrame(GenericTraitFrame)
-    self:SetButton(GenericTraitFrame.CloseButton, {all=true, alpha=1})
+    self:SetButton(GenericTraitFrame.CloseButton)
     self:SetNineSlice(GenericTraitFrame)
 
     self:Init_BGMenu_Frame(GenericTraitFrame, {isNewButton=true,
@@ -855,8 +855,8 @@ end
 
 function WoWTools_TextureMixin.Events:Blizzard_ArchaeologyUI()
     self:SetButton(ArchaeologyFrameInfoButton)
-    self:SetButton(ArchaeologyFrameSummaryPagePrevPageButton, 1)
-    self:SetButton(ArchaeologyFrameSummaryPageNextPageButton, 1)
+    self:SetButton(ArchaeologyFrameSummaryPagePrevPageButton, {alpha=1})
+    self:SetButton(ArchaeologyFrameSummaryPageNextPageButton, {alpha=1})
     self:SetButton(ArchaeologyFrameCloseButton)
     self:SetNineSlice(ArchaeologyFrameInset)
     self:HideTexture(ArchaeologyFrameBg)
@@ -1034,7 +1034,7 @@ function WoWTools_TextureMixin.Events:Blizzard_CooldownViewer()
 
 
     self:SetButton(CooldownViewerSettingsCloseButton)
-    self:SetButton(CooldownViewerSettings.SettingsDropdown, 1)
+    self:SetButton(CooldownViewerSettings.SettingsDropdown, {alpha=1})
     self:SetEditBox(CooldownViewerSettings.SearchBox)
     self:SetNineSlice(CooldownViewerSettings)
 
@@ -1941,8 +1941,35 @@ end
 --货币
 function WoWTools_TextureMixin.Events:Blizzard_TokenUI()
     self:SetButton(TokenFrame.CurrencyTransferLogToggleButton, 1)
+
     self:SetFrame(TokenFramePopup.Border, {alpha=1})
+    self:SetUIButton(TokenFramePopup.CurrencyTransferToggleButton)
+    self:SetCheckBox(TokenFramePopup.InactiveCheckbox)
+    self:SetCheckBox(TokenFramePopup.BackpackCheckbox)
+--货币转移, 记录
+    self:SetButton(CurrencyTransferLogCloseButton)
+    self:SetNineSlice(CurrencyTransferLog)
+    self:SetAlphaColor(CurrencyTransferLogBg, nil, nil, 0.3)
+    self:SetNineSlice(CurrencyTransferLogInset, nil, true)
+    self:SetScrollBar(CurrencyTransferLog)
+--货币转移
     self:SetButton(CurrencyTransferMenuCloseButton)
+    self:SetUIButton(CurrencyTransferMenu.Content.ConfirmButton)
+    self:SetUIButton(CurrencyTransferMenu.Content.CancelButton)
+    self:SetUIButton(CurrencyTransferMenu.Content.AmountSelector.MaxQuantityButton)
+    self:SetAlphaColor(CurrencyTransferMenu.Content.TransactionDivider)
+        self:SetNineSlice(CurrencyTransferMenu)
+    self:SetAlphaColor(CurrencyTransferMenu.TransactionDivider)
+    self:HideTexture(CurrencyTransferMenuBg)
+    self:SetNineSlice(CurrencyTransferMenuInset)
+    if CurrencyTransferMenu.AmountSelector then--11.2 没有了
+        self:SetEditBox(CurrencyTransferMenu.AmountSelector.InputBox)
+        self:SetMenu(CurrencyTransferMenu.SourceSelector.Dropdown)
+    else
+        self:SetEditBox(CurrencyTransferMenu.Content.AmountSelector.InputBox)
+        self:SetMenu(CurrencyTransferMenu.Content.SourceSelector.Dropdown)
+    end
+
     self:SetFrame(TokenFrame)
     self:SetMenu(TokenFrame.filterDropdown)
     self:SetScrollBar(TokenFrame)--bug，货币转移，出错
@@ -1961,26 +1988,7 @@ function WoWTools_TextureMixin.Events:Blizzard_TokenUI()
     })
 
 
---货币转移
-    self:SetButton(CurrencyTransferLogCloseButton)
-    self:SetNineSlice(CurrencyTransferLog)
-    self:SetAlphaColor(CurrencyTransferLogBg, nil, nil, 0.3)
-    self:SetNineSlice(CurrencyTransferLogInset, nil, true)
-    self:SetScrollBar(CurrencyTransferLog)
 
-    self:SetNineSlice(CurrencyTransferMenu)
-    self:SetAlphaColor(CurrencyTransferMenu.TransactionDivider)
-    self:HideTexture(CurrencyTransferMenuBg)
-    self:SetNineSlice(CurrencyTransferMenuInset)
-
-
-    if CurrencyTransferMenu.AmountSelector then--11.2 没有了
-        self:SetEditBox(CurrencyTransferMenu.AmountSelector.InputBox)
-        self:SetMenu(CurrencyTransferMenu.SourceSelector.Dropdown)
-    else
-        self:SetEditBox(CurrencyTransferMenu.Content.AmountSelector.InputBox)
-        self:SetMenu(CurrencyTransferMenu.Content.SourceSelector.Dropdown)
-    end
 end
 
 
