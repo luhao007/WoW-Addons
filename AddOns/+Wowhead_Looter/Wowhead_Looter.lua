@@ -10,7 +10,7 @@
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2025-11-11";
+local WL_ADDON_UPDATED = "2025-11-17";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
 local WL_VERSION = 110205;
@@ -3830,6 +3830,7 @@ function wlCollect(userInitiated)
     wlSeenIslandExpeditions()
     wlGetBuildings();
     wlGetTime();
+    wlCheckMythicAffixes();
 
     wlTime = GetServerTime();
 
@@ -4741,11 +4742,34 @@ function wlCheckMythicAffixes()
     local displaySeasonId, milestoneSeasonId, rewardSeasonId = C_MythicPlus.GetCurrentSeasonValues();
     wlSeasonCheck();
     local seasonId = wlSeasonId:match("Season%-(%d+)") or '0';
-    if level and level > 0 and affixes then
+
+    local trackAffixes = function(level, affixes)
         sort(affixes)
         wlSeenDaily('a' .. level ..
             '.' .. table.concat(affixes,'.') ..
             ':' .. displaySeasonId .. '.' .. milestoneSeasonId .. '.' .. rewardSeasonId .. '.' .. seasonId);
+    end
+
+    if level and level > 0 and affixes and #affixes > 0 then
+        trackAffixes(level, affixes);
+    end
+
+    for bag = NUM_BAG_FRAMES, 0, -1 do
+        for slot = 1, C_Container.GetContainerNumSlots(bag) do
+            local link = C_Container.GetContainerItemLink(bag, slot);
+            if link then
+                local found, _, level, affix1, affix2, affix3, affix4 = link:find("|Hkeystone:%d+:%d+:(%d+):(%d+):(%d+):(%d+):(%d+)");
+                if found then
+                    affixes = { tonumber(affix1), tonumber(affix2), tonumber(affix3), tonumber(affix4) };
+                    for i = #affixes, 1, -1 do
+                        if affixes[i] == 0 then
+                            table.remove(affixes, i);
+                        end
+                    end
+                    trackAffixes(tonumber(level), affixes);
+                end
+            end
+        end
     end
 end
 
@@ -5260,6 +5284,7 @@ local wlEvents = {
     -- challenge mode / mythic+ affixes
     CHALLENGE_MODE_START = wlEvent_CHALLENGE_MODE_UPDATE,
     CHALLENGE_MODE_RESET = wlEvent_CHALLENGE_MODE_UPDATE,
+    CHALLENGE_MODE_COMPLETED = wlEvent_CHALLENGE_MODE_UPDATE,
 
     -- completist
     TRADE_SKILL_DATA_SOURCE_CHANGED = wlEvent_TRADE_SKILL_DATA_SOURCE_CHANGED,

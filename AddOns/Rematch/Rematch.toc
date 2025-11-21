@@ -16,6 +16,7 @@
 
 localization\localization.lua
 localization\localization-zhTW.lua
+localization\localization-zhCN.lua
 
 main\constants.lua
 main\events.lua

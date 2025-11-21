@@ -1,11 +1,11 @@
 ## Interface: 110205
 ## Author: Qshine
-## Version: 2.3.4
+## Version: 2.3.4 fixed
 
 ## Title: |cFFBF00FF[H]|r Something About Pet Battle
 ## Notes: Something About Pet Battle,Type /hpq to config
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF宠物对战增强|r |cFFFFE00AHPetBattleAny|r
-## Notes-zhCN: 提醒野生宠物品质等,输入/hpq设置
+## Notes-zhCN: 提醒野生宠物品质等,输入/hpq设置|n|cd0ff7d0a狼牙月@海达希亚|r 修复版|n(求求原作者|cd0ff7d0a上官晓雾|r大神继续更新吧...)
 
 ## IconTexture: 464160
 
@@ -13,7 +13,7 @@
 
 ## SavedVariables: HPetSaves
 
-## X-Date: 2024-08-16
+## X-Date: 2025-09-17
 
 Localization.lua
 

@@ -12,13 +12,20 @@ local lastCheckTime = 0
 local lastBundTime = 0
 local function CreateHelpButtons()
   buttonHeal = CreateFrame("Button", "ALPTButtonHeal", UIParent, "SecureActionButtonTemplate")
-  buttonHeal:SetAttribute("type", "spell")
   buttonHeal:SetAttribute("spell", "125439")
+  --buttonHeal:SetAttribute("type", "spell")
+  buttonHeal:RegisterForClicks("AnyUp", "AnyDown")    
+  buttonHeal:SetAttribute("pressAndHoldAction", true)
+  buttonHeal:SetAttribute("typerelease", "spell")
   buttonHeal:Hide()
 
   buttonQuitGame = CreateFrame("Button", "ALPTQuitGame", UIParent, "SecureActionButtonTemplate")
   buttonQuitGame:SetAttribute("macrotext", "")
-  buttonQuitGame:SetAttribute("type", "macro")
+  -- buttonQuitGame:SetAttribute("type", "macro")
+  -- buttonQuitGame:RegisterForClicks("AnyUp", "AnyDown")
+  buttonQuitGame:SetAttribute("pressAndHoldAction", true)
+  buttonQuitGame:SetAttribute("typerelease", "macro")
+
   buttonQuitGame:Hide()
   buttonQuitGame:SetScript(
     "PreClick",
@@ -116,7 +123,10 @@ local function createMacroText(btn)
     local cooldown= C_Spell.GetSpellCooldown(125439)
     if config.healPet and cooldown.duration == 0 then
       DebugPrint("复活战斗宠物")
+
+      --local healSpell = C_Spell.GetSpellInfo(125439)
       macro = macro .. "\n/click ALPTButtonHeal"
+      --macro = macro .. "\n/cast " .. healSpell.name 
     else
       --绷带
       if config.useBandage and not ALPTRematch:HasValidTeam() and cooldown.duration > 5 and C_Item.GetItemCount(86143) > 0 then
@@ -211,7 +221,12 @@ local function CreateMacroButtons()
     repeat
       local macroButton = CreateFrame("Button", key, UIParent, "SecureActionButtonTemplate")
       macroButton:SetAttribute("macrotext", "")
-      macroButton:SetAttribute("type", "macro")
+      -- macroButton:SetAttribute("type", "macro")
+      -- macroButton:RegisterForClicks("AnyUp", "AnyDown")
+
+      macroButton:SetAttribute("pressAndHoldAction", true)
+      macroButton:SetAttribute("typerelease", "macro")
+
       macroButton:Hide()
       macroButton.config = cf
       macroButton:SetScript("PreClick", createMacroText)

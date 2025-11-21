@@ -16,6 +16,7 @@ local g = {
   isDefault = false,
   isCaching = false,
   waiting = false,
+  waitingTime = 0,
   isPetsReplaced = {false, false, false}
 }
 
@@ -128,7 +129,7 @@ function AutoTeam:findTeamsFromRematch(npcId, npcName)
   if  targetTeam and #targetTeam==1 then
     local team = getTeam(targetTeam[1])
     if team then
-      teamName = team.name or teamName
+      teamName = team.name or npcName
     end
   else
     teamName = npcName
@@ -171,7 +172,11 @@ function AutoTeam:findTeamsFromRematch(npcId, npcName)
         teamList[index] = {["key"] = team.teamID, ["name"] = team.name}
         index = index + 1
         if CFG.debug then
-          print("解析到队伍：" .. (team.name))
+          if useNameRule then
+            print("解析到队伍(名称匹配)：" .. (team.name))
+          else
+            print("解析到队伍(Rematch管理)：" .. (team.name))
+          end
         end
       end
     end
@@ -180,7 +185,7 @@ function AutoTeam:findTeamsFromRematch(npcId, npcName)
     table.sort(
       teamList,
       function(a, b)
-        return (a.name < b.name)
+        return a.name==teamName or (a.name < b.name)
       end
     )
   end
@@ -1056,6 +1061,12 @@ function AutoTeam:PET_BATTLE_CLOSE()
       print("战斗结束")
     end
     g.waiting = true
+    C_Timer.After(
+        0.5,
+        function()
+          g.waiting = false
+        end
+      )
     if CFG.loadAfterBattle >= 0 then
       C_Timer.After(
         CFG.loadAfterBattle,

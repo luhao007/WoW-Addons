@@ -1,6 +1,6 @@
 ## Interface: 110205
 ## Author: scdhao
-## Version: 3.0.9
+## Version: 3.0.12
 
 ## Title: AutoLoadPetTeam For Rematch
 ## Notes: 宠物自动换队-适配Rematch版

@@ -409,6 +409,32 @@ L["RAID_BOSS_ToES_3"] = "雷施"
 L["RAID_BOSS_TOES_3"] = "雷施"
 L["RAID_BOSS_TOES_4"] = "惧之煞"
 L["RAID_BOSS_ToES_4"] = "惧之煞"
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_TOT_1"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_TOT_10"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_TOT_11"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_TOT_12"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_TOT_13"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_TOT_2"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_TOT_3"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_TOT_4"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_TOT_5"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_TOT_6"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_TOT_7"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_TOT_8"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_TOT_9"] = ""--]] 
 L["RAID_BOSS_TOTFW_1"] = "风之议会"
 L["RAID_BOSS_TOTFW_2"] = "奥拉基尔"
 L["RAID_BOSS_VOTI_1"] = "艾拉诺格"
@@ -448,6 +474,8 @@ L["RAID_NP"] = "尼鲁巴尔王宫"
 L["RAID_RS"] = "红玉圣所"
 L["RAID_ToES"] = "永春台"
 L["RAID_TOES"] = "永春台"
+--[[Translation missing --]]
+--[[ L["RAID_TOT"] = ""--]] 
 L["RAID_TOTFW"] = "风神王座"
 L["RAIDERIO_AVERAGE_PLAYER_SCORE"] = "能限时%s层的平均分数"
 L["RAIDERIO_BEST_RUN"] = "大秘境最佳成绩"

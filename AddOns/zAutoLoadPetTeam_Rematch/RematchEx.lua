@@ -377,12 +377,6 @@ end
 
 function ALPTRematch:InitRemacthEx()
   local settings = Rematch5Settings
-  settings["InteractOnTarget"] = 0
-  settings["InteractOnSoftInteract"] = 0
-  settings["InteractOnMouseover"] = 0
-  settings["LoadHealthiest"] = false
-  settings["LoadHealthiestAny"] = false
-  settings["LoadHealthiestAfterBattle"] = false
 
   local CFG = utils.alptconfig
  
@@ -393,8 +387,20 @@ function ALPTRematch:InitRemacthEx()
       showSetButton = 1,
       useGroupMenu = true,
       fillSaveAsTeamName = true,
+      keepRematchConfig = fasle,
       useRigthCage = true
     }
+
+
+  if not alptconfig.keepRematchConfig then
+    settings["InteractOnTarget"] = 0
+    settings["InteractOnSoftInteract"] = 0
+    settings["InteractOnMouseover"] = 0
+    settings["LoadHealthiest"] = false
+    settings["LoadHealthiestAny"] = false
+    settings["LoadHealthiestAfterBattle"] = false  
+  end
+  
   InitConfiDialog()
  
   if alptconfig.useRigthCage then

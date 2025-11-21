@@ -783,7 +783,7 @@ function HPetOption:Open()
 	self:LoadOptions()
 end
 
-function HPetOption:Toggle()
+function HPetOption:Toggle() 
     Settings.OpenToCategory(addon.settingsCategory.ID)
 	-- InterfaceOptionsFrame_OpenToCategory(HPetOption)
 end
@@ -862,6 +862,7 @@ local InitSwathButton = function()
 	button:SetAttribute("type", "macro")
 	button:SetAttribute("macrotext", "/use item:86143")
 	button:SetSize(35, 35)
+    button:RegisterForClicks("AnyUp", "AnyDown") -- by 狼牙月@海达希亚
 
 	button.Icon = button:CreateTexture(name .. "Icon", "ARTWORK")
 	button.Icon:SetTexture(icon)
@@ -911,22 +912,22 @@ local InitSwathButton = function()
 	)
 	button:RegisterEvent("BAG_UPDATE")
 
-	-- button:SetPoint("RIGHT", PetJournalHealPetButton, "LEFT", -4)
+    button:SetPoint("RIGHT", PetJournal.HealPetSpellFrame, "RIGHT",0)
 
-	-- hooksecurefunc(
-	-- 	button,
-	-- 	"Show",
-	-- 	function()
-	-- 		PetJournalHealPetButton.spellname:SetPoint("RIGHT", button, "LEFT")
-	-- 	end
-	-- )
-	-- hooksecurefunc(
-	-- 	button,
-	-- 	"Hide",
-	-- 	function()
-	-- 		PetJournalHealPetButton.spellname:SetPoint("RIGHT", PetJournalHealPetButtonBorder, "LEFT", -2, 0)
-	-- 	end
-	-- )
+    hooksecurefunc(
+        button,
+        "Show",
+        function()
+            PetJournal.HealPetSpellFrame.Button:SetPoint("RIGHT", button, "LEFT")
+        end
+    )
+    hooksecurefunc(
+        button,
+        "Hide",
+        function()
+            PetJournal.HealPetSpellFrame.Button:SetPoint("RIGHT", PetJournal.HealPetSpellFrame, "RIGHT",0)
+        end
+    )
 
 	if HPetSaves.ShowBandageButton then
 		button:Show()

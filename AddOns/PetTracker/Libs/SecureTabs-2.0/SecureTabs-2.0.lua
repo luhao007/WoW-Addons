@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with SecureTabs. If not, see <http://www.gnu.org/licenses/>.
 --]]
 
-local Lib, old = LibStub:NewLibrary('SecureTabs-2.0', 12)
+local Lib, old = LibStub:NewLibrary('SecureTabs-2.0', 10)
 if not Lib then
 	return
 elseif not old then
@@ -47,7 +47,7 @@ function Lib:Add(panel, frame, label)
 	PanelTemplates_DeselectTab(tab)
 
 	local cover = self.covers[panel] or CreateFrame('Button', '$parentCoverTab', panel, self.template)
-	cover:SetScript('OnClick', function() self:Update(panel) end)
+	cover:SetScript('OnClick', function(tab) self:Uncover(panel) end)
 	PanelTemplates_DeselectTab(cover)
 
 	self.tabs[panel] = secureTabs
@@ -57,11 +57,21 @@ function Lib:Add(panel, frame, label)
 end
 
 function Lib:Select(tab)
+	if tab.OnSelect then
+		tab:OnSelect()
+	end
+
+	PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
 	self:Update(tab:GetParent(), tab)
 end
 
 
 --[[ Advanced Methods ]]--
+
+function Lib:Uncover(panel)
+	PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
+	self:Update(panel)
+end
 
 function Lib:Update(panel, selection)
 	local secureTabs = self.tabs[panel]
@@ -72,13 +82,9 @@ function Lib:Update(panel, selection)
 	for i, tab in ipairs(secureTabs) do
 		local selected = tab == selection
 		if selected then
-			if not tab.active and tab.OnSelect then
-				tab:OnSelect()
-			end
+			PanelTemplates_SelectTab(tab)
 		else
-			if tab.active and tab.OnDeselect then
-				tab:OnDeselect()
-			end
+			PanelTemplates_DeselectTab(tab)
 		end
 
 		local frame = tab.frame
@@ -91,21 +97,18 @@ function Lib:Update(panel, selection)
 				frame:SetAllPoints(true)
 				frame:SetFrameLevel(panel:GetFrameLevel() + 20)
 
-				local close = frame.CloseButton
-				if close and not close.Relay then
-					local relay = CreateFrame('Button', '$parentSecureRelay', close, 'SecureActionButtonTemplate')
-					relay:SetAttribute('macrotext', format('/run HideUIPanel(%s)', (frame:GetParent() or frame):GetName()))
-					relay:RegisterForClicks('anyUp', 'anyDown')
-					relay:SetAttribute('type', 'macro')
-					relay:SetAllPoints()
+				if frame.CloseButton then
+					frame.CloseButton:SetScript('OnClick', function()
+						local original = frame:GetParent() and frame:GetParent().CloseButton
+						if original then
+							ExecuteFrameScript(original, 'OnClick') -- make sure any additional behaviour is replicated
+						end
 
-					close.Relay = relay
+						HideUIPanel(frame) -- safest hiding method
+					end)
 				end
 			end
 		end
-
-		(tab == selection and PanelTemplates_SelectTab or PanelTemplates_DeselectTab)(tab)
-		tab.active = selected
 	end
 
 	if panel.selectedTab then
@@ -129,6 +132,4 @@ function Lib:Update(panel, selection)
 			PanelTemplates_TabResize(cover, 0, nil, 36, panel.maxTabWidth or 88)
 		end
 	end
-
-	PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
 end
