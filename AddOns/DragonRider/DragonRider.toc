@@ -1,6 +1,6 @@
-## Interface: 110205
+## Interface: 110207
 ## Author: Keyboardturner
-## Version: 0.6.3
+## Version: 1.0.6
 
 ## Title: Dragon Rider
 ## Notes: Displays a speedometer paired with the vigor bar and some other dragonriding-related options.
@@ -15,16 +15,22 @@
 ## AddonCompartmentFuncOnEnter: DragonRider_OnAddonCompartmentEnter
 ## AddonCompartmentFuncOnLeave: DragonRider_OnAddonCompartmentLeave
 
+## LoadSavedVariablesFirst: 1
 ## SavedVariables: DragonRider_DB
 
 ## X-Curse-Project-ID: 893295
 ## X-WoWI-ID: 26618
 ## X-Wago-ID: XKq9EDKy
 
-Libs/LibAdvFlight-1.0/lib.xml
+Libs/LibAdvFlight/lib.xml
+
+Templates/SettingsTemplates.xml
 
 Localization.lua
 DRRaceData.lua
 Timerunner.lua
 DRJournal.lua
+Vigor.lua
+Speedometer.lua
+Charges.lua
 DragonRider.lua

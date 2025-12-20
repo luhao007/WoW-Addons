@@ -29,9 +29,9 @@ function BusinessInfo.FastSave()
 	else
 		fujiF.cunGV =PIGFontString(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",10,-9},MAXIMUM..BANK_DEPOSIT_MONEY_BUTTON_LABEL..BONUS_ROLL_REWARD_MONEY.."|cff00FFFF(设置为单个角色独享)|r")
 		fujiF.cunGVSlider = PIGSlider(fujiF,{"TOPLEFT",fujiF.cunGV,"BOTTOMLEFT",0,0},{0, 1000000000, 1000000,{["Right"]=GetMoneyString}},200)
-		fujiF.cunGVSlider.Slider:HookScript("OnValueChanged", function(self, arg1)
+		function fujiF.cunGVSlider:PIGOnValueChange(arg1)
 			PIGA_Per["AutoSellBuy"][_GNE.."_Money"]=arg1
-		end)
+		end
 		fujiF:HookScript("OnShow", function (self)
 			self.cunGVSlider:PIGSetValue(PIGA_Per["AutoSellBuy"][_GNE.."_Money"])
 		end)
@@ -45,9 +45,9 @@ function BusinessInfo.FastSave()
 	else
 		fujiF_Take.tiquGV =PIGFontString(fujiF_Take,{"TOPLEFT",fujiF_Take,"TOPLEFT",10,-9},MAXIMUM..BANK_WITHDRAW_MONEY_BUTTON_LABEL..BONUS_ROLL_REWARD_MONEY.."|cff00FFFF(设置为单个角色独享)|r")
 		fujiF_Take.tiquGVSlider = PIGSlider(fujiF_Take,{"TOPLEFT",fujiF_Take.tiquGV,"BOTTOMLEFT",0,0},{0, 1000000000, 1000000,{["Right"]=GetMoneyString}},200)
-		fujiF_Take.tiquGVSlider.Slider:HookScript("OnValueChanged", function(self, arg1)
+		function fujiF_Take.tiquGVSlider:PIGOnValueChange(arg1)
 			PIGA_Per["AutoSellBuy"][_GNE_Take.."_Money"]=arg1
-		end)
+		end
 		fujiF_Take:HookScript("OnShow", function (self)
 			self.tiquGVSlider:PIGSetValue(PIGA_Per["AutoSellBuy"][_GNE_Take.."_Money"])
 		end)

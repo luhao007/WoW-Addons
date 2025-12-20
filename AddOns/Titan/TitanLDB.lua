@@ -1,7 +1,8 @@
 --[===[ File
 A "bridge" module to ensure proper registration and communication of LDB plugins with Titan Panel
+--]===]
 
-By Titan Dev team
+--[===[
 Originally by Tristanian aka "TristTitan" as a Titan member
 Created and initially commited on : July 29th, 2008
 --]===]

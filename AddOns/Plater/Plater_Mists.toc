@@ -1,5 +1,5 @@
-## Interface: 110205
-## Version: Plater-v616-Mists
+## Interface: 110207
+## Version: Plater-v620-Mists
 
 ## Title: Plater
 ## Notes: Nameplate addon designed for advanced users.
@@ -44,6 +44,7 @@ Plater_Data.lua
 Plater_Logs.lua
 Plater_Util.lua
 Plater.lua
+Plater_ScriptHelpers.lua
 Plater_PerformanceUnits.lua
 Plater_ColorFrame.lua
 Plater_SlashCMD.lua
@@ -61,6 +62,7 @@ Plater_ScriptingPanels.lua
 Plater_ScriptLibrary.lua
 Plater_AnimationEditor.lua
 Plater_Designer.lua
+Plater_Designer_Objects.lua
 Plater_ChangeLog.lua
 Plater_Docs.lua
 Plater_BossModsSupport.lua

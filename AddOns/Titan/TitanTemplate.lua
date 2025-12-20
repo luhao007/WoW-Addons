@@ -1,7 +1,13 @@
 --[===[ File
+Contains routines defined in TitanTemplate.xml.
+
+Contains the routines to control a Titan template frame whether Titan bar or plugin.
+--]===]
+
+--[===[ Var API TitanPanelTemplate overview
 Creates the following frames:
 - TitanPanelBarButton : Main Titan frame handling events
-- TitanPanelTooltip : Used? Inherits from GameTooltipTemplate
+TODO - TitanPanelTooltip : Used? Inherits from GameTooltipTemplate
 
 Contains the routines to control a Titan template frame.
 These could be:
@@ -10,9 +16,6 @@ These could be:
 
 The Titan templates are defined in .xml.
 There appears to be no other way to make frame templates - virtual="true".
---]===]
-
---[===[ Var API TitanPanelTemplate overview
 See TitanPanelButtonTemplate.xml also for more detail.
 
 TitanTemplate (Lua and XML) contain the basics for Titan plugin frames.
@@ -188,7 +191,11 @@ local function TitanTooltip_SetPanelTooltip(self, id, frame)
 
 	if button then
 		-- Adjust the Y offset as needed
-		local rel_y = self:GetTop() - frame:GetHeight()
+		local top = self:GetTop()
+		local hgt = frame:GetHeight()
+		local lft = self:GetLeft()
+
+		local rel_y = top - hgt
 		local pt = ""
 		local rel_pt = ""
 		if rel_y > 0 then
@@ -199,7 +206,7 @@ local function TitanTooltip_SetPanelTooltip(self, id, frame)
 			pt = "BOTTOM";
 			rel_pt = "TOP";
 		end
-		local rel_x = self:GetLeft() + frame:GetHeight()
+		local rel_x = lft + hgt
 		if (rel_x < GetScreenWidth()) then
 			-- menu will fit
 			pt = pt .. "LEFT";
@@ -589,7 +596,6 @@ function TitanPanelButton_OnClick(self, button)
 			TitanUtils_CloseAllControlFrames();
 			TitanPanelRightClickMenu_Close();
 
-			--			local position = TitanUtils_GetWhichBar(id)
 			if (isControlFrameShown) then
 				-- Note: This uses anchor points to place the control frame relative to the plugin on the screen.
 				local parent = self:GetName() -- plugin with the control frame
@@ -600,7 +606,9 @@ function TitanPanelButton_OnClick(self, button)
 					NOTE: If Titan bars need a left click to show a control frame the offset
 					will need to be changed to use the cursor position like right click menu!!
 				--]]
-				if (self:GetTop() - controlFrame:GetHeight()) > 0 then
+				local top = self:GetTop()
+				local hgt = controlFrame:GetHeight()
+				if (top - hgt) > 0 then
 					point = "TOP"
 					rel_point = "BOTTOM"
 				else -- below screen
@@ -701,7 +709,6 @@ end
 --- Note: Titan handles up to 4 label-value pairs. User may customize (override) the plugin labels.
 --- The text routine is called in protected mode (pcall) to ensure the Titan main routines still run.
 local function TitanPanelButton_SetButtonText(id)
-	--- There are several places that return in this routine. Not best practice but more readable.
 	local dbg_msg = "ptxt : '" .. tostring(id) .. "'"
 	local ok = false
 
@@ -709,8 +716,7 @@ local function TitanPanelButton_SetButtonText(id)
 		-- seems valid, registered plugin
 		ok = true
 	else
-		-- return silently; The plugin is not registered!
-		-- output here could be a lot and really annoy the user...
+		-- The plugin is not registered!
 		dbg_msg = dbg_msg .. " | unregistered plugin"
 	end
 
@@ -729,10 +735,10 @@ local function TitanPanelButton_SetButtonText(id)
 			ok = true
 		else
 			dbg_msg = dbg_msg .. " | invalid function type"
-			-- silently leave...
+			-- silently ...
 		end
 	else
-		-- silently leave...
+		-- silently leve...
 		dbg_msg = dbg_msg .. " | invalid plugin data"
 	end
 
@@ -751,8 +757,8 @@ local function TitanPanelButton_SetButtonText(id)
 				buttonText:SetFont(newfont, TitanPanelGetVar("FontSize"))
 			end
 
-			-- We'll be paranoid here and call the button text in protected mode.
-			-- In case the button text fails it will not take Titan with it...
+			-- We'll be paranoid here and call the button text function in protected mode.
+			-- In case the function fails it will not take Titan with it...
 			call_success, -- for pcall
 			label1, value1, label2, value2, label3, value3, label4, value4 =
 				pcall(buttonTextFunction, id)
@@ -776,6 +782,9 @@ local function TitanPanelButton_SetButtonText(id)
 		-- Plugin MUST have been shown at least once.
 
 		-- In the case of first label only (no value), set the button and return.
+		--
+		-- IF there is a label or value for the 1st then check for more values.
+		-- 2025 Nov : Change to check each value (1-4) rather than nest them.
 		if text and
 			label1 and
 			not (label2 or label3 or label4
@@ -804,35 +813,35 @@ local function TitanPanelButton_SetButtonText(id)
 					if show_label then
 						if TitanGetVar(id, "CustomLabel2TextShow") then
 							-- override the label per the user
-							label2 = TitanGetVar(id, "CustomLabel2Text")
+							label2 = " "..TitanGetVar(id, "CustomLabel2Text")
 						else
 						end
 					else
-						label2 = ""
+						label2 = " "
 					end
-					if label3 or value3 then
-						if show_label then
-							if TitanGetVar(id, "CustomLabel3TextShow") then
-								-- override the label per the user
-								label3 = TitanGetVar(id, "CustomLabel3Text")
-							else
-							end
+				end
+				if label3 or value3 then
+					values = 3
+					if show_label then
+						if TitanGetVar(id, "CustomLabel3TextShow") then
+							-- override the label per the user
+							label3 = " "..TitanGetVar(id, "CustomLabel3Text")
 						else
-							label3 = ""
 						end
-						values = 3
-						if label4 or value4 then
-							values = 4
-							if show_label then
-								if TitanGetVar(id, "CustomLabel43TextShow") then
-									-- override the label per the user
-									label4 = TitanGetVar(id, "CustomLabel4Text")
-								else
-								end
-							else
-								label4 = ""
-							end
+					else
+						label3 = " "
+					end
+				end
+				if label4 or value4 then
+					values = 4
+					if show_label then
+						if TitanGetVar(id, "CustomLabel43TextShow") then
+							-- override the label per the user
+							label4 = " "..TitanGetVar(id, "CustomLabel4Text")
+						else
 						end
+					else
+						label4 = " "
 					end
 				end
 				dbg_msg = dbg_msg .. " | ok | " .. tostring(values)
@@ -844,12 +853,20 @@ local function TitanPanelButton_SetButtonText(id)
 
 			TitanSetVar(id, "NumLabelsSeen", values)
 
+			--[==[
 			-- values tells which format to use from the array
 			buttonText:SetFormattedText(format_with_label[values],
 				label1 or "", value1 or "",
 				label2 or "", value2 or "",
 				label3 or "", value3 or "",
 				label4 or "", value4 or ""
+			)
+			--]==]
+			buttonText:SetText(""  -- formatting was inserting undesired spaces
+				..(label1 or "")..(value1 or "")
+				..(label2 or "")..(value2 or "")
+				..(label3 or "")..(value3 or "")
+				..(label4 or "")..(value4 or "")
 			)
 		end
 	else
@@ -867,12 +884,14 @@ local function TitanPanelButton_SetTextButtonWidth(id, setButtonWidth)
 	if (id) then
 		local button = TitanUtils_GetButton(id)
 		if button then
-			local text = _G[button:GetName() .. TITAN_PANEL_TEXT];
+			local text = _G[button:GetName() .. TITAN_PANEL_TEXT]
+			local bwid = button:GetWidth()
+			local twid = text:GetWidth()
 			if (setButtonWidth
-					or button:GetWidth() == 0
-					or button:GetWidth() - text:GetWidth() > TITAN_PANEL_BUTTON_WIDTH_CHANGE_TOLERANCE
-					or button:GetWidth() - text:GetWidth() < -TITAN_PANEL_BUTTON_WIDTH_CHANGE_TOLERANCE) then
-				button:SetWidth(text:GetWidth());
+					or bwid == 0
+					or bwid - twid > TITAN_PANEL_BUTTON_WIDTH_CHANGE_TOLERANCE
+					or bwid - twid < -TITAN_PANEL_BUTTON_WIDTH_CHANGE_TOLERANCE) then
+				button:SetWidth(twid);
 				TitanPanelButton_Justify();
 			end
 		else
@@ -914,14 +933,19 @@ local function TitanPanelButton_SetComboButtonWidth(id, setButtonWidth)
 
 		local text = _G[button:GetName() .. TITAN_PANEL_TEXT];
 		local icon = _G[button:GetName() .. "Icon"];
+
+		local iwid = icon:GetWidth()
+		local twid = text:GetWidth()
+		local bwid = button:GetWidth()
+
 		local iconWidth, iconButtonWidth, newButtonWidth;
 
 		-- Get icon button width
 		iconButtonWidth = 0;
 		if (TitanUtils_GetPlugin(id).iconButtonWidth) then
 			iconButtonWidth = TitanUtils_GetPlugin(id).iconButtonWidth;
-		elseif (icon:GetWidth()) then
-			iconButtonWidth = icon:GetWidth();
+		elseif (iwid) then
+			iconButtonWidth = iwid
 		end
 
 		if (TitanGetVar(id, "ShowIcon") and (iconButtonWidth ~= 0)) then
@@ -929,19 +953,19 @@ local function TitanPanelButton_SetComboButtonWidth(id, setButtonWidth)
 			text:ClearAllPoints();
 			text:SetPoint("LEFT", icon:GetName(), "RIGHT", 2, 1);
 
-			newButtonWidth = text:GetWidth() + iconButtonWidth;
+			newButtonWidth = twid + iconButtonWidth;
 		else
 			icon:Hide();
 			text:ClearAllPoints();
 			text:SetPoint("LEFT", button:GetName(), "LEFT", 0, 1);
 
-			newButtonWidth = text:GetWidth();
+			newButtonWidth = twid
 		end
 
 		if (setButtonWidth
-				or button:GetWidth() == 0
-				or button:GetWidth() - newButtonWidth > TITAN_PANEL_BUTTON_WIDTH_CHANGE_TOLERANCE
-				or button:GetWidth() - newButtonWidth < -TITAN_PANEL_BUTTON_WIDTH_CHANGE_TOLERANCE)
+				or bwid == 0
+				or bwid - newButtonWidth > TITAN_PANEL_BUTTON_WIDTH_CHANGE_TOLERANCE
+				or bwid - newButtonWidth < -TITAN_PANEL_BUTTON_WIDTH_CHANGE_TOLERANCE)
 		then
 			button:SetWidth(newButtonWidth);
 			TitanPanelButton_Justify();

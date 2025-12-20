@@ -1,4 +1,4 @@
-## Interface: 110205
+## Interface: 110207
 ## Author: Jaliborc (João Cardoso)
 
 ## Title: |TInterface/Addons/PetTracker/art/compass:16:16|t PetTracker |cffffffffJournal|r

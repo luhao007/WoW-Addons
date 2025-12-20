@@ -10,9 +10,7 @@ local UIname="PIG_QuickButUI"
 Data.QuickButUIname=UIname
 local QuickPData = {ActionButton1:GetWidth(),200,200}
 if PIG_MaxTocversion() then
-	QuickPData[1]=QuickPData[1]-10
 else
-	QuickPData[1]=QuickPData[1]-16
 	QuickPData[2]=0
 	QuickPData[3]=290
 end

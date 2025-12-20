@@ -345,13 +345,13 @@ local function GetCatalystIcon(data, iconOnly)
 end
 local function GetCostIconForRow(data, iconOnly)
 	-- cost only if itself is a cost
-	if data.isCost then
+	if data.isCost or data.isOwnedCost then
 		return L[iconOnly and "COST_ICON" or "COST_TEXT"];
 	end
 end
 local function GetCostIconForTooltip(data, iconOnly)
 	-- cost only if itself is a cost
-	if data.isCost then
+	if data.isCost or data.isOwnedCost then
 		return L[iconOnly and "COST_ICON" or "COST_TEXT"];
 	end
 end
@@ -695,7 +695,7 @@ local function Refresh(self)
 	end
 	-- local headerAdjust = 0;
 	-- if startIndent ~= 8 then
-	--	-- header only adjust
+	-- 	-- header only adjust
 	-- 	headerAdjust = startIndent - 8;
 	-- 	print("header adjust",headerAdjust)
 	-- 	row = rows[1];
@@ -1351,7 +1351,7 @@ function app:CreateMiniListForGroup(group, forceFresh)
 		-- app.PrintTable(group.g)
 		-- This logic allows for nested searches of groups within a popout to be returned as the root search which resets the parent
 		-- if not group.isBaseSearchResult then
-		--	-- make a search for this group if it is an item/currency and not already a container for things
+		-- 	-- make a search for this group if it is an item/currency and not already a container for things
 		-- 	if not group.g and (group.itemID or group.currencyID) then
 		-- 		local cmd = group.key .. ":" .. group[group.key];
 		-- 		group = app.GetCachedSearchResults(app.SearchForLink, cmd);
@@ -1432,7 +1432,7 @@ else
 		= C_ContentTracking.IsTracking, C_ContentTracking.StartTracking, C_ContentTracking.StopTracking
 	app.AddContentTracking = function(group)
 		-- if this group is currently tracked
-		local sourceID, mountID, achievementID = group.sourceID, group.mountJournalID, group.achievementID
+		local sourceID, mountID, achievementID, questID = group.sourceID, group.mountJournalID, group.achievementID, group.questID
 		local type = sourceID and 0
 					or mountID and 1
 					or achievementID and 2
@@ -1449,6 +1449,17 @@ else
 				StartTracking(type, id)
 			end
 			return true
+		end
+		-- Quests can be tracked using another API
+		if questID then
+			-- Add tracking
+			if C_QuestLog.AddQuestWatch(questID) or C_QuestLog.AddWorldQuestWatch(questID) then
+				return true
+			end
+			-- Remove tracking
+			if C_QuestLog.RemoveQuestWatch(questID) or C_QuestLog.RemoveWorldQuestWatch(questID) then
+				return true
+			end
 		end
 	end
 end
@@ -1699,6 +1710,7 @@ app.AddEventHandler("RowOnLeave", function (self)
 	GameTooltip:ClearLines();
 	GameTooltip:Hide();
 end)
+local RowSearchSkipFillOptions = {SkipFill=true}
 app.AddEventHandler("RowOnEnter", function(self)
 	local reference = self.ref;
 	if not reference then return; end
@@ -1778,18 +1790,23 @@ app.AddEventHandler("RowOnEnter", function(self)
 
 	-- if nothing was rendered into tooltip using an actual link, then use the search result logic to replace our reference
 	-- after capturing relative field values
-	if not linkSuccessful and link then
-		local searchreference = app.GetCachedSearchResults(app.SearchForLink, link)
-		if searchreference then
-			local parent = rawget(reference, "parent")
-			local sourceParent = rawget(reference, "sourceParent")
-			reference = searchreference
-			reference.parent = parent
-			reference.sourceParent = sourceParent
-			app.ActiveRowReference = reference;
-			-- app.PrintDebug("Used search due to no link rendering",reference.working)
-		end
-	end
+	-- commenting this out i can't find counter-examples as to why i added it, and it helps fix some tooltips
+	-- will probably run into the reason again in the future and maybe will realize why... - Runaway
+	-- if not linkSuccessful and link then
+	-- 	-- app.PrintDebug("Search link",link)
+	-- 	-- perform the search with no Filling since it's unnecessary in this context. either the row has groups, or it's a successful link which fills as needed above
+	-- 	local searchreference = app.GetCachedSearchResults(app.SearchForLink, link, nil, RowSearchSkipFillOptions)
+	-- 	-- app.PrintDebug("Search link",link,"=>",searchreference)
+	-- 	if searchreference then
+	-- 		local parent = rawget(reference, "parent")
+	-- 		local sourceParent = rawget(reference, "sourceParent")
+	-- 		reference = searchreference
+	-- 		reference.parent = parent
+	-- 		reference.sourceParent = sourceParent
+	-- 		app.ActiveRowReference = reference;
+	-- 		-- app.PrintDebug("Used search due to no link rendering",reference.working)
+	-- 	end
+	-- end
 
 	-- Default top row line if nothing is generated from a link.
 	if tooltip:NumLines() < 1 then

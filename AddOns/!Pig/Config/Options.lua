@@ -91,7 +91,6 @@ local function Remove_Data(newdata,Per)--剔除数据类配置
 		newdata["StatsInfo"]["Token"]=nil
 		newdata["StatsInfo"]["Items"]=nil
 		newdata["StatsInfo"]["TradeData"]=nil
-		newdata["StatsInfo"]["AHData"]=nil
 		--邮箱
 		newdata["MailPlus"]["Coll"]=nil
 		--售卖助手

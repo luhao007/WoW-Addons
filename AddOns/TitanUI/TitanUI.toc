@@ -1,0 +1,12 @@
+## Interface: 120000, 110205, 50502, 11507
+## Title: Titan Panel [|cffeda55fUI|r] |cff00aa008.4.2|r
+## Author: Titan Panel Dev Team
+## Version: 8.4.2
+## Notes: Adds Reload and select functions in a plugin
+## Author: Titan Panel Development Team (http://www.titanpanel.org)
+## IconTexture: Interface\AddOns\TitanUI\Artwork\TitanReload
+## SavedVariables: 
+## Dependencies: Titan
+## DefaultState: Enabled
+
+Tools.lua

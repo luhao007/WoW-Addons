@@ -520,9 +520,9 @@ tooltipFunction = function(self, locClass, engClass, locRace, engRace, gender, n
 	if leftSide then leftSide:SetText(L.PLAYER_TITLE_KING_OF_THE_ASYLUM:format(name)); end
 end
 for i,guid in ipairs({
-	"Player-4372-03E56CDC",	-- Slorche-Atiesh
-	"Player-4372-03F46784",	-- Bankmänfried-Atiesh
-	"Player-4372-03E57EE7",	-- Slorchey-Atiesh
+	"Player-4385-05E95D3F",	-- Slorche-LeiShen
+	"Player-4385-05EE08FF",	-- Bankmänfried-LeiShen
+	"Player-4385-05E843C6",	-- Slorchey-LeiShen
 	"Player-4372-03E57EE6",	-- Slorchejr-Atiesh
 	"Player-4372-03E57EFD",	-- Slorpp-Atiesh
 	"Player-4372-03E57EE4",	-- Slorloko-Atiesh
@@ -844,6 +844,8 @@ if TooltipDataProcessor and app.GameBuildVersion > 60000 then
 		[Enum_TooltipDataType.CompanionPet] = "speciesID",
 		[Enum_TooltipDataType.Currency] = "currencyID",
 		[Enum_TooltipDataType.InstanceLock] = "instanceID",
+		-- temp?
+		decor = "decorID",
 	};
 	-- Currently, ATT has no desired handling for these types, and most instances of them are already
 	-- ignored via GetOwner() check. But we can avoid that sooner since the tooltip type is provided
@@ -1089,6 +1091,7 @@ if TooltipDataProcessor and app.GameBuildVersion > 60000 then
 				end
 				return true;
 			end
+			-- app.PrintDebug("AttachTooltip-No Search",ttType,ttId)
 		end
 		-- app.PrintDebug("AttachTooltip-Return");
 	end
@@ -1100,6 +1103,7 @@ if TooltipDataProcessor and app.GameBuildVersion > 60000 then
 		TooltipDataProcessor.AddTooltipPostCall(TooltipDataProcessor.AllTypes, AttachTooltip)
 		-- TooltipDataProcessor.AddTooltipPostCall(Enum_TooltipDataType.Item, OnTooltipSetItem)
 	end);
+	app.ForceAttachTooltip = AttachTooltip
 else
 	-- Pre-10.0.2 (Legacy)
 	local function AttachTooltip(self)

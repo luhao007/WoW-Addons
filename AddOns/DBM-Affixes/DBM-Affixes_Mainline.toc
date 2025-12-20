@@ -1,4 +1,4 @@
-## Interface: 110205
+## Interface: 110207
 ## Author: MysticalOS
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cffff6010M+ Affixes|r

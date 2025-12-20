@@ -109,7 +109,7 @@ mubiaoF.Plus:SetScript("OnClick", function (self)
 		PIG_OptionsUI.RLUI:Show()
 	end
 end);
-mubiaoF.Chouhen=PIGCheckbutton_R(mubiaoF,{"仇恨值/仇恨高亮/仇恨目录","显示目标的仇恨值/仇恨高亮/仇恨目录\n如果未生效请打开系统的<界面-显示威胁值百分>选项"})
+mubiaoF.Chouhen=PIGCheckbutton_R(mubiaoF,{"仇恨高亮/仇恨目录","目标仇恨高亮/仇恨目录，微调仇恨百分比位置"})
 mubiaoF.Chouhen:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["UnitFrame"]["TargetFrame"]["Chouhen"]=true;

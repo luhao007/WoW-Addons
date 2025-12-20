@@ -153,10 +153,18 @@ private.NPC_INFO = {
 	[241919] = { zoneID = 0, displayID = 71961 }; --Purple Peat
 	[244782] = { zoneID = 0, displayID = 126745 }; --Eye of Greed
 	[246366] = { zoneID = 0, displayID = 100503 }; --The Harvester
-	[248660] = { zoneID = 0, displayID = 63864 }; --Lost Legion Infernal
-	[248661] = { zoneID = 0, displayID = 68734 }; --Infernal of the End Times
-	[248688] = { zoneID = 0, displayID = 63864 }; --Lost Legion Infernal
-	[248689] = { zoneID = 0, displayID = 68734 }; --Infernal of the End Times
+	[248660] = { zoneID = {
+				[630] = { x = 4297, y = 2327, artID = { 653 }, overlay = { "4220-7136","4297-2327" } };
+				[634] = { x = 8504, y = 1047, artID = { 657 }, overlay = { "8504-1047" } };
+				[641] = { x = 5788, y = 6475, artID = { 664 }, overlay = { "5788-6475" } };
+				[643] = { x = 3553, y = 3727, artID = { 666 }, overlay = { "3553-3727" } };
+				[646] = { x = 5925, y = 5177, artID = { 669 }, overlay = { "5925-5177" } };
+				[650] = { x = 5039, y = 6491, artID = { 674 }, overlay = { "5039-6491" } };
+				[680] = { x = 3391, y = 8011, artID = { 704 }, overlay = { "3391-8011" } };
+			  }, displayID = 63864, reset = true, event = 8 }; --Lost Legion Infernal
+	[248661] = { zoneID = 0, displayID = 68734, reset = true, event = 8 }; --Infernal of the End Times
+	[248688] = { zoneID = 0, displayID = 63864, reset = true, event = 8 }; --Lost Legion Infernal
+	[248689] = { zoneID = 0, displayID = 68734, reset = true, event = 8 }; --Infernal of the End Times
 	[248925] = { zoneID = 0, displayID = 106055 }; --Eternus
 	[248954] = { zoneID = 0, displayID = 106055 }; --Eternus
 	[249008] = { zoneID = 0, displayID = 106055 }; --Eternus
@@ -1944,18 +1952,18 @@ private.NPC_INFO = {
 	[116230] = { zoneID = 772, artID = { 797 }, x = 5006, y = 0342, displayID = 74106 }; --Exotic Concubine
 	[110486] = { zoneID = 775, artID = { 800 }, x = 6480, y = 8520, overlay = { "5580-7880","5700-7420","5720-9080","5740-7600","5740-8140","5740-9240","5780-7300","5780-7880","5780-8480","5860-8280","5920-7820","6020-8020","6080-8240","6140-8040","6480-8520" }, displayID = 71965 }; --Huk'roth the Huntmaster
 	[111573] = { zoneID = 790, artID = { 815 }, x = 5106, y = 5092, overlay = { "4520-5060","4620-4980","4640-4780","4760-4780","4780-4920","5106-5092" }, displayID = 71850, questID = { 45479 } }; --Kosumoth the Hungering
-	[120393] = { zoneID = 830, artID = { 855 }, x = 5833, y = 7584, overlay = { "5820-7540","5840-7660" }, displayID = 75765, questID = { 48627 }, achievementID = { 12078 } }; --Siegemaster Voraan
-	[122911] = { zoneID = 830, artID = { 855 }, x = 3960, y = 5880, overlay = { "3820-5940","3960-5840" }, displayID = 78156, questID = { 48563 }, achievementID = { 12078 } }; --Commander Vecaya
-	[122912] = { zoneID = 830, artID = { 855 }, x = 3340, y = 7570, overlay = { "3320-7580" }, displayID = 78814, questID = { 48562 }, achievementID = { 12078 } }; --Commander Sathrenael
-	[123464] = { zoneID = 830, artID = { 855 }, x = 5282, y = 3096, overlay = { "5240-3140" }, displayID = 77324, questID = { 48565 }, achievementID = { 12078 } }; --Sister Subversia <Coven of Shivarra>
-	[123689] = { zoneID = 830, artID = { 855 }, x = 5560, y = 8000, overlay = { "5480-8120" }, displayID = 77540, questID = { 48628 }, achievementID = { 12078 } }; --Talestra the Vile
-	[124775] = { zoneID = 830, artID = { 855 }, x = 4529, y = 5881, overlay = { "4440-5860" }, displayID = 78200, questID = { 48564 }, achievementID = { 12078 } }; --Commander Endaxis
-	[124804] = { zoneID = 830, artID = { 855 }, x = 6960, y = 5680, overlay = { "6940-5680" }, displayID = 78217, questID = { 48664 }, achievementID = { 12078 } }; --Tereck the Selector
-	[125388] = { zoneID = 830, artID = { 855 }, x = 6100, y = 2060, overlay = { "6080-1980" }, displayID = 74446, questID = { 48629 }, achievementID = { 12078 } }; --Vagath the Betrayed
-	[125479] = { zoneID = 830, artID = { 855 }, x = 6981, y = 8091, overlay = { "6940-8060","7020-8160" }, displayID = 41574, questID = { 48665 }, achievementID = { 12078 } }; --Tar Spitter
-	[125820] = { zoneID = 830, artID = { 855 }, x = 4242, y = 6987, overlay = { "4220-7000" }, displayID = 72942, questID = { 48666 }, achievementID = { 12078 } }; --Imp Mother Laglath
-	[126419] = { zoneID = 830, artID = { 855 }, x = 7092, y = 3338, overlay = { "7040-3400","7100-3240" }, displayID = 78926, questID = { 48667 }, achievementID = { 12078 } }; --Naroua <King of the Forest>
-	[125824] = { zoneID = 833, artID = { 858 }, x = 4479, y = 4820, overlay = { "3620-3560","3620-3720","3700-3860","3740-4000","3800-3640","3800-4240","3840-4100","3860-3940","3920-4200","3940-3840","3960-3720","3980-4060","4020-4520","4040-4260","4040-4380","4100-4040","4160-4240","4160-4500","4240-4740","4340-4840","4480-4820" }, displayID = 78946, questID = { 48561 }, achievementID = { 12078 } }; --Khazaduum
+	[120393] = { zoneID = 830, artID = { 855 }, x = 5833, y = 7584, overlay = { "5820-7540","5840-7660" }, displayID = 75765, questID = { 48627 }, achievementID = { 12078,60818 } }; --Siegemaster Voraan
+	[122911] = { zoneID = 830, artID = { 855 }, x = 3916, y = 5949, overlay = { "3820-5940","3960-5840" }, displayID = 78156, questID = { 48563 }, achievementID = { 12078,60818 } }; --Commander Vecaya
+	[122912] = { zoneID = 830, artID = { 855 }, x = 3319, y = 7589, overlay = { "3320-7580" }, displayID = 78814, questID = { 48562 }, achievementID = { 12078,60818 } }; --Commander Sathrenael
+	[123464] = { zoneID = 830, artID = { 855 }, x = 5282, y = 3096, overlay = { "5240-3140" }, displayID = 77324, questID = { 48565 }, achievementID = { 12078,60818 } }; --Sister Subversia <Coven of Shivarra>
+	[123689] = { zoneID = 830, artID = { 855 }, x = 5477, y = 8136, overlay = { "5480-8120" }, displayID = 77540, questID = { 48628 }, achievementID = { 12078,60818 } }; --Talestra the Vile
+	[124775] = { zoneID = 830, artID = { 855 }, x = 4529, y = 5881, overlay = { "4440-5860" }, displayID = 78200, questID = { 48564 }, achievementID = { 12078,60818 } }; --Commander Endaxis
+	[124804] = { zoneID = 830, artID = { 855 }, x = 6952, y = 5663, overlay = { "6940-5680" }, displayID = 78217, questID = { 48664 }, achievementID = { 12078,60818 } }; --Tereck the Selector
+	[125388] = { zoneID = 830, artID = { 855 }, x = 6084, y = 1974, overlay = { "6080-1980" }, displayID = 74446, questID = { 48629 }, achievementID = { 12078,60818 } }; --Vagath the Betrayed
+	[125479] = { zoneID = 830, artID = { 855 }, x = 6981, y = 8091, overlay = { "6940-8060","7020-8160" }, displayID = 41574, questID = { 48665 }, achievementID = { 12078,60818 } }; --Tar Spitter
+	[125820] = { zoneID = 830, artID = { 855 }, x = 4242, y = 6987, overlay = { "4220-7000" }, displayID = 72942, questID = { 48666 }, achievementID = { 12078,60818 } }; --Imp Mother Laglath
+	[126419] = { zoneID = 830, artID = { 855 }, x = 7092, y = 3338, overlay = { "7040-3400","7100-3240" }, displayID = 78926, questID = { 48667 }, achievementID = { 12078,60818 } }; --Naroua <King of the Forest>
+	[125824] = { zoneID = 833, artID = { 858 }, x = 4479, y = 4820, overlay = { "3620-3560","3620-3720","3700-3860","3740-4000","3800-3640","3800-4240","3840-4100","3860-3940","3920-4200","3940-3840","3960-3720","3980-4060","4020-4520","4040-4260","4040-4380","4100-4040","4160-4240","4160-4500","4240-4740","4340-4840","4480-4820" }, displayID = 78946, questID = { 48561 }, achievementID = { 12078,60818 } }; --Khazaduum
 	[120713] = { zoneID = 846, artID = { 871 }, x = 7227, y = 5109, displayID = 20914 }; --Wa'glur
 	[120715] = { zoneID = 846, artID = { 871 }, x = 6015, y = 1868, displayID = 66219 }; --Raga'yut
 	[120717] = { zoneID = 846, artID = { 871 }, x = 4750, y = 1167, displayID = 57400 }; --Mistress Dominix
@@ -2118,54 +2126,54 @@ private.NPC_INFO = {
 	[148550] = { zoneID = 864, artID = { 889 }, x = 3980, y = 4060, overlay = { "3940-4000" }, friendly = { "A" }, displayID = 90018, questReset = true, questID = { 54644 } }; --Caravan Leader
 	[148558] = { zoneID = 864, artID = { 889 }, x = 4299, y = 3842, overlay = { "4300-3840" }, friendly = { "A" }, displayID = 67251, questReset = true, questID = { 54645 } }; --Rockfury
 	[148597] = { zoneID = 864, artID = { 889 }, x = 3829, y = 4149, overlay = { "3820-4140" }, friendly = { "A" }, displayID = 90078, questID = { 54649 } }; --Iron Shaman Grimbeard
-	[122838] = { zoneID = 882, artID = { 907 }, x = 4454, y = 7164, overlay = { "4440-7160" }, displayID = 77107, questID = { 48692 }, achievementID = { 12078 } }; --Shadowcaster Voruun
-	[124440] = { zoneID = 882, artID = { 907 }, x = 5959, y = 3760, overlay = { "5840-3740","5960-3760" }, displayID = 78505, questID = { 48714 }, achievementID = { 12078 } }; --Overseer Y'Beda
-	[125497] = { zoneID = 882, artID = { 907 }, x = 5637, y = 2938, overlay = { "5600-2980","5640-2840","5680-3260","5700-2640","5740-2960","5740-3080","5760-2840" }, displayID = 78506, questID = { 48716 }, achievementID = { 12078 } }; --Overseer Y'Sorna
-	[125498] = { zoneID = 882, artID = { 907 }, x = 6088, y = 2978, overlay = { "6040-2940" }, displayID = 78507, questID = { 48717 }, achievementID = { 12078 } }; --Overseer Y'Morna
-	[126815] = { zoneID = 882, artID = { 907 }, x = 5308, y = 6737, overlay = { "5240-6860","5280-6640" }, displayID = 79114, questID = { 48693 }, achievementID = { 12078 } }; --Soultwisted Monstrosity
-	[126852] = { zoneID = 882, artID = { 907 }, x = 5553, y = 6015, overlay = { "5440-5940","5540-6060","5560-5940" }, displayID = 79133, questID = { 48695 }, achievementID = { 12078 } }; --Wrangler Kravos
-	[126860] = { zoneID = 882, artID = { 907 }, x = 3768, y = 5433, overlay = { "3740-5500" }, displayID = 79136, questID = { 48697 }, achievementID = { 12078 } }; --Kaara the Pale
-	[126862] = { zoneID = 882, artID = { 907 }, x = 4383, y = 6064, overlay = { "4340-6060","4420-5940" }, displayID = 79137, questID = { 48700 }, achievementID = { 12078 } }; --Baruut the Bloodthirsty
-	[126864] = { zoneID = 882, artID = { 907 }, x = 4114, y = 1149, overlay = { "4120-1180" }, displayID = 79139, questID = { 48702 }, achievementID = { 12078 } }; --Feasel the Muffin Thief
-	[126865] = { zoneID = 882, artID = { 907 }, x = 3660, y = 2360, overlay = { "3640-2340" }, displayID = 79927, questID = { 48703 }, achievementID = { 12078 } }; --Vigilant Thanos
-	[126866] = { zoneID = 882, artID = { 907 }, x = 6386, y = 6435, overlay = { "6340-6420" }, displayID = 79928, questID = { 48704 }, achievementID = { 12078 } }; --Vigilant Kuro
-	[126867] = { zoneID = 882, artID = { 907 }, x = 3364, y = 4806, overlay = { "3340-4820" }, displayID = 75569, questID = { 48705 }, achievementID = { 12078 } }; --Venomtail Skyfin
-	[126868] = { zoneID = 882, artID = { 907 }, x = 3784, y = 6409, overlay = { "3820-6440" }, displayID = 79143, questID = { 48706 }, achievementID = { 12078 } }; --Turek the Lucid
-	[126869] = { zoneID = 882, artID = { 907 }, x = 2717, y = 3001, overlay = { "2720-3040" }, displayID = 76899, questID = { 48707 }, achievementID = { 12078 } }; --Captain Faruq
-	[126885] = { zoneID = 882, artID = { 907 }, x = 3480, y = 3760, overlay = { "3400-3780","3480-3640" }, displayID = 76479, questID = { 48708 }, achievementID = { 12078 } }; --Umbraliss <Voidstalker Matriarch>
-	[126887] = { zoneID = 882, artID = { 907 }, x = 3011, y = 4020, overlay = { "2940-4100","3060-3980","3060-4160" }, displayID = 76477, questID = { 48709 }, achievementID = { 12078 } }; --Ataxon
-	[126889] = { zoneID = 882, artID = { 907 }, x = 7019, y = 4600, overlay = { "7020-4600" }, displayID = 79150, questID = { 48710 }, achievementID = { 12078 } }; --Sorolis the Ill-Fated
-	[126896] = { zoneID = 882, artID = { 907 }, x = 3595, y = 5897, overlay = { "3540-5840" }, displayID = 79060, questID = { 48711 }, achievementID = { 12078 } }; --Herald of Chaos
-	[126898] = { zoneID = 882, artID = { 907 }, x = 4520, y = 4900, overlay = { "4300-4740","4340-4860","4400-5080" }, displayID = 79156, questID = { 48712 }, achievementID = { 12078 } }; --Sabuul
-	[126899] = { zoneID = 882, artID = { 907 }, x = 4880, y = 4179, overlay = { "4820-4040","4840-4160" }, displayID = 79157, questID = { 48713 }, achievementID = { 12078 } }; --Jed'hin Champion Vorusk
-	[126900] = { zoneID = 882, artID = { 907 }, x = 6220, y = 4920, overlay = { "6140-5040","6220-4920" }, displayID = 79160, questID = { 48718 }, achievementID = { 12078 } }; --Instructor Tarahna
-	[126908] = { zoneID = 882, artID = { 907 }, x = 6660, y = 2860, overlay = { "6640-2840" }, displayID = 77098, questID = { 48719 }, achievementID = { 12078 } }; --Zul'tan the Numerous
-	[126910] = { zoneID = 882, artID = { 907 }, x = 5680, y = 1560, overlay = { "5560-1380","5640-1480" }, displayID = 78364, questID = { 48720 }, achievementID = { 12078 } }; --Commander Xethgar
-	[126912] = { zoneID = 882, artID = { 907 }, x = 4910, y = 0981, overlay = { "4860-1160","4940-0980","5060-0980" }, displayID = 76684, questID = { 48721 }, achievementID = { 12078 } }; --Skreeg the Devourer
-	[126913] = { zoneID = 882, artID = { 907 }, x = 4887, y = 5235, overlay = { "4840-5240","4840-5420" }, displayID = 63407, questID = { 48935 }, achievementID = { 12078 } }; --Slithon the Last
-	[122947] = { zoneID = 885, artID = { 910 }, x = 5735, y = 3355, overlay = { "5740-3340" }, displayID = 80099, questID = { 49240 }, achievementID = { 12078 } }; --Mistress Il'thendra
-	[122958] = { zoneID = 885, artID = { 910 }, x = 6182, y = 3690, overlay = { "6140-3780" }, displayID = 78588, questID = { 49183 }, achievementID = { 12078 } }; --Blistermaw
-	[122999] = { zoneID = 885, artID = { 910 }, x = 5570, y = 4593, overlay = { "5480-4660","5520-4500","5620-4660" }, displayID = 20907, questID = { 49241 }, achievementID = { 12078 } }; --Gar'zoth
-	[126040] = { zoneID = 885, artID = { 910 }, x = 6400, y = 2079, overlay = { "6400-2080" }, displayID = 66039, questID = { 48809 }, achievementID = { 12078 } }; --Puscilla
-	[126115] = { zoneID = 885, artID = { 910 }, x = 6302, y = 5735, overlay = { "6320-5720" }, displayID = 71834, questID = { 48811 }, achievementID = { 12078 } }; --Ven'orn
-	[126199] = { zoneID = 885, artID = { 910 }, x = 5303, y = 3602, overlay = { "5300-3540","5300-3660" }, displayID = 78785, questID = { 48810 }, achievementID = { 12078 } }; --Vrax'thul
-	[126208] = { zoneID = 885, artID = { 910 }, x = 6500, y = 5160, overlay = { "6440-4940","6500-5120" }, displayID = 78793, questID = { 48812 }, achievementID = { 12078 } }; --Varga
-	[126254] = { zoneID = 885, artID = { 910 }, x = 6260, y = 5440, overlay = { "6220-5340" }, displayID = 78814, questID = { 48813 }, achievementID = { 12078 } }; --Lieutenant Xakaar <Hand of Svirax>
-	[126338] = { zoneID = 885, artID = { 910 }, x = 6132, y = 6521, overlay = { "6120-6560","6140-6440" }, displayID = 78873, questID = { 48814 }, achievementID = { 12078 } }; --Wrath-Lord Yarez
-	[126946] = { zoneID = 885, artID = { 910 }, x = 6063, y = 4839, overlay = { "6040-4800" }, displayID = 78785, questID = { 48815 }, achievementID = { 12078 } }; --Inquisitor Vethroz
-	[127084] = { zoneID = 885, artID = { 910 }, x = 8267, y = 6557, overlay = { "8240-6580" }, displayID = 71253, questID = { 48816 }, achievementID = { 12078 } }; --Commander Texlaz
-	[127090] = { zoneID = 885, artID = { 910 }, x = 7360, y = 7180, overlay = { "7340-7140" }, displayID = 76275, questID = { 48817 }, achievementID = { 12078 } }; --Admiral Rel'var
-	[127096] = { zoneID = 885, artID = { 910 }, x = 7613, y = 5612, overlay = { "7540-5660" }, displayID = 64719, questID = { 48818 }, achievementID = { 12078 } }; --All-Seer Xanarian
-	[127118] = { zoneID = 885, artID = { 910 }, x = 5778, y = 5071, overlay = { "5040-5560","5140-5440","5180-5320","5400-5500","5778-5071" }, displayID = 79261, questID = { 48820 }, achievementID = { 12078 } }; --Worldsplitter Skuul
-	[127288] = { zoneID = 885, artID = { 910 }, x = 6380, y = 2200, overlay = { "6340-2300" }, displayID = 71965, questID = { 48821 }, achievementID = { 12078 } }; --Houndmaster Kerrax
-	[127291] = { zoneID = 885, artID = { 910 }, x = 5296, y = 2936, overlay = { "5300-2900" }, displayID = 74729, questID = { 48822 }, achievementID = { 12078 } }; --Watcher Aival
-	[127300] = { zoneID = 885, artID = { 910 }, x = 5526, y = 2155, overlay = { "5540-2180" }, displayID = 78507, questID = { 48824 }, achievementID = { 12078 } }; --Void Warden Valsuran
-	[127376] = { zoneID = 885, artID = { 910 }, x = 6140, y = 2086, overlay = { "6120-2120" }, displayID = 64632, questID = { 48865 }, achievementID = { 12078 } }; --Chief Alchemist Munculus
-	[127581] = { zoneID = 885, artID = { 910 }, x = 5501, y = 3891, overlay = { "5480-3900" }, displayID = 78135, questID = { 48966 }, achievementID = { 12078 } }; --The Many-Faced Devourer
-	[127700] = { zoneID = 885, artID = { 910 }, x = 8459, y = 8100, overlay = { "8440-8100" }, displayID = 78814, questID = { 48967 }, achievementID = { 12078 } }; --Squadron Commander Vishax
-	[127703] = { zoneID = 885, artID = { 910 }, x = 5859, y = 1160, overlay = { "5740-1220","5840-1140" }, displayID = 68312, questID = { 48968 }, achievementID = { 12078 } }; --Doomcaster Suprax
-	[127705] = { zoneID = 885, artID = { 910 }, x = 6660, y = 1779, overlay = { "6660-1780" }, displayID = 65648, questID = { 48970 }, achievementID = { 12078 } }; --Mother Rosula
-	[127706] = { zoneID = 885, artID = { 910 }, x = 6540, y = 8140, overlay = { "6500-8240" }, displayID = 74729, questID = { 48971 }, achievementID = { 12078 } }; --Rezira the Seer
+	[122838] = { zoneID = 882, artID = { 907 }, x = 4454, y = 7164, overlay = { "4440-7160" }, displayID = 77107, questID = { 48692 }, achievementID = { 12078,60818 } }; --Shadowcaster Voruun
+	[124440] = { zoneID = 882, artID = { 907 }, x = 5959, y = 3760, overlay = { "5840-3740","5960-3760" }, displayID = 78505, questID = { 48714 }, achievementID = { 12078,60818 } }; --Overseer Y'Beda
+	[125497] = { zoneID = 882, artID = { 907 }, x = 5756, y = 3091, overlay = { "5600-2980","5640-2840","5680-3260","5700-2640","5740-2960","5740-3080","5760-2840" }, displayID = 78506, questID = { 48716 }, achievementID = { 12078,60818 } }; --Overseer Y'Sorna
+	[125498] = { zoneID = 882, artID = { 907 }, x = 6088, y = 2978, overlay = { "6040-2940" }, displayID = 78507, questID = { 48717 }, achievementID = { 12078,60818 } }; --Overseer Y'Morna
+	[126815] = { zoneID = 882, artID = { 907 }, x = 5295, y = 6747, overlay = { "5240-6860","5280-6640" }, displayID = 79114, questID = { 48693 }, achievementID = { 12078,60818 } }; --Soultwisted Monstrosity
+	[126852] = { zoneID = 882, artID = { 907 }, x = 5553, y = 6015, overlay = { "5440-5940","5540-6060","5560-5940" }, displayID = 79133, questID = { 48695 }, achievementID = { 12078,60818 } }; --Wrangler Kravos
+	[126860] = { zoneID = 882, artID = { 907 }, x = 3768, y = 5433, overlay = { "3740-5500" }, displayID = 79136, questID = { 48697 }, achievementID = { 12078,60818 } }; --Kaara the Pale
+	[126862] = { zoneID = 882, artID = { 907 }, x = 4383, y = 6064, overlay = { "4340-6060","4420-5940" }, displayID = 79137, questID = { 48700 }, achievementID = { 12078,60818 } }; --Baruut the Bloodthirsty
+	[126864] = { zoneID = 882, artID = { 907 }, x = 4114, y = 1149, overlay = { "4120-1180" }, displayID = 79139, questID = { 48702 }, achievementID = { 12078,60818 } }; --Feasel the Muffin Thief
+	[126865] = { zoneID = 882, artID = { 907 }, x = 3660, y = 2360, overlay = { "3640-2340" }, displayID = 79927, questID = { 48703 }, achievementID = { 12078,60818 } }; --Vigilant Thanos
+	[126866] = { zoneID = 882, artID = { 907 }, x = 6366, y = 6424, overlay = { "6340-6420" }, displayID = 79928, questID = { 48704 }, achievementID = { 12078,60818 } }; --Vigilant Kuro
+	[126867] = { zoneID = 882, artID = { 907 }, x = 3363, y = 4815, overlay = { "3340-4820" }, displayID = 75569, questID = { 48705 }, achievementID = { 12078,60818 } }; --Venomtail Skyfin
+	[126868] = { zoneID = 882, artID = { 907 }, x = 3784, y = 6409, overlay = { "3820-6440" }, displayID = 79143, questID = { 48706 }, achievementID = { 12078,60818 } }; --Turek the Lucid
+	[126869] = { zoneID = 882, artID = { 907 }, x = 2717, y = 3001, overlay = { "2720-3040" }, displayID = 76899, questID = { 48707 }, achievementID = { 12078,60818 } }; --Captain Faruq
+	[126885] = { zoneID = 882, artID = { 907 }, x = 3496, y = 3707, overlay = { "3400-3780","3480-3640" }, displayID = 76479, questID = { 48708 }, achievementID = { 12078,60818 } }; --Umbraliss <Voidstalker Matriarch>
+	[126887] = { zoneID = 882, artID = { 907 }, x = 3011, y = 4020, overlay = { "2940-4100","3060-3980","3060-4160" }, displayID = 76477, questID = { 48709 }, achievementID = { 12078,60818 } }; --Ataxon
+	[126889] = { zoneID = 882, artID = { 907 }, x = 7019, y = 4600, overlay = { "7020-4600" }, displayID = 79150, questID = { 48710 }, achievementID = { 12078,60818 } }; --Sorolis the Ill-Fated
+	[126896] = { zoneID = 882, artID = { 907 }, x = 3602, y = 5930, overlay = { "3540-5840" }, displayID = 79060, questID = { 48711 }, achievementID = { 12078,60818 } }; --Herald of Chaos
+	[126898] = { zoneID = 882, artID = { 907 }, x = 4520, y = 4900, overlay = { "4300-4740","4340-4860","4400-5080" }, displayID = 79156, questID = { 48712 }, achievementID = { 12078,60818 } }; --Sabuul
+	[126899] = { zoneID = 882, artID = { 907 }, x = 4810, y = 4061, overlay = { "4820-4040","4840-4160" }, displayID = 79157, questID = { 48713 }, achievementID = { 12078,60818 } }; --Jed'hin Champion Vorusk
+	[126900] = { zoneID = 882, artID = { 907 }, x = 6149, y = 5044, overlay = { "6140-5040","6220-4920" }, displayID = 79160, questID = { 48718 }, achievementID = { 12078,60818 } }; --Instructor Tarahna
+	[126908] = { zoneID = 882, artID = { 907 }, x = 6671, y = 2846, overlay = { "6640-2840" }, displayID = 77098, questID = { 48719 }, achievementID = { 12078,60818 } }; --Zul'tan the Numerous
+	[126910] = { zoneID = 882, artID = { 907 }, x = 5689, y = 1469, overlay = { "5560-1380","5640-1480" }, displayID = 78364, questID = { 48720 }, achievementID = { 12078,60818 } }; --Commander Xethgar
+	[126912] = { zoneID = 882, artID = { 907 }, x = 4985, y = 0962, overlay = { "4860-1160","4940-0980","5060-0980" }, displayID = 76684, questID = { 48721 }, achievementID = { 12078,60818 } }; --Skreeg the Devourer
+	[126913] = { zoneID = 882, artID = { 907 }, x = 4887, y = 5235, overlay = { "4840-5240","4840-5420" }, displayID = 63407, questID = { 48935 }, achievementID = { 12078,60818 } }; --Slithon the Last
+	[122947] = { zoneID = 885, artID = { 910 }, x = 5735, y = 3355, overlay = { "5740-3340" }, displayID = 80099, questID = { 49240 }, achievementID = { 12078,60818 } }; --Mistress Il'thendra
+	[122958] = { zoneID = 885, artID = { 910 }, x = 6182, y = 3690, overlay = { "6140-3780" }, displayID = 78588, questID = { 49183 }, achievementID = { 12078,60818 } }; --Blistermaw
+	[122999] = { zoneID = 885, artID = { 910 }, x = 5570, y = 4593, overlay = { "5480-4660","5520-4500","5620-4660" }, displayID = 20907, questID = { 49241 }, achievementID = { 12078,60818 } }; --Gar'zoth
+	[126040] = { zoneID = 885, artID = { 910 }, x = 6375, y = 2115, overlay = { "6400-2080" }, displayID = 66039, questID = { 48809 }, achievementID = { 12078,60818 } }; --Puscilla
+	[126115] = { zoneID = 885, artID = { 910 }, x = 6310, y = 5731, overlay = { "6320-5720" }, displayID = 71834, questID = { 48811 }, achievementID = { 12078,60818 } }; --Ven'orn
+	[126199] = { zoneID = 885, artID = { 910 }, x = 5303, y = 3602, overlay = { "5300-3540","5300-3660" }, displayID = 78785, questID = { 48810 }, achievementID = { 12078,60818 } }; --Vrax'thul
+	[126208] = { zoneID = 885, artID = { 910 }, x = 6507, y = 5166, overlay = { "6440-4940","6500-5120" }, displayID = 78793, questID = { 48812 }, achievementID = { 12078,60818 } }; --Varga
+	[126254] = { zoneID = 885, artID = { 910 }, x = 6199, y = 5313, overlay = { "6220-5340" }, displayID = 78814, questID = { 48813 }, achievementID = { 12078,60818 } }; --Lieutenant Xakaar <Hand of Svirax>
+	[126338] = { zoneID = 885, artID = { 910 }, x = 6132, y = 6521, overlay = { "6120-6560","6140-6440" }, displayID = 78873, questID = { 48814 }, achievementID = { 12078,60818 } }; --Wrath-Lord Yarez
+	[126946] = { zoneID = 885, artID = { 910 }, x = 6063, y = 4839, overlay = { "6040-4800" }, displayID = 78785, questID = { 48815 }, achievementID = { 12078,60818 } }; --Inquisitor Vethroz
+	[127084] = { zoneID = 885, artID = { 910 }, x = 8267, y = 6557, overlay = { "8240-6580" }, displayID = 71253, questID = { 48816 }, achievementID = { 12078,60818 } }; --Commander Texlaz
+	[127090] = { zoneID = 885, artID = { 910 }, x = 7360, y = 7180, overlay = { "7340-7140" }, displayID = 76275, questID = { 48817 }, achievementID = { 12078,60818 } }; --Admiral Rel'var
+	[127096] = { zoneID = 885, artID = { 910 }, x = 7617, y = 5610, overlay = { "7540-5660" }, displayID = 64719, questID = { 48818 }, achievementID = { 12078,60818 } }; --All-Seer Xanarian
+	[127118] = { zoneID = 885, artID = { 910 }, x = 5778, y = 5071, overlay = { "5040-5560","5140-5440","5180-5320","5400-5500","5778-5071" }, displayID = 79261, questID = { 48820 }, achievementID = { 12078,60818 } }; --Worldsplitter Skuul
+	[127288] = { zoneID = 885, artID = { 910 }, x = 6383, y = 2207, overlay = { "6340-2300" }, displayID = 71965, questID = { 48821 }, achievementID = { 12078,60818 } }; --Houndmaster Kerrax
+	[127291] = { zoneID = 885, artID = { 910 }, x = 5296, y = 2936, overlay = { "5300-2900" }, displayID = 74729, questID = { 48822 }, achievementID = { 12078,60818 } }; --Watcher Aival
+	[127300] = { zoneID = 885, artID = { 910 }, x = 5526, y = 2155, overlay = { "5540-2180" }, displayID = 78507, questID = { 48824 }, achievementID = { 12078,60818 } }; --Void Warden Valsuran
+	[127376] = { zoneID = 885, artID = { 910 }, x = 6137, y = 2089, overlay = { "6120-2120" }, displayID = 64632, questID = { 48865 }, achievementID = { 12078,60818 } }; --Chief Alchemist Munculus
+	[127581] = { zoneID = 885, artID = { 910 }, x = 5501, y = 3891, overlay = { "5480-3900" }, displayID = 78135, questID = { 48966 }, achievementID = { 12078,60818 } }; --The Many-Faced Devourer
+	[127700] = { zoneID = 885, artID = { 910 }, x = 8459, y = 8100, overlay = { "8440-8100" }, displayID = 78814, questID = { 48967 }, achievementID = { 12078,60818 } }; --Squadron Commander Vishax
+	[127703] = { zoneID = 885, artID = { 910 }, x = 5859, y = 1160, overlay = { "5740-1220","5840-1140" }, displayID = 68312, questID = { 48968 }, achievementID = { 12078,60818 } }; --Doomcaster Suprax
+	[127705] = { zoneID = 885, artID = { 910 }, x = 6660, y = 1779, overlay = { "6660-1780" }, displayID = 65648, questID = { 48970 }, achievementID = { 12078,60818 } }; --Mother Rosula
+	[127706] = { zoneID = 885, artID = { 910 }, x = 6540, y = 8140, overlay = { "6500-8240" }, displayID = 74729, questID = { 48971 }, achievementID = { 12078,60818 } }; --Rezira the Seer
 	[127289] = { zoneID = 895, artID = { 920 }, x = 5865, y = 1480, overlay = { "5820-1480" }, displayID = 6533, questID = { 48806 }, achievementID = { 12939 } }; --Saurolisk Tamer Mugg
 	[127290] = { zoneID = 895, artID = { 920 }, x = 5865, y = 1480, overlay = { "5840-1480" }, displayID = 81866, questID = { 48806 } }; --Mugg
 	[129181] = { zoneID = 895, artID = { 920 }, x = 7609, y = 8287, overlay = { "7600-8360" }, displayID = 80425, questID = { 50233 }, achievementID = { 12939 } }; --Barman Bill

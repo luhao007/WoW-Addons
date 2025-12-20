@@ -195,6 +195,8 @@ local FACTION_IMAGES = {
 	[2688] = "interface\\icons\\ui_majorfactions_ nightfall",          -- Flame's Radiance
 	[2658] = "interface\\icons\\ui_majorfactions_ karesh",             -- The K'aresh Trust
 	[2736] = "interface\\icons\\inv_112_achievement_raid_manaforgeomega", -- Manaforge Vandals
+	[2766] = "interface\\icons\\warrior_talent_icon_furyintheblood",   -- Brawl'gar Arena
+	[2767] = "interface\\icons\\warrior_talent_icon_furyintheblood",   -- Bizmo's Brawlpub
 }
 
 local function GetLocRepStanding(id)

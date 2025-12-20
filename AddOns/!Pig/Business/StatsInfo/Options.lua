@@ -9,6 +9,7 @@ local PIGCheckbutton=Create.PIGCheckbutton
 local PIGOptionsList=Create.PIGOptionsList
 local PIGFontString=Create.PIGFontString
 local PIGModCheckbutton=Create.PIGModCheckbutton
+local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGQuickBut=Create.PIGQuickBut
 local Data=addonTable.Data
 ------
@@ -22,25 +23,25 @@ local GnName,GnUI,GnIcon,FrameLevel = CHARACTER_INFO..STATISTICS,"PIG_StatsInfoU
 BusinessInfo.StatsInfoData={GnName,GnUI,GnIcon,FrameLevel}
 ------------
 function BusinessInfo.StatsInfoOptions()
-	fuFrame.StatsInfo_line = PIGLine(fuFrame,"TOP",-(fuFrame.dangeH*fuFrame.GNNUM))
-	fuFrame.GNNUM=fuFrame.GNNUM+3
+	local StatsInfoF,StatsInfotabbut =PIGOptionsList_R(BusinessInfo.RTabFrame,GnName,110)
+
 	local QuickButUI_index=9
 	local QuickButUI=_G[Data.QuickButUIname]
 	local Tooltip = "显示副本CD/专业CD/物品/货币信息/交易/离线拍卖等各种信息记录";
-	fuFrame.StatsInfo = PIGModCheckbutton(fuFrame,{GnName,Tooltip},{"TOPLEFT",fuFrame.StatsInfo_line,"TOPLEFT",20,-30})
-	fuFrame.StatsInfo:SetScript("OnClick", function (self)
+	StatsInfoF.StatsInfo = PIGModCheckbutton(StatsInfoF,{GnName,Tooltip},{"TOPLEFT",StatsInfoF,"TOPLEFT",20,-30})
+	StatsInfoF.StatsInfo:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["StatsInfo"]["Open"]=true;
 			BusinessInfo.StatsInfo_ADDUI()
-			fuFrame.ADD_lixianBUT()
+			StatsInfoF.ADD_lixianBUT()
 		else
 			PIGA["StatsInfo"]["Open"]=false;
 			PIG_OptionsUI.RLUI:Show()
 		end
-		fuFrame.CheckbutShow()
+		StatsInfoF:CheckbutShow()
 		QuickButUI.ButList[QuickButUI_index]()
 	end);
-	fuFrame.StatsInfo.QKBut:SetScript("OnClick", function (self)
+	StatsInfoF.StatsInfo.QKBut:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["StatsInfo"]["AddBut"]=true
 			QuickButUI.ButList[QuickButUI_index]()
@@ -61,18 +62,18 @@ function BusinessInfo.StatsInfoOptions()
 						PIG_OptionsUI:Hide()
 					else
 						PIG_OptionsUI:Show()
-						Create.Show_TabBut(fuFrame,fuFrameBut)
+						Create.Show_TabBut(StatsInfoF,StatsInfoFBut)
 					end
 				end
 			end);
 		end
 	end
 	---
-	fuFrame.StatsInfo.CZ = PIGButton(fuFrame,{"LEFT",fuFrame.StatsInfo.QKBut,"RIGHT",260,0},{60,22},"重置");  
-	fuFrame.StatsInfo.CZ:SetScript("OnClick", function ()
+	StatsInfoF.StatsInfo.CZ = PIGButton(StatsInfoF,{"LEFT",StatsInfoF.StatsInfo.QKBut,"RIGHT",260,0},{60,22},"重置");  
+	StatsInfoF.StatsInfo.CZ:SetScript("OnClick", function ()
 		StaticPopup_Show ("INFO_CZQIANGKONGINFO");
 	end);
-	PIGEnter(fuFrame.StatsInfo.CZ,"|cffFF0000重置|r"..GnName.."所有配置")
+	PIGEnter(StatsInfoF.StatsInfo.CZ,"|cffFF0000重置|r"..GnName.."所有配置")
 	StaticPopupDialogs["INFO_CZQIANGKONGINFO"] = {
 		text = "此操作将\124cffff0000重置\124r"..GnName.."所有配置，需重载界面。\n确定重置?",
 		button1 = YES,
@@ -88,8 +89,8 @@ function BusinessInfo.StatsInfoOptions()
 	}
 	--鼠标提示其他角色数量
 	local Tooltip = {"鼠标提示其他角色数量","在物品的鼠标提示显示其他角色数量\n注意:为了节省性能开销，战斗中无效"}
-	fuFrame.Qita_Num = PIGCheckbutton(fuFrame,{"TOPLEFT",fuFrame.StatsInfo,"BOTTOMLEFT",0,-20},Tooltip)
-	fuFrame.Qita_Num:SetScript("OnClick", function (self)
+	StatsInfoF.Qita_Num = PIGCheckbutton(StatsInfoF,{"TOPLEFT",StatsInfoF.StatsInfo,"BOTTOMLEFT",0,-20},Tooltip)
+	StatsInfoF.Qita_Num:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["StatsInfo"]["Qita_Num"]=true;
 		else
@@ -390,11 +391,11 @@ function BusinessInfo.StatsInfoOptions()
 		end)
 	end
 	local Tooltip = {"背包增加离线银行按钮","在背包增加一个离线银行按钮，也可以查看其他角色物品数量"}
-	fuFrame.lixianBank = PIGCheckbutton(fuFrame,{"LEFT",fuFrame.Qita_Num,"RIGHT",220,0},Tooltip)
-	fuFrame.lixianBank:SetScript("OnClick", function (self)
+	StatsInfoF.lixianBank = PIGCheckbutton(StatsInfoF,{"LEFT",StatsInfoF.Qita_Num,"RIGHT",220,0},Tooltip)
+	StatsInfoF.lixianBank:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["StatsInfo"]["lixianBank"]=true;
-			fuFrame.ADD_lixianBUT()
+			StatsInfoF.ADD_lixianBUT()
 		else
 			PIGA["StatsInfo"]["lixianBank"]=false;
 			PIG_OptionsUI.RLUI:Show()
@@ -436,7 +437,7 @@ function BusinessInfo.StatsInfoOptions()
 			_G[GnUI]:BagLixian()
 		end)
 	end
-	function fuFrame.ADD_lixianBUT()
+	function StatsInfoF.ADD_lixianBUT()
 		if not PIGA["StatsInfo"]["Open"] or not PIGA["StatsInfo"]["lixianBank"] then return end
 		if PIG_OptionsUI.IsOpen_ElvUI() and ElvUI_ContainerFrame then
 			add_lixianBut(ElvUI_ContainerFrame,wwc,hhc)
@@ -484,14 +485,14 @@ function BusinessInfo.StatsInfoOptions()
 	BAGhejiElvUINDui:HookScript("OnEvent", function(self,event,arg1,arg2)
 		if event=="PLAYER_ENTERING_WORLD" then
 			if arg1 or arg2 then
-				fuFrame.ADD_lixianBUT()
+				StatsInfoF.ADD_lixianBUT()
 			end
 		end
 	end)
 	---交易
 	local Tooltip = {"交易通告","通告交易记录(不通告与好友的交易)"};
-	fuFrame.TradeTongGao = PIGCheckbutton(fuFrame,{"TOPLEFT",fuFrame.Qita_Num,"BOTTOMLEFT",0,-20},Tooltip)
-	fuFrame.TradeTongGao:SetScript("OnClick", function (self)
+	StatsInfoF.TradeTongGao = PIGCheckbutton(StatsInfoF,{"TOPLEFT",StatsInfoF.Qita_Num,"BOTTOMLEFT",0,-20},Tooltip)
+	StatsInfoF.TradeTongGao:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["StatsInfo"]["TradeTongGao"]=true;
 		else
@@ -502,8 +503,8 @@ function BusinessInfo.StatsInfoOptions()
 		["WHISPER"]="|cffFF80FF"..WHISPER.."|r",
 		["PARTY_RAID_INSTANCE_CHAT"]="|cffAAAAFF"..PARTY.."|r/|cffFF7F00"..RAID.."|r/|cffFF7F00"..INSTANCE_CHAT.."|r"};
 	local pindaoID = {"WHISPER","PARTY_RAID_INSTANCE_CHAT"};
-	fuFrame.TradeTongGao.guangbo_dow=PIGDownMenu(fuFrame.TradeTongGao,{"LEFT",fuFrame.TradeTongGao.Text,"RIGHT", 2,-1},{140})
-	function fuFrame.TradeTongGao.guangbo_dow:PIGDownMenu_Update_But()
+	StatsInfoF.TradeTongGao.guangbo_dow=PIGDownMenu(StatsInfoF.TradeTongGao,{"LEFT",StatsInfoF.TradeTongGao.Text,"RIGHT", 2,-1},{140})
+	function StatsInfoF.TradeTongGao.guangbo_dow:PIGDownMenu_Update_But()
 		local info = {}
 		info.func = self.PIGDownMenu_SetValue
 		for i=1,#pindaoID,1 do
@@ -512,15 +513,15 @@ function BusinessInfo.StatsInfoOptions()
 			self:PIGDownMenu_AddButton(info)
 		end 
 	end
-	function fuFrame.TradeTongGao.guangbo_dow:PIGDownMenu_SetValue(value,arg1,arg2)
+	function StatsInfoF.TradeTongGao.guangbo_dow:PIGDownMenu_SetValue(value,arg1,arg2)
 		self:PIGDownMenu_SetText(value)
 		PIGA["StatsInfo"]["TradeTongGaoChannel"]=arg1
 		PIGCloseDropDownMenus()
 	end
-	fuFrame.TradeTongGao.guangbo_dow:PIGDownMenu_SetText(pindaoName[PIGA["StatsInfo"]["TradeTongGaoChannel"]])
+	StatsInfoF.TradeTongGao.guangbo_dow:PIGDownMenu_SetText(pindaoName[PIGA["StatsInfo"]["TradeTongGaoChannel"]])
 	---
-	fuFrame.TradeClassLV = PIGCheckbutton(fuFrame,{"LEFT",fuFrame.TradeTongGao,"RIGHT",220,0},{"交易界面显示职业等级","在交易界面显示对方职业和等级"})
-	fuFrame.TradeClassLV:SetScript("OnClick", function (self)
+	StatsInfoF.TradeClassLV = PIGCheckbutton(StatsInfoF,{"LEFT",StatsInfoF.TradeTongGao,"RIGHT",220,0},{"交易界面显示职业等级","在交易界面显示对方职业和等级"})
+	StatsInfoF.TradeClassLV:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["StatsInfo"]["TradeClassLV"]=true
 			BusinessInfo.StatsInfo_TradeClassLV()
@@ -586,33 +587,42 @@ function BusinessInfo.StatsInfoOptions()
 			end 
 		end);
 	end
-	------
-	function fuFrame.CheckbutShow()
-		fuFrame.TradeTongGao.guangbo_dow:SetEnabled(PIGA["StatsInfo"]["Open"])
-		if PIGA["StatsInfo"]["Open"] then
-			fuFrame.StatsInfo.QKBut:Enable()
-			fuFrame.Qita_Num:Enable()
-			fuFrame.lixianBank:Enable()
-			fuFrame.TradeTongGao:Enable()
-			fuFrame.TradeClassLV:Enable()
-
+	--交易打开
+	StatsInfoF.TradeBagOpen = PIGCheckbutton(StatsInfoF,{"TOPLEFT",StatsInfoF.TradeTongGao,"BOTTOMLEFT",0,-20},{"交易时打开背包"})
+	StatsInfoF.TradeBagOpen:SetScript("OnClick", function (self)
+		if self:GetChecked() then
+			PIGA["StatsInfo"]["TradeBagOpen"]=true
+			BusinessInfo.StatsInfo_TradeBagOpen()
 		else
-			fuFrame.StatsInfo.QKBut:Disable();
-			fuFrame.Qita_Num:Disable()
-			fuFrame.lixianBank:Disable()
-			fuFrame.TradeTongGao:Disable()
-			fuFrame.TradeClassLV:Disable()
+			PIGA["StatsInfo"]["TradeBagOpen"]=false
+			PIG_OptionsUI.RLUI:Show();
 		end
+	end);
+	hooksecurefunc("TradeFrame_OnShow", function(self)
+		if PIGA["StatsInfo"]["TradeBagOpen"] then
+			if(UnitExists("NPC"))then OpenAllBags() end
+		end
+	end);
+	------
+	function StatsInfoF:CheckbutShow()
+		self.TradeTongGao.guangbo_dow:SetEnabled(PIGA["StatsInfo"]["Open"])
+		self.StatsInfo.QKBut:SetEnabled(PIGA["StatsInfo"]["Open"])
+		self.Qita_Num:SetEnabled(PIGA["StatsInfo"]["Open"])
+		self.lixianBank:SetEnabled(PIGA["StatsInfo"]["Open"])
+		self.TradeTongGao:SetEnabled(PIGA["StatsInfo"]["Open"])
+		self.TradeClassLV:SetEnabled(PIGA["StatsInfo"]["Open"])
+		self.TradeBagOpen:SetEnabled(PIGA["StatsInfo"]["Open"])
 	end
 	--------
-	fuFrame:HookScript("OnShow", function (self)
+	StatsInfoF:HookScript("OnShow", function (self)
 		self.StatsInfo:SetChecked(PIGA["StatsInfo"]["Open"])
 		self.StatsInfo.QKBut:SetChecked(PIGA["StatsInfo"]["AddBut"])
 		self.Qita_Num:SetChecked(PIGA["StatsInfo"]["Qita_Num"])
 		self.lixianBank:SetChecked(PIGA["StatsInfo"]["lixianBank"])
 		self.TradeTongGao:SetChecked(PIGA["StatsInfo"]["TradeTongGao"])
 		self.TradeClassLV:SetChecked(PIGA["StatsInfo"]["TradeClassLV"])
-		fuFrame.CheckbutShow()
+		self.TradeBagOpen:SetChecked(PIGA["StatsInfo"]["TradeBagOpen"])
+		StatsInfoF:CheckbutShow()
 	end);
 	BusinessInfo.StatsInfo_ADDUI()
 	BusinessInfo.StatsInfo_TradeClassLV()

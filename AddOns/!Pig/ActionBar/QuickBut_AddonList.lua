@@ -234,7 +234,7 @@ QuickButUI.ButList[6]=function()
 		end
 		self:Selected()
 		AdminF.SelectLID=0
-		AdminF.List_C.Updata_List()
+		AdminF.List_C.Scroll:UpdateShowList()
 	end);
 	AdminF.List_L.butList={}
 	for i=1,anniushu do
@@ -255,13 +255,13 @@ QuickButUI.ButList[6]=function()
 			AdminF.List_R:Clear_info()
 			self:Selected()
 			AdminF.SelectLID=i
-			AdminF.List_C.Updata_List()
+			AdminF.List_C.Scroll:UpdateShowList()
 		end);
 		for ix=1,#ConditionList do
 			cgbut[ConditionList[ix][1]]=PIGDiyTex(cgbut,{"BOTTOMLEFT",cgbut,"TOPLEFT",hangH*(ix-1)+10,-4},{20,20,nil,nil,ConditionList[ix][2]})
 		end
 	end
-	function AdminF.List_L.Updata_List()
+	function AdminF.List_L:UpdateShowList()
 		for i=1,anniushu do
 			ConfigList.ButList[i+1]:Hide()
 			AdminF.List_L.butList[i]:Hide()
@@ -404,7 +404,7 @@ QuickButUI.ButList[6]=function()
 		else
 			table.insert(PIGA["FramePlus"]["AddonStatus"],{newtxt,NewAddonStatus,CheckedV})
 		end
-		AdminF.List_L.Updata_List()
+		AdminF.List_L:UpdateShowList()
 		AdminF.List_C.Savebut.F:Hide()
 	end);
 	AdminF.List_C.Savebut.F.Cancel = PIGButton(AdminF.List_C.Savebut.F,{"LEFT", AdminF.List_C.Savebut.F.SaveBut, "RIGHT", 10, 0},{80,24},CANCEL);
@@ -417,7 +417,7 @@ QuickButUI.ButList[6]=function()
 	AdminF.List_C.Delbut:HookScript("OnClick", function (self)
 		table.remove(PIGA["FramePlus"]["AddonStatus"],AdminF.SelectLID)
 		if AdminF.SelectLID>0 then AdminF.SelectLID=AdminF.SelectLID-1 end
-		AdminF.List_L.Updata_List()
+		AdminF.List_L:UpdateShowList()
 	end);
 	AdminF.List_C.Delbut.load = PIGButton(AdminF.List_C.Delbut,{"RIGHT",AdminF.List_C.Delbut,"LEFT",-4,0},{40,20},"载入")
 	AdminF.List_C.Delbut.load:HookScript("OnClick", function (self)
@@ -473,8 +473,8 @@ QuickButUI.ButList[6]=function()
 			else
 				PIGA["FramePlus"]["AddonStatus"][AdminF.SelectLID][3][ConditionList[i][1]]=true
 			end
-			AdminF.List_C.Updata_List()
-			AdminF.List_L.Updata_List()
+			AdminF.List_C.Scroll:UpdateShowList()
+			AdminF.List_L:UpdateShowList()
 		end);
 		function butxxx.Updata_CondbutList(offon)
 			butxxx.icon:SetDesaturated(not offon)
@@ -485,10 +485,7 @@ QuickButUI.ButList[6]=function()
 			end
 		end
 	end
-	AdminF.List_C.Scroll = Create.PIGScrollFrame(AdminF.List_C,{2,-24,-16,2})
-	AdminF.List_C.Scroll:HookScript("OnVerticalScroll", function(self, offset)
-	    FauxScrollFrame_OnVerticalScroll(self, offset, hangLHH, AdminF.List_C.Updata_List)
-	end)
+	AdminF.List_C.Scroll = Create.PIGScrollFrame_old(AdminF.List_C,{2,-24,0,2})
 	AdminF.List_C.butList={}
 	for i=1,ButNumC do
 		local hangL = CreateFrame("Button", nil, AdminF.List_C,"BackdropTemplate");
@@ -533,7 +530,7 @@ QuickButUI.ButList[6]=function()
 					PIGA["FramePlus"]["AddonStatus"][AdminF.SelectLID][2][name]=nil
 				end
 			end
-			AdminF.List_C.Updata_List()
+			AdminF.List_C.Scroll:UpdateShowList()
 		end)
 		UpdatehangEnter(hangL.Check,hangL)
 		hangL.Name = PIGFontString(hangL,{"LEFT", hangL.Check, "RIGHT", 2, 0})
@@ -590,7 +587,7 @@ QuickButUI.ButList[6]=function()
 	    end
 	    return list_1,list_2,list_deps
 	end
-	function AdminF.List_C.Updata_List()
+	function AdminF.List_C.Scroll:UpdateShowList()
 		AdminF.List_C.Savebut.F:Hide()
 	    for i = 1, ButNumC do
 	        local hangL = AdminF.List_C.butList[i]
@@ -632,10 +629,7 @@ QuickButUI.ButList[6]=function()
 		    end
 	    end
 	   	local TotalNum = #NewData
-	    local ScrollUI = AdminF.List_C.Scroll
-	    FauxScrollFrame_Update(ScrollUI, TotalNum, ButNumC, hangLHH)
-	    ScrollUI:UpdateThumbTexture(TotalNum, ButNumC, hangLHH)
-	    local offset = FauxScrollFrame_GetOffset(ScrollUI)
+	   	local offset = self:GetScrollFrameOffset(TotalNum, ButNumC, hangLHH)
 	    for i = 1, ButNumC do
 	        local dataIndex = i + offset
 	        if NewData[dataIndex] then
@@ -667,7 +661,7 @@ QuickButUI.ButList[6]=function()
 	    end
 	end
 	AdminF.List_L:HookScript("OnShow", function (self)
-		AdminF.List_L.Updata_List()
+		self:UpdateShowList()
 	end);
 
 

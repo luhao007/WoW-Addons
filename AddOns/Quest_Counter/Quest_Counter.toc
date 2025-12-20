@@ -1,6 +1,6 @@
-## Interface: 110205
+## Interface: 110207
 ## Author: Raelsion
-## Version: v11.2.0.X-8.5.25
+## Version: v11.2.5-11.25.25
 
 ## Title: Quest Counter
 ## Notes: A simple addon to view the current number of quests in your log.

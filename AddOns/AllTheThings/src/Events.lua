@@ -10,6 +10,10 @@ local EventHandlers = setmetatable({
 	OnRecalculate = {},
 	OnRefreshCollections = {},
 }, app.MetaTable.AutoTable)
+-- Performance Tracking for Caching
+if app.__perf then
+	app.__perf.AutoCaptureTable(EventHandlers, "Events.EventHandlers");
+end
 app.AddEventHandler = function(eventName, handler, forceStart)
 	if type(handler) ~= "function" then
 		app.print("AddEventHandler was provided a non-function",handler)
@@ -68,6 +72,11 @@ app.AddEventRegistration = function(event, func, doNotPreRegister)
 		OnReadyEventRegistrations[event] = func
 	end
 end
+-- Allows adding an EventRegistry callback handler for Custom Events which are not considered part of the global event system
+app.AddEventRegistryCallback = EventRegistry and function(event, func)
+	EventRegistry:RegisterCallback(event, func)
+end
+or function(event) app.print("EventRegistry not available, cannot add callback for",event) end
 app.AddEventHandler("OnReady", function()
 	local Register = app.RegisterFuncEvent
 	for event,func in pairs(OnReadyEventRegistrations) do
@@ -180,6 +189,7 @@ local Run = Runner.Run
 local OnEnd = Runner.OnEnd
 local IsRunning = Runner.IsRunning
 -- Runner.SetPerFrameDefault(5)
+-- Runner.ToggleDebugFrameTime()
 local Callback = app.CallbackHandlers.Callback
 local IgnoredDebugEvents = {
 	RowOnEnter = true,

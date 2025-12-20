@@ -219,6 +219,9 @@ L.DEATHS_CHECKBOX_TOOLTIP = "Enable this option to track each time one of your c
 L.DEBUG_LOGIN = "Awarded for logging in.\n\nGood job! YOU DID IT!\n\nOnly visible while in Debug Mode.";
 L.DEBUG_MODE = "|c" .. _.DefaultColors.Red .. "Debug Mode |cffffffff(Show Everything)|r|r";
 L.DEBUG_MODE_TOOLTIP = "Quite literally ... ALL THE THINGS IN THE GAME. PERIOD. DOT. YEAH, ALL OF IT. Even Uncollectible things like bags, consumables, reagents, etc will appear in the lists. (Even yourself! No, really. Look.)\n\nThis is for Debugging purposes only. Not intended to be used for completion tracking.\n\nThis mode bypasses all filters, including Unobtainables.";
+L.DECOR_CHECKBOX = CATALOG_SHOP_TYPE_DECOR;
+L.DECOR_CHECKBOX_TOOLTIP = "Enable this option to track warband decor completion.";
+L.DECOR_ID = "Decor ID";
 L.DELETE_CHARACTER = "Right Click to Delete this Character";
 L.DELETE_LINKED_ACCOUNT = "Right Click to Delete this Linked Account";
 L.DELETE_LINKED_CHARACTER = "Right Click to Delete this Linked Character";
@@ -587,7 +590,7 @@ L.QUEST_LOOP = "Likely just broke out of an infinite source quest loop.";
 L.QUEST_MAY_BE_REMOVED = "Failed to acquire information. This quest may have been removed from the game. ";
 L.QUEST_OBJECTIVE_INVALID = "Invalid Quest Objective";
 L.QUEST_ONCE_PER_ACCOUNT = "Once-Per-Account Quest";
-L.QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT = "Quest '%s' %s will prevent collection of Breadcrumb Quest '%s' %s";
+L.QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT = "Quest '%s' %s will prevent collection of '%s' %s";
 L.QUEST_ROW_INSTRUCTIONS = "Right Click to see any Quest Chain Requirements";
 L.QUESTS_CHECKBOX = QUESTS_LABEL;
 L.QUESTS_CHECKBOX_TOOLTIP = "Enable this option to track normal Quests.\n\nYou can right click any Quest in the lists to pop out their full quest chain to show your progress and any prerequisite Quests.\n\nNOTE: Tracking of Daily, Weekly, Yearly, and World Quests is not included in this option due to their periodic resets within the Blizzard Database.";
@@ -971,10 +974,11 @@ _.HeaderConstants = {
 	VENDORS = -58,
 	WEAPONS = -101,
 	WORLD_BOSSES = -61,
+	WORLD_DROPS = -698,
 	ZONE_DROPS = -63,
 };
 _.HeaderData = {
-	FILLNPCS = {[-98]=1,[-95]=1,[-94]=1,[-93]=1,[-90]=1,[-63]=1,[-47]=1,[-22]=1,[-19]=1},
+	FILLNPCS = {[-698]=1,[-98]=1,[-95]=1,[-94]=1,[-93]=1,[-90]=1,[-63]=1,[-47]=1,[-22]=1,[-19]=1},
 };
 localize(L.HEADER_NAMES, {
 	[-11] = "New Character",
@@ -1066,7 +1070,7 @@ localize(L.HEADER_NAMES, {
 	[-520] = "BlizzCon",
 	[-521] = "Collector's Edition",
 	[-546] = "iCoke",
-	[-547] =  AUCTION_CATEGORY_MISCELLANEOUS,
+	[-547] = AUCTION_CATEGORY_MISCELLANEOUS,
 	[-551] = BATTLE_PET_SOURCE_9,
 	[-559] = "Children's Week",
 	[-574] = "Feast of Winter Veil",
@@ -1081,6 +1085,7 @@ localize(L.HEADER_NAMES, {
 	[-588] = "Stranglethorn Fishing Extravaganza",
 	[-610] = "Crieve's Never Implemented List",
 	[-611] = "Silithid Royalty",
+	[-698] = TRANSMOG_SOURCE_4,
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-25] = "Warlocks can teach their demons new tricks. Some of the higher level grimoires can only be purchased from the Demon Trainer in your faction's capital cities.",
@@ -1217,6 +1222,7 @@ localize(L.HEADER_ICONS, {
 	[-588] = _.asset("holiday_stv_fishing"),
 	[-610] = 132738,
 	[-611] = 133575,
+	[-698] = _.asset("category_worlddrops"),
 });
 localize(L.HEADER_EVENTS, {
 	[-37] = 1,
@@ -1290,7 +1296,6 @@ _.Modules.Events.SetEventInformation(13, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=5,["monthDay"]=1,["weekday"]=6,["year"]=2026},{["hour"]=23,["minute"]=59,["month"]=5,["monthDay"]=7,["weekday"]=5,["year"]=2026})
 });
 _.Modules.Events.SetEventInformation(1, {
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=10,["monthDay"]=5,["weekday"]=1,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=10,["monthDay"]=12,["weekday"]=1,["year"]=2025},{["remappedID"]=375}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=2,["weekday"]=1,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=9,["weekday"]=1,["year"]=2025},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=1,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=14,["weekday"]=1,["year"]=2025},{["remappedID"]=375}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=4,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=11,["weekday"]=1,["year"]=2026},{["remappedID"]=374}),
@@ -1300,7 +1305,8 @@ _.Modules.Events.SetEventInformation(1, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=5,["monthDay"]=3,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=5,["monthDay"]=10,["weekday"]=1,["year"]=2026},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=6,["monthDay"]=7,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=6,["monthDay"]=14,["weekday"]=1,["year"]=2026},{["remappedID"]=375}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=7,["monthDay"]=5,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=7,["monthDay"]=12,["weekday"]=1,["year"]=2026},{["remappedID"]=374}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=2,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=9,["weekday"]=1,["year"]=2026},{["remappedID"]=375})
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=2,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=9,["weekday"]=1,["year"]=2026},{["remappedID"]=375}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=6,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=13,["weekday"]=1,["year"]=2026},{["remappedID"]=374})
 });
 
 -- Filter Database Module
@@ -11206,6 +11212,9 @@ localize(L.HEADER_NAMES, {
 	[-362] = "Bibliothek",
 	[-363] = "Waffenkammer",
 	[-364] = "Kathedrale",
+	[-365] = "Haupttor",
+	[-366] = "Dienstboteneingang",
+	[-367] = "Verteidiger der Atal'ai",
 	[-483] = "Das Szepter der Sandstürme",
 	[-559] = "Kinderwoche",
 	[-574] = "Winterhauchfest",
@@ -11218,6 +11227,7 @@ localize(L.HEADER_NAMES, {
 	[-586] = "Saisonfisch: Sommerbarsch",
 	[-587] = "Saisonfisch: Winterkalmar",
 	[-588] = "Anglerwettbewerb im Schlingendorntal",
+	[-611] = "Adel der Silithiden",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-36] = "Es muss möglicherweise ein bestimmter Feiertag aktiv sein, um hier genannte Dinge abschließen zu können.",
@@ -13736,7 +13746,9 @@ localize(L.HEADER_NAMES, {
 	[-362] = "Librairie",
 	[-363] = "Armurerie",
 	[-364] = "Cathédrale",
-	[-367] = "Défenseurs Atal'ai",
+	[-365] = "Grande porte",
+	[-366] = "Entrée de service",
+	[-367] = "Défenseurs atal’ai",
 	[-481] = "Effort de guerre d’Ahn'Qiraj",
 	[-483] = "Le Sceptre des Sables changeants",
 	[-521] = "Edition Collector",
@@ -13751,6 +13763,7 @@ localize(L.HEADER_NAMES, {
 	[-586] = "Poisson de saison : bar d'été",
 	[-587] = "Poisson de saison : calmar d'hiver",
 	[-588] = "Concours de pêche de Strangleronce",
+	[-611] = "Famille royale silithide",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-47] = "Contient des objets de récompenses ou disponibles dans d’autres contenus de la section qui les contient.\nIls sont regroupés ici dans le but de réduire la duplication de nombreuses sources possibles.",
@@ -15976,6 +15989,7 @@ localize(_.CategoryNames, {
 localize(L.HEADER_NAMES, {
 	[-11] = "Nuovo personaggio",
 	[-17] = "Prova di Classe",
+	[-25] = "Istruttore dei Demoni",
 	[-36] = "Festività",
 	[-48] = "Istruttore di equitazione",
 	[-341] = "Aspetti Condivisi",
@@ -17554,6 +17568,9 @@ localize(L.HEADER_NAMES, {
 	[-342] = "Aparência Única",
 	[-343] = "Recompensa",
 	[-350] = "Os Quatro Cavaleiros",
+	[-365] = "Portão Principal",
+	[-366] = "Entrada de Serviço",
+	[-367] = "Defensores Atal'ai",
 	[-483] = "Cetro das Areias Cambiantes",
 	[-559] = "Semana das Crianças",
 	[-574] = "Festa do Véu de Inverno",
@@ -17566,6 +17583,7 @@ localize(L.HEADER_NAMES, {
 	[-586] = "Peixe sazonal: robalo de verão",
 	[-587] = "Peixe sazonal: Lula de Inverno",
 	[-588] = "Festerê de Pesca da Selva do Espinhaço",
+	[-611] = "Realeza Silítidea",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-59] = "Um mestre de armas é um NPC que oferece aos personagens a oportunidade de aprender habilidades específicas com armas, cuja disponibilidade varia de um mestre de armas para outro. Todas as habilidades com armas podem ser treinadas no nível 1, exceto as armas de haste, que exigem nível 20.\n\nO treinamento com um mestre de armas tornou-se obsoleto no Patch 4.0.1, já que todas as proficiências de armas apropriadas à classe agora são aprendidas por cada classe após a criação. Os mestres de armas foram removidos do jogo logo depois.",
@@ -20093,7 +20111,7 @@ L.QUEST_LOOP = "Скорее всего ATT вырвался из цепочки
 L.QUEST_MAY_BE_REMOVED = "Ошибка при получении информации. Это задание, возможно, удалено из игры. ";
 L.QUEST_OBJECTIVE_INVALID = "Недействительная Цель Задания";
 L.QUEST_ONCE_PER_ACCOUNT = "Один-Раз-На-Аккаунт Задание";
-L.QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT = "Задание '%s' %s не позволит собрать Хлебную Кроху '%s' %s";
+L.QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT = "Задание '%s' %s не позволит собрать '%s' %s";
 L.QUEST_ROW_INSTRUCTIONS = "Правый клик - Открыть Цепочку Заданий";
 L.QUESTS_CHECKBOX_TOOLTIP = "Включите для отслеживания обычных Заданий.\n\nПри помощи правого клика на любое задание в списках Вы можете открыть полную цепочку заданий, чтобы отобразить Ваш прогресс и любые предшествующие Задания.\n\nПримечание: Задания не отслеживаются перманентно из-за природы отслеживания Ежедневных, Еженедельных, Ежегодных и Локальных заданий в базе данных Blizzard.";
 L.QUESTS_DESC = "Все задания в игре в порядке возрастания номеров.";
@@ -20348,6 +20366,8 @@ localize(L.HEADER_NAMES, {
 	[-362] = "Библиотека",
 	[-363] = "Оружейная",
 	[-364] = "Собор",
+	[-365] = "Главные врата",
+	[-366] = "Черный ход",
 	[-367] = "Защитники Атал'ай",
 	[-481] = "Война в Ан'Кираже",
 	[-483] = "Скипетр Зыбучих песков",
@@ -20363,6 +20383,7 @@ localize(L.HEADER_NAMES, {
 	[-586] = "Сезонная рыба: летний окунь",
 	[-587] = "Сезонная рыба: зимний кальмар",
 	[-588] = "Рыбомания Тернистой долины",
+	[-611] = "Силитидская знать",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-36] = "Чтобы выполнить упомянутые в данной секции Штучки, может быть нужен какой-то праздник.",
@@ -22621,6 +22642,9 @@ localize(L.HEADER_NAMES, {
 	[-342] = "독특한 외관",
 	[-343] = "하사품",
 	[-350] = "4인 기사단",
+	[-365] = "정문",
+	[-366] = "공무용 입구",
+	[-367] = "아탈라이 파수병",
 	[-483] = "흐르는 모래의 홀",
 	[-520] = "블리즈컨",
 	[-559] = "어린이 주간",
@@ -22634,6 +22658,7 @@ localize(L.HEADER_NAMES, {
 	[-586] = "제철 생선: 여름 농어",
 	[-587] = "제철 생선: 겨울 오징어",
 	[-588] = "가시덤불 골짜기 낚시왕 선발대회",
+	[-611] = "실리시드 왕실",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-59] = "웨폰 마스터는 캐릭터에게 특정 무기 기술을 배울 수 있는 기회를 제공하는 NPC로, 사용 가능 여부는 웨폰 마스터마다 다릅니다. 모든 무기 기술은 레벨 20이 필요한 폴암을 제외하고 레벨 1에서 훈련할 수 있습니다.\n\n4.0.1 패치에서는 각 병과가 생성 시 모든 병과에 적합한 무기 숙련도를 배우게 되므로 무기 전문가와의 훈련은 더 이상 필요하지 않게 되었습니다. 무기 마스터는 곧 게임에서 제거되었습니다.",
@@ -25540,8 +25565,9 @@ localize(L.HEADER_NAMES, {
 	[-36] = "Festividades",
 	[-37] = "Feria de la Luna Negra",
 	[-46] = "Raro",
-	[-48] = "Instructora de equitación",
+	[-48] = "Instructor de equitación",
 	[-56] = "Tesoros",
+	[-58] = "Vendedores",
 	[-59] = "Maestro armero",
 	[-61] = "Jefes de mundo",
 	[-63] = "Botín de zona",
@@ -25559,7 +25585,9 @@ localize(L.HEADER_NAMES, {
 	[-343] = "Recompensa",
 	[-349] = "Capitanes",
 	[-350] = "Los Cuatro Jinetes",
-	[-366] = "Entrada de servicio",
+	[-365] = "Puerta principal",
+	[-366] = "Entrada del servicio",
+	[-367] = "Defensores Atal'ai",
 	[-483] = "El cetro del Mar de Dunas",
 	[-521] = "Edición de coleccionista",
 	[-559] = "Semana de los Niños",
@@ -25576,11 +25604,12 @@ localize(L.HEADER_NAMES, {
 	[-611] = "Realeza Silitida",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-25] = "Los brujos pueden enseñar nuevos trucos a sus demonios. Algunos grimorios de nivel superior solo se pueden comprar al Instructor de Demonios en las capitales de tu facción.Los brujos pueden enseñar nuevos trucos a sus demonios. Algunos grimorios de nivel superior solo se pueden comprar al Instructor de Demonios en las capitales de tu facción.",
 	[-36] = "Es posible que deba estar activo un día festivo específico para que pueda completar las cosas referenciadas en esta sección.",
 	[-43] = "Esta sección contiene misiones y domadores relacionados con los Duelos de Mascotas.",
 	[-44] = "Esta sección solo mostrará las profesiones de tu personaje actual fuera del modo Cuenta y Depuración.",
 	[-47] = "Contiene cosas que son recompensadas o están disponibles en otro contenido dentro de la sección contenedora.\nSe consolidan aquí en un esfuerzo por reducir la duplicación de muchas fuentes posibles.",
-	[-59] = "Un maestro de armas es un PNJ que ofrece a los personajes la oportunidad de aprender habilidades específicas con armas, cuya disponibilidad varía de un maestro de armas a otro. Todas las habilidades con armas se pueden entrenar en el nivel 1, excepto las armas de asta que requieren el nivel 20.\n\nEl entrenamiento con un maestro de armas quedó obsoleto en el parche 4.0.1, ya que cada clase ahora aprende todas las competencias de armas apropiadas para la clase en el momento de la creación. Los maestros de armas se eliminaron del juego poco después.",
+	[-59] = "Un maestro armero es un PNJ que ofrece a los personajes la oportunidad de aprender habilidades específicas con armas, cuya disponibilidad varía de un maestro de armas a otro. Todas las habilidades con armas se pueden entrenar en el nivel 1, excepto las armas de asta que requieren el nivel 20.\n\nEl entrenamiento con un maestro de armas quedó obsoleto en el parche 4.0.1, ya que cada clase ahora aprende todas las competencias de armas apropiadas para la clase en el momento de la creación. Los maestros de armas se eliminaron del juego poco después.",
 	[-341] = "Los elementos de esta lista son apariencias compartidas del elemento anterior. En el modo de apariencia única, esta lista puede ayudarlo a comprender por qué o no un elemento específico se marcaría como coleccionado.",
 	[-342] = "Este objeto tiene una apariencia única. Debes obtener este objeto específicamente para ganar la apariencia.",
 	[-343] = "Esta lista contiene objetos no obtenibles que ATT Discord ha informado como errores que Blizzard aún no ha solucionado.\n\nNOTA: Todos los filtros se ignoran en esta lista para mayor visibilidad. En esta lista solo están presentes los objetos eliminados del juego debido a negligencia y no a un gigantesco dragón que escupe fuego.\n\nA los desarrolladores de Blizzard: arreglen los objetos y encuentros que se enumeran a continuación.",
@@ -28056,12 +28085,16 @@ localize(_.CategoryNames, {
 localize(L.HEADER_NAMES, {
 	[-19] = "Botín compartido entre los jefes",
 	[-36] = "Fiestas",
+	[-59] = "Maestro de armas",
 	[-63] = "Botín de la zona",
 	[-74] = "Dragones de pesadilla",
 	[-103] = "Evento de pre-expansion",
+	[-367] = "Defensores de Atal'ai",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-25] = "Los brujos pueden enseñar nuevos trucos a sus demonios. Algunos grimorios de nivel superior solo se pueden comprar al Instructor de Demonios en las capitales de tu facción.",
 	[-44] = "Esta sección solo mostrará las profesiones de tu personaje actual fuera del modo Cuenta y Debug.",
+	[-59] = "Un maestro de armas es un PNJ que ofrece a los personajes la oportunidad de aprender habilidades específicas con armas, cuya disponibilidad varía de un maestro de armas a otro. Todas las habilidades con armas se pueden entrenar en el nivel 1, excepto las armas de asta que requieren el nivel 20.\n\nEl entrenamiento con un maestro de armas quedó obsoleto en el parche 4.0.1, ya que cada clase ahora aprende todas las competencias de armas apropiadas para la clase en el momento de la creación. Los maestros de armas se eliminaron del juego poco después.",
 });
 for key,value in pairs({
 	[2] = "Removido del juego",
@@ -29374,6 +29407,8 @@ L.DEATHS_CHECKBOX_TOOLTIP = "启用此选项可跟踪您的角色每次死亡的
 L.DEBUG_LOGIN = "登录后获得的奖励。\n\n干得好！你做到了！\n\n仅在调试模式下可见。";
 L.DEBUG_MODE = "|c" .. _.DefaultColors.Red .. "调试模式|cffffffff（显示所有）|r|r";
 L.DEBUG_MODE_TOOLTIP = "就字面意思…游戏中的所有事情。时间。点滴。是的，所有的一切。即使是不可收藏的事物，如袋子、消耗品、试剂等也会出现在列表中。（甚至你自己！不，是真的。看。）\n\n这仅用于调试目的。不用于完成追踪。\n\n此模式绕过所有过滤，包括不可获得的。";
+L.DECOR_CHECKBOX_TOOLTIP = "启用此选项以跟踪战团装饰完成情况。";
+L.DECOR_ID = "装饰 ID";
 L.DELETE_CHARACTER = "右击删除此角色";
 L.DELETE_LINKED_ACCOUNT = "右击删除此链接帐号";
 L.DELETE_LINKED_CHARACTER = "右击删除此链接角色";
@@ -29996,7 +30031,12 @@ localize(L.HEADER_NAMES, {
 	[-61] = "世界首领",
 	[-63] = "地区掉落",
 	[-74] = "梦魇之龙",
+	[-97] = "圣物",
 	[-103] = "资料片前夕",
+	[-229] = "来源 ID",
+	[-232] = "补丁 1.x.x",
+	[-243] = "护甲附魔",
+	[-245] = "武器附魔",
 	[-298] = HONOR .. PAPERDOLL_SIDEBAR_TITLES,
 	[-318] = "T0.5套装",
 	[-341] = "共享外观",
@@ -30011,6 +30051,8 @@ localize(L.HEADER_NAMES, {
 	[-362] = "图书馆",
 	[-363] = "武器库",
 	[-364] = "修道院",
+	[-365] = "正门",
+	[-366] = "后门",
 	[-367] = "阿塔莱防御者",
 	[-481] = "安其拉之战捐献",
 	[-483] = "流沙节杖",
@@ -30028,15 +30070,25 @@ localize(L.HEADER_NAMES, {
 	[-586] = "时令鱼类：夏季鲈鱼",
 	[-587] = "时令鱼类：冬鱿鱼",
 	[-588] = "荆棘谷钓鱼大赛",
+	[-611] = "安其拉三宝",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-25] = "术士可以教导他们的恶魔新技能，一些高等级的魔典只能从你阵营首都的恶魔训练师那里购买。",
 	[-36] = "你可能需要在特定的节日活动中才能完成本节中的事物。",
+	[-43] = "宠物对战相关任务和驯练师。",
 	[-44] = "此部分只会显示你当前角色的专业技能，除非处于账号模式或调试模式。",
 	[-47] = "包含有奖励或可从包含部分中的其他内容获得的事物。\n在此处合并以减少来自许多可能重复来源。",
 	[-59] = "武器大师是一个 NPC，为角色提供学习特定武器技能的机会，不同武器大师的可用性各不相同。所有武器技能都可以在 1 级进行训练，长柄武器除外，需要 20 级。\n\n在补丁 4.0.1 中，武器大师的训练已经过时，因为现在每个职业在创建时都会学习所有适合该职业的武器熟练度。不久之后，武器大师就被从游戏中删除了。",
 	[-341] = "此列表中的物品是以下物品的共享外观。在唯一外观模式下，此列表可帮助了解特定物品被标记为已收藏的原因。",
 	[-342] = "此列表中的物品是独特外观。你必须专门收藏这个物品以获得外观。",
 	[-343] = "此列表包含 ATT Discord 报告的无法获取的物品，这些物品是暴雪尚未修复的错误。\n\n注意：在此列表中忽略所有过滤器以获得可见性。此列表中仅显示因疏忽而从游戏中移除的物品。\n\n致暴雪开发者：请修复下面列出的物品和事件。",
+	[-355] = "该副本的此部分可从最东侧的入口进入。（右侧）",
+	[-356] = "该副本的此部分可从最北侧的入口进入。",
+	[-357] = "该副本的此部分可从最西侧的入口进入。（左侧）",
+});
+localize(L.HEADER_LORE, {
+	[-74] = "这些龙中的一只会在艾泽拉斯的相关坐标随机生成。",
+	[-318] = "地下城套装的第2套职业套装，通常称为T0.5，是通过完成一条漫长的任务链来获得的，该任务链将作为终极地下城掉落的第一个套装升级为更强大的版本。在当前的魔兽世界中，这些套装受到收藏家的追捧，因为随着大灾变，这条任务链已被完全从游戏中移除。在魔兽世界经典版中，你应该在所有角色上完成这条任务链！",
 });
 localize(L.FILTER_ID_TYPES, {
 	[11] = "神器",
@@ -32288,7 +32340,7 @@ L.DYNAMIC_CATEGORY_TOOLTIP_NOTE = "\n\n|cffff0000生成時套用|r";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX = "啟用指標提示";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX_TOOLTIP = "如果希望在指標提示中查看 ATT 提供的資訊，請啟用此選項。這包括其他玩家發送的物品連接，在拍賣行、在地城助手、在你的背包裡、在世界、在 NPC 等等。\n\n如果你關閉了這個功能，就會嚴重降低你快速判斷是否需要擊殺首領或學習外觀的能力。\n\n我們建議你保持此設定。";
 L.ENCOUNTER_ID = "首領戰鬥 ID";
-L.EVENT_ACTIVE = "啟動:";
+L.EVENT_ACTIVE = "啟用:";
 L.EVENT_END = "結束:";
 L.EVENT_SCHEDULE = "事件時程表";
 L.EVENT_START = "開始:";
@@ -32378,6 +32430,7 @@ L.IGNORE_FILTERS_FOR_BOES_CHECKBOX_TOOLTIP = "如果要忽略裝備綁定/拾取
 L.ILLUSIONS_CHECKBOX_TOOLTIP = "啟用此選項以追蹤幻象。\n\n這些看起來很酷的塑形效果，你可以套用到你的武器上！\n\n注意：你不是一個幻象，儘管所有的夜裔精靈都這麼認為。";
 L.INCLUDE_ORIGINAL_CHECKBOX = "原始來源";
 L.INCLUDE_ORIGINAL_CHECKBOX_TOOLTIP = "如果你真的喜歡在指標提示中的共享外觀列表中看到原始來源資訊，請啟用此選項。";
+L.INFORMATION_PAGE = "資訊";
 L.INSTANCE_DESC = "點擊此按鈕可依據缺少的內容選擇隨機副本。";
 L.ITEM_DESC = "點擊此按鈕可依據缺少的內容選擇隨機物品。";
 L.ITEM_EXPLAIN_LABEL = "|cffFFFFFF始終顯示此內容如果位於 |c" .. _.DefaultColors.Account .. "帳號模式|r。|r";
@@ -32393,6 +32446,7 @@ L.ITEM_ID_ADDED_SHARED_MISSING = "%s (%d) [+%d] 已加入收藏。在資料庫�
 L.ITEM_ID_REMOVED = "%s (%d) 已從收藏中移除。";
 L.ITEM_ID_REMOVED_SHARED = "%s (%d) [+%d] 已從收藏中移除。";
 L.ITEM_LEVEL = "物品等級";
+L.ITEM_STRING = "物品字串";
 L.KEYBINDINGS_TEXT = "可以在遊戲選項中設定 ATT 的按鍵綁定。";
 L.KNOWN_BY_CHECKBOX_TOOLTIP = "如果你想在指標提示中查看所有伺服器上已知此配方的完整角色列表，請啟用此選項。";
 L.LAYER = "相位";
@@ -32445,6 +32499,7 @@ L.MINIMAP_SLIDER = "小地圖按鈕尺寸";
 L.MINIMAP_SLIDER_TOOLTIP = "使用此選項可自訂小地圖按鈕的大小。\n\n預設：36";
 L.MINUMUM_STANDING_WITH_FACTION = "最低陣營聲望等級 %s 和 %s。";
 L.MISSION_ID = "任務 ID";
+L.MOD_ID = "模組 ID";
 L.MODE_EXPLAIN_LABEL = "|cffFFFFFF您收藏的內容總結在這裡。啟用所有 |c" .. _.DefaultColors.Insane .. "彩色選項|r 解鎖 |c" .. _.DefaultColors.Insane .. "瘋狂模式|r。|r";
 L.MODULES = "模組";
 L.MODULES_LABEL = "模組和小列表";
@@ -32465,7 +32520,7 @@ L.NESTED_QUEST_REQUIREMENTS = "多重任務需要";
 L.NEVER_IMPLEMENTED = "從未實裝";
 L.NEVER_IMPLEMENTED_DESC = "這裡的物品在技術上存在於遊戲內，但從未向玩家開放過";
 L.NEW_VERSION_AVAILABLE = "%s 已有更新的版本。請更新插件 %s。";
-L.NEW_VERSION_FLAVORS = {"因為萬物都飢餓。","無敵下次|cffffaaaa|肯定|r會掉落"};
+L.NEW_VERSION_FLAVORS = {"因為 AllTheThings 餓了。","下次|cffffaaaa一定|r會掉落無敵！","否則今晚會有魚人在你窗外尖叫","因為所謂的收藏不過是換個說法的囤積癖。","而 Crieve 會幫一隻烏龜重新入水。","否則你的戰鬥寵物要成立工會了。"};
 L.NEW_WITH_PATCH = "最新加入內容";
 L.NEW_WITH_PATCH_TOOLTIP = "這會顯示遊戲最新更新中加入的所有內容。";
 L.NO_COORDINATES_FORMAT = "%s 沒有已知座標";
@@ -32475,6 +32530,7 @@ L.NO_LINKED_ACCOUNTS = "未找到連接帳號。";
 L.NO_SEARCH_METHOD = "未指定搜尋方法。";
 L.NOT_AVAILABLE_IN_PL = "在個人拾取中不可用。";
 L.NOTHING_TO_SELECT_FROM = "沒有什麼可以隨意選擇的。如果在“設定”中啟用了“臨時更新”，則必須在使用此視窗之前更新主列表（/att）。";
+L.OBJECT = "物體";
 L.OBJECT_TYPE = "目標類型";
 L.OBJECTIVES = "目標";
 L.ONLY_NOT_TRASH = "排除垃圾物品";
@@ -32496,6 +32552,7 @@ L.PERCENTAGES_CHECKBOX = "顯示完成百分比";
 L.PERCENTAGES_CHECKBOX_TOOLTIP = "如果想查看每行的完成百分比請啟用此選項。\n\n按完成度對組進行著色不受影響。";
 L.PERSONAL_LOOT_DESC = "每位玩家都有獨立的機會拾取對自己職業有用的物品…\n\n…或者像戒指這樣的無用之物。\n\n如果是自己一個人的話，點擊兩次就會自動創建一個隊伍。";
 L.PET_DESC = "點擊此按鈕可依據缺少的內容選擇隨機寵物。";
+L.PHASES_PAGE = "階段";
 L.PLAY_DEATH_SOUND_CHECKBOX = "死亡時播放音效";
 L.PLAY_DEATH_SOUND_CHECKBOX_TOOLTIP = "如果你想在死亡時聽到音效，請啟用此選項。";
 L.PLAYER_COORDINATES = "玩家座標";
@@ -32508,6 +32565,7 @@ L.PLAYER_TITLE_THE_COMPLETIONIST = "|c" .. _.DefaultColors.Raid .. "%s 完美主
 L.PLAYER_TITLE_THE_EXTERMINATOR = "|cffa335ee%s消滅者|r";
 L.PLAYER_TITLE_THE_HUGGLER = "|cffF58CBA擁抱者%s|r";
 L.PLEASE_REPORT_MESSAGE = "請把錯誤回報給 ATT Discord 的 #classic-errors！謝謝！";
+L.POPOUT = "彈出列表";
 L.PRECISION_SLIDER = "百分比精確度";
 L.PRECISION_SLIDER_TOOLTIP = "使用此選項可自訂百分比計算中所需的精度級別。\n\n預設：2";
 L.PREREQUISITE_QUESTS = "必須先完成一些前置任務才有可能獲得：";
@@ -32542,6 +32600,7 @@ L.QUEST_DESC = "點擊此按鈕可依據缺少的內容選擇隨機任務。";
 L.QUEST_GIVER = "任務給予者";
 L.QUEST_GIVERS = "任務給予者";
 L.QUEST_ID = "任務 ID";
+L.QUEST_ITEMS = "任務物品";
 L.QUEST_LOOP = "可能剛剛從無限源任務循環中爆發出來。";
 L.QUEST_MAY_BE_REMOVED = "擷取任務資訊失敗。這個任務可能已從遊戲中移除。";
 L.QUEST_OBJECTIVE_INVALID = "無效的任務目標";
@@ -32569,6 +32628,7 @@ L.REMOTE_ZONES_DESCRIPTION = "包含在當前區域可取得，但來源直接�
 L.REMOVED_WITH_PATCH = "隨更新移除";
 L.REMOVED_WITH_PATCH_CLASSIC_FORMAT = "該物品是隨更新 %s 移除的";
 L.REMOVED_WITH_PATCH_FORMAT = "更新 %s 中被刪除";
+L.REPEATABLES_LABEL = "可重複";
 L.REPORT_COLLECTED_THINGS_CHECKBOX = "回報已收藏事物";
 L.REPORT_COLLECTED_THINGS_CHECKBOX_TOOLTIP = "如果想在聊天中看到一條訊息，詳細說明收藏了哪些物品或從收藏中刪除了哪些物品，請啟用此選項。\n\n注意：這是因為暴雪默默的加入了外觀和其他收藏品並且忽略了通知你可用的其他物品。\n\n我們建議你保持此設定。如果你打開了這個選項，你會聽到警告聲。";
 L.REPORT_COMPLETED_QUESTS_CHECKBOX = "回報任務";
@@ -32678,6 +32738,7 @@ L.STORE_IN_PROFILE_BUTTON_TOOLTIP = "預設情況下，ATT 會依角色儲存這
 L.SUMMARIZE_CHECKBOX = "總結事物";
 L.SUMMARIZE_CHECKBOX_TOOLTIP = "啟用該選項可在指標提示中總結事物。例如，如果一個事物可以變成另一個事物的商人，那麼在指標提示中顯示另一個事物，以提供其多種用途的可見性。如果一個事物作為許多其他事物的容器，這個選項將顯示該容器所包含的所有其他事物。\n\n我們建議你保持此設定開啟。";
 L.SYM_ROW_INFORMATION = "點擊右鍵以查看來自其他位置的其它內容";
+L.SYMLINK = "符號連結";
 L.SYNC_CHARACTERS_TOOLTIP = "這會顯示您帳號中的所有角色。";
 L.TELEPORT_TO_FROM_DUNGEON = "傳送至/出地城";
 L.TELEPORT_TO_FROM_DUNGEON_DESC = "點擊此處傳送到當前地城或從當前地城傳送出去。\n\n潘達利亞之謎可以這種方式快速傳送到當前副本之外。";
@@ -32780,11 +32841,17 @@ localize(L.HEADER_NAMES, {
 	[-63] = "地區掉落",
 	[-74] = "夢魘之龍",
 	[-103] = "資料片前夕",
+	[-243] = "護甲附魔",
 	[-318] = "T0.5套裝",
 	[-341] = "共享外觀",
 	[-342] = "獨特外觀",
 	[-350] = "四騎士",
 	[-355] = DUNGEON_FLOOR_DIREMAUL5.." (東)",
+	[-362] = "圖書館",
+	[-363] = "武器庫",
+	[-365] = "主門",
+	[-366] = "僕從入口",
+	[-367] = "阿塔萊防衛者",
 	[-481] = "安其拉之戰捐獻",
 	[-483] = "流沙節杖",
 	[-520] = "暴雪嘉年華",
@@ -32800,10 +32867,13 @@ localize(L.HEADER_NAMES, {
 	[-586] = "季節性魚類：夏日鱸魚",
 	[-587] = "季節性魚類：冬魷魚",
 	[-588] = "荊棘谷釣魚大賽",
+	[-611] = "異種蠍皇族",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-25] = "術士可以教導他們的惡魔新技能，一些高等級的魔典只能從你陣營首都的惡魔訓練師那裡購買。",
 	[-36] = "你可能需要在特定節日的活動中才能完成本節中的事物。",
+	[-43] = "這個區塊包含與寵物對戰相關的任務與訓練師。",
+	[-44] = "這個區塊只會顯示你目前角色的專業技能，除非處於帳號或是除錯模式",
 	[-59] = "武器大師是一個 NPC，為角色提供學習特定武器技能的機會，不同武器大師的可用性各不相同。所有武器技能都可以在 1 级進行訓練，長柄武器除外，需要 20 级。\n\n在更新 4.0.1 中，武器大師的訓練已经過時，因為现在每個職業在創建时都會學習所有適合該職業的武器熟練度。不久之後，武器大師就被從遊戲中删除了。",
 	[-355] = "副本的這部分可以從最東邊的傳送門進入。（右側）",
 	[-356] = "副本的這部分可以從最北邊的傳送門進入。",

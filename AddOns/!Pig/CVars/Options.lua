@@ -300,6 +300,8 @@ local function chaoyuanshijujihuo()
 end
 local CVarsList1 = {
 	--{"常驻显示角色信息","characterFrameCollapsed","1","0","开启后常驻显示角色信息",false},
+	{SELF_CAST_AUTO..BINDING_NAME_DISMOUNT,"autoDismount","1","0",SELF_CAST_AUTO..BINDING_NAME_DISMOUNT,false},
+	{AUTO_DISMOUNT_FLYING_TEXT..MOUNTS,"autoDismountFlying","1","0",AUTO_DISMOUNT_FLYING_TEXT..MOUNTS,false},
 	{SHOW_BUFF_DURATION_TEXT,"buffDurations","1","0",OPTION_TOOLTIP_SHOW_BUFF_DURATION,false},
 	{SHOW_ALL_ENEMY_DEBUFFS_TEXT,"noBuffDebuffFilterOnTarget","1","0",SHOW_ALL_ENEMY_DEBUFFS_TEXT,false},
 	{"显示预估治疗量","predictedHealth","1","0","在血量框架上显示预估治疗量",false},
@@ -309,7 +311,7 @@ local CVarsList1 = {
 	{FULL_SCREEN_GLOW,"ffxGlow","1","0",OPTION_TOOLTIP_FULL_SCREEN_GLOW,false},
 	{DEATH_EFFECT,"ffxDeath","1","0",OPTION_TOOLTIP_DEATH_EFFECT,false},
 	{"新版TAB","TargetNearestUseNew","1","0","使用7.2版后的TAB选取目标功能,战斗中不会Tab到战斗外目标,不会Tab到你的角色或镜头看不到的目标。\n关闭后将启用旧版的选取最近目标。",false},
-	{"能详细提示","UberTooltips","1","0","启用技能详细提示",false},
+	{"技能详细提示","UberTooltips","1","0","启用技能详细提示",false},
 	{"反河蟹","overrideArchive","0","1","恢复某些模型的和谐之前的样子，例如骷髅药水不再是长肉的骷髅",true},
 }
 if PIG_MaxTocversion(100000,true) then
@@ -347,9 +349,9 @@ ADD_DownMenu(CVarsF,1,3,{["1"]="默认",["2"]="所有PVP目标",["3"]="仅限玩
 --
 CVarsF.SpellQueue = PIGSlider(CVarsF,{"TOPLEFT",CVarsF,"TOPLEFT",120,-398},{10,400,1,{["Right"]="%sms"}})
 CVarsF.SpellQueue.t = PIGFontString(CVarsF.SpellQueue,{"RIGHT",CVarsF.SpellQueue,"LEFT",-4,0},"施法延迟容限");
-CVarsF.SpellQueue.Slider:HookScript("OnValueChanged", function(self, arg1)
+function CVarsF.SpellQueue:PIGOnValueChange(arg1)
 	SetCVar("SpellQueueWindow",arg1)
-end)
+end
 CVarsF:HookScript("OnShow", function (self)
 	self.SpellQueue:PIGSetValue(GetCVar("SpellQueueWindow"))
 end);
@@ -439,9 +441,9 @@ ADD_DownMenu(combattextF.RF,1,3,fudongModeName,"floatingCombatTextFloatMode",COM
 ---
 combattextF.RF.fudongScale = PIGSlider(combattextF.RF,{"TOPLEFT",combattextF.RF,"TOPLEFT",170,-100},{1,3,0.1,{["Right"]="%"}})
 combattextF.RF.fudongScale.t = PIGFontString(combattextF.RF.fudongScale,{"RIGHT",combattextF.RF.fudongScale,"LEFT",-4,0},FLOATING_COMBATTEXT_LABEL.."缩放");
-combattextF.RF.fudongScale.Slider:HookScript("OnValueChanged", function(self, arg1)
+function combattextF.RF.fudongScale:PIGOnValueChange(arg1)
 	SetCVar("WorldTextScale",arg1)
-end)
+end
 combattextF.RF:HookScript("OnShow", function (self)
 	self.fudongScale:PIGSetValue(GetCVar("WorldTextScale"))
 	self.OPENcombattext:SetChecked(GetCVar("enableFloatingCombatText")=="1");
@@ -478,17 +480,17 @@ end
 xingmingbanF.nameplatebiaoti = PIGFontString(xingmingbanF,{"TOPLEFT",xingmingbanF,"TOPLEFT",40,-170},"姓名板锁定在屏幕内显示距离");
 xingmingbanF.nameplateTop=PIGSlider(xingmingbanF,{"TOPLEFT",xingmingbanF.nameplatebiaoti,"BOTTOMLEFT",70,-10},{0,0.2,0.01,{["Right"]="%s%%屏幕尺寸"}})
 xingmingbanF.nameplateTop.t = PIGFontString(xingmingbanF,{"RIGHT",xingmingbanF.nameplateTop,"LEFT",-4,0},"顶部距离");
-xingmingbanF.nameplateTop.Slider:HookScript("OnValueChanged", function(self, arg1)
+function xingmingbanF.nameplateTop:PIGOnValueChange(arg1)
 	SetCVar("nameplateOtherTopInset",arg1)
-end)
+end
 xingmingbanF.nameplateTop:HookScript("OnShow", function (self)
 	self:PIGSetValue(GetCVar("nameplateOtherTopInset"))
 end);
 xingmingbanF.nameplateBottom=PIGSlider(xingmingbanF,{"TOPLEFT",xingmingbanF.nameplateTop,"BOTTOMLEFT",0,0},{0,0.2,0.01,{["Right"]="%s%%屏幕尺寸"}})
 xingmingbanF.nameplateBottom.t = PIGFontString(xingmingbanF,{"RIGHT",xingmingbanF.nameplateBottom,"LEFT",-4,0},"底部距离");
-xingmingbanF.nameplateBottom.Slider:HookScript("OnValueChanged", function(self, arg1)
+function xingmingbanF.nameplateBottom:PIGOnValueChange(arg1)
 	SetCVar("nameplateOtherBottomInset",arg1)
-end)
+end
 xingmingbanF.nameplateBottom:HookScript("OnShow", function (self)
 	self:PIGSetValue(GetCVar("nameplateOtherBottomInset"))
 end);

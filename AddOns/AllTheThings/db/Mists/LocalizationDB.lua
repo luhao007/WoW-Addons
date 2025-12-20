@@ -218,6 +218,9 @@ L.DEATHS_CHECKBOX_TOOLTIP = "Enable this option to track each time one of your c
 L.DEBUG_LOGIN = "Awarded for logging in.\n\nGood job! YOU DID IT!\n\nOnly visible while in Debug Mode.";
 L.DEBUG_MODE = "|c" .. _.DefaultColors.Red .. "Debug Mode |cffffffff(Show Everything)|r|r";
 L.DEBUG_MODE_TOOLTIP = "Quite literally ... ALL THE THINGS IN THE GAME. PERIOD. DOT. YEAH, ALL OF IT. Even Uncollectible things like bags, consumables, reagents, etc will appear in the lists. (Even yourself! No, really. Look.)\n\nThis is for Debugging purposes only. Not intended to be used for completion tracking.\n\nThis mode bypasses all filters, including Unobtainables.";
+L.DECOR_CHECKBOX = CATALOG_SHOP_TYPE_DECOR;
+L.DECOR_CHECKBOX_TOOLTIP = "Enable this option to track warband decor completion.";
+L.DECOR_ID = "Decor ID";
 L.DELETE_CHARACTER = "Right Click to Delete this Character";
 L.DELETE_LINKED_ACCOUNT = "Right Click to Delete this Linked Account";
 L.DELETE_LINKED_CHARACTER = "Right Click to Delete this Linked Character";
@@ -586,7 +589,7 @@ L.QUEST_LOOP = "Likely just broke out of an infinite source quest loop.";
 L.QUEST_MAY_BE_REMOVED = "Failed to acquire information. This quest may have been removed from the game. ";
 L.QUEST_OBJECTIVE_INVALID = "Invalid Quest Objective";
 L.QUEST_ONCE_PER_ACCOUNT = "Once-Per-Account Quest";
-L.QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT = "Quest '%s' %s will prevent collection of Breadcrumb Quest '%s' %s";
+L.QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT = "Quest '%s' %s will prevent collection of '%s' %s";
 L.QUEST_ROW_INSTRUCTIONS = "Right Click to see any Quest Chain Requirements";
 L.QUESTS_CHECKBOX = QUESTS_LABEL;
 L.QUESTS_CHECKBOX_TOOLTIP = "Enable this option to track normal Quests.\n\nYou can right click any Quest in the lists to pop out their full quest chain to show your progress and any prerequisite Quests.\n\nNOTE: Tracking of Daily, Weekly, Yearly, and World Quests is not included in this option due to their periodic resets within the Blizzard Database.";
@@ -1108,11 +1111,12 @@ _.HeaderConstants = {
 	VENDORS = -58,
 	WEAPONS = -101,
 	WORLD_BOSSES = -61,
+	WORLD_DROPS = -698,
 	ZONE_DROPS = -63,
 };
 _.HeaderData = {
+	FILLNPCS = {[-698]=1,[-98]=1,[-95]=1,[-94]=1,[-93]=1,[-90]=1,[-63]=1,[-47]=1,[-27]=1,[-22]=1,[-19]=1},
 	IGNOREINMINILIST = {[-420]=1,[-49]=1},
-	FILLNPCS = {[-98]=1,[-95]=1,[-94]=1,[-93]=1,[-90]=1,[-63]=1,[-47]=1,[-27]=1,[-22]=1,[-19]=1},
 };
 localize(L.HEADER_NAMES, {
 	[-11] = "New Character",
@@ -1255,7 +1259,7 @@ localize(L.HEADER_NAMES, {
 	[-368] = "Storming the Citadel",
 	[-369] = "The Plagueworks",
 	[-370] = C_Map.GetAreaInfo(4892),
-	[-371] = "The Frostwing Halls",
+	[-371] = C_Map.GetAreaInfo(7932),
 	[-372] = "Cache of Madness",
 	[-388] = C_Map.GetAreaInfo(1769),
 	[-389] = C_Spell.GetSpellName(147343),
@@ -1295,7 +1299,7 @@ localize(L.HEADER_NAMES, {
 	[-535] = "Starcraft II: Heart of the Swarm",
 	[-542] = "Hearthstone",
 	[-546] = "iCoke",
-	[-547] =  AUCTION_CATEGORY_MISCELLANEOUS,
+	[-547] = AUCTION_CATEGORY_MISCELLANEOUS,
 	[-548] = REFER_A_FRIEND,
 	[-550] = C_PetJournal.GetPetInfoBySpeciesID(179),
 	[-551] = BATTLE_PET_SOURCE_9,
@@ -1327,7 +1331,6 @@ localize(L.HEADER_NAMES, {
 	[-596] = select(2,GetAchievementInfo(5863)),
 	[-597] = select(2,GetAchievementInfo(6131)),
 	[-598] = select(2,GetAchievementInfo(7853)),
-	[-609] = select(2,GetAchievementInfo(41220)),
 	[-610] = "Crieve's Never Implemented List",
 	[-611] = "Silithid Royalty",
 	[-612] = "Obsidian Fragment Exchange",
@@ -1340,6 +1343,10 @@ localize(L.HEADER_NAMES, {
 	[-659] = "Twilight Assist",
 	[-660] = "Twilight Duo",
 	[-661] = "Twilight Zone",
+	[-679] = HOUSING_ITEM_TOAST_TYPE_DECOR,
+	[-691] = "Treasures of Azeroth",
+	[-694] = "TBC Classic Anniversary Edition - Outland Upgrade",
+	[-698] = TRANSMOG_SOURCE_4,
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-36] = "A specific holiday may need to be active for you to complete the referenced Things within this section.",
@@ -1391,6 +1398,7 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-659] = "Engage Sartharion with at least 1 of the 3 drakes alive and then defeat Sartharion.",
 	[-660] = "Engage Sartharion with at least 2 of the 3 drakes alive and then defeat Sartharion.",
 	[-661] = "Engage Sartharion with all 3 drakes alive and then defeat Sartharion.",
+	[-691] = "To celebrate the launch of Titan Reforged servers, Chinese players can participate in The Treasures of Azeroth event, offering brand new rewards. The Rewards are not shared between game types and must be obtained separately in each.",
 });
 localize(L.HEADER_LORE, {
 	[-74] = "One of these dragons will spawn randomly at the associated coordinates across Azeroth.",
@@ -1614,7 +1622,6 @@ localize(L.HEADER_ICONS, {
 	[-596] = 133783,
 	[-597] = 133783,
 	[-598] = 133783,
-	[-609] = 133783,
 	[-610] = 132738,
 	[-611] = 133575,
 	[-612] = 135241,
@@ -1626,6 +1633,10 @@ localize(L.HEADER_ICONS, {
 	[-659] = 236469,
 	[-660] = 236473,
 	[-661] = 236471,
+	[-679] = _.asset("interface_decor"),
+	[-691] = 7259806,
+	[-694] = _.asset("expansion_tbc"),
+	[-698] = _.asset("category_worlddrops"),
 });
 localize(L.HEADER_EVENTS, {
 	[-37] = 1,
@@ -1649,7 +1660,6 @@ localize(L.HEADER_EVENTS, {
 	[-588] = 6,
 	[-591] = 133900,
 	[-592] = 242,
-	[-609] = 1509,
 });
 localize(L.EVENT_REMAPPING, {
 	[141] = 14,
@@ -1673,19 +1683,12 @@ localize(L.EVENT_REMAPPING, {
 });
 
 -- Programmatic Event Scheduling
-_.Modules.Events.SetEventInformation(444, {
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=14,["weekday"]=3,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=26,["weekday"]=4,["year"]=2025})
-});
 _.Modules.Events.SetEventInformation(242, {
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=7,["year"]=2024},{["hour"]=10,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=7,["year"]=2024}),
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=1,["year"]=2025},{["hour"]=10,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=2,["year"]=2026},{["hour"]=10,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=2,["year"]=2026})
 });
 _.Modules.Events.SetEventInformation(133900, {
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=11,["monthDay"]=16,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=11,["monthDay"]=16,["weekday"]=1,["year"]=2025}),
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=11,["monthDay"]=23,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=11,["monthDay"]=23,["weekday"]=1,["year"]=2025}),
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=11,["monthDay"]=30,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=11,["monthDay"]=30,["weekday"]=1,["year"]=2025}),
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=12,["monthDay"]=7,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=12,["monthDay"]=7,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=12,["monthDay"]=14,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=12,["monthDay"]=14,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=12,["monthDay"]=21,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=12,["monthDay"]=21,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=12,["monthDay"]=28,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=12,["monthDay"]=28,["weekday"]=1,["year"]=2025}),
@@ -1734,10 +1737,11 @@ _.Modules.Events.SetEventInformation(133900, {
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=10,["monthDay"]=25,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=10,["monthDay"]=25,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=11,["monthDay"]=1,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=11,["monthDay"]=1,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=11,["monthDay"]=8,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=11,["monthDay"]=8,["weekday"]=1,["year"]=2026}),
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=11,["monthDay"]=15,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=11,["monthDay"]=15,["weekday"]=1,["year"]=2026})
-});
-_.Modules.Events.SetEventInformation(1509, {
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=10,["monthDay"]=22,["weekday"]=3,["year"]=2024},{["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=7,["weekday"]=3,["year"]=2025})
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=11,["monthDay"]=15,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=11,["monthDay"]=15,["weekday"]=1,["year"]=2026}),
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=11,["monthDay"]=22,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=11,["monthDay"]=22,["weekday"]=1,["year"]=2026}),
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=11,["monthDay"]=29,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=11,["monthDay"]=29,["weekday"]=1,["year"]=2026}),
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=12,["monthDay"]=6,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=12,["monthDay"]=6,["weekday"]=1,["year"]=2026}),
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=12,["monthDay"]=13,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=12,["monthDay"]=13,["weekday"]=1,["year"]=2026})
 });
 _.Modules.Events.SetEventInformation(133899, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=2,["year"]=2024},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=4,["year"]=2025}),
@@ -1748,6 +1752,9 @@ _.Modules.Events.SetEventInformation(133889, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=4,["year"]=2024},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=1,["year"]=2024}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=5,["year"]=2025},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=2,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=6,["year"]=2026},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=3,["year"]=2026})
+});
+_.Modules.Events.SetEventInformation(444, {
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=14,["weekday"]=3,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=26,["weekday"]=4,["year"]=2025})
 });
 
 -- Filter Database Module
@@ -3136,6 +3143,7 @@ local ObjectNames = {
 	[2743] = "Carved Stone Urn",
 	[2744] = "Giant Clam",
 	[2842] = "Pillar of Diamond",
+	[2847] = "Tattered Chest",
 	[2848] = "Pillar of Opal",
 	[2858] = "Pillar of Amethyst",
 	[2866] = "Firebloom",
@@ -5681,7 +5689,6 @@ local ObjectNames = {
 	[307330] = "Captain's Footlocker",
 	[375544] = "Wooden Figurine",
 	[420873] = "Ritual Book",
-	[455795] = "Pet Box",
 	[100000000] = "Archaeologist's Cart",
 	[100000001] = "Unlit Torch",
 }; _.ObjectNames = ObjectNames;
@@ -6466,6 +6473,7 @@ local ObjectModels = {
 	[2743] = 199751,
 	[2744] = 196998,
 	[2842] = 199976,
+	[2847] = 219372,
 	[2848] = 199976,
 	[2858] = 199976,
 	[2866] = 219452,
@@ -8950,7 +8958,6 @@ local ObjectModels = {
 	[307330] = 198238,
 	[375544] = 201094,
 	[420873] = 1125316,
-	[455795] = 1981372,
 	[100000001] = 201129,
 }; _.ObjectModels = ObjectModels;
 
@@ -9119,7 +9126,7 @@ local phases = {
 		description = "|cFFAAFFAAThis was not available until Phase 1 of TBC Classic.|r",
 		lore = "|cFFFFAAAAIncluded Karazhan, Magtheridon's Lair, and Gruul's Lair.|r",
 		minimumBuildVersion = 20501,
-		buildVersion = 20501,
+		buildVersion = 20505,
 		state = 2,
 	},
 	[18] = {
@@ -9127,7 +9134,7 @@ local phases = {
 		description = "|cFFAAFFAAThis was not available until Phase 2 of TBC Classic.|r",
 		lore = "|cFFFFAAAAIncluded Serpentshrine Cavern, Tempest Keep: The Eye, and Swift Druid Flight Forms.|r",
 		minimumBuildVersion = 20501,
-		buildVersion = 20502,
+		buildVersion = 20506,
 		state = 2,
 	},
 	[1801] = {
@@ -9135,7 +9142,7 @@ local phases = {
 		description = "|cFFAAFFAAThis became available with the Ogri'la Faction during TBC Classic.|r",
 		lore = "|cFFFFAAAAIf the Ogri'la Faction is available on your server, simply turn this on.|r",
 		minimumBuildVersion = 20501,
-		buildVersion = 20502,
+		buildVersion = 20506,
 		state = 2,
 	},
 	[1802] = {
@@ -9143,7 +9150,7 @@ local phases = {
 		description = "|cFFAAFFAAThis became available with the Skyguard Faction during TBC Classic.|r",
 		lore = "|cFFFFAAAAIf the Skyguard Faction is available on your server, simply turn this on.|r",
 		minimumBuildVersion = 20501,
-		buildVersion = 20502,
+		buildVersion = 20506,
 		state = 2,
 	},
 	[19] = {
@@ -9151,7 +9158,7 @@ local phases = {
 		description = "|cFFAAFFAAThis was not available until Phase 3 of TBC Classic.|r",
 		lore = "|cFFFFAAAAIncluded Hyjal Summit and the Black Temple in addition to the vast majority of end game daily / faction content.|r",
 		minimumBuildVersion = 20501,
-		buildVersion = 20503,
+		buildVersion = 20507,
 		state = 2,
 	},
 	[1901] = {
@@ -9159,7 +9166,7 @@ local phases = {
 		description = "|cFFAAFFAAThis became available with the Netherwing Faction during TBC Classic.|r",
 		lore = "|cFFFFAAAAIf the Netherwing Faction is available on your server, simply turn this on.|r",
 		minimumBuildVersion = 20501,
-		buildVersion = 20503,
+		buildVersion = 20507,
 		state = 2,
 	},
 	[1902] = {
@@ -9175,7 +9182,7 @@ local phases = {
 		description = "|cFFAAFFAAThis was not available until Phase 4 of TBC Classic.|r",
 		lore = "|cFFFFAAAAIncluded Zul'Aman.|r",
 		minimumBuildVersion = 20501,
-		buildVersion = 20504,
+		buildVersion = 20508,
 		state = 2,
 	},
 	[21] = {
@@ -9183,7 +9190,7 @@ local phases = {
 		description = "|cFFAAFFAAThis was not available until Phase 5 of TBC Classic.|r",
 		lore = "|cFFFFAAAAIncluded Sunwell Plateau and the Isle of Quel'Danas daily content.|r",
 		minimumBuildVersion = 20501,
-		buildVersion = 20504,
+		buildVersion = 20508,
 		state = 2,
 	},
 	[2101] = {
@@ -9820,6 +9827,8 @@ localize(L.HEADER_NAMES, {
 	[-72] = "Verteidigungsprotokoll Beta",
 	[-73] = "Verteidigungsprotokoll Gamma",
 	[-74] = "Drachen des Alptraums",
+	[-224] = "Donnergeschmiedet",
+	[-228] = "Kriegsgeschmiedet",
 	[-252] = "Hasserfüllten Gladiator",
 	[-295] = "Elite Rüstung",
 	[-296] = "Gladiatoren Rüstung",
@@ -9834,6 +9843,9 @@ localize(L.HEADER_NAMES, {
 	[-362] = "Bibliothek",
 	[-363] = "Waffenkammer",
 	[-364] = "Kathedrale",
+	[-365] = "Haupttor",
+	[-366] = "Dienstboteneingang",
+	[-367] = "Verteidiger der Atal'ai",
 	[-368] = "Sturm auf die Zitadelle",
 	[-369] = "Die Seuchenwerke",
 	[-371] = "Die Frostschwingenhallen",
@@ -9863,6 +9875,7 @@ localize(L.HEADER_NAMES, {
 	[-587] = "Saisonfisch: Winterkalmar",
 	[-588] = "Anglerwettbewerb im Schlingendorntal",
 	[-591] = "Wanderfest",
+	[-611] = "Adel der Silithiden",
 	[-648] = "Erinnerung an Scholomance",
 	[-654] = "Abbauen",
 	[-655] = "Himmlischen Dungeons",
@@ -10018,6 +10031,7 @@ localize(ObjectNames, {
 	[2743] = "Verzierte Steinurne",
 	[2744] = "Riesenmuschel",
 	[2842] = "Diamantsäule",
+	[2847] = "Ramponierte Truhe",
 	[2848] = "Opalsäule",
 	[2858] = "Amethystsäule",
 	[2866] = "Feuerblüte",
@@ -12832,6 +12846,8 @@ localize(L.HEADER_NAMES, {
 	[-86] = "Troisième coffre",
 	[-87] = "Coffre final",
 	[-103] = "Pré-Lancement de l’Extension",
+	[-224] = "Forgé par le tonnerre",
+	[-228] = "De guerre",
 	[-247] = select(2,GetAchievementInfo(2091))..": Saison 1",
 	[-248] = select(2,GetAchievementInfo(418))..": Saison 2",
 	[-249] = select(2,GetAchievementInfo(419))..": Saison 3",
@@ -12864,7 +12880,9 @@ localize(L.HEADER_NAMES, {
 	[-362] = "Librairie",
 	[-363] = "Armurerie",
 	[-364] = "Cathédrale",
-	[-367] = "Défenseurs Atal'ai",
+	[-365] = "Grande porte",
+	[-366] = "Entrée de service",
+	[-367] = "Défenseurs atal’ai",
 	[-368] = "La prise de la citadelle",
 	[-369] = "La Pesterie",
 	[-371] = "Les salles de l'Aile de givre",
@@ -12898,6 +12916,7 @@ localize(L.HEADER_NAMES, {
 	[-587] = "Poisson de saison : calmar d'hiver",
 	[-588] = "Concours de pêche de Strangleronce",
 	[-591] = "Festival de l’explorateur",
+	[-611] = "Famille royale silithide",
 	[-648] = "Souvenir de Scholomance",
 	[-654] = "Récolte",
 	[-655] = "Donjons astraux",
@@ -13057,6 +13076,7 @@ localize(ObjectNames, {
 	[2743] = "Urne en pierre gravée",
 	[2744] = "Palourde géante",
 	[2842] = "Pilier de diamant",
+	[2847] = "Coffre en morceaux",
 	[2848] = "Pilier d'opale",
 	[2858] = "Pilier d'améthyste",
 	[2866] = "Fleur de feu",
@@ -15588,6 +15608,8 @@ localize(L.HEADER_NAMES, {
 	[-11] = "Nuovo personaggio",
 	[-17] = "Prova di Classe",
 	[-36] = "Festività",
+	[-224] = "Tuonoforgiato",
+	[-228] = "Guerraforgiato",
 	[-252] = "Gladiatore Perfido",
 	[-341] = "Aspetti Condivisi",
 	[-342] = "Aspetto unico",
@@ -17926,6 +17948,8 @@ localize(L.HEADER_NAMES, {
 	[-71] = "Protocolo de Defesa Alfa",
 	[-72] = "Protocolo de Defesa Beta",
 	[-73] = "Protocolo de Defesa Gama",
+	[-224] = "Forjado no Trovão",
+	[-228] = "Forjado para a Guerra",
 	[-252] = "Gladiador Odioso",
 	[-341] = "Aparências Compartilhadas",
 	[-342] = "Aparência Única",
@@ -17934,6 +17958,9 @@ localize(L.HEADER_NAMES, {
 	[-346] = "Comerciante do Raide",
 	[-347] = "Comerciante Heroico",
 	[-350] = "Os Quatro Cavaleiros",
+	[-365] = "Portão Principal",
+	[-366] = "Entrada de Serviço",
+	[-367] = "Defensores Atal'ai",
 	[-368] = "Invasão da Cidadela",
 	[-369] = "Antro da Peste",
 	[-371] = "Salões da Asa Gélida",
@@ -17963,6 +17990,7 @@ localize(L.HEADER_NAMES, {
 	[-587] = "Peixe sazonal: Lula de Inverno",
 	[-588] = "Festerê de Pesca da Selva do Espinhaço",
 	[-591] = "Festival do Andarilho",
+	[-611] = "Realeza Silítidea",
 	[-648] = "Lembrança de Scolomântia",
 	[-654] = "Colhendo",
 	[-655] = "Masmorras Celestiais",
@@ -18113,6 +18141,7 @@ localize(ObjectNames, {
 	[2742] = "Baú da Nidificação",
 	[2743] = "Urna de Pedra com Gravuras",
 	[2744] = "Marisco Gigante",
+	[2847] = "Baú Gasto",
 	[2848] = "Pilar de Opala",
 	[2858] = "Pilar de Ametista",
 	[2866] = "Ignídea",
@@ -20933,7 +20962,7 @@ L.QUEST_LOOP = "Скорее всего ATT вырвался из цепочки
 L.QUEST_MAY_BE_REMOVED = "Ошибка при получении информации. Это задание, возможно, удалено из игры. ";
 L.QUEST_OBJECTIVE_INVALID = "Недействительная Цель Задания";
 L.QUEST_ONCE_PER_ACCOUNT = "Один-Раз-На-Аккаунт Задание";
-L.QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT = "Задание '%s' %s не позволит собрать Хлебную Кроху '%s' %s";
+L.QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT = "Задание '%s' %s не позволит собрать '%s' %s";
 L.QUEST_ROW_INSTRUCTIONS = "Правый клик - Открыть Цепочку Заданий";
 L.QUESTS_CHECKBOX_TOOLTIP = "Включите для отслеживания обычных Заданий.\n\nПри помощи правого клика на любое задание в списках Вы можете открыть полную цепочку заданий, чтобы отобразить Ваш прогресс и любые предшествующие Задания.\n\nПримечание: Задания не отслеживаются перманентно из-за природы отслеживания Ежедневных, Еженедельных, Ежегодных и Локальных заданий в базе данных Blizzard.";
 L.QUESTS_DESC = "Все задания в игре в порядке возрастания номеров.";
@@ -21191,6 +21220,7 @@ localize(L.HEADER_NAMES, {
 	[-216] = "Элитный",
 	[-224] = "Создано в Кузне Грома",
 	[-225] = "Комплект 3-го уровня",
+	[-228] = "Предмет закален в бою",
 	[-243] = "Наложение чар на броню",
 	[-245] = "Наложение чар на оружие",
 	[-247] = select(2,GetAchievementInfo(2091))..": Сезон 1",
@@ -21225,6 +21255,8 @@ localize(L.HEADER_NAMES, {
 	[-362] = "Библиотека",
 	[-363] = "Оружейная",
 	[-364] = "Собор",
+	[-365] = "Главные врата",
+	[-366] = "Черный ход",
 	[-367] = "Защитники Атал'ай",
 	[-368] = "Штурм цитадели",
 	[-369] = "Чумодельня",
@@ -21261,6 +21293,7 @@ localize(L.HEADER_NAMES, {
 	[-588] = "Рыбомания Тернистой долины",
 	[-591] = "Фестиваль странника",
 	[-592] = "Годовщина WoW",
+	[-611] = "Силитидская знать",
 	[-648] = "Воспоминание о Некроситете",
 	[-654] = "Сбор",
 	[-656] = "Бойцовская гильдия",
@@ -21421,6 +21454,7 @@ localize(ObjectNames, {
 	[2743] = "Резная каменная урна",
 	[2744] = "Гигантский моллюск",
 	[2842] = "Алмазный столп",
+	[2847] = "Побитый сундук",
 	[2848] = "Опаловый столп",
 	[2858] = "Аметистовый столп",
 	[2866] = "Огнецвет",
@@ -24009,6 +24043,8 @@ localize(L.HEADER_NAMES, {
 	[-71] = "방어 프로토콜 알파",
 	[-72] = "방어 프로토콜 베타",
 	[-73] = "방어 프로토콜 감마",
+	[-224] = "천둥벼림",
+	[-228] = "전쟁벼림 상급",
 	[-252] = "원한에 검투사",
 	[-341] = "공유된 모습",
 	[-342] = "독특한 외관",
@@ -24017,6 +24053,9 @@ localize(L.HEADER_NAMES, {
 	[-346] = "공격대 상인",
 	[-347] = "영웅급 상인",
 	[-350] = "4인 기사단",
+	[-365] = "정문",
+	[-366] = "공무용 입구",
+	[-367] = "아탈라이 파수병",
 	[-368] = "성채 몰아치기",
 	[-369] = "역병작업장",
 	[-371] = "서리날개 전당",
@@ -24047,6 +24086,7 @@ localize(L.HEADER_NAMES, {
 	[-587] = "제철 생선: 겨울 오징어",
 	[-588] = "가시덤불 골짜기 낚시왕 선발대회",
 	[-591] = "유랑객의 축제",
+	[-611] = "실리시드 왕실",
 	[-648] = "스칼로맨스의 기억",
 	[-654] = "채취",
 	[-656] = "싸움꾼 조합",
@@ -27435,6 +27475,7 @@ localize(L.HEADER_NAMES, {
 	[-46] = "Raro",
 	[-49] = "Escenario completado",
 	[-56] = "Tesoros",
+	[-58] = "Vendedores",
 	[-61] = "Jefes de mundo",
 	[-63] = "Botín de zona",
 	[-66] = "Protocolo Inferno",
@@ -27450,7 +27491,9 @@ localize(L.HEADER_NAMES, {
 	[-87] = "Cofre final",
 	[-97] = "Reliquias",
 	[-103] = "Evento de pre-parche",
-	[-224] = "Forjas del trueno",
+	[-216] = "Elite",
+	[-219] = "Reliquias",
+	[-224] = "Forjas del Trueno",
 	[-225] = "Conjunto de nivel 3",
 	[-228] = "Forjado por la guerra",
 	[-229] = "Fuente IDs",
@@ -27484,11 +27527,14 @@ localize(L.HEADER_NAMES, {
 	[-342] = "Apariencia única",
 	[-343] = "Recompensa",
 	[-344] = "Vendedor de buscador de bandas",
-	[-346] = "Vendedor de banda",
-	[-347] = "Vendedor heroico",
+	[-345] = "Vendedor de bandas flexibles",
+	[-346] = "Vendedor de banda normal",
+	[-347] = "Vendedor de banda heroica",
 	[-349] = "Capitanes",
 	[-350] = "Los Cuatro Jinetes",
-	[-366] = "Entrada de servicio",
+	[-365] = "Puerta principal",
+	[-366] = "Entrada del servicio",
+	[-367] = "Defensores Atal'ai",
 	[-368] = "Asaltar la Ciudadela",
 	[-369] = "Los Talleres de la Peste",
 	[-371] = "Las Cámaras de Alaescarcha",
@@ -27534,6 +27580,7 @@ localize(L.HEADER_NAMES, {
 	[-654] = "Cosecha",
 	[-655] = "Mazmorras celestiales",
 	[-656] = "Hermandad de camorristas",
+	[-657] = "Campaña de la Espesura Krasarang",
 	[-659] = "Ayuda Crepuscular",
 	[-660] = "Dúo Crepuscular",
 	[-661] = "Dimensión Desconocida",
@@ -27698,6 +27745,7 @@ localize(ObjectNames, {
 	[2743] = "Urna de piedra labrada",
 	[2744] = "Almeja gigante",
 	[2842] = "Pilar de diamante",
+	[2847] = "Cofre ajado",
 	[2848] = "Pilar de ópalo",
 	[2858] = "Pilar de amatista",
 	[2866] = "Flor de fuego",
@@ -30553,7 +30601,7 @@ localize(L.HEADER_NAMES, {
 	[-74] = "Dragones de pesadilla",
 	[-103] = "Evento de pre-expansion",
 	[-228] = "Forjas de la guerra",
-	[-347] = "Vendedor de modo heroico",
+	[-367] = "Defensores de Atal'ai",
 	[-525] = "Paquete heroico Rasganorte WotLK Classic",
 	[-526] = "Paquete heroico abrasador de Cataclysm Classic",
 	[-527] = "Paquete heroico infundido por los sha",
@@ -30775,6 +30823,8 @@ L.DEATHS_CHECKBOX_TOOLTIP = "启用此选项可跟踪您的角色每次死亡的
 L.DEBUG_LOGIN = "登录后获得的奖励。\n\n干得好！你做到了！\n\n仅在调试模式下可见。";
 L.DEBUG_MODE = "|c" .. _.DefaultColors.Red .. "调试模式|cffffffff（显示所有）|r|r";
 L.DEBUG_MODE_TOOLTIP = "就字面意思…游戏中的所有事情。时间。点滴。是的，所有的一切。即使是不可收藏的事物，如袋子、消耗品、试剂等也会出现在列表中。（甚至你自己！不，是真的。看。）\n\n这仅用于调试目的。不用于完成追踪。\n\n此模式绕过所有过滤，包括不可获得的。";
+L.DECOR_CHECKBOX_TOOLTIP = "启用此选项以跟踪战团装饰完成情况。";
+L.DECOR_ID = "装饰 ID";
 L.DELETE_CHARACTER = "右击删除此角色";
 L.DELETE_LINKED_ACCOUNT = "右击删除此链接帐号";
 L.DELETE_LINKED_CHARACTER = "右击删除此链接角色";
@@ -31407,10 +31457,22 @@ localize(L.HEADER_NAMES, {
 	[-85] = "二箱",
 	[-86] = "三箱",
 	[-87] = "最终宝箱",
+	[-97] = "圣物",
 	[-103] = "资料片前夕",
+	[-216] = "精英",
 	[-219] = ITEM_QUALITY7_DESC,
 	[-224] = "雷霆",
 	[-225] = "T3套装",
+	[-228] = "战火",
+	[-229] = "来源 ID",
+	[-232] = "补丁 1.x.x",
+	[-235] = "补丁 2.x.x",
+	[-236] = "补丁 3.x.x",
+	[-237] = "补丁 4.x.x",
+	[-238] = "补丁 5.x.x",
+	[-239] = "补丁 6.x.x",
+	[-243] = "护甲附魔",
+	[-245] = "武器附魔",
 	[-247] = select(2,GetAchievementInfo(2091)).."：第1赛季",
 	[-248] = select(2,GetAchievementInfo(418)).."：第2赛季",
 	[-249] = select(2,GetAchievementInfo(419)).."：第3赛季",
@@ -31445,6 +31507,8 @@ localize(L.HEADER_NAMES, {
 	[-362] = "图书馆",
 	[-363] = "武器库",
 	[-364] = "修道院",
+	[-365] = "正门",
+	[-366] = "后门",
 	[-367] = "阿塔莱防御者",
 	[-368] = "进攻堡垒",
 	[-369] = "天灾工厂",
@@ -31456,6 +31520,7 @@ localize(L.HEADER_NAMES, {
 	[-416] = "战线：贫瘠之地",
 	[-417] = "传说：黑王子",
 	[-474] = "元素动荡",
+	[-476] = "霸业风暴",
 	[-481] = "安其拉之战捐献",
 	[-482] = "开启黑暗之门",
 	[-483] = "流沙节杖",
@@ -31496,27 +31561,42 @@ localize(L.HEADER_NAMES, {
 	[-588] = "荆棘谷钓鱼大赛",
 	[-591] = "云游节",
 	[-592] = "魔兽世界周年庆",
+	[-611] = "安其拉三宝",
 	[-648] = "通灵学院的回忆",
 	[-652] = "赞达拉入侵",
 	[-654] = "收获",
 	[-655] = "天神地下城",
 	[-656] = "搏击俱乐部",
+	[-657] = "卡桑琅丛林战役",
 	[-659] = "暮光帮凶",
 	[-660] = "暮光二重奏",
 	[-661] = "暮光领域",
+	[-694] = "'燃烧的远征'周年纪念版 - 外域升级",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-36] = "你可能需要在特定的节日活动中才能完成本节中的事物。",
+	[-43] = "宠物对战相关任务和驯练师。",
 	[-44] = "此部分只会显示你当前角色的专业技能，除非处于账号模式或调试模式。",
 	[-47] = "包含有奖励或可从包含部分中的其他内容获得的事物。\n在此处合并以减少来自许多可能重复来源。",
 	[-49] = "包含有奖励或可从包含部分中的其他内容获得的事物。\n在此处合并以减少来自许多可能重复来源。",
 	[-213] = "此部分显示能在正式服的游戏内商城购买的东西。",
+	[-304] = "这些物品需要经典/评级战场的军团士兵/骑士队长或更高的排名才能购买。",
 	[-341] = "此列表中的物品是以下物品的共享外观。在唯一外观模式下，此列表可帮助了解特定物品被标记为已收藏的原因。",
 	[-342] = "此列表中的物品是独特外观。你必须专门收藏这个物品以获得外观。",
 	[-343] = "此列表包含 ATT Discord 报告的无法获取的物品，这些物品是暴雪尚未修复的错误。\n\n注意：在此列表中忽略所有过滤器以获得可见性。此列表中仅显示因疏忽而从游戏中移除的物品。\n\n致暴雪开发者：请修复下面列出的物品和事件。",
+	[-355] = "该副本的此部分可从最东侧的入口进入。（右侧）",
+	[-356] = "该副本的此部分可从最北侧的入口进入。",
+	[-357] = "该副本的此部分可从最西侧的入口进入。（左侧）",
+	[-550] = "这是一个以战场为基础的活动，与夏季奥运会的开始同时进行。唯一一次庆祝是在2008年，以配合北京奥运会，虽然似乎有意图重复这个活动，但它从未回归。",
+	[-560] = "以下小游戏每次游玩需要消耗一枚暗月游戏代币，并且每天都有一个任务可以获得奖券以及一些相关的成就。",
+	[-563] = "为了最大化你的得分，等待当前的标记消失，然后瞄准中间的目标。只要出现任何绿色标记，立即按1，在短暂的施法时间内，如果有必要，将你的枪移动到指向左侧或右侧目标的位置。",
+	[-564] = "位于入口附近，游客们会收到一个大锤，用来敲打从该区域的九个桶中弹出的填充豺狼人。玩家将有60秒的时间来获得30分。豺狼人有三种类型：普通的、霍格和婴儿，分别奖励1分、3分或一次击倒。",
+	[-592] = "这是一个每年重现的活动，发生在十一月初到年底之间。",
 	[-652] = "赞达拉部族对潘达利亚大陆的入侵始于雷神岛的开放。战争使者遍布整个大陆，拥有难度各异的单人挑战机制及可获取的坐骑！与好友一同刷取这些奖励吧。",
 });
 localize(L.HEADER_LORE, {
+	[-74] = "这些龙中的一只会在艾泽拉斯的相关坐标随机生成。",
+	[-318] = "地下城套装的第2套职业套装，通常称为T0.5，是通过完成一条漫长的任务链来获得的，该任务链将作为终极地下城掉落的第一个套装升级为更强大的版本。在当前的魔兽世界中，这些套装受到收藏家的追捧，因为随着大灾变，这条任务链已被完全从游戏中移除。在魔兽世界经典版中，你应该在所有角色上完成这条任务链！",
 	[-389] = "以下物品可以通过在永恒护甲代币上使用不朽之责获得双倍无意随机生成来创建。",
 });
 localize(L.FILTER_ID_TYPES, {
@@ -33996,7 +34076,7 @@ L.DYNAMIC_CATEGORY_TOOLTIP_NOTE = "\n\n|cffff0000生成時套用|r";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX = "啟用指標提示";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX_TOOLTIP = "如果希望在指標提示中查看 ATT 提供的資訊，請啟用此選項。這包括其他玩家發送的物品連接，在拍賣行、在地城助手、在你的背包裡、在世界、在 NPC 等等。\n\n如果你關閉了這個功能，就會嚴重降低你快速判斷是否需要擊殺首領或學習外觀的能力。\n\n我們建議你保持此設定。";
 L.ENCOUNTER_ID = "首領戰鬥 ID";
-L.EVENT_ACTIVE = "啟動:";
+L.EVENT_ACTIVE = "啟用:";
 L.EVENT_END = "結束:";
 L.EVENT_SCHEDULE = "事件時程表";
 L.EVENT_START = "開始:";
@@ -34086,6 +34166,7 @@ L.IGNORE_FILTERS_FOR_BOES_CHECKBOX_TOOLTIP = "如果要忽略裝備綁定/拾取
 L.ILLUSIONS_CHECKBOX_TOOLTIP = "啟用此選項以追蹤幻象。\n\n這些看起來很酷的塑形效果，你可以套用到你的武器上！\n\n注意：你不是一個幻象，儘管所有的夜裔精靈都這麼認為。";
 L.INCLUDE_ORIGINAL_CHECKBOX = "原始來源";
 L.INCLUDE_ORIGINAL_CHECKBOX_TOOLTIP = "如果你真的喜歡在指標提示中的共享外觀列表中看到原始來源資訊，請啟用此選項。";
+L.INFORMATION_PAGE = "資訊";
 L.INSTANCE_DESC = "點擊此按鈕可依據缺少的內容選擇隨機副本。";
 L.ITEM_DESC = "點擊此按鈕可依據缺少的內容選擇隨機物品。";
 L.ITEM_EXPLAIN_LABEL = "|cffFFFFFF始終顯示此內容如果位於 |c" .. _.DefaultColors.Account .. "帳號模式|r。|r";
@@ -34101,6 +34182,7 @@ L.ITEM_ID_ADDED_SHARED_MISSING = "%s (%d) [+%d] 已加入收藏。在資料庫�
 L.ITEM_ID_REMOVED = "%s (%d) 已從收藏中移除。";
 L.ITEM_ID_REMOVED_SHARED = "%s (%d) [+%d] 已從收藏中移除。";
 L.ITEM_LEVEL = "物品等級";
+L.ITEM_STRING = "物品字串";
 L.KEYBINDINGS_TEXT = "可以在遊戲選項中設定 ATT 的按鍵綁定。";
 L.KNOWN_BY_CHECKBOX_TOOLTIP = "如果你想在指標提示中查看所有伺服器上已知此配方的完整角色列表，請啟用此選項。";
 L.LAYER = "相位";
@@ -34153,6 +34235,7 @@ L.MINIMAP_SLIDER = "小地圖按鈕尺寸";
 L.MINIMAP_SLIDER_TOOLTIP = "使用此選項可自訂小地圖按鈕的大小。\n\n預設：36";
 L.MINUMUM_STANDING_WITH_FACTION = "最低陣營聲望等級 %s 和 %s。";
 L.MISSION_ID = "任務 ID";
+L.MOD_ID = "模組 ID";
 L.MODE_EXPLAIN_LABEL = "|cffFFFFFF您收藏的內容總結在這裡。啟用所有 |c" .. _.DefaultColors.Insane .. "彩色選項|r 解鎖 |c" .. _.DefaultColors.Insane .. "瘋狂模式|r。|r";
 L.MODULES = "模組";
 L.MODULES_LABEL = "模組和小列表";
@@ -34173,7 +34256,7 @@ L.NESTED_QUEST_REQUIREMENTS = "多重任務需要";
 L.NEVER_IMPLEMENTED = "從未實裝";
 L.NEVER_IMPLEMENTED_DESC = "這裡的物品在技術上存在於遊戲內，但從未向玩家開放過";
 L.NEW_VERSION_AVAILABLE = "%s 已有更新的版本。請更新插件 %s。";
-L.NEW_VERSION_FLAVORS = {"因為萬物都飢餓。","無敵下次|cffffaaaa|肯定|r會掉落"};
+L.NEW_VERSION_FLAVORS = {"因為 AllTheThings 餓了。","下次|cffffaaaa一定|r會掉落無敵！","否則今晚會有魚人在你窗外尖叫","因為所謂的收藏不過是換個說法的囤積癖。","而 Crieve 會幫一隻烏龜重新入水。","否則你的戰鬥寵物要成立工會了。"};
 L.NEW_WITH_PATCH = "最新加入內容";
 L.NEW_WITH_PATCH_TOOLTIP = "這會顯示遊戲最新更新中加入的所有內容。";
 L.NO_COORDINATES_FORMAT = "%s 沒有已知座標";
@@ -34183,6 +34266,7 @@ L.NO_LINKED_ACCOUNTS = "未找到連接帳號。";
 L.NO_SEARCH_METHOD = "未指定搜尋方法。";
 L.NOT_AVAILABLE_IN_PL = "在個人拾取中不可用。";
 L.NOTHING_TO_SELECT_FROM = "沒有什麼可以隨意選擇的。如果在“設定”中啟用了“臨時更新”，則必須在使用此視窗之前更新主列表（/att）。";
+L.OBJECT = "物體";
 L.OBJECT_TYPE = "目標類型";
 L.OBJECTIVES = "目標";
 L.ONLY_NOT_TRASH = "排除垃圾物品";
@@ -34204,6 +34288,7 @@ L.PERCENTAGES_CHECKBOX = "顯示完成百分比";
 L.PERCENTAGES_CHECKBOX_TOOLTIP = "如果想查看每行的完成百分比請啟用此選項。\n\n按完成度對組進行著色不受影響。";
 L.PERSONAL_LOOT_DESC = "每位玩家都有獨立的機會拾取對自己職業有用的物品…\n\n…或者像戒指這樣的無用之物。\n\n如果是自己一個人的話，點擊兩次就會自動創建一個隊伍。";
 L.PET_DESC = "點擊此按鈕可依據缺少的內容選擇隨機寵物。";
+L.PHASES_PAGE = "階段";
 L.PLAY_DEATH_SOUND_CHECKBOX = "死亡時播放音效";
 L.PLAY_DEATH_SOUND_CHECKBOX_TOOLTIP = "如果你想在死亡時聽到音效，請啟用此選項。";
 L.PLAYER_COORDINATES = "玩家座標";
@@ -34216,6 +34301,7 @@ L.PLAYER_TITLE_THE_COMPLETIONIST = "|c" .. _.DefaultColors.Raid .. "%s 完美主
 L.PLAYER_TITLE_THE_EXTERMINATOR = "|cffa335ee%s消滅者|r";
 L.PLAYER_TITLE_THE_HUGGLER = "|cffF58CBA擁抱者%s|r";
 L.PLEASE_REPORT_MESSAGE = "請把錯誤回報給 ATT Discord 的 #classic-errors！謝謝！";
+L.POPOUT = "彈出列表";
 L.PRECISION_SLIDER = "百分比精確度";
 L.PRECISION_SLIDER_TOOLTIP = "使用此選項可自訂百分比計算中所需的精度級別。\n\n預設：2";
 L.PREREQUISITE_QUESTS = "必須先完成一些前置任務才有可能獲得：";
@@ -34250,6 +34336,7 @@ L.QUEST_DESC = "點擊此按鈕可依據缺少的內容選擇隨機任務。";
 L.QUEST_GIVER = "任務給予者";
 L.QUEST_GIVERS = "任務給予者";
 L.QUEST_ID = "任務 ID";
+L.QUEST_ITEMS = "任務物品";
 L.QUEST_LOOP = "可能剛剛從無限源任務循環中爆發出來。";
 L.QUEST_MAY_BE_REMOVED = "擷取任務資訊失敗。這個任務可能已從遊戲中移除。";
 L.QUEST_OBJECTIVE_INVALID = "無效的任務目標";
@@ -34277,6 +34364,7 @@ L.REMOTE_ZONES_DESCRIPTION = "包含在當前區域可取得，但來源直接�
 L.REMOVED_WITH_PATCH = "隨更新移除";
 L.REMOVED_WITH_PATCH_CLASSIC_FORMAT = "該物品是隨更新 %s 移除的";
 L.REMOVED_WITH_PATCH_FORMAT = "更新 %s 中被刪除";
+L.REPEATABLES_LABEL = "可重複";
 L.REPORT_COLLECTED_THINGS_CHECKBOX = "回報已收藏事物";
 L.REPORT_COLLECTED_THINGS_CHECKBOX_TOOLTIP = "如果想在聊天中看到一條訊息，詳細說明收藏了哪些物品或從收藏中刪除了哪些物品，請啟用此選項。\n\n注意：這是因為暴雪默默的加入了外觀和其他收藏品並且忽略了通知你可用的其他物品。\n\n我們建議你保持此設定。如果你打開了這個選項，你會聽到警告聲。";
 L.REPORT_COMPLETED_QUESTS_CHECKBOX = "回報任務";
@@ -34386,6 +34474,7 @@ L.STORE_IN_PROFILE_BUTTON_TOOLTIP = "預設情況下，ATT 會依角色儲存這
 L.SUMMARIZE_CHECKBOX = "總結事物";
 L.SUMMARIZE_CHECKBOX_TOOLTIP = "啟用該選項可在指標提示中總結事物。例如，如果一個事物可以變成另一個事物的商人，那麼在指標提示中顯示另一個事物，以提供其多種用途的可見性。如果一個事物作為許多其他事物的容器，這個選項將顯示該容器所包含的所有其他事物。\n\n我們建議你保持此設定開啟。";
 L.SYM_ROW_INFORMATION = "點擊右鍵以查看來自其他位置的其它內容";
+L.SYMLINK = "符號連結";
 L.SYNC_CHARACTERS_TOOLTIP = "這會顯示您帳號中的所有角色。";
 L.TELEPORT_TO_FROM_DUNGEON = "傳送至/出地城";
 L.TELEPORT_TO_FROM_DUNGEON_DESC = "點擊此處傳送到當前地城或從當前地城傳送出去。\n\n潘達利亞之謎可以這種方式快速傳送到當前副本之外。";
@@ -34497,7 +34586,10 @@ localize(L.HEADER_NAMES, {
 	[-86] = "第三個箱子",
 	[-87] = "最後的箱子",
 	[-103] = "資料片前夕",
+	[-224] = "雷霆鑄造",
 	[-225] = "T3套裝",
+	[-228] = "戰鑄",
+	[-243] = "護甲附魔",
 	[-247] = select(2,GetAchievementInfo(2091)).."：第1賽季",
 	[-248] = select(2,GetAchievementInfo(418)).."：第2賽季",
 	[-249] = select(2,GetAchievementInfo(419)).."：第3賽季",
@@ -34518,15 +34610,22 @@ localize(L.HEADER_NAMES, {
 	[-341] = "共享外觀",
 	[-342] = "獨特外觀",
 	[-344] = "隨機團隊商人",
+	[-345] = "彈性模式商人",
 	[-346] = "團隊模式商人",
 	[-347] = "英雄模式商人",
 	[-350] = "四騎士",
 	[-355] = DUNGEON_FLOOR_DIREMAUL5.." (東)",
+	[-362] = "圖書館",
+	[-363] = "武器庫",
+	[-365] = "主門",
+	[-366] = "僕從入口",
+	[-367] = "阿塔萊防衛者",
 	[-414] = "元素桎梏",
 	[-415] = "食人妖入侵",
 	[-416] = "戰爭前線：貧瘠之地",
 	[-417] = "傳奇：黑龍王子",
 	[-474] = "元素入侵",
+	[-476] = "強襲風暴",
 	[-481] = "安其拉之戰捐獻",
 	[-483] = "流沙節杖",
 	[-484] = "天譴軍團入侵",
@@ -34545,6 +34644,7 @@ localize(L.HEADER_NAMES, {
 	[-546] = "可口可樂活動",
 	[-557] = "啤酒節",
 	[-559] = "兒童週",
+	[-560] = "小遊戲",
 	[-566] = "亡者節",
 	[-574] = "冬幕節",
 	[-576] = "萬鬼節",
@@ -34561,15 +34661,22 @@ localize(L.HEADER_NAMES, {
 	[-588] = "荊棘谷釣魚大賽",
 	[-591] = "遊子節",
 	[-592] = "《魔獸世界》週年紀念",
+	[-611] = "異種蠍皇族",
+	[-648] = "通靈學院的回憶",
+	[-652] = "贊達拉入侵",
 	[-654] = "採集",
 	[-655] = "天尊地城",
 	[-656] = "鬥陣俱樂部",
 	[-659] = "暮光協助",
 	[-660] = "暮光雙人組",
 	[-661] = "暮光地帶",
+	[-694] = "燃燒的遠征：經典週年紀念版 - 外域升級",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-36] = "你可能需要在特定節日的活動中才能完成本節中的事物。",
+	[-43] = "這個區塊包含與寵物對戰相關的任務與訓練師。",
+	[-44] = "這個區塊只會顯示你目前角色的專業技能，除非處於帳號或是除錯模式",
+	[-49] = "包含完成戰役獲得的戰利品？",
 	[-213] = "此部分顯示能在正式服的遊戲內商城購買的東西。",
 	[-355] = "副本的這部分可以從最東邊的傳送門進入。（右側）",
 	[-356] = "副本的這部分可以從最北邊的傳送門進入。",

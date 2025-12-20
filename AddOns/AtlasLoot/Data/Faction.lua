@@ -163,6 +163,8 @@ Faction.FACTION_KEY = {
 	[2669] = "Darkfuse Solutions",
 	[2685] = "Gallagio Loyalty Rewards Club",
 	[2688] = "Flame's Radiance",
+	[2766] = "Brawl'gar Arena",
+	[2767] = "Bizmo's Brawlpub",
 }
 
 Faction.FriendshipRanks = {
@@ -225,5 +227,27 @@ Faction.FriendshipRanks = {
 		[3] = AL["Medium"],
 		[4] = AL["High"],
 		[5] = AL["Maximum"],
+	},
+	-- Brawl'gar Arena
+	[2766] = {
+		[1] = format(AL["Rank %d"], 1),
+		[2] = format(AL["Rank %d"], 2),
+		[3] = format(AL["Rank %d"], 3),
+		[4] = format(AL["Rank %d"], 4),
+		[5] = format(AL["Rank %d"], 5),
+		[6] = format(AL["Rank %d"], 6),
+		[7] = format(AL["Rank %d"], 7),
+		[8] = format(AL["Rank %d"], 8),
+	},
+	-- Bizmo's Brawlpub
+	[2767] = {
+		[1] = format(AL["Rank %d"], 1),
+		[2] = format(AL["Rank %d"], 2),
+		[3] = format(AL["Rank %d"], 3),
+		[4] = format(AL["Rank %d"], 4),
+		[5] = format(AL["Rank %d"], 5),
+		[6] = format(AL["Rank %d"], 6),
+		[7] = format(AL["Rank %d"], 7),
+		[8] = format(AL["Rank %d"], 8),
 	},
 }

@@ -11,7 +11,7 @@ function PIGCloseDropDownMenus(level)
 		level = 1;
 	end
 	for i=level, UIDROPDOWNMENU_MAXLEVELS do
-		PIG_DropDown[i]:Hide();
+		if PIG_DropDown[i] then PIG_DropDown[i]:Hide();end
 	end
 end
 local function PIGDownMenu_StartCounting(frame)

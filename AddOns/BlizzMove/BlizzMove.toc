@@ -1,6 +1,6 @@
-## Interface: 110205
+## Interface: 110207
 ## Author: Kiatra, zaCade, Numy - github.com/Kiatra/BlizzMove/
-## Version: v3.7.15
+## Version: v3.7.18
 
 ## Title: BlizzMove
 ## Notes: Makes blizzard frames movable

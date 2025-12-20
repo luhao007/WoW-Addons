@@ -244,154 +244,130 @@ data["BrawlersGuild"]         = {
 	name = ALIL["Bizmo's Brawlpub"].." / "..ALIL["Brawl'gar Arena"],
 	ContentType = PERMRECEVENTS_CONTENT,
 	items = {
-		{ --Rank1-4
-			name = format(AL["Rank %d"], 1).." - "..format(AL["Rank %d"], 4),
+		{ --Rank 1-4
+			name = format(AL["Rank %d"], 1).." - "..format(AL["Rank %d"], 8),
 			[ALLIANCE_DIFF] = {
-				--{ 1, "ICON_warrior_talent_icon_furyintheblood", nil, format(AL["Rank %d"], 2), nil },
-				-- no longer available { 2, 118907, [PRICE_EXTRA_ITTYPE] = "money:200000000" },	-- Pit Fighter's Punching Ring
-
-				{ 1,  "ICON_warrior_talent_icon_furyintheblood", nil,                                    format(AL["Rank %d"], 3),              nil },
-				{ 2,  93025,                                     "pet1142",                              [PRICE_EXTRA_ITTYPE] = "money:3000" }, -- Clock'em
-				{ 3,  144394,                                    "pet2022",                              [PRICE_EXTRA_ITTYPE] = "money:5000000" }, -- Tylarr Gronnden, Added in patch 7.1.5.23360
-
-				{ 16, "ICON_warrior_talent_icon_furyintheblood", nil,                                    format(AL["Rank %d"], 4),              nil },
-				--[[ no longer available
-				{ 17, 98079, [QUEST_EXTRA_ITTYPE] = 32837 },	-- Floot-Tooter's Tunic
-				{ 18, 98081, [QUEST_EXTRA_ITTYPE] = 32841 },	-- The Boomshirt
-				{ 19, 98082, [QUEST_EXTRA_ITTYPE] = 32859 },	-- Undisputed Champion's Shirt
-				{ 20, 118913, [PRICE_EXTRA_ITTYPE] = "money:1000000" },	-- Brawler's Bottomless Draenic Agility Potion
-				{ 21, 118914, [PRICE_EXTRA_ITTYPE] = "money:1000000" },	-- Brawler's Bottomless Draenic Intellect Potion
-				{ 22, 118915, [PRICE_EXTRA_ITTYPE] = "money:1000000" },	-- Brawler's Bottomless Draenic Strength Potion
-				]]
-				{ 17, 144391,                                    [PRICE_EXTRA_ITTYPE] = "money:20000000" }, -- Pugilist's Powerful Punching Ring, Added in patch 7.1.5.23360
-				--{ 27, 93195, "ac9169" },	-- Brawler's Pass
-				{ 18, 93195,                                     "ac11563" },                   -- Brawler's Pass
+				{ 1,  "f2767rep2" },
+				{ 2,  263026,     [PRICE_EXTRA_ITTYPE] = "money:5000000" },                                -- Brawler's Barricade
+				{ 4,  "f2767rep3" },
+				{ 5,  93025,      "pet1142",                               [PRICE_EXTRA_ITTYPE] = "money:5000000" }, -- Clock'em
+				{ 6,  144394,     "pet2022",                               [PRICE_EXTRA_ITTYPE] = "money:5000000" }, -- Tylarr Gronnden
+				{ 8,  "f2767rep4" },
+				{ 9,  144391,     [PRICE_EXTRA_ITTYPE] = "money:20000000" },                               -- Pugilist's Powerful Punching Ring
+				{ 11, "f2767rep5" },
+				{ 12, 167812,     [PRICE_EXTRA_ITTYPE] = "money:30000000" },                               -- Brawler's Guild Tabard
+				{ 13, 259071,     [PRICE_EXTRA_ITTYPE] = "money:40000000" },                               -- Brawler's Guild Punching BagIndex
+				{ 16, "f2767rep6" },
+				{ 17, 259227,     "mount",                                 [PRICE_EXTRA_ITTYPE] = "money:40000000" }, -- Brawlin' Bruno
+				{ 19, "f2767rep7" },
+				{ 20, 255840,     [PRICE_EXTRA_ITTYPE] = "money:80000000" },                               -- Champion Brawler's Gloves
+				{ 22, "f2767rep8" },
+				{ 23, 122396,     [PRICE_EXTRA_ITTYPE] = "money:10000000" },                               -- Brawler's Razor Claws
+				{ 24, 167892,     [PRICE_EXTRA_ITTYPE] = "money:100000000" },                              -- Ensemble: Brawler's Garb
+				{ 25, 259238,     "mount",                                 [PRICE_EXTRA_ITTYPE] = "money:100000000" }, -- Ballistic Bronco
 			},
 			[HORDE_DIFF] = {
 				GetItemsFromDiff = ALLIANCE_DIFF,
-				-- { 14, 118908, [PRICE_EXTRA_ITTYPE] = "money:200000000" },	-- Pit Fighter's Punching Ring
-				{ 17, 144392, [PRICE_EXTRA_ITTYPE] = "money:20000000" }, -- Pugilist's Powerful Punching Ring, Added in patch 7.1.5.23360
-				--{ 27, 93228, "ac9173" },	-- Brawler's Pass
-				{ 18, 93228,  "ac11564" },                   -- Brawler's Pass
-			},
-		},
-		{ --Rank5-8
-			name = format(AL["Rank %d"], 5).." - "..format(AL["Rank %d"], 8),
-			[ALLIANCE_DIFF] = {
-				{ 1,  "ICON_warrior_talent_icon_furyintheblood", nil,                                    format(AL["Rank %d"], 5),               nil },
-				{ 2,  98084,                                     [QUEST_EXTRA_ITTYPE] = 32845 },                                        -- Ooze-Soaked Shirt
-				{ 3,  98083,                                     [QUEST_EXTRA_ITTYPE] = 32843 },                                        -- Sharkskin Tunic
-				{ 4,  98086,                                     [QUEST_EXTRA_ITTYPE] = 32849 },                                        -- Tuxedo-Like Shirt
-				{ 6,  "ICON_warrior_talent_icon_furyintheblood", nil,                                    format(AL["Rank %d"], 6),               nil },
-				{ 7,  98080,                                     [QUEST_EXTRA_ITTYPE] = 32839 },                                        -- Gorgeous Blouse
-				{ 8,  98091,                                     [QUEST_EXTRA_ITTYPE] = 32851 },                                        -- Last Season's Shirt
-				{ 9,  127773,                                    [PRICE_EXTRA_ITTYPE] = "money:10000000" },                             -- Gemcutter Module: Mastery
-				{ 16, "ICON_warrior_talent_icon_furyintheblood", nil,                                    format(AL["Rank %d"], 7),               nil },
-				{ 17, 98543,                                     "ac9176" },                                                            -- Wraps of the Blood-Soaked Brawler
-				{ 18, 98085,                                     [QUEST_EXTRA_ITTYPE] = 32847 },                                        -- Brucehide Jersey
-				{ 19, 98092,                                     [QUEST_EXTRA_ITTYPE] = 32853 },                                        -- Digmaster's Bodysleeve
-				{ 20, 98087,                                     [QUEST_EXTRA_ITTYPE] = 32857 },                                        -- Paper Shirt
-				{ 21, 98093,                                     [QUEST_EXTRA_ITTYPE] = 32855 },                                        -- Sightless Mantle
-				{ 23, "ICON_warrior_talent_icon_furyintheblood", nil,                                    format(AL["Rank %d"], 8),               nil },
-				{ 24, 122396,                                    [PRICE_EXTRA_ITTYPE] = "money:10000000" },                             -- Brawler's Razor Claws
-				{ 25, 98405,                                     "mount",                                [PRICE_EXTRA_ITTYPE] = "money:15000000" }, -- Brawler's Burly Mushan Beast
-				{ 26, 142403,                                    "mount",                                [PRICE_EXTRA_ITTYPE] = "money:40000000" }, -- Brawler's Burly Basilisk
-
-			},
-			[HORDE_DIFF] = {
-				GetItemsFromDiff = ALLIANCE_DIFF,
-				{ 17, 98543, "ac9177" }, -- Wraps of the Blood-Soaked Brawler
+				{ 1,  "f2766rep2" },
+				{ 4,  "f2766rep3" },
+				{ 8,  "f2766rep4" },
+				{ 9,  144392,     [PRICE_EXTRA_ITTYPE] = "money:20000000" }, -- Pugilist's Powerful Punching Ring
+				{ 11, "f2766rep5" },
+				{ 16, "f2766rep6" },
+				{ 19, "f2766rep7" },
+				{ 22, "f2766rep8" },
 			},
 		},
 		{ -- Challenge Card
 			name = AL["Challenge Card"],
 			[ALLIANCE_DIFF] = {
-				{ 1,   "ICON_warrior_talent_icon_furyintheblood", nil, format(AL["Rank %d"], 1), nil },
-				{ 2,   143899 }, -- Challenge Card: Oso the Betrayer
-				{ 3,   97285 }, -- Challenge Card: Grandpa Grumplefloot
-				{ 4,   142042 }, -- Challenge Card: Ooliss
-				{ 5,   142035 }, -- Challenge Card: Warhammer Council
-				{ 6,   "ICON_warrior_talent_icon_furyintheblood", nil, format(AL["Rank %d"], 2), nil },
-				{ 7,   94162 }, -- Challenge Card: Dippy
-				{ 8,   142041 }, -- Challenge Card: Bill the Janitor
-				{ 9,   94167 }, -- Challenge Card: Sanoriak
-				{ 10,  142036 }, --Challenge Card: Master Paku
-				{ 11,  "ICON_warrior_talent_icon_furyintheblood", nil, format(AL["Rank %d"], 3), nil },
-				{ 12,  142043 }, -- Challenge Card: Doomflipper
-				{ 13,  94166 }, -- Challenge Card: Blat
-				{ 14,  142032 }, -- Challenge Card: Johnny Awesome
-				{ 15,  142039 }, -- Challenge Card: Shadowmaster Aameen
-				{ 16,  "ICON_warrior_talent_icon_furyintheblood", nil, format(AL["Rank %d"], 4), nil },
-				{ 17,  142030 }, -- Challenge Card: Burnstachio
-				{ 18,  94181 }, -- Challenge Card: Meatball
-				{ 19,  94178 }, -- Challenge Card: G.G. Engineering
-				{ 20,  142045 }, -- Challenge Card: Stitches
-				{ 21,  "ICON_warrior_talent_icon_furyintheblood", nil, format(AL["Rank %d"], 5), nil },
-				{ 22,  142026 }, -- Challenge Card: Blackmange
-				{ 23,  97566 }, -- Challenge Card: Razorgrin
-				{ 24,  94177 }, -- Challenge Card: Leper Gnomes
-				{ 25,  142028 }, -- Challenge Card: Thwack U
-				{ 26,  "ICON_warrior_talent_icon_furyintheblood", nil, format(AL["Rank %d"], 6), nil },
-				{ 27,  142033 }, -- Challenge Card: Carl
-				{ 28,  94174 }, -- Challenge Card: Millie Watt
-				{ 29,  142029 }, -- Challenge Card: Ogrewatch
-				{ 30,  142037 }, -- Challenge Card: Topps
-				{ 101, "ICON_warrior_talent_icon_furyintheblood", nil, format(AL["Rank %d"], 7), nil },
-				{ 102, 97283 }, -- Challenge Card: Nibbleh
-				{ 103, 142038 }, -- Challenge Card: Serpent of Old
-				{ 104, 94182 }, -- Challenge Card: Epicus Maximus
-				{ 105, 142031 }, -- Challenge Card: Ray D. Tear
-				{ 106, 143794 }, -- Challenge Card: A Seagull
-				{ 107, 142040 }, -- Challenge Card: Ash'katzuum
-				{ 108, 142034 }, -- Challenge Card: Beat Box
-				{ 109, 142044 }, -- Challenge Card: Strange Thing
+				{ 1,   "f2767rep8" },
+				{ 2,   253581,     [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Sunny
+				{ 3,   142043,     [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Doomflipper
+				{ 4,   94160,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Goredome
+				{ 5,   94162,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Dippy
+				{ 6,   93823,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Bruce
+				{ 7,   142041,     [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Bill the Janitor
+				{ 8,   253868,     [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: The Quacken
+				{ 9,   97566,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Razorgrin
+				{ 10,  143899,     [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Oso the Betrayer
+				{ 11,  94166,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Blat
+				{ 12,  142042,     [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Ooliss
+				{ 13,  94165,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: King Kulaka
+				{ 14,  94181,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Meatball
+				{ 15,  142040,     [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Ash'katzuum
+				{ 16,  94170,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Crush
+				{ 17,  253515,     [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Glorp
+				{ 18,  144439,     [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Klunk
+				{ 19,  142045,     [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Stitches
+				{ 20,  142037,     [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Topps
+				{ 21,  142033,     [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Carl
+				{ 22,  94177,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Leper Gnomes
+				{ 23,  97563,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Mecha-Bruce
+				{ 24,  94178,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: G.G. Engineering
+				{ 25,  97280,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Dippy & Doopy
+				{ 26,  253575,     [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Renegade Swabbie
+				{ 27,  142029,     [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Ogrewatch
+				{ 28,  97445,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Blingtron 3000
+				{ 29,  94182,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Epicus Maximus
+				{ 30,  94186,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Unguloxx
+				{ 101, 97283,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Nibbleh
+				{ 102, 166809,     [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Thog Hammerspace
+				{ 103, 142032,     [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Johnny Awesome
+				{ 104, 165709,     [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Mama Stormstout
+				{ 105, 94164,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Fran & Riddoh
+				{ 106, 94161,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Vishas
+				{ 107, 94168,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Ixx
+				{ 108, 94171,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Leona
+				{ 109, 94172,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Dominika
+				{ 110, 94173,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Deeken
+				{ 111, 94176,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Proboskus
+				{ 112, 142026,     [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Blackmange
+				{ 113, 93824,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Vian
+				{ 114, 94163,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Kirrawk
+				{ 115, 94174,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Millie Watt
+				{ 116, 94175,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Fjoll
+				{ 117, 97321,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Blind Hero
+				{ 118, 143794,     [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: A Seagull
+				{ 119, 94179,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Dark Summoner
+				{ 120, 94167,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Sanoriak
+				{ 121, 94183,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Yikkan Izu
+				{ 122, 94184,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: Akama
+				{ 123, 97559,      [PRICE_EXTRA_ITTYPE] = "money:30000" }, -- Challenge Card: T440 Dual-Mode Robot
 			},
 			[HORDE_DIFF] = {
 				GetItemsFromDiff = ALLIANCE_DIFF,
+				{ 1, "f2766rep8" },
 			},
 		},
 		{ -- Miscellaneous
 			name = AL["Miscellaneous"],
 			[ALLIANCE_DIFF] = {
 				-- Potions
-				--[[ no longer available
-				{ 1, 118916, [PRICE_EXTRA_ITTYPE] = "money:15000", [ATLASLOOT_IT_AMOUNT1] = 5 },	-- Brawler's Healing Tonic
-				{ 2, 118910, [PRICE_EXTRA_ITTYPE] = "money:15000", [ATLASLOOT_IT_AMOUNT1] = 5 },	-- Brawler's Draenic Agility Potion
-				{ 3, 118911, [PRICE_EXTRA_ITTYPE] = "money:15000", [ATLASLOOT_IT_AMOUNT1] = 5 },	-- Brawler's Draenic Intellect Potion
-				{ 4, 118912, [PRICE_EXTRA_ITTYPE] = "money:15000", [ATLASLOOT_IT_AMOUNT1] = 5 },	-- Brawler's Draenic Strength Potion
-				]]
-				{ 1,   142325, [PRICE_EXTRA_ITTYPE] = "money:20000" },                     -- Brawler's Ancient Healing Potion, added in 7.1.5.23360
-				{ 2,   142326, [PRICE_EXTRA_ITTYPE] = "money:150000" },                    -- Brawler's Potion of Prolonged Power, added in 7.1.5.23360
+				{ 1,  253011, [PRICE_EXTRA_ITTYPE] = "money:24000" },                     -- Brawler's Healing Brute Punch
+				{ 2,  253016, [PRICE_EXTRA_ITTYPE] = "money:200000" },                    -- Brawler's Fight Tonic of Intellect
+				{ 3,  253015, [PRICE_EXTRA_ITTYPE] = "money:200000" },                    -- Brawler's Fight Tonic of Agility
+				{ 4,  253014, [PRICE_EXTRA_ITTYPE] = "money:200000" },                    -- Brawler's Fight Tonic of Strength
 
-				{ 4,   93043,  [PRICE_EXTRA_ITTYPE] = "money:10000",     [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Rotten Apple
-				{ 5,   93044,  [PRICE_EXTRA_ITTYPE] = "money:10000",     [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Rotten Banana
-				{ 6,   93045,  [PRICE_EXTRA_ITTYPE] = "money:10000",     [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Rotten Watermelon
-				{ 7,   93158,  [PRICE_EXTRA_ITTYPE] = "money:10000",     [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Expired Blackout Brew
+				{ 6,  93043,  [PRICE_EXTRA_ITTYPE] = "money:8000",      [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Rotten Apple
+				{ 7,  93044,  [PRICE_EXTRA_ITTYPE] = "money:8000",      [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Rotten Banana
+				{ 8,  93045,  [PRICE_EXTRA_ITTYPE] = "money:8000",      [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Rotten Watermelon
+				{ 9,  93158,  [PRICE_EXTRA_ITTYPE] = "money:8000",      [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Expired Blackout Brew
 
-				{ 16,  144371 },                                                           -- Gorestained Tunic
-				{ 17,  144366 },                                                           -- Dubvest
-				{ 18,  144367 },                                                           -- Observer's Shirt
-				{ 19,  144372 },                                                           -- Hide of the Murderaffe
-				{ 20,  144365 },                                                           -- The Very Best Shirt
-				{ 21,  144370 },                                                           -- Croc-Tooth Harness
-				{ 22,  144368 },                                                           -- Felfeather Jersey
-				{ 23,  151263 },                                                           -- Electrified Compression Shirt
+				{ 16, 144371 },                                                           -- Gorestained Tunic
+				{ 17, 144366 },                                                           -- Dubvest
+				{ 18, 144367 },                                                           -- Observer's Shirt
+				{ 19, 144372 },                                                           -- Hide of the Murderaffe
+				{ 20, 144365 },                                                           -- The Very Best Shirt
+				{ 21, 144370 },                                                           -- Croc-Tooth Harness
+				{ 22, 144368 },                                                           -- Felfeather Jersey
+				{ 23, 151263 },                                                           -- Electrified Compression Shirt
+				{ 25, 98080,  [PRICE_EXTRA_ITTYPE] = "money:1000000" },                   -- Gorgeous Blouse
 
-
-				{ 101, 143762, [PRICE_EXTRA_ITTYPE] = "brawlergold:100" }, -- High Roller's Contract, ", 1500888, "" },
-				{ 102, 143763, [PRICE_EXTRA_ITTYPE] = "brawlergold:100" }, -- Bag of Chipped Dice, ", 237284, "" },
-				{ 103, 143761, [PRICE_EXTRA_ITTYPE] = "brawlergold:250" }, -- Blood-Soaked Angel Figurine, ", 237542, "" },
-				{ 104, 143760, [PRICE_EXTRA_ITTYPE] = "brawlergold:500" }, -- Brawler's Potion Dispenser, ", 132623, "" },
-				{ 105, 142288, [PRICE_EXTRA_ITTYPE] = "brawlergold:500" }, -- Rumble Card: Grief Warden, ", 979582, "" },
-				{ 106, 142289, [PRICE_EXTRA_ITTYPE] = "brawlergold:500" }, -- Rumble Card: Penguin Stampede, ", 979582, "" },
-				{ 107, 142290, [PRICE_EXTRA_ITTYPE] = "brawlergold:500" }, -- Rumble Card: Battle of the Brew, ", 979582, "" },
-				{ 108, 142291, [PRICE_EXTRA_ITTYPE] = "brawlergold:500" }, -- Rumble Card: Senya, ", 979582, "" },
-				{ 109, 142292, [PRICE_EXTRA_ITTYPE] = "brawlergold:500" }, -- Rumble Card: Stranglethorn Streak, ", 979582, "" },
-				{ 110, 142293, [PRICE_EXTRA_ITTYPE] = "brawlergold:500" }, -- Rumble Card: Mindbreaker Gzzaj, ", 979582, "" },
-				{ 111, 142294, [PRICE_EXTRA_ITTYPE] = "brawlergold:500" }, -- Rumble Card: Mazhareen, ", 979582, "" },
-				{ 112, 143758, [PRICE_EXTRA_ITTYPE] = "brawlergold:1000" }, -- Free Drinks Voucher, ", 237446, "" },
-				{ 113, 143759, [PRICE_EXTRA_ITTYPE] = "brawlergold:1000" }, -- VIP Room Rental Form, ", 1500889, "" },
-
+				{ 27, 142319, [PRICE_EXTRA_ITTYPE] = "brawlergold:100" },                 -- Bag of Chipped Dice
+				{ 28, 142314, [PRICE_EXTRA_ITTYPE] = "brawlergold:500" },                 -- Brawler's Potion Dispenser
+				{ 29, 142311, [PRICE_EXTRA_ITTYPE] = "brawlergold:1000" },                -- Free Drinks Voucher
+				{ 30, 142313, [PRICE_EXTRA_ITTYPE] = "brawlergold:1000" },                -- Zeppelin Rental Form
 			},
 			[HORDE_DIFF] = {
 				GetItemsFromDiff = ALLIANCE_DIFF,
@@ -400,21 +376,21 @@ data["BrawlersGuild"]         = {
 		{ -- achievements
 			name = ACHIEVEMENTS,
 			[ALLIANCE_DIFF] = {
-				{ 1, "ac11558" }, -- The First Rule of Brawler's Guild
-				{ 2, "ac11560" }, -- You Are Not Your $#*@! Legplates
-				{ 3, "ac11563" }, -- The Second Rule of Brawler's Guild
-				{ 4, "ac11565" }, -- King of the Guild
-				{ 5, "ac11567" }, -- You Are Not The Contents Of Your Wallet
-				{ 6, "ac11570" }, -- Educated Guesser
-				{ 7, "ac11572" }, -- I Am Thrall's Complete Lack Of Surprise
-				{ 8, "ac11573" }, -- Rumble Club
+				{ 1,  "ac61413" }, -- The First Rule of Brawler's Guild
+				{ 2,  "ac61466" }, -- The Best There Is
+				{ 3,  "ac61419" }, -- Brawler's Chilled
+				{ 4,  "ac61420" }, -- Let Me Solo It
+				{ 5,  "ac61421" }, -- A Prime Ordeal
+				{ 6,  "ac61422" }, -- Audience Participation
+				{ 7,  "ac61423" }, -- Featherweight Brawler
+				{ 8,  "ac61424" }, -- Brawlzilla
+				{ 9,  "ac61425" }, -- Hot Footed
+				{ 10, "ac61426" }, -- Bare Knuckle Brawl
+				{ 11, "ac61429" }, -- Brawl Star
 			},
 			[HORDE_DIFF] = {
 				GetItemsFromDiff = ALLIANCE_DIFF,
-				{ 1, "ac11559" }, -- The First Rule of Brawler's Guild
-				{ 2, "ac11561" }, -- You Are Not Your $#*@! Legplates
-				{ 3, "ac11564" }, -- The Second Rule of Brawler's Guild
-				{ 4, "ac11566" }, -- King of the Guild
+				{ 1, "ac61414" }, -- The First Rule of Brawler's Guild
 			},
 		},
 	}
@@ -1314,6 +1290,8 @@ data["Remix"]                 = {
 				{ 126, 152982,       [PRICE_EXTRA_ITTYPE] = "bronze:80000" },                             -- Vixx's Chest of Tricks
 				{ 127, 153004,       [PRICE_EXTRA_ITTYPE] = "bronze:100000" },                            -- Unstable Portal Emitter
 				{ 128, 153194,       [PRICE_EXTRA_ITTYPE] = "bronze:25000" },                             -- Legion Communication Orb
+				{ 129, 138827,       [PRICE_EXTRA_ITTYPE] = "bronze:80000" },                             -- Illusion: Nightmare
+				{ 130, 138828,       [PRICE_EXTRA_ITTYPE] = "bronze:100000" },                            -- Illusion: Chronos
 			}
 		},
 		{
@@ -2205,43 +2183,47 @@ data["PilgrimsBounty"]        = {
 		{ --PilgrimsBounty
 			name = AL["Pilgrim's Bounty"],
 			[ALLIANCE_DIFF] = {
-				{ 1,  44810,  "pet201" },         -- Turkey Cage (ACM 1694)
-				{ 3,  46809 },                    -- Bountiful Cookbook
-				{ 4,  44860 },                    -- Recipe: Spice Bread Stuffing (p3 1)
-				{ 5,  44862 },                    -- Recipe: Pumpkin Pie (p3 100)
-				{ 6,  44858 },                    -- Recipe: Cranberry Chutney (p3 160)
-				{ 7,  44859 },                    -- Recipe: Candied Sweet Potato (p3 220)
-				{ 8,  44861 },                    -- Recipe: Slow-Roasted Turkey (p3 280)
-				{ 10, 46888 },                    -- Bountiful Basket (p3 350)
-				{ 11, 44855,  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Teldrassil Sweet Potato
-				{ 12, 44854,  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Tangy Wetland Cranberries
-				{ 13, 46784,  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Ripe Elwynn Pumpkin
-				{ 14, 44835,  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Autumnal Herbs
-				{ 15, 44853,  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Honey
-				{ 16, 44844,  [QUEST_EXTRA_ITTYPE] = 14035 }, -- Turkey Caller
-				{ 18, 46723 },                    -- Pilgrim's Hat (Daily reward)
-				{ 19, 46800 },                    -- Pilgrim's Attire (Daily reward)
-				{ 20, 44785 },                    -- Pilgrim's Dress (Daily reward)
-				{ 21, 46824 },                    -- Pilgrim's Robe (Daily reward)
-				{ 22, 44788 },                    -- Pilgrim's Boots (Daily reward)
-				{ 23, 44812 },                    -- Turkey Shooter (Daily reward)
-				{ 25, 116404 },                   -- Pilgrim's Bounty
-				{ 26, 116401 },                   -- Fine Pilgrim's Hat
-				{ 27, 116403, "pet1516" },        -- Frightened Bush Chicken
-				{ 28, 116400 },                   -- Silver-Plated Turkey Shooter
+				{ 1,  44810,  "pet201" },                                           -- Turkey Cage (ACM 1694)
+				{ 2,  44844,  [QUEST_EXTRA_ITTYPE] = 14035 },                       -- Turkey Caller
+				{ 3,  46809,  [PRICE_EXTRA_ITTYPE] = "money:100" },                 -- Bountiful Cookbook
+				{ 4,  44860 },                                                      -- Recipe: Spice Bread Stuffing (p3 1)
+				{ 5,  44862 },                                                      -- Recipe: Pumpkin Pie (p3 100)
+				{ 6,  44858 },                                                      -- Recipe: Cranberry Chutney (p3 160)
+				{ 7,  44859 },                                                      -- Recipe: Candied Sweet Potato (p3 220)
+				{ 8,  44861 },                                                      -- Recipe: Slow-Roasted Turkey (p3 280)
+				{ 10, 46888,  [PRICE_EXTRA_ITTYPE] = "money:2000" },                -- Bountiful Basket (p3 350)
+				{ 11, 44855,  [ATLASLOOT_IT_AMOUNT1] = 5 },                         -- Teldrassil Sweet Potato
+				{ 12, 44854,  [ATLASLOOT_IT_AMOUNT1] = 5 },                         -- Tangy Wetland Cranberries
+				{ 13, 46784,  [ATLASLOOT_IT_AMOUNT1] = 5 },                         -- Ripe Elwynn Pumpkin
+				{ 14, 44835,  [PRICE_EXTRA_ITTYPE] = "money:10",  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Autumnal Herbs
+				{ 15, 44853,  [PRICE_EXTRA_ITTYPE] = "money:25",  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Honey
+				{ 16, 46723 },                                                      -- Pilgrim's Hat (Daily reward)
+				{ 17, 46800 },                                                      -- Pilgrim's Attire (Daily reward)
+				{ 18, 44785 },                                                      -- Pilgrim's Dress (Daily reward)
+				{ 19, 46824 },                                                      -- Pilgrim's Robe (Daily reward)
+				{ 20, 44788 },                                                      -- Pilgrim's Boots (Daily reward)
+				{ 21, 44812 },                                                      -- Turkey Shooter (Daily reward)
+				{ 23, 116404 },                                                     -- Pilgrim's Bounty
+				{ 24, 116401 },                                                     -- Fine Pilgrim's Hat
+				{ 25, 116403, "pet1516" },                                          -- Frightened Bush Chicken
+				{ 26, 116400 },                                                     -- Silver-Plated Turkey Shooter
+				{ 27, 248716 },                                                     -- Green Bountiful Backpack
+				{ 28, 248718 },                                                     -- Purple Bountiful Backpack
+				{ 29, 248717 },                                                     -- Orange Bountiful Backpack
+				{ 30, 248719 },                                                     -- White Bountiful Backpack
 			},
 			[HORDE_DIFF] = {
 				GetItemsFromDiff = ALLIANCE_DIFF,
-				{ 3,  46810 },                   -- Bountiful Cookbook
-				{ 4,  46803 },                   -- Recipe: Spice Bread Stuffing (p3 1)
-				{ 5,  46804 },                   -- Recipe: Pumpkin Pie (p3 100)
-				{ 6,  46805 },                   -- Cranberry Chutney (p3 160)
-				{ 7,  46806 },                   -- Recipe: Candied Sweet Potato (p3 220)
-				{ 8,  46807 },                   -- Recipe: Slow-Roasted Turkey (p3 280)
+				{ 2,  44844, [QUEST_EXTRA_ITTYPE] = 14047 }, -- Turkey Caller
+				{ 3,  46810, [PRICE_EXTRA_ITTYPE] = "money:100" }, -- Bountiful Cookbook
+				{ 4,  46803 },                         -- Recipe: Spice Bread Stuffing (p3 1)
+				{ 5,  46804 },                         -- Recipe: Pumpkin Pie (p3 100)
+				{ 6,  46805 },                         -- Cranberry Chutney (p3 160)
+				{ 7,  46806 },                         -- Recipe: Candied Sweet Potato (p3 220)
+				{ 8,  46807 },                         -- Recipe: Slow-Roasted Turkey (p3 280)
 				{ 11, 46797, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Mulgore Sweet Potato
 				{ 12, 46793, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Tangy Southfury Cranberries
 				{ 13, 46796, [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Ripe Tirisfal Pumpkin
-				{ 16, 44844, [QUEST_EXTRA_ITTYPE] = 14047 }, -- Turkey Caller
 			},
 		},
 	}
@@ -2253,77 +2235,113 @@ data["Winterveil"]            = {
 	items = {
 		{ --WinterveilStolenPresent
 			name = ALIL["Stolen Present"],
-			[NORMAL_DIFF] = {
-				{ 1,  116762,       [QUEST_EXTRA_ITTYPE] = 7043 }, -- Stolen Present
-				{ 2,  "117371:1800" },                 -- Miniature Winter Veil Tree
-				{ 3,  70923 },                         -- Gaudy Winter Veil Sweater
-				{ 5,  54436,        "pet254" },        -- Blue Clockwork Rocket Bot
-				{ 6,  34425,        "pet191" },        -- Clockwork Rocket Bot
-				{ 7,  73797,        "pet337" },        -- Lump of Coal
-				{ 8,  104317,       "pet1349" },       -- Rotten Little Helper
-				{ 10, 21215 },                         -- Graccu's Mince Meat Fruitcake
-				{ 11, 44481 },                         -- Grindgear Toy Gorilla
-				{ 12, 44601 },                         -- Heavy Copper Racer
-				{ 13, 34498 },                         -- Paper Zeppelin Kit
-				{ 14, 44482 },                         -- Trusty Copper Racer
-				{ 15, 44599 },                         -- Zippy Copper Racer
-				{ 17, 104318 },                        -- Crashin' Thrashin' Flyer Controller
-				{ 18, 46709 },                         -- MiniZep Controller
-				{ 19, 44606 },                         -- Toy Train Set
-				{ 20, 45057 },                         -- Wind-Up Train Wrecker
-				{ 21, 54343 },                         -- Blue Crashin' Thrashin' Racer Controller
-				{ 22, 37710 },                         -- Crashin' Thrashin' Racer Controller
-				{ 23, 90888 },                         -- Foot Ball
-				{ 24, 90883 },                         -- The Pigskin
-				{ 25, 54438 },                         -- Tiny Blue Ragdoll
-				{ 26, 54437 },                         -- Tiny Green Ragdoll
-				{ 27, 46725 },                         -- Red Rider Air Rifle
-				{ 28, 116456 },                        -- Scroll of Storytelling
+			[ALLIANCE_DIFF] = {
+				{ 1,   116762,        [QUEST_EXTRA_ITTYPE] = 7043 }, -- Stolen Present
+				{ 2,   "117371:12380" },                 -- Miniature Winter Veil Tree
+				{ 3,   "151351:12380" },                 -- Glowing Gift
+				{ 4,   210432 },                         -- Highland Drake: Winter Veil Armor
+				{ 5,   143898 },                         -- Miniature Winter Veil Tree (cosmetic)
+				{ 6,   70923 },                          -- Gaudy Winter Veil Sweater
+				{ 7,   118572 },                         -- Illusion: Flames of Ragnaros
+				{ 8,   128649 },                         -- Illusion: Winter's Grasp
+				{ 10,  178533,        "pet2622" },       -- Shaking Pet Carrier
+				{ 11,  232531,        "pet4691" },       -- Grunch
+				{ 12,  54436,         "pet254" },        -- Blue Clockwork Rocket Bot
+				{ 13,  34425,         "pet191" },        -- Clockwork Rocket Bot
+				{ 14,  73797,         "pet337" },        -- Lump of Coal
+				{ 15,  104317,        "pet1349" },       -- Rotten Little Helper
+				{ 17,  104318 },                         -- Crashin' Thrashin' Flyer Controller
+				{ 18,  116763 },                         -- Crashin' Thrashin' Shredder Controller
+				{ 19,  108632 },                         -- Crashin' Thrashin' Flamer Controller
+				{ 20,  37710 },                          -- Crashin' Thrashin' Racer Controller
+				{ 21,  54343 },                          -- Blue Crashin' Thrashin' Racer Controller
+				{ 22,  45057 },                          -- Wind-Up Train Wrecker
+				{ 23,  90888 },                          -- Special Edition Foot Ball
+				{ 24,  90883 },                          -- The Pigskin
+				{ 25,  54438 },                          -- Tiny Blue Ragdoll
+				{ 26,  54437 },                          -- Tiny Green Ragdoll
+				{ 27,  116691 },                         -- Zhevra Lounge Cushion
+				{ 28,  116692 },                         -- Fuzzy Green Lounge Cushion
+				{ 29,  116689 },                         -- Pineapple Lounge Cushion
+				{ 30,  116690 },                         -- Safari Lounge Cushion
+				{ 101, 116456 },                         -- Scroll of Storytelling
+				{ 102, 46709 },                          -- MiniZep Controller
+				{ 103, 44606 },                          -- Toy Train Set
+				{ 104, 128776 },                         -- Red Wooden Sled
+				{ 105, 209859 },                         -- Festive Trans-Dimensional Bird Whistle
+				{ 106, 139337 },                         -- Disposable Winter Veil Suits
+				{ 107, 128636 },                         -- Endothermic Blaster
+				{ 108, 162973 },                         -- Greatfather Winter's Hearthstone
+				{ 109, 178530 },                         -- Wreath-A-Rang
+				{ 110, 172219 },                         -- Wild Holly
+				{ 111, 172223 },                         -- Crashin' Thrashin' Battleship
+				{ 112, 162643 },                         -- Toy Armor Set
+				{ 113, 151343 },                         -- Hearthstation
+				{ 114, 151349 },                         -- Toy Weapon Set
+				{ 115, 210656 },                         -- Winter Veil Socks
+				{ 116, 187422 },                         -- Rockin' Rollin' Racer Customizer 19.9.3
+				{ 117, 191937 },                         -- Falling Star Catcher
+				{ 118, 191925 },                         -- Falling Star Flinger
+				{ 119, 208825 },                         -- Junior Timekeeper's Racing Belt
+				{ 120, 218308 },                         -- Winter Veil Cracker
+				{ 121, 218310 },                         -- Box of Puntables
+				{ 123, 46725 },                          -- Red Rider Air Rifle
+				{ 124, 21215 },                          -- Graccu's Mince Meat Fruitcake
+				{ 125, 44481 },                          -- Grindgear Toy Gorilla
+				{ 126, 44601 },                          -- Heavy Copper Racer
+				{ 127, 34498 },                          -- Paper Zeppelin Kit
+				{ 128, 44482 },                          -- Trusty Copper Racer
+				{ 129, 44599 },                          -- Zippy Copper Racer
+			},
+			[HORDE_DIFF] = {
+				GetItemsFromDiff = ALLIANCE_DIFF,
+				{ 1,   116762, [QUEST_EXTRA_ITTYPE] = 6983 }, -- Stolen Present
+				{ 111, 172222 },                  -- Crashin' Thrashin' Juggernaught
+				{ 112, 162642 },                  -- Toy Armor Set
+				{ 113, 151344 },                  -- Hearthstation
+				{ 114, 151348 },                  -- Toy Weapon Set
 			},
 		},
 		{ --WinterveilGiftsPresents
 			name = AL["Gifts & Presents"],
 			[ALLIANCE_DIFF] = {
-				{ 1,   21310,                              [QUEST_EXTRA_ITTYPE] = 8768 }, -- Gaily Wrapped Present
-				{ 2,   21301,                              "pet119" },         -- Green Helper Box
-				{ 3,   21308,                              "pet118" },         -- Jingling Bell
-				{ 4,   21305,                              "pet120" },         -- Red Helper Box
-				{ 5,   21309,                              "pet117" },         -- Snowman Kit
-				{ 7,   21271,                              [QUEST_EXTRA_ITTYPE] = 8788 }, -- Gently Shaken Gift
-				{ 8,   116692 },                                               -- Fuzzy Green Lounge Cushion
-				{ 9,   116689 },                                               -- Pineapple Lounge Cushion
-				{ 10,  116690 },                                               -- Safari Lounge Cushion
-				{ 11,  116691 },                                               -- Zhevra Lounge Cushion
-				{ 12,  21235 },                                                -- Winter Veil Roast
-				{ 13,  21241 },                                                -- Winter Veil Eggnog
-				{ 16,  21327,                              [QUEST_EXTRA_ITTYPE] = 8769 }, -- Ticking Present
-				{ 17,  17720 },                                                -- Schematic: Snowmaster 9000 (p5 190)
-				{ 18,  17706 },                                                -- Plans: Edge of Winter (p2 190)
-				{ 19,  17725 },                                                -- Formula: Enchant Weapon - Winter's Might (p4 190)
-				{ 20,  17722 },                                                -- Pattern: Gloves of the Greatfather (p7 190)
-				{ 21,  17709 },                                                -- Recipe: Elixir of Frost Power (p1 190)
-				{ 22,  17724 },                                                -- Pattern: Green Holiday Shirt (p8 190)
-				{ 23,  21325 },                                                -- Mechanical Greench
-				{ 24,  21213 },                                                -- Preserved Holly
-				{ 26,  116761,                             [QUEST_EXTRA_ITTYPE] = 36617 }, -- Winter Veil Gift
-				{ 27,  116763 },                                               -- Crashin' Thrashin' Shredder Controller (2014)
-				{ 101, 21191,                              [QUEST_EXTRA_ITTYPE] = 8744 }, -- Carefully Wrapped Present
-				{ 102, 116451 },                                               -- Warm Blue Woolen Socks
-				{ 103, 116450 },                                               -- Warm Green Woolen Socks
-				{ 104, 116448 },                                               -- Warm Red Woolen Socks
-				{ 105, 21254 },                                                -- Winter Veil Cookie
-				{ 107, 21363,                              [QUEST_EXTRA_ITTYPE] = 8803 }, -- Festive Gift
-				{ 108, 21328 },                                                -- Wand of Holiday Cheer
-				{ 116, 21216,                              [QUEST_EXTRA_ITTYPE] = 7045 }, -- Smokywood Pastures Extra-Special Gift
-				{ 117, 21215 },                                                -- Graccu's Mince Meat Fruitcake
+				{ 1,   21310,                              [QUEST_EXTRA_ITTYPE] = 8768 },                  -- Gaily Wrapped Present
+				{ 2,   21301,                              "pet119" },                                     -- Green Helper Box
+				{ 3,   21308,                              "pet118" },                                     -- Jingling Bell
+				{ 4,   21305,                              "pet120" },                                     -- Red Helper Box
+				{ 5,   21309,                              "pet117" },                                     -- Snowman Kit
+				{ 7,   21271,                              [QUEST_EXTRA_ITTYPE] = 8788 },                  -- Gently Shaken Gift
+				{ 8,   "INV_Box_01",                       nil,                         "???",                 nil }, -- ???
+				{ 9,   21235 },                                                                            -- Winter Veil Roast
+				{ 10,  21241 },                                                                            -- Winter Veil Eggnog
+				{ 16,  21327,                              [QUEST_EXTRA_ITTYPE] = 8769 },                  -- Ticking Present
+				{ 17,  17720 },                                                                            -- Schematic: Snowmaster 9000 (p5 190)
+				{ 18,  17706 },                                                                            -- Plans: Edge of Winter (p2 190)
+				{ 19,  17725 },                                                                            -- Formula: Enchant Weapon - Winter's Might (p4 190)
+				{ 20,  17722 },                                                                            -- Pattern: Gloves of the Greatfather (p7 190)
+				{ 21,  17709 },                                                                            -- Recipe: Elixir of Frost Power (p1 190)
+				{ 22,  17724 },                                                                            -- Pattern: Green Holiday Shirt (p8 190)
+				{ 23,  21325 },                                                                            -- Mechanical Greench
+				{ 24,  21213 },                                                                            -- Preserved Holly
+				{ 26,  116761,                             [QUEST_EXTRA_ITTYPE] = 36617 },                 -- Winter Veil Gift
+				{ 27,  "INV_Box_01",                       nil,                         "???",                 nil }, -- ???
+				{ 101, 21191,                              [QUEST_EXTRA_ITTYPE] = 8744 },                  -- Carefully Wrapped Present
+				{ 102, 116451 },                                                                           -- Warm Blue Woolen Socks
+				{ 103, 116450 },                                                                           -- Warm Green Woolen Socks
+				{ 104, 116448 },                                                                           -- Warm Red Woolen Socks
+				{ 105, 21254 },                                                                            -- Winter Veil Cookie
+				{ 107, 21363,                              [QUEST_EXTRA_ITTYPE] = 8803 },                  -- Festive Gift
+				{ 108, 21328 },                                                                            -- Wand of Holiday Cheer
+				{ 116, 21216,                              [QUEST_EXTRA_ITTYPE] = 7045 },                  -- Smokywood Pastures Extra-Special Gift
+				{ 117, 21215 },                                                                            -- Graccu's Mince Meat Fruitcake
 				{ 119, "INV_Holiday_Christmas_Present_01", nil,                         AL["Special Rewards"], nil },
-				{ 120, 21525 },                                                -- Green Winter Hat
-				{ 121, 21524 },                                                -- Red Winter Hat
-				{ 122, 17712,                              [QUEST_EXTRA_ITTYPE] = 7045 }, -- Winter Veil Disguise Kit (mailed 24h after quest)
-				{ 123, 17202 },                                                -- Snowball
-				{ 124, 21215 },                                                -- Handful of Snowflakes
-				{ 125, 21212 },                                                -- Fresh Holly
-				{ 126, 21519 },                                                -- Mistletoe
+				{ 120, 21525 },                                                                            -- Green Winter Hat
+				{ 121, 21524 },                                                                            -- Red Winter Hat
+				{ 122, 17712,                              [QUEST_EXTRA_ITTYPE] = 7045 },                  -- Winter Veil Disguise Kit (mailed 24h after quest)
+				{ 123, 17202 },                                                                            -- Snowball
+				{ 124, 21215 },                                                                            -- Handful of Snowflakes
+				{ 125, 21212 },                                                                            -- Fresh Holly
+				{ 126, 21519 },                                                                            -- Mistletoe
 			},
 			[HORDE_DIFF] = {
 				GetItemsFromDiff = ALLIANCE_DIFF,
@@ -2334,30 +2352,46 @@ data["Winterveil"]            = {
 		{ --WinterveilVendor
 			name = AL["Smokywood Pastures Vendor"],
 			[NORMAL_DIFF] = {
-				{ 1,  70923 }, -- Gaudy Winter Veil Sweater
-				{ 3,  34262 }, -- Pattern: Winter Boots (p7 (85)
-				{ 4,  34319 }, -- Pattern: Red Winter Clothes (p8 250)
-				{ 5,  34261 }, -- Pattern: Green Winter Clothes (p8 250)
-				{ 6,  34413 }, -- Recipe: Hot Apple Cider (p3 325)
-				{ 7,  17201 }, -- Recipe: Egg Nog (p3 35)
-				{ 8,  17200 }, -- Recipe: Gingerbread Cookie (p3 1)
-				{ 9,  17194 }, -- Holiday Spices
-				{ 11, 17303 }, -- Blue Ribboned Wrapping Paper
-				{ 12, 17304 }, -- Green Ribboned Wrapping Paper
-				{ 13, 17307 }, -- Purple Ribboned Wrapping Paper
-				{ 15, 17202 }, -- Snowball
-				{ 16, 17344 }, -- Candy Cane
-				{ 17, 17406 }, -- Holiday Cheesewheel
-				{ 18, 17407 }, -- Graccu's Homemade Meat Pie
-				{ 19, 21215 }, -- Graccu's Mince Meat Fruitcake
-				{ 20, 17408 }, -- Spicy Beefstick
-				{ 21, 34410 }, -- Honeyed Holiday Ham
-				{ 22, 17404 }, -- Blended Bean Brew
-				{ 23, 17405 }, -- Green Garden Tea
-				{ 24, 34412 }, -- Sparkling Apple Cider
-				{ 25, 17196 }, -- Holiday Spirits
-				{ 26, 17403 }, -- Steamwheedle Fizzy Spirits
-				{ 27, 17402 }, -- Greatfather's Winter Ale
+				{ 1,   188680,                          [PRICE_EXTRA_ITTYPE] = "money:52" }, -- Winter Veil Chorus Book
+				{ 3,   [ATLASLOOT_IT_HORDE] = 34261,    [PRICE_EXTRA_ITTYPE] = "money:5000" }, -- Pattern: Green Winter Clothes
+				{ 4,   [ATLASLOOT_IT_ALLIANCE] = 34319, [PRICE_EXTRA_ITTYPE] = "money:5000" }, -- Pattern: Red Winter Clothes
+				{ 5,   34262,                           [PRICE_EXTRA_ITTYPE] = "money:5000" }, -- Pattern: Winter Boots
+				{ 6,   17200,                           [PRICE_EXTRA_ITTYPE] = "money:25" }, -- Recipe: Gingerbread Cookie
+				{ 7,   17201,                           [PRICE_EXTRA_ITTYPE] = "money:240" }, -- Recipe: Winter Veil Eggnog
+				{ 8,   34413,                           [PRICE_EXTRA_ITTYPE] = "money:10000" }, -- Recipe: Hot Apple Cider
+				{ 10,  70923,                           [PRICE_EXTRA_ITTYPE] = "money:38" }, -- Gaudy Winter Veil Sweater
+				{ 11,  234400,                          [PRICE_EXTRA_ITTYPE] = "money:300000" }, -- Festive Red Holiday Coat
+				{ 12,  234594,                          [PRICE_EXTRA_ITTYPE] = "money:300000" }, -- Festive Red Holiday Vest
+				{ 13,  234399,                          [PRICE_EXTRA_ITTYPE] = "money:150000" }, -- Festive Red Holiday Belt
+				{ 14,  234402,                          [PRICE_EXTRA_ITTYPE] = "money:250000" }, -- Festive Red Holiday Pants
+				{ 15,  234404,                          [PRICE_EXTRA_ITTYPE] = "money:250000" }, -- Festive Red Holiday Shorts
+				{ 16,  234406,                          [PRICE_EXTRA_ITTYPE] = "money:150000" }, -- Festive Red Holiday Boots
+				{ 17,  234401,                          [PRICE_EXTRA_ITTYPE] = "money:300000" }, -- Festive Green Holiday Coat
+				{ 18,  234593,                          [PRICE_EXTRA_ITTYPE] = "money:300000" }, -- Festive Green Holiday Vest
+				{ 19,  234398,                          [PRICE_EXTRA_ITTYPE] = "money:150000" }, -- Festive Green Holiday Belt
+				{ 20,  234403,                          [PRICE_EXTRA_ITTYPE] = "money:250000" }, -- Festive Green Holiday Pants
+				{ 21,  234405,                          [PRICE_EXTRA_ITTYPE] = "money:250000" }, -- Festive Green Holiday Shorts
+				{ 22,  234407,                          [PRICE_EXTRA_ITTYPE] = "money:150000" }, -- Festive Green Holiday Boots
+				{ 23,  234598,                          [PRICE_EXTRA_ITTYPE] = "money:300000" }, -- Festive Red Holiday Shirt
+				{ 24,  234597,                          [PRICE_EXTRA_ITTYPE] = "money:300000" }, -- Festive Green Holiday Shirt
+				{ 25,  234596,                          [PRICE_EXTRA_ITTYPE] = "money:300000" }, -- Festive Green Holiday Sweater
+				{ 26,  234595,                          [PRICE_EXTRA_ITTYPE] = "money:300000" }, -- Festive Red Holiday Sweater
+				{ 28,  17303,                           [PRICE_EXTRA_ITTYPE] = "money:10" }, -- Blue Ribboned Wrapping Paper
+				{ 29,  17304,                           [PRICE_EXTRA_ITTYPE] = "money:10" }, -- Green Ribboned Wrapping Paper
+				{ 30,  17307,                           [PRICE_EXTRA_ITTYPE] = "money:10" }, -- Purple Ribboned Wrapping Paper
+				{ 101, 17202,                           [PRICE_EXTRA_ITTYPE] = "money:10" }, -- Snowball
+				{ 102, 17194,                           [PRICE_EXTRA_ITTYPE] = "money:10" }, -- Holiday Spices
+				{ 103, 17196,                           [PRICE_EXTRA_ITTYPE] = "money:50" }, -- Holiday Spirits
+				{ 105, 21215,                           [PRICE_EXTRA_ITTYPE] = "money:999900" }, -- Graccu's Mince Meat Fruitcake
+				{ 106, 17404,                           [PRICE_EXTRA_ITTYPE] = "money:125" }, -- Blended Bean Brew
+				{ 107, 17405,                           [PRICE_EXTRA_ITTYPE] = "money:1000" }, -- Green Garden Tea
+				{ 108, 34412,                           [PRICE_EXTRA_ITTYPE] = "money:1000" }, -- Sparkling Apple Cider
+				{ 109, 17406,                           [PRICE_EXTRA_ITTYPE] = "money:125" }, -- Holiday Cheesewheel
+				{ 110, 17407,                           [PRICE_EXTRA_ITTYPE] = "money:1000" }, -- Graccu's Homemade Meat Pie
+				{ 111, 17408,                           [PRICE_EXTRA_ITTYPE] = "money:2000" }, -- Spicy Beefstick
+				{ 112, 34410,                           [PRICE_EXTRA_ITTYPE] = "money:4000" }, -- Honeyed Holiday Ham
+				{ 113, 17403,                           [PRICE_EXTRA_ITTYPE] = "money:150" }, -- Steamwheedle Fizzy Spirits
+				{ 114, 17402,                           [PRICE_EXTRA_ITTYPE] = "money:2000" }, -- Greatfather's Winter Ale
 			},
 		},
 	}

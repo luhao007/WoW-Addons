@@ -1,13 +1,11 @@
 ---@diagnostic disable: param-type-mismatch
 --[===[ File
-Titan adjusts some WoW frames based on the WoW version!
-Mainly used when user can NOT edit / move most UI frames.
-
+Titan adjusts some WoW frames prior to DragonFlight.
 DragonFlight introduced an Edit Mode for the user to move various frames where they want them.
 Titan no longer needs to do this work for most frames.
 
 There are a small number of frames that WoW does not have in Edit mode. These will be added to the table over time as users request.
-The scheme has changed to be more like 'move any/thing' which hooks the SetPoint of the frame.
+The scheme has changed to be more like 'move anything' which hooks the SetPoint of the frame.
 Titan still only allows vertical adjust - not move anywhere.
 --]===]
 -- Globals

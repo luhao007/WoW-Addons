@@ -1,26 +1,13 @@
 --[===[ File
     This file is NOT to be included in the TOC file!
     This is intended for IDE Intellisense.
---]===]
 
---[[ IDE
-    This file is NOT to be included in the TOC file!
-    This is intended to be used for IDE Intellisense.
 
-    Tools used:
-    Visual Studio Code - https://code.visualstudio.com/
-    Other IDEs accept Lua Language Server, see if your prefered IDE will accept LLS
-
-    Lua Language Server (LLS) - https://marketplace.visualstudio.com/items?itemName=sumneko.lua
-        https://github.com/LuaLS/lua-language-server
-    WoW API - LLS extension - https://marketplace.visualstudio.com/items?itemName=ketho.wow-api
-        https://github.com/Ketho/vscode-wow-api
-
-    This file is to remove errors and warnings thrown by the tools used.
+    This file is to remove errors and warnings thrown by the Intellisense tools used.
     It declares variables and tables :
     - That are not readily available to the IDE
     - That are declared via indirection as the drop down lib is
-    - When Lua 'best practice' parser is stricter than Lua is
+    - When Lua Intellisense parser is stricter than Lua is
     - When Titan is checking for an addon the user may or may not have loaded
     
     Titan may contain IDE annotations. 
@@ -32,11 +19,44 @@
     - Titan is handling Classic versions that use deprecated routines
     - Possibly the WoW extension is out of date or the Blizz documentation is wrong
 
-    Note the diagnostic could be by line, file, or workspace / project.
+    Note: the diagnostic could be by line, file, or workspace / project.
+    --]===]
+
+--[[ IDE
+    This file is NOT to be included in the TOC file!
+    This is intended to be used by IDE Intellisense feature.
+
+    These tools can make dev a lot easier. 
+    Visual Studio Code - https://code.visualstudio.com/
+    Other IDEs accept Lua Language Server, see if your prefered IDE will accept language servers.
+
+    - Lua Language Server (LLS) :
+    https://marketplace.visualstudio.com/items?itemName=sumneko.lua
+    or	https://github.com/LuaLS/lua-language-server
+
+    - WoW API - LLS extension :
+    https://marketplace.visualstudio.com/items?itemName=ketho.wow-api
+    or https://github.com/Ketho/vscode-wow-api
+
+    - WoW TOC can be useful :
+    - https://marketplace.visualstudio.com/items?itemName=stanzilla.vscode-wow-toc
+
+
+    And a tiny Python parser to pull these comments.
+
+    Notes: 
+    - The WoW API in both IDE plugins is geared to Retail.
+    - There is no option to automatically include 'Classic' deprecated routines.
+    - There are diagnostic annotations used to ignore some warnings. 
+    - Ignore warning annotations were limited as much as practical to 'this line' to point out usage of Classic routines.
+    - Files or folders for the IDE such as .vscode; Titan.code-workspace; and others are included in the TItan release.
+
 --]]
 
 -- Use Linux command below to get a rough line count of a Titan release.
 -- find . -wholename "*.tga" -prune -o -wholename "*.code*" -prune -o -wholename "*.blp" -prune -o -wholename "*/libs/*" -prune -o -wholename "*/Artwork/*" -prune -o -print | xargs wc -l
+
+-- Note: The IDE does not understand the frames and widgets relationship between XML and Lua. Declare UI objects defined in XML or Lua here.
 
 --====== Frames from Titan Template XML
 TitanPanelButtonTemplate = {}
@@ -87,9 +107,12 @@ TitanPanelXPButton = {}
 TitanPanelXPButtonIcon = {}
 
 --====== Libs that may exist or adjusting for libs
+-- Ace lib references
 AceLibrary = {}
 
 ---@class AceAddon
+
+AceGUIWidgetLSMlists = {}
 
 AceHook = {}
 -- @param obj string | function The object or frame to unhook from
@@ -103,8 +126,9 @@ end
 -- Should be handled by the WoW extension
 ACCOUNT_QUEST_LABEL = "" -- 11.0.0 New Warbank - Hopefully WoW API extension will catch up soon
 ACCOUNT_BANK_PANEL_TITLE = "" -- 11.0.0 New Warbank - Hopefully WoW API extension will catch up soon
+LABEL_NOTE = ""
 
---====== WoW frames
+--====== WoW defined frames
 PetActionBarFrame = {}
 StanceBarFrame = {}
 PossessBarFrame = {}
@@ -126,8 +150,9 @@ C_Bank = {} -- 11.0.0 New Warbank - Hopefully WoW API extension will catch up so
 
 --====== Convince IDE we know what we are doing
 -- Lua allows table updates but the IDE complains about 'injecting' a field it does not know about.
--- Adding a function or variable to a frame in this case.
 
+
+--====== Adding a function or variable to a frame in this case.
 ---@class UIParent WoW frame
 ---@field GetScale function WoW region routine
 
@@ -159,8 +184,13 @@ C_Bank = {} -- 11.0.0 New Warbank - Hopefully WoW API extension will catch up so
 ---@field short_name string Placeholder for short bar name
 ---@field RegisterForClicks function Variable params missed by VS Code plugin
 
--- Ace references
-AceGUIWidgetLSMlists = {}
+--====== Profile output from Utils
+---@class Get_Profile_Result
+---@field ptype string Type of profile being used
+---@field pname string Name of profile being used
+---@field cname string Name of profile being used color coded
+---@field glob string Value of global profile
+---@field sync string Value of sync profile
 
 --====== Ace Drop down menu
 L_UIDROPDOWNMENU_MENU_LEVEL = 1

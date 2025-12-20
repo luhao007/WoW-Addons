@@ -1,6 +1,6 @@
-## Interface: 110205
+## Interface: 110207
 ## Author: geligasi
-## Version: 1.77
+## Version: 1.79
 
 ## Title: !Pig_Tardis
 ## Notes: Invite enhancement

@@ -7,8 +7,8 @@ local contains = app.contains;
 -- Global locals
 local coroutine, ipairs, pairs, pcall, rawset, tinsert, tremove, tonumber, math_floor, math_sqrt, math_random
 	= coroutine, ipairs, pairs, pcall, rawset, tinsert, tremove, tonumber, math.floor, math.sqrt, math.random;
-local CreateVector2D, GetInstanceInfo, GetRealZoneText, GetSubZoneText, InCombatLockdown,IsInInstance
-	= CreateVector2D, GetInstanceInfo, GetRealZoneText, GetSubZoneText, InCombatLockdown,IsInInstance
+local CreateVector2D, GetInstanceInfo, GetRealZoneText, GetSubZoneText, GetZoneText, InCombatLockdown,IsInInstance
+	= CreateVector2D, GetInstanceInfo, GetRealZoneText, GetSubZoneText, GetZoneText, InCombatLockdown,IsInInstance
 local C_Map_GetMapArtID = C_Map.GetMapArtID;
 local C_Map_GetMapLevels = C_Map.GetMapLevels;
 local C_Map_GetBestMapForUnit = C_Map.GetBestMapForUnit;
@@ -362,6 +362,30 @@ local AreaIDNameMapper = setmetatable({}, {__index = function(t,key)
 		id = id + 1
 	end
 end})
+-- Reporting (backwards ID search) - Do not remove // Darkal
+local AreaIDNameMapperBackwards = setmetatable({}, {__index = function(t,key)
+	local maxID = 25000
+	local id = maxID - 1
+	local keyid = tonumber(key)
+	local name
+	while id > 0 do            -- scan backwards
+		-- ref. https://wago.tools/db2/AreaTable
+		name = C_Map_GetAreaInfo(id)
+		if name then
+			t[name] = id
+		end
+		t[id] = name or UNKNOWN
+		if key == name then
+			-- app.PrintDebug("Found AreaID",id,"for",key)
+			return id
+		end
+		if keyid == id then
+			-- app.PrintDebug("Found Name",name,"for",id)
+			return name or UNKNOWN
+		end
+		id = id - 1
+	end
+end})
 local ReportedAreas = {};
 app.AddEventHandler("OnReportReset", function() wipe(ReportedAreas) end)
 local function PrintDiscordInformationForExploration(o, type)
@@ -401,20 +425,20 @@ local function PrintDiscordInformationForExploration(o, type)
 	local luaFormat
 
 	if type == "subzone" then
-		if inInstance then
-			luaFormat = "visit_exploration(%d),\t-- %s"
-			tinsert(info, luaFormat:format(areaID, text))
-		else
+		if position then
 			luaFormat = "visit_exploration(%d,{coord={%.1f,%.1f,%d}}),\t-- %s"
 			tinsert(info, luaFormat:format(areaID, x or 0, y or 0, mapID, text))
+		else
+			luaFormat = "visit_exploration(%d),\t-- %s"
+			tinsert(info, luaFormat:format(areaID, text))
 		end
 	elseif type == "zone" then
-		if inInstance then
-			luaFormat = "map_exploration(%d),\t-- %s"
-			tinsert(info, luaFormat:format(areaID, text))
-		else
+		if position then
 			luaFormat = "map_exploration(%d,{coord={%.1f,%.1f,%d}}),\t-- %s"
 			tinsert(info, luaFormat:format(areaID, x or 0, y or 0, mapID, text))
+		else
+			luaFormat = "map_exploration(%d),\t-- %s"
+			tinsert(info, luaFormat:format(areaID, text))
 		end
 	end
 	tinsert(info, "");
@@ -442,26 +466,30 @@ end
 -- Reporting (all areas remembered in a single report window)
 local ExplorationReportLines = {}
 local function PrintDiscordInformationForAllExplorations(o, type)
-    if not app.Contributor then return end
+	-- Temporarily disabled reports for users until we have most areas sorted.
+	-- We can't rely on the ID guessing based on the area name when we miss so many still.
+	if true then return end
+
+	if not app.Contributor then return end
 	if not type then return end
-    local areaID = o.explorationID
-    if not areaID or ReportedAreas[areaID] then return end
-    ReportedAreas[areaID] = o
+	local areaID = o.explorationID
+	if not areaID or ReportedAreas[areaID] then return end
+	ReportedAreas[areaID] = o
 
-    local text = o.text or "???"
-    local mapID = o.mapID
-    if mapID then
-        text = text .. " (" .. GetMapName(mapID) .. ")"
-    end
+	local text = o.text or "???"
+	local mapID = o.mapID
+	if mapID then
+		text = text .. " (" .. GetMapName(mapID) .. ")"
+	end
 
-    local position, coord = mapID and C_Map_GetPlayerMapPosition(mapID, "player"), nil
-    local x, y
-    if position then
-        x, y = position:GetXY()
-        x = math_floor(x * 1000) / 10
-        y = math_floor(y * 1000) / 10
-        coord = x .. ", " .. y
-    end
+	local position, coord = mapID and C_Map_GetPlayerMapPosition(mapID, "player"), nil
+	local x, y
+	if position then
+		x, y = position:GetXY()
+		x = math_floor(x * 1000) / 10
+		y = math_floor(y * 1000) / 10
+		coord = x .. ", " .. y
+	end
 
 	local inInstance = IsInInstance()
 	if not inInstance and (not x or not y) then
@@ -471,27 +499,27 @@ local function PrintDiscordInformationForAllExplorations(o, type)
 	local luaFormat
 
 	if type == "subzone" then
-		if inInstance then
-			luaFormat = "visit_exploration(%d),\t-- %s"
-			tinsert(ExplorationReportLines, luaFormat:format(areaID, text))
-		else
+		if position then
 			luaFormat = "visit_exploration(%d,{coord={%.1f,%.1f,%d}}),\t-- %s"
 			tinsert(ExplorationReportLines, luaFormat:format(areaID, x or 0, y or 0, mapID, text))
+		else
+			luaFormat = "visit_exploration(%d),\t-- %s"
+			tinsert(ExplorationReportLines, luaFormat:format(areaID, text))
 		end
 	elseif type == "zone" then
-		if inInstance then
-			luaFormat = "map_exploration(%d),\t-- %s"
-			tinsert(ExplorationReportLines, luaFormat:format(areaID, text))
-		else
+		if position then
 			luaFormat = "map_exploration(%d,{coord={%.1f,%.1f,%d}}),\t-- %s"
 			tinsert(ExplorationReportLines, luaFormat:format(areaID, x or 0, y or 0, mapID, text))
+		else
+			luaFormat = "map_exploration(%d),\t-- %s"
+			tinsert(ExplorationReportLines, luaFormat:format(areaID, text))
 		end
 	end
 
-    local popupID = "exploration-report-" .. areaID
-    app:SetupReportDialog(popupID, "Exploration Reports", ExplorationReportLines)
-    app.print("Found Unmapped Area (" .. type .. "):", app:Linkify(text, app.Colors.ChatLinkError, "dialog:" .. popupID))
-    app.Audio:PlayReportSound()
+	local popupID = "exploration-report-" .. areaID
+	app:SetupReportDialog(popupID, "Exploration Reports", ExplorationReportLines)
+	app.print("Found Unmapped Area (" .. type .. "):", app:Linkify(text, app.Colors.ChatLinkError, "dialog:" .. popupID))
+	app.Audio:PlayReportSound()
 end
 local RefreshExplorationData = app.IsClassic and (function(data)
 	app:RefreshDataQuietly("RefreshExploration", true);
@@ -507,11 +535,11 @@ local function CacheAndUpdateExploration(explorationIDTable)
 	RefreshExplorationData(rawAreaIDdata)
 end
 local function GetAreaIDForName(name, zonetype)
-    local id = AreaIDNameMapper[name]
-    if not id then
-        app.PrintDebug("No AreaID found for", zonetype, name)
-    end
-    return id
+	local id = AreaIDNameMapper[name]
+	if not id then
+		app.PrintDebug("No AreaID found for", zonetype, name)
+	end
+	return id
 end
 local function GetExplorationByZoneOrSubzone(mapID)
 	local results = {}
@@ -556,18 +584,18 @@ local function GetExplorationByZoneOrSubzone(mapID)
 				-- Not in ATT at all
 				if not mappedExploration then
 					foundExploration = app.CreateExploration(expectedAreaID, { mapID = mapID, name = name })
-					PrintDiscordInformationForExploration(foundExploration, type)
+					PrintDiscordInformationForAllExplorations(foundExploration, type)
 				-- In ATT as NYI or Unsorted
 				elseif mappedExploration._missing or app.GetRelativeValue(mappedExploration, "_nyi") then
 					-- Inject some data into the exploration object so we can report about it properly
 					mappedExploration.mapID = mapID
 					mappedExploration.name = name
-					PrintDiscordInformationForExploration(mappedExploration, type)
+					PrintDiscordInformationForAllExplorations(mappedExploration, type)
 					foundExploration = mappedExploration
 				else
 					-- in ATT without coords, likely means it can't be detected in API since it would be populated
 					if C_Map_GetPlayerMapPosition(mapID, "player") and not mappedExploration.coords then
-						PrintDiscordInformationForExploration(mappedExploration, type)
+						PrintDiscordInformationForAllExplorations(mappedExploration, type)
 					end
 					foundExploration = mappedExploration
 				end
@@ -626,7 +654,7 @@ local function CheckExplorationForPlayerPosition()
 		end
 		if not ReportedAreas[areaID] then
 			if #app.SearchForField("explorationID", areaID) < 1 then
-				PrintDiscordInformationForExploration(app.CreateExploration(areaID, { mapID = mapID}));
+				PrintDiscordInformationForAllExplorations(app.CreateExploration(areaID, { mapID = mapID}));
 			end
 		end
 	end
@@ -982,7 +1010,7 @@ local function HarvestExploration()
 								byExplorationID[areaID] = o;
 								local searchResults = app.SearchForField("explorationID", areaID);
 								if #searchResults < 1 or ReportedAreas[areaID] then
-									PrintDiscordInformationForExploration(o);
+									PrintDiscordInformationForAllExplorations(o);
 								end
 								tinsert(searchResults, o);
 							end
@@ -1093,9 +1121,7 @@ app.CreateMap = app.CreateClass("Map", "mapID", {
 			return true;
 		end
 	end,
-	["ignoreSourceLookup"] = function(t)
-		return true;
-	end,
+	["ignoreSourceLookup"] = app.ReturnTrue,
 	isMinilistHeader = function(t)
 		local mapinfo = C_Map_GetMapInfo(t.mapID)
 		local mapType = mapinfo and mapinfo.mapType or 0
@@ -1134,10 +1160,10 @@ app.CreateMapWithStyle = function(id)
 	for _,data in ipairs(app.SearchForField("mapID", id)) do
 		if data.mapID and data.icon then
 			mapObject.text = data.text;
-            mapObject.icon = data.icon;
-            mapObject.lvl = data.lvl;
-            mapObject.lore = data.lore;
-            mapObject.description = data.description;
+			mapObject.icon = data.icon;
+			mapObject.lvl = data.lvl;
+			mapObject.lore = data.lore;
+			mapObject.description = data.description;
 			break;
 		end
 	end
@@ -1198,9 +1224,7 @@ local instanceFields = {
 		end
 	end,
 	["isLockoutShared"] = app.ReturnFalse,
-	["ignoreSourceLookup"] = function(t)
-		return true;
-	end,
+	["ignoreSourceLookup"] = app.ReturnTrue,
 };
 local EJ_GetInstanceInfo = EJ_GetInstanceInfo;
 if EJ_GetInstanceInfo and app.GameBuildVersion >= 50000 then

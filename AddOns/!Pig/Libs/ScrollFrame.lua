@@ -4,17 +4,18 @@ local Create = addonTable.Create
 local FontUrl=Create.FontUrl
 local PIGSetFont=Create.PIGSetFont
 -------------------
-function Create.PIGScrollFrame(fujik,Point,WH,BarW)
+function Create.PIGScrollFrame_old(fujik,Point,WH,BarW)
 	local BarW=BarW or 16
 	local Scroll = CreateFrame("ScrollFrame",nil,fujik); 
 	if Point then
 		Scroll:SetPoint("TOPLEFT",fujik,"TOPLEFT",Point[1],Point[2]);
-		Scroll:SetPoint("BOTTOMRIGHT",fujik,"BOTTOMRIGHT",Point[3],Point[4]);
+		Scroll:SetPoint("BOTTOMRIGHT",fujik,"BOTTOMRIGHT",Point[3]-BarW,Point[4]);
 	end
 	if WH then
 		Scroll:SetSize(WH[1],WH[2] or WH[1])
 	end
 	Scroll.ScrollChildFrame = CreateFrame("Frame", nil, Scroll);
+	Scroll:SetScrollChild(Scroll.ScrollChildFrame)
 	Scroll.ScrollBar = CreateFrame("Slider", nil, Scroll)
 	Scroll.ScrollBar:SetPoint("TOPLEFT",Scroll,"TOPRIGHT",0,-BarW);
 	Scroll.ScrollBar:SetPoint("BOTTOMLEFT",Scroll,"BOTTOMRIGHT",0,BarW);
@@ -83,9 +84,17 @@ function Create.PIGScrollFrame(fujik,Point,WH,BarW)
 	middleTexture:SetPoint("TOPLEFT", beginTexture, "BOTTOMLEFT");
 	middleTexture:SetPoint("BOTTOMRIGHT", endTexture, "TOPRIGHT");
 	Scroll.ScrollBar:SetScript("OnValueChanged", function(self, value)
-		UIPanelScrollBar_OnValueChanged(self, value)
+		self:GetParent():SetVerticalScroll(value);
 	end)
-	UIPanelScrollFrame_OnLoad(Scroll)
+	Scroll:SetScript("OnMouseWheel", function(self, delta)
+		ScrollFrameTemplate_OnMouseWheel(self, delta);
+	end)
+	Scroll:SetScript("OnVerticalScroll", function(self, offset)
+		self:UpdateShowList()
+	end)
+	-- Scroll:SetScript("OnScrollRangeChanged", function(self, xrange, yrange)
+	-- 	ScrollFrame_OnScrollRangeChanged(self, xrange, yrange)
+	-- end)
 	function Scroll:UpdateThumbTexture(numItems, numToDisplay, buttonHeight)
 	    local scrollBar = self.ScrollBar or self.scrollBar
 	    if not scrollBar then return end
@@ -104,14 +113,16 @@ function Create.PIGScrollFrame(fujik,Point,WH,BarW)
 	    thumb:SetHeight(thumbHeight)
 	end
 	Scroll.ScrollBar.ThumbTexture:SetHeight(50)
-	Scroll:SetScript("OnScrollRangeChanged", function(self, xrange, yrange)
-		ScrollFrame_OnScrollRangeChanged(self, xrange, yrange)
-	end)
-	Scroll:SetScript("OnVerticalScroll", function(self, offset)
-		ScrollFrame_OnVerticalScroll(self, offset)
-	end)
-	Scroll:SetScript("OnMouseWheel", function(self, delta)
-		ScrollFrameTemplate_OnMouseWheel(self, delta);
-	end)
+	function Scroll:GetScrollFrameOffset(TotalNum, hangmaxnum, hangeH)
+	    FauxScrollFrame_Update(self, TotalNum, hangmaxnum, hangeH)
+	    self:UpdateThumbTexture(TotalNum, hangmaxnum, hangeH)
+	    local min, max = self.ScrollBar:GetMinMaxValues();
+	    local offset=self.ScrollBar:GetValue()
+		self.ScrollBar.ScrollUpButton:SetEnabled(offset ~= 0);
+		self.ScrollBar.ScrollDownButton:SetEnabled((offset - max) ~= 0);
+		self.offset = math.floor((offset / hangeH) + 0.5);
+	    return self.offset or 0;
+	end
+	UIPanelScrollFrame_OnLoad(Scroll)
 	return Scroll
 end

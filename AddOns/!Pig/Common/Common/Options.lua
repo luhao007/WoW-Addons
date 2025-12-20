@@ -38,20 +38,20 @@ fujiF.xitongF.Scale:SetScript("OnClick", function (self)
 	end
 end);
 fujiF.xitongF.ScaleSlider = PIGSlider(fujiF.xitongF,{"LEFT",fujiF.xitongF.Scale.Text,"RIGHT",10,0}, {0.65, 1.15, 0.01,{["Right"]="%"}})
-fujiF.xitongF.ScaleSlider.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.xitongF.ScaleSlider:PIGOnValueChange(arg1)
 	if self.Ticker1 then self.Ticker1:Cancel() end
 	self.Ticker1=C_Timer.NewTimer(1,function()
 		if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
 		SetCVar("uiscale",arg1)
 	end)
-end)
+end
 --主音量
 fujiF.xitongF.Volume =PIGFontString(fujiF.xitongF,{"TOPLEFT",fujiF.xitongF,"TOPLEFT",340,-20},MASTER_VOLUME)
 fujiF.xitongF.Volume:SetTextColor(1, 1, 1, 1)
 fujiF.xitongF.VolumeSlider = PIGSlider(fujiF.xitongF,{"LEFT",fujiF.xitongF.Volume,"RIGHT",10,0},{0, 1, 0.01,{["Right"]="%"}})
-fujiF.xitongF.VolumeSlider.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.xitongF.VolumeSlider:PIGOnValueChange(arg1)
 	SetCVar("Sound_MasterVolume",arg1)
-end)
+end
 
 ---性能优化===========
 fujiF.xingnengF=PIGFrame(fujiF,{"BOTTOMLEFT", fujiF.xitongF, "TOPLEFT", 0, -1})

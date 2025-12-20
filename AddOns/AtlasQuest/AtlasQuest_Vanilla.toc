@@ -1,6 +1,6 @@
-## Interface: 110205
+## Interface: 110207
 ## Author: AtlasQuest Team
-## Version: v5.4.2
+## Version: v5.4.3
 
 ## Title: AtlasQuest
 ## Notes: Shows the Quests for dungeons and battlegrounds.

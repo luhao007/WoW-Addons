@@ -384,7 +384,7 @@ local function SendExtVerInfo(fsMsg,adname,exuix)
 			PIGSendAddonMessage(Ver_biaotou,fsMsg,"CHANNEL",PIGID)
 		end
 	end
-	if IsInGuild() then PIGSendAddonMessage(Ver_biaotou,fsMsg,"GUILD") end
+	--if IsInGuild() then PIGSendAddonMessage(Ver_biaotou,fsMsg,"GUILD") end
 	if IsInRaid() then
 		if IsInRaid(LE_PARTY_CATEGORY_HOME) then PIGSendAddonMessage(Ver_biaotou,fsMsg,"RAID") end
 		if IsInRaid(LE_PARTY_CATEGORY_INSTANCE) then PIGSendAddonMessage(Ver_biaotou,fsMsg,"INSTANCE_CHAT") end

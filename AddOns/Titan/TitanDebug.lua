@@ -1,14 +1,40 @@
 --[===[ File
 This file contains the debug class used throughout Titan Panel and plugins.
 
-This file is loaded first so NO other Titan routines are to be used.
+This file is loaded first so NO other Titan routines are to be used!
 
+--]===]
+
+--[[
 The intent is a simple, flexible debug framework to enable:
 - a consistent output
 - enable / disable across an arbitrary scope - across addons; single addon; or partial addon
 - enable / disable rather than comment out
---]===]
 
+Setting is TitanDebug.<plugin>.<topic>
+Plugins may assume Titan_Debug exists and can be added to.
+<plugin> needs to be unique for each plugin.
+<topic> is arbitrary and based on the debug needs.
+
+An output routine is provided : Titan_Debug.Out(who, topic, str) 
+Out ensures TitanDebug.<who>.<topic> exists before output of the string to Chat.
+If the entry is not found, returns silently.
+Out has no dependencies. Out only assumes DEFAULT_CHAT_FRAME:AddMessage is available.
+
+
+Example:
+For debug of Titan events we create :
+Titan_Debug.titan = {}
+Titan_Debug.titan.events = false
+
+Then place calls in code :
+Titan_Debug.Out("titan", "events", debug_str)
+
+Then set to turn display them.
+Titan_Debug.titan.events = true
+
+
+--]]
 Titan_Debug = {}
 
 local text_color = "1DA6C5" -- light blue
@@ -46,13 +72,12 @@ function Titan_Debug.Out(who, topic, str)
         local msg = ""
             .. Encode(head_color,
                 date("%H:%M:%S")
-                .. " <" .. tostring(who) .. ""
-                .. " : " .. tostring(topic) .. ">"
+                .. " " .. tostring(who) .. ""
+                .. ":" .. tostring(topic) .. ""
                 )
             .. Encode(text_color,
                 " " .. str .. ""
                 )
-
         _G["DEFAULT_CHAT_FRAME"]:AddMessage(msg)
     else
         -- silently proceed
@@ -61,7 +86,7 @@ end
 
 -- For debug across Titan Panel
 -- Keep two levels deep, to use .Out !!!
--- Titan_Debug.<plugin or 'titan'>.<debug topic>
+-- Titan_Debug.<plugin>.<debug topic>
 --
 Titan_Debug.titan = {}
 Titan_Debug.titan.bars_setup = false

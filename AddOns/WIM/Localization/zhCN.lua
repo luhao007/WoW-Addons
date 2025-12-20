@@ -30,8 +30,6 @@ WIM.AddLocale("zhCN", {
     ["state_raid"] = "在团队中",
     ["state_other"] = "其他情况",
 
-    ["<Shift-Click> to close window."] = "按住Shift点击关闭窗口。",
-
     ["A new version of WIM is available!\nYou can download the latest version from curse"] = "WIM的新版本已经可用！\n你可以在Curse中进行更新。",
 
     ["Options"] = "选项",
@@ -292,7 +290,7 @@ WIM.AddLocale("zhCN", {
     ["Display Tutorials"] = "显示教程",
     ["Reset Tutorials"] = "重置教程",
     ["Credits"] = "感谢",
-    ["This is a long message which contains both emoticons and urls 8)."] = "这是一个同时包含表情与网页链接的超长信息这是一个同时包含表情与网页链接的超长信息这是一个同时包含表情与网页链接的超长信息8)",
+    ["This is a long message which contains both emoticons and urls 8). WIM's home is www.WIMAddon.com."] = "这是一个同时包含表情与网页链接的超长信息8)。WIM的主页是 www.WIMAddon.com。",
     ["Message Formatting"] = "消息格式",
     ["Manipulate how WIM displays messages."] = "控制WIM如何显示消息。",
     ["Preview"] = "预览",
@@ -515,5 +513,4 @@ WIM.AddLocale("zhCN", {
 
     --Misc
     ["WIM has detected that you are playing on a private server. Some servers can not process ChatAddonMessages. Would you like to enable them anyway?"] = true,
-
 });

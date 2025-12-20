@@ -52,7 +52,7 @@ local RTabFrame=ActionBarfun.RTabFrame
 local QuickButF,QuickButTabBut =PIGOptionsList_R(RTabFrame,L["ACTION_TABNAME2"],100)
 ActionBarfun.QuickButF=QuickButF
 --
-QuickButF.Open=PIGCheckbutton_R(QuickButF,{L["ACTION_TABNAME2"],"在屏幕上创建一条"..L["ACTION_TABNAME2"].."，以便快捷使用某些功能。\n你可以自定义需要显示的按钮"})
+QuickButF.Open=PIGCheckbutton(QuickButF,{"TOPLEFT",QuickButF,"TOPLEFT",10,-12},{L["ACTION_TABNAME2"],"在屏幕上创建一条"..L["ACTION_TABNAME2"].."，以便快捷使用某些功能。\n你可以自定义需要显示的按钮"})
 QuickButF.Open:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["QuickBut"]["Open"]=true;
@@ -61,8 +61,21 @@ QuickButF.Open:SetScript("OnClick", function (self)
 		PIGA["QuickBut"]["Open"]=false;
 		PIG_OptionsUI.RLUI:Show()
 	end
+	QuickButF.SetF:SetShown(PIGA["QuickBut"]["Open"])
+	QuickButF.ModF:SetShown(PIGA["QuickBut"]["Open"])
+end)
+QuickButF:HookScript("OnShow", function(self)
+	self.SetF:SetShown(PIGA["QuickBut"]["Open"])
+	self.ModF:SetShown(PIGA["QuickBut"]["Open"])
+	self.Open:SetChecked(PIGA["QuickBut"]["Open"])
 end)
 --
+QuickButF.SetF = PIGFrame(QuickButF)
+QuickButF.SetF:PIGSetBackdrop(0)
+QuickButF.SetF:SetHeight(60)
+QuickButF.SetF:SetPoint("TOPLEFT",QuickButF,"TOPLEFT",0,-40);
+QuickButF.SetF:SetPoint("TOPRIGHT",QuickButF,"TOPRIGHT",0,0);
+QuickButF.SetF:Hide()
 local function QuickButFLock()
 	if QuickButUI.yidong then
 		if PIGA["QuickBut"]["Lock"] then
@@ -72,8 +85,8 @@ local function QuickButFLock()
 		end
 	end
 end
-QuickButF.Lock=PIGCheckbutton(QuickButF,{"LEFT",QuickButF.Open,"RIGHT",120,0},{LOCK_FRAME,LOCK_FOCUS_FRAME})
-QuickButF.Lock:SetScript("OnClick", function (self)
+QuickButF.SetF.Lock=PIGCheckbutton(QuickButF.SetF,{"TOPLEFT",QuickButF.SetF,"TOPLEFT",20,-20},{LOCK_FRAME,LOCK_FOCUS_FRAME})
+QuickButF.SetF.Lock:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["QuickBut"]["Lock"]=true
 	else
@@ -82,28 +95,44 @@ QuickButF.Lock:SetScript("OnClick", function (self)
 	QuickButFLock()
 end)
 --
-QuickButF.suofang_t = PIGFontString(QuickButF,{"LEFT",QuickButF.Lock,"RIGHT",90,0},"缩放:")
-local xiayiinfo = {0.8,1.4,0.01,{["Right"]="%"}}
-QuickButF.suofang = PIGSlider(QuickButF,{"LEFT",QuickButF.suofang_t,"RIGHT",10,0},xiayiinfo)
-QuickButF.suofang.Slider:HookScript("OnValueChanged", function(self, arg1)
+local xiayiinfo = {0.6,1.4,0.01,{["Right"]="缩放%d%%"}}
+QuickButF.SetF.suofang = PIGSlider(QuickButF.SetF,{"LEFT",QuickButF.SetF.Lock,"RIGHT",90,0},xiayiinfo)
+function QuickButF.SetF.suofang:PIGOnValueChange(arg1)
 	PIGA["QuickBut"]["bili"]=arg1;
 	QuickButUI:SetScale(arg1);
-end)
+end
 --
-QuickButF.CZBUT = PIGButton(QuickButF,{"LEFT",QuickButF.suofang,"RIGHT",60,0},{80,24},"重置位置")
-QuickButF.CZBUT:SetScript("OnClick", function ()
+QuickButF.SetF.CZBUT = PIGButton(QuickButF.SetF,{"TOPRIGHT",QuickButF.SetF,"TOPRIGHT",-10,-18},{80,22},"重置配置");  
+QuickButF.SetF.CZBUT:SetScript("OnClick", function ()
+	StaticPopup_Show ("CHONGZHI_QUICKBUT");
+end);
+StaticPopupDialogs["CHONGZHI_QUICKBUT"] = {
+	text = "此操作将|cffff0000重置|r"..L["ACTION_TABNAME2"].."配置。\n确定重置?",
+	button1 = YES,
+	button2 = NO,
+	OnAccept = function()
+		PIGA["QuickBut"] = addonTable.Default["QuickBut"];
+		PIGA_Per["QuickBut"] = addonTable.Default_Per["QuickBut"];
+		PIG_OptionsUI.RLUI:Show()
+	end,
+	timeout = 0,
+	whileDead = true,
+	hideOnEscape = true,
+}
+QuickButF.SetF.CZBUT = PIGButton(QuickButF.SetF,{"RIGHT",QuickButF.SetF.CZBUT,"LEFT",-10,0},{80,22},"重置位置")
+QuickButF.SetF.CZBUT:SetScript("OnClick", function ()
 	Create.PIG_ResPoint(QuickButUIname)
 end)
-QuickButF:HookScript("OnShow", function(self)
-	self.Open:SetChecked(PIGA["QuickBut"]["Open"])
+QuickButF.SetF:HookScript("OnShow", function(self)
 	self.Lock:SetChecked(PIGA["QuickBut"]["Lock"])
 	self.suofang:PIGSetValue(PIGA["QuickBut"]["bili"])
 end)
 --
-QuickButF.Modline = PIGLine(QuickButF,"TOP",-66)
 QuickButF.ModF = PIGFrame(QuickButF)
-QuickButF.ModF:SetPoint("TOPLEFT",QuickButF.Modline,"BOTTOMLEFT",0,0);
-QuickButF.ModF:SetPoint("BOTTOMRIGHT",QuickButF,"BOTTOMRIGHT",0,30);
+QuickButF.ModF:PIGSetBackdrop(0)
+QuickButF.ModF:SetPoint("TOPLEFT",QuickButF.SetF,"BOTTOMLEFT",0,1);
+QuickButF.ModF:SetPoint("BOTTOMRIGHT",QuickButF,"BOTTOMRIGHT",0,0);
+QuickButF.ModF:Hide()
 local BGbroadcast_tooltip = {string.format(L["ACTION_ADDQUICKBUT"],BATTLEFIELDS..BATTLENET_BROADCAST),string.format(L["ACTION_ADDQUICKBUTTIS"],BATTLEFIELDS..BATTLENET_BROADCAST).."\n注意:战况广播按钮战场外不显示"}
 QuickButF.ModF.BGbroadcast=PIGCheckbutton_R(QuickButF.ModF,BGbroadcast_tooltip,true)
 QuickButF.ModF.BGbroadcast:SetScript("OnClick", function (self)
@@ -211,23 +240,6 @@ QuickButF.ModF:HookScript("OnShow", function(self)
 		self.QKButEquip.errt:SetShown(not PIGA["FramePlus"]["Character_Shuxing"])
 	end
 end)
-QuickButF.ModF.CZBUT = PIGButton(QuickButF.ModF,{"BOTTOMLEFT",QuickButF.ModF,"BOTTOMLEFT",20,-20},{76,20},"重置配置");  
-QuickButF.ModF.CZBUT:SetScript("OnClick", function ()
-	StaticPopup_Show ("CHONGZHI_QUICKBUT");
-end);
-StaticPopupDialogs["CHONGZHI_QUICKBUT"] = {
-	text = "此操作将|cffff0000重置|r"..L["ACTION_TABNAME2"].."配置。\n确定重置?",
-	button1 = YES,
-	button2 = NO,
-	OnAccept = function()
-		PIGA["QuickBut"] = addonTable.Default["QuickBut"];
-		PIGA_Per["QuickBut"] = addonTable.Default_Per["QuickBut"];
-		PIG_OptionsUI.RLUI:Show()
-	end,
-	timeout = 0,
-	whileDead = true,
-	hideOnEscape = true,
-}
 ---
 QuickButUI.ButList[1]=function()
 	if not PIGA["QuickBut"]["Open"] or QuickButUI.yidong then return end
@@ -263,10 +275,11 @@ QuickButUI.ButList[1]=function()
 		GameTooltip:ClearLines();
 		GameTooltip:Hide() 
 	end)
-	QuickButUI.yidong.t = PIGFontString(QuickButUI.yidong,{"CENTER",QuickButUI.yidong,"CENTER",0,5},"拖",nil,9)
-	QuickButUI.yidong.t:SetTextColor(0.8, 0.8, 0.8, 0.8)
-	QuickButUI.yidong.t1 = PIGFontString(QuickButUI.yidong,{"CENTER",QuickButUI.yidong,"CENTER",0,-5},"动",nil,9)
-	QuickButUI.yidong.t1:SetTextColor(0.8, 0.8, 0.8, 0.8)
+	QuickButUI.yidong.move = QuickButUI.yidong:CreateTexture()
+	QuickButUI.yidong.move:SetAtlas("OptionsIcon-Brown")--NPE_RightClick
+	QuickButUI.yidong.move:SetSize(13,20);
+	QuickButUI.yidong.move:SetPoint("CENTER", 0, 0);
+	QuickButUI.yidong.move:SetDesaturated(true)
 	QuickButUI.nr=PIGFrame(QuickButUI,{"TOPLEFT",QuickButUI.yidong,"TOPRIGHT",1,0})
 	QuickButUI.nr:SetPoint("BOTTOMRIGHT", QuickButUI, "BOTTOMRIGHT", 0, 0);
 	QuickButUI.nr:PIGSetBackdrop()
@@ -362,7 +375,9 @@ QuickButUI.ButList[7]=function()
 		 	end
 	 	end
 		--玩具
-		local ToyList = {}
+		local ToyList = {
+			64488,--旅店老板的女儿
+		}
 		local ToyList_Retail = {
 			168907,--数字化全息炉石
 			162973,--冬天爷爷的炉石
@@ -387,8 +402,7 @@ QuickButUI.ButList[7]=function()
 			140192,--达拉然炉石
 			182773,
 			212337,--炉之石
-			93672,--黑暗之门
-			64488,--旅店老板的女儿
+			93672,--黑暗之门	
 		}
 		local BagList = {
 			6948,--炉石

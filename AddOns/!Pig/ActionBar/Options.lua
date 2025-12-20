@@ -324,6 +324,7 @@ addonTable.ActionBar = function()
 	if ActionBarfun.ActionBar_Cailiao then ActionBarfun.ActionBar_Cailiao() end
 	ActionBar_PetTishi()
 	ActionBar_AutoFanye()
+	if ActionBarfun.ConsumableActionBar then ActionBarfun.ConsumableActionBar() end
 	if ActionBarfun.xiufuShowAction then ActionBarfun.xiufuShowAction() end
 	if ActionBarfun.Pig_Action then ActionBarfun.Pig_Action() end
 end

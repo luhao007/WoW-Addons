@@ -257,12 +257,6 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 	if not PIGA["BagBank"]["Zhenghe"] or BagBankfun.yizhixingjiazai then return end
 	BagBankfun.yizhixingjiazai=true
 	BagBankfun.qiyongzidongzhengli()
-	--交易打开
-	hooksecurefunc("TradeFrame_OnShow", function(self)
-		if PIGA["BagBank"]["jiaoyiOpen"] then
-			if(UnitExists("NPC"))then OpenAllBags() end
-		end
-	end);
 	hooksecurefunc("ContainerFrame_Update", function(frame)
 		if not PIGA["BagBank"]["JunkShow"] then return end
 		local id = frame:GetID();
@@ -505,7 +499,6 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 	end)
 	-----
 	BAGheji:RegisterEvent("PLAYER_ENTERING_WORLD");
-	BAGheji:RegisterEvent("AUCTION_HOUSE_SHOW")
 	BAGheji:RegisterEvent("PLAYERBANKBAGSLOTS_CHANGED")
 	BAGheji:RegisterUnitEvent("UNIT_PORTRAIT_UPDATE","player")
 	BAGheji:HookScript("OnEvent", function(self,event,arg1,arg2)
@@ -532,12 +525,6 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 			if self:IsShown() then
 				CloseAllBags()
 				OpenAllBags()
-			end
-		elseif event=="AUCTION_HOUSE_SHOW" then
-			if PIGA["BagBank"]["AHOpen"] then
-				if(UnitExists("NPC"))then
-					OpenAllBags()
-				end
 			end
 		elseif event=="UNIT_PORTRAIT_UPDATE" then
 			if self.portrait then

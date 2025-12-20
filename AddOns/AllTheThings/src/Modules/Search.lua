@@ -60,6 +60,7 @@ local KeyMaps = setmetatable({
 	battlepet = "speciesID",
 	c = "currencyID",
 	camp = "campsiteID",
+	creature = "npcID",
 	currency = "currencyID",
 	crit = "criteriaID",
 	enchant = "spellID",
@@ -105,17 +106,17 @@ local function SearchByItemLink(link)
 	local modID = tonumber(linkData[13]) or 0
 	local bonusCount = tonumber(linkData[14]) or 0
 	local bonusID1 = bonusCount > 0 and linkData[15] or 0
-	-- local itemModifierIndex = 15 + bonusCount
-	-- local itemModifierCount = tonumber(linkData[itemModifierIndex]) or 0
+	local itemModifierIndex = 15 + bonusCount
+	local itemModifierCount = tonumber(linkData[itemModifierIndex]) or 0
 	local artifactID
-	-- if itemModifierCount > 0 then
-	-- 	for i=itemModifierIndex + 1,itemModifierIndex + (2 * itemModifierCount),2 do
-	-- 		if linkData[i] == "8" then
-	-- 			artifactID = tonumber(linkData[i + 1])
-	-- 			break
-	-- 		end
-	-- 	end
-	-- end
+	if itemModifierCount > 0 then
+		for i=itemModifierIndex + 1,itemModifierIndex + (2 * itemModifierCount),2 do
+			if linkData[i] == "8" then
+				artifactID = tonumber(linkData[i + 1])
+				break
+			end
+		end
+	end
 	local search
 	-- Don't use SourceID for artifact searches since they contain many SourceIDs
 	local sourceID = not artifactID and app.GetSourceID(link);
@@ -512,17 +513,8 @@ function app:BuildTargettedSearchResponse(groups, field, value, drop, criteria)
 	return ClonedHierarchyGroups;
 end
 
--- Allows a user to use /att search|? [link]
--- to enable Debug Printing of Event messages
-app.ChatCommands.Add({"search","?"}, function(args)
-	local search = args[2]
-	if not search then
-		local guid = UnitGUID("target");
-		if guid then
-			search = "n:" .. select(6, ("-"):split(guid));
-		end
-	end
-
+-- Performs the internal logic of searching ATT for a given command/link and then navigating ATT's UI to show the results
+app.SearchAndOpen = function(search)
 	local results = SearchForLink(search)
 	if not results or #results == 0 then
 		results = SourceSearcher.LinkSources(search)
@@ -569,6 +561,20 @@ app.ChatCommands.Add({"search","?"}, function(args)
 	for window,_ in pairs(windows) do
 		window:ScrollTo(firstResult.key, firstResult[firstResult.key])
 	end
+end
+
+-- Allows a user to use /att search|? [link]
+-- to enable Debug Printing of Event messages
+app.ChatCommands.Add({"search","?"}, function(args)
+	local search = args[2]
+	if not search then
+		local guid = UnitGUID("target");
+		if guid then
+			search = "n:" .. select(6, ("-"):split(guid));
+		end
+	end
+
+	app.SearchAndOpen(search)
 
 	return true
 end, {

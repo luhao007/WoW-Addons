@@ -16,12 +16,19 @@ local IsTitanPanelReset = nil;
 local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
 local AceTimer = LibStub("AceTimer-3.0")
 local media = LibStub("LibSharedMedia-3.0")
+local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
 --	TitanDebug (cmd.." : "..p1.." "..p2.." "..p3.." "..#cmd_list)
 
 --------------------------------------------------------------
 --
 
+--[[
+Note:
+- Use Settings.OpenToCategory to open all of Titan configa.
+- Use AceConfigDialog:Open to open a specific part of the Titan config.
+
+--]]
 ---Titan Give the user an are you sure popup whether to reload the UI or not.
 function TitanPanel_OkToReload()
 	StaticPopupDialogs["TITAN_RESET_RELOAD"] = {
@@ -40,21 +47,33 @@ function TitanPanel_OkToReload()
 	StaticPopup_Show("TITAN_RESET_RELOAD");
 end
 
----Titan Give the user a 'are you sure' popup whether to reset current toon back to default Titan settings.
+---Titan Reset current toon to default Titan settings.
 function TitanPanel_ResetToDefault()
 	-- Found as of 2025 Sep, the reload is not needed
 	-- build debug output
-	local str = "/titan reset"
-		.." "..tostring(TITAN_PROFILE_RESET)..""
+	local str = "/titan reset invoked"
 	Titan_Debug.Out('titan', 'profile', str)
 
-		TitanVariables_UseSettings(TitanSettings.Player, TITAN_PROFILE_RESET);
+	TitanVariables_UseSettings(nil, TitanUtils_GetPlayer(), TITAN_PROFILE_RESET);
 	IsTitanPanelReset = true;
+end
+
+---Titan Reset Titan to default settings then reload UI. Equivilant to deleting saved vars.
+function TitanPanel_ResetTitanToDefault()
+	-- A reload is safest course
+	-- build debug output
+	local str = "/titan reset all invoked"
+	Titan_Debug.Out('titan', 'profile', str)
+
+	TitanSettings = nil
+	TitanAll = nil
+
+	ReloadUI() -- Reuse the PEW code to ensure Titan is whole.
 end
 
 ---Titan The user wants to save a custom Titan profile. Show the user the dialog boxes to make it happen.
 --- The profile is written to the Titan saved variables. A reload of the UI is needed to ensure the profile is written to disk for the user to load later.
-function TitanPanel_SaveCustomProfile()
+function TitanPanel_SaveCustomProfile(profile_name)
 	-- Create the dialog box code we'll need...
 
 	---helper to get the edit box depending on expansion API
@@ -71,12 +90,19 @@ function TitanPanel_SaveCustomProfile()
 
 	-- helper to actually write the profile to the Titan saved vars
 	local function Write_profile(name)
-		local currentprofilevalue, _, _ = TitanUtils_GetPlayer()
+--		local currentprofilevalue, _, _ = TitanUtils_GetPlayer()
+		local currentprofilevalue = profile_name
 		local profileName = TitanUtils_CreateName(name, TITAN_CUSTOM_PROFILE_POSTFIX)
 		TitanSettings.Players[profileName] =
-			TitanSettings.Players[currentprofilevalue]
+			TitanUtils_DeepCopy(TitanSettings.Players[currentprofilevalue])
+
+		-- Do NOT allow a sync on a custom profile
+		TitanSettings.Players[profileName].Panel["SyncWithProfile"] = Titan_Global.profile.NONE
+
 		TitanPrint(L["TITAN_PANEL_MENU_PROFILE_SAVE_PENDING"]
-			.. "'" .. name .. "'"
+			.. "'" .. profile_name .. "'"
+			.. " > '" .. profileName .. "'"
+--			.. " > '" .. name .. "'"
 			, "info")
 	end
 	-- helper to ask the user to overwrite a profile
@@ -232,24 +258,24 @@ local function RegisterAddonCompartment()
 	if AddonCompartmentFrame then
 		AddonCompartmentFrame:RegisterAddon(
 			{
-			text = TITAN_ID,
-			icon = "Interface\\Icons\\Achievement_Dungeon_UlduarRaid_Titan_01",
-			notCheckable = true,
-			func = function(button, menuInputData, menu)
-				TitanUpdateConfig("init")
-				Settings.OpenToCategory(TITAN_PANEL_CONFIG.topic.About)
+				text = TITAN_ID,
+				icon = "Interface\\Icons\\Achievement_Dungeon_UlduarRaid_Titan_01",
+				notCheckable = true,
+				func = function(button, menuInputData, menu)
+					TitanUpdateConfig("init")
+					Settings.OpenToCategory(TITAN_PANEL_CONFIG.topic.About)
 				end,
-			funcOnEnter = function(button)
-				MenuUtil.ShowTooltip(button, function(tooltip)
-					local msg = ""
-						..L["TITAN_PANEL"]
-						.." "..L["TITAN_PANEL_MENU_CONFIGURATION"]
-					tooltip:SetText(msg)
-				end)
-			end,
-			funcOnLeave = function(button)
-				MenuUtil.HideTooltip(button)
-			end,
+				funcOnEnter = function(button)
+					MenuUtil.ShowTooltip(button, function(tooltip)
+						local msg = ""
+							.. L["TITAN_PANEL"]
+							.. " " .. L["TITAN_PANEL_MENU_CONFIGURATION"]
+						tooltip:SetText(msg)
+					end)
+				end,
+				funcOnLeave = function(button)
+					MenuUtil.HideTooltip(button)
+				end,
 			}
 		)
 	else
@@ -272,7 +298,7 @@ function TitanPanel_PlayerEnteringWorld(reload)
 	else
 		Titan_Debug.Out('titan', 'p_e_w', "Init settings")
 
-		-- Get Profile and Saved Vars
+		-- Get Saved Vars; sync with defaults
 		TitanVariables_InitTitanSettings();
 		if TitanAllGetVar("Silenced") then
 			-- No header output
@@ -298,7 +324,7 @@ function TitanPanel_PlayerEnteringWorld(reload)
 		-- Ensure the bars are created before the plugins are registered.
 		Titan_Debug.Out('titan', 'p_e_w', "Create frames for Titan bars")
 		for idx, v in pairs(TitanBarData) do
-		Titan_Debug.Out('titan', 'bars_setup', "... ".. tostring(v.name))
+			Titan_Debug.Out('titan', 'bars_setup', "... " .. tostring(v.name))
 
 			TitanPanelButton_CreateBar(idx)
 		end
@@ -335,18 +361,18 @@ function TitanPanel_PlayerEnteringWorld(reload)
 
 	-- Some addons wait to create their LDB component or a Titan addon could
 	-- create additional buttons as needed.
-		Titan_Debug.Out('titan', 'p_e_w', "Register any plugins found")
+	Titan_Debug.Out('titan', 'p_e_w', "Register any plugins found")
 	TitanUtils_RegisterPluginList()
-		Titan_Debug.Out('titan', 'p_e_w', "> Register any plugins done")
+	Titan_Debug.Out('titan', 'p_e_w', "> Register any plugins done")
 
 	-- Now sync saved variables to the profile chosen by the user.
 	-- This will set the bar(s) and enabled plugins (via OnShow).
-		Titan_Debug.Out('titan', 'p_e_w', "Synch plugin saved vars")
+	Titan_Debug.Out('titan', 'p_e_w', "Synch plugin saved vars")
 
-		Titan_Debug.Out('titan', 'p_e_w', "Synch plugin saved vars")
-	TitanVariables_UseSettings(nil, TITAN_PROFILE_INIT)
+	Titan_Debug.Out('titan', 'p_e_w', "Set up player")
+	TitanVariables_UseSettings(nil, TitanUtils_GetPlayer(), TITAN_PROFILE_INIT)
 
-		Titan_Debug.Out('titan', 'p_e_w', "Init config data (right click menu)")
+	Titan_Debug.Out('titan', 'p_e_w', "Init config data (right click menu)")
 	-- all addons are loaded so update the config (options)
 	-- some could have registered late...
 	TitanUpdateConfig("init")
@@ -377,11 +403,11 @@ function TitanPanel_PlayerEnteringWorld(reload)
 	end
 
 	-- Loop through the LDB objects to sync with their created Titan plugin
-		Titan_Debug.Out('titan', 'p_e_w', "Register any LDB (Titan) plugins")
+	Titan_Debug.Out('titan', 'p_e_w', "Register any LDB (Titan) plugins")
 	TitanLDBRefreshButton()
-		Titan_Debug.Out('titan', 'p_e_w', "> Register any LDB (Titan) plugins done")
+	Titan_Debug.Out('titan', 'p_e_w', "> Register any LDB (Titan) plugins done")
 
-		Titan_Debug.Out('titan', 'p_e_w', "Titan processing done")
+	Titan_Debug.Out('titan', 'p_e_w', "Titan processing done")
 end
 
 --------------------------------------------------------------
@@ -422,7 +448,7 @@ function TitanPanelBarButton:PLAYER_ENTERING_WORLD(arg1, arg2)
 	local call_success = nil
 	local ret_val = nil
 
-		Titan_Debug.Out('titan', 'p_e_w', "Titan PLAYER_ENTERING_WORLD pcall setup routine")
+	Titan_Debug.Out('titan', 'p_e_w', "Titan PLAYER_ENTERING_WORLD pcall setup routine")
 
 	call_success, -- needed for pcall
 	ret_val =  -- actual return values
@@ -478,6 +504,7 @@ end
 
 ---Titan Handle PLAYER_LOGOUT On logout, set some debug data in saved variables.
 function TitanPanelBarButton:PLAYER_LOGOUT()
+	--[[
 	if not IsTitanPanelReset then
 		-- for debug
 		if TitanPanelRegister then
@@ -486,6 +513,7 @@ function TitanPanelBarButton:PLAYER_LOGOUT()
 			TitanPanelRegister.TitanPlugins = TitanPlugins
 		end
 	end
+	--]]
 	Titan__InitializedPEW = false
 end
 
@@ -621,6 +649,7 @@ local function handle_slash_help(cmd)
 		TitanPrint(L["TITAN_PANEL_SLASH_RESET_3"], "plain")
 		TitanPrint(L["TITAN_PANEL_SLASH_RESET_4"], "plain")
 		TitanPrint(L["TITAN_PANEL_SLASH_RESET_5"], "plain")
+		TitanPrint(L["TITAN_PANEL_SLASH_RESET_6"], "plain")
 	end
 	if cmd == "gui" then
 		TitanPrint(L["TITAN_PANEL_SLASH_GUI_0"], "plain")
@@ -663,20 +692,13 @@ local function handle_reset_cmds(cmd_list)
 	end
 
 	if p1 == nil then
-		TitanPanel_ResetToDefault();
+		TitanPanel_ResetToDefault()
+	elseif p1 == "all" then
+		TitanPanel_ResetTitanToDefault()
 	elseif p1 == "tipfont" then
 		TitanPanelSetVar("TooltipFont", 1);
 		GameTooltip:SetScale(TitanPanelGetVar("TooltipFont"));
 		TitanPrint(L["TITAN_PANEL_SLASH_RESP1"], "info")
-		--[[
-	elseif p1 == "tipalpha" then
-		TitanPanelSetVar("TooltipTrans", 1);
-		local red, green, blue, _ = GameTooltip:GetBackdropColor();
-		local red2, green2, blue2, _ = GameTooltip:GetBackdropBorderColor();
-		GameTooltip:SetBackdropColor(red,green,blue,TitanPanelGetVar("TooltipTrans"));
-		GameTooltip:SetBackdropBorderColor(red2,green2,blue2,TitanPanelGetVar("TooltipTrans"));
-		TitanPrint(L["TITAN_PANEL_SLASH_RESP2"], "info")
---]]
 	elseif p1 == "panelscale" then
 		if not InCombatLockdown() then
 			TitanPanelSetVar("Scale", 1);
@@ -719,23 +741,11 @@ end
 ---@param cmd_list table
 local function handle_profile_cmds(cmd_list)
 	local cmd = cmd_list[1]
-	local p1 = cmd_list[2] or nil
-	local p2 = cmd_list[3] or nil
-	local p3 = cmd_list[4] or nil
 	-- sanity check
 	if (not cmd == "profile") then
 		return
 	end
-
-	if p1 == "use" and p2 and p3 then
-		if TitanAllGetVar("GlobalProfileUse") then
-			TitanPrint(L["TITAN_PANEL_GLOBAL_ERR_1"], "info")
-		else
-			TitanVariables_UseSettings(TitanUtils_CreateName(p2, p3), TITAN_PROFILE_USE)
-		end
-	else
-		handle_slash_help("profile")
-	end
+	AceConfigDialog:Open("Titan Panel Addon Chars")
 end
 
 ---local Helper to handle 'silent' commands - Toggle "Silenced" setting.
@@ -1110,7 +1120,7 @@ end
 local function CheckBarBounds(self, width, reason)
 	-- This is a touchy routine - change with care!! :)
 	--
-	-- Let WoW handle any change in game scale. 
+	-- Let WoW handle any change in game scale.
 	-- When Titan scaling changes, recalc the bar placement.
 	-- Although the user may want to move bars in response to any scale change.
 	local trace = false -- true false
@@ -1124,9 +1134,9 @@ local function CheckBarBounds(self, width, reason)
 	local locale_name = TitanBarData[f_name].locale_name
 
 	if TitanBarData[f_name].user_move
-	and TitanBarDataVars[f_name].show
+		and TitanBarDataVars[f_name].show
 	then
----[[
+		---[[
 		if trace then
 			print("Bounds"
 				.. " " .. tostring(bar_name) .. ""
@@ -1134,7 +1144,7 @@ local function CheckBarBounds(self, width, reason)
 				.. " " .. tostring(reason) .. ""
 			)
 		end
---]]
+		--]]
 
 		local tscale = TitanPanelGetVar("Scale")
 		local x, y, w, scale = TitanVariables_GetBarPos(f_name)
@@ -1175,7 +1185,7 @@ local function CheckBarBounds(self, width, reason)
 		else
 			-- Just check the bar position
 		end
----[[
+		---[[
 		if trace then
 			print(">Bounds"
 				.. " " .. tostring(bar_name) .. ""
@@ -1193,7 +1203,7 @@ local function CheckBarBounds(self, width, reason)
 				.. " ST_t " .. tostring(format("%0.1f", screen_top_t)) .. ""
 			)
 		end
---]]
+		--]]
 		local w = 0
 		local x_off = 0
 		local y_off = 0
@@ -1277,12 +1287,12 @@ local function CheckBarBounds(self, width, reason)
 
 		if trace then
 			print(">>Bounds"
-			.. " " .. tostring(bar_name) .. ""
-			.. " " .. tostring(result.ok) .. ""
-			.. " SC " .. tostring(scale_change) .. ""
-			.." X "..tostring(format("%0.1f", x_off)).."("..tostring(bar_left)..")"
-			.. " Y " .. tostring(format("%0.1f", y_off)).."("..tostring(bar_bottom)..")"
-			.. " W " .. tostring(format("%0.1f", w_off)) .. ""
+				.. " " .. tostring(bar_name) .. ""
+				.. " " .. tostring(result.ok) .. ""
+				.. " SC " .. tostring(scale_change) .. ""
+				.. " X " .. tostring(format("%0.1f", x_off)) .. "(" .. tostring(bar_left) .. ")"
+				.. " Y " .. tostring(format("%0.1f", y_off)) .. "(" .. tostring(bar_bottom) .. ")"
+				.. " W " .. tostring(format("%0.1f", w_off)) .. ""
 			)
 			if err ~= "" then
 				TitanPrint(locale_name .. " " .. err .. "!!!!"
@@ -1341,7 +1351,7 @@ local function OnMouseWheel(self, d)
 		local delta = d
 		if IsControlKeyDown() then
 			delta = d * 10
-			msg = msg.." +Alt"
+			msg = msg .. " +Alt"
 		else
 			-- use 1
 		end
@@ -1364,7 +1374,7 @@ end
 ---Titan Force all plugins created from LDB addons, visible or not, to be on the right side of the Titan bar.
 --- Any visible plugin will be forced to the right side on the same bar it is currently on.
 function TitanPanelBarButton_ForceLDBLaunchersRight()
-	local plugin = {}
+	local plugin --= {}
 	for index, id in pairs(TitanPluginsIndex) do
 		plugin = TitanUtils_GetPlugin(id);
 		if plugin and plugin.ldb == "launcher"
@@ -1427,10 +1437,10 @@ end
 ---Titan Show all the Titan bars the user has selected.
 ---@param reason string Debug note on where the call initiated
 function TitanPanelBarButton_DisplayBarsWanted(reason)
-		-- build debug output
-		local str = "_DisplayBarsWanted"
-			.." "..tostring(reason)..""
-		Titan_Debug.Out('titan', 'bars_setup', str)
+	-- build debug output
+	local str = "_DisplayBarsWanted"
+		.. " " .. tostring(reason) .. ""
+	Titan_Debug.Out('titan', 'bars_setup', str)
 
 	-- Check all bars to see if the user has requested they be shown
 	for idx, v in pairs(TitanBarData) do
@@ -1443,10 +1453,10 @@ function TitanPanelBarButton_DisplayBarsWanted(reason)
 
 	if Titan_Global.switch.can_edit_ui then
 		-- Not needed with UI movable widgets
-			-- build debug output
-			local str = "_DisplayBarsWanted"
-				.." UI user editable - skip adj frames"
-			Titan_Debug.Out('titan', 'bars_setup', str)
+		-- build debug output
+		local str = "_DisplayBarsWanted"
+			.. " UI user editable - skip adj frames"
+		Titan_Debug.Out('titan', 'bars_setup', str)
 	else
 		-- Adjust other frames because the bars shown / hidden may have changed
 		TitanPanel_AdjustFrames(true, "_DisplayBarsWanted")
@@ -1472,7 +1482,7 @@ local function showBar(frame_str)
 		or frame_str == TitanVariables_GetFrameName("Bar2")
 	then
 		-- ===== Battleground or Arena : User selected
---		if (TitanPanelGetVar("HideBarsInPVP"))
+		--		if (TitanPanelGetVar("HideBarsInPVP"))
 		if TitanBarDataVars[frame_str].hide_in_pvp
 			and (C_PvP.IsBattleground()
 				or C_PvP.IsArena()
@@ -1486,7 +1496,7 @@ local function showBar(frame_str)
 
 	-- ===== In Combat : User selected
 	if TitanBarDataVars[frame_str].hide_in_combat
---		or TitanPanelGetVar("HideBarsInCombat") 
+	--		or TitanPanelGetVar("HideBarsInCombat")
 	then
 		if in_combat then -- InCombatLockdown() too slow
 			flag = false
@@ -1738,8 +1748,8 @@ end
 ---@param index number of the plugin removed
 function TitanPanel_ReOrder(index)
 	for i = index, #TitanPanelSettings.Buttons do
---		for i = index, table.getn(TitanPanelSettings.Buttons) do
-			TitanPanelSettings.Location[i] = TitanPanelSettings.Location[i + 1]
+		--		for i = index, table.getn(TitanPanelSettings.Buttons) do
+		TitanPanelSettings.Location[i] = TitanPanelSettings.Location[i + 1]
 	end
 end
 
@@ -1765,7 +1775,7 @@ function TitanPanel_RemoveButton(id, hide_plugin)
 	-- This cancels all timers of name "TitanPanel"..id as a safeguard to destroy any active plugin timers
 	-- based on a fixed naming convention : TitanPanel..id, eg. "TitanPanelClock" this prevents "rogue"
 	-- timers being left behind by lack of an OnHide check
----@diagnostic disable-next-line: missing-parameter
+	---@diagnostic disable-next-line: missing-parameter
 	if id then AceTimer.CancelAllTimers() end -- ??? seems confused 0 or 1 params  "TitanPanel" .. id
 
 	TitanPanel_ReOrder(i);
@@ -1891,6 +1901,7 @@ local R_ADDONS = "Addons_"
 local R_PLUGIN = "Plugin_"
 local R_SETTINGS = "Settings"
 local R_PROFILE = "Profile_"
+local R_BARS_SETTING = "Bar_Show_Hide"
 
 ---local Show main Titan (right click) menu.
 ---@param frame string Frame to add to
@@ -1920,12 +1931,24 @@ local function BuildMainMenu(frame)
 	TitanPanelRightClickMenu_AddSeparator(TitanPanelRightClickMenu_GetDropdownLevel());
 
 	-----------------
-	-- Options - just one button to open the first Titan option screen
+	-- Bars - Show / Hide
+
+	info = {};
+	info.notCheckable = true
+	info.text = L["TITAN_PANEL_MENU_OPTIONS_BARS"];
+	info.value = R_BARS_SETTING
+	info.hasArrow = 1;
+	TitanPanelRightClickMenu_AddButton(info);
+
+	TitanPanelRightClickMenu_AddSeparator(TitanPanelRightClickMenu_GetDropdownLevel());
+
+	-----------------
+	-- Config - just one button to open the first Titan option screen
 	do
 		info = {};
 		info.notCheckable = true
 		info.text = L["TITAN_PANEL_MENU_CONFIGURATION"];
-		info.value = "Bars";
+		info.value = "Config";
 		info.func = function()
 			TitanUpdateConfig("init")
 			Settings.OpenToCategory(TITAN_PANEL_CONFIG.topic.About)
@@ -1937,54 +1960,38 @@ local function BuildMainMenu(frame)
 
 	-----------------
 	-- Profiles
-	TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_MENU_PROFILES"]);
+	--	TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_MENU_PROFILES"]);
 
-	-----------------
-	-- Load/Delete
 	info = {};
 	info.notCheckable = true
-	info.text = L["TITAN_PANEL_MENU_MANAGE_SETTINGS"];
-	info.value = R_SETTINGS
-	info.hasArrow = 1;
-	-- lock this menu in combat
-	if InCombatLockdown() then
-		info.disabled = 1;
-		info.hasArrow = nil;
-		info.text = info.text .. " "
-			.. _G["GREEN_FONT_COLOR_CODE"]
-			.. L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
-	end
-	TitanPanelRightClickMenu_AddButton(info);
-
-	-----------------
-	-- Save
-	info = {};
-	info.notCheckable = true
-	info.text = L["TITAN_PANEL_MENU_SAVE_SETTINGS"];
-	info.value = "SettingsCustom";
-	info.func = TitanPanel_SaveCustomProfile;
-	-- lock this menu in combat
-	if InCombatLockdown() then
-		info.disabled = 1;
-		info.text = info.text .. " "
-			.. _G["GREEN_FONT_COLOR_CODE"]
-			.. L["TITAN_PANEL_MENU_IN_COMBAT_LOCKDOWN"];
-	end
-	TitanPanelRightClickMenu_AddButton(info);
-
-	--	TitanPanelRightClickMenu_AddSeparator(TitanPanelRightClickMenu_GetDropdownLevel());
-	local glob, toon, player, server = TitanUtils_GetGlobalProfile()
-	info = {};
-	--  info.text = "Use Global Profile\n   "..toon
-	info.text = L["TITAN_PANEL_GLOBAL_USE"] .. "\n   " .. toon;
-	info.value = "Use Global Profile"
+	info.text = L["TITAN_PANEL_MENU_PROFILES"] .. " " .. L["TITAN_PANEL_MENU_CONFIGURATION"]
+	info.value = "ConfigProfile";
 	info.func = function()
-		TitanUtils_SetGlobalProfile(not glob, toon)
-		TitanVariables_UseSettings(nil, TITAN_PROFILE_USE)
-	end;
-	info.checked = glob --TitanAllGetVar("GlobalProfileUse")
-	info.keepShownOnClick = nil
+		TitanUpdateConfig("init")
+		AceConfigDialog:Open("Titan Panel Addon Chars")
+		--			Settings.OpenToCategory(TITAN_PANEL_CONFIG.topic.profiles)
+	end
+	TitanPanelRightClickMenu_AddButton(info);
+
+	local res = TitanVariables_GetProfile(TitanUtils_GetPlayer())
+	info = {};
+	info.notCheckable = true
+	info.text = res.cname
+	info.value = "Global_value"
 	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+
+	TitanPanelRightClickMenu_AddSeparator(TitanPanelRightClickMenu_GetDropdownLevel());
+
+	info = {};
+	info.notCheckable = true
+	info.text = L["TITAN_PANEL_MENU_HELP"]
+	info.value = "ConfigProfile";
+	info.func = function()
+		TitanUpdateConfig("init")
+		AceConfigDialog:Open("Titan Panel Help List")
+		--			Settings.OpenToCategory(TITAN_PANEL_CONFIG.topic.profiles)
+	end
+	TitanPanelRightClickMenu_AddButton(info);
 
 	TitanPanelRightClickMenu_AddSeparator(TitanPanelRightClickMenu_GetDropdownLevel());
 
@@ -2002,58 +2009,6 @@ local function BuildMainMenu(frame)
 	end
 	info.keepShownOnClick = nil
 	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-end
-
----local Show list of servers / custom submenu off Profiles/Manage from the Titan (right click) menu.
-local function BuildServerProfilesMenu()
-	local info = {};
-	local servers = {};
-	local player = nil;
-	local server = nil;
-	local s, e, ident;
-	local setonce = 0;
-
-	if (TitanPanelRightClickMenu_GetDropdMenuValue() == R_SETTINGS) then
-		TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_MENU_PROFILE_SERVERS"],
-			TitanPanelRightClickMenu_GetDropdownLevel());
-		-- Normal profile per toon
-		for index, id in pairs(TitanSettings.Players) do
-			player, server = TitanUtils_ParseName(index)
-
-			if TitanUtils_GetCurrentIndex(servers, server) == nil then
-				if server ~= TITAN_CUSTOM_PROFILE_POSTFIX then
-					table.insert(servers, server);
-					info = {};
-					info.notCheckable = true
-					info.text = server;
-					info.value = R_PROFILE .. server;
-					info.hasArrow = 1;
-					TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-				end
-			end
-		end
-		-- Custom profiles
-		for index, id in pairs(TitanSettings.Players) do
-			player, server = TitanUtils_ParseName(index)
-
-			if TitanUtils_GetCurrentIndex(servers, server) == nil then
-				if server == TITAN_CUSTOM_PROFILE_POSTFIX then
-					if setonce and setonce == 0 then
-						TitanPanelRightClickMenu_AddTitle("", TitanPanelRightClickMenu_GetDropdownLevel());
-						TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_MENU_PROFILE_CUSTOM"],
-							TitanPanelRightClickMenu_GetDropdownLevel());
-						setonce = 1;
-					end
-					info = {};
-					info.notCheckable = true
-					info.text = player;
-					info.value = R_PROFILE .. player;
-					info.hasArrow = 1;
-					TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-				end
-			end
-		end
-	end
 end
 
 ---local Show list of plugin defined options from the Titan right click menu.
@@ -2156,117 +2111,6 @@ local function BuildPluginMenu()
 	end
 end
 
----local Show alphabetical list of toons submenu off Profiles/Manage/<server or custom> from the Titan right click menu.
-local function BuildProfileMenu()
-	--
-	local info = {};
-	local setonce = 0;
-
-	--
-	-- Handle the profiles
-	--
-	for idx = 1, #Titan_Global.players do
-		local index = Titan_Global.players[idx]
-		local player, server = TitanUtils_ParseName(index)
-		local off = (index == TitanSettings.Player)
-			or ((index == TitanAllGetVar("GlobalProfileUse")) and (TitanAllGetVar("GlobalProfileUse")))
-		local par_val = TitanPanelRightClickMenu_GetDropdMenuValue()
-		local menu_val = string.gsub(par_val, R_PROFILE, "")
-
-		-- handle custom profiles here
-		if server == TITAN_CUSTOM_PROFILE_POSTFIX
-			and player == menu_val then
-			info = {};
-			info.notCheckable = true
-			info.disabled = TitanAllGetVar("GlobalProfileUse")
-			info.text = L["TITAN_PANEL_MENU_LOAD_SETTINGS"];
-			info.value = index;
-			info.func = function()
-				TitanVariables_UseSettings(index, TITAN_PROFILE_USE)
-			end
-			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-			info = {};
-			info.notCheckable = true
-			info.disabled = off
-			info.text = L["TITAN_PANEL_MENU_DELETE_SETTINGS"];
-			info.value = index;
-			info.arg1 = index;
-			info.func = function(self, player) -- (self, info.arg1, info.arg2)
-				if TitanSettings.Players[player] then
-					TitanSettings.Players[player] = nil;
-					local profname = TitanUtils_ParseName(index)
-					TitanPrint(
-						L["TITAN_PANEL_MENU_PROFILE"]
-						.. " '" .. profname .. "' "
-						.. L["TITAN_PANEL_MENU_PROFILE_DELETED"]
-						, "info")
-					table.remove(Titan_Global.players, idx)
-					TitanPanelRightClickMenu_Close();
-				end
-			end
-			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-		end -- if server and player
-
-		-- handle regular profiles here
-		if server == menu_val then
-			-- Set the label once
-			if setonce and setonce == 0 then
-				TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_MENU_PROFILE_CHARS"],
-					TitanPanelRightClickMenu_GetDropdownLevel());
-				setonce = 1;
-			end
-			info = {};
-			info.disabled = off
-			info.notCheckable = true
-			info.text = player;
-			info.value = index;
-			info.hasArrow = 1;
-			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-		end
-	end -- for players
-end
-
----local Show save / load submenu off Profiles/Manage/<server or custom>/<profile> from the Titan (right click) menu.
-local function BuildAProfileMenu()
-	local info = {};
-
-	info = {};
-	info.notCheckable = true
-	info.disabled = TitanAllGetVar("GlobalProfileUse")
-	info.text = L["TITAN_PANEL_MENU_LOAD_SETTINGS"];
-	info.value = TitanPanelRightClickMenu_GetDropdMenuValue();
-	info.func = function()
-		TitanVariables_UseSettings(TitanPanelRightClickMenu_GetDropdMenuValue(), TITAN_PROFILE_USE)
-	end
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-	TitanPanelRightClickMenu_AddSeparator(TitanPanelRightClickMenu_GetDropdownLevel());
-
-	TitanPanelRightClickMenu_AddSeparator(TitanPanelRightClickMenu_GetDropdownLevel());
-
-	info = {};
-	info.notCheckable = true
-	info.disabled = (TitanPanelRightClickMenu_GetDropdMenuValue() == TitanSettings.Player)
-		or ((TitanPanelRightClickMenu_GetDropdMenuValue() == TitanAllGetVar("GlobalProfileName"))
-			and (TitanAllGetVar("GlobalProfileUse")))
-	info.text = L["TITAN_PANEL_MENU_DELETE_SETTINGS"];
-	info.value = TitanPanelRightClickMenu_GetDropdMenuValue();
-	info.func = function()
-		-- do not delete if current profile - .disabled
-		if TitanSettings.Players[info.value] then
-			TitanSettings.Players[info.value] = nil;
-			TitanPrint(
-				L["TITAN_PANEL_MENU_PROFILE"]
-				.. " '" .. info.value .. "' "
-				.. L["TITAN_PANEL_MENU_PROFILE_DELETED"]
-				, "info")
-			TitanPanelRightClickMenu_Close();
-		end
-	end
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-end
-
 ---local Build the list of plugins for the category the mouse is over - Titan (right click) menu.
 ---@param frame string Frame to add to
 local function BuildPluginCategoryMenu(frame)
@@ -2331,6 +2175,38 @@ local function BuildPluginCategoryMenu(frame)
 	end
 end
 
+local function BuildBarList()
+	local info = {};
+
+	-- sort the bar data by their intended order
+	local bar_list = {}
+	for _, v in pairs(TitanBarData) do
+		bar_list[v.order] = v
+	end
+	table.sort(bar_list, function(a, b)
+		return a.order < b.order
+	end)
+
+	for idx = 1, #bar_list do
+		local v = bar_list[idx] -- process this bar
+		local name = v.locale_name
+		local bar_data = TitanBarDataVars[v.frame_name]
+
+		info = {};
+		info.text = name
+		info.value = v.frame_name
+		info.arg1 = v.frame_name
+		info.func = function(self, arg1) -- (self, info.arg1, info.arg2)
+			TitanBarDataVars[arg1].show = not TitanBarDataVars[arg1].show
+			TitanPanelBarButton_DisplayBarsWanted(arg1 .. " right click menu " .. tostring(TitanBarDataVars[arg1].show))
+		end
+		--info.keepShownOnClick = 1;
+		info.checked = bar_data.show
+		info.disabled = nil;
+		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+	end
+end
+
 ---Titan This is the controller for the Titan (right click) menu.
 ---@param self table Titan bar frame that was right clicked
 --- Frame name used is <Titan bar name>RightClickMenu
@@ -2372,14 +2248,17 @@ print("_prep R click"
 	-- Plugin Categories => Plugins in that category
 	-- OR
 	-- Profiles => Server / Realm list
+	-- OR
+	-- Bars =? Show checkbox
 	if (lev == 2) then
 		if string.find(TitanPanelRightClickMenu_GetDropdMenuValue(), R_ADDONS) then
 			BuildPluginCategoryMenu(frame)
 		end
 
-		if (TitanPanelRightClickMenu_GetDropdMenuValue() == R_SETTINGS) then
-			BuildServerProfilesMenu()
+		if (TitanPanelRightClickMenu_GetDropdMenuValue() == R_BARS_SETTING) then
+			BuildBarList()
 		end
+
 		return;
 	end
 
@@ -2391,16 +2270,6 @@ print("_prep R click"
 		if string.find(TitanPanelRightClickMenu_GetDropdMenuValue(), R_PLUGIN) then
 			BuildPluginMenu()
 		end
-		if string.find(TitanPanelRightClickMenu_GetDropdMenuValue(), R_PROFILE) then
-			BuildProfileMenu()
-		end
-		return;
-	end
-
-	-- Level 4
-	-- Profiles > Server / Realm list > Character on realm list > Load / Delete
-	if (lev == 4) then
-		BuildAProfileMenu()
 		return;
 	end
 end
@@ -2433,10 +2302,10 @@ function TitanPanel_InitPanelBarButton(reason)
 	-- Set initial Panel Scale
 	TitanPanel_SetScale();
 
-		-- build debug output
-		local str = "_InitPanelBarButton"
-			.." "..tostring(reason)..""
-		Titan_Debug.Out('titan', 'bars_setup', str)
+	-- build debug output
+	local str = "_InitPanelBarButton"
+		.. " " .. tostring(reason) .. ""
+	Titan_Debug.Out('titan', 'bars_setup', str)
 	TitanPanelBarButton_DisplayBarsWanted("InitPanelBarButton")
 end
 
@@ -2484,7 +2353,7 @@ function TitanPanelButton_CreateBar(frame_str)
 
 	-- ======
 	-- Frame for right clicks
-	-- Use the plugin naming scheme for one frame to rule them all 
+	-- Use the plugin naming scheme for one frame to rule them all
 	-- 2024 Feb : Change to match plugin right click menu scheme so one routine can be used.
 	local f = CreateFrame("Frame", this_bar .. TITAN_PANEL_CLICK_MENU_SUFFIX, UIParent, "UIDropDownMenuTemplate")
 

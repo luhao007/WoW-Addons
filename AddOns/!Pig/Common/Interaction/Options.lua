@@ -42,7 +42,7 @@ function fujiF.AutoDialogue.max1:PIGDownMenu_SetValue(value,arg1,arg2)
 	PIGCloseDropDownMenus()
 end
 --自动站立下马
-fujiF.AutoDown = PIGCheckbutton_R(fujiF,{"自动下马/站立","与NPC或物体交互时自动下马/站立"})
+fujiF.AutoDown = PIGCheckbutton_R(fujiF,{"自动站立","与NPC或物体交互时自动站立"})
 fujiF.AutoDown:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["Interaction"]["AutoDown"]=true;			
@@ -126,12 +126,12 @@ end);
 if not Menu or not Menu.ModifyMenu then
 	fujiF.xiayiTxt = PIGFontString(fujiF,{"LEFT",fujiF.RightPlus.Text,"RIGHT",20,0},"下移增强菜单")
 	fujiF.xiayiSlider = PIGSlider(fujiF,{"LEFT",fujiF.xiayiTxt,"RIGHT",10,0},{0, 100, 1})
-	fujiF.xiayiSlider.Slider:HookScript("OnValueChanged", function(self, arg1)
+	function fujiF.xiayiSlider:PIGOnValueChange(arg1)
 		PIGA["Interaction"]["xiayijuli"]=arg1
 		if Pig_RightFUI then
 			Pig_RightFUI:SetPoint("TOPLEFT",DropDownList1,"TOPRIGHT",0,-arg1)
 		end
-	end)
+	end
 end
 --
 fujiF:HookScript("OnShow", function(self)

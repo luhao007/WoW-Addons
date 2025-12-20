@@ -125,10 +125,10 @@ fujiF.setF.ActionBar_Scale:SetScript("OnClick", function (self)
 end);
 -------
 fujiF.setF.ActionBar_Scale.Slider = PIGSlider(fujiF.setF,{"LEFT",fujiF.setF.ActionBar_Scale,"RIGHT",96,0},{0.4, 1.8, 0.01,{["Right"]="%"}},200)
-fujiF.setF.ActionBar_Scale.Slider.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.setF.ActionBar_Scale.Slider:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["ActionBar"]["ScaleV"]=arg1;
 	ActionBar_Scale()
-end)
+end
 --移动右边动作条
 local function IS_bar34Show()
 	local onoff = {}
@@ -220,6 +220,7 @@ local function ActionBar_Layout()
 	if PIG_OptionsUI.IsOpen_ElvUI("actionbar","enable") then return end
 	if PIG_OptionsUI.IsOpen_NDui("Actionbar","Enable") then return end
 	if not PIGA["PigLayout"]["ActionBar"]["BarRight"] then return end
+	--主力动作条
 	local function Update_MultiBar()
 		if InCombatLockdown() then
 			VerticalMultiBarsContainer:RegisterEvent("PLAYER_REGEN_ENABLED");
@@ -298,14 +299,19 @@ local function ActionBar_Layout()
 			MultiCastActionBarFrame:SetMovable(true)
 		end
 		BarUI:ClearAllPoints();
+		MainMenuBarVehicleLeaveButton:ClearAllPoints();--取消飞行
 		if PIGA["PigLayout"]["ActionBar"]["Layout"]==1 and barOpen[5] then
 			BarUI:SetPoint("BOTTOMLEFT", MultiBarLeftButton1,"TOPLEFT", Xoffset, 6)
+			MainMenuBarVehicleLeaveButton:SetPoint("BOTTOMLEFT", MultiBarLeftButton1,"TOPLEFT", -36, 6)
 		elseif PIGA["PigLayout"]["ActionBar"]["Layout"]==2 or PIGA["PigLayout"]["ActionBar"]["Layout"]==5 and barOpen[3] then
 			BarUI:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1,"TOPLEFT", Xoffset, 6)
+			MainMenuBarVehicleLeaveButton:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1,"TOPLEFT", -36, 6)
 		elseif PIGA["PigLayout"]["ActionBar"]["Layout"]==3 and barOpen[5] then
 			BarUI:SetPoint("BOTTOMLEFT", MultiBarLeftButton1,"TOPLEFT", Xoffset, 6)
+			MainMenuBarVehicleLeaveButton:SetPoint("BOTTOMLEFT", MultiBarLeftButton1,"TOPLEFT", -36, 6)
 		elseif PIGA["PigLayout"]["ActionBar"]["Layout"]==4 and barOpen[4] and barOpen[5] then
 			BarUI:SetPoint("BOTTOMLEFT", MultiBarRightButton1,"TOPLEFT", Xoffset, 6)
+			MainMenuBarVehicleLeaveButton:SetPoint("BOTTOMLEFT", MultiBarRightButton1,"TOPLEFT", -36, 6)
 		end
 		if BarUI==MultiCastActionBarFrame then
 			MultiCastActionBarFrame:SetUserPlaced(true)
@@ -420,10 +426,10 @@ function fujiF.setF.Layout:PIGDownMenu_SetValue(value,arg1)
 end
 fujiF.setF.Layout.LRIntervalT = PIGFontString(fujiF.setF.Layout,{"TOPLEFT", fujiF.setF.LayoutT, "BOTTOMLEFT", 0, -18},"左右居中间距")
 fujiF.setF.Layout.LRInterval = PIGSlider(fujiF.setF.Layout,{"LEFT", fujiF.setF.Layout.LRIntervalT, "LEFT", 100, 0},{0, 400, 1})
-fujiF.setF.Layout.LRInterval.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.setF.Layout.LRInterval:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["ActionBar"]["LRInterval"]=arg1;
 	ActionBar_Layout()
-end)
+end
 
 function fujiF.setF.Update_Set()
 	if PIGA["PigLayout"]["ActionBar"]["Layout"]==5 then
@@ -548,16 +554,16 @@ fujiF.setMicroF.cz:SetScript("OnClick", function (self)
 end);
 fujiF.setMicroF.ScaleT = PIGFontString(fujiF.setMicroF,{"TOPLEFT", fujiF.setMicroF, "TOPLEFT", 20, -20},"缩放")
 fujiF.setMicroF.Scale = PIGSlider(fujiF.setMicroF,{"LEFT",fujiF.setMicroF.ScaleT,"LEFT",100,0},{0.6, 1.8, 0.01,{["Right"]="%"}})
-fujiF.setMicroF.Scale.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.setMicroF.Scale:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["MicroMenu"]["Scale"]=arg1;
 	fujiF.UpdateUIScaleXY()
-end)
+end
 fujiF.setMicroF.IntervalT = PIGFontString(fujiF.setMicroF,{"TOPLEFT", fujiF.setMicroF, "TOPLEFT", 20, -60},"按钮间距")
 fujiF.setMicroF.Interval = PIGSlider(fujiF.setMicroF,{"LEFT", fujiF.setMicroF.IntervalT, "LEFT", 100, 0},{-6, 30, 1})
-fujiF.setMicroF.Interval.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.setMicroF.Interval:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["MicroMenu"]["Interval"]=arg1;
 	fujiF.UpdateUIScaleXY()
-end)
+end
 fujiF.setMicroF.AnchorPointT = PIGFontString(fujiF.setMicroF,{"TOPLEFT", fujiF.setMicroF, "TOPLEFT", 20, -100},"定位锚点")
 fujiF.setMicroF.AnchorPoint=PIGDownMenu(fujiF.setMicroF,{"LEFT", fujiF.setMicroF.AnchorPointT, "LEFT", 106, 0},{120,nil})
 local xyList = {"TOP","BOTTOM","TOPLEFT","TOPRIGHT","BOTTOMLEFT","BOTTOMRIGHT"}
@@ -590,16 +596,16 @@ fujiF.setMicroF.MoveTime:SetScript("OnClick", function (self)
 end);
 fujiF.setMicroF.AnchorPointXT = PIGFontString(fujiF.setMicroF,{"TOPLEFT", fujiF.setMicroF, "TOPLEFT", 20, -140},"定位坐标X")
 fujiF.setMicroF.AnchorPointX = PIGSlider(fujiF.setMicroF,{"LEFT", fujiF.setMicroF.AnchorPointXT, "LEFT", 100, 0},{-800, 800, 1},300)
-fujiF.setMicroF.AnchorPointX.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.setMicroF.AnchorPointX:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["MicroMenu"]["AnchorPointX"]=arg1;
 	fujiF.UpdateUIScaleXY()
-end)
+end
 fujiF.setMicroF.AnchorPointYT = PIGFontString(fujiF.setMicroF,{"TOPLEFT", fujiF.setMicroF, "TOPLEFT", 20, -180},"定位坐标Y")
 fujiF.setMicroF.AnchorPointY = PIGSlider(fujiF.setMicroF,{"LEFT", fujiF.setMicroF.AnchorPointYT, "LEFT", 100, 0},{-600, 600, 1},300)
-fujiF.setMicroF.AnchorPointY.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.setMicroF.AnchorPointY:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["MicroMenu"]["AnchorPointY"]=arg1;
 	fujiF.UpdateUIScaleXY()
-end)
+end
 fujiF.setMicroF.ListBut={}
 for i=1,Old_MicroButNum do
 	local pindaol = PIGCheckbutton(fujiF.setMicroF,nil,{"点击显示或隐藏按钮"},nil,nil,i)

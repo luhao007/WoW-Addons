@@ -182,9 +182,6 @@ local function CreateRunner(name)
 	local FunctionQueue, ParameterBucketQueue, ParameterSingleQueue, Config = {}, {}, {}, { PerFrame = 1 };
 	local OnStart, OnReset
 	local Name = "Runner:"..name;
-	if app.__perf then
-		app.__perf.AutoCaptureTable(FunctionQueue, Name..".FunctionQueue")
-	end
 	local QueueIndex, RunIndex = 1, 1
 	local Pushed, perFrame
 	local function SetPerFrame(count)
@@ -339,6 +336,9 @@ local function CreateRunner(name)
 	Runner.Reset = Reset -- for testing
 	Runner.Stats = Stats -- for testing
 	app.Runners[name] = Runner
+	if app.__perf then
+		app.__perf.AutoCaptureTable(FunctionQueue,"FunctionQueue",Runner)
+	end
 
 	return Runner;
 end

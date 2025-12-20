@@ -218,6 +218,9 @@ L.DEATHS_CHECKBOX_TOOLTIP = "Enable this option to track each time one of your c
 L.DEBUG_LOGIN = "Awarded for logging in.\n\nGood job! YOU DID IT!\n\nOnly visible while in Debug Mode.";
 L.DEBUG_MODE = "|c" .. _.DefaultColors.Red .. "Debug Mode |cffffffff(Show Everything)|r|r";
 L.DEBUG_MODE_TOOLTIP = "Quite literally ... ALL THE THINGS IN THE GAME. PERIOD. DOT. YEAH, ALL OF IT. Even Uncollectible things like bags, consumables, reagents, etc will appear in the lists. (Even yourself! No, really. Look.)\n\nThis is for Debugging purposes only. Not intended to be used for completion tracking.\n\nThis mode bypasses all filters, including Unobtainables.";
+L.DECOR_CHECKBOX = CATALOG_SHOP_TYPE_DECOR;
+L.DECOR_CHECKBOX_TOOLTIP = "Enable this option to track warband decor completion.";
+L.DECOR_ID = "Decor ID";
 L.DELETE_CHARACTER = "Right Click to Delete this Character";
 L.DELETE_LINKED_ACCOUNT = "Right Click to Delete this Linked Account";
 L.DELETE_LINKED_CHARACTER = "Right Click to Delete this Linked Character";
@@ -586,7 +589,7 @@ L.QUEST_LOOP = "Likely just broke out of an infinite source quest loop.";
 L.QUEST_MAY_BE_REMOVED = "Failed to acquire information. This quest may have been removed from the game. ";
 L.QUEST_OBJECTIVE_INVALID = "Invalid Quest Objective";
 L.QUEST_ONCE_PER_ACCOUNT = "Once-Per-Account Quest";
-L.QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT = "Quest '%s' %s will prevent collection of Breadcrumb Quest '%s' %s";
+L.QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT = "Quest '%s' %s will prevent collection of '%s' %s";
 L.QUEST_ROW_INSTRUCTIONS = "Right Click to see any Quest Chain Requirements";
 L.QUESTS_CHECKBOX = QUESTS_LABEL;
 L.QUESTS_CHECKBOX_TOOLTIP = "Enable this option to track normal Quests.\n\nYou can right click any Quest in the lists to pop out their full quest chain to show your progress and any prerequisite Quests.\n\nNOTE: Tracking of Daily, Weekly, Yearly, and World Quests is not included in this option due to their periodic resets within the Blizzard Database.";
@@ -986,10 +989,11 @@ _.HeaderConstants = {
 	VENDORS = -58,
 	WEAPONS = -101,
 	WORLD_BOSSES = -61,
+	WORLD_DROPS = -698,
 	ZONE_DROPS = -63,
 };
 _.HeaderData = {
-	FILLNPCS = {[-98]=1,[-95]=1,[-94]=1,[-93]=1,[-90]=1,[-63]=1,[-47]=1,[-22]=1,[-19]=1},
+	FILLNPCS = {[-698]=1,[-98]=1,[-95]=1,[-94]=1,[-93]=1,[-90]=1,[-63]=1,[-47]=1,[-22]=1,[-19]=1},
 };
 localize(L.HEADER_NAMES, {
 	[-11] = "New Character",
@@ -1104,7 +1108,7 @@ localize(L.HEADER_NAMES, {
 	[-524] = "TBC Classic Deluxe Edition",
 	[-525] = "WotLK Classic Northrend Upgrade",
 	[-546] = "iCoke",
-	[-547] =  AUCTION_CATEGORY_MISCELLANEOUS,
+	[-547] = AUCTION_CATEGORY_MISCELLANEOUS,
 	[-548] = REFER_A_FRIEND,
 	[-550] = "Spirit of Competition",
 	[-551] = BATTLE_PET_SOURCE_9,
@@ -1123,6 +1127,8 @@ localize(L.HEADER_NAMES, {
 	[-588] = "Stranglethorn Fishing Extravaganza",
 	[-610] = "Crieve's Never Implemented List",
 	[-611] = "Silithid Royalty",
+	[-694] = "TBC Classic Anniversary Edition - Outland Upgrade",
+	[-698] = TRANSMOG_SOURCE_4,
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-25] = "Warlocks can teach their demons new tricks. Some of the higher level grimoires can only be purchased from the Demon Trainer in your faction's capital cities.",
@@ -1289,6 +1295,8 @@ localize(L.HEADER_ICONS, {
 	[-588] = _.asset("holiday_stv_fishing"),
 	[-610] = 132738,
 	[-611] = 133575,
+	[-694] = _.asset("expansion_tbc"),
+	[-698] = _.asset("category_worlddrops"),
 });
 localize(L.HEADER_EVENTS, {
 	[-37] = 1,
@@ -1375,7 +1383,6 @@ _.Modules.Events.SetEventInformation(7, {
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=9,["monthDay"]=20,["weekday"]=1,["year"]=2026},{["hour"]=10,["minute"]=0,["month"]=10,["monthDay"]=4,["weekday"]=1,["year"]=2026})
 });
 _.Modules.Events.SetEventInformation(1, {
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=10,["monthDay"]=5,["weekday"]=1,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=10,["monthDay"]=12,["weekday"]=1,["year"]=2025},{["remappedID"]=375}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=2,["weekday"]=1,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=9,["weekday"]=1,["year"]=2025},{["remappedID"]=376}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=1,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=14,["weekday"]=1,["year"]=2025},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=4,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=11,["weekday"]=1,["year"]=2026},{["remappedID"]=375}),
@@ -1385,7 +1392,8 @@ _.Modules.Events.SetEventInformation(1, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=5,["monthDay"]=3,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=5,["monthDay"]=10,["weekday"]=1,["year"]=2026},{["remappedID"]=376}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=6,["monthDay"]=7,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=6,["monthDay"]=14,["weekday"]=1,["year"]=2026},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=7,["monthDay"]=5,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=7,["monthDay"]=12,["weekday"]=1,["year"]=2026},{["remappedID"]=375}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=2,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=9,["weekday"]=1,["year"]=2026},{["remappedID"]=376})
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=2,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=9,["weekday"]=1,["year"]=2026},{["remappedID"]=376}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=6,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=13,["weekday"]=1,["year"]=2026},{["remappedID"]=374})
 });
 
 -- Filter Database Module
@@ -1867,6 +1875,7 @@ local ObjectNames = {
 	[2743] = "Carved Stone Urn",
 	[2744] = "Giant Clam",
 	[2842] = "Pillar of Diamond",
+	[2847] = "Tattered Chest",
 	[2848] = "Pillar of Opal",
 	[2858] = "Pillar of Amethyst",
 	[2866] = "Firebloom",
@@ -3357,6 +3366,7 @@ local ObjectModels = {
 	[2743] = 199751,
 	[2744] = 196998,
 	[2842] = 199976,
+	[2847] = 219372,
 	[2848] = 199976,
 	[2858] = 199976,
 	[2866] = 219452,
@@ -4463,7 +4473,7 @@ local phases = {
 		description = "|cFFAAFFAAThis was not available until Phase 1 of TBC Classic.|r",
 		lore = "|cFFFFAAAAIncluded Karazhan, Magtheridon's Lair, and Gruul's Lair.|r",
 		minimumBuildVersion = 20501,
-		buildVersion = 20501,
+		buildVersion = 20505,
 		state = 2,
 	},
 	[18] = {
@@ -4471,7 +4481,7 @@ local phases = {
 		description = "|cFFAAFFAAThis was not available until Phase 2 of TBC Classic.|r",
 		lore = "|cFFFFAAAAIncluded Serpentshrine Cavern, Tempest Keep: The Eye, and Swift Druid Flight Forms.|r",
 		minimumBuildVersion = 20501,
-		buildVersion = 20502,
+		buildVersion = 20506,
 		state = 2,
 	},
 	[1801] = {
@@ -4479,7 +4489,7 @@ local phases = {
 		description = "|cFFAAFFAAThis became available with the Ogri'la Faction during TBC Classic.|r",
 		lore = "|cFFFFAAAAIf the Ogri'la Faction is available on your server, simply turn this on.|r",
 		minimumBuildVersion = 20501,
-		buildVersion = 20502,
+		buildVersion = 20506,
 		state = 2,
 	},
 	[1802] = {
@@ -4487,7 +4497,7 @@ local phases = {
 		description = "|cFFAAFFAAThis became available with the Skyguard Faction during TBC Classic.|r",
 		lore = "|cFFFFAAAAIf the Skyguard Faction is available on your server, simply turn this on.|r",
 		minimumBuildVersion = 20501,
-		buildVersion = 20502,
+		buildVersion = 20506,
 		state = 2,
 	},
 	[19] = {
@@ -4495,7 +4505,7 @@ local phases = {
 		description = "|cFFAAFFAAThis was not available until Phase 3 of TBC Classic.|r",
 		lore = "|cFFFFAAAAIncluded Hyjal Summit and the Black Temple in addition to the vast majority of end game daily / faction content.|r",
 		minimumBuildVersion = 20501,
-		buildVersion = 20503,
+		buildVersion = 20507,
 		state = 2,
 	},
 	[1901] = {
@@ -4503,7 +4513,7 @@ local phases = {
 		description = "|cFFAAFFAAThis became available with the Netherwing Faction during TBC Classic.|r",
 		lore = "|cFFFFAAAAIf the Netherwing Faction is available on your server, simply turn this on.|r",
 		minimumBuildVersion = 20501,
-		buildVersion = 20503,
+		buildVersion = 20507,
 		state = 2,
 	},
 	[1902] = {
@@ -4519,7 +4529,7 @@ local phases = {
 		description = "|cFFAAFFAAThis was not available until Phase 4 of TBC Classic.|r",
 		lore = "|cFFFFAAAAIncluded Zul'Aman.|r",
 		minimumBuildVersion = 20501,
-		buildVersion = 20504,
+		buildVersion = 20508,
 		state = 2,
 	},
 	[21] = {
@@ -4527,7 +4537,7 @@ local phases = {
 		description = "|cFFAAFFAAThis was not available until Phase 5 of TBC Classic.|r",
 		lore = "|cFFFFAAAAIncluded Sunwell Plateau and the Isle of Quel'Danas daily content.|r",
 		minimumBuildVersion = 20501,
-		buildVersion = 20504,
+		buildVersion = 20508,
 		state = 2,
 	},
 	[2101] = {
@@ -6767,6 +6777,108 @@ local achievements = {
 		icon = 354719,
 		category = 81,
 		criteria = {17023},
+	},
+	[15018] = {
+		name = "Infernal Gladiator",
+		description = "Achieved Infernal Gladiator title.",
+		icon = 136243,
+		category = 81,
+	},
+	[15019] = {
+		name = "Gladiator: Season 1",
+		description = "End a PvP season in the top 0.5% of the arena ladder (requires 50 games won in Season 1).",
+		icon = 136243,
+		category = 81,
+	},
+	[15020] = {
+		name = "Duelist: Season 1",
+		description = "End a PvP season in the top 3% of the arena ladder (requires 50 games won in Season 1).",
+		icon = 136243,
+		category = 81,
+	},
+	[15021] = {
+		name = "Rival: Season 1",
+		description = "End a PvP season in the top 10% of the arena ladder (requires 50 games won in Season 1).",
+		icon = 136243,
+		category = 81,
+	},
+	[15022] = {
+		name = "Challenger: Season 1",
+		description = "End a PvP season in the top 35% of the arena ladder (requires 50 games won in Season 1).",
+		icon = 136243,
+		category = 81,
+	},
+	[15199] = {
+		name = "Gladiator: Season 2",
+		description = "End a PvP season in the top 0.5% of the arena ladder (requires 50 games won in Season 2).",
+		icon = 136243,
+		category = 81,
+	},
+	[15200] = {
+		name = "Gladiator: Season 4",
+		description = "End a PvP season in the top 0.5% of the arena ladder (requires 50 games won in Season 4).",
+		icon = 136243,
+		category = 81,
+	},
+	[15201] = {
+		name = "Duelist: Season 4",
+		description = "End a PvP season in the top 3% of the arena ladder (requires 50 games won in Season 4).",
+		icon = 136243,
+		category = 81,
+	},
+	[15202] = {
+		name = "Rival: Season 4",
+		description = "End a PvP season in the top 10% of the arena ladder (requires 50 games won in Season 4).",
+		icon = 136243,
+		category = 81,
+	},
+	[15203] = {
+		name = "Challenger: Season 4",
+		description = "End a PvP season in the top 35% of the arena ladder (requires 50 games won in Season 4).",
+		icon = 136243,
+		category = 81,
+	},
+	[15204] = {
+		name = "Gladiator: Season 3",
+		description = "End a PvP season in the top 0.5% of the arena ladder (requires 50 games won in Season 3).",
+		icon = 136243,
+		category = 81,
+	},
+	[15205] = {
+		name = "Duelist: Season 3",
+		description = "End a PvP season in the top 3% of the arena ladder (requires 50 games won in Season 3).",
+		icon = 136243,
+		category = 81,
+	},
+	[15206] = {
+		name = "Rival: Season 3",
+		description = "End a PvP season in the top 10% of the arena ladder (requires 50 games won in Season 3).",
+		icon = 136243,
+		category = 81,
+	},
+	[15207] = {
+		name = "Challenger: Season 3",
+		description = "End a PvP season in the top 35% of the arena ladder (requires 50 games won in Season 3).",
+		icon = 136243,
+		category = 81,
+	},
+	[15208] = {
+		name = "Duelist: Season 2",
+		description = "End a PvP season in the top 3% of the arena ladder (requires 50 games won in Season 2).",
+		icon = 136243,
+		category = 81,
+	},
+	[15209] = {
+		name = "Rival: Season 2",
+		description = "End a PvP season in the top 10% of the arena ladder (requires 50 games won in Season 2).",
+		icon = 136243,
+		category = 81,
+	},
+	[15210] = {
+		name = "Challenger: Season 2",
+		description = "End a PvP season in the top 35% of the arena ladder (requires 50 games won in Season 2).",
+		icon = 136243,
+		category = 81,
 	},
 	[15330] = {
 		name = "Survivor of the Firelord (Season of Mastery)",
@@ -16941,6 +17053,9 @@ localize(L.HEADER_NAMES, {
 	[-362] = "Bibliothek",
 	[-363] = "Waffenkammer",
 	[-364] = "Kathedrale",
+	[-365] = "Haupttor",
+	[-366] = "Dienstboteneingang",
+	[-367] = "Verteidiger der Atal'ai",
 	[-482] = "Die Öffnung des Dunklen Portals",
 	[-483] = "Das Szepter der Sandstürme",
 	[-557] = "Braufest",
@@ -16956,6 +17071,7 @@ localize(L.HEADER_NAMES, {
 	[-586] = "Saisonfisch: Sommerbarsch",
 	[-587] = "Saisonfisch: Winterkalmar",
 	[-588] = "Anglerwettbewerb im Schlingendorntal",
+	[-611] = "Adel der Silithiden",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-36] = "Es muss möglicherweise ein bestimmter Feiertag aktiv sein, um hier genannte Dinge abschließen zu können.",
@@ -17107,6 +17223,7 @@ localize(ObjectNames, {
 	[2743] = "Verzierte Steinurne",
 	[2744] = "Riesenmuschel",
 	[2842] = "Diamantsäule",
+	[2847] = "Ramponierte Truhe",
 	[2848] = "Opalsäule",
 	[2858] = "Amethystsäule",
 	[2866] = "Feuerblüte",
@@ -18320,6 +18437,23 @@ for key,value in pairs({
 	[3356] = "Frostsäbler aus Winterquell",
 	[3496] = "Ein ebenso trinkfestes wie schnelles Reittier",
 	[5788] = "Agent der Shen'dralar",
+	[15018] = "Infernaler Gladiator",
+	[15019] = "Gladiator: Saison 1",
+	[15020] = "Duellant: Saison 1",
+	[15021] = "Rivale: Saison 1",
+	[15022] = "Herausforderer: Saison 1",
+	[15199] = "Gladiator: Saison 2",
+	[15200] = "Gladiator: Saison 4",
+	[15201] = "Duellant: Saison 4",
+	[15202] = "Rivale: Saison 4",
+	[15203] = "Herausforderer: Saison 4",
+	[15204] = "Gladiator: Saison 3",
+	[15205] = "Duellant: Saison 3",
+	[15206] = "Rivale: Saison 3",
+	[15207] = "Herausforderer: Saison 3",
+	[15208] = "Duellant: Saison 2",
+	[15209] = "Rivale: Saison 2",
+	[15210] = "Herausforderer: Saison 2",
 	[15330] = "Überlebender des Feuerlords (Saison der Meisterschaft)",
 	[15333] = "Überlebender der Schattenflamme (Saison der Meisterschaft)",
 	[15334] = "Überlebender des alten Gottes (Saison der Meisterschaft)",
@@ -18615,6 +18749,23 @@ for key,value in pairs({
 	[3356] = "Erhaltet einen Frostsäbler aus Winterquell.",
 	[3496] = "Erhaltet ein episches Braufestreittier.",
 	[5788] = "Erreicht bei den Shen'dralar den Status ehrfürchtig.",
+	[15018] = "Den Titel 'Infernaler Gladiator' errungen.",
+	[15019] = "Beendet eine PvP-Saison in den Top 0,5% der Arenarangliste (Ihr müsst in Saison 1 mindestens 50 Spiele gewinnen).",
+	[15020] = "Beendet eine PvP-Saison in den Top 3% der Arenarangliste (Ihr müsst in Saison 1 mindestens 50 Spiele gewinnen).",
+	[15021] = "Beendet eine PvP-Saison in den Top 10% der Arenarangliste (Ihr müsst in Saison 1 mindestens 50 Spiele gewinnen).",
+	[15022] = "Beendet eine PvP-Saison in den Top 35% der Arenarangliste (Ihr müsst in Saison 1 mindestens 50 Spiele gewinnen).",
+	[15199] = "Beendet eine PvP-Saison in den Top 0,5% der Arenarangliste (Ihr müsst in Saison 2 mindestens 50 Spiele gewinnen).",
+	[15200] = "Beendet eine PvP-Saison in den Top 0,5% der Arenarangliste (Ihr müsst in Saison 4 mindestens 50 Spiele gewinnen).",
+	[15201] = "Beendet eine PvP-Saison in den Top 3% der Arenarangliste (Ihr müsst in Saison 4 mindestens 50 Spiele gewinnen).",
+	[15202] = "Beendet eine PvP-Saison in den Top 10% der Arenarangliste (Ihr müsst in Saison 4 mindestens 50 Spiele gewinnen).",
+	[15203] = "Beendet eine PvP-Saison in den Top 35% der Arenarangliste (Ihr müsst in Saison 4 mindestens 50 Spiele gewinnen).",
+	[15204] = "Beendet eine PvP-Saison in den Top 0,5% der Arenarangliste (Ihr müsst in Saison 3 mindestens 50 Spiele gewinnen).",
+	[15205] = "Beendet eine PvP-Saison in den Top 3% der Arenarangliste (Ihr müsst in Saison 3 mindestens 50 Spiele gewinnen).",
+	[15206] = "Beendet eine PvP-Saison in den Top 10% der Arenarangliste (Ihr müsst in Saison 3 mindestens 50 Spiele gewinnen).",
+	[15207] = "Beendet eine PvP-Saison in den Top 35% der Arenarangliste (Ihr müsst in Saison 3 mindestens 50 Spiele gewinnen).",
+	[15208] = "Beendet eine PvP-Saison in den Top 3% der Arenarangliste (Ihr müsst in Saison 2 mindestens 50 Spiele gewinnen).",
+	[15209] = "Beendet eine PvP-Saison in den Top 10% der Arenarangliste (Ihr müsst in Saison 2 mindestens 50 Spiele gewinnen).",
+	[15210] = "Beendet eine PvP-Saison in den Top 35% der Arenarangliste (Ihr müsst in Saison 2 mindestens 50 Spiele gewinnen).",
 	[15330] = "Bezwingt Ragnaros ohne zu sterben während der Saison der Meisterschaft.",
 	[15333] = "Bezwingt Nefarian ohne zu sterben während der Saison der Meisterschaft.",
 	[15334] = "Bezwingt C'Thun ohne zu sterben während der Saison der Meisterschaft.",
@@ -20727,7 +20878,9 @@ localize(L.HEADER_NAMES, {
 	[-362] = "Librairie",
 	[-363] = "Armurerie",
 	[-364] = "Cathédrale",
-	[-367] = "Défenseurs Atal'ai",
+	[-365] = "Grande porte",
+	[-366] = "Entrée de service",
+	[-367] = "Défenseurs atal’ai",
 	[-481] = "Effort de guerre d’Ahn'Qiraj",
 	[-482] = "L'ouverture de la Porte des ténèbres",
 	[-483] = "Le Sceptre des Sables changeants",
@@ -20746,6 +20899,7 @@ localize(L.HEADER_NAMES, {
 	[-586] = "Poisson de saison : bar d'été",
 	[-587] = "Poisson de saison : calmar d'hiver",
 	[-588] = "Concours de pêche de Strangleronce",
+	[-611] = "Famille royale silithide",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-47] = "Contient des objets de récompenses ou disponibles dans d’autres contenus de la section qui les contient.\nIls sont regroupés ici dans le but de réduire la duplication de nombreuses sources possibles.",
@@ -20897,6 +21051,7 @@ localize(ObjectNames, {
 	[2743] = "Urne en pierre gravée",
 	[2744] = "Palourde géante",
 	[2842] = "Pilier de diamant",
+	[2847] = "Coffre en morceaux",
 	[2848] = "Pilier d'opale",
 	[2858] = "Pilier d'améthyste",
 	[2866] = "Fleur de feu",
@@ -22117,6 +22272,23 @@ for key,value in pairs({
 	[3356] = "Sabre-de-givre de Berceau-de-l'Hiver",
 	[3496] = "Monture dé-bourrée",
 	[5788] = "Agent des Shen’dralar",
+	[15018] = "Gladiateur infernal",
+	[15019] = "Gladiateur : saison 1",
+	[15020] = "Duelliste : saison 1",
+	[15021] = "Rival : saison 1",
+	[15022] = "Compétiteur : saison 1",
+	[15199] = "Gladiateur : saison 2",
+	[15200] = "Gladiateur : saison 4",
+	[15201] = "Duelliste : saison 4",
+	[15202] = "Rival : saison 4",
+	[15203] = "Compétiteur : saison 4",
+	[15204] = "Gladiateur : saison 3",
+	[15205] = "Duelliste : saison 3",
+	[15206] = "Rival : saison 3",
+	[15207] = "Compétiteur : saison 3",
+	[15208] = "Duelliste : saison 2",
+	[15209] = "Rival : saison 2",
+	[15210] = "Compétiteur : saison 2",
 	[15330] = "Survivant du seigneur du Feu (saison de la Maîtrise)",
 	[15333] = "Survivant de la Flamme d’ombre (saison de la Maîtrise)",
 	[15334] = "Survivant du Dieu très ancien (saison de la Maîtrise)",
@@ -22412,6 +22584,23 @@ for key,value in pairs({
 	[3356] = "Obtenir un sabre-de-givre de Berceau-de-l'Hiver.",
 	[3496] = "Obtenir une monture épique de la fête des Brasseurs.",
 	[5788] = "Être exalté auprès des Shen’dralar.",
+	[15018] = "Avoir obtenu le titre de gladiateur infernal.",
+	[15019] = "Terminer une saison de JcJ dans les premiers 0,5% du classement d’arène (nécessite 50 matchs gagnés pendant la saison 1).",
+	[15020] = "Terminer une saison de JcJ dans les premiers 3% du classement d’arène (nécessite 50 matchs gagnés pendant la saison 1).",
+	[15021] = "Terminer une saison de JcJ dans les premiers 10% du classement d’arène (nécessite 50 matchs gagnés pendant la saison 1).",
+	[15022] = "Terminer une saison de JcJ dans les premiers 35% du classement d’arène (nécessite 50 matchs gagnés pendant la saison 1).",
+	[15199] = "Terminer une saison de JcJ dans les premiers 0,5% du classement d’arène (nécessite 50 matchs gagnés pendant la saison 2).",
+	[15200] = "Terminer une saison de JcJ dans les premiers 0,5% du classement d’arène (nécessite 50 matchs gagnés pendant la saison 4).",
+	[15201] = "Terminer une saison de JcJ dans les premiers 3% du classement d’arène (nécessite 50 matchs gagnés pendant la saison 4).",
+	[15202] = "Terminer une saison de JcJ dans les premiers 10% du classement d’arène (nécessite 50 matchs gagnés pendant la saison 4).",
+	[15203] = "Terminer une saison de JcJ dans les premiers 35% du classement d’arène (nécessite 50 matchs gagnés pendant la saison 4).",
+	[15204] = "Terminer une saison de JcJ dans les premiers 0,5% du classement d’arène (nécessite 50 matchs gagnés pendant la saison 3).",
+	[15205] = "Terminer une saison de JcJ dans les premiers 3% du classement d’arène (nécessite 50 matchs gagnés pendant la saison 3).",
+	[15206] = "Terminer une saison de JcJ dans les premiers 10% du classement d’arène (nécessite 50 matchs gagnés pendant la saison 3).",
+	[15207] = "Terminer une saison de JcJ dans les premiers 35% du classement d’arène (nécessite 50 matchs gagnés pendant la saison 3).",
+	[15208] = "Terminer une saison de JcJ dans les premiers 3% du classement d’arène (nécessite 50 matchs gagnés pendant la saison 2).",
+	[15209] = "Terminer une saison de JcJ dans les premiers 10% du classement d’arène (nécessite 50 matchs gagnés pendant la saison 2).",
+	[15210] = "Terminer une saison de JcJ dans les premiers 35% du classement d’arène (nécessite 50 matchs gagnés pendant la saison 2).",
 	[15330] = "Vaincre Ragnaros sans jamais mourir au cours de la saison de la Maîtrise.",
 	[15333] = "Vaincre Nefarian sans jamais mourir au cours de la saison de la Maîtrise.",
 	[15334] = "Vaincre C’Thun sans jamais mourir au cours de la saison de la Maîtrise.",
@@ -24221,6 +24410,7 @@ localize(_.CategoryNames, {
 localize(L.HEADER_NAMES, {
 	[-11] = "Nuovo personaggio",
 	[-17] = "Prova di Classe",
+	[-25] = "Istruttore dei Demoni",
 	[-36] = "Festività",
 	[-247] = "Gladiatore: Season 1",
 	[-248] = "Gladiatore Spietato: Season 2",
@@ -26765,6 +26955,9 @@ localize(L.HEADER_NAMES, {
 	[-342] = "Aparência Única",
 	[-343] = "Recompensa",
 	[-350] = "Os Quatro Cavaleiros",
+	[-365] = "Portão Principal",
+	[-366] = "Entrada de Serviço",
+	[-367] = "Defensores Atal'ai",
 	[-482] = "A abertura do Portal Negro",
 	[-483] = "Cetro das Areias Cambiantes",
 	[-557] = "CervaFest",
@@ -26780,6 +26973,7 @@ localize(L.HEADER_NAMES, {
 	[-586] = "Peixe sazonal: robalo de verão",
 	[-587] = "Peixe sazonal: Lula de Inverno",
 	[-588] = "Festerê de Pesca da Selva do Espinhaço",
+	[-611] = "Realeza Silítidea",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-59] = "Um mestre de armas é um NPC que oferece aos personagens a oportunidade de aprender habilidades específicas com armas, cuja disponibilidade varia de um mestre de armas para outro. Todas as habilidades com armas podem ser treinadas no nível 1, exceto as armas de haste, que exigem nível 20.\n\nO treinamento com um mestre de armas tornou-se obsoleto no Patch 4.0.1, já que todas as proficiências de armas apropriadas à classe agora são aprendidas por cada classe após a criação. Os mestres de armas foram removidos do jogo logo depois.",
@@ -26925,6 +27119,7 @@ localize(ObjectNames, {
 	[2742] = "Baú da Nidificação",
 	[2743] = "Urna de Pedra com Gravuras",
 	[2744] = "Marisco Gigante",
+	[2847] = "Baú Gasto",
 	[2848] = "Pilar de Opala",
 	[2858] = "Pilar de Ametista",
 	[2866] = "Ignídea",
@@ -28050,6 +28245,23 @@ for key,value in pairs({
 	[3356] = "Sabre-de-gelo de Hibérnia",
 	[3496] = "Seguuuuuuuraaaaaa, peão!",
 	[5788] = "Agente dos Shen'dralar",
+	[15018] = "Gladiador Infernal",
+	[15019] = "Gladiador: Série 1",
+	[15020] = "Duelista: Série 1",
+	[15021] = "Rival: Série 1",
+	[15022] = "Desafiante: Série 1",
+	[15199] = "Gladiador: Série 2",
+	[15200] = "Gladiador: Série 4",
+	[15201] = "Duelista: Série 4",
+	[15202] = "Rival: Série 4",
+	[15203] = "Desafiante: Série 4",
+	[15204] = "Gladiador: Série 3",
+	[15205] = "Duelista: Série 3",
+	[15206] = "Rival: Série 3",
+	[15207] = "Desafiante: Série 3",
+	[15208] = "Duelista: Série 2",
+	[15209] = "Rival: Série 2",
+	[15210] = "Desafiante: Série 2",
 	[15330] = "Sobrevivente do Senhor do Fogo (Temporada de Maestria)",
 	[15333] = "Sobrevivente da Chama Sombria (Temporada de Maestria)",
 	[15334] = "Sobrevivente do Deus Antigo (Temporada de Maestria)",
@@ -28345,6 +28557,23 @@ for key,value in pairs({
 	[3356] = "Obter um Sabre-de-gelo de Hibérnia.",
 	[3496] = "Obter uma montaria épica da CervaFest.",
 	[5788] = "Tornar-se exaltado pelos Shen'dralar.",
+	[15018] = "Conquistou o título de Gladiador Infernal.",
+	[15019] = "Terminar uma série de JxJ entre os 0,5% melhores na arena (requer 50 partidas vencidas na Série 1).",
+	[15020] = "Terminar uma série de JxJ entre os 3% melhores na arena (requer 50 partidas vencidas na Série 1).",
+	[15021] = "Terminar uma série de JxJ entre os 10% melhores na arena (requer 50 partidas vencidas na Série 1).",
+	[15022] = "Terminar uma série de JxJ entre os 35% melhores na arena (requer 50 partidas vencidas na Série 1).",
+	[15199] = "Terminar uma série de JxJ entre os 0,5% melhores na arena (requer 50 partidas vencidas na Série 2).",
+	[15200] = "Terminar uma série de JxJ entre os 0,5% melhores na arena (requer 50 partidas vencidas na Série 4).",
+	[15201] = "Terminar uma série de JxJ entre os 3% melhores na arena (requer 50 partidas vencidas na Série 4).",
+	[15202] = "Terminar uma série de JxJ entre os 10% melhores na arena (requer 50 partidas vencidas na Série 4).",
+	[15203] = "Terminar uma série de JxJ entre os 35% melhores na arena (requer 50 partidas vencidas na Série 4).",
+	[15204] = "Terminar uma série de JxJ entre os 0,5% melhores na arena (requer 50 partidas vencidas na Série 3).",
+	[15205] = "Terminar uma série de JxJ entre os 3% melhores na arena (requer 50 partidas vencidas na Série 3).",
+	[15206] = "Terminar uma série de JxJ entre os 10% melhores na arena (requer 50 partidas vencidas na Série 3).",
+	[15207] = "Terminar uma série de JxJ entre os 35% melhores na arena (requer 50 partidas vencidas na Série 3).",
+	[15208] = "Terminar uma série de JxJ entre os 3% melhores na arena (requer 50 partidas vencidas na Série 2).",
+	[15209] = "Terminar uma série de JxJ entre os 10% melhores na arena (requer 50 partidas vencidas na Série 2).",
+	[15210] = "Terminar uma série de JxJ entre os 35% melhores na arena (requer 50 partidas vencidas na Série 2).",
 	[15330] = "Derrotar Ragnaros sem ter morrido nenhuma vez durante a Temporada de Maestria.",
 	[15333] = "Derrotar Nefarian sem ter morrido nenhuma vez durante a Temporada de Maestria.",
 	[15334] = "Derrotar C'Thun sem ter morrido nenhuma vez durante a Temporada de Maestria.",
@@ -30547,7 +30776,7 @@ L.QUEST_LOOP = "Скорее всего ATT вырвался из цепочки
 L.QUEST_MAY_BE_REMOVED = "Ошибка при получении информации. Это задание, возможно, удалено из игры. ";
 L.QUEST_OBJECTIVE_INVALID = "Недействительная Цель Задания";
 L.QUEST_ONCE_PER_ACCOUNT = "Один-Раз-На-Аккаунт Задание";
-L.QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT = "Задание '%s' %s не позволит собрать Хлебную Кроху '%s' %s";
+L.QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT = "Задание '%s' %s не позволит собрать '%s' %s";
 L.QUEST_ROW_INSTRUCTIONS = "Правый клик - Открыть Цепочку Заданий";
 L.QUESTS_CHECKBOX_TOOLTIP = "Включите для отслеживания обычных Заданий.\n\nПри помощи правого клика на любое задание в списках Вы можете открыть полную цепочку заданий, чтобы отобразить Ваш прогресс и любые предшествующие Задания.\n\nПримечание: Задания не отслеживаются перманентно из-за природы отслеживания Ежедневных, Еженедельных, Ежегодных и Локальных заданий в базе данных Blizzard.";
 L.QUESTS_DESC = "Все задания в игре в порядке возрастания номеров.";
@@ -30811,6 +31040,8 @@ localize(L.HEADER_NAMES, {
 	[-362] = "Библиотека",
 	[-363] = "Оружейная",
 	[-364] = "Собор",
+	[-365] = "Главные врата",
+	[-366] = "Черный ход",
 	[-367] = "Защитники Атал'ай",
 	[-481] = "Война в Ан'Кираже",
 	[-482] = "Открытие Темного портала",
@@ -30829,6 +31060,7 @@ localize(L.HEADER_NAMES, {
 	[-586] = "Сезонная рыба: летний окунь",
 	[-587] = "Сезонная рыба: зимний кальмар",
 	[-588] = "Рыбомания Тернистой долины",
+	[-611] = "Силитидская знать",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-36] = "Чтобы выполнить упомянутые в данной секции Штучки, может быть нужен какой-то праздник.",
@@ -30982,6 +31214,7 @@ localize(ObjectNames, {
 	[2743] = "Резная каменная урна",
 	[2744] = "Гигантский моллюск",
 	[2842] = "Алмазный столп",
+	[2847] = "Побитый сундук",
 	[2848] = "Опаловый столп",
 	[2858] = "Аметистовый столп",
 	[2866] = "Огнецвет",
@@ -32221,6 +32454,23 @@ for key,value in pairs({
 	[3356] = "Ледопард Зимних Ключей",
 	[3496] = "Утром дрожжи, вечером вожжи",
 	[5788] = "Посланник Шен'дралар",
+	[15018] = "Инфернальный гладиатор",
+	[15019] = "Гладиатор: 1-й сезон",
+	[15020] = "Дуэлянт: 1-й сезон",
+	[15021] = "Фаворит: 1-й сезон",
+	[15022] = "Претендент: 1-й сезон",
+	[15199] = "Гладиатор: 2-й сезон",
+	[15200] = "Гладиатор: 4-й сезон",
+	[15201] = "Дуэлянт: 4-й сезон",
+	[15202] = "Фаворит: 4-й сезон",
+	[15203] = "Претендент: 4-й сезон",
+	[15204] = "Гладиатор: 3-й сезон",
+	[15205] = "Дуэлянт: 3-й сезон",
+	[15206] = "Фаворит: 3-й сезон",
+	[15207] = "Претендент: 3-й сезон",
+	[15208] = "Дуэлянт: 2-й сезон",
+	[15209] = "Фаворит: 2-й сезон",
+	[15210] = "Претендент: 2-й сезон",
 	[15330] = "Выжить пред лицом Повелителя Огня (сезон мастерства)",
 	[15333] = "Выжить пред лицом Пламени Тьмы (сезон мастерства)",
 	[15334] = "Выжить пред лицом древнего бога (сезон мастерства)",
@@ -32516,6 +32766,23 @@ for key,value in pairs({
 	[3356] = "Получите ледопарда Зимних Ключей.",
 	[3496] = "Получите эпическое верховое животное с Хмельного фестиваля.",
 	[5788] = "Добейтесь того, чтобы вас превозносили Шен'дралар.",
+	[15018] = "Получите звание инфернального гладиатора.",
+	[15019] = "Закончите сезон PvP, попав в первые 0,5% строк рейтинговой таблицы арены (требуется одержать 50 побед в 1-м сезоне).",
+	[15020] = "Закончите сезон PvP, попав в первые 3% строк рейтинговой таблицы арены (требуется одержать 50 побед в 1-м сезоне).",
+	[15021] = "Закончите сезон PvP, попав в первые 10% строк рейтинговой таблицы арены (требуется одержать 50 побед в 1-м сезоне).",
+	[15022] = "Закончите сезон PvP, попав в первые 35% строк рейтинговой таблицы арены (требуется одержать 50 побед в 1-м сезоне).",
+	[15199] = "Закончите сезон PvP, попав в первые 0,5% строк таблицы арены (требуется одержать 50 побед в 2-м сезоне).",
+	[15200] = "Закончите сезон PvP, попав в первые 0,5% строк таблицы арены (требуется одержать 50 побед в 4-м сезоне).",
+	[15201] = "Закончите сезон PvP, попав в первые 3% строк рейтинговой таблицы арены (требуется одержать 50 побед в 4-м сезоне).",
+	[15202] = "Закончите сезон PvP, попав в первые 10% строк рейтинговой таблицы арены (требуется одержать 50 побед в 4-м сезоне).",
+	[15203] = "Закончите сезон PvP, попав в первые 35% строк рейтинговой таблицы арены (требуется одержать 50 побед в 4-м сезоне).",
+	[15204] = "Закончите сезон PvP, попав в первые 0,5% строк таблицы арены (требуется одержать 50 побед в 3-м сезоне).",
+	[15205] = "Закончите сезон PvP, попав в первые 3% строк рейтинговой таблицы арены (требуется одержать 50 побед в 3-м сезоне).",
+	[15206] = "Закончите сезон PvP, попав в первые 10% строк рейтинговой таблицы арены (требуется одержать 50 побед в 3-м сезоне).",
+	[15207] = "Закончите сезон PvP, попав в первые 35% строк рейтинговой таблицы арены (требуется одержать 50 побед в 3-м сезоне).",
+	[15208] = "Закончите сезон PvP, попав в первые 3% строк рейтинговой таблицы арены (требуется одержать 50 побед во 2-м сезоне).",
+	[15209] = "Закончите сезон PvP, попав в первые 10% строк рейтинговой таблицы арены (требуется одержать 50 побед во 2-м сезоне).",
+	[15210] = "Закончите сезон PvP, попав в первые 35% строк рейтинговой таблицы арены (требуется одержать 50 побед во 2-м сезоне).",
 	[15330] = "Победите Рагнароса в ходе сезона мастерства, ни разу не умерев.",
 	[15333] = "Победите Нефариана в ходе сезона мастерства, ни разу не умерев.",
 	[15334] = "Победите К'Туна в ходе сезона мастерства, ни разу не умерев.",
@@ -34347,6 +34614,9 @@ localize(L.HEADER_NAMES, {
 	[-342] = "독특한 외관",
 	[-343] = "하사품",
 	[-350] = "4인 기사단",
+	[-365] = "정문",
+	[-366] = "공무용 입구",
+	[-367] = "아탈라이 파수병",
 	[-482] = "어둠의 문 열기",
 	[-483] = "흐르는 모래의 홀",
 	[-520] = "블리즈컨",
@@ -34363,6 +34633,7 @@ localize(L.HEADER_NAMES, {
 	[-586] = "제철 생선: 여름 농어",
 	[-587] = "제철 생선: 겨울 오징어",
 	[-588] = "가시덤불 골짜기 낚시왕 선발대회",
+	[-611] = "실리시드 왕실",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-59] = "웨폰 마스터는 캐릭터에게 특정 무기 기술을 배울 수 있는 기회를 제공하는 NPC로, 사용 가능 여부는 웨폰 마스터마다 다릅니다. 모든 무기 기술은 레벨 20이 필요한 폴암을 제외하고 레벨 1에서 훈련할 수 있습니다.\n\n4.0.1 패치에서는 각 병과가 생성 시 모든 병과에 적합한 무기 숙련도를 배우게 되므로 무기 전문가와의 훈련은 더 이상 필요하지 않게 되었습니다. 무기 마스터는 곧 게임에서 제거되었습니다.",
@@ -35660,6 +35931,23 @@ for key,value in pairs({
 	[3356] = "여명의 설원 눈호랑이",
 	[3496] = "날쌘 가을 축제 탈것",
 	[5788] = "셴드랄라의 대리인",
+	[15018] = "지옥에서 온 검투사",
+	[15019] = "검투사: 1 시즌",
+	[15020] = "결투사: 1 시즌",
+	[15021] = "승부사: 1 시즌",
+	[15022] = "도전자: 1 시즌",
+	[15199] = "검투사: 2 시즌",
+	[15200] = "검투사: 4 시즌",
+	[15201] = "결투사: 4 시즌",
+	[15202] = "승부사: 4 시즌",
+	[15203] = "도전자: 4 시즌",
+	[15204] = "검투사: 3 시즌",
+	[15205] = "결투사: 3 시즌",
+	[15206] = "승부사: 3 시즌",
+	[15207] = "도전자: 3 시즌",
+	[15208] = "결투사: 2 시즌",
+	[15209] = "승부사: 2 시즌",
+	[15210] = "도전자: 2 시즌",
 	[15330] = "불의 군주의 생존자 (마스터리 서버)",
 	[15333] = "암흑 불길의 생존자 (마스터리 서버)",
 	[15334] = "고대 신의 생존자 (마스터리 서버)",
@@ -35955,6 +36243,23 @@ for key,value in pairs({
 	[3356] = "여명의 설원 눈호랑이 획득",
 	[3496] = "영웅급 가을 축제 탈것 획득",
 	[5788] = "셴드랄라 확고한 동맹",
+	[15018] = "\"지옥에서 온 검투사\" 칭호 획득",
+	[15019] = "투기장 순위 상위 0.5%로 시즌 종료 (1 시즌 동안 50승 이상 달성)",
+	[15020] = "투기장 순위 상위 3%로 시즌 종료 (1 시즌 동안 50승 이상 달성)",
+	[15021] = "투기장 순위 상위 10%로 시즌 종료 (1 시즌 동안 50승 이상 달성)",
+	[15022] = "투기장 순위 상위 35%로 시즌 종료 (1 시즌 동안 50승 이상 달성)",
+	[15199] = "투기장 순위 상위 0.5%로 시즌 종료 (2 시즌 동안 50승 이상 달성)",
+	[15200] = "투기장 순위 상위 0.5%로 시즌 종료 (4 시즌 동안 50승 이상 달성)",
+	[15201] = "투기장 순위 상위 3%로 시즌 종료 (4 시즌 동안 50승 이상 달성)",
+	[15202] = "투기장 순위 상위 10%로 시즌 종료 (4 시즌 동안 50승 이상 달성)",
+	[15203] = "투기장 순위 상위 35%로 시즌 종료 (4 시즌 동안 50승 이상 달성)",
+	[15204] = "투기장 순위 상위 0.5%로 시즌 종료 (3 시즌 동안 50승 이상 달성)",
+	[15205] = "투기장 순위 상위 3%로 시즌 종료 (3 시즌 동안 50승 이상 달성)",
+	[15206] = "투기장 순위 상위 10%로 시즌 종료 (3 시즌 동안 50승 이상 달성)",
+	[15207] = "투기장 순위 상위 35%로 시즌 종료 (3 시즌 동안 50승 이상 달성)",
+	[15208] = "투기장 순위 상위 3%로 시즌 종료 (2 시즌 동안 50승 이상 달성)",
+	[15209] = "투기장 순위 상위 10%로 시즌 종료 (2 시즌 동안 50승 이상 달성)",
+	[15210] = "투기장 순위 상위 35%로 시즌 종료 (2 시즌 동안 50승 이상 달성)",
 	[15330] = "마스터리 서버 도중 죽지 않고 라그나로스 처치",
 	[15333] = "마스터리 서버 도중 죽지 않고 네파리안 처치",
 	[15334] = "마스터리 서버 도중 죽지 않고 쑨 처치",
@@ -38527,6 +38832,7 @@ localize(L.HEADER_NAMES, {
 	[-37] = "Feria de la Luna Negra",
 	[-46] = "Raro",
 	[-56] = "Tesoros",
+	[-58] = "Vendedores",
 	[-59] = "Maestro armero",
 	[-61] = "Jefes de mundo",
 	[-63] = "Botín de zona",
@@ -38538,6 +38844,7 @@ localize(L.HEADER_NAMES, {
 	[-87] = "Cofre final",
 	[-97] = "Reliquias",
 	[-103] = "Evento de pre-parche",
+	[-219] = "Reliquias",
 	[-229] = "Fuente IDs",
 	[-232] = "Parche 1.x.x",
 	[-235] = "Parche 2.x.x",
@@ -38555,7 +38862,9 @@ localize(L.HEADER_NAMES, {
 	[-343] = "Recompensa",
 	[-349] = "Capitanes",
 	[-350] = "Los Cuatro Jinetes",
-	[-366] = "Entrada de servicio",
+	[-365] = "Puerta principal",
+	[-366] = "Entrada del servicio",
+	[-367] = "Defensores Atal'ai",
 	[-482] = "La apertura del Portal Oscuro",
 	[-483] = "El cetro del Mar de Dunas",
 	[-521] = "Edición de coleccionista",
@@ -38580,11 +38889,12 @@ localize(L.HEADER_NAMES, {
 	[-611] = "Realeza Silitida",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-25] = "Los brujos pueden enseñar nuevos trucos a sus demonios. Algunos grimorios de nivel superior solo se pueden comprar al Instructor de Demonios en las capitales de tu facción.Los brujos pueden enseñar nuevos trucos a sus demonios. Algunos grimorios de nivel superior solo se pueden comprar al Instructor de Demonios en las capitales de tu facción.",
 	[-36] = "Es posible que deba estar activo un día festivo específico para que pueda completar las cosas referenciadas en esta sección.",
 	[-43] = "Esta sección contiene misiones y domadores relacionados con los Duelos de Mascotas.",
 	[-44] = "Esta sección solo mostrará las profesiones de tu personaje actual fuera del modo Cuenta y Depuración.",
 	[-47] = "Contiene cosas que son recompensadas o están disponibles en otro contenido dentro de la sección contenedora.\nSe consolidan aquí en un esfuerzo por reducir la duplicación de muchas fuentes posibles.",
-	[-59] = "Un maestro de armas es un PNJ que ofrece a los personajes la oportunidad de aprender habilidades específicas con armas, cuya disponibilidad varía de un maestro de armas a otro. Todas las habilidades con armas se pueden entrenar en el nivel 1, excepto las armas de asta que requieren el nivel 20.\n\nEl entrenamiento con un maestro de armas quedó obsoleto en el parche 4.0.1, ya que cada clase ahora aprende todas las competencias de armas apropiadas para la clase en el momento de la creación. Los maestros de armas se eliminaron del juego poco después.",
+	[-59] = "Un maestro armero es un PNJ que ofrece a los personajes la oportunidad de aprender habilidades específicas con armas, cuya disponibilidad varía de un maestro de armas a otro. Todas las habilidades con armas se pueden entrenar en el nivel 1, excepto las armas de asta que requieren el nivel 20.\n\nEl entrenamiento con un maestro de armas quedó obsoleto en el parche 4.0.1, ya que cada clase ahora aprende todas las competencias de armas apropiadas para la clase en el momento de la creación. Los maestros de armas se eliminaron del juego poco después.",
 	[-213] = "Esta sección te mostrará cosas que puedes comprar en la Tienda del Juego en Retail.",
 	[-341] = "Los elementos de esta lista son apariencias compartidas del elemento anterior. En el modo de apariencia única, esta lista puede ayudarlo a comprender por qué o no un elemento específico se marcaría como coleccionado.",
 	[-342] = "Este objeto tiene una apariencia única. Debes obtener este objeto específicamente para ganar la apariencia.",
@@ -38735,6 +39045,7 @@ localize(ObjectNames, {
 	[2743] = "Urna de piedra labrada",
 	[2744] = "Almeja gigante",
 	[2842] = "Pilar de diamante",
+	[2847] = "Cofre ajado",
 	[2848] = "Pilar de ópalo",
 	[2858] = "Pilar de amatista",
 	[2866] = "Flor de fuego",
@@ -40028,6 +40339,23 @@ for key,value in pairs({
 	[3356] = "Sable de Hielo de Cuna del Invierno",
 	[3496] = "Una montura de fiesta veloz",
 	[5788] = "Agente de los Shen'dralar",
+	[15018] = "Gladiador infernal",
+	[15019] = "Gladiador: temporada 1",
+	[15020] = "Duelista: temporada 1",
+	[15021] = "Rival: temporada 1",
+	[15022] = "Contendiente: temporada 1",
+	[15199] = "Gladiador: temporada 2",
+	[15200] = "Gladiador: temporada 4",
+	[15201] = "Duelista: temporada 4",
+	[15202] = "Rival: temporada 4",
+	[15203] = "Contendiente: temporada 4",
+	[15204] = "Gladiador: temporada 3",
+	[15205] = "Duelista: temporada 3",
+	[15206] = "Rival: temporada 3",
+	[15207] = "Contendiente: temporada 3",
+	[15208] = "Duelista: temporada 2",
+	[15209] = "Rival: temporada 2",
+	[15210] = "Contendiente: temporada 2",
 	[15330] = "Superviviente del Señor del Fuego (temporada de maestría)",
 	[15333] = "Superviviente de la Llama de las Sombras (temporada de maestría)",
 	[15334] = "Superviviente del dios antiguo (temporada de maestría)",
@@ -40323,6 +40651,23 @@ for key,value in pairs({
 	[3356] = "Obtén un Sable de Hielo de Cuna del Invierno.",
 	[3496] = "Consigue una montura épica de la Fiesta de la cerveza.",
 	[5788] = "Alcanza la reputación Exaltado con los Shen'dralar",
+	[15018] = "Has conseguido el título de Gladiador infernal.",
+	[15019] = "Termina una temporada de JcJ entre el 0,5% de los primeros de la jerarquía de arenas (es necesario haber ganado 50 partidas en la temporada 1).",
+	[15020] = "Termina una temporada de JcJ entre el 3% de los primeros de la jerarquía de arenas (es necesario haber ganado 50 partidas en la temporada 1).",
+	[15021] = "Termina una temporada de JcJ entre el 10% de los primeros de la jerarquía de arenas (es necesario haber ganado 50 partidas en la temporada 1).",
+	[15022] = "Termina una temporada de JcJ entre el 35% de los primeros de la jerarquía de arenas (es necesario haber ganado 50 partidas en la temporada 1).",
+	[15199] = "Termina una temporada de JcJ entre el 0,5% de los primeros de la jerarquía de arenas (es necesario haber ganado 50 partidas en la temporada 2).",
+	[15200] = "Termina una temporada de JcJ entre el 0,5% de los primeros de la jerarquía de arenas (es necesario haber ganado 50 partidas en la temporada 4).",
+	[15201] = "Termina una temporada de JcJ entre el 3% de los primeros de la jerarquía de arenas (es necesario haber ganado 50 partidas en la temporada 4).",
+	[15202] = "Termina una temporada de JcJ entre el 10% de los primeros de la jerarquía de arenas (es necesario haber ganado 50 partidas en la temporada 4).",
+	[15203] = "Termina una temporada de JcJ entre el 35% de los primeros de la jerarquía de arenas (es necesario haber ganado 50 partidas en la temporada 4).",
+	[15204] = "Termina una temporada de JcJ entre el 0,5% de los primeros de la jerarquía de arenas (es necesario haber ganado 50 partidas en la temporada 3).",
+	[15205] = "Termina una temporada de JcJ entre el 3% de los primeros de la jerarquía de arenas (es necesario haber ganado 50 partidas en la temporada 3).",
+	[15206] = "Termina una temporada de JcJ entre el 10% de los primeros de la jerarquía de arenas (es necesario haber ganado 50 partidas en la temporada 3).",
+	[15207] = "Termina una temporada de JcJ entre el 35% de los primeros de la jerarquía de arenas (es necesario haber ganado 50 partidas en la temporada 3).",
+	[15208] = "Termina una temporada de JcJ entre el 3% de los primeros de la jerarquía de arenas (es necesario haber ganado 50 partidas en la temporada 2).",
+	[15209] = "Termina una temporada de JcJ entre el 10% de los primeros de la jerarquía de arenas (es necesario haber ganado 50 partidas en la temporada 2).",
+	[15210] = "Termina una temporada de JcJ entre el 35% de los primeros de la jerarquía de arenas (es necesario haber ganado 50 partidas en la temporada 2).",
 	[15330] = "Derrota a Ragnaros sin morir ni una sola vez durante la temporada de maestría.",
 	[15333] = "Derrota a Nefarian sin morir ni una sola vez durante la temporada de maestría.",
 	[15334] = "Derrota a C'Thun sin morir ni una sola vez durante la temporada de maestría.",
@@ -42341,13 +42686,17 @@ localize(_.CategoryNames, {
 localize(L.HEADER_NAMES, {
 	[-19] = "Botín compartido entre los jefes",
 	[-36] = "Fiestas",
+	[-59] = "Maestro de armas",
 	[-63] = "Botín de la zona",
 	[-74] = "Dragones de pesadilla",
 	[-103] = "Evento de pre-expansion",
+	[-367] = "Defensores de Atal'ai",
 	[-525] = "Paquete heroico Rasganorte WotLK Classic",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-25] = "Los brujos pueden enseñar nuevos trucos a sus demonios. Algunos grimorios de nivel superior solo se pueden comprar al Instructor de Demonios en las capitales de tu facción.",
 	[-44] = "Esta sección solo mostrará las profesiones de tu personaje actual fuera del modo Cuenta y Debug.",
+	[-59] = "Un maestro de armas es un PNJ que ofrece a los personajes la oportunidad de aprender habilidades específicas con armas, cuya disponibilidad varía de un maestro de armas a otro. Todas las habilidades con armas se pueden entrenar en el nivel 1, excepto las armas de asta que requieren el nivel 20.\n\nEl entrenamiento con un maestro de armas quedó obsoleto en el parche 4.0.1, ya que cada clase ahora aprende todas las competencias de armas apropiadas para la clase en el momento de la creación. Los maestros de armas se eliminaron del juego poco después.",
 });
 for key,value in pairs({
 	[2] = "Removido del juego",
@@ -42402,6 +42751,23 @@ for key,value in pairs({
 	[1293] = "Propietario orgulloso de la jarra conmemorativa de la Fiesta de la Cerveza azul.",
 	[2079] = "Has conseguido un Tabardo del protector del evento Portal Oscuro.",
 	[2336] = "Eleva tu reputación a Honrado con los Bucaneros Velasangre, y a Exaltado con Bahía del Botín, Vista Eterna, Gadgetzan, Trinquete, Feria de la Luna Negra, Ravenholdt y Shen'dralar.",
+	[15018] = "Alcanzaste el título de Gladiador infernal.",
+	[15019] = "Termina una temporada de JcJ entre el 0,5% de la clasificación de la arena (requiere haber ganado 50 partidas en la temporada 1).",
+	[15020] = "Termina una temporada de JcJ entre el 3% de la clasificación de la arena (requiere haber ganado 50 partidas en la temporada 1).",
+	[15021] = "Termina una temporada de JcJ entre el 10% de la clasificación de la arena (requiere haber ganado 50 partidas en la temporada 1).",
+	[15022] = "Termina una temporada de JcJ entre el 35% de la clasificación de la arena (requiere haber ganado 50 partidas en la temporada 1).",
+	[15199] = "Termina una temporada de JcJ entre el 0.5% de la clasificación de la arena (requiere haber ganado 50 partidas en la temporada 2).",
+	[15200] = "Termina una temporada de JcJ entre el 0.5% de la clasificación de la arena (requiere haber ganado 50 partidas en la temporada 4).",
+	[15201] = "Termina una temporada de JcJ entre el 3% de la clasificación de la arena (requiere haber ganado 50 partidas en la temporada 4).",
+	[15202] = "Termina una temporada de JcJ entre el 10% de la clasificación de la arena (requiere haber ganado 50 partidas en la temporada 4).",
+	[15203] = "Termina una temporada de JcJ entre el 35% de la clasificación de la arena (requiere haber ganado 50 partidas en la temporada 4).",
+	[15204] = "Termina una temporada de JcJ entre el 0.5% de la clasificación de la arena (requiere haber ganado 50 partidas en la temporada 3).",
+	[15205] = "Termina una temporada de JcJ entre el 3% de la clasificación de la arena (requiere haber ganado 50 partidas en la temporada 3).",
+	[15206] = "Termina una temporada de JcJ entre el 10% de la clasificación de la arena (requiere haber ganado 50 partidas en la temporada 3).",
+	[15207] = "Termina una temporada de JcJ entre el 35% de la clasificación de la arena (requiere haber ganado 50 partidas en la temporada 3).",
+	[15208] = "Termina una temporada de JcJ entre el 3% de la clasificación de la arena (requiere haber ganado 50 partidas en la temporada 2).",
+	[15209] = "Termina una temporada de JcJ entre el 10% de la clasificación de la arena (requiere haber ganado 50 partidas en la temporada 2).",
+	[15210] = "Termina una temporada de JcJ entre el 35% de la clasificación de la arena (requiere haber ganado 50 partidas en la temporada 2).",
 	[15330] = "Derrota a Ragnaros sin morir ni una vez durante la temporada de maestría.",
 	[15333] = "Derrota a Nefarian sin morir ni una vez durante la temporada de maestría.",
 	[15334] = "Derrota a C'Thun sin morir ni una vez durante la temporada de maestría.",
@@ -44352,6 +44718,8 @@ L.DEATHS_CHECKBOX_TOOLTIP = "启用此选项可跟踪您的角色每次死亡的
 L.DEBUG_LOGIN = "登录后获得的奖励。\n\n干得好！你做到了！\n\n仅在调试模式下可见。";
 L.DEBUG_MODE = "|c" .. _.DefaultColors.Red .. "调试模式|cffffffff（显示所有）|r|r";
 L.DEBUG_MODE_TOOLTIP = "就字面意思…游戏中的所有事情。时间。点滴。是的，所有的一切。即使是不可收藏的事物，如袋子、消耗品、试剂等也会出现在列表中。（甚至你自己！不，是真的。看。）\n\n这仅用于调试目的。不用于完成追踪。\n\n此模式绕过所有过滤，包括不可获得的。";
+L.DECOR_CHECKBOX_TOOLTIP = "启用此选项以跟踪战团装饰完成情况。";
+L.DECOR_ID = "装饰 ID";
 L.DELETE_CHARACTER = "右击删除此角色";
 L.DELETE_LINKED_ACCOUNT = "右击删除此链接帐号";
 L.DELETE_LINKED_CHARACTER = "右击删除此链接角色";
@@ -44978,8 +45346,14 @@ localize(L.HEADER_NAMES, {
 	[-85] = "二箱",
 	[-86] = "三箱",
 	[-87] = "最终宝箱",
+	[-97] = "圣物",
 	[-103] = "资料片前夕",
 	[-219] = ITEM_QUALITY7_DESC,
+	[-229] = "来源 ID",
+	[-232] = "补丁 1.x.x",
+	[-235] = "补丁 2.x.x",
+	[-243] = "护甲附魔",
+	[-245] = "武器附魔",
 	[-247] = "角斗士：第1赛季",
 	[-248] = "残酷角斗士：第2赛季",
 	[-249] = "复仇角斗士：第3赛季",
@@ -44999,6 +45373,8 @@ localize(L.HEADER_NAMES, {
 	[-362] = "图书馆",
 	[-363] = "武器库",
 	[-364] = "修道院",
+	[-365] = "正门",
+	[-366] = "后门",
 	[-367] = "阿塔莱防御者",
 	[-481] = "安其拉之战捐献",
 	[-482] = "开启黑暗之门",
@@ -45010,6 +45386,7 @@ localize(L.HEADER_NAMES, {
 	[-524] = "'燃烧的远征'怀旧服典藏包",
 	[-525] = "'巫妖王之怒'怀旧服 - 北裂境升级",
 	[-546] = "可口可乐活动",
+	[-550] = "竞争之魂",
 	[-557] = "美酒节",
 	[-559] = "儿童周",
 	[-574] = "冬幕节",
@@ -45023,9 +45400,13 @@ localize(L.HEADER_NAMES, {
 	[-586] = "时令鱼类：夏季鲈鱼",
 	[-587] = "时令鱼类：冬鱿鱼",
 	[-588] = "荆棘谷钓鱼大赛",
+	[-611] = "安其拉三宝",
+	[-694] = "'燃烧的远征'周年纪念版 - 外域升级",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-25] = "术士可以教导他们的恶魔新技能，一些高等级的魔典只能从你阵营首都的恶魔训练师那里购买。",
 	[-36] = "你可能需要在特定的节日活动中才能完成本节中的事物。",
+	[-43] = "宠物对战相关任务和驯练师。",
 	[-44] = "此部分只会显示你当前角色的专业技能，除非处于账号模式或调试模式。",
 	[-47] = "包含有奖励或可从包含部分中的其他内容获得的事物。\n在此处合并以减少来自许多可能重复来源。",
 	[-59] = "武器大师是一个 NPC，为角色提供学习特定武器技能的机会，不同武器大师的可用性各不相同。所有武器技能都可以在 1 级进行训练，长柄武器除外，需要 20 级。\n\n在补丁 4.0.1 中，武器大师的训练已经过时，因为现在每个职业在创建时都会学习所有适合该职业的武器熟练度。不久之后，武器大师就被从游戏中删除了。",
@@ -45033,6 +45414,14 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-341] = "此列表中的物品是以下物品的共享外观。在唯一外观模式下，此列表可帮助了解特定物品被标记为已收藏的原因。",
 	[-342] = "此列表中的物品是独特外观。你必须专门收藏这个物品以获得外观。",
 	[-343] = "此列表包含 ATT Discord 报告的无法获取的物品，这些物品是暴雪尚未修复的错误。\n\n注意：在此列表中忽略所有过滤器以获得可见性。此列表中仅显示因疏忽而从游戏中移除的物品。\n\n致暴雪开发者：请修复下面列出的物品和事件。",
+	[-355] = "该副本的此部分可从最东侧的入口进入。（右侧）",
+	[-356] = "该副本的此部分可从最北侧的入口进入。",
+	[-357] = "该副本的此部分可从最西侧的入口进入。（左侧）",
+	[-550] = "这是一个以战场为基础的活动，与夏季奥运会的开始同时进行。唯一一次庆祝是在2008年，以配合北京奥运会，虽然似乎有意图重复这个活动，但它从未回归。",
+});
+localize(L.HEADER_LORE, {
+	[-74] = "这些龙中的一只会在艾泽拉斯的相关坐标随机生成。",
+	[-318] = "地下城套装的第2套职业套装，通常称为T0.5，是通过完成一条漫长的任务链来获得的，该任务链将作为终极地下城掉落的第一个套装升级为更强大的版本。在当前的魔兽世界中，这些套装受到收藏家的追捧，因为随着大灾变，这条任务链已被完全从游戏中移除。在魔兽世界经典版中，你应该在所有角色上完成这条任务链！",
 });
 localize(L.FILTER_ID_TYPES, {
 	[11] = "神器",
@@ -46256,6 +46645,23 @@ for key,value in pairs({
 	[3356] = "冬泉霜刃豹",
 	[3496] = "酒酣马快",
 	[5788] = "辛德拉的代言人",
+	[15018] = "狱火角斗士",
+	[15019] = "角斗士：第1赛季",
+	[15020] = "决斗者：第1赛季",
+	[15021] = "竞争者：第1赛季",
+	[15022] = "挑战者：第1赛季",
+	[15199] = "角斗士：第2赛季",
+	[15200] = "角斗士：第4赛季",
+	[15201] = "决斗者：第4赛季",
+	[15202] = "竞争者：第4赛季",
+	[15203] = "挑战者：第4赛季",
+	[15204] = "角斗士：第3赛季",
+	[15205] = "决斗者：第3赛季",
+	[15206] = "竞争者：第3赛季",
+	[15207] = "挑战者：第3赛季",
+	[15208] = "决斗者：第2赛季",
+	[15209] = "竞争者：第2赛季",
+	[15210] = "挑战者：第2赛季",
 	[15330] = "炎魔之王的生还者（赛季服）",
 	[15333] = "暗影烈焰的生还者（赛季服）",
 	[15334] = "上古之神的生还者（赛季服）",
@@ -46551,6 +46957,23 @@ for key,value in pairs({
 	[3356] = "获得一只冬泉霜刃豹。",
 	[3496] = "获得一头史诗品质的美酒节坐骑。",
 	[5788] = "在辛德拉阵营中达到崇拜声望。",
+	[15018] = "获得头衔“狱火角斗士”。",
+	[15019] = "以竞技场排名前0.5%的战绩结束PvP赛季的战斗（需要在第1赛季赢得50场战斗）。",
+	[15020] = "以竞技场排名前3%的战绩结束PvP赛季的战斗（需要在第1赛季赢得50场战斗）。",
+	[15021] = "以竞技场排名前10%的战绩结束PvP赛季的战斗（需要在第1赛季赢得50场战斗）。",
+	[15022] = "以竞技场排名前35%的战绩结束PvP赛季的战斗（需要在第1赛季赢得50场战斗）。",
+	[15199] = "以竞技场排名前0.5%的战绩结束PvP赛季的战斗（需要在第2赛季赢得50场战斗）。",
+	[15200] = "以竞技场排名前0.5%的战绩结束PvP赛季的战斗（需要在第4赛季赢得50场战斗）。",
+	[15201] = "以竞技场排名前3%的战绩结束PvP赛季的战斗（需要在第4赛季赢得50场战斗）。",
+	[15202] = "以竞技场排名前10%的战绩结束PvP赛季的战斗（需要在第4赛季赢得50场战斗）。",
+	[15203] = "以竞技场排名前35%的战绩结束PvP赛季的战斗（需要在第4赛季赢得50场战斗）。",
+	[15204] = "以竞技场排名前0.5%的战绩结束PvP赛季的战斗（需要在第3赛季赢得50场战斗）。",
+	[15205] = "以竞技场排名前3%的战绩结束PvP赛季的战斗（需要在第3赛季赢得50场战斗）。",
+	[15206] = "以竞技场排名前10%的战绩结束PvP赛季的战斗（需要在第3赛季赢得50场战斗）。",
+	[15207] = "以竞技场排名前35%的战绩结束PvP赛季的战斗（需要在第3赛季赢得50场战斗）。",
+	[15208] = "以竞技场排名前3%的战绩结束PvP赛季的战斗（需要在第2赛季赢得50场战斗）。",
+	[15209] = "以竞技场排名前10%的战绩结束PvP赛季的战斗（需要在第2赛季赢得50场战斗）。",
+	[15210] = "以竞技场排名前35%的战绩结束PvP赛季的战斗（需要在第2赛季赢得50场战斗）。",
 	[15330] = "在赛季服直到击败拉格纳罗斯为止都没有死亡。",
 	[15333] = "在赛季服直到击败奈法利安为止都没有死亡。",
 	[15334] = "在赛季服直到击败克苏恩为止都没有死亡。",
@@ -48487,7 +48910,7 @@ L.DYNAMIC_CATEGORY_TOOLTIP_NOTE = "\n\n|cffff0000生成時套用|r";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX = "啟用指標提示";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX_TOOLTIP = "如果希望在指標提示中查看 ATT 提供的資訊，請啟用此選項。這包括其他玩家發送的物品連接，在拍賣行、在地城助手、在你的背包裡、在世界、在 NPC 等等。\n\n如果你關閉了這個功能，就會嚴重降低你快速判斷是否需要擊殺首領或學習外觀的能力。\n\n我們建議你保持此設定。";
 L.ENCOUNTER_ID = "首領戰鬥 ID";
-L.EVENT_ACTIVE = "啟動:";
+L.EVENT_ACTIVE = "啟用:";
 L.EVENT_END = "結束:";
 L.EVENT_SCHEDULE = "事件時程表";
 L.EVENT_START = "開始:";
@@ -48577,6 +49000,7 @@ L.IGNORE_FILTERS_FOR_BOES_CHECKBOX_TOOLTIP = "如果要忽略裝備綁定/拾取
 L.ILLUSIONS_CHECKBOX_TOOLTIP = "啟用此選項以追蹤幻象。\n\n這些看起來很酷的塑形效果，你可以套用到你的武器上！\n\n注意：你不是一個幻象，儘管所有的夜裔精靈都這麼認為。";
 L.INCLUDE_ORIGINAL_CHECKBOX = "原始來源";
 L.INCLUDE_ORIGINAL_CHECKBOX_TOOLTIP = "如果你真的喜歡在指標提示中的共享外觀列表中看到原始來源資訊，請啟用此選項。";
+L.INFORMATION_PAGE = "資訊";
 L.INSTANCE_DESC = "點擊此按鈕可依據缺少的內容選擇隨機副本。";
 L.ITEM_DESC = "點擊此按鈕可依據缺少的內容選擇隨機物品。";
 L.ITEM_EXPLAIN_LABEL = "|cffFFFFFF始終顯示此內容如果位於 |c" .. _.DefaultColors.Account .. "帳號模式|r。|r";
@@ -48592,6 +49016,7 @@ L.ITEM_ID_ADDED_SHARED_MISSING = "%s (%d) [+%d] 已加入收藏。在資料庫�
 L.ITEM_ID_REMOVED = "%s (%d) 已從收藏中移除。";
 L.ITEM_ID_REMOVED_SHARED = "%s (%d) [+%d] 已從收藏中移除。";
 L.ITEM_LEVEL = "物品等級";
+L.ITEM_STRING = "物品字串";
 L.KEYBINDINGS_TEXT = "可以在遊戲選項中設定 ATT 的按鍵綁定。";
 L.KNOWN_BY_CHECKBOX_TOOLTIP = "如果你想在指標提示中查看所有伺服器上已知此配方的完整角色列表，請啟用此選項。";
 L.LAYER = "相位";
@@ -48644,6 +49069,7 @@ L.MINIMAP_SLIDER = "小地圖按鈕尺寸";
 L.MINIMAP_SLIDER_TOOLTIP = "使用此選項可自訂小地圖按鈕的大小。\n\n預設：36";
 L.MINUMUM_STANDING_WITH_FACTION = "最低陣營聲望等級 %s 和 %s。";
 L.MISSION_ID = "任務 ID";
+L.MOD_ID = "模組 ID";
 L.MODE_EXPLAIN_LABEL = "|cffFFFFFF您收藏的內容總結在這裡。啟用所有 |c" .. _.DefaultColors.Insane .. "彩色選項|r 解鎖 |c" .. _.DefaultColors.Insane .. "瘋狂模式|r。|r";
 L.MODULES = "模組";
 L.MODULES_LABEL = "模組和小列表";
@@ -48664,7 +49090,7 @@ L.NESTED_QUEST_REQUIREMENTS = "多重任務需要";
 L.NEVER_IMPLEMENTED = "從未實裝";
 L.NEVER_IMPLEMENTED_DESC = "這裡的物品在技術上存在於遊戲內，但從未向玩家開放過";
 L.NEW_VERSION_AVAILABLE = "%s 已有更新的版本。請更新插件 %s。";
-L.NEW_VERSION_FLAVORS = {"因為萬物都飢餓。","無敵下次|cffffaaaa|肯定|r會掉落"};
+L.NEW_VERSION_FLAVORS = {"因為 AllTheThings 餓了。","下次|cffffaaaa一定|r會掉落無敵！","否則今晚會有魚人在你窗外尖叫","因為所謂的收藏不過是換個說法的囤積癖。","而 Crieve 會幫一隻烏龜重新入水。","否則你的戰鬥寵物要成立工會了。"};
 L.NEW_WITH_PATCH = "最新加入內容";
 L.NEW_WITH_PATCH_TOOLTIP = "這會顯示遊戲最新更新中加入的所有內容。";
 L.NO_COORDINATES_FORMAT = "%s 沒有已知座標";
@@ -48674,6 +49100,7 @@ L.NO_LINKED_ACCOUNTS = "未找到連接帳號。";
 L.NO_SEARCH_METHOD = "未指定搜尋方法。";
 L.NOT_AVAILABLE_IN_PL = "在個人拾取中不可用。";
 L.NOTHING_TO_SELECT_FROM = "沒有什麼可以隨意選擇的。如果在“設定”中啟用了“臨時更新”，則必須在使用此視窗之前更新主列表（/att）。";
+L.OBJECT = "物體";
 L.OBJECT_TYPE = "目標類型";
 L.OBJECTIVES = "目標";
 L.ONLY_NOT_TRASH = "排除垃圾物品";
@@ -48695,6 +49122,7 @@ L.PERCENTAGES_CHECKBOX = "顯示完成百分比";
 L.PERCENTAGES_CHECKBOX_TOOLTIP = "如果想查看每行的完成百分比請啟用此選項。\n\n按完成度對組進行著色不受影響。";
 L.PERSONAL_LOOT_DESC = "每位玩家都有獨立的機會拾取對自己職業有用的物品…\n\n…或者像戒指這樣的無用之物。\n\n如果是自己一個人的話，點擊兩次就會自動創建一個隊伍。";
 L.PET_DESC = "點擊此按鈕可依據缺少的內容選擇隨機寵物。";
+L.PHASES_PAGE = "階段";
 L.PLAY_DEATH_SOUND_CHECKBOX = "死亡時播放音效";
 L.PLAY_DEATH_SOUND_CHECKBOX_TOOLTIP = "如果你想在死亡時聽到音效，請啟用此選項。";
 L.PLAYER_COORDINATES = "玩家座標";
@@ -48707,6 +49135,7 @@ L.PLAYER_TITLE_THE_COMPLETIONIST = "|c" .. _.DefaultColors.Raid .. "%s 完美主
 L.PLAYER_TITLE_THE_EXTERMINATOR = "|cffa335ee%s消滅者|r";
 L.PLAYER_TITLE_THE_HUGGLER = "|cffF58CBA擁抱者%s|r";
 L.PLEASE_REPORT_MESSAGE = "請把錯誤回報給 ATT Discord 的 #classic-errors！謝謝！";
+L.POPOUT = "彈出列表";
 L.PRECISION_SLIDER = "百分比精確度";
 L.PRECISION_SLIDER_TOOLTIP = "使用此選項可自訂百分比計算中所需的精度級別。\n\n預設：2";
 L.PREREQUISITE_QUESTS = "必須先完成一些前置任務才有可能獲得：";
@@ -48741,6 +49170,7 @@ L.QUEST_DESC = "點擊此按鈕可依據缺少的內容選擇隨機任務。";
 L.QUEST_GIVER = "任務給予者";
 L.QUEST_GIVERS = "任務給予者";
 L.QUEST_ID = "任務 ID";
+L.QUEST_ITEMS = "任務物品";
 L.QUEST_LOOP = "可能剛剛從無限源任務循環中爆發出來。";
 L.QUEST_MAY_BE_REMOVED = "擷取任務資訊失敗。這個任務可能已從遊戲中移除。";
 L.QUEST_OBJECTIVE_INVALID = "無效的任務目標";
@@ -48768,6 +49198,7 @@ L.REMOTE_ZONES_DESCRIPTION = "包含在當前區域可取得，但來源直接�
 L.REMOVED_WITH_PATCH = "隨更新移除";
 L.REMOVED_WITH_PATCH_CLASSIC_FORMAT = "該物品是隨更新 %s 移除的";
 L.REMOVED_WITH_PATCH_FORMAT = "更新 %s 中被刪除";
+L.REPEATABLES_LABEL = "可重複";
 L.REPORT_COLLECTED_THINGS_CHECKBOX = "回報已收藏事物";
 L.REPORT_COLLECTED_THINGS_CHECKBOX_TOOLTIP = "如果想在聊天中看到一條訊息，詳細說明收藏了哪些物品或從收藏中刪除了哪些物品，請啟用此選項。\n\n注意：這是因為暴雪默默的加入了外觀和其他收藏品並且忽略了通知你可用的其他物品。\n\n我們建議你保持此設定。如果你打開了這個選項，你會聽到警告聲。";
 L.REPORT_COMPLETED_QUESTS_CHECKBOX = "回報任務";
@@ -48877,6 +49308,7 @@ L.STORE_IN_PROFILE_BUTTON_TOOLTIP = "預設情況下，ATT 會依角色儲存這
 L.SUMMARIZE_CHECKBOX = "總結事物";
 L.SUMMARIZE_CHECKBOX_TOOLTIP = "啟用該選項可在指標提示中總結事物。例如，如果一個事物可以變成另一個事物的商人，那麼在指標提示中顯示另一個事物，以提供其多種用途的可見性。如果一個事物作為許多其他事物的容器，這個選項將顯示該容器所包含的所有其他事物。\n\n我們建議你保持此設定開啟。";
 L.SYM_ROW_INFORMATION = "點擊右鍵以查看來自其他位置的其它內容";
+L.SYMLINK = "符號連結";
 L.SYNC_CHARACTERS_TOOLTIP = "這會顯示您帳號中的所有角色。";
 L.TELEPORT_TO_FROM_DUNGEON = "傳送至/出地城";
 L.TELEPORT_TO_FROM_DUNGEON_DESC = "點擊此處傳送到當前地城或從當前地城傳送出去。\n\n潘達利亞之謎可以這種方式快速傳送到當前副本之外。";
@@ -48983,6 +49415,7 @@ localize(L.HEADER_NAMES, {
 	[-86] = "第三個箱子",
 	[-87] = "最後的箱子",
 	[-103] = "資料片前夕",
+	[-243] = "護甲附魔",
 	[-247] = "鬥士：第1賽季",
 	[-248] = "殘忍鬥士：第2賽季",
 	[-249] = "仇恨鬥士：第3賽季",
@@ -48993,6 +49426,11 @@ localize(L.HEADER_NAMES, {
 	[-342] = "獨特外觀",
 	[-350] = "四騎士",
 	[-355] = DUNGEON_FLOOR_DIREMAUL5.." (東)",
+	[-362] = "圖書館",
+	[-363] = "武器庫",
+	[-365] = "主門",
+	[-366] = "僕從入口",
+	[-367] = "阿塔萊防衛者",
 	[-481] = "安其拉之戰捐獻",
 	[-483] = "流沙節杖",
 	[-520] = "暴雪嘉年華",
@@ -49014,10 +49452,14 @@ localize(L.HEADER_NAMES, {
 	[-586] = "季節性魚類：夏日鱸魚",
 	[-587] = "季節性魚類：冬魷魚",
 	[-588] = "荊棘谷釣魚大賽",
+	[-611] = "異種蠍皇族",
+	[-694] = "燃燒的遠征：經典週年紀念版 - 外域升級",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-25] = "術士可以教導他們的惡魔新技能，一些高等級的魔典只能從你陣營首都的惡魔訓練師那裡購買。",
 	[-36] = "你可能需要在特定節日的活動中才能完成本節中的事物。",
+	[-43] = "這個區塊包含與寵物對戰相關的任務與訓練師。",
+	[-44] = "這個區塊只會顯示你目前角色的專業技能，除非處於帳號或是除錯模式",
 	[-59] = "武器大師是一個 NPC，為角色提供學習特定武器技能的機會，不同武器大師的可用性各不相同。所有武器技能都可以在 1 级進行訓練，長柄武器除外，需要 20 级。\n\n在更新 4.0.1 中，武器大師的訓練已经過時，因為现在每個職業在創建时都會學習所有適合該職業的武器熟練度。不久之後，武器大師就被從遊戲中删除了。",
 	[-213] = "此部分顯示能在正式服的遊戲內商城購買的東西。",
 	[-355] = "副本的這部分可以從最東邊的傳送門進入。（右側）",
@@ -49334,6 +49776,23 @@ for key,value in pairs({
 	[2359] = "迅捷飛行形態",
 	[3496] = "啤酒「捷」坐騎",
 	[5788] = "辛德拉使者",
+	[15018] = "煉獄鬥士",
+	[15019] = "鬥士：第1季",
+	[15020] = "決鬥者：第1季",
+	[15021] = "競爭者：第1季",
+	[15022] = "挑戰者：第1季",
+	[15199] = "鬥士：第2季",
+	[15200] = "鬥士：第4季",
+	[15201] = "決鬥者：第4季",
+	[15202] = "競爭者：第4季",
+	[15203] = "挑戰者：第4季",
+	[15204] = "鬥士：第3季",
+	[15205] = "決鬥者：第3季",
+	[15206] = "競爭者：第3季",
+	[15207] = "挑戰者：第3季",
+	[15208] = "決鬥者：第2季",
+	[15209] = "競爭者：第2季",
+	[15210] = "挑戰者：第2季",
 	[15330] = "炎魔生還者(大師賽季)",
 	[15333] = "暗影烈焰生還者(大師賽季)",
 	[15334] = "古神生還者(大師賽季)",
@@ -49629,6 +50088,23 @@ for key,value in pairs({
 	[3356] = "獲得一隻冬泉霜刃豹。",
 	[3496] = "獲得一隻史詩啤酒節坐騎。",
 	[5788] = "取得辛德拉的聲望崇拜。",
+	[15018] = "取得煉獄鬥士頭銜。",
+	[15019] = "在PvP季競技場結束時排名位於前0.5%(需要在第1季贏得50場對戰)。",
+	[15020] = "在PvP季競技場結束時排名位於前3%(需要在第1季贏得50場對戰)。",
+	[15021] = "在PvP季競技場結束時排名位於前10%(需要在第1季贏得50場對戰)。",
+	[15022] = "在PvP季競技場結束時排名位於前35%(需要在第1季贏得50場對戰)。",
+	[15199] = "在PvP季競技場結束時排名位於前0.5%(需要在第2季贏得50場對戰)。",
+	[15200] = "在PvP季競技場結束時排名位於前0.5%(需要在第4季贏得50場對戰)。",
+	[15201] = "在PvP季競技場結束時排名位於前3%(需要在第4季贏得50場對戰)。",
+	[15202] = "在PvP季競技場結束時排名位於前10%(需要在第4季贏得50場對戰)。",
+	[15203] = "在PvP季競技場結束時排名位於前35%(需要在第4季贏得50場對戰)。",
+	[15204] = "在PvP季競技場結束時排名位於前0.5%(需要在第3季贏得50場對戰)。",
+	[15205] = "在PvP季競技場結束時排名位於前3%(需要在第3季贏得50場對戰)。",
+	[15206] = "在PvP季競技場結束時排名位於前10%(需要在第3季贏得50場對戰)。",
+	[15207] = "在PvP季競技場結束時排名位於前35%(需要在第3季贏得50場對戰)。",
+	[15208] = "在PvP季競技場結束時排名位於前3%(需要在第2季贏得50場對戰)。",
+	[15209] = "在PvP季競技場結束時排名位於前10%(需要在第2季贏得50場對戰)。",
+	[15210] = "在PvP季競技場結束時排名位於前35%(需要在第2季贏得50場對戰)。",
 	[15330] = "在大師賽季中，在完全沒有死亡的情況下擊敗拉格納羅斯。",
 	[15333] = "在大師賽季中，在完全沒有死亡的情況下擊敗奈法利安。",
 	[15334] = "在大師賽季中，在完全沒有死亡的情況下擊敗克蘇恩。",

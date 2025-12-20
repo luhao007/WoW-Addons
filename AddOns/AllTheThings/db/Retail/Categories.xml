@@ -10,6 +10,7 @@
 	<Script file="Categories/HiddenCurrencyTriggers.lua"/>
 	<Script file="Categories/HiddenQuestTriggers.lua"/>
 	<Script file="Categories/Holidays.lua"/>
+	<Script file="Categories/Housing.lua"/>
 	<Script file="Categories/InGameShop.lua"/>
 	<Script file="Categories/Instances.lua"/>
 	<Script file="Categories/NeverImplemented.lua"/>

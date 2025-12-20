@@ -18,23 +18,32 @@ local function MouseXY()
 end
 function Mapfun.WorldMap_XY()
 	if not PIGA["Map"]["WorldMapXY"] then return end
-	local mapxydata = {["Parent"]=WorldMapScrollChild,["WWW"]=300,["FontSize"]=11,["Point"]={"BOTTOM","BOTTOM",0,-4}}
+	local mapxydata = {}
 	if PIG_MaxTocversion(30000) then
 		mapxydata.Parent=WorldMapFrame
 		mapxydata.WWW=400
 		mapxydata.FontSize=13
-		mapxydata.Point={"BOTTOM","BOTTOM",0,4.4}
+		mapxydata.Point={"BOTTOM","BOTTOM",0,6}
 	elseif PIG_MaxTocversion(40000) then
 		mapxydata.Parent=WorldMapFrame
 		mapxydata.WWW=400
-		mapxydata.FontSize=12
-		mapxydata.Point={"BOTTOM","BOTTOM",26,4.4}
+		mapxydata.FontSize=14
+		mapxydata.Point={"BOTTOM","BOTTOM",22,6}
+	elseif PIG_MaxTocversion(60000) then
+		mapxydata.Parent=WorldMapFrame
+		mapxydata.WWW=400
+		mapxydata.FontSize=14
+		mapxydata.Point={"BOTTOM","BOTTOM",0,6}
+	else
+		mapxydata.Parent=WorldMapScrollChild
+		mapxydata.WWW=400
+		mapxydata.FontSize=20
+		mapxydata.Point={"TOP","TOP",-10,-1}
 	end
 	local zuobiaoXYFFF = CreateFrame("Frame", nil, mapxydata.Parent);
-	zuobiaoXYFFF:SetSize(mapxydata.WWW,24);
+	zuobiaoXYFFF:SetSize(mapxydata.WWW,22);
 	zuobiaoXYFFF:SetPoint(mapxydata.Point[1], mapxydata.Parent,mapxydata.Point[2],mapxydata.Point[3],mapxydata.Point[4]);
 	zuobiaoXYFFF:SetFrameLevel(3000)
-	zuobiaoXYFFF:SetIgnoreParentScale(true)
 	zuobiaoXYFFF.zuobiaoX = PIGFontString(zuobiaoXYFFF,{"LEFT", zuobiaoXYFFF, "LEFT", 0, 0},"玩家 X:","OUTLINE",mapxydata.FontSize)
 	zuobiaoXYFFF.zuobiaoX:SetTextColor(0, 1, 0, 1);
 	zuobiaoXYFFF.zuobiaoXV = PIGFontString(zuobiaoXYFFF,{"LEFT", zuobiaoXYFFF.zuobiaoX, "RIGHT", 0, 0},"","OUTLINE",mapxydata.FontSize+1)
@@ -77,7 +86,6 @@ if PIG_MaxTocversion() then
 		if not PIGA["Map"]["WorldMapWind"] then return end
 		if PIG_MaxTocversion() then
 			---SetCVar("miniWorldMap", 0)
-			UIPanelWindows["WorldMapFrame"] = nil
 			WorldMapFrame:SetIgnoreParentScale(false)
 			WorldMapFrame.ScrollContainer.GetCursorPosition = function(f)
 			    local x,y = MapCanvasScrollControllerMixin.GetCursorPosition(f);
@@ -86,12 +94,6 @@ if PIG_MaxTocversion() then
 			end
 			hooksecurefunc(WorldMapFrame.BlackoutFrame, "Show", function()
 				WorldMapFrame.BlackoutFrame:Hide()
-			end)
-			local PIG_SetPoint=Create.PIG_SetPoint
-			hooksecurefunc(WorldMapFrame, "OnFrameSizeChanged", function(self)
-				if PIGA["Blizzard_UI"]["WorldMapFrame"] and PIGA["Blizzard_UI"]["WorldMapFrame"]["Point"] then
-					PIG_SetPoint("WorldMapFrame",true)
-				end
 			end)
 		end
 	end

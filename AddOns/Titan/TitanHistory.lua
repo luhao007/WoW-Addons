@@ -1,5 +1,5 @@
 --[===[ File
-This file contains Config 'recent changes' and notes.
+This file contains 'recent changes' and notes for Titan Config.
 It should be updated for each Titan release!
 
 These are in a seperate file to
@@ -7,86 +7,155 @@ These are in a seperate file to
 2) Decrease the chance of breaking the code :).
 --]===]
 
---[[ Var Release Notes
-Detail changes for last 4 - 5 releases.
-Format :
-Gold - version & date
-Green - 'header' - Titan or plugin
-Highlight - notes. tips. and details
---]]
-Titan_Global.recent_changes = ""
-.. TitanUtils_GetGoldText("8.4.0 : 2025/09/07\n")
-.. TitanUtils_GetGreenText("Titan : \n")
-.. TitanUtils_GetHighlightText(""
-.. "-  Titan : \n"
-.. "-  - : /titan reset working again; no reload needed!\n"
-.. "-  - : Hopefully fix bar transparency values resetting on logout or reload.\n"
-.. "-  - : Moved most bar settings from 'Bars - All' to each bar - use profiles instead.\n"
-.. "-  --- Bar skin / color settings\n"
-.. "-  --- Hide Bar during combat\n"
-.. "-  --- Hide Bar in PvP and BG zones\n"
-.. "-  - : Fix drag & drop of Titan plugins, per an API change in 11.2.0."
-.. "-  Internal : \n"
-.. "-  - : Global profiles should be working again.\n"
-.. "-  - : More debug statements on login, reload, profile reset.\n"
-.. "-  - : Removed code for old DewDrop and Tablet from tooltip code.\n"
-)
-.. TitanUtils_GetGoldText("8.3.5 : 2025/08/27\n")
-.. TitanUtils_GetGreenText("Titan : \n")
-.. TitanUtils_GetHighlightText(""
-.. "-  Repair : \n"
-.. "-  - : Restore accidently removed 'use guild funds' option.\n"
-.. "-  Loot : \n"
-.. "-  - : Classic : Restore ability to resize Loot window frame.\n"
-.. "-  - : Retail : Get ahead of deprecated APIs GetSpecialization and GetSpecializationInfo into C_SpecializationInfo.\n"
-.. "-  Internal : \n"
-.. "-  - : Config updates to Vars and Bars All when choosing global versus single bar values.\n"
-)
-.. TitanUtils_GetGoldText("8.3.4 : 2025/08/24\n")
-.. TitanUtils_GetGreenText("Titan : \n")
-.. TitanUtils_GetHighlightText(""
-.. "-  LootType : \n"
-.. "-  - : Fix error per Curse comments (line 179).\n"
-.. "-  ClassicLootType : \n"
-.. "-  - : Prep for API change to GetLootMethod.\n"
-.. "-  Internal : \n"
-.. "-  - : Config updates to Vars and Bars All when choosing skins versus color.\n"
-.. "-  - : New locale strings for the above Config change.\n"
-)
-.. TitanUtils_GetGoldText("8.3.3 : 2025/08/12\n")
-.. TitanUtils_GetGreenText("Titan : \n")
-.. TitanUtils_GetHighlightText(""
-.. "-  LootType : \n"
-.. "-  - : Fix API change to GetLootMethod, retail only.\n"
-.. "-  Location : \n"
-.. "-  - : Fix map coords being off map in retail; Top and Bottom should now work in retail.\n"
-.. "-  - : Fix rare error that shows error on button text.\n"
-.. "-  Internally : \n"
-.. "-  - : Fix profile not saving (#1439).\n"
-.. "-  - : Expand Battle Ground widget adjust (allow 'up').\n"
-.. "-  - : Make Classic TOC show as Classic to help avoid confusion.\n"
-)
-.. TitanUtils_GetGoldText("8.3.2 : 2025/08/01\n")
-.. TitanUtils_GetGreenText("Titan : \n")
-.. TitanUtils_GetHighlightText(""
-.. "-  Ammo : \n"
-.. "-  - : Fix missing icon.\n"
-.. "-  Internally : \n"
-.. "-  - : Several tweaks for MoP.\n"
-)
-.. "\n\n"
+--- Release notes. Keep structure; most recent on 'top'
+local recent_changes = {
+   {
+      version = "9.0.1",
+      when = "2025/12/01",
+      topics =  {
+         {
+         topic = "Profiles",
+         lines = {
+            "Profiles - Sync All added.",
+            "- Acts as the old Global; overrides Sync.",
+            "- See Titan > Config > Help > Profiles for more details on how this works.",
+            },
+         },
+         {
+            topic = "Titan > Config > Plugins",
+            lines = {
+               "Show (Hide) fixed; all features should be working again.",
+            },
+         },
+      },
+   },
+   {
+      version = "9.0.0",
+      when = "2025/11/06",
+      topics = {
+            {
+            topic = "Profiles",
+            lines = {
+               "Profiles are greatly changed.",
+               "- Global is gone; replaced by a Sync scheme.",
+               "- See Titan > Config > Help > Profiles for more details on how this works.",
+               },
+            },
+            {
+               topic = "Export / Import of Profiles",
+               lines = {
+                  "Profiles can be exported to be safely saved and imported to same or another system.",
+                  "- See Titan > Config > Help > Export / Import for more details on how this works.",
+               },
+            },
+            {
+               topic = "Reset",
+               lines = {
+                  "Due to the Profile changing to Sync :",
+                  "- /titan reset will reset the Profile used (could be a Sync).",
+                  "- /titan reset all ",
+                  "--- NEW slash command will act as a delete of Titan saved vars",
+                  "--- Also accessable in Titan > Config > Advanced",
+               },
+            },
+            {
+               topic = "TitanUI",
+               lines = {
+                  "NEW built-in!",
+                  "Left click will reload UI.",
+                  "Menu gives access to :",
+                  "- Select Titan config pages.",
+                  "- Titan reset of profile (could be a Sync).",
+                  "- Select dev tools, if available.",
+               },
+            },
+            {
+               topic = "Titan",
+               lines = {
+                  "Ace : Updated libs to Oct 2025 release - Should be Midnight ready!!",
+                  "Plugins : Should be less space after, esp. for those with multiple info displayed such as Perf and Repair.",
+                  "Help : Titan > Config > Help - More detailed info; Redesigned for readability.",
+               },
+            },
+      },
+   },
+   {
+      version = "8.4.2",
+      when = "2025/11/01",
+      topics = {
+         {
+            topic = "Titan",
+            lines = {
+               "TOC update only.",
+            },
+         },
+      },
+   },
+   {
+      version = "8.4.1",
+      when = "2025/10/11",
+      topics = {
+         {
+            topic = "Titan",
+            lines = {
+               "TOC update only.",
+            },
+         },
+      },
+   },
+   {
+      version = "8.4.0",
+      when = "2025/08/27",
+      topics = {
+         {
+            topic = "Titan",
+            lines = {
+               "-  /titan reset working again; no reload needed!",
+               "-  Hopefully fix bar transparency values resetting on logout or reload.",
+               "-  Moved most bar settings from 'Bars - All' to each bar - use profiles instead.",
+               "--- Bar skin / color settings",
+               "--- Hide Bar during combat",
+               "--- Hide Bar in PvP and BG zones",
+               "-  Fix drag & drop of Titan plugins, per an API change in 11.2.0.",
+            }
+         },
+         {
+            topic = "Titan Internal",
+            lines = {
+               "- Global profiles should be working again.",
+               "- More debug statements on login, reload, profile reset.",
+               "- Removed code for old DewDrop and Tablet from tooltip code.",
+            },
+         },
+      },
+   },
+}
 
---[[ Var Notes
-Use for important notes in the Titan Config About
---]]
-Titan_Global.config_notes = ""
-    .. TitanUtils_GetGoldText("Notes:\n")
-    .. TitanUtils_GetHighlightText(""
-        ..
-        "- Changing Titan Scaling : Short bars will move on screen. They should not go off screen. If Short bars move then drag to desired location. You may have to Reset the Short bar or temporarily disable top or bottom bars to drag the Short bar.\n"
-    )
-    .. "\n"
-    .. TitanUtils_GetGoldText("Known Issues:\n")
-    .. TitanUtils_GetHighlightText(""
-    .. "- Cata : Titan right-click menu may stay visible even if click elsewhere. Hit Esc twice. Investigating...\n"
-)
+---Format the release notes
+local function BuildList()
+   local max = 5
+   local res = ""
+   for idx = 1, #recent_changes do -- A release
+      res = res .. "\n"            -- spacer
+      local rc = recent_changes[idx]
+
+      if idx <= max then
+         res = res
+             .. TitanUtils_GetGoldText(rc.version .. " : " .. rc.when .. "\n")
+
+         for tops = 1, #rc.topics do -- Topic of change
+            local rct = rc.topics[tops]
+            res = res
+                .. TitanUtils_GetGreenText(rct.topic .. " : \n")
+
+            for line = 1, #rct.lines do -- Change details
+               local rctl = rct.lines[line]
+               res = res .. TitanUtils_GetHighlightText(rctl .. " \n")
+            end
+         end
+      end
+   end
+
+   return res
+end
+Titan_Global.recent_changes = BuildList()

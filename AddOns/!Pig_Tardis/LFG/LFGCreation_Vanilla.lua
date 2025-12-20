@@ -344,7 +344,7 @@ function TardisInfo.LFGCreation_Vanilla(FCTabF,EnterF)
 
 	FCTabF.DQ.Description_T=PIGFontString(FCTabF.DQ,{"TOPLEFT",FCTabF.DQ.Name_T,"BOTTOMLEFT",0,-110},LFG_LIST_DETAILS)
 	FCTabF.DQ.Description_T:SetTextColor(0,0.98,0.6, 1);
-	FCTabF.DQ.DescriptionScroll = Create.PIGScrollFrame(FCTabF.DQ,{"TOPLEFT",FCTabF.DQ.Description_T,"BOTTOMLEFT",0,-2},{FCTabF.DQ.Width-28,156})
+	FCTabF.DQ.DescriptionScroll = Create.PIGScrollFrame_old(FCTabF.DQ,{2,-24,0,2})
 	FCTabF.DQ.Description = PIGFrame(FCTabF.DQ.DescriptionScroll,nil,{FCTabF.DQ.DescriptionScroll:GetWidth()+2,20})
 	FCTabF.DQ.Description.V=PIGFontString(FCTabF.DQ.Description,{"TOPLEFT",FCTabF.DQ.Description,"TOPLEFT",0,0})
 	FCTabF.DQ.Description.V:SetTextColor(0.9,0.9,0.9,1);

@@ -1,5 +1,6 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
+local Fun=addonTable.Fun
 local Create=addonTable.Create
 local PIGEnter=Create.PIGEnter
 local PIGFontString=Create.PIGFontString
@@ -543,12 +544,13 @@ local function GetBagIDFun(self)
 		return self:GetParent():GetID()
 	end
 end
+local PIGGetColorKey=Fun.PIGGetColorKey
 local function IseizhiguanKEYFun(framef,text)
 	if text:match(eizhiguanKEY.keyeqlist) then
 		local newtet = text:gsub(eizhiguanKEY.keyeqlist,"")
 		local newtet = newtet:gsub(":","")
 		local newtet = newtet:gsub("：","")
-		local newtet = newtet:gsub("|cFF%w%w%w%w%w%w","")
+		local newtet = newtet:gsub("|"..PIGGetColorKey(),"")
 		local newtet = newtet:gsub("|r","")
 		local newtet = newtet:gsub("|","||")
 		local newtet = newtet:gsub(" ","")

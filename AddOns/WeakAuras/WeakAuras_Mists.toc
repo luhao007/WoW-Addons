@@ -1,6 +1,6 @@
-## Interface: 110205
+## Interface: 110207
 ## Author: The WeakAuras Team
-## Version: 5.20.6
+## Version: 5.20.7
 
 ## Title: WeakAuras
 ## Notes: A powerful, comprehensive utility for displaying graphics and information based on buffs, debuffs, and other triggers.
@@ -27,11 +27,7 @@
 embeds.xml
 
 # TaintLess
-Libs\TaintLess\TaintLess.xml
-
 # Client flavor specific libs
-Libs\LibSpecialization\LibSpecialization.lua
-
 Init.lua
 Compatibility.lua
 locales.xml

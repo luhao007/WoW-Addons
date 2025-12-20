@@ -132,6 +132,7 @@ function FramePlusfun.Roll()
 		itemhang.icon.tex = itemhang.icon:CreateTexture();
 		itemhang.icon.tex:SetPoint("CENTER", 0,0);
 		itemhang.icon.tex:SetSize(itemhangH-4,itemhangH-4);
+		itemhang.icon.tex:SetTexCoord(0.1,0.9,0.1,0.9);
 		itemhang.icon.hasItem = 1
 		itemhang.icon:SetScript("OnEnter", function (self)
 			if RollFFF.ceshi then return end

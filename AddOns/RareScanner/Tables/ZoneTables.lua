@@ -10,7 +10,7 @@ private.CONTINENT_ZONE_IDS = {
 	[572] = { zonefilter = true, npcfilter = true, id = 7, zones = {525,534,535,539,542,543,550,582,588,590} }; --Draenor
 	[13] = { zonefilter = true, npcfilter = true, id = 2, zones = {14,15,17,18,21,22,23,25,26,27,32,36,37,47,48,49,50,51,52,56,76,84,87,90,94,95,201,203,204,205,210,217,241,425,465,469,943,1470,2404} }; --Eastern Kingdoms
 	[12] = { zonefilter = true, npcfilter = true, id = 1, zones = {1,7,10,57,62,63,64,65,66,69,70,71,76,77,78,80,81,83,85,88,97,103,106,198,199,249,327,338,1332,1469,2403,1527,1571} }; --Kalimdor
-	[113] = { zonefilter = true, npcfilter = true, id = 4, zones = {114,115,116,117,118,119,120,121,126} }; --Northrend
+	[113] = { zonefilter = true, npcfilter = true, id = 4, zones = {114,115,116,117,118,119,120,121,126,127} }; --Northrend
 	[424] = { zonefilter = true, npcfilter = true, id = 6, zones = {371,376,379,388,390,418,422,433,507,504,554,1530,1570} }; --Pandaria
 	[101] = { zonefilter = true, npcfilter = true, id = 3, zones = {100,102,104,105,107,108,109} }; --Outland
 	[948] = { zonefilter = true, npcfilter = true, id = 5, zones = {207} }; --The Maelstrom
@@ -30,6 +30,7 @@ private.CONTINENT_ZONE_IDS = {
 }
 
 private.SUBZONES_IDS = {
+	[125] = {126}; --Dalaran (old)
 	[764] = {765,766,767,768,769,770,771,772}; --The Nighthold
 	[850] = {851,852,853,854,855,856}; --Tomb of Sargeras
 	[677] = {678,679,710,711,712}; --Vault of the Wardens
@@ -163,15 +164,17 @@ private.ZONES_WITHOUT_VIGNETTE = {
 	[107] = { 112 }; --Nagrand
 	[95] = { 100 }; --Ghostlands
 	[94] = { 99 }; --Eversong woods
+	[114] = { 119 }; --Borean tundra
+	[115] = { 120 }; --Dragonblight
+	[116] = { 121 }; --Grizzly hills
+	[117] = { 122 }; --Howling fjord
+	[118] = { 123 }; --Icecrown
 	[119] = { 124 }; --Sholazar basin
 	[120] = { 125 }; --The storm peaks
-	[116] = { 121 }; --Grizzly hills
 	[121] = { 126 }; --Zul drak
-	[114] = { 119 }; --Borean tundra
-	[117] = { 122 }; --Howling fjord
-	[115] = { 120 }; --Dragonblight
-	--[118] = { 123 }; --Icecrown (uncomment once Shadowlands pre-patch is over)
-	[126] = { 131 }; --Dalaran
+	[125] = { 130 }; --Dalaran
+	[126] = { 131 }; --Dalaran (underbelly)
+	[127] = { 132 }; --Crystalsong Forest
 	[207] = { 212 }; --Deepholm
 	[198] = { 203,227 }; --Mount hyjal
 	[241] = { 338,252 }; --Twilight highlands

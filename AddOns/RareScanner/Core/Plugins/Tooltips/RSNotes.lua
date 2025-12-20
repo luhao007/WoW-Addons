@@ -199,7 +199,18 @@ function RSNotes.GetNote(entityID, mapID, minieventID)
 	-- NPCs and containers that require Phase Diving at K'aresh
 	elseif (RSUtils.Contains(RSConstants.PHASE_DIVING, entityID)) then
 		return AL["PHASE_DIVING"]
+	-- Containers in caves that require Light's judgment to open them
+	elseif (RSUtils.Contains(RSConstants.CONTAINERS_LIGHTS_JUDGMENT, entityID)) then
+		return AL["NOTE_LIGHTS_JUDGMENT"]
+	-- Containers that require a goblin glider kit to reach its position
+	elseif (RSUtils.Contains(RSConstants.CONTAINERS_GOBLIN_GLIDER_KIT, entityID)) then
+		return AL["NOTE_GOBLIN_GLIDER_KIT"]
+	-- Containers in caves that require Shroud arcane echoes to open them
+	elseif (RSUtils.Contains(RSConstants.CONTAINERS_SHROUD_ARCANE_ECHOES, entityID)) then
+		return AL["NOTE_SHROUD_ARCANE_ECHOES"]
+	-- Containers in caves that require Light's judgment to open them
+	elseif (RSUtils.Contains(RSConstants.CONTAINERS_LIGHTFORGED_WARFRAME, entityID)) then
+		return AL["NOTE_LIGHTFORGED_WARFRAME"]
 	end
-	
 	
 end

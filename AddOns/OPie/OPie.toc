@@ -1,6 +1,6 @@
-## Interface: 110205
+## Interface: 110207
 ## Author: foxlit
-## Version: Ånd 7.5
+## Version: 7.11.1
 ## License: All rights reserved. Do not redistribute, in whole or in part, without explicit prior permission from the author.
 
 ## Title: OPie
@@ -22,9 +22,9 @@
 ## X-Website: https://www.townlong-yak.com/addons/opie
 ## X-M6-AB: OPie.ActionBook
 
+Meta\PackTag-4.lua
 Libs\Evie.lua
 Libs\Niji.lua
-Libs\TaintLess.xml
 Libs\exui\exui.xml
 Libs\Ware.lua
 Libs\BrokenSun.xml
@@ -32,15 +32,16 @@ Libs\ActionBook\ActionBook.xml
 Libs\Mirage.lua
 Libs\NotGameTooltip.lua
 Libs\TenSettings.lua
-Meta\Widgets.lua
-Meta\PackTag-3.lua
+UI\Widgets.lua
 Locale.lua
 OPieCore.lua
-OPieUI.lua
-OPieOptions.lua
-OPieBindings.lua
+UI\RingView.lua
 CustomRings.lua
-CustomRingsConfig.lua
+UI\ConfigHost.lua
+UI\Panel\Home.lua
+UI\Panel\Options.lua
+UI\Panel\Bindings.lua
+UI\Panel\CRings.lua
 Meta\StanceBar.lua
 Meta\SpecSet.lua
 Meta\DataBroker.lua

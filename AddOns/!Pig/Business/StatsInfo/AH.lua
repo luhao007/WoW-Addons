@@ -136,11 +136,17 @@ function BusinessInfo.AH(StatsInfo)
 		hang.attention:SetScript("OnClick", function (self)
 			local collname = self:GetParent().collname
 			if collname then
-				if PIGA["StatsInfo"]["AHData"][collname] then
-					PIGA["StatsInfo"]["AHData"][collname]=nil
-				else
-					PIGA["StatsInfo"]["AHData"][collname]=true
+				for ixx=1,#PIGA["AHPlus"]["Coll"] do
+					if PIGA["AHPlus"]["Coll"][ixx][1]==collname then
+						table.remove(PIGA["AHPlus"]["Coll"],ixx)
+						fujiF.Update_List()
+						return
+					end
 				end
+				local itemID=self:GetParent().itemID
+				local itemIcon=C_Item.GetItemIconByID(itemID)
+				local itemquality=C_Item.GetItemQualityByID(itemID)
+				table.insert(PIGA["AHPlus"]["Coll"],{collname,itemIcon,itemquality,itemID})
 			end
 			fujiF.Update_List()
 		end)
@@ -196,7 +202,9 @@ function BusinessInfo.AH(StatsInfo)
 		end
 		fujiF.DQShowData = {{},{},{}}
 		fujiF.DQShowData[1]= BusinessInfo.GetCacheDataG()
-		fujiF.DQShowData[2]= PIGA["StatsInfo"]["AHData"]
+		for k,v in pairs(PIGA["AHPlus"]["Coll"]) do
+			fujiF.DQShowData[2][v[1]]=v[2]
+		end
 		if next(fujiF.DQShowData[1]) == nil then return end
 		fujiF.L.NR.err:Hide()
 		for k,v in pairs(fujiF.DQShowData[1]) do

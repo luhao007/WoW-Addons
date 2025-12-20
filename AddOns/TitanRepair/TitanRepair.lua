@@ -102,9 +102,10 @@ end
 
 
 --debug
-TR.show_debug = false -- will tell you a lot about what's happening
+TR.show_debug = false -- will tell you a lot about what's happening in the addon
 TR.show_debug_scan = false -- shows items processed during scan
-TR.show_debug_tooltip = false -- shows items processed during scan
+TR.show_debug_grey = false -- shows items processed during sell grey items
+TR.show_debug_tooltip = false -- details of creating the tooltip
 
 -- ******************************** Functions *******************************
 
@@ -113,9 +114,11 @@ TR.show_debug_tooltip = false -- shows items processed during scan
 local function debug_msg(Message)
 	local msg = ""
 	local stamp = date("%H:%M:%S") -- date("%m/%d/%y %H:%M:%S")
-	local milli = GetTime() -- seconds with millisecond precision (float)
-	local milli_str = string.format("%0.2F", milli - math.modf(milli))
-	msg = msg..TitanUtils_GetGoldText(stamp..milli_str.." "..TITAN_REPAIR_ID..": ")
+--	local milli = GetTime() -- seconds with millisecond precision (float)
+	local milli = GetTimePreciseSec() -- seconds with millisecond precision (float) since last call
+--	local milli_str = string.format("%0.2F", milli - math.modf(milli))
+	local milli_str = string.format("%0.2F", milli)
+	msg = msg..TitanUtils_GetGoldText(stamp.." {"..milli_str.."} "..TITAN_REPAIR_ID..": ")
 	msg = msg..TitanUtils_GetGreenText(Message)
 	DEFAULT_CHAT_FRAME:AddMessage(msg)
 --		DEFAULT_CHAT_FRAME:AddMessage(TITAN_REPAIR_ID..": " .. Message, 1.00, 0.49, 0.04)
@@ -707,56 +710,120 @@ Realized the Disable also changes the button so the DeSat is redundent
 	end
 end
 
+local function Sell_grey(bag, slot, idx, max)
+	if TR.show_debug_grey then
+		local msg = "..."
+		.." ["..string.format("%02d", bag).."]"
+		.." ["..string.format("%02d", slot).."]"
+		.." :"..tostring(idx)..""
+		.." / "..tostring(max)..""
+		debug_msg(msg)
+	end
+	C_Container.UseContainerItem(bag, slot)
+end
+
 ---local Rummage through bags, selling any gray items.
 local function TitanRepair_SellGrayItems()
-	if TR.show_debug then
+	if TR.show_debug
+	or TR.show_debug_grey
+	then
 		debug_msg("Selling gray items")
 	end
 
+	-- Keep a count to add a small delay between messages.
+	-- Hopefully, ALL grey items will be sold by avoiding the message spam filter which may stop Repair before done.
+	local cnt = 0
+	local msg = ""
+
+--	for sell_all = 1, 2 do
 	for bag = 0, 4 do
 		for slot = 1, C_Container.GetContainerNumSlots(bag) do
 			local info = C_Container.GetContainerItemInfo(bag, slot)
-			if info and info.quality == 0 then 
-				if TR.show_debug then
-					local name, _, value
-						name,
-						_, -- link
-						_, -- quality
-						_, -- level
-						_, -- min level
-						_, -- type
-						_, -- sub type
-						_, -- stack count
-						_, -- loc
-						_, -- texture
-						value,
-						_, -- class id
-						_, -- sub class id
-						_, -- bind type
-						_, -- xpac id
-						_, -- set id
-						_ -- is crafting reagent
-						= GetItem(info.itemID)
-					local msg = "Selling"
-					.." "..tostring(info.stackCount)..""
-					.." "..tostring(name)..""
-					.." $ "..tostring(GetGSC(info.stackCount * value))..""
-					.." "..tostring(bag)..""
-					.." "..tostring(slot)..""
-					debug_msg(msg)
-				end
-				
+			if info and info.quality == 0 then
+				local name, _, value
+				name,
+					_, -- link
+					_, -- quality
+					_, -- level
+					_, -- min level
+					_, -- type
+					_, -- sub type
+					_, -- stack count
+					_, -- loc
+					_, -- texture
+					value,
+					_, -- class id
+					_, -- sub class id
+					_, -- bind type
+					_, -- xpac id
+					_, -- set id
+					_ -- is crafting reagent
+					= GetItem(info.itemID)
+
 				-- Sell item(s)
-				for i = 1, info.stackCount do
-					C_Container.UseContainerItem(bag, slot)
+				if value == 0 or value == nil then
+						-- -- No value, merchant prob does not want; tell user
+						msg = "Not sold, no sell price"
+						.." "..tostring(info.hyperlink)..""
+
+						TitanPrint(msg, "warning")
+				else
+					if TR.show_debug_grey then
+						msg = "Selling"
+						.." ["..string.format("%02d", bag).."]"
+						.." ["..string.format("%02d", slot).."]"
+						.." :"..tostring(info.stackCount)..""
+						.." "..tostring(name)..""
+						.." $ "..tostring(GetGSC(info.stackCount * value))..""
+						debug_msg(msg)
+					end
+					for i = 1, info.stackCount do
+						Sell_grey(bag, slot, i, info.stackCount)
+					end
 				end
 			else
 				-- ignore - not gray
 			end
 		end
 	end
+--	end
 end
-
+--[[
+print("+++++")
+local bag = 0
+local slot = 4
+local info = C_Container.GetContainerItemInfo(bag, slot)
+print(tostring(info))
+TitanDumpTable(info)
+local GetItem = C_Item.GetItemInfo or GetItemInfo -- For Classic versions
+local name, _, value
+name,
+_, -- link
+_, -- quality
+_, -- level
+_, -- min level
+_, -- type
+_, -- sub type
+_, -- stack count
+_, -- loc
+_, -- texture
+value,
+_, -- class id
+_, -- sub class id
+_, -- bind type
+_, -- xpac id
+_, -- set id
+_ -- is crafting reagent
+= GetItem(info.itemID)
+local msg = "Selling"
+.." "..tostring(info.stackCount)..""
+.." "..tostring(name)..""
+.." $ "..tostring((info.stackCount * value))..""
+.." "..tostring(bag)..""
+.." "..tostring(slot)..""
+print(msg)
+--
+--]]
 ---local Color (green / white / red) the given string based on its durability % 
 ---@param item_frac number
 ---@param valueText string

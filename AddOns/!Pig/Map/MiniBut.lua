@@ -7,7 +7,7 @@ local PIGFontString=Create.PIGFontString
 ----
 local Mapfun=addonTable.Mapfun
 ---小地图按钮
-local ButW= 33
+local ButW= 32
 local MiniMapBut = CreateFrame("Button","PIG_MiniMapBut",UIParent);
 Mapfun.MiniMapBut=MiniMapBut
 MiniMapBut:SetMovable(true)
@@ -258,7 +258,6 @@ function addonTable.UpdateMiniButPoint()
 		local function ElvUIPoint()
 			if MinimapPanel and MinimapPanel:IsVisible() then
 				MiniMapBut.Box:SetPoint("TOPRIGHT", MiniMapBut, "BOTTOMLEFT", -2, 20);
-				MiniMapBut.icon:SetTexCoord(0.1,0.88,0.2,0.8)
 				MiniMapBut.icon:SetAllPoints(MiniMapBut)
 				local PanelH = MinimapPanel:GetHeight()
 				local PanelW = MinimapPanel:GetWidth()	

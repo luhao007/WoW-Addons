@@ -1,6 +1,6 @@
-## Interface: 110205
+## Interface: 110207
 ## Author: The WeakAuras Team
-## Version: 5.20.6
+## Version: 5.20.7
 
 ## Title: WeakAuras
 ## Notes: A powerful, comprehensive utility for displaying graphics and information based on buffs, debuffs, and other triggers.
@@ -38,7 +38,6 @@ DefaultOptions.lua
 SubscribableObject.lua
 Features.lua
 TimeMachine.lua
-Atlas_Cata.lua
 Types_Cata.lua
 Types.lua
 Prototypes.lua

@@ -445,8 +445,8 @@ function ListOfDungeons(menuType)
     local Dungeons
     local Activitys
     if MEETINGSTONE_CHARACTER_DB.Remix then
-        Dungeons = { 127, 128, 112, 114, 115, 120 ,113,117,118,121,119}
-        Activitys = {1793,1794,1782,1783,1785,1789,1788,1795,1790,1791,1787}
+        Dungeons = { 127, 128, 112, 114, 115, 120 ,113,117,118,121,119,129,133}
+        Activitys = {1793,1794,1782,1783,1785,1789,1788,1795,1790,1791,1787,1655,1786}
     else
         Dungeons = C_LFGList.GetAvailableActivityGroups(GROUP_FINDER_CATEGORY_ID_DUNGEONS, bit.bor(Enum.LFGListFilter.CurrentSeason, Enum.LFGListFilter.PvE))
         if #Dungeons == 0 then        
@@ -460,7 +460,7 @@ function ListOfDungeons(menuType)
     -- C_MythicPlus.IsMythicPlusActive()
     -- C_LFGList.GetActivityInfoTable(i)
     -- /run for i=750,2000 do local info = C_LFGList.GetActivityInfoTable(i); if info then print(i, info.fullName) end end
-    --/run local info = C_LFGList.GetAvailableActivities(GROUP_FINDER_CATEGORY_ID_DUNGEONS);for i=1,42 do local act= C_LFGList.GetActivityInfoTable(info[i]);print(info[i],act.fullName,act.groupFinderActivityGroupID) end
+    --/run local info = C_LFGList.GetAvailableActivities(GROUP_FINDER_CATEGORY_ID_DUNGEONS);for i=1,#info do local act= C_LFGList.GetActivityInfoTable(info[i]);print(info[i],act.fullName,act.groupFinderActivityGroupID) end
 
     for k, groupId in ipairs(Dungeons) do
         local data = {}

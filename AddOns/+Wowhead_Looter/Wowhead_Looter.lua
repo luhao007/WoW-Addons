@@ -3,17 +3,17 @@
 --     W o w h e a d   L o o t e r     --
 --                                     --
 --                                     --
---    Patch: 11.2.5                    --
+--    Patch: 11.2.7                    --
 --    E-mail: feedback@wowhead.com     --
 --                                     --
 -----------------------------------------
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2025-11-17";
+local WL_ADDON_UPDATED = "2025-12-08";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
-local WL_VERSION = 110205;
+local WL_VERSION = 110207;
 local WL_VERSION_PATCH = 0;
 local WL_ADDONNAME, WL_ADDONTABLE = ...
 
@@ -39,7 +39,6 @@ wlScans = {
     followers = "",
     heirlooms = "",
     projects = "",
-    timePlayedTotal = 0,
 };
 wlPetBlacklist = nil;
 wlUIReloaded = nil;
@@ -795,7 +794,6 @@ local wlSeasonId = "";
 
 -- Hooks
 local wlDefaultGetQuestReward;
-local wlDefaultChatFrame_DisplayTimePlayed;
 local wlDefaultReloadUI;
 local wlDefaultConsoleExec;
 
@@ -904,7 +902,6 @@ function wlEvent_PLAYER_LOGIN(self)
     wlScans.heirlooms = wlScans.heirlooms or "";
     wlScans.appearances = wlScans.appearances or "";
     wlScans.projects = wlScans.projects or "";
-    wlScans.timePlayedTotal = wlScans.timePlayedTotal or 0;
     if wlScans.transmog then
         wlScans.transmog = nil
     end
@@ -1611,7 +1608,8 @@ end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
-function wlEvent_TRAINER_SHOW(self)
+function wlEvent_TRAINER_UPDATE(self)
+
     wlRegisterUnitGossip("trainer");
 
     local id, kind = wlUnitGUID("npc");
@@ -1626,6 +1624,11 @@ function wlEvent_TRAINER_SHOW(self)
     if not oldIndex then
         return;
     end
+
+    if wlTracker.scanningTrainer then
+        return;
+    end
+    wlTracker.scanningTrainer = true;
 
     local fAvail, fUnavail, fUsed = GetTrainerServiceTypeFilter("available"), GetTrainerServiceTypeFilter("unavailable"), GetTrainerServiceTypeFilter("used");
     SetTrainerServiceTypeFilter("available", true);
@@ -1669,6 +1672,8 @@ function wlEvent_TRAINER_SHOW(self)
         ClassTrainerFrame.ScrollBox:ScrollToNearest(oldIndex);
         ClassTrainerFrame_Update();
     end
+
+    wlTracker.scanningTrainer = false;
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
@@ -3820,8 +3825,6 @@ function wlCollect(userInitiated)
         C_CovenantCallings.RequestCallings();
     end
 
-    wlQueryTimePlayed();
-
     wlScanToys()
     wlScanMounts()
     wlScanTitles()
@@ -3850,18 +3853,6 @@ function wlAppendMsgCollected(value)
         wlMsgCollected = value..WL_COLLECT_LASTSEP..wlMsgCollected;
     else
         wlMsgCollected = value..", "..wlMsgCollected;
-    end
-end
-
---**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
-
-local wlTimePlayed_SkipNext = false;
-function wlChatFrame_DisplayTimePlayed(self, totalTime, ...)
-    if wlTimePlayed_SkipNext then
-        wlScans.timePlayedTotal = totalTime;
-        wlTimePlayed_SkipNext = false;
-    else
-        wlDefaultChatFrame_DisplayTimePlayed(self, totalTime, ...);
     end
 end
 
@@ -4072,14 +4063,6 @@ function wlScanArchaeology()
             wlScanArtifacts();
         end
     end
-end
-
---**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
-
-function wlQueryTimePlayed()
-    -- Don't display time played in chat frame if not queried by player
-    wlTimePlayed_SkipNext = true;
-    RequestTimePlayed();
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
@@ -4636,7 +4619,7 @@ end
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
 function wlGetExportDataValue()
-    local value = "&realmId="..wlGetPlayerRealmId().."&timePlayedTotal="..wlScans.timePlayedTotal.."&achievements="..wlScans.achievements.."&toys="..wlScans.toys.."&mounts="..wlScans.mounts.."&titles="..wlScans.titles.."&followers="..wlScans.followers.."&heirlooms="..wlScans.heirlooms.."&appearances="..wlScans.appearances;
+    local value = "&realmId="..wlGetPlayerRealmId().."&achievements="..wlScans.achievements.."&toys="..wlScans.toys.."&mounts="..wlScans.mounts.."&titles="..wlScans.titles.."&followers="..wlScans.followers.."&heirlooms="..wlScans.heirlooms.."&appearances="..wlScans.appearances;
     value = value .. "&projects=" .. wlScans.projects;
     return value;
 end
@@ -5214,7 +5197,7 @@ local wlEvents = {
     LOCALPLAYER_PET_RENAMED = wlEvent_LOCALPLAYER_PET_RENAMED,
     MERCHANT_SHOW = wlEvent_MERCHANT_SHOW,
     MERCHANT_UPDATE = wlEvent_MERCHANT_UPDATE,
-    TRAINER_SHOW = wlEvent_TRAINER_SHOW,
+    TRAINER_UPDATE = wlEvent_TRAINER_UPDATE,
     COMBAT_LOG_EVENT_UNFILTERED = wlEvent_COMBAT_LOG_EVENT_UNFILTERED,
     BOSS_KILL = wlEvent_BOSS_KILL,
     UPDATE_MOUSEOVER_UNIT = wlEvent_UPDATE_MOUSEOVER_UNIT,
@@ -6680,9 +6663,6 @@ end
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
 function wlHook()
-    wlDefaultChatFrame_DisplayTimePlayed = ChatFrame_DisplayTimePlayed;
-    ChatFrame_DisplayTimePlayed = wlChatFrame_DisplayTimePlayed;
-
     wlDefaultGetQuestReward = GetQuestReward;
     GetQuestReward = wlGetQuestReward;
 
@@ -6717,7 +6697,6 @@ end
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
 function wlUnhook()
-    ChatFrame_DisplayTimePlayed = wlDefaultChatFrame_DisplayTimePlayed;
     GetQuestReward = wlDefaultGetQuestReward;
     ReloadUI = wlDefaultReloadUI;
     ConsoleExec = wlDefaultConsoleExec;

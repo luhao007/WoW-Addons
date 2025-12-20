@@ -1,6 +1,6 @@
-## Interface: 110205
+## Interface: 110207
 ## Author: kagaro, xinhuan, nevcairiel
-## Version: 1.50.4
+## Version: 1.51.2
 
 ## Title: GatherMate2
 ## Notes: Collects Herbs, Mines, Gas Clouds, Archaeology, Treasure and Fishing locations and adds them to the worldmap and minimap
@@ -9,18 +9,18 @@
 
 ## IconTexture: Interface\AddOns\GatherMate2\Artwork\Icon.tga
 
+## Category: Map
 ## Category-zhCN: |cFFFFE00A<|r|cFF0070DE专业|r|cFFFFE00A>|r
+## Group: GatherMate2
 
 ## OptionalDeps: Ace3, LibDataBroker-1.1, HereBeDragons
-## LoadManagers: AddonLoader
 
+## LoadSavedVariablesFirst: 1
 ## SavedVariables: GatherMate2DB, GatherMate2HerbDB, GatherMate2MineDB, GatherMate2FishDB, GatherMate2GasDB, GatherMate2TreasureDB, GatherMate2ArchaeologyDB, GatherMate2LoggingDB
 
 ## X-Email: sal.scotto@gmail.com
 ## X-Credits: OttoDeFe for the launher icon.
-## X-Category: Map
 ## X-License: ARR
-## X-LoadOn-Always: delayed
 ## X-Curse-Project-ID: 26120
 ## X-WoWI-ID: 21293
 

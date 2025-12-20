@@ -42,12 +42,6 @@ local function add_Checkbutton(mode,fuF,Point,Text,WH,UIName,id,Single)
 		self:SetHitRectInsets(0,-wrappedWidth,0,0)
 	end
 	But:UpdateHitRectInsets()
-	hooksecurefunc(But, "Enable", function(self)
-		self.Text:SetTextColor(er, eg, eb, 1);
-	end)
-	hooksecurefunc(But, "Disable", function(self)
-		self.Text:SetTextColor(dr, dg, db, 1)
-	end)
 	if Single==1 then
 		But:SetNormalAtlas("ArtifactsFX-YellowRing")
 		But:SetCheckedTexture("Vehicle-TempleofKotmogu-CyanBall")-----Artifacts-PerkRing-PurpleGlow
@@ -96,7 +90,12 @@ local function add_Checkbutton(mode,fuF,Point,Text,WH,UIName,id,Single)
 			end)
 		end
 	end
-
+	hooksecurefunc(But, "Enable", function(self)
+		self.Text:SetTextColor(er, eg, eb, 1);
+	end)
+	hooksecurefunc(But, "Disable", function(self)
+		self.Text:SetTextColor(dr, dg, db, 1)
+	end)
 	hooksecurefunc(But, "SetEnabled", function(self,bool)
 		if bool then
 			self:Enable()

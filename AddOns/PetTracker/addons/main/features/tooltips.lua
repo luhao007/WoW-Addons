@@ -37,7 +37,7 @@ function Tooltips.OnBattlePet(tip, data)
 
 		if not tip.Source then
 			tip.Source = tip:CreateFontString(nil, 'ARTWORK', 'GameFontHighlightLeft')
-			tip.Source:SetPoint('BOTTOMLEFT', tip, 133, 75)
+			tip.Source:SetPoint('BOTTOMLEFT', tip, 11, 8)
 			tip.Source:SetSize(tip:GetWidth() - 20, 0)
 
 			hooksecurefunc(tip, 'Show', function(tip)

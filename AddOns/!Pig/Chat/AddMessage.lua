@@ -31,6 +31,7 @@ local function GetGemList(linkx)
 	end
 	return baoshiinfo
 end
+local GetColorKey=Fun.PIGGetColorKey
 local function ShowZb_Link_Icon(newText)
 	if PIGA["Chat"]["FastCopy"] or PIGA["Chat"]["ShowZb"] then
 		local namexShowZb=""
@@ -69,7 +70,7 @@ local function ShowZb_Link_Icon(newText)
 					tihuanidlist[word]["icon"]=GetItemIcon(word)
 				end
 				if PIGA["Chat"]["ShowLinkLV"] then
-					local effectiveILvl, isPreview, baseILvl = GetDetailedItemLevelInfo(word)
+					local effectiveILvl = GetDetailedItemLevelInfo(word)
 					tihuanidlist[word]["LV"]=effectiveILvl or 0
 				end
 				if PIGA["Chat"]["ShowLinkSlots"] then
@@ -84,7 +85,7 @@ local function ShowZb_Link_Icon(newText)
 			end
 			for k,v in pairs(tihuanidlist) do
 				if PIGA["Chat"]["ShowLinkIcon"] then
-					newText=newText:gsub("(|cnIQ%d:|"..k.."|h)","|T"..v.icon..":0|t%1");
+					newText=newText:gsub("(|"..GetColorKey().."|"..k.."|h)","|T"..v.icon..":0|t%1");
 				end
 				if PIGA["Chat"]["ShowLinkLV"] or PIGA["Chat"]["ShowLinkSlots"] then
 					local tihuanneirong = ""
@@ -94,13 +95,13 @@ local function ShowZb_Link_Icon(newText)
 					if PIGA["Chat"]["ShowLinkSlots"] and v.Slots then
 						tihuanneirong=tihuanneirong..v.Slots
 					end
-					newText=newText:gsub("(|cff%w%w%w%w%w%w|"..k.."|h%[)(.-%]|h|r)","%1("..tihuanneirong..")%2");
+					newText=newText:gsub("(|"..GetColorKey().."|"..k.."|h%[)(.-%]|h|r)","%1("..tihuanneirong..")%2");
 					if PIGA["Chat"]["ShowLinkGem"] and #v.Gem>0 then
 						local GemTxt = ""
 						for ixx=1,#v.Gem do
 							GemTxt=GemTxt.."|T".._Get_GEM_EMPTY_SOCKET(v.Gem[ixx])..":0|t"
 						end
-						newText=newText:gsub("(|cnIQ%d:|"..k.."|h%[.-%]|h|r)","%1"..GemTxt);
+						newText=newText:gsub("(|"..GetColorKey().."|"..k.."|h%[.-%]|h|r)","%1"..GemTxt);
 					end
 				end
 			end
@@ -284,19 +285,53 @@ function QuickChatfun.PIGMessage()
 			end
 		end
 	end)
+	
+	local Get_itemF = CreateFrame("Frame")
+	Get_itemF.ItemRequests={}
+	Get_itemF.itemMSGFrame={}
+	Get_itemF.itemAllIDs={}
+	Get_itemF:RegisterEvent("GET_ITEM_INFO_RECEIVED")
+	Get_itemF:SetScript("OnEvent", function(self, event, NItemID)
+		local text=self.ItemRequests[NItemID]
+	    if text then
+	    	self.ItemRequests[NItemID] = nil
+	    	self.itemAllIDs[text][NItemID] = nil
+	    	if next(self.itemAllIDs[text])~=nil then return end
+	    	self.itemMSGFrame[text][1](self.itemMSGFrame[text][2],ShowZb_Link_Icon(PindaoName(text)),unpack(self.itemMSGFrame[text][3]))
+	    	self.itemAllIDs[text] = nil
+	    	self.itemMSGFrame[text] = nil
+	    end
+	end)
+	
 	--PIGA["xxxxxx"]={}
 	for i = 1, NUM_CHAT_WINDOWS do
 		if ( i ~= 2 and i~=3 ) then
 			local chatID = _G["ChatFrame"..i]
 			local msninfo = chatID.AddMessage
 			chatID.AddMessage = function(frame, text, ...)
-				--local text=text:gsub("|cff%w%w%w%w%w%w|Hmount:.-|h%[","");
-				--PIG_ChatFrameKeyWord:AddMessage(text:gsub("|", "||"));
+				--local text=text:gsub("|cff%w%w%w%w%w%w|Hmount:.-|h%[","");				
 				--if i==1 then table.insert(PIGA["xxxxxx"],text) end
+				--PIG_ChatFrameKeyWord:AddMessage(text:gsub("|", "||"));
 				if text and text~="" and text:match("player") then
-					local text=PindaoName(text)
-					local text=ShowZb_Link_Icon(text)
-					return msninfo(frame, text, ...)
+					if text:match("Hitem:") and PIGA["Chat"]["ShowLinkLV"] then
+						for word in text:gmatch("|(Hitem:.-)|h") do
+							if not GetDetailedItemLevelInfo(word) then
+								if not Get_itemF.itemMSGFrame[text] then
+									Get_itemF.itemMSGFrame[text]={msninfo,frame,{...}}
+								end
+								if not Get_itemF.itemAllIDs[text] then
+									Get_itemF.itemAllIDs[text]={}
+								end
+								local itemID= GetItemInfoInstant(word)
+								Get_itemF.ItemRequests[itemID]=text
+								Get_itemF.itemAllIDs[text][itemID]=true					
+							end
+						end
+						if Get_itemF.itemMSGFrame[text] then
+							return
+						end
+					end
+					return msninfo(frame, ShowZb_Link_Icon(PindaoName(text)), ...)
 				end
 				return msninfo(frame, text, ...)
 			end

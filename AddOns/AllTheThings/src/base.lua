@@ -343,13 +343,26 @@ app.GetNameFromProvider = function(pt, id)
 end
 
 -- Common Metatable Functions
-app.MetaTable = {}
-app.MetaTable.AutoTable = { __index = function(t, key)
-	if key == nil then return end
-	local k = {}
-	t[key] = k
-	return k
-end}
+do
+local __MetaTable = {
+	AutoTable = function()
+		return { __index = function(t, key)
+			if key == nil then return end
+			local k = {}
+			t[key] = k
+			return k
+		end}
+	end,
+}
+if app.__perf then
+	-- if tracking performance, we actually want each MetaTable reference to create a unique metatable so that performance stats are not shared
+	-- between multiple tables
+	app.MetaTable = setmetatable({__noperf=true}, { __index = function(t,key) return __MetaTable[key] and __MetaTable[key]() or nil end })
+else
+	app.MetaTable = {}
+	app.MetaTable.AutoTable = __MetaTable.AutoTable()
+end
+end
 
 -- Cache information about the player.
 app.Gender = UnitSex("player");

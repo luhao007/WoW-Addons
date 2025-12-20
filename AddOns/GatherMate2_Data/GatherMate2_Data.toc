@@ -1,12 +1,15 @@
-## Interface: 110205
+## Interface: 110207
 ## Author: kagaro, Xinhuan
-## Version: v38.2
+## Version: v40.0
 
 ## Title: GatherMate2Data
 ## Notes: Wowhead Data dump for GatherMate2
 ## Title-zhCN: |cFFFFE00A<|r|cFF0070DE专业|r|cFFFFE00A>|r|cFFFFFFFF采集助手|r |cFF69CCF0数据|r
 
+## IconTexture: Interface\AddOns\GatherMate2\Artwork\Icon.tga
+
 ## Category-zhCN: |cFFFFE00A<|r|cFF0070DE专业|r|cFFFFE00A>|r
+## Group: GatherMate2
 
 ## Dependencies: GatherMate2
 ## LoadOnDemand: 1
@@ -22,4 +25,6 @@ GasData.lua
 FishData.lua
 TreasureData.lua
 ArchaeologyData.lua
+TimberData.lua
+
 GatherMateData.lua

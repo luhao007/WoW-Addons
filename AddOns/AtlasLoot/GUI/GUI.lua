@@ -461,7 +461,7 @@ local function TransmogButton_OnEnter(self, owner)
 		tooltip:SetOwner(self, "ANCHOR_RIGHT", -(self:GetWidth() * 0.5), 5)
 	end
 	GameTooltip_SetTitle(tooltip, COLLECTED);
-	GameTooltip_AddNormalLine(tooltip, "Highlight collected and uncollected items, including transmogs, mounts, pets and toys.");
+	GameTooltip_AddNormalLine(tooltip, "Highlight collected and uncollected items, including transmogs, mounts, pets, toys and housing decor.");
 	tooltip:Show()
 end
 

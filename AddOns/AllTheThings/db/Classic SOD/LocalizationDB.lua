@@ -219,6 +219,9 @@ L.DEATHS_CHECKBOX_TOOLTIP = "Enable this option to track each time one of your c
 L.DEBUG_LOGIN = "Awarded for logging in.\n\nGood job! YOU DID IT!\n\nOnly visible while in Debug Mode.";
 L.DEBUG_MODE = "|c" .. _.DefaultColors.Red .. "Debug Mode |cffffffff(Show Everything)|r|r";
 L.DEBUG_MODE_TOOLTIP = "Quite literally ... ALL THE THINGS IN THE GAME. PERIOD. DOT. YEAH, ALL OF IT. Even Uncollectible things like bags, consumables, reagents, etc will appear in the lists. (Even yourself! No, really. Look.)\n\nThis is for Debugging purposes only. Not intended to be used for completion tracking.\n\nThis mode bypasses all filters, including Unobtainables.";
+L.DECOR_CHECKBOX = CATALOG_SHOP_TYPE_DECOR;
+L.DECOR_CHECKBOX_TOOLTIP = "Enable this option to track warband decor completion.";
+L.DECOR_ID = "Decor ID";
 L.DELETE_CHARACTER = "Right Click to Delete this Character";
 L.DELETE_LINKED_ACCOUNT = "Right Click to Delete this Linked Account";
 L.DELETE_LINKED_CHARACTER = "Right Click to Delete this Linked Character";
@@ -587,7 +590,7 @@ L.QUEST_LOOP = "Likely just broke out of an infinite source quest loop.";
 L.QUEST_MAY_BE_REMOVED = "Failed to acquire information. This quest may have been removed from the game. ";
 L.QUEST_OBJECTIVE_INVALID = "Invalid Quest Objective";
 L.QUEST_ONCE_PER_ACCOUNT = "Once-Per-Account Quest";
-L.QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT = "Quest '%s' %s will prevent collection of Breadcrumb Quest '%s' %s";
+L.QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT = "Quest '%s' %s will prevent collection of '%s' %s";
 L.QUEST_ROW_INSTRUCTIONS = "Right Click to see any Quest Chain Requirements";
 L.QUESTS_CHECKBOX = QUESTS_LABEL;
 L.QUESTS_CHECKBOX_TOOLTIP = "Enable this option to track normal Quests.\n\nYou can right click any Quest in the lists to pop out their full quest chain to show your progress and any prerequisite Quests.\n\nNOTE: Tracking of Daily, Weekly, Yearly, and World Quests is not included in this option due to their periodic resets within the Blizzard Database.";
@@ -972,10 +975,11 @@ _.HeaderConstants = {
 	VENDORS = -58,
 	WEAPONS = -101,
 	WORLD_BOSSES = -61,
+	WORLD_DROPS = -698,
 	ZONE_DROPS = -63,
 };
 _.HeaderData = {
-	FILLNPCS = {[-98]=1,[-95]=1,[-94]=1,[-93]=1,[-90]=1,[-63]=1,[-47]=1,[-22]=1,[-19]=1},
+	FILLNPCS = {[-698]=1,[-98]=1,[-95]=1,[-94]=1,[-93]=1,[-90]=1,[-63]=1,[-47]=1,[-22]=1,[-19]=1},
 };
 localize(L.HEADER_NAMES, {
 	[-11] = "New Character",
@@ -1070,7 +1074,7 @@ localize(L.HEADER_NAMES, {
 	[-520] = "BlizzCon",
 	[-521] = "Collector's Edition",
 	[-546] = "iCoke",
-	[-547] =  AUCTION_CATEGORY_MISCELLANEOUS,
+	[-547] = AUCTION_CATEGORY_MISCELLANEOUS,
 	[-551] = BATTLE_PET_SOURCE_9,
 	[-559] = "Children's Week",
 	[-574] = "Feast of Winter Veil",
@@ -1120,6 +1124,8 @@ localize(L.HEADER_NAMES, {
 	[-646] = "Crafted",
 	[-647] = "Gathering",
 	[-688] = "Blood Moon",
+	[-697] = "Zul'Gurub Hakkar Hardmode",
+	[-698] = TRANSMOG_SOURCE_4,
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-25] = "Warlocks can teach their demons new tricks. Some of the higher level grimoires can only be purchased from the Demon Trainer in your faction's capital cities.",
@@ -1304,6 +1310,8 @@ localize(L.HEADER_ICONS, {
 	[-646] = 131034,
 	[-647] = 131025,
 	[-688] = 237513,
+	[-697] = 237211,
+	[-698] = _.asset("category_worlddrops"),
 });
 localize(L.HEADER_EVENTS, {
 	[-37] = 1,
@@ -1377,7 +1385,6 @@ _.Modules.Events.SetEventInformation(13, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=5,["monthDay"]=1,["weekday"]=6,["year"]=2026},{["hour"]=23,["minute"]=59,["month"]=5,["monthDay"]=7,["weekday"]=5,["year"]=2026})
 });
 _.Modules.Events.SetEventInformation(1, {
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=17,["weekday"]=2,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=24,["weekday"]=2,["year"]=2025},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=1,["weekday"]=2,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=8,["weekday"]=2,["year"]=2025},{["remappedID"]=375}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=15,["weekday"]=2,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=22,["weekday"]=2,["year"]=2025},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=29,["weekday"]=2,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=5,["weekday"]=2,["year"]=2026},{["remappedID"]=375}),
@@ -1403,7 +1410,8 @@ _.Modules.Events.SetEventInformation(1, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=10,["monthDay"]=5,["weekday"]=2,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=10,["monthDay"]=12,["weekday"]=2,["year"]=2026},{["remappedID"]=375}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=10,["monthDay"]=19,["weekday"]=2,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=10,["monthDay"]=26,["weekday"]=2,["year"]=2026},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=2,["weekday"]=2,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=9,["weekday"]=2,["year"]=2026},{["remappedID"]=375}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=2,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=23,["weekday"]=2,["year"]=2026},{["remappedID"]=374})
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=2,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=23,["weekday"]=2,["year"]=2026},{["remappedID"]=374}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=30,["weekday"]=2,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=2,["year"]=2026},{["remappedID"]=375})
 });
 
 -- Filter Database Module
@@ -11588,6 +11596,9 @@ localize(L.HEADER_NAMES, {
 	[-362] = "Bibliothek",
 	[-363] = "Waffenkammer",
 	[-364] = "Kathedrale",
+	[-365] = "Haupttor",
+	[-366] = "Dienstboteneingang",
+	[-367] = "Verteidiger der Atal'ai",
 	[-483] = "Das Szepter der Sandstürme",
 	[-559] = "Kinderwoche",
 	[-574] = "Winterhauchfest",
@@ -11600,6 +11611,7 @@ localize(L.HEADER_NAMES, {
 	[-586] = "Saisonfisch: Sommerbarsch",
 	[-587] = "Saisonfisch: Winterkalmar",
 	[-588] = "Anglerwettbewerb im Schlingendorntal",
+	[-611] = "Adel der Silithiden",
 	[-613] = "Alptraumhain",
 	[-614] = "Lehrling",
 	[-615] = "Oper der Verwünschung",
@@ -11619,7 +11631,7 @@ localize(L.HEADER_NAMES, {
 	[-638] = "Alptraumeinfälle",
 	[-639] = "Runenschnitzen",
 	[-640] = "Seelenvermittler",
-	[-645] = "Weggelegte Vorräte",
+	[-645] = "Abgefangene Vorräte",
 	[-688] = "Blutmond",
 });
 localize(L.HEADER_DESCRIPTIONS, {
@@ -11630,9 +11642,9 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-341] = "Die Gegenstände in dieser Liste teilen ihre Vorlage mit dem oben genannten Gegenstand. Im Modus für Einzigartige Vorlagen kann diese Liste Ihnen helfen zu verstehen, warum ein bestimmter Gegenstand als gesammelt markiert ist, oder ob nicht.",
 	[-342] = "Dieser Gegenstand hat eine einzigartige Vorlage. Ihr müsst diesen Gegenstand erhalten, um die Vorlage eurer Sammlung hinzuzufügen.",
 	[-343] = "Diese Liste enthält nicht erhältliche Gegenstände, die von ATT Discord als Fehler gemeldet wurden, die Blizzard noch beheben muss.\n\nHINWEIS: Alle Filter werden aus Sichtbarkeitsgründen in dieser Liste ignoriert. In dieser Liste sind nur Gegenstände enthalten, die aufgrund von Fahrlässigkeit aus dem Spiel entfernt wurden, und nicht ein riesiger feuerspeiender Drache.\n\nAn Blizzard-Entwickler: Bitte beheben Sie die unten aufgeführten Gegenstände und Begegnungen.",
-	[-632] = "Diese Saison bringt eine anfängliche Levelobergrenze von 25 und ein neues Level-25-Endspiel, einschließlich eines Blackfathom Deeps-Raids für 10 Spieler mit neuen Mechaniken, neuen und neu gestalteten Bossen, die die Taktiken und Strategien der Spieler herausfordern, und neuen Belohnungen.",
+	[-632] = "Diese Saison bringt eine anfängliche Levelobergrenze von 25 und ein neues Level-25-Endspiel, einschließlich eines Tiefschwarze Grotte-Raids für 10 Spieler mit neuen Mechaniken, neuen und neu gestalteten Bossen, die die Taktiken und Strategien der Spieler herausfordern, und neuen Belohnungen.",
 	[-639] = "Runengravur ist ein neues System, das kürzlich für Season of Discovery angekündigt wurde. Es ermöglicht jeder Klasse, ihr Spielerlebnis individuell anzupassen, indem sie neue einzigartige Fähigkeiten freischaltet!",
-	[-645] = "Questgegenstände für „Weggelegte Vorräte“ fallen von Mobs der Stufe 6 und höher in ganz Azeroth. Diese Quests erfordern die Lieferung der Waylaid-Vorräte an einen Vertreter der Organisation als Gegenleistung für ein paar Silbermünzen, Erfahrung und Ansehen. Natürlich fehlen in der Versorgungslieferung Gegenstände, und Sie können sie ergänzen, um höhere Reputationsbelohnungen zu erhalten.",
+	[-645] = "Questgegenstände für „Weggelegte Vorräte“ fallen von Mobs der Stufe 6 und höher in ganz Azeroth. Diese Quests erfordern die Lieferung der Abgefangene Vorräte an einen Vertreter der Organisation als Gegenleistung für ein paar Silbermünzen, Erfahrung und Ansehen. Natürlich fehlen in der Versorgungslieferung Gegenstände, und Sie können sie ergänzen, um höhere Reputationsbelohnungen zu erhalten.",
 });
 localize(L.FILTER_ID_TYPES, {
 	[11] = "Artefakte",
@@ -14293,7 +14305,9 @@ localize(L.HEADER_NAMES, {
 	[-362] = "Librairie",
 	[-363] = "Armurerie",
 	[-364] = "Cathédrale",
-	[-367] = "Défenseurs Atal'ai",
+	[-365] = "Grande porte",
+	[-366] = "Entrée de service",
+	[-367] = "Défenseurs atal’ai",
 	[-481] = "Effort de guerre d’Ahn'Qiraj",
 	[-483] = "Le Sceptre des Sables changeants",
 	[-521] = "Edition Collector",
@@ -14308,6 +14322,7 @@ localize(L.HEADER_NAMES, {
 	[-586] = "Poisson de saison : bar d'été",
 	[-587] = "Poisson de saison : calmar d'hiver",
 	[-588] = "Concours de pêche de Strangleronce",
+	[-611] = "Famille royale silithide",
 	[-613] = "Bosquet du cauchemar",
 	[-614] = "Apprenti",
 	[-615] = "Opéra de malédiction",
@@ -14327,7 +14342,7 @@ localize(L.HEADER_NAMES, {
 	[-638] = "Incursions de cauchemar",
 	[-639] = "Gravure",
 	[-640] = "Courtiers D'âmes",
-	[-645] = "Fournitures isolées",
+	[-645] = "Fournitures égarées",
 	[-688] = "Lune de sang",
 });
 localize(L.HEADER_DESCRIPTIONS, {
@@ -14338,9 +14353,9 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-341] = "Les éléments de cette liste sont des apparences partagées pour l'élément ci-dessus. En mode Apparence unique, cette liste peut vous aider à comprendre pourquoi ou pourquoi un élément spécifique serait marqué Collecté.",
 	[-342] = "Cet article a une apparence unique. Vous devez collecter cet objet spécifiquement pour gagner l’apparence.",
 	[-343] = "Cette liste contient des éléments impossibles à obtenir que ATT Discord a signalés comme des bogues que Blizzard n'a pas encore corrigés.\n\nREMARQUE : Tous les filtres sont ignorés dans cette liste pour des raisons de visibilité. Seuls les éléments retirés du jeu en raison d'une négligence plutôt que d'un gigantesque dragon cracheur de feu sont présents sur cette liste.\n\nAux développeurs de Blizzard : veuillez corriger les éléments et les rencontres répertoriés ci-dessous.",
-	[-632] = "Cette saison apporte un niveau maximum initial de 25 et une nouvelle fin de partie de niveau 25, comprenant un raid Blackfathom Deeps à 10 joueurs avec de nouvelles mécaniques, des boss nouveaux et réinventés pour défier les tactiques et stratégies des joueurs, et de nouvelles récompenses.",
+	[-632] = "Cette saison apporte un niveau maximum initial de 25 et une nouvelle fin de partie de niveau 25, comprenant un raid Profondeurs de Brassenoire à 10 joueurs avec de nouvelles mécaniques, des boss nouveaux et réinventés pour défier les tactiques et stratégies des joueurs, et de nouvelles récompenses.",
 	[-639] = "La gravure de runes est un nouveau système récemment annoncé pour Season of Discovery. Il permet à chaque classe d'adapter son expérience de jeu en débloquant de nouvelles capacités uniques!",
-	[-645] = "Les objets de quête Waylaid Supplies proviennent des foules de niveau 6 et surtout partout en Azeroth. Ces quêtes nécessitent la livraison des fournitures Waylaid à un représentant de l'organisation en échange de quelques pièces d'argent, d'expérience et de réputation. Bien sûr, il manque des articles dans la livraison de fournitures, et vous pouvez les compléter pour obtenir de plus grandes récompenses de réputation.",
+	[-645] = "Les objets de quête Fournitures égarées proviennent des foules de niveau 6 et surtout partout en Azeroth. Ces quêtes nécessitent la livraison des Fournitures égarées à un représentant de l'organisation en échange de quelques pièces d'argent, d'expérience et de réputation. Bien sûr, il manque des articles dans la livraison de fournitures, et vous pouvez les compléter pour obtenir de plus grandes récompenses de réputation.",
 });
 localize(L.FILTER_ID_TYPES, {
 	[11] = "Artéfact",
@@ -16709,6 +16724,7 @@ localize(_.CategoryNames, {
 localize(L.HEADER_NAMES, {
 	[-11] = "Nuovo personaggio",
 	[-17] = "Prova di Classe",
+	[-25] = "Istruttore dei Demoni",
 	[-36] = "Festività",
 	[-48] = "Istruttore di equitazione",
 	[-316] = "Rissa Corpulenta",
@@ -16741,7 +16757,7 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-341] = "Gli elementi in questo elenco sono aspetti condivisi per l'elemento precedente. Nella modalità Aspetto unico, questo elenco può aiutarti a capire perché o perché un oggetto specifico verrebbe contrassegnato come Raccolto.",
 	[-342] = "Questo oggetto ha un aspetto unico. Devi raccogliere questo oggetto appositamente per guadagnare l'aspetto.",
 	[-343] = "Questo elenco contiene elementi non ottenibili che ATT Discord ha segnalato come bug che Blizzard deve ancora correggere.\n\nNOTA: tutti i filtri vengono ignorati in questo elenco per motivi di visibilità. In questo elenco sono presenti solo gli oggetti rimossi dal gioco a causa di negligenza e non un gigantesco drago sputafuoco.\n\nAgli sviluppatori Blizzard: correggete gli oggetti e gli incontri elencati di seguito.",
-	[-632] = "Questa stagione porta un limite di livello iniziale di 25 e un nuovo gioco finale di livello 25, incluso un raid di Blackfathom Deeps per 10 giocatori con nuove meccaniche, boss nuovi e reinventati per sfidare le tattiche e le strategie dei giocatori e nuove ricompense.",
+	[-632] = "Questa stagione porta un limite di livello iniziale di 25 e un nuovo gioco finale di livello 25, incluso un raid di Abissi di Fondocupo per 10 giocatori con nuove meccaniche, boss nuovi e reinventati per sfidare le tattiche e le strategie dei giocatori e nuove ricompense.",
 	[-639] = "L'incisione delle rune è un nuovo sistema recentemente annunciato per la Stagione delle Scoperte. Permette a ogni classe di personalizzare la propria esperienza di gioco sbloccando nuove abilità uniche!",
 	[-645] = "Gli oggetti della missione Waylaid Supplies vengono rilasciati dai mob di livello 6 e soprattutto su Azeroth. Queste missioni richiedono la consegna delle Forniture Waylaid a un rappresentante dell'organizzazione in cambio di argento, esperienza e reputazione. Naturalmente, ci sono degli articoli mancanti nella spedizione di rifornimenti e puoi integrarli per ottenere maggiori ricompense in termini di reputazione.",
 });
@@ -18314,6 +18330,9 @@ localize(L.HEADER_NAMES, {
 	[-342] = "Aparência Única",
 	[-343] = "Recompensa",
 	[-350] = "Os Quatro Cavaleiros",
+	[-365] = "Portão Principal",
+	[-366] = "Entrada de Serviço",
+	[-367] = "Defensores Atal'ai",
 	[-483] = "Cetro das Areias Cambiantes",
 	[-559] = "Semana das Crianças",
 	[-574] = "Festa do Véu de Inverno",
@@ -18326,6 +18345,7 @@ localize(L.HEADER_NAMES, {
 	[-586] = "Peixe sazonal: robalo de verão",
 	[-587] = "Peixe sazonal: Lula de Inverno",
 	[-588] = "Festerê de Pesca da Selva do Espinhaço",
+	[-611] = "Realeza Silítidea",
 	[-613] = "Bosque do Pesadelo",
 	[-614] = "Aprendiz",
 	[-615] = "Ópera da Maldição",
@@ -18345,7 +18365,7 @@ localize(L.HEADER_NAMES, {
 	[-638] = "Incursões Pesadelares",
 	[-639] = "Gravura",
 	[-640] = "Corretores de Almas",
-	[-645] = "Suprimentos emboscados",
+	[-645] = "Suprimentos Escondidos",
 	[-688] = "Lua Sangrenta",
 });
 localize(L.HEADER_DESCRIPTIONS, {
@@ -18355,9 +18375,9 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-341] = "Os itens nesta lista são aparências compartilhadas do item acima. No Modo de Aparência Única, esta lista pode ajudá-lo a entender por que ou não um item específico seria marcado como Coletado.",
 	[-342] = "Este item tem uma aparência única. Você deve coletar este item especificamente para ganhar a aparência.",
 	[-343] = "Esta lista contém itens inacessíveis que o ATT Discord relatou como bugs que a Blizzard ainda não corrigiu.\n\nNOTA: Todos os filtros são ignorados nesta lista para visibilidade. Apenas itens removidos do jogo por negligência, em vez de um gigantesco dragão cuspidor de fogo, estão presentes nesta lista.\n\nPara os desenvolvedores da Blizzard: Corrijam os itens e encontros listados abaixo.",
-	[-632] = "Esta temporada traz um limite de nível inicial de 25 e um novo jogo final de nível 25, incluindo um ataque Blackfathom Deeps para 10 jogadores com novas mecânicas, chefes novos e reimaginados para desafiar as táticas e estratégias dos jogadores e novas recompensas.",
+	[-632] = "Esta temporada traz um limite de nível inicial de 25 e um novo jogo final de nível 25, incluindo um ataque Profundezas Negras para 10 jogadores com novas mecânicas, chefes novos e reimaginados para desafiar as táticas e estratégias dos jogadores e novas recompensas.",
 	[-639] = "A gravação de runas é um novo sistema anunciado recentemente para a Temporada de Descobertas. Ele permite que cada classe personalize sua experiência de jogo, desbloqueando novas habilidades únicas!",
-	[-645] = "Itens de missão Waylaid Supplies são obtidos de mobs de nível 6 e acima de Azeroth. Essas missões exigem a entrega dos Suprimentos Waylaid a um representante da organização em troca de um pouco de prata, experiência e reputação. É claro que faltam itens na remessa de suprimentos e você pode complementá-los para obter maiores recompensas de reputação.",
+	[-645] = "Itens de missão Suprimentos Escondidos são obtidos de mobs de nível 6 e acima de Azeroth. Essas missões exigem a entrega dos Suprimentos Escondidos a um representante da organização em troca de um pouco de prata, experiência e reputação. É claro que faltam itens na remessa de suprimentos e você pode complementá-los para obter maiores recompensas de reputação.",
 });
 localize(ObjectNames, {
 	[31] = "Estátua de Leão Antiga",
@@ -20936,7 +20956,7 @@ L.QUEST_LOOP = "Скорее всего ATT вырвался из цепочки
 L.QUEST_MAY_BE_REMOVED = "Ошибка при получении информации. Это задание, возможно, удалено из игры. ";
 L.QUEST_OBJECTIVE_INVALID = "Недействительная Цель Задания";
 L.QUEST_ONCE_PER_ACCOUNT = "Один-Раз-На-Аккаунт Задание";
-L.QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT = "Задание '%s' %s не позволит собрать Хлебную Кроху '%s' %s";
+L.QUEST_PREVENTS_BREADCRUMB_COLLECTION_FORMAT = "Задание '%s' %s не позволит собрать '%s' %s";
 L.QUEST_ROW_INSTRUCTIONS = "Правый клик - Открыть Цепочку Заданий";
 L.QUESTS_CHECKBOX_TOOLTIP = "Включите для отслеживания обычных Заданий.\n\nПри помощи правого клика на любое задание в списках Вы можете открыть полную цепочку заданий, чтобы отобразить Ваш прогресс и любые предшествующие Задания.\n\nПримечание: Задания не отслеживаются перманентно из-за природы отслеживания Ежедневных, Еженедельных, Ежегодных и Локальных заданий в базе данных Blizzard.";
 L.QUESTS_DESC = "Все задания в игре в порядке возрастания номеров.";
@@ -21193,6 +21213,8 @@ localize(L.HEADER_NAMES, {
 	[-362] = "Библиотека",
 	[-363] = "Оружейная",
 	[-364] = "Собор",
+	[-365] = "Главные врата",
+	[-366] = "Черный ход",
 	[-367] = "Защитники Атал'ай",
 	[-481] = "Война в Ан'Кираже",
 	[-483] = "Скипетр Зыбучих песков",
@@ -21208,6 +21230,7 @@ localize(L.HEADER_NAMES, {
 	[-586] = "Сезонная рыба: летний окунь",
 	[-587] = "Сезонная рыба: зимний кальмар",
 	[-588] = "Рыбомания Тернистой долины",
+	[-611] = "Силитидская знать",
 	[-613] = "Роща Кошмаров",
 	[-614] = "Ученик",
 	[-615] = "Проклятая опера",
@@ -21227,7 +21250,7 @@ localize(L.HEADER_NAMES, {
 	[-638] = "Кошмарные вторжения",
 	[-639] = "Гравировка",
 	[-640] = "Душевные брокеры",
-	[-645] = "Подстерегающие припасы",
+	[-645] = "Перехват припасов",
 	[-688] = "Кровавая луна",
 });
 localize(L.HEADER_DESCRIPTIONS, {
@@ -21242,7 +21265,7 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-343] = "Этот список содержит Недоступные предметы, что Дискорд ATT сообщил как ошибки, которые Blizzard ещё не исправили.\n\nВНИМАНИЕ: Все фильтры игнорируются в данном списке для видимости. Только предметы, удалённые из игры из-за халатности, но не из-за гигантского огнедышащего дракона, перечислены в данном списке.\n\nК разработчикам Blizzard: Пожалуйста, почините предметы и события, перечисленные ниже.",
 	[-632] = "В этом сезоне начальный максимальный уровень равен 25, а также новый финал для 25-го уровня, включающий рейд в Непроглядную Пучину для 10 игроков с новой механикой, новыми и переосмысленными боссами, которые бросят вызов тактике и стратегии игроков, а также свежими наградами.",
 	[-639] = "Гравировка рун — это новая система, недавно анонсированная в сезоне «Открытие». Это позволяет каждому классу адаптировать свой игровой процесс, открывая новые уникальные способности!",
-	[-645] = "Квестовые предметы Waylaid Supplies падают с мобов 6-го уровня и выше по всему Азероту. Эти квесты требуют доставки Запасных припасов представителю организации в обмен на немного серебра, опыта и репутации. Конечно, в поставке припасов отсутствуют предметы, и вы можете дополнить их, чтобы получить больше репутации.",
+	[-645] = "Квестовые предметы Перехват припасов падают с мобов 6-го уровня и выше по всему Азероту. Эти квесты требуют доставки Запасных припасов представителю организации в обмен на немного серебра, опыта и репутации. Конечно, в поставке припасов отсутствуют предметы, и вы можете дополнить их, чтобы получить больше репутации.",
 });
 localize(L.FILTER_ID_TYPES, {
 	[11] = "Артефакты",
@@ -23614,6 +23637,9 @@ localize(L.HEADER_NAMES, {
 	[-342] = "독특한 외관",
 	[-343] = "하사품",
 	[-350] = "4인 기사단",
+	[-365] = "정문",
+	[-366] = "공무용 입구",
+	[-367] = "아탈라이 파수병",
 	[-483] = "흐르는 모래의 홀",
 	[-520] = "블리즈컨",
 	[-559] = "어린이 주간",
@@ -23627,6 +23653,7 @@ localize(L.HEADER_NAMES, {
 	[-586] = "제철 생선: 여름 농어",
 	[-587] = "제철 생선: 겨울 오징어",
 	[-588] = "가시덤불 골짜기 낚시왕 선발대회",
+	[-611] = "실리시드 왕실",
 	[-613] = "악몽의 숲",
 	[-614] = "수습생",
 	[-615] = "악심의 오페라",
@@ -23646,7 +23673,7 @@ localize(L.HEADER_NAMES, {
 	[-638] = "악몽 침공지",
 	[-639] = "각인술",
 	[-640] = "소울 브로커",
-	[-645] = "웨이레이드 보급품",
+	[-645] = "잘못 놓인 보급품",
 	[-688] = "핏빛 달",
 });
 localize(L.HEADER_DESCRIPTIONS, {
@@ -26661,12 +26688,13 @@ localize(L.HEADER_NAMES, {
 	[-36] = "Festividades",
 	[-37] = "Feria de la Luna Negra",
 	[-46] = "Raro",
-	[-48] = "Instructora de equitación",
+	[-48] = "Instructor de equitación",
 	[-56] = "Tesoros",
+	[-58] = "Vendedores",
 	[-59] = "Maestro armero",
 	[-61] = "Jefes de mundo",
 	[-63] = "Botín de zona",
-	[-69] = "Temple of Ahn'Qiraj Modo dificil",
+	[-69] = "Templo de Ahn'Qiraj Modo dificil",
 	[-74] = "Dragones de la pesadilla",
 	[-97] = "Reliquias",
 	[-103] = "Evento de pre-parche",
@@ -26683,7 +26711,9 @@ localize(L.HEADER_NAMES, {
 	[-343] = "Recompensa",
 	[-349] = "Capitanes",
 	[-350] = "Los Cuatro Jinetes",
-	[-366] = "Entrada de servicio",
+	[-365] = "Puerta principal",
+	[-366] = "Entrada del servicio",
+	[-367] = "Defensores Atal'ai",
 	[-483] = "El cetro del Mar de Dunas",
 	[-521] = "Edición de coleccionista",
 	[-559] = "Semana de los Niños",
@@ -26715,26 +26745,36 @@ localize(L.HEADER_NAMES, {
 	[-636] = "Nivel 3",
 	[-637] = "Caza de Monstruos",
 	[-638] = "Incursiones de la Pesadilla",
-	[-639] = "Grabado",
-	[-640] = "Corredores de Almas",
-	[-645] = "Suministros asaltados",
+	[-639] = "Grabado de Runas",
+	[-640] = "Especuladores de almas",
+	[-641] = "Entrenamiento de escudero",
+	[-642] = "Inspiración Rango 1",
+	[-643] = "Inspiración Rango 2",
+	[-644] = "Encantamientos de hombros para conjuntos de niveles",
+	[-645] = "Suministros saqueados",
+	[-646] = "Fabricado",
+	[-647] = "Recolección",
 	[-688] = "Luna Sangrienta",
+	[-697] = "Zul'Gurub Hakkar Modo dificil",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-25] = "Los brujos pueden enseñar nuevos trucos a sus demonios. Algunos grimorios de nivel superior solo se pueden comprar al Instructor de Demonios en las capitales de tu facción.Los brujos pueden enseñar nuevos trucos a sus demonios. Algunos grimorios de nivel superior solo se pueden comprar al Instructor de Demonios en las capitales de tu facción.",
 	[-36] = "Es posible que deba estar activo un día festivo específico para que pueda completar las cosas referenciadas en esta sección.",
 	[-43] = "Esta sección contiene misiones y domadores relacionados con los Duelos de Mascotas.",
 	[-44] = "Esta sección solo mostrará las profesiones de tu personaje actual fuera del modo Cuenta y Depuración.",
 	[-47] = "Contiene cosas que son recompensadas o están disponibles en otro contenido dentro de la sección contenedora.\nSe consolidan aquí en un esfuerzo por reducir la duplicación de muchas fuentes posibles.",
-	[-59] = "Un maestro de armas es un PNJ que ofrece a los personajes la oportunidad de aprender habilidades específicas con armas, cuya disponibilidad varía de un maestro de armas a otro. Todas las habilidades con armas se pueden entrenar en el nivel 1, excepto las armas de asta que requieren el nivel 20.\n\nEl entrenamiento con un maestro de armas quedó obsoleto en el parche 4.0.1, ya que cada clase ahora aprende todas las competencias de armas apropiadas para la clase en el momento de la creación. Los maestros de armas se eliminaron del juego poco después.",
+	[-59] = "Un maestro armero es un PNJ que ofrece a los personajes la oportunidad de aprender habilidades específicas con armas, cuya disponibilidad varía de un maestro de armas a otro. Todas las habilidades con armas se pueden entrenar en el nivel 1, excepto las armas de asta que requieren el nivel 20.\n\nEl entrenamiento con un maestro de armas quedó obsoleto en el parche 4.0.1, ya que cada clase ahora aprende todas las competencias de armas apropiadas para la clase en el momento de la creación. Los maestros de armas se eliminaron del juego poco después.",
 	[-316] = "Sólo la persona que dé el golpe final al borracho obtendrá crédito, independientemente de quién haya tocado el objetivo primero. No hay crédito grupal por esto.",
 	[-317] = "Lanza Polimorfia sobre criaturas afectadas por Polimorfia Salvaje para convertirlas nuevamente en aprendices. Cada uno te dará una nota. Recoge 6 notas para aprender la runa.",
 	[-341] = "Los elementos de esta lista son apariencias compartidas del elemento anterior. En el modo de apariencia única, esta lista puede ayudarlo a comprender por qué o no un elemento específico se marcaría como coleccionado.",
 	[-342] = "Este objeto tiene una apariencia única. Debes obtener este objeto específicamente para ganar la apariencia.",
 	[-343] = "Esta lista contiene objetos no obtenibles que ATT Discord ha informado como errores que Blizzard aún no ha solucionado.\n\nNOTA: Todos los filtros se ignoran en esta lista para mayor visibilidad. En esta lista solo están presentes los objetos eliminados del juego debido a negligencia y no a un gigantesco dragón que escupe fuego.\n\nA los desarrolladores de Blizzard: arreglen los objetos y encuentros que se enumeran a continuación.",
 	[-613] = "Arboleda de la Pesadilla se encuentra cerca de los portales al Sueño Esmeralda.",
-	[-632] = "Esta temporada trae un límite de nivel inicial de 25 y un nuevo final de nivel 25, que incluye una incursión de 10 jugadores en Blackfathom Deeps con nuevas mecánicas, jefes nuevos y reinventados para desafiar las tácticas y estrategias de los jugadores, y nuevas recompensas.",
-	[-639] = "El grabado es un nuevo sistema anunciado recientemente para Season of Discovery. ¡Permite que cada clase adapte su experiencia de juego desbloqueando nuevas habilidades únicas!",
-	[-645] = "Los objetos de misión de Suministros Waylaid caen de mobs de nivel 6 y, sobre todo, en Azeroth. Estas misiones requieren la entrega de suministros Waylaid a un representante de la organización a cambio de algo de plata, experiencia y reputación. Por supuesto, faltan elementos en el envío de suministros y puedes complementarlos para obtener mayores recompensas de reputación.",
+	[-632] = "Esta temporada trae un límite de nivel inicial de 25 y un nuevo final de nivel 25, que incluye una banda de 10 jugadores en Cavernas de Brazanegra con nuevas mecánicas, jefes nuevos y reinventados para desafiar las tácticas y estrategias de los jugadores, y nuevas recompensas.",
+	[-639] = "El Grabado de Runas es un nuevo sistema de clases para la Temporada de Descubrimiento. Permite a cada clase personalizar su experiencia de juego desbloqueando nuevas habilidades únicas.",
+	[-641] = "A partir del nivel 50, los paladines pueden completar una cadena de misiones en las Tierras de la Peste del Oeste que les otorgará una reliquia que invoca a su propio escudero. Este escudero puede subir de nivel luchando en combate y curándose con los hechizos del paladín. (Entra en combate y simplemente usa Destello de Luz de rango 1 mientras ataca a los enemigos).",
+	[-642] = "Después de recibir a tu escudero, invócalo usando la Reliquia y luego súbelo de nivel entrando en combate y manteniéndolo con vida.",
+	[-645] = "Los objetos de misión de Suministros saqueados caen de criaturas de nivel 6 o superior en todo Azeroth. Estas misiones requieren la entrega de Suministros saqueados a un representante de organización a cambio de algo de plata, experiencia y reputación. Por supuesto, faltan elementos en el envío de suministros y puedes complementarlos para obtener mayores recompensas de reputación.",
 	[-688] = "Este es un evento JcJ todos contra todos que se lleva a cabo en la Vega de Tuercespina durante 30 minutos, una vez cada 3 horas, a partir de la medianoche (hora del servidor).\n\nMata jugadores para recibir la mejora acumulable Sangre para el Loa de Sangre. Esta se acumula hasta 255 veces.\nRecibes 5 acumulaciones de Sangre por cada muerte.\nPuedes perder Sangre al morir.\nViaja a los altares de sangre |cffffffff(bandera roja en el mapa)|r para intercambiar acumulaciones de Sangre para el Loa de Sangre por Monedas de Sangre de Cobre, Plata y Oro. Simplemente acércate al altar y las monedas aparecerán automáticamente en tu inventario.\n\nPuedes optar por no participar en el evento hablando con un Emisario Zandalariano.",
 });
 localize(L.HEADER_LORE, {
@@ -29292,17 +29332,25 @@ localize(_.CategoryNames, {
 localize(L.HEADER_NAMES, {
 	[-19] = "Botín compartido entre los jefes",
 	[-36] = "Fiestas",
+	[-59] = "Maestro de armas",
 	[-63] = "Botín de la zona",
 	[-74] = "Dragones de pesadilla",
 	[-103] = "Evento de pre-expansion",
+	[-367] = "Defensores de Atal'ai",
 	[-613] = "Arboleda de las Pesadillas",
 	[-615] = "Ópera de imprecación",
+	[-632] = "Temporada de descubrimiento",
 	[-638] = "Incursiones de pesadilla",
+	[-640] = "Negociante de almas",
+	[-645] = "Suministros faltantes",
 	[-688] = "Luna de sangre",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-25] = "Los brujos pueden enseñar nuevos trucos a sus demonios. Algunos grimorios de nivel superior solo se pueden comprar al Instructor de Demonios en las capitales de tu facción.",
 	[-44] = "Esta sección solo mostrará las profesiones de tu personaje actual fuera del modo Cuenta y Debug.",
+	[-59] = "Un maestro de armas es un PNJ que ofrece a los personajes la oportunidad de aprender habilidades específicas con armas, cuya disponibilidad varía de un maestro de armas a otro. Todas las habilidades con armas se pueden entrenar en el nivel 1, excepto las armas de asta que requieren el nivel 20.\n\nEl entrenamiento con un maestro de armas quedó obsoleto en el parche 4.0.1, ya que cada clase ahora aprende todas las competencias de armas apropiadas para la clase en el momento de la creación. Los maestros de armas se eliminaron del juego poco después.",
 	[-613] = "Arboleda de las Pesadillas se encuentra cerca de los portales al Sueño Esmeralda.",
+	[-645] = "Los objetos de misión de Suministros faltantes caen de criaturas de nivel 6 o superior en todo Azeroth. Estas misiones requieren la entrega de Suministros faltantes a un representante de organización a cambio de algo de plata, experiencia y reputación. Por supuesto, faltan elementos en el envío de suministros y puedes complementarlos para obtener mayores recompensas de reputación.",
 	[-688] = "Este es un evento JcJ todos contra todos que se lleva a cabo en la Vega de Tuercespina durante 30 minutos, una vez cada 3 horas, a partir de la medianoche (hora del servidor).\n\nMata jugadores para recibir la mejora acumulable Sangre para el Loa de Sangre. Esta se acumula hasta 255 veces.\nRecibes 5 acumulaciones de Sangre por cada muerte.\nPuedes perder Sangre al morir.\nViaja a los altares de sangre |cffffffff(bandera roja en el mapa)|r para intercambiar acumulaciones de Sangre para el Loa de Sangre por Monedas de Sangre de Cobre, Plata y Oro. Simplemente acércate al altar y las monedas aparecerán automáticamente en tu inventario.\n\nPuedes optar por no participar en el evento hablando con un Emisario Zandalar.",
 });
 for key,value in pairs({
@@ -30620,6 +30668,8 @@ L.DEATHS_CHECKBOX_TOOLTIP = "启用此选项可跟踪您的角色每次死亡的
 L.DEBUG_LOGIN = "登录后获得的奖励。\n\n干得好！你做到了！\n\n仅在调试模式下可见。";
 L.DEBUG_MODE = "|c" .. _.DefaultColors.Red .. "调试模式|cffffffff（显示所有）|r|r";
 L.DEBUG_MODE_TOOLTIP = "就字面意思…游戏中的所有事情。时间。点滴。是的，所有的一切。即使是不可收藏的事物，如袋子、消耗品、试剂等也会出现在列表中。（甚至你自己！不，是真的。看。）\n\n这仅用于调试目的。不用于完成追踪。\n\n此模式绕过所有过滤，包括不可获得的。";
+L.DECOR_CHECKBOX_TOOLTIP = "启用此选项以跟踪战团装饰完成情况。";
+L.DECOR_ID = "装饰 ID";
 L.DELETE_CHARACTER = "右击删除此角色";
 L.DELETE_LINKED_ACCOUNT = "右击删除此链接帐号";
 L.DELETE_LINKED_CHARACTER = "右击删除此链接角色";
@@ -31241,8 +31291,14 @@ localize(L.HEADER_NAMES, {
 	[-59] = "武器大师",
 	[-61] = "世界首领",
 	[-63] = "地区掉落",
+	[-69] = "安其拉神殿困难模式",
 	[-74] = "梦魇之龙",
+	[-97] = "圣物",
 	[-103] = "资料片前夕",
+	[-229] = "来源 ID",
+	[-232] = "补丁 1.x.x",
+	[-243] = "护甲附魔",
+	[-245] = "武器附魔",
 	[-298] = HONOR .. PAPERDOLL_SIDEBAR_TITLES,
 	[-316] = "魁梧斗殴",
 	[-317] = "野生多晶型物",
@@ -31259,6 +31315,8 @@ localize(L.HEADER_NAMES, {
 	[-362] = "图书馆",
 	[-363] = "武器库",
 	[-364] = "修道院",
+	[-365] = "正门",
+	[-366] = "后门",
 	[-367] = "阿塔莱防御者",
 	[-481] = "安其拉之战捐献",
 	[-483] = "流沙节杖",
@@ -31276,6 +31334,7 @@ localize(L.HEADER_NAMES, {
 	[-586] = "时令鱼类：夏季鲈鱼",
 	[-587] = "时令鱼类：冬鱿鱼",
 	[-588] = "荆棘谷钓鱼大赛",
+	[-611] = "安其拉三宝",
 	[-613] = "梦魇林地",
 	[-614] = "学徒",
 	[-615] = "邪咒歌剧",
@@ -31295,13 +31354,16 @@ localize(L.HEADER_NAMES, {
 	[-638] = "梦魇进犯",
 	[-639] = "铭刻",
 	[-640] = "灵魂掮客",
-	[-645] = "被伏击的货物",
+	[-645] = "遭劫货物",
 	[-646] = "制造",
 	[-647] = "采集",
 	[-688] = "鲜血之月",
+	[-697] = "祖尔格拉布哈卡困难模式",
 });
 localize(L.HEADER_DESCRIPTIONS, {
+	[-25] = "术士可以教导他们的恶魔新技能，一些高等级的魔典只能从你阵营首都的恶魔训练师那里购买。",
 	[-36] = "你可能需要在特定的节日活动中才能完成本节中的事物。",
+	[-43] = "宠物对战相关任务和驯练师。",
 	[-44] = "此部分只会显示你当前角色的专业技能，除非处于账号模式或调试模式。",
 	[-47] = "包含有奖励或可从包含部分中的其他内容获得的事物。\n在此处合并以减少来自许多可能重复来源。",
 	[-59] = "武器大师是一个 NPC，为角色提供学习特定武器技能的机会，不同武器大师的可用性各不相同。所有武器技能都可以在 1 级进行训练，长柄武器除外，需要 20 级。\n\n在补丁 4.0.1 中，武器大师的训练已经过时，因为现在每个职业在创建时都会学习所有适合该职业的武器熟练度。不久之后，武器大师就被从游戏中删除了。",
@@ -31310,10 +31372,18 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-341] = "此列表中的物品是以下物品的共享外观。在唯一外观模式下，此列表可帮助了解特定物品被标记为已收藏的原因。",
 	[-342] = "此列表中的物品是独特外观。你必须专门收藏这个物品以获得外观。",
 	[-343] = "此列表包含 ATT Discord 报告的无法获取的物品，这些物品是暴雪尚未修复的错误。\n\n注意：在此列表中忽略所有过滤器以获得可见性。此列表中仅显示因疏忽而从游戏中移除的物品。\n\n致暴雪开发者：请修复下面列出的物品和事件。",
+	[-355] = "该副本的此部分可从最东侧的入口进入。（右侧）",
+	[-356] = "该副本的此部分可从最北侧的入口进入。",
+	[-357] = "该副本的此部分可从最西侧的入口进入。（左侧）",
 	[-613] = "梦魇林地可在通往翡翠梦境的传送门附近找到。",
 	[-632] = "本赛季带来了 25 级的初始等级上限和新的 25 级终局游戏，包括 10 名玩家的 Blackfathom Deeps 突袭，其中包含新的机制、新的和重新设计的 Boss 来挑战玩家的战术和策略，以及新鲜的奖励。",
 	[-639] = "铭刻是最近在发现季节宣布的一个新系统。它允许每个职业通过解锁新的独特能力来定制他们的游戏体验！",
-	[-645] = "'被伏击的货物'任务物品从艾泽拉斯 6 级及以上的小怪中掉落。这些任务要求将'被伏击的货物'交付给组织代表，以换取一些银币、经验和声望。当然，货物中也有缺少的物品，你可以补充以获得更大的声望奖励。",
+	[-645] = "'遭劫货物'任务物品从艾泽拉斯 6 级及以上的小怪中掉落。这些任务要求将'遭劫货物'交付给组织代表，以换取一些银币、经验和声望。当然，货物中也有缺少的物品，你可以补充以获得更大的声望奖励。",
+	[-688] = "这是一个在荆棘谷举行的自由对战 PvP 活动，每3小时从服务器时间午夜开始持续30分钟。\n\n击杀玩家以获得可叠加的鲜血之月增益效果——献给血之洛阿的鲜血。该效果最多可叠加255次。\n每次击杀可获得5层鲜血。\n死亡会失去鲜血。\n前往鲜血祭坛 |cffffffff（地图上的红色旗帜）|r，将献给血之洛阿的鲜血兑换为铜质鲜血硬币、银质鲜血硬币和金质鲜血硬币。只需走到祭坛旁，硬币就会自动出现在你的背包中。\n\n你可以通过与赞达拉使者交谈来选择退出该活动。",
+});
+localize(L.HEADER_LORE, {
+	[-74] = "这些龙中的一只会在艾泽拉斯的相关坐标随机生成。",
+	[-318] = "地下城套装的第2套职业套装，通常称为T0.5，是通过完成一条漫长的任务链来获得的，该任务链将作为终极地下城掉落的第一个套装升级为更强大的版本。在当前的魔兽世界中，这些套装受到收藏家的追捧，因为随着大灾变，这条任务链已被完全从游戏中移除。在魔兽世界经典版中，你应该在所有角色上完成这条任务链！",
 });
 localize(L.FILTER_ID_TYPES, {
 	[11] = "神器",
@@ -33628,7 +33698,7 @@ L.DYNAMIC_CATEGORY_TOOLTIP_NOTE = "\n\n|cffff0000生成時套用|r";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX = "啟用指標提示";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX_TOOLTIP = "如果希望在指標提示中查看 ATT 提供的資訊，請啟用此選項。這包括其他玩家發送的物品連接，在拍賣行、在地城助手、在你的背包裡、在世界、在 NPC 等等。\n\n如果你關閉了這個功能，就會嚴重降低你快速判斷是否需要擊殺首領或學習外觀的能力。\n\n我們建議你保持此設定。";
 L.ENCOUNTER_ID = "首領戰鬥 ID";
-L.EVENT_ACTIVE = "啟動:";
+L.EVENT_ACTIVE = "啟用:";
 L.EVENT_END = "結束:";
 L.EVENT_SCHEDULE = "事件時程表";
 L.EVENT_START = "開始:";
@@ -33718,6 +33788,7 @@ L.IGNORE_FILTERS_FOR_BOES_CHECKBOX_TOOLTIP = "如果要忽略裝備綁定/拾取
 L.ILLUSIONS_CHECKBOX_TOOLTIP = "啟用此選項以追蹤幻象。\n\n這些看起來很酷的塑形效果，你可以套用到你的武器上！\n\n注意：你不是一個幻象，儘管所有的夜裔精靈都這麼認為。";
 L.INCLUDE_ORIGINAL_CHECKBOX = "原始來源";
 L.INCLUDE_ORIGINAL_CHECKBOX_TOOLTIP = "如果你真的喜歡在指標提示中的共享外觀列表中看到原始來源資訊，請啟用此選項。";
+L.INFORMATION_PAGE = "資訊";
 L.INSTANCE_DESC = "點擊此按鈕可依據缺少的內容選擇隨機副本。";
 L.ITEM_DESC = "點擊此按鈕可依據缺少的內容選擇隨機物品。";
 L.ITEM_EXPLAIN_LABEL = "|cffFFFFFF始終顯示此內容如果位於 |c" .. _.DefaultColors.Account .. "帳號模式|r。|r";
@@ -33733,6 +33804,7 @@ L.ITEM_ID_ADDED_SHARED_MISSING = "%s (%d) [+%d] 已加入收藏。在資料庫�
 L.ITEM_ID_REMOVED = "%s (%d) 已從收藏中移除。";
 L.ITEM_ID_REMOVED_SHARED = "%s (%d) [+%d] 已從收藏中移除。";
 L.ITEM_LEVEL = "物品等級";
+L.ITEM_STRING = "物品字串";
 L.KEYBINDINGS_TEXT = "可以在遊戲選項中設定 ATT 的按鍵綁定。";
 L.KNOWN_BY_CHECKBOX_TOOLTIP = "如果你想在指標提示中查看所有伺服器上已知此配方的完整角色列表，請啟用此選項。";
 L.LAYER = "相位";
@@ -33785,6 +33857,7 @@ L.MINIMAP_SLIDER = "小地圖按鈕尺寸";
 L.MINIMAP_SLIDER_TOOLTIP = "使用此選項可自訂小地圖按鈕的大小。\n\n預設：36";
 L.MINUMUM_STANDING_WITH_FACTION = "最低陣營聲望等級 %s 和 %s。";
 L.MISSION_ID = "任務 ID";
+L.MOD_ID = "模組 ID";
 L.MODE_EXPLAIN_LABEL = "|cffFFFFFF您收藏的內容總結在這裡。啟用所有 |c" .. _.DefaultColors.Insane .. "彩色選項|r 解鎖 |c" .. _.DefaultColors.Insane .. "瘋狂模式|r。|r";
 L.MODULES = "模組";
 L.MODULES_LABEL = "模組和小列表";
@@ -33805,7 +33878,7 @@ L.NESTED_QUEST_REQUIREMENTS = "多重任務需要";
 L.NEVER_IMPLEMENTED = "從未實裝";
 L.NEVER_IMPLEMENTED_DESC = "這裡的物品在技術上存在於遊戲內，但從未向玩家開放過";
 L.NEW_VERSION_AVAILABLE = "%s 已有更新的版本。請更新插件 %s。";
-L.NEW_VERSION_FLAVORS = {"因為萬物都飢餓。","無敵下次|cffffaaaa|肯定|r會掉落"};
+L.NEW_VERSION_FLAVORS = {"因為 AllTheThings 餓了。","下次|cffffaaaa一定|r會掉落無敵！","否則今晚會有魚人在你窗外尖叫","因為所謂的收藏不過是換個說法的囤積癖。","而 Crieve 會幫一隻烏龜重新入水。","否則你的戰鬥寵物要成立工會了。"};
 L.NEW_WITH_PATCH = "最新加入內容";
 L.NEW_WITH_PATCH_TOOLTIP = "這會顯示遊戲最新更新中加入的所有內容。";
 L.NO_COORDINATES_FORMAT = "%s 沒有已知座標";
@@ -33815,6 +33888,7 @@ L.NO_LINKED_ACCOUNTS = "未找到連接帳號。";
 L.NO_SEARCH_METHOD = "未指定搜尋方法。";
 L.NOT_AVAILABLE_IN_PL = "在個人拾取中不可用。";
 L.NOTHING_TO_SELECT_FROM = "沒有什麼可以隨意選擇的。如果在“設定”中啟用了“臨時更新”，則必須在使用此視窗之前更新主列表（/att）。";
+L.OBJECT = "物體";
 L.OBJECT_TYPE = "目標類型";
 L.OBJECTIVES = "目標";
 L.ONLY_NOT_TRASH = "排除垃圾物品";
@@ -33836,6 +33910,7 @@ L.PERCENTAGES_CHECKBOX = "顯示完成百分比";
 L.PERCENTAGES_CHECKBOX_TOOLTIP = "如果想查看每行的完成百分比請啟用此選項。\n\n按完成度對組進行著色不受影響。";
 L.PERSONAL_LOOT_DESC = "每位玩家都有獨立的機會拾取對自己職業有用的物品…\n\n…或者像戒指這樣的無用之物。\n\n如果是自己一個人的話，點擊兩次就會自動創建一個隊伍。";
 L.PET_DESC = "點擊此按鈕可依據缺少的內容選擇隨機寵物。";
+L.PHASES_PAGE = "階段";
 L.PLAY_DEATH_SOUND_CHECKBOX = "死亡時播放音效";
 L.PLAY_DEATH_SOUND_CHECKBOX_TOOLTIP = "如果你想在死亡時聽到音效，請啟用此選項。";
 L.PLAYER_COORDINATES = "玩家座標";
@@ -33848,6 +33923,7 @@ L.PLAYER_TITLE_THE_COMPLETIONIST = "|c" .. _.DefaultColors.Raid .. "%s 完美主
 L.PLAYER_TITLE_THE_EXTERMINATOR = "|cffa335ee%s消滅者|r";
 L.PLAYER_TITLE_THE_HUGGLER = "|cffF58CBA擁抱者%s|r";
 L.PLEASE_REPORT_MESSAGE = "請把錯誤回報給 ATT Discord 的 #classic-errors！謝謝！";
+L.POPOUT = "彈出列表";
 L.PRECISION_SLIDER = "百分比精確度";
 L.PRECISION_SLIDER_TOOLTIP = "使用此選項可自訂百分比計算中所需的精度級別。\n\n預設：2";
 L.PREREQUISITE_QUESTS = "必須先完成一些前置任務才有可能獲得：";
@@ -33882,6 +33958,7 @@ L.QUEST_DESC = "點擊此按鈕可依據缺少的內容選擇隨機任務。";
 L.QUEST_GIVER = "任務給予者";
 L.QUEST_GIVERS = "任務給予者";
 L.QUEST_ID = "任務 ID";
+L.QUEST_ITEMS = "任務物品";
 L.QUEST_LOOP = "可能剛剛從無限源任務循環中爆發出來。";
 L.QUEST_MAY_BE_REMOVED = "擷取任務資訊失敗。這個任務可能已從遊戲中移除。";
 L.QUEST_OBJECTIVE_INVALID = "無效的任務目標";
@@ -33909,6 +33986,7 @@ L.REMOTE_ZONES_DESCRIPTION = "包含在當前區域可取得，但來源直接�
 L.REMOVED_WITH_PATCH = "隨更新移除";
 L.REMOVED_WITH_PATCH_CLASSIC_FORMAT = "該物品是隨更新 %s 移除的";
 L.REMOVED_WITH_PATCH_FORMAT = "更新 %s 中被刪除";
+L.REPEATABLES_LABEL = "可重複";
 L.REPORT_COLLECTED_THINGS_CHECKBOX = "回報已收藏事物";
 L.REPORT_COLLECTED_THINGS_CHECKBOX_TOOLTIP = "如果想在聊天中看到一條訊息，詳細說明收藏了哪些物品或從收藏中刪除了哪些物品，請啟用此選項。\n\n注意：這是因為暴雪默默的加入了外觀和其他收藏品並且忽略了通知你可用的其他物品。\n\n我們建議你保持此設定。如果你打開了這個選項，你會聽到警告聲。";
 L.REPORT_COMPLETED_QUESTS_CHECKBOX = "回報任務";
@@ -34018,6 +34096,7 @@ L.STORE_IN_PROFILE_BUTTON_TOOLTIP = "預設情況下，ATT 會依角色儲存這
 L.SUMMARIZE_CHECKBOX = "總結事物";
 L.SUMMARIZE_CHECKBOX_TOOLTIP = "啟用該選項可在指標提示中總結事物。例如，如果一個事物可以變成另一個事物的商人，那麼在指標提示中顯示另一個事物，以提供其多種用途的可見性。如果一個事物作為許多其他事物的容器，這個選項將顯示該容器所包含的所有其他事物。\n\n我們建議你保持此設定開啟。";
 L.SYM_ROW_INFORMATION = "點擊右鍵以查看來自其他位置的其它內容";
+L.SYMLINK = "符號連結";
 L.SYNC_CHARACTERS_TOOLTIP = "這會顯示您帳號中的所有角色。";
 L.TELEPORT_TO_FROM_DUNGEON = "傳送至/出地城";
 L.TELEPORT_TO_FROM_DUNGEON_DESC = "點擊此處傳送到當前地城或從當前地城傳送出去。\n\n潘達利亞之謎可以這種方式快速傳送到當前副本之外。";
@@ -34120,11 +34199,17 @@ localize(L.HEADER_NAMES, {
 	[-63] = "地區掉落",
 	[-74] = "夢魘之龍",
 	[-103] = "資料片前夕",
+	[-243] = "護甲附魔",
 	[-318] = "T0.5套裝",
 	[-341] = "共享外觀",
 	[-342] = "獨特外觀",
 	[-350] = "四騎士",
 	[-355] = DUNGEON_FLOOR_DIREMAUL5.." (東)",
+	[-362] = "圖書館",
+	[-363] = "武器庫",
+	[-365] = "主門",
+	[-366] = "僕從入口",
+	[-367] = "阿塔萊防衛者",
 	[-481] = "安其拉之戰捐獻",
 	[-483] = "流沙節杖",
 	[-520] = "暴雪嘉年華",
@@ -34140,6 +34225,7 @@ localize(L.HEADER_NAMES, {
 	[-586] = "季節性魚類：夏日鱸魚",
 	[-587] = "季節性魚類：冬魷魚",
 	[-588] = "荊棘谷釣魚大賽",
+	[-611] = "異種蠍皇族",
 	[-613] = "夢魘林地",
 	[-614] = "(初級)學徒",
 	[-615] = "詛咒歌劇",
@@ -34152,7 +34238,7 @@ localize(L.HEADER_NAMES, {
 	[-638] = "夢魘入侵",
 	[-639] = "紋刻",
 	[-640] = "靈魂仲介者",
-	[-645] = "遭攔截的貨物",
+	[-645] = "遭攔截的物資",
 	[-646] = "製作",
 	[-647] = "採集",
 	[-688] = "血月",
@@ -34160,6 +34246,8 @@ localize(L.HEADER_NAMES, {
 localize(L.HEADER_DESCRIPTIONS, {
 	[-25] = "術士可以教導他們的惡魔新技能，一些高等級的魔典只能從你陣營首都的惡魔訓練師那裡購買。",
 	[-36] = "你可能需要在特定節日的活動中才能完成本節中的事物。",
+	[-43] = "這個區塊包含與寵物對戰相關的任務與訓練師。",
+	[-44] = "這個區塊只會顯示你目前角色的專業技能，除非處於帳號或是除錯模式",
 	[-59] = "武器大師是一個 NPC，為角色提供學習特定武器技能的機會，不同武器大師的可用性各不相同。所有武器技能都可以在 1 级進行訓練，長柄武器除外，需要 20 级。\n\n在更新 4.0.1 中，武器大師的訓練已经過時，因為现在每個職業在創建时都會學習所有適合該職業的武器熟練度。不久之後，武器大師就被從遊戲中删除了。",
 	[-355] = "副本的這部分可以從最東邊的傳送門進入。（右側）",
 	[-356] = "副本的這部分可以從最北邊的傳送門進入。",
@@ -34167,7 +34255,7 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-613] = "夢魘林地可在通往翡翠夢境的傳送門附近找到。",
 	[-632] = "這個賽季起初將會有 25 級的上限，還會帶來全新的 25 級終局內容，包括帶有全新機制的 10 人玩家黑澗深淵副本、全新設計的首領來挑戰玩家的戰術實力，同時還會給予新獎勵。",
 	[-639] = "紋刻是最近在探索賽季實現的一個新系統，它允許每個職業通過解鎖新的獨特能力來自訂他們的遊戲體驗！",
-	[-645] = "'遭攔截的貨物'任務物品會從艾澤拉斯各地6級及以上的怪物掉落。這些任務要求將'遭攔截的貨物'交付給某個組織的代表，以換取少量銀幣、經驗值和聲望。當然，物資運送中有一些物品遺失，你可以補充這些物品以獲得更多的聲望獎勵。",
+	[-645] = "'遭攔截的物資'任務物品會從艾澤拉斯各地6級及以上的怪物掉落。這些任務要求將'遭攔截的物資'交付給某個組織的代表，以換取少量銀幣、經驗值和聲望。當然，物資運送中有一些物品遺失，你可以補充這些物品以獲得更多的聲望獎勵。",
 });
 localize(L.HEADER_LORE, {
 	[-74] = "這些龍中的一隻會在艾澤拉斯的相關座標隨機生成。",

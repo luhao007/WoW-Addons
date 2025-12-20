@@ -233,11 +233,11 @@ local SourceLocationSettingsKey = setmetatable({
 local UnobtainableTexture = " |T"..L.UNOBTAINABLE_ITEM_TEXTURES[1]..":0|t"
 local NotCurrentCharacterTexture = " |T"..L.UNOBTAINABLE_ITEM_TEXTURES[0]..":0|t"
 local RETRIEVING_DATA = RETRIEVING_DATA
-local SummarizeShowForActiveRowKeys
 local function AddContainsData(group, tooltipInfo)
 	local key = group.key
+	local thingCheck = app.ThingKeys[key]
 	-- only show Contains on Things
-	if not app.ThingKeys[key] or (app.ActiveRowReference and not SummarizeShowForActiveRowKeys[key]) then return end
+	if not thingCheck or (app.ActiveRowReference and thingCheck ~= true) then return end
 
 	local working = group.working
 	-- Sort by the heirarchy of the group if not the raw group of an ATT list
@@ -402,13 +402,6 @@ local function AddContainsData(group, tooltipInfo)
 	return working
 end
 app.AddEventHandler("OnLoad", function()
-	SummarizeShowForActiveRowKeys = app.CloneDictionary(app.ThingKeys, {
-		-- Specific keys which we don't want to list Contains data on row reference tooltips but are considered Things
-		npcID = false,
-		creatureID = false,
-		encounterID = false,
-		explorationID = false,
-	})
 	app.Settings.CreateInformationType("SummarizeThings", {
 		text = "SummarizeThings",
 		priority = 2.9, HideCheckBox = true,
@@ -920,7 +913,7 @@ local function GetSearchResults(method, paramA, paramB, options)
 		group.g = nil;
 	end
 
-	app.TopLevelUpdateGroup(group);
+	app.TopLevelUpdateGroup(group, true);
 
 	group.isBaseSearchResult = true;
 
@@ -951,9 +944,7 @@ app.ThingKeys = {
 	-- professionID = true,
 	-- categoryID = true,
 	-- mapID = true,
-	npcID = true,
 	conduitID = true,
-	creatureID = true,
 	currencyID = true,
 	itemID = true,
 	toyID = true,
@@ -968,16 +959,21 @@ app.ThingKeys = {
 	illusionID = true,
 	questID = true,
 	objectID = true,
-	encounterID = true,
 	artifactID = true,
 	azeriteessenceID = true,
 	followerID = true,
 	factionID = true,
-	explorationID = true,
 	titleID = true,
 	campsiteID = true,
+	decorID = true,
+	garrisonbuildingID = true,
 	achievementID = true,	-- special handling
 	criteriaID = true,	-- special handling
+	-- 1 - Specific keys which we don't want to list Contains data on row reference tooltips but are considered Things
+	npcID = 1,
+	creatureID = 1,
+	encounterID = 1,
+	explorationID = 1,
 };
 local SpecificSources = {
 	headerID = {
@@ -1001,6 +997,20 @@ local function GetThingSources(field, value)
 	-- ignore extra return vals
 	local results = app.SearchForLink(field..":"..value)
 	return results
+end
+-- TODO: probably have parser generate CraftedItemDB for simpler use
+local function GetCraftingOutputRecipes(thing)
+	local recipeIDs
+	local itemID = thing.itemID
+	for reagent,recipes in pairs(app.ReagentsDB) do
+		for recipeID,info in pairs(recipes) do
+			if info[1] == itemID then
+				if recipeIDs then recipeIDs[#recipeIDs + 1] = recipeID
+				else recipeIDs = { recipeID } end
+			end
+		end
+	end
+	return recipeIDs
 end
 
 -- Builds a 'Source' group from the parent of the group (or other listings of this group) and lists it under the group itself for
@@ -1071,6 +1081,7 @@ local function BuildSourceParent(group)
 								NestObject(parent, thing, true)
 							end
 							break
+						-- or a map
 						elseif parent.mapID then
 							parent = app.CreateVisualHeaderWithGroups(CreateObject(parent, true))
 							parents[#parents + 1] = parent
@@ -1079,13 +1090,20 @@ local function BuildSourceParent(group)
 								NestObject(parent, thing, true)
 							end
 							break
+						-- or a header with tagged NCPs
+						elseif parent.headerID and parent.crs then
+							local npcs = parent.crs
+							for i=1,#npcs do
+								parents[#parents + 1] = CreateObject(SearchForObject("npcID", npcs[i], "field") or {["npcID"] = npcs[i]}, true)
+							end
+							break
 						end
 					end
 					-- move to the next parent if the current parent is not a valid 'Thing'
 					parent = parent.parent;
 				end
 				-- Things tagged with an npcID should show that NPC as a Source
-				if thing.key ~= "npcID" and thing.npcID then
+				if thing.key ~= "npcID" and thing.npcID and thing.hash ~= group.hash then
 					local parentNPC = CreateObject(SearchForObject("npcID", thing.npcID, "field") or {["npcID"] = thing.npcID}, true)
 					parents[#parents + 1] = parentNPC
 					-- achievement criteria can nest inside their Source for clarity
@@ -1144,6 +1162,23 @@ local function BuildSourceParent(group)
 						else
 							pRef = app.CreateNPC(id);
 							parents[#parents + 1] = pRef
+						end
+					end
+				end
+				-- Things which are a Item output of one or more Crafting Recipes should show those Recipes as a Source
+				if thing.itemID then
+					local recipes = GetCraftingOutputRecipes(thing)
+					if recipes then
+						for _,recipeID in ipairs(recipes) do
+							local pRef = SearchForObject("recipeID", recipeID, "field");
+							if pRef then
+								pRef = CreateObject(pRef, true);
+								parents[#parents + 1] = pRef
+							else
+								pRef = app.CreateRecipe(recipeID);
+								parents[#parents + 1] = pRef
+							end
+							pRef.OnUpdate = app.AlwaysShowUpdate
 						end
 					end
 				end
@@ -1658,10 +1693,8 @@ function app:GetDataCache()
 
 	-- World Drops
 	if app.Categories.WorldDrops then
-		db = app.CreateRawText(TRANSMOG_SOURCE_4);
-		db.g = app.Categories.WorldDrops;
+		db = app.CreateCustomHeader(app.HeaderConstants.WORLD_DROPS, app.Categories.WorldDrops)
 		db.isWorldDropCategory = true;
-		db.icon = app.asset("Category_WorldDrops");
 		tinsert(g, db);
 	end
 
@@ -1897,6 +1930,12 @@ function app:GetDataCache()
 				dynamic_withsubgroups = true,
 				name = CURRENCY,
 				icon = app.asset("Interface_Vendor")
+			}),
+
+			-- Decor
+			app.CreateDynamicHeader("decorID", {
+				name = CATALOG_SHOP_TYPE_DECOR,
+				icon = app.asset("Category_Housing")
 			}),
 
 			-- Factions
@@ -2560,11 +2599,21 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 		local function CreateHeaderData(group, header)
 			-- copy an uncollectible version of the existing header
 			if header then
+				-- special case for Difficulty headers, need to be actual difficulty groups to merge properly with any existing
+				if header.difficultyID then
+					header = CreateObject(header, true)
+					header.g = { group }
+					return header
+				end
+				-- special case for Map auto-headers, ignore re-nesting a Map header of the current Map
+				if header.type == "m" and header.keyval == self.mapID then
+					return group
+				end
 				header = CreateWrapVisualHeader(header, {group})
-				header.SortType = "name"
+				header.SortType = "Global"
 				return header
 			else
-				return { g = { group }, ["collectible"] = false, SortType = "name" };
+				return { g = { group }, ["collectible"] = false, SortType = "Global" };
 			end
 		end
 		-- set of keys for headers which can be nested in the minilist automatically, but not confined to a direct top header
@@ -2769,6 +2818,7 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 					group = mapGroups[i]
 					-- app.PrintDebug("Mapping:",app:SearchLink(group))
 					nested = nil;
+					difficultyGroup = nil
 
 					-- Get the header chain for the group
 					nextParent = group.parent;
@@ -2776,6 +2826,7 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 					-- Cache the difficultyGroup, if there is one and we are in an actual instance where the group is being mapped
 					if isInInstance then
 						difficultyGroup = GetRelativeGroup(nextParent, "difficultyID")
+						-- app.PrintDebug("difficultyGroup:",app:SearchLink(difficultyGroup))
 					end
 
 					-- Building the header chain for each mapped Thing
@@ -2814,6 +2865,9 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 						group = CreateHeaderData(group, difficultyGroup);
 						-- remove the name sorttype from the difficulty-based header
 						group.SortType = nil
+						-- link the difficulty group to the current window header so that it assumes its expected hash
+						group.parent = header
+						group.sourceParent = nil
 					end
 
 					-- If we're trying to map in another 'map', nest it into a special group for external maps
@@ -2821,8 +2875,10 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 						externalMaps[#externalMaps + 1] = group
 						group = nil
 					end
-					-- app.PrintDebug("Merge as Mapped:",app:SearchLink(group))
-					MergeObject(groups, group);
+					if group then
+						-- app.PrintDebug("Merge as Mapped:",app:SearchLink(group))
+						MergeObject(groups, group)
+					end
 				end
 
 				-- Nest our external maps into a special header to reduce minilist header spam
@@ -2838,8 +2894,14 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 					local headerGroups = header.g;
 					if #headerGroups == 1 then
 						local topGroup = headerGroups[1]
-						if not topGroup.external then
+						if not topGroup.external
+							-- only shift up certain group types
+							and (topGroup.instanceID or topGroup.classID or topGroup.mapID)
+						then
 							header.g = nil;
+							-- don't persist the parent links since this will now be a minilist root
+							topGroup.parent = nil
+							topGroup.sourceParent = nil
 							MergeProperties(header, topGroup, true);
 							NestObjects(header, topGroup.g);
 						end
@@ -3110,6 +3172,7 @@ customWindowUpdates.NWP = function(self, force)
 				{ id = "characterUnlock", name = CHARACTER .. " " .. UNLOCK .. "s", icon = app.asset("Category_ItemSets") },
 				{ id = "conduitID", name = GetSpellName(348869) .. " (" .. EXPANSION_NAME8 .. ")", icon = 3601566 },
 				{ id = "currencyID", name = CURRENCY, icon = app.asset("Interface_Vendor") },
+				{ id = "decorID", name = CATALOG_SHOP_TYPE_DECOR, icon = app.asset("Category_Housing") },
 				{ id = "explorationID", name = "Exploration", icon = app.asset("Category_Exploration") },
 				{ id = "factionID", name = L.FACTIONS, icon = app.asset("Category_Factions") },
 				{ id = "flightpathID", name = L.FLIGHT_PATHS, icon = app.asset("Category_FlightPaths") },
@@ -3138,7 +3201,7 @@ customWindowUpdates.NWP = function(self, force)
 		end
 		local NWPwindow = {
 			text = L.NEW_WITH_PATCH,
-			icon = app.asset("WindowIcon_RWP"),
+			icon = app.asset("Interface_Newly_Added"),
 			description = L.NEW_WITH_PATCH_TOOLTIP,
 			visible = true,
 			back = 1,
@@ -3166,7 +3229,7 @@ customWindowUpdates.awp = function(self, force)	-- TODO: Change this to remember
 	local BFA = {80001,80100,80105,80200,80205,80300,80307}
 	local SL = {90001,90002,90005,90100,90105,90200,90205,90207}
 	local DF = {100000,100002,100005,100007,100100,100105,100107,100200,100205,100206,100207}
-	local TWW = {110000,110002,110005,110007,110100,110105,110107,110200}
+	local TWW = {110000,110002,110005,110007,110100,110105,110107,110200,110205,110207}
 
 	-- Locals
 	local param = {}
@@ -3301,6 +3364,7 @@ customWindowUpdates.awp = function(self, force)	-- TODO: Change this to remember
 					{ id = "characterUnlock", name = CHARACTER .. " " .. UNLOCK .. "s", icon = app.asset("Category_ItemSets") },
 					{ id = "conduitID", name = GetSpellName(348869) .. " (" .. EXPANSION_NAME8 .. ")", icon = 3601566 },
 					{ id = "currencyID", name = CURRENCY, icon = app.asset("Interface_Vendor") },
+					{ id = "decorID", name = CATALOG_SHOP_TYPE_DECOR, icon = app.asset("Category_Housing") },
 					{ id = "explorationID", name = "Exploration", icon = app.asset("Category_Exploration") },
 					{ id = "factionID", name = L.FACTIONS, icon = app.asset("Category_Factions") },
 					{ id = "flightpathID", name = L.FLIGHT_PATHS, icon = app.asset("Category_FlightPaths") },
@@ -3332,7 +3396,7 @@ customWindowUpdates.awp = function(self, force)	-- TODO: Change this to remember
 		end
 		local AWPwindow = {
 			text = L.ADDED_WITH_PATCH,
-			icon = 135769,
+			icon = app.asset("Interface_Newly_Added"),
 			description = L.ADDED_WITH_PATCH_TOOLTIP,
 			visible = true,
 			back = 1,
@@ -4086,7 +4150,7 @@ customWindowUpdates.RWP = function(self, force)
 		end
 		self.initialized = true;
 		self:SetData(app.CreateRawText(L.FUTURE_UNOBTAINABLE, {
-			["icon"] = app.asset("WindowIcon_RWP"),
+			["icon"] = app.asset("Interface_Future_Unobtainable"),
 			["description"] = L.FUTURE_UNOBTAINABLE_TOOLTIP,
 			["visible"] = true,
 			["back"] = 1,

@@ -13,7 +13,6 @@ local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
 Titan_Global = {}                -- begin the slow journey to a smaller _G footprint
 
 Titan_Global.recent_changes = "" -- Titan_History.lua
-Titan_Global.config_notes = ""   -- Titan_History.lua
 
 Titan_Global.wowversion  = select(4, GetBuildInfo())
 
@@ -69,7 +68,7 @@ TitanPlayerSettings = nil
 TitanPluginSettings = nil; -- Used by plugins
 TitanPanelSettings = nil;
 
-Titan_Global.players = ""
+Titan_Global.players = {}
 
 TITAN_PANEL_UPDATE_BUTTON = 1;
 TITAN_PANEL_UPDATE_TOOLTIP = 2;
@@ -167,6 +166,13 @@ Titan_Global.SKIN = "skin"
 Titan_Global.COLOR = "color"
 Titan_Global.NONE = "none"
 
+-- Profile types
+Titan_Global.profile = {}
+Titan_Global.profile.GLOBAL = "global"
+Titan_Global.profile.SYNC = "sync"
+Titan_Global.profile.TOON = "toon"
+Titan_Global.profile.NONE = "<>"
+
 -- For WoW localized strings / literals we are using
 Titan_Global.literals = {
 	low = LOW,
@@ -176,6 +182,9 @@ Titan_Global.literals = {
 	help = HELP_LABEL,
 	mute = MUTE,
 	muted = MUTED,
+	pvp = PVP,
+	use = USE,
+	note = LABEL_NOTE,
 }
 
 Titan_Global.colors = {

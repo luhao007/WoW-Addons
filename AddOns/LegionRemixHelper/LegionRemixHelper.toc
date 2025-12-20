@@ -1,6 +1,6 @@
-## Interface: 110205
+## Interface: 110207
 ## Author: Rasu | Larsj_02
-## Version: 1.6.3
+## Version: 1.6.4
 
 ## Title: Legion Remix Helper
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF军团再临幻境新生助手|r |cFFFFE00ALegionRemixHelper|r

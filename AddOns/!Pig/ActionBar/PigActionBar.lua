@@ -19,124 +19,10 @@ local RTabFrame=ActionBarfun.RTabFrame
 local fuFrame=ActionBarfun.fuFrame
 local fuFrameBut=ActionBarfun.fuFrameBut
 ------
-local barName, zongshu, anniugeshu, anniujiange="PIG_ActionBar",4,12,6;
-local Showtiaojian = {ALWAYS..SHOW,LEAVING_COMBAT..HIDE,BATTLEFIELD_JOIN..HIDE,SPELL_FAILED_BAD_IMPLICIT_TARGETS..HIDE,};
----排列方式
-local pailieName={"横向","竖向","6×2","2×6","4×3","3×4"};
-local paiNum = #pailieName
-local pailieweizhi={
-	{
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-	},
-	{
-		{"TOP","BOTTOM",0,-anniujiange,1},
-		{"TOP","BOTTOM",0,-anniujiange,1},
-		{"TOP","BOTTOM",0,-anniujiange,1},
-		{"TOP","BOTTOM",0,-anniujiange,1},
-		{"TOP","BOTTOM",0,-anniujiange,1},
-		{"TOP","BOTTOM",0,-anniujiange,1},
-		{"TOP","BOTTOM",0,-anniujiange,1},
-		{"TOP","BOTTOM",0,-anniujiange,1},
-		{"TOP","BOTTOM",0,-anniujiange,1},
-		{"TOP","BOTTOM",0,-anniujiange,1},
-		{"TOP","BOTTOM",0,-anniujiange,1},
-	},
-	{
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,-anniujiange,6},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-	},
-	{
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,-anniujiange,2},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,-anniujiange,2},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,-anniujiange,2},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,-anniujiange,2},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,-anniujiange,2},
-		{"LEFT","RIGHT",anniujiange,0,1},
-	},
-	{
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,-anniujiange,4},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,-anniujiange,4},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-	},
-	{
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,-anniujiange,3},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,-anniujiange,3},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,-anniujiange,3},
-		{"LEFT","RIGHT",anniujiange,0,1},
-		{"LEFT","RIGHT",anniujiange,0,1},
-	},
-};
-local function PailieFun(index,id)
-	for x=1,paiNum do
-		if PIGA_Per["PigAction"]["Pailie"][index] == x then
-			_G[barName..index.."_But"..id]:ClearAllPoints();
-			_G[barName..index.."_But"..id]:SetPoint(pailieweizhi[x][id-1][1],_G[barName..index.."_But"..(id-pailieweizhi[x][id-1][5])],pailieweizhi[x][id-1][2],pailieweizhi[x][id-1][3],pailieweizhi[x][id-1][4])
-		end
-	end
-end
-
-local function ShowHideNumFun(self,CVarV,tuodong)
-	if tuodong then self:SetAnniuNumFun() return end
-	local CVarV = CVarV or GetCVar("alwaysShowActionBars")
-	if CVarV=="0" then
-		if not self.Type then
-			self:Hide()
-		end
-	elseif CVarV=="1" then
-		self:SetAnniuNumFun()
-	end
-end
------------
-local function ShowHideEvent(self,canshuV)
-	if canshuV==1 then
-		RegisterStateDriver(self, "combatYN", "[] show; hide");--一直显示
-	elseif canshuV==2 then
-		RegisterStateDriver(self, "combatYN", "[combat] show; hide");--脱战后隐藏
-	elseif canshuV==3 then
-		RegisterStateDriver(self, "combatYN", "[nocombat] show; hide");--进战斗隐藏
-	elseif canshuV==4 then
-		RegisterStateDriver(self, "combatYN", "[exists] show; hide");--无目标隐藏
-	end
-end
+local barName="PIG_ActionBar"
+local Showtiaojian,pailieName,paiNum,PailieFun,ShowHideNumFun,ShowHideEvent=unpack(ActionBarfun.UIdata)
 ------------
+local zongshu, anniugeshu, anniujiange=4,12,6;
 local Action_plusF,Action_plusTabBut =PIGOptionsList_R(RTabFrame,L["ACTION_TABNAME3"],100)
 for index=1,zongshu do
 	local tishixinx = "PIG"..ACTIONBAR_LABEL.."|cff00FF00"..index.."|r"
@@ -206,7 +92,7 @@ for index=1,zongshu do
 	Checkbut.CZBUT:SetScript("OnClick", function (self)
 		Create.PIG_ResPoint(barName..index)
 	end);
-	Checkbut.PailieT = PIGFontString(Checkbut,{"TOPLEFT",Checkbut,"BOTTOMLEFT",20,-16},"排列方式")
+	Checkbut.PailieT = PIGFontString(Checkbut,{"TOPLEFT",Checkbut,"BOTTOMLEFT",20,-16},"排列")
 	Checkbut.Pailie=PIGDownMenu(Checkbut,{"LEFT",Checkbut.PailieT,"RIGHT",2,0},{80,24})
 	function Checkbut.Pailie:PIGDownMenu_Update_But()
 		local info = {}
@@ -225,7 +111,7 @@ for index=1,zongshu do
 		self:PIGDownMenu_SetText(value)
 		PIGA_Per["PigAction"]["Pailie"][index] = arg1;
 		for id=2,anniugeshu do
-			PailieFun(index,id)
+			PailieFun(barName..index,id,anniujiange,arg1)
 		end
 		PIGCloseDropDownMenus()
 	end
@@ -255,14 +141,14 @@ for index=1,zongshu do
 	Checkbut.suofang_t = PIGFontString(Checkbut,{"LEFT",Checkbut.AnniuNum,"RIGHT",30,-2},"缩放:")
 	local xiayiinfo = {0.6,1.4,0.01,{["Right"]="%"}}
 	Checkbut.suofang = PIGSlider(Checkbut,{"LEFT",Checkbut.suofang_t,"RIGHT",10,0},xiayiinfo)
-	Checkbut.suofang.Slider:HookScript("OnValueChanged", function(self, arg1)
+	function Checkbut.suofang:PIGOnValueChange(arg1)
 		if InCombatLockdown()  then 
 			PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT)
 			return 
 		end
 		PIGA_Per["PigAction"]["Scale"][index]=arg1;
 		_G[barName..index]:SetScale(arg1);
-	end)
+	end
 	PIGLine(Action_plusF,"TOP",-94*index)
 	function Checkbut:ShowOpenFun()
 		self:SetChecked(PIGA_Per["PigAction"]["Open"][index])
@@ -314,282 +200,19 @@ Action_plusF:HookScript("OnShow", function(self)
 		Checkbut:ShowOpenFun()
 	end
 end)
----add------------------
-local PigMacroEventCount =0;
-local PigMacroDeleted = false;
-local PigMacroCount=0
-local ActionFun=addonTable.Fun.ActionFun
-local PIGUseKeyDown=ActionFun.PIGUseKeyDown
-local Update_Attribute=ActionFun.Update_Attribute
-local Update_Icon=ActionFun.Update_Icon
-local Update_Cooldown=ActionFun.Update_Cooldown
-local Update_Count=ActionFun.Update_Count
-local Update_bukeyong=ActionFun.Update_bukeyong
-local Update_State=ActionFun.Update_State
-local Update_PostClick=ActionFun.Update_PostClick
-local loadingButInfo=ActionFun.loadingButInfo
-local Update_OnEnter=ActionFun.Update_OnEnter
-local Cursor_Fun=ActionFun.Cursor_Fun
-local Update_Macro=ActionFun.Update_Macro
-local Update_Equipment=ActionFun.Update_Equipment
-
-local ActionW = ActionButton1:GetWidth()
-local function ADD_ActionBar(index)
-	if not PIGA_Per["PigAction"]["Open"][index] then return end
-	if _G[barName..index] then return end
-	Data.UILayout[barName..index]={"CENTER","CENTER",-200,-200+index*50}
-	local Pig_bar=PIGFrame(UIParent,nil,{0.01,ActionW-4},barName..index)
-	-- Pig_bar:SetAttribute("type", "actionbar");
-	-- Pig_bar:SetAttribute("actionbar", index+100);
-	Create.PIG_SetPoint(barName..index)
-	Pig_bar:SetScale(PIGA_Per["PigAction"]["Scale"][index]);
-	Pig_bar.yidong = PIGFrame(Pig_bar)
-	Pig_bar.yidong:PIGSetBackdrop()
-	Pig_bar.yidong:SetSize(12, ActionW-4)
-	Pig_bar.yidong:SetPoint("LEFT",Pig_bar,"LEFT",0,0);
-	Pig_bar.yidong.title = PIGFontString(Pig_bar.yidong,nil,index,"OUTLINE",12)
-	Pig_bar.yidong.title:SetAllPoints(Pig_bar.yidong)
-	Pig_bar.yidong.title:SetTextColor(1, 1, 0.1, 1)
-	Pig_bar.yidong:PIGSetMovable(Pig_bar,nil,true)
-	Pig_bar.yidong:SetScript("OnEnter", function (self)
-		self:SetBackdropBorderColor(0,0.8,1, 0.9);
-		GameTooltip:ClearLines();
-		GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",0,0);
-		GameTooltip:AddLine(KEY_BUTTON1.."-|cff00FFff"..TUTORIAL_TITLE2.."|r\n"..KEY_BUTTON2.."-|cff00FFff"..SETTINGS.."|r")	
-		GameTooltip:Show();
-	end);
-	Pig_bar.yidong:SetScript("OnLeave", function (self)
-		self:SetBackdropBorderColor(0, 0, 0, 1);
-		GameTooltip:ClearLines();
-		GameTooltip:Hide() 
-	end)
-	if PIGA_Per["PigAction"]["Lock"][index] then Pig_bar.yidong:Hide() end
-	Pig_bar.yidong:SetScript("OnMouseUp", function (self,Button)
-		if Button=="RightButton" then
-			if PIG_OptionsUI:IsShown() then
-				PIG_OptionsUI:Hide()
-			else
-				PIG_OptionsUI:Show()
-				Create.Show_TabBut(fuFrame,fuFrameBut)
-				Create.Show_TabBut_R(RTabFrame,Action_plusF,Action_plusTabBut)
-			end
-		end
-	end)
-	-----
-	for id=1,anniugeshu do
-		--local piganniu = CreateFrame("CheckButton", "$parent_But"..id, Pig_bar, "ActionButtonTemplate",0)
-		local piganniu = CreateFrame("CheckButton", "$parent_But"..id, Pig_bar, "SecureActionButtonTemplate,ActionButtonTemplate,SecureHandlerDragTemplate,SecureHandlerMouseUpDownTemplate,SecureHandlerStateTemplate,SecureHandlerBaseTemplate")
-		piganniu:SetSize(ActionW, ActionW)
-		piganniu.NormalTexture:SetAlpha(0.4);
-		piganniu.cooldown:SetSwipeColor(0, 0, 0, 0.8);
-		piganniu.INDEX=index
-		piganniu.ID=id
-		if id==1 then
-			piganniu:SetPoint("LEFT",Pig_bar.yidong,"RIGHT",2,0)
-		else
-			PailieFun(index,id)
-		end
-		function piganniu:SetAnniuNumFun(max,all)
-			local index=self.INDEX
-			local max=max or PIGA_Per["PigAction"]["AnniuNum"][index]
-			local id=self.ID
-			if id>max then
-				self:Hide()
-				return
-			end
-			self:Show()
-		end
-		piganniu:SetAnniuNumFun()
-		piganniu.BGtex = piganniu:CreateTexture(nil, "BACKGROUND", nil, -1);
-		piganniu.BGtex:SetTexture("Interface/Buttons/UI-Quickslot");
-		piganniu.BGtex:SetAlpha(0.4);
-		piganniu.BGtex:SetPoint("TOPLEFT", -15, 15);
-		piganniu.BGtex:SetPoint("BOTTOMRIGHT", 15, -15);
-		-------------
-	 	-- piganniu:SetAttribute("checkfocuscast", true);--使用系统焦点施法按键
-	 	-- piganniu:SetAttribute("checkselfcast", true);--可以使用自我施法按键
-	 	-- piganniu.flashing = 0;
-	 	-- piganniu.flashtime = 0;
-	 	if index==1 then 
-	 		local ActionID = 500+id
-	 		piganniu.action=ActionID
-			piganniu:SetAttribute("action", ActionID)
-		else
-			local ActionID = 500+(index-1)*12+id
-			piganniu.action=ActionID
-			piganniu:SetAttribute("action", ActionID)
-		end
-		---
-		PIGUseKeyDown(piganniu)
-		loadingButInfo(piganniu,"PigAction")
-		---
-		piganniu:HookScript("PostClick", function(self)
-			Update_PostClick(self)
-		end);
-		--
-		piganniu:HookScript("OnMouseUp", function (self)
-			Cursor_Fun(self,"OnMouseUp","PigAction")
-			Update_Icon(self)
-			Update_Cooldown(self)
-			Update_Count(self)
-			Update_bukeyong(self)
-		end);
-		----
-		piganniu:HookScript("OnDragStart", function (self)
-			if InCombatLockdown() then return end
-			local lockvalue = GetCVar("lockActionBars")
-			if lockvalue=="0" then
-				self:SetAttribute("type", nil)
-				Cursor_Fun(self,"OnDragStart","PigAction")
-				Update_Icon(self)
-				Update_Cooldown(self)
-				Update_Count(self)
-				Update_State(self)
-			elseif lockvalue=="1" then
-				if IsShiftKeyDown() then
-					self:SetAttribute("type", nil)
-					Cursor_Fun(self,"OnDragStart","PigAction")
-					Update_Icon(self)
-					Update_Cooldown(self)
-					Update_Count(self)
-					Update_State(self)
-				end
-			end
-		end)
-		----
-		piganniu:SetAttribute("_onreceivedrag",[=[
-			local leibie, spellID = ...
-			if kind=="spell" then
-				self:SetAttribute("type", kind)
-				self:SetAttribute(kind, spellID)
-			elseif kind=="item" then
-				self:SetAttribute("type", kind)
-				self:SetAttribute(kind, leibie)
-			elseif kind=="macro" then
-				self:SetAttribute("type", kind)
-				self:SetAttribute(kind, value)
-			end
-		]=])
-		piganniu:HookScript("OnReceiveDrag", function (self)
-			Cursor_Fun(self,"OnReceiveDrag","PigAction")
-			Update_Icon(self)
-			Update_Cooldown(self)
-			Update_Count(self)
-			Update_bukeyong(self)
-		end);
-		----
-		piganniu:SetScript("OnEnter", function (self)
-			GameTooltip:ClearLines();
-			GameTooltip_SetDefaultAnchor(GameTooltip, self)
-			Update_OnEnter(self,"PigAction")
-		end)
-		piganniu:SetScript("OnLeave", function ()
-			GameTooltip:ClearLines();
-			GameTooltip:Hide() 
-		end);
-
-		--------------------
-		ShowHideEvent(piganniu,PIGA_Per["PigAction"]["ShowTJ"][index])
-		piganniu:SetAttribute("_onstate-combatYN","if newstate == 'show' then self:Show(); else self:Hide(); end")
-
-		-- piganniu:RegisterEvent("ACTIONBAR_PAGE_CHANGED");
-	 	-- piganniu:RegisterEvent("ACTIONBAR_SLOT_CHANGED");
-		piganniu:RegisterEvent("ACTIONBAR_SHOWGRID");
-		piganniu:RegisterEvent("ACTIONBAR_HIDEGRID");
-		piganniu:RegisterEvent("TRADE_SKILL_CLOSE")
-		if PIG_MaxTocversion() then
-			piganniu:RegisterEvent("CRAFT_CLOSE")
-		end
-		piganniu:RegisterEvent("CVAR_UPDATE");
-		piganniu:RegisterEvent("UPDATE_MACROS");
-		--piganniu:RegisterEvent("EXECUTE_CHAT_LINE");
-		piganniu:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN");
-		piganniu:RegisterEvent("ACTIONBAR_UPDATE_STATE");
-		piganniu:RegisterEvent("BAG_UPDATE");
-		piganniu:RegisterEvent("PLAYER_UPDATE_RESTING");
-		piganniu:RegisterEvent("EQUIPMENT_SETS_CHANGED");
-		piganniu:RegisterEvent("PLAYER_ENTERING_WORLD");
-		piganniu:RegisterEvent("PLAYER_REGEN_DISABLED")
-		piganniu:RegisterEvent("PLAYER_REGEN_ENABLED");
-		piganniu:RegisterEvent("ACTIONBAR_UPDATE_USABLE");
-		piganniu:RegisterEvent("MOUNT_JOURNAL_USABILITY_CHANGED");
-		piganniu:RegisterUnitEvent("UNIT_AURA","player");
-		piganniu:RegisterUnitEvent("UNIT_PET","player");
-		piganniu:HookScript("OnEvent", function(self,event,arg1,arg2,arg3)
-			if event=="ACTIONBAR_SHOWGRID" then
-				if InCombatLockdown() then return end
-				ShowHideNumFun(self,nil,true)
-			elseif event=="ACTIONBAR_HIDEGRID" then
-				if InCombatLockdown() then
-					self.always_show=true
-				else
-					ShowHideNumFun(self)
-				end
-			elseif event=="CVAR_UPDATE" then
-				if arg1=="ActionButtonUseKeyDown" then
-					PIGUseKeyDown(self)
-				elseif arg1=="alwaysShowActionBars" then
-					if InCombatLockdown() then
-						self.always_show=true
-					else
-						ShowHideNumFun(self,arg2)
-					end
-				end
-			elseif event=="BAG_UPDATE" then
-				Update_Count(self)
-				Update_bukeyong(self)
-			elseif event=="ACTIONBAR_UPDATE_COOLDOWN" then
-				Update_Cooldown(self)
-				Update_bukeyong(self)
-				Update_Icon(self)
-			elseif event=="UNIT_PET" then
-			elseif event=="ACTIONBAR_UPDATE_USABLE" or event=="MOUNT_JOURNAL_USABILITY_CHANGED" then
-				Update_bukeyong(self)
-			elseif event=="ACTIONBAR_UPDATE_STATE" or event=="TRADE_SKILL_CLOSE" or event=="CRAFT_CLOSE" or event=="UNIT_AURA" or event=="EXECUTE_CHAT_LINE" then
-				Update_State(self)
-				Update_Icon(self)
-			elseif event=="PLAYER_UPDATE_RESTING" then
-				Update_bukeyong(self)
-			elseif event=="EQUIPMENT_SETS_CHANGED" then
-				Update_Equipment(self,"PigAction")
-			elseif event=="PLAYER_REGEN_ENABLED" then
-				Update_bukeyong(self)
-				Update_Equipment(self,"PigAction")
-				ShowHideNumFun(self)
-				self.always_show=nil
-			elseif event=="PLAYER_REGEN_DISABLED" then
-				Update_bukeyong(self)
-			elseif event=="PLAYER_ENTERING_WORLD" then
-				if self.Type=="macro" then
-					Update_Macro(self,PigMacroDeleted,PigMacroCount,"PigAction")
-				end
-				Update_Icon(self)
-				Update_Count(self)
-				Update_State(self)
-			elseif event=="UPDATE_MACROS" then
-				PigMacroEventCount=PigMacroEventCount+1;
-				if self.Type=="macro" then
-					if PigMacroEventCount>5 then
-						local AccMacros, CharMacros = GetNumMacros();
-						if PigMacroCount==0 then
-							PigMacroCount = AccMacros + CharMacros;
-						elseif (PigMacroCount > AccMacros + CharMacros) then
-							PigMacroDeleted = true;
-						end
-						PigMacroDeleted,PigMacroCount=Update_Macro(self,PigMacroDeleted,PigMacroCount,"PigAction")
-					end
-				end
-				Update_Icon(self)
-				Update_Count(self)
-				Update_State(self)
-			end
-		end)
-	end
-end
---=====================================================
+--==================================
 function ActionBarfun.Pig_Action()
 	for index=1,zongshu do
-		ADD_ActionBar(index)
+		local CFdata={
+			index,
+			PIGA_Per["PigAction"]["Open"][index],
+			PIGA_Per["PigAction"]["Scale"][index],
+			PIGA_Per["PigAction"]["Lock"][index],
+			PIGA_Per["PigAction"]["AnniuNum"][index],
+			PIGA_Per["PigAction"]["ShowTJ"][index],
+			PIGA_Per["PigAction"]["Pailie"][index],
+		}
+		ActionBarfun.ADD_ActionBar(barName..index,CFdata,anniugeshu,anniujiange,fuFrame,fuFrameBut,RTabFrame,Action_plusF,Action_plusTabBut)
 	end
 	--处理绑定
 	for index=1,zongshu do

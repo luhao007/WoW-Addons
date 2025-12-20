@@ -1,9 +1,12 @@
 local ADDON_NAME, ns = ...
 
-ns.CurrentAddonVersion = "3.1.7"
-ns.PreviousAddonVersion_1 = "3.1.6"
+ns.CurrentAddonVersion = "3.2.0"
+ns.PreviousAddonVersion_1 = "3.1.9"
 
 ns.LOCALE_CHANGELOGS = {
+  { version = "3.2.0", table = ns.LOCALE_CHANGELOG_3_2_0 },
+  { version = "3.1.9", table = ns.LOCALE_CHANGELOG_3_1_9 },
+  { version = "3.1.8", table = ns.LOCALE_CHANGELOG_3_1_8 },
   { version = "3.1.7", table = ns.LOCALE_CHANGELOG_3_1_7 },
   { version = "3.1.6", table = ns.LOCALE_CHANGELOG_3_1_6 },
   { version = "3.1.5", table = ns.LOCALE_CHANGELOG_3_1_5 },
@@ -13,7 +16,7 @@ ns.LOCALE_CHANGELOGS = {
   { version = "3.1.1", table = ns.LOCALE_CHANGELOG_3_1_1 },
 }
 
-ns.LOCALE_CHANGELOG_3_1_ = { -- empty backup file
+ns.LOCALE_CHANGELOG_3_2_ = { -- empty backup file
   deDE = [[
 
 ]],
@@ -56,6 +59,309 @@ ns.LOCALE_CHANGELOG_3_1_ = { -- empty backup file
 
   koKR = [[
 
+]],
+}
+
+ns.LOCALE_CHANGELOG_3_2_0 = {
+  deDE = [[
+• toc update
+]],
+
+  enUS = [[
+• TOC update
+]],
+
+  frFR = [[
+• Mise à jour du TOC
+]],
+
+  itIT = [[
+• Aggiornamento del TOC
+]],
+
+  esES = [[
+• Actualización del TOC
+]],
+
+  esMX = [[
+• Actualización del TOC
+]],
+
+  ptBR = [[
+• Atualização do TOC
+]],
+
+  ruRU = [[
+• Обновление TOC
+]],
+
+  zhCN = [[
+• TOC 更新
+]],
+
+  zhTW = [[
+• TOC 更新
+]],
+
+  koKR = [[
+• TOC 업데이트
+]],
+}
+
+ns.LOCALE_CHANGELOG_3_1_9 = { 
+  deDE = [[
+
+  • Update auf Version 11.2.7
+
+  • Es wurde im Menü für die Koordinaten auch eine Funktion hinzugefügt, womit sich die Anzeige der Informationen zum Bewegen der Koordinatenfenster aktivieren bzw. deaktivieren lässt.
+]],
+
+  enUS = [[
+
+  • Update to version 11.2.7
+
+  • A function has been added to the coordinates menu that allows you to enable or disable the information display for moving the coordinate windows.
+]],
+
+  frFR = [[
+
+  • Mise à jour vers la version 11.2.7
+
+  • Une fonctionnalité a été ajoutée au menu des coordonnées permettant d’activer ou de désactiver l’affichage des informations pour déplacer les fenêtres de coordonnées.
+]],
+
+  itIT = [[
+
+  • Aggiornamento alla versione 11.2.7
+
+  • È stata aggiunta una funzione nel menu delle coordinate che permette di attivare o disattivare la visualizzazione delle informazioni per spostare le finestre delle coordinate.
+]],
+
+  esES = [[
+
+  • Actualización a la versión 11.2.7
+
+  • Se ha añadido una función al menú de coordenadas que permite activar o desactivar la visualización de la información para mover las ventanas de coordenadas.
+]],
+
+  esMX = [[
+
+  • Actualización a la versión 11.2.7
+
+  • Se agregó una función al menú de coordenadas que permite activar o desactivar la visualización de la información para mover las ventanas de coordenadas.
+]],
+
+  ptBR = [[
+
+  • Atualização para a versão 11.2.7
+
+  • Foi adicionada uma função ao menu de coordenadas que permite ativar ou desativar a exibição das informações para mover as janelas de coordenadas.
+]],
+
+  ruRU = [[
+
+  • Обновление до версии 11.2.7
+
+  • В меню координат была добавлена функция, позволяющая включать или отключать отображение информации для перемещения окон координат.
+]],
+
+  zhCN = [[
+
+  • 更新至版本 11.2.7
+
+  • 在坐标菜单中新增了一个功能，可用于启用或禁用移动坐标窗口时的信息显示。
+]],
+
+  zhTW = [[
+
+  • 更新至版本 11.2.7
+
+  • 在座標選單中新增了一項功能，可啟用或停用移動座標視窗時的資訊顯示。
+]],
+
+  koKR = [[
+
+  • 버전 11.2.7로 업데이트됨
+
+  • 좌표 메뉴에 좌표 창을 이동할 때 정보 표시를 활성화하거나 비활성화할 수 있는 기능이 추가되었습니다.
+]],
+}
+
+ns.LOCALE_CHANGELOG_3_1_8 = { 
+  deDE = [[
+  Hey, ich grüße dich.
+
+    Da jetzt die Weihnachtszeit bevorsteht, 
+    
+    wünsche ich euch allen eine ruhige und erholsame Zeit sowie viel Gesundheit.
+
+    Für alle, die nichts mit Weihnachten zu tun haben oder haben möchten, 
+    
+    wünsche ich natürlich ebenfalls eine erholsame Zeit und viel Gesundheit.
+
+    Vielen Dank für euren Support.
+
+            Liebe Grüße Barny
+]],
+
+  enUS = [[
+  Hey, I greet you.
+
+    As the Christmas season approaches,
+    
+    I wish you all a peaceful and relaxing time, as well as good health.
+
+    For everyone who does not celebrate Christmas or prefers not to,
+    
+    I also wish you a restful time and good health.
+
+    Thank you very much for your support.
+
+            Kind regards, Barny
+]],
+
+  frFR = [[
+  Hey, je te salue.
+
+    À l’approche de la période de Noël,
+    
+    je vous souhaite à tous une période paisible et reposante, ainsi qu’une bonne santé.
+
+    Pour tous ceux qui ne célèbrent pas Noël ou préfèrent ne pas le faire,
+    
+    je souhaite également une période reposante et beaucoup de santé.
+
+    Merci beaucoup pour votre soutien.
+
+            Amitiés, Barny
+]],
+
+  itIT = [[
+  Ehi, ti saluto.
+
+    Con l’arrivo del periodo natalizio,
+    
+    auguro a tutti voi un momento tranquillo e rilassante, insieme a tanta salute.
+
+    A tutti coloro che non festeggiano il Natale o preferiscono non farlo,
+    
+    auguro comunque un periodo sereno e buona salute.
+
+    Grazie mille per il vostro supporto.
+
+            Un caro saluto, Barny
+]],
+
+  esES = [[
+  Hola, te saludo.
+
+    Con la llegada de la época navideña,
+    
+    os deseo a todos un tiempo tranquilo y relajante, así como mucha salud.
+
+    Para quienes no celebran la Navidad o prefieren no hacerlo,
+    
+    también les deseo un tiempo de descanso y buena salud.
+
+    Muchas gracias por vuestro apoyo.
+
+            Saludos, Barny
+]],
+
+  esMX = [[
+  Hola, te saludo.
+
+    Con la llegada de la temporada navideña,
+    
+    les deseo a todos un tiempo tranquilo y relajante, además de mucha salud.
+
+    Para quienes no celebran la Navidad o prefieren no hacerlo,
+    
+    también les deseo un tiempo de descanso y buena salud.
+
+    Muchas gracias por su apoyo.
+
+            Saludos, Barny
+]],
+
+  ptBR = [[
+  Olá, saudações.
+
+    Com a chegada da época de Natal,
+    
+    desejo a todos um período tranquilo e relaxante, além de muita saúde.
+
+    Para todos que não comemoram o Natal ou preferem não fazê-lo,
+    
+    também desejo um tempo de descanso e boa saúde.
+
+    Muito obrigado pelo apoio de vocês.
+
+            Abraços, Barny
+]],
+
+  ruRU = [[
+  Привет, рад тебя приветствовать.
+
+    В преддверии рождественского сезона
+    
+    желаю всем спокойного и приятного отдыха, а также крепкого здоровья.
+
+    Тем, кто не празднует Рождество или предпочитает не отмечать его,
+    
+    также желаю приятного отдыха и здоровья.
+
+    Большое спасибо за вашу поддержку.
+
+            С наилучшими пожеланиями, Барни
+]],
+
+  zhCN = [[
+  嗨，你好。
+
+    随着圣诞季节的到来，
+    
+    祝大家度过一个宁静放松的时光，并拥有健康的身体。
+
+    对于不庆祝圣诞节或不想参与圣诞节的人，
+    
+    我同样祝愿你们度过一段轻松的时光，并保持健康。
+
+    非常感谢你们的支持。
+
+            此致，Barny
+]],
+
+  zhTW = [[
+  嗨，你好。
+
+    隨著聖誕節即將到來，
+    
+    祝大家度過一段平靜又放鬆的時光，並保持健康。
+
+    對於不過聖誕節或不想慶祝的人，
+    
+    我同樣祝你們有個愉快且健康的時光。
+
+    非常感謝你們的支持。
+
+            祝福，Barny
+]],
+
+  koKR = [[
+  안녕하세요, 반갑습니다.
+
+    크리스마스 시즌이 다가오면서,
+    
+    여러분 모두에게 평온하고 편안한 시간, 그리고 건강을 기원합니다.
+
+    크리스마스를 기념하지 않거나 원하지 않는 분들께도
+    
+    편안한 시간과 건강을 함께 기원합니다.
+
+    여러분의 지원에 진심으로 감사드립니다.
+
+            감사합니다, Barny
 ]],
 }
 

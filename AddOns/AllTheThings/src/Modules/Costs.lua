@@ -195,7 +195,7 @@ do
 		return total
 	end
 end
-local function SetCostTotals(costs, isCost, refresh, costID)
+local function SetCostTotals(costs, isCost, refresh, costID, isOwnedCost)
 	-- Iterate on the search result of the entry key
 	local parent, blockedBy
 	-- PrintDebug(costID, "SetCostTotals",#costs,isCost)
@@ -203,6 +203,7 @@ local function SetCostTotals(costs, isCost, refresh, costID)
 		-- Mark the group with a costTotal
 		-- PrintDebug(costID, "Force Cost",app:SearchLink(c),isCost,c.hash,c.modItemID or c.currencyID)
 		c._SettingsRefresh = refresh;
+		c.isOwnedCost = isOwnedCost
 		-- only mark cost on visible content
 		if isCost and RecursiveGroupRequirementsFilter(c, ExtraFilters) then
 			parent = c.parent
@@ -325,16 +326,18 @@ end
 local function FinishCostAssignmentsForItem(itemID, costs, refresh)
 	local isProv = CostTotals.ip[itemID]
 	local total = CostTotals.i[itemID] or 0
+	local owned = 0
 	local isCost
 	if total > 0 or not isProv then
-		local owned = total > 0 and GetItemCount(itemID, true, nil, true, true) or 0
+		owned = total > 0 and GetItemCount(itemID, true, nil, true, true) or 0
 		isCost = total > owned
 		-- PrintDebug(itemID, app:SearchLink(costs[1]),isCost and "IS COST" or "NOT COST","requiring",total,"minus owned:",owned)
 	else
 		isProv = PlayerIsMissingProviderItem(itemID)
 		-- PrintDebug(itemID, app:SearchLink(costs[1]),isProv and "IS PROV" or "NOT PROV")
 	end
-	SetCostTotals(costs, isCost or isProv, refresh, itemID)
+	local isOwnedCost = not isCost and owned > 0
+	SetCostTotals(costs, isCost or isProv, refresh, itemID, isOwnedCost)
 end
 local function FinishCostAssignmentsForCurr(currencyID, costs, refresh)
 	local total = CostTotals.c[currencyID] or 0
@@ -737,7 +740,8 @@ do
 		local groupType = group.__type
 		-- app.PrintDebug("AGC:Run",app:SearchLink(group),IgnoredTypesForCost[groupType],IgnoredTypesForNestedCosts[groupType],group.filledCost)
 		-- don't include NonCollectible or VisualHeaders
-		if not IgnoredTypesForCost[groupType] then
+		-- don't include Costs of visible, but 'saved' Things
+		if not IgnoredTypesForCost[groupType] and not group.saved then
 			runner.Run(AddGroupCosts, group, Collector)
 		end
 		local g = group.g
@@ -794,9 +798,11 @@ do
 							costThing = nil
 						end
 						if costThing then
-							if costThing.providers or (costThing.cost and type(costThing.cost) == "table") then
+							local costTbl = costThing.cost
+							local costAmount = costTbl and type(costTbl) == "table" and #costTbl or 0.5
+							if costThing.providers or costAmount > 0.5 then
 								costThing.back = 0.5
-								costThing[1] = (costThing.cost and #costThing.cost) or 0.5
+								costThing[1] = costAmount
 								requiresCostItems[#requiresCostItems + 1] = costThing
 							else
 								costItems[#costItems + 1] = costThing
@@ -913,7 +919,7 @@ local function BuildCost(group)
 		skipFull = true,
 		SortPriority = -2.5,
 		g = {},
-		OnClick = app.UI.OnClick.IgnoreRightClick,
+		OnClick = app.UI.OnClick.OnlySortingRightClick,
 	});
 	-- Gold cost currently ignored
 	-- print("BuildCost",group.hash)
@@ -965,7 +971,7 @@ local function BuildTotalCost(group)
 		skipFull = true,
 		SortPriority = -2.4,
 		g = {},
-		OnClick = app.UI.OnClick.IgnoreRightClick,
+		OnClick = app.UI.OnClick.OnlySortingRightClick,
 	});
 	-- keep an unmodified text copy
 	costGroup.__text = costGroup.text
@@ -1079,8 +1085,8 @@ app.AddEventHandler("OnLoad", function()
 			-- 		["skipFill"] = true,
 			-- 		["g"] = {},
 			-- 	})
-			-- 	NestObjects(sourceGroup, collectibles, true)
-			-- 	NestObject(group, sourceGroup, nil, 1)
+			-- 	app.NestObjects(sourceGroup, collectibles, true)
+			-- 	app.NestObject(group, sourceGroup, nil, 1)
 			-- end
 			local groupHash = group.hash;
 			-- if FillData.Debug then app.PrintDebug("DeterminePurchaseGroups",app:SearchLink(group),"-collectibles",collectibles and #collectibles) end

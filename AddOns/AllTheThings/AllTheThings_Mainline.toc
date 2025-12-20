@@ -1,6 +1,6 @@
-## Interface: 110205
+## Interface: 110207
 ## Author: Crieve
-## Version: 4.7.9a
+## Version: 4.8.5
 
 ## Title: AllTheThings
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF收集控助手|r |cFFFFE00AAllTheThings|r
@@ -17,7 +17,7 @@
 ## SavedVariables: ATTCharacterData, ATTAccountWideData, AllTheThingsSavedVariables, AllTheThingsSettings, AllTheThingsAD, AllTheThingsProfiles, AllTheThingsAuctionData, AllTheThingsDebugData, AllTheThingsArtifactsItems, AllTheThingsHarvestItems
 ## SavedVariablesPerCharacter: AllTheThingsSettingsPerCharacter
 
-## X-Interface: 110205, 110207, 120000
+## X-Interface: 110207, 120000, 120001
 ## X-Wago-ID: yQKyY5K7
 ## X-Curse-Project-ID: 267285
 
@@ -69,7 +69,7 @@ src\Modules\Events.lua
 src\Modules\Filter.lua
 src\Modules\Inventory.lua
 src\Modules\Model.lua
-#src\Modules\Reagent.lua
+src\Modules\Reagent.lua
 src\Modules\Search.lua
 src\Modules\Social.lua
 src\Modules\Symlink.lua
@@ -121,6 +121,7 @@ src\Classes\Ensemble.lua
 src\Classes\CharacterUnlock.lua
 
 # Item Sub-Classes
+src\Classes\Decor.lua
 src\Classes\Heirloom.lua
 src\Classes\Toys.lua
 

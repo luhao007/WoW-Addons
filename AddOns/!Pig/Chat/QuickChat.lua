@@ -213,8 +213,9 @@ local function ADD_chatbut(fuF,pdtype,name,chatID,Color,pdname)
 				if button=="LeftButton" then
 					if self.pindaoID==0 then
 						--JoinPermanentChannel(chatID, nil, pindaoid, 1);
+						--local type, name = JoinChannelByName(chatID, nil, pindaoid, 1)
 						JoinTemporaryChannel(chatID, nil, pindaoid, 1);
-						ChatFrame_AddChannel(SetChatFrame, chatID)--订购一个聊天框以显示先前加入的聊天频道
+						PIGChatFrameAddChannel(SetChatFrame,chatID)
 						if GetPIGID(chatID)>0 then
 							chatbut.X:Hide();
 							PIG_print(CHAT_JOIN..chatID..CHANNEL.."，"..KEY_BUTTON2..IGNORE..CHANNEL..INFO);
@@ -222,7 +223,7 @@ local function ADD_chatbut(fuF,pdtype,name,chatID,Color,pdname)
 							PIG_print(CHAT_JOIN..chatID..CHANNEL..FAILED.."，请稍后再试");
 						end
 					else
-						ChatFrame_AddChannel(SetChatFrame, chatID)
+						PIGChatFrameAddChannel(SetChatFrame,chatID)
 						local editBox = ChatEdit_ChooseBoxForSend();
 						local hasText = editBox:GetText()
 						if editBox:HasFocus() then
@@ -236,21 +237,21 @@ local function ADD_chatbut(fuF,pdtype,name,chatID,Color,pdname)
 					if self.pindaoID>0 then
 						if PIG_IsShow_CHANNEL(chatID) then
 							if chatID==GENERAL then
-								ChatFrame_RemoveChannel(SetChatFrame, FUWUPINDAONAME);
-								ChatFrame_RemoveChannel(SetChatFrame, "本地防务");
-								ChatFrame_RemoveChannel(SetChatFrame, "世界防务");
+								PIGChatFrameRemoveChannel(SetChatFrame, FUWUPINDAONAME);
+								PIGChatFrameRemoveChannel(SetChatFrame, "本地防务");
+								PIGChatFrameRemoveChannel(SetChatFrame, "世界防务");
 								PIG_print(IGNORE..chatID.."/"..FUWUPINDAONAME..CHANNEL..INFO);
 							else
 								PIG_print(IGNORE..chatID..CHANNEL..INFO);
 							end
-							ChatFrame_RemoveChannel(SetChatFrame, chatID);
+							PIGChatFrameRemoveChannel(SetChatFrame, chatID);
 							self.X:Show();
 						else
-							ChatFrame_AddChannel(SetChatFrame, chatID)
+							PIGChatFrameAddChannel(SetChatFrame,chatID)
 							if chatID==GENERAL then
-								ChatFrame_AddChannel(SetChatFrame, FUWUPINDAONAME);
-								ChatFrame_AddChannel(SetChatFrame, "本地防务");
-								ChatFrame_AddChannel(SetChatFrame, "世界防务");
+								PIGChatFrameAddChannel(SetChatFrame, FUWUPINDAONAME);
+								PIGChatFrameAddChannel(SetChatFrame, "本地防务");
+								PIGChatFrameAddChannel(SetChatFrame, "世界防务");
 								PIG_print(IGNORE_REMOVE..chatID.."/"..FUWUPINDAONAME..CHANNEL..INFO);
 							else
 								PIG_print(IGNORE_REMOVE..chatID..CHANNEL..INFO);

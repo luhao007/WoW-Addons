@@ -60,12 +60,9 @@ local IngameLocales = {
 	-- ######################################################################
 	-- Factions
 	-- ######################################################################
-	-- Legion
-	["Bizmo's Brawlpub"]      = GetFactionName(2011),
-	["Brawl'gar Arena"]       = GetFactionName(2010),
-	-- Warlords of Draenor
-	--	["Bizmo's Brawlpub"] = GetFactionName(1691),
-	--	["Brawl'gar Arena"] = GetFactionName(1690),
+	-- TWW
+	["Bizmo's Brawlpub"]      = GetFactionName(2767),
+	["Brawl'gar Arena"]       = GetFactionName(2766),
 	-- Mists of Pandaria
 	["Nat Pagle"]             = GetFactionName(1358),
 	["Old Hillpaw"]           = GetFactionName(1276),
@@ -161,14 +158,14 @@ local IngameLocales = {
 	["Timeless Isle"]         = GetMapName(554),
 
 	-- Battle for Azeroth
-	["Kul Tiras"] = GetMapName(876),
-	["Zandalar"] = GetMapName(875),
-	["Boralus"]     = GetMapName(1161),
-	["Dazar'alor"]     = GetMapName(1165),
+	["Kul Tiras"]             = GetMapName(876),
+	["Zandalar"]              = GetMapName(875),
+	["Boralus"]               = GetMapName(1161),
+	["Dazar'alor"]            = GetMapName(1165),
 
 	-- The War Within
-	["Dornogal"]     = GetMapName(2339),
-	["Khaz Algar"]     = GetMapName(2274),
+	["Dornogal"]              = GetMapName(2339),
+	["Khaz Algar"]            = GetMapName(2274),
 
 	-- ######################################################################
 	-- Garrison Buildings

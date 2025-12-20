@@ -358,10 +358,10 @@ QuickButUI.ButList[3]=function()
 	SetfujiF.Scale_t = PIGFontString(SetfujiF,{"TOPLEFT",SetfujiF.PailieT,"BOTTOMLEFT",0,-20},"缩放:")
 	local xiayiinfo = {0.8,1.8,0.01,{["Right"]="%"}}
 	SetfujiF.Scale = PIGSlider(SetfujiF,{"LEFT",SetfujiF.Scale_t,"RIGHT",10,0},xiayiinfo)
-	SetfujiF.Scale.Slider:HookScript("OnValueChanged", function(self, arg1)
+	function SetfujiF.Scale:PIGOnValueChange(arg1)
 		PIGA["QuickBut"]["TrinketScale"]=arg1;
 		if fujiF.UpdataFenliScale then fujiF.UpdataFenliScale() end
-	end)
+	end
 	SetfujiF.lock = PIGCheckbutton(SetfujiF,{"TOPLEFT",SetfujiF.Scale_t,"BOTTOMLEFT",0,-20},{LOCK_FRAME,LOCK_FOCUS_FRAME})
 	SetfujiF.lock:SetScript("OnClick", function (self)
 		if self:GetChecked() then
@@ -394,7 +394,6 @@ QuickButUI.ButList[3]=function()
 	--饰品切换界面
 	local Icon,anniushu,butW=136528,20,QuickButUI:GetHeight()
 	local TrinketSelectF = PIGFrame(UIParent)
-	TrinketSelectF:SetScale(PIGA["QuickBut"]["bili"]);
 	TrinketSelectF:PIGSetBackdrop(1)
 	TrinketSelectF:SetFrameLevel(QuickButUI:GetFrameLevel()+4)
 	TrinketSelectF:Hide()
@@ -417,9 +416,9 @@ QuickButUI.ButList[3]=function()
 		local tmp1,tmp2 = math.modf(i/2)
 		if i==1 then
 		elseif tmp2==0 then
-			hangBut:SetPoint("LEFT",TrinketSelectF.ButList[i-1],"RIGHT",1,0);
+			hangBut:SetPoint("LEFT",TrinketSelectF.ButList[i-1],"RIGHT",0,0);
 		else
-			hangBut:SetPoint("TOPLEFT",TrinketSelectF.ButList[i-2],"BOTTOMLEFT",0,-1);
+			hangBut:SetPoint("TOPLEFT",TrinketSelectF.ButList[i-2],"BOTTOMLEFT",0,0);
 		end
 		hangBut:SetHighlightTexture(130718);
 		hangBut:SetSize(butW, butW)
@@ -502,7 +501,7 @@ QuickButUI.ButList[3]=function()
 			end
 		end
 		local lieshuNUM = math.ceil(#self.DQList*0.5)
-		self:SetSize((butW+1)*2+3, (butW+1)*lieshuNUM+6)
+		self:SetSize((butW)*2+1, (butW)*lieshuNUM+2)
 	end
 	TrinketSelectF:HookScript("OnShow", function(self)
 		self:UpdatePointsSize()
@@ -577,14 +576,16 @@ QuickButUI.ButList[3]=function()
 	add_Button(AutoTrinket,13)
 	add_Button(AutoTrinket1,14)
 	function fujiF.Update_TrinketSelectF(BottomUI)
+		TrinketSelectF:SetParent(BottomUI)
+		TrinketSelectF:SetFrameLevel(BottomUI:GetFrameLevel()+10)
 		local WowHeight=GetScreenHeight();
 		local offset1 = BottomUI:GetBottom();
-		if offset1>(WowHeight*0.5) then
-			TrinketSelectF.ButList[1]:SetPoint("TOPLEFT",TrinketSelectF,"TOPLEFT",2,-4);
-			TrinketSelectF:SetPoint("TOPLEFT",AutoTrinket,"BOTTOMLEFT",-2,1);
+		if offset1>(WowHeight*0.4) then
+			TrinketSelectF.ButList[1]:SetPoint("TOPLEFT",TrinketSelectF,"TOPLEFT",0.5,-1);
+			TrinketSelectF:SetPoint("TOPLEFT",AutoTrinket,"BOTTOMLEFT",-1,0);
 		else
-			TrinketSelectF.ButList[1]:SetPoint("TOPLEFT",TrinketSelectF,"TOPLEFT",2,-2);
-			TrinketSelectF:SetPoint("BOTTOMLEFT",AutoTrinket,"TOPLEFT",-2,-1);
+			TrinketSelectF.ButList[1]:SetPoint("TOPLEFT",TrinketSelectF,"TOPLEFT",0.5,-1);
+			TrinketSelectF:SetPoint("BOTTOMLEFT",AutoTrinket,"TOPLEFT",-1,0);
 		end
 	end
 	--已在队列
@@ -736,9 +737,10 @@ QuickButUI.ButList[3]=function()
 				TrinketSetUI:Show()
 			end
 		end);
-		FenliUI.yidong.t = PIGFontString(FenliUI.yidong,nil,nil,nil,9)
-		FenliUI.yidong.t:SetAllPoints(FenliUI.yidong)
-		FenliUI.yidong.t:SetTextColor(0.8, 0.8, 0.8, 0.8)
+		FenliUI.yidong.move = FenliUI.yidong:CreateTexture()
+		FenliUI.yidong.move:SetAtlas("OptionsIcon-Brown")--NPE_RightClick
+		FenliUI.yidong.move:SetPoint("CENTER", 0, 0);
+		FenliUI.yidong.move:SetDesaturated(true)
 		FenliUI.nr=PIGFrame(FenliUI)
 		FenliUI.nr:PIGSetBackdrop()
 		AutoTrinket:SetParent(FenliUI.nr)
@@ -750,23 +752,23 @@ QuickButUI.ButList[3]=function()
 			AutoTrinket1:ClearAllPoints();
 			if PIGA["QuickBut"]["TrinketFenliPailie"]==1 then
 				FenliUI:SetSize(butW*2+14,butW);
-				FenliUI.yidong.t:SetText("拖\n动");
+				FenliUI.yidong.move:SetSize(12,20);
 				FenliUI.yidong:SetWidth(12);
 				FenliUI.yidong:SetPoint("TOPLEFT",FenliUI,"TOPLEFT",0,0)
 				FenliUI.yidong:SetPoint("BOTTOMLEFT", FenliUI, "BOTTOMLEFT", 0, 0);
 				FenliUI.nr:SetPoint("TOPLEFT",FenliUI.yidong,"TOPRIGHT",1,0)
 				FenliUI.nr:SetPoint("BOTTOMRIGHT", FenliUI, "BOTTOMRIGHT", 0, 0);
-				AutoTrinket:SetPoint("LEFT",FenliUI.nr,"LEFT",1,0);
+				AutoTrinket:SetPoint("LEFT",FenliUI.nr,"LEFT",2,0);
 				AutoTrinket1:SetPoint("LEFT",AutoTrinket,"RIGHT",1,0);
 			elseif PIGA["QuickBut"]["TrinketFenliPailie"]==2 then
 				FenliUI:SetSize(butW,butW*2+14);
-				FenliUI.yidong.t:SetText("拖动");
+				FenliUI.yidong.move:SetSize(20,12);
 				FenliUI.yidong:SetHeight(12);
 				FenliUI.yidong:SetPoint("TOPLEFT",FenliUI,"TOPLEFT",0,0)
 				FenliUI.yidong:SetPoint("TOPRIGHT", FenliUI, "TOPRIGHT", 0, 0);
 				FenliUI.nr:SetPoint("TOPLEFT",FenliUI.yidong,"BOTTOMLEFT",0,-1)
 				FenliUI.nr:SetPoint("BOTTOMRIGHT", FenliUI, "BOTTOMRIGHT", 0, 0);
-				AutoTrinket:SetPoint("TOP",FenliUI.nr,"TOP",0,-1);
+				AutoTrinket:SetPoint("TOP",FenliUI.nr,"TOP",0,-2);
 				AutoTrinket1:SetPoint("TOP",AutoTrinket,"BOTTOM",0,-1);
 			end
 		end

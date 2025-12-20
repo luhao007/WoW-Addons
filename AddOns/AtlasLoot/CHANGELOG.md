@@ -1,5 +1,29 @@
 ﻿# Changelog
 
+## 9.19.6 - December 16, 2025
+### Added
+- Updated Winter Veil items in World Events
+
+## 9.19.5 - December 10, 2025
+### Added
+- Updated Brawler's Guild rewards in World Events
+- Added support for housing decor in the Collected highlight (more decor items coming)
+- Added K'arroc Swiftwing mount to Collections
+- Added Illusion: Nightmare and Illusion: Chronos to Horos in Legion Remix
+
+## 9.19.4 - December 3, 2025
+### Added
+- Added Shadowlands Timewalking rewards
+- Added December Trading Post items to Collections
+- Added mounts from Master of the Turbulent Timeways IV and Worldsoul-Searching to Collections
+### Changed
+- Updated TOC to 11.2.7
+- Updated Chrono Corsair and OC91 Chariot acquisition from achievement to currency
+
+## 9.19.3 - November 24, 2025
+### Added
+- Added new Pilgrim's Bounty items to World Events
+
 ## 9.19.2 - November 1, 2025
 ### Added
 - Added new Day of the Dead items to World Events

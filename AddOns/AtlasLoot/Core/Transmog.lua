@@ -70,6 +70,19 @@ function Proto:IsItemUnlocked(itemStringOrID, sourceID, callbackFunc, callbackAr
 			end
 		end
 
+		-- Decor
+		if C_HousingCatalog.GetCatalogEntryInfoByItem(parsedItem.itemID, false) then
+			local decor = C_HousingCatalog.GetCatalogEntryInfoByItem(parsedItem.itemID, false);
+			local collected = decor.firstAcquisitionBonus == 0;
+
+			if callbackFunc then
+				callbackFunc(callbackArg, collected)
+				return
+			else
+				return collected
+			end
+		end
+
 		-- Ensembles
 		-- TODO
 

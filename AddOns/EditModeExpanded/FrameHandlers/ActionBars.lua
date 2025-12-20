@@ -72,7 +72,9 @@ function addon:initActionBars()
                     updateNamesSizes()
                 end,
                 0.5, 2, 0.05)
-
+            
+            lib:RegisterHiddenUntilMouseover(bar, L["HIDE_WHEN_NOT_MOUSEOVER_DESCRIPTION"])
+            
             hooksecurefunc("CompactUnitFrame_UpdateName", updateNamesSizes)
         end
     end)

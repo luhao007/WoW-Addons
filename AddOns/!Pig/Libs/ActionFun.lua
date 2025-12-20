@@ -442,11 +442,40 @@ function ActionFun.Update_PostClick(self)
 	end
 end
 --初始加载
+function ActionFun.loadingButInfo_Mode(self,dataY)
+	if dataY then
+		self.Type=dataY[1]
+		self.SimID=dataY[2]
+		self.SimID_3=dataY[3]
+		ActionFun.Update_Attribute(self)
+		ActionFun.Update_Cooldown(self)
+		ActionFun.Update_Count(self)
+		ActionFun.Update_bukeyong(self)
+		ActionFun.Update_State(self)
+		ActionFun.Update_Icon(self)
+		self:Show()
+	else
+		self.Type=nil
+		self:SetAttribute("type", nil)
+		self.Count:SetText()
+		self.Name:SetText()
+		self.cooldown:Hide()
+		self:Hide()
+	end
+end
 function ActionFun.loadingButInfo(self,dataY)
 	self:RegisterForDrag("LeftButton")
 	local butInfo = PIGA_Per[dataY]["ActionData"][self.action]
 	if butInfo then
 		self.Type=butInfo[1]
+		if butInfo[1]=="equipmentset" then
+			local eqid=C_EquipmentSet.GetEquipmentSetID(butInfo[2])
+			if not eqid then
+				self.Type=nil
+				PIGA_Per[dataY]["ActionData"][self.action]=nil
+				return
+			end
+		end
 		self.SimID=butInfo[2]
 		self.SimID_3=butInfo[3]
 		ActionFun.Update_Attribute(self)
@@ -565,36 +594,42 @@ local function OnEnter_equipmentset(Type,SimID)
 	GameTooltip:SetEquipmentSet(SimID);
 	GameTooltip:Show();
 end
-function ActionFun.Update_OnEnter(self,dataY)
-	local butInfo = PIGA_Per[dataY]["ActionData"][self.action]
-	if butInfo then
-		local Type=self.Type
-		if Type then
-			local SimID=self.SimID
-			if Type=="spell" then
-				OnEnter_Spell(Type,SimID)
-			elseif Type=="item" then
-				OnEnter_Item(Type,SimID,butInfo[3])
-			elseif Type=="companion" or Type=="mount" then
-				OnEnter_Companion(Type,SimID,butInfo[3])
-			elseif Type=="macro" then
-				local hongSpellID = GetMacroSpell(SimID)
-				if hongSpellID then
-					OnEnter_Spell("spell",hongSpellID)
+function ActionFun.Update_OnEnter(self)
+	local Type=self.Type
+	if Type then
+		local SimID=self.SimID
+		if Type=="spell" then
+			OnEnter_Spell(Type,SimID)
+		elseif Type=="item" then
+			OnEnter_Item(Type,SimID,self.SimID_3)
+		elseif Type=="companion" or Type=="mount" then
+			OnEnter_Companion(Type,SimID,self.SimID_3)
+		elseif Type=="macro" then
+			local hongSpellID = GetMacroSpell(SimID)
+			if hongSpellID then
+				OnEnter_Spell("spell",hongSpellID)
+			else
+				local _, ItemLink = GetMacroItem(SimID);
+				if ItemLink then
+					OnEnter_Item("item",ItemLink,self.SimID_3)
 				else
-					local _, ItemLink = GetMacroItem(SimID);
-					if ItemLink then
-						OnEnter_Item("item",ItemLink,butInfo[3])
-					else
-						local name, icon, body, isLocal = GetMacroInfo(SimID)
-						GameTooltip:SetText(name,1, 1, 1, 1)
-						GameTooltip:Show();
-					end
+					local name, icon, body, isLocal = GetMacroInfo(SimID)
+					GameTooltip:SetText(name,1, 1, 1, 1)
+					GameTooltip:Show();
 				end
-			elseif Type=="equipmentset" then
-				OnEnter_equipmentset(Type,SimID)
 			end
+		elseif Type=="equipmentset" then
+			OnEnter_equipmentset(Type,SimID)
 		end
+	end
+end
+--装备套装
+function ActionFun.Update_Equipment(self)
+	if self.Type=="equipmentset" then
+		ActionFun.Update_Attribute(self)
+		ActionFun.Update_Icon(self)
+		ActionFun.Update_Count(self)
+		ActionFun.Update_State(self)
 	end
 end
 ---处理光标
@@ -868,23 +903,6 @@ function ActionFun.Update_Macro(self,PigMacroDeleted,PigMacroCount,dataY)
 		PigMacroCount = AccMacros + CharMacros;
 	end
 	return PigMacroDeleted,PigMacroCount
-end
-addonTable.ActionFun=ActionFun
---装备套装
-function ActionFun.Update_Equipment(self,dataY)
-	if self.Type=="equipmentset" then
-		local eqid=C_EquipmentSet.GetEquipmentSetID(self.SimID)
-		if eqid then
-
-		else
-			self.Type=nil
-			PIGA_Per[dataY]["ActionData"][self.action]=nil
-		end
-		ActionFun.Update_Attribute(self)
-		ActionFun.Update_Icon(self)
-		ActionFun.Update_Count(self)
-		ActionFun.Update_State(self)
-	end
 end
 ---
 addonTable.Fun.ActionFun=ActionFun

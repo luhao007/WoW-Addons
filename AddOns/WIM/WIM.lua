@@ -15,7 +15,7 @@ setfenv(1, WIM);
 
 -- Core information
 addonTocName = "WIM";
-version = "3.13.4";
+version = "3.14.3";
 beta = false; -- flags current version as beta.
 debug = false; -- turn debugging on and off.
 useProtocol2 = true; -- test switch for new W2W Protocol. (Dev use only)
@@ -556,6 +556,23 @@ function GetTalentSpec()
 end
 
 
+-- 12.00.00 + Secret Tools
+function IsSecretValue(...)
+	if _G.issecretvalue then
+		return _G.issecretvalue(...);
+	else
+		return false;
+	end
+end
+
+function InChatMessagingLockdown()
+	if _G.C_ChatInfo and _G.C_ChatInfo.InChatMessagingLockdown then
+		return _G.C_ChatInfo.InChatMessagingLockdown();
+	else
+		return false;
+	end
+end
+
 
 
 -- list of PreSendFilterText(text)
@@ -580,3 +597,13 @@ function(text)
 end
 );
 ]]
+
+function NextTick(func)
+	if(type(func) == "function") then
+		if _G.C_Timer and _G.C_Timer.After then
+			_G.C_Timer.After(0, func);
+		else
+			func();
+		end
+	end
+end

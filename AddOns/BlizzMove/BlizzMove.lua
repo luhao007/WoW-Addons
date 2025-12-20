@@ -19,7 +19,6 @@ local UpdateUIPanelPositions = UpdateUIPanelPositions;
 local MouseIsOver = MouseIsOver;
 local xpcall = xpcall;
 local CallErrorHandler = CallErrorHandler;
-local Settings_OpenToCategory = Settings and Settings.OpenToCategory or InterfaceOptionsFrame_OpenToCategory;
 local strsplit = strsplit;
 local GetBuildInfo = GetBuildInfo;
 local tinsert = tinsert;
@@ -1580,7 +1579,7 @@ do
             return;
         end
 
-        Settings_OpenToCategory('BlizzMove');
+        self.Config:OpenConfig();
     end
 
     --- @type BlizzMoveDB

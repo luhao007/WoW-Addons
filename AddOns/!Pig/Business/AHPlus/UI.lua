@@ -208,10 +208,32 @@ function BusinessInfo.QuicAuc()
 		end
 	end
 end
+function BusinessInfo.BagOpen()
+	local function AHPlus_BagOpen(open)
+		if PIGA["AHPlus"]["SimpleMode"] then return end
+		if PIGA["AHPlus"]["BagOpen"] then
+			if open then
+				OpenAllBags()
+			else
+				CloseAllBags();
+			end
+		end
+	end
+	AHPlus_BagOpen(true)
+	UIParent:HookScript("OnEvent", function(self,event)
+		if event=="AUCTION_HOUSE_SHOW" then
+			AHPlus_BagOpen(true)
+		elseif event=="AUCTION_HOUSE_CLOSED" then
+			AHPlus_BagOpen(false)
+		end
+	end)
+end
 ------------
 function BusinessInfo.AHPlus_ADDUI()
 	if PIGA["AHPlus"]["Open"] then
 		BusinessInfo.QuicAuc()
+		Fun.IsAddOnLoaded("Blizzard_AuctionHouseUI",BusinessInfo.BagOpen)
+		Fun.IsAddOnLoaded("Blizzard_AuctionUI",BusinessInfo.BagOpen)
 		if PIG_MaxTocversion(90000) then--9.2.7暗影国度跨服务器包括宝石、草药、合剂、消耗品等。不过，武器和盔甲这类非商品类物品仍然只能在单个服务器内交易，并不会跨服共享
 			PIGA["AHPlus"]["CacheData"][PIG_OptionsUI.Realm]=PIGA["AHPlus"]["CacheData"][PIG_OptionsUI.Realm] or {}
 		end

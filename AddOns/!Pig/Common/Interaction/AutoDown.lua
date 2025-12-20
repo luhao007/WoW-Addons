@@ -18,8 +18,8 @@ zidongxiama:SetScript("OnEvent", function(self,event,key,state)
 	--print(key,state);
 	if errList1[state] then
 		DoEmote("stand")--站立
-	elseif errList2[state] then
-		Dismount()	--下马
+	-- elseif errList2[state] then
+	-- 	Dismount()	--下马
 	--elseif state == '你不能在变形状态下使用空中运输服务！' then
 	-- 	CancelShapeshiftForm()--取消变形
 	end

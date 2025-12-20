@@ -1,4 +1,12 @@
 --[===[ File
+Contains various utility routines used by
+- Titan
+- Plugin developers for strings; create menus; and more
+- Addon developers that want to know which Titan full bars is on the UI
+- Dropdown menu
+--]===]
+
+--[===[
 This large file contains various utility routines used by
 - Titan
 - Plugin developers for strings; create menus; and more
@@ -33,7 +41,6 @@ Dec 2018 : Replace the Ace lib with the Blizzard drop down routines
 
 local _G = getfenv(0);
 local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
-local media = LibStub("LibSharedMedia-3.0")
 local AceHook = LibStub("AceHook-3.0")
 
 local drop_down_1 = "" -- changes if using Blizz drop down (retail) or lib (Classic)
@@ -42,7 +49,7 @@ local drop_down_1 = "" -- changes if using Blizz drop down (retail) or lib (Clas
 drop_down_1 = "DropDownList1" -- Boo!! Per hard-coded Blizz UIDropDownMenu.lua
 
 --[[
-This set of routines controls the menu timer. 
+This set of routines controls the menu timer.
 It keeps the menu open as long as the mouse is over an open menu or sub menu.
 
 The timer is only on the top (drop_down_1) NOT on any sub menu.
@@ -51,15 +58,15 @@ We cannot reliably use OnEnter / OnLeave only because the user may leave the mou
 The OnUpdate must do the 'over menu' check.
 --]]
 local function IsMouseOverMenu()
-	for idx = 1, UIDROPDOWNMENU_MAXLEVELS do -- 
+	for idx = 1, UIDROPDOWNMENU_MAXLEVELS do --
 		if _G["DropDownList" .. idx]:IsMouseOver() then
---[[
+			--[[
 print("TU _Mouse on menu"
 .." "..tostring(idx)..""
 .." / "..tostring(UIDROPDOWNMENU_MAXLEVELS)..""
 )
 --]]
-			return true -- 
+			return true --
 		else
 			-- not over, keep checking
 		end
@@ -73,26 +80,26 @@ local tstr = ""
 ---@param self Frame
 ---@param elapsed number
 local function OnUpdateTimer(self, elapsed)
-	local str = "Counting" .." "..tostring(self:GetName()).." "
+	local str = "Counting" .. " " .. tostring(self:GetName()) .. " "
 	if (not self.showTimer or not self.isCounting) then -- no timer running
 		str = str .. "no timer"
---		return;
+		--		return;
 	elseif (self.showTimer < 0) then -- timer expired
 		str = str .. "expired"
 		self:Hide();
 		self.showTimer = nil;
 		self.isCounting = nil;
-	elseif IsMouseOverMenu() then -- mouse is over some (sub)menu
+	elseif IsMouseOverMenu() then           -- mouse is over some (sub)menu
 		str = str .. "mouse over"
 		self.showTimer = UIDROPDOWNMENU_SHOW_TIME -- reset timer
-	else -- mouse is elsewhere, decrease timer
+	else                                    -- mouse is elsewhere, decrease timer
 		str = str .. "count down"
 		self.showTimer = self.showTimer - elapsed;
 	end
 	str = str
-		.." "..tostring(self.showTimer)..""
-		.." "..tostring(self.isCounting)..""
---[[
+		.. " " .. tostring(self.showTimer) .. ""
+		.. " " .. tostring(self.isCounting) .. ""
+	--[[
 if str == tstr then
 -- same, prevent run away text
 else
@@ -111,16 +118,16 @@ local function StartCounting(self)
 	if (self.parent) then
 		StartCounting(self.parent) -- walk to top menu
 		str = str .. "parent"
---	elseif IsMouseOverMenu() then
+		--	elseif IsMouseOverMenu() then
 		-- Mouse is in the menu
---		str = str .. "over"
+		--		str = str .. "over"
 	else
 		str = str .. "start"
 		-- allow time out
 		self.showTimer = UIDROPDOWNMENU_SHOW_TIME;
 		self.isCounting = 1;
 	end
---[[
+	--[[
 print("TU _Leave Start"
 .." "..tostring(str)..""
 .." "..tostring(self:GetName())..""
@@ -137,15 +144,15 @@ local function StopCounting(frame)
 	if (frame.parent) then
 		str = str .. "parent"
 		StopCounting(frame.parent) -- walk to top menu
---	elseif IsMouseOverMenu() then
---		str = str .. "stop"
---		frame.isCounting = nil;
+		--	elseif IsMouseOverMenu() then
+		--		str = str .. "stop"
+		--		frame.isCounting = nil;
 		-- Mouse is in the menu
 	else
 		str = str .. "nop"
 		-- Nothing to do; if timing, allow to run out
 	end
---[[
+	--[[
 print("TU _Enter Stop"
 .." "..tostring(str)..""
 .." "..tostring(frame:GetName())..""
@@ -159,7 +166,7 @@ end
 ---@param level number
 ---@param index number
 function TitanUtils_AddHide(level, index)
---[[
+	--[[
 print("TU _AddHide"
 .." "..tostring(level)..""
 .." "..tostring(index)..""
@@ -196,13 +203,13 @@ print("TU _dd"
 	end
 --]]
 	-- In case any code creates more than 3.
----@diagnostic disable-next-line: param-type-mismatch
+	---@diagnostic disable-next-line: param-type-mismatch
 	if not AceHook:IsHooked("UIDropDownMenu_CreateFrames", TitanUtils_AddHide) then
 		AceHook:SecureHook("UIDropDownMenu_CreateFrames", TitanUtils_AddHide)
 	end
 
 	-- This handles any level so hook it here
----@diagnostic disable-next-line: param-type-mismatch
+	---@diagnostic disable-next-line: param-type-mismatch
 	if not AceHook:IsHooked("UIDropDownMenu_OnUpdate", OnUpdateTimer) then
 		AceHook:SecureHook("UIDropDownMenu_OnUpdate", OnUpdateTimer)
 	end
@@ -664,7 +671,7 @@ function TitanUtils_GetPlugin(id)
 end
 
 ---Titan Return the bar the plugin is shown on.
----@param id string?
+---@param id string
 ---@return string? ShortName
 ---@return string? LocaleName
 function TitanUtils_GetWhichBar(id)
@@ -727,7 +734,8 @@ but was removed during DragonFlight to give users more flexibility.
 		end
 	end
 
-	if TitanGetVar(id, "DisplayOnRightSide") then
+	-- tostring is for IDE - id nil then check would return false
+	if TitanGetVar(tostring(id), "DisplayOnRightSide") then
 		found = true
 	end
 
@@ -906,6 +914,24 @@ function TitanUtils_GetControlFrame(id)
 	else
 		return nil;
 	end
+end
+
+---Titan Original : lua-users.org/wiki/CopyTable
+---@param orig any
+---@return any
+function TitanUtils_DeepCopy(orig)
+	local orig_type = type(orig)
+	local copy
+	if orig_type == 'table' then
+		copy = {}
+		for orig_key, orig_value in next, orig, nil do
+			copy[TitanUtils_DeepCopy(orig_key)] = TitanUtils_DeepCopy(orig_value)
+		end
+		setmetatable(copy, TitanUtils_DeepCopy(getmetatable(orig)))
+	else -- number, string, boolean, etc
+		copy = orig
+	end
+	return copy
 end
 
 ---API Routine that index of the value given.
@@ -1144,7 +1170,7 @@ function TitanUtils_NumToString(amount, thousands_separator, decimal_separator)
 	Handle the general cases of converting any number to a string with separators for plugins.
 	Titan usage is , / . or . / , although this will handle other schemes.
 	NOTE: Currently only positive, whole numbers are passed in from Titan (no fractional or negative).
-	NOTE: If ampount is 100 trillion or more then return the string as is to avoid very messy strings.
+	NOTE: If amount is 100 trillion or more then return the string as is to avoid very messy strings.
 		This is the behavior of Lua tostring.
 	NOTE: Do not use separator directly in gsub - it could be a pattern special char, resulting in unexpected behavior!
 	--]=]
@@ -1153,7 +1179,8 @@ function TitanUtils_NumToString(amount, thousands_separator, decimal_separator)
 
 	if type(amount) == "number" then
 		-- Break number into segments - minus, integer, and fractional
-		local i, j, minus, int, fraction = 0, 0, "", "", ""
+		local i, j
+		local minus, int, fraction = "", "", ""
 		if amount > 99999999999999 then -- 1 trillion - 1
 			int = tostring(amount)
 			-- leave as is and, if gold, congratulate the player!!!
@@ -1254,7 +1281,7 @@ function TitanUtils_CashToString(value, thousands_separator, decimal_separator, 
 		if show_zero then
 			copper_str = TitanUtils_GetHexText("0" .. c_lab, cc) --cc .. (amount or "?") .. c_lab .. "" .. FONT_COLOR_CODE_CLOSE
 		end
-	elseif amount > 999999999999999999 then              -- 999,999,999,999,999,999 (1 quadrillion - 1)
+	elseif amount > 999999999999999999 then             -- 999,999,999,999,999,999 (1 quadrillion - 1)
 		-- we are really in trouble :)
 		-- gold should be accurate but in exponent format
 		gold = (math.floor(amount / agold) or 0)
@@ -1701,8 +1728,8 @@ local function TitanUtils_GetPrevButtonOnBar(bar, id, side)
 end
 
 ---Titan Add the given plugin to the given bar. Then reinit the plugins to show it properly.
----@param bar string Bar name to use
----@param id string Plugin to add
+---@param bar string? Bar name to use
+---@param id string? Plugin to add
 function TitanUtils_AddButtonOnBar(bar, id)
 	local frame_str = TitanVariables_GetFrameName(bar)
 	-- Add the button to the requested bar, if shown
@@ -1751,18 +1778,22 @@ function TitanUtils_ShiftButtonOnBarLeft(name)
 	local bar = TitanUtils_GetWhichBar(name)
 	local to_idx = nil
 
-	-- buttons on Left are placed L to R;
-	-- buttons on Right are placed R to L
-	if side and side == TITAN_LEFT then
-		to_idx = TitanUtils_GetPrevButtonOnBar(TitanUtils_GetWhichBar(name), name, side)
-	elseif side and side == TITAN_RIGHT then
-		to_idx = TitanUtils_GetNextButtonOnBar(TitanUtils_GetWhichBar(name), name, side)
-	end
-
-	if to_idx then
-		TitanUtils_SwapButtonOnBar(from_idx, to_idx);
+	if bar == nil then
+		-- not on a bar, do nothing
 	else
-		return
+		-- buttons on Left are placed L to R;
+		-- buttons on Right are placed R to L
+		if side and side == TITAN_LEFT then
+			to_idx = TitanUtils_GetPrevButtonOnBar(bar, name, side)
+		elseif side and side == TITAN_RIGHT then
+			to_idx = TitanUtils_GetNextButtonOnBar(bar, name, side)
+		end
+
+		if to_idx then
+			TitanUtils_SwapButtonOnBar(from_idx, to_idx);
+		else
+			-- at 'end' of buttons
+		end
 	end
 end
 
@@ -1775,18 +1806,22 @@ function TitanUtils_ShiftButtonOnBarRight(name)
 	local side = TitanPanel_GetPluginSide(name)
 	local bar = TitanUtils_GetWhichBar(name)
 
-	-- buttons on Left are placed L to R;
-	-- buttons on Right are placed R to L
-	if side and side == TITAN_LEFT then
-		to_idx = TitanUtils_GetNextButtonOnBar(bar, name, side)
-	elseif side and side == TITAN_RIGHT then
-		to_idx = TitanUtils_GetPrevButtonOnBar(bar, name, side)
-	end
-
-	if to_idx then
-		TitanUtils_SwapButtonOnBar(from_idx, to_idx);
+	if bar == nil then
+		-- not on a bar, do nothing
 	else
-		return
+		-- buttons on Left are placed L to R;
+		-- buttons on Right are placed R to L
+		if side and side == TITAN_LEFT then
+			to_idx = TitanUtils_GetNextButtonOnBar(bar, name, side)
+		elseif side and side == TITAN_RIGHT then
+			to_idx = TitanUtils_GetPrevButtonOnBar(bar, name, side)
+		end
+
+		if to_idx then
+			TitanUtils_SwapButtonOnBar(from_idx, to_idx);
+		else
+			-- at 'end' of buttons
+		end
 	end
 end
 
@@ -1849,22 +1884,30 @@ function TitanUtils_GetOffscreen(frame)
 		return 0, 0 -- ??
 	end
 	local fr_scale = frame:GetEffectiveScale()
+	local fr_top = frame:GetTop()
+	local fr_left = frame:GetLeft()
+	local fr_right = frame:GetRight()
+	local fr_bot = frame:GetBottom()
+	local uip_top = UIParent:GetTop()
+	local uip_left = UIParent:GetLeft()
+	local uip_right = UIParent:GetRight()
+	local uip_bot= UIParent:GetBottom()
 
-	if (frame and frame:GetLeft()
-			and frame:GetLeft() * fr_scale < UIParent:GetLeft() * ui_scale) then
+	if (frame and fr_left
+			and fr_left * fr_scale < uip_left * ui_scale) then
 		offscreenX = -1;
-	elseif (frame and frame:GetRight()
-			and frame:GetRight() * fr_scale > UIParent:GetRight() * ui_scale) then
+	elseif (frame and fr_right
+			and fr_right * fr_scale > uip_right * ui_scale) then
 		offscreenX = 1;
 	else
 		offscreenX = 0;
 	end
 
-	if (frame and frame:GetTop()
-			and frame:GetTop() * fr_scale > UIParent:GetTop() * ui_scale) then
+	if (frame and fr_top
+			and fr_top * fr_scale > uip_top * ui_scale) then
 		offscreenY = -1;
-	elseif (frame and frame:GetBottom()
-			and frame:GetBottom() * fr_scale < UIParent:GetBottom() * ui_scale) then
+	elseif (frame and fr_bot
+			and fr_bot * fr_scale < uip_bot * ui_scale) then
 		offscreenY = 1;
 	else
 		offscreenY = 0;
@@ -1940,11 +1983,11 @@ If someone where to start creating Titan frames after the registration process w
 		notes = notes,
 	}
 
-		Titan_Debug.Out('titan', 'plugin_register', "Queue Plugin"
-			--			.." '"..tostring(self:GetName()).."'"
-			.. " '" .. tostring(TitanUtils_GetButtonID(self:GetName())) .. "'"
-			.. " " .. tostring(TITAN_NOT_REGISTERED) .. ""
-		)
+	Titan_Debug.Out('titan', 'plugin_register', "Queue Plugin"
+		--			.." '"..tostring(self:GetName()).."'"
+		.. " '" .. tostring(TitanUtils_GetButtonID(self:GetName())) .. "'"
+		.. " " .. tostring(TITAN_NOT_REGISTERED) .. ""
+	)
 end
 
 ---local Handle a Titan plugin that could not be registered.
@@ -2076,7 +2119,7 @@ NOTE:
 			else
 				-- We are almost done-
 				TitanPanelButton_AddMouseScripts(self)
---[[
+				--[[
 				-- Allow mouse clicks on the plugin
 				local pluginID = TitanUtils_GetButtonID(self:GetName());
 				local plugin_id = TitanUtils_GetPlugin(pluginID);
@@ -2121,13 +2164,13 @@ NOTE:
 		issue = "Can not determine plugin button name"
 	end
 
-			Titan_Debug.Out('titan', 'plugin_register', "Plugin RegProt"
-			--			.." '"..tostring(self:GetName()).."'"
-			.. " '" .. tostring(id) .. "'"
-			.. " '" .. tostring(result) .. "'"
-			.. " '" .. tostring(str) .. "'"
-			.. " '" .. tostring(TitanPlugins[id].id) .. "'"
-		)
+	Titan_Debug.Out('titan', 'plugin_register', "Plugin RegProt"
+		--			.." '"..tostring(self:GetName()).."'"
+		.. " '" .. tostring(id) .. "'"
+		.. " '" .. tostring(result) .. "'"
+		.. " '" .. tostring(str) .. "'"
+		.. " '" .. tostring(TitanPlugins[id].id) .. "'"
+	)
 
 	-- create and return the results
 	local ret_val = {}
@@ -2193,10 +2236,10 @@ function TitanUtils_RegisterPlugin(plugin)
 				, "error")
 		end
 
-			Titan_Debug.Out('titan', 'plugin_register', "Registering Plugin"
-				.. " " .. tostring(plugin.name) .. ""
-				.. " " .. tostring(plugin.status) .. ""
-			)
+		Titan_Debug.Out('titan', 'plugin_register', "Registering Plugin"
+			.. " " .. tostring(plugin.name) .. ""
+			.. " " .. tostring(plugin.status) .. ""
+		)
 	end
 end
 
@@ -2312,11 +2355,11 @@ local function TitanRightClickMenu_OnLoad(self, menu)
 		end
 	end
 
-		if err == "" then
-			-- all is good
-		else
-			Titan_Debug.Out('titan', 'menu', "Error: "..err)
-		end
+	if err == "" then
+		-- all is good
+	else
+		Titan_Debug.Out('titan', 'menu', "Error: " .. err)
+	end
 	-- Under the cover the menu is built as DropDownList1
 	--	return DropDownList1, DropDownList1:GetHeight(), DropDownList1:GetWidth()
 	return menu, menu:GetHeight(), menu:GetWidth()
@@ -2340,7 +2383,8 @@ print("_ toggle R menu"
 	local drop_menu, menu_height, menu_width = TitanRightClickMenu_OnLoad(self, menu)
 
 	-- Adjust the Y offset as needed
-	local rel_y = _G[frame]:GetTop() - menu_height
+	local ftop = _G[frame]:GetTop()
+	local rel_y = ftop - menu_height
 	if rel_y > 0 then
 		menu.point = "TOP";
 		menu.relativePoint = "BOTTOM";
@@ -2353,15 +2397,17 @@ print("_ toggle R menu"
 	-- Adjust the X offset as needed
 	local x_offset = 0
 	local left = 0
+	local flft = _G[frame]:GetLeft()
+	local effscale = UIParent:GetEffectiveScale()
 	if TitanBarData[frame] then
 		-- on a Titan bar so use cursor for the 'left'
 		left = GetCursorPosition() -- get x; ignore y
-		left = left / UIParent:GetEffectiveScale()
+		left = left / effscale
 		-- correct for beginning of Titan bar
-		left = left - _G[frame]:GetLeft()
+		left = left - flft
 	else
 		-- a plugin
-		left = _G[frame]:GetLeft()
+		left = flft
 	end
 	local rel_x = left + menu_width
 	if (rel_x < GetScreenWidth()) then
@@ -2459,13 +2505,15 @@ end
 ---@return string server_name or ""
 function TitanUtils_GetPlayer()
 	local playerName = UnitName("player");
-	local serverName = GetRealmName();
+	local serverName = GetRealmName()
 	local toon = "<>"
 
 	if (playerName == nil
 			or serverName == nil
 			or playerName == UKNOWNBEING) then
 		-- Do nothing if player name is not available
+		playerName = ""
+		serverName = ""
 	else
 		toon = playerName .. TITAN_AT .. serverName
 	end
@@ -2473,55 +2521,19 @@ function TitanUtils_GetPlayer()
 	return toon, playerName, serverName
 end
 
----Titan Return the global profile setting and the global profile name, if any.
----@return boolean global_in_use
----@return string profile name or "<>"
----@return string player_name or ""
----@return string server_name or ""
-function TitanUtils_GetGlobalProfile()
-	local playerName = ""
-	local serverName = ""
-	local glob = TitanAllGetVar("GlobalProfileUse")
-	local toon = TitanAllGetVar("GlobalProfileName")
-
-	if not toon then
-		-- this is a new install or toon
-		toon = TITAN_PROFILE_NONE
-		TitanAllSetVar("GlobalProfileName", TITAN_PROFILE_NONE)
-	end
-	if (toon == TITAN_PROFILE_NONE) then
-		--
-	else
-		-- If the profile name is not the default then split the name
-		playerName, serverName = TitanUtils_ParseName(toon)
-	end
-
-	return glob, toon, playerName, serverName
-end
-
----Titan Return the global profile setting and the global profile name, if any.
----@param glob boolean Use global profile
----@param toon string? Global profile name or default
-function TitanUtils_SetGlobalProfile(glob, toon)
-	TitanAllSetVar("GlobalProfileUse", glob)
-	if glob then
-		-- The user asked for global
-		if toon == nil or toon == TITAN_PROFILE_NONE then
-			-- nothing was set before so use current player
-			toon = TitanUtils_GetPlayer()
-		end
-	end
-	TitanAllSetVar("GlobalProfileName", toon or TITAN_PROFILE_NONE)
-end
-
 ---Titan Return the screen size after scaling
 ---@return table screenXY { x | y | scaled_x | scaled_y } all numbers
 function TitanUtils_ScreenSize()
 	local screen = {}
-	screen.x = UIParent:GetRight()
-	screen.y = UIParent:GetTop()
-	screen.scaled_x = UIParent:GetRight() * UIParent:GetEffectiveScale()
-	screen.scaled_y = UIParent:GetTop() * UIParent:GetEffectiveScale()
+
+	local x = UIParent:GetRight()
+	local y = UIParent:GetTop()
+	local s = UIParent:GetEffectiveScale()
+
+	screen.x = x
+	screen.y = y
+	screen.scaled_x = x * s
+	screen.scaled_y = y * s
 
 	--[[
 	if output then
@@ -2548,6 +2560,120 @@ function TitanUtils_ScreenSize()
 
 	return screen
 end
+
+--====== Export / Import specifc routines
+
+local function TrimString(string)
+	local from = string:match "^%s*()"
+	return from > #string and "" or string:match(".*%S", from)
+end
+
+local function CopyToCompress(t1, t2)
+	for key, value in pairs(t2) do
+		if (key ~= "__index" and type(value) ~= "function") then
+			if (type(value) == "table") then
+				if (not value.GetObjectType) then
+					t1[key] = t1[key] or {}
+					CopyToCompress(t1[key], t2[key])
+				end
+			else
+				t1[key] = value
+			end
+		end
+	end
+	return t1
+end
+
+---Titan Compress and serialize arbitrary data into a string
+---@param data any
+---@param dataType string print | comm
+---@return string compressed could be ""
+function TitanUtils_CompressData(data, dataType)
+	local LibDeflate = LibStub:GetLibrary("LibDeflate")
+	local LibAceSerializer = LibStub:GetLibrary("AceSerializer-3.0")
+
+	--check if there isn't funtions in the data to export
+	local dataCopied = CopyToCompress({}, data)
+
+	if (LibDeflate and LibAceSerializer) then
+		local dataSerialized = LibAceSerializer:Serialize(dataCopied)
+		if (dataSerialized) then
+			local dataCompressed = LibDeflate:CompressDeflate(dataSerialized, { level = 9 })
+			if (dataCompressed) then
+				if (dataType == "print") then
+					local dataEncoded = LibDeflate:EncodeForPrint(dataCompressed)
+					return dataEncoded
+				elseif (dataType == "comm") then
+					local dataEncoded = LibDeflate:EncodeForWoWAddonChannel(dataCompressed)
+					return dataEncoded
+				end
+			end
+		end
+	end
+
+	return ""
+end
+
+---Titan Decompress and unserialize a string into the Lua data it represents
+---@param data any
+---@param dataType string print | comm
+---@return boolean
+---@return table
+function TitanUtils_DecompressData(data, dataType)
+	local LibDeflate = LibStub:GetLibrary("LibDeflate")
+	local LibAceSerializer = LibStub:GetLibrary("AceSerializer-3.0")
+
+	if (LibDeflate and LibAceSerializer) then
+		local dataCompressed
+
+		if (dataType == "print") then
+			data = TrimString(data)
+			dataCompressed = LibDeflate:DecodeForPrint(data)
+			if (not dataCompressed) then
+				TitanPrint("Could not decode the data.", "warning")
+				return false, {}
+			end
+		elseif (dataType == "comm") then
+			dataCompressed = LibDeflate:DecodeForWoWAddonChannel(data)
+			if (not dataCompressed) then
+				TitanPrint("Could not decode the data.", "warning")
+				return false, {}
+			end
+		end
+
+		local dataSerialized = LibDeflate:DecompressDeflate(dataCompressed)
+		if (not dataSerialized) then
+			TitanPrint("Could not uncompress the data.", "warning")
+			return false, {}
+		end
+
+		local okay, out_data = LibAceSerializer:Deserialize(dataSerialized)
+		if (not okay) then
+			TitanPrint("Could not unserialize the data.", "warning")
+			return false, {}
+		end
+
+		return true, out_data
+	end
+	return false, {}
+end
+
+--[==[
+
+local profile = TitanSettings.Players["Nycti@Staghelm"] --TitanSettings
+
+local out = CompressData(profile, "print")
+print("====")
+print(string.len(out))
+print(tostring(out))
+print("------")
+
+local in_p = DecompressData(out, "print")
+
+print(tostring(in_p))
+TitanDumpTable(in_p)
+print("====")
+--]==]
 
 --------------------------------------------------------------
 -- Various debug routines
@@ -2646,10 +2772,9 @@ end
 ---Titan: Output the current list of registered plugins.
 function TitanDumpPluginList()
 	-- Just dump the current list of plugins
-	local plug_in = {}
 	for idx, value in pairs(TitanPluginsIndex) do
-		plug_in = TitanUtils_GetPlugin(TitanPluginsIndex[idx])
-		if plug_in then
+		local plug_in = TitanUtils_GetPlugin(TitanPluginsIndex[idx])
+		if type(plug_in) == 'table' then
 			TitanDebug("TitanDumpPluginList "
 				.. "'" .. tostring(idx) .. "'"
 				.. ": '" .. tostring(plug_in.id) .. "'"
@@ -2737,18 +2862,18 @@ end
 ---@param tb table
 ---@param level integer? 1 or defaults to 1
 function TitanDumpTable(tb, level)
-   level = level or 1
-   local spaces = string.rep(' ', level)
-   for k, v in pairs(tb) do
-      if type(v) == "table" then
-         print("[" .. level .. "]" .. spaces .. "[" .. tostring(k) .. "]" .. " "..type(v))
-         if level <= 8 then
-            TitanDumpTable(v, level+1)
-         end
-      else
-         print("[" .. level .. "]" ..spaces .. "[" .. tostring(k) .. "]='" .. tostring(v) .. "' "..type(v))
-      end
-   end
+	level = level or 1
+	local spaces = string.rep(' ', level)
+	for k, v in pairs(tb) do
+		if type(v) == "table" then
+			print("[" .. level .. "]" .. spaces .. "[" .. tostring(k) .. "]" .. " " .. type(v))
+			if level <= 8 then
+				TitanDumpTable(v, level + 1)
+			end
+		else
+			print("[" .. level .. "]" .. spaces .. "[" .. tostring(k) .. "]='" .. tostring(v) .. "' " .. type(v))
+		end
+	end
 end
 
 ---Titan: From a given table; find input in its indexes.

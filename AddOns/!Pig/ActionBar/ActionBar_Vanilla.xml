@@ -1,9 +1,11 @@
 <Ui>
 	<Script file="Options.lua" />
+	<Script file="Add_ActionBar.lua" />
 	<Script file="QuickBut.lua" />
 	<Script file="QuickBut_AddonList.lua" />
 	<Script file="QuickBut_Equip.lua" />
 	<Script file="QuickBut_Trinket.lua" />
 	<Script file="QuickBut_Rune.lua" />
-	<Script file="PigActionBar.lua" />	
+	<Script file="ConsActionBar.lua" />
+	<Script file="PigActionBar.lua" />
 </Ui>

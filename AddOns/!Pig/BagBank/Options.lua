@@ -144,8 +144,6 @@ function BagBankfun.SetSortBagsRightToLeft(enabled)
 	end
 end
 local BAG_SetList = {
-	{"交易时打开背包","jiaoyiOpen",false},
-	{"拍卖时打开背包","AHOpen",false},
 	{"显示装备等级","wupinLV",true},
 	{"垃圾物品提示","JunkShow",true},
 	{"战利品放入左边包",GetInsertItemsLeftToRight,false},
@@ -186,7 +184,7 @@ end
 BagBankF.SetListF.hangNUMTXT = PIGFontString(BagBankF.SetListF,{"TOPLEFT",BagBankF.SetListF,"TOPLEFT",20,-220},"背包每行格数")
 local BagmeihangN= {8,16,1}
 BagBankF.SetListF.hangNUM = PIGSlider(BagBankF.SetListF,{"LEFT", BagBankF.SetListF.hangNUMTXT,"RIGHT",4,0},BagmeihangN)	
-BagBankF.SetListF.hangNUM.Slider:HookScript("OnValueChanged", function(self, arg1)
+function BagBankF.SetListF.hangNUM:PIGOnValueChange(arg1)
 	PIGA["BagBank"]["BAGmeihangshu"] = arg1-BagBankfun.BAGmeihangshu
 	if PIG_MaxTocversion() then
 		if _G[BagBankfun.BagUIName] then _G[BagBankfun.BagUIName].meihang=arg1 end
@@ -197,12 +195,12 @@ BagBankF.SetListF.hangNUM.Slider:HookScript("OnValueChanged", function(self, arg
 		CloseAllBags()
 		OpenAllBags()
 	end
-end)
+end
 --缩放
 BagBankF.SetListF.suofangTXT = PIGFontString(BagBankF.SetListF,{"TOPLEFT",BagBankF.SetListF.hangNUMTXT,"BOTTOMLEFT",0,-20},"背包缩放比例")
 local BAGsuofangbili = {0.8,1.4,0.01,{["Right"]="%"}}
 BagBankF.SetListF.suofang = PIGSlider(BagBankF.SetListF,{"LEFT", BagBankF.SetListF.suofangTXT,"RIGHT",4,0},BAGsuofangbili)	
-BagBankF.SetListF.suofang.Slider:HookScript("OnValueChanged", function(self, arg1)
+function BagBankF.SetListF.suofang:PIGOnValueChange(arg1)
 	PIGA["BagBank"]["BAGsuofangBili"] = arg1;
 	if PIG_MaxTocversion() then
 		if _G[BagBankfun.BagUIName] then _G[BagBankfun.BagUIName].suofang=arg1 end
@@ -213,7 +211,7 @@ BagBankF.SetListF.suofang.Slider:HookScript("OnValueChanged", function(self, arg
 		CloseAllBags()
 		OpenAllBags()
 	end
-end)
+end
 
 BagBankF.SetListF.CZpeizhi = PIGButton(BagBankF.SetListF,{"BOTTOMLEFT",BagBankF.SetListF,"BOTTOMLEFT",20,6},{150,24},"背包异常点此重置");
 BagBankF.SetListF.CZpeizhi:SetScript("OnClick", function(self, button)

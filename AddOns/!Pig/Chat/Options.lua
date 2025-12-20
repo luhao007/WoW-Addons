@@ -217,10 +217,10 @@ local function JoinPIG(pindaoName)
 			JoinTemporaryChannel(pindaoName, nil, DEFAULT_CHAT_FRAME:GetID(), 1);
 		else
 			JoinPermanentChannel(pindaoName, nil, DEFAULT_CHAT_FRAME:GetID(), 1);
-			ChatFrame_AddChannel(DEFAULT_CHAT_FRAME, pindaoName)--订购一个聊天框以显示先前加入的聊天频道
+			PIGChatFrameAddChannel(DEFAULT_CHAT_FRAME, pindaoName)
 		end
 	end
-	ChatFrame_RemoveChannel(DEFAULT_CHAT_FRAME, "PIG");
+	PIGChatFrameRemoveChannel(DEFAULT_CHAT_FRAME, "PIG");
 end
 local function JoinPIG_D_1(pindaoName,jihuo)
 	local chabuts=ChannelFrame.ChannelList.buttons
@@ -383,7 +383,7 @@ local function WhoWhisper_Fun()
 	if not PIGA["Chat"]["WhoWhisper"] then return end
 	if WhoFrame.endsenList then return end
 	WhoFrame.endsenList={}
-	WhoFrame.endsenmsg="随机黑石深渊，来吗？"
+	WhoFrame.endsenmsg=PIGA["Chat"]["WhoWhisperMsg"]
 	WhoFrame.senmsg = PIGButton(WhoFrame,{"TOPLEFT",WhoFrame,"TOPLEFT",160,-26},{60,26},"密语",nil,nil,nil,nil,0);
 	WhoFrame.senmsg:Disable();
 	WhoFrame.senmsg:HookScript("OnClick", function(self, button)
@@ -447,6 +447,7 @@ local function WhoWhisper_Fun()
 	end);
 	WhoFrame.senmsg.bianji.F.NR.E:SetScript("OnCursorChanged", function(self)
 		WhoFrame.endsenmsg=self:GetText();
+		PIGA["Chat"]["WhoWhisperMsg"]=WhoFrame.endsenmsg
 	end);
 end
 ChatF.WhoWhisper = PIGCheckbutton_R(ChatF,{"查询页快捷密语","在查询页增加一个快捷密语按钮"})
@@ -474,11 +475,10 @@ ChatF:HookScript("OnShow", function (self)
 	self.WhoWhisper:SetChecked(PIGA["Chat"]["WhoWhisper"])
 end);
 
-----自定义频道
+----
 ChatF.diypindaoF = PIGFrame(ChatF,{"BOTTOMLEFT",ChatF,"BOTTOMLEFT",0,0})
 ChatF.diypindaoF:SetPoint("BOTTOMRIGHT", ChatF, "BOTTOMRIGHT", 0, 0);
 ChatF.diypindaoF:SetHeight(40);
-ChatF.diypindaoF:PIGSetBackdrop(0)
 --屏蔽人员进入提示
 local function RemTips_Fun()
 	if PIGA["Chat"]["RemTips"] then
@@ -518,8 +518,8 @@ ChatF.diypindaoF:HookScript("OnShow", function (self)
 end);
 
 --消息额外信息
-ChatF.extinfoF = PIGFrame(ChatF,{"BOTTOMLEFT",ChatF.diypindaoF,"TOPLEFT",0,-1})
-ChatF.extinfoF:SetPoint("BOTTOMRIGHT", ChatF.diypindaoF, "TOPRIGHT", 0, -1);
+ChatF.extinfoF = PIGFrame(ChatF,{"BOTTOMLEFT",ChatF.diypindaoF,"TOPLEFT",0,0})
+ChatF.extinfoF:SetPoint("BOTTOMRIGHT", ChatF.diypindaoF, "TOPRIGHT", 0, 0);
 ChatF.extinfoF:SetHeight(200);
 ChatF.extinfoF:PIGSetBackdrop(0)
 --查看远程装备图标
@@ -665,32 +665,32 @@ end
 local xiayiinfo = {0.8,1.6,0.1,{["Right"]="%"}}
 QuickButF.QuickChat.Slider = PIGSlider(QuickButF.QuickChat,{"TOPLEFT",QuickButF.QuickChat,"BOTTOMLEFT",30,-50},xiayiinfo,110)
 QuickButF.QuickChat.Slider.bt = PIGFontString(QuickButF.QuickChat.Slider,{"RIGHT", QuickButF.QuickChat.Slider, "LEFT", 0, 0},"缩放")
-QuickButF.QuickChat.Slider.Slider:HookScript("OnValueChanged", function(self, arg1)
+function QuickButF.QuickChat.Slider:PIGOnValueChange(arg1)
 	PIGA["Chat"]["QuickChat_suofang"]=arg1;
 	if QuickChatfun.TabButUI then
 		QuickChatfun.TabButUI:PIGScale()
 	end
-end)
+end
 --X偏移
 local xiayiinfoX = {-200,200,1}
 QuickButF.QuickChat.SliderX = PIGSlider(QuickButF.QuickChat,{"LEFT",QuickButF.QuickChat.Slider,"RIGHT",110,0},xiayiinfoX,110)
 QuickButF.QuickChat.SliderX.bt = PIGFontString(QuickButF.QuickChat.SliderX,{"RIGHT", QuickButF.QuickChat.SliderX, "LEFT", 0, 0},"X偏移")
-QuickButF.QuickChat.SliderX.Slider:HookScript("OnValueChanged", function(self, arg1)
+function QuickButF.QuickChat.SliderX:PIGOnValueChange(arg1)
 	PIGA["Chat"]["QuickChat_pianyiX"]=arg1;
 	if QuickChatfun.TabButUI then
 		QuickChatfun.TabButUI:PIGScale()
 	end
-end)
+end
 --Y偏移
 local xiayiinfoY = {-200,200,1}
 QuickButF.QuickChat.SliderY = PIGSlider(QuickButF.QuickChat,{"LEFT",QuickButF.QuickChat.SliderX,"RIGHT",96,0},xiayiinfoY,110)
 QuickButF.QuickChat.SliderY.bt = PIGFontString(QuickButF.QuickChat.SliderY,{"RIGHT", QuickButF.QuickChat.SliderY, "LEFT", 0, 0},"Y偏移")
-QuickButF.QuickChat.SliderY.Slider:HookScript("OnValueChanged", function(self, arg1)
+function QuickButF.QuickChat.SliderY:PIGOnValueChange(arg1)
 	PIGA["Chat"]["QuickChat_pianyiY"]=arg1;
 	if QuickChatfun.TabButUI then
 		QuickChatfun.TabButUI:PIGScale()
 	end
-end)
+end
 --按钮屏蔽控制窗口
 QuickButF.QuickChat.kongzhi =PIGDownMenu(QuickButF.QuickChat,{"TOPLEFT",QuickButF.QuickChat,"TOPLEFT",120,-120},{180,nil})
 QuickButF.QuickChat.kongzhi.bt = PIGFontString(QuickButF.QuickChat.kongzhi,{"RIGHT", QuickButF.QuickChat.kongzhi, "LEFT", -4, 0},"频道屏蔽控制窗口")
@@ -755,17 +755,17 @@ end);
 local pianyiinfoX = {-200,200,1}
 QuickButF.editPoint_X = PIGSlider(QuickButF,{"LEFT",QuickButF.editMove.Text,"RIGHT",60,0},pianyiinfoX)
 QuickButF.editPoint_X.bt = PIGFontString(QuickButF.editPoint_X,{"RIGHT", QuickButF.editPoint_X, "LEFT", -10, 0},"X偏移")
-QuickButF.editPoint_X.Slider:HookScript("OnValueChanged", function(self, arg1)
+function QuickButF.editPoint_X:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["ChatUI"]["editPoint"][1]=arg1;
 	Update_editBoxPoint()
-end)
+end
 local pianyiinfoY = {-30,500,1}
 QuickButF.editPoint_Y = PIGSlider(QuickButF,{"LEFT",QuickButF.editPoint_X,"RIGHT",100,0},pianyiinfoY)
 QuickButF.editPoint_Y.bt = PIGFontString(QuickButF.editPoint_Y,{"RIGHT", QuickButF.editPoint_Y, "LEFT", -10, 0},"Y偏移")
-QuickButF.editPoint_Y.Slider:HookScript("OnValueChanged", function(self, arg1)
+function QuickButF.editPoint_Y:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["ChatUI"]["editPoint"][2]=arg1;
 	Update_editBoxPoint()
-end)
+end
 QuickButF:HookScript("OnShow", function (self)
 	self.QuickChat:SetChecked(PIGA["Chat"]["QuickChat"])
 	self.QuickChat.maodian:PIGDownMenu_SetText(QuickChat_maodianListCN[PIGA["Chat"]["QuickChat_maodian"]])

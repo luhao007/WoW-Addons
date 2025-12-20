@@ -58,6 +58,7 @@ local function Clear_FailureData()
 	PIGA["Chat"]["TiquKey"]=nil
 	PIGA["Chatjilu"]["jiluinfo"]=nil
 	PIGA["Chatjilu"]["tianshu"]=nil
+
 	PIGA["ActionBar"]["HideShijiu"]=nil
 	PIGA["ActionBar"]["BarRight"]=nil
 	PIGA["ActionBar"]["ActionBar_bili_value"]=nil
@@ -65,10 +66,15 @@ local function Clear_FailureData()
 	PIGA["BagBank"]["lixian"]=nil
 	PIGA["BagBank"]["hulueBAG"]=nil
 	PIGA["BagBank"]["hulueBANK"]=nil
+	PIGA["BagBank"]["jiaoyiOpen"]=nil
+	PIGA["BagBank"]["AHOpen"]=nil
+
 	PIGA["StatsInfo"]["Skill_ExistCD"]=nil
 	PIGA["StatsInfo"]["SkillCD"]=nil
 	PIGA["StatsInfo"]["FubenCD"]=nil
 	PIGA["StatsInfo"]["AHOffline"]=nil
+	PIGA["StatsInfo"]["AHData"]=nil
+			
 	PIGA["AHPlus"]["Data"]=nil
 	PIGA["AHPlus"]["RepeatQuery"]=nil
 	PIGA["AHPlus"]["Time"]=nil

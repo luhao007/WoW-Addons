@@ -195,11 +195,17 @@ local function recordWhisper(inbound, ...)
 end
 
 function History:PostEvent_Whisper(...)
-    recordWhisper(true, ...);
+	-- check if secret value (12.00.00 + Secret Tools)
+	if not IsSecretValue(select(1, ...)) then
+    	recordWhisper(true, ...);
+	end
 end
 
 function History:PostEvent_WhisperInform(...)
-    recordWhisper(false, ...);
+	-- check if secret value (12.00.00 + Secret Tools)
+	if not IsSecretValue(select(1, ...)) then
+    	recordWhisper(false, ...);
+	end
 end
 
 local function deleteOldHistory(isChat)
@@ -263,29 +269,37 @@ end
 
 function History:OnWindowCreated(win)
     if(db.history.preview) then
-        local history = history[env.realm] and history[env.realm][env.character] and history[env.realm][env.character][win.theUser];
-        if(history) then
-            local type = win.type == "whisper" and 1;
-            for i=#history, 1, -1 do
-                table.insert(tmpTable, 1, history[i]);
-                if(#tmpTable >= db.history.previewCount) then
-                    break;
-                end
-            end
-            if(#tmpTable > 0) then
-                win.isHistory = true;
-                win.widgets.history:SetHistory(true);
-                for i=1, #tmpTable do
-                    local color = db.displayColors[tmpTable[i].inbound and "historyIn" or "historyOut"];
-                    win.nextStamp = tmpTable[i].time;
-                    win.nextStampColor = db.displayColors.historyOut;
-                    win:AddMessage(applyMessageFormatting(win.widgets.chat_display, "CHAT_MSG_WHISPER", tmpTable[i].msg, tmpTable[i].from,
-                                    nil, nil, nil, nil, nil, nil, nil, nil, -i, "0x0300000000000000"), color.r, color.g, color.b);
-                end
-                win.widgets.chat_display:AddMessage(" ");
-            end
-            clearTmpTable();
-        end
+
+		local user = win.theUser;
+		local bnId = win.isBN and win.bn.id;
+		if (bnId) then
+			local _, _, btag, _, toonName = GetBNGetFriendInfoByID(bnId);
+			user = btag or toonName or user
+		end
+
+		local history = history[env.realm] and history[env.realm][env.character] and history[env.realm][env.character][user];
+		if(history) then
+			local type = win.type == "whisper" and 1;
+			for i=#history, 1, -1 do
+				table.insert(tmpTable, 1, history[i]);
+				if(#tmpTable >= db.history.previewCount) then
+					break;
+				end
+			end
+			if(#tmpTable > 0) then
+				win.isHistory = true;
+				win.widgets.history:SetHistory(true);
+				for i=1, #tmpTable do
+					local color = db.displayColors[tmpTable[i].inbound and "historyIn" or "historyOut"];
+					win.nextStamp = tmpTable[i].time;
+					win.nextStampColor = db.displayColors.historyOut;
+					win:AddMessage(applyMessageFormatting(win.widgets.chat_display, "CHAT_MSG_WHISPER", tmpTable[i].msg, tmpTable[i].from,
+									nil, nil, nil, nil, nil, nil, nil, nil, -i, "0x0300000000000000"), color.r, color.g, color.b);
+				end
+				win.widgets.chat_display:AddMessage(" ");
+			end
+			clearTmpTable();
+		end
     end
 end
 
@@ -358,6 +372,12 @@ end
 
 function ChatHistory:PostEvent_ChatMessage(event, ...)
     local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11 = ...;
+
+	-- check if secret value (12.00.00 + Secret Tools)
+	if IsSecretValue(arg1) then
+        return;
+    end
+
     event = event:gsub("CHAT_MSG_", "");
     if(event == "CHANNEL") then
         local recordAs;

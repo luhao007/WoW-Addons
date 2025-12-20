@@ -49,9 +49,7 @@ function TardisInfo.ADD_UI()
 		gengxinbut1()
 	end)
 	InvF.jiaruchazhaoqi:SetScript("OnClick", function (self)
-		--JoinPermanentChannel("PIG", nil, DEFAULT_CHAT_FRAME:GetID(), 1);
 		JoinTemporaryChannel("PIG", nil, DEFAULT_CHAT_FRAME:GetID(), 1);
-		ChatFrame_AddChannel(DEFAULT_CHAT_FRAME, "PIG")
 		ChatFrame_RemoveMessageGroup(DEFAULT_CHAT_FRAME, "CHANNEL")
 		gengxinbut1()
 	end)

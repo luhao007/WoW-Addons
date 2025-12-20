@@ -1,6 +1,6 @@
-## Interface: 110205
+## Interface: 110207
 ## Author: nanderson11, Lag, Proteyer, Arith
-## Version: v9.19.2
+## Version: v9.19.6
 
 ## Title: AtlasLoot |cFF22B14C[Core]|r
 ## Notes: Shows the possible loot from the bosses

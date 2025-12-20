@@ -57,10 +57,10 @@ function fujiF.setF.AnchorPoint:PIGDownMenu_SetValue(value,arg1)
 end
 fujiF.setF.HeightT = PIGFontString(fujiF.setF,{"TOPLEFT", fujiF.setF, "TOPLEFT", 20, -60},"信息栏高度")
 fujiF.setF.Height = PIGSlider(fujiF.setF,{"LEFT", fujiF.setF.HeightT, "LEFT", 100, 0},{20, 60, 1})
-fujiF.setF.Height.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.setF.Height:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["TopBar"]["Height"]=arg1;
 	fujiF.Update_XYUI()
-end)
+end
 fujiF.setF.BackdropT = PIGFontString(fujiF.setF,{"TOPLEFT", fujiF.setF, "TOPLEFT", 20, -100},"背景材质")
 fujiF.setF.Backdrop=PIGDownMenu(fujiF.setF,{"LEFT", fujiF.setF.BackdropT, "LEFT", 106, 0},{120,nil})
 function fujiF.setF.Backdrop:PIGDownMenu_Update_But()
@@ -80,10 +80,10 @@ function fujiF.setF.Backdrop:PIGDownMenu_SetValue(value,arg1)
 end
 fujiF.setF.AlphaT = PIGFontString(fujiF.setF,{"TOPLEFT", fujiF.setF, "TOPLEFT", 20, -140},"背景透明度")
 fujiF.setF.Alpha = PIGSlider(fujiF.setF,{"LEFT", fujiF.setF.AlphaT, "LEFT", 100, 0},{0, 1, 0.1})
-fujiF.setF.Alpha.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.setF.Alpha:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["TopBar"]["Alpha"]=arg1;
 	fujiF.Update_XYUI()
-end)
+end
 --
 fujiF.setF:HookScript("OnShow", function(self)
 	self.AnchorPoint:PIGDownMenu_SetText(xyListName[PIGA["PigLayout"]["TopBar"]["AnchorPoint"]])
@@ -193,10 +193,10 @@ function PigLayoutFun.Options_TopBar()
 			local minvvv = CfV[gnname] and ModeListData[CfV[gnname][1]][2][1] or -200
 			local maxvvv = CfV[gnname] and ModeListData[CfV[gnname][1]][2][2] or 200
 			ckbutMenu.OffsetV = PIGSlider(ckbutMenu,{"LEFT", ckbutMenu.OffsetVT, "RIGHT", 0, 0},{minvvv,maxvvv,1},200)
-			ckbutMenu.OffsetV.Slider:HookScript("OnValueChanged", function(self, arg1)
+			function ckbutMenu.OffsetV:PIGOnValueChange(arg1)
 				CfV[gnname][2]=arg1;
 				Update_UIPoint(gndata[1])
-			end)
+			end
 			function ckbutMenu:Update_Checkbut()
 				if CfV[gnname] then
 					self.PointModeT:Show()

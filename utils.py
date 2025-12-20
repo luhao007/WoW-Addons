@@ -199,7 +199,8 @@ def remove_libraries_all(addon: str, lib_path: Optional[str] = None):
         for postfix in ([".xml"] + TOCS)
     ]
     lib_files += [
-        Path("Addons") / addon / file for file in ["embeds.xml", "include.xml"]
+        Path("Addons") / addon / file
+        for file in ["embeds.xml", "include.xml", "core.xml"]
     ]
     lib_files = [path for path in lib_files if os.path.exists(str(path))]
     for path in lib_files:

@@ -1,4 +1,4 @@
-local addonName, addon = ...
+local addonName = ...
 local L = LibStub("AceLocale-3.0"):NewLocale(addonName, "enUS", true)
 if not L then return end
 
@@ -61,3 +61,5 @@ L["Raid (10)"] = true
 L["Raid (25)"] = true
 L["Raid (40)"] = true
 L["AUTO_LAYOUT_CHANGE_DESCRIPTION"] = "Allows you to automatically change Edit Mode Layouts based on your group size"
+L["HIDE_WHEN_NOT_MOUSEOVER_DESCRIPTION"] = "Hide until mouseover"
+L["Vigor Bar"] = true

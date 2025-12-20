@@ -22,18 +22,7 @@ local TooltipF,Tooltiptabbut =PIGOptionsList_R(RTabFrame,L["TOOLTIP_TABNAME1"],9
 TooltipF:Show()
 Tooltiptabbut:Selected()
 ---
-if PIG_MaxTocversion(50000) then
-local ItemLeveltishi = {"显示物品等级","在鼠标提示上显示物品的物品等级"}
-TooltipF.ItemLevel = PIGCheckbutton_R(TooltipF,ItemLeveltishi)
-TooltipF.ItemLevel:SetScript("OnClick", function (self)
-	if self:GetChecked() then
-		PIGA["Tooltip"]["ItemLevel"]=true;			
-	else
-		PIGA["Tooltip"]["ItemLevel"]=false;
-	end
-end);
-end
-TooltipF.ItemMaxCount = PIGCheckbutton_R(TooltipF,{"显示物品最大堆叠数","在鼠标提示上显示物品最大堆叠数"})
+TooltipF.ItemMaxCount = PIGCheckbutton_R(TooltipF,{"显示物品最大堆叠数","在鼠标提示上显示物品最大堆叠数"},true)
 TooltipF.ItemMaxCount:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["Tooltip"]["ItemMaxCount"]=true;			
@@ -41,7 +30,7 @@ TooltipF.ItemMaxCount:SetScript("OnClick", function (self)
 		PIGA["Tooltip"]["ItemMaxCount"]=false;
 	end
 end);
-TooltipF.IDinfo = PIGCheckbutton_R(TooltipF,{"显示物品/技能ID","在鼠标提示上显示物品/技能ID,版本归属/BUFF来源"})
+TooltipF.IDinfo = PIGCheckbutton_R(TooltipF,{"显示物品/技能ID","在鼠标提示上显示物品/技能ID,版本归属/BUFF来源"},true)
 TooltipF.IDinfo:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["Tooltip"]["IDinfo"]=true;			
@@ -49,7 +38,7 @@ TooltipF.IDinfo:SetScript("OnClick", function (self)
 		PIGA["Tooltip"]["IDinfo"]=false;
 	end
 end);
-TooltipF.ItemSell = PIGCheckbutton_R(TooltipF,{"显示物品售价","在鼠标提示上显示物品售价"})
+TooltipF.ItemSell = PIGCheckbutton_R(TooltipF,{"显示物品售价","在鼠标提示上显示物品售价"},true)
 TooltipF.ItemSell:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["Tooltip"]["ItemSell"]=true;			
@@ -58,11 +47,32 @@ TooltipF.ItemSell:SetScript("OnClick", function (self)
 	end
 	TooltipPlusfun.Tooltip_ItemSell()
 end);
+TooltipF.CompareItemPlus = PIGCheckbutton_R(TooltipF,{"优化物品鼠标提示","物品鼠标提示界面增加物品图片。增强比较物品界面，使其更清晰"},true)
+TooltipF.CompareItemPlus:SetScript("OnClick", function (self)
+	if self:GetChecked() then
+		PIGA["Tooltip"]["CompareItemPlus"]=true;
+	else
+		PIGA["Tooltip"]["CompareItemPlus"]=false
+	end
+	PIG_OptionsUI.RLUI:Show()
+end)
+if PIG_MaxTocversion(50000) then
+	local ItemLeveltishi = {"显示物品等级","在鼠标提示上显示物品的物品等级"}
+	TooltipF.ItemLevel = PIGCheckbutton_R(TooltipF,ItemLeveltishi,true)
+	TooltipF.ItemLevel:SetScript("OnClick", function (self)
+		if self:GetChecked() then
+			PIGA["Tooltip"]["ItemLevel"]=true;			
+		else
+			PIGA["Tooltip"]["ItemLevel"]=false;
+		end
+	end);
+end
 TooltipF:HookScript("OnShow", function(self)
-	if self.ItemLevel then self.ItemLevel:SetChecked(PIGA["Tooltip"]["ItemLevel"]) end
 	self.ItemMaxCount:SetChecked(PIGA["Tooltip"]["ItemMaxCount"])
 	self.IDinfo:SetChecked(PIGA["Tooltip"]["IDinfo"])
 	self.ItemSell:SetChecked(PIGA["Tooltip"]["ItemSell"])
+	if self.ItemLevel then self.ItemLevel:SetChecked(PIGA["Tooltip"]["ItemLevel"]) end
+	if self.CompareItemPlus then self.CompareItemPlus:SetChecked(PIGA["Tooltip"]["CompareItemPlus"]) end
 end)
 --------------
 local PointF=PIGOptionsList_R(RTabFrame,L["LIB_POINT"],90)
@@ -105,17 +115,43 @@ end)
 local xiayiinfoX = {-1000,1000,1}
 PointF.pianyiXbiaoti = PIGFontString(PointF,{"TOPLEFT",PointF,"TOPLEFT",24,-80},"X偏移")
 PointF.pianyiX = PIGSlider(PointF,{"LEFT",PointF.pianyiXbiaoti,"RIGHT",4,0},xiayiinfoX)
-PointF.pianyiX.Slider:HookScript("OnValueChanged", function(self, arg1)
+function PointF.pianyiX:PIGOnValueChange(arg1)
 	PIGA["Tooltip"]["PointX"]=arg1;
 	TooltipPlusfun.SetPointCF()
-end)
+end
 local xiayiinfoY = {-1000,1000,1}
 PointF.pianyiYbiaoti = PIGFontString(PointF,{"LEFT",PointF.pianyiX,"RIGHT",100,0},"Y偏移")
 PointF.pianyiY = PIGSlider(PointF,{"LEFT",PointF.pianyiYbiaoti,"RIGHT",4,0},xiayiinfoY)
-PointF.pianyiY.Slider:HookScript("OnValueChanged", function(self, arg1)
+function PointF.pianyiY:PIGOnValueChange(arg1)
 	PIGA["Tooltip"]["PointY"]=arg1
 	TooltipPlusfun.SetPointCF()
-end)
+end
+PointF.CombatHide = PIGCheckbutton(PointF,{"TOPLEFT",PointF,"TOPLEFT",20,-160},{"战斗中隐藏","战斗中隐藏鼠标提示"})
+PointF.CombatHide:SetScript("OnClick", function (self)
+	if self:GetChecked() then
+		PIGA["Tooltip"]["CombatHide"]=true;
+		SetCombatHide()	
+	else
+		PIGA["Tooltip"]["CombatHide"]=false;
+		PIG_OptionsUI.RLUI:Show()
+	end
+end);
+function SetCombatHide()
+	if PIGA["Tooltip"]["CombatHide"] then
+		if PointF.CombatHide.Open then return end
+		PointF.CombatHide.Open=true
+		GameTooltip:HookScript("OnShow", function(self)
+		    if InCombatLockdown() then
+		        self:Hide()
+		    end
+		end)
+		local combatFrame = CreateFrame("Frame")
+		combatFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
+		combatFrame:SetScript("OnEvent", function()
+		    GameTooltip:Hide()
+		end)
+	end
+end
 function TooltipPlusfun.SetCheckbuttonShow()
 	PointF.miaodian:SetEnabled(PIGA["Tooltip"]["PointOpen"])
 	PointF.pianyiX:SetEnabled(PIGA["Tooltip"]["PointOpen"]);
@@ -128,9 +164,12 @@ PointF:HookScript("OnShow", function(self)
 	self.miaodian:PIGDownMenu_SetText(miaodianList[PIGA["Tooltip"]["Point"]])
 	self.pianyiX:PIGSetValue(PIGA["Tooltip"]["PointX"])
 	self.pianyiY:PIGSetValue(PIGA["Tooltip"]["PointY"])
+	self.CombatHide:SetChecked(PIGA["Tooltip"]["CombatHide"])
 end)
 --===============================
 addonTable.TooltipPlus = function()
 	TooltipPlusfun.InfoPlus()
 	TooltipPlusfun.Point()
+	TooltipPlusfun.CompareItemPlus()
+	SetCombatHide()
 end

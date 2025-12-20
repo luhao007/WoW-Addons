@@ -276,10 +276,10 @@ local function add_Options(peizhiT,topHV)
 	local xiayiinfo = {0.6,2,0.01,{["Right"]="%"}}
 	checkbutOpen.F.Slider = PIGSlider(checkbutOpen.F,{"LEFT",checkbutOpen.F.Lock.Text,"RIGHT",80,0},xiayiinfo)
 	checkbutOpen.F.Slider.T = PIGFontString(checkbutOpen.F.Slider,{"RIGHT",checkbutOpen.F.Slider,"LEFT",-10,0},"缩放")
-	checkbutOpen.F.Slider.Slider:HookScript("OnValueChanged", function(self, arg1)
+	function checkbutOpen.F.Slider:PIGOnValueChange(arg1)
 		PIGA["CombatPlus"][peizhiT]["Scale"]=arg1;
 		SetScaleUI(peizhiT)
-	end)
+	end
 	checkbutOpen.F.Lock.CZBUT = PIGButton(checkbutOpen.F.Lock,{"LEFT",checkbutOpen.F.Slider,"RIGHT",70,0},{50,22},"重置")
 	checkbutOpen.F.Lock.CZBUT:SetScript("OnClick", function ()
 		Create.PIG_ResPoint(GNNmame..peizhiT)

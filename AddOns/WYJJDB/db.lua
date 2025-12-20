@@ -35,7 +35,7 @@ WYJJDB = {
         [1221483] = {"目标是你", ""}, --Arcing Energy
         --[355642] = {"目标是你", ""}, --Hyperlight Salvo (double check)
     },
-    trash_cc = {
+    trash_cc = { --[spellID] = {"name", category, "soundFile", "role", "show target" (true/false), "important" (true/false)},
     -- SEASON 1
         --Ara-Kara
         [438618] = {"Spit",2,"","ALL",true,false}, --Venomous Spit
@@ -57,7 +57,6 @@ WYJJDB = {
         [451097] = {"Silken Shell",0,"","ALL",false,true}, --Silken Shell
         --[452099] = {"BOLT",1,"","ALL",true,false}, --Congealed Darkness (tank)
     -- SEASON 2
-        --[spellID] = {"name", category, "soundFile", "role", "show target" (true/false), "important" (true/false)},
         --Rookery
         [430109] = {"Bolt",1,"","ALL",true,false}, --Lightning Bolt
         [427260] = {"Surge",0,"","ALL",false,false}, --Lightning Surge
@@ -115,7 +114,7 @@ WYJJDB = {
         [465595] = {"Bolt",1,"","ALL",true,false}, --Lightning Bolt
         [462771] = {"射线",1,"","ALL",true,false}, --Surveying Beam
         [1214468] = {"Shot",1,"","ALL",true,false}, --Trickshot
-        [461796] = {"Reload",2,"","ALL",false,false}, --Reload
+        [461796] = {"Reload",2,"","ALL",false,true}, --Reload
         --Cinderbrew
         [440687] = {"齐射",0,"Volley.ogg","ALL",false,true}, --Honey Volley
         [441351] = {"Bee-stial Wrath",0,"","ALL",false,false}, --Bee-stial Wrath
@@ -168,12 +167,12 @@ WYJJDB = {
     -- SEASON 1 
         --Dawnbreaker
         ["214761"] = {
-            [432448] = {"SPELL_CAST_START", 3, "HEALER", "种子倒计时", 8.3, 23}, --Stygian Seed
+            [432448] = {"SPELL_CAST_START", 3, "ALL", "种子倒计时", 8.3, 23}, --Stygian Seed
             [431364] = {"SPELL_CAST_START", 2, "ALL", "光束倒计时", 3.3, 10.9}, --Tormenting Ray
         },
         ["210966"] = {[451107] = {"SPELL_CAST_START", 2, "ALL", "茧倒计时", 4.9, 20.6}}, --Bursting Cocoon
-        ["228540"] = {[431309] = {"SPELL_CAST_SUCCESS", 8, "HEALER", "诅咒倒计时", 12.4, 23}}, --Ensnaring Shadows
-        ["213892"] = {[431309] = {"SPELL_CAST_SUCCESS", 8, "HEALER", "诅咒倒计时", 12.4, 23}}, --Ensnaring Shadows
+        ["228540"] = {[431309] = {"SPELL_CAST_SUCCESS", 8, "ALL", "诅咒倒计时", 12.4, 23}}, --Ensnaring Shadows
+        ["213892"] = {[431309] = {"SPELL_CAST_SUCCESS", 8, "ALL", "诅咒倒计时", 12.4, 23}}, --Ensnaring Shadows
         --["211341"] = {[431304] = {"SPELL_CAST_START", 1, "ALL", "AoE倒计时", 40, 34.2}}, --Dark Floes
         ["211261"] = {
             [451102] = {"SPELL_CAST_START", 0, "ALL", "AoE倒计时", 14.3, 27.8}, --Shadowy Decay
@@ -280,7 +279,7 @@ WYJJDB = {
         ["234883"] = {[1221152] = {"SPELL_CAST_START", 1, "ALL", "AoE倒计时", 6.5, 18.2}}, --Gorging Smash
         ["242631"] = {[1235368] = {"SPELL_CAST_START", 4, "TANK", "头前倒计时", 6.9, 15.8}}, --Arcane Slash
         ["236995"] = {[1226111] = {"SPELL_CAST_START", 2, "ALL", "喷发倒计时", 15, 20.6}}, --Volatile Ejection
-        ["234957"] = {[1221483] = {"SPELL_CAST_SUCCESS", 3, "HEALER", "驱散倒计时", 12.3, 12.3}}, --Arcing Energy
+        ["234957"] = {[1221483] = {"SPELL_CAST_SUCCESS", 3, "ALL", "驱散倒计时", 12.3, 12.3}}, --Arcing Energy
         ["234962"] = {[1221679] = {"SPELL_CAST_SUCCESS", 2, "ALL", "跳跃倒计时", 6, 13.3}}, --Farstalker's Leap
         --Tazavesh
         ["180567"] = {[357827] = {"UNIT_SPELLCAST_SUCCEEDED", 2, "ALL", "跳跃倒计时", 5, 17}}, --Frantic Rrip (estimate)
@@ -292,11 +291,14 @@ WYJJDB = {
         ["178141"] = {[355132] = {"SPELL_CAST_SUCCESS", 2, "ALL", "鱼串倒计时", 9.7, 27.9}}, --Invigorating Fish Stick
         ["180429"] = {[357238] = {"SPELL_CAST_SUCCESS", 0, "ALL", "脉冲倒计时", 13.6, 26.7}}, --Wandering Pulsar
         ["179386"] = {[368661] = {"SPELL_CAST_SUCCESS", 2, "ALL", "投掷倒计时", 8.3, 14.5}}, --Sword Toss
-        ["177716"] = {[351119] = {"SPELL_CAST_START", 6, "ALL", "传送倒计时", 8, 18.2}}, --Shuriken Blitz
+        ["177716"] = {[351119] = {"SPELL_CAST_START", 6, "ALL", "传送倒计时", 5.4, 18.2}}, --Shuriken Blitz
+        ["177816"] = {[355915] = {"SPELL_CAST_SUCCESS", 3, "ALL", "驱散倒计时", 7.3, 17}}, --Glyph of Restraint
+        ["180431"] = {[357260] = {"SPELL_CAST_START", 6, "ALL", "裂隙倒计时", 12, 21.8}}, --Unstable Rift
         --Halls of Attonement
         ["164557"] = {[326409] = {"SPELL_CAST_START", 0, "ALL", "AoE倒计时", 8.9, 23}}, --Shard of Halkias
         ["167607"] = {[1235326] = {"SPELL_CAST_START", 1, "ALL", "停止施法倒计时", 15.9, 32.8}}, --Disrupting Screech
-        ["165414"] = {[325876] = {"SPELL_CAST_SUCCESS", 3, "HEALER", "驱散倒计时", 9.7, 24.2}}, --Mark of Obliteration
+        ["164562"] = {[326450] = {"SPELL_CAST_START", 7, "ALL", "激怒倒计时", 15.3, 24.2}}, --Loyal Beasts
+        ["165414"] = {[325876] = {"SPELL_CAST_SUCCESS", 3, "ALL", "驱散倒计时", 9.7, 24.2}}, --Mark of Obliteration
     },
     private_auras = {
 
@@ -340,7 +342,7 @@ WYJJDB = {
         [357226] = {"头前", 4, true, "Dodge.ogg"}, --Drifting Star
         [1219482] = {"流血", 4, true, "Bite.ogg"}, --Rift Claws
         [1222341] = {"后撤", 4, true, "Bite.ogg"}, --Gloom Bite
-        [351047] = {"大额伤害", 4, true, "Bite.ogg"}, --Proxy Strike
+        [352796] = {"大额伤害", 4, true, "Bite.ogg"}, --Proxy Strike
         [349934] = {"大额伤害", 4, true, "Bite.ogg"}, --Flagellation Protocol
         [356967] = {"击飞", 4, true, "Knock.ogg"}, --Hyperlight Backhand
         [347716] = {"流血", 4, true, ""}, --Letter opener

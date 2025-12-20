@@ -32,7 +32,6 @@ local peizhiList={
 	["Token"] = "name",
 	["Items"] = "name_2",
 	["TradeData"] = "name",
-	["AHData"] = "realm",
 }
 --===========================
 function BusinessInfo.StatsInfo_ADDUI()
@@ -59,8 +58,6 @@ function BusinessInfo.StatsInfo_ADDUI()
 			elseif v=="name_2" then
 				PIGA["StatsInfo"][k][self.allname]=PIGA["StatsInfo"][k][self.allname] or {}
 				PIGA["StatsInfo"][k][self.allname]=zijimoren[k](PIGA["StatsInfo"][k][self.allname])
-			elseif v=="realm" then
-				PIGA["StatsInfo"][k][PIG_OptionsUI.Realm]=PIGA["StatsInfo"][k][PIG_OptionsUI.Realm] or {}
 			end
 		end
 	end
@@ -72,8 +69,6 @@ function BusinessInfo.StatsInfo_ADDUI()
 			for k,v in pairs(peizhiList) do
 				if v=="name" or v=="name_2" then
 					PIGA["StatsInfo"][k][name]= nil
-				elseif v=="realm" then
-					--PIGA["StatsInfo"][k][PIG_OptionsUI.Realm]= nil
 				end
 			end		
 		elseif ly=="hide" then

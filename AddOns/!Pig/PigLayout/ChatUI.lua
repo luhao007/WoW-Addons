@@ -61,28 +61,28 @@ fujiF.MarginF.cz:SetScript("OnClick", function (self)
 end);
 fujiF.MarginF.Margin_L = PIGSlider(fujiF.MarginF,{"TOPLEFT",fujiF.MarginF.Open,"BOTTOMLEFT",90,-4},{0,50,1})
 fujiF.MarginF.Margin_L.bt = PIGFontString(fujiF.MarginF.Margin_L,{"RIGHT", fujiF.MarginF.Margin_L, "LEFT", -10, 0},"左边距")
-fujiF.MarginF.Margin_L.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.MarginF.Margin_L:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["ChatUI"]["MarginPoint"][1]=arg1;
 	fujiF.MarginF.Set_Fun()
-end)
+end
 fujiF.MarginF.Margin_R = PIGSlider(fujiF.MarginF,{"LEFT",fujiF.MarginF.Margin_L,"RIGHT",120,0},{0,50,1})
 fujiF.MarginF.Margin_R.bt = PIGFontString(fujiF.MarginF.Margin_R,{"RIGHT", fujiF.MarginF.Margin_R, "LEFT", -10, 0},"右边距")
-fujiF.MarginF.Margin_R.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.MarginF.Margin_R:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["ChatUI"]["MarginPoint"][2]=arg1;
 	fujiF.MarginF.Set_Fun()
-end)
+end
 fujiF.MarginF.Margin_T = PIGSlider(fujiF.MarginF,{"TOPLEFT",fujiF.MarginF.Margin_L,"BOTTOMLEFT",0,-8},{0,50,1})
 fujiF.MarginF.Margin_T.bt = PIGFontString(fujiF.MarginF.Margin_T,{"RIGHT", fujiF.MarginF.Margin_T, "LEFT", -10, 0},"上边距")
-fujiF.MarginF.Margin_T.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.MarginF.Margin_T:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["ChatUI"]["MarginPoint"][3]=arg1;
 	fujiF.MarginF.Set_Fun()
-end)
+end
 fujiF.MarginF.Margin_B = PIGSlider(fujiF.MarginF,{"LEFT",fujiF.MarginF.Margin_T,"RIGHT",120,0},{0,50,1})
 fujiF.MarginF.Margin_B.bt = PIGFontString(fujiF.MarginF.Margin_B,{"RIGHT", fujiF.MarginF.Margin_B, "LEFT", -10, 0},"下边距")
-fujiF.MarginF.Margin_B.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.MarginF.Margin_B:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["ChatUI"]["MarginPoint"][4]=arg1;
 	fujiF.MarginF.Set_Fun()
-end)
+end
 fujiF.MarginF:HookScript("OnShow", function (self)
 	self.Update_Checkbut()
 	self.Open:SetChecked(PIGA["PigLayout"]["ChatUI"]["Margin"])
@@ -130,28 +130,28 @@ fujiF.zhuF.cz:SetScript("OnClick", function (self)
 end);
 fujiF.zhuF.Width = PIGSlider(fujiF.zhuF,{"TOPLEFT",fujiF.zhuF.Open,"BOTTOMLEFT",90,-4},{150,800,1})
 fujiF.zhuF.Width.bt = PIGFontString(fujiF.zhuF.Width,{"RIGHT", fujiF.zhuF.Width, "LEFT", -10, 0},L["LIB_WIDTH"])
-fujiF.zhuF.Width.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.zhuF.Width:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["ChatUI"]["ZhuPoint"][1]=arg1;
 	fujiF.zhuF.Set_Fun()
-end)
+end
 fujiF.zhuF.Height = PIGSlider(fujiF.zhuF,{"LEFT",fujiF.zhuF.Width,"RIGHT",120,0},{120,500,1})
 fujiF.zhuF.Height.bt = PIGFontString(fujiF.zhuF.Height,{"RIGHT", fujiF.zhuF.Height, "LEFT", -10, 0},L["LIB_HEIGHT"])
-fujiF.zhuF.Height.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.zhuF.Height:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["ChatUI"]["ZhuPoint"][2]=arg1;
 	fujiF.zhuF.Set_Fun()
-end)
+end
 fujiF.zhuF.X = PIGSlider(fujiF.zhuF,{"TOPLEFT",fujiF.zhuF.Width,"BOTTOMLEFT",0,-8},{0,400,1})
 fujiF.zhuF.X.bt = PIGFontString(fujiF.zhuF.X,{"RIGHT", fujiF.zhuF.X, "LEFT", -10, 0},"左边距")
-fujiF.zhuF.X.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.zhuF.X:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["ChatUI"]["ZhuPoint"][3]=arg1;
 	fujiF.zhuF.Set_Fun()
-end)
+end
 fujiF.zhuF.Y = PIGSlider(fujiF.zhuF,{"LEFT",fujiF.zhuF.X,"RIGHT",120,0},{0,200,1})
 fujiF.zhuF.Y.bt = PIGFontString(fujiF.zhuF.Y,{"RIGHT", fujiF.zhuF.Y, "LEFT", -10, 0},"下边距")
-fujiF.zhuF.Y.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.zhuF.Y:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["ChatUI"]["ZhuPoint"][4]=arg1;
 	fujiF.zhuF.Set_Fun()
-end)
+end
 -----
 fujiF.zhuF:HookScript("OnShow", function(self)
 	self.Update_Checkbut()
@@ -223,28 +223,28 @@ fujiF.fuF.cz:SetScript("OnClick", function (self)
 end);
 fujiF.fuF.Width = PIGSlider(fujiF.fuF,{"TOPLEFT",fujiF.fuF.Open,"BOTTOMLEFT",90,-4},{150,800,1})
 fujiF.fuF.Width.bt = PIGFontString(fujiF.fuF.Width,{"RIGHT", fujiF.fuF.Width, "LEFT", -10, 0},L["LIB_WIDTH"])
-fujiF.fuF.Width.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.fuF.Width:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["ChatUI"]["FuPoint"][1]=arg1;
 	fujiF.fuF.Set_Fun()
-end)
+end
 fujiF.fuF.Height = PIGSlider(fujiF.fuF,{"LEFT",fujiF.fuF.Width,"RIGHT",120,0},{120,500,1})
 fujiF.fuF.Height.bt = PIGFontString(fujiF.fuF.Height,{"RIGHT", fujiF.fuF.Height, "LEFT", -10, 0},L["LIB_HEIGHT"])
-fujiF.fuF.Height.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.fuF.Height:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["ChatUI"]["FuPoint"][2]=arg1;
 	fujiF.fuF.Set_Fun()
-end)
+end
 fujiF.fuF.X = PIGSlider(fujiF.fuF,{"TOPLEFT",fujiF.fuF.Width,"BOTTOMLEFT",0,-8},{0,400,1})
 fujiF.fuF.X.bt = PIGFontString(fujiF.fuF.X,{"RIGHT", fujiF.fuF.X, "LEFT", -10, 0},"右边距")
-fujiF.fuF.X.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.fuF.X:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["ChatUI"]["FuPoint"][3]=arg1;
 	fujiF.fuF.Set_Fun()
-end)
+end
 fujiF.fuF.Y = PIGSlider(fujiF.fuF,{"LEFT",fujiF.fuF.X,"RIGHT",120,0},{0,200,1})
 fujiF.fuF.Y.bt = PIGFontString(fujiF.fuF.Y,{"RIGHT", fujiF.fuF.Y, "LEFT", -10, 0},"下边距")
-fujiF.fuF.Y.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.fuF.Y:PIGOnValueChange(arg1)
 	PIGA["PigLayout"]["ChatUI"]["FuPoint"][4]=arg1;
 	fujiF.fuF.Set_Fun()
-end)
+end
 --
 local function tishiTxt(errid)
 	fujiF.fuF.ChatUIList.errtisp:SetText("") 

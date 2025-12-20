@@ -315,24 +315,26 @@ end
 local function default_costCollectibles(t)
 	local results, id;
 	local modItemID = t.modItemID;
+	local itemID = t.itemID
 	-- Search by modItemID if possible for accuracy
-	if modItemID and modItemID ~= t.itemID then
+	if modItemID and modItemID ~= itemID then
 		id = modItemID;
 		results = GetRawField("itemIDAsCost", id);
 		-- app.PrintDebug("itemIDAsCost.modItemID",id,results and #results)
 	end
 	-- If no results, search by itemID + modID only if different
 	if not results or #results < 1 then
-		id = GetGroupItemIDWithModID(nil, t.itemID, t.modID);
+		id = GetGroupItemIDWithModID(nil, itemID, t.modID);
 		if id ~= modItemID then
 			results = GetRawField("itemIDAsCost", id);
 			-- app.PrintDebug("itemIDAsCost.modID",id,results and #results)
 		end
 	end
 	-- If no results, search by plain itemID only
-	if (not results or #results < 1) and t.itemID then
-		id = t.itemID;
+	if (not results or #results < 1) and itemID then
+		id = itemID;
 		results = GetRawField("itemIDAsCost", id);
+		-- app.PrintDebug("itemIDAsCost.ID",id,results and #results)
 	end
 	-- Spells on Items can also be a Cost for Things
 	local spellID = t.spellID
@@ -342,6 +344,19 @@ local function default_costCollectibles(t)
 			-- app.PrintDebug("Found spell costs on item",#spellResults,spellID,app:SearchLink(spellResults[1]),app:SearchLink(t))
 			results = app.ArrayAppend({}, results, spellResults)
 		end
+	end
+	-- If this Item has a SourceID, then try getting cost results based on the matching SourceID's Source Item costCollectibles
+	-- (some situations where a Sourced Appearance Item as a Cost has other modItemID variants which also effectively provide the Cost [e.g. Lemix Gear Conversion])
+	-- only need to do this extra step if we're on a potentially unusual modItemID
+	if (not results or #results < 1) and modItemID ~= itemID and t.sourceID then
+		id = t.sourceID;
+		local sourcedSource = app.SearchForObject("sourceID", id, "field")
+		if sourcedSource then
+			results = GetRawField("itemIDAsCost", sourcedSource.modItemID);
+			-- app.PrintDebug("sourceID-costs",id,app:RawSearchLink("sourceID",id),"from",app:SearchLink(t),modItemID,itemID)
+		-- else app.PrintDebug("non-sourced SourceID for Item with Cost?",id,app:RawSearchLink("sourceID",id))
+		end
+		-- app.PrintDebug("itemIDAsCost.sourceID",id,sourcedSource.modItemID,results and #results)
 	end
 	if results and #results > 0 then
 		-- not sure we need to copy these into another table
@@ -485,6 +500,18 @@ app.CreateItem = app.CreateClass(CLASS, KEY, itemFields,
 	},
 }, (function(t) return t.factionID; end));
 
+local function OnClickCostItem(row, button)
+	if button ~= "RightButton" then
+		return true
+	end
+
+	local group = row.ref
+	if not group then return true end
+
+	-- perform a search-based popout of the cost item rather than cloning the group
+	app.CreatePopoutForSearch(group.key..":"..group.itemID)
+	return true
+end
 -- Wraps the given Type Object as a Cost Item, allowing altered functionality representing this being a calculable 'cost'
 local CreateCostItem = app.CreateClass("CostItem", KEY, {
 	IsClassIsolated = true,
@@ -509,6 +536,7 @@ local CreateCostItem = app.CreateClass("CostItem", KEY, {
 	costCollectibles = app.EmptyFunction,
 	collectibleAsCost = app.EmptyFunction,
 	costsCount = app.EmptyFunction,
+	OnClick = function() return OnClickCostItem end,
 })
 app.CreateCostItem = function(t, total)
 	local c = app.WrapObject(CreateCostItem(t[KEY]), t);

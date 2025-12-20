@@ -6,6 +6,19 @@ function FramePlusfun.Quest()
 	local PIGButton=Create.PIGButton
 	if not PIGA["FramePlus"]["Quest"] then return end
 	if NDui then return end
+	if PIG_MaxTocversion(20000,true) and QuestLogFrame and not QuestLogFrame.allopen then
+		QuestLogFrame.allopen = PIGButton(QuestLogFrame,{"TOPLEFT",QuestLogFrame,"TOPLEFT",185,-38.6},{24,23},"+",nil,nil,nil,nil,0);
+		QuestLogFrame.allopen:SetScript("OnClick", function(self)
+			ExpandQuestHeader(0)
+		end)
+		QuestLogFrame.allopen.alloff = PIGButton(QuestLogFrame.allopen,{"LEFT",QuestLogFrame.allopen,"RIGHT",6,1.6},{24,23},"-",nil,nil,nil,nil,0);
+		QuestLogFrame.allopen.alloff:SetScript("OnClick", function(self)
+			CollapseQuestHeader(0) 
+		end)
+		if PIG_MaxTocversion() then
+			QuestLogFrame.allopen:SetPoint("TOPLEFT",QuestLogFrame,"TOPLEFT",180,-40);
+		end
+	end
 	local maxWWW = 250
 	if PIG_MaxTocversion() then
 		local function gengxinLVQR()--显示任务等级
@@ -119,4 +132,41 @@ function FramePlusfun.Quest()
 			end
 		end
 	end
+	--最贵卖价
+	local rewardsFrame = QuestInfoFrame.rewardsFrame
+	local rewardButtons = rewardsFrame.RewardButtons;
+	QuestFrame:HookScript("OnEvent", function(self,event)
+		if event == "QUEST_COMPLETE" then
+			C_Timer.After(0.2,function()
+				if not self:IsShown() then return end
+				self.junkGGG={0,0}
+				for index,butui in pairs(rewardButtons) do
+					if butui.junkcoin then butui.junkcoin:Hide() end
+					local questItem = QuestInfo_GetRewardButton(rewardsFrame, index);
+					if questItem and questItem.objectType == "item" then
+						local ItemLink=GetQuestItemLink(questItem.type, index)
+						if ItemLink then
+							local sellPrice= select(11, C_Item.GetItemInfo(ItemLink))
+							if sellPrice and sellPrice>0 then
+								if sellPrice>self.junkGGG[2] then
+									self.junkGGG[2]=sellPrice
+									self.junkGGG[1]=index
+								end
+							end
+						end
+					end
+				end
+				if self.junkGGG[1]>0 then
+					local butui=rewardButtons[self.junkGGG[1]]
+					if not butui.junkcoin then
+						butui.junkcoin = butui:CreateTexture(nil, "OVERLAY");
+						butui.junkcoin:SetAtlas("bags-junkcoin")
+						butui.junkcoin:SetSize(20,18);
+						butui.junkcoin:SetPoint("BOTTOMRIGHT", butui,"BOTTOMRIGHT",0, 0);
+					end
+					butui.junkcoin:Show()
+				end
+			end)
+		end
+	end)
 end

@@ -10,7 +10,7 @@ WIM.AddLocale("zhTW", {
 
     ["_DemoText"] = "這個視窗可以設定對話視窗出現的預設位置。您可以將這個視窗拖曳到您想要的位置，當您關閉這個視窗的時候，所有的設定將被自動記錄下來。",
 
-    ["_DateFormat"] = "%m/%d/%Y",
+    ["_DateFormat"] = "%Y/%m/%d",
 
     ["Yes"] = "是",
     ["No"] = "否",
@@ -30,8 +30,6 @@ WIM.AddLocale("zhTW", {
     ["state_party"] = "組隊",
     ["state_raid"] = "團隊",
     ["state_other"] = "一般 (其他)",
-
-    ["<Shift-Click> to close window."] = "<Shift-左鍵> 關閉視窗",
 
     ["A new version of WIM is available!\nYou can download the latest version by going to:\n\n http://www.wimaddon.com"] = "目前已經有新版的 WIM!\n您可以到http://www.wimaddon.com 下載新版本",
 
@@ -499,5 +497,4 @@ WIM.AddLocale("zhTW", {
 
     --Misc
     ["WIM has detected that you are playing on a private server. Some servers can not process ChatAddonMessages. Would you like to enable them anyway?"] = "WIM 發現你正在一個私人的伺服器上玩 WOW，某些私人的伺服器並不完全支援 WIM 的模組，你是否仍要嘗試載入 WIM 呢？",
-
 });

@@ -301,7 +301,7 @@ local InfoList_L = {
 	["Icon"] ={
 		["LOOT"]={"txt",16},
 		["LOOT_THRESHOLD"]={"txt",16},
-		["DIFFICULTY"]={"txt",16,{0,1,0}},
+		["DIFFICULTY"]={"txt",26,{0,1,0}},
 		["DURABILITY"]={"icontxt",34,{136465,HHH-2,HHH-2}},
 		["YISU"]={"icontxt",34,{132307,HHH-5,HHH-5}},
 	},
@@ -371,10 +371,15 @@ local InfoList_L = {
 					rootDescription:CreateRadio(PLAYER_DIFFICULTY6, IsSelected, SetSelected, 23);
 				else
 					if IsInRaid() then
-						rootDescription:CreateRadio(RAID_DIFFICULTY1, IsSelected, SetSelected, 3);
-						rootDescription:CreateRadio(RAID_DIFFICULTY2, IsSelected, SetSelected, 4);
-						rootDescription:CreateRadio(RAID_DIFFICULTY3, IsSelected, SetSelected, 5);
-						rootDescription:CreateRadio(RAID_DIFFICULTY4, IsSelected, SetSelected, 6);
+						if PIG_MaxTocversion(40000) and PIG_MaxTocversion(30000,true) then
+							local name244=GetDifficultyInfo(244)
+							rootDescription:CreateRadio(name244, IsSelected, SetSelected, 244);
+						else
+							rootDescription:CreateRadio(RAID_DIFFICULTY1, IsSelected, SetSelected, 3);
+							rootDescription:CreateRadio(RAID_DIFFICULTY2, IsSelected, SetSelected, 4);
+							rootDescription:CreateRadio(RAID_DIFFICULTY3, IsSelected, SetSelected, 5);
+							rootDescription:CreateRadio(RAID_DIFFICULTY4, IsSelected, SetSelected, 6);
+						end
 					else
 						rootDescription:CreateRadio(PLAYER_DIFFICULTY1, IsSelected, SetSelected, 1);
 						rootDescription:CreateRadio(PLAYER_DIFFICULTY2, IsSelected, SetSelected, 2);
@@ -397,7 +402,7 @@ local InfoList_L = {
 				local name = GetDifficultyInfo(DifficultyID)
 				self.Text:SetText(self.namelist[DifficultyID] or name)
 			end
-			butui.namelist={[5]="10H",[6]="25H",[150]="N/A"}
+			butui.namelist={[5]="10H",[6]="25H",[150]="N/A",[244]="25泰坦"}
 			butui:RegisterEvent("PLAYER_DIFFICULTY_CHANGED")
 			SetEvent_MenuList(butui)
 			if set then ListEventFun(butui) end
@@ -708,10 +713,10 @@ local function add_Options(peizhiT)
 	local xiayiinfo = {0.6,2,0.01,{["Right"]="%"}}
 	checkbutOpen.F.Scale = PIGSlider(checkbutOpen.F,{"LEFT",checkbutOpen.F.Lock.Text,"RIGHT",80,0},xiayiinfo)
 	checkbutOpen.F.Scale.T = PIGFontString(checkbutOpen.F.Scale,{"RIGHT",checkbutOpen.F.Scale,"LEFT",-10,0},"缩放")
-	checkbutOpen.F.Scale.Slider:HookScript("OnValueChanged", function(self, arg1)
+	function checkbutOpen.F.Scale:PIGOnValueChange(arg1)
 		PIGA["PigLayout"][peizhiT]["Scale"]=arg1;
 		SetScaleUI(peizhiT)
-	end)
+	end
 	checkbutOpen.F.Lock.CZBUT = PIGButton(checkbutOpen.F.Lock,{"LEFT",checkbutOpen.F.Scale,"RIGHT",90,0},{50,22},"重置")
 	checkbutOpen.F.Lock.CZBUT:SetScript("OnClick", function ()
 		Create.PIG_ResPoint(UIname)
@@ -792,10 +797,10 @@ local function add_Options(peizhiT)
 		local xiayiinfoTime = {3,180,1}
 		checkbutOpen.F.daojishiTime = PIGSlider(checkbutOpen.F,{"TOPLEFT",checkbutOpen.F,"TOPLEFT",54,-110},xiayiinfoTime)
 		checkbutOpen.F.daojishiTime.T = PIGFontString(checkbutOpen.F.daojishiTime,{"RIGHT",checkbutOpen.F.daojishiTime,"LEFT",0,0},"倒数(秒)")
-		checkbutOpen.F.daojishiTime.Slider:HookScript("OnValueChanged", function(self, arg1)
+		function checkbutOpen.F.daojishiTime:PIGOnValueChange(arg1)
 			PigPulldata.morenCD=arg1
 			PIGA["PigLayout"][peizhiT]["daojishiTime"]=arg1;
-		end)
+		end
 		checkbutOpen.F.TimeBGHide = PIGCheckbutton(checkbutOpen.F,{"LEFT",checkbutOpen.F.daojishiTime,"RIGHT",40,0},{"隐藏计时器背景"})
 		checkbutOpen.F.TimeBGHide:SetScript("OnClick", function (self)
 			if self:GetChecked() then

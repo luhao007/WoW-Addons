@@ -1,6 +1,6 @@
-## Interface: 110205
+## Interface: 110207
 ## Author: Wowhead
-## Version: 110205
+## Version: 110207
 
 ## Title: Wowhead Looter
 ## Notes: Gathers data for Wowhead while you play.

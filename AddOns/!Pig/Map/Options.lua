@@ -77,10 +77,10 @@ end);
 GeneralF.Minimap_but_SN.SmeihangshuTXT = PIGFontString(GeneralF.Minimap_but_SN,{"TOPLEFT",GeneralF.Minimap_but_SN,"BOTTOMLEFT",20,-16},L["MAP_NIMIBUT_HANGNUM"])
 local meihangshuxiala = {1,10,1}
 GeneralF.Minimap_but_SN.Smeihangshu = PIGSlider(GeneralF.Minimap_but_SN,{"LEFT", GeneralF.Minimap_but_SN.SmeihangshuTXT,"RIGHT",4,0},meihangshuxiala)	
-GeneralF.Minimap_but_SN.Smeihangshu.Slider:HookScript("OnValueChanged", function(self, arg1)
+function GeneralF.Minimap_but_SN.Smeihangshu:PIGOnValueChange(arg1)
 	PIGA["Map"]["MiniButShouNa_hang"]=arg1
 	addonTable.CollectMiniMapBut()
-end)
+end
 --按钮位置
 GeneralF.Minimap_but_Pointbiaoti=PIGFontString(GeneralF,{"TOPLEFT",GeneralF,"TOPLEFT",20,-200},"小地图按钮位置:")
 local mapPointList = {"附着于小地图","附着于聊天框","自由模式(可随意拖动)"};
@@ -263,16 +263,16 @@ function MiniMapF.AnchorPoint:PIGDownMenu_SetValue(value,arg1)
 end
 MiniMapF.AnchorPointXT = PIGFontString(MiniMapF,{"TOPLEFT", MiniMapF.MinimapMove.Text, "BOTTOMLEFT", 10, -22},"定位坐标X")
 MiniMapF.AnchorPointX = PIGSlider(MiniMapF,{"LEFT", MiniMapF.AnchorPointXT, "LEFT", 100, 0},{-800, 800, 1},300)
-MiniMapF.AnchorPointX.Slider:HookScript("OnValueChanged", function(self, arg1)
+function MiniMapF.AnchorPointX:PIGOnValueChange(arg1)
 	PIGA["Map"]["MinimapPointX"]=arg1;
 	Mapfun.Minimap_MoveUpdate()
-end)
+end
 MiniMapF.AnchorPointYT = PIGFontString(MiniMapF,{"TOPLEFT", MiniMapF.AnchorPointXT, "BOTTOMLEFT", 0, -22},"定位坐标Y")
 MiniMapF.AnchorPointY = PIGSlider(MiniMapF,{"LEFT", MiniMapF.AnchorPointYT, "LEFT", 100, 0},{-600, 600, 1},300)
-MiniMapF.AnchorPointY.Slider:HookScript("OnValueChanged", function(self, arg1)
+function MiniMapF.AnchorPointY:PIGOnValueChange(arg1)
 	PIGA["Map"]["MinimapPointY"]=arg1;
 	Mapfun.Minimap_MoveUpdate()
-end)
+end
 ----
 function MiniMapF:Update_Checked()
 	self.AnchorPoint:SetEnabled(PIGA["Map"]["MinimapMove"] and not PIGA["Map"]["MinimapHide"])
@@ -313,6 +313,7 @@ if PIG_MaxTocversion() then
 			PIG_OptionsUI.RLUI:Show()
 		end
 	end);
+
 	WorldMapF.WorldMapLV = PIGCheckbutton_R(WorldMapF,{L["MAP_WORDLV"],L["MAP_WORDLVTIPS"]},true)
 	WorldMapF.WorldMapLV:SetScript("OnClick", function (self)
 		if self:GetChecked() then

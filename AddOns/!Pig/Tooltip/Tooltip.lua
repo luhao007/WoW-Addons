@@ -6,6 +6,8 @@ local GetItemInfo=GetItemInfo or C_Item and C_Item.GetItemInfo
 local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 local GetDetailedItemLevelInfo=GetDetailedItemLevelInfo or C_Item and C_Item.GetDetailedItemLevelInfo
 ---------
+local Create=addonTable.Create
+local PIGFontString=Create.PIGFontString
 local banbendata = {
 	[0]=EXPANSION_NAME0,[1]=EXPANSION_NAME1,[2]=EXPANSION_NAME2,[3]=EXPANSION_NAME3,[4]=EXPANSION_NAME4,
 	[5]=EXPANSION_NAME5,[6]=EXPANSION_NAME6,[7]=EXPANSION_NAME7,[8]=EXPANSION_NAME8,[8]=EXPANSION_NAME8,
@@ -333,4 +335,66 @@ function TooltipPlusfun.Point()
 			tooltip:SetOwner(parent, "ANCHOR_CURSOR_RIGHT",morenCF.PointX,morenCF.PointY);
 		end
 	end)
+end
+
+local GetItemQualityBorder=addonTable.Fun.GetItemQualityBorder
+local function add_ShowCompareItemIcon(TooltipF,duibiUI,retail)
+	if not TooltipF.pigplusicon then
+		TooltipF.pigplusBorder = TooltipF:CreateTexture(nil, "ARTWORK")
+		TooltipF.pigplusBorder:SetSize(30,30);
+		TooltipF.pigplusicon = TooltipF:CreateTexture(nil, "BORDER")
+		TooltipF.pigplusicon:SetPoint("TOPLEFT",TooltipF.pigplusBorder,"TOPLEFT", 0, 0);
+		TooltipF.pigplusicon:SetPoint("BOTTOMRIGHT",TooltipF.pigplusBorder,"BOTTOMRIGHT", 0, 0);
+		if duibiUI and not retail then
+			TooltipF.tisptxt = PIGFontString(TooltipF,{"BOTTOMLEFT", TooltipF.pigplusBorder,"BOTTOMRIGHT",0,2},"已装备","OUTLINE")
+			TooltipF.tisptxt:SetTextColor(0, 1, 0, 1)
+		end
+	end
+	if retail then
+		if duibiUI then
+			TooltipF.pigplusBorder:SetPoint("BOTTOMLEFT",TooltipF,"TOPLEFT", 70, -2);
+		else
+			TooltipF.pigplusBorder:SetPoint("BOTTOMLEFT",TooltipF,"TOPLEFT", 4, -2);
+		end
+		local TooltipData=TooltipF:GetTooltipData()
+	   	if TooltipData and TooltipData.guid then
+	   		TooltipF.pigplusBorder:SetAtlas(GetItemQualityBorder(C_Item.GetItemQualityByID(TooltipData.guid) or 1))
+	   		TooltipF.pigplusicon:SetTexture(C_Item.GetItemIconByID(TooltipData.id) or 134400);
+	   	end
+	else
+		TooltipF.pigplusBorder:SetPoint("BOTTOMLEFT",TooltipF,"TOPLEFT", 4, -2);
+		local _, linkd = TooltipF:GetItem()
+		if linkd then
+			TooltipF.pigplusBorder:SetAtlas(GetItemQualityBorder(C_Item.GetItemQualityByID(linkd) or 1))
+			TooltipF.pigplusicon:SetTexture(C_Item.GetItemIconByID(linkd) or 134400);
+		end
+	end
+end
+function TooltipPlusfun.CompareItemPlus()
+	if not PIGA["Tooltip"]["CompareItemPlus"] then return end
+	GameTooltip:HookScript("OnShow", function(self)
+		if self.pigplusicon then
+			self.pigplusBorder:SetTexture("")
+			self.pigplusicon:SetTexture("")
+		end
+	end)
+	if PIG_MaxTocversion() then
+		GameTooltip:HookScript("OnTooltipSetItem", function(self)
+			add_ShowCompareItemIcon(self)
+		end)
+		hooksecurefunc("GameTooltip_ShowCompareItem", function(self, anchorFrame)
+			local tooltip, anchorFrame, shoppingTooltip1, shoppingTooltip2 = GameTooltip_InitializeComparisonTooltips(self, anchorFrame);
+			add_ShowCompareItemIcon(shoppingTooltip1,true)
+			add_ShowCompareItemIcon(shoppingTooltip2,true)
+		end)
+	else
+		TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, function(self, data)
+			add_ShowCompareItemIcon(self,nil,true)
+		end)
+		hooksecurefunc(TooltipComparisonManager, "CompareItem", function(comparisonItem, tooltip, anchorFrame)
+		   	local shoppingTooltip1, shoppingTooltip2 = unpack(anchorFrame.shoppingTooltips)
+		   	add_ShowCompareItemIcon(shoppingTooltip1,true,true)
+			add_ShowCompareItemIcon(shoppingTooltip2,true,true)
+		end)
+	end
 end

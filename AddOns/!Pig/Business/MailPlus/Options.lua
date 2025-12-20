@@ -13,43 +13,40 @@ local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGFontString=Create.PIGFontString
 local PIGDiyBut=Create.PIGDiyBut
 local PIGDiyTex=Create.PIGDiyTex
-------
 local Data=addonTable.Data
-local BusinessInfo=addonTable.BusinessInfo
-local fuFrame,fuFrameBut = BusinessInfo.fuFrame,BusinessInfo.fuFrameBut
+------
 local GetContainerNumSlots = GetContainerNumSlots or C_Container and C_Container.GetContainerNumSlots
 local GetContainerItemInfo = GetContainerItemInfo or C_Container and C_Container.GetContainerItemInfo
 local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
-
+local BusinessInfo=addonTable.BusinessInfo
+local fuFrame,fuFrameBut = BusinessInfo.fuFrame,BusinessInfo.fuFrameBut
 local GnName = MINIMAP_TRACKING_MAILBOX.."助手"
 ------------
 local PIG_OPEN_ALL_MAIL_MIN_DELAY=1
 function BusinessInfo.MailPlusOptions()
+	local MailPlusF,MailPlustabbut =PIGOptionsList_R(BusinessInfo.RTabFrame,GnName,90)
 	PIG_OPEN_ALL_MAIL_MIN_DELAY=PIGA["MailPlus"]["OpenAllCD"]
-	fuFrame.MailPlus_line = PIGLine(fuFrame,"TOP",-(fuFrame.dangeH*fuFrame.GNNUM))
-	fuFrame.GNNUM=fuFrame.GNNUM+2
 	------
 	local Tooltip = {GnName,"增强你的邮箱界面，方便你查看邮箱物品/发送邮件"};
-	fuFrame.MailPlus = PIGCheckbutton(fuFrame,{"TOPLEFT",fuFrame.MailPlus_line,"TOPLEFT",20,-30},Tooltip)
-	fuFrame.MailPlus:SetScript("OnClick", function (self)
+	MailPlusF.MailPlus = PIGCheckbutton(MailPlusF,{"TOPLEFT",MailPlusF,"TOPLEFT",20,-20},Tooltip)
+	MailPlusF.MailPlus:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["MailPlus"]["Open"]=true;
 			BusinessInfo.MailPlus_ADDUI()
-			fuFrame:Update_Set()
 		else
 			PIGA["MailPlus"]["Open"]=false;
 			PIG_OptionsUI.RLUI:Show()
 		end
+		MailPlusF:Update_Set()
 	end);
-	fuFrame.MailPlus.ScanSliderT = PIGFontString(fuFrame.MailPlus,{"LEFT",fuFrame.MailPlus.Text,"RIGHT",40,0},"批量取件间隔/s")
-	fuFrame.MailPlus.ScanSlider = PIGSlider(fuFrame.MailPlus,{"LEFT",fuFrame.MailPlus.ScanSliderT,"RIGHT",0,0},{0.15,1,0.01})
-	fuFrame.MailPlus.ScanSlider.Slider:HookScript("OnValueChanged", function(self, arg1)
+	MailPlusF.ScanSlider = PIGSlider(MailPlusF,{"TOPLEFT",MailPlusF,"TOPLEFT",20,-60},{0.15,1,0.01,{["Right"]="批量取件间隔%s/s"}})
+	function MailPlusF.ScanSlider:PIGOnValueChange(arg1)
 		PIG_OPEN_ALL_MAIL_MIN_DELAY=arg1
 		PIGA["MailPlus"]["OpenAllCD"]=arg1
-	end)
-	fuFrame.BagOpen = PIGCheckbutton(fuFrame,{"TOPLEFT",fuFrame.MailPlus,"BOTTOMLEFT",0,-20},{"发件时保持背包开启"})
-	fuFrame.BagOpen:SetScript("OnClick", function (self)
+	end
+	MailPlusF.BagOpen = PIGCheckbutton(MailPlusF,{"TOPLEFT",MailPlusF,"TOPLEFT",20,-120},{"发件时保持背包开启"})
+	MailPlusF.BagOpen:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["MailPlus"]["BagOpen"]=true;
 		else
@@ -57,13 +54,15 @@ function BusinessInfo.MailPlusOptions()
 		end
 	end);
 	--------
-	function fuFrame:Update_Set()
+	function MailPlusF:Update_Set()
 		self.MailPlus:SetChecked(PIGA["MailPlus"]["Open"])
-		self.MailPlus.ScanSlider:PIGSetValue(PIGA["MailPlus"]["OpenAllCD"])
+		self.ScanSlider:PIGSetValue(PIGA["MailPlus"]["OpenAllCD"])
 		self.BagOpen:SetChecked(PIGA["MailPlus"]["BagOpen"])
+		self.ScanSlider:SetEnabled(PIGA["MailPlus"]["Open"])
+		self.BagOpen:SetEnabled(PIGA["MailPlus"]["Open"])
 	end
-	fuFrame:HookScript("OnShow", function (self)
-		fuFrame:Update_Set()
+	MailPlusF:HookScript("OnShow", function (self)
+		MailPlusF:Update_Set()
 	end);
 	BusinessInfo.MailPlus_ADDUI()
 end

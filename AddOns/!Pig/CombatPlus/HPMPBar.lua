@@ -318,20 +318,20 @@ local function ADD_HPMPBarUI(fujiSetUI,setV)
 	local xiayiinfo = {-WowWidth,WowWidth,1}
 	fujiSetUI.SliderX = PIGSlider(fujiSetUI,{"TOPLEFT",fujiSetUI,"TOPLEFT",60,-70},xiayiinfo)
 	fujiSetUI.SliderX.T = PIGFontString(fujiSetUI.SliderX,{"RIGHT",fujiSetUI.SliderX,"LEFT",0,0},"X偏移")
-	fujiSetUI.SliderX.Slider:HookScript("OnValueChanged", function(self, arg1)
+	function fujiSetUI.SliderX:PIGOnValueChange(arg1)
 		if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
 		PIGA["CombatPlus"]["HPMPBar"]["Xpianyi"]=arg1;
 		Set_WHXY()
-	end)
+	end
 	local WowHeight=floor(GetScreenHeight()*0.5);
 	local xiayiinfo = {-WowHeight,WowHeight,1}
 	fujiSetUI.SliderY = PIGSlider(fujiSetUI,{"LEFT",fujiSetUI.SliderX,"RIGHT",100,0},xiayiinfo)
 	fujiSetUI.SliderY.T = PIGFontString(fujiSetUI.SliderY,{"RIGHT",fujiSetUI.SliderY,"LEFT",0,0},"Y偏移")
-	fujiSetUI.SliderY.Slider:HookScript("OnValueChanged", function(self, arg1)
+	function fujiSetUI.SliderY:PIGOnValueChange(arg1)
 		if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
 		PIGA["CombatPlus"]["HPMPBar"]["Ypianyi"]=arg1;
 		Set_WHXY()
-	end)
+	end
 	fujiSetUI.CZBUT = PIGButton(fujiSetUI,{"LEFT",fujiSetUI.SliderY,"RIGHT",60,0},{80,24},"重置位置")
 	fujiSetUI.CZBUT:SetScript("OnClick", function ()
 		if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
@@ -345,19 +345,19 @@ local function ADD_HPMPBarUI(fujiSetUI,setV)
 	local xiayiinfo = {100,400,1}
 	fujiSetUI.BarW = PIGSlider(fujiSetUI,{"TOPLEFT",fujiSetUI,"TOPLEFT",60,-140},xiayiinfo)
 	fujiSetUI.BarW.T = PIGFontString(fujiSetUI.BarW,{"RIGHT",fujiSetUI.BarW,"LEFT",0,0},"宽度")
-	fujiSetUI.BarW.Slider:HookScript("OnValueChanged", function(self, arg1)
+	function fujiSetUI.BarW:PIGOnValueChange(arg1)
 		if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
 		PIGA["CombatPlus"]["HPMPBar"]["BarW"]=arg1;
 		HPMPBar.Set_StatusBarWH()
-	end)
+	end
 	local xiayiinfo = {10,60,1}
 	fujiSetUI.BarH = PIGSlider(fujiSetUI,{"LEFT",fujiSetUI.BarW,"RIGHT",100,0},xiayiinfo)
 	fujiSetUI.BarH.T = PIGFontString(fujiSetUI.BarH,{"RIGHT",fujiSetUI.BarH,"LEFT",0,0},"高度")
-	fujiSetUI.BarH.Slider:HookScript("OnValueChanged", function(self, arg1)
+	function fujiSetUI.BarH:PIGOnValueChange(arg1)
 		if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
 		PIGA["CombatPlus"]["HPMPBar"]["BarH"]=arg1;
 		HPMPBar.Set_StatusBarWH()
-	end)
+	end
 	fujiSetUI.CZSize = PIGButton(fujiSetUI,{"LEFT",fujiSetUI.BarH,"RIGHT",60,0},{80,24},"默认大小")
 	fujiSetUI.CZSize:SetScript("OnClick", function ()
 		if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
@@ -381,11 +381,11 @@ local function ADD_HPMPBarUI(fujiSetUI,setV)
 	local xiayiinfo = {10,26,1}
 	fujiSetUI.FontSize = PIGSlider(fujiSetUI,{"LEFT",fujiSetUI.Showshuzhi,"LEFT",210,0},xiayiinfo)
 	fujiSetUI.FontSize.T = PIGFontString(fujiSetUI.FontSize,{"RIGHT",fujiSetUI.FontSize,"LEFT",-10,0},"字体大小")
-	fujiSetUI.FontSize.Slider:HookScript("OnValueChanged", function(self, arg1)
+	function fujiSetUI.FontSize:PIGOnValueChange(arg1)
 		if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
 		PIGA["CombatPlus"]["HPMPBar"]["FontSize"]=arg1;
 		HPMPBar.Set_BarFontAll()
-	end)
+	end
 
 	fujiSetUI.HpShow =PIGCheckbutton(fujiSetUI,{"TOPLEFT",fujiSetUI.Showshuzhi,"TOPLEFT",0,-40},{"显示血量条","个人资源条显示血量"})
 	fujiSetUI.HpShow:SetScript("OnClick", function (self)

@@ -48,10 +48,10 @@ end);
 local NameMininfo = {0,64,1}
 fujiF.AutoCVars.NameMin = PIGSlider(fujiF.AutoCVars,{"TOPLEFT",fujiF.AutoCVars,"BOTTOMLEFT",20,-40},NameMininfo)
 fujiF.AutoCVars.NameMin.T = PIGFontString(fujiF.AutoCVars.NameMin,{"BOTTOMLEFT",fujiF.AutoCVars.NameMin,"TOPLEFT",10,0},"休息区角色名尺寸")
-fujiF.AutoCVars.NameMin.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.AutoCVars.NameMin:PIGOnValueChange(arg1)
     PIGA["Hardcore"]["CVars"]["NameMinV"]=arg1;
     HardcoreModeF.NameMinV=arg1
-end)
+end
 
 local NameSelectList={
 	[1]={NPC_NAMES_DROPDOWN_TRACKED, NPC_NAMES_DROPDOWN_TRACKED_TOOLTIP},
@@ -131,10 +131,10 @@ end
 local NameMaxinfo = {0,64,1}
 fujiF.AutoCVars.NameMax = PIGSlider(fujiF.AutoCVars,{"TOPLEFT",fujiF.AutoCVars,"BOTTOMLEFT",20,-100},NameMaxinfo)
 fujiF.AutoCVars.NameMax.T = PIGFontString(fujiF.AutoCVars.NameMax,{"BOTTOMLEFT",fujiF.AutoCVars.NameMax,"TOPLEFT",10,0},"非休息区角色名尺寸")
-fujiF.AutoCVars.NameMax.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.AutoCVars.NameMax:PIGOnValueChange(arg1)
     PIGA["Hardcore"]["CVars"]["NameMaxV"]=arg1;
     HardcoreModeF.NameMaxV=arg1
-end)
+end
 fujiF.AutoCVars.NameMaxSelect=PIGDownMenu(fujiF.AutoCVars,{"LEFT",fujiF.AutoCVars.NameMax,"RIGHT",100,0},{220,24})
 fujiF.AutoCVars.NameMaxSelect.T = PIGFontString(fujiF.AutoCVars.NameMaxSelect,{"BOTTOMLEFT",fujiF.AutoCVars.NameMaxSelect,"TOPLEFT",10,4},"非休息区角色名显示")
 function fujiF.AutoCVars.NameMaxSelect:PIGDownMenu_Update_But()
@@ -216,17 +216,17 @@ end);
 local Tgminlevelinfo = {1,59,1,{["Right"]="%s级"}}
 fujiF.Deaths.Tgminlevel = PIGSlider(fujiF.Deaths,{"TOPLEFT",fujiF.Deaths,"BOTTOMLEFT",20,-40},Tgminlevelinfo)
 fujiF.Deaths.Tgminlevel.T = PIGFontString(fujiF.Deaths.Tgminlevel,{"BOTTOMLEFT",fujiF.Deaths.Tgminlevel,"TOPLEFT",10,0},"桌面提示最低等级")
-fujiF.Deaths.Tgminlevel.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.Deaths.Tgminlevel:PIGOnValueChange(arg1)
 	PIGA["Hardcore"]["Deaths"]["Tgminlevel"]=arg1;
 	fujiF.Deaths.Set_config()
-end)
+end
 local UIScaleinfo = {0.8,2,0.1,{["Right"]="%"}}
 fujiF.Deaths.UIScale = PIGSlider(fujiF.Deaths,{"LEFT",fujiF.Deaths.Tgminlevel,"RIGHT",60,0},UIScaleinfo)
 fujiF.Deaths.UIScale.T = PIGFontString(fujiF.Deaths.UIScale,{"BOTTOMLEFT",fujiF.Deaths.UIScale,"TOPLEFT",10,0},"桌面提示缩放")
-fujiF.Deaths.UIScale.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.Deaths.UIScale:PIGOnValueChange(arg1)
 	PIGA["Hardcore"]["Deaths"]["UIScale"]=arg1;
 	fujiF.Deaths.Set_config(true)
-end)
+end
 fujiF.Deaths.tipsmap = PIGCheckbutton(fujiF.Deaths,{"LEFT",fujiF.Deaths.UIScale,"RIGHT",60,0},{"桌面提示死亡地区","桌面提示显示名字+死亡地区"})
 fujiF.Deaths.tipsmap:HookScript("OnClick", function (self)
 	if self:GetChecked() then
@@ -240,10 +240,10 @@ end);
 local BigTgminlevelinfo = {30,60,1,{["Right"]="%s级"}}
 fujiF.Deaths.BigTgminlevel = PIGSlider(fujiF.Deaths,{"TOPLEFT",fujiF.Deaths.Tgminlevel,"BOTTOMLEFT",0,-40},BigTgminlevelinfo)
 fujiF.Deaths.BigTgminlevel.T = PIGFontString(fujiF.Deaths.BigTgminlevel,{"BOTTOMLEFT",fujiF.Deaths.BigTgminlevel,"TOPLEFT",10,0},"大席提示最低等级")
-fujiF.Deaths.BigTgminlevel.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.Deaths.BigTgminlevel:PIGOnValueChange(arg1)
 	PIGA["Hardcore"]["Deaths"]["BigTgminlevel"]=arg1;
 	fujiF.Deaths.Set_config()
-end)
+end
 fujiF.Deaths.xiala=PIGDownMenu(fujiF.Deaths,{"LEFT",fujiF.Deaths.BigTgminlevel,"RIGHT",100,0},{150,24})
 fujiF.Deaths.xiala.T = PIGFontString(fujiF.Deaths.xiala,{"BOTTOMLEFT",fujiF.Deaths.xiala,"TOPLEFT",10,4},"大席语音")
 function fujiF.Deaths.xiala:PIGDownMenu_Update_But()
@@ -269,9 +269,9 @@ end)
 local savedaysinfo = {1,7,1,{["Right"]="%s天"}}
 fujiF.Deaths.savedays = PIGSlider(fujiF.Deaths,{"TOPLEFT",fujiF.Deaths.BigTgminlevel,"BOTTOMLEFT",0,-40},savedaysinfo)
 fujiF.Deaths.savedays.T = PIGFontString(fujiF.Deaths.savedays,{"BOTTOMLEFT",fujiF.Deaths.savedays,"TOPLEFT",10,0},"保存时间")
-fujiF.Deaths.savedays.Slider:HookScript("OnValueChanged", function(self, arg1)
+function fujiF.Deaths.savedays:PIGOnValueChange(arg1)
 	PIGA["Hardcore"]["Deaths"]["savedays"]=arg1;
-end)
+end
 
 fujiF.Deaths.Clear = PIGButton(fujiF.Deaths,{"LEFT",fujiF.Deaths.savedays,"RIGHT",100,0},{80,20},"清空记录")
 fujiF.Deaths.Clear:HookScript("OnClick", function ()
@@ -337,7 +337,6 @@ function PIG_OptionsUI.Join_hardcoredeaths()
 	if PIGA["Hardcore"]["Deaths"]["Open"] then
 		JoinTemporaryChannel("hardcoredeaths", nil, DEFAULT_CHAT_FRAME:GetID(), 1);
 		ChatFrame_RemoveChannel(DEFAULT_CHAT_FRAME, "hardcoredeaths");
-		--ChatFrame_AddChannel(DEFAULT_CHAT_FRAME, "hardcoredeaths");
 		JoinTemporaryChannel("专家死亡", nil, DEFAULT_CHAT_FRAME:GetID(), 1);
 		ChatFrame_RemoveChannel(DEFAULT_CHAT_FRAME, "专家死亡");
 	end

@@ -73,6 +73,8 @@ local defaults = {
             durationBars = true,
             allowSetCoordinates = false,
             raidSizeLayoutSwitching = false,
+            vigorBar = true,
+            housingControlsFrame = true,
         },
         QueueStatusButton = {},
         TotemFrame = {},
@@ -127,6 +129,8 @@ local defaults = {
         BuffIconCooldownViewer = {},
         BuffBarCooldownViewer = {},
         MirrorTimerContainer = {},
+        VigorBar = {},
+        HousingControlsFrame = {},
     }
 }
 
@@ -418,6 +422,16 @@ local options = {
             name = "Layout Switching",
             type = "group",
             args = addon.GetLayoutChangeOptions(),
+        },
+        vigorBar = {
+            name = "Vigor Bar",
+            type = "toggle",
+            desc = "Add the pre-11.2.7 Dragonriding Vigor bar"
+        },
+        housingControlsFrame = {
+            name = BINDING_HEADER_HOUSING_SYSTEM,
+            type = "toggle",
+            desc = string.format(L["TOGGLE_ADDITIONAL_OPTIONS_SUPPORT_STRING"], BINDING_HEADER_HOUSING_SYSTEM),
         },
     },
 }

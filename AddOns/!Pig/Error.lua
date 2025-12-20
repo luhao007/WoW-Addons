@@ -389,7 +389,22 @@ function PIGerrotFUN(event,msg1,msg2)
 		return
 	end
 	if event=="LUA_WARNING" then
-		table.insert(linshicuowuxinxi,"LUA_WARNING")
+		local newmsg = tostring(msg1)
+		table.insert(linshicuowuxinxi,newmsg)
+		local cunzai = SaveErrorInfo(bencierrinfo, newmsg)
+		if not cunzai then
+			local time = GetServerTime()
+			local stack = debugstack(3) or "null"
+			local logrizhi = debuglocals(3) or "null"
+			local errorindo = {
+				msg = newmsg,
+				time = time,
+				counter = 1,
+				stack = stack,
+				logrizhi=logrizhi,
+			}
+			bencierrinfo[#bencierrinfo + 1] = errorindo	
+		end
 	elseif event=="ADDON_ACTION_FORBIDDEN" or event=="ADDON_ACTION_BLOCKED" then
 		local msg1 = tostring(msg1)
 		local msg2 = tostring(msg2)
@@ -448,6 +463,9 @@ function PIGerrotFUN(event,msg1,msg2)
 	xianshixinxi(#bencierrinfo)
 end
 UIParent:UnregisterEvent("LUA_WARNING")
+if ScriptErrorsFrame then
+	ScriptErrorsFrame:UnregisterEvent("LUA_WARNING")
+end
 local Pig_seterrorhandler=seterrorhandler
 Pig_seterrorhandler(PIGerrotFUN);
 function seterrorhandler() end
@@ -461,6 +479,7 @@ Bugcollect:RegisterEvent("PLAYER_ENTERING_WORLD")
 Bugcollect:RegisterEvent("PLAYER_LOGOUT");
 Bugcollect:RegisterEvent("ADDON_LOADED")
 Bugcollect:SetScript("OnEvent", function(self,event,arg1,arg2)
+	--print(event,arg1,arg2)
 	if event=="ADDON_LOADED" then
 		self:UnregisterEvent("ADDON_LOADED")
 		C_Timer.After(3,function()
@@ -487,7 +506,7 @@ Bugcollect:SetScript("OnEvent", function(self,event,arg1,arg2)
 	elseif event=="MACRO_ACTION_FORBIDDEN" or event=="MACRO_ACTION_BLOCKED" then
 		PIGerrotFUN(event,arg1)
 	elseif event=="LUA_WARNING" then
-		PIGerrotFUN(event,arg2)
+		PIGerrotFUN(event,arg1)
 	end
 end)
 --==================================

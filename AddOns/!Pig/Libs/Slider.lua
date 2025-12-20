@@ -20,9 +20,12 @@ local function PIGformatter(labelType,danwei,weishu)
 				return danwei(arg1)
 			elseif danwei:match("%%s") then
 				return format(danwei, arg1)
-			elseif danwei:match("%%") and danwei=="%" then
-				local arg1 = arg1*100
-				return arg1.."%"
+			elseif danwei:match("%%") then
+				if danwei=="%" then
+					return (arg1*100).."%"
+				else
+					return format(danwei, arg1*100)
+				end
 			else
 				return format(danwei, arg1)
 			end
@@ -60,7 +63,9 @@ function Create.PIGSlider(fuF,Point,data,WH,UIName)--,{["Right"]="%"}
 	SliderF:SetWidth(WH);
 	SliderF:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5]);
 	SliderF:SetObeyStepOnDrag(true);
-	SliderF.Slider:HookScript("OnEnter", function (self)
+	PIGSetFont(SliderF.RightText)
+	SliderF.RightText:SetPoint("LEFT",SliderF.Slider,"RIGHT",16,0)
+	SliderF.Slider:SetScript("OnEnter", function (self)
 		GameTooltip:ClearLines();
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,0);
 		local fujii=self:GetParent()
@@ -76,7 +81,7 @@ function Create.PIGSlider(fuF,Point,data,WH,UIName)--,{["Right"]="%"}
 		end
 		GameTooltip:Show();
 	end);
-	SliderF.Slider:HookScript("OnLeave",function () 
+	SliderF.Slider:SetScript("OnLeave",function () 
 		GameTooltip:ClearLines();
 		GameTooltip:Hide()
 	end);
@@ -92,7 +97,7 @@ function Create.PIGSlider(fuF,Point,data,WH,UIName)--,{["Right"]="%"}
 	end
 	function SliderF:PIGSetValue(value)
 		local OLD_OnValueChanged=self.Slider:GetScript("OnValueChanged")
-		self.Slider:SetScript("OnValueChanged", function() end)
+		self.Slider:SetScript("OnValueChanged", nil)
 		self:FormatValue(value);
 		self.Slider:SetValue(value);
 		self.Slider:HookScript("OnValueChanged", OLD_OnValueChanged)
@@ -104,7 +109,8 @@ function Create.PIGSlider(fuF,Point,data,WH,UIName)--,{["Right"]="%"}
 		self:PIGSetValue(value)
 	end
 	SliderF.Slider:HookScript("OnValueChanged", function(self, arg1)
-		self:GetParent().Value=arg1
+		local VX = floor(arg1*100+0.5)*0.01
+		SliderF:PIGOnValueChange(VX)
 	end)
 	hooksecurefunc(SliderF, "Enable", function(self)
 		self.Slider:Enable();
@@ -112,8 +118,8 @@ function Create.PIGSlider(fuF,Point,data,WH,UIName)--,{["Right"]="%"}
 	hooksecurefunc(SliderF, "Disable", function(self)
 		self.Slider:Disable()
 	end)
-	function SliderF:GetValue()
-		return self.Value or 0
-	end
+	-- function SliderF:GetValue()
+	-- 	return self.Value or 0
+	-- end
 	return SliderF
 end

@@ -4,11 +4,15 @@
 	<Script file="RollFrame.lua" />
 	<Script file="BuffTime.lua" />
 	<Script file="Tracking.lua" />
+	<Script file="ItemSocketingFrame.lua" />
 	<Script file="QuestFrame.lua" />
 	<Script file="SkillFrame.lua" />
+	<Script file="ClassTrainerFrame.lua" />
+	<Script file="SpellFrame.lua" />
 	<Script file="MerchantFrame.lua" />
 	<Script file="FriendsFrame.lua" />
 	<Script file="MacroFrame.lua" />
 	<Script file="TalentFrame.lua" />
 	<Script file="CharacterFrame.lua" />
+	<Script file="BlizzardUIMove.lua" />
 </Ui>

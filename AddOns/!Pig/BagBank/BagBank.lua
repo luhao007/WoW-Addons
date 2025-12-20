@@ -18,12 +18,6 @@ local Bank_Item_lv=BagBankfun.Bank_Item_lv
 function BagBankfun.Zhenghe(Rneirong,tabbut)
 	if not PIGA["BagBank"]["Zhenghe"] or BagBankfun.yizhixingjiazai then return end
 	BagBankfun.yizhixingjiazai=true
-	--交易打开
-	hooksecurefunc("TradeFrame_OnShow", function(self)
-		if PIGA["BagBank"]["jiaoyiOpen"] then
-			if(UnitExists("NPC"))then OpenAllBags() end
-		end
-	end);
 	if ContainerFrameCombinedBags:IsShown() then CloseAllBags() end
 	if GetCVar("combinedBags")=="0" then SetCVar("combinedBags","1") end
 	ContainerFrameCombinedBags.meihang=PIGA["BagBank"]["BAGmeihangshu"]+BagBankfun.BAGmeihangshu
@@ -62,15 +56,8 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 	--
 	ContainerFrameCombinedBags.Setings = BagBankfun.addSetbut(ContainerFrameCombinedBags,{"TOPRIGHT",ContainerFrameCombinedBags,"TOPRIGHT",-86,-38},Rneirong,tabbut)
 	---
-	ContainerFrameCombinedBags:RegisterEvent("AUCTION_HOUSE_SHOW")
 	ContainerFrameCombinedBags:HookScript("OnEvent", function(self,event,arg1)
-		if event=="AUCTION_HOUSE_SHOW" then
-			if PIGA["BagBank"]["AHOpen"] then
-				if (UnitExists("NPC")) then
-					OpenAllBags()
-				end
-			end
-		elseif event=="BAG_UPDATE" then
+		if event=="BAG_UPDATE" then
 			if arg1>bagData["bagIDMax"] then
 				if BankFrame:IsVisible() then
 					Bag_Item_lv(nil, nil, arg1)

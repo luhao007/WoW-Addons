@@ -1055,7 +1055,7 @@ function GDKPInfo.ADD_Item(RaidR)
 		RaidR.Update_Item();
 	end
 	--手动添加物品
-	hooksecurefunc("ChatFrame_OnHyperlinkShow",function(chatFrame, link, text, button)
+	hooksecurefunc("SetItemRef", function(link, ...)
 		if RaidR:IsShown() and fujiF:IsShown() then
 			local aShiftKeyIsDown = IsShiftKeyDown();
 			if aShiftKeyIsDown then

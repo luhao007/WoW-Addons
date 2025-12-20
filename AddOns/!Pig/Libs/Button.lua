@@ -79,8 +79,10 @@ local function add_Button(MODE,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 			end
 		end);
 		But:HookScript("OnMouseUp", function(self)
-			local point, relativeTo, relativePoint, offsetX, offsetY = self.Text:GetPoint()
-			self.Text:SetPoint(point,self,relativePoint, offsetX-1.5, offsetY+1.5);
+			if self:IsEnabled() and not self.NoClickTextOpen then
+				local point, relativeTo, relativePoint, offsetX, offsetY = self.Text:GetPoint()
+				self.Text:SetPoint(point,self,relativePoint, offsetX-1.5, offsetY+1.5);
+			end
 		end);
 		function But:SetText(TextN)
 			self.Text:SetText(TextN);

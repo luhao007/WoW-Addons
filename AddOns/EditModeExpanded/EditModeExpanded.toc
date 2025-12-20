@@ -1,6 +1,6 @@
-## Interface: 110205
+## Interface: 110207
 ## Author: Teelo
-## Version: 11.2-018
+## Version: 11.2-025
 
 ## Title: Edit Mode Expanded
 ## Notes: Expands Edit Mode to apply to other frames
@@ -38,6 +38,7 @@ FrameHandlers\FocusFrame.lua
 FrameHandlers\FocusToT.lua
 FrameHandlers\GameMenu.lua
 FrameHandlers\GroupLoot.lua
+FrameHandlers\Housing.lua
 FrameHandlers\LFG.lua
 FrameHandlers\LossOfControl.lua
 FrameHandlers\Menu.lua
@@ -75,3 +76,5 @@ RegisteredSystemFrames.lua
 CombatManager.lua
 EditModeExpanded.lua
 WarningFrame.xml
+Vigor.lua
+Vigor.xml

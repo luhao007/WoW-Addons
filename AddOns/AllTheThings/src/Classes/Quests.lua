@@ -675,6 +675,7 @@ local function BuildDiscordQuestInfoTable(id, infoText, questChange, questRef, c
 	local info = {
 		infoText,
 		questChange..": \""..(QuestNameFromID[id] or "???").."\"",
+		OBJREF = questRef,
 	};
 	if checks then
 		for k,v in pairs(checks) do
@@ -794,9 +795,9 @@ PrintQuestInfo = function(questID, new)
 		if nyi then
 			-- Report the output
 			app.Modules.Contributor.AddReportData(
-				questRef.__type,
+				"Quest",
 				questID,
-				BuildDiscordQuestInfoTable(questID, "nyi-quest", questChange),
+				BuildDiscordQuestInfoTable(questID, "nyi-quest", questChange, questRef),
 				"Quest "..questChange.." "..text.." [NYI] ATT "..app.Version)
 			return
 		end
@@ -805,9 +806,9 @@ PrintQuestInfo = function(questID, new)
 		if unsorted then
 			-- Report the output
 			app.Modules.Contributor.AddReportData(
-				questRef.__type,
+				"Quest",
 				questID,
-				BuildDiscordQuestInfoTable(questID, "unsorted-quest", questChange),
+				BuildDiscordQuestInfoTable(questID, "unsorted-quest", questChange, questRef),
 				"Quest "..questChange.." "..text.." [UNS] ATT "..app.Version)
 			return
 		end
@@ -1232,23 +1233,23 @@ local LockedQuestCache, LockedBreadcrumbCache = {}, {}
 local criteriaFuncs = {
 	-- TODO: When Achievements get moved to their own file, add these to app.QuestLockCriteriaFunctions in that file.
 	-- The achievement functions would be cached more efficiently in that file and be able to version properly.
-    achID = function(achievementID)
-        return app.CurrentCharacter.Achievements[achievementID];
-    end,
+	achID = function(achievementID)
+		return app.CurrentCharacter.Achievements[achievementID];
+	end,
 	label_achID = ACHIEVEMENT_UNLOCKED or "Achievement Earned",
-    text_achID = function(achievementID)
-        return select(2, GetAchievementInfo(achievementID));
-    end,
+	text_achID = function(achievementID)
+		return select(2, GetAchievementInfo(achievementID));
+	end,
 
-    lvl = function(lvl)
-        return app.Level >= lvl;
-    end,
+	lvl = function(lvl)
+		return app.Level >= lvl;
+	end,
 	label_lvl = L.LOCK_CRITERIA_LEVEL_LABEL,
-    text_lvl = function(lvl)
-        return lvl;
-    end,
+	text_lvl = function(lvl)
+		return lvl;
+	end,
 
-    questID = function(questID)
+	questID = function(questID)
 		-- saved on this character to this quest
 		if IsQuestSaved(questID) then return true end
 		-- questID is saved in OneTimeQuests to another character
@@ -1263,69 +1264,69 @@ local criteriaFuncs = {
 		-- if q and q.locked then app.PrintDebug("locked",questID) return true end
 	end,
 	label_questID = L.LOCK_CRITERIA_QUEST_LABEL,
-    text_questID = function(questID)
+	text_questID = function(questID)
 		-- sometimes we can get nice names from non-server quests... so use their actual implementation
 		local questObject = app.SearchForObject("questID", questID, "field")
 		local questName
 		if questObject then questName = app.TryColorizeName(questObject) end
-        return ("[%d] %s"):format(questID, questName or RETRIEVING_DATA);
-    end,
+		return ("[%d] %s"):format(questID, questName or RETRIEVING_DATA);
+	end,
 
-    -- spellID = app.IsSpellKnownHelper,	-- defined in OnLoad event
+	-- spellID = app.IsSpellKnownHelper,	-- defined in OnLoad event
 	label_spellID = L.LOCK_CRITERIA_SPELL_LABEL,
-    -- text_spellID = app.GetSpellName,	-- defined in OnLoad event
+	-- text_spellID = app.GetSpellName,	-- defined in OnLoad event
 
-    factionID = function(v)
+	factionID = function(v)
 		-- v = factionID.standingRequiredToLock
 		local factionID = math_floor(v + 0.00001);
 		local lockStanding = math_floor((v - factionID) * 10 + 0.00001);
-        local standing = app.CreateFaction(factionID).standing;
+		local standing = app.CreateFaction(factionID).standing;
 		-- app.PrintDebug(("Check Faction %s Standing (%d) is locked @ (%d)"):format(factionID, standing, lockStanding))
 		return standing >= lockStanding;
-    end,
+	end,
 	label_factionID = L.LOCK_CRITERIA_FACTION_LABEL,
-    text_factionID = function(v)
+	text_factionID = function(v)
 		-- v = factionID.standingRequiredToLock
 		local factionID = math_floor(v + 0.00001);
 		local faction = app.CreateFaction(factionID);
 		faction.rank = math_floor((v - factionID) * 10 + 0.00001);
-        return L.LOCK_CRITERIA_FACTION_FORMAT:format(faction.rankText, faction.name, faction.standingText);
-    end,
+		return L.LOCK_CRITERIA_FACTION_FORMAT:format(faction.rankText, faction.name, faction.standingText);
+	end,
 
-    renownID = function(v)
+	renownID = function(v)
 		-- v = factionID.levelRequiredToLock
 		local factionID = math_floor(v + 0.00001);
 		local lockStanding = math_floor((v - factionID) * 100 + 0.00001);
-        local standing = app.CreateFaction(factionID).standing;
+		local standing = app.CreateFaction(factionID).standing;
 		-- app.PrintDebug(("Check Renown %s Standing (%d) is locked @ (%d)"):format(factionID, standing, lockStanding))
 		return standing >= lockStanding;
-    end,
+	end,
 	label_renownID = L.LOCK_CRITERIA_FACTION_LABEL,
-    text_renownID = function(v)
+	text_renownID = function(v)
 		-- v = factionID.standingRequiredToLock
 		local factionID = math_floor(v + 0.00001);
 		local faction = app.CreateFaction(factionID);
 		faction.rank = math_floor((v - factionID) * 100 + 0.00001);
-        return L.LOCK_CRITERIA_FACTION_FORMAT:format(faction.rankText, faction.name, faction.standingText);
-    end,
+		return L.LOCK_CRITERIA_FACTION_FORMAT:format(faction.rankText, faction.name, faction.standingText);
+	end,
 
-    sourceID = function(sourceID)
+	sourceID = function(sourceID)
 		return app.IsAccountCached("Sources", sourceID)
 	end,
 	label_sourceID = L.LOCK_CRITERIA_SOURCE_LABEL or "Known Appearance",
-    text_sourceID = function(sourceID)
+	text_sourceID = function(sourceID)
 		local group = app.SearchForObject("sourceID", sourceID, "field") or app.CreateItemSource(sourceID)
-        return group.link or group.text or RETRIEVING_DATA;
-    end,
+		return group.link or group.text or RETRIEVING_DATA;
+	end,
 
-    toyID = function(toyID)
+	toyID = function(toyID)
 		return app.IsAccountCached("Toys", toyID)
 	end,
 	label_toyID = L.LOCK_CRITERIA_TOY_LABEL or "Known Toy",
-    text_toyID = function(toyID)
+	text_toyID = function(toyID)
 		local group = app.SearchForObject("toyID", toyID, "field") or app.CreateToy(toyID)
-        return group.link or group.text or RETRIEVING_DATA;
-    end,
+		return group.link or group.text or RETRIEVING_DATA;
+	end,
 };
 app.AddEventHandler("OnLoad", function()
 	criteriaFuncs.text_spellID = app.GetSpellName
@@ -1558,6 +1559,11 @@ local FactionCache = setmetatable({}, {
 });
 local QuestWithReputationCostCollectibles = setmetatable({}, {
 	__index = function(t, quest)
+		if NotInGame(quest) then
+			-- app.PrintDebug("ignore costcollectibles for unavailable quest", quest.questID)
+			t[quest.questID] = app.EmptyTable
+			return
+		end
 		local costCollectibles
 		-- TODO: adjust when givesReputation exists
 		local maxReputation = quest.maxReputation
@@ -2077,6 +2083,31 @@ app.AddEventHandler("OnNewPopoutGroup", AddQuestItems)
 
 -- Retail Modifications
 if app.IsRetail then
+	local CreateNestedQuest = app.ExtendClass("Quest", "QuestNested", "questID", {
+		RefreshCollectionOnly = true,
+		IsClassIsolated = true,
+		collectible = function(t)
+			-- don't consider locked quests which have been skipped if not tracking locked quests
+			if t.locked and not app.Settings:Get("Thing:QuestsLocked") then
+				return
+			end
+			if t.saved then return true end
+			-- don't consider incomplete quest collectible if it has a parent which has become saved (perhaps a skipped breadcrumb)
+			local parent = t.parent
+			if parent and parent.questID and parent.saved then
+				return
+			end
+			-- force collectible for normally un-collectible but trackable (repeatable) Quests to make sure it shows in list if the quest needs to be completed to progess
+			-- unless a quest is specifically set to be non-collectible directly
+			if t.trackable and rawget(t, "collectible") then
+				return
+			end
+			return true
+		end,
+		collected = function(t) return t.saved and 1 end,
+		OnSetVisibility = function(t) return OnSetVisibilityForNestedQuest end,
+	})
+
 	local _reportedBadQuestSequence;
 	local BackTraceChecks = {};
 	local function BackTraceForSelf(parents, questID, checkQuestID)
@@ -2136,21 +2167,7 @@ if app.IsRetail then
 			end
 
 			-- Save this questRef (depth doesn't change the ref so only clone it once)
-			questRef = app.CloneClassInstance(questRef, true);
-
-			-- force collectible for normally un-collectible but trackable things to make sure it shows in list if the quest needs to be completed to progess
-			-- unless a quest is specifically set to be non-collectible directly
-			if not questRef.collectible and questRef.trackable and rawget(questRef, "collectible") ~= false then
-				questRef.collectible = true;
-			end
-
-			-- don't consider locked quests which have been skipped if not tracking locked quests
-			if questRef.locked and not app.Settings:Get("Thing:QuestsLocked") then
-				questRef.collectible = false;
-			end
-
-			-- If the user is in a Party Sync session, then force showing pre-req quests which are replayable if they are collected already
-			questRef.OnSetVisibility = OnSetVisibilityForNestedQuest
+			questRef = CreateNestedQuest(questID, app.CloneClassInstance(questRef, true))
 
 			-- If the quest is provided by an Item, then show that Item directly under the quest so it can easily show tooltip/Source information if desired
 			if questRef.providers then

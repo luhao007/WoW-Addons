@@ -169,10 +169,10 @@ local DefaultFields = {
 	["repeatable"] = function(t)
 		return t.isDaily or t.isWeekly or t.isMonthly or t.isYearly;
 	end,
-    ["costTotal"] = returnZero,
-    ["upgradeTotal"] = returnZero,
+	["costTotal"] = returnZero,
+	["upgradeTotal"] = returnZero,
 	["progress"] = returnZero,
-    ["total"] = returnZero,
+	["total"] = returnZero,
 	["isContainer"] = function(t)
 		local total = t.total
 		return total and (total > 1 or (total > 0 and not t.collectible))
@@ -464,11 +464,11 @@ end
 local function ImportClassFunctions(baseClassName, copyClassName, ...)
 	-- make sure the base class exists
 	local baseClass = type(baseClassName) == "table" and baseClassName or classDefinitions[baseClassName]
-	if not baseClass then error("ImportClassFunctions - base Class does not exist"..(baseClassName or "")) end
+	if not baseClass then error("ImportClassFunctions - base Class does not exist: "..(baseClassName or "")) end
 
 	-- make sure the copy class exists
 	local copyClass = type(copyClassName) == "table" and copyClassName or classDefinitions[copyClassName]
-	if not copyClass then error("ImportClassFunctions - copy Class does not exist"..(copyClassName or "")) end
+	if not copyClass then error("ImportClassFunctions - copy Class does not exist: "..(copyClassName or "")) end
 
 	local funcName, func
 	local count = select("#", ...)
@@ -845,6 +845,13 @@ app.AddSimpleCollectibleSwap = function(classname, setting)
 	app.AddEventHandler("OnStartup", AssignCollectibleFunction);
 end
 
+local OverrideBaseClassFields = {
+	total = true,
+	progress = true,
+	isContainer = true,
+	costTotal = true,
+	upgradeTotal = true,
+}
 -- Allows wrapping one Type Object with another Type Object. This allows for fall-through field logic
 -- without requiring a full copied definition of identical field functions and raw Object content
 app.WrapObject = function(object, baseObject)
@@ -857,7 +864,21 @@ app.WrapObject = function(object, baseObject)
 		error("Tried to WrapObject which has no metatable! (Wrapping not necessary)")
 	end
 	-- save the set of originally-defined meta-fields of this object's class
-	object.__class = objectMeta.__class
+	local __class = objectMeta.__wrapclass
+	if not __class then
+		__class = objectMeta.__class
+		-- clean out the BaseClass __class fields from the wrapping object since those should inherit from the baseObject
+		-- e.g. hash on the wrapped object might be a different value than hash on the baseObject
+		local BaseClass__class = app.BaseClass.__class
+		for key,_ in pairs(BaseClass__class) do
+			if not OverrideBaseClassFields[key] then
+				__class[key] = nil
+			end
+		end
+		-- cache this in the metatable of this object
+		objectMeta.__wrapclass = __class
+	end
+	object.__class = __class
 	local objectMetaIndex = objectMeta.__index
 	if not objectMetaIndex then
 		error("Tried to WrapObject which has no index!")
@@ -950,7 +971,7 @@ app.CreateCache = function(idField, className)
 	end
 	cache.DefaultFunctions = DefaultFunctions
 	if app.__perf then
-		return app.__perf.AutoCaptureTable(cache, "ClassCache:"..(className or idField))
+		return app.__perf.CaptureTable(cache, "ClassCache:"..(className or idField))
 	end
 	if className then
 		ClassDataCaches[className] = cache
