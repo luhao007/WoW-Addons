@@ -33,11 +33,27 @@ function FramePlusfun.GemUIplus()
 		for i=1,butnum do
 			local ButtonUI= PIGDiyBut(ItemSocketingFrame,{"TOPLEFT",ItemSocketingFrame, "BOTTOMLEFT", (ActionW+2)*(i-1)+5,2},{ActionW,nil,nil,nil,134400})
 			ItemSocketingFrame.piggemLsit[i]=ButtonUI
+			ButtonUI:SetScript("OnEnter", function (self)
+				GameTooltip:ClearLines();
+				GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",0,0);
+				GameTooltip:SetBagItem(self.bag, self.slot)
+				GameTooltip:Show();
+			end);
+			ButtonUI:SetScript("OnLeave", function ()
+				GameTooltip:ClearLines();
+				GameTooltip:Hide() 
+			end);
 			ButtonUI:SetScript("OnClick", function(self, button)
 				C_Container.PickupContainerItem(self.bag, self.slot)
 				if PIGA["FramePlus"]["GemUIplusQuick"] then
-					C_ItemSocketInfo.ClickSocketButton(1);
-					ClearCursor()
+					for SocketID,SocketBut in pairs(ItemSocketingFrame.SocketingContainer.SocketFrames) do
+						local gemname=C_ItemSocketInfo.GetExistingSocketInfo(SocketID)
+						if not gemname then
+							C_ItemSocketInfo.ClickSocketButton(SocketID);
+							ClearCursor()
+							return
+						end
+					end
 				end
 			end)
 		end

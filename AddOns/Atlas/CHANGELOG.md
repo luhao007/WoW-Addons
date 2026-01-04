@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.13.0 - December 28, 2025
+### Added
+- Anniversary: Added support for TBC
+### Changed
+- Updated translations
+### Fixed
+- Classic Era: Fixed blank line in UBRS
+
 ## 3.12.7 - December 20, 2025
 ### Added
 - Retail: Added boss info for Postmaster Malown in Stratholme - Crusaders' Square
@@ -702,7 +710,7 @@ v1.41.00 (Apr. 14, 2017)
 v1.40.06 (Apr. 13, 2017)
 ------------------------
 - Checking deprecated plugins now will recognize the alpha build's version
-  if specifed; or will ignore those set "v3.12.7" as the version
+  if specifed; or will ignore those set "v3.13.0" as the version
   number to be changed by CurseForge's auto-packaging.
 
 v1.40.05 (Apr. 13, 2017)

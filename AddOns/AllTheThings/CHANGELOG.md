@@ -1,107 +1,73 @@
 # AllTheThings
 
-## [4.8.5](https://github.com/ATTWoWAddon/AllTheThings/tree/4.8.5) (2025-12-14)
-[Full Changelog](https://github.com/ATTWoWAddon/AllTheThings/compare/4.8.4...4.8.5) [Previous Releases](https://github.com/ATTWoWAddon/AllTheThings/releases)
+## [4.8.8](https://github.com/ATTWoWAddon/AllTheThings/tree/4.8.8) (2026-01-01)
+[Full Changelog](https://github.com/ATTWoWAddon/AllTheThings/compare/4.8.7...4.8.8) [Previous Releases](https://github.com/ATTWoWAddon/AllTheThings/releases)
 
-- [Logic] Fixed /attu not working due to deprecated use of 'creatureID'  
-- Added 2 new Dragonflight quests between Zaralek Cavern and Emerald Dream story.  
-- Fixing some stuff in Dye Crafting.  
-- Added Dye Crafting profession.  
-- [DB] Misc fixes  
-- Parse  
-- Finished Legion skinning.  
-- Added skinning (only Legion is not done and probably a lot of crafted reagents).  
+- [Parser] Removed 'timelineSelf' overrides for now since they actually don't seem to function as expected upon further inspection  
+- [Parser] 'bubbleDownSelf' used with only 'timeline' will now directly perform 'timelineSelf' instead to allow for proper timeline inheritance without worry of cross-contamination of shared headers between multiple files  
+- [Parser] Slight adjustment and TODO notes for removed-only timeline handling  
+- Timeline Trading Post  
+- Remix Legion: Erus (The Golden NPC) also sells Fragmented Mementos, but for Flawless Threads  
+    - Minor formatting fixes  
+- Misc fixes  
+    - Warcraft rumble mail quest are gone long time ago  
+    - [Classic] The small eggs are not exclusive to Darkshore  
+    - [Classic] Family deaths does not require The haunted mills. Both quests can be done together.  
+    - [Classic] Fix Trial of the Sea Lion Horde version  
+    - HQT for Brawler guild  
+    - [Remix] Maps to lesser invasion achievements  
+    - [Remix] Maps to Putting the Finite in Infinite  
+    - Timeline all minor patchs of classic  
+    - [Classic] Timeline Amongst the Ruins quest  
+    - Power Unified (75641) and Dawn of the Infinite (76140) are removed, Closes #2251  
+    - [Classic] MOP Enchant Weapon - Tyranny, Closes #2248  
+- Fixed timeline of Midnight Collector's Edition.  
+    Added 2 missing Diablo decor items.  
+- Run thru of N'Zoth BFA Unlock Questline  
+- [Parser] Retail: No one reparsed Retail for a while  
+- Update Glimmerogg Racer.lua  
+    Add lockcriteria to Glimmerogg rep increase quests  
+- [DB] MoP: Pandaren starter quests to Wandering Isle  
+- Fixed sourceQuest name.  
+- Corrected timeline to many artifact achievements.  
+    Removed description from itemID 119409 after 10.1.5.  
+- Sorted NYI decor items.  
+- Added all decor items to Second Chair Pawdo.  
+- Added new decor quest.  
+- Moved 2 SL PvP achievements under World PvP header.  
+- Retail errors  
+- [Logic] Fixed Lua error on tooltips for World Quests with no timeRemaining  
 - Fix a few reported errors  
-- [Locale] Update esES/esMX: TOC & headers. (#2241)  
-    * Fixed translation of nightly builds in all TOC files to es and mx  
-    * Memory of Scholomance in mx and tw  
-    * Headers  
-- Second part of NYI professions up to 11.2.5  
-- Moved 'Delver's Dirigible Schematic: Template' to sourceless category.  
-- Fixed Vault Patroller's Warboots in NYI.  
-- Added Brann Bronzebeard faction to TWW delves.  
-- First part of NYI professions up to 11.2.5  
-- Added all recipes from supply shipments profession. They are all craftable (weekly rotation).  
-- [Locale] Update zhCN/zhTW.  
-    * Update zhCN: headers. (#2219)  
-    ** cn update.  
-    * Update zhCN/zhTW.  
-- Sorted factions up to 11.2.5  
-- Sorted all NYI factions by alphabet.  
-- Making NYI factions alive after a long time. More work on them tomorrow.  
-- [Logic] Certain Dynamic groups now no longer pull in Unsorted/NYI headers (Currency/Faction/Profession)  
-- Fixed expansion headers in NYI herbalism.  
-- [Logic] Retail: Created a QuestNested class for use within Nested Quest chain sequences to make it easier to fix some weird display issues and make the chain cleaner to follow  
-    * In some cases there could be a visible quest at the bottom which would cause all completed quests to remain visible and lingering in the window. Now the Nested Quest chain sequence should always show properly based on the currently-available Quests remaining to be completed in the chain  
-- Completed NYI cosmetics up to 11.2.5  
-    Re-added 2 heirlooms - don't use preprocessors to remove something, timelines are the key in such case.  
-- Twilight Ascension: Quest Placeholders  
-- Some small cosmetic and ensemble items updates.  
-- Fix a few reported errors  
-- Add 12.0.1 TOC  
-- Working on NYI cosmetics. Removed Trading Post NYI part as it was basically all duplicated already in NYI cosmetics.  
-- Sorted toys up to 11.2.5  
-- Sorted all titles up to 11.2.5  
-- Sorted all maps up to 11.2.5  
-- Fixed description of itemID 135539.  
-- Sorted pets up to 11.2.5  
-- Fix of 'Bonecleaver's Skullboar' NYI mount.  
-- Sorted mounts up to 11.2.5  
-- [Debug] Various Performance Tracking improvements and cleanup  
-    [Debug] app.MetaTable.AutoTable now generates a unique metatable return when running with Performance Tracking mode  
-    [Debug] ClassCache storage tables are no longer auto-captured for Performance Tracking (they never contain functions, so no point)  
-    [Debug] Performance Tracking added for EventHandlers & Symlink Resolve Functions  
-- Added all new Brawler's Guild quests.  
-- Update Mount/Pet/ToyDB for 12.0.1.64889  
-- Finished NYI illusions.  
-    Added one more decor.  
-- [Classic] HQT in the barrens to unlock brew repeatable quests Close #2163 (#2240)  
-    [Classic] HQT in the barrens to unlock brew repeatable quests  
-- Update Brawler's Guild for 11.2.7 as best as currently able, fix many reported errors  
-- Some initial unsorted sorting  
-- Bump build to 11.2.7.64877  
-- New HQT of Blood elf Heritage armor quest chain (#2239)  
-- Legion Remix: Remove description on 'Blank Doomsayer's Pamphlet'  
-    - First one is part of the quest and quest itself directs you to Moratari. You can just burn subsequent Pamphlets as Moratari has no related gossip options.  
-- Legion Remix: Achievement description typos  
-- Generate Missing Files: SoD  
-- Generating Missing Files: Retail  
-- SOD: Fixed Season of Discovery parsing.  
-- Generate Missing Files: SoD -- Still broken  
-- Another broken parser commit  
-- Breaking Parser  
+- [Logic] Classic: Revert a used appName  
+- [Logic] Cleaned up tons of unused variables and unnecessary assignments to remove Lua syntax warnings  
+- [Misc] Clean up some Lua linting warnings  
+- [Logic] /attwq now includes more Events and POIs based on what is defined in AreaPOIDB rather than being hard-coded within the logic [WIP - as Events rotate in game]  
+- Generate Missing Files  
+- [Logic] Retail: Cleanup and fix some /attwq object handling  
+- [Logic] Fixed 'GetColoredTimeRemaining' expecting minutes instead of seconds  
 - Sort Recipes  
-- Harvest: 12.0.1.64889  
-- Harvest: 12.0.0.64774  
-- Harvest: 11.2.7.64877  
-- Harvest: 11.2.7.64797  
-- Harvest: 11.2.7.64772  
-- Harvest: 5.5.3.64857  
-- Harvest: 5.5.3.64802  
-- Harvest: 5.5.3.64794  
-- Harvest: 3.80.0.64859  
-- Harvest: 2.5.5.64796  
-- Harvest: 2.5.5.64776  
-- Harvest: 1.15.8.64858  
-- Added some dungeons  
-- more SOD items  
-- extra legion remix notes  
-- added legion prelaunch acm  
-- Working on NYI to catch up to 11.2.5.  
-- [Timeline] Update TBC Ann. Classic.  
-- [Timeline] Update MoP Classic.  
-- Added quest from 'Master of the Turbulent Timeways IV' achievement.  
-- More quests this patch.  
-- Added 2 more new quests.  
-- [DB] Scholomance: Miscellaneous fixes  
-- Fixed ID of Trader Caerel.  
-- Moved more NYI decors back to Unsorted.  
-    Added timeline and campsites to 'This Old Hearth' quest.  
-- All TWW item sources are done!  
-- Finishing NYI of TWW item sources.  
-- Some sorting of 11.2.5.  
-- Re-added 2 more NYI Legion Remix Artifacts.  
-- [DB] Added lock criteria to some HQTs to trigger warnings when they become available  
-- [Logic] Retail: Minor performance pass on Symlink module for ipairs use  
-- [Logic] Retail: Minor performance pass of tinsert and wipe in Symlink module  
-- MISTS: Fixed Big Bag of Zandalari Supplies.  
+- Harvest: 12.0.1.64914  
+- Harvest: 12.0.0.65028  
+- Fix Exploration  
+- editor config changes  
+- Harvest: 12.0.0.64975  
+- Merge branch 'master' of https://github.com/ATTWoWAddon/AllTheThings  
+- [DB] Added more Area POI IDs  
+- [Parser] Cleaned up formatting of a function template to remove Lua syntax errors  
+- Revert "Trying to add encoding fix for different system languages when harvesting."  
+- Some data fixes  
+- Harvest: 11.2.7.64978  
+- Harvest: 2.5.5.65000  
+- Harvest: 2.5.5.64912  
+- Harvest: 1.15.8.64907  
+- Update Flame's Radiance.lua  
+    Fixed rep requirement for title  
+- Some small quest fixes.  
+- [Parser] Fix an issue where implied itemID 0 could merge unexpected data for Mounts which have no Item  
+- Legion: Warrior Order Hall  
+    - Minor formatting fixes and a couple of QIs  
+- 7th Legion Supply Crate  
+- Update Iskaara Fishing.lua  
+- [Logic] Slight improvement to the 'InGame' Filter logic  
+- [Parser] Prep for being able to manually hook 'AreaPOI' information to ATT data to allow displaying some currently-missing time-limited content in the /attwq list  
+- [DB] Add some maps to Hunter BM scenario quest  

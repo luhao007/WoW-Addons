@@ -1,8 +1,9 @@
 # TomTom
 
-## [v4.2.7-release](https://github.com/jnwhiteh/TomTom/tree/v4.2.7-release) (2025-12-19)
-[Full Changelog](https://github.com/jnwhiteh/TomTom/commits/v4.2.7-release) [Previous Releases](https://github.com/jnwhiteh/TomTom/releases)
+## [v4.2.8-release](https://github.com/jnwhiteh/TomTom/tree/v4.2.8-release) (2025-12-25)
+[Full Changelog](https://github.com/jnwhiteh/TomTom/commits/v4.2.8-release) [Previous Releases](https://github.com/jnwhiteh/TomTom/releases)
 
+- Fix duplicate localization  
 - Update HBD again, maybe fix issues  
 - Update HBD embed and TOC for 12.0.1  
 - More efficiently compute the distance and angle  
@@ -693,4 +694,3 @@
 - * Fixed waypoints not automatically clearing when that option is set  
 - Removed Dongle from scm control  
 - * Added version information to TomTom  
-- * Added version number to .toc  

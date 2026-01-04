@@ -28,10 +28,13 @@ L["Artifact Forge"] = "Artefaktschmiede"
 L["Class Hall"] = "Ordenshalle"
 L["The entrance of each class must first be unlocked before they are accessible"] = "Der Eingang der jeweiligen Klasse muss zuerst freigespielt werden, bevor er zugänglich ist"
 -- Worldmap
-L["Worldmap player arrow"] = "Weltkarten Spielerpfeil"
+L["Player arrow"] = "Spielerpfeil"
+L["Player arrow highlight"] = "Spielerpfeil hervorheben"
 L["Changes the size of the display"] = "Ändert die Größe der Anzeige"
 L["Enables the ability to change the size of the player arrow on the world map"] = "Ermöglicht die Änderung der Größe des Spielerpfeils auf der Weltkarte"
 L["Change zone map"] = "Zonenkarte wechseln"
+L["Unfortunately, scaling this highlight is not possible, as it has a fixed value set by Blizzard"] = "Leider ist es nicht möglich, die Hervorhebung zu skalieren, da sie einen von Blizzard fest vorgegebenen Wert hat"
+L["Allows you to permanently highlight the player's arrow on the world map while the map is open"] = "Ermöglicht es, den Spielerpfeil auf der Weltkarte dauerhaft hervorzuheben, wenn die Karte geöffnet ist"
 L["This allows you to automatically switch the world map to the map of the new area when you leave one zone and enter a new one"] = "Hiermit können Sie die Weltkarte automatisch auf die Karte des neuen Gebiets umschalten lassen, wenn Sie eine Zone verlassen und eine neue betreten"
 -- Npc
 L["NPC database"] = "NPC Datenbank"
@@ -241,6 +244,7 @@ L["Starting on the first Sunday of each month for one week"] = "Beginnt jeweils 
 L["Enables the display of icons for a specific capital city"] = "Aktiviert die Anzeige von Symbolen für eine bestimmte Hauptstadt"
 L["This MapNotes icons shows various icons that are too close to each other together"] = "Durch dieses MapNotes Symbol werden verschiedene Symbole, die zu nahe beieinander liegen zusammengefasst dargestellt"
 L["Zones"] = "Zonen"
+L["Zone maps"] = "Zonenkarte"
 L["Continents"] = "Kontinente"
 --2 Unexplored Areas function
 L["Unexplored Areas"] = "Unerforschte Gebiete"

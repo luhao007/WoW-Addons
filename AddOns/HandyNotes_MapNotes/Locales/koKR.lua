@@ -28,10 +28,13 @@ L["Artifact Forge"] = "유물 제련소"
 L["Class Hall"] = "직업 전당"
 L["The entrance of each class must first be unlocked before they are accessible"] = "각 직업의 입구는 접근 가능하기 전에 먼저 잠금 해제해야 합니다"
 -- Worldmap
-L["Worldmap player arrow"] = "세계 지도 플레이어 화살표"
+L["Player arrow"] = "플레이어 화살표"
+L["Player arrow highlight"] = "플레이어 화살표 강조"
 L["Changes the size of the display"] = "표시 크기를 변경합니다"
 L["Enables the ability to change the size of the player arrow on the world map"] = "세계 지도에서 플레이어 화살표 크기를 변경할 수 있습니다"
 L["Change zone map"] = "지역 지도 변경"
+L["Unfortunately, scaling this highlight is not possible, as it has a fixed value set by Blizzard"] = "안타깝게도 이 강조 표시의 크기는 블리자드에서 고정 값으로 설정되어 있어 조정할 수 없습니다"
+L["Allows you to permanently highlight the player's arrow on the world map while the map is open"] = "지도가 열려 있는 동안 세계 지도에서 플레이어 화살표를 영구적으로 강조 표시할 수 있습니다"
 L["This allows you to automatically switch the world map to the map of the new area when you leave one zone and enter a new one"] = "이 기능을 사용하면 한 지역을 떠나 다른 지역에 들어갈 때 세계 지도가 자동으로 새 지역의 지도로 전환됩니다"
 -- Npc
 L["NPC database"] = "NPC 데이터베이스"
@@ -241,6 +244,7 @@ L["Starting on the first Sunday of each month for one week"] = "월 첫 번째 �
 L["Enables the display of icons for a specific capital city"] = "특정 자본에 대한 상징의 표시를 활성화합니다"
 L["This MapNotes icons shows various icons that are too close to each other together"] = "이 Mapnotes 기호는 너무 가까운 다른 기호를 보여줍니다"
 L["Zones"] = "구역"
+L["Zone maps"] = "지역 지도"
 L["Continents"] = "대륙"
 --2 Unexplored Areas function
 L["Unexplored Areas"] = "미개척 지역"

@@ -16,7 +16,7 @@ local RTabFrame =PigLayoutFun.RTabFrame
 ----
 local fujiF,fujiBut =PIGOptionsList_R(RTabFrame,GENERAL,90)
 fujiF:Show()
-fujiBut:Selected()
+fujiBut:Selected(true)
 ----
 function PigLayoutFun.Options_Mode()
 	fujiF.FontMiaobianT = PIGFontString(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",20,-20},"PIG布局元素字体效果");

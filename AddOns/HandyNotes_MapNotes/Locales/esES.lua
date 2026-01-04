@@ -28,10 +28,13 @@ L["Artifact Forge"] = "Forja de artefactos"
 L["Class Hall"] = "Sede de clase"
 L["The entrance of each class must first be unlocked before they are accessible"] = "La entrada de cada clase debe desbloquearse primero antes de que sea accesible"
 -- Worldmap
-L["Worldmap player arrow"] = "Flecha del jugador en el mapa del mundo"
+L["Player arrow"] = "Flecha del jugador"
+L["Player arrow highlight"] = "Resaltar flecha del jugador"
 L["Changes the size of the display"] = "Cambia el tamaño de la visualización"
 L["Enables the ability to change the size of the player arrow on the world map"] = "Permite cambiar el tamaño de la flecha del jugador en el mapa del mundo"
 L["Change zone map"] = "Cambiar mapa de zona"
+L["Unfortunately, scaling this highlight is not possible, as it has a fixed value set by Blizzard"] = "Desafortunadamente, no es posible escalar este resaltado, ya que tiene un valor fijo establecido por Blizzard"
+L["Allows you to permanently highlight the player's arrow on the world map while the map is open"] = "Permite resaltar permanentemente la flecha del jugador en el mapa del mundo mientras el mapa está abierto"
 L["This allows you to automatically switch the world map to the map of the new area when you leave one zone and enter a new one"] = "Esto permite cambiar automáticamente el mapa mundial al mapa de la nueva área cuando sales de una zona y entras en otra"
 -- Npc
 L["NPC database"] = "Base de PNJ"
@@ -241,6 +244,7 @@ L["Starting on the first Sunday of each month for one week"] = "Comienza durante
 L["Enables the display of icons for a specific capital city"] = "Activa la visualización de símbolos para un capital específico"
 L["This MapNotes icons shows various icons that are too close to each other together"] = "Este símbolo de Mapnotes muestra diferentes símbolos que están demasiado juntos."
 L["Zones"] = "Zonas"
+L["Zone maps"] = "Mapas de zona"
 L["Continents"] = "Continente"
 --2 Unexplored Areas function
 L["Unexplored Areas"] = "Áreas inexploradas"

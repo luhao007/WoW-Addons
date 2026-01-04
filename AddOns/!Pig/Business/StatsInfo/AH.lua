@@ -62,9 +62,9 @@ function BusinessInfo.AH(StatsInfo)
 	end)
 	function fujiF:Show_Tab()
 		for ibut=1,#toptablist do
-			self.toptabButList[ibut]:NotSelected()
+			self.toptabButList[ibut]:Selected(false)
 		end
-		self.toptabButList[self.ItemSelect]:Selected()
+		self.toptabButList[self.ItemSelect]:Selected(true)
 		if self.ItemSelect==1 then
 			self.L.NR.biaoti:SetText("点击关注按钮可取消关注")
 			self.L.NR.Search:Hide()
@@ -323,7 +323,7 @@ function BusinessInfo.AH(StatsInfo)
 				fujix.time:SetText(jiluTime)
 			end
 		end
-		fujiF.R.BOTTOM.qushiF.qushitu(itemData)
+		fujiF.R.BOTTOM.qushiF.UpdateList(itemData)
 	end
 	--趋势
 	fujiF.R.BOTTOM=PIGFrame(fujiF.R)

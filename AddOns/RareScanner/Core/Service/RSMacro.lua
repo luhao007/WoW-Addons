@@ -135,6 +135,12 @@ function RSMacro.UpdateMacro()
 		return
 	end
 	
+	-- Avoid refreshing the macro if the macro UI is open
+	if (MacroFrame and MacroFrame:IsVisible()) then
+		RSLogger:PrintDebugMessage("No se refresca macro por tener la ventana de macro abierta")
+		return
+	end
+	
 	-- Regenerate just in case the player deleted it
 	if (not GetMacroInfo(RSConstants.RARESCANNER_MACRO_NAME)) then
 		if (RSMacro.IsAvailableMacroSlot()) then
@@ -175,6 +181,9 @@ function RSMacro.UpdateMacro()
 				return
 			end
 		end
+	-- Don't update because the macro is empty
+	else
+		return
 	end
 	
 	-- Update target macro

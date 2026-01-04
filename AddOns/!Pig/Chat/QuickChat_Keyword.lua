@@ -610,7 +610,7 @@ function QuickChatfun.QuickBut_Keyword()
 		---提取
 		local TiquF,TiquTabBut=PIGOptionsList_R(KeywordF.F,L["CHAT_KEYWORD_NAMETAB"],60,"Left")
 		TiquF:Show()
-		TiquTabBut:Selected()
+		TiquTabBut:Selected(true)
 
 		TiquF.KeyOpen = PIGCheckbutton(TiquF,{"TOPLEFT",TiquF,"TOPLEFT",20,-20},{"|cff00FF00"..ENABLE.."|r"..L["CHAT_KEYWORD_NAME1"]..L["CHAT_KEYWORD_NAME"]..INFO})
 		TiquF.KeyOpen:SetScript("OnClick", function (self)
@@ -877,7 +877,7 @@ function QuickChatfun.QuickBut_Keyword()
 		--设置
 		BlackF.F.SetF,BlackF.F.SetTabBut=PIGOptionsList_R(BlackF.F,SETTINGS,70)
 		BlackF.F.SetF:Show()
-		BlackF.F.SetTabBut:Selected()
+		BlackF.F.SetTabBut:Selected(true)
 		----
 		local function Filter_Open()
 			BlackF.F.SetF.Open:SetChecked(PIGA["Chat"]["Filter"]["Open"])

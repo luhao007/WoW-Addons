@@ -25,7 +25,7 @@ local RTabFrame =Create.PIGOptionsList_RF(fuFrame)
 --
 local GeneralF,Generaltabbut =PIGOptionsList_R(RTabFrame,GENERAL,70)
 GeneralF:Show()
-Generaltabbut:Selected()
+Generaltabbut:Selected(true)
 function GeneralF.PIGChecked()
 	GeneralF.Minimap_but:SetChecked(PIGA["Map"]["MinimapBut"])
 	GeneralF.Minimap_but_BS:SetEnabled(PIGA["Map"]["MinimapBut"])

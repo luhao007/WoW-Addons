@@ -27,12 +27,12 @@ function BusinessInfo.SkillCD(StatsInfo)
 	for i=1,#guolvname do
 		local ExistCDbut = PIGTabBut(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",120*i,-6},{100,22},guolvname[i])
 		fujiF.guolvtypeButlist[i]=ExistCDbut
-		if i==1 then ExistCDbut:Selected() end
+		if i==1 then ExistCDbut:Selected(true) end
 		ExistCDbut:SetScript("OnClick", function (self)
 			for xx=1,#guolvname do
-				fujiF.guolvtypeButlist[xx]:NotSelected()
+				fujiF.guolvtypeButlist[xx]:Selected(false)
 			end
-			self:Selected()
+			self:Selected(true)
 			fujiF.guolvtype=i
 			fujiF.NR.Update_List()
 		end);

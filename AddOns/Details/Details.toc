@@ -1,5 +1,5 @@
 ## Interface: 110207
-## Version: #Details.20251216.13912.166
+## Version: #Details.20251225.14203.166
 
 ## Title: Details! Damage Meter
 ## Notes: Essential tool to impress that chick in your raid.
@@ -192,6 +192,7 @@ core\network.lua
 
 core\parser.lua
 core\parser_nocleu.lua
+core\parser_nocleu1.lua
 
 functions\spec_augmentation.lua
 functions\loaddata.lua

@@ -25,7 +25,7 @@ addonTable.FramePlusfun=FramePlusfun
 --
 local FramePlusF,FramePlustabbut =PIGOptionsList_R(RTabFrame,GENERAL,70)
 FramePlusF:Show()
-FramePlustabbut:Selected()
+FramePlustabbut:Selected(true)
 ----------------------
 FramePlusF.BuffTime = PIGCheckbutton_R(FramePlusF,{"优化自身BUFF时间显示","精确显示自身BUFF/DEBUFF时间"},true)
 FramePlusF.BuffTime:SetScript("OnClick", function (self)
@@ -57,8 +57,20 @@ FramePlusF.GemUIplus:SetScript("OnClick", function (self)
 	end
 	PIG_OptionsUI.RLUI:Show()
 end);
+if PIG_MaxTocversion(60000) then
+	FramePlusF.NoUseSpell = PIGCheckbutton_R(FramePlusF,{"未使用技能提示","技能页增加未使用技能提示"},true)
+	FramePlusF.NoUseSpell:SetScript("OnClick", function (self)
+		if self:GetChecked() then
+			PIGA["FramePlus"]["NoUseSpell"]=true;
+			FramePlusfun.NoUseSpell()
+		else
+			PIGA["FramePlus"]["NoUseSpell"]=false
+			PIG_OptionsUI.RLUI:Show()
+		end
+	end)
+end
 if PIG_MaxTocversion(40000) then
-	FramePlusF.Spell = PIGCheckbutton_R(FramePlusF,{"未学习/未使用技能提示","技能页增加未学习/未使用技能提示"},true)
+	FramePlusF.Spell = PIGCheckbutton_R(FramePlusF,{"未学习技能提示","技能页增加未学习技能提示"},true)
 	FramePlusF.Spell:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["FramePlus"]["SpellOpen"]=true;
@@ -87,6 +99,7 @@ FramePlusF:HookScript("OnShow", function(self)
 	self.BuffTime:SetChecked(PIGA["FramePlus"]["BuffTime"])
 	self.Skill_QKbut:SetChecked(PIGA["FramePlus"]["Skill_QKbut"])
 	self.GemUIplus:SetChecked(PIGA["FramePlus"]["GemUIplus"])
+	if self.NoUseSpell then self.NoUseSpell:SetChecked(PIGA["FramePlus"]["NoUseSpell"]) end
 	if self.Spell then self.Spell:SetChecked(PIGA["FramePlus"]["SpellOpen"]) end
 	if self.Tracking then self.Tracking:SetChecked(PIGA["FramePlus"]["Tracking"]) end
 end)
@@ -388,7 +401,7 @@ local BlizzardUIList={
 	{false, nil, "GameMenuFrame",nil, "ESC菜单"},
 	{false, nil, "SettingsPanel",nil, "设置选项"},
 	{false, nil, "HelpFrame",nil, "客服支持"},
-	{false, nil, "ContainerFrameCombinedBags",{"ContainerFrameCombinedBags","TitleContainer"}, "整合背包"},
+	{false, nil, "ContainerFrameCombinedBags",{"ContainerFrameCombinedBags","TitleContainer"}, "整合背包",true},
 	{false, "Blizzard_MacroUI","MacroFrame",nil,"宏命令"},
 	{false, "Blizzard_AchievementUI","AchievementFrame",{"AchievementFrame","Header"},"成就"},
 	{false, "Blizzard_Communities","CommunitiesFrame",nil,"公会与社区"},
@@ -542,6 +555,7 @@ addonTable.FramePlus = function()
 	FramePlusfun.Quest()
 	FramePlusfun.Skill()
 	FramePlusfun.Trainer()
+	FramePlusfun.NoUseSpell()
 	FramePlusfun.Spell()
 	FramePlusfun.Character_ADD()
 	FramePlusfun.Talent()

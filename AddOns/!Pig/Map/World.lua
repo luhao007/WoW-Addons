@@ -18,27 +18,19 @@ local function MouseXY()
 end
 function Mapfun.WorldMap_XY()
 	if not PIGA["Map"]["WorldMapXY"] then return end
-	local mapxydata = {}
+	local mapxydata = {
+		Parent=WorldMapFrame,
+		FontSize=14,
+		WWW=400,
+	}
 	if PIG_MaxTocversion(30000) then
-		mapxydata.Parent=WorldMapFrame
-		mapxydata.WWW=400
-		mapxydata.FontSize=13
 		mapxydata.Point={"BOTTOM","BOTTOM",0,6}
 	elseif PIG_MaxTocversion(40000) then
-		mapxydata.Parent=WorldMapFrame
-		mapxydata.WWW=400
-		mapxydata.FontSize=14
 		mapxydata.Point={"BOTTOM","BOTTOM",22,6}
 	elseif PIG_MaxTocversion(60000) then
-		mapxydata.Parent=WorldMapFrame
-		mapxydata.WWW=400
-		mapxydata.FontSize=14
 		mapxydata.Point={"BOTTOM","BOTTOM",0,6}
 	else
-		mapxydata.Parent=WorldMapScrollChild
-		mapxydata.WWW=400
-		mapxydata.FontSize=20
-		mapxydata.Point={"TOP","TOP",-10,-1}
+		mapxydata.Point={"TOPLEFT","TOPLEFT",180,-66}
 	end
 	local zuobiaoXYFFF = CreateFrame("Frame", nil, mapxydata.Parent);
 	zuobiaoXYFFF:SetSize(mapxydata.WWW,22);

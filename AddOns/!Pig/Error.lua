@@ -96,12 +96,19 @@ local function ADD_TabBut(Text,fuF,WH,Point,id)
 	But.Text:SetFontObject(ChatFontNormal);
 	But.Text:SetTextColor(1, 0.843, 0, 1);
 	But.Text:SetText(Text);
-	function But:selected()
+	function But:selected(bot)
 		PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB);
-		self.Show=true;
-		self.Text:SetTextColor(1, 1, 1, 1);
-		self:SetBackdropColor(0.3098,0.262745,0.0353, 1);
-		self:SetBackdropBorderColor(1, 1, 0, 1);	
+		if bot then
+			self.Show=true;
+			self.Text:SetTextColor(1, 1, 1, 1);
+			self:SetBackdropColor(0.3098,0.262745,0.0353, 1);
+			self:SetBackdropBorderColor(1, 1, 0, 1);
+		else
+			self.Show=false;
+			self.Text:SetTextColor(1, 0.843, 0, 1);
+			self:SetBackdropColor(0.2, 0.2, 0.2, 1);
+			self:SetBackdropBorderColor(0, 0, 0, 1);
+		end	
 	end
 	return But
 end
@@ -302,18 +309,14 @@ for id=1,#TabName do
 	Bugcollect.ButList[id]=Tablist
 	Tablist:SetScript("OnClick", function (self)
 		for x=1,#TabName do
-			local fagg=Bugcollect.ButList[x]
-			fagg.Show=false;
-			fagg.Text:SetTextColor(1, 0.843, 0, 1);
-			fagg:SetBackdropColor(0.2, 0.2, 0.2, 1);
-			fagg:SetBackdropBorderColor(0, 0, 0, 1);
+			Bugcollect.ButList[x]:selected(false)
 		end
-		self:selected()
+		self:selected(true)
 		kaishiShow()
 	end);
 	---
 	if id==1 then
-		Tablist:selected()
+		Tablist:selected(true)
 	end
 end
 -------

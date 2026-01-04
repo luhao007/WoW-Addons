@@ -44,9 +44,9 @@ function BusinessInfo.Item(StatsInfo)
 	local function Show_ItemInfo()
 		local ListBOT = {fujiF.ItemList.TOP:GetChildren()}
 		for xvb=1, #ListBOT, 1 do
-			ListBOT[xvb]:NotSelected()
+			ListBOT[xvb]:Selected(false)
 		end
-		ListBOT[fujiF.ItemSelect]:Selected()
+		ListBOT[fujiF.ItemSelect]:Selected(true)
 		for i=1,lixianNum do
 			local itemBut=fujiF.ItemList.BOTTOM.listbut[i]
 			itemBut:Hide()
@@ -174,7 +174,7 @@ function BusinessInfo.Item(StatsInfo)
 	for ibut=1,#toptablist do
 		local TabBut = PIGTabBut(fujiF.ItemList.TOP,{"TOPLEFT",fujiF.ItemList.TOP,"TOPLEFT",20,-3},{60,22},toptablist[ibut][2])
 		if ibut==1 then
-			TabBut:Selected()
+			TabBut:Selected(true)
 			TabBut:SetPoint("TOPLEFT",fujiF.ItemList.TOP,"TOPLEFT",20,-3);
 		else
 			TabBut:SetPoint("TOPLEFT",fujiF.ItemList.TOP,"TOPLEFT",20+(ibut*80-80),-3);
@@ -272,10 +272,10 @@ function BusinessInfo.Item(StatsInfo)
 		local ListBOT = {fujiF.ItemList.TOP:GetChildren()}
 		for xvbb=1, #ListBOT, 1 do
 			if xvbb==1 then
-				ListBOT[xvbb]:Selected()
+				ListBOT[xvbb]:Selected(true)
 				fujiF.ItemSelect=1
 			else
-				ListBOT[xvbb]:NotSelected()
+				ListBOT[xvbb]:Selected(false)
 			end
 		end
 		fujiF.Update_hang();

@@ -24,7 +24,7 @@ local RTabFrame =Create.PIGOptionsList_RF(fuFrame)
 
 local EaseUseF,EaseUsetabbut =PIGOptionsList_R(RTabFrame,L["CVAR_TABNAME0"],70)
 EaseUseF:Show()
-EaseUsetabbut:Selected()
+EaseUsetabbut:Selected(true)
 ----易用性---------
 EaseUseF.F=PIGFrame(EaseUseF,{"TOPLEFT", EaseUseF, "TOPLEFT", 40, -40})
 EaseUseF.F:SetPoint("TOPRIGHT", EaseUseF, "TOPRIGHT", -40, -40);

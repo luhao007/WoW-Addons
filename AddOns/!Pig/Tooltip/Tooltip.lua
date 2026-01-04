@@ -14,33 +14,39 @@ local banbendata = {
 	[9]=EXPANSION_NAME9,[10]=EXPANSION_NAME10,[11]=EXPANSION_NAME11,[99]="",
 }
 --物品卖价
-local function ItemSell_Tooltip(self, data1, data2,laiyuan)
+local function ItemSell_Tooltip(self, data1, data2, laiyuan)
 	if PIGA["Tooltip"]["ItemSell"] then
-		--if not MerchantFrame:IsVisible() then
-			local _, link = self:GetItem()
-			if link then
-				local itemSellG = select(11, GetItemInfo(link))
-				if itemSellG and itemSellG > 0 then
-					local new_stackCount = 1
-					if laiyuan=="Bag" then
-						local itemID, itemLink, icon, stackCount=PIGGetContainerItemInfo(data1, data2)
-						new_stackCount=stackCount
-					elseif laiyuan=="Quest" then
-						local _, _, count = GetQuestItemInfo(data1, data2)
-						new_stackCount=count or stackCount
-					elseif laiyuan=="QuestLog" then
-						local _, _, count = GetQuestLogRewardInfo(data2)
-						new_stackCount=count or stackCount
-					end
-					if new_stackCount>1 then
-						self:AddLine(SELL_PRICE..": |cffFFFFFF"..GetMoneyString(itemSellG*new_stackCount).."|r   ( 单价|cffFFFFFF"..GetMoneyString(itemSellG).."|r )")
+		local _, link = self:GetItem()
+		if link then
+			local itemSellG = select(11, GetItemInfo(link))
+			if itemSellG and itemSellG > 0 then
+				local new_stackCount = 1
+				if laiyuan=="Bag" then
+					local itemID, itemLink, icon, stackCount=PIGGetContainerItemInfo(data1, data2)
+					new_stackCount=stackCount
+				elseif laiyuan=="Quest" then
+					local _, _, count = GetQuestItemInfo(data1, data2)
+					new_stackCount=count or 1
+				elseif laiyuan=="QuestLog" then
+					local _, _, count = GetQuestLogRewardInfo(data2)
+					new_stackCount=count or 1
+				elseif laiyuan=="TradeSkillItem" then
+					if data1 and data2 then
+						local reagentName, reagentTexture, reagentCount, playerReagentCount = GetTradeSkillReagentInfo(data1, data2);
+						new_stackCount=reagentCount or 1
 					else
-						self:AddLine(SELL_PRICE..": |cffFFFFFF"..GetMoneyString(itemSellG*new_stackCount).."|r")
+						local skillName, skillType, numAvailable, isExpanded, altVerb = GetTradeSkillInfo(data1);
+						new_stackCount=numAvailable or 1
 					end
-					self:Show()
 				end
+				local tishitxyx="|cffEEEEEE"..GetMoneyString(itemSellG).."|r"
+				if new_stackCount>1 then
+					tishitxyx="|cffFFFFFF"..GetMoneyString(itemSellG*new_stackCount).."("..AUCTION_HOUSE_HEADER_UNIT_PRICE..tishitxyx..")|r"
+				end
+				self:AddLine(SELL_PRICE..tishitxyx)
+				self:Show()
 			end
-		--end
+		end
 	end
 end
 function TooltipPlusfun.Tooltip_ItemSell()
@@ -55,6 +61,21 @@ function TooltipPlusfun.Tooltip_ItemSell()
 	end
 end
 local function Tooltip_ItemLV(self,link)
+	if PIGA["Tooltip"]["ItemMaxCount"] or PIGA["Tooltip"]["IDinfo"] then
+		local itemStackCount,_, _, _, _, _, _, expacID = select(8, GetItemInfo(link))
+		if PIGA["Tooltip"]["ItemMaxCount"] then
+			if itemStackCount and itemStackCount>1 then
+			    self:AddLine("|cffffcf00最大堆叠|r "..itemStackCount)
+			end
+		end
+		if PIGA["Tooltip"]["IDinfo"] then
+			local itemID = GetItemInfoInstant(link)
+			if itemID then
+				local expacID = expacID or 99
+			    self:AddDoubleLine("|cffd33c54ID:|r "..itemID,banbendata[expacID])    
+			end
+		end
+	end
 	if PIGA["Tooltip"]["ItemLevel"] then
 		local effectiveILvl = GetDetailedItemLevelInfo(link)
 		if effectiveILvl then
@@ -98,21 +119,6 @@ local function Tooltip_ItemLV(self,link)
 			end
 		end
 	end
-	if PIGA["Tooltip"]["ItemMaxCount"] or PIGA["Tooltip"]["IDinfo"] then
-		local itemStackCount,_, _, _, _, _, _, expacID = select(8, GetItemInfo(link))
-		if PIGA["Tooltip"]["ItemMaxCount"] then
-			if itemStackCount and itemStackCount>1 then
-			    self:AddLine("|cffffcf00最大堆叠|r "..itemStackCount)
-			end
-		end
-		if PIGA["Tooltip"]["IDinfo"] then
-			local itemID = GetItemInfoInstant(link)
-			if itemID then
-				local expacID = expacID or 99
-			    self:AddDoubleLine("|cffd33c54ID:|r "..itemID,banbendata[expacID])    
-			end
-		end
-	end
 	self:Show()
 end
 function TooltipPlusfun.InfoPlus()
@@ -126,8 +132,17 @@ function TooltipPlusfun.InfoPlus()
 	hooksecurefunc(GameTooltip, "SetQuestLogItem", function(self, questType, index)
 		ItemSell_Tooltip(self, questType, index,"QuestLog")
 	end)
+	-- hooksecurefunc(GameTooltip, "SetLootItem", function(self, lootIndex)
+	-- 	ItemSell_Tooltip(self, lootIndex, nil,"LootItem")
+	-- end)
+	-- hooksecurefunc(GameTooltip, "SetLootRollItem", function(self, rollID)
+	-- 	ItemSell_Tooltip(self, rollID, nil,"RollItem")
+	-- end)
 	TooltipPlusfun.Tooltip_ItemSell()
    	if PIG_MaxTocversion() then
+   		hooksecurefunc(GameTooltip, "SetTradeSkillItem", function(self, tradeItemIndex, reagentIndex)
+			ItemSell_Tooltip(self, tradeItemIndex, reagentIndex,"TradeSkillItem")
+		end)
    		if PIG_MaxTocversion(50000) then
 			hooksecurefunc("GameTooltip_ShowCompareItem", function(self, anchorFrame)
 				if not PIGA["Tooltip"]["ItemLevel"] then return end

@@ -126,7 +126,9 @@ L.BREADCRUMBS = "Breadcrumbs";
 L.BREADCRUMBS_WARNING = "There are breadcrumb quests that may not be obtainable after completing this:";
 L.CACHED_RECIPES_1 = "Cached ";
 L.CACHED_RECIPES_2 = " known recipes!";
+L.CAMPSITE_DESC = "Click this button to select a random campsite based on what you're missing.";
 L.CAMPSITE_ID = "Campsite ID";
+L.CAMPSITES = WARBAND_SCENES;
 L.CAMPSITES_CHECKBOX = WARBAND_SCENES;
 L.CAMPSITES_CHECKBOX_TOOLTIP = "Enable this option to track warband campsite completion.";
 L.CATALYST = "Catalyst";
@@ -218,8 +220,10 @@ L.DEATHS_CHECKBOX_TOOLTIP = "Enable this option to track each time one of your c
 L.DEBUG_LOGIN = "Awarded for logging in.\n\nGood job! YOU DID IT!\n\nOnly visible while in Debug Mode.";
 L.DEBUG_MODE = "|c" .. _.DefaultColors.Red .. "Debug Mode |cffffffff(Show Everything)|r|r";
 L.DEBUG_MODE_TOOLTIP = "Quite literally ... ALL THE THINGS IN THE GAME. PERIOD. DOT. YEAH, ALL OF IT. Even Uncollectible things like bags, consumables, reagents, etc will appear in the lists. (Even yourself! No, really. Look.)\n\nThis is for Debugging purposes only. Not intended to be used for completion tracking.\n\nThis mode bypasses all filters, including Unobtainables.";
+L.DECOR = BINDING_TAG_DECOR;
 L.DECOR_CHECKBOX = CATALOG_SHOP_TYPE_DECOR;
 L.DECOR_CHECKBOX_TOOLTIP = "Enable this option to track warband decor completion.";
+L.DECOR_DESC = "Click this button to select a random decor based on what you're missing.";
 L.DECOR_ID = "Decor ID";
 L.DELETE_CHARACTER = "Right Click to Delete this Character";
 L.DELETE_LINKED_ACCOUNT = "Right Click to Delete this Linked Account";
@@ -313,12 +317,15 @@ L.FILTER_THINGS_BY_LEVEL_CHECKBOX_TOOLTIP = "Enable this setting if you want to 
 L.FILTER_THINGS_BY_SKILL_LEVEL_CHECKBOX = "No Skill Level Restrictions";
 L.FILTER_THINGS_BY_SKILL_LEVEL_CHECKBOX_TOOLTIP = "Disable this setting if you only want to see content available to the maximum possible skill level available to the game environment.";
 L.FILTERS_PAGE = "Filters";
+L.FLIGHT_PATH_DESC = "Click this button to select a random flight path based on what you're missing.";
 L.FLIGHT_PATH_ID = "Flight Path ID";
 L.FLIGHT_PATHS = "Flight Paths";
 L.FLIGHT_PATHS_CHECKBOX = "Flight Paths";
 L.FLIGHT_PATHS_CHECKBOX_TOOLTIP = "Enable this option to track flight paths and ferry stations.\n\nTo collect these, open the dialog with the flight / ferry master in each continent.\n\nNOTE: Due to phasing technology, you may have to phase to the other versions of a zone to get credit for those points of interest.";
 L.FLIGHT_PATHS_DESC = "Flight paths are cached when you talk to the flight master on each continent.\n  - Crieve";
+L.FOLLOWER_DESC = "Click this button to select a random follower based on what you're missing.";
 L.FOLLOWER_ID = "Follower ID";
+L.FOLLOWERS = GARRISON_FOLLOWERS;
 L.FOLLOWERS_CHECKBOX = "|T" .. _.asset("Expansion_WOD") .. ":0|t Followers & Companions";
 L.FOLLOWERS_CHECKBOX_TOOLTIP = "Enable this option to track followers and champions.\n\nIE: Garrison Followers, Legion Class Hall Champions, BFA Campaign Minions and SL Adventurers.";
 L.FOLLOWERS_COLLECTION_DESC = "Followers can be collected account wide, if you enable this setting in ATT.\n\nYou must manually refresh the addon by " .. SHIFT_KEY_TEXT .. " clicking the header for this to be detected.";
@@ -506,6 +513,8 @@ L.OBJECT_TYPE = "Object Type";
 L.OBJECTIVES = "Objectives";
 L.ONLY_NOT_TRASH = "Filter Trash Items";
 L.ONLY_NOT_TRASH_TOOLTIP = "Enable this option to ignore white/grey items. Blizzard does not yet provide API for it in Classic.";
+L.ONLY_OBTAINABLE_CHECKBOX = "Only Obtainable";
+L.ONLY_OBTAINABLE_CHECKBOX_TOOLTIP = "Enable this option if you want to see only obtainable shared appearances.";
 L.ONLY_RELEVANT_CHECKBOX = "Only Relevant";
 L.ONLY_RELEVANT_CHECKBOX_TOOLTIP = "Enable this option if you only want to see shared appearances that your character can unlock.\n\nNOTE: We recommend you keep this off as knowing the unlock requirements for an item can be helpful in identifying why an item is Not Collected.";
 L.ONLY_RWP = "Only RWP";
@@ -723,7 +732,7 @@ L.SHOW_RECIPES_CHECKBOX = "Show Recipes";
 L.SHOW_RECIPES_CHECKBOX_TOOLTIP = "Enable this option if you want to see a list of all of the recipes that can be crafted by any of your characters for a reagent in its tooltip.";
 L.SHOW_REMAINING_CHECKBOX = "Show Remaining Things";
 L.SHOW_REMAINING_CHECKBOX_TOOLTIP = "Enable this option if you want to see the number of items remaining instead of the progress over total.";
-L.SHOW_SKYRIDING_CHECKBOX = "Skyriding";
+L.SHOW_SKYRIDING_CHECKBOX = "Dragonriding";
 L.SHOW_SKYRIDING_CHECKBOX_TOOLTIP = "Enable this setting if you want to show content which requires Skyriding within the game.";
 L.SKIP_AUTO_REFRESH = "Skip Settings-Toggle Data Refreshes!";
 L.SKIP_AUTO_REFRESH_TOOLTIP = "By default (unchecked), any Settings change which may affect visible data will cause an automatic refresh.\n\nBy enabling this option, Settings changes won't take effect until the User performs a Full Refresh by " .. SHIFT_KEY_TEXT .. " clicking on an ATT window.";
@@ -1684,13 +1693,11 @@ localize(L.EVENT_REMAPPING, {
 
 -- Programmatic Event Scheduling
 _.Modules.Events.SetEventInformation(242, {
-	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=7,["year"]=2024},{["hour"]=10,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=7,["year"]=2024}),
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=1,["year"]=2025},{["hour"]=10,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=1,["year"]=2025}),
-	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=2,["year"]=2026},{["hour"]=10,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=2,["year"]=2026})
+	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=2,["year"]=2026},{["hour"]=10,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=2,["year"]=2026}),
+	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=3,["year"]=2027},{["hour"]=10,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=3,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(133900, {
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=12,["monthDay"]=14,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=12,["monthDay"]=14,["weekday"]=1,["year"]=2025}),
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=12,["monthDay"]=21,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=12,["monthDay"]=21,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=12,["monthDay"]=28,["weekday"]=1,["year"]=2025},{["hour"]=23,["month"]=12,["monthDay"]=28,["weekday"]=1,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=1,["monthDay"]=4,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=1,["monthDay"]=4,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=1,["monthDay"]=11,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=1,["monthDay"]=11,["weekday"]=1,["year"]=2026}),
@@ -1741,17 +1748,19 @@ _.Modules.Events.SetEventInformation(133900, {
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=11,["monthDay"]=22,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=11,["monthDay"]=22,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=11,["monthDay"]=29,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=11,["monthDay"]=29,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=12,["monthDay"]=6,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=12,["monthDay"]=6,["weekday"]=1,["year"]=2026}),
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=12,["monthDay"]=13,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=12,["monthDay"]=13,["weekday"]=1,["year"]=2026})
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=12,["monthDay"]=13,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=12,["monthDay"]=13,["weekday"]=1,["year"]=2026}),
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=12,["monthDay"]=20,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=12,["monthDay"]=20,["weekday"]=1,["year"]=2026}),
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=12,["monthDay"]=27,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=12,["monthDay"]=27,["weekday"]=1,["year"]=2026})
 });
 _.Modules.Events.SetEventInformation(133899, {
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=2,["year"]=2024},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=4,["year"]=2025}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=3,["year"]=2025},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=5,["year"]=2026}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=4,["year"]=2026},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=6,["year"]=2027})
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=4,["year"]=2026},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=6,["year"]=2027}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=5,["year"]=2027},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=1,["year"]=2028})
 });
 _.Modules.Events.SetEventInformation(133889, {
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=4,["year"]=2024},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=1,["year"]=2024}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=5,["year"]=2025},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=2,["year"]=2025}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=6,["year"]=2026},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=3,["year"]=2026})
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=6,["year"]=2026},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=3,["year"]=2026}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=20,["weekday"]=7,["year"]=2027},{["hour"]=23,["minute"]=59,["month"]=9,["monthDay"]=22,["weekday"]=4,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(444, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=14,["weekday"]=3,["year"]=2025},{["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=26,["weekday"]=4,["year"]=2025})
@@ -5688,7 +5697,6 @@ local ObjectNames = {
 	[307307] = "Broken Barrel",
 	[307330] = "Captain's Footlocker",
 	[375544] = "Wooden Figurine",
-	[420873] = "Ritual Book",
 	[100000000] = "Archaeologist's Cart",
 	[100000001] = "Unlit Torch",
 }; _.ObjectNames = ObjectNames;
@@ -8957,7 +8965,6 @@ local ObjectModels = {
 	[307307] = 199567,
 	[307330] = 198238,
 	[375544] = 201094,
-	[420873] = 1125316,
 	[100000001] = 201129,
 }; _.ObjectModels = ObjectModels;
 
@@ -9432,6 +9439,15 @@ local phases = {
 		buildVersion = 50503,
 		state = 2,
 	},
+	[5201] = {
+		name = "Celestial Dungeons (ToT)",
+		description = "|cFFAAFFAAThis was not available until Celestial Dungeons (ToT) of Mists of Pandaria Classic.|r",
+		lore = "|cFFFFAAAAIncluded Throne of Thunder LFR gear for Celestial Dungeons.|r",
+		minimumBuildVersion = 50500,
+		buildVersion = 50503,
+		release = 1765972800,
+		state = 2,
+	},
 	[53] = {
 		name = "Escalation",
 		description = "|cFFAAFFAAThis was not available until Escalation of Mists of Pandaria Classic.|r",
@@ -9446,6 +9462,15 @@ local phases = {
 		lore = "|cFFFFAAAAIncluded Siege of Orgrimmar and the Timeless Isle.|r",
 		minimumBuildVersion = 50500,
 		buildVersion = 50505,
+		state = 2,
+	},
+	[5401] = {
+		name = "Celestial Dungeons (SoO)",
+		description = "|cFFAAFFAAThis was not available until Celestial Dungeons (SoO) of Mists of Pandaria Classic.|r",
+		lore = "|cFFFFAAAAIncluded Siege of Orgrimmar LFR gear for Celestial Dungeons.|r",
+		minimumBuildVersion = 50500,
+		buildVersion = 50505,
+		release = 1776686400,
 		state = 2,
 	},
 };
@@ -12461,7 +12486,6 @@ localize(ObjectNames, {
 	[307307] = "Zerbrochenes Fass",
 	[307330] = "Schließkiste des Kapitäns",
 	[375544] = "Holzstatuette",
-	[420873] = "Ritualbuch",
 	[100000001] = "Nicht angezündete Fackel",
 });
 for i,objectID in ipairs(ALLIANCE_BONFIRES) do ObjectNames[objectID] = "Freudenfeuer der Allianz"; end
@@ -12500,8 +12524,10 @@ for key,value in pairs({
 	[5007] = "|cFFAAFFAADies war erst Celestial Dungeons (ToES) von Mists of Pandaria Classic verfügbar.|r",
 	[51] = "|cFFAAFFAADies war erst Landfall von Mists of Pandaria Classic verfügbar.|r",
 	[52] = "|cFFAAFFAADies war erst Rise of the Thunder King von Mists of Pandaria Classic verfügbar.|r",
+	[5201] = "|cFFAAFFAADies war erst Celestial Dungeons (ToT) von Mists of Pandaria Classic verfügbar.|r",
 	[53] = "|cFFAAFFAADies war erst Escalation von Mists of Pandaria Classic verfügbar.|r",
 	[54] = "|cFFAAFFAADies war erst Siege of Orgrimmar von Mists of Pandaria Classic verfügbar.|r",
+	[5401] = "|cFFAAFFAADies war erst Celestial Dungeons (SoO) von Mists of Pandaria Classic verfügbar.|r",
 })
 do phases[key].description = value; end
 end
@@ -15510,7 +15536,6 @@ localize(ObjectNames, {
 	[307307] = "Tonneau cassé",
 	[307330] = "Cantine du capitaine",
 	[375544] = "Figurine en bois",
-	[420873] = "Livre du rituel",
 	[100000001] = "Torche éteinte",
 });
 for i,objectID in ipairs(ALLIANCE_BONFIRES) do ObjectNames[objectID] = "Feu de joie de l'Alliance"; end
@@ -15549,8 +15574,10 @@ for key,value in pairs({
 	[5007] = "|cFFAAFFAACeci n'était pas disponible avant le Celestial Dungeons (ToES) du Mists of Pandaria Classic.|r",
 	[51] = "|cFFAAFFAACeci n'était pas disponible avant le Landfall du Mists of Pandaria Classic.|r",
 	[52] = "|cFFAAFFAACeci n'était pas disponible avant le Rise of the Thunder King du Mists of Pandaria Classic.|r",
+	[5201] = "|cFFAAFFAACeci n'était pas disponible avant le Celestial Dungeons (ToT) du Mists of Pandaria Classic.|r",
 	[53] = "|cFFAAFFAACeci n'était pas disponible avant le Escalation du Mists of Pandaria Classic.|r",
 	[54] = "|cFFAAFFAACeci n'était pas disponible avant le Siege of Orgrimmar du Mists of Pandaria Classic.|r",
+	[5401] = "|cFFAAFFAACeci n'était pas disponible avant le Celestial Dungeons (SoO) du Mists of Pandaria Classic.|r",
 })
 do phases[key].description = value; end
 end
@@ -17797,7 +17824,6 @@ localize(ObjectNames, {
 	[307277] = "Vecchio Fiasco",
 	[307307] = "Barile Spezzato",
 	[307330] = "Scrigno del Capitano",
-	[420873] = "Libro Rituale",
 });
 for i,objectID in ipairs(ALLIANCE_BONFIRES) do ObjectNames[objectID] = "Falò dell'Alleanza"; end
 for i,objectID in ipairs(CANDY_BUCKETS) do ObjectNames[objectID] = "Secchio delle Caramelle"; end
@@ -17835,8 +17861,10 @@ for key,value in pairs({
 	[5007] = "|cFFAAFFAAQuesto non era disponibile fino al Celestial Dungeons (ToES) di Mists of Pandaria Classic.|r",
 	[51] = "|cFFAAFFAAQuesto non era disponibile fino al Landfall di Mists of Pandaria Classic.|r",
 	[52] = "|cFFAAFFAAQuesto non era disponibile fino al Rise of the Thunder King di Mists of Pandaria Classic.|r",
+	[5201] = "|cFFAAFFAAQuesto non era disponibile fino al Celestial Dungeons (ToT) di Mists of Pandaria Classic.|r",
 	[53] = "|cFFAAFFAAQuesto non era disponibile fino al Escalation di Mists of Pandaria Classic.|r",
 	[54] = "|cFFAAFFAAQuesto non era disponibile fino al Siege of Orgrimmar di Mists of Pandaria Classic.|r",
+	[5401] = "|cFFAAFFAAQuesto non era disponibile fino al Celestial Dungeons (SoO) di Mists of Pandaria Classic.|r",
 })
 do phases[key].description = value; end
 end
@@ -20516,8 +20544,10 @@ for key,value in pairs({
 	[5007] = "|cFFAAFFAAIsto não estava disponível até Celestial Dungeons (ToES) de Mists of Pandaria Classic.|r",
 	[51] = "|cFFAAFFAAIsto não estava disponível até Landfall de Mists of Pandaria Classic.|r",
 	[52] = "|cFFAAFFAAIsto não estava disponível até Rise of the Thunder King de Mists of Pandaria Classic.|r",
+	[5201] = "|cFFAAFFAAIsto não estava disponível até Celestial Dungeons (ToT) de Mists of Pandaria Classic.|r",
 	[53] = "|cFFAAFFAAIsto não estava disponível até Escalation de Mists of Pandaria Classic.|r",
 	[54] = "|cFFAAFFAAIsto não estava disponível até Siege of Orgrimmar de Mists of Pandaria Classic.|r",
+	[5401] = "|cFFAAFFAAIsto não estava disponível até Celestial Dungeons (SoO) de Mists of Pandaria Classic.|r",
 })
 do phases[key].description = value; end
 end
@@ -23900,7 +23930,6 @@ localize(ObjectNames, {
 	[307307] = "Разбитая бочка",
 	[307330] = "Сундучок капитана",
 	[375544] = "Деревянная статуэтка",
-	[420873] = "Обрядовая книга",
 	[100000001] = "Незажженный факел",
 });
 for i,objectID in ipairs(ALLIANCE_BONFIRES) do ObjectNames[objectID] = "Большой костер Альянса"; end
@@ -23951,8 +23980,10 @@ for key,value in pairs({
 	[5007] = "|cFFAAFFAAЭто было недоступно до Celestial Dungeons (ToES) из Mists of Pandaria Classic.|r",
 	[51] = "|cFFAAFFAAЭто было недоступно до Landfall из Mists of Pandaria Classic.|r",
 	[52] = "|cFFAAFFAAЭто было недоступно до Rise of the Thunder King из Mists of Pandaria Classic.|r",
+	[5201] = "|cFFAAFFAAЭто было недоступно до Celestial Dungeons (ToT) из Mists of Pandaria Classic.|r",
 	[53] = "|cFFAAFFAAЭто было недоступно до Escalation из Mists of Pandaria Classic.|r",
 	[54] = "|cFFAAFFAAЭто было недоступно до Siege of Orgrimmar из Mists of Pandaria Classic.|r",
+	[5401] = "|cFFAAFFAAЭто было недоступно до Celestial Dungeons (SoO) из Mists of Pandaria Classic.|r",
 })
 do phases[key].description = value; end
 for key,value in pairs({
@@ -26599,8 +26630,10 @@ for key,value in pairs({
 	[5007] = "|cFFAAFFAACelestial Dungeons (ToES)(Mists of Pandaria Classic)까지 사용할 수 없습니다.|r",
 	[51] = "|cFFAAFFAALandfall(Mists of Pandaria Classic)까지 사용할 수 없습니다.|r",
 	[52] = "|cFFAAFFAARise of the Thunder King(Mists of Pandaria Classic)까지 사용할 수 없습니다.|r",
+	[5201] = "|cFFAAFFAACelestial Dungeons (ToT)(Mists of Pandaria Classic)까지 사용할 수 없습니다.|r",
 	[53] = "|cFFAAFFAAEscalation(Mists of Pandaria Classic)까지 사용할 수 없습니다.|r",
 	[54] = "|cFFAAFFAASiege of Orgrimmar(Mists of Pandaria Classic)까지 사용할 수 없습니다.|r",
+	[5401] = "|cFFAAFFAACelestial Dungeons (SoO)(Mists of Pandaria Classic)까지 사용할 수 없습니다.|r",
 })
 do phases[key].description = value; end
 end
@@ -30286,8 +30319,10 @@ for key,value in pairs({
 	[5007] = "|cFFAAFFAAEsto no estuvo disponible hasta Celestial Dungeons (ToES) de Mists of Pandaria Classic.|r",
 	[51] = "|cFFAAFFAAEsto no estuvo disponible hasta Desembarco de Mists of Pandaria Classic.|r",
 	[52] = "|cFFAAFFAAEsto no estuvo disponible hasta El Rey del Trueno de Mists of Pandaria Classic.|r",
+	[5201] = "|cFFAAFFAAEsto no estuvo disponible hasta Celestial Dungeons (ToT) de Mists of Pandaria Classic.|r",
 	[53] = "|cFFAAFFAAEsto no estuvo disponible hasta Intensificación del Conflicto de Mists of Pandaria Classic.|r",
 	[54] = "|cFFAAFFAAEsto no estuvo disponible hasta Asedio de Orgrimmar de Mists of Pandaria Classic.|r",
+	[5401] = "|cFFAAFFAAEsto no estuvo disponible hasta Celestial Dungeons (SoO) de Mists of Pandaria Classic.|r",
 })
 do phases[key].description = value; end
 for key,value in pairs({
@@ -30614,9 +30649,6 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-44] = "Esta sección solo mostrará las profesiones de tu personaje actual fuera del modo Cuenta y Debug.",
 	[-49] = "Contiene cosas que se obtienen como recompensa al completar este escenario.",
 	[-592] = "¡Es el aniversario de World of Warcraft! Desde el equipo de desarrollo de WoW, te damos las gracias por disfrutar del mundo de Azeroth y más allá junto a nosotros.",
-});
-localize(ObjectNames, {
-	[420873] = "Libro ritual",
 });
 for key,value in pairs({
 	[2] = "Removido del juego",
@@ -33891,8 +33923,10 @@ for key,value in pairs({
 	[5007] = "|cFFAAFFAA该功能直到 Celestial Dungeons (ToES) 的 Mists of Pandaria Classic 才可用。|r",
 	[51] = "|cFFAAFFAA该功能直到 Landfall 的 Mists of Pandaria Classic 才可用。|r",
 	[52] = "|cFFAAFFAA该功能直到 Rise of the Thunder King 的 Mists of Pandaria Classic 才可用。|r",
+	[5201] = "|cFFAAFFAA该功能直到 Celestial Dungeons (ToT) 的 Mists of Pandaria Classic 才可用。|r",
 	[53] = "|cFFAAFFAA该功能直到 Escalation 的 Mists of Pandaria Classic 才可用。|r",
 	[54] = "|cFFAAFFAA该功能直到 Siege of Orgrimmar 的 Mists of Pandaria Classic 才可用。|r",
+	[5401] = "|cFFAAFFAA该功能直到 Celestial Dungeons (SoO) 的 Mists of Pandaria Classic 才可用。|r",
 })
 do phases[key].description = value; end
 for key,value in pairs({
@@ -34762,7 +34796,6 @@ localize(ObjectNames, {
 	[208316] = "英雄召喚告示板",
 	[208317] = "大酋長的命令告示板",
 	[209325] = "風石",
-	[420873] = "儀式之書",
 });
 for i,objectID in ipairs(CANDY_BUCKETS) do ObjectNames[objectID] = "糖果桶"; end
 for key,value in pairs({
@@ -34823,8 +34856,10 @@ for key,value in pairs({
 	[5007] = "|cFFAAFFAA該功能直到 Celestial Dungeons (ToES) 的 Mists of Pandaria Classic 才可用。|r",
 	[51] = "|cFFAAFFAA該功能直到 Landfall 的 Mists of Pandaria Classic 才可用。|r",
 	[52] = "|cFFAAFFAA該功能直到 Rise of the Thunder King 的 Mists of Pandaria Classic 才可用。|r",
+	[5201] = "|cFFAAFFAA該功能直到 Celestial Dungeons (ToT) 的 Mists of Pandaria Classic 才可用。|r",
 	[53] = "|cFFAAFFAA該功能直到 Escalation 的 Mists of Pandaria Classic 才可用。|r",
 	[54] = "|cFFAAFFAA該功能直到 Siege of Orgrimmar 的 Mists of Pandaria Classic 才可用。|r",
+	[5401] = "|cFFAAFFAA該功能直到 Celestial Dungeons (SoO) 的 Mists of Pandaria Classic 才可用。|r",
 })
 do phases[key].description = value; end
 for key,value in pairs({

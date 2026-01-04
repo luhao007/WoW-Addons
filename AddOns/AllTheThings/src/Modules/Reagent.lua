@@ -1,13 +1,11 @@
 -- Reagents Module
 local _, app = ...;
-local L = app.L
 
 -- Globals
 local setmetatable,tonumber,wipe,ipairs,pairs
 	= setmetatable,tonumber,wipe,ipairs,pairs
 
 -- App
-local IsComplete = app.IsComplete
 
 -- Reagent API Implementation
 -- Access via AllTheThings.Modules.Reagent
@@ -24,7 +22,6 @@ local function BuildReagents(group)
 
 	-- Pop out the cost objects into their own sub-groups for accessibility
 	-- Gold cost currently ignored
-	app.PrintDebug("BuildReagents",group.hash)
 	-- Pop out the cost totals into their own sub-groups for accessibility
 	-- TODO: localize
 	local reagentGroup = app.CreateRawText("Total Reagents", {
@@ -47,8 +44,6 @@ local function BuildReagents(group)
 
 		group.window.__RefreshReagentCollector = function(window, didUpdate)
 			-- app.PrintDebug("RefreshCollector??",group.window.Suffix,window and app:SearchLink(window.data),didUpdate)
-			wipe(reagentGroup.g)
-			-- app.PrintDebug("ScanGroups",window)
 			Collector.ScanGroups(group, reagentGroup)
 		end
 	end
@@ -110,8 +105,8 @@ do
 	end
 
 	local function AddGroupRecipe(o, Collector)
-		-- app.PrintDebug("AGR",o.hash,IsComplete(o))
-		if not o.visible or IsComplete(o) then return end
+		-- app.PrintDebug("AGR",o.hash,o.visible,o.recipeID,IsComplete(o))
+		if not o.visible then return end
 
 		-- only add crafted items once per hash in case it is duplicated
 		local hash = o.hash
@@ -155,8 +150,7 @@ do
 		local groupType = group.__type
 		-- app.PrintDebug("AGR:Run",app:SearchLink(group),IgnoredTypes[groupType],IgnoredTypesForNested[groupType],group.filledCost)
 		-- don't include NonCollectible or VisualHeaders
-		-- don't include Reagents of visible, but 'saved' Things
-		if not IgnoredTypes[groupType] and not group.saved then
+		if not IgnoredTypes[groupType] then
 			runner.Run(AddGroupRecipe, group, Collector)
 		end
 		local g = group.g
@@ -164,7 +158,7 @@ do
 
 		-- don't scan groups inside Item groups which have a cost/provider (i.e. ensembles)
 		-- this leads to wildly bloated totals
-		if group.filledCost or IgnoredTypesForNested[groupType] then return end
+		if (not group.window and group.filledCost) or IgnoredTypesForNested[groupType] then return end
 
 		for _,o in ipairs(g) do
 			ScanGroups(o, Collector)
@@ -172,21 +166,16 @@ do
 	end
 	local function StartUpdating(Collector)
 		local group = Collector.__group
-		if not group then return end
-
 		Collector.Reset()
-		local text = group.text
-		Collector.__text = text
-		group.text = (text or "").."  "..BLIZZARD_STORE_PROCESSING
+		group.text = (group.__text or "").."  "..BLIZZARD_STORE_PROCESSING
 		group.OnSetVisibility = app.ReturnTrue
-		-- app.PrintDebug("StartUpdating",group.text)
+		-- app.PrintDebug("StartUpdating",Collector,group.text)
 		app.DirectGroupUpdate(group)
 	end
 	local function EndUpdating(Collector)
 		local group = Collector.__group
-		if not group then return end
-
 		group.text = group.__text
+		-- app.PrintDebug("EndUpdating",Collector,group and group.text)
 
 		-- idea for nesting reagents of each Recipe...
 		-- at end, check all required Recipes to sum Reagents into CreateReagentItem
@@ -215,9 +204,9 @@ do
 		Collector.Reset()
 	end
 	local function ScanSubReagents(Collector)
-		-- app.PrintDebug("SSR:Start",Collector.__group.__text)
-		local group = Collector.__group
-		if not group then return end
+		-- local group = Collector.__group
+		-- app.PrintDebug("SSR:Start",Collector,group and group.__text)
+		-- if not group then return end
 
 		local Reagents = Collector.Data.Reagents
 		-- TODO: don't rescan un-changed recipe counts
@@ -281,6 +270,7 @@ do
 			if infoGroup._SettingsRefresh == app._SettingsRefresh then
 				return
 			end
+			wipe(infoGroup.g)
 			-- only need to run once per settings refresh, otherwise the reagents won't change from regular refreshes
 			infoGroup._SettingsRefresh = app._SettingsRefresh
 			Collector.__group = infoGroup

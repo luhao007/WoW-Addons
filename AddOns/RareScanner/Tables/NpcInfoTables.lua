@@ -960,11 +960,8 @@ private.NPC_INFO = {
 	[5863] = { zoneID = 199, artID = { 204 }, x = 4424, y = 4207, overlay = { "4200-4260","4420-4200","4200-3780" }, displayID = 6100 }; --Geopriest Gukk'rok
 	[5864] = { zoneID = 199, artID = { 204 }, x = 3859, y = 3340, overlay = { "3860-3340" }, displayID = 6114 }; --Swinegart Spearhide
 	[49913] = { zoneID = 201, artID = { 206 }, x = 6160, y = 7540, overlay = { "5620-7780","5720-8020","5940-7520","6000-7680","6020-7040","6040-6920","6100-7500" }, displayID = 36660 }; --Lady La-La <Siren of the Deeps>
-	[51071] = { zoneID = {
-				[203] = { x = 6840, y = 7380, artID = { 208 }, overlay = { "6840-7380" } };
-				[205] = { x = 5520, y = 7380, artID = { 210 }, overlay = { "5520-7320" } };
-			  }, friendly = { "A" }, displayID = 4693 }; --Captain Florence
-	[51079] = { zoneID = 203, artID = { 208 }, x = 6680, y = 6960, overlay = { "6680-6940" }, friendly = { "H" }, displayID = 30103 }; --Captain Foulwind
+	[51071] = { zoneID = 205, artID = { 210 }, x = 5520, y = 7380, overlay = { "5520-7320" }, friendly = { "A" }, displayID = 4693 }; --Captain Florence
+	[51079] = { zoneID = 205, artID = { 210 }, x = 5313, y = 6773, overlay = { "5313-6773" }, friendly = { "H" }, displayID = 30103 }; --Captain Foulwind
 	[50005] = { zoneID = {
 				[204] = { x = 4220, y = 7600, artID = { 209 }, overlay = { "3940-7160","4040-7380","4100-7660","4180-7340","4220-7600" } };
 				[205] = { x = 6700, y = 4320, artID = { 210 }, overlay = { "3780-6680","3940-6880","3980-6640","4440-4940","4620-4860","5640-8200","5720-8080","5740-8360","5820-8160","6580-4320","6700-4320","3800-6820","4480-5080","4660-5000","6500-4200" } };

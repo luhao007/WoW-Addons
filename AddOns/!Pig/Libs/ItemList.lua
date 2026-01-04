@@ -392,7 +392,11 @@ local function add_ItemList(fujik,miaodian,ZBLsit_C,TalentUI)
 		PointXY[1]=-34
 		PointXY[2]=-13
 	end
-	local ZBLsit = PIGFrame(fujik,{"TOPLEFT", fujik, "TOPRIGHT",PointXY[1],PointXY[2]},{ListWWWHHH[1],ListWWWHHH[2]},nil,nil,nil,{["ElvUI"]={2,0,2,0},["NDui"]={0,0,0,0}});
+	local EextData={
+		["ElvUI"]={true,{2,0,2,0}},
+		["NDui"]={NDui and NDuiDB and NDuiDB["Skins"]["BlizzardSkins"],{0,0,0,0}},
+	}
+	local ZBLsit = PIGFrame(fujik,{"TOPLEFT", fujik, "TOPRIGHT",PointXY[1],PointXY[2]},{ListWWWHHH[1],ListWWWHHH[2]},nil,nil,nil,EextData);
 	ZBLsit.classes = ZBLsit:CreateTexture();
 	ZBLsit.classes:SetTexture("Interface/TargetingFrame/UI-Classes-Circles");
 	if NDui then

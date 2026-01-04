@@ -3199,14 +3199,13 @@ customWindowUpdates.NWP = function(self, force)
 
 			return searchResults
 		end
-		local NWPwindow = {
-			text = L.NEW_WITH_PATCH,
+		local NWPwindow = app.CreateRawText(L.NEW_WITH_PATCH, {
 			icon = app.asset("Interface_Newly_Added"),
 			description = L.NEW_WITH_PATCH_TOOLTIP,
 			visible = true,
 			back = 1,
 			g = CreateNWPWindow(),
-		};
+		})
 		self:SetData(NWPwindow);
 		self:BuildData();
 	end
@@ -3394,8 +3393,7 @@ customWindowUpdates.awp = function(self, force)	-- TODO: Change this to remember
 			end
 			return patchBuild
 		end
-		local AWPwindow = {
-			text = L.ADDED_WITH_PATCH,
+		local AWPwindow = app.CreateRawText(L.ADDED_WITH_PATCH, {
 			icon = app.asset("Interface_Newly_Added"),
 			description = L.ADDED_WITH_PATCH_TOOLTIP,
 			visible = true,
@@ -3406,7 +3404,7 @@ customWindowUpdates.awp = function(self, force)	-- TODO: Change this to remember
 					g = CreatePatches(param),
 				}),
 			},
-		};
+		})
 		self:SetData(AWPwindow);
 		self:BuildData();
 	end
@@ -3937,9 +3935,12 @@ customWindowUpdates.Random = function(self)
 			-- Named-TypeIDs for the field to Select for a given named-Thing
 			local TypeIDLookups = {
 				Achievement = "achievementID",
+				Campsites = "campsiteID",
+				Decor = "decorID",
 				Dungeon = "instanceID",
 				Factions = "factionID",
-				-- Follower = "followerID",
+				Flight_Paths = "flightpathID",
+				Followers = "followerID",
 				Item = "itemID",
 				Instance = "instanceID",
 				Mount = "mountID",
@@ -3959,11 +3960,14 @@ customWindowUpdates.Random = function(self)
 				Achievement = function(o)
 					return o.collectible and not o.collected and not o.mapID and not o.criteriaID;
 				end,
+				-- Campsites - default
+				-- Decor - default
 				Dungeon = function(o)
 					return not o.isRaid and (((o.total or 0) - (o.progress or 0)) > 0);
 				end,
 				-- Factions - default
-				-- Follower - default
+				-- Flight Paths - default
+				-- Followers - default
 				-- Item - default
 				Instance = function(o)
 					return ((o.total or 0) - (o.progress or 0)) > 0;
@@ -4039,10 +4043,12 @@ customWindowUpdates.Random = function(self)
 						OnUpdate = app.AlwaysShowUpdate,
 					}),
 					AddRandomCategoryButton(L.ACHIEVEMENT, app.asset("Category_Achievements"), L.ACHIEVEMENT_DESC, "Achievement"),
+					AddRandomCategoryButton(L.CAMPSITES, app.asset("Category_Campsites"), L.CAMPSITE_DESC, "Campsites"),
+					AddRandomCategoryButton(L.DECOR, app.asset("Category_Housing"), L.DECOR_DESC, "Decor"),
 					AddRandomCategoryButton(L.DUNGEON, app.asset("Difficulty_Normal"), L.DUNGEON_DESC, "Dungeon"),
 					AddRandomCategoryButton(L.FACTIONS, app.asset("Category_Factions"), L.FACTION_DESC, "Factions"),
-					-- missing locale values
-					-- AddRandomCategoryButton(L.HEADER_NAMES[app.HeaderConstants.FOLLOWERS], L.HEADER_ICONS[app.HeaderConstants.FOLLOWERS], L.FOLLOWER_DESC, "Follower"),
+					AddRandomCategoryButton(L.FLIGHT_PATHS, app.asset("Category_FlightPaths"), L.FLIGHT_PATH_DESC, "Flight_Paths"),
+					AddRandomCategoryButton(L.FOLLOWERS, app.asset("Category_Followers"), L.FOLLOWER_DESC, "Followers"),
 					AddRandomCategoryButton(L.INSTANCE, app.asset("Category_D&R"), L.INSTANCE_DESC, "Instance"),
 					AddRandomCategoryButton(L.ITEM, app.asset("Interface_Zone_drop"), L.ITEM_DESC, "Item"),
 					AddRandomCategoryButton(L.MOUNT, app.asset("Category_Mounts"), L.MOUNT_DESC, "Mount"),
@@ -4163,6 +4169,189 @@ customWindowUpdates.RWP = function(self, force)
 		self:BaseUpdate(force);
 	end
 end;
+customWindowUpdates.Import = function(self, force)
+	if not self:IsVisible() then return end
+
+	if not self.initialized then
+		self.initialized = true
+
+		function self:Rebuild()
+			self:BuildData()
+			self:Update(true)
+		end
+
+		function self:ClearResults()
+			local fixed = {}
+			for _, row in ipairs(self.data.g) do
+				if row.isButton then
+					fixed[#fixed + 1] = row
+				end
+			end
+			wipe(self.data.g)
+			ArrayAppend(self.data.g, fixed)
+		end
+
+		local function ParseIDs(str)
+			local ids = {}
+			for id in str:gmatch("%d+") do
+				id = tonumber(id)
+				if not id or id <= 0 or id >= 1000000 then
+					return nil
+				end
+				ids[#ids + 1] = id
+			end
+			return ids
+		end
+
+		local function FindATTObjects(typeKey, id)
+			local searchKey = typeKey .. ":" .. id
+			local results = app.SearchForLink(searchKey)
+			if not results or #results == 0 then
+				results = app.SourceSearcher.LinkSources(searchKey)
+			end
+			return results
+		end
+
+		local function CreateTypeObject(typeKey, id)
+			return SearchForObject(typeKey, id, "key")
+				or SearchForObject(typeKey, id, "field")
+				or CreateObject({
+					[typeKey] = id,
+					visible = true,
+				})
+		end
+
+		function self:Import(typeKey, input)
+			local ids = ParseIDs(input)
+			self:ClearResults()
+			if not ids then return false end
+
+			local seen = {}
+
+			for _, id in ipairs(ids) do
+				local found = FindATTObjects(typeKey, id)
+
+				if found and #found > 0 then
+					for _, ref in ipairs(found) do
+						local key = ref.key
+						local value = key and ref[key]
+						local uid = key and value and (key .. ":" .. value)
+
+						if uid and not seen[uid] then
+							seen[uid] = true
+
+							local clone = app.CloneReference(ref)
+							clone.forceShow = true
+							clone.OnUpdate = app.AlwaysShowUpdate
+							tinsert(self.data.g, clone)
+						end
+					end
+				else
+					-- Fallback creation
+					local obj = CreateTypeObject(typeKey, id)
+					local key = obj.key
+					local value = key and obj[key]
+					local uid = key and value and (key .. ":" .. value)
+
+					if uid and not seen[uid] then
+						seen[uid] = true
+						obj.forceShow = true
+						obj.OnUpdate = app.AlwaysShowUpdate
+						tinsert(self.data.g, obj)
+					end
+				end
+			end
+		end
+
+		local initialButtons = {
+			{ id = "achievementID", name = ACHIEVEMENTS, icon = app.asset("Category_Achievements") },
+			{ id = "sourceID", name = WARDROBE, icon = 135276 },
+			-- LUA error currently { id = "artifactID", name = ITEM_QUALITY6_DESC, icon = app.asset("Weapon_Type_Artifact") },
+			{ id = "azeriteessenceID", name = SPLASH_BATTLEFORAZEROTH_8_2_0_FEATURE2_TITLE, icon = app.asset("Category_AzeriteEssences") },
+			{ id = "speciesID", name = AUCTION_CATEGORY_BATTLE_PETS, icon = app.asset("Category_PetJournal") },
+			{ id = "campsiteID", name = WARBAND_SCENES, icon = app.asset("Category_Campsites") },
+			{ id = "currencyID", name = CURRENCY, icon = app.asset("Interface_Vendor") },
+			{ id = "decorID", name = CATALOG_SHOP_TYPE_DECOR, icon = app.asset("Category_Housing") },
+			{ id = "explorationID", name = "Exploration", icon = app.asset("Category_Exploration") },
+			{ id = "factionID", name = L.FACTIONS, icon = app.asset("Category_Factions") },
+			{ id = "flightpathID", name = L.FLIGHT_PATHS, icon = app.asset("Category_FlightPaths") },
+			{ id = "followerID", name = GARRISON_FOLLOWERS, icon = app.asset("Category_Followers") },
+			{ id = "illusionID", name = L.FILTER_ID_TYPES[103], icon = app.asset("Category_Illusions") },
+			{ id = "itemID", name = ITEMS, icon = 135276 },
+			{ id = "questID", name = TRACKER_HEADER_QUESTS, icon = app.asset("Interface_Quest_header") },
+			{ id = "titleID", name = PAPERDOLL_SIDEBAR_TITLES, icon = app.asset("Category_Titles") },
+		}
+
+		local function ImportButton(typeKey, label, icon)
+			return app.CreateRawText(label, {
+				icon = icon,
+				visible = true,
+				isButton = true,
+				OnUpdate = app.AlwaysShowUpdate,
+				OnClick = function()
+					app:ShowPopupDialogWithEditBox(
+						"Paste " .. label .. " IDs",
+						"",
+						function(input)
+							if not input or input:match("^%s*$") then
+								return
+							end
+
+							self:Import(typeKey, input)
+							self:ShowResetButton()
+							self:Rebuild()
+						end
+					)
+					return true
+				end,
+			})
+		end
+
+		function self:ResetToInitialButtons()
+			wipe(self.data.g)
+			for _, b in ipairs(initialButtons) do
+				tinsert(self.data.g, ImportButton(b.id, b.name, b.icon))
+			end
+			self:Rebuild()
+		end
+
+		function self:ShowResetButton()
+			local importedRows = {}
+			for _, row in ipairs(self.data.g) do
+				if not row.isButton then
+					tinsert(importedRows, row)
+				end
+			end
+			wipe(self.data.g)
+
+			local resetButton = app.CreateRawText("Reset Import", {
+				icon = app.asset("unknown"),
+				visible = true,
+				isButton = true,
+				OnUpdate = app.AlwaysShowUpdate,
+				OnClick = function()
+					self:ResetToInitialButtons()
+					return true
+				end,
+			})
+			tinsert(self.data.g, resetButton)
+			ArrayAppend(self.data.g, importedRows)
+			self:Rebuild()
+		end
+
+		self:SetData(app.CreateRawText("Import", {
+			icon = app.asset("logo_32x32"),
+			description = "Import objects using their IDs, separated by commas.",
+			visible = true,
+			back = 1,
+			g = {}
+		}))
+
+		self:ResetToInitialButtons()
+	end
+
+	self:BaseUpdate(force)
+end
 customWindowUpdates.Sync = function(self)
 	if self:IsVisible() then
 		if not self.initialized then
@@ -5263,10 +5452,11 @@ end;
 customWindowUpdates.WorldQuests = function(self, force, got)
 	-- localize some APIs
 	local C_TaskQuest_GetQuestsForPlayerByMapID = C_TaskQuest.GetQuestsOnMap;
+	local C_AreaPoiInfo_GetAreaPOIForMap,C_AreaPoiInfo_GetAreaPOIInfo,C_AreaPoiInfo_GetEventsForMap,C_AreaPoiInfo_GetAreaPOISecondsLeft
+		= C_AreaPoiInfo.GetAreaPOIForMap,C_AreaPoiInfo.GetAreaPOIInfo,C_AreaPoiInfo.GetEventsForMap,C_AreaPoiInfo.GetAreaPOISecondsLeft
 	local C_QuestLine_RequestQuestLinesForMap = C_QuestLine.RequestQuestLinesForMap;
 	local C_QuestLine_GetAvailableQuestLines = C_QuestLine.GetAvailableQuestLines;
 	local C_Map_GetMapChildrenInfo = C_Map.GetMapChildrenInfo;
-	local C_AreaPoiInfo_GetAreaPOISecondsLeft = C_AreaPoiInfo.GetAreaPOISecondsLeft;
 	local C_QuestLog_GetBountiesForMapID = C_QuestLog.GetBountiesForMapID;
 	local GetNumRandomDungeons, GetLFGDungeonInfo, GetLFGRandomDungeonInfo, GetLFGDungeonRewards, GetLFGDungeonRewardInfo =
 		  GetNumRandomDungeons, GetLFGDungeonInfo, GetLFGRandomDungeonInfo, GetLFGDungeonRewards, GetLFGDungeonRewardInfo;
@@ -5310,8 +5500,7 @@ customWindowUpdates.WorldQuests = function(self, force, got)
 				{
 					1978,	-- Dragon Isles
 					{
-						{ 2085 },	-- Primalist Tomorrow
-						-- any un-attached sub-zones
+						2085,	-- Primalist Tomorrow
 					}
 				},
 				-- Shadowlands Continents
@@ -5322,30 +5511,16 @@ customWindowUpdates.WorldQuests = function(self, force, got)
 				-- BFA Continents
 				{
 					875,	-- Zandalar
-					{
-						{ 863, 5969, { 54135, 54136 }},	-- Nazmir (Romp in the Swamp [H] / March on the Marsh [A])
-						{ 864, 5970, { 53885, 54134 }},	-- Voldun (Isolated Victory [H] / Many Fine Heroes [A])
-						{ 862, 5973, { 53883, 54138 }},	-- Zuldazar (Shores of Zuldazar [H] / Ritual Rampage [A])
-					}
 				},
 				{
 					876,	-- Kul'Tiras
-					{
-						{ 896, 5964, { 54137, 53701 }},	-- Drustvar (In Every Dark Corner [H] / A Drust Cause [A])
-						{ 942, 5966, { 54132, 51982 }},	-- Stormsong Valley (A Horde of Heroes [H] / Storm's Rage [A])
-						{ 895, 5896, { 53939, 53711 }},	-- Tiragarde Sound (Breaching Boralus [H] / A Sound Defense [A])
-					}
 				},
 				{ 1355 },	-- Nazjatar
 				-- Legion Continents
 				{
 					619,	-- Broken Isles
 					{
-						{ 627 },	-- Dalaran (not a Zone, so doesn't list automatically)
-						{ 630, 5175, { 47063 }},	-- Azsuna
-						{ 650, 5177, { 47063 }},	-- Highmountain
-						{ 634, 5178, { 47063 }},	-- Stormheim
-						{ 641, 5210, { 47063 }},	-- Val'Sharah
+						627,	-- Dalaran
 					}
 				},
 				{ 905 },	-- Argus
@@ -5354,11 +5529,6 @@ customWindowUpdates.WorldQuests = function(self, force, got)
 				-- MoP Continents
 				{
 					424,	-- Pandaria
-					{
-						{ 1530, 6489, { 56064 }},	-- Assault: The Black Empire
-						{ 1530, 6491, { 57728 }},	-- Assault: The Endless Swarm
-						{ 1530, 6490, { 57008 }},	-- Assault: The Warring Clans
-					},
 				},
 				-- Cataclysm Continents
 				{ 948 },	-- The Maelstrom
@@ -5370,15 +5540,12 @@ customWindowUpdates.WorldQuests = function(self, force, got)
 				{
 					12,		-- Kalimdor
 					{
-						{ 1527, 6486, { 57157 }},	-- Assault: The Black Empire
-						{ 1527, 6488, { 56308 }},	-- Assault: Aqir Unearthed
-						{ 1527, 6487, { 55350 }},	-- Assault: Amathet Advance
-						{ 62 },	-- Darkshore
+						62,	-- Darkshore
 					},
 				},
 				{	13,		-- Eastern Kingdoms
 					{
-						{ 14 },	-- Arathi Highlands
+						14,	-- Arathi Highlands
 					},
 				},
 			}
@@ -5444,6 +5611,75 @@ customWindowUpdates.WorldQuests = function(self, force, got)
 					end
 				end
 			end
+			local MapPOIs = {}
+			-- Area POIs (Points of Interest)
+			self.MergeAreaPOIs = function(self, mapObject)
+				local mapID = mapObject.mapID
+				if not mapID then return end
+
+				local pois = app.ArrayAppend(C_AreaPoiInfo_GetAreaPOIForMap(mapID), C_AreaPoiInfo_GetEventsForMap(mapID))
+				if not pois or #pois == 0 then return end
+
+				-- replace the POI IDs with their respective infos
+				for i=1,#pois do
+					pois[i] = C_AreaPoiInfo_GetAreaPOIInfo(mapID, pois[i])
+				end
+				local poi, poiID, x, y
+				for i=1,#pois do
+					poi = pois[i]
+					poiID = poi.areaPoiID
+					local poiMapID = poi.linkedUiMapID
+					-- one poiID may by linked to multiple Things or copies of a Thing so make sure to merge them together
+					local o = app.SearchForObject("poiID", poiID, nil, true)
+					if #o > 0 then
+						local clone = CreateObject(o[1])
+						if not poiMapID and not poi.isPrimaryMapForPOI then
+							poiMapID = GetRelativeValue(o[1], "mapID")
+						end
+						if #o > 1 then
+							for i=2,#o do
+								MergeProperties(clone, o[i])
+							end
+						end
+						o = clone
+					end
+					if o and o.__type then
+						o.timeRemaining = C_AreaPoiInfo_GetAreaPOISecondsLeft(poiID)
+						if self.includeAll or
+							-- if it has time remaining
+							(not o.timeRemaining or (o.timeRemaining > 0))
+						then
+							-- add the map POI coords to our new object
+							if poi.position then
+								x, y = poi.position.x, poi.position.y
+							else
+								x, y = nil, nil
+							end
+							if x and y then
+								o.coords = {{ 100 * x, 100 * y, mapID }}
+							end
+							if not poiMapID or poiMapID == mapID or poi.isPrimaryMapForPOI then
+								NestObject(mapObject, o)
+							else
+								local mapPOIs = MapPOIs[poiMapID]
+								if mapPOIs then mapPOIs[#mapPOIs + 1] = o
+								else
+									mapPOIs = {o}
+									MapPOIs[poiMapID] = mapPOIs
+								end
+							end
+						end
+					end
+				end
+
+				-- add any POIs which show only on 'other' maps but intended for this one
+				local myPOIs = MapPOIs[mapID]
+				if myPOIs then
+					for i=1,#myPOIs do
+						NestObject(mapObject, myPOIs[i])
+					end
+				end
+			end
 			-- Storylines/Map Quest Icons
 			self.MergeStorylines = function(self, mapObject)
 				local mapID = mapObject.mapID;
@@ -5506,11 +5742,13 @@ customWindowUpdates.WorldQuests = function(self, force, got)
 				-- print("Build Map",mapObject.mapID,mapObject.text);
 
 				-- Merge Tasks for Zone
-				self:MergeTasks(mapObject);
+				self:MergeTasks(mapObject)
 				-- Merge Storylines for Zone
-				self:MergeStorylines(mapObject);
+				self:MergeStorylines(mapObject)
 				-- Merge Repeatables for Zone
-				self:MergeRepeatables(mapObject);
+				self:MergeRepeatables(mapObject)
+				-- Merge Area POIs for Zone
+				self:MergeAreaPOIs(mapObject)
 
 				-- look for quests on map child maps as well
 				local mapChildInfos = C_Map_GetMapChildrenInfo(mapObject.mapID, 3);
@@ -5540,6 +5778,7 @@ customWindowUpdates.WorldQuests = function(self, force, got)
 				wipe(self.data.g);
 				-- Rebuild all World Quest data
 				wipe(AddedQuestIDs)
+				wipe(MapPOIs)
 				-- app.PrintDebug("Rebuild WQ Data")
 				self.retry = nil;
 				-- Put a 'Clear World Quests' click first in the list
@@ -5570,48 +5809,23 @@ customWindowUpdates.WorldQuests = function(self, force, got)
 					-- Build top-level maps all the way down
 					self:BuildMapAndChildren(mapObject);
 
-					-- Invasions
-					local mapIDPOIPairs = pair[2];
-					if mapIDPOIPairs then
-						for i,arr in ipairs(mapIDPOIPairs) do
-							-- Sub-Map with Quest information to track
-							if #arr >= 3 then
-								for j,questID in ipairs(arr[3]) do
-									if not IsQuestFlaggedCompleted(questID) then
-										local timeLeft = C_AreaPoiInfo_GetAreaPOISecondsLeft(arr[2]);
-										if timeLeft and timeLeft > 0 then
-											local questObject = GetPopulatedQuestObject(questID);
-											-- Custom time remaining based on the map POI since the quest itself does not indicate time remaining
-											questObject.timeRemaining = timeLeft;
-											local subMapObject = app.CreateMapWithStyle(arr[1]);
-											NestObject(subMapObject, questObject);
-											NestObject(mapObject, subMapObject);
-										end
-									end
-								end
-							else
-								-- Basic Sub-map
-								local subMap = app.CreateMapWithStyle(arr[1]);
+					-- Additional Maps
+					local additionalMapIDs = pair[2];
+					if additionalMapIDs then
+						for i=1,#additionalMapIDs do
+							-- Basic Sub-map
+							local subMap = app.CreateMapWithStyle(additionalMapIDs[i])
 
-								-- Build top-level maps all the way down for the sub-map
-								self:BuildMapAndChildren(subMap);
+							-- Build top-level maps all the way down for the sub-map
+							self:BuildMapAndChildren(subMap);
 
-								NestObject(mapObject, subMap);
-							end
+							NestObject(mapObject, subMap);
 						end
 					end
 
 					-- Merge everything for this map into the list
-					app.Sort(mapObject.g);
-					if mapObject.g then
-						-- Sort the sub-groups as well
-						for i,mapGrp in ipairs(mapObject.g) do
-							if mapGrp.mapID then
-								app.Sort(mapGrp.g);
-							end
-						end
-					end
-					MergeObject(temp, mapObject);
+					app.Sort(mapObject.g, true)
+					MergeObject(temp, mapObject)
 				end
 
 				-- Acquire all of the emissary quests
@@ -5626,15 +5840,7 @@ customWindowUpdates.WorldQuests = function(self, force, got)
 							NestObject(mapObject, questObject);
 						end
 					end
-					app.Sort(mapObject.g);
-					if mapObject.g then
-						-- Sort the sub-groups as well
-						for i,mapGrp in ipairs(mapObject.g) do
-							if mapGrp.mapID then
-								app.Sort(mapGrp.g);
-							end
-						end
-					end
+					app.Sort(mapObject.g, true)
 					MergeObject(temp, mapObject);
 				end
 
@@ -5660,9 +5866,8 @@ customWindowUpdates.WorldQuests = function(self, force, got)
 				local numRandomDungeons = GetNumRandomDungeons();
 				-- print(numRandomDungeons,"numRandomDungeons");
 				if numRandomDungeons > 0 then
-					local groupFinder = { text = DUNGEONS_BUTTON, icon = app.asset("Category_GroupFinder") };
 					local gfg = {}
-					groupFinder.g = gfg
+					local groupFinder = app.CreateRawText(DUNGEONS_BUTTON, { icon = app.asset("Category_GroupFinder"), g = gfg })
 					for index=1,numRandomDungeons,1 do
 						local dungeonID = GetLFGRandomDungeonInfo(index);
 						-- app.PrintDebug("RandInfo",index,GetLFGRandomDungeonInfo(index));
@@ -5672,9 +5877,8 @@ customWindowUpdates.WorldQuests = function(self, force, got)
 						-- print(dungeonID,name, typeID, subtypeID, minLevel, maxLevel, recLevel, minRecLevel, maxRecLevel, expansionLevel, groupID, textureFilename, difficulty, maxPlayers, description, isHoliday, bonusRepAmount, minPlayers, isTimeWalker, name2, minGearLevel);
 						local _, gold, unknown, xp, unknown2, numRewards, unknown = GetLFGDungeonRewards(dungeonID);
 						-- print("GetLFGDungeonRewards",dungeonID,GetLFGDungeonRewards(dungeonID));
-						local header = { dungeonID = dungeonID, text = name, description = description, lvl = { minRecLevel or 1, maxRecLevel }, OnUpdate = OnUpdateForLFGHeader}
 						local hg = {}
-						header.g = hg
+						local header = app.CreateRawText(name, { g = hg, dungeonID = dungeonID, description = description, lvl = { minRecLevel or 1, maxRecLevel }, OnUpdate = OnUpdateForLFGHeader})
 						if expansionLevel and not isHoliday then
 							header.icon = app.CreateExpansion(expansionLevel + 1).icon;
 						elseif isTimeWalker then
@@ -5709,7 +5913,7 @@ customWindowUpdates.WorldQuests = function(self, force, got)
 						end
 						gfg[#gfg + 1] = header
 					end
-					tinsert(temp, CreateObject(groupFinder));
+					MergeObject(temp, groupFinder)
 				end
 
 				-- put all the things into the window data, turning them into objects as well

@@ -11,7 +11,7 @@ addonTable.CommonInfo=CommonInfo
 ---
 local Llist,LlistTabBut = PIGOptionsList(GENERAL,"TOP")
 Llist:Show()
-LlistTabBut:Selected()
+LlistTabBut:Selected(true)
 local NR =Create.PIGOptionsList_RF(Llist)
 CommonInfo.Llist=Llist
 CommonInfo.LlistTabBut=LlistTabBut

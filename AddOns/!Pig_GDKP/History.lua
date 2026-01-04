@@ -34,10 +34,10 @@ function GDKPInfo.ADD_History(RaidR)
 	end
 	function History.zhuceshijian(self)
 		History:HookScript("OnShow", function ()
-			self:Selected()
+			self:Selected(true)
 		end);
 		History:HookScript("OnHide", function ()
-			self:NotSelected()
+			self:Selected(false)
 		end);
 		History.yizhuce=true
 	end

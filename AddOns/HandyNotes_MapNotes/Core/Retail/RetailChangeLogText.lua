@@ -1,9 +1,11 @@
 local ADDON_NAME, ns = ...
 
-ns.CurrentAddonVersion = "3.2.0"
-ns.PreviousAddonVersion_1 = "3.1.9"
+ns.CurrentAddonVersion = "3.2.2"
+ns.PreviousAddonVersion_1 = "3.2.1"
 
 ns.LOCALE_CHANGELOGS = {
+  { version = "3.2.2", table = ns.LOCALE_CHANGELOG_3_2_2 },
+  { version = "3.2.1", table = ns.LOCALE_CHANGELOG_3_2_1 },
   { version = "3.2.0", table = ns.LOCALE_CHANGELOG_3_2_0 },
   { version = "3.1.9", table = ns.LOCALE_CHANGELOG_3_1_9 },
   { version = "3.1.8", table = ns.LOCALE_CHANGELOG_3_1_8 },
@@ -59,6 +61,142 @@ ns.LOCALE_CHANGELOG_3_2_ = { -- empty backup file
 
   koKR = [[
 
+]],
+}
+
+ns.LOCALE_CHANGELOG_3_2_2 = {
+  deDE = [[
+• Zuerst wünsche euch allen ein gutes neues Jahr mit viel Glück und Gesundheit.
+
+• Die Option zum Ausblenden der MapNotes-Icons auf der Housingmap wurde unter „Hauptstadt“ und „Hauptstadt-Minimap“ hinzugefügt.
+]],
+
+  enUS = [[
+• First of all, I wish you all a happy new year with lots of luck and good health.
+
+• The option to hide MapNotes icons on the housing map has been added under "Capital City" and "Capital City Minimap".
+]],
+
+  frFR = [[
+• Tout d’abord, je vous souhaite à tous une bonne année, avec beaucoup de chance et de santé.
+
+• L’option permettant de masquer les icônes MapNotes sur la carte de logement a été ajoutée sous « Capitale » et « Mini-carte de la capitale ».
+]],
+
+  itIT = [[
+• Innanzitutto auguro a tutti voi un felice anno nuovo, con tanta fortuna e buona salute.
+
+• L’opzione per nascondere le icone MapNotes sulla mappa degli alloggi è stata aggiunta sotto "Capitale" e "Minimappa della capitale".
+]],
+
+  esES = [[
+• En primer lugar, os deseo a todos un feliz año nuevo con mucha suerte y salud.
+
+• La opción para ocultar los iconos de MapNotes en el mapa de viviendas se ha añadido en "Capital" y "Minimapa de la capital".
+]],
+
+  esMX = [[
+• Antes que nada, les deseo a todos un feliz año nuevo con mucha suerte y salud.
+
+• La opción para ocultar los iconos de MapNotes en el mapa de viviendas se agregó en "Capital" y "Minimapa de la capital".
+]],
+
+  ptBR = [[
+• Antes de tudo, desejo a todos um feliz ano novo, com muita sorte e saúde.
+
+• A opção para ocultar os ícones do MapNotes no mapa de habitação foi adicionada em "Capital" e "Minimapa da capital".
+]],
+
+  ruRU = [[
+• Прежде всего, желаю всем счастливого Нового года, удачи и крепкого здоровья.
+
+• Параметр скрытия значков MapNotes на карте жилья был добавлен в разделы «Столица» и «Мини-карта столицы».
+]],
+
+  zhCN = [[
+• 首先，祝大家新年快乐，幸福安康。
+
+• 已在“主城”和“主城小地图”中添加了在住宅地图上隐藏 MapNotes 图标的选项。
+]],
+
+  zhTW = [[
+• 首先，祝大家新年快樂，健康平安。
+
+• 已在「主城」與「主城小地圖」中新增在住宅地圖上隱藏 MapNotes 圖示的選項。
+]],
+
+  koKR = [[
+• 먼저, 모두에게 행운과 건강이 가득한 새해를 기원합니다.
+
+• 하우징 지도에서 MapNotes 아이콘을 숨기는 옵션이 "수도" 및 "수도 미니맵"에 추가되었습니다.
+]],
+}
+
+ns.LOCALE_CHANGELOG_3_2_1 = {
+  deDE = [[
+• Es wurde die Funktion zum Hervorheben des Spielerpfeils auf der Weltkarte hinzugefügt, womit es nun möglich ist, den eigenen Spielerpfeil auf der Karte schneller zu finden.
+  • Zufinden unter dem Reiter „Allgemein > Karten + > Weltkarte > Spielerpfeil hervorheben"
+  • Diese Funktion ist standardmäßig deaktiviert
+]],
+
+  enUS = [[
+• Added a feature to highlight the player arrow on the world map, making it easier to quickly locate your own player arrow.
+  • Can be found under “General > Maps + > World Map > Highlight Player Arrow”
+  • This feature is disabled by default
+]],
+
+  frFR = [[
+• Ajout d’une fonctionnalité permettant de mettre en surbrillance la flèche du joueur sur la carte du monde, afin de la repérer plus facilement.
+  • Disponible sous « Général > Cartes + > Carte du monde > Mettre en surbrillance la flèche du joueur »
+  • Cette fonctionnalité est désactivée par défaut
+]],
+
+  itIT = [[
+• Aggiunta una funzione per evidenziare la freccia del giocatore sulla mappa del mondo, rendendo più facile individuare rapidamente la propria freccia.
+  • Disponibile in “Generale > Mappe + > Mappa del mondo > Evidenzia freccia del giocatore”
+  • Questa funzione è disattivata di default
+]],
+
+  esES = [[
+• Se ha añadido una función para resaltar la flecha del jugador en el mapa del mundo, lo que permite encontrarla más fácilmente.
+  • Se encuentra en “General > Mapas + > Mapa del mundo > Resaltar flecha del jugador”
+  • Esta función está desactivada por defecto
+]],
+
+  esMX = [[
+• Se agregó una función para resaltar la flecha del jugador en el mapa del mundo, facilitando encontrarla más rápidamente.
+  • Disponible en “General > Mapas + > Mapa del mundo > Resaltar flecha del jugador”
+  • Esta función está desactivada de forma predeterminada
+]],
+
+  ptBR = [[
+• Foi adicionada uma função para destacar a seta do jogador no mapa-múndi, facilitando encontrar sua própria seta no mapa.
+  • Disponível em “Geral > Mapas + > Mapa-múndi > Destacar seta do jogador”
+  • Esta função vem desativada por padrão
+]],
+
+  ruRU = [[
+• Добавлена функция подсветки стрелки игрока на карте мира, позволяющая быстрее находить своего персонажа.
+  • Доступно в разделе «Общие > Карты + > Карта мира > Подсветка стрелки игрока»
+  • По умолчанию эта функция отключена
+]],
+
+  zhCN = [[
+• 新增了在世界地图上高亮玩家箭头的功能，使你可以更快地找到自己的玩家箭头。
+  • 位于“常规 > 地图 + > 世界地图 > 高亮玩家箭头”
+  • 该功能默认处于禁用状态
+]],
+
+  zhTW = [[
+• 新增在世界地圖上高亮玩家箭頭的功能，讓你能更快找到自己的玩家箭頭。
+  • 位於「一般 > 地圖 + > 世界地圖 > 高亮玩家箭頭」
+  • 此功能預設為停用
+]],
+
+  koKR = [[
+• 세계 지도에서 플레이어 화살표를 강조 표시하는 기능이 추가되어 자신의 플레이어 화살표를 더 쉽게 찾을 수 있습니다.
+  • “일반 > 지도 + > 세계 지도 > 플레이어 화살표 강조”에서 확인할 수 있습니다.
+  • 이 기능은 기본적으로 비활성화되어 있습니다
 ]],
 }
 

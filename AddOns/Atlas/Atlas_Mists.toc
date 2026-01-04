@@ -1,6 +1,6 @@
 ## Interface: 110207
 ## Author: nanderson11
-## Version: v3.12.7
+## Version: v3.13.0
 
 ## Title: Atlas
 ## Notes: Instance Map Browser

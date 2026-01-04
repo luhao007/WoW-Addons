@@ -99,8 +99,8 @@ local function PIG_FormatData(msgx,nameX)
 			yxwjinfo[2]=HY_EquipmTXT(xinximsg:sub(3, -1))
 		end
 	end
-	Update_ShowPlayer(yxwjinfo[1],"yc")
-	Update_ShowItem(yxwjinfo[2],"yc")
+	if yxwjinfo[1] then Update_ShowPlayer(yxwjinfo[1],"yc") end
+	if yxwjinfo[2] then Update_ShowItem(yxwjinfo[2],"yc") end
 end
 local function PIG_tiquMsg(msgx,nameX)
 	if _G[UIname]:IsShown() and _G[UIname].fullnameX==nameX then

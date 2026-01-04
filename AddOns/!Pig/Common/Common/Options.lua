@@ -21,7 +21,7 @@ CommonInfo.Commonfun={}
 ----常用
 local fujiF,fujiTabBut =PIGOptionsList_R(CommonInfo.NR,GENERAL,70)
 fujiF:Show()
-fujiTabBut:Selected()
+fujiTabBut:Selected(true)
 
 --系统设置---------
 fujiF.xitongF=PIGFrame(fujiF,{"BOTTOMLEFT", fujiF, "BOTTOMLEFT", 0, 0})

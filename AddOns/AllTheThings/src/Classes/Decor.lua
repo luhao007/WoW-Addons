@@ -49,12 +49,17 @@ do
 				-- 	app.PrintDebug(id)
 				-- 	app.PrintTable(state)
 				-- end
-				-- quantity is how many owned
-				-- hasPlaced is used when the item is owned, but placed in the house (or outside)
+				-- numStored is how many owned in storage
+				-- numPlaced is how many owned, not in storage
 				if state then
+					-- numStored is currently gone on PTR/Beta
+					if not state.numStored then
+						if state.quantity > 100000 then state.quantity = 0 end
+						state.numStored = state.remainingRedeemable + state.quantity
+					end
+
 					local sum = state.numStored + state.numPlaced
-					if sum > 0 and sum < 1000000 then	-- Sometimes API returns 4294967295
-						-- state is valid, keep it
+					if sum > 0 then
 						saved[id] = true
 						added[#added + 1] = id
 					else

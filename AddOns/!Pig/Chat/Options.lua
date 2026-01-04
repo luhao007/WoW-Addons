@@ -28,7 +28,7 @@ QuickChatfun.RTabFrame=RTabFrame
 --
 local ChatF,Chattabbut =PIGOptionsList_R(RTabFrame,L["CHAT_TABNAME1"],70)
 ChatF:Show()
-Chattabbut:Selected()
+Chattabbut:Selected(true)
 --（关闭语言过滤器）
 local function guanbiGuolv()
 	--if PIGA["Chat"]["Guolv"] then return end
@@ -417,7 +417,11 @@ local function WhoWhisper_Fun()
 		end)
 		button.senmsgFun=true
 	end
-	WhoFrame.senmsg.bianji.F=PIGFrame(WhoFrame.senmsg.bianji,{"TOPLEFT",WhoFrame.senmsg.bianji,"TOPRIGHT",4,0},{300,200},nil,nil,nil,{["ElvUI"]={0,0,0,0},["NDui"]={0,0,0,0}})
+	local EextData={
+		["ElvUI"]={true,{0,0,0,0}},
+		["NDui"]={NDui and NDuiDB and NDuiDB["Skins"]["BlizzardSkins"],{0,0,0,0}},
+	}
+	WhoFrame.senmsg.bianji.F=PIGFrame(WhoFrame.senmsg.bianji,{"TOPLEFT",WhoFrame.senmsg.bianji,"TOPRIGHT",4,0},{300,200},nil,nil,nil,EextData)
 	WhoFrame.senmsg.bianji.F:PIGSetBackdrop(1)
 	WhoFrame.senmsg.bianji.F:PIGClose()
 	WhoFrame.senmsg.bianji.F:Hide()

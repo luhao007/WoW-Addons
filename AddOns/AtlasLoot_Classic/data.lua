@@ -1759,7 +1759,7 @@ data["Stratholme"] = {
 	AtlasMapID = "StratholmeCrusader",
 	ContentType = DUNGEON_CONTENT,
 	items = {
-		{ --STRATSkull
+		{ --STRATSkul
 			name = AL["Skul"].." ("..AL["Rare"]..")",
 			[NORMAL_DIFF] = {
 				{ 1, 13395 }, -- Skul's Fingerbone Claws

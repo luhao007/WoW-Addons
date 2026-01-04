@@ -20,7 +20,7 @@ local RTabFrame =Create.PIGOptionsList_RF(fuFrame)
 --
 local zishenF,zishentabbut =PIGOptionsList_R(RTabFrame,L["UNIT_TABNAME1"],90)
 zishenF:Show()
-zishentabbut:Selected()
+zishentabbut:Selected(true)
 --------
 zishenF.HPFF=PIGCheckbutton_R(zishenF,{"额外血量框架","在自身头像右侧显示额外血量框架.\n额外血量框架可能会和目标头像框架重叠，开启此选项后可能会右移目标头像"})
 zishenF.HPFF:SetScript("OnClick", function (self)

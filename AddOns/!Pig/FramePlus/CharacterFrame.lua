@@ -1522,7 +1522,7 @@ function FramePlusfun.Character_Shuxing()
 			if NDui or ElvUI then
 				local biaoti = PIGFrame(pane,Point,{UIffWW-6,27})
 				biaoti:PIGSetBackdrop(0.2,0.8)
-				biaoti:SetPoint(unpack(Point));
+				--biaoti:SetPoint(unpack(Point));
 				biaoti:SetScale(suofangV)
 				biaoti.Title = PIGFontString(biaoti,{"CENTER", biaoti, "CENTER", 0, 0},Title)
 				biaoti.Title:SetTextColor(1, 1, 1, 1)
@@ -1574,7 +1574,7 @@ function FramePlusfun.Character_Shuxing()
 		shuxingF.fuji:SetWidth(UIffWW-12)
 		shuxingF.fuji:SetHeight(30) 
 		shuxingF.InsetRScroll:SetScrollChild(shuxingF.fuji)
-		shuxingF.fuji.ItemLevelCategory =add_biaoti(shuxingF.fuji,STAT_AVERAGE_ITEM_LEVEL,{"TOP", 0, -2})
+		shuxingF.fuji.ItemLevelCategory =add_biaoti(shuxingF.fuji,STAT_AVERAGE_ITEM_LEVEL,{"TOP",shuxingF.fuji,"TOP", 0, -2})
 		shuxingF.fuji.ItemLevelFrame = CreateFrame("Frame",nil,shuxingF.fuji)
 		shuxingF.fuji.ItemLevelFrame:SetPoint("TOP", shuxingF.fuji.ItemLevelCategory,"BOTTOM",0, 4-shuxingF.topJU);
 		shuxingF.fuji.ItemLevelFrame:SetSize(UIffWW-10, 28)

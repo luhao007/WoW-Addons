@@ -28,10 +28,13 @@ L["Artifact Forge"] = "Forgia degli Artefatti"
 L["Class Hall"] = "Enclave di Classe"
 L["The entrance of each class must first be unlocked before they are accessible"] = "L'ingresso di ogni classe deve essere prima sbloccato per poter essere accessibile"
 -- Worldmap
-L["Worldmap player arrow"] = "Freccia del giocatore sulla mappa del mondo"
+L["Player arrow"] = "Freccia del giocatore"
+L["Player arrow highlight"] = "Evidenzia freccia del giocatore"
 L["Changes the size of the display"] = "Modifica la dimensione della visualizzazione"
 L["Enables the ability to change the size of the player arrow on the world map"] = "Consente di modificare la dimensione della freccia del giocatore sulla mappa del mondo"
 L["Change zone map"] = "Cambia mappa della zona"
+L["Unfortunately, scaling this highlight is not possible, as it has a fixed value set by Blizzard"] = "Purtroppo non è possibile ridimensionare questa evidenziazione, poiché ha un valore fisso impostato da Blizzard"
+L["Allows you to permanently highlight the player's arrow on the world map while the map is open"] = "Consente di evidenziare in modo permanente la freccia del giocatore sulla mappa del mondo mentre la mappa è aperta"
 L["This allows you to automatically switch the world map to the map of the new area when you leave one zone and enter a new one"] = "Questo consente di passare automaticamente la mappa del mondo alla mappa della nuova area quando si lascia una zona ed entra in un'altra"
 -- Npc
 L["NPC database"] = "Database NPC"
@@ -241,6 +244,7 @@ L["Starting on the first Sunday of each month for one week"] = "Inizia per una s
 L["Enables the display of icons for a specific capital city"] = "Attiva la visualizzazione di simboli per un capitale specifico"
 L["This MapNotes icons shows various icons that are too close to each other together"] = "Questo simbolo di mapnotes mostra diversi simboli che sono troppo vicini."
 L["Zones"] = "Zone"
+L["Zone maps"] = "Mappe di zona"
 L["Continents"] = "Continenti"
 --2 Unexplored Areas function
 L["Unexplored Areas"] = "Unerforschte Gebiete"

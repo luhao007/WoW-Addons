@@ -1,6 +1,6 @@
 ## Interface: 110207
 ## Author: Crieve
-## Version: 4.8.5
+## Version: 4.8.8
 
 ## Title: AllTheThings
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF收集控助手|r |cFFFFE00AAllTheThings|r
@@ -142,6 +142,7 @@ AllTheThings.lua
 # Classic Specific Modules
 # src\Classes\Classic\Mounts & Battle Pets.lua
 src\UI\Game Tooltip.lua
+src\UI\Instance Difficulty Icon.lua
 src\UI\Minimap Button.lua
 src\UI\Waypoints.lua
 src\UI\World Map Button.lua

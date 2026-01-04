@@ -60,7 +60,7 @@ function TardisInfo.Chedui(Activate)
 	local fujiF,fujiTabBut=PIGOptionsList_R(InvF.F,LFG_LIST_ACTIVITY,80,"Bot")
 	if Activate then
 		fujiF:Show()
-		fujiTabBut:Selected()
+		fujiTabBut:Selected(true)
 	end
 	fujiF.F=PIGOptionsList_RF(fujiF,28,nil,{4,4,4})
 	fujiF.F:PIGSetBackdrop()
@@ -761,26 +761,26 @@ function TardisInfo.Chedui(Activate)
     ------------
 	fujiF.F:HookScript("OnShow", function (self)
 		FavoritesF:Hide()
-		FavoritesBut:NotSelected()
+		FavoritesBut:Selected(false)
 		local EntryInfo = C_LFGList.HasActiveEntryInfo()
 		if EntryInfo then
 			TabF:Hide()
-			TabBut:NotSelected()
+			TabBut:Selected(false)
 			if C_LFGList.GetPremadeGroupFinderStyle()==1 then
 				TabF_PVP:Hide()
-				TabBut_PVP:NotSelected()
+				TabBut_PVP:Selected(false)
 			end
 			FCTabF:Show()
-			FCTabBut:Selected()
+			FCTabBut:Selected(true)
 		else
 			FCTabF:Hide()
-			FCTabBut:NotSelected()
+			FCTabBut:Selected(false)
 			if fujiF.F.PVPShow then
 				TabF_PVP:Show()
-				TabBut_PVP:Selected()
+				TabBut_PVP:Selected(true)
 			else
 				TabF:Show()
-				TabBut:Selected()
+				TabBut:Selected(true)
 			end
 		end
 	end);

@@ -677,6 +677,7 @@ ns.defaults = {
         MinimapArrowOnEnterTime = 3,
         WorldMapArrow = false,
         WorldMapArrowScale = 1,
+        WorldMapArrowHighlight = false,
         noPassages = false,
         ClassicPortals = true,
         ClassicShips = true,

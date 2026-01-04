@@ -28,10 +28,13 @@ L["Artifact Forge"] = "Кузня артефактов"
 L["Class Hall"] = "Оплот класса"
 L["The entrance of each class must first be unlocked before they are accessible"] = "Вход для каждого класса должен быть сначала разблокирован, прежде чем он станет доступен"
 -- Worldmap
-L["Worldmap player arrow"] = "Стрелка игрока на карте мира"
+L["Player arrow"] = "Стрелка игрока"
+L["Player arrow highlight"] = "Подсветка стрелки игрока"
 L["Changes the size of the display"] = "Изменяет размер отображения"
 L["Enables the ability to change the size of the player arrow on the world map"] = "Позволяет изменить размер стрелки игрока на карте мира"
 L["Change zone map"] = "Сменить карту зоны"
+L["Unfortunately, scaling this highlight is not possible, as it has a fixed value set by Blizzard"] = "К сожалению, изменить масштаб этой подсветки невозможно, так как она имеет фиксированное значение, заданное Blizzard"
+L["Allows you to permanently highlight the player's arrow on the world map while the map is open"] = "Позволяет постоянно подсвечивать стрелку игрока на карте мира, пока карта открыта"
 L["This allows you to automatically switch the world map to the map of the new area when you leave one zone and enter a new one"] = "Это позволяет автоматически переключать карту мира на карту новой зоны, когда вы покидаете одну зону и входите в другую"
 -- Npc
 L["NPC database"] = "База NPC"
@@ -241,6 +244,7 @@ L["Starting on the first Sunday of each month for one week"] = "Начинает
 L["Enables the display of icons for a specific capital city"] = "Активирует отображение символов для определенного капитала"
 L["This MapNotes icons shows various icons that are too close to each other together"] = "Этот символ MapNotes показывает разные символы, которые слишком близки друг к другу."
 L["Zones"] = "зоны"
+L["Zone maps"] = "Карты зон"
 L["Continents"] = "континенты"
 --2 Unexplored Areas function
 L["Unexplored Areas"] = "Неизведанные территории"

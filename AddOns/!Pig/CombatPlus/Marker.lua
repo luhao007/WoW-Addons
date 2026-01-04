@@ -23,7 +23,7 @@ local CombatPlusfun=addonTable.CombatPlusfun
 --------------------------
 local CombatPlusF,CombatPlustabbut =PIGOptionsList_R(CombatPlusfun.RTabFrame,L["COMBAT_TABNAME1"],90)
 CombatPlusF:Show()
-CombatPlustabbut:Selected()
+CombatPlustabbut:Selected(true)
 function CombatPlusF:Show_OptionsUI()
 	if PIG_OptionsUI:IsShown() then
 		PIG_OptionsUI:Hide()

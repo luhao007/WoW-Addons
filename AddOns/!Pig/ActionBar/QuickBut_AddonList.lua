@@ -227,12 +227,12 @@ QuickButUI.ButList[6]=function()
 	AdminF.List_L:SetWidth(160);
 	AdminF.List_L:PIGSetBackdrop(0)
 	AdminF.List_L.DQAddons = PIGTabBut(AdminF.List_L,{"TOPLEFT",AdminF.List_L,"TOPLEFT",4,-4},{150,hangH},"当前插件方案")
-	AdminF.List_L.DQAddons:Selected()
+	AdminF.List_L.DQAddons:Selected(true)
 	AdminF.List_L.DQAddons:HookScript("OnClick", function (self)
 		for xvb=1, #AdminF.List_L.butList, 1 do
-			AdminF.List_L.butList[xvb]:NotSelected()
+			AdminF.List_L.butList[xvb]:Selected(false)
 		end
-		self:Selected()
+		self:Selected(true)
 		AdminF.SelectLID=0
 		AdminF.List_C.Scroll:UpdateShowList()
 	end);
@@ -248,12 +248,12 @@ QuickButUI.ButList[6]=function()
 			cgbut:SetPoint("TOP",AdminF.List_L.butList[i-1],"BOTTOM",0,-hangH*1.4);
 		end
 		cgbut:HookScript("OnClick", function (self)
-			AdminF.List_L.DQAddons:NotSelected()
+			AdminF.List_L.DQAddons:Selected(false)
 			for xvb=1, #AdminF.List_L.butList, 1 do
-				AdminF.List_L.butList[xvb]:NotSelected()
+				AdminF.List_L.butList[xvb]:Selected(false)
 			end
 			AdminF.List_R:Clear_info()
-			self:Selected()
+			self:Selected(true)
 			AdminF.SelectLID=i
 			AdminF.List_C.Scroll:UpdateShowList()
 		end);
@@ -265,7 +265,7 @@ QuickButUI.ButList[6]=function()
 		for i=1,anniushu do
 			ConfigList.ButList[i+1]:Hide()
 			AdminF.List_L.butList[i]:Hide()
-			AdminF.List_L.butList[i]:NotSelected()
+			AdminF.List_L.butList[i]:Selected(false)
 			for ix=1,#ConditionList do
 				AdminF.List_L.butList[i][ConditionList[ix][1]]:SetAlpha(0.6);
 				AdminF.List_L.butList[i][ConditionList[ix][1]].icon:SetDesaturated(true)
@@ -666,7 +666,11 @@ QuickButUI.ButList[6]=function()
 
 
 	--场景提示
-	local TispUI=PIGFrame(UIParent,{"TOP",UIParent,"TOP",0,-100},{320,200},"PIG_AddonConfigUI",true,nil,{["ElvUI"]={0,0,0,0},["NDui"]={0,0,0,0}})
+	local EextData={
+		["ElvUI"]={true,{0,0,0,0}},
+		["NDui"]={NDui and NDuiDB and NDuiDB["Skins"]["BlizzardSkins"],{0,0,0,0}},
+	}
+	local TispUI=PIGFrame(UIParent,{"TOP",UIParent,"TOP",0,-100},{320,200},"PIG_AddonConfigUI",true,nil,EextData)
 	TispUI:PIGSetBackdrop()
 	TispUI:Hide()
 	TispUI:PIGClose()

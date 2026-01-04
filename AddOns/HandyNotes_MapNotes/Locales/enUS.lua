@@ -28,10 +28,13 @@ L["Artifact Forge"] = true
 L["Class Hall"] = true
 L["The entrance of each class must first be unlocked before they are accessible"] = true
 -- Worldmap
-L["Worldmap player arrow"] = true
+L["Player arrow"] = true
+L["Player arrow highlight"] = true
 L["Changes the size of the display"] = true
 L["Enables the ability to change the size of the player arrow on the world map"] = true
 L["Change zone map"] = true
+L["Unfortunately, scaling this highlight is not possible, as it has a fixed value set by Blizzard"] = true
+L["Allows you to permanently highlight the player's arrow on the world map while the map is open"] = true
 L["This allows you to automatically switch the world map to the map of the new area when you leave one zone and enter a new one"] = true
 -- Npc
 L["NPC database"] = true
@@ -241,6 +244,7 @@ L["Starting on the first Sunday of each month for one week"] = true
 L["Enables the display of icons for a specific capital city"] = true
 L["This MapNotes icons shows various icons that are too close to each other together"] = true
 L["Zones"] = true
+L["Zone maps"] = true
 L["Continents"] = true
 --2 Unexplored Areas function
 L["Unexplored Areas"] = true

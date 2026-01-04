@@ -1,6 +1,6 @@
 ## Interface: 110207
 ## Author: nanderson11, Lag, Arith
-## Version: v9.19.6
+## Version: v9.19.8
 
 ## Title: AtlasLoot |cFF0099FF[Battle for Azeroth]|r
 ## Notes: AtlasLoot loot tables from Battle for Azeroth

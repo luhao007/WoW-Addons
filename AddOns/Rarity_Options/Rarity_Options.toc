@@ -12,7 +12,9 @@
 ## Dependencies: Rarity
 ## LoadOnDemand: 1
 
-## X-Min-Interface: 110205, 50501, 11507
+## LoadSavedVariablesFirst: 1
+
+## X-Min-Interface: 110207, 50503, 11508
 ## X-Part-Of: Rarity
 ## X-LoadOn-Slash: /rarity, /rare
 ## X-LoadOn-InterfaceOptions: Rarity

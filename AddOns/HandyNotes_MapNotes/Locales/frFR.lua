@@ -28,10 +28,13 @@ L["Artifact Forge"] = "Forge d’artéfact"
 L["Class Hall"] = "Domaine de classe"
 L["The entrance of each class must first be unlocked before they are accessible"] = "L'entrée de chaque classe doit d'abord être déverrouillée avant d'être accessible"
 -- Worldmap
-L["Worldmap player arrow"] = "Flèche du joueur sur la carte du monde"
+L["Player arrow"] = "Flèche du joueur"
+L["Player arrow highlight"] = "Surlignage de la flèche du joueur"
 L["Changes the size of the display"] = "Modifie la taille de l'affichage"
 L["Enables the ability to change the size of the player arrow on the world map"] = "Permet de modifier la taille de la flèche du joueur sur la carte du monde"
 L["Change zone map"] = "Changer la carte de zone"
+L["Unfortunately, scaling this highlight is not possible, as it has a fixed value set by Blizzard"] = "Malheureusement, il n’est pas possible de modifier l’échelle de cette surbrillance, car elle a une valeur fixe définie par Blizzard"
+L["Allows you to permanently highlight the player's arrow on the world map while the map is open"] = "Permet de mettre en évidence de manière permanente la flèche du joueur sur la carte du monde tant que la carte est ouverte"
 L["This allows you to automatically switch the world map to the map of the new area when you leave one zone and enter a new one"] = "Cela permet de basculer automatiquement la carte du monde vers la carte de la nouvelle zone lorsque vous quittez une zone et entrez dans une autre"
 -- Npc
 L["NPC database"] = "Base de PNJ"
@@ -241,6 +244,7 @@ L["Starting on the first Sunday of each month for one week"] = "Commence pendant
 L["Enables the display of icons for a specific capital city"] = "Active l'affichage des symboles pour un capital spécifique"
 L["This MapNotes icons shows various icons that are too close to each other together"] = "Ce symbole Mapnotes montre différents symboles qui sont trop proches les uns des autres."
 L["Zones"] = "Zones"
+L["Zone maps"] = "Cartes de zone"
 L["Continents"] = "Continents"
 --2 Unexplored Areas function
 L["Unexplored Areas"] = "Des zones inexplorées"

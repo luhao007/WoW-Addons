@@ -243,14 +243,13 @@ function BusinessInfo.MailPlus_ADDUI()
 	InboxTooMuchMail:SetPoint("TOP",InboxFrame,"TOP",0,-50);
 	----TAB---
 	local SizePointData = {60,25,60,-30}
-	InboxFrame.mulubut = PIGButton(InboxFrame,{"TOPLEFT", InboxFrame, "TOPLEFT", SizePointData[3], SizePointData[4]},{SizePointData[1],SizePointData[2]},"目录",nil,nil,nil,nil,0)
-	InboxFrame.itembut = PIGButton(InboxFrame,{"LEFT", InboxFrame.mulubut, "RIGHT", 10, 1.6},{SizePointData[1],SizePointData[2]},ITEMS,nil,nil,nil,nil,0)
-	InboxFrame.moneybut = PIGButton(InboxFrame,{"LEFT", InboxFrame.itembut, "RIGHT", 10, 1.6},{SizePointData[1],SizePointData[2]},MONEY,nil,nil,nil,nil,0)
-	if not ElvUI and not NDui then
-		InboxFrame.mulubut:PIGHighlight()
-		InboxFrame.itembut:PIGHighlight()
-		InboxFrame.moneybut:PIGHighlight()
-	end
+	local EextData={
+		["ElvUI"]={true},
+		["NDui"]={NDui and NDuiDB and NDuiDB["Skins"]["BlizzardSkins"]},
+	}
+	InboxFrame.mulubut = Create.PIGTabBut(InboxFrame,{"TOPLEFT", InboxFrame, "TOPLEFT", SizePointData[3], SizePointData[4]},{SizePointData[1],SizePointData[2]},"目录",nil,EextData)
+	InboxFrame.itembut = Create.PIGTabBut(InboxFrame,{"LEFT", InboxFrame.mulubut, "RIGHT", 10, 0},{SizePointData[1],SizePointData[2]},ITEMS,nil,EextData)
+	InboxFrame.moneybut = Create.PIGTabBut(InboxFrame,{"LEFT", InboxFrame.itembut, "RIGHT", 10, 0},{SizePointData[1],SizePointData[2]},MONEY,nil,EextData)
 	InboxFrame.Delbut = PIGDiyBut(InboxFrame,{"TOPRIGHT",InboxFrame,"TOPRIGHT",-64,-30},{25,nil,25,nil,"bags-button-autosort-up"})
 
 	local isTrialOrVeteran = GameLimitedMode_IsActive();
@@ -774,12 +773,6 @@ function BusinessInfo.MailPlus_ADDUI()
 		colBut.name = PIGFontString(colBut,{"LEFT", colBut.level, "LEFT", 1,0},"","OUTLINE",13)
 		colBut.name:SetWidth(line_W2);
 		colBut.name:SetJustifyH("LEFT");
-		-- colBut:SetScript("OnEnter", function(self)
-		-- 	self.highlight:Show()
-		-- end);
-		-- colBut:SetScript("OnLeave", function(self)
-		-- 	self.highlight:Hide()
-		-- end);
 		colBut:SetScript("OnClick", function (self,button)
 			if button=="LeftButton" then
 				SendMailNameEditBox:SetText(self.Sendname)

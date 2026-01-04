@@ -1,7 +1,6 @@
 # Details! Damage Meter
 
-## [Details.20251216.13912.166](https://github.com/Tercioo/Details-Damage-Meter/tree/Details.20251216.13912.166) (2025-12-17)
-[Full Changelog](https://github.com/Tercioo/Details-Damage-Meter/compare/Details.20251212.13911.166...Details.20251216.13912.166) 
+## [Details.20251225.14203.166](https://github.com/Tercioo/Details-Damage-Meter/tree/Details.20251225.14203.166) (2025-12-26)
+[Full Changelog](https://github.com/Tercioo/Details-Damage-Meter/compare/Details.20251224.14202.166...Details.20251225.14203.166) 
 
-- Bump version number  
-- Test for issecretvalue and don't declare it globally  
+- Fix bug on classic pandaria  

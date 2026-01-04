@@ -20,7 +20,7 @@ local RTabFrame =Create.PIGOptionsList_RF(fuFrame)
 --
 local TooltipF,Tooltiptabbut =PIGOptionsList_R(RTabFrame,L["TOOLTIP_TABNAME1"],90)
 TooltipF:Show()
-Tooltiptabbut:Selected()
+Tooltiptabbut:Selected(true)
 ---
 TooltipF.ItemMaxCount = PIGCheckbutton_R(TooltipF,{"显示物品最大堆叠数","在鼠标提示上显示物品最大堆叠数"},true)
 TooltipF.ItemMaxCount:SetScript("OnClick", function (self)

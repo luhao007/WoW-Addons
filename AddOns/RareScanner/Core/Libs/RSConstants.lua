@@ -1213,6 +1213,7 @@ RSConstants.EXPLORER_FILTER_WITHOUT_COLLECTIBLES = 8
 RSConstants.RAID_WARNING_SHOWING_TIME = 3
 RSConstants.MINIMUM_DISTANCE_PINS_WORLD_MAP = 0.005
 RSConstants.TOOLTIP_MAX_WIDTH = 300
+RSConstants.TOOLTIP_MIN_WIDTH = 100
 
 ---============================================================================
 -- Auxiliar functions

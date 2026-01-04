@@ -56,7 +56,7 @@ QuickButUI.ButList[3]=function()
 	local RTabFrame =Create.PIGOptionsList_RF(TrinketSetUI)
 	local fujiF,fujiBut =PIGOptionsList_R(RTabFrame,SWITCH..MODE,90)
 	fujiF:Show()
-	fujiBut:Selected()
+	fujiBut:Selected(true)
 	fujiF.TrinketMode=PIGA_Per["QuickBut"]["TrinketMode"]
 	fujiF.mode1 = PIGCheckbutton(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",10,-5},{TRACKER_SORT_MANUAL..MODE},{16,16})
 	fujiF.mode1:SetScript("OnClick", function (self)

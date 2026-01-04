@@ -1239,7 +1239,7 @@ data["Remix"]                 = {
 				{ 2,   239705,       "pet4802",                             [PRICE_EXTRA_ITTYPE] = "bronze:5000" }, -- Morsel
 				{ 3,   239699,       "pet4801",                             [PRICE_EXTRA_ITTYPE] = "bronze:5000" }, -- Tidbit
 				{ 4,   129108,       "pet1751",                             [PRICE_EXTRA_ITTYPE] = "bronze:5000" }, -- Son of Goredome
-				{ 5,   141349,       [PRICE_EXTRA_ITTYPE] = "bronze:100000" },                            -- Strange Humming Crystal
+				{ 5,   141349,       "pet1937",                             [PRICE_EXTRA_ITTYPE] = "bronze:100000" }, -- Strange Humming Crystal
 				{ 6,   140320,       "pet1929",                             [PRICE_EXTRA_ITTYPE] = "bronze:10000" }, -- Corgnelius
 				{ 7,   136901,       "pet1719",                             [PRICE_EXTRA_ITTYPE] = "bronze:100000" }, -- Eye of Inquisition
 				{ 8,   140316,       "pet1928",                             [PRICE_EXTRA_ITTYPE] = "bronze:10000" }, -- Firebat Pup
@@ -2305,43 +2305,43 @@ data["Winterveil"]            = {
 		{ --WinterveilGiftsPresents
 			name = AL["Gifts & Presents"],
 			[ALLIANCE_DIFF] = {
-				{ 1,   21310,                              [QUEST_EXTRA_ITTYPE] = 8768 },                  -- Gaily Wrapped Present
-				{ 2,   21301,                              "pet119" },                                     -- Green Helper Box
-				{ 3,   21308,                              "pet118" },                                     -- Jingling Bell
-				{ 4,   21305,                              "pet120" },                                     -- Red Helper Box
-				{ 5,   21309,                              "pet117" },                                     -- Snowman Kit
-				{ 7,   21271,                              [QUEST_EXTRA_ITTYPE] = 8788 },                  -- Gently Shaken Gift
+				{ 1,   21310,                              [QUEST_EXTRA_ITTYPE] = 8768 },                 -- Gaily Wrapped Present
+				{ 2,   21301,                              "pet119" },                                    -- Green Helper Box
+				{ 3,   21308,                              "pet118" },                                    -- Jingling Bell
+				{ 4,   21305,                              "pet120" },                                    -- Red Helper Box
+				{ 5,   21309,                              "pet117" },                                    -- Snowman Kit
+				{ 7,   21271,                              [QUEST_EXTRA_ITTYPE] = 8788 },                 -- Gently Shaken Gift
 				{ 8,   "INV_Box_01",                       nil,                         "???",                 nil }, -- ???
-				{ 9,   21235 },                                                                            -- Winter Veil Roast
-				{ 10,  21241 },                                                                            -- Winter Veil Eggnog
-				{ 16,  21327,                              [QUEST_EXTRA_ITTYPE] = 8769 },                  -- Ticking Present
-				{ 17,  17720 },                                                                            -- Schematic: Snowmaster 9000 (p5 190)
-				{ 18,  17706 },                                                                            -- Plans: Edge of Winter (p2 190)
-				{ 19,  17725 },                                                                            -- Formula: Enchant Weapon - Winter's Might (p4 190)
-				{ 20,  17722 },                                                                            -- Pattern: Gloves of the Greatfather (p7 190)
-				{ 21,  17709 },                                                                            -- Recipe: Elixir of Frost Power (p1 190)
-				{ 22,  17724 },                                                                            -- Pattern: Green Holiday Shirt (p8 190)
-				{ 23,  21325 },                                                                            -- Mechanical Greench
-				{ 24,  21213 },                                                                            -- Preserved Holly
-				{ 26,  116761,                             [QUEST_EXTRA_ITTYPE] = 36617 },                 -- Winter Veil Gift
+				{ 9,   21235 },                                                                           -- Winter Veil Roast
+				{ 10,  21241 },                                                                           -- Winter Veil Eggnog
+				{ 16,  21327,                              [QUEST_EXTRA_ITTYPE] = 8769 },                 -- Ticking Present
+				{ 17,  17720 },                                                                           -- Schematic: Snowmaster 9000 (p5 190)
+				{ 18,  17706 },                                                                           -- Plans: Edge of Winter (p2 190)
+				{ 19,  17725 },                                                                           -- Formula: Enchant Weapon - Winter's Might (p4 190)
+				{ 20,  17722 },                                                                           -- Pattern: Gloves of the Greatfather (p7 190)
+				{ 21,  17709 },                                                                           -- Recipe: Elixir of Frost Power (p1 190)
+				{ 22,  17724 },                                                                           -- Pattern: Green Holiday Shirt (p8 190)
+				{ 23,  21325 },                                                                           -- Mechanical Greench
+				{ 24,  21213 },                                                                           -- Preserved Holly
+				{ 26,  116761,                             [QUEST_EXTRA_ITTYPE] = 36617 },                -- Winter Veil Gift
 				{ 27,  "INV_Box_01",                       nil,                         "???",                 nil }, -- ???
-				{ 101, 21191,                              [QUEST_EXTRA_ITTYPE] = 8744 },                  -- Carefully Wrapped Present
-				{ 102, 116451 },                                                                           -- Warm Blue Woolen Socks
-				{ 103, 116450 },                                                                           -- Warm Green Woolen Socks
-				{ 104, 116448 },                                                                           -- Warm Red Woolen Socks
-				{ 105, 21254 },                                                                            -- Winter Veil Cookie
-				{ 107, 21363,                              [QUEST_EXTRA_ITTYPE] = 8803 },                  -- Festive Gift
-				{ 108, 21328 },                                                                            -- Wand of Holiday Cheer
-				{ 116, 21216,                              [QUEST_EXTRA_ITTYPE] = 7045 },                  -- Smokywood Pastures Extra-Special Gift
-				{ 117, 21215 },                                                                            -- Graccu's Mince Meat Fruitcake
+				{ 101, 21191,                              [QUEST_EXTRA_ITTYPE] = 8744 },                 -- Carefully Wrapped Present
+				{ 102, 116451 },                                                                          -- Warm Blue Woolen Socks
+				{ 103, 116450 },                                                                          -- Warm Green Woolen Socks
+				{ 104, 116448 },                                                                          -- Warm Red Woolen Socks
+				{ 105, 21254 },                                                                           -- Winter Veil Cookie
+				{ 107, 21363,                              [QUEST_EXTRA_ITTYPE] = 8803 },                 -- Festive Gift
+				{ 108, 21328 },                                                                           -- Wand of Holiday Cheer
+				{ 116, 21216,                              [QUEST_EXTRA_ITTYPE] = 7045 },                 -- Smokywood Pastures Extra-Special Gift
+				{ 117, 21215 },                                                                           -- Graccu's Mince Meat Fruitcake
 				{ 119, "INV_Holiday_Christmas_Present_01", nil,                         AL["Special Rewards"], nil },
-				{ 120, 21525 },                                                                            -- Green Winter Hat
-				{ 121, 21524 },                                                                            -- Red Winter Hat
-				{ 122, 17712,                              [QUEST_EXTRA_ITTYPE] = 7045 },                  -- Winter Veil Disguise Kit (mailed 24h after quest)
-				{ 123, 17202 },                                                                            -- Snowball
-				{ 124, 21215 },                                                                            -- Handful of Snowflakes
-				{ 125, 21212 },                                                                            -- Fresh Holly
-				{ 126, 21519 },                                                                            -- Mistletoe
+				{ 120, 21525 },                                                                           -- Green Winter Hat
+				{ 121, 21524 },                                                                           -- Red Winter Hat
+				{ 122, 17712,                              [QUEST_EXTRA_ITTYPE] = 7045 },                 -- Winter Veil Disguise Kit (mailed 24h after quest)
+				{ 123, 17202 },                                                                           -- Snowball
+				{ 124, 21215 },                                                                           -- Handful of Snowflakes
+				{ 125, 21212 },                                                                           -- Fresh Holly
+				{ 126, 21519 },                                                                           -- Mistletoe
 			},
 			[HORDE_DIFF] = {
 				GetItemsFromDiff = ALLIANCE_DIFF,

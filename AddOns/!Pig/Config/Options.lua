@@ -23,7 +23,7 @@ PigConfigFun.fuFrameBut=fuFrameBut
 local RTabFrame =Create.PIGOptionsList_RF(fuFrame)
 local fujiF,fujiBut =PIGOptionsList_R(RTabFrame,L["CONFIG_DAOCHU"]..L["CONFIG_DAORU"],90)
 fujiF:Show()
-fujiBut:Selected()
+fujiBut:Selected(true)
 --------
 local cfbutW=fujiF:GetWidth()-20
 local BiaotiName = CHAT_DEFAULT..L["CONFIG_TABNAME"]

@@ -28,10 +28,13 @@ L["Artifact Forge"] = "神器熔炉"
 L["Class Hall"] = "职业大厅"
 L["The entrance of each class must first be unlocked before they are accessible"] = "必须先解锁每个职业的入口，才能进入"
 -- Worldmap
-L["Worldmap player arrow"] = "世界地图玩家箭头"
+L["Player arrow"] = "玩家箭头"
+L["Player arrow highlight"] = "高亮玩家箭头"
 L["Changes the size of the display"] = "更改显示大小"
 L["Enables the ability to change the size of the player arrow on the world map"] = "允许更改世界地图上玩家箭头的大小"
 L["Change zone map"] = "切换区域地图"
+L["Unfortunately, scaling this highlight is not possible, as it has a fixed value set by Blizzard"] = "很遗憾，无法缩放此高亮效果，因为它由暴雪设置为固定值"
+L["Allows you to permanently highlight the player's arrow on the world map while the map is open"] = "在世界地图打开期间，允许永久高亮显示玩家箭头"
 L["This allows you to automatically switch the world map to the map of the new area when you leave one zone and enter a new one"] = "这将使你在离开一个区域并进入新区域时，世界地图自动切换到新区域的地图"
 -- Npc
 L["NPC database"] = "NPC 数据库"
@@ -241,6 +244,7 @@ L["Starting on the first Sunday of each month for one week"] = "在本月的第�
 L["Enables the display of icons for a specific capital city"] = "激活特定活动的图标显示"
 L["This MapNotes icons shows various icons that are too close to each other together"] = "此MapNotes图标显示了不同的图标，这些图标太近了。"
 L["Zones"] = "区域"
+L["Zone maps"] = "区域地图"
 L["Continents"] = "各大陆"
 --2 Unexplored Areas function
 L["Unexplored Areas"] = "未探索区域"

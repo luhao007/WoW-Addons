@@ -13,22 +13,22 @@ function BusinessInfo.Time(StatsInfo)
 		self.add_uifun()
 		fujiF.Update_huizhangG()
 	end)
+	BusinessInfo.StatsInfoUI=StatsInfo
+	function StatsInfo:TabShow(lyui)
+		if self then
+			if self:IsShown() then
+				self:Hide()
+			else
+				lyui:Hide()
+				self:Show()
+				Create.Show_TabBut_R(self.F,fujiF,fujiTabBut)
+			end
+		else
+			PIG_OptionsUI:ErrorMsg("请打开"..addonName..SETTINGS.."→"..L["BUSINESS_TABNAME"].."→"..INFO..STATISTICS)
+		end
+	end
 	function fujiF.add_uifun()
 		if fujiF.nr then return end
-		BusinessInfo.StatsInfoUI=StatsInfo
-		function StatsInfo:TabShow(lyui)
-			if self then
-				if self:IsShown() then
-					self:Hide()
-				else
-					lyui:Hide()
-					self:Show()
-					Create.Show_TabBut_R(self.F,fujiF,fujiTabBut)
-				end
-			else
-				PIG_OptionsUI:ErrorMsg("请打开"..addonName..SETTINGS.."→"..L["BUSINESS_TABNAME"].."→"..INFO..STATISTICS)
-			end
-		end
 		---
 		fujiF.nr=PIGFrame(fujiF)
 		fujiF.nr:SetPoint("TOPLEFT",fujiF,"TOPLEFT",4,-4);
@@ -85,7 +85,7 @@ function BusinessInfo.Time(StatsInfo)
 				local xxxxcc = hzlishiGG[i][1]-(hzlishiGG_11.min*0.6)
 				hzlishiGG_11.data[i][1]=xxxxcc
 			end
-			fujiF.timeF.qushiF.qushitu(hzlishiGG_11.data)
+			fujiF.timeF.qushiF.UpdateList(hzlishiGG_11.data)
 		end
 		----------------------------------
 		local function AddWowTokenG(hzlishiGG,marketPrice)

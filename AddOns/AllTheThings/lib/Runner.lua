@@ -21,8 +21,9 @@ local function PrintError(err, source, co)
 	end
 end
 
-local function wipearray(t)
-	for i=1,#t do t[i] = nil end
+local function wipearray(t, max)
+	local c = math_max(#t, max or 0)
+	for i=1,c do t[i] = nil end
 end
 
 local Stack = {};
@@ -195,12 +196,12 @@ local function CreateRunner(name)
 		if OnReset then OnReset() end
 		SetPerFrame(Config.PerFrameDefault or 1)
 		-- when done with all functions in the queue, reset the indexes and clear the queues of data
-		QueueIndex = 1
 		RunIndex = Pushed and 0 or 1	-- reset while running will resume and continue at index 1
-		wipearray(FunctionQueue)
+		wipearray(FunctionQueue, QueueIndex - 1)
+		wipearray(ParameterBucketQueue, QueueIndex - 1)
+		wipearray(ParameterSingleQueue, QueueIndex - 1)
 		FunctionQueue[0] = nil
-		wipearray(ParameterBucketQueue)
-		wipearray(ParameterSingleQueue)
+		QueueIndex = 1
 	end
 	local function Stats()
 		app.print(name,Pushed and "RUNNING" or "STOPPED","Qi",QueueIndex,"Ri",RunIndex,"@",Config.PerFrame)
@@ -218,7 +219,7 @@ local function CreateRunner(name)
 				perFrame = Config.PerFrame
 				local params;
 				local func = FunctionQueue[RunIndex];
-				-- app.PrintDebug("FRC.Running."..name)
+				-- app.PrintDebug("FRC.Running."..name,"@",perFrame)
 				if OnStart then OnStart() end
 				while func do
 					perFrame = perFrame - 1;

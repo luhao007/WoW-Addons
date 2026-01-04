@@ -58,27 +58,29 @@ Create.edgeFile = "Interface/AddOns/"..addonName.."/Libs/Pig_Border.blp"
 Create.Backdropinfo={bgFile = Create.bgFile, tile = true, tileSize = 0,edgeFile = Create.edgeFile, edgeSize = 6,}
 Create.BackdropColor={0.08, 0.08, 0.08, 0.5}
 Create.BackdropBorderColor={0, 0, 0, 1}
-local function _SetPoint(ui,Point)
-	if ui.Ext then
-		if ElvUI and ui.Ext.ElvUI then
-			if Point[3]:match("BOTTOM") then
-				ui:SetPoint(Point[1],Point[2],Point[3],Point[4]+ui.Ext.ElvUI[1],Point[5]+ui.Ext.ElvUI[2]);
-				return
-			elseif Point[3]:match("TOP") then
-				ui:SetPoint(Point[1],Point[2],Point[3],Point[4]+ui.Ext.ElvUI[1],Point[5]+ui.Ext.ElvUI[2]);
-				return
-			end
-		elseif NDui and ui.Ext.NDui then
-			if Point[3]:match("BOTTOM") then
-				ui:SetPoint(Point[1],Point[2],Point[3],Point[4]+ui.Ext.NDui[1],Point[5]+ui.Ext.NDui[2]);
-				return
-			elseif Point[3]:match("TOP") then
-				ui:SetPoint(Point[1],Point[2],Point[3],Point[4]+ui.Ext.NDui[1],Point[5]+ui.Ext.NDui[2]);
-				return
-			end
+local function _SetPoint(self,Point,BOTTOMRIGHT)
+	local expp1,expp2,expp3,expp4,expp5=0,0,0,0,false
+	if NDui and self.Ext and self.Ext.NDui and self.Ext.NDui[1] then
+		if self.Ext.NDui[2] then
+			expp1,expp2,expp3,expp4 = unpack(self.Ext.NDui[2])
+		end
+	elseif ElvUI and self.Ext and self.Ext.ElvUI and self.Ext.ElvUI[1] then
+		if self.Ext.ElvUI[2] then
+			expp1,expp2,expp3,expp4 = unpack(self.Ext.ElvUI[2])
 		end
 	end
-	ui:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5]);
+	if BOTTOMRIGHT then
+		self:SetPoint(Point[1],Point[2],Point[3],Point[4]+expp3,Point[5]+expp4);
+	else
+		self:SetPoint(Point[1],Point[2],Point[3],Point[4]+expp1,Point[5]+expp2);
+	end
+end
+local function _BlizzardBackdrop(self)
+	self:SetBackdrop( { bgFile = Create.bgFile,
+	edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+	tile = false, tileSize = 0, edgeSize = 16, insets = { left = 4, right = 4, top = 4, bottom = 4 } });
+	self:SetBackdropColor(0, 0, 0, 0.8);
+	self:SetBackdropBorderColor(0.6, 0.6, 0.6, 1);
 end
 local function _SetBackdrop(ui,BGAlpha,BorderAlpha,Color,BorderColor)
 	ui:SetBackdrop(Create.Backdropinfo)
@@ -100,43 +102,42 @@ function Create.PIGFrame(Parent,Point,WH,UIName,ESCOFF,Template,Ext)
 	if Point then
 		_SetPoint(frameX,Point)
 	end
+	function frameX:PIGSetPoint(Point)
+		_SetPoint(self,Point,true)
+	end
 	frameX:EnableMouse(true)
 	if ESCOFF then
 		frameX:Hide()
 		tinsert(UISpecialFrames,UIName);
 	end
-	function frameX:PIGSetPoint(Point)
-		if self.Ext then
-			if ElvUI and self.Ext.ElvUI then
-				if Point[3]:match("BOTTOM") then
-					self:SetPoint(Point[1],Point[2],Point[3],Point[4]+self.Ext.ElvUI[3],Point[5]+self.Ext.ElvUI[4]);
-					return
-				elseif Point[3]:match("TOP") then
-					self:SetPoint(Point[1],Point[2],Point[3],Point[4]+self.Ext.ElvUI[3],Point[5]+self.Ext.ElvUI[4]);
-					return
-				end
-			elseif NDui and self.Ext.NDui then
-				if Point[3]:match("BOTTOM") then
-					self:SetPoint(Point[1],Point[2],Point[3],Point[4]+self.Ext.NDui[3],Point[5]+self.Ext.NDui[4]);
-					return
-				elseif Point[3]:match("TOP") then
-					self:SetPoint(Point[1],Point[2],Point[3],Point[4]+self.Ext.NDui[3],Point[5]+self.Ext.NDui[4]);
-					return
-				end
+	function frameX:PIGSetHeight(HHH)
+		if NDui and self.Ext and self.Ext.NDui and self.Ext.NDui[1] then
+			if self.Ext.NDui[3] and self.Ext.NDui[3][2] then
+				HHH=HHH+self.Ext.NDui[3][2]
+			end
+		elseif ElvUI and self.Ext and self.Ext.ElvUI and self.Ext.ElvUI[1] then
+			if self.Ext.ElvUI[3] and self.Ext.ElvUI[3][2] then
+				HHH=HHH+self.Ext.ElvUI[3][2]
 			end
 		end
-		self:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5]);
+		self:SetHeight(HHH);
 	end
 	function frameX:PIGSetBackdrop(BGAlpha,BorderAlpha,Color,BorderColor)
 		if self.Ext then
-			if ElvUI and self.Ext.ElvUI or NDui and self.Ext.NDui then
-				_SetBackdrop(self,BGAlpha,BorderAlpha,Color,BorderColor)
+			if NDui and self.Ext.NDui then
+				if self.Ext.NDui[1] then
+					_SetBackdrop(self,BGAlpha,BorderAlpha,Color,BorderColor)
+				else
+					_BlizzardBackdrop(self)
+				end
+			elseif ElvUI and self.Ext.ElvUI then
+				if self.Ext.ElvUI[1] then
+					_SetBackdrop(self,BGAlpha,BorderAlpha,Color,BorderColor)
+				else
+					_BlizzardBackdrop(self)
+				end
 			else
-				self:SetBackdrop( { bgFile = Create.bgFile,
-				edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-				tile = false, tileSize = 0, edgeSize = 16, insets = { left = 4, right = 4, top = 4, bottom = 4 } });
-				self:SetBackdropColor(0, 0, 0, 0.8);
-				self:SetBackdropBorderColor(0.6, 0.6, 0.6, 1);
+				_BlizzardBackdrop(self)
 			end
 		else
 			_SetBackdrop(self,BGAlpha,BorderAlpha,Color,BorderColor)
@@ -334,11 +335,15 @@ function Create.PIGEnter(Parent,text,text1,text2,Xpianyi,Ypianyi,huanhang)
 		GameTooltip:ClearLines();
 		GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",Xpianyi,Ypianyi);
 		GameTooltip:AddLine(text, nil, nil, nil, huanhangYN)
-		if text1 then
-			GameTooltip:AddLine(text1, nil, nil, nil, huanhangYN)
-		end
-		if text2 then
-			GameTooltip:AddLine(text2, nil, nil, nil, huanhangYN)
+		if self.TooltipFun then
+			self.TooltipFun()
+		else
+			if text1 then
+				GameTooltip:AddLine(text1, nil, nil, nil, huanhangYN)
+			end
+			if text2 then
+				GameTooltip:AddLine(text2, nil, nil, nil, huanhangYN)
+			end
 		end
 		GameTooltip:Show();
 	end);

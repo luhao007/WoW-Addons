@@ -28,6 +28,17 @@ local function PIG_SetPointSpecial(UIname,MovingUI)
 		end)
 	elseif UIname=="PlayerSpellsFrame" then
 		--PlayerSpellsFrame:SetIgnoreParentScale(false)
+	elseif UIname=="ContainerFrameCombinedBags" then
+	    hooksecurefunc("UpdateContainerFrameAnchors", function()
+	    	PIG_SetPoint(UIname,ContainerFrameCombinedBags)
+		end)
+		-- local originalSetPoint = ContainerFrameCombinedBags.SetPoint;
+		-- ContainerFrameCombinedBags.SetPoint = function(self, ...)
+		--     print("ContainerFrame1 SetPoint called from:", debugstack(2, 2, 0));
+		--     return originalSetPoint(self, ...);
+		-- end
+	else
+		PIG_SetPoint(UIname,MovingUI)
 	end
 end
 local function PIG_SetScale(UIname,MovingUI)
@@ -46,7 +57,6 @@ local function funxx(UIname,MovingUI)
 	if PIGA["FramePlus"]["BlizzardUI_Move_Save"] then
 		MovingUI.ignoreFramePositionManager = true;
 		MovingUI:SetAttribute("ignoreFramePositionManager", true);
-		PIG_SetPoint(UIname,MovingUI)
 		PIG_SetPointSpecial(UIname,MovingUI)
    	end
 end
@@ -65,6 +75,7 @@ local function MovingFun_1(protection,UIname,ClickF,MovingUI)
 			return
 		end
         MovingUI:StopMovingOrSizing()
+        MovingUI:SetUserPlaced(true)
         if PIGA["FramePlus"]["BlizzardUI_Move_Save"] then
         	PIGA["Blizzard_UI"][UIname]=PIGA["Blizzard_UI"][UIname] or {}
         	local point, relativeTo, relativePoint, offsetX, offsetY = MovingUI:GetPoint()
@@ -151,14 +162,6 @@ function FramePlusfun.BlizzardUI_Move()
 		end
 	end
 	if PIGA["FramePlus"]["BlizzardUI_Move_Save"] then
-	    -- hooksecurefunc("ShowUIPanel", function(frame)
-	    --     if not frame or not frame.GetName then return end
-	    --     local uiName = frame:GetName()
-	    --     if uiName and hookedFrames[uiName] then
-	    --     	if FramesCombatLock[uiName] and InCombatLockdown() then return end
-	    --         PIG_SetPoint(uiName, frame)
-	    --     end
-	    -- end)
 		local oldOpenFrame={}
 		hooksecurefunc("UpdateUIPanelPositions", function(frame)
 			if frame then

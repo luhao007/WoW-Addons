@@ -127,7 +127,7 @@ function BusinessInfo.AHPlus_Mainline()
 							AuctionHouseFrame.BrowseResultsFrame.qushiUI:Show()
 							AuctionHouseFrame.BrowseResultsFrame.qushiUI:SetPoint("TOPRIGHT",self,"TOPLEFT",18,1);
 							local Name = fuhang.cells[2].Text:GetText()
-							AuctionHouseFrame.BrowseResultsFrame.qushiUI.qushiF.qushitu(NewData,Name)
+							AuctionHouseFrame.BrowseResultsFrame.qushiUI.qushiF.UpdateList(NewData,Name)
 						end
 					end
 				end);
@@ -147,15 +147,11 @@ function BusinessInfo.AHPlus_Mainline()
 	AuctionHouseFrame.BrowseResultsFrame.qushiUI.qushiF=BusinessInfo.ADD_qushi(AuctionHouseFrame.BrowseResultsFrame.qushiUI,true)
 	AuctionHouseFrame.BrowseResultsFrame.qushiUI.qushiF:SetPoint("TOPLEFT", AuctionHouseFrame.BrowseResultsFrame.qushiUI, "TOPLEFT",4, -24);
 	AuctionHouseFrame.BrowseResultsFrame.qushiUI.qushiF:SetPoint("BOTTOMRIGHT", AuctionHouseFrame.BrowseResultsFrame.qushiUI, "BOTTOMRIGHT",-4, 4);
+	AuctionHouseFrame.BrowseResultsFrame.qushitishi=BusinessInfo.ADD_qushiTips(AuctionHouseFrame.BrowseResultsFrame,{"TOPLEFT",AuctionHouseFrame.BrowseResultsFrame,"TOPLEFT",220,-3})
 	AuctionHouseFrame.BrowseResultsFrame.qushitishi:SetFrameLevel(510)
-	if PIG_MaxTocversion() then
-		AuctionHouseFrame.BrowseResultsFrame.qushitishi:SetPoint("TOPLEFT",AuctionHouseFrame.BrowseResultsFrame,"TOPLEFT",154,-3);
-	else
-		AuctionHouseFrame.BrowseResultsFrame.qushitishi:SetPoint("TOPLEFT",AuctionHouseFrame.BrowseResultsFrame,"TOPLEFT",130,-3);
-	end
 
 	---缓存----------
-	AuctionHouseFrame.History = PIGButton(AuctionHouseFrame,{"TOPRIGHT",AuctionHouseFrame,"TOPRIGHT",-100,-1},{110,18},"缓存价格",nil,nil,nil,nil,0);
+	AuctionHouseFrame.History = PIGButton(AuctionHouseFrame,{"TOPRIGHT",AuctionHouseFrame,"TOPRIGHT",-100,-1},{110,19},"缓存价格",nil,nil,nil,nil,0);
 	AuctionHouseFrame.History:SetFrameLevel(510)
 	AuctionHouseFrame.History:HookScript("OnUpdate", function(self)
 		local daojishitt = 900-(GetServerTime()-PIGA["AHPlus"]["DaojiTime"])

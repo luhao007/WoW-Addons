@@ -3,7 +3,7 @@
 local _, app = ...;
 
 -- Global locals
-local pairs = pairs;
+local pairs, ipairs = pairs, ipairs;
 
 -- App locals
 local AssignChildren, GetRelativeValue = app.AssignChildren, app.GetRelativeValue
@@ -55,6 +55,14 @@ local DynamicCategory_Nested = function(self)
 	AssignChildren(self);
 	-- delay-sort the top level groups
 	self.SortType = "Global";
+	-- sort children of top level groups
+	local g = self.g
+	for i = 1, #g do
+		local child = g[i]
+		if child.g then
+			child.SortType = "expansion"
+		end
+	end
 	-- don't fill into dynamic groups if they are popped out
 	self.skipFull = true
 	-- make sure these things are cached so they can be updated when collected, but run the caching after other dynamic groups are filled

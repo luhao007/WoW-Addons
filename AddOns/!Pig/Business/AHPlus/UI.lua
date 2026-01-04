@@ -60,7 +60,8 @@ function BusinessInfo.ADD_Newdata(name,xianjiaV,itemLink,itemID)
 end
 function BusinessInfo.SetTooltipOfflineG(ItemInfo,tooltip)
 	if PIGA["AHPlus"]["Open"] and PIGA["AHPlus"]["AHtooltip"] then
-		if ItemInfo and tooltip == GameTooltip then
+		if not ItemInfo then return end
+		if tooltip == GameTooltip or tooltip == ItemRefTooltip then
 			local itemName,_,_,_,_,_,_,_,_,_,_,_,_,bindType= GetItemInfo(ItemInfo)
 			if itemName and bindType~=1 and bindType~=4 then
 				local NameData = BusinessInfo.GetCacheDataG(itemName)
@@ -72,6 +73,7 @@ function BusinessInfo.SetTooltipOfflineG(ItemInfo,tooltip)
 				else
 					tooltip:AddDoubleLine("拍卖(尚未缓存)","",0,1,1,0,1,1)
 				end
+				tooltip:Show()
 			end
 		end
 	end
@@ -81,18 +83,9 @@ function BusinessInfo.ADD_qushi(fujiui,tishi,num)
 	local qushi=PIGFrame(fujiui)
 	qushi:SetPoint("TOPLEFT", fujiui, "TOPLEFT",0, -10);
 	qushi:SetPoint("BOTTOMRIGHT", fujiui, "BOTTOMRIGHT",0, 1);
+	local qushitishi
 	if tishi then
 		qushi.itemName = PIGFontString(qushi,{"TOPLEFT", qushi, "TOPLEFT",6, 18},nil,"OUTLINE")
-		local ParentUI = fujiui:GetParent()
-		local iconWH = 20
-		ParentUI.qushitishi = CreateFrame("Frame", nil, ParentUI);
-		ParentUI.qushitishi:SetSize(iconWH,iconWH);
-		ParentUI.qushitishi.Tex = ParentUI.qushitishi:CreateTexture(nil, "BORDER");
-		ParentUI.qushitishi.Tex:SetTexture("interface/common/help-i.blp");
-		ParentUI.qushitishi.Tex:SetSize(iconWH+8,iconWH+8);
-		ParentUI.qushitishi.Tex:SetPoint("CENTER");
-		local tishitxt = "1、缓存价格以后才能显示涨跌百分比\n2、100%表示当前价格和最后次缓存价格一样\n3、80%表示当前价格是最后次缓存价格80%(即便宜了20%)\n4、120%表示当前价格是最后次缓存价格120%(即贵了20%)"
-		PIGEnter(ParentUI.qushitishi,"提示：",tishitxt)
 	end
 	local WidthX =7.9
 	qushi.qushiButList={}
@@ -107,7 +100,7 @@ function BusinessInfo.ADD_qushi(fujiui,tishi,num)
 		zhuzhuangX:Hide()
 		qushi.qushiButList[i]=zhuzhuangX
 	end
-	function qushi.qushitu(Data,itemName)
+	function qushi.UpdateList(Data,itemName)
 		local NewHeightX = qushi:GetHeight()
 		for i=1,Nbaocunnum do
 			qushi.qushiButList[i]:Hide()
@@ -163,6 +156,23 @@ function BusinessInfo.ADD_qushi(fujiui,tishi,num)
 		end
 	end
 	return qushi
+end
+function BusinessInfo.ADD_qushiTips(fujiui,iconPoint,iconWH)
+	local iconWH = iconWH or 20
+	local qushiTips = CreateFrame("Frame", nil, fujiui);
+	if iconPoint then
+		qushiTips:SetSize(iconWH,iconWH);
+		qushiTips:SetPoint(unpack(iconPoint));
+		qushiTips.Tex = qushiTips:CreateTexture(nil, "BORDER");
+		qushiTips.Tex:SetTexture("interface/common/help-i.blp");
+		qushiTips.Tex:SetSize(iconWH+8,iconWH+8);
+		qushiTips.Tex:SetPoint("CENTER");
+	else
+		qushiTips:SetAllPoints(fujiui)
+	end
+	local tishitxt = "1、缓存价格以后才能显示涨跌百分比\n2、100%表示当前价格和最后次缓存价格一样\n3、80%表示当前价格是最后次缓存价格80%(即便宜了20%)\n4、120%表示当前价格是最后次缓存价格120%(即贵了20%)"
+	PIGEnter(qushiTips,"提示：",tishitxt)
+	return qushiTips
 end
 ----
 local function zhixingdianjiFUn(framef)

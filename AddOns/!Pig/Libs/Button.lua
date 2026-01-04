@@ -24,27 +24,24 @@ local function add_Button(MODE,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 		But:SetText(Text);
 		local buttonFont=But:GetFontString()
 		But.Text=buttonFont
-		function But:PIGHighlight()
-			self.Highlight = self:CreateTexture(nil, "OVERLAY");
-			self.Highlight:SetTexture(130724);
-			self.Highlight:SetBlendMode("ADD");
-			self.Highlight:SetPoint("TOPLEFT", self, "TOPLEFT", 1.2, -2);
-			self.Highlight:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -1.6, 1);
-			function But:Selected(bot)
-				if bot then
-					PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB);
-					self.Text:SetTextColor(1, 1, 1, 1)
-					self.Highlight:Show()
-				else
-					self.Text:SetTextColor(1, 0.843, 0, 1)
-					self.Highlight:Hide()
-				end
-			end
-		end
 	else
 		local TemplateP = TemplateP or "BackdropTemplate,"
 		But = CreateFrame("Button", UIName, fuF,TemplateP,id);
 		BackdropSet(But)
+		But.Text = But:CreateFontString();
+		But.Text:SetPoint("CENTER", 0, 0);
+		PIGSetFont(But.Text,Zihao,Miaobian)
+		But.Text:SetTextColor(TextColor[1], TextColor[2], TextColor[3], TextColor[4]);
+		But.Text:SetText(Text)
+		function But:SetText(TextN)
+			self.Text:SetText(TextN);
+		end
+		function But:GetText()
+			return self.Text:GetText();
+		end
+		function But:NoClickText()
+			self.NoClickTextOpen=true
+		end
 		function But:PIGSetBackdrop(BGAlpha,BorderAlpha)
 			self:SetBackdropColor(BGColor[1],BGColor[2],BGColor[3], BGAlpha);
 			self:SetBackdropBorderColor(BorderColor[1], BorderColor[2], BorderColor[3], BorderAlpha);
@@ -77,59 +74,33 @@ local function add_Button(MODE,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 				local point, relativeTo, relativePoint, offsetX, offsetY = self.Text:GetPoint()
 				self.Text:SetPoint(point,self,relativePoint, offsetX+1.5, offsetY-1.5);
 			end
-		end);
+		end)
 		But:HookScript("OnMouseUp", function(self)
 			if self:IsEnabled() and not self.NoClickTextOpen then
 				local point, relativeTo, relativePoint, offsetX, offsetY = self.Text:GetPoint()
 				self.Text:SetPoint(point,self,relativePoint, offsetX-1.5, offsetY+1.5);
 			end
-		end);
-		function But:SetText(TextN)
-			self.Text:SetText(TextN);
-		end
-		function But:GetText()
-			return self.Text:GetText();
-		end
-		function But:Selected(bot)
-			if bot then
-				PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB);
-				self.Text:SetTextColor(1, 1, 1, 1)
-				self:SetBackdropColor(0.32,0.1647,0.0353, 0.8)
-				self:SetBackdropBorderColor(1, 1, 0, 1)
-			else
-				self.Text:SetTextColor(1, 0.843, 0, 1)
-				self:SetBackdropColor(0.1, 0.1, 0.1, 0.8)
-				self:SetBackdropBorderColor(0, 0, 0, 1)
-			end
-		end
-		function But:NoClickText()
-			self.NoClickTextOpen=true
-		end
-		But:HookScript("PostClick", function (self)
-			PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);
 		end)
-		But.Text = But:CreateFontString();
-		But.Text:SetPoint("CENTER", 0, 0);
-		PIGSetFont(But.Text,Zihao,Miaobian)
-		But.Text:SetTextColor(TextColor[1], TextColor[2], TextColor[3], TextColor[4]);
-		But.Text:SetText(Text)
 	end
+	But:HookScript("PostClick", function (self)
+		PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);
+	end)
 	But:RegisterForClicks("LeftButtonUp","RightButtonUp")
 	if WH then
 		But:SetSize(WH[1],WH[2]);
 	end
 	if Point then
 		if MODE then
-			But:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5]-1.6);
+			But:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5]);
 		else
 			But:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5]);
 		end
 	end
 	return But
 end
-function Create.PIGButton(fuF,Point,WH,Text,UIName,id,TemplateP,Zihao,mode)--,nil,nil,nil,nil,0
+function Create.PIGButton(fuF,Point,WH,Text,UIName,id,TemplateP,Zihao,mode,ElvUIopen)--,nil,nil,nil,nil,0
 	if mode==0 then
-		if ElvUI or NDui then
+		if ElvUIopen or NDui then
 			return add_Button(false,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 		else
 			return add_Button(true,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
@@ -242,6 +213,7 @@ function Create.PIGDiyBut(fuF,Point,WH,UIName,TemplateP,Butleixing)
 	end);
 	return But
 end
+--自定义材质图标
 function Create.PIGDiyTex(fuF,Point,WH,UIName,TemplateP)
 	local Www = WH and WH[1] or 20
 	local Hhh = WH and WH[2] or Www
@@ -266,13 +238,36 @@ function Create.PIGDiyTex(fuF,Point,WH,UIName,TemplateP)
 	end
 	return But
 end
-local function PIGTabBut(fuF,Point,WH,Text,UIName)
+
+--TAB菜单
+local function _BlizzardTemplate(fuF,UIName)
+	local But = CreateFrame("Button", UIName, fuF,"UIPanelButtonTemplate")
+	But.Highlight = But:CreateTexture(nil, "ARTWORK");
+	But.Highlight:SetAtlas("bags-glow-artifact")
+	But.Highlight:SetBlendMode("ADD");
+	But.Highlight:SetPoint("TOPLEFT", But, "TOPLEFT", 2.8, -3.4);
+	But.Highlight:SetPoint("BOTTOMRIGHT", But, "BOTTOMRIGHT", -2.8, 1.6);
+	function But:Selected(bot)
+		if bot then
+			But.Text:SetTextColor(0, 0.9, 0.4, 1)
+			But.Text:SetDrawLayer("ARTWORK", 7)
+			But.Highlight:Show()
+		else
+			But.Text:SetTextColor(1, 0.843, 0, 1)
+			But.Highlight:Hide()
+		end
+	end
+	return But
+end
+local function _SetTemplate(fuF,UIName)
 	local But = CreateFrame("Button", UIName, fuF,"BackdropTemplate")
-	But.ShowUI=false;
 	BackdropSet(But)
-	if WH then But:SetSize(WH[1],WH[2]) end
-	if Point then
-		But:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5])
+	But.Text = But:CreateFontString()
+	But.Text:SetPoint("CENTER", 0, 0)
+	PIGSetFont(But.Text,Zihao,Miaobian)
+	But.Text:SetTextColor(TextColor[1], TextColor[2], TextColor[3], TextColor[4])
+	function But:SetText(TextN)
+		self.Text:SetText(TextN);
 	end
 	hooksecurefunc(But, "Enable", function(self)
 		self.Text:SetTextColor(TextColor[1], TextColor[2], TextColor[3], TextColor[4])
@@ -307,56 +302,78 @@ local function PIGTabBut(fuF,Point,WH,Text,UIName)
 			self.Text:SetPoint("CENTER", 0, 0)
 		end
 	end);
-	But.Text = But:CreateFontString()
-	But.Text:SetPoint("CENTER", 0, 0)
-	PIGSetFont(But.Text,Zihao,Miaobian)
-	But.Text:SetTextColor(TextColor[1], TextColor[2], TextColor[3], TextColor[4])
-	But.Text:SetText(Text);
-	function But:SetText(TextN)
-		self.Text:SetText(TextN);
-	end
-	function But:Selected()
+	function But:Selected(bot)
 		PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB);
-		self.ShowUI=true;
-		self.Text:SetTextColor(1, 1, 1, 1)
-		--self:SetBackdropColor(0.3098,0.262745,0.0353, 1)
-		self:SetBackdropColor(0.32,0.1647,0.0353, BGColor[4])
-		self:SetBackdropBorderColor(1, 1, 0, 1)	
+		if bot then
+			self.ShowUI=true;
+			self.Text:SetTextColor(1, 1, 1, 1)
+			self:SetBackdropColor(0.32,0.1647,0.0353, BGColor[4])
+			self:SetBackdropBorderColor(1, 1, 0, 1)
+		else
+			self.ShowUI=false
+			self.Text:SetTextColor(TextColor[1], TextColor[2], TextColor[3], TextColor[4])
+			self:SetBackdropColor(BGColor[1],BGColor[2],BGColor[3],BGColor[4])
+			self:SetBackdropBorderColor(BorderColor[1], BorderColor[2], BorderColor[3], BorderColor[4])
+		end
 	end
-	function But:NotSelected()
-		self.ShowUI=false
-		self.Text:SetTextColor(TextColor[1], TextColor[2], TextColor[3], TextColor[4])
-		self:SetBackdropColor(BGColor[1],BGColor[2],BGColor[3],BGColor[4])
-		self:SetBackdropBorderColor(BorderColor[1], BorderColor[2], BorderColor[3], BorderColor[4])
+	return But
+end
+local function PIGTabBut(fuF,Point,WH,Text,UIName,Ext)
+	local But
+	if Ext then
+		if NDui and Ext.NDui then
+			if Ext.NDui[1] then
+				But = _SetTemplate(fuF,UIName)
+			else
+				But = _BlizzardTemplate(fuF)
+			end
+		elseif ElvUI and Ext.ElvUI then
+			if Ext.ElvUI[1] then
+				But = _SetTemplate(fuF,UIName)
+			else
+				But = _BlizzardTemplate(fuF)
+			end
+		else
+			But = _BlizzardTemplate(fuF)
+		end
+	else
+		But = _SetTemplate(fuF,UIName)
+	end
+	But:SetText(Text);
+	But.ShowUI=false;
+	if WH then But:SetSize(WH[1],WH[2]) end
+	if Point then
+		But:SetPoint(Point[1],Point[2],Point[3],Point[4],Point[5])
 	end
 	return But
 end
 Create.PIGTabBut=PIGTabBut
+
 --左边主菜单
 function Create.Show_TabBut(Rneirong,tabbut)---选择主菜单
 	local PigUI=Rneirong:GetParent():GetParent():GetParent():GetParent()
 	--local PigUI=fujiUI or PIG_OptionsUI
 	local ListTOP = {PigUI.L.F.ListTOP:GetChildren()}
 	for x=1, #ListTOP, 1 do
-		ListTOP[x]:NotSelected()
+		ListTOP[x]:Selected(false)
 	end
 	if PigUI.L.F.ListEXT then
 		local ListEXT = {PigUI.L.F.ListEXT:GetChildren()}
 		for x=1, #ListEXT, 1 do
-			ListEXT[x]:NotSelected()
+			ListEXT[x]:Selected(false)
 		end
 	end
 	if PigUI.L.F.ListBOT then
 		local ListBOT = {PigUI.L.F.ListBOT:GetChildren()}
 		for x=1, #ListBOT, 1 do
-			ListBOT[x]:NotSelected()
+			ListBOT[x]:Selected(false)
 		end
 	end
 	local RNR = {PigUI.R.F.NR:GetChildren()}
 	for x=1, #RNR, 1 do
 		RNR[x]:Hide()
 	end
-	tabbut:Selected()
+	tabbut:Selected(true)
 	Rneirong:Show()
 end
 function Create.PIGOptionsList(GnName,weizhi,fujiUI)
@@ -405,6 +422,7 @@ function Create.PIGOptionsList(GnName,weizhi,fujiUI)
 	end)
 	return Rneirong,TabBut
 end
+
 --次级菜单====
 function Create.PIGOptionsList_RF(fuF,DownY,Mode,bianjuV)
 	local TabF = Create.PIGFrame(fuF)
@@ -440,9 +458,9 @@ function Create.Show_TabBut_R(fuF,Rneirong,tabbut)---选择子菜单
 	end
 	local ListBOT = {fuF.Top:GetChildren()}
 	for x=1, #ListBOT, 1 do
-		ListBOT[x]:NotSelected()
+		ListBOT[x]:Selected(false)
 	end
-	tabbut:Selected()
+	tabbut:Selected(true)
 	Rneirong:Show()
 end
 function Create.PIGOptionsList_R(fuF,tabname,W,Mode,UIName)

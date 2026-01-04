@@ -87,7 +87,11 @@ local function Show_Glyphinfo(self,fwid,from)
 	end
 end
 function TalentData.add_TalentUI(frameX)
-	frameX.TalentF = PIGFrame(frameX,{"TOPLEFT", frameX, "TOPRIGHT", -3, 0},{TalentData.tianfuW+140,TalentData.tianfuH},nil,nil,nil,{["ElvUI"]={0,0,0,0},["NDui"]={0,0,0,0}});
+	local EextData={
+		["ElvUI"]={true,{0,0,0,0}},
+		["NDui"]={NDui and NDuiDB and NDuiDB["Skins"]["BlizzardSkins"],{0,0,0,0}},
+	}
+	frameX.TalentF = PIGFrame(frameX,{"TOPLEFT", frameX, "TOPRIGHT", -3, 0},{TalentData.tianfuW+140,TalentData.tianfuH},nil,nil,nil,EextData);
 	frameX.TalentF:PIGSetBackdrop(1);
 	frameX.TalentF:SetFrameLevel(frameX.TalentF:GetFrameLevel()+6)
 	frameX.TalentF:Hide()
@@ -290,11 +294,15 @@ function TalentData.add_TalentUI(frameX)
 		end
 	end
 	if PIG_MaxTocversion(30000,true) and PIG_MaxTocversion(60000) then
+		local EextData={
+			["ElvUI"]={true,{0,0,0,0}},
+			["NDui"]={NDui and NDuiDB and NDuiDB["Skins"]["BlizzardSkins"],{0,0,0,0}},
+		}
 		if PIG_MaxTocversion(50000) then
-			frameX.TalentF.Glyph = PIGFrame(frameX.TalentF,{"BOTTOM", frameX.TalentF, "TOP", 0, -1},{frameX.TalentF:GetWidth(),64},nil,nil,nil,{["ElvUI"]={0,0,0,0},["NDui"]={0,0,0,0}});
+			frameX.TalentF.Glyph = PIGFrame(frameX.TalentF,{"BOTTOM", frameX.TalentF, "TOP", 0, -1},{frameX.TalentF:GetWidth(),64},nil,nil,nil,EextData);
 			frameX.TalentF.Glyph:PIGSetBackdrop(1);
 		else
-			frameX.TalentF.Glyph = PIGFrame(frameX.TalentF,{"BOTTOM", frameX.TalentF, "BOTTOM", 0, 6},{frameX.TalentF:GetWidth()-10,64},nil,nil,nil,{["ElvUI"]={0,0,0,0},["NDui"]={0,0,0,0}});
+			frameX.TalentF.Glyph = PIGFrame(frameX.TalentF,{"BOTTOM", frameX.TalentF, "BOTTOM", 0, 6},{frameX.TalentF:GetWidth()-10,64},nil,nil,nil,EextData);
 		end
 		if PIG_MaxTocversion(50000,true) and PIG_MaxTocversion(60000) then
 			frameX.TalentF.Glyph.laiyuan = PIGFontString(frameX.TalentF.Glyph,{"BOTTOMRIGHT", frameX.TalentF.Glyph, "BOTTOMRIGHT", -10,2},"雕文测试员:大祭司超超",nil,12);

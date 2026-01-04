@@ -23,7 +23,7 @@ ActionBarfun.RTabFrame=RTabFrame
 --
 local ActionF,Actiontabbut =PIGOptionsList_R(RTabFrame,L["ACTION_TABNAME1"],70)
 ActionF:Show()
-Actiontabbut:Selected()
+Actiontabbut:Selected(true)
 --------
 local function ActionBar_Ranse()
 	if not PIGA["ActionBar"]["Ranse"] then return end

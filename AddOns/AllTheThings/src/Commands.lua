@@ -3,7 +3,7 @@
 --- Dependencies:
 ---
 
-local appName, app = ...
+local _, app = ...
 
 local ipairs,math_floor
 	= ipairs,math.floor
@@ -369,9 +369,12 @@ function(cmd)
 		elseif cmd:sub(1, 4) == "mini" then
 			app:ToggleMiniListForCurrentZone();
 			return true;
+		elseif cmd:sub(1, 6) == "mapid:" then
+			app:GetWindow("CurrentInstance"):SetMapID(tonumber(cmd:sub(7)), true);
+			return true;
 		else
-			if cmd:sub(1, 6) == "mapid:" then
-				app:GetWindow("CurrentInstance"):SetMapID(tonumber(cmd:sub(7)), true);
+			if cmd == "import" then
+				app:GetWindow("Import"):Toggle();
 				return true;
 			end
 		end

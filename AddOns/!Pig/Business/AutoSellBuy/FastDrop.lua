@@ -33,7 +33,7 @@ function BusinessInfo.FastDrop(QuickButUI_index)
 	local BindingName = GnUI.."_".._GNE
 	local fujiF,fujiTabBut=PIGOptionsList_R(_G[GnUI].F,"丢",50,"Left")
 	fujiF:Show()
-	fujiTabBut:Selected()
+	fujiTabBut:Selected(true)
 	BusinessInfo.ADDScroll(fujiF,_GN,_GNE,17,{false,"AutoSellBuy",_GNE.."_List"})
 	----
 	fujiF.Bindings = PIGButton(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",20,-10},{76,20},KEY_BINDING);

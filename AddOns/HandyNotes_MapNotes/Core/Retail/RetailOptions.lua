@@ -1014,77 +1014,6 @@ ns.options = {
               },
             },
           },
-        MiniMapPlus = {
-          --disabled = function() return ns.Addon.db.profile.activate.HideMapNote end,
-          type = "group",
-          name = MINIMAP_LABEL .. " +",
-          desc = "",
-          order = 7,
-          args = {
-            AdvancedHeader3 = {
-              type = "header",
-              name = MINIMAP_LABEL,
-              order = 1.5,
-              },    
-            MinimapArrow = {
-              --disabled = function() return ns.Addon.db.profile.activate.HideMapNote end,
-              type = "toggle",
-              name = L["Minimap player arrow"],
-              desc = L["Displays the player arrow on the minimap layered above addon-created icons"] .. "\n\n" .. "|cFFFF0000" .. L["Unfortunately does not work in instances"] .. "\n\n" .. "|cff00ff00" .. L["Required for"] .. ":\n • " .. ADVANCED_OPTIONS,
-              order = 1.6,
-              width = 1,
-              get = function() return ns.Addon.db.profile.activate.MinimapArrow end,
-              set = function(info, v) ns.Addon.db.profile.activate.MinimapArrow = v 
-                  if ns.MiniMapPlayerArrow then if ns.Addon.db.profile.activate.MinimapArrow then ns.MiniMapPlayerArrow():Show() else ns.MiniMapPlayerArrow():Hide() end end
-                  self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
-                  if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.activate.MinimapArrow then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. L["Minimap player arrow"], "|cffff0000" .. L["is deactivated"]) else
-                  if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.activate.MinimapArrow then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. L["Minimap player arrow"], "|cff00ff00" .. L["is activated"]) end end 
-                end,
-              },
-            MinimapArrowScale = {
-              disabled = function() return not ns.Addon.db.profile.activate.MinimapArrow end,
-              type = "range",
-              name = HUD_EDIT_MODE_SETTING_BAGS_SIZE,
-              desc = "",
-              min = 1, max = 3, step = 0.1,
-              width = 0.70,
-              order = 1.7,
-              get = function() return ns.Addon.db.profile.activate.MinimapArrowScale end,
-              set = function(info, v) ns.Addon.db.profile.activate.MinimapArrowScale = v 
-                  if MMPA and MMPA.texture then MMPA.texture:SetScale(ns.Addon.db.profile.activate.MinimapArrowScale * 0.9) end
-                  HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes") 
-                end,
-              },
-            AdvancedHeader4 = {
-              type = "description",
-              name = "",
-              order = 1.8,
-              },    
-            MinimapArrowOnEnter = {
-              disabled = function() return not ns.Addon.db.profile.activate.MinimapArrow end,
-              type = "toggle",
-              name = ADVANCED_OPTIONS,
-              desc = L["The MapNotes player arrow disappears from the minimap for the set number of seconds when you hover over it"] .. "\n\n" .. L["This makes it easier for the player to see which other icon is currently under the player"] .. "\n\n" .. "|cffff0000" .. REQUIRES_LABEL .. "\n • " .. L["Minimap player arrow"],
-              order = 1.9,
-              width = 1,
-              get = function() return ns.Addon.db.profile.activate.MinimapArrowOnEnter end,
-              set = function(info, v) ns.Addon.db.profile.activate.MinimapArrowOnEnter = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
-                if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.activate.MinimapArrowOnEnter then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. L["Minimap player arrow"], ADVANCED_OPTIONS .. " " .. "|cffff0000" .. L["is deactivated"]) else
-                if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.activate.MinimapArrowOnEnter then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. L["Minimap player arrow"], ADVANCED_OPTIONS .. " " .. "|cff00ff00" .. L["is activated"]) end end end,
-              },
-            MinimapArrowOnEnterTime = {
-              disabled = function() return not ns.Addon.db.profile.activate.MinimapArrow end,
-              type = "range",
-              name = SECONDS,
-              desc = "",
-              order = 2.0,
-              min = 1, max = 10, step = 1,
-              width = 0.70,
-              get = function() return ns.Addon.db.profile.activate.MinimapArrowOnEnterTime end,
-              set = function(info, v) ns.Addon.db.profile.activate.MinimapArrowOnEnterTime = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes") end
-              },
-            },
-          },
         AreaMapTab = {
           --disabled = function() return ns.Addon.db.profile.activate.HideMapNote end,
           type = "group",
@@ -1112,182 +1041,281 @@ ns.options = {
               },
             },
           },
-        WorldMapTab = {
+        MapsPlus = {
           --disabled = function() return ns.Addon.db.profile.activate.HideMapNote end,
           type = "group",
           name = BRAWL_TOOLTIP_MAPS .. " +",
-          desc = "",
           order = 9,
           args = {
-            ToggleMap = {
-              disabled = function() return ns.Addon.db.profile.activate.UseInBattle or ns.Addon.db.profile.activate.HideMapNote end,
-              type = "toggle",
-              name = L["Toggle Maps"],
-              desc = L["Enables the ability to toggle the displayed world map by clicking on certain MapNotes icons"] .. "\n\n" .. L["This was previously enabled automatically and is now an option to enable or disable"] .. "\n\n" .. "|cff00ff00" .. L["Required for"] .. ":\n • " .. L["Switch after battle"] .. ":\n • " .. INFO .. " " .. L["Blocked in combat"] .. ":\n • " .. L["Change zone map"],
-              order = 1.1,
-              width = 1.20,
-              get = function() return ns.Addon.db.profile.activate.ToggleMap end,
-              set = function(info, v) ns.Addon.db.profile.activate.ToggleMap = not not v
-                if ns.Addon.db.profile.MapChanging then ns.MapChangeLastSet = nil if ns.ChangingMapToPlayerZone then ns.ChangingMapToPlayerZone() end end
-                self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
-                if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.activate.ToggleMap then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", L["Toggle Maps"], "|cffff0000" .. L["is deactivated"]) else
-                if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.activate.ToggleMap then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00",L["Toggle Maps"], "|cff00ff00" .. L["is activated"]) end end end,
+            MapsPlusDescriptionText = {
+              type = "description",              
+              name = "|cffff0000" .. BRAWL_TOOLTIP_MAPS .. " +" .. "\n\n" .. "|cffffff00" .. L["The associated settings are regulated here. \nRegardless of whether it is the display of an icon, an entire icon group or the display of the complete icons for the corresponding Capital"],
+              order = 1.0,
               },
-            ToggleMapAfterCombat = {
-              disabled = function() return ns.Addon.db.profile.activate.UseInBattle or not ns.Addon.db.profile.activate.ToggleMap or ns.Addon.db.profile.activate.HideMapNote end,
-              type = "toggle",
-              name = L["Switch after battle"],
-              desc = L["Changing the world map via a MapNotes icon will be done after the battle, as this is no longer possible during the battle without causing an error"] .. "\n\n" .. "|cffff0000" .. REQUIRES_LABEL .. "\n • " .. L["Toggle Maps"],
-              order = 1.2,
-              width = 1.20,
-              get = function() return ns.Addon.db.profile.activate.ToggleMapAfterCombat end,
-              set = function(info, v) ns.Addon.db.profile.activate.ToggleMapAfterCombat = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
-                if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.activate.ToggleMapAfterCombat then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. L["Switch after battle"] .. " " .. "|cffff0000".. L["is deactivated"]) else
-                if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.activate.ToggleMapAfterCombat then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. L["Switch after battle"] .. " " .. "|cff00ff00" .. L["is activated"]) end end end,
+            ZoneMaps = {
+              type = "group",
+              name = L["Zone maps"],
+              order = 2,
+              args = {
+                ToggleMap = {
+                  disabled = function() return ns.Addon.db.profile.activate.UseInBattle or ns.Addon.db.profile.activate.HideMapNote end,
+                  type = "toggle",
+                  name = L["Toggle Maps"],
+                  desc = L["Enables the ability to toggle the displayed world map by clicking on certain MapNotes icons"] .. "\n\n" .. L["This was previously enabled automatically and is now an option to enable or disable"] .. "\n\n" .. "|cff00ff00" .. L["Required for"] .. ":\n • " .. L["Switch after battle"] .. ":\n • " .. INFO .. " " .. L["Blocked in combat"] .. ":\n • " .. L["Change zone map"],
+                  order = 1.1,
+                  width = 1.20,
+                  get = function() return ns.Addon.db.profile.activate.ToggleMap end,
+                  set = function(info, v) ns.Addon.db.profile.activate.ToggleMap = not not v
+                    if ns.Addon.db.profile.MapChanging then ns.MapChangeLastSet = nil if ns.ChangingMapToPlayerZone then ns.ChangingMapToPlayerZone() end end
+                    self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
+                    if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.activate.ToggleMap then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", L["Toggle Maps"], "|cffff0000" .. L["is deactivated"]) else
+                    if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.activate.ToggleMap then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00",L["Toggle Maps"], "|cff00ff00" .. L["is activated"]) end end end,
+                  },
+                ToggleMapAfterCombat = {
+                  disabled = function() return ns.Addon.db.profile.activate.UseInBattle or not ns.Addon.db.profile.activate.ToggleMap or ns.Addon.db.profile.activate.HideMapNote end,
+                  type = "toggle",
+                  name = L["Switch after battle"],
+                  desc = L["Changing the world map via a MapNotes icon will be done after the battle, as this is no longer possible during the battle without causing an error"] .. "\n\n" .. "|cffff0000" .. REQUIRES_LABEL .. "\n • " .. L["Toggle Maps"],
+                  order = 1.2,
+                  width = 1.20,
+                  get = function() return ns.Addon.db.profile.activate.ToggleMapAfterCombat end,
+                  set = function(info, v) ns.Addon.db.profile.activate.ToggleMapAfterCombat = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
+                    if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.activate.ToggleMapAfterCombat then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. L["Switch after battle"] .. " " .. "|cffff0000".. L["is deactivated"]) else
+                    if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.activate.ToggleMapAfterCombat then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. L["Switch after battle"] .. " " .. "|cff00ff00" .. L["is activated"]) end end end,
+                  },
+                ToggleMapInfo = {
+                  disabled = function() return ns.Addon.db.profile.activate.UseInBattle or ns.Addon.db.profile.activate.HideMapNote end,
+                  type = "toggle",
+                  name = L["Toggle Maps"] .. " " .. L["Tooltip"],
+                  desc = L["Adds an additional tooltip to icons, which lists the functions of the icons"] .. "\n\n" .. L["If the world map is open, these are also displayed on the minimap icons, but if the world map is closed, these are no longer displayed on the minimap"],
+                  order = 1.3,
+                  width = 1.20,
+                  get = function() return ns.Addon.db.profile.activate.ToggleMapInfo end,
+                  set = function(info, v) ns.Addon.db.profile.activate.ToggleMapInfo = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
+                    if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.activate.ToggleMapInfo then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", L["Toggle Maps"] .. " " .. L["Tooltip"], "|cffff0000" .. L["is deactivated"]) else
+                    if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.activate.ToggleMapInfo then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00",L["Toggle Maps"] .. " " .. L["Tooltip"], "|cff00ff00" .. L["is activated"]) end end end,
+                  },
+                InfoBlockedInCombat = {
+                  disabled = function() return ns.Addon.db.profile.activate.UseInBattle or not ns.Addon.db.profile.activate.ToggleMap or ns.Addon.db.profile.activate.HideMapNote end,
+                  type = "toggle",
+                  name = INFO .. ": " .. L["Blocked in combat"],
+                  desc = L["Shows an information on the screen when a map change has been attempted in battle"] .. "\n\n" .. "|cffff0000" .. REQUIRES_LABEL .. "\n • " .. L["Toggle Maps"],
+                  order = 1.4,
+                  width = 1.20,
+                  get = function() return ns.Addon.db.profile.activate.InfoBlockedInCombat end,
+                  set = function(info, v) ns.Addon.db.profile.activate.InfoBlockedInCombat = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
+                    if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.activate.InfoBlockedInCombat then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 " .. INFO .. " " .. L["Blocked in combat"] .. "|cffff0000 ".. L["is deactivated"]) else
+                    if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.activate.InfoBlockedInCombat then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 " .. INFO .. " " .. L["Blocked in combat"] .. "|cff00ff00 " .. L["is activated"]) end end end,
+                  },
+                UseInBattle = {
+                  disabled = function() return ns.Addon.db.profile.activate.HideMapNote end,
+                  confirm = true,
+                  type = "toggle",
+                  name = function () 
+                      if ns.Addon.db.profile.activate.UseInBattle then 
+                        return "|cff00ff00" .. (ns.LOCALE_USE_IN_COMBAT_NAME and (ns.LOCALE_USE_IN_COMBAT_NAME[ns.locale] or ns.LOCALE_USE_IN_COMBAT_NAME.enUS)) .. "|r" 
+                      else
+                        return "|cffff0000" .. (ns.LOCALE_USE_IN_COMBAT_NAME and (ns.LOCALE_USE_IN_COMBAT_NAME[ns.locale] or ns.LOCALE_USE_IN_COMBAT_NAME.enUS)) .. "|r" 
+                      end 
+                    end,
+                  desc = function () 
+                      if ns.Addon.db.profile.activate.UseInBattle then
+                         return "\n" .. (ns.LOCALE_SUPPRESS_ERRORS_DESC_1 and (ns.LOCALE_SUPPRESS_ERRORS_DESC_1[ns.locale] or ns.LOCALE_SUPPRESS_ERRORS_DESC_1.enUS)) 
+                        .. "\n\n" .. (ns.LOCALE_SUPPRESS_ERRORS_DESC_2 and (ns.LOCALE_SUPPRESS_ERRORS_DESC_2[ns.locale] or ns.LOCALE_SUPPRESS_ERRORS_DESC_2.enUS)) 
+                        .. "\n\n" .. (ns.LOCALE_SUPPRESS_ERRORS_DESC_3 and (ns.LOCALE_SUPPRESS_ERRORS_DESC_3[ns.locale] or ns.LOCALE_SUPPRESS_ERRORS_DESC_3.enUS)) 
+                        .. "\n\n" .. (ns.LOCALE_USE_IN_COMBAT_1 and (ns.LOCALE_USE_IN_COMBAT_1[ns.locale] or ns.LOCALE_USE_IN_COMBAT_1.enUS)) 
+                      else
+                        return "\n" .. (ns.LOCALE_SUPPRESS_ERRORS_DESC_1 and (ns.LOCALE_SUPPRESS_ERRORS_DESC_1[ns.locale] or ns.LOCALE_SUPPRESS_ERRORS_DESC_1.enUS)) 
+                        .. "\n\n" .. (ns.LOCALE_SUPPRESS_ERRORS_DESC_2 and (ns.LOCALE_SUPPRESS_ERRORS_DESC_2[ns.locale] or ns.LOCALE_SUPPRESS_ERRORS_DESC_2.enUS)) 
+                        .. "\n\n" .. (ns.LOCALE_SUPPRESS_ERRORS_DESC_3 and (ns.LOCALE_SUPPRESS_ERRORS_DESC_3[ns.locale] or ns.LOCALE_SUPPRESS_ERRORS_DESC_3.enUS)) 
+                        .. "\n\n" .. (ns.LOCALE_USE_IN_COMBAT_1 and (ns.LOCALE_USE_IN_COMBAT_1[ns.locale] or ns.LOCALE_USE_IN_COMBAT_1.enUS)) 
+                        .. "\n\n" .. "|cff00ff00" .. ADDON_DISABLED .. " " .. SELF_CAST_AUTO .. ":\n • " .. L["Toggle Maps"] .. "\n • " .. L["Switch after battle"] .. "\n • " .. L["Toggle Maps"] .. " " .. L["Tooltip"] .. "\n • " .. INFO .. ": " .. L["Blocked in combat"]
+                      end 
+                    end,
+                  order = 1.5,
+                  width = 1.20,
+                  get = function() return ns.Addon.db.profile.activate.UseInBattle end,
+                  set = function(info, v) ns.Addon.db.profile.activate.UseInBattle = v 
+                      ns.ForceUseInBattle(v, false)
+                      if ns.Addon.db.profile.MapChanging then ns.MapChangeLastSet = nil ns.ChangingMapToPlayerZone() end
+                      self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
+                      if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.activate.UseInBattle then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 " .. (ns.LOCALE_USE_IN_COMBAT_NAME and (ns.LOCALE_USE_IN_COMBAT_NAME[ns.locale] or ns.LOCALE_USE_IN_COMBAT_NAME.enUS)) .. "|cffff0000 ".. L["is deactivated"]) else
+                      if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.activate.UseInBattle then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 " .. (ns.LOCALE_USE_IN_COMBAT_NAME and (ns.LOCALE_USE_IN_COMBAT_NAME[ns.locale] or ns.LOCALE_USE_IN_COMBAT_NAME.enUS)) .. "|cff00ff00 " .. L["is activated"]) end end 
+                    end,
+                    },
+                ZoneMapsHeader1 = {
+                  type = "header",
+                  name = L["Change zone map"],
+                  order = 2.0,
+                  },
+                MapChanging = {
+                  disabled = function() return not (ns.Addon.db.profile.activate.ToggleMap or ns.Addon.db.profile.activate.UseInBattle) or ns.Addon.db.profile.activate.HideMapNote end,
+                  type = "toggle",
+                  name = L["Change zone map"],
+                  desc = L["This allows you to automatically switch the world map to the map of the new area when you leave one zone and enter a new one"] .. "\n\n" .. "|cffff0000" .. REQUIRES_LABEL .. "\n • " .. L["Toggle Maps"] .. "\n" .. OR_CAPS .. "\n • " .. (ns.LOCALE_USE_IN_COMBAT_NAME and (ns.LOCALE_USE_IN_COMBAT_NAME[ns.locale] or ns.LOCALE_USE_IN_COMBAT_NAME.enUS)),
+                  order = 2.1,
+                  width = 1.20,
+                  get = function() return ns.Addon.db.profile.MapChanging end,
+                  set = function(info, v) ns.Addon.db.profile.MapChanging = v 
+                      ns.ChangingMapToPlayerZone()
+                      if ns.Addon.db.profile.MapChanging and WorldMapFrame:IsShown() then
+                      local id = C_Map.GetBestMapForUnit("player") 
+                      if id then ns.MapNotesOpenMap(id) end end
+                      self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
+                      if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.MapChanging then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. L["Change zone map"] .. " " .. "|cffff0000".. L["is deactivated"]) else
+                      if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.MapChanging then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. L["Change zone map"] .. " " .. "|cff00ff00" .. L["is activated"]) end end 
+                    end,
+                  },
+                WorldMapheader3 = {
+                  type = "description",
+                  name = "",
+                  order = 2.2,
+                  },
+                ZoneTextChanged = {
+                  disabled = function() return ns.Addon.db.profile.activate.HideMapNote end,
+                  type = "toggle",
+                  name = L["Location"] .. " " .. L["chat message"],
+                  desc = L["When entering a new zone, the name of the new zone will be displayed in the chat"] .. "\n\n" .. "|cff00ff00" .. L["Required for"] .. ":\n • " .. L["Location"] ..  " " .. LFG_LIST_DETAILS,
+                  order = 2.3,
+                  width = 1.20,
+                  get = function() return ns.Addon.db.profile.ZoneTextChanged end,
+                  set = function(info, v) ns.Addon.db.profile.ZoneTextChanged = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
+                    if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.ZoneTextChanged then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", L["Show Zone Names"], L["Location"], "|cffff0000" .. L["is deactivated"]) else
+                    if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.ZoneTextChanged then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", L["Show Zone Names"], L["Location"], "|cff00ff00" .. L["is activated"]) end end end,
+                  },
+                ZoneTextChangedDetail = {
+                  disabled = function() return not ns.Addon.db.profile.ZoneTextChanged or ns.Addon.db.profile.activate.HideMapNote end,
+                  type = "toggle",
+                  name = L["Location"] ..  " " .. LFG_LIST_DETAILS .. " " .. L["chat message"],
+                  desc = L["In addition to the zone names, it also displays the names of specific locations within a zone. Disabling the Show Zone Names feature will also disable this feature"] .. "\n\n" .. L["Capital cities are excluded from this because there would be too much chat spam"] .. "\n\n" .. "|cffff0000" .. REQUIRES_LABEL .. "\n • " .. L["Location"],
+                  order = 2.4,
+                  width = 1.20,
+                  get = function() return ns.Addon.db.profile.ZoneTextChangedDetail end,
+                  set = function(info, v) ns.Addon.db.profile.ZoneTextChangedDetail = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
+                    if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.ZoneTextChangedDetail then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", L["Show Zone Names"], L["Location"], LFG_LIST_DETAILS, "|cffff0000" .. L["is deactivated"]) else
+                    if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.ZoneTextChangedDetail then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", L["Show Zone Names"], L["Location"], LFG_LIST_DETAILS, "|cff00ff00" .. L["is activated"]) end end end,
+                  },
+                },
               },
-            ToggleMapInfo = {
-              disabled = function() return ns.Addon.db.profile.activate.UseInBattle or ns.Addon.db.profile.activate.HideMapNote end,
-              type = "toggle",
-              name = L["Toggle Maps"] .. " " .. L["Tooltip"],
-              desc = L["Adds an additional tooltip to icons, which lists the functions of the icons"] .. "\n\n" .. L["If the world map is open, these are also displayed on the minimap icons, but if the world map is closed, these are no longer displayed on the minimap"],
-              order = 1.3,
-              width = 1.20,
-              get = function() return ns.Addon.db.profile.activate.ToggleMapInfo end,
-              set = function(info, v) ns.Addon.db.profile.activate.ToggleMapInfo = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
-                if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.activate.ToggleMapInfo then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", L["Toggle Maps"] .. " " .. L["Tooltip"], "|cffff0000" .. L["is deactivated"]) else
-                if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.activate.ToggleMapInfo then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00",L["Toggle Maps"] .. " " .. L["Tooltip"], "|cff00ff00" .. L["is activated"]) end end end,
-              },
-            InfoBlockedInCombat = {
-              disabled = function() return ns.Addon.db.profile.activate.UseInBattle or not ns.Addon.db.profile.activate.ToggleMap or ns.Addon.db.profile.activate.HideMapNote end,
-              type = "toggle",
-              name = INFO .. ": " .. L["Blocked in combat"],
-              desc = L["Shows an information on the screen when a map change has been attempted in battle"] .. "\n\n" .. "|cffff0000" .. REQUIRES_LABEL .. "\n • " .. L["Toggle Maps"],
-              order = 1.4,
-              width = 1.20,
-              get = function() return ns.Addon.db.profile.activate.InfoBlockedInCombat end,
-              set = function(info, v) ns.Addon.db.profile.activate.InfoBlockedInCombat = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
-                if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.activate.InfoBlockedInCombat then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 " .. INFO .. " " .. L["Blocked in combat"] .. "|cffff0000 ".. L["is deactivated"]) else
-                if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.activate.InfoBlockedInCombat then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 " .. INFO .. " " .. L["Blocked in combat"] .. "|cff00ff00 " .. L["is activated"]) end end end,
-              },
-            UseInBattle = {
-              disabled = function() return ns.Addon.db.profile.activate.HideMapNote end,
-              confirm = true,
-              type = "toggle",
-              name = function () 
-                  if ns.Addon.db.profile.activate.UseInBattle then 
-                    return "|cff00ff00" .. (ns.LOCALE_USE_IN_COMBAT_NAME and (ns.LOCALE_USE_IN_COMBAT_NAME[ns.locale] or ns.LOCALE_USE_IN_COMBAT_NAME.enUS)) .. "|r" 
-                  else
-                    return "|cffff0000" .. (ns.LOCALE_USE_IN_COMBAT_NAME and (ns.LOCALE_USE_IN_COMBAT_NAME[ns.locale] or ns.LOCALE_USE_IN_COMBAT_NAME.enUS)) .. "|r" 
-                  end 
-                end,
-              desc = function () 
-                  if ns.Addon.db.profile.activate.UseInBattle then
-                     return "\n" .. (ns.LOCALE_SUPPRESS_ERRORS_DESC_1 and (ns.LOCALE_SUPPRESS_ERRORS_DESC_1[ns.locale] or ns.LOCALE_SUPPRESS_ERRORS_DESC_1.enUS)) 
-                    .. "\n\n" .. (ns.LOCALE_SUPPRESS_ERRORS_DESC_2 and (ns.LOCALE_SUPPRESS_ERRORS_DESC_2[ns.locale] or ns.LOCALE_SUPPRESS_ERRORS_DESC_2.enUS)) 
-                    .. "\n\n" .. (ns.LOCALE_SUPPRESS_ERRORS_DESC_3 and (ns.LOCALE_SUPPRESS_ERRORS_DESC_3[ns.locale] or ns.LOCALE_SUPPRESS_ERRORS_DESC_3.enUS)) 
-                    .. "\n\n" .. (ns.LOCALE_USE_IN_COMBAT_1 and (ns.LOCALE_USE_IN_COMBAT_1[ns.locale] or ns.LOCALE_USE_IN_COMBAT_1.enUS)) 
-                  else
-                    return "\n" .. (ns.LOCALE_SUPPRESS_ERRORS_DESC_1 and (ns.LOCALE_SUPPRESS_ERRORS_DESC_1[ns.locale] or ns.LOCALE_SUPPRESS_ERRORS_DESC_1.enUS)) 
-                    .. "\n\n" .. (ns.LOCALE_SUPPRESS_ERRORS_DESC_2 and (ns.LOCALE_SUPPRESS_ERRORS_DESC_2[ns.locale] or ns.LOCALE_SUPPRESS_ERRORS_DESC_2.enUS)) 
-                    .. "\n\n" .. (ns.LOCALE_SUPPRESS_ERRORS_DESC_3 and (ns.LOCALE_SUPPRESS_ERRORS_DESC_3[ns.locale] or ns.LOCALE_SUPPRESS_ERRORS_DESC_3.enUS)) 
-                    .. "\n\n" .. (ns.LOCALE_USE_IN_COMBAT_1 and (ns.LOCALE_USE_IN_COMBAT_1[ns.locale] or ns.LOCALE_USE_IN_COMBAT_1.enUS)) 
-                    .. "\n\n" .. "|cff00ff00" .. ADDON_DISABLED .. " " .. SELF_CAST_AUTO .. ":\n • " .. L["Toggle Maps"] .. "\n • " .. L["Switch after battle"] .. "\n • " .. L["Toggle Maps"] .. " " .. L["Tooltip"] .. "\n • " .. INFO .. ": " .. L["Blocked in combat"]
-                  end 
-                end,
-              order = 1.5,
-              width = 1.20,
-              get = function() return ns.Addon.db.profile.activate.UseInBattle end,
-              set = function(info, v) ns.Addon.db.profile.activate.UseInBattle = v 
-                  ns.ForceUseInBattle(v, false)
-                  if ns.Addon.db.profile.MapChanging then ns.MapChangeLastSet = nil ns.ChangingMapToPlayerZone() end
-                  self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
-                  if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.activate.UseInBattle then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 " .. (ns.LOCALE_USE_IN_COMBAT_NAME and (ns.LOCALE_USE_IN_COMBAT_NAME[ns.locale] or ns.LOCALE_USE_IN_COMBAT_NAME.enUS)) .. "|cffff0000 ".. L["is deactivated"]) else
-                  if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.activate.UseInBattle then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 " .. (ns.LOCALE_USE_IN_COMBAT_NAME and (ns.LOCALE_USE_IN_COMBAT_NAME[ns.locale] or ns.LOCALE_USE_IN_COMBAT_NAME.enUS)) .. "|cff00ff00 " .. L["is activated"]) end end 
-                end,
-              },
-            WorldMapheader2 = {
-              type = "header",
-              name = L["Location"] ,
-              order = 2.0,
-              },
-            MapChanging = {
-              disabled = function() return not (ns.Addon.db.profile.activate.ToggleMap or ns.Addon.db.profile.activate.UseInBattle) or ns.Addon.db.profile.activate.HideMapNote end,
-              type = "toggle",
-              name = L["Change zone map"],
-              desc = L["This allows you to automatically switch the world map to the map of the new area when you leave one zone and enter a new one"] .. "\n\n" .. "|cffff0000" .. REQUIRES_LABEL .. "\n • " .. L["Toggle Maps"] .. "\n" .. OR_CAPS .. "\n • " .. (ns.LOCALE_USE_IN_COMBAT_NAME and (ns.LOCALE_USE_IN_COMBAT_NAME[ns.locale] or ns.LOCALE_USE_IN_COMBAT_NAME.enUS)),
-              order = 2.1,
-              width = 1.20,
-              get = function() return ns.Addon.db.profile.MapChanging end,
-              set = function(info, v) ns.Addon.db.profile.MapChanging = v 
-                  ns.ChangingMapToPlayerZone()
-                  if ns.Addon.db.profile.MapChanging and WorldMapFrame:IsShown() then local id = C_Map.GetBestMapForUnit("player") if id then ns.MapNotesOpenMap(id) end end
-                  self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
-                  if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.MapChanging then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. L["Change zone map"] .. " " .. "|cffff0000".. L["is deactivated"]) else
-                  if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.MapChanging then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. L["Change zone map"] .. " " .. "|cff00ff00" .. L["is activated"]) end end 
-                end,
-              },
-            WorldMapheader3 = {
-              type = "description",
-              name = "",
-              order = 2.2,
-              },
-            ZoneTextChanged = {
-              disabled = function() return ns.Addon.db.profile.activate.HideMapNote end,
-              type = "toggle",
-              name = L["Location"] .. " " .. L["chat message"],
-              desc = L["When entering a new zone, the name of the new zone will be displayed in the chat"] .. "\n\n" .. "|cff00ff00" .. L["Required for"] .. ":\n • " .. L["Location"] ..  " " .. LFG_LIST_DETAILS,
-              order = 2.3,
-              width = 1.20,
-              get = function() return ns.Addon.db.profile.ZoneTextChanged end,
-              set = function(info, v) ns.Addon.db.profile.ZoneTextChanged = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
-                if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.ZoneTextChanged then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", L["Show Zone Names"], L["Location"], "|cffff0000" .. L["is deactivated"]) else
-                if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.ZoneTextChanged then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", L["Show Zone Names"], L["Location"], "|cff00ff00" .. L["is activated"]) end end end,
-              },
-            ZoneTextChangedDetail = {
-              disabled = function() return not ns.Addon.db.profile.ZoneTextChanged or ns.Addon.db.profile.activate.HideMapNote end,
-              type = "toggle",
-              name = L["Location"] ..  " " .. LFG_LIST_DETAILS .. " " .. L["chat message"],
-              desc = L["In addition to the zone names, it also displays the names of specific locations within a zone. Disabling the Show Zone Names feature will also disable this feature"] .. "\n\n" .. L["Capital cities are excluded from this because there would be too much chat spam"] .. "\n\n" .. "|cffff0000" .. REQUIRES_LABEL .. "\n • " .. L["Location"],
-              order = 2.4,
-              width = 1.20,
-              get = function() return ns.Addon.db.profile.ZoneTextChangedDetail end,
-              set = function(info, v) ns.Addon.db.profile.ZoneTextChangedDetail = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
-                if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.ZoneTextChangedDetail then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", L["Show Zone Names"], L["Location"], LFG_LIST_DETAILS, "|cffff0000" .. L["is deactivated"]) else
-                if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.ZoneTextChangedDetail then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", L["Show Zone Names"], L["Location"], LFG_LIST_DETAILS, "|cff00ff00" .. L["is activated"]) end end end,
-              },
-            WorldMapheader4 = {
-              type = "header",
-              name = L["Worldmap player arrow"],
+            WorldmapArrow = {
+              type = "group",
+              name = WORLDMAP_BUTTON,
               order = 3.0,
+              args = {
+                WorldMapArrow = {
+                  disabled = function() return ns.Addon.db.profile.activate.HideMapNote end,
+                  type = "toggle",
+                  name = WORLDMAP_BUTTON .. " " .. L["Player arrow"],
+                  desc = L["Enables the ability to change the size of the player arrow on the world map"],
+                  order = 1.1,
+                  width = 1,
+                  get = function() return ns.Addon.db.profile.activate.WorldMapArrow end,
+                  set = function(info, v) ns.Addon.db.profile.activate.WorldMapArrow = v 
+                      if ns.ApplyWorldMapArrowSize then ns.ApplyWorldMapArrowSize() end
+                      self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
+                      if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.activate.WorldMapArrow then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. WORLDMAP_BUTTON .. " " .. L["Player arrow"], "|cffff0000" .. L["is deactivated"]) else
+                      if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.activate.WorldMapArrow then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. WORLDMAP_BUTTON .. " " .. L["Player arrow"], "|cff00ff00" .. L["is activated"]) end end 
+                    end,
+                  },
+                WorldMapArrowScale = {
+                  disabled = function() return not ns.Addon.db.profile.activate.WorldMapArrow or ns.Addon.db.profile.activate.HideMapNote end,
+                  type = "range",
+                  name = HUD_EDIT_MODE_SETTING_BAGS_SIZE,
+                  desc = L["Changes the size of the display"],
+                  min = 0.5, max = 3, step = 0.1,
+                  width = 0.80,  
+                  order = 1.2,
+                  get = function() return ns.Addon.db.profile.activate.WorldMapArrowScale end,
+                  set = function(info, v) ns.Addon.db.profile.activate.WorldMapArrowScale = v 
+                      if ns.ApplyWorldMapArrowSize then ns.ApplyWorldMapArrowSize() end 
+                      HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
+                    end,
+                  },
+                WorldMapheader4 = {
+                  type = "description",
+                  name = "",
+                  order = 1.3,
+                  },
+                WorldMapArrowHighlight = {
+                  disabled = function() return ns.Addon.db.profile.activate.HideMapNote end,
+                  type = "toggle",
+                  name = L["Player arrow highlight"],
+                  desc = L["Allows you to permanently highlight the player's arrow on the world map while the map is open"] .. "\n\n" .. "|cffff0000" .. L["Unfortunately, scaling this highlight is not possible, as it has a fixed value set by Blizzard"],
+                  order = 1.4,
+                  width = 1.5,
+                  get = function() return ns.Addon.db.profile.activate.WorldMapArrowHighlight end,
+                  set = function(info, v) ns.Addon.db.profile.activate.WorldMapArrowHighlight = v 
+                      if ns.RefreshWorldMapArrowHighlight then ns.RefreshWorldMapArrowHighlight() end
+                      self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")                  
+                      if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.activate.WorldMapArrowHighlight then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. WORLDMAP_BUTTON .. " " .. L["Player arrow highlight"], "|cffff0000" .. L["is deactivated"]) else
+                      if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.activate.WorldMapArrowHighlight then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. WORLDMAP_BUTTON .. " " .. L["Player arrow highlight"], "|cff00ff00" .. L["is activated"]) end end 
+                    end,
+                  },
+                },
               },
-            WorldMapArrow = {
-              disabled = function() return ns.Addon.db.profile.activate.HideMapNote end,
-              type = "toggle",
-              name = L["Worldmap player arrow"],
-              desc = L["Enables the ability to change the size of the player arrow on the world map"],
-              order = 3.1,
-              width = 1,
-              get = function() return ns.Addon.db.profile.activate.WorldMapArrow end,
-              set = function(info, v) ns.Addon.db.profile.activate.WorldMapArrow = v 
-                  if ns.ApplyWorldMapArrowSize then ns.ApplyWorldMapArrowSize() end
-                  self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
-                  if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.activate.WorldMapArrow then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. L["Worldmap player arrow"], "|cffff0000" .. L["is deactivated"]) else
-                  if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.activate.WorldMapArrow then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. L["Worldmap player arrow"], "|cff00ff00" .. L["is activated"]) end end 
-                end,
-              },
-            WorldMapArrowScale = {
-              disabled = function() return not ns.Addon.db.profile.activate.WorldMapArrow or ns.Addon.db.profile.activate.HideMapNote end,
-              type = "range",
-              name = HUD_EDIT_MODE_SETTING_BAGS_SIZE,
-              desc = L["Changes the size of the display"],
-              min = 0.5, max = 3, step = 0.1,
-              width = 0.80,  
-              order = 3.2,
-              get = function() return ns.Addon.db.profile.activate.WorldMapArrowScale end,
-              set = function(info, v) ns.Addon.db.profile.activate.WorldMapArrowScale = v 
-                  if ns.ApplyWorldMapArrowSize then ns.ApplyWorldMapArrowSize() end 
-                  HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
-                end,
+            MiniMaps = {
+              type = "group",
+              name = MINIMAP_LABEL,
+              order = 4,
+              args = { 
+                MinimapArrow = {
+                  --disabled = function() return ns.Addon.db.profile.activate.HideMapNote end,
+                  type = "toggle",
+                  name = L["Minimap player arrow"],
+                  desc = L["Displays the player arrow on the minimap layered above addon-created icons"] .. "\n\n" .. "|cFFFF0000" .. L["Unfortunately does not work in instances"] .. "\n\n" .. "|cff00ff00" .. L["Required for"] .. ":\n • " .. ADVANCED_OPTIONS,
+                  order = 1,
+                  width = 1,
+                  get = function() return ns.Addon.db.profile.activate.MinimapArrow end,
+                  set = function(info, v) ns.Addon.db.profile.activate.MinimapArrow = v 
+                      if ns.MiniMapPlayerArrow then if ns.Addon.db.profile.activate.MinimapArrow then ns.MiniMapPlayerArrow():Show() else ns.MiniMapPlayerArrow():Hide() end end
+                      self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
+                      if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.activate.MinimapArrow then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. L["Minimap player arrow"], "|cffff0000" .. L["is deactivated"]) else
+                      if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.activate.MinimapArrow then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. L["Minimap player arrow"], "|cff00ff00" .. L["is activated"]) end end 
+                    end,
+                  },
+                MinimapArrowScale = {
+                  disabled = function() return not ns.Addon.db.profile.activate.MinimapArrow end,
+                  type = "range",
+                  name = HUD_EDIT_MODE_SETTING_BAGS_SIZE,
+                  desc = "",
+                  min = 1, max = 3, step = 0.1,
+                  width = 0.70,
+                  order = 1.1,
+                  get = function() return ns.Addon.db.profile.activate.MinimapArrowScale end,
+                  set = function(info, v) ns.Addon.db.profile.activate.MinimapArrowScale = v 
+                      if MMPA and MMPA.texture then MMPA.texture:SetScale(ns.Addon.db.profile.activate.MinimapArrowScale * 0.9) end
+                      HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes") 
+                    end,
+                  },
+                AdvancedHeader4 = {
+                  type = "description",
+                  name = "",
+                  order = 1.2,
+                  },    
+                MinimapArrowOnEnter = {
+                  disabled = function() return not ns.Addon.db.profile.activate.MinimapArrow end,
+                  type = "toggle",
+                  name = ADVANCED_OPTIONS,
+                  desc = L["The MapNotes player arrow disappears from the minimap for the set number of seconds when you hover over it"] .. "\n\n" .. L["This makes it easier for the player to see which other icon is currently under the player"] .. "\n\n" .. "|cffff0000" .. REQUIRES_LABEL .. "\n • " .. L["Minimap player arrow"],
+                  order = 1.3,
+                  width = 1,
+                  get = function() return ns.Addon.db.profile.activate.MinimapArrowOnEnter end,
+                  set = function(info, v) ns.Addon.db.profile.activate.MinimapArrowOnEnter = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
+                    if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.activate.MinimapArrowOnEnter then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. L["Minimap player arrow"], ADVANCED_OPTIONS .. " " .. "|cffff0000" .. L["is deactivated"]) else
+                    if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.activate.MinimapArrowOnEnter then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00" .. " " .. L["Minimap player arrow"], ADVANCED_OPTIONS .. " " .. "|cff00ff00" .. L["is activated"]) end end end,
+                  },
+                MinimapArrowOnEnterTime = {
+                  disabled = function() return not ns.Addon.db.profile.activate.MinimapArrow end,
+                  type = "range",
+                  name = SECONDS,
+                  desc = "",
+                  order = 1.4,
+                  min = 1, max = 10, step = 1,
+                  width = 0.70,
+                  get = function() return ns.Addon.db.profile.activate.MinimapArrowOnEnterTime end,
+                  set = function(info, v) ns.Addon.db.profile.activate.MinimapArrowOnEnterTime = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes") end
+                  },
+                },
               },
             },
           },
@@ -1699,17 +1727,17 @@ ns.options = {
                     if ns.Addon.db.profile.ChatMassage and ns.Addon.db.profile.showCapitalsDarkmoon then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. " " .. "|cffffff00" .. L["Capitals"], CALENDAR_FILTER_DARKMOON, L["icons"], "|cff00ff00" .. L["are shown"]) else 
                     if ns.Addon.db.profile.ChatMassage and not ns.Addon.db.profile.showCapitalsDarkmoon then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. " " .. "|cffffff00" .. L["Capitals"], CALENDAR_FILTER_DARKMOON, L["icons"], "|cffff0000" .. L["are hidden"])end end end,
                   },
-                --showCapitalsHousing = {
-                --  disabled = function() return ns.Addon.db.profile.activate.HideMapNote or not ns.Addon.db.profile.activate.Capitals end,
-                --  type = "toggle",
-                --  name = TextIconHousing:GetIconString() .. " " .. BINDING_HEADER_HOUSING_SYSTEM,
-                --  desc = FACTION_HORDE .. ":\n" .. ns.RazorwindShores .. "\n\n" .. FACTION_ALLIANCE .. ":\n" .. ns.FoundersPoint,
-                --  width = 0.80,                  
-                --  order = 14.8,
-                --  set = function(info, v) ns.Addon.db.profile[info[#info]] = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes") 
-                --    if ns.Addon.db.profile.ChatMassage and ns.Addon.db.profile.showCapitalsHousing then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. " " .. "|cffffff00" .. L["Capitals"], BINDING_HEADER_HOUSING_SYSTEM, L["icons"], "|cff00ff00" .. L["are shown"]) else 
-                --    if ns.Addon.db.profile.ChatMassage and not ns.Addon.db.profile.showCapitalsHousing then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. " " .. "|cffffff00" .. L["Capitals"], BINDING_HEADER_HOUSING_SYSTEM, L["icons"], "|cffff0000" .. L["are hidden"])end end end,
-                --  }, 
+                showCapitalsHousing = {
+                  disabled = function() return ns.Addon.db.profile.activate.HideMapNote or not ns.Addon.db.profile.activate.Capitals end,
+                  type = "toggle",
+                  name = TextIconHousing:GetIconString() .. " " .. BINDING_HEADER_HOUSING_SYSTEM,
+                  desc = FACTION_HORDE .. ":\n" .. ns.RazorwindShores .. "\n\n" .. FACTION_ALLIANCE .. ":\n" .. ns.FoundersPoint,
+                  width = 0.80,                  
+                  order = 14.8,
+                  set = function(info, v) ns.Addon.db.profile[info[#info]] = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes") 
+                    if ns.Addon.db.profile.ChatMassage and ns.Addon.db.profile.showCapitalsHousing then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. " " .. "|cffffff00" .. L["Capitals"], BINDING_HEADER_HOUSING_SYSTEM, L["icons"], "|cff00ff00" .. L["are shown"]) else 
+                    if ns.Addon.db.profile.ChatMassage and not ns.Addon.db.profile.showCapitalsHousing then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. " " .. "|cffffff00" .. L["Capitals"], BINDING_HEADER_HOUSING_SYSTEM, L["icons"], "|cffff0000" .. L["are hidden"])end end end,
+                  }, 
                 },
               },
             CapitalsInstanceTab = {
@@ -3009,17 +3037,17 @@ ns.options = {
                         if ns.Addon.db.profile.ChatMassage and ns.Addon.db.profile.showMinimapCapitalsDarkmoon then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. " " .. "|cffffff00" .. MINIMAP_LABEL .. " " .. L["Capitals"], CALENDAR_FILTER_DARKMOON, L["icons"], "|cff00ff00" .. L["are shown"]) else 
                         if ns.Addon.db.profile.ChatMassage and not ns.Addon.db.profile.showMinimapCapitalsDarkmoon then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. " " .. "|cffffff00" .. MINIMAP_LABEL .. " " .. L["Capitals"], CALENDAR_FILTER_DARKMOON, L["icons"], "|cffff0000" .. L["are hidden"])end end end,
                   },
-                --showMinimapCapitalsHousing = {
-                --  disabled = function() return ns.Addon.db.profile.activate.HideMapNote or not ns.Addon.db.profile.activate.MinimapCapitals or ns.Addon.db.profile.activate.SyncCapitalsAndMinimap end,
-                --  type = "toggle",
-                --  name = TextIconHousing:GetIconString() .. " " .. BINDING_HEADER_HOUSING_SYSTEM,
-                --  desc = FACTION_HORDE .. ":\n" .. ns.RazorwindShores .. "\n\n" .. FACTION_ALLIANCE .. ":\n" .. ns.FoundersPoint,
-                --  width = 0.80,                  
-                --  order = 83.8,
-                --  set = function(info, v) ns.Addon.db.profile[info[#info]] = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes") 
-                --        if ns.Addon.db.profile.ChatMassage and ns.Addon.db.profile.showMinimapCapitalsHousing then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. " " .. "|cffffff00" .. MINIMAP_LABEL .. " " .. L["Capitals"], BINDING_HEADER_HOUSING_SYSTEM, L["icons"], "|cff00ff00" .. L["are shown"]) else 
-                --        if ns.Addon.db.profile.ChatMassage and not ns.Addon.db.profile.showMinimapCapitalsHousing then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. " " .. "|cffffff00" .. MINIMAP_LABEL .. " " .. L["Capitals"], BINDING_HEADER_HOUSING_SYSTEM, L["icons"], "|cffff0000" .. L["are hidden"])end end end,
-                --  }, 
+                showMinimapCapitalsHousing = {
+                  disabled = function() return ns.Addon.db.profile.activate.HideMapNote or not ns.Addon.db.profile.activate.MinimapCapitals or ns.Addon.db.profile.activate.SyncCapitalsAndMinimap end,
+                  type = "toggle",
+                  name = TextIconHousing:GetIconString() .. " " .. BINDING_HEADER_HOUSING_SYSTEM,
+                  desc = FACTION_HORDE .. ":\n" .. ns.RazorwindShores .. "\n\n" .. FACTION_ALLIANCE .. ":\n" .. ns.FoundersPoint,
+                  width = 0.80,                  
+                  order = 83.8,
+                  set = function(info, v) ns.Addon.db.profile[info[#info]] = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes") 
+                        if ns.Addon.db.profile.ChatMassage and ns.Addon.db.profile.showMinimapCapitalsHousing then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. " " .. "|cffffff00" .. MINIMAP_LABEL .. " " .. L["Capitals"], BINDING_HEADER_HOUSING_SYSTEM, L["icons"], "|cff00ff00" .. L["are shown"]) else 
+                        if ns.Addon.db.profile.ChatMassage and not ns.Addon.db.profile.showMinimapCapitalsHousing then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. " " .. "|cffffff00" .. MINIMAP_LABEL .. " " .. L["Capitals"], BINDING_HEADER_HOUSING_SYSTEM, L["icons"], "|cffff0000" .. L["are hidden"])end end end,
+                  }, 
                 },
               },
             InstanceMinimapTab = {
