@@ -11,14 +11,6 @@ local Fun = {}
 addonTable.Fun=Fun
 local version, internalVersion, date, _, versionType, buildType = GetBuildInfo()
 ----
-local function PIGGetColorKey()
-	if PIG_MaxTocversion(60000) then
-		return "cff%w%w%w%w%w%w"
-	else
-		return "cnIQ%d:"
-	end
-end
-Fun.PIGGetColorKey=PIGGetColorKey
 local IsAddOnLoaded = IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 function Fun.IsAddOnLoaded(AddOnName,funx)
 	if IsAddOnLoaded(AddOnName) then
@@ -29,6 +21,86 @@ function Fun.IsAddOnLoaded(AddOnName,funx)
 		end)
 	end
 end
+
+Fun.IsElvUI=function(vf1,vf2,vf3)
+	if IsAddOnLoaded("ElvUI") then
+		if not vf1 then return true end
+		local E= unpack(ElvUI)
+		if not E.private then return true end
+		if vf1 and vf2 and vf3 then
+			if E.private[vf1] and E.private[vf1][vf2] then
+				return E.private[vf1][vf2][vf3]
+			end
+		elseif vf1 and vf2 then
+			if E.private[vf1] then
+				return E.private[vf1][vf2]
+			end
+		elseif vf1 then
+			return E.private[vf1]
+		end
+		return true
+	else
+		return false
+	end
+end
+Fun.SetElvUI=function(bot,vf1,vf2,vf3)
+	if IsAddOnLoaded("ElvUI") then
+		local E= unpack(ElvUI)
+		if E.private then
+			if vf1 and vf2 and vf3 then
+				if E.private[vf1] and E.private[vf1][vf2] and E.private[vf1][vf2][vf3] then E.private[vf1][vf2][vf3]=bot end
+			elseif vf1 and vf2 then
+				if E.private[vf1] and E.private[vf1][vf2] then E.private[vf1][vf2]=bot end
+			elseif vf1 then
+				if E.private[vf1] then E.private[vf1]=bot end
+			end
+		end
+	end
+end
+Fun.IsNDui=function(vf1,vf2,vf3)
+	if IsAddOnLoaded("NDui") then
+		if not vf1 then return true end
+		if not NDui then return true end
+		if not NDui[2] then return true end
+		if vf1 and vf2 and vf3 then
+			if NDui[2].db[vf1] and NDui[2].db[vf1][vf2] then
+				return NDui[2].db[vf1][vf2][vf3] 
+			end
+		elseif vf1 and vf2 then
+			if NDui[2].db[vf1] then
+				return NDui[2].db[vf1][vf2] 
+			end
+		elseif vf1 then
+			return NDui[2].db[vf1]
+		end
+		return true
+	else
+		return false
+	end
+end
+Fun.SetNDui=function(bot,vf1,vf2,vf3)
+	if IsAddOnLoaded("NDui") then
+		if NDui and NDui[2] then
+			if vf1 and vf2 and vf3 then
+				if NDui[2].db[vf1] and NDui[2].db[vf1][vf2] and NDui[2].db[vf1][vf2][vf3] then NDui[2].db[vf1][vf2][vf3]=bot end
+			elseif vf1 and vf2 then
+				if NDui[2].db[vf1] and NDui[2].db[vf1][vf2] then NDui[2].db[vf1][vf2]=bot end
+			elseif vf1 then
+				if NDui[2].db[vf1] then NDui[2].db[vf1]=bot end
+			end
+		end
+	end
+end
+----
+local function PIGGetColorKey()
+	if PIG_MaxTocversion(60000) then
+		return "cff%w%w%w%w%w%w"
+	else
+		return "cnIQ%d:"
+	end
+end
+Fun.PIGGetColorKey=PIGGetColorKey
+
 function PIG_GetSpellBookType()
 	if Enum.SpellBookSpellBank and Enum.SpellBookSpellBank.Player then
 		return Enum.SpellBookSpellBank.Player
@@ -37,18 +109,34 @@ function PIG_GetSpellBookType()
 	end
 end
 function PIG_MaxTocversion(ver,max)
-	local maxver = ver or 60000
-	if max then
-		if tocversion>maxver then
-			return true
-		else
-			return false
+	if type(ver)=="string" then
+		if ver=="tbc" then
+			if PIG_MaxTocversion(30000) and PIG_MaxTocversion(20000,true) then
+				return true
+			else
+				return false
+			end
+		elseif ver=="wlk" then
+			if PIG_MaxTocversion(40000) and PIG_MaxTocversion(30000,true) then
+				return true
+			else
+				return false
+			end
 		end
 	else
-		if tocversion<maxver then
-			return true
+		local maxver = ver or 60000
+		if max then
+			if tocversion>maxver then
+				return true
+			else
+				return false
+			end
 		else
-			return false
+			if tocversion<maxver then
+				return true
+			else
+				return false
+			end
 		end
 	end
 end
@@ -139,7 +227,7 @@ end
 
 --发送消息
 function PIGChatFrameAddChannel(ChatFrame,channel)--订购一个聊天框以显示先前加入的聊天频道
-	if PIG_MaxTocversion() then
+	if PIG_MaxTocversion() and not PIG_MaxTocversion("tbc") then
 		ChatFrame_AddChannel(ChatFrame, channel)
 	else
 		ChatFrame:AddChannel(channel)
@@ -235,14 +323,6 @@ function PIGGetAddOnMetadata(addonName, shuxing)
 	return GetAddOnMetadata(addonName, shuxing)
 end
 ---
-if table.clear then
-else
-	function table.clear(table)
-		for k in pairs(table) do
-		    table[k] = nil
-		end
-	end
-end
 function Fun.PIGSetAtlas(buticon,Atlas,useAtlasSize,hWrapMode,vWrapMode)
 	if not addonTable.Data.AtlasInfo then return false end
 	for k,v in pairs(addonTable.Data.AtlasInfo) do

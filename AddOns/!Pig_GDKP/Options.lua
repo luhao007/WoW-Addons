@@ -69,7 +69,7 @@ local function ADD_Options()
 	end
 	QuickButUI.ButList[QuickBut_xuhaoID]()
 	---重置配置
-	fuFrame.CZ = PIGButton(fuFrame,{"TOPRIGHT",fuFrame,"TOPRIGHT",-20,-20},{60,22},"重置");  
+	fuFrame.CZ = PIGButton(fuFrame,{"TOPRIGHT",fuFrame,"TOPRIGHT",-20,-20},{60,22},RESET);  
 	fuFrame.CZ:SetScript("OnClick", function ()
 		StaticPopup_Show ("HUIFU_GDKP_INFO");
 	end);

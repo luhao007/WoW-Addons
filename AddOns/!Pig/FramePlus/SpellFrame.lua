@@ -3,14 +3,16 @@ local FramePlusfun=addonTable.FramePlusfun
 ----
 local match = _G.string.match
 local Data=addonTable.Data
+local Fun = addonTable.Fun
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
 local PIGEnter=Create.PIGEnter
 local PIGDiyBut=Create.PIGDiyBut
 local PIGFontString=Create.PIGFontString
 ---
-local iconxx={237553,294475}
-local function add_butF(id,gnname,tooltip,errtooltip)
+local iconxx={"newplayerchat-chaticon-newcomer",294475}
+iconxx[2] =PIG_MaxTocversion(30000) and PIG_MaxTocversion(20000,true) and "bags-greenarrow" or 294475
+local function add_butF(id,gnname,tooltip,classFilename)
 	local but = CreateFrame("CheckButton",nil, SpellBookFrame, "SpellBookSkillLineTabTemplate");
 	but:SetNormalTexture(iconxx[id+1]);
 	but.tooltip = gnname;
@@ -29,7 +31,7 @@ local function add_butF(id,gnname,tooltip,errtooltip)
 	but:Show()
 	local EextData={
 		["ElvUI"]={true,{0,0,0,0}},
-		["NDui"]={NDui and NDuiDB and NDuiDB["Skins"]["BlizzardSkins"],{0,0,0,0}},
+		["NDui"]={Fun.IsNDui("Skins","BlizzardSkins"),{0,0,0,0}},
 	}
 	local fui =PIGFrame(SpellBookFrame,{"TOPLEFT",SpellBookFrame,"TOPRIGHT",8,-14},nil,nil,nil,nil,EextData)
 	fui:SetPoint("BOTTOMLEFT", SpellBookFrame, "BOTTOMRIGHT", 8, 74);
@@ -50,7 +52,6 @@ local function add_butF(id,gnname,tooltip,errtooltip)
 			wipe(PIGA["FramePlus"]["SpellData"][classFilename])
 			PIG_OptionsUI:ErrorMsg("已重置未学技能数据")
 			fui:UpdateShowList()
-			fui:RegisterEvent("TRAINER_UPDATE");
 			fui:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 		end);
 	else
@@ -264,9 +265,9 @@ function FramePlusfun.Spell()
 	local GetSpecialization = GetSpecialization or C_SpecializationInfo and C_SpecializationInfo.GetSpecialization
 	local GetSpecializationInfo = GetSpecializationInfo or C_SpecializationInfo and C_SpecializationInfo.GetSpecializationInfo
 	------
-	local weixuexiF=add_butF(1,"未学习","尚未学习技能")
-	SpellBookFrame.weixuexiF=weixuexiF
 	local className, classFilename, classId = UnitClass("player")
+	local weixuexiF=add_butF(1,"未学习","尚未学习技能",classFilename)
+	SpellBookFrame.weixuexiF=weixuexiF
 	PIGA["FramePlus"]["SpellData"][classFilename]=PIGA["FramePlus"]["SpellData"][classFilename] or {}
 	local hangmaxnum,hangeH,scrlwww=19,20.6,weixuexiF:GetWidth()-21
 	weixuexiF.ScrollFF=Create.PIGScrollFrame_old(weixuexiF,{4,-26,-2,4})
@@ -525,7 +526,7 @@ function FramePlusfun.Spell()
 			if #PIGA["FramePlus"]["SpellData"][classFilename]>20 then return end
 			self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 	    elseif event == "UPDATE_MOUSEOVER_UNIT" then
-	    	if UnitExists('mouseover') then
+	    	if UnitExists("mouseover") then
 				local tooltipText = GameTooltipTextLeft2:GetText()
 				if tooltipText and string.find(tooltipText:lower(), className..TUTORIAL_TITLE14) then
 					self:RegisterEvent("TRAINER_UPDATE");
@@ -534,6 +535,19 @@ function FramePlusfun.Spell()
 				    self.kaiTicker=C_Timer.NewTimer(60,function()
 				    	self:UnregisterEvent("TRAINER_UPDATE");
 					end)
+				else
+					local mubiaoGUID=UnitGUID("mouseover")
+					if mubiaoGUID then
+						local unitType, _, serverID, instanceID, zoneID, npcID = strsplit("-", mubiaoGUID);
+						if npcID=="28471" or npcID=="28472" or npcID=="28474" then
+							self:RegisterEvent("TRAINER_UPDATE");
+						    self.kaishipname=UnitName("mouseover")
+						    if self.kaiTicker then self.kaiTicker:Cancel() end
+						    self.kaiTicker=C_Timer.NewTimer(60,function()
+						    	self:UnregisterEvent("TRAINER_UPDATE");
+							end)
+						end
+					end
 				end
 			end
 		elseif event == "TRAINER_UPDATE" and self.kaishipname==UnitName("npc") then

@@ -141,7 +141,7 @@ mubiaoF.Yisu:SetScript("OnClick", function (self)
 end);
 local function BigDebuff()
 	if PIGA["UnitFrame"]["TargetFrame"]["BigDebuff"] then
-		if PIG_MaxTocversion() then
+		if TargetFrame_UpdateDebuffAnchor then
 			TargetFrameToT:SetPoint("BOTTOMRIGHT", TargetFrame, "BOTTOMRIGHT", -4, -12);
 			hooksecurefunc("TargetFrame_UpdateDebuffAnchor", function(self, debuffName, index)
 				local buff = _G[debuffName..index];
@@ -149,15 +149,25 @@ local function BigDebuff()
 				if caster == "player" then
 					buff:SetSize(30,30)
 				end
+				
 			end)
 		else
-			hooksecurefunc("TargetFrame_UpdateDebuffAnchor", function(_, buff)
-				if buff and buff.auraInstanceID then
-					local UnitP = C_UnitAuras.GetAuraDataByAuraInstanceID("target", buff.auraInstanceID)
-					if UnitP and UnitP["sourceUnit"] == "player" then
-						buff:SetSize(30,30)
+			hooksecurefunc(TargetFrame,"UpdateAuras", function(self)
+				local debuffIndex = 1;
+				AuraUtil.ForEachAura(self.unit, AuraUtil.CreateFilterString(AuraUtil.AuraFilters.Harmful, AuraUtil.AuraFilters.IncludeNameplateOnly), maxDebuffs, function(...)
+					local debuffName, icon, count, debuffType, duration, expirationTime, caster, _, _, _, _, _, casterIsPlayer, nameplateShowAll = ...;
+					if ( debuffName ) then
+						if ( self:ShouldShowDebuffs(self.unit, caster, nameplateShowAll, casterIsPlayer) ) then
+							if ( icon ) then
+								if caster == "player" then
+									frameName = "TargetFrameDebuff"..debuffIndex;
+									_G[frameName]:SetSize(30,30)
+								end
+								debuffIndex = debuffIndex + 1;
+							end
+						end
 					end
-				end
+				end);
 			end)
 		end
 	end

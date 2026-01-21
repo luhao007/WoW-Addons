@@ -22,7 +22,7 @@ local VERSION = C_AddOns.GetAddOnMetadata(add_on, "Version")
 local trace = false -- true / false    Make true when debug output is needed.
 
 local function SendSlash(slash, params)
-	DEFAULT_CHAT_FRAME.editBox:SetText(_G[slash].." "..tostring(params))
+	DEFAULT_CHAT_FRAME.editBox:SetText(_G[slash] .. " " .. tostring(params))
 	ChatEdit_SendText(DEFAULT_CHAT_FRAME.editBox, 0)
 end
 
@@ -85,7 +85,7 @@ local function CreateMenu()
 	info = {};
 	info.notCheckable = true
 	info.text = "Open WoWLua"
----@diagnostic disable-next-line: undefined-global
+	---@diagnostic disable-next-line: undefined-global
 	info.disabled = (SLASH_WOWLUA1 == nil)
 	info.func = function()
 		SendSlash("SLASH_WOWLUA1")
@@ -103,10 +103,36 @@ end
 
 -- Create the tooltip string
 local function GetTooltipText()
-	local returnstring = ""
-	returnstring = returnstring.."Left Click: Reloads the User Interface\n"
-	returnstring = returnstring.."Right Click: For Shortcuts and Debug Tools\n"
-	return returnstring
+	local res = ""
+	local rtn = "\n"
+	local tab = "\t"
+
+	local realm = TitanUtils_GetNormalText("Current Server :") .. tab
+		.. TitanUtils_GetHighlightText(GetRealmName()) .. rtn
+
+	local now = _G.time()
+
+	local resets = "Resets in Server Time" .. rtn
+	local week_reset = C_DateAndTime.GetSecondsUntilWeeklyReset()
+	local weekly = TitanUtils_GetNormalText("Weekly :") .. tab
+		.. TitanUtils_GetHighlightText(TitanUtils_GetDateText(week_reset + now, true)) .. rtn
+
+	local day_reset = C_DateAndTime.GetSecondsUntilDailyReset()
+	local daily = TitanUtils_GetNormalText("Daily :") .. tab
+		.. TitanUtils_GetHighlightText(TitanUtils_GetDateText(day_reset + now, true)) .. rtn
+
+	local hints = ""
+		.. TitanUtils_GetGreenText("Left Click: Reloads the User Interface") .. rtn
+		.. TitanUtils_GetGreenText("Right Click: For Shortcuts and Debug Tools") .. rtn
+
+	res = res
+		.. realm
+		.. rtn
+		.. resets .. daily .. weekly
+		.. rtn
+		.. hints
+
+	return res
 end
 
 -- Create the .registry for Titan so it can register and place the plugin
@@ -131,13 +157,13 @@ local function OnLoad(self)
 		controlVariables = {
 			ShowIcon = true,
 			ShowLabelText = true,
---			ShowColoredText = true,
+			--			ShowColoredText = true,
 			DisplayOnRightSide = true,
 		},
 		savedVariables = {
 			ShowIcon = 1,
 			ShowLabelText = 1,
---			ShowColoredText = 1,
+			--			ShowColoredText = 1,
 			DisplayOnRightSide = false,
 		}
 	};
@@ -155,7 +181,7 @@ local function OnClick(self, button)
 		)
 	end
 	if (button == "LeftButton") then
-		ReloadUI()
+		C_UI.Reload() --ReloadUI()
 	end
 end
 

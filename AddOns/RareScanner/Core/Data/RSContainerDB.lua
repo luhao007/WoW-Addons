@@ -74,30 +74,7 @@ function RSContainerDB.GetAllInternalContainerInfo()
 end
 
 function RSContainerDB.GetContainerIDsByMapID(mapID)
-	local containerIDs = {}
-	for containerID, containerInfo in pairs(RSContainerDB.GetAllInternalContainerInfo()) do
-		if (RSContainerDB.IsInternalContainerMultiZone(containerID)) then
-			-- First check if there is a matching mapID in the database
-			for internalMapID, _ in pairs (containerInfo.zoneID) do
-				if (internalMapID == mapID) then
-					tinsert(containerIDs,containerID)
-				end
-			end
-			
-			-- Then check if there is a matching subMapID in the database
-			for internalMapID, _ in pairs (containerInfo.zoneID) do
-				if (RSMapDB.IsMapInParentMap(mapID, internalMapID)) then
-					tinsert(containerIDs,containerID)
-				end
-			end
-		elseif (RSContainerDB.IsInternalContainerMonoZone(containerID)) then
-			if (containerInfo.zoneID == mapID or (containerInfo.noVignette and containerInfo.zoneID == 0)) then
-				tinsert(containerIDs,containerID)
-			end
-		end
-	end
-	
-	return containerIDs
+	return RSMapDB.GetEntitiesByMapID(mapID, RSConstants.MAP_ENTITY_CONTAINER, true)
 end
 
 function RSContainerDB.GetInternalContainerInfo(containerID)
@@ -568,6 +545,12 @@ function RSContainerDB.GetContainerName(containerID)
 		elseif (RSUtils.Contains(RSConstants.CONTAINERS_MUFF_AUTO_LOCKER, containerID)) then
 			private.dbglobal.object_names[GetLocale()][containerID] = AL["CONTAINERS_MUFF_AUTO_LOCKER"]
 			return AL["CONTAINERS_MUFF_AUTO_LOCKER"]
+		elseif (RSUtils.Contains(private.ACHIEVEMENT_TARGET_IDS[61052], containerID)) then
+			private.dbglobal.object_names[GetLocale()][containerID] = AL["NOTE_CONTAINERS_GLOWING_MOTH"]
+			return AL["NOTE_CONTAINERS_GLOWING_MOTH"]
+		elseif (RSUtils.Contains(RSConstants.CONTAINERS_STURDY_CHEST, containerID)) then
+			private.dbglobal.object_names[GetLocale()][containerID] = AL["CONTAINERS_STURDY_CHEST"]
+			return AL["CONTAINERS_STURDY_CHEST"]
 		end
 	end
 
@@ -575,10 +558,10 @@ function RSContainerDB.GetContainerName(containerID)
 end
 
 function RSContainerDB.GetActiveContainerIDsWithNamesByMapID(mapID)
-	local containerIDs =  RSContainerDB.GetContainerIDsByMapID(mapID)
+	local containerIDs = RSContainerDB.GetContainerIDsByMapID(mapID)
 	local containerIDsWithNames = nil
 	
-	if (RSUtils.GetTableLength(containerIDs)) then
+	if (RSUtils.GetTableLength(containerIDs) > 0) then
 		containerIDsWithNames = {}
 		for _, containerID in ipairs(containerIDs) do
 			local containerInfo = RSContainerDB.GetInternalContainerInfo(containerID)

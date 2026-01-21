@@ -13,15 +13,9 @@ L["ABOUT_UPDATEADD"]="更新: "
 L["ABOUT_MAIL"]="回饋郵箱: "
 L["ABOUT_MEDIA"]="使用教程: "
 --error
-L["ERROR_CLEAR"] = "清空";
-L["ERROR_PREVIOUS"] = "上一條";
-L["ERROR_NEXT"] = "下一條";
-L["ERROR_EMPTY"] = "沒有錯誤髮生";
-L["ERROR_CURRENT"] = "本次錯誤";
-L["ERROR_OLD"] = "之前錯誤";
-L["ERROR_ADDON"] = "插件";
 L["ERROR_ERROR1"] = "嚐試調用保護功能";
 L["ERROR_ERROR2"] = "宏嚐試調用保護功能";
+L["ERROR_DEBUGTOOLTIP"] = "發生錯誤時在小地圖按鈕提示（顯示一個紅X）\n並且不會收納BugSack插件的小地圖圖標";
 --lib
 L["LIB_MACROERR"] = "你的宏數量已達最大值120，請删除一些再嘗試";
 L["LIB_TIPS"] = "提示";
@@ -48,8 +42,7 @@ L["DEBUG_ADD"] = "挿件";
 L["DEBUG_MEMORY"] = "記憶體";
 L["DEBUG_ERRORLOG"] = "錯誤日誌";
 L["DEBUG_OPENERRORLOGCMD"] = "打開日誌指令：";
-L["DEBUG_ERRORCHECK"] = "測試";
-L["DEBUG_ERRORTOOLTIP"] = "發生錯誤時在小地圖按鈕提示（顯示一個紅X）\n並且不會收納BugSack插件的小地圖圖標";
+
 L["DEBUG_SCRIPTTOOLTIP"] = "打開遊戲自帶的LUA錯誤提示功能，非調試挿件情况下請不要開啟";
 L["DEBUG_TAINTLOG"] = "污染日誌";
 L["DEBUG_TAINT0"] = "不記錄任何內容";

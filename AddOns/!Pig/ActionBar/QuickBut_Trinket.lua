@@ -371,7 +371,7 @@ QuickButUI.ButList[3]=function()
 		end
 		if fujiF.UpdataFenliScale then fujiF.UpdataFenliScale() end
 	end)
-	SetfujiF.CZBUT = PIGButton(SetfujiF,{"TOPLEFT",SetfujiF.lock,"BOTTOMLEFT",0,-20},{80,24},"重置位置")
+	SetfujiF.CZBUT = PIGButton(SetfujiF,{"TOPLEFT",SetfujiF.lock,"BOTTOMLEFT",0,-20},{80,24},RESET_POSITION)
 	SetfujiF.CZBUT:SetScript("OnClick", function ()
 		PIGA["QuickBut"]["TrinketScale"]=1
 		SetfujiF.Scale:PIGSetValue(1)
@@ -392,8 +392,8 @@ QuickButUI.ButList[3]=function()
 		end
 	end)
 	--饰品切换界面
-	local Icon,anniushu,butW=136528,20,QuickButUI:GetHeight()
-	local TrinketSelectF = PIGFrame(UIParent)
+	local Icon,anniushu,butW=136528,20,QuickButUI.butWWW
+	local TrinketSelectF = PIGFrame(UIParent,nil,{butW,butW})
 	TrinketSelectF:PIGSetBackdrop(1)
 	TrinketSelectF:SetFrameLevel(QuickButUI:GetFrameLevel()+4)
 	TrinketSelectF:Hide()
@@ -413,13 +413,6 @@ QuickButUI.ButList[3]=function()
 	for i=1,anniushu do
 		local hangBut = CreateFrame("Button", nil, TrinketSelectF,nil,i)
 		TrinketSelectF.ButList[i]=hangBut
-		local tmp1,tmp2 = math.modf(i/2)
-		if i==1 then
-		elseif tmp2==0 then
-			hangBut:SetPoint("LEFT",TrinketSelectF.ButList[i-1],"RIGHT",0,0);
-		else
-			hangBut:SetPoint("TOPLEFT",TrinketSelectF.ButList[i-2],"BOTTOMLEFT",0,0);
-		end
 		hangBut:SetHighlightTexture(130718);
 		hangBut:SetSize(butW, butW)
 		hangBut.Cooldown = CreateFrame("Frame", nil, hangBut);
@@ -477,7 +470,7 @@ QuickButUI.ButList[3]=function()
 		end);
 	end
 	TrinketSelectF.DQList={}
-	function TrinketSelectF:UpdatePointsSize()
+	TrinketSelectF:HookScript("OnShow", function(self)
 		for i=1,anniushu do
 			self.ButList[i]:Hide()
 		end
@@ -501,19 +494,21 @@ QuickButUI.ButList[3]=function()
 			end
 		end
 		local lieshuNUM = math.ceil(#self.DQList*0.5)
-		self:SetSize((butW)*2+1, (butW)*lieshuNUM+2)
-	end
-	TrinketSelectF:HookScript("OnShow", function(self)
-		self:UpdatePointsSize()
+		if TrinketSelectF.Pailie==1 then
+			self:SetSize((butW)*2+1, (butW)*lieshuNUM+2)
+		elseif TrinketSelectF.Pailie==2 then
+			self:SetSize((butW)*lieshuNUM+2,(butW)*2+1)
+		end
 	end)
 	--创建饰品切换按钮
+	local PIGUseKeyDown=addonTable.Fun.ActionFun.PIGUseKeyDown
 	local GnUI = "PIG_QkBut_AutoTrinket"
 	local AutoTrinket=PIGQuickBut(GnUI,TRINKET0SLOT_UNIQUE,Icon,nil,nil,"SecureActionButtonTemplate")--UseInventoryItem(13)
 	TrinketSelectF.LeftTrinket=AutoTrinket
 	local AutoTrinket1=PIGQuickBut(GnUI.."1",TRINKET1SLOT_UNIQUE,Icon,nil,nil,"SecureActionButtonTemplate")
 	TrinketSelectF.RightTrinket=AutoTrinket1
-	addonTable.Fun.ActionFun.PIGUseKeyDown(AutoTrinket)
-	addonTable.Fun.ActionFun.PIGUseKeyDown(AutoTrinket1)
+	PIGUseKeyDown(AutoTrinket)
+	PIGUseKeyDown(AutoTrinket1)
 	AutoTrinket:SetAttribute("type1", "macro");
 	AutoTrinket:SetAttribute("macrotext", [=[/use 13]=]);
 	AutoTrinket1:SetAttribute("type1", "macro");
@@ -545,7 +540,8 @@ QuickButUI.ButList[3]=function()
 		fujiUI:SetScript("OnEnter", function(self)
 			GameTooltip:ClearLines();
 			GameTooltip:SetOwner(TrinketSelectF, "ANCHOR_NONE");
-			GameTooltip:SetPoint("BOTTOMLEFT",TrinketSelectF,"BOTTOMRIGHT",2,2);
+			local pianyiv=TrinketSelectF.pianyiv or 0
+			GameTooltip:SetPoint("BOTTOMLEFT",TrinketSelectF,"BOTTOMRIGHT",2+pianyiv,2);
 			GameTooltip:SetInventoryItem("player",slotID)
 			GameTooltip:Show();
 		end)
@@ -575,19 +571,6 @@ QuickButUI.ButList[3]=function()
 	end
 	add_Button(AutoTrinket,13)
 	add_Button(AutoTrinket1,14)
-	function fujiF.Update_TrinketSelectF(BottomUI)
-		TrinketSelectF:SetParent(BottomUI)
-		TrinketSelectF:SetFrameLevel(BottomUI:GetFrameLevel()+10)
-		local WowHeight=GetScreenHeight();
-		local offset1 = BottomUI:GetBottom();
-		if offset1>(WowHeight*0.4) then
-			TrinketSelectF.ButList[1]:SetPoint("TOPLEFT",TrinketSelectF,"TOPLEFT",0.5,-1);
-			TrinketSelectF:SetPoint("TOPLEFT",AutoTrinket,"BOTTOMLEFT",-1,0);
-		else
-			TrinketSelectF.ButList[1]:SetPoint("TOPLEFT",TrinketSelectF,"TOPLEFT",0.5,-1);
-			TrinketSelectF:SetPoint("BOTTOMLEFT",AutoTrinket,"TOPLEFT",-1,0);
-		end
-	end
 	--已在队列
 	-- local function IsDuilieFun(bag,slot)
 	-- 	if AutoTrinket.NextList then
@@ -708,8 +691,8 @@ QuickButUI.ButList[3]=function()
 		end
 	end);
 	--分离模式
+	local UIname= "PIG_QuickTrinketUI"
 	if PIGA["QuickBut"]["TrinketFenli"] then
-		local UIname= "PIG_QuickTrinketUI"
 		Data.UILayout[UIname]={"BOTTOM","BOTTOM",-200,200}
 		local FenliUI=PIGFrame(UIParent,nil,nil,UIname)
 		Create.PIG_SetPoint(UIname)
@@ -787,8 +770,83 @@ QuickButUI.ButList[3]=function()
 		end
 		fujiF.UpdataFenliScale()
 		fujiF.UpdataFenliPailie()
-		fujiF.Update_TrinketSelectF(FenliUI)
-	else
-		fujiF.Update_TrinketSelectF(QuickButUI)
 	end
+	hooksecurefunc(QuickButUI, "UpdateWidth", function(self)
+		local BottomUI=QuickButUI
+		if PIGA["QuickBut"]["TrinketFenli"] then
+			BottomUI=_G[UIname]
+		end
+		if not BottomUI then return end
+		TrinketSelectF:SetParent(BottomUI)
+		TrinketSelectF:SetFrameLevel(BottomUI:GetFrameLevel()+10)
+		TrinketSelectF:ClearAllPoints();
+		TrinketSelectF.pianyiv=nil
+		TrinketSelectF.Pailie=PIGA["QuickBut"]["Pailie"]
+		if PIGA["QuickBut"]["Pailie"]==1 then
+			local WowHeight=GetScreenHeight();
+			local offset1 = BottomUI:GetBottom();
+			if offset1>(WowHeight*0.5) then
+				TrinketSelectF:SetPoint("TOPLEFT",AutoTrinket,"BOTTOMLEFT",-1,0);
+				for i=1,#TrinketSelectF.ButList do
+					local hangBut=TrinketSelectF.ButList[i]
+					hangBut:ClearAllPoints();
+					local tmp1,tmp2 = math.modf(i/2)
+					if i==1 then
+						hangBut:SetPoint("TOPLEFT",TrinketSelectF,"TOPLEFT",0.5,-1);
+					elseif tmp2==0 then
+						hangBut:SetPoint("LEFT",TrinketSelectF.ButList[i-1],"RIGHT",0,0);
+					else
+						hangBut:SetPoint("TOPLEFT",TrinketSelectF.ButList[i-2],"BOTTOMLEFT",0,0);
+					end
+				end
+			else
+				TrinketSelectF:SetPoint("BOTTOMLEFT",AutoTrinket,"TOPLEFT",-1,0);
+				for i=1,#TrinketSelectF.ButList do
+					local hangBut=TrinketSelectF.ButList[i]
+					hangBut:ClearAllPoints();
+					local tmp1,tmp2 = math.modf(i/2)
+					if i==1 then
+						hangBut:SetPoint("BOTTOMLEFT",TrinketSelectF,"BOTTOMLEFT",0.5,-1);
+					elseif tmp2==0 then
+						hangBut:SetPoint("LEFT",TrinketSelectF.ButList[i-1],"RIGHT",0,0);
+					else
+						hangBut:SetPoint("BOTTOMLEFT",TrinketSelectF.ButList[i-2],"TOPLEFT",0,0);
+					end
+				end
+			end
+		elseif PIGA["QuickBut"]["Pailie"]==2 then
+			local WowWidth=GetScreenWidth()
+			local offset1 = BottomUI:GetLeft() or 500
+			if offset1>(WowWidth*0.5) then
+				TrinketSelectF.pianyiv=butW
+				TrinketSelectF:SetPoint("TOPRIGHT",AutoTrinket,"TOPLEFT",0,0);
+				for i=1,#TrinketSelectF.ButList do
+					local hangBut=TrinketSelectF.ButList[i]
+					hangBut:ClearAllPoints();
+					local tmp1,tmp2 = math.modf(i/2)
+					if i==1 then
+						hangBut:SetPoint("TOPRIGHT",TrinketSelectF,"TOPRIGHT",0.5,-1);
+					elseif tmp2==0 then
+						hangBut:SetPoint("TOP",TrinketSelectF.ButList[i-1],"BOTTOM",0,0);
+					else
+						hangBut:SetPoint("TOPRIGHT",TrinketSelectF.ButList[i-2],"TOPLEFT",0,0);
+					end
+				end
+			else
+				TrinketSelectF:SetPoint("TOPLEFT",AutoTrinket,"TOPRIGHT",0,0);
+				for i=1,#TrinketSelectF.ButList do
+					local hangBut=TrinketSelectF.ButList[i]
+					hangBut:ClearAllPoints();
+					local tmp1,tmp2 = math.modf(i/2)
+					if i==1 then
+						hangBut:SetPoint("TOPLEFT",TrinketSelectF,"TOPLEFT",0.5,-1);
+					elseif tmp2==0 then
+						hangBut:SetPoint("TOP",TrinketSelectF.ButList[i-1],"BOTTOM",0,0);
+					else
+						hangBut:SetPoint("TOPLEFT",TrinketSelectF.ButList[i-2],"TOPRIGHT",0,0);
+					end
+				end
+			end
+		end
+    end)
 end

@@ -52,7 +52,7 @@ fujiF.MarginF.Open:SetScript("OnClick", function (self)
 	fujiF.MarginF.Set_Fun()
 	fujiF.MarginF.Update_Checkbut()
 end);
-fujiF.MarginF.cz = PIGButton(fujiF.MarginF,{"LEFT",fujiF.MarginF.Open,"RIGHT",480,0},{60,22},"重置");
+fujiF.MarginF.cz = PIGButton(fujiF.MarginF,{"LEFT",fujiF.MarginF.Open,"RIGHT",480,0},{60,22},RESET);
 fujiF.MarginF.cz:SetScript("OnClick", function (self)
 	PIGA["PigLayout"]["ChatUI"]["MarginPoint"]=addonTable.Default["PigLayout"]["ChatUI"]["MarginPoint"]
 	fujiF.MarginF:Hide()
@@ -121,7 +121,7 @@ fujiF.zhuF.Open:SetScript("OnClick", function (self)
 	end
 	fujiF.zhuF.Update_Checkbut()
 end);
-fujiF.zhuF.cz = PIGButton(fujiF.zhuF,{"LEFT",fujiF.zhuF.Open,"RIGHT",480,0},{60,22},"重置");
+fujiF.zhuF.cz = PIGButton(fujiF.zhuF,{"LEFT",fujiF.zhuF.Open,"RIGHT",480,0},{60,22},RESET);
 fujiF.zhuF.cz:SetScript("OnClick", function (self)
 	PIGA["PigLayout"]["ChatUI"]["ZhuPoint"]=addonTable.Default["PigLayout"]["ChatUI"]["ZhuPoint"]
 	fujiF.zhuF:Hide()
@@ -214,7 +214,7 @@ fujiF.fuF.Open:SetScript("OnClick", function (self)
 	fujiF.fuF.Set_Fun(true)
 	fujiF.fuF.Update_Checkbut()
 end);
-fujiF.fuF.cz = PIGButton(fujiF.fuF,{"LEFT",fujiF.fuF.Open,"RIGHT",480,0},{60,22},"重置");
+fujiF.fuF.cz = PIGButton(fujiF.fuF,{"LEFT",fujiF.fuF.Open,"RIGHT",480,0},{60,22},RESET);
 fujiF.fuF.cz:SetScript("OnClick", function (self)
 	PIGA["PigLayout"]["ChatUI"]["FuPoint"]=addonTable.Default["PigLayout"]["ChatUI"]["FuPoint"]
 	fujiF.fuF:Hide()

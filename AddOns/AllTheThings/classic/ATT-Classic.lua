@@ -654,10 +654,10 @@ local function BuildContainsInfo(groups, entries, paramA, paramB, indent, layer)
 				if group.u then
 					local phase = L.PHASES[group.u];
 					if phase and (not phase.buildVersion or app.GameBuildVersion < phase.buildVersion) then
-						o.texture = L["UNOBTAINABLE_ITEM_TEXTURES"][phase.state];
+						o.texture = L.UNOBTAINABLE_ITEM_TEXTURES[phase.state];
 					end
 				elseif group.e then
-					o.texture = L["UNOBTAINABLE_ITEM_TEXTURES"][4];
+					o.texture = L.UNOBTAINABLE_ITEM_TEXTURES[4];
 				end
 				if o.texture then
 					o.prefix = o.prefix:sub(4) .. "|T" .. o.texture .. ":0|t ";
@@ -680,10 +680,10 @@ local function BuildReagentInfo(groups, entries, paramA, paramB, indent, layer)
 			if group.u then
 				local phase = L.PHASES[group.u];
 				if phase and (not phase.buildVersion or app.GameBuildVersion < phase.buildVersion) then
-					o.texture = L["UNOBTAINABLE_ITEM_TEXTURES"][phase.state];
+					o.texture = L.UNOBTAINABLE_ITEM_TEXTURES[phase.state];
 				end
 			elseif group.e then
-				o.texture = L["UNOBTAINABLE_ITEM_TEXTURES"][4];
+				o.texture = L.UNOBTAINABLE_ITEM_TEXTURES[4];
 			end
 			if o.texture then
 				o.prefix = o.prefix:sub(4) .. "|T" .. o.texture .. ":0|t ";
@@ -746,7 +746,7 @@ local function AddSourceLinesForTooltip(tooltipInfo, paramA, paramB, group)
 		local showUnsorted = app.Settings:GetTooltipSetting("SourceLocations:Unsorted");
 		local showCompleted = app.Settings:GetTooltipSetting("SourceLocations:Completed");
 		local wrap = app.Settings:GetTooltipSetting("SourceLocations:Wrapping");
-		local FilterUnobtainable, FilterCharacter, FirstParent
+		local RecursiveUnobtainableFilter, RecursiveCharacterRequirementsFilter, GetRelativeGroup
 			= app.RecursiveUnobtainableFilter, app.RecursiveCharacterRequirementsFilter, app.GetRelativeGroup
 		local abbrevs = L["ABBREVIATIONS"];
 
@@ -768,7 +768,7 @@ local function AddSourceLinesForTooltip(tooltipInfo, paramA, paramB, group)
 
 		for _,j in ipairs(sourceGroups) do
 			parent = j.parent;
-			if parent and not FirstParent(j, "hideText") and parent.parent
+			if parent and not GetRelativeGroup(j, "hideText") and parent.parent
 				and (showCompleted or not app.IsComplete(j))
 				and not HasCost(j, paramA, paramB)
 			then
@@ -778,14 +778,14 @@ local function AddSourceLinesForTooltip(tooltipInfo, paramA, paramB, group)
 						text = text:gsub(source, replacement);
 					end
 					-- doesn't meet current unobtainable filters
-					if not FilterUnobtainable(parent) then
+					if not RecursiveUnobtainableFilter(parent) then
 						tinsert(unfiltered, { text, UnobtainableTexture });
 					-- from obtainable, different character source
-					elseif not FilterCharacter(parent) then
+					elseif not RecursiveCharacterRequirementsFilter(parent) then
 						tinsert(unfiltered, { text, "|T374223:0|t" });
 					else
 						-- check if this needs an unobtainable icon even though it's being shown
-						right = GetUnobtainableTexture(FirstParent(parent, "e") or FirstParent(parent, "u") or j) or (j.rwp and app.asset("status-prerequisites"));
+						right = GetUnobtainableTexture(GetRelativeGroup(parent, "e") or GetRelativeGroup(parent, "u") or j) or (j.rwp and app.asset("status-prerequisites"));
 						tinsert(temp, { text, right and ("|T" .. right .. ":0|t") });
 					end
 				end
@@ -1537,21 +1537,19 @@ function app:GetDataCache()
 		-----------------------------------------
 		-- Dungeons & Raids
 		if app.Categories.Instances then
-			tinsert(g, {
-				text = GROUP_FINDER,
+			tinsert(g, app.CreateRawText(GROUP_FINDER, {
 				icon = app.asset("Category_D&R"),
 				g = app.Categories.Instances,
-			});
+			}));
 		end
 
 		-- Outdoor Zones
 		if app.Categories.Zones then
-			tinsert(g, {
-				mapID = 947,
-				text = BUG_CATEGORY2,
+			tinsert(g, app.CreateRawText(BUG_CATEGORY2, {
 				icon = app.asset("Category_Zones"),
+				mapID = 947,
 				g = app.Categories.Zones,
-			});
+			}));
 		end
 
 		-- World Drops
@@ -1564,23 +1562,21 @@ function app:GetDataCache()
 		if app.Categories.Craftables then
 			local craftables = app.Categories.Craftables;
 			ProcessBindOnPickupProfessions(craftables);
-			tinsert(g, {
-				text = LOOT_JOURNAL_LEGENDARIES_SOURCE_CRAFTED_ITEM,
+			tinsert(g, app.CreateRawText(LOOT_JOURNAL_LEGENDARIES_SOURCE_CRAFTED_ITEM, {
 				icon = app.asset("Category_Crafting"),
 				DontEnforceSkillRequirements = true,
 				isCraftedCategory = true,
 				g = craftables,
-			});
+			}));
 		end
 
 		-- Group Finder
 		if app.Categories.GroupFinder then
-			tinsert(g, {
-				text = DUNGEONS_BUTTON,
+			tinsert(g, app.CreateRawText(DUNGEONS_BUTTON, {
 				icon = app.asset("Category_GroupFinder"),
 				u = 33,	-- WRATH_PHASE_FOUR
 				g = app.Categories.GroupFinder,
-			});
+			}));
 		end
 
 		-- Professions
@@ -1601,11 +1597,10 @@ function app:GetDataCache()
 
 		-- Expansion Features
 		if app.Categories.ExpansionFeatures and #app.Categories.ExpansionFeatures > 0 then
-			tinsert(g, {
-				text = EXPANSION_FILTER_TEXT,
+			tinsert(g, app.CreateRawText(EXPANSION_FILTER_TEXT, {
 				icon = app.asset("Category_ExpansionFeatures"),
 				g = app.Categories.ExpansionFeatures
-			});
+			}));
 		end
 
 		-----------------------------------------
@@ -1613,12 +1608,10 @@ function app:GetDataCache()
 		-----------------------------------------
 		-- Character
 		if app.Categories.Character then
-			local db = {};
-			db.g = app.Categories.Character;
-			db.text = CHARACTER;
-			db.name = db.text;
-			db.icon = app.asset("Category_ItemSets");
-			tinsert(g, db);
+			tinsert(g, app.CreateRawText(CHARACTER, {
+				icon = app.asset("Category_ItemSets"),
+				g = app.Categories.Character,
+			}));
 		end
 
 		-- PvP
@@ -1631,13 +1624,12 @@ function app:GetDataCache()
 
 		-- Promotions
 		if app.Categories.Promotions then
-			tinsert(g, {
-				text = BATTLE_PET_SOURCE_8,
+			tinsert(g, app.CreateRawText(BATTLE_PET_SOURCE_8, {
 				icon = app.asset("Category_Promo"),
 				description = "This section is for real world promotions that seeped extremely rare content into the game prior to some of them appearing within the In-Game Shop.",
 				g = app.Categories.Promotions,
 				isPromotionCategory = true
-			});
+			}));
 		end
 
 		-- Season of Discovery
@@ -1649,22 +1641,20 @@ function app:GetDataCache()
 
 		-- Skills
 		if app.Categories.Skills then
-			tinsert(g, {
-				text = SKILLS,
+			tinsert(g, app.CreateRawText(SKILLS, {
 				icon = 136105,
 				g = app.Categories.Skills
-			});
+			}));
 		end
 
 		-- World Events
 		if app.Categories.WorldEvents then
-			tinsert(g, {
-				text = BATTLE_PET_SOURCE_7;
+			tinsert(g, app.CreateRawText(BATTLE_PET_SOURCE_7, {
 				icon = app.asset("Category_Event"),
 				description = "These events occur at different times in the game's timeline, typically as one time server wide events. Special celebrations such as Anniversary events and such may be found within this category.",
 				g = app.Categories.WorldEvents,
 				isEventCategory = true,
-			});
+			}));
 		end
 
 		---------------------------------------
@@ -2203,6 +2193,7 @@ local ADDON_LOADED_HANDLERS = {
 			currentCharacter = {};
 			characterData[app.GUID] = currentCharacter;
 		end
+		currentCharacter.build = app.GameBuildVersion;
 		local name, realm = UnitName("player");
 		if not realm then realm = GetRealmName(); end
 		if name then currentCharacter.name = name; end
@@ -2253,7 +2244,7 @@ local ADDON_LOADED_HANDLERS = {
 		if not accountWideData.Titles then accountWideData.Titles = {}; end
 		if not accountWideData.Transmog then accountWideData.Transmog = {}; end
 		if not accountWideData.OneTimeQuests then accountWideData.OneTimeQuests = {}; end
-		
+
 		-- Clean up other matching Characters with identical Name-Realm but differing GUID
 		app.CallbackHandlers.Callback(function()
 			local myGUID = app.GUID;
@@ -2324,7 +2315,7 @@ local ADDON_LOADED_HANDLERS = {
 			-- Allows removing the character backups that ATT automatically creates for duplicated characters which are replaced by new ones
 			app.ChatCommands.Add("remove-deleted-character-backups", function(args)
 				local backups = 0
-				for guid,char in pairs(accountWideData._CharacterBackups) do
+				for guid,char in pairs(accountWideData._CharacterBackups or app.EmptyTable) do
 					backups = backups + 1
 				end
 				accountWideData._CharacterBackups = nil

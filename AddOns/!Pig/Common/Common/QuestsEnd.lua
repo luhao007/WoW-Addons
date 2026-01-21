@@ -9,8 +9,8 @@ local QuestsEndFrameUI = CreateFrame("Frame");
 QuestsEndFrameUI.wanchengqingkuang={}
 local function GetQuestsInfo(event)
 	if PIG_MaxTocversion() then
-		if QuestMapFrame then QuestMapFrame.ignoreQuestLogUpdate = true; end
-		if PIG_MaxTocversion(20000,true) then ExpandQuestHeader(0) end
+		--if QuestMapFrame then QuestMapFrame.ignoreQuestLogUpdate = true; end
+		--if PIG_MaxTocversion(20000,true) then ExpandQuestHeader(0) end
 		local numShownEntries, numQuests = GetNumQuestLogEntries()
 		for questIndex=1,numShownEntries do	
 			local title, level, suggestedGroup, isHeader, isCollapsed, isComplete, frequency, questID = GetQuestLogTitle(questIndex)
@@ -32,20 +32,20 @@ local function GetQuestsInfo(event)
 				QuestsEndFrameUI.wanchengqingkuang[questID]=isComplete
 			end
 		end
-		if PIG_MaxTocversion(20000,true) then 
-			local numEntries, numQuests = GetNumQuestLogEntries();
-			for questLogIndex = 1, numEntries do
-				local title, _, _, isHeader, _, _, _, _, _, _, isOnMap = GetQuestLogTitle(questLogIndex);
-				if isHeader then
-					if isOnMap then
-						ExpandQuestHeader(questLogIndex, true);
-					else
-						CollapseQuestHeader(questLogIndex, true);
-					end
-				end
-			end
-		end
-		if QuestMapFrame then QuestMapFrame.ignoreQuestLogUpdate = nil; end
+		-- if PIG_MaxTocversion(20000,true) then 
+		-- 	local numEntries, numQuests = GetNumQuestLogEntries();
+		-- 	for questLogIndex = 1, numEntries do
+		-- 		local title, _, _, isHeader, _, _, _, _, _, _, isOnMap = GetQuestLogTitle(questLogIndex);
+		-- 		if isHeader then
+		-- 			if isOnMap then
+		-- 				ExpandQuestHeader(questLogIndex, true);
+		-- 			else
+		-- 				CollapseQuestHeader(questLogIndex, true);
+		-- 			end
+		-- 		end
+		-- 	end
+		-- end
+		-- if QuestMapFrame then QuestMapFrame.ignoreQuestLogUpdate = nil; end
 	else
 		local numShownEntries, numQuests = C_QuestLog.GetNumQuestLogEntries()
 		for i=1,numShownEntries do

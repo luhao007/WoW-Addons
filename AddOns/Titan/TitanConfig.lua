@@ -18,25 +18,25 @@ local TitanSkinName, TitanSkinPath = "", "";
 
 TITAN_PANEL_CONFIG = {
 	topic = {
-		About     = L["TITAN_PANEL"],
-		top       = L["TITAN_PANEL_MENU_OPTIONS_BARS"],
-		globals   = L["TITAN_PANEL_MENU_OPTIONS_BARS_ALL"],
-		plugins   = L["TITAN_PANEL_MENU_PLUGINS"],
-		profiles  = L["TITAN_PANEL_MENU_PROFILES"],
-		tooltips  = L["TITAN_PANEL_MENU_OPTIONS_SHORT"],
-		scale     = L["TITAN_PANEL_UISCALE_MENU_TEXT_SHORT"],
-		trans     = L["TITAN_PANEL_TRANS_MENU_TEXT_SHORT"],
-		skins     = L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"],
-		skinscust = L["TITAN_PANEL_SKINS_OPTIONS_CUSTOM"],
-		extras    = L["TITAN_PANEL_EXTRAS_SHORT"],
-		attempts  = L["TITAN_PANEL_ATTEMPTS_SHORT"],
-		advanced  = L["TITAN_PANEL_MENU_ADV"],
-		changes   = L["TITAN_PANEL_MENU_CHANGE_HISTORY"],
-		slash     = L["TITAN_PANEL_MENU_SLASH_COMMAND"],
+		About      = L["TITAN_PANEL"],
+		top        = L["TITAN_PANEL_MENU_OPTIONS_BARS"],
+		globals    = L["TITAN_PANEL_MENU_OPTIONS_BARS_ALL"],
+		plugins    = L["TITAN_PANEL_MENU_PLUGINS"],
+		profiles   = L["TITAN_PANEL_MENU_PROFILES"],
+		tooltips   = L["TITAN_PANEL_MENU_OPTIONS_SHORT"],
+		scale      = L["TITAN_PANEL_UISCALE_MENU_TEXT_SHORT"],
+		trans      = L["TITAN_PANEL_TRANS_MENU_TEXT_SHORT"],
+		skins      = L["TITAN_PANEL_MENU_TEXTURE_SETTINGS"],
+		skinscust  = L["TITAN_PANEL_SKINS_OPTIONS_CUSTOM"],
+		extras     = L["TITAN_PANEL_EXTRAS_SHORT"],
+		attempts   = L["TITAN_PANEL_ATTEMPTS_SHORT"],
+		advanced   = L["TITAN_PANEL_MENU_ADV"],
+		changes    = L["TITAN_PANEL_MENU_CHANGE_HISTORY"],
+		slash      = L["TITAN_PANEL_MENU_SLASH_COMMAND"],
 		--		help           = L["TITAN_PANEL_MENU_HELP"],
-		help_list = "Help List", --L["TITAN_PANEL_MENU_HELP"],
+		help_list  = "Help List", --L["TITAN_PANEL_MENU_HELP"],
 		im_ex_port = "Import / Export", --L["TITAN_PANEL_MENU_HELP"],
-		adjust    = "Frame Adjustment",
+		adjust     = "Frame Adjustment",
 	}
 }
 
@@ -61,58 +61,12 @@ local function GetEmail()
 	return TitanUtils_GetAddOnMetadata(TITAN_ID, "X-Email") or L["TITAN_PANEL_NA"];
 end
 
---[[ not used
-local function GetWebsite()
-	return TitanUtils_GetAddOnMetadata(TITAN_ID, "X-Website") or L["TITAN_PANEL_NA"];
-end
---]]
-
 local function GetLicense()
 	return TitanUtils_GetAddOnMetadata(TITAN_ID, "X-License") or L["TITAN_PANEL_NA"];
 end
 
 local function GetDiscord()
 	return TitanUtils_GetAddOnMetadata(TITAN_ID, "X-Discord") or L["TITAN_PANEL_NA"];
-end
-
--- helper functions
-
---[[ local
-NAME: AdjustPanelScale
-DESC: Set the Tian bars and plugins to the selected scale then adjust other frames as needed.
-VAR: scale - the scale the user has selected for Titan
-OUT: None
---]]
-local function AustPanelScale(scale)
-	Titan_AdjustScale()
-
-	-- Adjust frame positions
-	TitanPanel_AdjustFrames(true, "AdjustPanelScale")
-end
-
--- helper functions
---[[ local
-NAME: TicketReload
-DESC: When the user changes the option to adjust for the Blizz ticket frame the UI must be reloaded. Ask the user if they want to do it now.
-VAR:  None
-OUT:  None
---]]
-local function TicketReload()
-	StaticPopupDialogs["TITAN_RELOAD"] = {
-		text = TitanUtils_GetNormalText(L["TITAN_PANEL_MENU_TITLE"]) .. "\n\n"
-			.. L["TITAN_PANEL_RELOAD"],
-		button1 = ACCEPT,
-		button2 = CANCEL,
-		OnAccept = function(self)
-			TitanPanelBarButton_ToggleScreenAdjust()
-			ReloadUI();
-		end,
-		showAlert = 1,
-		timeout = 0,
-		whileDead = 1,
-		hideOnEscape = 1
-	};
-	StaticPopup_Show("TITAN_RELOAD");
 end
 
 local function ScreenAdjustReload()
@@ -138,6 +92,7 @@ local function ScreenAdjustReload()
 		StaticPopup_Show("TITAN_RELOAD");
 	end
 end
+
 local function AuxScreenAdjustReload()
 	if TitanPanelGetVar("AuxScreenAdjust") then
 		-- if set then clear it - the screen will adjust
@@ -257,7 +212,6 @@ local titan_entry = {
 		},
 	}
 }
--------------
 
 --============= Frame Adjust
 --
@@ -407,7 +361,6 @@ local function BuildAdj()
 	TitanUpdateAdj(optionsAdjust.args, 1000)
 	AceConfigRegistry:NotifyChange("Titan Panel Adjust")
 end
--------------
 
 --============= Bars
 --
@@ -450,7 +403,6 @@ local function Format_coord(coord)
 	return (tostring(format("%0.2f", coord)))
 end
 
-local color_trans = 0
 --[[ local
 NAME: TitanUpdateConfigBars
 DESC: Allow the user to control each Titan bar.
@@ -616,7 +568,7 @@ local function TitanUpdateConfigBars(t, pos)
 				TitanPanelBarButton_DisplayBarsWanted("Bar reset to default position - " .. tostring(info[1]))
 			end,
 		}
-
+--[[
 		-- ======
 		-- Background group
 		position = position + 1 -- global background
@@ -643,13 +595,14 @@ local function TitanUpdateConfigBars(t, pos)
 				},
 			},
 		}
-
+--]]
 		position = position + 1 -- background
 		args[v.name].args.background = {
 			name = BACKGROUND,
 			type = "group",
 			inline = true,
 			order = position,
+			--[[
 			hidden = function(info)
 				local hide = false
 				if TitanBarDataVars["Global"].texure == Titan_Global.NONE then
@@ -659,6 +612,7 @@ local function TitanUpdateConfigBars(t, pos)
 				end
 				return hide
 			end,
+			--]]
 			args = {
 				settextousebar = {
 					name = "",
@@ -696,15 +650,9 @@ local function TitanUpdateConfigBars(t, pos)
 							order = 320,
 							width = "full",
 						},
-						colorspacer = {
-							order = 330,
-							type = "description",
-							width = "full",
-							name = " ",
-						},
 						colorselect = {
 							type = "color",
-							width = "Full",
+							width = "normal",
 							name = L["TITAN_PANEL_BAR_COLOR"],
 							order = 340,
 							--				disabled = (v.vert == TITAN_TOP or v.vert == TITAN_BOTTOM),
@@ -725,9 +673,24 @@ local function TitanUpdateConfigBars(t, pos)
 								TitanBarDataVars[frame_str].color.b     = b
 								TitanBarDataVars[frame_str].color.alpha = a
 								TitanPanel_SetBarTexture(frame_str)
-								color_trans = a
 							end,
 						},
+						showborder = {
+							type = "toggle",
+							width = "normal",
+							name = "Show Border", --L["TITAN_PANEL_MENU_DISPLAY_BAR"],
+							order = 350,
+							get = function(info)
+								local frame_str = TitanVariables_GetFrameName(info[1])
+								return TitanBarDataVars[frame_str].color_border
+							end,
+							set = function(info, val)
+								local frame_str = TitanVariables_GetFrameName(info[1])
+								TitanBarDataVars[frame_str].color_border = not TitanBarDataVars[frame_str].color_border
+								TitanPanel_SetBarTexture(frame_str)
+--								TitanUpdateConfigBars(optionsBars.args, 1000)
+							end,
+						}
 					},
 				},
 				skingroup = {
@@ -843,7 +806,6 @@ local function BuildBars()
 	TitanUpdateConfigBars(optionsBars.args, 1000)
 	AceConfigRegistry:NotifyChange("Titan Panel Bars")
 end
--------------
 
 --============= Bars - All
 
@@ -917,8 +879,6 @@ local function BuildBarsAll()
 	ConfigBarsAll(optionsGlobals.args, 1000)
 	AceConfigRegistry:NotifyChange("Titan Panel Globals")
 end
-
--------------
 
 --============= Plugins
 
@@ -1316,7 +1276,6 @@ local function UpdateConfigAddons()
 	-- Config Tables changed!
 	AceConfigRegistry:NotifyChange("Titan Panel Addon Control")
 end
--------------
 
 --============= Profiles
 
@@ -1330,14 +1289,14 @@ local optionsChars = {
 local function SummaryText(profile)
 	local res = ""
 
-	if profile.ptype  == Titan_Global.profile.GLOBAL then
-		res = L["TITAN_PANEL_GLOBAL"].." : "..profile.cname
-	elseif profile.ptype  == Titan_Global.profile.SYNC then
-		res = L["TITAN_PANEL_MENU_PROFILE_SYNC"].." : "..profile.cname
-	elseif profile.ptype  == Titan_Global.profile.TOON then
-		res = L["TITAN_PANEL_MENU_PROFILE_CHARS"].." : "..Titan_Global.profile.NONE
+	if profile.ptype == Titan_Global.profile.GLOBAL then
+		res = L["TITAN_PANEL_GLOBAL"] .. " : " .. profile.cname
+	elseif profile.ptype == Titan_Global.profile.SYNC then
+		res = L["TITAN_PANEL_MENU_PROFILE_SYNC"] .. " : " .. profile.cname
+	elseif profile.ptype == Titan_Global.profile.TOON then
+		res = L["TITAN_PANEL_MENU_PROFILE_CHARS"] .. " : " .. Titan_Global.profile.NONE
 	else
-		res = "?".." : "..Titan_Global.profile.NONE
+		res = "?" .. " : " .. Titan_Global.profile.NONE
 	end
 
 	return res
@@ -1346,33 +1305,26 @@ end
 local function EndProfileText(profile)
 	local res = ""
 
-	if profile.ptype  == Titan_Global.profile.GLOBAL then
-		res = " : "..profile.cname
-	elseif profile.ptype  == Titan_Global.profile.SYNC then
-		res = " : "..profile.cname
-	elseif profile.ptype  == Titan_Global.profile.TOON then
-		res = " : "..Titan_Global.profile.NONE
+	if profile.ptype == Titan_Global.profile.GLOBAL then
+		res = " : " .. profile.cname
+	elseif profile.ptype == Titan_Global.profile.SYNC then
+		res = " : " .. profile.cname
+	elseif profile.ptype == Titan_Global.profile.TOON then
+		res = " : " .. Titan_Global.profile.NONE
 	else
-		res = " : ?"..Titan_Global.profile.NONE
+		res = " : ?" .. Titan_Global.profile.NONE
 	end
 
 	return res
 end
 
--- These are here so the config function can see them (not sure this works...).
-local players = {} -- used for left side list of profiles
-local p_info  = {} -- used to hold info about each toon in players
-local p_sync  = {} -- profiles used as Sync
-
 ---Allow the user to load / delete / reset / sync profile data
 local function TitanUpdateChars()
-	players = {} -- used for left side list of profiles
-	p_info  = {} -- used to hold info about each toon in players
-	p_sync  = {} -- profiles used as Sync
+	local p_info  = {} -- used to hold info about each toon in players
+	local p_sync  = {} -- profiles used as Sync
 
 	-- Rip through the players (with server name) to sort them
 	for index, id in pairs(TitanSettings.Players) do
-		table.insert(players, index);
 
 		-- collect some info on THIS toon for the config
 		local this_toon = {}
@@ -1383,14 +1335,16 @@ local function TitanUpdateChars()
 		-- - green for custom profiles
 		if server == TITAN_CUSTOM_PROFILE_POSTFIX then
 			this_toon.fancy_name = TitanUtils_GetGreenText((index or "?"))
+			this_toon.is_custom = true
 		else
 			this_toon.fancy_name = TitanUtils_GetGoldText((index or "?"))
+			this_toon.is_custom = false
 		end
 
 		this_toon.name = index
 		this_toon.profile = TitanVariables_GetProfile(index)
 		this_toon.summary = SummaryText(this_toon.profile)
-		this_toon.toon_header = this_toon.fancy_name..EndProfileText(this_toon.profile)
+		this_toon.toon_header = this_toon.fancy_name .. EndProfileText(this_toon.profile)
 		this_toon.is_player = (index == TitanUtils_GetPlayer())
 		this_toon.sync_set = not (id.Panel["SyncWithProfile"] == Titan_Global.profile.NONE)
 		this_toon.sync_name = id.Panel["SyncWithProfile"]
@@ -1398,14 +1352,14 @@ local function TitanUpdateChars()
 
 		p_sync[this_toon.sync_name] = this_toon.sync_set
 	end
-	--Ace or Blizz sorts the toons...
-	--	table.sort(players, function(a, b)
-	--		return a < b
-	--	end)
-
+	--Sort the toons...
+	table.sort(p_info, function(a, b)
+		return a.name < b.name
+	end)
 
 	-- set up the options for the user
 	local args = optionsChars.args
+	local position = 100
 
 	wipe(args)
 
@@ -1425,9 +1379,8 @@ local function TitanUpdateChars()
 		cmdHidden = true
 	}
 
-	for idx = 1, #players do
+	for idx = 1, #p_info do
 		local this_toon = p_info[idx]
-		local position = 100
 		-- Check for global profile being set
 		local g_sync = (this_toon.profile.ptype == Titan_Global.profile.GLOBAL)
 
@@ -1438,392 +1391,502 @@ local function TitanUpdateChars()
 			order = position,
 			args = {}
 		}
-		local p_args = args[this_toon.name].args -- shartcut
+		local p_args = args[this_toon.name].args -- shortcut for right side
 
 		-- assemble the profile section
 		position = position + 1
 		p_args.name = {
 			type = "header",
-			name = TitanUtils_GetGoldText(this_toon.toon_header or "?") ,
+			name = TitanUtils_GetGoldText(this_toon.toon_header or "?"),
 			cmdHidden = true,
 			order = position,
 		}
-		position = position + 1
-		p_args.sp_1 = {
-			type = "description",
-			name = "",
-			cmdHidden = true,
-			order = position,
-		}
-		position = position + 1
-		local l_reason = ""
-		if g_sync then
-			l_reason = "Sync All set"
-		elseif this_toon.is_player then
-			l_reason = L["TITAN_PANEL_MENU_LOAD_SETTINGS_ERR1"]
-		else
-			l_reason = "."
+
+		do -- toon info
+			local toon = this_toon.name
+			if TitanSettings.Players[toon].Info then -- display
+				local itoon = TitanSettings.Players[toon].Info
+				local logout = (itoon.logoutStr == nil) and L["TITAN_PANEL_NA"] or itoon.logoutStr
+				position = position + 1
+				p_args[tostring(position)] = {
+					type = "description",
+					name = "Last Logout : "..logout,
+					--width = "0.5",
+					cmdHidden = true,
+					order = position,
+				}
+				position = position + 1
+				p_args[tostring(position)] = {
+					type = "description",
+					name = "Level : "..itoon.levelText,
+					width = "0.5",
+					cmdHidden = true,
+					order = position,
+				}
+				position = position + 1
+				p_args[tostring(position)] = {
+					type = "description",
+					name = "Faction : "..itoon.faction,
+					width = "0.5",
+					cmdHidden = true,
+					order = position,
+				}
+				position = position + 1
+				p_args[tostring(position)] = {
+					type = "description",
+					name = "Class : "..itoon.class,
+					width = "0.5",
+					cmdHidden = true,
+					order = position,
+				}
+				position = position + 1
+				p_args[tostring(position)] = {
+					type = "description",
+					name = "Race : "..itoon.race,
+					width = "0.5",
+					cmdHidden = true,
+					order = position,
+				}
+			else -- NA
+				position = position + 1
+				p_args[tostring(position)] = {
+					type = "description",
+					name = "Last Logout : "..L["TITAN_PANEL_NA"],
+					cmdHidden = true,
+					order = position,
+				}
+			end
+
+			--=== Gold on toon, not guild or warbank
+			position = position + 1
+			p_args[tostring(position)] = {
+				type = "description",
+				name = "",
+				cmdHidden = true,
+				order = position,
+			}
+
+			local gold_str = ""
+			local gold_button = TitanUtils_GetButton("Gold")
+			if gold_button and gold_button:IsShown() then
+				-- It is enabled
+				if this_toon.is_custom then
+					-- can not log in to custom so NA
+					gold_str = "Gold : "..L["TITAN_PANEL_NA"]
+				else
+					local name, server = TitanUtils_ParseName(this_toon.name)
+					local faction = UnitFactionGroup("Player")
+					gold_str = tostring(TitanPanel_GoldGetGold(name, server, faction))
+				end
+			else
+				-- not enabled
+				gold_str = "Gold : "..L["TITAN_PANEL_MENU_DISABLED"]
+			end
+
+			position = position + 1
+			p_args[tostring(position)] = {
+				name = gold_str,
+				order = position,
+				type = "description",
+			}
 		end
-		p_args.optionload = {
-			name = L["TITAN_PANEL_MENU_LOAD_SETTINGS"],
-			desc = L["TITAN_PANEL_MENU_LOAD_SETTINGS_DESC"],
-			order = position,
-			type = "execute",
-			--						width = "0.4",
-			func = function(info, v)
-				TitanVariables_UseSettings(info[1], TitanUtils_GetPlayer(), TITAN_PROFILE_USE)
-				TitanPrint(
-					L["TITAN_PANEL_MENU_LOAD_SETTINGS"]
-					.. " > " .. info[1].. ""
-					, "info")
-			end,
-			-- does not make sense to load current character profile
-			disabled = (this_toon.is_player or g_sync),
-		}
-		position = position + 1
-		local del_reason = ""
-		if g_sync then
-			del_reason = "" -- set above
-		elseif p_sync[this_toon.name] then
-			del_reason = L["TITAN_PANEL_MENU_PROFILE_DELETE_SETTINGS_ERR1"]
-		elseif this_toon.is_player then
-			del_reason = L["TITAN_PANEL_MENU_PROFILE_DELETE_SETTINGS_ERR2"]
-		else
-			del_reason = ""
+
+		do -- profile Mail
+			position = position + 1
+			p_args[tostring(position)] = {
+				type = "description",
+				name = "",
+				cmdHidden = true,
+				order = position,
+			}
+
+			position = position + 1
+			p_args[tostring(position)] = {
+				type = "header",
+				name = TitanUtils_GetGoldText("TitanPost"),
+				cmdHidden = true,
+				order = position,
+			}
+
+			local post_str = ""
+			local post_button = TitanUtils_GetButton("Post")
+			if post_button and post_button:IsShown() then
+				-- Is enabled
+				if this_toon.is_custom then
+					-- can not log in to custom so NA
+					post_str = L["TITAN_PANEL_NA"]
+				else
+					post_str = TitanPost.GetMailInfo(this_toon.name)
+				end
+			else
+				-- not enabled
+				post_str = L["TITAN_PANEL_MENU_DISABLED"]
+			end
+
+			position = position + 1
+			p_args.mailClear = {
+				name = "Clear", --L["TITAN_PANEL_MENU_LOAD_SETTINGS"],
+				desc = "Clear Mail info for this toon",
+				order = position,
+				type = "execute",
+				func = function(info, v)
+					TitanPost.ClearMailInfo(info[1])
+					TitanPrint(
+						"Clear Mail info"
+						.. " > " .. info[1] .. ""
+						, "info")
+					AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
+				end,
+				-- Should be able to clear any specific toon info
+				--disabled = (this_toon.is_player or g_sync),
+			}
+
+			position = position + 1
+			p_args[tostring(position)] = {
+				name = post_str,
+				order = position,
+				type = "description",
+			}
+			position = position + 1
+			p_args[tostring(position)] = {
+				type = "description",
+				name = "",
+				cmdHidden = true,
+				order = position,
+			}
 		end
-		p_args.optiondelete = {
-			name = L["TITAN_PANEL_MENU_PROFILE_DELETE_SETTINGS"],
-			desc = L["TITAN_PANEL_MENU_PROFILE_DELETE_SETTINGS_DESC"],
-			order = position,
-			type = "execute",
-			--						width = "0.4",
-			func = function(info, v)
-				TitanSettings.Players[info[1]] = nil -- delete the entry
-				TitanPrint(
-					L["TITAN_PANEL_MENU_PROFILE"]
-					.. "  " .. info[1].. " "
-					.. L["TITAN_PANEL_MENU_PROFILE_DELETED"]
-					, "info")
-				TitanUpdateChars() -- rebuild the toons
-				AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
-			end,
-			-- can not delete current character profile
-			disabled = (this_toon.is_player
-				or g_sync
-				or p_sync[this_toon.name]),
-		}
-		position = position + 1
-		p_args.sp_30 = {
-			type = "description",
-			name = " "..TitanUtils_GetHexText(l_reason, Titan_Global.colors.orange).."\n",
-			cmdHidden = true,
-			order = position,
-		}
-		p_args.sp_31 = {
-			type = "description",
-			name = " "..TitanUtils_GetHexText(del_reason, Titan_Global.colors.orange).."\n",
-			cmdHidden = true,
-			order = position,
-		}
-		position = position + 1
-		p_args.sp_35 = {
-			type = "description",
-			name = "\n",
-			cmdHidden = true,
-			order = position,
-		}
-		position = position + 1
-		p_args.reset_this = {
-			--name = L["TITAN_PANEL_MENU_PROFILE_RESET"].." : "..this_toon.profile.cname, --
-			--desc = L["TITAN_PANEL_MENU_PROFILE_RESET_DESC"],
-			name = "Reset Profile in Use", --
-			desc = "Will reset".." : "..this_toon.profile.cname,
-			order = position,
-			type = "execute",
-			--width = "1.0",
-			func = function(info, v)
-				local selected = info[1]
-				local str = ""
-				str = str
-					.. " " .. tostring(selected) .. ""
-					.. " > '" .. tostring(this_toon.profile.cname) .. "'"
-					.. " : '" .. tostring(TITAN_PROFILE_RESET) .. "'"
---					.. " | '" .. tostring(p_info[info[1]].is_player) .. "'"
 
-				Titan_Debug.Out('titan', 'profile', str)
+		do -- profile load / delete
+			position = position + 1
+			p_args.prof_title = {
+				type = "header",
+				name = TitanUtils_GetGoldText("Profile"),
+				cmdHidden = true,
+				order = position,
+			}
+			position = position + 1
+			p_args.sp_1 = {
+				type = "description",
+				name = "",
+				cmdHidden = true,
+				order = position,
+			}
+			position = position + 1
+			local l_reason = ""
+			if g_sync then
+				l_reason = "Sync All set"
+			elseif this_toon.is_player then
+				l_reason = L["TITAN_PANEL_MENU_LOAD_SETTINGS_ERR1"]
+			else
+				l_reason = "."
+			end
+			p_args.optionload = {
+				name = L["TITAN_PANEL_MENU_LOAD_SETTINGS"],
+				desc = L["TITAN_PANEL_MENU_LOAD_SETTINGS_DESC"],
+				order = position,
+				type = "execute",
+				--						width = "0.4",
+				func = function(info, v)
+					TitanVariables_UseSettings(info[1], TitanUtils_GetPlayer(), TITAN_PROFILE_USE)
+					TitanPrint(
+						L["TITAN_PANEL_MENU_LOAD_SETTINGS"]
+						.. " > " .. info[1] .. ""
+						, "info")
+				end,
+				-- does not make sense to load current character profile
+				disabled = (this_toon.is_player or g_sync),
+			}
 
-				-- Disabled if not current toon, otherwise it gets way complicated...
-				TitanVariables_UseSettings(nil, TitanUtils_GetPlayer(), TITAN_PROFILE_RESET)
+			position = position + 1
+			local del_reason = ""
+			if g_sync then
+				del_reason = "" -- set above
+			elseif p_sync[this_toon.name] then
+				del_reason = L["TITAN_PANEL_MENU_PROFILE_DELETE_SETTINGS_ERR1"]
+			elseif this_toon.is_player then
+				del_reason = L["TITAN_PANEL_MENU_PROFILE_DELETE_SETTINGS_ERR2"]
+			else
+				del_reason = ""
+			end
 
-				TitanPrint(
-					L["TITAN_PANEL_MENU_PROFILE_RESET"]
-					.. " "..selected
-					, "info")
-
-				TitanUpdateChars()
-				AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
-			end,
-			disabled = not (this_toon.is_player),
-		}
-		position = position + 1
-		p_args[tostring(position)] = {
-			type = "description",
-			name = " ",
-			cmdHidden = true,
-			order = position,
-		}
-		position = position + 1
-		p_args.optionsave = {
-			order = position,
-			type = "execute",
-			--						width = "0.5",
-			name = L["TITAN_PANEL_MENU_PROFILE_SAVE"] .. " " .. L["TITAN_PANEL_MENU_PROFILE_CUSTOM"],
-			desc = L["TITAN_PANEL_MENU_PROFILE_SAVE_DESC"],
-			func = function(info, v)
-				TitanPanel_SaveCustomProfile(info[1]) -- will output message on write
-				TitanUpdateChars() -- rebuild the toons
-			end,
-		}
-		position = position + 1
-		p_args[tostring(position)] = {
-			type = "description",
-			name = " ",
-			cmdHidden = true,
-			order = position,
-		}
-		position = position + 1
-		p_args.sync_title = {
-			type = "header",
-			name = TitanUtils_GetGoldText("Sync"),
-			cmdHidden = true,
-			order = position,
-		}
-		position = position + 1
-		local s_reason = ""
-		if g_sync then
-			s_reason = "" -- set above
-		elseif this_toon.sync_set then
-			s_reason = L["TITAN_PANEL_MENU_PROFILE_SYNC_ERR1"]
-		elseif this_toon.is_player then
-			s_reason = L["TITAN_PANEL_MENU_PROFILE_SYNC_ERR2"]
-		else
-			s_reason = "" -- no error
+			p_args.optiondelete = {
+				name = L["TITAN_PANEL_MENU_PROFILE_DELETE_SETTINGS"],
+				desc = L["TITAN_PANEL_MENU_PROFILE_DELETE_SETTINGS_DESC"],
+				order = position,
+				type = "execute",
+				--						width = "0.4",
+				func = function(info, v)
+					TitanSettings.Players[info[1]] = nil -- delete the entry
+					TitanPrint(
+						L["TITAN_PANEL_MENU_PROFILE"]
+						.. "  " .. info[1] .. " "
+						.. L["TITAN_PANEL_MENU_PROFILE_DELETED"]
+						, "info")
+					TitanUpdateChars() -- rebuild the toons
+					AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
+				end,
+				-- can not delete current character profile
+				disabled = (this_toon.is_player
+					or g_sync
+					or p_sync[this_toon.name]),
+			}
+			position = position + 1
+			p_args.sp_30 = {
+				type = "description",
+				name = " " .. TitanUtils_GetHexText(l_reason, Titan_Global.colors.orange) .. "\n",
+				cmdHidden = true,
+				order = position,
+			}
+			p_args.sp_31 = {
+				type = "description",
+				name = " " .. TitanUtils_GetHexText(del_reason, Titan_Global.colors.orange) .. "\n",
+				cmdHidden = true,
+				order = position,
+			}
+			position = position + 1
+			p_args.sp_35 = {
+				type = "description",
+				name = "\n",
+				cmdHidden = true,
+				order = position,
+			}
 		end
-		p_args.sync_with = {
-			name = L["TITAN_PANEL_MENU_PROFILE_SYNC"],
-			desc = L["TITAN_PANEL_MENU_PROFILE_SYNC_DESC"],
-			order = position,
-			type = "execute",
-			--width = "full",
-			func = function(info, v)
-				local str = ""
-				TitanVariables_SetProfile(TitanUtils_GetPlayer(), Titan_Global.profile.SYNC, info[1])
-				str = str
-					.. " " .. tostring(Titan_Global.profile.SYNC) .. ""
-					.. " > '" .. tostring(info[1]) .. "'"
-					.. " : '" .. tostring(TITAN_PROFILE_USE) .. "'"
 
-				Titan_Debug.Out('titan', 'profile', str)
-				TitanPrint(""
-					.. "" .. L["TITAN_PANEL_MENU_PROFILE_SYNC"] .. ""
-					.. " '" .. TitanUtils_GetPlayer() .. "'"
-					.. " > '" .. tostring(info[1]) .. "'"
-					, "info")
+		do -- profile reset
+			position = position + 1
+			p_args.reset_this = {
+				--name = L["TITAN_PANEL_MENU_PROFILE_RESET"].." : "..this_toon.profile.cname, --
+				--desc = L["TITAN_PANEL_MENU_PROFILE_RESET_DESC"],
+				name = "Reset Profile in Use", --
+				desc = "Will reset" .. " : " .. this_toon.profile.cname,
+				order = position,
+				type = "execute",
+				--width = "1.0",
+				func = function(info, v)
+					local selected = info[1]
+					local str = ""
+					str = str
+						.. " " .. tostring(selected) .. ""
+						.. " > '" .. tostring(this_toon.profile.cname) .. "'"
+						.. " : '" .. tostring(TITAN_PROFILE_RESET) .. "'"
 
-				-- Change over to new profile
---				TitanVariables_UseSettings(nil, info[1], TITAN_PROFILE_USE)
-				TitanVariables_UseSettings(nil, TitanUtils_GetPlayer(), TITAN_PROFILE_USE)
-				TitanUpdateChars()
-				AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
-			end,
-			-- cannot sync to yourself or if sync already set
-			disabled = (this_toon.is_player or this_toon.sync_set or g_sync),
-		}
-		position = position + 1
-		p_args.sync_clear = {
-			name = L["TITAN_PANEL_MENU_PROFILE_CLEAR_SYNC"],
-			desc = L["TITAN_PANEL_MENU_PROFILE_CLEAR_SYNC_DESC"],
-			order = position,
-			type = "execute",
-			func = function(info, v)
-				local str = ""
-				TitanVariables_SetProfile(info[1], Titan_Global.profile.SYNC, Titan_Global.profile.NONE)
-				str = str
-					.. " " .. tostring(Titan_Global.profile.SYNC) .. ""
-					.. " > '" .. tostring(info[1]) .. "'"
-					.. " : '" .. tostring(Titan_Global.profile.NONE) .. "'"
-					.. " | '" .. tostring(info[1] == TitanUtils_GetPlayer()) .. "'"
+					Titan_Debug.Out('titan', 'profile', str)
 
-				Titan_Debug.Out('titan', 'profile', str)
+					-- Disabled if not current toon, otherwise it gets way complicated...
+					TitanVariables_UseSettings(nil, TitanUtils_GetPlayer(), TITAN_PROFILE_RESET)
 
-				if info[1] == TitanUtils_GetPlayer() then
+					TitanPrint(
+						L["TITAN_PANEL_MENU_PROFILE_RESET"]
+						.. " " .. selected
+						, "info")
+
+					TitanUpdateChars()
+					AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
+				end,
+				disabled = not (this_toon.is_player),
+			}
+			position = position + 1
+			p_args[tostring(position)] = {
+				type = "description",
+				name = " ",
+				cmdHidden = true,
+				order = position,
+			}
+		end
+
+		do -- profile save as
+			position = position + 1
+			p_args.optionsave = {
+				order = position,
+				type = "execute",
+				name = L["TITAN_PANEL_MENU_PROFILE_SAVE"] .. " " .. L["TITAN_PANEL_MENU_PROFILE_CUSTOM"],
+				desc = L["TITAN_PANEL_MENU_PROFILE_SAVE_DESC"],
+				func = function(info, v)
+					TitanPanel_SaveCustomProfile(info[1]) -- will output message on write
+					TitanUpdateChars()     -- rebuild the toons
+				end,
+			}
+			position = position + 1
+			p_args[tostring(position)] = {
+				type = "description",
+				name = " ",
+				cmdHidden = true,
+				order = position,
+			}
+		end
+
+		do -- profile Sync
+			position = position + 1
+			p_args.sync_title = {
+				type = "header",
+				name = TitanUtils_GetGoldText("Sync"),
+				cmdHidden = true,
+				order = position,
+			}
+			position = position + 1
+			local s_reason = ""
+			if g_sync then
+				s_reason = "" -- set above
+			elseif this_toon.sync_set then
+				s_reason = L["TITAN_PANEL_MENU_PROFILE_SYNC_ERR1"]
+			elseif this_toon.is_player then
+				s_reason = L["TITAN_PANEL_MENU_PROFILE_SYNC_ERR2"]
+			else
+				s_reason = "" -- no error
+			end
+			p_args.sync_with = {
+				name = L["TITAN_PANEL_MENU_PROFILE_SYNC"],
+				desc = L["TITAN_PANEL_MENU_PROFILE_SYNC_DESC"],
+				order = position,
+				type = "execute",
+				--width = "full",
+				func = function(info, v)
+					local str = ""
+					TitanVariables_SetProfile(TitanUtils_GetPlayer(), Titan_Global.profile.SYNC, info[1])
+					str = str
+						.. " " .. tostring(Titan_Global.profile.SYNC) .. ""
+						.. " > '" .. tostring(info[1]) .. "'"
+						.. " : '" .. tostring(TITAN_PROFILE_USE) .. "'"
+
+					Titan_Debug.Out('titan', 'profile', str)
+					TitanPrint(""
+						.. "" .. L["TITAN_PANEL_MENU_PROFILE_SYNC"] .. ""
+						.. " '" .. TitanUtils_GetPlayer() .. "'"
+						.. " > '" .. tostring(info[1]) .. "'"
+						, "info")
+
+					-- Change over to new profile
+					--				TitanVariables_UseSettings(nil, info[1], TITAN_PROFILE_USE)
+					TitanVariables_UseSettings(nil, TitanUtils_GetPlayer(), TITAN_PROFILE_USE)
+					TitanUpdateChars()
+					AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
+				end,
+				-- cannot sync to yourself or if sync already set
+				disabled = (this_toon.is_player or this_toon.sync_set or g_sync),
+			}
+
+			position = position + 1
+			p_args.sync_clear = {
+				name = L["TITAN_PANEL_MENU_PROFILE_CLEAR_SYNC"],
+				desc = L["TITAN_PANEL_MENU_PROFILE_CLEAR_SYNC_DESC"],
+				order = position,
+				type = "execute",
+				func = function(info, v)
+					local str = ""
+					TitanVariables_SetProfile(info[1], Titan_Global.profile.SYNC, Titan_Global.profile.NONE)
+					str = str
+						.. " " .. tostring(Titan_Global.profile.SYNC) .. ""
+						.. " > '" .. tostring(info[1]) .. "'"
+						.. " : '" .. tostring(Titan_Global.profile.NONE) .. "'"
+						.. " | '" .. tostring(info[1] == TitanUtils_GetPlayer()) .. "'"
+
+					Titan_Debug.Out('titan', 'profile', str)
+
+					if info[1] == TitanUtils_GetPlayer() then
+						-- Change over to new profile
+						TitanVariables_UseSettings(nil, TitanUtils_GetPlayer(), TITAN_PROFILE_USE)
+					else
+						-- Not this toon
+					end
+
+					TitanPrint(""
+						.. "" .. L["TITAN_PANEL_MENU_PROFILE_CLEAR_SYNC"] .. ""
+						.. " '" .. tostring(info[1]) .. "'"
+						, "info")
+
+					TitanUpdateChars()
+					AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
+				end,
+				disabled = (not this_toon.sync_set) or g_sync,
+			}
+			position = position + 1
+			p_args[tostring(position)] = {
+				type = "description",
+				name = " " .. TitanUtils_GetHexText(s_reason, Titan_Global.colors.orange) .. "\n",
+				cmdHidden = true,
+				order = position,
+			}
+			position = position + 1
+			p_args[tostring(position)] = {
+				type = "description",
+				name = " ", --..TitanUtils_GetHexText(cs_reason, Titan_Global.colors.orange).."\n",
+				cmdHidden = true,
+				order = position,
+			}
+		end
+
+		do -- profile global
+			position = position + 1
+			p_args.sync_all_title = {
+				type = "header",
+				name = TitanUtils_GetGoldText("Global"),
+				cmdHidden = true,
+				order = position,
+			}
+			position = position + 1
+			p_args.sync_all_with = {
+				name = "Sync All",            --L["TITAN_PANEL_MENU_PROFILE_SYNC"],
+				desc = "Sync every toon to this profile", --L["TITAN_PANEL_MENU_PROFILE_SYNC_DESC"],
+				order = position,
+				type = "execute",
+				--width = "full",
+				func = function(info, v)
+					local str = ""
+					TitanVariables_SetProfile(TitanUtils_GetPlayer(), Titan_Global.profile.GLOBAL, info[1])
+					str = str
+						.. " " .. tostring(Titan_Global.profile.GLOBAL) .. ""
+						.. " > '" .. tostring(info[1]) .. "'"
+						.. " : '" .. tostring(TITAN_PROFILE_USE) .. "'"
+
+					Titan_Debug.Out('titan', 'profile', str)
+
+					TitanPrint(""
+						.. "" .. "Sync All" .. ""
+						.. " > '" .. tostring(info[1]) .. "'"
+						, "info")
+
 					-- Change over to new profile
 					TitanVariables_UseSettings(nil, TitanUtils_GetPlayer(), TITAN_PROFILE_USE)
-				else
-					-- Not this toon
-				end
+					TitanUpdateChars()
+					AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
+				end,
+				-- Can allows set global sync
+				--disabled = this_toon.is_player or this_toon.sync_set,
+			}
+			position = position + 1
+			p_args.sync_all_clear = {
+				name = "Clear Sync All",     --L["TITAN_PANEL_MENU_PROFILE_CLEAR_SYNC"],
+				desc = "Revert to each toon's settings", --L["TITAN_PANEL_MENU_PROFILE_CLEAR_SYNC_DESC"],
+				order = position,
+				type = "execute",
+				func = function(info, v)
+					local str = ""
+					TitanVariables_SetProfile(TitanUtils_GetPlayer(), Titan_Global.profile.GLOBAL,
+						Titan_Global.profile.NONE)
+					str = str
+						.. " " .. tostring(Titan_Global.profile.GLOBAL) .. ""
+						.. " : '" .. tostring(Titan_Global.profile.NONE) .. "'"
+					Titan_Debug.Out('titan', 'profile', str)
 
-				TitanPrint(""
-					.. "" .. L["TITAN_PANEL_MENU_PROFILE_CLEAR_SYNC"] .. ""
-					.. " '" .. tostring(info[1]) .. "'"
-					, "info")
+					TitanPrint(""
+						.. "" .. "Clear Sync All" .. ""
+						.. " > '" .. tostring(info[1]) .. "'"
+						, "info")
 
-				TitanUpdateChars()
-				AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
-			end,
-			disabled = (not this_toon.sync_set) or g_sync,
-		}
-		position = position + 1
-		p_args[tostring(position)] = {
-			type = "description",
-			name = " "..TitanUtils_GetHexText(s_reason, Titan_Global.colors.orange).."\n",
-			cmdHidden = true,
-			order = position,
-		}
-		position = position + 1
-		p_args[tostring(position)] = {
-			type = "description",
-			name = " ",--..TitanUtils_GetHexText(cs_reason, Titan_Global.colors.orange).."\n",
-			cmdHidden = true,
-			order = position,
-		}
+					-- Change over to new profile
+					TitanVariables_UseSettings(nil, TitanUtils_GetPlayer(), TITAN_PROFILE_USE)
 
-		--====
-		--==== Global section
-		position = position + 1
-		p_args.sync_all_title = {
-			type = "header",
-			name = TitanUtils_GetGoldText("Global"),
-			cmdHidden = true,
-			order = position,
-		}
-		position = position + 1
-		p_args.sync_all_with = {
-			name = "Sync All", --L["TITAN_PANEL_MENU_PROFILE_SYNC"],
-			desc = "Sync every toon to this profile", --L["TITAN_PANEL_MENU_PROFILE_SYNC_DESC"],
-			order = position,
-			type = "execute",
-			--width = "full",
-			func = function(info, v)
-				local str = ""
-				TitanVariables_SetProfile(TitanUtils_GetPlayer(), Titan_Global.profile.GLOBAL, info[1])
-				str = str
-					.. " " .. tostring(Titan_Global.profile.GLOBAL) .. ""
-					.. " > '" .. tostring(info[1]) .. "'"
-					.. " : '" .. tostring(TITAN_PROFILE_USE) .. "'"
+					TitanUpdateChars()
+					AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
+				end,
+				disabled = (not g_sync),
+			}
+		end
 
-				Titan_Debug.Out('titan', 'profile', str)
-
-				TitanPrint(""
-					.. "" .. "Sync All" .. ""
-					.. " > '" .. tostring(info[1]) .. "'"
-					, "info")
-
-				-- Change over to new profile
-				TitanVariables_UseSettings(nil, TitanUtils_GetPlayer(), TITAN_PROFILE_USE)
-				TitanUpdateChars()
-				AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
-			end,
-			-- Can allows set global sync
-			--disabled = this_toon.is_player or this_toon.sync_set,
-		}
-		position = position + 1
-		p_args.sync_all_clear = {
-			name = "Clear Sync All", --L["TITAN_PANEL_MENU_PROFILE_CLEAR_SYNC"],
-			desc = "Revert to each toon's settings", --L["TITAN_PANEL_MENU_PROFILE_CLEAR_SYNC_DESC"],
-			order = position,
-			type = "execute",
-			func = function(info, v)
-				local str = ""
-				TitanVariables_SetProfile(TitanUtils_GetPlayer(), Titan_Global.profile.GLOBAL, Titan_Global.profile.NONE)
-				str = str
-					.. " " .. tostring(Titan_Global.profile.GLOBAL) .. ""
-					.. " : '" .. tostring(Titan_Global.profile.NONE) .. "'"
-				Titan_Debug.Out('titan', 'profile', str)
-
-				TitanPrint(""
-					.. "" .. "Clear Sync All" .. ""
-					.. " > '" .. tostring(info[1]) .. "'"
-					, "info")
-
-				-- Change over to new profile
-				TitanVariables_UseSettings(nil, TitanUtils_GetPlayer(), TITAN_PROFILE_USE)
-
-				TitanUpdateChars()
-				AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
-			end,
-			disabled = (not g_sync),
-		}
-		--[[
-		position = position + 1
-		p_args.reset_all_this = {
-			name = "Reset Global Profile", --L["TITAN_PANEL_MENU_PROFILE_RESET"], --
-			desc = "Reset Global Profile to Defaults", --L["TITAN_PANEL_MENU_PROFILE_RESET_DESC"],
-			order = position,
-			type = "execute",
-			--						width = "0.5",
-			func = function(info, v)
-				local g_name = TitanPanelGetVar("GlobalProfileName")
-				local str = ""
-				str = str
-					.. " " .. tostring(Titan_Global.profile.TOON) .. ""
-					.. " > '" .. tostring(info[1]) .. "'"
-					.. " : '" .. tostring(TITAN_PROFILE_RESET) .. "'"
-					.. " | '" .. tostring(g_name) .. "'"
-
-				Titan_Debug.Out('titan', 'profile', str)
-
-				-- Reset the global profile
---				TitanSettings.Players[g_name] = nil
-
-				-- Change to new profile
-				TitanVariables_UseSettings(nil, TitanUtils_GetPlayer(), TITAN_PROFILE_RESET)
-
-				TitanUpdateChars()
-				AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
-			end,
-			disabled = (not g_sync),
-		}
-		--]]
-		--[[
-		position = position + 1
-		p_args[tostring(position)] = {
-			type = "description",
-			name = " ",--..TitanUtils_GetHexText(cs_reason, Titan_Global.colors.orange).."\n",
-			cmdHidden = true,
-			order = position,
-		}
-		--]]
-		position = position + 1
-		p_args[tostring(position)] = {
-			type = "description",
-			name = "",
-			cmdHidden = true,
-			order = position,
-		}
-
---[[		--====
-		--==== Summary section
-		position = position + 1
-		p_args.setting_title = {
-			type = "header",
-			name = TitanUtils_GetGoldText("-"),
-			cmdHidden = true,
-			order = position,
-		}
-		position = position + 1
-		p_args.setting_sync = {
-			type = "description",
-			name = this_toon.summary,
-			cmdHidden = true,
-			order = position,
-		}
---]]
 		-- tell the options screen there is a new list
 		AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
 	end
 end
--------------
 
 --============= Import / Export Profiles
 
@@ -1839,13 +1902,13 @@ local import_str = "" -- hold import string
 ---Allow the user to load / delete / reset / sync profile data
 local function TitanToonList()
 	local players = {} -- used for list of profiles
-	local export = {} -- used for selected profiles
+	local export  = {} -- used for selected profiles
 	local p_info  = {} -- used to hold info about each toon in players
 
 	-- Rip through the players (with server name) to sort them
 	for index, id in pairs(TitanSettings.Players) do
---		table.insert(players, {index = index});
---		table.insert(export, {index = false});
+		--		table.insert(players, {index = index});
+		--		table.insert(export, {index = false});
 		players[index] = index
 		export[index] = false
 
@@ -1867,20 +1930,19 @@ local function TitanToonList()
 		this_toon.sync_set = not (id.Panel["SyncWithProfile"] == Titan_Global.profile.NONE)
 		this_toon.sync_name = id.Panel["SyncWithProfile"]
 		table.insert(p_info, this_toon) -- table index matches players table...
-
 	end
 	--Ace or Blizz sorts the toons...
 	--	table.sort(players, function(a, b)
 	--		return a < b
 	--	end)
---TitanDumpTable(players)
---TitanDumpTable(export)
+	--TitanDumpTable(players)
+	--TitanDumpTable(export)
 	-- set up the options for the user
 	local args = optionsImportExport.args
 
 	wipe(args)
 	local position = 100
---[[
+	--[[
 	local header = ""
 	header = header .. L["TITAN_PANEL_CHARS_DESC"] .. "\n"
 
@@ -1900,11 +1962,11 @@ local function TitanToonList()
 		cmdHidden = true
 	}
 	local ex_desc = ""
-		.."To create a Titan Export : \n"
-		.."Select the toons you want to export. \n"
-		.."Click Export - Ignore the Accept button, it is part of the Ace lib.\n"
-		.."To copy the string from the Export box; Click in the Export box; Then control-A; Then control-C.\n"
-		.."Paste (control-V) the string somewhere safe. Ensure no stray characters will be added. \n"
+		.. "To create a Titan Export : \n"
+		.. "Select the toons you want to export. \n"
+		.. "Click Export - Ignore the Accept button, it is part of the Ace lib.\n"
+		.. "To copy the string from the Export box; Click in the Export box; Then control-A; Then control-C.\n"
+		.. "Paste (control-V) the string somewhere safe. Ensure no stray characters will be added. \n"
 	position = position + 1
 	args["exportdesc"] = {
 		order = position,
@@ -1918,8 +1980,8 @@ local function TitanToonList()
 		type = "multiselect",
 		name = "", --"Export", --L["TITAN_PANEL_MENU_PROFILES"] .. "\n",
 		desc = "", --"Select all the toons you want to export.", --L["TITAN_PANEL_MENU_PROFILES"] .. "\n",
---		cmdHidden = true,
---		style = "radio",
+		--		cmdHidden = true,
+		--		style = "radio",
 		values = players,
 		get = function(info, v)
 			-- Get from list...
@@ -1950,12 +2012,12 @@ local function TitanToonList()
 
 	position = position + 1
 	args["export_cmd"] = {
-		name = "Export", --L["TITAN_PANEL_MENU_LOAD_SETTINGS"],
+		name = "Export",              --L["TITAN_PANEL_MENU_LOAD_SETTINGS"],
 		desc = "Export the selected toons", --L["TITAN_PANEL_MENU_LOAD_SETTINGS_DESC"],
 		order = position,
 		type = "execute",
 		func = function(info, v)
---			TitanDumpTable(export)
+			--			TitanDumpTable(export)
 			export_str = TitanVariables_CreateExport(export, false)
 		end,
 	}
@@ -1964,12 +2026,11 @@ local function TitanToonList()
 	args["export_text"] = {
 		order = position,
 		type = "input",
-		name = "Export box", --L["TITAN_PANEL_MENU_PROFILES"] .. "\n",
+		name = "Export box",                                                        --L["TITAN_PANEL_MENU_PROFILES"] .. "\n",
 		desc = "To copy the string; Click in the string; Then control-A; Then control-C", --L["TITAN_PANEL_MENU_PROFILES"] .. "\n",
 		multiline = 10,
 		width = 'full',
 		get = function(info, v)
-
 			local str = "Export str get :"
 			str = str
 				.. " " .. tostring(v) .. ""
@@ -1985,7 +2046,7 @@ local function TitanToonList()
 			str = str
 				.. " " .. tostring(v) .. ""
 				.. " " .. tostring(string.len(export_str)) .. ""
-				.. " k'"..tostring(k).."'"
+				.. " k'" .. tostring(k) .. "'"
 			Titan_Debug.Out('titan', 'profile', str)
 		end,
 	}
@@ -1998,11 +2059,11 @@ local function TitanToonList()
 		cmdHidden = true
 	}
 	local im_desc = ""
-		.."To Import a Titan export : \n"
-		.."Copy (control-C) the Titan Export from a safe source.\n"
-		.."Click in the Import box; Then control-A; then Paste (control-V).\n"
-		.."Click Accept to trigger the Import. The text will disappear!\n"
-		.."Click Import : If successful Titan will Reload to ensure the Import is saved and operational. \n"
+		.. "To Import a Titan export : \n"
+		.. "Copy (control-C) the Titan Export from a safe source.\n"
+		.. "Click in the Import box; Then control-A; then Paste (control-V).\n"
+		.. "Click Accept to trigger the Import. The text will disappear!\n"
+		.. "Click Import : If successful Titan will Reload to ensure the Import is saved and operational. \n"
 	position = position + 1
 	args["importdesc"] = {
 		order = position,
@@ -2015,7 +2076,7 @@ local function TitanToonList()
 	args["import_text"] = {
 		order = position,
 		type = "input",
-		name = "Import box", --L["TITAN_PANEL_MENU_PROFILES"] .. "\n",
+		name = "Import box",                                            --L["TITAN_PANEL_MENU_PROFILES"] .. "\n",
 		desc = "To copy the export string; Click in the box; Then control-V", --L["TITAN_PANEL_MENU_PROFILES"] .. "\n",
 		width = 'full',
 		multiline = 10,
@@ -2035,13 +2096,13 @@ local function TitanToonList()
 			str = str
 				.. " " .. tostring(v) .. ""
 				.. " " .. tostring(string.len(import_str)) .. ""
-				.. " k'"..tostring(k).."'"
+				.. " k'" .. tostring(k) .. "'"
 			Titan_Debug.Out('titan', 'profile', str)
 		end,
 	}
 	position = position + 1
 	args["import_cmd"] = {
-		name = "Import", --L["TITAN_PANEL_MENU_LOAD_SETTINGS"],
+		name = "Import",                              --L["TITAN_PANEL_MENU_LOAD_SETTINGS"],
 		desc = "Import the Titan export in the input box.", --L["TITAN_PANEL_MENU_PROFILES"] .. "\n",
 		order = position,
 		type = "execute",
@@ -2056,7 +2117,6 @@ local function TitanToonList()
 		end,
 	}
 end
--------------
 
 --============= Tooltips and Frames
 
@@ -2195,7 +2255,6 @@ local optionsFrames = {
 		},
 	}
 }
--------------
 
 --============= Scale and Font
 
@@ -2399,7 +2458,6 @@ local optionsUIScale = {
 		},
 	}
 }
--------------
 
 --============= Skins
 
@@ -2512,13 +2570,6 @@ end
 
 --============= Skins - Custom
 
---[[ NOTE:
-- Blizz *does not allow* LUA to access the user file system dynamically so the skins have to be input by hand. Titan can not search for available skins in the Artwork folder.
-- On the flip side a user can add a custom skin to the Titan saved variables then later delete the skin from the file system. This will not cause an error when the user tries to use (show) that skin but Titan will show a 'blank' skin.
-:NOTE
---]]
-
-
 ---Helper to add each skin to the options list.
 ---@param skinname string Shown to user
 ---@param skin_path string folder name of skin ONLY; prefix (Titan path) will be added
@@ -2594,12 +2645,6 @@ local function Remove_Skin(skinname)
 		.. " '" .. tostring(skinname) .. "'"
 	TitanPrint(out_str, msg_type)
 end
-
---[[ NOTE
-- You may not remove the currently used skin
-- or the default one
-- or a Titan default skin (it would only come back...)
---]]
 
 ---hold the Titan custom skins options that allow a user to add or delete skins.
 local optionsSkinsCustom = {
@@ -2743,7 +2788,6 @@ local optionsSkinsCustom = {
 		},
 	}
 }
--------------
 
 --============= Extras
 
@@ -2752,14 +2796,6 @@ local optionsExtras = {
 	type = "group",
 	args = {}
 }
-
---[[ NOTE:
-- As users change the plugins they use the old ones still have saved variable data stored by Titan.
-- The old plugin data can be removed by the user when they no longer use that plugin.
-- This routine is called to 'redraw' the list as a user deletes data.
-- A message is sent to chat that the plugin data has been deleted.
---]]
-
 
 ---Show plugins that are not registered (loaded) but have config data. The data can be deleted by the user.
 local function TitanUpdateExtras()
@@ -2821,16 +2857,16 @@ local optionsAddonAttempts = {
 	args = {}
 }
 
----Show the each plugin that attempted to register with Titan. 
+---Show the each plugin that attempted to register with Titan.
 local function TitanUpdateAddonAttempts()
 	local args = optionsAddonAttempts.args
 	local plug_in = nil
 
---[[ NOTE:
+	--[[ NOTE:
 - This is called after the plugins are registered in the 'player entering world' event. It can be called again as plugins registered.
 - Any plugins that attempted to register are shown. See the Titan Utils section for more details on plugin registration.
 - This option page is for display only. The user can take not action.
-- This can be used by plugin developers as the create / update plugins (Titan or LDB). 
+- This can be used by plugin developers as the create / update plugins (Titan or LDB).
 - It can also be used by user to attempt to figure out why a plugin is not shown or to report an issue to Titan.
 --]]
 
@@ -3052,47 +3088,47 @@ local optionsAdvanced = {
 			inline = true,
 			order = 100,
 			args = {
-		space_400_1 = {
-			order = 400,
-			type = "description",
-			name = "  ",
-			cmdHidden = true,
-		},
-		optionlaunchers = {
-			name = L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"],
-			order = 401,
-			type = "execute",
-			width = "full",
-			func = function() TitanPanelBarButton_ForceLDBLaunchersRight() end,
-		},
-		space_500_1 = {
-			order = 500,
-			type = "description",
-			name = "  ",
-			cmdHidden = true,
-		},
-		pluginreset = {
-			name = L["TITAN_PANEL_MENU_PLUGIN_RESET"],
-			desc = L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"],
-			order = 501,
-			type = "execute",
-			width = "full",
-			func = function() TitanPanel_InitPanelButtons() end,
-		},
-		space_600_1 = {
-			order = 600,
-			type = "description",
-			name = "  ",
-			cmdHidden = true,
-		},
-		optionreset = {
-			name = L["TITAN_PANEL_MENU_RESET"] .. " "
-				.. TitanUtils_GetGreenText(L["TITAN_PANEL_MENU_RELOADUI"]),
-			order = 601,
-			type = "execute",
-			width = "full",
-			func = function() TitanPanel_ResetTitanToDefault() end,
-		}
+				space_400_1 = {
+					order = 400,
+					type = "description",
+					name = "  ",
+					cmdHidden = true,
+				},
+				optionlaunchers = {
+					name = L["TITAN_PANEL_MENU_LDB_FORCE_LAUNCHER"],
+					order = 401,
+					type = "execute",
+					width = "full",
+					func = function() TitanPanelBarButton_ForceLDBLaunchersRight() end,
+				},
+				space_500_1 = {
+					order = 500,
+					type = "description",
+					name = "  ",
+					cmdHidden = true,
+				},
+				pluginreset = {
+					name = L["TITAN_PANEL_MENU_PLUGIN_RESET"],
+					desc = L["TITAN_PANEL_MENU_PLUGIN_RESET_DESC"],
+					order = 501,
+					type = "execute",
+					width = "full",
+					func = function() TitanPanel_InitPanelButtons() end,
+				},
+				space_600_1 = {
+					order = 600,
+					type = "description",
+					name = "  ",
+					cmdHidden = true,
+				},
+				optionreset = {
+					name = L["TITAN_PANEL_MENU_RESET"] .. " "
+						.. TitanUtils_GetGreenText(L["TITAN_PANEL_MENU_RELOADUI"]),
+					order = 601,
+					type = "execute",
+					width = "full",
+					func = function() TitanPanel_ResetTitanToDefault() end,
+				}
 			},
 		},
 	},
@@ -3108,9 +3144,6 @@ local function BuildAdv()
 
 	AceConfigRegistry:NotifyChange("Titan Panel Advanced")
 end
-
--------------
-
 
 --============= Change History
 
@@ -3155,7 +3188,7 @@ local function ParseHelp(topic)
 		str = str .. TitanUtils_GetGoldText(stopic.sub .. " : \n")
 		local lineout = ""
 		for line = 1, #stopic.lines do -- Details
-			lineout = lineout .. stopic.lines[line].. " \n"
+			lineout = lineout .. stopic.lines[line] .. " \n"
 		end
 		str = str .. TitanUtils_GetHighlightText(lineout .. "\n")
 	end
@@ -3176,7 +3209,7 @@ local help_list_topics = {
 					"Use one of the methods below:",
 					"- Open the Titan menu; find the plugin in a category then click to toggle Show on the plugin.",
 					"- Open Titan Configuration > Plugins then select the plugin by name then toggle Show. Use the Bar dropdown to select the Bar the plugin should be on.",
-					},
+				},
 			},
 			{
 				sub = "Moving Plugins",
@@ -3193,7 +3226,7 @@ local help_list_topics = {
 					"-- This honors right side setting.",
 					"-- This honors 'force bar' such as auto hide 'pins'.",
 					"-- If not over a bar, the plugin will return to the bar it came from at 'end'.",
-					},
+				},
 			},
 		},
 	},
@@ -3208,14 +3241,14 @@ local help_list_topics = {
 					"- Short bars are movable and have a changeable width.",
 					"- The Titan menu shows the name of the Bar in the menu title.",
 					"- All Bars can be shown or hidden from the Titan menu or Titan Config.",
-			},
+				},
 			},
 			{
 				sub = "Enable",
 				lines = {
 					"Open Titan > Configuration > Bars then select the Bar then select Show to show or deselect to hide.",
 					"OR use Titan menu to Show or Hide each bar.",
-					},
+				},
 			},
 			{
 				sub = "Configure",
@@ -3225,7 +3258,7 @@ local help_list_topics = {
 					"   ",
 					"Notes:  ",
 					"- See Short Bars help on how to move and resize Short Bars. ",
-			},
+				},
 			},
 		},
 	},
@@ -3235,12 +3268,12 @@ local help_list_topics = {
 			{
 				sub = "Overview",
 				lines = {
-				"- Short bars are 10 shorter Titan bars that the user can place and change width.",
-				"- Short bars are independent and may be moved on the WoW UI.",
-				"- Titan does not restrict plugins to fit within the visible width (background).",
-				" Plugins can be assigned well beyond the visible bar. This may be desirable for some users.",
-				"- Setting a plugin to right-side will use the visible right side (background); and may overlap with left or center aligned plugins.",
-			},
+					"- Short bars are 10 shorter Titan bars that the user can place and change width.",
+					"- Short bars are independent and may be moved on the WoW UI.",
+					"- Titan does not restrict plugins to fit within the visible width (background).",
+					" Plugins can be assigned well beyond the visible bar. This may be desirable for some users.",
+					"- Setting a plugin to right-side will use the visible right side (background); and may overlap with left or center aligned plugins.",
+				},
 			},
 			{
 				sub = "Change Size",
@@ -3248,7 +3281,7 @@ local help_list_topics = {
 					"- Change width by 1 : Use Shift + mouse wheel.",
 					"- Change width by 10: Use Shift + Ctrl + mouse wheel.",
 					"- WIll not go beyond right side of screen.",
-			},
+				},
 			},
 			{
 				sub = "Move",
@@ -3256,7 +3289,7 @@ local help_list_topics = {
 					"- Use Shift + left mouse on Bar, not plugins, and drag.",
 					"- When dragging, best to place your mouse over the left side padding before moving or changing width.",
 					"- When dragging stops, if the Short Bar is beyond the screen edge the Short Bar should 'snap' to the edge.",
-			},
+				},
 			},
 			{
 				sub = "Reset",
@@ -3264,7 +3297,7 @@ local help_list_topics = {
 					"- In case a Short bar gets messed up, ",
 					"-- use Titan > Config > Bar >  then select the Bar",
 					"-- then click Reset Position to place it at its default position and width.",
-					},
+				},
 			},
 			{
 				sub = "Limitations",
@@ -3273,11 +3306,11 @@ local help_list_topics = {
 					"- Max width : Screen width.",
 					"- There is no 'snap together' or grid for placing Short Bars.",
 					"- Can select Skin per Short bar BUT only the 'top' skin is used; some skins have a different top & bottom.",
-			},
+				},
 			},
 		},
 	},
-	{  -- profiles
+	{ -- profiles
 		topic = L["TITAN_PANEL_MENU_PROFILES"],
 		subs = {
 			{
@@ -3309,7 +3342,7 @@ local help_list_topics = {
 					"- You may Clear Sync (remove) the current Sync being used by a profile.",
 					"- Select the profile to use. Then click Clear Sync.",
 					"- The settings prior to the Sync will be shown and can be changed.",
-					},
+				},
 			},
 			{
 				sub = "Sync All a profile",
@@ -3325,14 +3358,14 @@ local help_list_topics = {
 				lines = {
 					"- Select the profile to use. Then click Clear Sync All.",
 					"- The settings prior to the Sync All for all toons will be shown and can be changed.",
-					},
+				},
 			},
 			{
 				sub = "Load a Profile",
 				lines = {
 					"- Select the profile you want then click Load. The current profile is gray to prevent loading.",
 					"- Load will COPY the profile over the logged in toon.",
-					},
+				},
 			},
 			{
 				sub = "Delete a Profile",
@@ -3341,7 +3374,7 @@ local help_list_topics = {
 					"- On delete the profile will disappear from the config profile list.",
 					"- Delete of a profile should be done on a toon that was deleted from the game.",
 					"- Delete can act as a Titan reset for that toon.",
-					},
+				},
 			},
 			{
 				sub = "Reset a Profile in Use",
@@ -3349,7 +3382,7 @@ local help_list_topics = {
 					"- The reset will be done on the profile in use - current, Sync, or Sync All profile.",
 					"- On the current profile, it will just reset that profile.",
 					"- On a profile using a Sync or Sync All profile, it will reset the Sync profile leaving the Sync relationships in place.",
-					},
+				},
 			},
 			{
 				sub = "Custom Profile",
@@ -3366,7 +3399,7 @@ local help_list_topics = {
 			},
 		},
 	},
-	{  -- export / import profiles
+	{                        -- export / import profiles
 		topic = "Export / Import", --L["TITAN_PANEL_MENU_PROFILES"],
 		subs = {
 			{
@@ -3460,32 +3493,32 @@ local help_list_topics = {
 			{
 				sub = "WoW structure",
 				lines = {
-				"WoW is installed in different folders on Windows, iOS, or Linux.",
-				"It is installed as ../World of Warcraft/<version>/",
-				"Where <version> can be _retail_ | _classic_ | _classic_era_ | etc.",
+					"WoW is installed in different folders on Windows, iOS, or Linux.",
+					"It is installed as ../World of Warcraft/<version>/",
+					"Where <version> can be _retail_ | _classic_ | _classic_era_ | etc.",
 				},
 			},
 			{
 				sub = "Addon location",
 				lines = {
-				"Addons are under each <version> as <version>/interface/AddOns ",
-				"such as Titan and its various built-in plugins released by the Titan dev team.",
+					"Addons are under each <version> as <version>/interface/AddOns ",
+					"such as Titan and its various built-in plugins released by the Titan dev team.",
 				},
 			},
 			{
 				sub = "Saved vars location",
 				lines = {
-				"There are two types of saved vars - 'account' or 'per character'.\n",
-				" 'account' is under <version>/WTF/Account/<your account>/SavedVariables \n",
-				" 'per character' is under <version>/WTF/Account/<server>/<toon name>/SavedVariables \n",
+					"There are two types of saved vars - 'account' or 'per character'.\n",
+					" 'account' is under <version>/WTF/Account/<your account>/SavedVariables \n",
+					" 'per character' is under <version>/WTF/Account/<server>/<toon name>/SavedVariables \n",
 				},
 			},
 			{
 				sub = "Notes",
 				lines = {
-				"- WoW addon load process loads the proper saved vars into memory at login and reload. \n",
-				"- On log out or exit or reload WoW writes the saved vars to disk. \n",
-				"- WoW allows addons NO access to the file system. An addon cannot trigger a read or a write. \n",
+					"- WoW addon load process loads the proper saved vars into memory at login and reload. \n",
+					"- On log out or exit or reload WoW writes the saved vars to disk. \n",
+					"- WoW allows addons NO access to the file system. An addon cannot trigger a read or a write. \n",
 				},
 			},
 		},
@@ -3496,8 +3529,8 @@ local help_list_topics = {
 			{
 				sub = "Changing Titan Scaling",
 				lines = {
-				"Short bars will move on screen. They should not go off screen. ",
-				"If Short bars move then drag to desired location. You may have to Reset the Short bar or temporarily disable top or bottom bars to drag the Short bar.",
+					"Short bars will move on screen. They should not go off screen. ",
+					"If Short bars move then drag to desired location. You may have to Reset the Short bar or temporarily disable top or bottom bars to drag the Short bar.",
 				},
 			},
 		},
@@ -3562,8 +3595,7 @@ local function BuildHelpList()
 	end
 end
 
--------------
--------------
+--============= Build ther config
 
 ---Build the entire Config table Ace will display
 local function BuildAll()
@@ -3638,7 +3670,7 @@ do -- Register Titan main options list
 	AceConfig:RegisterOptionsTable("Titan Panel Addon Im_Ex", optionsImportExport)
 	AceConfig:RegisterOptionsTable("Titan Panel Addon Advanced", optionsAdvanced)
 	AceConfig:RegisterOptionsTable("Titan Panel Addon Changes", changeHistory)
---	AceConfig:RegisterOptionsTable("Titan Panel Addon Slash", slashHelp)
+	--	AceConfig:RegisterOptionsTable("Titan Panel Addon Slash", slashHelp)
 	AceConfig:RegisterOptionsTable("Titan Panel Help List", helplist)
 end
 
@@ -3663,6 +3695,6 @@ do -- Register the options for each entry in Titan option list
 	AceConfigDialog:AddToBlizOptions("Titan Panel Addon Attempts", optionsAddonAttempts.name, titan_entry.name)
 	AceConfigDialog:AddToBlizOptions("Titan Panel Addon Advanced", optionsAdvanced.name, titan_entry.name)
 	AceConfigDialog:AddToBlizOptions("Titan Panel Addon Changes", changeHistory.name, titan_entry.name)
---	AceConfigDialog:AddToBlizOptions("Titan Panel Addon Slash", slashHelp.name, titan_entry.name)
+	--	AceConfigDialog:AddToBlizOptions("Titan Panel Addon Slash", slashHelp.name, titan_entry.name)
 	AceConfigDialog:AddToBlizOptions("Titan Panel Help List", helplist.name, titan_entry.name)
 end

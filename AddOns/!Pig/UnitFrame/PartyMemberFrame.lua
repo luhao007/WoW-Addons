@@ -272,11 +272,11 @@ local function PartyMember_Buff()
 	if duiyouFrameReg.Buff then return end
 	duiyouFrameReg.Buff=true
 	--隐藏系统自带队友buff鼠标提示
-	if PIG_MaxTocversion() then
+	if PartyMemberBuffTooltip_Update then
 		hooksecurefunc("PartyMemberBuffTooltip_Update", function(self)
 		    PartyMemberBuffTooltip:Hide();
 		end)
-	else
+	elseif PartyMemberBuffTooltip then
 		hooksecurefunc(PartyMemberBuffTooltip, "UpdateTooltip", function(self)
 			self:Hide();
 		end)
@@ -316,7 +316,7 @@ local function PartyMember_Buff()
 		    end
 	    end
 	    --改动系统DEBUFF位置
-	    if PIG_MaxTocversion() then
+	    if _G["PartyMemberFrame"..id.."Debuff1"] then
 	    	_G["PartyMemberFrame"..id.."Debuff1"]:ClearAllPoints();
 			_G["PartyMemberFrame"..id.."Debuff1"]:SetPoint("TOPRIGHT", _G["PartyMemberFrame"..id], "TOPRIGHT", 50, 8);
 	    else

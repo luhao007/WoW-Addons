@@ -23,15 +23,12 @@ local AceTimer = LibStub("AceTimer-3.0")
 local XPTimer = {}
 ---@diagnostic disable-next-line: missing-fields
 XPTimer.timer = nil -- set & cancelled as needed
-XPTimer.delay = 10 -- seconds
+XPTimer.delay = 10  -- seconds
 XPTimer.running = false
 XPTimer.last = 0
 
 local trace = false
 local trace_update = false
-
---****** overload the 'time played' text to Chat - if XP requested the API call
-local requesting
 
 -- collect the various XP variables in one place
 local txp = {
@@ -46,19 +43,41 @@ local txp = {
 	levelTime = 0,
 	sessionTime = 0,
 }
+
+--****** overload the 'time played' text to Chat - if XP requested the API call
+local requesting
+
 -- Save orignal output to Chat
-local orig_ChatFrame_DisplayTimePlayed = ChatFrame_DisplayTimePlayed
--- Override the output to Chat
-ChatFrame_DisplayTimePlayed = function(...)
-	if requesting then
-		-- XP requested time played, do not spam Chat
-		requesting = false
-	else
-		-- XP did not request time played so output
-		orig_ChatFrame_DisplayTimePlayed(...)
+-- somewhere in 11.* (The World Within) this changed
+local orig_ChatFrame_DisplayTimePlayed = function(...) end
+
+if Titan_Global.switch.chat_class then
+	orig_ChatFrame_DisplayTimePlayed = ChatFrameUtil.DisplayTimePlayed
+
+	ChatFrameUtil.DisplayTimePlayed = function(...) --TimePlayed(...)
+		if requesting then
+			-- XP requested time played, do not spam Chat
+			requesting = false
+		else
+			-- XP did not request time played so output
+			---@diagnostic disable-next-line: need-check-nil
+			orig_ChatFrame_DisplayTimePlayed(...)
+		end
+	end
+else
+	orig_ChatFrame_DisplayTimePlayed = ChatFrame_DisplayTimePlayed
+
+	ChatFrameUtil.DisplayTimePlayed = function(...) --TimePlayed(...)
+		if requesting then
+			-- XP requested time played, do not spam Chat
+			requesting = false
+		else
+			-- XP did not request time played so output
+			---@diagnostic disable-next-line: need-check-nil
+			orig_ChatFrame_DisplayTimePlayed(...)
+		end
 	end
 end
---****** Override
 
 -- ******************************** Functions *******************************
 
@@ -120,7 +139,7 @@ end
 --[[ 2024 Apr
 Change to a repeating timer instead of OnUpdate to reduce cycles
 The timer, started OnShow, will update session time here
-The prior scheme used OnUpdate which is related to FPS. 
+The prior scheme used OnUpdate which is related to FPS.
 XP does not need that level of precision.
 --]]
 ---local Reset session and accumulated variables; used by timer
@@ -135,10 +154,9 @@ local function XPTimeUpdate()
 	if trace then
 		local txt = "XP Text"
 			.. " " .. tostring(format("%0.2f", elapsed)) .. ""
-			TitanPluginDebug(TITAN_XP_ID, txt)
+		TitanPluginDebug(TITAN_XP_ID, txt)
 	end
 end
-
 
 ---local Get total time played
 -- Do not send RequestTimePlayed output to Chat if XP requested the info.
@@ -448,7 +466,8 @@ local function GetTooltipText()
 				L["TITAN_XP_TOOLTIP_TOTAL_XP"] .. "\t" .. TitanUtils_GetHighlightText(comma_value(totalXP)) .. "\n" ..
 				L["TITAN_XP_TOTAL_RESTED"] ..
 				"\t" ..
-				TitanUtils_GetHighlightText(comma_value(GetXPExhaustion() == nil and "0" or GetXPExhaustion())) .. "\n" ..
+				TitanUtils_GetHighlightText(comma_value(GetXPExhaustion() == nil and "0" or GetXPExhaustion())) ..
+				"\n" ..
 				L["TITAN_XP_TOOLTIP_LEVEL_XP"] ..
 				"\t" ..
 				TitanUtils_GetHighlightText(comma_value(currentXP) .. " " ..
@@ -466,11 +485,13 @@ local function GetTooltipText()
 				"\n" ..
 				L["TITAN_XP_TOOLTIP_XPHR_LEVEL"] ..
 				"\t" ..
-				TitanUtils_GetHighlightText(format(L["TITAN_XP_FORMAT"], comma_value(math.floor(xpPerHourThisLevel + 0.5)))) ..
+				TitanUtils_GetHighlightText(format(L["TITAN_XP_FORMAT"],
+					comma_value(math.floor(xpPerHourThisLevel + 0.5)))) ..
 				"\n" ..
 				L["TITAN_XP_TOOLTIP_XPHR_SESSION"] ..
 				"\t" ..
-				TitanUtils_GetHighlightText(format(L["TITAN_XP_FORMAT"], comma_value(math.floor(xpPerHourThisSession + 0.5)))) ..
+				TitanUtils_GetHighlightText(format(L["TITAN_XP_FORMAT"],
+					comma_value(math.floor(xpPerHourThisSession + 0.5)))) ..
 				"\n" ..
 				L["TITAN_XP_TOOLTIP_TOLEVEL_LEVEL"] ..
 				"\t" .. TitanUtils_GetHighlightText(TitanUtils_GetAbbrTimeText(estTimeToLevelThisLevel)) .. "\n" ..
@@ -621,7 +642,7 @@ end
 local function OnLoad(self)
 	local notes = ""
 		.. "Adds information to Titan Panel about XP earned and time to level.\n"
-		.."- Updates XP per hour statistics every "..XPTimer.delay.." sec.\n"
+		.. "- Updates XP per hour statistics every " .. XPTimer.delay .. " sec.\n"
 	self.registry = {
 		id = TITAN_XP_ID,
 		category = "Built-ins",
@@ -695,7 +716,6 @@ local function Create_Frames()
 		end
 	end
 end
-
 
 if TITAN_ID then -- it exists
 	Create_Frames() -- do the work

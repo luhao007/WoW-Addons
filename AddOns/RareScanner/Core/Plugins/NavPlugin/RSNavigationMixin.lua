@@ -10,6 +10,7 @@ local AL = LibStub("AceLocale-3.0"):GetLocale("RareScanner");
 local RSTomtom = private.ImportLib("RareScannerTomtom")
 local RSWaypoints = private.ImportLib("RareScannerWaypoints")
 local RSButtonHandler = private.ImportLib("RareScannerButtonHandler")
+local RSTooltip = private.ImportLib("RareScannerTooltip")
 
 -- Navigation cache
 local navigationCache = {}
@@ -23,26 +24,26 @@ end
 
 function RSNavigationMixin:OnNextEnter()
 	self.ShowAnim:Play();
-	GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
-	GameTooltip:SetText(AL["NAVIGATION_SHOW_NEXT"])
-	GameTooltip:Show()
+	RSTooltip.Tooltip:SetOwner(self, "ANCHOR_CURSOR")
+	RSTooltip.Tooltip:SetText(AL["NAVIGATION_SHOW_NEXT"])
+	RSTooltip.Tooltip:Show()
 end
 
 function RSNavigationMixin:OnNextLeave()
 	self.ShowAnim:Stop();
-	GameTooltip:Hide()
+	RSTooltip.Tooltip:Hide()
 end
 
 function RSNavigationMixin:OnPreviousEnter()
 	self.ShowAnim:Play();
-	GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
-	GameTooltip:SetText(AL["NAVIGATION_SHOW_PREVIOUS"])
-	GameTooltip:Show()
+	RSTooltip.Tooltip:SetOwner(self, "ANCHOR_CURSOR")
+	RSTooltip.Tooltip:SetText(AL["NAVIGATION_SHOW_PREVIOUS"])
+	RSTooltip.Tooltip:Show()
 end
 
 function RSNavigationMixin:OnPreviousLeave()
 	self.ShowAnim:Stop();
-	GameTooltip:Hide()
+	RSTooltip.Tooltip:Hide()
 end
 
 function RSNavigationMixin:EnableNextButton()

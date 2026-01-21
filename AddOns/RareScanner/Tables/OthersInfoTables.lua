@@ -154,4 +154,66 @@ private.DRAGON_GLYPHS = {
 	[42718] = { zoneID = 2371, artID = { 1923 }, x = 4650, y = 5837, parent = 42727, criteria = 2 }; --Skyriding Glyphs: Eco-Dome: Primus
 	[42719] = { zoneID = 2371, artID = { 1923 }, x = 7645, y = 4627, parent = 42727, criteria = 4 }; --Skydiving Glyphs: North Sufaad
 	
+	-- Eversong Woods Glyph Hunter (Midnight)
+	[61521] = { zoneID = {
+		[2393] = { x = 4833, y = 0654, artID = { 1932 } };
+		[2395] = { x = 5137, y = 0816, artID = { 1933 } };
+	  }, parent = 61576, criteria = 1 }; --Skyriding Glyphs: The Shining Span
+	[61523] = { zoneID = {
+		[2393] = { x = 7368, y = 4463, artID = { 1932 } };
+		[2395] = { x = 5893, y = 1954, artID = { 1933 } };
+	  }, parent = 61576, criteria = 3 }; --Skyriding Glyphs: Silvermoon City
+	[61531] = { zoneID = 2395, artID = { 1933 }, x = 4947, y = 4804, parent = 61576, criteria = 5 }; --Skyriding Glyphs: Path of Dawn
+	[61529] = { zoneID = 2395, artID = { 1933 }, x = 6261, y = 6279, parent = 61576, criteria = 7 }; --Skyriding Glyphs: Dawnstar Spire
+	[61525] = { zoneID = 2395, artID = { 1933 }, x = 3342, y = 6539, parent = 61576, criteria = 9 }; --Skyriding Glyphs: Daggerspine Point
+	[61527] = { zoneID = 2395, artID = { 1933 }, x = 4320, y = 4641, parent = 61576, criteria = 11 }; --Skyriding Glyphs: Fairbreeze Village
+	[61522] = { zoneID = 2395, artID = { 1933 }, x = 6523, y = 3263, parent = 61576, criteria = 2 }; --Skyriding Glyphs: Brightwing Estate
+	[61524] = { zoneID = 2395, artID = { 1933 }, x = 3997, y = 5963, parent = 61576, criteria = 4 }; --Skyriding Glyphs: Goldenmist Village
+	[61530] = { zoneID = 2395, artID = { 1933 }, x = 3944, y = 4565, parent = 61576, criteria = 6 }; --Skyriding Glyphs: Sunsail Anchorage
+	[61528] = { zoneID = 2395, artID = { 1933 }, x = 5246, y = 6756, parent = 61576, criteria = 8 }; --Skyriding Glyphs: Tranquillien
+	[61526] = { zoneID = 2395, artID = { 1933 }, x = 5844, y = 5832, parent = 61576, criteria = 10 }; --Skyriding Glyphs: Suncrown Tree
+	
+	-- Harandar Glyph Hunter
+	[61543] = { zoneID = 2413, artID = { 1942 }, x = 6022, y = 4441, parent = 61582, criteria = 1 }; --Skyriding Glyphs: Blossoming Terrace
+	[61551] = { zoneID = 2413, artID = { 1942 }, x = 2655, y = 6139, parent = 61582, criteria = 8 }; --Skyriding Glyphs: Roots of Shaladrassil
+	[61547] = { zoneID = 2413, artID = { 1942 }, x = 5472, y = 3535, parent = 61582, criteria = 5 }; --Skyriding Glyphs: Blooming Lattice
+	[61549] = { zoneID = 2413, artID = { 1942 }, x = 4455, y = 6281, parent = 61582, criteria = 7 }; --Skyriding Glyphs: Fungara Village
+	[61550] = { zoneID = 2413, artID = { 1942 }, x = 6186, y = 6752, parent = 61582, criteria = 9 }; --Skyriding Glyphs: Rift of Aln
+	[61544] = { zoneID = 2413, artID = { 1942 }, x = 4703, y = 5323, parent = 61582, criteria = 2 }; --Skyriding Glyphs: The Cradle
+	[61546] = { zoneID = 2413, artID = { 1942 }, x = 6937, y = 4584, parent = 61582, criteria = 4 }; --Skyriding Glyphs: Roots of Amirdrassil
+	[61548] = { zoneID = 2413, artID = { 1942 }, x = 7307, y = 2586, parent = 61582, criteria = 6 }; --Skyriding Glyphs: Roots of Nordrassil
+	[61545] = { zoneID = 2413, artID = { 1942 }, x = 3458, y = 2314, parent = 61582, criteria = 3 }; --Skyriding Glyphs: Roots of Teldrassil
+	
+	-- Zul'aman Glyph Hunter
+	[61542] = { zoneID = 2437, artID = { 1963 }, x = 1920, y = 7064, parent = 61581, criteria = 1 }; --Skyriding Glyphs: Revantusk Sedge
+	[61532] = { zoneID = 2437, artID = { 1963 }, x = 4293, y = 3435, parent = 61581, criteria = 2 }; --Skyriding Glyphs: Shadebasin Watch
+	[61533] = { zoneID = 2437, artID = { 1963 }, x = 5361, y = 8040, parent = 61581, criteria = 3 }; --Skyriding Glyphs: Temple of Akil'zon
+	[61534] = { zoneID = 2437, artID = { 1963 }, x = 5149, y = 2356, parent = 61581, criteria = 4 }; --Skyriding Glyphs: Temple of Jan'alai
+	[61535] = { zoneID = 2437, artID = { 1963 }, x = 5320, y = 5448, parent = 61581, criteria = 5 }; --Skyriding Glyphs: Strait of Hexx'alor
+	[61536] = { zoneID = 2437, artID = { 1963 }, x = 3957, y = 1971, parent = 61581, criteria = 6 }; --Skyriding Glyphs: Witherbark Bluffs
+	[61537] = { zoneID = 2437, artID = { 1963 }, x = 3041, y = 8479, parent = 61581, criteria = 7 }; --Skyriding Glyphs: Nalorakk's Prowl
+	[61538] = { zoneID = 2437, artID = { 1963 }, x = 2791, y = 2862, parent = 61581, criteria = 8 }; --Skyriding Glyphs: Zeb'Alar Lumberyard
+	[61540] = { zoneID = {
+		[2437] = { x = 2480, y = 5484, artID = { 1963 } };
+		[2395] = { x = 6380, y = 8188, artID = { 1933 } };
+	  }, parent = 61581, criteria = 9 }; --Skyriding Glyphs: Amani Pass		  
+	[61539] = { zoneID = 2437, artID = { 1963 }, x = 4669, y = 8221, parent = 61581, criteria = 10 }; --Skyriding Glyphs: Solemn Valley
+	[61541] = { zoneID = 2437, artID = { 1963 }, x = 4274, y = 8014, parent = 61581, criteria = 11 }; --Skyriding Glyphs: Spiritpaw Burrow
+	
+	-- Voidstorm Glyph Hunter
+	[61552] = { zoneID = 2405, artID = { 1936 }, x = 5134, y = 6272, parent = 61583, criteria = 1 }; --Skyriding Glyphs: The Voidspire
+	[61555] = { zoneID = 2405, artID = { 1936 }, x = 3717, y = 4997, parent = 61583, criteria = 2 }; --Skyriding Glyphs: The Molt
+	[61556] = { zoneID = 2405, artID = { 1936 }, x = 3566, y = 6111, parent = 61583, criteria = 3 }; --Skyriding Glyphs: The Ingress
+	[61557] = { zoneID = 2405, artID = { 1936 }, x = 3990, y = 7099, parent = 61583, criteria = 4 }; --Skyriding Glyphs: The Bladeburrows
+	[61558] = { zoneID = 2405, artID = { 1936 }, x = 5497, y = 4555, parent = 61583, criteria = 5 }; --Skyriding Glyphs: Gnawing Reach
+	[61564] = { zoneID = {
+		[2444] = { x = 3618, y = 4500, artID = { 2066 } };
+		[2405] = { x = 4385, y = 2393, artID = { 1936 } };
+	  }, parent = 61583, criteria = 6 }; --Skyriding Glyphs: Hanaar Outpost
+	[61563] = { zoneID = 2405, artID = { 1936 }, x = 3891, y = 7612, parent = 61583, criteria = 7 }; --Skyriding Glyphs: Ethereum Refinery
+	[61562] = { zoneID = 2405, artID = { 1936 }, x = 4528, y = 5226, parent = 61583, criteria = 8 }; --Skyriding Glyphs: Master's Perch
+	[61561] = { zoneID = 2405, artID = { 1936 }, x = 6505, y = 7189, parent = 61583, criteria = 9 }; --Skyriding Glyphs: Obscurion Citadel
+	[61560] = { zoneID = 2405, artID = { 1936 }, x = 3608, y = 3727, parent = 61583, criteria = 10 }; --Skyriding Glyphs: Shadowguard Point
+	[61559] = { zoneID = 2405, artID = { 1936 }, x = 4925, y = 8748, parent = 61583, criteria = 11 }; --Skyriding Glyphs: The Gorging Pit
+	
 }

@@ -97,7 +97,7 @@ function RSVignetteDataProviderMixin:ShowAnimations()
 				end
 			end	
 			if ((RSConfigDB.IsShowingAnimationForContainers() and RSContainerDB.GetInternalContainerInfo(finalEntityID)) or (RSConfigDB.IsShowingAnimationForEvents() and RSEventDB.GetInternalEventInfo(finalEntityID))) then
-				pingAnimation(pin, pin.ShowPingAnim, vignetteObjectID)
+				pingAnimation(pin, pin.ShowPingAnim, finalEntityID)
 			end
 		end
 	end

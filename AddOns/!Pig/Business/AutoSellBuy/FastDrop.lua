@@ -98,7 +98,7 @@ function BusinessInfo.FastDrop(QuickButUI_index)
 			if QuickButUI[_GNE] then return end
 			QuickButUI[_GNE]=true
 			local QuickTooltip = KEY_BUTTON1.."-|cff00FFFF".._GN.."指定物品|r\n"..KEY_BUTTON2.."-|cff00FFFF打开"..GnName.."|r"
-			local QkBut=PIGQuickBut(nil,QuickTooltip,134152,nil,FrameLevel)----133799
+			local QkBut=PIGQuickBut(nil,QuickTooltip,GnIcon,nil,FrameLevel)
 			QkBut:SetScript("OnClick", function(self,button)
 				if button=="LeftButton" then
 					PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON);

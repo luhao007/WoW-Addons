@@ -444,25 +444,26 @@ function BusinessInfo.Item(StatsInfo)
 	end)
 	----
 	fujiF:RegisterEvent("PLAYER_ENTERING_WORLD")
-	fujiF:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
-	fujiF:RegisterEvent("PLAYER_TALENT_UPDATE")
-	fujiF:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_SHOW")
-	fujiF:RegisterEvent("PLAYERBANKSLOTS_CHANGED")
-	fujiF:RegisterEvent("MAIL_SHOW");
-	if PIG_MaxTocversion(20000) then fujiF:RegisterEvent("GUILDBANKBAGSLOTS_CHANGED") end
 	fujiF:SetScript("OnEvent", function(self,event,arg1,arg2)
-		if event == "MAIL_SHOW" then
-			MailFrame_OnShow(self)
-		elseif event == "ITEM_PUSH" or event == "MAIL_INBOX_UPDATE" then
-			SAVE_MAIL()
-		elseif event=="PLAYER_ENTERING_WORLD" then
+		if event=="PLAYER_ENTERING_WORLD" then
+			self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 			if arg1 or arg2 then
+				if PIG_MaxTocversion(20000) then fujiF:RegisterEvent("GUILDBANKBAGSLOTS_CHANGED") end
+				self:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
+				self:RegisterEvent("PLAYER_TALENT_UPDATE")
+				self:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_SHOW")
+				self:RegisterEvent("PLAYERBANKSLOTS_CHANGED")
+				self:RegisterEvent("MAIL_SHOW");
 				C_Timer.After(2, function()
 					SAVE_C()
 					SAVE_BAG()
 					self:RegisterEvent("BAG_UPDATE")
 				end)
 			end
+		elseif event == "MAIL_SHOW" then
+			MailFrame_OnShow(self)
+		elseif event == "ITEM_PUSH" or event == "MAIL_INBOX_UPDATE" then
+			SAVE_MAIL()
 		elseif event=="PLAYER_EQUIPMENT_CHANGED" or event=="PLAYER_TALENT_UPDATE" then
 			SAVE_C()
 		elseif event=="BAG_UPDATE" then

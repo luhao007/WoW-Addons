@@ -2344,3 +2344,8 @@ Change Log:
 5.19.5
 * Updated for patch 11.2.7
 * Added The War Within spells (world)
+
+5.19.6
+* Updated TBC Classic TOC to 2.5.5
+* Updated Mists Classic 5.5.3
+* Added TWW spells for Brawler's Guild

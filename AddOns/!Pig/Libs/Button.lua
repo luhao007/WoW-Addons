@@ -98,9 +98,9 @@ local function add_Button(MODE,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 	end
 	return But
 end
-function Create.PIGButton(fuF,Point,WH,Text,UIName,id,TemplateP,Zihao,mode,ElvUIopen)--,nil,nil,nil,nil,0
+function Create.PIGButton(fuF,Point,WH,Text,UIName,id,TemplateP,Zihao,mode)--,nil,nil,nil,nil,0
 	if mode==0 then
-		if ElvUIopen or NDui then
+		if ElvUI or NDui then
 			return add_Button(false,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)
 		else
 			return add_Button(true,fuF,Point,WH,Text,UIName,id,TemplateP,Zihao)

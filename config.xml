@@ -441,6 +441,14 @@
 				<Title>军团再临</Title>
 				<Notes>BtWQuests 军团再临模块</Notes>
 			</SubAddon>
+			<SubAddon name="BtWQuestsMidnight">
+				<Title>至暗之夜</Title>
+				<Notes>BtWQuests 至暗之夜模块</Notes>
+			</SubAddon>
+			<SubAddon name="BtWQuestsMidnightPrologue">
+				<Title>至暗之夜前夕</Title>
+				<Notes>BtWQuests 至暗之夜前夕模块</Notes>
+			</SubAddon>
 			<SubAddon name="BtWQuestsMistsOfPandaria">
 				<Title>熊猫人之谜</Title>
 				<Notes>BtWQuests 熊猫人之谜模块</Notes>
@@ -1040,6 +1048,21 @@
 			<SubAddon name="GatherMate2_Data">
 				<Title>数据</Title>
 			</SubAddon>
+			<SubAddon name="GatherMate2Storage_Dragonflight">
+				<Title>数据</Title>
+				<TitleExtra>巨龙时代</TitleExtra>
+				<Notes>分离存储巨龙时代的采集数据</Notes>
+			</SubAddon>
+			<SubAddon name="GatherMate2Storage_TheWarWithin">
+				<Title>数据</Title>
+				<TitleExtra>地心之战</TitleExtra>
+				<Notes>分离存储地心之战的采集数据</Notes>
+			</SubAddon>
+			<SubAddon name="GatherMate2Storage_Midnight">
+				<Title>数据</Title>
+				<TitleExtra>至暗之夜</TitleExtra>
+				<Notes>分离存储至暗之夜的采集数据</Notes>
+			</SubAddon>
 		</SubAddons>
 	</Addon>
 	<Addon name="GearManagerEx">
@@ -1359,6 +1382,11 @@
 				<Title>双手武器</Title>
 			</SubAddon>
 		</SubAddons>
+	</Addon>
+	<Addon name="MogPartialSets">
+		<Title>套装幻化</Title>
+		<Notes>显示未完整收集套装（或者游戏内默认未列出）的幻化</Notes>
+		<Category>收藏</Category>
 	</Addon>
 	<Addon name="MinimalArchaeology">
 		<Title>考古助手</Title>
@@ -1815,6 +1843,10 @@
 			<SubAddon name="TitanReputations">
 				<Title>声望</Title>
 				<Notes>泰坦面板的声望模块</Notes>
+			</SubAddon>
+			<SubAddon name="TitanUI">
+				<Title>界面</Title>
+				<Notes>泰坦面板的界面模块</Notes>
 			</SubAddon>
 			<SubAddon name="TitanVolume">
 				<Title>音量</Title>

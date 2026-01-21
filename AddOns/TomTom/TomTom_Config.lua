@@ -1154,7 +1154,8 @@ local aboutOptions = {
 local blizzPanel
 function addon:CreateConfigPanels()
 	config:RegisterOptionsTable("TomTom", aboutOptions)
-	local aboutFrame = dialog:AddToBlizOptions("TomTom", "TomTom")
+	local aboutFrame, category = dialog:AddToBlizOptions("TomTom", "TomTom")
+	addon.aboutCategory = category
 	if not registered then
 		blizzPanel = createBlizzOptions()
 		registered = true
@@ -1172,7 +1173,7 @@ SlashCmdList["TOMTOM"] = function(msg)
 	end
 
 	if Settings then
-		Settings.OpenToCategory("TomTom")
+		Settings.OpenToCategory(addon.aboutCategory)
 	elseif InterfaceOptionsFrame_OpenToCategory then
 		InterfaceOptionsFrame_OpenToCategory("TomTom")
 		InterfaceOptionsFrame_OpenToCategory("TomTom")

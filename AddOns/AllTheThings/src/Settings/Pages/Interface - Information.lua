@@ -5,7 +5,8 @@ local L, settings = app.L, app.Settings;
 local pairs, ipairs, tonumber, math_floor, select, type, tostring, tinsert, tremove, RETRIEVING_DATA
 	= pairs, ipairs, tonumber, math.floor, select, type, tostring, tinsert, tremove, RETRIEVING_DATA;
 local Colorize = app.Modules.Color.Colorize;
-local GetNumberWithZeros = app.Modules.Color.GetNumberWithZeros;
+local GetCoordString = app.Modules.Color.GetCoordString;
+local GetPatchString = app.Modules.Color.GetPatchString;
 local IsRetrieving = app.Modules.RetrievingData.IsRetrieving;
 local GetRelativeValue = app.GetRelativeValue;
 local wipearray = app.wipearray
@@ -23,13 +24,6 @@ local IsQuestFlaggedCompletedOnAccount = app.WOWAPI.IsQuestFlaggedCompletedOnAcc
 local child = settings:CreateOptionsPage(L.INFORMATION_PAGE, L.INTERFACE_PAGE)
 
 -- Conversion Methods for specific formats for a given Information Type.
-local function GetCoordString(x, y)
-	return GetNumberWithZeros(app.round(x, 1), 1) .. ", " .. GetNumberWithZeros(app.round(y, 1), 1);
-end
-local function GetPatchString(patch)
-	patch = tonumber(patch)
-	return patch and (math_floor(patch / 10000) .. "." .. (math_floor(patch / 100) % 100) .. "." .. (patch % 10))
-end
 local DefaultConversionMethod = function(value)
 	return value;
 end
@@ -705,10 +699,13 @@ local InformationTypes = {
 					});
 					j = j + 1;
 					if j >= maxCoords then
-						tinsert(tooltipInfo, {
-							right = (L.AND_MORE):format(coordCount - maxCoords),
-							r = 1, g = 1, b = 1
-						});
+						local remainingCoords = coordCount - maxCoords
+						if remainingCoords > 0 then
+							tinsert(tooltipInfo, {
+								right = (L.AND_MORE):format(remainingCoords),
+								r = 1, g = 1, b = 1
+							});
+						end
 						break;
 					end
 				end
@@ -732,10 +729,13 @@ local InformationTypes = {
 					});
 					j = j + 1;
 					if j >= maxCoords then
-						tinsert(tooltipInfo, {
-							right = (L.AND_MORE):format(coordCount - maxCoords),
-							r = 1, g = 1, b = 1
-						});
+						local remainingCoords = coordCount - maxCoords
+						if remainingCoords > 0 then
+							tinsert(tooltipInfo, {
+								right = (L.AND_MORE):format(remainingCoords),
+								r = 1, g = 1, b = 1
+							});
+						end
 						break;
 					end
 				end

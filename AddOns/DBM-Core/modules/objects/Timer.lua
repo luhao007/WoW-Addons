@@ -202,6 +202,7 @@ end
 
 function timerPrototype:Start(timer, ...)
 	if not self.mod.isDummyMod then--Don't apply following rulesets to pull timers and such
+		if DBM.Options.HideDBMBars then return end
 		if DBM.Options.DontShowBossTimers and not self.mod.isTrashMod then return end
 		if DBM.Options.DontShowTrashTimers and self.mod.isTrashMod then return end
 	end
@@ -604,9 +605,17 @@ function timerPrototype:DelayedStart(delay, ...)
 end
 timerPrototype.DelayedShow = timerPrototype.DelayedStart
 
+---@param t number
+---@param ... any
 function timerPrototype:Schedule(t, ...)
 	local id = DBMScheduler:Schedule(t, self.Start, self.mod, self, ...)
 	test:Trace(self.mod, "SetScheduleMethodName", id, self, "Schedule", testFixupScheduleMethodName(self, ...))
+end
+
+---@param t number
+---@param count number?
+function timerPrototype:Loop(t, count)
+	DBMScheduler:ScheduleLoop(t, self.Start, self.mod, self, count)
 end
 
 function timerPrototype:Unschedule(...)
@@ -720,6 +729,7 @@ function timerPrototype:SetTimer(timer)
 end
 
 function timerPrototype:Update(elapsed, totalTime, ...)
+	if DBM.Options.HideDBMBars then return end
 	if DBM.Options.DontShowBossTimers and not self.mod.isTrashMod then return end
 	if DBM.Options.DontShowTrashTimers and self.mod.isTrashMod then return end
 	local id = self.id .. pformat((("\t%s"):rep(select("#", ...))), ...)
@@ -776,6 +786,7 @@ function timerPrototype:Update(elapsed, totalTime, ...)
 end
 
 function timerPrototype:AddTime(extendAmount, ...)
+	if DBM.Options.HideDBMBars then return end
 	if DBM.Options.DontShowBossTimers and not self.mod.isTrashMod then return end
 	if DBM.Options.DontShowTrashTimers and self.mod.isTrashMod then return end
 	local id = self.id .. pformat((("\t%s"):rep(select("#", ...))), ...)
@@ -822,6 +833,7 @@ function timerPrototype:AddTime(extendAmount, ...)
 end
 
 function timerPrototype:RemoveTime(reduceAmount, ...)
+	if DBM.Options.HideDBMBars then return end
 	if DBM.Options.DontShowBossTimers and not self.mod.isTrashMod then return end
 	if DBM.Options.DontShowTrashTimers and self.mod.isTrashMod then return end
 	local id = self.id .. pformat((("\t%s"):rep(select("#", ...))), ...)
@@ -1532,6 +1544,7 @@ end
 --/run C_EncounterTimeline.AddEditModeEvents()
 function DBM:ENCOUNTER_TIMELINE_EVENT_ADDED(eventInfo, remaining)
 	local source = eventInfo.source--(0-Encounter, 1-Script, 2-EditMode)
+	if self.Options.HideDBMBars then return end
 	if self.Options.DontShowBossTimers and source == 0 then return end
 	if self.Options.DontShowUserTimers and source == 1 then return end
 	local eventID = eventInfo.id
@@ -1542,29 +1555,7 @@ function DBM:ENCOUNTER_TIMELINE_EVENT_ADDED(eventInfo, remaining)
 	local spellId = eventInfo.spellID
 	local spellName = eventInfo.spellName or C_Spell.GetSpellName(spellId)--Spell name associated with this event. For script events, this may instead be the contents of the 'overrideName' field if it wasn't empty."
 	local iconId = eventInfo.iconFileID
-	--local icons = eventInfo.icons
-	--C_EncounterTimeline.SetEventIconTextures(eventID, icons, {DBM_COMMON_L.DAMAGE_ICON})
-	--local inlineIcon = ""
-	--Currently icon mapping only possible outside of raids. It's basically useless otherwise when bitmap is secret
-	--Unlike iconId which is an actual secret texture we can still use, we can't actually decode what icons reside in icons to use them
-	--if icons and not issecretvalue(icons) then
-	--	local hasTankIcon = bit.band(icons, 128) ~= 0
-	--	local hasHealerIcon = bit.band(icons, 256) ~= 0
-	--	local hasDpsIcon = bit.band(icons, 512) ~= 0
-	--	local isDeadly = bit.band(icons, 1) ~= 0
-	--	if isDeadly then
-	--		inlineIcon = DBM_COMMON_L.DEADLY_ICON
-	--	end
-	--	if hasTankIcon then
-	--		inlineIcon = inlineIcon .. DBM_COMMON_L.TANK_ICON
-	--	end
-	--	if hasHealerIcon then
-	--		inlineIcon = inlineIcon .. DBM_COMMON_L.HEALER_ICON
-	--	end
-	--	if hasDpsIcon then
-	--		inlineIcon = inlineIcon .. DBM_COMMON_L.DAMAGE_ICON
-	--	end
-	--end
+--	local icons = eventInfo.icons
 --	local severity = eventInfo.severity ("Normal", "Deadly")
 --	local isApproximate = eventInfo.isApproximate
 

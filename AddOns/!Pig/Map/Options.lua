@@ -1,5 +1,6 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
+local Fun=addonTable.Fun
 ---
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
@@ -101,7 +102,7 @@ function GeneralF.Minimap_but_Point:PIGDownMenu_SetValue(value,arg1,arg2)
 	addonTable.UpdateMiniButPoint()
 	PIGCloseDropDownMenus()
 end
-GeneralF.CZinfo = PIGButton(GeneralF,{"TOPLEFT",GeneralF.Minimap_but_Point,"BOTTOMLEFT",10,-6},{100,24},"重置位置")
+GeneralF.CZinfo = PIGButton(GeneralF,{"TOPLEFT",GeneralF.Minimap_but_Point,"BOTTOMLEFT",10,-6},{100,24},RESET_POSITION)
 GeneralF.CZinfo:SetScript("OnClick", function()
 	Mapfun.MiniMapBut:CZMinimapInfo()
 end);
@@ -198,7 +199,7 @@ GeneralF:HookScript("OnShow", function (self)
 		self.Minimap_but_Point:Disable();
 		self.CZinfo:Disable();
 		self.Minimap_but_Point:PIGDownMenu_SetText("被外部插件"..Mapfun.MiniMapBut.EXaddonName.."控制")
-	elseif PIG_OptionsUI.IsOpen_ElvUI() then
+	elseif Fun.IsElvUI() then
 		self.Minimap_but_Point:Disable();
 		self.CZinfo:Disable();
 		self.Minimap_but_Point:PIGDownMenu_SetText("ElvUI模式")

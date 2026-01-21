@@ -1,11 +1,13 @@
 ## Interface: 110207
 ## Author: The WeakAuras Team
-## Version: 5.20.7
+## Version: 5.21.1
 
 ## Title: WeakAuras
 ## Notes: A powerful, comprehensive utility for displaying graphics and information based on buffs, debuffs, and other triggers.
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r|cFFFFFFFF辅助增强|r |cFFFFE00AWeakAuras|r
 ## Notes-zhCN: 自定义界面显示、辅助信息，支持一定程度上的LUA脚本（迷你插件）
+
+## IconTexture: Interface\AddOns\WeakAuras\Media\Textures\icon.blp
 
 ## Category-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r
 
@@ -27,7 +29,6 @@
 embeds.xml
 
 # TaintLess
-# Client flavor specific libs
 Init.lua
 Compatibility.lua
 locales.xml

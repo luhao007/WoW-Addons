@@ -23,7 +23,7 @@ function TardisInfo.Farm(Activate)
 	local tihuankuohao=Fun.tihuankuohao
 	----
 	local fujiF,fujiTabBut=PIGOptionsList_R(InvF.F,L["TARDIS_FARM"],80,"Bot")
-	if Activate then fujiF:Show() fujiTabBut:Selected() end
+	if Activate then fujiF:Show() fujiTabBut:Selected(true) end
 	----------------------------------
 	fujiF.JieshouInfoList={};
 	fujiF.yishenqingList={}

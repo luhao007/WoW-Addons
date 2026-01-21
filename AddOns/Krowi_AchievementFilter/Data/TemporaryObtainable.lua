@@ -117,19 +117,23 @@ end
 
 local function FindCachedCalendarEvent(eventId)
     eventId = tonumber(eventId);
-    local event = KrowiAF_SavedData.CalendarEventsCache[eventId];
-    if event then
-        return event, data.Events[KrowiAF.Enum.EventType.Calendar][eventId];
+
+    local calendarEvent = data.Events[KrowiAF.Enum.EventType.Calendar][eventId];
+    local occurrence = addon.EventData.GetNextEventOccurance(eventId);
+    if occurrence then
+        return occurrence, calendarEvent;
     end
-    if data.Events[KrowiAF.Enum.EventType.Calendar][eventId] and data.Events[KrowiAF.Enum.EventType.Calendar][eventId].LinkedEventIds then
-        for _, linkedEventId in next, data.Events[KrowiAF.Enum.EventType.Calendar][eventId].LinkedEventIds do
-            event = KrowiAF_SavedData.CalendarEventsCache[linkedEventId];
-            if event then
-                return event, data.Events[KrowiAF.Enum.EventType.Calendar][eventId];
+
+    if calendarEvent and calendarEvent.LinkedEventIds then
+        for _, linkedEventId in next, calendarEvent.LinkedEventIds do
+            occurrence = addon.EventData.GetNextEventOccurance(linkedEventId);
+            if occurrence then
+                return occurrence, calendarEvent;
             end
         end
     end
-    return nil, data.Events[KrowiAF.Enum.EventType.Calendar][eventId];
+
+    return nil, calendarEvent;
 end
 
 do -- Tooltip, maybe move to not obtainable tooltip lua
@@ -254,7 +258,7 @@ do -- Tooltip, maybe move to not obtainable tooltip lua
         elseif record.Start.Function == "Patch" then
             startDetail = addon.L["Patch"];
         elseif record.Start.Function == "Version" then
-            startDetail = addon.L["Version"];
+            startDetail = addon.Util.L["Version"];
         elseif record.Start.Function == "Season" then
             startDetail = addon.L["Season"];
         else
@@ -311,7 +315,7 @@ do -- Tooltip, maybe move to not obtainable tooltip lua
         elseif record.End.Function == "Patch" then
             endDetail = addon.L["Patch"];
         elseif record.End.Function == "Version" then
-            endDetail = addon.L["Version"];
+            endDetail = addon.Util.L["Version"];
         elseif record.End.Function == "Season" then
             endDetail = addon.L["Season"];
         else

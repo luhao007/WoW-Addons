@@ -1342,6 +1342,21 @@ local function OnClick(self, button)
 	end
 end
 
+function TitanPanel_GoldGetGold(player, server, faction)
+	local res = ""
+	-- Gold was written WAY before the profile changes so translate the index
+	local idx = CreateIndex(player, server, faction)
+	if _G[TITAN_BUTTON]:IsShown()
+	and GoldSave[idx]
+	then
+		res = NiceCash(GoldSave[idx].gold, true, false)
+	else
+		res = L["TITAN_PANEL_MENU_DISABLED"]
+	end
+
+	return res
+end
+
 ---local Create required Gold frames
 local function Create_Frames()
 	if _G[TITAN_BUTTON] then

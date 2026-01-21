@@ -1,6 +1,6 @@
 ## Interface: 110207
 ## Author: nanderson11, Lag, Proteyer, Arith
-## Version: v9.19.8
+## Version: v9.20.0
 
 ## Title: AtlasLoot |cFF0099FF[Crafting]|r
 ## Notes: AtlasLoot loot tables of Crafting Items

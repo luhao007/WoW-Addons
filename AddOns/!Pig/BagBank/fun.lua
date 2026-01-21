@@ -268,7 +268,7 @@ function BagBankfun.add_Itemslot_ZLV_ranse(famrr,BagdangeW)
 	    famrr.ranse:Hide()
 	end
 end
-function BagBankfun.addfenleibagbut(fujiui,uiname)
+function BagBankfun.addfenleibagbut(fujiui)
 	local baginfo={
 		["id"]=bagData["bagID"],
 		["icon"]={

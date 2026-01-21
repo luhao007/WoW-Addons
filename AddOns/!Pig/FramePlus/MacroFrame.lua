@@ -17,7 +17,7 @@ function FramePlusfun.Macro()
 		local HHH = MacroFrame:GetHeight()
 		local NewWWW = WWW*2.4
 		MacroFrame:SetWidth(NewWWW);
-		if PIG_OptionsUI.IsOpen_ElvUI() then
+		if Fun.IsElvUI() then
 			C_Timer.After(0.1,function()
 				MacroFrame:SetWidth(NewWWW);
 			end)

@@ -17,6 +17,7 @@ function BusinessInfo.FastSave()
 	local UseContainerItem =UseContainerItem or C_Container and C_Container.UseContainerItem
 	local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 	-- 
+	local Fun = addonTable.Fun
 	local Data=addonTable.Data
 	local bagID=Data.bagData["bagID"]
 	local bankID=Data.bagData["bankID"]
@@ -142,7 +143,7 @@ function BusinessInfo.FastSave()
 		local savebut = CreateFrame("Button",nil,fujiUI, "TruncatedButtonTemplate",ib);
 		savebut:SetHighlightTexture("Interface/Buttons/ButtonHilight-Square");
 		savebut:SetNormalTexture(NewItemTypeLsit[ib][1])
-		if PIG_OptionsUI.IsOpen_ElvUI() or PIG_OptionsUI.IsOpen_NDui() then
+		if Fun.IsElvUI() or Fun.IsNDui() then
 			savebut:GetNormalTexture():SetTexCoord(0.1,0.9,0.1,0.9)
 		end
 		savebut:SetSize(www,hhh);

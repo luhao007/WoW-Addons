@@ -189,7 +189,7 @@ function TitanPanel_AdjustFrame(frame_str, reason)
 end
 
 --[[
-	TitanDebug ("MoveFrame :"
+	TitanDebug("MoveFrame :"
 		.." "..tostring(frame:GetName())
 		.." point:"..tostring(point)
 		.." relativeTo:"..tostring(relativeTo:GetName())
@@ -682,6 +682,72 @@ local MData = {
 	[12] = {frameName = "UIWidgetTopCenterContainerFrame",
 		move = function (force) MoveFrame("UIWidgetTopCenterContainerFrame", 0, TITAN_PANEL_PLACE_TOP, force) end,
 		addonAdj = false, },
+--[[ 
+	[13] = {frameName = "PlayerPowerBarAlt",
+		move = function (force)
+			-- Only spend cycles if the frame is shown.
+			if PlayerPowerBarAlt
+			and PlayerPowerBarAlt:IsShown() then
+				-- Need to calc Y because Y depends on what else is shown
+				--[=[ UIParent
+				Look at UIParent.lua for logic (UIParent_ManageFramePosition)
+				--]=]
+				local actionBarOffset = 45;
+				local menuBarTop = 55;
+				local overrideActionBarTop = 40;
+				local petBattleTop = 60;
+
+				local yOfs = 48 -- FramePositionDelegate:UIParentManageFramePositions
+				if MainMenuBar and MainMenuBar:IsShown() then
+					yOfs = yOfs + menuBarTop
+				end
+				if (MultiBarBottomLeft and MultiBarBottomLeft:IsShown())
+				or (MultiBarBottomRight and MultiBarBottomRight:IsShown())
+				then
+					yOfs = yOfs + actionBarOffset
+				end
+				if (has_pet_bar())
+				and (MultiBarBottomRight and MultiBarBottomRight:IsShown())
+				then
+					yOfs = yOfs + petBattleTop
+				end
+				MoveFrame("PlayerPowerBarAlt", yOfs, TITAN_PANEL_PLACE_BOTTOM, force)
+			end
+			end,
+		addonAdj = false, },
+	[14] = {frameName = "ExtraActionButton1",
+		move = function (force)
+			-- Only spend cycles if the frame is shown.
+			if ExtraActionButton1
+			and ExtraActionButton1:IsShown() then
+				-- Need to calc Y because Y depends on what else is shown
+				--[=[ UIParent
+				Look at UIParent.lua for logic (UIParent_ManageFramePosition)
+				--]=]
+				local actionBarOffset = 45;
+				local menuBarTop = 55;
+				local overrideActionBarTop = 40;
+				local petBattleTop = 60;
+
+				local yOfs = 30 -- FramePositionDelegate:UIParentManageFramePositions
+				if MainMenuBar and MainMenuBar:IsShown() then
+					yOfs = yOfs + menuBarTop
+				end
+				if (MultiBarBottomLeft and MultiBarBottomLeft:IsShown())
+				or (MultiBarBottomRight and MultiBarBottomRight:IsShown())
+				then
+					yOfs = yOfs + actionBarOffset
+				end
+				if (has_pet_bar())
+				and (MultiBarBottomRight and MultiBarBottomRight:IsShown())
+				then
+					yOfs = yOfs + petBattleTop
+				end
+				MoveFrame("ExtraActionButton1", yOfs, TITAN_PANEL_PLACE_BOTTOM, force)
+			end
+			end,
+		addonAdj = false, },
+--]]
 }
 
 --[==[

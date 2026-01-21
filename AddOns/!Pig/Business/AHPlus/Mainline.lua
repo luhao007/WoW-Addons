@@ -140,7 +140,12 @@ function BusinessInfo.AHPlus_Mainline()
 		end
 		Show_hangdata(Mfuji)
 	end)
-	AuctionHouseFrame.BrowseResultsFrame.qushiUI=PIGFrame(AuctionHouseFrame.BrowseResultsFrame,nil,nil,nil,nil,nil,{["ElvUI"]={0,0,0,0},["NDui"]={0,0,0,0}})
+
+	local EextData={
+		["ElvUI"]={true,{0,0,0,0}},
+		["NDui"]={NDuiopen,{0,0,0,0}},
+	}
+	AuctionHouseFrame.BrowseResultsFrame.qushiUI=PIGFrame(AuctionHouseFrame.BrowseResultsFrame,nil,nil,nil,nil,nil,EextData)
 	AuctionHouseFrame.BrowseResultsFrame.qushiUI:SetSize(328,204);
 	AuctionHouseFrame.BrowseResultsFrame.qushiUI:PIGSetBackdrop(1)
 	AuctionHouseFrame.BrowseResultsFrame.qushiUI:SetFrameStrata("HIGH")
@@ -151,9 +156,27 @@ function BusinessInfo.AHPlus_Mainline()
 	AuctionHouseFrame.BrowseResultsFrame.qushitishi:SetFrameLevel(510)
 
 	---缓存----------
+	local UpdateF = CreateFrame("Frame")
+	UpdateF.meiyenum = 29
+	UpdateF.auctionsG = {}
+	UpdateF.auctionsLin = {}
+	UpdateF.RetryCount={}
+	UpdateF.ItemIndexList = {}
+
 	AuctionHouseFrame.History = PIGButton(AuctionHouseFrame,{"TOPRIGHT",AuctionHouseFrame,"TOPRIGHT",-100,-1},{110,19},"缓存价格",nil,nil,nil,nil,0);
 	AuctionHouseFrame.History:SetFrameLevel(510)
-	AuctionHouseFrame.History:HookScript("OnUpdate", function(self)
+	AuctionHouseFrame.History.timel=0
+	AuctionHouseFrame.History:HookScript("OnUpdate", function(self,elapsed)
+		self.timel=self.timel+elapsed
+		if self.timel>1 then
+			self.timel=0
+			self:UpdateBUT()
+		end
+	end)
+	AuctionHouseFrame.History:HookScript("OnShow", function(self,elapsed)
+		self:UpdateBUT()
+	end)
+	function AuctionHouseFrame.History:UpdateBUT()
 		local daojishitt = 900-(GetServerTime()-PIGA["AHPlus"]["DaojiTime"])
 		if daojishitt<0 then
 			self:Enable()
@@ -162,10 +185,13 @@ function BusinessInfo.AHPlus_Mainline()
 			self:Disable()
 			self:SetText("缓存价格("..daojishitt..")");
 		end
+	end
+	AuctionHouseFrame.History:HookScript("OnClick", function(self, button)
+		UpdateF:StartScan()
 	end)
 
 	AuctionHouseFrame.huancunUI = CreateFrame("Frame", nil, AuctionHouseFrame,"BackdropTemplate");
-	local HCUI = AuctionHouseFrame.huancunUI
+	local jinduW,jinduH,HCUI = 300,20,AuctionHouseFrame.huancunUI
 	HCUI:SetBackdrop({bgFile = "interface/characterframe/ui-party-background.blp",edgeFile = "Interface/Tooltips/UI-Tooltip-Border",edgeSize = 13,});
 	HCUI:SetBackdropBorderColor(0, 1, 1, 0.9);
 	HCUI:SetPoint("TOPLEFT",AuctionHouseFrame,"TOPLEFT",4,-22);
@@ -174,178 +200,144 @@ function BusinessInfo.AHPlus_Mainline()
 	HCUI:Hide();
 	HCUI.close = PIGButton(HCUI,{"CENTER",HCUI,"CENTER",0,-40},{90,30},"关闭",nil,nil,nil,nil,0);
 	HCUI.close:Hide();
-	HCUI.close:HookScript("OnClick",function(self)
-		HCUI:Hide()
-	end)
-
-	local jinduW,jinduH = 300,20
+	HCUI.close:HookScript("OnClick",function(self) HCUI:Hide() end)
 	HCUI.jindu = CreateFrame("StatusBar", nil, HCUI);
 	HCUI.jindu:SetStatusBarTexture("interface/raidframe/raid-bar-hp-fill.blp")
 	HCUI.jindu:SetStatusBarColor(0, 1, 0 ,1);
 	HCUI.jindu:SetSize(jinduW,jinduH);
 	HCUI.jindu:SetPoint("CENTER",HCUI,"CENTER",0,40);
 	HCUI.jindu:SetMinMaxValues(0, 100)
-	HCUI.jindu.BACKGROUND = HCUI.jindu:CreateTexture(nil, "BACKGROUND");
-	HCUI.jindu.BACKGROUND:SetTexture("interface/characterframe/ui-party-background.blp")
-	HCUI.jindu.BACKGROUND:SetAllPoints(HCUI.jindu)
-	HCUI.jindu.BACKGROUND:SetColorTexture(1, 1, 1, 0.4)
+	HCUI.jindu.Background = HCUI.jindu:CreateTexture(nil, "BACKGROUND");
+	HCUI.jindu.Background:SetTexture("interface/characterframe/ui-party-background.blp")
+	HCUI.jindu.Background:SetAllPoints(HCUI.jindu)
+	HCUI.jindu.Background:SetColorTexture(1, 1, 1, 0.4)
 	HCUI.jindu.t1 = PIGFontString(HCUI.jindu,{"CENTER",HCUI.jindu,"CENTER",0,0},"/","OUTLINE",13)
 	HCUI.jindu.t2 = PIGFontString(HCUI.jindu,{"RIGHT",HCUI.jindu.t1,"LEFT",0,0},0,"OUTLINE",13)
 	HCUI.jindu.t3 = PIGFontString(HCUI.jindu,{"LEFT",HCUI.jindu.t1,"RIGHT",0,0},0,"OUTLINE",13)
 	HCUI.jindu.tbiaoti = PIGFontString(HCUI.jindu,{"BOTTOM",HCUI.jindu,"TOP",0,2},"正在扫描物品...","OUTLINE",13)
-	HCUI.UpdateF = CreateFrame("Frame")
-	HCUI.UpdateF:Hide()
 	----
-	HCUI.auctions = {}
-	HCUI.auctionsLin = {}
-	HCUI.ItemLoadList = {}
-	local function OpenScanFun(v)
-		if v then
-			AuctionHouseFrame.BrowseResultsFrame:UnregisterEvent("AUCTION_HOUSE_BROWSE_RESULTS_UPDATED");
-		else
-			AuctionHouseFrame.BrowseResultsFrame:RegisterEvent("AUCTION_HOUSE_BROWSE_RESULTS_UPDATED");
-		end
-	end
-	local function au_SetValue()
-		HCUI.jishuID=HCUI.jishuID+1
-		HCUI.jindu.t2:SetText(HCUI.jishuID);
-		HCUI.jindu:SetValue(HCUI.jishuID);
-	end
 	local function Save_Data_End()
-		for k,v in pairs(HCUI.auctionsLin) do
-			if HCUI.auctions[v[1]] then
-   				if v[2]<HCUI.auctions[v[1]][1] then
-   					HCUI.auctions[v[1]][1]=v[2]
+		for k,v in pairs(UpdateF.auctionsLin) do
+			if UpdateF.auctionsG[v[1]] then
+   				if v[2]<UpdateF.auctionsG[v[1]][1] then
+   					UpdateF.auctionsG[v[1]][1]=v[2]
    				end
 			else
-				HCUI.auctions[v[1]]={v[2],v[3],v[4]}
+				UpdateF.auctionsG[v[1]]={v[2],v[3],v[4]}
 			end
 		end
-		for k,v in pairs(HCUI.auctions) do
+		for k,v in pairs(UpdateF.auctionsG) do
 			BusinessInfo.ADD_Newdata(k,v[1],v[2],v[3])
 		end
 		HCUI.jindu.tbiaoti:SetText("价格缓存完毕");
 		HCUI.close:Show();
-		OpenScanFun(nil)
 	end
-	local function huancunData_End()
-		if not HCUI:IsShown() then return end
-		if HCUI.yicunchu==nil or HCUI.yicunchu==true or HCUI.cunchuNum>5 then
-			HCUI.jindu.tbiaoti:SetText("价格缓存完毕,存储中...");
-			C_Timer.After(0.4,Save_Data_End)
-		else
-			HCUI.cunchuNum=HCUI.cunchuNum+1
-			C_Timer.After(0.1,huancunData_End)
+	local function TryProcessIndex(index)
+	    local name, _, count, _, _, _, _, minBid, _, buyoutPrice, _, _, _, _, _, _, itemId, hasAllInfo = C_AuctionHouse.GetReplicateItemInfo(index)
+	    if hasAllInfo then
+		    if itemId and buyoutPrice and buyoutPrice>0 and count and count > 0 then
+		        local itemLink=C_AuctionHouse.GetReplicateItemLink(index)
+		        if itemLink then
+					local xianjiaV =buyoutPrice/count
+					UpdateF.auctionsLin[index]={name,xianjiaV,itemLink,itemId}
+					return true
+		        end
+		    end
 		end
-	end
-	local function SauctionsLinData(name,buyoutPrice,count,index,itemID)
-		if name and name~="" and name~=" " and buyoutPrice>0 then
-			local ItemLink=C_AuctionHouse.GetReplicateItemLink(index)
-			local xianjiaV =buyoutPrice/count
-			HCUI.auctionsLin[index]={name,xianjiaV,ItemLink,itemID}
+	    UpdateF.RetryCount[index]=(UpdateF.RetryCount[index] or 0)+1
+	    if UpdateF.RetryCount[index]>4 then
+    		return true
 		end
-		au_SetValue()
+	    return false
 	end
-	local meiyenum = 300
-	HCUI.UpdateF:HookScript("OnUpdate",function(self,sss)
-		if self.jishiqitime>0.1 then
-			self.jishiqitime=0
-			if HCUI.SMend then
-				self:Hide()
-				HCUI.jindu.tbiaoti:SetText("物品扫描完毕,开始获取价格...");
-				local numReplicateItems = C_AuctionHouse.GetNumReplicateItems()
-				HCUI.jindu.t3:SetText(numReplicateItems);
-				HCUI.jindu:SetMinMaxValues(0, numReplicateItems)
-				HCUI.jindu.tbiaoti:SetText("正在缓存价格...");
-				wipe(HCUI.auctions)
-				wipe(HCUI.auctionsLin)
-				wipe(HCUI.ItemLoadList)
-				if numReplicateItems>0 then
-					local page=math.ceil(numReplicateItems/meiyenum)
-					local numItems=numReplicateItems-1
-					C_Timer.After(0.6,function()
-						for ix=0,(page-1) do
-							C_Timer.After(ix*HCUI.ScanCD,function()
-								local kaishi = ix*meiyenum
-								local jieshu = kaishi+meiyenum-1
-								if jieshu>numItems then
-									jieshu = numItems
-								end
-								for index=kaishi,jieshu do
-									local name, texture, count, qualityID, usable, level, levelType, minBid, minIncrement, buyoutPrice, bidAmount, highBidder, bidderFullName, owner, ownerFullName, saleStatus, itemID, hasAllInfo = C_AuctionHouse.GetReplicateItemInfo(index)
-									if hasAllInfo then
-										SauctionsLinData(name,buyoutPrice,count,index, itemID)
-									else
-										HCUI.yicunchu=false
-										local itemf = Item:CreateFromItemID(itemID)
-										itemf.index=index
-										HCUI.ItemLoadList[itemf] = true
-										itemf:ContinueOnItemLoad(function()
-											local name, texture, count, qualityID, usable, level, levelType, minBid, minIncrement, buyoutPrice, bidAmount, highBidder, bidderFullName, owner, ownerFullName, saleStatus, itemID, hasAllInfo = C_AuctionHouse.GetReplicateItemInfo(itemf.index)
-											SauctionsLinData(name,buyoutPrice,count,itemf.index, itemID)
-											HCUI.ItemLoadList[itemf] = nil
-											if next(HCUI.ItemLoadList) ~= nil then
-												HCUI.yicunchu=true
-											end
-										end)
-									end
-									if index>=numItems then
-										huancunData_End()
-									end
-								end
-							end)
-						end
-					end)
-				else
-					huancunData_End()
-				end
-			else
-				local numReplicateItems = C_AuctionHouse.GetNumReplicateItems()
-				HCUI.jindu.t2:SetText(numReplicateItems);
-				HCUI.jindu.t3:SetText(numReplicateItems);
+	local function UpdateGetItem()
+		if not UpdateF.SMend then return end
+		for index=(1+UpdateF.allCount),UpdateF.currentTotal do
+			UpdateF.allCount=UpdateF.allCount+1
+			if UpdateF.ItemIndexList[index] then
+				local success = TryProcessIndex(index)
+				if success then
+					UpdateF.ItemIndexList[index]=nil
+		            UpdateF._index = UpdateF._index + 1
+					HCUI.jindu.t2:SetText(UpdateF._index);
+					HCUI.jindu:SetValue(UpdateF._index);
+		        end
+			    UpdateF.danciCount = UpdateF.danciCount + 1
+			    if UpdateF.danciCount>UpdateF.meiyenum then
+		        	UpdateF.danciCount=0
+		        	C_Timer.After(UpdateF.ScanCD, function()
+		        		UpdateGetItem()
+		        	end)
+		        	return
+		        end
 			end
-		else
-			self.jishiqitime = self.jishiqitime + sss;
 		end
-	end)
-	AuctionHouseFrame.History:HookScript("OnClick", function(self, button)
-		self:Disable()
-		BusinessInfo.DEL_OLDdata()
+		if next(UpdateF.ItemIndexList) then
+			C_Timer.After(0.1, function()
+        		UpdateF.allCount=0
+        		UpdateGetItem()
+        	end)
+		else
+			Save_Data_End()
+			UpdateF.SMend=nil
+		end
+	end
+	local function UpdateScan()
+		if not UpdateF.SMend then return end
+        local currentTotal = C_AuctionHouse.GetNumReplicateItems()
+        HCUI.jindu.t3:SetText(currentTotal);
+		if UpdateF.Query then
+			C_Timer.After(1, UpdateScan)
+		else
+			UpdateF.currentTotal=currentTotal
+			HCUI.jindu.t3:SetText(currentTotal);
+			HCUI.jindu:SetMinMaxValues(0, currentTotal)
+			HCUI.jindu.tbiaoti:SetText("正在获取价格...");
+			for index=1,currentTotal do
+				UpdateF.ItemIndexList[index]=true
+			end
+			UpdateF.allCount=0
+			UpdateF.danciCount=0
+			C_Timer.After(0.1, UpdateGetItem)
+		end
+	end
+	function UpdateF:StartScan()
+		AuctionHouseFrame.History:Disable()
 		AuctionHouseFrame.SearchBar.FilterButton:Reset()
+		BusinessInfo.Del_OldData()
 		HCUI:Show();
 		HCUI.close:Hide();
 		HCUI.jindu.tbiaoti:SetText("正在扫描物品...");
 		HCUI.jindu:SetMinMaxValues(0, 100)
-		HCUI.jindu:SetValue(100);
+		HCUI.jindu:SetValue(1);
 		HCUI.jindu.t2:SetText(0);
 		HCUI.jindu.t3:SetText(0);
 		PIGA["AHPlus"]["DaojiTime"]=GetServerTime()
-		HCUI.ScanCD=BusinessInfo.AHPlusData.ScanCD*0.0001
-		HCUI.jishuID = 0
-		HCUI.cunchuNum=0
-		HCUI.yicunchu=nil
-		HCUI.SMend=nil
-		OpenScanFun(true)
-		HCUI.UpdateF.jishiqitime=1
-		HCUI.UpdateF:Show()
+		self.ScanCD=PIGA["AHPlus"]["ScanTimeCD"]*0.0001
+		self.SMend = true
+		self.Query = true
+		self.currentTotal=0
+		self._index = 0
 		C_AuctionHouse.ReplicateItems()
-	end)
-	HCUI.UpdateF:RegisterEvent("REPLICATE_ITEM_LIST_UPDATE")
-	HCUI.UpdateF:HookScript("OnEvent",function(self,event)
-		if event == "REPLICATE_ITEM_LIST_UPDATE" then
-			if not HCUI.SMend then
-				HCUI.SMend=true
-			end
-		end
-	end)
-	function HCUI.UiFameHide()
-		HCUI.UpdateF:Hide()
+		C_Timer.After(1, UpdateScan)
+	end
+	function UpdateF.StopScan()
 		HCUI:Hide();
 		HCUI.close:Hide();
-		OpenScanFun(nil)
+		UpdateF.SMend=nil
+		UpdateF.Query=nil
+		wipe(UpdateF.auctionsG)
+		wipe(UpdateF.auctionsLin)
+		wipe(UpdateF.RetryCount)
+		wipe(UpdateF.ItemIndexList)
 	end
-	AuctionHouseFrame.BrowseResultsFrame:HookScript("OnShow",HCUI.UiFameHide)
-	AuctionHouseFrame.BrowseResultsFrame:HookScript("OnHide",HCUI.UiFameHide)
+	AuctionHouseFrame.BrowseResultsFrame:HookScript("OnHide",UpdateF.StopScan)
+	UpdateF:RegisterEvent("REPLICATE_ITEM_LIST_UPDATE")
+	UpdateF:HookScript("OnEvent",function(self,event)
+		if event == "REPLICATE_ITEM_LIST_UPDATE" then
+			UpdateF.Query=nil
+		end
+	end)
 	---------------------
 	AuctionHouseFrame.WoWTokenResults.qushibut = PIGButton(AuctionHouseFrame.WoWTokenResults,{"CENTER",AuctionHouseFrame.WoWTokenResults,"CENTER",3,-100},{80,24},"历史价格",nil,nil,nil,nil,0)
 	AuctionHouseFrame.WoWTokenResults.qushibut:HookScript("OnClick",function(self)

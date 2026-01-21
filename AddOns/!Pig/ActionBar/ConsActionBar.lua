@@ -15,15 +15,19 @@ local ActionBarfun=addonTable.ActionBarfun
 local RTabFrame=ActionBarfun.RTabFrame
 local fuFrame=ActionBarfun.fuFrame
 local fuFrameBut=ActionBarfun.fuFrameBut
-
+---
+local bagIDMax= addonTable.Data.bagData["bagIDMax"]
+local ActionFun=addonTable.Fun.ActionFun
+local GetContainerNumSlots = C_Container.GetContainerNumSlots
+local IsUsableItem=IsUsableItem or C_Item and C_Item.IsUsableItem
 ------------
-local barName="PIG_ActionBar"
-local Showtiaojian,pailieName,paiNum,PailieFun,ShowHideNumFun,ShowHideEvent=unpack(ActionBarfun.UIdata)
+local barName,LocaleName="PIG_ActionBar",BAG_FILTER_CONSUMABLES..ACTIONBARS_LABEL
+local Showtiaojian,pailieName,paiNum,PailieFun,ShowHideNumFun,ShowHideEvent=unpack(ActionFun.UIdata)
 local index,anniugeshu, anniujiange=9,12,6;
 ------------
 local CABarF,CABarTabBut =PIGOptionsList_R(RTabFrame,BAG_FILTER_CONSUMABLES..ACTIONBARS_LABEL,110)
 
-CABarF.Open=PIGCheckbutton(CABarF,{"TOPLEFT",CABarF,"TOPLEFT",10,-12},{BAG_FILTER_CONSUMABLES..ACTIONBARS_LABEL,"在屏幕上创建一条"..BAG_FILTER_CONSUMABLES..ACTIONBARS_LABEL.."，以便快捷使用"})
+CABarF.Open=PIGCheckbutton(CABarF,{"TOPLEFT",CABarF,"TOPLEFT",10,-12},{BAG_FILTER_CONSUMABLES..ACTIONBARS_LABEL,"在屏幕上创建一条"..LocaleName.."，以便快捷使用"})
 CABarF.Open:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["CABar"]["Open"]=true;
@@ -41,6 +45,23 @@ CABarF:HookScript("OnShow", function(self)
 	self.ModF:SetShown(PIGA["CABar"]["Open"])
 	self.Open:SetChecked(PIGA["CABar"]["Open"])
 end)
+--
+CABarF.CZBUT = PIGButton(CABarF,{"TOPRIGHT",CABarF,"TOPRIGHT",-20,-12},{60,22},RESET);  
+CABarF.CZBUT:SetScript("OnClick", function ()
+	StaticPopup_Show ("CHONGZHI_QUICKBUT");
+end);
+StaticPopupDialogs["CHONGZHI_QUICKBUT"] = {
+	text = "此操作将|cffff0000重置|r"..LocaleName.."配置。\n确定重置?",
+	button1 = YES,
+	button2 = NO,
+	OnAccept = function()
+		PIGA["CABar"] = addonTable.Default["CABar"];
+		PIG_OptionsUI.RLUI:Show()
+	end,
+	timeout = 0,
+	whileDead = true,
+	hideOnEscape = true,
+}
 --
 CABarF.SetF = PIGFrame(CABarF)
 CABarF.SetF:PIGSetBackdrop(0)
@@ -97,7 +118,7 @@ function CABarF.SetF.Pailie:PIGDownMenu_SetValue(value,arg1,arg2)
 	PIGCloseDropDownMenus()
 end
 --
-CABarF.SetF.CZBUT = PIGButton(CABarF.SetF,{"TOPRIGHT",CABarF.SetF,"TOPRIGHT",-10,-18},{80,24},"重置位置")
+CABarF.SetF.CZBUT = PIGButton(CABarF.SetF,{"TOPRIGHT",CABarF.SetF,"TOPRIGHT",-20,-20},{80,22},RESET_POSITION)
 CABarF.SetF.CZBUT:SetScript("OnClick", function ()
 	Create.PIG_ResPoint(barName..index)
 end)
@@ -135,21 +156,14 @@ CABarF.ModF:HookScript("OnShow", function(self)
 	self.Quest:SetChecked(PIGA["CABar"]["Quest"])
 end)
 --==================
-local bagIDMax= addonTable.Data.bagData["bagIDMax"]
-local ActionFun=addonTable.Fun.ActionFun
-local GetContainerNumSlots = C_Container.GetContainerNumSlots
-local IsUsableItem=IsUsableItem or C_Item and C_Item.IsUsableItem
 function ActionBarfun.ConsumableActionBar()
 	if not PIGA["CABar"]["Open"] then return end
 	local CFdata={
-		index,
-		PIGA["CABar"]["Open"],
-		PIGA["CABar"]["Scale"],
-		PIGA["CABar"]["Lock"],
-		12,
-		PIGA["CABar"]["ShowTJ"],
-		PIGA["CABar"]["Pailie"],
-		"cons",
+		index=index,
+		["Mode"]="cons",
+		["getData"]=function(key,index)
+		    return PIGA["CABar"][key]
+		end,
 	}
 	local Actionbar=ActionBarfun.ADD_ActionBar(barName..index,CFdata,anniugeshu,anniujiange,fuFrame,fuFrameBut,RTabFrame,CABarF,CABarTabBut)
 	Actionbar.Items={}

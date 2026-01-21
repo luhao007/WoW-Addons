@@ -4,6 +4,7 @@ local L=addonTable.locale
 local Create = addonTable.Create
 local PIGFrame=Create.PIGFrame
 local PIGFontString=Create.PIGFontString
+local Fun = addonTable.Fun
 ----
 local Mapfun=addonTable.Mapfun
 ---小地图按钮
@@ -48,13 +49,13 @@ local function YDButtonP(mode,xpos,ypos)
 	if mode==1 or mode==3 then
 		MiniMapBut:ClearAllPoints();
 		if mode==1 then
-			if PIG_OptionsUI.IsOpen_NDui() and not PIG_OptionsUI.IsOpen_NDui("Map","DisableMinimap") then
+			if Fun.IsNDui() and not Fun.IsNDui("Map","DisableMinimap") then
 				local xpos=xpos or PIGA["Map"]["MinimapPoint_NDui"][1]
 				local ypos=ypos or PIGA["Map"]["MinimapPoint_NDui"][2]
 				MiniMapBut:SetPoint("BOTTOMLEFT",Minimap,"BOTTOMLEFT",xpos,ypos)
 				PIGA["Map"]["MinimapPoint_NDui"][1]=xpos
 				PIGA["Map"]["MinimapPoint_NDui"][2]=ypos
-			elseif PIG_OptionsUI.IsOpen_ElvUI() then
+			elseif Fun.IsElvUI() then
 				local xpos=xpos or PIGA["Map"]["MinimapPoint_ElvUI"][1]
 				local ypos=ypos or PIGA["Map"]["MinimapPoint_ElvUI"][2]
 				MiniMapBut:SetPoint("BOTTOMLEFT",Minimap,"BOTTOMLEFT",xpos,ypos)
@@ -122,7 +123,7 @@ local function YDButtonP_OnUpdate()
 		end
 		MiniMapBut.Box:SetPoint(Pointinfo[3]..Pointinfo[1], MiniMapBut, Pointinfo[4]..Pointinfo[2], Pointinfo[5], Pointinfo[6]);
 	else
-		if PIG_OptionsUI.IsOpen_NDui() and not PIG_OptionsUI.IsOpen_NDui("Map","DisableMinimap") or PIG_OptionsUI.IsOpen_ElvUI() then
+		if Fun.IsNDui() and not Fun.IsNDui("Map","DisableMinimap") or Fun.IsElvUI() then
 			local xpos = xpos-left-Pigwidth2
 			local ypos = ypos-bottom-Pigheight2
 			if xpos<0 then xpos=0 end--X左边
@@ -254,7 +255,7 @@ function addonTable.UpdateMiniButPoint()
 	else
 		MiniMapBut.TooltipV=L["MAP_NIMIBUT_TIPS2"]
 	end
-	if PIG_OptionsUI.IsOpen_ElvUI() then
+	if Fun.IsElvUI() then
 		local function ElvUIPoint()
 			if MinimapPanel and MinimapPanel:IsVisible() then
 				MiniMapBut.Box:SetPoint("TOPRIGHT", MiniMapBut, "BOTTOMLEFT", -2, 20);
@@ -288,11 +289,11 @@ function addonTable.UpdateMiniButPoint()
 		MiniMapBut.pianyi = 0
 		MiniMapBut.RegistrationEvent(true)
 		if mode == 1 then--小地图
-			if PIG_OptionsUI.IsOpen_ElvUI() or PIG_OptionsUI.IsOpen_NDui() and not PIG_OptionsUI.IsOpen_NDui("Map","DisableMinimap") then
-				if PIG_OptionsUI.IsOpen_ElvUI() then
+			if Fun.IsElvUI() or Fun.IsNDui() and not Fun.IsNDui("Map","DisableMinimap") then
+				if Fun.IsElvUI() then
 					ButpingXY.W,ButpingXY.H=ButW-14,ButW-14
 					ButpingXY.iconW,ButpingXY.iconH=ButW-14,ButW-14
-				elseif PIG_OptionsUI.IsOpen_NDui() then
+				elseif Fun.IsNDui() then
 					ButpingXY.W,ButpingXY.H=ButW-12,ButW-12
 					ButpingXY.iconW,ButpingXY.iconH=ButW-12,ButW-12
 				end
@@ -323,12 +324,12 @@ function addonTable.UpdateMiniButPoint()
 	elseif mode == 2 then--聊天框
 		MiniMapBut.Border:Hide()
 		MiniMapBut:ClearAllPoints();	
-		if PIG_OptionsUI.IsOpen_NDui() and not PIG_OptionsUI.IsOpen_NDui("Map","DisableMinimap") then
+		if Fun.IsNDui() and not Fun.IsNDui("Map","DisableMinimap") then
 			ButpingXY.W,ButpingXY.H=21,21
 			ButpingXY.iconW,ButpingXY.iconH=20,20
 			MiniMapBut:SetPoint("TOP",ChatFrameChannelButton,"BOTTOM",0,-1);
 			MiniMapBut:SetHighlightTexture("Interface/Buttons/ButtonHilight-Square");
-		elseif PIG_OptionsUI.IsOpen_ElvUI() then
+		elseif Fun.IsElvUI() then
 			ButpingXY.W,ButpingXY.H=21,21
 			ButpingXY.iconW,ButpingXY.iconH=20,20
 			MiniMapBut:SetPoint("RIGHT",ChatFrameChannelButton,"LEFT",0,0);
@@ -344,7 +345,7 @@ function addonTable.UpdateMiniButPoint()
 		MiniMapBut.icon:SetDrawLayer("ARTWORK",1)
 		MiniMapBut.Box:SetPoint("BOTTOMLEFT", MiniMapBut, "TOPRIGHT", 2, 2);
 	end
-	if PIG_OptionsUI.IsOpen_ElvUI() or PIG_OptionsUI.IsOpen_NDui() and not PIG_OptionsUI.IsOpen_NDui("Map","DisableMinimap") then MiniMapBut.icon:SetTexCoord(0.1,0.88,0.1,0.9) end
+	if Fun.IsElvUI() or Fun.IsNDui() and not Fun.IsNDui("Map","DisableMinimap") then MiniMapBut.icon:SetTexCoord(0.1,0.88,0.1,0.9) end
 	MiniMapBut:SetSize(ButpingXY.W,ButpingXY.H);
 	MiniMapBut.icon:SetSize(ButpingXY.iconW,ButpingXY.iconH);
 end

@@ -1582,71 +1582,73 @@ function FramePlusfun.Character_Shuxing()
 		shuxingF.fuji.ItemLevelFrame.Value=PIGFontString(shuxingF.fuji.ItemLevelFrame,{"CENTER",shuxingF.fuji.ItemLevelFrame,"CENTER",0,0},nil,nil,16)
 		--属性
 		shuxingF.fuji.AttributesCategory =add_biaoti(shuxingF.fuji,PLAYERSTAT_BASE_STATS,{"TOP", shuxingF.fuji.ItemLevelFrame,"BOTTOM",0, 0})
-		CharacterAttributesFrame:SetParent(shuxingF.fuji)
-		local regionsss = {CharacterAttributesFrame:GetRegions()}
-		for _,v in pairs(regionsss) do
-			v:Hide()
+		if PIG_MaxTocversion(20000) then
+			CharacterAttributesFrame:SetParent(shuxingF.fuji)
+			local regionsss = {CharacterAttributesFrame:GetRegions()}
+			for _,v in pairs(regionsss) do
+				v:Hide()
+			end
+			CharacterStatFrame1:ClearAllPoints();
+			CharacterStatFrame1:SetPoint("TOP", shuxingF.fuji.AttributesCategory,"BOTTOM",0, 0);
+			for ixc=1,5 do
+				_G["CharacterStatFrame"..ixc]:SetWidth(UIffWW-40)
+			end
+			CharacterArmorFrame:SetWidth(UIffWW-40)
+			CharacterArmorFrame.Label:SetText(STAT_ARMOR..":")
+			add_Category_hangBG(CharacterStatFrame2)
+			add_Category_hangBG(CharacterStatFrame4)
+			add_Category_hangBG(CharacterArmorFrame)
+			---近战
+			shuxingF.fuji.CategoryF_1=add_Category_biaoti(shuxingF.fuji,86,PLAYERSTAT_MELEE_COMBAT)
+			CharacterAttackFrame:ClearAllPoints();
+			CharacterAttackFrame:SetPoint("TOP", shuxingF.fuji.CategoryF_1.biaoti,"BOTTOM",0, -shuxingF.topJU);
+			CharacterAttackFrame:SetWidth(UIffWW-40)
+			CharacterAttackFrame.Label:SetText(STAT_HIT_CHANCE..":")
+			CharacterAttackPowerFrame:SetWidth(UIffWW-40)
+			CharacterAttackPowerFrame:SetPoint("TOPLEFT", CharacterAttackFrame,"BOTTOMLEFT",0, 0);
+			CharacterDamageFrame:SetWidth(UIffWW-40)
+			add_Category_hang(shuxingF.fuji.CategoryF_1,"CharacterCategory1_1",CRIT_CHANCE..":",ITEM_MOD_CRIT_MELEE_RATING_SHORT,{"TOP", CharacterDamageFrame,"BOTTOM",0, 0})
+			add_Category_hangBG(CharacterAttackPowerFrame)
+			add_Category_hangBG(CharacterCategory1_1)
+			--远程
+			shuxingF.fuji.CategoryF_2=add_Category_biaoti(shuxingF.fuji,86,PLAYERSTAT_RANGED_COMBAT)
+			CharacterRangedAttackFrame:ClearAllPoints();
+			CharacterRangedAttackFrame:SetPoint("TOP", shuxingF.fuji.CategoryF_2.biaoti,"BOTTOM",0, -shuxingF.topJU);
+			CharacterRangedAttackFrame:SetWidth(UIffWW-40)
+			CharacterRangedAttackFrame.Label:SetText(STAT_HIT_CHANCE..":")
+			CharacterRangedAttackPowerFrame:SetWidth(UIffWW-40)
+			CharacterRangedAttackPowerFrame:SetPoint("TOPLEFT", CharacterRangedAttackFrame,"BOTTOMLEFT",0, 0);
+			CharacterRangedDamageFrame:SetWidth(UIffWW-40)
+			add_Category_hang(shuxingF.fuji.CategoryF_2,"CharacterCategory2_1",CRIT_CHANCE..":",ITEM_MOD_CRIT_RANGED_RATING_SHORT,{"TOP", CharacterRangedDamageFrame,"BOTTOM",0, 0})
+			add_Category_hangBG(CharacterRangedAttackPowerFrame)
+			add_Category_hangBG(CharacterCategory2_1)
+			--法系
+			shuxingF.fuji.CategoryF_3=add_Category_biaoti(shuxingF.fuji,100,PLAYERSTAT_SPELL_COMBAT)
+			add_Category_hang(shuxingF.fuji.CategoryF_3,"CharacterCategory3_1",STAT_HIT_CHANCE..":",ITEM_MOD_HIT_SPELL_RATING_SHORT,{"TOP", shuxingF.fuji.CategoryF_3.biaoti,"BOTTOM",0, -shuxingF.topJU})
+			add_Category_hang(shuxingF.fuji.CategoryF_3,"CharacterCategory3_2",CRIT_CHANCE..":",ITEM_MOD_CRIT_SPELL_RATING_SHORT,{"TOP", CharacterCategory3_1,"BOTTOM",0, 0})
+			add_Category_hang(shuxingF.fuji.CategoryF_3,"CharacterCategory3_3",STAT_SPELLDAMAGE..":",STAT_SPELLDAMAGE_TOOLTIP,{"TOP", CharacterCategory3_2,"BOTTOM",0, 0})
+			add_Category_hang(shuxingF.fuji.CategoryF_3,"CharacterCategory3_4",STAT_SPELLHEALING..":",STAT_SPELLHEALING_TOOLTIP,{"TOP", CharacterCategory3_3,"BOTTOM",0, 0})
+			add_Category_hang(shuxingF.fuji.CategoryF_3,"CharacterCategory3_5",ITEM_MOD_MANA_REGENERATION_SHORT..":",ITEM_MOD_MANA_REGENERATION_SHORT,{"TOP", CharacterCategory3_4,"BOTTOM",0, 0})
+			add_Category_hangBG(CharacterCategory3_2)
+			add_Category_hangBG(CharacterCategory3_4)
+			--防御
+			shuxingF.fuji.CategoryF_4=add_Category_biaoti(shuxingF.fuji,90,PLAYERSTAT_DEFENSES)
+			add_Category_hang(shuxingF.fuji.CategoryF_4,"CharacterCategory4_1",DODGE_CHANCE..":",DODGE_CHANCE,{"TOP", shuxingF.fuji.CategoryF_4.biaoti,"BOTTOM",0, -shuxingF.topJU})
+			add_Category_hang(shuxingF.fuji.CategoryF_4,"CharacterCategory4_2",PARRY_CHANCE..":",PARRY_CHANCE,{"TOP", CharacterCategory4_1,"BOTTOM",0, 0})
+			add_Category_hang(shuxingF.fuji.CategoryF_4,"CharacterCategory4_3",BLOCK_CHANCE..":",BLOCK_CHANCE,{"TOP", CharacterCategory4_2,"BOTTOM",0, 0})
+			if GetLocale() == "zhCN" then
+				shuxingF.fuji.CategoryF_4.tishineir="物伤减免"
+			elseif GetLocale() == "zhTW" then
+				shuxingF.fuji.CategoryF_4.tishineir="物傷減免"
+			else
+				shuxingF.fuji.CategoryF_4.tishineir="ArmorDerate"
+			end
+			local xuyaoxttx = shuxingF.fuji.CategoryF_4.tishineir
+			add_Category_hang(shuxingF.fuji.CategoryF_4,"CharacterCategory4_4",xuyaoxttx..":",xuyaoxttx,{"TOP", CharacterCategory4_3,"BOTTOM",0, 0})
+			add_Category_hang(shuxingF.fuji.CategoryF_4,"CharacterCategory4_5",DEFENSE..":",DEFENSE,{"TOP", CharacterCategory4_4,"BOTTOM",0, 0})
+			add_Category_hangBG(CharacterCategory4_2)
+			add_Category_hangBG(CharacterCategory4_4)
 		end
-		CharacterStatFrame1:ClearAllPoints();
-		CharacterStatFrame1:SetPoint("TOP", shuxingF.fuji.AttributesCategory,"BOTTOM",0, 0);
-		for ixc=1,5 do
-			_G["CharacterStatFrame"..ixc]:SetWidth(UIffWW-40)
-		end
-		CharacterArmorFrame:SetWidth(UIffWW-40)
-		CharacterArmorFrame.Label:SetText(STAT_ARMOR..":")
-		add_Category_hangBG(CharacterStatFrame2)
-		add_Category_hangBG(CharacterStatFrame4)
-		add_Category_hangBG(CharacterArmorFrame)
-		---近战
-		shuxingF.fuji.CategoryF_1=add_Category_biaoti(shuxingF.fuji,86,PLAYERSTAT_MELEE_COMBAT)
-		CharacterAttackFrame:ClearAllPoints();
-		CharacterAttackFrame:SetPoint("TOP", shuxingF.fuji.CategoryF_1.biaoti,"BOTTOM",0, -shuxingF.topJU);
-		CharacterAttackFrame:SetWidth(UIffWW-40)
-		CharacterAttackFrame.Label:SetText(STAT_HIT_CHANCE..":")
-		CharacterAttackPowerFrame:SetWidth(UIffWW-40)
-		CharacterAttackPowerFrame:SetPoint("TOPLEFT", CharacterAttackFrame,"BOTTOMLEFT",0, 0);
-		CharacterDamageFrame:SetWidth(UIffWW-40)
-		add_Category_hang(shuxingF.fuji.CategoryF_1,"CharacterCategory1_1",CRIT_CHANCE..":",ITEM_MOD_CRIT_MELEE_RATING_SHORT,{"TOP", CharacterDamageFrame,"BOTTOM",0, 0})
-		add_Category_hangBG(CharacterAttackPowerFrame)
-		add_Category_hangBG(CharacterCategory1_1)
-		--远程
-		shuxingF.fuji.CategoryF_2=add_Category_biaoti(shuxingF.fuji,86,PLAYERSTAT_RANGED_COMBAT)
-		CharacterRangedAttackFrame:ClearAllPoints();
-		CharacterRangedAttackFrame:SetPoint("TOP", shuxingF.fuji.CategoryF_2.biaoti,"BOTTOM",0, -shuxingF.topJU);
-		CharacterRangedAttackFrame:SetWidth(UIffWW-40)
-		CharacterRangedAttackFrame.Label:SetText(STAT_HIT_CHANCE..":")
-		CharacterRangedAttackPowerFrame:SetWidth(UIffWW-40)
-		CharacterRangedAttackPowerFrame:SetPoint("TOPLEFT", CharacterRangedAttackFrame,"BOTTOMLEFT",0, 0);
-		CharacterRangedDamageFrame:SetWidth(UIffWW-40)
-		add_Category_hang(shuxingF.fuji.CategoryF_2,"CharacterCategory2_1",CRIT_CHANCE..":",ITEM_MOD_CRIT_RANGED_RATING_SHORT,{"TOP", CharacterRangedDamageFrame,"BOTTOM",0, 0})
-		add_Category_hangBG(CharacterRangedAttackPowerFrame)
-		add_Category_hangBG(CharacterCategory2_1)
-		--法系
-		shuxingF.fuji.CategoryF_3=add_Category_biaoti(shuxingF.fuji,100,PLAYERSTAT_SPELL_COMBAT)
-		add_Category_hang(shuxingF.fuji.CategoryF_3,"CharacterCategory3_1",STAT_HIT_CHANCE..":",ITEM_MOD_HIT_SPELL_RATING_SHORT,{"TOP", shuxingF.fuji.CategoryF_3.biaoti,"BOTTOM",0, -shuxingF.topJU})
-		add_Category_hang(shuxingF.fuji.CategoryF_3,"CharacterCategory3_2",CRIT_CHANCE..":",ITEM_MOD_CRIT_SPELL_RATING_SHORT,{"TOP", CharacterCategory3_1,"BOTTOM",0, 0})
-		add_Category_hang(shuxingF.fuji.CategoryF_3,"CharacterCategory3_3",STAT_SPELLDAMAGE..":",STAT_SPELLDAMAGE_TOOLTIP,{"TOP", CharacterCategory3_2,"BOTTOM",0, 0})
-		add_Category_hang(shuxingF.fuji.CategoryF_3,"CharacterCategory3_4",STAT_SPELLHEALING..":",STAT_SPELLHEALING_TOOLTIP,{"TOP", CharacterCategory3_3,"BOTTOM",0, 0})
-		add_Category_hang(shuxingF.fuji.CategoryF_3,"CharacterCategory3_5",ITEM_MOD_MANA_REGENERATION_SHORT..":",ITEM_MOD_MANA_REGENERATION_SHORT,{"TOP", CharacterCategory3_4,"BOTTOM",0, 0})
-		add_Category_hangBG(CharacterCategory3_2)
-		add_Category_hangBG(CharacterCategory3_4)
-		--防御
-		shuxingF.fuji.CategoryF_4=add_Category_biaoti(shuxingF.fuji,90,PLAYERSTAT_DEFENSES)
-		add_Category_hang(shuxingF.fuji.CategoryF_4,"CharacterCategory4_1",DODGE_CHANCE..":",DODGE_CHANCE,{"TOP", shuxingF.fuji.CategoryF_4.biaoti,"BOTTOM",0, -shuxingF.topJU})
-		add_Category_hang(shuxingF.fuji.CategoryF_4,"CharacterCategory4_2",PARRY_CHANCE..":",PARRY_CHANCE,{"TOP", CharacterCategory4_1,"BOTTOM",0, 0})
-		add_Category_hang(shuxingF.fuji.CategoryF_4,"CharacterCategory4_3",BLOCK_CHANCE..":",BLOCK_CHANCE,{"TOP", CharacterCategory4_2,"BOTTOM",0, 0})
-		if GetLocale() == "zhCN" then
-			shuxingF.fuji.CategoryF_4.tishineir="物伤减免"
-		elseif GetLocale() == "zhTW" then
-			shuxingF.fuji.CategoryF_4.tishineir="物傷減免"
-		else
-			shuxingF.fuji.CategoryF_4.tishineir="ArmorDerate"
-		end
-		local xuyaoxttx = shuxingF.fuji.CategoryF_4.tishineir
-		add_Category_hang(shuxingF.fuji.CategoryF_4,"CharacterCategory4_4",xuyaoxttx..":",xuyaoxttx,{"TOP", CharacterCategory4_3,"BOTTOM",0, 0})
-		add_Category_hang(shuxingF.fuji.CategoryF_4,"CharacterCategory4_5",DEFENSE..":",DEFENSE,{"TOP", CharacterCategory4_4,"BOTTOM",0, 0})
-		add_Category_hangBG(CharacterCategory4_2)
-		add_Category_hangBG(CharacterCategory4_4)
 		-----------
 		local function CharacterSetText(teui,text)
 			_G[teui:GetName().."StatText"]:SetText(text);
@@ -1794,8 +1796,7 @@ function FramePlusfun.Character_Shuxing()
 			CharacterFrameCloseButton:SetPoint("CENTER",CharacterFrame,"TOPRIGHT",142,-25)
 			PaperDollFrame.InsetR:SetSidebarTab(1)
 			SetPortraitTexture(PaperDollFrame.InsetR.TabList[1].Icon, "player");
-			Update_Point_P()
-			PaperDollFrameUP()
+			if PIG_MaxTocversion(20000) then Update_Point_P() PaperDollFrameUP() end
 		end)
 		PaperDollFrame:HookScript("OnHide", function()
 			if CharacterFrame.backdrop then CharacterFrame.backdrop:SetPoint("BOTTOMRIGHT", CharacterFrame,"BOTTOMRIGHT", -32, 76);end
@@ -1804,9 +1805,11 @@ function FramePlusfun.Character_Shuxing()
 		PaperDollFrame:RegisterEvent("UNIT_AURA");--获得BUFF时
 		PaperDollFrame:RegisterEvent("UNIT_DISPLAYPOWER");--当单位的魔法类型改变时触发，例如德鲁伊变形
 		PaperDollFrame:RegisterEvent("CHARACTER_POINTS_CHANGED");--分配天赋点触发
-		PaperDollFrame:RegisterEvent("LEARNED_SPELL_IN_TAB");--学习新法术触发
+		if PIG_MaxTocversion(20000) then
+			PaperDollFrame:RegisterEvent("LEARNED_SPELL_IN_TAB");--学习新法术触发
+		end
 		PaperDollFrame:HookScript("OnEvent", function(self,event,arg1)
-			PaperDollFrameUP()
+			if PIG_MaxTocversion(20000) then PaperDollFrameUP() end
 		end);
 		--2装备管理
 		add_AutoEquip(PaperDollFrame.InsetR.TabList[2])

@@ -717,7 +717,7 @@ local function add_Options(peizhiT)
 		PIGA["PigLayout"][peizhiT]["Scale"]=arg1;
 		SetScaleUI(peizhiT)
 	end
-	checkbutOpen.F.Lock.CZBUT = PIGButton(checkbutOpen.F.Lock,{"LEFT",checkbutOpen.F.Scale,"RIGHT",90,0},{50,22},"重置")
+	checkbutOpen.F.Lock.CZBUT = PIGButton(checkbutOpen.F.Lock,{"LEFT",checkbutOpen.F.Scale,"RIGHT",90,0},{50,22},RESET)
 	checkbutOpen.F.Lock.CZBUT:SetScript("OnClick", function ()
 		Create.PIG_ResPoint(UIname)
 		PIGA["PigLayout"][peizhiT]["Scale"]=addonTable.Default["PigLayout"][peizhiT]["Scale"]

@@ -14,13 +14,14 @@ local PIGFontString=Create.PIGFontString
 local Backdropinfo=Create.Backdropinfo
 local Data=addonTable.Data
 --=======================================
+local ActionFun=addonTable.Fun.ActionFun
 local ActionBarfun=addonTable.ActionBarfun
 local RTabFrame=ActionBarfun.RTabFrame
 local fuFrame=ActionBarfun.fuFrame
 local fuFrameBut=ActionBarfun.fuFrameBut
 ------
 local barName="PIG_ActionBar"
-local Showtiaojian,pailieName,paiNum,PailieFun,ShowHideNumFun,ShowHideEvent=unpack(ActionBarfun.UIdata)
+local Showtiaojian,pailieName,paiNum,PailieFun,ShowHideNumFun,ShowHideEvent=unpack(ActionFun.UIdata)
 ------------
 local zongshu, anniugeshu, anniujiange=4,12,6;
 local Action_plusF,Action_plusTabBut =PIGOptionsList_R(RTabFrame,L["ACTION_TABNAME3"],100)
@@ -88,7 +89,7 @@ for index=1,zongshu do
 	Checkbut.Bindings:SetScript("OnClick", function (self)
 		Settings.OpenToCategory(Settings.KEYBINDINGS_CATEGORY_ID, addonName);
 	end)
-	Checkbut.CZBUT = PIGButton(Checkbut,{"LEFT",Checkbut.Bindings,"RIGHT",40,0},{76,20},"重置位置");  
+	Checkbut.CZBUT = PIGButton(Checkbut,{"LEFT",Checkbut.Bindings,"RIGHT",40,0},{76,20},RESET_POSITION);  
 	Checkbut.CZBUT:SetScript("OnClick", function (self)
 		Create.PIG_ResPoint(barName..index)
 	end);
@@ -178,7 +179,7 @@ Action_plusF.title1 = PIGFontString(Action_plusF,{"TOPLEFT",Action_plusF.dongzuo
 Action_plusF.title1:SetJustifyH("LEFT");
 ---
 Action_plusF.CZ = PIGFontString(Action_plusF,{"TOPLEFT",Action_plusF.dongzuotxian,"TOPLEFT",40,-80},"|cffFFff00动作条异常点此：|r");
-Action_plusF.CZBUT = PIGButton(Action_plusF,{"LEFT",Action_plusF.CZ,"RIGHT",10,0},{76,20},"重置");  
+Action_plusF.CZBUT = PIGButton(Action_plusF,{"LEFT",Action_plusF.CZ,"RIGHT",10,0},{76,20},RESET);  
 Action_plusF.CZBUT:SetScript("OnClick", function ()
 	StaticPopup_Show ("CHONGZHI_EWAIDONGZUO");
 end);
@@ -204,13 +205,11 @@ end)
 function ActionBarfun.Pig_Action()
 	for index=1,zongshu do
 		local CFdata={
-			index,
-			PIGA_Per["PigAction"]["Open"][index],
-			PIGA_Per["PigAction"]["Scale"][index],
-			PIGA_Per["PigAction"]["Lock"][index],
-			PIGA_Per["PigAction"]["AnniuNum"][index],
-			PIGA_Per["PigAction"]["ShowTJ"][index],
-			PIGA_Per["PigAction"]["Pailie"][index],
+			index=index,
+			["Mode"]="Action",
+			["getData"]=function(key,index)
+			    return PIGA_Per["PigAction"][key][index]
+			end,
 		}
 		ActionBarfun.ADD_ActionBar(barName..index,CFdata,anniugeshu,anniujiange,fuFrame,fuFrameBut,RTabFrame,Action_plusF,Action_plusTabBut)
 	end

@@ -1489,6 +1489,46 @@ GTFO.SpellID["1242212"] = {
   sound = 1;
 };
 
+--- *************************
+--- * Brawler's Guild (TWW) *
+--- *************************
+
+GTFO.SpellID["1267024"] = {
+  --desc = "Bite (Razorgrin)";
+  sound = 1;
+};
+
+GTFO.SpellID["1256185"] = {
+  --desc = "Gloop (Gloop)";
+  ignoreApplication = true;
+  sound = 1;
+};
+
+GTFO.SpellID["236155"] = {
+  --desc = "Aura of Rot (Stitches)";
+  applicationOnly = true;
+  soundFunction = function() 
+	local stacks = GTFO_DebuffStackCount("player", 236155);
+	if (stacks >= 10) then
+		return 3;
+	elseif (stacks > 6) then
+		return 1;
+	else
+		return 2;
+	end
+  end;
+};
+
+GTFO.SpellID["229402"] = {
+  --desc = "Lava Puddle (Carl)";
+  ignoreApplication = true;
+  sound = 1;
+};
+
+GTFO.SpellID["142790"] = {
+  --desc = "Chomp (Mecha-Bruce)";
+  sound = 1;
+};
 
 end
 

@@ -14,7 +14,7 @@ function GDKPInfo.ADD_Trade(RaidR)
 	local WidthF,D_Height,D_hangNUM = 260,18,10
 	local EextData={
 		["ElvUI"]={true,{2,0,2,1}},
-		["NDui"]={NDui and NDuiDB and NDuiDB["Skins"]["BlizzardSkins"],{2,1,2,0}},
+		["NDui"]={Fun.IsNDui("Skins","BlizzardSkins"),{2,1,2,0}},
 	}
 	local PIGTradeF = PIGFrame(TradeFrame,{"TOPLEFT",TradeFrame,"TOPRIGHT",-3,0},nil,nil,nil,nil,EextData);
 	RaidR.PIGTradeF=PIGTradeF

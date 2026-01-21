@@ -1077,6 +1077,152 @@ function RSCollectionsDB.RemoveNotCollectedDrakewatcher(spellID, callback) --UNI
 end
 
 ---============================================================================
+-- Decor / Housing
+---============================================================================
+
+local function UpdateNotCollectedDecors(routines, routineTextOutput, catalogSearcherCallback)
+	-- Searcher
+	local searcher = C_HousingCatalog.CreateCatalogSearcher()
+	
+	-- Prepare filters
+	searcher:SetAllowedIndoors(true)
+	searcher:SetAllowedOutdoors(true)
+	searcher:SetCollected(false)
+	searcher:SetCustomizableOnly(false)
+	searcher:SetFirstAcquisitionBonusOnly(false)
+	searcher:SetOwnedOnly(false)
+	searcher:SetSearchText("")
+	searcher:SetUncollected(true)
+	
+	-- Run searcher
+	searcher:RunSearch()
+	searcher:SetResultsUpdatedCallback(function()
+		local catalogSearchResults = searcher:GetCatalogSearchResults()
+	    
+	    private.dbglobal.not_colleted_decors = {}
+	    if (not private.dbglobal.decors_items_ids) then
+	    	private.dbglobal.decors_items_ids = {}
+	    end
+	    
+		-- Query
+		local notCollectedDecorRoutine = RSRoutines.LoopIndexRoutineNew()
+		notCollectedDecorRoutine:Init(function() return catalogSearchResults end, 50, 
+			function(context, i)
+				local entryID = catalogSearchResults[i]
+				local info = C_HousingCatalog.GetCatalogEntryInfo(entryID)
+        		if (info and info.itemID) then
+					tinsert(private.dbglobal.not_colleted_decors, info.itemID)
+					private.dbglobal.decors_items_ids[entryID.recordID] = info.itemID
+				end
+			end,
+			function(context)				
+				RSLogger:PrintDebugMessage(string.format("UpdateNotCollectedDecors. [%s no conseguidos].", RSUtils.GetTableLength(private.dbglobal.not_colleted_decors)))
+				
+				if (routineTextOutput) then
+					routineTextOutput:SetText(string.format(AL["EXPLORER_MISSING_DECORS"], RSUtils.GetTableLength(private.dbglobal.not_colleted_decors)))
+				end
+			end
+		)
+		table.insert(routines, notCollectedDecorRoutine)
+		
+		-- Callback
+		catalogSearcherCallback()
+	end)
+end
+
+local function GetNotCollectedDecors()
+	return private.dbglobal.not_colleted_decors
+end
+
+local function CheckUpdateDecor(itemID, entityID, source, checkedItems)
+	-- If cached use it
+	if (checkedItems[RSConstants.ITEM_TYPE.DECOR][itemID]) then
+		UpdateEntityCollection(itemID, entityID, source, RSConstants.ITEM_TYPE.DECOR)
+	else
+		if (RSUtils.Contains(GetNotCollectedDecors(), itemID)) then
+			UpdateEntityCollection(itemID, entityID, source, RSConstants.ITEM_TYPE.DECOR)
+			checkedItems[RSConstants.ITEM_TYPE.DECOR][itemID] = true
+			return true
+		end
+	
+		return false
+	end
+end
+
+function RSCollectionsDB.RemoveNotCollectedDecor(decorID, callback) --HOUSE_DECOR_ADDED_TO_CHEST
+	if (decorID and GetNotCollectedDecors() and table.getn(GetNotCollectedDecors()) ~= nil) then
+		-- Get decor itemID
+		local itemID = private.dbglobal.decors_items_ids[decorID]
+		if (not itemID) then
+			return
+		end
+		
+		-- Drop missing decor
+		for i = #private.dbglobal.not_colleted_decors, 1, -1 do
+    		if (private.dbglobal.not_colleted_decors[i] == itemID) then
+       			table.remove(private.dbglobal.not_colleted_decors, i)
+				RSLogger:PrintDebugMessage(string.format("RemoveNotCollectedDecor[%s]: Eliminado coleccionable conseguido.", itemID))
+       			break
+       		end
+		end
+		
+		-- Update filters
+		if (not RSCollectionsDB.GetAllEntitiesCollectionsLoot()) then
+			return
+		end
+		
+		local refresh = false
+		for source, info in pairs (RSCollectionsDB.GetAllEntitiesCollectionsLoot()) do
+			for entityID, itemTypes in pairs (RSCollectionsDB.GetAllEntitiesCollectionsLoot()[source]) do
+				local lootList = RSCollectionsDB.GetAllEntitiesCollectionsLoot()[source][entityID][RSConstants.ITEM_TYPE.DECOR]
+				if (lootList) then
+					for i = #lootList, 1, -1 do
+						if (lootList[i] == itemID) then
+							if (table.getn(lootList) == 1) then
+								RSLogger:PrintDebugMessage(string.format("RemoveNotCollectedDecor[%s]: Eliminado coleccionable de la lista de la entidad [%s]. No tiene mas decoraciones.", itemID, entityID))
+								RSCollectionsDB.GetAllEntitiesCollectionsLoot()[source][entityID][RSConstants.ITEM_TYPE.DECOR] = nil
+							else
+								RSLogger:PrintDebugMessage(string.format("RemoveNotCollectedDecor[%s]: Eliminado coleccionable de la lista de la entidad [%s].", itemID, entityID))
+								table.remove(lootList, i)
+							end
+							
+							-- Check if the entity doesn't have more collections
+							if (RSUtils.GetTableLength(RSCollectionsDB.GetAllEntitiesCollectionsLoot()[source][entityID]) == 0) then
+								RSCollectionsDB.GetAllEntitiesCollectionsLoot()[source][entityID] = nil
+								
+								-- Filter
+								if (RSConfigDB.IsAutoFilteringOnCollect()) then
+									if (source == RSConstants.ITEM_SOURCE.NPC) then
+										RSConfigDB.SetNpcFiltered(entityID)
+										RSLogger:PrintDebugMessage(string.format("RemoveNotCollectedDecor[%s]: Filtrado NPC [%s] por no disponer de mas coleccionables.", itemID, entityID))
+										if (RSNpcDB.GetNpcName(entityID)) then
+											RSLogger:PrintMessage(string.format(AL["EXPLORER_AUTOFILTER"], RSNpcDB.GetNpcName(entityID)))
+										end
+									elseif (source == RSConstants.ITEM_SOURCE.CONTAINER) then
+										RSConfigDB.SetContainerFiltered(entityID)
+										RSLogger:PrintDebugMessage(string.format("RemoveNotCollectedDecor[%s]: Filtrado Contenedor [%s] por no disponer de mas coleccionables.", itemID, entityID))
+										if (RSContainerDB.GetContainerName(entityID)) then
+											RSLogger:PrintMessage(string.format(AL["EXPLORER_AUTOFILTER"], RSContainerDB.GetContainerName(entityID)))
+										end
+									end
+								end
+							end
+							
+							refresh = true
+							break
+						end
+					end
+				end
+			end
+		end
+		
+		if (refresh and callback) then
+			callback()
+		end
+    end
+end
+
+---============================================================================
 -- Custom items
 ---============================================================================
 
@@ -1279,6 +1425,7 @@ function RSCollectionsDB.UpdateEntityCollectibles(entityID, items, source)
 	checkedItems[RSConstants.ITEM_TYPE.PET] = {}
 	checkedItems[RSConstants.ITEM_TYPE.MOUNT] = {}
 	checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER] = {}
+	checkedItems[RSConstants.ITEM_TYPE.DECOR] = {}
 	
 	local customGroupKeys = {}
 	for groupKey, _ in pairs(RSCollectionsDB.GetItemGroups()) do
@@ -1292,34 +1439,39 @@ function RSCollectionsDB.UpdateEntityCollectibles(entityID, items, source)
 			-- Custom items wont be taken into account in other categories
 				
 			-- Check if appearance
-			if (not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID]) then
+			if (not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DECOR][itemID]) then
 				CheckUpdateAppearance(itemID, entityID, source, checkedItems)
 			end
 			
 			-- Check if toy
-			if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID]) then
+			if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DECOR][itemID]) then
 				CheckUpdateToy(itemID, entityID, source, checkedItems)
 			end
 					
 			-- Check if pet
-			if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID]) then
+			if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DECOR][itemID]) then
 				CheckUpdatePet(itemID, entityID, source, checkedItems)
 			end
 			
 			-- Check if mount
-			if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID]) then
+			if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DECOR][itemID]) then
 				CheckUpdateMount(itemID, entityID, source, checkedItems)
 			end
 			
 			-- Check if drakewatcher manuscript
-			if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID]) then
+			if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DECOR][itemID]) then
 				CheckUpdateDrakewatcher(itemID, entityID, source, checkedItems)
+			end
+			
+			-- Check if decor
+			if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID]) then
+				CheckUpdateDecor(itemID, entityID, source, checkedItems)
 			end
 	
 			-- Check if custom item
 			CheckUpdateCustom(itemID, entityID, source, checkedItems, customGroupKeys)
 			
-			if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID] and not RSUtils.ContainsKeyValue(checkedItems, customGroupKeys, itemID)) then
+			if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DECOR][itemID] and not RSUtils.ContainsKeyValue(checkedItems, customGroupKeys, itemID)) then
 				checkedItems[RSConstants.ITEM_TYPE.UNKNOWN][itemID] = true
 			end
 		end
@@ -1335,34 +1487,39 @@ local function CheckUpdateCollectibles(checkedItems, customGroupKeys, getter, so
 					-- Custom items wont be taken into account in other categories
 				
 					-- Check if appearance
-					if (not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID]) then
+					if (not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DECOR][itemID]) then
 						CheckUpdateAppearance(itemID, entityID, source, checkedItems)
 					end
 					
 					-- Check if toy
-					if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID]) then
+					if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DECOR][itemID]) then
 						CheckUpdateToy(itemID, entityID, source, checkedItems)
 					end
 							
 					-- Check if pet
-					if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID]) then
+					if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DECOR][itemID]) then
 						CheckUpdatePet(itemID, entityID, source, checkedItems)
 					end
 					
 					-- Check if mount
-					if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID]) then
+					if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DECOR][itemID]) then
 						CheckUpdateMount(itemID, entityID, source, checkedItems)
 					end
 			
 					-- Check if drakewatcher manuscript
-					if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID]) then
+					if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DECOR][itemID]) then
 						CheckUpdateDrakewatcher(itemID, entityID, source, checkedItems)
+					end
+			
+					-- Check if decor
+					if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID]) then
+						CheckUpdateDecor(itemID, entityID, source, checkedItems)
 					end
 			
 					-- Check if custom item
 					CheckUpdateCustom(itemID, entityID, source, checkedItems, customGroupKeys)
 					
-					if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID] and not RSUtils.ContainsKeyValue(checkedItems, customGroupKeys, itemID)) then
+					if (not checkedItems[RSConstants.ITEM_TYPE.APPEARANCE][itemID] and not checkedItems[RSConstants.ITEM_TYPE.PET][itemID] and not checkedItems[RSConstants.ITEM_TYPE.TOY][itemID] and not checkedItems[RSConstants.ITEM_TYPE.MOUNT][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER][itemID] and not checkedItems[RSConstants.ITEM_TYPE.DECOR][itemID] and not RSUtils.ContainsKeyValue(checkedItems, customGroupKeys, itemID)) then
 						checkedItems[RSConstants.ITEM_TYPE.UNKNOWN][itemID] = true
 					end
 				end
@@ -1397,6 +1554,7 @@ local function UpdateEntitiesCollections(callback, routineTextOutput, manualScan
 	checkedItems[RSConstants.ITEM_TYPE.PET] = {}
 	checkedItems[RSConstants.ITEM_TYPE.MOUNT] = {}
 	checkedItems[RSConstants.ITEM_TYPE.DRAKEWATCHER] = {}
+	checkedItems[RSConstants.ITEM_TYPE.DECOR] = {}
 
 	local customGroupKeys = {}
 	for groupKey, _ in pairs(RSCollectionsDB.GetItemGroups()) do
@@ -1438,17 +1596,20 @@ local function LoadNotCollectedItems(callback, routineTextOutput, manualScan)
 	UpdateNotCollectedAppearanceItemIDs(routines, routineTextOutput)
 	UpdateNotCollectedDrakewatchers(routines, routineTextOutput)
 	
-	-- Launch all the routines in order
-	local chainRoutines = RSRoutines.ChainLoopRoutineNew()
-	chainRoutines:Init(routines)
-	chainRoutines:Run(function(context)
-		-- Reset filters
-		C_TransmogCollection.SetDefaultFilters()
-							
-		loaded = true
-		RSLogger:PrintMessage(AL["LOG_DONE"])
-		RSLogger:PrintMessage(AL["LOG_FILTERING_ENTITIES"])
-		UpdateEntitiesCollections(callback, routineTextOutput, manualScan)
+	-- Decors API fires a callback when the searcher is ready
+	UpdateNotCollectedDecors(routines, routineTextOutput, function()
+		-- Launch all the routines in order
+		local chainRoutines = RSRoutines.ChainLoopRoutineNew()
+		chainRoutines:Init(routines)
+		chainRoutines:Run(function(context)
+			-- Reset filters
+			C_TransmogCollection.SetDefaultFilters()
+								
+			loaded = true
+			routineTextOutput:SetText(AL["LOG_FILTERING_ENTITIES"])
+			UpdateEntitiesCollections(callback, routineTextOutput, manualScan)
+			RSLogger:PrintMessage(AL["LOG_DONE"])
+		end)
 	end)
 end
 
@@ -1683,6 +1844,11 @@ function RSCollectionsDB.GetEntityCollectionsLoot(entityID, type)
 			-- If drakewatcher manuscripts
 			if (RSConfigDB.IsShowingMissingDrakewatcher() and collectionsLoot[entityID][RSConstants.ITEM_TYPE.DRAKEWATCHER]) then
 				items = RSUtils.JoinTables(items, collectionsLoot[entityID][RSConstants.ITEM_TYPE.DRAKEWATCHER])
+			end
+			
+			-- If decor
+			if (RSConfigDB.IsShowingMissingDecors() and collectionsLoot[entityID][RSConstants.ITEM_TYPE.DECOR]) then
+				items = RSUtils.JoinTables(items, collectionsLoot[entityID][RSConstants.ITEM_TYPE.DECOR])
 			end
 			
 			-- If custom items

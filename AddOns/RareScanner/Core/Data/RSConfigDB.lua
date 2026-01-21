@@ -418,7 +418,7 @@ function RSConfigDB.IsNpcFiltered(npcID)
 				end
 			end
 		-- Also filter one time kill rare NPCs at Khaz Algar or rare NPCs without quest (monozone)
-		elseif (RSNpcDB.IsInternalNpcMonoZone(npcID) and RSMapDB.GetContinentOfMap(npcInfo.zoneID) == RSConstants.KHAZ_ALGAR and not RSUtils.Contains(RSConstants.IGNORE_NPCS_REPUTATION, npcID) and not RSUtils.Contains(RSConstants.TWW_MAPS_WITHOUT_REP, npcInfo.zoneID)) then
+		elseif (RSNpcDB.IsInternalNpcMonoZone(npcID) and not RSUtils.Contains(RSConstants.IGNORE_NPCS_REPUTATION, npcID) and not RSUtils.Contains(RSConstants.MAPS_WITHOUT_WARBAND_REPUTATION, npcInfo.zoneID) and RSUtils.Contains(RSConstants.CONTINENTS_WARBAND_REPUTATION, RSMapDB.GetContinentOfMap(npcInfo.zoneID))) then
 			if (npcInfo.questID) then
 				for _, questID in ipairs(npcInfo.questID) do
 					if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
@@ -438,7 +438,7 @@ function RSConfigDB.IsNpcFiltered(npcID)
 					break
 				end
 				
-				if (RSMapDB.GetContinentOfMap(mapID) == RSConstants.KHAZ_ALGAR and not RSUtils.Contains(RSConstants.TWW_MAPS_WITHOUT_REP, mapID)) then
+				if (not RSUtils.Contains(RSConstants.MAPS_WITHOUT_WARBAND_REPUTATION, mapID) and RSUtils.Contains(RSConstants.CONTINENTS_WARBAND_REPUTATION, RSMapDB.GetContinentOfMap(mapID))) then
 					khazAlgar = true
 					break
 				end
@@ -678,6 +678,14 @@ function RSConfigDB.SetCustomNpcGroupFiltered(group, filtered)
 	end
 end
 
+function RSConfigDB.IsShowingRenownRareNPCs()
+	return private.db.map.displayRenownRaresNpcIcons
+end
+
+function RSConfigDB.SetShowingRenownRareNPCs(value)
+	private.db.map.displayRenownRaresNpcIcons = value
+end
+
 ---============================================================================
 -- Container filters database
 ---============================================================================
@@ -878,6 +886,14 @@ end
 
 function RSConfigDB.SetAchievementContainerFilterEnabled(value)
 	private.db.containerFilters.filterAchievements = value
+end
+
+function RSConfigDB.IsShowingRenownContainers()
+	return private.db.map.displayRenownContainerIcons
+end
+
+function RSConfigDB.SetShowingRenownContainers(value)
+	private.db.map.displayRenownContainerIcons = value
 end
 
 ---============================================================================
@@ -1368,6 +1384,14 @@ function RSConfigDB.SetShowingMissingDrakewatcher(value)
 	private.db.loot.showingMissingDrakewatcher = value
 end
 
+function RSConfigDB.IsShowingMissingDecors()
+	return private.db.loot.showingMissingDecors
+end
+
+function RSConfigDB.SetShowingMissingDecors(value)
+	private.db.loot.showingMissingDecors = value
+end
+
 function RSConfigDB.IsShowingCustomItems(group)
 	if (group and private.db.loot.showMissingCustomItems) then
 		return private.db.loot.showMissingCustomItems[group]
@@ -1452,6 +1476,14 @@ end
 
 function RSConfigDB.IsSearchingDrakewatcher()
 	return private.db.collections.searchingDrakewatcher
+end
+
+function RSConfigDB.SetSearchingDecors(value)
+	private.db.collections.searchingDecors = value
+end
+
+function RSConfigDB.IsSearchingDecors()
+	return private.db.collections.searchingDecors
 end
 
 function RSConfigDB.SetSearchingMissingAchievementCriteria(value)

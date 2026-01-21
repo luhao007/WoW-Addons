@@ -8,7 +8,7 @@ app:CreateWindow("Never Implemented", {
 	OnLoad = function(self, settings)
 		local g = app.Categories.NeverImplemented;
 		if g then
-			local nyiData = app.CacheFields({
+			self.data = app.CacheFields({
 				text = L.NEVER_IMPLEMENTED,
 				icon = app.asset("Interface_Tchest"),
 				description = L.NEVER_IMPLEMENTED_DESC,
@@ -18,7 +18,7 @@ app:CreateWindow("Never Implemented", {
 				u = 1,
 				g = g,
 			});
-			self.data = nyiData;
+			app.AssignFieldValue(self.data, "u", 1);
 			self:AssignChildren();
 		end
 	end,
@@ -31,11 +31,3 @@ app:CreateWindow("Never Implemented", {
 		return false;
 	end
 });
-
--- Ensure the u field is assigned
-app.AddEventHandler("OnLoad", function()
-	local category = { g = app.Categories.NeverImplemented }
-	if category then
-		app.AssignFieldValue(category, "u", 1);
-	end
-end)

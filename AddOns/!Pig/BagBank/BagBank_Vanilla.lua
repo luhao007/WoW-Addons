@@ -356,7 +356,7 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 		BAGheji:ShowHide_butList()
 		BagBankfun.UpdateIconDirection(self.Tex,BAGheji.ButLsit[1]:IsShown())
 	end);
-	BagBankfun.addfenleibagbut(BAGheji,"PIG_CharacterBag_")
+	BagBankfun.addfenleibagbut(BAGheji)
 	--钥匙
 	BAGheji.key = CreateFrame("Button",nil,BAGheji, "TruncatedButtonTemplate");
 	BAGheji.key:SetNormalTexture("interface/buttons/ui-button-keyring.blp"); 
@@ -594,7 +594,7 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 		BankSlotsFrame:ShowHide_butList()
 		BagBankfun.UpdateIconDirection(self.Tex,BankSlotsFrame.ButLsit[1]:IsShown())
 	end);
-	BagBankfun.addfenleibagbut(BankSlotsFrame,"PIG_CharacterBANK_")
+	BagBankfun.addfenleibagbut(BankSlotsFrame)
 	if PIG_MaxTocversion(50000) then
 		Create.BagBankFrameBG(BankFrame,true)
 	end

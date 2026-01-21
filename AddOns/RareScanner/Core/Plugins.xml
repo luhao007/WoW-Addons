@@ -23,5 +23,6 @@
 		
 	<!-- Internal libraries (with dependencies of the previous) -->
 	<Include file="SpecialEvents\ShadowlandsPrePatch.lua"/>
+	<Include file="SpecialEvents\MidnightPrePatch.lua"/>
 	
 </Ui>

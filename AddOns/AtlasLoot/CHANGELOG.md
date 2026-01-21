@@ -1,5 +1,14 @@
 ﻿# Changelog
 
+## 9.20.0 - January 19, 2026
+### Added
+- Added support for Midnight (no new loot yet)
+- Added Legion: Remix mounts, pets and toys to Collections
+### Changed
+- Updated libraries
+### Removed
+- Removed Legion: Remix category
+
 ## 9.19.8 - January 1, 2026
 ### Added
 - Added January Trading Post items to Collections

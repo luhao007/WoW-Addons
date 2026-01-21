@@ -1,35 +1,11 @@
 local _, addonTable = ...;
 local FramePlusfun=addonTable.FramePlusfun
-
 -----------------------
-local function PIG_ADDON_LOADED(BlizzardName,addfun)
-	if IsAddOnLoaded(BlizzardName) then
-		addfun()
-	else
-		local jiazaiui = CreateFrame("Frame")
-		jiazaiui:RegisterEvent("ADDON_LOADED")
-		jiazaiui:SetScript("OnEvent", function(self, event, arg1)
-			if event=="ADDON_LOADED" then
-				if arg1==BlizzardName then
-					self:UnregisterEvent("ADDON_LOADED")
-					if InCombatLockdown() then
-						jiazaiui:RegisterEvent("PLAYER_REGEN_ENABLED")
-					else
-						addfun()
-					end
-				end
-			elseif event=="PLAYER_REGEN_ENABLED" then
-				self:UnregisterEvent("PLAYER_REGEN_ENABLED")
-				addfun()				
-			end
-		end)
-	end
-end
 function FramePlusfun.Trainer()
 	if not PIGA["FramePlus"]["Trainer"] then return end
-	if PIG_MaxTocversion(40000,true) then return end
+	if PIG_MaxTocversion(60000,true) then return end
 	if NDui then return end
-	PIG_ADDON_LOADED("Blizzard_TrainerUI",function()
+	addonTable.Fun.IsAddOnLoaded("Blizzard_TrainerUI",function()
 		UIPanelWindows["ClassTrainerFrame"].width = 713
 		ClassTrainerFrame:SetWidth(713)
 		ClassTrainerFrame:SetHeight(487)

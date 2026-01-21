@@ -170,6 +170,13 @@ function RSRecentlySeenTracker.RemoveRecentlySeen(entityID)
 	end
 	
 	local min = math.min(unpack(distances))
+	
+	-- Avoid hiding incorrect icons
+	if (min >= 0.001) then
+		RSLogger:PrintDebugMessage(string.format("RemoveRecentlySeen[distancia=%s] (No devuelve contenedor por no haberse encontrado uno lo suficientemente cerca)", min))
+		return nil
+	end
+	
 	for xy, distance in pairs (xyDistances) do
 		if (distance == min) then
 			local x, y = strsplit("_", xy)

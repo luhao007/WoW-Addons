@@ -21,6 +21,7 @@ local RSConstants = private.ImportLib("RareScannerConstants")
 -- RareScanner services libraries
 local RSTooltip = private.ImportLib("RareScannerTooltip")
 local RSEntityStateHandler = private.ImportLib("RareScannerEntityStateHandler")
+local RSButtonHandler = private.ImportLib("RareScannerButtonHandler")
 
 -- Next spawn timer
 local NEXT_RESPAWN = 600 --10 minutes
@@ -70,7 +71,7 @@ local function ShadowlandsPrePatch_PrintNextSpawn(npcID)
 	if (nextSpawningNPC) then
 		local name = RSNpcDB.GetNpcName(nextSpawningNPC)
 		if (name) then
-			RSLogger:PrintMessage(string.format(AL["SHADOWLANDS_PRE_PATCH_NEXTSPAWN"], name))
+			RSLogger:PrintMessage(string.format(AL["PRE_PATCH_NEXTSPAWN"], name))
 			RSGeneralDB.SetRecentlySeen(nextSpawningNPC)
 		end
 	end
@@ -81,7 +82,7 @@ local function ShadowlandsPrePatch_AddNextSpawningTimerCell(tooltip, npcID)
 		local timeLeft = private.dbglobal.shadowlandsSpawningTimers[npcID] - time()
 		if (timeLeft > 0) then
 			local line = tooltip:AddLine()
-			tooltip:SetCell(line, 1, string.format(AL["SHADOWLANDS_PRE_PATCH_SPAWNINGTIMER"], RSUtils.TextColor(RSTimeUtils.TimeStampToClock(timeLeft), "FF8000")), nil, "LEFT", 10)
+			tooltip:SetCell(line, 1, string.format(AL["PRE_PATCH_SPAWNINGTIMER"], RSUtils.TextColor(RSTimeUtils.TimeStampToClock(timeLeft), "FF8000")), nil, "LEFT", 10)
 		end
 	end
 end
@@ -92,15 +93,22 @@ function RareScanner:ShadowlandsPrePatch_Initialize()
 		return
 	end
 
-	local original_SetVignetteFound = self.SetVignetteFound
-	function self:SetVignetteFound(vignetteID, isNavigating, npcID)
-		original_SetVignetteFound(self, vignetteID, isNavigating, npcID);
-		ShadowlandsPrePatch_CalculateSpawningTimers(npcID);
+	local original_AddAlert = RSButtonHandler.AddAlert
+	function RSButtonHandler.AddAlert(button, vignetteInfo, isNavigating)
+		original_AddAlert(button, vignetteInfo, isNavigating)
+		
+		local _, _, _, _, _, id, _ = strsplit("-", vignetteInfo.objectGUID);
+		local entityID = tonumber(id)
+		
+		if (not entityID) then
+			return
+		end
+		ShadowlandsPrePatch_CalculateSpawningTimers(entityID);
 	end
 
 	local original_SetDeadNpcByZone = RSEntityStateHandler.SetDeadNpcByZone
-	function RSEntityStateHandler.SetDeadNpcByZone(npcID, zoneID, forzed)
-		original_SetDeadNpcByZone(self, npcID, zoneID, forzed)
+	function RSEntityStateHandler.SetDeadNpcByZone(npcID, mapID, loadingAddon)
+		original_SetDeadNpcByZone(npcID, mapID, loadingAddon)
 		ShadowlandsPrePatch_PrintNextSpawn(npcID)
 	end
 

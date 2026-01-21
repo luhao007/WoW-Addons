@@ -124,13 +124,24 @@ end
 -- Prints the Help information for a given command
 -- cmd : The command's Help to print
 app.ChatCommands.PrintHelp = function(cmd)
-	local help = app.ChatCommands.Help[cmd:lower()]
-	if not help then
+	local allHelp = app.ChatCommands.Help;
+	local help = cmd and allHelp[cmd:lower()]
+	if help then
+		for _,helpLine in ipairs(help) do
+			app.print(helpLine)
+		end
+	elseif not cmd then
+		local allCommands = {};
+		for command,help in pairs(allHelp) do
+			allCommands[#allCommands + 1] = command;
+		end
+		table.sort(allCommands);
+		app.print("Full Command List:");
+		for _,command in ipairs(allCommands) do
+			print(" " .. command);
+		end
+	else
 		app.print("No Help provided for command:",cmd)
-		return true
-	end
-	for _,helpLine in ipairs(help) do
-		app.print(helpLine)
 	end
 	return true
 end
@@ -293,6 +304,8 @@ function(cmd)
 			local help = args[2] == "help"
 			if help then return app.ChatCommands.PrintHelp(cmd) end
 			return commandFunc(args)
+		elseif cmd == "help" then
+			return app.ChatCommands.PrintHelp(args[2])
 		end
 
 		-- first arg is always the window/command to execute
@@ -321,9 +334,6 @@ function(cmd)
 			app.SetCustomWindowParam("list", "harvesting", true);
 			app.SetCustomWindowParam("list", "limit", 225000);
 			app:GetWindow("list"):Toggle();
-			return true;
-		elseif cmd == "harvest_achievements" then
-			app:GetWindow("AchievementHarvester"):Toggle();
 			return true;
 		elseif cmd == "ra" then
 			app:GetWindow("RaidAssistant"):Toggle();

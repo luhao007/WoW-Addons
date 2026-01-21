@@ -57,10 +57,12 @@ local DynamicCategory_Nested = function(self)
 	self.SortType = "Global";
 	-- sort children of top level groups
 	local g = self.g
-	for i = 1, #g do
-		local child = g[i]
-		if child.g then
-			child.SortType = "expansion"
+	if g then
+		for i = 1, #g do
+			local child = g[i]
+			if child.g then
+				child.SortType = "expansion"
+			end
 		end
 	end
 	-- don't fill into dynamic groups if they are popped out
@@ -272,14 +274,6 @@ app.CreateToggle = app.CreateClass("Toggle", "toggleID", {
 		return onclick
 	end,
 });
-
--- Allows creating a group which is keyed based on only its 'text' field
-app.CreateRawText = app.CreateClass("RawText", "text", {
-	name = function(t)
-		return t.text
-	end,
-	isHeader = app.ReturnTrue,
-})
 
 -- Allows creating an ATT object which can be expanded to trigger an async population of the dynamic data it should contain, based on provided data in 't'
 -- Expected t-data:

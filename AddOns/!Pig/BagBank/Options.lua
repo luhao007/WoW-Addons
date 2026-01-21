@@ -1,6 +1,7 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
 ---
+local Fun = addonTable.Fun
 local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
 local PIGButton=Create.PIGButton
@@ -24,17 +25,9 @@ BagBankF.error:SetTextColor(1, 0, 0, 1)
 BagBankF.czrl = PIGButton(BagBankF,{"TOP",BagBankF.error,"BOTTOM",0,-10},{280,24})
 BagBankF.czrl:SetScript("OnClick", function(self)
 	if self.qitaName=="NDui" then
-		NDuiDB["Bags"]=NDuiDB["Bags"] or {}
-		NDuiDB["Bags"]["Enable"]=false
+		Fun.SetNDui(false,"Bags","Enable")
 	elseif self.qitaName=="ElvUI" then
-		local peizName=ElvPrivateDB["profileKeys"][PIG_OptionsUI.AllNameElvUI]
-		if peizName then
-			local peizData=ElvPrivateDB["profiles"][peizName]
-			if peizData then
-				peizData["bags"]=peizData["bags"] or {}
-				peizData["bags"]["enable"]=false
-			end
-		end
+		Fun.SetElvUI(false,"bags","enable")
 	else
 		C_AddOns.DisableAddOn(self.qitaName)
 	end
@@ -48,9 +41,9 @@ local function Other_bag()
 		local loadedOrLoading, loaded = IsAddOnLoaded(BagaddList[i])
 		if loaded then return true,BagaddList[i],"插件"..BagaddList[i] end
 	end
-	if PIG_OptionsUI.IsOpen_NDui("Bags","Enable") then
+	if Fun.IsNDui("Bags","Enable") then
 		return true,"NDui","NDui背包功能"
-	elseif PIG_OptionsUI.IsOpen_ElvUI() and PIG_OptionsUI.IsOpen_ElvUI("bags","enable") then 
+	elseif Fun.IsElvUI() and Fun.IsElvUI("bags","enable") then 
 		return true,"ElvUI","ElvUI背包功能"
 	end
 	return false

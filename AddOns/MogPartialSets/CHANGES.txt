@@ -1,0 +1,15 @@
+lightweight tag 28dbbfee3094f424e0c15cb0bcf48928446b7598 v3.0.0
+Author:	romdeau23 <43295566+romdeau23@users.noreply.github.com>
+Date:	Tue Jan 20 21:48:49 2026 +0100
+
+commit 28dbbfee3094f424e0c15cb0bcf48928446b7598
+Author: romdeau23 <43295566+romdeau23@users.noreply.github.com>
+Date:   Tue Jan 20 21:48:49 2026 +0100
+
+    3.0.0
+    
+    Updated for Midnight
+    Improved refresh handling
+    Improved set tooltip
+    Added a check for known conflicting addons
+

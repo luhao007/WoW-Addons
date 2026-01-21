@@ -10,130 +10,6 @@ local ActionBarfun=addonTable.ActionBarfun
 local RTabFrame=ActionBarfun.RTabFrame
 local fuFrame=ActionBarfun.fuFrame
 local fuFrameBut=ActionBarfun.fuFrameBut
-------
-local Showtiaojian = {ALWAYS..SHOW,LEAVING_COMBAT..HIDE,BATTLEFIELD_JOIN..HIDE,SPELL_FAILED_BAD_IMPLICIT_TARGETS..HIDE,};
----排列方式
-local pailieName={"横向","竖向","6×2","2×6","4×3","3×4"};
-local paiNum = #pailieName
-local pailieweizhi={
-	{
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-	},
-	{
-		{"TOP","BOTTOM",0,"-",1},
-		{"TOP","BOTTOM",0,"-",1},
-		{"TOP","BOTTOM",0,"-",1},
-		{"TOP","BOTTOM",0,"-",1},
-		{"TOP","BOTTOM",0,"-",1},
-		{"TOP","BOTTOM",0,"-",1},
-		{"TOP","BOTTOM",0,"-",1},
-		{"TOP","BOTTOM",0,"-",1},
-		{"TOP","BOTTOM",0,"-",1},
-		{"TOP","BOTTOM",0,"-",1},
-		{"TOP","BOTTOM",0,"-",1},
-	},
-	{
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,"-",6},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-	},
-	{
-		{"LEFT","RIGHT","+",0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,"-",2},
-		{"LEFT","RIGHT","+",0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,"-",2},
-		{"LEFT","RIGHT","+",0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,"-",2},
-		{"LEFT","RIGHT","+",0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,"-",2},
-		{"LEFT","RIGHT","+",0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,"-",2},
-		{"LEFT","RIGHT","+",0,1},
-	},
-	{
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,"-",4},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,"-",4},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-	},
-	{
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,"-",3},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,"-",3},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-		{"TOPLEFT","BOTTOMLEFT",0,"-",3},
-		{"LEFT","RIGHT","+",0,1},
-		{"LEFT","RIGHT","+",0,1},
-	},
-};
-local function PailieFun(barName,id,Newjiange,cfPailie)
-	for x=1,paiNum do
-		if cfPailie == x then
-			_G[barName.."_But"..id]:ClearAllPoints();
-			if pailieweizhi[x][id-1][3]=="+" then
-				_G[barName.."_But"..id]:SetPoint(pailieweizhi[x][id-1][1],_G[barName.."_But"..(id-pailieweizhi[x][id-1][5])],pailieweizhi[x][id-1][2],Newjiange,pailieweizhi[x][id-1][4])
-			elseif pailieweizhi[x][id-1][4]=="+" then
-				_G[barName.."_But"..id]:SetPoint(pailieweizhi[x][id-1][1],_G[barName.."_But"..(id-pailieweizhi[x][id-1][5])],pailieweizhi[x][id-1][2],pailieweizhi[x][id-1][3],Newjiange)
-			elseif pailieweizhi[x][id-1][3]=="-" then
-				_G[barName.."_But"..id]:SetPoint(pailieweizhi[x][id-1][1],_G[barName.."_But"..(id-pailieweizhi[x][id-1][5])],pailieweizhi[x][id-1][2],-Newjiange,pailieweizhi[x][id-1][4])
-			elseif pailieweizhi[x][id-1][4]=="-" then
-				_G[barName.."_But"..id]:SetPoint(pailieweizhi[x][id-1][1],_G[barName.."_But"..(id-pailieweizhi[x][id-1][5])],pailieweizhi[x][id-1][2],pailieweizhi[x][id-1][3],-Newjiange)
-			end
-		end
-	end
-end
-local function ShowHideNumFun(self,CVarV,tuodong)
-	if tuodong then self:SetAnniuNumFun() return end
-	local CVarV = CVarV or GetCVar("alwaysShowActionBars")
-	if CVarV=="0" then
-		if not self.Type then
-			self:Hide()
-		end
-	elseif CVarV=="1" then
-		self:SetAnniuNumFun()
-	end
-end
-local function ShowHideEvent(self,canshuV)
-	if canshuV==1 then
-		RegisterStateDriver(self, "combatYN", "[] show; hide");--一直显示
-	elseif canshuV==2 then
-		RegisterStateDriver(self, "combatYN", "[combat] show; hide");--脱战后隐藏
-	elseif canshuV==3 then
-		RegisterStateDriver(self, "combatYN", "[nocombat] show; hide");--进战斗隐藏
-	elseif canshuV==4 then
-		RegisterStateDriver(self, "combatYN", "[exists] show; hide");--无目标隐藏
-	end
-end
-ActionBarfun.UIdata={Showtiaojian,pailieName,paiNum,PailieFun,ShowHideNumFun,ShowHideEvent}
 ---add------------------
 local PigMacroEventCount =0;
 local PigMacroDeleted = false;
@@ -152,7 +28,9 @@ local Update_OnEnter=ActionFun.Update_OnEnter
 local Cursor_Fun=ActionFun.Cursor_Fun
 local Update_Macro=ActionFun.Update_Macro
 local Update_Equipment=ActionFun.Update_Equipment
-
+---
+local Showtiaojian,pailieName,paiNum,PailieFun,ShowHideNumFun,ShowHideEvent=unpack(ActionFun.UIdata)
+--
 local ActionW = ActionButton1:GetWidth()
 local PIGActionBarActionEventsFrame=CreateFrame("Frame")
 PIGActionBarActionEventsFrame:HookScript("OnEvent", function(self,event,...)
@@ -205,7 +83,7 @@ PIGActionBarActionEventsFrame.events={
     CVAR_UPDATE = function(button, cvarName, value, ...)
     	if button.ModeSet=="cons" then return end
         if cvarName == "ActionButtonUseKeyDown" then
-            PIGUseKeyDown(button)
+           
         elseif cvarName == "alwaysShowActionBars" then
             if InCombatLockdown() then
                 button.always_show = true
@@ -306,15 +184,17 @@ PIGActionBarActionEventsFrame.events={
 }
 -------
 local function ADD_ActionBar(barName,CFdata,anniugeshu, anniujiange,tabF,tabBut,RTabFrame,plusF,plusTabBut)
-	local NewIndex,cfOpen,cfScale,cfLock,cfAnniuNum,cfShowTJ,cfPailie,ModeFun=unpack(CFdata)
-	if not cfOpen then return end
+	local NewIndex=CFdata.index
+	local ModeFun=CFdata.Mode
+	local getDataFun=CFdata.getData
+	if not getDataFun("Open",NewIndex) then return end
 	if _G[barName] then return end
 	Data.UILayout[barName]={"CENTER","CENTER",-200,-200+NewIndex*50}
 	local Pig_bar=PIGFrame(UIParent,nil,{0.01,ActionW-4},barName)
 	-- Pig_bar:SetAttribute("type", "actionbar");
 	-- Pig_bar:SetAttribute("actionbar", NewIndex+100);
 	Create.PIG_SetPoint(barName)
-	Pig_bar:SetScale(cfScale);
+	Pig_bar:SetScale(getDataFun("Scale",NewIndex));
 	Pig_bar.yidong = PIGFrame(Pig_bar)
 	Pig_bar.yidong:PIGSetBackdrop()
 	Pig_bar.yidong:SetSize(12, ActionW-4)
@@ -322,10 +202,10 @@ local function ADD_ActionBar(barName,CFdata,anniugeshu, anniujiange,tabF,tabBut,
 	Pig_bar.yidong.title = PIGFontString(Pig_bar.yidong,nil,NewIndex,"OUTLINE",12)
 	Pig_bar.yidong.title:SetAllPoints(Pig_bar.yidong)
 	Pig_bar.yidong.title:SetTextColor(1, 1, 0.1, 1)
-	if ModeFun then
-		Pig_bar.yidong:PIGSetMovable(Pig_bar,nil,nil,true)
-	else
+	if ModeFun=="Action" then
 		Pig_bar.yidong:PIGSetMovable(Pig_bar,nil,true,true)
+	elseif ModeFun=="cons" then
+		Pig_bar.yidong:PIGSetMovable(Pig_bar,nil,nil,true)
 	end
 	Pig_bar.yidong:SetScript("OnEnter", function (self)
 		self:SetBackdropBorderColor(0,0.8,1, 0.9);
@@ -339,7 +219,7 @@ local function ADD_ActionBar(barName,CFdata,anniugeshu, anniujiange,tabF,tabBut,
 		GameTooltip:ClearLines();
 		GameTooltip:Hide() 
 	end)
-	if cfLock then Pig_bar.yidong:Hide() end
+	if getDataFun("Lock",NewIndex) then Pig_bar.yidong:Hide() end
 	Pig_bar.yidong:SetScript("OnMouseUp", function (self,Button)
 		if Button=="RightButton" then
 			if PIG_OptionsUI:IsShown() then
@@ -351,48 +231,40 @@ local function ADD_ActionBar(barName,CFdata,anniugeshu, anniujiange,tabF,tabBut,
 			end
 		end
 	end)
-	if ModeFun then
+	if ModeFun=="cons" then
 		Pig_bar.butlist={}
 	end
 	-----
 	for id=1,anniugeshu do
-		--local piganniu = CreateFrame("CheckButton", "$parent_But"..id, Pig_bar, "ActionButtonTemplate",0)
-		local piganniu = CreateFrame("CheckButton", "$parent_But"..id, Pig_bar, "SecureActionButtonTemplate,ActionButtonTemplate,SecureHandlerDragTemplate,SecureHandlerMouseUpDownTemplate,SecureHandlerStateTemplate,SecureHandlerBaseTemplate")
+		local piganniu
+		if PIG_MaxTocversion("tbc") then
+			piganniu = CreateFrame("CheckButton", "$parent_But"..id, Pig_bar, "ActionBarButtonTemplate")
+		else
+			piganniu = CreateFrame("CheckButton", "$parent_But"..id, Pig_bar, "SecureActionButtonTemplate,ActionButtonTemplate,SecureHandlerDragTemplate,SecureHandlerMouseUpDownTemplate,SecureHandlerStateTemplate,SecureHandlerBaseTemplate")
+		end
 		piganniu:SetSize(ActionW, ActionW)
-		piganniu.NormalTexture:SetAlpha(0.4);
-		piganniu.cooldown:SetSwipeColor(0, 0, 0, 0.8);
 		if id==1 then
 			piganniu:SetPoint("LEFT",Pig_bar.yidong,"RIGHT",2,0)
 		else
-			PailieFun(barName,id,anniujiange,cfPailie)
+			PailieFun(barName,id,anniujiange,getDataFun("Pailie",NewIndex))
 		end
-		piganniu.BGtex = piganniu:CreateTexture(nil, "BACKGROUND", nil, -1);
-		piganniu.BGtex:SetTexture("Interface/Buttons/UI-Quickslot");
-		piganniu.BGtex:SetAlpha(0.4);
-		piganniu.BGtex:SetPoint("TOPLEFT", -15, 15);
-		piganniu.BGtex:SetPoint("BOTTOMRIGHT", 15, -15);
-	 	if NewIndex==1 then 
-	 		local ActionID = 500+id
-	 		piganniu.action=ActionID
-			piganniu:SetAttribute("action", ActionID)
-		else
-			local ActionID = 500+(NewIndex-1)*12+id
-			piganniu.action=ActionID
-			piganniu:SetAttribute("action", ActionID)
-		end
+		piganniu.cooldown:SetSwipeColor(0, 0, 0, 0.8);
+		piganniu.FloatingBG = piganniu:CreateTexture(nil, "BACKGROUND", nil, -1);
+		piganniu.FloatingBG:SetTexture(130840);
+		piganniu.FloatingBG:SetAlpha(0.4);
+		piganniu.FloatingBG:SetPoint("TOPLEFT", -15, 15);
+		piganniu.FloatingBG:SetPoint("BOTTOMRIGHT", 15, -15);
+		local ActionID = 500+(NewIndex-1)*12+id
+		piganniu:SetAttribute("action", ActionID)
 		piganniu.ID=id
-	 	-- piganniu:SetAttribute("checkfocuscast", true);--使用系统焦点施法按键
+		-- piganniu:SetAttribute("checkfocuscast", true);--使用系统焦点施法按键
 	 	-- piganniu:SetAttribute("checkselfcast", true);--可以使用自我施法按键
 	 	-- piganniu.flashing = 0;
 	 	-- piganniu.flashtime = 0;
 	 	PIGActionBarActionEventsFrame.frames[piganniu] = piganniu;
-		piganniu:SetScript("OnEvent", PIGActionButton_OnEvent);
-		---
-		PIGUseKeyDown(piganniu)
 		piganniu:HookScript("PostClick", function(self)
 			Update_PostClick(self)
 		end)
-		----
 		piganniu:SetScript("OnEnter", function (self)
 			GameTooltip:ClearLines();
 			GameTooltip_SetDefaultAnchor(GameTooltip, self)
@@ -403,12 +275,14 @@ local function ADD_ActionBar(barName,CFdata,anniugeshu, anniujiange,tabF,tabBut,
 			GameTooltip:Hide() 
 		end);
 		--------------------
-		if ModeFun then 
+		piganniu:SetScript("OnEvent", PIGActionButton_OnEvent);
+		if ModeFun=="cons" then 
 			Pig_bar.butlist[id]=piganniu
 			piganniu.ModeSet=ModeFun
 		else
-			function piganniu:SetAnniuNumFun(max,all)
-				local max=max or cfAnniuNum
+			loadingButInfo(piganniu,"PigAction")
+			function piganniu:SetAnniuNumFun(max)
+				local max=max or getDataFun("AnniuNum",NewIndex)
 				local id=self.ID
 				if id>max then
 					self:Hide()
@@ -417,8 +291,6 @@ local function ADD_ActionBar(barName,CFdata,anniugeshu, anniujiange,tabF,tabBut,
 				self:Show()
 			end
 			piganniu:SetAnniuNumFun()
-			loadingButInfo(piganniu,"PigAction")
-			---
 			piganniu:HookScript("OnMouseUp", function (self)
 				Cursor_Fun(self,"OnMouseUp","PigAction")
 				Update_Icon(self)
@@ -426,7 +298,6 @@ local function ADD_ActionBar(barName,CFdata,anniugeshu, anniujiange,tabF,tabBut,
 				Update_Count(self)
 				Update_bukeyong(self)
 			end);
-			----
 			piganniu:HookScript("OnDragStart", function (self)
 				if InCombatLockdown() then return end
 				local lockvalue = GetCVar("lockActionBars")
@@ -448,7 +319,6 @@ local function ADD_ActionBar(barName,CFdata,anniugeshu, anniujiange,tabF,tabBut,
 					end
 				end
 			end)
-			----
 			piganniu:SetAttribute("_onreceivedrag",[=[
 				local leibie, spellID = ...
 				if kind=="spell" then
@@ -469,7 +339,7 @@ local function ADD_ActionBar(barName,CFdata,anniugeshu, anniujiange,tabF,tabBut,
 				Update_Count(self)
 				Update_bukeyong(self)
 			end);
-			ShowHideEvent(piganniu,cfShowTJ)
+			ShowHideEvent(piganniu,getDataFun("ShowTJ",NewIndex))
 			piganniu:SetAttribute("_onstate-combatYN","if newstate == 'show' then self:Show(); else self:Hide(); end")
 		end
 	end

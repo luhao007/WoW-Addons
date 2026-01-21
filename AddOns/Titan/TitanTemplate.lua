@@ -657,8 +657,12 @@ function TitanPanelButton_OnEnter(self)
 	end
 
 	if (id) then
+		local menu_mgr = Menu.GetManager()
+
 		local controlFrame = TitanUtils_GetControlFrame(id);
-		if (controlFrame and controlFrame:IsVisible()) then
+		if (menu_mgr and menu_mgr:IsAnyMenuOpen()) then
+			return
+		elseif (controlFrame and controlFrame:IsVisible()) then
 			return;
 		elseif (TitanPanelRightClickMenu_IsVisible()) then
 			return;
@@ -815,6 +819,7 @@ local function TitanPanelButton_SetButtonText(id)
 							-- override the label per the user
 							label2 = " "..TitanGetVar(id, "CustomLabel2Text")
 						else
+							label2 = " "..label2
 						end
 					else
 						label2 = " "
@@ -827,6 +832,7 @@ local function TitanPanelButton_SetButtonText(id)
 							-- override the label per the user
 							label3 = " "..TitanGetVar(id, "CustomLabel3Text")
 						else
+							label3 = " "..label3
 						end
 					else
 						label3 = " "
@@ -839,6 +845,7 @@ local function TitanPanelButton_SetButtonText(id)
 							-- override the label per the user
 							label4 = " "..TitanGetVar(id, "CustomLabel4Text")
 						else
+							label4 = " "..label4
 						end
 					else
 						label4 = " "

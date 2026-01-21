@@ -34,7 +34,7 @@ function TardisInfo.Invite(Activate)
 -- 	---
 	local InvF=_G[GnUI]
 	local fujiF,fujiTabBut=PIGOptionsList_R(InvF.F,GROUPS,80,"Bot")
-	if Activate then fujiF:Show() fujiTabBut:Selected() end
+	if Activate then fujiF:Show() fujiTabBut:Selected(true) end
 -- 	--=====================
 	local Roles = {"TANK", "HEALER","DAMAGER"}
 	local RolesXulie = {["TANK"]=1, ["HEALER"]=2,["DAMAGER"]=3}

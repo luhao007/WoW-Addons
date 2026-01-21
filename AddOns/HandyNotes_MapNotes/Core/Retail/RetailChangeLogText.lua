@@ -1,12 +1,14 @@
 local ADDON_NAME, ns = ...
 
-ns.CurrentAddonVersion = "3.2.2"
-ns.PreviousAddonVersion_1 = "3.2.1"
+ns.CurrentAddonVersion = "3.2.4"
+ns.PreviousAddonVersion = "3.2.2" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
 
 ns.LOCALE_CHANGELOGS = {
+  { version = "3.2.4", table = "prepatchUpdate" },
+  { version = "3.2.3", table = "smallChanges" },
   { version = "3.2.2", table = ns.LOCALE_CHANGELOG_3_2_2 },
   { version = "3.2.1", table = ns.LOCALE_CHANGELOG_3_2_1 },
-  { version = "3.2.0", table = ns.LOCALE_CHANGELOG_3_2_0 },
+  { version = "3.2.0", table = { "smallChanges", "tocUpdate" } },
   { version = "3.1.9", table = ns.LOCALE_CHANGELOG_3_1_9 },
   { version = "3.1.8", table = ns.LOCALE_CHANGELOG_3_1_8 },
   { version = "3.1.7", table = ns.LOCALE_CHANGELOG_3_1_7 },
@@ -1725,5 +1727,189 @@ ns.LOCALE_CHANGELOG_3_1_1 = {
   • 각 캐릭터의 원래 블리자드 미니맵 아이콘 설정을 저장하여, 옵션 해제 시 원상복구 가능
 
   • 변경 사항은 즉시 적용되지만, 블리자드 미니맵 하위 메뉴에서는 재시작(/reload) 전까지 잘못 표시될 수 있음
+]],
+}
+
+ns.prepatchUpdate = {
+  deDE = [[
+• Vorbereitung für zukünftiges Update
+]],
+
+  enUS = [[
+• Preparation for a future update
+]],
+
+  frFR = [[
+• Préparation pour une mise à jour future
+]],
+
+  itIT = [[
+• Preparazione per un aggiornamento futuro
+]],
+
+  esES = [[
+• Preparación para una actualización futura
+]],
+
+  esMX = [[
+• Preparación para una actualización futura
+]],
+
+  ptBR = [[
+• Preparação para uma atualização futura
+]],
+
+  ruRU = [[
+• Подготовка к будущему обновлению
+]],
+
+  zhCN = [[
+• 为未来更新做准备
+]],
+
+  zhTW = [[
+• 為未來更新做準備
+]],
+
+  koKR = [[
+• 향후 업데이트 준비
+]],
+}
+
+ns.classicUpdate = {
+  deDE = [[
+• Update Classic
+]],
+
+  enUS = [[
+• Classic update
+]],
+
+  frFR = [[
+• Mise à jour Classic
+]],
+
+  itIT = [[
+• Aggiornamento Classic
+]],
+
+  esES = [[
+• Actualización de Classic
+]],
+
+  esMX = [[
+• Actualización de Classic
+]],
+
+  ptBR = [[
+• Atualização do Classic
+]],
+
+  ruRU = [[
+• Обновление Classic
+]],
+
+  zhCN = [[
+• Classic 更新
+]],
+
+  zhTW = [[
+• Classic 更新
+]],
+
+  koKR = [[
+• Classic 업데이트
+]],
+}
+
+ns.smallChanges = {
+  deDE = [[
+• kleinere Anpassungen
+]],
+
+  enUS = [[
+• minor adjustments
+]],
+
+  frFR = [[
+• ajustements mineurs
+]],
+
+  itIT = [[
+• piccoli aggiustamenti
+]],
+
+  esES = [[
+• ajustes menores
+]],
+
+  esMX = [[
+• ajustes menores
+]],
+
+  ptBR = [[
+• pequenos ajustes
+]],
+
+  ruRU = [[
+• небольшие изменения
+]],
+
+  zhCN = [[
+• 小幅调整
+]],
+
+  zhTW = [[
+• 小幅調整
+]],
+
+  koKR = [[
+• 소소한 조정
+]],
+}
+
+ns.tocUpdate = {
+  deDE = [[
+• toc update
+]],
+
+  enUS = [[
+• TOC update
+]],
+
+  frFR = [[
+• Mise à jour du TOC
+]],
+
+  itIT = [[
+• Aggiornamento del TOC
+]],
+
+  esES = [[
+• Actualización del TOC
+]],
+
+  esMX = [[
+• Actualización del TOC
+]],
+
+  ptBR = [[
+• Atualização do TOC
+]],
+
+  ruRU = [[
+• Обновление TOC
+]],
+
+  zhCN = [[
+• TOC 更新
+]],
+
+  zhTW = [[
+• TOC 更新
+]],
+
+  koKR = [[
+• TOC 업데이트
 ]],
 }

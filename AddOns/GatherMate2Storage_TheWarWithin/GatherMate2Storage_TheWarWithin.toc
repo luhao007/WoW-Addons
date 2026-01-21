@@ -1,13 +1,24 @@
-## Interface: 110207,120000
-## Title: GatherMate2: Storage for The War Within
+## Interface: 110207
 ## Author: nevcairiel
-## Group: GatherMate2
+## Version: 1.51.3
+
+## Title: GatherMate2: Storage for The War Within
+## Title-zhCN: |cFFFFE00A<|r|cFF0070DE专业|r|cFFFFE00A>|r|cFFFFFFFF采集助手|r |cFF69CCF0数据|r |cFF22B14C地心之战|r
+## Notes-zhCN: 分离存储地心之战的采集数据
+
 ## IconTexture: Interface\AddOns\GatherMate2\Artwork\Icon.tga
+
+## Category-zhCN: |cFFFFE00A<|r|cFF0070DE专业|r|cFFFFE00A>|r
+## Group: GatherMate2
+
 ## Dependencies: GatherMate2
-## Version: 1.51.2
-## X-Category: Map
+
 ## LoadSavedVariablesFirst: 1
 ## SavedVariables: GatherMate2HerbDBTWW, GatherMate2MineDBTWW, GatherMate2FishDBTWW, GatherMate2GasDBTWW, GatherMate2TreasureDBTWW, GatherMate2ArchaeologyDBTWW, GatherMate2LoggingDBTWW
+
+## X-Category: Map
 ## X-GM2-Storage-Tag: TWW
 ## X-GM2-Storage-Zones: 2248, 2215, 2214, 2255, 2256, 2213, 2216, 2339, 2346, 2371
+## X-Part-Of: GatherMate2
+
 ..\GatherMate2\LoadAddOnStorage.lua

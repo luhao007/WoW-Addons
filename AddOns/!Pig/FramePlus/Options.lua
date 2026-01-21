@@ -139,7 +139,7 @@ end)
 if PIG_MaxTocversion() then
 	FrameExtF.Quest = PIGCheckbutton_R(FrameExtF,{"任务界面扩展",""},true)
 	if PIG_MaxTocversion(30000) then
-		FrameExtF.Quest.tooltip= "扩展任务界面为两列,左边任务列表，右边任务详情,显示任务等级\n提示任务奖励最贵物品";
+		FrameExtF.Quest.tooltip= "扩展任务界面为两列,左边任务列表，右边任务详情,显示任务等级\n完成任务时提示奖励最贵物品";
 	else
 		FrameExtF.Quest.tooltip= "任务列表显示任务等级\n提示任务奖励最贵物品";
 	end
@@ -163,7 +163,7 @@ if PIG_MaxTocversion() then
 			PIG_OptionsUI.RLUI:Show()
 		end
 	end)
-	if PIG_MaxTocversion(40000) then
+	if PIG_MaxTocversion(60000) then
 		FrameExtF.Trainer = PIGCheckbutton_R(FrameExtF,{"训练师界面扩展","扩展训练师界面为两列"},true)
 		FrameExtF.Trainer:SetScript("OnClick", function (self)
 			if self:GetChecked() then
@@ -333,7 +333,7 @@ if PIG_MaxTocversion() then
 	LootRollF.Debug:SetScript("OnClick", function (self)
 		ISopenUI(FramePlusfun.RollDebugUI)
 	end)
-	LootRollF.CZ = PIGButton(LootRollF,{"LEFT", LootRollF.Debug,"RIGHT",40,0},{50,22},"重置")
+	LootRollF.CZ = PIGButton(LootRollF,{"LEFT", LootRollF.Debug,"RIGHT",40,0},{50,22},RESET)
 	LootRollF.CZ:SetScript("OnClick", function (self)
 		PIGA["FramePlus"]["RollScale"]=addonTable.Default["FramePlus"]["RollScale"]
 		LootRollF.Roll.Slider:PIGSetValue(PIGA["FramePlus"]["RollScale"])

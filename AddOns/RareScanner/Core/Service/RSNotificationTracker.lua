@@ -88,9 +88,11 @@ function RSNotificationTracker.IsAlreadyNotificated(vignetteID, isNavigating, en
 	-- and the vignette is removed from the alreadyFound list
 	if ((not trackingSystem or trackingSystem ~= RSConstants.TRACKING_SYSTEM.UNIT_TARGET) and UnitExists("target")) then
 		local targetUid = UnitGUID("target")
-		local _, _, _, _, _, targetNpcID = strsplit(VIGNETTE_ID_SEPARATOR, targetUid)
-		if (tonumber(targetNpcID) == entityID) then
-			return true
+		if (not issecretvalue(targetUid)) then
+			local _, _, _, _, _, targetNpcID = strsplit(VIGNETTE_ID_SEPARATOR, targetUid)
+			if (tonumber(targetNpcID) == entityID) then
+				return true
+			end
 		end
 	end
 

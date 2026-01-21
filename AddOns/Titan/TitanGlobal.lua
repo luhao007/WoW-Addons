@@ -41,6 +41,21 @@ else
 	Titan_Global.switch.classic_era  = false
 end
 
+Titan_Global.switch.midnight  = false -- Midnight
+if Titan_Global.wowversion >= 120000 then
+	Titan_Global.switch.midnight  = true
+else
+	Titan_Global.switch.midnight  = false
+end
+
+Titan_Global.switch.chat_class  = true -- if chat routines moved into ChatFrameUtil
+if ChatFrameUtil and ChatFrameUtil.DisplayTimePlayed then
+	Titan_Global.switch.chat_class  = true -- started in 11.* somewhere
+else
+	Titan_Global.switch.chat_class  = false -- older version
+end
+
+
 Titan_Global.AdjList = {         -- TODO : localize
 	["UIWidgetTopCenterContainerFrame"] = {
 		frame_name = "UIWidgetTopCenterContainerFrame",

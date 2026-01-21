@@ -1,5 +1,6 @@
 local addonName, addonTable = ...;
 local Data=addonTable.Data
+local Fun = addonTable.Fun
 --------
 local QuickButUI=_G[Data.QuickButUIname]
 QuickButUI.ButList[6]=function()
@@ -81,10 +82,10 @@ QuickButUI.ButList[6]=function()
 	local GnUI,Icon,GnName,FrameLevel="PIG_AddonListUI","Mobile-BonusIcon",ADDONS..CHAT_MODERATE,55----Mobile-BonusIcon--Forge-Lock--StreamCinematic-DownloadIcon
 	local QkBut=PIGQuickBut(nil,nil,Icon,nil,FrameLevel)
 	--展开页
-	local Height,anniushu,NumTexCoord  = QuickButUI.nr:GetHeight(), 10, QuickButUI.EquipmentPIG["NumTexCoord"]
+	local Height,anniushu,NumTexCoord  = QuickButUI.butWWW, 10, QuickButUI.EquipmentPIG["NumTexCoord"]
 	local ButNum=anniushu+1
 	local ButNumC=22
-	local ConfigList = PIGFrame(QkBut,{"BOTTOM",QkBut,"TOP",0,0},{Height, (Height-4)*ButNum+2})
+	local ConfigList = PIGFrame(QkBut,{"BOTTOM",QkBut,"TOP",0,0},{Height, Height})
 	ConfigList:SetFrameLevel(23)
 	ConfigList:Hide()
 	ConfigList:HookScript("OnEnter", function(self)
@@ -126,7 +127,7 @@ QuickButUI.ButList[6]=function()
 		cfBut.Down:SetAllPoints(cfBut)
 		cfBut.Down:Hide();
 
-		cfBut.name = PIGFontString(cfBut,{"LEFT", cfBut, "RIGHT", 0, 0},nil,"OUTLINE")
+		cfBut.name = PIGFontString(cfBut,nil,nil,"OUTLINE")
 		cfBut.name:SetTextColor(1, 1, 1, 1)
 		if i==1 then
 			cfBut.butID="RL"
@@ -168,34 +169,12 @@ QuickButUI.ButList[6]=function()
 		end);
 	end
 	------
-	function QkBut:UpDatePoints()
-		local WowHeight=GetScreenHeight();
-		local offset1 = self:GetBottom();
-		ConfigList:ClearAllPoints();
-		if offset1>(WowHeight*0.5) then
-			for i=1,ButNum do
-				local fujikj = ConfigList.ButList[i]
-				fujikj:ClearAllPoints();
-				if i==1 then
-					fujikj:SetPoint("TOPRIGHT",ConfigList,"TOPRIGHT",0,-2);
-				else
-					fujikj:Hide()
-					fujikj:SetPoint("TOPRIGHT",ConfigList.ButList[i-1],"BOTTOMRIGHT",0,0);
-				end
-			end
-			ConfigList:SetPoint("TOPRIGHT",self,"BOTTOMRIGHT",0,0);
-		else
-			for i=1,ButNum do
-				local fujikj = ConfigList.ButList[i]
-				fujikj:ClearAllPoints();
-				if i==1 then
-					fujikj:SetPoint("BOTTOMRIGHT",ConfigList,"BOTTOMRIGHT",0,2);
-				else
-					fujikj:Hide()
-					fujikj:SetPoint("BOTTOMRIGHT",ConfigList.ButList[i-1],"TOPRIGHT",0,0);
-				end
-			end
-			ConfigList:SetPoint("BOTTOMRIGHT",self,"TOPRIGHT",0,0);
+	hooksecurefunc(QuickButUI, "UpdateWidth", function(self)
+		QuickButUI:UpdatePointJustify(QkBut,{ConfigList},Height,ButNum)
+    end)
+	QkBut:SetScript("OnEnter", function(self)
+		for i=2,ButNum do
+			ConfigList.ButList[i]:Hide()
 		end
 		for i=1,#PIGA["FramePlus"]["AddonStatus"] do
 			if PIGA["FramePlus"]["AddonStatus"][i] then
@@ -206,9 +185,6 @@ QuickButUI.ButList[6]=function()
 			end
 		end
 		ConfigList:Show()
-	end
-	QkBut:SetScript("OnEnter", function(self)
-		self:UpDatePoints()
 	end)
 	QkBut:HookScript("OnLeave", function(self)
 		ConfigList:Hide()
@@ -668,7 +644,7 @@ QuickButUI.ButList[6]=function()
 	--场景提示
 	local EextData={
 		["ElvUI"]={true,{0,0,0,0}},
-		["NDui"]={NDui and NDuiDB and NDuiDB["Skins"]["BlizzardSkins"],{0,0,0,0}},
+		["NDui"]={Fun.IsNDui("Skins","BlizzardSkins"),{0,0,0,0}},
 	}
 	local TispUI=PIGFrame(UIParent,{"TOP",UIParent,"TOP",0,-100},{320,200},"PIG_AddonConfigUI",true,nil,EextData)
 	TispUI:PIGSetBackdrop()

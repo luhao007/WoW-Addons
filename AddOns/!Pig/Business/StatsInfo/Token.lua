@@ -234,12 +234,12 @@ function BusinessInfo.Token(StatsInfo)
 		C_Timer.After(1,PIGGetMoney)
 		C_Timer.After(1,GetTokenInfo)
 		fujiF:RegisterEvent("PLAYER_MONEY")
-		fujiF:RegisterEvent("PLAYER_MONEY")
 	end
 	C_Timer.After(2,jiazaiTokenInfo)
 	fujiF:RegisterEvent("PLAYER_ENTERING_WORLD")       
 	fujiF:SetScript("OnEvent", function(self,event,arg1)
 		if event=="PLAYER_ENTERING_WORLD" then
+			self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 			C_Timer.After(1,jiazaiTokenInfo)
 		elseif event=="PLAYER_MONEY" then
 			PIGGetMoney()

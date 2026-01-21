@@ -26,7 +26,7 @@ function TardisInfo.Plane(Activate)
 	local shenqingMSG = shenqingMSG_T..shenqingMSG_V;
 	-----
 	local fujiF,fujiTabBut=PIGOptionsList_R(InvF.F,L["TARDIS_PLANE"],80,"Bot")
-	if Activate then fujiF:Show() fujiTabBut:Selected() end
+	if Activate then fujiF:Show() fujiTabBut:Selected(true) end
 	-----------------
 	fujiF.ZJbiaoti = PIGFontString(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",10,-8},"你的位面:");
 	fujiF.ZJbiaoti:SetTextColor(0, 0.98, 0.6, 1);

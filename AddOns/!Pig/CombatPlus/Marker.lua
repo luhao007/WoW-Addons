@@ -280,7 +280,7 @@ local function add_Options(peizhiT,topHV)
 		PIGA["CombatPlus"][peizhiT]["Scale"]=arg1;
 		SetScaleUI(peizhiT)
 	end
-	checkbutOpen.F.Lock.CZBUT = PIGButton(checkbutOpen.F.Lock,{"LEFT",checkbutOpen.F.Slider,"RIGHT",70,0},{50,22},"重置")
+	checkbutOpen.F.Lock.CZBUT = PIGButton(checkbutOpen.F.Lock,{"LEFT",checkbutOpen.F.Slider,"RIGHT",70,0},{50,22},RESET)
 	checkbutOpen.F.Lock.CZBUT:SetScript("OnClick", function ()
 		Create.PIG_ResPoint(GNNmame..peizhiT)
 		local pigui=_G[GNNmame..peizhiT]

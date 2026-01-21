@@ -1,6 +1,6 @@
 local addonName, addonTable = ...;
 local _, _, _, tocversion = GetBuildInfo()
-local L ={}
+local L=addonTable.locale
 --if GetLocale() == "zhCN" then
 L["ADDON_NAME"] = "工具箱";
 L["ADDON_AUTHOR"]="联系作者";
@@ -13,15 +13,9 @@ L["ABOUT_UPDATEADD"]="更新: "
 L["ABOUT_MAIL"]="反馈邮箱: "
 L["ABOUT_MEDIA"]="使用教程: "
 --error
-L["ERROR_CLEAR"] = "清空";
-L["ERROR_PREVIOUS"] = "上一条";
-L["ERROR_NEXT"] = "下一条";
-L["ERROR_EMPTY"] = "没有错误发生";
-L["ERROR_CURRENT"] = "本次错误";
-L["ERROR_OLD"] = "之前错误";
-L["ERROR_ADDON"] = "插件";
 L["ERROR_ERROR1"] = "尝试调用保护功能";
 L["ERROR_ERROR2"] = "宏尝试调用保护功能";
+L["ERROR_DEBUGTOOLTIP"] = "发生错误时在小地图按钮提示(显示一个红X)\n并且不会收纳BugSack插件的小地图图标";
 --lib
 L["LIB_MACROERR"] = "你的宏数量已达最大值120，请删除一些再尝试";
 L["LIB_TIPS"] = "提示";
@@ -48,8 +42,6 @@ L["DEBUG_ADD"] = "插件";
 L["DEBUG_MEMORY"] = "内存";
 L["DEBUG_ERRORLOG"] = "错误日志";
 L["DEBUG_OPENERRORLOGCMD"] = "打开日志指令：";
-L["DEBUG_ERRORCHECK"] = "测试";
-L["DEBUG_ERRORTOOLTIP"] = "发生错误时在小地图按钮提示(显示一个红X)\n并且不会收纳BugSack插件的小地图图标";
 L["DEBUG_SCRIPTTOOLTIP"] = "打开游戏自带的LUA错误提示功能，非调试插件情况下请不要开启";
 L["DEBUG_TAINTLOG"] = "污染日志";
 L["DEBUG_TAINT0"] = "不记录任何内容";
@@ -223,5 +215,3 @@ L["TARDIS_YELL"] = "喊话";
 L["TARDIS_RECEIVEDATA"] = "正在接收数据...";
 L["TARDIS_LFG_JOIN"] = "加入PIG频道";
 L["TARDIS_LFG_LEAVE"] = "已加入PIG频道"
----
-addonTable.locale=L

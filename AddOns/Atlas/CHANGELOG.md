@@ -1,5 +1,16 @@
 # Changelog
 
+## 3.14.0 - January 19, 2026
+### Added
+- Retail: Added support for Midnight (no new maps yet)
+### Changed
+- Updated libraries
+- Updated translations
+### Fixed
+- TBC: Fixed Hellfire Ramparts not using the Classic map
+- TBC: Fixed Caverns of Time (Entrance) not using the TBC map
+- Era: Fix level range of Maraudon
+
 ## 3.13.0 - December 28, 2025
 ### Added
 - Anniversary: Added support for TBC
@@ -710,7 +721,7 @@ v1.41.00 (Apr. 14, 2017)
 v1.40.06 (Apr. 13, 2017)
 ------------------------
 - Checking deprecated plugins now will recognize the alpha build's version
-  if specifed; or will ignore those set "v3.13.0" as the version
+  if specifed; or will ignore those set "v3.14.0" as the version
   number to be changed by CurseForge's auto-packaging.
 
 v1.40.05 (Apr. 13, 2017)

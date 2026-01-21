@@ -1,6 +1,6 @@
 ## Interface: 110207
 ## Author: kagaro, xinhuan, nevcairiel
-## Version: 1.51.2
+## Version: 1.51.3
 
 ## Title: GatherMate2
 ## Notes: Collects Herbs, Mines, Gas Clouds, Archaeology, Treasure and Fishing locations and adds them to the worldmap and minimap

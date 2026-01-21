@@ -9,6 +9,7 @@ local AL = LibStub("AceLocale-3.0"):GetLocale("RareScanner");
 
 -- Minimap pins
 local HBD_Pins = LibStub("HereBeDragons-Pins-2.0")
+local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
 -- Minimap icon
 local ldi = LibStub("LibDBIcon-1.0")
@@ -56,7 +57,7 @@ function RSMinimap.LoadMinimapButton()
 					RSExplorerFrame:Show()
 				end
 			elseif (button == "RightButton") then
-				Settings.OpenToCategory("RareScanner")
+				Settings.OpenToCategory(AceConfigDialog.BlizOptionsIDMap["RareScanner"])
 			end
 		end,
 		OnTooltipShow = function(tooltip)

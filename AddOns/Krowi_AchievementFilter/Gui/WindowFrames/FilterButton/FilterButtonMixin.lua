@@ -27,7 +27,7 @@ do -- Mixin
                 OnAllVersionsSelect = "OnAllVersionsSelect",
                 CreateBuildVersionFilterGroups = "CreateBuildVersionFilterGroups",
             }),
-            translations = addon.L
+            translations = addon.Util.L
         };
 
         local menuBuilder = addon.MenuBuilder:New(config);
@@ -255,6 +255,7 @@ do -- AchievementFilters
         mb:CreateCheckbox(reward, addon.L["Pet"], filters, {"RewardType", KrowiAF.Enum.RewardType.Pet}, true);
         mb:CreateCheckbox(reward, addon.L["Tabard"], filters, {"RewardType", KrowiAF.Enum.RewardType.Tabard}, true);
         mb:CreateCheckbox(reward, addon.L["Teleport"], filters, {"RewardType", KrowiAF.Enum.RewardType.Teleport}, true);
+        mb:CreateCheckbox(reward, addon.L["Keystone Resilience"], filters, {"RewardType", KrowiAF.Enum.RewardType.KeystoneResilience}, true);
         mb:CreateCheckbox(reward, addon.L["Title"], filters, {"RewardType", KrowiAF.Enum.RewardType.Title}, true);
         mb:CreateCheckbox(reward, addon.L["Toy"], filters, {"RewardType", KrowiAF.Enum.RewardType.Toy}, true);
         mb:CreateCheckbox(reward, addon.L["Trader's Tender"], filters, {"RewardType", KrowiAF.Enum.RewardType.TradersTender}, true);
@@ -364,7 +365,7 @@ function KrowiAF_AchievementFrameFilterButtonMixin:CreateMenu(menu)
 
     mb:CreateButtonAndAdd(
         menu,
-        addon.L["Options"],
+        addon.Util.L["Options"],
         addon.Options.Open
     );
 

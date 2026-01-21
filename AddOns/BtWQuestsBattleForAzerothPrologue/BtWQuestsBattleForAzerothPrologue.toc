@@ -1,6 +1,6 @@
 ## Interface: 110207
 ## Author: Breen
-## Version: v15.17
+## Version: v15.18
 
 ## Title: BtWQuests: Battle for Azeroth Prologue
 ## Notes: Battle for Azeroth Prologue quest data for BtWQuests

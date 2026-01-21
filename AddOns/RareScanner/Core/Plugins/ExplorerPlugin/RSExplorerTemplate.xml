@@ -9,7 +9,7 @@
 	<Frame name="RSExplorerUITemplate" virtual="true">
 		<Layers>
 			<Layer level="BACKGROUND">
-				<Texture parentKey="Background" atlas="thewarwithin-landingpage-background" useAtlasSize="true">
+				<Texture parentKey="Background" atlas="ui-frame-midnight-cardparchmentwider" useAtlasSize="true">
 					<Anchors>
 						<Anchor point="TOPLEFT" x="5" y="-5" />
 						<Anchor point="BOTTOMRIGHT" x="-5" y="5" />
@@ -26,20 +26,20 @@
 			<Frame parentKey="Border" setAllPoints="true" frameLevel="100">
 				<Layers>
 					<Layer level="OVERLAY">
-						<Texture parentKey="Border" atlas="ui-frame-thewarwithin-border">
+						<Texture parentKey="Border" atlas="ui-frame-midnight-border">
 							<Anchors>
 								<Anchor point="TOPLEFT" />
 								<Anchor point="BOTTOMRIGHT" />
 							</Anchors>
 						</Texture>
-						<Texture parentKey="BottomEmbellishment" atlas="ui-frame-thewarwithin-embellishmentbottom" useAtlasSize="true">
+						<Texture parentKey="TopEmbellishment" atlas="midnight-score-topper" useAtlasSize="true" alpha="0.7">
 							<Anchors>
-								<Anchor point="BOTTOM"/>
+								<Anchor point="TOP" y="23"/>
 							</Anchors>
 						</Texture>
-						<Texture parentKey="TopEmbellishment" atlas="ui-frame-thewarwithin-embellishmentbottom" useAtlasSize="true" rotation="180">
+						<Texture parentKey="BottomEmbellishment" atlas="midnight-score-footer" useAtlasSize="true" alpha="0.7">
 							<Anchors>
-								<Anchor point="TOP"/>
+								<Anchor point="BOTTOM" y="-31"/>
 							</Anchors>
 						</Texture>
 					</Layer>
@@ -50,7 +50,7 @@
 	<Frame name="RSExplorerRareInfoBaseFrameTemplate" virtual="true">
 		<Layers>
 			<Layer level="BORDER">
-				<Texture parentKey="BaseFrameBackground" atlas="thewarwithin-landingpage-background" horizTile="true" vertTile="true">
+				<Texture parentKey="BaseFrameBackground" atlas="ui-frame-midnight-cardparchmentwider" horizTile="true" vertTile="true">
 					<Anchors>
 						<Anchor point="TOPLEFT" />
 						<Anchor point="BOTTOMRIGHT" />
@@ -58,7 +58,7 @@
 				</Texture>
 			</Layer>
 			<Layer level="BORDER" textureSubLevel="1">
-				<Texture parentKey="BoardDropShadow" atlas="thewarwithin-landingpage-background">
+				<Texture parentKey="BoardDropShadow" atlas="ui-frame-midnight-cardparchmentwider">
 					<Anchors>
 						<Anchor point="TOPLEFT" relativeKey="$parent" relativePoint="TOPLEFT" />
 						<Anchor point="BOTTOMRIGHT" relativeKey="$parent" relativePoint="BOTTOMRIGHT" />
@@ -70,20 +70,20 @@
 			<Frame parentKey="Border" setAllPoints="true" frameLevel="100">
 				<Layers>
 					<Layer level="OVERLAY">
-						<Texture parentKey="Border" atlas="ui-frame-thewarwithin-border">
+						<Texture parentKey="Border" atlas="ui-frame-midnight-border">
 							<Anchors>
 								<Anchor point="TOPLEFT" x="-8" />
 								<Anchor point="BOTTOMRIGHT" />
 							</Anchors>
 						</Texture>
-						<Texture parentKey="BottomEmbellishment" atlas="ui-frame-thewarwithin-embellishmentbottom" useAtlasSize="true">
+						<Texture parentKey="TopEmbellishment" atlas="midnight-score-topper" useAtlasSize="true" alpha="0.7">
 							<Anchors>
-								<Anchor point="BOTTOM"/>
+								<Anchor point="TOP" y="23"/>
 							</Anchors>
 						</Texture>
-						<Texture parentKey="TopEmbellishment" atlas="ui-frame-thewarwithin-embellishmentbottom" useAtlasSize="true" rotation="180">
+						<Texture parentKey="BottomEmbellishment" atlas="midnight-score-footer" useAtlasSize="true" alpha="0.7">
 							<Anchors>
-								<Anchor point="TOP"/>
+								<Anchor point="BOTTOM" y="-31"/>
 							</Anchors>
 						</Texture>
 					</Layer>
@@ -158,7 +158,7 @@
 	<Frame name="RSExplorerRareInfoLootTemplate" virtual="true">
 		<Layers>
 			<Layer level="BACKGROUND">
-				<Texture parentKey="Background1" atlas="UI-Frame-Kyrian-CardParchmentWider">
+				<Texture parentKey="Background1" atlas="UI-Frame-NightFae-CardParchmentWider">
 					<Anchors>
 						<Anchor point="TOPLEFT" />
 						<Anchor point="BOTTOMRIGHT" />
@@ -226,9 +226,9 @@
 				</Scripts>
 			</Button>
 			<Frame parentKey="Map">
+				<Size x="580" y="385"/>
 				<Anchors>
-					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Header" relativePoint="BOTTOMLEFT" x="-10" />
-					<Anchor point="TOPRIGHT" x="-10" y="-450" />
+					<Anchor point="TOPLEFT" relativeKey="$parent.Header" relativePoint="BOTTOMLEFT" x="-10" />
 				</Anchors>
 			</Frame>
 			<Frame parentKey="Mounts" inherits="RSExplorerRareInfoLootTemplate">
@@ -255,27 +255,33 @@
 					<Anchor point="TOPLEFT" relativeKey="$parent.Toys" relativePoint="TOPRIGHT" x="-2" />
 				</Anchors>
 			</Frame>
-			<Frame parentKey="Custom" inherits="RSExplorerRareInfoLootTemplate">
-				<Size x="296" y="144"/>
+			<Frame parentKey="Decor" inherits="RSExplorerRareInfoLootTemplate">
+				<Size x="296" y="47"/>
 				<Anchors>
-					<Anchor point="TOPLEFT" relativeKey="$parent.Mounts" relativePoint="BOTTOMLEFT" y="2" x="-3" />
+					<Anchor point="TOPLEFT" relativeKey="$parent.Mounts" relativePoint="BOTTOMLEFT" y="-1" x="-3" />
+				</Anchors>
+			</Frame>
+			<Frame parentKey="Custom" inherits="RSExplorerRareInfoLootTemplate">
+				<Size x="296" y="94"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Decor" relativePoint="BOTTOMLEFT" y="-1"/>
 				</Anchors>
 			</Frame>
 			<Frame parentKey="Appearances" inherits="RSExplorerRareInfoLootTemplate">
 				<Size x="296" />
 				<Anchors>
-					<Anchor point="TOPLEFT" relativeKey="$parent.Custom" relativePoint="TOPRIGHT" x="-4" />
+					<Anchor point="TOPLEFT" relativeKey="$parent.Decor" relativePoint="TOPRIGHT" x="-4" />
 					<Anchor point="BOTTOM" relativeKey="$parent.Custom" relativePoint="BOTTOM" />
 				</Anchors>
 			</Frame>
 		</Frames>
 	</Frame>
 
-	<Frame name="RSExplorerControlTemplate" virtual="true">
+	<Frame name="RSExplorerControlTemplate" virtual="true" frameLevel="101">
 		<Frames>
 			<CheckButton parentKey="AutoFilterCheckButton" inherits="ChatConfigCheckButtonTemplate">
 				<Anchors>
-					<Anchor point="LEFT" x="25" y="5" />
+					<Anchor point="LEFT" x="40" y="10" />
 				</Anchors>
 				<Scripts>
 					<OnEnter>
@@ -288,7 +294,7 @@
 			</CheckButton>
 			<Button parentKey="ApplyFiltersButton" inherits="SharedButtonSmallTemplate">
 				<Anchors>
-					<Anchor point="RIGHT" x="-20" y="5" />
+					<Anchor point="RIGHT" x="-40" y="10" />
 				</Anchors>
 				<KeyValues>
 					<KeyValue key="atlasName" value="128-RedButton" type="string" />
@@ -327,24 +333,9 @@
 			<Anchor point="CENTER" />
 		</Anchors>
 		<Frames>
-			<Frame parentKey="OverlayElements" frameLevel="2" setAllPoints="true">
-				<Size x="32" y="32" />
+			<Frame parentKey="Filters" mixin="RSExplorerFilters" name="$parentFilters" frameLevel="101">
 				<Anchors>
-					<Anchor point="TOPRIGHT" x="4" y="6" />
-				</Anchors>
-				<Layers>
-					<Layer level="BORDER">
-						<Texture parentKey="CloseButtonBorder" atlas="UI-Frame-Oribos-ExitButtonBorder" useAtlasSize="true">
-							<Anchors>
-								<Anchor point="CENTER" relativeKey="$parent.CloseButton" x="0" y="0" />
-							</Anchors>
-						</Texture>
-					</Layer>
-				</Layers>
-			</Frame>
-			<Frame parentKey="Filters" mixin="RSExplorerFilters" name="$parentFilters" frameLevel="4">
-				<Anchors>
-					<Anchor point="TOPLEFT" x="60" y="-30" relativePoint="TOPLEFT" />
+					<Anchor point="TOPLEFT" x="80" y="-30" relativePoint="TOPLEFT" />
 					<Anchor point="BOTTOMRIGHT" x="-60" y="-70" relativePoint="TOPRIGHT" />
 				</Anchors>
 				<Frames>
@@ -383,7 +374,7 @@
 					</CheckButton>
 					<Button parentKey="RestartScanningButton" inherits="SharedButtonSmallTemplate">
 						<Anchors>
-							<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="-5" y="-2" />
+							<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="-20" y="-2" />
 						</Anchors>
 						<KeyValues>
 							<KeyValue key="atlasName" value="128-RedButton" type="string" />
@@ -472,8 +463,16 @@
 		<Scripts>
 			<OnShow method="OnShow" />
 			<OnLoad method="OnLoad" />
-			<OnDragStart>self:StartMoving()</OnDragStart>
-			<OnDragStop>self:StopMovingOrSizing()</OnDragStop>
+			<OnDragStart>
+				if (not InCombatLockdown()) then 
+					self:StartMoving() 
+				end
+			</OnDragStart>
+			<OnDragStop>
+				if (not InCombatLockdown()) then 
+					self:StopMovingOrSizing()
+				end
+			</OnDragStop>
 		</Scripts>
 	</Frame>
 

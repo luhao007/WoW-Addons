@@ -332,7 +332,7 @@ local function ADD_HPMPBarUI(fujiSetUI,setV)
 		PIGA["CombatPlus"]["HPMPBar"]["Ypianyi"]=arg1;
 		Set_WHXY()
 	end
-	fujiSetUI.CZBUT = PIGButton(fujiSetUI,{"LEFT",fujiSetUI.SliderY,"RIGHT",60,0},{80,24},"重置位置")
+	fujiSetUI.CZBUT = PIGButton(fujiSetUI,{"LEFT",fujiSetUI.SliderY,"RIGHT",60,0},{80,24},RESET_POSITION)
 	fujiSetUI.CZBUT:SetScript("OnClick", function ()
 		if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(ERR_NOT_IN_COMBAT) return end
 		PIGA["CombatPlus"]["HPMPBar"]["Xpianyi"]=addonTable.Default["CombatPlus"]["HPMPBar"]["Xpianyi"]

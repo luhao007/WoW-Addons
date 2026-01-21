@@ -6,7 +6,7 @@
 	<Frame name="RSExplorerCustomLootTemplate" virtual="true">
 		<Layers>
 			<Layer level="BACKGROUND">
-				<Texture parentKey="background" atlas="thewarwithin-landingpage-background">
+				<Texture parentKey="background" atlas="ui-frame-midnight-cardparchmentwider">
 					<Anchors>
 						<Anchor point="TOPLEFT" />
 						<Anchor point="BOTTOMRIGHT" />
@@ -27,20 +27,20 @@
 			<Frame parentKey="Border" setAllPoints="true" frameLevel="100">
 				<Layers>
 					<Layer level="OVERLAY">
-						<Texture parentKey="Border" atlas="ui-frame-thewarwithin-border">
+						<Texture parentKey="Border" atlas="ui-frame-midnight-border">
 							<Anchors>
 								<Anchor point="TOPLEFT" />
 								<Anchor point="BOTTOMRIGHT" />
 							</Anchors>
 						</Texture>
-						<Texture parentKey="BottomEmbellishment" atlas="ui-frame-thewarwithin-embellishmentbottom" useAtlasSize="true">
+						<Texture parentKey="TopEmbellishment" atlas="midnight-score-topper" useAtlasSize="true" alpha="0.7">
 							<Anchors>
-								<Anchor point="BOTTOM"/>
+								<Anchor point="TOP" y="23"/>
 							</Anchors>
 						</Texture>
-						<Texture parentKey="TopEmbellishment" atlas="ui-frame-thewarwithin-embellishmentbottom" useAtlasSize="true" rotation="180">
+						<Texture parentKey="BottomEmbellishment" atlas="midnight-score-footer" useAtlasSize="true" alpha="0.7">
 							<Anchors>
-								<Anchor point="TOP"/>
+								<Anchor point="BOTTOM" y="-31"/>
 							</Anchors>
 						</Texture>
 					</Layer>
@@ -217,7 +217,7 @@
 		</Anchors>
 		<Layers>
 			<Layer level="BACKGROUND">
-				<Texture parentKey="BG" atlas="UI-Frame-Dragonflight-CardParchmentWider" useAtlasSize="false">
+				<Texture parentKey="BG" atlas="UI-Frame-NightFae-CardParchmentWider" useAtlasSize="false">
 					<Anchors>
 						<Anchor point="TOPLEFT" />
 						<Anchor point="BOTTOMRIGHT" />

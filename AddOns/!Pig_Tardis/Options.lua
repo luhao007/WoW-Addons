@@ -13,7 +13,8 @@ local TardisInfo = {}
 addonTable.TardisInfo=TardisInfo
 ------------
 local QuickBut_ID=20
-local GnName,GnUI,GnIcon,FrameLevel = L["PIGaddonList"][addonName],"PIG_TardisUI","groupfinder-eye-frame",30
+local GnName,GnUI,FrameLevel = L["PIGaddonList"][addonName],"PIG_TardisUI",30
+local GnIcon =PIG_MaxTocversion(30000) and PIG_MaxTocversion(20000,true) and "legioninvasion-map-icon-portal-large" or "groupfinder-eye-frame"
 TardisInfo.uidata={GnName,GnUI,GnIcon,FrameLevel,QuickBut_ID}
 Data.TardisUI=GnUI
 local fuFrame,fuFrameBut,Tooltip = unpack(Data.Ext[L.extLsit[1]])
@@ -66,7 +67,7 @@ function TardisInfo.ADD_Options()
 	end
 	QuickButUI.ButList[QuickBut_ID]()
 	---重置配置
-	fuFrame.CZ = PIGButton(fuFrame,{"TOPRIGHT",fuFrame,"TOPRIGHT",-20,-20},{60,22},"重置");  
+	fuFrame.CZ = PIGButton(fuFrame,{"TOPRIGHT",fuFrame,"TOPRIGHT",-20,-20},{60,22},RESET);  
 	fuFrame.CZ:SetScript("OnClick", function ()
 		StaticPopup_Show ("HUIFU_INVITE_INFO");
 	end);

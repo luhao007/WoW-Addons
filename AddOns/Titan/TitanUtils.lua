@@ -842,6 +842,25 @@ local function GetTimeParts(seconds_value)
 	return days, hours, minutes, seconds
 end
 
+local date_stamp = "%Y-%m-%d"
+local time_stamp = "%H:%M"
+
+---API Format time stamp with optional time
+---@param time_sec number timestamp
+---@param with_time boolean add time
+---@return string Timestamp Formatted
+function TitanUtils_GetDateText(time_sec, with_time)
+	local f = date_stamp
+	if with_time then
+		f = f .. " " .. time_stamp
+	else
+		-- just date w/o time
+	end
+	local str = date(f, time_sec)
+
+	return str
+end
+
 ---API return a elapsed time from seconds given - spaces and leaving off the rest
 ---@param seconds_value number
 ---@return string Time that is readable

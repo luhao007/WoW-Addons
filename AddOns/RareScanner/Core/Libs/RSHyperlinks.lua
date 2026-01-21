@@ -160,28 +160,14 @@ function RSHyperlinks.HookHyperLinks()
 				-- Add waypoint and share in chat
 				elseif (IsShiftKeyDown()) then
 					RSWaypoints.AddWorldMapWaypoint(mapIDs, x, y)
-					local guid = UnitGUID("target")
-					local unitHealth = UnitHealth("target")
-					local unitHealhMax = UnitHealthMax("target")
-					
-					local npcID
-					if (guid) then
-						local _, _, _, _, _, npcIDs = strsplit("-", guid)
-						npcID = tonumber(npcIDs)
-					end
 					
 					local generalID = GetGeneralChatID()
 					if (not generalID) then
 						return
 					end
 					
-					-- Notification with health
-					if (npcID and npcID == entityID and unitHealth and unitHealhMax and unitHealhMax > 0) then
-						SendChatMessage(format(AL["CHAT_NOTIFICATION_HEALTH_RARE"], name, string.format("%.2f", unitHealth/unitHealhMax*100), C_Map.GetUserWaypointHyperlink()), "CHANNEL", nil, generalID)
 					-- Notification without health
-					else
-						SendChatMessage(format(AL["CHAT_NOTIFICATION_RARE"], name, C_Map.GetUserWaypointHyperlink()), "CHANNEL", nil, generalID)
-					end
+					C_ChatInfo.SendChatMessage(string.format(AL["CHAT_NOTIFICATION_RARE"], name, C_Map.GetUserWaypointHyperlink()), "CHANNEL", nil, generalID)
 				end
 			end
 		end

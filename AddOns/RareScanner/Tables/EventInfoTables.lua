@@ -17,16 +17,16 @@ private.EVENT_INFO = {
 	[150946] = { zoneID = 116, artID = { 121 }, x = 4980, y = 5155, overlay = { "4980-5155" }, resetTimer = 31536000, worldmap = true }; --Free T-Shirt
 	[146961] = { zoneID = 376, artID = { 388 }, x = 6190, y = 5875, overlay = { "6190-5875" }, resetTimer = 31536000, worldmap = true }; --Free T-Shirt
 	[150950] = { zoneID = 535, artID = { 552 }, x = 8426, y = 3146, overlay = { "8426-3146" }, resetTimer = 31536000, worldmap = true }; --Free T-Shirt
-	[220903] = { zoneID = 554, x = 5849, y = 6012, overlay = { "5849-6012" }, weeklyReset = true }; --Estatua de la Grulla reluciente
+	[220903] = { zoneID = 554, artID = { 571 }, x = 5849, y = 6012, overlay = { "5849-6012" }, weeklyReset = true }; --Estatua de la Grulla reluciente
 	[71876] = { zoneID = 554, artID = { 571 }, x = 4501, y = 3606, overlay = { "4501-3606" } }; --Zarhym Altogether
 	[150948] = { zoneID = 634, artID = { 657 }, x = 6027, y = 5253, overlay = { "6027-5253" }, resetTimer = 31536000, worldmap = true }; --Free T-Shirt
-	[241128] = { zoneID = 641, x = 5555, y = 7761 }; --null
-	[125230] = { zoneID = 863, x = 8186, y = 3058, overlay = { "8186-3058" } }; --El arcón maldito
+	[241128] = { zoneID = 641, artID = { 664 }, x = 5555, y = 7761 }; --null
+	[125230] = { zoneID = 863, artID = { 888 }, x = 8186, y = 3058, overlay = { "8186-3058" } }; --El arcón maldito
 	[141124] = { zoneID = 863, artID = { 888 }, x = 5296, y = 7205, overlay = { "5296-7205" } }; --Aiji el Detestable
 	[282660] = { zoneID = 863, artID = { 888 }, x = 3808, y = 5768, overlay = { "3808-5768" } }; --Urna de Agussu
-	[277329] = { zoneID = 896, x = 4195, y = 3648, overlay = { "4195-3648" } }; --Sarcófago antiguo
-	[277896] = { zoneID = 896, x = 6799, y = 6688, overlay = { "6799-6688" } }; --Alijo hirviente
-	[277897] = { zoneID = 896, x = 6799, y = 6688, overlay = { "6799-6688" } }; --Alijo hirviente
+	[277329] = { zoneID = 896, artID = { 921 }, x = 4195, y = 3648, overlay = { "4195-3648" } }; --Sarcófago antiguo
+	[277896] = { zoneID = 896, artID = { 921 }, x = 6799, y = 6688, overlay = { "6799-6688" } }; --Alijo hirviente
+	[277897] = { zoneID = 896, artID = { 921 }, x = 6799, y = 6688, overlay = { "6799-6688" } }; --Alijo hirviente
 	[152227] = { zoneID = 1527, artID = { 1343 }, x = 6449, y = 2982, overlay = { "6449-2982" }, zoneQuestId = { 55350 }, questID = { 55359 } }; --Ritual de ascensión
 	[152398] = { zoneID = 1527, artID = { 1343 }, x = 8349, y = 6187, overlay = { "8349-6187" }, zoneQuestId = { 55350 }, questID = { 55357 } }; --Baliza del Rey del Sol
 	[152439] = { zoneID = 1527, artID = { 1343 }, x = 6993, y = 5983, overlay = { "6993-5983" }, zoneQuestId = { 55350 }, questID = { 55360 } }; --La tumba abierta

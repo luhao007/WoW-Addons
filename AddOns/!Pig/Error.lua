@@ -160,7 +160,7 @@ Bugcollect.Moving.Close:SetScript("OnClick", function (self)
 	Bugcollect:Hide()
 end);
 
-Bugcollect.Moving.qingkong = ADD_Button(L["ERROR_CLEAR"],Bugcollect.Moving,{60,20},{"TOPRIGHT",Bugcollect.Moving,"TOPRIGHT",-50,-2.8})
+Bugcollect.Moving.qingkong = ADD_Button(KEY_NUMLOCK_MAC,Bugcollect.Moving,{60,20},{"TOPRIGHT",Bugcollect.Moving,"TOPRIGHT",-50,-2.8})
 Bugcollect.Moving.qingkong:SetScript("OnClick", function (self)
 	PIGA["Error"]["ErrorDB"]={}
 	bencierrinfo={}
@@ -172,9 +172,9 @@ Bugcollect.Moving.tishiCK:SetMotionScriptsWhileDisabled(true)
 Bugcollect.Moving.tishiCK:SetHitRectInsets(0,-20,0,0)
 Bugcollect.Moving.tishiCK:SetPoint("RIGHT",Bugcollect.Moving.qingkong,"LEFT",-60,-2)
 Bugcollect.Moving.tishiCK:SetSize(24,24)
-Bugcollect.Moving.tishiCK.Text:SetText(L["DEBUG_ERRORCHECK"]);
+Bugcollect.Moving.tishiCK.Text:SetText(BINDING_HEADER_DEBUG);
 Bugcollect.Moving.tishiCK.Text:SetFont("Fonts/ARHei.ttf",13)
-Bugcollect.Moving.tishiCK.tooltip = L["DEBUG_ERRORTOOLTIP"]
+Bugcollect.Moving.tishiCK.tooltip = L["ERROR_DEBUGTOOLTIP"]
 Bugcollect.Moving.tishiCK:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["Error"]["ErrorTishi"] = true
@@ -205,13 +205,13 @@ Bugcollect.NR.textArea:EnableMouse(true)
 Bugcollect.NR.textArea:SetScript("OnEscapePressed", Bugcollect.NR.textArea.ClearFocus)
 Bugcollect.NR.scroll:SetScrollChild(Bugcollect.NR.textArea)
 --------------
-Bugcollect.prevZ = ADD_Button("《 ",Bugcollect,{30,20},{"BOTTOMLEFT",Bugcollect,"BOTTOMLEFT",10,3})
+Bugcollect.prevZ = ADD_Button("<",Bugcollect,{30,20},{"BOTTOMLEFT",Bugcollect,"BOTTOMLEFT",10,3})
 Bugcollect.prevZ:Disable()
-Bugcollect.prev = ADD_Button(L["ERROR_PREVIOUS"],Bugcollect,{90,20},{"BOTTOM",Bugcollect,"BOTTOM",-130,3})
+Bugcollect.prev = ADD_Button(PREV,Bugcollect,{90,20},{"BOTTOM",Bugcollect,"BOTTOM",-130,3})
 Bugcollect.prev:Disable()
-Bugcollect.next = ADD_Button(L["ERROR_NEXT"],Bugcollect,{90,20},{"BOTTOM",Bugcollect,"BOTTOM",130,3})
+Bugcollect.next = ADD_Button(NEXT,Bugcollect,{90,20},{"BOTTOM",Bugcollect,"BOTTOM",130,3})
 Bugcollect.next:Disable()
-Bugcollect.nextZ = ADD_Button(" 》",Bugcollect,{30,20},{"BOTTOMRIGHT",Bugcollect,"BOTTOMRIGHT",-10,3})
+Bugcollect.nextZ = ADD_Button(">",Bugcollect,{30,20},{"BOTTOMRIGHT",Bugcollect,"BOTTOMRIGHT",-10,3})
 Bugcollect.nextZ:Disable()
 Bugcollect.biaoti = Bugcollect:CreateFontString();
 Bugcollect.biaoti:SetPoint("BOTTOM",Bugcollect,"BOTTOM",0,6);
@@ -223,7 +223,7 @@ function Bugcollect:qingkongERR()
 	Bugcollect.next:Disable()
 	Bugcollect.prevZ:Disable()
 	Bugcollect.nextZ:Disable()
-	Bugcollect.Moving.Time:SetText(L["ERROR_EMPTY"]);
+	Bugcollect.Moving.Time:SetText(ERRORS.."=0");
 	Bugcollect.biaoti:SetText("");
 	Bugcollect.NR.textArea:SetText("")
 end
@@ -298,7 +298,7 @@ local function kaishiShow()
 end
 -----
 local TabWidth,TabHeight = 110,24;
-local TabName = {L["ERROR_CURRENT"],L["ERROR_OLD"]};
+local TabName = {REFORGE_CURRENT,HISTORY};
 Bugcollect.ButList={}
 for id=1,#TabName do
 	local Point = {"TOPLEFT", Bugcollect, "BOTTOMLEFT", 30,0}
@@ -411,7 +411,7 @@ function PIGerrotFUN(event,msg1,msg2)
 	elseif event=="ADDON_ACTION_FORBIDDEN" or event=="ADDON_ACTION_BLOCKED" then
 		local msg1 = tostring(msg1)
 		local msg2 = tostring(msg2)
-		local newmsg = "["..event.."] "..L["ERROR_ADDON"].."< "..msg1.." >"..L["ERROR_ERROR1"].."< "..msg2.." >"
+		local newmsg = "["..event.."] "..ADDONS.."< "..msg1.." >"..L["ERROR_ERROR1"].."< "..msg2.." >"
 		table.insert(linshicuowuxinxi,newmsg)
 		local cunzai = SaveErrorInfo(bencierrinfo, newmsg)
 		if not cunzai then

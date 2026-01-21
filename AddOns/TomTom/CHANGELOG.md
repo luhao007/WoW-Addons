@@ -1,8 +1,13 @@
 # TomTom
 
-## [v4.2.8-release](https://github.com/jnwhiteh/TomTom/tree/v4.2.8-release) (2025-12-25)
-[Full Changelog](https://github.com/jnwhiteh/TomTom/commits/v4.2.8-release) [Previous Releases](https://github.com/jnwhiteh/TomTom/releases)
+## [v4.2.13-release](https://github.com/jnwhiteh/TomTom/tree/v4.2.13-release) (2026-01-21)
+[Full Changelog](https://github.com/jnwhiteh/TomTom/commits/v4.2.13-release) [Previous Releases](https://github.com/jnwhiteh/TomTom/releases)
 
+- Update TOC for 12.0  
+- Fix opening options with /tomtom  
+- Add control-enter to paste window for easy submit  
+- Update TOC for TBC Anniversary  
+- Update TOC to work for retail + beta + PTR  
 - Fix duplicate localization  
 - Update HBD again, maybe fix issues  
 - Update HBD embed and TOC for 12.0.1  
@@ -688,9 +693,3 @@
     * Added the waypoint removal (all, zone) options to the crazy arrow right-click  
 - * Added alpha for border  
 - * Fix a bug where the "Enable" checkbox wasn't working for minimap or worldmap waypoints  
-- * Added a right-click option to clear the current waypoint on the arrow  
-- * Fixing an issue where crazy arrow would appear even when disabled  
-    * Updated externals to fix config issue  
-- * Fixed waypoints not automatically clearing when that option is set  
-- Removed Dongle from scm control  
-- * Added version information to TomTom  

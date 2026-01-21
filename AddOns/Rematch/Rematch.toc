@@ -1,6 +1,6 @@
 ## Interface: 110207
 ## Author: Gello
-## Version: 5.2.11
+## Version: 5.3.0
 
 ## Title: Rematch
 ## Notes: A pet journal alternative for managing pets and teams
@@ -16,7 +16,6 @@
 
 localization\localization.lua
 localization\localization-zhTW.lua
-localization\localization-zhCN.lua
 
 main\constants.lua
 main\events.lua

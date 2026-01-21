@@ -104,13 +104,15 @@ scanner_button:SetClampedToScreen(true)
 scanner_button:RegisterForDrag("LeftButton")
 
 scanner_button:SetScript("OnDragStart", function(self)
-	if (not RSConfigDB.IsLockingPosition()) then
+	if (not RSConfigDB.IsLockingPosition() and not InCombatLockdown()) then
 		self:StartMoving()
 	end
 end)
 scanner_button:SetScript("OnDragStop", function(self)
-	self:StopMovingOrSizing()
-	RSGeneralDB.SetButtonPositionCoordinates(self:GetLeft(), self:GetBottom())
+	if (not InCombatLockdown()) then
+		self:StopMovingOrSizing()
+		RSGeneralDB.SetButtonPositionCoordinates(self:GetLeft(), self:GetBottom())
+	end
 end)
 scanner_button:SetScript("OnEnter", function(self)
 	self:SetBackdropBorderColor(0.9, 0.9, 0.9)
@@ -425,11 +427,11 @@ scanner_button.LootBar.itemFramesPool.ShowIfReady = function(self)
 		end
 	end
 end
-scanner_button.LootBar.LootBarToolTip = CreateFrame("GameTooltip", "LootBarToolTip", scanner_button, "GameTooltipTemplate")
+scanner_button.LootBar.LootBarToolTip = CreateFrame("GameTooltip", "LootBarToolTip", scanner_button, "ShoppingTooltipTemplate")
 scanner_button.LootBar.LootBarToolTip:SetScale(0.9)
-scanner_button.LootBar.LootBarToolTipComp1 = CreateFrame("GameTooltip", "LootBarToolTipComp1", nil, "GameTooltipTemplate")
+scanner_button.LootBar.LootBarToolTipComp1 = CreateFrame("GameTooltip", "LootBarToolTipComp1", nil, "ShoppingTooltipTemplate")
 scanner_button.LootBar.LootBarToolTipComp1:SetScale(0.7)
-scanner_button.LootBar.LootBarToolTipComp2 = CreateFrame("GameTooltip", "LootBarToolTipComp2", nil, "GameTooltipTemplate")
+scanner_button.LootBar.LootBarToolTipComp2 = CreateFrame("GameTooltip", "LootBarToolTipComp2", nil, "ShoppingTooltipTemplate")
 scanner_button.LootBar.LootBarToolTipComp2:SetScale(0.7)
 scanner_button.LootBar.LootBarToolTip.shoppingTooltips = { scanner_button.LootBar.LootBarToolTipComp1, scanner_button.LootBar.LootBarToolTipComp2 }
 
@@ -472,7 +474,6 @@ end
 -- Hide action
 function scanner_button:HideButton()
 	if (not InCombatLockdown()) then
-		GameTooltip:Hide()
 		scanner_button.ModelView:ClearModel()
 		scanner_button.ModelView:Hide()
 		scanner_button:Hide()
@@ -624,9 +625,6 @@ function RareScanner:OnInitialize()
 	-- Initialize setup panels
 	self:SetupOptions()
 
-	-- Initialize not discovered lists
-	RSMap.InitializeNotDiscoveredLists()
-
 	-- Setup our map provider
 	local provider = CreateFromMixins(RareScannerDataProviderMixin)
 	WorldMapFrame:AddDataProvider(provider);
@@ -651,6 +649,9 @@ function RareScanner:OnInitialize()
 	
 	-- Hook hyperlink
 	RSHyperlinks.HookHyperLinks()
+	
+	-- Initialize special events
+	RareScanner:MidnightPrePatch_Initialize()
 
 	-- Refresh minimap
 	C_Timer.NewTicker(2, function()
@@ -1107,6 +1108,9 @@ local function RefreshDatabaseData(previousDbVersion)
 		RSMinimap.RefreshAllData(true)
 	end)
 	
+	-- Clear already found entities not in the database that maybe now are included
+	RSGeneralDB.RefreshAlreadyFoundEntitiesNoDB()
+	
 	-- Clear previous overlay if active when closed the game
 	RSGeneralDB.RemoveAllOverlayActive()
 	
@@ -1260,6 +1264,11 @@ function RareScanner:InitializeDataBase()
 	if (currentDbVersion) then
 		version = currentDbVersion.version
 		databaseUpdated = currentDbVersion.version == RSConstants.CURRENT_DB_VERSION
+	
+		-- Refresh list while working on the addon
+		if (RSConstants.DEBUG_MODE) then
+			RSGeneralDB.RefreshAlreadyFoundEntitiesNoDB()
+		end
 	end
 	if (not databaseUpdated) then
 		UpdateRareNamesDB(version); -- Internally calls to RefreshDatabaseData once its done

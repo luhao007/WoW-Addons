@@ -438,7 +438,7 @@ for i = 3, #iconList do
 end
 
 AC:RegisterOptionsTable("AtlasLoot_options", options);
-AtlasLoot.optionsFrame = ACD:AddToBlizOptions("AtlasLoot_options", "AtlasLoot")
+AtlasLoot.optionsFrame, AtlasLoot.settingsID = ACD:AddToBlizOptions("AtlasLoot_options", "AtlasLoot")
 
 local profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(AtlasLoot.dbRaw);
 AC:RegisterOptionsTable("AtlasLoot_Profiles", profiles)

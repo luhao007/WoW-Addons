@@ -250,7 +250,7 @@ end
 		--resourceGlobalSettings: where options for all resources are stored
 		local resourceGlobalSettings = profile.resources_settings.global_settings
 
-		DB_USE_PLATER_RESOURCE_BAR = not IS_WOW_PROJECT_MIDNIGHT and resourceGlobalSettings.show or false
+		DB_USE_PLATER_RESOURCE_BAR = resourceGlobalSettings.show or false
 		DB_PLATER_RESOURCE_BAR_ON_PERSONAL = resourceGlobalSettings.personal_bar
 		DB_PLATER_RESOURCE_BAR_ANCHOR = resourceGlobalSettings.anchor
 		--DB_PLATER_RESOURCE_BAR_HEIGHT = resourceGlobalSettings.width
@@ -472,7 +472,6 @@ end
 
 --> this funtion is called once at the logon, it initializes the main frame
 	function Plater.Resources.CreateMainResourceFrame()
-		if IS_WOW_PROJECT_MIDNIGHT then return end
 		if (not DB_USE_PLATER_RESOURCE_BAR) then
 			--ignore if the settings are off
 			--return
@@ -1174,7 +1173,7 @@ end
 
 		--amount of resources the player has now
 		local currentResources
-		if Plater.PlayerHasTargetNonSelf then
+		if Plater.PlayerHasTargetNonSelf and IS_WOW_PROJECT_NOT_MAINLINE then
 			currentResources = GetComboPoints("player", "target")
 		else
 			currentResources = UnitPower("player", Plater.Resources.playerResourceId)

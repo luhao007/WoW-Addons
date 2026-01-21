@@ -520,8 +520,8 @@ f:SetScript("OnEvent", function(_, event, addonName)
     end
   end
 
-  if db.lastNpcCacheVersion ~= ns.CurrentAddonVersion then
-    db.lastNpcCacheVersion = ns.CurrentAddonVersion
+  if db.lastNpcCacheVersion ~= ns.PreviousAddonVersion then
+    db.lastNpcCacheVersion = ns.PreviousAddonVersion
 
     if ns.PrimeNpcNameCache then
       local cachingText = ns.LOCALE_CACHING[ns.locale] or ns.LOCALE_CACHING["enUS"]

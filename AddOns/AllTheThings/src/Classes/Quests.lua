@@ -1521,7 +1521,7 @@ if IsQuestReplayable then
 
 	-- Causes a group to remain visible if it is replayable, regardless of collection status
 	OnSetVisibilityForNestedQuest = function(data)
-		return not data.saved or IsQuestReplayable(data.questID) or app.CollectedItemVisibilityFilter(data);
+		return not IsQuestSaved(data.questID)
 	end
 
 	-- Detect state changes
@@ -2083,6 +2083,7 @@ app.AddEventHandler("OnNewPopoutGroup", AddQuestItems)
 
 -- Retail Modifications
 if app.IsRetail then
+	local Wrap = app.WrapObject
 	local CreateNestedQuest = app.ExtendClass("Quest", "QuestNested", "questID", {
 		RefreshCollectionOnly = true,
 		IsClassIsolated = true,
@@ -2107,6 +2108,9 @@ if app.IsRetail then
 		collected = function(t) return t.saved and 1 end,
 		OnSetVisibility = function(t) return OnSetVisibilityForNestedQuest end,
 	})
+	local WrapNestedQuest = function(base)
+		return Wrap(CreateNestedQuest(), base)
+	end
 
 	local _reportedBadQuestSequence;
 	local BackTraceChecks = {};
@@ -2167,7 +2171,7 @@ if app.IsRetail then
 			end
 
 			-- Save this questRef (depth doesn't change the ref so only clone it once)
-			questRef = CreateNestedQuest(questID, app.CloneClassInstance(questRef, true))
+			questRef = WrapNestedQuest(app.CloneClassInstance(questRef, true))
 
 			-- If the quest is provided by an Item, then show that Item directly under the quest so it can easily show tooltip/Source information if desired
 			if questRef.providers then

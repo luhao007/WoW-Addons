@@ -95,7 +95,7 @@ function UnitFramefun.Mubiao()
 			            end
 			        end
 			    end
-			    TextStatusBar_UpdateTextString(statusbar);
+			    statusbar:UpdateTextString();
 			end
 			hooksecurefunc("UnitFrameHealthBar_Update", HealthBar_Update)
 		end
@@ -106,7 +106,9 @@ function UnitFramefun.Mubiao()
 		TargetFrame.ClassBut:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 119, 3);
 		TargetFrame.ClassBut:SetHighlightTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight");
 		TargetFrame.ClassBut:Hide()
-		if PIG_MaxTocversion() then
+		if PIG_MaxTocversion("tbc") then
+			TargetFrame.ClassBut:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 136, 0);
+		elseif PIG_MaxTocversion() then
 			TargetFrame.ClassBut:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 119, 3);
 		else
 			TargetFrame.ClassBut:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 144, 4);
@@ -129,7 +131,9 @@ function UnitFramefun.Mubiao()
 		--目标种族/生物类型
 		TargetFrame.mubiaoLX = CreateFrame("Frame", nil, TargetFrame);
 		TargetFrame.mubiaoLX:SetSize(68,18);
-		if PIG_MaxTocversion() then
+		if PIG_MaxTocversion("tbc") then
+			TargetFrame.mubiaoLX:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 72, -6);
+		elseif PIG_MaxTocversion() then
 			TargetFrame.mubiaoLX:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 52, -3);
 		else
 			TargetFrame.mubiaoLX:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 64, -3);
@@ -158,7 +162,9 @@ function UnitFramefun.Mubiao()
 		end);
 		--目标生命百分比
 		TargetFrame.mubiaoHP=CreateFrame("Frame",nil,TargetFrame);
-		if PIG_MaxTocversion() then
+		if PIG_MaxTocversion("tbc") then
+			TargetFrame.mubiaoHP:SetPoint("RIGHT",TargetFrame,"LEFT",24,-4);
+		elseif PIG_MaxTocversion() then
 			TargetFrame.mubiaoHP:SetPoint("RIGHT",TargetFrame,"LEFT",5,-2);
 		else
 			TargetFrame.mubiaoHP:SetPoint("RIGHT",TargetFrame,"LEFT",24,-2);
@@ -186,7 +192,7 @@ function UnitFramefun.Mubiao()
 		if TargetFrame.threatNumericIndicator then
 			TargetFrame:HookScript("OnEvent", function (self,event,arg1)
 				if event=="PLAYER_ENTERING_WORLD" or event=="PLAYER_TARGET_CHANGED" or event=="UNIT_THREAT_LIST_UPDATE" or event=="UNIT_THREAT_SITUATION_UPDATE" then
-					if PIG_MaxTocversion() then
+					if TocversionOK then
 						TargetFrame.threatNumericIndicator:SetPoint("BOTTOM", TargetFrame, "TOP", -86, -22);
 					else
 						TargetFrame.threatNumericIndicator:SetPoint("BOTTOM", TargetFrame, "TOP", -68, -24);
@@ -446,7 +452,7 @@ function UnitFramefun.Mubiao()
 	if PIGA["UnitFrame"]["TargetFrame"]["Yisu"] and not TargetFrame.yisuF then
 		TargetFrame.yisuF=CreateFrame("Frame",nil,TargetFrame);
 		TargetFrame.yisuF:SetSize(49,18);
-		if PIG_MaxTocversion() then
+		if TocversionOK then
 			TargetFrame.yisuF:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 192, -58);
 			TargetFrame.yisuF:SetFrameLevel(9)
 		else

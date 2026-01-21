@@ -419,7 +419,7 @@ local function WhoWhisper_Fun()
 	end
 	local EextData={
 		["ElvUI"]={true,{0,0,0,0}},
-		["NDui"]={NDui and NDuiDB and NDuiDB["Skins"]["BlizzardSkins"],{0,0,0,0}},
+		["NDui"]={Fun.IsNDui("Skins","BlizzardSkins"),{0,0,0,0}},
 	}
 	WhoFrame.senmsg.bianji.F=PIGFrame(WhoFrame.senmsg.bianji,{"TOPLEFT",WhoFrame.senmsg.bianji,"TOPRIGHT",4,0},{300,200},nil,nil,nil,EextData)
 	WhoFrame.senmsg.bianji.F:PIGSetBackdrop(1)

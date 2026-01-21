@@ -299,7 +299,7 @@ function GDKPInfo.ADD_History(RaidR)
 	end
 	local itemF,itemTabBut=PIGOptionsList_R(History.F,"拾取记录",80)
 	itemF:Show()
-	itemTabBut:Selected()
+	itemTabBut:Selected(true)
 	add_TABScroll(itemF,"ItemList")
 	----
 	add_TABScroll(PIGOptionsList_R(History.F,"补助/奖励",80),"Jiangli")

@@ -24,7 +24,6 @@ local constructor = function(id, t, typeID)
 		return {[typeID] = id};
 	end
 end
-app.constructor = constructor;	-- Temporary
 
 -- Provides a Unique Counter value for the Key referenced on each reference
 local returnZero = function() return 0; end;
@@ -102,12 +101,6 @@ end
 app.CreateHash = CreateHash;
 
 -- Helper Functions
-local ShouldExcludeFromTooltipHelper = function(t)
-	-- Whether or not to exclude this data from the source list in the tooltip.
-	local parent = t.parent;
-	if parent then return parent.ShouldExcludeFromTooltip; end
-	return false;
-end
 -- Classic needs to use Search Module for this
 local SourceSearcher = app.SourceSearcher or setmetatable({}, { __index = function(t,key) return app.GetRawField end})
 
@@ -234,11 +227,15 @@ local DefaultFields = {
 	["iconPath"] = function(t)
 		return rawget(t, "icon")
 	end,
-	["ShouldExcludeFromTooltipHelper"] = function(t)
-		return ShouldExcludeFromTooltipHelper;
-	end,
+	-- Base ShouldExcludeFromTooltip is false, so search upwards in hierarchy for a defined result
 	["ShouldExcludeFromTooltip"] = function(t)
-		return t.ShouldExcludeFromTooltipHelper(t);
+		-- If this t has a helper defined for exclusion
+		local helper = t.ShouldExcludeFromTooltipHelper
+		if helper and helper(t) then return true end
+
+		-- Whether or not to exclude this data from the source list in the tooltip.
+		local parent = t.parent
+		if parent then return parent.ShouldExcludeFromTooltip end
 	end,
 	-- Allows automatically handling a global re-try timer for the specific group for operations which need to 're-try' things
 	-- concerning this group and are not using Event-driven handling
@@ -285,17 +282,18 @@ if app.IsRetail then
 	end
 end
 
+
+local CloneDictionary = app.CloneDictionary
+-- Creates a Base Object Table which will evaluate the provided set of 'fields' (each field value being a keyed function)
+local classDefinitions, _cache = {}, nil;
+local function call(class, key, t)
+	_cache = rawget(class, key);
+	if _cache then return _cache(t) end
+end
 local function ClassError(...)
 	local params = {...}
 	local err = app.TableConcat(params, nil, "", " ")
 	error(err)
-end
-local CloneDictionary = app.CloneDictionary
--- Creates a Base Object Table which will evaluate the provided set of 'fields' (each field value being a keyed function)
-local classDefinitions, _cache = {}, nil;
-local call = function(class, key, t)
-	_cache = rawget(class, key);
-	if _cache then return _cache(t) end
 end
 -- Generates a metatable to use for the given class name based on the provided field functions
 local CreateClassMeta = not app.__perf and function(fields, className)
@@ -357,15 +355,6 @@ or function(fields, className)
 	}
 end
 app.BaseClass = CreateClassMeta(nil, "BaseClass");
-
-app.TryGetField = function(t, field, fieldFunc, giveUpFunc)
-	local fieldVal = fieldFunc(t, field)
-	-- app.PrintDebug("TGF",t.hash,field,fieldVal)
-	if fieldVal then return fieldVal end
-	if not t.CanRetry then
-		return giveUpFunc(t, field)
-	end
-end
 
 -- Create a dictionary of classes by their classKey, for reference in generic object contructors.
 local classesByKey = setmetatable({}, {
@@ -719,9 +708,6 @@ app.CreateClass = function(className, classKey, fields, ...)
 	end
 	return classConstructor, Class;
 end
-app.CreateClassFromArray = function(arr)
-	return app.CreateClass(unpack(arr));
-end
 app.CreateClassWithInfo = function(className, classKey, classInfo, fields)
 	-- Validate arguments
 	if not className then
@@ -985,6 +971,14 @@ app.GetOrCreateCache = function(idField, className)
 	app.print("Missing className",className,"for ClassData cache with idField",idField)
 	return app.CreateCache(idField, className)
 end
+
+-- Allows creating a group which is keyed based on only its 'text' field
+app.CreateRawText = app.CreateClass("RawText", "text", {
+	name = function(t)
+		return t.text
+	end,
+	isHeader = app.ReturnTrue,
+})
 
 -- Returns an object which contains no data, but can return values from an overrides table, and be loaded/created when a specific field is attempted to be referenced
 -- i.e. Create a data group which contains no information but will attempt to populate itself when [loadField] is referenced

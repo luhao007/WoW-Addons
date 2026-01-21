@@ -16,6 +16,7 @@ local RSGeneralDB = private.ImportLib("RareScannerGeneralDB")
 local RSContainerDB = private.ImportLib("RareScannerContainerDB")
 local RSEventDB = private.ImportLib("RareScannerEventDB")
 local RSGuideDB = private.ImportLib("RareScannerGuideDB")
+local RSMapDB = private.ImportLib("RareScannerMapDB")
 
 -- RareScanner internal libraries
 local RSConstants = private.ImportLib("RareScannerConstants")
@@ -158,11 +159,6 @@ local function FixVignetteInfo(vignetteInfo)
 	-- Track garbage icon in War Within 11.1
 	if (vignetteInfo.atlasName == RSConstants.EVENT_SCRAP_VIGNETTE and mapID == RSConstants.UNDERMINE) then
 		vignetteInfo.atlasName = RSConstants.EVENT_VIGNETTE
-	end
-	
-	-- This container might show up with an icon with crosses
-	if (entityID == RSConstants.PVP_CONTAINER) then
-		vignetteInfo.atlasName = RSConstants.CONTAINER_VIGNETTE
 	end
 	
 	-- This container keeps updating the ID, so create one based on its coordinates
@@ -587,7 +583,9 @@ function RSButtonHandler.AddAlert(button, vignetteInfo, isNavigating)
 		return
 	end
 	
-	--RSLogger:PrintDebugMessage(string.format("Vignette ATLAS [%s][%s]", vignetteInfo.atlasName, vignetteInfo.objectGUID))
+	if (RSConstants.DEBUG_MODE and RSConstants.DEBUG_ATLAS_VIGNETTE) then
+		RSLogger:PrintDebugMessage(string.format("Vignette ATLAS [%s][%s]", vignetteInfo.atlasName, vignetteInfo.objectGUID))
+	end
 	
 	-- Fix vignette INFO for those vignettes with errors
 	local entityID, vignetteInfo = FixVignetteInfo(vignetteInfo)
@@ -611,7 +609,6 @@ function RSButtonHandler.AddAlert(button, vignetteInfo, isNavigating)
 			preFoundAlerts[entityID] = { trackingSystem = trackingSystem, expireTime = time() + RSConstants.PREFOUND_TIMER }
 		end
 	end
-	
 	-- Apply filters
 	local mapID = RSGeneralDB.GetBestMapForUnit(entityID, vignetteInfo.atlasName)
 	local isInstance, _ = IsInInstance()
@@ -655,6 +652,14 @@ function RSButtonHandler.AddAlert(button, vignetteInfo, isNavigating)
 	-- In Dragonflight there are icons in the continent map, ignore them
 	elseif (mapID and mapID == RSConstants.DRAGON_ISLES) then
 		RSLogger:PrintDebugMessageEntityID(entityID, string.format("La entidad [%s] se ignora por estar mostrandose en el mapa de las Islas Dragon", entityID))
+		return
+	-- disable high peaks icons where not supported
+	elseif (RSConstants.IsHighPeakAtlas(vignetteInfo.atlasName) and RSMapDB.GetContinentOfMap(mapID) ~= RSConstants.EASTERN_KINGDOMS_MIDNIGHT_CONTINENT) then
+		RSLogger:PrintDebugMessageEntityID(entityID, string.format("La entidad [%s] se ignora por ser un high peak en un mapa no soportado", entityID))
+		return
+	-- disable PVP icons where not supported
+	elseif (RSConstants.IsContainerPvpAtlas(vignetteInfo.atlasName) and RSUtils.Contains(RSConstants.CONTAINERS_PVP, entityID)) then
+		RSLogger:PrintDebugMessageEntityID(entityID, string.format("La entidad [%s] se ignora por tener un icono de contenedor PVP pero no tratarse del contenedor", entityID))
 		return
 	end
 	

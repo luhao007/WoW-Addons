@@ -155,8 +155,7 @@ PLATER_DEFAULT_SETTINGS = {
 
 		click_space = {140, 28}, --classic: {132, 32}, retail: {110, 45},
 		click_space_scale = {1, 1},
-		click_space_scale_minor = {1, 1},
-		click_space_scale_pet = {1, 1},
+		click_space_scale_friendly = {1, 1},
 		click_space_friendly = {140, 28}, --classic: {132, 32}, retail: {110, 45},
 		click_space_always_show = false,
 		hide_friendly_castbars = false,
@@ -206,6 +205,7 @@ PLATER_DEFAULT_SETTINGS = {
 				actorname_text_shadow_color = {0, 0, 0, 1},
 				actorname_text_shadow_color_offset = {1, -1},
 				actorname_text_anchor = {side = 8, x = 0, y = 0},
+				actorname_text_max_length = 100,
 				
 				spellname_text_size = 10,
 				spellname_text_font = "Arial Narrow",
@@ -277,6 +277,7 @@ PLATER_DEFAULT_SETTINGS = {
 				actorname_text_shadow_color = {0, 0, 0, 1},
 				actorname_text_shadow_color_offset = {1, -1},
 				actorname_text_anchor = {side = 4, x = 0, y = 0},
+				actorname_text_max_length = 100,
 				
 				spellname_text_size = 10,
 				spellname_text_font = "Arial Narrow",
@@ -361,6 +362,7 @@ PLATER_DEFAULT_SETTINGS = {
 				actorname_text_shadow_color = {0, 0, 0, 1},
 				actorname_text_shadow_color_offset = {1, -1},
 				actorname_text_anchor = {side = 8, x = 0, y = 0},
+				actorname_text_max_length = 100,
 				
 				spellname_text_size = 10,
 				spellname_text_font = "Arial Narrow",
@@ -446,6 +448,7 @@ PLATER_DEFAULT_SETTINGS = {
 				actorname_text_shadow_color = {0, 0, 0, 1},
 				actorname_text_shadow_color_offset = {1, -1},
 				actorname_text_anchor = {side = 4, x = 0, y = 0},
+				actorname_text_max_length = 100,
 				
 				spellname_text_size = 12,
 				spellname_text_font = "Arial Narrow",
@@ -537,6 +540,7 @@ PLATER_DEFAULT_SETTINGS = {
 				actorname_text_shadow_color = {0, 0, 0, 1},
 				actorname_text_shadow_color_offset = {1, -1},
 				actorname_text_anchor = {side = 8, x = 0, y = 0},
+				actorname_text_max_length = 100,
 				
 				spellname_text_size = 10,
 				spellname_text_font = "Arial Narrow",
@@ -927,6 +931,7 @@ PLATER_DEFAULT_SETTINGS = {
 			steal_or_purge = {0, .5, .98, 1},
 			enrage = {0.85, 0.2, 0.1, 1},
 			is_buff = {0, .65, .1, 1},
+			is_debuff = {1, 0, 0, 1},
 			is_show_all = {.7, .1, .1, 1},
 			defensive = {.85, .45, .1, 1},
 			offensive = {0, .65, .1, 1},
@@ -3037,6 +3042,7 @@ PLATER_DEFAULT_SETTINGS = {
 		cast_statusbar_bgcolor = {0.113725, 0.113725, 0.113725, 0.891240},
 		cast_statusbar_color = {1, .7, 0, 0.96},
 		cast_statusbar_color_channeling = {0, 1, 0, 0.96},
+		cast_statusbar_color_important = {.5, .0, .5, 0.96},
 		cast_statusbar_color_nointerrupt = {.5, .5, .5, 0.96},
 		cast_statusbar_color_interrupted = {1, .1, .1, 1},
 		cast_statusbar_color_finished = {0, 1, 0, 1},
@@ -3126,6 +3132,16 @@ PLATER_DEFAULT_SETTINGS = {
 			use_aggro_solo = false,
 		},
 		
+		unit_type_coloring_enabled = true,
+		unit_type_coloring_no_override_threat = true,
+		unit_type_coloring_boss = {0.423529, 0.172549, 0.6901960, 1},
+		unit_type_coloring_miniboss = {0.278431, 0.258823, 1, 1},
+		unit_type_coloring_caster = {0, 0.8196, 1, 1},
+		unit_type_coloring_elite = {1, 0.5961, 0.51373, 1},
+		unit_type_coloring_trivial = {.5, .5, .5, 1},
+		unit_type_coloring_enable_elite = false,
+		unit_type_coloring_enable_trivial = false,
+
 		news_frame = {},
 		first_run2 = false,
 	}

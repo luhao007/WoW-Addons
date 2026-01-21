@@ -32,7 +32,7 @@ function TardisInfo.Yell(Activate)
 	---
 	local InvF=_G[GnUI]
 	local fujiF,fujiTabBut=PIGOptionsList_R(InvF.F,L["TARDIS_YELL"],80,"Bot")
-	if Activate then fujiF:Show() fujiTabBut:Selected() end
+	if Activate then fujiF:Show() fujiTabBut:Selected(true) end
 	--=====================
 	fujiF.topF = PIGFrame(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",4,-4});
 	fujiF.topF:SetPoint("TOPRIGHT", fujiF, "TOPRIGHT", -4, -4);
@@ -348,21 +348,27 @@ function TardisInfo.Yell(Activate)
 					end
 				end
 			end);
-			local WowHeight=GetScreenHeight();
-			local function YaoqingSetPoint(self)		
-				local offset1 = QkBut:GetBottom();
-				self:ClearAllPoints();
-				if offset1>(WowHeight*0.5) then
-					self:SetPoint("TOP",QkBut,"BOTTOM",0,-2);
-				else
-					self:SetPoint("BOTTOM",QkBut,"TOP",0,2);
-				end
-			end
 			QkBut.AutoYaoqing = CreateFrame("Button",nil,QkBut);
-			QuickButUI.yidong:HookScript("OnDragStop",function(self)
-				YaoqingSetPoint(QkBut.AutoYaoqing)	
-			end)
-			YaoqingSetPoint(QkBut.AutoYaoqing)	
+			hooksecurefunc(QuickButUI, "UpdateWidth", function(self)
+				QkBut.AutoYaoqing:ClearAllPoints();
+				if PIGA["QuickBut"]["Pailie"]==1 then
+					local WowHeight=GetScreenHeight();
+					local offset1 = QkBut:GetBottom() or 200
+					if offset1>(WowHeight*0.5) then
+						QkBut.AutoYaoqing:SetPoint("TOP",QkBut,"BOTTOM",0,-2);
+					else
+						QkBut.AutoYaoqing:SetPoint("BOTTOM",QkBut,"TOP",0,2);
+					end
+				elseif PIGA["QuickBut"]["Pailie"]==2 then
+					local WowWidth=GetScreenWidth()
+					local offset1 = QkBut:GetLeft() or 500
+					if offset1>(WowWidth*0.5) then
+						QkBut.AutoYaoqing:SetPoint("RIGHT",QkBut,"LEFT",-2,0);
+					else
+						QkBut.AutoYaoqing:SetPoint("LEFT",QkBut,"RIGHT",2,0);
+					end
+				end
+            end)	
 			QkBut.AutoYaoqing:SetSize(WWHH,WWHH);
 			QkBut.AutoYaoqing.Tex = QkBut.AutoYaoqing:CreateTexture(nil, "BORDER");
 			if PIG_OptionsUI.AutoInvite.Yell then
@@ -375,11 +381,11 @@ function TardisInfo.Yell(Activate)
 			QkBut.AutoYaoqing:SetScript("OnEnter", function (self)
 				GameTooltip:ClearLines();
 				local offset1 = QkBut:GetBottom();
-				if offset1>(WowHeight*0.5) then
-					GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT",-20,0);
-				else
+				-- if offset1>(WowHeight*0.5) then
+				-- 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT",-20,0);
+				-- else
 					GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",0,0);
-				end
+				--end
 				if PIG_OptionsUI.AutoInvite.Yell then
 					GameTooltip:AddLine("自动回复/邀请:|cff00ff00"..ENABLE.."|r")
 					GameTooltip:AddLine("|cff00FFff"..KEY_BUTTON1.."-|r|cffFFFF00"..CLOSE.."|r")

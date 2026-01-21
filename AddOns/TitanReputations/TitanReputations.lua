@@ -508,7 +508,7 @@ local eventsTable = {
 	end,
 }
 
-if (C_Reputation.IsMajorFaction) then
+if (C_Reputation.IsMajorFaction and LE_EXPANSION_LEVEL_CURRENT >= 9) then
 	eventsTable.MAJOR_FACTION_RENOWN_LEVEL_CHANGED = function(self, factionId, newRenownLevel, oldRenownLevel)
 		local data = GetMajorFactionData(factionId)
 		if not data then return end

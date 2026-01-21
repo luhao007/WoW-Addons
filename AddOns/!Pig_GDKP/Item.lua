@@ -38,7 +38,7 @@ function GDKPInfo.ADD_Item(RaidR)
 	---
 	local fujiF,fujiTabBut=PIGOptionsList_R(RaidR.F,"拾取记录",80)
 	fujiF:Show()
-	fujiTabBut:Selected()
+	fujiTabBut:Selected(true)
 
 	--local guolvlist = {"全部","已成交","未成交","有欠款","可使用","关注"}
 	local guolvlist = {"全部","已成交","未成交","有欠款"}
@@ -778,7 +778,7 @@ function GDKPInfo.ADD_Item(RaidR)
 			PIGSendAddonRaidParty(biaotou,auc_end)
 		end
 	end);
-	fujiF.tishiUI.nr.auc.daojishiCZ = PIGButton(fujiF.tishiUI.nr.auc,{"LEFT",fujiF.tishiUI.nr.auc.YES,"RIGHT",30,0},{54,24},"重置");  
+	fujiF.tishiUI.nr.auc.daojishiCZ = PIGButton(fujiF.tishiUI.nr.auc,{"LEFT",fujiF.tishiUI.nr.auc.YES,"RIGHT",30,0},{54,24},RESET);  
 	fujiF.tishiUI.nr.auc.daojishiCZ:Hide();
 	fujiF.tishiUI.nr.auc.daojishiCZ:SetScript("OnClick", function (self)
 		fujiF.tishiUI.nr.auc.zanting=true

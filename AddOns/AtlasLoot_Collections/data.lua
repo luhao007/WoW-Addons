@@ -27,6 +27,7 @@ local MYTHIC_DIFF = data:AddDifficulty(AL["Mythic"], "m", nil, 16)
 
 local LEGENDARY_DIFF = data:AddDifficulty(ITEM_QUALITY5_DESC)
 
+local LEGION_DIFF = data:AddDifficulty(EXPANSION_NAME6)
 local WOD_DIFF = data:AddDifficulty(EXPANSION_NAME5)
 local MOP_DIFF = data:AddDifficulty(EXPANSION_NAME4)
 local CATA_DIFF = data:AddDifficulty(EXPANSION_NAME3)
@@ -1529,6 +1530,51 @@ data["MOUNTS"]             = {
 				{ 609, 259238, "mount", [PRICE_EXTRA_ITTYPE] = "money:100000000" },      -- Ballistic Bronco
 				{ 610, 242715, "mount", [QUEST_EXTRA_ITTYPE] = 85213 },                  -- K'arroc Swiftwing
 				{ 611, 260409, "mount", [PRICE_EXTRA_ITTYPE] = "tender:500" },           -- Savage Crimson Battle Turtle
+				{ 612, 253028, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:20000" },         -- Reins of the Highlord's Felscorned Charger
+				{ 613, 253033, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:20000" },         -- Iron Reins of the Felscorned War Wrym
+				{ 614, 252954, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:20000" },         -- Felscorned Reins of the Vilebrood Vanquisher
+				{ 615, 253025, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:20000" },         -- Reins of the Felscorned Wolfhawk
+				{ 616, 253031, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:20000" },         -- Felscorned Tempest Totem
+				{ 617, 253030, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:20000" },         -- Shadowblade's Reins of Felscorned Portent
+				{ 618, 253027, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:20000" },         -- Felscorned Grandmaster's Bell
+				{ 619, 253013, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:20000" },         -- Slayer's Reins of the Felscorned Shrieker
+				{ 620, 253029, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:20000" },         -- Felscorned Seeker's Whistle
+				{ 621, 253032, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:20000" },         -- Felscorned Reins of the Netherlord's Dreadsteed
+				{ 622, 253026, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:20000" },         -- Archmage's Felscorned Disc
+				{ 623, 250428, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Illidari Dreadstalker
+				{ 624, 250427, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Illidari Blightstalker
+				{ 625, 250429, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Highland Elderhorn
+				{ 626, 250723, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Treetop Highmountain Eagle
+				{ 627, 250721, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Snowy Highmountain Eagle
+				{ 628, 239687, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Wretched Fel Bat
+				{ 629, 239667, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Ashplague Fel Bat
+				{ 630, 239665, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Bloodhunter Fel Bat
+				{ 701, 250757, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Gloomdark Nightmare
+				{ 702, 250756, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Turquoise Courser
+				{ 703, 250752, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Golden Sunrunner
+				{ 704, 250751, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Twilight Courser
+				{ 705, 251795, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Brimstone Courser
+				{ 706, 251796, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Chestnut Courser
+				{ 707, 250424, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Leystone Basilisk
+				{ 708, 250425, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Felslate Basilisk
+				{ 709, 250423, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Slag Basilisk
+				{ 710, 250426, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Aquamarine Basilisk
+				{ 711, 250728, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Arcberry Manasaber
+				{ 712, 250761, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Bonesteed of Triumph
+				{ 713, 250760, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Bonesteed of Bloodshed
+				{ 714, 250759, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Bonesteed of Plague
+				{ 715, 250758, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Bonesteed of Oblivion
+				{ 716, 250192, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Ghastly Ur'zul
+				{ 717, 250748, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Luminous Mana Ray
+				{ 718, 250747, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Albino Mana Ray
+				{ 719, 250746, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Bloodtooth Mana Ray
+				{ 720, 250745, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Fel-Scarred Mana Ray
+				{ 721, 250803, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Garnet Ruinstrider
+				{ 722, 250806, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Longhorned Beryl Talbuk
+				{ 723, 250805, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Longhorned Argussian Talbuk
+				{ 724, 250804, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Longhorned Bleakhoof Talbuk
+				{ 725, 250802, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Longhorned Sable Talbuk
+				-- { 619, 253024, [PRICE_EXTRA_ITTYPE] = "bronze:20000" }, -- Feldruid's Scornwing Idol (druid flight form, not really a mount)
 				-- { 329, 223570, "mount" }, -- Reins of the Ebonhide Ramolith (not yet available)
 				-- { 321, 235554, "mount" }, -- Midnight Darkmoon Charger (not yet available)
 				-- { 323, 235659, "mount" }, -- Midnight Butterfly (not yet available)
@@ -2293,6 +2339,37 @@ data["MOUNTS"]             = {
 		},
 		{ -- Dungeons & Raids
 			name = AL["Dungeons"].." & "..AL["Raids"],
+			[LEGION_DIFF] = {
+				{ 1, 142236, "mount" }, -- Midnight's Eternal Reins
+				{ 2, 137574, "mount" }, -- Living Infernal Core
+				{ 3, 137575, "mount" }, -- Fiendish Hellfire Core
+				{ 4, 143643, "mount" }, -- Abyss Worm
+				{ 5, 152816, "mount" }, -- Antoran Charhound
+				{ 6, 152789, "mount" }, -- Shackled Ur'zul
+				--[[
+				-- Other Legion mounts that should go somewhere else
+				{ 20,  138258,       "mount" }, -- Reins of the Long-Forgotten Hippogryph
+				{ 21,  131734,       "mount" }, -- Spirit of Eche'ro
+				{ 22,  141713,       "mount" }, -- Arcadian War Turtle
+				{ 105, 147806,       "mount" }, -- Cloudwing Hippogryph
+				{ 106, 147807,       "mount" }, -- Highmountain Elderhorn
+				{ 107, 143764,       "mount" }, -- Leywoven Flying Carpet
+				{ 108, 147805,       "mount" }, -- Valarjar Stormwing
+				{ 110, 147804,       "mount" }, -- Wild Dreamrunner
+				{ 124, 152903,       "mount" }, -- Biletooth Gnasher
+				{ 125, 152904,       "mount" }, -- Acid Belcher
+				{ 126, 152905,       "mount" }, -- Crimson Slavermaw
+				{ 127, 153043,       "mount" }, -- Blessed Felcrusher
+				{ 128, 153044,       "mount" }, -- Avenging Felcrusher
+				{ 129, 153042,       "mount" }, -- Glorious Felcrusher
+				{ 130, 152790,       "mount" }, -- Vile Fiend
+				{ 201, 152843,       "mount" }, -- Darkspore Mana Ray
+				{ 202, 152844,       "mount" }, -- Lambent Mana Ray
+				{ 203, 152841,       "mount" }, -- Felglow Mana Ray
+				{ 204, 152840,       "mount" }, -- Scintillating Mana Ray
+				{ 205, 152842,       "mount" }, -- Vibrant Mana Ray
+				{ 206, 152814,       "mount" }, -- Maddened Chaosrunner ]]
+			},
 			[WOD_DIFF] = {
 				{ 1,  123890, "mount" }, -- Felsteel Annihilator
 				{ 2,  116660, "mount" }, -- Ironhoof Destroyer
@@ -6591,6 +6668,10 @@ data["COMPANIONS"]         = {
 				{ 510, 205148, "pet3542", [PRICE_EXTRA_ITTYPE] = "tender:200" },          -- Soot-Stained Shalewing
 				{ 511, 246337, "pet4853", [PRICE_EXTRA_ITTYPE] = "tender:250" },          -- Rustyroot Fel Snooter
 				{ 512, 252200, "pet4900", [PRICE_EXTRA_ITTYPE] = "tender:250" },          -- Bundled-Up Bob
+				{ 513, 252301, "pet4901", [ACH_EXTRA_ITTYPE] = 42319 },                   -- Warden's Companion
+				{ 514, 246339, "pet4854", [ACH_EXTRA_ITTYPE] = 42541 },                   -- Duskytooth Fel Snooter
+				{ 515, 239705, "pet4802", [PRICE_EXTRA_ITTYPE] = "bronze:5000" },         -- Morsel
+				{ 516, 239699, "pet4801", [PRICE_EXTRA_ITTYPE] = "bronze:5000" },         -- Tidbit
 				-- { 311, 233057, "pet4709" }, -- Rock Hound Mica
 				-- { 312, 221764, "pet4519" }, -- Burntram
 				-- { 317, 222969, "pet4474" }, -- Anub'Rekyute
@@ -6697,6 +6778,42 @@ data["COMPANIONS"]         = {
 				-- { 26,  193587 }, -- Time-Lost Duck
 				-- { 27,  193614 }, -- Groundshaker
 				-- { 30,  193620 }, -- Time-Lost Slyvern
+			}
+		},
+		--[[
+		{ -- Shadowlands
+			name = EXPANSION_NAME8,
+			[NORMAL_DIFF] = {
+			}
+		},
+		{ -- BFA
+			name = EXPANSION_NAME7,
+			[NORMAL_DIFF] = {
+			}
+		},
+		]]
+		{ -- Legion
+			name = EXPANSION_NAME6,
+			[NORMAL_DIFF] = {
+				{ 1,  129108, "pet1751", [PRICE_EXTRA_ITTYPE] = "bronze:5000" }, -- Son of Goredome
+				{ 2,  141349, "pet1937", [PRICE_EXTRA_ITTYPE] = "bronze:100000" }, -- Strange Humming Crystal
+				{ 3,  140320, "pet1929", [PRICE_EXTRA_ITTYPE] = "bronze:10000" }, -- Corgnelius
+				{ 4,  136901, "pet1719", [PRICE_EXTRA_ITTYPE] = "bronze:100000" }, -- Eye of Inquisition
+				{ 5,  140316, "pet1928", [PRICE_EXTRA_ITTYPE] = "bronze:10000" }, -- Firebat Pup
+				{ 6,  136900, "pet1718", [PRICE_EXTRA_ITTYPE] = "bronze:35000" }, -- Hateful Eye
+				{ 7,  136903, "pet1723", [PRICE_EXTRA_ITTYPE] = "bronze:80000" }, -- Nightmare Whelpling
+				{ 8,  136922, "pet1887", [PRICE_EXTRA_ITTYPE] = "bronze:10000" }, -- Wyrmy Tunkins
+				{ 9,  130167, "pet1803", [PRICE_EXTRA_ITTYPE] = "bronze:100000" }, -- Thistleleaf Adventurer
+				{ 10, 153252, "pet2135", [PRICE_EXTRA_ITTYPE] = "bronze:35000" }, -- Rebellious Imp
+				{ 11, 146953, "pet2042", [PRICE_EXTRA_ITTYPE] = "bronze:80000" }, -- Scraps
+				{ 12, 147841, "pet2050", [PRICE_EXTRA_ITTYPE] = "bronze:35000" }, -- Orphaned Felbat
+				{ 13, 151828, "pet2072", [PRICE_EXTRA_ITTYPE] = "bronze:80000" }, -- Ageless Bronze Drake
+				{ 14, 151829, "pet2071", [PRICE_EXTRA_ITTYPE] = "bronze:80000" }, -- Bronze Proto-Whelp
+				{ 15, 153195, "pet2136", [PRICE_EXTRA_ITTYPE] = "bronze:10000" }, -- Uuna's Doll
+				{ 16, 153055, "pet2119", [PRICE_EXTRA_ITTYPE] = "bronze:20000" }, -- Fel-Afflicted Skyfin
+				{ 17, 153054, "pet2118", [PRICE_EXTRA_ITTYPE] = "bronze:20000" }, -- Docile Skyfin
+				{ 18, 153026, "pet2115", [PRICE_EXTRA_ITTYPE] = "bronze:10000" }, -- Cross Gazer
+				{ 19, 153056, "pet2120", [PRICE_EXTRA_ITTYPE] = "bronze:20000" }, -- Grasping Manifestation
 			}
 		},
 	},
@@ -6909,6 +7026,53 @@ data["TOYS"]               = {
 				{ 226, 218112, [PRICE_EXTRA_ITTYPE] = "tender:200" },   -- Colorful Beach Chair
 				{ 227, 212518, [PRICE_EXTRA_ITTYPE] = "ridersOfAzerothBadge:40" }, -- Vial of Endless Draconic Scales
 				{ 228, 212525, [PRICE_EXTRA_ITTYPE] = "tender:200" },   -- Delicate Ebony Parasol
+			}
+		},
+		--[[
+		{ -- Shadowlands
+			name = EXPANSION_NAME8,
+			[NORMAL_DIFF] = {
+			}
+		},
+		{ -- BFA
+			name = EXPANSION_NAME7,
+			[NORMAL_DIFF] = {
+			}
+		},
+		]]
+		{ -- Legion
+			name = EXPANSION_NAME6,
+			[NORMAL_DIFF] = {
+				{ 1,  131724, [PRICE_EXTRA_ITTYPE] = "bronze:10000" }, -- Crystalline Eye of Undravius
+				{ 2,  131717, [PRICE_EXTRA_ITTYPE] = "bronze:10000" }, -- Starlight Beacon
+				{ 3,  129165, [PRICE_EXTRA_ITTYPE] = "bronze:10000" }, -- Barnacle-Encrusted Gem
+				{ 4,  130169, [PRICE_EXTRA_ITTYPE] = "bronze:10000" }, -- Tournament Favor
+				{ 5,  140363, [PRICE_EXTRA_ITTYPE] = "bronze:20000" }, -- Pocket Fel Spreader
+				{ 6,  141862, [PRICE_EXTRA_ITTYPE] = "bronze:25000" }, -- Mote of Light
+				{ 7,  140160, [PRICE_EXTRA_ITTYPE] = "bronze:80000" }, -- Stormforged Vrykul Horn
+				{ 8,  143544, [PRICE_EXTRA_ITTYPE] = "bronze:100000" }, -- Skull of Corruption
+				{ 9,  142265, [PRICE_EXTRA_ITTYPE] = "bronze:35000" }, -- Big Red Raygun
+				{ 10, 142530, [PRICE_EXTRA_ITTYPE] = "bronze:10000" }, -- Crate of Bobbers: Tugboat
+				{ 11, 142529, [PRICE_EXTRA_ITTYPE] = "bronze:10000" }, -- Crate of Bobbers: Cat Head
+				{ 12, 142528, [PRICE_EXTRA_ITTYPE] = "bronze:10000" }, -- Crate of Bobbers: Can of Worms
+				{ 13, 143662, [PRICE_EXTRA_ITTYPE] = "bronze:10000" }, -- Crate of Bobbers: Wooden Pepe
+				{ 14, 119211, [PRICE_EXTRA_ITTYPE] = "bronze:100000" }, -- Golden Hearthstone Card: Lord Jaraxxus
+				{ 15, 147843, [PRICE_EXTRA_ITTYPE] = "bronze:35000" }, -- Sira's Extra Cloak
+				{ 16, 147867, [PRICE_EXTRA_ITTYPE] = "bronze:35000" }, -- Pilfered Sweeper
+				{ 17, 153204, [PRICE_EXTRA_ITTYPE] = "bronze:10000" }, -- All-Seer's Eye
+				{ 18, 153193, [PRICE_EXTRA_ITTYPE] = "bronze:10000" }, -- Baarut the Brisk
+				{ 19, 153183, [PRICE_EXTRA_ITTYPE] = "bronze:80000" }, -- Barrier Generator
+				{ 20, 153124, [PRICE_EXTRA_ITTYPE] = "bronze:35000" }, -- Spire of Spite
+				{ 21, 153293, [PRICE_EXTRA_ITTYPE] = "bronze:25000" }, -- Sightless Eye
+				{ 22, 153179, [PRICE_EXTRA_ITTYPE] = "bronze:25000" }, -- Blue Conservatory Scroll
+				{ 23, 153181, [PRICE_EXTRA_ITTYPE] = "bronze:25000" }, -- Red Conservatory Scroll
+				{ 24, 153180, [PRICE_EXTRA_ITTYPE] = "bronze:25000" }, -- Yellow Conservatory Scroll
+				{ 25, 153253, [PRICE_EXTRA_ITTYPE] = "bronze:25000" }, -- S.F.E. Interceptor
+				{ 26, 153182, [PRICE_EXTRA_ITTYPE] = "bronze:25000" }, -- Holy Lightsphere
+				{ 27, 153126, [PRICE_EXTRA_ITTYPE] = "bronze:25000" }, -- Micro-Artillery Controller
+				{ 28, 152982, [PRICE_EXTRA_ITTYPE] = "bronze:80000" }, -- Vixx's Chest of Tricks
+				{ 29, 153004, [PRICE_EXTRA_ITTYPE] = "bronze:100000" }, -- Unstable Portal Emitter
+				{ 30, 153194, [PRICE_EXTRA_ITTYPE] = "bronze:25000" }, -- Legion Communication Orb
 			}
 		},
 	},

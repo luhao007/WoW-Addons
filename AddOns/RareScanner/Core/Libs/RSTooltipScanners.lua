@@ -12,19 +12,17 @@ local RSUtils = private.ImportLib("RareScannerUtils")
 -- NPCs tooltip scanner
 ---============================================================================
 	
-function RSTooltipScanners.ScanNpcName(npcID, callback, secondTry)
+function RSTooltipScanners.ScanNpcName(npcID, callback)
 	local tooltipData = C_TooltipInfo.GetHyperlink('unit:Creature-0-0-0-0-' .. npcID .. '-0')
-	if (tooltipData) then
-		if (tooltipData.lines and tooltipData.lines[1] and tooltipData.lines[1].leftText) then
-			local name = tooltipData.lines[1].leftText
-			private.dbglobal.rare_names[GetLocale()][tonumber(npcID)] = name
-			if (callback) then
-				callback(name)
-			end
+	if (tooltipData and tooltipData.lines and tooltipData.lines[1] and not issecretvalue(tooltipData.lines[1].leftText) and tooltipData.lines[1].leftText) then
+		local name = tooltipData.lines[1].leftText
+		private.dbglobal.rare_names[GetLocale()][tonumber(npcID)] = name
+		if (callback) then
+			callback(name)
 		end
-	elseif (not secondTry) then
+	elseif (not private.dbglobal.rare_names[GetLocale()][tonumber(npcID)]) then
 		C_Timer.After(1, function()
-			RSTooltipScanners.ScanNpcName(npcID, callback, true)
+			RSTooltipScanners.ScanNpcName(npcID, callback)
 		end)
 	elseif (callback) then
 		callback()

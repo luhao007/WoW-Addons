@@ -14,4 +14,5 @@
 	<Script file="DrakewatcherQuests.lua"/>
 	<Script file="DrakewatcherSpells.lua"/>
 	<Script file="MissingSources.lua"/>
+	<Script file="MapEntitiesTables.lua"/>
 </Ui>

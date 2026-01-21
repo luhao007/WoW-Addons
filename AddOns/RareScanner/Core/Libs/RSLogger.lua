@@ -23,7 +23,7 @@ function RSLogger:CreateChatFrame(name)
 	if (name) then		
 		-- Show if it already exists
 		local exists = false
-		for i = 1, NUM_CHAT_WINDOWS do
+		for i = 1, Constants.ChatFrameConstants.MaxChatWindows do
 			local chatName, _, _, _, _, _, shown, _, _, _ = GetChatWindowInfo(i);
 			if (chatName == name) then
 				self.RARESCANNER_CHAT_FRAME = _G["ChatFrame"..i]
@@ -42,8 +42,9 @@ function RSLogger:CreateChatFrame(name)
 		-- Creates a new window if it doesnt exist
 		if (not exists) then
 			self.RARESCANNER_CHAT_FRAME = FCF_OpenNewWindow(name)
-			ChatFrame_RemoveAllMessageGroups(self.RARESCANNER_CHAT_FRAME)
-			ChatFrame_RemoveAllChannels(self.RARESCANNER_CHAT_FRAME)
+			self.RARESCANNER_CHAT_FRAME:RemoveAllMessageGroups()
+			self.RARESCANNER_CHAT_FRAME:RemoveAllChannels()
+			
 			if (ChatFrame1) then
 				FCF_SelectDockFrame(ChatFrame1)
 			end

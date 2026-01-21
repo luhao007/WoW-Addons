@@ -1,5 +1,5 @@
 ## Interface: 110207
-## Version: #DMP.20251210.015
+## Version: #DMP.20260117.016
 
 ## Title: Details!: Mythic Plus Extension
 ## Notes: Add Mythic Plus stuff on Details!

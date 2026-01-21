@@ -1,73 +1,45 @@
 # AllTheThings
 
-## [4.8.8](https://github.com/ATTWoWAddon/AllTheThings/tree/4.8.8) (2026-01-01)
-[Full Changelog](https://github.com/ATTWoWAddon/AllTheThings/compare/4.8.7...4.8.8) [Previous Releases](https://github.com/ATTWoWAddon/AllTheThings/releases)
+## [5.0.0](https://github.com/ATTWoWAddon/AllTheThings/tree/5.0.0) (2026-01-21)
+[Full Changelog](https://github.com/ATTWoWAddon/AllTheThings/compare/4.8.14...5.0.0) [Previous Releases](https://github.com/ATTWoWAddon/AllTheThings/releases)
 
-- [Parser] Removed 'timelineSelf' overrides for now since they actually don't seem to function as expected upon further inspection  
-- [Parser] 'bubbleDownSelf' used with only 'timeline' will now directly perform 'timelineSelf' instead to allow for proper timeline inheritance without worry of cross-contamination of shared headers between multiple files  
-- [Parser] Slight adjustment and TODO notes for removed-only timeline handling  
-- Timeline Trading Post  
-- Remix Legion: Erus (The Golden NPC) also sells Fragmented Mementos, but for Flawless Threads  
-    - Minor formatting fixes  
-- Misc fixes  
-    - Warcraft rumble mail quest are gone long time ago  
-    - [Classic] The small eggs are not exclusive to Darkshore  
-    - [Classic] Family deaths does not require The haunted mills. Both quests can be done together.  
-    - [Classic] Fix Trial of the Sea Lion Horde version  
-    - HQT for Brawler guild  
-    - [Remix] Maps to lesser invasion achievements  
-    - [Remix] Maps to Putting the Finite in Infinite  
-    - Timeline all minor patchs of classic  
-    - [Classic] Timeline Amongst the Ruins quest  
-    - Power Unified (75641) and Dawn of the Infinite (76140) are removed, Closes #2251  
-    - [Classic] MOP Enchant Weapon - Tyranny, Closes #2248  
-- Fixed timeline of Midnight Collector's Edition.  
-    Added 2 missing Diablo decor items.  
-- Run thru of N'Zoth BFA Unlock Questline  
-- [Parser] Retail: No one reparsed Retail for a while  
-- Update Glimmerogg Racer.lua  
-    Add lockcriteria to Glimmerogg rep increase quests  
-- [DB] MoP: Pandaren starter quests to Wandering Isle  
-- Fixed sourceQuest name.  
-- Corrected timeline to many artifact achievements.  
-    Removed description from itemID 119409 after 10.1.5.  
-- Sorted NYI decor items.  
-- Added all decor items to Second Chair Pawdo.  
-- Added new decor quest.  
-- Moved 2 SL PvP achievements under World PvP header.  
-- Retail errors  
-- [Logic] Fixed Lua error on tooltips for World Quests with no timeRemaining  
+- Fix retail.config  
+- Midnight achievement category fixes  
+- parser update  
+- build config  
+- Retail: Added a workaround to hostile unit tooltips when a secret value is detected and would normally cause our tooltip to throw an error.  
+- [DB] Fix catalystID for Midnight S1 raid  
+- [Logic] Added a fix for Blizzard sometimes using secret values in outdoor world tooltips for some reason  
+- Update Weekly Holidays.lua  
+- Update Housing - Alliance Character  
+- Update Quests.lua  
+- Parse Retail with updated wago  
+    Seems to be working even with all the warnings for removed content.  
+- Tweak Golden Cloud Serpent Treasure Chest  
+- Oribos contrib stuff  
 - Fix a few reported errors  
-- [Logic] Classic: Revert a used appName  
-- [Logic] Cleaned up tons of unused variables and unnecessary assignments to remove Lua syntax warnings  
-- [Misc] Clean up some Lua linting warnings  
-- [Logic] /attwq now includes more Events and POIs based on what is defined in AreaPOIDB rather than being hard-coded within the logic [WIP - as Events rotate in game]  
+- Add alliance restriction for Janey Forrest vendor in Boralus  
+- Update 12.0 timelines, bump config  
+- Timelines: Legion Remix ending Patch  
+- Beta: fishing something to clearing out stuff  
+- [DB] Vanilla Crafted Items: Timeline spacing + description about Icebellow Anvil  
+- Reparse Beta  
 - Generate Missing Files  
-- [Logic] Retail: Cleanup and fix some /attwq object handling  
-- [Logic] Fixed 'GetColoredTimeRemaining' expecting minutes instead of seconds  
 - Sort Recipes  
-- Harvest: 12.0.1.64914  
-- Harvest: 12.0.0.65028  
-- Fix Exploration  
-- editor config changes  
-- Harvest: 12.0.0.64975  
-- Merge branch 'master' of https://github.com/ATTWoWAddon/AllTheThings  
-- [DB] Added more Area POI IDs  
-- [Parser] Cleaned up formatting of a function template to remove Lua syntax errors  
-- Revert "Trying to add encoding fix for different system languages when harvesting."  
-- Some data fixes  
-- Harvest: 11.2.7.64978  
-- Harvest: 2.5.5.65000  
-- Harvest: 2.5.5.64912  
-- Harvest: 1.15.8.64907  
-- Update Flame's Radiance.lua  
-    Fixed rep requirement for title  
-- Some small quest fixes.  
-- [Parser] Fix an issue where implied itemID 0 could merge unexpected data for Mounts which have no Item  
-- Legion: Warrior Order Hall  
-    - Minor formatting fixes and a couple of QIs  
-- 7th Legion Supply Crate  
-- Update Iskaara Fishing.lua  
-- [Logic] Slight improvement to the 'InGame' Filter logic  
-- [Parser] Prep for being able to manually hook 'AreaPOI' information to ATT data to allow displaying some currently-missing time-limited content in the /attwq list  
-- [DB] Add some maps to Hunter BM scenario quest  
+- Harvest: 12.0.1.65337  
+- Harvest: 12.0.0.65390  
+- Harvest: 12.0.0.65294  
+- Harvest: 11.2.7.65299  
+- Harvest: 5.5.3.65302  
+- Harvest: 3.80.0.65301  
+- Harvest: 2.5.5.65417  
+- Harvest: 2.5.5.65340  
+- Harvest: 2.5.5.65295  
+- Harvest: 1.15.8.65300  
+- [DB] Crafted Items Vanilla - Cata: Updating retail descriptions for disenchant mats.  
+- [DB] Cataclysm - Bastion of Twilight: Sinestra can be buggy to solo.  
+- [DB] WotLK Crafted Items: Correcting retail notes for enchant mats + sourcing things to Ice Prism.  
+- TBC: Slightly adjusted Adamantite Powder. Since it requires 5 ore to make 1 powder, cost is slightly more accurate.  
+- Moved HQT 58013 into Unknown section. Reason for this ID was never discovered.  
+- [DB] TBC Crafted Items: Neglected to source Adamantite Powder  
+- [Logic] Fix showing 'and 0 more ...' for Coordinates in tooltip  

@@ -1,6 +1,6 @@
 ## Interface: 110207
 ## Author: Teelo
-## Version: 11.2-033
+## Version: 12.0-001
 
 ## Title: Edit Mode Expanded
 ## Notes: Expands Edit Mode to apply to other frames

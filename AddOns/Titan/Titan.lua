@@ -18,6 +18,18 @@ local AceTimer = LibStub("AceTimer-3.0")
 local media = LibStub("LibSharedMedia-3.0")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
+---Open the WoW config to the requested place.
+--- Use AceConfigDialog:Open to open a specific part of the Titan config as a distinct frame
+---@param ... unknown
+local function OpenConfig(...)
+	-- WoW 12.0 (Midnight) changed the API to open their Config.
+	if C_SettingsUtil and C_SettingsUtil.OpenSettingsPanel then
+		C_SettingsUtil.OpenSettingsPanel(...)
+	else
+		Settings.OpenToCategory(...)
+	end
+end
+
 --	TitanDebug (cmd.." : "..p1.." "..p2.." "..p3.." "..#cmd_list)
 
 --------------------------------------------------------------
@@ -25,8 +37,6 @@ local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
 --[[
 Note:
-- Use Settings.OpenToCategory to open all of Titan configa.
-- Use AceConfigDialog:Open to open a specific part of the Titan config.
 
 --]]
 ---Titan Give the user an are you sure popup whether to reload the UI or not.
@@ -263,7 +273,7 @@ local function RegisterAddonCompartment()
 				notCheckable = true,
 				func = function(button, menuInputData, menu)
 					TitanUpdateConfig("init")
-					Settings.OpenToCategory(TITAN_PANEL_CONFIG.topic.About)
+					AceConfigDialog:Open("Titan Panel Main")
 				end,
 				funcOnEnter = function(button)
 					MenuUtil.ShowTooltip(button, function(tooltip)
@@ -280,6 +290,41 @@ local function RegisterAddonCompartment()
 		)
 	else
 	end
+end
+
+local function SetToonInfo(toon)
+	-- New Dec 2025 Collect some toon info for profile display
+	-- Unlikely to change on reload but...
+	local toon_info = TitanSettings.Players[toon].Info
+	local unit = "player"
+
+	local classFilename, classId = UnitClassBase(unit)
+	local localizedClassName, classFile, classID = GetClassInfo(classId)
+	toon_info.class = localizedClassName
+	toon_info.classId = classID
+
+	local englishFaction, localizedFaction = UnitFactionGroup(unit)
+	toon_info.faction = localizedFaction
+	toon_info.factionId = englishFaction
+
+	local level = UnitLevel(unit)
+	toon_info.level = level
+	toon_info.levelText = tostring(level)
+
+	local localizedRaceName, englishRaceName, raceID = UnitRace(unit)
+	toon_info.race = localizedRaceName
+	toon_info.raceId = raceID
+end
+
+local function SetToonLogout(toon)
+	-- New Dec 2025 Collect some toon info for profile display
+	-- Unlikely to change on reload but...
+	local toon_info = TitanSettings.Players[toon].Info
+	local unit = "player"
+
+	local now = _G.time()
+	toon_info.logout = now
+	toon_info.logoutStr = TitanUtils_GetDateText(now, true)
 end
 
 ---Titan Do all the setup needed when a user logs in / reload UI / enter or leave an instance.
@@ -299,7 +344,8 @@ function TitanPanel_PlayerEnteringWorld(reload)
 		Titan_Debug.Out('titan', 'p_e_w', "Init settings")
 
 		-- Get Saved Vars; sync with defaults
-		TitanVariables_InitTitanSettings();
+		TitanVariables_InitTitanSettings()
+
 		if TitanAllGetVar("Silenced") then
 			-- No header output
 		else
@@ -358,6 +404,8 @@ function TitanPanel_PlayerEnteringWorld(reload)
 
 	local _ = nil
 	TitanSettings.Player, _, _ = TitanUtils_GetPlayer()
+
+	SetToonInfo(TitanSettings.Player)
 
 	-- Some addons wait to create their LDB component or a Titan addon could
 	-- create additional buttons as needed.
@@ -515,6 +563,8 @@ function TitanPanelBarButton:PLAYER_LOGOUT()
 	end
 	--]]
 	Titan__InitializedPEW = false
+
+	SetToonLogout(TitanSettings.Player)
 end
 
 ---Titan Handle ZONE_CHANGED_INDOORS Hide Titan top bars if user requested to hide Top bar(s) in BG or arena
@@ -732,9 +782,7 @@ local function handle_giu_cmds(cmd_list)
 		return
 	end
 
-	-- DF changed how options are called. The best I get is the Titan 'about', not deeper.
-	Settings.OpenToCategory(TITAN_PANEL_CONFIG.topic.About, TITAN_PANEL_CONFIG.topic.scale)
-	-- so the below does not work as expected...
+	AceConfigDialog:Open("Titan Panel Panel Control")
 end
 
 ---local Helper to handle profile commands - Set to profile if not using global profile.
@@ -872,23 +920,35 @@ SLASH_TitanPanel2 = "/titan";
 ---@param tex table Texture frame to set
 ---@param color table Color - RBGA
 local function Set_Color(frame, tex, color)
+	-- Jan 2026 : Put gorder on option
+	local edge = TitanBarDataVars[frame].color_border
+	local edge_file = ""
+	if edge then
+		edge_file = "Interface\\Glues\\Common\\TextPanel-Border"
+	else
+		edge_file = ""
+	end
+
 	--[[
 print("_Set bar color"
+.." '"..tostring(frame).."'"
 .." "..tostring(TitanBarData[frame].tex_name)..""
 --.." "..tostring(tex:GetName())..""
 .." "..tostring(format("%0.1f", color.r))..""
 .." "..tostring(format("%0.1f", color.g))..""
 .." "..tostring(format("%0.1f", color.b))..""
 .." "..tostring(format("%0.1f", color.alpha))..""
+.." "..tostring(edge)..""
 )
 --]]
+
 	_G[frame]:SetBackdrop({
 		bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
 		--		edgeFile="Interface\\Tooltips\\UI-Tooltip-Border",
 		--		edgeFile="Interface\\DialogFrame\\UI-DialogBox-Gold-Border",
-		edgeFile = "Interface\\Glues\\Common\\TextPanel-Border",
+		edgeFile = edge_file,
 		tile = true,
-		tileEdge = true,
+		tileEdge = edge,
 		--		insets = { left = 1, right = 1, top = 1, bottom = 1 },
 		tileSize = 8,
 		edgeSize = 8,
@@ -898,8 +958,9 @@ print("_Set bar color"
 		TOOLTIP_DEFAULT_COLOR.r,
 		TOOLTIP_DEFAULT_COLOR.g,
 		TOOLTIP_DEFAULT_COLOR.b,
-		color.alpha); -- 2024 AUg : Border will use the color alpha
-	_G[frame]:SetBackdropColor(
+		color.alpha); -- 2024 Aug : Border will use the color alpha
+
+		_G[frame]:SetBackdropColor(
 		color.r,
 		color.g,
 		color.b,
@@ -989,11 +1050,14 @@ print("_Tex"
 )
 --]]
 	-- Use the texture / skin per user selectable options
+--[[
 	if TitanBarDataVars["Global"].texure == Titan_Global.SKIN then
 		Set_Skin(frame, titanTexture, TitanBarDataVars["Global"].skin) -- tex_path = TitanPanelGetVar("TexturePath")
 	elseif TitanBarDataVars["Global"].texure == Titan_Global.COLOR then
 		Set_Color(frame, titanTexture, TitanBarDataVars["Global"].color)
-	elseif TitanBarDataVars[frame].texure == Titan_Global.SKIN then
+	else
+--]]		
+	if TitanBarDataVars[frame].texure == Titan_Global.SKIN then
 		Set_Skin(frame, titanTexture, TitanBarDataVars[frame].skin)
 	elseif TitanBarDataVars[frame].texure == Titan_Global.COLOR then
 		Set_Color(frame, titanTexture, TitanBarDataVars[frame].color)
@@ -1942,6 +2006,9 @@ local function BuildMainMenu(frame)
 
 	TitanPanelRightClickMenu_AddSeparator(TitanPanelRightClickMenu_GetDropdownLevel());
 
+	if Titan_Global.switch.midnight then
+		-- disable until we figure this out
+	else
 	-----------------
 	-- Config - just one button to open the first Titan option screen
 	do
@@ -1951,12 +2018,13 @@ local function BuildMainMenu(frame)
 		info.value = "Config";
 		info.func = function()
 			TitanUpdateConfig("init")
-			Settings.OpenToCategory(TITAN_PANEL_CONFIG.topic.About)
+			OpenConfig(TITAN_PANEL_CONFIG.topic.About)
 		end
 		TitanPanelRightClickMenu_AddButton(info);
 	end
 
 	TitanPanelRightClickMenu_AddSeparator(TitanPanelRightClickMenu_GetDropdownLevel());
+	end
 
 	-----------------
 	-- Profiles
@@ -1969,7 +2037,6 @@ local function BuildMainMenu(frame)
 	info.func = function()
 		TitanUpdateConfig("init")
 		AceConfigDialog:Open("Titan Panel Addon Chars")
-		--			Settings.OpenToCategory(TITAN_PANEL_CONFIG.topic.profiles)
 	end
 	TitanPanelRightClickMenu_AddButton(info);
 
@@ -1989,7 +2056,6 @@ local function BuildMainMenu(frame)
 	info.func = function()
 		TitanUpdateConfig("init")
 		AceConfigDialog:Open("Titan Panel Help List")
-		--			Settings.OpenToCategory(TITAN_PANEL_CONFIG.topic.profiles)
 	end
 	TitanPanelRightClickMenu_AddButton(info);
 

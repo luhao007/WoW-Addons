@@ -11,7 +11,7 @@ local tbl_remove, unpack, pairs = table.remove, unpack, pairs
 local resetFunctions = {}
 
 local function showOptions()
-	Settings.OpenToCategory("AtlasLoot");
+	Settings.OpenToCategory(AtlasLoot.settingsID);
 end
 
 local CommandList = {

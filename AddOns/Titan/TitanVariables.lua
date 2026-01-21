@@ -323,6 +323,7 @@ TitanSkinsPathEnd = "\\"
 ---Global is an additional index used if the user wants all Bars to be the same skin or color.
 
 TitanBarVarsDefaults = {
+	--[[
 	["Global"] = -- holds 'global' user settings; NOT for use in the frame loop!
 	{
 		skin = { path = TitanSkinsDefaultPath, alpha = 0.7 },
@@ -330,12 +331,14 @@ TitanBarVarsDefaults = {
 		texure = Titan_Global.NONE, -- Titan_Global.NONE or Titan_Global.SKIN or Titan_Global.COLOR
 		hide_in_combat = false,
 	},
+	--]]
 	[TITAN_PANEL_DISPLAY_PREFIX .. "Bar"] = {
 		off_x = 0,
 		off_y = 0,
 		off_w = x_max,
 		skin = { path = TitanSkinsDefaultPath, alpha = 0.7 },
 		color = { r = 1.0, g = .5, b = 1.0, alpha = 1.0 },
+		color_border = true,
 		texure = Titan_Global.SKIN, -- or Titan_Global.COLOR
 		show = true,
 		auto_hide = false,
@@ -349,6 +352,7 @@ TitanBarVarsDefaults = {
 		off_w = x_max,
 		skin = { path = TitanSkinsDefaultPath, alpha = 0.7 },
 		color = { r = 1.0, g = .5, b = 1.0, alpha = 1.0 },
+		color_border = true,
 		texure = Titan_Global.SKIN,
 		show = false,
 		auto_hide = false,
@@ -362,6 +366,7 @@ TitanBarVarsDefaults = {
 		off_w = x_max,
 		skin = { path = TitanSkinsDefaultPath, alpha = 0.7 },
 		color = { r = 1.0, g = .5, b = 1.0, alpha = 1.0 },
+		color_border = true,
 		texure = Titan_Global.SKIN,
 		show = false,
 		auto_hide = false,
@@ -375,6 +380,7 @@ TitanBarVarsDefaults = {
 		off_w = x_max,
 		skin = { path = TitanSkinsDefaultPath, alpha = 0.7 },
 		color = { r = 1.0, g = .5, b = 1.0, alpha = 1.0 },
+		color_border = true,
 		texure = Titan_Global.SKIN,
 		show = false,
 		auto_hide = false,
@@ -388,6 +394,7 @@ TitanBarVarsDefaults = {
 		off_w = SHORT_WIDTH,
 		skin = { path = TitanSkinsDefaultPath, alpha = 0.7 },
 		color = { r = 1.0, g = .5, b = 1.0, alpha = 1.0 },
+		color_border = true,
 		texure = Titan_Global.SKIN,
 		show = false,
 		auto_hide = false,
@@ -401,6 +408,7 @@ TitanBarVarsDefaults = {
 		off_w = SHORT_WIDTH,
 		skin = { path = TitanSkinsDefaultPath, alpha = 0.7 },
 		color = { r = 1.0, g = .5, b = 1.0, alpha = 1.0 },
+		color_border = true,
 		texure = Titan_Global.SKIN,
 		show = false,
 		auto_hide = false,
@@ -414,6 +422,7 @@ TitanBarVarsDefaults = {
 		off_w = SHORT_WIDTH,
 		skin = { path = TitanSkinsDefaultPath, alpha = 0.7 },
 		color = { r = 1.0, g = .5, b = 1.0, alpha = 1.0 },
+		color_border = true,
 		texure = Titan_Global.SKIN,
 		show = false,
 		auto_hide = false,
@@ -427,6 +436,7 @@ TitanBarVarsDefaults = {
 		off_w = SHORT_WIDTH,
 		skin = { path = TitanSkinsDefaultPath, alpha = 0.7 },
 		color = { r = 1.0, g = .5, b = 1.0, alpha = 1.0 },
+		color_border = true,
 		texure = Titan_Global.SKIN,
 		show = false,
 		auto_hide = false,
@@ -440,6 +450,7 @@ TitanBarVarsDefaults = {
 		off_w = SHORT_WIDTH,
 		skin = { path = TitanSkinsDefaultPath, alpha = 0.7 },
 		color = { r = 1.0, g = .5, b = 1.0, alpha = 1.0 },
+		color_border = true,
 		texure = Titan_Global.SKIN,
 		show = false,
 		auto_hide = false,
@@ -453,6 +464,7 @@ TitanBarVarsDefaults = {
 		off_w = SHORT_WIDTH,
 		skin = { path = TitanSkinsDefaultPath, alpha = 0.7 },
 		color = { r = 1.0, g = .5, b = 1.0, alpha = 1.0 },
+		color_border = true,
 		texure = Titan_Global.SKIN,
 		show = false,
 		auto_hide = false,
@@ -466,6 +478,7 @@ TitanBarVarsDefaults = {
 		off_w = SHORT_WIDTH,
 		skin = { path = TitanSkinsDefaultPath, alpha = 0.7 },
 		color = { r = 1.0, g = .5, b = 1.0, alpha = 1.0 },
+		color_border = true,
 		texure = Titan_Global.SKIN,
 		show = false,
 		auto_hide = false,
@@ -479,6 +492,7 @@ TitanBarVarsDefaults = {
 		off_w = SHORT_WIDTH,
 		skin = { path = TitanSkinsDefaultPath, alpha = 0.7 },
 		color = { r = 1.0, g = .5, b = 1.0, alpha = 1.0 },
+		color_border = true,
 		texure = Titan_Global.SKIN,
 		show = false,
 		auto_hide = false,
@@ -492,6 +506,7 @@ TitanBarVarsDefaults = {
 		off_w = SHORT_WIDTH,
 		skin = { path = TitanSkinsDefaultPath, alpha = 0.7 },
 		color = { r = 1.0, g = .5, b = 1.0, alpha = 1.0 },
+		color_border = true,
 		texure = Titan_Global.SKIN,
 		show = false,
 		auto_hide = false,
@@ -506,6 +521,7 @@ TitanBarVarsDefaults = {
 		skin = { path = TitanSkinsDefaultPath, alpha = 0.7 },
 		color = { r = 1.0, g = .5, b = 1.0, alpha = 1.0 },
 		texure = Titan_Global.SKIN,
+		color_border = true,
 		show = false,
 		auto_hide = false,
 		align = TITAN_PANEL_BUTTONS_ALIGN_LEFT, -- TITAN_PANEL_BUTTONS_ALIGN_CENTER
@@ -913,6 +929,15 @@ local function Titan_SyncAdjList()
 	end
 end
 
+local function AdjBarVars(to_profile)
+		local BV = TitanSettings.Players[to_profile].BarVars
+		for idx, v in pairs(TitanBarData) do
+			if v.color_border == nil then -- NEW Jan 2026
+				BV[idx].color_border = true
+			end
+		end
+end
+
 ---local Set the Titan bar settings of the given profile from saved variables
 ---@param to_profile string
 --- If no profile found, use Titan defaults
@@ -955,6 +980,9 @@ local function Set_bar_vars(to_profile)
 			.. " " .. tostring(to_profile) .. ""
 		Titan_Debug.Out('titan', 'profile', str)
 	end
+
+	-- New 2026 : Add any new BarVar or delete removed fields to ALL known profiles
+	AdjBarVars(to_profile)
 end
 
 local function Check_Titan_settings()
@@ -978,7 +1006,13 @@ local function Check_Titan_settings()
 	local profile = TitanUtils_GetPlayer() -- only need profile
 	if TitanSettings.Players[profile] == nil then
 		TitanSettings.Players[profile] = {}
-		--		 = TitanBarVarsDefaults
+	else
+		-- exists, good
+	end
+
+	-- Info for THIS toon for display in Profile
+	if TitanSettings.Players[profile].Info == nil then
+		TitanSettings.Players[profile].Info = {}
 	else
 		-- exists, good
 	end

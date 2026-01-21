@@ -120,6 +120,11 @@ local function AddEntityContinentDropDownValue(entityID, entityInfo, continentDr
 		alreadyAdded = true
 	end
 	
+	if (not alreadyAdded and filters[RSConstants.EXPLORER_FILTER_DROP_DECOR] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.DECOR]) > 0) then
+		AddContinentDropDownValue(entityID, entityInfo, continentDropDownValuesNotSorted, source)
+		alreadyAdded = true
+	end
+	
 	if (not alreadyAdded and filters[RSConstants.EXPLORER_FILTER_ACHIEVEMENT_CRITERIA] and entityInfo.achievementID) then
 		local isContainer = source == RSConstants.ITEM_SOURCE.CONTAINER and true or false
 	
@@ -373,6 +378,24 @@ local function FilterDropDownMenu_SetupMenu(dropDown, rootDescription)
 		return MenuResponse.Refresh;
 	end)
 	
+	local decorFilter = collectionsSubmenu:CreateRadio(AL["EXPLORER_FILTER_DECOR"], 
+		function(filterKey) return filters[filterKey] end, 
+		function(filterKey)
+			-- Overriden by SetResponder
+		end,
+		RSConstants.EXPLORER_FILTER_DROP_DECOR)
+	decorFilter:SetResponder(function(filterKey)
+		if (filters[filterKey]) then
+			RSConfigDB.SetSearchingDecors(false)
+			filters[filterKey] = nil
+		else
+			RSConfigDB.SetSearchingDecors(true)
+			filters[filterKey] = true
+		end
+		
+		return MenuResponse.Refresh;
+	end)
+	
 	local itemGroups = RSCollectionsDB.GetItemGroups()
 	if (itemGroups) then
 		for groupKey, groupName in pairs (itemGroups) do
@@ -585,6 +608,11 @@ local function RSExplorerRareList_Sort(e1, e2)
 		if (e2.hasMissingAppearance) then return false end
 	end
 			
+	if (e1.hasMissingDecor ~= e2.hasMissingDecor) then
+		if (e1.hasMissingDecor) then return true end
+		if (e2.hasMissingDecor) then return false end
+	end
+			
 	if (e1.hasMissingCustom ~= e2.hasMissingCustom) then
 		if (e1.hasMissingCustom) then return true end
 		if (e2.hasMissingCustom) then return false end
@@ -659,6 +687,7 @@ local function ToggleEntityState(element, elementData)
 		element.ToyTexture:SetDesaturated(1)
 		element.DrakewatcherTexture:SetDesaturated(1)
 		element.AppearanceTexture:SetDesaturated(1)
+		element.DecorTexture:SetDesaturated(1)
 		element.CustomTexture:SetDesaturated(1)
 	else
 		if (elementData.isNpc) then
@@ -671,6 +700,7 @@ local function ToggleEntityState(element, elementData)
 		element.ToyTexture:SetDesaturated(nil)
 		element.DrakewatcherTexture:SetDesaturated(nil)
 		element.AppearanceTexture:SetDesaturated(nil)
+		element.DecorTexture:SetDesaturated(nil)
 		element.CustomTexture:SetDesaturated(nil)
 	end
 end
@@ -682,6 +712,7 @@ function RSExplorerRareList:OnElementInitialize(element, elementData)
 	activeTextures = ToggleButtonTexture(activeTextures, element.ToyTexture, elementData.hasMissingToy)
 	activeTextures = ToggleButtonTexture(activeTextures, element.DrakewatcherTexture, elementData.hasMissingDrakewatcher)
 	activeTextures = ToggleButtonTexture(activeTextures, element.AppearanceTexture, elementData.hasMissingAppearance)
+	activeTextures = ToggleButtonTexture(activeTextures, element.DecorTexture, elementData.hasMissingDecor)
 	activeTextures = ToggleButtonTexture(activeTextures, element.CustomTexture, elementData.hasMissingCustom)
 	
 	if (self.selectionBehavior:IsSelected(element)) then
@@ -776,12 +807,14 @@ function RSExplorerRareList:OnElementLeave(element, elementData)
 end
 
 local function RSExplorerLoadMap(mapID, mapFrame)
-	-- Avoid refreshing if the map didn't change
-	if (mapFrame.mapID and mapFrame.mapID == mapID) then
-		return
-	end
-	
-	mapFrame.mapID = mapID
+	-- Avoid refreshing only if the map art & map did not change
+    local mapArtID = C_Map.GetMapArtID(mapID)
+    if (mapFrame.mapID and mapFrame.mapID == mapID and mapFrame.mapArtID == mapArtID) then
+        return
+    end
+
+    mapFrame.mapID = mapID
+    mapFrame.mapArtID = mapArtID
 	
 	-- Initialize variables
 	if (not mapFrame.detailLayerPool) then
@@ -905,6 +938,7 @@ function RSExplorerRareList:OnElementSelectionChanged(elementData, selected)
 	self:AddItems(elementData, mainFrame.RareInfo.Toys, RSConstants.ITEM_TYPE.TOY)
 	self:AddItems(elementData, mainFrame.RareInfo.Drakewatcher, RSConstants.ITEM_TYPE.DRAKEWATCHER)
 	self:AddItems(elementData, mainFrame.RareInfo.Appearances, RSConstants.ITEM_TYPE.APPEARANCE)
+	self:AddItems(elementData, mainFrame.RareInfo.Decor, RSConstants.ITEM_TYPE.DECOR)
 	
 	-- Refresh internal loot grid
 	mainFrame.RareInfo.Custom.grid = nil
@@ -960,6 +994,11 @@ function RSExplorerRareList:AddEntityToDataProvider(entityID, entityInfo, entity
 		self:AddToDataProvider(entityID, entityInfo, entityName, source)
 		alreadyAdded = true
 	end
+				
+	if (not alreadyAdded and filters[RSConstants.EXPLORER_FILTER_DROP_DECOR] and collectionsLoot and collectionsLoot[entityID] and RSUtils.GetTableLength(collectionsLoot[entityID][RSConstants.ITEM_TYPE.DECOR]) > 0) then
+		self:AddToDataProvider(entityID, entityInfo, entityName, source)
+		alreadyAdded = true
+	end
 	
 	if (not alreadyAdded) then
 		for groupKey, _ in pairs(RSCollectionsDB.GetItemGroups()) do	
@@ -999,7 +1038,7 @@ function RSExplorerRareList:AddToDataProvider(entityID, entityInfo, entityName, 
 	local elementData = {}
 	elementData.entityID = entityID
 	elementData.mapID = entityInfo.zoneID
-	elementData.name = entityName
+	elementData.name = entityName and entityName or entityID
 	
 	if (itemSource == RSConstants.ITEM_SOURCE.NPC) then
 		elementData.displayID = entityInfo.displayID
@@ -1055,6 +1094,11 @@ function RSExplorerRareList:AddToDataProvider(entityID, entityInfo, entityName, 
 			elementData.hasMissingDrakewatcher = true
 		else
 			elementData.hasMissingDrakewatcher = false
+		end
+		if (RSUtils.GetTableLength(collectionsLoot[itemSource][entityID][RSConstants.ITEM_TYPE.DECOR]) > 0) then
+			elementData.hasMissingDecor = true
+		else
+			elementData.hasMissingDecor = false
 		end
 		
 		-- for custom items we show the texture only if they user is not filtering for an specific group
@@ -1184,6 +1228,7 @@ function RSExplorerRareList:AddItems(elementData, parentFrame, itemType, customG
 		    		lootItem.istoy = itemType == RSConstants.ITEM_TYPE.TOY
 		    		lootItem.isDrakewatcher = itemType == RSConstants.ITEM_TYPE.DRAKEWATCHER
 		    		lootItem.isAppearance = itemType == RSConstants.ITEM_TYPE.APPEARANCE
+		    		lootItem.isDecor = itemType == RSConstants.ITEM_TYPE.DECOR
 		    		lootItem.isCustom = RSUtils.Contains(customGroupKeys, itemType)
 		    		
 		    		lootItem:SetPoint("TOPLEFT", parentFrame, "TOPLEFT", xOffset, yOffset)
@@ -1266,7 +1311,7 @@ function RSExplorerRareInfoLootItem_OnClick(self, button)
 				DressUpMountLink(item:GetItemLink())
 			elseif (itemIcon.isPet) then
 				DressUpBattlePetLink(item:GetItemLink())
-			elseif (itemIcon.isAppearance) then
+			elseif (itemIcon.isAppearance or itemIcon.isDecor) then
 				DressUpItemLink(item:GetItemLink())
 			end
 		elseif (IsShiftKeyDown()) then
@@ -1282,10 +1327,10 @@ end
 RSExplorerDetailMap = { };
 
 function RSExplorerDetailMap:OnLoad()
-	self.detailTilePool = CreateTexturePool(self, "BACKGROUND", -7);
+	self.detailTilePool = CreateTexturePool(self, "BACKGROUND", -7, "MapCanvasDetailTileTemplate");
 	self.overlayTexturePool = CreateTexturePool(self, "ARTWORK", 0);
 	self.textureLoadGroup = CreateFromMixins(TextureLoadingGroupMixin);
-	self.defailedTextureLoadGroup = CreateFromMixins(TextureLoadingGroupMixin);
+	self.detailedTextureLoadGroup = CreateFromMixins(TextureLoadingGroupMixin);
 end
 
 function RSExplorerDetailMap:IsFullyLoaded()
@@ -1306,7 +1351,7 @@ function RSExplorerDetailMap:RefreshDetailTiles(mapFrame)
 	self.detailTilePool:ReleaseAll();
 	self.overlayTexturePool:ReleaseAll();
 	self.textureLoadGroup:Reset();
-	self.defailedTextureLoadGroup:Reset();
+	self.detailedTextureLoadGroup:Reset();
 	self.isWaitingForLoad = true;
 	self:SetAlpha(0);
 	
@@ -1327,7 +1372,9 @@ function RSExplorerDetailMap:RefreshDetailTiles(mapFrame)
 				prevRowDetailTile = nil;
 			end
 			local detailTile = self.detailTilePool:Acquire();
+			detailTile:ClearAllPoints()
 			self.textureLoadGroup:AddTexture(detailTile);
+			
 			local textureIndex = (tileRow - 1) * numDetailTilesCols + tileCol;
 			detailTile:SetTexture(textures[textureIndex], nil, nil, "TRILINEAR");
 			detailTile:ClearAllPoints();
@@ -1372,14 +1419,16 @@ function RSExplorerDetailMap:RefreshDetailTiles(mapFrame)
 					end
 				end
 				for k = 1, numTexturesWide do
-					local texture = self.overlayTexturePool:Acquire();
-					self.defailedTextureLoadGroup:AddTexture(texture);
-					if ( k < numTexturesWide ) then
+					local overlayTile = self.overlayTexturePool:Acquire();
+					overlayTile:ClearAllPoints()
+					
+					self.detailedTextureLoadGroup:AddTexture(overlayTile);
+					if (k < numTexturesWide) then
 						texturePixelWidth = TILE_SIZE_WIDTH;
 						textureFileWidth = TILE_SIZE_WIDTH;
 					else
 						texturePixelWidth = mod(exploredTextureInfo.textureWidth, TILE_SIZE_WIDTH);
-						if ( texturePixelWidth == 0 ) then
+						if (texturePixelWidth == 0) then
 							texturePixelWidth = TILE_SIZE_WIDTH;
 						end
 						textureFileWidth = 16;
@@ -1387,19 +1436,20 @@ function RSExplorerDetailMap:RefreshDetailTiles(mapFrame)
 							textureFileWidth = textureFileWidth * 2;
 						end
 					end
-					texture:SetWidth(texturePixelWidth);
-					texture:SetHeight(texturePixelHeight);
-					texture:SetTexCoord(0, texturePixelWidth/textureFileWidth, 0, texturePixelHeight/textureFileHeight);
-					texture:SetPoint("TOPLEFT", exploredTextureInfo.offsetX + (TILE_SIZE_WIDTH * (k-1)), -(exploredTextureInfo.offsetY + (TILE_SIZE_HEIGHT * (j - 1))));
-					texture:SetTexture(exploredTextureInfo.fileDataIDs[((j - 1) * numTexturesWide) + k], nil, nil, "TRILINEAR");
-					texture:SetDrawLayer("ARTWORK", -1);
-					texture:Show();
+					overlayTile:SetWidth(texturePixelWidth);
+					overlayTile:SetHeight(texturePixelHeight);
+					overlayTile:SetTexCoord(0, texturePixelWidth/textureFileWidth, 0, texturePixelHeight/textureFileHeight);
+					overlayTile:SetPoint("TOPLEFT", exploredTextureInfo.offsetX + (TILE_SIZE_WIDTH * (k-1)), -(exploredTextureInfo.offsetY + (TILE_SIZE_HEIGHT * (j - 1))));
+					overlayTile:SetTexture(exploredTextureInfo.fileDataIDs[((j - 1) * numTexturesWide) + k], nil, nil, "TRILINEAR");
+					overlayTile:SetDrawLayer("ARTWORK", -1);
+					overlayTile:Show();
 				end
 			end
 		end
 	end
 	
 	-- Rescale
+	self:SetScale(1)
 	local mapWidth = layerInfo.layerWidth
 	if (mapWidth ~= mapFrame:GetWidth()) then
 		local scaleFactor = mapFrame:GetWidth() / mapWidth
@@ -1407,14 +1457,13 @@ function RSExplorerDetailMap:RefreshDetailTiles(mapFrame)
 	end
 end
 
-
 function RSExplorerDetailMap:OnUpdate()
-	if (self.isWaitingForLoad and self.textureLoadGroup:IsFullyLoaded() and self.defailedTextureLoadGroup:IsFullyLoaded()) then
-		self.isWaitingForLoad = nil;
-		self:RefreshAlpha();
-		self.textureLoadGroup:Reset();
-		self.defailedTextureLoadGroup:Reset();
-	end
+	if (self.isWaitingForLoad and self.textureLoadGroup:IsFullyLoaded() and self.detailedTextureLoadGroup:IsFullyLoaded()) then
+        self.isWaitingForLoad = nil;
+        self:RefreshAlpha();
+        self.textureLoadGroup:Reset();
+       	self.detailedTextureLoadGroup:Reset();
+    end
 end
 
 function RSExplorerDetailMap:RefreshAlpha()
@@ -1836,6 +1885,9 @@ function RSExplorerMixin:OnLoad()
 	self.RareInfo.Custom.Texture:SetTexture("Interface\\AddOns\\RareScanner\\Media\\Textures\\CustomCorner.blp")
 	self.RareInfo.Custom.Texture:SetVertexColor(1,1,1,0.5)
 	self.RareInfo.Custom.Texture.tooltip = AL["EXPLORER_CUSTOM"]
+	self.RareInfo.Decor.Texture:SetTexture("Interface\\AddOns\\RareScanner\\Media\\Textures\\DecorCorner.blp")
+	self.RareInfo.Decor.Texture:SetVertexColor(1,1,1,0.5)
+	self.RareInfo.Decor.Texture.tooltip = AL["EXPLORER_DECOR"]
 	self:RegisterForDrag("LeftButton");
 	tinsert(UISpecialFrames, self:GetName());
 end
@@ -1893,6 +1945,7 @@ function RSExplorerMixin:Initialize()
 	filters[RSConstants.EXPLORER_FILTER_DROP_APPEARANCES] = RSConfigDB.IsSearchingAppearances()
 	filters[RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES] = RSConfigDB.IsSearchingClassAppearances()
 	filters[RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER] = RSConfigDB.IsSearchingDrakewatcher()
+	filters[RSConstants.EXPLORER_FILTER_DROP_DECOR] = RSConfigDB.IsSearchingDecors()
 	filters[RSConstants.EXPLORER_FILTER_ACHIEVEMENT_CRITERIA] = RSConfigDB.IsSearchingMissingAchievementCriteria()
 	filters[RSConstants.EXPLORER_FILTER_DEAD] = RSConfigDB.IsShowDead()
 	filters[RSConstants.EXPLORER_FILTER_FILTERED] = RSConfigDB.IsShowFiltered()

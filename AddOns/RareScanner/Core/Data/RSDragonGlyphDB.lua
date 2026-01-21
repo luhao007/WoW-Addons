@@ -93,7 +93,7 @@ function RSDragonGlyphDB.GetInternalDragonGlyphInfoByMapID(glyphID, mapID)
 	if (glyphID and mapID) then
 		if (RSDragonGlyphDB.IsInternalDragonGlyphMultiZone(glyphID)) then
 			for internalMapID, zoneInfo in pairs (RSDragonGlyphDB.GetInternalDragonGlyphInfo(glyphID).zoneID) do
-				if (internalMapID == mapID or RSMapDB.IsMapInParentMap(mapID, internalMapID)) then
+				if (internalMapID == mapID) then
 					local dragonGlyphInfo = {}
 					RSUtils.CloneTable(RSDragonGlyphDB.GetInternalDragonGlyphInfo(glyphID), dragonGlyphInfo)
 					dragonGlyphInfo.zoneID = internalMapID

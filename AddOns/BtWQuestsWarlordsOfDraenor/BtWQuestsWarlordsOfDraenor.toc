@@ -1,6 +1,6 @@
 ## Interface: 110207
 ## Author: Breen
-## Version: v3.17
+## Version: v3.18
 
 ## Title: BtWQuests: Warlords of Draenor
 ## Notes: Warlords of Draenor quest data for BtWQuests

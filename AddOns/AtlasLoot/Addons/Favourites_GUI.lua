@@ -117,7 +117,7 @@ local function UpdateItemFrame(notPushChange)
 end
 
 local function ShowFavOptions()
-	Settings.OpenToCategory("AtlasLoot");
+	Settings.OpenToCategory(AtlasLoot.settingsID);
 end
 
 local function ShowOptionsOnClick()

@@ -13,6 +13,8 @@ local AL = LibStub("AceLocale-3.0"):GetLocale("RareScanner");
 ---============================================================================
 
 RSConstants.DEBUG_MODE = false
+RSConstants.DEBUG_ATLAS_VIGNETTE = false
+RSConstants.DEBUG_SHOW_COMPLETED_GLYPHS = false
 
 -- Use this constant to logger information about an specific entity while
 -- displaying on the map. This is handy to find bugs in the POI filters
@@ -27,15 +29,15 @@ RSConstants.LOOT_ITEM_ID = nil
 -- Current versions
 ---============================================================================
 
-RSConstants.CURRENT_DB_VERSION = 199
+RSConstants.CURRENT_DB_VERSION = 205
 RSConstants.CURRENT_LOOT_DB_VERSION = 183
 
 ---============================================================================
 -- Current maps (newer)
 ---============================================================================
 
-RSConstants.CURRENT_MAP_ID = 2274 --Khaz Algar
-RSConstants.CURRENT_SUBMAP_ID = 2371 --K'aresh
+RSConstants.CURRENT_MAP_ID = 2537 --Eastern Kingdom Midnight Continent
+RSConstants.CURRENT_SUBMAP_ID = 2432 --Isle of Quel'Danas
 
 ---============================================================================
 -- Default filtered entities by version
@@ -65,6 +67,7 @@ RSConstants.NOBLEGARDEN_EVENT = 5
 RSConstants.WARWITHIN_PRE_PATCH_EVENT = 6
 RSConstants.WOW_ANNIVERSARY_EVENT = 7
 RSConstants.LEGION_REMIX_EVENT = 8
+RSConstants.MIDNIGHT_PRE_PATCH_EVENT = 9
 
 RSConstants.EVENTS = {
 	-- [RareScanner_EVENTID] = true|false|holidayTextureID;
@@ -76,6 +79,7 @@ RSConstants.EVENTS = {
 	[RSConstants.WARWITHIN_PRE_PATCH_EVENT] = false;
 	[RSConstants.WOW_ANNIVERSARY_EVENT] = 6238552;
 	[RSConstants.LEGION_REMIX_EVENT] = 5788368;
+	[RSConstants.MIDNIGHT_PRE_PATCH_EVENT] = true;
 }
 
 ---============================================================================
@@ -129,7 +133,18 @@ RSConstants.LEGION_VALSHARAH_MINIEVENT = 44
 RSConstants.LEGION_STORMHEIM_MINIEVENT = 45
 RSConstants.LEGION_SURAMAR_MINIEVENT = 46
 RSConstants.LEGION_AZSUNA_MINIEVENT = 47
+RSConstants.MIDNIGHT_TREASURES_EVERSONG_WOODS_MINIEVENT = 48
+RSConstants.MIDNIGHT_LORE_HUNTER_MINIEVENT = 49
+RSConstants.MIDNIGHT_TREASURES_ZUL_AMAN_MINIEVENT = 50
+RSConstants.MIDNIGHT_TREASURES_VOIDSTORM_MINIEVENT = 51
+RSConstants.MIDNIGHT_TREASURES_HARANDAR_MINIEVENT = 52
+RSConstants.MIDNIGHT_EVERSONG_WOODS_HIGH_PEAKS_MINIEVENT = 53
 RSConstants.LEGION_SHOOT_FIRST_LOOT_LATER_MINIEVENT = 54
+RSConstants.MIDNIGHT_DUST_EM_OFF_MINIEVENT = 55
+RSConstants.MIDNIGHT_CHRONICLER_HARANIR_MINIEVENT = 56
+RSConstants.MIDNIGHT_ZUL_AMAN_HIGH_PEAKS_MINIEVENT = 57
+RSConstants.MIDNIGHT_HARANDAR_HIGH_PEAKS_MINIEVENT = 58
+RSConstants.MIDNIGHT_VOIDSTORM_HIGH_PEAKS_MINIEVENT = 59
 
 -- Minievents that will have an option to filter/unfilter the icons from the worldmap
 RSConstants.MINIEVENTS_WORLDMAP_FILTERS = {
@@ -182,6 +197,17 @@ RSConstants.MINIEVENTS_WORLDMAP_FILTERS = {
 	[RSConstants.PANDARIA_GODS_MONSTERS_MINIEVENT] = { active = true, containers = true, mapIDs = { 504 }, atlas = "Vehicle-Mogu", text = AL["MAP_MENU_SHOW_GODS_MONSTERS_CONTAINERS"] };
 	[RSConstants.WARWITHIN_SECRETS_KARESHI_MINIEVENT] = { active = true, containers = true, mapIDs = { 2371, 2472 }, atlas = "Profession", text = AL["MAP_MENU_SHOW_SECRETS_KARESHI_CONTAINERS"] };
 	[RSConstants.WARWITHIN_TREASURES_KARESH_MINIEVENT] = { active = true, containers = true, mapIDs = { 2371, 2472 }, atlas = "Auctioneer", text = AL["MAP_MENU_SHOW_TREASURES_KARESH_CONTAINERS"] };
+	[RSConstants.MIDNIGHT_TREASURES_EVERSONG_WOODS_MINIEVENT] = { active = true, containers = true, mapIDs = { 2393, 2395 }, atlas = "Auctioneer", text = AL["MAP_MENU_SHOW_EVERSONG_WOODS_CONTAINERS"] };
+	[RSConstants.MIDNIGHT_LORE_HUNTER_MINIEVENT] = { active = true, containers = true, mapIDs = { 2393, 2395, 2405, 2437, 2413 }, atlas = "Class", text = AL["MAP_MENU_SHOW_MIDNIGHT_LORE_HUNTER_CONTAINERS"] };
+	[RSConstants.MIDNIGHT_TREASURES_ZUL_AMAN_MINIEVENT] = { active = true, containers = true, mapIDs = { 2437 }, atlas = "Auctioneer", text = AL["MAP_MENU_SHOW_TREASURES_ZUL_AMAN_CONTAINERS"] };
+	[RSConstants.MIDNIGHT_TREASURES_VOIDSTORM_MINIEVENT] = { active = true, containers = true, mapIDs = { 2405 }, atlas = "Auctioneer", text = AL["MAP_MENU_SHOW_TREASURES_VOIDSTORM_CONTAINERS"] };
+	[RSConstants.MIDNIGHT_TREASURES_HARANDAR_MINIEVENT] = { active = true, containers = true, mapIDs = { 2413 }, atlas = "Auctioneer", text = AL["MAP_MENU_SHOW_TREASURES_HARANDAR_CONTAINERS"] };
+	[RSConstants.MIDNIGHT_EVERSONG_WOODS_HIGH_PEAKS_MINIEVENT] = { active = true, containers = true, mapIDs = { 2393, 2395 }, atlas = "Warfronts-FieldMapIcons-Empty-Banner-Minimap", text = AL["MAP_MENU_SHOW_HIGH_PEAKS_EVERSONG_WOODS_CONTAINERS"] };
+	[RSConstants.MIDNIGHT_DUST_EM_OFF_MINIEVENT] = { active = true, containers = true, mapIDs = { 2413, 2576 }, atlas = "fruit-minimap-icon", text = AL["MAP_MENU_SHOW_DUST_EM_OFF_CONTAINERS"] };
+	[RSConstants.MIDNIGHT_CHRONICLER_HARANIR_MINIEVENT] = { active = true, containers = true, mapIDs = { 2413 }, atlas = "housing-map-deed", text = AL["MAP_MENU_SHOW_CHRONICLER_HARANIR_CONTAINERS"] };
+	[RSConstants.MIDNIGHT_ZUL_AMAN_HIGH_PEAKS_MINIEVENT] = { active = true, containers = true, mapIDs = { 2437, 2536, 2395 }, atlas = "Warfronts-FieldMapIcons-Empty-Banner-Minimap", text = AL["MAP_MENU_SHOW_HIGH_PEAKS_ZUL_AMAN_CONTAINERS"] };
+	[RSConstants.MIDNIGHT_HARANDAR_HIGH_PEAKS_MINIEVENT] = { active = true, containers = true, mapIDs = { 2413 }, atlas = "Warfronts-FieldMapIcons-Empty-Banner-Minimap", text = AL["MAP_MENU_SHOW_HIGH_PEAKS_HARANDAR_CONTAINERS"] };
+	[RSConstants.MIDNIGHT_VOIDSTORM_HIGH_PEAKS_MINIEVENT] = { active = true, containers = true, mapIDs = { 2405 }, atlas = "Warfronts-FieldMapIcons-Empty-Banner-Minimap", text = AL["MAP_MENU_SHOW_HIGH_PEAKS_VOIDSTORM_CONTAINERS"] };
 }
 
 ---============================================================================
@@ -224,8 +250,17 @@ RSConstants.ITEM_TYPE = {
 	PET = 3,
 	MOUNT = 4,
 	DRAKEWATCHER = 5,
+	DECOR = 6,
 	CUSTOM = "c%s"
 }
+
+---============================================================================
+-- Types of entity by map (used in MapEntitiesTables)
+---============================================================================
+
+RSConstants.MAP_ENTITY_NPC = 1
+RSConstants.MAP_ENTITY_CONTAINER = 2
+RSConstants.MAP_ENTITY_EVENT = 3
 
 ---============================================================================
 -- Types of entity filters
@@ -333,6 +368,7 @@ RSConstants.PROFILE_DEFAULTS = {
 			searchingAppearances = true,
 			searchingClassAppearances = true,
 			searchingDrakewatcher = true,
+			searchingDecors = true,
 			searchingMissingAchievementCriteria = true,
 			showFiltered = true,
 			showDead = true,
@@ -350,6 +386,7 @@ RSConstants.PROFILE_DEFAULTS = {
 			displayMinieventsNpcIcons = { true, true, true, true, true, true, true, true, true, true, false, false, true, true, true, false, false, true, true, true },
 			displayCustomGroupNpcIcons = {},
 			displayOtherRaresNpcIcons = true,
+			displayRenownRaresNpcIcons = false,
 			displayContainerIcons = true,
 			displayAlreadyOpenedContainersIcons = false,
 			displayNotDiscoveredContainerIcons = true,
@@ -357,6 +394,7 @@ RSConstants.PROFILE_DEFAULTS = {
 			displayAchievementContainerIcons = true,
 			displayProfessionContainerIcons = true,
 			displayOtherContainerIcons = true,
+			displayRenownContainerIcons = false,
 			displayEventIcons = true,
 			displayNotDiscoveredEventIcons = true,
 			disableLastSeenFilter = false,
@@ -427,6 +465,7 @@ RSConstants.PROFILE_DEFAULTS = {
 			showingMissingAppearances = true,
 			showingMissingClassAppearances = true,
 			showingMissingDrakewatcher = true,
+			showingMissingDecors = true,
 			numItems = 10,
 			numItemsPerRow = 10,
 			tooltipsCommands = true,
@@ -507,6 +546,7 @@ RSConstants.CMD_TOGGLE_DRAGON_GLYPHS = "tdg"
 RSConstants.CMD_OPEN_EXPLORER = "explorer"
 RSConstants.CMD_RECENTLY_SEEN = "rseen"
 RSConstants.CMD_IMPORT = "import"
+RSConstants.CMD_MIDNIGHT_PRE_PATCH = "midnight"
 
 ---============================================================================
 -- AtlasNames
@@ -527,6 +567,9 @@ RSConstants.CONTAINER_ELITE_VIGNETTE = "VignetteLootElite"
 RSConstants.CONTAINER_LOCKED_VIGNETTE = "vignetteloot-locked"
 RSConstants.CONTAINER_ELITE_LOCKED_VIGNETTE = "vignettelootelite-locked"
 RSConstants.CONTAINER_LORE_OBJECT = "loreobject-32x32"
+RSConstants.CONTAINER_HIGH_PEAK_OBJECT = "Warfronts-FieldMapIcons-Empty-Banner-Minimap-small"
+RSConstants.CONTAINER_PVP_AIRPLANE_OBJECT = "Vehicle-Air-Occupied"
+RSConstants.CONTAINER_PVP_FLAGS_OBJECT = "CrossedFlags"
 
 RSConstants.EVENT_VIGNETTE = "VignetteEvent"
 RSConstants.EVENT_ELITE_VIGNETTE = "VignetteEventElite"
@@ -566,12 +609,14 @@ RSConstants.AZJ_KAHET1 = 2255
 RSConstants.AZJ_KAHET2 = 2256
 RSConstants.AZJ_KAHET3 = 2213
 RSConstants.AZJ_KAHET4 = 2216
-RSConstants.TWW_MAPS_WITHOUT_REP = { 2369, 2375 }
+RSConstants.MAPS_WITHOUT_WARBAND_REPUTATION = { 2369, 2375 }
+RSConstants.CONTINENTS_WARBAND_REPUTATION = { 2274, 2537 }
 RSConstants.UNDERMINE = 2346
 RSConstants.RINGING_DEEPS = 2214
+RSConstants.EASTERN_KINGDOMS_MIDNIGHT_CONTINENT = 2537
 
 ---============================================================================
--- NpcIDS
+-- Entity IDs
 ---============================================================================
 
 RSConstants.CATACOMBS_CACHE = 358040
@@ -695,11 +740,24 @@ RSConstants.MISLAID_CURIOSITY = 478443
 RSConstants.FIX_MULTIPLE_ALERTS = { 205490 }
 RSConstants.PHASE_DIVING = { 231981, 232127, 232128, 232193, 232189, 232111, 232077, 232182, 232006, 232195, 232199, 558108, 558110, 232129, 232108, 527414, 558117, 558375, 558112, 549326 }
 RSConstants.RESHII_WRAPS_CONTAINERS = { 516626, 548010, 529525, 529643, 529591, 529537, 529669, 547995, 529664, 548001, 529533, 548597, 529539 }
-RSConstants.PVP_CONTAINER = 433369
 RSConstants.CONTAINERS_LIGHTS_JUDGMENT = { 276225, 276224, 276491, 276489, 277206, 277205 }
 RSConstants.CONTAINERS_GOBLIN_GLIDER_KIT = { 276227, 276230, 276229 }
 RSConstants.CONTAINERS_SHROUD_ARCANE_ECHOES = { 277327, 277340, 277342, 277344, 277343, 277346 }
 RSConstants.CONTAINERS_LIGHTFORGED_WARFRAME = { 276226, 276223, 276490, 277204 }
+RSConstants.ENTITIES_ATAL_AMAN = { 525959, 525908, 525896, 525918, 525940, 525953, 525964 }
+RSConstants.STORMARION_ASSAULT_NPCS = { 248700, 248791, 248068, 248459, 560325 }
+RSConstants.CONTAINERS_ECHOLESS_FLAME = { 579123, 579130, 579131 }
+RSConstants.CONTAINERS_RUSSULAS_OUTREACH = { 579242, 579243, 579244 }
+RSConstants.CONTAINERS_PVP = { 244215, 290129 }
+RSConstants.CONTAINERS_ALN_HARAS_BLOOM = { 579239, 579240, 579241 }
+RSConstants.CONTAINERS_CAULDRON_ECHOES = { 579236, 579237, 579238 }
+RSConstants.CONTAINERS_ROOT_WORLD = { 579180, 579182, 579183 }
+RSConstants.CONTAINERS_WEYNAN_WARD = { 579233, 579234, 579235 }
+RSConstants.CONTAINERS_SKY_HOPE = { 579201, 579202, 579203 }
+RSConstants.MOTHS_RENOWN_1 = {571099,571121,571122,571123,571124,571125,571126,571127,571128,571129,571130,571131,571132,571133,571134,571135,571136,571137,571138,571139,571140,571141,571142,571143,571144,571145,571146,571147,571148,571149,571150,571151,571152,571153,571154,571155,571156,571157,571158,571159};
+RSConstants.MOTHS_RENOWN_4 = {571162,571163,571164,571165,571166,571167,571168,571169,571170,571171,571172,571173,571174,571175,571176,571177,571178,571179,571180,571181,571264,571265,571266,571267,571268,571269,571270,571271,571272,571273,571274,571275,571276,571277,571278,571279,571280,571281,571282,571283};
+RSConstants.MOTHS_RENOWN_9 = {571289,571290,571291,571292,571293,571294,571295,571296,571297,571298,571299,571300,571301,571302,571303,571304,571305,571306,571307,571308,571310,571311,571312,571313,571314,571315,571316,571317,571318,571319,571320,571321,571322,571323,571324,571325,571326,571327,571328,571329};
+RSConstants.CONTAINERS_STURDY_CHEST = { 617855, 618111, 618112, 618276, 618288, 618289, 618272, 618278, 618292, 618273, 618281, 618295, 618277, 618279, 618291, 618283, 618284, 618296, 618293, 618270, 618290, 618852, 618113, 618275, 618287, 618274, 618285, 618286, 618280, 618294 };
 
 -- NPCs that spawn after completing an event
 RSConstants.NPCS_WITH_PRE_EVENT = {
@@ -878,6 +936,14 @@ RSConstants.NPCS_WITH_PRE_EVENT = {
 	[241987] = 241956;
 	[516961] = 238384;
 	[527868] = 241920;
+	--Eversong Woods
+	[250788] = 250780;
+	--Zul'Aman
+	[246122] = 245691;
+	[246074] = 242034;
+	[249712] = 242034;
+	--Voidstorm
+	[617692] = 256926;
 }
 
 -- Contains that spawn after completing an event
@@ -887,6 +953,7 @@ RSConstants.CONTAINERS_WITH_PRE_EVENT = {
 	[135238] = 433369;
 	[135181] = 433369;
 	[290129] = 433369;
+	[244215] = 433369;
 	-- Vol'dun
 	[132662] = 280951;
 	-- Tiragarde Sound
@@ -982,6 +1049,12 @@ RSConstants.CONTAINERS_WITH_PRE_EVENT = {
 	[503837] = 503823;
 	--K'aresh
 	[499334] = 500046;
+	--Voidstorm
+	[254756] = 612891;
+	[254811] = 612891;
+	[257141] = 618016;
+	--Zul'Aman
+	[539046] = 613727;
 }
 
 -- NPCs that spawn after killing another NPC
@@ -994,15 +1067,15 @@ RSConstants.NPCS_WITH_PRE_NPCS = {
 
 -- 156480 Next door entity inside Torghast
 -- 155660 Summons from the Depths
-RSConstants.IGNORED_VIGNETTES = { 156480, 155660, 163373, 370467, 370466, 182160, 182668, 182667, 185261, 376210, 200002, 190034, 191125, 210081, 210084, 210544, 210550, 226647, 226657, 226528, 221630, 206978, 206980, 206981, 209780, 209781, 127025, 136466, 136472, 136144, 136109, 128660, 128661, 128662, 128665, 98141, 92600, 227481, 147188, 171743, 219827, 90173, 92682, 92703 }
+RSConstants.IGNORED_VIGNETTES = { 156480, 155660, 163373, 370467, 370466, 182160, 182668, 182667, 185261, 376210, 200002, 190034, 191125, 210081, 210084, 210544, 210550, 226647, 226657, 226528, 221630, 206978, 206980, 206981, 209780, 209781, 127025, 136466, 136472, 136144, 136109, 128660, 128661, 128662, 128665, 98141, 92600, 227481, 147188, 171743, 219827, 90173, 92682, 92703, 248907, 247220 }
 RSConstants.IGNORED_FRIENDLY_NPCS = { 227984 }
-RSConstants.NPCS_WITH_EVENT_VIGNETTE = { 72156, 154154, 154330, 164547, 164477, 160629, 175012, 157833, 166398, 164064, 162829, 157964, 162844, 171317, 170774, 162849, 170301, 170302, 170711, 170634, 170731, 172862, 172577, 158025, 158278, 170303, 179684, 179791, 179805, 177444, 180246, 179108, 179853, 179755, 179768, 179779, 179460, 179851, 179735, 169827, 203280, 213665, 129904, 90217, 91579, 91892, 96072, 97653, 95872, 98299, 150191, 153898, 149653, 150468, 154148, 153928, 90244 }
-RSConstants.NPCS_WITH_CONTAINER_VIGNETTE = { 179883 }
+RSConstants.NPCS_WITH_EVENT_VIGNETTE = { 72156, 154154, 154330, 164547, 164477, 160629, 175012, 157833, 166398, 164064, 162829, 157964, 162844, 171317, 170774, 162849, 170301, 170302, 170711, 170634, 170731, 172862, 172577, 158025, 158278, 170303, 179684, 179791, 179805, 177444, 180246, 179108, 179853, 179755, 179768, 179779, 179460, 179851, 179735, 169827, 203280, 213665, 129904, 90217, 91579, 91892, 96072, 97653, 95872, 98299, 150191, 153898, 149653, 150468, 154148, 153928, 90244  }
+RSConstants.NPCS_WITH_CONTAINER_VIGNETTE = { 179883, 249997 }
 RSConstants.CONTAINERS_WITH_NPC_VIGNETTE = { 369435, 398828 }
 RSConstants.CONTAINERS_WITH_EVENT_VIGNETTE = { 453374, 251124 }
 RSConstants.EVENTS_WITH_NPC_VIGNETTE = { 204131, 204211, 204747, 204768, 203278, 203950, 204101, 203065, 203702, 203889, 205006, 204710, 204967, 204732, 204389, 204423, 204460, 204763, 214985, 222165, 234350, 234349, 234348, 234347, 234346, 234345, 234344, 177525, 176103 }
 RSConstants.NPCS_WITH_MULTIPLE_SPAWNS = { 69768, 69769, 69841, 69842, 70323, 205490, 248660, 248688 }
-RSConstants.CONTAINERS_WITH_MULTIPLE_SPAWNS = { 375366, 375530, 375362, 375363, 375373, 375290, 376587, 382029, 376386, 383733, 383734, 383735, 383732, 386214, 386165, 386166, 386167, 386168, 386172, 386174, 386179, 386208, 386212, 386213, 401844, 401845, 408719, 444802, 444801, 444798, 444804, 444799, 452696, 446496, 452697, 446495, 452706, 443754, 444066, 452710, 444065, 445277, 444797, 376426, 385075, 385074, 377540, 433369, 444800, 500682, 500683, 500685, 500688, 494499, 500689, 500686, 500690, 500684, 500687, 469858, 478443, 516444, 516626, 549326, 516571, 268468, 271554 }
+RSConstants.CONTAINERS_WITH_MULTIPLE_SPAWNS = { 375366, 375530, 375362, 375363, 375373, 375290, 376587, 382029, 376386, 383733, 383734, 383735, 383732, 386214, 386165, 386166, 386167, 386168, 386172, 386174, 386179, 386208, 386212, 386213, 401844, 401845, 408719, 444802, 444801, 444798, 444804, 444799, 452696, 446496, 452697, 446495, 452706, 443754, 444066, 452710, 444065, 445277, 444797, 376426, 385075, 385074, 377540, 433369, 444800, 500682, 500683, 500685, 500688, 494499, 500689, 500686, 500690, 500684, 500687, 469858, 478443, 516444, 516626, 549326, 516571, 268468, 271554, 587194, 587238, 587240, 531478, 587195, 574126, 573841, 573991, 531480, 531477, 531479, 555462, 583971, 587913, 587912, 582179, 583965, 582157 }
 RSConstants.FIRIM_EXILE_OBJECTS = { 375973, 375982, 375983, 375984, 375985, 375986, 375987 }
 RSConstants.IGNORED_TRACKING_SYSTEMS_NOT_VIGNETTE = { 205490 }
 
@@ -1038,6 +1111,12 @@ RSConstants.GARRISON_CACHE_IDS = { 236916, 237191, 237724, 237722, 237723, 23772
 ---============================================================================
 
 RSConstants.TSM_SOURCES = { "DBMinBuyout", "DBMarket", "DBRegionMarketAvg" }
+
+---============================================================================
+-- Tooltips
+---============================================================================
+
+RSConstants.TOOLTIPS_SCALE = 0.65
 
 ---============================================================================
 -- Eternal states
@@ -1200,6 +1279,7 @@ RSConstants.EXPLORER_FILTER_DROP_TOYS = 3
 RSConstants.EXPLORER_FILTER_DROP_APPEARANCES = 4
 RSConstants.EXPLORER_FILTER_DROP_CLASS_APPEARANCES = 10
 RSConstants.EXPLORER_FILTER_DROP_DRAKEWATCHER = 9
+RSConstants.EXPLORER_FILTER_DROP_DECOR = 11
 RSConstants.EXPLORER_FILTER_DROP_CUSTOM = "c%s"
 RSConstants.EXPLORER_FILTER_ACHIEVEMENT_CRITERIA = 5
 RSConstants.EXPLORER_FILTER_DEAD = 6
@@ -1232,5 +1312,13 @@ function RSConstants.IsNpcAtlas(atlasName)
 end
 
 function RSConstants.IsContainerAtlas(atlasName)
-	return atlasName == RSConstants.CONTAINER_VIGNETTE or atlasName == RSConstants.CONTAINER_ELITE_VIGNETTE or atlasName == RSConstants.CONTAINER_LOCKED_VIGNETTE or atlasName == RSConstants.CONTAINER_ELITE_LOCKED_VIGNETTE or atlasName == RSConstants.CONTAINER_LORE_OBJECT
+	return atlasName == RSConstants.CONTAINER_VIGNETTE or atlasName == RSConstants.CONTAINER_ELITE_VIGNETTE or atlasName == RSConstants.CONTAINER_LOCKED_VIGNETTE or atlasName == RSConstants.CONTAINER_ELITE_LOCKED_VIGNETTE or atlasName == RSConstants.CONTAINER_LORE_OBJECT or atlasName == RSConstants.CONTAINER_HIGH_PEAK_OBJECT or atlasName == RSConstants.CONTAINER_PVP_AIRPLANE_OBJECT or atlasName == RSConstants.CONTAINER_PVP_FLAGS_OBJECT
+end
+
+function RSConstants.IsHighPeakAtlas(atlasName)
+	return atlasName == RSConstants.CONTAINER_HIGH_PEAK_OBJECT
+end
+
+function RSConstants.IsContainerPvpAtlas(atlasName)
+	return atlasName == RSConstants.CONTAINER_PVP_AIRPLANE_OBJECT or atlasName == RSConstants.CONTAINER_PVP_FLAGS_OBJECT
 end

@@ -1,7 +1,7 @@
 local _, addonTable = ...;
 local BusinessInfo=addonTable.BusinessInfo
 function BusinessInfo.FastXuan(QuickButUI_index)
-	if PIG_MaxTocversion(50000,true) then return end
+	if PIG_MaxTocversion(nil,true) then return end
 	local L=addonTable.locale
 	local Data=addonTable.Data
 	local Fun=addonTable.Fun

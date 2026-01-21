@@ -24,11 +24,32 @@ function RSNotes.GetNote(entityID, mapID, minieventID)
 	-- Containers that require Reshii Wraps upgrade
 	elseif (RSUtils.Contains(RSConstants.RESHII_WRAPS_CONTAINERS, entityID)) then
 		if (AL[string.format("NOTE_%s", entityID)] ~= string.format("NOTE_%s", entityID)) then
-			return string.format(AL["NOTE_RESHII_WRAPS"], " "..AL[string.format("NOTE_%s", entityID)])
+			return string.format(AL["NOTE_RESHII_WRAPS"], "\n"..AL[string.format("NOTE_%s", entityID)])
 		else
 			return string.format(AL["NOTE_RESHII_WRAPS"], "")
 		end
-		
+	-- Containers that require the renown 1 with Hara'ti
+	elseif (RSUtils.Contains(RSConstants.MOTHS_RENOWN_1, entityID))	then
+		if (AL[string.format("NOTE_%s", entityID)] ~= string.format("NOTE_%s", entityID)) then
+			return string.format(AL["NOTE_MOTHS_RENOWN1"], "\n"..AL[string.format("NOTE_%s", entityID)])
+		else
+			return string.format(AL["NOTE_MOTHS_RENOWN1"], "")
+		end
+	-- Containers that require the renown 4 with Hara'ti
+	elseif (RSUtils.Contains(RSConstants.MOTHS_RENOWN_4, entityID))	then
+		if (AL[string.format("NOTE_%s", entityID)] ~= string.format("NOTE_%s", entityID)) then
+			return string.format(AL["NOTE_MOTHS_RENOWN4"], "\n"..AL[string.format("NOTE_%s", entityID)])
+		else
+			return string.format(AL["NOTE_MOTHS_RENOWN4"], "")
+		end
+	-- Containers that require the renown 9 with Hara'ti
+	elseif (RSUtils.Contains(RSConstants.MOTHS_RENOWN_9, entityID))	then
+		if (AL[string.format("NOTE_%s", entityID)] ~= string.format("NOTE_%s", entityID)) then
+			return string.format(AL["NOTE_MOTHS_RENOWN9"], "\n"..AL[string.format("NOTE_%s", entityID)])
+		else
+			return string.format(AL["NOTE_MOTHS_RENOWN9"], "")
+		end
+	
 	-- Covenants rare NPCs
 	elseif (entityID == RSConstants.WINGFLAYER_CRUEL) then
 		return string.format(AL["NOTE_ANIMA_CONDUCTOR"], AL["NOTE_KYRIAN"], AL["NOTE_TEMPLE_COURAGE"], AL[string.format("NOTE_%s", entityID)])
@@ -211,6 +232,29 @@ function RSNotes.GetNote(entityID, mapID, minieventID)
 	-- Containers in caves that require Light's judgment to open them
 	elseif (RSUtils.Contains(RSConstants.CONTAINERS_LIGHTFORGED_WARFRAME, entityID)) then
 		return AL["NOTE_LIGHTFORGED_WARFRAME"]
+	-- Entities that appear after liberating Atal'Aman
+	elseif (RSUtils.Contains(RSConstants.ENTITIES_ATAL_AMAN, entityID))	then
+		return AL["NOTE_ATAL_AMAN"]
+	-- Containers that require the quest The echoless flame
+	elseif (RSUtils.Contains(RSConstants.CONTAINERS_ECHOLESS_FLAME, entityID))	then
+		return AL["NOTE_ECHOLESS_FLAME"]
+	-- Containers that require the quest Russula's Outreach
+	elseif (RSUtils.Contains(RSConstants.CONTAINERS_RUSSULAS_OUTREACH, entityID))	then
+		return AL["NOTE_RUSSULAS_OUTREACH"]
+	-- Containers that require the quest Aln'Hara's Bloom
+	elseif (RSUtils.Contains(RSConstants.CONTAINERS_ALN_HARAS_BLOOM, entityID))	then
+		return AL["NOTE_ALN_HARAS_BLOOM"]
+	-- Containers that require the quest Cauldron Echoes
+	elseif (RSUtils.Contains(RSConstants.CONTAINERS_CAULDRON_ECHOES, entityID))	then
+		return AL["NOTE_CAULDRON_ECHOES"]
+	-- Containers that require the quest Root of the World
+	elseif (RSUtils.Contains(RSConstants.CONTAINERS_ROOT_WORLD, entityID))	then
+		return AL["NOTE_ROOT_WORLD"]
+	-- Containers that require the quest Sky's hope
+	elseif (RSUtils.Contains(RSConstants.CONTAINERS_SKY_HOPE, entityID))	then
+		return AL["NOTE_SKY_HOPE"]
+	-- Containers that require the quest Wey'nans Ward
+	elseif (RSUtils.Contains(RSConstants.CONTAINERS_WEYNAN_WARD, entityID))	then
+		return AL["NOTE_WEYNAN_WARD"]
 	end
-	
 end

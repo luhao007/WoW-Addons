@@ -498,7 +498,7 @@ function GDKPInfo.ADD_UI()
 	---
 	RaidR.xiafangF.NEW_jilu = PIGButton(RaidR.xiafangF,{"TOPLEFT",RaidR.xiafangF.shezhiline,"TOPRIGHT",6,-3},{74,21},"新的记录");  
 	RaidR.xiafangF.NEW_jilu:SetScript("OnClick", function ()
-		StaticPopup_Show("NEW_WUPIN_LIST","");
+		StaticPopup_Show("PIG_GDKP_NEW_LIST","");
 	end);
 	RaidR.xiafangF.HistoryBut = PIGTabBut(RaidR.xiafangF,{"TOPLEFT",RaidR.xiafangF.NEW_jilu,"BOTTOMLEFT",0,-6},{74,21},"历史记录")
 	RaidR.xiafangF.HistoryBut:SetScript("OnClick", function (self)
@@ -518,7 +518,7 @@ function GDKPInfo.ADD_UI()
 	--
 	RaidR:Update_DongjieBUT()
 	--新的记录===================
-	local function ADD_Instancejilu()
+	local function ADD_InstanceCD()
 		local ItemListData = PIGA["GDKP"]["ItemList"]
 		if #ItemListData>0 then
 			local Old_Data = {}
@@ -580,17 +580,20 @@ function GDKPInfo.ADD_UI()
 			RaidR.Update_History()
 		end
 	end
-	StaticPopupDialogs["NEW_WUPIN_LIST"] = {
-		text = "%s开始一份\124cff00ff00新的\124r开团助手记录吗?\n已有记录将被保存在历史记录内\n",
+	local function Upate_InstanceInfo()
+		local FBname, instanceType, difficultyID, difficultyName = GetInstanceInfo()
+		PIGA["GDKP"]["instanceName"]={GetServerTime(),FBname,difficultyName}
+		RaidR.Update_DqName()
+	end
+	StaticPopupDialogs["PIG_GDKP_NEW_LIST"] = {
+		text = "%s开始一份\124cff00ff00新的\124r"..GnName.."记录吗?",
 		button1 = YES,
 		button2 = NO,
 		OnAccept = function()
-			ADD_Instancejilu()
+			ADD_InstanceCD()
 		end,
 		OnCancel = function()
-			local FBname, instanceType, difficultyID, difficultyName = GetInstanceInfo()
-			PIGA["GDKP"]["instanceName"]={GetServerTime(),FBname,difficultyName}
-			RaidR.Update_DqName()
+			Upate_InstanceInfo()
 		end,
 		timeout = 0,
 		whileDead = true,
@@ -601,21 +604,24 @@ function GDKPInfo.ADD_UI()
 		local FBname, instanceType, difficultyID, difficultyName = GetInstanceInfo()
 		if PIGA["GDKP"]["instanceName"][1] then
 			if #PIGA["GDKP"]["ItemList"]==0 then
-				PIGA["GDKP"]["instanceName"]={GetServerTime(),FBname,difficultyName}
-				RaidR.Update_DqName()
+				Upate_InstanceInfo()
 			else
 				if PIGA["GDKP"]["instanceName"][2]==FBname then
-					--if PIGA["GDKP"]["instanceName"][3]==difficultyName then--难度不同
 					if GetServerTime()-PIGA["GDKP"]["instanceName"][1]>43200 then
-						StaticPopup_Show("NEW_WUPIN_LIST","你似乎进入了新的副本\n");
+						StaticPopup_Show("PIG_GDKP_NEW_LIST","你似乎进入了新的副本\n");
+					else
+						if PIGA["GDKP"]["instanceName"][3] and PIGA["GDKP"]["instanceName"][3]==difficultyName then--难度
+							Upate_InstanceInfo()
+						else
+							StaticPopup_Show("PIG_GDKP_NEW_LIST","你似乎进入了新的副本\n");
+						end
 					end
 				else
-					StaticPopup_Show("NEW_WUPIN_LIST","你似乎进入了新的副本\n");
+					ADD_InstanceCD()
 				end
 			end
 		else
-			PIGA["GDKP"]["instanceName"]={GetServerTime(),FBname,difficultyName}
-			RaidR.Update_DqName()
+			Upate_InstanceInfo()
 		end
 	end
 	local MaxList = 30
@@ -639,11 +645,9 @@ function GDKPInfo.ADD_UI()
 		local inInstance, instanceType = IsInInstance()
 		if inInstance then
 			if instanceType=="raid" then
-				panduanNewfuben()
-			elseif instanceType=="party" then
-				if PIGA["GDKP"]["Rsetting"]["wurenben"] then
-					panduanNewfuben()
-				end
+				panduanNewfuben("raid")
+			elseif instanceType=="party" and PIGA["GDKP"]["Rsetting"]["wurenben"] then
+				panduanNewfuben("party")
 			end
 		end
 	end);

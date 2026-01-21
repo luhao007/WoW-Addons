@@ -6,6 +6,7 @@ local ADDON_NAME, private = ...
 
 -- Locales
 local AL = LibStub("AceLocale-3.0"):GetLocale("RareScanner");
+local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
 ---============================================================================
 -- Addon compartiment
@@ -17,7 +18,7 @@ function RareScanner_OnAddonCompartmentClick(addonName, button)
 	if (button == "LeftButton") then
 		RSExplorerFrame:Show()
 	elseif (button == "RightButton") then
-		Settings.OpenToCategory("RareScanner")
+		Settings.OpenToCategory(AceConfigDialog.BlizOptionsIDMap["RareScanner"])
 	end
 end
 

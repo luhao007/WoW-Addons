@@ -13,15 +13,9 @@ L["ABOUT_UPDATEADD"]="Update: "
 L["ABOUT_MAIL"]="Feedback: "
 L["ABOUT_MEDIA"]="Use tutorial: "
 --error
-L["ERROR_CLEAR"] = "clear";
-L["ERROR_PREVIOUS"] = "previous";
-L["ERROR_NEXT"] = "next";
-L["ERROR_EMPTY"] = "No errors occur";
-L["ERROR_CURRENT"] = "current";
-L["ERROR_OLD"] = "old";
-L["ERROR_ADDON"] = "addon";
 L["ERROR_ERROR1"] = "Try to invoke the protection function";
 L["ERROR_ERROR2"] = "The macro attempts to invoke the protection function";
+L["ERROR_DEBUGTOOLTIP"] = "Button prompt in minimap when error occurs (shows a red X)\nAnd it won't store the BugSack plugin's mini map icon";
 ---lib
 L["LIB_MACROERR"] = "The number of your macros has reached 120, please delete some and try again";
 L["LIB_TIPS"] = "Tips";
@@ -42,8 +36,6 @@ L["DEBUG_ADD"] = "AddOn";
 L["DEBUG_MEMORY"] = "memory";
 L["DEBUG_ERRORLOG"] = "Error log";
 L["DEBUG_OPENERRORLOGCMD"] = "Open log cmd：";
-L["DEBUG_ERRORCHECK"] = "test";
-L["DEBUG_ERRORTOOLTIP"] = "Button prompt in minimap when error occurs (shows a red X)\nAnd it won't store the BugSack plugin's mini map icon";
 L["DEBUG_SCRIPTTOOLTIP"] = "Turn on the LUA error prompt function that comes with the game.  Do not turn it on unless you debug the AddOn";
 L["DEBUG_TAINTLOG"] = "Taint log";
 L["DEBUG_TAINT0"] = "Nothing is recorded";

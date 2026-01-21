@@ -792,7 +792,7 @@ end
         end
       end
 
-      if not Prat.IsClassic then
+      if cf.ScrollBar then
         cf.ScrollBar:SetAlpha(0)
       end
     else

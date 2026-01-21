@@ -1,3 +1,4 @@
+---@class DBMCoreNamespace
 local private = select(2, ...)
 
 local L = DBM_GUI_L
@@ -45,6 +46,7 @@ if DBM:IsPostMidnight() then
 			EncounterTimeline.View:Hide()
 		else
 			C_CVar.SetCVar("encounterTimelineEnabled", "1")
+			EncounterTimeline.View:Show()
 		end
 	end)
 end

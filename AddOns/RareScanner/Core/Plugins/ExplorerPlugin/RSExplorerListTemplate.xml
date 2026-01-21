@@ -4,7 +4,7 @@
 	<Frame name="RSExplorerRareListTemplate" virtual="true">
 		<Layers>
 			<Layer level="BACKGROUND">
-				<Texture parentKey="background" atlas="thewarwithin-landingpage-background">
+				<Texture parentKey="background" atlas="transmog-background-race-voidelf">
 					<Anchors>
 						<Anchor point="TOPLEFT"/>
 						<Anchor point="BOTTOMRIGHT"/>
@@ -115,6 +115,11 @@
 			</Layer>
 			<Layer level="BACKGROUND" textureSubLevel="1">
 				<Texture parentKey="AppearanceTexture" file="Interface\AddOns\RareScanner\Media\Textures\AppearanceTexture" hidden="true">
+					<Size x="54" y="52"/>
+				</Texture>
+			</Layer>
+			<Layer level="BACKGROUND" textureSubLevel="1">
+				<Texture parentKey="DecorTexture" file="Interface\AddOns\RareScanner\Media\Textures\DecorTexture" hidden="true">
 					<Size x="54" y="52"/>
 				</Texture>
 			</Layer>

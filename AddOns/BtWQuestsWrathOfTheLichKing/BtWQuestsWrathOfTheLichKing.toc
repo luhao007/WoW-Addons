@@ -1,6 +1,6 @@
 ## Interface: 110207
 ## Author: Breen
-## Version: v1.23
+## Version: v1.24
 
 ## Title: BtWQuests: Wrath of the Lich King
 ## Notes: Wrath of the Lich King quest data for BtWQuests

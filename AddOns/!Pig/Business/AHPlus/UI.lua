@@ -33,7 +33,7 @@ function BusinessInfo.GetCacheDataG(name)
 		end
 	end
 end
-function BusinessInfo.DEL_OLDdata()
+function BusinessInfo.Del_OldData()
 	local NewData=BusinessInfo.GetCacheDataG()
 	for k,v in pairs(NewData) do
 		if v[2] and v[3] then
@@ -58,7 +58,7 @@ function BusinessInfo.ADD_Newdata(name,xianjiaV,itemLink,itemID)
 		NewData[name]={itemLinkJJ,{{xianjiaV,GetServerTime()}},itemID}
 	end
 end
-function BusinessInfo.SetTooltipOfflineG(ItemInfo,tooltip)
+function BusinessInfo.SetTooltipOfflineG(tooltip,ItemInfo)
 	if PIGA["AHPlus"]["Open"] and PIGA["AHPlus"]["AHtooltip"] then
 		if not ItemInfo then return end
 		if tooltip == GameTooltip or tooltip == ItemRefTooltip then
@@ -69,11 +69,10 @@ function BusinessInfo.SetTooltipOfflineG(ItemInfo,tooltip)
 					local DataNum=#NameData
 					local jiluTime = NameData[DataNum][2] or 1660000000
 					local jiluTime = date("%m-%d %H:%M",jiluTime)
-					tooltip:AddDoubleLine("拍卖("..jiluTime.."):",GetMoneyString(NameData[DataNum][1]),0,1,1,0,1,1)
+					tooltip:AddDoubleLine(AUCTIONS..AUCTION_BROWSE_UNIT_PRICE_SORT.."("..jiluTime.."):",GetMoneyString(NameData[DataNum][1]),0,1,1,0,1,1)
 				else
-					tooltip:AddDoubleLine("拍卖(尚未缓存)","",0,1,1,0,1,1)
+					tooltip:AddDoubleLine(AUCTIONS..AUCTION_BROWSE_UNIT_PRICE_SORT..":",UNKNOWN,0,1,1,0,1,1)
 				end
-				tooltip:Show()
 			end
 		end
 	end

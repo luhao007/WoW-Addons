@@ -1,6 +1,6 @@
 ## Interface: 110207
 ## Author: Breen
-## Version: v53.26
+## Version: v53.27
 
 ## Title: BtWQuests: Battle for Azeroth
 ## Notes: Battle for Azeroth quest data for BtWQuests

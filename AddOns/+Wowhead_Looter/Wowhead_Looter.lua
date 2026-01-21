@@ -3,7 +3,7 @@
 --     W o w h e a d   L o o t e r     --
 --                                     --
 --                                     --
---    Patch: 11.2.7                    --
+--    Patch: 12.0.0                    --
 --    E-mail: feedback@wowhead.com     --
 --                                     --
 -----------------------------------------
@@ -13,7 +13,7 @@
 local WL_ADDON_UPDATED = "2025-12-08";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
-local WL_VERSION = 110207;
+local WL_VERSION = 120000;
 local WL_VERSION_PATCH = 0;
 local WL_ADDONNAME, WL_ADDONTABLE = ...
 
@@ -28,7 +28,7 @@ wlRegionBuildings = {};
 wlTradingPostItems = "";
 
 -- SavedVariablesPerCharacter
-wlSetting = {minimap=false};
+wlSetting = {};
 wlScans = {
     guid = nil,
     toys = "",
@@ -258,6 +258,15 @@ local WL_LOOT_COUNT_KILLED_NPCS =
     [182120] = true,
 };
 
+-- Get a numeric client version number
+function wlGetClientVersion()
+    local version = GetBuildInfo();
+    local major,minor,patch = strsplit(".", version);
+    return ((10000*major) + (100*minor) + (patch));
+end
+
+local wlHasMidnight = wlGetClientVersion() >= 120000;
+
 -- Wrapper function for C_Spell.GetSpellInfo for the deprecated GetSpellInfo
 local GetSpellInfo = GetSpellInfo or function(spell)
     local spellInfo = C_Spell.GetSpellInfo(spell);
@@ -284,6 +293,21 @@ end
 local GetFactionInfo = GetFactionInfo or function(factionIndex)
     return GetFactionInfoWrapper(C_Reputation.GetFactionDataByIndex(factionIndex));
 end
+
+-- Wrapper function for C_MerchantFrame.GetItemInfo for the deprecated GetMerchantItemInfo
+local GetMerchantItemInfo = GetMerchantItemInfo or function(index)
+    local info = C_MerchantFrame.GetItemInfo(index);
+    if info then
+        return info.name, info.texture, info.price, info.stackCount, info.numAvailable, info.isPurchasable, info.isUsable, info.hasExtendedCost, info.currencyID, info.spellID;
+    end
+end
+
+-- Wrapper function for C_SpellBook.IsSpellInSpellBook for the deprecated IsSpellKnown
+local IsSpellKnown = IsSpellKnown or function(spellID, isPet)
+    local spellBank = isPet and Enum.SpellBookSpellBank.Pet or Enum.SpellBookSpellBank.Player;
+    return C_SpellBook.IsSpellInSpellBook(spellID, spellBank);
+end
+
 
 local WL_REP_MODS = {
     [GetSpellInfo(61849)] = {nil, 0.1},
@@ -695,7 +719,6 @@ local GetLootSlotInfo = GetLootSlotInfo;
 local GetLootSlotLink = GetLootSlotLink;
 local GetMerchantItemCostInfo = GetMerchantItemCostInfo;
 local GetMerchantItemCostItem = GetMerchantItemCostItem;
-local GetMerchantItemInfo = GetMerchantItemInfo;
 local GetMerchantItemLink = GetMerchantItemLink;
 local GetNetStats = GetNetStats;
 local GetNumLootItems = GetNumLootItems;
@@ -762,6 +785,7 @@ local find = find;
 local sub, gsub = sub, gsub;
 local lower = lower;
 local time = time;
+local issecretvalue = issecretvalue or function() return false end
 
 -- Local Variables
 local wlTracker = {};
@@ -994,6 +1018,9 @@ end
 -- UnitLevel("unit") returns wrong lvl if the player is drunk
 local DRUNK_ITEM1, DRUNK_ITEM2, DRUNK_ITEM3, DRUNK_ITEM4 = DRUNK_MESSAGE_ITEM_SELF1:gsub("%%s", ".+"), DRUNK_MESSAGE_ITEM_SELF2:gsub("%%s", ".+"), DRUNK_MESSAGE_ITEM_SELF3:gsub("%%s", ".+"), DRUNK_MESSAGE_ITEM_SELF4:gsub("%%s", ".+");
 function wlEvent_CHAT_MSG_SYSTEM(self, msg)
+    if issecretvalue(msg) then
+        return
+    end
     if wlIsDrunk and (msg == DRUNK_MESSAGE_SELF1 or msg:match(DRUNK_ITEM1)) then
         wlIsDrunk = false;
     elseif not wlIsDrunk and (msg == DRUNK_MESSAGE_SELF2 or msg == DRUNK_MESSAGE_SELF3 or msg == DRUNK_MESSAGE_SELF4) then
@@ -1253,6 +1280,9 @@ end
 
 local wlLanguage = nil;
 function wlRegisterUnitQuote(name, how, language, text, name2)
+    if issecretvalue(text) then
+        return
+    end
     -- Init
     text = text:gsub("(%w+-?%w*)", wlReplaceWord);
 
@@ -1734,17 +1764,18 @@ end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
-local WL_NPC_FLAGS = bit_bor(COMBATLOG_OBJECT_TYPE_NPC, COMBATLOG_OBJECT_TYPE_GUARDIAN);
-local WL_NPC_CONTROL_FLAGS = bit_bor(COMBATLOG_OBJECT_CONTROL_NPC, COMBATLOG_OBJECT_AFFILIATION_OUTSIDER);
-local WL_PET_FLAGS = bit_bor(COMBATLOG_OBJECT_TYPE_GUARDIAN, COMBATLOG_OBJECT_TYPE_PET);
-local WL_PET_CONTROL_FLAGS = bit_bor(COMBATLOG_OBJECT_CONTROL_PLAYER, COMBATLOG_OBJECT_REACTION_FRIENDLY, COMBATLOG_OBJECT_AFFILIATION_MINE);
-local WL_MINDCONTROL_FLAGS = bit_bor(COMBATLOG_OBJECT_TYPE_PET, COMBATLOG_OBJECT_CONTROL_PLAYER, COMBATLOG_OBJECT_REACTION_FRIENDLY, COMBATLOG_OBJECT_AFFILIATION_MINE);
-local WL_PURE_NPC_FLAGS = bit_bor(COMBATLOG_OBJECT_TYPE_NPC, COMBATLOG_OBJECT_CONTROL_NPC, COMBATLOG_OBJECT_REACTION_HOSTILE, COMBATLOG_OBJECT_AFFILIATION_OUTSIDER);
 local wlMostRecentEliteKilled = {};
 local wlConsecutiveNpcKills = 0;
 local wlMostRecentKilled = {};
 
 function wlEvent_COMBAT_LOG_EVENT_UNFILTERED()
+
+    local WL_NPC_FLAGS = bit_bor(COMBATLOG_OBJECT_TYPE_NPC, COMBATLOG_OBJECT_TYPE_GUARDIAN);
+    local WL_NPC_CONTROL_FLAGS = bit_bor(COMBATLOG_OBJECT_CONTROL_NPC, COMBATLOG_OBJECT_AFFILIATION_OUTSIDER);
+    local WL_PET_FLAGS = bit_bor(COMBATLOG_OBJECT_TYPE_GUARDIAN, COMBATLOG_OBJECT_TYPE_PET);
+    local WL_PET_CONTROL_FLAGS = bit_bor(COMBATLOG_OBJECT_CONTROL_PLAYER, COMBATLOG_OBJECT_REACTION_FRIENDLY, COMBATLOG_OBJECT_AFFILIATION_MINE);
+    local WL_MINDCONTROL_FLAGS = bit_bor(COMBATLOG_OBJECT_TYPE_PET, COMBATLOG_OBJECT_CONTROL_PLAYER, COMBATLOG_OBJECT_REACTION_FRIENDLY, COMBATLOG_OBJECT_AFFILIATION_MINE);
+    local WL_PURE_NPC_FLAGS = bit_bor(COMBATLOG_OBJECT_TYPE_NPC, COMBATLOG_OBJECT_CONTROL_NPC, COMBATLOG_OBJECT_REACTION_HOSTILE, COMBATLOG_OBJECT_AFFILIATION_OUTSIDER);
 
     local timestamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, extraArg1, extraArg2, extraArg3, extraArg4, extraArg5, extraArg6, extraArg7, extraArg8, extraArg9, extraArg10 = CombatLogGetCurrentEventInfo();
 
@@ -2725,9 +2756,13 @@ function wlSeenWorldQuests()
         2200, -- Emerald Dream
         2346, -- Undermine
         2371, -- K'aresh
+        2537, -- Quel'Thalas
     };
     for _, extraUiMapId in ipairs(extraUiMapIds) do
-        table.insert(checkMaps, C_Map.GetMapInfo(extraUiMapId));
+        local mapInfo = C_Map.GetMapInfo(extraUiMapId);
+        if mapInfo then
+            table.insert(checkMaps, mapInfo);
+        end
     end
 
     -- Query for all the world quests under each map
@@ -2957,6 +2992,11 @@ end
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
 function wlEvent_UNIT_SPELLCAST_SENT(self, unit, target, spellCast, spell)
+
+    if issecretvalue(unit) or issecretvalue(spell) then
+        return;
+    end
+
     if unit ~= "player" or wlSpellCastID then
         return;
     end
@@ -3078,6 +3118,11 @@ end
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
 function wlEvent_UNIT_SPELLCAST_SUCCEEDED(self, unit, spellCast, spellId)
+
+    if issecretvalue(unit) or issecretvalue(spellId) then
+        return;
+    end
+
     if unit ~= "player" then
         return;
     end
@@ -3143,6 +3188,9 @@ end
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
 function wlEvent_UNIT_SPELLCAST_FAILED(self, unit, spellCast, spellID)
+    if issecretvalue(unit) or issecretvalue(spellID) then
+        return;
+    end
     -- only reset wlTracker.spell if the 'failed' comes from an associated 'sent'
     if unit == "player" and wlSpellCastID == spellID then
         wlSpellCastID = nil;
@@ -5198,7 +5246,6 @@ local wlEvents = {
     MERCHANT_SHOW = wlEvent_MERCHANT_SHOW,
     MERCHANT_UPDATE = wlEvent_MERCHANT_UPDATE,
     TRAINER_UPDATE = wlEvent_TRAINER_UPDATE,
-    COMBAT_LOG_EVENT_UNFILTERED = wlEvent_COMBAT_LOG_EVENT_UNFILTERED,
     BOSS_KILL = wlEvent_BOSS_KILL,
     UPDATE_MOUSEOVER_UNIT = wlEvent_UPDATE_MOUSEOVER_UNIT,
     DYNAMIC_GOSSIP_POI_UPDATED = wlEvent_DYNAMIC_GOSSIP_POI_UPDATED,
@@ -5291,13 +5338,8 @@ local wlEvents = {
     MINIMAP_UPDATE_ZOOM = wlEvent_MINIMAP_UPDATE_ZOOM,
 };
 
---**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
-
--- Get a numeric client version number
-function wlGetClientVersion()
-    local version = GetBuildInfo();
-    local major,minor,patch = strsplit(".", version);
-    return ((10000*major) + (100*minor) + (patch));
+if not wlHasMidnight then
+    wlEvents["COMBAT_LOG_EVENT_UNFILTERED"] = wlEvent_COMBAT_LOG_EVENT_UNFILTERED;
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
@@ -6166,7 +6208,7 @@ local GUID_TOKENS = {
 };
 
 function wlParseGUID(guid)
-    if not guid then
+    if issecretvalue(guid) or not guid then
         return;
     end
 
@@ -6411,6 +6453,9 @@ end
 
 local UNKNOWNOBJECT, UKNOWNBEING, UNKNOWN = _G.UNKNOWNOBJECT:lower(), _G.UKNOWNBEING:lower(), _G.UNKNOWN:lower();
 function wlIsValidName(name)
+    if issecretvalue(name) then
+        return false;
+    end
     return name and name ~= "" and name:lower() ~= UNKNOWNOBJECT and name:lower() ~= UKNOWNBEING and name:lower() ~= UNKNOWN;
 end
 

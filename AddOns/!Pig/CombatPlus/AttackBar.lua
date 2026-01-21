@@ -218,7 +218,7 @@ function CombatPlusF.SetF.SliderX:PIGOnValueChange(arg1)
 	OpSetSetScaleXY()
 end
 local WowHeight=floor(GetScreenHeight()*0.5);
-local xiayiinfo = {-WowHeight+300,WowHeight+220,1}
+local xiayiinfo = {-WowHeight+100,WowHeight+250,1}
 CombatPlusF.SetF.SliderY = PIGSlider(CombatPlusF.SetF,{"LEFT",CombatPlusF.SetF.SliderX,"RIGHT",100,0},xiayiinfo)
 CombatPlusF.SetF.SliderY.T = PIGFontString(CombatPlusF.SetF.SliderY,{"RIGHT",CombatPlusF.SetF.SliderY,"LEFT",0,0},"Y偏移")
 function CombatPlusF.SetF.SliderY:PIGOnValueChange(arg1)
@@ -226,7 +226,7 @@ function CombatPlusF.SetF.SliderY:PIGOnValueChange(arg1)
 	OpSetSetScaleXY()
 end
 
-CombatPlusF.SetF.CZBUT = PIGButton(CombatPlusF.SetF.Slider,{"LEFT",CombatPlusF.SetF.SliderY,"RIGHT",60,0},{80,24},"重置位置")
+CombatPlusF.SetF.CZBUT = PIGButton(CombatPlusF.SetF.Slider,{"LEFT",CombatPlusF.SetF.SliderY,"RIGHT",60,0},{80,24},RESET_POSITION)
 CombatPlusF.SetF.CZBUT:SetScript("OnClick", function ()
 	PIGA["CombatPlus"]["AttackBar"]["Xpianyi"]=addonTable.Default["CombatPlus"]["AttackBar"]["Xpianyi"]
 	PIGA["CombatPlus"]["AttackBar"]["Ypianyi"]=addonTable.Default["CombatPlus"]["AttackBar"]["Ypianyi"]

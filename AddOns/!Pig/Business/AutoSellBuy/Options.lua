@@ -13,7 +13,8 @@ local PIGOptionsList_R=Create.PIGOptionsList_R
 ------
 local BusinessInfo=addonTable.BusinessInfo
 local fuFrame,fuFrameBut = BusinessInfo.fuFrame,BusinessInfo.fuFrameBut
-local GnName,GnUI,GnIcon,FrameLevel = "售卖助手","PIG_AutoSellBuy",136453,20
+local GnName,GnUI,FrameLevel = "售卖助手","PIG_AutoSellBuy",20
+local GnIcon =PIG_MaxTocversion(30000) and PIG_MaxTocversion(20000,true) and 132836 or 134152
 BusinessInfo.AutoSellBuyData={GnName,GnUI,GnIcon,FrameLevel}
 ------------
 function BusinessInfo.AutoSellBuyOptions()
@@ -49,7 +50,7 @@ function BusinessInfo.AutoSellBuyOptions()
 			PIG_OptionsUI.RLUI:Show();
 		end
 	end);
-	AutoSellBuyF.AutoSellBuy.CZ = Create.PIGButton(AutoSellBuyF.AutoSellBuy,{"LEFT",AutoSellBuyF.AutoSellBuy.QKBut,"RIGHT",260,0},{60,22},"重置");  
+	AutoSellBuyF.AutoSellBuy.CZ = Create.PIGButton(AutoSellBuyF.AutoSellBuy,{"LEFT",AutoSellBuyF.AutoSellBuy.QKBut,"RIGHT",260,0},{60,22},RESET);  
 	AutoSellBuyF.AutoSellBuy.CZ:SetScript("OnClick", function (self,button)
 		StaticPopup_Show ("AUTOSELLBUY_CZQIANGKONGINFO");
 	end);

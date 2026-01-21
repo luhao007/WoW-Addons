@@ -52,7 +52,7 @@ function RSDragonGlyphPOI.GetDragonGlyphPOIs(mapID)
 		local filtered = false
 
 		-- Skip if already completed
-		if (RSDragonGlyphDB.isDragonGlyphCollected(glyphID)) then
+		if (RSDragonGlyphDB.isDragonGlyphCollected(glyphID) and not RSConstants.DEBUG_SHOW_COMPLETED_GLYPHS) then
 			RSLogger:PrintDebugMessageEntityID(glyphID, string.format("Saltado Glifo [%s]: Ya completado.", glyphID))
 			filtered = true
 		end

@@ -19,14 +19,15 @@ private.CONTINENT_ZONE_IDS = {
 	[1355] = { zonefilter = true, npcfilter = true, id = 12, zones = {1355} }; --Nazjatar
 	[1550] = { zonefilter = true, npcfilter = true, id = 13, zones = {1409,1525,1533,1536,1543,1565,1618,1961,1970,2030} }; --Shadowlands
 	[1978] = { zonefilter = true, npcfilter = true, id = 14, zones = {2112,2118,2022,2023,2024,2025,2085,2107,2133,2151,2199,2200,2239,2262} }; --Dragon Isles
-	[2274] = { zonefilter = true, npcfilter = true, id = 15, zones = {2213,2216,2248,2215,2216,2214,2255,2339,2346,2369,2371,2472}, current = { "all" } }; --Khaz Algar
+	[2274] = { zonefilter = true, npcfilter = true, id = 15, zones = {2213,2216,2248,2215,2216,2214,2255,2339,2346,2369,2371,2472} }; --Khaz Algar
+	[2537] = { zonefilter = true, npcfilter = true, id = 16, zones = {2393,2424,2432,2395,2437,2405,2413,2444,2536,2541}, current = { "all" } }; --Eastern kingdom - Midnight continent
 	[9999] = { zonefilter = true, npcfilter = true, zones = {276,378,628,629,672,734,702,695,747,739} }; --Class Halls
 	[9998] = { zonefilter = true, npcfilter = true, zones = {407}, current = { "all" } }; --Darkmoon Island
 	[9997] = { zonefilter = true, npcfilter = true, zones = {35,219,229,237,243,251,274,279,280,301,302,306,316,317,318,616,677,703,706,713,731,733,749,845,897,903,974,1004,1015,1041,1490,1663,1666,1675,1669,1674,1677,1683,1692,2093,2303} }; --Dungeons or scenarios
 	[9996] = { zonefilter = true, npcfilter = true, zones = {366,508,764,850,909,2047,2166,2406} }; --Raids
 	[9995] = { zonefilter = false, npcfilter = true, zones = {0} }; --Unknown
 	[9994] = { zonefilter = true, npcfilter = true, zones = {981,1022,1032,1033,1034,1035,1036,1037,1336,1337,1501,1502} }; --Expedition islands
-	[9993] = { zonefilter = true, npcfilter = true, zones = {2302,2310,2312,2347,2249,2250,2251,2259,2269,2277,2301,2302,2310,2347,2348,2396,2420,2453} }; --Delves
+	[9993] = { zonefilter = true, npcfilter = true, zones = {2302,2310,2312,2347,2249,2250,2251,2259,2269,2277,2301,2302,2310,2347,2348,2396,2420,2453,2502,2505,2506,2510,2504,2525,2528,2535,2545,2547} }; --Delves
 }
 
 private.SUBZONES_IDS = {
@@ -106,6 +107,9 @@ private.SUBZONES_IDS = {
 	[379] = { 380, 381, 382, 384, 385, 434 }; --Kun lai summit (Pandaria)
 	[2371] = { 2477 }; --K'aresh
 	[2453] = { 2476, 2454, 2455, 2476 }; --Archival Assault
+	[2405] = { 2526, 2444, 2526, 2527,  }; --Archival Assault
+	[2413] = { 2576 }; --Harandar
+	[2528] = { 2571 }; --Sunkiller Sanctum
 }
 
 private.ZONES_WITHOUT_VIGNETTE = {
@@ -281,6 +285,12 @@ private.RESETABLE_KILLS_ZONE_IDS = {
 	[2346] = { "all" }; --The undermine (The War Within)
 	[2371] = { "all" }; --K'aresh (The War Within)
 	[2472] = { "all" }; --Tazavesh (The War Within)
+	[2393] = { "all" }; --Silvermoon City (Midnight)
+	[2432] = { "all" }; --Isle of Quel'Danas (Midnight)
+	[2395] = { "all" }; --Eversong Woods (Midnight)
+	[2437] = { "all" }; --Zul'Aman (Midnight)
+	[2405] = { "all" }; --Voidstorm (Midnight)
+	[2413] = { "all" }; --Harandar (Midnight)
 }
 
 private.PERMANENT_KILLS_ZONE_IDS = {
@@ -318,4 +328,9 @@ private.MONSTER_EMOTE = {
 	-- Tka'ktath <Queen's Sweetie>
 	["The shadow of a hungering beast moves over the city."] = 216046;
 	["La sombra de una bestia hambrienta se mueve sobre la ciudad."] = 216046;
+}
+
+-- Relation between mapIDs and MajorFactionIDs
+private.MAP_RENOWN_IDS = {
+	[2413] = { factionID = 2704, containers = true, npcs = false }; --Hara'ti
 }

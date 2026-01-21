@@ -1,0 +1,61 @@
+## Interface: 110207
+## Author: Teelo
+## Version: 12.0-001
+
+## Title: Edit Mode Expanded
+## Notes: Expands Edit Mode to apply to other frames
+## Title-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r|cFFFFFFFF编辑模式增强|r |cFFFFE00AEditModeExpanded|r
+## Notes-zhCN: 增加编辑模式种可调节的窗体
+
+## IconTexture: 4555600
+
+## Category-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r
+
+## SavedVariables: EditModeExpandedADB
+
+## X-Curse-Project-ID: 695703
+
+libs\EditModeExpanded-1.0\EditModeExpanded-1.0.xml
+
+Locales\enus.lua
+Locales\esES.lua
+Locales\ruRU.lua
+Locales\zhCN.lua
+Locales\zhTW.lua
+Locales\koKR.lua
+
+FrameHandlers\ActionBars.lua
+FrameHandlers\BelowMinimapContainer.lua
+FrameHandlers\BonusRoll.lua
+FrameHandlers\Buffs.lua
+FrameHandlers\ChatButtons-tbc.lua
+FrameHandlers\ExtraActionButton.lua
+FrameHandlers\FocusCast.lua
+FrameHandlers\FocusFrame.lua
+FrameHandlers\FocusToT.lua
+FrameHandlers\GameMenu.lua
+FrameHandlers\GroupLoot.lua
+FrameHandlers\Menu.lua
+FrameHandlers\Minimap.lua
+FrameHandlers\ObjectiveTracker.lua
+FrameHandlers\Pet.lua
+FrameHandlers\PlayerFrame.lua
+FrameHandlers\Raid.lua
+FrameHandlers\StanceBar.lua
+FrameHandlers\StatusTrackingBar.lua
+FrameHandlers\TargetCast.lua
+FrameHandlers\TargetFrame.lua
+FrameHandlers\TargetOfTarget.lua
+FrameHandlers\Tooltip-tbc.lua
+FrameHandlers\TopCenterContainer.lua
+
+AutoLayoutChanges.lua
+Options-tbc.lua
+RegisterFrame.lua
+ResetFrame.lua
+HookOnce.lua
+AnchorToDropdown.lua
+RegisteredSystemFrames.lua
+CombatManager.lua
+EditModeExpanded-tbc.lua
+WarningFrame.xml

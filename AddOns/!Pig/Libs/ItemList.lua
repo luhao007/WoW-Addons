@@ -388,13 +388,13 @@ end
 local function add_ItemList(fujik,miaodian,ZBLsit_C,TalentUI)
 	if GearManagerDialog then GearManagerDialog:SetFrameLevel(10) end
 	local PointXY = {-1,1}
-	if PIG_MaxTocversion(20000) and fujik==PaperDollFrame or fujik==PaperDollFrame and PIG_MaxTocversion(40000) and PIG_MaxTocversion(30000,true) then
+	if PIG_MaxTocversion(30000) and fujik==PaperDollFrame or fujik==PaperDollFrame and PIG_MaxTocversion(40000) and PIG_MaxTocversion(30000,true) then
 		PointXY[1]=-34
 		PointXY[2]=-13
 	end
 	local EextData={
 		["ElvUI"]={true,{2,0,2,0}},
-		["NDui"]={NDui and NDuiDB and NDuiDB["Skins"]["BlizzardSkins"],{0,0,0,0}},
+		["NDui"]={Fun.IsNDui("Skins","BlizzardSkins"),{0,0,0,0}},
 	}
 	local ZBLsit = PIGFrame(fujik,{"TOPLEFT", fujik, "TOPRIGHT",PointXY[1],PointXY[2]},{ListWWWHHH[1],ListWWWHHH[2]},nil,nil,nil,EextData);
 	ZBLsit.classes = ZBLsit:CreateTexture();

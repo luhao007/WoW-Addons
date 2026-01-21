@@ -104,7 +104,7 @@ function PointF.miaodian:PIGDownMenu_SetValue(value,arg1,arg2)
 	TooltipPlusfun.SetPointCF()
 	PIGCloseDropDownMenus()
 end
-PointF.CZBUT = PIGButton(PointF,{"LEFT",PointF.miaodian,"RIGHT",100,0},{80,24},"重置位置")
+PointF.CZBUT = PIGButton(PointF,{"LEFT",PointF.miaodian,"RIGHT",100,0},{80,24},RESET_POSITION)
 PointF.CZBUT:SetScript("OnClick", function ()
 	TooltipPlusfun.SetPointCF(true)
 	PointF.miaodian:PIGDownMenu_SetText(miaodianList[PIGA["Tooltip"]["Point"]])

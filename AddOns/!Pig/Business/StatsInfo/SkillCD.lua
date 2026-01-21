@@ -37,10 +37,10 @@ function BusinessInfo.SkillCD(StatsInfo)
 			fujiF.NR.Update_List()
 		end);
 	end
-	---
-	local playerSkill={}
-	local Skill_Learned={}
-	local Spell_ItemID={
+	--技能对应物品ID
+	local Spell_ItemId={[19566]=15846}
+	---技能对应物品图标
+	local Spell_ItemIcon={
 		[19566]=15846,--筛盐器
 		[55208]=37663,--熔炼泰坦精钢
 		[18560]=14342,--月布
@@ -55,9 +55,16 @@ function BusinessInfo.SkillCD(StatsInfo)
 		[66663]=20761,--转化：巨锆石
 		[47280]=35945,--闪亮的玻璃
 		[62242]=44943,--冰冻棱柱
-		
+		[140040]=72163,--华丽毛皮
+		[114780]=72104,--活化钢
+		[114783]=72095,--延极锭
+		[125557]=92960,--蚕茧
+		[116499]=74248,--邪煞水晶
+		[140050]=95469,--神龙之心
+		[131686]=90401,--探索棱镜
+		[112996]=79731,--智慧卷轴
 	}
-	local SpellItemID={[19566]=15846}
+	--专业技能列表
 	local Skill_list = {
 	    [1] = {IsCD = {}, spellid = 2018, icon = 136241}, -- 锻造
 	    [2] = {IsCD = {}, spellid = 2108, icon = 133611}, -- 制皮
@@ -67,14 +74,10 @@ function BusinessInfo.SkillCD(StatsInfo)
 	    [6] = {IsCD = {}, spellid = 4036, icon = 136243}, -- 工程学
 	    [7] = {IsCD = {}, spellid = 7411, icon = 136244}, -- 附魔
 	    [8] = {IsCD = {}, spellid = 8613, icon = 134366}, -- 剥皮
-	    [9] = {IsCD = {}, spellid = 13614, icon = 136246}, -- 草药学
+	    [9] = {IsCD = {}, spellid = 9134, icon = 136246}, -- 草药学
 	    [10] = {IsCD = {}, spellid = 25229, icon = 134071}, -- 珠宝加工
 	    [11] = {IsCD = {}, spellid = 45357, icon = 237171}, -- 铭文
 	}
-	-- 测试
-	-- SpellItemID[6405]=5462
-	-- table.insert(Skill_list[5].IsCD,6405)
-
 	-- {13399,133651,11020},--培植种子
 	-- {21935,135863,17716},--雪王9000型
 	-- {26265,134249,21540},--制造艾露恩之石
@@ -101,6 +104,18 @@ function BusinessInfo.SkillCD(StatsInfo)
 		table.insert(Skill_list[10].IsCD,47280)
 		table.insert(Skill_list[10].IsCD,62242)
 		table.insert(Skill_list[11].IsCD,61177)
+	elseif PIG_MaxTocversion(50000) then
+		Skill_list[9].spellid=353982
+		table.insert(Skill_list[10].IsCD,73478)
+	elseif PIG_MaxTocversion(60000) then
+		Skill_list[9].spellid=353982
+		table.insert(Skill_list[2].IsCD,  140040)
+		table.insert(Skill_list[3].IsCD,  {114780,114783})
+		table.insert(Skill_list[5].IsCD,  125557)
+		table.insert(Skill_list[7].IsCD,  116499)
+		table.insert(Skill_list[10].IsCD, 140050)
+		table.insert(Skill_list[10].IsCD, {131686,131593,131691,131688,131690,131593,131695})
+		table.insert(Skill_list[11].IsCD, 112996)
 	else
 		Skill_list[9].spellid=13617
 	end
@@ -108,48 +123,12 @@ function BusinessInfo.SkillCD(StatsInfo)
 		local Skillname=PIGGetSpellInfo(v.spellid)
 		v.name=Skillname
 	end
-	local function GetSkillNameID(ItemName)
-		for i=1,#Skill_list do
-			for ix=1,#Skill_list[i].IsCD do
-				if type(Skill_list[i].IsCD[ix])=="table" then
-					for cdid=1,#Skill_list[i].IsCD[ix] do
-						local Skillname=PIGGetSpellInfo(Skill_list[i].IsCD[ix][cdid])
-						if ItemName==Skillname then
-							return Skill_list[i].IsCD[ix][cdid]
-						end
-					end
-				else
-					local Skillname=PIGGetSpellInfo(Skill_list[i].IsCD[ix])
-					if ItemName==Skillname then
-						return Skill_list[i].IsCD[ix]
-					end
-				end
-			end
-		end
-		return false
-	end
-	local function GetBagItemSpellCD(SpellID,ItemID)
-		for Bagid=0,NUM_BAG_SLOTS,1 do
-			local numberOfSlots = GetContainerNumSlots(Bagid);
-			for Slots=1,numberOfSlots,1 do
-				if GetContainerItemID(Bagid, Slots)==ItemID then
-					local startTime, duration, enable=GetContainerItemCooldown(Bagid, Slots)
-					--print(ItemID,disp_time(startTime+duration-GetTime()))
-					if startTime > 0 and duration > 0 then
-						PIGA["StatsInfo"]["SkillData"][StatsInfo.allname][0][SpellID]=startTime+duration
-					else
-						PIGA["StatsInfo"]["SkillData"][StatsInfo.allname][0][SpellID]=0
-					end
-					return
-				end
-			end
-		end
-	end
-	local function GetBagItemCD()
-		for k,v in pairs(SpellItemID) do
-			GetBagItemSpellCD(k,v)
-		end
-	end
+	----
+	local DqSpellCDList={}
+	
+	-- 测试
+	-- Spell_ItemId[6405]=5462
+	-- table.insert(Skill_list[5].IsCD,6405)
 	local function GetSkillIndex(name)
 		if name then
 			for i=1,#Skill_list do
@@ -158,94 +137,119 @@ function BusinessInfo.SkillCD(StatsInfo)
 				end
 			end
 		end
-		return 0
+		return false
 	end
-	local function Update_SkillData()
-		table.clear(playerSkill)
-		playerSkill[0]={}
-		for i=1,2 do
-			Skill_Learned[i]=Skill_Learned[i] or {}
-			local SkillId=GetSkillIndex(Skill_Learned[i][1])
-			if SkillId>0 then
-				playerSkill[i]={SkillId,Skill_list[SkillId].IsCD,Skill_Learned[i][2],Skill_Learned[i][3]}
-			else
-				playerSkill[i]={SkillId,{},Skill_Learned[i][2],Skill_Learned[i][3]}
-			end
-		end
-		for i=1,2 do
-			if #playerSkill[i][2]>0 then
-				for ix=1,#playerSkill[i][2] do
-					if type(playerSkill[i][2][ix])=="table" then
-						for ixx=1,#playerSkill[i][2][ix] do
-							table.insert(fujiF.CDspellID,playerSkill[i][2][ix][ixx])
-						end
-					else
-						table.insert(fujiF.CDspellID,playerSkill[i][2][ix])
-					end
-				end
-			end
-		end
-		--提取旧的数据剔除失效
-		local olddata=PIGA["StatsInfo"]["SkillData"][StatsInfo.allname][0] or {}
-		for i=1,2 do
-			local dfCDdata = playerSkill[i][2]
-			for ix=1,#dfCDdata do
-				if type(dfCDdata[ix])=="table" then--共享CD专业技能
-					for cdid=1,#dfCDdata[ix] do
-						playerSkill[0][dfCDdata[ix][cdid]]=olddata[dfCDdata[ix][cdid]]
+	-- local function GetSkillNameID(ItemName)
+	-- 	for i=1,#Skill_list do
+	-- 		for ix=1,#Skill_list[i].IsCD do
+	-- 			if type(Skill_list[i].IsCD[ix])=="table" then
+	-- 				for cdid=1,#Skill_list[i].IsCD[ix] do
+	-- 					local Skillname=PIGGetSpellInfo(Skill_list[i].IsCD[ix][cdid])
+	-- 					if ItemName==Skillname then
+	-- 						return Skill_list[i].IsCD[ix][cdid]
+	-- 					end
+	-- 				end
+	-- 			else
+	-- 				local Skillname=PIGGetSpellInfo(Skill_list[i].IsCD[ix])
+	-- 				if ItemName==Skillname then
+	-- 					return Skill_list[i].IsCD[ix]
+	-- 				end
+	-- 			end
+	-- 		end
+	-- 	end
+	-- 	return false
+	-- end
+	-- local function GetBagItemSpellCD(SpellID,ItemID)
+	-- 	for Bagid=0,NUM_BAG_SLOTS,1 do
+	-- 		local numberOfSlots = GetContainerNumSlots(Bagid);
+	-- 		for Slots=1,numberOfSlots,1 do
+	-- 			if GetContainerItemID(Bagid, Slots)==ItemID then
+	-- 				local startTime, duration, enable=GetContainerItemCooldown(Bagid, Slots)
+	-- 				--print(ItemID,disp_time(startTime+duration-GetTime()))
+	-- 				if startTime > 0 and duration > 0 then
+	-- 					PIGA["StatsInfo"]["SkillData"][StatsInfo.allname][0][SpellID]=startTime+duration
+	-- 				else
+	-- 					PIGA["StatsInfo"]["SkillData"][StatsInfo.allname][0][SpellID]=0
+	-- 				end
+	-- 				return
+	-- 			end
+	-- 		end
+	-- 	end
+	-- end
+	-- local function GetBagItemCD()
+	-- 	for k,v in pairs(Spell_ItemId) do
+	-- 		GetBagItemSpellCD(k,v)
+	-- 	end
+	-- end
+
+	-- local function GetCDSpellID(CDdataX,SpellID)
+	-- 	if type(SpellID)=="table" then
+	-- 		for cdid=1,#SpellID do
+	-- 			if CDdataX[SpellID[cdid]] then
+	-- 				return SpellID[cdid],GetSkillname(SpellID[cdid])
+	-- 			end
+	-- 		end
+	-- 		return SpellID[1],GetSkillname(SpellID[1])
+	-- 	else
+	-- 		return SpellID,GetSkillname(SpellID)
+	-- 	end
+	-- end
+	local function add_skilldata(Skill_Learned,name,skillLevel, maxSkillLevel)
+		local SkillId=GetSkillIndex(name)
+		if SkillId then
+			local CDlist={}
+			for _,spid in pairs(Skill_list[SkillId].IsCD) do
+				if type(spid)=="table" then
+					for _,spid2 in pairs(spid) do
+						CDlist[spid2]=0
 					end
 				else
-					playerSkill[0][dfCDdata[ix]]=olddata[dfCDdata[ix]]
+					CDlist[spid]=0
 				end
 			end
+			table.insert(Skill_Learned,{SkillId, CDlist, skillLevel, maxSkillLevel})
 		end
-		PIGA["StatsInfo"]["SkillData"][StatsInfo.allname]=playerSkill
 	end
-	local function GetPlayerSkillInfo()
-		table.clear(Skill_Learned)
+	local function UpdatePlayerSkillInfo()
+		local Skill_Learned={}
 		if PIG_MaxTocversion(40000) then
 			for skillIndex = 1, GetNumSkillLines() do
 				local skillName, isHeader, isExpanded, skillRank, numTempPoints, skillModifier,skillMaxRank, isAbandonable= GetSkillLineInfo(skillIndex)
 				if isAbandonable then
-					if not Skill_Learned[1] then
-						Skill_Learned[1]={skillName, skillRank,skillMaxRank}
-					elseif not Skill_Learned[2] then
-						Skill_Learned[2]={skillName, skillRank,skillMaxRank}
-						break
-					end
+					add_skilldata(Skill_Learned,skillName, skillRank,skillMaxRank)
 				end
 			end
 		else
 			local prof1, prof2, archaeology, fishing, cooking = GetProfessions()
 			if prof1 then
 				local name, icon, skillLevel, maxSkillLevel, numAbilities, spelloffset, skillLine, skillModifier = GetProfessionInfo(prof1)
-				Skill_Learned[1]={name,skillLevel, maxSkillLevel}
+				add_skilldata(Skill_Learned,name,skillLevel, maxSkillLevel)
 			end
 			if prof2 then
 				local name, icon, skillLevel, maxSkillLevel, numAbilities, spelloffset, skillLine, skillModifier = GetProfessionInfo(prof2)
-				Skill_Learned[2]={name,skillLevel, maxSkillLevel}
+				add_skilldata(Skill_Learned,name,skillLevel, maxSkillLevel)
 			end
 		end
-		table.clear(fujiF.CDspellID)
-		Update_SkillData()	
+		--提取旧的CD
+		local olddata=PIGA["StatsInfo"]["SkillData"][StatsInfo.allname]
+		if olddata then
+			for i=1,#Skill_Learned do
+				local CDdata = Skill_Learned[i][2]
+				for spid,time in pairs(CDdata) do
+					if olddata[i] and olddata[i][2] and olddata[i][2][spid] then
+						-- print(spid,time)
+						Skill_Learned[i][2][spid]=olddata[i][2][spid]
+					end
+				end
+			end
+		end
+		PIGA["StatsInfo"]["SkillData"][StatsInfo.allname]=Skill_Learned	
 	end
 	local function GetSkillname(SpellID)
 		local Skillname=PIGGetSpellInfo(SpellID)
 		if Skillname:match("转化") then Skillname="转化" end
 		if Skillname:match("炼金研究") then Skillname="炼金研究" end
 		return Skillname
-	end
-	local function GetCDSpellID(CDdataX,SpellID)
-		if type(SpellID)=="table" then--是多个技能共享CD
-			for cdid=1,#SpellID do
-				if CDdataX[SpellID[cdid]] then
-					return SpellID[cdid],GetSkillname(SpellID[cdid])
-				end
-			end
-			return SpellID[1],GetSkillname(SpellID[1])
-		else
-			return SpellID,GetSkillname(SpellID)
-		end
 	end
 	----
 	local hang_Height,hang_NUM,numButtons  = StatsInfo.hang_Height, 11, 6;
@@ -317,74 +321,73 @@ function BusinessInfo.SkillCD(StatsInfo)
 			hang.TimeCDBut[butID].name=PIGFontString(hang,{"LEFT",CDbut, "RIGHT", 0, 0})
 			hang.TimeCDBut[butID].cd = PIGFontString(hang,{"TOPLEFT",CDbut, "BOTTOMLEFT", 0, -2})
 		end
-		function hang.SetSkillIconName(dataT)
+		hang.NewCDdata = {}
+		function hang:SetSkillIconName(dataT)
 			for ixx=1,2 do
-				local hangSkill=hang.SkillBut[ixx]
-				hangSkill.icon:SetTexture(134400);
-				hangSkill.name:SetText("|cffa4a4a4"..UNKNOWN.."|r");
+				local hangSkill=self.SkillBut[ixx]
+				hangSkill.icon:SetTexture(130775);
+				hangSkill.icon:SetDesaturated(true)
+				hangSkill.name:SetText("|cffa4a4a4"..TRADE_SKILLS_UNLEARNED_TAB.."|r");
 			end
 			for butID=1,numButtons do
-				local CDbut=hang.TimeCDBut[butID]
+				local CDbut=self.TimeCDBut[butID]
 				CDbut.icon:Hide()
 				CDbut.name:SetText("");
 				CDbut.cd:SetText("");
 			end
 			if dataT then
-				local NewCDdata = {}
+				wipe(self.NewCDdata)
 				for ixx=1,2 do
 					if dataT[ixx] then
-						local hangSkill=hang.SkillBut[ixx]
-						if dataT[ixx][1]>0 then
-							hangSkill.icon:SetTexture(Skill_list[dataT[ixx][1]].icon);
-							local NewTxtminmax=""
+						local SkillId=dataT[ixx][1]
+						if SkillId and SkillId>0 then
+							local hangSkill=self.SkillBut[ixx]
+							hangSkill.icon:SetDesaturated(false)
+							hangSkill.icon:SetTexture(Skill_list[SkillId].icon);
+							local NewTxtminmax="|cffa4a4a4??/??|r"
 							if dataT[ixx][3] and dataT[ixx][4] then
 								if dataT[ixx][3]<dataT[ixx][4] then
 									NewTxtminmax="|cff808080"..dataT[ixx][3].."/"..dataT[ixx][4].."|r"
 								else
 									NewTxtminmax="|cff00ff00"..dataT[ixx][3].."/"..dataT[ixx][4].."|r"
 								end
-							else
-								NewTxtminmax="|cffa4a4a4??/??|r"
 							end
-							hangSkill.name:SetText(NewTxtminmax);--Skill_list[dataT[ixx][1]].name..NewTxtminmax
-							for cdid=1,#dataT[ixx][2] do
-								table.insert(NewCDdata,dataT[ixx][2][cdid])
+							hangSkill.name:SetText(NewTxtminmax);
+							for cdi=1,#Skill_list[SkillId].IsCD do
+								local spCDdata=Skill_list[SkillId].IsCD[cdi]
+								if type(spCDdata)=="table" then
+									table.insert(self.NewCDdata,spCDdata[1])
+								else
+									table.insert(self.NewCDdata,spCDdata)
+								end
 							end
-						else
-							hangSkill.icon:SetTexture(130775);
-							hangSkill.icon:SetDesaturated(true)
-							hangSkill.name:SetText("|cffa4a4a4"..TRADE_SKILLS_UNLEARNED_TAB.."|r");
 						end
 					end
 				end
 				for butID=1,numButtons do
-					local hangCDdata=NewCDdata[butID]--预制的CD信息
-					if hangCDdata then
-						local CDdataX=dataT[0] or {}
-						local CDbut=hang.TimeCDBut[butID]
-						local SpellID,Skillname=GetCDSpellID(CDdataX,hangCDdata)
+					local SpellID=self.NewCDdata[butID]
+					if SpellID then
+						local CDbut=self.TimeCDBut[butID]
 						CDbut.icon:Show()
-						if Spell_ItemID[SpellID] then
-							CDbut.icon:SetTexture(C_Item.GetItemIconByID(Spell_ItemID[SpellID]));
+						CDbut.cd:SetText("|cffff0000CD"..UNKNOWN.."|r");
+						if Spell_ItemIcon[SpellID] then
+							CDbut.icon:SetTexture(C_Item.GetItemIconByID(Spell_ItemIcon[SpellID]));
 						else
-							CDbut.icon:SetTexture(134400);
+							CDbut.icon:SetTexture(GetSpellTexture(SpellID) or 134400);
 						end
-						if CDdataX[SpellID] then
-							CDbut.icon:SetDesaturated(false)
-							CDbut.name:SetText(Skillname);
-							if CDdataX[SpellID] then
-								if CDdataX[SpellID]>0 then
-									CDbut.cd:SetText(disp_time(CDdataX[SpellID]-GetTime()));
-								else
-									CDbut.cd:SetText("|cff00ff00已就绪|r");
+						CDbut.name:SetText(GetSkillname(SpellID));
+						for ixx=1,2 do
+							local oldSkillCD=dataT[ixx][2]
+							if oldSkillCD then
+								if oldSkillCD[SpellID] and oldSkillCD[SpellID]>0 then
+									local oldtimex=oldSkillCD[SpellID]-GetServerTime()
+									if oldtimex>0 then
+										CDbut.cd:SetText(disp_time(oldtimex));
+									else
+										CDbut.cd:SetText("|cff00ff00已就绪|r");
+									end
 								end
-							else
-								CDbut.cd:SetText("|cffff0000CD"..UNKNOWN.."|r");
 							end
-						else
-							CDbut.icon:SetDesaturated(true)
-							CDbut.name:SetText("|cffa4a4a4"..Skillname.."|r");
-							CDbut.cd:SetText("|cffa4a4a4N/A|r");
 						end
 					end
 				end
@@ -395,37 +398,37 @@ function BusinessInfo.SkillCD(StatsInfo)
 		self.Update_List();
 	end)
 	local function IsExistCD(dataT)
-		if fujiF.guolvtype==2 then
+		-- if fujiF.guolvtype==2 then
+		-- 	return true
+		-- elseif fujiF.guolvtype==1 then
+		-- 	if dataT and dataT[0] then
+		-- 		for k1,v1 in pairs(dataT[0]) do
+		-- 			return true
+		-- 		end
+		-- 		return false
+		-- 	end
+		-- 	return false
+		-- elseif fujiF.guolvtype==3 then
+		-- 	if dataT then
+		-- 		for ixx=1,2 do
+		-- 			if dataT[ixx] and dataT[ixx][1]>0 then
+		-- 				return true
+		-- 			end
+		-- 		end
+		-- 		return false
+		-- 	end
+		-- 	return false
+		-- elseif fujiF.guolvtype==4 then
+		-- 	if dataT then
+		-- 		for ixx=1,2 do
+		-- 			if dataT[ixx] and dataT[ixx][1]>0 then
+		-- 				return false
+		-- 			end
+		-- 		end
+		-- 		return true
+		-- 	end
 			return true
-		elseif fujiF.guolvtype==1 then
-			if dataT and dataT[0] then
-				for k1,v1 in pairs(dataT[0]) do
-					return true
-				end
-				return false
-			end
-			return false
-		elseif fujiF.guolvtype==3 then
-			if dataT then
-				for ixx=1,2 do
-					if dataT[ixx] and dataT[ixx][1]>0 then
-						return true
-					end
-				end
-				return false
-			end
-			return false
-		elseif fujiF.guolvtype==4 then
-			if dataT then
-				for ixx=1,2 do
-					if dataT[ixx] and dataT[ixx][1]>0 then
-						return false
-					end
-				end
-				return true
-			end
-			return true
-		end
+		--end
 	end
 	function fujiF.NR.Update_List()
 		if not fujiF:IsVisible() then return end
@@ -459,24 +462,24 @@ function BusinessInfo.SkillCD(StatsInfo)
 		    for id = 1, hang_NUM do
 				local dangqian = id+offset;
 				if cdmulu[dangqian] then
-					local fujik = fujiF.NR.listbut[id]
-					fujik:Show();
+					local hang = fujiF.NR.listbut[id]
+					hang:Show();
 					if cdmulu[dangqian][2]=="Alliance" then
-						fujik.Faction:SetTexCoord(0,0.5,0,1);
+						hang.Faction:SetTexCoord(0,0.5,0,1);
 					elseif cdmulu[dangqian][2]=="Horde" then
-						fujik.Faction:SetTexCoord(0.5,1,0,1);
+						hang.Faction:SetTexCoord(0.5,1,0,1);
 					end
-					fujik.Race:SetAtlas(cdmulu[dangqian][4]);
+					hang.Race:SetAtlas(cdmulu[dangqian][4]);
 					local className, classFile, classID = PIGGetClassInfo(cdmulu[dangqian][5])
-					fujik.Class:SetTexCoord(unpack(CLASS_ICON_TCOORDS[classFile]));
-					fujik.level:SetText(cdmulu[dangqian][6]);
+					hang.Class:SetTexCoord(unpack(CLASS_ICON_TCOORDS[classFile]));
+					hang.level:SetText(cdmulu[dangqian][6]);
 					if cdmulu[dangqian][8] then
-						fujik.nameDQ:Show()
+						hang.nameDQ:Show()
 					end
-					fujik.name:SetText(cdmulu[dangqian][1]);
+					hang.name:SetText(cdmulu[dangqian][1]);
 					local color = PIG_CLASS_COLORS[classFile];
-					fujik.name:SetTextColor(color.r, color.g, color.b, 1);
-					fujik.SetSkillIconName(cdmulu[dangqian][7])
+					hang.name:SetTextColor(color.r, color.g, color.b, 1);
+					hang:SetSkillIconName(cdmulu[dangqian][7])
 				end
 			end
 		end
@@ -491,62 +494,61 @@ function BusinessInfo.SkillCD(StatsInfo)
 	else
 		fujiF:RegisterEvent("TRADE_SKILL_LIST_UPDATE")
 	end
-	fujiF.CDspellID={}
 	fujiF:SetScript("OnEvent", function(self,event,arg1,arg2,arg3)
 		-- print(event,arg1,arg2,arg3)
 		if event=="PLAYER_ENTERING_WORLD" then
 			self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-			C_Timer.After(0.4,GetPlayerSkillInfo)
-			C_Timer.After(1,GetBagItemCD)
+			C_Timer.After(1,UpdatePlayerSkillInfo)
+			--C_Timer.After(1.2,GetBagItemCD)
 		elseif event=="SKILL_LINES_CHANGED" then
-			C_Timer.After(0.1,GetPlayerSkillInfo)
-		elseif event=="BAG_UPDATE_COOLDOWN" then
-			C_Timer.After(0.1,GetBagItemCD)
-		elseif event=="TRADE_SKILL_UPDATE" then
-			for j=1,GetNumTradeSkills() do
-				local Skillname,skillType= GetTradeSkillInfo(j);
-				if skillType~= "header" then
-					local SpellID= GetSkillNameID(Skillname)
-					if SpellID then
-						local Cooldown = GetTradeSkillCooldown(j);
-						if Cooldown and Cooldown>0 then
-							PIGA["StatsInfo"]["SkillData"][StatsInfo.allname][0][SpellID]=Cooldown+GetTime()
-						else
-							PIGA["StatsInfo"]["SkillData"][StatsInfo.allname][0][SpellID]=0
-						end
-					end
-				end
-			end
-		elseif event=="TRADE_SKILL_LIST_UPDATE" then
-				-- C_Timer.After(0.1,function()
-				-- 	-- local prof1, prof2, archaeology, fishing, cooking = GetProfessions()
-				-- 	-- print()
-				-- 	-- local name, icon, skillLevel, maxSkillLevel, numAbilities, spelloffset, skillLine, skillModifier = GetProfessionInfo(prof1)
-				-- 	-- --print(name, icon, skillLevel, maxSkillLevel, numAbilities, spelloffset, skillLine, skillModifier)
-				-- 	-- for _, id in pairs(C_TradeSkillUI.GetAllRecipeIDs()) do
-				-- 	-- 	local recipeInfo = C_TradeSkillUI.GetRecipeInfo(id)
-				-- 	-- 	for k,v in pairs(recipeInfo) do
-				-- 	-- 		print(k,v)
-				-- 	-- 	end
-				-- 	-- 	--print(recipeInfo.recipeID, recipeInfo.name)
-				-- 	-- end
-				-- end)
-		elseif event=="UNIT_SPELLCAST_SUCCEEDED" then
-			C_Timer.After(0.1,function()
-				for ix=1,#fujiF.CDspellID do
-					if arg3==fujiF.CDspellID[ix] then
-						if SpellItemID[arg3] then
+			C_Timer.After(0.1,UpdatePlayerSkillInfo)
+		-- elseif event=="BAG_UPDATE_COOLDOWN" then
+		-- 	C_Timer.After(0.1,GetBagItemCD)
+		-- elseif event=="TRADE_SKILL_UPDATE" then
+		-- 	for j=1,GetNumTradeSkills() do
+		-- 		local Skillname,skillType= GetTradeSkillInfo(j);
+		-- 		if skillType~= "header" then
+		-- 			local SpellID= GetSkillNameID(Skillname)
+		-- 			if SpellID then
+		-- 				local Cooldown = GetTradeSkillCooldown(j);
+		-- 				if Cooldown and Cooldown>0 then
+		-- 					PIGA["StatsInfo"]["SkillData"][StatsInfo.allname][0][SpellID]=Cooldown+GetServerTime()
+		-- 				else
+		-- 					PIGA["StatsInfo"]["SkillData"][StatsInfo.allname][0][SpellID]=0
+		-- 				end
+		-- 			end
+		-- 		end
+		-- 	end
+		-- elseif event=="TRADE_SKILL_LIST_UPDATE" then
+		-- 		-- C_Timer.After(0.1,function()
+		-- 		-- 	-- local prof1, prof2, archaeology, fishing, cooking = GetProfessions()
+		-- 		-- 	-- print()
+		-- 		-- 	-- local name, icon, skillLevel, maxSkillLevel, numAbilities, spelloffset, skillLine, skillModifier = GetProfessionInfo(prof1)
+		-- 		-- 	-- --print(name, icon, skillLevel, maxSkillLevel, numAbilities, spelloffset, skillLine, skillModifier)
+		-- 		-- 	-- for _, id in pairs(C_TradeSkillUI.GetAllRecipeIDs()) do
+		-- 		-- 	-- 	local recipeInfo = C_TradeSkillUI.GetRecipeInfo(id)
+		-- 		-- 	-- 	for k,v in pairs(recipeInfo) do
+		-- 		-- 	-- 		print(k,v)
+		-- 		-- 	-- 	end
+		-- 		-- 	-- 	--print(recipeInfo.recipeID, recipeInfo.name)
+		-- 		-- 	-- end
+		-- 		-- end)
+		-- elseif event=="UNIT_SPELLCAST_SUCCEEDED" then
+		-- 	C_Timer.After(0.1,function()
+		-- 		for ix=1,#DqSpellCDList do
+		-- 			if arg3==DqSpellCDList[ix] then
+		-- 				if Spell_ItemId[arg3] then
 							
-						else
-							local startTime, duration = PIGGetSpellCooldown(arg3);
-							if startTime > 0 and duration > 0 then
-								PIGA["StatsInfo"]["SkillData"][StatsInfo.allname][0][arg3]=startTime+duration
-							end
-						end
-						break
-					end
-				end
-			end)
+		-- 				else
+		-- 					local startTime, duration = PIGGetSpellCooldown(arg3);
+		-- 					if startTime > 0 and duration > 0 then
+		-- 						PIGA["StatsInfo"]["SkillData"][StatsInfo.allname][0][arg3]=startTime+duration
+		-- 					end
+		-- 				end
+		-- 				break
+		-- 			end
+		-- 		end
+		-- 	end)
 		end
 	end)
 end

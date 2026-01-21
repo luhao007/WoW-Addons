@@ -1,0 +1,30 @@
+## Interface: 110207
+## Author: romdeau23
+## Version: 3.0.0
+
+## Title: MogPartialSets
+## Notes: Show incomplete appearance sets in the transmogrification dialog
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF套装幻化|r |cFFFFE00AMogPartialSets|r
+## Notes-zhCN: 显示未完整收集套装（或者游戏内默认未列出）的幻化
+
+## IconTexture: Interface\AddOns\MogPartialSets\icon
+
+## Category-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r
+
+## SavedVariables: MogPartialSetsAddonConfig
+
+## X-Website: https://github.com/romdeau23/wow-mogpartialsets
+
+lib/globals.lua
+lib/namespace.lua
+lib/const.lua
+lib/defer.lua
+lib/event.lua
+lib/module.lua
+modules/config.lua
+modules/setLoader.lua
+modules/sourceLoader.lua
+modules/ui.lua
+modules/ui/filter.lua
+modules/ui/sets.lua
+modules/main.lua

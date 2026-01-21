@@ -278,7 +278,7 @@ DETAILS_SEGMENTTYPE_TRAININGDUMMY = true
 ---@field phase number the current phase of the encounter
 ---@field kill boolean if the encounter was a kill or a wipe
 
----@class details
+---@class details 
 ---@field encounter_table table store the encounter data for the current encounter
 ---@field boss1_health_percent number store the health percentage (one to zero) of the boss1
 ---@field pets table<guid, petinfo> store the pet guid as the key and the petinfo as the value
@@ -288,6 +288,7 @@ DETAILS_SEGMENTTYPE_TRAININGDUMMY = true
 ---@field container_type table<containertype, string> [containertype] = "damage" or "heal" or "energy" or "utility"
 ---@field TextureAtlas table<atlasname, df_atlasinfo>
 ---@field playername string
+---@field damage_meter_type number
 ---@field breakdown_general profile_breakdown_settings
 ---@field DefaultTooltipIconSize number default size of the icons in the tooltip, this also dictates the size of each line in the tooltip
 ---@field Format fun(self: details, number: number) : string
@@ -297,7 +298,11 @@ DETAILS_SEGMENTTYPE_TRAININGDUMMY = true
 ---@field GetCurrentEncounterInfo fun(self: details) : details_encounter_table
 ---@field GetAllInstances fun(self: details) : instance[] return a table with all the instances
 ---@field GetCoreVersion fun(self: details) : number return the core version, this is used to check API version for scripts and plugins
+---@field RefreshMainWindow fun(self: details, instance:instance|number?, forceUpdate:boolean?) refresh a window or all main windows if -1 is passed into instance
 ---@field 
+---@field GetCombatWithSessionId fun(self: details, combatSessionId: number) : combat|nil
+---@field HasCombatWithSessionId fun(self: details, combatSessionId: number) : boolean
+---@field InstanceCallDetailsFunc fun(self: details, func:fun(object:nil, instance:instance, ...), ...) call a function on all opened instances
 ---@field GetItemLevelFromGuid fun(self: details, guid: guid) : number return the item level of the player, if the player is not found, return 0
 ---@field GenerateActorInfo fun(self: details, actor: actor, errorText:string, bIncludeStack:boolean) : table<string, boolean|string|number> generates a table with the main attributes of the actor, this is mainly for debug purposes
 ---@field DumpActorInfo fun(self: details, actor: actor) open a window showig the main attributes of an actor, this is mainly for debug purposes
@@ -412,6 +417,7 @@ DETAILS_SEGMENTTYPE_TRAININGDUMMY = true
 ---@field bloodlust number[]? combat time of when the player received a bloodlust/heroism
 ---@field bloodlust_overall number[]? exists only in segments that received a merge, uses time()
 ---@field compressed_charts table store chart data
+---@field combatSessionId number
 ---@field 
 ---@field __call table
 ---@field __index table
@@ -704,7 +710,10 @@ DETAILS_SEGMENTTYPE_TRAININGDUMMY = true
 ---@field freezed boolean
 ---@field sub_atributo_last table
 ---@field row_info table
+---@field blzWindow blzwindow
 ---@field show_interrupt_casts boolean
+---@field baseframe frame
+---@field use_multi_fontstrings boolean
 ---@field
 ---@field
 ---@field GetActorBySubDisplayAndRank fun(self: instance, displayid: attributeid, subDisplay: attributeid, rank: number) : actor
@@ -1065,6 +1074,7 @@ DETAILS_SEGMENTTYPE_TRAININGDUMMY = true
 ---@field InstanceDifficulty instancedifficulty
 ---@field ContextManager contextmanager
 ---@field AllInOneWindow details_allinonewindow
+---@field BParser bparser
 
 ---@class profile_breakdown_settings : table
 ---@field font_size number

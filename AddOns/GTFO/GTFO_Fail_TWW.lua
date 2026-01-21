@@ -3290,5 +3290,53 @@ GTFO.SpellID["1238878"] = {
   sound = 3;
 };
 
+--- *************************
+--- * Brawler's Guild (TWW) *
+--- *************************
+
+GTFO.SpellID["1256775"] = {
+  --desc = "Thorn Eruption (Sunny)";
+  sound = 3;
+  applicationOnly = true;
+};
+
+GTFO.SpellID["1257189"] = {
+  --desc = "Tentickles (The Quacken)";
+  sound = 3;
+};
+
+GTFO.SpellID["233225"] = {
+  --desc = "Horrific Pursuit (Ooliss)";
+  applicationOnly = true;
+  sound = 3;
+};
+
+GTFO.SpellID["234489"] = {
+  --desc = "Shotgun Roar (Oso)";
+  sound = 3;
+};
+
+GTFO.SpellID["233159"] = {
+  --desc = "Attack (Ash'katzuum)";
+  sound = 3;
+};
+
+GTFO.SpellID["236875"] = {
+  --desc = "Klunk (Klunk)";
+  sound = 3;
+};
+
+GTFO.SpellID["232267"] = {
+  --desc = "Dino Dash (Topps)";
+  sound = 3;
+};
+
+GTFO.SpellID["229396"] = {
+  --desc = "Lava Wave (Carl)";
+  applicationOnly = true;
+  sound = 3;
+};
+
+
 end
 

@@ -197,7 +197,7 @@ local function BuildContainsInfo(root, entries, indent, layer)
 				else
 					-- Insert into the display.
 					-- app.PrintDebug("INCLUDE",app.Debugging,GetProgressTextForRow(group),group.hash,group.key,group.key and group[group.key])
-					local o = { group = group, right = GetProgressTextForRow(group) };
+					local o = { group = group, right = GetProgressTextForRow(group, true) };
 					local indicator = ContainsTypesIndicators[group.filledType] or Indicator(group);
 					o.prefix = indicator and (Indents[indent]:sub(3) .. "|T" .. indicator .. ":0|t ") or Indents[indent]
 					entries[#entries + 1] = o
@@ -2126,9 +2126,6 @@ end
 
 end	-- Dynamic/Main Data
 
-do -- Search Response Logic
-end -- Search Response Logic
-
 -- Store the Custom Windows Update functions which are required by specific Windows
 (function()
 local customWindowUpdates = { params = {} };
@@ -2159,329 +2156,47 @@ app.AddCustomWindowOnUpdate = function(customName, onUpdate)
 	if customWindowUpdates[customName] then
 		app.print("Cannot replace Custom Window: "..customName)
 	end
-	app.print("Added",customName)
+	-- app.print("Added",customName)
 	customWindowUpdates[customName] = onUpdate
 end
-customWindowUpdates.AchievementHarvester = function(self, ...)
-	-- /run AllTheThings:GetWindow("AchievementHarvester"):Toggle();
-	if self:IsVisible() then
-		if not self.initialized then
-			self.doesOwnUpdate = true;
-			self.initialized = true;
-			self.Limit = 45000;	-- MissingAchievements:11.0.0.54774 (maximum achievementID)
-			self.PartitionSize = 5000;
-			local CleanUpHarvests = function()
-				local g, partition, pg, pgcount, refresh = self.data.g, nil, nil, nil, nil;
-				local count = g and #g or 0;
-				if count > 0 then
-					for p=count,1,-1 do
-						partition = g[p];
-						if partition.g and partition.expanded then
-							refresh = true;
-							pg = partition.g;
-							pgcount = #pg;
-							-- print("UpdateDone.Partition",partition.text,pgcount)
-							if pgcount > 0 then
-								for i=pgcount,1,-1 do
-									if pg[i].collected then
-										-- item harvested, so remove it
-										-- print("remove",pg[i].text)
-										tremove(pg, i);
-									end
-								end
-							else
-								-- empty partition, so remove it
-								tremove(g, p);
-							end
-						end
-					end
-					if refresh then
-						-- refresh the window again
-						self:BaseUpdate();
-					else
-						-- otherwise stop until a group is expanded again
-						self.UpdateDone = nil;
-					end
-				end
-			end;
-			-- add a bunch of raw, delay-loaded items in order into the window
-			local groupCount = math_floor(self.Limit / self.PartitionSize);
-			local g, overrides = {}, {visible=true};
-			local partition, partitionStart, partitionGroups;
-			local dlo, obj = app.DelayLoadedObject, app.CreateAchievementHarvester;
-			for j=0,groupCount,1 do
-				partitionStart = j * self.PartitionSize;
-				partitionGroups = {};
-				-- define a sub-group for a range of quests
-				partition = app.CreateRawText(tostring(partitionStart + 1).."+", {
-					["icon"] = app.asset("Interface_Quest_header"),
-					["visible"] = true,
-					["OnClick"] = function(row, button)
-						-- assign the clean up method now that the group was clicked
-						self.UpdateDone = CleanUpHarvests;
-						-- no return so that it acts like a normal row
-					end,
-					["g"] = partitionGroups,
-				})
-				for i=1,self.PartitionSize,1 do
-					tinsert(partitionGroups, dlo(obj, "text", overrides, partitionStart + i));
-				end
-				tinsert(g, partition);
-			end
-			local db = app.CreateRawText("Achievement Harvester", {
-				g = g,
-				icon = app.asset("WindowIcon_RaidAssistant"),
-				description = "This is a contribution debug tool. NOT intended to be used by the majority of the player base.\n\nExpand a group to harvest the 1,000 Achievements within that range.",
-				visible = true,
-				back = 1,
-			})
-			self:SetData(db);
-		end
-		self:BaseUpdate(true);
-	end
-end;
-local function RoundNumber(number, decimalPlaces)
-	local ret;
-	if number < 60 then
-		ret = number .. " second(s)";
-	else
-		ret = (("%%.%df"):format(decimalPlaces)):format(number/60) .. " minute(s)";
-	end
-	return ret;
-end
-customWindowUpdates.AuctionData = function(self)
+app.AddCustomWindowOnUpdate("Bounty", function(self, force, got)
 	if not self.initialized then
-		local C_AuctionHouse_ReplicateItems = C_AuctionHouse.ReplicateItems;
-		self.initialized = true;
-		self:SetData(app.CreateRawText("Auction Module", {
-			visible = true,
-			back = 1,
-			icon = 133784,
-			description = "This is a debug window for all of the auction data that was returned. Turn on 'Account Mode' to show items usable on any character on your account!",
-			options = {
-				app.CreateRawText("Wipe Scan Data", {
-					["icon"] = 2065582,
-					["description"] = "Click this button to wipe out all of the previous scan data.",
-					["visible"] = true,
-					["priority"] = -4,
-					["OnClick"] = function()
-						if AllTheThingsAuctionData then
-							local window = app:GetWindow("AuctionData");
-							wipe(AllTheThingsAuctionData);
-							wipe(window.data.g);
-							for i,option in ipairs(window.data.options) do
-								tinsert(window.data.g, option);
-							end
-							window:Update();
-						end
-					end,
-					['OnUpdate'] = function(data)
-						local window = app:GetWindow("AuctionData");
-						data.visible = #window.data.g > #window.data.options;
-						return true;
-					end,
-				}),
-				app.CreateRawText("Scan or Load Last Save", {
-					["icon"] = 1100023,
-					["description"] = "Click this button to perform a full scan of the auction house or load the last scan conducted within 15 minutes. The game may or may not freeze depending on the size of your auction house.\n\nData should populate automatically.",
-					["visible"] = true,
-					["priority"] = -3,
-					["OnClick"] = function()
-						if AucAdvanced and AucAdvanced.API then AucAdvanced.API.CompatibilityMode(1, ""); end
-
-						-- Only allow a scan once every 15 minutes.
-						local cooldown = self.AuctionScanCooldownTime or 0;
-						local now = time();
-						if cooldown - now < 0 then
-							self.AuctionScanCooldownTime = now + 900;
-							app.AuctionFrame:RegisterEvent("REPLICATE_ITEM_LIST_UPDATE");
-							C_AuctionHouse_ReplicateItems();
-						else
-							app.print(": Throttled scan! Please wait " .. RoundNumber(cooldown - now, 0) .. " before running another. Loading last save instead...");
-							StartCoroutine("ProcessAuctionData", app.ProcessAuctionData, 1);
-						end
-					end,
-					['OnUpdate'] = app.AlwaysShowUpdate,
-				}),
-				app.CreateRawText("Toggle Debug Mode", {
-					["icon"] = 134521,
-					["description"] = "Click this button to toggle debug mode to show everything regardless of filters!",
-					["visible"] = true,
-					["priority"] = -2,
-					["OnClick"] = function()
-						app.Settings:ToggleDebugMode();
-					end,
-					['OnUpdate'] = function(data)
-						data.visible = true;
-						if app.MODE_DEBUG then
-							-- Novaplane made me do it
-							data.trackable = true;
-							data.saved = true;
-						else
-							data.trackable = nil;
-							data.saved = nil;
-						end
-						return true;
-					end,
-				}),
-				app.CreateRawText("Toggle Account Mode", {
-					["icon"] = 413583,
-					["description"] = "Turn this setting on if you want to track all of the Things for all of your characters regardless of class and race filters.\n\nUnobtainable filters still apply.",
-					["visible"] = true,
-					["priority"] = -1,
-					["OnClick"] = function()
-						app.Settings:ToggleAccountMode();
-					end,
-					['OnUpdate'] = function(data)
-						data.visible = true;
-						if app.MODE_ACCOUNT then
-							data.trackable = true;
-							data.saved = true;
-						else
-							data.trackable = nil;
-							data.saved = nil;
-						end
-						return true;
-					end,
-				}),
-				app.CreateRawText("Toggle Faction Mode", {
-					["icon"] = 134932,
-					["description"] = "Click this button to toggle faction mode to show everything for your faction!",
-					["visible"] = true,
-					["OnClick"] = function()
-						app.Settings:ToggleFactionMode();
-					end,
-					['OnUpdate'] = function(data)
-						if app.MODE_DEBUG or not app.MODE_ACCOUNT then
-							data.visible = false;
-						else
-							data.visible = true;
-							if app.Settings:Get("FactionMode") then
-								data.trackable = true;
-								data.saved = true;
-							else
-								data.trackable = nil;
-								data.saved = nil;
-							end
-						end
-						return true;
-					end,
-				}),
-				app.CreateRawText("Toggle Unobtainable Items", {
-					["icon"] = 135767,
-					["description"] = "Click this button to see currently unobtainable items in the auction data.",
-					["visible"] = true,
-					["priority"] = 0,
-					["OnClick"] = function()
-						local show = not app.Settings:GetValue("Unobtainable", 7);
-						app.Settings:SetValue("Unobtainable", 7, show);
-						for k,v in pairs(L.PHASES) do
-							if v.state < 4 then
-								if k ~= 7 then
-									app.Settings:SetValue("Unobtainable", k, show);
-								end
-							end
-						end
-						app.Settings:Refresh();
-						-- TODO: use events
-						-- app:RefreshData();
-					end,
-					['OnUpdate'] = function(data)
-						data.visible = true;
-						if app.Settings:GetValue("Unobtainable", 7) then
-							data.trackable = true;
-							data.saved = true;
-						else
-							data.trackable = nil;
-							data.saved = nil;
-						end
-						return true;
-					end,
-				}),
-			},
-			["g"] = {}
-		}))
-		for i,option in ipairs(self.data.options) do
-			tinsert(self.data.g, option);
+		if not app:GetDataCache() then	-- This module requires a valid data cache to function correctly.
+			return;
 		end
-	end
-
-	-- Update the window and all of its row data
-	self.data.progress = 0;
-	self.data.total = 0;
-	self.data.indent = 0;
-	self.data.back = 1;
-	AssignChildren(self.data);
-	app.TopLevelUpdateGroup(self.data);
-	self.data.visible = true;
-	self:BaseUpdate(true);
-end;
-customWindowUpdates.Bounty = function(self, force, got)
-	if not self.initialized then
 		self.initialized = true;
-		local autoOpen = app.CreateToggle("openAuto", {
-			["text"] = L.OPEN_AUTOMATICALLY,
-			["icon"] = 134327,
-			["description"] = L.OPEN_AUTOMATICALLY_DESC,
+		self:SetData(app.CreateCustomHeader(app.HeaderConstants.UI_BOUNTY_WINDOW, {
 			["visible"] = true,
-			["OnUpdate"] = app.AlwaysShowUpdate,
-			["OnClickHandler"] = function(toggle)
-				app.Settings:SetTooltipSetting("Auto:BountyList", toggle);
-				self:BaseUpdate(true, got);
-			end,
-		});
-		local header = app.CreateCustomHeader(app.HeaderConstants.UI_BOUNTY_WINDOW, {
-			['visible'] = true,
-			["g"] = {
-				autoOpen,
-			},
-		});
-		-- add bounty content
-		-- TODO: This window pulls its data manually, there should be a key for bounty.
-		-- Update this when we merge over Classic's extended window logic.
-		-- NOTE: Everything we want is current marked with a u value of 45, so why not just pull that in? :)
-		NestObjects(header, {
-			app.CreateCustomHeader(app.HeaderConstants.RARES, {
-				app.CreateNPC(87622, {	-- Ogom the Mangler
-					['g'] = {
-						app.CreateItemSource(67041, 119366),
-					},
-				}),
-			}),
-			app.CreateCustomHeader(app.HeaderConstants.ZONE_DROPS, {
-				["description"] = "These items were likely not readded with 10.1.7 or their source is currently unknown.",
-				["g"] = {
-					app.CreateItemSource(85, 778),	-- Kobold Excavation Pick
-					app.CreateItemSource(1932, 4951),	-- Squeeler's Belt
-					app.CreateItem(1462),	-- Ring of the Shadow
-					app.CreateItem(1404),	-- Tidal Charm
-				},
-			}),
-		});
-		self:SetData(header);
-		AssignChildren(self.data);
-		self.rawData = {};
-		local function RefreshBounties()
-			if #self.data.g > 1 and app.Settings:GetTooltipSetting("Auto:BountyList") then
-				autoOpen.saved = true;
-				self:SetVisible(true);
-			end
-		end
-		self:SetScript("OnEvent", function(self, e, ...)
-			if select(1, ...) == appName then
-				self:UnregisterEvent("ADDON_LOADED");
-				Callback(RefreshBounties);
-			end
-		end);
-		self:RegisterEvent("ADDON_LOADED");
+			["g"] = app:BuildSearchResponse("isBounty"),
+		}))
+		self:BuildData();
+		self.ExpandInfo = { Expand = true, Manual = true };
 	end
 	if self:IsVisible() then
-		-- Update the window and all of its row data
-		self.data.back = 1;
-		self:BaseUpdate(true, got);
+		--[[
+		-- Update the groups without forcing Debug Mode.
+		local visibleState = app.Modules.Filter.Get.Visible();
+		app.Modules.Filter.Set.Visible()
+		self:BuildData();
+		self:DefaultUpdate(force);
+		app.Modules.Filter.Set.Visible(visibleState)
+		]]--
+		
+		-- Force Debug Mode
+		local rawSettings = app.Settings:GetRawSettings("General");
+		local debugMode = app.MODE_DEBUG;
+		if not debugMode then
+			rawSettings.DebugMode = true;
+			app.Settings:UpdateMode();
+		end
+		self:DefaultUpdate(force);
+		if not debugMode then
+			rawSettings.DebugMode = debugMode;
+			app.Settings:UpdateMode();
+		end
 	end
-end;
-customWindowUpdates.CosmicInfuser = function(self, force)
+end)
+app.AddCustomWindowOnUpdate("CosmicInfuser", function(self, force)
 	if self:IsVisible() then
 		if not self.initialized then
 			self.initialized = true;
@@ -2571,10 +2286,10 @@ customWindowUpdates.CosmicInfuser = function(self, force)
 		end
 
 		-- Update the window and all of its row data
-		self:BaseUpdate(force);
+		self:DefaultUpdate(force);
 	end
-end;
-customWindowUpdates.CurrentInstance = function(self, force, got)
+end)
+app.AddCustomWindowOnUpdate("CurrentInstance", function(self, force, got)
 	-- app.PrintDebug("CurrentInstance:Update",force,got)
 	if not self.initialized then
 		force = true;
@@ -3010,10 +2725,10 @@ customWindowUpdates.CurrentInstance = function(self, force, got)
 			-- Update the mapID into the data for external reference in case not rebuilding
 			self.data.mapID = self.mapID;
 		end
-		self:BaseUpdate(force, got);
+		self:DefaultUpdate(force, got);
 	end
-end;
-customWindowUpdates.ItemFilter = function(self, force)
+end)
+app.AddCustomWindowOnUpdate("ItemFilter", function(self, force)
 	if self:IsVisible() then
 		if not app:GetDataCache() then	-- This module requires a valid data cache to function correctly.
 			return;
@@ -3102,10 +2817,10 @@ customWindowUpdates.ItemFilter = function(self, force)
 			self:BuildData();
 		end
 
-		self:BaseUpdate(force);
+		self:DefaultUpdate(force);
 	end
-end;
-customWindowUpdates.NWP = function(self, force)
+end)
+app.AddCustomWindowOnUpdate("NWP", function(self, force)
 	if not self.initialized then
 		if not app:GetDataCache() then	-- This module requires a valid data cache to function correctly.
 			return;
@@ -3210,10 +2925,10 @@ customWindowUpdates.NWP = function(self, force)
 		self:BuildData();
 	end
 	if self:IsVisible() then
-		self:BaseUpdate(force);
+		self:DefaultUpdate(force);
 	end
-end;
-customWindowUpdates.awp = function(self, force)	-- TODO: Change this to remember window data of each expansion (param) and dont make new windows infinitely
+end)
+app.AddCustomWindowOnUpdate("awp", function(self, force)	-- TODO: Change this to remember window data of each expansion (param) and dont make new windows infinitely
 	-- Patch Interface Build tables
 	local CLASSIC = {10100,10200,10300,10400,10500,10600,10700,10800,10900,10903,11000,11100,11101,11102,11200,11201}
 	-- Classic was using different build numbers originally, so these are made up to make a correct timeline search
@@ -3409,11 +3124,11 @@ customWindowUpdates.awp = function(self, force)	-- TODO: Change this to remember
 		self:BuildData();
 	end
 	if self:IsVisible() then
-		self:BaseUpdate(force);
+		self:DefaultUpdate(force);
 	end
-end;
-customWindowUpdates.Prime = function(self, ...)
-	self:BaseUpdate(...);
+end)
+app.AddCustomWindowOnUpdate("Prime", function(self, ...)
+	self:DefaultUpdate(...);
 
 	-- Write the current character's progress if a top-level update has been completed
 	local rootData = self.data;
@@ -3424,8 +3139,8 @@ customWindowUpdates.Prime = function(self, ...)
 			modeString = rootData.modeString,
 		};
 	end
-end
-customWindowUpdates.RaidAssistant = function(self)
+end)
+app.AddCustomWindowOnUpdate("RaidAssistant", function(self)
 	if self:IsVisible() then
 		if not self.initialized then
 			self.initialized = true;
@@ -3649,7 +3364,7 @@ customWindowUpdates.RaidAssistant = function(self)
 								PVEFrame_ToggleFrame("GroupFinderFrame")
 							end
 							self:SetData(raidassistant);
-							Callback(self.BaseUpdate, self, true);
+							Callback(self.DefaultUpdate, self, true);
 							return true;
 						end,
 						['OnUpdate'] = function(data)
@@ -3666,7 +3381,7 @@ customWindowUpdates.RaidAssistant = function(self)
 								PVEFrame_ToggleFrame("GroupFinderFrame")
 							end
 							self:SetData(raidassistant);
-							Callback(self.BaseUpdate, self, true);
+							Callback(self.DefaultUpdate, self, true);
 							return true;
 						end,
 						['OnUpdate'] = function(data)
@@ -3856,11 +3571,11 @@ customWindowUpdates.RaidAssistant = function(self)
 		local visibleState = app.Modules.Filter.Get.Visible();
 		app.Modules.Filter.Set.Visible()
 		self:BuildData();
-		self:BaseUpdate(true);
+		self:DefaultUpdate(true);
 		app.Modules.Filter.Set.Visible(visibleState)
 	end
-end;
-customWindowUpdates.Random = function(self)
+end)
+app.AddCustomWindowOnUpdate("Random", function(self)
 	if self:IsVisible() then
 		if not self.initialized then
 			self.initialized = true;
@@ -3910,23 +3625,14 @@ customWindowUpdates.Random = function(self)
 					end
 				end
 			end
-
-			local excludedZones = {
-				[12] = 1,	-- Kalimdor
-				[13] = 1, -- Eastern Kingdoms
-				[101] = 1,	-- Outland
-				[113] = 1,	-- Northrend
-				[424] = 1,	-- Pandaria
-				[948] = 1,	-- The Maelstrom
-				[572] = 1,	-- Draenor
-				[619] = 1,	-- The Broken Isles
-				[905] = 1,	-- Argus
-				[876] = 1,	-- Kul'Tiras
-				[875] = 1,	-- Zandalar
-				[1550] = 1,	-- The Shadowlands
-				[1978] = 1,	-- Dragon Isles
-				[2274] = 1,	-- Khaz Algar
-			};
+			
+			local excludedZones = setmetatable({}, {
+				__index = function(t, mapID)
+					local info = C_Map_GetMapInfo(mapID);
+					t[mapID] = not info or info.mapType < 3;
+					return t[mapID];
+				end
+			});
 
 			-- Represents how to search for a given named-Thing
 			local SelectionMethods = setmetatable({
@@ -4128,7 +3834,7 @@ customWindowUpdates.Random = function(self)
 				for i=#self.data.options,1,-1 do
 					tinsert(self.data.g, 1, self.data.options[i]);
 				end
-				AssignChildren(self.data);
+				self:AssignChildren();
 				if not no then self:Update(); end
 			end
 			self.Reroll = function(self)
@@ -4145,11 +3851,11 @@ customWindowUpdates.Random = function(self)
 		self.data.progress = 0;
 		self.data.total = 0;
 		self.data.indent = 0;
-		AssignChildren(self.data);
-		self:BaseUpdate(true);
+		self:AssignChildren();
+		self:DefaultUpdate(true);
 	end
-end;
-customWindowUpdates.RWP = function(self, force)
+end)
+app.AddCustomWindowOnUpdate("RWP", function(self, force)
 	if not self.initialized then
 		if not app:GetDataCache() then	-- This module requires a valid data cache to function correctly.
 			return;
@@ -4166,14 +3872,15 @@ customWindowUpdates.RWP = function(self, force)
 		self.ExpandInfo = { Expand = true, Manual = true };
 	end
 	if self:IsVisible() then
-		self:BaseUpdate(force);
+		self:DefaultUpdate(force);
 	end
-end;
-customWindowUpdates.Import = function(self, force)
+end)
+app.AddCustomWindowOnUpdate("Import", function(self, force)
 	if not self:IsVisible() then return end
 
 	if not self.initialized then
 		self.initialized = true
+		local SearchForObject = app.SearchForObject
 
 		function self:Rebuild()
 			self:BuildData()
@@ -4195,30 +3902,23 @@ customWindowUpdates.Import = function(self, force)
 			local ids = {}
 			for id in str:gmatch("%d+") do
 				id = tonumber(id)
-				if not id or id <= 0 or id >= 1000000 then
-					return nil
+				if id then
+					ids[#ids + 1] = id
 				end
-				ids[#ids + 1] = id
 			end
 			return ids
 		end
 
-		local function FindATTObjects(typeKey, id)
-			local searchKey = typeKey .. ":" .. id
-			local results = app.SearchForLink(searchKey)
-			if not results or #results == 0 then
-				results = app.SourceSearcher.LinkSources(searchKey)
-			end
-			return results
-		end
-
-		local function CreateTypeObject(typeKey, id)
-			return SearchForObject(typeKey, id, "key")
-				or SearchForObject(typeKey, id, "field")
-				or CreateObject({
-					[typeKey] = id,
-					visible = true,
+		local function SearchTypeObject(typeKey, id)
+			local o = setmetatable({ OnUpdate = app.ForceShowUpdate }, {
+					__index = id and (SearchForObject(typeKey, id, "key")
+									or SearchForObject(typeKey, id, "field")
+									or CreateObject({[typeKey]=id}))
+								or setmetatable({name=EMPTY}, app.BaseClass)
 				})
+			-- app.PrintDebug("Created", typeKey, id, "->", o.name or "???")
+			-- app.PrintTable(o)
+			return o
 		end
 
 		function self:Import(typeKey, input)
@@ -4226,47 +3926,21 @@ customWindowUpdates.Import = function(self, force)
 			self:ClearResults()
 			if not ids then return false end
 
-			local seen = {}
+			-- app.PrintDebug("Importing", #ids, typeKey)
 
+			local objs = {}
 			for _, id in ipairs(ids) do
-				local found = FindATTObjects(typeKey, id)
-
-				if found and #found > 0 then
-					for _, ref in ipairs(found) do
-						local key = ref.key
-						local value = key and ref[key]
-						local uid = key and value and (key .. ":" .. value)
-
-						if uid and not seen[uid] then
-							seen[uid] = true
-
-							local clone = app.CloneReference(ref)
-							clone.forceShow = true
-							clone.OnUpdate = app.AlwaysShowUpdate
-							tinsert(self.data.g, clone)
-						end
-					end
-				else
-					-- Fallback creation
-					local obj = CreateTypeObject(typeKey, id)
-					local key = obj.key
-					local value = key and obj[key]
-					local uid = key and value and (key .. ":" .. value)
-
-					if uid and not seen[uid] then
-						seen[uid] = true
-						obj.forceShow = true
-						obj.OnUpdate = app.AlwaysShowUpdate
-						tinsert(self.data.g, obj)
-					end
-				end
+				objs[#objs + 1] = SearchTypeObject(typeKey, id)
 			end
+
+			-- Merge all the search results into the list, ensure to clone
+			NestObjects(self.data, objs, true)
 		end
 
 		local initialButtons = {
 			{ id = "achievementID", name = ACHIEVEMENTS, icon = app.asset("Category_Achievements") },
 			{ id = "sourceID", name = WARDROBE, icon = 135276 },
-			-- LUA error currently { id = "artifactID", name = ITEM_QUALITY6_DESC, icon = app.asset("Weapon_Type_Artifact") },
+			{ id = "artifactID", name = ITEM_QUALITY6_DESC, icon = app.asset("Weapon_Type_Artifact") },
 			{ id = "azeriteessenceID", name = SPLASH_BATTLEFORAZEROTH_8_2_0_FEATURE2_TITLE, icon = app.asset("Category_AzeriteEssences") },
 			{ id = "speciesID", name = AUCTION_CATEGORY_BATTLE_PETS, icon = app.asset("Category_PetJournal") },
 			{ id = "campsiteID", name = WARBAND_SCENES, icon = app.asset("Category_Campsites") },
@@ -4350,9 +4024,9 @@ customWindowUpdates.Import = function(self, force)
 		self:ResetToInitialButtons()
 	end
 
-	self:BaseUpdate(force)
-end
-customWindowUpdates.Sync = function(self)
+	self:DefaultUpdate(force)
+end)
+app.AddCustomWindowOnUpdate("Sync", function(self)
 	if self:IsVisible() then
 		if not self.initialized then
 			self.initialized = true;
@@ -4586,9 +4260,9 @@ customWindowUpdates.Sync = function(self)
 		for i,g in ipairs(self.data.g) do
 			if g.OnUpdate then g.OnUpdate(g, self); end
 		end
-		self:BaseUpdate(true);
+		self:DefaultUpdate(true);
 	end
-end;
+end)
 
 -- Returns an Object based on a QuestID a lot of Quest information for displaying in a row
 ---@return table?
@@ -4607,7 +4281,7 @@ local function GetPopulatedQuestObject(questID)
 	app.TryPopulateQuestRewards(questObject);
 	return questObject;
 end
-customWindowUpdates.list = function(self, force, got)
+app.AddCustomWindowOnUpdate("list", function(self, force, got)
 	if not self.initialized then
 		self.VerifyGroupSourceID = function(data)
 			-- can only determine a sourceID if there is an itemID/sourceID on the group
@@ -4945,11 +4619,11 @@ customWindowUpdates.list = function(self, force, got)
 		-- requires Visibility filter to check .visibile for display of the group
 		local filterVisible = app.Modules.Filter.Get.Visible();
 		app.Modules.Filter.Set.Visible(true);
-		self:BaseUpdate(force);
+		self:DefaultUpdate(force);
 		app.Modules.Filter.Set.Visible(filterVisible);
 	end
-end
-customWindowUpdates.Tradeskills = function(self, force, got)
+end)
+app.AddCustomWindowOnUpdate("Tradeskills", function(self, force, got)
 	if not app:GetDataCache() then	-- This module requires a valid data cache to function correctly.
 		return;
 	end
@@ -5445,11 +5119,11 @@ customWindowUpdates.Tradeskills = function(self, force, got)
 		end
 
 		-- Update the window and all of its row data
-		self:BaseUpdate(force or self.force, got);
+		self:DefaultUpdate(force or self.force, got);
 		self.force = nil;
 	end
-end;
-customWindowUpdates.WorldQuests = function(self, force, got)
+end)
+app.AddCustomWindowOnUpdate("WorldQuests", function(self, force, got)
 	-- localize some APIs
 	local C_TaskQuest_GetQuestsForPlayerByMapID = C_TaskQuest.GetQuestsOnMap;
 	local C_AreaPoiInfo_GetAreaPOIForMap,C_AreaPoiInfo_GetAreaPOIInfo,C_AreaPoiInfo_GetEventsForMap,C_AreaPoiInfo_GetAreaPOISecondsLeft
@@ -5925,327 +5599,9 @@ customWindowUpdates.WorldQuests = function(self, force, got)
 			end
 		end
 
-		self:BaseUpdate(force);
+		self:DefaultUpdate(force);
 	end
-end;
-end)();
-
--- Auction House Lib
-(function()
-local auctionFrame = CreateFrame("Frame");
-app.AuctionFrame = auctionFrame;
-app.ProcessAuctionData = function()
-	-- If we have no auction data, then simply return now.
-	if not AllTheThingsAuctionData then return end;
-	local count = 0;
-	for _ in pairs(AllTheThingsAuctionData) do count = count+1 end
-	if count < 1 then return end;
-
-	-- Search the ATT Database for information related to the auction links (items, species, etc)
-	local filterID;
-	local searchResultsByKey, searchResult, searchResults, key, keys, value, data = {}, nil, nil, nil, nil, nil, nil;
-	for k,v in pairs(AllTheThingsAuctionData) do
-		searchResults = app.SearchForLink(v.itemLink);
-		if searchResults then
-			if #searchResults > 0 then
-				searchResult = searchResults[1];
-				key = searchResult.key;
-				if key == "npcID" then
-					if searchResult.itemID then
-						key = "itemID";
-					end
-				elseif key == "spellID" then
-					local AuctionDataItemKeyOverrides = {
-						[92426] = "itemID", -- Sealed Tome of the Lost Legion
-					};
-					if AuctionDataItemKeyOverrides[searchResult.itemID] then
-						key = AuctionDataItemKeyOverrides[searchResult.itemID]
-					end
-				end
-				value = searchResult[key];
-				keys = searchResultsByKey[key];
-
-				-- Make sure that the key type is represented.
-				if not keys then
-					keys = {};
-					searchResultsByKey[key] = keys;
-				end
-
-				-- First time this key value was used.
-				data = keys[value];
-				if not data then
-					data = CreateObject(searchResult);
-					for i=2,#searchResults,1 do
-						MergeObject(data, CreateObject(searchResults[i]));
-					end
-					if data.key == "npcID" then app.CreateItem(data.itemID, data); end
-					data.auctions = {};
-					keys[value] = data;
-				end
-				tinsert(data.auctions, v.itemLink);
-			end
-		end
-	end
-
-	-- Move all achievementID-based items into criteriaID
-	if searchResultsByKey.achievementID then
-		local criteria = searchResultsByKey.criteriaID;
-		if criteria then
-			for key,entry in pairs(searchResultsByKey.achievementID) do
-				criteria[key] = entry;
-			end
-		else
-			searchResultsByKey.criteriaID = searchResultsByKey.achievementID;
-		end
-		searchResultsByKey.achievementID = nil;
-	end
-
-	-- Apply a sub-filter to items with spellID-based identifiers.
-	if searchResultsByKey.spellID then
-		local filteredItems = {};
-		for key,entry in pairs(searchResultsByKey.spellID) do
-			filterID = entry.filterID or entry.f;
-			if filterID then
-				local filterData = filteredItems[filterID];
-				if not filterData then
-					filterData = {};
-					filteredItems[filterID] = filterData;
-				end
-				filterData[key] = entry;
-			else
-				print("Spell " .. entry.spellID .. " (Item ID #" .. (entry.itemID or "???") .. ") is missing a filterID?");
-			end
-		end
-
-		if filteredItems[100] then searchResultsByKey.mountID = filteredItems[100]; end	-- Mounts
-		if filteredItems[200] then searchResultsByKey.recipeID = filteredItems[200]; end -- Recipes
-		searchResultsByKey.spellID = nil;
-	end
-
-	if searchResultsByKey.sourceID then
-		local filteredItems = {};
-		local cachedSourceIDs = searchResultsByKey.sourceID;
-		searchResultsByKey.sourceID = {};
-		for sourceID,entry in pairs(cachedSourceIDs) do
-			filterID = entry.filterID or entry.f;
-			if filterID then
-				local filterData = filteredItems[entry.f];
-				if not filterData then
-					filterData = app.CreateFilter(filterID);
-					filterData.g = {};
-					filteredItems[filterID] = filterData;
-					tinsert(searchResultsByKey.sourceID, filterData);
-				end
-				tinsert(filterData.g, entry);
-			end
-		end
-		for f,entry in pairs(filteredItems) do
-			app.Sort(entry.g, function(a,b)
-				return a.u and not b.u;
-			end);
-		end
-	end
-
-	-- Process the Non-Collectible Items for Reagents
-	local reagentCache = app.ReagentsDB;
-	if reagentCache and searchResultsByKey.itemID then
-		local cachedItems = searchResultsByKey.itemID;
-		searchResultsByKey.itemID = {};
-		searchResultsByKey.reagentID = {};
-		for itemID,entry in pairs(cachedItems) do
-			if reagentCache[itemID] then
-				searchResultsByKey.reagentID[itemID] = entry;
-				if not entry.g then entry.g = {}; end
-				for itemID2,count in pairs(reagentCache[itemID][2]) do
-					local searchResults = SearchForField("itemID", itemID2);
-					if #searchResults > 0 then
-						tinsert(entry.g, CreateObject(searchResults[1]));
-					end
-				end
-			else
-				-- Push it back into the itemID table
-				searchResultsByKey.itemID[itemID] = entry;
-			end
-		end
-	end
-
-	-- Insert Buttons into the groups.
-	-- not sure what this was but unreferenced globals currently
-	-- wipe(window.data.g);
-	-- for i,option in ipairs(window.data.options) do
-	-- 	tinsert(window.data.g, option);
-	-- end
-
-	local ObjectTypeMetas = {
-		["criteriaID"] = app.CreateFilter(105, {	-- Achievements
-			["icon"] = 341221,
-			["description"] = L.ITEMS_FOR_ACHIEVEMENTS_DESC,
-			["priority"] = 1,
-		}),
-		["sourceID"] = app.CreateRawText("Appearances", {	-- Appearances
-			["icon"] = 135276,
-			["description"] = L.ALL_APPEARANCES_DESC,
-			["priority"] = 2,
-		}),
-		["mountID"] = app.CreateFilter(100, {	-- Mounts
-			["description"] = L.ALL_THE_MOUNTS_DESC,
-			["priority"] = 3,
-		}),
-		["speciesID"] = app.CreateFilter(101, {	-- Battle Pets
-			["description"] = L.ALL_THE_BATTLEPETS_DESC,
-			["priority"] = 4,
-		}),
-		["questID"] = app.CreateCustomHeader(app.HeaderConstants.QUESTS, {
-			["icon"] = 464068,
-			["description"] = L.ALL_THE_QUESTS_DESC,
-			["priority"] = 5,
-		}),
-		["recipeID"] = app.CreateFilter(200, {	-- Recipes
-			["icon"] = 134942,
-			["description"] = L.ALL_THE_RECIPES_DESC,
-			["priority"] = 6,
-		}),
-		["itemID"] = app.CreateRawText(L.GENERAL_PAGE, {
-			["icon"] = 334365,
-			["description"] = L.ALL_THE_ILLUSIONS_DESC,
-			["priority"] = 7,
-		}),
-		["reagentID"] = app.CreateFilter(56, {	-- Reagent
-			["icon"] = 135851,
-			["description"] = L.ALL_THE_REAGENTS_DESC,
-			["priority"] = 8,
-		}),
-	};
-
-	-- Display Test for Raw Data + Filtering
-	for key, searchResults in pairs(searchResultsByKey) do
-		local subdata = {};
-		subdata.visible = true;
-		if ObjectTypeMetas[key] then
-			setmetatable(subdata, { __index = ObjectTypeMetas[key] });
-		else
-			subdata.description = "Container for '" .. key .. "' object types.";
-			subdata.text = key;
-		end
-		subdata.g = {};
-		for i,j in pairs(searchResults) do
-			tinsert(subdata.g, j);
-		end
-		-- not sure what this was but unreferenced globals currently
-		-- tinsert(window.data.g, subdata);
-	end
-	-- not sure what this was but unreferenced globals currently
-	-- app.Sort(window.data.g, function(a, b)
-	-- 	return (b.priority or 0) > (a.priority or 0);
-	-- end);
-	-- AssignChildren(window.data);
-	-- app.TopLevelUpdateGroup(window.data);
-	-- window:Show();
-	-- window:Update();
-end
-
-app.OpenAuctionModule = function(self)
-	-- TODO: someday someone might fix this AH functionality...
-	if true then return; end
-
-	if C_AddOns.IsAddOnLoaded("TradeSkillMaster") then -- Why, TradeSkillMaster, why are you like this?
-		C_Timer.After(2, app.EmptyFunction);
-	end
-	if app.Blizzard_AuctionHouseUILoaded then
-		-- Localize some global APIs
-		local C_AuctionHouse_GetNumReplicateItems = C_AuctionHouse.GetNumReplicateItems;
-		local C_AuctionHouse_GetReplicateItemInfo = C_AuctionHouse.GetReplicateItemInfo;
-		local C_AuctionHouse_GetReplicateItemLink = C_AuctionHouse.GetReplicateItemLink;
-
-		-- Create the Auction Tab for ATT.
-		local tabID = AuctionHouseFrame.numTabs+1;
-		local button = CreateFrame("Button", "AuctionHouseFrameTab"..tabID, AuctionHouseFrame, "AuctionHouseFrameDisplayModeTabTemplate");
-		button:SetID(tabID);
-		button:SetText(L.SHORTTITLE);
-		button:SetNormalFontObject(GameFontHighlightSmall);
-		button:SetPoint("LEFT", AuctionHouseFrame.Tabs[tabID-1], "RIGHT", -15, 0);
-		tinsert(AuctionHouseFrame.Tabs, button);
-
-		PanelTemplates_SetNumTabs (AuctionHouseFrame, tabID);
-		PanelTemplates_EnableTab  (AuctionHouseFrame, tabID);
-
-		-- Garbage collect the function after this is executed.
-		app.OpenAuctionModule = app.EmptyFunction;
-		app.AuctionModuleTabID = tabID;
-
-		-- Create the movable Auction Data window.
-		local window = app:GetWindow("AuctionData", AuctionHouseFrame);
-		auctionFrame:SetScript("OnEvent", function(self, e, ...)
-			if e == "REPLICATE_ITEM_LIST_UPDATE" then
-				self:UnregisterEvent("REPLICATE_ITEM_LIST_UPDATE");
-				AllTheThingsAuctionData = {};
-				local items = {};
-				local auctionItems = C_AuctionHouse_GetNumReplicateItems();
-				for i=0,auctionItems-1 do
-					local itemLink;
-					local count, _, _, _, _, _, _, price, _, _, _, _, _, _, itemID, status = select(3, C_AuctionHouse_GetReplicateItemInfo(i));
-					if itemID then
-						if price and status then
-							itemLink = C_AuctionHouse_GetReplicateItemLink(i);
-							if itemLink then
-								AllTheThingsAuctionData[itemID] = { itemLink = itemLink, count = count, price = (price/count) };
-							end
-						else
-							local item = Item:CreateFromItemID(itemID);
-							items[item] = true;
-
-							item:ContinueOnItemLoad(function()
-								count, _, _, _, _, _, _, price, _, _, _, _, _, _, itemID, status = select(3, C_AuctionHouse_GetReplicateItemInfo(i));
-								items[item] = nil;
-								if itemID and status then
-									itemLink = C_AuctionHouse_GetReplicateItemLink(i);
-									if itemLink then
-										AllTheThingsAuctionData[itemID] = { itemLink = itemLink, count = count, price = (price/count) };
-									end
-								end
-								if not next(items) then
-									items = {};
-								end
-							end);
-						end
-					end
-				end
-				if not next(items) then
-					items = {};
-				end
-				print(L.TITLE .. L.AH_SCAN_SUCCESSFUL_1 .. auctionItems .. L.AH_SCAN_SUCCESSFUL_2);
-				StartCoroutine("ProcessAuctionData", app.ProcessAuctionData, 1);
-			end
-		end);
-		window:SetPoint("TOPLEFT", AuctionHouseFrame, "TOPRIGHT", 0, -10);
-		window:SetPoint("BOTTOMLEFT", AuctionHouseFrame, "BOTTOMRIGHT", 0, 10);
-		window:Hide();
-
-		-- Cache some functions to make them faster
-		local origSideDressUpFrameHide, origSideDressUpFrameShow = SideDressUpFrame.Hide, SideDressUpFrame.Show;
-		---@diagnostic disable-next-line: duplicate-set-field
-		SideDressUpFrame.Hide = function(...)
-			origSideDressUpFrameHide(...);
-			window:ClearAllPoints();
-			window:SetPoint("TOPLEFT", AuctionHouseFrame, "TOPRIGHT", 0, -10);
-			window:SetPoint("BOTTOMLEFT", AuctionHouseFrame, "BOTTOMRIGHT", 0, 10);
-		end
-		---@diagnostic disable-next-line: duplicate-set-field
-		SideDressUpFrame.Show = function(...)
-			origSideDressUpFrameShow(...);
-			window:ClearAllPoints();
-			window:SetPoint("LEFT", SideDressUpFrame, "RIGHT", 0, 0);
-			window:SetPoint("TOP", AuctionHouseFrame, "TOP", 0, -10);
-			window:SetPoint("BOTTOM", AuctionHouseFrame, "BOTTOM", 0, 10);
-		end
-
-		button:SetScript("OnClick", function(self) -- This is the "ATT" button at the bottom of the auction house frame
-			if self:GetID() == tabID then
-				window:Show();
-			end
-		end);
-	end
-end
+end)
 end)();
 
 do -- Setup and Startup Functionality
@@ -6321,6 +5677,7 @@ app.Startup = function()
 		currentCharacter = {};
 		characterData[app.GUID] = currentCharacter;
 	end
+	currentCharacter.build = app.GameBuildVersion;
 	local name, realm = UnitName("player");
 	if not realm then realm = GetRealmName(); end
 	if name then currentCharacter.name = name; end
@@ -6486,7 +5843,7 @@ local function InitDataCoroutine()
 		-- Allows removing the character backups that ATT automatically creates for duplicated characters which are replaced by new ones
 		app.ChatCommands.Add("remove-deleted-character-backups", function(args)
 			local backups = 0
-			for guid,char in pairs(accountWideData._CharacterBackups) do
+			for guid,char in pairs(accountWideData._CharacterBackups or app.EmptyTable) do
 				backups = backups + 1
 			end
 			accountWideData._CharacterBackups = nil
@@ -6542,12 +5899,6 @@ app.AddonLoadedTriggers = {
 	[appName] = function()
 		-- OnLoad events (saved variables are now available)
 		app.HandleEvent("OnLoad")
-	end,
-	["Blizzard_AuctionHouseUI"] = function()
-		app.Blizzard_AuctionHouseUILoaded = true;
-		if app.Settings:GetTooltipSetting("Auto:AH") then
-			app:OpenAuctionModule();
-		end
 	end,
 };
 -- Register Event for startup

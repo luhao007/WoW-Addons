@@ -279,7 +279,7 @@ fujiF.Deaths.Clear:HookScript("OnClick", function ()
 	PIGA["Hardcore"]["Deaths"]["Player"]={}
 	HardcoreDeaths.Update_List()
 end);
-fujiF.Deaths.CZINFO = PIGButton(fujiF.Deaths,{"LEFT",fujiF.Deaths.Clear,"RIGHT",100,0},{60,20},"重置")
+fujiF.Deaths.CZINFO = PIGButton(fujiF.Deaths,{"LEFT",fujiF.Deaths.Clear,"RIGHT",100,0},{60,20},RESET)
 fujiF.Deaths.CZINFO:HookScript("OnClick", function ()
 	Create.PIG_ResPoint(UIname)
 end);

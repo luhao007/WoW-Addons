@@ -1,4 +1,4 @@
 <Ui>
 	<Script file="Options.lua" />
-	<Script file="fun.lua" />
+	<Script file="Fun.lua" />
 </Ui>

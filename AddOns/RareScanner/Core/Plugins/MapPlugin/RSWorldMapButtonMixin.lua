@@ -22,6 +22,7 @@ local RSMapDB =  private.ImportLib("RareScannerMapDB")
 -- RareScanner service libraries
 local RSMinimap = private.ImportLib("RareScannerMinimap")
 local RSProvider = private.ImportLib("RareScannerProvider")
+local RSTooltip = private.ImportLib("RareScannerTooltip")
 
 -- Locales
 local AL = LibStub("AceLocale-3.0"):GetLocale("RareScanner");
@@ -55,9 +56,13 @@ function RSWorldMapButtonMixin:OnMouseUp()
 end
 
 function RSWorldMapButtonMixin:OnEnter()
-    GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
-    GameTooltip_SetTitle(GameTooltip, "RareScanner")
-    GameTooltip:Show()
+    RSTooltip.Tooltip:SetOwner(self, 'ANCHOR_RIGHT')
+    GameTooltip_SetTitle(RSTooltip.Tooltip, "RareScanner")
+    RSTooltip.Tooltip:Show()
+end
+
+function RSWorldMapButtonMixin:OnLeave()
+    RSTooltip.Tooltip:Hide()
 end
 
 function RSWorldMapButtonMixin:Refresh()
@@ -100,7 +105,7 @@ function RSWorldMapButtonMixin:SetupMenu()
 
 		local mapInfo = C_Map.GetMapInfo(mapID)
 		if (mapInfo and mapInfo.mapType ~= Enum.UIMapType.Dungeon) then
-			if (RSMapDB.GetContinentOfMap(mapID) == RSConstants.KHAZ_ALGAR and not RSUtils.Contains(RSConstants.TWW_MAPS_WITHOUT_REP, mapID)) then
+			if (not RSUtils.Contains(RSConstants.MAPS_WITHOUT_WARBAND_REPUTATION, mapID) and RSUtils.Contains(RSConstants.CONTINENTS_WARBAND_REPUTATION, RSMapDB.GetContinentOfMap(mapID))) then
 		    	local npcsWeekly = npcsSubmenu:CreateCheckbox("|T"..RSConstants.NORMAL_NPC_TEXTURE..":18:18:::::0:32:0:32|t "..AL["MAP_MENU_DISABLE_WEEKLY_REP_FILTER"], 
 		    		function() return RSConfigDB.IsShowingWeeklyRepFilterEnabled() end, 
 					function()
@@ -220,13 +225,26 @@ function RSWorldMapButtonMixin:SetupMenu()
 			end)
 		npcsOthers:SetEnabled(function() return RSConfigDB.IsShowingNpcs() end)
 		
+		if (private.MAP_RENOWN_IDS[mapID] and private.MAP_RENOWN_IDS[mapID].npcs) then
+	    	local npcRenown = npcsSubmenu:CreateCheckbox(AL["MAP_MENU_SHOW_RENOWN_NPCS"], 
+	    		function() return RSConfigDB.IsShowingRenownRareNPCs() end, 
+				function()
+					if (RSConfigDB.IsShowingRenownRareNPCs()) then
+						RSConfigDB.SetShowingRenownRareNPCs(false)
+					else
+						RSConfigDB.SetShowingRenownRareNPCs(true)
+					end
+				end)
+			npcRenown:SetEnabled(function() return RSConfigDB.IsShowingNpcs() end)
+		end
+		
 		-- Filter NPCs		
 		local npcIDsWithNames = RSNpcDB.GetActiveNpcIDsWithNamesByMapID(mapID)
 		if (RSUtils.GetTableLength(npcIDsWithNames) > 0) then
 			npcsSubmenu:CreateDivider()
 			npcsSubmenu:CreateTitle(AL["MAP_MENU_FILTER"])
 			
-			if (mapInfo and mapInfo.mapType ~= Enum.UIMapType.Dungeon and RSMapDB.GetContinentOfMap(mapID) == RSConstants.KHAZ_ALGAR and not RSUtils.Contains(RSConstants.TWW_MAPS_WITHOUT_REP, mapID)) then
+			if (mapInfo and mapInfo.mapType ~= Enum.UIMapType.Dungeon and not RSUtils.Contains(RSConstants.MAPS_WITHOUT_WARBAND_REPUTATION, mapID) and RSUtils.Contains(RSConstants.CONTINENTS_WARBAND_REPUTATION, RSMapDB.GetContinentOfMap(mapID))) then
 		    	npcsSubmenu:CreateCheckbox(AL["MAP_MENU_FILTER_WEEKLY_REP_FILTER"], function() return RSConfigDB.IsWeeklyRepNpcFilterEnabled() end, 
 					function()
 						if (RSConfigDB.IsWeeklyRepNpcFilterEnabled()) then
@@ -336,7 +354,7 @@ function RSWorldMapButtonMixin:SetupMenu()
 					end)
 				npcFilter:SetEnabled(function() 
 					local npcInfo = RSNpcDB.GetInternalNpcInfo(npcID)
-					if (npcInfo and RSConfigDB.IsWeeklyRepNpcFilterEnabled() and mapInfo and mapInfo.mapType ~= Enum.UIMapType.Dungeon and RSMapDB.GetContinentOfMap(mapID) == RSConstants.KHAZ_ALGAR and not RSUtils.Contains(RSConstants.IGNORE_NPCS_REPUTATION, npcID) and not RSUtils.Contains(RSConstants.TWW_MAPS_WITHOUT_REP, mapID)) then
+					if (npcInfo and RSConfigDB.IsWeeklyRepNpcFilterEnabled() and mapInfo and mapInfo.mapType ~= Enum.UIMapType.Dungeon and not RSUtils.Contains(RSConstants.IGNORE_NPCS_REPUTATION, npcID) and not RSUtils.Contains(RSConstants.MAPS_WITHOUT_WARBAND_REPUTATION, mapID) and RSUtils.Contains(RSConstants.CONTINENTS_WARBAND_REPUTATION, RSMapDB.GetContinentOfMap(mapID))) then
 						return false
 					end
 					
@@ -458,6 +476,19 @@ function RSWorldMapButtonMixin:SetupMenu()
 				end
 			end)
 		containerOthers:SetEnabled(function() return RSConfigDB.IsShowingContainers() end)
+		
+		if (private.MAP_RENOWN_IDS[mapID] and private.MAP_RENOWN_IDS[mapID].containers) then
+	    	local containerRenown = containersSubmenu:CreateCheckbox(AL["MAP_MENU_SHOW_RENOWN_CONTAINERS"], 
+	    		function() return RSConfigDB.IsShowingRenownContainers() end, 
+				function()
+					if (RSConfigDB.IsShowingRenownContainers()) then
+						RSConfigDB.SetShowingRenownContainers(false)
+					else
+						RSConfigDB.SetShowingRenownContainers(true)
+					end
+				end)
+			containerRenown:SetEnabled(function() return RSConfigDB.IsShowingContainers() end)
+		end
 
 		-- Filter Containers
 		local containerIDsWithNames = RSContainerDB.GetActiveContainerIDsWithNamesByMapID(mapID)

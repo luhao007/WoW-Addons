@@ -1,3 +1,7 @@
+01/20/2026 version 5.3.0
+- toc update for Midnight
+- let me know at https://www.wowinterface.com/downloads/info22190-Rematch.html if any issues
+
 08/08/2025 version 5.2.11
 - toc update for 11.2 patch
 

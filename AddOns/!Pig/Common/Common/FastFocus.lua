@@ -11,7 +11,7 @@ local UnitFrame = {
 	},
 	--
 	["ElvUI"]={
-		"ElvUF_Player","ElvUF_Target","ElvUF_TargetTarget",
+		"ElvUF_Player","ElvUF_Target","ElvUF_TargetTarget","ElvUF_Pet",
 		"ElvUF_PartyGroup1UnitButton1","ElvUF_PartyGroup1UnitButton2","ElvUF_PartyGroup1UnitButton3","ElvUF_PartyGroup1UnitButton4","ElvUF_PartyGroup1UnitButton5",
 	},
 }

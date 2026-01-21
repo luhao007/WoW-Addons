@@ -22,7 +22,7 @@ QuickButUI.ButList[5]=function()
 	QuickButUI.Equip=true	
 	---1装备按钮
 	local PIG_EquipmentData = {
-		["anniushu"]=MAX_EQUIPMENT_SETS_PER_PLAYER,
+		["anniushu"]=MAX_EQUIPMENT_SETS_PER_PLAYER+2,
 		["zhuangbeixilieID"]=Data.InvSlot.Name,
 		["NumTexCoord"]=QuickButUI.EquipmentPIG["NumTexCoord"],
 		["Equip_Save"]=QuickButUI.EquipmentPIG["Equip_Save"],
@@ -33,30 +33,36 @@ QuickButUI.ButList[5]=function()
 	local ClickTooltip ="《"..CHARACTER_INFO.."C键》界面管理配装"
 	local Tooltip = KEY_BUTTON1.."-|cff00FFFF展开切换按钮|r\n"..KEY_BUTTON2.."-|cff00FFFF卸下身上有耐久装备|r"
 	local AutoEquip=PIGQuickBut(GnUI,Tooltip,Icon)
-	AutoEquip.tips = PIGFontString(AutoEquip,nil,"你没有已保存的配装，\n"..ClickTooltip,"OUTLINE");
-	AutoEquip.tips:SetJustifyH("RIGHT")
+	AutoEquip.tips = PIGFontString(AutoEquip,nil,"没有已保存的配装，\n"..ClickTooltip,"OUTLINE");
 	AutoEquip.tips:SetTextColor(1, 0, 0, 1)
+	AutoEquip.tips:Hide()
 	--
-	local butW = QuickButUI.nr:GetHeight()
-	local AutoEquipList = PIGFrame(AutoEquip,{"BOTTOM",AutoEquip,"TOP",0,0},{butW, (butW+2)*PIG_EquipmentData.anniushu+2})
+	local talentSpecInfoCache = {
+		[1]	= {},
+		[2]	= {},
+	};
+	local TALENT_UI_SPECS = {
+		[1] = {
+			name = TALENT_SPEC_PRIMARY,
+			color = "FFFF00",
+		},
+		[2] = {
+			name = TALENT_SPEC_SECONDARY,
+			color = "00FFFF",
+		},
+	};
+	local butW = QuickButUI.butWWW
+	local AutoEquipList = PIGFrame(AutoEquip,{"BOTTOM",AutoEquip,"TOP",0,0},{butW, butW})
 	AutoEquipList:SetFrameLevel(23)
-	AutoEquipList:HookScript("OnEnter", function(self,button)
-		if AutoRuneListUI and AutoRuneListUI:IsShown() then AutoEquip.xuyaoShow=true;AutoRuneListUI:Hide() end
-		AutoEquipList:Show()
-	end)
-	AutoEquipList:HookScript("OnLeave", function(self,button)
-		AutoEquipList:Hide()
-	end)
 	AutoEquipList.ButList={}
 	for i=1,PIG_EquipmentData.anniushu do
 		local EquipBut = PIGFrame(AutoEquipList,nil,{butW, butW-4})
-		EquipBut.butid=i
+		EquipBut:Hide()
 		AutoEquipList.ButList[i]=EquipBut
 		EquipBut:PIGSetBackdrop(0.2,0.2)
 		EquipBut.NormalTex = EquipBut:CreateTexture(nil, "OVERLAY");
-		if PIG_MaxTocversion(20000) then
+		if PIG_MaxTocversion(20000) and i<=MAX_EQUIPMENT_SETS_PER_PLAYER then
 			EquipBut.NormalTex:SetTexture("interface/timer/bigtimernumbers.blp");
-			EquipBut.NormalTex:SetTexCoord(PIG_EquipmentData.NumTexCoord[i][1],PIG_EquipmentData.NumTexCoord[i][2],PIG_EquipmentData.NumTexCoord[i][3],PIG_EquipmentData.NumTexCoord[i][4]);
 		end
 		EquipBut.NormalTex:SetAllPoints(EquipBut)
 		EquipBut.Highlight = EquipBut:CreateTexture(nil, "Highlight");
@@ -67,7 +73,7 @@ QuickButUI.ButList[5]=function()
 		EquipBut.Down:SetTexture(130839);
 		EquipBut.Down:SetAllPoints(EquipBut)
 		EquipBut.Down:Hide();
-		EquipBut.name = PIGFontString(EquipBut,{"LEFT", EquipBut, "RIGHT", 0, 0},nil,"OUTLINE")
+		EquipBut.name = PIGFontString(EquipBut,nil,nil,"OUTLINE")
 		EquipBut.name:SetTextColor(1, 1, 1, 1)
 
 		EquipBut:HookScript("OnMouseDown", function (self)
@@ -78,82 +84,77 @@ QuickButUI.ButList[5]=function()
 		EquipBut:HookScript("OnMouseUp", function (self,button)
 			self.Down:Hide();
 			PlaySound(SOUNDKIT.IG_CHARACTER_INFO_OPEN);
-			if PIG_MaxTocversion(30000) then
-				if button=="LeftButton" then
-					PIG_EquipmentData.Equip_Use(self.butid)
+			if self.mode==1 then
+				if PIG_MaxTocversion(30000) then
+					if button=="LeftButton" then
+						PIG_EquipmentData.Equip_Use(self.id)
+					else
+						PIG_EquipmentData.Equip_Save(self.id)
+					end
 				else
-					PIG_EquipmentData.Equip_Save(self.butid)
+					local erqid = self.id
+					if erqid and erqid>=0 then
+						local name = C_EquipmentSet.GetEquipmentSetInfo(erqid)
+						if button=="LeftButton" then
+							if IsShiftKeyDown() then
+								PIGA_Per["QuickBut"]["TalentEquip"][1]=erqid
+								PIG_OptionsUI:ErrorMsg(name..KEY_BINDINGS_MAC..TALENT_SPEC_PRIMARY)
+							else
+								if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(CANNOT_UNEQUIP_COMBAT) return end
+								C_EquipmentSet.UseEquipmentSet(erqid)
+								PIG_OptionsUI:ErrorMsg("更换<"..name..">配装成功")
+							end
+						else
+							if IsShiftKeyDown() then
+								PIGA_Per["QuickBut"]["TalentEquip"][2]=erqid
+								PIG_OptionsUI:ErrorMsg(name..KEY_BINDINGS_MAC..TALENT_SPEC_SECONDARY)
+							else
+								--C_EquipmentSet.UnassignEquipmentSetSpec(i-1)
+								C_EquipmentSet.SaveEquipmentSet(erqid)
+								PIG_OptionsUI:ErrorMsg("当前装备已保存到<"..name..">配装")
+							end
+						end
+					-- else
+					-- 	if InCombatLockdown() then
+					-- 		PIG_OptionsUI:ErrorMsg(CANNOT_UNEQUIP_COMBAT)
+					-- 	else
+					-- 		ShowUIPanel(CharacterFrame);
+					-- 		if PIG_MaxTocversion() then
+					-- 			GearManagerDialog:Show();
+					-- 			GearManagerDialogSaveSet_OnClick()
+					-- 		else
+					-- 			PaperDollFrame_SetSidebar(self, 3);
+					-- 			GearManagerPopupFrame.mode=1;
+					-- 			PaperDollFrame.EquipmentManagerPane.selectedSetID = nil;
+					-- 			--GearManagerPopupFrame.setID=erqid;
+					-- 			PaperDollFrame_ClearIgnoredSlots();
+					-- 			PaperDollEquipmentManagerPane_Update();
+					-- 			PaperDollFrame_IgnoreSlot(4);
+					-- 			PaperDollFrame_IgnoreSlot(19);
+					-- 			GearManagerPopupFrame:Show();
+					-- 			GearManagerPopupFrame:Update()
+					-- 		end
+					-- 	end
+					end
 				end
 			else
-				local erqid = self.id
-				if erqid and erqid>=0 then
-					local name = C_EquipmentSet.GetEquipmentSetInfo(erqid)
-					if button=="LeftButton" then
-						if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(CANNOT_UNEQUIP_COMBAT) return end
-						C_EquipmentSet.UseEquipmentSet(erqid)
-						PIG_OptionsUI:ErrorMsg("更换<"..name..">配装成功")
-						-- if IsShiftKeyDown() then
-						-- 	if PIG_MaxTocversion() then
-						-- 		GearManagerDialog_Update();	
-						-- 		local bianjibutid
-						-- 		for ixx=1,PIG_EquipmentData.anniushu do
-						-- 			local xxfuji = _G["GearSetButton"..ixx]
-						-- 			if xxfuji.id==erqid then
-						-- 				bianjibutid=ixx
-						-- 				break
-						-- 			end
-						-- 		end
-						-- 		if bianjibutid and bianjibutid>=0 then
-						-- 			ShowUIPanel(CharacterFrame);
-						-- 			local xxfuji = _G["GearSetButton"..bianjibutid]
-						-- 			GearManagerDialog.selectedSetName = xxfuji.name;
-						-- 			GearManagerDialog.selectedSetIcon = xxfuji.icon:GetTexture();
-						-- 			GearManagerDialog:Show();
-						-- 			GearManagerDialogSaveSet_OnClick()
-						-- 		end
-						-- 	else
-						-- 		ShowUIPanel(CharacterFrame);
-						-- 		PaperDollFrame_SetSidebar(self, 3);
-						-- 		GearManagerPopupFrame.mode=2;
-						-- 		PaperDollFrame.EquipmentManagerPane.selectedSetID = erqid;
-						-- 		GearManagerPopupFrame.setID=erqid;
-						-- 		local name = C_EquipmentSet.GetEquipmentSetInfo(erqid);
-						-- 		GearManagerPopupFrame.origName = name
-						-- 		PaperDollFrame_ClearIgnoredSlots();
-						-- 		PaperDollFrame_IgnoreSlotsForSet(erqid);
-						-- 		PaperDollEquipmentManagerPane_Update();
-						-- 		GearManagerPopupFrame:Show();
-						-- 		GearManagerPopupFrame:Update()
-						-- 		StaticPopup_Hide("CONFIRM_SAVE_EQUIPMENT_SET");
-						-- 		StaticPopup_Hide("CONFIRM_OVERWRITE_EQUIPMENT_SET");
-						-- 	end
-						-- end
+				if button=="LeftButton" then
+					if self.active then
+						PIG_OptionsUI:ErrorMsg(TALENT_UI_SPECS[self.id].name..ACTIVE_PETS,"R")
 					else
-						--C_EquipmentSet.UnassignEquipmentSetSpec(i-1)
-						C_EquipmentSet.SaveEquipmentSet(erqid)
-						PIG_OptionsUI:ErrorMsg("当前装备已保存到<"..name..">配装")
+						if PIGA_Per["QuickBut"]["TalentEquip"][self.id] then
+							if PIG_MaxTocversion(30000) then
+								PIG_EquipmentData.Equip_Use(self.id)
+							else
+								C_EquipmentSet.UseEquipmentSet(PIGA_Per["QuickBut"]["TalentEquip"][self.id])
+							end
+						end
+						C_SpecializationInfo.SetActiveSpecGroup(self.id);
+						PIG_OptionsUI:ErrorMsg("更换<"..TALENT_UI_SPECS[self.id].name..">+配装")
 					end
 				else
-					if InCombatLockdown() then
-						PIG_OptionsUI:ErrorMsg(CANNOT_UNEQUIP_COMBAT)
-					else
-						ShowUIPanel(CharacterFrame);
-						if PIG_MaxTocversion() then
-							GearManagerDialog:Show();
-							GearManagerDialogSaveSet_OnClick()
-						else
-							PaperDollFrame_SetSidebar(self, 3);
-							GearManagerPopupFrame.mode=1;
-							PaperDollFrame.EquipmentManagerPane.selectedSetID = nil;
-							--GearManagerPopupFrame.setID=erqid;
-							PaperDollFrame_ClearIgnoredSlots();
-							PaperDollEquipmentManagerPane_Update();
-							PaperDollFrame_IgnoreSlot(4);
-							PaperDollFrame_IgnoreSlot(19);
-							GearManagerPopupFrame:Show();
-							GearManagerPopupFrame:Update()
-						end
-					end
+					C_SpecializationInfo.SetActiveSpecGroup(self.id);
+					PIG_OptionsUI:ErrorMsg("更换<"..TALENT_UI_SPECS[self.id].name)
 				end
 			end
 			AutoEquipList:Hide()
@@ -163,7 +164,11 @@ QuickButUI.ButList[5]=function()
 			AutoEquipList:Show()
 			GameTooltip:ClearLines();
 			GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",20,0);
-			GameTooltip:AddLine(KEY_BUTTON1.."-|cff00FFFF切换配装|r\n"..KEY_BUTTON2.."-|cff00FFFF保存配装|r")
+			if self.mode==1 then
+				GameTooltip:AddLine(KEY_BUTTON1.."-|cff00FFFF切换配装|r\n"..KEY_BUTTON2.."-|cff00FFFF保存配装|r\nShift+"..KEY_BUTTON1.."-|cff00FFFF"..KEY_BINDINGS_MAC..TALENT_SPEC_PRIMARY.."|r\nShift+"..KEY_BUTTON2.."-|cff00FFFF"..KEY_BINDINGS_MAC..TALENT_SPEC_SECONDARY.."|r")
+			else
+				GameTooltip:AddLine(KEY_BUTTON1.."-|cff00FFFF切换天赋+配装|r\n"..KEY_BUTTON2.."-|cff00FFFF切换天赋|r")
+			end
 			GameTooltip:Show();
 		end);
 		EquipBut:HookScript("OnLeave", function ()
@@ -173,95 +178,89 @@ QuickButUI.ButList[5]=function()
 		end);
 	end
 	--
-	function AutoEquip:UpDatePoints(cunzainum)
-		local WowHeight=GetScreenHeight();
-		local offset1 = self:GetBottom();
-		AutoEquipList:ClearAllPoints();
-		AutoEquip.tips:ClearAllPoints();
-		if offset1>(WowHeight*0.5) then
-			for i=1,PIG_EquipmentData.anniushu do
-				local fujikj = AutoEquipList.ButList[i]
-				fujikj:ClearAllPoints();
-				if i==1 then
-					fujikj:SetPoint("TOPRIGHT",AutoEquipList,"TOPRIGHT",0,-2);
-				else
-					local fujikj_1 = AutoEquipList.ButList[i-1]
-					fujikj:SetPoint("TOPRIGHT",fujikj_1,"BOTTOMRIGHT",0,0);
-				end
-			end
-			AutoEquipList:SetPoint("TOPRIGHT",self,"BOTTOMRIGHT",0,0);
-			AutoEquip.tips:SetPoint("TOPRIGHT",self,"BOTTOMRIGHT",10,0);
-		else
-			for i=1,PIG_EquipmentData.anniushu do
-				local fujikj = AutoEquipList.ButList[i]
-				fujikj:ClearAllPoints();
-				if i==1 then
-					fujikj:SetPoint("BOTTOMRIGHT",AutoEquipList,"BOTTOMRIGHT",0,2);
-				else
-					local fujikj_1 = AutoEquipList.ButList[i-1]
-					fujikj:SetPoint("BOTTOMRIGHT",fujikj_1,"TOPRIGHT",0,0);
-				end
-			end
-			AutoEquipList:SetPoint("BOTTOMRIGHT",self,"TOPRIGHT",0,0);
-			AutoEquip.tips:SetPoint("BOTTOMRIGHT",self,"TOPRIGHT",10,0);
-		end
-		if cunzainum>0 then AutoEquipList:SetHeight((butW+2)*cunzainum+2) end
+	hooksecurefunc(QuickButUI, "UpdateWidth", function(self)
+		QuickButUI:UpdatePointJustify(AutoEquip,{AutoEquipList,AutoEquip.tips},butW-4,PIG_EquipmentData.anniushu)
+    end)
+	AutoEquipList:HookScript("OnEnter", function(self,button)
+		if AutoRuneListUI and AutoRuneListUI:IsShown() then AutoEquip.xuyaoShow=true;AutoRuneListUI:Hide() end
 		AutoEquipList:Show()
-	end
-	AutoEquip:HookScript("OnLeave", function(self)
+	end)
+	AutoEquipList:HookScript("OnLeave", function(self,button)
 		AutoEquipList:Hide()
-		self.tips:Hide()
 	end)
 	AutoEquipList:HookScript("OnHide", function(self)
 		if AutoEquip.xuyaoShow then AutoRuneListUI:Show() end
 	end)
 	AutoEquip:SetScript("OnEnter", function(self)
-		self.tips:Hide()
 		self.cunzainum=0
 		if AutoRuneListUI and AutoRuneListUI:IsShown() then AutoEquip.xuyaoShow=true;AutoRuneListUI:Hide() end
+		for id = 1, PIG_EquipmentData.anniushu do
+			local fujikj = AutoEquipList.ButList[id]
+			fujikj:Hide()
+		end
 		if PIG_MaxTocversion(30000) then
-			for id = 1, PIG_EquipmentData.anniushu do
-				local fujikj = AutoEquipList.ButList[id]
-				fujikj.name:SetTextColor(0.8, 0.8, 0.8, 0.8);
-				fujikj.name:SetText(EMPTY);
-				local hangitem = PIGA_Per["QuickBut"]["EquipList"][id]
-				if hangitem then
+			local DataXXX = PIGA_Per["QuickBut"]["EquipList"]
+			for id = 1, MAX_EQUIPMENT_SETS_PER_PLAYER do
+				if DataXXX[id] then
 					self.cunzainum=self.cunzainum+1
-					fujikj:Show()
-					if hangitem[1] then
-						fujikj.name:SetText(hangitem[1]);
+					local fujikj = AutoEquipList.ButList[self.cunzainum]
+					if DataXXX[id][2] then
+						fujikj.mode=1
+						fujikj:Show()
+						fujikj.id=id
+						fujikj.NormalTex:SetTexCoord(PIG_EquipmentData.NumTexCoord[id][1],PIG_EquipmentData.NumTexCoord[id][2],PIG_EquipmentData.NumTexCoord[id][3],PIG_EquipmentData.NumTexCoord[id][4]);
+						fujikj.name:SetText(DataXXX[id][1]);
 					end
-					if hangitem[2] then
-						fujikj.name:SetTextColor(1, 1, 1, 1);
-						fujikj.name:SetText(hangitem[1]);
-					end
-				else
-					fujikj:Hide()
 				end
 			end
 		else
 			local equipmentSetIDs = C_EquipmentSet.GetEquipmentSetIDs()
-			self.cunzainum=#equipmentSetIDs
-			for id = 1, PIG_EquipmentData.anniushu do
-				local fujikj = AutoEquipList.ButList[id]
+			for id = 1, #equipmentSetIDs do
 				if equipmentSetIDs[id] then
+					self.cunzainum=self.cunzainum+1
+					local fujikj = AutoEquipList.ButList[self.cunzainum]
+					fujikj.mode=1
 					fujikj:Show()
 					fujikj.id=equipmentSetIDs[id]
-					local name, iconFileID, setID, isEquipped, numItems, numEquipped, numInInventory, numLost, numIgnored = C_EquipmentSet.GetEquipmentSetInfo(equipmentSetIDs[id])
+					local name, iconFileID = C_EquipmentSet.GetEquipmentSetInfo(equipmentSetIDs[id])
 					fujikj.NormalTex:SetTexture(iconFileID);
 					fujikj.name:SetText(name);
-				else
-					fujikj:Hide()
-					fujikj.id=nil
-					fujikj.NormalTex:SetTexture("");
-					fujikj.name:SetText("");
 				end
 			end
 		end
-		if self.cunzainum==0 then
-			self.tips:Show()
+		local numTalentGroups = PIG_MaxTocversion(40000) and GetNumTalentGroups(false, false) or GetNumSpecGroups()
+		local activeTalentGroup= C_SpecializationInfo.GetActiveSpecGroup(false, false)
+		if numTalentGroups>1 then
+			for talentGroup=1,numTalentGroups do	
+				self.cunzainum=self.cunzainum+1
+				local fujikj = AutoEquipList.ButList[self.cunzainum]
+				fujikj.mode=2
+				fujikj:Show()
+				fujikj.id=talentGroup
+				fujikj.active=talentGroup==activeTalentGroup
+				local spec = TALENT_UI_SPECS[talentGroup];
+				local tishixx=talentGroup==activeTalentGroup and "|cff00FF00("..ACTIVE_PETS..")|r" or ""
+				if PIGA_Per["QuickBut"]["TalentEquip"][talentGroup] then
+					local name= C_EquipmentSet.GetEquipmentSetInfo(PIGA_Per["QuickBut"]["TalentEquip"][talentGroup])
+					fujikj.name:SetText("|cff"..TALENT_UI_SPECS[talentGroup].color..spec.name..tishixx.."|r\n"..name)
+				else
+					fujikj.name:SetText("|cff"..TALENT_UI_SPECS[talentGroup].color..spec.name..tishixx.."|r\n未绑定配装")
+				end
+				TalentFrame_UpdateSpecInfoCache(talentSpecInfoCache[talentGroup],  nil, nil, talentGroup)
+				local specInfoCache = talentSpecInfoCache[talentGroup];
+				if ( specInfoCache.primaryTabIndex and specInfoCache.primaryTabIndex > 0 ) then
+					fujikj.NormalTex:SetTexture(specInfoCache[specInfoCache.primaryTabIndex].icon);
+				else
+					fujikj.NormalTex:SetTexture("Interface/Icons/Ability_Marksmanship");
+				end
+			end
 		end
-		self:UpDatePoints(self.cunzainum)
+		AutoEquipList:SetShown(self.cunzainum>0)
+		self.tips:SetShown(self.cunzainum-numTalentGroups<=0)
+	end)
+	AutoEquip:HookScript("OnLeave", function(self)
+		AutoEquipList:Hide()
+		self.tips:Hide()
 	end)
 	AutoEquip:HookScript("OnClick", function(self,button)
 		if button=="LeftButton" then

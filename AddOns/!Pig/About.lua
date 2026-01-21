@@ -288,7 +288,7 @@ fuFrame.OpenVerFBut:SetScript("OnClick", function ()
 	end
 end)
 ---提示---------------
-fuFrame.GETVER = PIGButton(fuFrame,{"LEFT",fuFrame.OpenVerFBut,"RIGHT",10,0},{50,20},"重置")
+fuFrame.GETVER = PIGButton(fuFrame,{"LEFT",fuFrame.OpenVerFBut,"RIGHT",10,0},{50,20},RESET)
 fuFrame.GETVER:SetScript("OnClick", function ()
 	PIGA["Ver"]={}
 	PIGA["VerC"]={}

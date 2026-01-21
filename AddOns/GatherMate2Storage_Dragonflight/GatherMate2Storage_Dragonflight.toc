@@ -1,13 +1,24 @@
-## Interface: 110207,120000
-## Title: GatherMate2: Storage for Dragonflight
+## Interface: 110207
 ## Author: nevcairiel
-## Group: GatherMate2
+## Version: 1.51.3
+
+## Title: GatherMate2: Storage for Dragonflight
+## Title-zhCN: |cFFFFE00A<|r|cFF0070DE专业|r|cFFFFE00A>|r|cFFFFFFFF采集助手|r |cFF69CCF0数据|r |cFF22B14C巨龙时代|r
+## Notes-zhCN: 分离存储巨龙时代的采集数据
+
 ## IconTexture: Interface\AddOns\GatherMate2\Artwork\Icon.tga
+
+## Category-zhCN: |cFFFFE00A<|r|cFF0070DE专业|r|cFFFFE00A>|r
+## Group: GatherMate2
+
 ## Dependencies: GatherMate2
-## Version: 1.51.2
-## X-Category: Map
+
 ## LoadSavedVariablesFirst: 1
 ## SavedVariables: GatherMate2HerbDBDF, GatherMate2MineDBDF, GatherMate2FishDBDF, GatherMate2GasDBDF, GatherMate2TreasureDBDF, GatherMate2ArchaeologyDBDF, GatherMate2LoggingDBDF
+
+## X-Category: Map
 ## X-GM2-Storage-Tag: DF
 ## X-GM2-Storage-Zones: 2022, 2023, 2024, 2025, 2112, 2151, 2133, 2200, 2239, 2262, 2199, 2085
+## X-Part-Of: GatherMate2
+
 ..\GatherMate2\LoadAddOnStorage.lua

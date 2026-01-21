@@ -225,16 +225,31 @@ local function AddTimerunnerLines(tooltip)
 	end
 end
 
-
-DR.mainFrame.portraitTooltipThing:SetScript("OnEnter", function(self)
+local function UpdatePortraitTooltip(self)
 	local SeasonID = PlayerGetTimerunningSeasonID()
-	if not SeasonID then return end
-	GameTooltip:SetOwner(self, "ANCHOR_TOP")
-	AddTimerunnerLines(GameTooltip)
-	GameTooltip:Show()
+	if SeasonID or IsShiftKeyDown() then
+		GameTooltip:SetOwner(self, "ANCHOR_TOP")
+		AddTimerunnerLines(GameTooltip)
+		GameTooltip:Show()
+	else
+		GameTooltip:Hide()
+	end
+end
+
+
+DR.mainFrame.portraitTooltipThing:SetScript("OnEvent", function(self, event)
+	if event == "MODIFIER_STATE_CHANGED" and self:IsMouseOver() then
+		UpdatePortraitTooltip(self)
+	end
 end)
 
-DR.mainFrame.portraitTooltipThing:SetScript("OnLeave", function()
+DR.mainFrame.portraitTooltipThing:SetScript("OnEnter", function(self)
+	self:RegisterEvent("MODIFIER_STATE_CHANGED")
+	UpdatePortraitTooltip(self)
+end)
+
+DR.mainFrame.portraitTooltipThing:SetScript("OnLeave", function(self)
+	self:UnregisterEvent("MODIFIER_STATE_CHANGED")
 	GameTooltip:Hide()
 end)
 
@@ -507,7 +522,17 @@ function DR.mainFrame.SetTabs(frame,numTabs, ...)
 
 end
 
-local content1 = DR.mainFrame.SetTabs(DR.mainFrame, 1, L["Score"])
+local content1, content2 = DR.mainFrame.SetTabs(DR.mainFrame, 2, L["Score"], L["Settings"])
+
+local settingsTabButton = _G[DR.mainFrame:GetName() .. "Tab2"]
+
+if settingsTabButton then
+	settingsTabButton:SetScript("OnClick", function()
+		if DR.SettingsCategoryID then
+			Settings.OpenToCategory(DR.SettingsCategoryID)
+		end
+	end)
+end
 --[[
 -- for now, disable, as this hasn't been accessible for a while. maybe one day
 --local content1, content2, content3 = DR.mainFrame.SetTabs(DR.mainFrame, 3, L["Score"], L["Guide"], L["Settings"])

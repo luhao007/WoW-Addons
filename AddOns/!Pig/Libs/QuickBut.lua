@@ -1,5 +1,6 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
+local Fun = addonTable.Fun
 local Data = addonTable.Data
 local Create = addonTable.Create
 local PIGFrame=Create.PIGFrame
@@ -16,27 +17,138 @@ else
 end
 Data.UILayout[UIname]={"BOTTOM","BOTTOM",QuickPData[2],QuickPData[3]}
 local QuickBut=PIGFrame(UIParent,nil,{QuickPData[1]+14,QuickPData[1]},UIname)
+QuickBut.butWWW=QuickPData[1]
 QuickBut:Hide()
 QuickBut.ButList={}
+QuickBut.QuickButList={}
 function QuickBut:UpdateWidth()
-	if self.nr then
-		local butW = self.nr:GetHeight()
-		local Children1 = {self.nr:GetChildren()};
-		local yincangshunum=0
-		for i=1,#Children1 do
-			if Children1[i].yincang then
-				Children1[i]:SetWidth(0.0001)
-				yincangshunum=yincangshunum+1
+	if not self.nr then return end
+	if not New_PailieFunButList then
+		local Showtiaojian,pailieName,paiNum,PailieFun,ShowHideNumFun,ShowHideEvent,PailieFunButList=unpack(addonTable.Fun.ActionFun.UIdata)
+		New_PailieFunButList=PailieFunButList
+	end
+	wipe(self.QuickButList)
+	local Children1 = {self.nr:GetChildren()};
+	for i=1,#Children1 do
+		Children1[i]:ClearAllPoints();
+		if not Children1[i].yincang then
+			table.insert(self.QuickButList,Children1[i])
+		end
+	end
+	local geshu1 = #self.QuickButList
+	if geshu1>0 then 
+		local butW = self.butWWW
+		for i=1,geshu1 do
+			if i==1 then
 			else
-				local addW = Children1[i].addW or 0
-				Children1[i]:SetWidth(butW-2+addW)
+				--print(self.QuickButList,i,2,PIGA["QuickBut"]["Pailie"])
+				New_PailieFunButList(self.QuickButList,i,2,PIGA["QuickBut"]["Pailie"])
 			end
 		end
-		local geshu1 = #Children1-yincangshunum
-		if geshu1>0 then 
-			self:Show()
-			local NewWidth = butW*geshu1+2
-			self:SetWidth(NewWidth+self.yidong:GetWidth())
+		local NewWidth = butW*geshu1+15
+		self.yidong:ClearAllPoints();
+		self.nr:ClearAllPoints();
+		self.QuickButList[1]:ClearAllPoints();
+		if PIGA["QuickBut"]["Pailie"]==1 then
+			self:SetSize(NewWidth,butW)
+			self.yidong:SetPoint("TOPLEFT",QuickBut,"TOPLEFT",0,0);
+			self.yidong:SetPoint("BOTTOMLEFT", QuickBut, "BOTTOMLEFT", 0, 0);
+			self.yidong:SetWidth(13);
+			self.nr:SetPoint("TOPLEFT",self.yidong,"TOPRIGHT",1,0)
+			self.nr:SetPoint("BOTTOMRIGHT", QuickBut, "BOTTOMRIGHT", 0, 0)
+			self.QuickButList[1]:SetPoint("LEFT",self.nr,"LEFT",0,0);
+		elseif PIGA["QuickBut"]["Pailie"]==2 then
+			self:SetSize(butW,NewWidth)
+			self.yidong:SetPoint("TOPLEFT",QuickBut,"TOPLEFT",0,0);
+			self.yidong:SetPoint("TOPRIGHT", QuickBut, "TOPRIGHT", 0, 0);
+			self.yidong:SetHeight(13);
+			self.nr:SetPoint("TOPLEFT",self.yidong,"BOTTOMLEFT",1,0)
+			self.nr:SetPoint("BOTTOMRIGHT", QuickBut, "BOTTOMRIGHT", 0, 0)
+			self.QuickButList[1]:SetPoint("TOP",self.nr,"TOP",0,0);
+		end
+		self:Show()
+	end
+end
+function QuickBut:UpdatePointJustify(QkBut,ListUI,butW,anniushu)
+	for k,v in pairs(ListUI) do
+		v:ClearAllPoints();
+	end
+	if PIGA["QuickBut"]["Pailie"]==1 then
+		local WowHeight=GetScreenHeight();
+		local offset1 = QkBut:GetBottom();
+		for i=1,anniushu do
+			local fujikj = ListUI[1].ButList[i]
+			fujikj.name:ClearAllPoints();
+			fujikj.name:SetPoint("LEFT", fujikj, "RIGHT", 2, 0)
+			fujikj.name:SetSize(butW*4,butW)
+			fujikj.name:SetJustifyH("LEFT")
+			fujikj.name:SetJustifyV("MIDDLE")
+		end
+		if offset1>(WowHeight*0.5) then
+			for k,v in pairs(ListUI) do
+				v:SetPoint("TOP",QkBut,"BOTTOM",0,0);
+			end
+			for i=1,anniushu do
+				local fujikj = ListUI[1].ButList[i]
+				fujikj:ClearAllPoints();
+				if i==1 then
+					fujikj:SetPoint("TOPRIGHT",ListUI[1],"TOPRIGHT",0,-2);
+				else
+					fujikj:SetPoint("TOPRIGHT",ListUI[1].ButList[i-1],"BOTTOMRIGHT",0,0);
+				end
+			end
+		else
+			for k,v in pairs(ListUI) do
+				v:SetPoint("BOTTOM",QkBut,"TOP",0,0);
+			end
+			for i=1,anniushu do
+				local fujikj = ListUI[1].ButList[i]
+				fujikj:ClearAllPoints();
+				if i==1 then
+					fujikj:SetPoint("BOTTOMRIGHT",ListUI[1],"BOTTOMRIGHT",0,2);
+				else
+					fujikj:SetPoint("BOTTOMRIGHT",ListUI[1].ButList[i-1],"TOPRIGHT",0,0);
+				end
+			end
+		end
+	elseif PIGA["QuickBut"]["Pailie"]==2 then
+		local WowWidth=GetScreenWidth()
+		local offset1 = QkBut:GetLeft() or 500
+		for i=1,anniushu do
+			local fujikj = ListUI[1].ButList[i]
+			fujikj.name:ClearAllPoints();
+			fujikj.name:SetPoint("BOTTOM", fujikj, "TOP", 0, 2)
+			fujikj.name:SetSize(butW,butW*4)
+			fujikj.name:SetJustifyV("BOTTOM")
+		end
+		if offset1>(WowWidth*0.5) then
+			for k,v in pairs(ListUI) do
+				v:SetPoint("RIGHT",QkBut,"LEFT",0,0);
+			end
+			if ListUI[2] then ListUI[2]:SetJustifyH("RIGHT") end
+			for i=1,anniushu do
+				local fujikj = ListUI[1].ButList[i]
+				fujikj:ClearAllPoints();
+				if i==1 then
+					fujikj:SetPoint("RIGHT",ListUI[1],"RIGHT",-2,0);
+				else
+					fujikj:SetPoint("RIGHT",ListUI[1].ButList[i-1],"LEFT",0,0);
+				end
+			end
+		else
+			for k,v in pairs(ListUI) do
+				v:SetPoint("LEFT",QkBut,"RIGHT",0,0);
+			end
+			if ListUI[2] then ListUI[2]:SetJustifyH("LEFT") end
+			for i=1,anniushu do
+				local fujikj = ListUI[1].ButList[i]
+				fujikj:ClearAllPoints();
+				if i==1 then
+					fujikj:SetPoint("LEFT",ListUI[1],"LEFT",2,0);
+				else
+					fujikj:SetPoint("LEFT",ListUI[1].ButList[i-1],"RIGHT",0,0);
+				end
+			end
 		end
 	end
 end
@@ -61,7 +173,7 @@ end
 local WowHeight=GetScreenHeight();
 function Create.PIGQuickBut(QkButUI,Tooltip,Icon,ShowGnUI,FrameLevel,Template)
 	local nr = QuickBut.nr
-	local butW = nr:GetHeight()
+	local butW = QuickBut.butWWW
 	local Children = {nr:GetChildren()};
 	local geshu = #Children;
 	local But = CreateFrame("Button", QkButUI, nr, Template);
@@ -71,7 +183,7 @@ function Create.PIGQuickBut(QkButUI,Tooltip,Icon,ShowGnUI,FrameLevel,Template)
 	else
 		But:SetNormalAtlas(Icon)
 	end
-	if PIG_OptionsUI.IsOpen_ElvUI() or PIG_OptionsUI.IsOpen_NDui() then
+	if Fun.IsElvUI() or Fun.IsNDui() then
 		But:GetNormalTexture():SetTexCoord(0.1,0.9,0.1,0.9)
 	else
 		But._BACKGROUND = But:CreateTexture(nil, "BACKGROUND");

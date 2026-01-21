@@ -224,14 +224,14 @@ local function CommonLinkable_OnClick(self)
 		HandleModifiedItemClick(self.itemLink)
 	elseif not IsModifiedClick("CHATLINK") then
 	elseif self.achievementID then
-		ChatEdit_InsertLink(GetAchievementLink(self.achievementID))
+		ChatFrameUtil.InsertLink(GetAchievementLink(self.achievementID))
 	elseif self.itemID then
 		local _, link = C_Item.GetItemInfo(self.itemID)
 		if link then
-			ChatEdit_InsertLink(link)
+			ChatFrameUtil.InsertLink(link)
 		end
 	elseif self.currencyID and self.currencyID ~= 0 then
-		ChatEdit_InsertLink(C_CurrencyInfo.GetCurrencyLink(self.currencyID, self.currencyAmount or 0))
+		ChatFrameUtil.InsertLink(C_CurrencyInfo.GetCurrencyLink(self.currencyID, self.currencyAmount or 0))
 	end
 end
 local function MissionList_ScrollToward(self, obj)
@@ -255,7 +255,7 @@ end
 local function MissionButton_OnClick(self)
 	local s = S[self]
 	if IsModifiedClick("CHATLINK") and s.missionID then
-		ChatEdit_InsertLink(C.GetMissionLink(s.missionID))
+		ChatFrameUtil.InsertLink(C.GetMissionLink(s.missionID))
 	else
 		self:GetParent():GetParent():ScrollToward(self)
 	end
@@ -413,7 +413,7 @@ local function ResourceButton_Update(self, _event, currencyID)
 end
 local function ResourceButton_OnClick(self)
 	if IsModifiedClick("CHATLINK") then
-		ChatEdit_InsertLink(C_CurrencyInfo.GetCurrencyLink(self.currencyID, 42))
+		ChatFrameUtil.InsertLink(C_CurrencyInfo.GetCurrencyLink(self.currencyID, 42))
 	end
 end
 local function SetRarityBorder(b, r, atlas)
@@ -544,7 +544,7 @@ local function FollowerButton_OnClick(self, b)
 		end
 		mp:AddFollower(fid)
 	elseif b == "LeftButton" and IsModifiedClick("CHATLINK") then
-		ChatEdit_InsertLink(C.GetFollowerLink(self.info.followerID))
+		ChatFrameUtil.InsertLink(C.GetFollowerLink(self.info.followerID))
 	end
 	self:GetParent():SyncToBoard()
 end

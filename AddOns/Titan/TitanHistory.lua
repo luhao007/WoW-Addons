@@ -10,6 +10,38 @@ These are in a seperate file to
 --- Release notes. Keep structure; most recent on 'top'
 local recent_changes = {
    {
+      version = "9.0.2",
+      when = "2026/01/12",
+      topics =  {
+         {
+            topic = "Titan TOC",
+            lines = {
+               "Update MoP and TWW ",
+            },
+         },
+         {
+            topic = "TitanXP",
+            lines = {
+               "The 'time played' should no longer spam on every reload / instance change / etc.",
+            },
+         },
+         {
+            topic = "Titan Config",
+            lines = {
+               "NOTE: Opening Config from Titan menu disabled in Midnight Beta until we figure out what the bleep is wrong :).",
+            },
+         },
+         {
+            topic = "Titan Config > Profile",
+            lines = {
+               "Added Mail info - if enabled and running.",
+               "Added Gold info - if enabled and running.",
+               "Added basic toon info for reference - after logging into that toon.",
+            },
+         },
+      },
+   },
+   {
       version = "9.0.1",
       when = "2025/12/01",
       topics =  {
@@ -87,44 +119,6 @@ local recent_changes = {
             topic = "Titan",
             lines = {
                "TOC update only.",
-            },
-         },
-      },
-   },
-   {
-      version = "8.4.1",
-      when = "2025/10/11",
-      topics = {
-         {
-            topic = "Titan",
-            lines = {
-               "TOC update only.",
-            },
-         },
-      },
-   },
-   {
-      version = "8.4.0",
-      when = "2025/08/27",
-      topics = {
-         {
-            topic = "Titan",
-            lines = {
-               "-  /titan reset working again; no reload needed!",
-               "-  Hopefully fix bar transparency values resetting on logout or reload.",
-               "-  Moved most bar settings from 'Bars - All' to each bar - use profiles instead.",
-               "--- Bar skin / color settings",
-               "--- Hide Bar during combat",
-               "--- Hide Bar in PvP and BG zones",
-               "-  Fix drag & drop of Titan plugins, per an API change in 11.2.0.",
-            }
-         },
-         {
-            topic = "Titan Internal",
-            lines = {
-               "- Global profiles should be working again.",
-               "- More debug statements on login, reload, profile reset.",
-               "- Removed code for old DewDrop and Tablet from tooltip code.",
             },
          },
       },
