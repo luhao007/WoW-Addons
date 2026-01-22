@@ -1,6 +1,6 @@
-## Interface: 110207
+## Interface: 120000
 ## Author: FunDeliveryGames
-## Version: v0.9.2
+## Version: v2026.01.2
 
 ## Title: Delve Companion
 ## Notes: One-stop addon to make Delves experience even better!
@@ -17,6 +17,7 @@
 
 ## OptionalDeps: TomTom, MapPinEnhanced
 
+## LoadSavedVariablesFirst: 1
 ## SavedVariables: DelveCompanionAccountData
 ## SavedVariablesPerCharacter: DelveCompanionCharacterData
 
@@ -43,8 +44,7 @@ Source\Settings\Include.xml
 
 # Modules
 Source\Modules\TooltipExtension\Include.xml
-Source\Modules\DelvesList\Include.xml
-Source\Modules\DelvesDashboard\Include.xml
+Source\Modules\EJExtension\Include.xml
 
 # Addon init. Should be the last one
 Source\Bootstrap.lua

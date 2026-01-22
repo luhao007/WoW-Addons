@@ -1,4 +1,4 @@
-## Interface: 110207
+## Interface: 120000
 ## Author: Nevcairiel, Nymbia
 ## Version: 3.7.17
 
@@ -19,6 +19,8 @@
 ## X-WoWI-ID: 7158
 
 #@no-lib-strip@
+libs\AceEvent-3.0\AceEvent-3.0.xml
+
 libs\LibClassicCasterino\LibClassicCasterino.lua [AllowLoadGameType vanilla]
 #@end-no-lib-strip@
 

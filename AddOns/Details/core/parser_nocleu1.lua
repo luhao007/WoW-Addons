@@ -262,6 +262,7 @@ local doUpdate = function()
     --Details:InstanceCallDetailsFunc(Details.ResetaGump)
     Details:RefreshMainWindow(-1, true)
 
+    --[=[
     local isshowning = 0
     local children = {DetailsRowFrame1:GetChildren()}
     for i = 1, #children do
@@ -270,6 +271,7 @@ local doUpdate = function()
             isshowning = isshowning + 1
         end
     end
+    --]=]
 end
 
 local scheduledUpdateObject
@@ -892,7 +894,21 @@ function bParser.ShowTooltip_Hook(instanceLine, mouse)
     --local firstCombatant = blzDamageContainer.combatSources[1]
     --local sourceSpells = C_DamageMeter.GetCombatSessionSourceFromType(Enum.DamageMeterSessionType.Current, Enum.DamageMeterType.DamageDone, UnitGUID("player"))
 
-    local sourceSpells = instanceLine.sourceSpells
+    local sourceSpells
+
+    local sessionType = instanceLine.sessionType
+    local sessionNumber = instanceLine.sessionNumber
+    local sessionTypeParam = instanceLine.sessionTypeParam
+    local damageMeterType = instanceLine.damageMeterType
+
+    if sessionType == DAMAGE_METER_SESSIONPARAMETER_ID then
+        --local sourceSpells = C_DamageMeter.GetCombatSessionSourceFromID(sessionNumber, Enum.DamageMeterType.DamageDone, UnitGUID("player")) --waiting blizzard fix this
+        sourceSpells = C_DamageMeter.GetCombatSessionSourceFromID(sessionNumber, damageMeterType, UnitGUID("player"))
+
+    elseif (sessionType == DAMAGE_METER_SESSIONPARAMETER_TYPE) then
+        --local sourceSpells = C_DamageMeter.GetCombatSessionSourceFromID(sessionTypeParam, Enum.DamageMeterType.DamageDone, actorGUID) --waiting blizzard fix this
+        sourceSpells = C_DamageMeter.GetCombatSessionSourceFromType(sessionTypeParam, damageMeterType, UnitGUID("player"))
+    end
 
     if not sourceSpells then
 
@@ -1011,24 +1027,27 @@ local abbreviateOptionsDamage =
     },
     {
         breakpoint = 1000000,
-        abbreviation = "SECOND_NUMBER_CAP_NO_SPACE",
+        --abbreviation = "SECOND_NUMBER_CAP_NO_SPACE",
+        abbreviation = "M",
         significandDivisor = 10000,
         fractionDivisor = 100,
-        --abbreviationIsGlobal = false
+        abbreviationIsGlobal = false
     },
     {
         breakpoint = 10000,
-        abbreviation = "FIRST_NUMBER_CAP_NO_SPACE",
+        --abbreviation = "FIRST_NUMBER_CAP_NO_SPACE",
+        abbreviation = "K",
         significandDivisor = 1000,
         fractionDivisor = 1,
-        --abbreviationIsGlobal = true,
+        abbreviationIsGlobal = false,
     },
     {
         breakpoint = 1000,
-        abbreviation = "FIRST_NUMBER_CAP_NO_SPACE",
+        --abbreviation = "FIRST_NUMBER_CAP_NO_SPACE",
+        abbreviation = "K",
         significandDivisor = 100,
         fractionDivisor = 10,
-        --abbreviationIsGlobal = true,
+        abbreviationIsGlobal = false,
     },
     {
         breakpoint = 1,
@@ -1046,21 +1065,23 @@ local abbreviateOptionsDPS =
         abbreviation = "THIRD_NUMBER_CAP_NO_SPACE",
         significandDivisor = 10000000,
         fractionDivisor = 100,
-        --abbreviationIsGlobal = false
+        abbreviationIsGlobal = false
     },
     {
         breakpoint = 1000000,
-        abbreviation = "SECOND_NUMBER_CAP_NO_SPACE",
+        --abbreviation = "SECOND_NUMBER_CAP_NO_SPACE",
+        abbreviation = "M",
         significandDivisor = 10000,
         fractionDivisor = 100,
-        --abbreviationIsGlobal = false
+        abbreviationIsGlobal = false
     },
     {
         breakpoint = 1000,
-        abbreviation = "FIRST_NUMBER_CAP_NO_SPACE",
+        --abbreviation = "FIRST_NUMBER_CAP_NO_SPACE",
+        abbreviation = "K",
         significandDivisor = 100,
         fractionDivisor = 10,
-        --abbreviationIsGlobal = true,
+        abbreviationIsGlobal = false,
     },
     {
         breakpoint = 1,
@@ -1193,6 +1214,8 @@ local updateWindow = function(instance) --~update
                     instanceLine.sourceData = source
                     instanceLine.sessionType = sessionType
                     instanceLine.sessionNumber = sessionNumber
+                    instanceLine.sessionTypeParam = sessionTypeParam
+                    instanceLine.damageMeterType = damageMeterType
 
                     local actorName = source.name --secret
                     local actorGUID = source.sourceGUID --secret
@@ -1252,16 +1275,7 @@ local updateWindow = function(instance) --~update
                     --instanceLine.lineText13:SetText(value)
                     --instanceLine.lineText14:SetText(totalAmountPerSecond)
 
-                    if sessionType == DAMAGE_METER_SESSIONPARAMETER_ID then
-                        --local sourceSpells = C_DamageMeter.GetCombatSessionSourceFromID(sessionNumber, Enum.DamageMeterType.DamageDone, UnitGUID("player")) --waiting blizzard fix this
-                        local sourceSpells = C_DamageMeter.GetCombatSessionSourceFromID(sessionNumber, Enum.DamageMeterType.DamageDone, UnitGUID("player"))
-                        instanceLine.sourceSpells = sourceSpells
 
-                    elseif (sessionType == DAMAGE_METER_SESSIONPARAMETER_TYPE) then
-                        --local sourceSpells = C_DamageMeter.GetCombatSessionSourceFromID(sessionTypeParam, Enum.DamageMeterType.DamageDone, actorGUID) --waiting blizzard fix this
-                        local sourceSpells = C_DamageMeter.GetCombatSessionSourceFromType(sessionTypeParam, Enum.DamageMeterType.DamageDone, UnitGUID("player"))
-                        instanceLine.sourceSpells = sourceSpells
-                    end
 
                     instanceLine.statusbar:SetMinMaxValues(0, topValue, Enum.StatusBarInterpolation.ExponentialEaseOut)
                     instanceLine.statusbar:SetValue(value, Enum.StatusBarInterpolation.ExponentialEaseOut)
@@ -1511,8 +1525,6 @@ combatEventFrame:SetScript("OnEvent", function(mySelf, ev, ...)
             end
         end)
 
-
-
     elseif (ev == "DAMAGE_METER_RESET") then
         --if bRegenIsDisabled then
         --    bHadDataResetInCombat = true
@@ -1545,6 +1557,22 @@ combatEventFrame:SetScript("OnEvent", function(mySelf, ev, ...)
     elseif (ev == "PLAYER_REGEN_ENABLED") then --left the combat
         if debug then
 
+        end
+
+        if IsEncounterInProgress and IsEncounterInProgress() then
+            return
+
+        elseif InCombatLockdown() then
+            return
+        end
+
+        if IsInInstance() then
+            local isDeadOrGhost = UnitIsDeadOrGhost("player")
+            if isDeadOrGhost then
+                if Details:ArePlayersInCombat() then
+                    return
+                end
+            end
         end
 
         local sessionId = getCurrentSessionId()

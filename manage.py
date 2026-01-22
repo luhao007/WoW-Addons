@@ -13,7 +13,7 @@ logger = get_logger("AddonManager")
 
 CLASSIC_ERA_VER = "11401"
 CLASSIC_VER = "50502"
-RETAIL_VER = "110207"
+RETAIL_VER = "120000"
 
 
 def available_on(
@@ -74,7 +74,7 @@ class Manager:
             if func.startswith("handle_lib"):
                 getattr(self, func)()
 
-        self.process_custom_luas()
+        # self.process_custom_luas()
         self.process_lib_tocs()
 
     @functools.lru_cache
@@ -261,27 +261,29 @@ class Manager:
         toc.contents = [
             "# Common Handler Libs\n",
             "Ace3\\LibStub\\LibStub.lua\n",
-            "Ace3\\CallbackHandler-1.0\\CallbackHandler-1.0.xml\n",
+            "Ace3\\CallbackHandler-1.0\\CallbackHandler-1.0.lua\n",
             "LibDataBroker-1.1\\LibDataBroker-1.1.lua\n",
+            "\n",
+            "# Shared Media Libs\n",
+            "LibSharedMedia-3.0\\lib.xml\n",
             "\n",
             "# Ace3 Libs\n",
             "Ace3\\AceAddon-3.0\\AceAddon-3.0.xml\n",
-            "Ace3\\AceEvent-3.0\\AceEvent-3.0.xml\n",
+            # "Ace3\\AceEvent-3.0\\AceEvent-3.0.xml\n",
             "Ace3\\AceTimer-3.0\\AceTimer-3.0.xml\n",
             "Ace3\\AceBucket-3.0\\AceBucket-3.0.xml\n",
             "Ace3\\AceHook-3.0\\AceHook-3.0.xml\n",
             "Ace3\\AceDB-3.0\\AceDB-3.0.xml\n",
             "Ace3\\AceDBOptions-3.0\\AceDBOptions-3.0.xml\n",
             "Ace3\\AceLocale-3.0\\AceLocale-3.0.xml\n",
-            "Ace3\\AceGUI-3.0\\AceGUI-3.0.xml\n",
             "Ace3\\AceConsole-3.0\\AceConsole-3.0.xml\n",
+            "Ace3\\AceGUI-3.0\\AceGUI-3.0.xml\n",
             "Ace3\\AceConfig-3.0\\AceConfig-3.0.xml\n",
             "Ace3\\AceComm-3.0\\AceComm-3.0.xml\n",
             "Ace3\\AceTab-3.0\\AceTab-3.0.xml\n",
             "Ace3\\AceSerializer-3.0\\AceSerializer-3.0.xml\n",
             "\n",
             "# Ace3 Additional Libs\n",
-            "LibSharedMedia-3.0\\lib.xml\n",
             "AceGUI-3.0-SharedMediaWidgets\\AceGUI-3.0-SharedMediaWidgets\\widget.xml\n",
             "\n",
             "# Libs Needs to be Imported before Other Libs\n",
@@ -305,6 +307,8 @@ class Manager:
             "!!Libs.toc",
             "Ace3",
             "AceGUI-3.0-SharedMediaWidgets",
+            "LibStub",
+            "CallbackHandler-1.0",
             "HereBeDragons",
             "UTF8",
             "FrameXML",
@@ -350,6 +354,7 @@ class Manager:
     ###########################
 
     @staticmethod
+    @available_on(["classic"])
     def handle_lib_graph():
         def handle_graph(lines: Iterable[str]) -> Iterable[str]:
             orig = "local TextureDirectory\n"
@@ -876,6 +881,7 @@ class Manager:
         utils.process_file("Addons/UnitFramesPlus/UnitFramesPlus.lua", process)
 
     @staticmethod
+    @available_on(["classic"])
     def handle_wa():
         utils.remove_libraries_all("WeakAuras/Libs/Archivist")
         utils.remove_libraries(

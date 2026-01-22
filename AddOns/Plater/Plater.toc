@@ -1,4 +1,4 @@
-## Interface: 110207
+## Interface: 120000
 ## Version: Plater-v625-Retail
 
 ## Title: Plater
@@ -7,6 +7,7 @@
 ## Notes-zhCN: 自定义血条显示
 
 ## IconTexture: Interface\AddOns\Plater\images\cast_bar
+## IconTexture-blank: 982414
 
 ## Category-zhCN: |cFFFFE00A<|r|cFFA330C9界面|r|cFFFFE00A>|r
 

@@ -1,0 +1,5 @@
+## Interface: 120000
+## Title: AceEvent-3.0
+## Notes: Standalone version of the AceEvent-3.0.lua
+
+AceEvent-3.0.xml

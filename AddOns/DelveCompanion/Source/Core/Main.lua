@@ -8,7 +8,7 @@ local addonName, AddonTbl = ...
 ---@field Definitions Definitions
 ---@field Variables Variables
 ---@field AddonSettings AddonSettings
----@field DelvesList DelvesList
+---@field EJExtension EJExtension
 ---@field DelvesDashboard DelvesDashboard
 local DelveCompanion = {}
 AddonTbl.DelveCompanion = DelveCompanion
@@ -16,45 +16,55 @@ AddonTbl.DelveCompanion = DelveCompanion
 --- Init Delves runtime data.
 ---@param self DelveCompanion
 function DelveCompanion:InitDelvesData()
-    ---@type DelveData[]
+    -- self.Logger.Log("Initing Delves data...")
+
+    ---@type table<integer, DelveData[]>
     local delvesData = {}
 
-    for _, delveConfig in ipairs(self.Config.DELVES_CONFIG) do
-        local delveMap = C_Map.GetMapInfo(delveConfig.uiMapID)
+    for expansion, delveConfigs in pairs(self.Config.DELVES_CONFIG) do
+        ---@type DelveData[]
+        local expansionDelves = {}
 
-        --- Shared table containing runtime Delve data.
-        ---@class (exact) DelveData
-        ---@field config DelveConfig [DelveConfig](lua://DelveConfig) table associated with the Delve.
-        ---@field poiID number? Current [areaPoiID](https://wago.tools/db2/areapoi) of the Delve.
-        ---@field tomtom table? Reference to TomTom waypoint set for the Delve. `nil` if not set.
-        ---@field parentMapName string Localized name of the map this Delve located in.
-        ---@field delveName string Localized name of the Delve.
-        ---@field storyVariant string Localized label of the current story of the Delve.
-        ---@field isStoryCompleted boolean Whether player has completed the current storyVariant.
-        ---@field isBountiful boolean Whether this Delve is bountiful now.
-        local data = {
-            config = delveConfig,
-            poiID = nil,
-            tomtom = nil,
-            parentMapName = C_Map.GetMapInfo(delveMap.parentMapID).name,
-            delveName = delveMap.name,
-            storyVariant = nil,
-            isStoryCompleted = false,
-            isBountiful = false
-        }
+        for _, delveConfig in ipairs(delveConfigs) do
+            local delveMap = C_Map.GetMapInfo(delveConfig.uiMapID)
 
-        table.insert(delvesData, data)
+            --- Shared table containing runtime Delve data.
+            ---@class (exact) DelveData
+            ---@field config DelveConfig [DelveConfig](lua://DelveConfig) table associated with the Delve.
+            ---@field poiID number? Current [areaPoiID](https://wago.tools/db2/areapoi) of the Delve.
+            ---@field tomtom table? Reference to TomTom waypoint set for the Delve. `nil` if not set.
+            ---@field parentMapName string Localized name of the map this Delve located in.
+            ---@field delveName string Localized name of the Delve.
+            ---@field storyVariant string Localized label of the current story of the Delve.
+            ---@field isStoryCompleted boolean Whether player has completed the current storyVariant.
+            ---@field isBountiful boolean Whether this Delve is bountiful now.
+            local data = {
+                config = delveConfig,
+                poiID = nil,
+                tomtom = nil,
+                parentMapName = C_Map.GetMapInfo(delveMap.parentMapID).name,
+                delveName = delveMap.name,
+                storyVariant = nil,
+                isStoryCompleted = false,
+                isBountiful = false
+            }
+
+            table.insert(expansionDelves, data)
+        end
+
+        table.insert(delvesData, expansion, expansionDelves)
     end
 
     self.Variables.delvesData = delvesData
 end
 
---- Iterate through all Delves and update their runtime data.
+--- Iterate through all Delves of the selected expansion and update their runtime data.
 ---@param self DelveCompanion
-function DelveCompanion:UpdateDelvesData()
-    -- Logger.Log("Start updating Delves data...")
+---@param expansionLevel number LE_EXPANSION enum number of the expansion
+function DelveCompanion:UpdateDelvesData(expansionLevel)
+    -- self.Logger.Log("Start updating Delves data for expansion: %d...", expansionLevel)
 
-    for _, delveData in ipairs(self.Variables.delvesData) do
+    for _, delveData in pairs(self.Variables.delvesData[expansionLevel]) do
         local delveConfig = delveData.config
         local parentMapID = C_Map.GetMapInfo(delveConfig.uiMapID).parentMapID
 

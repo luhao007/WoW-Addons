@@ -151,7 +151,7 @@
                     <Frame parentKey="esES">
                         <Size x="100" y="25" />
                         <KeyValues>
-                            <KeyValue key="layoutIndex" value="4" type="number" />
+                            <KeyValue key="layoutIndex" value="5" type="number" />
                         </KeyValues>
                         <Layers>
                             <Layer level="OVERLAY">

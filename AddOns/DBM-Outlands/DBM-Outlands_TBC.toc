@@ -1,4 +1,4 @@
-## Interface: 110207
+## Interface: 120000
 ## Version: r13
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cff10ff10World Bosses (BC)|r

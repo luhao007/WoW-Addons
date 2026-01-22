@@ -10,7 +10,7 @@
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2025-12-08";
+local WL_ADDON_UPDATED = "2026-01-21";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
 local WL_VERSION = 120000;
@@ -28,7 +28,7 @@ wlRegionBuildings = {};
 wlTradingPostItems = "";
 
 -- SavedVariablesPerCharacter
-wlSetting = {};
+wlSetting = {minimap=false};
 wlScans = {
     guid = nil,
     toys = "",
@@ -815,6 +815,7 @@ local wlLastShipmentContainer = nil;
 local wlLockedID = nil;
 local wlCallings;
 local wlSeasonId = "";
+local wlSettingsCategory = nil;
 
 -- Hooks
 local wlDefaultGetQuestReward;
@@ -969,7 +970,7 @@ function wlSeasonCheck()
     local seasonId = 0;
     local legionRemixBuffSpellId = 1213439;
     local legionRemixSeasonId = 0xFF0000;
-    if AuraUtil.FindAuraByName(GetSpellInfo(legionRemixBuffSpellId) or "", "player") then
+    if C_UnitAuras.GetAuraDataBySpellName("player", GetSpellInfo(legionRemixBuffSpellId) or "") then
         seasonId = legionRemixSeasonId
     end
     wlSeasonId = "Season-" .. seasonId;
@@ -2611,7 +2612,7 @@ function wlEvent_CHAT_MSG_COMBAT_FACTION_CHANGE(self, msg)
         repMod = repMod + 0.2;
     end
     for buffName, factMod in pairs(WL_REP_MODS) do
-        if AuraUtil.FindAuraByName(buffName, "player") then
+        if C_UnitAuras.GetAuraDataBySpellName("player", buffName) then
             if factionName == factMod[1] or factMod == nil then
                 repMod = repMod + factMod[2];
             end
@@ -3980,19 +3981,18 @@ function wlEvent_CURRENCY_DISPLAY_UPDATE(...)
                 end
 
                 -- check if the player has wintergrasp buff which gives honor WoTlk Dungeons
-                local buffName = AuraUtil.FindAuraByName(GetSpellInfo(57940), "player");
-                if buffName and currencyId == 392 then
+                if C_UnitAuras.GetAuraDataBySpellName("player", GetSpellInfo[57940]) and currencyId == 392 then
                     return;
                 end
 
                 if currencyId == 396 then
                     local valorMod = 1;
                     -- check if the player has the Valor of the Ancients buff (+50%)
-                    if AuraUtil.FindAuraByName(GetSpellInfo(130609), "player") then
+                    if C_UnitAuras.GetAuraDataBySpellName("player", GetSpellInfo(130609)) then
                         valorMod = valorMod + 0.5;
                     end
                     -- check if the player has the Heart of the Valorous buff (+100%)
-                    if AuraUtil.FindAuraByName(GetSpellInfo(161795), "player") then
+                    if C_UnitAuras.GetAuraDataBySpellName("player", GetSpellInfo(161795)) then
                         valorMod = valorMod + 1.0;
                     end
                     currencyAmount = floor((currencyAmount/valorMod) + 0.5);
@@ -5426,7 +5426,7 @@ function wlMiniMapOnClick(self, button, down)
         if SettingsPanel:IsShown() then
             HideUIPanel(SettingsPanel);
         else
-            Settings.OpenToCategory("Wowhead Looter");
+            Settings.OpenToCategory(wlSettingsCategory.ID)
         end
     elseif InterfaceOptionsFrame then
         if not InterfaceOptionsFrame:IsShown() then
@@ -5504,9 +5504,8 @@ function wlCreateFrames()
     -- 10.0 Settings options
     local panel = CreateFrame("Frame", "wlOptionsPanel");
     panel.name = "Wowhead Looter";
-    local category, layout = Settings.RegisterCanvasLayoutCategory(panel, panel.name, panel.name);
-    category.ID = panel.name;
-    Settings.RegisterAddOnCategory(category);
+    wlSettingsCategory = Settings.RegisterCanvasLayoutCategory(panel, panel.name, panel.name);
+    Settings.RegisterAddOnCategory(wlSettingsCategory);
 
     local titlebar = CreateFrame("Frame", nil, panel);
     titlebar:SetPoint("TOPLEFT", panel, "TOPLEFT");

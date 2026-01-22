@@ -1,4 +1,4 @@
-## Interface: 110207
+## Interface: 120000
 ## Author: kagaro, xinhuan, nevcairiel
 ## Version: 1.51.3
 
@@ -25,6 +25,8 @@
 ## X-WoWI-ID: 21293
 
 #@no-lib-strip@
+Libs\AceEvent-3.0\AceEvent-3.0.xml
+
 #@end-no-lib-strip@
 
 Locales\GatherMate2-enUS.lua

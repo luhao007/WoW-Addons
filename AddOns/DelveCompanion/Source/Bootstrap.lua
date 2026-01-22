@@ -13,10 +13,9 @@ local function OnPlayerLogin()
 
     DelveCompanion.AddonSettings:Init()
 
-    DelveCompanion.Variables.maxLevelReached = UnitLevel("player") == DelveCompanion.Config.EXPANSION_MAX_LEVEL
-    if DelveCompanion.Variables.maxLevelReached then
-        DelveCompanion_TooltipExtension_Init()
-    end
+    DelveCompanion.Variables.maxLevelReached =
+        UnitLevel("player") == GetMaxLevelForExpansionLevel(Config.DELVES_MIN_EXPANSION)
+    DelveCompanion_TooltipExtension_Init()
 
     -- Logger.Log("OnPlayerLogin finish")
 end
@@ -35,7 +34,9 @@ local function OnAddonLoaded()
     -- Logger.Log("OnAddonLoaded finish")
 end
 
-EventRegistry:RegisterFrameEventAndCallback("PLAYER_LOGIN", OnPlayerLogin)
+-- EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(_, name)
+--     Logger.Log(name)
+-- end)
 -- EventRegistry:RegisterFrameEventAndCallback("GOSSIP_SHOW", function(payload, arg1, arg2)
 --     if arg1 == "delves-difficulty-picker" then
 --         -- local options = DelvesDifficultyPickerFrame:GetOptions()
@@ -44,4 +45,5 @@ EventRegistry:RegisterFrameEventAndCallback("PLAYER_LOGIN", OnPlayerLogin)
 --         Logger.LogTable(DelvesDifficultyPickerFrame.DelveModifiersWidgetContainer.widgetFrames)
 --     end
 -- end)
+EventRegistry:RegisterFrameEventAndCallback("PLAYER_LOGIN", OnPlayerLogin)
 EventUtil.ContinueOnAddOnLoaded(addonName, OnAddonLoaded)

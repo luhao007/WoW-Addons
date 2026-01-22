@@ -309,9 +309,9 @@ L.TIMER_BREAK				= "¡Toca descanso!"
 L.ANNOUNCE_BREAK_OVER		= "El descanso ha terminado."
 
 L.TIMER_PULL				= "Iniciando en"
-L.ANNOUNCE_PULL				= "Iniciando en %d |4segundo:segundos; (enviado por %s)"
+L.ANNOUNCE_PULL				= "Iniciando en %d |4segundo:segundos; (Enviado por %s)"
 L.ANNOUNCE_PULL_NOW			= "¡Inicia ahora!"
-L.ANNOUNCE_PULL_TARGET		= "Iniciando a %s en %d |4segundo:segundos; (enviado por %s)"
+L.ANNOUNCE_PULL_TARGET		= "Iniciando a %s en %d |4segundo:segundos; (Enviado por %s)"
 L.ANNOUNCE_PULL_NOW_TARGET	= "¡Iniciando a %s!"
 L.GEAR_WARNING				= "Aviso: Comprobación de equipo. Tu nivel de objeto equipado es %d menor que tu nivel de objeto de inventario."
 L.GEAR_WARNING_WEAPON		= "Aviso: Comprueba que tu arma esté equipada."
@@ -715,3 +715,11 @@ L.KEYSTONE_NAMES[503] = 'ARA' -- Ara-Kara, City of Echoes
 L.KEYSTONE_NAMES[505] = 'ALBA' -- The Dawnbreaker
 L.KEYSTONE_NAMES[525] = 'OPER' -- Operation Floodgate
 L.KEYSTONE_NAMES[542] = 'ECO' -- Eco-Dome Al'dani
+
+-- Midnight
+L.MN_TIMELINE_HEADER   = "¿Quieres usar la línea de tiempo de Blizzard o las barras de DBM?"
+L.MN_BLIZZARD_TIMELINE = "Línea de tiempo de Blizzard"
+L.MN_DBM_TIMELINE      = "Barras de DBM"
+L.MN_WARNIGS_HEADER   = "¿Quieres usar los avisos de encuentro de Blizzard o los avisos de encuentro de DBM?"
+L.MN_BLIZZARD_WARNINGS= "Avisos de Blizzard"
+L.MN_DBM_WARNINGS     = "Avisos de DBM"

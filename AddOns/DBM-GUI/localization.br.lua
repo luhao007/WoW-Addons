@@ -90,6 +90,7 @@ L.Button_TestBars			= "Iniciar barras de teste"
 L.Button_MoveBars			= "Mover barras"
 L.Button_ResetInfoRange		= "Redefinir quadros de informações/distância"
 
+L.Button_ShowMidnightWizard = "Assistente de configuração de Midnight"
 L.ModelOptions				= "Opções do visualizador de modelos 3D"
 L.EnableModels				= "Ativar modelos 3D nas opções de chefe"
 L.ModelSoundOptions			= "Definir opção de som para o visualizador de modelos"
@@ -371,6 +372,10 @@ L.Area_BlizzFiltersSetup 	= "Guia de filtros Blizzard"
 
 -- Panel: Toggle DBM Features
 L.Panel_SpamFilter 			= "Desativar funcionalidades de DBM"
+
+L.Area_Global_Toggles           = "Alternâncias globais de funcionalidades"
+L.NoWarnings                    = "Desativar completamente os avisos do DBM"
+L.NoTimers                      = "Desativar completamente os cronômetros do DBM"
 
 L.Area_SpamFilter_SpecFeatures 	= "Funcionalidades de anúncios"
 L.SpamBlockNoShowAnnounce 		= "Não exibir texto nem reproduzir som para QUALQUER anúncio geral"

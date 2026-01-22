@@ -62,7 +62,7 @@ class TOC:
             # Addon info in list
             ["Title", "Notes", "Title-zhCN", "Notes-zhCN"],
             # Addon icon in list
-            ["IconTexture", "IconAtlas"],
+            ["IconTexture", "IconTexture-blank", "IconAtlas"],
             # Addon category in list
             ["Category", "Category-zhCN", "Group"],
             # New tags added in 10.0 for the dropdown menu next to minimap

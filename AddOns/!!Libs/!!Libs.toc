@@ -1,4 +1,4 @@
-## Interface: 110207
+## Interface: 120000
 ## Author: luhao007
 
 ## Title: Libraries
@@ -12,27 +12,28 @@
 
 # Common Handler Libs
 Ace3\LibStub\LibStub.lua
-Ace3\CallbackHandler-1.0\CallbackHandler-1.0.xml
+Ace3\CallbackHandler-1.0\CallbackHandler-1.0.lua
 LibDataBroker-1.1\LibDataBroker-1.1.lua
+
+# Shared Media Libs
+LibSharedMedia-3.0\lib.xml
 
 # Ace3 Libs
 Ace3\AceAddon-3.0\AceAddon-3.0.xml
-Ace3\AceEvent-3.0\AceEvent-3.0.xml
 Ace3\AceTimer-3.0\AceTimer-3.0.xml
 Ace3\AceBucket-3.0\AceBucket-3.0.xml
 Ace3\AceHook-3.0\AceHook-3.0.xml
 Ace3\AceDB-3.0\AceDB-3.0.xml
 Ace3\AceDBOptions-3.0\AceDBOptions-3.0.xml
 Ace3\AceLocale-3.0\AceLocale-3.0.xml
-Ace3\AceGUI-3.0\AceGUI-3.0.xml
 Ace3\AceConsole-3.0\AceConsole-3.0.xml
+Ace3\AceGUI-3.0\AceGUI-3.0.xml
 Ace3\AceConfig-3.0\AceConfig-3.0.xml
 Ace3\AceComm-3.0\AceComm-3.0.xml
 Ace3\AceTab-3.0\AceTab-3.0.xml
 Ace3\AceSerializer-3.0\AceSerializer-3.0.xml
 
 # Ace3 Additional Libs
-LibSharedMedia-3.0\lib.xml
 AceGUI-3.0-SharedMediaWidgets\AceGUI-3.0-SharedMediaWidgets\widget.xml
 
 # Libs Needs to be Imported before Other Libs
@@ -71,15 +72,11 @@ LibChatAnims\LibChatAnims.xml
 LibClass-2.0\LibClass-2.0.xml
 LibCustomGlow-1.0\LibCustomGlow-1.0.xml
 LibDBIcon-1.0\lib.xml
-LibDDI-1.0\lib.xml
-LibDFramework-1.0\load.xml
-LibDialog-1.0\lib.xml
 LibDropDownMenu\LibDropDownMenu.xml
 LibDualSpec-1.0\LibDualSpec-1.0.lua
 LibDurability\LibDurability.xml
 LibGetFrame-1.0\LibGetFrame-1.0.xml
 LibGraph-2.0\LibGraph-2.0.lua
-LibIconPath\Core.lua
 LibLatency\LibLatency.xml
 LibOpenRaid\lib.xml
 LibPetJournal-2.0\LibPetJournal-2.0.lua
@@ -89,7 +86,6 @@ LibRealmInfo\LibRealmInfo.lua
 LibSerialize\lib.xml
 LibSink-2.0\LibSink-2.0\LibSink-2.0.lua
 LibSpecialization\LibSpecialization.xml
-LibSpellRange-1.0\lib.xml
 LibTime-1.0\LibTime-1.0.xml
 LibTranslit-1.0\LibTranslit-1.0.xml
 LibUIDropDownMenu\LibUIDropDownMenu.xml

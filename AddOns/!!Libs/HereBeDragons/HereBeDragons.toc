@@ -1,9 +1,9 @@
-## Interface: 11507,50500,110107,110200
+## Interface: 11508,50503,110207,120000,120001
 ## Author: Nevcairiel
 ## X-eMail: h.leppkes@gmail.com
 ## X-Category: Library
 ## X-License: BSD
-## Version: 2.15-release
+## Version: 5ccefa1
 ## X-Curse-Project-ID: 94348
 
 

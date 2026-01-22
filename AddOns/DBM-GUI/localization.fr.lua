@@ -90,6 +90,7 @@ L.Button_TestBars			= "Barres de test"
 L.Button_MoveBars			= "Déplacer les barres"
 L.Button_ResetInfoRange		= "Réinit. les cadres de portée et d'info"
 
+L.Button_ShowMidnightWizard = "Assistant de configuration de Midnight"
 L.ModelOptions				= "Options du visualiseur de modèle 3D"
 L.EnableModels				= "Activer les modèles 3D dans les options des boss"
 L.ModelSoundOptions			= "Configurer le son pour le visualiseur 3D"
@@ -443,6 +444,11 @@ L.Panel_ReducedInformation 	= "Réduire les informations"
 
 -- Panel: DBM Features
 L.Panel_SpamFilter					= "Désactiver les fonctions de DBM"
+
+L.Area_Global_Toggles              = "Options globales des fonctionnalités"
+L.NoWarnings                       = "Désactiver entièrement les alertes de DBM"
+L.NoTimers                         = "Désactiver entièrement les chronomètres de DBM"
+
 L.Area_SpamFilter_Anounces			= "Filtres d'annonces"
 L.SpamBlockNoShowAnnounce			= "Ne pas afficher de texte ni jouer de son pour AUCUNE annonce générale"
 L.SpamBlockNoShowTgtAnnounce		= "Ne pas afficher de texte ni jouer de son pour les annonces générales CIBLE qui ne vous affectent pas"

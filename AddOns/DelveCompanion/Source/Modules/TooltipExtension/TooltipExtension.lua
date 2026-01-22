@@ -111,7 +111,7 @@ local function TooltipPostCallItem(tooltipDataHandler, ...)
     end
 
     local tooltipId = tooltipDataHandler:GetPrimaryTooltipData().id
-    if tooltipId == Config.BOUNTY_MAP_ITEM_CODE then
+    if tContains(Config.BOUNTY_MAPS, tooltipId) then
         local lineToMatch = _G["ITEM_UNIQUE"]
         local line = FindLineInTooltip(tooltipDataHandler, lineToMatch)
 
@@ -119,7 +119,7 @@ local function TooltipPostCallItem(tooltipDataHandler, ...)
             local text = format(line:GetText() .. "\n%s", GetMapInfoText())
             line:SetText(text)
         end
-    elseif FindInTable(Config.BOUNTIFUL_KEY_SOURCE_CACHES_DATA, tooltipId) then
+    elseif tContains(Config.BOUNTIFUL_KEY_SOURCE_CACHES_DATA, tooltipId) then
         local keyCurrInfo = C_CurrencyInfo.GetCurrencyInfo(Config.BOUNTIFUL_KEY_CURRENCY_CODE)
 
         local weekText, collectedInfo = GetCollectedInfo(Enum.ItemQuality.Epic, keyCurrInfo.name,
@@ -131,7 +131,7 @@ local function TooltipPostCallItem(tooltipDataHandler, ...)
             weekText, collectedInfo,
             _G["NORMAL_FONT_COLOR"], _G["NORMAL_FONT_COLOR"],
             true)
-    elseif FindInTable(Config.KEY_SHARD_SOURCE_CACHES_DATA, tooltipId) then
+    elseif tContains(Config.KEY_SHARD_SOURCE_CACHES_DATA, tooltipId) then
         local keyShardInfo = Item:CreateFromItemID(Config.KEY_SHARD_ITEM_CODE)
 
         keyShardInfo:ContinueOnItemLoad(function()

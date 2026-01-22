@@ -96,24 +96,23 @@ local function SetFromTexture(self)
     end
 
     local canSet = true
-    local defs = DelveCompanion.Definitions
-    if type == defs.CodeType.Item then
+    local codeTypes = DelveCompanion.Definitions.CodeType
+    if type == codeTypes.Item then
         texture = C_Item.GetItemIconByID(code)
-    elseif type == defs.CodeType.Spell then
+    elseif type == codeTypes.Spell then
         texture = C_Spell.GetSpellTexture(code)
-    elseif type == defs.CodeType.Currency then
+    elseif type == codeTypes.Currency then
         texture = C_CurrencyInfo.GetCurrencyInfo(code).iconFileID
-    elseif type == defs.CodeType.Achievement then
+    elseif type == codeTypes.Achievement then
         texture = select(10, GetAchievementInfo(code))
-    elseif type == defs.CodeType.Toy then
+    elseif type == codeTypes.Toy then
         canSet = false
         local toy = Item:CreateFromItemID(code)
         toy:ContinueOnItemLoad(function()
             self.Icon:SetTexture(select(3, C_ToyBox.GetToyInfo(code)))
         end)
-        -- texture = select(3, C_ToyBox.GetToyInfo(code))
     else
-        Logger.Log(Lockit.DEBUG_UNEXPECTED_ENUM_ELEMENT, tostring(defs.CodeType), type)
+        Logger.Log(Lockit.DEBUG_UNEXPECTED_ENUM_ELEMENT, tostring(codeTypes), type)
     end
 
     if texture and canSet then
@@ -132,12 +131,17 @@ function DelveCompanion_CustomActionWidgetMixin:SetFrameInfo(frameType, frameCod
 
     self.frameType = frameType
     self.frameCode = frameCode
+
+    self:Refresh()
 end
 
 ---@param self CustomActionWidget
 function DelveCompanion_CustomActionWidgetMixin:UpdateCooldown()
-    local cooldown = self.Cooldown
+    if not (self.frameType and self.frameCode) then
+        return
+    end
 
+    local cooldown = self.Cooldown
     local start, duration, enable = C_Item.GetItemCooldown(self.frameCode)
     if (cooldown and start and duration) then
         if (enable) then
@@ -152,8 +156,23 @@ function DelveCompanion_CustomActionWidgetMixin:UpdateCooldown()
 end
 
 ---@param self CustomActionWidget
+function DelveCompanion_CustomActionWidgetMixin:UpdateIcon()
+    if self.atlasTexture then
+        SetFromAtlas(self)
+    else
+        SetFromTexture(self)
+    end
+end
+
+---@param self CustomActionWidget
+function DelveCompanion_CustomActionWidgetMixin:Refresh()
+    self:UpdateIcon()
+    self:UpdateCooldown()
+end
+
+---@param self CustomActionWidget
 function DelveCompanion_CustomActionWidgetMixin:OnLoad()
-    -- Logger.Log("DelveCompanionIconWithTextAndTooltip `%s` OnLoad start", self:GetDebugName())
+    -- Logger.Log("CustomActionWidget `%s` OnLoad start", self:GetName())
 
     self.Icon:SetSize(self.iconSizeX, self.iconSizeY)
     self.Label:SetShown(self.displayLabel)
@@ -167,18 +186,16 @@ function DelveCompanion_CustomActionWidgetMixin:OnLoad()
     end
 
     if self.useMask then
-        self.CircleMask:SetPoint("TOPLEFT", self, "CENTER", self.maskSizeOffset, -self.maskSizeOffset)
-        self.CircleMask:SetPoint("BOTTOMRIGHT", self, "CENTER", -self.maskSizeOffset, self.maskSizeOffset)
-        self.CircleMask:Show()
-        self.Icon:AddMaskTexture(self.CircleMask)
+        -- TODO: DOESN'T WORK IN MIDNIGHT for some reason???
 
-        self.Cooldown:ClearAllPoints()
-        self.Cooldown:SetPoint("TOPLEFT", self.CircleMask)
-        self.Cooldown:SetPoint("BOTTOMRIGHT", self.CircleMask)
+        -- self.CircleMask:ClearAllPoints()
+        -- self.CircleMask:SetPoint("TOPLEFT", self, "CENTER", self.maskSizeOffset, -self.maskSizeOffset)
+        -- self.CircleMask:SetPoint("BOTTOMRIGHT", self, "CENTER", -self.maskSizeOffset, self.maskSizeOffset)
+        -- self.CircleMask:Show()
+        -- self.Icon:AddMaskTexture(self.CircleMask)
 
-        self.BlockedOverlay:ClearAllPoints()
-        self.BlockedOverlay:SetPoint("TOPLEFT", self.CircleMask)
-        self.BlockedOverlay:SetPoint("BOTTOMRIGHT", self.CircleMask)
+        -- self.Cooldown:SetAllPoints(self.CircleMask)
+        -- self.InteractionBlockedOverlay:SetAllPoints(self.CircleMask)
     end
 
     ---@type FramePoint
@@ -211,25 +228,19 @@ function DelveCompanion_CustomActionWidgetMixin:OnLoad()
     self.ClickCatcher:SetEnabled(false)
     self.InsecureAction:SetEnabled(false)
 
-    -- Logger.Log("DelveCompanionIconWithTextAndTooltip OnLoad finish")
+    -- Logger.Log("CustomActionWidget OnLoad finish")
 end
 
 ---@param self CustomActionWidget
 function DelveCompanion_CustomActionWidgetMixin:OnShow()
-    -- Logger.Log("DelveCompanionIconWithTextAndTooltip OnShow start")
+    -- Logger.Log("CustomActionWidget OnShow start")
 
-    if self.atlasTexture then
-        SetFromAtlas(self)
-    else
-        SetFromTexture(self)
-    end
-
-    self:UpdateCooldown()
+    self:Refresh()
 end
 
 ---@param self CustomActionWidget
 function DelveCompanion_CustomActionWidgetMixin:OnHide()
-    -- Logger.Log("DelveCompanionIconWithTextAndTooltip OnHide start")
+    -- Logger.Log("CustomActionWidget OnHide start")
 end
 
 ---@param self CustomActionWidget
@@ -242,19 +253,19 @@ function DelveCompanion_CustomActionWidgetMixin:OnEnter()
     local tooltip = GameTooltip
     tooltip:SetOwner(self, self.tooltipAnchor or DEFAULT_TOOLTIP_ANCHOR)
 
-    local defs = DelveCompanion.Definitions
-    if type == defs.CodeType.Item then
+    local codeTypes = DelveCompanion.Definitions.CodeType
+    if type == codeTypes.Item then
         tooltip:SetItemByID(code)
-    elseif type == defs.CodeType.Spell then
+    elseif type == codeTypes.Spell then
         tooltip:SetSpellByID(code)
-    elseif type == defs.CodeType.Currency then
+    elseif type == codeTypes.Currency then
         tooltip:SetCurrencyByID(code)
-    elseif type == defs.CodeType.Achievement then
+    elseif type == codeTypes.Achievement then
         tooltip:SetHyperlink(GetAchievementLink(code))
-    elseif type == defs.CodeType.Toy then
+    elseif type == codeTypes.Toy then
         tooltip:SetToyByItemID(code)
     else
-        Logger.Log(Lockit.DEBUG_UNEXPECTED_ENUM_ELEMENT, tostring(defs.CodeType), type)
+        Logger.Log(Lockit.DEBUG_UNEXPECTED_ENUM_ELEMENT, tostring(codeTypes), type)
     end
 
     tooltip:Show()
@@ -271,7 +282,7 @@ end
 ---@class CustomActionWidgetXml : Frame
 ---@field Icon Texture
 ---@field CircleMask MaskTexture
----@field BlockedOverlay Texture
+---@field InteractionBlockedOverlay Texture
 ---@field Label FontString
 ---@field ClickCatcher Button
 ---@field InsecureAction Button

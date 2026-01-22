@@ -2,6 +2,8 @@
 local LibEvent = LibStub:GetLibrary("LibEvent.7000")
 local LibSchedule = LibStub:GetLibrary("LibSchedule.7000")
 
+local GetMouseFocus = GetMouseFocus or GetMouseFoci
+
 local addon = TinyTooltipReforged
 local clientVer, clientBuild, clientDate, clientToc = GetBuildInfo()
 

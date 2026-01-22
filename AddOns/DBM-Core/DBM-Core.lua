@@ -76,16 +76,16 @@ end
 ---@class DBM
 local DBM = private:GetPrototype("DBM")
 _G.DBM = DBM
-DBM.Revision = parseCurseDate("20260120072152")
+DBM.Revision = parseCurseDate("20260122034216")
 DBM.TaintedByTests = false -- Tests may mess with some internal state, you probably don't want to rely on DBM for an important boss fight after running it in test mode
 
 local fakeBWVersion, fakeBWHash = 402, "6f82943"--402.3
 local PForceDisable
 -- The string that is shown as version
-DBM.DisplayVersion = "12.0.12"--Core version
+DBM.DisplayVersion = "12.0.13"--Core version
 DBM.classicSubVersion = 0
 DBM.dungeonSubVersion = 0
-DBM.ReleaseRevision = releaseDate(2026, 1, 20) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
+DBM.ReleaseRevision = releaseDate(2026, 1, 21) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 PForceDisable = private.isRetail and 21 or 20--When this is incremented, trigger force disable regardless of major patch
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -591,6 +591,7 @@ local C_TimerAfter = C_Timer.After
 local IsQuestFlaggedCompleted = C_QuestLog.IsQuestFlaggedCompleted
 local SendChatMessage = C_ChatInfo.SendChatMessage or SendChatMessage -- Classic has C_ChatInfo but not C_ChatInfo.SendChatMessage, need to use global for classic
 local BNSendWhisper = C_BattleNet and C_BattleNet.SendWhisper or BNSendWhisper
+local issecretvalue = issecretvalue or function(val) return false end
 
 -- Store globals that can be hooked/overriden by tests in private
 private.GetInstanceInfo = GetInstanceInfo
@@ -888,7 +889,7 @@ function DBM:MidRestrictionsActive(includeAuras)
 	if private.wowTOC < 120000 then
 		return false
 	end
-	if includeAuras and (GetRestrictedActionStatus(1) or GetRestrictedActionStatus(0)) then--Checks cooldown and auras restrictions
+	if includeAuras and (C_Secrets.ShouldAurasBeSecret() or C_Secrets.ShouldCooldownsBeSecret()) then--Checks cooldown and auras restrictions
 		return true
 	end
 	--In active encounter or active M+
@@ -1316,20 +1317,15 @@ do
 	--Events that must be blocked from registering on Midnight+
 	--Because they check UnitHealth, UnitPower, UnitAura, UnitGUID, or CLEU
 	local restrictedEvents = {
-		INSTANCE_ENCOUNTER_ENGAGE_UNIT	= true,
-		UNIT_HEALTH						= true,
-		UNIT_HEALTH_UNFILTERED			= true,
-		UNIT_POWER_UPDATE				= true,
-		UNIT_AURA						= true,
-		UNIT_AURA_UNFILTERED			= true,
-		COMBAT_LOG_EVENT_UNFILTERED		= true,
-		CHAT_MSG_MONSTER_YELL			= true,
-		CHAT_MSG_MONSTER_SAY			= true,
-		CHAT_MSG_MONSTER_EMOTE			= true,
-		CHAT_MSG_RAID_BOSS_EMOTE		= true,
-		CHAT_MSG_RAID_BOSS_WHISPER		= true,
-		RAID_BOSS_EMOTE					= true,
-		RAID_BOSS_WHISPER				= true,
+		INSTANCE_ENCOUNTER_ENGAGE_UNIT			= true,
+		COMBAT_LOG_EVENT_UNFILTERED				= true,
+		CHAT_MSG_MONSTER_YELL					= true,
+		CHAT_MSG_MONSTER_SAY					= true,
+		CHAT_MSG_MONSTER_EMOTE					= true,
+		CHAT_MSG_RAID_BOSS_EMOTE				= true,
+		CHAT_MSG_RAID_BOSS_WHISPER				= true,
+		RAID_BOSS_EMOTE							= true,
+		RAID_BOSS_WHISPER						= true,
 	}
 
 	-- UNIT_* events are special: they can take 'parameters' like this: "UNIT_HEALTH boss1 boss2" which only trigger the event for the given unit ids
@@ -1339,7 +1335,7 @@ do
 		test:Trace(self, "RegisterEvents", "Regular", ...)
 		for i = 1, select('#', ...) do
 			local event = select(i, ...)
-			if not self:IsPostMidnight() or self:IsPostMidnight() and not restrictedEvents[event] then
+			if not self:IsPostMidnight() or self:IsPostMidnight() and not (restrictedEvents[event] or event:sub(0, 5) == "UNIT_") then
 				-- spell events with special care.
 				if event:sub(0, 6) == "SPELL_" and event ~= "SPELL_NAME_UPDATE" or event:sub(0, 6) == "RANGE_" or event:sub(0, 6) == "SWING_" or event == "UNIT_DIED" or event == "UNIT_DESTROYED" or event == "PARTY_KILL" or event:sub(0, 13) == "DAMAGE_SHIELD" or event:sub(0, 20) == "DAMAGE_SHIELD_MISSED" then
 					--CLEU is completely gone in Midnight+
@@ -1779,7 +1775,7 @@ do
 					C_CVar.SetCVar("encounterWarningsEnabled", "0")
 				end
 				if not self.Options.HasShownMidnightPopup then
-					private:ShowMidnightPopup()
+					DBM.MidnightPopup:ShowMidnightPopup()
 				end
 			else
 				--Only mess with sound channels if NOT midnight, since it's not like we need the sound channels anymore
@@ -3034,12 +3030,18 @@ do
 		if UnitTokenFromGUID and not bossOnly then
 			returnUnitID = UnitTokenFromGUID(enemyGUID)
 		end
+	--	if issecretvalue(returnUnitID) then
+	--		return
+	--	end
 		if returnUnitID then
 			return returnUnitID
 		else
 			local usedTable = bossOnly and bossTargetuIds or fullEnemyUids
 			for _, unitId in ipairs(usedTable) do
 				local guid2 = UnitGUID(unitId)
+	--			if issecretvalue(guid2) then
+	--				return
+	--			end
 				if enemyGUID == guid2 then
 					return unitId
 				end
@@ -3258,11 +3260,9 @@ end
 
 ---@param self DBMModOrDBM
 function DBM:IsCreatureGUID(guid)
-	if issecretvalue then
-		--Player guids aren't secrets, so if it's secret, it must be creature or npc
-		if issecretvalue(guid) then
-			return true
-		end
+	--Player guids aren't secrets, so if it's secret, it must be creature or npc
+	if issecretvalue(guid) then
+		return true
 	end
 	local guidType = strsplit("-", guid or "")
 	return guidType and (guidType == "Creature" or guidType == "Vehicle")--To determine, add pet or not?
@@ -5469,6 +5469,9 @@ do
 
 	function DBM:CHAT_MSG_ADDON(prefix, msg, channel, senderOne, senderTwo)
 		if prefix == DBMPrefix and msg and (channel == "PARTY" or channel == "RAID" or channel == "INSTANCE_CHAT" or channel == "WHISPER" or channel == "GUILD") then
+			if issecretvalue(msg) then
+				return
+			end
 			local correctSender = GetCorrectSender(senderOne, senderTwo)
 			if channel == "WHISPER" then
 				handleSync(channel, correctSender, nil, strsplit("\t", msg))
@@ -5476,6 +5479,9 @@ do
 				handleSync(channel, correctSender, strsplit("\t", msg))
 			end
 		elseif prefix == "BigWigs" and msg and (channel == "PARTY" or channel == "RAID" or channel == "INSTANCE_CHAT") then
+			if issecretvalue(msg) then
+				return
+			end
 			local bwPrefix, bwMsg, extra = strsplit("^", msg)
 			if bwPrefix and bwMsg then
 				local correctSender = GetCorrectSender(senderOne, senderTwo)
@@ -5507,6 +5513,9 @@ do
 				end
 			end
 		elseif prefix == "Transcriptor" and msg then
+			if issecretvalue(msg) then
+				return
+			end
 			local correctSender = GetCorrectSender(senderOne, senderTwo)
 			for i = #inCombat, 1, -1 do
 				local mod = inCombat[i]
@@ -5858,7 +5867,9 @@ do
 	end
 
 	function DBM:CHAT_MSG_MONSTER_YELL(msg, npc, _, _, target)
-		if self:MidRestrictionsActive() then return end--Block all in instance chat parsing in Midnight Alpha
+		if issecretvalue(msg) then
+			return
+		end
 		if private.IsEncounterInProgress() or (IsInInstance() and InCombatLockdown()) then--Too many 5 mans/old raids don't properly return encounterinprogress
 			local targetName = target or "nil"
 			self:Debug("CHAT_MSG_MONSTER_YELL from " .. npc .. " while looking at " .. targetName, 2)
@@ -5892,12 +5903,16 @@ do
 	end
 
 	function DBM:CHAT_MSG_MONSTER_EMOTE(msg)
-		if self:MidRestrictionsActive() then return end--Block all in instance chat parsing in Midnight Alpha
+		if issecretvalue(msg) then
+			return
+		end
 		return onMonsterMessage(self, "emote", msg)
 	end
 
 	function DBM:CHAT_MSG_RAID_BOSS_EMOTE(msg, sender, ...)
-		if self:MidRestrictionsActive() then return end--Block all in instance chat parsing in Midnight Alpha
+		if issecretvalue(msg) then
+			return
+		end
 		onMonsterMessage(self, "emote", msg)
 		local id = msg:match("|Hspell:([^|]+)|h")
 		if id then
@@ -5911,13 +5926,17 @@ do
 	end
 
 	function DBM:RAID_BOSS_EMOTE(msg, ...)--This is a mirror of above prototype only it has less args, both still exist for some reason.
-		if self:MidRestrictionsActive() then return end--Block all in instance chat parsing in Midnight Alpha
+		if issecretvalue(msg) then
+			return
+		end
 		onMonsterMessage(self, "emote", msg)
 		return self:FilterRaidBossEmote(msg, ...)
 	end
 
 	function DBM:RAID_BOSS_WHISPER(msg)
-		if self:MidRestrictionsActive() then return end--Block all in instance chat parsing in Midnight Alpha
+		if issecretvalue(msg) then
+			return
+		end
 		--Make it easier for devs to detect whispers they are unable to see
 		--TINTERFACE\\ICONS\\ability_socererking_arcanewrath.blp:20|t You have been branded by |cFFF00000|Hspell:156238|h[Arcane Wrath]|h|r!"
 		if msg and msg ~= "" and #msg < 255 and IsInGroup() and not _G["BigWigs"] and not IsTrialAccount() then
@@ -5940,7 +5959,9 @@ do
 	end
 
 	function DBM:CHAT_MSG_MONSTER_SAY(msg)
-		if self:MidRestrictionsActive() then return end--Block all in instance chat parsing in Midnight Alpha
+		if issecretvalue(msg) then
+			return
+		end
 		if private.isClassic and not IsInInstance() then
 			if msg:find(L.WORLD_BUFFS.zgHeart) then
 				-- 51.01 51.82 51.85 51.53
@@ -7634,7 +7655,9 @@ do
 	end
 
 	function DBM:CHAT_MSG_WHISPER(msg, name, _, _, _, status)
-		if self:MidRestrictionsActive() then return end--Block all in instance chat parsing in Midnight Alpha
+		if issecretvalue(msg) then
+			return
+		end
 		if name and type(name) == "string" and status ~= "GM" then
 			name = Ambiguate(name, "none")
 			return onWhisper(msg, name, false)
@@ -7642,7 +7665,9 @@ do
 	end
 
 	function DBM:CHAT_MSG_BN_WHISPER(msg, ...)
-		if self:MidRestrictionsActive() then return end--Block all in instance chat parsing in Midnight Alpha
+		if issecretvalue(msg) then
+			return
+		end
 		local presenceId = select(12, ...) -- srsly?
 		return onWhisper(msg, presenceId, true)
 	end
@@ -9530,7 +9555,7 @@ function bossModPrototype:ReceiveSync(event, sender, revision, ...)
 	end
 end
 
----@param revision number|string Either a number in the format "202101010000" (year, month, day, hour, minute) or string "20260120064112" to be auto set by packager
+---@param revision number|string Either a number in the format "202101010000" (year, month, day, hour, minute) or string "20260122034038" to be auto set by packager
 function bossModPrototype:SetRevision(revision)
 	revision = parseCurseDate(revision or "")
 	if not revision or type(revision) == "string" then

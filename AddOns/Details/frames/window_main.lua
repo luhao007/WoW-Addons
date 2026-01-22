@@ -4230,6 +4230,8 @@ function gump:CreateNewLine(instance, index)
 	---@field sourceSpells damagemeter_unit_spells
 	---@field sessionType string
 	---@field sessionNumber number
+	---@field sessionTypeParam number
+	---@field damageMeterType number
 	---@field lineIndex number
 	---@field statusbar statusbar
 	---@field extraStatusbar statusbar
@@ -6148,7 +6150,7 @@ function Details:ToolbarMenuSetButtons(_mode, _segment, _attributes, _report, _r
 			end
 		end
 
-		if detailsFramework.IsAddonApocalypseWow() then
+		if detailsFramework.IsAddonApocalypseWow() and self.lastIcon then
 			local anchorFrame = self.lastIcon.widget or self.lastIcon
 			self.baseframe.SwapDamageMeterButton:ClearAllPoints()
 
@@ -7811,7 +7813,11 @@ function Details:UpdateClickThrough()
 				self.windowBackgroundDisplay:EnableMouse(false)
 				self.baseframe.UPFrame:EnableMouse(false)
 				self.baseframe.DOWNFrame:EnableMouse(false)
-
+				self.baseframe.UPFrameConnect:EnableMouse(false)
+				self.baseframe.UPFrameLeftPart:EnableMouse(false)
+				self.baseframe.resize_direita:EnableMouse(false)
+				self.baseframe.resize_esquerda:EnableMouse(false)
+				self.baseframe.lock_button:EnableMouse(false)
 
 			else
 				self.baseframe:EnableMouse(true)
@@ -7822,6 +7828,18 @@ function Details:UpdateClickThrough()
 				self.windowBackgroundDisplay:EnableMouse(true)
 				self.baseframe.UPFrame:EnableMouse(true)
 				self.baseframe.DOWNFrame:EnableMouse(true)
+				self.baseframe.UPFrameConnect:EnableMouse(true)
+				self.baseframe.UPFrameLeftPart:EnableMouse(true)
+
+				if (self.baseframe.isLocked) then
+					self.baseframe.resize_direita:EnableMouse(false)
+					self.baseframe.resize_esquerda:EnableMouse(false)
+					self.baseframe.lock_button:EnableMouse(false)
+				else
+					self.baseframe.resize_direita:EnableMouse(true)
+					self.baseframe.resize_esquerda:EnableMouse(true)
+					self.baseframe.lock_button:EnableMouse(true)
+				end
 			end
 
 			--titlebar icons
@@ -7853,6 +7871,18 @@ function Details:UpdateClickThrough()
 			self.windowBackgroundDisplay:EnableMouse(true)
 			self.baseframe.UPFrame:EnableMouse(true)
 			self.baseframe.DOWNFrame:EnableMouse(true)
+			self.baseframe.UPFrameConnect:EnableMouse(true)
+			self.baseframe.UPFrameLeftPart:EnableMouse(true)
+
+			if (self.baseframe.isLocked) then
+				self.baseframe.resize_direita:EnableMouse(false)
+				self.baseframe.resize_esquerda:EnableMouse(false)
+				self.baseframe.lock_button:EnableMouse(false)
+			else
+				self.baseframe.resize_direita:EnableMouse(true)
+				self.baseframe.resize_esquerda:EnableMouse(true)
+				self.baseframe.lock_button:EnableMouse(true)
+			end
 
 			--titlebar icons, forcing true because the player isn't in combat and the inCombat setting is enabled
 			local toolbar_buttons = {}
@@ -7891,6 +7921,12 @@ function Details:UpdateClickThrough()
 			self.windowBackgroundDisplay:EnableMouse(false)
 			self.baseframe.UPFrame:EnableMouse(false)
 			self.baseframe.DOWNFrame:EnableMouse(false)
+			self.baseframe.UPFrameConnect:EnableMouse(false)
+			self.baseframe.UPFrameLeftPart:EnableMouse(false)
+			self.baseframe.resize_direita:EnableMouse(false)
+			self.baseframe.resize_esquerda:EnableMouse(false)
+			self.baseframe.lock_button:EnableMouse(false)
+
 		else
 			self.baseframe:EnableMouse(true)
 			self.bgframe:EnableMouse(true)
@@ -7900,6 +7936,18 @@ function Details:UpdateClickThrough()
 			self.windowBackgroundDisplay:EnableMouse(true)
 			self.baseframe.UPFrame:EnableMouse(true)
 			self.baseframe.DOWNFrame:EnableMouse(true)
+			self.baseframe.UPFrameConnect:EnableMouse(true)
+			self.baseframe.UPFrameLeftPart:EnableMouse(true)
+
+			if (self.baseframe.isLocked) then
+				self.baseframe.resize_direita:EnableMouse(false)
+				self.baseframe.resize_esquerda:EnableMouse(false)
+				self.baseframe.lock_button:EnableMouse(false)
+			else
+				self.baseframe.resize_direita:EnableMouse(true)
+				self.baseframe.resize_esquerda:EnableMouse(true)
+				self.baseframe.lock_button:EnableMouse(true)
+			end
 		end
 
 		--titlebar icons

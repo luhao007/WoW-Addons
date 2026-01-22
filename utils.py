@@ -141,7 +141,12 @@ def remove_libs_in_file(path: str | Path, libs: Iterable[str]):
 @functools.lru_cache
 def get_libraries_list() -> list[str]:
     root = Path("AddOns/!!Libs")
-    paths = [root, root / "Ace3", root / "Ace3" / "AceConfig-3.0", root / "LibBabble"]
+    paths = [
+        root,
+        root / "Ace3",
+        root / "Ace3" / "AceConfig-3.0",
+        #    root / "LibBabble"
+    ]
     libs: list[str] = []
     libs = sum(
         [

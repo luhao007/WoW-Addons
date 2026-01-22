@@ -44,15 +44,13 @@ function DelveCompanion_DelveOBotWidgetMixin:OnLoad()
     self:SetFrameInfo(DelveCompanion.Definitions.CodeType.Toy, DelveCompanion.Config.DELVE_O_BOT_ITEM_CODE)
     local macroText = string.format("/use item:%s", self.frameCode)
     self:SetInsecureAction({ type1 = "macro", macrotext = macroText })
-
-    -- self.SlotFrame:SetSize(self:GetSize())
 end
 
 function DelveCompanion_DelveOBotWidgetMixin:OnShow()
     -- Logger.Log("DelveOBotWidget OnShow start")
 
     DelveCompanion_CustomActionWidgetMixin.OnShow(self)
-    self.BlockedOverlay:SetShown(IsIndoors())
+    self.InteractionBlockedOverlay:SetShown(IsIndoors())
     self:UpdateState()
 end
 
