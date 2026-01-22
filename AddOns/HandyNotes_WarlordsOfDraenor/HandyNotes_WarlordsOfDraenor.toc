@@ -1,5 +1,5 @@
 ## Interface: 120000
-## Version: 123
+## Version: 130
 
 ## Title: HandyNotes: Warlords of Draenor
 ## Notes: Warlords of Draenor Notes
