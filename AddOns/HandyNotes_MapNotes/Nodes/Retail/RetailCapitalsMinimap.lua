@@ -113,7 +113,7 @@ if not db.activate.HideMapNote then
                 if self.db.profile.activate.MinimapCapitalsTransporting then
 
                     if self.db.profile.showMinimapCapitalsPortals then
-                        minimap[85][54589038] = { mnID = 110, name = "", TransportName = ns.Silvermoon .. " (" .. L["Portal"] .. ")\n(" .. L["in the basement"] .. ")", type = "HPortalSGray", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Silvermoon City
+                        minimap[85][54589038] = { mnID = 110, name = "", TransportName = ns.Silvermoon .. " (" .. EXPANSION_NAME1 ..")" .. " (" .. L["Portal"] .. ")\n(" .. L["in the basement"] .. ")", type = "HPortalSGray", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Silvermoon City
                         minimap[85][57268817] = { mnID = 630, name = "", TransportName = ns.Azsuna .. " (" .. L["Portal"] .. ")\n(" .. L["in the basement"] .. ")", type = "HPortalSGray", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Azsuna 
                         minimap[85][57878982] = { mnID = 862, name = "", TransportName = ns.Zuldazar .. " (" .. L["Portal"] .. ")\n(" .. L["in the basement"] .. ")", type = "HPortalSGray", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Zuldazar  
                         minimap[85][57519166] = { mnID = 111, name = "", TransportName = ns.Shattrath .. " (" .. L["Portal"] .. ")\n(" .. L["in the basement"] .. ")", type = "HPortalSGray", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Shattrath 
@@ -121,6 +121,7 @@ if not db.activate.HideMapNote then
                         minimap[85][55189204] = { mnID = 624, name = "", TransportName = ns.Warspear .. " (" .. L["Portal"] .. ")\n(" .. L["in the basement"] .. ")", type = "HPortalSGray", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Warspear - Ashran 
                         minimap[85][57179070] = { npcID = 150131, mnID = 17, name = "", TransportName = ns.DarkPortal .. " (" .. L["Portal"] .. ")\n(" .. L["in the basement"] .. ")", type = "HPortalSGray", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Blasted Lands
 
+                        minimap[85][55988821] = { mnID = 2393, name = "", TransportName = ns.Silvermoon .. " (" .. EXPANSION_NAME11 ..") (" .. L["Portal"] ..")", type = "HPortalS", showInZone = false, showOnContinent = false, showOnMinimap = true } --  Silvermoon Midnight 
                         minimap[85][57108729] = { mnID = 2112, name = "", type = "HPortalS", showInZone = false, showOnContinent = false, showOnMinimap = true } --  Valdrakken 
                         minimap[85][58308788] = { mnID = 1670, name = "", type = "HPortalS", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Oribos 
                         minimap[85][58968953] = { mnID = 2351, name = "", type = "HPortalS", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Razorwind 
@@ -1170,7 +1171,8 @@ if not db.activate.HideMapNote then
                         minimap[84][43269759] = { mnID = 2239, name = "", type = "APortalS", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Portal to Bel'ameth, Amirdrassil
                         minimap[84][48119195] = { mnID = 2339, name = "", type = "APortalS", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Portal to Dornogal                        
                         minimap[84][48849344] = { mnID = 2112, name = "", type = "APortalS", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Portal to Valdrakken                         
-                        minimap[84][48759519] = { mnID = 1161, name = "", type = "APortalS", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Portal to Boralus 
+                        minimap[84][48759519] = { mnID = 2393, name = "", TransportName = ns.Silvermoon .. " (" .. EXPANSION_NAME11 .. ") (" .. L["Portal"] ..")", type = "APortalS", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Portal to Silvermoon Midnight 
+                        minimap[84][40869279] = { mnID = 1161, name = "", type = "APortalS", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Portal to Boralus 
                         minimap[84][47579495] = { mnID = 1670, name = "", type = "APortalS", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Portal to Oribos 
                         minimap[84][46909335] = { mnID = 2352, name = "", type = "APortalS", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Portal to Founder's Point Housing
                         minimap[84][43748538] = { mnID = 74, name = "", type = "APortalS", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Portal to Caverns of Time 

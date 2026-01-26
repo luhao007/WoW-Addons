@@ -30,9 +30,11 @@ function DelveEncounter:OnShowHook()
 
     do
         local progressFrame = companionFrame:GetParent()
-        local companionID = progressFrame.majorFactionData.playerCompanionID
-        self.ExpBar.factionID = C_DelvesUI.GetFactionForCompanion(companionID)
-        self.ExpBar:Show()
+        if progressFrame then
+            local companionID = progressFrame.majorFactionData.playerCompanionID
+            self.ExpBar.factionID = C_DelvesUI.GetFactionForCompanion(companionID)
+            self.ExpBar:Show()
+        end
     end
 
     do
@@ -102,11 +104,16 @@ function DelveEncounter:Init(JourneysFrame)
         ---@type DelveEncounterBountifulFrame
         local bountifulFrame = CreateFrame("Frame", "$parent.BountifulPanel", companionFrame,
             "DelveCompanionDelveEncounterBountifulFrameTemplate")
-        bountifulFrame:SetPoint("LEFT", companionFrame, "RIGHT", 15, -6)
+        bountifulFrame:SetPoint("LEFT", companionFrame, "RIGHT", 0, -6)
 
         ---@type DelveEncounterConsumablesFrame
         local consumablesFrame = CreateFrame("Frame", "$parent.ConsumalesPanel", companionFrame,
             "DelveCompanionDelveEncounterConsumablesFrameTemplate")
-        consumablesFrame:SetPoint("LEFT", bountifulFrame, "RIGHT", 10, 0)
+        consumablesFrame:SetPoint("LEFT", bountifulFrame, "RIGHT", 0, 0)
+
+        ---@type DelveEncounterGildedStashFrame
+        local gildedStashFrame = CreateFrame("Frame", "$parent.GildedStashPanel", companionFrame,
+            "DelveCompanionDelveEncounterGildedStashFrameTemplate")
+        gildedStashFrame:SetPoint("LEFT", consumablesFrame, "RIGHT", 0, 0)
     end
 end

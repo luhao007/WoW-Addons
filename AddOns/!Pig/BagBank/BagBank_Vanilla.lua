@@ -353,7 +353,7 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 		self.Tex:SetPoint("CENTER",BAGheji.fenlei,"CENTER",2,0);
 	end);
 	BAGheji.fenlei:SetScript("OnClick",  function (self)
-		BAGheji:ShowHide_butList()
+		BAGheji:ShowHide_butList(true)
 		BagBankfun.UpdateIconDirection(self.Tex,BAGheji.ButLsit[1]:IsShown())
 	end);
 	BagBankfun.addfenleibagbut(BAGheji)
@@ -514,9 +514,9 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 				end)
 			end
 		elseif event=="BAG_CONTAINER_UPDATE" or event=="PLAYERBANKBAGSLOTS_CHANGED" then
-			C_Timer.After(0.1,function() self:ShowHide_butList(true) end) 
+			C_Timer.After(0.2,function() self:ShowHide_butList() end)
 			if BankSlotsFrame:IsShown() then
-				BankSlotsFrame:ShowHide_butList(true)
+				BankSlotsFrame:ShowHide_butList()
 				for banki=2,#bagData["bankID"] do
 					OpenBag(bagData["bankID"][banki])
 				end
@@ -591,7 +591,7 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 		self.Tex:SetPoint("CENTER",BankSlotsFrame.fenlei,"CENTER",2,0);
 	end);
 	BankSlotsFrame.fenlei:SetScript("OnClick",  function (self)
-		BankSlotsFrame:ShowHide_butList()
+		BankSlotsFrame:ShowHide_butList(true)
 		BagBankfun.UpdateIconDirection(self.Tex,BankSlotsFrame.ButLsit[1]:IsShown())
 	end);
 	BagBankfun.addfenleibagbut(BankSlotsFrame)

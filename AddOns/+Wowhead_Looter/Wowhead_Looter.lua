@@ -10,7 +10,7 @@
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2026-01-21";
+local WL_ADDON_UPDATED = "2026-01-22";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
 local WL_VERSION = 120000;
@@ -1247,6 +1247,10 @@ end
 -- Callback for CHAT_MSG_RAID_BOSS_WHISPER event
 function wlEvent_CHAT_MSG_RAID_BOSS_WHISPER(self, text, name, language, channel, name2)
 
+    if issecretvalue(text) or issecretvalue(name) then
+        return;
+    end
+
     -- Track Horrific Vision affixes when we get a affix change message
     local scenarioIds = {
         [2950] = true,   -- Vision of Stormwind 11.1.5
@@ -1710,6 +1714,9 @@ end
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
 function wlEvent_CHAT_MSG_MONSTER_EMOTE(self, emote, name)
+    if issecretvalue(emote) or issecretvalue(name) then
+        return;
+    end
     if emote == WL_RUNSAWAY then
         if not name or not wlNpcInfo[name] or not wlUnit[wlSeasonId][wlNpcInfo[name].id] then
             return;

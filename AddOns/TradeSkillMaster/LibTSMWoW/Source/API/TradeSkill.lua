@@ -11,6 +11,7 @@ local SlotId = LibTSMWoW:Include("Type.SlotId")
 local ClientInfo = LibTSMWoW:Include("Util.ClientInfo")
 local Item = LibTSMWoW:Include("API.Item")
 local EnumType = LibTSMWoW:From("LibTSMUtil"):Include("BaseType.EnumType")
+local Table = LibTSMWoW:From("LibTSMUtil"):Include("Lua.Table")
 local private = {
 	buggedQuantityRangeSpells = {},
 	categoryRootCache = {
@@ -84,6 +85,7 @@ local BUGGED_QUANTITY_RANGE_SPELLS = {
 	[209664] = {42, 42}, -- Felwort (amount is variable but the values are conservative)
 	[247861] = {4, 4}, -- Astral Glory (amount is variable but the values are conservative)
 }
+local BOGUS_BONUS_TABLE = { 0, 1, 2, 3, 4 }
 
 
 
@@ -398,7 +400,13 @@ end
 function TradeSkill.GetItemLevelBonuses(spellId)
 	assert(ClientInfo.HasFeature(ClientInfo.FEATURES.C_TRADE_SKILL_UI))
 	local bonusTable = C_TradeSkillUI.GetRecipeInfo(spellId).qualityIlvlBonuses
-	return (bonusTable and #bonusTable > 0) and bonusTable or nil
+	if not bonusTable or #bonusTable == 0 then
+		return nil
+	elseif Table.Equal(bonusTable, BOGUS_BONUS_TABLE) then
+		-- Bogus bonus tables (in the form of {0, 1, 2, 3, 4}) don't actually change the level of the item
+		return nil
+	end
+	return bonusTable
 end
 
 ---Gets the range of quantities crafted by a recipe.

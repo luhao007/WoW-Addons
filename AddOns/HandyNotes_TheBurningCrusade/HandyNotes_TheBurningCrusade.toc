@@ -1,5 +1,5 @@
 ## Interface: 120000
-## Version: 130
+## Version: 131
 
 ## Title: HandyNotes: The Burning Crusade
 ## Notes: Burning Crusade Notes

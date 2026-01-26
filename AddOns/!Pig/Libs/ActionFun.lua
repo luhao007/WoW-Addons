@@ -22,12 +22,12 @@ local function UseKeyDownUpdate(button)
 	if PIG_MaxTocversion() and not PIG_MaxTocversion("tbc") then
 		button:RegisterForClicks("AnyUp");
 	else
-		--button:RegisterForClicks("AnyUp", "LeftButtonDown", "RightButtonDown");
 		local UseKeyDown =GetCVar("ActionButtonUseKeyDown")
 		if UseKeyDown=="0" then
 			button:RegisterForClicks("AnyUp");
 		elseif UseKeyDown=="1" then
-			button:RegisterForClicks("AnyDown")
+			button:RegisterForClicks("AnyUp", "LeftButtonDown", "RightButtonDown");
+			--button:RegisterForClicks("AnyDown")
 		end
 	end
 end
@@ -187,17 +187,19 @@ function ActionFun.Update_Count(self)
 	if Type then
 		local SimID=self.SimID
 		if Type=="spell" then
-			local SPhuafei=IsConsumableSpell(SimID)
-			if SPhuafei then
-				local jiengncailiao = GetSpellCount(SimID)
-				if jiengncailiao>0 then
-		            self.Count:SetText(jiengncailiao)
-		        else
-		        	self.Count:SetText("|cffff0000"..jiengncailiao.."|r")
-		        end
-		    else
-				self.Count:SetText()
-		    end
+			if PIG_MaxTocversion(120000) then
+				local SPhuafei=IsConsumableSpell(SimID)
+				if SPhuafei then
+					local jiengncailiao = GetSpellCount(SimID)
+					if jiengncailiao>0 then
+			            self.Count:SetText(jiengncailiao)
+			        else
+			        	self.Count:SetText("|cffff0000"..jiengncailiao.."|r")
+			        end
+			    else
+					self.Count:SetText()
+			    end
+			end
 		elseif Type=="item" then
 			local _,dalei,xiaolei = GetItemInfoInstant(SimID)
 			local Ccount = GetItemCount(SimID, false, true) or GetItemCount(SimID)

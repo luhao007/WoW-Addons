@@ -91,7 +91,7 @@ local function Tooltip_AddGarrisonStatus(self, mt, prefixLine)
 end
 local function Tooltip_OnSetUnit(self, tooltipData)
 	local guid = tooltipData and tooltipData.type == Enum.TooltipDataType.Unit and tooltipData.guid
-	local cid = guid and guid:match("^Creature%-%d+%-%d+%-%d+%-%d+%-(%d+)")
+	local cid = guid and not issecretvalue(guid) and guid:match("^Creature%-%d+%-%d+%-%d+%-%d+%-(%d+)")
 	if cid == "138704" or cid == "138706" then
 		return Tooltip_AddGarrisonStatus(self, 22)
 	end

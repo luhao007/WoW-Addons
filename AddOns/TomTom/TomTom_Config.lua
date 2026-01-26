@@ -1016,13 +1016,21 @@ local function createconfig()
 				type = "description",
 				name = L["TomTom supports setting multiple waypoints at the same time, and storing and loading pages of waypoints. This section enables you to configure some settings for this feature."],
 			},
-			enable = {
+			enableMinimap = {
 				order = 2,
 				type = "toggle",
-				name = L["Show minimap/addon compartment button"],
-				desc = L["Enables or disables the showing of a minimap/addon-compartment button to toggle the paste window."],
+				name = L["Show minimap button to open TomTom-Paste window"],
+				desc = L["Enables or disables the showing of a minimap button to toggle the paste window."],
 				width = "double",
 				arg = "paste.minimap_button",
+			},
+			enableAddonCompartment = {
+				order = 3,
+				type = "toggle",
+				name = L["Show addon compartment button to open TomTom-Paste window"],
+				desc = L["Enables or disables the showing of an addon-compartment button to toggle the paste window."],
+				width = "double",
+				arg = "paste.addon_compartment_button",
 			},
 		}
 	}

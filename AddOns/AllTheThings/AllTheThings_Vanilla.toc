@@ -1,6 +1,6 @@
 ## Interface: 120000
 ## Author: Crieve
-## Version: 5.0.0
+## Version: 5.0.3a
 
 ## Title: AllTheThings |cfd9b9b9b(Classic)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF收集控助手|r |cFFFFE00AAllTheThings|r

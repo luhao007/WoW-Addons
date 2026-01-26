@@ -1,8 +1,7 @@
-## v4.14.53 Changes
+## v4.14.54 Changes
 
-* [Retail] Updated bonus IDs
-* [Retail] Fixed error when crafting with quality mats
-* [Retail] Fixed issue with scanning for commodity items
-* [Retail] Fixed error when in combat
+* [Retail] Fixed error when opening professions for some users
+* [Retail] Fixed various combat errors
+* [MoP] Fixed issue with Destroying button not working
 
 [Known Issues](https://support.tradeskillmaster.com/en_US/known_issues)

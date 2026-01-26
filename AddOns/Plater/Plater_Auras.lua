@@ -958,7 +958,7 @@ end
 	--update the ghost auras
 	--this function is guaranteed to run after all auras been processed
 	function Plater.ShowGhostAuras(buffFrame)
-		if (DB_AURA_GHOSTAURA_ENABLED) then
+		if (DB_AURA_GHOSTAURA_ENABLED and not IS_WOW_PROJECT_MIDNIGHT) then
 			local unitFrame = buffFrame.unitFrame
 			if ((unitFrame.namePlateUnitReaction < 5) and unitFrame.InCombat and not unitFrame.IsSelf and not unitFrame.isPerformanceUnit and InCombatLockdown()) then
 				local nameplateAuraCache = unitFrame.AuraCache --active auras currently shown in the nameplate
@@ -1348,7 +1348,10 @@ end
 		if newIcon.Cooldown.EnableMouseMotion then
 			newIcon.Cooldown:EnableMouseMotion (false)
 		end
-		newIcon.Cooldown:SetHideCountdownNumbers (true)
+		newIcon.Cooldown:SetHideCountdownNumbers (not IS_WOW_PROJECT_MIDNIGHT)
+		if IS_WOW_PROJECT_MIDNIGHT then
+			newIcon.Cooldown:SetCountdownAbbrevThreshold(60) --TODO: MIDNIGHT!!
+		end
 		newIcon.Cooldown:Hide()
 
 		--tested to change the texture used in the semi-transparent black overlay which get "cutted" by the edge texture
@@ -1385,8 +1388,12 @@ end
 		--expose to scripts
 		newIcon.StackText = newIcon.CountFrame.Count
 		
-		newIcon.Cooldown.Timer = newIcon.Cooldown:CreateFontString (nil, "overlay", "NumberFontNormal")
-		newIcon.Cooldown.Timer:SetPoint ("center")
+		if IS_WOW_PROJECT_MIDNIGHT then
+			newIcon.Cooldown.Timer = newIcon.Cooldown:GetRegions()
+		else
+			newIcon.Cooldown.Timer = newIcon.Cooldown:CreateFontString (nil, "overlay", "NumberFontNormal")
+			newIcon.Cooldown.Timer:SetPoint ("center")
+		end
 		newIcon.TimerText = newIcon.Cooldown.Timer
 
 		return newIcon
@@ -1438,11 +1445,17 @@ end
 			if IS_WOW_PROJECT_MIDNIGHT then
 				--self.RemainingTime = C_UnitAuras.GetAuraDurationRemaining(self.unitFrame.namePlateUnitToken, self:GetID())
 				self.RemainingTime = self.durationObject and self.durationObject:GetRemainingDuration() -- or C_UnitAuras.GetAuraDurationRemaining(self.unitFrame.namePlateUnitToken, self:GetID())
-				self.Cooldown.Timer:SetText(string.format("%d",self.RemainingTime))
+				--self.Cooldown.Timer:SetText(string.format("%d",self.RemainingTime))
 				
 				--local pandemicColor = C_UnitAuras.GetAuraDurationRemainingColor(auraIconFrame.unitFrame.namePlateUnitToken, i , pandemicColorCurve)
-				local pandemicColor = self.durationObject:EvaluateRemainingPercent(pandemicColorCurve)
-				self.Cooldown.Timer:SetTextColor(pandemicColor:GetRGBA())
+				if Plater.db.profile.aura_timer_pandemic_color then
+					local pandemicColor = self.durationObject:EvaluateRemainingPercent(pandemicColorCurve)
+					self.Cooldown.Timer:SetTextColor(pandemicColor:GetRGBA())
+				else
+					-- don't reset each update, just do it next cycle...
+					--local c = Plater.db.profile.aura_timer_text_color
+					--self.Cooldown.Timer:SetTextColor(unpack(c))
+				end
 				
 			else
 				self.RemainingTime = (self.ExpirationTime - now) / (self.ModRate or 1)
@@ -1864,7 +1877,8 @@ end
 			--auraIconFrame.Cooldown:SetCooldown(start, duration, modRate)
 			--auraIconFrame.Cooldown:SetCooldownDuration(duration, modRate)
 			local noExpirationTime = durationObject:IsZero()--C_UnitAuras.DoesAuraHaveExpirationTime(auraIconFrame.unitFrame.namePlateUnitToken, i)
-			auraIconFrame.Cooldown:SetCooldownFromExpirationTime(expirationTime, duration, modRate)
+			--auraIconFrame.Cooldown:SetCooldownFromExpirationTime(expirationTime, duration, modRate)
+			auraIconFrame.Cooldown:SetCooldownFromDurationObject(durationObject)
 			auraIconFrame.Cooldown:SetAlphaFromBoolean(noExpirationTime, 0, 1)
 			
 			auraIconFrame.noExpirationTime = noExpirationTime
@@ -1883,15 +1897,23 @@ end
 			auraIconFrame.durationObject = durationObject
 			auraIconFrame:Show()
 
-			auraIconFrame.Cooldown.Timer:SetText (string.format("%d",timeLeft))
-			auraIconFrame.lastUpdateCooldown = now
-			auraIconFrame:SetScript ("OnUpdate", auraIconFrame.UpdateCooldown)
-			auraIconFrame.Cooldown.Timer:Show()
+			auraIconFrame.Cooldown:SetHideCountdownNumbers(not Plater.db.profile.aura_timer)
+			if Plater.db.profile.aura_timer then
+				auraIconFrame.lastUpdateCooldown = now
+				auraIconFrame:SetScript ("OnUpdate", auraIconFrame.UpdateCooldown)
+				auraIconFrame.Cooldown.Timer:Show()
 			
-				
-			--local pandemicColor = C_UnitAuras.GetAuraDurationRemainingColor(auraIconFrame.unitFrame.namePlateUnitToken, i , pandemicColorCurve)
-			local pandemicColor = durationObject:EvaluateRemainingPercent(pandemicColorCurve)
-			auraIconFrame.Cooldown.Timer:SetTextColor(pandemicColor:GetRGBA())
+				if Plater.db.profile.aura_timer_pandemic_color then
+					local pandemicColor = durationObject:EvaluateRemainingPercent(pandemicColorCurve)
+					auraIconFrame.Cooldown.Timer:SetTextColor(pandemicColor:GetRGBA())
+				else
+					local c = Plater.db.profile.aura_timer_text_color
+					auraIconFrame.Cooldown.Timer:SetTextColor(unpack(c))
+				end
+			else
+				auraIconFrame:SetScript ("OnUpdate", nil)
+				auraIconFrame.Cooldown.Timer:Hide()
+			end
 
 			return
 		else
@@ -2508,7 +2530,7 @@ end
 					--print(issecretvalue(C_UnitAuras.AuraIsBigDefensive(spellId)), C_UnitAuras.AuraIsBigDefensive(spellId), issecretvalue(C_UnitAuras.IsAuraFilteredOutByInstanceID(unit, aura.auraInstanceID, "CROWDCONTROL")), C_UnitAuras.IsAuraFilteredOutByInstanceID(unit, aura.auraInstanceID, "CROWDCONTROL"))
 					
 					-- TODO: MIDNIGHT!!
-					--if C_UnitAuras.IsAuraFilteredOutByInstanceID(unit, aura.auraInstanceID, "CROWDCONTROL") then
+					--if not C_UnitAuras.IsAuraFilteredOutByInstanceID(unit, aura.auraInstanceID, "HARMFUL|CROWDCONTROL") then
 					--	Plater.AddExtraIcon (self, name, icon, applications, dispelName, duration, expirationTime, sourceUnit, isStealable, nameplateShowPersonal, spellId, false, "HARMFUL", id, timeMod)
 					--	can_show_this_debuff = false
 					--else
@@ -2641,6 +2663,7 @@ end
 				elseif IS_WOW_PROJECT_MIDNIGHT then
 					--if DB_AURA_SHOW_IMPORTANT and not C_UnitAuras.IsAuraFilteredOutByInstanceID(unit, aura.auraInstanceID, "HELPFUL|INCLUDE_NAME_PLATE_ONLY") and not C_UnitAuras.IsAuraFilteredOutByInstanceID(unit, aura.auraInstanceID, "HELPFUL|PLAYER") then
 					--C_UnitAuras.AuraIsBigDefensive(spellId)
+					--EXTERNAL_DEFENSIVE BIG_DEFENSIVE 
 					--Plater.AddExtraIcon (self, name, icon, applications, dispelName, duration, expirationTime, sourceUnit, isStealable, nameplateShowPersonal, spellId, true, "HELPFUL", id, timeMod)
 					
 					if DB_AURA_SHOW_IMPORTANT and not C_UnitAuras.IsAuraFilteredOutByInstanceID(unit, aura.auraInstanceID, "HELPFUL|INCLUDE_NAME_PLATE_ONLY") then

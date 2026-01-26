@@ -6,16 +6,25 @@ if not L then return end
 ------------------------------------ COMMON -----------------------------------
 -------------------------------------------------------------------------------
 
+L['options_icons_delve_rewards'] = '地下堡奖励'
+L['options_icons_delve_rewards_desc'] = '在提示中显示 {location:地下堡} 的奖励。'
+
+L['options_icons_stormarion_assault'] = '斯托玛兰突袭战'
+L['options_icons_stormarion_assault_desc'] = '在提示中显示 {location:斯托玛兰突袭战} 的奖励。'
+
+L['options_icons_abundance_rewards'] = '丰饶'
+L['options_icons_abundance_rewards_desc'] = '在提示中显示 {location:丰饶} 的奖励。'
+
 L['skyriding_glyph'] = '驭空术魔符'
 L['options_icons_skyriding_glyph'] = '驭空术魔符'
 L['options_icons_skyriding_glyph_desc'] = '显示全部驭空术魔符的位置。'
 
-L['midnight_telescope'] = `望远镜`
+L['midnight_telescope'] = '望远镜'
 L['options_icons_telescope'] = '{achievement:62057}'
-L['options_icons_telescope_desc'] = `显示 {achievement:62057} 成就中全部10个望远镜的位置。`
+L['options_icons_telescope_desc'] = '显示 {achievement:62057} 成就中全部10个望远镜的位置。'
 
 L['options_icons_midnight_lore_hunter'] = '{achievement:62104}'
-L['options_icons_midnight_lore_hunter_desc'] = `显示 {achievement:62104} 成就中剧情猎人的位置。`
+L['options_icons_midnight_lore_hunter_desc'] = '显示 {achievement:62104} 成就中剧情猎人的位置。'
 
 L['options_icons_profession_treasures'] = '专业宝藏'
 L['options_icons_profession_treasures_desc'] = '显示给予专业知识的宝藏位置。'
@@ -28,13 +37,13 @@ L['options_icons_safari_desc'] = '显示 {achievement:61091} 成就中战斗宠�
 -------------------------------------------------------------------------------
 
 L['options_icons_ever_painting'] = '{achievement:62185}'
-L['options_icons_ever_painting_desc'] = `显示 {achievement:62185} 成就中画作的位置。`
+L['options_icons_ever_painting_desc'] = '显示 {achievement:62185} 成就中画作的位置。'
 L['options_icons_runestone_rush'] = '{achievement:61961}'
-L['options_icons_runestone_rush_desc'] = `显示 {achievement:61961} 成就中符文石的位置。`
+L['options_icons_runestone_rush_desc'] = '显示 {achievement:61961} 成就中符文石的位置。'
 
 L['eversong_woods_stone_vat_of_wine_note'] = '需要从 {npc:251405} 处获得10个 {item:256232} 和1个 {item:256397}。\n\n踩葡萄然后加入酵母。'
 L['on_flying_platform'] = '在飞行平台上'
-L['gift_of_the_phoenix_note'] = '从凤凰身上收集5个余烬，这些凤凰在使用凤凰之赐后出现。' 
+L['gift_of_the_phoenix_note'] = '从凤凰身上收集5个余烬，这些凤凰在使用凤凰之赐后出现。'
 L['triple_locked_safebox_note'] = '需要3个隐藏的保险箱钥匙。从箱子旁边的紫色火把处获取它们。'
 L['incomplete_book_of_sonnets'] = '未完成十四行诗集'
 

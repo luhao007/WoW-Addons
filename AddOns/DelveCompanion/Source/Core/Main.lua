@@ -119,19 +119,6 @@ function DelveCompanion:UpdateDelvesData(expansionLevel)
     -- Logger.Log("Finished updating Delves data")
 end
 
---- Check whether information about `Gilded Stash` can be retrieved.
----@param self DelveCompanion
----@return boolean
-function DelveCompanion:CanRetrieveDelveWidgetIDInfo()
-    local currentMap = C_Map.GetBestMapForUnit("player")
-    if not (currentMap and MapUtil.IsMapTypeZone(currentMap)) then
-        return false
-    end
-
-    local continent = DelveCompanion:GetContinentMapIDForMap(currentMap)
-    return continent ~= nil and continent == self.Config.KHAZ_ALGAR_MAP_ID
-end
-
 --- Cache number of consumables (Keys, Shards, etc.) player has collected.
 ---@param self DelveCompanion
 function DelveCompanion:CacheCollectedConsumables()
@@ -158,6 +145,19 @@ function DelveCompanion:CacheCollectedConsumables()
 
         self.Variables.shardsCollected = shardsCollected * DelveCompanion.Config.KEY_SHARDS_PER_CACHE
     end
+end
+
+--- Check whether information about `Gilded Stash` can be retrieved.
+---@param self DelveCompanion
+---@return boolean
+function DelveCompanion:CanRetrieveDelveWidgetIDInfo(expansion)
+    local currentMap = C_Map.GetBestMapForUnit("player")
+    if not (currentMap and MapUtil.IsMapTypeZone(currentMap)) then
+        return false
+    end
+
+    local continent = DelveCompanion:GetContinentMapIDForMap(currentMap)
+    return continent ~= nil and continent == self.Config.DELVE_CONTINENTS[expansion]
 end
 
 --- Try to retrieve `uiMapID` of the parent map with `Enum.UIMapType.Continent` for the given [uiMapID](https://warcraft.wiki.gg/wiki/UiMapID).

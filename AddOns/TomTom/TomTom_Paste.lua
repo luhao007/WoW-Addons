@@ -130,9 +130,44 @@ local function getMinimapPasteButton()
                 local window = initPasteWindow()
                 window:SetShown(not window:IsShown())
             end,
+            showInCompartment = false,
         })
 
         ldbicon:Register(iconName, ldb_feed, addon.db.profile.paste)
+    end
+end
+
+addon.compartmentButtonObject = {
+    text = L["TomTom Paste"],
+    icon = "interface/icons/inv_misc_note_03",
+    notCheckable = true,
+    func = function(button, menuInputData, menu)
+        local window = initPasteWindow()
+        window:SetShown(not window:IsShown())
+    end,
+    funcOnEnter = function(button)
+        MenuUtil.ShowTooltip(button, function(tooltip)
+            tooltip:SetText(L["Open the TomTom Paste window"])
+        end)
+    end,
+    funcOnLeave = function(button)
+        MenuUtil.HideTooltip(button)
+    end,
+}
+
+local function updateCompartmentButton(show)
+    if not AddonCompartmentFrame then return end
+
+    if show then
+        AddonCompartmentFrame:RegisterAddon(addon.compartmentButtonObject)
+    else
+        for idx, obj in ipairs(AddonCompartmentFrame.registeredAddons) do
+            if obj == addon.compartmentButtonObject then
+                table.remove(AddonCompartmentFrame.registeredAddons, idx)
+                AddonCompartmentFrame:UpdateDisplay()
+                return
+            end
+		end
     end
 end
 
@@ -148,6 +183,9 @@ function addon:PasteConfigChanged()
         getMinimapPasteButton()
         ldbicon:Hide(iconName)
     end
+
+    local showCompartment = addon.profile.paste.addon_compartment_button
+    updateCompartmentButton(showCompartment)
 end
 
 --[[--------------------------------------------------------------------------

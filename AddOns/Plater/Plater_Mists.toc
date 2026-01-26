@@ -1,5 +1,5 @@
 ## Interface: 120000
-## Version: Plater-v625-Mists
+## Version: Plater-v626-Mists
 
 ## Title: Plater
 ## Notes: Nameplate addon designed for advanced users.

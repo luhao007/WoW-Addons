@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1703, "DBM-Raids-Legion", 5, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250209043815")
+mod:SetRevision("20251113225443")
 mod:SetCreatureID(102672)
 mod:SetEncounterID(1853)
 mod:SetUsedIcons(4, 3, 2, 1)
@@ -159,7 +159,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnVolatileRot:Show()
 			specWarnVolatileRot:Play("runout")
-			local _, _, _, _, duration, expires = DBM:UnitDebuff("player", args.spellName)
+			local _, _, _, _, _, expires = DBM:UnitDebuff("player", args.spellName)
 			if expires then
 				local remaining = expires-GetTime()
 				yellVolatileRot:Schedule(remaining-1, 1)
@@ -185,7 +185,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnRot:Show()
 			specWarnRot:Play("runout")
-			local _, _, _, _, duration, expires = DBM:UnitDebuff("player", args.spellName)
+			local _, _, _, _, _, expires = DBM:UnitDebuff("player", args.spellName)
 			if expires then
 				local remaining = expires-GetTime()
 				yellRot:Schedule(remaining-1, 1)

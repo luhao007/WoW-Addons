@@ -1,6 +1,6 @@
 ## Interface: 120000
 ## Author: mitch0
-## Version: v6.2.6
+## Version: v6.2.7
 
 ## Title: RangeDisplay Options
 ## Notes: Configuration options for RangeDisplay

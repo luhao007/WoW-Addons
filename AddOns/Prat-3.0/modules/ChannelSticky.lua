@@ -425,9 +425,10 @@ Prat:AddModuleToLoad(function()
 	function module:RegisterSmartGroup(on)
 		if not self.smart_group and on then
 			Prat.RegisterChatEvent(self, Prat.Events.OUTBOUND)
-			self:SecureHook("ChatEdit_SendText")
 			if _G.ChatFrame1EditBox and _G.ChatFrame1EditBox.SendText then
 				self:SecureHook(_G.ChatFrame1EditBox, "SendText", "ChatEdit_SendText")
+			else
+				self:SecureHook("ChatEdit_SendText")
 			end
 
 			self.smart_group = true

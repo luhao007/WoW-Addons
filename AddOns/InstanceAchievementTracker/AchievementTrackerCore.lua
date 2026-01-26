@@ -1215,6 +1215,10 @@ function events:GROUP_ROSTER_UPDATE()
 end
 
 function events:CHAT_MSG_SYSTEM(self, message)
+	if core.gameVersionMajor >= 12 then
+		return
+	end
+
 	local chatStrs = {"joins the party", "joined the instance group", "joined the raid group", "joined a raid group", "leaves the party", "left the instance group", "leaves the party", "left the raid group"}
 	for i = 1, #chatStrs do
 		if string.match(message, chatStrs[i]) then
@@ -1295,6 +1299,8 @@ function events:ENCOUNTER_START(self, encounterID, encounterName, difficultyID, 
 	end
 
 	encounterTimer = C_Timer.NewTicker(1, function()
+		--core:detectBlizzardTrackingAutomatically()
+
 		--Boss Detection!
 		if core.foundBoss == true then
 			--Start tracking the particular boss if the user has not disabled tracking for that boss
@@ -1455,7 +1461,8 @@ function events:UPDATE_MOUSEOVER_UNIT()
 					else
 						while EJ_GetCreatureInfo(counter, core.Instances[core.expansion][core.instanceType][core.instance][boss].name) ~= nil do
 							local _, name, _, _, _ = EJ_GetCreatureInfo(counter, core.Instances[core.expansion][core.instanceType][core.instance][boss].name)
-							if currentMouseoverTarget == name and core:has_value(encounterCache, core.Instances[core.expansion][core.instanceType][core.instance][boss].name) == false then
+
+							if (core.gameVersionMajor >= 12 and issecretvalue(currentMouseoverTarget) == false) and (currentMouseoverTarget == name and core:has_value(encounterCache, core.Instances[core.expansion][core.instanceType][core.instance][boss].name) == false) then
 								bossFound = true
 								local players = L["GUI_PlayersWhoNeedAchievement"] .. ": "
 								for i = 1, #core.Instances[core.expansion][core.instanceType][core.instance][boss].players do
@@ -1467,8 +1474,6 @@ function events:UPDATE_MOUSEOVER_UNIT()
 							counter = counter + 1
 						end
 					end
-
-
 				end
 			end
 			if bossFound == false then
@@ -3794,8 +3799,15 @@ end
 
 --Check whether a table contains a certain value
 function core:has_value(tab, val)
+	-- In midnight onwards check if the value we recieve is not a secret
+	if core:issecret(val) then
+		return false
+	end
+
     for index, value in ipairs(tab) do
-        if value == val then
+		if core:issecret(value) then
+			return false
+		elseif value == val then
             return true
         end
     end
@@ -3804,8 +3816,15 @@ function core:has_value(tab, val)
 end
 
 function core:has_value2(tab, val)
+	-- In midnight onwards check if the value we recieve is notw a secret
+	if core:issecret(val) then
+		return false
+	end
+
     for index, value in pairs(tab) do
-        if value == val then
+		if core:issecret(value) then
+			return false
+		elseif value == val then
             return true
         end
     end
@@ -3856,7 +3875,6 @@ end
 
 --Automatically detect blizzard tracking for new instances and ask user to report.
 function core:detectBlizzardTrackingAutomatically()
-	--score:sendDebugMessage(tostring(core:getBlizzardTrackingStatus(core.achievementIDs[1])))
 	if automaticBlizzardTrackingInitialCheck == false then
 		automaticBlizzardTracking = core:getBlizzardTrackingStatus(core.achievementIDs[1])
 		core:sendDebugMessage("Automatic Blizzard Tracking set to: " .. tostring(automaticBlizzardTracking))
@@ -4104,4 +4122,22 @@ function core:hasDebuff(player,spellId)
 		end
 	end
 	return found
+end
+
+function core:issecret(val)
+	-- Secret values only exist in game version 12 and above
+	if core.gameVersionMajor < 12 then
+		return false
+	end
+
+	-- Check if val is a secret value
+	return issecretvalue(val)
+end
+
+function core:checkRestrictions()
+	if core.gameVersionMajor >= 12 then
+		return true
+	else
+		return false
+	end
 end

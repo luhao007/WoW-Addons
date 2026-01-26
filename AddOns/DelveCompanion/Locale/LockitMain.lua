@@ -50,7 +50,8 @@ Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_CLEAR_MPE = "Please use MapPinEnhanced T
 
 -- Delves UI
 
-Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA = "Visit Khaz Algar zones to see the progress"
+Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_TWW = "Visit Khaz Algar zones to see the progress"
+Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_MIDNIGHT = "Visit Quel'Thalas zones to see the progress"
 Lockit.UI_GILDED_STASH_BOUNTIFUL_NOTE = "Appears only in |cnNORMAL_FONT_COLOR:Tier 11|r Bountiful Delves|A:delves-bountiful:16:16|a."
 Lockit.UI_NO_ACTIVE_BOUNTIFUL = "No active delves"
 Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION = "<Click to display Delves' Loot info>"

@@ -1,5 +1,5 @@
 ## Interface: 120000
-## Version: 2.13.1
+## Version: 2.13.2
 
 ## Title: Pawn
 ## Notes: Pawn helps you compare items and find upgrades.

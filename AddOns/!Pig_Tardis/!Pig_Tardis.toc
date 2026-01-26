@@ -1,6 +1,6 @@
 ## Interface: 120000
 ## Author: geligasi
-## Version: 1.82
+## Version: 1.83
 
 ## Title: !Pig_Tardis
 ## Notes: Invite enhancement

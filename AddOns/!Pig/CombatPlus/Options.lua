@@ -20,4 +20,5 @@ addonTable.CombatPlus = function()
 	CombatPlusfun.HPMPBar()
 	CombatPlusfun.AttackBar()
 	CombatPlusfun.BabySitter()
+	CombatPlusfun.FastFocus()
 end

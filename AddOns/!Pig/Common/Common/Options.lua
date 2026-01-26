@@ -15,7 +15,6 @@ local PIGFontString=Create.PIGFontString
 local PIGModCheckbutton=Create.PIGModCheckbutton
 --
 local Data=addonTable.Data
-local AudioData=addonTable.AudioList.Data
 local CommonInfo=addonTable.CommonInfo
 CommonInfo.Commonfun={}
 ----常用
@@ -219,19 +218,28 @@ function fujiF.xingnengF.CombatLog.Opentj:PIGDownMenu_SetValue(value,arg1,arg2)
 	CombatLogF:ExecuteOpen(true)
 end
 fujiF.xingnengF.CombatLog.tips = PIGFontString(fujiF.xingnengF.CombatLog,{"TOPLEFT",fujiF.xingnengF.CombatLog,"BOTTOMLEFT",20,-6},COMBATLOGENABLED);
---
+
 --其他
 fujiF.OtherF=PIGFrame(fujiF,{"BOTTOMLEFT", fujiF.xingnengF, "TOPLEFT", 0, -1})
 fujiF.OtherF:SetPoint("BOTTOMRIGHT", fujiF.xingnengF, "TOPRIGHT", 0, -1);
-fujiF.OtherF:SetHeight(120)
+fujiF.OtherF:SetHeight(150)
 fujiF.OtherF:PIGSetBackdrop(0,0.6)
 
-fujiF.OtherF.ErrorsHide = PIGCheckbutton_R(fujiF.OtherF,{"隐藏红字错误提示","隐藏屏幕中间红字错误提示（不隐藏黄字提示）"})
+fujiF.OtherF.ErrorsHide = PIGCheckbutton_R(fujiF.OtherF,{IGNORE..RED_GEM..ERRORS..INFO})
 fujiF.OtherF.ErrorsHide:SetScript("OnClick", function (self)
     if self:GetChecked() then
         PIGA["Other"]["ErrorsHide"]=true;
     else
         PIGA["Other"]["ErrorsHide"]=false;
+    end
+    CommonInfo.Commonfun.ErrorsHide()
+end)
+fujiF.OtherF.ErrorsHide_Y = PIGCheckbutton_R(fujiF.OtherF,{IGNORE..YELLOW_GEM..ERRORS..INFO})
+fujiF.OtherF.ErrorsHide_Y:SetScript("OnClick", function (self)
+    if self:GetChecked() then
+        PIGA["Other"]["ErrorsHide_Y"]=true;
+    else
+        PIGA["Other"]["ErrorsHide_Y"]=false;
     end
     CommonInfo.Commonfun.ErrorsHide()
 end)
@@ -241,8 +249,13 @@ function CommonInfo.Commonfun.ErrorsHide()
 	else
 		UIErrorsFrame:RegisterEvent("UI_ERROR_MESSAGE")
 	end
+	if PIGA["Other"]["ErrorsHide_Y"] then
+        UIErrorsFrame:UnregisterEvent("UI_INFO_MESSAGE")
+	else
+		UIErrorsFrame:RegisterEvent("UI_INFO_MESSAGE")
+	end
 end
-fujiF.OtherF.PigLoad = PIGCheckbutton_R(fujiF.OtherF,{"隐藏"..addonName.."载入提示","隐藏"..addonName.."插件载入提示"})
+fujiF.OtherF.PigLoad = PIGCheckbutton_R(fujiF.OtherF,{IGNORE..addonName..LOAD_ADDON..L["LIB_TIPS"],IGNORE..addonName.."插件的载入提示"})
 fujiF.OtherF.PigLoad:SetScript("OnClick", function (self)
     if self:GetChecked() then
         PIGA["Other"]["PigLoad"]=true;
@@ -250,10 +263,15 @@ fujiF.OtherF.PigLoad:SetScript("OnClick", function (self)
         PIGA["Other"]["PigLoad"]=false;
     end
 end)
+---
+fujiF.TopF=PIGFrame(fujiF,{"TOPLEFT", fujiF, "TOPLEFT", 0, 0})
+fujiF.TopF:SetPoint("BOTTOMRIGHT", fujiF.OtherF, "TOPRIGHT", 0, -1);
+fujiF.TopF:SetHeight(120)
+fujiF.TopF:PIGSetBackdrop(0,0.6)
 --AFK
 local QuickButUI=_G[Data.QuickButUIname]
-fujiF.OtherF.AFK = PIGModCheckbutton(fujiF.OtherF,{"离开屏保","启用离开屏保后,离开自动进入屏保功能"},{"TOPLEFT",fujiF.OtherF.ErrorsHide,"BOTTOMLEFT",0,-20})
-fujiF.OtherF.AFK:SetScript("OnClick", function (self)
+fujiF.TopF.AFK = PIGModCheckbutton(fujiF.TopF,{"离开屏保","启用离开屏保后,离开自动进入屏保功能"},{"TOPLEFT",fujiF.TopF,"TOPLEFT",20,-20})
+fujiF.TopF.AFK:SetScript("OnClick", function (self)
     if self:GetChecked() then
         PIGA["Other"]["AFK"]["Open"]=true;
         CommonInfo.Commonfun.Pig_AFK()
@@ -263,8 +281,8 @@ fujiF.OtherF.AFK:SetScript("OnClick", function (self)
         PIG_OptionsUI.RLUI:Show()
     end
 end)
-fujiF.OtherF.AFK.QKBut:SetPoint("LEFT",fujiF.OtherF.AFK.Text,"RIGHT",20,0);
-fujiF.OtherF.AFK.QKBut:SetScript("OnClick", function (self)
+fujiF.TopF.AFK.QKBut:SetPoint("LEFT",fujiF.TopF.AFK.Text,"RIGHT",20,0);
+fujiF.TopF.AFK.QKBut:SetScript("OnClick", function (self)
     if self:GetChecked() then
         PIGA["Other"]["AFK"]["QuickBut"]=true
         QuickButUI.ButList[19]()
@@ -287,118 +305,33 @@ function CommonInfo.Commonfun.GetAFKTispTXT(lytxt)
 	end
 	return PIGA["Other"]["AFK"]["TispTXT"] or TispTXT
 end
-fujiF.OtherF.AFK.TispTXTt = PIGFontString(fujiF.OtherF.AFK,{"TOPLEFT", fujiF.OtherF.AFK, "BOTTOMLEFT", 20,-10},"屏保提示:");
-fujiF.OtherF.AFK.TispTXT = CreateFrame("EditBox", nil, fujiF.OtherF.AFK,"InputBoxInstructionsTemplate");
-fujiF.OtherF.AFK.TispTXT:SetSize(300,26);
-fujiF.OtherF.AFK.TispTXT:SetPoint("LEFT",fujiF.OtherF.AFK.TispTXTt,"RIGHT",6,0);
-fujiF.OtherF.AFK.TispTXT:SetFontObject(ChatFontNormal);
-fujiF.OtherF.AFK.TispTXT:SetMaxLetters(20)
-fujiF.OtherF.AFK.TispTXT:SetAutoFocus(false);
-fujiF.OtherF.AFK.TispTXT:SetTextColor(0.7, 0.7, 0.7, 1);
-fujiF.OtherF.AFK.TispTXT:SetScript("OnEditFocusGained", function(self) 
+fujiF.TopF.AFK.TispTXTt = PIGFontString(fujiF.TopF.AFK,{"TOPLEFT", fujiF.TopF.AFK, "BOTTOMLEFT", 20,-10},"屏保提示:");
+fujiF.TopF.AFK.TispTXT = CreateFrame("EditBox", nil, fujiF.TopF.AFK,"InputBoxInstructionsTemplate");
+fujiF.TopF.AFK.TispTXT:SetSize(300,26);
+fujiF.TopF.AFK.TispTXT:SetPoint("LEFT",fujiF.TopF.AFK.TispTXTt,"RIGHT",6,0);
+fujiF.TopF.AFK.TispTXT:SetFontObject(ChatFontNormal);
+fujiF.TopF.AFK.TispTXT:SetMaxLetters(20)
+fujiF.TopF.AFK.TispTXT:SetAutoFocus(false);
+fujiF.TopF.AFK.TispTXT:SetTextColor(0.7, 0.7, 0.7, 1);
+fujiF.TopF.AFK.TispTXT:SetScript("OnEditFocusGained", function(self) 
     self:SetTextColor(1, 1, 1, 1);
 end);
-fujiF.OtherF.AFK.TispTXT:SetScript("OnEditFocusLost", function(self)
+fujiF.TopF.AFK.TispTXT:SetScript("OnEditFocusLost", function(self)
     self:SetTextColor(0.7, 0.7, 0.7, 1);
     self:SetText(CommonInfo.Commonfun.GetAFKTispTXT())
 end);
-fujiF.OtherF.AFK.TispTXT:SetScript("OnEscapePressed", function(self) 
+fujiF.TopF.AFK.TispTXT:SetScript("OnEscapePressed", function(self) 
     self:ClearFocus()
 end);
-fujiF.OtherF.AFK.TispTXT:SetScript("OnEnterPressed", function(self)
+fujiF.TopF.AFK.TispTXT:SetScript("OnEnterPressed", function(self)
     CommonInfo.Commonfun.GetAFKTispTXT(self:GetText())
     self:ClearFocus()
 end);
-fujiF.OtherF.AFK.TispTXT.CZ=PIGButton(fujiF.OtherF.AFK.TispTXT,{"LEFT", fujiF.OtherF.AFK.TispTXT, "RIGHT", 6, 0},{70,20},"恢复默认")
-fujiF.OtherF.AFK.TispTXT.CZ:SetScript("OnClick", function (self)
+fujiF.TopF.AFK.TispTXT.CZ=PIGButton(fujiF.TopF.AFK.TispTXT,{"LEFT", fujiF.TopF.AFK.TispTXT, "RIGHT", 6, 0},{70,20},"恢复默认")
+fujiF.TopF.AFK.TispTXT.CZ:SetScript("OnClick", function (self)
 	PIGA["Other"]["AFK"]["TispTXT"]=nil
-	fujiF.OtherF.AFK.TispTXT:SetText(CommonInfo.Commonfun.GetAFKTispTXT())
+	fujiF.TopF.AFK.TispTXT:SetText(CommonInfo.Commonfun.GetAFKTispTXT())
 end);
----
-fujiF.TopF=PIGFrame(fujiF,{"TOPLEFT", fujiF, "TOPLEFT", 0, 0})
-fujiF.TopF:SetPoint("BOTTOMRIGHT", fujiF.OtherF, "TOPRIGHT", 0, -1);
-fujiF.TopF:SetHeight(120)
-fujiF.TopF:PIGSetBackdrop(0,0.6)
----任务提示音
-fujiF.TopF.QuestsEnd =PIGCheckbutton_R(fujiF.TopF,{"任务完成提示音","任务完成提示音"},true)
-fujiF.TopF.QuestsEnd:SetScript("OnClick", function (self)
-	if self:GetChecked() then
-		PIGA["Common"]["QuestsEnd"]=true;	
-	else
-		PIGA["Common"]["QuestsEnd"]=false;
-	end
-	CommonInfo.Commonfun.QuestsEnd()
-end);
-fujiF.TopF.QuestsEnd.xiala=PIGDownMenu(fujiF.TopF.QuestsEnd,{"LEFT",fujiF.TopF.QuestsEnd.Text, "RIGHT", 4,0},{180,24})
-function fujiF.TopF.QuestsEnd.xiala:PIGDownMenu_Update_But()
-	local info = {}
-	info.func = self.PIGDownMenu_SetValue
-	for i=1,#AudioData.QuestEnd,1 do
-	    info.text, info.arg1 = AudioData.QuestEnd[i][1], i
-	    info.checked = i==PIGA["Common"]["QuestsEndAudio"]
-		self:PIGDownMenu_AddButton(info)
-	end 
-end
-function fujiF.TopF.QuestsEnd.xiala:PIGDownMenu_SetValue(value,arg1)
-	self:PIGDownMenu_SetText(value)
-	PIGA["Common"]["QuestsEndAudio"]=arg1
-	PIGCloseDropDownMenus()
-end
-fujiF.TopF.QuestsEnd.PlayBut =PIGDiyBut(fujiF.TopF.QuestsEnd,{"LEFT",fujiF.TopF.QuestsEnd.xiala,"RIGHT",8,0},{24,24,nil,nil,"chatframe-button-icon-speaker-on",130757});
-fujiF.TopF.QuestsEnd.PlayBut:SetScript("OnClick", function()
-	PIG_PlaySoundFile(AudioData.QuestEnd[PIGA["Common"]["QuestsEndAudio"]])
-end)
-----
-if PIG_MaxTocversion(20000,true) then
-	fujiF.TopF.SetFocus = PIGCheckbutton_R(fujiF.TopF,{"快速设置焦点","按后方设置的快捷键后点击头像快速设置焦点"},true)
-	fujiF.TopF.SetFocus:SetScript("OnClick", function (self)
-		if self:GetChecked() then
-			PIGA["Common"]["SetFocus"]=true;
-			CommonInfo.Commonfun.SetFocus()
-		else
-			PIGA["Common"]["SetFocus"]=false;
-			PIG_OptionsUI.RLUI:Show()
-		end
-	end);
-	fujiF.TopF.SetFocus.xiala=PIGDownMenu(fujiF.TopF.SetFocus,{"LEFT",fujiF.TopF.SetFocus.Text, "RIGHT", 4,0},{150,24})
-	function fujiF.TopF.SetFocus.xiala:PIGDownMenu_Update_But()
-		local info = {}
-		info.func = self.PIGDownMenu_SetValue
-		local SetKeyList = CommonInfo.SetKeyList
-		for i=1,#SetKeyList,1 do
-		    info.text, info.arg1, info.arg2 = SetKeyList[i][1], SetKeyList[i][2]
-		    info.checked = SetKeyList[i][2]==PIGA["Common"]["SetFocusKEY"]
-			self:PIGDownMenu_AddButton(info)
-		end 
-	end
-	function fujiF.TopF.SetFocus.xiala:PIGDownMenu_SetValue(value,arg1)
-		if InCombatLockdown() then PIG_print("战斗中无法更改按键") return end
-		self:PIGDownMenu_SetText(value)
-		PIGA["Common"]["SetFocusKEY"]=arg1
-		CommonInfo.Commonfun.SetFocus()
-		CommonInfo.Commonfun.ClearFocus()
-		PIGCloseDropDownMenus()
-	end
-	fujiF.TopF.SetFocus.Mouse =PIGCheckbutton(fujiF.TopF.SetFocus,{"LEFT",fujiF.TopF.SetFocus.xiala,"RIGHT",10,0},{"包含角色模型","在角色模型上点击设置的快捷键也可设为焦点"})
-	fujiF.TopF.SetFocus.Mouse:SetScript("OnClick", function (self)
-		if self:GetChecked() then
-			PIGA["Common"]["SetFocusMouse"]=true;
-		else
-			PIGA["Common"]["SetFocusMouse"]=false;
-		end
-		CommonInfo.Commonfun.SetFocus()
-	end);
-	fujiF.TopF.ClearFocus =PIGCheckbutton_R(fujiF.TopF,{"快速清除焦点","在焦点头像点击已设置焦点快捷键可快速清除焦点"},true)
-	fujiF.TopF.ClearFocus:SetScript("OnClick", function (self)
-		if self:GetChecked() then
-			PIGA["Common"]["ClearFocus"]=true;
-		else
-			PIGA["Common"]["ClearFocus"]=false;
-			PIG_OptionsUI.RLUI:Show()
-		end
-		CommonInfo.Commonfun.ClearFocus()
-	end);
-end
 -------
 fujiF:HookScript("OnShow", function (self)
 	self.xitongF.Scale:SetChecked(GetCVarBool("useUIScale"));
@@ -413,17 +346,9 @@ fujiF:HookScript("OnShow", function (self)
 	end
 	CombatLogF:UpdateWCL_Checkbut()
 	self.OtherF.ErrorsHide:SetChecked(PIGA["Other"]["ErrorsHide"]);
+	self.OtherF.ErrorsHide_Y:SetChecked(PIGA["Other"]["ErrorsHide_Y"]);
     self.OtherF.PigLoad:SetChecked(PIGA["Other"]["PigLoad"]);
-    self.OtherF.AFK:SetChecked(PIGA["Other"]["AFK"]["Open"]);
-    self.OtherF.AFK.QKBut:SetChecked(PIGA["Other"]["AFK"]["QuickBut"]);
-    self.OtherF.AFK.TispTXT:SetText(CommonInfo.Commonfun.GetAFKTispTXT())
-	---
-	self.TopF.QuestsEnd:SetChecked(PIGA["Common"]["QuestsEnd"]);
-	self.TopF.QuestsEnd.xiala:PIGDownMenu_SetText(AudioData.QuestEnd[PIGA["Common"]["QuestsEndAudio"]][1])
-	if self.TopF.SetFocus then
-		self.TopF.SetFocus:SetChecked(PIGA["Common"]["SetFocus"]);
-		self.TopF.SetFocus.xiala:PIGDownMenu_SetText(CommonInfo.SetKeyListName[PIGA["Common"]["SetFocusKEY"]])
-		self.TopF.SetFocus.Mouse:SetChecked(PIGA["Common"]["SetFocusMouse"]);
-		self.TopF.ClearFocus:SetChecked(PIGA["Common"]["ClearFocus"]);
-	end	
+    self.TopF.AFK:SetChecked(PIGA["Other"]["AFK"]["Open"]);
+    self.TopF.AFK.QKBut:SetChecked(PIGA["Other"]["AFK"]["QuickBut"]);
+    self.TopF.AFK.TispTXT:SetText(CommonInfo.Commonfun.GetAFKTispTXT())
 end);

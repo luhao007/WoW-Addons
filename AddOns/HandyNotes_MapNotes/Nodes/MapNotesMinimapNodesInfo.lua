@@ -844,4 +844,30 @@ minimap[2423] = { } -- Sidestreet Sluice - Inside Dungeon Map
 minimap[2420] = { } -- Sidestreet Sluice - The Pits - Inside Dungeon Map
 minimap[2452] = { } -- Archival Assault - Inside Dungeon Map
 minimap[2484] = { } -- Voidscar Cavern - Inside Dungeon Map
+
+--###############################
+--########### Midnight ##########
+--###############################
+
+minimap[2537] = { } -- Quel'Thalas
+minimap[2395] = { } -- Eversong Woods
+minimap[2437] = { } -- Zul'Aman
+minimap[2424] = { } -- Isle of Quel'Danas
+minimap[2405] = { } -- Leerensturm
+minimap[2413] = { } -- Harandar
+minimap[2536] = { } -- Atal'Aman
+minimap[2393] = { } -- Silvermoon
+minimap[2444] = { } -- Schlächteranhöhe
+minimap[2576] = { } -- Rootlands
+-- Dungeon map nodes
+minimap[2515] = { } -- Terrasse der Magister
+minimap[2492] = { } -- Windläuferturm
+minimap[2501] = { } -- Maisarakavernen
+minimap[2564] = { } -- Nalorakks Bau
+minimap[2556] = { } -- Nexuspunkt Xenas
+minimap[2574] = { } -- Arena der Leerennarbe
+minimap[2500] = { } -- Das blendende Tal
+minimap[2531] = { } -- Der Traumriss
+minimap[2533] = { } -- Marsch auf Quel'Danas      
+minimap[2529] = { } -- Die Leerenspitze    
 end

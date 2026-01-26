@@ -116,6 +116,8 @@ local GeneralSettingsBase = {
 		["ExpansionFilter:SL"] = app.GameBuildVersion >= 90000,
 		["ExpansionFilter:DF"] = app.GameBuildVersion >= 100000,
 		["ExpansionFilter:TWW"] = app.GameBuildVersion >= 110000,
+		["ExpansionFilter:MID"] = app.GameBuildVersion >= 120000,
+		["ExpansionFilter:TLT"] = app.GameBuildVersion >= 130000,
 	},
 };
 local FilterSettingsBase = {
@@ -1226,9 +1228,8 @@ Mixin(settings, ATTSettingsPanelMixin);
 local OptionsPages, AddOnCategoryID, RootCategoryID = {}, appName, nil;
 local openToCategory = Settings and Settings.OpenToCategory or InterfaceOptionsFrame_OpenToCategory;
 settings.Open = function(self)
-	if not openToCategory(RootCategoryID or AddOnCategoryID) then
-		openToCategory(AddOnCategoryID);
-	end
+	if InCombatLockdown() then return end
+	openToCategory(RootCategoryID or AddOnCategoryID)
 end
 settings.CreateOptionsPage = function(self, text, parentCategory, isRootCategory)
 	---@class ATTOptionsPageForRetail: Frame

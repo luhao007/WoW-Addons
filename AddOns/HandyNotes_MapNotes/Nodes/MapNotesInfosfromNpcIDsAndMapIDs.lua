@@ -10,10 +10,6 @@ local function mapName(id)
     return name or ""
 end
 
------------------------------------- Housing Zones
-ns.Razorwind = mapName(2351) -- Horde
-ns.FoundersPoint = mapName(2352) -- Alliance
-
 ------------------------------------ Kalimdor Zones
 ns.Durotar = mapName(1)
 ns.Barrens = mapName(10)
@@ -44,6 +40,7 @@ ns.Westfall = mapName(52)
 ns.Stormwind = mapName(84)
 ns.Ironforge = mapName(87)
 ns.Undercity = mapName(90)
+ns.Ghostlands = mapName(95)
 ns.Silvermoon = mapName(110)
 ns.IsleOfQuelDanas = mapName(122)
 ns.Vashjir = mapName(203)
@@ -129,6 +126,14 @@ ns.Tazavesh = mapName(2472)
 ------------------------------------ Housing
 ns.RazorwindShores = mapName(2351)
 ns.FoundersPoint = mapName(2352)
+------------------------------------ Midnight
+ns.EversongWoodsMidnight = mapName(2395)
+ns.VoidTempest = mapName(2405)
+ns.SilvermoonMN = mapName(2393)
+ns.Harandar = mapName(2413)
+------------------------------------ delves
+ns.TheDarkway = mapName(2525)
+ns.CollegiateCalamity = mapName(2547)
 ------------------------------------ continents
 ns.Kalimdor = mapName(12)
 ns.EasternKingdom = mapName(13)
@@ -142,6 +147,7 @@ ns.Zandalar = mapName(875)
 ns.Shadowlands = mapName(1550)
 ns.DragonIsles = mapName(1978)
 ns.KhazAlgar = mapName(2274)
+ns.QuelThalas = mapName(2537)
 
 ------------------------------------ Class Hall
 ns.ValSharah = mapName(641)

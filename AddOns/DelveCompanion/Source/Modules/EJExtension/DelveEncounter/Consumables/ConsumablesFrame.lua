@@ -23,7 +23,7 @@ function DelveCompanion_DelveEncounterConsumablesFrameMixin:UpdateConsumables()
         self.Keys.Icon:SetDesaturated(keysCount == 0)
     end
 
-    ---@type EJTierData
+    ---@type number
     local expansion = GetEJTierData(EJ_GetCurrentTier()).expansionLevel
 
     -- Coffer Key Shards

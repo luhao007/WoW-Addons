@@ -163,6 +163,7 @@ ns.icons = {
 ["LMOP"] = "interface/characterframe/temporaryportrait-female-PANDAREN",
 ["LWotlk"] = "interface/lfgframe/ui-lfr-portrait",
 ["TWW"] = "interface/characterframe/temporaryportrait-female-voidelf",
+["MN8"] = "interface/icons/inv12_haranir_character_creation_female.blp",
 --paths
 ["PathO"] = iconLink .. "PathO",
 ["PathRO"] = iconLink .. "PathRO",
@@ -352,6 +353,8 @@ ns.icons = {
 ["MechaGnomeF"] = "interface/characterframe/temporaryportrait-female-mechagnome",
 ["ZandalariTrollM"] = "interface/characterframe/temporaryportrait-male-zandalaritroll",
 ["ZandalariTrollF"] = "interface/characterframe/temporaryportrait-female-zandalaritroll",
+["HaranirM"] = "interface/icons/inv12_haranir_character_creation_male",
+["HaranirW"] = "interface/icons/inv12_haranir_character_creation_female",
 --classes
 ["Druid"] = "interface/icons/classicon_druid",
 ["Hunter"] = "interface/icons/classicon_hunter",
@@ -614,7 +617,8 @@ TextIconZandalar = TextIcon("interface/characterframe/temporaryportrait-female-Z
 TextIconKT = TextIcon("interface/characterframe/temporaryportrait-Male-KulTiran")
 TextIconSL = TextIcon("interface/icons/achievement_leader_sylvanas")
 TextIconDF = TextIcon("interface/characterframe/temporaryportrait-Male-Dracthyr")
-TextIconKA = TextIcon("interface/lfgframe/lfgicon-khazalgar")
+TextIconKA = TextIcon("interface/characterframe/temporaryportrait-female-voidelf")
+TextIconMN = TextIcon("interface/icons/inv12_haranir_character_creation_female")
 TextIconHousing = TextIcon(iconLink .. "Housing")
 --race portrait icons
 TextIconMOrcM = TextIcon("interface/characterframe/temporaryportrait-male-magharorc")
@@ -663,6 +667,8 @@ TextIconMechaGnomeM = TextIcon("interface/characterframe/temporaryportrait-male-
 TextIconMechaGnomeF = TextIcon("interface/characterframe/temporaryportrait-female-mechagnome")
 TextIconZandalariTrollM = TextIcon("interface/characterframe/temporaryportrait-male-zandalaritroll")
 TextIconZandalariTrollF = TextIcon("interface/characterframe/temporaryportrait-female-zandalaritroll")
+TextIconHaranirM = TextIcon("interface/icons/inv12_haranir_character_creation_male.blp")
+TextIconHaranirW = TextIcon("interface/icons/inv12_haranir_character_creation_female.blp")
 --classes
 TextIconClassDruid = TextIcon("interface/icons/classicon_druid")
 TextIconClassHunter = TextIcon("interface/icons/classicon_hunter")

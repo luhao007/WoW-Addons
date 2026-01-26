@@ -25,7 +25,8 @@ Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_CLEAR_MPE = "Please use MapPinEnhanced T
 
 -- Delves UI
 
-Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA = "在卡茲阿爾加地區時可獲取鍍金儲物箱進度"
+Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_TWW = "在卡茲阿爾加地區時可獲取鍍金儲物箱進度"
+Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_MIDNIGHT = "Visit Quel'Thalas zones to see the progress"
 Lockit.UI_GILDED_STASH_BOUNTIFUL_NOTE = "僅出現在 |cnNORMAL_FONT_COLOR:難度 11|r 豐碩探究|A:delves-bountiful:16:16|a。"
 Lockit.UI_NO_ACTIVE_BOUNTIFUL = "任意難度11豐碩探究可啟動進度"
 Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION = "<點擊來顯示探究的拾取資訊>"

@@ -16,9 +16,10 @@ OnTooltipShow = function(tooltip)
     end
     return
   end
-  local mapID = (WorldMapFrame and WorldMapFrame.GetMapID and WorldMapFrame:GetMapID()) or C_Map.GetBestMapForUnit("player")
-  local info = mapID and C_Map.GetMapInfo(mapID) or {}
+
   local PlayerMapID = C_Map.GetBestMapForUnit("player")
+  local mapID = PlayerMapID
+  local info = mapID and C_Map.GetMapInfo(mapID) or {}
 
   if not tooltip or not tooltip.AddLine then return end
     tooltip:AddLine(ns.COLORED_ADDON_NAME)
@@ -45,7 +46,8 @@ OnTooltipShow = function(tooltip)
     or PlayerMapID == 627 or PlayerMapID == 628 or PlayerMapID == 629 or PlayerMapID == 831 or PlayerMapID == 832
     or PlayerMapID == 1161 or PlayerMapID == 1163 or PlayerMapID == 1164 or PlayerMapID == 1165 or PlayerMapID == 1670 
     or PlayerMapID == 1671 or PlayerMapID == 1672 or PlayerMapID == 1673 or PlayerMapID == 2112 or PlayerMapID == 407 
-    or PlayerMapID == 2339 or PlayerMapID == 499 or PlayerMapID == 500)
+    or PlayerMapID == 2339 or PlayerMapID == 499 or PlayerMapID == 500
+    or PlayerMapID == 2393) -- midnight
   then
     --Kalimdor
     if (PlayerMapID == 1 or PlayerMapID == 7 or PlayerMapID == 10 or PlayerMapID == 11 or PlayerMapID == 57 or PlayerMapID == 62 
@@ -53,7 +55,7 @@ OnTooltipShow = function(tooltip)
       or PlayerMapID == 69 or PlayerMapID == 70 or PlayerMapID == 71 or PlayerMapID == 74 or PlayerMapID == 75 or PlayerMapID == 76 
       or PlayerMapID == 77 or PlayerMapID == 78 or PlayerMapID == 80 or PlayerMapID == 81 or PlayerMapID == 83 or PlayerMapID == 97 
       or PlayerMapID == 106 or PlayerMapID == 199 or PlayerMapID == 327 or PlayerMapID == 460 or PlayerMapID == 461 or PlayerMapID == 462 
-      or PlayerMapID == 468 or PlayerMapID == 1527 or PlayerMapID == 198 or PlayerMapID == 249)
+      or PlayerMapID == 463 or PlayerMapID == 468 or PlayerMapID == 1527 or PlayerMapID == 198 or PlayerMapID == 249)
     then
       tooltip:AddLine(HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. " => " .. "|cffff0000".. L["Kalimdor"] .. " " .. MINIMAP_LABEL .. "|cffffcc00" .. " " .. L["icons"] .. " " .. SHOW .. " / " .. HIDE,1,1,1)
       tooltip:Show()
@@ -125,10 +127,14 @@ OnTooltipShow = function(tooltip)
       tooltip:AddLine(HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. " => " .. "|cffff0000".. L["Dragon Isles"] .. " " .. MINIMAP_LABEL .. "|cffffcc00" .. " " .. L["icons"] .. " " .. SHOW .. " / " .. HIDE,1,1,1)
       tooltip:Show()
     --Khaz Algar
-    elseif (PlayerMapID == 2248 or PlayerMapID == 2214 or PlayerMapID == 2215 or PlayerMapID == 2255 or PlayerMapID == 2256 or PlayerMapID == 2213 
-      or PlayerMapID == 2216 or PlayerMapID == 2369 or PlayerMapID == 2322 or PlayerMapID == 2346 or PlayerMapID == 2371 or PlayerMapID == 2472)
+    elseif (PlayerMapID == 2248 or PlayerMapID == 2214 or PlayerMapID == 2215 or PlayerMapID == 2255 or PlayerMapID == 2256 or PlayerMapID == 2213 or PlayerMapID == 2216 or PlayerMapID == 2369 or PlayerMapID == 2322 or PlayerMapID == 2346 or PlayerMapID == 2371 or PlayerMapID == 2472)
     then
       tooltip:AddLine(HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. " => " .. "|cffff0000".. L["Khaz Algar"] .. " " .. MINIMAP_LABEL .. "|cffffcc00" .. " " .. L["icons"] .. " " .. SHOW .. " / " .. HIDE,1,1,1)
+      tooltip:Show()
+    --Quel'Thalas
+    elseif (PlayerMapID == 2395 or PlayerMapID == 2437 or PlayerMapID == 2424 or PlayerMapID == 2405 or PlayerMapID == 2444 or PlayerMapID == 2413 or PlayerMapID == 2536 or PlayerMapID == 2576)
+    then
+      tooltip:AddLine(HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. " => " .. "|cffff0000".. L["Quel'Thalas"] .. " " .. MINIMAP_LABEL .. "|cffffcc00" .. " " .. L["icons"] .. " " .. SHOW .. " / " .. HIDE,1,1,1)
       tooltip:Show()
     end
   end
@@ -147,7 +153,8 @@ OnTooltipShow = function(tooltip)
     or PlayerMapID == 627 or PlayerMapID == 628 or PlayerMapID == 629 or PlayerMapID == 831 or PlayerMapID == 832
     or PlayerMapID == 1161 or PlayerMapID == 1163 or PlayerMapID == 1164 or PlayerMapID == 1165 or PlayerMapID == 1670 
     or PlayerMapID == 1671 or PlayerMapID == 1672 or PlayerMapID == 1673 or PlayerMapID == 2112 or PlayerMapID == 407 
-    or PlayerMapID == 2339 or PlayerMapID == 499 or PlayerMapID == 500)
+    or PlayerMapID == 2339 or PlayerMapID == 499 or PlayerMapID == 500
+    or PlayerMapID == 2393) -- midnight
   then
     --Kalimdor
     if (PlayerMapID == 1 or PlayerMapID == 7 or PlayerMapID == 10 or PlayerMapID == 11 or PlayerMapID == 57 or PlayerMapID == 62 
@@ -155,7 +162,7 @@ OnTooltipShow = function(tooltip)
       or PlayerMapID == 69 or PlayerMapID == 70 or PlayerMapID == 71 or PlayerMapID == 74 or PlayerMapID == 75 or PlayerMapID == 76 
       or PlayerMapID == 77 or PlayerMapID == 78 or PlayerMapID == 80 or PlayerMapID == 81 or PlayerMapID == 83 or PlayerMapID == 97 
       or PlayerMapID == 106 or PlayerMapID == 199 or PlayerMapID == 327 or PlayerMapID == 460 or PlayerMapID == 461 or PlayerMapID == 462 
-      or PlayerMapID == 468 or PlayerMapID == 1527 or PlayerMapID == 198 or PlayerMapID == 249)
+      or PlayerMapID == 463 or PlayerMapID == 468 or PlayerMapID == 1527 or PlayerMapID == 198 or PlayerMapID == 249)
     then
       tooltip:AddLine(HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. " => " .. "|cffff0000".. L["Kalimdor"] .. " " .. L["Zones"] .. " & " .. MINIMAP_LABEL .. "|cffffcc00" .. " " .. L["icons"] .. " " .. SHOW .. " / " .. HIDE,1,1,1)
       tooltip:Show()
@@ -227,10 +234,14 @@ OnTooltipShow = function(tooltip)
       tooltip:AddLine(HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. " => " .. "|cffff0000".. L["Dragon Isles"] .. " " .. L["Zones"] .. " & " .. MINIMAP_LABEL .. "|cffffcc00" .. " " .. L["icons"] .. " " .. SHOW .. " / " .. HIDE,1,1,1)
       tooltip:Show()
     --Khaz Algar
-    elseif (PlayerMapID == 2248 or PlayerMapID == 2214 or PlayerMapID == 2215 or PlayerMapID == 2213 or PlayerMapID == 2216
-      or PlayerMapID == 2369 or PlayerMapID == 2322 or PlayerMapID == 2346)
+    elseif (PlayerMapID == 2248 or PlayerMapID == 2214 or PlayerMapID == 2215 or PlayerMapID == 2213 or PlayerMapID == 2216 or PlayerMapID == 2369 or PlayerMapID == 2322 or PlayerMapID == 2346)
     then
       tooltip:AddLine(HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. " => " .. "|cffff0000".. L["Khaz Algar"] .. " " .. L["Zones"] .. " & " .. MINIMAP_LABEL .. "|cffffcc00" .. " " .. L["icons"] .. " " .. SHOW .. " / " .. HIDE,1,1,1)
+      tooltip:Show()
+    --Quel'Thalas
+    elseif (PlayerMapID == 2395 or PlayerMapID == 2437 or PlayerMapID == 2424 or PlayerMapID == 2405 or PlayerMapID == 2444 or PlayerMapID == 2413 or PlayerMapID == 2536 or PlayerMapID == 2576)
+    then
+      tooltip:AddLine(HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. " => " .. "|cffff0000".. L["Quel'Thalas"] .. " " .. L["Zones"] .. " & " .. MINIMAP_LABEL .. "|cffffcc00" .. " " .. L["icons"] .. " " .. SHOW .. " / " .. HIDE,1,1,1)
       tooltip:Show()
     end
   end
@@ -249,7 +260,8 @@ OnTooltipShow = function(tooltip)
     or PlayerMapID == 627 or PlayerMapID == 628 or PlayerMapID == 629 or PlayerMapID == 831 or PlayerMapID == 832
     or PlayerMapID == 1161 or PlayerMapID == 1163 or PlayerMapID == 1164 or PlayerMapID == 1165 or PlayerMapID == 1670 
     or PlayerMapID == 1671 or PlayerMapID == 1672 or PlayerMapID == 1673 or PlayerMapID == 2112 or PlayerMapID == 407 
-    or PlayerMapID == 2339 or PlayerMapID == 499 or PlayerMapID == 500)
+    or PlayerMapID == 2339 or PlayerMapID == 499 or PlayerMapID == 500
+    or PlayerMapID == 2393) -- midnight
   then
     tooltip:AddLine(HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. " => " .. "|cffff0000".. L["Capitals"] .. " " .. MINIMAP_LABEL .. "|cffffcc00" .. " " .. L["icons"] .. " " .. SHOW .. " / " .. HIDE,1,1,1)
     tooltip:Show()
@@ -269,7 +281,8 @@ OnTooltipShow = function(tooltip)
     or PlayerMapID == 627 or PlayerMapID == 628 or PlayerMapID == 629 or PlayerMapID == 831 or PlayerMapID == 832
     or PlayerMapID == 1161 or PlayerMapID == 1163 or PlayerMapID == 1164 or PlayerMapID == 1165 or PlayerMapID == 1670 
     or PlayerMapID == 1671 or PlayerMapID == 1672 or PlayerMapID == 1673 or PlayerMapID == 2112 or PlayerMapID == 407 
-    or PlayerMapID == 2339 or PlayerMapID == 499 or PlayerMapID == 500)
+    or PlayerMapID == 2339 or PlayerMapID == 499 or PlayerMapID == 500
+    or PlayerMapID == 2393) -- midnight
   then
     tooltip:AddLine(HELPFRAME_REPORT_PLAYER_RIGHT_CLICK .. " => " .. "|cffff0000".. L["Capitals"] .. " & " .. L["Capitals"] .. " " .. MINIMAP_LABEL .. "|cffffcc00" .. " " .. L["icons"] .. " " .. SHOW .. " / " .. HIDE,1,1,1)
     tooltip:Show()
@@ -283,9 +296,10 @@ end,
 
 OnClick = function(self, button)
   if not (ns.Addon and ns.Addon.db and ns.Addon.db.profile) then return end
-  local mapID = (WorldMapFrame and WorldMapFrame.GetMapID and WorldMapFrame:GetMapID()) or C_Map.GetBestMapForUnit("player")
-  local info = mapID and C_Map.GetMapInfo(mapID) or {}
+  
   local PlayerMapID = C_Map.GetBestMapForUnit("player")
+  local mapID = PlayerMapID
+  local info = mapID and C_Map.GetMapInfo(mapID) or {}
 
   if button == "RightButton" and not IsShiftKeyDown() then
 
@@ -301,7 +315,8 @@ OnClick = function(self, button)
       or PlayerMapID == 627 or PlayerMapID == 628 or PlayerMapID == 629 or PlayerMapID == 831 or PlayerMapID == 832
       or PlayerMapID == 1161 or PlayerMapID == 1163 or PlayerMapID == 1164 or PlayerMapID == 1165 or PlayerMapID == 1670 
       or PlayerMapID == 1671 or PlayerMapID == 1672 or PlayerMapID == 1673 or PlayerMapID == 2112 or PlayerMapID == 407 
-      or PlayerMapID == 2339 or PlayerMapID == 499 or PlayerMapID == 500)
+      or PlayerMapID == 2339 or PlayerMapID == 499 or PlayerMapID == 500
+      or PlayerMapID == 2393) -- midnight
     then
       --Kalimdor
       if (PlayerMapID == 1 or PlayerMapID == 7 or PlayerMapID == 10 or PlayerMapID == 11 or PlayerMapID == 57 or PlayerMapID == 62 
@@ -309,7 +324,7 @@ OnClick = function(self, button)
         or PlayerMapID == 69 or PlayerMapID == 70 or PlayerMapID == 71 or PlayerMapID == 74 or PlayerMapID == 75 or PlayerMapID == 76 
         or PlayerMapID == 77 or PlayerMapID == 78 or PlayerMapID == 80 or PlayerMapID == 81 or PlayerMapID == 83 or PlayerMapID == 97 
         or PlayerMapID == 106 or PlayerMapID == 199 or PlayerMapID == 327 or PlayerMapID == 460 or PlayerMapID == 461 or PlayerMapID == 462 
-        or PlayerMapID == 468 or PlayerMapID == 1527 or PlayerMapID == 198 or PlayerMapID == 249)
+        or PlayerMapID == 463 or PlayerMapID == 468 or PlayerMapID == 1527 or PlayerMapID == 198 or PlayerMapID == 249)
       then
         if not ns.Addon.db.profile.showMiniMapKalimdor then
           ns.Addon.db.profile.showMiniMapKalimdor = true
@@ -480,8 +495,7 @@ OnClick = function(self, button)
           end
         end
       --Khaz Algar
-      elseif (PlayerMapID == 2248 or PlayerMapID == 2214 or PlayerMapID == 2215 or PlayerMapID == 2255 or PlayerMapID == 2256 or PlayerMapID == 2213 
-        or PlayerMapID == 2216 or PlayerMapID == 2369 or PlayerMapID == 2322 or PlayerMapID == 2346 or PlayerMapID == 2371 or PlayerMapID == 2472)
+      elseif (PlayerMapID == 2248 or PlayerMapID == 2214 or PlayerMapID == 2215 or PlayerMapID == 2255 or PlayerMapID == 2256 or PlayerMapID == 2213 or PlayerMapID == 2216 or PlayerMapID == 2369 or PlayerMapID == 2322 or PlayerMapID == 2346 or PlayerMapID == 2371 or PlayerMapID == 2472)
       then
         if not ns.Addon.db.profile.showMiniMapKhazAlgar then
           ns.Addon.db.profile.showMiniMapKhazAlgar = true
@@ -492,6 +506,20 @@ OnClick = function(self, button)
           ns.Addon.db.profile.showMiniMapKhazAlgar = false
           if ns.Addon.db.profile.MmbWmbChatMessage then
             print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 ".. L["Khaz Algar"] .. " " .. MINIMAP_LABEL, L["icons"], "|cffff0000" .. L["are hidden"])
+          end
+        end
+      --Quel'Thalas
+      elseif (PlayerMapID == 2395 or PlayerMapID == 2437 or PlayerMapID == 2424 or PlayerMapID == 2405 or PlayerMapID == 2444 or PlayerMapID == 2413 or PlayerMapID == 2536 or PlayerMapID == 2576)
+      then
+        if not ns.Addon.db.profile.showMiniMapQuelThalas then
+          ns.Addon.db.profile.showMiniMapQuelThalas = true
+          if ns.Addon.db.profile.MmbWmbChatMessage then
+            print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 ".. L["Quel'Thalas"] .. " " .. MINIMAP_LABEL, L["icons"], "|cff00ff00" .. L["are shown"])
+          end
+        else
+          ns.Addon.db.profile.showMiniMapQuelThalas = false
+          if ns.Addon.db.profile.MmbWmbChatMessage then
+            print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 ".. L["Quel'Thalas"] .. " " .. MINIMAP_LABEL, L["icons"], "|cffff0000" .. L["are hidden"])
           end
         end
       end
@@ -511,7 +539,8 @@ OnClick = function(self, button)
       or PlayerMapID == 627 or PlayerMapID == 628 or PlayerMapID == 629 or PlayerMapID == 831 or PlayerMapID == 832
       or PlayerMapID == 1161 or PlayerMapID == 1163 or PlayerMapID == 1164 or PlayerMapID == 1165 or PlayerMapID == 1670 
       or PlayerMapID == 1671 or PlayerMapID == 1672 or PlayerMapID == 1673 or PlayerMapID == 2112 or PlayerMapID == 407 
-      or PlayerMapID == 2339 or PlayerMapID == 499 or PlayerMapID == 500)
+      or PlayerMapID == 2339 or PlayerMapID == 499 or PlayerMapID == 500
+      or PlayerMapID == 2393) -- midnight
     then
       --Kalimdor
       if (PlayerMapID == 1 or PlayerMapID == 7 or PlayerMapID == 10 or PlayerMapID == 11 or PlayerMapID == 57 or PlayerMapID == 62 
@@ -519,7 +548,7 @@ OnClick = function(self, button)
         or PlayerMapID == 69 or PlayerMapID == 70 or PlayerMapID == 71 or PlayerMapID == 74 or PlayerMapID == 75 or PlayerMapID == 76 
         or PlayerMapID == 77 or PlayerMapID == 78 or PlayerMapID == 80 or PlayerMapID == 81 or PlayerMapID == 83 or PlayerMapID == 97 
         or PlayerMapID == 106 or PlayerMapID == 199 or PlayerMapID == 327 or PlayerMapID == 460 or PlayerMapID == 461 or PlayerMapID == 462 
-        or PlayerMapID == 468 or PlayerMapID == 1527 or PlayerMapID == 198 or PlayerMapID == 249)
+        or PlayerMapID == 463 or PlayerMapID == 468 or PlayerMapID == 1527 or PlayerMapID == 198 or PlayerMapID == 249)
       then
         if not ns.Addon.db.profile.showZoneKalimdor then
           ns.Addon.db.profile.showZoneKalimdor = true
@@ -690,8 +719,7 @@ OnClick = function(self, button)
           end
         end
        --Khaz Algar
-      elseif (PlayerMapID == 2248 or PlayerMapID == 2214 or PlayerMapID == 2215 or PlayerMapID == 2255 or PlayerMapID == 2256 or PlayerMapID == 2213 
-        or PlayerMapID == 2216 or PlayerMapID == 2369 or PlayerMapID == 2322 or PlayerMapID == 2346 or PlayerMapID == 2371 or PlayerMapID == 2472)
+      elseif (PlayerMapID == 2248 or PlayerMapID == 2214 or PlayerMapID == 2215 or PlayerMapID == 2255 or PlayerMapID == 2256 or PlayerMapID == 2213 or PlayerMapID == 2216 or PlayerMapID == 2369 or PlayerMapID == 2322 or PlayerMapID == 2346 or PlayerMapID == 2371 or PlayerMapID == 2472)
       then
         if not ns.Addon.db.profile.showZoneKhazAlgar then
           ns.Addon.db.profile.showZoneKhazAlgar = true
@@ -702,6 +730,20 @@ OnClick = function(self, button)
           ns.Addon.db.profile.showZoneKhazAlgar = false
           if ns.Addon.db.profile.MmbWmbChatMessage then
             print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 ".. L["synchronizes"] .. " " .. L["Khaz Algar"] .. " " .. L["Zones"] .. " & " .. MINIMAP_LABEL, L["icons"], "|cffff0000" .. L["are hidden"])
+          end
+        end
+       --Quel'Thalas
+      elseif (PlayerMapID == 2395 or PlayerMapID == 2437 or PlayerMapID == 2424 or PlayerMapID == 2405 or PlayerMapID == 2444 or PlayerMapID == 2413 or PlayerMapID == 2536 or PlayerMapID == 2576)
+      then
+        if not ns.Addon.db.profile.showZoneQuelThalas then
+          ns.Addon.db.profile.showZoneQuelThalas = true
+          if ns.Addon.db.profile.MmbWmbChatMessage then
+            print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 ".. L["synchronizes"] .. " " .. L["Quel'Thalas"] .. " " .. L["Zones"] .. " & " .. MINIMAP_LABEL, L["icons"], "|cff00ff00" .. L["are shown"])
+          end
+        else
+          ns.Addon.db.profile.showZoneQuelThalas = false
+          if ns.Addon.db.profile.MmbWmbChatMessage then
+            print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 ".. L["synchronizes"] .. " " .. L["Quel'Thalas"] .. " " .. L["Zones"] .. " & " .. MINIMAP_LABEL, L["icons"], "|cffff0000" .. L["are hidden"])
           end
         end
       end
@@ -721,7 +763,8 @@ OnClick = function(self, button)
       or PlayerMapID == 627 or PlayerMapID == 628 or PlayerMapID == 629 or PlayerMapID == 831 or PlayerMapID == 832
       or PlayerMapID == 1161 or PlayerMapID == 1163 or PlayerMapID == 1164 or PlayerMapID == 1165 or PlayerMapID == 1670 
       or PlayerMapID == 1671 or PlayerMapID == 1672 or PlayerMapID == 1673 or PlayerMapID == 2112 or PlayerMapID == 407 
-      or PlayerMapID == 2339 or PlayerMapID == 499 or PlayerMapID == 500)
+      or PlayerMapID == 2339 or PlayerMapID == 499 or PlayerMapID == 500
+      or PlayerMapID == 2393) -- midnight
     then
       if not ns.Addon.db.profile.activate.MinimapCapitals then
         ns.Addon.db.profile.activate.MinimapCapitals = true
@@ -750,7 +793,8 @@ OnClick = function(self, button)
       or PlayerMapID == 627 or PlayerMapID == 628 or PlayerMapID == 629 or PlayerMapID == 831 or PlayerMapID == 832
       or PlayerMapID == 1161 or PlayerMapID == 1163 or PlayerMapID == 1164 or PlayerMapID == 1165 or PlayerMapID == 1670 
       or PlayerMapID == 1671 or PlayerMapID == 1672 or PlayerMapID == 1673 or PlayerMapID == 2112 or PlayerMapID == 407 
-      or PlayerMapID == 2339 or PlayerMapID == 499 or PlayerMapID == 500)
+      or PlayerMapID == 2339 or PlayerMapID == 499 or PlayerMapID == 500
+      or PlayerMapID == 2393) -- midnight
     then
       if not ns.Addon.db.profile.activate.Capitals then
         ns.Addon.db.profile.activate.Capitals = true

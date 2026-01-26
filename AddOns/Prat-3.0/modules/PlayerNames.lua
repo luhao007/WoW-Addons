@@ -1541,6 +1541,9 @@ L = {
 
   function module:addName(Name, Server, Class, Level, SubGroup, Source)
     if Name then
+		if issecretvalue and (issecretvalue(Name) or issecretvalue(Server)) then
+			return
+		end
       local nosave
       Source = Source or "UNKNOWN"
 

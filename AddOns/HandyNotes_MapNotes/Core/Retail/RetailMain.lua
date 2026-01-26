@@ -395,8 +395,11 @@ function ns.pluginHandler.OnEnter(self, uiMapId, coord)
     self.highlight:SetAllPoints()
   end
 
-  if self.highlight:GetTexture() ~= self.texture:GetTexture() then
-    self.highlight:SetTexture(self.texture:GetTexture())
+  if self.texture and self.texture.GetTexture then
+    local tex = self.texture:GetTexture()
+    if tex and self.highlight:GetTexture() ~= tex then
+      self.highlight:SetTexture(tex)
+    end
   end
 
   self.highlight:Show()
@@ -546,11 +549,27 @@ function ns.pluginHandler.OnEnter(self, uiMapId, coord)
       end
 	  end
 
-    if nodeData.delveID and ns.icons["Delves"] then -- Delves
-      local delveIDname = C_Map.GetMapInfo(nodeData.delveID).name
-      if delveIDname then
-        tooltip:AddDoubleLine("|cffffffff" .. delveIDname, nil, nil, false)
-        tooltip:AddDoubleLine(nodeData.TransportName, nil, nil, false)
+    if ns.icons["Delves"] then -- Delves
+      -- Multi-Delves (delveIDs = { ... })
+      if nodeData.delveIDs and type(nodeData.delveIDs) == "table" then
+        for _, delveMapID in ipairs(nodeData.delveIDs) do
+          local mi = C_Map.GetMapInfo(delveMapID)
+          local name = mi and mi.name
+          if name then
+            tooltip:AddDoubleLine("|cffffffff" .. name, nil, nil, false)
+          end
+        end
+        if nodeData.TransportName then
+          tooltip:AddDoubleLine(nodeData.TransportName, nil, nil, false)
+        end
+
+      elseif nodeData.delveID then
+        local mi = C_Map.GetMapInfo(nodeData.delveID)
+        local delveIDname = mi and mi.name
+        if delveIDname then
+          tooltip:AddDoubleLine("|cffffffff" .. delveIDname, nil, nil, false)
+          tooltip:AddDoubleLine(nodeData.TransportName, nil, nil, false)
+        end
       end
     end
 
@@ -572,16 +591,22 @@ function ns.pluginHandler.OnEnter(self, uiMapId, coord)
     end
 
     if not ns.Addon.db.profile.activate.SwapButtons then -- Original Buttons
-      if nodeData.mnID and nodeData.mnID2 or nodeData.mnID3 then -- outputs the Zone or Dungeonmap name and displays it in the tooltip
+      if nodeData.mnID and (nodeData.mnID2 or nodeData.mnID3) then -- outputs the Zone or Dungeonmap name and displays it in the tooltip
         local mnIDname = C_Map.GetMapInfo(nodeData.mnID).name
-        if mnIDname then
+        local mnIDText1 = nodeData.mnIDText1
+        if mnIDname and mnIDText1 then
+          tooltip:AddDoubleLine("\n" .. KEY_BUTTON1 .. " - " .. mnIDname .. " - " .. mnIDText1, nil, nil, false)
+        elseif mnIDname then
           tooltip:AddDoubleLine("\n" .. KEY_BUTTON1 .. " - " .. mnIDname, nil, nil, false)
         end
       end
 
       if nodeData.mnID2 then
         local mnID2name = C_Map.GetMapInfo(nodeData.mnID2).name
-        if mnID2name then 
+        local mnIDText2 = nodeData.mnIDText2
+        if mnID2name and mnIDText2 then 
+          tooltip:AddDoubleLine(KEY_BUTTON2 .. " - " .. mnID2name .. " - " .. mnIDText2, nil, nil, false)
+        elseif mnID2name then
           tooltip:AddDoubleLine(KEY_BUTTON2 .. " - " .. mnID2name, nil, nil, false)
         end
       end
@@ -595,16 +620,22 @@ function ns.pluginHandler.OnEnter(self, uiMapId, coord)
     end
 
     if ns.Addon.db.profile.activate.SwapButtons then -- SwapButtons
-      if nodeData.mnID and nodeData.mnID2 or nodeData.mnID3 then -- outputs the Zone or Dungeonmap name and displays it in the tooltip
+      if nodeData.mnID and (nodeData.mnID2 or nodeData.mnID3) then -- outputs the Zone or Dungeonmap name and displays it in the tooltip
         local mnIDname = C_Map.GetMapInfo(nodeData.mnID).name
-        if mnIDname then
+        local mnIDText1 = nodeData.mnIDText1
+        if mnIDname and mnIDText1 then
+          tooltip:AddDoubleLine("\n" .. KEY_BUTTON2 .. " ==> " .. mnIDname .. " - " .. mnIDText1, nil, nil, false)
+        elseif mnIDname then
           tooltip:AddDoubleLine("\n" .. KEY_BUTTON2 .. " ==> " .. mnIDname, nil, nil, false)
         end
       end
-
+      
       if nodeData.mnID2 then
         local mnID2name = C_Map.GetMapInfo(nodeData.mnID2).name
-        if mnID2name then 
+        local mnIDText2 = nodeData.mnIDText2
+        if mnID2name and mnIDText2 then 
+          tooltip:AddDoubleLine(KEY_BUTTON1 .. " ==> " .. mnID2name .. " - " .. mnIDText2, nil, nil, false)
+        elseif mnID2name then
           tooltip:AddDoubleLine(KEY_BUTTON1 .. " ==> " .. mnID2name, nil, nil, false)
         end
       end
@@ -904,7 +935,7 @@ do
                       or value.type == "DraneiM" or value.type == "DraneiF" or value.type == "N11M" or value.type == "N11F" or value.type == "TrollM" or value.type == "TrollF" or value.type == "TaureM" or value.type == "TaureF" or value.type == "PandaM" 
                       or value.type == "PandaF" or value.type == "HMTaurenM" or value.type == "HMTaurenF" or value.type == "LFDraeneiM" or value.type == "LFDraeneiF" or value.type == "LN11BorneM" or value.type == "LN11BorneF" or value.type == "Void11M" 
                       or value.type == "Void11F" or value.type == "DarkDwarfM" or value.type == "DarkDwarfF" or value.type == "DracthyrM" or value.type == "DracthyrF" or value.type == "VulperaM" or value.type == "VulperaF" or value.type == "MechaGnomeM" 
-                      or value.type == "MechaGnomeM" or value.type == "ZandalariTrollM" or value.type == "ZandalariTrollF"
+                      or value.type == "MechaGnomeM" or value.type == "ZandalariTrollM" or value.type == "ZandalariTrollF" or value.type == "HaranirM" or value.type == "HaranirW"
 
       ns.MapType0 = mapInfo.mapType == 0 -- Cosmic map
       ns.MapType1 = mapInfo.mapType == 1 -- World map
@@ -929,7 +960,7 @@ do
                       or CurrentMapID == 582 or CurrentMapID == 590 or CurrentMapID == 622 or CurrentMapID == 624 or CurrentMapID == 627 
                       or CurrentMapID == 831 or CurrentMapID == 832 or CurrentMapID == 628 or CurrentMapID == 629 or CurrentMapID == 1161 or CurrentMapID == 1163 
                       or CurrentMapID == 1164 or CurrentMapID == 1165 or CurrentMapID == 1670 or CurrentMapID == 1671 or CurrentMapID == 1672 or CurrentMapID == 1673 
-                      or CurrentMapID == 2112 or CurrentMapID == 2339 or CurrentMapID == 499 or CurrentMapID == 500 or CurrentMapID == 2266
+                      or CurrentMapID == 2112 or CurrentMapID == 2339 or CurrentMapID == 499 or CurrentMapID == 500 or CurrentMapID == 2266 or CurrentMapID == 2393
                             
       ns.AllianceCapitalIDs = CurrentMapID == 84 or CurrentMapID == 87 or CurrentMapID == 89 or CurrentMapID == 103 or CurrentMapID == 393 or CurrentMapID == 394
                       or CurrentMapID == 1161 or CurrentMapID == 622 or CurrentMapID == 582
@@ -937,10 +968,10 @@ do
       ns.HordeCapitalsIDs = CurrentMapID == 85 or CurrentMapID == 86 or CurrentMapID == 88 or CurrentMapID == 110 or CurrentMapID == 90 or CurrentMapID == 392
                       or CurrentMapID == 391 or CurrentMapID == 1163 or CurrentMapID == 1164 or CurrentMapID == 1165 or CurrentMapID == 624 or CurrentMapID == 590
 
-      ns.NeutralCapitalIDs = CurrentMapID == 626 or CurrentMapID == 747 -- Class Hall
+      ns.NeutralCapitalIDs = CurrentMapID == 626 or CurrentMapID == 747
                       or CurrentMapID == 2339 or CurrentMapID == 111 or CurrentMapID == 1670 or CurrentMapID == 1671 or CurrentMapID == 1673 or CurrentMapID == 1672
                       or CurrentMapID == 125 or CurrentMapID == 126 or CurrentMapID == 627 or CurrentMapID == 628 or CurrentMapID == 269 or CurrentMapID == 2112 
-                      or CurrentMapID == 407
+                      or CurrentMapID == 407 or CurrentMapID == 2393
 
       ns.CapitalMiniMapIDs = PlayerMapID == 84 or PlayerMapID == 87 or PlayerMapID == 89 or PlayerMapID == 103 or PlayerMapID == 85 or PlayerMapID == 90 
                       or PlayerMapID == 86 or PlayerMapID == 88 or PlayerMapID == 110 or PlayerMapID == 111 or PlayerMapID == 125 or PlayerMapID == 126 
@@ -994,8 +1025,10 @@ do
       ns.DragonIsleIDs = CurrentMapID == 2022 or CurrentMapID == 2023 or CurrentMapID == 2024 or CurrentMapID == 2025 or CurrentMapID == 2026 or CurrentMapID == 2133
                       or CurrentMapID == 2151 or CurrentMapID == 2200 or CurrentMapID == 2239
           
-      ns.KhazAlgar = CurrentMapID == 2248 or CurrentMapID == 2214 or CurrentMapID == 2215 or CurrentMapID == 2255 or  CurrentMapID == 2256 or CurrentMapID == 2213 
+      ns.KhazAlgar = CurrentMapID == 2248 or CurrentMapID == 2214 or CurrentMapID == 2215 or CurrentMapID == 2255 or CurrentMapID == 2256 or CurrentMapID == 2213 
                       or CurrentMapID == 2216 or CurrentMapID == 2369 or CurrentMapID == 2346 or CurrentMapID == 2371 or CurrentMapID == 2472
+
+      ns.QuelThalas = CurrentMapID == 2395 or CurrentMapID == 2437 or CurrentMapID == 2405 or CurrentMapID == 2413
 
       ns.AllZoneIDs = ns.KalimdorIDs
                       or ns.EasternKingdomIDs
@@ -1009,6 +1042,7 @@ do
                       or ns.ShadowlandIDs
                       or ns.DragonIsleIDs
                       or ns.KhazAlgar
+                      or ns.QuelThalas
 
       -- Special mapIDs that are actually zones/subzones but are considered dungeons/microdungeons by the game are hereby correctly recognized as zones in the addon (no capitals)
       ns.ZoneIDs = CurrentMapID == 750 or CurrentMapID == 652 or CurrentMapID == 2266 or CurrentMapID == 2322

@@ -269,57 +269,40 @@ function BagBankfun.add_Itemslot_ZLV_ranse(famrr,BagdangeW)
 	end
 end
 function BagBankfun.addfenleibagbut(fujiui)
-	local baginfo={
-		["id"]=bagData["bagID"],
-		["icon"]={
-			MainMenuBarBackpackButton,
-			CharacterBag0Slot,
-			CharacterBag1Slot,
-			CharacterBag2Slot,
-			CharacterBag3Slot,
-		},
-	}
+	local baginfo={}
 	if fujiui==BankSlotsFrame then
-		local newbankID = {}
-		for i=2,#bagData["bankID"] do
-			table.insert(newbankID,bagData["bankID"][i])
-		end
-		baginfo.id=newbankID
-		local bankicon={
-			BankSlotsFrame.Bag1,
-			BankSlotsFrame.Bag2,
-			BankSlotsFrame.Bag3,
-			BankSlotsFrame.Bag4,
-			BankSlotsFrame.Bag5,
-			BankSlotsFrame.Bag6,
+		baginfo={
+			["id"]={},
+			["icon"]={
+				BankSlotsFrame.Bag1,
+				BankSlotsFrame.Bag2,
+				BankSlotsFrame.Bag3,
+				BankSlotsFrame.Bag4,
+				BankSlotsFrame.Bag5,
+				BankSlotsFrame.Bag6,
+			},
 		}
+		for i=2,#bagData["bankID"] do
+			table.insert(baginfo.id,bagData["bankID"][i])
+		end
 		if PIG_MaxTocversion(20000,true) then
-			table.insert(bankicon, BankSlotsFrame.Bag7);
+			table.insert(baginfo.icon, BankSlotsFrame.Bag7);
 		end
-		baginfo.icon=bankicon
-	end
-	function fujiui:ShowHide_butList(event)
-		local showV = event and fujiui.ButLsit[1]:IsShown() or not fujiui.ButLsit[1]:IsShown() 
-		local numSlots,full = GetNumBankSlots();
-		for vb=1,#baginfo.id do
-			local fameXX = fujiui.ButLsit[vb]
-			fameXX:SetShown(showV)
-			fameXX.xitongbagF=baginfo.icon[vb]
-			if showV then
-				fameXX.Portrait:SetTexture(baginfo.icon[vb].icon:GetTexture());
-				if fujiui==BankSlotsFrame then
-					if ( vb <= numSlots ) then
-						fameXX.Portrait:SetVertexColor(1.0,1.0,1.0);
-					else
-						fameXX.Portrait:SetVertexColor(1.0,0.1,0.1);
-					end
-				end
-			end
-			fameXX:UpdateFilterIcon();
-		end
+	else
+		baginfo={
+			["id"]=bagData["bagID"],
+			["icon"]={
+				MainMenuBarBackpackButton,
+				CharacterBag0Slot,
+				CharacterBag1Slot,
+				CharacterBag2Slot,
+				CharacterBag3Slot,
+			},
+		}
 	end
 	local www,hhh,jiangeW = 26,26,3
 	fujiui.ButLsit={}
+	fujiui.baginfo=baginfo
 	for vb=1,#baginfo.id do
 		--local fameXX = _G["ContainerFrame"..vb.."PortraitButton"]
 		local fameXX = CreateFrame("Frame",nil,fujiui);
@@ -334,6 +317,7 @@ function BagBankfun.addfenleibagbut(fujiui)
 		end
 		fameXX:Hide()
 		fameXX.BagID=baginfo.id[vb]
+		fameXX.xitongbagF=baginfo.icon[vb]
 		function fameXX:GetBagID()
 			return self.BagID
 		end
@@ -460,6 +444,27 @@ function BagBankfun.addfenleibagbut(fujiui)
 					if not bagID then return end
 					AddButtons_BagFilters(rootDescription, bagID,fameXX);
 				end);
+			end
+		end
+	end
+	function fujiui:ShowHide_butList(Click)
+		local idList=self.baginfo.id
+		local iconList=self.baginfo.icon
+		local showV = self.ButLsit[1]:IsShown()
+		local numSlots = GetNumBankSlots();
+		for vb=1,#idList do
+			local fameXX = self.ButLsit[vb]
+			fameXX.Portrait:SetTexture(iconList[vb].icon:GetTexture());
+			if self==BankSlotsFrame then
+				if ( vb <= numSlots ) then
+					fameXX.Portrait:SetVertexColor(1.0,1.0,1.0);
+				else
+					fameXX.Portrait:SetVertexColor(1.0,0.1,0.1);
+				end
+			end
+			fameXX:UpdateFilterIcon();
+			if Click then
+				fameXX:SetShown(not showV)
 			end
 		end
 	end

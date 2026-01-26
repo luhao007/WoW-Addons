@@ -180,8 +180,11 @@ Config.COMPANION_UNLOCK_QUEST = {
 
 --#region Delves data
 
----@type integer Khaz Algar [uiMapID](https://warcraft.wiki.gg/wiki/UiMapID).
-Config.KHAZ_ALGAR_MAP_ID = 2274
+---@type table<integer, number> [uiMapID](https://warcraft.wiki.gg/wiki/UiMapID) of continents with delves by expansion.
+Config.DELVE_CONTINENTS = {
+    [LE_EXPANSION_WAR_WITHIN] = 2274,
+    [LE_EXPANSION_MIDNIGHT] = 2537
+}
 
 ---@type table<integer, number[]> List of [uiMapIDs](https://warcraft.wiki.gg/wiki/UiMapID) which contain Delves.
 --- Grouped by LE_EXPANSION enum. Controls display order of zones in the list.
@@ -471,7 +474,7 @@ Config.DELVES_CONFIG = {
                 regular = 8435,
                 bountiful = 8436
             },
-            gildedStashUiWidgetID = 6723,
+            gildedStashUiWidgetID = 7591,
             atlasBgID = "delve-entrance-background-gulf-of-memory",
             achievements = {
                 chest = 61898,
@@ -485,7 +488,7 @@ Config.DELVES_CONFIG = {
                 regular = 8427,
                 bountiful = 8428
             },
-            gildedStashUiWidgetID = 6723,
+            gildedStashUiWidgetID = 7591,
             atlasBgID = "delve-entrance-background-parhelion-plaza",
             achievements = {
                 chest = 61893,
@@ -499,7 +502,7 @@ Config.DELVES_CONFIG = {
                 regular = 8443,
                 bountiful = 8444
             },
-            gildedStashUiWidgetID = 6723,
+            gildedStashUiWidgetID = 7591,
             atlasBgID = "delve-entrance-background-atal-aman",
             achievements = {
                 chest = 61863,
@@ -513,7 +516,7 @@ Config.DELVES_CONFIG = {
                 regular = 8425,
                 bountiful = 8426
             },
-            gildedStashUiWidgetID = 6723,
+            gildedStashUiWidgetID = 7591,
             atlasBgID = "delve-entrance-background-collegiate-calamity",
             achievements = {
                 chest = 61894,
@@ -527,7 +530,7 @@ Config.DELVES_CONFIG = {
                 regular = 8431,
                 bountiful = 8432
             },
-            gildedStashUiWidgetID = 6723,
+            gildedStashUiWidgetID = 7591,
             atlasBgID = "delve-entrance-background-shadowguard-point",
             achievements = {
                 chest = 61900,
@@ -541,7 +544,7 @@ Config.DELVES_CONFIG = {
                 regular = 8433,
                 bountiful = 8434
             },
-            gildedStashUiWidgetID = 6723,
+            gildedStashUiWidgetID = 7591,
             atlasBgID = "delve-entrance-background-the-grudge-pit",
             achievements = {
                 chest = 61897,
@@ -555,7 +558,7 @@ Config.DELVES_CONFIG = {
                 regular = 8441,
                 bountiful = 8442
             },
-            gildedStashUiWidgetID = 6723,
+            gildedStashUiWidgetID = 7591,
             atlasBgID = "delve-entrance-background-twilight-crypts",
             achievements = {
                 chest = 61896,
@@ -569,7 +572,7 @@ Config.DELVES_CONFIG = {
                 regular = 8437,
                 bountiful = 8438
             },
-            gildedStashUiWidgetID = 6723,
+            gildedStashUiWidgetID = 7591,
             atlasBgID = "delve-entrance-background-the-shadow-enclave",
             achievements = {
                 chest = 61892,
@@ -583,7 +586,7 @@ Config.DELVES_CONFIG = {
                 regular = 8439,
                 bountiful = 8440
             },
-            gildedStashUiWidgetID = 6723,
+            gildedStashUiWidgetID = 7591,
             atlasBgID = "delve-entrance-background-the-darkway",
             achievements = {
                 chest = 61895,
@@ -597,7 +600,7 @@ Config.DELVES_CONFIG = {
                 regular = 8429,
                 bountiful = 8430
             },
-            gildedStashUiWidgetID = 6723,
+            gildedStashUiWidgetID = 7591,
             atlasBgID = "delve-entrance-background-sunkiller-sanctum",
             achievements = {
                 chest = 61899,

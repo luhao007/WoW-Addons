@@ -172,17 +172,19 @@ function UnitFramefun.Mubiao()
 		TargetFrame.mubiaoHP:SetSize(49,22);
 		TargetFrame.mubiaoHP.title = PIGFontString(TargetFrame.mubiaoHP,{"TOPRIGHT", TargetFrame.mubiaoHP, "TOPRIGHT", 0, 0},"", "OUTLINE",13)
 		TargetFrame.mubiaoHP.title:SetTextColor(1, 1, 0.47,1);
-		----------------------
+		--
 		TargetFrame:HookScript("OnEvent", function (self,event,arg1)
-			if event=="PLAYER_ENTERING_WORLD" or event=="PLAYER_TARGET_CHANGED" or event=="UNIT_HEALTH" or event=="UNIT_AURA" then
-				if not UnitExists("target") then return end
-				local mubiaoH = UnitHealth("target")
-				local mubiaoHmax = UnitHealthMax("target")
-				local mubiaobaifenbi = math.ceil((mubiaoH/mubiaoHmax)*100);--目标血量百分比
-				if mubiaoHmax>0 then
-					TargetFrame.mubiaoHP.title:SetText(mubiaobaifenbi..'%');
-				else
-					TargetFrame.mubiaoHP.title:SetText('??%');
+			if PIG_MaxTocversion(120000) then
+				if event=="PLAYER_ENTERING_WORLD" or event=="PLAYER_TARGET_CHANGED" or event=="UNIT_HEALTH" or event=="UNIT_AURA" then
+					if not UnitExists("target") then return end
+					local mubiaoH = UnitHealth("target")
+					local mubiaoHmax = UnitHealthMax("target")
+					local mubiaobaifenbi = math.ceil((mubiaoH/mubiaoHmax)*100);--目标血量百分比
+					if mubiaoHmax>0 then
+						TargetFrame.mubiaoHP.title:SetText(mubiaobaifenbi..'%');
+					else
+						TargetFrame.mubiaoHP.title:SetText('??%');
+					end
 				end
 			end
 		end)
@@ -335,7 +337,7 @@ function UnitFramefun.Mubiao()
 		RegisterUnitWatch(fuF.TTT)
 
 		function fuF.TTT:CheckDead()
-			if ((UnitHealth(self.unit) <= 0) and UnitIsConnected(self.unit)) then
+			if UnitIsDead(self.unit) and UnitIsConnected(self.unit) then
 				local unitIsUnconscious = UnitIsUnconscious(self.unit);
 				self.HealthBar.UnconsciousText:SetShown(unitIsUnconscious);
 				self.HealthBar.DeadText:SetShown(not unitIsUnconscious);
@@ -345,7 +347,7 @@ function UnitFramefun.Mubiao()
 			end
 		end
 		function TargetFrame_CheckDead (self)
-			if ( (UnitHealth(self.unit) <= 0) and UnitIsConnected(self.unit) ) then
+			if UnitIsDead(self.unit) and UnitIsConnected(self.unit) then
 				if ( UnitIsUnconscious(self.unit) ) then
 					self.unconsciousText:Show();
 					self.deadText:Hide();
@@ -413,12 +415,12 @@ function UnitFramefun.Mubiao()
 				UnitFrameHealthBar_Update(self.healthbar, self.unit);
 				UnitFrameManaBar_Update(self.manabar, self.unit);
 			else
-				self.Name:SetText(TTTname);
-				SetPortraitTexture(self.Portrait, self.unit)
-				self:HealthCheck()
-				self:CheckDead()
-				UnitFrameHealthBar_Update(self.HealthBar, self.unit);
-				UnitFrameManaBar_Update(self.ManaBar, self.unit);
+				-- self.Name:SetText(TTTname);
+				-- SetPortraitTexture(self.Portrait, self.unit)
+				-- self:HealthCheck()
+				-- self:CheckDead()
+				-- UnitFrameHealthBar_Update(self.HealthBar, self.unit);
+				-- UnitFrameManaBar_Update(self.ManaBar, self.unit);
 			end
 			-- if event=="PLAYER_REGEN_ENABLED" then
 			-- 	self:UnregisterEvent("PLAYER_REGEN_ENABLED");
@@ -436,16 +438,16 @@ function UnitFramefun.Mubiao()
 				UnitFrameManaBar_Update(self, unitMubiao);
 			end)
 		else
-			fuF.TTT.HealthBar:RegisterUnitEvent("UNIT_HEALTH",unitMubiao);
-			fuF.TTT.HealthBar:RegisterUnitEvent("UNIT_MAXHEALTH",unitMubiao);
-			fuF.TTT.ManaBar:RegisterUnitEvent("UNIT_POWER_FREQUENT",unitMubiao);
-			fuF.TTT.ManaBar:RegisterUnitEvent("UNIT_MAXPOWER",unitMubiao);
-			fuF.TTT.HealthBar:HookScript("OnEvent", function (self,event)
-				UnitFrameHealthBar_Update(self, unitMubiao);
-			end)
-			fuF.TTT.ManaBar:HookScript("OnEvent", function (self,event)
-				UnitFrameManaBar_Update(self, unitMubiao);
-			end)
+			-- fuF.TTT.HealthBar:RegisterUnitEvent("UNIT_HEALTH",unitMubiao);
+			-- fuF.TTT.HealthBar:RegisterUnitEvent("UNIT_MAXHEALTH",unitMubiao);
+			-- fuF.TTT.ManaBar:RegisterUnitEvent("UNIT_POWER_FREQUENT",unitMubiao);
+			-- fuF.TTT.ManaBar:RegisterUnitEvent("UNIT_MAXPOWER",unitMubiao);
+			-- fuF.TTT.HealthBar:HookScript("OnEvent", function (self,event)
+			-- 	UnitFrameHealthBar_Update(self, unitMubiao);
+			-- end)
+			-- fuF.TTT.ManaBar:HookScript("OnEvent", function (self,event)
+			-- 	UnitFrameManaBar_Update(self, unitMubiao);
+			-- end)
 		end
 	end
 	--

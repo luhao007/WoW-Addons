@@ -5,9 +5,12 @@
 	<Script file="Bountiful\BountifulButton.lua" />
 	<Include file="Bountiful\BountifulFrame.xml" />
 	<Script file="Bountiful\BountifulFrame.lua" />
-	
+
 	<Include file="Consumables\ConsumablesFrame.xml" />
 	<Script file="Consumables\ConsumablesFrame.lua" />
+
+	<Include file="GildedStash\GildedStashFrame.xml" />
+	<Script file="GildedStash\GildedStashFrame.lua" />
 
 	<Include file="Companion\CompanionConfigPanel.xml" />
 	<Script file="Companion\CompanionConfigPanel.lua" />

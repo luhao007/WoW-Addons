@@ -5,7 +5,7 @@ KrowiAF.PluginsApi:LoadPluginLocalization(L);
 
 -- [[ Everything after this line is automatically generated from CurseForge and is not meant for manual edit - SOURCETOKEN - AUTOGENTOKEN ]] --
 
--- [[ Exported at 2026-01-18 23-13-01 ]] --
+-- [[ Exported at 2026-01-24 17-48-19 ]] --
 L["%c"] = true
 L["%d/%m/%Y %I:%M %p"] = true
 L["%m/%d/%Y %I:%M %p"] = true
@@ -57,7 +57,7 @@ L["Add to Watch List"] = "Add to {watchList}"
 L["Added in version"] = true
 L["Adjustable Categories"] = true
 L["Aki the Chosen"] = true
-L["Allied Race"] = true
+L["AlliedRace"] = true
 L["Alt"] = true
 L["Always Show Completed"] = true
 L["Always show realm"] = true
@@ -542,7 +542,7 @@ L["Holidays"] = true
 L["Horizontal position"] = true
 L["Horrific Visions Revisited"] = true
 L["Hour of Twilight"] = true
-L["Housing Decor"] = true
+L["HousingDecor"] = true
 L["Icon Left click"] = "to open the Achievement window."
 L["Icon Right click"] = "for Options."
 L["ID"] = true
@@ -568,7 +568,7 @@ L["Ka'wi the Gorger"] = true
 L["Keep current character"] = true
 L["Keep current character Desc"] = "Keep the current character in the list of characters in the tooltip regardless if the character would be truncated from the list by the {maxNumChar} or not."
 L["Keybindings Desc"] = "To change keybindings for {addonName}, select the Game tab in the top left of this window. Then select the {keybindings} category on the left. Lastly select AddOns in the right view."
-L["Keystone Resilience"] = true
+L["KeystoneResilience"] = true
 L["Kyrian Assault"] = true
 L["Landfall"] = true
 L["Layout"] = true
@@ -677,12 +677,12 @@ L["NONC"] = true
 L["None"] = true
 L["No-No"] = true
 L["Northrend Cup"] = true
-L["Not Categorized"] = true
 L["Not Earned By"] = true
 L["Not earned by:"] = true
 L["Not loaded"] = true
 L["Not Obtainable"] = true
 L["Not part of set"] = true
+L["NotCategorized"] = true
 L["Number of Earned By characters"] = "Number of {earnedBy} characters"
 L["Number of Earned By characters Desc"] = [=[The number of characters that will be displayed that have earned the achievement.
 
@@ -785,8 +785,8 @@ L["Related Tab"] = true
 L["Related Tab Desc"] = "Adds an extra bit to the {wowheadLink} so another tab different than the default one will be selected."
 L["Remember frame position"] = "Remember {frame} position"
 L["Remember frame position Desc"] = "Remember the {frame} position. This will keep the {frame} in it's last known position the next time you log in."
-L["Remix Bronze"] = true
-L["Remix Infinite Knowledge"] = true
+L["RemixBronze"] = true
+L["RemixInfiniteKnowledge"] = true
 L["Remove from Watch List"] = "Remove from {watchList}"
 L["Required for"] = true
 L["Requires"] = true
@@ -1081,7 +1081,7 @@ L["Track achievement browsing history Desc"] = [=[When enabled, show a back and 
 This allows for the navigation of your browsing history of selected achievements just like your internet browser does for visited websites.]=]
 L["Tracking"] = true
 L["Tracking Achievements"] = true
-L["Trader's Tender"] = true
+L["TradersTender"] = true
 L["Trading Post"] = true
 L["Transmog Sets"] = true
 L["Truncate"] = true
@@ -1111,11 +1111,11 @@ L["Vol'dun"] = true
 L["Waking Shores"] = true
 L["Waking Shores: Next"] = true
 L["Warband Achievement"] = true
-L["Warband Campsite"] = true
 L["Warband Header Color"] = "{warband} Header Colors"
 L["Warband Header Color Desc"] = [=[When disabled, the default blue header color will be replaced by the default orange color.
 Recommended to enable {warbandIcon}.
 ]=]
+L["WarbandCampsite"] = true
 L["Warcraft III: Reforged"] = true
 L["Warcraft Rumble"] = true
 L["was"] = true

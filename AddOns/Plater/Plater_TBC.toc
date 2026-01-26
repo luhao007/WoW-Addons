@@ -1,5 +1,5 @@
 ## Interface: 120000
-## Version: Plater-v625-TBC
+## Version: Plater-v626-TBC
 
 ## Title: Plater
 ## Notes: Nameplate addon designed for advanced users.

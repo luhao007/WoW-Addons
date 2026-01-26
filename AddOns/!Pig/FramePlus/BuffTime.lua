@@ -3,6 +3,7 @@ local _, addonTable = ...;
 local FramePlusfun=addonTable.FramePlusfun
 function FramePlusfun.BuffTime()
 	if not PIGA["FramePlus"]["BuffTime"] then return end
+	if PIG_MaxTocversion(119999,true) then return end
 	local function Buff_UpdateTime(seconds)
 		local d, h, m, s = ChatFrame_TimeBreakDown(seconds);
 		if( d > 1 ) then

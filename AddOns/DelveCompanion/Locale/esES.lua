@@ -25,7 +25,8 @@ Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_CLEAR_MPE = "Por favor utiliza MapPinEnh
 
 -- Delves UI
 
-Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA = "Visita las zonas de Khaz Algar para ver"
+Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_TWW = "Visita las zonas de Khaz Algar para ver"
+Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_MIDNIGHT = "Visit Quel'Thalas zones to see the progress"
 Lockit.UI_GILDED_STASH_BOUNTIFUL_NOTE = "Aparece sólo en el |cnNORMAL_FONT_COLOR:Nivel 11|r de las profundidades pródigas|A:delves-bountiful:16:16|a."
 Lockit.UI_NO_ACTIVE_BOUNTIFUL = "No hay profundidades pródigas activas"
 Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION = "<Click para mostrar información sobre el botín de las profundidades.>"

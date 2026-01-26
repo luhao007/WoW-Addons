@@ -1,6 +1,6 @@
 ## Interface: 120000
 ## Author: MysticalOS/nBlueWiz
-## Version: r184
+## Version: r185
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cff10ff10World Bosses (MoP)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本助手|r |cFF69CCF0户外|r |cFF22B14C潘达利亚|r

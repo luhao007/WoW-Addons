@@ -1095,7 +1095,6 @@ local function UpdateNotCollectedDecors(routines, routineTextOutput, catalogSear
 	searcher:SetUncollected(true)
 	
 	-- Run searcher
-	searcher:RunSearch()
 	searcher:SetResultsUpdatedCallback(function()
 		local catalogSearchResults = searcher:GetCatalogSearchResults()
 	    
@@ -1128,6 +1127,9 @@ local function UpdateNotCollectedDecors(routines, routineTextOutput, catalogSear
 		-- Callback
 		catalogSearcherCallback()
 	end)
+	
+	-- With this timer the callback SetResultsUpdatedCallback is actually called, otherwise it isn't after login into the game (only after reloading)
+	C_Timer.After(1, function() searcher:RunSearch() end)
 end
 
 local function GetNotCollectedDecors()

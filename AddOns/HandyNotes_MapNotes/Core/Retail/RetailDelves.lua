@@ -4,6 +4,12 @@ local L = LibStub("AceLocale-3.0"):GetLocale(ADDON_NAME)
 ns.DelveContinent = CreateFromMixins(CVarMapCanvasDataProviderMixin, AreaPOIDataProviderMixin)
 ns.DelveContinent:Init("showContinentDelvesOnMapNotes")
 
+ns.continentDelveToggles = {
+    [2274] = "showContinentKhazAlgar",
+    [13] = "showContinentEasternKingdom",
+    [2537] = "showContinentQuelThalas",
+}
+
 function ns.BlizzardDelvesAddTT()
     if ns.BlizzDelveTT_Hooked then return end
     ns.BlizzDelveTT_Hooked = true
@@ -107,38 +113,83 @@ function ns.DelveContinent:RefreshAllData()
         return
     end
 
-    if not (ns.Addon.db.profile.showContinentDelves and ns.Addon.db.profile.showContinentKhazAlgar) then
+    self.parentBountiful = nil
+    local parentDelves = C_AreaPoiInfo.GetDelvesForMap(mapID)
+    if parentDelves and #parentDelves > 0 then
+        for _, areaPoiID in ipairs(parentDelves) do
+            local pInfo = C_AreaPoiInfo.GetAreaPOIInfo(mapID, areaPoiID)
+            local atlas = pInfo and pInfo.atlasName
+            if atlas and atlas:lower():find("bountiful") then
+                self.parentBountiful = self.parentBountiful or {}
+                self.parentBountiful[areaPoiID] = true
+            end
+        end
+    end
+
+    self.parentHasBountiful = (self.parentBountiful ~= nil)
+
+    if not ns.Addon.db.profile.showContinentDelves then
         return
     end
 
-    for _, child in ipairs(C_Map.GetMapChildrenInfo(mapID, nil, true) or {}) do
+    local continentDelveToggles = ns.continentDelveToggles
+    local key = continentDelveToggles[mapID]
+    if key and not ns.Addon.db.profile[key] then
+        return
+    end
 
-        if child and child.mapID then
-        local minX = C_Map.GetMapRectOnMap(child.mapID, mapID)
-        if minX then
-            self:ProjectDelves(mapID, child.mapID)
+for _, child in ipairs(C_Map.GetMapChildrenInfo(mapID, nil, true) or {}) do
+    if child and child.mapID then
+
+        if mapID ~= 13 or child.mapID ~= 2537 then
+            local minX = C_Map.GetMapRectOnMap(child.mapID, mapID)
+            if minX then
+                self:ProjectDelves(mapID, child.mapID)
+            end
         end
-        end
+
     end
 end
 
-function ns.DelveContinent:IsCVarSet()
-    return not ns.Addon.db.profile.activate.HideMapNote and ns.Addon.db.profile.showContinentDelves and ns.Addon.db.profile.showContinentKhazAlgar
 end
+
+function ns.DelveContinent:IsCVarSet()
+    if ns.Addon.db.profile.activate.HideMapNote then return false end
+    if not ns.Addon.db.profile.showContinentDelves then return false end
+
+    local map = self.GetMap and self:GetMap()
+    local mapID = map and map:GetMapID()
+    if not mapID then return true end
+
+    local continentDelveToggles = ns.continentDelveToggles
+    local key = continentDelveToggles[mapID]
+    if key and not ns.Addon.db.profile[key] then
+        return false
+    end
+
+    return true
+end
+
 
 function ns.DelveContinent:ProjectDelves(parentMapID, zoneMapID)
     local delves = C_AreaPoiInfo.GetDelvesForMap(zoneMapID) or {}
     for _, delveID in ipairs(delves) do
         local info = C_AreaPoiInfo.GetAreaPOIInfo(zoneMapID, delveID)
         if info and info.position then
-            local x, y = info.position:GetXY()
-            local newX, newY = ConvertMapCoords(zoneMapID, parentMapID, x, y)
-            if newX and newY and newX >= 0 and newX <= 1 and newY >= 0 and newY <= 1 then
-            info.position:SetXY(newX, newY)
-            info.dataProvider = self
-            local map = self:GetMap()
-                if map then
-                    map:AcquirePin("MapNotesContinentDelvePinTemplate", info)
+            local atlas = info.atlasName
+            local isBountiful = atlas and atlas:lower():find("bountiful")
+            if not (isBountiful and self.parentHasBountiful and parentMapID == 2537) then
+                local x, y = info.position:GetXY()
+                local newX, newY = ConvertMapCoords(zoneMapID, parentMapID, x, y)
+                if newX and newY and newX >= 0 and newX <= 1 and newY >= 0 and newY <= 1 then
+                    local pinInfo = CopyTable(info)
+                    pinInfo.position = CreateVector2D(newX, newY)
+                    pinInfo.dataProvider = self
+                
+                    local map = self:GetMap()
+                    if map then
+                        map:AcquirePin("MapNotesContinentDelvePinTemplate", pinInfo)
+                    end
                 end
             end
         end

@@ -51,7 +51,7 @@ Prat.Version = "Prat |cff8080ff3.0|r (|cff8080ff" .. "DEBUG" .. "|r)"
 --@end-debug@]==]
 
 --@non-debug@
-Prat.Version = "Prat |cff8080ff3.0|r (|cff8080ff".."3.9.83".."|r)"
+Prat.Version = "Prat |cff8080ff3.0|r (|cff8080ff".."3.9.86".."|r)"
 --@end-non-debug@
 
 local am = {}
@@ -383,9 +383,10 @@ function addon:PostEnable()
 	end
 
 	-- Outbound hooking
-	self:SecureHook("ChatEdit_ParseText")
 	if _G.ChatFrame1EditBox and _G.ChatFrame1EditBox.ParseText then
 		self:SecureHook(_G.ChatFrame1EditBox, 'ParseText', 'ChatEdit_ParseText')
+	else
+		self:SecureHook("ChatEdit_ParseText")
 	end
 
 	-- Display Hooking

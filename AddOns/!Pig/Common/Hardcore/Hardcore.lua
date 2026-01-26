@@ -674,7 +674,7 @@ function CommonInfo.Commonfun.HardcoreDeaths()
 		hang.nameF:HookScript("OnMouseUp", function(self,button)
 			local nameX = self:GetParent().name:GetText()
 			if button=="LeftButton" then
-				ChatFrame_SendTell(nameX.." ".. ChatEdit_ChooseBoxForSend():GetText(), DEFAULT_CHAT_FRAME);
+				PIGSendTell(nameX.." ".. ChatEdit_ChooseBoxForSend():GetText(), DEFAULT_CHAT_FRAME);
 			else
 				SendChatMessage("你如星辰，虽已陨落，但光芒永存，照亮我们前行的道路", "WHISPER", nil, nameX);
 			end

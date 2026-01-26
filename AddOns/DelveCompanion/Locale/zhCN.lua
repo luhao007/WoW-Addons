@@ -25,7 +25,8 @@ Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_CLEAR_MPE = "Please use MapPinEnhanced T
 
 -- Delves UI
 
-Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA = "在卡兹阿加地区时可获取鎏金藏匿物进度"
+Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_TWW = "在卡兹阿加地区时可获取鎏金藏匿物进度"
+Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_MIDNIGHT = "Visit Quel'Thalas zones to see the progress"
 Lockit.UI_GILDED_STASH_BOUNTIFUL_NOTE = "仅出现在 |cnNORMAL_FONT_COLOR:难度 11|r 丰裕地下堡|A:delves-bountiful:16:16|a。"
 Lockit.UI_NO_ACTIVE_BOUNTIFUL = "今日所有丰裕地下堡已完成"
 Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION = "<左键：显示地下堡战利品信息>"

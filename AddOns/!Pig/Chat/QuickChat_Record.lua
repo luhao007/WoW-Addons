@@ -514,14 +514,14 @@ function QuickChatfun.QuickBut_Jilu()
 			if self.name.Xlx=="BN_2" then
 				local _,bnetIDAccount=PIG_GetbetIDName(self.name.X)
 				local displayName = BNGetDisplayName(bnetIDAccount);
-				ChatFrame_SendBNetTell(displayName)
+				PIGSendBNetTell(displayName)
 			else
 				local nameyc1, nameyc2 = strsplit("-", nameinfo)
 				if nameyc2 and nameyc2==PIG_OptionsUI.Realm then
 					nameinfo=nameyc1;
 				end
 				if button=="LeftButton" then
-					ChatFrame_SendTell(nameinfo.." ".. ChatEdit_ChooseBoxForSend():GetText(), DEFAULT_CHAT_FRAME);
+					PIGSendTell(nameinfo.." ".. ChatEdit_ChooseBoxForSend():GetText(), DEFAULT_CHAT_FRAME);
 				elseif button=="RightButton" then
 					miyijiluF.RGN:ClearAllPoints();
 					miyijiluF.RGN:SetPoint("TOPLEFT",self,"BOTTOMLEFT",0,0);

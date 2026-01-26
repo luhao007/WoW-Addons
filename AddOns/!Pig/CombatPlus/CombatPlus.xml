@@ -4,4 +4,5 @@
 	<Script file="HPMPbar.lua" />
 	<Script file="AttackBar.lua" />
 	<Script file="BabySitter.lua" />
+	<Script file="FastFocus.lua" />
 </Ui>

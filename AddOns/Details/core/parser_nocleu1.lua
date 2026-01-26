@@ -12,6 +12,15 @@ local _
 ---@field ParserFrame frame
 
 local debug = false
+local L = {}
+
+local debugMode = false
+
+local printDebug = function(...)
+    if debugMode then
+        print("|cFFFFFF22Details!Debug:", ...)
+    end
+end
 
 local combatStartTime = 0 --GetTime()
 local combatEndTime = 0 --GetTime()
@@ -261,17 +270,6 @@ local doUpdate = function()
     --Details:InstanceCallDetailsFunc(Details.AtualizaSoloMode_AfertReset)
     --Details:InstanceCallDetailsFunc(Details.ResetaGump)
     Details:RefreshMainWindow(-1, true)
-
-    --[=[
-    local isshowning = 0
-    local children = {DetailsRowFrame1:GetChildren()}
-    for i = 1, #children do
-        local line = children[i]
-        if line:IsShown() then
-            isshowning = isshowning + 1
-        end
-    end
-    --]=]
 end
 
 local scheduledUpdateObject
@@ -279,6 +277,31 @@ function bParser.DoUpdateOnDetails()
     scheduledUpdateObject = nil
     doUpdate()
     C_Timer.After(Details.update_speed+0.03, doUpdate)
+end
+
+local waitSecretDropTimer
+local startWaitSecretDropTimer = function()
+    if not waitSecretDropTimer then
+        C_Timer.NewTicker(0.3, function(timerObject)
+            local stateCombat = C_RestrictedActions.GetAddOnRestrictionState(Enum.AddOnRestrictionType.Combat)
+            local stateEncounter = C_RestrictedActions.GetAddOnRestrictionState(Enum.AddOnRestrictionType.Encounter)
+            --local stateChallengeMode = C_RestrictedActions.GetAddOnRestrictionState(Enum.AddOnRestrictionType.ChallengeMode)
+            if stateCombat == 0 and stateEncounter == 0 then -- and stateChallengeMode == 0
+                if not InCombatLockdown() then
+                    timerObject:Cancel()
+                    waitSecretDropTimer = nil
+                    L.ParseSegments()
+                end
+            end
+        end)
+    end
+end
+
+local cancelWaitSecretDropTimer = function()
+    if waitSecretDropTimer then
+        waitSecretDropTimer:Cancel()
+        waitSecretDropTimer = nil
+    end
 end
 
 ---@param parameterType any
@@ -292,6 +315,18 @@ local addSegment = function(parameterType, session, bIsUpdate)
 
     ---@type combat
     local currentCombat
+
+    -------DAMAGE DONE
+    ---@type damagemeter_combat_session
+    local blzDamageContainer = C_DamageMeter.GetCombatSessionFromID(sessionId, Enum.DamageMeterType.DamageDone)
+    local damageActorList = blzDamageContainer.combatSources
+
+    if issecretvalue((damageActorList and damageActorList[1] and damageActorList[1].name) or "") then
+        --it is in secret lockdown, start a timer to wait until the lockdown drop
+        printDebug("combat dropped but secret lockdown detected.")
+        startWaitSecretDropTimer()
+        return
+    end
 
     if not bIsUpdate then
         Details222.StartCombat()
@@ -328,10 +363,8 @@ local addSegment = function(parameterType, session, bIsUpdate)
 
     local order = Details:GetOrderNumber()
 
-    -------DAMAGE DONE
-    ---@type damagemeter_combat_session
-    local blzDamageContainer = C_DamageMeter.GetCombatSessionFromID(sessionId, Enum.DamageMeterType.DamageDone)
-    local damageActorList = blzDamageContainer.combatSources
+
+
 
     for i = 1, #damageActorList do
         ---@type damagemeter_combat_source
@@ -562,6 +595,7 @@ local parseSegments = function()
 
     end
 
+    cancelWaitSecretDropTimer()
 
     local parameterType = DAMAGE_METER_SESSIONPARAMETER_ID
     local currentSessionId = getCurrentSessionId()
@@ -582,7 +616,6 @@ local parseSegments = function()
         local session = sessions[i].session
         local sessionId = sessions[i].sessionId
         if not session.added then
-
             if (addSegment(parameterType, session, false)) then
                 needUpdate = true
                 session.added = true
@@ -591,7 +624,6 @@ local parseSegments = function()
             if currentSessionId-2 <= sessionId then
                 if C_DamageMeter.GetCombatSessionFromID(sessionId, Enum.DamageMeterType.DamageDone) then
                     if Details:GetCombatWithSessionId(sessionId) then
-
                         addSegment(parameterType, session, true)
                     end
                 end
@@ -605,6 +637,8 @@ local parseSegments = function()
         end
     end
 end
+
+L.ParseSegments = parseSegments
 
 ---@class detailstooltip : button
 ---@field maxAmount number
@@ -922,8 +956,6 @@ function bParser.ShowTooltip_Hook(instanceLine, mouse)
     tooltip:SetMaxAmount(maxAmount)
     tooltip:SetHeight(spellAmount * (tooltipLineHeight+1) + 4)
 
-
-
     ---@type addonapoc_tooltipdata[]
     local tooltipData = {}
 
@@ -1151,7 +1183,7 @@ local updateWindow = function(instance) --~update
         instanceLine.lineText14:SetText("")
     end
 
-    if (damageMeterType) then
+    if (damageMeterType and damageMeterType < 100) then
         ---@type segmentid
         local segmentId = instance:GetSegmentId()
 
@@ -1164,7 +1196,7 @@ local updateWindow = function(instance) --~update
             session = C_DamageMeter.GetCombatSessionFromType(Enum.DamageMeterSessionType.Overall, damageMeterType)
             sessionType = DAMAGE_METER_SESSIONPARAMETER_TYPE
             sessionTypeParam = Enum.DamageMeterSessionType.Overall
---/dump C_DamageMeter.GetCombatSessionFromType(1, 0)
+            --/dump C_DamageMeter.GetCombatSessionFromType(1, 0)
         elseif segmentId == 0 then
             session = C_DamageMeter.GetCombatSessionFromType(Enum.DamageMeterSessionType.Current, damageMeterType)
             sessionType = DAMAGE_METER_SESSIONPARAMETER_TYPE
@@ -1240,6 +1272,7 @@ local updateWindow = function(instance) --~update
                     ---@field locale string?
                     ---@field config table?
 
+                    actorName = UnitName(actorName)
                     instanceLine.lineText11:SetText(actorName) --left text
 
                     if instance.use_multi_fontstrings then
@@ -1308,24 +1341,30 @@ local updateWindow = function(instance) --~update
                 end
             end
         end
-
+    else
+        if (damageMeterType and damageMeterType == 100) then
+            instance:SetDisplay(DETAILS_ATTRIBUTE_DAMAGE, DETAILS_SUBATTRIBUTE_DAMAGEDONE)
+        end
     end
 end
 
-local updateOpenedWindows = function()
+local updateOpenWindows = function()
     Details:InstanceCall(updateWindow)--update all opened details! windows with the new data from blizzard damage meter
 end
 
-local switchWindowFontStrings = function(instance)
+local showFontStringsForPrivateText = function(instance)
     local allInstanceLines = instance.barras
 
     for i = 1, #allInstanceLines do
         ---@type detailsline
         local line = allInstanceLines[i]
+        --clear the regular font string
         line.lineText1:SetText("")
         line.lineText2:SetText("")
         line.lineText3:SetText("")
         line.lineText4:SetText("")
+
+        --show the secret font strings
         line.lineText11:SetShown(true)
         line.lineText12:SetShown(true)
         line.lineText13:SetShown(true)
@@ -1338,10 +1377,10 @@ end
 ---@param self instance
 function Details:GetFormattedTimeForTitleBar()
     local combat = self:GetCombat()
-    local t = 0
+    local elapsedTime = 0
 
     if not detailsFramework.IsAddonApocalypseWow() then
-        t = combat:GetCombatTime()
+        elapsedTime = combat:GetCombatTime()
     else
         local currentSessionId = getCurrentSessionId()
         local segmentId = self:GetSegmentId()
@@ -1349,25 +1388,25 @@ function Details:GetFormattedTimeForTitleBar()
         if segmentId == DETAILS_SEGMENTID_OVERALL then
             if bRegenIsDisabled then
                 local thisSessionTime = getSessionCombatTime(currentSessionId)
-                t = combat:GetCombatTime() + thisSessionTime
+                elapsedTime = combat:GetCombatTime() + thisSessionTime
             else
-                t = combat:GetCombatTime()
+                elapsedTime = combat:GetCombatTime()
             end
 
         elseif segmentId == DETAILS_SEGMENTID_CURRENT then
             if bRegenIsDisabled then
-                t = getSessionCombatTime(currentSessionId)
+                elapsedTime = getSessionCombatTime(currentSessionId)
             else
-                t = combat:GetCombatTime()
+                elapsedTime = combat:GetCombatTime()
             end
         else
-            t = combat:GetCombatTime()
+            elapsedTime = combat:GetCombatTime()
         end
     end
 
-    if t > 0 then
-        local minutes = math.floor(t / 60)
-        local seconds = math.floor(t % 60)
+    if elapsedTime > 0 then
+        local minutes = math.floor(elapsedTime / 60)
+        local seconds = math.floor(elapsedTime % 60)
         local timeString = string.format("%02d:%02d", minutes, seconds)
         return timeString
     end
@@ -1388,8 +1427,7 @@ local updateTime = function(timerObject)
 end
 
 --this function update the time in settings shown in the window
-local startTimeUpdate = function()
-    --
+local startElapsedTimeUpdate = function()
     local lowerInstanceId = Details:GetLowerInstanceNumber()
     if lowerInstanceId then
         local instance = Details:GetInstance(lowerInstanceId)
@@ -1407,16 +1445,17 @@ end
 local updaterTicker = nil
 local startUpdater = function()
     --bParser.MakeAsOverlay()
-    Details:InstanceCall(switchWindowFontStrings)
-    startTimeUpdate()
+    if (bRegenIsDisabled) then
+        Details:InstanceCall(showFontStringsForPrivateText)
 
-    --start a ticker that will update opened details! windows every X seconds
-    if (not updaterTicker) then
-        updaterTicker = C_Timer.NewTicker(Details.update_speed, function()
-            if (bRegenIsDisabled) then
-                updateOpenedWindows()
-            end
-        end)
+        startElapsedTimeUpdate()
+
+        --start a ticker that will update opened details! windows every X seconds
+        if (not updaterTicker) then
+            updaterTicker = C_Timer.NewTicker(Details.update_speed, function()
+                updateOpenWindows()
+            end)
+        end
     end
 end
 
@@ -1465,12 +1504,10 @@ parserFrame:SetScript("OnEvent", function(self, event, ...)
         if sessionId ~= 0 then
             local existingSession = getSession(sessionId)
             if not existingSession then
-
                 createAndAddSession(sessionId)
 
                 if not isUpdaterRunning() then
                     if Details:ArePlayersInCombat() then
-
                         startUpdater()
                     end
                 end
@@ -1559,7 +1596,10 @@ combatEventFrame:SetScript("OnEvent", function(mySelf, ev, ...)
 
         end
 
+        printDebug("PLAYER_REGEN_ENABLED fired")
+
         if IsEncounterInProgress and IsEncounterInProgress() then
+            printDebug("PLAYER_REGEN_ENABLED encounter in progress.")
             return
 
         elseif InCombatLockdown() then

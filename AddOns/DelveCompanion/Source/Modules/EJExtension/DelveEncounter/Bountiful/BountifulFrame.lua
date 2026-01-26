@@ -35,6 +35,7 @@ end
 function DelveCompanion_DelveEncounterBountifulFrameMixin:OnShow()
     -- Logger.Log("DelveEncounterBountifulFrame OnShow start")
 
+    ---@type number
     local expansion = GetEJTierData(EJ_GetCurrentTier()).expansionLevel
     DelveCompanion:UpdateDelvesData(expansion)
 

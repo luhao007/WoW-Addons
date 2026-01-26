@@ -211,7 +211,7 @@ end
 -- function PIG_OptionsUI.Plus_chat:Plus_chat_xifu()
 -- 	if PIGA["Chat"]["Plus_chat"]==nil then PIGA["Chat"]["Plus_chat"] = true end
 -- 	if PIGA["Chat"]["Plus_chat"] then
--- 		local old_ChatFrame_SendTell=ChatFrame_SendTell
+-- 		local old_ChatFrame_SendTell=PIGSendTell
 -- 		ChatFrame_SendTell=function(name, chatFrame,pig)
 -- 			local name1,server2 = strsplit("-",name)
 -- 			if PIG_OptionsUI.Realm==server2 then

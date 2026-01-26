@@ -6,6 +6,7 @@ local L = app.L;
 -- WoW API Cache
 local GetItemInfo = app.WOWAPI.GetItemInfo;
 local GetItemID = app.WOWAPI.GetItemID;
+local issecretvalue = issecretvalue and issecretvalue or app.ReturnFalse;
 
 -- Concepts:
 -- Encapsulates the functionality for interacting with and hooking into game Tooltips
@@ -47,6 +48,9 @@ local GetBestObjectIDForName;
 if app.IsRetail then
 	local InGame = app.Modules.Filter.Filters.InGame
 	GetBestObjectIDForName = function(name)
+		-- Account for Blizzard Shenanigans
+		if issecretvalue(name) then return; end
+
 		-- Uses a provided 'name' and scans the ObjectDB to find potentially matching ObjectID's,
 		-- then correlate those search results by closest distance to the player's current position
 		name = name and name:trim():lower()
@@ -825,6 +829,17 @@ end
 
 local function TryShowUnitTooltipInfo(self, guid)
 	if app.Settings:GetTooltipSetting("guid") then self:AddDoubleLine(L.GUID, guid) end
+
+	-- Account for Blizzard Shenanigans
+	if issecretvalue(guid) then
+		if app.Settings:GetTooltipSetting("creatureID") then
+			if InCombatLockdown() and app.Settings:GetTooltipSetting("DisplayInCombatExceptNPCs") then return end
+			self:AddDoubleLine(L.CREATURE_ID, "<secret value???>");
+			self:AddLine("Blizzard says you aren't allowed to know what CreatureID this unit has. If you want ATT tooltips to ever appear on hostile npcs ever again, please yell at your local Blizzard Developer and tell them to allow UnitGUID and UnitCreatureID to be less secret while not in combat.\n \n -Crieve", 0.8, 0.4, 0.4, 1);
+		end
+		return true;
+	end
+
 	local t, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = ("-"):split(guid);
 	-- print(target, t, npc_id);
 	if t == "Player" then
@@ -900,21 +915,22 @@ if TooltipDataProcessor and app.GameBuildVersion > 60000 then
 			GameTooltip.SetCurrencyByID(self, currencyID, 1);
 		end
 	end
-	-- Sometimes ttType is a secret value so wrap this in a function to not blow up
-	local function secret_CheckIgnoredTooltipType(ttType)
-		return IgnoredTypes[ttType]
-	end
 	local function AttachTooltip(self, ttdata)
 		if self.AllTheThingsIgnored or not CanAttachTooltips() then return; end
 
 		local ttType, ttId = ttdata and ttdata.type, nil;
 		if ttType then
+			-- Account for Blizzard Shenanigans
+			-- This seems to be only Auras in combat right now anyway, maybe it's fine to ignore it
+			if issecretvalue(ttType) then
+				-- self:AddLine("This tooltip is a <secret> type and Blizzard won't let any addon know what it is because that will make the game less fun and enjoyable!", 0.8, 0.4, 0.4, 1);
+				return true
+			end
 			ttId = ttdata.id;
 			-- Debugging without ATT exclusions
-			local ok, res = pcall(secret_CheckIgnoredTooltipType, ttType)
 			-- app.PrintDebug("TT",SafeGetName(self),ttType,ttId,ok,res)
 			-- app.PrintTable(ttdata)
-			if not ok or res then
+			if IgnoredTypes[ttType] then
 				return true
 			end
 		end
@@ -1028,14 +1044,7 @@ if TooltipDataProcessor and app.GameBuildVersion > 60000 then
 
 		-- Does the tooltip have a target?
 		if self.AllTheThingsProcessing and target and id then
-			local ok, res = pcall(TryShowUnitTooltipInfo, self, id);
-			if not ok then
-				if app.Settings:GetTooltipSetting("creatureID") then
-					self:AddDoubleLine(L.CREATURE_ID, "<secret value???>");
-					self:AddLine("Blizzard says you aren't allowed to know what CreatureID this unit has. If you want ATT tooltips to ever appear on hostile npcs ever again, please yell at your local Blizzard Developer and tell them to allow UnitGUID and UnitCreatureID to be less secret while not in combat.\n \n -Crieve", 0.8, 0.4, 0.4, 1);
-				end
-				return true;
-			elseif res then
+			if TryShowUnitTooltipInfo(self, id) then
 				return true;
 			end
 		end

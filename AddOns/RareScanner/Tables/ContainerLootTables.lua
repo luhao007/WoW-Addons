@@ -1695,6 +1695,7 @@ private.CONTAINER_LOOT = {
 	[525957] = {238544}; --Voidstorm Defense Spear
 	[525962] = {238539}; --Failed Experiment
 	[525968] = {238533}; --Vial of Voidstorm Oddities
+	[525976] = {238474}; --Peculiar Lotus
 	[554678] = {208856}; --Lost Shadowstep Supplies
 	[555250] = {250319}; --Forgotten Researcher's Cache
 	[560325] = {246951,248680,251805,264503}; --Stormarion Resupply Chest

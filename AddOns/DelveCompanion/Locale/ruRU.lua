@@ -25,7 +25,8 @@ Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_CLEAR_MPE = "Для удаления т�
 
 -- Интерфейс вылазок
 
-Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA = "Посетите Каз Алгар, чтобы увидеть прогресс"
+Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_TWW = "Посетите Каз Алгар, чтобы увидеть прогресс"
+Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_MIDNIGHT = "Visit Quel'Thalas zones to see the progress"
 Lockit.UI_GILDED_STASH_BOUNTIFUL_NOTE = "Появляется только на |cnNORMAL_FONT_COLOR:11-м Уровне|r Многообещающих Вылазок|A:delves-bountiful:16:16|a."
 Lockit.UI_NO_ACTIVE_BOUNTIFUL = "Нет активных Вылазок"
 Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION = "<Нажмите, чтобы отобразить информацию о добыче Вылазок>"

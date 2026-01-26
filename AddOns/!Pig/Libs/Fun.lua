@@ -21,7 +21,15 @@ function Fun.IsAddOnLoaded(AddOnName,funx)
 		end)
 	end
 end
-
+function Fun.EventCOMBAT_LOG(frame,bot)
+	if PIG_MaxTocversion(120000) then
+		if bot then
+			frame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
+		else
+			frame:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
+		end
+	end
+end
 Fun.IsElvUI=function(vf1,vf2,vf3)
 	if IsAddOnLoaded("ElvUI") then
 		if not vf1 then return true end
@@ -143,7 +151,11 @@ end
 local voiceID = C_TTSSettings.GetVoiceOptionID(0)
 function PIG_PlaySoundFile(url)
 	if url[2]=="AI" then
-		C_VoiceChat.SpeakText(voiceID, url[1], Enum.VoiceTtsDestination.LocalPlayback, 2, 100)
+		if PIG_MaxTocversion() then
+			C_VoiceChat.SpeakText(voiceID, url[1], 1, 2, 100)
+		else
+			C_VoiceChat.SpeakText(voiceID, url[1], 2, 100, false)
+		end
 	elseif url[2]=="" then
 	else
 		PlaySoundFile(url[2], "Master")
@@ -226,6 +238,21 @@ function PIGGetContainerItemInfo(bag, slot)
 end
 
 --发送消息
+function PIGSendBNetTell(displayName)
+	if ChatFrame_SendBNetTell then
+		ChatFrame_SendBNetTell(displayName)
+	else
+		ChatFrameUtil.SendBNetTell(displayName)
+	end
+end
+function PIGSendTell(displayName)
+	if ChatFrame_SendTell then
+		ChatFrame_SendTell(displayName)
+	else
+		ChatFrameUtil.SendTell(displayName)
+	end
+end
+
 function PIGChatFrameAddChannel(ChatFrame,channel)--订购一个聊天框以显示先前加入的聊天频道
 	if PIG_MaxTocversion() and not PIG_MaxTocversion("tbc") then
 		ChatFrame_AddChannel(ChatFrame, channel)

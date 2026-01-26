@@ -271,6 +271,7 @@ ns.currentSourceFile = "RetailGeneralZoneNodes.lua"
                 nodes[18][69456280] = { npcID = 141489, mnID = 2070, name = "", dnID = L["Travel through time to another point in the history of"] .. " " .. ns.TirisfalGlades, type = "Zidormi", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 nodes[14][38249009] = { npcID = 141489, name = "", dnID = L["Travel through time to another point in the history of"] .. " " .. ns.ArathiHighlands, type = "Zidormi", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 nodes[17][48160728] = { npcID = 141489, name = "", dnID = L["Travel through time to another point in the history of"] .. " " .. ns.BlastedLands, type = "Zidormi", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                nodes[23][53820862] = { npcID = 259326, mnID = 95, name = "", dnID = L["Travel through time to another point in the history of"] .. " " .. ns.Ghostlands, type = "Zidormi", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 nodes[2070][69456280] = { npcID = 141489, mnID = 18, name = "", dnID = L["Travel through time to another point in the history of"] .. " " .. ns.TirisfalGlades, type = "Zidormi", showInZone = true, showOnContinent = false, showOnMinimap = false }
             end
 

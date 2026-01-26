@@ -212,8 +212,9 @@ if PIG_MaxTocversion(30000) then
 	table.insert(Skill_List.top,2842)--毒药
 end
 if PIG_MaxTocversion(40000,true) then
-	--table.insert(Skill_List.top,195127)--考古
-	--table.insert(Skill_List.bot,80451)--勘探
+	table.insert(Skill_List.top,78670)--考古
+	table.insert(Skill_List.top,195127)--考古
+	table.insert(Skill_List.bot,80451)--勘探
 end
 if PIG_MaxTocversion(100000,true) then
 	table.insert(Skill_List.top,61422)--10.0熔炼

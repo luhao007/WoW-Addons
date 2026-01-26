@@ -196,7 +196,7 @@ L.COORDINATES = "Coordinates";
 L.COST = "Cost";
 L.COST_DESC = "This contains the visual breakdown of what is required to obtain or purchase this Thing";
 L.COST_ICON = "|T" .. _.asset("Currency") .. ":0|t";
-L.COST_TEXT = "|T" .. _.asset("Currency") .. ":0|t |cffdedadeCurrency|r";
+L.COST_TEXT = "|T" .. _.asset("Currency") .. ":0|t |cffdedade" .. BONUS_ROLL_REWARD_CURRENCY .. "|r";
 L.COST_TOTAL = "Total Cost";
 L.COST_TOTAL_DESC = "This contains the visual breakdown of what is required to obtain or purchase all Things within the top-level group.\n\nNote: Does not currently include Reagents/Recipes requirements!";
 L.CREATURE_ID = "Creature ID";
@@ -1394,7 +1394,6 @@ _.Modules.Events.SetEventInformation(13, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=5,["monthDay"]=1,["weekday"]=7,["year"]=2027},{["hour"]=23,["minute"]=59,["month"]=5,["monthDay"]=7,["weekday"]=6,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(1, {
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=12,["weekday"]=2,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=19,["weekday"]=2,["year"]=2026},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=26,["weekday"]=2,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=2,["weekday"]=2,["year"]=2026},{["remappedID"]=375}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=9,["weekday"]=2,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=16,["weekday"]=2,["year"]=2026},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=23,["weekday"]=2,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=2,["weekday"]=2,["year"]=2026},{["remappedID"]=375}),
@@ -1420,7 +1419,8 @@ _.Modules.Events.SetEventInformation(1, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=30,["weekday"]=2,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=2,["year"]=2026},{["remappedID"]=375}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=14,["weekday"]=2,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=21,["weekday"]=2,["year"]=2026},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=28,["weekday"]=2,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=4,["weekday"]=2,["year"]=2027},{["remappedID"]=375}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=11,["weekday"]=2,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=18,["weekday"]=2,["year"]=2027},{["remappedID"]=374})
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=11,["weekday"]=2,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=18,["weekday"]=2,["year"]=2027},{["remappedID"]=374}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=25,["weekday"]=2,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=1,["weekday"]=2,["year"]=2027},{["remappedID"]=375})
 });
 
 -- Filter Database Module
@@ -11309,7 +11309,6 @@ L.CONTAINS = "Enthält:";
 L.COORDINATES = "Koordinaten";
 L.COST = "Kosten";
 L.COST_DESC = "Dies zeigt eine visuelle Aufschlüsselung dessen, was benötigt wird um dieses Ding zu erhalten oder zu kaufen";
-L.COST_TEXT = "|T" .. _.asset("Currency") .. ":0|t |cffdedadeWährung|r";
 L.CRITERIA_FOR = "Kriterium für";
 L.CURRENCY_FOR = "Währung für";
 L.CURRENCY_NEEDED_TO_BUY = "Geschätzter Betrag, der benötigt wird, um die verbleibenden Dinge zu erhalten";
@@ -14039,7 +14038,6 @@ L.CONFIRM_DELETE = "\n\nÊtes-vous sûr de vouloir supprimer ce personnage ?";
 L.CONTAINS = "Contient :";
 L.COORDINATES = "Coordonnées";
 L.COST = "Coût";
-L.COST_TEXT = "|T" .. _.asset("Currency") .. ":0|t |cffdedadeMonnaie|r";
 L.CRITERIA_FOR = "Critères de";
 L.CURRENT_SPEC = "Spécialisation actuelle";
 L.CURRENT_SPEC_DESC = "Si vous changez de talent, votre spécialisation en matière de butin change également.";
@@ -20666,7 +20664,6 @@ L.CONTAINS_SLIDER_TOOLTIP = "Используйте для изменения ч
 L.COORDINATES = "Координаты";
 L.COST = "Стоимость";
 L.COST_DESC = "Содержит визуальную справку о предметах, необходимых для покупки или получения данной Штучки";
-L.COST_TEXT = "|T" .. _.asset("Currency") .. ":0|t |cffdedadeВалюта|r";
 L.COST_TOTAL = "Полная Стоимость";
 L.COST_TOTAL_DESC = "Содержит визуальную справку о предметах, необходимых для покупки или получения всех Штучек в группе.\n\nЗаметка: На данный момент без учёта Реагентов/Рецептов!";
 L.CREATURES_COUNT = "[%s Существ]";
@@ -30600,6 +30597,7 @@ L.BREADCRUMBS = "无关紧要";
 L.BREADCRUMBS_WARNING = "完成此任务后可能无法获得无关紧要的任务：";
 L.CACHED_RECIPES_1 = "缓存 ";
 L.CACHED_RECIPES_2 = " 已知配方！";
+L.CAMPSITE_DESC = "点击此按钮以根据缺少的内容随机选择一个营地。";
 L.CAMPSITE_ID = "营地 ID";
 L.CAMPSITES_CHECKBOX_TOOLTIP = "启用此选项以追踪战团营地的完成情况。";
 L.CATALYST = "化生台";
@@ -30652,7 +30650,6 @@ L.CONTAINS_SLIDER_TOOLTIP = "使用该功能可以自定义鼠标提示中显示
 L.COORDINATES = "坐标";
 L.COST = "花费";
 L.COST_DESC = "这里面包含了获得或购买这个物品所需要的物品";
-L.COST_TEXT = "|T" .. _.asset("Currency") .. ":0|t |cffdedade货币|r";
 L.COST_TOTAL = "总花费";
 L.COST_TOTAL_DESC = "其中包含获取或购买顶级分组内所有物品所需的直观分类。\n\n注意：目前不包括药剂/配方需求！";
 L.CREATURE_ID = "生物 ID";
@@ -30677,6 +30674,7 @@ L.DEBUG_LOGIN = "登录后获得的奖励。\n\n干得好！你做到了！\n\n�
 L.DEBUG_MODE = "|c" .. _.DefaultColors.Red .. "调试模式|cffffffff（显示所有）|r|r";
 L.DEBUG_MODE_TOOLTIP = "就字面意思…游戏中的所有事情。时间。点滴。是的，所有的一切。即使是不可收藏的事物，如袋子、消耗品、试剂等也会出现在列表中。（甚至你自己！不，是真的。看。）\n\n这仅用于调试目的。不用于完成追踪。\n\n此模式绕过所有过滤，包括不可获得的。";
 L.DECOR_CHECKBOX_TOOLTIP = "启用此选项以跟踪战团装饰完成情况。";
+L.DECOR_DESC = "点击此按钮以根据缺少的内容随机选择一个装饰。";
 L.DECOR_ID = "装饰 ID";
 L.DELETE_CHARACTER = "右击删除此角色";
 L.DELETE_LINKED_ACCOUNT = "右击删除此链接帐号";
@@ -30767,11 +30765,13 @@ L.FILTER_THINGS_BY_LEVEL_CHECKBOX_TOOLTIP = "启用此选项会忽略玩家等�
 L.FILTER_THINGS_BY_SKILL_LEVEL_CHECKBOX = "无技能等级限制";
 L.FILTER_THINGS_BY_SKILL_LEVEL_CHECKBOX_TOOLTIP = "如果您只想查看游戏环境中可用的最高技能级别可用的内容，请禁用此设置。";
 L.FILTERS_PAGE = "过滤器";
+L.FLIGHT_PATH_DESC = "点击此按钮以根据缺少的内容随机选择一个飞行路径。";
 L.FLIGHT_PATH_ID = "飞行路线 ID";
 L.FLIGHT_PATHS = "飞行路线";
 L.FLIGHT_PATHS_CHECKBOX = "飞行路径";
 L.FLIGHT_PATHS_CHECKBOX_TOOLTIP = "启用此选项以追踪飞行路径和飞艇。\n\n要收藏这些信息，请与每个大陆的飞行点/飞艇船长对话。\n\n注意：由于分阶段技术，你可能必须分阶段到区域的其他敌方，以获得这些兴趣点的开启。";
 L.FLIGHT_PATHS_DESC = "当你与每个大陆上的飞行管理员交谈时会缓存飞行路径。\n  - Crieve";
+L.FOLLOWER_DESC = "点击此按钮以根据缺少的内容随机选择一个追随者。";
 L.FOLLOWER_ID = "追随者 ID";
 L.FOLLOWERS_CHECKBOX = "|T" .. _.asset("Expansion_WOD") .. ":0|t 追随者 & 伙伴";
 L.FOLLOWERS_CHECKBOX_TOOLTIP = "启用此选项可追踪随从。\n\n即：要塞随从，军团职业大厅随从，争霸艾泽拉斯随从，暗影国度随从。";
@@ -30945,6 +30945,8 @@ L.OBJECT_TYPE = "目标类型";
 L.OBJECTIVES = "目标";
 L.ONLY_NOT_TRASH = "过滤垃圾物品";
 L.ONLY_NOT_TRASH_TOOLTIP = "启用此选项可忽略白色/灰色物品。暴雪尚未在经典怀旧服中提供 API。";
+L.ONLY_OBTAINABLE_CHECKBOX = "仅可获得";
+L.ONLY_OBTAINABLE_CHECKBOX_TOOLTIP = "如果只想查看可获得的共享外观，请启用此选项。";
 L.ONLY_RELEVANT_CHECKBOX = "仅相关";
 L.ONLY_RELEVANT_CHECKBOX_TOOLTIP = "如果你只想看到你的角色可以解锁的共享外观，请启用此选项。\n\n注意：我们建议你保持这个关闭，因为了解一个物品的解锁要求可以帮助识别为什么一个物品没有被收藏。";
 L.ONLY_RWP = "仅‘随补丁移除’";
@@ -33661,7 +33663,6 @@ L.CONTAINS_SLIDER_TOOLTIP = "使用該功能可以自訂指標提示中顯示的
 L.COORDINATES = "座標";
 L.COST = "花費";
 L.COST_DESC = "這裡面包含了獲得或購買這個物品所需要的物品";
-L.COST_TEXT = "|T" .. _.asset("Currency") .. ":0|t |cffdedade貨幣|r";
 L.COST_TOTAL = "總花費";
 L.COST_TOTAL_DESC = "其中包含獲得或購買頂級分組內所有物品所需的直觀分類。\n\n注意：目前不包括藥劑/配方需求！";
 L.CRITERIA_FOR = "準則";

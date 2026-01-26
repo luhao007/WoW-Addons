@@ -195,7 +195,7 @@ L.COORDINATES = "Coordinates";
 L.COST = "Cost";
 L.COST_DESC = "This contains the visual breakdown of what is required to obtain or purchase this Thing";
 L.COST_ICON = "|T" .. _.asset("Currency") .. ":0|t";
-L.COST_TEXT = "|T" .. _.asset("Currency") .. ":0|t |cffdedadeCurrency|r";
+L.COST_TEXT = "|T" .. _.asset("Currency") .. ":0|t |cffdedade" .. BONUS_ROLL_REWARD_CURRENCY .. "|r";
 L.COST_TOTAL = "Total Cost";
 L.COST_TOTAL_DESC = "This contains the visual breakdown of what is required to obtain or purchase all Things within the top-level group.\n\nNote: Does not currently include Reagents/Recipes requirements!";
 L.CREATURE_ID = "Creature ID";
@@ -1698,7 +1698,6 @@ _.Modules.Events.SetEventInformation(242, {
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=3,["year"]=2027},{["hour"]=10,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=3,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(133900, {
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=1,["monthDay"]=18,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=1,["monthDay"]=18,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=1,["monthDay"]=25,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=1,["monthDay"]=25,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=2,["monthDay"]=1,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=2,["monthDay"]=1,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=2,["monthDay"]=8,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=2,["monthDay"]=8,["weekday"]=1,["year"]=2026}),
@@ -1750,7 +1749,8 @@ _.Modules.Events.SetEventInformation(133900, {
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=12,["monthDay"]=27,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=12,["monthDay"]=27,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=1,["monthDay"]=3,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=1,["monthDay"]=3,["weekday"]=1,["year"]=2027}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=1,["monthDay"]=10,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=1,["monthDay"]=10,["weekday"]=1,["year"]=2027}),
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=1,["monthDay"]=17,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=1,["monthDay"]=17,["weekday"]=1,["year"]=2027})
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=1,["monthDay"]=17,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=1,["monthDay"]=17,["weekday"]=1,["year"]=2027}),
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=1,["monthDay"]=24,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=1,["monthDay"]=24,["weekday"]=1,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(133899, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=3,["year"]=2025},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=5,["year"]=2026}),
@@ -9031,12 +9031,6 @@ local phases = {
 		description = "|cFFFFAAAAThis cannot be permanently collected, learned or used for transmog.|r",
 		state = 2,
 	},
-	[6] = {
-		name = "Requires Summoning Items",
-		description = "|cFFFFAAAAThis is no longer available unless you know someone that has access to the items used to summon the boss.|r",
-		lore = "|cFFFFAAAANote: Most Summoning Items can be reobtained if you had them in the past by talking to the respective NPC.|r",
-		state = 2,
-	},
 	[7] = {
 		name = "Trading Post",
 		description = "|cFFAAFFAAThis Thing is available in the Trading Post.|r",
@@ -9567,7 +9561,6 @@ L.CONTAINS = "Enthält:";
 L.COORDINATES = "Koordinaten";
 L.COST = "Kosten";
 L.COST_DESC = "Dies zeigt eine visuelle Aufschlüsselung dessen, was benötigt wird um dieses Ding zu erhalten oder zu kaufen";
-L.COST_TEXT = "|T" .. _.asset("Currency") .. ":0|t |cffdedadeWährung|r";
 L.CRITERIA_FOR = "Kriterium für";
 L.CURRENCY_FOR = "Währung für";
 L.CURRENCY_NEEDED_TO_BUY = "Geschätzter Betrag, der benötigt wird, um die verbleibenden Dinge zu erhalten";
@@ -12612,7 +12605,6 @@ L.CONFIRM_DELETE = "\n\nÊtes-vous sûr de vouloir supprimer ce personnage ?";
 L.CONTAINS = "Contient :";
 L.COORDINATES = "Coordonnées";
 L.COST = "Coût";
-L.COST_TEXT = "|T" .. _.asset("Currency") .. ":0|t |cffdedadeMonnaie|r";
 L.CRITERIA_FOR = "Critères de";
 L.CURRENT_SPEC = "Spécialisation actuelle";
 L.CURRENT_SPEC_DESC = "Si vous changez de talent, votre spécialisation en matière de butin change également.";
@@ -20717,7 +20709,6 @@ L.CONTAINS_SLIDER_TOOLTIP = "Используйте для изменения ч
 L.COORDINATES = "Координаты";
 L.COST = "Стоимость";
 L.COST_DESC = "Содержит визуальную справку о предметах, необходимых для покупки или получения данной Штучки";
-L.COST_TEXT = "|T" .. _.asset("Currency") .. ":0|t |cffdedadeВалюта|r";
 L.COST_TOTAL = "Полная Стоимость";
 L.COST_TOTAL_DESC = "Содержит визуальную справку о предметах, необходимых для покупки или получения всех Штучек в группе.\n\nЗаметка: На данный момент без учёта Реагентов/Рецептов!";
 L.CREATURES_COUNT = "[%s Существ]";
@@ -23969,7 +23960,6 @@ for key,value in pairs({
 	[3] = "Кошелек Battle.net",
 	[4] = "ПвП Элита / Гладиатор",
 	[5] = "Неизучаемые",
-	[6] = "Требуются предметы для призыва",
 	[7] = "Торговая лавка",
 })
 do phases[key].name = value; end
@@ -23979,7 +23969,6 @@ for key,value in pairs({
 	[3] = "|cFFAAFFAAМожет быть скрыто за вложением денег, возможно, игровой магазин, другая игра Blizzard и \"Пригласи Друга\".|r",
 	[4] = "|cFFFFAAAAЭто больше нельзя будет купить или получить в коллекцию, если у вас нет необходимого PvP титула или если вы не входили в топ % лучших в этом сезоне.|r",
 	[5] = "|cFFFFAAAAЭто нельзя собрать, выучить навсегда или использовать для трансмогрификации.|r",
-	[6] = "|cFFFFAAAAЭто больше не доступно, если вы не знаете кого-то, у кого есть доступ к предметам, используемым для вызова босса.|r",
 	[7] = "|cFFAAFFAAЭта Штучка доступна в Торговой лавке.|r",
 	[11] = "|cFFAAFFAAЭто было недоступно до Phase 1 из WoW Classic.|r",
 	[12] = "|cFFAAFFAAЭто было недоступно до Phase 2 из WoW Classic.|r",
@@ -24014,10 +24003,6 @@ for key,value in pairs({
 	[5401] = "|cFFAAFFAAЭто было недоступно до Celestial Dungeons (SoO) из Mists of Pandaria Classic.|r",
 })
 do phases[key].description = value; end
-for key,value in pairs({
-	[6] = "|cFFFFAAAAПримечание: Большинство предметов призыва можно получить повторно, если они у Вас были раньше, поговорив с соответствующим NPC.|r",
-})
-do phases[key].lore = value; end
 end
 if simplifiedLocale == "ko" then
 L.APPEARANCES_CHECKBOX = "형상";
@@ -30251,7 +30236,6 @@ for key,value in pairs({
 	[3] = "Saldo de Battle.net",
 	[4] = "PvP Elite/Gladiador",
 	[5] = "No aprendible",
-	[6] = "Requiere objetos para una invocación",
 	[7] = "Puesto comercial",
 	[11] = "Fase 1",
 	[1101] = "La masacre",
@@ -30303,7 +30287,6 @@ for key,value in pairs({
 	[3] = "|cFFAAFFAAEsta cosa está bloqueada detrás de un muro de pago que requiere saldo de Battle.net o dinero real.|r",
 	[4] = "|cFFFFAAAAEsto ya no se puede comprar ni desbloquear como transfiguración a menos que tengas el título PvP requerido, la calificación PvP requerida o estés en el porcentaje superior de esa temporada.|r",
 	[5] = "|cFFFFAAAAEsto no se puede recolectar, aprender ni usar para transfiguración de forma permanente.|r",
-	[6] = "|cFFFFAAAAEsto ya no está disponible a menos que conozcas a alguien que tenga acceso a los objetos utilizados para invocar al jefe.|r",
 	[7] = "|cFFAAFFAAEste artículo está disponible en el puesto comercial.|r",
 	[11] = "|cFFAAFFAAEsto no estuvo disponible hasta Fase 1 de WoW Classic.|r",
 	[1101] = "|cFFAAFFAAEsto estuvo disponible con el lanzamiento de la fase La masacre de WoW Classic.|r",
@@ -30363,7 +30346,6 @@ for key,value in pairs({
 do phases[key].description = value; end
 for key,value in pairs({
 	[3] = "|cFFFFAAAAFomentar el uso de dinero real en cualquier versión del juego está ampliamente mal visto. Participa en este contenido bajo tu propia responsabilidad.|r",
-	[6] = "|cFFFFAAAANota: la mayoría de los objetos de invocación se pueden volver a obtener si los tenías en el pasado hablando con el NPC correspondiente.|r",
 	[11] = "|cFFFFAAAAIncluidos Núcleo de magma y La guarida de Onyxia.|r",
 	[1101] = "|cFFFFAAAAIncluye La masacre|r",
 	[12] = "|cFFFFAAAAIncluidos JvJ de mundo y titulos de honor JvJ.|r",
@@ -30815,6 +30797,7 @@ L.BREADCRUMBS = "无关紧要";
 L.BREADCRUMBS_WARNING = "完成此任务后可能无法获得无关紧要的任务：";
 L.CACHED_RECIPES_1 = "缓存 ";
 L.CACHED_RECIPES_2 = " 已知配方！";
+L.CAMPSITE_DESC = "点击此按钮以根据缺少的内容随机选择一个营地。";
 L.CAMPSITE_ID = "营地 ID";
 L.CAMPSITES_CHECKBOX_TOOLTIP = "启用此选项以追踪战团营地的完成情况。";
 L.CATALYST = "化生台";
@@ -30867,7 +30850,6 @@ L.CONTAINS_SLIDER_TOOLTIP = "使用该功能可以自定义鼠标提示中显示
 L.COORDINATES = "坐标";
 L.COST = "花费";
 L.COST_DESC = "这里面包含了获得或购买这个物品所需要的物品";
-L.COST_TEXT = "|T" .. _.asset("Currency") .. ":0|t |cffdedade货币|r";
 L.COST_TOTAL = "总花费";
 L.COST_TOTAL_DESC = "其中包含获取或购买顶级分组内所有物品所需的直观分类。\n\n注意：目前不包括药剂/配方需求！";
 L.CREATURE_ID = "生物 ID";
@@ -30892,6 +30874,7 @@ L.DEBUG_LOGIN = "登录后获得的奖励。\n\n干得好！你做到了！\n\n�
 L.DEBUG_MODE = "|c" .. _.DefaultColors.Red .. "调试模式|cffffffff（显示所有）|r|r";
 L.DEBUG_MODE_TOOLTIP = "就字面意思…游戏中的所有事情。时间。点滴。是的，所有的一切。即使是不可收藏的事物，如袋子、消耗品、试剂等也会出现在列表中。（甚至你自己！不，是真的。看。）\n\n这仅用于调试目的。不用于完成追踪。\n\n此模式绕过所有过滤，包括不可获得的。";
 L.DECOR_CHECKBOX_TOOLTIP = "启用此选项以跟踪战团装饰完成情况。";
+L.DECOR_DESC = "点击此按钮以根据缺少的内容随机选择一个装饰。";
 L.DECOR_ID = "装饰 ID";
 L.DELETE_CHARACTER = "右击删除此角色";
 L.DELETE_LINKED_ACCOUNT = "右击删除此链接帐号";
@@ -30982,11 +30965,13 @@ L.FILTER_THINGS_BY_LEVEL_CHECKBOX_TOOLTIP = "启用此选项会忽略玩家等�
 L.FILTER_THINGS_BY_SKILL_LEVEL_CHECKBOX = "无技能等级限制";
 L.FILTER_THINGS_BY_SKILL_LEVEL_CHECKBOX_TOOLTIP = "如果您只想查看游戏环境中可用的最高技能级别可用的内容，请禁用此设置。";
 L.FILTERS_PAGE = "过滤器";
+L.FLIGHT_PATH_DESC = "点击此按钮以根据缺少的内容随机选择一个飞行路径。";
 L.FLIGHT_PATH_ID = "飞行路线 ID";
 L.FLIGHT_PATHS = "飞行路线";
 L.FLIGHT_PATHS_CHECKBOX = "飞行路径";
 L.FLIGHT_PATHS_CHECKBOX_TOOLTIP = "启用此选项以追踪飞行路径和飞艇。\n\n要收藏这些信息，请与每个大陆的飞行点/飞艇船长对话。\n\n注意：由于分阶段技术，你可能必须分阶段到区域的其他敌方，以获得这些兴趣点的开启。";
 L.FLIGHT_PATHS_DESC = "当你与每个大陆上的飞行管理员交谈时会缓存飞行路径。\n  - Crieve";
+L.FOLLOWER_DESC = "点击此按钮以根据缺少的内容随机选择一个追随者。";
 L.FOLLOWER_ID = "追随者 ID";
 L.FOLLOWERS_CHECKBOX = "|T" .. _.asset("Expansion_WOD") .. ":0|t 追随者 & 伙伴";
 L.FOLLOWERS_CHECKBOX_TOOLTIP = "启用此选项可追踪随从。\n\n即：要塞随从，军团职业大厅随从，争霸艾泽拉斯随从，暗影国度随从。";
@@ -31160,6 +31145,8 @@ L.OBJECT_TYPE = "目标类型";
 L.OBJECTIVES = "目标";
 L.ONLY_NOT_TRASH = "过滤垃圾物品";
 L.ONLY_NOT_TRASH_TOOLTIP = "启用此选项可忽略白色/灰色物品。暴雪尚未在经典怀旧服中提供 API。";
+L.ONLY_OBTAINABLE_CHECKBOX = "仅可获得";
+L.ONLY_OBTAINABLE_CHECKBOX_TOOLTIP = "如果只想查看可获得的共享外观，请启用此选项。";
 L.ONLY_RELEVANT_CHECKBOX = "仅相关";
 L.ONLY_RELEVANT_CHECKBOX_TOOLTIP = "如果你只想看到你的角色可以解锁的共享外观，请启用此选项。\n\n注意：我们建议你保持这个关闭，因为了解一个物品的解锁要求可以帮助识别为什么一个物品没有被收藏。";
 L.ONLY_RWP = "仅‘随补丁移除’";
@@ -33924,7 +33911,6 @@ for key,value in pairs({
 	[3] = "战网点数",
 	[4] = "PvP 精良/角斗士",
 	[5] = "不可学",
-	[6] = "需要召唤物品",
 	[7] = "货栈",
 })
 do phases[key].name = value; end
@@ -33934,7 +33920,6 @@ for key,value in pairs({
 	[3] = "|cFFAAFFAA该物品需要付费解锁，需使用战网余额或真实货币购买。|r",
 	[4] = "|cFFFFAAAA除非您拥有所需的 PvP 头衔、所需的 PvP 等级或处于该赛季的前 %，否则无法再购买或解锁幻化。|r",
 	[5] = "|cFFFFAAAA这不能永久收集、学习或用于幻化。|r",
-	[6] = "|cFFFFAAAA除非您认识可以使用用于召唤首领的物品的人，否则这将不再可用。|r",
 	[7] = "|cFFAAFFAA该物品可在货栈购买。|r",
 	[11] = "|cFFAAFFAA该功能直到 Phase 1 的 WoW Classic 才可用。|r",
 	[12] = "|cFFAAFFAA该功能直到 Phase 2 的 WoW Classic 才可用。|r",
@@ -33971,7 +33956,6 @@ for key,value in pairs({
 do phases[key].description = value; end
 for key,value in pairs({
 	[3] = "|cFFFFAAAA在游戏的任何版本中，鼓励使用真实货币的行为均不受认可。参与此类内容需自行承担风险。|r",
-	[6] = "|cFFFFAAAA注意：如果过去拥有大多数召唤物品，则可以通过与相应的 NPC 交谈来重新获得它们。|r",
 })
 do phases[key].lore = value; end
 if GetLocale():sub(3,4):lower() == "tw" then
@@ -34105,7 +34089,6 @@ L.CONTAINS_SLIDER_TOOLTIP = "使用該功能可以自訂指標提示中顯示的
 L.COORDINATES = "座標";
 L.COST = "花費";
 L.COST_DESC = "這裡面包含了獲得或購買這個物品所需要的物品";
-L.COST_TEXT = "|T" .. _.asset("Currency") .. ":0|t |cffdedade貨幣|r";
 L.COST_TOTAL = "總花費";
 L.COST_TOTAL_DESC = "其中包含獲得或購買頂級分組內所有物品所需的直觀分類。\n\n注意：目前不包括藥劑/配方需求！";
 L.CRITERIA_FOR = "準則";
@@ -34844,7 +34827,6 @@ for key,value in pairs({
 	[3] = "Battle.net 點數",
 	[4] = "PvP 精良/鬥士",
 	[5] = "不可學",
-	[6] = "需要召喚物品",
 	[7] = "貿易站",
 	[1604] = "大師賽季",
 	[1610] = "第6階段",
@@ -34867,7 +34849,6 @@ for key,value in pairs({
 	[3] = "|cFFAAFFAA這被鎖定在付費牆後面，例如遊戲內商店、另一個暴雪產品或招兵買馬召集令。|r",
 	[4] = "|cFFFFAAAA除非您擁有所需的 PvP 頭銜、所需的 PvP 等級或處於該賽季的前 %，否則無法再購買或解鎖塑形。|r",
 	[5] = "|cFFFFAAAA這不能永久收集、學習或用於塑形。|r",
-	[6] = "|cFFFFAAAA除非您認識可以使用用於召喚首領的物品的人，否則這將不再可用。|r",
 	[7] = "|cFFAAFFAA該物品可以在貿易戰購買|r",
 	[11] = "|cFFAAFFAA該功能直到 Phase 1 的 WoW Classic 才可用。|r",
 	[12] = "|cFFAAFFAA該功能直到 Phase 2 的 WoW Classic 才可用。|r",
@@ -34904,7 +34885,6 @@ for key,value in pairs({
 do phases[key].description = value; end
 for key,value in pairs({
 	[3] = "|cFFFFAAAA在遊戲的任何版本中，鼓勵使用真實貨幣的行為均不受認可。參與此類內容需自行承擔風險。|r",
-	[6] = "|cFFFFAAAA注意：如果過去擁有大多數召喚物品，則可以通過與相應的 NPC 交談來重新獲得它們。|r",
 })
 do phases[key].lore = value; end
 end

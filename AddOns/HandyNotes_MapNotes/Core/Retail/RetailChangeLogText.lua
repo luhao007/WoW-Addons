@@ -1,9 +1,11 @@
 local ADDON_NAME, ns = ...
 
-ns.CurrentAddonVersion = "3.2.4"
-ns.PreviousAddonVersion = "3.2.2" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
+ns.CurrentAddonVersion = "3.2.6"
+ns.PreviousAddonVersion = "3.2.5" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
 
 ns.LOCALE_CHANGELOGS = {
+  { version = "3.2.6", table = "partialUpdate" },
+  { version = "3.2.5", table = ns.LOCALE_CHANGELOG_3_2_5 },
   { version = "3.2.4", table = "prepatchUpdate" },
   { version = "3.2.3", table = "smallChanges" },
   { version = "3.2.2", table = ns.LOCALE_CHANGELOG_3_2_2 },
@@ -63,6 +65,151 @@ ns.LOCALE_CHANGELOG_3_2_ = { -- empty backup file
 
   koKR = [[
 
+]],
+}
+
+ns.LOCALE_CHANGELOG_3_2_5 = { 
+  deDE = [[
+• Einige Funktionen und Symbole wurden bereits auf den Midnight-Stand aktualisiert
+  • Unerforschte Gebiete
+  • Wegesymbole
+  • Tiefenanzeige + Funktion zum direkten Anzeigen der Karten
+
+• Die restlichen Symbole und Funktionen werden in den nächsten Tagen und Wochen auf den neuesten Stand gebracht.
+• Solltet ihr irgendwelche Fehler finden, meldet diese bitte über die CurseForge-Addon-Seite:
+  https://legacy.curseforge.com/wow/addons/mapnotes/issues
+
+• Ich versuche, das Addon so schnell wie möglich auf den neuesten Stand zu bringen. Da es sich jedoch um ein Ein-Personen-Addon handelt, kann es gelegentlich zu Verzögerungen kommen.
+]],
+
+  enUS = [[
+• Some functions and icons have already been updated to the Midnight standard
+  • Unexplored areas
+  • Path icons
+  • Delve display + function to directly open the maps
+
+• The remaining icons and functions will be updated to the latest standard over the next days and weeks.
+• If you find any bugs, please report them on the CurseForge addon page:
+  https://legacy.curseforge.com/wow/addons/mapnotes/issues
+
+• I am trying to update the addon as quickly as possible. However, since this is a one-person addon, delays may occasionally occur.
+]],
+
+  frFR = [[
+• Certaines fonctionnalités et icônes ont déjà été mises à jour selon le standard Midnight
+  • Zones inexplorées
+  • Icônes de chemins
+  • Affichage des Gouffres + fonction pour ouvrir directement les cartes
+
+• Les icônes et fonctionnalités restantes seront mises à jour dans les prochains jours et semaines.
+• Si vous trouvez des erreurs, veuillez les signaler sur la page CurseForge de l’addon :
+  https://legacy.curseforge.com/wow/addons/mapnotes/issues
+
+• Je fais de mon mieux pour mettre l’addon à jour rapidement. Cependant, comme il s’agit d’un addon développé par une seule personne, des retards peuvent survenir.
+]],
+
+  itIT = [[
+• Alcune funzioni e icone sono già state aggiornate allo standard Midnight
+  • Aree inesplorate
+  • Icone dei percorsi
+  • Visualizzazione delle Incursioni + funzione per aprire direttamente le mappe
+
+• Le restanti icone e funzioni verranno aggiornate nei prossimi giorni e settimane.
+• Se riscontrate errori, segnalateli sulla pagina CurseForge dell’addon:
+  https://legacy.curseforge.com/wow/addons/mapnotes/issues
+
+• Sto cercando di aggiornare l’addon il più rapidamente possibile. Tuttavia, trattandosi di un addon sviluppato da una sola persona, potrebbero verificarsi dei ritardi.
+]],
+
+  esES = [[
+• Algunas funciones e iconos ya han sido actualizados al estándar Midnight
+  • Zonas inexploradas
+  • Iconos de caminos
+  • Visualización de Profundidades + función para abrir los mapas directamente
+
+• Los iconos y funciones restantes se actualizarán en los próximos días y semanas.
+• Si encontráis algún error, informadlo en la página del addon en CurseForge:
+  https://legacy.curseforge.com/wow/addons/mapnotes/issues
+
+• Intento actualizar el addon lo más rápido posible. Sin embargo, al tratarse de un addon desarrollado por una sola persona, pueden producirse retrasos ocasionales.
+]],
+
+  esMX = [[
+• Algunas funciones e iconos ya han sido actualizados al estándar Midnight
+  • Zonas inexploradas
+  • Iconos de caminos
+  • Visualización de Profundidades + función para abrir los mapas directamente
+
+• Los iconos y funciones restantes se actualizarán en los próximos días y semanas.
+• Si encuentran algún error, repórtenlo en la página del addon en CurseForge:
+  https://legacy.curseforge.com/wow/addons/mapnotes/issues
+
+• Intento actualizar el addon lo más rápido posible. Sin embargo, al ser un addon desarrollado por una sola persona, pueden presentarse retrasos ocasionales.
+]],
+
+  ptBR = [[
+• Algumas funções e ícones já foram atualizados para o padrão Midnight
+  • Áreas inexploradas
+  • Ícones de caminhos
+  • Exibição de Delves + função para abrir os mapas diretamente
+
+• Os ícones e funções restantes serão atualizados nos próximos dias e semanas.
+• Caso encontre algum erro, reporte-o na página do addon no CurseForge:
+  https://legacy.curseforge.com/wow/addons/mapnotes/issues
+
+• Estou tentando atualizar o addon o mais rápido possível. No entanto, por se tratar de um addon desenvolvido por apenas uma pessoa, podem ocorrer atrasos ocasionais.
+]],
+
+  ruRU = [[
+• Некоторые функции и значки уже были обновлены до стандарта Midnight
+  • Неисследованные области
+  • Значки путей
+  • Отображение Вылазок + функция прямого открытия карт
+
+• Остальные значки и функции будут обновлены в ближайшие дни и недели.
+• Если вы обнаружите ошибки, пожалуйста, сообщите о них на странице аддона CurseForge:
+  https://legacy.curseforge.com/wow/addons/mapnotes/issues
+
+• Я стараюсь как можно быстрее обновлять аддон. Однако, поскольку аддон разрабатывается одним человеком, иногда возможны задержки.
+]],
+
+  zhCN = [[
+• 部分功能和图标已更新至 Midnight 标准
+  • 未探索区域
+  • 路径图标
+  • 深渊显示 + 直接打开地图的功能
+
+• 其余图标和功能将在接下来的几天和几周内更新。
+• 如果你发现任何错误，请在 CurseForge 插件页面反馈：
+  https://legacy.curseforge.com/wow/addons/mapnotes/issues
+
+• 我会尽力尽快更新该插件。但由于这是一个由单人维护的插件，更新过程中可能会出现延迟。
+]],
+
+  zhTW = [[
+• 部分功能與圖示已更新至 Midnight 標準
+  • 未探索區域
+  • 路徑圖示
+  • 深淵顯示 + 可直接開啟地圖的功能
+
+• 其餘圖示與功能將於未來幾天與數週內更新。
+• 若發現任何錯誤，請至 CurseForge 插件頁面回報：
+  https://legacy.curseforge.com/wow/addons/mapnotes/issues
+
+• 我會盡力盡快更新插件，但由於這是單人維護的插件，偶爾可能會有更新延遲。
+]],
+
+  koKR = [[
+• 일부 기능과 아이콘이 이미 Midnight 기준에 맞게 업데이트되었습니다
+  • 미탐험 지역
+  • 경로 아이콘
+  • 심층(Delve) 표시 + 지도 바로 열기 기능
+
+• 나머지 아이콘과 기능은 향후 며칠 및 몇 주에 걸쳐 업데이트될 예정입니다.
+• 오류를 발견하시면 CurseForge 애드온 페이지를 통해 제보해 주세요:
+  https://legacy.curseforge.com/wow/addons/mapnotes/issues
+
+• 가능한 한 빠르게 애드온을 최신 상태로 유지하려고 노력하고 있습니다. 다만 1인 개발 애드온이기 때문에 업데이트가 지연될 수 있습니다.
 ]],
 }
 
@@ -1727,6 +1874,52 @@ ns.LOCALE_CHANGELOG_3_1_1 = {
   • 각 캐릭터의 원래 블리자드 미니맵 아이콘 설정을 저장하여, 옵션 해제 시 원상복구 가능
 
   • 변경 사항은 즉시 적용되지만, 블리자드 미니맵 하위 메뉴에서는 재시작(/reload) 전까지 잘못 표시될 수 있음
+]],
+}
+
+ns.partialUpdate = {
+  deDE = [[
+• Teilupdate
+]],
+
+  enUS = [[
+• Partial update
+]],
+
+  frFR = [[
+• Mise à jour partielle
+]],
+
+  itIT = [[
+• Aggiornamento parziale
+]],
+
+  esES = [[
+• Actualización parcial
+]],
+
+  esMX = [[
+• Actualización parcial
+]],
+
+  ptBR = [[
+• Atualização parcial
+]],
+
+  ruRU = [[
+• Частичное обновление
+]],
+
+  zhCN = [[
+• 部分更新
+]],
+
+  zhTW = [[
+• 部分更新
+]],
+
+  koKR = [[
+• 부분 업데이트
 ]],
 }
 

@@ -758,6 +758,7 @@ PLATER_DEFAULT_SETTINGS = {
 		castbar_target_shadow_color_offset = {1, -1},
 		castbar_target_color = {0.968627, 0.992156, 1, 1},
 		castbar_target_font = "Arial Narrow",
+		castbar_target_text_max_length = 100,
 
 		--> castbar icon
 		castbar_icon_customization_enabled = true,
@@ -847,6 +848,7 @@ PLATER_DEFAULT_SETTINGS = {
 		aura_custom = {},
 		
 		aura_timer = true,
+		aura_timer_pandemic_color = true,
 		aura_timer_decimals = false,
 		aura_timer_text_size = 15,
 		aura_timer_text_font = "Arial Narrow",

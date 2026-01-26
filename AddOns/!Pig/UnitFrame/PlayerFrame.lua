@@ -10,9 +10,9 @@ local function Update_Hp()
 		local HP = UnitHealth("player");	
 		local HPmax = UnitHealthMax("player");
 		PlayerFrame.ziji.HP:SetText(HP..'/'..HPmax);
-		if HPmax>0 then
-			PlayerFrame.ziji.Baifenbi:SetText(floor(((HP/HPmax)*100)).."%");
-		end
+		-- if HPmax>0 then
+		-- 	PlayerFrame.ziji.Baifenbi:SetText(floor(((HP/HPmax)*100)).."%");
+		-- end
 	end
 end
 local function Update_Mp()

@@ -630,19 +630,6 @@ class Manager:
         )
 
     @staticmethod
-    @available_on(["retail"])
-    def handle_omnicd():
-        utils.process_file(
-            "AddOns/OmniCD/Libs/LibOmniCDC/AceGUI-3.0/AceGUI-3.0.xml",
-            lambda lines: [line for line in lines if "Ace3" not in line],
-        )
-
-        utils.process_file(
-            "AddOns/OmniCD/Libs/LibOmniCDC/AceConfig-3.0/AceConfig-3.0.xml",
-            lambda lines: [line for line in lines if "Ace3" not in line],
-        )
-
-    @staticmethod
     @available_on(["retail", "classic"])
     def handle_oa():
         if not os.path.exists("Addons/Overachiever"):

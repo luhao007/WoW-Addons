@@ -142,15 +142,16 @@ end);
 local function BigDebuff()
 	if PIGA["UnitFrame"]["TargetFrame"]["BigDebuff"] then
 		if TargetFrame_UpdateDebuffAnchor then
-			TargetFrameToT:SetPoint("BOTTOMRIGHT", TargetFrame, "BOTTOMRIGHT", -4, -12);
-			hooksecurefunc("TargetFrame_UpdateDebuffAnchor", function(self, debuffName, index)
-				local buff = _G[debuffName..index];
-				local _, _, _, _, _, _, caster = UnitDebuff(self.unit, index)
-				if caster == "player" then
-					buff:SetSize(30,30)
-				end
-				
-			end)
+			if PIG_MaxTocversion(120000) then
+				TargetFrameToT:SetPoint("BOTTOMRIGHT", TargetFrame, "BOTTOMRIGHT", -4, -12);
+				hooksecurefunc("TargetFrame_UpdateDebuffAnchor", function(self, debuffName, index)
+					local buff = _G[debuffName..index];
+					local _, _, _, _, _, _, caster = UnitDebuff(self.unit, index)
+					if caster == "player" then
+						buff:SetSize(30,30)
+					end
+				end)
+			end
 		else
 			hooksecurefunc(TargetFrame,"UpdateAuras", function(self)
 				local debuffIndex = 1;

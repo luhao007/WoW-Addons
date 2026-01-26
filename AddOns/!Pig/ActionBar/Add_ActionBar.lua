@@ -237,11 +237,8 @@ local function ADD_ActionBar(barName,CFdata,anniugeshu, anniujiange,tabF,tabBut,
 	-----
 	for id=1,anniugeshu do
 		local piganniu
-		if PIG_MaxTocversion("tbc") then
-			piganniu = CreateFrame("CheckButton", "$parent_But"..id, Pig_bar, "ActionBarButtonTemplate")
-		else
-			piganniu = CreateFrame("CheckButton", "$parent_But"..id, Pig_bar, "SecureActionButtonTemplate,ActionButtonTemplate,SecureHandlerDragTemplate,SecureHandlerMouseUpDownTemplate,SecureHandlerStateTemplate,SecureHandlerBaseTemplate")
-		end
+		--piganniu = CreateFrame("CheckButton", "$parent_But"..id, Pig_bar, "ActionBarButtonTemplate")
+		piganniu = CreateFrame("CheckButton", "$parent_But"..id, Pig_bar, "SecureActionButtonTemplate,ActionButtonTemplate,SecureHandlerDragTemplate,SecureHandlerMouseUpDownTemplate,SecureHandlerStateTemplate,SecureHandlerBaseTemplate")
 		piganniu:SetSize(ActionW, ActionW)
 		if id==1 then
 			piganniu:SetPoint("LEFT",Pig_bar.yidong,"RIGHT",2,0)
@@ -261,6 +258,7 @@ local function ADD_ActionBar(barName,CFdata,anniugeshu, anniujiange,tabF,tabBut,
 	 	-- piganniu:SetAttribute("checkselfcast", true);--可以使用自我施法按键
 	 	-- piganniu.flashing = 0;
 	 	-- piganniu.flashtime = 0;
+	 	PIGUseKeyDown(piganniu)
 	 	PIGActionBarActionEventsFrame.frames[piganniu] = piganniu;
 		piganniu:HookScript("PostClick", function(self)
 			Update_PostClick(self)

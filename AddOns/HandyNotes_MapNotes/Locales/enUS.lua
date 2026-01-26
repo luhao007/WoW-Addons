@@ -351,6 +351,7 @@ L["Show all Kul Tiras MapNotes dungeon, raid, portal, zeppelin and ship icons on
 L["Show all Broken Isles MapNotes dungeon, raid, portal, zeppelin and ship icons on this map"] = true
 L["Show all Dragon Isles MapNotes dungeon, raid, portal, zeppelin and ship icons on this map"] = true
 L["Show all Khaz Algar MapNotes dungeon, raid, portal, zeppelin and ship icons on this map"] = true
+L["Show all Quel'Thalas MapNotes dungeon, raid, portal, zeppelin and ship icons on this map"] = true
 L["Certain icons can be displayed or not displayed. If the option (Activate icons) has been activated in this category"] = true
 L["Show vanilla versions of dungeons and raids such as Naxxramas, Scholomance or Scarlet Monastery, which require achievements or other things"] = true
 L["Individual icons that are too close to other icons on this map are not 100% accurately placed on this map! For more precise coordinates, please use the points on the zone map"] = true
@@ -366,6 +367,7 @@ L["Zandalar"] = true -- in process
 L["Kul Tiras"] = true -- in process
 L["Shadowlands"] = true -- in process
 L["Dragon Isles"] = true -- in process
+L["Quel'Thalas"] = true
 --8 Core specific
 L["-> MiniMapButton <-"] = true
 L["-> WorldMapButton <-"] = true

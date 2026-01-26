@@ -1,13 +1,17 @@
 ## Interface: 120000
+## Author: 忘忧景久
+## Version: 0.1.1
 
 ## Title: WYJJDB
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r|cFFFFFFFF忘忧景久语音包|r |cFFFFE00AWYJJDB|r
+## Notes-zhCN: 忘忧景久素材包，包含语音提示、原生风格进度条材质与Plater箭头素材
 
-## IconTexture: Interface\AddOns\WYJJDB\Media\Textures\icon.tga
+## IconTexture: Interface\AddOns\WYJJDB\Media\icon.tga
 
 ## Category-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r
 
-db.lua
-functions.lua
+## OptionalDeps: LibSharedMedia-3.0
+
 embeds.xml
-Soundpaths.lua
+BW_Countdown.lua
+Mediapaths.lua

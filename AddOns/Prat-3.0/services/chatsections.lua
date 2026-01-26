@@ -1,5 +1,6 @@
 --[[ BEGIN STANDARD HEADER ]] --
 
+local Chat_GetChatCategory = _G.Chat_GetChatCategory or _G.ChatFrameUtil.GetChatCategory
 local ChatFrame_GetMentorChannelStatus = _G.ChatFrame_GetMentorChannelStatus or _G.ChatFrameUtil.GetMentorChannelStatus
 local ChatFrame_ResolvePrefixedChannelName = _G.ChatFrame_ResolvePrefixedChannelName or _G.ChatFrameUtil.ResolvePrefixedChannelName
 local ChatFrame_GetMobileEmbeddedTexture = _G.ChatFrame_GetMobileEmbeddedTexture or _G.ChatFrameUtil.GetMobileEmbeddedTexture
@@ -306,6 +307,8 @@ local function GetDecoratedSenderName(event, ...)
 		else
 			decoratedPlayerName = _G.Ambiguate(decoratedPlayerName, "none");
 		end
+	else
+		decoratedPlayerName = firstName
 	end
 
 	-- Add timerunning icon when necessary based on player guid
@@ -326,7 +329,9 @@ local function GetDecoratedSenderName(event, ...)
 	if _G.ChatFrameUtil.ProcessSenderNameFilters then
 		decoratedPlayerName = _G.ChatFrameUtil.ProcessSenderNameFilters(event, decoratedPlayerName, ...);
 	end
-	return "["..decoratedPlayerName.."]";
+	if decoratedPlayerName then
+		return "["..decoratedPlayerName.."]";
+	end
 end
 
 local function SanitizeCommunityData(clubId, streamId, epoch, position)
@@ -448,7 +453,7 @@ function SplitChatMessage(frame, event, ...)
 
     s.CHATTYPE = type
     s.EVENT = event
-    local chatGroup = _G.Chat_GetChatCategory(type)
+    local chatGroup = Chat_GetChatCategory(type)
     s.CHATGROUP = chatGroup
 
 
@@ -511,7 +516,7 @@ function SplitChatMessage(frame, event, ...)
     s.TYPEPREFIX = safestr(s.TYPEPREFIX)
 
     local arg2 = isSecret and arg2 or safestr(arg2)
-	if isSecret then
+	if isSecret and coloredName then
 		local playerWrapper = "[%s]"
 		local isCommunityType = type == "COMMUNITIES_CHANNEL";
 		if strsub(type,1,11) == 'ACHIEVEMENT' or strsub(type, 1, 18) == 'GUILD_ACHIEVEMENT' then
@@ -580,7 +585,7 @@ function SplitChatMessage(frame, event, ...)
             if _G.C_BattleNet and  _G.C_BattleNet.GetAccountInfoByID then
               battleTag =  _G.C_BattleNet.GetAccountInfoByID(arg13).battleTag
             else
-              _, _, battleTag = _G. BNGetFriendInfoByID(arg13)
+              _, _, battleTag = _G.BNGetFriendInfoByID(arg13)
             end
             s.PLAYERLINKDATA = ":" .. safestr(arg13) .. ":" .. safestr(arg11) .. ":" .. chatGroup ..  ":" .. chatTarget ..  (battleTag and (":" .. battleTag) or "")
             s.PRESENCE_ID = arg13

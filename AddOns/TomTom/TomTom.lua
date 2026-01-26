@@ -131,6 +131,7 @@ function TomTom:Initialize(event, addon)
             },
             paste = {
                 minimap_button = false,
+                addon_compartment_button = true,
             }
         },
     }

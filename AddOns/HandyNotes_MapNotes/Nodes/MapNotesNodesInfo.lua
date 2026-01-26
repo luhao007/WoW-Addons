@@ -834,7 +834,7 @@ nodes[2301] = { } -- The Sinkhole - Inside Dungeon Map
 nodes[2277] = { } -- Nightfall Sanctum - Inside Dungeon Map
 nodes[2251] = { } -- The Waterworks - Inside Dungeon Map
 nodes[2302] = { } -- The Waterworks - Inside Dungeon Map
-nodes[2269] = { } -- Earthcrawl Mines - Inside Dungeon Map
+nodes[2269] = { } -- Earthcrawl Mines - Inside Dungeon Map[]
 nodes[2249] = { } -- Fungal Folly - Inside Dungeon Map
 nodes[2250] = { } -- Kriegval's Rest - Inside Dungeon Map
 nodes[2396] = { } -- Rowdy Rifts - Inside Dungeon Map
@@ -842,4 +842,30 @@ nodes[2423] = { } -- Sidestreet Sluice - Inside Dungeon Map
 nodes[2420] = { } -- Sidestreet Sluice - The Pits - Inside Dungeon Map
 nodes[2452] = { } -- Archival Assault - Inside Dungeon Map
 nodes[2484] = { } -- Voidscar Cavern - Inside Dungeon Map
+
+--###############################
+--########### Midnight ##########
+--###############################
+
+nodes[2537] = { } -- Quel'Thalas
+nodes[2395] = { } -- Eversong Woods
+nodes[2437] = { } -- Zul'Aman
+nodes[2424] = { } -- Isle of Quel'Danas
+nodes[2405] = { } -- Void Tempest
+nodes[2413] = { } -- Harandar
+nodes[2536] = { } -- Atal'Aman
+nodes[2393] = { } -- Silvermoon
+nodes[2444] = { } -- Schlächteranhöhe
+nodes[2576] = { } -- Rootlands
+-- Dungeon map nodes
+nodes[2515] = { } -- Terrasse der Magister
+nodes[2492] = { } -- Windläuferturm
+nodes[2501] = { } -- Maisarakavernen
+nodes[2564] = { } -- Nalorakks Bau
+nodes[2556] = { } -- Nexuspunkt Xenas
+nodes[2574] = { } -- Arena der Leerennarbe
+nodes[2500] = { } -- Das blendende Tal
+nodes[2531] = { } -- Der Traumriss
+nodes[2533] = { } -- Marsch auf Quel'Danas      
+nodes[2529] = { } -- Die Leerenspitze    
 end

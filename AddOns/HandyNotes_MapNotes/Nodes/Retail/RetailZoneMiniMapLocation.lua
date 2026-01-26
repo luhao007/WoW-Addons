@@ -551,6 +551,7 @@ ns.currentSourceFile = "RetailZoneMiniMapLocation.lua"
               minimap[715][31612524] = { mnID = 116, name = L["Portal"], type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Druid Emerald Dreamway -  Grizzly Hills
               minimap[715][22593943] = { mnID = 69, name = L["Portal"], type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Druid Emerald Dreamway - Feralas
               minimap[715][26168213] = { mnID = 80, name = L["Portal"], type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Druid Emerald Dreamway - Moonglade
+              minimap[715][19235918] = { mnID = 2239, name = L["Portal"], type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Druid Emerald Dreamway - Amirdrassil
 
               if self.faction == "Horde" or db.activate.MiniMapEnemyFaction then
                 minimap[652][46176383] = { mnID = 85, name = "" , type = "HPortal", showInZone = true, showOnMinimap = true } -- Thundertotem to Ogrimmar
@@ -910,7 +911,30 @@ ns.currentSourceFile = "RetailZoneMiniMapLocation.lua"
 
         end
 
+
+
+        --#################################
+        --##### Continent Khaz Algar ######
+        --#################################
+
+        if self.db.profile.showMiniMapQuelThalas then
+
+          if db.activate.MiniMapTransporting then
+
+            -- Quel'Thalas Portals
+            if self.db.profile.showMiniMapPortals then
+              minimap[2413][54895146] = { mnID = 2576, name = "", TransportName = L["Way to"] .. " " .. L["Portal"] .. "\n   => " .. ns.VoidTempest .. "\n   => " .. ns.SilvermoonMN, type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true }
+              minimap[2576][64687098] = { mnID = 2393, name = "", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true }
+              minimap[2576][61787348] = { mnID = 2405, name = "", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true }
+              minimap[2405][51717041] = { mnID = 2413, name = "", type = "PortalS", showInZone = false, showOnContinent = false, showOnMinimap = true }
+              minimap[2405][51527029] = { mnID = 2405, name = "", type = "PortalS", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
+
+          end
+
+        end
+
       end
   end
-  
+
 end

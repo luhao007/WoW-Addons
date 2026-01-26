@@ -146,7 +146,7 @@ Plater.UpdateOptionsTabUpdateState = update_wago_update_icons
 
 --check if a encounter has just ended and open the aura ease tab
 function Plater.CheckOptionsTab()
-	if (Plater.LatestEncounter) then
+	if (not IS_WOW_PROJECT_MIDNIGHT and Plater.LatestEncounter) then --don't need this anymore in midnight, unfortunately
 		if (Plater.LatestEncounter + 60 > time()) then
 			---@type df_tabcontainer
 			local tabContainer = _G["PlaterOptionsPanelContainer"]
@@ -2611,6 +2611,20 @@ local debuff_options = {
 	{
 		type = "toggle",
 		boxfirst = true,
+		get = function() return Plater.db.profile.aura_timer_pandemic_color end,
+		set = function (self, fixedparam, value) 
+			Plater.db.profile.aura_timer_pandemic_color = value
+			Plater.RefreshAuras()
+			Plater.UpdateAllPlates()
+		end,
+		name = "Pandemic coloring",
+		desc = "Coloring the timer value based on duration left: >25%: default, <25%: orange, <15%: red.",
+		hidden = not IS_WOW_PROJECT_MIDNIGHT,
+	},
+	
+	{
+		type = "toggle",
+		boxfirst = true,
 		get = function() return Plater.db.profile.aura_timer_decimals end,
 		set = function (self, fixedparam, value) 
 			Plater.db.profile.aura_timer_decimals = value
@@ -2619,6 +2633,7 @@ local debuff_options = {
 		end,
 		name = "Show Decimals",
 		desc = "Show decimals below 10s remaining time",
+		hidden = IS_WOW_PROJECT_MIDNIGHT,
 	},
 
 	{
@@ -5424,6 +5439,40 @@ local relevance_options = {
 			name = "OPTIONS_NAMEPLATE_SHOW_FRIENDLY", --show friendly nameplates
 			desc = "OPTIONS_NAMEPLATE_SHOW_FRIENDLY_DESC",
 			nocombat = true,
+			hidden = IS_WOW_PROJECT_MIDNIGHT,
+		},
+		{
+			type = "toggle",
+			boxfirst = true,
+			get = function() return GetCVarBool ("nameplateShowFriendlyPlayers") end,
+			set = function (self, fixedparam, value) 
+				if (not InCombatLockdown()) then
+					SetCVar ("nameplateShowFriendlyPlayers", value and "1" or "0")
+				else
+					Plater:Msg (L["OPTIONS_ERROR_CVARMODIFY"])
+					self:SetValue (GetCVarBool ("nameplateShowFriendlyPlayers"))
+				end
+			end,
+			name = "OPTIONS_NAMEPLATE_SHOW_FRIENDLY", --show friendly nameplates
+			desc = "OPTIONS_NAMEPLATE_SHOW_FRIENDLY_DESC",
+			nocombat = true,
+			hidden = not IS_WOW_PROJECT_MIDNIGHT,
+		},
+		{
+			type = "toggle",
+			get = function() return GetCVarBool ("nameplateShowFriendlyNPCs") end,
+			set = function (self, fixedparam, value) 
+				if (value) then
+					SetCVar ("nameplateShowFriendlyNpcs", CVAR_ENABLED)
+					Plater.db.profile.plate_config [ACTORTYPE_FRIENDLY_NPC].enabled = true
+				else
+					SetCVar ("nameplateShowFriendlyNpcs", CVAR_DISABLED)
+					Plater.db.profile.plate_config [ACTORTYPE_FRIENDLY_NPC].enabled = false
+				end
+			end,
+			nocombat = true,
+			name = L["OPTIONS_ENABLED"] .. CVarIcon,
+			desc = string.format(L["Show nameplate for friendly npcs.\n\n|cFFFFFF00 Important |r: This option is dependent on the client`s nameplate state (on/off).\n\n|cFFFFFF00 Important |r: when disabled but enabled on the client through (%s), the healthbar isn't visible but the nameplate is still clickable."] .. CVarDesc,  (GetBindingKey ("FRIENDNAMEPLATES") or "")),
 		},
 
 		{
@@ -5438,9 +5487,10 @@ local relevance_options = {
 					self:SetValue (GetCVarBool ("nameplateShowOnlyNameForFriendlyPlayerUnits"))
 				end
 			end,
-			name = "Hide Friendly Health Bar", --show friendly nameplates
+			name = "Hide Friendly Health Bar|cFFFF7700*|r", --show friendly nameplates
 			desc = "Hide Friendly Health Bar\nCVar: nameplateShowOnlyNameForFriendlyPlayerUnits",
 			nocombat = true,
+			hidden = not IS_WOW_PROJECT_MIDNIGHT,
 		},
 		
 		{
@@ -5476,7 +5526,7 @@ local relevance_options = {
 
 				Plater.UpdateBaseNameplateOptions()
 			end,
-			name = "Class-Color Blizzard Names",
+			name = "Class-Color Blizzard Names|cFFFF7700*|r",
 			desc = "Class coloring for blizzard nameplate names",
 			nocombat = true,
 			hidden = not IS_WOW_PROJECT_MIDNIGHT,
@@ -6519,6 +6569,7 @@ local relevance_options = {
 			end,
 			name = "OPTIONS_ICON_ENEMYSPEC",
 			desc = "OPTIONS_ICON_ENEMYSPEC",
+			hidden = IS_WOW_PROJECT_MIDNIGHT,
 		},
 		{
 			type = "toggle",
@@ -6552,6 +6603,7 @@ local relevance_options = {
 			end,
 			name = "OPTIONS_ICON_FRIENDLY_SPEC",
 			desc = "OPTIONS_ICON_FRIENDLY_SPEC",
+			hidden = IS_WOW_PROJECT_MIDNIGHT,
 		},
 		{
 			type = "range",

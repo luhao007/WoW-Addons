@@ -1,5 +1,5 @@
 ## Interface: 120000
-## Version: 130
+## Version: 131
 
 ## Title: HandyNotes: Wrath of the Lich King
 ## Notes: Wrath of the Lich King Notes

@@ -13,6 +13,7 @@ local GetQuestID,C_QuestLog_IsOnQuest
 local DelayedCallback = app.CallbackHandlers.DelayedCallback
 local round = app.round
 local SearchForObject = app.SearchForObject
+local DebugPrinting
 
 local api = {};
 app.Modules.Contributor = api;
@@ -664,13 +665,19 @@ MobileDB.GameObject = {
 	 [74448] = true,	-- Large Solid Chest
 	 [75293] = true,	-- Large Battered Chest
 	 [75298] = true,	-- Large Solid Chest
+	 [75299] = true,	-- Large Solid Chest
 	 [75300] = true,	-- Large Solid Chest
+	 [97701] = true,	-- Torch
+	[101854] = true,	-- Herod's Door
+	[104591] = true,	-- Chapel Door
 	[106319] = true,	-- Battered Chest
 	[111095] = true,	-- Tattered Chest
 	[113768] = true,	-- Brightly Colored Egg
 	[113769] = true,	-- Brightly Colored Egg
 	[113770] = true,	-- Brightly Colored Egg
 	[113771] = true,	-- Brightly Colored Egg
+	[124368] = true,	-- Temple Door
+	[131979] = true,	-- Large Darkwood Chest
 	[142142] = true,	-- Sungrass
 	[143981] = true,	-- Brightly Colored Egg
 	[152620] = true,	-- Azsharite Formation (q:14370)
@@ -690,6 +697,10 @@ MobileDB.GameObject = {
 	[165739] = true,	-- Grim Guzzler Boar
 	[169243] = true,	-- Chest of The Seven (BRD)
 	[170558] = true,	-- The Lyceum
+	[170559] = true,	-- Shadowforge Gate
+	[170560] = true,	-- Shadowforge Gate
+	[174559] = true,	-- Heart of the Mountain
+	[174563] = true,	-- Relic Coffer
 	[175356] = true,	-- Gauntlet Gate
 	[175404] = true,	-- Rich Thorium Vein
 	[176208] = true,	-- Horgus' Skull (q:27387)
@@ -1040,10 +1051,12 @@ MobileDB.GameObject = {
 	[211399] = true,	-- Broken Bamboo Stalk (q:29795)
 	[211400] = true,	-- Broken Bamboo Stalk (q:29795)
 	[211401] = true,	-- Broken Bamboo Stalk (q:29795)
+	[211584] = true,	-- Ancient Control Console
 	[211627] = true,	-- Broken Control Console
 	[211664] = true,	-- Ancient Guo-Lai Door
 	[213076] = true,	-- Box of Fancy Stuff [] 25N
 	[213888] = true,	-- Taran Zhu's Personal Stash (Shado-Pan Monastery)
+	[214383] = true,	-- Cache of Pure Energy [Elegon] 10N
 	[214385] = true,	-- Cache of Pure Energy [Elegon] ?
 	[214386] = true,	-- Cache of Pure Energy [Elegon] 25H
 	[214519] = true,	-- Snowdrift's Possessions (Shado-Pan Monastery)
@@ -1055,7 +1068,7 @@ MobileDB.GameObject = {
 	[215162] = true,	-- Pest Repeller
 	[215163] = true,	-- Pest Repeller
 	[215356] = true,	-- Cache of Tsulong [Tsulong] ?
-	[215357] = true,	-- Cache of Tsulong [Tsulong] 25Heroic
+	[215357] = true,	-- Cache of Tsulong [Tsulong] 25H
 	[216229] = true,	-- Hastily Abandoned Lumber (q:32149)
 	[218757] = true,	-- Mogu Treasure Chest
 	[218772] = true,	-- Golden Treasure Chest
@@ -1466,6 +1479,7 @@ MobileDB.GameObject = {
 	[257290] = true,	-- Highmountain Clan Chest
 	[257291] = true,	-- Nightborne Treasure Chest
 	[257860] = true,	-- Mark of the Moonspirit
+	[257871] = true,	-- Mark of the Moonspirit
 	[258305] = true,	-- Fried Rice
 	[258307] = true,	-- Fried Rice
 	[258308] = true,	-- Fried Rice
@@ -1806,11 +1820,14 @@ MobileDB.GameObject = {
 	[322791] = true,	-- Kelpberry (q:56146 & q:55638)
 	[322803] = true,	-- Kelpberry (q:56146 & q:55638)
 	[322805] = true,	-- Calling Conch
+	[324413] = true,	-- Amathet Cache (BFA Uldum Assault)
 	[325425] = true,	-- Wanderer's Wayshrine
 	[325426] = true,	-- Wanderer's Wayshrine
 	[325427] = true,	-- Wanderer's Wayshrine
 	[325476] = true,	-- Direbloom (q:55504)
 	[325478] = true,	-- Direbloom (q:55504)
+	[325618] = true,	-- Titan Artifact (BFA Uldum Assault)
+	[325620] = true,	-- Titan Artifact (BFA Uldum Assault)
 	[325632] = true,	-- Burial Mound
 	[325722] = true,	-- Titan Translocator
 	[325799] = true,	-- Pile of Plotsam
@@ -1818,6 +1835,9 @@ MobileDB.GameObject = {
 	[325875] = true,	-- Osmenite Deposit
 	[325881] = true,	-- Sand Pile (q:55681)
 	[325883] = true,	-- Highborne Relic (q: 55659)
+	[325974] = true,	-- Amathet Cache (BFA Uldum Assault)
+	[325981] = true,	-- Amathet Cache (BFA Uldum Assault)
+	[325996] = true,	-- Blessed Sunstone (BFA Uldum Assault)
 	[326066] = true,	-- Shiny Seashell (q:55766)
 	[326070] = true,	-- Shiny Seashell (q:55766)
 	[326071] = true,	-- Shiny Seashell (q:55766)
@@ -1968,6 +1988,8 @@ MobileDB.GameObject = {
 	[375241] = true,	-- Bubble Poppy
 	[375290] = true,	-- Cypher Bound Chest
 	[375530] = true,	-- Forgotten Treasure Vault
+	[375886] = true,	-- Treasures of the First Ones [Halondrus] LFR
+	[375901] = true,	-- Treasures of the First Ones [Anduin Wrynn] LFR
 	[376036] = true,	-- Nomad Cache
 	[376386] = true,	-- Disturbed Dirt
 	[376426] = true,	-- Magic-Bound Chest
@@ -2063,6 +2085,7 @@ MobileDB.GameObject = {
 	[386108] = true,	-- Dragonscale Expedition Flag
 	[386165] = true,	-- Obsidian Coffer
 	[386166] = true,	-- Bone Pile
+	[386168] = true,	-- Farscale Cache (forbidden reach repeatable)
 	[386179] = true,	-- Spellsworn Reserves
 	[386383] = true,	-- Discarded Toy
 	[386521] = true,	-- Toxin Antidote
@@ -2124,6 +2147,8 @@ MobileDB.GameObject = {
 	[406354] = true,	-- Dreamseed Cache
 	[406355] = true,	-- Dreamseed Cache
 	[406356] = true,	-- Dreamseed Cache
+	[406804] = true,	-- Armory Door
+	[406805] = true,	-- Cathedral Door
 	[406954] = true,	-- Dreamseed Cache
 	[406955] = true,	-- Dreamseed Cache
 	[406956] = true,	-- Dreamseed Cache
@@ -2213,6 +2238,7 @@ MobileDB.GameObject = {
 	[432948] = true,	-- Archival Repository (q:82771)
 	[433369] = true,	-- War Supply Chest
 	[433370] = true,	-- War Supply Chest
+	[433563] = true,	-- Key Scroll
 	[434001] = true,	-- Pilfered Supplies (q:80513)
 	[434861] = true,	-- Ever-Blossoming Fungi
 	[437195] = true,	-- Titan Artifact @ 79.3, 29, 2248 (q:81465)
@@ -2476,6 +2502,7 @@ MobileDB.GameObject = {
 	[543116] = true,	-- Funny Candle
 	[543723] = true,	-- Dornic Fir Lumber
 	[544781] = true,	-- Dornic Fir Lumber
+	[546728] = true,	-- Legacy Stone of True Calling (q:90960)
 	[546737] = true,	-- Dornic Fir Lumber
 	[546738] = true,	-- Dornic Fir Lumber
 	[546928] = true,	-- Dornic Fir Lumber
@@ -2497,6 +2524,9 @@ MobileDB.GameObject = {
 	[553646] = true,	-- Arden Lumber
 	[553804] = true,	-- Arden Lumber
 	[554661] = true,	-- Arden Lumber
+	[554679] = true,	-- Legacy Stone of True Self (q:90960)
+	[554848] = true,	-- Legacy Stone of the Goddess Guidance (q:90960)
+	[554966] = true,	-- Legacy Stone (q:90960)
 	[555364] = true,	-- Dragonpine Lumber
 	[555545] = true,	-- Darkpine Lumber
 	[555609] = true,	-- Cartel Ba Dead Drop
@@ -2554,6 +2584,7 @@ MobileDB.GameObject = {
 	[574596] = true,	-- Ironwood Lumber
 	[574599] = true,	-- Ironwood Lumber
 	[574611] = true,	-- Ashwood Lumber
+	[574619] = true,	-- Rich Loamy Soil (wq:92086)
 	[574731] = true,	-- Ironwood Lumber
 	[574913] = true,	-- Ironwood Lumber
 	[574938] = true,	-- Ironwood Lumber
@@ -2791,7 +2822,7 @@ local function OnPLAYER_SOFT_INTERACT_CHANGED(previousGuid, newGuid)
 	id = tonumber(id)
 	LastSoftInteract.GuidType = guidtype
 	LastSoftInteract.ID = id
-	-- app.PrintDebug("Interact:",guidtype,id)
+	if DebugPrinting then app.print("Contrib.Interact:",guidtype,id) end
 
 	-- only check object soft-interact (for now)
 	if guidtype ~= "GameObject" then return end
@@ -2849,10 +2880,10 @@ local SpellIDHandlers = setmetatable({
 		AddReportData(objRef.__type,objRef.keyval,reportData)
 	end
 }, { __index = function(t, key)
-	if app.Debugging then
+	if DebugPrinting then
 		return function(source, dest)
 			if dest then
-				app.PrintDebug(app.Modules.Color.Colorize("Object Interact SpellID", app.Colors.LockedWarning),key,source,dest)
+				app.print(app.Modules.Color.Colorize("Object Interact SpellID", app.Colors.LockedWarning),key,source,dest)
 			end
 		end
 	end
@@ -2933,6 +2964,15 @@ app.ChatCommands.Add("contribute", function(args)
 end, {
 	"Usage : /att contribute"
 })
+-- Allows a user to use /att debug-contrib to see more prints for contribute situations
+app.ChatCommands.Add("contribute-debug", function(args)
+	DebugPrinting = not DebugPrinting
+	AllTheThingsSavedVariables.Contributor_DebugPrinting = DebugPrinting
+	return true
+end, {
+	"Usage : /att contribute-debug"
+})
 app.AddEventHandler("OnReady", function()
 	Contribute(AllTheThingsSavedVariables.Contributor)
+	DebugPrinting = AllTheThingsSavedVariables.Contributor_DebugPrinting
 end)
