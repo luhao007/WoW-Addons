@@ -92,25 +92,24 @@ QuickButUI.ButList[5]=function()
 						PIG_EquipmentData.Equip_Save(self.id)
 					end
 				else
-					local erqid = self.id
-					if erqid and erqid>=0 then
-						local name = C_EquipmentSet.GetEquipmentSetInfo(erqid)
+					if self.id and self.id>=0 then
+						local name = C_EquipmentSet.GetEquipmentSetInfo(self.id)
 						if button=="LeftButton" then
 							if IsShiftKeyDown() then
-								PIGA_Per["QuickBut"]["TalentEquip"][1]=erqid
+								PIGA_Per["QuickBut"]["TalentEquip"][1]=self.id
 								PIG_OptionsUI:ErrorMsg(name..KEY_BINDINGS_MAC..TALENT_SPEC_PRIMARY)
 							else
 								if InCombatLockdown() then PIG_OptionsUI:ErrorMsg(CANNOT_UNEQUIP_COMBAT) return end
-								C_EquipmentSet.UseEquipmentSet(erqid)
+								C_EquipmentSet.UseEquipmentSet(self.id)
 								PIG_OptionsUI:ErrorMsg("更换<"..name..">配装成功")
 							end
 						else
 							if IsShiftKeyDown() then
-								PIGA_Per["QuickBut"]["TalentEquip"][2]=erqid
+								PIGA_Per["QuickBut"]["TalentEquip"][2]=self.id
 								PIG_OptionsUI:ErrorMsg(name..KEY_BINDINGS_MAC..TALENT_SPEC_SECONDARY)
 							else
 								--C_EquipmentSet.UnassignEquipmentSetSpec(i-1)
-								C_EquipmentSet.SaveEquipmentSet(erqid)
+								C_EquipmentSet.SaveEquipmentSet(self.id)
 								PIG_OptionsUI:ErrorMsg("当前装备已保存到<"..name..">配装")
 							end
 						end
@@ -126,7 +125,7 @@ QuickButUI.ButList[5]=function()
 					-- 			PaperDollFrame_SetSidebar(self, 3);
 					-- 			GearManagerPopupFrame.mode=1;
 					-- 			PaperDollFrame.EquipmentManagerPane.selectedSetID = nil;
-					-- 			--GearManagerPopupFrame.setID=erqid;
+					-- 			--GearManagerPopupFrame.setID=self.id;
 					-- 			PaperDollFrame_ClearIgnoredSlots();
 					-- 			PaperDollEquipmentManagerPane_Update();
 					-- 			PaperDollFrame_IgnoreSlot(4);
@@ -231,32 +230,34 @@ QuickButUI.ButList[5]=function()
 		local numTalentGroups = PIG_MaxTocversion(40000) and GetNumTalentGroups(false, false) or GetNumSpecGroups()
 		local activeTalentGroup= C_SpecializationInfo.GetActiveSpecGroup(false, false)
 		if numTalentGroups>1 then
-			for talentGroup=1,numTalentGroups do	
+			for GroupID=1,numTalentGroups do	
 				self.cunzainum=self.cunzainum+1
 				local fujikj = AutoEquipList.ButList[self.cunzainum]
 				fujikj.mode=2
+				fujikj.id=GroupID
+				fujikj.active=GroupID==activeTalentGroup
 				fujikj:Show()
-				fujikj.id=talentGroup
-				fujikj.active=talentGroup==activeTalentGroup
-				local spec = TALENT_UI_SPECS[talentGroup];
-				local tishixx=talentGroup==activeTalentGroup and "|cff00FF00("..ACTIVE_PETS..")|r" or ""
-				if PIGA_Per["QuickBut"]["TalentEquip"][talentGroup] then
-					local name= C_EquipmentSet.GetEquipmentSetInfo(PIGA_Per["QuickBut"]["TalentEquip"][talentGroup])
-					fujikj.name:SetText("|cff"..TALENT_UI_SPECS[talentGroup].color..spec.name..tishixx.."|r\n"..name)
-				else
-					fujikj.name:SetText("|cff"..TALENT_UI_SPECS[talentGroup].color..spec.name..tishixx.."|r\n未绑定配装")
-				end
-				TalentFrame_UpdateSpecInfoCache(talentSpecInfoCache[talentGroup],  nil, nil, talentGroup)
-				local specInfoCache = talentSpecInfoCache[talentGroup];
+				TalentFrame_UpdateSpecInfoCache(talentSpecInfoCache[GroupID],  nil, nil, GroupID)
+				local specInfoCache = talentSpecInfoCache[GroupID];
 				if ( specInfoCache.primaryTabIndex and specInfoCache.primaryTabIndex > 0 ) then
 					fujikj.NormalTex:SetTexture(specInfoCache[specInfoCache.primaryTabIndex].icon);
 				else
 					fujikj.NormalTex:SetTexture("Interface/Icons/Ability_Marksmanship");
 				end
+				local spec = TALENT_UI_SPECS[GroupID];
+				local tishixx=GroupID==activeTalentGroup and "|cff00FF00("..ACTIVE_PETS..")|r" or ""
+				local newEQname="未绑定配装"
+				if PIGA_Per["QuickBut"]["TalentEquip"][GroupID] then
+					local EQname= C_EquipmentSet.GetEquipmentSetInfo(PIGA_Per["QuickBut"]["TalentEquip"][GroupID])
+					if EQname then
+						newEQname=EQname
+					end
+				end
+				fujikj.name:SetText("|cff"..TALENT_UI_SPECS[GroupID].color..spec.name..tishixx.."|r\n"..newEQname)
 			end
 		end
 		AutoEquipList:SetShown(self.cunzainum>0)
-		self.tips:SetShown(self.cunzainum-numTalentGroups<=0)
+		self.tips:SetShown(self.cunzainum==0)
 	end)
 	AutoEquip:HookScript("OnLeave", function(self)
 		AutoEquipList:Hide()

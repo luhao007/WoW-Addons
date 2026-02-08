@@ -12,6 +12,8 @@ local Lockit = DelveCompanion.Lockit
 
 --#region Constants
 
+---@type string
+local ENABLED_SAVE_KEY = "keysCapTooltipEnabled"
 --#endregion
 
 --- Compose a text with the amount of collected currency
@@ -79,10 +81,10 @@ local function FindLineInTooltip(tooltip, matchPattern)
 end
 
 --- Post Call for a `GameTooltip` of type `Enum.TooltipDataType.Currency`. Used to add additional lines into the tooltip.
----@param tooltipDataHandler any [TooltipDataHandlerMixin](https://www.townlong-yak.com/framexml/live/Blizzard_SharedXMLGame/TooltipDataHandler.lua#189).
+---@param tooltipDataHandler table [TooltipDataHandlerMixin](https://www.townlong-yak.com/framexml/live/Blizzard_SharedXMLGame/TooltipDataHandler.lua#189).
 ---@param ... any
 local function TooltipPostCallCurrency(tooltipDataHandler, ...)
-    if not DelveCompanionCharacterData.keysCapTooltipEnabled then
+    if not DelveCompanionCharacterData[ENABLED_SAVE_KEY] or PlayerIsInCombat() then
         return
     end
 
@@ -103,10 +105,10 @@ local function TooltipPostCallCurrency(tooltipDataHandler, ...)
 end
 
 --- Post Call for a `GameTooltip` of type `Enum.TooltipDataType.Item`. Used to add additional lines into the tooltip.
----@param tooltipDataHandler any [TooltipDataHandlerMixin](https://www.townlong-yak.com/framexml/live/Blizzard_SharedXMLGame/TooltipDataHandler.lua#189).
+---@param tooltipDataHandler table [TooltipDataHandlerMixin](https://www.townlong-yak.com/framexml/live/Blizzard_SharedXMLGame/TooltipDataHandler.lua#189).
 ---@param ... any
 local function TooltipPostCallItem(tooltipDataHandler, ...)
-    if not DelveCompanionCharacterData.keysCapTooltipEnabled then
+    if not DelveCompanionCharacterData[ENABLED_SAVE_KEY] or PlayerIsInCombat() then
         return
     end
 

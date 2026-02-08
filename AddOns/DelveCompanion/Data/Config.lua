@@ -15,26 +15,30 @@ Config.DELVES_MIN_EXPANSION = LE_EXPANSION_WAR_WITHIN
 
 --- Account Save Data scheme
 ---@class (exact) DelveCompanionAccountData
----@field delveProgressWidgetsEnabled boolean
----@field trackingType WaypointTrackingType
+---@field delvesListInfoWidgetsEnabled boolean Delves tab: achievement widgets under buttons.
+---@field trackingType WaypointTrackingType Type of tracking used to set waypoints to the Delves.
+---@field inDelveWidgetEnabled boolean Whether [InDelveWidget](lua://InDelveWidget) is displayed.
+---@field inDelveWidgetDisplayRule InDelveWidgetDisplayRule Where [InDelveWidget](lua://InDelveWidget) is displayed.
 Config.DEFAULT_ACCOUNT_DATA = {
-    delveProgressWidgetsEnabled = true,
-    trackingType = DelveCompanion.Definitions.WaypointTrackingType.superTrack
+    delvesListInfoWidgetsEnabled = true,
+    trackingType = DelveCompanion.Definitions.WaypointTrackingType.superTrack,
+    inDelveWidgetEnabled = true,
+    inDelveWidgetDisplayRule = DelveCompanion.Definitions.InDelveWidgetDisplayRule.left
 }
 
 --- Character Save Data
 ---@class (exact) DelveCompanionCharacterData
----@field gvDetailsEnabled boolean
----@field displayCompanionConfig boolean
----@field companionConfigLayout CompanionWidgetLayout
----@field keysCapTooltipEnabled boolean
----@field dashOverviewEnabled boolean
+---@field keysCapTooltipEnabled boolean Whether to display extra info in tooltips. Bad naming, affects all tooltips, not only Restored Coffer Key.
+---@field dashOverviewEnabled boolean [RETIRED] Overview section in Delves UI.
+---@field gvDetailsEnabled boolean [RETIRED] Custom GV frame in Delves UI.
+---@field displayCompanionConfig boolean [RETIRED] Whether to show Companion config in Delves UI.
+---@field companionConfigLayout CompanionWidgetLayout [RETIRED] Type of layout used for Companion config in Delves UI.
 Config.DEFAULT_CHARACTER_DATA = {
+    keysCapTooltipEnabled = true,
+    dashOverviewEnabled = true,
     gvDetailsEnabled = true,
     displayCompanionConfig = true,
-    companionConfigLayout = 1,
-    keysCapTooltipEnabled = true,
-    dashOverviewEnabled = true
+    companionConfigLayout = DelveCompanion.Definitions.CompanionWidgetLayout.horizontal
 }
 --#endregion
 
@@ -127,12 +131,27 @@ Config.KEY_SHARD_SOURCE_CACHES_DATA = {
 ---@type integer Currency ID of [Untainted Mana-Crystals](https://www.wowhead.com/currency=3356/untainted-mana-crystals).
 Config.MANA_CRYSTALS_CURRENCY_CODE = 3356
 
+---@type integer Item ID of [L00T RAID-R Mini](https://www.wowhead.com/item=244193/l00t-raid-r-mini).
+Config.LOOT_RADAR_ITEM_CODE = 244193
+-- Config.LOOT_RADAR_ACTIVATED_SPELL = 1236623 -- USELESS at the moment. There is no buff or aura when the radar is active.
+
+---@type table<integer, number> Item ID of a Nemesis lure.
+Config.NEMESIS_LURE = {
+    [LE_EXPANSION_WAR_WITHIN] = 248017, -- Shrieking Quartz
+    [LE_EXPANSION_MIDNIGHT] = 253342    -- Beacon of Hope
+}
+
 --#region Bounty Map.
 
 ---@type table<integer, number> Item ID of Bounty Map.
 Config.BOUNTY_MAPS = {
-    [LE_EXPANSION_WAR_WITHIN] = 248142,
-    [LE_EXPANSION_MIDNIGHT] = 252415
+    [LE_EXPANSION_WAR_WITHIN] = 248142, -- Delver's Bounty
+    [LE_EXPANSION_MIDNIGHT] = 252415    -- Trovehunter's Bounty
+}
+---@type table<integer, number> Spell ID of the active Bounty Map.
+Config.BOUNTY_ACTIVATED_SPELL = {
+    [LE_EXPANSION_WAR_WITHIN] = 1246363, -- Delver's Bounty
+    [LE_EXPANSION_MIDNIGHT] = 1254631    -- Trovehunter's Bounty
 }
 
 ---@type integer Weekly cap of maps (par character).
@@ -162,10 +181,14 @@ Config.KEY_SHARD_ITEM_CODE = 245653
 
 --#region Seasonal modifiers
 
----@type table<table<number, number>> Spell ID of Delve affixes.
+---@class (exact) DelveConfigAffixes : table
+---@field Nemesis table<number, number>
+-- ---@field Flicker table<number, number> TODO: Add if available or remove
+
+---@type DelveConfigAffixes Spell ID of Delve affixes.
 Config.AFFIXES = {
     -- [Nemesis Strongbox](https://www.wowhead.com/spell=1239535/nemesis-strongbox).
-    NEMESIS = {
+    Nemesis = {
         [LE_EXPANSION_WAR_WITHIN] = 1239535,
         [LE_EXPANSION_MIDNIGHT] = 1270179
     }
@@ -207,14 +230,24 @@ Config.DELVE_MAPS = {
     }
 }
 
+---@class (exact) DelveConfigAchievements
+---@field story number?
+---@field chest number?
+---@field nemesisSolo number?
+
+---@class (exact) DelveConfigNemesisInfo
+---@field isCurrentSeason boolean
+---@field delveTooltipLine string
+
 --- Table with Delve parameters.
 ---@class (exact) DelveConfig
 ---@field uiMapID number Delve [uiMapID](https://warcraft.wiki.gg/wiki/UiMapID).
 ---@field poiIDs {regular: number, bountiful: number?} Delve [areaPoiIDs](https://wago.tools/db2/areapoi).
 ---@field gildedStashUiWidgetID number? [UiWidgetID](https://wago.tools/db2/UiWidget) used to retrieve information about [Gilded Stash](https://www.wowhead.com/spell=1216211/gilded-stash) weekly progress.
 ---@field atlasBgID string [AtlasID](https://warcraft.wiki.gg/wiki/AtlasID) used to get Delve's background texture. These are grouped into separate atlases for major patches.
----@field achievements {chest: number, story: number}? Achievement IDs related to the Delve.
+---@field achievements DelveConfigAchievements Achievement IDs related to the Delve.
 ---@field coordinates MapCoord? Delve entrance coordinates. Used primarly for Boss Delves and non-Blizzard waypoints (e.g. TomTom).
+---@field nemesisInfo DelveConfigNemesisInfo?
 
 ---@type table<integer, DelveConfig[]> Table of all Delves in the game and their parameters. Grouped by LE_EXPANSION enum.
 Config.DELVES_CONFIG = {
@@ -415,30 +448,6 @@ Config.DELVES_CONFIG = {
                 story = 41099
             }
         },
-        -- Demolition Dome
-        {
-            uiMapID = 2425,
-            poiIDs = {
-                regular = 8142
-            },
-            coordinates = {
-                x = 50.43,
-                y = 11.82
-            },
-            atlasBgID = "delve-entrance-background-goblin-boss"
-        },
-        -- Zekvir's Lair
-        {
-            uiMapID = 2348,
-            poiIDs = {
-                regular = 7875
-            },
-            coordinates = {
-                x = 32.74,
-                y = 76.87
-            },
-            atlasBgID = "delve-entrance-background-zekvirs-lair"
-        },
         -- Archival Assault
         {
             uiMapID = 2452,
@@ -453,6 +462,44 @@ Config.DELVES_CONFIG = {
                 story = 42771
             }
         },
+        -- Zekvir's Lair
+        {
+            uiMapID = 2348,
+            poiIDs = {
+                regular = 7875
+            },
+            coordinates = {
+                x = 32.74,
+                y = 76.87
+            },
+            atlasBgID = "delve-entrance-background-zekvirs-lair",
+            achievements = {
+                nemesisSolo = 40433
+            },
+            nemesisInfo = {
+                isCurrentSeason = false,
+                delveTooltipLine = DelveCompanion.Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_TWW_S1
+            }
+        },
+        -- Demolition Dome
+        {
+            uiMapID = 2425,
+            poiIDs = {
+                regular = 8142
+            },
+            coordinates = {
+                x = 50.43,
+                y = 11.82
+            },
+            atlasBgID = "delve-entrance-background-goblin-boss",
+            achievements = {
+                nemesisSolo = 41210
+            },
+            nemesisInfo = {
+                isCurrentSeason = false,
+                delveTooltipLine = DelveCompanion.Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_TWW_S2
+            }
+        },
         -- Voidrazor Sanctuary
         {
             uiMapID = 2484,
@@ -463,7 +510,14 @@ Config.DELVES_CONFIG = {
                 x = 64.34,
                 y = 78.62
             },
-            atlasBgID = "delve-entrance-background-Voidrazor-Sanctuary"
+            atlasBgID = "delve-entrance-background-Voidrazor-Sanctuary",
+            achievements = {
+                nemesisSolo = 42190
+            },
+            nemesisInfo = {
+                isCurrentSeason = false,
+                delveTooltipLine = DelveCompanion.Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_TWW_S3
+            }
         }
     },
     [LE_EXPANSION_MIDNIGHT] = {
@@ -617,7 +671,14 @@ Config.DELVES_CONFIG = {
                 x = 61.17,
                 y = 71.6
             },
-            atlasBgID = "delve-entrance-background-torments-rise"
+            atlasBgID = "delve-entrance-background-torments-rise",
+            achievements = {
+                nemesisSolo = 61799
+            },
+            nemesisInfo = {
+                isCurrentSeason = true,
+                delveTooltipLine = DelveCompanion.Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_MIDNIGHT_S1
+            }
         },
     }
 }

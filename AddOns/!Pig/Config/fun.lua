@@ -72,6 +72,7 @@ local function Clear_FailureData()
 	PIGA["StatsInfo"]["Skill_ExistCD"]=nil
 	PIGA["StatsInfo"]["SkillCD"]=nil
 	PIGA["StatsInfo"]["FubenCD"]=nil
+	PIGA["StatsInfo"]["InstancesCD"]=nil
 	PIGA["StatsInfo"]["AHOffline"]=nil
 	PIGA["StatsInfo"]["AHData"]=nil
 			
@@ -114,16 +115,19 @@ function addonTable.Load_Config()
 end
 function addonTable.Get_PlayerRealmData()
 	local englishFaction= UnitFactionGroup("player")--阵营"Alliance"/"Horde"
-	local wanjia, realm = UnitFullName("player")
-	local realm = realm or GetRealmName()
+	local wanjia= UnitName("player")
+	local realm = GetRealmName()
+	if not englishFaction or not wanjia or not realm then
+		C_Timer.After(0.01,addonTable.Get_PlayerRealmData)
+	end
+	local gender = UnitSex("player") or 2
 	local className, classFile, classId = UnitClass("player")
 	local raceName, raceFile, raceId = UnitRace("player")
-	local gender = UnitSex("player")
-	PIG_OptionsUI.englishFaction=englishFaction or ""
-	PIG_OptionsUI.Name=wanjia or ""
-	PIG_OptionsUI.Realm=realm or ""
+	PIG_OptionsUI.englishFaction=englishFaction
+	PIG_OptionsUI.Name=wanjia
+	PIG_OptionsUI.Realm=realm
 	PIG_OptionsUI.AllName = wanjia.."-"..realm
-	PIG_OptionsUI.gender=gender or 2
+	PIG_OptionsUI.gender=gender
 	PIG_OptionsUI.ClassData = {["className"]=className,["classFile"]=classFile,["classId"]=classId}
 	PIG_OptionsUI.RaceData = {["raceName"]=raceName,["raceFile"]=raceFile,["raceId"]=raceId}
 	PIG_OptionsUI.AllNameElvUI = format('%s - %s', wanjia, realm)

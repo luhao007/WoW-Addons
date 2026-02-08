@@ -6,6 +6,13 @@ local DelveCompanion = AddonTbl.DelveCompanion
 ---@type Logger
 local Logger = DelveCompanion.Logger
 
+--#region Constants
+
+---@type string
+local NEMESIS_ACTIVE_ATLAS = "GM-icon-difficulty-mythicSelected-hover"
+local NEMESIS_INACTIVE_ATLAS = "GM-icon-difficulty-mythic-pressed"
+--#endregion
+
 --- A button representing a Delve in the Delves list.
 ---@class (exact) DelveInstanceButton : DelveInstanceButtonXml
 ---@field data DelveData?
@@ -32,10 +39,30 @@ end
 ---@param self DelveInstanceButton
 function DelveCompanion_DelveInstanceButtonMixin:Refresh()
     self.BountifulIcon:SetShown(self.data.isBountiful)
-    self.RightIconsContainer.NotCompletedStoryIcon:SetShown(
-        self.data.config.achievements
-        and not self.data.isStoryCompleted
-    )
+
+    if self.data.config.nemesisInfo ~= nil then
+        self.NemesisIcon:Show()
+        self.NemesisIcon:SetAtlas(self.data.config.nemesisInfo.isCurrentSeason
+            and NEMESIS_ACTIVE_ATLAS
+            or NEMESIS_INACTIVE_ATLAS)
+
+        local isLocked = UnitLevel("player") < self.data.levelRequired
+        self.LockIcon:SetShown(isLocked)
+        self.DelveArtBg:SetDesaturated(isLocked)
+    else
+        self.DelveArtBg:SetDesaturated(false)
+        self.NemesisIcon:Hide()
+        self.LockIcon:Hide()
+    end
+
+    do
+        local achievements = self.data.config.achievements
+        self.RightIconsContainer.NotCompletedStoryIcon:SetShown(
+            achievements ~= nil
+            and achievements.story ~= nil
+            and not self.data.isStoryCompleted
+        )
+    end
 
     self.waypointTracker.Update(self.data)
     self.RightIconsContainer.WaypointIcon:SetShown(self.waypointTracker.isActive)
@@ -50,38 +77,34 @@ end
 
 ---@param self DelveInstanceButton
 function DelveCompanion_DelveInstanceButtonMixin:OnShow()
-    -- Logger.Log("DelveInstanceButton OnShow start")
+    -- Logger.Log("[DelveInstanceButton] OnShow start")
 
     self:RegisterEvent("SUPER_TRACKING_CHANGED")
 end
 
 ---@param self DelveInstanceButton
 function DelveCompanion_DelveInstanceButtonMixin:OnHide()
+    -- Logger.Log("[DelveInstanceButton] OnHide start")
+
     self:UnregisterEvent("SUPER_TRACKING_CHANGED")
 end
 
 ---@param self DelveInstanceButton
 function DelveCompanion_DelveInstanceButtonMixin:OnEnter()
-    -- TODO: delete completely if works fine.
-    -- if DelveCompanion.Variables.maxLevelReached == false then
-    --     return
-    -- end
+    -- Logger.Log("[DelveInstanceButton] OnEnter start")
 
     self.waypointTracker:DisplayDelveTooltip(self, "ANCHOR_TOP", self.data)
 end
 
 ---@param self DelveInstanceButton
 function DelveCompanion_DelveInstanceButtonMixin:OnLeave()
+    -- Logger.Log("[DelveInstanceButton] OnLeave start")
+
     GameTooltip:Hide()
 end
 
 ---@param self DelveInstanceButton
 function DelveCompanion_DelveInstanceButtonMixin:OnClick()
-    -- TODO: delete completely if works fine.
-    -- if not DelveCompanion.Variables.maxLevelReached then
-    --     return
-    -- end
-
     if self.waypointTracker:VerifyInput() then
         self.waypointTracker:ToggleTracking(self.data)
         self:Refresh()
@@ -103,5 +126,7 @@ end
 ---@field DelveArtBg Texture
 ---@field DelveName FontString
 ---@field BountifulIcon Texture
+---@field NemesisIcon Texture
+---@field LockIcon Texture
 ---@field RightIconsContainer RightIconsContainer
 --#endregion

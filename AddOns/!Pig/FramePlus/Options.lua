@@ -302,10 +302,8 @@ end)
 
 --角色信息UI扩展
 local newText=Fun.Delmaohaobiaodain(REPAIR_COST)
-if PIG_MaxTocversion(30000) then
+if PIG_MaxTocversion(40000) then
 	CharacterF.Shuxingtishi=CHARACTER_INFO.."扩展("..PAPERDOLL_SIDEBAR_STATS.."/"..EQUIPMENT_MANAGER.."/"..newText.."/"..COMBAT_RATING_NAME6.."说明"..")"
-elseif PIG_MaxTocversion(40000) then
-	CharacterF.Shuxingtishi=CHARACTER_INFO.."扩展("..EQUIPMENT_MANAGER.."/"..newText.."/"..COMBAT_RATING_NAME6.."说明"..")"
 elseif PIG_MaxTocversion() then
 	CharacterF.Shuxingtishi="常驻"..DISPLAY..PAPERDOLL_SIDEBAR_STATS
 else
@@ -453,6 +451,7 @@ local BlizzardUIList={
 	{false, nil, "LootFrame",nil,"掉落列表"},
 	{false, nil, "WorldMapFrame",nil,"世界地图"},
 	{false, nil, "WorldMapFrame", "WorldMapTitleButton", "世界地图(mini模式)"},
+	{false, nil, "TradeFrame",nil, "交易界面"},
 	{false, nil, "GameMenuFrame",nil, "ESC菜单"},
 	{false, nil, "SettingsPanel",nil, "设置选项"},
 	{false, nil, "HelpFrame",nil, "客服支持"},

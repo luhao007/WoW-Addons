@@ -19,18 +19,15 @@ local IsAutoRepeatSpell = IsAutoRepeatSpell or C_Spell and C_Spell.IsAutoRepeatS
 function CombatPlusfun.AttackBar(open)
 	if not PIGA["CombatPlus"]["AttackBar"]["Open"] then return end
 	if CombatPlusfun.AttackBarData then return end
-	local PointfujiUI={PlayerCastingBarFrame,"CastingBarFrameTemplate, UIParentBottomManagedFrameTemplate, EditModeCastBarSystemTemplate"}
+	local Template="CastingBarFrameTemplate"
 	if PlayerCastingBarFrame then
-		PointfujiUI={PlayerCastingBarFrame,"CastingBarFrameTemplate, UIParentBottomManagedFrameTemplate, EditModeCastBarSystemTemplate"}
-	else
-		PointfujiUI={CastingBarFrame,"CastingBarFrameTemplate"}
+		Template="CastingBarFrameTemplate, UIParentBottomManagedFrameTemplate, EditModeCastBarSystemTemplate"
 	end
-	local AttackBar = CreateFrame("StatusBar", nil, UIParent, PointfujiUI[2])
+	local AttackBar = CreateFrame("StatusBar", nil, UIParent, Template)
 	CombatPlusfun.AttackBarUI=AttackBar
 	AttackBar:SetFrameStrata("HIGH")
 	AttackBar:SetSize(195,13);
 	AttackBar:SetToplevel(true);
-	AttackBar.PointfujiUI=PointfujiUI[1]
 	AttackBar.Icon:Hide();
 	AttackBar.Flash:Hide();
 	AttackBar:Hide()
@@ -113,11 +110,11 @@ function CombatPlusfun.AttackBar(open)
 				end
 			end
 			AttackBar:SetScale(PIGA["CombatPlus"]["AttackBar"]["Scale"])
-			local PointfujiUI=PlayerCastingBarFrame
-			if PIG_MaxTocversion() then
-				PointfujiUI=CastingBarFrame
+			if PlayerCastingBarFrame then
+				AttackBar:SetPoint("BOTTOM", UIParent, "TOP", PIGA["CombatPlus"]["AttackBar"]["Xpianyi"], PIGA["CombatPlus"]["AttackBar"]["Ypianyi"]-666);
+			else
+				AttackBar:SetPoint("BOTTOM", CastingBarFrame, "TOP", PIGA["CombatPlus"]["AttackBar"]["Xpianyi"], PIGA["CombatPlus"]["AttackBar"]["Ypianyi"]);
 			end
-			AttackBar:SetPoint("BOTTOM", PointfujiUI, "TOP", PIGA["CombatPlus"]["AttackBar"]["Xpianyi"], PIGA["CombatPlus"]["AttackBar"]["Ypianyi"]);
 		end
 	end
 	AttackBar:SetScaleXY(true)
@@ -217,8 +214,7 @@ function CombatPlusF.SetF.SliderX:PIGOnValueChange(arg1)
 	PIGA["CombatPlus"]["AttackBar"]["Xpianyi"]=arg1;
 	OpSetSetScaleXY()
 end
-local WowHeight=floor(GetScreenHeight()*0.5);
-local xiayiinfo = {-WowHeight+100,WowHeight+250,1}
+local xiayiinfo = {-800,800,1}
 CombatPlusF.SetF.SliderY = PIGSlider(CombatPlusF.SetF,{"LEFT",CombatPlusF.SetF.SliderX,"RIGHT",100,0},xiayiinfo)
 CombatPlusF.SetF.SliderY.T = PIGFontString(CombatPlusF.SetF.SliderY,{"RIGHT",CombatPlusF.SetF.SliderY,"LEFT",0,0},"Y偏移")
 function CombatPlusF.SetF.SliderY:PIGOnValueChange(arg1)

@@ -218,7 +218,7 @@ function TardisInfo.Farm(Activate)
 					else
 						hangui.LvMinMax:SetTextColor(1, 0, 0, 1)
 					end
-					local WJname,WJserver= strsplit("-", ItemsData[dangqian][2]);
+					local WJname,WJserver= strsplit("-", ItemsData[dangqian][2], 2);
 					if WJserver and WJserver~="" then
 						hangui.Name.T:SetText(WJname.."(*)");
 					else

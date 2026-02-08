@@ -7,14 +7,51 @@ local gmatch=_G.string.gmatch
 local Data=addonTable.Data
 local Fun=addonTable.Fun
 local _Get_GEM_EMPTY_SOCKET=Fun._Get_GEM_EMPTY_SOCKET
+local _GetTooltipLevel=Fun._GetTooltipLevel
 --------------
 local QuickChatfun = addonTable.QuickChatfun
 local FasongYCqingqiu=addonTable.Fun.FasongYCqingqiu
 local GetRaceClassTXT=addonTable.Fun.GetRaceClassTXT
 local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 local GetItemStats=GetItemStats or C_Item and C_Item.GetItemStats
---远程观察图标
+--提取玩家Unit
 local wanjiaxinxil = {}
+local is_slist_1=Fun.is_slist_1
+local function GetPlayerGUID(self,event,arg1,...)
+	local arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12=...
+	if arg5 and arg12 then
+		local nameg, fuwqi = strsplit("-", arg5, 2);
+		if is_slist_1(nameg) then return true end
+		if fuwqi==PIG_OptionsUI.Realm then
+			wanjiaxinxil[nameg]=arg12
+		else
+			wanjiaxinxil[arg5]=arg12
+		end
+	end
+	return false
+end
+ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", GetPlayerGUID)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", GetPlayerGUID)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", GetPlayerGUID)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", GetPlayerGUID)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER", GetPlayerGUID)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", GetPlayerGUID)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", GetPlayerGUID)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", GetPlayerGUID)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_WARNING", GetPlayerGUID)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", GetPlayerGUID)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", GetPlayerGUID)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", GetPlayerGUID)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_OFFICER", GetPlayerGUID)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_AFK", GetPlayerGUID)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_EMOTE", GetPlayerGUID)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_DND", GetPlayerGUID)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_COMMUNITIES_CHANNEL", GetPlayerGUID)
+--
+local Get_itemF = CreateFrame("Frame")
+Get_itemF.textMsgFrame={}
+Get_itemF.textAllIDs={}
+--远程观察图标
 local ClassColor=Data.ClassColor
 local Texwidth,Texheight = 500,500
 local function GetGemList(linkx)
@@ -31,120 +68,10 @@ local function GetGemList(linkx)
 	end
 	return baoshiinfo
 end
-local GetColorKey=Fun.PIGGetColorKey
-local function ShowZb_Link_Icon(newText)
-	if PIGA["Chat"]["FastCopy"] or PIGA["Chat"]["ShowZb"] then
-		local namexShowZb=""
-		if PIGA["Chat"]["ClassColor"] then
-			namexShowZb = newText:match("%[|cff%w%w%w%w%w%w(.-)|r%]")
-		else
-			namexShowZb = newText:match("%[.-%].-%[(.-)%]")
-		end
-		if namexShowZb and namexShowZb~="" and wanjiaxinxil[namexShowZb] then
-			if PIGA["Chat"]["FastCopy"] then
-				local left=0.08*Texheight+5
-				local right=0.92*Texheight-5
-				local top=0*Texheight+5
-				local bottom=0.95*Texheight-5
-				local Copyicon ="|Tinterface/buttons/ui-guildbutton-publicnote-up.blp:0:0:0:0:"..Texheight..":"..Texheight..":"..left..":"..right..":"..top..":"..bottom.."|t"
-				if Copyicon~="" then
-					newText=newText:gsub("(|Hplayer:(.-)|h%[.-%]|h)", "|Hgarrmission:-999:%2|h"..Copyicon.."|h%1")
-				end
-			end
-			if PIGA["Chat"]["ShowZb"] then
-				local _, _, _, englishRace, sex = GetPlayerInfoByGUID(wanjiaxinxil[namexShowZb])
-				local raceX = GetRaceClassTXT(0,Texwidth,englishRace,sex)
-				if raceX~="" then
-					newText=newText:gsub("(|Hplayer:(.-)|h%[.-%]|h)", "|Hgarrmission:-998:%2|h"..raceX.."|h%1")
-				end
-			end
-		end
-	end
-
-	if PIGA["Chat"]["ShowLinkIcon"] or PIGA["Chat"]["ShowLinkLV"] or PIGA["Chat"]["ShowLinkSlots"] then
-		if newText:match("Hitem:") then
-			local tihuanidlist = {}
-			for word in newText:gmatch("|(Hitem:.-)|h") do
-				tihuanidlist[word] = {}
-				if PIGA["Chat"]["ShowLinkIcon"] then
-					tihuanidlist[word]["icon"]=GetItemIcon(word)
-				end
-				if PIGA["Chat"]["ShowLinkLV"] then
-					local effectiveILvl = GetDetailedItemLevelInfo(word)
-					tihuanidlist[word]["LV"]=effectiveILvl or 0
-				end
-				if PIGA["Chat"]["ShowLinkSlots"] then
-					local itemID, itemType, itemSubType, itemEquipLoc = GetItemInfoInstant(word)
-					if _G[itemEquipLoc] then
-						tihuanidlist[word]["Slots"]=itemSubType.."-".._G[itemEquipLoc]
-					end
-				end
-				if PIGA["Chat"]["ShowLinkGem"] then
-				    tihuanidlist[word]["Gem"]=GetGemList(word)
-				end
-			end
-			for k,v in pairs(tihuanidlist) do
-				if PIGA["Chat"]["ShowLinkIcon"] then
-					newText=newText:gsub("(|"..GetColorKey().."|"..k.."|h)","|T"..v.icon..":0|t%1");
-				end
-				if PIGA["Chat"]["ShowLinkLV"] or PIGA["Chat"]["ShowLinkSlots"] then
-					local tihuanneirong = ""
-					if PIGA["Chat"]["ShowLinkLV"] then
-						tihuanneirong=tihuanneirong..v.LV
-					end
-					if PIGA["Chat"]["ShowLinkSlots"] and v.Slots then
-						tihuanneirong=tihuanneirong..v.Slots
-					end
-					newText=newText:gsub("(|"..GetColorKey().."|"..k.."|h%[)(.-%]|h|r)","%1("..tihuanneirong..")%2");
-					if PIGA["Chat"]["ShowLinkGem"] and #v.Gem>0 then
-						local GemTxt = ""
-						for ixx=1,#v.Gem do
-							GemTxt=GemTxt.."|T".._Get_GEM_EMPTY_SOCKET(v.Gem[ixx])..":0|t"
-						end
-						newText=newText:gsub("(|"..GetColorKey().."|"..k.."|h%[.-%]|h|r)","%1"..GemTxt);
-					end
-				end
-			end
-		end
-	end
-	return newText
-end
-local is_slist_1=Fun.is_slist_1
-local function tiqu_UnitID(self,event,arg1,...)
-	local arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12=...
-	if arg5 and arg12 then
-		local nameg, fuwqi = strsplit("-", arg5);
-		if is_slist_1(nameg) then return true end
-		if fuwqi==PIG_OptionsUI.Realm then
-			wanjiaxinxil[nameg]=arg12
-		else
-			wanjiaxinxil[arg5]=arg12
-		end
-	end
-	return false
-end
-ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", tiqu_UnitID)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", tiqu_UnitID)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", tiqu_UnitID)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", tiqu_UnitID)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER", tiqu_UnitID)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", tiqu_UnitID)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", tiqu_UnitID)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", tiqu_UnitID)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_WARNING", tiqu_UnitID)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", tiqu_UnitID)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", tiqu_UnitID)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", tiqu_UnitID)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_OFFICER", tiqu_UnitID)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_AFK", tiqu_UnitID)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_EMOTE", tiqu_UnitID)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_DND", tiqu_UnitID)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_COMMUNITIES_CHANNEL", tiqu_UnitID)
-
 ---精简频道名
 local JJM = L["CHAT_QUKBUTNAME"]
 local JXname = L["CHAT_JXNAME"]
-local function PindaoName(text)
+local function ChatPindaoName(text)
 	if PIGA["Chat"]["jingjian"] then
 		if GetLocale() == "zhCN" or GetLocale() == "zhTW" then
 			local text=text:gsub(" (|Hplayer:.+)", "%1")
@@ -194,7 +121,90 @@ local function PindaoName(text)
 	end
 	return text
 end
-
+local GetColorKey=Fun.PIGGetColorKey
+local function escape_dash(s)
+    return s:gsub("-", "%%-")
+end
+local function ShowZb_Link_Icon(text)
+	newText=ChatPindaoName(text)
+	if PIGA["Chat"]["FastCopy"] or PIGA["Chat"]["ShowZb"] then
+		local namexShowZb=""
+		if PIGA["Chat"]["ClassColor"] then
+			namexShowZb = newText:match("%[|cff%w%w%w%w%w%w(.-)|r%]")
+		else
+			namexShowZb = newText:match("%[.-%].-%[(.-)%]")
+		end
+		if namexShowZb and namexShowZb~="" and wanjiaxinxil[namexShowZb] then
+			if PIGA["Chat"]["FastCopy"] then
+				local left=0.08*Texheight+5
+				local right=0.92*Texheight-5
+				local top=0*Texheight+5
+				local bottom=0.95*Texheight-5
+				local Copyicon ="|Tinterface/buttons/ui-guildbutton-publicnote-up.blp:0:0:0:0:"..Texheight..":"..Texheight..":"..left..":"..right..":"..top..":"..bottom.."|t"
+				if Copyicon~="" then
+					newText=newText:gsub("(|Hplayer:(.-)|h%[.-%]|h)", "|Hgarrmission:-999:%2|h"..Copyicon.."|h%1")
+				end
+			end
+			if PIGA["Chat"]["ShowZb"] then
+				local _, _, _, englishRace, sex = GetPlayerInfoByGUID(wanjiaxinxil[namexShowZb])
+				local raceX = GetRaceClassTXT(0,Texwidth,englishRace,sex)
+				if raceX~="" then
+					newText=newText:gsub("(|Hplayer:(.-)|h%[.-%]|h)", "|Hgarrmission:-998:%2|h"..raceX.."|h%1")
+				end
+			end
+		end
+	end
+	if PIGA["Chat"]["ShowLinkIcon"] or PIGA["Chat"]["ShowLinkLV"] or PIGA["Chat"]["ShowLinkSlots"] then
+		if Get_itemF.textAllIDs[text] then
+			local tihuanidlist = {}
+			for word,level in pairs(Get_itemF.textAllIDs[text]) do
+				tihuanidlist[word] = {}
+				if PIGA["Chat"]["ShowLinkIcon"] then
+					tihuanidlist[word]["icon"]=GetItemIcon(word)
+				end
+				if PIGA["Chat"]["ShowLinkLV"] then
+					tihuanidlist[word]["LV"]=level or 1
+				end
+				if PIGA["Chat"]["ShowLinkSlots"] then
+					local itemID, itemType, itemSubType, itemEquipLoc = GetItemInfoInstant(word)
+					if _G[itemEquipLoc] then
+						tihuanidlist[word]["Slots"]=itemSubType.."-".._G[itemEquipLoc]
+					end
+				end
+				if PIGA["Chat"]["ShowLinkGem"] then
+				    tihuanidlist[word]["Gem"]=GetGemList(word)
+				end
+			end
+			for word,data in pairs(tihuanidlist) do
+				if PIGA["Chat"]["ShowLinkIcon"] then
+					newText=newText:gsub("(|"..GetColorKey().."|"..word.."|h)","|T"..data.icon..":0|t%1");
+				end
+				if PIGA["Chat"]["ShowLinkLV"] or PIGA["Chat"]["ShowLinkSlots"] then
+					local newtxtmsg = ""
+					if PIGA["Chat"]["ShowLinkLV"] then			
+						newtxtmsg=newtxtmsg..data.LV
+					end
+					if PIGA["Chat"]["ShowLinkSlots"] and data.Slots then
+						newtxtmsg=newtxtmsg..data.Slots
+					end
+					if text:match("Player") then
+						newText=newText:gsub("(|"..GetColorKey().."|"..escape_dash(word).."|h%[)(.-%]|h|r)","%1("..newtxtmsg..")%2");
+					else
+						newText=newText:gsub("(|"..GetColorKey().."|"..word.."|h%[)(.-%]|h|r)","%1("..newtxtmsg..")%2");
+					end
+					if PIGA["Chat"]["ShowLinkGem"] and #data.Gem>0 then
+						local GemTxt = ""
+						for ixx=1,#data.Gem do
+							GemTxt=GemTxt.."|T".._Get_GEM_EMPTY_SOCKET(data.Gem[ixx])..":0|t"
+						end
+						newText=newText:gsub("(|"..GetColorKey().."|"..word.."|h%[.-%]|h|r)","%1"..GemTxt);
+					end
+				end
+			end
+		end
+	end
+	return newText
+end
 --修复点击密语
 -- PIG_OptionsUI.Plus_chat = PIGCheckbutton(PIG_OptionsUI,{"BOTTOMRIGHT", PIG_OptionsUI, "TOPRIGHT", -340, 2},{"修复聊天框点击密语","修复聊天框点击密语无效问题"})
 -- PIG_OptionsUI.Plus_chat:SetScript("OnClick", function (self)
@@ -213,7 +223,7 @@ end
 -- 	if PIGA["Chat"]["Plus_chat"] then
 -- 		local old_ChatFrame_SendTell=PIGSendTell
 -- 		ChatFrame_SendTell=function(name, chatFrame,pig)
--- 			local name1,server2 = strsplit("-",name)
+-- 			local name1,server2 = strsplit("-",name, 2)
 -- 			if PIG_OptionsUI.Realm==server2 then
 -- 				name = name1
 -- 			end
@@ -235,15 +245,12 @@ end
 ---
 function QuickChatfun.PIGMessage()
 	hooksecurefunc("SetItemRef", function(text,link, button, chatFrame)
-		-- print(text)
-		-- local newTextxx = link:gsub("|", "||")
-		-- print(newTextxx)
 		if not PIGA["Chat"]["ShowZb"] and not PIGA["Chat"]["FastCopy"] then return end
 		if ( strsub(text, 1, 11) ~= "garrmission" ) then return end
 		local nametext = strsub(text, 13);
 		local gnid,name_server = strsplit(":", nametext);--lineID, chatType, chatTarget
 		if PIG_MaxTocversion() then
-			local name,server = strsplit("-",name_server)
+			local name,server = strsplit("-",name_server, 2)
 			if PIG_OptionsUI.Realm==server then
 				name_server = name
 			end
@@ -285,56 +292,81 @@ function QuickChatfun.PIGMessage()
 			end
 		end
 	end)
-	
-	local Get_itemF = CreateFrame("Frame")
-	Get_itemF.ItemRequests={}
-	Get_itemF.itemMSGFrame={}
-	Get_itemF.itemAllIDs={}
+
+	local function GetMsgItemLists(text,msninfo,frame,extd)
+		Get_itemF.textMsgFrame[text]={msninfo,frame,extd}
+		Get_itemF.textAllIDs[text]={}
+		for word in text:gmatch("|(Hitem:.-)|h") do
+			Get_itemF.textAllIDs[text][word]=0
+			_GetTooltipLevel("link",{word},function(ItemLevel)
+				if ItemLevel<2 then
+					Get_itemF.textAllIDs[text][word]=""
+				else
+    				Get_itemF.textAllIDs[text][word]=ItemLevel
+    			end
+    		end)
+		end
+	end
+	local function SetMsgItemLists(text)
+    	for word,level in pairs(Get_itemF.textAllIDs[text]) do
+    		if level==0 then
+    			return
+    		end
+    	end
+    	Get_itemF.textMsgFrame[text][1](Get_itemF.textMsgFrame[text][2],ShowZb_Link_Icon(text),unpack(Get_itemF.textMsgFrame[text][3]))
+    	Get_itemF.textAllIDs[text] = nil
+	    Get_itemF.textMsgFrame[text] = nil
+	end
 	Get_itemF:RegisterEvent("GET_ITEM_INFO_RECEIVED")
 	Get_itemF:SetScript("OnEvent", function(self, event, NItemID)
-		local text=self.ItemRequests[NItemID]
-	    if text then
-	    	self.ItemRequests[NItemID] = nil
-	    	self.itemAllIDs[text][NItemID] = nil
-	    	if next(self.itemAllIDs[text])~=nil then return end
-	    	self.itemMSGFrame[text][1](self.itemMSGFrame[text][2],ShowZb_Link_Icon(PindaoName(text)),unpack(self.itemMSGFrame[text][3]))
-	    	self.itemAllIDs[text] = nil
-	    	self.itemMSGFrame[text] = nil
+	    for text,list in pairs(self.textAllIDs) do
+	   		SetMsgItemLists(text)
 	    end
 	end)
-	
-	--PIGA["xxxxxx"]={}
-	for i = 1, NUM_CHAT_WINDOWS do
-		if ( i ~= 2 and i~=3 ) then
-			local chatID = _G["ChatFrame"..i]
-			local msninfo = chatID.AddMessage
-			chatID.AddMessage = function(frame, text, ...)
-				--local text=text:gsub("|cff%w%w%w%w%w%w|Hmount:.-|h%[","");				
-				--if i==1 then table.insert(PIGA["xxxxxx"],text) end
-				--PIG_ChatFrameKeyWord:AddMessage(text:gsub("|", "||"));
-				if text and text~="" and text:match("player") then
-					if text:match("Hitem:") and PIGA["Chat"]["ShowLinkLV"] then
-						for word in text:gmatch("|(Hitem:.-)|h") do
-							if not GetDetailedItemLevelInfo(word) then
-								if not Get_itemF.itemMSGFrame[text] then
-									Get_itemF.itemMSGFrame[text]={msninfo,frame,{...}}
-								end
-								if not Get_itemF.itemAllIDs[text] then
-									Get_itemF.itemAllIDs[text]={}
-								end
-								local itemID= GetItemInfoInstant(word)
-								Get_itemF.ItemRequests[itemID]=text
-								Get_itemF.itemAllIDs[text][itemID]=true					
-							end
-						end
-						if Get_itemF.itemMSGFrame[text] then
-							return
-						end
-					end
-					return msninfo(frame, ShowZb_Link_Icon(PindaoName(text)), ...)
-				end
-				return msninfo(frame, text, ...)
+	---
+	Get_itemF.oldAddMessage={}
+	local function jiluoldmsgfun()
+		for i = 1, NUM_CHAT_WINDOWS do
+			if ( i ~= 2 and i~=3 ) then
+				local chatFrame = _G["ChatFrame"..i]
+				Get_itemF.oldAddMessage[chatFrame]=chatFrame.AddMessage
 			end
 		end
 	end
+	jiluoldmsgfun()
+	local function NewAddMessage(msninfo,frame, text, ...)
+		-- print(text)
+		--local text=text:gsub("|cff%w%w%w%w%w%w|Hmount:.-|h%[","");				
+		--if i==1 then table.insert(PIGA["xxxxxx"],text) end
+		--PIG_ChatFrameKeyWord:AddMessage(...);
+		-- local newTextxx = link:gsub("|", "||")
+		-- print(newTextxx)
+		if text and text~="" and text:match("player") then
+			if text:match("Hitem:") and PIGA["Chat"]["ShowLinkLV"] then
+				GetMsgItemLists(text,msninfo,frame,{...})
+				return SetMsgItemLists(text)
+			end
+			return msninfo(frame, ShowZb_Link_Icon(text), ...)
+		end
+		return msninfo(frame, text, ...)
+	end
+	local function zhuchetihuanE(oldx)
+		for i = 1, NUM_CHAT_WINDOWS do
+			if ( i ~= 2 and i~=3 ) then
+				local chatFrame = _G["ChatFrame"..i]
+				local msninfo = Get_itemF.oldAddMessage[chatFrame]
+				if oldx then
+					chatFrame.AddMessage = function(frame, text, ...)
+						NewAddMessage(msninfo,frame, text, ...)
+					end
+				else
+					chatFrame.AddMessage = function(frame, text, ...)
+						if issecretvalue(text) then return msninfo(frame, text, ...) end
+						NewAddMessage(msninfo,frame, text, ...)
+					end
+				end
+			end
+		end
+	end
+	zhuchetihuanE(PIG_MaxTocversion())
 end

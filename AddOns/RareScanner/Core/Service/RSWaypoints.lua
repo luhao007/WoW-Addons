@@ -17,18 +17,21 @@ local RSUtils = private.ImportLib("RareScannerUtils")
 ---============================================================================
 
 local function AddWaypoint(mapID, x, y)
-	C_Map.ClearUserWaypoint();
-
 	if (mapID and mapID ~= "" and x and y) then
 		local fixedX = RSUtils.FixCoord(x)
 		local fixedY = RSUtils.FixCoord(y)
 		
 		if (fixedX and fixedY) then
-			local uiMapPoint = UiMapPoint.CreateFromCoordinates(mapID, fixedX, fixedY);
-			if (uiMapPoint) then
-				C_Map.SetUserWaypoint(uiMapPoint);
-				C_SuperTrack.SetSuperTrackedUserWaypoint(true);
-			end
+			C_Map.ClearUserWaypoint();
+			C_SuperTrack.SetSuperTrackedUserWaypoint(false);
+			
+			C_Timer.After(0.5, function()
+				local uiMapPoint = UiMapPoint.CreateFromCoordinates(mapID, fixedX, fixedY);
+				if (uiMapPoint) then
+					C_Map.SetUserWaypoint(uiMapPoint);
+					C_SuperTrack.SetSuperTrackedUserWaypoint(true);
+				end
+			end)
 		end
 	end
 end

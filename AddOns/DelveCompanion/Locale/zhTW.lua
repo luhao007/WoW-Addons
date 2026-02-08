@@ -21,12 +21,18 @@ Lockit.UI_COMMON_MISSING_ADDON_TITLE = "缺少必需的插件：%s" -- `%s`: nam
 Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_CLICK_INSTRUCTION = "<Shift + 左鍵：設置地下堡的路徑點>"
 Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_CURRENT_TEXT = "路徑點設置"
 Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_CLEAR_INSTRUCTION = "<Shift + 左鍵：清空路徑點>"
-Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_CLEAR_MPE = "Please use MapPinEnhanced Tracker to remove the waypoint."
+Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_CLEAR_MPE = "請使用 MapPinEnhanced 追蹤器來移除此路徑點。"
+
+-- !!! Formatting note: Symbol "~" in the following text is used to split the string into 2 separate parts in the code. It's not shown in the actual locale. No spaces around.
+Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_TWW_S1 = "應得的懲罰: |cnHIGHLIGHT_FONT_COLOR:Zekvir|r~地心之戰 賽季1"
+Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_TWW_S2 = "應得的懲罰: |cnHIGHLIGHT_FONT_COLOR:The Underpin|r~地心之戰 賽季2"
+Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_TWW_S3 = "應得的懲罰: |cnHIGHLIGHT_FONT_COLOR:Ky'Veza|r~地心之戰 賽季3"
+Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_NEMESIS_MIDNIGHT_S1 = "應得的懲罰: |cnHIGHLIGHT_FONT_COLOR:Nullaeus|r~至暗之夜 賽季1"
 
 -- Delves UI
 
 Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_TWW = "在卡茲阿爾加地區時可獲取鍍金儲物箱進度"
-Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_MIDNIGHT = "Visit Quel'Thalas zones to see the progress"
+Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_MIDNIGHT = "造訪奎爾薩拉斯區域來觀看進度"
 Lockit.UI_GILDED_STASH_BOUNTIFUL_NOTE = "僅出現在 |cnNORMAL_FONT_COLOR:難度 11|r 豐碩探究|A:delves-bountiful:16:16|a。"
 Lockit.UI_NO_ACTIVE_BOUNTIFUL = "任意難度11豐碩探究可啟動進度"
 Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION = "<點擊來顯示探究的拾取資訊>"
@@ -35,7 +41,7 @@ Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION = "<點擊來顯示探究的拾�
 
 Lockit.UI_LOOT_INFO_DESCRIPTION = "完成探究可獲得戰利品："
 
--- Keys Info
+-- Tooltips Extension
 
 Lockit.UI_BOUNTIFUL_KEYS_COUNT_CACHES_PREFIX = "寶箱裡獲取的鑰匙數量"
 
@@ -48,19 +54,25 @@ Lockit.UI_COMPARTMENT_DESCRIPTION_RIGHT_CLICK = "右鍵點擊變更選項。"
 
 Lockit.UI_SETTINGS_SECTION_TITLE_ACCOUNT = "帳號設置"
 Lockit.UI_SETTING_DELVE_PROGRESS_WIDGETS_NAME = "探究的進度資訊"
-Lockit.UI_SETTING_DELVE_PROGRESS_WIDGETS_TOOLTIP = "冒險指南-探究：顯示探究成就進度（劇情和探索）。"
+Lockit.UI_SETTING_DELVES_LIST_INFO_WIDGETS_TOOLTIP = "冒險指南-探究：顯示探究成就進度（劇情和探索）。"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_NAME = "路徑點追蹤類型"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_START = "選擇哪種類型的路徑點用於導航。\n\n可能的選項:"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_BLIZZARD = "- Blizzard的地圖標記 (遊戲內建的導航)"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_TOMTOM = "- TomTom路徑點"
-Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_MPE = "- MapPinEnhanced Waypoints."
+Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_MPE = "- MapPinEnhanced 路徑點。"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_TOMTOM_UNAVAILABLE_FORMAT = "%s (%s)."
 Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_BLIZZARD_NAME = "Blizzard"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_BLIZZARD_DESCRIPTION = "使用Blizzard的地圖標記。"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_TOMTOM_NAME = "TomTom"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_TOMTOM_DESCRIPTION = "使用TomTom路徑點。"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_MPE_NAME = "MapPinEnhanced"
-Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_MPE_DESCRIPTION = "Use MapPinEnhanced Waypoints."
+Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_MPE_DESCRIPTION = "使用 MapPinEnhanced 路徑點。"
+Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_NAME = "探究中部件"
+Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_TOOLTIP = "啟用探究內顯示的小部件。它用作獎勵地圖、當季首領誘餌等的剩餘和快速施法選單。"
+Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_OPTION_LEFT_NAME = "左側"
+Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_OPTION_LEFT_DESCRIPTION = "小部件顯示在目標追踪器的左側。"
+Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_OPTION_RIGHT_NAME = "右側"
+Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_OPTION_RIGHT_DESCRIPTION = "小部件顯示在目標追踪器的右側。"
 
 Lockit.UI_SETTINGS_SECTION_TITLE_CHARACTER = "角色設置"
 Lockit.UI_SETTING_TOOLTIP_EXTENSION_NAME = "提示的額外資訊"
@@ -78,9 +90,9 @@ Lockit.UI_SETTING_DASHBOARD_OVERVIEW_TOOLTIP = "探究介面: 顯示一個額外
 
 Lockit.UI_SETTINGS_TRANSLATION_TITLE = "特別鳴謝翻譯者："
 
-Lockit.UI_SETTINGS_LINKS_TITLE = "Links"
-Lockit.UI_SETTINGS_ADDON_LINK_TOOLTIP_CURSEFORGE = "Click to copy the URL to the addon page on |cnNORMAL_FONT_COLOR:CurseForge|r."
-Lockit.UI_SETTINGS_ADDON_LINK_TOOLTIP_WAGO = "Click to copy the URL to the addon page on |cnNORMAL_FONT_COLOR:Wago.io|r."
-Lockit.UI_SETTINGS_ADDON_LINK_TOOLTIP_WOWINT = "Click to copy the URL to the addon page on |cnNORMAL_FONT_COLOR:WoW Interface|r."
-Lockit.UI_SETTINGS_ADDON_LINK_TOOLTIP_GITHUB = "Click to copy the URL to the addon page on |cnNORMAL_FONT_COLOR:GitHub|r.\n\nShare feedback, request new features, or report a bug. It helps making the addon even better!"
-Lockit.UI_SETTINGS_ADDON_LINK_POPUP_TEXT = "|cnGREEN_FONT_COLOR:Ctrl + C|r to copy the |cnNORMAL_FONT_COLOR:%s|r URL." -- `%s`: website name, e.g. CurseForge.
+Lockit.UI_SETTINGS_LINKS_TITLE = "連結"
+Lockit.UI_SETTINGS_ADDON_LINK_TOOLTIP_CURSEFORGE = "點擊複製 |cnNORMAL_FONT_COLOR:CurseForge|r 插件頁面網址。"
+Lockit.UI_SETTINGS_ADDON_LINK_TOOLTIP_WAGO = "點擊複製 |cnNORMAL_FONT_COLOR:Wago.io|r 插件頁面網址。"
+Lockit.UI_SETTINGS_ADDON_LINK_TOOLTIP_WOWINT = "點擊複製 |cnNORMAL_FONT_COLOR:WoW Interface|r 插件頁面網址。"
+Lockit.UI_SETTINGS_ADDON_LINK_TOOLTIP_GITHUB = "點擊複製 |cnNORMAL_FONT_COLOR:GitHub|r 插件頁面網址。\n\n提交反饋 | 申請新功能 | 報告漏洞（您的建議將驅動插件進化）"
+Lockit.UI_SETTINGS_ADDON_LINK_POPUP_TEXT = "|cnGREEN_FONT_COLOR:Ctrl + C|r 複製 |cnNORMAL_FONT_COLOR:%s|r 網址。" -- `%s`: website name, e.g. CurseForge.

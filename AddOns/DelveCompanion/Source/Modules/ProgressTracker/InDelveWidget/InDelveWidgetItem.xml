@@ -1,0 +1,32 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.blizzard.com/wow/ui/ https://raw.githubusercontent.com/Gethe/wow-ui-source/live/Interface/AddOns/Blizzard_SharedXML/UI.xsd">
+    <Frame name="DelvelCompanionInDelveWidgetItemTemplate"
+        mixin="DelveCompanion_InDelveWidgetItemMixin"
+        inherits="DelveCompanionCustomActionWidgetTemplate" virtual="true">
+        <Size x="40" y="40" />
+        <KeyValues>
+            <KeyValue key="align" value="center" type="string" />
+            <KeyValue key="iconSizeX" value="40" type="number" />
+            <KeyValue key="iconSizeY" value="40" type="number" />
+            <KeyValue key="displayLabel" value="false" type="boolean" />
+            <KeyValue key="useAutoScaling" value="false" type="boolean" />
+        </KeyValues>
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture parentKey="Border" atlas="perks-slot-glow" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="-3" y="3" />
+                        <Anchor point="BOTTOMRIGHT" x="3" y="-3" />
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad method="OnLoad" />
+            <OnShow method="OnShow" />
+            <OnEnter method="OnEnter" />
+            <OnHide method="OnHide" />
+        </Scripts>
+    </Frame>
+</Ui>

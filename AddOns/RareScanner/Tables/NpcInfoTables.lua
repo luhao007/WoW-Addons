@@ -161,15 +161,6 @@ private.NPC_INFO = {
 	[247510] = { zoneID = 0, displayID = 136427 }; --Unleashed Harrower
 	[247511] = { zoneID = 0, displayID = 36122 }; --Infused Minesmash
 	[247512] = { zoneID = 0, displayID = 39551 }; --Maddened Mineraw
-	[248660] = { zoneID = {
-				[630] = { x = 4297, y = 2327, artID = { 653 }, overlay = { "4220-7136","4297-2327" } };
-				[634] = { x = 8504, y = 1047, artID = { 657 }, overlay = { "8504-1047" } };
-				[641] = { x = 5788, y = 6475, artID = { 664 }, overlay = { "5788-6475" } };
-				[643] = { x = 3553, y = 3727, artID = { 666 }, overlay = { "3553-3727" } };
-				[646] = { x = 5925, y = 5177, artID = { 669 }, overlay = { "5925-5177" } };
-				[650] = { x = 5039, y = 6491, artID = { 674 }, overlay = { "5039-6491" } };
-				[680] = { x = 3391, y = 8011, artID = { 704 }, overlay = { "3391-8011" } };
-			  }, displayID = 63864, reset = true, event = 8 }; --Lost Legion Infernal
 	[248661] = { zoneID = 0, displayID = 68734, reset = true, event = 8 }; --Infernal of the End Times
 	[248688] = { zoneID = 0, displayID = 63864, reset = true, event = 8 }; --Lost Legion Infernal
 	[248689] = { zoneID = 0, displayID = 68734, reset = true, event = 8 }; --Infernal of the End Times
@@ -183,10 +174,10 @@ private.NPC_INFO = {
 	[250534] = { zoneID = 0, displayID = 128490 }; --Treasure Dundun
 	[252471] = { zoneID = 0, displayID = 127813 }; --Enslaved Voidcaster
 	[252897] = { zoneID = 0, displayID = 127813 }; --Enslaved Voidcaster
-	[253304] = { zoneID = 2506, artID = { 2016 }, x = 4044, y = 5125, overlay = { "4044-5125" }, displayID = 125031, reset = true }; --Paingolin
 	[253342] = { zoneID = 0, displayID = 137973 }; --Xal'atath <The Harbinger>
 	[254092] = { zoneID = 0, displayID = 106055 }; --Eternus
 	[256569] = { zoneID = 0, displayID = 121772 }; --Abandoned Restoration Stone
+	[256817] = { zoneID = 0, displayID = 138028 }; --Infiltrator Gulkat
 	[213665] = { zoneID = {
 				[1] = { x = 4443, y = 3509, artID = { 2 }, overlay = { "4443-3509" } };
 				[37] = { x = 3380, y = 9000, artID = { 41 }, overlay = { "3380-9000","3040-9040","3040-9160" } };
@@ -976,8 +967,6 @@ private.NPC_INFO = {
 	[5863] = { zoneID = 199, artID = { 204 }, x = 4424, y = 4207, overlay = { "4200-4260","4420-4200","4200-3780" }, displayID = 6100 }; --Geopriest Gukk'rok
 	[5864] = { zoneID = 199, artID = { 204 }, x = 3859, y = 3340, overlay = { "3860-3340" }, displayID = 6114 }; --Swinegart Spearhide
 	[49913] = { zoneID = 201, artID = { 206 }, x = 6160, y = 7540, overlay = { "5620-7780","5720-8020","5940-7520","6000-7680","6020-7040","6040-6920","6100-7500" }, displayID = 36660 }; --Lady La-La <Siren of the Deeps>
-	[51071] = { zoneID = 205, artID = { 210 }, x = 5520, y = 7380, overlay = { "5520-7320" }, friendly = { "A" }, displayID = 4693 }; --Captain Florence
-	[51079] = { zoneID = 205, artID = { 210 }, x = 5313, y = 6773, overlay = { "5313-6773" }, friendly = { "H" }, displayID = 30103 }; --Captain Foulwind
 	[50005] = { zoneID = {
 				[204] = { x = 4220, y = 7600, artID = { 209 }, overlay = { "3940-7160","4040-7380","4100-7660","4180-7340","4220-7600" } };
 				[205] = { x = 6700, y = 4320, artID = { 210 }, overlay = { "3780-6680","3940-6880","3980-6640","4440-4940","4620-4860","5640-8200","5720-8080","5740-8360","5820-8160","6580-4320","6700-4320","3800-6820","4480-5080","4660-5000","6500-4200" } };
@@ -986,6 +975,8 @@ private.NPC_INFO = {
 	[50050] = { zoneID = 204, artID = { 209 }, x = 5100, y = 3220, overlay = { "4180-3240","4620-2940","4800-2740","4800-3460","5100-3220" }, displayID = 37335 }; --Shok'sharak
 	[50051] = { zoneID = 204, artID = { 209 }, x = 3140, y = 8060, overlay = { "1280-8260","1500-7740","1500-8740","1900-7740","2000-5800","2040-6840","2200-6500","2420-7180","2440-8040","2600-8140","2820-8220","3120-7800","3140-8060" }, displayID = 37396 }; --Ghostcrawler
 	[50052] = { zoneID = 205, artID = { 210 }, x = 5760, y = 6980, overlay = { "5640-7000","5720-6900" }, displayID = 36699 }; --Burgy Blackheart <Dreaded Captain of Diane's Fancy>
+	[51071] = { zoneID = 205, artID = { 210 }, x = 5520, y = 7380, overlay = { "5520-7320" }, friendly = { "A" }, displayID = 4693 }; --Captain Florence
+	[51079] = { zoneID = 205, artID = { 210 }, x = 5313, y = 6773, overlay = { "5313-6773" }, friendly = { "H" }, displayID = 30103 }; --Captain Foulwind
 	[49822] = { zoneID = 207, artID = { 212 }, x = 6120, y = 2260, overlay = { "6120-2240" }, displayID = 36636 }; --Jadefang
 	[50059] = { zoneID = 207, artID = { 212 }, x = 4580, y = 8419, overlay = { "3240-7680","3720-7980","3720-8160","3860-8320","4280-8760","4540-8400" }, displayID = 37364 }; --Golgarok <The Crimson Shatterer>
 	[50060] = { zoneID = 207, artID = { 212 }, x = 5520, y = 2440, overlay = { "5420-2540","5520-2440" }, displayID = 36703 }; --Terborus
@@ -1004,25 +995,25 @@ private.NPC_INFO = {
 	[6228] = { zoneID = 229, artID = { 240 }, x = 2800, y = 5200, displayID = 6669 }; --Dark Iron Ambassador
 	[11467] = { zoneID = 237, artID = { 248 }, x = 3200, y = 2800, displayID = 11250 }; --Tsu'zee
 	[14506] = { zoneID = 238, artID = { 249 }, x = 3800, y = 5900, friendly = { "A" }, displayID = 14556 }; --Lord Hel'nurath
-	[237853] = { zoneID = 241, artID = { 252 }, x = 5753, y = 7538, overlay = { "5753-7538" }, displayID = 127812, reset = true, achievementID = { 42300 }, event = 9 }; --Berg the Spellfist
-	[237997] = { zoneID = 241, artID = { 252 }, x = 7097, y = 3059, overlay = { "7080-3080" }, displayID = 31546, reset = true, achievementID = { 42300 }, event = 9 }; --Corla, Herald of Twilight
-	[246272] = { zoneID = 241, artID = { 252 }, x = 4680, y = 2510, overlay = { "4694-2466" }, displayID = 130621, reset = true, achievementID = { 42300 }, event = 9 }; --Void Zealot Devinda
-	[246343] = { zoneID = 241, artID = { 252 }, x = 4540, y = 4907, overlay = { "4540-4907" }, displayID = 38995, reset = true, achievementID = { 42300 }, event = 9 }; --Asira Dawnslayer
-	[246460] = { zoneID = 241, artID = { 252 }, x = 7097, y = 3059, overlay = { "7097-3059" }, displayID = 130734, reset = true, achievementID = { 42300 }, event = 9 }; --Ray of Putrescence
-	[246462] = { zoneID = 241, artID = { 252 }, x = 4258, y = 1722, overlay = { "4258-1722" }, displayID = 38992, reset = true, achievementID = { 42300 }, event = 9 }; --Archbishop Benedictus
-	[246471] = { zoneID = 241, artID = { 252 }, x = 4680, y = 2510, overlay = { "4680-2510" }, displayID = 125294, reset = true, achievementID = { 42300 }, event = 9 }; --Ix the Bloodfallen
-	[246478] = { zoneID = 241, artID = { 252 }, x = 4540, y = 4907, overlay = { "4540-4907" }, displayID = 124451, reset = true, achievementID = { 42300 }, event = 9 }; --Commander Ix'vaarha
-	[246549] = { zoneID = 241, artID = { 252 }, x = 6489, y = 5253, overlay = { "6489-5253" }, displayID = 124444, reset = true, achievementID = { 42300 }, event = 9 }; --Ez'Haadosh the Liminality
-	[246558] = { zoneID = 241, artID = { 252 }, x = 4258, y = 1722, overlay = { "4258-1722" }, displayID = 131489, reset = true, achievementID = { 42300 }, event = 9 }; --Saligrum the Observer
-	[246559] = { zoneID = 241, artID = { 252 }, x = 4258, y = 1722, overlay = { "4258-1722" }, displayID = 124453, reset = true, achievementID = { 42300 }, event = 9 }; --Sharfadi, Bulwark of the Night
-	[246565] = { zoneID = 241, artID = { 252 }, x = 7097, y = 3059, overlay = { "7097-3059" }, displayID = 130683, reset = true, achievementID = { 42300 }, event = 9 }; --Gustavan, Herald of the End
-	[246566] = { zoneID = 241, artID = { 252 }, x = 4540, y = 4907, overlay = { "4540-4907" }, displayID = 125627, reset = true, achievementID = { 42300 }, event = 9 }; --Mirrorvise
-	[246572] = { zoneID = 241, artID = { 252 }, x = 6489, y = 5253, overlay = { "6489-5253" }, displayID = 126845, reset = true, achievementID = { 42300 }, event = 9 }; --Redeye the Skullchewer
-	[246577] = { zoneID = 241, artID = { 252 }, x = 6489, y = 5253, overlay = { "6489-5253" }, displayID = 130632, reset = true, achievementID = { 42300 }, event = 9 }; --Nedrand the Eyegorger
-	[246578] = { zoneID = 241, artID = { 252 }, x = 4680, y = 2510, overlay = { "4680-2510" }, displayID = 130707, reset = true, achievementID = { 42300 }, event = 9 }; --Voidclaw Hexathor
-	[246840] = { zoneID = 241, artID = { 252 }, x = 5753, y = 7538, overlay = { "5753-7538" }, displayID = 130586, reset = true, achievementID = { 42300 }, event = 9 }; --Executioner Lynthelma
-	[246844] = { zoneID = 241, artID = { 252 }, x = 5753, y = 7538, overlay = { "5753-7538" }, displayID = 131373, reset = true, achievementID = { 42300 }, event = 9 }; --T'aavihan the Unbound
-	[253378] = { zoneID = 241, artID = { 252 }, x = 6912, y = 2951, overlay = { "5652-7321","6912-2951" }, displayID = 69705, reset = true, achievementID = { 42300 }, event = 9 }; --Voice of the Eclipse
+	[237853] = { zoneID = 241, artID = { 338,252 }, x = 5753, y = 7538, overlay = { "5753-7538" }, displayID = 127812, reset = true, achievementID = { 42300 }, event = 9 }; --Berg the Spellfist
+	[237997] = { zoneID = 241, artID = { 338,252 }, x = 7097, y = 3059, overlay = { "7080-3080" }, displayID = 31546, reset = true, achievementID = { 42300 }, event = 9 }; --Corla, Herald of Twilight
+	[246272] = { zoneID = 241, artID = { 338,252 }, x = 4680, y = 2510, overlay = { "4694-2466" }, displayID = 130621, reset = true, achievementID = { 42300 }, event = 9 }; --Void Zealot Devinda
+	[246343] = { zoneID = 241, artID = { 338,252 }, x = 4540, y = 4907, overlay = { "4540-4907" }, displayID = 38995, reset = true, achievementID = { 42300 }, event = 9 }; --Asira Dawnslayer
+	[246460] = { zoneID = 241, artID = { 338,252 }, x = 7102, y = 3053, overlay = { "7097-3059" }, displayID = 130734, reset = true, achievementID = { 42300 }, event = 9 }; --Ray of Putrescence
+	[246462] = { zoneID = 241, artID = { 338,252 }, x = 4258, y = 1722, overlay = { "4258-1722" }, displayID = 38992, reset = true, achievementID = { 42300 }, event = 9 }; --Archbishop Benedictus
+	[246471] = { zoneID = 241, artID = { 338,252 }, x = 4668, y = 2506, overlay = { "4680-2510" }, displayID = 125294, reset = true, achievementID = { 42300 }, event = 9 }; --Ix the Bloodfallen
+	[246478] = { zoneID = 241, artID = { 338,252 }, x = 4545, y = 4896, overlay = { "4540-4907" }, displayID = 124451, reset = true, achievementID = { 42300 }, event = 9 }; --Commander Ix'vaarha
+	[246549] = { zoneID = 241, artID = { 338,252 }, x = 6489, y = 5253, overlay = { "6489-5253" }, displayID = 124444, reset = true, achievementID = { 42300 }, event = 9 }; --Ez'Haadosh the Liminality
+	[246558] = { zoneID = 241, artID = { 338,252 }, x = 4253, y = 1759, overlay = { "4258-1722" }, displayID = 131489, reset = true, achievementID = { 42300 }, event = 9 }; --Saligrum the Observer
+	[246559] = { zoneID = 241, artID = { 338,252 }, x = 4258, y = 1722, overlay = { "4258-1722" }, displayID = 124453, reset = true, achievementID = { 42300 }, event = 9 }; --Sharfadi, Bulwark of the Night
+	[246565] = { zoneID = 241, artID = { 338,252 }, x = 7065, y = 3139, overlay = { "7097-3059","7040-3180" }, displayID = 130683, reset = true, achievementID = { 42300 }, event = 9 }; --Gustavan, Herald of the End
+	[246566] = { zoneID = 241, artID = { 338,252 }, x = 4540, y = 4907, overlay = { "4540-4907" }, displayID = 125627, reset = true, achievementID = { 42300 }, event = 9 }; --Mirrorvise
+	[246572] = { zoneID = 241, artID = { 338,252 }, x = 6524, y = 5268, overlay = { "6489-5253" }, displayID = 126845, reset = true, achievementID = { 42300 }, event = 9 }; --Redeye the Skullchewer
+	[246577] = { zoneID = 241, artID = { 338,252 }, x = 6403, y = 5257, overlay = { "6489-5253","6540-5380","6540-5140" }, displayID = 130632, reset = true, achievementID = { 42300 }, event = 9 }; --Nedrand the Eyegorger
+	[246578] = { zoneID = 241, artID = { 338,252 }, x = 4703, y = 2505, overlay = { "4680-2510" }, displayID = 130707, reset = true, achievementID = { 42300 }, event = 9 }; --Voidclaw Hexathor
+	[246840] = { zoneID = 241, artID = { 338,252 }, x = 5804, y = 7459, overlay = { "5753-7538" }, displayID = 130586, reset = true, achievementID = { 42300 }, event = 9 }; --Executioner Lynthelma
+	[246844] = { zoneID = 241, artID = { 338,252 }, x = 5768, y = 7538, overlay = { "5753-7538" }, displayID = 131373, reset = true, achievementID = { 42300 }, event = 9 }; --T'aavihan the Unbound
+	[253378] = { zoneID = 241, artID = { 338,252 }, x = 4740, y = 4521, overlay = { "5652-7321","6912-2951","4020-1440","4720-4500","4840-2380","6640-5320" }, displayID = 69705, reset = true, achievementID = { 42300 }, event = 9 }; --Voice of the Eclipse
 	[50085] = { zoneID = 241, artID = { 338,252 }, x = 5800, y = 3380, overlay = { "5780-3340" }, displayID = 36711 }; --Overlord Sunderfury
 	[50086] = { zoneID = 241, artID = { 338,252 }, x = 5100, y = 8240, overlay = { "5080-8260" }, displayID = 36714 }; --Tarvus the Vile
 	[50089] = { zoneID = 241, artID = { 338,252 }, x = 5980, y = 0680, overlay = { "5020-0880","5080-0740","5200-0720","5220-1060","5240-0920","5320-0800","5320-1200","5360-1080","5500-1180","5620-1260","5640-0820","5660-1100","5700-0700","5800-0960","5880-0620","4960-0740","6000-0640" }, displayID = 24301 }; --Julak-Doom <The Eye of Zor>
@@ -1673,6 +1664,15 @@ private.NPC_INFO = {
 	[111939] = { zoneID = 630, artID = { 653 }, x = 4360, y = 8959, overlay = { "4340-8940" }, displayID = 71940, questID = { 43956 } }; --Lysanis Shadesoul <Felsworn Commander>
 	[112636] = { zoneID = 630, artID = { 653 }, x = 5061, y = 5191, overlay = { "5040-5200" }, displayID = 69430, questID = { 44081 }, achievementID = { 11261 } }; --Sinister Leyrunner
 	[112637] = { zoneID = 630, artID = { 653 }, x = 5051, y = 5204, overlay = { "5040-5200" }, displayID = 72132, questID = { 44081 }, achievementID = { 11261 } }; --Devious Sunrunner
+	[248660] = { zoneID = {
+				[630] = { x = 4297, y = 2327, artID = { 653 }, overlay = { "4220-7136","4297-2327" } };
+				[634] = { x = 8504, y = 1047, artID = { 657 }, overlay = { "8504-1047" } };
+				[641] = { x = 5788, y = 6475, artID = { 664 }, overlay = { "5788-6475" } };
+				[643] = { x = 3553, y = 3727, artID = { 666 }, overlay = { "3553-3727" } };
+				[646] = { x = 5925, y = 5177, artID = { 669 }, overlay = { "5925-5177" } };
+				[650] = { x = 5039, y = 6491, artID = { 674 }, overlay = { "5039-6491" } };
+				[680] = { x = 3391, y = 8011, artID = { 704 }, overlay = { "3391-8011" } };
+			  }, displayID = 63864, reset = true, event = 8 }; --Lost Legion Infernal
 	[89016] = { zoneID = 630, artID = { 653 }, x = 4100, y = 4181, overlay = { "4120-4160" }, displayID = 26768, questID = { 37537 }, achievementID = { 11261 } }; --Ravyn-Drath
 	[89650] = { zoneID = 630, artID = { 653 }, x = 4746, y = 3445, overlay = { "4720-3420" }, displayID = 20641, questID = { 37726 }, achievementID = { 11261 } }; --Valiyaka the Stormbringer
 	[89816] = { zoneID = 630, artID = { 653 }, x = 6559, y = 4000, overlay = { "6540-4000" }, displayID = 66813, questID = { 37820 }, achievementID = { 11261 } }; --Golza the Iron Fin
@@ -4082,7 +4082,7 @@ private.NPC_INFO = {
 	[250317] = { zoneID = 2413, artID = { 1942 }, x = 2811, y = 8181, overlay = { "2811-8181" }, displayID = 136963, questReset = true, questID = { 92190 }, warbandQuestID = { 94723 }, achievementID = { 61264 } }; --Oro'ohna
 	[250321] = { zoneID = 2413, artID = { 1942 }, x = 2727, y = 7031, overlay = { "2727-7031" }, displayID = 109505, questReset = true, questID = { 92191 }, warbandQuestID = { 94724 }, achievementID = { 61264 } }; --Pterrock
 	[250347] = { zoneID = 2413, artID = { 1942 }, x = 3968, y = 6070, overlay = { "3968-6070" }, displayID = 126035, questReset = true, questID = { 92193 }, warbandQuestID = { 94725 }, achievementID = { 61264 } }; --Ahl'ua'huhi
-	[250358] = { zoneID = 2413, artID = { 1942 }, x = 4406, y = 1601, overlay = { "4430-1603" }, displayID = 139454, questReset = true, questID = { 92194 }, warbandQuestID = { 94726 }, achievementID = { 61264 } }; --Annulus the Worldshaker <TEMP MODEL>
+	[250358] = { zoneID = 2413, artID = { 1942 }, x = 4406, y = 1601, overlay = { "4430-1603" }, displayID = 139454, questReset = true, questID = { 92194 }, warbandQuestID = { 94726 }, achievementID = { 61264 } }; --Annulus the Worldshaker
 	[239864] = { zoneID = {
 				[2424] = { x = 3735, y = 3832, artID = { 1950 }, overlay = { "3735-3832" } };
 				[2432] = { x = 3708, y = 3825, artID = { 1950 }, overlay = { "3708-3825","3660-4000" } };
@@ -4095,9 +4095,9 @@ private.NPC_INFO = {
 	[242024] = { zoneID = 2437, artID = { 1963 }, x = 5180, y = 1865, overlay = { "5180-1865" }, displayID = 136483, questReset = true, questID = { 89570 }, warbandQuestID = { 94697 }, achievementID = { 62122 } }; --The Snapping Scourge
 	[242025] = { zoneID = 2437, artID = { 1963 }, x = 5187, y = 7290, overlay = { "5184-7292" }, displayID = 129831, questReset = true, questID = { 89571 }, warbandQuestID = { 94698 }, achievementID = { 62122 } }; --Skullcrusher Harak
 	[242026] = { zoneID = 2437, artID = { 1963 }, x = 3366, y = 8891, overlay = { "3368-8897" }, displayID = 129833, questReset = true, questID = { 89572 }, warbandQuestID = { 94707 }, achievementID = { 62122 } }; --Elder Oaktalon
-	[242027] = { zoneID = 2437, artID = { 1963 }, x = 4768, y = 2050, overlay = { "4769-2045" }, displayID = 102546, questReset = true, questID = { 89573 }, warbandQuestID = { 94708 }, achievementID = { 62122 } }; --Electric Eelemental
+	[242027] = { zoneID = 2437, artID = { 1963 }, x = 4768, y = 2050, overlay = { "4769-2045" }, displayID = 102546, questReset = true, questID = { 89573 }, warbandQuestID = { 94708 }, achievementID = { 62122 } }; --Depthborn Eelamental
 	[242028] = { zoneID = 2437, artID = { 1963 }, x = 2890, y = 2446, overlay = { "2890-2446" }, displayID = 129847, questReset = true, questID = { 89575 }, warbandQuestID = { 94699 }, achievementID = { 62122 } }; --Lightwood Borer
-	[242031] = { zoneID = 2437, artID = { 1963 }, x = 3046, y = 4456, overlay = { "3058-4548" }, displayID = 140797, questReset = true, questID = { 89578 }, warbandQuestID = { 94702 }, achievementID = { 62122 } }; --Pufferspine <The Deadliest Catch>
+	[242031] = { zoneID = 2437, artID = { 1963 }, x = 3046, y = 4456, overlay = { "3058-4548" }, displayID = 140797, questReset = true, questID = { 89578 }, warbandQuestID = { 94702 }, achievementID = { 62122 } }; --Spinefrill <The Deadliest Catch>
 	[242032] = { zoneID = 2437, artID = { 1963 }, x = 4633, y = 5114, overlay = { "4628-5111" }, displayID = 131356, questReset = true, questID = { 89579 }, warbandQuestID = { 94703 }, achievementID = { 62122 } }; --Oophaga <The Egg Eater>
 	[242033] = { zoneID = 2437, artID = { 1963 }, x = 4785, y = 3441, overlay = { "4771-3451" }, displayID = 128119, questReset = true, questID = { 89580 }, warbandQuestID = { 94704 }, achievementID = { 62122 } }; --Tiny Vermin
 	[242034] = { zoneID = 2437, artID = { 1963 }, x = 2109, y = 7067, overlay = { "2109-7067" }, displayID = 129849, questReset = true, questID = { 89581 }, warbandQuestID = { 94705 }, achievementID = { 62122 } }; --Voidtouched Crustacean
@@ -4112,6 +4112,11 @@ private.NPC_INFO = {
 	[238384] = { zoneID = 2472, artID = { 1987 }, x = 3230, y = 5839, overlay = { "3115-5818","3140-5620","3220-5740","3240-5880","3260-5540","3360-5820","3500-5780" }, displayID = 126471, questReset = true, questID = { 90694 }, warbandQuestID = { 90695 }, achievementID = { 41980 } }; --Xy'vox the Twisted
 	[238540] = { zoneID = 2472, artID = { 1987 }, x = 7025, y = 5685, overlay = { "7113-5711","7037-5825" }, displayID = 101980, questReset = true, questID = { 90698 }, warbandQuestID = { 90699 }, achievementID = { 41980,42761 } }; --Grubber
 	[241956] = { zoneID = 2472, artID = { 1987 }, x = 3501, y = 3624, overlay = { "3433-3633" }, displayID = 126785, questReset = true, questID = { 90696 }, warbandQuestID = { 90697 }, achievementID = { 41980,42761 } }; --Arcana-Monger So'zer
+	[253249] = { zoneID = {
+				[2502] = { x = 6351, y = 6433, artID = { 2012 }, overlay = { "6351-6433" } };
+				[2505] = { x = 4457, y = 6675, artID = { 2015 }, overlay = { "4457-6675" } };
+				[2510] = { x = 3934, y = 1764, artID = { 2020 }, overlay = { "3934-1764" } };
+			  }, displayID = 125979, reset = true }; --Clever Saptor
 	[253257] = { zoneID = {
 				[2502] = { x = 3934, y = 1764, artID = { 2012 }, overlay = { "5541-7085","3934-1764" } };
 				[2510] = { x = 3922, y = 1696, artID = { 2020 }, overlay = { "3922-1696" } };
@@ -4120,9 +4125,5 @@ private.NPC_INFO = {
 				[2502] = { x = 5541, y = 7085, artID = { 2012 }, overlay = { "5541-7085" } };
 				[2525] = { x = 4233, y = 5221, artID = { 2035 }, overlay = { "4233-5221" } };
 			  }, displayID = 915, reset = true }; --Wailing Spirit
-	[253249] = { zoneID = {
-				[2502] = { x = 6351, y = 6433, artID = { 2012 }, overlay = { "6351-6433" } };
-				[2505] = { x = 4457, y = 6675, artID = { 2015 }, overlay = { "4457-6675" } };
-				[2510] = { x = 3934, y = 1764, artID = { 2020 }, overlay = { "3934-1764" } };
-			  }, displayID = 125979, reset = true }; --Clever Saptor
+	[253304] = { zoneID = 2506, artID = { 2016 }, x = 4044, y = 5125, overlay = { "4044-5125" }, displayID = 125031, reset = true }; --Paingolin
 }

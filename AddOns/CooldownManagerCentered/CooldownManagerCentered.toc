@@ -1,0 +1,51 @@
+## Interface: 120000
+## Author: Wildu
+## Version: 1.14.17
+
+## Title: |cff008945Cool|r|cff1e9a4e|r|cff3faa4fdown Ma|r|cff5fb64anag|r|cff7ac243er Ce|r|cff8ccd00ntered|r
+## Notes: Cooldown Manager tweaks and styling
+## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r|cFFFFFFFF冷却管理器增强|r |cFFFFE00A|cff008945Cool|r|cff1e9a4e|r|cff3faa4fdown Ma|r|cff5fb64anag|r|cff7ac243er Ce|r|cff8ccd00ntered|r|r
+## Notes-zhCN: 为Blizzard自带的冷却管理器增加一些功能，诸如显示按键等等
+
+## IconTexture: Interface\Addons\CooldownManagerCentered\Media\CooldownManagerCenteredIcon
+
+## Category: Combat
+## Category-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r
+
+## SavedVariables: CooldownManagerCenteredDB
+
+## X-Wago-ID: b6mvbYKP
+
+loadLibs.xml
+
+# Core Modules
+core/config.lua
+core/profiles.lua
+core/api.lua
+core/scaling.lua
+core/spellIdOverrides.lua
+core/uiCore.lua
+
+# Settings System - Centralized Settings Management
+settings/ProfileSettings.lua
+settings/WilduSettings_UI.lua
+settings/WilduSettings.xml
+
+# Other Modules
+modules/cooldownManager.lua
+modules/editModeHelp.lua
+modules/styled.lua
+modules/stacks.lua
+modules/keybinds.lua
+modules/assistant.lua
+modules/onCooldownTracker.lua
+modules/swipe.lua
+modules/cooldownFont.lua
+modules/noAuras.lua
+modules/buttonPress.lua
+modules/trinketRacialTracker.lua
+
+# TO NOTE last one to registerCallback is called... first
+modules/runtime.lua
+
+CooldownManagerCentered.lua

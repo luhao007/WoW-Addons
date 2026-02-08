@@ -1,0 +1,21 @@
+## Interface: 120000
+## Author: Tuller
+## Version: 11.2.3
+
+## Title: tullaRange
+## Notes: Out of range coloring based on RedRange
+## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r|cFFFFFFFF技能距离检测|r |cFFFFE00AtullaRange|r
+## Notes-zhCN: 目标距离过远时，将技能图标显示为红色
+
+## IconTexture: Interface/Icons/Inv_misc_punchcards_red
+
+## Category: Action Bars
+## Category-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r
+
+## SavedVariables: TULLARANGE_COLORS
+
+attackFlash.lua
+actionState.lua
+updater.modern.lua [AllowLoadGameType mainline, tbc]
+updater.classic.lua [AllowLoadGameType mists, cata, wrath, vanilla]
+tullaRange.lua

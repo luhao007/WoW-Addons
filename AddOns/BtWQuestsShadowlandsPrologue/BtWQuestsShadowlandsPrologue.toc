@@ -11,7 +11,6 @@
 
 ## Dependencies: BtWQuests
 ## LoadOnDemand: 1
-## DefaultState: disabled
 
 ## X-BtWQuests: Shadowlands Prologue
 ## X-BtWQuests-Expansion: 8

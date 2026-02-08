@@ -1,15 +1,23 @@
-lightweight tag 28dbbfee3094f424e0c15cb0bcf48928446b7598 v3.0.0
+lightweight tag ab158d14e4f2b4e46b598704ef1963db0197b157 v4.0.0
 Author:	romdeau23 <43295566+romdeau23@users.noreply.github.com>
-Date:	Tue Jan 20 21:48:49 2026 +0100
+Date:	Sat Feb 7 18:08:03 2026 +0100
 
-commit 28dbbfee3094f424e0c15cb0bcf48928446b7598
+commit ab158d14e4f2b4e46b598704ef1963db0197b157
 Author: romdeau23 <43295566+romdeau23@users.noreply.github.com>
-Date:   Tue Jan 20 21:48:49 2026 +0100
+Date:   Sat Feb 7 18:08:03 2026 +0100
 
-    3.0.0
+    4.0.0
     
-    Updated for Midnight
-    Improved refresh handling
-    Improved set tooltip
-    Added a check for known conflicting addons
+    - completely reworked set data loading
+    - added "use character profile" option
+    - added "skipped slots" option
+    - added "tabard" option to ignored/hidden slots
+    - added tooltips to the slot options
+    - added a reset option to the slot sub-menus
+    - added a loading indicator
+    - removed the "use hidden if missing" option (now default behavior)
+    - removed conflicting addon checks
+    - fixed lag when tmog UI is first open
+    - fixed character preview bugging out randomly
+    - fixed extra sets filter option tooltip styling affecting other tooltips
 

@@ -3,7 +3,6 @@
     <Include file="Krowi_Util\Krowi_Util.xml" />
 
 
-    <Include file="AceEvent-3.0\AceEvent-3.0.xml" />
 
     <Script file="MetaLua\MetaLua.lua" />
     <Include file="Krowi_PopupDialog\Krowi_PopupDialog.xml" />

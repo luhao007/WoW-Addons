@@ -1,5 +1,7 @@
 local addonName, addonTable = ...;
 local L =addonTable.locale
+local _, _, _, tocversion = GetBuildInfo()
+local match = _G.string.match
 -----------------
 local bencierrinfo={}
 --------------------------------
@@ -58,7 +60,17 @@ local function ADD_Button(Text,fuF,WH,Point)
 	end)
 	return But
 end
-
+local function addCheckBut(fujik,Point,WH,Text,tooltip)
+	local CheckBut = CreateFrame("CheckButton", nil, fujik, "ChatConfigCheckButtonTemplate");
+	CheckBut:SetMotionScriptsWhileDisabled(true)
+	CheckBut:SetHitRectInsets(0,-20,0,0)
+	CheckBut:SetPoint(unpack(Point))
+	CheckBut:SetSize(unpack(WH))
+	CheckBut.Text:SetFont("Fonts/ARHei.ttf",13)
+	CheckBut.Text:SetText(Text);
+	CheckBut.tooltip = tooltip or Text
+	return CheckBut
+end
 local function ADD_TabBut(Text,fuF,WH,Point,id)
 	local But = CreateFrame("Button", nil, fuF,"BackdropTemplate",id);
 	But.Show=false;
@@ -167,20 +179,22 @@ Bugcollect.Moving.qingkong:SetScript("OnClick", function (self)
 	Bugcollect:qingkongERR()
 end);
 --
-Bugcollect.Moving.tishiCK = CreateFrame("CheckButton", nil, Bugcollect.Moving, "ChatConfigCheckButtonTemplate");
-Bugcollect.Moving.tishiCK:SetMotionScriptsWhileDisabled(true)
-Bugcollect.Moving.tishiCK:SetHitRectInsets(0,-20,0,0)
-Bugcollect.Moving.tishiCK:SetPoint("RIGHT",Bugcollect.Moving.qingkong,"LEFT",-60,-2)
-Bugcollect.Moving.tishiCK:SetSize(24,24)
-Bugcollect.Moving.tishiCK.Text:SetText(BINDING_HEADER_DEBUG);
-Bugcollect.Moving.tishiCK.Text:SetFont("Fonts/ARHei.ttf",13)
-Bugcollect.Moving.tishiCK.tooltip = L["ERROR_DEBUGTOOLTIP"]
+Bugcollect.Moving.tishiCK=addCheckBut(Bugcollect.Moving,{"RIGHT",Bugcollect.Moving.qingkong,"LEFT",-60,-2},{24,24},BINDING_HEADER_DEBUG,L["ERROR_DEBUGTOOLTIP"])
 Bugcollect.Moving.tishiCK:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["Error"]["ErrorTishi"] = true
 	else
 		PIGA["Error"]["ErrorTishi"] = false
 	end
+end);
+Bugcollect.Moving.IsPig=addCheckBut(Bugcollect.Moving,{"RIGHT",Bugcollect.Moving.tishiCK,"LEFT",-80,0},{24,24},addonName..ERRORS)
+Bugcollect.Moving.IsPig:SetScript("OnClick", function (self)
+	if self:GetChecked() then
+		PIGA["Error"]["IsPig"] = true
+	else
+		PIGA["Error"]["IsPig"] = nil
+	end
+	Bugcollect.UpdateErrorUI()
 end);
 ---显示区域
 Bugcollect.NR = CreateFrame("Frame", nil, Bugcollect,"BackdropTemplate");
@@ -228,30 +242,40 @@ function Bugcollect:qingkongERR()
 	Bugcollect.NR.textArea:SetText("")
 end
 ----------------------
-local function xianshixinxi(id)
+function Bugcollect.UpdateErrorUI(id)
 	if Bugcollect:IsShown() then
 		Bugcollect:qingkongERR()
-		local shujuyuan = {}
-		if Bugcollect.ButList[1].Show then
-			shujuyuan.ly=bencierrinfo
-			shujuyuan.num=#shujuyuan.ly
-		elseif Bugcollect.ButList[2].Show then
-			shujuyuan.ly=PIGA["Error"]["ErrorDB"]
-			shujuyuan.num=#shujuyuan.ly
+		local NewData,oldData = {},{}
+		if Bugcollect.selectedID==1 then
+			oldData=bencierrinfo
+		elseif Bugcollect.selectedID==2 then
+			oldData=PIGA["Error"]["ErrorDB"]
 		end
-		if shujuyuan.num==0 then return end
-		local msg=shujuyuan.ly[id].msg
-		local time=shujuyuan.ly[id].time
-		local cuowushu=shujuyuan.ly[id].counter
-		local stack=shujuyuan.ly[id].stack
-		local logrizhi=shujuyuan.ly[id].logrizhi
-		Bugcollect.Moving.Time:SetText(date("%Y/%m/%d %H:%M:%S",time));
-		Bugcollect.biaoti:SetText(id.."/"..shujuyuan.num);
-		--print(msg)
-		if cuowushu>1 then
-			Bugcollect.NR.textArea:SetText(cuowushu.."× "..msg.."\r")
+		if PIGA["Error"]["IsPig"] then
+			local datax = {}
+			for i=1,#oldData do
+				if oldData[i].msg:match("Interface/AddOns/!Pig") then
+					table.insert(datax,oldData[i])
+				end
+			end
+			NewData=datax
 		else
-			Bugcollect.NR.textArea:SetText(msg.."\r")
+			NewData=oldData
+		end
+		local errornum=#NewData
+		if errornum==0 then return end
+		local id = id or errornum
+		local msg=NewData[id].msg
+		local time=NewData[id].time
+		local cuowushu=NewData[id].counter
+		local stack=NewData[id].stack
+		local logrizhi=NewData[id].logrizhi
+		Bugcollect.Moving.Time:SetText(date("%Y/%m/%d %H:%M:%S",time));
+		Bugcollect.biaoti:SetText(id.."/"..errornum);
+		if cuowushu>1 then
+			Bugcollect.NR.textArea:SetText("["..tocversion.."] "..cuowushu.."× "..msg.."\r")
+		else
+			Bugcollect.NR.textArea:SetText("["..tocversion.."] "..msg.."\r")
 		end
 		Bugcollect.NR.textArea:Insert(stack.."\r");
 		Bugcollect.NR.textArea:Insert(logrizhi);
@@ -262,13 +286,13 @@ local function xianshixinxi(id)
 		end
 		Bugcollect.prev.id=id
 		Bugcollect.next.id=id
-		if shujuyuan.num>1 then
+		if errornum>1 then
 			if id==1 then
 				Bugcollect.prevZ:Disable()
 				Bugcollect.prev:Disable()
 				Bugcollect.next:Enable()
 				Bugcollect.nextZ:Enable()
-			elseif shujuyuan.num==id then
+			elseif errornum==id then
 				Bugcollect.next:Disable()
 				Bugcollect.nextZ:Disable()
 				Bugcollect.prev:Enable()
@@ -287,19 +311,11 @@ local function xianshixinxi(id)
 		end
 	end
 end
-local function kaishiShow()
-	if Bugcollect.ButList[1].Show then
-		local tablenum = #bencierrinfo
-		xianshixinxi(tablenum)
-	elseif Bugcollect.ButList[2].Show then
-		local tablenum = #PIGA["Error"]["ErrorDB"]
-		xianshixinxi(tablenum)
-	end
-end
 -----
 local TabWidth,TabHeight = 110,24;
 local TabName = {REFORGE_CURRENT,HISTORY};
 Bugcollect.ButList={}
+Bugcollect.selectedID=1
 for id=1,#TabName do
 	local Point = {"TOPLEFT", Bugcollect, "BOTTOMLEFT", 30,0}
 	if id>1 then
@@ -312,42 +328,33 @@ for id=1,#TabName do
 			Bugcollect.ButList[x]:selected(false)
 		end
 		self:selected(true)
-		kaishiShow()
+		Bugcollect.selectedID=id
+		Bugcollect.UpdateErrorUI()
 	end);
-	---
-	if id==1 then
-		Tablist:selected(true)
-	end
 end
+Bugcollect.ButList[Bugcollect.selectedID]:selected(true)
 -------
 Bugcollect.prevZ:SetScript("OnClick", function(self, button)
 	local newid = 1
-	xianshixinxi(newid)
+	Bugcollect.UpdateErrorUI(newid)
 end)
 Bugcollect.prev:SetScript("OnClick", function(self, button)
 	local newid = self.id-1
-	xianshixinxi(newid)
+	Bugcollect.UpdateErrorUI(newid)
 end)
 Bugcollect.next:SetScript("OnClick", function(self, button)
 	local newid = self.id+1
-	xianshixinxi(newid)
+	Bugcollect.UpdateErrorUI(newid)
 end)
 Bugcollect.nextZ:SetScript("OnClick", function(self, button)
-	for x=1,#TabName do
-		if Bugcollect.ButList[x].Show then
-			if x==1 then
-				xianshixinxi(#bencierrinfo)
-			elseif x==2 then
-				xianshixinxi(#PIGA["Error"]["ErrorDB"])
-			end
-		end
-	end
+	Bugcollect.UpdateErrorUI()
 end)
 ----------------
 Bugcollect:SetScript("OnShow", function(self)
 	self:SetFrameLevel(99)
 	self.Moving.tishiCK:SetChecked(PIGA["Error"]["ErrorTishi"])
-	kaishiShow()
+	self.Moving.IsPig:SetChecked(PIGA["Error"]["IsPig"])
+	self.UpdateErrorUI()
 end)
 ----错误处理FUN
 local linshicuowuxinxi = {}
@@ -463,7 +470,7 @@ function PIGerrotFUN(event,msg1,msg2)
 		end
 	end
 	errottishi()
-	xianshixinxi(#bencierrinfo)
+	Bugcollect.UpdateErrorUI()
 end
 UIParent:UnregisterEvent("LUA_WARNING")
 if ScriptErrorsFrame then

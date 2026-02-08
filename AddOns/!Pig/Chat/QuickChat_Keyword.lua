@@ -5,7 +5,6 @@ local sub = _G.string.sub
 local gmatch = _G.string.gmatch
 local match = _G.string.match
 local upper = _G.string.upper
-local lower= _G.string.lower
 local L=addonTable.locale
 local Fun=addonTable.Fun
 local Data=addonTable.Data
@@ -392,7 +391,17 @@ function QuickChatfun.QuickBut_Keyword()
 		if PIGA["Chat"]["ShowZb"] then
 			local _, _, _, englishRace, sex = GetPlayerInfoByGUID(arg12)
 			local raceX = GetRaceClassTXT(0,500,englishRace,sex)
-			PlayerLink = "|Hgarrmission:"..arg2.."|h"..raceX.."|h "..PlayerLink
+			PlayerLink = "|Hgarrmission:-998:"..arg2.."|h"..raceX.."|h "..PlayerLink
+		end
+		if PIGA["Chat"]["FastCopy"] then
+			-- local left=0.08*Texheight+5
+			-- local right=0.92*Texheight-5
+			-- local top=0*Texheight+5
+			-- local bottom=0.95*Texheight-5
+			-- local Copyicon ="|Tinterface/buttons/ui-guildbutton-publicnote-up.blp:0:0:0:0:"..Texheight..":"..Texheight..":"..left..":"..right..":"..top..":"..bottom.."|t"
+			-- if Copyicon~="" then
+			-- 	PlayerLink=PlayerLink:gsub("(|Hplayer:(.-)|h%[.-%]|h)", "|Hgarrmission:-999:%2|h"..Copyicon.."|h%1")
+			-- end
 		end
 		if not InCombatLockdown() and timetxt-Show_MSG_TIMECD>30 then
 			Show_MSG_TIMECD=timetxt

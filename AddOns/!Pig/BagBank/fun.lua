@@ -17,69 +17,61 @@ local gsub = _G.string.gsub
 local match = _G.string.match
 local Data = addonTable.Data
 local bagData=Data.bagData
+local BagdangeW=bagData.ItemWH
 local bagIDMax= Data.bagData["bagIDMax"]
+local _GetTooltipLevel=Fun._GetTooltipLevel
+
+---图标旋转
+function BagBankfun.UpdateIconDirection(Tex1,showui)
+	if showui then
+		Tex1:SetRotation(-3.1415926, {x=0.4, y=0.5})
+	else
+		Tex1:SetRotation(0, {x=0.4, y=0.5})
+	end
+end
+--创建元素-染色/装等
+local function add_Itemslot_ZLV_ranse(famrr,BagdangeW)		
+	if not famrr.ZLV then
+		famrr.ZLV = PIGFontString(famrr,{"TOPRIGHT", famrr, "TOPRIGHT", -1, -1},nil,"OUTLINE",15)
+		famrr.ZLV:SetDrawLayer("OVERLAY", 7)
+		famrr.ZLV:SetTextColor(0, 1, 1, 1);
+	end
+	if not famrr.ranse then
+		famrr.ranse = famrr:CreateTexture(nil, "OVERLAY");
+	    famrr.ranse:SetTexture("Interface/Buttons/UI-ActionButton-Border");
+	    famrr.ranse:SetBlendMode("ADD");
+	    famrr.ranse:SetSize(BagdangeW*1.63, BagdangeW*1.63);
+	    famrr.ranse:SetPoint("CENTER", famrr, "CENTER", 0, 0);
+	    famrr.ranse:Hide()
+	end
+end
 --刷新背包LV
-local function Update_ButLV(itemButton,bagid,slotid)
-	if itemButton then itemButton.ZLV:SetText("") end
+local function Update_ButLevel_1(itemButton,bagid,slotid)
+	if not itemButton.ZLV then
+		add_Itemslot_ZLV_ranse(itemButton,BagdangeW)
+	end
+	itemButton.ZLV:SetText("")
 	local itemID, itemLink, icon, stackCount, quality=PIGGetContainerItemInfo(bagid,slotid)
 	if itemLink then
 		local itemID, itemType, itemSubType, itemEquipLoc, icon, classID, subClassID = GetItemInfoInstant(itemLink)
-		local quality=quality or 1
-		if quality>1 and classID==2 or classID==4 then
-			local actualItemLevel, previewLevel, sparseItemLevel = C_Item.GetDetailedItemLevelInfo(itemLink)
-			local colorRGBR, colorRGBG, colorRGBB, qualityString = C_Item.GetItemQualityColor(quality)
-			if itemButton.ZLV then
-				itemButton.ZLV:SetText(actualItemLevel);
-				itemButton.ZLV:SetTextColor(colorRGBR, colorRGBG, colorRGBB, 1);
-			end
+		if classID==2 or classID==4 then
+			_GetTooltipLevel("bag",{bagid,slotid},function(ItemLevel)
+				itemButton.ZLV:SetText(ItemLevel);
+			end)
 		end
 	end
 end
-local function Update_itemLV_(itemButton, id, slot)
-	if itemButton.ZLV then
-		if id=="retail" then
-			Update_ButLV(itemButton,itemButton:GetBankTabID(), itemButton:GetContainerSlotID())
-		else
-			if itemButton.ZLV then itemButton.ZLV:SetText("") end
-			if PIG_MaxTocversion() then
-				Update_ButLV(itemButton,id, slot)
-			else
-				Update_ButLV(itemButton,itemButton:GetBagID(), itemButton:GetID())
-			end
-		end
-	end
-end
-local function Update_ranse(framef,id,slot)
-	if not framef.ranse then return end
-	framef.ranse:Hide()
-	local itemLink = GetContainerItemLink(id, slot)
-	if itemLink then
-		local _,_,itemQuality,_,_,_,_,_,_,_,_,classID = GetItemInfo(itemLink);
-		if itemQuality and itemQuality>1 then
-			if classID==2 or classID==4 then
-           		local r, g, b = GetItemQualityColor(itemQuality);
-	            framef.ranse:SetVertexColor(r, g, b);
-				framef.ranse:Show()
-			end
-		end
-	end
-end
-local function Update_ranse_Arrows(framef,bagType,uinamex)
-	if bagType==1 or bagType==2 then
-		if not framef.Arrows then
-			framef.Arrows = framef:CreateTexture(nil, "OVERLAY");
-		    framef.Arrows:SetTexture("Interface/Buttons/UI-ActionButton-Border");
-		    framef.Arrows:SetBlendMode("ADD");
-		    framef.Arrows:SetVertexColor(0, 1, 1,0.5);
-		    framef.Arrows:SetPoint("TOPLEFT", _G[uinamex.."NormalTexture"], "TOPLEFT", 0, 0);
-		    framef.Arrows:SetPoint("BOTTOMRIGHT", _G[uinamex.."NormalTexture"], "BOTTOMRIGHT", 0, 0);
-		end
-		framef.Arrows:Show()
+local function Update_ButLevel(itemButton, id, slot)
+	if id and slot then
+		Update_ButLevel_1(itemButton,id, slot)
 	else
-		if framef.Arrows then framef.Arrows:Hide() end
+		if id=="retailbank" then
+			Update_ButLevel_1(itemButton,itemButton:GetBankTabID(), itemButton:GetContainerSlotID())
+		else
+			Update_ButLevel_1(itemButton,itemButton:GetBagID(), itemButton:GetID())
+		end
 	end
 end
---银行背包LV
 function BagBankfun.Bag_Item_lv(frame, size, id)
 	if not PIGA["BagBank"]["wupinLV"] then return end
 	if id==-2 then return end
@@ -87,37 +79,82 @@ function BagBankfun.Bag_Item_lv(frame, size, id)
 		if frame and size then
 			local fujiFF=frame:GetName()
 			for slot =1, size do
-				local framef = _G[fujiFF.."Item"..size+1-slot]
-				Update_itemLV_(framef, id, slot)
+				Update_ButLevel(_G[fujiFF.."Item"..size+1-slot], id, slot)
 			end
 		else
-			local Fid=IsBagOpen(id)
-			if Fid then
-				local baogeshu=GetContainerNumSlots(id)
-				for slot =1, baogeshu do
-					local framef = _G["ContainerFrame"..Fid.."Item"..baogeshu+1-slot]
-					Update_itemLV_(framef, id, slot)
+			if id==-1 and size then
+				Update_ButLevel(_G["BankFrameItem"..size], -1, size)
+			elseif id==-1 then
+				for slot=1,bagData["bankmun"] do
+					Update_ButLevel(_G["BankFrameItem"..slot], -1, slot)
+				end
+			else
+				local Fid=IsBagOpen(id)
+				if Fid then
+					local baogeshu=GetContainerNumSlots(id)
+					for slot =1, baogeshu do
+						Update_ButLevel( _G["ContainerFrame"..Fid.."Item"..baogeshu+1-slot], id, slot)
+					end
 				end
 			end
 		end
 	else
-		if frame then
+		if frame=="retailbank" then
+			for itemButton in BankPanel:EnumerateValidItems() do
+				Update_ButLevel(itemButton,"retailbank")
+			end
+		elseif id==-999 then
+			for i, itemButton in ContainerFrameCombinedBags:EnumerateValidItems() do
+				Update_ButLevel(itemButton)
+			end
+		elseif frame and size then
 			for i, itemButton in frame:EnumerateValidItems() do
-				Update_itemLV_(itemButton)
+				Update_ButLevel(itemButton)
 			end
 		else
-			if id>bagData["bagIDMax"] then
-				local Frameid=ContainerFrameUtil_GetShownFrameForID(id)
-				if Frameid then
-					for i, itemButton in Frameid:EnumerateValidItems() do
-						Update_itemLV_(itemButton)
-					end
-				end	
+			local BagFrame=ContainerFrameUtil_GetShownFrameForID(id)
+			if BagFrame then
+				for i, itemButton in BagFrame:EnumerateValidItems() do
+					Update_ButLevel(itemButton)
+				end
 			end
-		end	
+		end
 	end
 end
+
 --刷新背包染色
+local function Update_ranse(itemButton,id,slot)
+	if not itemButton.ranse then
+		add_Itemslot_ZLV_ranse(itemButton,BagdangeW)
+	end
+	itemButton.ranse:Hide()
+	local itemLink = GetContainerItemLink(id, slot)
+	if itemLink then
+		local _,_,itemQuality,_,_,_,_,_,_,_,_,classID = GetItemInfo(itemLink);
+		if itemQuality and itemQuality>1 then
+			if classID==2 or classID==4 then
+           		local r, g, b = GetItemQualityColor(itemQuality);
+	            itemButton.ranse:SetVertexColor(r, g, b);
+				itemButton.ranse:Show()
+			end
+		end
+	end
+end
+local function Update_ranse_Arrows(itemButton,bagType,uinamex)--是箭袋
+	if bagType==1 or bagType==2 then
+		if not itemButton.Arrows then
+			itemButton.Arrows = itemButton:CreateTexture(nil, "OVERLAY");
+		    itemButton.Arrows:SetTexture("Interface/Buttons/UI-ActionButton-Border");
+		    itemButton.Arrows:SetBlendMode("ADD");
+		    itemButton.Arrows:SetVertexColor(0, 1, 1,0.5);
+		    itemButton.Arrows:SetPoint("TOPLEFT", _G[uinamex.."NormalTexture"], "TOPLEFT", 0, 0);
+		    itemButton.Arrows:SetPoint("BOTTOMRIGHT", _G[uinamex.."NormalTexture"], "BOTTOMRIGHT", 0, 0);
+		end
+		itemButton.Arrows:Show()
+	else
+		if itemButton.Arrows then itemButton.Arrows:Hide() end
+	end
+end
 function BagBankfun.Bag_Item_Ranse(frame, size, id)
 	if not PIGA["BagBank"]["wupinRanse"] then return end
 	if PIG_MaxTocversion() then
@@ -131,26 +168,32 @@ function BagBankfun.Bag_Item_Ranse(frame, size, id)
 				Update_ranse_Arrows(framef,bagType,fujiFF.."Item"..size+1-slot)
 			end
 		else
-			local Fid=IsBagOpen(id)
-			if Fid then
-				local baogeshu=GetContainerNumSlots(id)
-				local numFreeSlots, bagType = C_Container.GetContainerNumFreeSlots(id)
-				for slot =1, baogeshu do
-					local framef=_G["ContainerFrame"..Fid.."Item"..baogeshu+1-slot];
-					Update_ranse(framef,id,slot)
-					Update_ranse_Arrows(framef,bagType,"ContainerFrame"..Fid.."Item"..baogeshu+1-slot)
+			if id==-1 and size then
+				Update_ranse(_G["BankFrameItem"..size], -1, size)
+			elseif id==-1 then
+				for slot=1,bagData["bankmun"] do
+					Update_ranse(_G["BankFrameItem"..slot], -1, slot)
+				end
+			else
+				local Fid=IsBagOpen(id)
+				if Fid then
+					local baogeshu=GetContainerNumSlots(id)
+					local numFreeSlots, bagType = C_Container.GetContainerNumFreeSlots(id)
+					for slot =1, baogeshu do
+						local framef=_G["ContainerFrame"..Fid.."Item"..baogeshu+1-slot];
+						Update_ranse(framef,id,slot)
+						Update_ranse_Arrows(framef,bagType,"ContainerFrame"..Fid.."Item"..baogeshu+1-slot)
+					end
 				end
 			end
 		end
-
 	else
 		if frame and size==0 and id==0 then
 			for bagi=1,#bagData["bagID"] do
 				local baogeshu=GetContainerNumSlots(bagData["bagID"][bagi])
 				if bagData["bagID"][bagi]==0 and not IsAccountSecured() then baogeshu=baogeshu+4 end
 				for slot =1, baogeshu do
-					local framef = _G["ContainerFrame"..bagi.."Item"..(baogeshu+1-slot)]
-					Update_ranse(framef,bagData["bagID"][bagi], slot)
+					Update_ranse(_G["ContainerFrame"..bagi.."Item"..(baogeshu+1-slot)],bagData["bagID"][bagi], slot)
 				end
 			end
 		else
@@ -159,21 +202,13 @@ function BagBankfun.Bag_Item_Ranse(frame, size, id)
 				local baogeshu=GetContainerNumSlots(id)
 				if id==0 and not IsAccountSecured() then baogeshu=baogeshu+4 end
 				for slot =1, baogeshu do
-					local framef = _G["ContainerFrame"..Fid.."Item"..(baogeshu+1-slot)]
-					Update_ranse(framef, id, slot)
+					Update_ranse(_G["ContainerFrame"..Fid.."Item"..(baogeshu+1-slot)], id, slot)
 				end
 			end
 		end
 	end
 end
----
-function BagBankfun.UpdateIconDirection(Tex1,showui)
-	if showui then
-		Tex1:SetRotation(-3.1415926, {x=0.4, y=0.5})
-	else
-		Tex1:SetRotation(0, {x=0.4, y=0.5})
-	end
-end
+
 ----
 local function jisuanBANKzongshu(id)
 	local bankzongshu = bagData["bankmun"]
@@ -198,40 +233,8 @@ function BagBankfun.jisuanBANKkonmgyu(id)
 		return hangShu,kongyu
 	end
 end
---银行格子LV
-function BagBankfun.Bank_Item_lv(frame, size, id)
-	if not PIGA["BagBank"]["wupinLV"] then return end
-	if frame=="retail" then
-		Update_itemLV_(size, frame)
-	else
-		if id then
-			if id<=bagData["bankmun"] then
-				local framef=_G["BankFrameItem"..id];
-				Update_itemLV_(framef, -1, id)
-			end
-		else
-			for ig=1,bagData["bankmun"] do
-				local framef=_G["BankFrameItem"..ig];
-				Update_itemLV_(framef, -1, ig)
-			end
-		end
-	end
-end
---银行格子染色
-function BagBankfun.Bank_Item_ranse(frame, size, id)
-	if not PIGA["BagBank"]["wupinRanse"] then return end
-	if id then
-		if id<=bagData["bankmun"] then
-			local framef=_G["BankFrameItem"..id];
-			Update_ranse(framef, -1, id)
-		end
-	else
-		for ig=1,bagData["bankmun"] do
-			local framef=_G["BankFrameItem"..ig];
-			Update_ranse(framef, -1, ig)
-		end
-	end
-end
+
+--更新银行高度
 function BagBankfun.Update_BankFrame_Height(BagdangeW)
 	local banbagzongshu=bagData["bankmun"]
 	for i=2,#bagData["bankID"] do
@@ -253,21 +256,7 @@ function BagBankfun.Update_BankFrame_Height(BagdangeW)
 		BankFrame.backdrop:SetPoint("BOTTOMRIGHT", BankFrame, "BOTTOMRIGHT", 10.17, 0);	
 	end
 end
--------
-function BagBankfun.add_Itemslot_ZLV_ranse(famrr,BagdangeW)		
-	if not famrr.ZLV then
-		famrr.ZLV = PIGFontString(famrr,{"TOPRIGHT", famrr, "TOPRIGHT", -1, -1},nil,"OUTLINE",15)
-		famrr.ZLV:SetDrawLayer("OVERLAY", 7)
-	end
-	if not famrr.ranse then
-		famrr.ranse = famrr:CreateTexture(nil, "OVERLAY");
-	    famrr.ranse:SetTexture("Interface/Buttons/UI-ActionButton-Border");
-	    famrr.ranse:SetBlendMode("ADD");
-	    famrr.ranse:SetSize(BagdangeW*1.63, BagdangeW*1.63);
-	    famrr.ranse:SetPoint("CENTER", famrr, "CENTER", 0, 0);
-	    famrr.ranse:Hide()
-	end
-end
+--侧边包
 function BagBankfun.addfenleibagbut(fujiui)
 	local baginfo={}
 	if fujiui==BankSlotsFrame then
@@ -469,6 +458,7 @@ function BagBankfun.addfenleibagbut(fujiui)
 		end
 	end
 end
+
 ---设置
 function BagBankfun.addSetbut(fujiui,point,Rneirong,tabbut)
 	local setbut = CreateFrame("Button",nil,fujiui, "TruncatedButtonTemplate"); 

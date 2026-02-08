@@ -259,7 +259,7 @@ function GDKPInfo.ADD_Buzhu(RaidR)
 				end
 				local AllName = buzhutiquxinxi[dangqian][1]
 				fameX.AllName=AllName
-				local name,server = strsplit("-", AllName);
+				local name,server = strsplit("-", AllName, 2);
 				if server then
 					fameX.name:SetText(name.."(*)")
 				else
@@ -635,7 +635,7 @@ function GDKPInfo.ADD_Buzhu(RaidR)
 				if AllName==NONE then
 					fameX.JiangliRen:SetText("\124cffff0000        "..NONE.."\124r");
 				else
-					local name,server = strsplit("-", AllName);
+					local name,server = strsplit("-", AllName, 2);
 					if server then
 						fameX.JiangliRen:SetText(name.."(*)")
 					else

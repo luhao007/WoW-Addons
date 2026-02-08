@@ -53,6 +53,7 @@ ns.BlizzAreaPoisInfo = {
     8230, -- Portal from Dornogal to Undermine
     8231, -- Portal from Undermine to Dornogal
     8414, -- Portal from K'arsh to Dornogal
+    8504, -- Amani'Zar
     8640, -- Portal to Voidstorm
     --8307, -- Portal to Voidstorm -- activate after finishing capital nodes
     --8308, -- Portal Eversong Rootway -- activate after finishing capital nodes

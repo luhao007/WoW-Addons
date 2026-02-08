@@ -72,8 +72,17 @@ function BusinessInfo.AutoBuy()
 					local buyNum=SetMaxNum-oldbagNum;--需要补货数量
 					if buyNum>0 then
 						local link = GetMerchantItemLink(ii)
-						local name, texture, price, quantity, numAvailable= GetMerchantItemInfo(ii)
-						local itemcostG=price/quantity
+						local name, texture, price, stackCount, numAvailable
+						if PIG_MaxTocversion() then
+							name, texture, price, stackCount, numAvailable = GetMerchantItemInfo(ii)
+						else
+							local infox= C_MerchantFrame.GetItemInfo(ii)
+							name=infox.name
+							price=infox.price
+							stackCount=infox.stackCount
+							numAvailable=infox.numAvailable
+						end
+						local itemcostG=price/stackCount
 						if numAvailable==(-1) then
 							table.insert(BuyAllData.Data,{false,ii,buyNum,duidieNum,BuyItemID,itemcostG,link,buyNum})
 						else

@@ -1,6 +1,6 @@
 ## Interface: 120000
 ## Author: FunDeliveryGames
-## Version: v2026.01.3
+## Version: v2026.02.4
 
 ## Title: Delve Companion
 ## Notes: One-stop addon to make Delves experience even better!
@@ -44,7 +44,8 @@ Source\Settings\Include.xml
 
 # Modules
 Source\Modules\TooltipExtension\Include.xml
+Source\Modules\ProgressTracker\Include.xml
 Source\Modules\EJExtension\Include.xml
 
-# Addon init. Should be the last one
+# Addon init. Should be the last one here.
 Source\Bootstrap.lua

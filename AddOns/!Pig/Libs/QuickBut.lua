@@ -171,12 +171,12 @@ function QuickBut:Add()
 end
 --创建功能动作条按钮
 local WowHeight=GetScreenHeight();
-function Create.PIGQuickBut(QkButUI,Tooltip,Icon,ShowGnUI,FrameLevel,Template)
+function Create.PIGQuickBut(UIname,Tooltip,Icon,ShowGnUI,FrameLevel,Template)
 	local nr = QuickBut.nr
 	local butW = QuickBut.butWWW
 	local Children = {nr:GetChildren()};
 	local geshu = #Children;
-	local But = CreateFrame("Button", QkButUI, nr, Template);
+	local But = CreateFrame("Button", UIname, nr, Template);
 	But:RegisterForClicks("LeftButtonUp","RightButtonUp")
 	if type(Icon)=="number" then
 		But:SetNormalTexture(Icon)

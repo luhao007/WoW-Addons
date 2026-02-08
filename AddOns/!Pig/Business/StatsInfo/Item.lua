@@ -20,6 +20,7 @@ local GetEquipmTXT=Fun.GetEquipmTXT
 local GetRuneData=Fun.GetRuneData
 local GetItemLinkJJ=Fun.GetItemLinkJJ
 local HY_ItemLinkJJ=Fun.HY_ItemLinkJJ
+local _GetTooltipLevel=Fun._GetTooltipLevel
 --------
 local GetContainerNumSlots = GetContainerNumSlots or C_Container and C_Container.GetContainerNumSlots
 local GetContainerItemLink = GetContainerItemLink or C_Container and C_Container.GetContainerItemLink
@@ -213,21 +214,34 @@ function BusinessInfo.Item(StatsInfo)
 				itemBut:SetPoint("LEFT",fujiF.ItemList.BOTTOM.listbut[i-1],"RIGHT",1,0);
 			end
 		end
+		itemBut.ranse = itemBut:CreateTexture(nil, "OVERLAY");
+	    itemBut.ranse:SetTexture("Interface/Buttons/UI-ActionButton-Border");
+	    itemBut.ranse:SetBlendMode("ADD");
+	    itemBut.ranse:SetPoint("TOPLEFT", itemBut, "TOPLEFT", -11,12);
+	    itemBut.ranse:SetPoint("BOTTOMRIGHT", itemBut, "BOTTOMRIGHT", 12,-11);
+	    itemBut.ranse:Hide()
 		itemBut.LV = PIGFontString(itemBut,{"TOPLEFT", itemBut, "TOPLEFT", 0,0},nil,"OUTLINE")
+		itemBut.LV:SetTextColor(0, 1, 1, 1);
 		itemBut.Num =PIGFontString(itemBut,{"BOTTOMRIGHT", itemBut, "BOTTOMRIGHT", -4,2},nil,"OUTLINE")
 		itemBut.Num:SetTextColor(1, 1, 1, 1);
 		function itemBut:ShowInfoFun(itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, sellPrice, classID, subclassID)
 			self.itemLink=itemLink
 			SetItemButtonTexture(self, itemTexture)
 			if itemStackCount>1 then itemBut.Num:Show() end
-			if PIGA["BagBank"]["wupinLV"] then
+			if self.LV then
 				if classID==2 or classID==4 then
-					local effectiveILvl = GetDetailedItemLevelInfo(itemLink)	
-					if effectiveILvl and effectiveILvl>0 then
-						self.LV:SetText(effectiveILvl)
-						local quality = C_Item.GetItemQualityByID(itemLink)
-						local r, g, b, hex = GetItemQualityColor(quality)
-						self.LV:SetTextColor(r, g, b, 1);
+					_GetTooltipLevel("link",{itemLink},function(ItemLevel)
+						self.LV:SetText(ItemLevel)
+					end)
+				end
+			end
+			if self.ranse then
+				self.ranse:Hide()
+				if itemQuality and itemQuality>1 then
+					if classID==2 or classID==4 then
+						local r, g, b, hex = GetItemQualityColor(itemQuality)
+						self.ranse:SetVertexColor(r, g, b);
+						self.ranse:Show()
 					end
 				end
 			end
@@ -306,7 +320,6 @@ function BusinessInfo.Item(StatsInfo)
 		-- 	if not PlayerData[k] then
 		-- 		print(k)
 		-- 		table.insert(cdmulu,{k,v[1],v[2],v[3],v[4],v[5]})
-
 	   	-- 	end
 		-- end	
 		local ItemsNum = #cdmulu;

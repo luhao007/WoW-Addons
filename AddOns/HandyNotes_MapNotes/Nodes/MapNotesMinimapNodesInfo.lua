@@ -869,5 +869,16 @@ minimap[2574] = { } -- Arena der Leerennarbe
 minimap[2500] = { } -- Das blendende Tal
 minimap[2531] = { } -- Der Traumriss
 minimap[2533] = { } -- Marsch auf Quel'Danas      
-minimap[2529] = { } -- Die Leerenspitze    
+minimap[2529] = { } -- Die Leerenspitze
+-- Delves map nodes
+minimap[2505] = { } -- Kluft der Erinnerung - Inside Delves Map
+minimap[2510] = { } -- Die Grollgrube - Inside Delves Map
+minimap[2505] = { } -- Kluft der Erinnerung - Inside Delves Map
+minimap[2506] = { } -- Schattenwachtspitze - Inside Delves Map
+minimap[2528] = { } -- Sonnentötersanktum - Inside Delves Map
+minimap[2525] = { } -- Der Düsterweg - Inside Delves Map
+minimap[2547] = { } -- Akademischer Aufruhr - Inside Delves Map
+minimap[2502] = { } -- Die Schattenenklave - Inside Delves Map
+minimap[2503] = { } -- Gruften der Zwielichtklinge - Inside Delves Map
+minimap[2535] = { } -- Zul'Aman - Inside Delves Map   
 end

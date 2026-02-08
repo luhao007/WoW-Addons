@@ -367,7 +367,7 @@ function QuickChatfun.QuickBut_Jilu()
 						hang.zhiye:SetTexture("Interface/TargetingFrame/UI-Classes-Circles");
 						local coords = CLASS_ICON_TCOORDS[shuju[1][dangqian][2]]
 						hang.zhiye:SetTexCoord(unpack(coords));
-						local name1,name2 = strsplit("-", shuju[1][dangqian][1]);
+						local name1,name2 = strsplit("-", shuju[1][dangqian][1], 2);
 						if name2 and name2 ~= PIG_OptionsUI.Realm then
 							hang.name:SetText(name1.."(*)");
 						else
@@ -453,7 +453,7 @@ function QuickChatfun.QuickBut_Jilu()
 				self.argbHex="ff00fff6"
 				miyijiluF.nr.text:SetText("|c"..self.argbHex..PIGaccountName.."|r "..L["CHAT_WHISPER"]..GUILD_BANK_LOG);
 			else
-				local name1,name2 = strsplit("-", self.name.X);
+				local name1,name2 = strsplit("-", self.name.X, 2);
 				self.Aname = name1
 				local color = PIG_CLASS_COLORS[shuju[1][idxx][2]];
 				self.argbHex=color.colorStr
@@ -516,7 +516,7 @@ function QuickChatfun.QuickBut_Jilu()
 				local displayName = BNGetDisplayName(bnetIDAccount);
 				PIGSendBNetTell(displayName)
 			else
-				local nameyc1, nameyc2 = strsplit("-", nameinfo)
+				local nameyc1, nameyc2 = strsplit("-", nameinfo, 2)
 				if nameyc2 and nameyc2==PIG_OptionsUI.Realm then
 					nameinfo=nameyc1;
 				end
@@ -549,8 +549,8 @@ function QuickChatfun.QuickBut_Jilu()
 		hang.highlight:Hide();
 		hang.zhiye = hang:CreateTexture(nil, "BORDER");
 		hang.zhiye:SetPoint("LEFT", hang, "LEFT", 4,0);
-		hang.zhiye:SetSize(hang_Height-5,hang_Height-5);
-		hang.name = PIGFontString(hang,{"LEFT", hang.zhiye, "RIGHT", 4,0},nil,nil,13)
+		hang.zhiye:SetSize(hang_Height-2,hang_Height-2);
+		hang.name = PIGFontString(hang,{"LEFT", hang.zhiye, "RIGHT", 4,0})
 		hang.del = PIGDiyBut(hang,{"RIGHT",hang,"RIGHT",-14,-0},{hang_Height-8});
 		hang.del.icon:SetAlpha(0.5)
 		hang.del:HookScript("OnClick", function (self)
@@ -680,7 +680,7 @@ function QuickChatfun.QuickBut_Jilu()
 			self.miyuren=arg2
 			local izedClass, englishClass, localizedRace, englishRace, sex, name, realm = GetPlayerInfoByGUID(arg12)
 			self.englishClass=englishClass
-			local name1,name2 = strsplit("-", arg2);
+			local name1,name2 = strsplit("-", arg2, 2);
 			if not name2 then
 				if realm and realm~="" and realm~=" " then
 					self.miyuren=arg2.."-"..realm
@@ -1099,7 +1099,7 @@ function QuickChatfun.QuickBut_Jilu()
 				local info5 =jilulist[x][5];
 				local info4_jiluxiaoxineirong = TihuanBiaoqing(info4_jiluxiaoxineirong)
 				local textCHATINFO,wjname=""," ";
-				local FGname, fuwuqi = strsplit("-", info3)
+				local FGname, fuwuqi = strsplit("-", info3, 2)
 				if fuwuqi==PIG_OptionsUI.Realm then
 					wjname=FGname
 				else
@@ -1114,7 +1114,7 @@ function QuickChatfun.QuickBut_Jilu()
 		---根据启用注册事件
 		ChatRecordF.shijianzhucequxiao(id,PIGA["Chatjilu"][jilupindaoID[id]]["Open"],PindaolistF)
 		PindaolistF:HookScript("OnEvent", function (self,event,arg1,arg2,arg3,arg4,arg5,_,_,_,_,_,_,arg12)
-			if arg1:match("[!Pig]:") then return end
+			if not arg1 or arg1:match("[!Pig]:") then return end
 			for jj=1,#jilupindaoEvent[jilupindaoID[id]] do
 				if event==jilupindaoEvent[jilupindaoID[id]][jj] then
 							--print(event,arg1,arg2,arg3,arg4,arg5,arg12)

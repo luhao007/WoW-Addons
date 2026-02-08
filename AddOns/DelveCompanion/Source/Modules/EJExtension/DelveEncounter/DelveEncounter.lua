@@ -38,9 +38,9 @@ function DelveEncounter:OnShowHook()
     end
 
     do
-        local isConfigUnlocked = C_QuestLog.IsQuestFlaggedCompletedOnAccount(
+        local isCompUnlocked = C_QuestLog.IsQuestFlaggedCompletedOnAccount(
             Config.COMPANION_UNLOCK_QUEST[tierData.expansionLevel])
-        self.ConfigPanel:SetShown(isConfigUnlocked)
+        self.ConfigPanel:SetShown(isCompUnlocked)
     end
 end
 

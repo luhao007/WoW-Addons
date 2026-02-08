@@ -373,37 +373,23 @@ function BusinessInfo.StatsInfoOptions()
 		end
 	end)
 	---交易
-	local Tooltip = {"交易通告","通告交易记录(不通告与好友的交易)"};
-	StatsInfoF.TradeTongGao = PIGCheckbutton(StatsInfoF,{"TOPLEFT",StatsInfoF.Qita_Num,"BOTTOMLEFT",0,-20},Tooltip)
-	StatsInfoF.TradeTongGao:SetScript("OnClick", function (self)
+	StatsInfoF.TradeBagOpen = PIGCheckbutton(StatsInfoF,{"TOPLEFT",StatsInfoF.Qita_Num,"BOTTOMLEFT",0,-60},{"交易时打开背包"})
+	StatsInfoF.TradeBagOpen:SetScript("OnClick", function (self)
 		if self:GetChecked() then
-			PIGA["StatsInfo"]["TradeTongGao"]=true;
+			PIGA["StatsInfo"]["TradeBagOpen"]=true
+			BusinessInfo.StatsInfo_TradeBagOpen()
 		else
-			PIGA["StatsInfo"]["TradeTongGao"]=false;
+			PIGA["StatsInfo"]["TradeBagOpen"]=false
+			PIG_OptionsUI.RLUI:Show();
 		end
 	end);
-	local pindaoName = {
-		["WHISPER"]="|cffFF80FF"..WHISPER.."|r",
-		["PARTY_RAID_INSTANCE_CHAT"]="|cffAAAAFF"..PARTY.."|r/|cffFF7F00"..RAID.."|r/|cffFF7F00"..INSTANCE_CHAT.."|r"};
-	local pindaoID = {"WHISPER","PARTY_RAID_INSTANCE_CHAT"};
-	StatsInfoF.TradeTongGao.guangbo_dow=PIGDownMenu(StatsInfoF.TradeTongGao,{"LEFT",StatsInfoF.TradeTongGao.Text,"RIGHT", 2,-1},{140})
-	function StatsInfoF.TradeTongGao.guangbo_dow:PIGDownMenu_Update_But()
-		local info = {}
-		info.func = self.PIGDownMenu_SetValue
-		for i=1,#pindaoID,1 do
-			info.notCheckable=true
-		    info.text, info.arg1, info.arg2 = pindaoName[pindaoID[i]], pindaoID[i], pindaoID[i]
-			self:PIGDownMenu_AddButton(info)
-		end 
-	end
-	function StatsInfoF.TradeTongGao.guangbo_dow:PIGDownMenu_SetValue(value,arg1,arg2)
-		self:PIGDownMenu_SetText(value)
-		PIGA["StatsInfo"]["TradeTongGaoChannel"]=arg1
-		PIGCloseDropDownMenus()
-	end
-	StatsInfoF.TradeTongGao.guangbo_dow:PIGDownMenu_SetText(pindaoName[PIGA["StatsInfo"]["TradeTongGaoChannel"]])
+	hooksecurefunc("TradeFrame_OnShow", function(self)
+		if PIGA["StatsInfo"]["TradeBagOpen"] then
+			if(UnitExists("NPC"))then OpenAllBags() end
+		end
+	end);
 	---
-	StatsInfoF.TradeClassLV = PIGCheckbutton(StatsInfoF,{"LEFT",StatsInfoF.TradeTongGao,"RIGHT",220,0},{"交易界面显示职业等级","在交易界面显示对方职业和等级"})
+	StatsInfoF.TradeClassLV = PIGCheckbutton(StatsInfoF,{"LEFT",StatsInfoF.TradeBagOpen,"RIGHT",220,0},{"交易界面显示职业等级","在交易界面显示对方职业和等级"})
 	StatsInfoF.TradeClassLV:SetScript("OnClick", function (self)
 		if self:GetChecked() then
 			PIGA["StatsInfo"]["TradeClassLV"]=true
@@ -470,20 +456,52 @@ function BusinessInfo.StatsInfoOptions()
 			end 
 		end);
 	end
-	--交易打开
-	StatsInfoF.TradeBagOpen = PIGCheckbutton(StatsInfoF,{"TOPLEFT",StatsInfoF.TradeTongGao,"BOTTOMLEFT",0,-20},{"交易时打开背包"})
-	StatsInfoF.TradeBagOpen:SetScript("OnClick", function (self)
+	----
+	local Tooltip = {"交易通告","通告交易记录(不通告与好友的交易)"};
+	StatsInfoF.TradeTongGao = PIGCheckbutton(StatsInfoF,{"TOPLEFT",StatsInfoF.TradeBagOpen,"BOTTOMLEFT",0,-20},Tooltip)
+	StatsInfoF.TradeTongGao:SetScript("OnClick", function (self)
 		if self:GetChecked() then
-			PIGA["StatsInfo"]["TradeBagOpen"]=true
-			BusinessInfo.StatsInfo_TradeBagOpen()
+			PIGA["StatsInfo"]["TradeTongGao"]=true;
 		else
-			PIGA["StatsInfo"]["TradeBagOpen"]=false
-			PIG_OptionsUI.RLUI:Show();
+			PIGA["StatsInfo"]["TradeTongGao"]=false;
+		end
+		StatsInfoF:CheckbutShow()
+	end);
+	local pindaoName = {
+		["WHISPER"]="|cffFF80FF"..WHISPER.."|r",
+		["PARTY_RAID_INSTANCE_CHAT"]="|cffAAAAFF"..PARTY.."|r/|cffFF7F00"..RAID.."|r/|cffFF7F00"..INSTANCE_CHAT.."|r"};
+	local pindaoID = {"WHISPER","PARTY_RAID_INSTANCE_CHAT"};
+	StatsInfoF.TradeTongGao.guangbo_dow=PIGDownMenu(StatsInfoF.TradeTongGao,{"LEFT",StatsInfoF.TradeTongGao.Text,"RIGHT", 2,-1},{140})
+	function StatsInfoF.TradeTongGao.guangbo_dow:PIGDownMenu_Update_But()
+		local info = {}
+		info.func = self.PIGDownMenu_SetValue
+		for i=1,#pindaoID,1 do
+			info.notCheckable=true
+		    info.text, info.arg1, info.arg2 = pindaoName[pindaoID[i]], pindaoID[i], pindaoID[i]
+			self:PIGDownMenu_AddButton(info)
+		end 
+	end
+	function StatsInfoF.TradeTongGao.guangbo_dow:PIGDownMenu_SetValue(value,arg1,arg2)
+		self:PIGDownMenu_SetText(value)
+		PIGA["StatsInfo"]["TradeTongGaoChannel"]=arg1
+		PIGCloseDropDownMenus()
+	end
+	StatsInfoF.TradeTongGao.guangbo_dow:PIGDownMenu_SetText(pindaoName[PIGA["StatsInfo"]["TradeTongGaoChannel"]])
+
+	StatsInfoF.TradeIsFriend = PIGCheckbutton(StatsInfoF,{"TOPLEFT",StatsInfoF.TradeTongGao,"BOTTOMLEFT",20,-10},{"好友不通报"})
+	StatsInfoF.TradeIsFriend:SetScript("OnClick", function (self)
+		if self:GetChecked() then
+			PIGA["StatsInfo"]["TradeIsFriend"]=true;
+		else
+			PIGA["StatsInfo"]["TradeIsFriend"]=false;
 		end
 	end);
-	hooksecurefunc("TradeFrame_OnShow", function(self)
-		if PIGA["StatsInfo"]["TradeBagOpen"] then
-			if(UnitExists("NPC"))then OpenAllBags() end
+	StatsInfoF.TradeIsError = PIGCheckbutton(StatsInfoF,{"TOPLEFT",StatsInfoF.TradeIsFriend,"BOTTOMLEFT",0,-10},{"失败不通报"})
+	StatsInfoF.TradeIsError:SetScript("OnClick", function (self)
+		if self:GetChecked() then
+			PIGA["StatsInfo"]["TradeIsError"]=true;
+		else
+			PIGA["StatsInfo"]["TradeIsError"]=false;
 		end
 	end);
 	------
@@ -492,9 +510,11 @@ function BusinessInfo.StatsInfoOptions()
 		self.StatsInfo.QKBut:SetEnabled(PIGA["StatsInfo"]["Open"])
 		self.Qita_Num:SetEnabled(PIGA["StatsInfo"]["Open"])
 		self.lixianBank:SetEnabled(PIGA["StatsInfo"]["Open"])
-		self.TradeTongGao:SetEnabled(PIGA["StatsInfo"]["Open"])
 		self.TradeClassLV:SetEnabled(PIGA["StatsInfo"]["Open"])
 		self.TradeBagOpen:SetEnabled(PIGA["StatsInfo"]["Open"])
+		self.TradeTongGao:SetEnabled(PIGA["StatsInfo"]["Open"])
+		self.TradeIsFriend:SetEnabled(PIGA["StatsInfo"]["Open"] and PIGA["StatsInfo"]["TradeTongGao"])
+		self.TradeIsError:SetEnabled(PIGA["StatsInfo"]["Open"] and PIGA["StatsInfo"]["TradeTongGao"])
 	end
 	--------
 	StatsInfoF:HookScript("OnShow", function (self)
@@ -502,9 +522,11 @@ function BusinessInfo.StatsInfoOptions()
 		self.StatsInfo.QKBut:SetChecked(PIGA["StatsInfo"]["AddBut"])
 		self.Qita_Num:SetChecked(PIGA["StatsInfo"]["Qita_Num"])
 		self.lixianBank:SetChecked(PIGA["StatsInfo"]["lixianBank"])
-		self.TradeTongGao:SetChecked(PIGA["StatsInfo"]["TradeTongGao"])
 		self.TradeClassLV:SetChecked(PIGA["StatsInfo"]["TradeClassLV"])
 		self.TradeBagOpen:SetChecked(PIGA["StatsInfo"]["TradeBagOpen"])
+		self.TradeTongGao:SetChecked(PIGA["StatsInfo"]["TradeTongGao"])
+		self.TradeIsFriend:SetEnabled(PIGA["StatsInfo"]["TradeIsFriend"])
+		self.TradeIsError:SetEnabled(PIGA["StatsInfo"]["TradeIsError"])
 		StatsInfoF:CheckbutShow()
 	end);
 	BusinessInfo.StatsInfo_ADDUI()

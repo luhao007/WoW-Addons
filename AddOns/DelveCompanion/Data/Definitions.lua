@@ -9,7 +9,7 @@ local Definitions = {}
 DelveCompanion.Definitions = Definitions
 
 --- Game entity ID type used to retrieve its data from the Blizzard API. Primarly used for displaying tooltips of the corresponding type.
----@class CodeType
+---@class (exact) CodeType
 ---@field Item string Alias for `item`.
 ---@field Spell string Alias for `spell`.
 ---@field Currency string Alias for `currency`.
@@ -29,11 +29,12 @@ setmetatable(Definitions.CodeType, {
 })
 
 --- Table of Blizzard AddOns which are loaded on demand. Used to initialize addon modules.
----@class DependencyAddonName
+---@class (exact) DependencyAddonName
 ---@field delvesDashboardUI string `Blizzard_DelvesDashboardUI`
 ---@field encounterJournal string `Blizzard_EncounterJournal`
 ---@field rio string `RaiderIO`
 ---@field tomtom string `TomTom`
+---@field mpe string `MapPinEnhanced`
 Definitions.DependencyAddonName = {
     delvesDashboardUI = "Blizzard_DelvesDashboardUI",
     encounterJournal = "Blizzard_EncounterJournal",
@@ -42,11 +43,11 @@ Definitions.DependencyAddonName = {
     mpe = "MapPinEnhanced"
 }
 
----@class Link
+---@class (exact) Link
 ---@field name string
 ---@field url string
 
----@class Links
+---@class (exact) Links
 ---@field CurseForge Link
 ---@field Wago Link
 ---@field WoWInt Link
@@ -76,22 +77,39 @@ Definitions.ButtonAlias = {
     rightClick = "RightButton"
 }
 
----@class WaypointTrackingType
+---@class (exact) WaypointTrackingType
+---@field superTrack number
+---@field tomtom number
+---@field mpe number
 Definitions.WaypointTrackingType = {
     superTrack = 1,
     tomtom = 2,
     mpe = 3
 }
 
----@class CompanionWidgetLayout
+---@class (exact) CompanionWidgetLayout
+---@field horizontal number
+---@field vertical number
 Definitions.CompanionWidgetLayout = {
-    default = 0,
     horizontal = 1,
     vertical = 2
 }
 
+---@class (exact) InDelveWidgetDisplayRule Controls how [InDelveWidget](lua://InDelveWidget) is displayed.
+---@field left number Widget is shown on the left side of Objective Tracker.
+---@field right number Widget is shown on the right side of Objective Tracker.
+Definitions.InDelveWidgetDisplayRule = {
+    left = 1,
+    right = 2
+}
+
 ---@class AddonEvents
 Definitions.Events = {
-    SETTING_CHANGE = "DelveCompanion.SettingChange",
-    DELVE_INSTANCE_BUTTON_CLICK = "DelveCompanion.RequestDelveInfoFrame"
+    SETTING_CHANGE = "DelveCompanion.SettingChange", -- Whenever any addon setting is changed.
+    DELVE_INSTANCE_BUTTON_CLICK = "DelveCompanion.RequestDelveInfoFrame",
+    PROGRESS_TRACKER = {
+        DELVE_IN_PROGRESS = "DelveCompanion.DelveInProgress",             -- Delve has started or has been left.
+        DELVE_RESPAWN_ACTIVATED = "DelveCompanion.DelveRespawnActivated", -- Respawn has been activated in the Delve.
+        DELVE_COMPLETE = "DelveCompanion.DelveComplete",                  -- Delve has been completed.
+    }
 }

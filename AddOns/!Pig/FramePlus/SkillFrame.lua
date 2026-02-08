@@ -8,13 +8,9 @@ local Data=addonTable.Data
 local butW = ActionButton1:GetWidth()
 local PIGSkillinfo={
 	["bookType"]=PIG_GetSpellBookType(),
-	["butnum"]=10,
 	["Width"]=butW,
 	["Height"]=butW,
 }
-if PIG_MaxTocversion() then
-	PIGSkillinfo.butnum= 8
-end
 local IsCurrentSpell=IsCurrentSpell or C_Spell and C_Spell.IsCurrentSpell
 local GetSpellTexture=GetSpellTexture or C_Spell and C_Spell.GetSpellTexture
 local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
@@ -45,92 +41,97 @@ end
 local function ADD_Skill_QK_Button(fujiui,uiname,ly)
 	if fujiui.ButList then return end
 	fujiui.ButList={}
-	for F=1,PIGSkillinfo.butnum do
-		local But
-		if PIG_MaxTocversion(40000) then
-			But = CreateFrame("CheckButton",nil, fujiui, "SecureActionButtonTemplate,ActionButtonTemplate");
-			But.NormalTexture:SetAlpha(0);
-		else
-			But = CreateFrame("CheckButton",nil, fujiui, "SecureActionButtonTemplate");
-			But.icon = But:CreateTexture()
-			But.icon:SetSize(54,54);
-			But.icon:SetAllPoints(But)
-			But.start = But:CreateTexture(nil, "OVERLAY");
-			But.start:SetTexture(130724);
-			But.start:SetBlendMode("ADD");
-			But.start:SetAllPoints(But)
-			But.start:Hide();
-			hooksecurefunc(But, "SetChecked", function(self,bool)
-				if bool then
-					self.start:Show();
-				else
-					self.start:Hide();
-				end
-			end)
-		end
-		fujiui.ButList[F]=But
+	local function addqkbut(id)
+		local But = CreateFrame("CheckButton",nil, fujiui, "SecureActionButtonTemplate");
+		But.icon = But:CreateTexture()
+		But.icon:SetSize(54,54);
+		But.icon:SetAllPoints(But)
+		But.start = But:CreateTexture(nil, "OVERLAY");
+		But.start:SetTexture(130724);
+		But.start:SetBlendMode("ADD");
+		But.start:SetAllPoints(But)
+		But.start:Hide();
 		But:SetSize(PIGSkillinfo.Width,PIGSkillinfo.Height);
-		PIGUseKeyDown(But)
-		if F==1 then
-			if ly~="Mainline" then
-				But:SetPoint("TOPLEFT",fujiui,"TOPRIGHT",-37,-46);
-			else
-				But:SetPoint("TOPLEFT",fujiui,"TOPRIGHT",0,-46);
-			end
-		else
-			But:SetPoint("TOP", fujiui.ButList[F-1], "BOTTOM", 0, -16);
-		end
-		But:SetAttribute("type", "spell");
+		But:SetScale(0.88)
 		But:Hide();
+		fujiui.ButList[id]=But
+		PIGUseKeyDown(But)
+		But:SetAttribute("type", "spell");
+		But.Type="spell"
 		-----------
-		But.Border = But:CreateTexture(nil, "BACKGROUND");
-		But.Border:SetDrawLayer("BACKGROUND", -8)
-		if not IsAddOnLoaded("alaTradeSkill") then
-			But.Border:SetTexture(136831);
-		end
-		if ly=="Mainline" then
-			But:SetScale(0.88)
-			But.Border:SetSize(PIGSkillinfo.Width*1.8,PIGSkillinfo.Height*1.8);
-			But.Border:SetPoint("LEFT",But,"LEFT",-2,-6);
+		if ElvUI then
+			But.icon:SetTexCoord(0.1,0.9,0.1,0.9)
 		else
-			But:SetScale(0.88)
-			But.Border:SetSize(PIGSkillinfo.Width*1.9,PIGSkillinfo.Height*1.9);
-			But.Border:SetPoint("LEFT",But,"LEFT",-2,-5);
-			But:RegisterEvent("CRAFT_CLOSE") 
+			But.Border = But:CreateTexture(nil, "BACKGROUND");
+			But.Border:SetDrawLayer("BACKGROUND", -8)
+			if not IsAddOnLoaded("alaTradeSkill") then
+				But.Border:SetTexture(136831);
+			end
+			if ly=="Mainline" then
+				But.Border:SetSize(PIGSkillinfo.Width*1.8,PIGSkillinfo.Height*1.8);
+				But.Border:SetPoint("LEFT",But,"LEFT",-2,-6);
+			else
+				But.Border:SetSize(PIGSkillinfo.Width*1.9,PIGSkillinfo.Height*1.9);
+				But.Border:SetPoint("LEFT",But,"LEFT",-2,-5);
+				But:RegisterEvent("CRAFT_CLOSE") 
+			end
 		end
+		hooksecurefunc(But, "SetChecked", function(self,bool)
+			if bool then
+				self.start:Show();
+			else
+				self.start:Hide();
+			end
+		end)
 		But:RegisterEvent("TRADE_SKILL_CLOSE")
 		But:RegisterEvent("ACTIONBAR_UPDATE_STATE");
 		But:HookScript("OnEvent", function(self)
 			Update_State(self)
 		end)
-	end
-	local Skill_List = Data.Get_Skill_Info()
-	for F=1, #Skill_List.top do
-		local fujiK = fujiui.ButList[F]
-		fujiK.Type="spell"
-		fujiK.SimID=Skill_List.top[F][2]
-		fujiK.icon:SetTexture(GetSpellTexture(Skill_List.top[F][2]));
-		fujiK:SetAttribute("spell", Skill_List.top[F][2]);
-		fujiK:Show();
-	end
-	for F=1, #Skill_List.bot do
-		local FF = F+#Skill_List.top;
-		local fujiK = fujiui.ButList[FF]
-		if FF==(#Skill_List.top+1) then
-			fujiK:SetPoint("TOP", fujiui.ButList[FF-1], "BOTTOM", 0, -44);
-		end
-		fujiK.Type="spell"
-		fujiK.SimID=Skill_List.bot[F][2]
-		fujiK.icon:SetTexture(GetSpellTexture(Skill_List.bot[F][2]));
-		fujiK:SetAttribute("spell", Skill_List.bot[F][2]);
-		fujiK:Show();
+		return But
 	end
 	fujiui:HookScript("OnShow", function(self)
+		if InCombatLockdown() then return end
+		local Skill_List = Data.Get_Skill_Info()
+		local leftOffset=0
+		if ly~="Mainline" then
+			leftOffset=-37
+		end
 		if ElvUI then
-			for F=1, PIGSkillinfo.butnum do
-				fujiui.ButList[F].Border:Hide()
+			if PIG_MaxTocversion(20000) then
+
+			elseif PIG_MaxTocversion(30000) then
+				--leftOffset=leftOffset+5
 			end
-		end	
+		end
+		for id=1, #Skill_List.top do
+			local But = fujiui.ButList[id] or addqkbut(id)
+			But.SimID=Skill_List.top[id][2]
+			But.Isfumo=Skill_List.top[id][3]
+			But.icon:SetTexture(GetSpellTexture(Skill_List.top[id][2]));
+			But:SetAttribute("spell", Skill_List.top[id][2]);
+			But:ClearAllPoints();
+			if id==1 then
+				But:SetPoint("TOPLEFT",fujiui,"TOPRIGHT",leftOffset,-46);
+			else
+				But:SetPoint("TOP", fujiui.ButList[id-1], "BOTTOM", 0, -16);
+			end
+			But:Show();
+		end
+		local topallnum=#Skill_List.top
+		for id=(1+topallnum), #Skill_List.bot+topallnum do
+			local But = fujiui.ButList[id] or addqkbut(id)
+			But.SimID=Skill_List.bot[id-topallnum][2]
+			But.icon:SetTexture(GetSpellTexture(Skill_List.bot[id-topallnum][2]));
+			But:SetAttribute("spell", Skill_List.bot[id-topallnum][2]);
+			But:ClearAllPoints();
+			if id==(topallnum+1) then
+				But:SetPoint("BOTTOMLEFT",fujiui,"BOTTOMRIGHT",leftOffset,70);
+			else
+				But:SetPoint("BOTTOM", fujiui.ButList[id-1], "TOP", 0, 16);
+			end
+			But:Show();
+		end
 	end);
 end
 local function ADD_Skill_QK()
@@ -213,7 +214,7 @@ local function TradeSkillFunc()
 			--材料齐备
 			if TradeSkillFrameAvailableFilterCheckButton then
 				TradeSkillFrameAvailableFilterCheckButton:ClearAllPoints()
-				TradeSkillFrameAvailableFilterCheckButton:SetPoint("TOPLEFT", TradeSkillFrame, "TOPLEFT", 70, -50)
+				TradeSkillFrameAvailableFilterCheckButton:SetPoint("TOPLEFT", TradeSkillFrame, "TOPLEFT", 84, -50)
 			end
 			--搜索位置
 			local SearchBox=TradeSkillFrameEditBox or TradeSkillFrameSearchBox
@@ -330,13 +331,12 @@ local function CraftFunc()
 			CraftSkillBorderLeft:SetAlpha(0)
 			CraftSkillBorderRight:SetAlpha(0)
 			---
-			if PIG_MaxTocversion(20000) then
-
-			elseif PIG_MaxTocversion(30000) then
+			if PIG_MaxTocversion(20000,true) and PIG_MaxTocversion(30000) then
+				local DropDown=CraftFrameFilterDropDown or CraftFrame.Dropdown
 				CraftFrameAvailableFilterCheckButton:ClearAllPoints()
 				CraftFrameAvailableFilterCheckButton:SetPoint("TOPLEFT", CraftFrame, "TOPLEFT", 84, -42)
-				CraftFrameFilterDropDown:ClearAllPoints()
-				CraftFrameFilterDropDown:SetPoint("TOPLEFT", CraftFrame, "TOPLEFT", 498, -40)
+				DropDown:ClearAllPoints()
+				DropDown:SetPoint("TOPLEFT", CraftFrame, "TOPLEFT", 498, -40)
 			end
 			-- 替换左侧列表纹理
 			local RecipeInset = CraftFrame:CreateTexture(nil, "ARTWORK")

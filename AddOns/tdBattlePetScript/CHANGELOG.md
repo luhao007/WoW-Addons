@@ -1,3 +1,25 @@
+## v1.12
+
+### Fixes
+
+- Correctly open settings from dropdown menus again.
+
+### Other
+
+- Bumped TOC for mainline patch 12.0.0
+
+## v1.11.10
+
+### Other
+
+- Bumped TOC for classic patch 5.0.3
+
+## v1.11.9
+
+### Other
+
+- Bumped TOC for patch 11.2.7
+
 ## v1.11.8
 
 ### Other

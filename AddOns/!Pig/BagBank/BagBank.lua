@@ -10,10 +10,7 @@ local bagData=addonTable.Data.bagData
 local BagBankfun=addonTable.BagBankfun
 ----
 local wwc,hhc = 24,24
-local BagdangeW=bagData.ItemWH
-------
 local Bag_Item_lv=BagBankfun.Bag_Item_lv
-local Bank_Item_lv=BagBankfun.Bank_Item_lv
 --================
 function BagBankfun.Zhenghe(Rneirong,tabbut)
 	if not PIGA["BagBank"]["Zhenghe"] or BagBankfun.yizhixingjiazai then return end
@@ -22,16 +19,14 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 	if GetCVar("combinedBags")=="0" then SetCVar("combinedBags","1") end
 	ContainerFrameCombinedBags.meihang=PIGA["BagBank"]["BAGmeihangshu"]+BagBankfun.BAGmeihangshu
 	ContainerFrameCombinedBags.suofang=PIGA["BagBank"]["BAGsuofangBili"]
-	hooksecurefunc(ContainerFrameCombinedBags, "UpdateItems", function()	
+	hooksecurefunc(ContainerFrameCombinedBags, "UpdateItems", function()
+		if not PIGA["BagBank"]["JunkShow"] then return end
 		for i, itemButton in ContainerFrameCombinedBags:EnumerateValidItems() do
-			BagBankfun.add_Itemslot_ZLV_ranse(itemButton,BagdangeW)--背包/银行包裹格子
-			if PIGA["BagBank"]["JunkShow"] then
-				local bagID = itemButton:GetBagID();
-				local itemID, itemLink, icon, stackCount, quality=PIGGetContainerItemInfo(bagID, itemButton:GetID())
-				itemButton.JunkIcon:Hide();
-				if quality and quality==0 then
-					itemButton.JunkIcon:Show();
-				end
+			local bagID = itemButton:GetBagID();
+			local itemID, itemLink, icon, stackCount, quality=PIGGetContainerItemInfo(bagID, itemButton:GetID())
+			itemButton.JunkIcon:Hide();
+			if quality and quality==0 then
+				itemButton.JunkIcon:Show();
 			end
 		end
 	end)
@@ -42,10 +37,7 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 			return 4;
 		end
 	end
-	--缩放
-	hooksecurefunc("ContainerFrame_GenerateFrame", function(frame, size, id)
-		ContainerFrameCombinedBags:SetScale(ContainerFrameCombinedBags.suofang)
-	end)
+
 	--调整系统整合背包搜索框
 	hooksecurefunc(ContainerFrameCombinedBags, "SetSearchBoxPoint", function()
 		BagItemSearchBox:SetWidth(160);
@@ -58,20 +50,17 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 	---
 	ContainerFrameCombinedBags:HookScript("OnEvent", function(self,event,arg1)
 		if event=="BAG_UPDATE" then
-			if arg1>bagData["bagIDMax"] then
-				if BankFrame:IsVisible() then
-					Bag_Item_lv(nil, nil, arg1)
-				end
-			else
-				if self:IsVisible() then
-					Bag_Item_lv(ContainerFrameCombinedBags, nil, arg1)
-				end
+			if self:IsVisible() then
+				Bag_Item_lv(nil, nil, arg1)
 			end
 		end
 	end)
-
 	hooksecurefunc("ContainerFrame_GenerateFrame", function(frame, size, id)
-		if id<=bagData["bagIDMax"] then
+		--缩放
+		ContainerFrameCombinedBags:SetScale(ContainerFrameCombinedBags.suofang)
+		if frame==ContainerFrameCombinedBags then
+			Bag_Item_lv(nil, nil, -999)
+		else
 			Bag_Item_lv(frame, size, id)
 		end
 	end)
@@ -128,19 +117,15 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 		PIG_SetTabSelct(tabID)
 	end)
 	--染色等级
-	local function _zUpdateItems()
-		for itemButton in BankPanel:EnumerateValidItems() do
-			BagBankfun.add_Itemslot_ZLV_ranse(itemButton,BagdangeW)--银行格子
-			Bank_Item_lv("retail",itemButton)
-		end
-	end
 	hooksecurefunc(BankPanel, "GenerateItemSlotsForSelectedTab", function()
-		_zUpdateItems()
+		Bag_Item_lv("retailbank")
 	end)
 	BankFrame:RegisterEvent("BAG_UPDATE_DELAYED")
 	BankFrame:HookScript("OnEvent", function (self,event,arg1)
 		if event=="BAG_UPDATE_DELAYED" then
-			_zUpdateItems()
+			if self:IsShown() then
+				Bag_Item_lv("retailbank")
+			end
 		end
 	end)
 end

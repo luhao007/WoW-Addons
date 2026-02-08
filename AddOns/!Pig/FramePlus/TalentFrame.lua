@@ -383,7 +383,14 @@ local function Uptate_FrameX()
 		local activeTalentGroup, numTalentGroups = GetActiveTalentGroup(false, PlayerTalentFrame.pet), GetNumTalentGroups(false, PlayerTalentFrame.pet);
         PlayerTalentFrame_UpdateControls(activeTalentGroup, numTalentGroups)
 	end)
-	if PIG_MaxTocversion(30000,true) then
+	if PIG_MaxTocversion(30000) then
+		
+		PlayerTalentFrameCancelButton:ClearAllPoints();
+		hooksecurefunc("PlayerTalentFrame_UpdateControls", function()
+			PlayerTalentFrameStatusFrame:ClearAllPoints();
+			PlayerTalentFrameStatusFrame:Hide()
+		end)
+	else
 		hooksecurefunc("PlayerTalentFrame_ShowGlyphFrame", function()
 			if not GlyphFrame.big then
 				if Fun.IsElvUI() then

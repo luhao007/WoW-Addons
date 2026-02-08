@@ -205,54 +205,6 @@ function TooltipPlusfun.InfoPlus()
 			ItemSell_Tooltip(self, tradeItemIndex, reagentIndex,"TradeSkillItem")
 		end)
 		--物品等级
-   		-- if PIG_MaxTocversion(50000) then
-		-- 	hooksecurefunc("GameTooltip_ShowCompareItem", function(self, anchorFrame)
-		-- 		if not PIGA["Tooltip"]["ItemLevel"] then return end
-		-- 		local tooltip, anchorFrame, shoppingTooltip1, shoppingTooltip2 = GameTooltip_InitializeComparisonTooltips(self, anchorFrame);
-		-- 		local _, link1 = shoppingTooltip1:GetItem()
-		-- 		if link1 then
-		-- 			local classID=select(12, GetItemInfo(link1))
-		-- 			if classID==2 or classID==4 then
-		-- 				local txtUI_1 = _G[shoppingTooltip1:GetName().."TextLeft3"]
-		-- 				txtUI_1:SetSpacing(2)
-		-- 				local Oldtxt1 = txtUI_1:GetText()
-		-- 				local effectiveILvl1 = GetDetailedItemLevelInfo(link1)
-		-- 				txtUI_1:SetText('|cffffcf00'.."物品等级 "..effectiveILvl1..'|r'.."\n"..Oldtxt1)
-		-- 	            --txtUI_1:SetFormattedText('|cffffcf00'.."物品等级 "..effectiveILvl1..'|r'.."\n"..Oldtxt1)
-		-- 	            txtUI_1:SetJustifyH("LEFT")
-		-- 	            local txtUI_1_r = _G[shoppingTooltip1:GetName().."TextRight3"]
-		-- 				txtUI_1_r:SetSpacing(2)
-		-- 				local Oldtxt1_r = txtUI_1_r:GetText()
-		-- 				if Oldtxt1_r then
-		-- 					txtUI_1_r:SetText(' '.."\n"..Oldtxt1_r)
-		-- 					--txtUI_1_r:SetFormattedText(' '.."\n"..Oldtxt1_r)
-		-- 				end
-		-- 	            shoppingTooltip1:Show()
-		-- 	        end
-		-- 		end
-		-- 		local _, link2 = shoppingTooltip2:GetItem()
-		-- 		if link2 then
-		-- 			local classID=select(12, GetItemInfo(link2))
-		-- 			if classID==2 or classID==4 then
-		-- 				local txtUI_2 = _G[shoppingTooltip2:GetName().."TextLeft3"]
-		-- 				txtUI_2:SetSpacing(2)
-		-- 				local Oldtxt2 = txtUI_2:GetText()
-		-- 				local effectiveILvl2 = GetDetailedItemLevelInfo(link2)
-		-- 				txtUI_2:SetText('|cffffcf00'.."物品等级 "..effectiveILvl2..'|r'.."\n"..Oldtxt2)
-		-- 	            --txtUI_2:SetFormattedText('|cffffcf00'.."物品等级 "..effectiveILvl2..'|r'.."\n"..Oldtxt2)
-		-- 	            txtUI_2:SetJustifyH("LEFT")
-		-- 	            local txtUI_2_r = _G[shoppingTooltip2:GetName().."TextRight3"]
-		-- 				txtUI_2_r:SetSpacing(2)
-		-- 				local Oldtxt2_r = txtUI_2_r:GetText()
-		-- 				if Oldtxt2_r then
-		-- 					txtUI_2_r:SetText(' '.."\n"..Oldtxt2_r)
-		-- 					--txtUI_2_r:SetFormattedText(' '.."\n"..Oldtxt2_r)
-		-- 				end
-		-- 	            shoppingTooltip2:Show()
-		-- 	        end
-		-- 		end
-		-- 	end)
-		-- end
 		TooltipHookScript(GameTooltip, "OnTooltipSetItem", TooltipSetItem)
 		TooltipHookScript(ItemRefTooltip, "OnTooltipSetItem", TooltipSetItem)
 		TooltipHookScript(ItemRefShoppingTooltip1, "OnTooltipSetItem", TooltipSetItem)
@@ -328,6 +280,9 @@ function TooltipPlusfun.InfoPlus()
 			local ItemID = data["id"]
 			if ItemID then
 				add_Tooltip_ExtData(self,ItemID)
+				if self==ItemRefTooltip then
+					ItemSell_Tooltip(ItemRefTooltip, ItemID, nil,"ItemRef")
+				end
 			end
 		end)
 		-- TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, function(self, data)
@@ -435,14 +390,14 @@ local function add_ShowCompareItemIcon(TooltipF,duibiUI,retail)
 			TooltipF.pigplusBorder:SetPoint("BOTTOMLEFT",TooltipF,"TOPLEFT", 4, -2);
 		end
 		local TooltipData=TooltipF:GetTooltipData()
-	   	if TooltipData and TooltipData.guid then
-	   		TooltipF.pigplusBorder:SetAtlas(GetItemQualityBorder(C_Item.GetItemQualityByID(TooltipData.guid) or 1))
-	   		TooltipF.pigplusicon:SetTexture(C_Item.GetItemIconByID(TooltipData.id) or 134400);
+	   	if TooltipData and TooltipData.guid or TooltipData and TooltipData.hyperlink then
+	   		TooltipF.pigplusBorder:SetAtlas(GetItemQualityBorder(C_Item.GetItemQualityByID(TooltipData.guid or TooltipData.hyperlink) or 1))
+	   		TooltipF.pigplusicon:SetTexture(C_Item.GetItemIconByID(TooltipData.guid or TooltipData.hyperlink) or 134400);
 	   	end
 	else
-		TooltipF.pigplusBorder:SetPoint("BOTTOMLEFT",TooltipF,"TOPLEFT", 4, -2);
 		local _, linkd = TooltipF:GetItem()
 		if linkd then
+			TooltipF.pigplusBorder:SetPoint("BOTTOMLEFT",TooltipF,"TOPLEFT", 4, -2);
 			TooltipF.pigplusBorder:SetAtlas(GetItemQualityBorder(C_Item.GetItemQualityByID(linkd) or 1))
 			TooltipF.pigplusicon:SetTexture(C_Item.GetItemIconByID(linkd) or 134400);
 		end
@@ -467,12 +422,7 @@ function TooltipPlusfun.CompareItemPlus()
 		end)
 	else
 		TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, function(self, data)
-			add_ShowCompareItemIcon(self,nil,true)
-		end)
-		hooksecurefunc(TooltipComparisonManager, "CompareItem", function(comparisonItem, tooltip, anchorFrame)
-		   	local shoppingTooltip1, shoppingTooltip2 = unpack(anchorFrame.shoppingTooltips)
-		   	add_ShowCompareItemIcon(shoppingTooltip1,true,true)
-			add_ShowCompareItemIcon(shoppingTooltip2,true,true)
+			add_ShowCompareItemIcon(self,self==ShoppingTooltip1 or self==ShoppingTooltip2 or self==ItemRefShoppingTooltip1 or self==ItemRefShoppingTooltip2,true)
 		end)
 	end
 end

@@ -56,6 +56,9 @@ Pig_Options.L.top.title = PIGFontString(Pig_Options.L.top,{"LEFT", Pig_Options.L
 Pig_Options.L.top.title:SetTextColor(1, 69/255, 0, 1)
 Pig_Options.L.top.title1 =PIGFontString(Pig_Options.L.top,{"BOTTOMLEFT", Pig_Options.L.top.title, "BOTTOMRIGHT", 10, 0},L["ADDON_NAME"],nil, 16)
 Pig_Options.L.top.title1:SetTextColor(0, 1, 1, 1)
+local _, _, _, tocversion = GetBuildInfo()
+Pig_Options.L.top.title2 =PIGFontString(Pig_Options.L.top,{"TOPRIGHT", Pig_Options.L.top, "TOPRIGHT", -4, -2},tocversion,nil, 11)
+Pig_Options.L.top.title2:SetTextColor(0.5, 0.5, 0.5, 1)
 --菜单
 Pig_Options.L.F = PIGFrame(Pig_Options.L)
 Pig_Options.L.F:PIGSetBackdrop()

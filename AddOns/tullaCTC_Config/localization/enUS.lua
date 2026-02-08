@@ -1,0 +1,3 @@
+-- This space intentionally left blank. I'm using localization\[TextLocale].lua
+-- method of handling locale strings, which requires me to have an enUS one
+-- present.

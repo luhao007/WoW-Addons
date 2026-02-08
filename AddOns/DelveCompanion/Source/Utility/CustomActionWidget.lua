@@ -71,6 +71,12 @@ function DelveCompanion_CustomActionWidgetMixin:SetInsecureAction(attributes)
 end
 
 ---@param self CustomActionWidget
+function DelveCompanion_CustomActionWidgetMixin:DisableInteraction()
+    self.ClickCatcher:SetEnabled(false)
+    self.InsecureAction:SetEnabled(false)
+end
+
+---@param self CustomActionWidget
 ---@param text string|integer|number
 function DelveCompanion_CustomActionWidgetMixin:SetLabelText(text)
     if text then
@@ -132,7 +138,7 @@ function DelveCompanion_CustomActionWidgetMixin:SetFrameInfo(frameType, frameCod
     self.frameType = frameType
     self.frameCode = frameCode
 
-    self:Refresh()
+    self:RefreshWidget()
 end
 
 ---@param self CustomActionWidget
@@ -165,7 +171,7 @@ function DelveCompanion_CustomActionWidgetMixin:UpdateIcon()
 end
 
 ---@param self CustomActionWidget
-function DelveCompanion_CustomActionWidgetMixin:Refresh()
+function DelveCompanion_CustomActionWidgetMixin:RefreshWidget()
     self:UpdateIcon()
     self:UpdateCooldown()
 end
@@ -225,8 +231,7 @@ function DelveCompanion_CustomActionWidgetMixin:OnLoad()
         self.Label:SetPoint("CENTER", relKey, relPoint, offsetX, offsetY)
     end
 
-    self.ClickCatcher:SetEnabled(false)
-    self.InsecureAction:SetEnabled(false)
+    self:DisableInteraction()
 
     -- Logger.Log("CustomActionWidget OnLoad finish")
 end
@@ -235,7 +240,7 @@ end
 function DelveCompanion_CustomActionWidgetMixin:OnShow()
     -- Logger.Log("CustomActionWidget OnShow start")
 
-    self:Refresh()
+    self:RefreshWidget()
 end
 
 ---@param self CustomActionWidget

@@ -16,21 +16,21 @@ local InvSlot=Data.InvSlot
 local EnchantItemID=Data.EnchantItemID
 local EnchantSpellID=Data.EnchantSpellID
 local EnchantSlot=Data.EnchantSlot
-local EngravingSlot=Data.EngravingSlot
 local EnchantSlotID=Data.EnchantSlotID
+local EngravingSlot=Data.EngravingSlot
 local TalentData=Data.TalentData
 --
 local Fun=addonTable.Fun
 local GetRuneData=Fun.GetRuneData
-local _GetItemLevel=Fun._GetItemLevel
+local _GetTooltipLevel=Fun._GetTooltipLevel
 local _GetAverageItemLevel=Fun._GetAverageItemLevel
 local _Get_GEM_EMPTY_SOCKET=Fun._Get_GEM_EMPTY_SOCKET
 local GetItemStats=GetItemStats or C_Item and C_Item.GetItemStats
 local GetItemGem=GetItemGem or C_Item and C_Item.GetItemGem
 local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
-local GetDetailedItemLevelInfo=GetDetailedItemLevelInfo or C_Item and C_Item.GetDetailedItemLevelInfo
 -------------
 local ListWWWHHH = {206,425,18,36,6}--3hangH,Gembut/4buweiW/5宝石+附魔+符文数
+
 --宝石槽位信息
 local function _GetGemSocket(Link)
 	local datax = {}
@@ -88,9 +88,9 @@ local function Update_GemBut(itemLink,id,GemBut,nulltishi)
 		end);
 	end
 end
-local function Update_GemListInfo(framef,itemLink)
+local function Update_GemListInfo(framef,itemLink,SlotID)
 	local GemDatax=_GetGemSocket(itemLink)
-	if PIG_MaxTocversion() and PIG_MaxTocversion(29999,true) and Slot==6 then table.insert(GemDatax,55655) end
+	if PIG_MaxTocversion() and PIG_MaxTocversion(29999,true) and SlotID==6 then table.insert(GemDatax,55655) end
     local baoshiNUM=#GemDatax
     framef.GemNums=framef.GemNums+baoshiNUM
 	for Gemid=1,baoshiNUM do
@@ -118,7 +118,6 @@ local function Update_EnchantInfo(EnchantBut,fumoid)
 		Newdata.ItemID=EnchantItemID[fumoid]
 		Newdata.laiyuan=""
 	end
-	GetItemInfo(Newdata.ItemID)
 	local _, ItemLink, quality, _, _, _, _, _, _, texture = GetItemInfo(Newdata.ItemID)
 	if ItemLink then
 		EnchantBut.icon:SetTexture(texture)
@@ -178,20 +177,19 @@ local function Show_fuwenBut_yanchi(Parent,hangUI,fuwenIcon,k)
 end
 
 --------------
-local function Update_ItemLevel(unit,SlotID,SlotBut)
-	local Parent=SlotBut:GetParent()
-    local ItemDX = _GetItemLevel(unit,SlotID,SlotBut)
-    if ItemDX == "RETRIEVING" and Parent.SlotOKs[SlotID].TooltipCount < 10 then
-    	--print("RETRIEVING",unit,SlotID,itemLink,SlotBut,Parent.SlotOKs[SlotID].TooltipCount)
-        C_Timer.After(0.05, function()
-        	Parent.SlotOKs[SlotID].TooltipCount = Parent.SlotOKs[SlotID].TooltipCount + 1
-        	Update_ItemLevel(unit,SlotID,SlotBut)
-        end)
-    else
-    	Parent.SlotOKs[SlotID].laodnd=nil
-    	if ItemDX then
-    		local itemLevel,taodata=unpack(ItemDX)
-    		Parent.SlotOKs[SlotID].tao=taodata
+local function Update_ItemLevel(unit,SlotID,SlotBut,itemLink)
+	local Newdata={}
+	if unit=="lx" or unit=="yc" then
+		Newdata[1]="link"
+		Newdata[2]={itemLink}
+	else
+		Newdata[1]=unit
+		Newdata[2]={SlotID}
+	end
+	_GetTooltipLevel(Newdata[1],Newdata[2],function(itemLevel,taodata)
+		local Parent=SlotBut:GetParent()
+		Parent.SlotOKs[SlotID].laodnd=nil
+    	if itemLevel then
     		SlotBut.iLv=itemLevel
     		SlotBut.itemlink.lv:SetText(itemLevel)
     		local width = SlotBut.itemlink.t:GetStringWidth()+SlotBut.itemlink.lv:GetStringWidth()
@@ -202,7 +200,8 @@ local function Update_ItemLevel(unit,SlotID,SlotBut)
 			end
 			Parent:SetWidth(Parent.hangMaxW)
 		end
-    end
+		Parent.SlotOKs[SlotID].tao=taodata
+	end,0,true)
 end
 local function Update_SlotButton(SlotBut,SlotID,zbData)
 	local Parent=SlotBut:GetParent()
@@ -229,7 +228,7 @@ local function Update_SlotButton(SlotBut,SlotID,zbData)
 		SlotBut.itemlink.t:SetText(itemLink)
 		SlotBut.t:SetTextColor(0, 1, 1, 0.8);
 		SlotBut:SetBackdropBorderColor(0, 1, 1, 0.5)
-		Update_GemListInfo(SlotBut,itemLink)
+		Update_GemListInfo(SlotBut,itemLink,SlotID)
 		local fumoid = PIGGetEnchantID(itemLink)
 		local Enchantui=SlotBut.ButGem[5]
 		if fumoid>0 then
@@ -279,21 +278,26 @@ local function Update_SlotButton(SlotBut,SlotID,zbData)
 			end
 		else
 			if EnchantSlot[SlotID] then
-				SlotBut.GemNums=SlotBut.GemNums+1
 				local itemID, itemType, itemSubType, itemEquipLoc = GetItemInfoInstant(itemLink)
 				if SlotID==17 and itemEquipLoc=="INVTYPE_HOLDABLE" then 
 				else
-					Enchantui:SetWidth(ListWWWHHH[3])
-					Enchantui:SetAlpha(1)
-					Enchantui.icon:SetDesaturated(true)
-					Enchantui:SetBackdropBorderColor(0.5, 0.5, 0.5, 1);
-					Enchantui.icon:SetTexture(136244)
-					Enchantui:SetScript("OnEnter", function (self)
-						GameTooltip:ClearLines();
-						GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,0);
-						GameTooltip:AddLine("|cff00FFFF["..addonName.."]:|r|cffFF0000"..InvSlot["Name"][SlotID][2]..NONE..ENCHANTS.."|r")
-						GameTooltip:Show();
-					end);
+					if (SlotID ~= 11 and SlotID ~= 12) 
+						or (SlotID == 11 or SlotID == 12) and (not (PIG_MaxTocversion(49999, true) and PIG_MaxTocversion(60000))
+				        or (PIG_MaxTocversion(49999, true) and PIG_MaxTocversion(60000) and IsPlayerSpell(13262))
+				    ) then
+						SlotBut.GemNums=SlotBut.GemNums+1
+						Enchantui:SetWidth(ListWWWHHH[3])
+						Enchantui:SetAlpha(1)
+						Enchantui.icon:SetDesaturated(true)
+						Enchantui:SetBackdropBorderColor(0.5, 0.5, 0.5, 1);
+						Enchantui.icon:SetTexture(136244)
+						Enchantui:SetScript("OnEnter", function (self)
+							GameTooltip:ClearLines();
+							GameTooltip:SetOwner(self, "ANCHOR_RIGHT",0,0);
+							GameTooltip:AddLine("|cff00FFFF["..addonName.."]:|r|cffFF0000"..InvSlot["Name"][SlotID][2]..NONE..ENCHANTS.."|r")
+							GameTooltip:Show();
+						end);
+					end
 				end
 			end
 		end
@@ -327,7 +331,7 @@ local function Update_SlotButton(SlotBut,SlotID,zbData)
 		local itemID, itemType, itemSubType, itemEquipLoc = GetItemInfoInstant(itemLink)
    		SlotBut.itemEquipLoc=itemEquipLoc
    		Parent.SlotOKs[SlotID].TooltipCount=0
-		Update_ItemLevel(unit,SlotID,SlotBut)
+		Update_ItemLevel(unit,SlotID,SlotBut,itemLink)
 	else
 		Parent.SlotOKs[SlotID].laodnd=nil
 	end
@@ -697,7 +701,7 @@ local function add_ItemList(fujik,miaodian,ZBLsit_C,TalentUI)
 	return ZBLsit
 end
 function Create.PIGItemListUI(laiyuan)
-	if laiyuan.ZBLsit then return end	
+	if laiyuan.ZBLsit then return end
 	if laiyuan==PaperDollFrame then
 		laiyuan.ZBLsit = add_ItemList(laiyuan,laiyuan)
 	elseif laiyuan==InspectFrame then

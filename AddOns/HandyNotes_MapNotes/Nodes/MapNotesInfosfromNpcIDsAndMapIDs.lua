@@ -169,6 +169,8 @@ ns.Ratchet = areaName(392)
 ns.TheramoreIsle = areaName(15)
 ns.DarkPortal = areaName(72)
 ns.ShadoPanGarison = areaName(6197)
+ns.Amanizar = areaName(16183)
+ns.Arati = areaName(16183)
 ------------------------------------ Sub Zones Horde
 ns.Gromgol = areaName(117)
 ns.RuinsofLordaeron = areaName(153)
@@ -335,3 +337,32 @@ function ns.GetCurrencyName(currencyID)
 end
 
 ns.WakeningEssence = ns.GetCurrencyName(1533) -- Dalaran Vendor Arkonomant Vridiel
+
+
+------------------------------------ factionID Text
+function ns.FactionName(factionID)
+    local name
+
+    if C_MajorFactions and C_MajorFactions.GetMajorFactionData then
+        local mf = C_MajorFactions.GetMajorFactionData(factionID)
+        name = mf and mf.name
+        if name and name ~= "" then
+            return name
+        end
+    end
+
+    if C_ReputationManager and C_ReputationManager.GetFactionDataByID then
+        local data = C_ReputationManager.GetFactionDataByID(factionID)
+        name = data and data.name
+        if name and name ~= "" then
+            return name
+        end
+    end
+
+    return ""
+end
+
+ns.Amanistamm = ns.FactionName(2696)
+ns.TheSingularity = ns.FactionName(2699)
+ns.Harati = ns.FactionName(2704)
+ns.SilvermoonCourt = ns.FactionName(2710)

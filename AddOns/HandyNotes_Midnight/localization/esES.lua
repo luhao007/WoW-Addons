@@ -52,7 +52,7 @@ L['incomplete_book_of_sonnets'] = 'Libro de sonetos incompleto.'
 -------------------------------------------------------------------------------
 
 L['glowing_moth'] = 'Polilla resplandeciente'
-L['options_icons_glowing_moth'] = 'Polilla resplandeciente'
+L['options_icons_glowing_moth'] = '{achievement:61052}'
 L['options_icons_glowing_moth_desc'] = 'Muestra dónde están las Polillas resplandecientes para el logro {achievement:61052}.'
 
 L['sporespawned_cache_note'] = 'Interactúa con la {dot:Red}{object:Marra fúngica} en la Aldea Fungara para conseguir el buff {spell:1266347} y úsalo para hacer sonar el {object:Gong micelio}. El tesoro aparecerá junto al gong.'
@@ -62,6 +62,13 @@ L['impenatrably_sealed_gourd_note'] = 'Despoja el {item:260251} de la {object:Ja
 L['options_icons_more_than_just_thier_roots'] = '{achievement:62188}'
 L['options_icons_more_than_just_thier_roots_desc'] = 'Muestra dónde están los NPC para el logro {achievement:62188}.'
 L['more_than_just_thier_roots_note'] = 'Habla con los NPC en las siguientes ubicaciones:'
+
+L['altar_of_innocence'] = 'Altar de la inocencia'
+L['altar_of_vigor'] = 'Altar del vigor'
+L['altar_of_wisdom'] = 'Altar de la sabiduría'
+L['altar_of_innocence_note'] = 'Devuelve la {item:256882} al {npc:254030} después de interactuar con el {object:Altar de la inocencia}.\n\nCompleta las tareas del resto de altares para hacer aparecer el tesoro {object:Don del ciclo} en {location:El Cubil}.'
+L['altar_of_vigor_note'] = 'Devuelve {item:257024} al {npc:254104} después de interactuar con el {object:Altar del vigor}.\n\nCompleta las tareas del resto de altares para hacer aparecer el tesoro {object:Don del ciclo} en {location:El Cubil}.'
+L['altar_of_wisdom_note'] = 'Devuelve la {item:257054} al {npc:254116} después de interactuar con el {object:Altar de la sabiduría}.\n\nCompleta las tareas del resto de altares para hacer aparecer el tesoro {object:Don del ciclo} en {location:El Cubil}.'
 
 -------------------------------------------------------------------------------
 ---------------------------------- VOIDSTORM ----------------------------------

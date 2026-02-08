@@ -318,7 +318,7 @@ if PIG_MaxTocversion(100000,true) then
 	table.insert(CVarsList1,9,{CAMERA_FOV,"cameraFov","90",GetCVarDefault("cameraFov"),"启用最大镜头视野范围",false})
 end
 for i=1,#CVarsList1 do
-	local CVarsCB = PIGCheckbutton_R(CVarsF,{CVarsList1[i][1],CVarsList1[i][5]},true,6)
+	local CVarsCB = PIGCheckbutton_R(CVarsF,{CVarsList1[i][1],CVarsList1[i][5]},true,7)
 	if CVarsList1[i][6] then
 		ADD_tishi(CVarsCB,CVarsList1[i][1],-2,0)
 	end
@@ -369,6 +369,11 @@ local combattext1 = {
 	{OPTION_TOOLTIP_SHOW_DAMAGE,"floatingCombatTextCombatDamage","1","0",OPTION_TOOLTIP_SHOW_DAMAGE,false},
 	{"目标伤害旧版弹出方式","floatingCombatTextCombatDamageDirectionalScale","0","1","开启后伤害弹出数字将会从目标上方弹出，而不是发散样式",false},
 }
+if PIG_MaxTocversion(110000,true) then
+	for k,v in pairs(combattext1) do
+		v[2]=v[2].."_v2"
+	end
+end
 for i=1,#combattext1 do
 	local CVarsCB = PIGCheckbutton_R(combattextF,{combattext1[i][1],combattext1[i][5]})
 	if combattext1[i][6] then
@@ -425,28 +430,36 @@ hooksecurefunc("CombatFeedback_OnCombatEvent", function(self)
 		self.feedbackText:Hide()
 	end
 end)
+local enableFloatingCombatText="enableFloatingCombatText"
+local WorldTextScale="WorldTextScale"
+local floatingCombatTextFloatMode="floatingCombatTextFloatMode"
+if PIG_MaxTocversion(110000,true) then
+	WorldTextScale=WorldTextScale.."_v2"
+	floatingCombatTextFloatMode=floatingCombatTextFloatMode.."_v2"
+end
 combattextF.RF=PIGFrame(combattextF,{"TOPLEFT",combattextF,"TOPLEFT",0,-260})
 combattextF.RF:SetPoint("BOTTOMRIGHT",combattextF,"BOTTOMRIGHT",0,0);
 combattextF.RF.OPENcombattext = PIGCheckbutton(combattextF.RF,{"TOPLEFT",combattextF.RF,"TOPLEFT",20,-20},{SHOW_COMBAT_TEXT_TEXT,OPTION_TOOLTIP_SHOW_COMBAT_TEXT})
 combattextF.RF.OPENcombattext:SetScript("OnClick", function (self)
 	if self:GetChecked() then
-		SetCVar("enableFloatingCombatText", "1")
+		SetCVar(enableFloatingCombatText, "1")
 	else
-		SetCVar("enableFloatingCombatText", "0")
+		SetCVar(enableFloatingCombatText, "0")
 	end
 end)
 --浮动方式
 local fudongModeName = {["1"]=COMBAT_TEXT_SCROLL_UP,["2"]=COMBAT_TEXT_SCROLL_DOWN,["3"]=COMBAT_TEXT_SCROLL_ARC}
-ADD_DownMenu(combattextF.RF,1,3,fudongModeName,"floatingCombatTextFloatMode",COMBAT_TEXT_FLOAT_MODE_LABEL,{"TOPLEFT",combattextF.RF,"TOPLEFT",170,-60},100)
+ADD_DownMenu(combattextF.RF,1,3,fudongModeName,floatingCombatTextFloatMode,COMBAT_TEXT_FLOAT_MODE_LABEL,{"TOPLEFT",combattextF.RF,"TOPLEFT",170,-60},100)
 ---
 combattextF.RF.fudongScale = PIGSlider(combattextF.RF,{"TOPLEFT",combattextF.RF,"TOPLEFT",170,-100},{1,3,0.1,{["Right"]="%"}})
 combattextF.RF.fudongScale.t = PIGFontString(combattextF.RF.fudongScale,{"RIGHT",combattextF.RF.fudongScale,"LEFT",-4,0},FLOATING_COMBATTEXT_LABEL.."缩放");
 function combattextF.RF.fudongScale:PIGOnValueChange(arg1)
-	SetCVar("WorldTextScale",arg1)
+	SetCVar(WorldTextScale,arg1)
 end
 combattextF.RF:HookScript("OnShow", function (self)
-	self.fudongScale:PIGSetValue(GetCVar("WorldTextScale"))
-	self.OPENcombattext:SetChecked(GetCVar("enableFloatingCombatText")=="1");
+	self.fudongScale:PIGSetValue(GetCVar(WorldTextScale))
+	print(GetCVar("enableFloatingCombatText"))
+	self.OPENcombattext:SetChecked(GetCVar(enableFloatingCombatText)=="1");
 end);
 ---姓名板
 local xingmingbanF =PIGOptionsList_R(RTabFrame,L["CVAR_TABNAME2"],70)

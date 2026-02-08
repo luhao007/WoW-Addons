@@ -708,7 +708,7 @@ local function UpdateNotCollectedAppearanceItemIDs(routines, routineTextOutput)
 						
 						local visualID = tonumber(sVisualID)
 						local itemID = tonumber(sItemID)
-						
+							
 						if (visualsList) then
 							local collected = false
 							local inVisualList = false
@@ -785,7 +785,7 @@ local function UpdateNotCollectedAppearanceItemIDs(routines, routineTextOutput)
 									
 									if (not collected) then
 										for k = 1, #sources do
-											if (sources[k].sourceType == 1 or sources[k].sourceType == 4) then --Boss Drop/World drop
+											if (sources[k].sourceType == 1 or sources[k].sourceType == 4 or sources[k].sourceType == 3) then --Boss Drop/World drop
 												if (not GetAppearanceItemIDs(sources[k].visualID) or not RSUtils.Contains(GetAppearanceItemIDs(sources[k].visualID), sources[k].itemID)) then
 													AddAppearanceItemID(sources[k].visualID, sources[k].itemID)
 												end
@@ -1694,7 +1694,7 @@ function RSCollectionsDB.ApplyFilters(filters, callback)
 					removeFilter = true
 				end
 				if (not removeFilter and filters[RSConstants.EXPLORER_FILTER_ACHIEVEMENT_CRITERIA] and npcInfo.achievementID) then			
-					if (RSAchievementDB.IsNotCompletedAchievementCriteria(npcID, npcInfo.achievementID, npcInfo.criteria)) then
+					if (RSAchievementDB.IsNotCompletedAchievementCriteria(npcID, npcInfo.achievementID, npcInfo.questID, npcInfo.criteria)) then
 						removeFilter = true
 					end
 				end
@@ -1768,7 +1768,7 @@ function RSCollectionsDB.ApplyFilters(filters, callback)
 							end
 						end
 					else
-						if (RSAchievementDB.IsNotCompletedAchievementCriteria(containerID, containerInfo.achievementID, containerInfo.criteria, true)) then
+						if (RSAchievementDB.IsNotCompletedAchievementCriteria(containerID, containerInfo.achievementID, containerInfo.questID, containerInfo.criteria, true)) then
 							removeFilter = true
 						end
 					end

@@ -14,6 +14,7 @@ local BOUNTIFUL_ICON_SEQUENCE = "|A:delves-bountiful:24:24|a"
 local TOM_TOM_WAYPOINT_DISTANCE_CLEAR = 10
 local MPE_DELVE_REGULAR_ATLAS_NAME = "delves-regular"
 local MPE_DELVE_BOUNTIFUL_ATLAS_NAME = "delves-bountiful"
+local NEMESIS_TOOLTIP_SPLIT_MARKER = "~"
 --#endregion
 
 ---@class (exact) DelveWaypointTracker
@@ -259,7 +260,9 @@ function DelveCompanion_DelveWaypointMixin:DisplayDelveTooltip(owner, anchor, de
     tooltip:SetOwner(owner, anchor)
     tooltip:ClearLines()
 
+    local title = delveData.delveName
     local iconsSequence = ""
+    local isNemesisDelve = delveData.config.nemesisInfo ~= nil
 
     if delveData.isBountiful then
         iconsSequence = string.join("", iconsSequence, BOUNTIFUL_ICON_SEQUENCE)
@@ -267,24 +270,41 @@ function DelveCompanion_DelveWaypointMixin:DisplayDelveTooltip(owner, anchor, de
 
     -- Title + icons
     GameTooltip_AddColoredDoubleLine(tooltip,
-        delveData.delveName, iconsSequence,
+        title, iconsSequence,
         _G["NORMAL_FONT_COLOR"], _G["NORMAL_FONT_COLOR"],
         true)
-    -- Parent map
-    GameTooltip_AddHighlightLine(tooltip, delveData.parentMapName, true)
+
     -- Active story + completion state
     do
         if delveData.storyVariant ~= nil then
-            local completionText = delveData.isStoryCompleted and Lockit.UI_DELVE_STORY_VARIANT_COMPLETED_SEQUENCE or
-                Lockit.UI_DELVE_STORY_VARIANT_NOT_COMPLETED_SEQUENCE
-            local completionColor = delveData.isStoryCompleted and _G["DIM_GREEN_FONT_COLOR"]
+            local completionText = delveData.isStoryCompleted
+                and Lockit.UI_DELVE_STORY_VARIANT_COMPLETED_SEQUENCE
+                or Lockit.UI_DELVE_STORY_VARIANT_NOT_COMPLETED_SEQUENCE
+            local completionColor = delveData.isStoryCompleted
+                and _G["DIM_GREEN_FONT_COLOR"]
                 or _G["WARNING_FONT_COLOR"]
             GameTooltip_AddColoredDoubleLine(tooltip, delveData.storyVariant, completionText,
                 _G["NORMAL_FONT_COLOR"], completionColor, true)
         end
     end
 
+    -- Nemesis info
+    if isNemesisDelve then
+        local nemesisLine, seasonLine = string.split(NEMESIS_TOOLTIP_SPLIT_MARKER,
+            delveData.config.nemesisInfo.delveTooltipLine, 2)
+        local seasonColor = delveData.config.nemesisInfo.isCurrentSeason
+            and _G["HIGHLIGHT_FONT_COLOR"]
+            or _G["QUEST_ACTIVE_TRIVIAL_GRAY"]
+
+        GameTooltip_AddColoredDoubleLine(tooltip,
+            nemesisLine, seasonLine,
+            _G["NORMAL_FONT_COLOR"], seasonColor,
+            true)
+    end
+
     GameTooltip_AddBlankLineToTooltip(tooltip)
+    -- Parent map
+    GameTooltip_AddHighlightLine(tooltip, delveData.parentMapName, true)
 
     -- Tracking instruction
     do
@@ -300,6 +320,15 @@ function DelveCompanion_DelveWaypointMixin:DisplayDelveTooltip(owner, anchor, de
         else
             GameTooltip_AddInstructionLine(tooltip, Lockit.UI_DELVE_INSTANCE_BUTTON_TOOLTIP_CLICK_INSTRUCTION, true)
         end
+    end
+
+    -- Level restiction warning for Nemesis Delves
+    if isNemesisDelve and UnitLevel("player") < delveData.levelRequired then
+        GameTooltip_AddBlankLineToTooltip(tooltip)
+        GameTooltip_AddColoredLine(tooltip,
+            string.format(_G["BATTLEGROUND_REQUIRED_LEVEL_TOOLTIP"], tostring(delveData.levelRequired)),
+            _G["WARNING_FONT_COLOR"],
+            true)
     end
 
     tooltip:Show()

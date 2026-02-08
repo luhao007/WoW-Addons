@@ -1236,6 +1236,7 @@ function BusinessInfo.AHPlus_Vanilla()
 	end
 	SellListF.CacheBuy={}
 	function SellListF:SetAHPriceFun(count,minBid,buyoutPrice,owner)
+		if not AuctionsItemButton.OldName then return end
 		local yajiaGV=0
 		if count and minBid and buyoutPrice then
 			SellListF.CacheBuy[AuctionsItemButton.OldName]={count,minBid,buyoutPrice,owner}
@@ -1417,7 +1418,7 @@ function BusinessInfo.AHPlus_Vanilla()
 			end
 		end
 	end)
-	AuctionsItemButton.itemTypeDD = PIGFontString(AuctionsItemButton,{"BOTTOMLEFT",AuctionsItemButton,"TOPLEFT",70,0},nil,"OUTLINE")
+	AuctionsItemButton.itemTypeDD = PIGFontString(AuctionsItemButton,{"BOTTOMLEFT",AuctionsItemButton,"TOPLEFT",64,0},nil,"OUTLINE")
 	AuctionsItemButton.itemTypeDD:SetTextColor(0, 1, 1, 1)
 	AuctionsItemButton:HookScript("OnEvent",function(self,event,arg1,arg2)
 		if event=="NEW_AUCTION_UPDATE" then
@@ -1437,10 +1438,16 @@ function BusinessInfo.AHPlus_Vanilla()
 				if name then
 					AuctionsItemButton.OldName=name
 					local _, itemType, itemSubType, _, _, classID=C_Item.GetItemInfoInstant(itemID)
-					AuctionsItemButton.itemTypeDD:SetText(itemType);
+					local XclassID=tostring(classID)
+					local StackingNum=PIGA["AHPlus"]["Stacking"][XclassID]
+					local classStack="("..ACTION_SPELL_AURA_APPLIED_DOSE
+					if StackingNum then
+						classStack=classStack..StackingNum..")"
+					else
+						classStack=classStack..DEFAULT..")"
+					end
+					AuctionsItemButton.itemTypeDD:SetText(itemType..classStack);
 					if ( totalCount > 1 ) then
-						local XclassID=tostring(classID)
-						local StackingNum=PIGA["AHPlus"]["Stacking"][XclassID] or 1
 						if StackingNum and totalCount>=StackingNum then
 							AuctionsStackSizeEntry:SetText(StackingNum);
 						end

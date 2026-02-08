@@ -53,7 +53,7 @@ L['incomplete_book_of_sonnets'] = 'Livret de sonnets incomplet'
 -------------------------------------------------------------------------------
 
 L['glowing_moth'] = 'Phalène luminescent'
-L['options_icons_glowing_moth'] = 'Phalène luminescent'
+L['options_icons_glowing_moth'] = '{achievement:61052}'
 L['options_icons_glowing_moth_desc'] = 'Afficher les emplacements des Phalènes luminescentes pour le haut-fait {achievement:61052}.'
 
 L['sporespawned_cache_note'] = 'Interagissez avec le {dot:Red}{object:Maillet fongique} à Fongara pour obtenir le buff {spell:1266347}, puis utilisez-le pour faire sonner le {object:Gong de mycélium}. Le trésor apparaîtra à côté du gong.'
@@ -63,6 +63,13 @@ L['impenatrably_sealed_gourd_note'] = 'Récupérez le {item:260251} sur le {obje
 L['options_icons_more_than_just_thier_roots'] = '{achievement:62188}'
 L['options_icons_more_than_just_thier_roots_desc'] = 'Afficher les emplacements des PNJs pour le haut-fait {achievement:62188}.'
 L['more_than_just_thier_roots_note'] = 'Parlez aux PNJs aux endroits suivants :'
+
+L['altar_of_innocence'] = 'Autel de l\'innocence'
+L['altar_of_vigor'] = 'Autel de la vigueur'
+L['altar_of_wisdom'] = 'Autel de la sagesse'
+L['altar_of_innocence_note'] = 'Rendez la {item:256882} à l\'{npc:254030} après avoir interagi avec l\'{object:Autel de l\'innocence}.\n\nAccomplissez les tâches associées aux autres autels pour faire apparaître le {object:Don du cycle} à {location:La Tanière}.'
+L['altar_of_vigor_note'] = 'Rendez le {item:257024} à l\'{npc:254104} après avoir interagi avec l\'{object:Autel de la vigueur}.\n\nAccomplissez les tâches associées aux autres autels pour faire apparaître le {object:Don du cycle} à {location:La Tanière}.'
+L['altar_of_wisdom_note'] = 'Rendez l\'{item:257054} à l\'{npc:254116} après avoir interagi avec l\'{object:Autel de la sagesse}.\n\nAccomplissez les tâches associées aux autres autels pour faire apparaître le {object:Don du cycle} à {location:La Tanière}.'
 
 -------------------------------------------------------------------------------
 ---------------------------------- VOIDSTORM ----------------------------------

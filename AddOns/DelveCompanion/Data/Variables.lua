@@ -19,6 +19,6 @@ local Variables = {
     shardsCollected = 0,
     tomTomAvailable = false,
     mpeAvailable = false,
-    isPTR = (select(4, GetBuildInfo())) >= 120000
+    isPTR = (select(4, GetBuildInfo())) >= 120001
 }
 DelveCompanion.Variables = Variables

@@ -110,10 +110,14 @@ local function Update_mubiao(Party,id)
 			Party.title:SetTextColor(0, 1, 0);
 		end
 		if UnitIsDead(PartymubiaiT) then
-			Party.title:SetText(partytargetname.."(死亡)");
+			Party.title:SetText(partytargetname.."("..DEAD..")");
 		else
-			local duiyoumubiaobaifenbi = math.floor((UnitHealth(PartymubiaiT)/UnitHealthMax(PartymubiaiT))*100);
-			Party.title:SetText(partytargetname.."("..duiyoumubiaobaifenbi.."%)");
+			if PIG_MaxTocversion() then
+				local duiyoumubiaobaifenbi = math.floor((UnitHealth(PartymubiaiT)/UnitHealthMax(PartymubiaiT))*100);
+				Party.title:SetText(partytargetname.."("..duiyoumubiaobaifenbi.."%)");
+			else
+				Party.title:SetText(partytargetname.."("..UnitHealth(PartymubiaiT).."/"..UnitHealthMax(PartymubiaiT)..")");
+			end
 		end
 	else
 		Party.title:SetText("");

@@ -91,14 +91,14 @@
 						<FontString parentKey="ModifiersLabel" font="GameFontHighlightLarge"
 							text="MODS">
 							<Anchors>
-								<Anchor point="RIGHT" relativeKey="$parent.AffixWidget"
+								<Anchor point="RIGHT" relativeKey="$parent.Nemesis"
 									relativePoint="LEFT" x="-5" y="0" />
 							</Anchors>
 						</FontString>
 					</Layer>
 				</Layers>
 				<Frames>
-					<Frame parentKey="AffixWidget"
+					<Frame parentKey="Nemesis"
 						inherits="DelveCompanionCustomActionWidgetTemplate">
 						<Size x="50" y="50" />
 						<KeyValues>

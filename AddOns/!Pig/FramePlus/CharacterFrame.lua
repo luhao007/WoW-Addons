@@ -17,6 +17,7 @@ local TalentData=Data.TalentData
 local FramePlusfun=addonTable.FramePlusfun
 local Fun=addonTable.Fun
 local FasongYCqingqiu=Fun.FasongYCqingqiu
+local _GetTooltipLevel=Fun._GetTooltipLevel
 ----
 local GetContainerNumFreeSlots = C_Container.GetContainerNumFreeSlots
 local GetContainerNumSlots = C_Container.GetContainerNumSlots
@@ -24,34 +25,21 @@ local GetContainerItemID = C_Container.GetContainerItemID
 local PickupContainerItem =C_Container.PickupContainerItem
 local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 local GetItemQualityColor=GetItemQualityColor or C_Item and C_Item.GetItemQualityColor
-local GetDetailedItemLevelInfo=GetDetailedItemLevelInfo or C_Item and C_Item.GetDetailedItemLevelInfo
 local GetCoinTextureString= GetCoinTextureString or  C_CurrencyInfo and C_CurrencyInfo.GetCoinTextureString
 ---自身角色和观察目标信息---------------
 if not InspectTalentFrameSpentPoints then InspectTalentFrameSpentPoints = CreateFrame("Frame") end
 local XWidth, XHeight =CharacterHeadSlot:GetWidth(),CharacterHeadSlot:GetHeight()
 -----------------------
-local _GetItemLevel=Fun._GetItemLevel
-local function Update_ItemLevel(unit,ZBID,framef,itemLink)
-    local ItemLevel = _GetItemLevel(unit, ZBID,nil,itemLink)
-    if ItemLevel == "RETRIEVING" and framef.attempt < 10 then
-    	framef.attempt = framef.attempt + 1
-        C_Timer.After(0.05, function()
-        	Update_ItemLevel(unit,ZBID,framef,itemLink)
-        end)
-    else
-    	framef.ZLV:SetText(ItemLevel or "")
-    end
-end
+
 local function Update_Level_V(framef,unit,ZBID)
 	framef.ZLV:SetText("");
 	local itemLink = GetInventoryItemLink(unit, ZBID)
 	if itemLink then
 		local quality = GetInventoryItemQuality(unit, ZBID)
 		if quality then
-			local r, g, b = GetItemQualityColor(quality)
-			framef.ZLV:SetTextColor(r, g, b, 1);
-			framef.attempt = 0
-			Update_ItemLevel(unit,ZBID,framef,itemLink)
+			_GetTooltipLevel(unit,{ZBID},function(ItemLevel)
+				framef.ZLV:SetText(ItemLevel)
+			end)
 		end
 	end
 end
@@ -151,6 +139,7 @@ local function ADD_UI_Puls(laiyuan)
 			if not framef.ZLV then
 				framef.ZLV = PIGFontString(framef,{"TOPLEFT", framef, "TOPLEFT", -2, 1},nil,"OUTLINE",15)
 				framef.ZLV:SetDrawLayer("OVERLAY", 7)
+				framef.ZLV:SetTextColor(0, 1, 1, 1);
 			end
 		end
 		---
@@ -1406,7 +1395,7 @@ local function add_AutoEquip(ManageEquip)
 end
 function FramePlusfun.Character_Shuxing()
 	if not PIGA["FramePlus"]["Character_Shuxing"] then return end
-	if PIG_MaxTocversion(30000) then
+	if PIG_MaxTocversion(40000) then
 		if PaperDollFrame.pigBGF then return end
 		local CharacterFW = {384,570,2}
 		if C_Engraving and C_Engraving.IsEngravingEnabled() then CharacterFW[3]=3 end
@@ -1419,7 +1408,7 @@ function FramePlusfun.Character_Shuxing()
 		for k,v in pairs(wllist) do
 			if not v:GetName() then v:Hide() end
 		end
-		---NEWBG
+		---重设背景材质
 		PaperDollFrame.pigBGF = CreateFrame("Frame",nil,PaperDollFrame)
 		PaperDollFrame.pigBGF:SetFrameLevel(1)
 		PaperDollFrame.pigBGF:SetSize(CharacterFW[2]-33,439);
@@ -1513,46 +1502,12 @@ function FramePlusfun.Character_Shuxing()
 			self.TabList[tabid].Icon:SetDesaturated(false)
 			self.TabList[tabid]:Show_UI()
 		end
-		--个人属性
+
+		--1个人属性================
 		local shuxingF = PaperDollFrame.InsetR.TabList[1].F
-		shuxingF.topJU=0
-		local UIffWW,suofangV =shuxingF:GetWidth(),0.86
-		local function add_biaoti(pane,Title,Point)
-			local Point=Point or {"TOP", pane,"TOP",0, 0}
-			if NDui or ElvUI then
-				local biaoti = PIGFrame(pane,Point,{UIffWW-6,27})
-				biaoti:PIGSetBackdrop(0.2,0.8)
-				--biaoti:SetPoint(unpack(Point));
-				biaoti:SetScale(suofangV)
-				biaoti.Title = PIGFontString(biaoti,{"CENTER", biaoti, "CENTER", 0, 0},Title)
-				biaoti.Title:SetTextColor(1, 1, 1, 1)
-				return biaoti
-			else
-				local biaoti = CreateFrame("Frame",nil,pane,"CharacterStatFrameCategoryTemplate")
-				biaoti:SetPoint(unpack(Point));
-				biaoti:SetScale(suofangV)
-				biaoti.Title:SetText(Title)
-				return biaoti
-			end
-		end
-		local function add_Category_biaoti(pane,H,Title,Point)
-			local CategoryF = PIGFrame(shuxingF.fuji,Point,{UIffWW,H})
-			CategoryF.biaoti = add_biaoti(CategoryF,Title,Point)
-			return CategoryF
-		end
-		local function add_Category_hang(pane,uiname,Label,tooltip,Point)
-			local hang = CreateFrame("Frame",uiname,pane,"StatFrameTemplate")
-			hang:SetWidth(UIffWW-40)
-			hang:SetPoint(unpack(Point));
-			hang.Label:SetText(Label)
-			hang.tooltip = tooltip
-			return hang
-		end
-		local function add_Category_hangBG(pane)
-			pane.Background = pane:CreateTexture(nil, "BACKGROUND");
-			pane.Background:SetAtlas("UI-Character-Info-ItemLevel-Bounce");
-			pane.Background:SetAllPoints(pane)
-			pane.Background:SetAlpha(0.3)
+		local UIffWW,topJU,hangH,biaotiH =shuxingF:GetWidth(),-2,20,28
+		if NDui or ElvUI then
+			topJU=-6
 		end
 		shuxingF.InsetRScroll = CreateFrame("ScrollFrame",nil,shuxingF, "UIPanelScrollFrameTemplate"); 
 		shuxingF.InsetRScroll:SetPoint("TOPLEFT",shuxingF,"TOPLEFT",0,-4);
@@ -1561,11 +1516,9 @@ function FramePlusfun.Character_Shuxing()
 		shuxingF.InsetRScroll.ScrollBar:SetPoint("TOPLEFT", shuxingF.InsetRScroll,"TOPRIGHT",0, -14);
 		shuxingF.InsetRScroll.ScrollBar:SetPoint("BOTTOMLEFT", shuxingF.InsetRScroll,"BOTTOMRIGHT",0, 16);
 		if NDui then
-			shuxingF.topJU=4
 			local B = unpack(NDui)
 			B.ReskinScroll(shuxingF.InsetRScroll.ScrollBar)
 		elseif ElvUI then
-			shuxingF.topJU=4
 			local E= unpack(ElvUI)
 			local S = E:GetModule('Skins')
 			S:HandleScrollBar(shuxingF.InsetRScroll.ScrollBar)
@@ -1574,211 +1527,424 @@ function FramePlusfun.Character_Shuxing()
 		shuxingF.fuji:SetWidth(UIffWW-12)
 		shuxingF.fuji:SetHeight(30) 
 		shuxingF.InsetRScroll:SetScrollChild(shuxingF.fuji)
-		shuxingF.fuji.ItemLevelCategory =add_biaoti(shuxingF.fuji,STAT_AVERAGE_ITEM_LEVEL,{"TOP",shuxingF.fuji,"TOP", 0, -2})
-		shuxingF.fuji.ItemLevelFrame = CreateFrame("Frame",nil,shuxingF.fuji)
-		shuxingF.fuji.ItemLevelFrame:SetPoint("TOP", shuxingF.fuji.ItemLevelCategory,"BOTTOM",0, 4-shuxingF.topJU);
-		shuxingF.fuji.ItemLevelFrame:SetSize(UIffWW-10, 28)
-		add_Category_hangBG(shuxingF.fuji.ItemLevelFrame)
-		shuxingF.fuji.ItemLevelFrame.Value=PIGFontString(shuxingF.fuji.ItemLevelFrame,{"CENTER",shuxingF.fuji.ItemLevelFrame,"CENTER",0,0},nil,nil,16)
-		--属性
-		shuxingF.fuji.AttributesCategory =add_biaoti(shuxingF.fuji,PLAYERSTAT_BASE_STATS,{"TOP", shuxingF.fuji.ItemLevelFrame,"BOTTOM",0, 0})
-		if PIG_MaxTocversion(20000) then
-			CharacterAttributesFrame:SetParent(shuxingF.fuji)
-			local regionsss = {CharacterAttributesFrame:GetRegions()}
-			for _,v in pairs(regionsss) do
-				v:Hide()
-			end
-			CharacterStatFrame1:ClearAllPoints();
-			CharacterStatFrame1:SetPoint("TOP", shuxingF.fuji.AttributesCategory,"BOTTOM",0, 0);
-			for ixc=1,5 do
-				_G["CharacterStatFrame"..ixc]:SetWidth(UIffWW-40)
-			end
-			CharacterArmorFrame:SetWidth(UIffWW-40)
-			CharacterArmorFrame.Label:SetText(STAT_ARMOR..":")
-			add_Category_hangBG(CharacterStatFrame2)
-			add_Category_hangBG(CharacterStatFrame4)
-			add_Category_hangBG(CharacterArmorFrame)
-			---近战
-			shuxingF.fuji.CategoryF_1=add_Category_biaoti(shuxingF.fuji,86,PLAYERSTAT_MELEE_COMBAT)
-			CharacterAttackFrame:ClearAllPoints();
-			CharacterAttackFrame:SetPoint("TOP", shuxingF.fuji.CategoryF_1.biaoti,"BOTTOM",0, -shuxingF.topJU);
-			CharacterAttackFrame:SetWidth(UIffWW-40)
-			CharacterAttackFrame.Label:SetText(STAT_HIT_CHANCE..":")
-			CharacterAttackPowerFrame:SetWidth(UIffWW-40)
-			CharacterAttackPowerFrame:SetPoint("TOPLEFT", CharacterAttackFrame,"BOTTOMLEFT",0, 0);
-			CharacterDamageFrame:SetWidth(UIffWW-40)
-			add_Category_hang(shuxingF.fuji.CategoryF_1,"CharacterCategory1_1",CRIT_CHANCE..":",ITEM_MOD_CRIT_MELEE_RATING_SHORT,{"TOP", CharacterDamageFrame,"BOTTOM",0, 0})
-			add_Category_hangBG(CharacterAttackPowerFrame)
-			add_Category_hangBG(CharacterCategory1_1)
-			--远程
-			shuxingF.fuji.CategoryF_2=add_Category_biaoti(shuxingF.fuji,86,PLAYERSTAT_RANGED_COMBAT)
-			CharacterRangedAttackFrame:ClearAllPoints();
-			CharacterRangedAttackFrame:SetPoint("TOP", shuxingF.fuji.CategoryF_2.biaoti,"BOTTOM",0, -shuxingF.topJU);
-			CharacterRangedAttackFrame:SetWidth(UIffWW-40)
-			CharacterRangedAttackFrame.Label:SetText(STAT_HIT_CHANCE..":")
-			CharacterRangedAttackPowerFrame:SetWidth(UIffWW-40)
-			CharacterRangedAttackPowerFrame:SetPoint("TOPLEFT", CharacterRangedAttackFrame,"BOTTOMLEFT",0, 0);
-			CharacterRangedDamageFrame:SetWidth(UIffWW-40)
-			add_Category_hang(shuxingF.fuji.CategoryF_2,"CharacterCategory2_1",CRIT_CHANCE..":",ITEM_MOD_CRIT_RANGED_RATING_SHORT,{"TOP", CharacterRangedDamageFrame,"BOTTOM",0, 0})
-			add_Category_hangBG(CharacterRangedAttackPowerFrame)
-			add_Category_hangBG(CharacterCategory2_1)
-			--法系
-			shuxingF.fuji.CategoryF_3=add_Category_biaoti(shuxingF.fuji,100,PLAYERSTAT_SPELL_COMBAT)
-			add_Category_hang(shuxingF.fuji.CategoryF_3,"CharacterCategory3_1",STAT_HIT_CHANCE..":",ITEM_MOD_HIT_SPELL_RATING_SHORT,{"TOP", shuxingF.fuji.CategoryF_3.biaoti,"BOTTOM",0, -shuxingF.topJU})
-			add_Category_hang(shuxingF.fuji.CategoryF_3,"CharacterCategory3_2",CRIT_CHANCE..":",ITEM_MOD_CRIT_SPELL_RATING_SHORT,{"TOP", CharacterCategory3_1,"BOTTOM",0, 0})
-			add_Category_hang(shuxingF.fuji.CategoryF_3,"CharacterCategory3_3",STAT_SPELLDAMAGE..":",STAT_SPELLDAMAGE_TOOLTIP,{"TOP", CharacterCategory3_2,"BOTTOM",0, 0})
-			add_Category_hang(shuxingF.fuji.CategoryF_3,"CharacterCategory3_4",STAT_SPELLHEALING..":",STAT_SPELLHEALING_TOOLTIP,{"TOP", CharacterCategory3_3,"BOTTOM",0, 0})
-			add_Category_hang(shuxingF.fuji.CategoryF_3,"CharacterCategory3_5",ITEM_MOD_MANA_REGENERATION_SHORT..":",ITEM_MOD_MANA_REGENERATION_SHORT,{"TOP", CharacterCategory3_4,"BOTTOM",0, 0})
-			add_Category_hangBG(CharacterCategory3_2)
-			add_Category_hangBG(CharacterCategory3_4)
-			--防御
-			shuxingF.fuji.CategoryF_4=add_Category_biaoti(shuxingF.fuji,90,PLAYERSTAT_DEFENSES)
-			add_Category_hang(shuxingF.fuji.CategoryF_4,"CharacterCategory4_1",DODGE_CHANCE..":",DODGE_CHANCE,{"TOP", shuxingF.fuji.CategoryF_4.biaoti,"BOTTOM",0, -shuxingF.topJU})
-			add_Category_hang(shuxingF.fuji.CategoryF_4,"CharacterCategory4_2",PARRY_CHANCE..":",PARRY_CHANCE,{"TOP", CharacterCategory4_1,"BOTTOM",0, 0})
-			add_Category_hang(shuxingF.fuji.CategoryF_4,"CharacterCategory4_3",BLOCK_CHANCE..":",BLOCK_CHANCE,{"TOP", CharacterCategory4_2,"BOTTOM",0, 0})
-			if GetLocale() == "zhCN" then
-				shuxingF.fuji.CategoryF_4.tishineir="物伤减免"
-			elseif GetLocale() == "zhTW" then
-				shuxingF.fuji.CategoryF_4.tishineir="物傷減免"
+		shuxingF.fuji.CategoryList={}
+		--api
+		local function add_biaoti(CF,Text)
+			local biaoti
+			if NDui or ElvUI then
+				biaoti = PIGFrame(CF)
+				biaoti:PIGSetBackdrop(0.2,0.8)
+				biaoti.Title = PIGFontString(biaoti,{"CENTER", biaoti, "CENTER", 0, 0},Text)
+				biaoti.Title:SetTextColor(1, 1, 1, 1)
 			else
-				shuxingF.fuji.CategoryF_4.tishineir="ArmorDerate"
+				biaoti = CreateFrame("Frame",nil,CF,"CharacterStatFrameCategoryTemplate")
+				biaoti.Title:SetText(Text)
+				biaoti.Background:ClearAllPoints();
+				biaoti.Background:SetPoint("TOPLEFT",biaoti,"TOPLEFT", 2, 4);
+				biaoti.Background:SetPoint("BOTTOMRIGHT",biaoti,"BOTTOMRIGHT", -2, -4);
 			end
-			local xuyaoxttx = shuxingF.fuji.CategoryF_4.tishineir
-			add_Category_hang(shuxingF.fuji.CategoryF_4,"CharacterCategory4_4",xuyaoxttx..":",xuyaoxttx,{"TOP", CharacterCategory4_3,"BOTTOM",0, 0})
-			add_Category_hang(shuxingF.fuji.CategoryF_4,"CharacterCategory4_5",DEFENSE..":",DEFENSE,{"TOP", CharacterCategory4_4,"BOTTOM",0, 0})
-			add_Category_hangBG(CharacterCategory4_2)
-			add_Category_hangBG(CharacterCategory4_4)
+			biaoti:SetHeight(biaotiH)
+			biaoti:SetPoint("TOPLEFT",CF,"TOPLEFT", 0, 0);
+			biaoti:SetPoint("TOPRIGHT",CF,"TOPRIGHT", 0, 0);
+			return biaoti
 		end
-		-----------
-		local function CharacterSetText(teui,text)
-			_G[teui:GetName().."StatText"]:SetText(text);
+		local function add_biaotiBox(Text,Point)
+			local CF = PIGFrame(shuxingF.fuji,Point)
+			CF.biaoti = add_biaoti(CF,Text)
+			CF.newHeight=biaotiH
+			CF.index=0
+			CF.Butlist={}
+			CF:SetWidth(UIffWW-16)
+			CF:SetHeight(CF.newHeight)
+			return CF
 		end
-		local function Round(num)    
+		local function add_hangBG(hang)
+			hang.Background = hang:CreateTexture(nil, "BACKGROUND");
+			hang.Background:SetAtlas("UI-Character-Info-ItemLevel-Bounce");
+			hang.Background:SetAllPoints(hang)
+			hang.Background:SetAlpha(0.6)
+		end
+		local function add_hang(CF,nameid,level,hide)
+			local hang = CreateFrame("Frame","CategoryName"..nameid,CF,"StatFrameTemplate")
+			if not hide then
+				if level then
+					hang:SetHeight(hangH+6)
+					add_hangBG(hang)
+					CF.newHeight=CF.newHeight+hangH+6
+					hang.Label=PIGFontString(hang,{"CENTER",0,0},nil,nil,17)		
+				else
+					hang:SetHeight(hangH)
+					local label = getglobal("CategoryName"..nameid.."Label");
+					local text = getglobal("CategoryName"..nameid.."StatText");
+					PIGSetFont(label, 13.4)
+					CF.newHeight=CF.newHeight+hangH
+				end
+				hang:SetWidth(UIffWW-40)
+				hang:SetPoint("TOP",CF,"TOP", 0, -(CF.index*hangH)-biaotiH);
+				hang.tooltip = tooltip
+				CF.index=CF.index+1
+				if CF.index % 2 == 0 then
+				    add_hangBG(hang)
+				end
+				CF.Butlist[CF.index]=hang
+				CF:SetHeight(CF.newHeight)
+			end
+			return hang
+		end
+		--装等
+		shuxingF.fuji.CategoryList[0]=add_biaotiBox(STAT_AVERAGE_ITEM_LEVEL,{"TOP",shuxingF.fuji,"TOP", 0, topJU})
+		add_hang(shuxingF.fuji.CategoryList[0],01,STAT_AVERAGE_ITEM_LEVEL_TOOLTIP)
+
+		--属性
+		CharacterAttributesFrame:ClearAllPoints();
+		local PLAYERSTAT_DROPDOWN_OPTIONS=PLAYERSTAT_DROPDOWN_OPTIONS or {
+			"PLAYERSTAT_BASE_STATS",
+			"PLAYERSTAT_MELEE_COMBAT",
+			"PLAYERSTAT_RANGED_COMBAT",
+			"PLAYERSTAT_SPELL_COMBAT",
+			"PLAYERSTAT_DEFENSES",
+		};
+		for i=1, #PLAYERSTAT_DROPDOWN_OPTIONS do
+			local text = getglobal(PLAYERSTAT_DROPDOWN_OPTIONS[i]);
+			shuxingF.fuji.CategoryList[i]=add_biaotiBox(text,{"TOP",shuxingF.fuji.CategoryList[i-1],"BOTTOM", 0, -2})
+			for ii=1,6 do
+				local namex=i..ii
+				if PIG_MaxTocversion(20000) then
+					if i==2 then
+						if ii==1 then
+							namex=namex.."DamageFrame"
+						elseif ii==3 then
+							namex=namex.."AttackPowerFrame"
+						elseif ii==4 then
+							namex=namex.."AttackFrame"
+						end
+					elseif i==3 then
+						if ii==1 then
+							namex=namex.."RangedDamageFrame"
+						elseif ii==3 then
+							namex=namex.."RangedAttackPowerFrame"
+						elseif ii==4 then
+							namex=namex.."RangedAttackFrame"
+						end
+					elseif i==5 then
+						if ii==2 then
+							namex=namex.."DefenseFrame"
+						end
+					end
+				end
+				if PLAYERSTAT_DROPDOWN_OPTIONS[i] == "PLAYERSTAT_RANGED_COMBAT" and ii==6  or PLAYERSTAT_DROPDOWN_OPTIONS[i] == "PLAYERSTAT_BASE_STATS" and ii==6 then
+					add_hang(shuxingF.fuji.CategoryList[i],namex,nil,true)
+				else
+					add_hang(shuxingF.fuji.CategoryList[i],namex)
+				end
+			end
+		end
+		---------
+		local function _Round(num)    
 		    local mult = 10^(2);
 		    return math.floor(num * mult + 0.5) / mult;
 		end
-		local function PIG_GetSpellCritChance()
-			local holySchool = 2
-		    local minCrit = GetSpellCritChance(holySchool);
-			local spellTishi=RESISTANCE_TYPE1..CRIT_CHANCE..": "..Round(minCrit)
-			for i=(holySchool+1), 7 do
-				local spellCrit = GetSpellCritChance(i);
-				spellTishi=spellTishi.."\n".._G["RESISTANCE_TYPE"..(i-1)]..CRIT_CHANCE..": "..Round(spellCrit)
-				minCrit = max(minCrit, spellCrit);
+		local function PaperDollFrame_SetStat(statFrame, statIndex)
+			local label = getglobal(statFrame:GetName().."Label");
+			local text = getglobal(statFrame:GetName().."StatText");
+			local stat;
+			local effectiveStat;
+			local posBuff;
+			local negBuff;
+			stat, effectiveStat, posBuff, negBuff = UnitStat("player", statIndex);
+			local statName = getglobal("SPELL_STAT"..statIndex.."_NAME");
+			label:SetText(statName..":");
+			local tooltipText = HIGHLIGHT_FONT_COLOR_CODE.._G["SPELL_STAT"..statIndex.."_NAME"].." ";
+			local temp, classFileName = UnitClass("player");
+			local classStatText = _G[strupper(classFileName).."_"..statFrame.stat.."_".."TOOLTIP"];
+			if ( not classStatText ) then
+				classStatText = _G["DEFAULT".."_"..statFrame.stat.."_".."TOOLTIP"];
 			end
-			return minCrit,spellTishi
-		end
-		local function PIG_GetSpellBonusDamage()
-			local holySchool = 2
-		    local minCrit = GetSpellBonusDamage(holySchool);
-			local spellTishi=RESISTANCE_TYPE1..STAT_SPELLDAMAGE..": "..Round(minCrit)
-			for i=(holySchool+1), 7 do
-				local spellCrit = GetSpellBonusDamage(i);
-				spellTishi=spellTishi.."\n".._G["RESISTANCE_TYPE"..(i-1)]..STAT_SPELLDAMAGE..": "..Round(spellCrit)
-				minCrit = max(minCrit, spellCrit);
+			if ( ( posBuff == 0 ) and ( negBuff == 0 ) ) then
+				text:SetText(effectiveStat);
+				statFrame.tooltip = tooltipText..effectiveStat..FONT_COLOR_CODE_CLOSE;
+				statFrame.tooltip2 = classStatText;
+			else 
+				tooltipText = tooltipText..effectiveStat;
+				if ( posBuff > 0 or negBuff < 0 ) then
+					tooltipText = tooltipText.." ("..(stat - posBuff - negBuff)..FONT_COLOR_CODE_CLOSE;
+				end
+				if ( posBuff > 0 ) then
+					tooltipText = tooltipText..FONT_COLOR_CODE_CLOSE..GREEN_FONT_COLOR_CODE.."+"..posBuff..FONT_COLOR_CODE_CLOSE;
+				end
+				if ( negBuff < 0 ) then
+					tooltipText = tooltipText..RED_FONT_COLOR_CODE.." "..negBuff..FONT_COLOR_CODE_CLOSE;
+				end
+				if ( posBuff > 0 or negBuff < 0 ) then
+					tooltipText = tooltipText..HIGHLIGHT_FONT_COLOR_CODE..")"..FONT_COLOR_CODE_CLOSE;
+				end
+				statFrame.tooltip = tooltipText;
+				statFrame.tooltip2= classStatText;
+				if ( negBuff < 0 ) then
+					text:SetText(RED_FONT_COLOR_CODE..effectiveStat..FONT_COLOR_CODE_CLOSE);
+				else
+					text:SetText(GREEN_FONT_COLOR_CODE..effectiveStat..FONT_COLOR_CODE_CLOSE);
+				end
 			end
-			return minCrit,spellTishi
 		end
-		local function PaperDollFrameUP()
-			if shuxingF:IsVisible() then
-				local avgItemLevel, avgItemLevelEquipped, avgItemLevelPvP = GetAverageItemLevel();
-				shuxingF.fuji.ItemLevelFrame.Value:SetText(string.format("%.2f",avgItemLevelEquipped).." / "..string.format("%.2f",avgItemLevel))
+		local function PaperDollFrame_SetAttack(statFrame, statIndex, label)
+			local statName = statFrame:GetName()
+			local labelUI = getglobal(statName.."Label");
+			local textUI = getglobal(statName.."StatText");
+			labelUI:SetText(label)
+			local CatName = "CategoryName2"
+			if statIndex==1 then
+				PaperDollFrame_SetDamage("player", CatName..statIndex);
+				statFrame:SetScript("OnEnter", CharacterDamageFrame_OnEnter);
+			elseif statIndex==2 then
+				local speed, offhandSpeed = UnitAttackSpeed("player");
+				if offhandSpeed then
+					textUI:SetText(_Round(speed).."/".._Round(offhandSpeed))
+				else
+					textUI:SetText(_Round(speed))
+				end
+				statFrame:SetScript("OnEnter", function(self)
+					GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+					GameTooltip:SetText(INVTYPE_WEAPONMAINHAND, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
+					GameTooltip:AddDoubleLine(ATTACK_SPEED_COLON, format("%.2F", speed), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
+					if ( offhandSpeed ) then
+						GameTooltip:AddLine(" ");
+						GameTooltip:AddLine(INVTYPE_WEAPONOFFHAND, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
+						GameTooltip:AddDoubleLine(ATTACK_SPEED_COLON, format("%.2F", offhandSpeed), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
+					end
+					GameTooltip:Show();
+				end)
+			elseif statIndex==3 then
+				PaperDollFrame_SetAttackPower("player", "CategoryName23")
+			elseif statIndex==4 then
+				PaperDollFrame_SetAttackBothHands("player", "CategoryName24")
 				local HitModifierV=GetHitModifier()
-				CharacterSetText(CharacterAttackFrame,HitModifierV.."%")
-				CharacterAttackFrame.tooltip2=format(CR_HIT_MELEE_TOOLTIP, UnitLevel("player"),HitModifierV);
-				CharacterSetText(CharacterCategory1_1,Round(GetCritChance()).."%")
-				CharacterCategory1_1.tooltip2=format(CHANCE_TO_CRIT, GetCritChance());
-				---
-				CharacterSetText(CharacterRangedAttackFrame,Round(HitModifierV).."%")
-				CharacterRangedAttackFrame.tooltip2=format(CR_HIT_RANGED_TOOLTIP, UnitLevel("player"),HitModifierV);
-				local RangedCritChanceV=GetRangedCritChance()
-				CharacterSetText(CharacterCategory2_1,Round(RangedCritChanceV).."%")
-				CharacterCategory2_1.tooltip2=format(CHANCE_TO_CRIT, RangedCritChanceV);
-				--
+				textUI:SetText(HitModifierV.."%("..textUI:GetText()..")")
+			elseif statIndex==5 then
+				local CritChance=_Round(GetCritChance())
+				textUI:SetText(CritChance.."%")
+				statFrame.tooltip=ITEM_MOD_CRIT_MELEE_RATING_SHORT
+				statFrame.tooltip2=format(CHANCE_TO_CRIT, CritChance);
+			elseif statIndex==6 then
+				local expertise, offhandExpertise = GetExpertise();
+				textUI:SetText(expertise)
+				statFrame.tooltip=STAT_EXPERTISE
+				statFrame.tooltip2=format(CR_EXPERTISE_TOOLTIP, expertise,"",expertise);
+			end
+		end
+		local function PaperDollFrame_SetAttackRanged(statFrame, statIndex, label)
+			local statName = statFrame:GetName()
+			local labelUI = getglobal(statName.."Label");
+			local textUI = getglobal(statName.."StatText");
+			labelUI:SetText(label)
+			local CatName = "CategoryName3"
+			if statIndex==1 then
+				PaperDollFrame_SetRangedDamage("player", CatName..statIndex);
+				statFrame:SetScript("OnEnter", CharacterRangedDamageFrame_OnEnter);
+			elseif statIndex==2 then
+				local rangedAttackSpeed, minDamage, maxDamage, physicalBonusPos, physicalBonusNeg, percent = UnitRangedDamage("player");
+				textUI:SetText(_Round(rangedAttackSpeed))
+				statFrame:SetScript("OnEnter", function(self)
+					GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+					GameTooltip:SetText(INVTYPE_RANGED, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
+					GameTooltip:AddDoubleLine(ATTACK_SPEED_COLON, format("%.2F", rangedAttackSpeed), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
+					GameTooltip:Show();
+				end)
+			elseif statIndex==3 then
+				PaperDollFrame_SetRangedAttackPower("player", "CategoryName33")
+			elseif statIndex==4 then
+				PaperDollFrame_SetRangedAttack("player", "CategoryName34")
+				local HitModifierV=GetCombatRatingBonus(2)
+				textUI:SetText(HitModifierV.."%("..textUI:GetText()..")")
+			elseif statIndex==5 then
+				local rangedCrit = _Round(GetRangedCritChance())
+				textUI:SetText(rangedCrit.."%")
+				statFrame.tooltip=ITEM_MOD_CRIT_RANGED_RATING_SHORT
+				statFrame.tooltip2=format(CHANCE_TO_CRIT, rangedCrit);
+			elseif statIndex==6 then
+
+			end
+		end
+		local function PaperDollFrame_SetSpell(statFrame, statIndex, label, tooltip)
+			local labelUI = getglobal(statFrame:GetName().."Label");
+			local textUI = getglobal(statFrame:GetName().."StatText");
+			labelUI:SetText(label)
+			statFrame.tooltip=tooltip
+			if statIndex==1 then
+				local holySchool = 2
+			    local minCrit = GetSpellBonusDamage(holySchool);
+				local spellTishi=RESISTANCE_TYPE1..STAT_SPELLDAMAGE..": ".._Round(minCrit)
+				for i=(holySchool+1), 7 do
+					local spellCrit = GetSpellBonusDamage(i);
+					spellTishi=spellTishi.."\n".._G["RESISTANCE_TYPE"..(i-1)]..STAT_SPELLDAMAGE..": ".._Round(spellCrit)
+					minCrit = max(minCrit, spellCrit);
+				end
+				textUI:SetText(minCrit)
+				statFrame.tooltip2=spellTishi
+			elseif statIndex==2 then	
+				local SpellBonusHealingV=GetSpellBonusHealing()
+				textUI:SetText(_Round(SpellBonusHealingV))
+				statFrame.tooltip2=STAT_SPELLHEALING..": ".._Round(SpellBonusHealingV)
+			elseif statIndex==3 then
 				local SpellHitModifierV=GetSpellHitModifier() or 0.0001
 				if PIG_MaxTocversion(20000,true) then
 					SpellHitModifierV=GetSpellHitModifier()/7
 				end
-				CharacterSetText(CharacterCategory3_1,Round(SpellHitModifierV).."%")
-				CharacterCategory3_1.tooltip2=format(CR_HIT_SPELL_TOOLTIP, UnitLevel("player"),SpellHitModifierV);
-				local CritChanceV,CritChancetooltip = PIG_GetSpellCritChance()
-				CharacterSetText(CharacterCategory3_2,Round(CritChanceV).."%")
-				CharacterCategory3_2.tooltip2=CritChancetooltip
-				local BonusDamageV,BonusDamagetooltip = PIG_GetSpellBonusDamage()
-				CharacterSetText(CharacterCategory3_3,Round(BonusDamageV))
-				CharacterCategory3_3.tooltip2=BonusDamagetooltip
-				local SpellBonusHealingV=GetSpellBonusHealing()
-				CharacterSetText(CharacterCategory3_4,Round(SpellBonusHealingV))
-				CharacterCategory3_4.tooltip2=STAT_SPELLHEALING..": "..Round(SpellBonusHealingV)
-				
+				textUI:SetText(SpellHitModifierV.."%")
+				statFrame.tooltip2=format(CR_HIT_SPELL_TOOLTIP, UnitLevel("player"),SpellHitModifierV);
+			elseif statIndex==4 then
+				local holySchool = 2
+			    local minCrit = GetSpellCritChance(holySchool);
+				local spellTishi=RESISTANCE_TYPE1..CRIT_CHANCE..": ".._Round(minCrit)
+				for i=(holySchool+1), 7 do
+					local spellCrit = GetSpellCritChance(i);
+					spellTishi=spellTishi.."\n".._G["RESISTANCE_TYPE"..(i-1)]..CRIT_CHANCE..": ".._Round(spellCrit)
+					minCrit = max(minCrit, spellCrit);
+				end
+				textUI:SetText(_Round(minCrit).."%")
+				statFrame.tooltip2=spellTishi
+			elseif statIndex==5 then
+				textUI:SetText(0)
+			elseif statIndex==6 then
 				local powerType, powerToken = UnitPowerType("player");
 				if (powerToken == "ENERGY") then
 					local basePowerRegen, castingPowerRegen = GetPowerRegen()
-					CharacterCategory3_5.Label:SetText(STAT_ENERGY_REGEN..":")
-					CharacterSetText(CharacterCategory3_5,Round(basePowerRegen*2).."/2s")
-
-					CharacterCategory3_5.tooltip = STAT_ENERGY_REGEN
-					CharacterCategory3_5.tooltip2 = STAT_ENERGY_REGEN..Round(basePowerRegen*2).."/2s";
+					textUI:SetText(_Round(basePowerRegen*2).."/2s")
+					statFrame.tooltip2 = STAT_ENERGY_REGEN.._Round(basePowerRegen*2).."/2s";
 				else
 					local base, casting = GetManaRegen()--精神2秒回蓝
-					CharacterCategory3_5.Label:SetText(ITEM_MOD_MANA_REGENERATION_SHORT..":")
-					CharacterSetText(CharacterCategory3_5,Round(base*2).."/2s")
-					CharacterCategory3_5.tooltip2=ITEM_MOD_MANA_REGENERATION_SHORT..Round(casting*2).."/2s\n"..BINDING_NAME_STOPCASTING.."5s"..ITEM_MOD_MANA_REGENERATION_SHORT..Round(base*2).."/2s"
+					textUI:SetText(_Round(base*2).."/2s")
+					statFrame.tooltip2=ITEM_MOD_MANA_REGENERATION_SHORT.._Round(casting*2).."/2s\n"..BINDING_NAME_STOPCASTING.."5s"..ITEM_MOD_MANA_REGENERATION_SHORT.._Round(base*2).."/2s"
 				end
-				--
-				local DodgeChanceV = GetDodgeChance()
-				CharacterSetText(CharacterCategory4_1,Round(DodgeChanceV).."%")
-				CharacterCategory4_1.tooltip2=DODGE_CHANCE..": "..Round(DodgeChanceV).."%"
-				local ParryChanceV = GetParryChance()
-				CharacterSetText(CharacterCategory4_2,Round(ParryChanceV).."%")
-				CharacterCategory4_2.tooltip2=PARRY_CHANCE..": "..Round(ParryChanceV).."%"
-				local BlockChanceV = GetBlockChance()
-				CharacterSetText(CharacterCategory4_3,Round(BlockChanceV).."%")
-				CharacterCategory4_3.tooltip2=BLOCK_CHANCE..": "..Round(BlockChanceV).."%"
-				local base, effectiveArmor, armor, posBuff, negBuff = UnitArmor("player");
+			end
+		end
+		local function PaperDollFrame_SetDefenses(statFrame, statIndex, label, tooltip)
+			local statName = statFrame:GetName()
+			local labelUI = getglobal(statName.."Label");
+			local textUI = getglobal(statName.."StatText");
+			labelUI:SetText(label)
+			statFrame.tooltip=tooltip
+			local CatName = "CategoryName3"
+			if statIndex==2 then
+				local base, modifier = UnitDefense("player");
+				local posBuff = 0;
+				local negBuff = 0;
+				if ( modifier > 0 ) then
+					posBuff = modifier;
+				elseif ( modifier < 0 ) then
+					negBuff = modifier;
+				end
+				PaperDollFormatStat(DEFENSE, base, posBuff, negBuff, statFrame, textUI);
+				local defensePercent = 0.04 * ((base + modifier)-(UnitLevel("player")*5));
+				defensePercent = max(defensePercent, 0);
+				statFrame.tooltip2 = format(DEFAULT_STATDEFENSE_TOOLTIP, base, posBuff, defensePercent, defensePercent);
+			elseif statIndex==3 then
+				local ChanceV = _Round(GetDodgeChance())
+				textUI:SetText(ChanceV.."%")
+				statFrame.tooltip2=format(CR_DODGE_BASE_STAT_TOOLTIP,ChanceV)
+			elseif statIndex==4 then
+				local ChanceV = _Round(GetParryChance())
+				textUI:SetText(ChanceV.."%")
+				statFrame.tooltip2=format(CR_PARRY_BASE_STAT_TOOLTIP,ChanceV)
+			elseif statIndex==5 then
+				local ChanceV = _Round(GetBlockChance())
+				textUI:SetText(ChanceV.."%")
+				statFrame.tooltip2=format(CHANCE_TO_BLOCK,ChanceV)
+			elseif statIndex==6 then
+				local ChanceV = _Round(GetShieldBlock())
+				textUI:SetText(ChanceV)
+				statFrame.tooltip =format(statFrame.tooltip,ChanceV)
+				statFrame.tooltip2 = format(CR_BLOCK_TOOLTIP, GetCombatRating(5), GetCombatRatingBonus(5), GetShieldBlock());
+			end	
+		end
+		local PaperDollFrame_SetArmor=PaperDollFrame_SetArmor
+		if PIG_MaxTocversion(20000) then
+			PaperDollFrame_SetArmor= function(statFrame)
+				local base, effectiveArmor, _armor, posBuff, negBuff = UnitArmor("player");
+				local totalBufs = posBuff + negBuff;
+				local label = getglobal(statFrame:GetName().."Label");
+				label:SetText(STAT_ARMOR..":")
+				local text = getglobal(statFrame:GetName().."StatText");
+				PaperDollFormatStat(ARMOR, base, posBuff, negBuff, statFrame, text);
 				local playerLevel = UnitLevel("player");
-				local armorReduction = effectiveArmor/((85 * playerLevel) + 400);
-				local armorReduction = 100 * (armorReduction/(armorReduction + 1));
-				local tooltip2txt=format(ARMOR_TOOLTIP, playerLevel, armorReduction)
-				CharacterSetText(CharacterCategory4_4,Round(armorReduction).."%")
-				local playerLevel = UnitLevel("player")+3;
-				local armorReduction = effectiveArmor/((85 * playerLevel) + 400);
-				local armorReduction = 100 * (armorReduction/(armorReduction + 1));
-				local tooltip2txt=tooltip2txt.."\n"..format(ARMOR_TOOLTIP, playerLevel, armorReduction);
-				CharacterCategory4_4.tooltip2=tooltip2txt
-				-- local  baseDefense, armorDefense = UnitDefense("player");
-				-- print(UnitDefense("player"))
-				for skillIndex = 1, GetNumSkillLines() do
-					local skillName, isHeader, isExpanded, skillRank, numTempPoints, skillModifier,skillMaxRank, 
-					isAbandonable, stepCost, rankCost, minLevel, skillCostType,skillDescription = GetSkillLineInfo(skillIndex)
-					if not isHeader and skillName==DEFENSE then
-						CharacterSetText(CharacterCategory4_5,(skillRank+skillModifier).."/"..(skillMaxRank+skillModifier))
-						CharacterCategory4_5.tooltip2=skillDescription
-						break
-					end
-				end
+				local armorReduction = PaperDollFrame_GetArmorReduction(effectiveArmor, playerLevel);
+				statFrame.tooltip2 = format(ARMOR_TOOLTIP, playerLevel, armorReduction);
+			end
+		end
+		local UpdatePaperdollStats=UpdatePaperdollStats or function(name,index,id)
+			local stat1 = shuxingF.fuji.CategoryList[id].Butlist[1]
+			local stat2 = shuxingF.fuji.CategoryList[id].Butlist[2]
+			local stat3 = shuxingF.fuji.CategoryList[id].Butlist[3]
+			local stat4 = shuxingF.fuji.CategoryList[id].Butlist[4]
+			local stat5 = shuxingF.fuji.CategoryList[id].Butlist[5]
+			local stat6 = shuxingF.fuji.CategoryList[id].Butlist[6]
+			if ( index == "PLAYERSTAT_BASE_STATS" ) then
+				stat1.stat = "STRENGTH";
+				stat2.stat = "AGILITY";
+				stat3.stat = "STAMINA";
+				stat4.stat = "INTELLECT";
+				stat5.stat = "SPIRIT";
+				PaperDollFrame_SetStat(stat1, 1);
+				PaperDollFrame_SetStat(stat2, 2);
+				PaperDollFrame_SetStat(stat3, 3);
+				PaperDollFrame_SetStat(stat4, 4);
+				PaperDollFrame_SetStat(stat5, 5);
+			elseif ( index == "PLAYERSTAT_MELEE_COMBAT" ) then
+				PaperDollFrame_SetAttack(stat1, 1, DAMAGE_COLON);
+				PaperDollFrame_SetAttack(stat2, 2, SPEED..":");
+				PaperDollFrame_SetAttack(stat3, 3, ATTACK_POWER_COLON);
+				PaperDollFrame_SetAttack(stat4, 4, STAT_HIT_CHANCE..":");
+				PaperDollFrame_SetAttack(stat5, 5, CRIT_CHANCE..":");
+				PaperDollFrame_SetAttack(stat6, 6, STAT_EXPERTISE..":");
+			elseif ( index == "PLAYERSTAT_RANGED_COMBAT" ) then
+				PaperDollFrame_SetAttackRanged(stat1, 1, DAMAGE_COLON);
+				PaperDollFrame_SetAttackRanged(stat2, 2, SPEED..":");
+				PaperDollFrame_SetAttackRanged(stat3, 3, ATTACK_POWER_COLON);
+				PaperDollFrame_SetAttackRanged(stat4, 4, STAT_HIT_CHANCE..":");
+				PaperDollFrame_SetAttackRanged(stat5, 5, CRIT_CHANCE..":");
+			elseif ( index == "PLAYERSTAT_SPELL_COMBAT" ) then
+				PaperDollFrame_SetSpell(stat1,1,BONUS_DAMAGE..":",STAT_SPELLDAMAGE_TOOLTIP);
+				PaperDollFrame_SetSpell(stat2,2,BONUS_HEALING..":",STAT_SPELLHEALING_TOOLTIP);
+				PaperDollFrame_SetSpell(stat3,3,STAT_HIT_CHANCE..":",ITEM_MOD_HIT_SPELL_RATING_SHORT);
+				PaperDollFrame_SetSpell(stat4,4,CRIT_CHANCE..":",ITEM_MOD_CRIT_SPELL_RATING_SHORT);
+				PaperDollFrame_SetSpell(stat5,5,SPELL_HASTE..":",HIGHLIGHT_FONT_COLOR_CODE .. SPELL_HASTE .. FONT_COLOR_CODE_CLOSE);
+				PaperDollFrame_SetSpell(stat6,6,ITEM_MOD_MANA_REGENERATION_SHORT..":",ITEM_MOD_MANA_REGENERATION_SHORT);
+			elseif ( index == "PLAYERSTAT_DEFENSES" ) then
+				PaperDollFrame_SetArmor(stat1);
+				PaperDollFrame_SetDefenses(stat2,2,PLAYERSTAT_DEFENSES,STAT_SPELLHEALING_TOOLTIP);
+				PaperDollFrame_SetDefenses(stat3,3,DODGE_CHANCE..":",DODGE_CHANCE);
+				PaperDollFrame_SetDefenses(stat4,4,PARRY_CHANCE..":",PARRY_CHANCE);
+				PaperDollFrame_SetDefenses(stat5,5,BLOCK_CHANCE..":",BLOCK_CHANCE);
+				PaperDollFrame_SetDefenses(stat6,6,ITEM_MOD_BLOCK_VALUE_SHORT..":",STAT_BLOCK_TOOLTIP);
+			end
+		end
+		local function PaperDollFrameUpdate()
+			if CharacterModelFrame.backdrop then CharacterModelFrame.backdrop:SetPoint("BOTTOMRIGHT",CharacterModelFrame,"BOTTOMRIGHT",5,0);end
+			local avgItemLevel, avgItemLevelEquipped, avgItemLevelPvP = GetAverageItemLevel();
+			shuxingF.fuji.CategoryList[0].Butlist[1].Label:SetText(string.format("%.2f",avgItemLevelEquipped).." / "..string.format("%.2f",avgItemLevel))
+			for i=1, #PLAYERSTAT_DROPDOWN_OPTIONS do
+				UpdatePaperdollStats("CategoryName"..i, PLAYERSTAT_DROPDOWN_OPTIONS[i], i)
 			end
 		end;
 		local function shunxu_paixie(xuhao)
-			shuxingF.fuji.CategoryF_1:ClearAllPoints();
-			shuxingF.fuji.CategoryF_2:ClearAllPoints();
-			shuxingF.fuji.CategoryF_3:ClearAllPoints();
-			shuxingF.fuji.CategoryF_4:ClearAllPoints();
+			for i=2, #PLAYERSTAT_DROPDOWN_OPTIONS do
+				shuxingF.fuji.CategoryList[i]:ClearAllPoints();
+			end
 			if xuhao==1 then
-				shuxingF.fuji.CategoryF_1:SetPoint("TOP", CharacterArmorFrame,"BOTTOM",0, -shuxingF.topJU)
-				shuxingF.fuji.CategoryF_2:SetPoint("TOP", shuxingF.fuji.CategoryF_1,"BOTTOM",0, 0)
-				shuxingF.fuji.CategoryF_3:SetPoint("TOP", shuxingF.fuji.CategoryF_2,"BOTTOM",0, 0)
-				shuxingF.fuji.CategoryF_4:SetPoint("TOP", shuxingF.fuji.CategoryF_3,"BOTTOM",0, 0)
+				shuxingF.fuji.CategoryList[2]:SetPoint("TOP", shuxingF.fuji.CategoryList[1],"BOTTOM",0, 0)
+				shuxingF.fuji.CategoryList[3]:SetPoint("TOP", shuxingF.fuji.CategoryList[2],"BOTTOM",0, 0)
+				shuxingF.fuji.CategoryList[4]:SetPoint("TOP", shuxingF.fuji.CategoryList[3],"BOTTOM",0, 0)
+				shuxingF.fuji.CategoryList[5]:SetPoint("TOP", shuxingF.fuji.CategoryList[4],"BOTTOM",0, 0)
 			elseif xuhao==2 then
-				shuxingF.fuji.CategoryF_2:SetPoint("TOP", CharacterArmorFrame,"BOTTOM",0, -shuxingF.topJU)
-				shuxingF.fuji.CategoryF_1:SetPoint("TOP", shuxingF.fuji.CategoryF_2,"BOTTOM",0, 0)
-				shuxingF.fuji.CategoryF_3:SetPoint("TOP", shuxingF.fuji.CategoryF_1,"BOTTOM",0, 0)
-				shuxingF.fuji.CategoryF_4:SetPoint("TOP", shuxingF.fuji.CategoryF_3,"BOTTOM",0, 0)
+				shuxingF.fuji.CategoryList[3]:SetPoint("TOP", shuxingF.fuji.CategoryList[1],"BOTTOM",0, 0)
+				shuxingF.fuji.CategoryList[2]:SetPoint("TOP", shuxingF.fuji.CategoryList[3],"BOTTOM",0, 0)
+				shuxingF.fuji.CategoryList[4]:SetPoint("TOP", shuxingF.fuji.CategoryList[2],"BOTTOM",0, 0)
+				shuxingF.fuji.CategoryList[5]:SetPoint("TOP", shuxingF.fuji.CategoryList[4],"BOTTOM",0, 0)
 			elseif xuhao==3 then
-				shuxingF.fuji.CategoryF_3:SetPoint("TOP", CharacterArmorFrame,"BOTTOM",0, -shuxingF.topJU)
-				shuxingF.fuji.CategoryF_1:SetPoint("TOP", shuxingF.fuji.CategoryF_3,"BOTTOM",0, 0)
-				shuxingF.fuji.CategoryF_2:SetPoint("TOP", shuxingF.fuji.CategoryF_1,"BOTTOM",0, 0)
-				shuxingF.fuji.CategoryF_4:SetPoint("TOP", shuxingF.fuji.CategoryF_2,"BOTTOM",0, 0)
+				shuxingF.fuji.CategoryList[4]:SetPoint("TOP", shuxingF.fuji.CategoryList[1],"BOTTOM",0, 0)
+				shuxingF.fuji.CategoryList[2]:SetPoint("TOP", shuxingF.fuji.CategoryList[4],"BOTTOM",0, 0)
+				shuxingF.fuji.CategoryList[3]:SetPoint("TOP", shuxingF.fuji.CategoryList[2],"BOTTOM",0, 0)
+				shuxingF.fuji.CategoryList[5]:SetPoint("TOP", shuxingF.fuji.CategoryList[3],"BOTTOM",0, 0)
 			end
 		end
 		local _, classId = UnitClassBase("player");--1战士/2圣骑士/3猎人/4盗贼/5牧师/6死亡骑士/7萨满祭司/8法师/9术士/10武僧/11德鲁伊/12恶魔猎手
@@ -1791,12 +1957,13 @@ function FramePlusfun.Character_Shuxing()
 				shunxu_paixie(1)
 			end
 		end
+		Update_Point_P()
 		PaperDollFrame:HookScript("OnShow", function()
 			if CharacterFrame.backdrop then CharacterFrame.backdrop:SetPoint("BOTTOMRIGHT", PaperDollFrame.pigBGF,"BOTTOMRIGHT", 0, 0);end
 			CharacterFrameCloseButton:SetPoint("CENTER",CharacterFrame,"TOPRIGHT",142,-25)
 			PaperDollFrame.InsetR:SetSidebarTab(1)
 			SetPortraitTexture(PaperDollFrame.InsetR.TabList[1].Icon, "player");
-			if PIG_MaxTocversion(20000) then Update_Point_P() PaperDollFrameUP() end
+			PaperDollFrameUpdate()
 		end)
 		PaperDollFrame:HookScript("OnHide", function()
 			if CharacterFrame.backdrop then CharacterFrame.backdrop:SetPoint("BOTTOMRIGHT", CharacterFrame,"BOTTOMRIGHT", -32, 76);end
@@ -1809,11 +1976,83 @@ function FramePlusfun.Character_Shuxing()
 			PaperDollFrame:RegisterEvent("LEARNED_SPELL_IN_TAB");--学习新法术触发
 		end
 		PaperDollFrame:HookScript("OnEvent", function(self,event,arg1)
-			if PIG_MaxTocversion(20000) then PaperDollFrameUP() end
+			if self:IsVisible() then
+				PaperDollFrameUpdate()
+			end
 		end);
-		--2装备管理
-		add_AutoEquip(PaperDollFrame.InsetR.TabList[2])
-		--3探索符文
+
+		--2装备管理==========
+		if PIG_MaxTocversion(30000) then
+			add_AutoEquip(PaperDollFrame.InsetR.TabList[2])
+		else
+			if NDui then
+				local B = unpack(NDui)
+				local M = B:GetModule("Misc")
+				M.ExGearManager=function()
+				end
+			end
+			SetCVar("equipmentManager","1")
+			local EquipF=PaperDollFrame.InsetR.TabList[2]
+			EquipF:Show()
+			GearManagerToggleButton:ClearAllPoints();
+			GearManagerDialog:ClearAllPoints();
+			hooksecurefunc(PaperDollFrame.InsetR,"SetSidebarTab", function(self,tabid)
+				if tabid==2 then
+					GearManagerDialog:Show();
+					EquipF.Update_SizePoint()
+				else
+					GearManagerDialog:Hide();
+				end
+			end)
+			local butWWw=29
+			for i = 1, MAX_EQUIPMENT_SETS_PER_PLAYER do
+				local button = _G["GearSetButton" .. i]
+				button:SetParent(EquipF.F)
+				button:SetSize(butWWw, butWWw)
+				if ( i == 1 ) then
+					button:SetPoint("TOPLEFT", EquipF.F, "TOPLEFT", 10, -32);
+				else
+					button:SetPoint("TOPLEFT", _G["GearSetButton"..(i-1)], "BOTTOMLEFT", 0, -4);
+				end
+				button.icon:SetSize(butWWw, butWWw)
+				button.text:ClearAllPoints();
+				button.text:SetPoint("LEFT", button, "RIGHT", 4, 0);
+				button.text:SetSize(140,butWWw)
+				button.text:SetJustifyH("LEFT")
+				local regions = {button:GetRegions()}
+				for _,vv in pairs(regions) do
+					if not vv:GetName() then
+						vv:SetSize(butWWw+3, butWWw+3)
+					end
+				end
+			end
+			function EquipF.Update_SizePoint()
+				GearManagerDialogEquipSet:SetParent(EquipF.F)
+				GearManagerDialogSaveSet:SetParent(EquipF.F)
+				GearManagerDialogDeleteSet:SetParent(EquipF.F)
+				GearManagerDialogPopup:SetParent(EquipF.F)
+				GearManagerDialogEquipSet:SetWidth(52)
+				GearManagerDialogEquipSet:ClearAllPoints();
+				GearManagerDialogEquipSet:SetPoint("TOPLEFT", EquipF.F, "TOPLEFT", 10, -5);
+				GearManagerDialogSaveSet:SetWidth(52)
+				GearManagerDialogSaveSet:ClearAllPoints();
+				GearManagerDialogSaveSet:SetPoint("LEFT", GearManagerDialogEquipSet, "RIGHT", 8, 0);
+				GearManagerDialogDeleteSet:SetWidth(52)
+				GearManagerDialogDeleteSet:ClearAllPoints();
+				GearManagerDialogDeleteSet:SetPoint("LEFT", GearManagerDialogSaveSet, "RIGHT", 8, 0);
+				GearManagerDialogPopup:ClearAllPoints();
+				GearManagerDialogPopup:SetPoint("TOPLEFT", PaperDollFrame, "TOPRIGHT", -38, 0);
+				for i = 1, MAX_EQUIPMENT_SETS_PER_PLAYER do
+					local button = _G["GearSetButton" .. i]
+					button.text:SetSize(140,butWWw)
+				end
+			end
+			hooksecurefunc("GearManagagerDialogPopup_AdjustAnchors", function()
+				EquipF.Update_SizePoint()
+			end)
+		end
+
+		--3探索符文=========
 		if C_Engraving and C_Engraving.IsEngravingEnabled() then
 			hooksecurefunc("ToggleEngravingFrame", function()
 				EngravingFrame:Hide()
@@ -1961,54 +2200,6 @@ function FramePlusfun.Character_Shuxing()
 			end)
 		end
 		HideUIPanel(CharacterFrame);
-	elseif PIG_MaxTocversion(40000) then
-		if NDui then return end
-		local kaiqiq=GetCVar("equipmentManager")
-		if kaiqiq=="0" then
-			SetCVar("equipmentManager","1")
-			PIG_OptionsUI:ErrorMsg("已打开装备管理功能")
-		end
-		local function Update_SizePoint()
-			GearManagerDialog:SetSize(200, 430)
-			GearManagerDialogEquipSet:SetWidth(60)
-			GearManagerDialogEquipSet:ClearAllPoints();
-			GearManagerDialogEquipSet:SetPoint("TOPLEFT", GearManagerDialog, "TOPLEFT", 10, -30);
-			GearManagerDialogSaveSet:SetWidth(50)
-			GearManagerDialogSaveSet:ClearAllPoints();
-			GearManagerDialogSaveSet:SetPoint("LEFT", GearManagerDialogEquipSet, "RIGHT", 8, 0);
-			GearManagerDialogDeleteSet:SetWidth(50)
-			GearManagerDialogDeleteSet:ClearAllPoints();
-			GearManagerDialogDeleteSet:SetPoint("LEFT", GearManagerDialogSaveSet, "RIGHT", 8, 0);
-			GearManagerDialogPopup:ClearAllPoints();
-			GearManagerDialogPopup:SetPoint("TOPLEFT", GearManagerDialog, "TOPRIGHT", 0, 0);
-		end
-		hooksecurefunc("GearManagagerDialogPopup_AdjustAnchors", function()
-			GearManagerDialogPopup:ClearAllPoints();
-			GearManagerDialogPopup:SetPoint("TOPLEFT", GearManagerDialog, "TOPRIGHT", -8, 0);
-		end)
-		GearManagerDialog:HookScript("OnShow", function()
-			Update_SizePoint()
-		end)
-		for i = 1, MAX_EQUIPMENT_SETS_PER_PLAYER do
-			local button = _G["GearSetButton" .. i]
-			button:SetSize(30, 30)
-			if ( i == 1 ) then
-				button:SetPoint("TOPLEFT", GearManagerDialog, "TOPLEFT", 16, -62);
-			else
-				button:SetPoint("TOPLEFT", _G["GearSetButton"..(i-1)], "BOTTOMLEFT", 0, -6);
-			end
-			button.text:ClearAllPoints();
-			button.text:SetPoint("LEFT", button, "RIGHT", 4, 0);
-			button.text:SetWidth(140)
-			button.text:SetJustifyH("LEFT")
-			button.icon:SetSize(30, 30)
-			local regions = {button:GetRegions()}
-			for _,vv in pairs(regions) do
-				if not vv:GetName() then
-					vv:SetSize(36, 36)
-				end
-			end
-		end
 	elseif PIG_MaxTocversion() then
 		PaperDollFrame:HookScript("OnShow", function()
 			CharacterFrame:Expand()

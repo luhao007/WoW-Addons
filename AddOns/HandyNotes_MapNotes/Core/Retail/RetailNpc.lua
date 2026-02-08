@@ -441,9 +441,15 @@ function ns.NpcTooltips(tooltip, nodeData )
         end
       end
 
+      local npcInfo = nodeData["npcIDs" .. i .. "Info"]
+      if npcInfo and npcInfo ~= "" then
+        tooltip:AddLine("|cffffffff" .. npcInfo .. "|r", 1, 1, 1, true)
+      end
+
       if i < 10 and (nodeData["npcIDs"..(i+1)] or nodeData.dnID) then
         tooltip:AddLine(" ")
       end
+
     end
   end
 

@@ -1,9 +1,9 @@
 ## Interface: 120000
-## Version: #Details.20260123.14324.166
+## Version: #Details.20260206.14502.168
 
 ## Title: Details! Damage Meter
 ## Notes: Essential tool to impress that chick in your raid.
-## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r|cFFFFFFFF伤害统计|r |cFFFFE00ADetails|r
+## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r|cFFFFFFFF伤害统计|r |cFFFFE00ADetails! Damage Meter|r
 ## Notes-zhCN: 功能强大的伤害统计插件
 
 ## IconTexture: Interface\AddOns\Details\images\minimap

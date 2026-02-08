@@ -269,7 +269,7 @@ class Manager:
             "\n",
             "# Ace3 Libs\n",
             "Ace3\\AceAddon-3.0\\AceAddon-3.0.xml\n",
-            # "Ace3\\AceEvent-3.0\\AceEvent-3.0.xml\n",
+            "Ace3\\AceEvent-3.0\\AceEvent-3.0.xml\n",
             "Ace3\\AceTimer-3.0\\AceTimer-3.0.xml\n",
             "Ace3\\AceBucket-3.0\\AceBucket-3.0.xml\n",
             "Ace3\\AceHook-3.0\\AceHook-3.0.xml\n",
@@ -499,7 +499,22 @@ class Manager:
             "onclick_what_todo = 1, text_type = 1, text_format = 3},",
         )
 
-        if os.path.exists("Addons/Details_Streamer"):
+        if utils.get_platform() == "retail":
+            # Remove the plugins that is not available since Midnight
+            plugins = [
+                "DataStorage",
+                "EncounterDetails",
+                "RaidCheck",
+                "Streamer",
+                "TinyThreat",
+                "Vanguard",
+            ]
+            for plugin in plugins:
+                path = f"Addons/Details_{plugin}"
+                if os.path.exists(path):
+                    shutil.rmtree(path)
+
+        elif os.path.exists("Addons/Details_Streamer"):
             utils.change_defaults(
                 "Addons/Details_Streamer/Details_Streamer.lua",
                 "					minimap = {hide = true, radius = 160, minimapPos = 160},",

@@ -48,9 +48,9 @@ end)
 --
 CABarF.CZBUT = PIGButton(CABarF,{"TOPRIGHT",CABarF,"TOPRIGHT",-20,-12},{60,22},RESET);  
 CABarF.CZBUT:SetScript("OnClick", function ()
-	StaticPopup_Show ("CHONGZHI_QUICKBUT");
+	StaticPopup_Show ("CHONGZHI_CONSACTIONBAR");
 end);
-StaticPopupDialogs["CHONGZHI_QUICKBUT"] = {
+StaticPopupDialogs["CHONGZHI_CONSACTIONBAR"] = {
 	text = "此操作将|cffff0000重置|r"..LocaleName.."配置。\n确定重置?",
 	button1 = YES,
 	button2 = NO,

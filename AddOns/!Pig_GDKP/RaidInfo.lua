@@ -191,7 +191,7 @@ function GDKPInfo.ADD_RaidInfo(RaidR)
 						-- 
 						local AllName = infoData[p][pp][1]
 						fujibut.AllName=AllName
-						local name,server = strsplit("-", AllName);
+						local name,server = strsplit("-", AllName, 2);
 						if server then
 							fujibut.Text:SetText(name.."(*)")
 						else

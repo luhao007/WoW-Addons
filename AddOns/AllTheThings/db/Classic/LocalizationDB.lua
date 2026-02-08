@@ -1305,17 +1305,17 @@ _.Modules.Events.SetEventInformation(13, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=5,["monthDay"]=1,["weekday"]=7,["year"]=2027},{["hour"]=23,["minute"]=59,["month"]=5,["monthDay"]=7,["weekday"]=6,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(1, {
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=6,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=13,["weekday"]=1,["year"]=2026},{["remappedID"]=375}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=3,["weekday"]=1,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=10,["weekday"]=1,["year"]=2027},{["remappedID"]=374}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=7,["weekday"]=1,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=14,["weekday"]=1,["year"]=2027},{["remappedID"]=375}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=7,["weekday"]=1,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=14,["weekday"]=1,["year"]=2027},{["remappedID"]=374}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=4,["monthDay"]=4,["weekday"]=1,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=4,["monthDay"]=11,["weekday"]=1,["year"]=2027},{["remappedID"]=375}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=5,["monthDay"]=2,["weekday"]=1,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=5,["monthDay"]=9,["weekday"]=1,["year"]=2027},{["remappedID"]=374}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=6,["monthDay"]=6,["weekday"]=1,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=6,["monthDay"]=13,["weekday"]=1,["year"]=2027},{["remappedID"]=375}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=7,["monthDay"]=4,["weekday"]=1,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=7,["monthDay"]=11,["weekday"]=1,["year"]=2027},{["remappedID"]=374}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=1,["weekday"]=1,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=8,["weekday"]=1,["year"]=2027},{["remappedID"]=375}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=5,["weekday"]=1,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=12,["weekday"]=1,["year"]=2027},{["remappedID"]=374}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=10,["monthDay"]=3,["weekday"]=1,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=10,["monthDay"]=10,["weekday"]=1,["year"]=2027},{["remappedID"]=375})
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=4,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=11,["weekday"]=1,["year"]=2026},{["remappedID"]=374}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=1,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=8,["weekday"]=1,["year"]=2026},{["remappedID"]=375}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=1,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=8,["weekday"]=1,["year"]=2026},{["remappedID"]=374}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=4,["monthDay"]=5,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=4,["monthDay"]=12,["weekday"]=1,["year"]=2026},{["remappedID"]=375}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=5,["monthDay"]=3,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=5,["monthDay"]=10,["weekday"]=1,["year"]=2026},{["remappedID"]=374}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=6,["monthDay"]=7,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=6,["monthDay"]=14,["weekday"]=1,["year"]=2026},{["remappedID"]=375}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=7,["monthDay"]=5,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=7,["monthDay"]=12,["weekday"]=1,["year"]=2026},{["remappedID"]=374}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=2,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=9,["weekday"]=1,["year"]=2026},{["remappedID"]=375}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=6,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=13,["weekday"]=1,["year"]=2026},{["remappedID"]=374}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=10,["monthDay"]=4,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=10,["monthDay"]=11,["weekday"]=1,["year"]=2026},{["remappedID"]=375}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=1,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=8,["weekday"]=1,["year"]=2026},{["remappedID"]=374})
 });
 
 -- Filter Database Module
@@ -32231,7 +32231,9 @@ L.APPEARANCES_CHECKBOX = "外觀";
 L.APPEARANCES_CHECKBOX_TOOLTIP = "啟用此選項可追蹤外觀獲得。\n\n注意: 停用此選項也會停用所有採集邏輯，你可以使用此切換來防止在執行重要組內容時出現延遲，請牢記，重新啟用後將需要進行計算。";
 L.APPLY_SEARCH_FILTER = "套用搜尋篩選";
 L.APPLY_SEARCH_FILTER_DESC = "請選擇一個搜尋篩選選項。";
+L.ART_ID = "美術 ID";
 L.ARTIFACT_CACHE_OUT_OF_DATE = "考古學快取已過時/不準確，將在登錄每個角色時重新快取！";
+L.ARTIFACT_ID = "神兵武器 ID";
 L.ARTIFACT_INTRO_REWARD = "完成該神器的介紹任務後獲得。";
 L.ARTIFACT_RELIC_CACHE = "打開所有神器武器的用戶介面以快取這是否是升級。這對於確定您是否可以將此物品交易給小伙伴很有用。 ";
 L.ARTIFACT_RELIC_COMPLETION = "神器聖物完成度";
@@ -32271,6 +32273,7 @@ L.BREADCRUMB_PARTYSYNC_4 = "如果嘗試通過隊伍同步獲得此任務，請�
 L.BREADCRUMBS = "無關緊要";
 L.BREADCRUMBS_WARNING = "完成此任務後可能無法獲得無關緊要的任務：";
 L.CACHED_RECIPES_1 = "快取 ";
+L.CAMPSITE_ID = "營地 ID";
 L.CAMPSITES_CHECKBOX_TOOLTIP = "啟用此選項來追蹤戰隊營區的完成情況。";
 L.CATALYST = "催化器";
 L.CELEBRATE_COLLECTED_CHECKBOX = "收藏事物觸發慶祝音效";
@@ -32308,6 +32311,7 @@ L.COST_DESC = "這裡面包含了獲得或購買這個物品所需要的物品";
 L.COST_TOTAL = "總花費";
 L.COST_TOTAL_DESC = "其中包含獲得或購買頂級分組內所有物品所需的直觀分類。\n\n注意：目前不包括藥劑/配方需求！";
 L.CRITERIA_FOR = "準則";
+L.CRITERIA_ID = "條件 ID";
 L.CURRENCY_FOR = "貨幣";
 L.CURRENCY_ID = "貨幣 ID";
 L.CURRENCY_NEEDED_TO_BUY = "需要購買物品未收藏的事物";
@@ -32321,6 +32325,7 @@ L.DEATHS_CHECKBOX_TOOLTIP = "啟用此選項可追蹤您的角色每次死亡的
 L.DEBUG_LOGIN = "登錄後獲得的獎勵。\n\n幹得好！你做到了！\n\n僅在偵錯模式下可見。";
 L.DEBUG_MODE = "|c" .. _.DefaultColors.Red .. "偵錯模式|cffffffff（顯示所有）|r|r";
 L.DEBUG_MODE_TOOLTIP = "就字面意思…遊戲中的所有事情。時間。點滴。是的，所有的一切。即使是不可收藏的事物，如袋子、消耗品、試劑等也會出現在列表中。（甚至你自己！不，是真的。看。）\n\n這僅用於偵錯目的。不用於完成追蹤。\n\n此模式將忽略所有篩選，包括無法獲得的。";
+L.DECOR_ID = "裝飾 ID";
 L.DELETE_CHARACTER = "右擊刪除此角色";
 L.DELETE_LINKED_ACCOUNT = "右擊刪除此連接帳號";
 L.DELETE_LINKED_CHARACTER = "右擊刪除此連接角色";
@@ -32330,6 +32335,7 @@ L.DESCRIPTION = "\"你愚昧地尋求自我毀滅，大膽地無視了那些超�
 L.DIFFICULTY_ID = "難度 ID";
 L.DISABLE_PARTYSYNC = "即使使用隊伍同步，這個角色也可能無法完成。如果您以其他方式管理，請在 Discord 上告訴我們！";
 L.DISCORD_BUTTON_TOOLTIP = "點擊按鈕複製 URL 到All The Things Discord 伺服器。\n\n可以與其他收藏家分享進步/挫折！";
+L.DISPLAY_ID = "顯示 ID";
 L.DISPLAY_IN_COMBAT_CHECKBOX = "在戰鬥中";
 L.DISPLAY_IN_COMBAT_CHECKBOX_TOOLTIP = "如果要在戰鬥中呈現指標提示資訊，請啟用此選項。\n\n如果你正在同你的公會進行史詩/大秘境活動，你可能應該關閉這個設定以盡可能節省性能。\n\n當你在單刷時它可以很有用，可以立即知道你需要從首領那裡得到什麼。";
 L.DOES_NOT_CONTRIBUTE_TO_PROGRESS = "|cffe08207該組及其內容不參與此視窗的進度，因為它來自另一個位置！|r";
@@ -32417,6 +32423,7 @@ L.GENERAL_PAGE = "共通";
 L.GENERAL_THINGS_LABEL = "共通事物";
 L.GO_GO_RANDOM = "隨機 - 去看看！";
 L.GO_GO_RANDOM_DESC = "此視窗允許隨機選擇要獲得的地點或物品。去吧！";
+L.GUID = "全域 ID";
 L.HEADER_ID = "標頭 ID";
 L.HEIRLOOM_TEXT = "解鎖傳家寶";
 L.HEIRLOOM_TEXT_DESC = "顯示你是否已經獲得或購買了傳家寶。";
@@ -32434,6 +32441,7 @@ L.ICON_LEGEND_STATUS_LABEL = "圖標圖例";
 L.ICON_LEGEND_STATUS_TEXT = "|c" .. _.DefaultColors.White .. "|T" .. _.asset("status-unobtainable") .. ":0|t 無法獲得\n|T" .. _.asset("status-prerequisites") .. ":0|t 僅在滿足先決條件的情況下獲得\n|T" .. _.asset("status-seasonal-available") .. ":0|t 季節性內容\n|T" .. _.asset("status-seasonal-unavailable") .. ":0|t 季節性內容\n|T374225:0|t 當前角色不可用\n|T" .. _.asset("status-unsorted") .. ":0|t Unsorted in ATT|r";
 L.ICON_ONLY_CHECKBOX = "僅圖標";
 L.ICON_ONLY_CHECKBOX_TOOLTIP = "如果只想在右上角看到圖標而不是圖標和已收藏/未收藏的文字，請啟用此選項。\n\n有些人喜歡更小的指標提示…";
+L.ICON_PATH = "圖示路徑";
 L.IGNORE_FILTERS_FOR_BOES_CHECKBOX = "忽略裝備綁定/拾取綁定的篩選";
 L.IGNORE_FILTERS_FOR_BOES_CHECKBOX_TOOLTIP = "如果要忽略裝備綁定/拾取綁定物品的裝備、武器、種族、等級或職業要求，請啟用此設定。\n\n如果你正試圖通過拍賣行掃描收藏你的物品，此模式可能對你有用。";
 L.ILLUSIONS_CHECKBOX_TOOLTIP = "啟用此選項以追蹤幻象。\n\n這些看起來很酷的塑形效果，你可以套用到你的武器上！\n\n注意：你不是一個幻象，儘管所有的夜裔精靈都這麼認為。";
@@ -32741,6 +32749,7 @@ L.SPEC_CHECKBOX = "專精";
 L.SPEC_CHECKBOX_TOOLTIP = "啟用該選項，可以在遊戲客戶端提供的物品指標提示中顯示物品的戰利品專精資訊。\n\n注意：無論該設定如何，這些圖標仍將出現在 ATT 小列表中。";
 L.SPECIES_ID = "品種 ID";
 L.SPELL_ID = "法術 ID";
+L.SPELL_NAME = "法術名稱";
 L.SPLIT = "按難度";
 L.STORE_IN_PROFILE_BUTTON = "儲存在設定檔中";
 L.STORE_IN_PROFILE_BUTTON_TOOLTIP = "預設情況下，ATT 會依角色儲存這些篩選器。\n\n勾選此選項可將這些篩選器儲存在目前的設定檔，而不是依角色儲存。";
@@ -32900,6 +32909,7 @@ localize(ObjectNames, {
 	[180248] = "可口魚魚群",
 	[180456] = "次級風石",
 	[180461] = "風石",
+	[100000000] = "考古學家的推車",
 });
 for key,value in pairs({
 	[1] = "從未實裝 [NYI]",

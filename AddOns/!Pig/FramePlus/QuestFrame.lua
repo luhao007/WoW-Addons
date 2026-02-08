@@ -196,61 +196,72 @@ end
 --任务完成
 local QuestsEndFrameUI = CreateFrame("Frame");
 QuestsEndFrameUI.EndList={}
+local function PIG_PlaySoundAudio(ok,questID)										
+	if ok and not QuestsEndFrameUI.initialize and not QuestsEndFrameUI.EndList[questID] then
+		PIG_PlaySoundFile(AudioData.QuestEnd[PIGA["Common"]["QuestsEndAudio"]])
+	end
+	QuestsEndFrameUI.EndList[questID]=ok
+end
 local function GetQuestsInfo(event)
 	if PIG_MaxTocversion() then
-		for i=1, GetNumQuestWatches() do
-			local questIndex = GetQuestIndexForWatch(i);
-			if ( questIndex ) then
-				local numObjectives = GetNumQuestLeaderBoards(questIndex);
-				if ( numObjectives > 0 ) then
-					local yiwanchengV=true
-					local _, _, _, _, _, _, _, questID = GetQuestLogTitle(questIndex)
-					for j=1, numObjectives do
-						local _, _, finished = GetQuestLogLeaderBoard(j, questIndex);
-						if not finished then yiwanchengV=false break end
-					end
-					if yiwanchengV then
-						if event~="PLAYER_ENTERING_WORLD" and not QuestsEndFrameUI.EndList[questID] then
-							PIG_PlaySoundFile(AudioData.QuestEnd[PIGA["Common"]["QuestsEndAudio"]])
-						end
-						QuestsEndFrameUI.EndList[questID]=true
-					end
-				end
+		if QuestMapFrame then QuestMapFrame.ignoreQuestLogUpdate = true end
+		local numShownEntries = GetNumQuestLogEntries()
+		for questIndex=1,numShownEntries do	
+			local title, level, suggestedGroup, isHeader, isCollapsed, isComplete, frequency, questID = GetQuestLogTitle(questIndex)
+			if isHeader and isCollapsed then--是标题
+				ExpandQuestHeader(questIndex)
+				return
 			end
 		end
+		local numShownEntries, numQuests = GetNumQuestLogEntries()
+		for questIndex=1,numShownEntries do	
+			local title, level, suggestedGroup, isHeader, isCollapsed, isComplete, frequency, questID = GetQuestLogTitle(questIndex)
+			if not isHeader then
+				-- local numQuestLogLeaderBoards,= GetNumQuestLeaderBoards(questID)--子项目完成情况
+				-- for ii=1,1 do
+				-- 	local description, objectiveType, isCompleted = GetQuestLogLeaderBoard(ii, questIndex)
+				-- 	print(description, objectiveType, isCompleted)
+				-- end
+				PIG_PlaySoundAudio(isComplete,questID)
+			end
+		end
+		if QuestMapFrame then QuestMapFrame.ignoreQuestLogUpdate = nil end
 	else
-		local numQuestWatches = C_QuestLog.GetNumQuestWatches()
-		for questIndex=1,numQuestWatches do
-			local numObjectives = GetNumQuestLeaderBoards(questIndex);
-			if ( numObjectives > 0 ) then
-				local questID = C_QuestLog.GetQuestIDForQuestWatchIndex(questIndex)
-				local yiwanchengV=true
-				for j=1, numObjectives do
-					local _, _, finished = GetQuestLogLeaderBoard(j, questIndex);
-					if not finished then yiwanchengV=false break end
-				end
-				if yiwanchengV then
-					if event~="PLAYER_ENTERING_WORLD" and not QuestsEndFrameUI.EndList[questID] then
-						PIG_PlaySoundFile(AudioData.QuestEnd[PIGA["Common"]["QuestsEndAudio"]])
+		local numShownEntries, numQuests = C_QuestLog.GetNumQuestLogEntries()
+		for i=1,numShownEntries do
+			local info = C_QuestLog.GetInfo(i)
+			if not info.isHeader then
+				local objectives = C_QuestLog.GetQuestObjectives(info.questID)
+				local renwuzixiang = #objectives
+				if renwuzixiang>0 then
+					local yiwancheng = true
+					for ii=1,renwuzixiang do
+						if not objectives[ii].finished then
+							yiwancheng = objectives[ii].finished
+							break
+						end
 					end
-					QuestsEndFrameUI.EndList[questID]=true
+					PIG_PlaySoundAudio(yiwancheng,info.questID)
 				end
 			end
 		end
 	end
+	
 end
--- QuestsEndFrameUI:RegisterEvent("QUEST_LOG_UPDATE")
--- QuestsEndFrameUI:RegisterEvent("QUEST_WATCH_UPDATE")
--- QuestsEndFrameUI:RegisterEvent("QUEST_WATCH_LIST_CHANGED")
 QuestsEndFrameUI:SetScript("OnEvent", function(self,event)
 	if event == "PLAYER_ENTERING_WORLD" then
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+		self:RegisterEvent("QUEST_LOG_UPDATE")
+		self:RegisterEvent("QUEST_WATCH_UPDATE")
+		self:RegisterEvent("QUEST_WATCH_LIST_CHANGED")
 		self:RegisterUnitEvent("UNIT_QUEST_LOG_CHANGED","player")
+		self.initialize=true
 		GetQuestsInfo(event)
-	else
-		C_Timer.After(0.6,function()
-			GetQuestsInfo(event)
+		C_Timer.After(3,function()
+			self.initialize=nil
 		end)
+	else
+		GetQuestsInfo(event)
 	end
 end)
 function FramePlusfun.QuestsEnd()

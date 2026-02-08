@@ -518,6 +518,12 @@
 		<Title>游戏字体</Title>
 		<Category>界面</Category>
 	</Addon>
+	<Addon name="CooldownManagerCentered">
+		<Title>冷却管理器增强</Title>
+		<Title-en>|cff008945Cool|r|cff1e9a4e|r|cff3faa4fdown Ma|r|cff5fb64anag|r|cff7ac243er Ce|r|cff8ccd00ntered|r</Title-en>
+		<Notes>为Blizzard自带的冷却管理器增加一些功能，诸如显示按键等等</Notes>
+		<Category>战斗</Category>
+	</Addon>
 	<Addon name="CritSound">
 		<Title>爆击音效</Title>
 		<Category>战斗</Category>
@@ -931,6 +937,7 @@
 	</Addon>
 	<Addon name="Details">
 		<Title>伤害统计</Title>
+		<Title-en>Details! Damage Meter</Title-en>
 		<Notes>功能强大的伤害统计插件</Notes>
 		<Category>战斗</Category>
 		<SubAddons>
@@ -1189,7 +1196,7 @@
 				<TitleExtra>军团再临</TitleExtra>
 			</SubAddon>
 			<SubAddon name="HandyNotes_MapNotes">
-				<Title>地图标记</Title>
+				<Title>|cffff0000地图|r|cff00ccff笔记|r</Title>
 				<Notes>显示副本入口，主城NPC等信息</Notes>
 			</SubAddon>
 			<SubAddon name="HandyNotes_Midnight">
@@ -1426,6 +1433,11 @@
 		<Notes>坐骑手册增强，支持随机坐骑。</Notes>
 		<Category>收藏</Category>
 	</Addon>
+	<Addon name="MountJournalEnhanced">
+		<Title>坐骑手册增强</Title>
+		<Notes>坐骑手册增强。</Notes>
+		<Category>收藏</Category>
+	</Addon>
 	<Addon name="MRT">
 		<Title>Method团队助手</Title>
 		<Notes>提供团队和小队的一些辅助功能</Notes>
@@ -1539,6 +1551,10 @@
 		<Title>血条增强</Title>
 		<Notes>自定义血条显示</Notes>
 		<Category>界面</Category>
+	</Addon>
+	<Addon name="Plumber">
+		<Title>水管工</Title>
+		<Category>功能</Category>
 	</Addon>
 	<Addon name="Prat-3.0">
 		<Title>聊天增强</Title>
@@ -1699,6 +1715,11 @@
 	<Addon name="SenderInfo">
 		<Title>开团助手</Title>
 		<Category>社交</Category>
+	</Addon>
+	<Addon name="SenseiClassResourceBar">
+		<Title>Sensei职业资源条</Title>
+		<Notes>显示职业资源条，如盗贼的能量条，法师的法力宝珠等</Notes>
+		<Category>战斗</Category>
 	</Addon>
 	<Addon name="SimpleChat">
 		<Title>简单聊天增强</Title>
@@ -1944,6 +1965,17 @@
 		<Title>饰品助手</Title>
 		<Notes>小巧独立的饰品管理器</Notes>
 		<Category>功能</Category>
+	</Addon>
+	<Addon name="tullaCTC">
+		<Title>冷却助手</Title>
+		<Notes>显示冷却时间</Notes>
+		<Category>战斗</Category>
+		<SubAddons>
+			<SubAddon name="tullaCTC_Config">
+				<Title>设置</Title>
+				<Notes>tullaCTC设置模块</Notes>
+			</SubAddon>
+		</SubAddons>
 	</Addon>
 	<Addon name="tullaRange">
 		<Title>技能距离检测</Title>

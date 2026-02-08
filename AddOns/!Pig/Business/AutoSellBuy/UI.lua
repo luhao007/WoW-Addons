@@ -316,13 +316,6 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 		hang.icon:SetSize(hang_Height-1,hang_Height-1);
 		hang.icon:SetPoint("LEFT", hang.check, "RIGHT", 0,0);
 		hang.link = PIGFontString(hang,{"LEFT", hang.icon, "RIGHT", 4,0})
-		function hang:ShowInfoFun(itemLink)
-			self.itemLink=itemLink
-			local ItemLevel = GetDetailedItemLevelInfo(itemLink)
-			local ItemLevel=ItemLevel or "*"
-			print(itemLink)
-			self.link:SetText(ItemLevel..itemLink);	
-		end
 	end
 	function fuFrame.UpdateListHang_addBag()
 		if not fuFrame.List.addList:IsShown() then return end
@@ -382,7 +375,6 @@ function BusinessInfo.ADDScroll(fuFrame,text,hangName,hang_NUM,Config1)
 		    	hang.icon:SetTexture(bagshujuy[dangqianH][3]);
 		    	hang.itemID=bagshujuy[dangqianH][1]
 		    	hang.link:SetText(bagshujuy[dangqianH][7]..bagshujuy[dangqianH][2]);
-				--Fun.HY_ShowItemLink(hang,bagshujuy[dangqianH][1],bagshujuy[dangqianH][2])
 				if fuFrame.List.addList.lx=="filtra" then
 					hang.check.icon:SetSize(hang_Height-9,hang_Height-9);
 					hang.check.icon:SetTexture("interface/common/voicechat-muted.blp");

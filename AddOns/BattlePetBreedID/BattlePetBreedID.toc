@@ -1,6 +1,6 @@
 ## Interface: 120000
 ## Author: Simca@Malfurion
-## Version: v1.39.0
+## Version: v1.39.2
 
 ## Title: Battle Pet BreedID
 ## Notes: Displays the BreedID of pets in your journal, in battle, in chat links, and in AH tooltips.
@@ -13,7 +13,7 @@
 ## SavedVariables: BPBID_Options
 
 ## X-Category: Pet Battles
-## X-Date: 2026-01-20T19:24:45Z
+## X-Date: 2026-02-01T07:22:55Z
 ## X-License: BSD
 ## X-Localizations: enUS
 ## X-Curse-Project-ID: 45935
@@ -24,3 +24,4 @@ BattlePetBreedID.lua
 PetData.lua
 BreedTooltips.lua
 OptionsPanel.lua
+BPBIDAccessOptions.lua

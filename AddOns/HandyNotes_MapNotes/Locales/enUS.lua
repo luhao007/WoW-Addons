@@ -407,7 +407,10 @@ L["Secret Entrance"] = true
 L["Ogre Waygate to Garrison"] = true
 L["in the basement"] = true
 L["(on the tower)"] = true
+L["(on the platform)"] = true
+L["to the platform"] = true
 L["(inside building)"] = true
+L["inside the cave"] = true
 L["talk to"] = true
 --10 places
 L["Torghast"] = true -- in process

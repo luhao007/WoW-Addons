@@ -923,11 +923,82 @@ ns.currentSourceFile = "RetailZoneMiniMapLocation.lua"
 
             -- Quel'Thalas Portals
             if self.db.profile.showMiniMapPortals then
-              minimap[2413][54895146] = { mnID = 2576, name = "", TransportName = L["Way to"] .. " " .. L["Portal"] .. "\n   => " .. ns.VoidTempest .. "\n   => " .. ns.SilvermoonMN, type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true }
               minimap[2576][64687098] = { mnID = 2393, name = "", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true }
               minimap[2576][61787348] = { mnID = 2405, name = "", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true }
               minimap[2405][51717041] = { mnID = 2413, name = "", type = "PortalS", showInZone = false, showOnContinent = false, showOnMinimap = true }
               minimap[2405][51527029] = { mnID = 2405, name = "", type = "PortalS", showInZone = false, showOnContinent = false, showOnMinimap = true }
+              minimap[2424][51925636] = { mnID = 2405, name = "", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true }
+              minimap[2405][45436377] = { mnID = 2424, name = "", type = "PortalS", showInZone = false, showOnContinent = false, showOnMinimap = true }
+              minimap[2413][53545571] = { mnID = 2576, name = "", TransportName = L["inside the cave"] .. ":\n" .. TextIconPortalOld:GetIconString() .. " " .. L["Portal"] .. " " .. ns.VoidTempest .. "\n" .. TextIconPortalOld:GetIconString() .. " " .. L["Portal"] .. " " .. ns.SilvermoonMN, type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
+
+             -- Quel'Thalas Transport
+            if self.db.profile.showMiniMapTransport then
+              minimap[2395][45164594] = { name = L["to the platform"], type = "Tport2", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
+
+          end
+
+          --Professions
+          if self.db.profile.activate.MiniMapProfessions then
+
+            if self.db.profile.showMiniMapAlchemy then
+              minimap[2413][53464987] = { npcID = 254865, name = "", type = "Alchemy", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
+          
+            if self.db.profile.showMiniMapLeatherworking then
+              --minimap[2216][43771954] = { npcID = 218164, name = "", type = "Leatherworking", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
+
+            if self.db.profile.showMiniMapEngineer then
+              --minimap[2256][51387631] = { npcID = 218186, name = "", type = "Engineer", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
+
+            if self.db.profile.showMiniMapSkinning then
+              minimap[2437][45226983] = { npcID = 255095, name = "", type = "Skinning", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
+
+            if self.db.profile.showMiniMapTailoring then
+              --minimap[2216][49711743] = { npcID = 218181, name = "", type = "Tailoring", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
+
+            if self.db.profile.showMiniMapBlacksmith then
+              minimap[2405][51536935] = { npcID = 218167, name = "", type = "Blacksmith", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
+
+            if self.db.profile.showMiniMapMining then
+              --minimap[2216][46842255] = { npcID = 218167, name = "", type = "Mining", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
+
+            if self.db.profile.showMiniMapFishing then
+              minimap[2395][48677610] = { npcID = 247800, name = "", type = "Fishing", showInZone = false, showOnContinent = false, showOnMinimap = true }
+              minimap[2437][38342140] = { npcID = 253039, name = "", type = "Fishing", showInZone = false, showOnContinent = false, showOnMinimap = true }
+              minimap[2437][48682582] = { npcID = 255185, name = "", type = "Fishing", showInZone = false, showOnContinent = false, showOnMinimap = true }
+              minimap[2437][46327042] = { npcID = 255092, name = "", type = "Fishing", showInZone = false, showOnContinent = false, showOnMinimap = true }
+              minimap[2405][50886852] = { npcID = 254707, name = "", type = "Fishing", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
+
+            if self.db.profile.showMiniMapCooking then
+              minimap[2395][47656777] = { npcID = 245741, name = "", type = "Cooking", showInZone = false, showOnContinent = false, showOnMinimap = true }
+              minimap[2437][37142108] = { npcID = 253037, name = "", type = "Cooking", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
+
+            if self.db.profile.showMiniMapEnchanting then
+              minimap[2395][44184628] = { npcID = 242993, name = "", type = "Enchanting", showInZone = false, showOnContinent = false, showOnMinimap = true, dnID = L["(on the platform)"] }
+            end
+
+            if self.db.profile.showMiniMapJewelcrafting then
+              --minimap[2216][47751925] = { npcID = 218180, name = "", type = "Jewelcrafting", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
+
+            if self.db.profile.showMiniMapHerbalism then            
+              minimap[2405][51646803] = { npcID = 254703, name = "", type = "Herbalism", showInZone = false, showOnContinent = false, showOnMinimap = true }
+              minimap[2413][52925023] = { npcID = 254855, name = "", type = "Herbalism", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
+
+            if self.db.profile.showMiniMapInscription then
+              minimap[2576][63657391] = { npcID = 254833, name = "", type = "Inscription", showInZone = false, showOnContinent = false, showOnMinimap = true }
+              minimap[2413][52675626] = { npcID = 254833, name = "", type = "Inscription", dnID = "(" .. L["inside the cave"] .. ")", showInZone = false, showOnContinent = false, showOnMinimap = true }
             end
 
           end

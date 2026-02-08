@@ -52,7 +52,7 @@ L['incomplete_book_of_sonnets'] = nil
 -------------------------------------------------------------------------------
 
 L['glowing_moth'] = nil
-L['options_icons_glowing_moth'] = nil
+L['options_icons_glowing_moth'] = '{achievement:61052}'
 L['options_icons_glowing_moth_desc'] = nil
 
 L['sporespawned_cache_note'] = nil
@@ -62,6 +62,13 @@ L['impenatrably_sealed_gourd_note'] = nil
 L['options_icons_more_than_just_thier_roots'] = '{achievement:62188}'
 L['options_icons_more_than_just_thier_roots_desc'] = nil
 L['more_than_just_thier_roots_note'] = nil
+
+L['altar_of_innocence'] = nil
+L['altar_of_vigor'] = nil
+L['altar_of_wisdom'] = nil
+L['altar_of_innocence_note'] = nil
+L['altar_of_vigor_note'] = nil
+L['altar_of_wisdom_note'] = nil
 
 -------------------------------------------------------------------------------
 ---------------------------------- VOIDSTORM ----------------------------------

@@ -166,7 +166,7 @@ function GDKPInfo.ADD_UI()
 				   		pff:Show();
 				   		local wanjianame=plist[p][pp][1]
 				   		pff.allname=wanjianame
-				   		local wanjiaName, fuwiqiName = strsplit("-", wanjianame);
+				   		local wanjiaName, fuwiqiName = strsplit("-", wanjianame, 2);
 				   		if fuwiqiName then
 							pff:SetText(wanjiaName.."(*)");
 						else

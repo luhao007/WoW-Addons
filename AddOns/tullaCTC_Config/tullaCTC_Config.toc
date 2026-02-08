@@ -1,0 +1,26 @@
+## Interface: 120000
+## Author: Tuller
+
+## Title: tullaCTC Config
+## Notes: tullaCTC's configuration menu
+## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r|cFFFFFFFF冷却助手|r |cFF0055FF设置|r
+## Notes-zhCN: tullaCTC设置模块
+
+## IconTexture: Interface/Icons/inv_misc_pocketwatch_02
+
+## Category-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r
+
+## Dependencies: tullaCTC
+## LoadOnDemand: 1
+
+## X-Part-Of: tullaCTC
+
+embeds.xml
+localization\default.lua
+localization\[TextLocale].lua
+utils.lua
+settings.lua
+preview.lua
+themes.lua
+rules.lua
+options.lua

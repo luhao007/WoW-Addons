@@ -565,7 +565,7 @@ function TardisInfo.LFGList(TabF,EnterF,baseFilters)
 			self.chetou.Favorite:SetShown(PIGA["Tardis"]["Chedui"]["Favorite_Siji"][searchResultInfo.leaderName])
 			local allname=searchResultInfo.leaderName or UNKNOWNOBJECT
 			self.allname=allname
-			local wjName, fuwiqi = strsplit("-", allname);
+			local wjName, fuwiqi = strsplit("-", allname, 2);
 			if fuwiqi then
 				self.chetou.name:SetText(wjName.."(*)");
 			else

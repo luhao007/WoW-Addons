@@ -1,6 +1,6 @@
 ## Interface: 120000
 ## Author: 忘忧景久
-## Version: 0.1.1
+## Version: 0.1.3
 
 ## Title: WYJJDB
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r|cFFFFFFFF忘忧景久语音包|r |cFFFFE00AWYJJDB|r
@@ -10,8 +10,7 @@
 
 ## Category-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r
 
-## OptionalDeps: LibSharedMedia-3.0
+## OptionalDeps: LibStub, LibSharedMedia-3.0, Details
 
-embeds.xml
-BW_Countdown.lua
 Mediapaths.lua
+BW_Countdown.lua

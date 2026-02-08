@@ -225,8 +225,11 @@ function ns.pluginHandler:OnEnter(uiMapId, coord)
     self.highlight:SetAllPoints()
   end
 
-  if self.highlight:GetTexture() ~= self.texture:GetTexture() then
-    self.highlight:SetTexture(self.texture:GetTexture())
+  if self.texture and self.texture.GetTexture then
+    local tex = self.texture:GetTexture()
+    if tex and self.highlight:GetTexture() ~= tex then
+      self.highlight:SetTexture(tex)
+    end
   end
 
   self.highlight:Show()

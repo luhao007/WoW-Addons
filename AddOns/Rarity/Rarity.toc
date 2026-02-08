@@ -1,6 +1,6 @@
 ## Interface: 120000
 ## Author: Allara
-## Version: 1.0 (r751-release)
+## Version: 1.0 (r752-alpha)
 
 ## Title: Rarity
 ## Notes: Tracks rare drops, including companions and mounts
@@ -20,12 +20,15 @@
 ## LoadSavedVariablesFirst: 1
 ## SavedVariables: RarityDB
 
-## X-Min-Interface: 110207, 50503, 11508
+## X-Min-Interface: 120000, 50503, 11508
 ## X-Curse-Project-ID: 30801
 ## X-LoadOn-Always: delayed
 
 #@no-lib-strip@
 Libs\LibBabble-Zone-3.0\lib.xml
+Libs\LibBabble-SubZone-3.0\lib.xml
+Libs\LibBabble-CreatureType-3.0\lib.xml
+Libs\LibBabble-Boss-3.0\lib.xml
 #@end-no-lib-strip@
 
 Libs\LibBars-1.0\lib.xml

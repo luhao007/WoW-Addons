@@ -1,0 +1,99 @@
+## Interface: 120000
+## Author: Peterodox
+## Version: 1.8.6
+
+## Title: Plumber
+## Notes: Provides a variety of quality-of-life features.|n|nOpen Settings with Slash Command:|n/plumber
+## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r|cFFFFFFFF水管工|r |cFFFFE00APlumber|r
+## Notes-zhCN: 提供多种便捷功能。|n|n使用此命令打开设置界面|n/plumber
+
+## IconTexture: Interface\AddOns\Plumber\Art\Logo\PlumberLogo64
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r
+
+## SavedVariables: PlumberDB, PlumberDevData, PlumberStorage
+## SavedVariablesPerCharacter: PlumberDB_PC
+
+## X-Flavor: retail
+## X-Expansion: TWW
+
+Initialization.lua
+Locales\Localization.xml
+API.lua
+
+Modules\Shared\Load.xml
+
+Modules\ScenarioTracker.lua
+Modules\ReputationTracker.lua
+#Modules\DirectionArrow.lua
+#Modules\SuperTrack.xml
+#Modules\DevTool.lua
+#Modules\DevTool_HyperlinkEditor.lua
+Modules\ControlCenter\ControlCenter.xml
+
+Modules\GossipFrameMedal.lua
+Modules\BackpackItemTracker.lua
+Modules\AutoJoinEvents.lua
+Modules\PlayerChoiceFrameToken.lua
+Modules\QuickSlot.xml
+#Modules\SpellFlyout.lua
+Modules\SpellFlyout_Secure.lua
+Modules\QuestAreaTrigger.lua
+Modules\Dreamseed.lua
+#Modules\EventMap.lua
+Modules\MapPin.xml
+Modules\RareAnnouncement.lua
+Modules\PlayerChoiceUI.lua
+Modules\Lockpicking.lua
+Modules\BlizzFix_EventToast.lua
+Modules\TalkingHead.lua
+Modules\AzerothianArchives.lua
+Modules\MerchantPrice.lua
+Modules\BossBanner.lua
+Modules\SoftTargetName.lua
+
+Modules\Housing\Housing.xml
+
+#TWW
+Modules\DelvesScenario.lua
+Modules\DelvesDashboard.lua
+Modules\DelvesAutomation.lua
+Modules\ExpansionLandingPage.xml
+Modules\LandingPageSwitch.lua
+Modules\GameTooltipExtension.xml
+Modules\LootUI.xml
+Modules\UnderlightAngler.lua
+Modules\SpellcastInfo.lua
+Modules\ChatOptions.lua
+Modules\NameplateResources.lua
+Modules\NameplateQuestIndicator.lua
+Modules\StaticPopupEnhancement.xml
+Modules\PlayerTitleUI.lua
+Modules\BlizzardSuperTrack.lua
+Modules\ItemUpgradeUI.xml
+Modules\Macros.lua
+Modules\ProfessionsBook.lua
+Modules\ExpansionLandingPage\ExpansionLandingPage_TWW.xml
+Modules\BlizzFix_ModelLoading.lua
+Modules\Timerunning\LegionRemix.xml
+Modules\HolidayDungeon.lua
+Modules\QueueStatus.lua
+Modules\RaidCheck\RaidCheck.xml
+Modules\TransmogUtil.lua
+Modules\QuestWatchCycle.lua
+Modules\CraftSearchExtended.lua
+Modules\SourceAchievementLink.lua
+Modules\OutfitSelect.lua
+
+#Modules\MerchantUI\MerchantUI.xml
+#Modules\DruidModelFix.lua
+#Modules\MovieSubtitle.lua
+#Modules\QuestSpecialItemCooldown.lua
+#Modules\SecretOfAzeroth.lua
+#Modules\AddonList.lua
+#Modules\BlizzFix_WardrobeTrackingHelpTip.lua
+#Modules\WoWAnniversary.lua
+#Modules\Navigator_Dreamseed.lua
+#Modules\AccountStore.lua
+#Modules\MinimapMouseover.lua
+#Modules\ObjectiveTrackerModule.xml

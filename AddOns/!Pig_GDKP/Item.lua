@@ -286,7 +286,7 @@ function GDKPInfo.ADD_Item(RaidR)
 					else
 						Itemf.item.daojishiF:Hide();
 					end
-					local shiquname, fuwiqiName = strsplit("-", ItemS[LOOT_dangqian][4]);
+					local shiquname, fuwiqiName = strsplit("-", ItemS[LOOT_dangqian][4], 2);
 					Itemf.Shiquzhe:SetText(shiquname);
 
 					Itemf.chengjiao.E:SetID(LOOT_dangqian);
@@ -307,7 +307,7 @@ function GDKPInfo.ADD_Item(RaidR)
 					if AllName==NONE then
 						Itemf.ChengjiaoRen:SetText("\124cffff0000        "..NONE.."\124r");
 					else
-				   		local wanjiaName, fuwiqiName = strsplit("-", AllName);
+				   		local wanjiaName, fuwiqiName = strsplit("-", AllName, 2);
 				   		if fuwiqiName then
 							Itemf.ChengjiaoRen:SetText(wanjiaName.."(*)");
 						else

@@ -356,7 +356,7 @@ function GDKPInfo.ADD_History(RaidR)
 			   		local pff = renyaunF.duiwuList[p].PList[pp]
 			   		pff:Show();
 			   		local wanjianame=shujuyuan[p][pp][1]
-			   		local wanjiaName, fuwiqiName = strsplit("-", wanjianame);
+			   		local wanjiaName, fuwiqiName = strsplit("-", wanjianame, 2);
 			   		if fuwiqiName then
 						pff:SetText(wanjiaName.."(*)");
 					else

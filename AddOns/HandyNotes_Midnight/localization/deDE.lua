@@ -53,7 +53,7 @@ L['incomplete_book_of_sonnets'] = 'Unvollständiges Buch der Sonnete'
 -------------------------------------------------------------------------------
 
 L['glowing_moth'] = 'Leuchtende Motte'
-L['options_icons_glowing_moth'] = 'Leuchtende Motte'
+L['options_icons_glowing_moth'] = '{achievement:61052}'
 L['options_icons_glowing_moth_desc'] = 'Zeigt die Positionen der leuchtenden Motten für den Erfolg {achievement:61052} an.'
 
 L['sporespawned_cache_note'] = 'Interagiere mit dem {dot:Red}{object:Pilzhammer} in Fungara Village, um den Stärkungszauber {spell:1266347} zu erhalten, und benutze ihn, um den {object:Myzelgong} zu läuten. Der Schatz erscheint daneben.'
@@ -63,6 +63,13 @@ L['impenatrably_sealed_gourd_note'] = 'Sammle die {item:260251} vom nahegelegene
 L['options_icons_more_than_just_thier_roots'] = '{achievement:62188}'
 L['options_icons_more_than_just_thier_roots_desc'] = 'Zeigt die Positionen der NPCs für den Erfolg {achievement:62188} an.'
 L['more_than_just_thier_roots_note'] = 'Spreche mit dem jeweiligen NPC an den unten aufgeführten Orten.'
+
+L['altar_of_innocence'] = nil
+L['altar_of_vigor'] = nil
+L['altar_of_wisdom'] = nil
+L['altar_of_innocence_note'] = nil
+L['altar_of_vigor_note'] = nil
+L['altar_of_wisdom_note'] = nil
 
 -------------------------------------------------------------------------------
 ---------------------------------- VOIDSTORM ----------------------------------

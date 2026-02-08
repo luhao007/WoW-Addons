@@ -76,8 +76,7 @@
                 propagateMouseInput="Motion">
             </Button>
             <Button parentKey="InsecureAction" inherits="InsecureActionButtonTemplate"
-                propagateMouseInput="Motion"
-                registerForClicks="LeftButtonUp, LeftButtonDown">
+                registerForClicks="LeftButtonUp, LeftButtonDown" propagateMouseInput="Motion">
             </Button>
         </Frames>
         <Scripts>

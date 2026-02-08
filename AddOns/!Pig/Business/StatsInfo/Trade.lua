@@ -595,7 +595,8 @@ function BusinessInfo.Trade(StatsInfo)
 				if FSmsgT[1]~="" or FSmsgT[2]~="" then
 					local msgT = "[!Pig]:与<"..TradeDATA.Name..">交易成功,"..FSmsgT[1]..FSmsgT[2]
 					if PIGA["StatsInfo"]["TradeTongGao"] then
-						if not IsFriend(TradeDATA.Name) then
+						if PIGA["StatsInfo"]["TradeIsFriend"] and IsFriend(TradeDATA.Name) then
+						else
 							if PIGA["StatsInfo"]["TradeTongGaoChannel"]=="WHISPER" then
 								SendChatMessage(msgT, "WHISPER", nil, TradeDATA.Name);
 							else
@@ -619,9 +620,11 @@ function BusinessInfo.Trade(StatsInfo)
 					end
 				end
 			elseif IsErrTrade(arg2) and TradeFrame.PIG_Data.Name then
+				if PIGA["StatsInfo"]["TradeIsError"] then return end
 				local msgT = "[!Pig]:与<"..TradeFrame.PIG_Data.Name..">交易失败,原因:"..arg2
 				if PIGA["StatsInfo"]["TradeTongGao"] then
-					if not IsFriend(TradeFrame.PIG_Data.Name) then
+					if PIGA["StatsInfo"]["TradeIsFriend"] and IsFriend(TradeFrame.PIG_Data.Name) then
+					else
 						if PIGA["StatsInfo"]["TradeTongGaoChannel"]=="WHISPER" then
 							SendChatMessage(msgT, "WHISPER", nil, TradeFrame.PIG_Data.Name);
 						else

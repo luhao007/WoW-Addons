@@ -1,0 +1,23 @@
+## Interface: 120000
+## Author: Tuller
+## Version: v12.0.0-beta7
+
+## Title: tullaCTC
+## Notes: Cooldown Text Customizer
+## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r|cFFFFFFFF冷却助手|r |cFFFFE00AtullaCTC|r
+## Notes-zhCN: 显示冷却时间
+
+## IconTexture: Interface/Icons/inv_misc_pocketwatch_02
+
+## Category: Combat
+## Category-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r
+
+## SavedVariables: tullaCTCDB
+
+embeds.xml
+api.lua
+utils.lua
+durations.lua
+rules.lua
+themer.lua
+main.lua

@@ -321,7 +321,17 @@ ns.currentSourceFile = "RetailInsideDungeonNodesLocation.lua"
             nodes[2500][08345428] = { mnID = 2413, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", showInZone = true } -- Das blendende Tal
             nodes[2531][42041994] = { mnID = 2413, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", showInZone = true } -- Der Traumriss
             nodes[2533][50799290] = { mnID = 2424, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", showInZone = true } -- Marsch auf Quel'Danas      
-            nodes[2529][26698644] = { mnID = 2405, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", showInZone = true } -- Die Leerenspitze     
+            nodes[2529][26698644] = { mnID = 2405, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", showInZone = true } -- Die Leerenspitze
+          -- delves            
+            nodes[2510][30902770] = { mnID = 2413, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", leaveDelve = true, showInZone = true } -- Die Grollgrube
+            nodes[2505][51510829] = { mnID = 2413, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", leaveDelve = true, showInZone = true } -- Kluft der Erinnerung
+            nodes[2506][47207941] = { mnID = 2405, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", leaveDelve = true, showInZone = true } -- Schattenwachtspitze
+            nodes[2528][64933005] = { mnID = 2405, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", leaveDelve = true, showInZone = true } -- Sonnentötersanktum
+            nodes[2525][47922145] = { mnID = 2393, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", leaveDelve = true, showInZone = true } -- Der Düsterweg
+            nodes[2547][70474532] = { mnID = 2393, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", leaveDelve = true, showInZone = true } -- Akademischer Aufruhr
+            nodes[2502][14985760] = { mnID = 2395, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", leaveDelve = true, showInZone = true } -- Die Schattenenklave
+            nodes[2503][49031152] = { mnID = 2437, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", leaveDelve = true, showInZone = true } -- Gruften der Zwielichtklinge
+            nodes[2535][24824941] = { mnID = 2437, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", leaveDelve = true, showInZone = true } -- Zul'Aman
           end
     
     

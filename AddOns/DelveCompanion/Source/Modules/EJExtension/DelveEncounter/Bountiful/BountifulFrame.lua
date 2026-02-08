@@ -11,12 +11,13 @@ local Config = DelveCompanion.Config
 local Lockit = DelveCompanion.Lockit
 
 ---@class (exact) DelveEncounterBountifulFrame : DelveEncounterBountifulFrameXml
----@field bountifulButtonsPool any
+---@field bountifulButtonsPool table
 DelveCompanion_DelveEncounterBountifulFrameMixin = {}
 
 ---@param self DelveEncounterBountifulFrame
 function DelveCompanion_DelveEncounterBountifulFrameMixin:OnLoad()
-    -- Logger.Log("DelveEncounterBountifulFrame OnLoad start")
+    -- Logger.Log("[DelveEncounterBountifulFrame] OnLoad start")
+
     self.Title:SetText(Lockit.UI_COMMON_BOUNTIFUL_DELVE_TITLE)
 
     self.ActiveDelves.NoBountifulLabel:SetText(Lockit.UI_NO_ACTIVE_BOUNTIFUL)
@@ -28,12 +29,12 @@ end
 
 ---@param self DelveEncounterBountifulFrame
 function DelveCompanion_DelveEncounterBountifulFrameMixin:OnEvent(event, ...)
-    -- Logger.Log("DelveEncounterBountifulFrame OnEvent start")
+    -- Logger.Log("[DelveEncounterBountifulFrame] OnEvent start")
 end
 
 ---@param self DelveEncounterBountifulFrame
 function DelveCompanion_DelveEncounterBountifulFrameMixin:OnShow()
-    -- Logger.Log("DelveEncounterBountifulFrame OnShow start")
+    -- Logger.Log("[DelveEncounterBountifulFrame] OnShow start")
 
     ---@type number
     local expansion = GetEJTierData(EJ_GetCurrentTier()).expansionLevel
@@ -65,7 +66,7 @@ end
 
 ---@param self DelveEncounterBountifulFrame
 function DelveCompanion_DelveEncounterBountifulFrameMixin:OnHide()
-    -- Logger.Log("DelveEncounterBountifulFrame OnHide start")
+    -- Logger.Log("[DelveEncounterBountifulFrame] OnHide start")
 
     self.bountifulButtonsPool:ReleaseAll()
 end

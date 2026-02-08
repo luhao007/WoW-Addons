@@ -1,0 +1,22 @@
+## Interface: 120000
+## Author: Sensei
+## Version: 1.5.2
+
+## Title: Sensei Class Resource Bar
+## Notes: Separate resource bars for all classes
+## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r|cFFFFFFFFSensei职业资源条|r |cFFFFE00ASenseiClassResourceBar|r
+## Notes-zhCN: 显示职业资源条，如盗贼的能量条，法师的法力宝珠等
+
+## IconTexture: Interface\AddOns\SenseiClassResourceBar\Textures\icon-texture.png
+
+## Category-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r
+
+## SavedVariables: SenseiClassResourceBarDB
+
+## X-Wago-ID: ANzk0V64
+## X-Curse-Project-ID: 1383623
+
+# Lib
+embeds.xml
+
+SenseiClassResourceBar.xml

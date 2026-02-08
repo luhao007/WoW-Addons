@@ -5,7 +5,7 @@
 
 ---@diagnostic disable: undefined-global
 
-local sub, parent = KROWI_LIBMAN:NewSubmodule('Mixin', 0)
+local sub, parent = KROWI_LIBMAN:NewSubmodule('Mixin', 1)
 if not sub or not parent then return end
 
 Krowi_ProgressBarMixin = {};
@@ -20,6 +20,8 @@ function Krowi_ProgressBarMixin:OnSizeChanged()
 end
 
 function Krowi_ProgressBarMixin:Resize()
+    if issecretvalue and issecretvalue(self:GetWidth()) then return end
+
 	self.Background:ClearAllPoints();
 	self.Background:SetPoint('TOPLEFT', self.BorderLeftTop, 'BOTTOMRIGHT', -self.OffsetX, self.OffsetY);
 	self.Background:SetPoint('BOTTOMRIGHT', self.BorderRightBottom, 'TOPLEFT', self.OffsetX, -self.OffsetY);

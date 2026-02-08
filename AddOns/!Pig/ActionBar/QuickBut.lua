@@ -318,6 +318,7 @@ QuickButUI.ButList[1]=function()
 		GameTooltip:Hide() 
 	end)
 	QuickButUI.yidong:HookScript("OnDragStop",function()
+		if InCombatLockdown() then return end
 		QuickButUI:UpdateWidth()
 	end)
 	QuickButUI.yidong.move = QuickButUI.yidong:CreateTexture()
@@ -353,6 +354,7 @@ QuickButUI.ButList[2]=function()
 		BGanniu:RegisterEvent("PLAYER_ENTERING_WORLD")
 		BGanniu:HookScript("OnEvent", function (self, event)
 			if event=="PLAYER_ENTERING_WORLD" then
+				if InCombatLockdown() then return end
 				Update_ShowFun()
 			end
 		end)
@@ -729,7 +731,7 @@ QuickButUI.ButList[8]=function()
 	if PIGA["QuickBut"]["Open"] and PIGA["QuickBut"]["Spell"] then
 		if QuickButUI.SpellOpen then return end
 		QuickButUI.SpellOpen=true
-		local Icon,ActionID=131146, 400
+		local Icon,ActionID,qkuiname=131146, 400, "PIG_QuickButSpell"
 		local wupinlinrongqi = {}
 		local wupinlinrongqicishunum = 0
 		local function GetItemInfo_xa_1()
@@ -766,7 +768,7 @@ QuickButUI.ButList[8]=function()
 			end
 		end
 		local Tooltip = KEY_BUTTON1.."-|cff00FFFF随机使用坐骑|r\nShift+"..KEY_BUTTON1.."-|cff00FFFF打开Recount/Details插件记录面板|r\n"..KEY_BUTTON2.."-|cff00FFFF展开职业辅助技能栏|r"
-		local Zhushou=PIGQuickBut(nil,Tooltip,Icon,nil,nil,"SecureHandlerClickTemplate")
+		local Zhushou=PIGQuickBut(qkuiname,Tooltip,Icon,nil,nil,"SecureHandlerClickTemplate")
 		local IconTEX=Zhushou:GetNormalTexture()
 		local IconCoord = CLASS_ICON_TCOORDS[PIG_OptionsUI.ClassData.classFile];
 		if Fun.IsElvUI() or Fun.IsNDui() then
@@ -793,6 +795,7 @@ QuickButUI.ButList[8]=function()
 		Zhushou.start:SetBlendMode("ADD");
 		Zhushou.start:SetAllPoints(Zhushou)
 		Zhushou.start:Hide();
+		_G["BINDING_NAME_CLICK "..qkuiname..":LeftButton"]= "PIG功能条随机坐骑"
 		---内容页----
 		local butW = QuickButUI.butWWW+4
 		local gaoNum,kuanNum = 10,2

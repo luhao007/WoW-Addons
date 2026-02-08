@@ -19,43 +19,9 @@ local wwc,hhc = 24,24
 ------
 local Bag_Item_lv=BagBankfun.Bag_Item_lv
 local Bag_Item_Ranse=BagBankfun.Bag_Item_Ranse
-local Bank_Item_lv=BagBankfun.Bank_Item_lv
-local Bank_Item_ranse=BagBankfun.Bank_Item_ranse
 local jisuanBANKzongshu=BagBankfun.jisuanBANKzongshu
 local jisuanBANKkonmgyu=BagBankfun.jisuanBANKkonmgyu
 local Update_BankFrame_Height=BagBankfun.Update_BankFrame_Height
---刷新背包LV
-local function shuaxin_LV(framef, id, slot)
-	if not framef.ZLV then return end
-	framef.ZLV:SetText();
-	local itemLink = GetContainerItemLink(id, slot)
-	if itemLink then
-		local _,_,itemQuality,_,_,_,_,_,_,_,_,classID = GetItemInfo(itemLink);
-		if itemQuality then
-			if classID==2 or classID==4 then
-				local effectiveILvl = GetDetailedItemLevelInfo(itemLink)
-				framef.ZLV:SetText(effectiveILvl);
-				local r, g, b = GetItemQualityColor(itemQuality);
-				framef.ZLV:SetTextColor(r, g, b, 1);
-			end
-		end
-	end
-end
-local function shuaxin_ranse(framef,id,slot)
-	if not framef.ranse then return end
-	framef.ranse:Hide()
-	local itemLink = GetContainerItemLink(id, slot)
-	if itemLink then
-		local _,_,itemQuality,_,_,_,_,_,_,_,_,classID = GetItemInfo(itemLink);
-		if itemQuality and itemQuality>1 then
-			if classID==2 or classID==4 then
-           		local r, g, b = GetItemQualityColor(itemQuality);
-	            framef.ranse:SetVertexColor(r, g, b);
-				framef.ranse:Show()
-			end
-		end
-	end
-end
 ---
 local function Update_BAGFrame_WidthHeight(new_hangshu)
 	_G[BagBankfun.BagUIName]:SetScale(_G[BagBankfun.BagUIName].suofang);
@@ -234,25 +200,10 @@ local function zhegnheBANK()
 		BankItemSearchBox:SetPoint("TOPRIGHT",BankFrame,"TOPRIGHT",-60,-1);
 	end
 	Update_BankFrame_Height(BagdangeW)
-	Bank_Item_lv()
-	Bank_Item_ranse()
+	Bag_Item_lv(nil,nil,-1)
+	Bag_Item_Ranse(nil,nil,-1)
 end
 -------
-local function add_Itemslot_ZLV_ranse(famrr)		
-	if not famrr.ZLV then
-		famrr.ZLV = PIGFontString(famrr,{"TOPLEFT", famrr, "TOPLEFT", -1, -1},nil,"OUTLINE",15)
-		famrr.ZLV:SetDrawLayer("OVERLAY", 7)
-	end
-	if not famrr.ranse then
-		famrr.ranse = famrr:CreateTexture(nil, "OVERLAY");
-	    famrr.ranse:SetTexture("Interface\\Buttons\\UI-ActionButton-Border");
-	    famrr.ranse:SetBlendMode("ADD");
-	    famrr.ranse:SetSize(BagdangeW*1.63, BagdangeW*1.63);
-	    famrr.ranse:SetPoint("CENTER", famrr, "CENTER", 0, 0);
-	    famrr.ranse:Hide()
-	end
-end
----
 function BagBankfun.Zhenghe(Rneirong,tabbut)
 	if not PIGA["BagBank"]["Zhenghe"] or BagBankfun.yizhixingjiazai then return end
 	BagBankfun.yizhixingjiazai=true
@@ -269,18 +220,6 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 			end
 		end
 	end)
-	--背包/银行包裹格子
-	for bagui = 1, NUM_CONTAINER_FRAMES do
-		for slot = 1, MAX_CONTAINER_ITEMS do
-			local famrr=_G["ContainerFrame"..bagui.."Item"..slot]
-		    add_Itemslot_ZLV_ranse(famrr)
-		end
-	end
-	--银行默认格子
-	for slot = 1, bagData["bankmun"] do
-		local famrr=_G["BankFrameItem"..slot]
-		add_Itemslot_ZLV_ranse(famrr)
-	end
 	-----
 	local uidata = {
 		["ButW"]=BagdangeW,
@@ -617,8 +556,8 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 				OpenBag(bagData["bankID"][banki])
 			end
 		elseif event=="PLAYERBANKSLOTS_CHANGED" then
-			Bank_Item_lv(nil,nil,arg1)
-			Bank_Item_ranse(nil,nil,arg1)
+			Bag_Item_lv(nil,arg1,-1)
+			Bag_Item_Ranse(nil,arg1,-1)
 		end
 	end)
 	---清空位置让系统自行设置

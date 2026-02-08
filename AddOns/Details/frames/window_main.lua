@@ -1884,7 +1884,15 @@ local lineScript_Onenter = function(self)
 	end
 
 	local lefttext = self.lineText1
-	if (lefttext:IsTruncated()) then
+
+	local canCheckForTrancation = true
+	if (detailsFramework.IsAddonApocalypseWow()) then
+		if lefttext:HasAnySecretAspect() then
+			canCheckForTrancation = false
+		end
+	end
+
+	if (canCheckForTrancation and lefttext:IsTruncated()) then
 		if (not Details.left_anti_truncate) then
 
 		end
@@ -1944,10 +1952,11 @@ local lineScript_Onmousedown = function(self, button)
 
 	if detailsFramework.IsAddonApocalypseWow() then
 		if Details222.BParser.InSecretLockdown() then
-			return
+			if button == "LeftButton" then
+				return
 			end
+		end
 	end
-
 
 	local lefttext = self.lineText1
 	if (lefttext.untruncated) then
@@ -3172,12 +3181,14 @@ local function CreateAlertFrame(baseframe, instancia)
 	frameLayerUpper:SetPoint("right", baseframe, "right", -3, 0)
 	frameLayerUpper:SetHeight(13)
 	frameLayerUpper:SetFrameStrata("TOOLTIP")
+	frameLayerUpper:EnableMouse(false)
 
 	local frameLayerLower = CreateFrame("frame", "DetailsAlertFrameScrollChild" .. instancia.meu_id, frameLayerUpper)
 	frameLayerLower:SetHeight(25)
 	frameLayerLower:SetPoint("left", frameLayerUpper, "left")
 	frameLayerLower:SetPoint("right", frameLayerUpper, "right")
 	frameLayerUpper:SetScrollChild(frameLayerLower)
+	frameLayerLower:EnableMouse(false)
 
 	local alertBackgroundFrame = CreateFrame("frame", "DetailsAlertFrame" .. instancia.meu_id, frameLayerLower,"BackdropTemplate")
 	alertBackgroundFrame:SetPoint("bottom", baseframe, "bottom")
@@ -3189,6 +3200,7 @@ local function CreateAlertFrame(baseframe, instancia)
 	alertBackgroundFrame:SetBackdropColor(.1, .1, .1, 1)
 	alertBackgroundFrame:SetFrameStrata("FULLSCREEN")
 	alertBackgroundFrame:SetFrameLevel(baseframe:GetFrameLevel() + 6)
+	alertBackgroundFrame:EnableMouse(false)
 	alertBackgroundFrame:Hide()
 
 	local toptexture = alertBackgroundFrame:CreateTexture(nil, "background")
@@ -3751,7 +3763,7 @@ function gump:CriaJanelaPrincipal(ID, instancia, criando)
 	--lock window button
 		baseframe.lock_button = CreateFrame("button", "Details_Lock_Button"..ID, baseframe)
 		baseframe.lock_button:SetPoint("right", baseframe.resize_direita, "left", -1, 1.5)
-		baseframe.lock_button:SetFrameLevel(baseframe:GetFrameLevel() + 6)
+		baseframe.lock_button:SetFrameLevel(baseframe:GetFrameLevel() + 20)
 		baseframe.lock_button:SetWidth(40)
 		baseframe.lock_button:SetHeight(16)
 		baseframe.lock_button.label = baseframe.lock_button:CreateFontString(nil, "overlay", "GameFontNormal")
@@ -4865,7 +4877,26 @@ function Details:AdjustInLineTextPadding()
 	end
 end
 
--- search key: ~row ~bar ~updatebar
+function Details:InstanceClearTexts(instance)
+	if (instance) then
+		self = instance
+	end
+
+	local lines = instance.barras
+
+	for _, row in ipairs(lines) do
+		row.lineText1:SetText("")
+		row.lineText2:SetText("")
+		row.lineText3:SetText("")
+		row.lineText4:SetText("")
+		row.lineText11:SetText("")
+		row.lineText12:SetText("")
+		row.lineText13:SetText("")
+		row.lineText14:SetText("")
+	end
+end
+
+-- search key: ~row ~bar ~updatebar ~refresh
 function Details:InstanceRefreshRows(instance)
 	if (instance) then
 		self = instance
@@ -4960,6 +4991,25 @@ function Details:InstanceRefreshRows(instance)
 			row.iconHighlight:SetDesaturated(false)
 		end
 
+		row.lineText1:SetFont(self.row_info.font_face_file or "GameFontHighlight", self.row_info.font_size)
+		row.lineText2:SetFont(self.row_info.font_face_file or "GameFontHighlight", self.row_info.font_size)
+		row.lineText3:SetFont(self.row_info.font_face_file or "GameFontHighlight", self.row_info.font_size)
+		row.lineText4:SetFont(self.row_info.font_face_file or "GameFontHighlight", self.row_info.font_size)
+		row.lineText11:SetFont(self.row_info.font_face_file or "GameFontHighlight", self.row_info.font_size)
+		row.lineText12:SetFont(self.row_info.font_face_file or "GameFontHighlight", self.row_info.font_size)
+		row.lineText13:SetFont(self.row_info.font_face_file or "GameFontHighlight", self.row_info.font_size)
+		row.lineText14:SetFont(self.row_info.font_face_file or "GameFontHighlight", self.row_info.font_size)
+
+		--text font
+		Details:SetFontFace(row.lineText1, self.row_info.font_face_file or "GameFontHighlight")
+		Details:SetFontFace(row.lineText2, self.row_info.font_face_file or "GameFontHighlight")
+		Details:SetFontFace(row.lineText3, self.row_info.font_face_file or "GameFontHighlight")
+		Details:SetFontFace(row.lineText4, self.row_info.font_face_file or "GameFontHighlight")
+		Details:SetFontFace(row.lineText11, self.row_info.font_face_file or "GameFontHighlight")
+		Details:SetFontFace(row.lineText12, self.row_info.font_face_file or "GameFontHighlight")
+		Details:SetFontFace(row.lineText13, self.row_info.font_face_file or "GameFontHighlight")
+		Details:SetFontFace(row.lineText14, self.row_info.font_face_file or "GameFontHighlight")
+
 		--icon and texture anchors
 		if (not isInvertedBars) then
 			row.lineText1:ClearAllPoints()
@@ -4992,12 +5042,19 @@ function Details:InstanceRefreshRows(instance)
 			row.lineText4:SetText("")
 			row.lineText14:SetText("")
 
-			row.lineText2:SetPoint("right", row.statusbar, "right", -self.fontstrings_text2_anchor, self.row_info.text_yoffset)
-			row.lineText3:SetPoint("right", row.statusbar, "right", -self.fontstrings_text3_anchor, self.row_info.text_yoffset)
-			row.lineText4:SetPoint("right", row.statusbar, "right", -self.fontstrings_text4_anchor, self.row_info.text_yoffset)
-			row.lineText12:SetPoint("right", row.statusbar, "right", -self.fontstrings_text2_anchor, self.row_info.text_yoffset)
-			row.lineText13:SetPoint("right", row.statusbar, "right", -self.fontstrings_text3_anchor, self.row_info.text_yoffset)
-			row.lineText14:SetPoint("right", row.statusbar, "right", -self.fontstrings_text4_anchor, self.row_info.text_yoffset)
+			if detailsFramework.IsAddonApocalypseWow() then
+				local spacing = Details.righttext_simple_formatting.alignment_space
+				row.lineText4:SetPoint("right", row.statusbar, "right", 0, self.row_info.text_yoffset)
+				row.lineText3:SetPoint("right", row.statusbar, "right", -spacing, self.row_info.text_yoffset)
+				row.lineText2:SetPoint("right", row.statusbar, "right", -spacing * 2, self.row_info.text_yoffset)
+			else
+				row.lineText2:SetPoint("right", row.statusbar, "right", -self.fontstrings_text2_anchor, self.row_info.text_yoffset)
+				row.lineText3:SetPoint("right", row.statusbar, "right", -self.fontstrings_text3_anchor, self.row_info.text_yoffset)
+				row.lineText4:SetPoint("right", row.statusbar, "right", -self.fontstrings_text4_anchor, self.row_info.text_yoffset)
+				row.lineText12:SetPoint("right", row.statusbar, "right", -self.fontstrings_text2_anchor, self.row_info.text_yoffset)
+				row.lineText13:SetPoint("right", row.statusbar, "right", -self.fontstrings_text3_anchor, self.row_info.text_yoffset)
+				row.lineText14:SetPoint("right", row.statusbar, "right", -self.fontstrings_text4_anchor, self.row_info.text_yoffset)
+			end
 
 			if (no_icon) then
 				row.statusbar:SetPoint("topleft", row, "topleft")
@@ -5132,7 +5189,9 @@ function Details:InstanceRefreshRows(instance)
 		if (textL_outline_small) then
 			local color = textL_outline_small_color
 			row.lineText1:SetShadowColor(color[1], color[2], color[3], color[4])
+			row.lineText1:SetShadowOffset(1, -1)
 			row.lineText11:SetShadowColor(color[1], color[2], color[3], color[4])
+			row.lineText11:SetShadowOffset(1, -1)
 		else
 			row.lineText1:SetShadowColor(0, 0, 0, 0)
 			row.lineText11:SetShadowColor(0, 0, 0, 0)
@@ -5141,11 +5200,17 @@ function Details:InstanceRefreshRows(instance)
 		if (textR_outline_small) then
 			local color = textR_outline_small_color
 			row.lineText4:SetShadowColor(color[1], color[2], color[3], color[4])
+			row.lineText4:SetShadowOffset(1, -1)
 			row.lineText3:SetShadowColor(color[1], color[2], color[3], color[4])
+			row.lineText3:SetShadowOffset(1, -1)
 			row.lineText2:SetShadowColor(color[1], color[2], color[3], color[4])
+			row.lineText2:SetShadowOffset(1, -1)
 			row.lineText14:SetShadowColor(color[1], color[2], color[3], color[4])
+			row.lineText14:SetShadowOffset(1, -1)
 			row.lineText13:SetShadowColor(color[1], color[2], color[3], color[4])
+			row.lineText13:SetShadowOffset(1, -1)
 			row.lineText12:SetShadowColor(color[1], color[2], color[3], color[4])
+			row.lineText12:SetShadowOffset(1, -1)
 		else
 			row.lineText4:SetShadowColor(0, 0, 0, 0)
 			row.lineText3:SetShadowColor(0, 0, 0, 0)
@@ -5201,15 +5266,7 @@ function Details:InstanceRefreshRows(instance)
 		Details:SetFontSize(row.lineText13, self.row_info.font_size or height * 0.75)
 		Details:SetFontSize(row.lineText14, self.row_info.font_size or height * 0.75)
 
-		--text font
-		Details:SetFontFace(row.lineText1, self.row_info.font_face_file or "GameFontHighlight")
-		Details:SetFontFace(row.lineText2, self.row_info.font_face_file or "GameFontHighlight")
-		Details:SetFontFace(row.lineText3, self.row_info.font_face_file or "GameFontHighlight")
-		Details:SetFontFace(row.lineText4, self.row_info.font_face_file or "GameFontHighlight")
-		Details:SetFontFace(row.lineText11, self.row_info.font_face_file or "GameFontHighlight")
-		Details:SetFontFace(row.lineText12, self.row_info.font_face_file or "GameFontHighlight")
-		Details:SetFontFace(row.lineText13, self.row_info.font_face_file or "GameFontHighlight")
-		Details:SetFontFace(row.lineText14, self.row_info.font_face_file or "GameFontHighlight")
+
 
 		--backdrop
 		if (lineBorderEnabled) then
@@ -6776,6 +6833,10 @@ local buildSegmentTooltip = function(self, deltaTime, allInOneWindowFrame)
 								gameCooltip:AddIcon(Details:GetTextureAtlas("small-pin-yellow"), 2, 1)
 								gameCooltip:AddStatusBar(100, 2, 0, 0, 0, 0.25, false, false, statusBarTexture)
 
+								gameCooltip:AddLine("Session:", thisCombat.combatSessionId, 2, "white", "white")
+								gameCooltip:AddIcon(Details:GetTextureAtlas("small-pin-yellow"), 2, 1)
+								gameCooltip:AddStatusBar(100, 2, 0, 0, 0, 0.25, false, false, statusBarTexture)
+
 								local backgroundImage = Details:GetRaidIcon(mapID, EJID, "party")
 								if (backgroundImage and bCanUseBackgroundImage) then
 									gameCooltip:SetWallpaper(2, backgroundImage, {0.070, 0.695, 0.087, 0.566}, {1, 1, 1, 0.5}, true)
@@ -7819,7 +7880,7 @@ function Details:UpdateClickThrough()
 				self.baseframe.UPFrameLeftPart:EnableMouse(false)
 				self.baseframe.resize_direita:EnableMouse(false)
 				self.baseframe.resize_esquerda:EnableMouse(false)
-				self.baseframe.lock_button:EnableMouse(false)
+				self.baseframe.lock_button:EnableMouse(true)
 
 			else
 				self.baseframe:EnableMouse(true)
@@ -7836,12 +7897,11 @@ function Details:UpdateClickThrough()
 				if (self.baseframe.isLocked) then
 					self.baseframe.resize_direita:EnableMouse(false)
 					self.baseframe.resize_esquerda:EnableMouse(false)
-					self.baseframe.lock_button:EnableMouse(false)
 				else
 					self.baseframe.resize_direita:EnableMouse(true)
 					self.baseframe.resize_esquerda:EnableMouse(true)
-					self.baseframe.lock_button:EnableMouse(true)
 				end
+				self.baseframe.lock_button:EnableMouse(true)
 			end
 
 			--titlebar icons
@@ -7879,12 +7939,11 @@ function Details:UpdateClickThrough()
 			if (self.baseframe.isLocked) then
 				self.baseframe.resize_direita:EnableMouse(false)
 				self.baseframe.resize_esquerda:EnableMouse(false)
-				self.baseframe.lock_button:EnableMouse(false)
 			else
 				self.baseframe.resize_direita:EnableMouse(true)
 				self.baseframe.resize_esquerda:EnableMouse(true)
-				self.baseframe.lock_button:EnableMouse(true)
 			end
+			self.baseframe.lock_button:EnableMouse(true)
 
 			--titlebar icons, forcing true because the player isn't in combat and the inCombat setting is enabled
 			local toolbar_buttons = {}
@@ -7927,7 +7986,7 @@ function Details:UpdateClickThrough()
 			self.baseframe.UPFrameLeftPart:EnableMouse(false)
 			self.baseframe.resize_direita:EnableMouse(false)
 			self.baseframe.resize_esquerda:EnableMouse(false)
-			self.baseframe.lock_button:EnableMouse(false)
+			self.baseframe.lock_button:EnableMouse(true)
 
 		else
 			self.baseframe:EnableMouse(true)
@@ -7944,12 +8003,11 @@ function Details:UpdateClickThrough()
 			if (self.baseframe.isLocked) then
 				self.baseframe.resize_direita:EnableMouse(false)
 				self.baseframe.resize_esquerda:EnableMouse(false)
-				self.baseframe.lock_button:EnableMouse(false)
 			else
 				self.baseframe.resize_direita:EnableMouse(true)
 				self.baseframe.resize_esquerda:EnableMouse(true)
-				self.baseframe.lock_button:EnableMouse(true)
 			end
+			self.baseframe.lock_button:EnableMouse(true)
 		end
 
 		--titlebar icons
@@ -8573,6 +8631,12 @@ function Details:AttributeMenu(enabled, pos_x, pos_y, font, size, color, side, s
 	--font face
 	local fontPath = SharedMedia:Fetch("font", font)
 	Details:SetFontFace(self.menu_attribute_string, fontPath)
+	if fontPath:find("FRIZQT__.TTF") then
+		C_Timer.After(1, function()
+			fontPath = SharedMedia:Fetch("font", font)
+			Details:SetFontFace(self.menu_attribute_string, fontPath)
+		end)
+	end
 
 	--font size
 	Details:SetFontSize(self.menu_attribute_string, size)

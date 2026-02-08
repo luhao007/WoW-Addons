@@ -730,7 +730,7 @@ function GDKPInfo.ADD_fenG(RaidR)
 					renyF:Show()
 					local AllName = infoData[p][pp][1]
 					renyF.AllName=AllName
-					local name,server = strsplit("-", AllName);
+					local name,server = strsplit("-", AllName, 2);
 					if server then
 						renyF.Name.t:SetText(name.."(*)")
 					else

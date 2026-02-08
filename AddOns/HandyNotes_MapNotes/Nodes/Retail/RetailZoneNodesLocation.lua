@@ -966,26 +966,109 @@ ns.currentSourceFile = "RetailZoneNodesLocation.lua"
 
 
         --#################################
-        --##### Continent Khaz Algar ######
+        --##### Continent Quel'Thalas ######
         --#################################
     
       if self.db.profile.showZoneQuelThalas then
 
         -- Quel'Thalas MapNotesIcons
           if self.db.profile.showZoneHordeAllyIcons then
-
             nodes[2395][51782460] = { mnID = 2393, name = "", type = "MNL", showInZone = true, showOnContinent = false, showOnMinimap = false, TransportName = ns.Silvermoon .. " (" .. EXPANSION_NAME11 .. ")\n\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Harandar .. "\n" .. " ==> " .. ns.VoidTempest .. "\n" .. " ==> " .. ns.Stormwind .. "\n\n" .. DELVES_LABEL .. "\n ==> " .. ns.TheDarkway .. "\n ==> " .. ns.CollegiateCalamity }
-
           end
 
         if db.activate.ZoneTransporting then
 
           -- Quel'Thalas Portals
           if self.db.profile.showZonePortals then
-            nodes[2413][54895146] = { mnID = 2576, name = "", TransportName = L["Way to"] .. " " .. L["Portal"] .. "\n   => " .. ns.VoidTempest .. "\n   => " .. ns.SilvermoonMN, type = "Portal", showInZone = true, showOnContinent = false, showOnMinimap = false }
             nodes[2576][64687098] = { mnID = 2393, name = "", type = "Portal", showInZone = true, showOnContinent = false, showOnMinimap = false }
             nodes[2576][61787348] = { mnID = 2405, name = "", type = "Portal", showInZone = true, showOnContinent = false, showOnMinimap = false }
+            nodes[2424][51925636] = { mnID = 2405, name = "", type = "Portal", showInZone = true, showOnContinent = false, showOnMinimap = false }
+            nodes[2405][45436377] = { mnID = 2424, name = "", type = "PortalS", showInZone = true, showOnContinent = false, showOnMinimap = false }
             nodes[2405][51637026] = { mnID = 2393, mnID2 = 2413, name = "", TransportName = L["Portals"] .. "\n " .. ns.SilvermoonMN .. "\n " .. ns.Harandar, type = "Portal", showInZone = true, showOnContinent = false, showOnMinimap = false }
+          end
+
+          -- Quel'Thalas Portals
+          if self.db.profile.showZonePortals and not self.db.profile.showZoneMapNotesIcons then
+            nodes[2413][53545571] = { mnID = 2576, name = "", TransportName = L["inside the cave"] .. ":\n" .. TextIconPortalOld:GetIconString() .. " " .. L["Portal"] .. " " .. ns.VoidTempest .. "\n" .. TextIconPortalOld:GetIconString() .. " " .. L["Portal"] .. " " .. ns.SilvermoonMN, type = "Portal", showInZone = true, showOnContinent = false, showOnMinimap = false }
+          end
+
+          -- Quel'Thalas Transport
+          if self.db.profile.showZoneTransport then
+            nodes[2395][45164594] = { name = L["to the platform"], type = "Tport2", showInZone = true, showOnContinent = false, showOnMinimap = false } -- 
+          end
+
+        end
+
+        --Professions
+        if self.db.profile.activate.ZoneProfessions then
+
+          if self.db.profile.showZoneAlchemy then
+            --nodes[2413][53464987] = { npcID = 254865, name = "", type = "Alchemy", showInZone = true, showOnContinent = false, showOnMinimap = false }
+          end
+
+          if self.db.profile.showZoneAlchemy and not self.db.profile.showZoneMapNotesIcons then
+            nodes[2413][53464987] = { npcID = 254865, name = "", type = "Alchemy", showInZone = true, showOnContinent = false, showOnMinimap = false }
+          end
+      
+          if self.db.profile.showZoneLeatherworking then
+            --nodes[2216][43771954] = { npcID = 218164, name = "", type = "Leatherworking", showInZone = true, showOnContinent = false, showOnMinimap = false }
+          end
+
+          if self.db.profile.showZoneEngineer then
+            --nodes[2256][51387631] = { npcID = 218186, name = "", type = "Engineer", showInZone = true, showOnContinent = false, showOnMinimap = false }
+          end
+
+          if self.db.profile.showZoneSkinning then
+            nodes[2437][45226983] = { npcID = 255095, name = "", type = "Skinning", showInZone = true, showOnContinent = false, showOnMinimap = false }
+          end
+
+          if self.db.profile.showZoneTailoring then
+            --nodes[2216][49711743] = { npcID = 218181, name = "", type = "Tailoring", showInZone = true, showOnContinent = false, showOnMinimap = false }
+          end
+
+          if self.db.profile.showZoneBlacksmith then
+            nodes[2405][51536935] = { npcID = 218167, name = "", type = "Blacksmith", showInZone = true, showOnContinent = false, showOnMinimap = false }
+          end
+
+          if self.db.profile.showZoneMining then
+            --nodes[2216][46842255] = { npcID = 218167, name = "", type = "Mining", showInZone = true, showOnContinent = false, showOnMinimap = false }
+          end
+
+          if self.db.profile.showZoneFishing then
+            nodes[2395][48677610] = { npcID = 247800, name = "", type = "Fishing", showInZone = true, showOnContinent = false, showOnMinimap = false }
+            nodes[2437][38342140] = { npcID = 253039, name = "", type = "Fishing", showInZone = true, showOnContinent = false, showOnMinimap = false }
+            nodes[2437][48682582] = { npcID = 255185, name = "", type = "Fishing", showInZone = true, showOnContinent = false, showOnMinimap = false }
+            nodes[2437][46327042] = { npcID = 255092, name = "", type = "Fishing", showInZone = true, showOnContinent = false, showOnMinimap = false }
+            nodes[2405][50886852] = { npcID = 254707, name = "", type = "Fishing", showInZone = true, showOnContinent = false, showOnMinimap = false }
+          end
+
+          if self.db.profile.showZoneCooking then
+            nodes[2395][47656777] = { npcID = 245741, name = "", type = "Cooking", showInZone = true, showOnContinent = false, showOnMinimap = false }
+            nodes[2437][37142108] = { npcID = 253037, name = "", type = "Cooking", showInZone = true, showOnContinent = false, showOnMinimap = false }
+          end
+
+          if self.db.profile.showZoneEnchanting then
+            nodes[2395][44184628] = { npcID = 242993, name = "", type = "Enchanting", showInZone = true, showOnContinent = false, showOnMinimap = false, dnID = L["(on the platform)"] }
+          end
+
+          if self.db.profile.showZoneJewelcrafting then
+            --nodes[2216][47751925] = { npcID = 218180, name = "", type = "Jewelcrafting", showInZone = true, showOnContinent = false, showOnMinimap = false }
+          end
+
+          if self.db.profile.showZoneHerbalism then            
+            nodes[2405][51646803] = { npcID = 254703, name = "", type = "Herbalism", showInZone = true, showOnContinent = false, showOnMinimap = false }
+          end
+
+          if self.db.profile.showZoneHerbalism and not self.db.profile.showZoneMapNotesIcons then          
+            nodes[2413][52925023] = { npcID = 254855, name = "", type = "Herbalism", showInZone = true, showOnContinent = false, showOnMinimap = false }
+          end
+
+          if self.db.profile.showZoneInscription then
+            nodes[2576][63657391] = { npcID = 254833, name = "", type = "Inscription", showInZone = true, showOnContinent = false, showOnMinimap = false }
+          end
+
+          if self.db.profile.showZoneInscription and not self.db.profile.showZoneMapNotesIcons then
+            nodes[2413][52675626] = { npcID = 254833, name = "", type = "Inscription", dnID = "(" .. L["inside the cave"] .. ")", showInZone = true, showOnContinent = false, showOnMinimap = false }
           end
 
         end

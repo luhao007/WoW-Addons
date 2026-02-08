@@ -4,7 +4,8 @@ local PIGFrame=Create.PIGFrame
 local PIGFontString=Create.PIGFontString
 local Data=addonTable.Data
 local InvSlot=Data.InvSlot
-local _GetItemLevel=addonTable.Fun._GetItemLevel
+local Fun=addonTable.Fun
+local _GetTooltipLevel=Fun._GetTooltipLevel
 --创建界面背景
 function Create.CharacterBG(fuji,Isname)
 	local texname = nil
@@ -191,6 +192,7 @@ function Create.CharacterFrame(fuji,UIName,FrameLevel)
 		end
 		item.ZLV = PIGFontString(item,{"TOPLEFT", item, "TOPLEFT", -2, 1},nil,"OUTLINE",15)
 		item.ZLV:SetDrawLayer("OVERLAY", 7)
+		item.ZLV:SetTextColor(0, 1, 1, 1);
 		item.ranse = item:CreateTexture(nil, "OVERLAY");
 	    item.ranse:SetTexture("Interface/Buttons/UI-ActionButton-Border");
 	    item.ranse:SetBlendMode("ADD");
@@ -225,17 +227,6 @@ function Create.CharacterFrame(fuji,UIName,FrameLevel)
 		frameX.ZBLsit:CZ_ItemList()
 		frameX:Show()
 	end
-	local function Update_ItemLevel(unit,ZBID,framef,itemLink)
-		local ItemLevel = _GetItemLevel(unit, ZBID,nil,itemLink)
-		if ItemLevel == "RETRIEVING" and framef.attempt < 10 then
-			framef.attempt = framef.attempt + 1
-			C_Timer.After(0.05, function()
-				Update_ItemLevel(unit,ZBID,framef,itemLink)
-			end)
-		else
-			framef.ZLV:SetText(ItemLevel or "")
-		end
-	end
 	function frameX:Update_ShowItem_List(zbData,laiyuan)
 		for k,v in pairs(zbData) do
 			local _,itemLink = GetItemInfo(v) 
@@ -265,13 +256,15 @@ function Create.CharacterFrame(fuji,UIName,FrameLevel)
 			if k~=4 and k~=19 then
 				local r, g, b, hex = GetItemQualityColor(itemQuality or 1)
 				if PIGA["FramePlus"]["Character_ItemLevel"] then
-					invFff.ZLV:SetTextColor(r, g, b, 1);
-					invFff.attempt = 0
-					Update_ItemLevel("yc",k,invFff,itemLink)
+					_GetTooltipLevel("link",{itemLink},function(ItemLevel)
+						invFff.ZLV:SetText(ItemLevel)
+					end)
 				end
 				if PIGA["FramePlus"]["Character_ItemColor"] then
-				    invFff.ranse:SetVertexColor(r, g, b);
-					invFff.ranse:Show()
+					if itemQuality and itemQuality>1 then
+				    	invFff.ranse:SetVertexColor(r, g, b);
+						invFff.ranse:Show()
+					end
 				end
 			end
 		end

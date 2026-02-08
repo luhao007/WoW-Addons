@@ -111,7 +111,7 @@ function BusinessInfo.Token(StatsInfo)
 			local dangqianC=PlayerData[StatsInfo.allname]
 			local Money  = PIGA["StatsInfo"]["Token"][StatsInfo.allname]["Money"]
    			jibihejiV.all=jibihejiV.all+Money
-   			local _, fuwuqiXC = strsplit("-", StatsInfo.allname);
+   			local _, fuwuqiXC = strsplit("-", StatsInfo.allname, 2);
    			if fuwuqiXC and fuwuqiXC~="" then
 				jibihejiV.saverall[fuwuqiXC]=jibihejiV.saverall[fuwuqiXC] or 0
    				jibihejiV.saverall[fuwuqiXC]=jibihejiV.saverall[fuwuqiXC]+Money
@@ -124,7 +124,7 @@ function BusinessInfo.Token(StatsInfo)
 	   			local Money  = PIGA["StatsInfo"]["Token"][k]["Money"]
 	   			local Tokens  = PIGA["StatsInfo"]["Token"][k]["Tokens"]
 	   			jibihejiV.all=jibihejiV.all+Money
-	   			local _, fuwuqiXC = strsplit("-", k);
+	   			local _, fuwuqiXC = strsplit("-", k, 2);
 	   			if fuwuqiXC and fuwuqiXC~="" and Money>100 then
 					jibihejiV.saverall[fuwuqiXC]=jibihejiV.saverall[fuwuqiXC] or 0
 	   				jibihejiV.saverall[fuwuqiXC]=jibihejiV.saverall[fuwuqiXC]+Money

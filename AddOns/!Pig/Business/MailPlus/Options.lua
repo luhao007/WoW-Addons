@@ -19,6 +19,7 @@ local Fun = addonTable.Fun
 local PIGGetRaceAtlas=addonTable.Fun.PIGGetRaceAtlas
 local GetContainerNumSlots = GetContainerNumSlots or C_Container and C_Container.GetContainerNumSlots
 local GetContainerItemInfo = GetContainerItemInfo or C_Container and C_Container.GetContainerItemInfo
+local GetContainerItemLink=GetContainerItemLink or C_Container and C_Container.GetContainerItemLink
 local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 local BusinessInfo=addonTable.BusinessInfo
@@ -854,10 +855,17 @@ function BusinessInfo.MailPlus_ADDUI()
 			GetFriendData(linData)
 		elseif SendMailFrame.recipients.selectID==1 then
 			local PlayerData = PIGA["StatsInfo"]["Players"]
+			local name, server
 			for nameserver,data in pairs(PlayerData) do
-				local name, server = strsplit("-", nameserver);
-				if name~=PIG_OptionsUI.Name and PIG_OptionsUI.Realm==server then
-					table.insert(linData,{name,data})
+				if PIG_MaxTocversion() then
+					name, server = strsplit("-", nameserver, 2)
+					if name~=PIG_OptionsUI.Name and PIG_OptionsUI.Realm==server then
+						table.insert(linData,{name,data})
+					end
+				else
+					if nameserver~=PIG_OptionsUI.AllName then
+						table.insert(linData,{nameserver,data})
+					end
 				end
 			end
 		end
@@ -1015,7 +1023,7 @@ function BusinessInfo.MailPlus_ADDUI()
 			if button=="LeftButton" then
 				if IsShiftKeyDown() then
 					local editBox = ChatEdit_ChooseBoxForSend();
-					local hasText = editBox:GetText()..self.itemLink
+					local hasText = editBox:GetText()..GetContainerItemLink(self.BagID, self.SlotID)
 					if editBox:HasFocus() then
 						editBox:SetText(hasText);
 					else
@@ -1131,7 +1139,7 @@ function BusinessInfo.MailPlus_ADDUI()
 		end
 		local PlayerData = PIGA["StatsInfo"]["Players"]
 		for nameserver,data in pairs(PlayerData) do
-			local name, server = strsplit("-", nameserver);
+			local name, server = strsplit("-", nameserver, 2);
 			if SendMailFrame.PreviousName==name then
 				return
 			end

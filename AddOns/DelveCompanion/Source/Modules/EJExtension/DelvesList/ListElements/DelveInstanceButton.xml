@@ -24,7 +24,7 @@
                     <TexCoords left="0" right="0.6" top="0.1" bottom="0.8" />
                 </Texture>
             </Layer>
-            <Layer level="OVERLAY">
+            <Layer level="OVERLAY" textureSubLevel="0">
                 <FontString parentKey="DelveName" inherits="QuestTitleFontBlackShadow"
                     text="DELVE_NAME">
                     <Size x="150" />
@@ -39,6 +39,23 @@
                     <Anchors>
                         <Anchor point="BOTTOMLEFT" relativeKey="$parentBackground"
                             relativePoint="BOTTOMLEFT" x="3" y="2" />
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="NemesisIcon"
+                    atlas="GM-icon-difficulty-mythicSelected-hover" hidden="true">
+                    <Size x="36" y="36" />
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" relativeKey="$parentBackground"
+                            relativePoint="BOTTOMLEFT" x="3" y="2" />
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY" textureSubLevel="1">
+                <Texture parentKey="LockIcon" hidden="true"
+                    atlas="UI-Journeys-GreatVault-Lock" useAtlasSize="true">
+                    <Anchors>
+                        <Anchor point="BOTTOM" relativeKey="$parentBackground"
+                            relativePoint="BOTTOM" x="0" y="0" />
                     </Anchors>
                 </Texture>
             </Layer>

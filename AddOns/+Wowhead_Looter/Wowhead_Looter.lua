@@ -10,7 +10,7 @@
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2026-01-22";
+local WL_ADDON_UPDATED = "2026-01-26";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
 local WL_VERSION = 120000;
@@ -1050,6 +1050,9 @@ end
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
 function wlUnitGUID(unit)
+    if issecretvalue(unit) then
+        return;
+    end
     local name = wlUnitName(unit);
     local id, kind = wlParseGUID(UnitGUID(unit));
 
@@ -1388,7 +1391,10 @@ end
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
 function wlEvent_GOSSIP_CONFIRM_CANCEL(self)
-    wlTracker.gossipNpc = { wlUnitGUID("npc") };
+    local id, kind = wlUnitGUID("npc");
+    if id then
+        wlTracker.gossipNpc = { id, kind };
+    end
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
@@ -1404,7 +1410,9 @@ function wlRegisterUnitGossip(gossip)
         id, kind = unpack(wlTracker.gossipNpc);
     end
 
-    if not id or kind ~= "npc" or not wlUnit[wlSeasonId][id] then
+    wlSeasonCheck();
+
+    if not id or kind ~= "npc" or not wlUnit[wlSeasonId] or not wlUnit[wlSeasonId][id] then
         return;
     end
 
@@ -2589,6 +2597,10 @@ local WL_REP_DEC = string.gsub(string.gsub(FACTION_STANDING_DECREASED, "(%%s)", 
 
 -- Event callback for CHAT_MSG_COMBAT_FACTION_CHANGE for gathering reputation changes
 function wlEvent_CHAT_MSG_COMBAT_FACTION_CHANGE(self, msg)
+    if issecretvalue(msg) then
+        return;
+    end
+
     local _, _, factionName, amount = string.find(msg, WL_REP_INC);
     if (not factionName or not amount) then
         _, _, factionName, amount = string.find(msg, WL_REP_DEC);
@@ -3018,6 +3030,10 @@ function wlEvent_UNIT_SPELLCAST_SENT(self, unit, target, spellCast, spell)
         wlTrackerClearedTime = now;
 
         local npcName, npcUnit = GameTooltip:GetUnit();
+        if issecretvalue(npcName) or issecretvalue(npcUnit) then
+            return;
+        end
+
         if not npcName and wlUnitName("target") == target then
             npcName, npcUnit = target, "target";
         end
@@ -4597,7 +4613,8 @@ function wlScanAppearancesStep()
     local colTypeStep = wlScanAppearancesProgress.colTypeStep;
 
     -- enable filter if wardrobe frame is invisible.
-    local enableFilter = not WardrobeCollectionFrame or not WardrobeCollectionFrame:IsVisible();
+    local enableFilter = (not WardrobeCollectionFrame or not WardrobeCollectionFrame:IsVisible()) and
+        (not TransmogFrame or not TransmogFrame:IsVisible());
 
     for i = 1, colTypeStep do
         if (colType > Enum.TransmogCollectionTypeMeta.MaxValue) then

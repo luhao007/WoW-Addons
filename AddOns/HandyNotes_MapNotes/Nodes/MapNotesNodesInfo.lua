@@ -858,14 +858,25 @@ nodes[2393] = { } -- Silvermoon
 nodes[2444] = { } -- Schlächteranhöhe
 nodes[2576] = { } -- Rootlands
 -- Dungeon map nodes
-nodes[2515] = { } -- Terrasse der Magister
-nodes[2492] = { } -- Windläuferturm
-nodes[2501] = { } -- Maisarakavernen
-nodes[2564] = { } -- Nalorakks Bau
-nodes[2556] = { } -- Nexuspunkt Xenas
-nodes[2574] = { } -- Arena der Leerennarbe
-nodes[2500] = { } -- Das blendende Tal
-nodes[2531] = { } -- Der Traumriss
-nodes[2533] = { } -- Marsch auf Quel'Danas      
-nodes[2529] = { } -- Die Leerenspitze    
+nodes[2515] = { } -- Terrasse der Magister - Inside Dungeon Map
+nodes[2492] = { } -- Windläuferturm - Inside Dungeon Map
+nodes[2501] = { } -- Maisarakavernen - Inside Dungeon Map
+nodes[2564] = { } -- Nalorakks Bau - Inside Dungeon Map
+nodes[2556] = { } -- Nexuspunkt Xenas - Inside Dungeon Map
+nodes[2574] = { } -- Arena der Leerennarbe - Inside Dungeon Map
+nodes[2500] = { } -- Das blendende Tal - Inside Dungeon Map
+nodes[2531] = { } -- Der Traumriss - Inside Dungeon Map
+nodes[2533] = { } -- Marsch auf Quel'Danas - Inside Dungeon Map      
+nodes[2529] = { } -- Die Leerenspitze - Inside Dungeon Map
+-- Delves map nodes
+nodes[2505] = { } -- Kluft der Erinnerung - Inside Delves Map
+nodes[2510] = { } -- Die Grollgrube - Inside Delves Map
+nodes[2505] = { } -- Kluft der Erinnerung - Inside Delves Map
+nodes[2506] = { } -- Schattenwachtspitze - Inside Delves Map
+nodes[2528] = { } -- Sonnentötersanktum - Inside Delves Map
+nodes[2525] = { } -- Der Düsterweg - Inside Delves Map
+nodes[2547] = { } -- Akademischer Aufruhr - Inside Delves Map
+nodes[2502] = { } -- Die Schattenenklave - Inside Delves Map
+nodes[2503] = { } -- Gruften der Zwielichtklinge - Inside Delves Map
+nodes[2535] = { } -- Zul'Aman - Inside Delves Map
 end

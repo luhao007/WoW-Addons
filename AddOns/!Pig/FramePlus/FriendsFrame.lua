@@ -44,7 +44,7 @@ function FramePlusfun.Friends()
     local PROJECT_WRATH=WOW_PROJECT_WRATH_CLASSIC or 11
     local function GetTisp_TXT(ProjectID,richPresence)
 		if richPresence:match("-") then
-			local ProjectName, realmName = strsplit("-", richPresence);
+			local ProjectName, realmName = strsplit("-", richPresence, 2);
 			local realmName=realmName or ""
 			if ProjectID==WOW_PROJECT_CLASSIC then
 				if ProjectName:match("专家") then

@@ -826,7 +826,6 @@ local function GetNextPindao(NewType)
 		end
 	end
 end
-
 local function chaxunxiayipindao(currChatType)
 	local pindaoNum = #TABpindaoList
 	for i=1,pindaoNum do
@@ -845,6 +844,10 @@ local function chaxunxiayipindao(currChatType)
 	return TABpindaoList[1]
 end
 ChatFrame1EditBox:HookScript("OnKeyDown",function(self,key)
+	local _, _, difficultyID= GetInstanceInfo()
+	if difficultyID==8 or difficultyID==16 or difficultyID==23 or difficultyID==40 then
+		return
+	end
 	if key=="TAB" then
 		if PIGA["Chat"]["TABqiehuanOpen"] then
 			if #TABpindaoList==0 then return end
@@ -869,7 +872,6 @@ ChatFrame1EditBox:HookScript("OnKeyDown",function(self,key)
 		end
 	end
 end)
-
 local function TABchatPindao()
 	local chatpindao = {GetChatWindowMessages(1)}
 	local chatpindaoList = {}

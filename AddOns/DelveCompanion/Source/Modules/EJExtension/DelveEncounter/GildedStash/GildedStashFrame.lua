@@ -55,7 +55,7 @@ end
 
 ---@param self DelveEncounterGildedStashFrame
 function DelveCompanion_DelveEncounterGildedStashFrameMixin:OnLoad()
-    -- Logger.Log("GildedStash OnLoad start")
+    -- Logger.Log("[DelveEncounterGildedStashFrame] OnLoad start")
 
     local stashSpell = Spell:CreateFromSpellID(Config.GILDED_STASH_SPELL_CODE)
     stashSpell:ContinueOnSpellLoad(function()
@@ -69,7 +69,7 @@ end
 
 ---@param self DelveEncounterGildedStashFrame
 function DelveCompanion_DelveEncounterGildedStashFrameMixin:OnShow()
-    -- Logger.Log("GildedStash OnShow start")
+    -- Logger.Log("[DelveEncounterGildedStashFrame] OnShow start")
 
     ---@type number
     local expansion = GetEJTierData(EJ_GetCurrentTier()).expansionLevel
@@ -112,6 +112,8 @@ end
 
 ---@param self DelveEncounterGildedStashFrame
 function DelveCompanion_DelveEncounterGildedStashFrameMixin:OnHide()
+    -- Logger.Log("[DelveEncounterGildedStashFrame] OnHide start")
+
     self.Widget:Hide()
     self.ErrorLabel:Hide()
 end

@@ -2654,12 +2654,12 @@ private.CONTAINER_GUIDE = {
 	["5390512437"] = {
 		[RSConstants.ENTRANCE] = { x = 0.5232, y = 0.6565 };
 	}; --Mrruk's Mangy Trove
-	["6137272437"] = {
+	["5390462437"] = {
 		[RSConstants.ENTRANCE] = { x = 0.4697, y = 0.8238 };
-		[RSConstants.FLAG..1] = { x = 0.5478, y = 0.2240, comment = AL["NOTE_613727_1"] };
-		[RSConstants.FLAG..2] = { x = 0.3455, y = 0.3346, comment = AL["NOTE_613727_2"] };
-		[RSConstants.FLAG..3] = { x = 0.5158, y = 0.8492, comment = AL["NOTE_613727_3"] };
-		[RSConstants.FLAG..4] = { x = 0.3269, y = 0.8350, comment = AL["NOTE_613727_4"] };
+		[RSConstants.FLAG..1] = { x = 0.5478, y = 0.2240, comment = AL["NOTE_539046_1"] };
+		[RSConstants.FLAG..2] = { x = 0.3455, y = 0.3346, comment = AL["NOTE_539046_2"] };
+		[RSConstants.FLAG..3] = { x = 0.5158, y = 0.8492, comment = AL["NOTE_539046_3"] };
+		[RSConstants.FLAG..4] = { x = 0.3269, y = 0.8350, comment = AL["NOTE_539046_4"] };
 	}; --Honored Warrior's Cache
 	["6203142437"] = {
 		[RSConstants.ENTRANCE] = { x = 0.5275, y = 0.8159 };
@@ -2978,6 +2978,14 @@ private.CONTAINER_GUIDE = {
 	["5712912413"] = {
 		[RSConstants.ENTRANCE] = { x = 0.6990, y = 0.5036 };
 	}; --Glowing Moth
+	["5910542413"] = {
+		[RSConstants.STEP1] = { x = 0.5108, y = 0.5048, comment = AL["NOTE_591054_1"], questID = 93130 };
+		[RSConstants.STEP2] = { x = 0.5114, y = 0.4751, comment = AL["NOTE_591054_2"], questID = 93130 };
+		[RSConstants.STEP3] = { x = 0.4511, y = 0.5412, comment = AL["NOTE_591054_3"], questID = 93145 };
+		[RSConstants.STEP4] = { x = 0.4717, y = 0.5314, comment = AL["NOTE_591054_4"], questID = 93145 };
+		[RSConstants.STEP5] = { x = 0.5135, y = 0.5599, comment = AL["NOTE_591054_5"], questID = 93146 };
+		[RSConstants.STEP6] = { x = 0.5115, y = 0.5856, comment = AL["NOTE_591054_6"], questID = 93146 };
+	}; --Gift of the Cycle
 }
 
 ---============================================================================

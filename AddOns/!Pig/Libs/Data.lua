@@ -240,6 +240,11 @@ for k,v in pairs(Skill_List) do
 	end
 end
 Data.Skill_ListNameIcon=Skill_ListNameIcon
+--是附魔
+local function Is_Skillfumo(namex)
+	local name = C_Spell.GetSpellName(7411)
+	return name==namex
+end
 local function Is_SkillName(namex)
 	for k,v in pairs(Skill_ListName) do
 		for i=1,#v do
@@ -253,14 +258,9 @@ end
 local function Save_data(SkillData,spellName,spellID,one)
 	local Is_Skill, topbot=Is_SkillName(spellName)
 	if Is_Skill then
-		if one then
-			if topbot=="top" then
-				table.insert(SkillData[topbot],{spellName,spellID})
-				return true
-			end
-		else
-			table.insert(SkillData[topbot],{spellName,spellID})
-		end
+		
+		table.insert(SkillData[topbot],{spellName,spellID,Is_Skillfumo(spellName)})
+		if one and topbot=="top" then return true end
 	end
 	return false
 end

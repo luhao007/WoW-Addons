@@ -29,8 +29,8 @@ RSConstants.LOOT_ITEM_ID = nil
 -- Current versions
 ---============================================================================
 
-RSConstants.CURRENT_DB_VERSION = 205
-RSConstants.CURRENT_LOOT_DB_VERSION = 183
+RSConstants.CURRENT_DB_VERSION = 207
+RSConstants.CURRENT_LOOT_DB_VERSION = 184
 
 ---============================================================================
 -- Current maps (newer)
@@ -944,6 +944,8 @@ RSConstants.NPCS_WITH_PRE_EVENT = {
 	[249712] = 242034;
 	--Voidstorm
 	[617692] = 256926;
+	--Twilight Highlands
+	[253605] = 253378;
 }
 
 -- Contains that spawn after completing an event
@@ -1055,6 +1057,7 @@ RSConstants.CONTAINERS_WITH_PRE_EVENT = {
 	[257141] = 618016;
 	--Zul'Aman
 	[539046] = 613727;
+	[613727] = 539046;
 }
 
 -- NPCs that spawn after killing another NPC

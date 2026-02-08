@@ -95,11 +95,15 @@ duiyouF:HookScript("OnShow", function(self)
 end)
 -------------------
 local mubiaoF =PIGOptionsList_R(RTabFrame,L["UNIT_TABNAME3"],90)
-mubiaoF.PlusText = {"血量百分比/职业/种族","显示目标血量百分比/职业/种族！\r|cff00FFFF小提示：|r\r目标职业图标可以点击，"..KEY_BUTTON1.."观察/"..KEY_BUTTON2.."交易"}
-if PIG_MaxTocversion(30000) then
-	mubiaoF.PlusText= {"血量/血量百分比/职业/种族","显示目标血量/血量百分比/职业/种族！\r|cff00FFFF小提示：|r\r目标职业图标可以点击，"..KEY_BUTTON1.."观察/"..KEY_BUTTON2.."交易"}
+local mubiaoText = {"职业/种族"}
+if PIG_MaxTocversion() then
+	mubiaoText[1]="血量百分比/"..mubiaoText[1]
+	if PIG_MaxTocversion(30000) then
+		mubiaoText[1]="血量值/"..mubiaoText[1]
+	end
 end
-mubiaoF.Plus=PIGCheckbutton_R(mubiaoF,mubiaoF.PlusText)
+mubiaoText[2]="显示"..mubiaoText[1].."\r|cff00FFFF小提示：|r\r目标职业图标可以点击，"..KEY_BUTTON1.."观察/"..KEY_BUTTON2.."交易"
+mubiaoF.Plus=PIGCheckbutton_R(mubiaoF,mubiaoText)
 mubiaoF.Plus:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["UnitFrame"]["TargetFrame"]["Plus"]=true;

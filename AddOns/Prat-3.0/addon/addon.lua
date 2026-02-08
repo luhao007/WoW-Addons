@@ -51,7 +51,7 @@ Prat.Version = "Prat |cff8080ff3.0|r (|cff8080ff" .. "DEBUG" .. "|r)"
 --@end-debug@]==]
 
 --@non-debug@
-Prat.Version = "Prat |cff8080ff3.0|r (|cff8080ff".."3.9.86".."|r)"
+Prat.Version = "Prat |cff8080ff3.0|r (|cff8080ff".."3.9.87".."|r)"
 --@end-non-debug@
 
 local am = {}
@@ -66,7 +66,6 @@ am.__tostring = function()
 end
 setmetatable(Prat, am)
 
-Prat.Prat3 = true
 Prat.IsClassic = (_G.WOW_PROJECT_ID == _G.WOW_PROJECT_CLASSIC)
 Prat.IsRetail = (_G.WOW_PROJECT_ID == _G.WOW_PROJECT_MAINLINE)
 Prat.IsMop = (_G.WOW_PROJECT_ID == _G.WOW_PROJECT_MISTS_CLASSIC)
@@ -183,10 +182,8 @@ function addon:OnInitialize()
 	Prat.builtinSounds = nil
 
 	-- Build the list of frames which we should hook addmessage on
-	-- IsCombatLog is not correct yet it appears, so we resort to checking
-	-- for chatframe2
 	for _, v in pairs(Prat.Frames) do
-		if (not _G.IsCombatLog(v)) and v ~= _G.ChatFrame2 then
+		if (not _G.IsCombatLog(v)) then
 			Prat.HookedFrames[v:GetName()] = v
 		end
 	end
@@ -375,8 +372,8 @@ function addon:PostEnable()
 	if _G["ChatFrame_MessageEventHandler"] then
 		self:RawHook("ChatFrame_MessageEventHandler", true)
 	elseif _G["ChatFrameMixin"] and _G["ChatFrameMixin"].MessageEventHandler then
-		for _, chatFrame in ipairs(_G["CHAT_FRAMES"]) do
-			_G[chatFrame].MessageEventHandler = function(self, event, ...)
+		for _, v in pairs(Prat.HookedFrames) do
+			v.MessageEventHandler = function(self, event, ...)
 				return addon:ChatFrame_MessageEventHandler(self, event, ...)
 			end
 		end
@@ -462,7 +459,7 @@ function addon:ChatEdit_ParseText(editBox, send)
 
 	local m = Prat.SplitMessageOut
 	wipe(m)
-	CurrentMessage = m
+	Prat.CurrentMessage = m
 
 	m.MESSAGE = command:gsub("^%s*(.-)%s*$", "%1") -- trim whitespace
 
@@ -556,7 +553,7 @@ function addon:ChatFrame_MessageEventHandler(this, event, ...)
 	local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15 = ...
 	local isSecret = issecretvalue and issecretvalue(arg1)
 
-	loading = nil -- clear any batch message loading that may be happening
+	Prat.loading = nil -- clear any batch message loading that may be happening
 
 	if not Prat.HookedFrames[this:GetName()] then
 		if _G["ChatFrame_MessageEventHandler"] then
@@ -734,28 +731,17 @@ function addon:AddMessage(frame, text, r, g, b, id, ...)
 	end
 end
 
-local wowsounds = {
-	["TellMessage"] = _G.SOUNDKIT.TELL_MESSAGE,
-}
-
 function Prat.PlaySound(_, sound)
 	if not sound then
 		return
 	end
 
-	if wowsounds[sound] then
-		_G.PlaySound(wowsounds[sound], "Master")
-	else
-		local play
-		if play == nil then
-			play = Prat.Media:Fetch(SOUND, sound)
-		end
-		if play == nil then
-			return
-		end
-
-		_G.PlaySoundFile(play, "Master")
+	local play = Prat.Media:Fetch(SOUND, sound)
+	if play == nil then
+		return
 	end
+
+	_G.PlaySoundFile(play, "Master")
 end
 
 function Prat.CanSendChatMessage(chatType)
@@ -776,7 +762,7 @@ Prat.RegisterChatCommand("pratblacklist",
 	function(name)
 		if name and #name > 0 then
 			Prat:Print("Blacklisting: '" .. tostring(name) .. "'. Reload to activate.")
-			db.realm.PlayerNameBlackList[tostring(name):lower()] = true
+			Prat.db.realm.PlayerNameBlackList[tostring(name):lower()] = true
 		end
 	end)
 
@@ -784,17 +770,17 @@ Prat.RegisterChatCommand("pratunblacklist",
 	function(name)
 		if name and #name > 0 then
 			Prat:Print("Un-Blacklisting: '" .. tostring(name) .. "'. Reload to activate")
-			db.realm.PlayerNameBlackList[tostring(name):lower()] = nil
+			Prat.db.realm.PlayerNameBlackList[tostring(name):lower()] = nil
 		end
 	end)
 
 Prat.RegisterChatCommand("pratdebugmsg",
 	function()
-		Prat:PrintLiteral(LastMessage, Prat.LastMessage.ORG)
+		Prat:PrintLiteral(Prat.LastMessage, Prat.LastMessage.ORG)
 
 		local cc = addon:GetModule("CopyChat", true)
 		if cc then
-			cc:ScrapeFullChatFrame(printFrame or _G.DEFAULT_CHAT_FRAME, true)
+			cc:ScrapeFullChatFrame(_G.DEFAULT_CHAT_FRAME, true)
 		end
 	end)
 

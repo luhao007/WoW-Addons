@@ -3,15 +3,15 @@
     xsi:schemaLocation="http://www.blizzard.com/wow/ui/ https://raw.githubusercontent.com/Gethe/wow-ui-source/live/Interface/AddOns/Blizzard_SharedXML/UI.xsd">
     <Frame name="DelveCompanionDelveListElementTemplate"
         mixin="DelveCompanion_DelveListElementMixin" virtual="true">
-        <Size x="174" y="122" />
+        <Size x="174" y="1" />
         <Frames>
             <Button parentKey="InstanceButton" inherits="DelveCompanionDelveInstanceButtonTemplate">
                 <Anchors>
                     <Anchor point="TOP" />
                 </Anchors>
             </Button>
-            <Frame parentKey="ProgressWidget"
-                inherits="DelveCompanionDelveProgressWidgetTemplate"
+            <Frame parentKey="InfoWidget"
+                inherits="DelveCompanionDLDelveInfoWidgetTemplate"
                 hidden="true">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeKey="$parent.InstanceButton"
