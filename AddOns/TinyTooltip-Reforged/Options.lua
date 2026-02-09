@@ -1134,15 +1134,11 @@ LibEvent:attachTrigger("tinytooltipreforged:diy:player", function(self, unit, sk
         totalLines = totalLines + 1
     end
     if (diytable.factionBig and diytable.factionBig.enable) then
-        if frame.BigFactionIcon then
-            frame.BigFactionIcon:SetTexture("Interface\\Timer\\".. raw.factionGroup .."-Logo")
-            frame.BigFactionIcon:Show()
-            frame:SetWidth(frameWidth+48)
-        end
+        frame.BigFactionIcon:SetTexture("Interface\\Timer\\".. raw.factionGroup .."-Logo")
+        frame.BigFactionIcon:Show()
+        frame:SetWidth(frameWidth+48)
     else
-        if frame.BigFactionIcon then
-            frame.BigFactionIcon:Hide()
-        end
+        frame.BigFactionIcon:Hide()
     end
     addon.ColorUnitBorder(frame, diyPlayerTable, raw)
     addon.ColorUnitBackground(frame, diyPlayerTable, raw)

@@ -60,10 +60,10 @@ function BusinessInfo.FBCD(StatsInfo)
 			PIGA["StatsInfo"]["FBCDMinibutTisp"]=false
 		end
 	end);
-	local OldMode = PIGA["StatsInfo"]["FBCD"]["Mode"]==2
+	local OldMode = PIGA["StatsInfo"]["FBCDMode"]==2
 	if PIG_MaxTocversion(50000) then
 		local tisptxt="切换为%s记录模式？\n需要重载界面"
-		local tisptxt=PIGA["StatsInfo"]["FBCD"]["Mode"]==1 and string.format(tisptxt,"旧版") or string.format(tisptxt,"新版")
+		local tisptxt=PIGA["StatsInfo"]["FBCDMode"]==1 and string.format(tisptxt,"旧版") or string.format(tisptxt,"新版")
 		fujiF.SetMode = PIGDiyBut(fujiF,{"LEFT",fujiF.MinibutTisp,"RIGHT",4,0},{17,17,nil,nil,"loottoast-arrow-orange"})
 		PIGEnter(fujiF.SetMode,tisptxt)
 		fujiF.SetMode:SetScript("OnClick", function ()
@@ -74,10 +74,10 @@ function BusinessInfo.FBCD(StatsInfo)
 			button1 = YES,
 			button2 = NO,
 			OnAccept = function(self,arg1)
-				if PIGA["StatsInfo"]["FBCD"]["Mode"]==1 then
-					PIGA["StatsInfo"]["FBCD"]["Mode"]=2
+				if PIGA["StatsInfo"]["FBCDMode"]==1 then
+					PIGA["StatsInfo"]["FBCDMode"]=2
 				else
-					PIGA["StatsInfo"]["FBCD"]["Mode"]=1
+					PIGA["StatsInfo"]["FBCDMode"]=1
 				end
 				ReloadUI()
 			end,

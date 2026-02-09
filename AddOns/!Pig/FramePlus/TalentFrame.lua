@@ -384,12 +384,13 @@ local function Uptate_FrameX()
         PlayerTalentFrame_UpdateControls(activeTalentGroup, numTalentGroups)
 	end)
 	if PIG_MaxTocversion(30000) then
-		
-		PlayerTalentFrameCancelButton:ClearAllPoints();
-		hooksecurefunc("PlayerTalentFrame_UpdateControls", function()
-			PlayerTalentFrameStatusFrame:ClearAllPoints();
-			PlayerTalentFrameStatusFrame:Hide()
-		end)
+		if PlayerTalentFrameCancelButton then
+			PlayerTalentFrameCancelButton:ClearAllPoints();
+			hooksecurefunc("PlayerTalentFrame_UpdateControls", function()
+				PlayerTalentFrameStatusFrame:ClearAllPoints();
+				PlayerTalentFrameStatusFrame:Hide()
+			end)
+		end
 	else
 		hooksecurefunc("PlayerTalentFrame_ShowGlyphFrame", function()
 			if not GlyphFrame.big then

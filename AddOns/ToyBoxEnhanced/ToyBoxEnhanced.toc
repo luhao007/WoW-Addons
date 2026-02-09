@@ -1,0 +1,40 @@
+## Interface: 120000
+## Author: eXochron
+## Version: 2.37.0
+
+## Title: Toy Box Enhanced
+## Notes: Extends the ingame Toy Box
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF玩具箱增强|r |cFFFFE00AToyBoxEnhanced|r
+
+## IconTexture: Interface\Icons\Trade_Archaeology_ChestofTinyGlassAnimals
+
+## Category-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r
+
+## SavedVariables: ToyBoxEnhancedGlobalSettings
+## SavedVariablesPerCharacter: ToyBoxEnhancedSettings
+
+## X-Curse-Project-ID: 87878
+## X-Wago-ID: pkNMXrGz
+
+Locals.lua
+Database\Database.lua
+Database\toys.db.lua
+Database\faction.db.lua
+
+Filters.lua
+Sort.lua
+ToyBoxEnhanced.lua
+Settings.lua
+SettingsPanel.lua
+Favorites.lua
+UI\Templates.xml
+UI\EnhancedLayer.lua
+UI\AchievementPoints.lua [AllowLoadGameType mainline]
+UI\FilterMenu.lua
+UI\Hotkeys.lua
+UI\OptionsMenu.lua
+UI\RandomToyButton.lua
+UI\ToyCount.lua
+UI\LDB-Favorites.lua
+SlashCommand.lua
+AddonCompartment.lua

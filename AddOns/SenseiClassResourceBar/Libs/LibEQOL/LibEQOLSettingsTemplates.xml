@@ -1,5 +1,5 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-    <Frame name="LibEQOL5024a08_SettingsListSectionHintTemplate" mixin="SettingsListSectionHeaderMixin" virtual="true">
+    <Frame name="LibEQOLd268029_SettingsListSectionHintTemplate" mixin="SettingsListSectionHeaderMixin" virtual="true">
         <Size x="30" y="29"/>
         <Layers>
         <Layer level="OVERLAY">
@@ -23,7 +23,7 @@
         </Scripts>
     </Frame>
 
-     <Button name="LibEQOL5024a08_MultiDropdownTemplate"
+     <Button name="LibEQOLd268029_MultiDropdownTemplate"
         virtual="true"
         inherits="SettingsDropdownControlTemplate"
         mixin="LibEQOL_MultiDropdownMixin">
@@ -40,13 +40,13 @@
         </Layers>
     </Button>
 
-    <Button name="LibEQOL5024a08_ScrollDropdownTemplate"
+    <Button name="LibEQOLd268029_ScrollDropdownTemplate"
         virtual="true"
         inherits="SettingsDropdownControlTemplate"
         mixin="LibEQOL_ScrollDropdownMixin">
     </Button>
 
-    <Frame name="LibEQOL5024a08_InputControlTemplate"
+    <Frame name="LibEQOLd268029_InputControlTemplate"
         virtual="true"
         inherits="SettingsListElementTemplate"
         mixin="LibEQOL_InputControlMixin">
@@ -56,7 +56,7 @@
         </Scripts>
     </Frame>
 
-    <Frame name="LibEQOL5024a08_ColorOverridesPanel" mixin="LibEQOL_ColorOverridesMixin" virtual="true">
+    <Frame name="LibEQOLd268029_ColorOverridesPanel" mixin="LibEQOL_ColorOverridesMixin" virtual="true">
 		<Size x="200" y="60"/>
 		<Layers>
 			<Layer level="ARTWORK">
@@ -88,7 +88,7 @@
 		</Scripts>
 	</Frame>
 
-	<Frame name="LibEQOL5024a08_ColorOverridesPanelNoHead" 
+	<Frame name="LibEQOLd268029_ColorOverridesPanelNoHead" 
 		mixin="LibEQOL_ColorOverridesMixin" 
 		inherits="SettingsListElementTemplate"
 		virtual="true"
@@ -124,7 +124,7 @@
 		</Scripts>
 	</Frame>
 
-	<Frame name="LibEQOL5024a08_SoundDropdownTemplate"
+	<Frame name="LibEQOLd268029_SoundDropdownTemplate"
 		inherits="SettingsListElementTemplate"
 		mixin="LibEQOL_SoundDropdownMixin"
 		virtual="true"

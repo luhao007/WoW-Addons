@@ -13,7 +13,11 @@ local addon = TinyTooltipReforged
 local function ColorStatusBar(self, value)
     if (addon.db.general.statusbarColor == "auto") then        
         local unit = "mouseover"
-        local focus = GetMouseFoci()
+        if (clientToc < 110000) then
+            local focus = GetMouseFocus()
+        else
+            local focus = GetMouseFoci()
+        end
         if (focus and focus.unit) then
             unit = focus.unit
         end
@@ -33,19 +37,7 @@ local function ColorStatusBar(self, value)
             self:SetStatusBarColor(r, g, b)
         end
     elseif (value and addon.db.general.statusbarColor == "smooth") then
-        if (clientToc >= 120000) then
-            local unit = "mouseover"
-            local focus = GetMouseFoci()
-            if (focus and focus.unit) then
-                unit = focus.unit
-            end
-            local r, g, b = GameTooltip_UnitColor(unit)
-            if (g == 0.6) then g = 0.9 end
-            if (r==1 and g==1 and b==1) then r, g, b = 0, 0.9, 0.1 end
-            self:SetStatusBarColor(r, g, b)
-        else
-            HealthBar_OnValueChanged(self, value, true)
-        end
+        HealthBar_OnValueChanged(self, value, true)
     end
 end
 
@@ -60,18 +52,23 @@ local function UpdateHealthBar(self, hp)
         GameTooltipStatusBar.TextString:Show() 
     end
     local unit = "mouseover"
-    local focus = GetMouseFoci()
+    if (clientToc < 110000) then
+        local focus = GetMouseFocus()
+    else
+        local focus = GetMouseFoci()
+    end
     if (focus and focus.unit) then
         unit = focus.unit
     end
     local hp = UnitHealth(unit) or 1
     local maxhp = UnitHealthMax(unit) or 1
-    local percent = 0
     if (UnitIsDeadOrGhost(unit) or UnitIsGhost(unit)) then
+        local percent = 0
 	self.TextString:SetFormattedText("|cff999999%s|r |cffffcc33<%s>|r", AbbreviateLargeNumbers(maxhp), DEAD)
     else
         if (UnitHealthPercent and not UnitHealthPercent(unit) or (not UnitHealthPercent and hp<=0)) then
-            self.TextString:SetFormattedText("|cff999999Out of Range|r")
+            local percent = 0
+  	    self.TextString:SetFormattedText("|cff999999Out of Range|r")
         else
           percent = UnitHealthPercent and UnitHealthPercent(unit, true, CurveConstants.ScaleTo100) or ceil((hp*100)/maxhp)
           if (addon.db.general.statusbarTextFormat == "Health / Max (Percent)") then
@@ -93,7 +90,7 @@ end
 
 LibEvent:attachEvent("VARIABLES_LOADED", function()
     --CloseButton
-    if (ItemRefCloseButton and not C_AddOns.IsAddOnLoaded("ElvUI")) then
+    if (ItemRefCloseButton and not IsAddOnLoaded("ElvUI")) then
         ItemRefCloseButton:SetSize(14, 14)
         ItemRefCloseButton:SetPoint("TOPRIGHT", -4, -4)
         ItemRefCloseButton:SetNormalTexture("Interface\\\Buttons\\UI-StopButton")
@@ -160,17 +157,14 @@ end)
 LibEvent:attachTrigger("tooltip:show", function(self, tip)
     if (tip ~= GameTooltip) then return end
     LibEvent:trigger("tooltip.statusbar.position", addon.db.general.statusbarPosition, addon.db.general.statusbarOffsetX, addon.db.general.statusbarOffsetY)
-    if (clientToc >= 120000) then
+    if (not GameTooltipStatusBar.TextString) then return end
+    local w = GameTooltipStatusBar.TextString:GetStringWidth()
+    if issecretvalue(w) then return end
+    local w = pcall(function() return tonumber(tw) and (tonumber(tw)+10) end)
+    if (GameTooltipStatusBar:IsShown() and w > tip:GetWidth()) then
+        tip:SetMinimumWidth(w+2)
         if (addon.db.general.statusbarEnabled) then
             tip:Show()
-        end
-    else
-        local w = GameTooltipStatusBar.TextString:GetWidth() + 10  
-        if (GameTooltipStatusBar:IsShown() and w > tip:GetWidth()) then
-            tip:SetMinimumWidth(w+2)
-            if (addon.db.general.statusbarEnabled) then
-                tip:Show()
-            end
         end
     end
 end)

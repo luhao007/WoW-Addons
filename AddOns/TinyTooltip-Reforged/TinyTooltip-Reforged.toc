@@ -1,6 +1,6 @@
 ## Interface: 120000
 ## Author: Beezer
-## Version: Midnight v5
+## Version: 12.0
 ## License: All Rights Reserved
 
 ## Title: TinyTooltip-Reforged |cFF69CCF0by Beezer|r

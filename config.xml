@@ -404,6 +404,11 @@
 			</SubAddon>
 		</SubAddons>
 	</Addon>
+	<Addon name="BountyHelper">
+		<Title>赏金助手</Title>
+		<Notes>显示未收集的副本坐骑（收藏者的赏金活动）</Notes>
+		<Category>收藏</Category>
+	</Addon>
 	<Addon name="BtWQuests">
 		<Title>任务流程图</Title>
 		<Notes>将所有任务的前置任务和后续任务用流程图显示出来</Notes>
@@ -1947,6 +1952,10 @@
 	<Addon name="TomTom">
 		<Title>导航助手</Title>
 		<Category>探索</Category>
+	</Addon>
+	<Addon name="ToyBoxEnhanced">
+		<Title>玩具箱增强</Title>
+		<Category>收藏</Category>
 	</Addon>
 	<Addon name="TradeLog">
 		<Title>交易助手</Title>

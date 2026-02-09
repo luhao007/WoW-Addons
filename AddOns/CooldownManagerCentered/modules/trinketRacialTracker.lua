@@ -21,7 +21,7 @@ local ITEMS = {
     -- Invigorating Healing Potion
     244839,
     244838,
-    244837,
+    244835,
 
     -- Tempered Potion
     212265, -- Tempered Potion (R3)
@@ -45,6 +45,16 @@ local RACIALS = {
     20594, -- Stoneform
     26297, -- Berserking
     28880, -- Gift of the Naaru
+    28880, -- Gift of the Naaru
+    59542, -- Gift of the Naaru
+    59543, -- Gift of the Naaru
+    59544, -- Gift of the Naaru
+    59545, -- Gift of the Naaru
+    59547, -- Gift of the Naaru
+    59548, -- Gift of the Naaru
+    121093, -- Gift of the Naaru
+    370626, -- Gift of the Naaru
+    416250, -- Gift of the Naaru
     58984, -- Shadowmeld
     59752, -- Will to Survive
     68992, -- Darkflight

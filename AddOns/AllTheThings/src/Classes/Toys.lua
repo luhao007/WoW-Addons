@@ -3,22 +3,16 @@ local _,app = ...;
 
 local pairs, PlayerHasToy = pairs, PlayerHasToy;
 
--- WoW API Cache
-local GetItemCount = app.WOWAPI.GetItemCount;
-
 -- Toy Lib
 local KEY, CACHE = "toyID", "Toys"
+local CLASSNAME = "Toy"
 local AccountWideToyData = {};
 local toyFields = {
 	CACHE = function() return CACHE end,
 	collectible = function(t)
 		return app.Settings.Collectibles[CACHE];
 	end,
-	collected = app.IsClassic and function(t)
-		-- really don't want the evaluation of whether something is collected to be forcibly executed on EVERY check
-		-- should be a cached check with a re-evaluation if not cached state
-		return app.SetCollected(t, CACHE, t[KEY], GetItemCount(t[KEY], true) > 0);
-	end or function(t)
+	collected = function(t)
 		return app.TypicalAccountCollected(CACHE, t[KEY])
 	end,
 	itemID = function(t)
@@ -26,18 +20,34 @@ local toyFields = {
 	end,
 };
 
-if not C_ToyBox or app.GameBuildVersion < 30000 then
-	app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, accountWideData)
-		if not currentCharacter.Toys then currentCharacter.Toys = {}; end
+app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, accountWideData)
+	if not currentCharacter[CACHE] then currentCharacter[CACHE] = {} end
+	if not accountWideData[CACHE] then accountWideData[CACHE] = {} end
 
-		local accountWide = accountWideData.Toys;
-		if accountWide then
-			AccountWideToyData = accountWide;
-		else
-			accountWideData.Toys = AccountWideToyData;
+	local accountWide = accountWideData.Toys;
+	if accountWide then
+		AccountWideToyData = accountWide;
+	else
+		accountWideData.Toys = AccountWideToyData;
+	end
+end)
+if not C_ToyBox or app.GameBuildVersion < 30000 then
+	app.CreateToy = app.ExtendClass("Item", CLASSNAME, "toyID", toyFields);
+	local GetItemCount = app.WOWAPI.GetItemCount;
+	app.AddEventHandler("OnRefreshCollections", function()
+		local saved, none = {}, {}
+		for id,_ in pairs(app.GetRawFieldContainer("toyID")) do
+			if GetItemCount(id, true) > 0 then
+				saved[id] = true
+			else
+				none[id] = true
+			end
 		end
-	end);
-	app.CreateToy = app.ExtendClass("Item", "Toy", "toyID", toyFields);
+
+		-- Account Cache
+		app.SetBatchCached(CACHE, saved, 1)
+		app.SetBatchCached(CACHE, none)
+	end)
 	return
 end
 
@@ -51,17 +61,6 @@ local IsToyBNETCollectible = setmetatable({}, {
 		end
 	end
 });
-toyFields.collected = app.IsClassic and function(t)
-	local toyID = t[KEY];
-	if IsToyBNETCollectible[t[KEY]] then
-		if AccountWideToyData[toyID] then return 1; end	-- Once acquired, you can't unaquire them.
-		return app.SetAccountCollected(t, CACHE, toyID, PlayerHasToy(toyID));
-	else
-		return app.SetCollected(t, CACHE, toyID, GetItemCount(toyID, true) > 0);
-	end
-end or function(t)
-	return app.TypicalAccountCollected(CACHE, t[KEY])
-end;
 toyFields.description = function(t)
 	if not IsToyBNETCollectible[t[KEY]] then
 		return "This is not a Toy as classified by Blizzard, but it is something that SHOULD be a Toy! Keep this in your inventory somewhere on an alt until Blizzard fixes it.";
@@ -75,47 +74,24 @@ app.AddEventRegistration("TOYS_UPDATED", app.IsRetail and function(itemID, new)
 end or function(toyID, new)
 	if toyID then
 		app.SetAccountCollected(app.SearchForField(KEY, toyID)[1] or app.CreateToy(toyID), CACHE, toyID, PlayerHasToy(toyID));
-		app:RefreshDataQuietly("TOYS_UPDATED", true);
 	end
 end)
-if app.IsClassic then
-	app.AddEventHandler("OnRefreshCollections", function()
-		-- Refresh Toys
-		local collected;
-		for id,t in pairs(app.GetRawFieldContainer("toyID")) do
-			if #t > 0 then
-				collected = t[1].collected;	-- Run the collected field's code.
-			end
+app.AddEventHandler("OnRefreshCollections", function()
+	local saved, none = {}, {}
+	for id,_ in pairs(app.GetRawFieldContainer("toyID")) do
+		if PlayerHasToy(id) then
+			saved[id] = true
+		else
+			none[id] = true
 		end
-	end);
-else
-	app.AddEventHandler("OnRefreshCollections", function()
-		local saved, none = {}, {}
-		for id,_ in pairs(app.GetRawFieldContainer("toyID")) do
-			if PlayerHasToy(id) then
-				saved[id] = true
-			else
-				none[id] = true
-			end
-		end
-
-		-- Account Cache
-		app.SetBatchAccountCached(CACHE, saved, 1)
-		app.SetBatchAccountCached(CACHE, none)
-	end)
-end
-app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, accountWideData)
-	if not currentCharacter[CACHE] then currentCharacter[CACHE] = {} end
-	if not accountWideData[CACHE] then accountWideData[CACHE] = {} end
-
-	local accountWide = accountWideData.Toys;
-	if accountWide then
-		AccountWideToyData = accountWide;
-	else
-		accountWideData.Toys = AccountWideToyData;
 	end
 
-	if app.IsClassic then
+	-- Account Cache
+	app.SetBatchAccountCached(CACHE, saved, 1)
+	app.SetBatchAccountCached(CACHE, none)
+end)
+if app.IsClassic then
+	app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, accountWideData)
 		-- With Wrath Classic, toys became *mostly* account wide.
 		local characterData = currentCharacter.Toys;
 		if characterData then
@@ -134,9 +110,8 @@ app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, acco
 		else
 			currentCharacter.Toys = {};
 		end
-	end
-end);
-local CLASSNAME = "Toy"
+	end);
+end
 app.CreateToy = app.ExtendClass("Item", CLASSNAME, "toyID", toyFields);
 
 app.AddSimpleCollectibleSwap(CLASSNAME, CACHE)

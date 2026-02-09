@@ -175,9 +175,8 @@ function HealthBarMixin:ApplyVisibilitySettings(layoutName)
     local data = self:GetData(layoutName)
     if not data then return end
 
-    self:HideBlizzardPlayerContainer(layoutName, data)
-
     if not InCombatLockdown() then
+        self:HideBlizzardPlayerContainer(layoutName, data)
         self:RegisterSecureVisibility()
     end
 
@@ -188,19 +187,9 @@ function HealthBarMixin:HideBlizzardPlayerContainer(layoutName, data)
     data = data or self:GetData(layoutName)
     if not data then return end
 
-    -- Blizzard Frames are protected in combat
-    if data.hideBlizzardPlayerContainerUi == nil or InCombatLockdown() then return end
-
     if PlayerFrame then
-        if data.hideBlizzardPlayerContainerUi == true then
-            if LEM:IsInEditMode() then
-                PlayerFrame:Show()
-            else
-                PlayerFrame:Hide()
-            end
-        else
-            PlayerFrame:Show()
-        end
+        RegisterAttributeDriver(PlayerFrame, "state-visibility", (data.hideBlizzardPlayerContainerUi and not LEM:IsInEditMode()) and "hide" or "show")
+        RegisterAttributeDriver(PlayerFrame, "alpha", (data.hideBlizzardPlayerContainerUi and not LEM:IsInEditMode()) and "0" or "1")
     end
 end
 

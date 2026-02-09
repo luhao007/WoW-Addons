@@ -1,21 +1,23 @@
-﻿## Interface: 120000
+## Interface: 120000
+## Author: geligasi
+## Version: 9.9995
+
 ## Title: !Pig
-## Title-zhCN: !Pig
-## Title-zhTW: !Pig
 ## Notes: A toolbox. Integrating many small features can greatly reduce the number of plug-ins you have
+## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r|cFFFFFFFFPig工具箱|r |cFFFFE00A!Pig|r
 ## Notes-zhCN: 一个工具箱。整合很多小功能，可以极大减少你的插件数量
-## Notes-zhTW: 一個工具箱。整合很多小功能，可以極大減少你的插件數量
+
 ## IconTexture: Interface/AddOns/!Pig/Libs/logo32.blp
-## Category-enUS: Toolbox
-## Category-zhCN: 工具箱
-## Category-zhTW: 工具箱
+
+## Category-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r
+
 ## AddonCompartmentFunc: PIGCompartmentClick
 ## AddonCompartmentFuncOnEnter: PIGCompartmentEnter
 ## AddonCompartmentFuncOnLeave: PIGCompartmentLeave
-## Author: geligasi
-## Version: 9.9994
+
 ## SavedVariables: PIGA
 ## SavedVariablesPerCharacter: PIGA_Per
+
 Localization\Localization.xml
 Error.lua
 Libs\Libs.xml

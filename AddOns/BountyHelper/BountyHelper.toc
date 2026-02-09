@@ -1,0 +1,19 @@
+## Interface: 120000
+## Author: Bettiold
+## Version: 1.0
+
+## Title: Bounty Helper
+## Notes: Your ultimate companion for collecting mounts from raids and dungeons
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF赏金助手|r |cFFFFE00ABountyHelper|r
+## Notes-zhCN: 显示未收集的副本坐骑（收藏者的赏金活动）
+
+## IconTexture: 4644000
+
+## Category-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r
+
+## SavedVariables: BountyHelperDB, dbBH
+
+Libs\LibDBIcon-1.0.lua
+
+db.lua
+main.lua
