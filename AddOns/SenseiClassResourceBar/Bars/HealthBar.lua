@@ -184,12 +184,25 @@ function HealthBarMixin:ApplyVisibilitySettings(layoutName)
 end
 
 function HealthBarMixin:HideBlizzardPlayerContainer(layoutName, data)
+    -- MSUF compatibility
+    if C_AddOns.IsAddOnLoaded("MidnightSimpleUnitFrames") then return end
+    if InCombatLockdown() then return end
+
     data = data or self:GetData(layoutName)
     if not data then return end
 
     if PlayerFrame then
-        RegisterAttributeDriver(PlayerFrame, "state-visibility", (data.hideBlizzardPlayerContainerUi and not LEM:IsInEditMode()) and "hide" or "show")
-        RegisterAttributeDriver(PlayerFrame, "alpha", (data.hideBlizzardPlayerContainerUi and not LEM:IsInEditMode()) and "0" or "1")
+        if data.hideBlizzardPlayerContainerUi and not LEM:IsInEditMode() then
+            RegisterAttributeDriver(PlayerFrame, "state-visibility", "hide")
+            RegisterAttributeDriver(PlayerFrame, "alpha", "0")
+            PlayerFrame.SCRB_forcedHidden = true
+        elseif PlayerFrame.SCRB_forcedHidden then
+            UnregisterAttributeDriver(PlayerFrame, "state-visibility")
+            UnregisterAttributeDriver(PlayerFrame, "alpha")
+            PlayerFrame:Show()
+            PlayerFrame:SetAlpha(1)
+            PlayerFrame.SCRB_forcedHidden = nil
+        end
     end
 end
 
@@ -255,6 +268,8 @@ addonTable.RegisteredBar.HealthBar = {
                     SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
                     SenseiClassResourceBarDB[dbName][layoutName].hideBlizzardPlayerContainerUi = value
                     bar:HideBlizzardPlayerContainer(layoutName)
+                    
+                    StaticPopup_Show("SCRB_RELOADUI")
                 end,
                 tooltip = L["HIDE_BLIZZARD_UI_HEALTH_BAR_TOOLTIP"],
             },

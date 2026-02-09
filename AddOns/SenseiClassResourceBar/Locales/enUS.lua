@@ -5,6 +5,8 @@ local baseLocale = {
     ["OKAY"] = OKAY,
     ["CLOSE"] = CLOSE,
     ["CANCEL"] = CANCEL,
+    ["RELOADUI"] = RELOADUI,
+    ["RELOADUI_TEXT"] = "Some changes require to reload your UI",
 
     -- Import / Export errors
     ["EXPORT"] = "Export",

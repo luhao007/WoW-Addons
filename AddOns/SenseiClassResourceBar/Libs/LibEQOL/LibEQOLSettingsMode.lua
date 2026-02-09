@@ -638,7 +638,7 @@ function lib:CreateInput(cat, data)
 	)
 
 	local initializer = Settings.CreateControlInitializer(
-		"LibEQOLd268029_InputControlTemplate",
+		"LibEQOL9c1398b_InputControlTemplate",
 		setting,
 		nil,
 		data.desc
@@ -795,7 +795,7 @@ function lib:CreateScrollDropdown(cat, data)
 		return container:GetData()
 	end
 
-	local initializer = Settings.CreateElementInitializer("LibEQOLd268029_ScrollDropdownTemplate", {
+	local initializer = Settings.CreateElementInitializer("LibEQOL9c1398b_ScrollDropdownTemplate", {
 		label = data.name or data.text or data.key,
 		optionsFunc = optionsFunc,
 		generator = data.generator,
@@ -828,7 +828,7 @@ function lib:CreateSoundDropdown(cat, data)
 		data.set,
 		data
 		)
-		local initializer = Settings.CreateElementInitializer("LibEQOLd268029_SoundDropdownTemplate", {
+		local initializer = Settings.CreateElementInitializer("LibEQOL9c1398b_SoundDropdownTemplate", {
 			setting = setting,
 			options = data.values or data.options,
 			optionfunc = data.optionfunc,
@@ -1092,7 +1092,7 @@ end
 
 function lib:CreateColorOverrides(cat, data)
 	assert(cat and data and data.entries, "category and entries required")
-	local initializer = Settings.CreateElementInitializer("LibEQOLd268029_ColorOverridesPanelNoHead", {
+	local initializer = Settings.CreateElementInitializer("LibEQOL9c1398b_ColorOverridesPanelNoHead", {
 		categoryID = cat:GetID(),
 		entries = data.entries,
 		getColor = data.getColor,
@@ -1161,7 +1161,7 @@ function lib:CreateMultiDropdown(cat, data)
 		function() end,
 		data
 	)
-	local initializer = Settings.CreateElementInitializer("LibEQOLd268029_MultiDropdownTemplate", {
+	local initializer = Settings.CreateElementInitializer("LibEQOL9c1398b_MultiDropdownTemplate", {
 		label = data.name or data.text or data.key,
 		options = data.values,
 		optionfunc = data.optionfunc,
@@ -1333,7 +1333,7 @@ function lib:CreateText(cat, text, extra)
 	local data = normalizeNameData(text, extra)
 	local name = data.name or data.text
 	local init = Settings.CreateElementInitializer(
-		"LibEQOLd268029_SettingsListSectionHintTemplate",
+		"LibEQOL9c1398b_SettingsListSectionHintTemplate",
 		{ name = name }
 	)
 	addSearchTags(init, data.searchtags or name, name)
