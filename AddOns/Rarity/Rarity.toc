@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: Allara
-## Version: 1.0 (r752-alpha-2)
+## Version: 1.0 (r752-alpha-3)
 
 ## Title: Rarity
 ## Notes: Tracks rare drops, including companions and mounts
@@ -63,6 +63,7 @@ DB\Mounts\BattleForAzeroth.lua
 DB\Mounts\Shadowlands.lua
 DB\Mounts\Dragonflight.lua
 DB\Mounts\TheWarWithin.lua
+DB\Mounts\Midnight.lua
 
 DB\Pets\HolidayEvents_Classic.lua
 DB\Pets\HolidayEvents_TheBurningCrusade.lua
@@ -83,6 +84,7 @@ DB\Pets\BattleForAzeroth.lua
 DB\Pets\Shadowlands.lua
 DB\Pets\Dragonflight.lua
 DB\Pets\TheWarWithin.lua
+DB\Pets\Midnight.lua
 
 DB\Toys\HolidayEvents_TheBurningCrusade.lua
 DB\Toys\HolidayEvents_WrathOfTheLichKing.lua
@@ -104,6 +106,7 @@ DB\Toys\BattleForAzeroth.lua
 DB\Toys\Shadowlands.lua
 DB\Toys\Dragonflight.lua
 DB\Toys\TheWarWithin.lua
+DB\Toys\Midnight.lua
 
 # Utility/Helpers
 Utils\DebugCache.lua
