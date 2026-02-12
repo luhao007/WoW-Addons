@@ -90,6 +90,7 @@ ns.Warspear = mapName(624)
 ------------------------------------ Broken Isles Zones
 ns.Azsuna = mapName(630)
 ns.TelogrusRift = mapName(971)
+ns.Eredath = mapName(882)
 ------------------------------------ Kul Tiras Zones
 ns.TiragardeSound = mapName(895)
 ns.Drustvar = mapName(896)
@@ -298,7 +299,8 @@ ns.CookingF = npcTitleLine1(46709) -- Arugi
 ns.TailoringM = npcTitleLine1(3363) -- Magar
 ns.FishingM = npcTitleLine1(70398) -- Ben mit der dröhnenden Stimme
 ns.ArchaeologyM = npcTitleLine1(47571) -- Bellok Leuchtklinge
-
+ns.DecorExpertW = npcTitleLine1(256828) -- Dennia Silberzunge
+ns.DecorExpertM = npcTitleLine1(108017) -- Torv Dubstampf
 
 ------------------------------------ TaxiIDs Text for Retail only
 local function TaxiID(id)

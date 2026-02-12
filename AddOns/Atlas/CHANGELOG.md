@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.14.1 - February 10, 2026
+### Changed
+- Retail: Updated TOC to 12.0.1
+- Updated translations
+
 ## 3.14.0 - January 19, 2026
 ### Added
 - Retail: Added support for Midnight (no new maps yet)
@@ -721,7 +726,7 @@ v1.41.00 (Apr. 14, 2017)
 v1.40.06 (Apr. 13, 2017)
 ------------------------
 - Checking deprecated plugins now will recognize the alpha build's version
-  if specifed; or will ignore those set "v3.14.0" as the version
+  if specifed; or will ignore those set "v3.14.1" as the version
   number to be changed by CurseForge's auto-packaging.
 
 v1.40.05 (Apr. 13, 2017)

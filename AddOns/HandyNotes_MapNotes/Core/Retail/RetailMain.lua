@@ -20,13 +20,13 @@ local extraInformations = { }
 ns.RestoreStaticPopUpsRetail() -- StaticPopUps.lua
 if ns.ErrorMessages then ns.ErrorMessages() end -- RetailErrorMessage.lua
 
-function ns.deleteCharacterSavedVariables() -- delete only activ profile
+function ns.deleteCharacterSavedVariables() -- delete only active profile
   local db = ns.Addon and ns.Addon.db
   if not db then return end
 
+  local current = db:GetCurrentProfile()
   db:SetProfile("Default")
 
-  local current = db:GetCurrentProfile()
   if current and current ~= "Default" then
     db:DeleteProfile(current, true)
   else
@@ -923,7 +923,7 @@ do
                         or value.type == "ZonePvEVendorH" or value.type == "ZonePvPVendorH" or value.type == "ZonePvEVendorA" or value.type == "ZonePvPVendorA" or value.type == "TradingPost" or value.type == "PassageCaveUp"
                         or value.type == "PassageCaveDown" or value.type == "MountMerchant" or value.type == "ScoutingMap" or value.type == "RenownQuartermaster" or value.type == "RenownQuartermasterH" or value.type == "RenownQuartermasterA"
                         or value.type == "MMRenownQuartermasterH" or value.type == "MMRenownQuartermasterA" or value.type == "ZoneRenownQuartermasterH" or value.type == "ZoneRenownQuartermasterA" or value.type == "ContinentRenownQuartermasterH" or value.type == "ContinentRenownQuartermasterA"
-                        or value.type == "PassageElevatorUp" or value.type == "PassageElevatorDown"
+                        or value.type == "PassageElevatorUp" or value.type == "PassageElevatorDown" or value.type == "DecorExpert"
 
       ns.classHallIcons = value.type == "CHMountMerchant" or value.type == "CHUpgrade" or value.type == "CHScoutingMap" or value.type == "CHMailbox" or value.type == "RedPathO" or value.type == "RedPathRO" or value.type == "RedPathLO" or value.type == "RedPathU" 
                       or value.type == "RedPathLU" or value.type == "RedPathRU" or value.type == "RedPathL" or value.type == "RedPathR" or value.type == "CHTravel" or value.type == "CHPortal" or value.type == "ArtifactForge" or value.type == "Recruit" 
@@ -1629,13 +1629,13 @@ do
 
       if t.uiMapId == 948 -- Mahlstrom Continent 
         or t.uiMapId == 905 -- Argus Continent
-        or (mapInfo.mapType == 0 and (ns.dbChar.AzerothDeletedIcons[t.uiMapId] and not ns.dbChar.AzerothDeletedIcons[t.uiMapId][state])) -- Cosmos
-        or (mapInfo.mapType == 1 and (ns.dbChar.AzerothDeletedIcons[t.uiMapId] and not ns.dbChar.AzerothDeletedIcons[t.uiMapId][state])) -- Azeroth
-        or (not (ns.CapitalIDs or ns.ClassHallIDs) and (mapInfo.mapType == 4 or mapInfo.mapType == 6) and (ns.dbChar.DungeonDeletedIcons[t.uiMapId] and not ns.dbChar.DungeonDeletedIcons[t.uiMapId][state])) -- Dungeon
-        or (not (ns.CapitalIDs or ns.ClassHallIDs) and (ns.dbChar.ZoneDeletedIcons[t.uiMapId] and not ns.dbChar.ZoneDeletedIcons[t.uiMapId][state] and value.showInZone) and (mapInfo.mapType == 3 or mapInfo.mapType == 5 )) -- Zone without Capitals
-        or ((ns.CapitalIDs or ns.ClassHallIDs) and (ns.dbChar.CapitalsDeletedIcons[t.uiMapId] and not ns.dbChar.CapitalsDeletedIcons[t.uiMapId][state] and value.showInZone)) -- Capitals
-        or ((ns.CapitalIDs or ns.ClassHallIDs) and ns.dbChar.MinimapCapitalsDeletedIcons[t.minimapId] and not ns.dbChar.MinimapCapitalsDeletedIcons[t.minimapId][state] and value.showOnMinimap) -- Minimap Capitals
-        or (not (ns.CapitalIDs or ns.ClassHallIDs) and (mapInfo.mapType == 3 or mapInfo.mapType == 5) and ns.dbChar.MinimapZoneDeletedIcons[t.minimapId] and not ns.dbChar.MinimapZoneDeletedIcons[t.minimapId][state] and value.showOnMinimap) -- Minimap Zones
+        or (mapInfo.mapType == 0 and (ns.dbProfile.AzerothDeletedIcons[t.uiMapId] and not ns.dbProfile.AzerothDeletedIcons[t.uiMapId][state])) -- Cosmos
+        or (mapInfo.mapType == 1 and (ns.dbProfile.AzerothDeletedIcons[t.uiMapId] and not ns.dbProfile.AzerothDeletedIcons[t.uiMapId][state])) -- Azeroth
+        or (not (ns.CapitalIDs or ns.ClassHallIDs) and (mapInfo.mapType == 4 or mapInfo.mapType == 6) and (ns.dbProfile.DungeonDeletedIcons[t.uiMapId] and not ns.dbProfile.DungeonDeletedIcons[t.uiMapId][state])) -- Dungeon
+        or (not (ns.CapitalIDs or ns.ClassHallIDs) and (ns.dbProfile.ZoneDeletedIcons[t.uiMapId] and not ns.dbProfile.ZoneDeletedIcons[t.uiMapId][state] and value.showInZone) and (mapInfo.mapType == 3 or mapInfo.mapType == 5 )) -- Zone without Capitals
+        or ((ns.CapitalIDs or ns.ClassHallIDs) and (ns.dbProfile.CapitalsDeletedIcons[t.uiMapId] and not ns.dbProfile.CapitalsDeletedIcons[t.uiMapId][state] and value.showInZone)) -- Capitals
+        or ((ns.CapitalIDs or ns.ClassHallIDs) and ns.dbProfile.MinimapCapitalsDeletedIcons[t.minimapId] and not ns.dbProfile.MinimapCapitalsDeletedIcons[t.minimapId][state] and value.showOnMinimap) -- Minimap Capitals
+        or (not (ns.CapitalIDs or ns.ClassHallIDs) and (mapInfo.mapType == 3 or mapInfo.mapType == 5) and ns.dbProfile.MinimapZoneDeletedIcons[t.minimapId] and not ns.dbProfile.MinimapZoneDeletedIcons[t.minimapId][state] and value.showOnMinimap) -- Minimap Zones
       then
         return state, nil, icon, scale, alpha
       end
@@ -1712,7 +1712,7 @@ do
             alpha = 1
           end
               
-          if (mapInfo.mapType == 2 and (ns.dbChar.ContinentDeletedIcons[t.contId] and not ns.dbChar.ContinentDeletedIcons[t.contId][state]) and value.showOnContinent) then -- Continent
+          if (mapInfo.mapType == 2 and (ns.dbProfile.ContinentDeletedIcons[t.contId] and not ns.dbProfile.ContinentDeletedIcons[t.contId][state]) and value.showOnContinent) then -- Continent
             return state, continent, icon, scale, alpha
           end
 
@@ -1915,29 +1915,29 @@ local CurrentMapID = WorldMapFrame:GetMapID()
     exclusive  = true,
     OnAccept = function()
       if ns.CapitalIDs or ns.ClassHallIDs then
-        ns.dbChar.CapitalsDeletedIcons[uiMapId][coord] = true
-        ns.dbChar.MinimapCapitalsDeletedIcons[uiMapId][coord] = true
+        ns.dbProfile.CapitalsDeletedIcons[uiMapId][coord] = true
+        ns.dbProfile.MinimapCapitalsDeletedIcons[uiMapId][coord] = true
         print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", L["Capitals"] .. " & " .. L["Capitals"] .. " - " .. MINIMAP_LABEL .. " - " .. "|cff00ff00" .. L["A icon has been deleted"])
       end
     
       if mapInfo.mapType == 1 then -- Azeroth
-        ns.dbChar.AzerothDeletedIcons[uiMapId][coord] = true
+        ns.dbProfile.AzerothDeletedIcons[uiMapId][coord] = true
         print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", AZEROTH .. " - " .. "|cff00ff00" .. L["A icon has been deleted"])
       end
     
       if mapInfo.mapType == 2 then -- Continent
-        ns.dbChar.ContinentDeletedIcons[uiMapId][coord] = true
+        ns.dbProfile.ContinentDeletedIcons[uiMapId][coord] = true
         print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", L["Continents"] .. " - " .. "|cff00ff00" .. L["A icon has been deleted"])
       end
     
       if not (ns.CapitalIDs or ns.ClassHallIDs) and mapInfo.mapType == 3 then -- Zone
-        ns.dbChar.ZoneDeletedIcons[uiMapId][coord] = true
-        ns.dbChar.MinimapZoneDeletedIcons[uiMapId][coord] = true
+        ns.dbProfile.ZoneDeletedIcons[uiMapId][coord] = true
+        ns.dbProfile.MinimapZoneDeletedIcons[uiMapId][coord] = true
         print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", L["Zones"] .. " & " .. MINIMAP_LABEL .. " - " .. "|cff00ff00" .. L["A icon has been deleted"])
       end
     
       if not (ns.CapitalIDs or ns.ClassHallIDs) and (mapInfo.mapType == 4 or mapInfo.mapType == 6) then -- Dungeon
-        ns.dbChar.DungeonDeletedIcons[uiMapId][coord] = true
+        ns.dbProfile.DungeonDeletedIcons[uiMapId][coord] = true
         print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", DUNGEONS .. " - " .. "|cff00ff00" .. L["A icon has been deleted"])
       end
       HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
@@ -2230,6 +2230,132 @@ local Addon = CreateFrame("Frame")
 Addon:RegisterEvent("PLAYER_LOGIN")
 Addon:SetScript("OnEvent", function(self, event, ...) return self[event](self, ...)end)
 
+local function EnsureDeletedIconsSchema(t)
+  if type(t) ~= "table" then return end
+
+  local function AutoSubTables(tbl)
+    if type(tbl) ~= "table" then tbl = {} end
+    if getmetatable(tbl) == nil then
+      setmetatable(tbl, {
+        __index = function(self, k)
+          local sub = {}
+          rawset(self, k, sub)
+          return sub
+        end
+      })
+    end
+    return tbl
+  end
+
+  t.CapitalsDeletedIcons = AutoSubTables(t.CapitalsDeletedIcons)
+  t.MinimapCapitalsDeletedIcons = AutoSubTables(t.MinimapCapitalsDeletedIcons)
+
+  t.AzerothDeletedIcons = AutoSubTables(t.AzerothDeletedIcons)
+  t.ContinentDeletedIcons = AutoSubTables(t.ContinentDeletedIcons)
+
+  t.ZoneDeletedIcons = AutoSubTables(t.ZoneDeletedIcons)
+  t.MinimapZoneDeletedIcons = AutoSubTables(t.MinimapZoneDeletedIcons)
+
+  t.DungeonDeletedIcons = AutoSubTables(t.DungeonDeletedIcons)
+end
+
+function Addon:EnableSharedProfile()
+  if not self.db then return end
+
+  local global = self.db.global
+  local sharedName = (global.sharedProfileName and global.sharedProfileName ~= "" and global.sharedProfileName) or "MapNotes"
+  global.sharedProfileName = sharedName
+
+  local cur = self.db:GetCurrentProfile()
+  if cur ~= sharedName then
+    self.db.char.lastNonSharedProfile = cur
+  end
+
+  global.useSharedProfile = true
+
+  local exists = self.db.profiles and self.db.profiles[sharedName] ~= nil
+
+  self.db:SetProfile(sharedName)
+
+  if not exists then
+    self.db:ResetProfile()
+  end
+
+  if MapNotesMiniButton and MapNotesMiniButton.db then
+    MapNotesMiniButton.db:SetProfile(sharedName)
+    MNMMBIcon:Refresh("MNMiniMapButton", MapNotesMiniButton.db.profile.minimap)
+  end
+
+  ns.dbProfile = ns:GetDeletedIconsDB()
+end
+
+function Addon:DisableSharedProfile()
+  if not self.db then return end
+
+  local global = self.db.global
+  global.useSharedProfile = false
+
+  local back = (self.db.char.lastNonSharedProfile and self.db.char.lastNonSharedProfile ~= "" and self.db.char.lastNonSharedProfile) or "Default"
+  if self.db:GetCurrentProfile() ~= back then
+    self.db:SetProfile(back)
+  end
+
+  if MapNotesMiniButton and MapNotesMiniButton.db then
+    MapNotesMiniButton.db:SetProfile(back)
+    MNMMBIcon:Refresh("MNMiniMapButton", MapNotesMiniButton.db.profile.minimap)
+  end
+
+  ns.dbProfile = ns:GetDeletedIconsDB()
+end
+
+function Addon:ApplySharedProfileIfEnabled()
+  if not self.db then return end
+
+  local global = self.db.global
+  if not (global and global.useSharedProfile) then return end
+
+  local sharedName = (global.sharedProfileName and global.sharedProfileName ~= "" and global.sharedProfileName) or "MapNotes"
+  global.sharedProfileName = sharedName
+
+  local exists = self.db.profiles and self.db.profiles[sharedName] ~= nil
+
+  local cur = self.db:GetCurrentProfile()
+  if cur ~= sharedName and (not self.db.char.lastNonSharedProfile or self.db.char.lastNonSharedProfile == "") then
+    self.db.char.lastNonSharedProfile = cur
+  end
+
+  if self.db:GetCurrentProfile() ~= sharedName then
+    self.db:SetProfile(sharedName)
+  end
+
+  if not exists then
+    self.db:ResetProfile()
+  end
+
+  if MapNotesMiniButton and MapNotesMiniButton.db then
+    local mmbExists = MapNotesMiniButton.db.profiles and MapNotesMiniButton.db.profiles[sharedName] ~= nil
+    MapNotesMiniButton.db:SetProfile(sharedName)
+    if not mmbExists then
+      MapNotesMiniButton.db:ResetProfile()
+    end
+    MNMMBIcon:Refresh("MNMiniMapButton", MapNotesMiniButton.db.profile.minimap)
+  end
+
+  ns.dbProfile = ns:GetDeletedIconsDB()
+end
+
+function ns:GetDeletedIconsDB()
+  local adb = ns.Addon and ns.Addon.db
+  if not adb then return nil end
+
+  if type(adb.profile.deletedIcons) ~= "table" then
+    adb.profile.deletedIcons = {}
+  end
+
+  EnsureDeletedIconsSchema(adb.profile.deletedIcons)
+  return adb.profile.deletedIcons
+end
+
 local function updateStuff()
   updateextraInformation()
   HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
@@ -2261,8 +2387,22 @@ function Addon:ZONE_CHANGED()
 end
 
 function Addon:OnProfileChanged(event, database, profileKeys)
+  local wantedProfile = database:GetCurrentProfile()
   db = database.profile
-  ns.dbChar = database.profile.deletedIcons
+
+  local global = self.db and self.db.global
+  if global and global.useSharedProfile then
+    local sharedName = (global.sharedProfileName and global.sharedProfileName ~= "" and global.sharedProfileName) or "MapNotes"
+  
+    if wantedProfile ~= sharedName then
+      print(string.format(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. " " .. "|cffffff00" .. ns.LOCALE_PROFILE_SWITCH_BLOCKED[ns.locale] or ns.LOCALE_PROFILE_SWITCH_BLOCKED.enUS, ns.COLORED_ADDON_NAME))
+      self:ApplySharedProfileIfEnabled()
+      db = self.db.profile
+      return
+    end
+  end
+
+  ns.dbProfile = ns:GetDeletedIconsDB()
   HandyNotes:GetModule("FogOfWarButton"):SyncColorsFromDB(true)
 
   ns.ApplySavedCoords() -- RetailCoordsDisplay.lua
@@ -2276,21 +2416,21 @@ function Addon:OnProfileChanged(event, database, profileKeys)
   end
 
   if MapNotesMiniButton and MapNotesMiniButton.db then  -- Minimapbutton position
-    MapNotesMiniButton.db:SetProfile(database:GetCurrentProfile())
+    MapNotesMiniButton.db:SetProfile(self.db:GetCurrentProfile())
     MNMMBIcon:Refresh("MNMiniMapButton", MapNotesMiniButton.db.profile.minimap)
   end
 
   ns.Addon:FullUpdate()
   HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
-  
-  if ns.Addon.db.profile.CoreChatMassage then
+
+  if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.global.useSharedProfile then
     print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. " " .. "|cffffff00" .. L["Profile has been changed"])
   end
 end
 
 function Addon:OnProfileReset(event, database, profileKeys)
 	db = database.profile
-  ns.dbChar = database.profile.deletedIcons
+  ns.dbProfile = ns:GetDeletedIconsDB()
   HandyNotes:GetModule("FogOfWarButton"):SyncColorsFromDB(true)
 
   ns.DefaultPlayerCoords() -- RetailCoordsDisplay.lua
@@ -2309,13 +2449,13 @@ function Addon:OnProfileReset(event, database, profileKeys)
     ns.SetAreaMapMenuVisibility(ns.Addon.db.profile.areaMap.showAreaMapDropDownMenu)
   end
 
-  wipe(ns.dbChar.CapitalsDeletedIcons)
-  wipe(ns.dbChar.MinimapCapitalsDeletedIcons)
-  wipe(ns.dbChar.AzerothDeletedIcons)
-  wipe(ns.dbChar.ContinentDeletedIcons)
-  wipe(ns.dbChar.ZoneDeletedIcons)
-  wipe(ns.dbChar.MinimapZoneDeletedIcons)
-  wipe(ns.dbChar.DungeonDeletedIcons)
+  wipe(ns.dbProfile.CapitalsDeletedIcons)
+  wipe(ns.dbProfile.MinimapCapitalsDeletedIcons)
+  wipe(ns.dbProfile.AzerothDeletedIcons)
+  wipe(ns.dbProfile.ContinentDeletedIcons)
+  wipe(ns.dbProfile.ZoneDeletedIcons)
+  wipe(ns.dbProfile.MinimapZoneDeletedIcons)
+  wipe(ns.dbProfile.DungeonDeletedIcons)
 
   ns.Addon:FullUpdate()
   HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
@@ -2327,7 +2467,7 @@ end
 
 function Addon:OnProfileCopied(event, database, profileKeys)
 	db = database.profile
-  ns.dbChar = database.profile.deletedIcons
+  ns.dbProfile = ns:GetDeletedIconsDB()
   HandyNotes:GetModule("FogOfWarButton"):SyncColorsFromDB(true)
 
   ns.ApplySavedCoords() -- RetailCoordsDisplay.lua
@@ -2363,7 +2503,7 @@ end
 
 function Addon:OnProfileDeleted(event, database, profileKeys)
 	db = database.profile
-  ns.dbChar = database.profile.deletedIcons
+  ns.dbProfile = ns:GetDeletedIconsDB()
   HandyNotes:GetModule("FogOfWarButton"):SyncColorsFromDB(true)
 
   ns.Addon:FullUpdate()
@@ -2403,6 +2543,11 @@ function Addon:PLAYER_LOGIN() -- OnInitialize()
 
   -- Register Database Profile
   self.db = LibStub("AceDB-3.0"):New("HandyNotes_MapNotesRetailDB", ns.defaults)
+
+  -- Shared profiles
+  self:ApplySharedProfileIfEnabled()
+
+  -- Register Callback
   self.db.RegisterCallback(self, "OnProfileChanged", "OnProfileChanged")
 	self.db.RegisterCallback(self, "OnProfileCopied", "OnProfileCopied")
 	self.db.RegisterCallback(self, "OnProfileReset", "OnProfileReset")
@@ -2411,7 +2556,7 @@ function Addon:PLAYER_LOGIN() -- OnInitialize()
   -- default profile database
   db = self.db.profile
   -- deleted icons database
-  ns.dbChar = self.db.profile.deletedIcons
+  ns.dbProfile = ns:GetDeletedIconsDB()
   -- FogOfWar color database
   HandyNotes:GetModule("FogOfWarButton"):SyncColorsFromDB(true)
 

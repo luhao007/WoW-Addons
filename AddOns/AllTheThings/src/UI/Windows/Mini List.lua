@@ -280,7 +280,7 @@ local RetailMapDataStyleMetatable = {
 
 			-- Nest our external maps into a special header to reduce minilist header spam
 			if #externalMaps > 0 then
-				local externalMapHeader = app.CreateRawText(TRACKER_FILTER_REMOTE_ZONES, {icon=450908,description=L.REMOTE_ZONES_DESCRIPTION,external=true})
+				local externalMapHeader = app.CreateCustomHeader(app.HeaderConstants.REMOTE_ZONES, {external=true})
 				externalMapHeader.SortType = "Global";
 				NestObjects(externalMapHeader, externalMaps)
 				MergeObject(groups, externalMapHeader)
@@ -412,9 +412,12 @@ local function TrySwapFromCache(self)
 	return true
 end
 local function TryAddAutoExpand(self)
-	if not self.fullCollapsed and app.Settings:GetTooltipSetting("Expand:MiniList") then
-		self.ExpandInfo = { Expand = true }
-		return true
+	if not self.fullCollapsed then
+		if app.Settings:GetTooltipSetting("Expand:MiniList")
+			or (IsInInstance() and app.Settings:GetTooltipSetting("Expand:Difficulty")) then
+			self.ExpandInfo = { Expand = true }
+			return true
+		end
 	end
 end
 
@@ -547,6 +550,17 @@ app:CreateWindow("MiniList", {
 				window:Update();
 			end
 		end);
+		app.AddEventHandler("Settings.OnSet", function(container,key,val)
+			if container ~= "Tooltips" then return end
+
+			if key == "Expand:Difficulty" then
+				if IsInInstance() then
+					self:Rebuild()
+				end
+			elseif key == "Expand:MiniList" then
+				self:Rebuild()
+			end
+		end)
 	end,
 	OnLoad = function(self, settings)
 		app.AddEventHandler("OnCurrentMapIDChanged", app.LocationTrigger)
@@ -559,3 +573,6 @@ app:CreateWindow("MiniList", {
 		self:SetMapID(app.CurrentMapID, true)
 	end,
 });
+app.ToggleMiniListForCurrentZone = function(mapID)
+	app:GetWindow("MiniList"):SetVisible(true);
+end

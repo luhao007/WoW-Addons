@@ -60,30 +60,30 @@ local viewerToSettingKey = {
     ["BuffIconCooldownViewer"] = "BuffIcons",
 }
 
-function LayoutEngine.CenteredRowXOffsets(count, itemWidth, padding, directionModifier, iconLimit)
+function LayoutEngine.CenteredRowXOffsets(count, itemWidth, padding, directionModifier, iconLimit, iconRef)
     if not count or count <= 0 then
         return {}
     end
     local dir = directionModifier or 1
     local iconsMissing = iconLimit - count
-    local startX = Round((itemWidth + padding) * iconsMissing / 2) * dir
+    local startX = ((itemWidth + padding) * iconsMissing / 2) * dir
     local offsets = {}
     for i = 1, count do
-        offsets[i] = (startX + (i - 1) * (itemWidth + padding) * dir)
+        offsets[i] = ns.Scaling:RoundToPixelSize(startX + (i - 1) * (itemWidth + padding) * dir, iconRef)
     end
     return offsets
 end
 
-function LayoutEngine.CenteredColYOffsets(count, itemHeight, padding, directionModifier, iconLimit)
+function LayoutEngine.CenteredColYOffsets(count, itemHeight, padding, directionModifier, iconLimit, iconRef)
     if not count or count <= 0 then
         return {}
     end
     local dir = directionModifier or 1
     local iconsMissing = iconLimit - count
-    local startY = -Round((itemHeight + padding) * iconsMissing / 2) * dir
+    local startY = -((itemHeight + padding) * iconsMissing / 2) * dir
     local offsets = {}
     for i = 1, count do
-        offsets[i] = (startY - (i - 1) * (itemHeight + padding) * dir)
+        offsets[i] = ns.Scaling:RoundToPixelSize(startY - (i - 1) * (itemHeight + padding) * dir, iconRef)
     end
     return offsets
 end
@@ -261,7 +261,7 @@ function ViewerAdapters.UpdateBuffIcons()
 
     local alignment = ns.db.profile.cooldownManager_alignBuffIcons_growFromDirection or "CENTER"
     local padding = isHorizontal and BuffIconCooldownViewer.childXPadding or BuffIconCooldownViewer.childYPadding
-    local settingMap = viewerSettingsMap["BuffIconCooldownViewer"]
+
     if isHorizontal then
         local offsets
         local anchor, relativePoint
@@ -275,7 +275,7 @@ function ViewerAdapters.UpdateBuffIcons()
             anchor = iconDirection == "NORMAL" and "TOPRIGHT" or "TOPLEFT"
             relativePoint = iconDirection == "NORMAL" and "TOPRIGHT" or "TOPLEFT"
         else -- CENTER
-            offsets = LayoutEngine.CenteredRowXOffsets(count, iconWidth, padding, iconDirectionModifier, total)
+            offsets = LayoutEngine.CenteredRowXOffsets(count, iconWidth, padding, iconDirectionModifier, total, refIcon)
             anchor = iconDirection == "NORMAL" and "TOPLEFT" or "TOPRIGHT"
             relativePoint = iconDirection == "NORMAL" and "TOPLEFT" or "TOPRIGHT"
         end
@@ -340,7 +340,7 @@ function ViewerAdapters.UpdateBuffBars()
     for index, bar in ipairs(bars) do
         local offsetIndex = index - 1
         local y = growFromBottom and offsetIndex * (barHeight + spacing) or -offsetIndex * (barHeight + spacing)
-        y = y
+
         bar:ClearAllPoints()
         if growFromBottom then
             bar:SetPoint("BOTTOM", BuffBarCooldownViewer, "BOTTOM", 0, y)
@@ -402,14 +402,13 @@ local function PositionRowHorizontal(
     iconDirectionModifier,
     rowAnchor,
     iconLimit,
-    offset
+    iconRef
 )
     local count = #row
-    local xOffsets = LayoutEngine.CenteredRowXOffsets(count, w, padding, iconDirectionModifier, iconLimit)
+    local xOffsets = LayoutEngine.CenteredRowXOffsets(count, w, padding, iconDirectionModifier, iconLimit, iconRef)
 
     for i, icon in ipairs(row) do
         local x = xOffsets[i] or 0
-        x = x + (offset or 0) * iconDirectionModifier
         local stillNeedToSet = true
 
         if icon.GetPoint then
@@ -417,9 +416,9 @@ local function PositionRowHorizontal(
             if offsetX ~= nil and offsetY ~= nil then
                 local xDiff = math.abs(x - offsetX)
                 local yDiff = math.abs(yOffset - offsetY)
-                if point == rowAnchor and relativePoint == rowAnchor and xDiff <= 1 and yDiff <= 1 then
+                if point == rowAnchor and relativePoint == rowAnchor and xDiff < 1 and yDiff < 1 then
                     stillNeedToSet = false
-                -- No need to reposition
+                    -- No need to reposition
                 else
                     if xDiff <= 1 then
                         x = offsetX
@@ -434,14 +433,19 @@ local function PositionRowHorizontal(
     end
 end
 
-local function PositionRowVertical(viewer, row, xOffset, h, padding, iconDirectionModifier, colAnchor, iconLimit)
+local function PositionRowVertical(
+    viewer,
+    row,
+    xOffset,
+    h,
+    padding,
+    iconDirectionModifier,
+    colAnchor,
+    iconLimit,
+    iconRef
+)
     local count = #row
     local yOffsets = LayoutEngine.CenteredColYOffsets(count, h, padding, iconDirectionModifier, iconLimit)
-
-    local subsequentColOffset = 0
-
-    local base = ((h + padding) * iconLimit - padding)
-    local numPaddings = math.floor((iconLimit - 1) / 4)
 
     for i, icon in ipairs(row) do
         local y = yOffsets[i] or 0
@@ -585,12 +589,15 @@ function ViewerAdapters.UpdateCDViewer(viewer, fromDirection)
         local fromAnchor2 = iconDirection == "NORMAL" and "LEFT" or "RIGHT"
         local rowAnchor = fromAnchor1 .. fromAnchor2
 
+        -- if viewer == EssentialCooldownViewer then
+        --     print(ns.Scaling:GetPixelSize(viewer), ns.Scaling:GetPixelSize(first))
+        -- end
         local cumulativeOffset = 0
         for iRow, row in ipairs(rows) do
             local currentRowHeight = h
 
             local yOffset = cumulativeOffset * rowOffsetModifier
-            PositionRowHorizontal(viewer, row, yOffset, w, padding, iconDirectionModifier, rowAnchor, maxIcons)
+            PositionRowHorizontal(viewer, row, yOffset, w, padding, iconDirectionModifier, rowAnchor, maxIcons, first)
 
             cumulativeOffset = cumulativeOffset + ns.Scaling:RoundToPixelSize(currentRowHeight + padding)
         end
@@ -605,7 +612,7 @@ function ViewerAdapters.UpdateCDViewer(viewer, fromDirection)
             local currentColWidth = w
 
             local xOffset = cumulativeOffset * rowOffsetModifier
-            PositionRowVertical(viewer, row, xOffset, h, padding, iconDirectionModifier, colAnchor, maxIcons)
+            PositionRowVertical(viewer, row, xOffset, h, padding, iconDirectionModifier, colAnchor, maxIcons, first)
 
             cumulativeOffset = cumulativeOffset + ns.Scaling:RoundToPixelSize(currentColWidth + padding)
         end

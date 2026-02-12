@@ -1,6 +1,6 @@
-## Interface: 120000
+## Interface: 120001
 ## Author: Crieve
-## Version: 5.0.6
+## Version: 5.0.8a
 
 ## Title: AllTheThings |cfd9b9b9b(TBC)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF收集控助手|r |cFFFFE00AAllTheThings|r
@@ -80,6 +80,7 @@ src\Modules\Contributor.lua
 #src\__test.lua
 # Expansion specific localization files
 db\TBC\LocalizationDB.lua
+db\TBC\Categories.xml
 
 # Load object class templates
 src\Classes\base.lua
@@ -149,11 +150,5 @@ src\UI\Waypoints.lua
 src\UI\World Map Button.lua
 src\UI\Window Definitions.lua
 
-# Load expansion specific category database.
-db\TBC\Categories.xml
-
 # Window Definitions
 src\UI\Windows\Windows.xml
-
-# Finally, prepare the Data Cache
-src\Root.lua

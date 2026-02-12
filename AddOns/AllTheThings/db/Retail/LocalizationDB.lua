@@ -217,7 +217,6 @@ L.CUSTOM_FILTERS_EXPLAIN_LABEL = "|cffFFFFFFThis content is always shown if it i
 L.CUSTOM_FILTERS_GENERIC_TOOLTIP_FORMAT = "Enable this setting to forcibly show %s content even if it is not available to the current character.";
 L.CUSTOM_FILTERS_LABEL = "Automated Content";
 L.DATA_TYPE_NOT_SUPPORTED = "This data type is not supported at this time.";
-L.DEATHS_CHECKBOX = "Deaths";
 L.DEATHS_CHECKBOX_TOOLTIP = "Enable this option to track each time one of your characters die and show it as a Collectible section within the addon.\n\nNOTE: If you turn this off, we'll still track it, but we simply will not show the statistic unless you're in Debug Mode.";
 L.DEBUG_LOGIN = "Awarded for logging in.\n\nGood job! YOU DID IT!\n\nOnly visible while in Debug Mode.";
 L.DEBUG_MODE = "|c" .. _.DefaultColors.Red .. "Debug Mode |cffffffff(Show Everything)|r|r";
@@ -632,7 +631,6 @@ L.RECIPES_CHECKBOX = "Recipes";
 L.RECIPES_CHECKBOX_TOOLTIP = "Enable this option to track recipes for your professions.\n\nNOTE: You must open your professions list in order to cache these.";
 L.REFRESHING_COLLECTION = "Refreshing collection ...";
 L.RELOG_REQUIRED = "After using this, it is typically required to logout & login to collect all the items correctly on the game servers.";
-L.REMOTE_ZONES_DESCRIPTION = "Contains content which is available in the current Zone, but is directly Sourced in another Zone.";
 L.REMOVED_WITH_PATCH = "Removed With Patch";
 L.REMOVED_WITH_PATCH_CLASSIC_FORMAT = "This gets removed with patch %s";
 L.REMOVED_WITH_PATCH_FORMAT = "This gets removed with patch %s";
@@ -641,6 +639,8 @@ L.REPORT_COLLECTED_THINGS_CHECKBOX = "Report Collected Things";
 L.REPORT_COLLECTED_THINGS_CHECKBOX_TOOLTIP = "Enable this option if you want to see a message in chat detailing which items you have collected or removed from your collection.\n\nNOTE: This is present because Blizzard silently adds appearances and other collectible items and neglects to notify you of the additional items available to you.\n\nWe recommend you keep this setting on. You will still hear the fanfare with it off assuming you have that option turned on.";
 L.REPORT_COMPLETED_QUESTS_CHECKBOX = "Report Quests";
 L.REPORT_COMPLETED_QUESTS_CHECKBOX_TOOLTIP = "Enable this option if you want to see the QuestID for any quest you Accept or Complete immediately after it happens. (For reporting bugs, trackings purposes, etc)";
+L.REPORT_DEATH_TRACKER_CHECKBOX = "Report Deaths";
+L.REPORT_DEATH_TRACKER_CHECKBOX_TOOLTIP = "Enable this option if you want to see the Death Tracker in the Main List.";
 L.REPORT_INACCURATE_QUEST = "Wrong Quest Info! (Click to Report)";
 L.REPORT_NEARBY_CONTENT_AUTOMATICALLY_PLOT_WAYPOINTS_CHECKBOX = "Automatically Plot Waypoints";
 L.REPORT_NEARBY_CONTENT_AUTOMATICALLY_PLOT_WAYPOINTS_CHECKBOX_TOOLTIP = "Enable this option if you want ATT to automatically plot waypoints for nearby content.";
@@ -838,6 +838,7 @@ L.TOP_ROW_TO_LOCK = "|cff3399ff" .. ALT_KEY_TEXT .. " click to Lock this Window|
 L.TOP_ROW_TO_UNLOCK = "|cffcf0000" .. ALT_KEY_TEXT .. " click to Unlock this Window|r";
 L.TOY = TOY;
 L.TOY_DESC = "Click this button to select a random toy based on what you're missing.";
+L.TOY_EVENTUALLY_DESC = "This is not officially a Toy yet, but it is something that SHOULD be a Toy! Keep this in your inventory until Blizzard makes it so!";
 L.TOY_ID = "Toy ID";
 L.TOYS_CHECKBOX = TOY_BOX;
 L.TOYS_CHECKBOX_TOOLTIP = "Enable this option to track Toys.\n\nMost of these toys have a fun thing that they do. Others, like the Hearthstone Toys, can be used in place of your actual Hearthstone and can save you a bag slot! They also have interesting effects ... Nice!";
@@ -1034,6 +1035,7 @@ _.HeaderConstants = {
 	RARES = -46,
 	REMIX_LEGION = -104,
 	REMIX_MOP = -105,
+	REMOTE_ZONES = -721,
 	REWARDS = -47,
 	SCENARIO_COMPLETION = -49,
 	SCENARIOS = -420,
@@ -1664,6 +1666,7 @@ localize(L.HEADER_NAMES, {
 	[-718] = "Sin'dorei Endeavor",
 	[-719] = "Draconic Endeavor",
 	[-720] = "Mechagnome Endeavor",
+	[-721] = TRACKER_FILTER_REMOTE_ZONES,
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-24] = "Contains things that are rewarded upon completing that event.",
@@ -1774,6 +1777,7 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-708] = "Razer x World of Warcraft Mount Giveaway. Starts on January 21 2025 at 10:00AM PST and ends on January 31, 2026 at 11:59PM PST. No purchase necessary.",
 	[-712] = "Contains things that can be obtained only by characters that are not max level.",
 	[-713] = "Contains things that can be obtained only by max level characters.",
+	[-721] = "Contains content which is available in the current Zone, but is directly Sourced in another Zone.",
 });
 localize(L.HEADER_LORE, {
 	[-74] = "One of these dragons will spawn randomly at the associated coordinates across Azeroth.",
@@ -2354,6 +2358,7 @@ localize(L.HEADER_ICONS, {
 	[-718] = 7301737,
 	[-719] = 7301738,
 	[-720] = 7301741,
+	[-721] = 450908,
 });
 localize(L.HEADER_EVENTS, {
 	[-37] = 1,
@@ -4157,7 +4162,7 @@ _.FlightPathNames = {
 	[3120] = "Locus Point, Voidstorm",
 	[3121] = "Howling Ridge, Voidstorm",
 	[3122] = "Quest Path 10677: 11.1.7 Lorewalking - Xal - Q2 - Vehicle - Summon - stormsong to drustvar - Quest Taxi Version (LAS)",
-	[3123] = "Master's Perch, Voidstorm",
+	[3123] = "Masters' Perch, Voidstorm",
 	[3125] = "Terrace of the Sun, Isle of Quel'Danas",
 	[3126] = "Torntusk Overlook, Zul'Aman",
 	[3127] = "Amani'Zar Village, Zul'Aman",
@@ -6525,6 +6530,8 @@ local ObjectNames = {
 	[202871] = "Sunken Crate",
 	[202884] = "Scorched Soil",
 	[202902] = "Flameward",
+	[202947] = "Cologne Neutralizer",
+	[202948] = "Perfume Neutralizer",
 	[202952] = "Darkwhisper Lodestone",
 	[202954] = "Rod of Subjugation",
 	[202955] = "Rod of Subjugation",
@@ -15316,6 +15323,8 @@ local ObjectModels = {
 	[202846] = 199754,
 	[202871] = 200961,
 	[202884] = 201030,
+	[202947] = 243413,
+	[202948] = 243417,
 	[202952] = 189103,
 	[202954] = 326711,
 	[202955] = 326711,
@@ -24217,6 +24226,11 @@ L.QUEST_NAMES = {
 	[81419] = "TWW Weekly Herbalism Knowledgepoint #4",
 	[81420] = "TWW Weekly Herbalism Knowledgepoint #5",
 	[81421] = "TWW Weekly Herbalism Knowledgepoint #6",
+	[81425] = "Midnight Weekly Herbalism Knowledgepoint #1",
+	[81426] = "Midnight Weekly Herbalism Knowledgepoint #2",
+	[81427] = "Midnight Weekly Herbalism Knowledgepoint #3",
+	[81428] = "Midnight Weekly Herbalism Knowledgepoint #4",
+	[81429] = "Midnight Weekly Herbalism Knowledgepoint #5",
 	[81459] = "TWW Weekly Skinning Knowledgepoint #1",
 	[81460] = "TWW Weekly Skinning Knowledgepoint #2",
 	[81461] = "TWW Weekly Skinning Knowledgepoint #3",
@@ -24492,6 +24506,12 @@ L.QUEST_NAMES = {
 	[87386] = "Completion & 5 Mask",
 	[87387] = "Completion",
 	[87418] = "Stay awhile and listen: Arator",
+	[88673] = "Midnight Weekly Mining Knowledgepoint #1",
+	[88674] = "Midnight Weekly Mining Knowledgepoint #2",
+	[88675] = "Midnight Weekly Mining Knowledgepoint #3",
+	[88676] = "Midnight Weekly Mining Knowledgepoint #4",
+	[88677] = "Midnight Weekly Mining Knowledgepoint #5",
+	[88678] = "Midnight Weekly Mining Knowledgepoint #6",
 	[88688] = "Unlocked Wrist Slot for the Arathi Set. RELOG to get them automatically for every Armor Type!",
 	[88689] = "Unlocked Belt Slot for the Arathi Set. RELOG to get them automatically for every Armor Type!",
 	[88690] = "Unlocked Hands Slot for the Arathi Set. RELOG to get them automatically for every Armor Type!",
@@ -24590,8 +24610,20 @@ L.QUEST_NAMES = {
 	[94696] = "Dame Bloodshed weekly reputation obtained.",
 	[94704] = "Tiny Vermin weekly reputation obtained.",
 	[94712] = "Rhazul weekly reputation obtained.",
+	[94713] = "Chironex weekly reputation obtained.",
+	[94714] = "Ha'kalawe weekly reputation obtained.",
+	[94715] = "Tallcap the Truthspreader weekly reputation obtained.",
 	[94716] = "Queen Lashtongue weekly reputation obtained.",
+	[94717] = "Chlorokyll weekly reputation obtained.",
+	[94718] = "Stumpy weekly reputation obtained.",
+	[94719] = "Serrasa weekly reputation obtained.",
+	[94720] = "Mindrot weekly reputation obtained.",
+	[94721] = "Dracaena weekly reputation obtained.",
 	[94722] = "Treetop weekly reputation obtained.",
+	[94723] = "Oro'ohna weekly reputation obtained.",
+	[94724] = "Pterrock weekly reputation obtained.",
+	[94725] = "Ahl'ua'huhi weekly reputation obtained.",
+	[94726] = "Annulus the Worldshaker weekly reputation obtained.",
 	[94828] = "Become a Mind Seeker",
 }
 L.SOURCE_NAMES = {
@@ -25165,6 +25197,9 @@ localize(L.HEADER_NAMES, {
 	[-403] = "Gewölbe von Zskera",
 	[-404] = "Schnüffelsuchen",
 	[-407] = "Nachtsturz",
+	[-408] = "Erweckung der Maschine",
+	[-409] = "Schnüffeln",
+	[-412] = "Versand & Logistik",
 	[-414] = "Elementare Bande",
 	[-415] = "Trollinvasion",
 	[-416] = "Schlachtfeld: Brachland",
@@ -26812,6 +26847,8 @@ localize(ObjectNames, {
 	[202846] = "Verkohlte Stabfragmente",
 	[202871] = "Versunkene Kiste",
 	[202884] = "Versengte Erde",
+	[202947] = "Neutralisierungsstoff für Duftwasser",
+	[202948] = "Neutralisierungsstoff für Parfüm",
 	[202952] = "Flüsterleitstein",
 	[202956] = "Raketenwagenteile",
 	[202957] = "Raketenwagenteile",
@@ -32457,6 +32494,9 @@ localize(L.HEADER_NAMES, {
 	[-403] = "Caveaux de Zskera",
 	[-404] = "Recherches olfactives",
 	[-407] = "Noctechute",
+	[-408] = "L’éveil de la machine",
+	[-409] = "Flair",
+	[-412] = "Service d’expédition",
 	[-414] = "Liens élémentaires",
 	[-415] = "L’incursion trolle",
 	[-416] = "Champ de bataille : les Tarides",
@@ -34127,6 +34167,8 @@ localize(ObjectNames, {
 	[202846] = "Fragment de bâton carbonisé",
 	[202871] = "Caisse engloutie",
 	[202884] = "Sol calciné",
+	[202947] = "Neutraliseur d'eau de Cologne",
+	[202948] = "Neutraliseur de parfum",
 	[202952] = "Magnétite du Sombre murmure",
 	[202956] = "Pièces de chariot explosif",
 	[202957] = "Pièces de chariot explosif",
@@ -39387,7 +39429,10 @@ localize(L.HEADER_NAMES, {
 	[-403] = "Cripte di Zskera",
 	[-404] = "Il Fiutatutto",
 	[-407] = "Tramonto",
+	[-408] = "Risveglio della Macchina",
+	[-409] = "Fiuta e Scruta",
 	[-410] = "C.I.H.T.T.",
+	[-412] = "Spedizione e Gestione",
 	[-414] = "Legami Elementali",
 	[-415] = "L'incursione dei Troll",
 	[-416] = "Campo di battaglia: le Savane",
@@ -40633,6 +40678,8 @@ localize(ObjectNames, {
 	[202846] = "Frammento di Bastone Carbonizzato",
 	[202871] = "Cassa Affondata",
 	[202884] = "Suolo Bruciato",
+	[202947] = "Neutralizzatore Colonia",
+	[202948] = "Neutralizzatore di Profumo",
 	[202952] = "Magnetite di Mormoscuro",
 	[202956] = "Parti di Razzomacchina",
 	[202957] = "Parti di Razzomacchina",
@@ -45664,7 +45711,10 @@ localize(L.HEADER_NAMES, {
 	[-403] = "Câmaras de Zskera",
 	[-404] = "Busca farejante",
 	[-407] = "Ocaso",
+	[-408] = "Despertando a Máquina",
+	[-409] = "Fuçar",
 	[-410] = "C.H.A.T.A.",
+	[-412] = "Fretes e Remessas",
 	[-414] = "Prisão Elemental",
 	[-415] = "A incursão troll",
 	[-416] = "Campo de Batalha: Sertões",
@@ -47223,6 +47273,8 @@ localize(ObjectNames, {
 	[202846] = "Fragmento de Cajado de Osso",
 	[202871] = "Caixote Submerso",
 	[202884] = "Terra Calcinada",
+	[202947] = "Neutralizador de Colônia",
+	[202948] = "Neutralizador de Perfume",
 	[202952] = "Magnetita do Sussurro Sombrio",
 	[202956] = "Peças de Carro-foguete",
 	[202957] = "Peças de Carro-foguete",
@@ -52431,7 +52483,6 @@ L.CURSEFORGE_BUTTON_TOOLTIP = "Нажмите, чтобы скопировать
 L.CUSTOM_FILTERS_EXPLAIN_LABEL = "|cffFFFFFFЭти Штучки всегда показываются, если они доступны текущему персонажу или в |c" .. _.DefaultColors.Account .. "Режиме Аккаунта|r.|r";
 L.CUSTOM_FILTERS_GENERIC_TOOLTIP_FORMAT = "Включите данную настройку, чтобы всегда показывать %s, даже если это недоступно на данном персонаже.";
 L.CUSTOM_FILTERS_LABEL = "Автоматический контент";
-L.DEATHS_CHECKBOX = "Смерти";
 L.DEBUG_LOGIN = "Награда за вход в игру.\n\nОтличная работа! ВЫ СДЕЛАЛИ ЭТО!\n\nОтображается только в Режиме Отладки.";
 L.DEBUG_MODE = "|c" .. _.DefaultColors.Red .. "Режим Отладки |cffffffff(Показать Всё)|r|r";
 L.DEBUG_MODE_TOOLTIP = "Буквально ... ВСЕ ШТУКИ В ИГРЕ. ОКОНЧАТЕЛЬНО. ТОЧКА. АГА, ВСЕ ОНИ. Даже Несобираемые штуки, как сумки, расходуемые, реагенты и прочие, появятся в списках. (Даже Вы сами! Нет, серьёзно. Смотрите.)\n\nДанный режим только для отладки. Не предназначен для отслеживания выполнения.\n\nЭтот режим игнорирует все фильтры, включая Несобираемые.";
@@ -52737,7 +52788,6 @@ L.RECENTLY_MADE_OBTAINABLE_PT2 = "|cFFFF0000Чем больше информац
 L.RECIPES_CHECKBOX = "Рецепты";
 L.RECIPES_CHECKBOX_TOOLTIP = "Включите для отслеживания рецептов для Ваших профессий\n\nПримечание: Вы должны открыть Ваши профессии, чтобы кэшировать известные рецепты.";
 L.REFRESHING_COLLECTION = "Обновление коллекции ...";
-L.REMOTE_ZONES_DESCRIPTION = "Контент, который доступен в текущей зоне, но формально заимствован из другой зоны.";
 L.REMOVED_WITH_PATCH = "Убрано в патче";
 L.REMOVED_WITH_PATCH_FORMAT = "Удалено в %s";
 L.REPORT_COLLECTED_THINGS_CHECKBOX = "Сообщать о Собранных Штучках";
@@ -53099,7 +53149,9 @@ localize(L.HEADER_NAMES, {
 	[-406] = "Пакт Отрезанных нитей",
 	[-407] = "Сумерки",
 	[-408] = "Пробуждение Машины",
+	[-409] = "Разнюхивание",
 	[-410] = "КРОТ",
+	[-412] = "Доставка и разгрузка",
 	[-414] = "Власть стихий",
 	[-415] = "Вторжение троллей",
 	[-416] = "Поле битвы: Степи",
@@ -53237,6 +53289,7 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-396] = "Идет продолжающаяся битва четыре на четыре. Помогите Альянсу, победив Отрекшихся Отряд Смерти.",
 	[-397] = "Идет продолжающаяся битва четыре на четыре. Помогите Орде, победив воргенов-сталкеров.",
 	[-555] = "Эта награда выдаётся за заполнение прогресса Очков путешествия в течение месяца.",
+	[-721] = "Контент, который доступен в текущей зоне, но формально заимствован из другой зоны.",
 });
 localize(L.HEADER_LORE, {
 	[-389] = "Эти предметы могут быть созданы при помощи Бремя вечности и Вневременного токена для двойной дозы бессмысленного рандома.",
@@ -54807,6 +54860,8 @@ localize(ObjectNames, {
 	[202846] = "Обугленный фрагмент посоха",
 	[202871] = "Затонувший ящик",
 	[202884] = "Выжженная земля",
+	[202947] = "Нейтрализатор запаха одеколона",
+	[202948] = "Нейтрализатор запаха духов",
 	[202952] = "Магнит Зловещего Шепота",
 	[202956] = "Детали болида",
 	[202957] = "Детали болида",
@@ -60143,7 +60198,10 @@ localize(L.HEADER_NAMES, {
 	[-403] = "지스케라 금고",
 	[-404] = "냄새 추적",
 	[-407] = "일몰",
+	[-408] = "기계의 각성",
+	[-409] = "냄새맡기",
 	[-410] = "안.녕.거.기.",
+	[-412] = "운송 및 취급소",
 	[-414] = "정령의 속박",
 	[-415] = "트롤의 난입",
 	[-416] = "전쟁터: 불모의 땅",
@@ -61685,6 +61743,8 @@ localize(ObjectNames, {
 	[202846] = "까맣게 탄 지팡이 조각",
 	[202871] = "가라앉은 상자",
 	[202884] = "불타버린 흙",
+	[202947] = "은은한 향수 중화제",
+	[202948] = "매혹적인 향수 중화제",
 	[202952] = "검은속삭임 자철광",
 	[202956] = "로켓 자동차 부품",
 	[202957] = "로켓 자동차 부품",
@@ -66424,7 +66484,6 @@ L.CUSTOM_FILTERS_EXPLAIN_LABEL = "|cffFFFFFFEste contenido siempre está visible
 L.CUSTOM_FILTERS_GENERIC_TOOLTIP_FORMAT = "Activa este ajuste para mostrar forzosamente %s contenido incluso si no está disponible para tu personaje actual.";
 L.CUSTOM_FILTERS_LABEL = "Contenido automatizado";
 L.DATA_TYPE_NOT_SUPPORTED = "Este tipo de datos no se admite en este momento.";
-L.DEATHS_CHECKBOX = "Muertes";
 L.DEATHS_CHECKBOX_TOOLTIP = "Activa esta opción para rastrear cada vez que uno de tus personajes muere y lo muestra como una sección de coleccionable en el addon.\n\nNOTA: Si lo desactivas, lo seguiremos rastreando, pero simplemente no mostraremos la estadística a no ser que estés en Modo Depuración.";
 L.DEBUG_LOGIN = "Otorgado por iniciar sesión.\n\n¡Buen trabajo! ¡LO LOGRASTE!\n\nSolo visible en modo de depuración.";
 L.DEBUG_MODE = "|c" .. _.DefaultColors.Red .. "Modo Depuración |cffffffff(Muestra todo)|r|r";
@@ -66787,7 +66846,6 @@ L.RECIPES_CHECKBOX = "Recetas";
 L.RECIPES_CHECKBOX_TOOLTIP = "Activa esta opción para rastrear recetas para tu profesión.\n\nNOTA: Debes abrir tu lista de profesiones para cargar la información de estas.";
 L.REFRESHING_COLLECTION = "Refrescando colección ...";
 L.RELOG_REQUIRED = "Después de usar esto, normalmente es necesario cerrar sesión e iniciar sesión para recolectar todos los elementos correctamente en los servidores del juego.";
-L.REMOTE_ZONES_DESCRIPTION = "Contiene contenido que está disponible en la Zona actual, pero que se obtiene directamente de otra Zona.";
 L.REMOVED_WITH_PATCH = "Eliminado en el Parche";
 L.REMOVED_WITH_PATCH_CLASSIC_FORMAT = "Esto se elimina con un parche %s";
 L.REMOVED_WITH_PATCH_FORMAT = "Eliminado en el parche %s";
@@ -67208,7 +67266,10 @@ localize(L.HEADER_NAMES, {
 	[-404] = "Olfatobúsqueda",
 	[-406] = "Pacto de Los Hilos Cortados",
 	[-407] = "Ocaso",
+	[-408] = "Despertar la máquina",
+	[-409] = "Olfatear",
 	[-410] = "T.C.E.H.T.",
+	[-412] = "Envíos y Portes",
 	[-414] = "Vínculos Elementales",
 	[-415] = "La incursión trol",
 	[-416] = "Campo de batalla: Los Baldíos",
@@ -67367,6 +67428,7 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-565] = "Saludos, aficionados a la lucha. ¡Los villanos más malvados de Azeroth se han unido y han vuelto para vengarse! Venid a Ventormenta, Orgrimmar o Dornogal y enfrentaos a los malvados jefes del pasado de Azeroth.",
 	[-592] = "Es el aniversario de World of Warcraft! Desde el equipo de desarrollo de WoW, te damos las gracias por disfrutar del mundo de Azeroth y más allá junto a nosotros.",
 	[-687] = "Al transferir un Cronoaventurero a retail, cualquier botín de banda Normal+ en tus |cffFF0000bolsas o banco solamente|R otorgará las apariencias para sus variantes de Remix de dificultad BdB, N, H, y M.",
+	[-721] = "Contiene contenido que está disponible en la Zona actual, pero que se obtiene directamente de otra Zona.",
 });
 localize(L.HEADER_LORE, {
 	[-74] = "Uno de estos dragones aparecerá aleatoriamente en las coordenadas asociadas en todo Azeroth.",
@@ -68918,6 +68980,8 @@ localize(ObjectNames, {
 	[202846] = "Fragmento de bastón carbonizado",
 	[202871] = "Cajón hundido",
 	[202884] = "Suelo agostado",
+	[202947] = "Neutralizador de colonia",
+	[202948] = "Neutralizador de perfume",
 	[202952] = "Magnetita Negro Rumor",
 	[202956] = "Piezas de coche cohete",
 	[202957] = "Piezas de coche cohete",
@@ -74249,7 +74313,10 @@ localize(L.HEADER_NAMES, {
 	[-384] = "Abismos TWW T2",
 	[-385] = "Abismos TWW T3",
 	[-395] = "Cazadores principiantes",
+	[-408] = "Despertar de la Máquina",
+	[-409] = "Husmeo",
 	[-410] = "T.A.R.E.A.S.",
+	[-412] = "Envíos y Manipulación",
 	[-422] = "Campaña de la fortaleza",
 	[-471] = "Cronoleyenda",
 	[-472] = "Visiones horribles revividas",
@@ -74733,7 +74800,6 @@ L.CUSTOM_FILTERS_EXPLAIN_LABEL = "|cffFFFFFF如果当前角色可以使用此内
 L.CUSTOM_FILTERS_GENERIC_TOOLTIP_FORMAT = "启用此设置可强行显示%s内容，即使该内容对当前角色不可用。";
 L.CUSTOM_FILTERS_LABEL = "自动化内容";
 L.DATA_TYPE_NOT_SUPPORTED = "当前不支持此数据类型。";
-L.DEATHS_CHECKBOX = "死亡";
 L.DEATHS_CHECKBOX_TOOLTIP = "启用此选项可跟踪您的角色每次死亡的情况，并将其显示为插件中的收藏品部分。\n\n注意：如果您关闭此选项，我们仍会跟踪它，但除非您处于调试模式，否则我们不会显示统计信息。";
 L.DEBUG_LOGIN = "登录后获得的奖励。\n\n干得好！你做到了！\n\n仅在调试模式下可见。";
 L.DEBUG_MODE = "|c" .. _.DefaultColors.Red .. "调试模式|cffffffff（显示所有）|r|r";
@@ -75113,7 +75179,6 @@ L.RECIPES_CHECKBOX = "配方";
 L.RECIPES_CHECKBOX_TOOLTIP = "启用此选项可追踪你的专业图纸。\n\n注意：你必须打开专业列表才能缓存这些。";
 L.REFRESHING_COLLECTION = "刷新收藏…";
 L.RELOG_REQUIRED = "使用此功能后，通常需要注销并重新登录，以便在游戏服务器上正确领取所有物品。";
-L.REMOTE_ZONES_DESCRIPTION = "包含当前区域可用但实际源自其他区域的内容。";
 L.REMOVED_WITH_PATCH = "随补丁移除";
 L.REMOVED_WITH_PATCH_CLASSIC_FORMAT = "该物品是随补丁 %s 移除的";
 L.REMOVED_WITH_PATCH_FORMAT = "补丁 %s 中被删除";
@@ -75735,6 +75800,7 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-565] = "战斗迷们，大家好。世界上最邪恶的反派们联手归来，誓要复仇！前往暴风城、奥格瑞玛或多诺加尔，与艾泽拉斯过去的邪恶首领们一决高下。",
 	[-592] = "这是一个每年重现的活动，发生在十一月初到年底之间。",
 	[-652] = "赞达拉部族对潘达利亚大陆的入侵始于雷神岛的开放。战争使者遍布整个大陆，拥有难度各异的单人挑战机制及可获取的坐骑！与好友一同刷取这些奖励吧。",
+	[-721] = "包含当前区域可用但实际源自其他区域的内容。",
 });
 localize(L.HEADER_LORE, {
 	[-74] = "这些龙中的一只会在艾泽拉斯的相关坐标随机生成。",
@@ -77067,6 +77133,8 @@ localize(ObjectNames, {
 	[202846] = "被烧焦的法杖碎片",
 	[202871] = "沉没的箱子",
 	[202884] = "焦黑的土壤",
+	[202947] = "古龙水中和剂",
+	[202948] = "香水中和剂",
 	[202952] = "暗语磁石",
 	[202956] = "火箭车零件",
 	[202957] = "火箭车零件",
@@ -82144,7 +82212,6 @@ L.REAGENT_CACHE_OUT_OF_DATE = "快取已過期，打開專業技能介面後會�
 L.RECENTLY_MADE_OBTAINABLE = "|cFFFF0000如果你掉落了此項（除回收箱外的\n任何地方），請去 Discord 告訴我們從哪掉的！|r";
 L.RECENTLY_MADE_OBTAINABLE_PT2 = "|cFFFF0000提供越多資訊越好，謝謝！|r";
 L.RECIPES_CHECKBOX_TOOLTIP = "啟用此選項可追蹤你的專業技能圖紙。\n\n注意：你必須打開專業技能列表才能快取這些。";
-L.REMOTE_ZONES_DESCRIPTION = "包含在當前區域可取得，但來源直接來自另一個區域的內容。";
 L.REMOVED_WITH_PATCH = "隨更新移除";
 L.REMOVED_WITH_PATCH_CLASSIC_FORMAT = "該物品是隨更新 %s 移除的";
 L.REMOVED_WITH_PATCH_FORMAT = "更新 %s 中被刪除";
@@ -82456,6 +82523,8 @@ localize(L.HEADER_NAMES, {
 	[-406] = "斷裂絲線合約",
 	[-407] = "夜暮激戰事件",
 	[-408] = "甦醒機械",
+	[-409] = "嗅聞",
+	[-412] = "運送和搬運",
 	[-414] = "元素桎梏",
 	[-415] = "食人妖入侵",
 	[-416] = "戰爭前線：貧瘠之地",
@@ -82574,6 +82643,7 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-552] = "這些是在《魔獸：崛起》電影仍在上映期間，每個陣營至少登入一次所獲得的獎勵。",
 	[-553] = "手遊《魔獸兵團》的促銷活動",
 	[-592] = "這是一個每年重複的活動，發生在十一月初到年底之間。",
+	[-721] = "包含在當前區域可取得，但來源直接來自另一個區域的內容。",
 });
 localize(L.HEADER_LORE, {
 	[-74] = "這些龍中的一隻會在艾澤拉斯的相關座標隨機生成。",

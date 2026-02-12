@@ -165,7 +165,7 @@ local function WilduSettings_BuildCooldown(category, layout)
     SettingsLib:CreateCheckboxSlider(category, {
         prefix = "CMC_",
         key = "cooldownManager_utility_dimWhenNotOnCD",
-        name = "Dim Utility on CD",
+        name = "Dim Utility when not on CD",
         searchtags = { "Dim", "Opacity", "Faded", "Transparent", "Utility", "Cooldown", "Hide", "Icons" },
         default = false,
         get = function()
@@ -643,6 +643,7 @@ local function WilduSettings_BuildCooldown(category, layout)
         prefix = "CMC_",
         key = "cooldownManager_cooldownFontFlags",
         name = "Font Flags",
+        customText = "No Flags",
         searchtags = { "Font", "Flags", "Outline", "Shadow", "Thick", "Monochrome", "Text", "Style" },
         defaultSelection = {},
         values = {
@@ -898,6 +899,7 @@ local function WilduSettings_BuildCooldown(category, layout)
         prefix = "CMC_",
         key = "cooldownManager_stackFontFlags",
         name = "Font Flags",
+        customText = "No Flags",
         searchtags = { "Font", "Flags", "Outline", "Shadow", "Thick", "Monochrome", "Text", "Style" },
         defaultSelection = {},
         values = {
@@ -1344,6 +1346,7 @@ local function WilduSettings_BuildCooldown(category, layout)
         prefix = "CMC_",
         key = "cooldownManager_keybindFontFlags",
         name = "Font Flags",
+        customText = "No Flags",
         searchtags = { "Font", "Flags", "Outline", "Shadow", "Thick", "Monochrome", "Keybind", "Style" },
         defaultSelection = {},
         values = {
@@ -1689,6 +1692,43 @@ local function WilduSettings_BuildCooldown(category, layout)
         end,
         desc = "Show blue border on Cooldown Manager when ability is suggested by the rotation helper.",
     })
+    SettingsLib:CreateCheckboxDropdown(category, {
+        prefix = "CMC_",
+        key = "cooldownManager_buttonPress",
+        name = "Button Press overlay",
+        searchtags = { "Button", "Press", "Overlay", "Experimental", "Cooldowns", "Icons" },
+        default = false,
+        get = function()
+            return ns.db.profile.cooldownManager_buttonPress
+        end,
+        set = function(value)
+            ns.db.profile.cooldownManager_buttonPress = value
+            if not value then
+                ns.API:ShowReloadUIConfirmation()
+            end
+        end,
+        desc = "Show an overlay on cooldown icons when the corresponding action button is pressed.",
+
+        dropdownKey = "cooldownManager_buttonPress_texture",
+        dropdownName = "Button Press Texture",
+        dropdownValues = {
+            Blizzard = "Blizzard Default",
+            Flat = "Simple Flat Overlay",
+        },
+        dropdownDefault = "Blizzard",
+        dropdownGet = function()
+            return ns.db.profile.cooldownManager_buttonPress_texture or "Blizzard"
+        end,
+        dropdownSet = function(value)
+            ns.db.profile.cooldownManager_buttonPress_texture = value
+            ns.API:ShowReloadUIConfirmation()
+        end,
+        dropdownDesc = "Select the texture for the button press overlay.",
+        dropdownOrder = {
+            "Blizzard",
+            "Flat",
+        },
+    })
 
     SettingsLib:CreateCheckbox(category, {
         prefix = "CMC_",
@@ -1705,8 +1745,9 @@ local function WilduSettings_BuildCooldown(category, layout)
         end,
         desc = "Set |cffff0000maximum|r Utility width to the width of Essential\n|cffff0000It will not get narrower than 6 icons or limit you set in |r|cff87bbcaEdit Mode|r",
     })
+    local version = C_AddOns.GetAddOnMetadata("CooldownManagerCentered", "version")
     SettingsLib:CreateText(category, {
-        name = "|cffccccccAddon version: 1.14.17|r",
+        name = "|cffccccccAddon version: " .. version .. "|r",
     })
 
     local experimentalCategory = SettingsLib:CreateCategory(category, "Experimental", false)
@@ -1752,24 +1793,6 @@ local function WilduSettings_BuildCooldown(category, layout)
     })
     SettingsLib:CreateText(experimentalCategory, {
         name = "Hide auras, always show only cooldowns of the abilites",
-    })
-
-    SettingsLib:CreateCheckbox(experimentalCategory, {
-        prefix = "CMC_",
-        key = "cooldownManager_experimental_buttonPress",
-        name = "Button Press overlay",
-        searchtags = { "Button", "Press", "Overlay", "Experimental", "Cooldowns", "Icons" },
-        default = false,
-        get = function()
-            return ns.db.profile.cooldownManager_experimental_buttonPress
-        end,
-        set = function(value)
-            ns.db.profile.cooldownManager_experimental_buttonPress = value
-        end,
-        desc = "Show an overlay on cooldown icons when the corresponding action button is pressed. |cffff0000Experimental feature, may cause issues!|r",
-    })
-    SettingsLib:CreateText(experimentalCategory, {
-        name = "Show an overlay on cooldown icons when the corresponding action button is pressed",
     })
 
     SettingsLib:CreateCheckbox(experimentalCategory, {
@@ -1840,6 +1863,7 @@ local function WilduSettings_BuildCooldown(category, layout)
         prefix = "CMC_",
         key = "trinketRacialTracker_ignoredRacials",
         name = "Ignored Racials",
+        customText = "All Racials shown",
         searchtags = { "Trinket", "Racial", "Tracker", "Ignore", "Hide", "Filter" },
         defaultSelection = {},
         optionfunc = BuildRacialsOptions,
@@ -1852,7 +1876,6 @@ local function WilduSettings_BuildCooldown(category, layout)
                 ns.TrinketRacialTracker:RefreshAll()
             end
         end,
-        customText = "All Racials shown",
         summary = function(selectionMap, selectedLabels)
             if #selectedLabels == 0 then
                 return ""

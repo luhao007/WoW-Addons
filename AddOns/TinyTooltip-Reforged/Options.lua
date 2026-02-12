@@ -15,6 +15,26 @@ local clientVer, clientBuild, clientDate, clientToc = GetBuildInfo()
 local addonName = ...
 local addon  = TinyTooltipReforged
 local CopyTable = CopyTable
+local LAYOUT
+local function RoundScale(value)
+    return floor(value + 0.5)
+end
+
+local function RescaleAnchorOffsets(anchor, ratio)
+    if (not anchor) then return end
+    if (anchor.x ~= nil) then anchor.x = RoundScale(anchor.x * ratio) end
+    if (anchor.y ~= nil) then anchor.y = RoundScale(anchor.y * ratio) end
+end
+
+local function RescaleStaticAnchorOffsets(oldScale, newScale)
+    if (not addon or not addon.db) then return end
+    if (oldScale == 0 or newScale == 0) then return end
+    if (oldScale == newScale) then return end
+    local ratio = oldScale / newScale
+    RescaleAnchorOffsets(addon.db.general and addon.db.general.anchor, ratio)
+    RescaleAnchorOffsets(addon.db.unit and addon.db.unit.player and addon.db.unit.player.anchor, ratio)
+    RescaleAnchorOffsets(addon.db.unit and addon.db.unit.npc and addon.db.unit.npc.anchor, ratio)
+end
 
 addon.L = addon.L or {}
 setmetatable(addon.L, { __index = function(self, k)
@@ -211,7 +231,7 @@ function widgets:colorpick(parent, config)
             end,
         }
         ColorPickerFrame.tipframe = self
-        if (not self.hasopacity) then OpacitySliderFrame:SetValue(info.opacity) end
+        if (not self.hasopacity) then pcall(function() return OpacitySliderFrame:SetValue(info.opacity) end) end
 --        OpenColorPicker(info)
 	ColorPickerFrame:SetupColorPickerAndShow(info)
     end)
@@ -530,7 +550,6 @@ LibEvent:attachEvent("VARIABLES_LOADED", function()
     end
 end)
 
-
 local options = {
     general = {
         { keystring = "general.mask",     	    type = "checkbox" },
@@ -585,7 +604,9 @@ local options = {
         { keystring = "unit.player.elements.isPlayer",    type = "element", color = true, wildcard = true, filter = true, },
         { keystring = "unit.player.elements.role",        type = "element", color = true, wildcard = true, filter = true, },
         { keystring = "unit.player.elements.moveSpeed",   type = "element", color = true, wildcard = true, filter = true, },
+	{ keystring = "unit.player.elements.mplusScore",  type = "element", color = true, wildcard = true, filter = true, },
         { keystring = "unit.player.elements.zone",        type = "element", color = true, wildcard = true, filter = true, },
+	{ keystring = "unit.player.elements.mount",       type = "element", color = true, wildcard = true, filter = true, },
     },
     npc = {
         { keystring = "unit.npc.showTarget",            type = "checkbox" },
@@ -821,12 +842,12 @@ local function InitOptions(list, parent, height)
 end
 
 LibEvent:attachEvent("VARIABLES_LOADED", function()
-    InitOptions(options.general, frame, 32)
-    InitOptions(options.pc, framePC, 29)
-    InitOptions(options.npc, frameNPC, 27)
-    InitOptions(options.statusbar, frameStatusbar, 36)
-    InitOptions(options.spell, frameSpell, 32)
-    InitOptions(options.font, frameFont, 32)
+    InitOptions(options.general, frame)
+    InitOptions(options.pc, framePC)
+    InitOptions(options.npc, frameNPC)
+    InitOptions(options.statusbar, frameStatusbar)
+    InitOptions(options.spell, frameSpell)
+    InitOptions(options.font, frameFont)
     InitVariablesFrame()
 end)
 
@@ -869,9 +890,10 @@ else
   InterfaceOptions_AddCategory(frameVariables)
 end
 
-SLASH_TinyTooltipReforged1 = "/tinytooltipr"
+SLASH_TinyTooltipReforged1 = "/tinytooltip"
 SLASH_TinyTooltipReforged2 = "/ttr"
 SLASH_TinyTooltipReforged3 = "/tip"
+SLASH_TinyTooltipReforged4 = "/tinytooltipr"
 
 function SlashCmdList.TinyTooltipReforged(msg, editbox)
     if (msg == "reset") then     
@@ -881,7 +903,7 @@ function SlashCmdList.TinyTooltipReforged(msg, editbox)
     elseif (msg == "reload") then
         ReloadUI()
     --elseif (msg == "npc") then
-    --    InterfaceOptionsFrame_OpenToCategory(frameNPC)
+    --    OpenToCategory(frameNPC)
     --    InterfaceOptionsFrame_OpenToCategory(frameNPC)
     --elseif (msg == "player") then
     --    InterfaceOptionsFrame_OpenToCategory(framePCScrollFrame)
@@ -1085,6 +1107,7 @@ local placeholder = {
     pvpIcon    = addon.icons.pvp,
     roleIcon   = addon.icons.DAMAGER,
     raidIcon   = ICON_LIST[8] .. "0|t",
+    mount      = L["mount"] or "mount",
 }
 setmetatable(placeholder, {__index = function(_, k) return k end})
 

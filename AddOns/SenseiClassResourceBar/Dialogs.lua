@@ -1,6 +1,5 @@
 local _, addonTable = ...
 
-local LEM = addonTable.LEM or LibStub("LibEQOLEditMode-1.0")
 local L = addonTable.L
 
 StaticPopupDialogs["SCRB_EXPORT_SETTINGS"] = StaticPopupDialogs["SCRB_EXPORT_SETTINGS"]
@@ -49,6 +48,5 @@ StaticPopupDialogs["SCRB_RELOADUI"] = StaticPopupDialogs["SCRB_RELOADUI"]
         preferredIndex = 3,
     }
 StaticPopupDialogs["SCRB_RELOADUI"].OnAccept = function()
-    if InCombatLockdown then StaticPopup_Show("SCRB_RELOADUI") end
     ReloadUI()
 end

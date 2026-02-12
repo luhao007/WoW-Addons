@@ -191,7 +191,7 @@ L.YOUR_VERSION_OUTDATED		= "Tu versión de " .. L.DEADLY_BOSS_MODS .. " está de
 L.VOICE_PACK_OUTDATED		= "A este paquete de voces le faltan sonidos compatibles con esta versión de " .. L.DBM .. ". No se sustituirán los sonidos de anuncios especiales que no tengan un sustituto. Por favor, descarga una versión más reciente del paquete de voces o contacta con el autor para informarle sobre los archivos de sonido que faltan."
 L.VOICE_MISSING				= "Tenías seleccionado un paquete de voces que no se ha podido encontrar. Se ha restablecido tu selección a 'Ninguno'. Si crees que se trata de un error, asegúrate de que el paquete de voces esté instalado correctamente y activado en la lista de addons."
 L.VOICE_DISABLED			= "Tienes al menos un paquete de voces de " .. L.DBM .. " instalado, pero ninguno está activado. Si quieres usar un paquete de voces, asegúrate de que lo has asignado en 'Alertas de voz'. Desinstala los paquetes de voces que no estés utilizando para ocultar este mensaje."
-L.VOICE_COUNT_MISSING		= "La voz de cuenta atrás %d está asignada a un paquete de voces que no se ha podido encontrar. Se ha restablecido a la configuración predeterminada."
+L.VOICE_COUNT_MISSING		= "La voz de cuenta atrás %d está asignada a un paquete de voces que no se ha podido encontrar o que no es compatible actualmente. Se ha restablecido a la configuración predeterminada: %s."
 L.BIG_WIGS					= "BigWigs"
 L.WEAKAURA_KEY				= " (|cff308530Clave WA:|r %s)"
 
@@ -717,8 +717,8 @@ L.KEYSTONE_NAMES[525] = 'OPER' -- Operation Floodgate
 L.KEYSTONE_NAMES[542] = 'ECO' -- Eco-Dome Al'dani
 
 -- Midnight
-L.MN_TIMELINE_HEADER   = "¿Quieres usar la línea de tiempo de Blizzard o las barras de DBM?"
-L.MN_BLIZZARD_TIMELINE = "Línea de tiempo de Blizzard"
+L.MN_TIMELINE_HEADER   = "¿Quieres usar la línea temporal de Blizzard o las barras de DBM?"
+L.MN_BLIZZARD_TIMELINE = "Línea temporal de Blizzard"
 L.MN_DBM_TIMELINE      = "Barras de DBM"
 L.MN_WARNIGS_HEADER   = "¿Quieres usar los avisos de encuentro de Blizzard o los avisos de encuentro de DBM?"
 L.MN_BLIZZARD_WARNINGS= "Avisos de Blizzard"

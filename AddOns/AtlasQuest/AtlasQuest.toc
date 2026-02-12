@@ -1,4 +1,4 @@
-## Interface: 120000
+## Interface: 120001
 
 ## Title: AtlasQuest|cFFFF0000 game client not supported|r
 ## Notes: This version of AtlasQuest only supports Classic Era and Retail

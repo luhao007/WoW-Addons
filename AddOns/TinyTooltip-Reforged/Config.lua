@@ -2,9 +2,9 @@
 local addon = TinyTooltipReforged
  
 addon.db = {
-    version = 11.0,
+    version = 12.0,
     general = {
-        scale             = 0.9,
+        scale             = 1,
         mask              = true,
         bgfile            = "Blizzard Parchment",
         background        = {0, 0, 0, 0.7},
@@ -70,11 +70,15 @@ addon.db = {
                 className   = { enable = true, color = "ffffff",  wildcard = "%s",  filter = "none" }, 
                 isPlayer    = { enable = false, color = "ffffff",  wildcard = "(%s)", filter = "none" }, 
                 role        = { enable = false, color = "ffffff",  wildcard = "(%s)", filter = "none" },
-                moveSpeed   = { enable = false, color = "e8e7a8",  wildcard = "%d%%", filter = "none" },
+                moveSpeed   = { enable = false, color = "e8e7a8",  wildcard = "%d%%", filter = "none" },  
+                mplusScore  = { enable = false,  color = "mplus",   wildcard = "%s",  filter = "none" },
                 zone        = { enable = true,  color = "ffffff",  wildcard = "%s", filter = "none" },
+		mount       = { enable = true,  color = "ffffff",  wildcard = "%s", filter = "none" },
                 { "friendIcon", "raidIcon", "roleIcon", "pvpIcon", "factionIcon", "classIcon", "title", "name", "realm", "statusAFK", "statusDND", "statusDC", },
                 { "guildName", "guildIndex", "guildRank", "guildRealm", },
                 { "levelValue", "factionName", "gender", "raceName", "className", "isPlayer", "role", "moveSpeed", },
+                { "mount" },
+                { "mplusScore" },
                 { "zone" },
             },
         },

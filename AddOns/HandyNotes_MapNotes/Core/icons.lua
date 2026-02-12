@@ -44,6 +44,7 @@ ns.icons = {
 ["StablemasterH"] = iconLink .. "StablemasterH",
 ["StablemasterA"] = iconLink .. "StablemasterA",
 ["TradingPost"] = iconLink .. "TradingPost",
+["DecorExpert"] = iconLink .. "DecorExpert",
 ["MountMerchant"] = iconLink .. "MountMerchant",
 ["CHMountMerchant"] = iconLink .. "MountMerchant",
 -- Icons if enemy faction is disabled for General zone icons
@@ -430,6 +431,7 @@ TextIconStablemasterH = TextIcon(iconLink .. "StablemasterH")
 TextIconStablemasterA = TextIcon(iconLink .. "StablemasterA")
 TextIconTradingPost = TextIcon(iconLink .. "TradingPost")
 TextIconMountMerchant = TextIcon(iconLink .. "MountMerchant")
+TextIconDecorExpert = TextIcon(iconLink .. "DecorExpert")
 --Cities
 TextIconOrgrimmar = TextIcon("interface/icons/spell_arcane_teleportorgrimmar")
 TextIconThunderBluff = TextIcon("interface/icons/spell_arcane_teleportthunderbluff")

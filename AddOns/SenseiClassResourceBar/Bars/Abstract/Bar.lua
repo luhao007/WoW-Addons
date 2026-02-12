@@ -16,6 +16,7 @@ local BarMixin = {}
 
 function BarMixin:Init(config, parent, frameLevel)
     local Frame = CreateFrame(config.frameType or "Frame", config.frameName or "", parent or UIParent, config.frameTemplate or nil)
+    Frame:SetClampedToScreen(true)
 
     Frame:SetFrameLevel(frameLevel)
     self.config = config
@@ -551,8 +552,7 @@ function BarMixin:GetPoint(layoutName, ignorePositionMode)
         addonTable.prettyPrint(L["RELATIVE_FRAME_CYCLIC_WARNING"])
     end
 
-    local uiWidth, uiHeight = UIParent:GetWidth() / 2, UIParent:GetHeight() / 2
-    return point, resolvedRelativeFrame, relativePoint, addonTable.clamp(x, uiWidth * -1, uiWidth), addonTable.clamp(y, uiHeight * -1, uiHeight)
+    return point, resolvedRelativeFrame, relativePoint, x, y
 end
 
 function BarMixin:GetSize(layoutName, data)
@@ -580,7 +580,7 @@ function BarMixin:GetSize(layoutName, data)
 
     local scale = addonTable.rounded(data.scale or defaults.scale or 1, 2)
 
-    return width * scale, height * scale
+    return addonTable.getNearestPixel(width * scale, scale), addonTable.getNearestPixel(height * scale, scale)
 end
 
 function BarMixin:ApplyLayout(layoutName, force)
@@ -772,8 +772,7 @@ function BarMixin:ApplyMaskAndBorderSettings(layoutName, data)
 
         -- Linear multiplier: for example, thickness grows 1x at scale 1, 2x at scale 2
         local thickness = (style.thickness or 1) * math.max(data.scale or defaults.scale, 1)
-        local ppScale = addonTable.getPixelPerfectScale()
-        local pThickness = math.max(1, math.max(addonTable.rounded(thickness), 1) * ppScale)
+        local pThickness = addonTable.getNearestPixel(thickness)
 
         local borderColor = data.borderColor or defaults.borderColor
 
@@ -962,10 +961,9 @@ function BarMixin:UpdateTicksLayout(layoutName, data)
     local height = self.StatusBar:GetHeight()
     if width <= 0 or height <= 0 then return end
 
-    local tickThickness = data.tickThickness or defaults.tickThickness or 1
+    local tickThickness = (data.tickThickness or defaults.tickThickness or 1) * math.max(data.scale or defaults.scale, 1)
+    local pThickness = addonTable.getNearestPixel(tickThickness)
     local tickColor = data.tickColor or defaults.tickColor
-    local ppScale = addonTable.getPixelPerfectScale()
-    local pThickness = tickThickness * ppScale
 
     local needed = max - 1
     for i = 1, needed do
@@ -978,14 +976,12 @@ function BarMixin:UpdateTicksLayout(layoutName, data)
         t:ClearAllPoints()
         if self.StatusBar:GetOrientation() == "VERTICAL" then
             local rawY = (i / max) * height
-            local snappedY = addonTable.rounded(rawY / ppScale) * ppScale
             t:SetSize(width, pThickness)
-            t:SetPoint("BOTTOM", self.StatusBar, "BOTTOM", 0, snappedY)
+            t:SetPoint("BOTTOM", self.StatusBar, "BOTTOM", 0, rawY)
         else
             local rawX = (i / max) * width
-            local snappedX = addonTable.rounded(rawX / ppScale) * ppScale
             t:SetSize(pThickness, height)
-            t:SetPoint("LEFT", self.StatusBar, "LEFT", snappedX, 0)
+            t:SetPoint("LEFT", self.StatusBar, "LEFT", rawX, 0)
         end
         t:Show()
     end

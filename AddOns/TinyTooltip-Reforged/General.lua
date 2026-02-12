@@ -3,12 +3,15 @@ local LibEvent = LibStub:GetLibrary("LibEvent.7000")
 
 local DEAD = DEAD
 local CopyTable = CopyTable
+local GetMouseFocus = GetMouseFocus or GetMouseFoci
+
+local addon = TinyTooltipReforged
 
 TinyTooltipReforgedDB = {}
 TinyTooltipReforgedCharacterDB = {}
+addon.defaults = CopyTable(addon.db)
 
 local clientVer, clientBuild, clientDate, clientToc = GetBuildInfo()
-local addon = TinyTooltipReforged
 
 local function ColorStatusBar(self, value)
     if (addon.db.general.statusbarColor == "auto") then        
@@ -128,11 +131,12 @@ LibEvent:attachEvent("VARIABLES_LOADED", function()
         print("|cFF00FFFF[TinyTooltipReforged]|r |cffFFE4E1Settings have been reset|r")
         TinyTooltipReforgedDB = addon.db
         TinyTooltipReforgedCharacterDB = addon.db
-    end    
-    if (addon.db.general.SavedVariablesPerCharacter) then
-        addon.db = TinyTooltipReforgedCharacterDB
     else
-        addon.db = TinyTooltipReforgedDB
+      addon.db = addon:MergeVariable(addon.db, TinyTooltipReforgedDB)
+    end
+    if (addon.db.general.SavedVariablesPerCharacter) then
+        local db = CopyTable(addon.db)
+        addon.db = addon:MergeVariable(db,TinyTooltipReforgedCharacterDB)
     end
     LibEvent:trigger("tooltip:variables:loaded")
     --Init

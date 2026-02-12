@@ -1,4 +1,4 @@
-## Interface: 120000
+## Interface: 120001
 ## Version: #Details.20260206.14502.168
 
 ## Title: Details! Damage Meter

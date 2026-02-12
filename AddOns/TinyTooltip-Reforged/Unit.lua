@@ -13,6 +13,21 @@ local OFFLINE = FRIENDS_LIST_OFFLINE
 local FACTION_HORDE = FACTION_HORDE
 local FACTION_ALLIANCE = FACTION_ALLIANCE
 
+
+local function SafeBool(fn, ...)
+    local ok, value = pcall(fn, ...)
+    if (not ok) then
+        return false
+    end
+    local okEval, result = pcall(function()
+        return value == true
+    end)
+    if (okEval) then
+        return result
+    end
+    return false
+end
+
 local function strip(text)
     return (text:gsub("%s+([|%x%s]+)<trim>", "%1"))
 end
@@ -29,6 +44,66 @@ local function ColorBorder(tip, config, raw)
     else
         LibEvent:trigger("tooltip.style.border.color", tip, unpack(addon.db.general.borderColor))
     end
+end
+
+local function FindMountAura(unit)
+    if (not C_MountJournal or not C_MountJournal.GetMountFromSpell) then return end
+    if (AuraUtil and AuraUtil.ForEachAura) then
+        local auraName, auraSpellID, mountID
+        local ok = pcall(AuraUtil.ForEachAura, unit, "HELPFUL", nil, function(aura)
+            if (type(aura) ~= "table" or not aura.spellId) then return end
+            local mount = C_MountJournal.GetMountFromSpell(aura.spellId)
+            if (mount) then
+                auraName = aura.name
+                auraSpellID = aura.spellId
+                mountID = mount
+                return true
+            end
+        end)
+        if (not ok) then
+            auraName, auraSpellID, mountID = nil, nil, nil
+        end
+        if (auraSpellID) then
+            return auraName, auraSpellID, mountID
+        end
+    end
+    if (UnitAura) then
+        for i = 1, 40 do
+            local name, _, _, _, _, _, _, _, _, spellID = UnitAura(unit, i, "HELPFUL")
+            if (not name) then break end
+            local mountID = C_MountJournal.GetMountFromSpell(spellID)
+            if (mountID) then
+                return name, spellID, mountID
+            end
+        end
+        return
+    end
+    if (C_UnitAuras and C_UnitAuras.GetAuraDataByIndex) then
+        for i = 1, 40 do
+            local aura = C_UnitAuras.GetAuraDataByIndex(unit, i, "HELPFUL")
+            if (not aura) then break end
+            local mountID = C_MountJournal.GetMountFromSpell(aura.spellId)
+            if (mountID) then
+                return aura.name, aura.spellId, mountID
+            end
+        end
+    end
+end
+
+local function GetMountInfo(unit)
+    if (not C_MountJournal or not C_MountJournal.GetMountInfoByID) then return end
+    if (not SafeBool(UnitIsPlayer, unit)) then return end
+    local auraName, _, mountID = FindMountAura(unit)
+    if (not auraName) then return end
+    local name, isCollected
+    if (mountID) then
+        local ok, mountName, _, _, _, _, _, _, _, _, _, collected = pcall(C_MountJournal.GetMountInfoByID, mountID)
+        if (ok) then
+            name = mountName
+            isCollected = collected
+        end
+    end
+    return name or auraName, isCollected
 end
 
 local function ColorBackground(tip, config, raw)
@@ -71,6 +146,11 @@ local function ShowBigFactionIcon(tip, config, raw)
 end
 
 local function PlayerCharacter(tip, unit, config, raw)
+    raw.mountName = nil
+    raw.mountCollected = nil
+    if (config and config.elements and config.elements.mount and config.elements.mount.enable) then
+        raw.mountName, raw.mountCollected = GetMountInfo(unit)
+    end
     local data = addon:GetUnitData(unit, config.elements, raw)    
     addon:HideLines(tip, 2, 4)
     addon:HideLine(tip, "^"..LEVEL)

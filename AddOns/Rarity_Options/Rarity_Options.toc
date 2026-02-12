@@ -1,4 +1,4 @@
-## Interface: 120000
+## Interface: 120001
 ## Author: Allara
 
 ## Title: Rarity [|caaedc99fOptions|r]
@@ -14,7 +14,7 @@
 
 ## LoadSavedVariablesFirst: 1
 
-## X-Min-Interface: 120000, 50503, 11508
+## X-Min-Interface: 120001, 50503, 11508
 ## X-Part-Of: Rarity
 ## X-LoadOn-Slash: /rarity, /rare
 ## X-LoadOn-InterfaceOptions: Rarity

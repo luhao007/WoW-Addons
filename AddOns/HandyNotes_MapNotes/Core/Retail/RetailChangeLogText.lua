@@ -1,9 +1,10 @@
 local ADDON_NAME, ns = ...
 
-ns.CurrentAddonVersion = "3.2.7"
-ns.PreviousAddonVersion = "3.2.5" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
+ns.CurrentAddonVersion = "3.2.8"
+ns.PreviousAddonVersion = "3.2.7" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
 
 ns.LOCALE_CHANGELOGS = {
+  { version = "3.2.8", table = "partialUpdate" },
   { version = "3.2.7", table = "partialUpdate" },
   { version = "3.2.6", table = "partialUpdate" },
   { version = "3.2.5", table = ns.LOCALE_CHANGELOG_3_2_5 },

@@ -31,7 +31,7 @@ local baseLocale = {
     ["SETTINGS_BUTTON_EXPORT_WITHOUT_POWER_COLORS"] = "导出（不含能量颜色）",
     ["SETTINGS_BUTTON_IMPORT"] = "导入",
     ["SETTING_OPEN_AFTER_EDIT_MODE_CLOSE"] = "退出编辑模式后将打开设置",
-    
+
     -- Power
     ["HEALTH"] = HEALTH,
     ["MANA"] = POWER_TYPE_MANA,
@@ -116,9 +116,9 @@ local baseLocale = {
     ["USE_CLASS_COLOR"] = "使用职业颜色",
     ["USE_RESOURCE_TEXTURE_AND_COLOR"] = "使用资源纹理和颜色",
     ["BAR_TEXTURE"] = "条形纹理",
-    ["BACKGROUND"] = "背景",
+    ["BAR_BACKGROUND"] = "背景",
     ["USE_BAR_COLOR_FOR_BACKGROUND_COLOR"] = "使用条形颜色作为背景颜色",
-    ["BORDER"] = "边框",
+    ["BAR_BORDER"] = "边框",
 
     -- Text settings category - Edit Mode
     ["CATEGORY_TEXT_SETTINGS"] = "文本设置",
@@ -137,7 +137,7 @@ local baseLocale = {
     ["FONT"] = "字体",
     ["FONT_SIZE"] = "大小",
     ["FONT_OUTLINE"] = "描边",
-    
+
     -- Other
     ["POWER_COLOR_SETTINGS"] = "能量颜色设置",
 }

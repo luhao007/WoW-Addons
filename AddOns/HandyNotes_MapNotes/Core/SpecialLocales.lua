@@ -508,6 +508,48 @@ ns.LOCALE_FOUND_MISSING = { -- RetailNpc.lua
   zhTW = "%s %s - 已找到 %d 個，缺少 %d 個",
 }
 
+ns.LOCALE_PROFILE_SWITCH_BLOCKED = {
+  deDE = "Profilwechsel nicht möglich, da „Verwende Profil „%s“ aktiviert ist.",
+  enUS = "Profile switching is not possible because “Use profile “%s” is enabled.",
+  frFR = "Changement de profil impossible, car « Utiliser le profil « %s » » est activé.",
+  esES = "No es posible cambiar de perfil porque “Usar perfil “%s” está activado.",
+  esMX = "No es posible cambiar de perfil porque “Usar perfil “%s” está activado.",
+  itIT = "Impossibile cambiare profilo perché “Usa profilo “%s” è attivo.",
+  ptBR = "Não é possível trocar de perfil porque “Usar perfil “%s” está ativado.",
+  ruRU = "Переключение профиля невозможно, так как включено «Использовать профиль «%s»».",
+  zhCN = "无法切换配置文件，因为已启用“使用配置文件“%s””。",
+  zhTW = "無法切換設定檔，因為已啟用「使用設定檔「%s」」。",
+  koKR = "“프로필 “%s” 사용”이 활성화되어 있어 프로필을 전환할 수 없습니다.",
+}
+
+ns.LOCALE_USE_PROFILE_NAME = {
+  deDE = "Geteiltes Profil „%s“",
+  enUS = "Shared profile “%s”",
+  frFR = "Profil partagé « %s »",
+  esES = "Perfil compartido “%s”",
+  esMX = "Perfil compartido “%s”",
+  itIT = "Profilo condiviso “%s”",
+  ptBR = "Perfil compartilhado “%s”",
+  ruRU = "Общий профиль «%s»",
+  zhCN = "共享配置文件“%s”",
+  zhTW = "共用設定檔「%s」",
+  koKR = "공유 프로필 “%s”",
+}
+
+ns.LOCALE_USE_PROFILE_DESC = {
+  deDE = "Wenn aktiviert, benutzen alle Charaktere automatisch ein gemeinsames Profil mit dem Namen „MapNotes“.\n\nDiese Funktion ist Accountweit.\n\nDieses Profil muss nur einmalig so eingerichtet werden, wie ihr es haben wollt.\nAlternativ könnt ihr die Einstellungen einfach von einem anderen Profil kopieren und auf das Profil „MapNotes“ übernehmen.\n\nWird diese Funktion deaktiviert, wird automatisch wieder auf das charakterspezifische Profil gewechselt.",
+  enUS = "When enabled, all characters automatically use a shared profile named “MapNotes”.\n\nThis feature is account-wide.\n\nThis profile only needs to be configured once the way you want it. Alternatively, you can copy the settings from another profile and apply them to the “MapNotes” profile.\n\nWhen this option is disabled, the character-specific profile is automatically restored.",
+  frFR = "Lorsqu’elle est activée, tous les personnages utilisent automatiquement un profil partagé nommé « MapNotes ».\n\nCette fonctionnalité est valable pour tout le compte.\n\nCe profil ne doit être configuré qu’une seule fois selon vos préférences. Vous pouvez également copier les paramètres d’un autre profil et les appliquer au profil « MapNotes ».\n\nLorsque cette option est désactivée, le profil spécifique au personnage est automatiquement rétabli.",
+  esES = "Cuando está activado, todos los personajes usan automáticamente un perfil compartido llamado “MapNotes”.\n\nEsta función es válida para toda la cuenta.\n\nEste perfil solo necesita configurarse una vez según tus preferencias. Alternativamente, puedes copiar la configuración de otro perfil y aplicarla al perfil “MapNotes”.\n\nAl desactivar esta opción, se restaura automáticamente el perfil específico del personaje.",
+  esMX = "Cuando está activado, todos los personajes usan automáticamente un perfil compartido llamado “MapNotes”.\n\nEsta función es válida para toda la cuenta.\n\nEste perfil solo necesita configurarse una vez según tus preferencias. Alternativamente, puedes copiar la configuración de otro perfil y aplicarla al perfil “MapNotes”.\n\nAl desactivar esta opción, se restaura automáticamente el perfil específico del personaje.",
+  itIT = "Quando attivata, tutti i personaggi utilizzano automaticamente un profilo condiviso chiamato “MapNotes”.\n\nQuesta funzione è valida per l’intero account.\n\nQuesto profilo deve essere configurato una sola volta secondo le tue preferenze. In alternativa, puoi copiare le impostazioni da un altro profilo e applicarle al profilo “MapNotes”.\n\nQuando questa opzione viene disattivata, il profilo specifico del personaggio viene ripristinato automaticamente.",
+  ptBR = "Quando ativado, todos os personagens usam automaticamente um perfil compartilhado chamado “MapNotes”.\n\nEsta função é válida para toda a conta.\n\nEste perfil precisa ser configurado apenas uma vez da forma que você desejar. Como alternativa, você pode copiar as configurações de outro perfil e aplicá-las ao perfil “MapNotes”.\n\nQuando essa opção é desativada, o perfil específico do personagem é restaurado automaticamente.",
+  ruRU = "При включении все персонажи автоматически используют общий профиль с названием « MapNotes ».\n\nЭта функция действует для всей учетной записи.\n\nЭтот профиль нужно настроить только один раз по вашему усмотрению. Также вы можете скопировать настройки из другого профиля и применить их к профилю « MapNotes ».\n\nПри отключении этой функции автоматически восстанавливается профиль конкретного персонажа.",
+  zhCN = "启用后，所有角色将自动使用名为“MapNotes”的共享配置文件。\n\n此功能为账号范围内生效。\n\n该配置文件只需按照你的需求设置一次。你也可以从其他配置文件复制设置并应用到“MapNotes”配置文件。\n\n禁用该选项后，将自动切换回角色专属配置文件。",
+  zhTW = "啟用後，所有角色會自動使用名為「MapNotes」的共用設定檔。\n\n此功能為帳號範圍內生效。\n\n此設定檔只需依照你的需求設定一次。你也可以從其他設定檔複製設定並套用至「MapNotes」設定檔。\n\n停用此選項後，將自動切換回角色專屬設定檔。",
+  koKR = "활성화하면 모든 캐릭터가 “MapNotes”라는 공유 프로필을 자동으로 사용합니다.\n\n이 기능은 계정 전체에 적용됩니다.\n\n이 프로필은 한 번만 원하는 방식으로 설정하면 됩니다. 또는 다른 프로필의 설정을 복사하여 “MapNotes” 프로필에 적용할 수도 있습니다.\n\n이 옵션을 비활성화하면 캐릭터별 프로필로 자동 복원됩니다.",
+}
+
 ns.reset_Character_SavedVariables_Text = {
   deDE = "Löscht das aktuell benutzte MapNotes Profile und alle gespeicherten MapNotes Daten dieses Profils!\n\nDanach wird das Interface des Spiels neu geladen",
   enUS = "Deletes the currently selected MapNotes profile and all data belonging to it!\n\nAfterwards, the game's interface will be reloaded",

@@ -98,10 +98,8 @@ if C_QuestLog_RequestLoadQuestByID and pcall(app.RegisterEvent, app, "QUEST_DATA
 	end
 
 	-- ATT is hooked into the QUEST_DATA_LOAD_RESULT event, and some addons LOVE to request the existing quest data a bazillion times
-	-- we can try our best to ignore IDs which we've already successfully acquired a valid server name
+	-- we can try our best to ignore IDs which have already successfully acquired a valid server name
 	local ValidQuestDataLoads = {}
-	-- only used to prevent some weird issue where a huge number causes C_QuestLog.RequestLoadQuestByID to throw an error
-	local MAX_QUEST_ID = 9999999
 
 	-- Checks if we need to request Quest data from the Server, and returns whether the request is pending
 	-- Passing in the data(table) will cause the data to have quest rewards populated once the data is retrieved
@@ -109,12 +107,7 @@ if C_QuestLog_RequestLoadQuestByID and pcall(app.RegisterEvent, app, "QUEST_DATA
 	-- will be called with the QuestID and Success of the data lookup event. Additional params will be provided as a
 	-- 3rd parameter table to the callback
 	RequestLoadQuestByID = function(questID, questObjectRef, ...)
-		if type(questID) ~= "number" or questID < 0 or questID > MAX_QUEST_ID then
-			app.PrintDebug("RequestLoadQuestByID: INVALID QUESTID",questID,questObjectRef,...)
-			app.PrintDebug(debugstack())
-			return
-		end
-		-- only allow requests once per frame until received
+		-- only allow requests once per questID until received
 		if QuestsRequested[questID] then return end
 
 		QuestsRequested[questID] = true;
@@ -130,13 +123,9 @@ if C_QuestLog_RequestLoadQuestByID and pcall(app.RegisterEvent, app, "QUEST_DATA
 			end
 		end
 
-		if ValidQuestDataLoads[questID] then
-			-- since ATT is specifically requesting a questID, we will make sure not to ignore it in the event handler
-			ValidQuestDataLoads[questID] = nil
-			Runner.Run(C_QuestLog_RequestLoadQuestByID, questID)
-		else
-			Runner.Run(C_QuestLog_RequestLoadQuestByID, questID)
-		end
+		-- since ATT is specifically requesting a questID, we will make sure not to ignore it in the event handler
+		ValidQuestDataLoads[questID] = nil
+		Runner.Run(C_QuestLog_RequestLoadQuestByID, questID)
 	end
 	if app.Debugging then
 		app.RequestLoadQuestByID = RequestLoadQuestByID
@@ -396,6 +385,55 @@ app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, acco
 		"          Will allow Quest 12345 flagging to be reported in chat"
 	})
 end)
+local CacheQuestsByScope, CacheQuestByScope
+if app.AccountWideQuestsDB and next(app.AccountWideQuestsDB) ~= nil then
+	local AccountWide = app.AccountWideQuestsDB
+	local acctQuests = {}
+	local charQuests = {}
+	CacheQuestsByScope = function(quests, flag)
+		wipe(acctQuests)
+		wipe(charQuests)
+		flag = flag and 1 or nil
+		-- incoming quests variable is actually meant to be preserved for character state
+		-- so build 2 tables instead of clearing keys
+		for questID in pairs(quests) do
+			if AccountWide[questID] then
+				acctQuests[questID] = true
+			else
+				charQuests[questID] = true
+			end
+		end
+		-- app.PrintDebug("ACCT")
+		-- app.PrintTable(acctQuests)
+		-- app.PrintDebug("CHAR")
+		-- app.PrintTable(charQuests)
+		app.SetBatchAccountCached(CACHE, acctQuests, flag)
+		-- account quests are wiped from character cache
+		-- TODO: repeatable account-wide quests are not currently handled if they are now unflagged
+		-- determine what to do with those to maintain best history and accuracy, perhaps in sync
+		app.SetBatchCached(CACHE, acctQuests)
+		app.SetBatchCached(CACHE, charQuests, flag)
+	end
+	CacheQuestByScope = function(questID, flag)
+		flag = flag and 1 or nil
+		if AccountWide[questID] then
+			app.SetAccountCached(CACHE, questID, flag)
+			-- account quests are wiped from character cache
+			app.SetCached(CACHE, questID)
+		else
+			app.SetCached(CACHE, questID, flag)
+		end
+	end
+else
+	CacheQuestsByScope = function(quests, flag)
+		flag = flag and 1 or nil
+		app.SetBatchCached(CACHE, quests, flag)
+	end
+	CacheQuestByScope = function(questID, flag)
+		flag = flag and 1 or nil
+		app.SetCached(CACHE, questID, flag)
+	end
+end
 local BatchRefresh
 -- We can't track unflagged quests with a single meta-table unless we double-assign keys... that's a bit silly
 -- when we can have the original method of using 'CompletedQuests' as a pass-thru to the Raw data
@@ -423,7 +461,7 @@ local CompletedQuests = setmetatable({}, {
 		RetailDirtyQuests[#RetailDirtyQuests + 1] = questID
 		-- Way too much overhead to assume this should be done every time a key is changed
 		if not BatchRefresh then
-			app.SetCached("Quests", questID, state)
+			CacheQuestByScope(questID, state)
 			app.UpdateRawID("questID", questID)
 		end
 	end
@@ -862,6 +900,7 @@ if C_QuestLog_GetAllCompletedQuestIDs then
 		if manyQuests then
 			DoQuestPrints = nil
 		end
+		wipe(UnflaggedQuests)
 
 		-- Dual Step tracking method
 		-- app.PrintDebug("DualStep")
@@ -893,9 +932,8 @@ if C_QuestLog_GetAllCompletedQuestIDs then
 		-- app.__CQS = CompleteQuestSequence
 
 		if #RetailDirtyQuests > 0 then
-			app.SetBatchCached("Quests", RetailRawQuests, 1)
-			app.SetBatchCached("Quests", UnflaggedQuests)
-			wipe(UnflaggedQuests)
+			CacheQuestsByScope(RetailRawQuests,1)
+			CacheQuestsByScope(UnflaggedQuests)
 		end
 
 		if manyQuests then
@@ -949,21 +987,12 @@ if C_QuestLog_GetAllCompletedQuestIDs then
 			app:RegisterEvent("CRITERIA_UPDATE");
 		end
 	end)
-else
+else	-- no C_QuestLog_GetAllCompletedQuestIDs
 	---@diagnostic disable-next-line: undefined-global
 	local GetQuestsCompleted = GetQuestsCompleted;
 	local QueryCompletedQuests = function()
 		-- Mark all previously completed quests.
-		if C_QuestLog_GetAllCompletedQuestIDs then
-			local completedQuests = C_QuestLog_GetAllCompletedQuestIDs();
-			if completedQuests and #completedQuests > 0 then
-				for i,questID in ipairs(completedQuests) do
-					CompletedQuests[questID] = true;
-				end
-			end
-		else
-			GetQuestsCompleted(CompletedQuests);
-		end
+		GetQuestsCompleted(CompletedQuests);
 		wipe(ClassicDirtyQuests);
 	end
 	local function UpdateParentProgress(group)
@@ -1145,7 +1174,7 @@ local criteriaFuncs = {
 	-- TODO: When Achievements get moved to their own file, add these to app.QuestLockCriteriaFunctions in that file.
 	-- The achievement functions would be cached more efficiently in that file and be able to version properly.
 	achID = function(achievementID)
-		return app.CurrentCharacter.Achievements[achievementID];
+		return select(4, GetAchievementInfo(achievementID))
 	end,
 	label_achID = ACHIEVEMENT_UNLOCKED or "Achievement Earned",
 	text_achID = function(achievementID)
@@ -1477,7 +1506,7 @@ local QuestWithReputationCostCollectibles = setmetatable({}, {
 		local maxReputation = quest.maxReputation
 		if maxReputation then
 			local faction = app.CreateFaction(maxReputation[1]);
-			if faction:CompareReputation(maxReputation[2]) then
+			if faction:CompareReputation(maxReputation[2]) or not faction.collectible then
 				costCollectibles = app.EmptyTable;
 			else
 				faction.r = quest.r;
@@ -1914,7 +1943,6 @@ app.AddEventRegistration("QUEST_TURNED_IN", function(questID)
 	end
 	RefreshQuestInfo(questID);
 end)
-app.AddEventHandler("OnRefreshCollections", RefreshAllQuestInfo);
 
 -- popout handler for Quest Items group
 local function AddQuestItems(group)

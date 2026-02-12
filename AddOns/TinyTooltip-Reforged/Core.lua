@@ -96,6 +96,33 @@ local function AutoValidateElements(src, dst)
     return dst
 end
 
+local function GetMythicPlusScore(unit)
+    local function SafeCall(fn, ...)
+        local ok, a, b, c, d = pcall(fn, ...)
+        if ok then return a, b, c, d end
+    end
+    if (not unit or not UnitIsPlayer or not SafeCall(UnitIsPlayer, unit)) then return end
+    if (C_PlayerInfo and C_PlayerInfo.GetPlayerMythicPlusRatingSummary) then
+        local summary = SafeCall(C_PlayerInfo.GetPlayerMythicPlusRatingSummary, unit)
+        if (summary and summary.currentSeasonScore) then
+            local score = summary.currentSeasonScore
+            local color = summary.currentSeasonScoreColor or summary.color
+            if (not color and C_ChallengeMode and C_ChallengeMode.GetDungeonScoreRarityColor) then
+                color = C_ChallengeMode.GetDungeonScoreRarityColor(score)
+            end
+            local bestLevel
+            if (summary.runs and type(summary.runs) == "table") then
+                for _, run in ipairs(summary.runs) do
+                    if (run and run.bestRunLevel and (not bestLevel or run.bestRunLevel > bestLevel)) then
+                        bestLevel = run.bestRunLevel
+                    end
+                end
+            end
+            return score, color, bestLevel
+        end
+    end
+end
+
 function addon:FixNumericKey(t)
     local key
     local tbl = {}
@@ -368,6 +395,7 @@ function addon:GetUnitInfo(unit)
     local guildName, guildRank, guildIndex, guildRealm = GetGuildInfo(unit)
     local classif = UnitClassification(unit)
     local role = UnitGroupRolesAssigned(unit)
+    local mplusScore, mplusColor, mplusBest = GetMythicPlusScore(unit)
 
     t.raidIcon     = self:GetRaidIcon(unit)
     t.pvpIcon      = self:GetPVPIcon(unit)
@@ -394,12 +422,23 @@ function addon:GetUnitInfo(unit)
     t.statusDC     = not UnitIsConnected(unit) and OFFLINE
     t.reactionName = reaction and _G["FACTION_STANDING_LABEL"..reaction]
     t.creature     = UnitCreatureType(unit)
+    t.mplusScore   = nil
+    t.mplusScoreColor = nil
     t.classifBoss  = (level==-1 or classif == "worldboss") and BOSS
     t.classifElite = (classif == "elite" or classif == "rareelite") and ELITE
     t.classifRare  = (classif == "rare" or classif == "rareelite") and RARE
     t.isPlayer     = UnitIsPlayer(unit) and PLAYER
     t.moveSpeed    = self:GetUnitSpeed(unit)
     t.zone         = self:GetZone(unit, t.name, t.realm)
+    local label = self.L and self.L["Mythic+ Score"] or "M+ Score"
+    if (mplusScore and mplusScore > 0) then
+        local bestText = (mplusBest and mplusBest > 0) and (" (" .. mplusBest .. ")") or ""
+        t.mplusScore = format("%s: %d%s", label, floor(mplusScore + 0.5), bestText)
+        t.mplusScoreColor = mplusColor
+    else
+        t.mplusScore = format("%s: %d (%d)", label, 0, 0)
+        t.mplusScoreColor = { r = 0.6, g = 0.6, b = 0.6 }
+    end
     t.unit         = unit                     --unit
     t.level        = level                    --1~123|-1
     t.effectiveLevel = effectiveLevel or level
@@ -450,6 +489,7 @@ function addon:FormatData(value, config, raw)
     end
 end
 
+
 function addon:GetUnitData(unit, elements, raw)
     local data = {}
     local config, name, title
@@ -460,7 +500,31 @@ function addon:GetUnitData(unit, elements, raw)
         data[i] = {}
         for ii, e in ipairs(v) do
             config = elements[e]
-            if (self:CheckFilter(config, raw) and raw[e]) then
+            if (e == "mount") then
+                if (self:CheckFilter(config, raw) and raw.mountName) then
+                    local labelText = (self.L and self.L.Mount) or MOUNT or "Mount"
+                    local label = "|cffffd200" .. labelText .. ":|r"
+                    local nameText
+                    if (config and config.color and config.wildcard) then
+                        nameText = self:FormatData(raw.mountName, config, raw)
+                    else
+                        nameText = raw.mountName
+                    end
+                    local statusText
+                    if (raw.mountCollected == true) then
+                        local collectedText = (self.L and self.L.collected) or "collected"
+                        statusText = "|cff00ff00(" .. collectedText .. ")|r"
+                    elseif (raw.mountCollected == false) then
+                        local uncollectedText = (self.L and self.L.uncollected) or "uncollected"
+                        statusText = "|cff999999(" .. uncollectedText .. ")|r"
+                    end
+                    if (statusText) then
+                        tinsert(data[i], format("%s %s %s", label, nameText, statusText))
+                    else
+                        tinsert(data[i], format("%s %s", label, nameText))
+                    end
+                end
+            elseif (self:CheckFilter(config, raw) and raw[e]) then
                 if (e == "name") then name = #data[i]+1 end
                 if (e == "title") then title = #data[i]+1 end
                 if (config.color and config.wildcard) then
@@ -508,6 +572,14 @@ addon.colorfunc.class = function(raw)
     end
     local r, g, b = GetClassColor(raw.class)
     return r, g, b, addon:GetHexColor(r, g, b)
+end
+
+addon.colorfunc.mplus = function(raw)
+    local c = raw and raw.mplusScoreColor
+    if (c and c.r and c.g and c.b) then
+        return c.r, c.g, c.b, addon:GetHexColor(c.r, c.g, c.b)
+    end
+    return 1, 1, 1, "ffffff"
 end
 
 addon.colorfunc.level = function(raw)
@@ -955,6 +1027,7 @@ if (GameTooltip_SetBackdropStyle) then
 end
 
 LibEvent:attachTrigger("TINYTOOLTIP_REFORGED_GENERAL_INIT", function(self)
+    addon._lastScale = addon.db.general.scale
     LibEvent:trigger("tooltip.style.font.header", GameTooltip, addon.db.general.headerFont, addon.db.general.headerFontSize, addon.db.general.headerFontFlag)
     LibEvent:trigger("tooltip.style.font.body", GameTooltip, addon.db.general.bodyFont, addon.db.general.bodyFontSize, addon.db.general.bodyFontFlag)
     LibEvent:trigger("tooltip.statusbar.height", addon.db.general.statusbarHeight)

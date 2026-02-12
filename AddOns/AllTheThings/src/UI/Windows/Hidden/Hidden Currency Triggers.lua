@@ -9,7 +9,7 @@ app:CreateWindow("Hidden Currency Triggers", {
 	HideFromSettings = true,
 	Preload = true,
 	OnInit = function(self)
-		self:SetData(app.CacheFields(app.CreateRawText(app.Modules.Color.Colorize(L.HIDDEN_CURRENCY_TRIGGERS, app.Colors.ChatLinkHQT), {
+		self:SetData(app.CreateRawText(app.Modules.Color.Colorize(L.HIDDEN_CURRENCY_TRIGGERS, app.Colors.ChatLinkHQT), {
 			icon = app.asset("Interface_Vendor"),
 			description = L.HIDDEN_CURRENCY_TRIGGERS_DESC,
 			title = L.HIDDEN_CURRENCY_TRIGGERS .. DESCRIPTION_SEPARATOR .. app.Version,
@@ -17,8 +17,11 @@ app:CreateWindow("Hidden Currency Triggers", {
 			_nosearch = true,
 			visible = true,
 			_hqt = true,
-			g = app.Categories.HiddenCurrencyTriggers,
-		}), true));
-		self:AssignChildren();
+		}));
+		self:AddEventHandler("OnDataCached", function(self, categories)
+			self.data.g = categories.HiddenCurrencyTriggers;
+			app.CacheFields(self.data, true);
+			self:AssignChildren();
+		end);
 	end,
 });

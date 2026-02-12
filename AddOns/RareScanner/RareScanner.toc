@@ -1,6 +1,6 @@
-## Interface: 120000
+## Interface: 120001
 ## Author: maqjav, Maciza-Tyrande
-## Version: 12.0.0.11
+## Version: 12.0.1
 
 ## Title: RareScanner
 ## Notes: Minimap scanner. Warns you visually with a button and a miniature and plays a sound everytime a rare NPC, treasure/chest or event shows up in your minimap
@@ -21,7 +21,7 @@
 
 ## X-Category: Achievements, Map, Miscellaneous
 ## X-Credits: maqjav, Maciza-Tyrande
-## X-Date: Feb. 8, 2026
+## X-Date: Feb. 10, 2026
 ## X-Email: maqjav@gmail.com
 ## X-License: All Rights Reserved
 ## X-Localizations: enUS, enGB, deDE, esES, esMX, frFR, ruRU, itIT, ptBR, koKR, zhCN, zhTW

@@ -17,6 +17,7 @@ Runtime.hasSettingsOpened = false
 
 local viewers = {
     ["BuffIconCooldownViewer"] = BuffIconCooldownViewer,
+    ["BuffBarCooldownViewer"] = BuffBarCooldownViewer,
     ["EssentialCooldownViewer"] = EssentialCooldownViewer,
     ["UtilityCooldownViewer"] = UtilityCooldownViewer,
 }
@@ -46,6 +47,28 @@ function Runtime:IsAllReady()
         end
     end
     return true
+end
+
+function Runtime:ShowAll()
+    if C_CVar.GetCVar("cooldownViewerEnabled") ~= "1" then
+        return
+    end
+    for _, viewer in pairs(viewers) do
+        if viewer then
+            local visibleSetting = viewer.visibleSetting
+            local forceShow = false
+            if visibleSetting == Enum.CooldownViewerVisibleSetting.Always then
+                forceShow = true
+            elseif visibleSetting == Enum.CooldownViewerVisibleSetting.InCombat then
+                forceShow = InCombatLockdown()
+            elseif visibleSetting == Enum.CooldownViewerVisibleSetting.Hidden then
+                -- Don't show
+            end
+            if not viewer:IsShown() and forceShow then
+                ShowUIPanel(viewer)
+            end
+        end
+    end
 end
 
 EventRegistry:RegisterCallback("CooldownViewerSettings.OnDataChanged", function()
@@ -142,9 +165,9 @@ EventHandler.events["PLAYER_ENTERING_WORLD"] = function(self, event, ...)
     if not Runtime:IsAllReady() then
         return
     end
-    C_CVar.SetCVar("cooldownViewerEnabled", "0")
+    Runtime:ShowAll()
+
     C_Timer.After(0, function()
-        C_CVar.SetCVar("cooldownViewerEnabled", "1")
         if ns.StyledIcons then
             ns.StyledIcons:RefreshAll()
         end

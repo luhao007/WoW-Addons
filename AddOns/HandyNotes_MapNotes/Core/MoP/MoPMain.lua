@@ -757,13 +757,13 @@ do
 
       if t.uiMapId == 948 -- Mahlstrom Continent 
         or t.uiMapId == 905 -- Argus Continent
-        or (mapInfo.mapType == 0 and (ns.dbChar.AzerothDeletedIcons[t.uiMapId] and not ns.dbChar.AzerothDeletedIcons[t.uiMapId][state])) -- Cosmos
-        or (mapInfo.mapType == 1 and (ns.dbChar.AzerothDeletedIcons[t.uiMapId] and not ns.dbChar.AzerothDeletedIcons[t.uiMapId][state])) -- Azeroth
-        or (not ns.CapitalIDs and (mapInfo.mapType == 4 or mapInfo.mapType == 6) and (ns.dbChar.DungeonDeletedIcons[t.uiMapId] and not ns.dbChar.DungeonDeletedIcons[t.uiMapId][state])) -- Dungeon
-        or (not ns.CapitalIDs and (ns.dbChar.ZoneDeletedIcons[t.uiMapId] and not ns.dbChar.ZoneDeletedIcons[t.uiMapId][state] and value.showInZone) and (mapInfo.mapType == 3 or mapInfo.mapType == 5 )) -- Zone without Capitals
-        or (ns.CapitalIDs and (ns.dbChar.CapitalsDeletedIcons[t.uiMapId] and not ns.dbChar.CapitalsDeletedIcons[t.uiMapId][state] and value.showInZone)) -- Capitals
-        or (ns.CapitalIDs and ns.dbChar.MinimapCapitalsDeletedIcons[t.minimapId] and not ns.dbChar.MinimapCapitalsDeletedIcons[t.minimapId][state] and value.showOnMinimap) -- Minimap Capitals
-        or (not ns.CapitalIDs and mapInfo.mapType == 3 and ns.dbChar.MinimapZoneDeletedIcons[t.minimapId] and not ns.dbChar.MinimapZoneDeletedIcons[t.minimapId][state] and value.showOnMinimap) -- Minimap Zones
+        or (mapInfo.mapType == 0 and (ns.dbProfile.AzerothDeletedIcons[t.uiMapId] and not ns.dbProfile.AzerothDeletedIcons[t.uiMapId][state])) -- Cosmos
+        or (mapInfo.mapType == 1 and (ns.dbProfile.AzerothDeletedIcons[t.uiMapId] and not ns.dbProfile.AzerothDeletedIcons[t.uiMapId][state])) -- Azeroth
+        or (not ns.CapitalIDs and (mapInfo.mapType == 4 or mapInfo.mapType == 6) and (ns.dbProfile.DungeonDeletedIcons[t.uiMapId] and not ns.dbProfile.DungeonDeletedIcons[t.uiMapId][state])) -- Dungeon
+        or (not ns.CapitalIDs and (ns.dbProfile.ZoneDeletedIcons[t.uiMapId] and not ns.dbProfile.ZoneDeletedIcons[t.uiMapId][state] and value.showInZone) and (mapInfo.mapType == 3 or mapInfo.mapType == 5 )) -- Zone without Capitals
+        or (ns.CapitalIDs and (ns.dbProfile.CapitalsDeletedIcons[t.uiMapId] and not ns.dbProfile.CapitalsDeletedIcons[t.uiMapId][state] and value.showInZone)) -- Capitals
+        or (ns.CapitalIDs and ns.dbProfile.MinimapCapitalsDeletedIcons[t.minimapId] and not ns.dbProfile.MinimapCapitalsDeletedIcons[t.minimapId][state] and value.showOnMinimap) -- Minimap Capitals
+        or (not ns.CapitalIDs and mapInfo.mapType == 3 and ns.dbProfile.MinimapZoneDeletedIcons[t.minimapId] and not ns.dbProfile.MinimapZoneDeletedIcons[t.minimapId][state] and value.showOnMinimap) -- Minimap Zones
       then
         return state, nil, icon, scale, alpha
       end
@@ -830,7 +830,7 @@ do
             alpha = db.continentAlpha
           end
 
-          if (mapInfo.mapType == 2 and (ns.dbChar.ContinentDeletedIcons[t.contId] and not ns.dbChar.ContinentDeletedIcons[t.contId][state]) and value.showOnContinent) then -- Continent
+          if (mapInfo.mapType == 2 and (ns.dbProfile.ContinentDeletedIcons[t.contId] and not ns.dbProfile.ContinentDeletedIcons[t.contId][state]) and value.showOnContinent) then -- Continent
             return state, continent, icon, db.continentScale, alpha
           end
 
@@ -944,29 +944,29 @@ local CapitalIDs = GetCurrentMapID == 1454 or GetCurrentMapID == 1456 or GetCurr
     exclusive  = true,
     OnAccept = function()
       if CapitalIDs then
-        ns.dbChar.CapitalsDeletedIcons[uiMapId][coord] = true
-        ns.dbChar.MinimapCapitalsDeletedIcons[uiMapId][coord] = true
+        ns.dbProfile.CapitalsDeletedIcons[uiMapId][coord] = true
+        ns.dbProfile.MinimapCapitalsDeletedIcons[uiMapId][coord] = true
         print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", L["Capitals"] .. " & " .. L["Capitals"] .. " - " .. MINIMAP_LABEL .. " - " .. "|cff00ff00" .. L["A icon has been deleted"])
       end
     
       if mapInfo.mapType == 1 then -- Azeroth
-        ns.dbChar.AzerothDeletedIcons[uiMapId][coord] = true
+        ns.dbProfile.AzerothDeletedIcons[uiMapId][coord] = true
         print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", AZEROTH .. " - " .. "|cff00ff00" .. L["A icon has been deleted"])
       end
     
       if mapInfo.mapType == 2 then -- Continent
-        ns.dbChar.ContinentDeletedIcons[uiMapId][coord] = true
+        ns.dbProfile.ContinentDeletedIcons[uiMapId][coord] = true
         print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", L["Continents"] .. " - " .. "|cff00ff00" .. L["A icon has been deleted"])
       end
     
       if not CapitalIDs and mapInfo.mapType == 3 then -- Zone
-        ns.dbChar.ZoneDeletedIcons[uiMapId][coord] = true
-        ns.dbChar.MinimapZoneDeletedIcons[uiMapId][coord] = true
+        ns.dbProfile.ZoneDeletedIcons[uiMapId][coord] = true
+        ns.dbProfile.MinimapZoneDeletedIcons[uiMapId][coord] = true
         print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", L["Zones"] .. " & " .. MINIMAP_LABEL .. " - " .. "|cff00ff00" .. L["A icon has been deleted"])
       end
     
       if not CapitalIDs and (mapInfo.mapType == 4 or mapInfo.mapType == 6) then -- Dungeon
-        ns.dbChar.DungeonDeletedIcons[uiMapId][coord] = true
+        ns.dbProfile.DungeonDeletedIcons[uiMapId][coord] = true
         print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00", DUNGEONS .. " - " .. "|cff00ff00" .. L["A icon has been deleted"])
       end
       HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
@@ -1133,15 +1133,15 @@ function Addon:OnProfileReset(event, database, profileKeys)
     ns.SetAreaMapMenuVisibility(ns.Addon.db.profile.areaMap.showAreaMapDropDownMenu)
   end
 
-  wipe(ns.dbChar.CapitalsDeletedIcons)
-  wipe(ns.dbChar.MinimapCapitalsDeletedIcons)
-  wipe(ns.dbChar.CapitalsDeletedIcons)
-  wipe(ns.dbChar.MinimapCapitalsDeletedIcons)
-  wipe(ns.dbChar.AzerothDeletedIcons)
-  wipe(ns.dbChar.ContinentDeletedIcons)
-  wipe(ns.dbChar.ZoneDeletedIcons)
-  wipe(ns.dbChar.MinimapZoneDeletedIcons)
-  wipe(ns.dbChar.DungeonDeletedIcons)
+  wipe(ns.dbProfile.CapitalsDeletedIcons)
+  wipe(ns.dbProfile.MinimapCapitalsDeletedIcons)
+  wipe(ns.dbProfile.CapitalsDeletedIcons)
+  wipe(ns.dbProfile.MinimapCapitalsDeletedIcons)
+  wipe(ns.dbProfile.AzerothDeletedIcons)
+  wipe(ns.dbProfile.ContinentDeletedIcons)
+  wipe(ns.dbProfile.ZoneDeletedIcons)
+  wipe(ns.dbProfile.MinimapZoneDeletedIcons)
+  wipe(ns.dbProfile.DungeonDeletedIcons)
 
   if ns.Addon.db.profile.CoreChatMassage then
     print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. " " .. "|cffffff00" .. L["Profile has been reset to default"])

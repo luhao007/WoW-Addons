@@ -135,29 +135,42 @@ else
 end
 
 -- Implementation
+local LastCmd;
 local GoldCap = 99999999999;
-local MaximumPrice,LastCmd;
+local MaximumPrice = GoldCap;
 local function ParseCommand(self, cmd, skipUpdate)
-	if cmd and cmd ~= "" then
+	if not cmd or cmd == "" then
+		cmd = "cap";
+	else
 		cmd = cmd:lower();
-		LastCmd = cmd;
-		local price;
-		if cmd == "cap" or cmd == "goldcap" or cmd == "default" then
-			price = GoldCap;
-		elseif cmd == "all" then
-			price = GetMoney();
-		elseif cmd == "warband" and app.GameBuildVersion >= 110000 then
-			price = C_Bank.FetchDepositedMoney(Enum.BankType.Account) + GetMoney();
+	end
+	LastCmd = cmd;
+	
+	local price;
+	if cmd == "cap" or cmd == "goldcap" or cmd == "default" then
+		price = GoldCap;
+	elseif cmd == "all" then
+		price = GetMoney();
+	elseif cmd == "warband" and app.GameBuildVersion >= 110000 then
+		price = C_Bank.FetchDepositedMoney(Enum.BankType.Account) + GetMoney();
+	else
+		price = tonumber(cmd);
+		if type(price) == "number" then
+			price = price * 10000;
 		else
-			price = (tonumber(cmd) or 0) * 10000;
+			price = 0;
 		end
-		if price > 0 and MaximumPrice ~= price then
-			MaximumPrice = price;
-			if not skipUpdate then
-				wipe(self.data.g);
-				collectgarbage();
-				self:Rebuild();
-			end
+	end
+	if not price or price <= 0 or price > GoldCap then
+		price = GoldCap;
+	end
+	
+	if MaximumPrice ~= price then
+		MaximumPrice = price;
+		if not skipUpdate then
+			wipe(self.data.g);
+			collectgarbage();
+			self:Rebuild();
 		end
 	end
 end
@@ -484,7 +497,7 @@ app:CreateWindow("Auctions", {
 					SortPriority = 2,
 				}),
 				app.CreateRawText("Toys", {	-- Toys
-					Metas = { "Toy" },
+					Metas = { "Toy", "ToyEventually" },
 					icon = 133015,
 					description = "All items that are classified as Toys either by ATT for the future or by the game presently.",
 					SortPriority = 2,
@@ -562,7 +575,6 @@ app:CreateWindow("Auctions", {
 									data = app.CloneClassInstance(searchResult);
 									if data.key == "npcID" then app.CreateItem(data.itemID, data); end
 									keys[value] = data;
-									data.indent = 1;
 									data.OnClick = OnClickForAuctionItem;
 									if price and price > 0 then
 										data.price = price;
@@ -592,7 +604,6 @@ app:CreateWindow("Auctions", {
 										if searchResults and #searchResults > 0 then
 											local craftedItem = app.CloneClassInstance(searchResults[1]);
 											craftedItem.OnClick = OnClickForAuctionItem;
-											craftedItem.indent = 2;
 											tinsert(entry.g, craftedItem);
 										end
 									end
@@ -670,11 +681,7 @@ app:CreateWindow("Auctions", {
 			auctionData = AllTheThingsAuctionData;
 		end
 		if settings.LastCmd then
-			LastCmd = settings.LastCmd;
-			ParseCommand(self, LastCmd, true);
-		else
-			MaximumPrice = GoldCap;
-			LastCmd = "cap";
+			ParseCommand(self, settings.LastCmd, true);
 		end
 	end,
 	OnSave = function(self, settings)

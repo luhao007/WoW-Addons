@@ -1,5 +1,13 @@
 ﻿# Changelog
 
+## 9.20.1 - February 10, 2026
+### Added
+- Added new Love is in the Air items
+- Added February Trading Post items to Collections
+- Added Midnight Pre-Patch mounts, pets, toys and tabards to Collections
+### Changed
+- Updated TOC to 12.0.1
+
 ## 9.20.0 - January 19, 2026
 ### Added
 - Added support for Midnight (no new loot yet)

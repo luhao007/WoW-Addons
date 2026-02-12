@@ -183,6 +183,7 @@ local PRICE_INFO = {
 	["untetheredCoin"]             = { currencyID = 3303 }, -- Untethered Coin
 	["ridersOfAzerothBadge"]       = { currencyID = 2588 }, -- Riders of Azeroth Badge
 	["bronze"]                     = { currencyID = 3252 }, -- Bronze (Remix)
+	["twilightsBladeInsignia"]     = { currencyID = 3319 }, -- Twilight's Blade Insignia
 
 	-- others
 	["money"]                      = { func = C_CurrencyInfo.GetCoinTextureString },

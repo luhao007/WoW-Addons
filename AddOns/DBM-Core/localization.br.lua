@@ -192,7 +192,7 @@ L.YOUR_VERSION_OUTDATED				= "Sua versão do " .. L.DEADLY_BOSS_MODS .. " está 
 L.VOICE_PACK_OUTDATED				= "O pacote de vozes do seu " .. L.DBM .. " pode estar sem alguns dos sons suportados por esta versão do " .. L.DBM .. ". O filtro de anúncio especial sonoro foi desativado. Por favor, baixe a versão mais recente do pacote de vozes ou entre em contato com o autor para obter um pacote que contenha os sons mencionados."
 L.VOICE_MISSING						= "Você tinha um pacote de vozes " .. L.DBM .. " selecionado que não pode ser encontrado. Sua seleção foi restaurada para 'Nenhum'. Caso seja um erro, certifique-se de que o pacote está instalado corretamente e ativado em addons."
 L.VOICE_DISABLED					= "Você atualmente tem pelo menos um pacote de voz do " .. L.DBM .. " instalado, mas nenhum está ativado. Se pretende usar um pacote de voz, certifique-se de que está selecionado em 'Alertas falados'. Caso contrário, desinstale os pacotes de voz não utilizados para ocultar esta mensagem."
-L.VOICE_COUNT_MISSING				= "Voz de contagem regressiva %d esta selecionada para um pacote de voz que não pode ser encontrado. Foi restaurada a configuração padrão."
+L.VOICE_COUNT_MISSING				= "A voz de contagem regressiva %d está selecionada para um pacote de voz que não pôde ser encontrado ou que não é compatível no momento. Foi restaurada para a configuração padrão: %s."
 L.BIG_WIGS							= "BigWigs" -- OPTIONAL
 L.WEAKAURA_KEY						= " (|cff308530Chave WA:|r %s)"
 
@@ -720,9 +720,9 @@ L.DUOS						= "Duetos"
 --L.KEYSTONE_NAMES[542] = 'DOME' -- Eco-Dome Al'dani
 
 -- Midnight
-L.MN_TIMELINE_HEADER   = "Deseja usar a linha do tempo da Blizzard ou as barras do DBM?"
-L.MN_BLIZZARD_TIMELINE = "Linha do tempo da Blizzard"
+L.MN_TIMELINE_HEADER   = "Deseja usar a linha temporal da Blizzard ou as barras do DBM?"
+L.MN_BLIZZARD_TIMELINE = "Linha temporal da Blizzard"
 L.MN_DBM_TIMELINE      = "Barras do DBM"
-L.MN_WARNIGS_HEADER   = "Deseja usar os avisos de encontro da Blizzard ou os avisos de encontro do DBM?"
-L.MN_BLIZZARD_WARNINGS= "Avisos da Blizzard"
-L.MN_DBM_WARNINGS     = "Avisos do DBM"
+L.MN_WARNIGS_HEADER   = "Deseja usar as alertas de encontro da Blizzard ou as alertas de encontro do DBM?"
+L.MN_BLIZZARD_WARNINGS= "Alertas da Blizzard"
+L.MN_DBM_WARNINGS     = "Alertas do DBM"

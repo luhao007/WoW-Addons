@@ -86,6 +86,9 @@ ns.DEFAULT_SETTINGS = {
         cooldownManager_showHighlight_Essential = false,
         cooldownManager_showHighlight_Utility = false,
 
+        cooldownManager_buttonPress = false,
+        cooldownManager_buttonPress_texture = "Blizzard",
+
         -- Icon Size Normalization
         cooldownManager_normalizeUtilitySize = false,
 
@@ -101,7 +104,6 @@ ns.DEFAULT_SETTINGS = {
 
         cooldownManager_experimental_hideAuras = false,
         cooldownManager_experimental_enableRectangularIcons = false,
-        cooldownManager_experimental_buttonPress = false,
         cooldownManager_experimental_trinketRacialTracker = false,
 
         trinketRacialTracker_position = nil,

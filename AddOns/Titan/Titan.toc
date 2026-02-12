@@ -1,4 +1,4 @@
-## Interface: 120000
+## Interface: 120001
 ## Author: Titan Panel Dev Team
 ## Version: 9.0.2
 

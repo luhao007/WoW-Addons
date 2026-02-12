@@ -87,16 +87,21 @@ function addon:OnProfileDeleted(event, db, profile)
 end
 
 local function _cleanup()
-    ns.db.profile.cooldownManager_forceCenterX_BuffIcons = false
-    ns.db.profile.cooldownManager_forceCenterX_Essential = false
-    ns.db.profile.cooldownManager_forceCenterX_Utility = false
-    ns.db.profile.cooldownManager_forceCenterX_BuffIcons_lastY = {}
-    ns.db.profile.cooldownManager_forceCenterX_Essential_lastY = {}
-    ns.db.profile.cooldownManager_forceCenterX_Utility_lastY = {}
+    ns.db.profile.cooldownManager_forceCenterX_BuffIcons = nil
+    ns.db.profile.cooldownManager_forceCenterX_Essential = nil
+    ns.db.profile.cooldownManager_forceCenterX_Utility = nil
+    ns.db.profile.cooldownManager_forceCenterX_BuffIcons_lastY = nil
+    ns.db.profile.cooldownManager_forceCenterX_Essential_lastY = nil
+    ns.db.profile.cooldownManager_forceCenterX_Utility_lastY = nil
 
     ns.db.profile.cooldownManager_experimental_subsequentRowScaling = nil
     ns.db.profile.cooldownManager_experimental_subsequentRowScaling_Essential = nil
     ns.db.profile.cooldownManager_experimental_subsequentRowScaling_Utility = nil
+
+    if ns.db.profile.cooldownManager_experimental_buttonPress ~= nil then
+        ns.db.profile.cooldownManager_buttonPress = ns.db.profile.cooldownManager_experimental_buttonPress
+        ns.db.profile.cooldownManager_experimental_buttonPress = nil
+    end
 end
 
 function addon:OnEnable()
@@ -129,6 +134,7 @@ function addon:OnEnable()
         ns.TrinketRacialTracker:Initialize()
     end
     _cleanup()
+    ns.ButtonPress:Initialize()
 end
 local gameVersion = select(1, GetBuildInfo())
 addon.isMidnight = gameVersion:match("^12")
@@ -145,5 +151,16 @@ C_Timer.After(2, function()
     then
         StaticPopup_Show("CMC_ELVUI_SKINNING_ASK")
         ns.db.profile._elvui_skinning_asked = askedDate
+    end
+end)
+
+local AddOnFrame = CreateFrame("Frame")
+AddOnFrame:RegisterEvent("ADDON_LOADED")
+AddOnFrame:SetScript("OnEvent", function(_, event, argument)
+    if event == "ADDON_LOADED" and argument == "Dominos" then
+        ns.ButtonPress:HookAllDominosButtons()
+    end
+    if event == "ADDON_LOADED" and argument == "ElvUI" then
+        ns.ButtonPress:RegisterElvUICallbacks()
     end
 end)

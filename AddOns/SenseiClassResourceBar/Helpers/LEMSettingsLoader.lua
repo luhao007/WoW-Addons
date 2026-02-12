@@ -286,7 +286,7 @@ local function BuildLemSettings(bar, defaults)
             tooltip = L["MINIMUM_WIDTH_TOOLTIP"],
             isEnabled = function (layoutName)
                 local data = SenseiClassResourceBarDB[config.dbName][layoutName]
-                return data ~= nil and data ~= "Manual"
+                return data ~= nil and data.widthMode ~= "Manual"
             end,
         },
         {
@@ -386,7 +386,7 @@ local function BuildLemSettings(bar, defaults)
         {
             parentId = L["CATEGORY_BAR_STYLE"],
             order = 405,
-            name = L["BORDER"],
+            name = L["BAR_BORDER"],
             kind = LEM.SettingType.DropdownColor,
             default = defaults.maskAndBorderStyle,
             colorDefault = defaults.borderColor,
@@ -413,7 +413,7 @@ local function BuildLemSettings(bar, defaults)
         {
             parentId = L["CATEGORY_BAR_STYLE"],
             order = 403,
-            name = L["BACKGROUND"],
+            name = L["BAR_BACKGROUND"],
             kind = LEM.SettingType.DropdownColor,
             default = defaults.backgroundStyle,
             colorDefault = defaults.backgroundColor,

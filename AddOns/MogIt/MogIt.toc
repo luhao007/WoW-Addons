@@ -1,0 +1,22 @@
+## Interface: 120001
+## Author: Aelobin (The Maelstrom EU) & Lombra (Defias Brotherhood EU)
+## Version: v4.1.4
+
+## Title: MogIt
+## Notes: Transmogrification Assistant
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF幻化助手|r |cFFFFE00AMogIt|r
+## Notes-zhCN: 提供额外的幻化辅助功能。
+
+## IconTexture: Interface\Icons\INV_Enchant_EssenceCosmicGreater
+
+## Category-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r
+
+## SavedVariables: MogItDB, MogItWishlist
+
+## X-Curse-Project-ID: 30961
+
+Libs\Embeds.xml
+Locale\Locale.xml
+
+Core\Core.xml
+Modules\Modules.xml

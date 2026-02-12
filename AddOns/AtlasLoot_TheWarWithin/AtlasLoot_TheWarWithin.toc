@@ -1,6 +1,6 @@
-## Interface: 120000
+## Interface: 120001
 ## Author: nanderson11
-## Version: v9.20.0
+## Version: v9.20.1
 
 ## Title: AtlasLoot |cFF0099FF[The War Within]|r
 ## Notes: AtlasLoot loot tables from The War Within

@@ -1575,11 +1575,14 @@ data["MOUNTS"]             = {
 				{ 724, 250804, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Longhorned Bleakhoof Talbuk
 				{ 725, 250802, "mount", [PRICE_EXTRA_ITTYPE] = "bronze:10000" },         -- Reins of the Longhorned Sable Talbuk
 				-- { 619, 253024, [PRICE_EXTRA_ITTYPE] = "bronze:20000" }, -- Feldruid's Scornwing Idol (druid flight form, not really a mount)
+				{ 726, 260580, "mount", [PRICE_EXTRA_ITTYPE] = "tender:600" },           -- Cloudborn Razorwing
+				{ 727, 224148, "mount", [PRICE_EXTRA_ITTYPE] = "twilightsBladeInsignia:100" }, -- Retrained Skyrazor
+				{ 728, 246594, "mount", [ACH_EXTRA_ITTYPE] = 42300 },                    -- Light-Forged Mechsuit
+				{ 729, 235658, "mount" },                                                -- Spring Butterfly
 				-- { 329, 223570, "mount" }, -- Reins of the Ebonhide Ramolith (not yet available)
 				-- { 321, 235554, "mount" }, -- Midnight Darkmoon Charger (not yet available)
 				-- { 323, 235659, "mount" }, -- Midnight Butterfly (not yet available)
 				-- { 325, 235557, "mount" }, -- Snowy Darkmoon Charger (not yet available)
-				-- { 327, 235658, "mount" }, -- Spring Butterfly (not yet available)
 				-- { 327, 186639, "mount" }, -- Xy Trustee's Gearglider (not yet available)
 			},
 			[HORDE_DIFF] = {
@@ -3738,6 +3741,7 @@ data["TABARDS"]            = {
 				{ 108, 233290 },                                     -- Sacred Templar's Tabard
 				{ 109, 245968 },                                     -- Tabard of the Trust
 				{ 110, 232908 },                                     -- Astral Gladiator's Tabard
+				{ 111, 246627, [QUEST_EXTRA_ITTYPE] = 90768 },       -- Twilight's Blade Tabard
 				-- { 1, 233929 }, -- Sacred Tabard of the Priori (currently unobtainable)
 				-- { 1, 224169 }, -- Stonebound Tabard (currently unobtainable)
 				-- { 1, 249562 }, -- Skymaster's Silver Tabard (currently unobtainable)
@@ -6672,6 +6676,10 @@ data["COMPANIONS"]         = {
 				{ 514, 246339, "pet4854", [ACH_EXTRA_ITTYPE] = 42541 },                   -- Duskytooth Fel Snooter
 				{ 515, 239705, "pet4802", [PRICE_EXTRA_ITTYPE] = "bronze:5000" },         -- Morsel
 				{ 516, 239699, "pet4801", [PRICE_EXTRA_ITTYPE] = "bronze:5000" },         -- Tidbit
+				{ 517, 234397, "pet4729", [PRICE_EXTRA_ITTYPE] = "tender:350" },          -- Fullbelly Rollingpaw
+				{ 518, 232856, "pet4633", [PRICE_EXTRA_ITTYPE] = "twilightsBladeInsignia:30" }, -- Scruff
+				{ 519, 246628, "pet4508", [PRICE_EXTRA_ITTYPE] = "twilightsBladeInsignia:30" }, -- Emerald Sporbit
+				{ 520, 244911, "pet4830", [PRICE_EXTRA_ITTYPE] = "twilightsBladeInsignia:30" }, -- Rhay'Dahr
 				-- { 311, 233057, "pet4709" }, -- Rock Hound Mica
 				-- { 312, 221764, "pet4519" }, -- Burntram
 				-- { 317, 222969, "pet4474" }, -- Anub'Rekyute
@@ -6683,7 +6691,6 @@ data["COMPANIONS"]         = {
 				-- { 325, 221493, "pet4493" }, -- Admiral
 				-- { 326, 221495, "pet4497" }, -- Waddles
 				-- { 327, 222967, "pet4475" }, -- Webbers
-				-- { 114, 232856, "pet4633" }, -- Scruff
 				-- { 203, 232854, "pet4634" }, -- Grinner
 			}
 		},
@@ -6828,60 +6835,60 @@ data["TOYS"]               = {
 			name = EXPANSION_NAME10,
 			-- CoinTexture = "Reputation",
 			[NORMAL_DIFF] = {
-				{ 1,   236687 },                                     -- Explosive Hearthstone
+				{ 1,   236687 },                                         -- Explosive Hearthstone
 				{ 2,   226373, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Everlasting Noggenfogger Elixir
 				{ 3,   237382, [PRICE_EXTRA_ITTYPE] = "emptyKajaCola:999" }, -- Undermine Supply Crate
-				{ 4,   226810 },                                     -- Infiltrator's Shroud
-				{ 5,   235041, [QUEST_EXTRA_ITTYPE] = 85657 },       -- Cyrce's Circlet
-				{ 6,   237345, [PRICE_EXTRA_ITTYPE] = "227673:5" },  -- Limited Edition Rocket Bobber
+				{ 4,   226810 },                                         -- Infiltrator's Shroud
+				{ 5,   235041, [QUEST_EXTRA_ITTYPE] = 85657 },           -- Cyrce's Circlet
+				{ 6,   237345, [PRICE_EXTRA_ITTYPE] = "227673:5" },      -- Limited Edition Rocket Bobber
 				{ 7,   231064, [PRICE_EXTRA_ITTYPE] = "undercoin:2500" }, -- Throwaway Gangster Disguise
 				{ 8,   230850, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:10" }, -- Delve-O-Bot 7001
-				{ 9,   237347, [PRICE_EXTRA_ITTYPE] = "227673:5" },  -- Organically-Sourced Wellington Bobber
+				{ 9,   237347, [PRICE_EXTRA_ITTYPE] = "227673:5" },      -- Organically-Sourced Wellington Bobber
 				{ 10,  234950, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Atomic Regoblinator
-				{ 11,  230727, [QUEST_EXTRA_ITTYPE] = 85244 },       -- Explosive Victory
-				{ 12,  235050, [ACH_EXTRA_ITTYPE] = 41588 },         -- Desk-in-a-Box
-				{ 13,  225659 },                                     -- Arathi Book Collection
-				{ 14,  221966 },                                     -- Wormhole Generator: Khaz Algar
+				{ 11,  230727, [QUEST_EXTRA_ITTYPE] = 85244 },           -- Explosive Victory
+				{ 12,  235050, [ACH_EXTRA_ITTYPE] = 41588 },             -- Desk-in-a-Box
+				{ 13,  225659 },                                         -- Arathi Book Collection
+				{ 14,  221966 },                                         -- Wormhole Generator: Khaz Algar
 				{ 15,  235801, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Personal Fishing Barge
-				{ 16,  237346, [PRICE_EXTRA_ITTYPE] = "227673:5" },  -- Artisan Beverage Goblet Bobber
-				{ 17,  225641 },                                     -- Illusive Kobyss Lure
-				{ 18,  230924 },                                     -- Spotlight Materializer 1000
+				{ 16,  237346, [PRICE_EXTRA_ITTYPE] = "227673:5" },      -- Artisan Beverage Goblet Bobber
+				{ 17,  225641 },                                         -- Illusive Kobyss Lure
+				{ 18,  230924 },                                         -- Spotlight Materializer 1000
 				{ 19,  235807, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Storefront-in-a-Box
-				{ 20,  233202, [QUEST_EXTRA_ITTYPE] = 84675 },       -- G.O.L.E.M, Jr.
-				{ 21,  228940, [PRICE_EXTRA_ITTYPE] = "kej:3000" },  -- Notorious Thread's Hearthstone
-				{ 22,  235220 },                                     -- Fireworks Hat
-				{ 23,  236769, [ACH_EXTRA_ITTYPE] = 41211 },         -- Gallagio Pipeline Rerouter
-				{ 24,  234951 },                                     -- Uncracked Cold Ones
-				{ 25,  235017 },                                     -- Glittering Vault Shard
-				{ 26,  211931 },                                     -- Abyss Caller Horn
-				{ 27,  224251, [ACH_EXTRA_ITTYPE] = 40314 },         -- Memory Chord
-				{ 28,  235519 },                                     -- Prized Legend's Pennant
+				{ 20,  233202, [QUEST_EXTRA_ITTYPE] = 84675 },           -- G.O.L.E.M, Jr.
+				{ 21,  228940, [PRICE_EXTRA_ITTYPE] = "kej:3000" },      -- Notorious Thread's Hearthstone
+				{ 22,  235220 },                                         -- Fireworks Hat
+				{ 23,  236769, [ACH_EXTRA_ITTYPE] = 41211 },             -- Gallagio Pipeline Rerouter
+				{ 24,  234951 },                                         -- Uncracked Cold Ones
+				{ 25,  235017 },                                         -- Glittering Vault Shard
+				{ 26,  211931 },                                         -- Abyss Caller Horn
+				{ 27,  224251, [ACH_EXTRA_ITTYPE] = 40314 },             -- Memory Chord
+				{ 28,  235519 },                                         -- Prized Legend's Pennant
 				{ 29,  228698, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Candleflexer's Dumbbell
 				{ 30,  233486, [PRICE_EXTRA_ITTYPE] = "flameBlessedIron:750" }, -- Hallowfall Supply Cache
-				{ 101, 225910 },                                     -- Pileus Delight
-				{ 102, 219387 },                                     -- Barrel of Fireworks
-				{ 103, 236751 },                                     -- Take-Home Flarendo
-				{ 104, 228705, [PRICE_EXTRA_ITTYPE] = "kej:1750" },  -- Arachnoserum
+				{ 101, 225910 },                                         -- Pileus Delight
+				{ 102, 219387 },                                         -- Barrel of Fireworks
+				{ 103, 236751 },                                         -- Take-Home Flarendo
+				{ 104, 228705, [PRICE_EXTRA_ITTYPE] = "kej:1750" },      -- Arachnoserum
 				{ 105, 235015, [PRICE_EXTRA_ITTYPE] = "flameBlessedIron:750" }, -- Awakened Supply Crate
-				{ 106, 228914, [PRICE_EXTRA_ITTYPE] = "kej:1500" },  -- Arachnophile Spectacles
-				{ 107, 236749 },                                     -- Take-Home Torq
-				{ 108, 228789 },                                     -- Coldflame Ring
-				{ 109, 221962 },                                     -- Defective Escape Pod
-				{ 110, 219403 },                                     -- Stonebound Lantern
-				{ 111, 215145 },                                     -- Remembrance Stone
+				{ 106, 228914, [PRICE_EXTRA_ITTYPE] = "kej:1500" },      -- Arachnophile Spectacles
+				{ 107, 236749 },                                         -- Take-Home Torq
+				{ 108, 228789 },                                         -- Coldflame Ring
+				{ 109, 221962 },                                         -- Defective Escape Pod
+				{ 110, 219403 },                                         -- Stonebound Lantern
+				{ 111, 215145 },                                         -- Remembrance Stone
 				{ 112, 228707, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Trial of Burning Light
-				{ 113, 221964 },                                     -- Filmless Camera
-				{ 114, 225347 },                                     -- Web-Vandal's Spinning Wheel
-				{ 115, 228966 },                                     -- Starry-Eyed Goggles
-				{ 116, 224585 },                                     -- Hanna's Locket
-				{ 117, 226191, [PRICE_EXTRA_ITTYPE] = "money:7500" }, -- Web Pet Leash
-				{ 118, 225556 },                                     -- Ancient Construct
-				{ 119, 227539, [ACH_EXTRA_ITTYPE] = 40795 },         -- Unbound Strategist's Pennant
-				{ 120, 228413 },                                     -- Lampyridae Lure
-				{ 121, 224783 },                                     -- Sovereign's Finery Chest
-				{ 122, 225547, [QUEST_EXTRA_ITTYPE] = 83500 },       -- Toxic Victory
-				{ 123, 225933 },                                     -- Forged Legend's Pennant
-				{ 124, 235288 },                                     -- Sha-Warped Tea Set
+				{ 113, 221964 },                                         -- Filmless Camera
+				{ 114, 225347 },                                         -- Web-Vandal's Spinning Wheel
+				{ 115, 228966 },                                         -- Starry-Eyed Goggles
+				{ 116, 224585 },                                         -- Hanna's Locket
+				{ 117, 226191, [PRICE_EXTRA_ITTYPE] = "money:7500" },    -- Web Pet Leash
+				{ 118, 225556 },                                         -- Ancient Construct
+				{ 119, 227539, [ACH_EXTRA_ITTYPE] = 40795 },             -- Unbound Strategist's Pennant
+				{ 120, 228413 },                                         -- Lampyridae Lure
+				{ 121, 224783 },                                         -- Sovereign's Finery Chest
+				{ 122, 225547, [QUEST_EXTRA_ITTYPE] = 83500 },           -- Toxic Victory
+				{ 123, 225933 },                                         -- Forged Legend's Pennant
+				{ 124, 235288 },                                         -- Sha-Warped Tea Set
 				{ 125, 234473, [PRICE_EXTRA_ITTYPE] = "flameBlessedIron:750" }, -- Soweezi's Comfy Lawn Chair
 				{ 126, 223312, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:10" }, -- Trusty Hat
 				{ 127, 235670, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Bilgewater Cartel Banner
@@ -6889,48 +6896,49 @@ data["TOYS"]               = {
 				{ 129, 235669, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Steamwheedle Cartel Banner
 				{ 130, 235672, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Venture Co. Banner
 				{ 201, 235799, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Throwin' Sawblade
-				{ 202, 215147 },                                     -- Beautification Iris
-				{ 203, 225969, [ACH_EXTRA_ITTYPE] = 40096 },         -- Forged Flag of Victory
-				{ 204, 224552 },                                     -- Cave Spelunker's Torch
-				{ 205, 218308 },                                     -- Winter Veil Cracker
-				{ 206, 227538, [ACH_EXTRA_ITTYPE] = 40792 },         -- Unbound Legend's Pennant
+				{ 202, 215147 },                                         -- Beautification Iris
+				{ 203, 225969, [ACH_EXTRA_ITTYPE] = 40096 },             -- Forged Flag of Victory
+				{ 204, 224552 },                                         -- Cave Spelunker's Torch
+				{ 205, 218308 },                                         -- Winter Veil Cracker
+				{ 206, 227538, [ACH_EXTRA_ITTYPE] = 40792 },             -- Unbound Legend's Pennant
 				{ 207, 228706, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Rockslidomancer's Stone
 				{ 208, 224192, [PRICE_EXTRA_ITTYPE] = "timewarped:200" }, -- Practice Ravager
-				{ 209, 224643, [PRICE_EXTRA_ITTYPE] = "224642:1" },  -- Pet-Sized Candle
-				{ 210, 224554 },                                     -- Silver Linin' Scepter
-				{ 211, 226519, [PRICE_EXTRA_ITTYPE] = "kej:1100" },  -- General's Expertise
-				{ 212, 232301 },                                     -- Tempered Banner of the Algari
-				{ 213, 232305 },                                     -- Forged Champion's Prestigious Banner
-				{ 214, 229828 },                                     -- 20th Anniversary Balloon Chest
-				{ 215, 218310 },                                     -- Box of Puntables
+				{ 209, 224643, [PRICE_EXTRA_ITTYPE] = "224642:1" },      -- Pet-Sized Candle
+				{ 210, 224554 },                                         -- Silver Linin' Scepter
+				{ 211, 226519, [PRICE_EXTRA_ITTYPE] = "kej:1100" },      -- General's Expertise
+				{ 212, 232301 },                                         -- Tempered Banner of the Algari
+				{ 213, 232305 },                                         -- Forged Champion's Prestigious Banner
+				{ 214, 229828 },                                         -- 20th Anniversary Balloon Chest
+				{ 215, 218310 },                                         -- Box of Puntables
 				{ 216, 238850, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Arathi Entertainer's Flame
 				{ 217, 238852, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Flame's Radiance Banner
 				{ 218, 239693, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:5000" }, -- Radiant Lynx Whistle
-				{ 219, 174920 },                                     -- Coifcurl's Close Shave Kit
-				{ 220, 174926 },                                     -- Overly Sensitive Void Spectacles
-				{ 221, 174928 },                                     -- Rotten Apple
-				{ 222, 174921 },                                     -- Void-Touched Skull
-				{ 223, 174924 },                                     -- Void-Touched Souvenir Totem
-				{ 224, 239007 },                                     -- Dastardly Banner
+				{ 219, 174920 },                                         -- Coifcurl's Close Shave Kit
+				{ 220, 174926 },                                         -- Overly Sensitive Void Spectacles
+				{ 221, 174928 },                                         -- Rotten Apple
+				{ 222, 174921 },                                         -- Void-Touched Skull
+				{ 223, 174924 },                                         -- Void-Touched Souvenir Totem
+				{ 224, 239007 },                                         -- Dastardly Banner
 				{ 225, 239018, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:100" }, -- Winner's Podium
-				{ 226, 244888 },                                     -- Echo of the Xal'atath, Blade of the Black Empire
-				{ 227, 245567 },                                     -- K'aresh Memory Crystal
-				{ 228, 245631 },                                     -- Royal Visage
+				{ 226, 244888 },                                         -- Echo of the Xal'atath, Blade of the Black Empire
+				{ 227, 245567 },                                         -- K'aresh Memory Crystal
+				{ 228, 245631 },                                         -- Royal Visage
 				{ 229, 245942, [PRICE_EXTRA_ITTYPE] = "timewarped:1000" }, -- Sea-Blessed Shrine
 				{ 230, 246227, [PRICE_EXTRA_ITTYPE] = "timewarped:1000" }, -- Lightning-Blessed Spire
-				{ 301, 235016, [ACH_EXTRA_ITTYPE] = 42241 },         -- Redeployment Module
-				{ 302, 244470, [QUEST_EXTRA_ITTYPE] = 91089 },       -- Etheric Victory
+				{ 301, 235016, [ACH_EXTRA_ITTYPE] = 42241 },             -- Redeployment Module
+				{ 302, 244470, [QUEST_EXTRA_ITTYPE] = 91089 },           -- Etheric Victory
 				{ 303, 246903, [PRICE_EXTRA_ITTYPE] = "untetheredCoin:3" }, -- Guise of the Phase Diver
 				{ 304, 246905, [PRICE_EXTRA_ITTYPE] = "untetheredCoin:3" }, -- Overtuned K'areshi Goggles
 				{ 305, 246907, [PRICE_EXTRA_ITTYPE] = "untetheredCoin:3" }, -- Broker Supply Crate
 				{ 306, 246908, [PRICE_EXTRA_ITTYPE] = "untetheredCoin:3" }, -- K'areshi Supply Crate
 				{ 307, 250722, [PRICE_EXTRA_ITTYPE] = "untetheredCoin:3" }, -- Ethereal Stall
-				{ 308, 246565 },                                     -- Cosmic Hearthstone
-				{ 309, 245970 },                                     -- P.O.S.T. Master's Express Hearthstone
-				{ 310, 242323 },                                     -- Chowdar's Favorite Ribbon
+				{ 308, 246565 },                                         -- Cosmic Hearthstone
+				{ 309, 245970 },                                         -- P.O.S.T. Master's Express Hearthstone
+				{ 310, 242323 },                                         -- Chowdar's Favorite Ribbon
 				{ 311, 244792, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:10" }, -- Etheric Brannmorpher
 				{ 312, 243056, [PRICE_EXTRA_ITTYPE] = "resonanceCrystal:10" }, -- Delver's Mana-Bound Ethergate
-				{ 313, 245946, [PRICE_EXTRA_ITTYPE] = "brewfest:200" }, -- Brewer's Balloon
+				{ 313, 245946, [PRICE_EXTRA_ITTYPE] = "brewfest:200" },  -- Brewer's Balloon
+				{ 314, 249468, [PRICE_EXTRA_ITTYPE] = "twilightsBladeInsignia:30" }, -- Twilight's Blade Top Secret Strategy Training Guide
 				-- { 310, 249713 },                                     -- Cartel Transmorpher (currently unobtainable)
 			}
 		},

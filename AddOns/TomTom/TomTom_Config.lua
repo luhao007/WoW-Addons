@@ -1,6 +1,6 @@
 local addonName, addon = ...
 
-local L = TomTomLocals
+local L = addon.L
 
 local function createconfig()
 	local options = {}

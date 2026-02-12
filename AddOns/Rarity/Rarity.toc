@@ -1,6 +1,6 @@
-## Interface: 120000
+## Interface: 120001
 ## Author: Allara
-## Version: 1.0 (r752-alpha)
+## Version: 1.0 (r752-alpha-2)
 
 ## Title: Rarity
 ## Notes: Tracks rare drops, including companions and mounts
@@ -20,7 +20,7 @@
 ## LoadSavedVariablesFirst: 1
 ## SavedVariables: RarityDB
 
-## X-Min-Interface: 120000, 50503, 11508
+## X-Min-Interface: 120001, 50503, 11508
 ## X-Curse-Project-ID: 30801
 ## X-LoadOn-Always: delayed
 

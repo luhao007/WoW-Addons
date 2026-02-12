@@ -5,12 +5,12 @@
 ----------------------------------------------------------------------------]]
 
 -- Simple localization table for messages
-local L = TomTomLocals
 local ldb = LibStub("LibDataBroker-1.1")
 local hbd = LibStub("HereBeDragons-2.0")
 
 local addonName, addon = ...
 local TomTom = addon
+local L = addon.L
 
 addon.hbd = hbd
 addon.WOW_MAINLINE = (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE)

@@ -122,18 +122,17 @@ app:CreateWindow("Prime", {
 				return true
 			end
 			app.print("Unknown Command: ", cmd, app.TableConcat(args, nil, "", " "));
+			-- don't open Main list if an unknown command was handled
+			return true
 		end
 	end,
 	OnInit = function(self)
 		app.ToggleMainList = function()
 			self:Toggle();
 		end
-	end,
-	OnLoad = function(self)
-		self:Rebuild();
-	end,
-	OnRebuild = function(self)
-		self:SetData(app:GetDataCache());
+		self:AddEventHandler("OnDataCached", function(self, categories, rootData)
+			self:SetData(rootData);
+		end);
 	end,
 	OnUpdate = function(self, ...)
 		self:DefaultUpdate(...);

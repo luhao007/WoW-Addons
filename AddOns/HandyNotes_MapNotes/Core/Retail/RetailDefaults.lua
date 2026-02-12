@@ -536,6 +536,7 @@ ns.defaults = {
       showCapitalsStablemaster = true,
       showCapitalsTradingPost = true,
       showCapitalsMountMerchent = true,
+      showCapitalsDecorExpert = true,
 
     -- Capital Class Hall
       CapitalsClassHallScale = 1.5,
@@ -643,6 +644,7 @@ ns.defaults = {
       showMinimapCapitalsStablemaster = true,
       showMinimapCapitalsTradingPost = true,
       showMinimapCapitalsMountMerchent = true,
+      showMinimapCapitalsDecorExpert = true,
 
     -- Capital Class Hall
       MinimapCapitalsClassHallScale = 1.5,
@@ -759,30 +761,15 @@ ns.defaults = {
         MinimapCapitalsClassHall = true,
       },
 
-    --11 deleted icons function
+    -- 11 DeleteIcons
       deletedIcons = {
-
-        AzerothDeletedIcons = {
-          ['*'] = {},
-        },
-        ContinentDeletedIcons = {
-          ['*'] = {},
-        },
-        ZoneDeletedIcons = {
-          ['*'] = {},
-        },
-        MinimapZoneDeletedIcons = {
-          ['*'] = {},
-        },
-        DungeonDeletedIcons = {
-          ['*'] = {},
-        },
-        CapitalsDeletedIcons = {
-          ['*'] = {},
-        },
-        MinimapCapitalsDeletedIcons = {
-          ['*'] = {},
-        },
+        AzerothDeletedIcons = { ['*'] = {} },
+        ContinentDeletedIcons = { ['*'] = {} },
+        ZoneDeletedIcons = { ['*'] = {} },
+        MinimapZoneDeletedIcons = { ['*'] = {} },
+        DungeonDeletedIcons = { ['*'] = {} },
+        CapitalsDeletedIcons = { ['*'] = {} },
+        MinimapCapitalsDeletedIcons = { ['*'] = {} },
       },
 
     --12 FogOfWarColor
@@ -825,6 +812,10 @@ ns.defaults = {
         areaMapFogOfWarColorB = 0,
         areaMapFogOfWarColorA = 1,
       },
+  },
 
+  global = {
+    useSharedProfile = false,
+    sharedProfileName = "MapNotes",
   },
 }

@@ -33,11 +33,29 @@ app:CreateWindow("Import", {
 					ids[#ids + 1] = id
 				end
 			end
+			if #ids > 0 then return ids end
+
+			-- if there were no raw ids parsed from the input, try to use the string as a global table reference :O
+			local keychain = {("."):split(str)}
+			local i = 1
+			local t
+			while i <= #keychain do
+				t = (t and t[keychain[i]]) or _G[keychain[i]]
+				i = i + 1
+			end
+			if t then
+				for id in pairs(t) do
+					id = tonumber(id)
+					if id then
+						ids[#ids + 1] = id
+					end
+				end
+			end
 			return ids
 		end
 
 		local function SearchTypeObject(typeKey, id)
-			local o = setmetatable({ OnUpdate = app.ForceShowUpdate }, {
+			local o = setmetatable({ OnUpdate = app.ForceShowUpdate, g = app.EmptyTable }, {
 					__index = id and (SearchForObject(typeKey, id, "key")
 									or SearchForObject(typeKey, id, "field")
 									or app.__CreateObject({[typeKey]=id}))
@@ -80,6 +98,7 @@ app:CreateWindow("Import", {
 			{ id = "illusionID", name = L.FILTER_ID_TYPES[103], icon = app.asset("Category_Illusions") },
 			{ id = "itemID", name = ITEMS, icon = 135276 },
 			{ id = "questID", name = TRACKER_HEADER_QUESTS, icon = app.asset("Interface_Quest_header") },
+			{ id = "spellID", name = SPELLS, icon = 135736 },
 			{ id = "titleID", name = PAPERDOLL_SIDEBAR_TITLES, icon = app.asset("Category_Titles") },
 		}
 
@@ -91,7 +110,7 @@ app:CreateWindow("Import", {
 				OnUpdate = app.AlwaysShowUpdate,
 				OnClick = function()
 					app:ShowPopupDialogWithEditBox(
-						"Paste " .. label .. " IDs",
+						"Paste " .. label .. " IDs or Global Reference [ATTC.CurrentCharacter.Quests] etc.",
 						"",
 						function(input)
 							if not input or input:match("^%s*$") then
@@ -130,6 +149,7 @@ app:CreateWindow("Import", {
 				visible = true,
 				isButton = true,
 				OnUpdate = app.AlwaysShowUpdate,
+				SortPriority = -1,
 				OnClick = function()
 					self:ResetToInitialButtons()
 					return true

@@ -49,3 +49,21 @@ frame:RegisterEvent("UI_SCALE_CHANGED")
 frame:SetScript("OnEvent", function()
     physicalHeight = select(2, GetPhysicalScreenSize())
 end)
+
+function Scaling:NudgeViewers()
+    -- todo actually calculate pixel perfect point and set size after for resource addons to reposition
+    local viewers = {
+        BuffIconCooldownViewer = _G["BuffIconCooldownViewer"],
+        BuffBarCooldownViewer = _G["BuffBarCooldownViewer"],
+        EssentialCooldownViewer = _G["EssentialCooldownViewer"],
+        UtilityCooldownViewer = _G["UtilityCooldownViewer"],
+    }
+    for _, viewer in pairs(viewers) do
+        if viewer and viewer.GetPoint then
+            local p = { viewer:GetPoint() }
+            if p[1] then
+                viewer:SetPoint(p[1], p[2], p[3], p[4] + 0.1, p[5])
+            end
+        end
+    end
+end

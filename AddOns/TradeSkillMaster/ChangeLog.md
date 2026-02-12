@@ -1,7 +1,5 @@
-## v4.14.54 Changes
+## v4.14.55 Changes
 
-* [Retail] Fixed error when opening professions for some users
-* [Retail] Fixed various combat errors
-* [MoP] Fixed issue with Destroying button not working
+* [Retail] Updated for 12.0.1
 
 [Known Issues](https://support.tradeskillmaster.com/en_US/known_issues)

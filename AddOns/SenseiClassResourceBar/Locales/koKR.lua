@@ -115,9 +115,9 @@ local baseLocale = {
     ["USE_CLASS_COLOR"] = "직업 색상 사용",
     ["USE_RESOURCE_TEXTURE_AND_COLOR"] = "자원 텍스처 및 색상 사용",
     ["BAR_TEXTURE"] = "바 텍스처",
-    ["BACKGROUND"] = "배경",
+    ["BAR_BACKGROUND"] = "배경",
     ["USE_BAR_COLOR_FOR_BACKGROUND_COLOR"] = "바 색상을 배경 색상으로 사용",
-    ["BORDER"] = "테두리",
+    ["BAR_BORDER"] = "테두리",
 
     -- Text settings category - Edit Mode
     ["CATEGORY_TEXT_SETTINGS"] = "텍스트 설정",

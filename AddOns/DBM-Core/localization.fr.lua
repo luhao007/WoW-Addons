@@ -191,7 +191,7 @@ L.YOUR_VERSION_OUTDATED	  	= "Votre version de " .. L.DEADLY_BOSS_MODS .. " est 
 L.VOICE_PACK_OUTDATED		= "Il semble que votre paquet de voix " .. L.DBM .. " manque de sons supportés sur cette version de " .. L.DBM .. ". Certains sons d'alertes spéciales ne seront pas joués s'ils utilisent des voix non supportées par votre version. Téléchargez une nouvelle version du paquet de voix ou contactez l'auteur pour une mise à jour qui l'inclut."
 L.VOICE_MISSING				= "Vous aviez un paquet de voix sélectionné qui ne pouvait pas être trouvé. Votre sélection a été réinitialisée à 'Aucun'. Si ceci est une erreur, assurez-vous que votre paquet est correctement installé et activé."
 L.VOICE_DISABLED			= "Vous avez actuellement au moins un paquet de voix " .. L.DBM .. " installé, mais aucun n'est activé. Si vous prévoyez d'utiliser un paquet de voix, assurez-vous qu'il est sélectionné dans 'Alertes vocales'. Sinon, désinstallez les paquets de voix inutilisés pour cacher ce message."
-L.VOICE_COUNT_MISSING		= "Le compte à rebours de la voix %d se trouve dans un paquet qui ne pouvait pas être trouvé. Il a été réinitialisé à l'option par défaut."
+L.VOICE_COUNT_MISSING		= "Le compte à rebours de la voix %d est défini sur un paquet de voix qui n’a pas pu être trouvé ou qui n’est actuellement pas pris en charge. Il a été réinitialisé au paramètre par défaut : %s."
 L.BIG_WIGS					= "BigWigs" -- OPTIONAL
 L.WEAKAURA_KEY				= " (|cff308530Clé WA:|r %s)"
 
@@ -718,9 +718,9 @@ L.KEYSTONE_NAMES[525] = 'VANNES' -- Operation Floodgate
 L.KEYSTONE_NAMES[542] = 'DÔME' -- Eco-Dome Al'dani
 
 -- Midnight
-L.MN_TIMELINE_HEADER   = "Voulez-vous utiliser la chronologie de Blizzard ou les barres de DBM ?"
-L.MN_BLIZZARD_TIMELINE = "Chronologie de Blizzard"
+L.MN_TIMELINE_HEADER   = "Voulez-vous utiliser la ligne temporelle de Blizzard ou les barres de DBM ?"
+L.MN_BLIZZARD_TIMELINE = "Ligne temporelle de Blizzard"
 L.MN_DBM_TIMELINE      = "Barres de DBM"
-L.MN_WARNIGS_HEADER   = "Voulez-vous utiliser les alertes de rencontre de Blizzard ou celles de DBM ?"
-L.MN_BLIZZARD_WARNINGS= "Alertes de Blizzard"
-L.MN_DBM_WARNINGS     = "Alertes de DBM"
+L.MN_WARNIGS_HEADER   = "Voulez-vous utiliser les avertissements de rencontre de Blizzard ou celles de DBM ?"
+L.MN_BLIZZARD_WARNINGS= "Avertissements de Blizzard"
+L.MN_DBM_WARNINGS     = "Avertissements de DBM"

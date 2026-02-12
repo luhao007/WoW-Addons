@@ -55,11 +55,12 @@ ns.BlizzAreaPoisInfo = {
     8414, -- Portal from K'arsh to Dornogal
     8504, -- Amani'Zar
     8640, -- Portal to Voidstorm
-    --8307, -- Portal to Voidstorm -- activate after finishing capital nodes
-    --8308, -- Portal Eversong Rootway -- activate after finishing capital nodes
-    --8309, -- Portal Orgrimmar -- activate after finishing capital nodes
+    8307, -- Portal to Voidstorm
+    8308, -- Portal Eversong Rootway
+    8309, -- Portal chamber orgrimma and stormwind
     8478, -- Portal Eversong Rootway
     8545, -- Main Portal Chamber
+    8587, -- Timeways Portal Silvermoon Midnight
     8642, -- Portal to Silvermoon and Harandar
 
     -- ClassHall
@@ -116,6 +117,7 @@ ns.BlizzAreaPoisInfo = {
     7339, -- Ship Icon The Waking Shores to OG
     4587, -- Warspear PvP Vendors
     8529, -- Housing Portal Horde to Orgrimmar
+
 }
 
 ns.BlizzAreaPoisInfoZidormi = {
@@ -126,4 +128,8 @@ ns.BlizzAreaPoisInfoZidormi = {
     6548, -- Uldum
     5989, -- Arathi Highlands
     5562, -- Blasted Lands
+}
+
+ns.HiddenBlizzVignetteIDs = {
+    [7522] = true, -- Rüstmeisterin für Eroberungspunkte
 }

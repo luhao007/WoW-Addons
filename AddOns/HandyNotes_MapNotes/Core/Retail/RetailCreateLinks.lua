@@ -40,6 +40,10 @@ local function processMessage(text)
 end
 
 local function makeClickable(self, event, msg, ...)
+    if type(msg) ~= "string" then
+        return false, msg, ...
+    end
+
     if event == "CHAT_MSG_CHANNEL" then
         local channelName = select(4, ...)
         if type(channelName) == "string" and channelName:lower():find("dienste") then
@@ -124,28 +128,41 @@ local function AddMessage(self, text, ...)
   if not self._OriginalAddMessage then return end
 
   if ns.Addon and ns.Addon.db and ns.Addon.db.profile and ns.Addon.db.profile.CreateAndCopyLinks then
-    if text and not text:find("|Hurl:") then
+
+    local okFind, hasUrl = pcall(function()
+      return type(text) == "string" and text:find("|Hurl:")
+    end)
+
+    if okFind and type(text) == "string" and not hasUrl then
+      local okEdit, newText = pcall(function()
+        local t = text
+
         if ns.questID then
-            local pat = "(https://www%.wowhead%.com/quest=" .. ns.questID .. ")"
-            text = text:gsub(pat, "|cff00ccff|Hurl:%1|h%1|h|r")
+          local pat = "(https://www%.wowhead%.com/quest=" .. ns.questID .. ")"
+          t = t:gsub(pat, "|cff00ccff|Hurl:%1|h%1|h|r")
         end
-    
+
         if ns.questIDs and ns.questIDs ~= ns.questID then
-            local pat = "(https://www%.wowhead%.com/quest=" .. ns.questIDs .. ")"
-            text = text:gsub(pat, "|cff00ccff|Hurl:%1|h%1|h|r")
+          local pat = "(https://www%.wowhead%.com/quest=" .. ns.questIDs .. ")"
+          t = t:gsub(pat, "|cff00ccff|Hurl:%1|h%1|h|r")
         end
-    
+
         if ns.achievementID then
-            local pat = "(https://www%.wowhead%.com/achievement=" .. ns.achievementID .. ")"
-            text = text:gsub(pat, "|cff00ccff|Hurl:%1|h%1|h|r")
+          local pat = "(https://www%.wowhead%.com/achievement=" .. ns.achievementID .. ")"
+          t = t:gsub(pat, "|cff00ccff|Hurl:%1|h%1|h|r")
         end
+
+        return t
+      end)
+
+      if okEdit and newText then
+        text = newText
+      end
     end
   end
 
   return self._OriginalAddMessage(self, text, ...)
 end
-
-
 
 local function URLClicker_OnHyperlinkShow(self, link)
     if ns.Addon and ns.Addon.db and ns.Addon.db.profile and ns.Addon.db.profile.CreateAndCopyLinks and link:sub(1, 3) == "url" then

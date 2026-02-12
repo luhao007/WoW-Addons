@@ -1,7 +1,9 @@
 local _, ns = ...
 
+local LAB = LibStub and LibStub("LibActionButton-1.0", true)
 local ButtonPress = {}
 ns.ButtonPress = ButtonPress
+local pressedSpellByButton = {}
 
 local function CreateSpellIDCollection(spellID)
     if not spellID then
@@ -27,7 +29,9 @@ local function GetSpellIDFromCooldownId(cooldownID)
     if not cooldownID then
         return nil
     end
-
+    if type(cooldownID) ~= "number" then
+        return nil
+    end
     local cooldownIDInfo = C_CooldownViewer.GetCooldownViewerCooldownInfo(cooldownID)
     if cooldownIDInfo.spellID then
         return cooldownIDInfo.spellID, cooldownIDInfo.overrideSpellID
@@ -122,8 +126,16 @@ local function CreateOrGetTextureFrame(icon)
 
     local tex = frame:CreateTexture(nil, "OVERLAY")
     tex:SetAllPoints(frame)
-    tex:SetAtlas("UI-HUD-ActionBar-IconFrame-Down", true)
-
+    if ns.db.profile.cooldownManager_buttonPress_texture == "Flat" then -- todo texture option
+        tex:SetTexture("Interface\\AddOns\\CooldownManagerCentered\\Media\\Art\\Square")
+        tex:SetBlendMode("ADD")
+        tex:SetColorTexture(0.8, 0.8, 0.8, 0.3)
+        if frame.SetInside then
+            tex:SetInside()
+        end
+    else
+        tex:SetAtlas("UI-HUD-ActionBar-IconFrame-Down", true)
+    end
     frame.texture = tex
     frame:Hide()
 
@@ -149,7 +161,7 @@ local function cleanupToHide()
     toHide = {}
 end
 hooksecurefunc("ActionButtonDown", function(id)
-    if not ns.db.profile.cooldownManager_experimental_buttonPress then
+    if not ns.db.profile.cooldownManager_buttonPress then
         return
     end
     local btn = _G["ActionButton" .. id]
@@ -157,14 +169,14 @@ hooksecurefunc("ActionButtonDown", function(id)
     local icon = GetViewerIconBySpellId(spellID)
     if icon then
         EnableTexture(icon)
-    end
-    if isFromMacro then
-        table.insert(toHide, icon)
+        if isFromMacro then
+            table.insert(toHide, icon)
+        end
     end
 end)
 
 hooksecurefunc("ActionButtonUp", function(id)
-    if not ns.db.profile.cooldownManager_experimental_buttonPress then
+    if not ns.db.profile.cooldownManager_buttonPress then
         return
     end
     local btn = _G["ActionButton" .. id]
@@ -177,7 +189,7 @@ hooksecurefunc("ActionButtonUp", function(id)
 end)
 
 hooksecurefunc("MultiActionButtonDown", function(bar, id)
-    if not ns.db.profile.cooldownManager_experimental_buttonPress then
+    if not ns.db.profile.cooldownManager_buttonPress then
         return
     end
     local btn = _G[bar .. "Button" .. id]
@@ -192,7 +204,7 @@ hooksecurefunc("MultiActionButtonDown", function(bar, id)
 end)
 
 hooksecurefunc("MultiActionButtonUp", function(bar, id)
-    if not ns.db.profile.cooldownManager_experimental_buttonPress then
+    if not ns.db.profile.cooldownManager_buttonPress then
         return
     end
     local btn = _G[bar .. "Button" .. id]
@@ -203,3 +215,148 @@ hooksecurefunc("MultiActionButtonUp", function(bar, id)
     end
     cleanupToHide()
 end)
+
+local function ToggleHighlight(icon, show, style)
+    if not ns.db.profile.cooldownManager_buttonPress then
+        return
+    end
+    if not icon then
+        return
+    end
+    local textureFrame = CreateOrGetTextureFrame(icon, style)
+    if show then
+        textureFrame:Show()
+    else
+        textureFrame:Hide()
+    end
+end
+
+local function ButtonPressed(button, mouseButton, isDown, style)
+    if not ns.db.profile.cooldownManager_buttonPress then
+        return
+    end
+    if not button then
+        return
+    end
+
+    if isDown then
+        local spellID = GetSpellIdFromButton(button)
+        if not spellID then
+            return
+        end
+
+        pressedSpellByButton[button] = spellID
+
+        local icon = GetViewerIconBySpellId(spellID)
+        if not icon then
+            return
+        end
+
+        if style == "ElvUI" then
+            ToggleHighlight(icon, isDown == true, style)
+        else
+            if mouseButton ~= "LeftButton" and mouseButton ~= "RightButton" then
+                ToggleHighlight(icon, isDown == true, nil)
+            end
+        end
+    else
+        local spellID = pressedSpellByButton[button]
+        if not spellID then
+            return
+        end
+        pressedSpellByButton[button] = nil
+
+        local icon = GetViewerIconBySpellId(spellID)
+        if not icon then
+            return
+        end
+
+        if style == "ElvUI" then
+            ToggleHighlight(icon, false, style)
+        else
+            if mouseButton ~= "LeftButton" and mouseButton ~= "RightButton" then
+                ToggleHighlight(icon, false, nil)
+            end
+        end
+    end
+end
+
+local function HookButtonPressToPreClick(button, style)
+    button:HookScript("PreClick", function(self, mouseButton, down)
+        ButtonPressed(self, mouseButton, down, style)
+    end)
+    button.IsCMCButtonPressHooked = true
+end
+
+local function HookDominosButton(button)
+    if not button then
+        return
+    end
+    local function handler(_, mouseButton, down)
+        ButtonPressed(button, mouseButton, down, nil)
+    end
+    if button.bind and not button.IsCMCButtonPress_BindHooked then
+        button.bind:HookScript("PreClick", handler)
+        button.IsCMCButtonPress_BindHooked = true
+    end
+    if not button.IsCMCButtonPressHooked then
+        HookButtonPressToPreClick(button, nil)
+    end
+end
+
+local function HookAllLABButtons()
+    if not LAB or not LAB.activeButtons then
+        return
+    end
+
+    for button in pairs(LAB.activeButtons) do
+        if not button.IsCMCButtonPressHooked then
+            HookButtonPressToPreClick(button, nil)
+        end
+    end
+end
+
+local function RegisterLABCallbacks()
+    if not LAB then
+        return
+    end
+    if LAB.__CMCButtonPress_OnButtonUpdateRegistered then
+        return
+    end
+    LAB.__CMCButtonPress_OnButtonUpdateRegistered = true
+
+    LAB:RegisterCallback("OnButtonUpdate", function(_, button)
+        HookButtonPressToPreClick(button, nil)
+    end)
+end
+
+function ButtonPress:RegisterElvUICallbacks()
+    local ElvUI = _G.ElvUI and _G.ElvUI[1]
+    if not ElvUI then
+        return
+    end
+    local ElvUILAB = ElvUI.Libs and ElvUI.Libs.LAB
+    if not ElvUILAB then
+        return
+    end
+    ElvUILAB:RegisterCallback("OnButtonUpdate", function(_, button)
+        HookButtonPressToPreClick(button, "ElvUI")
+    end)
+end
+
+function ButtonPress:HookAllDominosButtons()
+    local Dominos = _G.Dominos
+    if not Dominos or not Dominos.ActionButtons or not Dominos.ActionButtons.GetAll then
+        return
+    end
+    Dominos.RegisterCallback(Dominos, "LAYOUT_LOADED", function()
+        for button in Dominos.ActionButtons:GetAll() do
+            HookDominosButton(button)
+        end
+    end)
+end
+
+function ButtonPress:Initialize()
+    RegisterLABCallbacks()
+    HookAllLABButtons()
+end

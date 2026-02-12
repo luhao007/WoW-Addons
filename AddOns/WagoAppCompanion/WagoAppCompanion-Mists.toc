@@ -1,4 +1,4 @@
-## Interface: 120000
+## Interface: 120001
 ## Author: The Wago team
 ## Version: 1.0.0
 

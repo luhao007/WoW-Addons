@@ -19,7 +19,6 @@ settings.AccountWide = setmetatable({
 	Heirlooms = true,
 	Illusions = true,
 	Mounts = true,
-	PVPRanks = true,
 	Quests = true,
 	Recipes = true,
 	Reputations = true,
@@ -100,6 +99,7 @@ settings.RequiredForInsaneMode = {
 	SL = app.GameBuildVersion >= 90000,
 	DF = app.GameBuildVersion >= 100000,
 	TWW = app.GameBuildVersion >= 110000,
+	MID = app.GameBuildVersion >= 120000,
 }
 
 -- RANKED MODE
@@ -128,6 +128,7 @@ settings.RequiredForRankedMode = {
 	SL = app.GameBuildVersion >= 90000,
 	DF = app.GameBuildVersion >= 100000,
 	TWW = app.GameBuildVersion >= 110000,
+	MID = app.GameBuildVersion >= 120000,
 }
 
 -- CORE MODE
@@ -152,6 +153,7 @@ settings.RequiredForCoreMode = {
 	SL = app.GameBuildVersion >= 90000,
 	DF = app.GameBuildVersion >= 100000,
 	TWW = app.GameBuildVersion >= 110000,
+	MID = app.GameBuildVersion >= 120000,
 }
 
 if app.GameBuildVersion >= 90000 then
@@ -233,7 +235,6 @@ local Things = {
 	"Quests",
 	"QuestsLocked",
 	"QuestsHidden",
-	"PVPRanks",
 	"Recipes",
 	"Reputations",
 	"RuneforgeLegendaries",
@@ -260,7 +261,6 @@ local GeneralSettingsBase = {
 		["AccountWide:Heirlooms"] = true,
 		["AccountWide:Illusions"] = true,
 		["AccountWide:Mounts"] = true,
-		["AccountWide:PVPRanks"] = false,
 		["AccountWide:Quests"] = false,
 		["AccountWide:Recipes"] = true,
 		["AccountWide:Reputations"] = app.GameBuildVersion >= 40000,
@@ -282,7 +282,6 @@ local GeneralSettingsBase = {
 		["Thing:HeirloomUpgrades"] = app.GameBuildVersion >= 60000,
 		["Thing:Illusions"] = true,
 		["Thing:Mounts"] = true,
-		--["Thing:PVPRanks"] = app.GameBuildVersion < 20000,	-- CRIEVE NOTE: Maybe someday? Classic Era project.
 		["Thing:Quests"] = true,
 		["Thing:QuestsLocked"] = false,
 		["Thing:QuestsHidden"] = false,
@@ -401,6 +400,7 @@ local TooltipSettingsBase = {
 		["Report:Collected"] = true,
 		["Report:CompletedQuests"] = true,
 		["Report:UnsortedQuests"] = true,
+		["Report:DeathTracker"] = true,
 
 		-- Nearby Content
 		["Nearby:ReportContent"] = false,
@@ -830,7 +830,7 @@ settings.ApplySettingsMetatable = function(self, container, meta)
 end
 settings.GetModeString = function(self)
 	local mode = L.MODE;
-	if (settings:Get("Thing:Transmog") or app.MODE_DEBUG) and app.GameBuildVersion > 40000 then
+	if settings:Get("Thing:Transmog") or app.MODE_DEBUG then
 		if self:Get("Completionist") then
 			mode = L.TITLE_COMPLETIONIST .. mode
 		else
@@ -1724,8 +1724,8 @@ settings.UpdateMode = function(self, doRefresh)
 		settings:SetThingTracking("Debug");
 		if app.IsClassic then
 			-- Modules
-			app.Modules.PVPRanks.SetCollectible(true);
 			self.OnlyRWP = false;
+			self.OnlyNotTrash = false;
 		end
 	else
 		app.MODE_DEBUG = nil;
@@ -1779,17 +1779,13 @@ settings.UpdateMode = function(self, doRefresh)
 
 			settings:SetThingTracking()
 		end
-		if app.IsClassic then
-			-- Modules
-			app.Modules.PVPRanks.SetCollectible(self:Get("Thing:PVPRanks"));
-		end
 		if self:Get("Show:OnlyActiveEvents") then
 			filterSet.Event(true)
 		else
 			filterSet.Event()
 		end
-		self.OnlyRWP = self:Get("Only:RWP");
-		self.OnlyNotTrash = self:Get("Only:NotTrash");
+		self.OnlyRWP = app.GameBuildVersion < 40000 and self:Get("Only:RWP");
+		self.OnlyNotTrash = app.IsClassic and self:Get("Only:NotTrash");
 	end
 	app.MODE_DEBUG_OR_ACCOUNT = app.MODE_DEBUG or app.MODE_ACCOUNT;
 

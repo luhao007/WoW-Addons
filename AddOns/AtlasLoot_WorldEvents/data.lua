@@ -995,12 +995,13 @@ data["LoveisintheAir"]        = {
 				{ 16, 54537 },       -- Heart-Shaped Box
 				{ 17, 50250,         "mount" }, -- Big Love Rocket
 				{ 18, 232926,        "mount" }, -- Love Witch's Sweeper
-				{ 19, 50446,         "pet251" }, -- Toxic Wasteling
-				{ 20, 50471 },       -- The Heartbreaker
-				{ 21, 211812 },      -- Renewed Proto-Drake: Love Armor
-				{ 22, 49715 },       -- Forever-Lovely Rose
-				{ 23, 50741 },       -- Vile Fumigator's Mask
-				{ 24, 49927 },       -- Love Token
+				{ 19, 235658,        "mount" }, -- Spring Butterfly
+				{ 20, 50446,         "pet251" }, -- Toxic Wasteling
+				{ 21, 50471 },       -- The Heartbreaker
+				{ 22, 211812 },      -- Renewed Proto-Drake: Love Armor
+				{ 23, 49715 },       -- Forever-Lovely Rose
+				{ 24, 50741 },       -- Vile Fumigator's Mask
+				{ 25, 49927 },       -- Love Token
 			},
 		},
 		{ --LoveisintheAirVendor
@@ -1018,40 +1019,46 @@ data["LoveisintheAir"]        = {
 				{ 10,  232923, "pet4704",                             [PRICE_EXTRA_ITTYPE] = "lovetoken:40" }, -- Living Rose
 				{ 11,  116155, "pet1511",                             [PRICE_EXTRA_ITTYPE] = "lovetoken:40" }, -- Lovebird Hatchling
 				{ 12,  22235,  "pet122",                              [PRICE_EXTRA_ITTYPE] = "lovetoken:40" }, -- Truesilver Shafted Arrow
-				{ 13,  232925, [PRICE_EXTRA_ITTYPE] = "lovetoken:40" },                             -- Ensemble: Truly Heartfelt Shoulders
-				{ 14,  22200,  [PRICE_EXTRA_ITTYPE] = "lovetoken:5",  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Silver Shafted Arrow
-				{ 15,  50161,  [PRICE_EXTRA_ITTYPE] = "lovetoken:20" },                             -- Dinner Suit Box
-				{ 16,  50160,  [PRICE_EXTRA_ITTYPE] = "lovetoken:20" },                             -- Lovely Dress Box
-				{ 17,  21813,  [PRICE_EXTRA_ITTYPE] = "lovetoken:2" },                              -- Bag of Heart Candies
-				{ 18,  122341, [PRICE_EXTRA_ITTYPE] = "lovetoken:450" },                            -- Timeworn Heirloom Scabbard
-				{ 19,  151615, [PRICE_EXTRA_ITTYPE] = "lovetoken:450" },                            -- Weathered Heirloom Scabbard
-				{ 20,  167732, [PRICE_EXTRA_ITTYPE] = "lovetoken:450" },                            -- Battle-Hardened Heirloom Scabbard
-				{ 21,  187998, [PRICE_EXTRA_ITTYPE] = "lovetoken:450" },                            -- Eternal Heirloom Scabbard
-				{ 22,  204337, [PRICE_EXTRA_ITTYPE] = "lovetoken:450" },                            -- Awakened Heirloom Scabbard
-				{ 23,  122339, [PRICE_EXTRA_ITTYPE] = "lovetoken:200" },                            -- Ancient Heirloom Scabbard
-				{ 25,  144339, [PRICE_EXTRA_ITTYPE] = "lovetoken:100" },                            -- Sturdy Love Fool
-				{ 26,  116648, [PRICE_EXTRA_ITTYPE] = "lovetoken:40" },                             -- Manufactured Love Prism
-				{ 27,  22261,  [PRICE_EXTRA_ITTYPE] = "lovetoken:10" },                             -- Love Fool
-				{ 28,  34258,  [PRICE_EXTRA_ITTYPE] = "lovetoken:5",  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Lovely Fireworks
-				{ 29,  211976, [PRICE_EXTRA_ITTYPE] = "lovetoken:5",  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Pink Brightbursts
-				{ 30,  210318, [PRICE_EXTRA_ITTYPE] = "lovetoken:1" },                              -- Chocolate Bon-Bomb
-				{ 101, 211352, [PRICE_EXTRA_ITTYPE] = "lovetoken:20" },                             -- Eternal Yellow Rose
-				{ 102, 211354, [PRICE_EXTRA_ITTYPE] = "lovetoken:20" },                             -- Eternal White Rose
-				{ 103, 211355, [PRICE_EXTRA_ITTYPE] = "lovetoken:20" },                             -- Eternal Pink Rose
-				{ 104, 211357, [PRICE_EXTRA_ITTYPE] = "lovetoken:20" },                             -- Eternal Orange Rose
-				{ 105, 211358, [PRICE_EXTRA_ITTYPE] = "lovetoken:20" },                             -- Eternal Blue Rose
-				{ 106, 211359, [PRICE_EXTRA_ITTYPE] = "lovetoken:20" },                             -- Eternal Black Rose
-				{ 107, 211264, [PRICE_EXTRA_ITTYPE] = "lovetoken:5" },                              -- Rose of Romance
-				{ 108, 211351, [PRICE_EXTRA_ITTYPE] = "lovetoken:5" },                              -- Rose of Friendship
-				{ 109, 211360, [PRICE_EXTRA_ITTYPE] = "lovetoken:5" },                              -- Rose of Purity
-				{ 110, 211361, [PRICE_EXTRA_ITTYPE] = "lovetoken:5" },                              -- Rose of Joy
-				{ 111, 211362, [PRICE_EXTRA_ITTYPE] = "lovetoken:5" },                              -- Rose of Independence
-				{ 112, 211363, [PRICE_EXTRA_ITTYPE] = "lovetoken:5" },                              -- Rose of Dreams Fulfilled
-				{ 113, 211364, [PRICE_EXTRA_ITTYPE] = "lovetoken:5" },                              -- Rose of Tragedy
-				{ 114, 50163,  [PRICE_EXTRA_ITTYPE] = "lovetoken:5",  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Lovely Rose
-				{ 115, 22218,  [PRICE_EXTRA_ITTYPE] = "lovetoken:2",  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Handful of Rose Petals
-				{ 116, 210965, [PRICE_EXTRA_ITTYPE] = "lovetoken:1" },                              -- Single-Use Bouquet
-				{ 118, 49909,  [PRICE_EXTRA_ITTYPE] = "lovetoken:10" },                             -- Box of Chocolates
+				{ 13,  235227, [PRICE_EXTRA_ITTYPE] = "lovetoken:100" },                            -- Ensemble: Ornaments of the Spring Butterfly
+				{ 14,  232925, [PRICE_EXTRA_ITTYPE] = "lovetoken:40" },                             -- Ensemble: Truly Heartfelt Shoulders
+				{ 15,  235653, [PRICE_EXTRA_ITTYPE] = "lovetoken:30" },                             -- Spring Butterfly Longbow
+				{ 16,  235399, [PRICE_EXTRA_ITTYPE] = "lovetoken:30" },                             -- Spring Butterfly Polearm
+				{ 17,  235293, [PRICE_EXTRA_ITTYPE] = "lovetoken:30" },                             -- Spring Butterfly Wand
+				{ 18,  235289, [PRICE_EXTRA_ITTYPE] = "lovetoken:30" },                             -- Spring Butterfly Sword
+				{ 19,  235269, [PRICE_EXTRA_ITTYPE] = "lovetoken:30" },                             -- Spring Butterfly Mace
+				{ 20,  22200,  [PRICE_EXTRA_ITTYPE] = "lovetoken:5",  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Silver Shafted Arrow
+				{ 21,  50161,  [PRICE_EXTRA_ITTYPE] = "lovetoken:20" },                             -- Dinner Suit Box
+				{ 22,  50160,  [PRICE_EXTRA_ITTYPE] = "lovetoken:20" },                             -- Lovely Dress Box
+				{ 23,  21813,  [PRICE_EXTRA_ITTYPE] = "lovetoken:2" },                              -- Bag of Heart Candies
+				{ 24,  122341, [PRICE_EXTRA_ITTYPE] = "lovetoken:450" },                            -- Timeworn Heirloom Scabbard
+				{ 25,  151615, [PRICE_EXTRA_ITTYPE] = "lovetoken:450" },                            -- Weathered Heirloom Scabbard
+				{ 26,  167732, [PRICE_EXTRA_ITTYPE] = "lovetoken:450" },                            -- Battle-Hardened Heirloom Scabbard
+				{ 27,  187998, [PRICE_EXTRA_ITTYPE] = "lovetoken:450" },                            -- Eternal Heirloom Scabbard
+				{ 28,  204337, [PRICE_EXTRA_ITTYPE] = "lovetoken:450" },                            -- Awakened Heirloom Scabbard
+				{ 29,  122339, [PRICE_EXTRA_ITTYPE] = "lovetoken:200" },                            -- Ancient Heirloom Scabbard
+				{ 101, 144339, [PRICE_EXTRA_ITTYPE] = "lovetoken:100" },                            -- Sturdy Love Fool
+				{ 102, 116648, [PRICE_EXTRA_ITTYPE] = "lovetoken:40" },                             -- Manufactured Love Prism
+				{ 103, 22261,  [PRICE_EXTRA_ITTYPE] = "lovetoken:10" },                             -- Love Fool
+				{ 104, 34258,  [PRICE_EXTRA_ITTYPE] = "lovetoken:5",  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Lovely Fireworks
+				{ 105, 211976, [PRICE_EXTRA_ITTYPE] = "lovetoken:5",  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Pink Brightbursts
+				{ 106, 210318, [PRICE_EXTRA_ITTYPE] = "lovetoken:1" },                              -- Chocolate Bon-Bomb
+				{ 108, 211352, [PRICE_EXTRA_ITTYPE] = "lovetoken:20" },                             -- Eternal Yellow Rose
+				{ 109, 211354, [PRICE_EXTRA_ITTYPE] = "lovetoken:20" },                             -- Eternal White Rose
+				{ 110, 211355, [PRICE_EXTRA_ITTYPE] = "lovetoken:20" },                             -- Eternal Pink Rose
+				{ 111, 211357, [PRICE_EXTRA_ITTYPE] = "lovetoken:20" },                             -- Eternal Orange Rose
+				{ 112, 211358, [PRICE_EXTRA_ITTYPE] = "lovetoken:20" },                             -- Eternal Blue Rose
+				{ 113, 211359, [PRICE_EXTRA_ITTYPE] = "lovetoken:20" },                             -- Eternal Black Rose
+				{ 114, 211264, [PRICE_EXTRA_ITTYPE] = "lovetoken:5" },                              -- Rose of Romance
+				{ 115, 211351, [PRICE_EXTRA_ITTYPE] = "lovetoken:5" },                              -- Rose of Friendship
+				{ 116, 211360, [PRICE_EXTRA_ITTYPE] = "lovetoken:5" },                              -- Rose of Purity
+				{ 117, 211361, [PRICE_EXTRA_ITTYPE] = "lovetoken:5" },                              -- Rose of Joy
+				{ 118, 211362, [PRICE_EXTRA_ITTYPE] = "lovetoken:5" },                              -- Rose of Independence
+				{ 119, 211363, [PRICE_EXTRA_ITTYPE] = "lovetoken:5" },                              -- Rose of Dreams Fulfilled
+				{ 120, 211364, [PRICE_EXTRA_ITTYPE] = "lovetoken:5" },                              -- Rose of Tragedy
+				{ 121, 50163,  [PRICE_EXTRA_ITTYPE] = "lovetoken:5",  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Lovely Rose
+				{ 122, 22218,  [PRICE_EXTRA_ITTYPE] = "lovetoken:2",  [ATLASLOOT_IT_AMOUNT1] = 5 }, -- Handful of Rose Petals
+				{ 123, 210965, [PRICE_EXTRA_ITTYPE] = "lovetoken:1" },                              -- Single-Use Bouquet
+				{ 125, 49909,  [PRICE_EXTRA_ITTYPE] = "lovetoken:10" },                             -- Box of Chocolates
 			},
 		},
 		{ --LoveisintheAirMisc

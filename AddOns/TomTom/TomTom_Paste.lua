@@ -1,9 +1,8 @@
 local _, addon = ...
-local L = TomTomLocals
+local L = addon.L
 
 local ldb = LibStub("LibDataBroker-1.1")
 local ldbicon = LibStub("LibDBIcon-1.0")
-
 
 local function initPasteWindow()
 	if addon.pasteWindow then

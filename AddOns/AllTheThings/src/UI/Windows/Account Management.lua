@@ -3,18 +3,39 @@ local _, app = ...;
 local GetProgressColorText = app.Modules.Color.GetProgressColorText;
 
 -- Global locals
-local ipairs, pairs, tonumber, time, type, tinsert, tremove, tsort =
-	  ipairs, pairs, tonumber, time, type, tinsert, tremove, table.sort;
-local BNGetInfo, BNSendGameData, C_BattleNet, C_ChatInfo =
-	  BNGetInfo, BNSendGameData, C_BattleNet, C_ChatInfo;
+local ipairs, pairs, tonumber, time, type, tinsert, tremove, math_floor, tsort =
+	  ipairs, pairs, tonumber, time, type, tinsert, tremove, math.floor, table.sort;
+local BNGetInfo, BNSendGameData, C_BattleNet, C_ChatInfo, RequestTimePlayed =
+	  BNGetInfo, BNSendGameData, C_BattleNet, C_ChatInfo, RequestTimePlayed;
 
 -- Temporary cache variables (these get replaced in OnLoad!)
 local AccountWideData, CharacterData, CurrentCharacter, LinkedCharacters, OnlineAccounts, SilentlyLinkedCharacters = {}, {}, {}, {}, {}, {}
 
 -- Cache some globals SavedVariables!
+local cachedTotalTimePlayed;
+app:RegisterFuncEvent("TIME_PLAYED_MSG", function(totalTimePlayed)
+	if CurrentCharacter then
+		CurrentCharacter.totalTimePlayed = totalTimePlayed;
+		CurrentCharacter.lastTimePlayedRecorded = time();
+	else
+		cachedTotalTimePlayed = totalTimePlayed;
+	end
+end);
 app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, accountWideData, characterData)
+	CurrentCharacter = currentCharacter
 	AccountWideData = accountWideData
 	CharacterData = characterData
+	local now = time();
+	if cachedTotalTimePlayed then
+		currentCharacter.totalTimePlayed = cachedTotalTimePlayed;
+		currentCharacter.lastTimePlayedRecorded = now;
+	elseif not currentCharacter.totalTimePlayed then
+		currentCharacter.lastTimePlayedRecorded = 0;
+		currentCharacter.totalTimePlayed = 0;
+	end
+	if (now - (currentCharacter.lastTimePlayedRecorded or 0)) > 3600 then
+		RequestTimePlayed();
+	end
 end)
 -- Module locals
 local AddonMessagePrefix, MESSAGE_HANDLERS, EnableBattleNet = "ATTSYNC", {}, true;
@@ -371,7 +392,6 @@ local function DefaultAccountWideDataHandler(data, key)
 end
 -- Some cached data is stored directly in AccountWideData... we have no reason to 'sync' those tables via the Recalculate function
 local whiteListedFields = {
-	Achievements = app.GameBuildVersion < 30000,
 	Artifacts = true,
 	AzeriteEssenceRanks = true,
 	BattlePets = true,
@@ -380,11 +400,12 @@ local whiteListedFields = {
 	FlightPaths = true,
 	Followers = true,
 	GarrisonBuildings = true,
+	PVPRanks = true,
 	Quests = true,
 	Spells = true,
 	Titles = true
 }
--- Used for data which is defaulted as Account-learned, but has Character-learned exceptions
+-- Used for data which can be directly-cached as Account-learned or Character-learned
 local function PartialSyncCharacterData(data, key)
 	local characterData
 	-- wipe account data saved based on character data
@@ -397,13 +418,14 @@ local function PartialSyncCharacterData(data, key)
 		characterData = character[key];
 		if characterData then
 			for id,_ in pairs(characterData) do
-				-- character-based completion in account data saved as 2 for these types
-				data[id] = 2
+				-- character-based completion in account data saved as 2 for these types, if not already saved
+				if not data[id] then
+					data[id] = 2
+				end
 			end
 		end
 	end
 end
--- TODO: eventually move pure account-wide collectibles into a separate function which additionally clears out the cache for all characters. character data 'should' be only collectibles at the character-scope eventually
 -- Used for data which has Rank-based collection where a higher rank supercedes/implies collection of any lower ranks
 local function RankSyncCharacterData(data, key)
 	local characterData
@@ -421,29 +443,6 @@ local function RankSyncCharacterData(data, key)
 		end
 	end
 end
-local function SyncCharacterQuestData(data, key)
-	local characterData
-	-- don't completely wipe quest data, some questID are marked as 'complete' due to other restrictions on the account
-	-- so we want to maintain those even though no character actually has it completed
-	-- TODO: perhaps in the future we can instead treat these quests as 'uncollectible' for the account rather than 'complete'
-	-- TODO: once these quests are no longer assigned as completion == 2 we can then use the PartialSyncCharacterData for Quests
-	-- and make sure AccountWide quests are instead saved directly into ATTAccountWideData when completed
-	-- and cleaned from individual Character caches here during sync
-	for questID,completion in pairs(data) do
-		if completion ~= 2 then
-			data[questID] = nil
-		-- else app.PrintDebug("not-reset",questID,completion)
-		end
-	end
-	for guid,character in pairs(CharacterData) do
-		characterData = character[key];
-		if characterData then
-			for index,_ in pairs(characterData) do
-				data[index] = 1;
-			end
-		end
-	end
-end
 local AccountWideDataHandlers = setmetatable({
 	Deaths = function(data)
 		local deaths = 0;
@@ -456,16 +455,18 @@ local AccountWideDataHandlers = setmetatable({
 	end,
 	IGNORE_QUEST_PRINT = app.EmptyFunction,
 	AzeriteEssenceRanks = RankSyncCharacterData,
-	Quests = SyncCharacterQuestData,
+	Quests = PartialSyncCharacterData,
 }, {
 	__index = function(t, key)
 		return whiteListedFields[key] and DefaultAccountWideDataHandler or app.EmptyFunction;
 	end,
 });
 if app.GameBuildVersion > 30000 then
+	AccountWideDataHandlers.Achievements = PartialSyncCharacterData;
 	AccountWideDataHandlers.BattlePets = PartialSyncCharacterData;
 	AccountWideDataHandlers.Mounts = PartialSyncCharacterData;
 else
+	whiteListedFields.Achievements = true;
 	whiteListedFields.BattlePets = true;
 	whiteListedFields.Mounts = true;
 	whiteListedFields.Toys = true;
@@ -1052,6 +1053,12 @@ end
 
 
 -- Merging
+local BlacklistedTooltipFields = {
+	ActiveSkills = true,
+	Lockouts = true,
+	PrimeData = true,
+	TimeStamps = true,
+};
 local eligibleFields = { "Buildings","GarrisonBuildings","Factions","FlightPaths","Exploration","Spells" };
 local function SortByCharacterLevel(a,b)
   return (a.lvl or 0) > (b.lvl or 0);
@@ -1179,6 +1186,28 @@ local function MergeTransferredCharacterData(row)
 end
 
 -- Helper Functions
+local DefaultZeroMeta = {
+	__index = function() return 0; end,
+};
+local function GetTimePlayedString(totalTimePlayed)
+	if totalTimePlayed then
+		local m = totalTimePlayed / 60;
+		local h = math_floor(m / 60);
+		local d = math_floor(h / 24)
+		local y = math_floor(d / 365)
+		if y > 0 then
+			return ("%dy %dd %dh"):format(y, d % 365, h % 24);
+		elseif d > 0 then
+			return ("%dd %dh %dm"):format(d, h % 24, m % 60);
+		elseif h > 0 then
+			return ("%dh %dm"):format(h, m % 60)
+		elseif m > 0 then
+			return ("%dm %ds"):format(m, totalTimePlayed % 60)
+		else
+			return ("%ds"):format(totalTimePlayed)
+		end
+	end
+end
 local function OnClickForCharacter(row, button)
 	local guid = row.ref.guid;
 	if not guid then return true; end
@@ -1252,6 +1281,19 @@ end
 local function OnTooltipForCharacter(t, tooltipInfo)
 	local character = CharacterData[t.unit];
 	if character then
+		local totalTimePlayed = character.totalTimePlayed;
+		if totalTimePlayed then
+			if character == CurrentCharacter then
+				local now = time();
+				if (now - (character.lastTimePlayedRecorded or 0)) > 3600 then
+					RequestTimePlayed();
+				end
+			end
+			tinsert(tooltipInfo, {
+				left = "Time Played",
+				right = GetTimePlayedString(totalTimePlayed)
+			});
+		end
 		local primeData = character.PrimeData;
 		if primeData then
 			local buildString;
@@ -1285,7 +1327,14 @@ local function OnTooltipForCharacter(t, tooltipInfo)
 			timestamps = {};
 			character.TimeStamps = timestamps;
 		end
-		for i,field in ipairs({ "Achievements", "BattlePets", "Exploration", "Factions", "FlightPaths", "Spells", "Titles", "Toys", "Transmog", "Quests" }) do
+		local sortedFields = {};
+		for field,d in pairs(character) do
+			if not BlacklistedTooltipFields[field] and type(d) == "table" then
+				tinsert(sortedFields, field);
+			end
+		end
+		tsort(sortedFields);
+		for i,field in ipairs(sortedFields) do
 			local values = character[field];
 			if values then
 				local subtotal = 0;
@@ -1333,6 +1382,42 @@ local function OnTooltipForCharacter(t, tooltipInfo)
 				r = 1, g = 0.8, b = 0.8
 			});
 		end
+	end
+end
+local function OnTooltipForCharacterHeader(t, tooltipInfo)
+	local AccountTotalTimePlayed = 0;
+	local ByClass = setmetatable({}, DefaultZeroMeta);
+	local ByRace = setmetatable({}, DefaultZeroMeta);
+	for guid,characterData in pairs(CharacterData) do
+		if characterData then
+			local totalTimePlayed = characterData.totalTimePlayed;
+			if totalTimePlayed then
+				AccountTotalTimePlayed = AccountTotalTimePlayed + totalTimePlayed;
+				local c = characterData.classID;
+				if c then ByClass[c] = ByClass[c] + totalTimePlayed; end
+				local r = characterData.raceID;
+				if r then ByRace[r] = ByRace[r] + totalTimePlayed; end
+			end
+		end
+	end
+	tinsert(tooltipInfo, { left = " " });
+	tinsert(tooltipInfo, {
+		left = "Total Time Played (Account)",
+		right = GetTimePlayedString(AccountTotalTimePlayed)
+	});
+	tinsert(tooltipInfo, { left = "By Class:" });
+	for class,total in pairs(ByClass) do
+		tinsert(tooltipInfo, {
+			left = "  " .. app.CreateCharacterClass(class).text,
+			right = GetTimePlayedString(total)
+		});
+	end
+	tinsert(tooltipInfo, { left = "By Race:" });
+	for race,total in pairs(ByRace) do
+		tinsert(tooltipInfo, {
+			left = "  " .. app.CreateRace(race).text,
+			right = GetTimePlayedString(total)
+		});
 	end
 end
 local function OnTooltipForLinkedAccount(t, tooltipInfo)
@@ -1527,6 +1612,7 @@ app:CreateWindow("Account Management", {
 				expanded = true,
 				characters = {},
 				g = {},
+				OnTooltip = OnTooltipForCharacterHeader,
 				OnUpdate = function(data)
 					local g, characters = data.g, data.characters;
 					wipe(g);
@@ -1539,14 +1625,15 @@ app:CreateWindow("Account Management", {
 									OnTooltip = OnTooltipForCharacter,
 									OnUpdate = app.AlwaysShowUpdate,
 									name = characterData.name,
-									lvl = characterData.lvl,
 									trackable = true,
 									visible = true,
 									parent = data,
 								});
 								characters[guid] = character;
 							end
+							character.totalTimePlayed = characterData.totalTimePlayed;
 							character.saved = not characterData.ignored and 1;
+							character.lvl = characterData.lvl;
 							tinsert(g, character);
 						end
 					end

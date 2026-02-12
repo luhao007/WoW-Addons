@@ -23,7 +23,7 @@ end
 
 function SecondaryResourceBarMixin:GetResource()
     local playerClass = select(2, UnitClass("player"))
-    local secondaryResources = {
+    self._resourceTable = self._resourceTable or {
         ["DEATHKNIGHT"] = Enum.PowerType.Runes,
         ["DEMONHUNTER"] = {
             [581] = "SOUL_FRAGMENTS_VENGEANCE", -- Vengeance
@@ -66,7 +66,7 @@ function SecondaryResourceBarMixin:GetResource()
     local spec = C_SpecializationInfo.GetSpecialization()
     local specID = C_SpecializationInfo.GetSpecializationInfo(spec)
 
-    local resource = secondaryResources[playerClass]
+    local resource = self._resourceTable[playerClass]
 
     -- Druid: form-based
     if playerClass == "DRUID" then
@@ -376,11 +376,11 @@ addonTable.RegisteredBar.SecondaryResourceBar = {
                 valueStep = 1,
                 get = function(layoutName)
                     local data = SenseiClassResourceBarDB[dbName][layoutName]
-                    return data and data.tickThickness or defaults.tickThickness
+                    return data and addonTable.rounded(data.tickThickness) or defaults.tickThickness
                 end,
                 set = function(layoutName, value)
                     SenseiClassResourceBarDB[dbName][layoutName] = SenseiClassResourceBarDB[dbName][layoutName] or CopyTable(defaults)
-                    SenseiClassResourceBarDB[dbName][layoutName].tickThickness = value
+                    SenseiClassResourceBarDB[dbName][layoutName].tickThickness = addonTable.rounded(value)
                     bar:UpdateTicksLayout(layoutName)
                 end,
                 isEnabled = function(layoutName)

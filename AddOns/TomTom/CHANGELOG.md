@@ -1,8 +1,9 @@
 # TomTom
 
-## [v4.2.15-release](https://github.com/jnwhiteh/TomTom/tree/v4.2.15-release) (2026-01-25)
-[Full Changelog](https://github.com/jnwhiteh/TomTom/commits/v4.2.15-release) [Previous Releases](https://github.com/jnwhiteh/TomTom/releases)
+## [v4.2.16-release](https://github.com/jnwhiteh/TomTom/tree/v4.2.16-release) (2026-02-11)
+[Full Changelog](https://github.com/jnwhiteh/TomTom/commits/v4.2.16-release) [Previous Releases](https://github.com/jnwhiteh/TomTom/releases)
 
+- Update TOC for 12.0.1  
 - Add split configuration for addon compartment button  
 - Remove AceEvent so TomTom can't get blamed  
 - Update TOC for 12.0  
@@ -689,7 +690,3 @@
 - * Fix a bug where players were receiving their own messages  
 - * Fixed an issue where waypoint would appear out of nowhere when zoning  
     * Fixed the slash command handler so it properly accepts multi word zone names  
-- * Reverted to a different version of Astrolabe for testing purposes  
-    * Added a "Send Waypoint" option, needs testing  
-    * Fixed an issue with the waypoint arrow when using minimap rotation  
-    * Added the waypoint removal (all, zone) options to the crazy arrow right-click  
