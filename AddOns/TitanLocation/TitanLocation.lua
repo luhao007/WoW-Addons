@@ -598,170 +598,51 @@ local function OnClick(self, button)
 	end
 end
 
----local Create right click menu
-local function CreateMenu()
-	local info
+local function GeneratorFunction(owner, rootDescription)
+	local id = TITAN_LOCATION_ID
+	local root = rootDescription -- menu widget to start with
 
-	-- level 1
-	if TitanPanelRightClickMenu_GetDropdownLevel() == 1 then
-		-- level 1
-		TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_LOCATION_ID].menuText);
+	local opts_loc = Titan_Menu.AddButton(root, L["TITAN_PANEL_OPTIONS"])
+	do           -- next level options
+		Titan_Menu.AddSelector(opts_loc, id, L["TITAN_LOCATION_MENU_SHOW_REALM_ON_PANEL_TEXT"], "ShowRealmText")
+		Titan_Menu.AddSelector(opts_loc, id, L["TITAN_LOCATION_MENU_SHOW_ZONE_ON_PANEL_TEXT"], "ShowZoneText")
+		Titan_Menu.AddSelector(opts_loc, id, L["TITAN_LOCATION_MENU_SHOW_SUBZONE_ON_PANEL_TEXT"], "ShowSubZoneText")
+		Titan_Menu.AddSelector(opts_loc, id, L["TITAN_LOCATION_MENU_SHOW_COORDS_ON_PANEL_TEXT"], "ShowCoordsText")
+	end
 
-		info = {};
-		info.notCheckable = true
-		info.text = L["TITAN_PANEL_OPTIONS"];
-		info.value = "Options"
-		info.hasArrow = 1;
-		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+	local opts_coords = Titan_Menu.AddButton(root, L["TITAN_LOCATION_FORMAT_COORD_LABEL"])
+	do           -- next level options
+		local disp = { -- selectors using the same option
+			{L["TITAN_LOCATION_FORMAT_LABEL"], L["TITAN_LOCATION_FORMAT"]},
+			{L["TITAN_LOCATION_FORMAT2_LABEL"], L["TITAN_LOCATION_FORMAT2"]},
+			{L["TITAN_LOCATION_FORMAT3_LABEL"], L["TITAN_LOCATION_FORMAT3"]},
+		}
+		Titan_Menu.AddSelectorList(opts_coords, id, nil, "CoordsFormat", disp)
+	end
 
-		info = {};
-		info.notCheckable = true
-		info.text = L["TITAN_LOCATION_FORMAT_COORD_LABEL"];
-		info.value = "CoordFormat"
-		info.hasArrow = 1;
-		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-		info = {};
-		info.notCheckable = true
-		info.text = "WorldMap"
-		info.value = "WorldMap"
-		info.hasArrow = 1;
-		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-		TitanPanelRightClickMenu_AddControlVars(TITAN_LOCATION_ID)
-		-- level 2
-	elseif TitanPanelRightClickMenu_GetDropdownLevel() == 2 then
-		if TitanPanelRightClickMenu_GetDropdMenuValue() == "Options" then
-			TitanPanelRightClickMenu_AddTitle(L["TITAN_PANEL_OPTIONS"], TitanPanelRightClickMenu_GetDropdownLevel());
-			info = {};
-			info.text = L["TITAN_LOCATION_MENU_SHOW_REALM_ON_PANEL_TEXT"];
-			info.func = function()
-				TitanToggleVar(TITAN_LOCATION_ID, "ShowRealmText");
-				TitanPanelButton_UpdateButton(TITAN_LOCATION_ID);
-			end
-			info.checked = TitanGetVar(TITAN_LOCATION_ID, "ShowRealmText");
-			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-			info = {};
-			info.text = L["TITAN_LOCATION_MENU_SHOW_ZONE_ON_PANEL_TEXT"];
-			info.func = function()
-				TitanToggleVar(TITAN_LOCATION_ID, "ShowZoneText");
-				TitanPanelButton_UpdateButton(TITAN_LOCATION_ID);
-			end
-			info.checked = TitanGetVar(TITAN_LOCATION_ID, "ShowZoneText");
-			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
---			if TITAN_ID == "Titan" then
-				info = {};
-				info.text = L["TITAN_LOCATION_MENU_SHOW_SUBZONE_ON_PANEL_TEXT"];
-				info.func = function()
-					TitanToggleVar(TITAN_LOCATION_ID, "ShowSubZoneText");
-					TitanPanelButton_UpdateButton(TITAN_LOCATION_ID);
-				end
-				info.checked = TitanGetVar(TITAN_LOCATION_ID, "ShowSubZoneText");
-				TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
---			else
-				-- no work needed
---			end
-
-			info = {};
-			info.text = L["TITAN_LOCATION_MENU_SHOW_COORDS_ON_PANEL_TEXT"];
-			info.func = function()
-				TitanToggleVar(TITAN_LOCATION_ID, "ShowCoordsText");
-				TitanPanelButton_UpdateButton(TITAN_LOCATION_ID);
-			end
-			info.checked = TitanGetVar(TITAN_LOCATION_ID, "ShowCoordsText");
-			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
---]]
-		end
-
-		if TitanPanelRightClickMenu_GetDropdMenuValue() == "CoordFormat" then
-			TitanPanelRightClickMenu_AddTitle(L["TITAN_LOCATION_FORMAT_COORD_LABEL"],
-				TitanPanelRightClickMenu_GetDropdownLevel());
-			info = {};
-			info.text = L["TITAN_LOCATION_FORMAT_LABEL"];
-			info.func = function()
-				TitanSetVar(TITAN_LOCATION_ID, "CoordsFormat", L["TITAN_LOCATION_FORMAT"]);
-				TitanPanelButton_UpdateButton(TITAN_LOCATION_ID);
-			end
-			info.checked = (TitanGetVar(TITAN_LOCATION_ID, "CoordsFormat") == L["TITAN_LOCATION_FORMAT"])
-			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-			info = {};
-			info.text = L["TITAN_LOCATION_FORMAT2_LABEL"];
-			info.func = function()
-				TitanSetVar(TITAN_LOCATION_ID, "CoordsFormat", L["TITAN_LOCATION_FORMAT2"]);
-				TitanPanelButton_UpdateButton(TITAN_LOCATION_ID);
-			end
-			info.checked = (TitanGetVar(TITAN_LOCATION_ID, "CoordsFormat") == L["TITAN_LOCATION_FORMAT2"])
-			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-			info = {};
-			info.text = L["TITAN_LOCATION_FORMAT3_LABEL"];
-			info.func = function()
-				TitanSetVar(TITAN_LOCATION_ID, "CoordsFormat", L["TITAN_LOCATION_FORMAT3"]);
-				TitanPanelButton_UpdateButton(TITAN_LOCATION_ID);
-			end
-			info.checked = (TitanGetVar(TITAN_LOCATION_ID, "CoordsFormat") == L["TITAN_LOCATION_FORMAT3"])
-			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-		end
-
-		if TitanPanelRightClickMenu_GetDropdMenuValue() == "WorldMap" then
-			TitanPanelRightClickMenu_AddTitle(L["TITAN_LOCATION_MENU_TEXT"], TitanPanelRightClickMenu_GetDropdownLevel());
-			info = {};
-			info.text = L["TITAN_LOCATION_MENU_SHOW_COORDS_ON_MAP_TEXT"];
-			info.func = function()
-				TitanToggleVar(TITAN_LOCATION_ID, "ShowCoordsOnMap");
+	local opts_map = Titan_Menu.AddButton(root, "WorldMap")
+	do           -- next level options
+		Titan_Menu.AddSelectorCommand(opts_map, id, L["TITAN_LOCATION_MENU_SHOW_COORDS_ON_MAP_TEXT"], "ShowCoordsOnMap",
+			function ()
 				if (TitanGetVar(TITAN_LOCATION_ID, "ShowCoordsOnMap")) then
 					CoordFrames("start")
 				else
 					CoordFrames("stop")
 				end
 			end
-			info.checked = TitanGetVar(TITAN_LOCATION_ID, "ShowCoordsOnMap");
-			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+			)
 
-			info = {};
-			info.text = L["TITAN_LOCATION_MENU_UPDATE_WORLD_MAP"];
-			info.func = function()
-				TitanToggleVar(TITAN_LOCATION_ID, "UpdateWorldmap");
+		if TITAN_ID == "Titan" then
+--			local opts_map_loc = Titan_Menu.AddButton(opts_map, L["TITAN_LOCATION_MENU_TEXT"])
+			do           -- next level options
+				local disp = { -- selectors using the same option
+					{L["TITAN_PANEL_MENU_BOTTOM"], "Bottom"},
+					{L["TITAN_PANEL_MENU_TOP"], "Top"},
+				}
+				Titan_Menu.AddSelectorList(opts_map, id, nil, "ViewAll", disp)
 			end
-			info.checked = TitanGetVar(TITAN_LOCATION_ID, "UpdateWorldmap");
-			info.disabled = InCombatLockdown()
-			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-			if TITAN_ID == "Titan" then
-				info = {};
-				info.notCheckable = true
-				info.text = L["TITAN_LOCATION_MENU_TEXT"];
-				info.value = "CoordsLoc"
-				info.hasArrow = 1;
-				TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-			else
-				-- no work needed
-			end
-		end
-
-		-- level 3
-	elseif TitanPanelRightClickMenu_GetDropdownLevel() == 3 then
-		if TitanPanelRightClickMenu_GetDropdMenuValue() == "CoordsLoc" then
-			info = {};
-			info.text = L["TITAN_PANEL_MENU_BOTTOM"];
-			info.func = function()
-				TitanSetVar(TITAN_LOCATION_ID, "CoordsLoc", "Bottom");
-				--				TitanPanelButton_UpdateButton(TITAN_LOCATION_ID);
-			end
-			info.checked = (TitanGetVar(TITAN_LOCATION_ID, "CoordsLoc") == "Bottom")
-			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-			info = {};
-			info.text = L["TITAN_PANEL_MENU_TOP"];
-			info.func = function()
-				TitanSetVar(TITAN_LOCATION_ID, "CoordsLoc", "Top");
-				--				TitanPanelButton_UpdateButton(TITAN_LOCATION_ID);
-			end
-			info.checked = (TitanGetVar(TITAN_LOCATION_ID, "CoordsLoc") == "Top")
-			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+		else
+			-- Classic style map, no work needed
 		end
 	end
 end
@@ -779,7 +660,7 @@ local function OnLoad(self)
 		category = "Built-ins",
 		version = TITAN_LOCATION_VERSION,
 		menuText = L["TITAN_LOCATION_MENU_TEXT"],
-		menuTextFunction = CreateMenu,
+		menuContextFunction = GeneratorFunction, -- NEW scheme
 		buttonTextFunction = GetButtonText,
 		tooltipTitle = L["TITAN_LOCATION_TOOLTIP"],
 		tooltipTextFunction = GetTooltipText,

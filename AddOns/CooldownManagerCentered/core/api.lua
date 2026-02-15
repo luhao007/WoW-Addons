@@ -200,9 +200,32 @@ end
 StaticPopupDialogs["CMC_ELVUI_SKINNING_ASK"] = {
     text = "ElvUI Cooldown Manager skinning is enabled. It will conflict with Cooldown Manager Centered styling. Disable ElvUI skinning?",
     button1 = "Yes, I will use CMC styling",
-    button2 = "No\nI promise to not report any visual bugs",
+    button2 = "No\nI want to keep using ElvUI skinning",
     OnAccept = function(self, profileName)
         API:DisableElvUICDMSkinning()
+        ReloadUI()
+    end,
+    OnCancel = function(self)
+        StaticPopup_Show("CMC_CMC_SKINNING_ASK")
+    end,
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+}
+
+StaticPopupDialogs["CMC_CMC_SKINNING_ASK"] = {
+    text = "Disable CMC skinning then?",
+    button1 = "Yes, disable CMC styling",
+    button2 = "No, I want to keep both",
+    OnAccept = function(self, profileName)
+        ns.db.profile.cooldownManager_normalizeUtilitySize = false
+        ns.db.profile.cooldownManager_squareIcons_Essential = false
+        ns.db.profile.cooldownManager_squareIcons_Utility = false
+        ns.db.profile.cooldownManager_squareIcons_BuffIcons = false
+        ns.db.profile.cooldownManager_stackAnchorEssential_enabled = false
+        ns.db.profile.cooldownManager_stackAnchorUtility_enabled = false
+        ns.db.profile.cooldownManager_stackAnchorBuffIcons_enabled = false
+
         ReloadUI()
     end,
     timeout = 0,

@@ -1017,13 +1017,12 @@ do
 			elseif timerCountdown == 1 then
 				path = "Interface\\AddOns\\DBM-Core\\Sounds\\Corsica\\fivecount.ogg"
 			end
-			--Currently commented because api does not accept file paths yet, only file data IDs, which isn't possible with custom media
-			if type(path) == "string" then return end--Remove when blizzard updates api
-			if timerCountdown ~= 0 then
-				local soundSetting = DBM.Options.UseSoundChannel or "Master"
-				for _, encounterEventId in ipairs({...}) do
-					C_EncounterEvents.SetEventSound(encounterEventId, 2, {file = path, channel = soundSetting, volume = 1})
-				end
+			--Unlike private aura sounds, this api accepts both file data ID AND path
+			local soundSetting = DBM.Options.UseSoundChannel or "Master"
+			for _, encounterEventId in ipairs({...}) do
+				--Another ignore that has to be added due to wow API extension bugs
+				---@diagnostic disable-next-line: assign-type-mismatch
+				C_EncounterEvents.SetEventSound(encounterEventId, 2, timerCountdown ~= 0 and {file = path, channel = soundSetting, volume = 1} or nil)
 			end
 		end
 	end
@@ -1031,32 +1030,23 @@ do
 	---Event for registering timeline options to encounter events
 	---@param optionId number spellId or JournalId that must match option ID
 	---@param encounterEventId number|table EncounterEventID from EncounterEvent.db2 that matches event we're targetting
-	---@param voice VPSound|any voice pack media path
+	---@param voice VPSound voice pack media path
 	---@param voiceVersion number Required voice pack verion (if not met, falls back to default special warning sounds)
 	---@param overrideType number? Used when we explicitely need to set sound to play on a specific type of event (0 - Text Event, 1 - Timer Finished, 2 - 5 seconds before Timer Finished)
 	function bossModPrototype:EnableAlertOptions(optionId, encounterEventId, voice, voiceVersion, overrideType)
+		--Filter tank specific voice alerts for non tanks if tank filter enabled
+		if (voice == "changemt" or voice == "tauntboss") and not self:IsTank() then return end
 		if optionId then
 			local enabled = self.Options["CustomAlertOption" .. optionId] or true
 			local mediaPath = checkValidVPSound(self, "CustomAlertOption", optionId, voice, voiceVersion)
 			local soundSetting = DBM.Options.UseSoundChannel or "Master"
-			--Absolute media path is still a number, so at this point we know it's file data Id, we need to set soundFileID
-			if type(mediaPath) == "number" then
-				if type(encounterEventId) == "table" then
-					for _, id in ipairs(encounterEventId) do
-						C_EncounterEvents.SetEventSound(id, overrideType or 1, enabled and {file = mediaPath, channel = soundSetting, volume = 1} or nil)
-					end
-				else
-					C_EncounterEvents.SetEventSound(encounterEventId, overrideType or 1, enabled and {file = mediaPath, channel = soundSetting, volume = 1} or nil)
+			--Unlike private aura sounds, this api accepts both file data ID AND path
+			if type(encounterEventId) == "table" then
+				for _, id in ipairs(encounterEventId) do
+					C_EncounterEvents.SetEventSound(id, overrideType or 1, enabled and {file = mediaPath, channel = soundSetting, volume = 1} or nil)
 				end
-			else--It's a string, so it's not an ID, we need to set soundFileName instead
-				--NYI on blizzards end to support custom sound file paths
-				--if type(encounterEventId) == "table" then
-				--	for _, id in ipairs(encounterEventId) do
-				--		C_EncounterEvents.SetEventSound(id, overrideType or 1, {soundFileName = mediaPath, channel = soundSetting, volume = 1})
-				--	end
-				--else
-				--	C_EncounterEvents.SetEventSound(encounterEventId, 1, {file = mediaPath, channel = soundSetting, volume = 1})
-				--end
+			else
+				C_EncounterEvents.SetEventSound(encounterEventId, overrideType or 1, enabled and {file = mediaPath, channel = soundSetting, volume = 1} or nil)
 			end
 		end
 	end

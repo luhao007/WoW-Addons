@@ -21,78 +21,61 @@ local VERSION = C_AddOns.GetAddOnMetadata(add_on, "Version")
 -- ******************************** Variables *******************************
 local trace = false -- true / false    Make true when debug output is needed.
 
+--[[
 local function SendSlash(slash, params)
 	DEFAULT_CHAT_FRAME.editBox:SetText(_G[slash] .. " " .. tostring(params))
 	ChatEdit_SendText(DEFAULT_CHAT_FRAME.editBox, 0)
 end
+SendSlash("SLASH_TitanPanel1", "reset")
+--]]
+local function SendSlash(slash)
+	DEFAULT_CHAT_FRAME.editBox:SetText(slash)
+	ChatEdit_SendText(DEFAULT_CHAT_FRAME.editBox, 0)
+end
 
--- Create the right click menu for this plugin
-local function CreateMenu()
-	local info = {};
+local function GeneratorFunction(owner, rootDescription)
+	local id = TITAN_PLUGIN
+	local root = rootDescription -- menu widget to start with
 
-	TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_PLUGIN].menuText);
+	local config = L["TITAN_PANEL_MENU_CONFIGURATION"].." "
+	Titan_Menu.AddCommand(root, id, config..L["TITAN_PANEL_MENU_OPTIONS_BARS"],
+		function()
+			TitanUpdateConfig("init")
+			AceConfigDialog:Open("Titan Panel Bars")
+		end)
 
-	info = {};
-	info.notCheckable = true
-	info.text = L["TITAN_PANEL_MENU_OPTIONS_BARS"]
-	info.func = function()
-		TitanUpdateConfig("init")
-		AceConfigDialog:Open("Titan Panel Bars")
-	end
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+	Titan_Menu.AddCommand(root, id, config..L["TITAN_PANEL_MENU_PLUGINS"],
+		function()
+			TitanUpdateConfig("init")
+			AceConfigDialog:Open("Titan Panel Addon Control")
+		end)
 
-	info = {};
-	info.notCheckable = true
-	info.text = L["TITAN_PANEL_MENU_PLUGINS"]
-	info.func = function()
-		TitanUpdateConfig("init")
-		AceConfigDialog:Open("Titan Panel Addon Control")
-	end
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+	Titan_Menu.AddCommand(root, id, config..L["TITAN_PANEL_MENU_PROFILES"],
+		function()
+			TitanUpdateConfig("init")
+			AceConfigDialog:Open("Titan Panel Addon Chars")
+		end)
 
-	info = {};
-	info.notCheckable = true
-	info.text = L["TITAN_PANEL_MENU_PROFILES"]
-	info.func = function()
-		TitanUpdateConfig("init")
-		AceConfigDialog:Open("Titan Panel Addon Chars")
-	end
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+	Titan_Menu.AddDivider(root)
+	local t_reset = "/titanpanel reset"
+	Titan_Menu.AddCommand(root, id, t_reset,
+		function()
+			SendSlash(t_reset)
+		end)
 
-	TitanPanelRightClickMenu_AddSeparator(TitanPanelRightClickMenu_GetDropdownLevel());
-	-- Option to toggle the framestack cmd
-	info = {};
-	info.notCheckable = true
-	info.text = "/titanpanel reset"
-	info.func = function()
-		SendSlash("SLASH_TitanPanel1", "reset")
-	end
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+	Titan_Menu.AddDivider(root)
+	local fstack = "/fstack"
+	Titan_Menu.AddCommand(root, id, fstack,
+		function()
+			SendSlash(fstack)
+		end)
 
-	TitanPanelRightClickMenu_AddSeparator(TitanPanelRightClickMenu_GetDropdownLevel());
-	-- Option to toggle the framestack cmd
-	info = {};
-	info.notCheckable = true
-	info.text = "Toggle frame details"
-	info.func = function()
-		SendSlash("SLASH_FRAMESTACK1")
-	end
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-	TitanPanelRightClickMenu_AddSeparator(TitanPanelRightClickMenu_GetDropdownLevel());
-
-	-- Option to open WoWLua, if loaded
-	info = {};
-	info.notCheckable = true
-	info.text = "Open WoWLua"
-	---@diagnostic disable-next-line: undefined-global
-	info.disabled = (SLASH_WOWLUA1 == nil)
-	info.func = function()
-		SendSlash("SLASH_WOWLUA1")
-	end
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-	TitanPanelRightClickMenu_AddControlVars(TITAN_PLUGIN)
+	Titan_Menu.AddDivider(root)
+	local lua_cmd = "/lua"
+	Titan_Menu.AddCommand(root, id, lua_cmd,
+		function()
+			SendSlash(lua_cmd)
+		end)
 end
 
 -- Grab the button text to display
@@ -147,7 +130,8 @@ local function OnLoad(self)
 		category = "Built-ins",
 		version = VERSION,
 		menuText = TITLE,
-		menuTextFunction = CreateMenu,
+		--		menuTextFunction = CreateMenu,
+		menuContextFunction = GeneratorFunction, -- NEW scheme
 		buttonTextFunction = GetButtonText,
 		tooltipTitle = TITLE,
 		tooltipTextFunction = GetTooltipText,

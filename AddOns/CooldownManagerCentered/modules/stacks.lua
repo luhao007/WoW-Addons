@@ -130,10 +130,7 @@ function Stacks:ApplyStackFonts(viewerName)
 end
 
 function Stacks:IsAnyStacksFeatureEnabled()
-    return ns.db.profile.cooldownManager_stackFontSizeEssential
-        or ns.db.profile.cooldownManager_stackFontSizeUtility
-        or ns.db.profile.cooldownManager_stackFontSizeBuffIcons
-        or ns.db.profile.cooldownManager_stackAnchorEssential_enabled
+    return ns.db.profile.cooldownManager_stackAnchorEssential_enabled
         or ns.db.profile.cooldownManager_stackAnchorUtility_enabled
         or ns.db.profile.cooldownManager_stackAnchorBuffIcons_enabled
 end

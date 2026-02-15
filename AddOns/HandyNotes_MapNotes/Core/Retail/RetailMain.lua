@@ -915,7 +915,7 @@ do
                         or value.type == "Auctioneer" or value.type == "Bank" or value.type == "MNL" or value.type == "Barber" or value.type == "Transmogger" or value.type == "ItemUpgrade" or value.type == "PvPVendor" 
                         or value.type == "PvEVendor" or value.type == "DragonFlyTransmog" or value.type == "Catalyst" or value.type == "PathO" or value.type == "PathRO" or value.type == "PathLO" 
                         or value.type == "PathU" or value.type == "PathLU" or value.type == "PathRU" or value.type == "PathL" or value.type == "PathR" or value.type == "BlackMarket" or value.type == "Mailbox"
-                        or value.type == "StablemasterN" or value.type == "StablemasterH" or value.type == "StablemasterA" or value.type == "HIcon" or value.type == "AIcon" or value.type == "InnkeeperN" 
+                        or value.type == "StablemasterN" or value.type == "StablemasterH" or value.type == "StablemasterA" or value.type == "HIcon" or value.type == "AIcon" or value.type == "HAIcon" or value.type == "InnkeeperN" 
                         or value.type == "InnkeeperH" or value.type == "InnkeeperA" or value.type == "MailboxN" or value.type == "MailboxH" or value.type == "MailboxA" or value.type == "PvPVendorH" or value.type == "PvPVendorA" 
                         or value.type == "PvEVendorH" or value.type == "PvEVendorA" or value.type == "MMInnkeeperH" or value.type == "MMInnkeeperA" or value.type == "MMStablemasterH" or value.type == "MMStablemasterA"
                         or value.type == "MMMailboxH" or value.type == "MMMailboxA" or value.type == "MMPvPVendorH" or value.type == "MMPvPVendorA" or value.type == "MMPvEVendorH" or value.type == "MMPvEVendorA" 
@@ -1089,6 +1089,10 @@ do
         icon = ns.icons["AIcon"]
       end
 
+      if (value.type == "HAIcon") then
+        icon = ns.icons["HAIcon"]
+      end
+
       if (anyLocked and db.invertlockout) or (allLocked and not db.invertlockout) then
 				alpha = db.mapnoteAlpha
 			end
@@ -1216,7 +1220,7 @@ do
           alpha = db.MiniMapAlphaMapNotesIcons
         end
 
-        if value.type == "HIcon" or value.type == "AIcon" then
+        if value.type == "HIcon" or value.type == "AIcon" or value.type == "HAIcon" then
           scale = db.MiniMapScaleHordeAllyIcons
           alpha = db.MiniMapAlphaHordeAllyIcons
         end
@@ -1251,9 +1255,14 @@ do
           alpha = db.MiniMapAlphaPvPVendor
         end
 
-        if value.type == "PvEVendor" or value.type == "PvEVendorH" or value.type == "PvEVendorA" or value.type == "ZonePvEVendorH" or value.type == "ZonePvEVendorA" then
+        if value.type == "PvEVendor" or value.type == "PvEVendorH" or value.type == "PvEVendorA" or value.type == "ZonePvEVendorH" or value.type == "ZonePvEVendorA" or value.type == "DecorExpert" then
           scale = db.MiniMapScalePvEVendor
           alpha = db.MiniMapAlphaPvEVendor
+        end
+
+        if value.type == "DecorExpert" then
+          scale = db.MiniMapScaleDecorExpert
+          alpha = db.MiniMapAlphaDecorExpert
         end
 
         if value.type == "RenownQuartermaster" or value.type == "MMRenownQuartermasterH" or value.type == "MMRenownQuartermasterA" then
@@ -1486,7 +1495,7 @@ do
           alpha = db.ZoneAlphaMapNotesIcons
         end
 
-        if value.type == "HIcon" or value.type == "AIcon" then
+        if value.type == "HIcon" or value.type == "AIcon" or value.type == "HAIcon"  then
           scale = db.ZoneScaleHordeAllyIcons
           alpha = db.ZoneAlphaHordeAllyIcons
         end
@@ -1521,9 +1530,14 @@ do
           alpha = db.ZoneAlphaPvPVendor
         end
 
-        if value.type == "PvEVendor" or value.type == "PvEVendorH" or value.type == "PvEVendorA" or value.type == "ZonePvEVendorH" or value.type == "ZonePvEVendorA" then
+        if value.type == "PvEVendor" or value.type == "PvEVendorH" or value.type == "PvEVendorA" or value.type == "ZonePvEVendorH" or value.type == "ZonePvEVendorA" or value.type == "DecorExpert" then
           scale = db.ZoneScalePvEVendor
           alpha = db.ZoneAlphaPvEVendor
+        end
+
+        if value.type == "DecorExpert" then
+          scale = db.ZoneScaleDecorExpert
+          alpha = db.ZoneAlphaDecorExpert
         end
 
         if value.type == "RenownQuartermaster" or value.type == "ZoneRenownQuartermasterH" or value.type == "ZoneRenownQuartermasterA" then
@@ -1701,6 +1715,10 @@ do
     
           if (value.type == "AIcon") then
             icon = ns.icons["AIcon"]
+          end
+
+          if (value.type == "HAIcon") then
+            icon = ns.icons["HAIcon"]
           end
 
           if (anyLocked and db.invertlockout) or (allLocked and not db.invertlockout) then

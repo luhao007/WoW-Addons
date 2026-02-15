@@ -7,6 +7,8 @@ local coroutine,ipairs,pairs,pcall,math,rawget,select,tostring,type,tremove,wipe
 	= coroutine,ipairs,pairs,pcall,math,rawget,select,tostring,type,tremove,wipe,tonumber
 local CreateFrame,GetCursorPosition,IsModifierKeyDown
 	= CreateFrame,GetCursorPosition,IsModifierKeyDown;
+local C_AddOns_GetAddOnMetadata
+	= C_AddOns.GetAddOnMetadata;
 
 ---@class ATTGameTooltip: GameTooltip
 local GameTooltip = GameTooltip;
@@ -522,7 +524,6 @@ app.AddEventHandler("OnLoad", function()
 	ShouldSkipAutoExpandForKey.headerID = DoExpansion and ShouldSkipAutoExpandForKey.def_headerID or nil
 	ShouldSkipAutoExpandForKey.objectID = DoExpansion and ShouldSkipAutoExpandForKey.def_objectID or nil
 end)
-app.TEST = ShouldSkipAutoExpandForKey
 -- Returns true if any subgroup of the provided group is currently expanded, otherwise nil
 local function HasExpandedSubgroup(group)
 	if not group then return end
@@ -623,17 +624,18 @@ local function SetPortraitIcon(self, data)
 		end
 		atlas = data["atlas-border"];
 		if atlas then
-			if self.Border.atlas ~= atlas then
+			-- could make this more complicated, but if we don't SetAtlas, then SetVertexColor won't have any effect it seems
+			-- if self.Border.atlas ~= atlas then
 				self.Border.atlas = atlas;
 				self.Border:SetAtlas(atlas);
 				self.Border:SetWidth(self:GetHeight());
 				self.Border:Show();
-			end
+			-- end
 			atlas = data["atlas-color"];
 			if self.Border.atlasColor ~= atlas then
 				self.Border.atlasColor = atlas;
 				if atlas then
-					self.Border:SetVertexColor(atlas[1] or 0, atlas[2] or 0, atlas[3] or 0, atlas[4] or 1);
+					self.Border:SetVertexColor(atlas[1] or 1, atlas[2] or 1, atlas[3] or 1, atlas[4] or 1);
 				else
 					self.Border:SetVertexColor(1, 1, 1, 1);
 				end
@@ -2404,7 +2406,7 @@ app.AddEventHandler("OnRefreshCollectionsDone", ShowPrecallShowWindows)
 local function BuildWindow(suffix)
 	local definition = app.WindowDefinitions[suffix];
 	if not definition then
-		print("No Window Definition Found for " .. suffix);
+		app.print("No Window Definition Found for",suffix);
 	else
 		app.WindowDefinitions[suffix] = nil;
 	end
@@ -2651,7 +2653,7 @@ local function BuildWindow(suffix)
 					self:Refresh();
 					return result;
 				else
-					self.HasPendingUpdate = self.HasPendingUpdate or force or trigger;
+					self.HasPendingUpdate = self.HasPendingUpdate or force or (trigger and not self.IsTopLevel)
 				end
 			end
 		else
@@ -2667,7 +2669,7 @@ local function BuildWindow(suffix)
 					self:Refresh();
 					return result;
 				else
-					self.HasPendingUpdate = self.HasPendingUpdate or force or trigger;
+					self.HasPendingUpdate = self.HasPendingUpdate or force or (trigger and not self.IsTopLevel)
 				end
 			end
 		end
@@ -2690,7 +2692,7 @@ local function BuildWindow(suffix)
 					self:Refresh();
 					return result;
 				else
-					self.HasPendingUpdate = self.HasPendingUpdate or force or trigger;
+					self.HasPendingUpdate = self.HasPendingUpdate or force or (trigger and not self.IsTopLevel)
 				end
 			end
 		else
@@ -2706,7 +2708,7 @@ local function BuildWindow(suffix)
 					self:Refresh();
 					return result;
 				else
-					self.HasPendingUpdate = self.HasPendingUpdate or force or trigger;
+					self.HasPendingUpdate = self.HasPendingUpdate or force or (trigger and not self.IsTopLevel)
 				end
 			end
 		end
@@ -2893,10 +2895,6 @@ local function BuildWindow(suffix)
 	end
 	if definition.OnInit then
 		definition.OnInit(window, handlers);
-		-- @Crieve: I don't know why OnInit should add data... isn't that for Rebuild?
-		-- if not (window.data and window.data.window) and not window.IsTopLevel then
-		-- 	print(window.Suffix, "OI! You forgot to use self:SetData(data) in the OnInit!");
-		-- end
 	end
 	if definition.Commands then
 		if not window.SettingsName then
@@ -2948,8 +2946,29 @@ function app:CreateWindow(suffix, definition)
 		end
 	end
 end
-function app:GetWindow(suffix)
-	return app.Windows[suffix] or BuildWindow(suffix);
+function app:CreateWindowForAddon(addonName, definition)
+	local title = C_AddOns_GetAddOnMetadata(addonName, "Title");
+	if title then
+		local titleSplit = { (":"):split(title) };
+		definition.Title = titleSplit[#titleSplit]:trim();
+	end
+	definition.Notes = C_AddOns_GetAddOnMetadata(addonName, "Notes");
+	definition.IconTexture = C_AddOns_GetAddOnMetadata(addonName, "IconTexture");
+	local cmdStr = C_AddOns_GetAddOnMetadata(addonName, "X-Commands");
+	if cmdStr then
+		local commands = definition.Commands;
+		if not commands then
+			commands = {};
+			definition.Commands = commands;
+		end
+		for i,cmd in ipairs({(","):split(cmdStr)}) do
+			tinsert(commands, cmd:trim());
+		end
+	end
+	return app:CreateWindow(C_AddOns_GetAddOnMetadata(addonName, "X-Suffix") or addonName, definition);
+end
+function app:GetWindow(suffix, passive)
+	return app.Windows[suffix] or (not passive and BuildWindow(suffix))
 end
 
 -- Dynamic Popouts for Quest Chains and other Groups

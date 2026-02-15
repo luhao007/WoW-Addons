@@ -148,6 +148,15 @@ local function RepairInit()
 		dur_per = TR.equip_most_default.dur_per,
 		cost = TR.equip_most_default.cost,
 		}
+
+	-- Jan 2026 : New saved var - DiscountNone - ensure it is set as needed
+	-- Added to fit Titan_Menu patterns
+	local disc = not -- true if no other discount is set
+		(TitanGetVar(TITAN_REPAIR_ID,"DiscountFriendly")
+		and TitanGetVar(TITAN_REPAIR_ID,"DiscountHonored")
+		and TitanGetVar(TITAN_REPAIR_ID,"DiscountRevered")
+		and TitanGetVar(TITAN_REPAIR_ID,"DiscountExalted"))
+	TitanSetVar(TITAN_REPAIR_ID,"DiscountNone", disc)
 end
 
 --[[ local
@@ -1374,48 +1383,6 @@ local function CreateMenu()
 		if TitanPanelRightClickMenu_GetDropdMenuValue() == "AutoRepair" then
 			TitanPanelRightClickMenu_AddTitle(L["TITAN_REPAIR_LOCALE_AUTOREPLABEL"], TitanPanelRightClickMenu_GetDropdownLevel());
 
-			info = {};
-			info.text = L["TITAN_REPAIR_LOCALE_POPUP"];
-			info.func = function()
-				TitanToggleVar(TITAN_REPAIR_ID, "ShowPopup");
-				if TitanGetVar(TITAN_REPAIR_ID,"ShowPopup") and TitanGetVar(TITAN_REPAIR_ID,"AutoRepair") then
-					TitanSetVar(TITAN_REPAIR_ID,"AutoRepair",nil);
-				end
-				end
-			info.checked = TitanGetVar(TITAN_REPAIR_ID,"ShowPopup");
-			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-			info = {};
-			info.text = L["TITAN_REPAIR_LOCALE_AUTOREPITEMLABEL"];
-			info.func = function()
-				TitanToggleVar(TITAN_REPAIR_ID, "AutoRepair");
-				if TitanGetVar(TITAN_REPAIR_ID,"AutoRepair") and TitanGetVar(TITAN_REPAIR_ID,"ShowPopup") then
-					TitanSetVar(TITAN_REPAIR_ID,"ShowPopup",nil);
-				end
-				end
-			info.checked = TitanGetVar(TITAN_REPAIR_ID,"AutoRepair");
-			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-			info = {};
-			info.text = L["TITAN_REPAIR_REPORT_COST_MENU"]
-			info.func = function() TitanToggleVar(TITAN_REPAIR_ID, "AutoRepairReport"); end
-			info.checked = TitanGetVar(TITAN_REPAIR_ID,"AutoRepairReport");
-			TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-			if Titan_Global.switch.classic_era then
-				-- skip, no guild bank available
-			else
-				local g_enable = false -- assume not in guild
-				if IsInGuild() and CanGuildBankRepair() then
-					g_enable = true
-				end
-				info = {}
-				info.text = L["TITAN_REPAIR_GBANK_USEFUNDS"]
-				info.disabled = not g_enable
-				info.func = function() TitanToggleVar(TITAN_REPAIR_ID, "UseGuildBank"); end
-				info.checked = TitanGetVar(TITAN_REPAIR_ID,"UseGuildBank");
-				TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-			end
 		end
 
 		if TitanPanelRightClickMenu_GetDropdMenuValue() == "TooltipOptions" then
@@ -1470,20 +1437,6 @@ local function CreateMenu()
 
 	info = {};
 	info.notCheckable = true
-	info.text = L["TITAN_PANEL_OPTIONS"];
-	info.value = "Options"
-	info.hasArrow = 1;
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-	info = {};
-	info.notCheckable = true
-	info.text = L["TITAN_REPAIR_LOCALE_AUTOREPLABEL"];
-	info.value = "AutoRepair"
-	info.hasArrow = 1;
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-	info = {};
-	info.notCheckable = true
 	info.text = L["TITAN_REPAIR_LOCALE_DISCOUNT"];
 	info.value = "Discount"
 	info.hasArrow = 1;
@@ -1499,6 +1452,54 @@ local function CreateMenu()
 	TitanPanelRightClickMenu_AddControlVars(TITAN_REPAIR_ID)
 end
 
+local function GeneratorFunction(owner, rootDescription)
+	local id = TITAN_REPAIR_ID
+	local root = rootDescription -- menu widget to start with
+
+	local opts_discount = Titan_Menu.AddButton(root, L["TITAN_PANEL_OPTIONS"])
+	do           -- next level options
+		Titan_Menu.AddSelector(opts_discount, id, L["TITAN_REPAIR_SHOW_TOTAL"], "ShowTotals")
+		Titan_Menu.AddSelector(opts_discount, id, L["TITAN_REPAIR_LOCALE_MOSTDAMAGED"], "ShowMostDamaged")
+		Titan_Menu.AddSelector(opts_discount, id, L["TITAN_REPAIR_LOCALE_SHOWINVENTORY"], "ShowInventory")
+		Titan_Menu.AddDivider(opts_discount)
+		Titan_Menu.AddSelector(opts_discount, id, L["TITAN_REPAIR_LOCALE_SHOWREPAIRCOST"], "ShowRepairCost")
+		Titan_Menu.AddSelector(opts_discount, id, L["TITAN_REPAIR_LOCALE_SHOWREPAIRCOST"].." Gold Only"  , "ShowCostGoldOnly")
+		Titan_Menu.AddSelector(opts_discount, id, "Show "..ITEM_QUALITY0_DESC.." Total", "ShowGray")
+		Titan_Menu.AddDivider(opts_discount)
+		Titan_Menu.AddSelector(opts_discount, id, "Sell ALL "..ITEM_QUALITY0_DESC.." Items - CAUTION", "SellAllGray")
+	end
+
+	--==== Display options
+	local opts_auto_repair = Titan_Menu.AddButton(root, L["TITAN_REPAIR_LOCALE_AUTOREPLABEL"])
+	do           -- next level options
+		Titan_Menu.AddSelectorCommand(opts_auto_repair, id, L["TITAN_REPAIR_LOCALE_POPUP"], "AutoRepair", 
+			function ()
+				if TitanGetVar(TITAN_REPAIR_ID,"ShowPopup") and TitanGetVar(TITAN_REPAIR_ID,"AutoRepair") then
+					TitanSetVar(TITAN_REPAIR_ID,"AutoRepair",nil);
+				end
+		end
+		)
+		Titan_Menu.AddSelectorCommand(opts_auto_repair, id, L["TITAN_REPAIR_LOCALE_AUTOREPITEMLABEL"], "ShowPopup", 
+			function ()
+				if TitanGetVar(TITAN_REPAIR_ID,"AutoRepair") and TitanGetVar(TITAN_REPAIR_ID,"ShowPopup") then
+					TitanSetVar(TITAN_REPAIR_ID,"ShowPopup",nil);
+				end
+		end
+		)
+
+		Titan_Menu.AddSelector(opts_auto_repair, id, L["TITAN_REPAIR_REPORT_COST_MENU"], "AutoRepairReport")
+
+		-- Need the menu widget to set enabled
+		-- Tis is evaluated and set only each time the menu is created.
+		local use_guild = Titan_Menu.AddSelector(opts_auto_repair, id, L["TITAN_REPAIR_GBANK_USEFUNDS"], "UseGuildBank")
+		local g_enable = false -- assume not in guild
+		if IsInGuild() and CanGuildBankRepair() then
+			g_enable = true
+		end
+		Titan_Menu.SetAtribEnabled(use_guild, g_enable)
+	end
+end
+
 ---local Create the .registry for the plugin.
 ---@param self Button
 local function OnLoad(self)
@@ -1512,7 +1513,8 @@ local function OnLoad(self)
 		category = "Built-ins",
 		version = TITAN_VERSION,
 		menuText = L["TITAN_REPAIR_LOCALE_MENU"],
-		menuTextFunction = CreateMenu,
+--		menuTextFunction = CreateMenu,
+		menuContextFunction = GeneratorFunction, -- NEW scheme
 		buttonTextFunction = GetButtonText,
 		tooltipTitle = L["TITAN_REPAIR_LOCALE_TOOLTIP"],
 		tooltipTextFunction = GetTooltipText,
@@ -1533,6 +1535,7 @@ local function OnLoad(self)
 			ShowUndamaged = false,
 			ShowPopup = false,
 			AutoRepair = false,
+			DiscountNone = false,
 			DiscountFriendly = false,
 			DiscountHonored = false,
 			DiscountRevered = false,
@@ -1561,6 +1564,7 @@ local function Create_Frames()
 		return -- if already created
 	end
 	
+	-- Used to get repair costs of items in user bags
 	if C_TooltipInfo then -- use a proxy for retail (true) versus classic (false)
 		-- Not needed for retail
 	else

@@ -5,11 +5,10 @@ This file contains the routines to initialize, get, and set the basic data struc
 --[===[ Var
 TitanBarData ^^: Titan static bar reference and placement info
 TitanAll is used for settings used for Titan itself such as use global profile, tootip modifier, etc.
-TitanSettings, TitanSkins, ServerTimeOffsets, ServerHourFormat are the structures saved to disk (listed in toc).
+TitanSettings, TitanSkins,  are the structures saved to disk (listed in toc).
 TitanSettings : is the table that holds the Titan variables by character and the plugins used by that character.
 TitanSkins : holds the list of Titan and custom skins available to the user.
    It is assumed that the skins are in the proper folder on the hard drive. Blizzard does not allow addons to access the disk.
-ServerTimeOffsets and ServerHourFormat: are the tables that hold the user selected hour offset and display format per realm (server).
 
 
 TitanSettings has major sections with associated shortcuts in the code
@@ -345,6 +344,7 @@ TitanBarVarsDefaults = {
 		align = TITAN_PANEL_BUTTONS_ALIGN_LEFT, -- TITAN_PANEL_BUTTONS_ALIGN_CENTER
 		hide_in_combat = false,
 		hide_in_pvp = false,
+		plugin_off_y = 0,
 	},
 	[TITAN_PANEL_DISPLAY_PREFIX .. "Bar2"] = {
 		off_x = 0,
@@ -359,6 +359,7 @@ TitanBarVarsDefaults = {
 		align = TITAN_PANEL_BUTTONS_ALIGN_LEFT, -- TITAN_PANEL_BUTTONS_ALIGN_CENTER
 		hide_in_combat = false,
 		hide_in_pvp = false,
+		plugin_off_y = 0,
 	},
 	[TITAN_PANEL_DISPLAY_PREFIX .. "AuxBar2"] = {
 		off_x = 0,
@@ -373,6 +374,7 @@ TitanBarVarsDefaults = {
 		align = TITAN_PANEL_BUTTONS_ALIGN_LEFT, -- TITAN_PANEL_BUTTONS_ALIGN_CENTER
 		hide_in_combat = false,
 		hide_in_pvp = false,
+		plugin_off_y = 0,
 	},
 	[TITAN_PANEL_DISPLAY_PREFIX .. "AuxBar"] = {
 		off_x = 0,
@@ -387,6 +389,7 @@ TitanBarVarsDefaults = {
 		align = TITAN_PANEL_BUTTONS_ALIGN_LEFT, -- TITAN_PANEL_BUTTONS_ALIGN_CENTER
 		hide_in_combat = false,
 		hide_in_pvp = false,
+		plugin_off_y = 0,
 	},
 	[TITAN_PANEL_DISPLAY_PREFIX .. "Short01"] = {
 		off_x = x_mid,
@@ -401,6 +404,7 @@ TitanBarVarsDefaults = {
 		align = TITAN_PANEL_BUTTONS_ALIGN_LEFT, -- TITAN_PANEL_BUTTONS_ALIGN_CENTER
 		hide_in_combat = false,
 		hide_in_pvp = false,
+		plugin_off_y = 0,
 	},
 	[TITAN_PANEL_DISPLAY_PREFIX .. "Short02"] = {
 		off_x = x_mid,
@@ -415,6 +419,7 @@ TitanBarVarsDefaults = {
 		align = TITAN_PANEL_BUTTONS_ALIGN_LEFT, -- TITAN_PANEL_BUTTONS_ALIGN_CENTER
 		hide_in_combat = false,
 		hide_in_pvp = false,
+		plugin_off_y = 0,
 	},
 	[TITAN_PANEL_DISPLAY_PREFIX .. "Short03"] = {
 		off_x = x_mid,
@@ -429,6 +434,7 @@ TitanBarVarsDefaults = {
 		align = TITAN_PANEL_BUTTONS_ALIGN_LEFT, -- TITAN_PANEL_BUTTONS_ALIGN_CENTER
 		hide_in_combat = false,
 		hide_in_pvp = false,
+		plugin_off_y = 0,
 	},
 	[TITAN_PANEL_DISPLAY_PREFIX .. "Short04"] = {
 		off_x = x_mid,
@@ -443,6 +449,7 @@ TitanBarVarsDefaults = {
 		align = TITAN_PANEL_BUTTONS_ALIGN_LEFT, -- TITAN_PANEL_BUTTONS_ALIGN_CENTER
 		hide_in_combat = false,
 		hide_in_pvp = false,
+		plugin_off_y = 0,
 	},
 	[TITAN_PANEL_DISPLAY_PREFIX .. "Short05"] = {
 		off_x = x_mid,
@@ -457,6 +464,7 @@ TitanBarVarsDefaults = {
 		align = TITAN_PANEL_BUTTONS_ALIGN_LEFT, -- TITAN_PANEL_BUTTONS_ALIGN_CENTER
 		hide_in_combat = false,
 		hide_in_pvp = false,
+		plugin_off_y = 0,
 	},
 	[TITAN_PANEL_DISPLAY_PREFIX .. "Short06"] = {
 		off_x = x_mid,
@@ -471,6 +479,7 @@ TitanBarVarsDefaults = {
 		align = TITAN_PANEL_BUTTONS_ALIGN_LEFT, -- TITAN_PANEL_BUTTONS_ALIGN_CENTER
 		hide_in_combat = false,
 		hide_in_pvp = false,
+		plugin_off_y = 0,
 	},
 	[TITAN_PANEL_DISPLAY_PREFIX .. "Short07"] = {
 		off_x = x_mid,
@@ -485,6 +494,7 @@ TitanBarVarsDefaults = {
 		align = TITAN_PANEL_BUTTONS_ALIGN_LEFT, -- TITAN_PANEL_BUTTONS_ALIGN_CENTER
 		hide_in_combat = false,
 		hide_in_pvp = false,
+		plugin_off_y = 0,
 	},
 	[TITAN_PANEL_DISPLAY_PREFIX .. "Short08"] = {
 		off_x = x_mid,
@@ -499,6 +509,7 @@ TitanBarVarsDefaults = {
 		align = TITAN_PANEL_BUTTONS_ALIGN_LEFT, -- TITAN_PANEL_BUTTONS_ALIGN_CENTER
 		hide_in_combat = false,
 		hide_in_pvp = false,
+		plugin_off_y = 0,
 	},
 	[TITAN_PANEL_DISPLAY_PREFIX .. "Short09"] = {
 		off_x = x_mid,
@@ -513,6 +524,7 @@ TitanBarVarsDefaults = {
 		align = TITAN_PANEL_BUTTONS_ALIGN_LEFT, -- TITAN_PANEL_BUTTONS_ALIGN_CENTER
 		hide_in_combat = false,
 		hide_in_pvp = false,
+		plugin_off_y = 0,
 	},
 	[TITAN_PANEL_DISPLAY_PREFIX .. "Short10"] = {
 		off_x = x_mid,
@@ -527,6 +539,7 @@ TitanBarVarsDefaults = {
 		align = TITAN_PANEL_BUTTONS_ALIGN_LEFT, -- TITAN_PANEL_BUTTONS_ALIGN_CENTER
 		hide_in_combat = false,
 		hide_in_pvp = false,
+		plugin_off_y = 0,
 	},
 }
 
@@ -595,6 +608,7 @@ TITAN_PANEL_SAVED_VARIABLES = {
 	IconSpacing = 0,
 	TooltipTrans = 1,
 	TooltipFont = 1,
+	TooltipTimeout = .5,
 	DisableTooltipFont = 1,
 	FontName = TPC.FONT_NAME,
 	FrameStrata = "LOW",
@@ -744,7 +758,7 @@ local function TitanVariables_SyncRegisterSavedVariables(registeredVariables, sa
 		-- Init registeredVariables
 		for index, value in pairs(registeredVariables) do
 			--[[
-print("_sync"
+print(".._sync"
 .." "..tostring(index)..""
 .." : "..tostring(value)..""
 )
@@ -935,6 +949,13 @@ local function AdjBarVars(to_profile)
 			if v.color_border == nil then -- NEW Jan 2026
 				BV[idx].color_border = true
 			end
+			if v.plugin_off_y == nil then -- NEW Jan 2026
+				BV[idx].plugin_off_y = 0
+			end
+--print("Vars Y"
+--	.. " " .. tostring(idx) .. ""
+--	.. " " .. tostring(BV[idx].plugin_off_y) .. ""
+--)
 		end
 end
 
@@ -1479,7 +1500,6 @@ local function Init_player_settings(from_profile, to_profile, action)
 	TitanPlayerSettings = TitanSettings.Players[to_profile];
 	TitanPluginSettings = TitanPlayerSettings["Plugins"];
 	TitanPanelSettings = TitanPlayerSettings["Panel"];
-	--	TitanVariables_SyncRegisterSavedVariables(TitanBarVarsDefaults, TitanPlayerSettings["BarVars"])
 
 	-- ====== New May 2023 : Back to adjusting a couple frames per user settings
 	TitanAdjustSettings = TitanPlayerSettings["Adjust"]

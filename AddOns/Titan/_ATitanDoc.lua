@@ -271,7 +271,7 @@ if ShowUsedSlots then
 
 === Where are these saved variables?????
 The saved variables are specified in the Titan toc :
-## SavedVariables: TitanAll, TitanSettings, TitanSkins, ServerTimeOffsets, ServerHourFormat
+## SavedVariables: TitanAll, TitanSettings, TitanSkins
 
 TitanSettings contains all the plugin saved variables.
 Titan uses the single table structure to store the saved variables across a user account.

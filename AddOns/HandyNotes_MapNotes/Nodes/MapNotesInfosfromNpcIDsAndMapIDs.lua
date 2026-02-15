@@ -88,6 +88,7 @@ ns.Frostwall = mapName(590)
 ns.Stormshield = mapName(622)
 ns.Warspear = mapName(624)
 ------------------------------------ Broken Isles Zones
+ns.Suramar = mapName(680)
 ns.Azsuna = mapName(630)
 ns.TelogrusRift = mapName(971)
 ns.Eredath = mapName(882)
@@ -120,6 +121,7 @@ ns.EmeraldDream = mapName(2200)
 ns.Amirdrassil = mapName(2239)
 ------------------------------------ Khaz Algar Zones
 ns.CityOfThreads = mapName(2213)
+ns.TheRingingDeeps = mapName(2214)
 ns.HallofAwakening = mapName(2322)
 ns.Dornogal = mapName(2339)
 ns.SirenIsle = mapName(2369)
@@ -200,6 +202,8 @@ ns.Scholomance = instanceName(246)
 ns.ScarletMonastery = instanceName(316)
 ns.Naxxramas = instanceName(754)
 ns.Rookery = instanceName(1268)
+------------------------------------ Midnight
+ns.MurderRow = instanceName(1304)
 
 
 ------------------------------------ npcNameID Names

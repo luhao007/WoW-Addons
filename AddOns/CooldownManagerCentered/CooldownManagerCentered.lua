@@ -142,12 +142,15 @@ addon.isRetail = gameVersion:match("^11")
 
 C_Timer.After(2, function()
     local time = C_DateAndTime.GetCurrentCalendarTime()
-    local askedDate = time.year + time.month + time.monthDay
+    local askedDate = time.year * 10000 + time.month * 100 + time.monthDay
 
     if
         ns.API:IsElvUICDMSkinningEnabled()
         and (ns.StyledIcons:IsAnyStyledFeatureEnabled() or ns.Stacks:IsAnyStacksFeatureEnabled())
-        and (not ns.db.profile._elvui_skinning_asked or ns.db.profile._elvui_skinning_asked < askedDate)
+        and (
+            not ns.db.profile._elvui_skinning_asked
+            or (ns.db.profile._elvui_skinning_asked < askedDate - 4 or ns.db.profile._elvui_skinning_asked < 10000)
+        )
     then
         StaticPopup_Show("CMC_ELVUI_SKINNING_ASK")
         ns.db.profile._elvui_skinning_asked = askedDate
@@ -157,6 +160,9 @@ end)
 local AddOnFrame = CreateFrame("Frame")
 AddOnFrame:RegisterEvent("ADDON_LOADED")
 AddOnFrame:SetScript("OnEvent", function(_, event, argument)
+    if not ns.db.profile.cooldownManager_buttonPress then
+        return
+    end
     if event == "ADDON_LOADED" and argument == "Dominos" then
         ns.ButtonPress:HookAllDominosButtons()
     end

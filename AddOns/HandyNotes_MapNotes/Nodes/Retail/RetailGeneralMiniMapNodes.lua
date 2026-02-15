@@ -261,6 +261,10 @@ ns.currentSourceFile = "RetailGeneralMiniMapminimap.lua"
         --Eastern Kingdom
         if self.db.profile.showMiniMapEasternKingdom then
 
+            if self.db.profile.showMiniMapDecorExpert then
+                minimap[241][49742958] = { npcID = 253227, name = "", type = "DecorExpert", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
+
             if self.db.profile.showMiniMapPvEVendor then
                 minimap[122][50574078] = { npcID = 25046, name = "", type = "PvEVendor", showInZone = false, showOnContinent = false, showOnMinimap = true }
             end
@@ -1077,6 +1081,13 @@ ns.currentSourceFile = "RetailGeneralMiniMapminimap.lua"
         --Broken Isles
         if self.db.profile.showMiniMapBrokenIsles then
 
+            if self.db.profile.showMiniMapDecorExpert then
+                minimap[641][54267236] = { npcID = 253387, name = "", type = "DecorExpert", showInZone = false, showOnContinent = false, showOnMinimap = true }
+                minimap[641][42095938] = { npcID = 252498, name = "", type = "DecorExpert", showInZone = false, showOnContinent = false, showOnMinimap = true }
+                minimap[652][54947800] = { npcID = 108017, name = "", type = "DecorExpert", showInZone = false, showOnContinent = false, showOnMinimap = true }
+                minimap[680][49636283] = { npcID = 252969, name = "", type = "DecorExpert", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
+
             if self.db.profile.showMiniMapStablemaster then
                 minimap[650][52804520] = { npcID = 97862, name = "", type = "StablemasterN", showInZone = false, showOnContinent = false, showOnMinimap = true }
                 minimap[650][53206400] = { npcID = 97874, name = "", type = "StablemasterN", showInZone = false, showOnContinent = false, showOnMinimap = true }
@@ -1160,6 +1171,11 @@ ns.currentSourceFile = "RetailGeneralMiniMapminimap.lua"
         --Zandalar
         if self.db.profile.showMiniMapZandalar then
 
+            if self.db.profile.showMiniMapDecorExpert then
+                minimap[1355][58076254] = { npcID = 251921, name = "", type = "DecorExpert", showInZone = false, showOnContinent = false, showOnMinimap = true }
+                minimap[862][58066254] = { npcID = 251921, name = "", type = "DecorExpert", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
+
             if self.db.profile.showMiniMapItemUpgrade then
 
                 if self.faction == "Alliance" or db.activate.MiniMapEnemyFaction then
@@ -1219,7 +1235,7 @@ ns.currentSourceFile = "RetailGeneralMiniMapminimap.lua"
                     minimap[862][44507210] = { name = "", dnID = MINIMAP_TRACKING_MAILBOX, type = "MMMailboxH", showInZone = false, showOnContinent = false, showOnMinimap = true }
                     minimap[862][51305060] = { name = "", dnID = MINIMAP_TRACKING_MAILBOX, type = "MMMailboxH", showInZone = false, showOnContinent = false, showOnMinimap = true }
                     minimap[862][66704250] = { name = "", dnID = MINIMAP_TRACKING_MAILBOX, type = "MMMailboxH", showInZone = false, showOnContinent = false, showOnMinimap = true }
-                    minimap[862][58006270] = { name = "", dnID = MINIMAP_TRACKING_MAILBOX, type = "MMMailboxH", showInZone = false, showOnContinent = false, showOnMinimap = true }
+                    minimap[862][58066270] = { name = "", dnID = MINIMAP_TRACKING_MAILBOX, type = "MMMailboxH", showInZone = false, showOnContinent = false, showOnMinimap = true }
                     minimap[862][35306670] = { name = "", dnID = MINIMAP_TRACKING_MAILBOX, type = "MMMailboxH", showInZone = false, showOnContinent = false, showOnMinimap = true }
                     minimap[862][76801630] = { name = "", dnID = MINIMAP_TRACKING_MAILBOX, type = "MMMailboxH", showInZone = false, showOnContinent = false, showOnMinimap = true }
                     minimap[862][51605830] = { name = "", dnID = MINIMAP_TRACKING_MAILBOX, type = "MMMailboxH", showInZone = false, showOnContinent = false, showOnMinimap = true }
@@ -1288,6 +1304,10 @@ ns.currentSourceFile = "RetailGeneralMiniMapminimap.lua"
 
         --Kul Tiras
         if self.db.profile.showMiniMapKulTiras then
+
+            if self.db.profile.showMiniMapDecorExpert then
+                minimap[942][59536963] = { npcID = 252313, name = "", type = "DecorExpert", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
 
             if self.db.profile.showMiniMapStablemaster then
                 minimap[942][40323637] = { npcID = 138451, name = "", type = "StablemasterN", showInZone = false, showOnContinent = false, showOnMinimap = true }
@@ -1651,6 +1671,10 @@ ns.currentSourceFile = "RetailGeneralMiniMapminimap.lua"
         --Khaz Algar
         if self.db.profile.showMiniMapKhazAlgar then
 
+            if self.db.profile.showMiniMapDecorExpert then
+                minimap[2214][43383278] = { npcID = 252887, name = "", type = "DecorExpert", showInZone = false, showOnContinent = false, showOnMinimap = true }
+            end
+
             if self.db.profile.showMiniMapItemUpgrade then
                 minimap[2472][41102964] = { npcID = 250320, name = "",  type = "ItemUpgrade", questID = 84967, wwwLink = "https://www.wowhead.com/quest=84967", showWWW = true, wwwName = BATTLE_PET_SOURCE_2 .. " " .. REQUIRES_LABEL .. " " .. "The shadowguard shattered", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Tazavesh
             end
@@ -1798,10 +1822,6 @@ ns.currentSourceFile = "RetailGeneralMiniMapminimap.lua"
         --Quel'Thalas
         if self.db.profile.showMiniMapQuelThalas then
 
-            if self.db.profile.showMiniMapItemUpgrade then
-                --minimap[2472][41102964] = { npcID = 250320, name = "",  type = "ItemUpgrade", questID = 84967, wwwLink = "https://www.wowhead.com/quest=84967", showWWW = true, wwwName = BATTLE_PET_SOURCE_2 .. " " .. REQUIRES_LABEL .. " " .. "The shadowguard shattered", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Tazavesh
-            end
-
             if self.db.profile.showMiniMapStablemaster then
                 minimap[2405][52296754] = { npcID = 242658, name = "", type = "StablemasterN", showInZone = false, showOnContinent = false, showOnMinimap = true }
                 minimap[2395][48856679] = { npcID = 245770, name = "", type = "StablemasterN", showInZone = false, showOnContinent = false, showOnMinimap = true }
@@ -1813,10 +1833,6 @@ ns.currentSourceFile = "RetailGeneralMiniMapminimap.lua"
                 minimap[2413][69605204] = { npcID = 258671, name = "", type = "StablemasterN", showInZone = false, showOnContinent = false, showOnMinimap = true }
                 minimap[2413][65822330] = { npcID = 258725, name = "", type = "StablemasterN", showInZone = false, showOnContinent = false, showOnMinimap = true }
                 minimap[2413][52905249] = { npcID = 252679, name = "", type = "StablemasterN", showInZone = false, showOnContinent = false, showOnMinimap = true }
-            end
-
-            if self.db.profile.showMiniMapTransmogger then
-                --minimap[2371][49713807] = { npcID = 245282, name = "", type = "Transmogger", showInZone = false, showOnContinent = false, showOnMinimap = true } -- K'aresh
             end
 
             if self.db.profile.showMiniMapMailbox then
@@ -1855,19 +1871,6 @@ ns.currentSourceFile = "RetailGeneralMiniMapminimap.lua"
                 minimap[2405][52587290] = { npcID = 248328, name = "", dnID = FACTION .. ": " .. ns.TheSingularity, type = "RenownQuartermaster", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Hara'ti
             end
 
-            if self.db.profile.showMiniMapRenownQuartermaster then
-                --minimap[2346][53147272] = { npcID = 231407, name = "", type = "RenownQuartermaster", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Lorenhall
-            end
-
-            if self.db.profile.showMiniMapPvEVendor then
-                --minimap[2215][39115763] = { npcID = 226846, name = TRANSMOG_SET_PVE .. " " .. MERCHANT, type = "PvEVendor", showInZone = false, showOnContinent = false, showOnMinimap = true }
-                --minimap[2371][42012225] = { npcIDs1 = 248304, npcIDs2 = 245348, npcIDs3 = 245349, name = TRANSMOG_SET_PVE .. " " .. MERCHANT, type = "PvEVendor", showInZone = false, showOnContinent = false, showOnMinimap = true } -- K'aresh
-            end
-
-            if self.db.profile.showMiniMapPvPVendor then
-                --minimap[2216][57574582] = { npcID = 224267, name = TRANSMOG_SET_PVP .. " " .. MERCHANT, type = "PvPVendor", showInZone = false, showOnContinent = false, showOnMinimap = true }
-            end
-
             if self.db.profile.showMiniMapMapNotesIcons then
                 --Innkeeper Mailbox Stabelmaster Merchant
                 --minimap[2215][42395647] = { name = L["Hallowfall Arathi"], dnID = TextIconPvEVendor:GetIconString() .. " " .. L["Merchant for Renown items"] .. "\n" .. TextIconInnkeeperN:GetIconString() .. " " .. ns.InnkeeperM .. "\n" .. TextIconMailbox:GetIconString() .. " " .. MINIMAP_TRACKING_MAILBOX .. "\n" .. TextIconStablemasterN:GetIconString() .. " " .. ns.StablemasterM, type = "MNL", showInZone = false, showOnContinent = false, showOnMinimap = true }
@@ -1875,10 +1878,6 @@ ns.currentSourceFile = "RetailGeneralMiniMapminimap.lua"
                 --minimap[2248][58742792] = { name = "", dnID = TextIconInnkeeperN:GetIconString() .. " " .. ns.InnkeeperM .. "\n" .. TextIconMailbox:GetIconString() .. " " .. MINIMAP_TRACKING_MAILBOX .. "\n" .. TextIconStablemasterN:GetIconString() .. " " .. ns.StablemasterM, type = "MNL", showInZone = false, showOnContinent = false, showOnMinimap = true }
                 --Innkeeper Mailbox
                 minimap[2395][48956843] = { name = "", dnID = TextIconInnkeeperN:GetIconString() .. " " .. ns.InnkeeperM .. "\n" .. TextIconMailbox:GetIconString() .. " " .. MINIMAP_TRACKING_MAILBOX, type = "MNL", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Immersangwald
-            end
-
-            if self.db.profile.showMiniMapAuctioneer then
-                --minimap[2346][24554476] = { npcID = 239468, name = "", type = "BlackMarket", showInZone = false, showOnContinent = false, showOnMinimap = true }
             end
 
         end

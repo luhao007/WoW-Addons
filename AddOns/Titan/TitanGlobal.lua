@@ -10,7 +10,8 @@ local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
 
 -- Global variables
 
-Titan_Global = {}                -- begin the slow journey to a smaller _G footprint
+Titan_Global = {}      -- begin the slow journey to a smaller _G footprint
+Titan_Menu = {}        -- Hold API routines for new menu scheme
 
 Titan_Global.recent_changes = "" -- Titan_History.lua
 
@@ -176,6 +177,10 @@ L["TITAN_PANEL_MENU_CATEGORIES"] = {
 	L["TITAN_PANEL_MENU_CATEGORIES_06"],
 }
 
+-- Intended for Titan only for internal 'plugins' such as Bars
+Titan_Global.categories = {}
+Titan_Global.categories.TitanBar = "Titan-bar"
+
 -- Bar background types
 Titan_Global.SKIN = "skin"
 Titan_Global.COLOR = "color"
@@ -231,7 +236,8 @@ Titan_Global.colors = {
 ---@field category? string The Titan menu category where this plugin will be placed
 ---@field version? string Plugin version
 ---@field menuText? string Localized string for the menu (right click)
----@field menuTextFunction? string | function Plugin function to call on right click
+---@field menuTextFunction? string | function Plugin function to call on right click NEW Jan 2026
+---@field menuContextFunction? string | function Plugin function to call on right click
 ---@field buttonTextFunction? string | function Function to call when updating button display
 ---@field tooltipTitle? string Localized string for the menu
 ---@field tooltipTextFunction? string | function Function to call for a simple tooltip (OnEnter)

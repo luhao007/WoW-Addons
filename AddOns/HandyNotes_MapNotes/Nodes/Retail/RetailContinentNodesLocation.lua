@@ -245,6 +245,7 @@ ns.currentSourceFile = "RetailContinentNodesLocation.lua"
             -- Midnight Quel'Thalas
             nodes[13][58260280] = { id = 1300, type = "Dungeon", dnID = ZONE .. " (" .. EXPANSION_NAME11 .. ")\n\n", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Terrasse der Magisters
             nodes[13][53132565] = { id = 1299, type = "Dungeon", dnID = ZONE .. " (" .. EXPANSION_NAME11 .. ")\n\n", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Windläuferturm
+            nodes[13][57591336] = { id = 1304, type = "Dungeon", dnID = ZONE .. " (" .. EXPANSION_NAME11 .. ")\n\n", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Mördergasse
             nodes[13][63622304] = { id = 1315, type = "Dungeon", dnID = ZONE .. " (" .. EXPANSION_NAME11 .. ")\n\n", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Maisarakavernen
             nodes[13][66390419] = { id = 1313, type = "Dungeon", dnID = ZONE .. " (" .. EXPANSION_NAME11 .. ")\n\n", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Arena der Leerennarbe
             nodes[13][67291205] = { id = 1316, type = "Dungeon", dnID = ZONE .. " (" .. EXPANSION_NAME11 .. ")\n\n", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Nexupunkt Xenas
@@ -376,7 +377,7 @@ ns.currentSourceFile = "RetailContinentNodesLocation.lua"
         -- Eastern Kingdom MapNotesIcons
           if self.db.profile.showContinentMapNotes then
 
-            nodes[13][56471480] = { mnID = 2393, mnID2 = 110, name = "", mnIDText1 = EXPANSION_NAME11, mnIDText2 = EXPANSION_NAME1, type = "MNL", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = ns.Silvermoon .. " " .. FACTION_NEUTRAL .. " (" .. EXPANSION_NAME11 .. ")\n\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Harandar .. "\n" .. " ==> " .. ns.VoidTempest .. "\n" .. " ==> " .. ns.Stormwind  .. "\n\n" .. DELVES_LABEL .. "\n ==> " .. ns.TheDarkway .. "\n ==> " .. ns.CollegiateCalamity .. "\n\n\n".. ns.Silvermoon .. " " .. FACTION_HORDE .. " (" .. EXPANSION_NAME1 .. ")\n" .. "\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.RuinsofLordaeron .. "\n\n" } -- Portal to Orgrimmar, Ruins of Lordaeron from Silvermoon
+            nodes[13][56471480] = { mnID = 2393, mnID2 = 110, name = "", mnIDText1 = EXPANSION_NAME11, mnIDText2 = EXPANSION_NAME1, type = "HAIcon", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = ns.Silvermoon .. " " .. FACTION_NEUTRAL .. " (" .. EXPANSION_NAME11 .. ")\n\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Harandar .. "\n" .. " ==> " .. ns.VoidTempest .. "\n" .. " ==> " .. ns.Stormwind  .. "\n\n" .. CALENDAR_TYPE_DUNGEON .. "\n ==> " .. ns.MurderRow .."\n\n" .. DELVES_LABEL .. "\n ==> " .. ns.TheDarkway .. "\n ==> " .. ns.CollegiateCalamity .. "\n\n\n".. ns.Silvermoon .. " " .. FACTION_HORDE .. " (" .. EXPANSION_NAME1 .. ")\n" .. "\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.RuinsofLordaeron .. "\n\n" } -- Portal to Orgrimmar, Ruins of Lordaeron from Silvermoon
 
             if self.faction == "Horde" or db.activate.ContinentEnemyFaction then
               nodes[13][44993864] = { mnID = 18, name = "", type = "HIcon", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = ns.Undercity .. " - " .. FACTION_HORDE .. "\n" .. "\n" .. L["Portal"] .. "\n" .. " ==> " .. ns.HellfirePeninsula .. "\n" .. "\n" .. ns.RuinsofLordaeron  .. " / " .. ns.TirisfalGlades .. "\n" .. "\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Gromgol .. "\n" .. " ==> " .. ns.HowlingFjord .. "\n" .. " ==> " .. ns.Silvermoon } -- Portal to Orgrimmar, Silvermoon, Howling Fjord and Grom'gol from Tirisfal
@@ -598,7 +599,7 @@ ns.currentSourceFile = "RetailContinentNodesLocation.lua"
         -- Eastern Kingdom MapNotesIcons
           if self.db.profile.showContinentMapNotes then
 
-            nodes[13][56471480] = { mnID = 2393, mnID2 = 110, name = "", mnIDText1 = EXPANSION_NAME11, mnIDText2 = EXPANSION_NAME1, type = "MNL", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = ns.Silvermoon .. " " .. FACTION_NEUTRAL .. " (" .. EXPANSION_NAME11 .. ")\n\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Harandar .. "\n" .. " ==> " .. ns.VoidTempest .. "\n" .. " ==> " .. ns.Stormwind  .. "\n\n" .. DELVES_LABEL .. "\n ==> " .. ns.TheDarkway .. "\n ==> " .. ns.CollegiateCalamity .. "\n\n\n".. ns.Silvermoon .. " " .. FACTION_HORDE .. " (" .. EXPANSION_NAME1 .. ")\n" .. "\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.RuinsofLordaeron .. "\n\n" } -- Portal to Orgrimmar, Ruins of Lordaeron from Silvermoon
+            nodes[13][56471480] = { mnID = 2393, mnID2 = 110, name = "", mnIDText1 = EXPANSION_NAME11, mnIDText2 = EXPANSION_NAME1, type = "HAIcon", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = ns.Silvermoon .. " " .. FACTION_NEUTRAL .. " (" .. EXPANSION_NAME11 .. ")\n\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Harandar .. "\n" .. " ==> " .. ns.VoidTempest .. "\n" .. " ==> " .. ns.Stormwind  .. "\n\n" .. CALENDAR_TYPE_DUNGEON .. "\n ==> " .. ns.MurderRow .. "\n\n" .. DELVES_LABEL .. "\n ==> " .. ns.TheDarkway .. "\n ==> " .. ns.CollegiateCalamity .. "\n\n\n".. ns.Silvermoon .. " " .. FACTION_HORDE .. " (" .. EXPANSION_NAME1 .. ")\n" .. "\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.RuinsofLordaeron .. "\n\n" } -- Portal to Orgrimmar, Ruins of Lordaeron from Silvermoon
 
             if self.faction == "Horde" or db.activate.ContinentEnemyFaction then
               nodes[13][43263464] = { mnID = 18, name = "", type = "HIcon", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = ns.Undercity .. " - " .. FACTION_HORDE .. "\n" .. "\n" .. L["Portal"] .. "\n" .. " ==> " .. ns.HellfirePeninsula .. "\n" .. "\n" .. ns.RuinsofLordaeron  .. " / " .. ns.TirisfalGlades .. "\n" .. "\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Gromgol .. "\n" .. " ==> " .. ns.HowlingFjord .. "\n" .. " ==> " .. ns.Silvermoon } -- Portal to Orgrimmar, Silvermoon, Howling Fjord and Grom'gol from Tirisfal
@@ -726,7 +727,7 @@ ns.currentSourceFile = "RetailContinentNodesLocation.lua"
 
         -- Outland MapNotesIcons 
           if self.db.profile.showContinentMapNotes then
-            nodes[101][43186573] = { mnID = 108, name = "", type = "MNL", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = ns.Shattrath .. "\n" .. "\n" .. L["Portals"] .. "\n" .. " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Stormwind .. "\n" .. " ==> " .. ns.IsleOfQuelDanas } -- Portal from Shattrath to Orgrimmar
+            nodes[101][43186573] = { mnID = 108, name = "", type = "HAIcon", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = ns.Shattrath .. "\n" .. "\n" .. L["Portals"] .. "\n" .. " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Stormwind .. "\n" .. " ==> " .. ns.IsleOfQuelDanas } -- Portal from Shattrath to Orgrimmar
           end
 
         -- Outland PvpandPveVendor
@@ -1499,7 +1500,7 @@ ns.currentSourceFile = "RetailContinentNodesLocation.lua"
 
         -- Khaz Algar MapNotesIcons
           if self.db.profile.showContinentMapNotes then
-            nodes[2274][72311951] = { mnID = 2339, name = "", type = "MNL", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = ns.Dornogal .. " - " .. FACTION_NEUTRAL .. "\n" .. "\n" .. L["Portals"] .. "\n" .. " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Stormwind .. "\n" .. "\n" .. L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. " ==> " .. ns.Tazavesh .. "\n" .. " ==> " .. ns.Revendreth .."\n" .. "\n" .. CALENDAR_TYPE_DUNGEON .. "\n" .. " ==> " .. ns.Rookery } -- Dornogal
+            nodes[2274][72311951] = { mnID = 2339, name = "", type = "HAIcon", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = ns.Dornogal .. " - " .. FACTION_NEUTRAL .. "\n" .. "\n" .. L["Portals"] .. "\n" .. " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Stormwind .. "\n" .. "\n" .. L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. " ==> " .. ns.Tazavesh .. "\n" .. " ==> " .. ns.Revendreth .."\n" .. "\n" .. CALENDAR_TYPE_DUNGEON .. "\n" .. " ==> " .. ns.Rookery } -- Dornogal
           end
     
         -- Khaz Algar Portals
@@ -1557,13 +1558,14 @@ ns.currentSourceFile = "RetailContinentNodesLocation.lua"
 
           -- Quel'Thalas MapNotesIcons
           if self.db.profile.showContinentMapNotes then
-            nodes[2537][27433952] = { mnID = 2393, name = "", type = "MNL", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = ns.Silvermoon .. " (" .. EXPANSION_NAME11 .. ")\n\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Harandar .. "\n" .. " ==> " .. ns.VoidTempest .. "\n" .. " ==> " .. ns.Stormwind  .. "\n\n" .. DELVES_LABEL .. "\n ==> " .. ns.TheDarkway .. "\n ==> " .. ns.CollegiateCalamity } -- Dornogal
+            nodes[2537][27433952] = { mnID = 2393, name = "", type = "HAIcon", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = ns.Silvermoon .. " (" .. EXPANSION_NAME11 .. ")\n\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Harandar .. "\n" .. " ==> " .. ns.VoidTempest .. "\n" .. " ==> " .. ns.Stormwind  .. "\n\n" .. CALENDAR_TYPE_DUNGEON .. "\n ==> " .. ns.MurderRow .."\n\n" .. DELVES_LABEL .. "\n ==> " .. ns.TheDarkway .. "\n ==> " .. ns.CollegiateCalamity } -- Dornogal
           end
 
           -- Quel'Thalas Dungeons
           if self.db.profile.showContinentDungeons then
             nodes[2537][29240810] = { id = 1300, type = "Dungeon", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Terrasse der Magisters
             nodes[2537][17817053] = { id = 1299, type = "Dungeon", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Windläuferturm
+            nodes[2537][29093727] = { id = 1304, type = "Dungeon", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Mördergasse
             nodes[2537][46086345] = { id = 1315, type = "Dungeon", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Maisarakavernen
             nodes[2537][53541263] = { id = 1313, type = "Dungeon", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Arena der Leerennarbe
             nodes[2537][56112716] = { id = 1316, type = "Dungeon", showOnContinent = true, showInZone = false, showOnMinimap = false } -- Nexupunkt Xenas

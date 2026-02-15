@@ -223,7 +223,7 @@ ns.currentSourceFile = "RetailZoneNodesLocation.lua"
 
         -- Outland MapNotesIcons 
           if self.db.profile.showZoneHordeAllyIcons then
-            nodes[108][28652247] = { mnID = 111, name = "", type = "MNL", showInZone = true, showOnContinent = false, showOnMinimap = false, TransportName = ns.Shattrath .. "\n" .. "\n" .. L["Portals"] .. "\n" .. " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Stormwind .. "\n" .. " ==> " .. ns.IsleOfQuelDanas } -- Portal from Shattrath to Orgrimmar
+            nodes[108][28652247] = { mnID = 111, name = "", type = "HAIcon", showInZone = true, showOnContinent = false, showOnMinimap = false, TransportName = ns.Shattrath .. "\n" .. "\n" .. L["Portals"] .. "\n" .. " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Stormwind .. "\n" .. " ==> " .. ns.IsleOfQuelDanas } -- Portal from Shattrath to Orgrimmar
           end
 
         if db.activate.ZoneTransporting then
@@ -965,16 +965,16 @@ ns.currentSourceFile = "RetailZoneNodesLocation.lua"
       end
 
 
-        --#################################
+        --##################################
         --##### Continent Quel'Thalas ######
-        --#################################
+        --##################################
     
       if self.db.profile.showZoneQuelThalas then
 
         -- Quel'Thalas MapNotesIcons
-          if self.db.profile.showZoneHordeAllyIcons then
-            nodes[2395][51782460] = { mnID = 2393, name = "", type = "MNL", showInZone = true, showOnContinent = false, showOnMinimap = false, TransportName = ns.Silvermoon .. " (" .. EXPANSION_NAME11 .. ")\n\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Harandar .. "\n" .. " ==> " .. ns.VoidTempest .. "\n" .. " ==> " .. ns.Stormwind .. "\n\n" .. DELVES_LABEL .. "\n ==> " .. ns.TheDarkway .. "\n ==> " .. ns.CollegiateCalamity }
-          end
+        if self.db.profile.showZoneHordeAllyIcons then
+          nodes[2395][51782460] = { mnID = 2393, name = "", type = "HAIcon", showInZone = true, showOnContinent = false, showOnMinimap = false, TransportName = ns.Silvermoon .. " (" .. EXPANSION_NAME11 .. ")\n\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Harandar .. "\n" .. " ==> " .. ns.VoidTempest .. "\n" .. " ==> " .. ns.Stormwind .. "\n\n" .. CALENDAR_TYPE_DUNGEON .. "\n ==> " .. ns.MurderRow .. "\n\n" .. DELVES_LABEL .. "\n ==> " .. ns.TheDarkway .. "\n ==> " .. ns.CollegiateCalamity }
+        end
 
         if db.activate.ZoneTransporting then
 
@@ -1002,36 +1002,16 @@ ns.currentSourceFile = "RetailZoneNodesLocation.lua"
         --Professions
         if self.db.profile.activate.ZoneProfessions then
 
-          if self.db.profile.showZoneAlchemy then
-            --nodes[2413][53464987] = { npcID = 254865, name = "", type = "Alchemy", showInZone = true, showOnContinent = false, showOnMinimap = false }
-          end
-
           if self.db.profile.showZoneAlchemy and not self.db.profile.showZoneMapNotesIcons then
             nodes[2413][53464987] = { npcID = 254865, name = "", type = "Alchemy", showInZone = true, showOnContinent = false, showOnMinimap = false }
           end
       
-          if self.db.profile.showZoneLeatherworking then
-            --nodes[2216][43771954] = { npcID = 218164, name = "", type = "Leatherworking", showInZone = true, showOnContinent = false, showOnMinimap = false }
-          end
-
-          if self.db.profile.showZoneEngineer then
-            --nodes[2256][51387631] = { npcID = 218186, name = "", type = "Engineer", showInZone = true, showOnContinent = false, showOnMinimap = false }
-          end
-
           if self.db.profile.showZoneSkinning then
             nodes[2437][45226983] = { npcID = 255095, name = "", type = "Skinning", showInZone = true, showOnContinent = false, showOnMinimap = false }
           end
 
-          if self.db.profile.showZoneTailoring then
-            --nodes[2216][49711743] = { npcID = 218181, name = "", type = "Tailoring", showInZone = true, showOnContinent = false, showOnMinimap = false }
-          end
-
           if self.db.profile.showZoneBlacksmith then
             nodes[2405][51536935] = { npcID = 218167, name = "", type = "Blacksmith", showInZone = true, showOnContinent = false, showOnMinimap = false }
-          end
-
-          if self.db.profile.showZoneMining then
-            --nodes[2216][46842255] = { npcID = 218167, name = "", type = "Mining", showInZone = true, showOnContinent = false, showOnMinimap = false }
           end
 
           if self.db.profile.showZoneFishing then
@@ -1049,10 +1029,6 @@ ns.currentSourceFile = "RetailZoneNodesLocation.lua"
 
           if self.db.profile.showZoneEnchanting then
             nodes[2395][44184628] = { npcID = 242993, name = "", type = "Enchanting", showInZone = true, showOnContinent = false, showOnMinimap = false, dnID = L["(on the platform)"] }
-          end
-
-          if self.db.profile.showZoneJewelcrafting then
-            --nodes[2216][47751925] = { npcID = 218180, name = "", type = "Jewelcrafting", showInZone = true, showOnContinent = false, showOnMinimap = false }
           end
 
           if self.db.profile.showZoneHerbalism then            

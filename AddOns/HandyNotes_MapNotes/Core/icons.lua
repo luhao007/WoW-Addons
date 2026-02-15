@@ -306,6 +306,7 @@ ns.icons = {
 --special icons
 ["HIcon"] = iconLink .. "HIcon",
 ["AIcon"] = iconLink .. "AIcon",
+["HAIcon"] = iconLink .. "HAIcon",
 ["Ghost"] = iconLink .. "Ghost",
 --race portrait icons
 ["MOrcM"] = "interface/characterframe/temporaryportrait-male-magharorc",
@@ -587,6 +588,7 @@ TextIconTravelH = TextIcon(iconLink .. "travelH")
 TextIconTravelL = TextIcon(iconLink .. "travelL")
 TextIconAIcon = TextIcon(iconLink .. "AIcon")
 TextIconHIcon = TextIcon(iconLink .. "HIcon")
+TextIconHAIcon = TextIcon(iconLink .. "HAIcon")
 TextIconGhost = TextIcon(iconLink .. "Ghost")
 --transport
 TextIconTransport = TextIcon(iconLink .. "tport2")

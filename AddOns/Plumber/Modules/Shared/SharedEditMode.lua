@@ -162,7 +162,15 @@ end
 
 do  --EditModeSettingsDialog
     local EditModeSettingsDialog;
-    local DIALOG_WIDTH = 432;
+
+    local Def = {
+        DialogWidth = 432,
+        PaddingH = 24,
+        PaddingTop = 48,
+        PaddingBottom = 20,
+    };
+
+    Def.CheckboxLabelMaxWidth = Def.DialogWidth - 2*Def.PaddingH - 20;
 
     local EditModeSettingsDialogMixin = {};
 
@@ -190,6 +198,7 @@ do  --EditModeSettingsDialog
         end
         self.activeWidgets = {};
 
+        self.frameContainerPool:ReleaseAll();
         self.checkboxPool:ReleaseAll();
         self.sliderPool:ReleaseAll();
         self.uiPanelButtonPool:ReleaseAll();
@@ -201,14 +210,12 @@ do  --EditModeSettingsDialog
     end
 
     function EditModeSettingsDialogMixin:Layout()
-        local leftPadding = 20;
-        local topPadding = 48;
-        local bottomPadding = 20;
+        local leftPadding = Def.PaddingH;
         local OPTION_GAP_Y = 8;  --consistent with ControlCenter
         local subOptionOffset = 20;
-        local height = topPadding;
+        local height = Def.PaddingTop;
         local widgetHeight;
-        local contentWidth = DIALOG_WIDTH - 2*leftPadding;
+        local contentWidth = Def.DialogWidth - 2*leftPadding;
         local preOffset, postOffset;
 
         for order, widget in ipairs(self.activeWidgets) do
@@ -223,6 +230,11 @@ do  --EditModeSettingsDialog
                     postOffset = 2;
                 else
                     preOffset = 0;
+                    postOffset = 0;
+                end
+
+                if order == 1 and (widget.widgetType == "Dropdown" or widget.widgetType == "CheckboxDropdown") then
+                    preOffset = OPTION_GAP_Y;
                     postOffset = 0;
                 end
 
@@ -249,7 +261,7 @@ do  --EditModeSettingsDialog
             end
         end
 
-        height = height - OPTION_GAP_Y + bottomPadding;
+        height = height - OPTION_GAP_Y + Def.PaddingBottom;
         self:SetHeight(height);
     end
 
@@ -280,6 +292,7 @@ do  --EditModeSettingsDialog
     function EditModeSettingsDialogMixin:CreateCheckbox(widgetData)
         local checkbox = self:AcquireWidgetByType("Checkbox");
 
+        checkbox.Label:SetWidth(Def.CheckboxLabelMaxWidth);
         checkbox.Label:SetFontObject("GameFontHighlightMedium");    --Fonts in EditMode and Options are different
         checkbox.Label:SetTextColor(1, 1, 1);
         checkbox.useWhiteLabel = true;
@@ -331,6 +344,7 @@ do  --EditModeSettingsDialog
         local button = self:AcquireWidgetByType("UIPanelButton");
         button:SetButtonText(widgetData.label);
         button:SetScript("OnClick", widgetData.onClickFunc);
+        button.shouldEnableOption = widgetData.stateCheckFunc;
         if (not widgetData.stateCheckFunc) or (widgetData.stateCheckFunc()) then
             button:Enable();
         else
@@ -374,9 +388,33 @@ do  --EditModeSettingsDialog
         local f = self:AcquireWidgetByType("Dropdown");
         f.dbKey = widgetData.dbKey;
         f.tooltip = widgetData.tooltip;
-        f.matchParentWidth = false;
+        f.matchParentWidth = true;
+        f:SetShortened(false);
         f:SetLabel(widgetData.label);
         f:SetMenuData(widgetData.menuData);
+        return f
+    end
+
+    function EditModeSettingsDialogMixin:CreateCheckboxDropdown(widgetData)
+        local f = self.frameContainerPool:Acquire();
+        f.matchParentWidth = true;
+
+        local checkbox = self:CreateCheckbox(widgetData);
+        local dropdown = self:CreateDropdownFrame(widgetData);
+        dropdown:SetShortened(true);
+
+        checkbox:SetPoint("TOPLEFT", f, "TOPLEFT", 0, 0);
+        checkbox.Label:SetWidth(216);
+        dropdown:SetPoint("RIGHT", f, "RIGHT", 0, 0);
+
+        local height = math.max(checkbox:GetWidgetHeight(), dropdown:GetHeight());
+        f:SetSize(24, height);
+
+        f.SetEnabled = function(_, enabled)
+            checkbox:SetEnabled(enabled);
+            dropdown:UpdateEnabledState();
+        end
+
         return f
     end
 
@@ -393,6 +431,7 @@ do  --EditModeSettingsDialog
         if widget.shouldEnableOption and not widget.shouldEnableOption() then
             enabled = false;
         end
+
         if widget.parentDBKey and not addon.GetDBBool(widget.parentDBKey) then
             enabled = false;
         end
@@ -425,6 +464,8 @@ do  --EditModeSettingsDialog
                         widget = self:CreateKeybindButton(widgetData);
                     elseif widgetData.type == "Dropdown" then
                         widget = self:CreateDropdownFrame(widgetData);
+                    elseif widgetData.type == "CheckboxDropdown" then
+                        widget = self:CreateCheckboxDropdown(widgetData);
                     elseif widgetData.type == "Custom" then
                         widget = widgetData.onAcquire();
                         if widget then
@@ -444,7 +485,8 @@ do  --EditModeSettingsDialog
                         self:UpdateWidgetEnabledState(widget);
                         if widgetData.newFeature then
                             local label = self.newFeatureLabelPool:Acquire();
-                            label:SetPoint("LEFT", widget.Label, "RIGHT", -12, 0);
+                            local width = widget.Label:GetWrappedWidth();
+                            label:SetPoint("LEFT", widget.Label, "LEFT", width - 12, 0);
                             label:Show();
                         end
                     end
@@ -511,6 +553,10 @@ do  --EditModeSettingsDialog
         end
     end
 
+    function EditModeSettingsDialogMixin:OnShow()
+
+    end
+
     function EditModeSettingsDialogMixin:OnHide()
         addon.CallbackRegistry:Trigger("SettingsPanel.ModuleOptionClosed");
     end
@@ -520,7 +566,7 @@ do  --EditModeSettingsDialog
             local f = CreateFrame("Frame", nil, UIParent);
             EditModeSettingsDialog = f;
             f:Hide();
-            f:SetSize(DIALOG_WIDTH, 350);
+            f:SetSize(Def.DialogWidth, 350);
             f:SetPoint("CENTER", UIParent, "CENTER", 0, 0);
             f:SetMovable(true);
             f:SetClampedToScreen(true);
@@ -548,7 +594,13 @@ do  --EditModeSettingsDialog
 
             f:SetScript("OnDragStart", f.OnDragStart);
             f:SetScript("OnDragStop", f.OnDragStop);
+            f:SetScript("OnShow", f.OnShow);
             f:SetScript("OnHide", f.OnHide);
+
+            local function CreateFrameContainer()
+                return CreateFrame("Frame", nil, f);
+            end
+            f.frameContainerPool = API.CreateObjectPool(CreateFrameContainer);
 
             local function CreateCheckbox()
                 return addon.CreateCheckbox(f);
@@ -589,6 +641,8 @@ do  --EditModeSettingsDialog
                 return CreateFrame("Frame", nil, f, "NewFeatureLabelNoAnimateTemplate");
             end
             f.newFeatureLabelPool = API.CreateObjectPool(CreateNewFeatureLabel);
+
+            addon.AllowFrameClosingByEsc(f);
         end
 
         if EditModeSettingsDialog:IsShown() and not EditModeSettingsDialog:IsOwner(parent) then
@@ -630,10 +684,10 @@ do  --EditModeSettingsDialog
         if EditModeSettingsDialog and EditModeSettingsDialog.activeWidgets then
             for _, widget in ipairs(EditModeSettingsDialog.activeWidgets) do
                 EditModeSettingsDialog:UpdateWidgetEnabledState(widget);
+            end
 
-                if widget.widgetType == "Dropdown" then
-                    widget:UpdateSelectedText();
-                end
+            for _, widget in EditModeSettingsDialog.dropdownFramePool:EnumerateActive() do
+                widget:UpdateSelectedText();
             end
         end
     end

@@ -30,7 +30,7 @@ Titan_Debug.titan.events = false
 Then place calls in code :
 Titan_Debug.Out("titan", "events", debug_str)
 
-Then set to display them.
+Then set to turn display them.
 Titan_Debug.titan.events = true
 
 

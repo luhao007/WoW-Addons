@@ -1703,9 +1703,7 @@ local function WilduSettings_BuildCooldown(category, layout)
         end,
         set = function(value)
             ns.db.profile.cooldownManager_buttonPress = value
-            if not value then
-                ns.API:ShowReloadUIConfirmation()
-            end
+            ns.API:ShowReloadUIConfirmation()
         end,
         desc = "Show an overlay on cooldown icons when the corresponding action button is pressed.",
 

@@ -32,21 +32,11 @@ local drop_down_1 = "" -- changes drop down menu version. Blizzard hard-codes th
 
 The L_* routines wrap the drop down menu API for Titan Classic plugins.
 
-
-Changes:
-May 2025 : Replace the Ace lib for Drop Down menus with Blizz version; still need L_ wrappers for 3rd party Titan plugins. Need to implement our own menu timeout.
-Nov 2023 : Merge Retail and Classic to minimize versions and maintainence and, hopefully, allow a consistent feature set. Ace drop down wrappers were added back.
-Dec 2018 : Replace the Ace lib with the Blizzard drop down routines
 --]===]
 
 local _G = getfenv(0);
 local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
 local AceHook = LibStub("AceHook-3.0")
-
-local drop_down_1 = "" -- changes if using Blizz drop down (retail) or lib (Classic)
-
---====== Set the default drop down menu routines per retail or Classic
-drop_down_1 = "DropDownList1" -- Boo!! Per hard-coded Blizz UIDropDownMenu.lua
 
 --[[
 This set of routines controls the menu timer.
@@ -60,12 +50,6 @@ The OnUpdate must do the 'over menu' check.
 local function IsMouseOverMenu()
 	for idx = 1, UIDROPDOWNMENU_MAXLEVELS do --
 		if _G["DropDownList" .. idx]:IsMouseOver() then
-			--[[
-print("TU _Mouse on menu"
-.." "..tostring(idx)..""
-.." / "..tostring(UIDROPDOWNMENU_MAXLEVELS)..""
-)
---]]
 			return true --
 		else
 			-- not over, keep checking
@@ -99,16 +83,6 @@ local function OnUpdateTimer(self, elapsed)
 	str = str
 		.. " " .. tostring(self.showTimer) .. ""
 		.. " " .. tostring(self.isCounting) .. ""
-	--[[
-if str == tstr then
--- same, prevent run away text
-else
-print(tostring(str)
-.." "..tostring(format("%0.1f", (elapsed or 0.0)))..""
-)
-tstr = str
-end
---]]
 end
 
 ---Start a timer to close menu
@@ -127,14 +101,6 @@ local function StartCounting(self)
 		self.showTimer = UIDROPDOWNMENU_SHOW_TIME;
 		self.isCounting = 1;
 	end
-	--[[
-print("TU _Leave Start"
-.." "..tostring(str)..""
-.." "..tostring(self:GetName())..""
-.." "..tostring(self.isCounting)..""
-.." "..tostring(format("%0.1f", (self.showTimer or 0.0)))..""
-)
---]]
 end
 
 ---Start a timer to close menu
@@ -152,26 +118,12 @@ local function StopCounting(frame)
 		str = str .. "nop"
 		-- Nothing to do; if timing, allow to run out
 	end
-	--[[
-print("TU _Enter Stop"
-.." "..tostring(str)..""
-.." "..tostring(frame:GetName())..""
-.." "..tostring(frame.isCounting)..""
-.." "..tostring(format("%0.1f", (frame.showTimer or 0.0)))..""
-)
---]]
 end
 
 ---Add scripts and start timer to menu being shown
 ---@param level number
 ---@param index number
 function TitanUtils_AddHide(level, index)
-	--[[
-print("TU _AddHide"
-.." "..tostring(level)..""
-.." "..tostring(index)..""
-)
---]]
 	local frame = _G["DropDownList" .. level]
 	-- Add these to start and stop the hide timer
 	frame:SetScript("OnEnter", function(self) StopCounting(self) end)
@@ -193,15 +145,6 @@ if UIDropDownMenu_StartCounting then
 	-- Post Hook the OnShow of DropDownList
 	AceHook:SecureHookScript(DropDownList1, "OnShow", StartTimer)
 else
-	--[[
-	for idx = 1, UIDROPDOWNMENU_MAXLEVELS do -- should be first 3 ...
-print("TU _dd"
-.." "..tostring(idx)..""
-.." / "..tostring(UIDROPDOWNMENU_MAXLEVELS)..""
-)
-		TitanUtils_AddHide(idx, 1) -- Add scripts to existing
-	end
---]]
 	-- In case any code creates more than 3.
 	---@diagnostic disable-next-line: param-type-mismatch
 	if not AceHook:IsHooked("UIDropDownMenu_CreateFrames", TitanUtils_AddHide) then
@@ -213,337 +156,6 @@ print("TU _dd"
 	if not AceHook:IsHooked("UIDropDownMenu_OnUpdate", OnUpdateTimer) then
 		AceHook:SecureHook("UIDropDownMenu_OnUpdate", OnUpdateTimer)
 	end
-end
-
-
---[===[ Var API Dropdown Menu wrappers
-Right click menu routines for 3rd party plugins (mainly Classic WoW versions)
-
---]===]
-
---[[
-Local helper(s) from the Ace lib.
---]]
--- L_UIDropDownMenuTemplate
-
----Ensure the menu is created properly including back drop
----@param name table | string
----@param parent Frame
----@return any
-local function create_DropDownMenu(name, parent)
-	local f
-	if type(name) == "table" then
-		f = name
-		name = f:GetName()
-	else
-		f = CreateFrame("Frame", name, parent or nil)
-	end
-
-	--if not name then name = "" end
-
-	f:SetSize(40, 32)
-
-	f.Left = f:CreateTexture(name and (name .. "Left") or nil, "ARTWORK")
-	f.Left:SetTexture("Interface\\Glues\\CharacterCreate\\CharacterCreate-LabelFrame")
-	f.Left:SetSize(25, 64)
-	f.Left:SetPoint("TOPLEFT", f, 0, 17)
-	f.Left:SetTexCoord(0, 0.1953125, 0, 1)
-
-	f.Middle = f:CreateTexture(name and (name .. "Middle") or nil, "ARTWORK")
-	f.Middle:SetTexture("Interface\\Glues\\CharacterCreate\\CharacterCreate-LabelFrame")
-	f.Middle:SetSize(115, 64)
-	f.Middle:SetPoint("LEFT", f.Left, "RIGHT")
-	f.Middle:SetTexCoord(0.1953125, 0.8046875, 0, 1)
-
-	f.Right = f:CreateTexture(name and (name .. "Right") or nil, "ARTWORK")
-	f.Right:SetTexture("Interface\\Glues\\CharacterCreate\\CharacterCreate-LabelFrame")
-	f.Right:SetSize(25, 64)
-	f.Right:SetPoint("LEFT", f.Middle, "RIGHT")
-	f.Right:SetTexCoord(0.8046875, 1, 0, 1)
-
-	f.Text = f:CreateFontString(name and (name .. "Text") or nil, "ARTWORK", "GameFontHighlightSmall")
-	f.Text:SetWordWrap(false)
-	f.Text:SetJustifyH("RIGHT")
-	f.Text:SetSize(0, 10)
-	f.Text:SetPoint("RIGHT", f.Right, -43, 2)
-
-	f.Icon = f:CreateTexture(name and (name .. "Icon") or nil, "OVERLAY")
-	f.Icon:Hide()
-	f.Icon:SetSize(16, 16)
-	f.Icon:SetPoint("LEFT", 30, 2)
-
-	-- // UIDropDownMenuButtonScriptTemplate
-	f.Button = CreateFrame("Button", name and (name .. "Button") or nil, f)
-	f.Button:SetMotionScriptsWhileDisabled(true)
-	f.Button:SetSize(24, 24)
-	f.Button:SetPoint("TOPRIGHT", f.Right, -16, -18)
-
-	f.Button.NormalTexture = f.Button:CreateTexture(name and (name .. "NormalTexture") or nil)
-	f.Button.NormalTexture:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Up")
-	f.Button.NormalTexture:SetSize(24, 24)
-	f.Button.NormalTexture:SetPoint("RIGHT", f.Button, 0, 0)
-	f.Button:SetNormalTexture(f.Button.NormalTexture)
-
-	f.Button.PushedTexture = f.Button:CreateTexture(name and (name .. "PushedTexture") or nil)
-	f.Button.PushedTexture:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Down")
-	f.Button.PushedTexture:SetSize(24, 24)
-	f.Button.PushedTexture:SetPoint("RIGHT", f.Button, 0, 0)
-	f.Button:SetPushedTexture(f.Button.PushedTexture)
-
-	f.Button.DisabledTexture = f.Button:CreateTexture(name and (name .. "DisabledTexture") or nil)
-	f.Button.DisabledTexture:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Disabled")
-	f.Button.DisabledTexture:SetSize(24, 24)
-	f.Button.DisabledTexture:SetPoint("RIGHT", f.Button, 0, 0)
-	f.Button:SetDisabledTexture(f.Button.DisabledTexture)
-
-	f.Button.HighlightTexture = f.Button:CreateTexture(name and (name .. "HighlightTexture") or nil)
-	f.Button.HighlightTexture:SetTexture("Interface\\Buttons\\UI-Common-MouseHilight")
-	f.Button.HighlightTexture:SetSize(24, 24)
-	f.Button.HighlightTexture:SetPoint("RIGHT", f.Button, 0, 0)
-	f.Button.HighlightTexture:SetBlendMode("ADD")
-	f.Button:SetHighlightTexture(f.Button.HighlightTexture)
-
-	-- Button Script
-	f.Button:SetScript("OnEnter", function(self, motion)
-		local parent = self:GetParent()
-		local myscript = parent:GetScript("OnEnter")
-		if (myscript ~= nil) then
-			myscript(parent)
-		end
-	end)
-	f.Button:SetScript("OnLeave", function(self, motion)
-		local parent = self:GetParent()
-		local myscript = parent:GetScript("OnLeave")
-		if (myscript ~= nil) then
-			myscript(parent)
-		end
-	end)
-	f.Button:SetScript("OnMouseDown", function(self, button)
-		if self:IsEnabled() then
-			local parent = self:GetParent()
-			ToggleDropDownMenu(nil, nil, parent)
-			PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
-		end
-	end)
-
-	-- UIDropDownMenu Script
-	f:SetScript("OnHide", function(self)
-		CloseDropDownMenus()
-	end)
-
-	return f
-end
---
--- Wrap the drop down lib as if it were Ace lib 4.0 so Classic Titan plugins look the same
--- These need to be global to act like the older version
---
--- L_UIDropDownMenuDelegate_OnAttributeChanged -- Different in 4.0
-function L_UIDropDownMenu_InitializeHelper(frame)
-	UIDropDownMenu_InitializeHelper(frame)
-end
-
-function L_Create_UIDropDownMenu(name, parent)
-	local f = create_DropDownMenu(name, parent)
-	return f
-end
-
-function L_UIDropDownMenu_Initialize(frame, initFunction, displayMode, level, menuList)
-	UIDropDownMenu_Initialize(frame, initFunction, displayMode, level, menuList)
-end
-
-function L_UIDropDownMenu_SetInitializeFunction(frame, initFunction)
-	UIDropDownMenu_SetInitializeFunction(frame, initFunction)
-end
-
-function L_UIDropDownMenu_SetDisplayMode(frame, displayMode)
-	UIDropDownMenu_SetDisplayMode(frame, displayMode)
-end
-
-function L_UIDropDownMenu_RefreshDropDownSize(self)
-	UIDropDownMenu_RefreshDropDownSize(self)
-end
-
---function L_UIDropDownMenu_OnUpdate(self, elapsed) -- Different in 4.0
-function L_UIDropDownMenu_StartCounting(frame)
-	---@diagnostic disable-next-line: undefined-global
-	UIDropDownMenu_StartCounting(frame) -- CE file only
-end
-
-function L_UIDropDownMenu_StopCounting(frame)
-	---@diagnostic disable-next-line: undefined-global
-	UIDropDownMenu_StopCounting(frame) -- CE file only
-end
-
---function L_UIDropDownMenuButtonInvisibleButton_OnEnter(self)) -- Different in 4.0
---function L_UIDropDownMenuButtonInvisibleButton_OnLeave(self)) -- Different in 4.0
---function L_UIDropDownMenuButton_OnEnter(self) -- Different in 4.0
---function L_UIDropDownMenuButton_OnLeave(self) -- Different in 4.0
-function L_UIDropDownMenu_CreateInfo()
-	return UIDropDownMenu_CreateInfo()
-end
-
-function L_UIDropDownMenu_CreateFrames(level, index)
-	UIDropDownMenu_CreateFrames(level, index)
-end
-
-function L_UIDropDownMenu_AddSeparator(level)
-	UIDropDownMenu_AddSeparator(level)
-end
-
-function L_UIDropDownMenu_AddSpace(level) -- new in 4.0
-	UIDropDownMenu_AddSpace(level)
-end
-
-function L_UIDropDownMenu_AddButton(info, level)
-	UIDropDownMenu_AddButton(info, level)
-end
-
-function L_UIDropDownMenu_CheckAddCustomFrame(self, button, info)
-	UIDropDownMenu_CheckAddCustomFrame(self, button, info)
-end
-
-function L_UIDropDownMenu_RegisterCustomFrame(self, customFrame)
-	UIDropDownMenu_RegisterCustomFrame(self, customFrame)
-end
-
-function L_UIDropDownMenu_GetMaxButtonWidth(self)
-	return UIDropDownMenu_GetMaxButtonWidth(self)
-end
-
-function L_UIDropDownMenu_GetButtonWidth(button)
-	return UIDropDownMenu_GetButtonWidth(button)
-end
-
-function L_UIDropDownMenu_Refresh(frame, useValue, dropdownLevel)
-	UIDropDownMenu_Refresh(frame, useValue, dropdownLevel)
-end
-
-function L_UIDropDownMenu_RefreshAll(frame, useValue)
-	UIDropDownMenu_RefreshAll(frame, useValue)
-end
-
-function L_UIDropDownMenu_SetIconImage(icon, texture, info)
-	UIDropDownMenu_SetIconImage(icon, texture, info)
-end
-
-function L_UIDropDownMenu_SetSelectedName(frame, name, useValue)
-	UIDropDownMenu_SetSelectedName(frame, name, useValue)
-end
-
-function L_UIDropDownMenu_SetSelectedValue(frame, value, useValue)
-	UIDropDownMenu_SetSelectedValue(frame, value, useValue)
-end
-
-function L_UIDropDownMenu_SetSelectedID(frame, id, useValue)
-	UIDropDownMenu_SetSelectedID(frame, id, useValue)
-end
-
-function L_UIDropDownMenu_GetSelectedName(frame)
-	return UIDropDownMenu_GetSelectedName(frame)
-end
-
-function L_UIDropDownMenu_GetSelectedID(frame)
-	return UIDropDownMenu_GetSelectedID(frame)
-end
-
-function L_UIDropDownMenu_GetSelectedValue(frame)
-	return UIDropDownMenu_GetSelectedValue(frame)
-end
-
---function L_UIDropDownMenuButton_OnClick(self) -- Different in 4.0
-function L_HideDropDownMenu(level)
-	HideDropDownMenu(level)
-end
-
-function L_ToggleDropDownMenu(level, value, dropDownFrame, anchorName, xOffset, yOffset, menuList, button,
-							  autoHideDelay)
-	ToggleDropDownMenu(level, value, dropDownFrame, anchorName, xOffset, yOffset, menuList, button, autoHideDelay)
-end
-
-function L_CloseDropDownMenus(level)
-	CloseDropDownMenus(level)
-end
-
---function L_UIDropDownMenu_OnHide(self) -- Different in 4.0
--- 4.0 has 'contains mouse' routines for retail only
-function L_UIDropDownMenu_SetWidth(frame, width, padding)
-	UIDropDownMenu_SetWidth(frame, width, padding)
-end
-
-function L_UIDropDownMenu_SetButtonWidth(frame, width)
-	UIDropDownMenu_SetButtonWidth(frame, width)
-end
-
-function L_UIDropDownMenu_SetText(frame, text)
-	UIDropDownMenu_SetText(frame, text)
-end
-
-function L_UIDropDownMenu_GetText(frame)
-	return UIDropDownMenu_GetText(frame)
-end
-
-function L_UIDropDownMenu_ClearAll(frame)
-	UIDropDownMenu_ClearAll(frame)
-end
-
-function L_UIDropDownMenu_JustifyText(frame, justification)
-	UIDropDownMenu_JustifyText(frame, justification)
-end
-
-function L_UIDropDownMenu_SetAnchor(dropdown, xOffset, yOffset, point, relativeTo, relativePoint)
-	UIDropDownMenu_SetAnchor(dropdown, xOffset, yOffset, point, relativeTo, relativePoint)
-end
-
-function L_UIDropDownMenu_GetCurrentDropDown()
-	return UIDropDownMenu_GetCurrentDropDown()
-end
-
-function L_UIDropDownMenuButton_GetChecked(self)
-	return UIDropDownMenuButton_GetChecked(self)
-end
-
-function L_UIDropDownMenuButton_GetName(self)
-	return UIDropDownMenuButton_GetName(self)
-end
-
-function L_UIDropDownMenuButton_OpenColorPicker(self, button)
-	UIDropDownMenuButton_OpenColorPicker(self, button)
-end
-
-function L_UIDropDownMenu_DisableButton(level, id)
-	UIDropDownMenu_DisableButton(level, id)
-end
-
-function L_UIDropDownMenu_EnableButton(level, id)
-	UIDropDownMenu_EnableButton(level, id)
-end
-
-function L_UIDropDownMenu_SetButtonText(level, id, text, colorCode)
-	UIDropDownMenu_SetButtonText(level, id, text, colorCode)
-end
-
-function L_UIDropDownMenu_SetButtonNotClickable(level, id)
-	UIDropDownMenu_SetButtonNotClickable(level, id)
-end
-
-function L_UIDropDownMenu_SetButtonClickable(level, id)
-	UIDropDownMenu_SetButtonClickable(level, id)
-end
-
-function L_UIDropDownMenu_DisableDropDown(dropDown)
-	UIDropDownMenu_DisableDropDown(dropDown)
-end
-
-function L_UIDropDownMenu_EnableDropDown(dropDown)
-	UIDropDownMenu_EnableDropDown(dropDown)
-end
-
-function L_UIDropDownMenu_IsEnabled(dropDown)
-	return UIDropDownMenu_IsEnabled(dropDown)
-end
-
-function L_UIDropDownMenu_GetValue(id)
-	return UIDropDownMenu_GetValue(id)
 end
 
 --[[
@@ -674,21 +286,24 @@ end
 ---@param id string
 ---@return string? ShortName
 ---@return string? LocaleName
+---@return string? FrameName
 function TitanUtils_GetWhichBar(id)
 	local i = TitanPanel_GetButtonNumber(id);
 	if TitanPanelSettings.Location[i] == nil then
-		return nil, nil
+		return nil, nil, nil
 	else
 		local internal = TitanPanelSettings.Location[i]
 		local locale = ""
+		local frame_str = ""
 		for _, v in pairs(TitanBarData) do
 			if v.name == internal then
 				locale = v.locale_name
+				frame_str = v.frame_name
 			else
 				-- not the Bar wanted
 			end
 		end
-		return internal, locale
+		return internal, locale, frame_str
 	end
 end
 
@@ -1369,313 +984,7 @@ function TitanUtils_CashToString(value, thousands_separator, decimal_separator, 
 		.. silver_str
 		.. copper_str
 		.. neg2
-	--[[
-print("_CashToString:"
-..(gold or "?").."g "
-..(silver or "?").."s "
-..(copper or "?").."c "
-..(outstr or "?")
-);
---]]
 	return outstr, gold, silver, copper
-end
-
---====== Right click menu routines - Retail dropdown menu
-
----local Add menu button at the given level.
----@param info table Filled in button to add
----@param level number menu level
-local function Add_button(info, level)
-	UIDropDownMenu_AddButton(info, level)
-end
-
----API Menu - Get the base frame name of the user selected menu (without level).
----@return string frame_name
-function TitanPanelRightClickMenu_GetDropdownFrameBase()
-	local res = ""
-
-	res = "DropDownList" -- Boo!! Per hard-coded Blizz UIDropDownMenu.lua
-
-	return res
-end
-
----API Menu - Get the frame name of the user selected menu.
----@return string frame_name
-function TitanPanelRightClickMenu_GetDropdownFrame()
-	local res = ""
-
-	res = "DropDownList" .. tostring(UIDROPDOWNMENU_MENU_LEVEL)
-
-	return res
-end
-
----API Menu - Get the current level of the user selected menu.
----@return number level
-function TitanPanelRightClickMenu_GetDropdownLevel()
-	--	local res = _G[drop_down_1]
-	local res = 1 -- proper typing
-
-	res = UIDROPDOWNMENU_MENU_LEVEL
-
-	return res
-end
-
----API Menu - Get the current value of the user selected menu.
----@return any Value <button>.value usually a string; could be table to hold needed info
-function TitanPanelRightClickMenu_GetDropdMenuValue()
-	local res = nil
-	res = UIDROPDOWNMENU_MENU_VALUE
-	return res
-end
-
----API Menu - add given info (button) at the given menu level.
----@param info table Filled in button to add
----@param level? number menu level or 1
-function TitanPanelRightClickMenu_AddButton(info, level)
-	level = level or 1
-	if (info) then
-		Add_button(info, level)
-	end
-end
-
----API Menu - add a toggle Right Side (localized) command at the given level in the form of a button. Titan will properly control the "DisplayOnRightSide"
----@param id string Plugin id
----@param level? number menu level or 1
-function TitanPanelRightClickMenu_AddToggleRightSide(id, level)
-	level = level or 1
-	local plugin = TitanUtils_GetPlugin(id)
-	if plugin and plugin.controlVariables and plugin.controlVariables.DisplayOnRightSide then
-		-- copy of TitanPanelRightClickMenu_AddToggleVar adding a remove button
-		local info = {};
-		info.text = L["TITAN_CLOCK_MENU_DISPLAY_ON_RIGHT_SIDE"];
-		info.value = { id, "DisplayOnRightSide" };
-		info.func = function()
-			local bar = TitanUtils_GetWhichBar(id)
-			TitanPanelRightClickMenu_ToggleVar({ id, "DisplayOnRightSide" })
-			TitanPanel_RemoveButton(id);
-			TitanUtils_AddButtonOnBar(bar, id)
-		end
-		info.checked = TitanGetVar(id, "DisplayOnRightSide");
-		info.keepShownOnClick = 1;
-		Add_button(info, level);
-	end
-end
-
----API Menu - add a localized title at the given level in the form of a button.
----@param title string localized title
----@param level? number menu level or 1
-function TitanPanelRightClickMenu_AddTitle(title, level)
-	level = level or 1
-	if (title) then
-		local info = {};
-		info.text = title;
-		info.notCheckable = true;
-		info.notClickable = true;
-		info.isTitle = 1;
-		Add_button(info, level);
-	end
-end
-
----API Menu - add a toggle variable command at the given level in the form of a button.
----@param text string Localized text to show
----@param value string Internal button name
----@param functionName function | string Function to call on click
----@param level? number menu level
-function TitanPanelRightClickMenu_AddCommand(text, value, functionName, level)
-	level = level or 1
-	local info = {};
-	info.notCheckable = true;
-	info.text = text;
-	info.value = value;
-	info.func = function()
-		if functionName then
-			local callback = functionName
-
-			if type(callback) == 'string' then
-				-- Function MUST be in global namespace
-				callback = _G[callback]
-			elseif type(callback) == 'function' then
-				-- Can be global or local to the plugin
-			else
-				-- silently leave...
-			end
-			-- Redundant but the given string may not be a function
-			if type(callback) == "function" then
-				-- No return expected...
-				callback(value)
-			else
-				-- Must be a function - spank developer
-			end
-		else
-			-- Leave, creates an inactive button
-		end
-	end
-	Add_button(info, level);
-end
-
----API Menu - add a line at the given level in the form of an inactive button.
----@param level? number menu level or 1
-function TitanPanelRightClickMenu_AddSeparator(level)
-	level = level or 1
-
-	UIDropDownMenu_AddSeparator(level)
-end
-
----API Menu - add a blank line at the given level in the form of an inactive button.
----@param level? number menu level or 1
-function TitanPanelRightClickMenu_AddSpacer(level)
-	level = level or 1
-
-	UIDropDownMenu_AddSpace(level)
-end
-
----API This will remove the plugin from whichever Titan bar it is on.
----@param id string Plugin id
-function TitanPanelRightClickMenu_Hide(id)
-	TitanPanel_RemoveButton(id);
-end
-
----API Menu - add a toggle variable command at the given level in the form of a button.
----@param text string Localized text to show
----@param id string Plugin id
----@param var string the saved variable of the plugin to toggle
----@param toggleTable nil ! NOT USED !
----@param level number menu level
-function TitanPanelRightClickMenu_AddToggleVar(text, id, var, toggleTable, level)
-	local info = {};
-	info.text = text;
-	info.value = { id, var, toggleTable };
-	info.func = function()
-		TitanPanelRightClickMenu_ToggleVar({ id, var, toggleTable })
-	end
-	info.checked = TitanGetVar(id, var);
-	info.keepShownOnClick = 1;
-	Add_button(info, level);
-end
-
----API Menu - add a toggle Label (localized) command at the given level in the form of a button. Titan will properly control "ShowIcon"
----@param id string Plugin id
----@param level? number menu level or 1
-function TitanPanelRightClickMenu_AddToggleIcon(id, level)
-	level = level or 1
-	local plugin = TitanUtils_GetPlugin(id)
-	if plugin and plugin.controlVariables and plugin.controlVariables.ShowIcon then
-		TitanPanelRightClickMenu_AddToggleVar(L["TITAN_PANEL_MENU_SHOW_ICON"], id, "ShowIcon", nil, level);
-	end
-end
-
----API Menu - add a toggle Label (localized) command at the given level in the form of a button. Titan will properly control "ShowLabelText"
----@param id string Plugin id
----@param level? number menu level or 1
-function TitanPanelRightClickMenu_AddToggleLabelText(id, level)
-	level = level or 1
-	local plugin = TitanUtils_GetPlugin(id)
-	if plugin and plugin.controlVariables and plugin.controlVariables.ShowLabelText then
-		TitanPanelRightClickMenu_AddToggleVar(L["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"], id, "ShowLabelText", nil, level);
-	end
-end
-
----API Menu - add a toggle Colored Text (localized) command at the given level in the form of a button. Titan will properly control "ShowColoredText"
----@param id string Plugin id
----@param level? number menu level or 1
-function TitanPanelRightClickMenu_AddToggleColoredText(id, level)
-	level = level or 1
-	local plugin = TitanUtils_GetPlugin(id)
-	if plugin and plugin.controlVariables and plugin.controlVariables.ShowColoredText then
-		TitanPanelRightClickMenu_AddToggleVar(L["TITAN_PANEL_MENU_SHOW_COLORED_TEXT"], id, "ShowColoredText", nil, level);
-	end
-end
-
----API Menu - add a Hide (localized) command at the given level in the form of a button. When clicked this will remove the plugin from the Titan bar.
----@param id string Plugin id
----@param level? number menu level or 1
-function TitanPanelRightClickMenu_AddHide(id, level)
-	level = level or 1
-	local info = {};
-	info.notCheckable = true;
-	info.text = L["TITAN_PANEL_MENU_HIDE"];
-	info.value = nil -- value; huh - what should this be?
-	info.func = function()
-		TitanPanelRightClickMenu_Hide(id)
-	end
-	Add_button(info, level);
-end
-
----API This will toggle the Titan variable and the update the button.
----@param value table Plugin id and var to toggle
---- Example: {TITAN_XP_ID, "ShowSimpleToLevel"}
-function TitanPanelRightClickMenu_ToggleVar(value)
-	-- Update 2024 Mar - Removed the 'reverse' check.
-	-- Not sure it was ever used or even worked.
-	--	local id, var, toggleTable = "", nil, {}
-	local id, var = "", ""
-
-	-- table expected else do nothing
-	if type(value) ~= "table" then return end
-
-	if value and value[1] then id = value[1] end
-	if value and value[2] then var = value[2] end
-	--	if value and value[3] then toggleTable = value[3] end
-
-	-- Toggle var
-	TitanToggleVar(id, var);
-	TitanPanelButton_UpdateButton(id);
-	--[=[]]
-	if ( TitanPanelRightClickMenu_AllVarNil(id, toggleTable) ) then
-		-- Undo if all vars in toggle table nil
-		TitanToggleVar(id, var);
-	else
-		-- Otherwise continue and update the button
-		TitanPanelButton_UpdateButton(id, 1);
-	end
---]=]
-end
-
----API Set backdrop of the plugin. Used for custom created controls (Clock / Volume) to give a consistent look.
----@param frame table Plugin control frame
-function TitanPanelRightClickMenu_SetCustomBackdrop(frame)
-	--[[
-Blizzard decided to remove direct Backdrop API in 9.0 (Shadowlands)
-so inherit the template (XML) and set the values in the code (Lua)
-
-9.5 The tooltip template was removed from the GameTooltip.
---]]
-
-	frame:SetBackdrop({
-		bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
-		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-		tile = true,
-		tileEdge = true,
-		insets = { left = 1, right = 1, top = 1, bottom = 1 },
-		tileSize = 8,
-		edgeSize = 8,
-	})
-
-	frame:SetBackdropBorderColor(
-		TOOLTIP_DEFAULT_COLOR.r,
-		TOOLTIP_DEFAULT_COLOR.g,
-		TOOLTIP_DEFAULT_COLOR.b);
-	frame:SetBackdropColor(
-		TOOLTIP_DEFAULT_BACKGROUND_COLOR.r,
-		TOOLTIP_DEFAULT_BACKGROUND_COLOR.g,
-		TOOLTIP_DEFAULT_BACKGROUND_COLOR.b
-		, 1);
-end
-
----API Menu - add the set of options per the plugin registry control variables.
----@param id string Plugin id
----@param level? number If not present, default to 1 (top)
-function TitanPanelRightClickMenu_AddControlVars(id, level)
-	level = level or 1 -- assume top menu
-	TitanPanelRightClickMenu_AddSeparator(level)
-
-	TitanPanelRightClickMenu_AddToggleIcon(id, level)
-	TitanPanelRightClickMenu_AddToggleLabelText(id, level)
-	TitanPanelRightClickMenu_AddToggleColoredText(id, level)
-	TitanPanelRightClickMenu_AddToggleRightSide(id, level)
-
-	TitanPanelRightClickMenu_AddSpacer();
-	TitanPanelRightClickMenu_AddCommand(L["TITAN_PANEL_MENU_HIDE"], id, TITAN_PANEL_MENU_FUNC_HIDE);
 end
 
 --------------------------------------------------------------
@@ -2122,13 +1431,13 @@ NOTE:
 					if TitanPlugins[id].menuText == nil then
 						TitanPlugins[id].menuText = TitanPlugins[id].id;
 					end
-					TitanPlugins[id].menuText = NoColor(TitanPlugins[id].menuText)
+					TitanPlugins[id].menuText_NC = NoColor(TitanPlugins[id].menuText)
 
 					table.insert(TitanPluginsIndex, self.registry.id);
 					table.sort(TitanPluginsIndex,
 						function(a, b)
-							return string.lower(TitanPlugins[a].menuText)
-								< string.lower(TitanPlugins[b].menuText);
+							return string.lower(TitanPlugins[a].menuText_NC)
+								< string.lower(TitanPlugins[b].menuText_NC);
 						end
 					);
 				end
@@ -2298,201 +1607,13 @@ function TitanUtils_IsPluginRegistered(id)
 	end
 end
 
---====== Right click menu routines for Titan Panel bars and plugins
-
----Titan Close the right click menu of any plugin, if it was open. Only one can be open at a time.
-function TitanUtils_CloseRightClickMenu()
-	if (_G["DropDownList1"]:IsVisible()) then
-		_G["DropDownList1"]:Hide();
-	end
-end
-
----local Prepare the plugin right click menu using the function given by the plugin OR Titan bar.
----@param self table Titan Bar or Plugin frame
----@param menu table Frame to use as the menu
---- Determining the menu function
---- Old "TitanPanelRightClickMenu_Prepare"..plugin_id.."Menu"
---- New : .menuTextFunction in registry
---- UIDropDownMenu_Initialize will place (part of) the error in the menu - it is not progagated out.
---- Set Titan_Debug.titan.menu to output the error to Chat.
-local function TitanRightClickMenu_OnLoad(self, menu)
-	--[[
-- The function to create the menu is either
-1. Set in registry in .menuTextFunction
-: New in 2024 Feb to allow the menu routine name to be explicit rather than assumed
-: If .menuTextFunction ia a function then the routine can be local or in the global namespace
-: If .menuTextFunction ia a string then the routine MUST be in the global namespace.
-2. Assumed to be "TitanPanelRightClickMenu_Prepare"..plugin_id.."Menu"
-: This is the way Titan was written in the beginning so we leave it to not break Classic Era and older plugins.
-: If menu is for a Titan bar then use TitanPanelRightClickMenu_PrepareBarMenu for ALL Titan bars.
---]]
-	local id = ""
-	local err = ""
-
-	if self.registry then
-		id = self.registry.id -- is a plugin
-	else
-		id = "Bar"      -- is a Titan bar
-	end
-
-	if id == "" then
-		err = "Could not display tooltip. "
-			.. "Unknown Titan ID for "
-			.. "'" .. (self:GetName() or "?") .. "'. "
-	else
-		--		local frame = TitanUtils_GetPlugin(id) -- get plugin frame
-		local frame = self.registry
-		local prepareFunction -- function to call
-
-		if frame and frame.menuTextFunction then
-			prepareFunction = frame.menuTextFunction -- Newer method 2024 Feb
-		else
-			-- Older method used when Titan was created
-			prepareFunction = "TitanPanelRightClickMenu_Prepare" .. id .. "Menu"
-			--
-		end
-
-		if type(prepareFunction) == 'string' then
-			-- Function MUST be in global namespace
-			-- Becomes nil if not found
-			prepareFunction = _G[prepareFunction]
-		elseif type(prepareFunction) == 'function' then
-			-- Can be global or local to the plugin
-		else
-			-- Invalid type, do not even try...
-			prepareFunction = nil
-		end
-
-		if prepareFunction then
-			UIDropDownMenu_Initialize(menu, prepareFunction, "MENU")
-		else
-			err = "Could not display tooltip. "
-				.. "No function for '" .. tostring(id) .. "' "
-				.. "[" .. tostring(type(prepareFunction)) .. "] "
-				.. "[" .. tostring(prepareFunction) .. "] "
-				.. ". "
-		end
-	end
-
-	if err == "" then
-		-- all is good
-	else
-		Titan_Debug.Out('titan', 'menu', "Error: " .. err)
-	end
-	-- Under the cover the menu is built as DropDownList1
-	--	return DropDownList1, DropDownList1:GetHeight(), DropDownList1:GetWidth()
-	return menu, menu:GetHeight(), menu:GetWidth()
-end
-
----Titan Call the routine to build the plugin or bar menu then place it properly.
----@param self table Plugin frame
-function TitanPanelRightClickMenu_Toggle(self)
-	-- Mar 2023 : Rewritten to place menu relative to the passed in frame (button)
-	-- There are two places for the menu creation routine
-	-- 1) Titan bar - creates same menu
-	-- 2) Plugin creation via the .registry
-	local frame = self:GetName()
-	local menu = _G[self:GetName() .. TITAN_PANEL_CLICK_MENU_SUFFIX]
-	--[[
-print("_ toggle R menu"
-.." "..tostring(frame)..""
-)
---]]
-	-- Create menu based on the frame's routine for right click menu
-	local drop_menu, menu_height, menu_width = TitanRightClickMenu_OnLoad(self, menu)
-
-	-- Adjust the Y offset as needed
-	local ftop = _G[frame]:GetTop()
-	local rel_y = ftop - menu_height
-	if rel_y > 0 then
-		menu.point = "TOP";
-		menu.relativePoint = "BOTTOM";
-	else
-		-- too close to bottom of screen
-		menu.point = "BOTTOM";
-		menu.relativePoint = "TOP";
-	end
-
-	-- Adjust the X offset as needed
-	local x_offset = 0
-	local left = 0
-	local flft = _G[frame]:GetLeft()
-	local effscale = UIParent:GetEffectiveScale()
-	if TitanBarData[frame] then
-		-- on a Titan bar so use cursor for the 'left'
-		left = GetCursorPosition() -- get x; ignore y
-		left = left / effscale
-		-- correct for beginning of Titan bar
-		left = left - flft
-	else
-		-- a plugin
-		left = flft
-	end
-	local rel_x = left + menu_width
-	if (rel_x < GetScreenWidth()) then
-		-- menu will fit
-		menu.point = menu.point .. "LEFT";
-		menu.relativePoint = menu.relativePoint .. "LEFT";
-
-		if TitanBarData[frame] then
-			x_offset = left
-		else
-			-- a plugin
-			x_offset = 0
-		end
-	else
-		-- Menu would go off right side of the screen
-		menu.point = menu.point .. "RIGHT";
-		menu.relativePoint = menu.relativePoint .. "RIGHT";
-
-		if TitanBarData[frame] then
-			-- correct is on Titan bar (bottom, far right)
-			-- flip calc since we flipped the anchor to right
-			x_offset = GetScreenWidth() - left
-		else
-			-- a plugin
-			x_offset = 0
-		end
-	end
-	--[[
-print("RCM"
-.." "..tostring(frame)..""
-.." "..tostring(format("%0.1f", menu_height))..""
-.." "..tostring(format("%0.1f", menu_width))..""
-.." "..tostring(format("%0.1f", _G[frame]:GetLeft()))..""
-.." "..tostring(menu.point)..""
-.." "..tostring(menu.relativePoint)..""
-.." "..tostring(format("%0.1f", left))..""
-)
---]]
-	ToggleDropDownMenu(1, nil, menu, frame, x_offset, 0, nil, self);
-end
-
----Titan Determine if a right click menu is shown. There can only be one.
----@return boolean IsVisible
-function TitanPanelRightClickMenu_IsVisible()
-	local res = false
-	if _G[drop_down_1] and _G[drop_down_1]:IsVisible() then
-		res = true
-	else
-		res = false
-	end
-	return res
-end
-
----Titan Close the right click menu if shown. There can only be one.
-function TitanPanelRightClickMenu_Close()
-	if _G[drop_down_1] and _G[drop_down_1]:IsVisible() then
-		_G[drop_down_1]:Hide()
-	end
-end
-
 --====== Titan utility routines
 
 ---Titan Parse the Titan player / profile name and return the parts.
 ---@param name string Titan player / profile name
 ---@return string player_name or ""
 ---@return string server_name or ""
+---@return boolean is_custom
 function TitanUtils_ParseName(name)
 	local server = ""
 	local player = ""
@@ -2504,7 +1625,7 @@ function TitanUtils_ParseName(name)
 		end
 	else
 	end
-	return player, server
+	return player, server, (server == TITAN_CUSTOM_PROFILE_POSTFIX)
 end
 
 ---Titan Given the player name and server and return the Titan player name; also used as profile name.
@@ -2538,6 +1659,27 @@ function TitanUtils_GetPlayer()
 	end
 
 	return toon, playerName, serverName
+end
+
+---Titan Get the Info table off player Titan settings, if it exists
+---@param toon string A player name to look up
+---@return boolean
+---@return table?
+function TitanUtils_GetPlayerInfo(toon)
+	local _, server, is_custom = TitanUtils_ParseName(toon)
+	local p_info = nil
+	if is_custom then
+		-- there is no Info table... cannnot log into a custom profile
+	elseif TitanSettings.Players[toon]
+	and TitanSettings.Players[toon].Info
+	then
+		p_info = TitanSettings.Players[toon].Info
+	else
+		-- May not have logged into this toon in ages :) 
+		-- tell caller no Info exists
+	end
+
+	return is_custom, p_info
 end
 
 ---Titan Return the screen size after scaling
@@ -2676,23 +1818,6 @@ function TitanUtils_DecompressData(data, dataType)
 	end
 	return false, {}
 end
-
---[==[
-
-local profile = TitanSettings.Players["Nycti@Staghelm"] --TitanSettings
-
-local out = CompressData(profile, "print")
-print("====")
-print(string.len(out))
-print(tostring(out))
-print("------")
-
-local in_p = DecompressData(out, "print")
-
-print(tostring(in_p))
-TitanDumpTable(in_p)
-print("====")
---]==]
 
 --------------------------------------------------------------
 -- Various debug routines

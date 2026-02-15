@@ -239,6 +239,7 @@ ns.currentSourceFile = "RetailAzerothNodesLocation.lua"
             nodes[947][89945460] = { id = 71, mnID = 241, type = "Dungeon", showInZone = true } -- Grim Batol
 
             nodes[947][89443655] = { id = 1299, mnID = 2395, dnID = "(" .. EXPANSION_NAME11 .. ")\n\n",type = "Dungeon", showInZone = true } -- Windläuferturm
+            nodes[947][92183166] = { id = 1304, mnID = 2395, dnID = "(" .. EXPANSION_NAME11 .. ")\n\n",type = "Dungeon", showInZone = true } -- Mördergasse
             nodes[947][95163500] = { id = 1315, mnID = 2437, dnID = "(" .. EXPANSION_NAME11 .. ")\n\n",type = "Dungeon", showInZone = true } -- Maisarakavernen
             nodes[947][90802476] = { id = 1300, mnID = 2424, dnID = "(" .. EXPANSION_NAME11 .. ")\n\n", type = "Dungeon", showInZone = true } -- Terrasse der Magister
             nodes[947][93504044] = { id = 1311, mnID = 2437, dnID = "(" .. EXPANSION_NAME11 .. ")\n\n", type = "Dungeon", showInZone = true } -- Nalorakks Bau
@@ -359,7 +360,7 @@ ns.currentSourceFile = "RetailAzerothNodesLocation.lua"
         -- Azeroth Eastern Kingdom MapNotesIcons
           if self.db.profile.showAzerothMapNotes then
 
-            nodes[947][91723289] = { mnID = 2393, mnID2 = 110, name = "", mnIDText1 = EXPANSION_NAME11, mnIDText2 = EXPANSION_NAME1, type = "MNL", showInZone = true, TransportName = ns.Silvermoon .. " " .. FACTION_NEUTRAL .. " (" .. EXPANSION_NAME11 .. ")\n\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Harandar .. "\n" .. " ==> " .. ns.VoidTempest .. "\n" .. " ==> " .. ns.Stormwind  .. "\n\n" .. DELVES_LABEL .. "\n ==> " .. ns.TheDarkway .. "\n ==> " .. ns.CollegiateCalamity .. "\n\n\n".. ns.Silvermoon .. " " .. FACTION_HORDE .. " (" .. EXPANSION_NAME1 .. ")\n" .. "\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.RuinsofLordaeron .. "\n\n" } -- Portal to Orgrimmar, Ruins of Lordaeron from Silvermoon
+            nodes[947][91723289] = { mnID = 2393, mnID2 = 110, name = "", mnIDText1 = EXPANSION_NAME11, mnIDText2 = EXPANSION_NAME1, type = "HAIcon", showInZone = true, TransportName = ns.Silvermoon .. " " .. FACTION_NEUTRAL .. " (" .. EXPANSION_NAME11 .. ")\n\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Harandar .. "\n" .. " ==> " .. ns.VoidTempest .. "\n" .. " ==> " .. ns.Stormwind  .. "\n\n" .. CALENDAR_TYPE_DUNGEON .. "\n ==> " .. ns.MurderRow .. "\n\n" .. DELVES_LABEL .. "\n ==> " .. ns.TheDarkway .. "\n ==> " .. ns.CollegiateCalamity .. "\n\n\n".. ns.Silvermoon .. " " .. FACTION_HORDE .. " (" .. EXPANSION_NAME1 .. ")\n" .. "\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.RuinsofLordaeron .. "\n\n" } -- Portal to Orgrimmar, Ruins of Lordaeron from Silvermoon
 
             if self.faction == "Horde" or db.activate.AzerothEnemyFaction then
               nodes[947][84874364] = { mnID = 18, name = "", type = "HIcon", showInZone = true, TransportName = ns.Undercity .. " - " .. FACTION_HORDE .. "\n" .. "\n" .. L["Portal"] .. "\n" .. " ==> " .. ns.HellfirePeninsula .. "\n" .. "\n" .. ns.RuinsofLordaeron  .. " / " .. ns.TirisfalGlades .. "\n" .. "\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Gromgol .. "\n" .. " ==> " .. ns.HowlingFjord .. "\n" .. " ==> " .. ns.Silvermoon } -- Portal to Orgrimmar, Silvermoon, Howling Fjord and Grom'gol from Tirisfal
@@ -871,7 +872,7 @@ ns.currentSourceFile = "RetailAzerothNodesLocation.lua"
 
           -- Khaz Algar MapNotesIcons
             if self.db.profile.showAzerothMapNotes then
-              nodes[947][29238221] = { mnID = 2339, name = "", type = "MNL", TransportName = ns.Dornogal .. " - " .. FACTION_NEUTRAL .. "\n" .. "\n" .. L["Portals"] .. "\n" .. " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Stormwind .. "\n" .. "\n" .. L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. " ==> " .. ns.Tazavesh .. "\n" .. " ==> " .. ns.Revendreth .."\n" .. "\n" .. CALENDAR_TYPE_DUNGEON .. "\n" .. " ==> " .. ns.Rookery, showInZone = true } -- Dornogal
+              nodes[947][29238221] = { mnID = 2339, name = "", type = "HAIcon", TransportName = ns.Dornogal .. " - " .. FACTION_NEUTRAL .. "\n" .. "\n" .. L["Portals"] .. "\n" .. " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Stormwind .. "\n" .. "\n" .. L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. " ==> " .. ns.Tazavesh .. "\n" .. " ==> " .. ns.Revendreth .."\n" .. "\n" .. CALENDAR_TYPE_DUNGEON .. "\n" .. " ==> " .. ns.Rookery, showInZone = true } -- Dornogal
             end
 
           -- Khaz Algar not MapNotesIcons

@@ -214,6 +214,7 @@ local db = ns.Addon.db.profile
         self.db.profile.showMiniMapRenownQuartermaster = self.db.profile.showZoneRenownQuartermaster
         self.db.profile.showMiniMapTransmogger = self.db.profile.ZoneAlphaRenownQuartermaster
         self.db.profile.showMiniMapItemUpgrade = self.db.profile.showZoneItemUpgrade
+        self.db.profile.showMiniMapDecorExpert = self.db.profile.showZoneDecorExpert
         self.db.profile.showMiniMapCatalyst = self.db.profile.showZoneCatalyst
         self.db.profile.showMiniMapZidormi = self.db.profile.showZoneZidormi
         -- Zone Professions    

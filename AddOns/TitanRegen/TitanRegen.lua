@@ -48,40 +48,6 @@ local function SetTextColorRBG(text, r, g, b)
 	 return str
 end
 
----local Build the plugin .registry and register events
----@param self Button plugin frame
-function OnLoad(self)
-	local notes = ""
-		.."Adds a regen monitor to Titan Panel to show HP/MANA regen - Classic versions only.\n"
-	self.registry = { 
-		id = TITAN_REGEN_ID,
-		category = "Built-ins",
-		version = TITAN_VERSION,
-		menuText = L["TITAN_REGEN_MENU_TEXT"],
-		buttonTextFunction = "GetButtonText",
-		tooltipTitle = L["TITAN_REGEN_MENU_TOOLTIP_TITLE"],
-		tooltipTextFunction = "TitanPanelRegenButton_GetTooltipText",
-		icon = "Interface\\AddOns\\TitanRegen\\TitanRegen",
-		iconWidth = 16,
-		notes = notes,
-		controlVariables = {
-			ShowIcon = true,
-			ShowLabelText = true,
-			ShowRegularText = false,
-			ShowColoredText = true,
-			DisplayOnRightSide = true,
-		},
-		savedVariables = {
-			ShowIcon = true,
-			ShowLabelText = 1,
-			ShowHPRegen = 1,
-			ShowPercentage = false,
-			ShowColoredText = false,
-			DisplayOnRightSide = false,
-		}
-	}
-end
-
 ---local Handle events the clock plugin is interested in.
 ---@param self Button plugin frame
 ---@param event string Event
@@ -254,34 +220,6 @@ function TitanPanelRegenButton_GetTooltipText()
 	return txt
 end
 
----Generate right click menu options
-function TitanPanelRightClickMenu_PrepareRegenMenu()
-	local id = TITAN_REGEN_ID;
-	local info;
-
-	TitanPanelRightClickMenu_AddTitle(TitanPlugins[id].menuText);
-		   
-	info = {};
-	info.text = L["TITAN_REGEN_MENU_HP"];
-	info.func = function()
-		TitanToggleVar(TITAN_REGEN_ID, "ShowHPRegen");
-		TitanPanelButton_UpdateButton(TITAN_REGEN_ID);
-		end
-	info.checked = TitanGetVar(TITAN_REGEN_ID,"ShowHPRegen");
-	L_UIDropDownMenu_AddButton(info);
-
-	info = {};
-	info.text = L["TITAN_REGEN_MENU_PERCENT"];
-	info.func = function()
-		TitanToggleVar(TITAN_REGEN_ID, "ShowPercentage");
-		TitanPanelButton_UpdateButton(TITAN_REGEN_ID);
-		end
-	info.checked = TitanGetVar(TITAN_REGEN_ID,"ShowPercentage");
-	L_UIDropDownMenu_AddButton(info);
-
-	TitanPanelRightClickMenu_AddControlVars(TITAN_REGEN_ID)
-end
-
 local function OnShow(self)
 	self:RegisterEvent("UNIT_HEALTH");
 	self:RegisterEvent("UNIT_POWER_UPDATE");
@@ -294,6 +232,50 @@ local function OnHide(self)
 	self:UnregisterEvent("UNIT_POWER_UPDATE");
 	self:UnregisterEvent("PLAYER_REGEN_DISABLED");
 	self:UnregisterEvent("PLAYER_REGEN_ENABLED");
+end
+
+---Generate right click menu options
+local function GeneratorFunction(owner, rootDescription)
+	local id = TITAN_REGEN_ID
+	local root = rootDescription -- menu widget to start with
+
+	Titan_Menu.AddSelector(root, id, L["TITAN_REGEN_MENU_HP"], "ShowHPRegen")
+	Titan_Menu.AddSelector(root, id, L["TITAN_REGEN_MENU_PERCENT"], "ShowPercentage")
+end
+
+---local Build the plugin .registry and register events
+---@param self Button plugin frame
+function OnLoad(self)
+	local notes = ""
+		.."Adds a regen monitor to Titan Panel to show HP/MANA regen - Classic versions only.\n"
+	self.registry = { 
+		id = TITAN_REGEN_ID,
+		category = "Built-ins",
+		version = TITAN_VERSION,
+		menuText = L["TITAN_REGEN_MENU_TEXT"],
+		menuContextFunction = GeneratorFunction, -- NEW scheme
+		buttonTextFunction = "GetButtonText",
+		tooltipTitle = L["TITAN_REGEN_MENU_TOOLTIP_TITLE"],
+		tooltipTextFunction = "TitanPanelRegenButton_GetTooltipText",
+		icon = "Interface\\AddOns\\TitanRegen\\TitanRegen",
+		iconWidth = 16,
+		notes = notes,
+		controlVariables = {
+			ShowIcon = true,
+			ShowLabelText = true,
+			ShowRegularText = false,
+			ShowColoredText = true,
+			DisplayOnRightSide = true,
+		},
+		savedVariables = {
+			ShowIcon = true,
+			ShowLabelText = 1,
+			ShowHPRegen = 1,
+			ShowPercentage = false,
+			ShowColoredText = false,
+			DisplayOnRightSide = false,
+		}
+	}
 end
 
 -- ====== Create needed frames

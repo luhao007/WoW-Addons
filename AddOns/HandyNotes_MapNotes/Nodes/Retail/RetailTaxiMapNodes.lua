@@ -256,6 +256,7 @@ ns.currentSourceFile = "RetailTaxiMapNodes.lua"
         -- Quel'Thalas 
             nodes[2481][57200563] = { id = 1300, type = "Dungeon", showInZone = true } -- Terrasse der Magister
             nodes[2481][53482524] = { id = 1299, type = "Dungeon", showInZone = true } -- Windläuferturm
+            nodes[2481][56131116] = { id = 1304, type = "Dungeon", showInZone = true } -- Mördergasse
             nodes[2481][63002197] = { id = 1315, type = "Dungeon", showInZone = true } -- Maisarakavernen
             nodes[2481][64001062] = { id = 1316, type = "Dungeon", showInZone = true } -- Nexuspunkt Xenas
             nodes[2481][63570749] = { id = 1313, type = "Dungeon", showInZone = true } -- Arena der Leerennarbe

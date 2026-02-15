@@ -1,9 +1,10 @@
 local ADDON_NAME, ns = ...
 
-ns.CurrentAddonVersion = "3.2.8"
-ns.PreviousAddonVersion = "3.2.7" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
+ns.CurrentAddonVersion = "3.2.9"
+ns.PreviousAddonVersion = "3.2.8" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
 
 ns.LOCALE_CHANGELOGS = {
+  { version = "3.2.9", table = ns.LOCALE_CHANGELOG_3_2_9 },
   { version = "3.2.8", table = "partialUpdate" },
   { version = "3.2.7", table = "partialUpdate" },
   { version = "3.2.6", table = "partialUpdate" },
@@ -67,6 +68,173 @@ ns.LOCALE_CHANGELOG_3_2_ = { -- empty backup file
 
   koKR = [[
 
+]],
+}
+
+ns.LOCALE_CHANGELOG_3_2_9 = {
+  deDE = [[
+• Es wurde ein neues Symbol für neutrale Städte hinzugefügt. Anstelle des klassischen MapNotes-Symbols gibt es nun ein eigenes Symbol, das sowohl das Horde- als auch das Allianz-Wappen darstellt.
+
+• Es wurde eine neue Kategorie in den Hauptstädte-Optionen unter „Allgemeine Symbole -> Dekorationsexperte“ hinzugefügt. Dieses Symbol zeigt nun den Standort der Dekorationshändler an.
+
+• Folgende Karten wurden auf den Midnight-Stand aktualisiert:
+  • Flugmeisterkarte
+  • Hauptstädte (90 %)
+  • Zone
+  • Minimap
+  • Kontinente
+  • Azeroth
+  • Worldmap
+]],
+
+  enUS = [[
+• A new icon for neutral cities has been added. Instead of the classic MapNotes icon, there is now a dedicated icon displaying both the Horde and Alliance crests.
+
+• A new category has been added to the capital city options under “General Icons -> Decoration Expert”. This icon now shows the location of decoration vendors.
+
+• The following maps have been updated to the Midnight state:
+  • Flight Master map
+  • Capital cities (90%)
+  • Zone
+  • Minimap
+  • Continents
+  • Azeroth
+  • World map
+]],
+
+  frFR = [[
+• Une nouvelle icône pour les villes neutres a été ajoutée. Au lieu de l’icône MapNotes classique, une icône dédiée affichant les emblèmes de la Horde et de l’Alliance est désormais utilisée.
+
+• Une nouvelle catégorie a été ajoutée dans les options des capitales sous « Icônes générales -> Expert en décoration ». Cette icône indique désormais l’emplacement des marchands de décorations.
+
+• Les cartes suivantes ont été mises à jour vers l’état Midnight :
+  • Carte des maîtres de vol
+  • Capitales (90 %)
+  • Zone
+  • Mini-carte
+  • Continents
+  • Azeroth
+  • Carte du monde
+]],
+
+  itIT = [[
+• È stata aggiunta una nuova icona per le città neutrali. Al posto della classica icona MapNotes, ora viene utilizzata un’icona dedicata che mostra gli stemmi di Orda e Alleanza.
+
+• È stata aggiunta una nuova categoria nelle opzioni delle capitali sotto “Icone generali -> Esperto di decorazioni”. Questa icona mostra ora la posizione dei mercanti di decorazioni.
+
+• Le seguenti mappe sono state aggiornate allo stato Midnight:
+  • Mappa dei maestri di volo
+  • Capitali (90%)
+  • Zona
+  • Minimappa
+  • Continenti
+  • Azeroth
+  • Mappa del mondo
+]],
+
+  esES = [[
+• Se ha añadido un nuevo icono para las ciudades neutrales. En lugar del icono clásico de MapNotes, ahora se utiliza un icono dedicado que muestra los emblemas de la Horda y la Alianza.
+
+• Se ha añadido una nueva categoría en las opciones de capitales bajo “Iconos generales -> Experto en decoración”. Este icono ahora muestra la ubicación de los vendedores de decoración.
+
+• Los siguientes mapas se han actualizado al estado Midnight:
+  • Mapa de maestros de vuelo
+  • Capitales (90 %)
+  • Zona
+  • Minimapa
+  • Continentes
+  • Azeroth
+  • Mapa del mundo
+]],
+
+  esMX = [[
+• Se agregó un nuevo ícono para las ciudades neutrales. En lugar del ícono clásico de MapNotes, ahora se usa un ícono dedicado que muestra los emblemas de la Horda y la Alianza.
+
+• Se agregó una nueva categoría en las opciones de capitales bajo “Iconos generales -> Experto en decoración”. Este ícono ahora muestra la ubicación de los vendedores de decoración.
+
+• Los siguientes mapas se actualizaron al estado Midnight:
+  • Mapa de maestros de vuelo
+  • Capitales (90 %)
+  • Zona
+  • Minimapa
+  • Continentes
+  • Azeroth
+  • Mapa del mundo
+]],
+
+  ptBR = [[
+• Um novo ícone para cidades neutras foi adicionado. Em vez do ícone clássico do MapNotes, agora há um ícone dedicado que exibe os emblemas da Horda e da Aliança.
+
+• Uma nova categoria foi adicionada às opções das capitais em “Ícones gerais -> Especialista em decoração”. Este ícone agora mostra a localização dos vendedores de decoração.
+
+• Os seguintes mapas foram atualizados para o estado Midnight:
+  • Mapa de mestres de voo
+  • Capitais (90%)
+  • Zona
+  • Minimapa
+  • Continentes
+  • Azeroth
+  • Mapa do mundo
+]],
+
+  ruRU = [[
+• Добавлен новый значок для нейтральных городов. Вместо классического значка MapNotes теперь используется отдельный значок с эмблемами Орды и Альянса.
+
+• В настройках столиц добавлена новая категория в разделе «Общие значки -> Эксперт по декору». Этот значок теперь показывает местоположение торговцев украшениями.
+
+• Следующие карты были обновлены до состояния Midnight:
+  • Карта распорядителей полётов
+  • Столицы (90 %)
+  • Зона
+  • Миникарта
+  • Континенты
+  • Азерот
+  • Карта мира
+]],
+
+  zhCN = [[
+• 新增了一个用于中立城市的图标。取代经典的 MapNotes 图标，现在使用一个同时显示部落与联盟徽记的专用图标。
+
+• 在主城选项中的“常规图标 -> 装饰专家”下新增了一个分类。该图标现在会显示装饰品商人的位置。
+
+• 以下地图已更新至 Midnight 状态：
+  • 飞行管理员地图
+  • 主城（90%）
+  • 区域
+  • 小地图
+  • 大陆
+  • 艾泽拉斯
+  • 世界地图
+]],
+
+  zhTW = [[
+• 新增了一個用於中立城市的圖示。取代經典的 MapNotes 圖示，現在使用一個同時顯示部落與聯盟徽章的專用圖示。
+
+• 在主城選項中的「一般圖示 -> 裝飾專家」下新增了一個分類。此圖示現在會顯示裝飾品商人的位置。
+
+• 以下地圖已更新至 Midnight 狀態：
+  • 飛行管理員地圖
+  • 主城（90%）
+  • 區域
+  • 小地圖
+  • 大陸
+  • 艾澤拉斯
+  • 世界地圖
+]],
+
+  koKR = [[
+• 중립 도시를 위한 새로운 아이콘이 추가되었습니다. 기존 MapNotes 아이콘 대신, 호드와 얼라이언스 문장을 모두 표시하는 전용 아이콘이 사용됩니다.
+
+• “일반 아이콘 -> 장식 전문가” 아래의 수도 옵션에 새로운 카테고리가 추가되었습니다. 이 아이콘은 이제 장식 상인의 위치를 표시합니다.
+
+• 다음 지도들이 Midnight 상태로 업데이트되었습니다:
+  • 비행 조련사 지도
+  • 수도 (90%)
+  • 지역
+  • 미니맵
+  • 대륙
+  • 아제로스
+  • 세계 지도
 ]],
 }
 

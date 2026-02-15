@@ -961,6 +961,10 @@ if not db.activate.HideMapNote then
 
             --General DazarAlor
                 if self.db.profile.activate.CapitalsGeneral then
+
+                    if self.db.profile.showCapitalsDecorExpert then
+                        nodes[1164][36445977] = { npcID = 252326, name = "", type = "DecorExpert", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    end
     
                     if self.db.profile.showCapitalsPaths then
                         nodes[1165][49934095] = { name = L["Entrance"], mnID = 1163, type = "PathU", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Passage/Exit 
@@ -1432,6 +1436,10 @@ if not db.activate.HideMapNote then
 
             --General Ironforge
                 if self.db.profile.activate.CapitalsGeneral then
+
+                    if self.db.profile.showCapitalsDecorExpert then
+                        nodes[87][24804397] = { npcID = 253235, name = "", type = "DecorExpert", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    end
     
                     if self.db.profile.showCapitalsPaths then
                         nodes[87][14218604] = { dnID = L["Exit"], name = "", mnID = 27, type = "PathLU", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Passage/Exit 
@@ -1911,6 +1919,10 @@ if not db.activate.HideMapNote then
 
             --General Boralus
                 if self.db.profile.activate.CapitalsGeneral then
+
+                    if self.db.profile.showCapitalsDecorExpert then
+                        nodes[1161][70741567] = { npcID = 252345, name = "", type = "DecorExpert", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    end
     
                     if self.db.profile.showCapitalsPaths then
                         nodes[1161][81239058] = { dnID = L["Exit"], name = "", mnID = 895, type = "PathRU", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Passage/Exit
@@ -2709,6 +2721,12 @@ if not db.activate.HideMapNote then
 
         --General Dalaran Legion
             if self.db.profile.activate.CapitalsGeneral then
+
+                if self.db.profile.showCapitalsDecorExpert then
+                    if self.faction == "Horde" or db.activate.CapitalsEnemyFaction then 
+                        nodes[627][67493389] = { npcID = 252043, name = "", type = "DecorExpert", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    end
+                end
     
                 if self.db.profile.showCapitalsInnkeeper then
                     nodes[627][49784006] = { npcID = 96806, name = "", type = "Innkeeper", showInZone = true, showOnContinent = false, showOnMinimap = false }
@@ -3060,9 +3078,14 @@ if not db.activate.HideMapNote then
 
         --General Valdrakken
             if self.db.profile.activate.CapitalsGeneral then
+
+                if self.db.profile.showCapitalsDecorExpert then
+                    nodes[2112][71524963] = { npcID = 253067, name = "", type = "DecorExpert", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                end
     
                 if self.db.profile.showCapitalsInnkeeper then
                     nodes[2112][47714635] = { npcID = 210817, name = "", type = "Innkeeper", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2112][72484717] = { npcID = 197574, name = "", type = "Innkeeper", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
                 if self.db.profile.showCapitalsAuctioneer then
@@ -3093,7 +3116,7 @@ if not db.activate.HideMapNote then
                 end
 
                 if self.db.profile.showCapitalsTransmogger then
-                    nodes[2112][74575782] = { npcID = 185570, name = "", type = "Transmogger", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2112][74465606] = { npcID = 185570, name = "", type = "Transmogger", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
                 if self.db.profile.showCapitalsItemUpgrade then
@@ -3212,6 +3235,10 @@ if not db.activate.HideMapNote then
 
         --General Dornogal
             if self.db.profile.activate.CapitalsGeneral then
+
+                if self.db.profile.showCapitalsDecorExpert then
+                    nodes[2339][53735721] = { npcID = 252910, name = "", type = "DecorExpert", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                end
 
                 if self.db.profile.showCapitalsPaths then
                     nodes[2339][81782819] = { dnID = L["Exit"], name = "", mnID = 2248, type = "PathR", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Passage/Exit 
@@ -3459,12 +3486,14 @@ if not db.activate.HideMapNote then
                 end
     
                 if self.db.profile.showCapitalsAuctioneer then
-                    nodes[2393][51097609] = { npcIDs1 = 239625, npcIDs2 = 239621, npcIDs3 = 239628, name = BUTTON_LAG_AUCTIONHOUSE, type = "Auctioneer", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2393][51337595] = { npcIDs1 = 239625, npcIDs2 = 239621, npcIDs3 = 239628, name = BUTTON_LAG_AUCTIONHOUSE, type = "Auctioneer", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2393][67607250] = { npcIDs1 = 243113, npcIDs2 = 243111, npcIDs3 = 243114, name = BUTTON_LAG_AUCTIONHOUSE, type = "Auctioneer", showInZone = true, showOnContinent = false, showOnMinimap = false }
                     nodes[2339][64975294] = { npcID = 219055, name = "", dnID = BLACK_MARKET_AUCTION_HOUSE, type = "BlackMarket", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
                 if self.db.profile.showCapitalsBank then
                     nodes[2393][50606552] = { dnID = BANK .. " / " .. GUILD_BANK , name = "", type = "Bank", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2393][72606450] = { dnID = BANK .. " / " .. GUILD_BANK , name = "", type = "Bank", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
                 if self.db.profile.showCapitalsBarber then
@@ -3479,14 +3508,19 @@ if not db.activate.HideMapNote then
                     nodes[2393][45005659] = { dnID = MINIMAP_TRACKING_MAILBOX, name = "", type = "Mailbox", showInZone = true, showOnContinent = false, showOnMinimap = false }
                     nodes[2393][28666693] = { dnID = MINIMAP_TRACKING_MAILBOX, name = "", type = "Mailbox", showInZone = true, showOnContinent = false, showOnMinimap = false }
                     nodes[2393][34318019] = { dnID = MINIMAP_TRACKING_MAILBOX, name = "", type = "Mailbox", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2393][66767046] = { dnID = MINIMAP_TRACKING_MAILBOX, name = "", type = "Mailbox", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2393][71766569] = { dnID = MINIMAP_TRACKING_MAILBOX, name = "", type = "Mailbox", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2393][69278174] = { dnID = MINIMAP_TRACKING_MAILBOX, name = "", type = "Mailbox", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2393][72347433] = { dnID = MINIMAP_TRACKING_MAILBOX, name = "", type = "Mailbox", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2393][49497555] = { dnID = MINIMAP_TRACKING_MAILBOX, name = "", type = "Mailbox", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
                 if self.db.profile.showCapitalsDecorExpert then
                     nodes[2393][51185645] = { npcID = 256828, name = "", type = "DecorExpert", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
-                if self.db.profile.showCapitalsPvPVendor then
-                    nodes[2393][34078112] = { npcIDs1 = 243224, npcIDs2 = 243225, npcIDs3 = 243221, npcIDs4 = 255844, npcIDs5 = 243220, name = TRANSMOG_SET_PVP .. " " .. MERCHANT, type = "PvPVendor", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                if self.db.profile.showCapitalsPvEVendor then
+                    nodes[2393][52897830] = { npcIDs1 = 242398, npcIDs2 = 248341, npcIDs3 = 242399, name = TRANSMOG_SET_PVE .. " " .. MERCHANT, type = "PvEVendor", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
                 if self.db.profile.showCapitalsRenownQuartermaster then
@@ -3495,13 +3529,14 @@ if not db.activate.HideMapNote then
                 end
 
                 if self.db.profile.showCapitalsPvEVendor then
-                    nodes[2393][44965540] = { npcIDs = 243286, name = "", type = "PvEVendor", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2393][52897830] = { npcIDs1 = 242398, npcIDs2 = 248341, npcIDs3 = 242399, name = TRANSMOG_SET_PVE .. " " .. MERCHANT, type = "PvEVendor", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2393][45005484] = { npcID = 243286, name = "", type = "PvEVendor", showInZone = true, showOnContinent = false, showOnMinimap = false }
                     nodes[2393][55726598] = { npcIDs1 = 252956, npcIDs2 = 258181, name = "", type = "PvEVendor", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
                 if self.db.profile.showCapitalsTransmogger then
                     nodes[2393][52865742] = { npcID = 243242, name = "", TransportName = MERCHANT, type = "Transmogger", showInZone = true, showOnContinent = false, showOnMinimap = false }
-                    nodes[2339][58644933] = { npcID = 219053, name = "", TransportName = MERCHANT, type = "Transmogger", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2393][49267738] = { npcID = 249050, name = "", TransportName = MERCHANT, type = "Transmogger", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
                 if self.db.profile.showCapitalsItemUpgrade then
@@ -3514,6 +3549,7 @@ if not db.activate.HideMapNote then
 
                 if self.db.profile.showCapitalsCatalyst then
                     nodes[2393][39776581] = { dnID = L["Catalyst"], name = "",  type = "Catalyst", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2393][70648412] = { dnID = L["Catalyst"], name = "",  type = "Catalyst", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
                 if self.db.profile.showCapitalsTradingPost then
@@ -3523,15 +3559,19 @@ if not db.activate.HideMapNote then
                 if self.db.profile.showCapitalsStablemaster then
                     nodes[2393][46355556] = { npcID = 243161, name = "", type = "StablemasterN", showInZone = true, showOnContinent = false, showOnMinimap = false }
                     nodes[2393][27267738] = { npcID = 251302, name = "", type = "StablemasterN", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2393][67096610] = { npcID = 254366, name = "", type = "StablemasterN", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
-                if self.db.profile.showCapitalsPvPVendor and not self.db.profile.showCapitalsMapNotes then
-                    nodes[2339][60377017] = { npcID = 219212, name = "", dnID = TRANSMOG_SET_PVP .. " " .. MERCHANT, type = "PvPVendor", showInZone = true, showOnContinent = false, showOnMinimap = false }
-                    nodes[2339][59696906] = { npcID = 219216, name = "", dnID = TRANSMOG_SET_PVP .. " " .. MERCHANT, type = "PvPVendor", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                if self.db.profile.showCapitalsPvPVendor then
+                    nodes[2393][34078112] = { npcIDs1 = 243224, npcIDs2 = 243225, npcIDs3 = 243221, npcIDs4 = 255844, npcIDs5 = 243220, name = TRANSMOG_SET_PVP .. " " .. MERCHANT, type = "PvPVendor", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
                 if self.db.profile.showCapitalsInnkeeper and not self.db.profile.showCapitalsMapNotes then
                     nodes[2393][56477035] = { npcID = 239630, name = "", type = "Innkeeper", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                end
+
+                if self.db.profile.showCapitalsInnkeeper then
+                    nodes[2393][66906204] = { npcID = 247804, name = "", type = "Innkeeper", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
                 if self.db.profile.showCapitalsMapNotes then
@@ -3576,42 +3616,35 @@ if not db.activate.HideMapNote then
             if self.db.profile.activate.CapitalsProfessions then
 
                 if self.db.profile.showCapitalsProfessionOrders then
-                    nodes[2339][58015644] = { npcID = 215258, name = "", type = "ProfessionOrders", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2393][45125564] = { npcID = 243279, name = "", type = "ProfessionOrders", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
-                if self.db.profile.showCapitalsAlchemy then
-                    nodes[2393][47035198] = { npcID = 243357, name = "", type = "Alchemy", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                if self.db.profile.showCapitalsArchaeology then
+                    nodes[2393][52107887] = { npcID = 254592, name = "", type = "Archaeology", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
-            
+          
                 if self.db.profile.showCapitalsLeatherworking then
-                    nodes[2393][43095598] = { npcID = 243500, name = "", type = "Leatherworking", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2393][69688140] = { npcID = 247623, name = "", type = "Leatherworking", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
                 if self.db.profile.showCapitalsEngineer then
-                    nodes[2393][43525409] = { npcID = 241452, name = "", type = "Engineer", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2393][69308421] = { npcID = 247791, name = "", type = "Engineer", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
                 if self.db.profile.showCapitalsSkinning then
-                    nodes[2393][43275531] = { npcID = 243527, name = "", type = "Skinning", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2393][69968088] = { npcID = 247626, name = "", type = "Skinning", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
                 if self.db.profile.showCapitalsTailoring then
-                    nodes[2393][48245402] = { npcID = 243352, name = "", type = "Tailoring", showInZone = true, showOnContinent = false, showOnMinimap = false }
                     nodes[2393][30457701] = { npcID = 251431, name = "", type = "Tailoring", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
-                if self.db.profile.showCapitalsJewelcrafting then
-                    nodes[2393][48185511] = { npcIDs1 = 243345, npcIDs2 = 243347, name = "", type = "Jewelcrafting", showInZone = true, showOnContinent = false, showOnMinimap = false }
-                    --nodes[2393][48185511] = { npcID = 243345, name = "", type = "Jewelcrafting", showInZone = true, showOnContinent = false, showOnMinimap = false } -- only minimap
-                    --nodes[2393][48885417] = { npcID = 243347, name = "", type = "Jewelcrafting", showInZone = true, showOnContinent = false, showOnMinimap = false } -- only minimap
-                end
-
                 if self.db.profile.showCapitalsBlacksmith then
-                    nodes[2393][43645178] = { npcID = 241450, name = "", type = "Blacksmith", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2393][69848448] = { npcID = 247618, name = "", type = "Blacksmith", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
                 if self.db.profile.showCapitalsMining then
-                    nodes[2393][42595285] = {  npcID = 241455, name = "", type = "Mining", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2393][70718256] = {  npcID = 247803, name = "", type = "Mining", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
                 if self.db.profile.showCapitalsFishing then
@@ -3622,16 +3655,178 @@ if not db.activate.HideMapNote then
                     nodes[2393][48305142] = { npcID = 243355, name = "", type = "Herbalism", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
-                if self.db.profile.showCapitalsInscription then
-                    nodes[2393][46925160] = { npcID = 243553, name = "", type = "Inscription", showInZone = true, showOnContinent = false, showOnMinimap = false }
-                end
-
                 if self.db.profile.showCapitalsEnchanting then
-                    nodes[2393][47985376] = { npcID = 243349, name = "", type = "Enchanting", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2393][39555099] = { npcID = 254051, name = "", type = "Enchanting", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
                 if self.db.profile.showCapitalsCooking and not self.db.profile.showCapitalsMapNotes then
                     nodes[2393][56386983] = { npcID = 257913, name = "", type = "Cooking", showInZone = true, showOnContinent = false, showOnMinimap = false, }
+                end
+
+                if self.db.profile.showCapitalsProfessionsMixed then
+                   
+                    if self.db.profile.showCapitalsInscription and self.db.profile.showCapitalsAlchemy then
+                        nodes[2393][46865173] = { npcIDs1 = 243357, npcIDs2 = 243553, name = "", icon1 = TextIconAlchemy:GetIconString(), icon2 = TextIconInscription:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsInscription and not self.db.profile.showCapitalsAlchemy then
+                        nodes[2393][46925160] = { npcID = 243553, name = "", type = "Inscription", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif not self.db.profile.showCapitalsInscription and self.db.profile.showCapitalsAlchemy then
+                        nodes[2393][47035198] = { npcID = 243357, name = "", type = "Alchemy", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    end
+
+                    if self.db.profile.showCapitalsSkinning and self.db.profile.showCapitalsLeatherworking then
+                        nodes[2393][43005636] = { npcIDs1 = 243527, npcIDs2 = 243500, name = "", icon1 = TextIconSkinning:GetIconString(), icon2 = TextIconLeatherworking:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsSkinning and not self.db.profile.showCapitalsLeatherworking then
+                        nodes[2393][43275531] = { npcID = 243527, name = "", type = "Skinning", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif not self.db.profile.showCapitalsSkinning and self.db.profile.showCapitalsLeatherworking then
+                        nodes[2393][43095598] = { npcID = 243500, name = "", type = "Leatherworking", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    end
+
+                    if self.db.profile.showCapitalsEnchanting and self.db.profile.showCapitalsTailoring and self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][48105433] = { npcIDs1 = 243349, npcIDs2 = 243352, npcIDs3 = 243345, npcIDs4 = 243347, name = "", icon1 = TextIconEnchanting:GetIconString(), icon2 = TextIconTailoring:GetIconString(), icon3 = TextIconJewelcrafting:GetIconString(), icon4 = TextIconJewelcrafting:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsEnchanting and self.db.profile.showCapitalsTailoring and not self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][48105433] = { npcIDs1 = 243349, npcIDs2 = 243352, name = "", icon1 = TextIconEnchanting:GetIconString(), icon2 = TextIconTailoring:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsEnchanting and self.db.profile.showCapitalsJewelcrafting and not self.db.profile.showCapitalsTailoring then
+                        nodes[2393][48105433] = { npcIDs1 = 243349, npcIDs2 = 243345, npcIDs3 = 243347, name = "", icon1 = TextIconEnchanting:GetIconString(), icon2 = TextIconJewelcrafting:GetIconString(), icon3 = TextIconJewelcrafting:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif not self.db.profile.showCapitalsEnchanting and self.db.profile.showCapitalsJewelcrafting and self.db.profile.showCapitalsTailoring then
+                        nodes[2393][48105433] = { npcIDs1 = 243345, npcIDs2 = 243347, npcIDs3 = 243352, name = "", icon1 = TextIconJewelcrafting:GetIconString(), icon2 = TextIconJewelcrafting:GetIconString(), icon3 = TextIconTailoring:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsEnchanting and not self.db.profile.showCapitalsJewelcrafting and not self.db.profile.showCapitalsTailoring then
+                        nodes[2393][47985376] = { npcID = 243349, name = "", type = "Enchanting", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsJewelcrafting and not self.db.profile.showCapitalsEnchanting and not self.db.profile.showCapitalsTailoring then
+                        nodes[2393][48335496] = { npcIDs1 = 243345, npcIDs2 = 243347, name = "", type = "Jewelcrafting", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsTailoring and not self.db.profile.showCapitalsEnchanting and not self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][48245402] = { npcID = 243352, name = "", type = "Tailoring", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    end
+
+                    if self.db.profile.showCapitalsMining and self.db.profile.showCapitalsBlacksmith and self.db.profile.showCapitalsEngineer then
+                        nodes[2393][43655277] = { npcIDs1 = 241455, npcIDs2 = 241450, npcIDs3 = 241452, name = "", icon1 = TextIconMining:GetIconString(), icon2 = TextIconBlacksmith:GetIconString(), icon3 = TextIconEngineer:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsMining and self.db.profile.showCapitalsBlacksmith and not self.db.profile.showCapitalsEngineer then
+                        nodes[2393][43655277] = { npcIDs1 = 241455, npcIDs2 = 241450, name = "", icon1 = TextIconMining:GetIconString(), icon2 = TextIconBlacksmith:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsMining and self.db.profile.showCapitalsEngineer and not self.db.profile.showCapitalsBlacksmith then
+                        nodes[2393][43655277] = { npcIDs1 = 241455, npcIDs2 = 241452, name = "", icon1 = TextIconMining:GetIconString(), icon2 = TextIconEngineer:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif not self.db.profile.showCapitalsMining and self.db.profile.showCapitalsEngineer and self.db.profile.showCapitalsBlacksmith then
+                        nodes[2393][43655277] = { npcIDs1 = 241452, npcIDs2 = 241450, name = "", icon1 = TextIconEngineer:GetIconString(), icon2 = TextIconBlacksmith:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsMining and not self.db.profile.showCapitalsEngineer and not self.db.profile.showCapitalsBlacksmith then
+                        nodes[2393][42595285] = { npcID = 241455, name = "", type = "Mining", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsEngineer and not self.db.profile.showCapitalsMining and not self.db.profile.showCapitalsBlacksmith then
+                        nodes[2393][43525409] = { npcID = 241452, name = "", type = "Engineer", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsBlacksmith and not self.db.profile.showCapitalsMining and not self.db.profile.showCapitalsEngineer then
+                        nodes[2393][43645178] = { npcID = 241450, name = "", type = "Blacksmith", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    end
+
+                    if self.db.profile.showCapitalsAlchemy and self.db.profile.showCapitalsEnchanting and self.db.profile.showCapitalsTailoring and self.db.profile.showCapitalsHerbalism and self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][72987237] = { npcIDs1 = 247556, npcIDs2 = 247554, npcIDs3 = 247560, npcIDs4 = 247564, npcIDs5 = 247627, name = "", icon1 = TextIconAlchemy:GetIconString(), icon2 = TextIconEnchanting:GetIconString(), icon3 = TextIconTailoring:GetIconString(), icon4 = TextIconHerbalism:GetIconString(), icon5 = TextIconJewelcrafting:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif not self.db.profile.showCapitalsAlchemy and self.db.profile.showCapitalsEnchanting and self.db.profile.showCapitalsTailoring and self.db.profile.showCapitalsHerbalism and self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][72987237] = { npcIDs1 = 247554, npcIDs2 = 247560, npcIDs3 = 247564, npcIDs4 = 247627, name = "", icon1 = TextIconEnchanting:GetIconString(), icon2 = TextIconTailoring:GetIconString(), icon3 = TextIconHerbalism:GetIconString(), icon4 = TextIconJewelcrafting:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsAlchemy and not self.db.profile.showCapitalsEnchanting and self.db.profile.showCapitalsTailoring and self.db.profile.showCapitalsHerbalism and self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][72987237] = { npcIDs1 = 247556, npcIDs2 = 247560, npcIDs3 = 247564, npcIDs4 = 247627, name = "", icon1 = TextIconAlchemy:GetIconString(), icon2 = TextIconTailoring:GetIconString(), icon3 = TextIconHerbalism:GetIconString(), icon4 = TextIconJewelcrafting:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsAlchemy and self.db.profile.showCapitalsEnchanting and not self.db.profile.showCapitalsTailoring and self.db.profile.showCapitalsHerbalism and self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][72987237] = { npcIDs1 = 247556, npcIDs2 = 247554, npcIDs3 = 247564, npcIDs4 = 247627, name = "", icon1 = TextIconAlchemy:GetIconString(), icon2 = TextIconEnchanting:GetIconString(), icon3 = TextIconHerbalism:GetIconString(), icon4 = TextIconJewelcrafting:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsAlchemy and self.db.profile.showCapitalsEnchanting and self.db.profile.showCapitalsTailoring and not self.db.profile.showCapitalsHerbalism and self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][72987237] = { npcIDs1 = 247556, npcIDs2 = 247554, npcIDs3 = 247560, npcIDs4 = 247627, name = "", icon1 = TextIconAlchemy:GetIconString(), icon2 = TextIconEnchanting:GetIconString(), icon3 = TextIconTailoring:GetIconString(), icon4 = TextIconJewelcrafting:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsAlchemy and self.db.profile.showCapitalsEnchanting and self.db.profile.showCapitalsTailoring and self.db.profile.showCapitalsHerbalism and not self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][72987237] = { npcIDs1 = 247556, npcIDs2 = 247554, npcIDs3 = 247560, npcIDs4 = 247564, name = "", icon1 = TextIconAlchemy:GetIconString(), icon2 = TextIconEnchanting:GetIconString(), icon3 = TextIconTailoring:GetIconString(), icon4 = TextIconHerbalism:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsAlchemy and self.db.profile.showCapitalsEnchanting and self.db.profile.showCapitalsTailoring and not self.db.profile.showCapitalsHerbalism and not self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][72987237] = { npcIDs1 = 247556, npcIDs2 = 247554, npcIDs3 = 247560, name = "", icon1 = TextIconAlchemy:GetIconString(), icon2 = TextIconEnchanting:GetIconString(), icon3 = TextIconTailoring:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsAlchemy and self.db.profile.showCapitalsEnchanting and self.db.profile.showCapitalsHerbalism and not self.db.profile.showCapitalsTailoring and not self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][72987237] = { npcIDs1 = 247556, npcIDs2 = 247554, npcIDs3 = 247564, name = "", icon1 = TextIconAlchemy:GetIconString(), icon2 = TextIconEnchanting:GetIconString(), icon3 = TextIconHerbalism:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsAlchemy and self.db.profile.showCapitalsEnchanting and self.db.profile.showCapitalsJewelcrafting and not self.db.profile.showCapitalsTailoring and not self.db.profile.showCapitalsHerbalism then
+                        nodes[2393][72987237] = { npcIDs1 = 247556, npcIDs2 = 247554, npcIDs3 = 247627, name = "", icon1 = TextIconAlchemy:GetIconString(), icon2 = TextIconEnchanting:GetIconString(), icon3 = TextIconJewelcrafting:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsAlchemy and self.db.profile.showCapitalsTailoring and self.db.profile.showCapitalsHerbalism and not self.db.profile.showCapitalsEnchanting and not self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][72987237] = { npcIDs1 = 247556, npcIDs2 = 247560, npcIDs3 = 247564, name = "", icon1 = TextIconAlchemy:GetIconString(), icon2 = TextIconTailoring:GetIconString(), icon3 = TextIconHerbalism:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsAlchemy and self.db.profile.showCapitalsTailoring and self.db.profile.showCapitalsJewelcrafting and not self.db.profile.showCapitalsEnchanting and not self.db.profile.showCapitalsHerbalism then
+                        nodes[2393][72987237] = { npcIDs1 = 247556, npcIDs2 = 247560, npcIDs3 = 247627, name = "", icon1 = TextIconAlchemy:GetIconString(), icon2 = TextIconTailoring:GetIconString(), icon3 = TextIconJewelcrafting:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsAlchemy and self.db.profile.showCapitalsHerbalism and self.db.profile.showCapitalsJewelcrafting and not self.db.profile.showCapitalsEnchanting and not self.db.profile.showCapitalsTailoring then
+                        nodes[2393][72987237] = { npcIDs1 = 247556, npcIDs2 = 247564, npcIDs3 = 247627, name = "", icon1 = TextIconAlchemy:GetIconString(), icon2 = TextIconHerbalism:GetIconString(), icon3 = TextIconJewelcrafting:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsEnchanting and self.db.profile.showCapitalsTailoring and self.db.profile.showCapitalsHerbalism and not self.db.profile.showCapitalsAlchemy and not self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][72987237] = { npcIDs1 = 247554, npcIDs2 = 247560, npcIDs3 = 247564, name = "", icon1 = TextIconEnchanting:GetIconString(), icon2 = TextIconTailoring:GetIconString(), icon3 = TextIconHerbalism:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsEnchanting and self.db.profile.showCapitalsTailoring and self.db.profile.showCapitalsJewelcrafting and not self.db.profile.showCapitalsAlchemy and not self.db.profile.showCapitalsHerbalism then
+                        nodes[2393][72987237] = { npcIDs1 = 247554, npcIDs2 = 247560, npcIDs3 = 247627, name = "", icon1 = TextIconEnchanting:GetIconString(), icon2 = TextIconTailoring:GetIconString(), icon3 = TextIconJewelcrafting:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsEnchanting and self.db.profile.showCapitalsHerbalism and self.db.profile.showCapitalsJewelcrafting and not self.db.profile.showCapitalsAlchemy and not self.db.profile.showCapitalsTailoring then
+                        nodes[2393][72987237] = { npcIDs1 = 247554, npcIDs2 = 247564, npcIDs3 = 247627, name = "", icon1 = TextIconEnchanting:GetIconString(), icon2 = TextIconHerbalism:GetIconString(), icon3 = TextIconJewelcrafting:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsTailoring and self.db.profile.showCapitalsHerbalism and self.db.profile.showCapitalsJewelcrafting and not self.db.profile.showCapitalsAlchemy and not self.db.profile.showCapitalsEnchanting then
+                        nodes[2393][72987237] = { npcIDs1 = 247560, npcIDs2 = 247564, npcIDs3 = 247627, name = "", icon1 = TextIconTailoring:GetIconString(), icon2 = TextIconHerbalism:GetIconString(), icon3 = TextIconJewelcrafting:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsAlchemy and self.db.profile.showCapitalsEnchanting and not self.db.profile.showCapitalsTailoring and not self.db.profile.showCapitalsHerbalism and not self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][72987237] = { npcIDs1 = 247556, npcIDs2 = 247554, name = "", icon1 = TextIconAlchemy:GetIconString(), icon2 = TextIconEnchanting:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsAlchemy and self.db.profile.showCapitalsTailoring and not self.db.profile.showCapitalsEnchanting and not self.db.profile.showCapitalsHerbalism and not self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][72987237] = { npcIDs1 = 247556, npcIDs2 = 247560, name = "", icon1 = TextIconAlchemy:GetIconString(), icon2 = TextIconTailoring:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsAlchemy and self.db.profile.showCapitalsHerbalism and not self.db.profile.showCapitalsEnchanting and not self.db.profile.showCapitalsTailoring and not self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][72987237] = { npcIDs1 = 247556, npcIDs2 = 247564, name = "", icon1 = TextIconAlchemy:GetIconString(), icon2 = TextIconHerbalism:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsAlchemy and self.db.profile.showCapitalsJewelcrafting and not self.db.profile.showCapitalsEnchanting and not self.db.profile.showCapitalsTailoring and not self.db.profile.showCapitalsHerbalism then
+                        nodes[2393][72987237] = { npcIDs1 = 247556, npcIDs2 = 247627, name = "", icon1 = TextIconAlchemy:GetIconString(), icon2 = TextIconJewelcrafting:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsEnchanting and self.db.profile.showCapitalsTailoring and not self.db.profile.showCapitalsAlchemy and not self.db.profile.showCapitalsHerbalism and not self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][72987237] = { npcIDs1 = 247554, npcIDs2 = 247560, name = "", icon1 = TextIconEnchanting:GetIconString(), icon2 = TextIconTailoring:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsEnchanting and self.db.profile.showCapitalsHerbalism and not self.db.profile.showCapitalsAlchemy and not self.db.profile.showCapitalsTailoring and not self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][72987237] = { npcIDs1 = 247554, npcIDs2 = 247564, name = "", icon1 = TextIconEnchanting:GetIconString(), icon2 = TextIconHerbalism:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsEnchanting and self.db.profile.showCapitalsJewelcrafting and not self.db.profile.showCapitalsAlchemy and not self.db.profile.showCapitalsTailoring and not self.db.profile.showCapitalsHerbalism then
+                        nodes[2393][72987237] = { npcIDs1 = 247554, npcIDs2 = 247627, name = "", icon1 = TextIconEnchanting:GetIconString(), icon2 = TextIconJewelcrafting:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsTailoring and self.db.profile.showCapitalsHerbalism and not self.db.profile.showCapitalsAlchemy and not self.db.profile.showCapitalsEnchanting and not self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][72987237] = { npcIDs1 = 247560, npcIDs2 = 247564, name = "", icon1 = TextIconTailoring:GetIconString(), icon2 = TextIconHerbalism:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsTailoring and self.db.profile.showCapitalsJewelcrafting and not self.db.profile.showCapitalsAlchemy and not self.db.profile.showCapitalsEnchanting and not self.db.profile.showCapitalsHerbalism then
+                        nodes[2393][72987237] = { npcIDs1 = 247560, npcIDs2 = 247627, name = "", icon1 = TextIconTailoring:GetIconString(), icon2 = TextIconJewelcrafting:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsHerbalism and self.db.profile.showCapitalsJewelcrafting and not self.db.profile.showCapitalsAlchemy and not self.db.profile.showCapitalsEnchanting and not self.db.profile.showCapitalsTailoring then
+                        nodes[2393][72987237] = { npcIDs1 = 247564, npcIDs2 = 247627, name = "", icon1 = TextIconHerbalism:GetIconString(), icon2 = TextIconJewelcrafting:GetIconString(), type = "ProfessionsMixed", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsAlchemy and not self.db.profile.showCapitalsEnchanting and not self.db.profile.showCapitalsTailoring and not self.db.profile.showCapitalsHerbalism and not self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][73317356] = { npcID = 247556, name = "", type = "Alchemy", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsEnchanting and not self.db.profile.showCapitalsAlchemy and not self.db.profile.showCapitalsTailoring and not self.db.profile.showCapitalsHerbalism and not self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][72917162] = { npcID = 247554, name = "", type = "Enchanting", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsTailoring and not self.db.profile.showCapitalsAlchemy and not self.db.profile.showCapitalsEnchanting and not self.db.profile.showCapitalsHerbalism and not self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][73367277] = { npcID = 247560, name = "", type = "Tailoring", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsHerbalism and not self.db.profile.showCapitalsAlchemy and not self.db.profile.showCapitalsEnchanting and not self.db.profile.showCapitalsTailoring and not self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][72687382] = { npcID = 247564, name = "", type = "Herbalism", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    elseif self.db.profile.showCapitalsJewelcrafting and not self.db.profile.showCapitalsAlchemy and not self.db.profile.showCapitalsEnchanting and not self.db.profile.showCapitalsTailoring and not self.db.profile.showCapitalsHerbalism then
+                        nodes[2393][73777122] = { npcID = 247627, name = "", type = "Jewelcrafting", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    end
+
+                elseif not self.db.profile.showCapitalsProfessionsMixed then
+
+                    if self.db.profile.showCapitalsHerbalism then
+                        nodes[2393][72687382] = { npcID = 247564, name = "", type = "Herbalism", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    end
+
+                    if self.db.profile.showCapitalsJewelcrafting then
+                        nodes[2393][48335496] = { npcIDs1 = 243345, npcIDs2 = 243347, name = "", type = "Jewelcrafting", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                        nodes[2393][73777122] = { npcID = 247627, name = "", type = "Jewelcrafting", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    end
+
+                    if self.db.profile.showCapitalsBlacksmith then
+                        nodes[2393][43645178] = { npcID = 241450, name = "", type = "Blacksmith", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    end
+
+                    if self.db.profile.showCapitalsEngineer then
+                        nodes[2393][43525409] = { npcID = 241452, name = "", type = "Engineer", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    end
+
+                    if self.db.profile.showCapitalsMining then
+                        nodes[2393][42595285] = { npcID = 241455, name = "", type = "Mining", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    end
+
+                    if self.db.profile.showCapitalsEnchanting then
+                        nodes[2393][72917162] = { npcID = 247554, name = "", type = "Enchanting", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                        nodes[2393][47985376] = { npcID = 243349, name = "", type = "Enchanting", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    end
+
+                    if self.db.profile.showCapitalsTailoring then
+                        nodes[2393][73367277] = { npcID = 247560, name = "", type = "Tailoring", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                        nodes[2393][48245402] = { npcID = 243352, name = "", type = "Tailoring", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    end
+
+                    if self.db.profile.showCapitalsAlchemy then
+                        nodes[2393][73317356] = { npcID = 247556, name = "", type = "Alchemy", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                        nodes[2393][47035198] = { npcID = 243357, name = "", type = "Alchemy", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    end
+
+                    if self.db.profile.showCapitalsInscription then
+                        nodes[2393][46925160] = { npcID = 243553, name = "", type = "Inscription", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    end
+
+                    if self.db.profile.showCapitalsSkinning then
+                        nodes[2393][43275531] = { npcID = 243527, name = "", type = "Skinning", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    end
+
+                    if self.db.profile.showCapitalsLeatherworking then
+                        nodes[2393][43095598] = { npcID = 243500, name = "", type = "Leatherworking", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    end
+                    
                 end
 
             end

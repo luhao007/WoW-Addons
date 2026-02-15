@@ -824,8 +824,8 @@ ns.currentSourceFile = "RetailZoneMiniMapDungeonminimapLocation.lua"
           if self.db.profile.showMiniMapDungeons then
             minimap[2424][63461538] = { id = 1300, type = "Dungeon", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Terrasse der Magister
             minimap[2395][35457882] = { id = 1299, type = "Dungeon", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Windläuferturm
+            minimap[2395][54002432] = { id = 1304, type = "Dungeon", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Mördergasse
             minimap[2437][43833950] = { id = 1315, type = "Dungeon", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Maisarakavernen
-            minimap[2395][35457882] = { id = 1299, type = "Dungeon", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Windläuferturm
             minimap[2405][64976178] = { id = 1316, type = "Dungeon", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Nexuspunkt Xenas
             minimap[2405][51661874] = { id = 1313, type = "Dungeon", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Arena der Leerennarbe
             minimap[2444][53653339] = { id = 1313, type = "Dungeon", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Arena der Leerennarbe

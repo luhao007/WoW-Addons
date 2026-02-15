@@ -281,27 +281,16 @@ local function GetTooltipText()
 	return text
 end
 
----local Generate the right click menu
-local function CreateMenu()
-	TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_VOLUME_ID].menuText);
+---Generate and display right click menu options for user.
+---@param owner table Plugin frame
+---@param rootDescription table Menu context root
+local function GeneratorFunction(owner, rootDescription)
+	local id = TITAN_VOLUME_ID
+	local root = rootDescription -- menu widget to start with
 
-	local info = {};
-	info.notCheckable = true
-	info.text = L["TITAN_VOLUME_MENU_AUDIO_OPTIONS_LABEL"];
-	info.func = function()
-		ShowUIPanel(VideoOptionsFrame);
-	end
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
+	Titan_Menu.AddCommand(root, id, L["TITAN_VOLUME_MENU_AUDIO_OPTIONS_LABEL"], ShowUIPanel, VideoOptionsFrame)
 
-	info.text = L["TITAN_VOLUME_MENU_OVERRIDE_BLIZZ_SETTINGS"];
-	info.notCheckable = false
-	info.func = function()
-		TitanToggleVar(TITAN_VOLUME_ID, "OverrideBlizzSettings");
-	end
-	info.checked = TitanGetVar(TITAN_VOLUME_ID, "OverrideBlizzSettings");
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-	TitanPanelRightClickMenu_AddControlVars(TITAN_VOLUME_ID)
+	Titan_Menu.AddSelector(root, id, L["TITAN_VOLUME_MENU_OVERRIDE_BLIZZ_SETTINGS"], "OverrideBlizzSettings")
 end
 
 ---local On double click toggle the all sound mute; will flash the slider frame...
@@ -336,7 +325,8 @@ local function OnLoad(self)
 		category = "Built-ins",
 		version = TITAN_VERSION,
 		menuText = L["TITAN_VOLUME_MENU_TEXT"],
-		menuTextFunction = CreateMenu,
+--		menuTextFunction = CreateMenu,
+		menuContextFunction = GeneratorFunction, -- NEW scheme
 		tooltipTitle = VOLUME, --L["TITAN_VOLUME_TOOLTIP"],
 		tooltipTextFunction = GetTooltipText,
 		iconWidth = 32,
@@ -408,6 +398,10 @@ local function Create_Frames()
 	end)
 	config:SetScript("OnUpdate", function(self, elapsed)
 		TitanUtils_CheckFrameCounting(self, elapsed)
+	end)
+	window:SetScript("OnClick", function(self, button)
+		-- prevent frame flash
+--		TitanPanelButton_OnClick(self, button)
 	end)
 	window:SetScript("OnDoubleClick", function(self, button)
 		OnDoubleClick(self, button)

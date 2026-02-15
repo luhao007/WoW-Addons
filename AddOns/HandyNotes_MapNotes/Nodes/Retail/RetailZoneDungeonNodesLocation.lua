@@ -800,6 +800,7 @@ ns.currentSourceFile = "RetailZoneDungeonNodesLocation.lua"
           if self.db.profile.showZoneDungeons then
             nodes[2424][63461538] = { id = 1300, type = "Dungeon", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Terrasse der Magister
             nodes[2395][35457882] = { id = 1299, type = "Dungeon", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Windläuferturm
+            nodes[2395][54002432] = { id = 1304, type = "Dungeon", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Mördergasse
             nodes[2437][43833950] = { id = 1315, type = "Dungeon", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Maisarakavernen
             nodes[2405][64976178] = { id = 1316, type = "Dungeon", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Nexuspunkt Xenas
             nodes[2405][51661874] = { id = 1313, type = "Dungeon", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Arena der Leerennarbe

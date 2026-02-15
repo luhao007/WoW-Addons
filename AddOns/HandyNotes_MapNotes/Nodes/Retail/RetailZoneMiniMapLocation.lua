@@ -221,7 +221,7 @@ ns.currentSourceFile = "RetailZoneMiniMapLocation.lua"
 
         -- Outland MapNotesIcons 
           if self.db.profile.showMiniMapHordeAllyIcons then
-            minimap[108][28652247] = { mnID = 111, name = "", type = "MNL", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = ns.Shattrath .. "\n" .. "\n" .. L["Portals"] .. "\n" .. " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Stormwind .. "\n" .. " ==> " .. ns.IsleOfQuelDanas } -- Portal from Shattrath to Orgrimmar
+            minimap[108][28652247] = { mnID = 111, name = "", type = "HAIcon", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = ns.Shattrath .. "\n" .. "\n" .. L["Portals"] .. "\n" .. " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Stormwind .. "\n" .. " ==> " .. ns.IsleOfQuelDanas } -- Portal from Shattrath to Orgrimmar
           end
 
         -- Outland Transporting 
@@ -913,11 +913,16 @@ ns.currentSourceFile = "RetailZoneMiniMapLocation.lua"
 
 
 
-        --#################################
-        --##### Continent Khaz Algar ######
-        --#################################
+        --##################################
+        --##### Continent Quel'Thalas ######
+        --##################################
 
         if self.db.profile.showMiniMapQuelThalas then
+
+          -- Quel'Thalas MapNotesIcons
+          if self.db.profile.showMiniMapHordeAllyIcons then
+            minimap[2395][51782460] = { mnID = 2393, name = "", type = "HAIcon", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = ns.Silvermoon .. " (" .. EXPANSION_NAME11 .. ")\n\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Harandar .. "\n" .. " ==> " .. ns.VoidTempest .. "\n" .. " ==> " .. ns.Stormwind .. "\n\n" .. CALENDAR_TYPE_DUNGEON .. "\n ==> " .. ns.MurderRow .. "\n\n" .. DELVES_LABEL .. "\n ==> " .. ns.TheDarkway .. "\n ==> " .. ns.CollegiateCalamity }
+          end
 
           if db.activate.MiniMapTransporting then
 
@@ -945,29 +950,13 @@ ns.currentSourceFile = "RetailZoneMiniMapLocation.lua"
             if self.db.profile.showMiniMapAlchemy then
               minimap[2413][53464987] = { npcID = 254865, name = "", type = "Alchemy", showInZone = false, showOnContinent = false, showOnMinimap = true }
             end
-          
-            if self.db.profile.showMiniMapLeatherworking then
-              --minimap[2216][43771954] = { npcID = 218164, name = "", type = "Leatherworking", showInZone = false, showOnContinent = false, showOnMinimap = true }
-            end
-
-            if self.db.profile.showMiniMapEngineer then
-              --minimap[2256][51387631] = { npcID = 218186, name = "", type = "Engineer", showInZone = false, showOnContinent = false, showOnMinimap = true }
-            end
 
             if self.db.profile.showMiniMapSkinning then
               minimap[2437][45226983] = { npcID = 255095, name = "", type = "Skinning", showInZone = false, showOnContinent = false, showOnMinimap = true }
             end
 
-            if self.db.profile.showMiniMapTailoring then
-              --minimap[2216][49711743] = { npcID = 218181, name = "", type = "Tailoring", showInZone = false, showOnContinent = false, showOnMinimap = true }
-            end
-
             if self.db.profile.showMiniMapBlacksmith then
               minimap[2405][51536935] = { npcID = 218167, name = "", type = "Blacksmith", showInZone = false, showOnContinent = false, showOnMinimap = true }
-            end
-
-            if self.db.profile.showMiniMapMining then
-              --minimap[2216][46842255] = { npcID = 218167, name = "", type = "Mining", showInZone = false, showOnContinent = false, showOnMinimap = true }
             end
 
             if self.db.profile.showMiniMapFishing then
@@ -985,10 +974,6 @@ ns.currentSourceFile = "RetailZoneMiniMapLocation.lua"
 
             if self.db.profile.showMiniMapEnchanting then
               minimap[2395][44184628] = { npcID = 242993, name = "", type = "Enchanting", showInZone = false, showOnContinent = false, showOnMinimap = true, dnID = L["(on the platform)"] }
-            end
-
-            if self.db.profile.showMiniMapJewelcrafting then
-              --minimap[2216][47751925] = { npcID = 218180, name = "", type = "Jewelcrafting", showInZone = false, showOnContinent = false, showOnMinimap = true }
             end
 
             if self.db.profile.showMiniMapHerbalism then            

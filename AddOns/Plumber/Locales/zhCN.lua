@@ -393,9 +393,12 @@ L["ModuleDescription NameplateQuest"] = "在姓名板上显示任务标记。\n\
 L["NameplateQuest ShowPartyQuest"] = "显示队友任务";
 L["NameplateQuest ShowPartyQuest Tooltip"] = "如果你的队友还没有完成任务目标，在姓名板上显示 %s 图标。";
 L["NameplateQuest ShowTargetProgress"] = "显示当前目标进度";
-L["NameplateQuest ShowTargetProgress Tooltip"] = "在当前目标姓名板上显示任务进度";
+L["NameplateQuest ShowTargetProgress Tooltip"] = "在当前目标姓名板上显示任务进度。";
 L["NameplateQuest ShowProgressOnHover"] = "显示鼠标经过的单位进度";
 L["NameplateQuest ShowProgressOnHover Tooltip"] = "在鼠标经过的单位姓名板上显示任务进度。";
+L["NameplateQuest ShowProgressOnKeyPress"] = "按键显示任务进度";
+L["NameplateQuest ShowProgressOnKeyPress Tooltip Title"] = "按键显示任务进度";
+L["NameplateQuest ShowProgressOnKeyPress Tooltip Format"] = "当你按下|cffffffff%s|r键时，在单位姓名板上显示任务进度。";
 L["NameplateQuest Instruction Find Nameplate"] = "请前往一个有NPC姓名板的地方来调整图标位置。";
 L["NameplateQuest Progress Format"] = "任务进度格式";
 L["Progress Show Icon"] = "显示任务图标";
@@ -635,7 +638,7 @@ L["No Slot For New Character Macro Alert"] = "需要一个空的角色专用宏�
 
 --New Expansion Landing Page
 L["ModuleName NewExpansionLandingPage"] = "资料片概要";
-L["ModuleDescription NewExpansionLandingPage"] = "一个显示声望、每周事件和团本进度的界面。你可从以下方式访问：\n\n- 点击小地图上的卡兹阿加概要按钮。\n\n- 在游戏设置-快捷键中设置一个快捷键。";
+L["ModuleDescription NewExpansionLandingPage"] = "一个显示声望、每周事件和团本进度的界面。你可从以下方式访问：\n\n- 启用小地图上的按钮。\n\n- 在游戏设置-快捷键中设置一个快捷键。";
 L["Abbr NewExpansionLandingPage"] = "资料片概要";
 L["Reward Available"] = "奖励待领取";  --As brief as possible
 L["Paragon Reward Available"] = "巅峰奖励待领取";
@@ -673,6 +676,23 @@ L["Click To Switch"] = "点击以切换为|cffffffff%s|r";
 L["Click To Queue"] = "点击以加入|cffffffff%s|r";
 L["Click to Open Format"] = "点击以打开%s";
 L["List Is Empty"] = "暂无可显示内容";
+
+
+--ExpansionSummaryMinimapButton
+L["LandingButton Settings Title"] = "资料片概要：小地图按钮";
+L["LandingButton Tooltip Format"] = "左键点击以打开%s。\n右键点击以显示更多选项。";
+L["LandingButton Customize"] = "自定义";
+L["LandingButton Reposition Tooltip"] = "按|cffffffffShift|r解锁";
+L["LandingButtonOption ShowButton"] = "启用小地图按钮";
+L["LandingButtonOption PrimaryUI"] = "左键点击以打开";   --Control which UI to open on left-click
+L["LandingButtonOption PrimaryUI Tooltip"] = "选择左键点击小地图按钮后打开的界面。";
+L["LandingButtonOption SmartExpansion"] = "自动选择资料片";
+L["LandingButtonOption SmartExpansion Tooltip 1"] = "勾选时：左键点击小地图按钮将自动打开适合当前游戏内容的界面。例如当你在暗影过度时打开圣所报告。";
+L["LandingButtonOption SmartExpansion Tooltip 2"] = "未勾选时：左键点击小地图按钮将仅打开%s。";
+L["LandingButtonOption ReduceSize"] = "缩小按钮";
+L["LandingButtonOption DarkColor"] = "深色模式";
+L["LandingButtonOption HideWhenIdle"] = "闲置时隐藏";
+L["LandingButtonOption HideWhenIdle Tooltip"] = "隐藏小地图按钮，除非鼠标移动到其附近或当你收到通知。\n\n此选项在你关闭设置界面后生效。";
 
 
 --RaidCheck

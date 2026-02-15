@@ -281,9 +281,7 @@ app.AddEventHandler("OnStartup", function()
 	local function CheckRebuildMinilist(scope, name)
 		if scope ~= "LIST" then return end
 
-		if app.LocationTrigger then
-			app.LocationTrigger(true)
-		end
+		app.LocationTrigger(true)
 	end
 	app.AddEventHandler("Fill.OnActivateFiller", CheckRebuildMinilist)
 	app.AddEventHandler("Fill.OnDeactivateFiller", CheckRebuildMinilist)
@@ -604,6 +602,8 @@ local function AssignGroupFilledTag(group)
 	-- app.PrintDebug("wasFilled",app:SearchLink(group),group.filledReagent,group.filledCost,group.filledUpgrade)
 end
 local function HandleOnWindowFillComplete(window)
+	if not window or not window.data then return end
+
 	window.data._fillcomplete = true
 	AssignGroupFilledTag(window.data)
 	app.HandleEvent("OnWindowFillComplete", window)

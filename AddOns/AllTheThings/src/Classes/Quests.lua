@@ -311,7 +311,7 @@ local function PrintQuestInfoViaCallback(questID, new)
 end
 -- DirtyQuests became a table instead of an array like before, so it broke a lot of things... I'll make one for each version to keep it working
 local ClassicDirtyQuests, RetailDirtyQuests = {}, {}
-local CollectibleAsQuest, IsQuestFlaggedCompletedForObject;
+local IsQuestFlaggedCompletedForObject;
 local CACHE = "Quests"
 app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, accountWideData)
 	if not currentCharacter[CACHE] then currentCharacter[CACHE] = {} end
@@ -488,7 +488,7 @@ IsQuestFlaggedCompletedForObject = function(t)
 		return 2;
 	end
 end
-CollectibleAsQuest = function(t)
+local CollectibleAsQuest = function(t)
 	-- consolidated representation of whether a Thing can be collectible via QuestID
 	local questID = t.questID;
 	return
@@ -553,8 +553,7 @@ local function CollectibleAsLocked(t, locked)
 end
 local function CollectibleAsQuestOrAsLocked(t)
 	local locked = t.locked
-	return (not locked and (t.CollectibleAsQuest or CollectibleAsQuest)(t))
-		or CollectibleAsLocked(t, locked);
+	return (not locked and CollectibleAsQuest(t)) or CollectibleAsLocked(t, locked);
 end
 local function CollectibleAsReputationQuest(t)
 	if app.Settings.Collectibles.Quests then
@@ -1283,6 +1282,9 @@ local AWQuestLockers = setmetatable({
 		-- app.PrintDebug("Locked due to AW Ach?",ach.accountWide,app:SearchLink(ach))
 		if ach and ach.accountWide then return true end
 	end,
+	questID = function(id)
+		return app.AccountWideQuestsDB[id]
+	end,
 }, { __index = function(t,key) return app.ReturnFalse end})
 local function IsGroupLocked(t)
 	local lockCriteria = t.lc;
@@ -1295,21 +1297,18 @@ local function IsGroupLocked(t)
 			if critFunc then
 				critVal = lockCriteria[i + 1]
 				if critFunc(critVal) then
+					if AWQuestLockers[critKey](critVal) then
+						AccountWideLockedQuestsCache[t.questID] = true
+					end
 					if critKey ~= "questID" then
 						nonQuestLock = true;
-						if AWQuestLockers[critKey](critVal) then
-							AccountWideLockedQuestsCache[t.questID] = true
-						end
-					elseif app.AccountWideQuestsDB[critVal] then
-						-- this quest is locked by a completed AWQ, so we know it can't be completed on another character either
-						AccountWideLockedQuestsCache[t.questID] = true
 					end
 					criteriaRequired = criteriaRequired - 1;
 					if criteriaRequired <= 0 then
 						-- app.PrintDebug("Locked:",app:Linkify(t.questID, app.Colors.ChatLink, "search:questID:" .. t.questID),"=>",critKey,lockCriteria[i + 1])
 						-- if this was locked due to something other than a Quest specifically, indicate it cannot be done in Party Sync
 						if nonQuestLock then
-							-- app.PrintDebug("Automatic DisablePartySync", app:Linkify(questID, app.Colors.ChatLink, "search:questID:" .. questID))
+							-- app.PrintDebug("Automatic DisablePartySync")
 							t.DisablePartySync = true;
 						end
 						return true;
@@ -1358,7 +1357,7 @@ local function LockedAsBreadcrumb(t)
 				if IsQuestFlaggedCompleted(nqID) then
 					-- app.PrintDebug("Locked Breadcrumb from",nqID,app:Linkify(questID, app.Colors.ChatLink, "search:questID:" .. questID))
 					LockedBreadcrumbCache[questID] = true
-					if app.AccountWideQuestsDB[nqID] then
+					if AWQuestLockers.questID(nqID) then
 						-- app.PrintDebug("...Also locked Account-Wide")
 						-- this quest is locked by a completed AWQ, so we know it can't be completed on another character either
 						AccountWideLockedQuestsCache[questID] = true
@@ -1368,9 +1367,9 @@ local function LockedAsBreadcrumb(t)
 					-- this questID may not even be available to pick up, so try to find a Thing with this questID to determine if the object is complete
 					nq = Search("questID", nqID, "field");
 					if nq and (nq.altcollected or nq.locked) then
-						-- app.PrintDebug("Locked Breadcrumb from",nq.hash,app:Linkify(questID, app.Colors.ChatLink, "search:questID:" .. questID))
+						-- app.PrintDebug("Locked Breadcrumb from locked",nqID,app:Linkify(questID, app.Colors.ChatLink, "search:questID:" .. questID))
 						LockedBreadcrumbCache[questID] = true
-						if app.AccountWideQuestsDB[nqID] then
+						if AWQuestLockers.questID(nqID) then
 							-- app.PrintDebug("...Also locked Account-Wide")
 							-- this quest is locked by a completed AWQ, so we know it can't be completed on another character either
 							AccountWideLockedQuestsCache[questID] = true
@@ -1414,7 +1413,6 @@ app.GlobalVariants.AndLockCriteria = AndLockCriteria
 -- for now I guess this is an explicit variant which covers both
 local AndBreadcrumbWithLockCriteria = {
 	__name = "AndBreadcrumbWithLockCriteria",
-	collectible = CollectibleAsQuestOrAsLocked,
 	locked = function(t)
 		return LockedAsQuest(t) or LockedAsBreadcrumb(t)
 	end,
@@ -1559,12 +1557,7 @@ local createQuest = app.CreateClass("Quest", "questID", {
 		return "quest:"..t.questID
 	end,
 	RefreshCollectionOnly = true,
-	CollectibleAsQuest = function()
-		return CollectibleAsQuest;
-	end,
-	collectible = function(t)
-		return t:CollectibleAsQuest();
-	end,
+	collectible = CollectibleAsQuest,
 	collected = IsQuestFlaggedCompletedForObject,
 	altcollected = function(t)
 		local altQuests = t.altQuests;
@@ -1586,18 +1579,6 @@ local createQuest = app.CreateClass("Quest", "questID", {
 	end,
 	timeRemaining = function(t)
 		return t.isWorldQuest and (GetQuestTimeLeftMinutes(t.questID) or 0) * 60 or nil;
-	end,
-
-	-- Defaults (Mostly used for nesting quests under their npcs for Pet Battles)
-	qgParent = function(t)
-		local parent = t.parent
-		if not parent then return end
-
-		local qg = parent.npcID
-		if qg and qg > 0 then return qg; end
-	end,
-	coords = function(t)
-		if t.qgParent then return t.parent.coords; end
 	end,
 
 	-- These are Retail fields that aren't used in Classic... yet?
@@ -1982,7 +1963,8 @@ local CreateNestedQuest = app.ExtendClass("Quest", "QuestNested", "questID", {
 		if t.saved then return true end
 		-- don't consider incomplete quest collectible if it has a parent which has become saved (perhaps a skipped breadcrumb)
 		local parent = t.parent
-		if parent and parent.questID and parent.saved then
+		if parent and (parent.nestedSkipped or parent.questID and parent.saved) then
+			t.nestedSkipped = true
 			return
 		end
 		-- force collectible for normally un-collectible but trackable (repeatable) Quests to make sure it shows in list if the quest needs to be completed to progess

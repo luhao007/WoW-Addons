@@ -184,6 +184,35 @@ C_Bank = {} -- 11.0.0 New Warbank - Hopefully WoW API extension will catch up so
 ---@field short_name string Placeholder for short bar name
 ---@field RegisterForClicks function Variable params missed by VS Code plugin
 
+--====== New Jan 2026 Implement wrappers for new Menu scheme
+---@class Titan_Menu Wrappers for menu scheme
+---@field AddDivider function Add an actual line into menu
+---@field AddSpacer function Add a blank line into menu
+---@field SetAtribEnabled function Set whether this widget is enabled (old info.isEnabled)
+---@field AddButton function Add a button, used for submemu titles
+---@field AddSelector function TitanAdd simple radio button
+---@field AddSelectorExclusiveList function Add a list of radio that use different saved vars options
+---@field AddSelectorList function Add a list of radio that use same saved vars options
+---@field AddCommand function Add menu button that is a command (old info.func)
+---@field AddSelectorCommand function Add radio with extra steps (code in a function)
+---@field AddContextMenu function Titan ONLY to create root menu
+
+--====== New Dec 2025 Collect info on each toon for Profile Config
+-- Also used by plugins Gold and Post
+---@class CharInfo
+---@field name string
+---@field server string
+---@field class string
+---@field className string
+---@field classId number
+---@field faction string
+---@field factionName string
+---@field level number
+---@field levelText string
+---@field race string
+---@field raceName string
+---@field raceId number
+
 --====== Profile output from Utils
 ---@class Get_Profile_Result
 ---@field ptype string Type of profile being used

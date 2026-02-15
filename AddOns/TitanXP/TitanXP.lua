@@ -271,16 +271,6 @@ local function OnEvent(self, event, a1, a2, ...)
 	end
 end
 
----local Display XP / hour to level data.
-local function ShowXPPerHourLevel()
-	TitanSetVar(TITAN_XP_ID, "DisplayType", "ShowXPPerHourLevel");
-	TitanPanelButton_UpdateButton(TITAN_XP_ID);
-	TitanSetVar(TITAN_XP_ID, "ShowSimpleRested", false);
-	TitanSetVar(TITAN_XP_ID, "ShowSimpleToLevel", false);
-	TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfKills", false);
-	TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfGains", false);
-end
-
 ---local Determine the plugin button text based on user preferences.
 ---@param id string
 ---@return string text_label
@@ -506,135 +496,48 @@ local function GetTooltipText()
 	return res
 end
 
----local Place commas or periods in the number per user options.
----@param chosen string
-local function Seperator(chosen)
-	if chosen == "UseSeperatorComma" then
-		TitanSetVar(TITAN_XP_ID, "UseSeperatorComma", true);
-		TitanSetVar(TITAN_XP_ID, "UseSeperatorPeriod", false);
-	end
-	if chosen == "UseSeperatorPeriod" then
-		TitanSetVar(TITAN_XP_ID, "UseSeperatorComma", false);
-		TitanSetVar(TITAN_XP_ID, "UseSeperatorPeriod", true);
-	end
-	TitanPanelButton_UpdateButton(TITAN_XP_ID);
-end
+---Generate and display right click menu options for user.
+---@param owner table Plugin frame
+---@param rootDescription table Menu context root
+local function GeneratorFunction(owner, rootDescription)
+	local id = TITAN_XP_ID
+	local root = rootDescription -- menu widget to start with
 
----local Display XP per hour this session.
-local function ShowXPPerHourSession()
-	TitanSetVar(TITAN_XP_ID, "DisplayType", "ShowXPPerHourSession");
-	TitanPanelButton_UpdateButton(TITAN_XP_ID);
-	TitanSetVar(TITAN_XP_ID, "ShowSimpleRested", false);
-	TitanSetVar(TITAN_XP_ID, "ShowSimpleToLevel", false);
-	TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfKills", false);
-	TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfGains", false);
-end
+	Titan_Menu.AddCommand(root, id, L["TITAN_XP_MENU_RESET_SESSION"], ResetThisSession)
+	Titan_Menu.AddCommand(root, id, L["TITAN_XP_MENU_REFRESH_PLAYED"], RefreshPlayed)
 
----local Display session time.
-local function ShowSessionTime()
-	TitanSetVar(TITAN_XP_ID, "DisplayType", "ShowSessionTime");
-	TitanPanelButton_UpdateButton(TITAN_XP_ID);
-	TitanSetVar(TITAN_XP_ID, "ShowSimpleRested", false);
-	TitanSetVar(TITAN_XP_ID, "ShowSimpleToLevel", false);
-	TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfKills", false);
-	TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfGains", false);
-end
+	-- orig menu had logic to set several *'simple'* options to false
+	-- This was nice but over complicated the menu.
+	-- GetButtonText logic handles the options correctly.
+	-- It should not confuse the user :) seeing the *'simple'* options selected but used only when
+	-- ShowXPSimple is set.
+	local disp = { -- selectors using the same option
+		{L["TITAN_XP_MENU_SHOW_XPHR_THIS_SESSION"], "ShowXPPerHourSession"},
+		{L["TITAN_XP_MENU_SHOW_XPHR_THIS_LEVEL"], "ShowXPPerHourLevel"},
+		{L["TITAN_XP_MENU_SHOW_SESSION_TIME"], "ShowSessionTime"},
+		{L["TITAN_XP_MENU_SHOW_RESTED_TOLEVELUP"], "ShowXPSimple"},
+	}
+	Titan_Menu.AddSelectorList(root, id, nil, "DisplayType", disp)
 
----local Display simple XP data (% level, rest, xp to level).
-local function ShowXPSimple()
-	TitanSetVar(TITAN_XP_ID, "DisplayType", "ShowXPSimple");
-	TitanPanelButton_UpdateButton(TITAN_XP_ID);
-end
+	local opts_simple = Titan_Menu.AddButton(root, L["TITAN_XP_MENU_SHOW_RESTED_TOLEVELUP"])
+	do
+		Titan_Menu.AddSelector(opts_simple, id, L["TITAN_XP_MENU_SIMPLE_BUTTON_RESTED"], "ShowSimpleRested")
+		Titan_Menu.AddSelector(opts_simple, id, L["TITAN_XP_MENU_SIMPLE_BUTTON_TOLEVELUP"], "ShowSimpleToLevel")
 
----local Generate right click menu.
-local function CreateMenu()
-	local info = {};
-	if TitanPanelRightClickMenu_GetDropdownLevel() == 2 then
-		TitanPanelRightClickMenu_AddTitle(L["TITAN_XP_MENU_SIMPLE_BUTTON_TITLE"], 2);
-
-		info = {};
-		info.text = L["TITAN_XP_MENU_SIMPLE_BUTTON_RESTED"];
-		info.func = function() TitanPanelRightClickMenu_ToggleVar({ TITAN_XP_ID, "ShowSimpleRested" }) end
-		info.checked = TitanUtils_Ternary(TitanGetVar(TITAN_XP_ID, "ShowSimpleRested"), 1, nil);
-		info.keepShownOnClick = 1;
-		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-		info = {};
-		info.text = L["TITAN_XP_MENU_SIMPLE_BUTTON_TOLEVELUP"];
-		info.func = function() TitanPanelRightClickMenu_ToggleVar({ TITAN_XP_ID, "ShowSimpleToLevel" }) end
-		info.checked = TitanUtils_Ternary(TitanGetVar(TITAN_XP_ID, "ShowSimpleToLevel"), 1, nil);
-		info.keepShownOnClick = 1;
-		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-		info = {};
-		info.text = L["TITAN_XP_MENU_SIMPLE_BUTTON_KILLS"];
-		info.func = function()
-			TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfKills", true)
-			TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfGains", false)
-		end
-		info.checked = TitanUtils_Ternary(TitanGetVar(TITAN_XP_ID, "ShowSimpleNumOfKills"), 1, nil);
-		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-		info = {};
-		info.text = L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"];
-		info.func = function()
-			TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfGains", true)
-			TitanSetVar(TITAN_XP_ID, "ShowSimpleNumOfKills", false)
-		end
-		info.checked = TitanUtils_Ternary(TitanGetVar(TITAN_XP_ID, "ShowSimpleNumOfGains"), 1, nil);
-		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-		return
-	elseif TitanPanelRightClickMenu_GetDropdownLevel() == 1 then
-		TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_XP_ID].menuText);
-		info = {};
-		info.text = L["TITAN_XP_MENU_SHOW_XPHR_THIS_SESSION"];
-		info.func = ShowXPPerHourSession;
-		info.checked = TitanUtils_Ternary("ShowXPPerHourSession" == TitanGetVar(TITAN_XP_ID, "DisplayType"), 1, nil);
-		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-		info = {};
-		info.text = L["TITAN_XP_MENU_SHOW_XPHR_THIS_LEVEL"];
-		info.func = ShowXPPerHourLevel;
-		info.checked = TitanUtils_Ternary("ShowXPPerHourLevel" == TitanGetVar(TITAN_XP_ID, "DisplayType"), 1, nil);
-		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-		info = {};
-		info.text = L["TITAN_XP_MENU_SHOW_SESSION_TIME"];
-		info.func = ShowSessionTime;
-		info.checked = TitanUtils_Ternary("ShowSessionTime" == TitanGetVar(TITAN_XP_ID, "DisplayType"), 1, nil);
-		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-		info = {};
-		info.text = L["TITAN_XP_MENU_SHOW_RESTED_TOLEVELUP"];
-		info.func = ShowXPSimple;
-		info.hasArrow = 1;
-		info.checked = TitanUtils_Ternary("ShowXPSimple" == TitanGetVar(TITAN_XP_ID, "DisplayType"), 1, nil);
-		TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-		TitanPanelRightClickMenu_AddSpacer();
-		TitanPanelRightClickMenu_AddCommand(L["TITAN_XP_MENU_RESET_SESSION"], TITAN_XP_ID, ResetThisSession);
-		TitanPanelRightClickMenu_AddCommand(L["TITAN_XP_MENU_REFRESH_PLAYED"], TITAN_XP_ID, RefreshPlayed);
+		local estimate = { -- mututally exclusive
+			{L["TITAN_XP_MENU_SIMPLE_BUTTON_KILLS"], "ShowSimpleNumOfKills"},
+			{L["TITAN_XP_MENU_SIMPLE_BUTTON_XPGAIN"], "ShowSimpleNumOfGains"},
+		}
+		Titan_Menu.AddSelectorExclusiveList(opts_simple, id, "Coin Labels", estimate)
 	end
 
-	TitanPanelRightClickMenu_AddSpacer();
+	Titan_Menu.AddDivider(root)
 
-	info = {};
-	info.text = L["TITAN_PANEL_USE_COMMA"];
-	info.checked = TitanGetVar(TITAN_XP_ID, "UseSeperatorComma");
-	info.func = function()
-		Seperator("UseSeperatorComma")
-	end
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-	info = {};
-	info.text = L["TITAN_PANEL_USE_PERIOD"];
-	info.checked = TitanGetVar(TITAN_XP_ID, "UseSeperatorPeriod");
-	info.func = function()
-		Seperator("UseSeperatorPeriod")
-	end
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-	TitanPanelRightClickMenu_AddControlVars(TITAN_XP_ID)
+	local sep = { -- mututally exclusive
+		{L["TITAN_PANEL_USE_COMMA"], "UseSeperatorComma"},
+		{L["TITAN_PANEL_USE_PERIOD"], "UseSeperatorPeriod"},
+	}
+	Titan_Menu.AddSelectorExclusiveList(root, id, "Separator", sep)
 end
 
 ---local Create plugin .registry and and init some variables and register for first events
@@ -648,7 +551,7 @@ local function OnLoad(self)
 		category = "Built-ins",
 		version = TITAN_VERSION,
 		menuText = L["TITAN_XP_MENU_TEXT"],
-		menuTextFunction = CreateMenu,
+		menuContextFunction = GeneratorFunction, -- NEW scheme (1st priority)
 		buttonTextFunction = GetButtonText,
 		tooltipTitle = L["TITAN_XP_TOOLTIP"],
 		tooltipTextFunction = GetTooltipText,

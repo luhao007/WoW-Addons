@@ -124,6 +124,8 @@ ns.defaults = {
       ZoneAlphaTransmogger = 1,
       ZoneScaleItemUpgrade = 1.5,
       ZoneAlphaItemUpgrade = 1,
+      ZoneScaleDecorExpert = 1.5,
+      ZoneAlphaDecorExpert = 1,
       ZoneScalePaths = 1.5,
       ZoneAlphaPaths = 1,
 
@@ -158,6 +160,8 @@ ns.defaults = {
       MiniMapAlphaTransmogger = 1,
       MiniMapScaleItemUpgrade = 1.5,
       MiniMapAlphaItemUpgrade = 1,
+      MiniMapScaleDecorExpert = 1.5,
+      MiniMapAlphaDecorExpert = 1,
       MiniMapScalePaths = 1.5,
       MiniMapAlphaPaths = 1,
 
@@ -278,6 +282,7 @@ ns.defaults = {
       showMiniMapTransmogger = true,
       showMiniMapStablemaster = true,
       showMiniMapItemUpgrade = true,
+      showMiniMapDecorExpert = true,
       showMiniMapCatalyst = true,
       showMiniMapZidormi = true,
     -- MiniMap Paths
@@ -355,6 +360,7 @@ ns.defaults = {
       showZoneTransmogger = true,
       showZoneStablemaster = true,
       showZoneItemUpgrade = true,
+      showZoneDecorExpert = true,
       showZoneCatalyst = true,
       showZoneZidormi = true,
       showZonePaths = true,

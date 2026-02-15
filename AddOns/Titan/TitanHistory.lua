@@ -10,6 +10,69 @@ These are in a seperate file to
 --- Release notes. Keep structure; most recent on 'top'
 local recent_changes = {
    {
+      version = "9.1.0",
+      when = "2026/02/02",
+      topics =  {
+         {
+            topic = "Titan Menus",
+            lines = {
+               "!! Menus have been rewritten !! The new menus will look a little different.",
+               "-- Some menus were reordered or changed to fit the new scheme.",
+               "Devs : The older scheme and the new scheme work side by side.",
+               "-- .menuTextFunction will fail when Blizz removes deprecated code in the future - no idea when.",
+               "-- If you wish to update, please see Bags for old and new menu schemes explained.",
+               "Devs : Titan now honors color coding in registry.menuText.",
+            },
+         },
+         {
+            topic = "Titan Tooltips",
+            lines = {
+               "Internals changed due to Midnight 'secret' value errors, mostly in instances.",
+               "!! New option in Tooltips and Frames to adjust tooltip timer - 0.0 - 10 sec.",
+               "Devs : The registry.tooltipTitle is now optional allowing the title to be custom set.",
+               "Devs : If your tooltip is not right, please use Titan Discord to message us for assistance.",
+               "-- Especially if you use registry.tooltipCustomFunction ",
+            },
+         },
+         {
+            topic = "Titan Config",
+            lines = {
+               "Opening Config from Titan menu remains unavailable. Use Esc > Options as before.",
+               "Profile Config now shows some toon info, as well as Gold and Post info if they are enabled.",
+            },
+         },
+         {
+            topic = "Titan Gold",
+            lines = {
+               "!! On first login the tracked list will only show that toon !!",
+               "!! Gold data moved into Titan profiles, causing the need to login to toons again.",
+               "Menus are changed:",
+               "- Show and Delete are not available; the data is now part of the profile.",
+               "- Delete is now delete toon profile",
+               "Fix : Added back 'show color' option for those that want white text.",
+               "Fix : 'gsub' error in button text.",
+            },
+         },
+         {
+            topic = "TitanPost",
+            lines = {
+               "New built-in! ",
+               "Button info: ",
+               ": ?? read/total from last open; ?? = not opened this session.",
+               ": !! number of toons with expiring mail.",
+            },
+         },
+         {
+            topic = "Titan Fixes",
+            lines = {
+               "- Loot : Should not error on mouse over of new gear.",
+               "- Titan : Should not get IsBattleground error on any WoW version.",
+               "- Performance : Should now honor selected number of addons.",
+            },
+         },
+      },
+   },
+   {
       version = "9.0.2",
       when = "2026/01/12",
       topics =  {
@@ -109,18 +172,6 @@ local recent_changes = {
                   "Help : Titan > Config > Help - More detailed info; Redesigned for readability.",
                },
             },
-      },
-   },
-   {
-      version = "8.4.2",
-      when = "2025/11/01",
-      topics = {
-         {
-            topic = "Titan",
-            lines = {
-               "TOC update only.",
-            },
-         },
       },
    },
 }
