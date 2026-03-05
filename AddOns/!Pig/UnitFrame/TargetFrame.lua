@@ -194,7 +194,9 @@ function UnitFramefun.Mubiao()
 		if TargetFrame.threatNumericIndicator then
 			TargetFrame:HookScript("OnEvent", function (self,event,arg1)
 				if event=="PLAYER_ENTERING_WORLD" or event=="PLAYER_TARGET_CHANGED" or event=="UNIT_THREAT_LIST_UPDATE" or event=="UNIT_THREAT_SITUATION_UPDATE" then
-					if TocversionOK then
+					if PIG_MaxTocversion("tbc") then
+						TargetFrame.threatNumericIndicator:SetPoint("BOTTOM", TargetFrame, "TOP", -66, -25);	
+					elseif PIG_MaxTocversion() then
 						TargetFrame.threatNumericIndicator:SetPoint("BOTTOM", TargetFrame, "TOP", -86, -22);
 					else
 						TargetFrame.threatNumericIndicator:SetPoint("BOTTOM", TargetFrame, "TOP", -68, -24);
@@ -468,9 +470,11 @@ function UnitFramefun.Mubiao()
 	if PIGA["UnitFrame"]["TargetFrame"]["Yisu"] and not TargetFrame.yisuF then
 		TargetFrame.yisuF=CreateFrame("Frame",nil,TargetFrame);
 		TargetFrame.yisuF:SetSize(49,18);
-		if TocversionOK then
+		TargetFrame.yisuF:SetFrameLevel(9)
+		if PIG_MaxTocversion("tbc") then
+			TargetFrame.yisuF:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 210, -58);	
+		elseif PIG_MaxTocversion() then
 			TargetFrame.yisuF:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 192, -58);
-			TargetFrame.yisuF:SetFrameLevel(9)
 		else
 			TargetFrame.yisuF:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 206, -38);
 			TargetFrame.yisuF:SetFrameLevel(505)

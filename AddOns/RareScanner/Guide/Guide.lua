@@ -2685,9 +2685,6 @@ private.CONTAINER_GUIDE = {
 	["6178812393"] = {
 		[RSConstants.FLAG] = { x = 0.2483, y = 0.6941, comment = AL["NOTE_617881_1"], questID = 94626 };
 	}; --ookery Cache
-	["6138292413"] = {
-		[RSConstants.ENTRANCE] = { x = 0.4780, y = 0.4699 };
-	}; --A Frayed Scroll
 	["5711412413"] = {
 		[RSConstants.ENTRANCE..1] = { x = 0.5193, y = 0.4932 };
 		[RSConstants.ENTRANCE..2] = { x = 0.5429, y = 0.5289 };
@@ -2986,6 +2983,9 @@ private.CONTAINER_GUIDE = {
 		[RSConstants.STEP5] = { x = 0.5135, y = 0.5599, comment = AL["NOTE_591054_5"], questID = 93146 };
 		[RSConstants.STEP6] = { x = 0.5115, y = 0.5856, comment = AL["NOTE_591054_6"], questID = 93146 };
 	}; --Gift of the Cycle
+	["6182922505"] = {
+		[RSConstants.PATH_START] = { x = 0.5313, y = 0.2154 };
+	}; --Sturdy Chest
 }
 
 ---============================================================================

@@ -900,7 +900,7 @@ do
 
       ns.instanceIcons = value.type == "Dungeon" or value.type == "Raid" or value.type == "PassageDungeon" or value.type == "PassageDungeonRaidMulti" or value.type == "PassageRaid" or value.type == "VInstance" or value.type == "MultiVInstance" 
                           or value.type == "Multiple" or value.type == "LFR" or value.type == "Gray" or value.type == "VKey1" or value.type == "Delves" or value.type == "VInstanceD" or value.type == "VInstanceR" or value.type == "MultiVInstanceD" 
-                          or value.type == "MultiVInstanceR" or value.type == "DelvesPassage" or value.type == "PassageLFR" or value.type == "PetBattleDungeon"
+                          or value.type == "MultiVInstanceR" or value.type == "DelvesPassage" or value.type == "PassageLFR" or value.type == "PetBattleDungeon" or value.type == "BountyDelves"
 
       ns.transportIcons = value.type == "Portal" or value.type == "PortalS" or value.type == "HPortal" or value.type == "APortal" or value.type == "HPortalS" or value.type == "APortalS" or value.type == "HPortalGray" or value.type == "APortalGray" 
                           or value.type == "HPortalSGray" or value.type == "APortalSGray" or value.type == "PassageHPortal" or value.type == "PassageAPortal" or value.type == "PassagePortal" or value.type == "Zeppelin" or value.type == "HZeppelin" 
@@ -987,7 +987,7 @@ do
                       or CurrentMapID == 77 or CurrentMapID == 78 or CurrentMapID == 80 or CurrentMapID == 81 or CurrentMapID == 83 or CurrentMapID == 97 
                       or CurrentMapID == 106 or CurrentMapID == 199 or CurrentMapID == 327 or CurrentMapID == 460 or CurrentMapID == 461 or CurrentMapID == 462 
                       or CurrentMapID == 468 or CurrentMapID == 1527 or CurrentMapID == 198 or CurrentMapID == 249
-          
+
       ns.EasternKingdomIDs = CurrentMapID == 14 or CurrentMapID == 15 or CurrentMapID == 16 or CurrentMapID == 17 or CurrentMapID == 18 
                       or CurrentMapID == 19 or CurrentMapID == 21 or CurrentMapID == 22 or CurrentMapID == 23 or CurrentMapID == 25 or CurrentMapID == 26 
                       or CurrentMapID == 27 or CurrentMapID == 28 or CurrentMapID == 30 or CurrentMapID == 32 or CurrentMapID == 33 or CurrentMapID == 34 
@@ -997,52 +997,41 @@ do
                       or CurrentMapID == 465 or CurrentMapID == 467 or CurrentMapID == 469 or CurrentMapID == 2070 
                       or CurrentMapID == 241 or CurrentMapID == 203 or CurrentMapID == 204 or CurrentMapID == 205 or CurrentMapID == 241 or CurrentMapID == 244 
                       or CurrentMapID == 245 or CurrentMapID == 201 or CurrentMapID == 95 or CurrentMapID == 122 or CurrentMapID == 217 or CurrentMapID == 226
-          
+
       ns.OutlandIDs = CurrentMapID == 100 or CurrentMapID == 102 or CurrentMapID == 104 or CurrentMapID == 105 or CurrentMapID == 107 or CurrentMapID == 108
                       or CurrentMapID == 109
-          
+
       ns.NorthrendIDs = CurrentMapID == 114 or CurrentMapID == 115 or CurrentMapID == 116 or CurrentMapID == 117 or CurrentMapID == 118 or CurrentMapID == 119
                       or CurrentMapID == 120 or CurrentMapID == 121 or CurrentMapID == 123 or CurrentMapID == 127 or CurrentMapID == 170
-          
+
       ns.PandariaIDs = CurrentMapID == 371 or CurrentMapID == 376 or CurrentMapID == 379 or CurrentMapID == 388 or CurrentMapID == 390 or CurrentMapID == 418
                       or CurrentMapID == 422 or CurrentMapID == 433 or CurrentMapID == 434 or CurrentMapID == 504 or CurrentMapID == 554 or CurrentMapID == 1530
                       or CurrentMapID == 507
-          
+  
       ns.DraenorIDs = CurrentMapID == 525 or CurrentMapID == 534 or CurrentMapID == 535 or CurrentMapID == 539 or CurrentMapID == 542 or CurrentMapID == 543
                       or CurrentMapID == 550 or CurrentMapID == 588
-          
+
       ns.BrokenIslesIDs = CurrentMapID == 630 or CurrentMapID == 634 or CurrentMapID == 641 or CurrentMapID == 646 or CurrentMapID == 650 or CurrentMapID == 652
                       or CurrentMapID == 750 or CurrentMapID == 680 or CurrentMapID == 830 or CurrentMapID == 882 or CurrentMapID == 885 or CurrentMapID == 905
                       or CurrentMapID == 941 or CurrentMapID == 790 or CurrentMapID == 971
-          
+
       ns.ZandalarIDs = CurrentMapID == 862 or CurrentMapID == 863 or CurrentMapID == 864 or CurrentMapID == 1355 or CurrentMapID == 1528
-          
+
       ns.KulTirasIDs = CurrentMapID == 895 or CurrentMapID == 896 or CurrentMapID == 942 or CurrentMapID == 1462 or CurrentMapID == 1169
-          
+
       ns.ShadowlandIDs = CurrentMapID == 1525 or CurrentMapID == 1533 or CurrentMapID == 1536 or CurrentMapID == 1543 or CurrentMapID == 1565 or CurrentMapID == 1816
                       or CurrentMapID == 1961 or CurrentMapID == 1970 or CurrentMapID == 2016
-          
+
       ns.DragonIsleIDs = CurrentMapID == 2022 or CurrentMapID == 2023 or CurrentMapID == 2024 or CurrentMapID == 2025 or CurrentMapID == 2026 or CurrentMapID == 2133
                       or CurrentMapID == 2151 or CurrentMapID == 2200 or CurrentMapID == 2239
-          
+ 
       ns.KhazAlgar = CurrentMapID == 2248 or CurrentMapID == 2214 or CurrentMapID == 2215 or CurrentMapID == 2255 or CurrentMapID == 2256 or CurrentMapID == 2213 
                       or CurrentMapID == 2216 or CurrentMapID == 2369 or CurrentMapID == 2346 or CurrentMapID == 2371 or CurrentMapID == 2472
 
       ns.QuelThalas = CurrentMapID == 2395 or CurrentMapID == 2437 or CurrentMapID == 2405 or CurrentMapID == 2413
 
-      ns.AllZoneIDs = ns.KalimdorIDs
-                      or ns.EasternKingdomIDs
-                      or ns.OutlandIDs
-                      or ns.NorthrendIDs
-                      or ns.DraenorIDs
-                      or ns.PandariaIDs
-                      or ns.BrokenIslesIDs
-                      or ns.ZandalarIDs
-                      or ns.KulTirasIDs
-                      or ns.ShadowlandIDs
-                      or ns.DragonIsleIDs
-                      or ns.KhazAlgar
-                      or ns.QuelThalas
+      ns.AllZoneIDs = ns.KalimdorIDs or ns.EasternKingdomIDs or ns.OutlandIDs or ns.NorthrendIDs or ns.DraenorIDs or ns.PandariaIDs or ns.BrokenIslesIDs or ns.ZandalarIDs  
+                      or ns.KulTirasIDs or ns.ShadowlandIDs or ns.DragonIsleIDs or ns.KhazAlgar or ns.QuelThalas
 
       -- Special mapIDs that are actually zones/subzones but are considered dungeons/microdungeons by the game are hereby correctly recognized as zones in the addon (no capitals)
       ns.ZoneIDs = CurrentMapID == 750 or CurrentMapID == 652 or CurrentMapID == 2266 or CurrentMapID == 2322
@@ -1401,37 +1390,37 @@ do
 
         -- Instance Icons
         if value.type == "Raid" then
-          scale = db.ZoneScaleRaids
+          scale = (db.ZoneScaleRaids or 1) * 1.5
           alpha = db.ZoneAlphaRaids
         end
 
         if value.type == "Dungeon" then
-          scale = db.ZoneScaleDungeons
+          scale = (db.ZoneScaleDungeons or 1) * 1.5
           alpha = db.ZoneAlphaDungeons
         end        
 
         if value.type == "PassageDungeon" or value.type == "PassageRaid" then
-          scale = db.ZoneScalePassage
+          scale = (db.ZoneScalePassage or 1) * 1.5
           alpha = db.ZoneAlphaPassage
         end
 
         if value.type == "Multiple" or value.type == "MultipleM" or value.type == "MultipleR" or value.type == "MultipleD" or value.type == "PassageDungeonRaidMulti" then
-          scale = db.ZoneScaleMultiple
+          scale = (db.ZoneScaleMultiple or 1) * 1.5
           alpha = db.ZoneAlphaMultiple
         end
 
         if value.type == "VInstance" or value.type == "MultiVInstance" or value.type == "VKey1" or value.type == "VInstanceD" or value.type == "VInstanceR" or value.type == "MultiVInstanceD" or value.type == "MultiVInstanceR" then
-          scale = db.ZoneScaleOldVanilla
+          scale = (db.ZoneScaleOldVanilla or 1) * 1.5
           alpha = db.ZoneAlphaOldVanilla
         end
 
         if value.type == "LFR" or value.type == "PassageLFR" then
-          scale = db.ZoneScaleLFR
+          scale = (db.ZoneScaleLFR or 1) * 1.5
           alpha = db.ZoneAlphaLFR
         end
 
         if value.type == "PetBattleDungeon" then
-          scale = db.ZoneScalePetBattleDungeons
+          scale = (db.ZoneScalePetBattleDungeons or 1) * 1.5
           alpha = db.ZoneAlphaPetBattleDungeons
         end
 
@@ -1622,12 +1611,12 @@ do
         alpha = 1
       end
 
-      if (value.type == "Delves" or value.type == "DelvesPassage") and value.showInZone and (mapInfo.mapType == 3 or mapInfo.mapType == 5) then -- zone fixed value for delves!
+      if (value.type == "Delves" or value.type == "DelvesPassage" or value.type == "BountyDelves") and value.showInZone and (mapInfo.mapType == 3 or mapInfo.mapType == 5) then -- zone fixed value for delves!
         scale = 2
         alpha = 1
       end
 
-      if (value.type == "Delves" or value.type == "DelvesPassage") and value.showOnMinimap then -- minimap fixed value for delves!
+      if (value.type == "Delves" or value.type == "DelvesPassage" or value.type == "BountyDelves") and value.showOnMinimap then -- minimap fixed value for delves!
         scale = 1.5
         alpha = 1
       end
@@ -1674,7 +1663,7 @@ do
 
 				while state do -- Have we reached the end of this continent?
           local alpha = db.continentAlpha
-          local scale = db.continentScale
+          local scale = (db.continentScale or 1) * 1.5
           local icon = ns.icons[value.type]
           local mapInfo = C_Map.GetMapInfo(WorldMapFrame:GetMapID())
 
@@ -1724,10 +1713,10 @@ do
           if (anyLocked and db.invertlockout) or (allLocked and not db.invertlockout) then
 						alpha = db.continentAlpha
           end
-                  
-          if (value.type == "Delves" or value.type == "DelvesPassage") and value.showOnContinent and mapInfo.mapType == 2 then -- continent fixed value for delves!
-            scale = 2.1
-            alpha = 1
+
+          if (value.type == "Delves" or value.type == "DelvesPassage" or value.type == "BountyDelves") and value.showOnContinent and mapInfo.mapType == 2 then -- own delve icon
+            scale = (db.continentScale or 1) * 2.1
+            alpha = db.continentAlpha
           end
               
           if (mapInfo.mapType == 2 and (ns.dbProfile.ContinentDeletedIcons[t.contId] and not ns.dbProfile.ContinentDeletedIcons[t.contId][state]) and value.showOnContinent) then -- Continent
@@ -1975,7 +1964,7 @@ local CurrentMapID = WorldMapFrame:GetMapID()
       if (button == "LeftButton" and db.WayPoints and IsShiftKeyDown()) then
         if CurrentMapID and CurrentMapID ~= 946 then
           if TomTom then
-            setWaypoint(uiMapId, coord)
+            setWaypoint(uiMapId, coord, self)
             return
           elseif C_Map.GetMapInfo(uiMapId) then
             local x, y = HandyNotes:getXY(coord)
@@ -1995,7 +1984,7 @@ local CurrentMapID = WorldMapFrame:GetMapID()
       if (button == "LeftButton" and db.WayPoints) then
         if CurrentMapID and CurrentMapID ~= 946 then
           if TomTom then
-            setWaypoint(uiMapId, coord)
+            setWaypoint(uiMapId, coord, self)
             return
           elseif C_Map.GetMapInfo(uiMapId) then
             local x, y = HandyNotes:getXY(coord)
@@ -2013,13 +2002,15 @@ local CurrentMapID = WorldMapFrame:GetMapID()
       end
     end
 
-    if (button == "RightButton" and mnID and not IsShiftKeyDown() and not IsAltKeyDown()) then -- swap right
-      ns.MapNotesOpenMap(mnID)
-    end
+    -- if (button == "RightButton" and mnID and not IsShiftKeyDown() and not IsAltKeyDown() and ns.Addon.db.profile.activate.SwapButtons) then -- swap right
+    --  ns.MapNotesOpenMap(mnID)
+    --  return
+    -- end
 
-    if (button == "LeftButton" and mnID2 and not IsShiftKeyDown() and not IsAltKeyDown()) then -- swap left
-      ns.MapNotesOpenMap(mnID2)
-    end
+    -- if (button == "LeftButton" and mnID2 and not IsShiftKeyDown() and not IsAltKeyDown()) then -- swap left
+    --  ns.MapNotesOpenMap(mnID2)
+    --  return
+    -- end
   end
 
   if not ns.Addon.db.profile.activate.SwapButtons then -- Original
@@ -2027,7 +2018,7 @@ local CurrentMapID = WorldMapFrame:GetMapID()
       if (button == "RightButton" and db.WayPoints and IsShiftKeyDown()) then
         if CurrentMapID and CurrentMapID ~= 946 then
           if TomTom then
-              setWaypoint(uiMapId, coord)
+              setWaypoint(uiMapId, coord, self)
               return
           elseif C_Map.GetMapInfo(uiMapId) then
             local x, y = HandyNotes:getXY(coord)
@@ -2047,7 +2038,7 @@ local CurrentMapID = WorldMapFrame:GetMapID()
       if (button == "RightButton" and db.WayPoints) then
         if CurrentMapID and CurrentMapID ~= 946 then
           if TomTom then
-            setWaypoint(uiMapId, coord)
+            setWaypoint(uiMapId, coord, self)
             return
           elseif C_Map.GetMapInfo(uiMapId) then
             local x, y = HandyNotes:getXY(coord)
@@ -2065,13 +2056,15 @@ local CurrentMapID = WorldMapFrame:GetMapID()
       end
     end
 
-    if (button == "LeftButton" and mnID and not IsShiftKeyDown() and not IsAltKeyDown()) then -- original left
-      ns.MapNotesOpenMap(mnID)
-    end
+    -- if (button == "LeftButton" and mnID and not IsShiftKeyDown() and not IsAltKeyDown() and not ns.Addon.db.profile.activate.SwapButtons) then -- original left
+    --  ns.MapNotesOpenMap(mnID)
+    --  return
+    -- end
 
-    if (button == "RightButton" and mnID2 and not IsShiftKeyDown() and not IsAltKeyDown()) then -- original right
-      ns.MapNotesOpenMap(mnID2)
-    end
+    -- if (button == "RightButton" and mnID2 and not IsShiftKeyDown() and not IsAltKeyDown()) then -- original right
+    --  ns.MapNotesOpenMap(mnID2)
+    --  return
+    -- end
   end
 
   -- npc targeting & rangecheck
@@ -2144,6 +2137,7 @@ local CurrentMapID = WorldMapFrame:GetMapID()
   end
 
   if ns.Addon.db.profile.activate.SwapButtons then -- New SwapButtons
+
     if (button == "RightButton" and not IsAltKeyDown()) then
       if mnID then
         ns.MapNotesOpenMap(mnID)
@@ -2194,6 +2188,7 @@ local CurrentMapID = WorldMapFrame:GetMapID()
   end
 
   if not ns.Addon.db.profile.activate.SwapButtons then -- Original
+
     if (button == "LeftButton" and not IsAltKeyDown()) then
       if mnID then
         ns.MapNotesOpenMap(mnID)
@@ -2553,7 +2548,6 @@ end
 function Addon:PLAYER_LOGIN() -- OnInitialize()
   ns.Addon = Addon
   ns.LoadOptions(self) -- RetailOptions.lua
-  ns.BlizzardDelvesAddTT() -- RetailDelves.lua
   ns.BlizzardDelvesAddFunction() -- RetailDelves.lua
   ns.ChangingMapToPlayerZone() -- RetailWorldMap.lua
 
@@ -2593,8 +2587,8 @@ function Addon:PLAYER_LOGIN() -- OnInitialize()
   Addon:RegisterEvent("ZONE_CHANGED")
   Addon:RegisterEvent("ZONE_CHANGED_INDOORS")
 
-  -- UseInBattle
-  ns.SyncUseInBattleFromDB() -- RetailErrorMessage.lua
+  -- Check for Changelog
+  ns.CheckRetailChangelog() -- RetailChangelog.lua
 
   -- Check for PlayerArrow on Minimap
   ns.MiniMapPlayerArrow() -- RetailMiniMap.lua
@@ -2608,7 +2602,7 @@ function Addon:PLAYER_LOGIN() -- OnInitialize()
   -- Check for Professions
   ns.AutomaticProfessionDetection() -- ProfessionDetection.lua
 
-  -- Remove& Refresh BlizzardPOIs (ns.BlizzAreaPoisInfo) and ZidormiPOIs (ns.BlizzAreaPoisInfoZidormi)
+  -- Remove& Refresh BlizzardPOIs (ns.BlizzAreaPoisInfo) and ZidormiPOIs (ns.BlizzAreaPoisInfoZidormi) and VignetteIDs (ns.HiddenBlizzVignetteIDs)
   ns.RemovePOIs() -- RetailPOIs.lua
 
   -- Check if Blizz Instance entrances is true then remove Blizzard Pins

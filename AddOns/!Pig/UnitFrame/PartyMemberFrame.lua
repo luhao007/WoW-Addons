@@ -70,24 +70,10 @@ end
 --显示BUFF
 local function Update_BUFF(Party,id)
 	if IsInRaid() then return end
-	for j = 1, UFP_MAX_PARTY_BUFFS, 1 do
-		local _, icon = UnitBuff(id, j);
-		local IconUI = _G[Party.."Buff"..j].Icon
-		if icon then
-			IconUI:SetTexture(icon);
-			IconUI:SetAlpha(1);
-		else
-			IconUI:SetAlpha(0);
-		end
-	end
-end
-local function Update_Debuff(Party,id)
-	if IsInRaid() then return end
 	if PIG_MaxTocversion() then
-	else
-		for j = 1, UFP_MAX_PARTY_DEBUFFS, 1 do
-			local _, icon = UnitDebuff(id, j);
-			local IconUI = _G[Party.."Debuff"..j].Icon
+		for j = 1, UFP_MAX_PARTY_BUFFS, 1 do
+			local _, icon = UnitBuff(id, j);
+			local IconUI = _G[Party.."Buff"..j].Icon
 			if icon then
 				IconUI:SetTexture(icon);
 				IconUI:SetAlpha(1);
@@ -96,6 +82,22 @@ local function Update_Debuff(Party,id)
 			end
 		end
 	end
+end
+local function Update_Debuff(Party,id)
+	if IsInRaid() then return end
+	-- if PIG_MaxTocversion() then
+	-- else
+	-- 	for j = 1, UFP_MAX_PARTY_DEBUFFS, 1 do
+	-- 		local _, icon = UnitDebuff(id, j);
+	-- 		local IconUI = _G[Party.."Debuff"..j].Icon
+	-- 		if icon then
+	-- 			IconUI:SetTexture(icon);
+	-- 			IconUI:SetAlpha(1);
+	-- 		else
+	-- 			IconUI:SetAlpha(0);
+	-- 		end
+	-- 	end
+	-- end
 end
 ----队友目标
 local function Update_mubiao(Party,id)

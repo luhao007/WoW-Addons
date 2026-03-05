@@ -850,11 +850,12 @@ function private.CraftStringToQualityBtnText(craftString)
 	if not craftString then
 		return ""
 	end
-	local quality = CraftString.GetQuality(craftString)
-	if not quality then
+	local craftQuality = CraftString.GetQuality(craftString)
+	local useMidnightIcon = TradeSkill.IsMidnightRecipe(CraftString.GetSpellId(craftString))
+	if not craftQuality then
 		return ""
 	end
-	return TradeSkill.GetCraftedQualityChatIcon(quality, true)..TextureAtlas.GetTextureLink("iconPack.18x18/Chevron/Down")
+	return TradeSkill.GetCraftedQualityChatIcon(craftQuality, useMidnightIcon, true)..TextureAtlas.GetTextureLink("iconPack.18x18/Chevron/Down")
 end
 
 function private.CraftStringToQualityBtnShown(craftString)

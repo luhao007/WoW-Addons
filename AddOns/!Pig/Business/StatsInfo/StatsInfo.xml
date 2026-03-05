@@ -8,5 +8,6 @@
 	<Script file="Item.lua" />
 	<Script file="Trade.lua" />
 	<Script file="AH.lua" />
+	<Script file="Played.lua" />
 	<Script file="Admin.lua" />
 </Ui>

@@ -173,19 +173,23 @@ function RSMap.GetMapPOIs(mapID, onWorldMap, onMiniMap)
 		for _, entityID in ipairs(entitiesNodb[mapID][C_Map.GetMapArtID(mapID)]) do
 			local POI
 			
-			local entityInfo = RSGeneralDB.GetAlreadyFoundEntity(entityID)
+			local entityInfo = RSGeneralDB.GetAlreadyFoundEntity(entityID, RSConstants.NPC_VIGNETTE)
 			if (entityInfo) then
-				if (RSConstants.IsNpcAtlas(entityInfo.atlasName)) then
-					POI = RSNpcPOI.GetMapNpcPOI(entityID, mapID, questTitles, vignetteGUIDs, areaPOIs, onWorldMap, onMiniMap)
-				elseif (RSConstants.IsContainerAtlas(entityInfo.atlasName)) then
-					POI = RSContainerPOI.GetMapContainerPOI(entityID, mapID, vignetteGUIDs, areaPOIs, onWorldMap, onMiniMap)
-				elseif (RSConstants.IsEventAtlas(entityInfo.atlasName)) then
-					POI = RSEventPOI.GetMapEventPOI(entityID, mapID, vignetteGUIDs, areaPOIs, onWorldMap, onMiniMap)
-				end
+				POI = RSNpcPOI.GetMapNpcPOI(entityID, mapID, questTitles, vignetteGUIDs, areaPOIs, onWorldMap, onMiniMap)
+			end
+			
+			entityInfo = RSGeneralDB.GetAlreadyFoundEntity(entityID, RSConstants.CONTAINER_VIGNETTE)
+			if (entityInfo) then
+				POI = RSContainerPOI.GetMapContainerPOI(entityID, mapID, vignetteGUIDs, areaPOIs, onWorldMap, onMiniMap)
+			end
+			
+			entityInfo = RSGeneralDB.GetAlreadyFoundEntity(entityID, RSConstants.EVENT_VIGNETTE)
+			if (entityInfo) then
+				POI = RSEventPOI.GetMapEventPOI(entityID, mapID, vignetteGUIDs, areaPOIs, onWorldMap, onMiniMap)
+			end
 				
-				if (POI) then
-					tinsert(MapPOIs,POI)
-				end
+			if (POI) then
+				tinsert(MapPOIs,POI)
 			end
 		end
 	end
@@ -262,7 +266,7 @@ function RSMap.GetWorldMapPOI(objectGUID, vignetteInfo, mapID)
 		end
 		
 		local containerInfo = RSContainerDB.GetInternalContainerInfo(containerID)
-		local alreadyFoundInfo = RSGeneralDB.GetAlreadyFoundEntity(containerID)
+		local alreadyFoundInfo = RSGeneralDB.GetAlreadyFoundEntity(containerID, RSConstants.CONTAINER_VIGNETTE)
 		
 		if (containerInfo or alreadyFoundInfo) then
 			return RSContainerPOI.GetContainerPOI(containerID, mapID, containerInfo, alreadyFoundInfo)
@@ -282,7 +286,7 @@ function RSMap.GetWorldMapPOI(objectGUID, vignetteInfo, mapID)
 		end
 		
 		local npcInfo = RSNpcDB.GetInternalNpcInfo(npcID)
-		local alreadyFoundInfo = RSGeneralDB.GetAlreadyFoundEntity(npcID)
+		local alreadyFoundInfo = RSGeneralDB.GetAlreadyFoundEntity(npcID, RSConstants.NPC_VIGNETTE)
 		
 		if (npcInfo or alreadyFoundInfo) then
 			return RSNpcPOI.GetNpcPOI(npcID, mapID, npcInfo, alreadyFoundInfo)
@@ -291,7 +295,7 @@ function RSMap.GetWorldMapPOI(objectGUID, vignetteInfo, mapID)
 		local eventID = tonumber(vignetteObjectID)
 		
 		local eventInfo = RSEventDB.GetInternalEventInfo(eventID)
-		local alreadyFoundInfo = RSGeneralDB.GetAlreadyFoundEntity(eventID)
+		local alreadyFoundInfo = RSGeneralDB.GetAlreadyFoundEntity(eventID, RSConstants.EVENT_VIGNETTE)
 	
 		if (eventInfo or alreadyFoundInfo) then
 			return RSEventPOI.GetEventPOI(eventID, mapID, eventInfo, alreadyFoundInfo)

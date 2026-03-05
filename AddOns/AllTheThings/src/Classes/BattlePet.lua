@@ -107,7 +107,7 @@ app.CreateSpecies = app.CreateClass(CLASSNAME, KEY, {
 		-- character collected
 		if saved then
 			if not t.collected then
-				app.SetThingCollected(KEY, t[KEY], true, true)
+				app.SetThingCollected(KEY, t[KEY], not PerCharacterSpecies[t[KEY]], true)
 			end
 			return 1
 		end
@@ -228,7 +228,7 @@ app.AddEventRegistration("NEW_PET_ADDED", function(petID, speciesID)
 		CollectedSpeciesHelper[speciesID] = nil
 		-- if the CollectedSpeciesHelper is exactly 1, then this is newly collected
 		if CollectedSpeciesHelper[speciesID] == 1 then
-			app.SetThingCollected(KEY, speciesID, true, true)
+			app.SetThingCollected(KEY, speciesID, not PerCharacterSpecies[speciesID], true)
 		end
 	end
 end)
@@ -242,7 +242,7 @@ app.AddEventRegistration("PET_JOURNAL_PET_DELETED", function(petID, speciesID)
 		-- if the CollectedSpeciesHelper is exactly 0, then this is now removed
 		if CollectedSpeciesHelper[speciesID] == 0 then
 			-- app.PrintDebug("Pet Missing",speciesID);
-			app.SetThingCollected(KEY, speciesID, true)
+			app.SetThingCollected(KEY, speciesID, not PerCharacterSpecies[speciesID])
 		end
 	end
 end)

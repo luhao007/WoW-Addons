@@ -107,7 +107,7 @@ end
 --#region Xml annotations
 
 --- `DelveCompanionDLDelveInfoWidgetTemplate`
----@class DLDelveInfoWidgetXml : Frame
+---@class (exact) DLDelveInfoWidgetXml : Frame
 ---@field Story CustomActionWidget
 ---@field Chest CustomActionWidget
 ---@field NemesisSolo CustomActionWidget

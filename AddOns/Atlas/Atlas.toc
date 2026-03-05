@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: nanderson11
-## Version: v3.14.1
+## Version: v3.15.0
 
 ## Title: Atlas
 ## Notes: Instance Map Browser
@@ -62,3 +62,4 @@ Data\BattleforAzeroth-Retail.lua
 Data\Shadowlands-Retail.lua
 Data\Dragonflight-Retail.lua
 Data\TheWarWithin-Retail.lua
+Data\Midnight-Retail.lua

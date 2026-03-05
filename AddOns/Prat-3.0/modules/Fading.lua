@@ -24,21 +24,11 @@
 --
 -------------------------------------------------------------------------------
 Prat:AddModuleToLoad(function()
-
-  local Prat = Prat
-
-  local PRAT_MODULE = Prat:RequestModuleName("Fading")
-
-  if PRAT_MODULE == nil then
-    return
-  end
-
-  local mod = Prat:NewModule(PRAT_MODULE)
-
-  local PL = mod.PL
+  local module = Prat:NewModule("Fading")
+  local PL = module.PL
 
   --[==[@debug@
-  PL:AddLocale(PRAT_MODULE, "enUS", {
+  PL:AddLocale("enUS", {
     ["module_name"] = "Fading",
     ["module_desc"] = "Chat window text fading options.",
     ["textfade_name"] = "Enable Fading",
@@ -54,163 +44,143 @@ Prat:AddModuleToLoad(function()
   do
       local L
 
-  
-L = {
-	["Fading"] = {
-		["duration_desc"] = "Set the number of seconds to wait before before fading text of chat windows.",
-		["duration_name"] = "Set Fading Delay (Seconds)",
-		["module_desc"] = "Chat window text fading options.",
-		["module_name"] = "Fading",
-		["textfade_desc"] = "Toggle enabling text fading for each chat window.",
-		["textfade_name"] = "Enable Fading",
-	}
-}
+
+L = {}
+-- Fading
+L["duration_desc"] = "Set the number of seconds to wait before before fading text of chat windows."
+L["duration_name"] = "Set Fading Delay (Seconds)"
+L["module_desc"] = "Chat window text fading options."
+L["module_name"] = "Fading"
+L["textfade_desc"] = "Toggle enabling text fading for each chat window."
+L["textfade_name"] = "Enable Fading"
 
 
-    PL:AddLocale(PRAT_MODULE, "enUS",L)
+    PL:AddLocale("enUS",L)
 
 
-  
-L = {
-	["Fading"] = {
-		["duration_desc"] = "Définir le nombre de secondes à attendre avant la disparition du texte de la fenêtre de chat",
-		["duration_name"] = "Délai avant fondu (secondes)",
-		["module_desc"] = "Option des délais de disparition.",
-		["module_name"] = "Fondu",
-		["textfade_desc"] = "Activé le fondu pour chaque fenêtre de discussions.",
-		["textfade_name"] = "Activé le fondu",
-	}
-}
+
+L = {}
+-- Fading
+L["duration_desc"] = "Définir le nombre de secondes à attendre avant la disparition du texte de la fenêtre de chat"
+L["duration_name"] = "Délai avant fondu (secondes)"
+L["module_desc"] = "Option des délais de disparition."
+L["module_name"] = "Fondu"
+L["textfade_desc"] = "Activé le fondu pour chaque fenêtre de discussions."
+L["textfade_name"] = "Activé le fondu"
 
 
-    PL:AddLocale(PRAT_MODULE, "frFR",L)
+    PL:AddLocale("frFR",L)
 
 
-  
-L = {
-	["Fading"] = {
-		["duration_desc"] = "Stellt die Anzahl der Sekunden ein ehe der Text in Chatfenstern verblasst.",
-		["duration_name"] = "Verzögerung des Verblassens einstellen (Sekunden)",
-		["module_desc"] = "Optionen zum Verblassen des Textes in Chatfenstern.",
-		["module_name"] = "Verblassen",
-		["textfade_desc"] = "Schaltet das Verblassen des Textes jedes Chatfenster ein/aus.",
-		["textfade_name"] = "Verblassen einschalten",
-	}
-}
+
+L = {}
+-- Fading
+L["duration_desc"] = "Stellt die Anzahl der Sekunden ein ehe der Text in Chatfenstern verblasst."
+L["duration_name"] = "Verzögerung des Verblassens einstellen (Sekunden)"
+L["module_desc"] = "Optionen zum Verblassen des Textes in Chatfenstern."
+L["module_name"] = "Verblassen"
+L["textfade_desc"] = "Schaltet das Verblassen des Textes jedes Chatfenster ein/aus."
+L["textfade_name"] = "Verblassen einschalten"
 
 
-    PL:AddLocale(PRAT_MODULE, "deDE",L)
+    PL:AddLocale("deDE",L)
 
 
-  
-L = {
-	["Fading"] = {
-		["duration_desc"] = "대화글이 사라질 때 까지의 대기 시간을 설정합니다.",
-		["duration_name"] = "사라짐 대기 시간 설정 (초)",
-		["module_desc"] = "대화글의 사라짐 옵션을 설정합니다.",
-		["module_name"] = "사라짐 [Fading]",
-		["textfade_desc"] = "각 대화창 별로 대화글 사라짐 기능을 켜고 끕니다.",
-		["textfade_name"] = "사라짐 켜기",
-	}
-}
+
+L = {}
+-- Fading
+L["duration_desc"] = "대화글이 사라질 때 까지의 대기 시간을 설정합니다."
+L["duration_name"] = "사라짐 대기 시간 설정 (초)"
+L["module_desc"] = "대화글의 사라짐 옵션을 설정합니다."
+L["module_name"] = "사라짐 [Fading]"
+L["textfade_desc"] = "각 대화창 별로 대화글 사라짐 기능을 켜고 끕니다."
+L["textfade_name"] = "사라짐 켜기"
 
 
-    PL:AddLocale(PRAT_MODULE, "koKR",L)
+    PL:AddLocale("koKR",L)
 
 
-  
-L = {
-	["Fading"] = {
-		--[[Translation missing --]]
-		["duration_desc"] = "Set the number of seconds to wait before before fading text of chat windows.",
-		--[[Translation missing --]]
-		["duration_name"] = "Set Fading Delay (Seconds)",
-		--[[Translation missing --]]
-		["module_desc"] = "Chat window text fading options.",
-		--[[Translation missing --]]
-		["module_name"] = "Fading",
-		--[[Translation missing --]]
-		["textfade_desc"] = "Toggle enabling text fading for each chat window.",
-		--[[Translation missing --]]
-		["textfade_name"] = "Enable Fading",
-	}
-}
+
+L = {}
+-- Fading
+--[[Translation missing --]]
+L["duration_desc"] = "Set the number of seconds to wait before before fading text of chat windows."
+--[[Translation missing --]]
+L["duration_name"] = "Set Fading Delay (Seconds)"
+--[[Translation missing --]]
+L["module_desc"] = "Chat window text fading options."
+--[[Translation missing --]]
+L["module_name"] = "Fading"
+--[[Translation missing --]]
+L["textfade_desc"] = "Toggle enabling text fading for each chat window."
+--[[Translation missing --]]
+L["textfade_name"] = "Enable Fading"
 
 
-    PL:AddLocale(PRAT_MODULE, "esMX",L)
+    PL:AddLocale("esMX",L)
 
 
-  
-L = {
-	["Fading"] = {
-		["duration_desc"] = "Задайте значение в секундах для задержки затухания текста в окне чата.",
-		["duration_name"] = "Задержка затухания (в секундах)",
-		["module_desc"] = "Настройки затухания текста в окне чата.",
-		["module_name"] = "Затухание",
-		["textfade_desc"] = "Вкл/Выкл затухание текста во всех окнах чата.",
-		["textfade_name"] = "Включить затухание",
-	}
-}
+
+L = {}
+-- Fading
+L["duration_desc"] = "Задайте значение в секундах для задержки затухания текста в окне чата."
+L["duration_name"] = "Задержка затухания (в секундах)"
+L["module_desc"] = "Настройки затухания текста в окне чата."
+L["module_name"] = "Затухание"
+L["textfade_desc"] = "Вкл/Выкл затухание текста во всех окнах чата."
+L["textfade_name"] = "Включить затухание"
 
 
-    PL:AddLocale(PRAT_MODULE, "ruRU",L)
+    PL:AddLocale("ruRU",L)
 
 
-  
-L = {
-	["Fading"] = {
-		["duration_desc"] = "设置聊天窗口文本消隐前等待秒数",
-		["duration_name"] = "设置消隐延时(秒)",
-		["module_desc"] = "聊天窗口文本消隐选项",
-		["module_name"] = "消隐",
-		["textfade_desc"] = "为每个聊天窗口启用文本消隐",
-		["textfade_name"] = "启用消隐",
-	}
-}
+
+L = {}
+-- Fading
+L["duration_desc"] = "设置聊天窗口文本消隐前等待秒数"
+L["duration_name"] = "设置消隐延时(秒)"
+L["module_desc"] = "聊天窗口文本消隐选项"
+L["module_name"] = "消隐"
+L["textfade_desc"] = "为每个聊天窗口启用文本消隐"
+L["textfade_name"] = "启用消隐"
 
 
-    PL:AddLocale(PRAT_MODULE, "zhCN",L)
+    PL:AddLocale("zhCN",L)
 
 
-  
-L = {
-	["Fading"] = {
-		["duration_desc"] = "Establece el número de segundos a esperar antes de desvanecer el texto de la ventana de chat.",
-		["duration_name"] = "Establecer Retraso Desvanecer (Segundos)",
-		["module_desc"] = "Opciones de desvanecer texto en ventana de chat.",
-		["module_name"] = "Desvanecerse",
-		["textfade_desc"] = "Alterna la activación de desvanecer texto para cada ventana de chat.",
-		["textfade_name"] = "Activar Desvanecerse",
-	}
-}
+
+L = {}
+-- Fading
+L["duration_desc"] = "Establece el número de segundos a esperar antes de desvanecer el texto de la ventana de chat."
+L["duration_name"] = "Establecer Retraso Desvanecer (Segundos)"
+L["module_desc"] = "Opciones de desvanecer texto en ventana de chat."
+L["module_name"] = "Desvanecerse"
+L["textfade_desc"] = "Alterna la activación de desvanecer texto para cada ventana de chat."
+L["textfade_name"] = "Activar Desvanecerse"
 
 
-    PL:AddLocale(PRAT_MODULE, "esES",L)
+    PL:AddLocale("esES",L)
 
 
-  
-L = {
-	["Fading"] = {
-		["duration_desc"] = "設定視窗消褪秒數",
-		["duration_name"] = "設定淡化延遲（秒數）",
-		["module_desc"] = "聊天室窗淡化選項",
-		["module_name"] = "淡化",
-		["textfade_desc"] = "切換視窗文字消褪",
-		["textfade_name"] = "啟用淡化",
-	}
-}
+
+L = {}
+-- Fading
+L["duration_desc"] = "設定視窗消褪秒數"
+L["duration_name"] = "設定淡化延遲（秒數）"
+L["module_desc"] = "聊天室窗淡化選項"
+L["module_name"] = "淡化"
+L["textfade_desc"] = "切換視窗文字消褪"
+L["textfade_name"] = "啟用淡化"
 
 
-    PL:AddLocale(PRAT_MODULE, "zhTW",L)
+    PL:AddLocale("zhTW",L)
 
 
   end
   --@end-non-debug@
 
-
-
   -- define the default db values
-  Prat:SetModuleDefaults(mod.name, {
+  Prat:SetModuleDefaults(module.name, {
     profile = {
       on = true,
       textfade = { ["*"] = true },
@@ -218,7 +188,7 @@ L = {
     }
   })
 
-  Prat:SetModuleOptions(mod.name, {
+  Prat:SetModuleOptions(module.name, {
     name = PL["module_name"],
     desc = PL["module_desc"],
     type = "group",
@@ -249,30 +219,30 @@ L = {
   ------------------------------------------------]] --
 
   -- things to do when the module is enabled
-  function mod:OnModuleEnable()
+  function module:OnModuleEnable()
     self:OnValueChanged()
     Prat.RegisterChatEvent(self, Prat.Events.FRAMES_UPDATED)
   end
 
   -- things to do when the module is disabled
-  function mod:OnModuleDisable()
-    for k, v in pairs(Prat.HookedFrames) do
+  function module:OnModuleDisable()
+    for _, v in pairs(Prat.HookedFrames) do
       self:Fade(v, true)
     end
   end
 
 
-  function mod:Prat_FramesUpdated(_, name, chatFrame)
+  function module:Prat_FramesUpdated(_, name, chatFrame)
     self:Fade(chatFrame, self.db.profile.textfade[name])
   end
 
-  function mod:OnValueChanged(...)
+  function module:OnValueChanged()
     for k, v in pairs(Prat.HookedFrames) do
       self:Fade(v, self.db.profile.textfade[k])
     end
   end
 
-  mod.OnSubValueChanged = mod.OnValueChanged
+  module.OnSubValueChanged = module.OnValueChanged
 
 
   --[[------------------------------------------------
@@ -280,10 +250,10 @@ L = {
   ------------------------------------------------]] --
 
   -- enable/disable fading
-  function mod:Fade(cf, textfade)
+  function module:Fade(cf, textfade)
     if textfade then
       cf:SetFading(true)
-      cf:SetTimeVisible(mod.db.profile.duration)
+      cf:SetTimeVisible(module.db.profile.duration)
     else
       cf:SetFading(false)
     end

@@ -69,9 +69,9 @@ function BusinessInfo.SetTooltipOfflineG(tooltip,ItemInfo)
 					local DataNum=#NameData
 					local jiluTime = NameData[DataNum][2] or 1660000000
 					local jiluTime = date("%m-%d %H:%M",jiluTime)
-					tooltip:AddDoubleLine(AUCTIONS..AUCTION_BROWSE_UNIT_PRICE_SORT.."("..jiluTime.."):",GetMoneyString(NameData[DataNum][1]),0,1,1,0,1,1)
+					return AUCTIONS..AUCTION_PRICE.."("..jiluTime.."):",AUCTION_BROWSE_UNIT_PRICE_SORT..GetMoneyString(NameData[DataNum][1])
 				else
-					tooltip:AddDoubleLine(AUCTIONS..AUCTION_BROWSE_UNIT_PRICE_SORT..":",UNKNOWN,0,1,1,0,1,1)
+					return AUCTIONS..AUCTION_PRICE..":",UNKNOWN
 				end
 			end
 		end

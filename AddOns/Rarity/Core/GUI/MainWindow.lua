@@ -320,7 +320,7 @@ local function showSubTooltip(cell, item)
 	if item.method == CONSTANTS.DETECTION_METHODS.SPECIAL and item.obtain then
 		tooltip2AddLine(colorize(item.obtain, blue))
 	else
-		local actualMethod = item.method
+		local actualMethod = item.method -- TODO
 		if item.method == CONSTANTS.DETECTION_METHODS.BOSS and item.groupSize and item.groupSize > 1 then
 			actualMethod = CONSTANTS.DETECTION_METHODS.BOSS
 		else
@@ -331,7 +331,7 @@ local function showSubTooltip(cell, item)
 		tooltip2AddLine(colorize(R.string_methods[actualMethod], blue))
 	end
 	if item.pickpocket then
-		local class, classFileName = UnitClass("player")
+		local class, classFileName = Rarity:GetUnitClass("player")
 		local pickcolor
 		if classFileName == "ROGUE" then
 			pickcolor = green
@@ -853,8 +853,8 @@ local function addGroup(group, requiresGroup)
 			)
 		then
 			local classGood = true
-			local playerClass = select(2, UnitClass("player"))
-			if v.disableForClass and v.disableForClass[playerClass] then
+			local playerClass = select(2, Rarity:GetUnitClass("player"))
+			if playerClass and v.disableForClass and v.disableForClass[playerClass] then
 				classGood = false
 			end
 
@@ -1088,7 +1088,7 @@ local function addGroup(group, requiresGroup)
 							status = colorize(L["Unavailable"], gray)
 						end
 						if v.pickpocket then
-							local class, classFileName = UnitClass("player")
+							local class, classFileName = Rarity:GetUnitClass("player")
 							if classFileName ~= "ROGUE" then
 								status = colorize(L["Unavailable"], gray)
 							end

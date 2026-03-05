@@ -1,21 +1,9 @@
 Prat:AddModuleToLoad(function()
-  local PRAT_MODULE = Prat:RequestModuleName("Search")
-
-  if PRAT_MODULE == nil then
-    return
-  end
-
-  local module = Prat:NewModule(PRAT_MODULE)
-
+  local module = Prat:NewModule("Search")
   local PL = module.PL
 
-  local dbg = function() end
   --[==[@debug@
-  dbg = function(...) Prat:PrintLiteral(...) end
-  --@end-debug@]==]
-
-  --[==[@debug@
-  PL:AddLocale(PRAT_MODULE, "enUS", {
+  PL:AddLocale("enUS", {
     module_name = "Search",
     module_desc = "Adds the ability to search the chatframes.",
     module_info = "This module adds search boxes on the chat frames, and the /find commands to search the chat history\n\nUsage:\n\n /find <text>",
@@ -35,68 +23,64 @@ Prat:AddModuleToLoad(function()
      local L
 
 
-L = {
-	["Search"] = {
-		["bnet_removed"] = "<BNET REMOVED>",
-		["err_notfound"] = "Not Found",
-		["err_tooshort"] = "Search term is too short",
-		["find_results"] = "Find Results:",
-		["module_desc"] = "Adds the ability to search the chatframes.",
-		["module_info"] = [=[This module adds search boxes on the chat frames, and the /find commands to search the chat history
+L = {}
+-- Search
+L["bnet_removed"] = "<BNET REMOVED>"
+L["err_notfound"] = "Not Found"
+L["err_tooshort"] = "Search term is too short"
+L["find_results"] = "Find Results:"
+L["module_desc"] = "Adds the ability to search the chatframes."
+L["module_info"] = [=[This module adds search boxes on the chat frames, and the /find commands to search the chat history
 
 Usage:
 
- /find <text>]=],
-		["module_name"] = "Search",
-		["unused_alpha"] = "Unused search box alpha",
-		["used_alpha"] = "Used search box alpha",
-	}
-}
+ /find <text>]=]
+L["module_name"] = "Search"
+L["unused_alpha"] = "Unused search box alpha"
+L["used_alpha"] = "Used search box alpha"
 
 
-   PL:AddLocale(PRAT_MODULE, "enUS",L)
+   PL:AddLocale("enUS",L)
 
 
-L = {
-	["Search"] = {
-		--[[Translation missing --]]
-		["bnet_removed"] = "<BNET REMOVED>",
-		--[[Translation missing --]]
-		["err_notfound"] = "Not Found",
-		--[[Translation missing --]]
-		["err_tooshort"] = "Search term is too short",
-		["find_results"] = "Résultats trouvés :",
-		--[[Translation missing --]]
-		["module_desc"] = "Adds the ability to search the chatframes.",
-		--[[Translation missing --]]
-		["module_info"] = [=[This module adds search boxes on the chat frames, and the /find commands to search the chat history
+L = {}
+-- Search
+--[[Translation missing --]]
+L["bnet_removed"] = "<BNET REMOVED>"
+--[[Translation missing --]]
+L["err_notfound"] = "Not Found"
+--[[Translation missing --]]
+L["err_tooshort"] = "Search term is too short"
+L["find_results"] = "Résultats trouvés :"
+--[[Translation missing --]]
+L["module_desc"] = "Adds the ability to search the chatframes."
+--[[Translation missing --]]
+L["module_info"] = [=[This module adds search boxes on the chat frames, and the /find commands to search the chat history
 
 Usage:
 
- /find <text>]=],
-		--[[Translation missing --]]
-		["module_name"] = "Search",
-		--[[Translation missing --]]
-		["unused_alpha"] = "Unused search box alpha",
-		--[[Translation missing --]]
-		["used_alpha"] = "Used search box alpha",
-	}
-}
+ /find <text>]=]
+--[[Translation missing --]]
+L["module_name"] = "Search"
+--[[Translation missing --]]
+L["unused_alpha"] = "Unused search box alpha"
+--[[Translation missing --]]
+L["used_alpha"] = "Used search box alpha"
 
 
-   PL:AddLocale(PRAT_MODULE, "frFR",L)
+   PL:AddLocale("frFR",L)
 
 
-L = {
-	["Search"] = {
-		["bnet_removed"] = "<BNET ENTFERNT>",
-		["err_notfound"] = "Nicht gefunden",
-		["err_tooshort"] = "Suchbegriff ist zu kurz",
-		["find_results"] = "Gefundene Ergebnisse:",
-		["module_desc"] = [=[Aktiviert die Suchfunktion in Chatfenstern.
+L = {}
+-- Search
+L["bnet_removed"] = "<BNET ENTFERNT>"
+L["err_notfound"] = "Nicht gefunden"
+L["err_tooshort"] = "Suchbegriff ist zu kurz"
+L["find_results"] = "Gefundene Ergebnisse:"
+L["module_desc"] = [=[Aktiviert die Suchfunktion in Chatfenstern.
 
-Suche]=],
-		["module_info"] = [=[Aktiviert die Textbefehle /find und /findall, um die Chathistorie zu durchsuchen
+Suche]=]
+L["module_info"] = [=[Aktiviert die Textbefehle /find und /findall, um die Chathistorie zu durchsuchen
 
 Benutzung:
 
@@ -104,186 +88,170 @@ Benutzung:
 
 /findall <text>
 
-Suche]=],
-		["module_name"] = "Suche",
-		["unused_alpha"] = "Unbenutzte Suchfeld Transparenz",
-		["used_alpha"] = "Benutzte Suchfeld Transparenz",
-	}
-}
+Suche]=]
+L["module_name"] = "Suche"
+L["unused_alpha"] = "Unbenutzte Suchfeld Transparenz"
+L["used_alpha"] = "Benutzte Suchfeld Transparenz"
 
 
-   PL:AddLocale(PRAT_MODULE, "deDE",L)
+   PL:AddLocale("deDE",L)
 
 
-L = {
-	["Search"] = {
-		["bnet_removed"] = "<베틀넷 제거됨>",
-		["err_notfound"] = "찾을 수 없음",
-		["err_tooshort"] = "검색 구문이 너무 짧습니다",
-		["find_results"] = "검색 결과:",
-		["module_desc"] = "대화창 검색 기능을 추가합니다.",
-		["module_info"] = [=[이 모듈은 대화 기록을 검색하는 /find 와 /findall 명령어를 추가합니다
+L = {}
+-- Search
+L["bnet_removed"] = "<베틀넷 제거됨>"
+L["err_notfound"] = "찾을 수 없음"
+L["err_tooshort"] = "검색 구문이 너무 짧습니다"
+L["find_results"] = "검색 결과:"
+L["module_desc"] = "대화창 검색 기능을 추가합니다."
+L["module_info"] = [=[이 모듈은 대화 기록을 검색하는 /find 와 /findall 명령어를 추가합니다
 
 사용법:
 
 /find <문자열>
 
-/findall <문자열>]=],
-		["module_name"] = "검색 [Search]",
-		--[[Translation missing --]]
-		["unused_alpha"] = "Unused search box alpha",
-		--[[Translation missing --]]
-		["used_alpha"] = "Used search box alpha",
-	}
-}
+/findall <문자열>]=]
+L["module_name"] = "검색 [Search]"
+--[[Translation missing --]]
+L["unused_alpha"] = "Unused search box alpha"
+--[[Translation missing --]]
+L["used_alpha"] = "Used search box alpha"
 
 
-   PL:AddLocale(PRAT_MODULE, "koKR",L)
+   PL:AddLocale("koKR",L)
 
 
-L = {
-	["Search"] = {
-		--[[Translation missing --]]
-		["bnet_removed"] = "<BNET REMOVED>",
-		--[[Translation missing --]]
-		["err_notfound"] = "Not Found",
-		--[[Translation missing --]]
-		["err_tooshort"] = "Search term is too short",
-		--[[Translation missing --]]
-		["find_results"] = "Find Results:",
-		--[[Translation missing --]]
-		["module_desc"] = "Adds the ability to search the chatframes.",
-		--[[Translation missing --]]
-		["module_info"] = [=[This module adds search boxes on the chat frames, and the /find commands to search the chat history
+L = {}
+-- Search
+--[[Translation missing --]]
+L["bnet_removed"] = "<BNET REMOVED>"
+--[[Translation missing --]]
+L["err_notfound"] = "Not Found"
+--[[Translation missing --]]
+L["err_tooshort"] = "Search term is too short"
+--[[Translation missing --]]
+L["find_results"] = "Find Results:"
+--[[Translation missing --]]
+L["module_desc"] = "Adds the ability to search the chatframes."
+--[[Translation missing --]]
+L["module_info"] = [=[This module adds search boxes on the chat frames, and the /find commands to search the chat history
 
 Usage:
 
- /find <text>]=],
-		--[[Translation missing --]]
-		["module_name"] = "Search",
-		--[[Translation missing --]]
-		["unused_alpha"] = "Unused search box alpha",
-		--[[Translation missing --]]
-		["used_alpha"] = "Used search box alpha",
-	}
-}
+ /find <text>]=]
+--[[Translation missing --]]
+L["module_name"] = "Search"
+--[[Translation missing --]]
+L["unused_alpha"] = "Unused search box alpha"
+--[[Translation missing --]]
+L["used_alpha"] = "Used search box alpha"
 
 
-   PL:AddLocale(PRAT_MODULE, "esMX",L)
+   PL:AddLocale("esMX",L)
 
 
-L = {
-	["Search"] = {
-		["bnet_removed"] = "<BNET УДАЛЕН>",
-		["err_notfound"] = "Не Найденно",
-		["err_tooshort"] = "Критерий поиска слишком короток",
-		["find_results"] = "Найти Результаты:",
-		["module_desc"] = "Добавляет возможность поиска текста в чате.",
-		["module_info"] = [=[Этот модуль добавляет команды /find и /findall для поиска в истории чата
+L = {}
+-- Search
+L["bnet_removed"] = "<BNET УДАЛЕН>"
+L["err_notfound"] = "Не Найденно"
+L["err_tooshort"] = "Критерий поиска слишком короток"
+L["find_results"] = "Найти Результаты:"
+L["module_desc"] = "Добавляет возможность поиска текста в чате."
+L["module_info"] = [=[Этот модуль добавляет команды /find и /findall для поиска в истории чата
 
 Использование:
 
 /find <текст>
 
-/findall <текст>]=],
-		["module_name"] = "Поиск",
-		--[[Translation missing --]]
-		["unused_alpha"] = "Unused search box alpha",
-		--[[Translation missing --]]
-		["used_alpha"] = "Used search box alpha",
-	}
-}
+/findall <текст>]=]
+L["module_name"] = "Поиск"
+--[[Translation missing --]]
+L["unused_alpha"] = "Unused search box alpha"
+--[[Translation missing --]]
+L["used_alpha"] = "Used search box alpha"
 
 
-   PL:AddLocale(PRAT_MODULE, "ruRU",L)
+   PL:AddLocale("ruRU",L)
 
 
-L = {
-	["Search"] = {
-		--[[Translation missing --]]
-		["bnet_removed"] = "<BNET REMOVED>",
-		["err_notfound"] = "没找到",
-		["err_tooshort"] = "搜索文字太短",
-		["find_results"] = "查找结果：",
-		["module_desc"] = "增加搜索聊天框的能力",
-		["module_info"] = [=[此模块增加 /find 和 /findall 命令搜索聊天历史
+L = {}
+-- Search
+--[[Translation missing --]]
+L["bnet_removed"] = "<BNET REMOVED>"
+L["err_notfound"] = "没找到"
+L["err_tooshort"] = "搜索文字太短"
+L["find_results"] = "查找结果："
+L["module_desc"] = "增加搜索聊天框的能力"
+L["module_info"] = [=[此模块增加 /find 和 /findall 命令搜索聊天历史
 
 用法:
 
  /find <文字>
 
- /findall <文字>]=],
-		["module_name"] = "搜索",
-		--[[Translation missing --]]
-		["unused_alpha"] = "Unused search box alpha",
-		--[[Translation missing --]]
-		["used_alpha"] = "Used search box alpha",
-	}
-}
+ /findall <文字>]=]
+L["module_name"] = "搜索"
+--[[Translation missing --]]
+L["unused_alpha"] = "Unused search box alpha"
+--[[Translation missing --]]
+L["used_alpha"] = "Used search box alpha"
 
 
-   PL:AddLocale(PRAT_MODULE, "zhCN",L)
+   PL:AddLocale("zhCN",L)
 
 
-L = {
-	["Search"] = {
-		--[[Translation missing --]]
-		["bnet_removed"] = "<BNET REMOVED>",
-		["err_notfound"] = "No encontrado",
-		["err_tooshort"] = "Termino de búsqueda demasiado corto",
-		--[[Translation missing --]]
-		["find_results"] = "Find Results:",
-		--[[Translation missing --]]
-		["module_desc"] = "Adds the ability to search the chatframes.",
-		--[[Translation missing --]]
-		["module_info"] = [=[This module adds search boxes on the chat frames, and the /find commands to search the chat history
+L = {}
+-- Search
+--[[Translation missing --]]
+L["bnet_removed"] = "<BNET REMOVED>"
+L["err_notfound"] = "No encontrado"
+L["err_tooshort"] = "Termino de búsqueda demasiado corto"
+--[[Translation missing --]]
+L["find_results"] = "Find Results:"
+--[[Translation missing --]]
+L["module_desc"] = "Adds the ability to search the chatframes."
+--[[Translation missing --]]
+L["module_info"] = [=[This module adds search boxes on the chat frames, and the /find commands to search the chat history
 
 Usage:
 
- /find <text>]=],
-		--[[Translation missing --]]
-		["module_name"] = "Search",
-		--[[Translation missing --]]
-		["unused_alpha"] = "Unused search box alpha",
-		--[[Translation missing --]]
-		["used_alpha"] = "Used search box alpha",
-	}
-}
+ /find <text>]=]
+--[[Translation missing --]]
+L["module_name"] = "Search"
+--[[Translation missing --]]
+L["unused_alpha"] = "Unused search box alpha"
+--[[Translation missing --]]
+L["used_alpha"] = "Used search box alpha"
 
 
-   PL:AddLocale(PRAT_MODULE, "esES",L)
+   PL:AddLocale("esES",L)
 
 
-L = {
-	["Search"] = {
-		--[[Translation missing --]]
-		["bnet_removed"] = "<BNET REMOVED>",
-		["err_notfound"] = "找不到",
-		["err_tooshort"] = "尋找物品太短",
-		["find_results"] = "找到結果:",
-		--[[Translation missing --]]
-		["module_desc"] = "Adds the ability to search the chatframes.",
-		--[[Translation missing --]]
-		["module_info"] = [=[This module adds search boxes on the chat frames, and the /find commands to search the chat history
+L = {}
+-- Search
+--[[Translation missing --]]
+L["bnet_removed"] = "<BNET REMOVED>"
+L["err_notfound"] = "找不到"
+L["err_tooshort"] = "尋找物品太短"
+L["find_results"] = "找到結果:"
+--[[Translation missing --]]
+L["module_desc"] = "Adds the ability to search the chatframes."
+--[[Translation missing --]]
+L["module_info"] = [=[This module adds search boxes on the chat frames, and the /find commands to search the chat history
 
 Usage:
 
- /find <text>]=],
-		["module_name"] = "尋找",
-		--[[Translation missing --]]
-		["unused_alpha"] = "Unused search box alpha",
-		--[[Translation missing --]]
-		["used_alpha"] = "Used search box alpha",
-	}
-}
+ /find <text>]=]
+L["module_name"] = "尋找"
+--[[Translation missing --]]
+L["unused_alpha"] = "Unused search box alpha"
+--[[Translation missing --]]
+L["used_alpha"] = "Used search box alpha"
 
 
-   PL:AddLocale(PRAT_MODULE, "zhTW",L)
+   PL:AddLocale("zhTW",L)
 
  end
  --@end-non-debug@
-
-
 
 
   Prat:SetModuleDefaults(module.name, {
@@ -365,7 +333,7 @@ Usage:
     f.anim.fade1:SetDuration(3)
     f.anim.fade1:SetToAlpha(self.db.profile.searchinactivealpha)
     f.anim.fade1:SetSmoothing("IN")
-    f.anim:SetScript("OnFinished", function(...)
+    f.anim:SetScript("OnFinished", function()
       if f:HasFocus() then
         self:UnstashSearch(f)
       else
@@ -382,7 +350,7 @@ Usage:
     self.searchBoxes = {}
   end)
 
-  function module:Prat_FramesUpdated(info, name, chatFrame, ...)
+  function module:Prat_FramesUpdated(_, name, chatFrame)
     if not self.searchBoxes[name] then
       self.searchBoxes[name] = self:CreateSearchBox(chatFrame)
     end
@@ -446,7 +414,7 @@ Usage:
     self:ScrapeFrame(frame, nil, true)
 
     for _, v in ipairs(scrapelines) do
-      if v.message and v.message:find(Prat.CaseInsensitveWordPattern(word)) then
+      if v.message and v.message:find(Prat:CaseInsensitveWordPattern(word)) then
         if all then
           table.insert(foundlines, v)
         else

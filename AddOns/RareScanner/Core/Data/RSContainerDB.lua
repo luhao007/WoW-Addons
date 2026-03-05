@@ -551,6 +551,9 @@ function RSContainerDB.GetContainerName(containerID)
 		elseif (RSUtils.Contains(RSConstants.CONTAINERS_STURDY_CHEST, containerID)) then
 			private.dbglobal.object_names[GetLocale()][containerID] = AL["CONTAINERS_STURDY_CHEST"]
 			return AL["CONTAINERS_STURDY_CHEST"]
+		elseif (RSUtils.Contains(private.ACHIEVEMENT_TARGET_IDS[62057], containerID)) then
+			private.dbglobal.object_names[GetLocale()][containerID] = AL["CONTAINERS_HIGH_PEAK"]
+			return AL["CONTAINERS_HIGH_PEAK"]
 		end
 	end
 

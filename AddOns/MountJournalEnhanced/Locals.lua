@@ -310,7 +310,8 @@ L["Yetis"] = "Yetis"
 
 if locale == "deDE" then
     L["ANIMATION_FLY"] = "Flug"
-L["ANIMATION_FLY_IDLE"] = "Standflug"
+L["ANIMATION_FLY_IDLE"] = [=[Standflug
+]=]
 L["ANIMATION_RUN"] = "Rennen"
 L["ANIMATION_STAND"] = "Stehen"
 L["ANIMATION_WALK"] = "Gehen"
@@ -318,12 +319,15 @@ L["ANIMATION_WALK_BACK"] = "Rückwärts Gehen"
 L["ASK_FAVORITE_PROFILE_NAME"] = "Name des Profiles eingeben:"
 L["AUTO_ROTATE"] = "Automatisch rotieren"
 L["Black Market"] = "Schwarzmarkt"
-L["CLICK_TO_SHOW_LINK"] = "Klicken um Link zu Zeigen"
+L["CLICK_TO_SHOW_LINK"] = [=[Klicken um Link zu Zeigen
+]=]
 L["COMPARTMENT_TOOLTIP"] = [=[cffeda55fLinksklick|r um Reittiersammlung anzuzeigen.
-|cffeda55fRechtsklick|r um Addon-Optionen zu öffnen.]=]
+|cffeda55fRechtsklick|r um Addon-Optionen zu öffnen.
+]=]
 L["CONFIRM_FAVORITE_PROFILE_DELETION"] = [=[Möchtest du wirklich das Profil "%s" entfernen?
 Alle bisherigen zugewiesenen Charaktere werden auf das Standardprofil "%s" zurückgesetzt.]=]
-L["DRESSUP_LABEL"] = "Sammlung"
+L["DRESSUP_LABEL"] = [=[Sammlung
+]=]
 L["EVENT_PLUNDERSTORM"] = "Plunderstorm"
 L["EVENT_SCARAB"] = "Ruf des Skarabäus"
 L["EVENT_SECRETS"] = "Geheimnisse von Azeroth"
@@ -425,7 +429,8 @@ L["Basilisks"] = "Basilisken"
 L["Bats"] = "Fledermäuse"
 L["Bears"] = "Bären"
 L["Beetle"] = "Käfer"
-L["Bipedal Cat"] = "Zweibeinige Katze"
+L["Bipedal Cat"] = [=[Zweibeinige Katze
+]=]
 L["Birds"] = "Vögel"
 L["Boars"] = "Eber"
 L["Bovids"] = "Hornträger"
@@ -457,7 +462,8 @@ L["Direhorns"] = "Terrorhörner"
 L["Discs"] = "Flugscheiben"
 L["Dragonhawks"] = "Drachenfalken"
 L["Drakes"] = "Drachen"
-L["Dreamsaber"] = "Traumsäbler"
+L["Dreamsaber"] = [=[Traumsäbler
+]=]
 L["Eagle"] = "Adler"
 L["Elekks"] = "Elekks"
 L["Elementals"] = "Elementare"
@@ -505,7 +511,7 @@ L["Mammoths"] = "Mammuts"
 L["Mana Rays"] = "Manarochen"
 L["Mana Wyrm"] = "Manawyrm"
 L["Manasabers"] = "Manasäbler"
-L["Mauler"] = "Zerfleischer"
+L["Mauler"] = "Beißer"
 L["Mechanical Animals"] = "Mechanische Tiere"
 L["Mechanical Birds"] = "Mechanische Vögel"
 L["Mechanical Cats"] = "Mechanische Katzen"
@@ -528,14 +534,14 @@ L["N'Zoth Serpents"] = "N'Zoth-Schlangen"
 L["Others"] = "Andere"
 L["Ottuk"] = "Ottuk"
 L["Owl"] = "Eule"
-L["Owlbear"] = "Eulenbär"
+L["Owlbear"] = [=[Eulenbär
+]=]
 L["Ox"] = "Ochse"
 L["Pandaren Phoenixes"] = "Pandarenphönixe"
 L["Pangolin"] = "Schuppentier"
 L["Parrots"] = "Papageien"
 L["Peafowl"] = "Pfau"
---[[Translation missing --]]
---[[ L["Petalwing"] = "Petalwing"--]] 
+L["Petalwing"] = "Flügelblatt"
 L["Phoenixes"] = "Phönixe"
 L["Plant"] = "Pflanze"
 L["Proto-Drakes"] = "Protodrachen"
@@ -566,7 +572,8 @@ L["Shardhides"] = "Splitterfell"
 L["Silithids"] = "Qirajipanzerdrohnen"
 L["Skyrazor"] = "Himmelsreißer"
 L["Slateback"] = "Schieferrücken"
-L["Slug"] = "Nacktschnecke"
+L["Slug"] = [=[Nacktschnecke
+]=]
 L["Snail"] = "Schnecke"
 L["Snapdragons"] = "Schnappdrachen"
 L["Spider Tanks"] = "Mechaspinnen"
@@ -3214,8 +3221,7 @@ L["Brutosaurs"] = "雷龙"
 L["Camels"] = "骆驼"
 L["Carnivorans"] = "食肉动物"
 L["Carpets"] = "飞毯"
---[[Translation missing --]]
---[[ L["Carrion"] = "Carrion"--]] 
+L["Carrion"] = "腐化鸟"
 L["Cats"] = "猫科"
 L["Cervid"] = "元鹿"
 L["Chargers"] = "战马"
@@ -3261,8 +3267,7 @@ L["Gronnlings"] = "小戈隆"
 L["Gryphons"] = "狮鹫"
 L["Gyrocopters"] = "旋翼"
 L["Hands"] = "手"
---[[Translation missing --]]
---[[ L["Harrower"] = "Harrower"--]] 
+L["Harrower"] = "掠心者"
 L["Hawkstriders"] = "陆行鸟"
 L["Hedgehog"] = "刺猬"
 L["Hippogryphs"] = "角鹰"
@@ -3295,7 +3300,7 @@ L["Mechanical Steeds"] = "机械马"
 L["Mechanostriders"] = "机械陆行鸟"
 L["Mecha-suits"] = "机甲"
 L["Meeksi"] = "米克西"
-L["Mite"] = "的幼虫"
+L["Mite"] = "群聚虫"
 L["Mole"] = "鼹鼠"
 L["Mollusc"] = "软体动物"
 L["Moose"] = "驼鹿"
@@ -3316,11 +3321,9 @@ L["Pandaren Phoenixes"] = "熊猫人凤凰"
 L["Pangolin"] = "穿山甲"
 L["Parrots"] = "鹦鹉"
 L["Peafowl"] = "孔雀"
---[[Translation missing --]]
---[[ L["Petalwing"] = "Petalwing"--]] 
+L["Petalwing"] = "瓣翼鸟"
 L["Phoenixes"] = "凤凰"
---[[Translation missing --]]
---[[ L["Plant"] = "Plant"--]] 
+L["Plant"] = "植物"
 L["Proto-Drakes"] = "始祖幼龙"
 L["Pterrordaxes"] = "啸天龙"
 L["Quilen"] = "魁麟"
@@ -3346,7 +3349,7 @@ L["Sea Serpents"] = "海蛇"
 L["Seahorses"] = "海马"
 L["Shalewing"] = [=[岩翼
 ]=]
-L["Shardhides"] = "碎皮雄兽"
+L["Shardhides"] = "碎皮兽"
 L["Silithids"] = "异种蝎"
 L["Skyrazor"] = "剃天者"
 L["Slateback"] = "岩背兽"

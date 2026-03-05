@@ -42,8 +42,8 @@ local print,rawget,rawset,tostring,ipairs,pairs,tonumber,wipe,select,setmetatabl
 local C_Map_GetMapInfo = C_Map.GetMapInfo;
 
 -- App & Module locals
-local CacheFields, SearchForField, SearchForFieldContainer, SearchForObject
-	= app.CacheFields, app.SearchForField, app.SearchForFieldContainer, app.SearchForObject
+local SearchForField, SearchForObject
+	= app.SearchForField, app.SearchForObject
 local IsRetrieving = app.Modules.RetrievingData.IsRetrieving;
 local TryColorizeName = app.TryColorizeName;
 local MergeProperties = app.MergeProperties
@@ -145,6 +145,17 @@ local SourceLocationSettingsKey = setmetatable({
 local UnobtainableTexture = " |T"..L.UNOBTAINABLE_ITEM_TEXTURES[1]..":0|t"
 local NotCurrentCharacterTexture = " |T"..L.UNOBTAINABLE_ITEM_TEXTURES[0]..":0|t"
 local RETRIEVING_DATA = RETRIEVING_DATA
+local function GenerateSourcePath(group, l)
+	local parent = group.sourceParent or group.parent;
+	if parent then
+		if l < 1 then
+			return GenerateSourcePath(parent, l + 1);
+		else
+			return GenerateSourcePath(parent, l + 1) .. " > " .. (group.sourceText or group.text or RETRIEVING_DATA);
+		end
+	end
+	return group.text or RETRIEVING_DATA;
+end
 local function AddContainsData(group, tooltipInfo)
 	local key = group.key
 	local thingCheck = app.ThingKeys[key]
@@ -168,7 +179,6 @@ local function AddContainsData(group, tooltipInfo)
 		local left, right;
 		tinsert(tooltipInfo, { left = L.CONTAINS });
 		local item, entry;
-		local RecursiveParentField = app.GetRelativeValue
 		for i=1,#entries do
 			item = entries[i];
 			entry = item.group;
@@ -188,7 +198,7 @@ local function AddContainsData(group, tooltipInfo)
 				working = true
 			end
 			left = TryColorizeName(entry, left);
-			-- app.PrintDebug("Entry#",i,app:SearchLink(entry),app.GenerateSourcePathForTooltip(entry))
+			-- app.PrintDebug("Entry#",i,app:SearchLink(entry),GenerateSourcePath(entry, 1))
 
 			-- If this entry has a specific Class requirement and is not itself a 'Class' header, tack that on as well
 			if entry.c and entry.key ~= "classID" and #entry.c == 1 then
@@ -226,8 +236,8 @@ local function AddContainsData(group, tooltipInfo)
 				-- Add the Zone name
 				local field, id;
 				for _,v in ipairs(TooltipSourceFields) do
-					id = RecursiveParentField(entry, v, true);
-					-- print("check",v,id)
+					id = GetRelativeValue(entry, v, true);
+					-- app.PrintDebug("check",v,id)
 					if id then
 						field = v;
 						break;
@@ -353,7 +363,7 @@ local function AddSourceLinesForTooltip(tooltipInfo, paramA, paramB)
 		if parent and parent.parent
 			and (showCompleted or not app.IsComplete(j))
 		then
-			text = app.GenerateSourcePathForTooltip(parent);
+			text = GenerateSourcePath(parent, 1);
 			-- app.PrintDebug("SourceLocation",text,FilterInGame(j),FilterSettings(parent),FilterCharacter(parent))
 			if showUnsorted or (not text:match(L.UNSORTED) and not text:match(L.HIDDEN_QUEST_TRIGGERS)) then
 				-- doesn't meet current unobtainable filters from the Thing itself and its parent chain
@@ -597,7 +607,7 @@ local function GetSearchResults(method, paramA, paramB, options)
 		-- app.PrintDebug("Cloning Roots for",paramA,paramB,"#group",group and #group);
 		local cloned = {};
 		for _,o in ipairs(group) do
-			-- app.PrintDebug("Clone:",app:SearchLink(o),GetRelativeValue(o, "sourceIgnored"),app.GetRelativeRawWithField(o, "sourceIgnored"),app.GenerateSourcePathForTooltip(o))
+			-- app.PrintDebug("Clone:",app:SearchLink(o),GetRelativeValue(o, "sourceIgnored"),app.GetRelativeRawWithField(o, "sourceIgnored"),GenerateSourcePath(o, 1))
 			if not GetRelativeValue(o, "sourceIgnored") then
 				cloned[#cloned + 1] = CreateObject(o)
 			end
@@ -934,7 +944,7 @@ local function BuildSourceParent(group)
 	local thingCheck = thingKeys[groupKey];
 	local specificSource = SpecificSources[groupKey]
 	if specificSource then
-		 specificSource = specificSource[group[groupKey]];
+		specificSource = specificSource[group[groupKey]];
 	end
 	-- group with some Source-able data can be treated as specific Source
 	if not specificSource and (
@@ -1161,8 +1171,8 @@ local function SimpleHeaderGroup(npcID, t)
 	return t
 end
 
-function app:GetDataCache()
-	-- app.PrintMemoryUsage("app:GetDataCache init")
+function app:GetDatabaseRoot()
+	-- app.PrintMemoryUsage("app:GetDatabaseRoot init")
 
 	-- not really worth moving this into a Class since it's literally allowed to be used once
 	local DefaultRootKeys = {
@@ -1204,6 +1214,7 @@ function app:GetDataCache()
 		preview = app.asset("Discord_2_128"),
 		description = L.DESCRIPTION,
 		font = "GameFontNormalLarge",
+		SortType = "Global",
 		expanded = true,
 		g = g,
 	}, {
@@ -1226,269 +1237,29 @@ function app:GetDataCache()
 			rawset(t, key, val);
 		end
 	});
-	
-	local AllCategories = {};
-	app.HandleEvent("OnGetDataCache", AllCategories, g);
-	app.RemoveAllEventHandlers("OnGetDataCache");
-	--[[
+
+	-- Build the Categories and assign them to temporary tables.
+	local AllCategories, AllHiddenCategories = {}, {};
+	app.HandleEvent("OnBuildHiddenDataCache", AllHiddenCategories);
+	app.HandleEvent("OnBuildDataCache", AllCategories);
+	app.RemoveAllEventHandlers("OnBuildHiddenDataCache");
+	app.RemoveAllEventHandlers("OnBuildDataCache");
 	for key,category in pairs(AllCategories) do
-		print(key, "LOADED");
+		--print("Found Category:", key);
+		category.RootCategory = key;
+		tinsert(g, category);
 	end
-	]]--
-
-	-----------------------------------------
-	-- P R I M A R Y   C A T E G O R I E S --
-	-----------------------------------------
-	-- Dungeons & Raids
-	tinsert(g, app.CreateRawText(GROUP_FINDER, {
-		icon = app.asset("Category_D&R"),
-		g = AllCategories.Instances,
-	}));
-
-	-- Delves
-	if AllCategories.Delves then
-		tinsert(g, app.CreateCustomHeader(app.HeaderConstants.DELVES, AllCategories.Delves));
+	for key,category in pairs(AllHiddenCategories) do
+		--print("Found Hidden Category:", key);
+		category.RootCategory = key;
 	end
-
-	-- Outdoor Zones
-	if AllCategories.Zones then
-		tinsert(g, app.CreateRawText(BUG_CATEGORY2, {
-			icon = app.asset("Category_Zones"),
-			g = AllCategories.Zones,
-			mapID = 947,
-		}));
-	end
-
-	-- World Drops
-	tinsert(g, app.CreateCustomHeader(app.HeaderConstants.WORLD_DROPS, {
-		g = AllCategories.WorldDrops or {},
-		RootCategory = "World Drops",
-	}));
-
-	-- Crafted Items
-	local craftables = AllCategories.Craftables;
-	if craftables then
-		tinsert(g, app.CreateCustomHeader(app.HeaderConstants.CRAFTED_ITEMS, {
-			DontEnforceSkillRequirements = true,
-			RootCategory = "Crafted Items",
-			g = craftables,
-		}));
-	end
-
-	-- Professions
-	local ProfessionsHeader = app.CreateCustomHeader(app.HeaderConstants.PROFESSIONS, {
-		g = AllCategories.Professions or {},
-		RootCategory = "Professions",
-	});
-	tinsert(g, ProfessionsHeader);
-
-	-- Holidays
-	if AllCategories.Holidays then
-		tinsert(g, app.CreateCustomHeader(app.HeaderConstants.HOLIDAYS, {
-			difficultyID = 19,	-- 'Event' difficulty, allows auto-expand logic to find it when queueing special holiday dungeons
-			SortType = "EventStart",
-			g = AllCategories.Holidays,
-			RootCategory = "Holidays",
-		}));
-	end
-
-	-- Expansion Features
-	if AllCategories.ExpansionFeatures and #AllCategories.ExpansionFeatures > 0 then
-		tinsert(g, app.CreateRawText(GetCategoryInfo(15301) or EXPANSION_FILTER_TEXT, {
-			icon = app.asset("Category_ExpansionFeatures"),
-			description = "These expansion features are new systems or ideas by Blizzard which are spread over multiple zones. For the ease of access & for the sake of reducing numbers, these are tagged as expansion features.\nIf an expansion feature is limited to 1 zone, it will continue being listed only under its respective zone.",
-			g = AllCategories.ExpansionFeatures,
-			RootCategory = "Expansion Features",
-		}));
-	end
-
-	-----------------------------------------
-	-- L I M I T E D   C A T E G O R I E S --
-	-----------------------------------------
-	-- Character
-	if AllCategories.Character then
-		local characterCategory = app.CreateRawText(CHARACTER, {
-			icon = app.asset("Category_ItemSets"),
-			g = AllCategories.Character,
-			RootCategory = "Character",
-		});
-		-- Merge Pet Battles into Character (temporary solution until this category is DEAD.)
-		if AllCategories.PetBattles then
-			tinsert(characterCategory.g, app.CreateCustomHeader(app.HeaderConstants.PET_BATTLES, {
-				g = AllCategories.PetBattles,
-			}));
-			AllCategories.PetBattles = nil;
-		end
-		tinsert(g, characterCategory);
-	end
-
-	-- Housing
-	if AllCategories.Housing then
-		tinsert(g, app.CreateCustomHeader(app.HeaderConstants.HOUSING, {
-			g = AllCategories.Housing,
-			RootCategory = "Housing",
-		}));
-	end
-
-	-- Group Finder
-	if AllCategories.GroupFinder then
-		tinsert(g, app.CreateRawText(DUNGEONS_BUTTON, {
-			icon = app.asset("Category_GroupFinder"),
-			g = AllCategories.GroupFinder,
-			RootCategory = "Group Finder",
-		}));
-	end
-
-	-- PvP
-	if AllCategories.PVP then
-		tinsert(g, app.CreateCustomHeader(app.HeaderConstants.PVP, {
-			g = AllCategories.PVP,
-			RootCategory = "PvP",
-		}));
-	end
-
-	-- Season of Discovery
-	if AllCategories.SeasonOfDiscovery then
-		for i,o in ipairs(AllCategories.SeasonOfDiscovery) do
-			tinsert(g, o);
-		end
-	end
-
-	-- Secrets
-	if AllCategories.Secrets then
-		tinsert(g, app.CreateCustomHeader(app.HeaderConstants.SECRETS, {
-			g = AllCategories.Secrets,
-			RootCategory = "Secrets",
-		}));
-	end
-
-	-- Skills
-	if AllCategories.Skills then
-		tinsert(g, app.CreateRawText(SKILLS, {
-			icon = 136105,
-			g = AllCategories.Skills,
-			RootCategory = "Skills",
-		}));
-	end
-
-	-- World Events
-	if AllCategories.WorldEvents then
-		tinsert(g, app.CreateRawText(BATTLE_PET_SOURCE_7, {
-			icon = app.asset("Category_Event"),
-			description = "These events occur at different times in the game's timeline, typically as one time server wide events. Special celebrations such as Anniversary events and such may be found within this category.",
-			g = AllCategories.WorldEvents,
-			RootCategory = "World Events",
-		}));
-	end
-
-	---------------------------------------
-	-- M A R K E T   C A T E G O R I E S --
-	---------------------------------------
-	-- Black Market
-	if AllCategories.BlackMarket then
-		local blackMarket = AllCategories.BlackMarket[1];
-		blackMarket.RootCategory = "Black Market";
-		tinsert(g, blackMarket);
-	end
-
-	-- In-Game Store
-	if AllCategories.InGameShop then
-		tinsert(g, app.CreateCustomHeader(app.HeaderConstants.IN_GAME_SHOP, {
-			g = AllCategories.InGameShop,
-			RootCategory = "In-Game Shop",
-		}));
-	end
-
-	-- Promotions
-	if AllCategories.Promotions then
-		tinsert(g, app.CreateRawText(BATTLE_PET_SOURCE_8, {
-			icon = app.asset("Category_Promo"),
-			description = "This section is for real world promotions that seeped extremely rare content into the game prior to some of them appearing within the In-Game Shop.",
-			g = AllCategories.Promotions,
-			RootCategory = "Promotions",
-		}));
-	end
-
-	-- Trading Post
-	if AllCategories.TradingPost then
-		tinsert(g, app.CreateRawText(TRANSMOG_SOURCE_7, {
-			icon = app.asset("Category_TradingPost"),
-			g = AllCategories.TradingPost,
-			RootCategory = "Trading Post",
-			isMinilistHeader = true,
-		}));
-	end
-
-	-----------------------------------------
-	-- D Y N A M I C   C A T E G O R I E S --
-	-----------------------------------------
-	if app.IsClassic and app.Windows then
-		local keys = {};
-		for suffix,window in pairs(app.WindowDefinitions) do
-			if window and window.IsDynamicCategory and not window.DynamicCategoryHeader then
-				keys[suffix] = window;
-			end
-		end
-		for suffix,window in pairs(app.Windows) do
-			if window and window.IsDynamicCategory and not window.DynamicCategoryHeader then
-				keys[suffix] = window;
-			end
-		end
-		local categories = {};
-		for suffix,window in pairs(keys) do
-			tinsert(categories, app.CreateDynamicCategory(suffix, {
-				sourceIgnored = 1
-			}));
-		end
-		app.Sort(categories, app.SortDefaults.name);
-		for i,category in ipairs(categories) do
-			tinsert(g, category);
-		end
-	end
-
-	-- Track Deaths!
-	tinsert(g, app.CreateDeathClass());
-
-	-- Yourself.
-	tinsert(g, app.CreateUnit("player", {
-		description = L.DEBUG_LOGIN,
-		races = { app.RaceIndex },
-		c = { app.ClassIndex },
-		r = app.FactionID,
-		collected = 1,
-		nmr = false,
-		OnUpdate = function(self)
-			self.lvl = app.Level;
-			if app.MODE_DEBUG then
-				self.collectible = true;
-			else
-				self.collectible = false;
-			end
-		end
-	}));
-
-	-- Module-based Groups
-	app.HandleEvent("OnAddExtraMainCategories", g)
 
 	-- app.PrintMemoryUsage()
 	-- app.PrintDebug("Begin Cache Prime")
 	app.AssignChildren(rootData);
-	CacheFields(rootData);
+	app.CacheFields(rootData);
 	-- app.PrintDebugPrior("Ended Cache Prime")
 	-- app.PrintMemoryUsage()
-
-	-- Achievements
-	if AllCategories.Achievements then
-		local db = app.CreateCustomHeader(app.HeaderConstants.ACHIEVEMENTS, AllCategories.Achievements);
-		db.sourceIgnored = 1;	-- everything in this category is now cloned!
-		for _, o in ipairs(db.g) do
-			o.sourceIgnored = nil
-		end
-		tinsert(g, db);
-		CacheFields(db, true, "Achievements")
-		app.AssignChildren(db);
-		db.parent = rootData;
-	end
 
 	if app.IsRetail then
 		-- CRIEVE NOTE: This needs to be versioned at the very least before it can be enabled in classic land
@@ -1496,6 +1267,7 @@ function app:GetDataCache()
 		local dynamicHeader = app.CreateRawText(L.CLICK_TO_CREATE_FORMAT:format(L.DYNAMIC_CATEGORY_LABEL), {
 			icon = app.asset("Interface_CreateDynamic"),
 			OnUpdate = app.AlwaysShowUpdate,
+			SortPriority = 1000,
 			sourceIgnored = true,
 			-- ["OnClick"] = function(row, button)
 				-- could implement logic to auto-populate all dynamic groups like before... will see if people complain about individual generation
@@ -1531,7 +1303,14 @@ function app:GetDataCache()
 				}),
 
 				-- Achievements
-				app.CreateDynamicHeader("achievementID", SimpleHeaderGroup(app.HeaderConstants.ACHIEVEMENTS)),
+				app.CreateDynamicHeader("achievementID", SimpleHeaderGroup(app.HeaderConstants.ACHIEVEMENTS, {
+					dynamic_searchcriteria = {
+						SearchCriteria = {
+							-- don't include Criteria
+							function(o) return not o.criteriaID end
+						}
+					},
+				})),
 
 				-- Artifacts
 				app.CreateDynamicHeader("artifactID", SimpleHeaderGroup(app.HeaderConstants.ARTIFACTS)),
@@ -1544,6 +1323,9 @@ function app:GetDataCache()
 					name = AUCTION_CATEGORY_BATTLE_PETS,
 					icon = app.asset("Category_PetJournal")
 				}),
+
+				-- Buildings
+				app.CreateDynamicHeader("garrisonbuildingID", SimpleHeaderGroup(app.HeaderConstants.BUILDINGS)),
 
 				-- Campsites
 				app.CreateDynamicHeader("campsiteID", {
@@ -1588,10 +1370,6 @@ function app:GetDataCache()
 
 				-- Followers
 				app.CreateDynamicHeader("followerID", SimpleHeaderGroup(app.HeaderConstants.FOLLOWERS)),
-
-				-- Garrison Buildings
-				-- TODO: doesn't seem to work...
-				-- app.CreateDynamicHeader("garrisonbuildingID", SimpleHeaderGroup(app.HeaderConstants.BUILDINGS)),
 
 				-- Heirlooms
 				app.CreateDynamicHeader("heirloomID", SimpleHeaderGroup(app.HeaderConstants.HEIRLOOMS)),
@@ -1682,15 +1460,18 @@ function app:GetDataCache()
 		dynamicHeader.parent = rootData;
 		app.AssignChildren(dynamicHeader);
 	end
-	
+
 	-- app.PrintMemoryUsage("Finished loading data cache")
 	-- app.PrintMemoryUsage()
-	app.GetDataCache = function()
+	app.GetDatabaseRoot = function()
 		-- app.PrintDebug("Cached data cache")
 		return rootData;
 	end
+	app.HandleEvent("OnHiddenDataCached", AllHiddenCategories);
 	app.HandleEvent("OnDataCached", AllCategories, rootData);
+	app.RemoveAllEventHandlers("OnHiddenDataCached");
 	app.RemoveAllEventHandlers("OnDataCached");
+	AllHiddenCategories = nil;
 	AllCategories = nil;
 	return rootData;
 end
@@ -1698,7 +1479,7 @@ end
 end	-- Dynamic/Main Data
 
 local function PrePopulateAchievementSymlinks()
-	local achCache = app.SearchForFieldContainer("achievementID")
+	local achCache = app.GetRawFieldContainer("achievementID")
 	-- app.PrintDebug("FillAchSym")
 	if achCache then
 		local FillSym = app.FillAchievementCriteriaAsync
@@ -1784,15 +1565,15 @@ app:RegisterFuncEvent("PLAYER_LOGIN", function(addonName)
 	if not accountWideData.Achievements then accountWideData.Achievements = {}; end
 	if not accountWideData.BattlePets then accountWideData.BattlePets = {}; end
 	if not accountWideData.Exploration then accountWideData.Exploration = {}; end
-	if not accountWideData.Factions then accountWideData.Factions = {}; end
-	if not accountWideData.FactionBonus then accountWideData.FactionBonus = {}; end
-	if not accountWideData.FlightPaths then accountWideData.FlightPaths = {}; end
 	if not accountWideData.HeirloomRanks then accountWideData.HeirloomRanks = {}; end
 	if not accountWideData.Quests then accountWideData.Quests = {}; end
 	if not accountWideData.Spells then accountWideData.Spells = {}; end
 	if not accountWideData.Titles then accountWideData.Titles = {}; end
 	if not accountWideData.Transmog then accountWideData.Transmog = {}; end
 	if not accountWideData.OneTimeQuests then accountWideData.OneTimeQuests = {}; end
+
+	-- Notify Event Handlers that Saved Variable Data is available.
+	app.HandleEvent("OnSavedVariablesAvailable", currentCharacter, accountWideData, characterData);
 
 	-- Clean up unused saved variables if they become deprecated after being pushed to Git
 	accountWideData.Campsite = nil
@@ -1885,14 +1666,12 @@ app:RegisterFuncEvent("PLAYER_LOGIN", function(addonName)
 	-- Initialize Settings
 	app.Settings:Initialize();
 
-	-- Notify Event Handlers that Saved Variable Data is available.
-	app.HandleEvent("OnSavedVariablesAvailable", currentCharacter, accountWideData, characterData);
 	-- Event handlers which need Saved Variable data which is added by OnSavedVariablesAvailable handlers into saved variables
 	app.HandleEvent("OnAfterSavedVariablesAvailable", currentCharacter, accountWideData);
-	
+
 	-- Cache the data for the first time
-	-- TODO: Move the logic here rather than in GetDataCache itself. (this will prevent windows from killing things)
-	app:GetDataCache();
+	-- TODO: Move the logic here rather than in GetDatabaseRoot itself. (this will prevent windows from killing things)
+	app:GetDatabaseRoot();
 
 	-- OnLoad events (saved variables are now available)
 	app.HandleEvent("OnLoad")

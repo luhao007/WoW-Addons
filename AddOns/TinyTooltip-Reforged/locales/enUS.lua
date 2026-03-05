@@ -1,6 +1,8 @@
 
 local addon = TinyTooltipReforged or select(2, ...)
 
+if (GetLocale() ~= "enUS") then return end
+
 addon.L = {
     ["general.statusbarOffsetX"] = "Statusbar Margin-X (0:Default)",
     ["general.statusbarOffsetY"] = "Statusbar Offset Y (0:Default)",

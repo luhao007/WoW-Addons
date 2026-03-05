@@ -28,17 +28,11 @@ local ChatFrame_SendTell = _G.ChatFrame_SendTell or _G.ChatFrameUtil.SendTell
 local ChatEdit_UpdateHeader = _G.ChatEdit_UpdateHeader or _G.ChatFrameEditBoxMixin.UpdateHeader
 
 Prat:AddModuleToLoad(function()
-	local PRAT_MODULE = Prat:RequestModuleName("TellTarget")
-
-	if PRAT_MODULE == nil then
-		return
-	end
-
-	local module = Prat:NewModule(PRAT_MODULE, "AceHook-3.0")
+	local module = Prat:NewModule("TellTarget", "AceHook-3.0")
 	local PL = module.PL
 
 	--[==[@debug@
-	PL:AddLocale(PRAT_MODULE, "enUS", {
+	PL:AddLocale("enUS", {
 		["TellTarget"] = true,
 		["Adds telltarget slash command (/tt)."] = true,
 		["Target does not exist."] = true,
@@ -55,138 +49,120 @@ Prat:AddModuleToLoad(function()
 	do
 		local L
 
-		L = {
-	["TellTarget"] = {
-		["/tt"] = true,
-		["Adds telltarget slash command (/tt)."] = true,
-		["No target selected."] = true,
-		["NoTarget"] = true,
-		["Target does not exist."] = true,
-		["Target is not a player."] = true,
-		["TellTarget"] = true,
-	}
-}
+		L = {}
+-- TellTarget
+L["/tt"] = true
+L["Adds telltarget slash command (/tt)."] = true
+L["No target selected."] = true
+L["NoTarget"] = true
+L["Target does not exist."] = true
+L["Target is not a player."] = true
+L["TellTarget"] = true
 
-		PL:AddLocale(PRAT_MODULE, "enUS",L)
+		PL:AddLocale("enUS",L)
 
-		L = {
-	["TellTarget"] = {
-		["/tt"] = true,
-		["Adds telltarget slash command (/tt)."] = "Ajoute la commande telltarget (/tt) pour envoyer un message privé au joueur ciblé.",
-		["No target selected."] = "Pas de cible sélectionnée.",
-		["NoTarget"] = "PasDeCible",
-		["Target does not exist."] = "La cible n'existe pas.",
-		["Target is not a player."] = "La cible n'est pas un joueur.",
-		["TellTarget"] = true,
-	}
-}
+		L = {}
+-- TellTarget
+L["/tt"] = true
+L["Adds telltarget slash command (/tt)."] = "Ajoute la commande telltarget (/tt) pour envoyer un message privé au joueur ciblé."
+L["No target selected."] = "Pas de cible sélectionnée."
+L["NoTarget"] = "PasDeCible"
+L["Target does not exist."] = "La cible n'existe pas."
+L["Target is not a player."] = "La cible n'est pas un joueur."
+L["TellTarget"] = true
 
-		PL:AddLocale(PRAT_MODULE, "frFR",L)
+		PL:AddLocale("frFR",L)
 
-		L = {
-	["TellTarget"] = {
-		["/tt"] = true,
-		["Adds telltarget slash command (/tt)."] = "Fügt den Slash-Befehl Ziel Sagen (/tt) hinzu.",
-		["No target selected."] = "Kein Ziel ausgewählt.",
-		["NoTarget"] = "KeinZiel",
-		["Target does not exist."] = "Ziel existiert nicht.",
-		["Target is not a player."] = "Ziel ist kein Spieler.",
-		["TellTarget"] = "Ziel Sagen",
-	}
-}
+		L = {}
+-- TellTarget
+L["/tt"] = true
+L["Adds telltarget slash command (/tt)."] = "Fügt den Slash-Befehl Ziel Sagen (/tt) hinzu."
+L["No target selected."] = "Kein Ziel ausgewählt."
+L["NoTarget"] = "KeinZiel"
+L["Target does not exist."] = "Ziel existiert nicht."
+L["Target is not a player."] = "Ziel ist kein Spieler."
+L["TellTarget"] = "Ziel Sagen"
 
-		PL:AddLocale(PRAT_MODULE, "deDE",L)
+		PL:AddLocale("deDE",L)
 
-		L = {
-	["TellTarget"] = {
-		["/tt"] = "/ㅅㅅ",
-		["Adds telltarget slash command (/tt)."] = "대상에게 말하기 슬래쉬 명령어를 추가합니다 (/tt).",
-		["No target selected."] = "대상이 선택되지 않았습니다.",
-		["NoTarget"] = "대상 없음",
-		["Target does not exist."] = "대상이 존재하지 않습니다.",
-		["Target is not a player."] = "대상이 플레이어가 아닙니다.",
-		["TellTarget"] = "대상에게 말하기",
-	}
-}
+		L = {}
+-- TellTarget
+L["/tt"] = "/ㅅㅅ"
+L["Adds telltarget slash command (/tt)."] = "대상에게 말하기 슬래쉬 명령어를 추가합니다 (/tt)."
+L["No target selected."] = "대상이 선택되지 않았습니다."
+L["NoTarget"] = "대상 없음"
+L["Target does not exist."] = "대상이 존재하지 않습니다."
+L["Target is not a player."] = "대상이 플레이어가 아닙니다."
+L["TellTarget"] = "대상에게 말하기"
 
-		PL:AddLocale(PRAT_MODULE, "koKR",L)
+		PL:AddLocale("koKR",L)
 
-		L = {
-	["TellTarget"] = {
-		--[[Translation missing --]]
-		["/tt"] = "/tt",
-		--[[Translation missing --]]
-		["Adds telltarget slash command (/tt)."] = "Adds telltarget slash command (/tt).",
-		--[[Translation missing --]]
-		["No target selected."] = "No target selected.",
-		--[[Translation missing --]]
-		["NoTarget"] = "NoTarget",
-		--[[Translation missing --]]
-		["Target does not exist."] = "Target does not exist.",
-		--[[Translation missing --]]
-		["Target is not a player."] = "Target is not a player.",
-		--[[Translation missing --]]
-		["TellTarget"] = "TellTarget",
-	}
-}
+		L = {}
+-- TellTarget
+--[[Translation missing --]]
+L["/tt"] = "/tt"
+--[[Translation missing --]]
+L["Adds telltarget slash command (/tt)."] = "Adds telltarget slash command (/tt)."
+--[[Translation missing --]]
+L["No target selected."] = "No target selected."
+--[[Translation missing --]]
+L["NoTarget"] = "NoTarget"
+--[[Translation missing --]]
+L["Target does not exist."] = "Target does not exist."
+--[[Translation missing --]]
+L["Target is not a player."] = "Target is not a player."
+--[[Translation missing --]]
+L["TellTarget"] = "TellTarget"
 
-		PL:AddLocale(PRAT_MODULE, "esMX",L)
+		PL:AddLocale("esMX",L)
 
-		L = {
-	["TellTarget"] = {
-		["/tt"] = true,
-		["Adds telltarget slash command (/tt)."] = "Добавляет слеш-команду 'сказать о цели' (/tt).",
-		["No target selected."] = "Нет выбранной цели.",
-		["NoTarget"] = "Нет цели",
-		["Target does not exist."] = "Цель не существует.",
-		["Target is not a player."] = "Выбранная цель не является игроком.",
-		["TellTarget"] = "Сказать цели",
-	}
-}
+		L = {}
+-- TellTarget
+L["/tt"] = true
+L["Adds telltarget slash command (/tt)."] = "Добавляет слеш-команду 'сказать о цели' (/tt)."
+L["No target selected."] = "Нет выбранной цели."
+L["NoTarget"] = "Нет цели"
+L["Target does not exist."] = "Цель не существует."
+L["Target is not a player."] = "Выбранная цель не является игроком."
+L["TellTarget"] = "Сказать цели"
 
-		PL:AddLocale(PRAT_MODULE, "ruRU",L)
+		PL:AddLocale("ruRU",L)
 
-		L = {
-	["TellTarget"] = {
-		["/tt"] = true,
-		["Adds telltarget slash command (/tt)."] = "添加目标告知斜杠命令(/tt).",
-		["No target selected."] = "无目标被选取",
-		["NoTarget"] = "无目标",
-		["Target does not exist."] = "目标不存在",
-		["Target is not a player."] = "目标不是一个玩家",
-		["TellTarget"] = "告知目标",
-	}
-}
+		L = {}
+-- TellTarget
+L["/tt"] = true
+L["Adds telltarget slash command (/tt)."] = "添加目标告知斜杠命令(/tt)."
+L["No target selected."] = "无目标被选取"
+L["NoTarget"] = "无目标"
+L["Target does not exist."] = "目标不存在"
+L["Target is not a player."] = "目标不是一个玩家"
+L["TellTarget"] = "告知目标"
 
-		PL:AddLocale(PRAT_MODULE, "zhCN",L)
+		PL:AddLocale("zhCN",L)
 
-		L = {
-	["TellTarget"] = {
-		["/tt"] = true,
-		["Adds telltarget slash command (/tt)."] = "Añade comando decir a objetivo (/tt).",
-		["No target selected."] = "Sin objetivo seleccionado.",
-		["NoTarget"] = "SinObjetivo",
-		["Target does not exist."] = "El Objetivo no existe.",
-		["Target is not a player."] = "El Objetivo no es un jugador.",
-		["TellTarget"] = "DecirObjetivo",
-	}
-}
+		L = {}
+-- TellTarget
+L["/tt"] = true
+L["Adds telltarget slash command (/tt)."] = "Añade comando decir a objetivo (/tt)."
+L["No target selected."] = "Sin objetivo seleccionado."
+L["NoTarget"] = "SinObjetivo"
+L["Target does not exist."] = "El Objetivo no existe."
+L["Target is not a player."] = "El Objetivo no es un jugador."
+L["TellTarget"] = "DecirObjetivo"
 
-		PL:AddLocale(PRAT_MODULE, "esES",L)
+		PL:AddLocale("esES",L)
 
-		L = {
-	["TellTarget"] = {
-		["/tt"] = true,
-		["Adds telltarget slash command (/tt)."] = "新增 telltarget 快捷命令（/tt）",
-		["No target selected."] = "未選取目標",
-		["NoTarget"] = "沒有目標",
-		["Target does not exist."] = "目標並不存在",
-		["Target is not a player."] = "目標並不是玩家",
-		["TellTarget"] = true,
-	}
-}
+		L = {}
+-- TellTarget
+L["/tt"] = true
+L["Adds telltarget slash command (/tt)."] = "新增 telltarget 快捷命令（/tt）"
+L["No target selected."] = "未選取目標"
+L["NoTarget"] = "沒有目標"
+L["Target does not exist."] = "目標並不存在"
+L["Target is not a player."] = "目標並不是玩家"
+L["TellTarget"] = true
 
-		PL:AddLocale(PRAT_MODULE, "zhTW",L)
+		PL:AddLocale("zhTW",L)
 	end
 	--@end-non-debug@
 

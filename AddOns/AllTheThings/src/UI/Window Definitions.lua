@@ -74,7 +74,7 @@ local function GetUnobtainableTexture(group)
 		if phase then
 			if not phase.buildVersion and group.itemID then
 				local b = group.b or 0;
-				if b == 2 or b == 0 then	-- BoE or Unbound
+				if u ~= 1 and (b == 2 or b == 0) then	-- BoE or Unbound on non-NYI
 					return L.UNOBTAINABLE_ITEM_TEXTURES[2];
 				end
 			end
@@ -804,7 +804,7 @@ local function SetRowData(self, row, data)
 	end
 end
 local function UpdateVisibleRowData(self)
-	-- app.PrintDebug(app.Modules.Color.Colorize("UpdateVisibleRowData:", app.Colors.TooltipDescription),self.Suffix)
+	-- app.PrintDebug(app.Modules.Color.Colorize("Refresh:", app.Colors.TooltipDescription),self.Suffix)
 	-- If there is no raw data, then return immediately.
 	local rowData = self.rowData;
 	if not rowData then return; end
@@ -824,21 +824,13 @@ local function UpdateVisibleRowData(self)
 	local totalRowCount = #rowData;
 	if totalRowCount > 0 then
 		local container = self.Container;
-		local containerHeight = container:GetHeight()
 		local rows = container.rows;
-		local row = rows[1];
-		local firstRowHeight = row:GetHeight()
-
-		-- Ensure that the first row doesn't move out of position.
-		SetRowData(self, row, rowData[1]);
-
-		-- Fill the remaining rows up to the (visible) row count.
-		row = rows[2]
-		local current, rowHeight
-			= math.max(1, math.min(self.ScrollBar.CurrentIndex, totalRowCount)) + 1, row:GetHeight();
-		local maxRows = math.floor((containerHeight - firstRowHeight) / rowHeight) + 1
+		local firstRowHeight = rows[1]:GetHeight()
+		local rowHeight = rows[2]:GetHeight()
+		local maxRows = math.floor((container:GetHeight() - firstRowHeight) / rowHeight) + 1
 		local rowCount = math.min(maxRows, #rowData)
 		self:SetMinMaxValues(rowCount, totalRowCount)
+		self.rowCount = rowCount
 
 		-- Should this window attempt to scroll to specific data?
 		if self.ScrollInfo then
@@ -859,9 +851,8 @@ local function UpdateVisibleRowData(self)
 				-- app.PrintDebug("Index",foundAt)
 				-- Actually do the scroll if it was determined above
 				-- Estimate the expected scroll position based on row heights in the current window
-				local possibleRows = math.floor((containerHeight - firstRowHeight) / rows[2]:GetHeight()) + 1
-				-- app.PrintDebug("Possible Rows:",possibleRows)
-				local scrollIndex = math.max(1, math.min(foundAt - (possibleRows / 2), totalRowCount - possibleRows))
+				-- app.PrintDebug("Possible Rows:",maxRows)
+				local scrollIndex = math.max(1, math.min(foundAt - (maxRows / 2), totalRowCount - maxRows))
 				local currentScroll = self.ScrollBar.CurrentIndex
 				-- app.PrintDebug("Scrolling to:",scrollIndex,"from",currentScroll)
 				if currentScroll ~= scrollIndex then
@@ -871,20 +862,21 @@ local function UpdateVisibleRowData(self)
 			end
 		end
 
-		local minIndent
-		for i=2,rowCount do
-			row = rows[i];
-			SetRowData(self, row, rowData[current]);
-			local indent = row.indent;
-			if indent and (not minIndent or minIndent > indent) then
-				minIndent = indent;
-			end
-			current = current + 1;
-		end
+		-- Redraw the data into the rows
+		self:Redraw()
 
-		-- Apply the Min Indent adjustment if there are any rows to indent
+		-- Apply the Indent adjustment if there are any rows to indent
 		if rowCount > 1 then
+			local minIndent = rows[2].indent
+			for i=3,rowCount do
+				local indent = rows[i].indent
+				if indent and minIndent > indent then
+					minIndent = indent
+				end
+			end
+
 			local shift = math.floor(rowHeight / 2 + 0.1)
+			local row
 			-- TODO: testing moving this switch to a cached function assigned via settings OnSet event
 			if AdjustRowIndents then
 				local adjustBy = minIndent - 2
@@ -959,6 +951,17 @@ local function StartMovingOrSizing(self)
 end
 
 -- Shared Panel Functions
+local function GenerateSourcePathForTSM(group, l)
+	local parent = group.sourceParent or group.parent;
+	if parent then
+		if l < 1 or not group.text then
+			return GenerateSourcePathForTSM(parent, l + 1);
+		else
+			return GenerateSourcePathForTSM(parent, l + 1) .. "`" .. group.text;
+		end
+	end
+	return L.TITLE
+end
 local function RowOnClick(self, button)
 	local reference = self.ref;
 	if reference then
@@ -1010,7 +1013,7 @@ local function RowOnClick(self, button)
 							local dict, path, itemString, group = {}, nil, nil, nil;
 							for i=1,#missingItems do
 								group = missingItems[i]
-								path = app.GenerateSourcePathForTSM(group, 0);
+								path = GenerateSourcePathForTSM(group, 0);
 								if path then
 									itemString = dict[path];
 									if itemString then
@@ -1052,7 +1055,7 @@ local function RowOnClick(self, button)
 							for i=1,#missingItems do
 								group = missingItems[i]
 								search = group.tsm or TSMAPI.Item:ToItemString(group.link or group.itemID);
-								if search then itemList[search] = app.GenerateSourcePathForTSM(group, 0); end
+								if search then itemList[search] = GenerateSourcePathForTSM(group, 0); end
 							end
 							app:ShowPopupDialog(L.TSM_WARNING_1 .. L.TITLE .. L.TSM_WARNING_2,
 							function()
@@ -1102,7 +1105,11 @@ local function RowOnClick(self, button)
 					if link then
 						if app.HandleModifiedItemClick(link) or ChatEdit_InsertLink(link) then return true; end
 						local _, dialog = StaticPopup_Visible("ALL_THE_THINGS_EDITBOX");
-						if dialog then dialog.editBox:SetText(link); return true; end
+						if dialog then
+							local editBox = dialog.editBox or dialog.EditBox or (dialog.GetEditBox and dialog:GetEditBox())
+							editBox:SetText(link);
+							return true;
+						end
 					end
 					if button == "LeftButton" then app.RefreshCollections(); end
 					return true;
@@ -1766,7 +1773,7 @@ local function CreateRow(container, rows, i)
 
 	-- Indicator is used by the Instance Saves functionality.
 	row.Indicator = row:CreateTexture(nil, "ARTWORK");
-	row.Indicator:SetPoint("RIGHT", row.Texture, "LEFT", -2, 0);
+	row.Indicator:SetPoint("RIGHT", row.Texture, "LEFT", -1, 0);
 	row.Indicator:SetPoint("BOTTOM");
 	row.Indicator:SetPoint("TOP");
 	row.Indicator:SetWidth(rowHeight);
@@ -2096,6 +2103,21 @@ function app:BuildSearchResponseForField(groups, field)
 		return group[field];
 	end);
 end
+local function RemoveIgnoredBuildRequests(data)
+	if data.IgnoreBuildRequests then
+		return true;
+	end
+	if data.g then
+		for i=#data.g,1,-1 do
+			if RemoveIgnoredBuildRequests(data.g[i]) then
+				tremove(data.g, i);
+			end
+		end
+	end
+end
+function app:RemoveIgnoredBuildRequests(data)
+	RemoveIgnoredBuildRequests(data);
+end
 local function OnCloseButtonPressed(self)
 	self:GetParent():Hide();
 end
@@ -2205,7 +2227,7 @@ local function UpdateWindow(self, force, trigger)
 		end
 
 		-- app.PrintDebugPrior("Update:Done")
-		app.HandleEvent("OnWindowUpdated", self, didUpdate)
+		app.HandleEvent("OnWindowUpdated", self, self.Suffix, didUpdate)
 		return true;
 	end
 	-- app.PrintDebugPrior("Update:None")
@@ -2215,6 +2237,25 @@ local function ApplyAlphaForWindow(self)
 		self:SetAlpha(1.0);
 	else
 		self:SetAlpha(self.__ALPHA);
+	end
+end
+local function RefreshAndCallback(self, ...)
+	UpdateVisibleRowData(self, ...);
+	if self.RegisteredRefreshCallbacks then
+		local TLUG = self.data.TLUG;
+		if TLUG ~= self.__lastTLUG then
+			self.__lastTLUG = TLUG;
+			for i=1,#self.RegisteredRefreshCallbacks do
+				self.RegisteredRefreshCallbacks[i](TLUG);
+			end
+		end
+	end
+end
+local function RegisterRefreshCallback(self, callback)
+	if not self.RegisteredRefreshCallbacks then
+		self.RegisteredRefreshCallbacks = { callback };
+	else
+		self.RegisteredRefreshCallbacks[#self.RegisteredRefreshCallbacks + 1] = callback;
 	end
 end
 local FieldDefaults = {
@@ -2319,37 +2360,33 @@ local FieldDefaults = {
 		app.AssignChildren(self.data);
 	end,
 	DefaultUpdate = UpdateWindow,
-	DefaultRefresh = UpdateVisibleRowData,
 	DefaultRedraw = function(self)
 		-- app.PrintDebug(app.Modules.Color.Colorize("Redraw:", app.DefaultColors.TooltipLore),self.Suffix,
 		-- 	self.rowData and #self.rowData,
 		-- 	self:IsShown() and "VISIBLE" or "HIDDEN")
 		-- If there is no raw data or we aren't visible, then ignore this action.
-		if not self:IsShown() or not self.rowData then return end
+		local rowData = self.rowData;
+		if not rowData then return; end
+		if not self:IsShown() then return end
 
-		-- Make it so that if you scroll all the way down, you have the ability to see all of the text every time.
-		local totalRowCount = #self.rowData;
-		if totalRowCount > 0 then
-			-- Ensure that the first row doesn't move out of position.
-			local container = self.Container;
-			local row = container.rows[1];
-			if not row then return; end
-			SetRowData(self, row, row.ref);
+		local totalRowCount = #rowData
+		local container = self.Container;
+		local rows = container.rows;
 
-			-- Fill the remaining rows up to the (visible) row count.
-			local containerHeight, totalHeight = container:GetHeight(), row:GetHeight();
-			for i=2,totalRowCount do
-				row = container.rows[i];
-				if row then
-					SetRowData(self, row, row.ref);
-					totalHeight = totalHeight + row:GetHeight();
-					if totalHeight > containerHeight then
-						break;
-					end
-				else
-					break;
-				end
-			end
+		-- Ensure that the first row doesn't move out of position.
+		SetRowData(self, rows[1], rowData[1]);
+
+		-- Fill the remaining rows up to the (visible) row count.
+		local current = math.max(1, math.min(self.ScrollBar.CurrentIndex, totalRowCount)) + 1
+		local rowCount = self.rowCount
+		if not rowCount then
+			app.PrintDebug("Redraw without Refresh!", self.Suffix)
+			rowCount = 1
+		end
+
+		for i=2,rowCount do
+			SetRowData(self, rows[i], rowData[current]);
+			current = current + 1;
 		end
 	end,
 	OnInactiveAlphaChanged = function(self, value)
@@ -2362,7 +2399,16 @@ local FieldDefaults = {
 			self.__ALPHA = value
 			self:SetScript("OnUpdate", ApplyAlphaForWindow);
 		end
-	end
+	end,
+
+	-- Refresh Callbacks
+	DefaultRefresh = UpdateVisibleRowData,
+	RegisterRefreshCallback = function(self, ...)
+		-- Once a window registers for refresh callbacks, then we inject the functionality to replace the Default Refresh.
+		self.DefaultRefresh = RefreshAndCallback;
+		self.RegisterRefreshCallback = RegisterRefreshCallback;
+		self:RegisterRefreshCallback(...);
+	end,
 };
 local DefaultEventHandlers = {
 	["Settings.OnSet"] = function(self,container,setting,value)
@@ -2723,7 +2769,7 @@ local function BuildWindow(suffix)
 					local lastUpdate = debugprofilestop();
 					if onRefresh(self) then self:DefaultRefresh(); end
 					print("Refresh: " .. suffix, ("%d ms"):format(debugprofilestop() - lastUpdate));
-					-- app.HandleEvent("OnWindowRefreshed", self, self.Suffix)
+					app.HandleEvent("OnWindowRefreshed", self, self.Suffix)
 				end
 			end
 		else
@@ -2742,7 +2788,7 @@ local function BuildWindow(suffix)
 					local lastUpdate = debugprofilestop();
 					self:DefaultRefresh();
 					print("Refresh: " .. suffix, ("%d ms"):format(debugprofilestop() - lastUpdate));
-					-- app.HandleEvent("OnWindowRefreshed", self, self.Suffix)
+					app.HandleEvent("OnWindowRefreshed", self, self.Suffix)
 				end
 			end
 		else
@@ -2927,6 +2973,40 @@ end
 function app:CreateWindow(suffix, definition)
 	app.WindowDefinitions[suffix] = definition;
 	if definition then
+		-- Dynamic Categories are neat, but currently only a Classic Feature (for now?)
+		if definition.IsDynamicCategory and app.IsClassic then
+			if definition.DynamicCategoryHeader then
+				app.AddEventHandler("OnDataCached", function(categories)
+					local category = categories.Professions;
+					if category then
+						for i,group in ipairs(category.g) do
+							if group.requireSkill == definition.DynamicProfessionID then
+								local recipesList = app.CreateDynamicCategory(suffix);
+								recipesList.IgnoreBuildRequests = true;
+								recipesList.sourceIgnored = true;
+								recipesList.name = L.ALL_RECIPES;
+								recipesList.icon = 134939;
+								recipesList.parent = group;
+								local g = group.g;
+								if not g then
+									g = {};
+									group.g = g;
+								end
+								tinsert(g, 1, recipesList);
+							end
+						end
+					end
+				end);
+			else
+				app.AddEventHandler("OnBuildDataCache", function(categories)
+					categories["Dynamic" .. suffix] = app.CreateDynamicCategory(suffix, {
+						SortPriority = 100,
+						sourceIgnored = 1
+					});
+				end);
+			end
+		end
+
 		if definition.Preload then
 			-- This window still needs to be loaded right away
 			return app:GetWindow(suffix);
@@ -2974,25 +3054,14 @@ end
 -- Dynamic Popouts for Quest Chains and other Groups
 local OnInitForPopout;
 function app:CreateMiniListForGroup(group)
-	-- Is this an achievement criteria or lacking some achievement information?
+
+	-- This re-directs Criteria popouts to instead popout their Achievement
 	local achievementID = group.achievementID;
 	if achievementID and group.criteriaID then
-		local searchResults = app.SearchForField("achievementID", achievementID);
-		if #searchResults > 0 then
-			local bestResult;
-			for i=1,#searchResults,1 do
-				local searchResult = searchResults[i];
-				if searchResult.achievementID == achievementID and not searchResult.criteriaID then
-					if not bestResult or searchResult.g then
-						bestResult = searchResult;
-					end
-				end
-			end
-			if bestResult then group = bestResult; end
-		end
+		group = app.SearchForObject("achievementID", achievementID, "key") or group
 	end
 
-	-- Is this a quest object or objective?
+	-- This re-directs Objective popouts to instead popout their Quest
 	local questID, parent = group.questID, group.parent;
 	if questID and parent and parent.questID == questID then
 		group = parent;
@@ -3042,7 +3111,7 @@ function app:CreateMiniListFromSource(key, id, sourcePath)
 	-- If we provided the original source path, then we can find the exact element to popout.
 	if sourcePath then
 		local hashes = { (">"):split(sourcePath) };
-		local ref = app.SearchForSourcePath(app:GetDataCache().g, hashes, 2, #hashes);
+		local ref = app.SearchForSourcePath(app:GetDatabaseRoot().g, hashes, 2, #hashes);
 		if ref then
 			app:CreateMiniListForGroup(ref);
 			return;
@@ -3074,7 +3143,7 @@ function app:CreateMiniListFromSource(key, id, sourcePath)
 
 		-- Search for the field/value pair everywhere in the DB.
 		local t = {};
-		app:BuildFlatSearchResponse(app:GetDataCache().g, key, id, t);
+		app:BuildFlatSearchResponse(app:GetDatabaseRoot().g, key, id, t);
 		if t and #t > 0 then
 			local ref = #t == 1 and t[1] or app.CloneClassInstance({ hash = key .. id, key = key, [key] = id, g = t });
 			if ref then
@@ -3126,7 +3195,6 @@ OnInitForPopout = function(self, group)
 	else
 		self:SetData(group);
 	end
-	group.back = 1;
 	group.indent = 0;
 
 	app.HandleEvent("OnNewPopoutGroup", self.data)
@@ -3194,14 +3262,14 @@ local BaseSearchFilterMetatable = {
 		return false;
 	end,
 };
-local function BuildSearchFilterForClassTypes(uniqueKey, classTypes)
+local function BuildSearchFilterForClassTypes(classTypesKey, classTypes)
 	local searchFilter = SearchFiltersByClassTypes[classTypesKey];
 	if not searchFilter then
 		local filter = {};
 		for i,__type in pairs(classTypes) do filter[__type] = true; end
 		local FilterByClassType = setmetatable(filter, BaseSearchFilterMetatable);
 		searchFilter = function(t) return FilterByClassType[t.__type]; end
-		SearchFiltersByClassTypes[uniqueKey] = searchFilter;
+		SearchFiltersByClassTypes[classTypesKey] = searchFilter;
 	end
 	return searchFilter;
 end
@@ -3364,7 +3432,7 @@ local function BuildCategorizedSearchFunctionForClassTypes(key, fallbackText, ..
 			local g = data.g;
 			if #g < 1 then
 				local results = {};
-				app:BuildFlatSearchFilteredResponse(app:GetDataCache().g, SearchForClassTypes, results);
+				app:BuildFlatSearchFilteredResponse(app:GetDatabaseRoot().g, SearchForClassTypes, results);
 				local headers, resultsByKey = {}, {};
 				for i,result in pairs(results) do
 					local id = result[key];
@@ -3430,7 +3498,7 @@ local function BuildFlatSearchFunctionForClassTypes(key, fallbackText, ...)
 			local g = data.g;
 			if #g < 1 then
 				local results = {};
-				app:BuildFlatSearchFilteredResponse(app:GetDataCache().g, SearchForClassTypes, results);
+				app:BuildFlatSearchFilteredResponse(app:GetDatabaseRoot().g, SearchForClassTypes, results);
 				local headers, resultsByKey = {}, {};
 				for i,result in pairs(results) do
 					local id = result[key];

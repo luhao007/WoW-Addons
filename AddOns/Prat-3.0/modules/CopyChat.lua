@@ -31,17 +31,11 @@ local ChatFrame_OpenChat = _G.ChatFrame_OpenChat or _G.ChatFrameUtil.OpenChat
 local StripHyperlinks = _G.StripHyperlinks or _G.C_StringUtil.StripHyperlinks
 
 Prat:AddModuleToLoad(function()
-	local PRAT_MODULE = Prat:RequestModuleName("CopyChat")
-
-	if PRAT_MODULE == nil then
-		return
-	end
-
-	local module = Prat:NewModule(PRAT_MODULE, "AceHook-3.0", "AceTimer-3.0")
+	local module = Prat:NewModule("CopyChat", "AceHook-3.0", "AceTimer-3.0")
 	local PL = module.PL
 
 	--[==[@debug@
-	PL:AddLocale(PRAT_MODULE, "enUS", {
+	PL:AddLocale("enUS", {
 		["CopyChat"] = true,
 		["Copy text from the active chat window."] = true,
 		["Copy Text"] = true,
@@ -77,481 +71,459 @@ Prat:AddModuleToLoad(function()
 	do
 		local L
 
-		L = {
-	["CopyChat"] = {
-		[" Text"] = true,
-		["activealpha"] = "Alpha when mouseover",
-		["BBCode"] = true,
-		["BOTTOMLEFT"] = "Bottom, Left",
-		["BOTTOMRIGHT"] = "Bottom, Right",
-		["buttonpos_desc"] = "Where on the chatframe to show the copy button",
-		["buttonpos_name"] = "Button Location",
-		["ChatFrame"] = true,
-		["Copy all of the text in the selected chat frame into an edit box"] = true,
-		["Copy Text"] = true,
-		["Copy Text Format"] = true,
-		["Copy text from the active chat window."] = true,
-		["Copy To Editbox"] = true,
-		["CopyChat"] = true,
-		["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp",
-		["copytimestamps_name"] = "Timestamps Copy",
-		["HTML"] = true,
-		["inactivealpha"] = "Alpha when mouseout",
-		["Message From : %s"] = true,
-		["Plain"] = true,
-		["Should the copied text be plain, or formatted so you can see the colors."] = true,
-		["showbutton_desc"] = "Show a button on the chatframe",
-		["showbutton_name"] = "Copy Button",
-		["TOPLEFT"] = "Top, Left",
-		["TOPRIGHT"] = "Top, Right",
-		["Wowace.com Forums"] = true,
-	}
-}
+		L = {}
+-- CopyChat
+L[" Text"] = true
+L["activealpha"] = "Alpha when mouseover"
+L["BBCode"] = true
+L["BOTTOMLEFT"] = "Bottom, Left"
+L["BOTTOMRIGHT"] = "Bottom, Right"
+L["buttonpos_desc"] = "Where on the chatframe to show the copy button"
+L["buttonpos_name"] = "Button Location"
+L["ChatFrame"] = true
+L["Copy all of the text in the selected chat frame into an edit box"] = true
+L["Copy Text"] = true
+L["Copy Text Format"] = true
+L["Copy text from the active chat window."] = true
+L["Copy To Editbox"] = true
+L["CopyChat"] = true
+L["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp"
+L["copytimestamps_name"] = "Timestamps Copy"
+L["HTML"] = true
+L["inactivealpha"] = "Alpha when mouseout"
+L["Message From : %s"] = true
+L["Plain"] = true
+L["Should the copied text be plain, or formatted so you can see the colors."] = true
+L["showbutton_desc"] = "Show a button on the chatframe"
+L["showbutton_name"] = "Copy Button"
+L["TOPLEFT"] = "Top, Left"
+L["TOPRIGHT"] = "Top, Right"
+L["Wowace.com Forums"] = true
 
-		PL:AddLocale(PRAT_MODULE, "enUS", L)
+		PL:AddLocale("enUS", L)
 
-		L = {
-	["CopyChat"] = {
-		[" Text"] = "Testo",
-		--[[Translation missing --]]
-		["activealpha"] = "Alpha when mouseover",
-		--[[Translation missing --]]
-		["BBCode"] = "BBCode",
-		--[[Translation missing --]]
-		["BOTTOMLEFT"] = "Bottom, Left",
-		--[[Translation missing --]]
-		["BOTTOMRIGHT"] = "Bottom, Right",
-		--[[Translation missing --]]
-		["buttonpos_desc"] = "Where on the chatframe to show the copy button",
-		--[[Translation missing --]]
-		["buttonpos_name"] = "Button Location",
-		--[[Translation missing --]]
-		["ChatFrame"] = "ChatFrame",
-		--[[Translation missing --]]
-		["Copy all of the text in the selected chat frame into an edit box"] = "Copy all of the text in the selected chat frame into an edit box",
-		--[[Translation missing --]]
-		["Copy Text"] = "Copy Text",
-		--[[Translation missing --]]
-		["Copy Text Format"] = "Copy Text Format",
-		--[[Translation missing --]]
-		["Copy text from the active chat window."] = "Copy text from the active chat window.",
-		--[[Translation missing --]]
-		["Copy To Editbox"] = "Copy To Editbox",
-		--[[Translation missing --]]
-		["CopyChat"] = "CopyChat",
-		--[[Translation missing --]]
-		["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp",
-		--[[Translation missing --]]
-		["copytimestamps_name"] = "Timestamps Copy",
-		--[[Translation missing --]]
-		["HTML"] = "HTML",
-		--[[Translation missing --]]
-		["inactivealpha"] = "Alpha when mouseout",
-		--[[Translation missing --]]
-		["Message From : %s"] = "Message From : %s",
-		--[[Translation missing --]]
-		["Plain"] = "Plain",
-		--[[Translation missing --]]
-		["Should the copied text be plain, or formatted so you can see the colors."] = "Should the copied text be plain, or formatted so you can see the colors.",
-		--[[Translation missing --]]
-		["showbutton_desc"] = "Show a button on the chatframe",
-		--[[Translation missing --]]
-		["showbutton_name"] = "Copy Button",
-		--[[Translation missing --]]
-		["TOPLEFT"] = "Top, Left",
-		--[[Translation missing --]]
-		["TOPRIGHT"] = "Top, Right",
-		--[[Translation missing --]]
-		["Wowace.com Forums"] = "Wowace.com Forums",
-	}
-}
+		L = {}
+-- CopyChat
+L[" Text"] = "Testo"
+--[[Translation missing --]]
+L["activealpha"] = "Alpha when mouseover"
+--[[Translation missing --]]
+L["BBCode"] = "BBCode"
+--[[Translation missing --]]
+L["BOTTOMLEFT"] = "Bottom, Left"
+--[[Translation missing --]]
+L["BOTTOMRIGHT"] = "Bottom, Right"
+--[[Translation missing --]]
+L["buttonpos_desc"] = "Where on the chatframe to show the copy button"
+--[[Translation missing --]]
+L["buttonpos_name"] = "Button Location"
+--[[Translation missing --]]
+L["ChatFrame"] = "ChatFrame"
+--[[Translation missing --]]
+L["Copy all of the text in the selected chat frame into an edit box"] = "Copy all of the text in the selected chat frame into an edit box"
+--[[Translation missing --]]
+L["Copy Text"] = "Copy Text"
+--[[Translation missing --]]
+L["Copy Text Format"] = "Copy Text Format"
+--[[Translation missing --]]
+L["Copy text from the active chat window."] = "Copy text from the active chat window."
+--[[Translation missing --]]
+L["Copy To Editbox"] = "Copy To Editbox"
+--[[Translation missing --]]
+L["CopyChat"] = "CopyChat"
+--[[Translation missing --]]
+L["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp"
+--[[Translation missing --]]
+L["copytimestamps_name"] = "Timestamps Copy"
+--[[Translation missing --]]
+L["HTML"] = "HTML"
+--[[Translation missing --]]
+L["inactivealpha"] = "Alpha when mouseout"
+--[[Translation missing --]]
+L["Message From : %s"] = "Message From : %s"
+--[[Translation missing --]]
+L["Plain"] = "Plain"
+--[[Translation missing --]]
+L["Should the copied text be plain, or formatted so you can see the colors."] = "Should the copied text be plain, or formatted so you can see the colors."
+--[[Translation missing --]]
+L["showbutton_desc"] = "Show a button on the chatframe"
+--[[Translation missing --]]
+L["showbutton_name"] = "Copy Button"
+--[[Translation missing --]]
+L["TOPLEFT"] = "Top, Left"
+--[[Translation missing --]]
+L["TOPRIGHT"] = "Top, Right"
+--[[Translation missing --]]
+L["Wowace.com Forums"] = "Wowace.com Forums"
 
-		PL:AddLocale(PRAT_MODULE, "itIT", L)
+		PL:AddLocale("itIT", L)
 
-		L = {
-	["CopyChat"] = {
-		[" Text"] = "Texto",
-		--[[Translation missing --]]
-		["activealpha"] = "Alpha when mouseover",
-		--[[Translation missing --]]
-		["BBCode"] = "BBCode",
-		--[[Translation missing --]]
-		["BOTTOMLEFT"] = "Bottom, Left",
-		--[[Translation missing --]]
-		["BOTTOMRIGHT"] = "Bottom, Right",
-		--[[Translation missing --]]
-		["buttonpos_desc"] = "Where on the chatframe to show the copy button",
-		--[[Translation missing --]]
-		["buttonpos_name"] = "Button Location",
-		--[[Translation missing --]]
-		["ChatFrame"] = "ChatFrame",
-		--[[Translation missing --]]
-		["Copy all of the text in the selected chat frame into an edit box"] = "Copy all of the text in the selected chat frame into an edit box",
-		--[[Translation missing --]]
-		["Copy Text"] = "Copy Text",
-		--[[Translation missing --]]
-		["Copy Text Format"] = "Copy Text Format",
-		--[[Translation missing --]]
-		["Copy text from the active chat window."] = "Copy text from the active chat window.",
-		--[[Translation missing --]]
-		["Copy To Editbox"] = "Copy To Editbox",
-		--[[Translation missing --]]
-		["CopyChat"] = "CopyChat",
-		--[[Translation missing --]]
-		["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp",
-		--[[Translation missing --]]
-		["copytimestamps_name"] = "Timestamps Copy",
-		--[[Translation missing --]]
-		["HTML"] = "HTML",
-		--[[Translation missing --]]
-		["inactivealpha"] = "Alpha when mouseout",
-		--[[Translation missing --]]
-		["Message From : %s"] = "Message From : %s",
-		--[[Translation missing --]]
-		["Plain"] = "Plain",
-		--[[Translation missing --]]
-		["Should the copied text be plain, or formatted so you can see the colors."] = "Should the copied text be plain, or formatted so you can see the colors.",
-		--[[Translation missing --]]
-		["showbutton_desc"] = "Show a button on the chatframe",
-		--[[Translation missing --]]
-		["showbutton_name"] = "Copy Button",
-		--[[Translation missing --]]
-		["TOPLEFT"] = "Top, Left",
-		--[[Translation missing --]]
-		["TOPRIGHT"] = "Top, Right",
-		["Wowace.com Forums"] = "Wowace.com Fóruns",
-	}
-}
+		L = {}
+-- CopyChat
+L[" Text"] = "Texto"
+--[[Translation missing --]]
+L["activealpha"] = "Alpha when mouseover"
+--[[Translation missing --]]
+L["BBCode"] = "BBCode"
+--[[Translation missing --]]
+L["BOTTOMLEFT"] = "Bottom, Left"
+--[[Translation missing --]]
+L["BOTTOMRIGHT"] = "Bottom, Right"
+--[[Translation missing --]]
+L["buttonpos_desc"] = "Where on the chatframe to show the copy button"
+--[[Translation missing --]]
+L["buttonpos_name"] = "Button Location"
+--[[Translation missing --]]
+L["ChatFrame"] = "ChatFrame"
+--[[Translation missing --]]
+L["Copy all of the text in the selected chat frame into an edit box"] = "Copy all of the text in the selected chat frame into an edit box"
+--[[Translation missing --]]
+L["Copy Text"] = "Copy Text"
+--[[Translation missing --]]
+L["Copy Text Format"] = "Copy Text Format"
+--[[Translation missing --]]
+L["Copy text from the active chat window."] = "Copy text from the active chat window."
+--[[Translation missing --]]
+L["Copy To Editbox"] = "Copy To Editbox"
+--[[Translation missing --]]
+L["CopyChat"] = "CopyChat"
+--[[Translation missing --]]
+L["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp"
+--[[Translation missing --]]
+L["copytimestamps_name"] = "Timestamps Copy"
+--[[Translation missing --]]
+L["HTML"] = "HTML"
+--[[Translation missing --]]
+L["inactivealpha"] = "Alpha when mouseout"
+--[[Translation missing --]]
+L["Message From : %s"] = "Message From : %s"
+--[[Translation missing --]]
+L["Plain"] = "Plain"
+--[[Translation missing --]]
+L["Should the copied text be plain, or formatted so you can see the colors."] = "Should the copied text be plain, or formatted so you can see the colors."
+--[[Translation missing --]]
+L["showbutton_desc"] = "Show a button on the chatframe"
+--[[Translation missing --]]
+L["showbutton_name"] = "Copy Button"
+--[[Translation missing --]]
+L["TOPLEFT"] = "Top, Left"
+--[[Translation missing --]]
+L["TOPRIGHT"] = "Top, Right"
+L["Wowace.com Forums"] = "Wowace.com Fóruns"
 
-		PL:AddLocale(PRAT_MODULE, "ptBR", L)
+		PL:AddLocale("ptBR", L)
 
-		L = {
-	["CopyChat"] = {
-		[" Text"] = "Texte",
-		--[[Translation missing --]]
-		["activealpha"] = "Alpha when mouseover",
-		["BBCode"] = true,
-		--[[Translation missing --]]
-		["BOTTOMLEFT"] = "Bottom, Left",
-		--[[Translation missing --]]
-		["BOTTOMRIGHT"] = "Bottom, Right",
-		--[[Translation missing --]]
-		["buttonpos_desc"] = "Where on the chatframe to show the copy button",
-		--[[Translation missing --]]
-		["buttonpos_name"] = "Button Location",
-		--[[Translation missing --]]
-		["ChatFrame"] = "ChatFrame",
-		["Copy all of the text in the selected chat frame into an edit box"] = "Copier tout le texte de la fenêtre de discussion sélectionnée dans une boîte d'édition.",
-		["Copy Text"] = "Copier le texte",
-		["Copy Text Format"] = "Format du texte copié",
-		["Copy text from the active chat window."] = "Copier le texte à partir de la fenêtre de discussion active.",
-		["Copy To Editbox"] = "Copier vers la fenêtre d'édition",
-		["CopyChat"] = "Copier",
-		--[[Translation missing --]]
-		["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp",
-		--[[Translation missing --]]
-		["copytimestamps_name"] = "Timestamps Copy",
-		["HTML"] = true,
-		--[[Translation missing --]]
-		["inactivealpha"] = "Alpha when mouseout",
-		["Message From : %s"] = "Message de : %s",
-		["Plain"] = "Texte seul",
-		["Should the copied text be plain, or formatted so you can see the colors."] = "Le texte copié doit-il être seul, ou formaté de tel manière à voir les couleurs.",
-		["showbutton_desc"] = "Montrer un bouton sur la fenêtre de discussion.",
-		["showbutton_name"] = "Bouton de copie",
-		--[[Translation missing --]]
-		["TOPLEFT"] = "Top, Left",
-		--[[Translation missing --]]
-		["TOPRIGHT"] = "Top, Right",
-		["Wowace.com Forums"] = "Forums wowace.com",
-	}
-}
+		L = {}
+-- CopyChat
+L[" Text"] = "Texte"
+--[[Translation missing --]]
+L["activealpha"] = "Alpha when mouseover"
+L["BBCode"] = true
+--[[Translation missing --]]
+L["BOTTOMLEFT"] = "Bottom, Left"
+--[[Translation missing --]]
+L["BOTTOMRIGHT"] = "Bottom, Right"
+--[[Translation missing --]]
+L["buttonpos_desc"] = "Where on the chatframe to show the copy button"
+--[[Translation missing --]]
+L["buttonpos_name"] = "Button Location"
+--[[Translation missing --]]
+L["ChatFrame"] = "ChatFrame"
+L["Copy all of the text in the selected chat frame into an edit box"] = "Copier tout le texte de la fenêtre de discussion sélectionnée dans une boîte d'édition."
+L["Copy Text"] = "Copier le texte"
+L["Copy Text Format"] = "Format du texte copié"
+L["Copy text from the active chat window."] = "Copier le texte à partir de la fenêtre de discussion active."
+L["Copy To Editbox"] = "Copier vers la fenêtre d'édition"
+L["CopyChat"] = "Copier"
+--[[Translation missing --]]
+L["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp"
+--[[Translation missing --]]
+L["copytimestamps_name"] = "Timestamps Copy"
+L["HTML"] = true
+--[[Translation missing --]]
+L["inactivealpha"] = "Alpha when mouseout"
+L["Message From : %s"] = "Message de : %s"
+L["Plain"] = "Texte seul"
+L["Should the copied text be plain, or formatted so you can see the colors."] = "Le texte copié doit-il être seul, ou formaté de tel manière à voir les couleurs."
+L["showbutton_desc"] = "Montrer un bouton sur la fenêtre de discussion."
+L["showbutton_name"] = "Bouton de copie"
+--[[Translation missing --]]
+L["TOPLEFT"] = "Top, Left"
+--[[Translation missing --]]
+L["TOPRIGHT"] = "Top, Right"
+L["Wowace.com Forums"] = "Forums wowace.com"
 
-		PL:AddLocale(PRAT_MODULE, "frFR",L)
+		PL:AddLocale("frFR",L)
 
-		L = {
-	["CopyChat"] = {
-		[" Text"] = "Text",
-		["activealpha"] = "Transparenz, wenn mit der Maus darüber gefahren wird",
-		["BBCode"] = true,
-		["BOTTOMLEFT"] = "Unten, links",
-		["BOTTOMRIGHT"] = "Unten, rechts",
-		["buttonpos_desc"] = "Wo im Chatfenster die Kopier-Schaltfläche angezeigt werden soll.",
-		["buttonpos_name"] = "Schaltflächenposition",
-		["ChatFrame"] = "Chatfenster",
-		["Copy all of the text in the selected chat frame into an edit box"] = "Den gesamten Text des ausgewählten Chatfensters in ein Eingabefeld kopieren",
-		["Copy Text"] = "Text kopieren",
-		["Copy Text Format"] = "Textformat kopieren",
-		["Copy text from the active chat window."] = "Text im aktiven Chatfenster kopieren.",
-		["Copy To Editbox"] = "In das Eingabefeld kopieren",
-		["CopyChat"] = "Chat kopieren",
-		["copytimestamps_desc"] = "Kopiert die Chat-Zeile, wenn du auf den Zeitstempel klickst",
-		["copytimestamps_name"] = "Zeitstempel kopieren",
-		["HTML"] = true,
-		["inactivealpha"] = "Transparenz, wenn mit der Maus nicht darüber gefahren wird",
-		["Message From : %s"] = "Nachricht von : %s",
-		["Plain"] = "Einfach",
-		["Should the copied text be plain, or formatted so you can see the colors."] = "Soll der kopierte Text einfach oder formattiert mit farbiger Darstellung kopiert werden?",
-		["showbutton_desc"] = "Schaltfläche im Chat-Rahmen anzeigen",
-		["showbutton_name"] = "Schaltfläche Kopieren",
-		["TOPLEFT"] = "Oben, links",
-		["TOPRIGHT"] = "Oben, rechts",
-		["Wowace.com Forums"] = "Wowace.com Foren",
-	}
-}
+		L = {}
+-- CopyChat
+L[" Text"] = "Text"
+L["activealpha"] = "Transparenz, wenn mit der Maus darüber gefahren wird"
+L["BBCode"] = true
+L["BOTTOMLEFT"] = "Unten, links"
+L["BOTTOMRIGHT"] = "Unten, rechts"
+L["buttonpos_desc"] = "Wo im Chatfenster die Kopier-Schaltfläche angezeigt werden soll."
+L["buttonpos_name"] = "Schaltflächenposition"
+L["ChatFrame"] = "Chatfenster"
+L["Copy all of the text in the selected chat frame into an edit box"] = "Den gesamten Text des ausgewählten Chatfensters in ein Eingabefeld kopieren"
+L["Copy Text"] = "Text kopieren"
+L["Copy Text Format"] = "Textformat kopieren"
+L["Copy text from the active chat window."] = "Text im aktiven Chatfenster kopieren."
+L["Copy To Editbox"] = "In das Eingabefeld kopieren"
+L["CopyChat"] = "Chat kopieren"
+L["copytimestamps_desc"] = "Kopiert die Chat-Zeile, wenn du auf den Zeitstempel klickst"
+L["copytimestamps_name"] = "Zeitstempel kopieren"
+L["HTML"] = true
+L["inactivealpha"] = "Transparenz, wenn mit der Maus nicht darüber gefahren wird"
+L["Message From : %s"] = "Nachricht von : %s"
+L["Plain"] = "Einfach"
+L["Should the copied text be plain, or formatted so you can see the colors."] = "Soll der kopierte Text einfach oder formattiert mit farbiger Darstellung kopiert werden?"
+L["showbutton_desc"] = "Schaltfläche im Chat-Rahmen anzeigen"
+L["showbutton_name"] = "Schaltfläche Kopieren"
+L["TOPLEFT"] = "Oben, links"
+L["TOPRIGHT"] = "Oben, rechts"
+L["Wowace.com Forums"] = "Wowace.com Foren"
 
-		PL:AddLocale(PRAT_MODULE, "deDE", L)
+		PL:AddLocale("deDE", L)
 
-		L = {
-	["CopyChat"] = {
-		[" Text"] = " 텍스트",
-		--[[Translation missing --]]
-		["activealpha"] = "Alpha when mouseover",
-		["BBCode"] = true,
-		["BOTTOMLEFT"] = "하단, 좌측",
-		["BOTTOMRIGHT"] = "하단, 우측",
-		["buttonpos_desc"] = "복사 버튼을 표시할 대화창의 위치",
-		["buttonpos_name"] = "버튼 위치",
-		["ChatFrame"] = "대화창 [Frames]",
-		["Copy all of the text in the selected chat frame into an edit box"] = "선택된 대화창의 모든 내용을 대화 입력창으로 복사합니다",
-		["Copy Text"] = "텍스트 복사",
-		["Copy Text Format"] = "복사 내용 서식",
-		["Copy text from the active chat window."] = "활성 대화창에서 내용을 복사합니다.",
-		["Copy To Editbox"] = "대화 입력창에 복사",
-		["CopyChat"] = "대화 복사 [CopyChat]",
-		["copytimestamps_desc"] = "대화 시각을 클릭하면 그 대화줄을 복사합니다.",
-		["copytimestamps_name"] = "대화 시각 복사",
-		["HTML"] = true,
-		--[[Translation missing --]]
-		["inactivealpha"] = "Alpha when mouseout",
-		["Message From : %s"] = "%s|1으로;로;부터 메시지",
-		["Plain"] = "보통",
-		["Should the copied text be plain, or formatted so you can see the colors."] = "복사된 내용을 보통으로 표시하거나, 또는 색상을 보기 위해 형식화 합니다.",
-		["showbutton_desc"] = "대화창에 버튼 표시",
-		["showbutton_name"] = "복사 버튼",
-		["TOPLEFT"] = "상단, 좌측",
-		["TOPRIGHT"] = "상단, 우측",
-		["Wowace.com Forums"] = "Wowace.com 포럼",
-	}
-}
+		L = {}
+-- CopyChat
+L[" Text"] = " 텍스트"
+--[[Translation missing --]]
+L["activealpha"] = "Alpha when mouseover"
+L["BBCode"] = true
+L["BOTTOMLEFT"] = "하단, 좌측"
+L["BOTTOMRIGHT"] = "하단, 우측"
+L["buttonpos_desc"] = "복사 버튼을 표시할 대화창의 위치"
+L["buttonpos_name"] = "버튼 위치"
+L["ChatFrame"] = "대화창 [Frames]"
+L["Copy all of the text in the selected chat frame into an edit box"] = "선택된 대화창의 모든 내용을 대화 입력창으로 복사합니다"
+L["Copy Text"] = "텍스트 복사"
+L["Copy Text Format"] = "복사 내용 서식"
+L["Copy text from the active chat window."] = "활성 대화창에서 내용을 복사합니다."
+L["Copy To Editbox"] = "대화 입력창에 복사"
+L["CopyChat"] = "대화 복사 [CopyChat]"
+L["copytimestamps_desc"] = "대화 시각을 클릭하면 그 대화줄을 복사합니다."
+L["copytimestamps_name"] = "대화 시각 복사"
+L["HTML"] = true
+--[[Translation missing --]]
+L["inactivealpha"] = "Alpha when mouseout"
+L["Message From : %s"] = "%s|1으로;로;부터 메시지"
+L["Plain"] = "보통"
+L["Should the copied text be plain, or formatted so you can see the colors."] = "복사된 내용을 보통으로 표시하거나, 또는 색상을 보기 위해 형식화 합니다."
+L["showbutton_desc"] = "대화창에 버튼 표시"
+L["showbutton_name"] = "복사 버튼"
+L["TOPLEFT"] = "상단, 좌측"
+L["TOPRIGHT"] = "상단, 우측"
+L["Wowace.com Forums"] = "Wowace.com 포럼"
 
-		PL:AddLocale(PRAT_MODULE, "koKR",L)
+		PL:AddLocale("koKR",L)
 
-		L = {
-	["CopyChat"] = {
-		--[[Translation missing --]]
-		[" Text"] = " Text",
-		--[[Translation missing --]]
-		["activealpha"] = "Alpha when mouseover",
-		--[[Translation missing --]]
-		["BBCode"] = "BBCode",
-		--[[Translation missing --]]
-		["BOTTOMLEFT"] = "Bottom, Left",
-		--[[Translation missing --]]
-		["BOTTOMRIGHT"] = "Bottom, Right",
-		--[[Translation missing --]]
-		["buttonpos_desc"] = "Where on the chatframe to show the copy button",
-		--[[Translation missing --]]
-		["buttonpos_name"] = "Button Location",
-		--[[Translation missing --]]
-		["ChatFrame"] = "ChatFrame",
-		--[[Translation missing --]]
-		["Copy all of the text in the selected chat frame into an edit box"] = "Copy all of the text in the selected chat frame into an edit box",
-		--[[Translation missing --]]
-		["Copy Text"] = "Copy Text",
-		--[[Translation missing --]]
-		["Copy Text Format"] = "Copy Text Format",
-		--[[Translation missing --]]
-		["Copy text from the active chat window."] = "Copy text from the active chat window.",
-		--[[Translation missing --]]
-		["Copy To Editbox"] = "Copy To Editbox",
-		--[[Translation missing --]]
-		["CopyChat"] = "CopyChat",
-		--[[Translation missing --]]
-		["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp",
-		--[[Translation missing --]]
-		["copytimestamps_name"] = "Timestamps Copy",
-		--[[Translation missing --]]
-		["HTML"] = "HTML",
-		--[[Translation missing --]]
-		["inactivealpha"] = "Alpha when mouseout",
-		--[[Translation missing --]]
-		["Message From : %s"] = "Message From : %s",
-		--[[Translation missing --]]
-		["Plain"] = "Plain",
-		--[[Translation missing --]]
-		["Should the copied text be plain, or formatted so you can see the colors."] = "Should the copied text be plain, or formatted so you can see the colors.",
-		--[[Translation missing --]]
-		["showbutton_desc"] = "Show a button on the chatframe",
-		--[[Translation missing --]]
-		["showbutton_name"] = "Copy Button",
-		--[[Translation missing --]]
-		["TOPLEFT"] = "Top, Left",
-		--[[Translation missing --]]
-		["TOPRIGHT"] = "Top, Right",
-		--[[Translation missing --]]
-		["Wowace.com Forums"] = "Wowace.com Forums",
-	}
-}
+		L = {}
+-- CopyChat
+--[[Translation missing --]]
+L[" Text"] = " Text"
+--[[Translation missing --]]
+L["activealpha"] = "Alpha when mouseover"
+--[[Translation missing --]]
+L["BBCode"] = "BBCode"
+--[[Translation missing --]]
+L["BOTTOMLEFT"] = "Bottom, Left"
+--[[Translation missing --]]
+L["BOTTOMRIGHT"] = "Bottom, Right"
+--[[Translation missing --]]
+L["buttonpos_desc"] = "Where on the chatframe to show the copy button"
+--[[Translation missing --]]
+L["buttonpos_name"] = "Button Location"
+--[[Translation missing --]]
+L["ChatFrame"] = "ChatFrame"
+--[[Translation missing --]]
+L["Copy all of the text in the selected chat frame into an edit box"] = "Copy all of the text in the selected chat frame into an edit box"
+--[[Translation missing --]]
+L["Copy Text"] = "Copy Text"
+--[[Translation missing --]]
+L["Copy Text Format"] = "Copy Text Format"
+--[[Translation missing --]]
+L["Copy text from the active chat window."] = "Copy text from the active chat window."
+--[[Translation missing --]]
+L["Copy To Editbox"] = "Copy To Editbox"
+--[[Translation missing --]]
+L["CopyChat"] = "CopyChat"
+--[[Translation missing --]]
+L["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp"
+--[[Translation missing --]]
+L["copytimestamps_name"] = "Timestamps Copy"
+--[[Translation missing --]]
+L["HTML"] = "HTML"
+--[[Translation missing --]]
+L["inactivealpha"] = "Alpha when mouseout"
+--[[Translation missing --]]
+L["Message From : %s"] = "Message From : %s"
+--[[Translation missing --]]
+L["Plain"] = "Plain"
+--[[Translation missing --]]
+L["Should the copied text be plain, or formatted so you can see the colors."] = "Should the copied text be plain, or formatted so you can see the colors."
+--[[Translation missing --]]
+L["showbutton_desc"] = "Show a button on the chatframe"
+--[[Translation missing --]]
+L["showbutton_name"] = "Copy Button"
+--[[Translation missing --]]
+L["TOPLEFT"] = "Top, Left"
+--[[Translation missing --]]
+L["TOPRIGHT"] = "Top, Right"
+--[[Translation missing --]]
+L["Wowace.com Forums"] = "Wowace.com Forums"
 
-		PL:AddLocale(PRAT_MODULE, "esMX",L)
+		PL:AddLocale("esMX",L)
 
-		L = {
-	["CopyChat"] = {
-		[" Text"] = " Текст",
-		--[[Translation missing --]]
-		["activealpha"] = "Alpha when mouseover",
-		["BBCode"] = true,
-		["BOTTOMLEFT"] = "Снизу, Слева",
-		["BOTTOMRIGHT"] = "Снизу, Справа",
-		["buttonpos_desc"] = "Где в окне чата показывать кнопку копирования",
-		["buttonpos_name"] = "Положение кнопки",
-		["ChatFrame"] = "Окно чата",
-		["Copy all of the text in the selected chat frame into an edit box"] = "Копировать весь текст из выбранного окна чата в поле ввода.",
-		["Copy Text"] = "Копировать текст",
-		["Copy Text Format"] = "Формат копирования текста",
-		["Copy text from the active chat window."] = "Копировать текст из активного окна чата.",
-		["Copy To Editbox"] = "Копировать чат",
-		["CopyChat"] = "Копия Чата ",
-		["copytimestamps_desc"] = "Скопируйте строку чата при нажатии на метку времени",
-		["copytimestamps_name"] = "Копирование временны́х меток",
-		["HTML"] = true,
-		--[[Translation missing --]]
-		["inactivealpha"] = "Alpha when mouseout",
-		["Message From : %s"] = "Сообщение от : %s",
-		["Plain"] = "Обычный текст",
-		["Should the copied text be plain, or formatted so you can see the colors."] = "Копировать информацию как обычный текст или же форматированный, с сохранением цветов и т.п.",
-		["showbutton_desc"] = "Показывать кнопку копирования в окне чата",
-		["showbutton_name"] = "Кнопка копирования",
-		["TOPLEFT"] = "Сверху, Слева",
-		["TOPRIGHT"] = "Сверху, Справа",
-		["Wowace.com Forums"] = "Форумы Wowace.com",
-	}
-}
+		L = {}
+-- CopyChat
+L[" Text"] = " Текст"
+--[[Translation missing --]]
+L["activealpha"] = "Alpha when mouseover"
+L["BBCode"] = true
+L["BOTTOMLEFT"] = "Снизу, Слева"
+L["BOTTOMRIGHT"] = "Снизу, Справа"
+L["buttonpos_desc"] = "Где в окне чата показывать кнопку копирования"
+L["buttonpos_name"] = "Положение кнопки"
+L["ChatFrame"] = "Окно чата"
+L["Copy all of the text in the selected chat frame into an edit box"] = "Копировать весь текст из выбранного окна чата в поле ввода."
+L["Copy Text"] = "Копировать текст"
+L["Copy Text Format"] = "Формат копирования текста"
+L["Copy text from the active chat window."] = "Копировать текст из активного окна чата."
+L["Copy To Editbox"] = "Копировать чат"
+L["CopyChat"] = "Копия Чата "
+L["copytimestamps_desc"] = "Скопируйте строку чата при нажатии на метку времени"
+L["copytimestamps_name"] = "Копирование временны́х меток"
+L["HTML"] = true
+--[[Translation missing --]]
+L["inactivealpha"] = "Alpha when mouseout"
+L["Message From : %s"] = "Сообщение от : %s"
+L["Plain"] = "Обычный текст"
+L["Should the copied text be plain, or formatted so you can see the colors."] = "Копировать информацию как обычный текст или же форматированный, с сохранением цветов и т.п."
+L["showbutton_desc"] = "Показывать кнопку копирования в окне чата"
+L["showbutton_name"] = "Кнопка копирования"
+L["TOPLEFT"] = "Сверху, Слева"
+L["TOPRIGHT"] = "Сверху, Справа"
+L["Wowace.com Forums"] = "Форумы Wowace.com"
 
-		PL:AddLocale(PRAT_MODULE, "ruRU",L)
+		PL:AddLocale("ruRU",L)
 
-		L = {
-	["CopyChat"] = {
-		[" Text"] = "文本",
-		--[[Translation missing --]]
-		["activealpha"] = "Alpha when mouseover",
-		["BBCode"] = "BB代码",
-		["BOTTOMLEFT"] = "左下",
-		["BOTTOMRIGHT"] = "右下",
-		["buttonpos_desc"] = "复制按钮在聊天框的位置",
-		["buttonpos_name"] = "按钮位置",
-		["ChatFrame"] = "聊天框",
-		["Copy all of the text in the selected chat frame into an edit box"] = "在选定的聊天框复制全部文本到输入框",
-		["Copy Text"] = "复制文本",
-		["Copy Text Format"] = "复制文本格式",
-		["Copy text from the active chat window."] = "从活跃的聊天窗口复制文本",
-		["Copy To Editbox"] = "复制到编辑框",
-		["CopyChat"] = "聊天复制",
-		--[[Translation missing --]]
-		["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp",
-		--[[Translation missing --]]
-		["copytimestamps_name"] = "Timestamps Copy",
-		["HTML"] = "超文本标记语言",
-		--[[Translation missing --]]
-		["inactivealpha"] = "Alpha when mouseout",
-		["Message From : %s"] = "信息来自: %s",
-		["Plain"] = "简洁",
-		["Should the copied text be plain, or formatted so you can see the colors."] = "如果用简洁或排版复制的文本,你可以看到颜色",
-		["showbutton_desc"] = "在聊天框显示按钮",
-		["showbutton_name"] = "复制按钮",
-		["TOPLEFT"] = "左上",
-		["TOPRIGHT"] = "右上",
-		["Wowace.com Forums"] = "Wowace.com论坛",
-	}
-}
+		L = {}
+-- CopyChat
+L[" Text"] = "文本"
+--[[Translation missing --]]
+L["activealpha"] = "Alpha when mouseover"
+L["BBCode"] = "BB代码"
+L["BOTTOMLEFT"] = "左下"
+L["BOTTOMRIGHT"] = "右下"
+L["buttonpos_desc"] = "复制按钮在聊天框的位置"
+L["buttonpos_name"] = "按钮位置"
+L["ChatFrame"] = "聊天框"
+L["Copy all of the text in the selected chat frame into an edit box"] = "在选定的聊天框复制全部文本到输入框"
+L["Copy Text"] = "复制文本"
+L["Copy Text Format"] = "复制文本格式"
+L["Copy text from the active chat window."] = "从活跃的聊天窗口复制文本"
+L["Copy To Editbox"] = "复制到编辑框"
+L["CopyChat"] = "聊天复制"
+--[[Translation missing --]]
+L["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp"
+--[[Translation missing --]]
+L["copytimestamps_name"] = "Timestamps Copy"
+L["HTML"] = "超文本标记语言"
+--[[Translation missing --]]
+L["inactivealpha"] = "Alpha when mouseout"
+L["Message From : %s"] = "信息来自: %s"
+L["Plain"] = "简洁"
+L["Should the copied text be plain, or formatted so you can see the colors."] = "如果用简洁或排版复制的文本,你可以看到颜色"
+L["showbutton_desc"] = "在聊天框显示按钮"
+L["showbutton_name"] = "复制按钮"
+L["TOPLEFT"] = "左上"
+L["TOPRIGHT"] = "右上"
+L["Wowace.com Forums"] = "Wowace.com论坛"
 
-		PL:AddLocale(PRAT_MODULE, "zhCN",L)
+		PL:AddLocale("zhCN",L)
 
-		L = {
-	["CopyChat"] = {
-		[" Text"] = "Texto",
-		--[[Translation missing --]]
-		["activealpha"] = "Alpha when mouseover",
-		["BBCode"] = true,
-		--[[Translation missing --]]
-		["BOTTOMLEFT"] = "Bottom, Left",
-		--[[Translation missing --]]
-		["BOTTOMRIGHT"] = "Bottom, Right",
-		--[[Translation missing --]]
-		["buttonpos_desc"] = "Where on the chatframe to show the copy button",
-		--[[Translation missing --]]
-		["buttonpos_name"] = "Button Location",
-		["ChatFrame"] = "MarcoChat",
-		["Copy all of the text in the selected chat frame into an edit box"] = "Copiar todo el texto seleccionado en el marco del chat a una caja de edición",
-		["Copy Text"] = "Copiar Texto",
-		["Copy Text Format"] = "Copiar Texto con fomato",
-		["Copy text from the active chat window."] = "Copiar texto desde la ventana de chat activa.",
-		--[[Translation missing --]]
-		["Copy To Editbox"] = "Copy To Editbox",
-		["CopyChat"] = "ChatCopiar",
-		--[[Translation missing --]]
-		["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp",
-		--[[Translation missing --]]
-		["copytimestamps_name"] = "Timestamps Copy",
-		["HTML"] = true,
-		--[[Translation missing --]]
-		["inactivealpha"] = "Alpha when mouseout",
-		["Message From : %s"] = "Mensaje de : %s",
-		["Plain"] = "Liso",
-		["Should the copied text be plain, or formatted so you can see the colors."] = "El texto copiado debería ser llano, o con formato para que pueda ver los colores. ",
-		["showbutton_desc"] = "Muestra un botón en el marco del chat",
-		["showbutton_name"] = "Botón Copiar",
-		--[[Translation missing --]]
-		["TOPLEFT"] = "Top, Left",
-		--[[Translation missing --]]
-		["TOPRIGHT"] = "Top, Right",
-		["Wowace.com Forums"] = "Foros Wowace.com",
-	}
-}
+		L = {}
+-- CopyChat
+L[" Text"] = "Texto"
+--[[Translation missing --]]
+L["activealpha"] = "Alpha when mouseover"
+L["BBCode"] = true
+--[[Translation missing --]]
+L["BOTTOMLEFT"] = "Bottom, Left"
+--[[Translation missing --]]
+L["BOTTOMRIGHT"] = "Bottom, Right"
+--[[Translation missing --]]
+L["buttonpos_desc"] = "Where on the chatframe to show the copy button"
+--[[Translation missing --]]
+L["buttonpos_name"] = "Button Location"
+L["ChatFrame"] = "MarcoChat"
+L["Copy all of the text in the selected chat frame into an edit box"] = "Copiar todo el texto seleccionado en el marco del chat a una caja de edición"
+L["Copy Text"] = "Copiar Texto"
+L["Copy Text Format"] = "Copiar Texto con fomato"
+L["Copy text from the active chat window."] = "Copiar texto desde la ventana de chat activa."
+--[[Translation missing --]]
+L["Copy To Editbox"] = "Copy To Editbox"
+L["CopyChat"] = "ChatCopiar"
+--[[Translation missing --]]
+L["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp"
+--[[Translation missing --]]
+L["copytimestamps_name"] = "Timestamps Copy"
+L["HTML"] = true
+--[[Translation missing --]]
+L["inactivealpha"] = "Alpha when mouseout"
+L["Message From : %s"] = "Mensaje de : %s"
+L["Plain"] = "Liso"
+L["Should the copied text be plain, or formatted so you can see the colors."] = "El texto copiado debería ser llano, o con formato para que pueda ver los colores. "
+L["showbutton_desc"] = "Muestra un botón en el marco del chat"
+L["showbutton_name"] = "Botón Copiar"
+--[[Translation missing --]]
+L["TOPLEFT"] = "Top, Left"
+--[[Translation missing --]]
+L["TOPRIGHT"] = "Top, Right"
+L["Wowace.com Forums"] = "Foros Wowace.com"
 
-		PL:AddLocale(PRAT_MODULE, "esES",L)
+		PL:AddLocale("esES",L)
 
-		L = {
-	["CopyChat"] = {
-		[" Text"] = "文字",
-		--[[Translation missing --]]
-		["activealpha"] = "Alpha when mouseover",
-		["BBCode"] = true,
-		["BOTTOMLEFT"] = "下, 左",
-		["BOTTOMRIGHT"] = "下, 右",
-		--[[Translation missing --]]
-		["buttonpos_desc"] = "Where on the chatframe to show the copy button",
-		["buttonpos_name"] = "按鈕位置",
-		["ChatFrame"] = "聊天視窗",
-		--[[Translation missing --]]
-		["Copy all of the text in the selected chat frame into an edit box"] = "Copy all of the text in the selected chat frame into an edit box",
-		["Copy Text"] = "複製文字",
-		["Copy Text Format"] = "複製文字格式",
-		["Copy text from the active chat window."] = "複製使用中聊天視窗文字",
-		["Copy To Editbox"] = "複製至編輯盒",
-		["CopyChat"] = true,
-		--[[Translation missing --]]
-		["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp",
-		--[[Translation missing --]]
-		["copytimestamps_name"] = "Timestamps Copy",
-		["HTML"] = true,
-		--[[Translation missing --]]
-		["inactivealpha"] = "Alpha when mouseout",
-		["Message From : %s"] = "來自 %s 的訊息",
-		--[[Translation missing --]]
-		["Plain"] = "Plain",
-		--[[Translation missing --]]
-		["Should the copied text be plain, or formatted so you can see the colors."] = "Should the copied text be plain, or formatted so you can see the colors.",
-		["showbutton_desc"] = "於聊天視窗中顯示按鈕",
-		["showbutton_name"] = "複製按鈕",
-		["TOPLEFT"] = "上, 左",
-		["TOPRIGHT"] = "上, 右",
-		["Wowace.com Forums"] = "Wowace.com 論壇",
-	}
-}
+		L = {}
+-- CopyChat
+L[" Text"] = "文字"
+--[[Translation missing --]]
+L["activealpha"] = "Alpha when mouseover"
+L["BBCode"] = true
+L["BOTTOMLEFT"] = "下, 左"
+L["BOTTOMRIGHT"] = "下, 右"
+--[[Translation missing --]]
+L["buttonpos_desc"] = "Where on the chatframe to show the copy button"
+L["buttonpos_name"] = "按鈕位置"
+L["ChatFrame"] = "聊天視窗"
+--[[Translation missing --]]
+L["Copy all of the text in the selected chat frame into an edit box"] = "Copy all of the text in the selected chat frame into an edit box"
+L["Copy Text"] = "複製文字"
+L["Copy Text Format"] = "複製文字格式"
+L["Copy text from the active chat window."] = "複製使用中聊天視窗文字"
+L["Copy To Editbox"] = "複製至編輯盒"
+L["CopyChat"] = true
+--[[Translation missing --]]
+L["copytimestamps_desc"] = "Copy the chat line when you click on the timestamp"
+--[[Translation missing --]]
+L["copytimestamps_name"] = "Timestamps Copy"
+L["HTML"] = true
+--[[Translation missing --]]
+L["inactivealpha"] = "Alpha when mouseout"
+L["Message From : %s"] = "來自 %s 的訊息"
+--[[Translation missing --]]
+L["Plain"] = "Plain"
+--[[Translation missing --]]
+L["Should the copied text be plain, or formatted so you can see the colors."] = "Should the copied text be plain, or formatted so you can see the colors."
+L["showbutton_desc"] = "於聊天視窗中顯示按鈕"
+L["showbutton_name"] = "複製按鈕"
+L["TOPLEFT"] = "上, 左"
+L["TOPRIGHT"] = "上, 右"
+L["Wowace.com Forums"] = "Wowace.com 論壇"
 
-		PL:AddLocale(PRAT_MODULE, "zhTW",L)
+		PL:AddLocale("zhTW",L)
 	end
 	--@end-non-debug@
 
@@ -660,7 +632,7 @@ Prat:AddModuleToLoad(function()
 
 		Prat.RegisterLinkType({ linkid = "pratcopy", linkfunc = self.CopyLink, handler = module }, self.name)
 
-		module.timestamps = Prat.Addon:GetModule("Timestamps", true)
+		module.timestamps = Prat:GetModule("Timestamps", true)
 
 		if self.timestamps then
 			self:RawHook(self.timestamps, "GetTime")
@@ -918,6 +890,16 @@ Prat:AddModuleToLoad(function()
 			end
 
 			return b
+		end
+	end
+
+	function module:OnValueChanged()
+		for k, v in pairs(Prat.Frames) do
+			local cf = _G["ChatFrame" .. v:GetID()]
+			local btn = self.buttons[k]
+			btn:ClearAllPoints()
+			btn:SetPoint(self.db.profile.buttonpos, cf, self.db.profile.buttonpos, 0, 0)
+			btn:SetAlpha(module.db.profile.inactivealpha)
 		end
 	end
 

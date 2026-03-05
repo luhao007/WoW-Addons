@@ -45,6 +45,7 @@ L["Format Month Day"] = EVENT_SCHEDULER_DAY_FORMAT or "%s %d";
 L["Always On Module"] = "This module is always enabled.";
 L["Return To Module List"] = "Return to List";
 L["Generic Addon Conflict"] = "This module might be incompatible with addons of similar functionalities:";
+L["Work In Progress Tag"] = "[WIP]";
 
 
 --Settings Category
@@ -645,6 +646,7 @@ L["Paragon Reward Available"] = "Paragon Reward Available";
 L["Until Next Level Format"] = "%d until next level";   --Earn x reputation to reach the next level
 L["Until Paragon Reward Format"] = "%d until Paragon reward";
 L["Instruction Click To View Renown"] = REPUTATION_BUTTON_TOOLTIP_VIEW_RENOWN_INSTRUCTION or "<Click to view Renown>";
+L["Instruction Click To View Companion"] = "<Click to view Delve companion>";
 L["Not On Quest"] = "You are not on this quest";
 L["Factions"] = "Factions";
 L["Activities"] = MAP_LEGEND_CATEGORY_ACTIVITIES or "Activities";
@@ -715,6 +717,12 @@ L["LandingButton Tooltip Format"] = "Left click to toggle %s.\nRight click for m
 L["LandingButton Customize"] = "Customize";
 L["LandingButton Reposition Tooltip"] = "Press |cffffffffShift|r to Unlock";
 L["LandingButtonOption ShowButton"] = "Enable Minimap Button";
+L["LandingButtonOption Unaffected"] = "Unaffected By Minimap AddOns";
+L["LandingButtonOption Unaffected Tooltip"] = "Make this button unaffected by other minimap addons, preventing it from being re-skinned or repositioned.\n\nOnce enabled, this button will no longer move with Minimap or respect Minimap\'s scale, and will instead use the global UI scale.\n\n|cffff4800You may need to reload the UI after changing this option.|r";
+L["LandingButtonOption UseLibDBIcon"] = "Use LibDBIcon";
+L["LandingButtonOption UseLibDBIcon Tooltip"] = "Let LibDBIcon handles this button\'s appearance and position.";
+L["LandingButtonOption UseLibDBIcon NoBorder"] = "Remove Button Border";
+L["LandingButtonOption UseLibDBIcon NoBorder Tooltip"] = "Remove the button's golden border.\n\nThis option may have no effect when using certain minimap button manager addons.";
 L["LandingButtonOption PrimaryUI"] = "Left Click to Open";   --Control which UI to open on left-click
 L["LandingButtonOption PrimaryUI Tooltip"] = "Choose which UI to open when left-clicking the minimap button.";
 L["LandingButtonOption SmartExpansion"] = "Auto Choose Expansion";
@@ -824,6 +832,37 @@ L["ModuleName SourceAchievementLink"] = "Interactable Source Info";
 L["ModuleDescription SourceAchievementLink"] = "Makes most achievement names on the following UI become clickable, allowing you to see their details or track them.\n\n- Decor Catalog\n\n- Mount Journal";
 
 
+--BreakTime
+L["ModuleName BreakTime"] = "Break Time Reminder";
+L["ModuleDescription BreakTime"] = "Remind you to take a short break after a period of time.";
+L["BreakTime Title AllCaps"] = "BREAK TIME";
+L["BreakTime Delay Button"] = "Delay";
+L["BreakTime Delay Button Tooltip Format"] = "Remind me in %d min.";
+L["BreakTime Cancel Button"] = "Cancel";
+L["BreakTime Cancel Button Tooltip Format 1"] = "Left Click: Cancel the timer for this cycle. The next timer will go off in %d min.";
+L["BreakTime Cancel Button Tooltip 2"] = "Click and Hold: Cancel for this game session.";
+L["BreakTime Announce Time Before Alert Format"] = "The next timer will go off in |cffffffff%d|r min.";
+L["BreakTime Announce Timer Cancelled"] = "You have cancelled the timer for this game session.";
+L["BreakTime Current Schedule Format"] = "Current schedule is |cffffffff%1$d|r min break every |cffffffff%2$d|r min.";
+L["BreakTime Option Cycle"] = "Cycle Duration";
+L["BreakTime Option Cycle Tooltip"] = "The length of each play/break cycle.";
+L["BreakTime Option Rest"] = "Break Duration";
+L["BreakTime Option Rest Tooltip"] = "The length of a break per cycle.";
+L["BreakTime Option Delay"] = "Delay Duration";
+L["BreakTime Option Delay Tooltip"] = "Delay the timer by this amount of minutes when clicking the Delay button.";
+L["BreakTime Option FlashTaskbar"] = "Flash Taskbar Icon";
+L["BreakTime Option FlashTaskbar Tooltip"] = "Flash WoW's taskbar icon when the timer goes off.";
+L["BreakTime Option DND"] = "Do Not Disturb";
+L["BreakTime Option DNDCombat"] = "Combat or PvP";
+L["BreakTime Option DNDCombat Tooltip"] = "Do not show the Clock UI while in combat, battleground, or arena.\n\nThis option is always enabled.";
+L["BreakTime Option DNDInstances"] = "Instances";
+L["BreakTime Option DNDInstances Tooltip"] = "Do not show the Clock UI while in a dungeon, raid, or delve.";
+L["BreakTime AFK Pause"] = "The countdown is on hold because you are AFK.";
+L["BreakTime Reset Cancellation"] = "Reset Cancelled Break";
+L["BreakTime Annouce Timer Deferred Combat"] = "Remember to take a break after fight!";
+L["BreakTime Shared Countdown Tooltip Format"] = "Scheduled break in |cffffffff%d|r min.";
+
+
 --Generic
 L["Total Colon"] = FROM_TOTAL or "Total:";
 L["Reposition Button Horizontal"] = "Move Horizontally";   --Move the window horizontally
@@ -833,6 +872,7 @@ L["Font Size"] = FONT_SIZE or "Font Size";
 L["Icon Size"] = "Icon Size";
 L["Reset To Default Position"] = HUD_EDIT_MODE_RESET_POSITION or "Reset To Default Position";
 L["Renown Level Label"] = "Renown ";  --There is a space
+L["Progress Label"] = "Progress";  --There is a space
 L["Paragon Reputation"] = "Paragon";
 L["Level Maxed"] = "(Maxed)";   --Reached max level
 L["Current Colon"] = ITEM_UPGRADE_CURRENT or "Current:";

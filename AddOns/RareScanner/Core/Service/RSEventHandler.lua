@@ -60,7 +60,7 @@ local function HandleEntityWithoutVignette(rareScannerButton, unitID, trackingSy
 		end
 		
 		-- If its a supported NPC and its not killed
-		if ((RSGeneralDB.GetAlreadyFoundEntity(npcID) or RSNpcDB.GetInternalNpcInfo(npcID)) and not UnitIsDead(unitID)) then
+		if ((RSGeneralDB.GetAlreadyFoundEntity(npcID, RSConstants.NPC_VIGNETTE) or RSNpcDB.GetInternalNpcInfo(npcID)) and not UnitIsDead(unitID)) then
 			local nameplateUnitName, _ = UnitName(unitID)
 			if (issecretvalue(nameplateUnitName) or not nameplateUnitName or nameplateUnitName == UNKNOWNOBJECT) then
 				nameplateUnitName = RSNpcDB.GetNpcName(npcID)
@@ -192,7 +192,7 @@ local function OnPlayerTargetChanged(rareScannerButton)
 			local playerMapID = C_Map.GetBestMapForUnit("player")
 			
 			if (npcInfo and (RSMapDB.IsZoneWithoutVignette(playerMapID) or npcInfo.noVignette) and CheckInteractDistance("unit", 4)) then
-				RSGeneralDB.UpdateAlreadyFoundEntityPlayerPosition(tonumber(npcID))
+				RSGeneralDB.UpdateAlreadyFoundEntityPlayerPosition(tonumber(npcID), RSConstants.NPC_VIGNETTE)
 			end
 		end
 	end
@@ -221,17 +221,17 @@ local function OnLootOpened()
 				RSLogger:PrintDebugMessage(string.format("Abierto [%s].", containerID or ""))
 
 				-- We support all the containers with vignette plus those ones that are part of achievements (without vignette)
-				if (RSGeneralDB.GetAlreadyFoundEntity(containerID) or RSContainerDB.GetInternalContainerInfo(containerID)) then
+				if (RSGeneralDB.GetAlreadyFoundEntity(containerID, RSConstants.CONTAINER_VIGNETTE) or RSContainerDB.GetInternalContainerInfo(containerID)) then
 					-- Sets the container as opened
 					-- We are looping through all the items looted, we dont want to call this method with every item
 					if (not looted) then
 				
 						-- Check if we have the Container in our database but the addon didnt detect it
 						-- This will happend in the case where the container doesnt have a vignette
-						if (not RSGeneralDB.GetAlreadyFoundEntity(containerID)) then
+						if (not RSGeneralDB.GetAlreadyFoundEntity(containerID, RSConstants.CONTAINER_VIGNETTE)) then
 							RSGeneralDB.AddAlreadyFoundContainerWithoutVignette(containerID)
 						else
-							RSGeneralDB.UpdateAlreadyFoundEntityPlayerPosition(containerID)
+							RSGeneralDB.UpdateAlreadyFoundEntityPlayerPosition(containerID, RSConstants.CONTAINER_VIGNETTE)
 						end
 					
 						RSEntityStateHandler.SetContainerOpen(containerID)
@@ -253,7 +253,7 @@ local function OnLootOpened()
 				local npcID = id and tonumber(id) or nil
 				
 				-- If its a supported NPC
-				if (RSGeneralDB.GetAlreadyFoundEntity(npcID) or RSNpcDB.GetInternalNpcInfo(npcID)) then
+				if (RSGeneralDB.GetAlreadyFoundEntity(npcID, RSConstants.NPC_VIGNETTE) or RSNpcDB.GetInternalNpcInfo(npcID)) then
 					local itemLink = GetLootSlotLink(i)
 					if (itemLink) then
 						local _, _, _, lootType, id = string.find(itemLink, "|cnIQ?(%d*):|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?")
@@ -265,7 +265,7 @@ local function OnLootOpened()
 					
 					-- Also update the position and set dead
 					if (not looted) then
-						RSGeneralDB.UpdateAlreadyFoundEntityPlayerPosition(npcID)
+						RSGeneralDB.UpdateAlreadyFoundEntityPlayerPosition(npcID, RSConstants.NPC_VIGNETTE)
 						RSEntityStateHandler.SetDeadNpc(npcID)
 						looted = true
 					end
@@ -695,6 +695,22 @@ local function OnItemTextClose()
 end
 
 ---============================================================================
+-- Event: PLAYER_ENTERING_WORLD
+-- Fired when a changing a zone
+---============================================================================
+
+local function OnPlayerEnteringWorld(rareScannerButton)
+	if (not RSConfigDB.IsAutohidingInIntances()) then
+		return
+	end
+	
+	local isInInstance, instanceType = IsInInstance()
+	if (isInInstance) then
+		rareScannerButton:HideButton()
+	end
+end
+
+---============================================================================
 -- Event handler
 ---============================================================================
 
@@ -753,6 +769,8 @@ local function HandleEvent(rareScannerButton, event, ...)
 		OnItemTextClose()
 	elseif (event == "HOUSE_DECOR_ADDED_TO_CHEST") then
 		OnHouseDecorAddedToChest(...)
+	elseif (event == "PLAYER_ENTERING_WORLD") then
+		OnPlayerEnteringWorld(rareScannerButton)
 	end
 end
 
@@ -782,6 +800,7 @@ function RSEventHandler.RegisterEvents(rareScannerButton, addon)
 	rareScannerButton:RegisterEvent("PET_BATTLE_CLOSE")
 	rareScannerButton:RegisterEvent("ITEM_TEXT_CLOSED")
 	rareScannerButton:RegisterEvent("HOUSE_DECOR_ADDED_TO_CHEST")
+	rareScannerButton:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 	-- Captures all events
 	rareScannerButton:SetScript("OnEvent", function(self, event, ...)

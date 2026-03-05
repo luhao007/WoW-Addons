@@ -1,6 +1,6 @@
 # Details! Damage Meter
 
-## [Details.20260206.14502.168](https://github.com/Tercioo/Details-Damage-Meter/tree/Details.20260206.14502.168) (2026-02-06)
-[Full Changelog](https://github.com/Tercioo/Details-Damage-Meter/compare/Details.20260206.14501.168...Details.20260206.14502.168) 
+## [Details.20260304.14718.170](https://github.com/Tercioo/Details-Damage-Meter/tree/Details.20260304.14718.170) (2026-03-04)
+[Full Changelog](https://github.com/Tercioo/Details-Damage-Meter/compare/Details.20260304.14717.170...Details.20260304.14718.170) 
 
-- Bug Fix  
+- Fix missing avoidable damage strings  

@@ -139,6 +139,8 @@ Faction.FACTION_KEY = {
 	[2470] = "Death's Advance",
 	[2472] = "The Archivists' Codex",
 	[2478] = "The Enlightened",
+	[2463] = "Marasmius",
+	[2462] = "Stitchmasters",
 	-- Dragonflight
 	[2503] = "Maruuk Centaur",
 	[2507] = "Dragonscale Expedition",
@@ -168,6 +170,22 @@ Faction.FACTION_KEY = {
 }
 
 Faction.FriendshipRanks = {
+	-- Stitchmasters
+	[2462] = {
+		[1] = FACTION_STANDING_LABEL4,
+		[2] = FACTION_STANDING_LABEL5,
+		[3] = FACTION_STANDING_LABEL6,
+		[4] = FACTION_STANDING_LABEL7,
+		[5] = FACTION_STANDING_LABEL8,
+	},
+	-- Marasmius
+	[2463] = {
+		[1] = FACTION_STANDING_LABEL4,
+		[2] = FACTION_STANDING_LABEL5,
+		[3] = FACTION_STANDING_LABEL6,
+		[4] = FACTION_STANDING_LABEL7,
+		[5] = FACTION_STANDING_LABEL8,
+	},
 	-- Court of Night
 	[2464] = {
 		[1] = FACTION_STANDING_LABEL4,

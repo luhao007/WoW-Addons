@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: eXochron
-## Version: 2.37.0
+## Version: 2.37.1
 
 ## Title: Toy Box Enhanced
 ## Notes: Extends the ingame Toy Box

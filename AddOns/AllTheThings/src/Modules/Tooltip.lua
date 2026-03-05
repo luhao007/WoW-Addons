@@ -65,7 +65,7 @@ if app.IsRetail then
 			return o[1]
 		end
 		local closestDistance = 99999
-		local closestObjectID, mappedObjectID, unmappedObjectID, dist, searchCoord
+		local closestObjectID, mappedObjectID, unmappedObjectID, dist
 		-- app.PrintDebug("Checking objects",#o,mapID,px,py)
 		for i,objectID in ipairs(o) do
 			-- SFO includes baked-in accessibility filtering/prioritization of the results
@@ -74,23 +74,12 @@ if app.IsRetail then
 				-- app.PrintDebug("Checking results",#searchResults,objectID)
 				for j,searchResult in ipairs(searchResults) do
 					if InGame(searchResult) then
-						searchCoord = searchResult.coord;
-						if searchCoord then
-							if searchCoord[3] == mapID then
-								dist = distance(px, py, searchCoord[1], searchCoord[2]);
+						if searchResult.coords and searchResult.coords[mapID] then
+							for _,coord in ipairs(searchResult.coords[mapID]) do
+								dist = distance(px, py, coord[1], coord[2]);
 								if dist and dist < closestDistance then
 									closestDistance = dist;
 									closestObjectID = objectID;
-								end
-							end
-						elseif searchResult.coords then
-							for k,coord in ipairs(searchResult.coords) do
-								if coord[3] == mapID then
-									dist = distance(px, py, coord[1], coord[2]);
-									if dist and dist < closestDistance then
-										closestDistance = dist;
-										closestObjectID = objectID;
-									end
 								end
 							end
 						end
@@ -136,28 +125,19 @@ else
 		if o and #o > 0 then
 			local objects = {};
 			local mapID, px, py = GetPlayerPosition();
-			local closestDistance, closestInstance, dist, searchCoord, searchResults;
+			local closestDistance, closestInstance, dist, searchResults;
 			for i,objectID in ipairs(o) do
 				closestInstance = nil;
 				closestDistance = 999999;
 				searchResults = SearchForField("objectID", objectID);
 				if searchResults and #searchResults > 0 then
 					for j,searchResult in ipairs(searchResults) do
-						searchCoord = searchResult.coord;
-						if searchCoord and searchCoord[3] == mapID then
-							dist = distance(px, py, searchCoord[1], searchCoord[2]);
-							if dist and dist < closestDistance then
-								closestDistance = dist;
-								closestInstance = searchResult;
-							end
-						elseif searchResult.coords then
-							for k,coord in ipairs(searchResult.coords) do
-								if coord[3] == mapID then
-									dist = distance(px, py, coord[1], coord[2]);
-									if dist and dist < closestDistance then
-										closestDistance = dist;
-										closestInstance = searchResult;
-									end
+						if searchResult.coords and searchResult.coords[mapID] then
+							for _,coord in ipairs(searchResult.coords[mapID]) do
+								dist = distance(px, py, coord[1], coord[2]);
+								if dist and dist < closestDistance then
+									closestDistance = dist;
+									closestInstance = searchResult;
 								end
 							end
 						end
@@ -854,7 +834,7 @@ local function TryShowUnitTooltipInfo(self, guid)
 				local spawnTime = (serverTime - (serverTime % 2^23)) + bit.band(tonumber(spawn_uid:sub(5), 16), 0x7fffff);
 				if spawnTime > serverTime then spawnTime = spawnTime - ((2^23) - 1); end
 				if showAliveTime then self:AddDoubleLine(L.ALIVE, app.Modules.Color.Colorize(timeFormatter:Format(serverTime - spawnTime), app.Colors.White)); end
-				if showSpawnTime then self:AddDoubleLine(L.SPAWNED, app.Modules.Color.Colorize(date("%Y-%m-%d %H:%M:%S", spawnTime), app.Colors.White)); end
+				if showSpawnTime then self:AddDoubleLine(L.SPAWNED, app.Modules.Color.Colorize(date(app.Settings:GetTooltipSetting("DateFormat"), spawnTime), app.Colors.White)); end
 			end
 		end
 		if server_id and zone_uid and app.Settings:GetTooltipSetting("Layer") then

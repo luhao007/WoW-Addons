@@ -61,6 +61,7 @@ L.AH_SEARCH_NO_ITEMS_FOUND = "No cached items found in search. Expand the group 
 L.ALIVE = "Alive";
 L.ALL_BUTTON = ALL;
 L.ALL_BUTTON_TOOLTIP = "Click this button to enable all options at once.";
+L.ALL_RECIPES = "All Recipes";
 L.ALL_THE_APPEARANCES_DESC = "All appearances that you need are displayed here.";
 L.ALL_THE_BATTLEPETS_DESC = "All pets that you have not collected yet are displayed here.";
 L.ALL_THE_ILLUSIONS_DESC = "Illusions, toys, and other items that can be used to earn collectible items are displayed here.";
@@ -146,7 +147,6 @@ L.CHANNEL_DIALOG = DIALOG_VOLUME;
 L.CHANNEL_MASTER = MASTER;
 L.CHANNEL_MUSIC = MUSIC_VOLUME;
 L.CHANNEL_SFX = FX_VOLUME;
-L.CHARACTERS = CHARACTER;
 L.CHARACTERUNLOCKS_CHECKBOX = "Character Unlocks";
 L.CHARACTERUNLOCKS_CHECKBOX_TOOLTIP = "Enable this option to track Character Unlocks. These are various character-based unlocks which aren't clearly able to be categorized as another type (e.g. Hex variants, Polymorph variants, Hunter species taming unlocks, Pocopoc customizations, etc.)\n\nTracked per character by default.";
 L.CHAT_COMMANDS_LABEL = "Chat Commands";
@@ -258,6 +258,7 @@ L.DYNAMIC_CATEGORY_NESTED_TOOLTIP = "Generate Dynamic Categories based on their 
 L.DYNAMIC_CATEGORY_SIMPLE = "Simple";
 L.DYNAMIC_CATEGORY_SIMPLE_TOOLTIP = "Generate Dynamic Categories based only on the very highest Category.";
 L.DYNAMIC_CATEGORY_TOOLTIP_NOTE = "\n\n|cffff0000Applied when Generated|r";
+L.EAST = "East";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX = "Tooltip Integrations";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX_TOOLTIP = "Enable this option if you want to see the information provided by ATT in external tooltips. This includes item links sent by other players, in the auction house, in the dungeon journal, in your bags, in the world, on NPCs, etc.\n\nIf you turn this feature off, you are seriously reducing your ability to quickly determine if you need to kill a mob or learn an appearance.\n\nWe recommend you keep this setting on.";
 L.ENABLED = "enabled";
@@ -501,6 +502,7 @@ L.NO_ENTRIES = "No entries matching your filters were found.";
 L.NO_ENTRIES_DESC = "If you believe this was in error, try activating 'Debug Mode'. One of your filters may be restricting the visibility of the group.";
 L.NO_LINKED_ACCOUNTS = "No linked accounts found.";
 L.NO_SEARCH_METHOD = "No search method specified.";
+L.NORTH = "North";
 L.NOT_AVAILABLE_IN_PL = "Not available in Personal Loot.";
 L.NOT_COLLECTED = "|T" .. _.asset("unknown") .. ":0|t |cffff9333Not Collected|r";
 L.NOT_COLLECTED_ICON = "|T" .. _.asset("unknown") .. ":0|t";
@@ -744,8 +746,6 @@ L.SKIP_AUTO_REFRESH_TOOLTIP = "By default (unchecked), any Settings change which
 L.SKIP_CUTSCENES_CHECKBOX = "Automatically Skip Cutscenes";
 L.SKIP_CUTSCENES_CHECKBOX_TOOLTIP = "Enable this option if you want ATT to automatically skip all cutscenes on your behalf.";
 L.SOCIAL_PROGRESS = "Social Progress";
-L.SOFT_RESERVES = "Soft Reserves";
-L.SOFT_RESERVES_DESCRIPTION = "The soft reservation list submitted by your raid group. This is managed through the Master Looter, should they have ATT installed. If not, this feature will not function.\n\nML: Members of your raid without ATT installed can whisper you '!sr <itemlink>' or '!sr <itemID>' to Soft Reserve an item.";
 L.SORT_BY_PROGRESS_CHECKBOX = "Sort By Progress";
 L.SORT_BY_PROGRESS_CHECKBOX_TOOLTIP = "Enable this option if you want the 'Sort' operation (" .. SHIFT_KEY_TEXT .. " Right Click) to sort by the total progress of each group (instead of by Name)";
 L.SOULBINDCONDUITS_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t Conduits";
@@ -759,6 +759,7 @@ L.SOURCELESS = "Sourceless";
 L.SOURCELESS_DESC = "These things are confirmed to be obtainable, but there is currently no known source of where it comes from or if it is even still obtainable";
 L.SOURCES = "Source(s)";
 L.SOURCES_DESC = "Shows the Source of this Thing.\n\nParticularly, a specific Vendor/NPC, Quest, Encounter, etc.";
+L.SOUTH = "South";
 L.SPAWNED = "Spawned";
 L.SPEC_CHECKBOX = "Specializations";
 L.SPEC_CHECKBOX_TOOLTIP = "Enable this option to show the loot specialization information of items in the item's tooltip as provided by the Game Client.\n\nNOTE: These icons will still appear within the ATT mini lists regardless of this setting.";
@@ -845,7 +846,6 @@ L.TOYS_CHECKBOX_TOOLTIP = "Enable this option to track Toys.\n\nMost of these to
 L.TRACK_ACC_WIDE = "|c" .. _.DefaultColors.Account .. "Track Account-Wide|r";
 L.TRACKING_PROGRESS = "Tracking Progress";
 L.TRADEABLE = "Tradeable";
-L.TRADING_POST = "Trading Post";
 L.TSM_WARNING_1 = "Running this command can potentially destroy your existing TSM settings by reassigning items to the ";
 L.TSM_WARNING_2 = " preset.\n\nWe recommend that you use a different profile when using this feature.\n\nDo you want to proceed anyways?";
 L.TSM4_ERROR = "TSM4 is not compatible with ATT yet. If you know how to create Presets like we used to do in TSM3, please whisper Crieve on Discord!";
@@ -878,6 +878,7 @@ L.WARN_REMOVED_CHECKBOX = "Removed Things Trigger a Warning";
 L.WARN_REMOVED_CHECKBOX_TOOLTIP = "Enable this option if you want to hear a warning sound effect when you accidentally sell back or trade an item that granted you an appearance that would cause you to lose that appearance from your collection.\n\nThis can be extremely helpful if you vendor an item with a purchase timer. The addon will tell you that you've made a mistake.";
 L.WAS_ADDED_BACK_WITH_PATCH_FORMAT = "This was added back with patch %s";
 L.WAS_ADDED_WITH_PATCH_FORMAT = "This was added with patch %s";
+L.WEST = "West";
 L.WINDOW_COLORS = "Window Colors";
 L.WINDOWS_PAGE = "Windows";
 L.WITH_WRAPPING_CHECKBOX = "Allow Wrapping";
@@ -898,10 +899,6 @@ _.CategoryNames = {
 	[106] = "Card",
 	[167] = "Crowns",
 	[168] = "Materials",
-	[183] = "Parts",
-	[184] = "Explosives",
-	[185] = "Goggles",
-	[188] = "Devices",
 	[220] = INVTYPE_CHEST,
 	[224] = "Legs",
 	[227] = AUCTION_CATEGORY_WEAPONS,
@@ -924,6 +921,31 @@ _.CategoryNames = {
 	[936] = LEGSSLOT,
 }
 _.CategoryIcons = {
+	[2] = 132108,
+	[3] = 134492,
+	[106] = 134492,
+	[167] = 132769,
+	[168] = 133237,
+	[220] = 132624,
+	[224] = 134584,
+	[227] = 135580,
+	[857] = 133244,
+	[858] = 133263,
+	[859] = 133260,
+	[860] = 133265,
+	[861] = 133238,
+	[862] = 133248,
+	[863] = 134098,
+	[864] = 133294,
+	[865] = 133397,
+	[866] = 135443,
+	[867] = 134096,
+	[868] = 135732,
+	[869] = 132767,
+	[932] = 132635,
+	[933] = 132607,
+	[935] = 132513,
+	[936] = 134592,
 }
 
 -- Custom Header Database Module
@@ -931,6 +953,7 @@ _.HeaderConstants = {
 	ACHIEVEMENTS = -12,
 	ARTIFACTS = -214,
 	BREWFEST_HEADER = -557,
+	CHARACTER = -731,
 	CHEST = -90,
 	CHILDRENS_WEEK_HEADER = -559,
 	COMMON_BOSS_DROPS = -19,
@@ -939,6 +962,8 @@ _.HeaderConstants = {
 	DARKMOON_FAIRE_HEADER = -37,
 	DISCOVERY = -26,
 	DROPS = -27,
+	DUNGEONS_AND_RAIDS = -75,
+	EXPANSION_FEATURES = -735,
 	EXPANSION_PRELAUNCH = -103,
 	EXPLORATION = -30,
 	FACTIONS = -31,
@@ -957,9 +982,11 @@ _.HeaderConstants = {
 	LUNAR_FESTIVAL_HEADER = -580,
 	MIDSUMMER_FIRE_FESTIVAL_HEADER = -582,
 	NOBLEGARDEN_HEADER = -583,
+	OUTDOOR_ZONES = -732,
 	PET_BATTLES = -43,
 	PIRATES_DAY_HEADER = -585,
 	PROFESSIONS = -44,
+	PROMOTIONS = -736,
 	PVP = -303,
 	PVP_GLADIATOR = -296,
 	QUESTS = -45,
@@ -976,11 +1003,14 @@ _.HeaderConstants = {
 	UPGRADE = -57,
 	VENDORS = -58,
 	WEAPONS = -101,
+	WHELP_DAYCARE = -398,
 	WORLD_BOSSES = -61,
 	WORLD_DROPS = -698,
+	WORLD_EVENTS = -734,
 	ZONE_DROPS = -63,
 };
 _.HeaderData = {
+	IGNOREINMINILIST = {[-732]=1},
 	FILLNPCS = {[-698]=1,[-98]=1,[-95]=1,[-94]=1,[-93]=1,[-90]=1,[-63]=1,[-47]=1,[-27]=1,[-22]=1,[-19]=1},
 };
 localize(L.HEADER_NAMES, {
@@ -1015,6 +1045,7 @@ localize(L.HEADER_NAMES, {
 	[-61] = WORLD.." "..RAID_BOSSES,
 	[-63] = ZONE.." "..BATTLE_PET_SOURCE_1,
 	[-74] = "Dragons of Nightmare",
+	[-75] = GROUP_FINDER,
 	[-78] = DUNGEON_FLOOR_NAXXRAMAS2,
 	[-79] = DUNGEON_FLOOR_NAXXRAMAS1,
 	[-80] = DUNGEON_FLOOR_NAXXRAMAS3,
@@ -1073,9 +1104,9 @@ localize(L.HEADER_NAMES, {
 	[-352] = DUNGEON_FLOOR_BLACKROCKDEPTHS2,
 	[-353] = DUNGEON_FLOOR_BLACKROCKSPIRE3,
 	[-354] = DUNGEON_FLOOR_UPPERBLACKROCKSPIRE1,
-	[-355] = DUNGEON_FLOOR_DIREMAUL5.." (East)",
-	[-356] = DUNGEON_FLOOR_DIREMAUL1.." (North)",
-	[-357] = DUNGEON_FLOOR_DIREMAUL2.." (West)",
+	[-355] = DUNGEON_FLOOR_DIREMAUL5.." (" .. L.EAST ..")",
+	[-356] = DUNGEON_FLOOR_DIREMAUL5.." (" .. L.NORTH ..")",
+	[-357] = DUNGEON_FLOOR_DIREMAUL5.." (" .. L.WEST ..")",
 	[-358] = GetSpellInfo(21127),
 	[-359] = DUNGEON_FLOOR_DESOLACE22.." (Orange Path)",
 	[-360] = DUNGEON_FLOOR_DESOLACE21.." (Purple Path)",
@@ -1087,10 +1118,11 @@ localize(L.HEADER_NAMES, {
 	[-366] = "Service Entrance",
 	[-367] = "Atal'ai Defenders",
 	[-388] = C_Map.GetAreaInfo(1769),
+	[-398] = "Little Scales Daycare",
 	[-481] = "The Ahn'Qiraj War Effort",
 	[-482] = "The Opening of the Dark Portal",
 	[-483] = "The Scepter of the Shifting Sands",
-	[-484] = "The Scourge Invasion",
+	[-484] = "Scourge Invasion",
 	[-520] = "BlizzCon",
 	[-521] = "Collector's Edition",
 	[-524] = "TBC Classic Deluxe Edition",
@@ -1117,6 +1149,17 @@ localize(L.HEADER_NAMES, {
 	[-694] = "TBC Classic Anniversary Edition - Outland Upgrade",
 	[-698] = TRANSMOG_SOURCE_4,
 	[-721] = TRACKER_FILTER_REMOTE_ZONES,
+	[-723] = "Elemental Invasions",
+	[-724] = "Elders of Eastern Kingdoms",
+	[-725] = "Elders of Kalimdor",
+	[-726] = "Elders of the Alliance",
+	[-727] = "Elders of the Dungeons",
+	[-728] = "Elders of the Horde",
+	[-731] = CHARACTER,
+	[-732] = BUG_CATEGORY2,
+	[-734] = BATTLE_PET_SOURCE_7,
+	[-735] = EXPANSION_FILTER_TEXT,
+	[-736] = BATTLE_PET_SOURCE_8,
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-25] = "Warlocks can teach their demons new tricks. Some of the higher level grimoires can only be purchased from the Demon Trainer in your faction's capital cities.",
@@ -1146,6 +1189,9 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-550] = "This is a Battlegrounds-based event that coincides with the beginning of the Summer Olympic games. The only time this was celebrated was in 2008 to correspond to the Beijing Olympics, and although there appeared to be the intention to repeat this event, it never returned.",
 	[-610] = "If the following are sorted somewhere, please delete them from this list. Thanks.",
 	[-721] = "Contains content which is available in the current Zone, but is directly Sourced in another Zone.",
+	[-723] = "Reports of elemental incursions in different parts of Kalimdor are increasing. Every few days, a new wave of elementals blasts its way into the regions of Silithus, Un'Goro Crater, Azshara, and Winterspring - ostensibly, for the sole reason of seeing just how far into these territories they can penetrate before being beaten back by the forces of the Horde or the Alliance. Investigate these regions and aid your allies in countering these mysterious invasions.",
+	[-735] = "This section is for systems introduced during an expansion that involve several zones.\nIf an expansion feature is exclusive to a single zone, then it can be found within that zone in ATT, otherwise for the sake of reducing database duplication and bloat, it can be found below.",
+	[-736] = "This section is for real world promotions that seeped extremely rare content into the game prior to some of them appearing within the In-Game Shop.",
 });
 localize(L.HEADER_LORE, {
 	[-74] = "One of these dragons will spawn randomly at the associated coordinates across Azeroth.",
@@ -1154,35 +1200,103 @@ localize(L.HEADER_LORE, {
 	[-388] = "The Timbermaw Furbolgs inhabit two areas: Azshara and Felwood. They are presumed to be the only furbolg tribe to escape demonic corruption, though this may not be true due to the existence of Krolg, an uncorrupted furbolg of unknown tribe, and the Stillpine tribe on Azuremyst Isle in Burning Crusade. However, many other races kill furbolg blindly now, without bothering to see if they are friend or foe. For this reason, the Timbermaw furbolg trust very few.\n\nAdventurers who seek out Timbermaw Hold in northern Felwood and prove themselves as friends of the Timbermaw will learn that the furbolgs value their friends above all else. Though they possess no fine jewels or any worldly riches, the Timbermaw's shamanistic tradition is still strong. They know much about the art of crafting armors from animal hides, and they are more than happy to share their healing/resurrection knowledge with friends of their tribe. Besides, any reputation above Unfriendly will also grant you untroubled access to Moonglade and Winterspring through their tunnels.",
 });
 localize(L.HEADER_ICONS, {
+	[-11] = 1530081,
 	[-12] = _.asset("category_achievements"),
+	[-17] = 134162,
+	[-18] = 136455,
 	[-19] = _.asset("category_commonbossdrop"),
+	[-22] = 133785,
 	[-23] = _.asset("category_crafting"),
+	[-25] = 133738,
+	[-26] = 133739,
 	[-27] = _.asset("category_worlddrops"),
 	[-30] = _.asset("category_exploration"),
 	[-31] = _.asset("category_factions"),
 	[-32] = _.asset("category_flightpaths"),
 	[-36] = _.asset("category_holidays"),
 	[-37] = _.asset("event_dmf"),
+	[-39] = 133473,
 	[-43] = _.asset("category_petbattles"),
 	[-44] = _.asset("category_professions"),
 	[-45] = _.asset("interface_quest_header"),
 	[-46] = _.asset("interface_rare"),
 	[-47] = _.asset("interface_rewards"),
+	[-55] = 135350,
 	[-56] = _.asset("interface_tchest"),
 	[-57] = _.asset("interface_upgrade"),
 	[-58] = _.asset("interface_vendor"),
+	[-59] = 135580,
 	[-61] = _.asset("interface_world_boss"),
 	[-63] = _.asset("interface_zone_drop"),
+	[-74] = 134157,
+	[-75] = _.asset("category_d&r"),
+	[-78] = 135442,
+	[-81] = 133781,
+	[-82] = 134155,
+	[-83] = 133633,
+	[-84] = 133634,
+	[-85] = 133639,
+	[-86] = 133644,
+	[-87] = 132594,
+	[-88] = 132738,
+	[-89] = 133763,
+	[-90] = 132624,
+	[-91] = 132543,
+	[-93] = 132958,
+	[-94] = 133071,
+	[-95] = 134589,
+	[-97] = 134916,
+	[-98] = 135036,
+	[-100] = 132513,
 	[-101] = _.asset("weapon_type_epic"),
+	[-102] = 132606,
+	[-103] = 134289,
+	[-210] = 374217,
+	[-211] = 374221,
+	[-212] = 374222,
 	[-213] = _.asset("category_ingameshop"),
 	[-214] = _.asset("weapon_type_artifact"),
+	[-215] = 135030,
+	[-217] = 135028,
 	[-219] = _.asset("weapon_type_heirloom"),
+	[-222] = 135025,
+	[-223] = 135023,
+	[-227] = 135024,
+	[-229] = 134400,
 	[-232] = _.asset("expansion_classic"),
 	[-235] = _.asset("expansion_tbc"),
+	[-292] = 132487,
+	[-296] = 311231,
+	[-298] = 135358,
+	[-299] = 133278,
 	[-303] = _.asset("category_pvp"),
+	[-318] = 132738,
+	[-341] = 132874,
+	[-342] = 132873,
+	[-350] = 132264,
+	[-354] = 134153,
+	[-357] = 134162,
+	[-358] = 135743,
+	[-359] = 134116,
+	[-360] = 134075,
+	[-361] = 133730,
+	[-362] = 133745,
+	[-363] = 133127,
+	[-364] = 133101,
+	[-365] = 134503,
+	[-366] = 134247,
+	[-367] = 134177,
+	[-481] = 132594,
+	[-482] = 255348,
+	[-483] = 133062,
+	[-484] = 135228,
 	[-520] = _.asset("promotion_blizzcon"),
 	[-521] = _.asset("promotion_collector"),
 	[-524] = _.asset("expansion_tbc"),
+	[-546] = 132797,
+	[-547] = 135999,
+	[-550] = 133278,
+	[-551] = 134493,
 	[-557] = _.asset("holiday_brewfest"),
 	[-559] = _.asset("holiday_children"),
 	[-574] = _.asset("holiday_winter_veil"),
@@ -1193,9 +1307,23 @@ localize(L.HEADER_ICONS, {
 	[-582] = _.asset("holiday_midsummer"),
 	[-583] = _.asset("holiday_noblegarden"),
 	[-585] = _.asset("holiday_pirate"),
+	[-586] = 133889,
+	[-587] = 133899,
 	[-588] = _.asset("holiday_stv_fishing"),
+	[-610] = 132738,
+	[-611] = 133575,
 	[-694] = _.asset("expansion_tbc"),
 	[-698] = _.asset("category_worlddrops"),
+	[-724] = 135982,
+	[-725] = 135982,
+	[-726] = 135982,
+	[-727] = 135982,
+	[-728] = 135982,
+	[-731] = _.asset("category_itemsets"),
+	[-732] = _.asset("category_zones"),
+	[-734] = _.asset("category_event"),
+	[-735] = _.asset("category_expansionfeatures"),
+	[-736] = _.asset("category_promo"),
 });
 localize(L.HEADER_EVENTS, {
 	[-37] = 1,
@@ -1282,7 +1410,6 @@ _.Modules.Events.SetEventInformation(7, {
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=9,["monthDay"]=20,["weekday"]=2,["year"]=2027},{["hour"]=10,["minute"]=0,["month"]=10,["monthDay"]=4,["weekday"]=2,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(1, {
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=4,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=11,["weekday"]=1,["year"]=2026},{["remappedID"]=375}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=1,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=8,["weekday"]=1,["year"]=2026},{["remappedID"]=376}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=1,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=8,["weekday"]=1,["year"]=2026},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=4,["monthDay"]=5,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=4,["monthDay"]=12,["weekday"]=1,["year"]=2026},{["remappedID"]=375}),
@@ -1292,7 +1419,8 @@ _.Modules.Events.SetEventInformation(1, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=2,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=8,["monthDay"]=9,["weekday"]=1,["year"]=2026},{["remappedID"]=376}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=6,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=13,["weekday"]=1,["year"]=2026},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=10,["monthDay"]=4,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=10,["monthDay"]=11,["weekday"]=1,["year"]=2026},{["remappedID"]=375}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=1,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=8,["weekday"]=1,["year"]=2026},{["remappedID"]=376})
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=1,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=8,["weekday"]=1,["year"]=2026},{["remappedID"]=376}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=6,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=13,["weekday"]=1,["year"]=2026},{["remappedID"]=374})
 });
 
 -- Filter Database Module
@@ -1393,13 +1521,50 @@ L.FILTER_ID_TYPES = {
 	[200] = AUCTION_CATEGORY_RECIPES,
 }
 L.FILTER_ID_ICONS = {
+	[1] = 134333,
 	[2] = _.asset("interface_cosmetic"),
+	[3] = 133763,
+	[4] = 132662,
+	[5] = 132724,
+	[6] = 132627,
+	[7] = 132736,
+	[8] = 134952,
+	[9] = 135026,
+	[10] = 135025,
+	[20] = 135637,
+	[21] = 132408,
+	[22] = 132400,
+	[23] = 133477,
+	[24] = 133053,
+	[25] = 135274,
+	[26] = 135277,
+	[27] = 135464,
+	[28] = 135164,
+	[29] = 135127,
+	[31] = 135610,
+	[32] = 135493,
+	[33] = 135530,
+	[34] = 134295,
+	[35] = 135561,
+	[36] = 135426,
+	[37] = 132383,
+	[50] = 135999,
+	[51] = 133289,
+	[52] = 133346,
+	[53] = 135443,
+	[54] = 134916,
 	[56] = _.asset("interface_zone_drop"),
+	[57] = 132932,
+	[61] = 134129,
 	[100] = _.asset("category_mounts"),
 	[101] = _.asset("category_petjournal"),
 	[102] = _.asset("category_toybox"),
 	[104] = _.asset("interface_quest_header"),
 	[105] = _.asset("category_achievements"),
+	[106] = 133202,
+	[113] = 133633,
+	[114] = 132261,
+	[200] = 134941,
 }
 
 -- Flight Path Database Module
@@ -1767,6 +1932,7 @@ local ObjectNames = {
 	[3644] = "Bael Modan Flying Machine",
 	[3646] = "General Twinbraid's Strongbox",
 	[3685] = "Silithid Mound",
+	[3714] = "Alliance Strongbox",
 	[3724] = "Peacebloom",
 	[3725] = "Silverleaf",
 	[3726] = "Earthroot",
@@ -1911,9 +2077,12 @@ local ObjectNames = {
 	[113757] = "Shadowforge Cache",
 	[113768] = "Brightly Colored Egg",
 	[113791] = "Brazier of Everfount",
+	[121264] = "Lucius's Lockbox",
+	[123214] = "Duskwood Chest",
 	[123309] = "Ooze Covered Truesilver Deposit",
 	[123310] = "Ooze Covered Mithril Deposit",
 	[123329] = "Baelog's Chest",
+	[123330] = "Buccaneer's Strongbox",
 	[123462] = "The Jewel of the Southsea",
 	[123848] = "Ooze Covered Thorium Vein",
 	[124388] = "Garrett Family Chest",
@@ -2262,10 +2431,22 @@ local ObjectNames = {
 	[178204] = "Warsong Axe Shipment",
 	[178224] = "Dire Pool",
 	[178227] = "Murgut's Totem Basket",
+	[178244] = "Practice Lockbox",
 	[178247] = "Naga Brazier",
 	[178553] = "Hive'Ashi Pod",
 	[178609] = "Holiday Snow",
 	[179485] = "Broken Trap",
+	[179486] = "Battered Footlocker",
+	[179487] = "Waterlogged Footlocker",
+	[179488] = "Battered Footlocker",
+	[179490] = "Battered Footlocker",
+	[179491] = "Waterlogged Footlocker",
+	[179492] = "Dented Footlocker",
+	[179493] = "Mossy Footlocker",
+	[179494] = "Dented Footlocker",
+	[179496] = "Dented Footlocker",
+	[179497] = "Mossy Footlocker",
+	[179498] = "Scarlet Footlocker",
 	[179499] = "Ogre Tannin Basket",
 	[179501] = "Knot Thimblejack's Cache",
 	[179516] = "Fengus's Chest",
@@ -2575,6 +2756,9 @@ local ObjectNames = {
 	[183933] = "Elemental Power",
 	[183934] = "Shredder Parts",
 	[183935] = "Fel Reaver Part",
+	[183936] = "Manni's Cage",
+	[183940] = "Moh's Cage",
+	[183941] = "Jakk's Cage",
 	[183945] = "Energy Isolation Cube",
 	[184031] = "Box of Surveying Equipment",
 	[184075] = "Teleporter Power Pack",
@@ -2610,6 +2794,7 @@ local ObjectNames = {
 	[184727] = "Thunderlord Clan Arrow",
 	[184728] = "Thunderlord Clan Tablet",
 	[184740] = "Wicker Chest",
+	[184741] = "Dented Footlocker",
 	[184744] = "T'chali's Hookah",
 	[184793] = "Primitive Chest",
 	[184795] = "Rotten Arakkoa Egg",
@@ -2618,6 +2803,7 @@ local ObjectNames = {
 	[184860] = "Fel Reaver Armor Plating",
 	[184869] = "Baa'ri Tablet Fragment",
 	[184870] = "Baa'ri Tablet Fragment",
+	[184906] = "Power Converter",
 	[184945] = "Wanted Poster",
 	[184946] = "Wanted Poster",
 	[184947] = "The Doctor's Strongbox",
@@ -2709,7 +2895,358 @@ local ObjectNames = {
 	[100000001] = "Unlit Torch",
 }; _.ObjectNames = ObjectNames;
 local ObjectIcons = {
+	[34] = 132798,
+	[55] = 133730,
+	[56] = 133730,
+	[256] = 134939,
+	[259] = 132798,
+	[261] = 132762,
+	[270] = 133201,
+	[711] = 134939,
+	[1627] = 132761,
+	[1673] = 133944,
+	[1738] = 134939,
+	[1739] = 134939,
+	[1740] = 134939,
+	[1761] = 134939,
+	[1763] = 134939,
+	[1765] = 132763,
+	[1768] = 135813,
+	[1769] = 135813,
+	[1770] = 135813,
+	[2008] = 134166,
+	[2059] = 133728,
+	[2076] = 133778,
+	[2553] = 134939,
+	[2555] = 134939,
+	[2704] = 132761,
+	[2713] = 134939,
+	[2739] = 132914,
+	[2740] = 134334,
+	[2741] = 134132,
+	[2742] = 134414,
+	[2908] = 132763,
+	[2910] = 135238,
+	[2912] = 133944,
+	[3189] = 134939,
+	[3190] = 134939,
+	[3192] = 134939,
+	[3236] = 134520,
+	[3237] = 133730,
+	[3238] = 132623,
+	[3240] = 132833,
+	[3290] = 133639,
+	[3525] = 135805,
+	[3640] = 133848,
+	[3644] = 133714,
+	[3646] = 134075,
+	[3685] = 132834,
+	[3737] = 133849,
+	[3767] = 134143,
+	[3768] = 134442,
+	[3972] = 134939,
+	[4072] = 134063,
+	[4141] = 134063,
+	[4406] = 132833,
+	[4608] = 136065,
+	[5620] = 134095,
+	[6751] = 134220,
+	[10076] = 134715,
+	[11713] = 134523,
+	[11714] = 134531,
+	[13359] = 134176,
+	[13360] = 134231,
+	[15084] = 133867,
+	[15085] = 133867,
+	[16393] = 135805,
+	[17182] = 133867,
+	[17183] = 133867,
+	[17184] = 133867,
+	[17188] = 133734,
+	[17189] = 133735,
+	[17282] = 134185,
+	[17783] = 134230,
+	[19015] = 134564,
+	[19016] = 133849,
+	[19021] = 132594,
+	[19024] = 132867,
+	[19027] = 133741,
+	[19030] = 133852,
+	[19542] = 132834,
+	[19869] = 132997,
+	[19901] = 134128,
+	[20359] = 132832,
+	[20691] = 134330,
+	[20725] = 133741,
+	[20727] = 132385,
+	[20805] = 134943,
+	[20992] = 134950,
+	[21042] = 134951,
+	[22245] = 133972,
+	[22246] = 134133,
+	[37099] = 134457,
+	[58369] = 133233,
+	[61935] = 134063,
+	[61936] = 134063,
 	[113768] = _.asset("holiday_noblegarden"),
+	[113791] = 135805,
+	[126049] = 134530,
+	[126158] = 134430,
+	[129127] = 134846,
+	[140971] = 133439,
+	[141832] = 133056,
+	[141853] = 134527,
+	[142071] = 132833,
+	[142122] = 134939,
+	[142151] = 132622,
+	[142181] = 132620,
+	[142184] = 132595,
+	[142343] = 134375,
+	[142344] = 132995,
+	[142345] = 134393,
+	[142475] = 134394,
+	[142476] = 134390,
+	[142487] = 133867,
+	[142696] = 134392,
+	[142702] = 134799,
+	[142958] = 133734,
+	[143980] = 134943,
+	[144064] = 135228,
+	[144066] = 132761,
+	[144067] = 132761,
+	[144068] = 132761,
+	[147557] = 133787,
+	[148503] = 135805,
+	[148504] = 135349,
+	[148513] = 134458,
+	[148514] = 134455,
+	[148515] = 134456,
+	[148516] = 134457,
+	[149036] = 132594,
+	[150075] = 134939,
+	[152622] = 134088,
+	[153123] = 132761,
+	[153239] = 132927,
+	[156561] = 134939,
+	[157936] = 133849,
+	[160836] = 132596,
+	[160845] = 132597,
+	[161495] = 132595,
+	[161505] = 132594,
+	[161521] = 132594,
+	[161526] = 132594,
+	[161557] = 134014,
+	[161752] = 134063,
+	[164659] = 134105,
+	[164661] = 134136,
+	[164778] = 134133,
+	[164780] = 134130,
+	[164820] = 236444,
+	[164867] = 134939,
+	[164868] = 134939,
+	[164869] = 133748,
+	[164910] = 132594,
+	[164955] = 134087,
+	[164956] = 134087,
+	[164957] = 134087,
+	[164958] = 134001,
+	[165554] = 134085,
+	[166863] = 133972,
+	[171938] = 133975,
+	[173232] = 1500877,
+	[174682] = 134939,
+	[174793] = 134822,
+	[175165] = 132596,
+	[175166] = 132597,
+	[175207] = 133719,
+	[175226] = 133719,
+	[175227] = 133719,
+	[175230] = 133719,
+	[175233] = 133719,
+	[175245] = 134337,
+	[175320] = 134939,
+	[175324] = 134087,
+	[175329] = 133944,
+	[175330] = 134013,
+	[175331] = 134059,
+	[175382] = 133276,
+	[175384] = 132833,
+	[175385] = 134419,
+	[175407] = 132926,
+	[175524] = 134396,
+	[175564] = 134804,
+	[175565] = 132833,
+	[175606] = 132833,
+	[175629] = 132765,
+	[175708] = 132761,
+	[175802] = 134377,
+	[175888] = 135152,
+	[175889] = 132834,
+	[175891] = 135152,
+	[175892] = 135152,
+	[175893] = 135152,
+	[175894] = 134144,
+	[175926] = 133739,
+	[175928] = 134196,
+	[176091] = 133778,
+	[176115] = 134060,
+	[176158] = 134754,
+	[176159] = 134754,
+	[176160] = 134754,
+	[176161] = 134754,
+	[176189] = 133724,
+	[176190] = 133724,
+	[176191] = 133724,
+	[176192] = 133740,
+	[176196] = 133724,
+	[176197] = 133724,
+	[176198] = 133724,
+	[176213] = 134813,
+	[176344] = 134943,
+	[176484] = 134328,
+	[176485] = 134331,
+	[176486] = 134332,
+	[176487] = 134327,
+	[176544] = 133972,
+	[176545] = 133972,
+	[176582] = 133900,
+	[176631] = 133736,
+	[176634] = 134229,
+	[176751] = 133726,
+	[177241] = 136162,
+	[177243] = 136224,
+	[177491] = 132620,
+	[177544] = 132594,
+	[177673] = 133738,
+	[177684] = 133972,
+	[177750] = 134522,
+	[177787] = 132594,
+	[177904] = 132196,
+	[177964] = 134462,
+	[178144] = 133447,
+	[178195] = 134844,
+	[178204] = 132761,
+	[178224] = 134805,
+	[178227] = 134232,
+	[178553] = 134437,
+	[178609] = 132387,
+	[179501] = 132761,
+	[179552] = 134939,
+	[179553] = 134116,
+	[179559] = 132884,
+	[179562] = 135279,
+	[179697] = 132595,
+	[179827] = 134939,
+	[179828] = 133601,
+	[179832] = 133601,
+	[180248] = 133907,
+	[180327] = 134711,
+	[180366] = 132932,
+	[180368] = 134462,
+	[180369] = 133891,
+	[180435] = 133645,
+	[180436] = 134419,
+	[180448] = 134939,
+	[180453] = 134944,
+	[180454] = 134945,
+	[180455] = 134946,
+	[180456] = 134455,
+	[180461] = 134462,
+	[180466] = 134459,
+	[180501] = 134419,
+	[180503] = 133741,
+	[180526] = 132594,
+	[180633] = 132787,
+	[180642] = 132763,
+	[180652] = 133849,
+	[180662] = 132594,
+	[180665] = 134457,
+	[180666] = 134457,
+	[180667] = 134457,
+	[180669] = 133001,
+	[180685] = 132594,
+	[180690] = 132595,
+	[180691] = 132594,
+	[180717] = 133575,
+	[180743] = 133202,
+	[180746] = 133202,
+	[180747] = 133202,
+	[180748] = 133202,
+	[180751] = 132594,
+	[180793] = 133202,
+	[180794] = 133738,
+	[180901] = 132594,
+	[180918] = 134939,
+	[181011] = 133743,
+	[181053] = 134192,
+	[181074] = 132597,
+	[181083] = 132597,
+	[181098] = 133849,
+	[181147] = 134939,
+	[181150] = 133743,
+	[181153] = 134939,
+	[181597] = 135867,
+	[181598] = 135867,
+	[181629] = 135160,
+	[181638] = 134939,
+	[181643] = 133728,
+	[181645] = 132834,
+	[181649] = 133743,
+	[181672] = 134450,
+	[181681] = 132819,
+	[181687] = 135437,
+	[181690] = 134059,
+	[181698] = 134078,
+	[181748] = 132787,
+	[181889] = 134939,
+	[181916] = 135437,
+	[182011] = 132762,
+	[182032] = 133741,
+	[182115] = 134939,
+	[182165] = 134939,
+	[182549] = 134939,
+	[182587] = 134939,
+	[182588] = 134939,
+	[182947] = 133738,
+	[182952] = 132761,
+	[182953] = 133920,
+	[182954] = 133928,
+	[182956] = 133922,
+	[182957] = 133900,
+	[182958] = 133927,
+	[182959] = 133909,
+	[183811] = 134939,
+	[184418] = 134335,
+	[184465] = 133018,
+	[184660] = 134939,
+	[184825] = 133737,
+	[184945] = 134939,
+	[184946] = 134939,
+	[185035] = 134939,
+	[185126] = 133867,
+	[185519] = 134890,
+	[185522] = 134885,
+	[185549] = 132833,
+	[186278] = 132594,
+	[186301] = 132410,
+	[186322] = 134182,
+	[186329] = 132484,
+	[186423] = 134181,
+	[186426] = 134939,
+	[186450] = 132763,
+	[186463] = 134196,
+	[186881] = 134269,
+	[186887] = 133661,
+	[187039] = 133018,
+	[187078] = 132787,
+	[187236] = 133202,
+	[187264] = 132763,
+	[189989] = 134518,
+	[189990] = 134518,
+	[190483] = 134943,
+	[190484] = 134943,
+	[194092] = 134514,
+	[100000001] = 135434,
 }; _.ObjectIcons = ObjectIcons;
 local ObjectModels = {
 	[31] = 189908,
@@ -2883,6 +3420,7 @@ local ObjectModels = {
 	[3644] = 201006,
 	[3646] = 196976,
 	[3685] = 201386,
+	[3714] = 219372,
 	[3724] = 219481,
 	[3725] = 219487,
 	[3726] = 219489,
@@ -3027,9 +3565,12 @@ local ObjectModels = {
 	[113757] = 200953,
 	[113768] = 199691,
 	[113791] = 198067,
+	[121264] = 196982,
+	[123214] = 196979,
 	[123309] = 219553,
 	[123310] = 219553,
 	[123329] = 196979,
+	[123330] = 196976,
 	[123462] = 196982,
 	[123848] = 219553,
 	[125477] = 199753,
@@ -3365,9 +3906,21 @@ local ObjectModels = {
 	[178195] = 190343,
 	[178204] = 198168,
 	[178227] = 200352,
+	[178244] = 196976,
 	[178553] = 201279,
 	[178609] = 196993,
 	[179485] = 199580,
+	[179486] = 196988,
+	[179487] = 196989,
+	[179488] = 196988,
+	[179490] = 196988,
+	[179491] = 196989,
+	[179492] = 196988,
+	[179493] = 196989,
+	[179494] = 196988,
+	[179496] = 196988,
+	[179497] = 196989,
+	[179498] = 196976,
 	[179499] = 200377,
 	[179501] = 200961,
 	[179516] = 196982,
@@ -3673,6 +4226,9 @@ local ObjectModels = {
 	[183933] = 201618,
 	[183934] = 200960,
 	[183935] = 192344,
+	[183936] = 200938,
+	[183940] = 200938,
+	[183941] = 200938,
 	[183945] = 192563,
 	[184031] = 192387,
 	[184075] = 192556,
@@ -3706,6 +4262,7 @@ local ObjectModels = {
 	[184727] = 198658,
 	[184728] = 202596,
 	[184740] = 197063,
+	[184741] = 196988,
 	[184744] = 199118,
 	[184793] = 197063,
 	[184795] = 191832,
@@ -3714,6 +4271,7 @@ local ObjectModels = {
 	[184860] = 192336,
 	[184869] = 202595,
 	[184870] = 202596,
+	[184906] = 201020,
 	[184945] = 199475,
 	[184946] = 199476,
 	[184947] = 196982,
@@ -3805,6 +4363,7 @@ local CANDY_BUCKETS = { 189303,190034,190035,190036,190037,190038,190039,190040,
 local HORDE_BONFIRES = { 187559,187947,187948,187949,187950,187951,187952,187953,187954,187955,187956,187957,187958,187959,187960,187961,187962,187963,187964,187965,187966,187967,187968,187969,187970,187971,187972,187973,187974,187975 };
 for i,objectID in ipairs(ALLIANCE_BONFIRES) do
 	ObjectNames[objectID] = "Alliance Bonfire";
+	ObjectIcons[objectID] = 135777;
 	ObjectModels[objectID] = 200079;
 end
 for i,objectID in ipairs(CANDY_BUCKETS) do
@@ -3813,6 +4372,7 @@ for i,objectID in ipairs(CANDY_BUCKETS) do
 end
 for i,objectID in ipairs(HORDE_BONFIRES) do
 	ObjectNames[objectID] = "Horde Bonfire";
+	ObjectIcons[objectID] = 135805;
 	ObjectModels[objectID] = 200079;
 end
 
@@ -4137,6 +4697,7 @@ local achievements = {
 	[15] = {
 		name = "Plenty of Pets",
 		description = "Collect 15 unique companion pets.",
+		icon = 132599,
 		category = 92,
 		criteria = {-9},
 	},
@@ -4161,6 +4722,7 @@ local achievements = {
 	[116] = {
 		name = "Professional Journeyman",
 		description = "Become a Journeyman in a profession.",
+		icon = 134327,
 		category = 169,
 		operator = 8,
 		amount = 1,
@@ -4169,72 +4731,84 @@ local achievements = {
 	[121] = {
 		name = "Journeyman Cook",
 		description = "Become a Journeyman Cook.",
+		icon = 133971,
 		category = 170,
 		criteria = {-21},
 	},
 	[122] = {
 		name = "Expert Cook",
 		description = "Become an Expert Cook.",
+		icon = 133971,
 		category = 170,
 		criteria = {-22},
 	},
 	[123] = {
 		name = "Artisan Cook",
 		description = "Become an Artisan Cook.",
+		icon = 133971,
 		category = 170,
 		criteria = {-23},
 	},
 	[124] = {
 		name = "Master Cook",
 		description = "Become a Master Cook.",
+		icon = 133971,
 		category = 170,
 		criteria = {-24},
 	},
 	[126] = {
 		name = "Journeyman Fisherman",
 		description = "Become a Journeyman Fisherman.",
+		icon = 136245,
 		category = 171,
 		criteria = {-26},
 	},
 	[127] = {
 		name = "Expert Fisherman",
 		description = "Become an Expert Fisherman.",
+		icon = 136245,
 		category = 171,
 		criteria = {-27},
 	},
 	[128] = {
 		name = "Artisan Fisherman",
 		description = "Become an Artisan Fisherman.",
+		icon = 136245,
 		category = 171,
 		criteria = {-28},
 	},
 	[129] = {
 		name = "Master Fisherman",
 		description = "Become a Master Fisherman.",
+		icon = 136245,
 		category = 171,
 		criteria = {-29},
 	},
 	[131] = {
 		name = "Journeyman in First Aid",
 		description = "Become a Journeyman in first aid.",
+		icon = 135966,
 		category = 172,
 		criteria = {-31},
 	},
 	[132] = {
 		name = "Expert in First Aid",
 		description = "Become an Expert in first aid.",
+		icon = 135966,
 		category = 172,
 		criteria = {-32},
 	},
 	[133] = {
 		name = "Artisan in First Aid",
 		description = "Become an Artisan in first aid.",
+		icon = 135966,
 		category = 172,
 		criteria = {-33},
 	},
 	[134] = {
 		name = "Master in First Aid",
 		description = "Become a Master in first aid.",
+		icon = 135966,
 		category = 172,
 		criteria = {-34},
 	},
@@ -4265,6 +4839,7 @@ local achievements = {
 	[303] = {
 		name = "Have Keg, Will Travel",
 		description = "Obtain a Brewfest mount, or transform yours into one using Brewfest Hops.",
+		icon = 132620,
 		category = 162,
 		operator = 8,
 		amount = 1,
@@ -4273,6 +4848,7 @@ local achievements = {
 	[306] = {
 		name = "Master Angler of Azeroth",
 		description = "Win the Booty Bay fishing contest or the Kalu'ak Fishing Derby.",
+		icon = 133892,
 		category = 171,
 		operator = 8,
 		amount = 1,
@@ -4281,6 +4857,7 @@ local achievements = {
 	[389] = {
 		name = "Gurubashi Arena Master",
 		description = "Loot the Arena Master trinket from the Gurubashi Arena.",
+		icon = 133608,
 		category = 95,
 		operator = 8,
 		amount = 1,
@@ -4289,6 +4866,7 @@ local achievements = {
 	[396] = {
 		name = "Gurubashi Arena Grand Master",
 		description = "Complete Short John Mithril's quest to obtain the Arena Grand Master trinket.",
+		icon = 133599,
 		category = 95,
 		operator = 8,
 		amount = 1,
@@ -4321,6 +4899,7 @@ local achievements = {
 	[424] = {
 		name = "Why? Because It's Red",
 		description = "Obtain a Red Qiraji Resonating Crystal.",
+		icon = 134396,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -4329,6 +4908,7 @@ local achievements = {
 	[425] = {
 		name = "Atiesh, Greatstaff of the Guardian",
 		description = "Wielder of Atiesh, Greatstaff of the Guardian.",
+		icon = 135226,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -4337,24 +4917,28 @@ local achievements = {
 	[426] = {
 		name = "Warglaives of Azzinoth",
 		description = "Wielder of a set of Warglaives of Azzinoth.",
+		icon = 135561,
 		category = 81,
 		criteria = {325,326,12480,12481},
 	},
 	[428] = {
 		name = "Thunderfury, Blessed Blade of the Windseeker",
 		description = "Wielder of Thunderfury, Blessed Blade of the Windseeker.",
+		icon = 135349,
 		category = 81,
 		criteria = {8146,12479},
 	},
 	[429] = {
 		name = "Sulfuras, Hand of Ragnaros",
 		description = "Wielder of Sulfuras, Hand of Ragnaros.",
+		icon = 133066,
 		category = 81,
 		criteria = {318,12478},
 	},
 	[430] = {
 		name = "Amani War Bear",
 		description = "Owner of Amani War Bear.",
+		icon = 132117,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -4363,12 +4947,14 @@ local achievements = {
 	[431] = {
 		name = "Hand of A'dal",
 		description = "Earned the title, \"Hand of A'dal\".",
+		icon = 133502,
 		category = 81,
 		criteria = {4497,745},
 	},
 	[432] = {
 		name = "Champion of the Naaru",
 		description = "Earned the title, \"Champion of the Naaru\".",
+		icon = 133531,
 		category = 81,
 		criteria = {4494,6789},
 	},
@@ -4447,6 +5033,7 @@ local achievements = {
 	[546] = {
 		name = "Safe Deposit",
 		description = "Buy 7 additional bank slots.",
+		icon = 132594,
 		category = 92,
 		criteria = {2002},
 	},
@@ -4467,6 +5054,7 @@ local achievements = {
 	[629] = {
 		name = "Ragefire Chasm",
 		description = "Defeat Taragaman the Hungerer.",
+		icon = 136216,
 		category = 14808,
 		operator = 8,
 		amount = 1,
@@ -4575,6 +5163,7 @@ local achievements = {
 	[644] = {
 		name = "King of Dire Maul",
 		description = "Defeat each wing of Dire Maul.",
+		icon = 132340,
 		category = 14808,
 		criteria = {545,546,547},
 	},
@@ -4935,6 +5524,7 @@ local achievements = {
 	[700] = {
 		name = "Freedom of the Horde",
 		description = "Obtain an Insignia or Medallion of the Horde.",
+		icon = 133453,
 		category = 95,
 		operator = 8,
 		amount = 1,
@@ -4943,6 +5533,7 @@ local achievements = {
 	[701] = {
 		name = "Freedom of the Alliance",
 		description = "Obtain an Insignia or Medallion of the Alliance.",
+		icon = 133452,
 		category = 95,
 		operator = 8,
 		amount = 1,
@@ -4951,24 +5542,28 @@ local achievements = {
 	[706] = {
 		name = "Frostwolf Howler",
 		description = "Obtain a Frostwolf Howler.",
+		icon = 133283,
 		category = 14801,
 		criteria = {6211},
 	},
 	[707] = {
 		name = "Stormpike Battle Charger",
 		description = "Obtain a Stormpike Battle Charger.",
+		icon = 133429,
 		category = 14801,
 		criteria = {6212},
 	},
 	[708] = {
 		name = "Hero of the Frostwolf Clan",
 		description = "Gain exalted reputation with the Frostwolf Clan.",
+		icon = 133287,
 		category = 14801,
 		criteria = {5320},
 	},
 	[709] = {
 		name = "Hero of the Stormpike Guard",
 		description = "Gain exalted reputation with the Stormpike Guard.",
+		icon = 133433,
 		category = 14801,
 		criteria = {5335},
 	},
@@ -4981,36 +5576,42 @@ local achievements = {
 	[711] = {
 		name = "Knight of Arathor",
 		description = "Gain exalted reputation with The League of Arathor.",
+		icon = 132351,
 		category = 14802,
 		criteria = {5333},
 	},
 	[712] = {
 		name = "Warsong Outrider",
 		description = "Gain exalted reputation with the Warsong Outriders.",
+		icon = 132366,
 		category = 14804,
 		criteria = {5319},
 	},
 	[713] = {
 		name = "Silverwing Sentinel",
 		description = "Gain exalted reputation with the Silverwing Sentinels.",
+		icon = 132279,
 		category = 14804,
 		criteria = {5334},
 	},
 	[714] = {
 		name = "The Conqueror",
 		description = "Raise your reputation values in Warsong Gulch, Arathi Basin and Alterac Valley to Exalted.",
+		icon = 134475,
 		category = 95,
 		criteria = {646,645,648},
 	},
 	[725] = {
 		name = "Thori'dal, the Stars' Fury",
 		description = "Wielder of Thori'dal, the Stars' Fury.",
+		icon = 135519,
 		category = 81,
 		criteria = {741,12482},
 	},
 	[726] = {
 		name = "Mr. Pinchy's Magical Crawdad Box",
 		description = "Fish your way to Mr. Pinchy's Magical Crawdad Box.",
+		icon = 133900,
 		category = 171,
 		operator = 8,
 		amount = 1,
@@ -5019,6 +5620,7 @@ local achievements = {
 	[727] = {
 		name = "Call in the Cavalry",
 		description = "Obtain one of the war mounts through the honor system.",
+		icon = 132224,
 		category = 95,
 		operator = 8,
 		amount = 1,
@@ -5033,6 +5635,7 @@ local achievements = {
 	[729] = {
 		name = "Deathcharger's Reins",
 		description = "Obtain the Deathcharger's Reins from Baron Rivendare in Stratholme.",
+		icon = 132264,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -5041,6 +5644,7 @@ local achievements = {
 	[731] = {
 		name = "Professional Expert",
 		description = "Become an Expert in a profession.",
+		icon = 134327,
 		category = 169,
 		operator = 8,
 		amount = 1,
@@ -5049,6 +5653,7 @@ local achievements = {
 	[732] = {
 		name = "Professional Artisan",
 		description = "Become an Artisan in a profession.",
+		icon = 134327,
 		category = 169,
 		operator = 8,
 		amount = 1,
@@ -5057,6 +5662,7 @@ local achievements = {
 	[733] = {
 		name = "Professional Master",
 		description = "Become a Master in a profession.",
+		icon = 134327,
 		category = 169,
 		operator = 8,
 		amount = 1,
@@ -5089,12 +5695,14 @@ local achievements = {
 	[763] = {
 		name = "The Burning Crusader",
 		description = "Raise all of The Burning Crusade dungeon reputations to exalted.",
+		icon = 135796,
 		category = 14865,
 		criteria = {4753,4764,4759,4765,4751},
 	},
 	[764] = {
 		name = "The Burning Crusader",
 		description = "Raise all of The Burning Crusade dungeon reputations to exalted.",
+		icon = 135796,
 		category = 14865,
 		criteria = {4764,4759,4751,4765,5336},
 	},
@@ -5293,6 +5901,7 @@ local achievements = {
 	[855] = {
 		name = "Explore Moonglade",
 		description = "Explore Moonglade, revealing the covered areas of the world map.",
+		icon = 135758,
 		category = 14778,
 		criteria = {1464},
 	},
@@ -5391,12 +6000,14 @@ local achievements = {
 	[871] = {
 		name = "Avast Ye, Admiral!",
 		description = "Obtain the Bloodsail Admiral's Hat... and try to get some fresh air every now and then.",
+		icon = 133168,
 		category = 81,
 		criteria = {1800},
 	},
 	[879] = {
 		name = "Old School Ride",
 		description = "Owner of one of the original epic mounts that are no longer attainable.",
+		icon = 132248,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -5405,6 +6016,7 @@ local achievements = {
 	[880] = {
 		name = "Swift Zulian Tiger",
 		description = "Obtain the Swift Zulian Tiger from High Priest Thekal in Zul'Gurub.",
+		icon = 132242,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -5413,6 +6025,7 @@ local achievements = {
 	[881] = {
 		name = "Swift Razzashi Raptor",
 		description = "Obtain the Swift Razzashi Raptor from Bloodlord Mandokir in Zul'Gurub.",
+		icon = 132253,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -5421,6 +6034,7 @@ local achievements = {
 	[882] = {
 		name = "Fiery Warhorse's Reins",
 		description = "Obtain the Fiery Warhorse's Reins from Attumen the Huntsman in Karazhan.",
+		icon = 132238,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -5429,6 +6043,7 @@ local achievements = {
 	[883] = {
 		name = "Reins of the Raven Lord",
 		description = "Obtain the Reins of the Raven Lord from Anzu in Sethekk Halls.",
+		icon = 132372,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -5437,6 +6052,7 @@ local achievements = {
 	[884] = {
 		name = "Swift White Hawkstrider",
 		description = "Obtain the Swift White Hawkstrider from Kael'thas Sunstrider in Magister's Terrace.",
+		icon = 132235,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -5445,6 +6061,7 @@ local achievements = {
 	[885] = {
 		name = "Ashes of Al'ar",
 		description = "Obtain the Ashes of Al'ar from Kael'thas Sunstrider in Tempest Keep.",
+		icon = 134468,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -5453,6 +6070,7 @@ local achievements = {
 	[886] = {
 		name = "Swift Nether Drake",
 		description = "Obtain the Swift Nether Drake from Arena Season 1 of The Burning Crusade.",
+		icon = 132249,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -5461,6 +6079,7 @@ local achievements = {
 	[887] = {
 		name = "Merciless Nether Drake",
 		description = "Obtain the Merciless Nether Drake from Arena Season 2 of The Burning Crusade.",
+		icon = 132249,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -5469,6 +6088,7 @@ local achievements = {
 	[888] = {
 		name = "Vengeful Nether Drake",
 		description = "Obtain the Vengeful Nether Drake from Arena Season 3 of The Burning Crusade.",
+		icon = 132249,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -5477,30 +6097,35 @@ local achievements = {
 	[889] = {
 		name = "Fast and Furious",
 		description = "Learn the journeyman riding skill.",
+		icon = 132225,
 		category = 92,
 		criteria = {-126},
 	},
 	[890] = {
 		name = "Into The Wild Blue Yonder",
 		description = "Learn the expert riding skill.",
+		icon = 132239,
 		category = 92,
 		criteria = {-127},
 	},
 	[891] = {
 		name = "Giddy Up!",
 		description = "Learn the apprentice riding skill.",
+		icon = 132261,
 		category = 92,
 		criteria = {-128},
 	},
 	[892] = {
 		name = "The Right Stuff",
 		description = "Learn the artisan riding skill.",
+		icon = 132268,
 		category = 92,
 		criteria = {-129},
 	},
 	[893] = {
 		name = "Cenarion War Hippogryph",
 		description = "Obtain the Cenarion War Hippogryph from the Cenarion Expedition in Zangarmarsh.",
+		icon = 132265,
 		category = 14865,
 		operator = 8,
 		amount = 1,
@@ -5509,54 +6134,63 @@ local achievements = {
 	[894] = {
 		name = "Flying High Over Skettis",
 		description = "Earn exalted status within the Sha'tari Skyguard.",
+		icon = 132191,
 		category = 14865,
 		criteria = {4760},
 	},
 	[896] = {
 		name = "A Quest a Day Keeps the Ogres at Bay",
 		description = "Earn exalted status within Ogri'la.",
+		icon = 133594,
 		category = 14865,
 		criteria = {4756},
 	},
 	[897] = {
 		name = "You're So Offensive",
 		description = "Earn exalted status with the Shattered Sun Offensive.",
+		icon = 134993,
 		category = 14865,
 		criteria = {4761},
 	},
 	[898] = {
 		name = "On Wings of Nether",
 		description = "Earn exalted status with Netherwing.",
+		icon = 132250,
 		category = 14865,
 		criteria = {4755},
 	},
 	[899] = {
 		name = "Oh My, Kurenai",
 		description = "Earn exalted status with the Kurenai.",
+		icon = 134060,
 		category = 14865,
 		criteria = {5337},
 	},
 	[900] = {
 		name = "The Czar of Sporeggar",
 		description = "Earn exalted status with Sporeggar.",
+		icon = 134532,
 		category = 14865,
 		criteria = {4757},
 	},
 	[901] = {
 		name = "Mag'har of Draenor",
 		description = "Earn exalted status with The Mag'har.",
+		icon = 134060,
 		category = 14865,
 		criteria = {5321},
 	},
 	[902] = {
 		name = "Chief Exalted Officer",
 		description = "Earn exalted status with The Consortium.",
+		icon = 132881,
 		category = 14865,
 		criteria = {4758},
 	},
 	[903] = {
 		name = "Shattrath Divided",
 		description = "Earn exalted status with The Scryers or The Aldor.",
+		icon = 135745,
 		category = 14865,
 		operator = 8,
 		amount = 1,
@@ -5565,30 +6199,35 @@ local achievements = {
 	[907] = {
 		name = "The Justicar",
 		description = "Raise your reputation values in Warsong Gulch, Arathi Basin and Alterac Valley to Exalted.",
+		icon = 134474,
 		category = 95,
 		criteria = {1901,1899,1896},
 	},
 	[939] = {
 		name = "Hills Like White Elekk",
 		description = "Complete all of Hemet Nesingwary quests in Nagrand up to and including The Ultimate Bloodsport.",
+		icon = 132254,
 		category = 14862,
 		criteria = {2005},
 	},
 	[940] = {
 		name = "The Green Hills of Stranglethorn",
 		description = "Complete all of Hemet Nesingwary quests in Stranglethorn Vale up to and including The Green Hills of Stranglethorn and Big Game Hunter.",
+		icon = 132267,
 		category = 14861,
 		criteria = {2006,2007},
 	},
 	[942] = {
 		name = "The Diplomat",
 		description = "Raise your reputation level from unfriendly to exalted with Timbermaw Hold, Sporeggar and the Kurenai.",
+		icon = 133146,
 		category = 201,
 		criteria = {5337,4757,2014},
 	},
 	[943] = {
 		name = "The Diplomat",
 		description = "Raise your reputation level from unfriendly to exalted with Timbermaw Hold, Sporeggar and The Mag'har.",
+		icon = 133146,
 		category = 201,
 		criteria = {4757,5321,2014},
 	},
@@ -5601,30 +6240,35 @@ local achievements = {
 	[946] = {
 		name = "The Argent Dawn",
 		description = "Earn exalted status with the Argent Dawn.",
+		icon = 133440,
 		category = 14864,
 		criteria = {2020},
 	},
 	[953] = {
 		name = "Guardian of Cenarius",
 		description = "Earn exalted status with the Cenarion Circle and Cenarion Expedition.",
+		icon = 132280,
 		category = 201,
 		criteria = {2045,4751},
 	},
 	[955] = {
 		name = "Hydraxian Waterlords",
 		description = "Earn exalted status with the Hydraxian Waterlords.",
+		icon = 135862,
 		category = 14864,
 		criteria = {2048},
 	},
 	[956] = {
 		name = "Brood of Nozdormu",
 		description = "Earn exalted status with the Brood of Nozdormu.",
+		icon = 134156,
 		category = 14864,
 		criteria = {2049},
 	},
 	[957] = {
 		name = "Hero of the Zandalar Tribe",
 		description = "Earn exalted status with the Zandalar Tribe.",
+		icon = 132529,
 		category = 14864,
 		criteria = {2050},
 	},
@@ -5637,18 +6281,21 @@ local achievements = {
 	[959] = {
 		name = "The Scale of the Sands",
 		description = "Earn exalted status with The Scale of the Sands.",
+		icon = 132856,
 		category = 14865,
 		criteria = {4766},
 	},
 	[960] = {
 		name = "The Violet Eye",
 		description = "Earn exalted status with The Violet Eye.",
+		icon = 135933,
 		category = 14865,
 		criteria = {4767},
 	},
 	[980] = {
 		name = "The Horseman's Reins",
 		description = "Obtain The Horseman's Reins from The Headless Horseman in the Scarlet Monastery during Hallow's End.",
+		icon = 132501,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -5669,12 +6316,14 @@ local achievements = {
 	[1017] = {
 		name = "Can I Keep Him?",
 		description = "Obtain a companion pet.",
+		icon = 132599,
 		category = 92,
 		criteria = {-132},
 	},
 	[1165] = {
 		name = "My Storage is \"Gigantique\"",
 		description = "Equip Haris Pilton's \"Gigantique\" Bag.",
+		icon = 133660,
 		category = 92,
 		criteria = {3390},
 	},
@@ -5729,6 +6378,7 @@ local achievements = {
 	[1205] = {
 		name = "Hero of Shattrath",
 		description = "Gained exalted status with The Scryers and The Aldor.",
+		icon = 135760,
 		category = 81,
 		criteria = {13427,13428},
 	},
@@ -5741,12 +6391,14 @@ local achievements = {
 	[1248] = {
 		name = "Plethora of Pets",
 		description = "Collect 25 unique companion pets.",
+		icon = 132599,
 		category = 92,
 		criteria = {-146},
 	},
 	[1250] = {
 		name = "Shop Smart, Shop Pet...Smart",
 		description = "Collect 50 unique companion pets.",
+		icon = 132599,
 		category = 92,
 		criteria = {-147},
 	},
@@ -5783,12 +6435,14 @@ local achievements = {
 	[1286] = {
 		name = "Outland Raider",
 		description = "Complete the Burning Crusade raid achievements listed below.",
+		icon = 133186,
 		category = 168,
 		criteria = {4016,4019,4022,4020,4017,4015,4018,4021,4014},
 	},
 	[1292] = {
 		name = "Yellow Brewfest Stein",
 		description = "Proud owner of the Vintage Yellow Brewfest Stein.",
+		icon = 133697,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -5797,6 +6451,7 @@ local achievements = {
 	[1293] = {
 		name = "Blue Brewfest Stein",
 		description = "Proud owner of the Vintage Blue Brewfest Stein.",
+		icon = 133699,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -5813,18 +6468,21 @@ local achievements = {
 	[1636] = {
 		name = "Competitor's Tabard",
 		description = "Proud owner of a Competitor's Tabard from the 2008 Spirit of Competition event.",
+		icon = 236544,
 		category = 81,
 		criteria = {5812},
 	},
 	[1637] = {
 		name = "Spirit of Competition",
 		description = "Proud owner of a Spirit of Competition pet from the 2008 Spirit of Competition event.",
+		icon = 236544,
 		category = 81,
 		criteria = {5814},
 	},
 	[1638] = {
 		name = "Skyshattered",
 		description = "Defeat Captain Skyshatter in the Dragonmaw race on Netherwing Ledge.",
+		icon = 132250,
 		category = 14865,
 		criteria = {5815},
 	},
@@ -5863,6 +6521,7 @@ local achievements = {
 	[1705] = {
 		name = "Clockwork Rocket Bot",
 		description = "Proud owner of the 2007 Vintage Winter Veil gift, the Clockwork Rocket Bot.",
+		icon = 133202,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -5871,12 +6530,14 @@ local achievements = {
 	[1706] = {
 		name = "Crashin' Thrashin' Racer",
 		description = "Proud owner of the 2008 Vintage Winter Veil gift, the Crashin' Thrashin' Racer.",
+		icon = 133202,
 		category = 81,
 		criteria = {7358,8739},
 	},
 	[1836] = {
 		name = "Old Crafty",
 		description = "Fish up Old Crafty in Orgrimmar.",
+		icon = 133921,
 		category = 171,
 		operator = 8,
 		amount = 1,
@@ -5885,6 +6546,7 @@ local achievements = {
 	[1837] = {
 		name = "Old Ironjaw",
 		description = "Fish up Old Ironjaw in Ironforge.",
+		icon = 133917,
 		category = 171,
 		operator = 8,
 		amount = 1,
@@ -5893,6 +6555,7 @@ local achievements = {
 	[1936] = {
 		name = "Does Your Wolpertinger Linger?",
 		description = "Obtain a Wolpertinger pet.",
+		icon = 132800,
 		category = 162,
 		operator = 8,
 		amount = 1,
@@ -5901,24 +6564,28 @@ local achievements = {
 	[2079] = {
 		name = "Tabard of the Protector",
 		description = "Obtained a Tabard of the Protector from the Dark Portal event.",
+		icon = 135026,
 		category = 81,
 		criteria = {7382},
 	},
 	[2116] = {
 		name = "Tabard of the Argent Dawn",
 		description = "Obtained a Tabard of the Argent Dawn from the Scourge Invasion event.",
+		icon = 135026,
 		category = 81,
 		criteria = {7493},
 	},
 	[2141] = {
 		name = "Stable Keeper",
 		description = "Obtain 10 mounts.",
+		icon = 132254,
 		category = 92,
 		criteria = {-167},
 	},
 	[2142] = {
 		name = "Filling Up The Barn",
 		description = "Obtain 25 mounts.",
+		icon = 132259,
 		category = 92,
 		criteria = {-168},
 	},
@@ -5931,6 +6598,7 @@ local achievements = {
 	[2316] = {
 		name = "Brutal Nether Drake",
 		description = "Obtain the Brutal Nether Drake from Arena Season 4 of The Burning Crusade.",
+		icon = 132249,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -5940,17 +6608,19 @@ local achievements = {
 		name = "Insane in the Membrane",
 		description = "Raise your reputation to Honored with the Bloodsail Buccaneers, and Exalted with Booty Bay, Everlook, Gadgetzan, Ratchet, Darkmoon Faire, Ravenholdt, and Shen'dralar.",
 		category = 81,
-		criteria = {58452,58453,58454,8824,8825,58455,58456,8823},
+		criteria = {8818,8821,8822,8823,8824,8825,8820,8819},
 	},
 	[2357] = {
 		name = "Dreadsteed of Xoroth",
 		description = "Completed the Dreadsteed of Xoroth warlock quest.",
+		icon = 132238,
 		category = 81,
 		criteria = {8905},
 	},
 	[2358] = {
 		name = "Charger",
 		description = "Completed the paladin quest to obtain a Charger.",
+		icon = 132226,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -5959,18 +6629,21 @@ local achievements = {
 	[2359] = {
 		name = "Swift Flight Form",
 		description = "Completed the druid quest to obtain Swift Flight Form.",
+		icon = 132128,
 		category = 81,
 		criteria = {8908},
 	},
 	[2496] = {
 		name = "The Fifth Element",
 		description = "Obtain an Aqual Quintessence.",
+		icon = 135862,
 		category = 81,
 		criteria = {9198},
 	},
 	[3356] = {
 		name = "Winterspring Frostsaber",
 		description = "Obtain a Winterspring Frosaber.",
+		icon = 132252,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -5979,6 +6652,7 @@ local achievements = {
 	[3496] = {
 		name = "A Brew-FAST Mount",
 		description = "Obtain an epic Brewfest mount.",
+		icon = 132620,
 		category = 81,
 		operator = 8,
 		amount = 1,
@@ -5993,86 +6667,103 @@ local achievements = {
 	[15018] = {
 		name = "Infernal Gladiator",
 		description = "Achieved Infernal Gladiator title.",
+		icon = 136243,
 		category = 81,
 	},
 	[15019] = {
 		name = "Gladiator: Season 1",
 		description = "End a PvP season in the top 0.5% of the arena ladder (requires 50 games won in Season 1).",
+		icon = 136243,
 		category = 81,
 	},
 	[15020] = {
 		name = "Duelist: Season 1",
 		description = "End a PvP season in the top 3% of the arena ladder (requires 50 games won in Season 1).",
+		icon = 136243,
 		category = 81,
 	},
 	[15021] = {
 		name = "Rival: Season 1",
 		description = "End a PvP season in the top 10% of the arena ladder (requires 50 games won in Season 1).",
+		icon = 136243,
 		category = 81,
 	},
 	[15022] = {
 		name = "Challenger: Season 1",
 		description = "End a PvP season in the top 35% of the arena ladder (requires 50 games won in Season 1).",
+		icon = 136243,
 		category = 81,
 	},
 	[15199] = {
 		name = "Gladiator: Season 2",
 		description = "End a PvP season in the top 0.5% of the arena ladder (requires 50 games won in Season 2).",
+		icon = 136243,
 		category = 81,
 	},
 	[15200] = {
 		name = "Gladiator: Season 4",
 		description = "End a PvP season in the top 0.5% of the arena ladder (requires 50 games won in Season 4).",
+		icon = 136243,
 		category = 81,
 	},
 	[15201] = {
 		name = "Duelist: Season 4",
 		description = "End a PvP season in the top 3% of the arena ladder (requires 50 games won in Season 4).",
+		icon = 136243,
 		category = 81,
 	},
 	[15202] = {
 		name = "Rival: Season 4",
 		description = "End a PvP season in the top 10% of the arena ladder (requires 50 games won in Season 4).",
+		icon = 136243,
 		category = 81,
 	},
 	[15203] = {
 		name = "Challenger: Season 4",
 		description = "End a PvP season in the top 35% of the arena ladder (requires 50 games won in Season 4).",
+		icon = 136243,
 		category = 81,
 	},
 	[15204] = {
 		name = "Gladiator: Season 3",
 		description = "End a PvP season in the top 0.5% of the arena ladder (requires 50 games won in Season 3).",
+		icon = 136243,
 		category = 81,
 	},
 	[15205] = {
 		name = "Duelist: Season 3",
 		description = "End a PvP season in the top 3% of the arena ladder (requires 50 games won in Season 3).",
+		icon = 136243,
 		category = 81,
 	},
 	[15206] = {
 		name = "Rival: Season 3",
 		description = "End a PvP season in the top 10% of the arena ladder (requires 50 games won in Season 3).",
+		icon = 136243,
 		category = 81,
 	},
 	[15207] = {
 		name = "Challenger: Season 3",
 		description = "End a PvP season in the top 35% of the arena ladder (requires 50 games won in Season 3).",
+		icon = 136243,
 		category = 81,
 	},
 	[15208] = {
 		name = "Duelist: Season 2",
 		description = "End a PvP season in the top 3% of the arena ladder (requires 50 games won in Season 2).",
+		icon = 136243,
 		category = 81,
 	},
 	[15209] = {
 		name = "Rival: Season 2",
 		description = "End a PvP season in the top 10% of the arena ladder (requires 50 games won in Season 2).",
+		icon = 136243,
 		category = 81,
 	},
 	[15210] = {
 		name = "Challenger: Season 2",
 		description = "End a PvP season in the top 35% of the arena ladder (requires 50 games won in Season 2).",
+		icon = 136243,
 		category = 81,
 	},
 	[15330] = {
@@ -6098,11 +6789,13 @@ local achievements = {
 	[15637] = {
 		name = "The Immortal (Season of Mastery)",
 		description = "Within one raid lockout, defeat every boss in Naxxramas without allowing any raid member to die during any of the boss encounters during Season of Mastery.",
+		icon = 135922,
 		category = 81,
 	},
 	[16433] = {
 		name = "Soul of Iron (Season of Mastery)",
 		description = "Reach level 60 without ever dying during the Season of Mastery.",
+		icon = 134902,
 		category = 81,
 	},
 };
@@ -14789,20 +15482,50 @@ local achievementCriterias = {
 		type = 34,
 		asset = 58615,
 	},
+	[8818] = {
+		name = "Honored with Bloodsail Buccaneers",
+		amount = 9000,
+		type = 46,
+		asset = 87,
+	},
+	[8819] = {
+		name = "Exalted with Booty Bay",
+		amount = 42000,
+		type = 46,
+		asset = 21,
+	},
+	[8820] = {
+		name = "Exalted with Everlook",
+		amount = 42000,
+		type = 46,
+		asset = 577,
+	},
+	[8821] = {
+		name = "Exalted with Gadgetzan",
+		amount = 42000,
+		type = 46,
+		asset = 369,
+	},
+	[8822] = {
+		name = "Exalted with Ratchet",
+		amount = 42000,
+		type = 46,
+		asset = 470,
+	},
 	[8823] = {
-		name = "[DNT] Exalted with Darkmoon Faire",
+		name = "Exalted with Darkmoon Faire",
 		amount = 42000,
 		type = 46,
 		asset = 909,
 	},
 	[8824] = {
-		name = "[DNT] Exalted with Ravenholdt",
+		name = "Exalted with Ravenholdt",
 		amount = 42000,
 		type = 46,
 		asset = 349,
 	},
 	[8825] = {
-		name = "[DNT] Exalted with Shen'dralar",
+		name = "Exalted with Shen'dralar",
 		amount = 42000,
 		type = 46,
 		asset = 809,
@@ -15069,31 +15792,6 @@ local achievementCriterias = {
 		name = "Onyxia",
 		type = 0,
 		asset = 10184,
-	},
-	[58452] = {
-		name = "[DNT] Exalted with Gadgetzan",
-		type = 8,
-		asset = 17522,
-	},
-	[58453] = {
-		name = "[DNT] Exalted with Ratchet",
-		type = 8,
-		asset = 17521,
-	},
-	[58454] = {
-		name = "[DNT] Exalted with Booty Bay",
-		type = 8,
-		asset = 17518,
-	},
-	[58455] = {
-		name = "[DNT] Exalted with Everlook",
-		type = 8,
-		asset = 17520,
-	},
-	[58456] = {
-		name = "[DNT] Honored with Bloodsail Buccaneers",
-		type = 8,
-		asset = 17523,
 	},
 };
 L.ACHIEVEMENT_CRITERIA_DATA = achievementCriterias;
@@ -16039,6 +16737,7 @@ L.QUEST_NAMES = {
 	[5711] = "<NYI> The Lost Ways",
 	[5712] = "<NYI> The Lost Ways",
 	[6003] = "<nyi> <txt> Green With Envy",
+	[6131] = "Timbermaw Ally (old version, deprecated)",
 	[6165] = "<NYI> <TXT> Archmage Timolain's Remains",
 	[6201] = "<UNUSED> The Legacy of the Ashbringer",
 	[6202] = "<UNUSED> Good and Evil",
@@ -16662,7 +17361,6 @@ L.TOP_ROW_TO_UNLOCK = "|cffcf0000" .. ALT_KEY_TEXT .. " Klick um das Fenster fre
 L.TOY_DESC = "Klick diesen Knopf um ein zufälliges Spielzeug auszuwählen, das Euch noch fehlt.";
 L.TRACKING_PROGRESS = "Fortschrittsverfolgung";
 L.TRADEABLE = "Handelbar";
-L.TRADING_POST = "Handelsposten";
 L.TSM_WARNING_1 = "Diesen Befehl auszuführen kann möglicherweise Ihre bestehenden TSM Einstellungen zerstören, indem es sich in die ";
 L.TSM_WARNING_2 = " Voreinstellung zurücksetzt.\n\nWir empfehlen das Sie ein anderes Profil für diese Funktion benutzen.\n\nMöchten Sie trotzdem fortfahren?";
 L.TSM4_ERROR = "TSM4 is noch nicht kompatibel mit ATT. Wenn Sie wissen wie mann Presets kreiert so wie wir es mit TSM3 gemacht haben, bitte nehmem Sie Kontakt auf mit Crieve durch Discord.";
@@ -16685,7 +17383,6 @@ L.ZONE_DESC = "Klick diesen Knopf um eine zufällige Zone auszuwählen, die Euch
 localize(_.CategoryNames, {
 	[2] = "Verbrauchsgegenstand",
 	[3] = "Tarotkarten",
-	[185] = "Schutzbrille",
 });
 localize(L.HEADER_NAMES, {
 	[-11] = "Neuer Charakter",
@@ -16728,6 +17425,11 @@ localize(L.HEADER_NAMES, {
 	[-587] = "Saisonfisch: Winterkalmar",
 	[-588] = "Anglerwettbewerb im Schlingendorntal",
 	[-611] = "Adel der Silithiden",
+	[-724] = "Die Urahnen der Östlichen Königreiche",
+	[-725] = "Die Urahnen von Kalimdor",
+	[-726] = "Die Urahnen der Allianz",
+	[-727] = "Die Urahnen der Dungeons",
+	[-728] = "Die Urahnen der Horde",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-36] = "Es muss möglicherweise ein bestimmter Feiertag aktiv sein, um hier genannte Dinge abschließen zu können.",
@@ -16911,6 +17613,7 @@ localize(ObjectNames, {
 	[3644] = "Flugapparat von Bael Modan",
 	[3646] = "Geldkassette von General Doppelzopf",
 	[3685] = "Silithid-Buckel",
+	[3714] = "Geldkassette der Allianz",
 	[3724] = "Friedensblume",
 	[3725] = "Silberblatt",
 	[3726] = "Erdwurzel",
@@ -17054,9 +17757,12 @@ localize(ObjectNames, {
 	[113757] = "Schattenschmiedecache",
 	[113768] = "Osterei",
 	[113791] = "Kohlenpfanne von Everfount",
+	[121264] = "Lucius' Schließkassette",
+	[123214] = "Dämmerwaldtruhe",
 	[123309] = "Schlammbedecktes Echtsilbervorkommen",
 	[123310] = "Schlammbedeckte Mithrilablagerung",
 	[123329] = "Baelogs Truhe",
+	[123330] = "Geldkassette des Bukaniers",
 	[123462] = "Das Juwel der Südlichen Meere",
 	[123848] = "Schlammbedeckte Thoriumader",
 	[125477] = "Verdächtige Urne",
@@ -17394,9 +18100,21 @@ localize(ObjectNames, {
 	[178195] = "Öl des Kriegshymnenklans",
 	[178204] = "Axtlieferung des Kriegshymnenklans",
 	[178227] = "Murguts Totemkorb",
+	[178244] = "Übungsschließkassette",
 	[178553] = "Kapsel des Ashischwarms",
 	[178609] = "Feiertagsschnee",
 	[179485] = "Beschädigte Falle",
+	[179486] = "Ramponierte Schließkiste",
+	[179487] = "Durchnässte Schließkiste",
+	[179488] = "Ramponierte Schließkiste",
+	[179490] = "Ramponierte Schließkiste",
+	[179491] = "Durchnässte Schließkiste",
+	[179492] = "Verbeulte Schließkiste",
+	[179493] = "Moosbedeckte Schließkiste",
+	[179494] = "Verbeulte Schließkiste",
+	[179496] = "Verbeulte Schließkiste",
+	[179497] = "Moosbedeckte Schließkiste",
+	[179498] = "Scharlachrote Schließkiste",
 	[179499] = "Gerbekorb der Oger",
 	[179501] = "Knot Zwingschraubs Behälter",
 	[179516] = "Fengus Truhe",
@@ -17670,6 +18388,9 @@ localize(ObjectNames, {
 	[183933] = "Elementarenergie",
 	[183934] = "Schredderteile",
 	[183935] = "Teil eines Teufelshäschers",
+	[183936] = "Mannis Käfig",
+	[183940] = "Mohs Käfig",
+	[183941] = "Jakks Käfig",
 	[183945] = "Energieisolationswürfel",
 	[184031] = "Kasten mit Vermessungsausrüstung",
 	[184075] = "Teleporterenergiezelle",
@@ -17699,6 +18420,7 @@ localize(ObjectNames, {
 	[184727] = "Pfeil der Donnerfürsten",
 	[184728] = "Schrifttafel der Donnerfürsten",
 	[184740] = "Weidentruhe",
+	[184741] = "Verbeulte Schließkiste",
 	[184744] = "T'chalis Wasserpfeife",
 	[184793] = "Primitive Truhe",
 	[184795] = "Verfaultes Arakkoaei",
@@ -17707,6 +18429,7 @@ localize(ObjectNames, {
 	[184860] = "Teufelshäscherrüstungsplatte",
 	[184869] = "Schrifttafelfragment von Baa'ri",
 	[184870] = "Schrifttafelfragment von Baa'ri",
+	[184906] = "Stromwandler",
 	[184945] = "Steckbrief",
 	[184946] = "Steckbrief",
 	[184947] = "Geldkassette des Doktors",
@@ -20133,9 +20856,14 @@ for key,value in pairs({
 	[8749] = "Ruinen der Scharlachroten Enklave",
 	[8778] = "Brutaler Netherdrache",
 	[8779] = "Brutaler Netherdrache",
-	[8823] = "[DNT] Exalted with Darkmoon Faire",
-	[8824] = "[DNT] Exalted with Ravenholdt",
-	[8825] = "[DNT] Exalted with Shen'dralar",
+	[8818] = "Wohlwollend bei den Blutsegelbukanieren",
+	[8819] = "Ehrfürchtig in der Beutebucht",
+	[8820] = "Ehrfürchtig in der Ewigen Warte",
+	[8821] = "Ehrfürchtig in Gadgetzan",
+	[8822] = "Ehrfürchtig in Ratschet",
+	[8823] = "Ehrfürchtig auf dem Dunkelmond-Jahrmarkt",
+	[8824] = "Ehrfürchtig in Rabenholdt",
+	[8825] = "Ehrfürchtig bei den Shen'dralar",
 	[8893] = "Essenz des Feuerfürsten",
 	[8894] = "Brustplatte des Eroberers",
 	[8895] = "Brustplatte des Rächers",
@@ -20174,11 +20902,6 @@ for key,value in pairs({
 	[13428] = "Ehrfürchtig bei den Sehern",
 	[17023] = "Ehrfürchtig bei den Shen'dralar.",
 	[54579] = "Onyxia",
-	[58452] = "[DNT] Exalted with Gadgetzan",
-	[58453] = "[DNT] Exalted with Ratchet",
-	[58454] = "[DNT] Exalted with Booty Bay",
-	[58455] = "[DNT] Exalted with Everlook",
-	[58456] = "[DNT] Honored with Bloodsail Buccaneers",
 })
 do achievementCriterias[key].name = value; end
 end
@@ -20272,6 +20995,7 @@ L.DURING_WQ_ONLY = "Peut être réalisé uniquement lorsque la quête mondiale e
 L.DYNAMIC_CATEGORY_LABEL = "Catégories dynamiques";
 L.DYNAMIC_CATEGORY_SIMPLE_TOOLTIP = "Générer des catégories dynamiques en se basant uniquement sur la catégorie la plus haute";
 L.DYNAMIC_CATEGORY_TOOLTIP_NOTE = "\n\n|cffff0000Requiert un rechargement|r";
+L.EAST = "Est";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX = "Intégrations des infobulles";
 L.EXPANSION_CURRENT_ONLY = "Actuel Uniquement";
 L.EXPANSION_CURRENT_ONLY_TOOLTIP = "Afficher uniquement le contenu de l'extension actuelle";
@@ -20364,6 +21088,7 @@ L.NO_ENTRIES = "Aucune entrée correspondant à vos filtres n’a été trouvée
 L.NO_ENTRIES_DESC = "Si vous pensez qu’il s’agit d’une erreur, essayez d’activer le 'mode débogage'. Il se peut que l’un de vos filtres limite la visibilité du groupe.";
 L.NO_LINKED_ACCOUNTS = "Aucun compte lié n’a été trouvé.";
 L.NO_SEARCH_METHOD = "Aucune méthode de recherche n’est spécifiée.";
+L.NORTH = "Nord";
 L.NOT_AVAILABLE_IN_PL = "Non disponible pour le butin personnel.";
 L.NOT_COLLECTED = "|T" .. _.asset("unknown") .. ":0|t |cffff9333Pas Collecté|r";
 L.NOT_TRADEABLE = "Non échangeable";
@@ -20445,6 +21170,7 @@ L.SORT_BY_PROGRESS_CHECKBOX = "Trier par progression";
 L.SORT_BY_PROGRESS_CHECKBOX_TOOLTIP = "Activer cette option si vous souhaitez trier les groupes (" .. SHIFT_KEY_TEXT .. " + clic droit) par % de progression au lieu de les trier par leur nom.";
 L.SOULBINDCONDUITS_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t Intermédiaires";
 L.SOURCE_ID_MISSING = "Veuillez signaler cet objet et le lieu où il a été acquis sur le Discord d’ATT, dans le salon #classic-errors !";
+L.SOUTH = "Sud";
 L.SPEC_CHECKBOX = "Spécialisations";
 L.SPLIT = "Par difficulté";
 L.SYM_ROW_INFORMATION = "Clic droit afficher du contenu supplémentaire provenant d’un autre endroit.";
@@ -20480,7 +21206,6 @@ L.TOP_ROW_TO_UNLOCK = "|cffcf0000" .. ALT_KEY_TEXT .. " + clic pour débloquer c
 L.TOY_DESC = "Cliquez sur ce bouton pour sélectionner un jouet aléatoire basé sur ce qu’il vous manque.";
 L.TRACKING_PROGRESS = "Suivi des progrès";
 L.TRADEABLE = "Échangeable";
-L.TRADING_POST = "Comptoir";
 L.UNCHECK_ALL_BUTTON_TOOLTIP = "Cliquez sur ce bouton pour désactiver toutes les options en même temps.";
 L.UNOBTAINABLE_LABEL = "Contenu inaccessible";
 L.UNOBTAINABLES_PAGE = "Inaccessibles";
@@ -20489,6 +21214,7 @@ L.UNSORTED_DESC = "Ces données n’ont pas encore été ajoutées. ATT " .. _.V
 L.UPDATE_LOCATION_NOW = "Mettre à jour l’emplacement maintenant";
 L.UPDATE_WORLD_QUESTS = "Mettre à jour les quêtes mondiales";
 L.VISIT_FLIGHT_MASTER = "Rendez visite au Maître de vol pour mettre en cache.";
+L.WEST = "Ouest";
 L.WINDOW_COLORS = "Couleurs de la fenêtre";
 L.WRONG_FACTION = "Il se peut que vous deviez être dans la faction adverse pour afficher cela.";
 L.YOU_DID_IT = "VOUS AVEZ RÉUSSI !";
@@ -20497,7 +21223,6 @@ localize(_.CategoryNames, {
 	[2] = "consommable",
 	[3] = "Jeu de tarot",
 	[106] = "Carte",
-	[185] = "Lunettes",
 });
 localize(L.HEADER_NAMES, {
 	[-11] = "Nouveau personnage",
@@ -20525,9 +21250,6 @@ localize(L.HEADER_NAMES, {
 	[-343] = "Prime",
 	[-349] = "Capitaines",
 	[-350] = "Les quatre cavaliers",
-	[-355] = DUNGEON_FLOOR_DIREMAUL5.." (Est)",
-	[-356] = DUNGEON_FLOOR_DIREMAUL1.." (Nord)",
-	[-357] = DUNGEON_FLOOR_DIREMAUL2.." (Ouest)",
 	[-361] = "Cimetière",
 	[-362] = "Librairie",
 	[-363] = "Armurerie",
@@ -20554,6 +21276,11 @@ localize(L.HEADER_NAMES, {
 	[-587] = "Poisson de saison : calmar d'hiver",
 	[-588] = "Concours de pêche de Strangleronce",
 	[-611] = "Famille royale silithide",
+	[-724] = "Les Anciens des royaumes de l'Est",
+	[-725] = "Les Anciens de Kalimdor",
+	[-726] = "Les Anciens de l'Alliance",
+	[-727] = "Les Anciens des donjons",
+	[-728] = "Les Anciens de la Horde",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-47] = "Contient des objets de récompenses ou disponibles dans d’autres contenus de la section qui les contient.\nIls sont regroupés ici dans le but de réduire la duplication de nombreuses sources possibles.",
@@ -20737,6 +21464,7 @@ localize(ObjectNames, {
 	[3644] = "Machine volante de Bael Modan",
 	[3646] = "Coffre du général Doublenattes",
 	[3685] = "Antre des silithides",
+	[3714] = "Coffre de l'Alliance",
 	[3724] = "Pacifique",
 	[3725] = "Feuillargent",
 	[3726] = "Terrestrine",
@@ -20880,9 +21608,12 @@ localize(ObjectNames, {
 	[113757] = "Cachette d'Ombreforge",
 	[113768] = "Oeuf de Pâques",
 	[113791] = "Brasero de la Fontaine éternelle",
+	[121264] = "Coffret de Lucius",
+	[123214] = "Coffre du bois de la Pénombre",
 	[123309] = "Gisement de vrai-argent couvert de vase",
 	[123310] = "Gisement de mithril couvert de vase",
 	[123329] = "Coffre de Baelog",
+	[123330] = "Coffre du boucanier",
 	[123462] = "Le Joyau des mers du Sud",
 	[123848] = "Filon de thorium couvert de limon",
 	[125477] = "Urne ostentatoire",
@@ -21219,9 +21950,21 @@ localize(ObjectNames, {
 	[178195] = "Huile chanteguerre",
 	[178204] = "Cargaison de haches chanteguerres",
 	[178227] = "Panier à Totems de Murgut",
+	[178244] = "Coffret d'entraînement",
 	[178553] = "Alvéole de la Ruche'Ashi",
 	[178609] = "Neige d'hiver",
 	[179485] = "Piège cassé",
+	[179486] = "Cantine endommagée",
+	[179487] = "Cantine détrempée",
+	[179488] = "Cantine endommagée",
+	[179490] = "Cantine endommagée",
+	[179491] = "Cantine détrempée",
+	[179492] = "Cantine abîmée",
+	[179493] = "Cantine moisie",
+	[179494] = "Cantine abîmée",
+	[179496] = "Cantine abîmée",
+	[179497] = "Cantine moisie",
+	[179498] = "Cantine écarlate",
 	[179499] = "Panier de tanin ogre",
 	[179501] = "Réserve de Noué Dédodevie",
 	[179516] = "Coffre de Fengus",
@@ -21496,6 +22239,9 @@ localize(ObjectNames, {
 	[183933] = "Puissance élémentaire",
 	[183934] = "Pièces de déchiqueteur",
 	[183935] = "Pièce de saccageur gangrené",
+	[183936] = "Cage de Manni",
+	[183940] = "Cage de Moh",
+	[183941] = "Cage de Jakk",
 	[183945] = "Cube d'isolation à énergie",
 	[184031] = "Caisse d'équipement topographique",
 	[184075] = "Bloc d'alimentation du téléporteur",
@@ -21529,6 +22275,7 @@ localize(ObjectNames, {
 	[184727] = "Flèche du clan Sire-tonnerre",
 	[184728] = "Tablette du clan Sire-tonnerre",
 	[184740] = "Coffre en osier",
+	[184741] = "Cantine abîmée",
 	[184744] = "Narguilé de T'chali",
 	[184793] = "Coffre primitif",
 	[184795] = "Œuf arakkoa pourri",
@@ -21537,6 +22284,7 @@ localize(ObjectNames, {
 	[184860] = "Plaque d'armure de saccageur gangrené",
 	[184869] = "Fragment de tablette de Baa'ri",
 	[184870] = "Fragment de tablette de Baa'ri",
+	[184906] = "Convertisseur de puissance",
 	[184945] = "Avis de recherche",
 	[184946] = "Avis de recherche",
 	[184947] = "Coffre-fort du docteur",
@@ -23966,9 +24714,14 @@ for key,value in pairs({
 	[8749] = "Ruines de l’enclave Écarlate",
 	[8778] = "Drake du Néant brutal",
 	[8779] = "Drake du Néant brutal",
-	[8823] = "[DNT] Exalted with Darkmoon Faire",
-	[8824] = "[DNT] Exalted with Ravenholdt",
-	[8825] = "[DNT] Exalted with Shen'dralar",
+	[8818] = "Honoré auprès de la Voile sanglante",
+	[8819] = "Exalté auprès de Baie-du-Butin",
+	[8820] = "Exalté auprès de Long-Guet",
+	[8821] = "Exalté auprès de Gadgetzan",
+	[8822] = "Exalté auprès de Cabestan",
+	[8823] = "Exalté auprès de la foire de Sombrelune",
+	[8824] = "Exalté auprès de Ravenholdt",
+	[8825] = "Exalté auprès des Shen’dralar",
 	[8893] = "Essence du seigneur du Feu",
 	[8894] = "Cuirasse de conquérant",
 	[8895] = "Cuirasse de vengeur",
@@ -24007,11 +24760,6 @@ for key,value in pairs({
 	[13428] = "Exalté auprès des Clairvoyants",
 	[17023] = "Exalté auprès des Shen’dralar",
 	[54579] = "Onyxia",
-	[58452] = "[DNT] Exalted with Gadgetzan",
-	[58453] = "[DNT] Exalted with Ratchet",
-	[58454] = "[DNT] Exalted with Booty Bay",
-	[58455] = "[DNT] Exalted with Everlook",
-	[58456] = "[DNT] Honored with Bloodsail Buccaneers",
 })
 do achievementCriterias[key].name = value; end
 end
@@ -24053,12 +24801,10 @@ L.REQUIRES = "Richiede";
 L.RUNEFORGELEGENDARIES_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t Abilità dell'Incisione Runica";
 L.SOULBINDCONDUITS_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t Condotti";
 L.TITLES_CHECKBOX = "Titoli";
-L.TRADING_POST = "Emporio";
 localize(_.CategoryNames, {
 	[2] = "Consumabile",
 	[3] = "Mazzo di Tarocchi",
 	[106] = "Carta",
-	[185] = "Visori",
 });
 localize(L.HEADER_NAMES, {
 	[-11] = "Nuovo personaggio",
@@ -24077,6 +24823,11 @@ localize(L.HEADER_NAMES, {
 	[-483] = "Scettro delle Sabbie Mutevoli",
 	[-586] = "Pesce di stagione: spigola estiva",
 	[-587] = "Pesce di stagione: calamari invernali",
+	[-724] = "Anziani dei Regni Orientali",
+	[-725] = "Anziani di Kalimdor",
+	[-726] = "Anziani dell'Alleanza",
+	[-727] = "Anziani delle Spedizioni",
+	[-728] = "Anziani dell'Orda",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-341] = "Gli elementi in questo elenco sono aspetti condivisi per l'elemento precedente. Nella modalità Aspetto unico, questo elenco può aiutarti a capire perché o perché un oggetto specifico verrebbe contrassegnato come Raccolto.",
@@ -24188,6 +24939,7 @@ localize(ObjectNames, {
 	[113768] = "Uovo Decorato",
 	[123309] = "Deposito di Verargento Coperto di Melma",
 	[123329] = "Cassa di Baelog",
+	[123330] = "Forziere del Bucaniere",
 	[123462] = "Il Gioiello di Mari del Sud",
 	[123848] = "Vena di Torio Coperta di Melma",
 	[125477] = "Urna Notevole",
@@ -24374,6 +25126,13 @@ localize(ObjectNames, {
 	[178553] = "Baccello dell'Alveare Ashi",
 	[178609] = "Neve Festiva",
 	[179485] = "Trappola Rotta",
+	[179486] = "Scrigno di Rovinato",
+	[179487] = "Scrigno Fradicio",
+	[179488] = "Scrigno di Rovinato",
+	[179491] = "Scrigno Fradicio",
+	[179493] = "Scrigno Muschioso",
+	[179496] = "Scrigno Ammaccato",
+	[179498] = "Forziere Scarlatto",
 	[179499] = "Cestello di Colorante Ogre",
 	[179516] = "Cassa di Fengus",
 	[179517] = "Il Tesoro degli Shen'dralar",
@@ -24607,6 +25366,9 @@ localize(ObjectNames, {
 	[183933] = "Potere Elementale",
 	[183934] = "Parti di Segatronchi",
 	[183935] = "Pezzo del Vilrazziatore",
+	[183936] = "Gabbia di Manni",
+	[183940] = "Gabbia di Moh",
+	[183941] = "Gabbia di Jakk",
 	[183945] = "Cubo d'Isolamento Energetico",
 	[184031] = "Scatola con Equipaggiamento da Rilevamenti",
 	[184075] = "Adattatore di Potenza del Teletrasporto",
@@ -24640,6 +25402,7 @@ localize(ObjectNames, {
 	[184727] = "Freccia del Clan Spaccatuono",
 	[184728] = "Tavoletta del Clan Spaccatuono",
 	[184740] = "Cesto di Vimini",
+	[184741] = "Scrigno Ammaccato",
 	[184744] = "Narghilè di T'chali",
 	[184793] = "Cassa Primitiva",
 	[184795] = "Uovo di Arakkoa Marcio",
@@ -24648,6 +25411,7 @@ localize(ObjectNames, {
 	[184860] = "Piastre Rinforzate del Vilrazziatore",
 	[184869] = "Frammento di Tavoletta di Baa'ri",
 	[184870] = "Frammento di Tavoletta di Baa'ri",
+	[184906] = "Convertitore di Potenza",
 	[184945] = "Manifesto dei Ricercati",
 	[184946] = "Manifesto dei Ricercati",
 	[184947] = "Forziere del Dottore",
@@ -26450,9 +27214,14 @@ for key,value in pairs({
 	[8749] = "Ruins of the Scarlet Enclave",
 	[8778] = "Brutal Nether Drake",
 	[8779] = "Brutal Nether Drake",
-	[8823] = "[DNT] Exalted with Darkmoon Faire",
-	[8824] = "[DNT] Exalted with Ravenholdt",
-	[8825] = "[DNT] Exalted with Shen'dralar",
+	[8818] = "Honored with Bloodsail Buccaneers",
+	[8819] = "Exalted with Booty Bay",
+	[8820] = "Exalted with Everlook",
+	[8821] = "Exalted with Gadgetzan",
+	[8822] = "Exalted with Ratchet",
+	[8823] = "Exalted with Darkmoon Faire",
+	[8824] = "Exalted with Ravenholdt",
+	[8825] = "Exalted with Shen'dralar",
 	[8893] = "Essence of the Firelord",
 	[8894] = "Conqueror's Breastplate",
 	[8895] = "Avenger's Breastplate",
@@ -26491,11 +27260,6 @@ for key,value in pairs({
 	[13428] = "Exalted with The Scryers",
 	[17023] = "Exalted with the Shen'dralar.",
 	[54579] = "Onyxia",
-	[58452] = "[DNT] Exalted with Gadgetzan",
-	[58453] = "[DNT] Exalted with Ratchet",
-	[58454] = "[DNT] Exalted with Booty Bay",
-	[58455] = "[DNT] Exalted with Everlook",
-	[58456] = "[DNT] Honored with Bloodsail Buccaneers",
 })
 do achievementCriterias[key].name = value; end
 end
@@ -26583,14 +27347,12 @@ L.TITLE_UNIQUE_APPEARANCE = "Única ";
 L.TITLES_CHECKBOX = "Títulos";
 L.TOM_TOM_NOT_FOUND = "Você precisa ter TomTom instalado para exibir as coordenadas.";
 L.TRACKING_PROGRESS = "Rastreando Progresso";
-L.TRADING_POST = "Posto Comercial";
 L.VISIT_FLIGHT_MASTER = "Visite o Mestre de Voo para registrar.";
 L.WRONG_FACTION = "Você precisa ser de outra facção para visualizar isso.";
 localize(_.CategoryNames, {
 	[2] = "Consumível",
 	[3] = "Baralho de Tarô",
 	[106] = "Carta",
-	[185] = "Tecnóculos",
 });
 localize(L.HEADER_NAMES, {
 	[-11] = "Novo personagem",
@@ -26626,6 +27388,11 @@ localize(L.HEADER_NAMES, {
 	[-587] = "Peixe sazonal: Lula de Inverno",
 	[-588] = "Festerê de Pesca da Selva do Espinhaço",
 	[-611] = "Realeza Silítidea",
+	[-724] = "Anciãos dos Reinos do Leste",
+	[-725] = "Anciãos de Kalimdor",
+	[-726] = "Anciãos da Aliança",
+	[-727] = "Anciãos das Masmorras",
+	[-728] = "Anciãos da Horda",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-59] = "Um mestre de armas é um NPC que oferece aos personagens a oportunidade de aprender habilidades específicas com armas, cuja disponibilidade varia de um mestre de armas para outro. Todas as habilidades com armas podem ser treinadas no nível 1, exceto as armas de haste, que exigem nível 20.\n\nO treinamento com um mestre de armas tornou-se obsoleto no Patch 4.0.1, já que todas as proficiências de armas apropriadas à classe agora são aprendidas por cada classe após a criação. Os mestres de armas foram removidos do jogo logo depois.",
@@ -26803,6 +27570,7 @@ localize(ObjectNames, {
 	[3644] = "Máquina Voadora de Bael Modan",
 	[3646] = "Cofre do General Duas-tranças",
 	[3685] = "Monte de Terra Silitídeo",
+	[3714] = "Caixa-forte da Aliança",
 	[3724] = "Botão-da-paz",
 	[3725] = "Folha-prata",
 	[3726] = "Raiz-telúrica",
@@ -26944,8 +27712,10 @@ localize(ObjectNames, {
 	[113757] = "Baú de Umbraforja",
 	[113768] = "Ovo Colorido Brilhante",
 	[113791] = "Braseiro da Fonteterna",
+	[121264] = "Baú do Lucius",
 	[123309] = "Depósito de Veraprata Coberto de Gosma",
 	[123329] = "Baú de Baelog",
+	[123330] = "Caixa-forte dos Bucaneiros",
 	[123462] = "A Joia dos Mares do Sul",
 	[123848] = "Veio de Tório Coberto de Gosma",
 	[125477] = "Urna Evidente",
@@ -27224,6 +27994,13 @@ localize(ObjectNames, {
 	[178553] = "Receptáculo Colme'Ashi",
 	[178609] = "Neve de Feriado",
 	[179485] = "Armadilha Quebrada",
+	[179486] = "Maleta Surrada",
+	[179487] = "Maleta Encharcada",
+	[179488] = "Maleta Surrada",
+	[179491] = "Maleta Encharcada",
+	[179493] = "Maleta Mofada",
+	[179496] = "Maleta Amassada",
+	[179498] = "Maleta Escarlate",
 	[179499] = "Cesta de Tanino Ôgrico",
 	[179501] = "Tesouro do Fiapo Agulhacerta",
 	[179516] = "Baú de Fengus",
@@ -27475,6 +28252,9 @@ localize(ObjectNames, {
 	[183933] = "Poder Elemental",
 	[183934] = "Peças de Retalhador",
 	[183935] = "Peça de Aníquilus",
+	[183936] = "Jaula do Manni",
+	[183940] = "Jaula do Mô",
+	[183941] = "Jaula do Jakk",
 	[183945] = "Cubo de Isolamento de Energia",
 	[184031] = "Caixa de Equipamento de Sondagem",
 	[184075] = "Recipiente de Energia do Teleporte",
@@ -27504,6 +28284,7 @@ localize(ObjectNames, {
 	[184727] = "Flecha do Clã Senhor do Trovão",
 	[184728] = "Tabuleta do Clã Senhor do Trovão",
 	[184740] = "Baú de Vime",
+	[184741] = "Maleta Amassada",
 	[184744] = "Narguilé de T'chali",
 	[184793] = "Baú Primitivo",
 	[184795] = "Ovo Podre de Arakkoa",
@@ -27512,6 +28293,7 @@ localize(ObjectNames, {
 	[184860] = "Blindagem de Armadura de Aníquilus",
 	[184869] = "Fragmento de Tabuleta Baa'ri",
 	[184870] = "Fragmento de Tabuleta Baa'ri",
+	[184906] = "Conversor de Força",
 	[184945] = "Cartaz de Procura-se",
 	[184946] = "Cartaz de Procura-se",
 	[184947] = "O Cofre do Doutor",
@@ -29937,9 +30719,14 @@ for key,value in pairs({
 	[8749] = "Ruínas do Enclave Escarlate",
 	[8778] = "Draco Etéreo Brutal",
 	[8779] = "Draco Etéreo Brutal",
-	[8823] = "[DNT] Exalted with Darkmoon Faire",
-	[8824] = "[DNT] Exalted with Ravenholdt",
-	[8825] = "[DNT] Exalted with Shen'dralar",
+	[8818] = "Honrado pelos Bucaneiros da Vela Sangrenta",
+	[8819] = "Exaltado pela Angra do Butim",
+	[8820] = "Exaltado por Visteterna",
+	[8821] = "Exaltado por Geringontzan",
+	[8822] = "Exaltado pela Vila Catraca.",
+	[8823] = "Exaltado pela Feira de Negraluna",
+	[8824] = "Exaltado por Corvoforte",
+	[8825] = "Exaltado por Shen'dralar",
 	[8893] = "Essência do Senhor do Fogo",
 	[8894] = "Peitoral do Conquistador",
 	[8895] = "Peitoral do Vingador",
@@ -29978,11 +30765,6 @@ for key,value in pairs({
 	[13428] = "Exaltado pelos Áugures",
 	[17023] = "Exaltado com os Shen'dralar",
 	[54579] = "Onyxia",
-	[58452] = "[DNT] Exalted with Gadgetzan",
-	[58453] = "[DNT] Exalted with Ratchet",
-	[58454] = "[DNT] Exalted with Booty Bay",
-	[58455] = "[DNT] Exalted with Everlook",
-	[58456] = "[DNT] Honored with Bloodsail Buccaneers",
 })
 do achievementCriterias[key].name = value; end
 end
@@ -30025,6 +30807,7 @@ L.AH_SCAN_SUCCESSFUL_2 = " предмет(ов).";
 L.AH_SEARCH_BOE_ONLY = "Только Персональные при Надевании предметы будут найдены при использовании данного поиска.";
 L.AH_SEARCH_NO_ITEMS_FOUND = "Не найдено кэшированных предметов в поиске. Расширьте группу и осмотрите предметы для кэширования имен, и попробуйте снова. Только Персональные при Надевании предметы будут найдены при использовании данного поиска.";
 L.ALL_BUTTON_TOOLTIP = "Нажмите на эту кнопку, чтобы включить все фильтры сразу.";
+L.ALL_RECIPES = "Все Рецепты";
 L.ALL_THE_APPEARANCES_DESC = "Все облики, что Вы ещё не получили, отображаются здесь.";
 L.ALL_THE_BATTLEPETS_DESC = "Все боевые питомцы, что Вы ещё не получили, отображаются здесь.";
 L.ALL_THE_ILLUSIONS_DESC = "Все иллюзии, игрушки и другие предметы, что могут помочь пополнить коллекцию, отображаются здесь.";
@@ -30171,6 +30954,7 @@ L.DYNAMIC_CATEGORY_NESTED_TOOLTIP = "Генерировать Динамичес
 L.DYNAMIC_CATEGORY_SIMPLE = "Простые";
 L.DYNAMIC_CATEGORY_SIMPLE_TOOLTIP = "Генерировать Динамические Категории только на основе самой общей Категории.";
 L.DYNAMIC_CATEGORY_TOOLTIP_NOTE = "\n\n|cffff0000Применяется при Генерации|r";
+L.EAST = "Восток";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX = "Интеграция Подсказок";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX_TOOLTIP = "Включите данную опцию, если Вы хотите видеть информацию ATT во всплывающих подсказках. Включает в себя подсказки в ссылках на предметов от других игроков, предметы на аукционе, в путеводителе по приключениям, в Ваших сумках, в мире, над НИПами и т.п.\n\nЕсли Вы выключите данную функцию, Вы серьёзно снизите Вашу возможность быстро определить, нужно ли убить моба или изучить данный облик.\n\nМы рекомендуем оставить эту опцию включённой.";
 L.EVENT_ACTIVE = "Активно:";
@@ -30358,6 +31142,7 @@ L.NO_ENTRIES = "Не найдено ничего, что бы соответст
 L.NO_ENTRIES_DESC = "Если Вы уверены, что это была ошибка, попробуйте включить 'Режим Отладки'. Один из Ваших фильтов может ограничивать видимость группы.";
 L.NO_LINKED_ACCOUNTS = "Прикреплённых аккаунтов не найдено.";
 L.NO_SEARCH_METHOD = "Не выбран метод для поиска.";
+L.NORTH = "Север";
 L.NOT_AVAILABLE_IN_PL = "Недоступно в Персональной добыче.";
 L.NOT_COLLECTED = "|T" .. _.asset("unknown") .. ":0|t |cffff9333Не Собрано|r";
 L.NOT_DISPLAY_IN_COMBAT_NPCS_CHECKBOX = "Кроме НИП";
@@ -30545,6 +31330,7 @@ L.SOURCE_LOCATIONS_CHECKBOX = "Местонахождение\nИсточник�
 L.SOURCE_LOCATIONS_CHECKBOX_TOOLTIP = "Включите данную опцию, если Вы хотите видеть в подсказке полную информацию о Местонахождении Источников для объектов в базе данных ATT.";
 L.SOURCES = "Источник(и)";
 L.SOURCES_DESC = "Показывает Источник этой Штучки.\n\nВ частности, конкретный торговец/НИП, Задание, Событие и т.д.";
+L.SOUTH = "Юг";
 L.SPEC_CHECKBOX = "Специализации";
 L.SPEC_CHECKBOX_TOOLTIP = "Включите данную опцию, если Вы хотите видеть в подсказке информацию о специализации для добычи предмета, выданную Игровым Клиентом.\n\nПримечание: Эти иконки будут отображаться в мини списках ATT независимо от этой настройки.";
 L.SPLIT = "Отдельные Сложности";
@@ -30605,7 +31391,6 @@ L.TOY_DESC = "Нажмите эту кнопку для выбора случа�
 L.TOYS_CHECKBOX_TOOLTIP = "Включите для отслеживания игрушек.\n\nБольшинство из них имеют забавные эффекты. Другие же, как игрушечные Камни возвращения, могут быть использованы вместо обычного Камня возвращения и сохранить Вам место в сумке! Они также имеют интересные эффекты ... Здорово!";
 L.TRACK_ACC_WIDE = "|c" .. _.DefaultColors.Account .. "Отслеживать на весь аккаунт|r";
 L.TRACKING_PROGRESS = "Отслеживание выполнения";
-L.TRADING_POST = "Торговая лавка";
 L.TSM_WARNING_1 = "Использование данной команды может сломать Ваши существующие настройки TSM при перераспределении предметов к ";
 L.TSM_WARNING_2 = " группе.\n\nМы рекомендуем, чтобы Вы использовали другой профиль для данной функции.\n\nХотите продолжить в любом случае?";
 L.TSM4_ERROR = "TSM4 пока что не совместим с ATT. Если Вы знаете, как создавать Группы, как мы делали это в TSM3, пожалуйста, свяжитесь с Crieve в Дискорде!";
@@ -30631,6 +31416,7 @@ L.WARN_REMOVED_CHECKBOX = "Убранная Штучка вызывает Пре
 L.WARN_REMOVED_CHECKBOX_TOOLTIP = "Включите данную опцию, если Вы хотите слышать предупреждающий звуковой эффект, когда Вы случайно продаёте обратно или передаёте предмет, который добавил Вам облик, который Вы потеряете из своей коллекции.\n\nМожет быть крайне полезно, если Вы продаёте торговцу предмет с таймером возврата. Аддон скажет Вам, что совершаете ошибку.";
 L.WAS_ADDED_BACK_WITH_PATCH_FORMAT = "Добавлено снова в %s";
 L.WAS_ADDED_WITH_PATCH_FORMAT = "Добавлено в %s";
+L.WEST = "Запад";
 L.WINDOW_COLORS = "Цвет окна";
 L.WITH_WRAPPING_CHECKBOX = "Сокращение";
 L.WITH_WRAPPING_CHECKBOX_TOOLTIP = "Включите данную опцию, чтобы сокращать строки в подсказках.\nЭта функция будет контролировать ширину подсказки, чтобы не увеличилась слишком сильно, но она также сократит читаемость источников в большинстве случаев.";
@@ -30643,7 +31429,6 @@ L.ZONE_DESC = "Нажмите эту кнопку для выбора случа
 localize(_.CategoryNames, {
 	[3] = "карт Таро",
 	[106] = "Карты",
-	[185] = "очки",
 });
 localize(L.HEADER_NAMES, {
 	[-11] = "Новый персонаж",
@@ -30681,9 +31466,6 @@ localize(L.HEADER_NAMES, {
 	[-343] = "Премия",
 	[-349] = "Капитаны",
 	[-350] = "Четыре Всадника",
-	[-355] = DUNGEON_FLOOR_DIREMAUL5.." (Восток)",
-	[-356] = DUNGEON_FLOOR_DIREMAUL1.." (Север)",
-	[-357] = DUNGEON_FLOOR_DIREMAUL2.." (Запад)",
 	[-361] = "Кладбище",
 	[-362] = "Библиотека",
 	[-363] = "Оружейная",
@@ -30691,6 +31473,7 @@ localize(L.HEADER_NAMES, {
 	[-365] = "Главные врата",
 	[-366] = "Черный ход",
 	[-367] = "Защитники Атал'ай",
+	[-398] = "Драконьи ясли",
 	[-481] = "Война в Ан'Кираже",
 	[-482] = "Открытие Темного портала",
 	[-483] = "Скипетр Зыбучих песков",
@@ -30710,6 +31493,11 @@ localize(L.HEADER_NAMES, {
 	[-587] = "Сезонная рыба: зимний кальмар",
 	[-588] = "Рыбомания Тернистой долины",
 	[-611] = "Силитидская знать",
+	[-724] = "Предки Восточных королевств",
+	[-725] = "Предки Калимдора",
+	[-726] = "Предки Альянса",
+	[-727] = "Предки в подземельях",
+	[-728] = "Предки Орды",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-36] = "Чтобы выполнить упомянутые в данной секции Штучки, может быть нужен какой-то праздник.",
@@ -30896,6 +31684,7 @@ localize(ObjectNames, {
 	[3644] = "Бейлмоданский ветролет",
 	[3646] = "Сейф генерала Двукоссы",
 	[3685] = "Курган силитида",
+	[3714] = "Сейф Альянса",
 	[3724] = "Мироцвет",
 	[3725] = "Сребролист",
 	[3726] = "Землекорень",
@@ -31039,9 +31828,12 @@ localize(ObjectNames, {
 	[113757] = "Тайник Тенегорна",
 	[113768] = "Ярко окрашенное яйцо",
 	[113791] = "Жаровня Вечного источника",
+	[121264] = "Сейф Люция",
+	[123214] = "Сундук Сумеречного леса",
 	[123309] = "Покрытые слизью залежи истинного серебра",
 	[123310] = "Покрытые слизью мифриловые залежи",
 	[123329] = "Сундук Бейлога",
+	[123330] = "Сейф буканьера",
 	[123462] = "Драгоценный камень Южных морей",
 	[123848] = "Покрытая слизью ториевая жила",
 	[125477] = "Подозрительная урна",
@@ -31380,9 +32172,21 @@ localize(ObjectNames, {
 	[178195] = "Масло Песни Войны",
 	[178204] = "Партия топоров Песни Войны",
 	[178227] = "Корзина тотема Мургута",
+	[178244] = "Учебный сейф",
 	[178553] = "Кокон Улья Аши",
 	[178609] = "Праздничный снег",
 	[179485] = "Сломанная ловушка",
+	[179486] = "Побитый сундучок",
+	[179487] = "Затопленный сундучок",
+	[179488] = "Побитый сундучок",
+	[179490] = "Побитый сундучок",
+	[179491] = "Затопленный сундучок",
+	[179492] = "Проломленный сундучок",
+	[179493] = "Замшелый сундучок",
+	[179494] = "Проломленный сундучок",
+	[179496] = "Проломленный сундучок",
+	[179497] = "Замшелый сундучок",
+	[179498] = "Сундучок Алого ордена",
 	[179499] = "Огрский дубильный чан",
 	[179501] = "Тайник Уззла Наперстяка",
 	[179516] = "Сундук Фенгуса",
@@ -31658,6 +32462,9 @@ localize(ObjectNames, {
 	[183933] = "Сила стихии",
 	[183934] = "Части крошшера",
 	[183935] = "Деталь сквернобота",
+	[183936] = "Клетка Манни",
+	[183940] = "Клетка Моха",
+	[183941] = "Клетка Джакка",
 	[183945] = "Энергоизоляционный куб",
 	[184031] = "Ящик с геодезическим снаряжением",
 	[184075] = "Аккумулятор телепортатора",
@@ -31691,6 +32498,7 @@ localize(ObjectNames, {
 	[184727] = "Стрела клана Громоборцев",
 	[184728] = "Табличка клана Громоборцев",
 	[184740] = "Плетеный ларец",
+	[184741] = "Проломленный сундучок",
 	[184744] = "Кальян Тчали",
 	[184793] = "Примитивный сундук",
 	[184795] = "Тухлое яйцо араккоа",
@@ -31699,6 +32507,7 @@ localize(ObjectNames, {
 	[184860] = "Пластинчатый доспех сквернобота",
 	[184869] = "Фрагмент таблички Баа'ри",
 	[184870] = "Фрагмент таблички Баа'ри",
+	[184906] = "Трансформатор",
 	[184945] = "Плакат \"Разыскивается\"",
 	[184946] = "Плакат \"Разыскивается\"",
 	[184947] = "Сейф доктора",
@@ -34144,9 +34953,14 @@ for key,value in pairs({
 	[8749] = "Руины анклава Алого ордена",
 	[8778] = "Жестокий дракон Пустоты",
 	[8779] = "Жестокий дракон Пустоты",
-	[8823] = "[DNT] Exalted with Darkmoon Faire",
-	[8824] = "[DNT] Exalted with Ravenholdt",
-	[8825] = "[DNT] Exalted with Shen'dralar",
+	[8818] = "Уважение среди Пиратов Кровавого Паруса",
+	[8819] = "Превознесение в Пиратской Бухте",
+	[8820] = "Превознесение в Круговзоре",
+	[8821] = "Превознесение в Прибамбасске",
+	[8822] = "Превознесение в Кабестане",
+	[8823] = "Превознесение у ярмарки Новолуния",
+	[8824] = "Превознесение у Черного Ворона",
+	[8825] = "Превознесение у Шен'драларов",
 	[8893] = "Сущность повелителя огня",
 	[8894] = "Кираса завоевателя",
 	[8895] = "Кираса Мстителя",
@@ -34185,11 +34999,6 @@ for key,value in pairs({
 	[13428] = "Превознесение у Провидцев",
 	[17023] = "Превознесение у шен'дралар",
 	[54579] = "Ониксия",
-	[58452] = "[DNT] Exalted with Gadgetzan",
-	[58453] = "[DNT] Exalted with Ratchet",
-	[58454] = "[DNT] Exalted with Booty Bay",
-	[58455] = "[DNT] Exalted with Everlook",
-	[58456] = "[DNT] Honored with Bloodsail Buccaneers",
 })
 do achievementCriterias[key].name = value; end
 end
@@ -34231,16 +35040,11 @@ L.REQUIRES = "필요 전문화";
 L.RUNEFORGELEGENDARIES_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t 룬조각 능력";
 L.SOULBINDCONDUITS_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t 도관";
 L.TITLES_CHECKBOX = "칭호";
-L.TRADING_POST = "교역소";
 localize(_.CategoryNames, {
 	[2] = "소모품",
 	[3] = "카드 묶음",
 	[167] = "머리",
 	[168] = "재료",
-	[183] = "부품",
-	[184] = "폭발물",
-	[185] = "고글",
-	[188] = "장치",
 	[224] = "다리",
 	[864] = "목",
 	[865] = "손가락",
@@ -34283,6 +35087,11 @@ localize(L.HEADER_NAMES, {
 	[-587] = "제철 생선: 겨울 오징어",
 	[-588] = "가시덤불 골짜기 낚시왕 선발대회",
 	[-611] = "실리시드 왕실",
+	[-724] = "동부 왕국의 장로",
+	[-725] = "칼림도어의 장로",
+	[-726] = "얼라이언스의 장로",
+	[-727] = "던전의 장로",
+	[-728] = "호드의 장로",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-59] = "웨폰 마스터는 캐릭터에게 특정 무기 기술을 배울 수 있는 기회를 제공하는 NPC로, 사용 가능 여부는 웨폰 마스터마다 다릅니다. 모든 무기 기술은 레벨 20이 필요한 폴암을 제외하고 레벨 1에서 훈련할 수 있습니다.\n\n4.0.1 패치에서는 각 병과가 생성 시 모든 병과에 적합한 무기 숙련도를 배우게 되므로 무기 전문가와의 훈련은 더 이상 필요하지 않게 되었습니다. 무기 마스터는 곧 게임에서 제거되었습니다.",
@@ -34461,6 +35270,7 @@ localize(ObjectNames, {
 	[3644] = "바엘 모단 비행기",
 	[3646] = "트윈브레이드 장군의 금고",
 	[3685] = "실리시드 흙더미",
+	[3714] = "얼라이언스 금고",
 	[3724] = "평온초",
 	[3725] = "은엽수 덤불",
 	[3726] = "뱀뿌리",
@@ -34603,7 +35413,9 @@ localize(ObjectNames, {
 	[113757] = "어둠괴철로 금고",
 	[113768] = "오색찬란한 알",
 	[113791] = "영원의 샘 제단",
+	[121264] = "루시우스의 금고",
 	[123329] = "밸로그의 궤짝",
+	[123330] = "해적의 금고",
 	[123462] = "남쪽바다 해적단 보석",
 	[123848] = "진흙으로 덮인 토륨 광맥",
 	[125477] = "특이한 항아리",
@@ -34895,6 +35707,14 @@ localize(ObjectNames, {
 	[178553] = "하이브아쉬 고치",
 	[178609] = "눈더미",
 	[179485] = "부서진 함정",
+	[179486] = "찌그러진 사물함",
+	[179487] = "흠뻑 젖은 사물함",
+	[179488] = "찌그러진 사물함",
+	[179491] = "흠뻑 젖은 사물함",
+	[179493] = "이끼투성이 사물함",
+	[179494] = "움푹 파인 사물함",
+	[179496] = "움푹 파인 사물함",
+	[179498] = "붉은 사물함",
 	[179499] = "오우거 타닌 광주리",
 	[179501] = "노트 팀블잭의 은닉품",
 	[179516] = "펜구스의 궤짝",
@@ -35148,6 +35968,9 @@ localize(ObjectNames, {
 	[183933] = "정령의 마력",
 	[183934] = "절단기 부품",
 	[183935] = "지옥절단기 부품",
+	[183936] = "만니의 우리",
+	[183940] = "모흐의 우리",
+	[183941] = "자크의 우리",
 	[183945] = "마력 분리 용기",
 	[184031] = "측량 장비 상자",
 	[184075] = "순간이동기 전원공급장치",
@@ -35181,6 +36004,7 @@ localize(ObjectNames, {
 	[184727] = "천둥군주 부족 화살",
 	[184728] = "천둥군주 부족 서판",
 	[184740] = "고리버들 상자",
+	[184741] = "움푹 파인 사물함",
 	[184744] = "촬리의 물담뱃대",
 	[184793] = "구식 궤짝",
 	[184795] = "썩은 아라코아 알",
@@ -35189,6 +36013,7 @@ localize(ObjectNames, {
 	[184860] = "지옥절단기 장갑",
 	[184869] = "바아리 서판 조각",
 	[184870] = "바아리 서판 조각",
+	[184906] = "마력 변환기",
 	[184945] = "현상 수배 전단",
 	[184946] = "현상 수배 전단",
 	[184947] = "박사의 금고",
@@ -37620,9 +38445,14 @@ for key,value in pairs({
 	[8749] = "붉은십자군 폐허",
 	[8778] = "야만적인 황천의 비룡",
 	[8779] = "야만적인 황천의 비룡",
-	[8823] = "[DNT] Exalted with Darkmoon Faire",
-	[8824] = "[DNT] Exalted with Ravenholdt",
-	[8825] = "[DNT] Exalted with Shen'dralar",
+	[8818] = "붉은해적단 우호적",
+	[8819] = "무법항 확고한 동맹",
+	[8820] = "눈망루 마을 확고한 동맹",
+	[8821] = "가젯잔 확고한 동맹",
+	[8822] = "톱니항 확고한 동맹",
+	[8823] = "다크문 유랑단 확고한 동맹",
+	[8824] = "라벤홀트 암살단 확고한 동맹",
+	[8825] = "셴드랄라 확고한 동맹",
 	[8893] = "불의 군주의 정수",
 	[8894] = "정복자의 가슴보호갑",
 	[8895] = "응징의 가슴보호갑",
@@ -37661,11 +38491,6 @@ for key,value in pairs({
 	[13428] = "점술가 길드 확고한 동맹",
 	[17023] = "셴드랄라 확고한 동맹",
 	[54579] = "오닉시아",
-	[58452] = "[DNT] Exalted with Gadgetzan",
-	[58453] = "[DNT] Exalted with Ratchet",
-	[58454] = "[DNT] Exalted with Booty Bay",
-	[58455] = "[DNT] Exalted with Everlook",
-	[58456] = "[DNT] Honored with Bloodsail Buccaneers",
 })
 do achievementCriterias[key].name = value; end
 end
@@ -37883,6 +38708,7 @@ L.DYNAMIC_CATEGORY_NESTED = "Anidado";
 L.DYNAMIC_CATEGORY_NESTED_TOOLTIP = "Genera categorías dinámicas basándose en su fuente exacta. Esto conducirá a duplicados de cosas que se encuentran en múltiples sitios.";
 L.DYNAMIC_CATEGORY_SIMPLE_TOOLTIP = "Genera categorías dinámicas basándose sólo en la categoría más alta.";
 L.DYNAMIC_CATEGORY_TOOLTIP_NOTE = "\n\n|cffff0000Aplicado cuando se genera|r";
+L.EAST = "Este";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX = "Integraciones con ventanas emergentes";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX_TOOLTIP = "Activa esta opción si quieres ver la información que da ATT en una ventana emergente externa. Esto incluye enlaces enviados por otros jugadores a objetos, en la Casa de Subastas, en el Diario de aventurero, en tus bolsas, en el mundo, en PNJs, etc.\n\nSi desactivas esto, estas reduciendo seriamente tu habilidad de determinar rápidamente si necesitas matar un monstruo o aprender una apariencia.\n\nRecomendamos mantener activado este ajuste.";
 L.ENABLED = "activado";
@@ -38098,6 +38924,7 @@ L.NO_ENTRIES = "No se encontraron resultados que coincidan con tus filtros.";
 L.NO_ENTRIES_DESC = "Si crees que se trata de un error, intenta activar el modo de depuración. Es posible que alguno de sus filtros esté restringiendo la visibilidad del grupo.";
 L.NO_LINKED_ACCOUNTS = "No se encontraron cuentas conectadas.";
 L.NO_SEARCH_METHOD = "Método de búsqueda no especificado.";
+L.NORTH = "Norte";
 L.NOT_AVAILABLE_IN_PL = "No disponible en botín personal.";
 L.NOT_COLLECTED = "|T" .. _.asset("unknown") .. ":0|t |cffff9333No adquirido|r";
 L.NOT_DISPLAY_IN_COMBAT_NPCS_CHECKBOX = "Excepto PNJ";
@@ -38317,8 +39144,6 @@ L.SKIP_AUTO_REFRESH_TOOLTIP = "Por defecto (desactivado), cualquier cambio de Aj
 L.SKIP_CUTSCENES_CHECKBOX = "Saltar automáticamente cinemáticas";
 L.SKIP_CUTSCENES_CHECKBOX_TOOLTIP = "Activa esta opción si quieres que ATT salte todas las cinemáticas automáticamente por ti.";
 L.SOCIAL_PROGRESS = "Progreso social";
-L.SOFT_RESERVES = "Reserva anticipada";
-L.SOFT_RESERVES_DESCRIPTION = "La lista de reserva anticipada enviada por tu grupo de banda. Esta se gestiona a través del Maestro Saqueador, si tiene instalado ATT. De lo contrario, esta función no funcionará.\n\nML: Los miembros de tu banda sin ATT instalado pueden susurrar \"!sr <itemlink>\" o \"!sr <itemID>\" para reservar un objeto.";
 L.SORT_BY_PROGRESS_CHECKBOX = "Ordenar por pogreso";
 L.SORT_BY_PROGRESS_CHECKBOX_TOOLTIP = "Activa esta opción si quieres la operación de 'Ordenar' (" .. SHIFT_KEY_TEXT .. " + clic derecho) para ordenar sobre el total de progreso de cada grupo (en vez de por nombre)";
 L.SOULBINDCONDUITS_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t Conductos";
@@ -38332,6 +39157,7 @@ L.SOURCELESS = "Sin fuente";
 L.SOURCELESS_DESC = "Se ha confirmado que estas cosas se pueden conseguir, pero actualmente no se conoce su origen ni si aún se pueden conseguir.";
 L.SOURCES = "Fuente(s)";
 L.SOURCES_DESC = "Muestra la fuente de esta cosa.\n\nEn particular, un vendedor/NPC específico, una misión, un encuentro, etc.";
+L.SOUTH = "Sur";
 L.SPAWNED = "Hace aparición";
 L.SPEC_CHECKBOX = "Especializaciones";
 L.SPEC_CHECKBOX_TOOLTIP = "Activa esta opción para mostrar la especialización de botín de objetos en la ventana emergente del objeto tal y como se muestra en el cliente del juego.\n\nNOTA: Estos iconos se mostrarán igualmente en las Mini Listas de ATT independientemente de este ajuste.";
@@ -38403,7 +39229,6 @@ L.TOYS_CHECKBOX_TOOLTIP = "Activa esta opción para rastrar juguetes.\n\nLa mayo
 L.TRACK_ACC_WIDE = "|c" .. _.DefaultColors.Account .. "Rastrear para toda la cuenta|r";
 L.TRACKING_PROGRESS = "Rastreando progreso";
 L.TRADEABLE = "Comerciable";
-L.TRADING_POST = "Puesto Comercial";
 L.TSM_WARNING_1 = "Ejecutar este comando puede destruir potencialmente su configuración TSM existente al reasignar elementos a la ";
 L.TSM_WARNING_2 = " preestablecido.\n\nLe recomendamos que utilice un perfil diferente al usar esta función.\n\n¿Desea continuar de todos modos?";
 L.TSM4_ERROR = "TSM4 aún no es compatible con ATT. Si sabes cómo crear presets como en TSM3, ¡Susurrale a Crieve en Discord!";
@@ -38430,6 +39255,7 @@ L.WARN_REMOVED_CHECKBOX = "Cosas eliminadas disparan un Aviso";
 L.WARN_REMOVED_CHECKBOX_TOOLTIP = "Activa esta opción si quieres oír un efecto de sonido de aviso cuando accidentalmente vendas o comercies un objeto que te dio una apariencia y que cause que pierdas esa apariencia de tu colección.\n\nPuede ser extremadamente útil si vendes un objeto que tiene un temporizador de compra. El addon te va a decir que has cometido un error.";
 L.WAS_ADDED_BACK_WITH_PATCH_FORMAT = "Re añadido en el parche %s";
 L.WAS_ADDED_WITH_PATCH_FORMAT = "Añadido en el parche %s";
+L.WEST = "Oeste";
 L.WINDOW_COLORS = "Colores de ventana";
 L.WINDOWS_PAGE = "Ventanas";
 L.WITH_WRAPPING_CHECKBOX = "Permitir ajuste de largo";
@@ -38446,10 +39272,6 @@ localize(_.CategoryNames, {
 	[106] = "Carta",
 	[167] = "Coronas",
 	[168] = "Materiales",
-	[183] = "Partes",
-	[184] = "Explosivos",
-	[185] = "Gafas",
-	[188] = "Dispositivos",
 	[224] = "Piernas",
 	[857] = "Gemas azules",
 	[858] = "Gemas verdes",
@@ -38513,6 +39335,7 @@ localize(L.HEADER_NAMES, {
 	[-367] = "Defensores Atal'ai",
 	[-482] = "La apertura del Portal Oscuro",
 	[-483] = "El cetro del Mar de Dunas",
+	[-484] = "Invasión de la plaga",
 	[-521] = "Edición de coleccionista",
 	[-524] = "Edición TBC Classic Deluxe",
 	[-550] = "Espíritu de competición",
@@ -38530,6 +39353,12 @@ localize(L.HEADER_NAMES, {
 	[-587] = "Pescado de temporada: calamares de invierno",
 	[-588] = "Gran espectáculo de pesca de Tuercespina",
 	[-611] = "Realeza Silitida",
+	[-723] = "Incursiones elementales",
+	[-724] = "Ancestros de los Reinos del Este",
+	[-725] = "Ancestros de Kalimdor",
+	[-726] = "Ancestros de la Alianza",
+	[-727] = "Ancestros de las mazmorras",
+	[-728] = "Ancestros de la Horda",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-25] = "Los brujos pueden enseñar nuevos trucos a sus demonios. Algunos grimorios de nivel superior solo se pueden comprar al Instructor de Demonios en las capitales de tu facción.",
@@ -38542,8 +39371,12 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-341] = "Los elementos de esta lista son apariencias compartidas del elemento anterior. En el modo de apariencia única, esta lista puede ayudarlo a comprender por qué o no un elemento específico se marcaría como coleccionado.",
 	[-342] = "Este objeto tiene una apariencia única. Debes obtener este objeto específicamente para ganar la apariencia.",
 	[-343] = "Esta lista contiene objetos no obtenibles que ATT Discord ha informado como errores que Blizzard aún no ha solucionado.\n\nNOTA: Todos los filtros se ignoran en esta lista para mayor visibilidad. En esta lista solo están presentes los objetos eliminados del juego debido a negligencia y no a un gigantesco dragón que escupe fuego.\n\nA los desarrolladores de Blizzard: arreglen los objetos y encuentros que se enumeran a continuación.",
+	[-355] = "Se puede acceder a esta parte de la mazmorra desde el portal más al este. (lado derecho)",
+	[-356] = "Se puede acceder a esta parte de la mazmorra desde el portal más al norte.",
+	[-357] = "Se puede acceder a esta parte de la mazmorra desde el portal más al oeste. (lado izquierdo)",
 	[-550] = "Este es un evento basado en Campos de batalla que coincide con el inicio de los Juegos Olímpicos de Verano. La única vez que se celebró fue en 2008 para coincidir con los Juegos Olímpicos de Pekín, y aunque parecía haber intención de repetirlo, nunca regresó.",
 	[-721] = "Contiene contenido que está disponible en la Zona actual, pero que se obtiene directamente de otra Zona.",
+	[-723] = "Aumentan los informes de incursiones elementales en diferentes partes de Kalimdor. Cada pocos días, una nueva oleada de elementales se abre paso a la fuerza en las regiones de Silithus, el Cráter de Un'Goro, Azshara y Cuna del Invierno, aparentemente con el único propósito de ver hasta dónde pueden penetrar en estos territorios antes de ser repelidos por las fuerzas de la Horda o la Alianza. Investiga estas regiones y ayuda a tus aliados a contrarrestar estas misteriosas invasiones.",
 });
 localize(L.HEADER_LORE, {
 	[-74] = "Uno de estos dragones aparecerá aleatoriamente en las coordenadas asociadas en todo Azeroth.",
@@ -38721,6 +39554,7 @@ localize(ObjectNames, {
 	[3644] = "Máquina voladora de Bael Modan",
 	[3646] = "Caja fuerte del general Trenzado",
 	[3685] = "Montículo de silítidos",
+	[3714] = "Caja fuerte de la Alianza",
 	[3724] = "Flor de paz",
 	[3725] = "Hojaplata",
 	[3726] = "Raíz de tierra",
@@ -38863,9 +39697,12 @@ localize(ObjectNames, {
 	[113757] = "Alijo de Forjatiniebla",
 	[113768] = "Huevo de color vivo",
 	[113791] = "Blandón de Siemprefuente",
+	[121264] = "Arcón de Lucius",
+	[123214] = "Cofre de Bosque del Ocaso",
 	[123309] = "Depósito de veraplata cubierta de moco",
 	[123310] = "Depósito de mitril cubierto de moco",
 	[123329] = "Cofre de Baelog",
+	[123330] = "Caja fuerte de bucanero",
 	[123462] = "La joya de los Mares del Sur",
 	[123848] = "Filón de torio cubierto de moco",
 	[125477] = "Urna llamativa",
@@ -39202,9 +40039,21 @@ localize(ObjectNames, {
 	[178195] = "Aceite Grito de Guerra",
 	[178204] = "Envío de hachas de los Grito de Guerra",
 	[178227] = "Cesta de tótems de Murgut",
+	[178244] = "Arcón de prácticas",
 	[178553] = "Vaina de Colmen'Ashi",
 	[178609] = "Nieve de Vacaciones",
 	[179485] = "Trampa rota",
+	[179486] = "Baúl maltrecho",
+	[179487] = "Baúl encharcado",
+	[179488] = "Baúl maltrecho",
+	[179490] = "Baúl maltrecho",
+	[179491] = "Baúl encharcado",
+	[179492] = "Baúl abollado",
+	[179493] = "Baúl mohoso",
+	[179494] = "Baúl abollado",
+	[179496] = "Baúl abollado",
+	[179497] = "Baúl mohoso",
+	[179498] = "Baúl Escarlata",
 	[179499] = "Cesta de tanino de ogro",
 	[179501] = "Alijo de Knot Thimblejack",
 	[179516] = "Cofre de Fengus",
@@ -39477,6 +40326,9 @@ localize(ObjectNames, {
 	[183933] = "Energía elemental",
 	[183934] = "Piezas de trituradora",
 	[183935] = "Pieza de atracador vil",
+	[183936] = "Jaula de Manni",
+	[183940] = "Jaula de Moh",
+	[183941] = "Jaula de Jakk",
 	[183945] = "Cubo de aislamiento de energía",
 	[184031] = "Caja de equipo de análisis",
 	[184075] = "Envase de energía de teletransportador",
@@ -39506,6 +40358,7 @@ localize(ObjectNames, {
 	[184727] = "Flecha del clan Señor del Trueno",
 	[184728] = "Tablilla del clan Señor del Trueno",
 	[184740] = "Cofre de mimbre",
+	[184741] = "Baúl abollado",
 	[184744] = "Pipa de agua de T'chali",
 	[184793] = "Cofre primitivo",
 	[184795] = "Huevo de arakkoa podrido",
@@ -39514,6 +40367,7 @@ localize(ObjectNames, {
 	[184860] = "Coraza de armadura de atracador vil",
 	[184869] = "Trozo de tablilla Baa'ri",
 	[184870] = "Trozo de tablilla Baa'ri",
+	[184906] = "Convertidor de energía",
 	[184945] = "Cartel de Se busca",
 	[184946] = "Cartel de Se busca",
 	[184947] = "La caja fuerte del doctor",
@@ -42027,9 +42881,14 @@ for key,value in pairs({
 	[8749] = "Ruinas de El Enclave Escarlata",
 	[8778] = "Draco abisal brutal",
 	[8779] = "Draco abisal brutal",
-	[8823] = "[DNT] Exalted with Darkmoon Faire",
-	[8824] = "[DNT] Exalted with Ravenholdt",
-	[8825] = "[DNT] Exalted with Shen'dralar",
+	[8818] = "Honorable con Bucaneros Velasangre",
+	[8819] = "Exaltado con Bahía del Botín",
+	[8820] = "Exaltado con Vista Eterna",
+	[8821] = "Exaltado con Gadgetzan",
+	[8822] = "Exaltado con Trinquete",
+	[8823] = "Exaltado con la Feria de la Luna Negra",
+	[8824] = "Exaltado con Ravenholdt",
+	[8825] = "Exaltado con Shen'dralar",
 	[8893] = "Esencia del Señor del Fuego",
 	[8894] = "Coraza de conquistador",
 	[8895] = "Coraza del Vengador",
@@ -42068,11 +42927,6 @@ for key,value in pairs({
 	[13428] = "Exaltado con los Arúspices",
 	[17023] = "Exaltado con los Shen'dralar",
 	[54579] = "Onyxia",
-	[58452] = "[DNT] Exalted with Gadgetzan",
-	[58453] = "[DNT] Exalted with Ratchet",
-	[58454] = "[DNT] Exalted with Booty Bay",
-	[58455] = "[DNT] Exalted with Everlook",
-	[58456] = "[DNT] Honored with Bloodsail Buccaneers",
 })
 do achievementCriterias[key].name = value; end
 if GetLocale():sub(3,4):lower() == "mx" then
@@ -42308,7 +43162,6 @@ L.TOP_ROW_TO_UNLOCK = "|cffcf0000" .. ALT_KEY_TEXT .. " + click para desbloquear
 L.TOY_DESC = "Haz click en este botón para seleccionar un juguete aleatorio basado en lo que te falta.";
 L.TOY_ID = "ID del Juguete";
 L.TOYS_CHECKBOX_TOOLTIP = "Activa esta opción para rastrar juguetes.\n\nLa mayoría de juguetes hacen algo divertido. Otros, como los juguetes de Piedra de Hogar, pueden usarse en vez de tu Piedra de Hogar y ahorrarte un hueco en tus bolsas! También tienen efectos interesantes ... Genial!";
-L.TRADING_POST = "Puesto de venta";
 L.TWITCH_BUTTON_TOOLTIP = "Haz click en este botón para copiar el enlace a mi canal de Twitch.\n\n¡Puedes preguntarme dudas cuando esté haciendo directos e intentaré responderte lo mejor que pueda!";
 L.UNCHECK_ALL_BUTTON_TOOLTIP = "Haz click en este botón para desactivar todas las opciones a la vez.";
 L.UNOBTAINABLE_LABEL = "Contenido no obtenible";
@@ -42326,7 +43179,6 @@ L.ZONE_DESC = "Haz click en este botón para seleccionar una zona aleatoria basa
 localize(_.CategoryNames, {
 	[2] = "Objeto Consumible",
 	[3] = "Naipe de Tarot",
-	[185] = "Lentes",
 });
 localize(L.HEADER_NAMES, {
 	[-19] = "Botín compartido entre los jefes",
@@ -42337,10 +43189,16 @@ localize(L.HEADER_NAMES, {
 	[-74] = "Dragones de pesadilla",
 	[-103] = "Evento de pre-expansion",
 	[-367] = "Defensores de Atal'ai",
+	[-723] = "Invasiones elementales",
+	[-727] = "Ancestros de los calabozos",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-44] = "Esta sección solo mostrará las profesiones de tu personaje actual fuera del modo Cuenta y Debug.",
 	[-59] = "Un maestro de armas es un PNJ que ofrece a los personajes la oportunidad de aprender habilidades específicas con armas, cuya disponibilidad varía de un maestro de armas a otro. Todas las habilidades con armas se pueden entrenar en el nivel 1, excepto las armas de asta que requieren el nivel 20.\n\nEl entrenamiento con un maestro de armas quedó obsoleto en el parche 4.0.1, ya que cada clase ahora aprende todas las competencias de armas apropiadas para la clase en el momento de la creación. Los maestros de armas se eliminaron del juego poco después.",
+	[-355] = "Se puede acceder a esta parte del calabozo desde el portal más al este. (lado derecho)",
+	[-356] = "Se puede acceder a esta parte del calabozo desde el portal más al norte.",
+	[-357] = "Se puede acceder a esta parte del calabozo desde el portal más al oeste. (lado izquierdo)",
+	[-723] = "Aumentan los informes de invasiones elementales en diferentes partes de Kalimdor. Cada pocos días, una nueva oleada de elementales se abre paso a la fuerza en las regiones de Silithus, el Cráter de Un'Goro, Azshara y Cuna del Invierno, aparentemente con el único propósito de ver hasta dónde pueden penetrar en estos territorios antes de ser repelidos por las fuerzas de la Horda o la Alianza. Investiga estas regiones y ayuda a tus aliados a contrarrestar estas misteriosas invasiones.",
 });
 for key,value in pairs({
 	[2] = "Removido del juego",
@@ -44118,9 +44976,14 @@ for key,value in pairs({
 	[8749] = "Ruinas de El Enclave Escarlata",
 	[8778] = "Draco abisal brutal",
 	[8779] = "Draco abisal brutal",
-	[8823] = "[DNT] Exalted with Darkmoon Faire",
-	[8824] = "[DNT] Exalted with Ravenholdt",
-	[8825] = "[DNT] Exalted with Shen'dralar",
+	[8818] = "Honorable con Bucaneros Velasangre",
+	[8819] = "Exaltado con Bahía del Botín",
+	[8820] = "Exaltado con Vista Eterna",
+	[8821] = "Exaltado con Gadgetzan",
+	[8822] = "Exaltado con Trinquete",
+	[8823] = "Exaltado con la Feria de la Luna Negra",
+	[8824] = "Exaltado con Ravenholdt",
+	[8825] = "Exaltado con los Shen'dralar",
 	[8893] = "Esencia del Señor del Fuego",
 	[8894] = "Coraza de conquistador",
 	[8895] = "Coraza del Vengador",
@@ -44159,11 +45022,6 @@ for key,value in pairs({
 	[13428] = "Exaltado con los Arúspices",
 	[17023] = "Exaltado con los Shen'dralar.",
 	[54579] = "Onyxia",
-	[58452] = "[DNT] Exalted with Gadgetzan",
-	[58453] = "[DNT] Exalted with Ratchet",
-	[58454] = "[DNT] Exalted with Booty Bay",
-	[58455] = "[DNT] Exalted with Everlook",
-	[58456] = "[DNT] Honored with Bloodsail Buccaneers",
 })
 do achievementCriterias[key].name = value; end
 end
@@ -44388,6 +45246,7 @@ L.DYNAMIC_CATEGORY_NESTED_TOOLTIP = "根据它们的确切来源生成动态类�
 L.DYNAMIC_CATEGORY_SIMPLE = "简单";
 L.DYNAMIC_CATEGORY_SIMPLE_TOOLTIP = "仅根据最高的类别生成动态类别。 ";
 L.DYNAMIC_CATEGORY_TOOLTIP_NOTE = "\n\n|cffff0000生成时应用|r";
+L.EAST = "东部";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX = "启用鼠标提示";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX_TOOLTIP = "如果希望在鼠标提示中查看 ATT 提供的信息，请启用此选项。这包括其他玩家发送的物品链接，在拍卖行、在地下城助手、在你的包里、在世界、在 NPC 等等。\n\n如果你关闭了这个功能，就会严重降低你快速判断是否需要击杀首领或学习外观的能力。\n\n我们建议你保持此设置。";
 L.ENABLED = "已启用";
@@ -44615,6 +45474,7 @@ L.NO_ENTRIES = "没有找到符合过滤条件的条目。";
 L.NO_ENTRIES_DESC = "如果认为这是错误的，请尝试激活'调试模式'。某个过滤条件可能会限制该组的可见性。";
 L.NO_LINKED_ACCOUNTS = "未找到链接帐号。";
 L.NO_SEARCH_METHOD = "未指定搜索方法。";
+L.NORTH = "北部";
 L.NOT_AVAILABLE_IN_PL = "在个人拾取中不可用。";
 L.NOT_COLLECTED = "|T" .. _.asset("unknown") .. ":0|t |cffff9333未收藏|r";
 L.NOT_DISPLAY_IN_COMBAT_NPCS_CHECKBOX = "排除 NPC";
@@ -44836,8 +45696,6 @@ L.SKIP_AUTO_REFRESH_TOOLTIP = "默认情况下(未勾选)，任何可能影响�
 L.SKIP_CUTSCENES_CHECKBOX = "自动跳过场景动画";
 L.SKIP_CUTSCENES_CHECKBOX_TOOLTIP = "如果想让 ATT 代表你自动跳过所有场景动画请启用此选项。";
 L.SOCIAL_PROGRESS = "社交进度";
-L.SOFT_RESERVES = "软保留";
-L.SOFT_RESERVES_DESCRIPTION = "这是由团队提交的软保留物品列表。该功能需由队长通过 ATT 插件管理。若队长未安装 ATT，则此功能无法生效。\n\n队长：未安装 ATT 的队员可私聊你“!sr <物品链接>”或“!sr <物品 ID>”来软保留某件物品。";
 L.SORT_BY_PROGRESS_CHECKBOX = "按进度排序";
 L.SORT_BY_PROGRESS_CHECKBOX_TOOLTIP = "如果你希望'排序'操作（" .. SHIFT_KEY_TEXT .. "右键）按每个组的总进度排序（而不是按名称）请启用此选项";
 L.SOULBINDCONDUITS_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t 导灵器";
@@ -44851,6 +45709,7 @@ L.SOURCELESS = "无来源";
 L.SOURCELESS_DESC = "这些物品已确认可获得，但目前尚不清楚其来源，甚至无法确定现在是否还能获得。";
 L.SOURCES = "来源";
 L.SOURCES_DESC = "显示这个东西的来源。\n\n特别是特定商人/NPC，任务，战斗，等等。";
+L.SOUTH = "南部";
 L.SPAWNED = "已生成";
 L.SPEC_CHECKBOX = "专精";
 L.SPEC_CHECKBOX_TOOLTIP = "启用该选项，可以在游戏客户端提供的物品鼠标提示中显示物品的战利品专精信息。\n\n注意：无论该设置如何，这些图标仍将出现在 ATT 小列表中。";
@@ -44923,7 +45782,6 @@ L.TOYS_CHECKBOX_TOOLTIP = "启用此选项可追踪玩具。\n\n这些玩具中�
 L.TRACK_ACC_WIDE = "|c" .. _.DefaultColors.Account .. "追踪 账号通用|r";
 L.TRACKING_PROGRESS = "追踪进度";
 L.TRADEABLE = "可交易";
-L.TRADING_POST = "商栈";
 L.TSM_WARNING_1 = "运行此命令可能会通过将物品重新分配到 ";
 L.TSM_WARNING_2 = " 预设。\n\n我们建议你在使用此功能时使用不同的配置文件。\n\n你还想继续吗?";
 L.TSM4_ERROR = "TSM4 尚未与 ATT 兼容。如果你知道如何像我们以前在 TSM3 中那样创建预设，请在 Discord 上告诉我！";
@@ -44951,6 +45809,7 @@ L.WARN_REMOVED_CHECKBOX = "移除事物触发警告";
 L.WARN_REMOVED_CHECKBOX_TOOLTIP = "如果你想在你不小心卖掉或交易一个给予你外观的物品从而导致收藏中失去该外观时听到警告的声音效果，请启用这个选项。\n\n如果你的商品有购买计时这可能非常有用。该插件会告诉你你犯了一个错误。";
 L.WAS_ADDED_BACK_WITH_PATCH_FORMAT = "最新补丁 %s 中添加回归";
 L.WAS_ADDED_WITH_PATCH_FORMAT = "最新补丁 %s 中添加";
+L.WEST = "西部";
 L.WINDOW_COLORS = "窗口颜色";
 L.WINDOWS_PAGE = "窗口";
 L.WITH_WRAPPING_CHECKBOX = "允许换行";
@@ -45007,9 +45866,6 @@ localize(L.HEADER_NAMES, {
 	[-343] = "赏金任务",
 	[-349] = "船长",
 	[-350] = "天启四骑士",
-	[-355] = DUNGEON_FLOOR_DIREMAUL5.." (东)",
-	[-356] = DUNGEON_FLOOR_DIREMAUL1.." (北)",
-	[-357] = DUNGEON_FLOOR_DIREMAUL2.." (西)",
 	[-361] = "墓地",
 	[-362] = "图书馆",
 	[-363] = "武器库",
@@ -45017,6 +45873,7 @@ localize(L.HEADER_NAMES, {
 	[-365] = "正门",
 	[-366] = "后门",
 	[-367] = "阿塔莱防御者",
+	[-398] = "幼鳞日托所",
 	[-481] = "安其拉之战捐献",
 	[-482] = "开启黑暗之门",
 	[-483] = "流沙节杖",
@@ -45041,6 +45898,11 @@ localize(L.HEADER_NAMES, {
 	[-588] = "荆棘谷钓鱼大赛",
 	[-611] = "安其拉三宝",
 	[-694] = "'燃烧的远征'周年纪念版 - 外域升级",
+	[-724] = "东部王国的长者",
+	[-725] = "卡利姆多的长者",
+	[-726] = "联盟的长者",
+	[-727] = "地下城中的长者",
+	[-728] = "部落的长者",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-25] = "术士可以教导他们的恶魔新技能，一些高等级的魔典只能从你阵营首都的恶魔训练师那里购买。",
@@ -45230,6 +46092,7 @@ localize(ObjectNames, {
 	[3643] = "旧提箱",
 	[3644] = "巴尔莫丹飞行器",
 	[3685] = "异种蝎土丘",
+	[3714] = "联盟保险箱",
 	[3724] = "宁神花",
 	[3725] = "银叶草",
 	[3726] = "地根草",
@@ -45359,7 +46222,9 @@ localize(ObjectNames, {
 	[112948] = "保险箱",
 	[113757] = "暗影熔炉地窖",
 	[113768] = "复活节彩蛋",
+	[121264] = "卢修斯的箱子",
 	[123329] = "巴尔洛戈的箱子",
+	[123330] = "海盗的保险箱",
 	[123462] = "南海宝珠",
 	[123848] = "软泥覆盖的瑟银矿脉",
 	[125477] = "显眼的石罐",
@@ -45630,6 +46495,12 @@ localize(ObjectNames, {
 	[178553] = "亚什虫茧",
 	[178609] = "节日大雪",
 	[179485] = "损坏的陷阱",
+	[179486] = "破碎的提箱",
+	[179487] = "浸水的提箱",
+	[179488] = "破碎的提箱",
+	[179491] = "浸水的提箱",
+	[179496] = "被砸过的箱子",
+	[179498] = "血色十字军提箱",
 	[179499] = "食人魔鞣酸篮",
 	[179501] = "诺特·希姆加克的储物箱",
 	[179516] = "芬古斯的箱子",
@@ -45854,6 +46725,9 @@ localize(ObjectNames, {
 	[183877] = "虚灵传送器控制台",
 	[183934] = "切割机零件",
 	[183935] = "魔能机甲零件",
+	[183936] = "曼尼的牢笼",
+	[183940] = "莫恩的牢笼",
+	[183941] = "雅克的牢笼",
 	[183945] = "能量隔离器",
 	[184031] = "一箱测量装置",
 	[184121] = "克拉苏斯的魔法纲要 - 第一章",
@@ -45880,6 +46754,7 @@ localize(ObjectNames, {
 	[184726] = "雷神氏族战鼓",
 	[184727] = "雷神氏族箭矢",
 	[184740] = "柳条箱",
+	[184741] = "凹陷的提箱",
 	[184744] = "塔卡里的水烟袋",
 	[184793] = "粗糙的箱子",
 	[184795] = "腐烂的鸦人之卵",
@@ -45888,6 +46763,7 @@ localize(ObjectNames, {
 	[184860] = "魔能机甲外壳",
 	[184869] = "巴尔里石板碎块",
 	[184870] = "巴尔里石板碎块",
+	[184906] = "能量转化器",
 	[184945] = "通缉布告",
 	[184946] = "通缉布告",
 	[184947] = "博士的保险箱",
@@ -48325,9 +49201,14 @@ for key,value in pairs({
 	[8749] = "血色领地废墟",
 	[8778] = "野蛮角斗士的虚空幼龙",
 	[8779] = "野蛮角斗士的虚空幼龙",
-	[8823] = "[DNT] Exalted with Darkmoon Faire",
-	[8824] = "[DNT] Exalted with Ravenholdt",
-	[8825] = "[DNT] Exalted with Shen'dralar",
+	[8818] = "在血帆海盗的声望达到尊敬",
+	[8819] = "藏宝海湾崇拜",
+	[8820] = "永望镇崇拜",
+	[8821] = "加基森崇拜",
+	[8822] = "棘齿城崇拜",
+	[8823] = "暗月马戏团崇拜",
+	[8824] = "拉文霍德崇拜",
+	[8825] = "辛德拉崇拜",
 	[8893] = "火焰之王的精华",
 	[8894] = "胜利者胸甲",
 	[8895] = "复仇者的胸甲",
@@ -48366,11 +49247,6 @@ for key,value in pairs({
 	[13428] = "占星者崇拜",
 	[17023] = "辛德拉崇拜",
 	[54579] = "奥妮克希亚",
-	[58452] = "[DNT] Exalted with Gadgetzan",
-	[58453] = "[DNT] Exalted with Ratchet",
-	[58454] = "[DNT] Exalted with Booty Bay",
-	[58455] = "[DNT] Exalted with Everlook",
-	[58456] = "[DNT] Honored with Bloodsail Buccaneers",
 })
 do achievementCriterias[key].name = value; end
 if GetLocale():sub(3,4):lower() == "tw" then
@@ -48552,6 +49428,7 @@ L.DYNAMIC_CATEGORY_NESTED_TOOLTIP = "依據它們的確切來源生成動態類�
 L.DYNAMIC_CATEGORY_SIMPLE = "簡單";
 L.DYNAMIC_CATEGORY_SIMPLE_TOOLTIP = "僅依據最高的類別生成動態類別。 ";
 L.DYNAMIC_CATEGORY_TOOLTIP_NOTE = "\n\n|cffff0000生成時套用|r";
+L.EAST = "東部";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX = "啟用指標提示";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX_TOOLTIP = "如果希望在指標提示中查看 ATT 提供的資訊，請啟用此選項。這包括其他玩家發送的物品連接，在拍賣行、在地城助手、在你的背包裡、在世界、在 NPC 等等。\n\n如果你關閉了這個功能，就會嚴重降低你快速判斷是否需要擊殺首領或學習外觀的能力。\n\n我們建議你保持此設定。";
 L.ENCOUNTER_ID = "首領戰鬥 ID";
@@ -48931,7 +49808,6 @@ L.SKIP_AUTO_REFRESH_TOOLTIP = "預設情況下(未勾選)，任何可能影響�
 L.SKIP_CUTSCENES_CHECKBOX = "自動跳過過場動畫";
 L.SKIP_CUTSCENES_CHECKBOX_TOOLTIP = "如果想讓 ATT 代替你自動跳過所有過場動畫請啟用此選項。";
 L.SOCIAL_PROGRESS = "社交進度";
-L.SOFT_RESERVES = "軟保留";
 L.SORT_BY_PROGRESS_CHECKBOX = "按進度排序";
 L.SORT_BY_PROGRESS_CHECKBOX_TOOLTIP = "如果你希望'排序'操作（" .. SHIFT_KEY_TEXT .. "右鍵）按每個組的總進度排序（而不是按名稱）請啟用此選項";
 L.SOULBINDCONDUITS_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t 導靈器";
@@ -49005,7 +49881,6 @@ L.TOY_DESC = "點擊此按鈕可依據缺少的內容選擇隨機玩具。";
 L.TOYS_CHECKBOX_TOOLTIP = "啟用此選項可追蹤玩具。\n\n這些玩具中的大多數玩具都有趣。其他的，如爐石玩具，可以用來代替你的初始爐石，並可以為你節省一個背包！他們也有有趣的效果…很好！";
 L.TRACK_ACC_WIDE = "|c" .. _.DefaultColors.Account .. "追蹤 帳號共通|r";
 L.TRACKING_PROGRESS = "追蹤進度";
-L.TRADING_POST = "貿易站";
 L.TSM_WARNING_1 = "執行此命令可能會通過將物品重新分配到 ";
 L.TSM_WARNING_2 = " 預設。\n\n我們建議你在使用此功能時使用不同的設定檔。\n\n你還想繼續嗎?";
 L.TSM4_ERROR = "TSM4 尚未與 ATT 相容。如果你知道如何像我們以前在 TSM3 中那樣創建預設，請在 Discord 上告訴我！";
@@ -49072,7 +49947,6 @@ localize(L.HEADER_NAMES, {
 	[-341] = "共享外觀",
 	[-342] = "獨特外觀",
 	[-350] = "四騎士",
-	[-355] = DUNGEON_FLOOR_DIREMAUL5.." (東)",
 	[-362] = "圖書館",
 	[-363] = "武器庫",
 	[-365] = "主門",
@@ -49099,6 +49973,11 @@ localize(L.HEADER_NAMES, {
 	[-588] = "荊棘谷釣魚大賽",
 	[-611] = "異種蠍皇族",
 	[-694] = "燃燒的遠征：經典週年紀念版 - 外域升級",
+	[-724] = "東部王國的長者",
+	[-725] = "卡林多的長者",
+	[-726] = "聯盟的長者",
+	[-727] = "地城中的長者",
+	[-728] = "部落的長者",
 });
 localize(L.HEADER_DESCRIPTIONS, {
 	[-25] = "術士可以教導他們的惡魔新技能，一些高等級的魔典只能從你陣營首都的惡魔訓練師那裡購買。",
@@ -51458,9 +52337,14 @@ for key,value in pairs({
 	[8749] = "血色領區廢墟",
 	[8778] = "野蠻虛空龍",
 	[8779] = "野蠻虛空龍",
-	[8823] = "[DNT] Exalted with Darkmoon Faire",
-	[8824] = "[DNT] Exalted with Ravenholdt",
-	[8825] = "[DNT] Exalted with Shen'dralar",
+	[8818] = "血帆海盜尊敬",
+	[8819] = "藏寶海灣崇拜",
+	[8820] = "永望鎮崇拜",
+	[8821] = "加基森崇拜",
+	[8822] = "棘齒城崇拜",
+	[8823] = "暗月馬戲團崇拜",
+	[8824] = "拉文霍德崇拜",
+	[8825] = "辛德拉崇拜",
 	[8893] = "炎魔的精華",
 	[8894] = "征服者的胸甲",
 	[8895] = "復仇者的胸甲",
@@ -51499,11 +52383,6 @@ for key,value in pairs({
 	[13428] = "占卜者崇拜",
 	[17023] = "辛德拉崇拜。",
 	[54579] = "奧妮克希亞",
-	[58452] = "[DNT] Exalted with Gadgetzan",
-	[58453] = "[DNT] Exalted with Ratchet",
-	[58454] = "[DNT] Exalted with Booty Bay",
-	[58455] = "[DNT] Exalted with Everlook",
-	[58456] = "[DNT] Honored with Bloodsail Buccaneers",
 })
 do achievementCriterias[key].name = value; end
 end

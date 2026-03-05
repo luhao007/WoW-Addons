@@ -1,11 +1,17 @@
 @cont1nuity:
-- Adding 'Blizzard Nameplate' type aura filter which copies blizzard nameplate behavior.
-- General improvements and compatibility for Midnight.
-- Improvements for aura filters, aura colors and Buff Special in Midnight.
-- Basic absorb shield implemtation.
-- Fixed some errors related to non-retal game versions.
-- Fixed an issue with tank role recognition in classic game versions.
-- Fixed aura sorting for Midnight.
-- Added option for health bar animation in Midnight.
-- Switched to 'Max width' for certain texts to cut off at the set width of the text.
+- Fixing font override options not working correctly.
+- Hiding unneeded or disabled options.
+- Hiding Friendly NPCs healthbars works in dungeons now.
+- Blizard font override is working now.
+- Fixing an issue with now secret soft-interact information.
+- Removing several no longer used options for Midnight from the options panel.
+- Fixing an issue with tank recognition in TBC.
+- Fixing some color refresh issues.
+- Adding option to select the execute range alpha value.
+- Adding option for 'Empowered' cast color.
+- The 'Only Damaged' option for friendly players is no longer available in Midnight.
+- Fixing Midnight CC aura tracking filter option.
+
+@Terciob:
+- Additions and fixes for the Designer.
 

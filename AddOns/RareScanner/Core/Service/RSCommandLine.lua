@@ -24,9 +24,6 @@ local RSCustomNpcs = private.ImportLib("RareScannerCustomNpcs")
 local RSProvider = private.ImportLib("RareScannerProvider")
 local RSMinimap = private.ImportLib("RareScannerMinimap")
 
--- RareScanner other addons integration services
-local RSTomtom = private.ImportLib("RareScannerTomtom")
-
 ---============================================================================
 -- Command line options
 ---============================================================================
@@ -88,12 +85,7 @@ function RSCommandLine.SlashCommand(command, ...)
 		RSCommandLine.CmdToggleScanningWorldmapVignettes()
 	elseif (RSUtils.Contains(command, RSConstants.CMD_TOMTOM_WAYPOINT)) then
 		local _, mapID, x, y, name = strsplit(";", command)
-		if (RSConfigDB.IsTomtomSupportEnabled() and not RSConfigDB.IsAddingTomtomWaypointsAutomatically()) then
-			RSTomtom.AddTomtomWaypoint(mapID, x, y, name)
-		end
-		if (RSConfigDB.IsWaypointsSupportEnabled() and not RSConfigDB.IsAddingWaypointsAutomatically()) then
-			RSWaypoints.AddWaypoint(mapID, x, y, name)
-		end
+		RSWaypoints.AddAutomaticWaypoint(mapID, x, y, name)
 	elseif (RSUtils.Contains(command, RSConstants.CMD_RECENTLY_SEEN)) then
 		local _, entityID, mapID, x, y = strsplit(";", command)
 		RSRecentlySeenTracker.AddPendingAnimation(tonumber(entityID), mapID, x, y, true)

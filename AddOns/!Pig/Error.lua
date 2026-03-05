@@ -242,6 +242,8 @@ function Bugcollect:qingkongERR()
 	Bugcollect.NR.textArea:SetText("")
 end
 ----------------------
+local PIGGetAddOnMetadata=GetAddOnMetadata or C_AddOns and C_AddOns.GetAddOnMetadata
+local VersionTXT=PIGGetAddOnMetadata(addonName, "Version")
 function Bugcollect.UpdateErrorUI(id)
 	if Bugcollect:IsShown() then
 		Bugcollect:qingkongERR()
@@ -273,9 +275,9 @@ function Bugcollect.UpdateErrorUI(id)
 		Bugcollect.Moving.Time:SetText(date("%Y/%m/%d %H:%M:%S",time));
 		Bugcollect.biaoti:SetText(id.."/"..errornum);
 		if cuowushu>1 then
-			Bugcollect.NR.textArea:SetText("["..tocversion.."] "..cuowushu.."× "..msg.."\r")
+			Bugcollect.NR.textArea:SetText("["..tocversion.."-"..VersionTXT.."] "..cuowushu.."× "..msg.."\r")
 		else
-			Bugcollect.NR.textArea:SetText("["..tocversion.."] "..msg.."\r")
+			Bugcollect.NR.textArea:SetText("["..tocversion.."-"..VersionTXT.."] "..msg.."\r")
 		end
 		Bugcollect.NR.textArea:Insert(stack.."\r");
 		Bugcollect.NR.textArea:Insert(logrizhi);

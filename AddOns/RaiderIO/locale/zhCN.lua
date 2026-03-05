@@ -464,8 +464,6 @@ L["RAID_BOSS_VOTI_6"] = "库洛洛·恐怖图腾"
 L["RAID_BOSS_VOTI_7"] = "巢穴守护者迪乌尔娜"
 L["RAID_BOSS_VOTI_8"] = "莱萨杰丝，噬雷之龙"
 --[[Translation missing --]]
---[[ L["RAID_BOSS_VS_1"] = ""--]] 
---[[Translation missing --]]
 --[[ L["RAID_BOSS_VS_2"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["RAID_BOSS_VS_3"] = ""--]] 
@@ -475,6 +473,24 @@ L["RAID_BOSS_VOTI_8"] = "莱萨杰丝，噬雷之龙"
 --[[ L["RAID_BOSS_VS_5"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["RAID_BOSS_VS_6"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_1"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_2"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_3"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_4"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_5"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_6"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_7"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_8"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_9"] = ""--]] 
 L["RAID_BOT"] = "暮光堡垒"
 L["RAID_BRD"] = "黑石深渊"
 L["RAID_BWD"] = "黑翼血环"
@@ -513,6 +529,8 @@ L["RAID_TOES"] = "永春台"
 L["RAID_TOTFW"] = "风神王座"
 --[[Translation missing --]]
 --[[ L["RAID_VS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_VS_DR_MQD"] = ""--]] 
 L["RAIDERIO_AVERAGE_PLAYER_SCORE"] = "能限时%s层的平均分数"
 L["RAIDERIO_BEST_RUN"] = "大秘境最佳成绩"
 L["RAIDERIO_CLIENT_CUSTOMIZATION"] = "Raider.IO客户端个性化设置"

@@ -57,24 +57,38 @@ function ns.ShowLoginChangelogWindow()
     end)
     LoginChangeLogFrame.scrollFrame:SetScrollChild(content)
     LoginChangeLogFrame.checkbox = CreateFrame("CheckButton", nil, LoginChangeLogFrame, "ChatConfigCheckButtonTemplate")
-    LoginChangeLogFrame.checkbox:SetPoint("BOTTOMLEFT", 10, 10)
-    LoginChangeLogFrame.checkbox.Text:SetText("|cffff0000" .. L["Do not show again until next version"])
+    LoginChangeLogFrame.checkbox:SetPoint("BOTTOMLEFT", 15, 13)
+    LoginChangeLogFrame.checkbox.Text:SetText("|cffffff00" .. L["Do not show again until next version"])
     LoginChangeLogFrame.closeButton = CreateFrame("Button", nil, LoginChangeLogFrame, "GameMenuButtonTemplate")
     LoginChangeLogFrame.closeButton:SetPoint("BOTTOMRIGHT", -10, -10)
     LoginChangeLogFrame.closeButton:SetSize(100, 25)
     LoginChangeLogFrame.closeButton:SetText(CLOSE)
+
+    LoginChangeLogFrame.permanentCheckbox = CreateFrame("CheckButton", nil, LoginChangeLogFrame, "ChatConfigCheckButtonTemplate")
+    LoginChangeLogFrame.permanentCheckbox:SetPoint("BOTTOMRIGHT", -300, 13)
+    LoginChangeLogFrame.permanentCheckbox.Text:SetText("|cffff0000" .. L["permanently hide changelog"])
+    LoginChangeLogFrame.permanentCheckbox:SetChecked(ns.Addon.db.global.hideChangeLogPermanently)
 
     LoginChangeLogFrame.closeButton:SetScript("OnClick", function()
       if LoginChangeLogFrame.checkbox:GetChecked() then
         HandyNotes_MapNotesRetailChangelogDB.lastChangelogVersion = ns.PreviousAddonVersion
         print(ns.COLORED_ADDON_NAME .. " " .. (ns.CHANGE_LOG_CONFIRMED[ns.locale] or ns.CHANGE_LOG_CONFIRMED.enUS))
       end
+
+      if LoginChangeLogFrame.permanentCheckbox:GetChecked() then
+        ns.Addon.db.global.hideChangeLogPermanently = true
+      end
+
       LoginChangeLogFrame:Hide()
     end)
 
     LoginChangeLogFrame:SetScript("OnHide", function()
       if LoginChangeLogFrame.checkbox:GetChecked() then
         HandyNotes_MapNotesRetailChangelogDB.lastChangelogVersion = ns.PreviousAddonVersion
+      end
+
+      if LoginChangeLogFrame.permanentCheckbox:GetChecked() then
+        ns.Addon.db.global.hideChangeLogPermanently = true
       end
     end)
 
@@ -150,23 +164,25 @@ function ns.ShowMenuChangelogWindow()
   table.insert(UISpecialFrames, "MapNotesChangelogFrameMenu")
 end
 
-local DBFrame = CreateFrame("Frame")
-DBFrame:RegisterEvent("ADDON_LOADED")
-DBFrame:SetScript("OnEvent", function(_, event, addonName)
-  if addonName == "HandyNotes_MapNotes" then
-    if not HandyNotes_MapNotesRetailChangelogDB then
-      HandyNotes_MapNotesRetailChangelogDB = {}
-    end
+function ns.CheckRetailChangelog()
 
-    if not HandyNotes_MapNotesRetailChangelogDB.lastChangelogVersion then
-      HandyNotes_MapNotesRetailChangelogDB.lastChangelogVersion = ns.PreviousAddonVersion
-    end
+  if not HandyNotes_MapNotesRetailChangelogDB then
+    HandyNotes_MapNotesRetailChangelogDB = {}
+  end
 
-    if HandyNotes_MapNotesRetailChangelogDB.lastChangelogVersion ~= ns.PreviousAddonVersion then
+  if not HandyNotes_MapNotesRetailChangelogDB.lastChangelogVersion then
+    HandyNotes_MapNotesRetailChangelogDB.lastChangelogVersion = ns.PreviousAddonVersion
+    return
+  end
+
+  if HandyNotes_MapNotesRetailChangelogDB.lastChangelogVersion ~= ns.PreviousAddonVersion then
+
+    if not ns.Addon.db.global.hideChangeLogPermanently then
       ns.ShowLoginChangelogWindow()
     end
+
   end
-end)
+end
 
 local function MN_GetLocaleText(localeTable)
   if type(localeTable) ~= "table" then return "" end

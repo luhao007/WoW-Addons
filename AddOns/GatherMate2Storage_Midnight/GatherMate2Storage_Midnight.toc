@@ -1,0 +1,24 @@
+## Interface: 120001
+## Author: nevcairiel
+## Version: 1.52.0
+
+## Title: GatherMate2: Storage for Midnight
+## Title-zhCN: |cFFFFE00A<|r|cFF0070DE专业|r|cFFFFE00A>|r|cFFFFFFFF采集助手|r |cFF69CCF0数据|r |cFF22B14C至暗之夜|r
+## Notes-zhCN: 分离存储至暗之夜的采集数据
+
+## IconTexture: Interface\AddOns\GatherMate2\Artwork\Icon.tga
+
+## Category-zhCN: |cFFFFE00A<|r|cFF0070DE专业|r|cFFFFE00A>|r
+## Group: GatherMate2
+
+## Dependencies: GatherMate2
+
+## LoadSavedVariablesFirst: 1
+## SavedVariables: GatherMate2HerbDBMN, GatherMate2MineDBMN, GatherMate2FishDBMN, GatherMate2GasDBMN, GatherMate2TreasureDBMN, GatherMate2ArchaeologyDBMN, GatherMate2LoggingDBMN
+
+## X-Category: Map
+## X-GM2-Storage-Tag: MN
+## X-GM2-Storage-Zones: 2393, 2395, 2405, 2413, 2437
+## X-Part-Of: GatherMate2
+
+..\GatherMate2\LoadAddOnStorage.lua

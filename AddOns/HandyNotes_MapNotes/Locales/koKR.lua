@@ -2,6 +2,8 @@
 local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "koKR")
 if not L then return end
 
+-- new
+L["to interact with the icon"] = "이 아이콘과 상호작용하려면"
 -- blizzard minimap icons
 L["Blizzard Icons"] = "블리자드 아이콘"
 L["The Blizzard settings configured by the player are restored"] = "플레이어가 설정한 블리자드 설정이 복원됩니다"
@@ -46,6 +48,8 @@ L["Changelog"] = "변경 사항"
 L["Last Changelog"] = "최근 변경 사항"
 L["Show MapNotes Changelog again"] = "MapNotes 변경 사항 다시 보기"
 L["Do not show again until next version"] = "다음 버전까지 다시 표시하지 않기"
+L["permanently hide changelog"] = "변경 기록을 영구적으로 숨기기"
+L["Permanently hides the changelog, not just until the next addon update"] = "다음 애드온 업데이트까지만이 아니라 변경 기록을 영구적으로 숨깁니다"
 -- SwapButtons
 L["In addition to the Right mouse button, the shift key must now also be pressed to set a waypoint"] = "우클릭 외에도 Shift 키를 눌러야 웨이포인트를 설정할 수 있습니다"
 L["In addition to the Left mouse button, the shift key must now also be pressed to set a waypoint"] = "좌클릭 외에도 Shift 키를 눌러야 웨이포인트를 설정할 수 있습니다"

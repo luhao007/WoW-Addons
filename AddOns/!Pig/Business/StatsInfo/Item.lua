@@ -20,7 +20,6 @@ local GetEquipmTXT=Fun.GetEquipmTXT
 local GetRuneData=Fun.GetRuneData
 local GetItemLinkJJ=Fun.GetItemLinkJJ
 local HY_ItemLinkJJ=Fun.HY_ItemLinkJJ
-local _GetTooltipLevel=Fun._GetTooltipLevel
 --------
 local GetContainerNumSlots = GetContainerNumSlots or C_Container and C_Container.GetContainerNumSlots
 local GetContainerItemLink = GetContainerItemLink or C_Container and C_Container.GetContainerItemLink
@@ -28,7 +27,7 @@ local GetItemInfo=GetItemInfo or C_Item and C_Item.GetItemInfo
 local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 -----------
 local BusinessInfo=addonTable.BusinessInfo
-function BusinessInfo.Item(StatsInfo)
+function BusinessInfo.Item(StatsInfo,peizhiList)
 	local BagdangeW=bagData.ItemWH-10
 	local fujiF,fujiTabBut=PIGOptionsList_R(StatsInfo.F,"物\n品",StatsInfo.butW,"Left")
 	---
@@ -39,6 +38,12 @@ function BusinessInfo.Item(StatsInfo)
 	fujiF.List:SetPoint("BOTTOMLEFT",fujiF,"BOTTOMLEFT",0,0);
 	fujiF.SelectName=nil
 	---
+	local morenitem={"BAG","BANK","MAIL","C","T","G","R","GUILD"}
+	for i=1,#morenitem do
+		if not PIGA["StatsInfo"]["Items"][StatsInfo.allname][morenitem[i]] then
+			PIGA["StatsInfo"]["Items"][StatsInfo.allname][morenitem[i]]={}
+		end
+	end
 	local lixianNum,meihang=(#bagData["bankID"])*MAX_CONTAINER_ITEMS+bagData["bankmun"],20
 	local hang_Height,hang_NUM  = StatsInfo.hang_Height-2.9, 14;
 	local toptablist = {{"BANK","银行"},{"BAG","背包"},{"MAIL","邮箱"}}
@@ -51,8 +56,7 @@ function BusinessInfo.Item(StatsInfo)
 		for i=1,lixianNum do
 			local itemBut=fujiF.ItemList.BOTTOM.listbut[i]
 			itemBut:Hide()
-			itemBut.Num:Hide()
-			itemBut.LV:SetText("");
+			itemBut.count:Hide()
 		end
 		if fujiF.SelectName then
 			fujiF.ItemList.err:Hide()
@@ -61,7 +65,7 @@ function BusinessInfo.Item(StatsInfo)
 			for i=1,#lixiandata do
 				local itemBut=fujiF.ItemList.BOTTOM.listbut[i]
 				itemBut:Show()
-				itemBut.Num:SetText(lixiandata[i][2])
+				itemBut.count:SetText(lixiandata[i][2])
 				itemBut.itemID=lixiandata[i][3]
 				Fun.HY_ShowItemLink(itemBut,lixiandata[i][3],lixiandata[i][1])
 			end
@@ -214,37 +218,13 @@ function BusinessInfo.Item(StatsInfo)
 				itemBut:SetPoint("LEFT",fujiF.ItemList.BOTTOM.listbut[i-1],"RIGHT",1,0);
 			end
 		end
-		itemBut.ranse = itemBut:CreateTexture(nil, "OVERLAY");
-	    itemBut.ranse:SetTexture("Interface/Buttons/UI-ActionButton-Border");
-	    itemBut.ranse:SetBlendMode("ADD");
-	    itemBut.ranse:SetPoint("TOPLEFT", itemBut, "TOPLEFT", -11,12);
-	    itemBut.ranse:SetPoint("BOTTOMRIGHT", itemBut, "BOTTOMRIGHT", 12,-11);
-	    itemBut.ranse:Hide()
-		itemBut.LV = PIGFontString(itemBut,{"TOPLEFT", itemBut, "TOPLEFT", 0,0},nil,"OUTLINE")
-		itemBut.LV:SetTextColor(0, 1, 1, 1);
-		itemBut.Num =PIGFontString(itemBut,{"BOTTOMRIGHT", itemBut, "BOTTOMRIGHT", -4,2},nil,"OUTLINE")
-		itemBut.Num:SetTextColor(1, 1, 1, 1);
+		itemBut.count =PIGFontString(itemBut,{"BOTTOMRIGHT", itemBut, "BOTTOMRIGHT", 0,1},nil,"OUTLINE",13.4)
+		itemBut.count:SetTextColor(1, 1, 1, 1);
 		function itemBut:ShowInfoFun(itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, sellPrice, classID, subclassID)
 			self.itemLink=itemLink
 			SetItemButtonTexture(self, itemTexture)
-			if itemStackCount>1 then itemBut.Num:Show() end
-			if self.LV then
-				if classID==2 or classID==4 then
-					_GetTooltipLevel("link",{itemLink},function(ItemLevel)
-						self.LV:SetText(ItemLevel)
-					end)
-				end
-			end
-			if self.ranse then
-				self.ranse:Hide()
-				if itemQuality and itemQuality>1 then
-					if classID==2 or classID==4 then
-						local r, g, b, hex = GetItemQualityColor(itemQuality)
-						self.ranse:SetVertexColor(r, g, b);
-						self.ranse:Show()
-					end
-				end
-			end
+			if itemStackCount>1 then itemBut.count:Show() end
+			Fun.Update_ItemButtonZLVranse("L",self,itemLink,itemQuality)
 		end
 		itemBut:SetScript("OnEnter", function (self)
 			GameTooltip:ClearLines();

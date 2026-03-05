@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: Breen
-## Version: 2.60.0
+## Version: 2.61.0
 
 ## Title: BtWQuests
 ## Title-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r|cFFFFFFFF任务流程图|r |cFFFFE00ABtWQuests|r

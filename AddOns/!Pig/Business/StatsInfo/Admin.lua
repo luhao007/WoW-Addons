@@ -11,8 +11,8 @@ local PIGFontString=Create.PIGFontString
 local PIGOptionsList_R=Create.PIGOptionsList_R
 --------
 local BusinessInfo=addonTable.BusinessInfo
-function BusinessInfo.Admin(StatsInfo)
-	local fujiF,fujiTabBut=PIGOptionsList_R(StatsInfo.F,"角\n色",StatsInfo.butW,"Left")
+function BusinessInfo.Admin(StatsInfo,peizhiList)
+	local fujiF,fujiTabBut=PIGOptionsList_R(StatsInfo.F,"管\n理",StatsInfo.butW,"Left")
 	fujiF:HookScript("OnShow", function(self)
 		self.add_uifun()
 		fujiF.gengxin_List(self.Admin.Scroll);
@@ -25,7 +25,7 @@ function BusinessInfo.Admin(StatsInfo)
 		fujiF.Admin:SetPoint("TOPLEFT",fujiF,"TOPLEFT",2,-2);
 		fujiF.Admin:SetPoint("BOTTOMLEFT",fujiF,"BOTTOMLEFT",0,2);
 		fujiF.Admin:SetWidth(UIWWW-20)
-		fujiF.Admin.title = PIGFontString(fujiF.Admin,{"TOPLEFT", fujiF.Admin, "TOPLEFT", 4, -4},SHOW..CHARACTER)
+		fujiF.Admin.title = PIGFontString(fujiF.Admin,{"TOPLEFT", fujiF.Admin, "TOPLEFT", 4, -4},SHOW..CHARACTER.."(隐藏后才能删除)")
 		fujiF.Admin.title:SetTextColor(0, 1, 0, 1);
 		fujiF.Admin.lineTOP = PIGLine(fujiF.Admin,"TOP",-24,nil,nil,{0.3,0.3,0.3,0.8})
 
@@ -115,12 +115,7 @@ function BusinessInfo.Admin(StatsInfo)
 			hang.nameDQ:SetTexture("interface/common/indicator-green.blp")
 			hang.nameDQ:SetPoint("LEFT", hang.name, "RIGHT", 1,0);
 			hang.nameDQ:SetSize(hang_Height-2,hang_Height-2);
-			hang.del=PIGDiyBut(hang,{"RIGHT", hang, "RIGHT", 0,0},{hang_Height-6})
-			hang.del:SetScript("OnClick", function (self)
-				local wanjianame = self:GetParent().allname
-				fujiF.caozuoshuaxin("del",wanjianame)
-			end);
-			hang.hide = PIGButton(hang,{"RIGHT", hang.del, "LEFT", -8,0},{hang_Height*2,hang_Height-4},HIDE);
+			hang.hide = PIGButton(hang,{"RIGHT", hang, "RIGHT", 0,0},{hang_Height*2,hang_Height-4},HIDE);
 			hang.hide:SetScript("OnClick", function (self)
 				local wanjianame = self:GetParent().allname
 				fujiF.caozuoshuaxin("hide",wanjianame)
@@ -232,6 +227,21 @@ function BusinessInfo.Admin(StatsInfo)
 			end);
 		end
 		------------
+		function StatsInfo:Del_DataInfo(ly,name)
+			if ly=="del" then
+				PIGA["StatsInfo"]["Players"][name]=nil
+				PIGA["StatsInfo"]["PlayerSH"][name]=nil
+				for k,v in pairs(peizhiList) do
+					if v=="name" then
+						PIGA["StatsInfo"][k][name]= nil
+					end
+				end		
+			elseif ly=="hide" then
+				PIGA["StatsInfo"]["PlayerSH"][name]=true
+			elseif ly=="show" then
+				PIGA["StatsInfo"]["PlayerSH"][name]=nil
+			end
+		end
 		function fujiF.caozuoshuaxin(ly,name)
 			StatsInfo:Del_DataInfo(ly,name)
 			fujiF.gengxin_List(fujiF.Admin.Scroll);

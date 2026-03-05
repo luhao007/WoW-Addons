@@ -829,7 +829,7 @@ function TitanLDBCreateObject(self, name_str, obj)
 		-- This works because the .registry is now set
 		TitanUtils_RegisterPluginList()
 		TitanVariables_SyncSinglePluginSettings(registry.id)
-		TitanPanel_InitPanelButtons() -- Show it...
+		TitanPanel_InitPanelButtons("LDB post create : "..registry.id) -- Show it...
 	end
 	Titan_Debug.Out('titan', 'ldb_setup', "LDB create"
 		.. " " .. tostring(pew) .. ""

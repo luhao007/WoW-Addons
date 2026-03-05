@@ -29,7 +29,6 @@ local RSEventPOI = private.ImportLib("RareScannerEventPOI")
 local RSTooltip = private.ImportLib("RareScannerTooltip")
 local RSProvider = private.ImportLib("RareScannerProvider")
 local RSMinimap = private.ImportLib("RareScannerMinimap")
-local RSTomtom = private.ImportLib("RareScannerTomtom")
 local RSWaypoints = private.ImportLib("RareScannerWaypoints")
 
 -- Types
@@ -39,25 +38,29 @@ local EVENT_TYPE = "3";
 
 local pin = {}
 
-function RSHyperlinks.GetEntityHyperLink(entityID, name)
-	-- NPC
-	local alreadyFound = RSGeneralDB.GetAlreadyFoundEntity(entityID)
-	
-	-- Avoid weird error if the database isn't recorded fast enough
-	if (not alreadyFound) then
-		return
-	end
-	
+function RSHyperlinks.GetEntityHyperLink(entityID, name)	
 	if (RSNpcDB.GetInternalNpcInfo(entityID)) then
 		local npcName = name and name or RSNpcDB.GetNpcName(entityID)
+		local alreadyFound = RSGeneralDB.GetAlreadyFoundEntity(entityID, RSConstants.NPC_VIGNETTE)
+		if (not alreadyFound) then
+			return
+		end
 		return string.format("|cff%s|Haddon:RareScanner:%s:%s:%s:%s:%s:%s|h[%s]|h|r", RSConfigDB.GetChatLinkColorNpc(), NPC_TYPE, entityID, alreadyFound.mapID, RSUtils.FixCoord(alreadyFound.coordX), RSUtils.FixCoord(alreadyFound.coordY), alreadyFound.foundTime, npcName)
 	-- Container
 	elseif (RSContainerDB.GetInternalContainerInfo(entityID)) then
 		local containerName = name and name or RSContainerDB.GetContainerName(entityID)
+		local alreadyFound = RSGeneralDB.GetAlreadyFoundEntity(entityID, RSConstants.CONTAINER_VIGNETTE)
+		if (not alreadyFound) then
+			return
+		end
 		return string.format("|cff%s|Haddon:RareScanner:%s:%s:%s:%s:%s:%s|h[%s]|h|r", RSConfigDB.GetChatLinkColorContainer(), CONTAINER_TYPE, entityID, alreadyFound.mapID, RSUtils.FixCoord(alreadyFound.coordX), RSUtils.FixCoord(alreadyFound.coordY), alreadyFound.foundTime, containerName)
 	-- Event
 	elseif (RSEventDB.GetInternalEventInfo(entityID)) then
 		local eventName = name and name or RSEventDB.GetEventName(entityID)
+		local alreadyFound = RSGeneralDB.GetAlreadyFoundEntity(entityID, RSConstants.EVENT_VIGNETTE)
+		if (not alreadyFound) then
+			return
+		end
 		return string.format("|cff%s|Haddon:RareScanner:%s:%s:%s:%s:%s:%s|h[%s]|h|r", RSConfigDB.GetChatLinkColorEvent(), EVENT_TYPE, entityID, alreadyFound.mapID, RSUtils.FixCoord(alreadyFound.coordX), RSUtils.FixCoord(alreadyFound.coordY), alreadyFound.foundTime, eventName)
 	end
 end
@@ -151,23 +154,19 @@ function RSHyperlinks.HookHyperLinks()
 			elseif (button == "RightButton") then
 				-- Add waypoint
 				if (not IsShiftKeyDown()) then
-					if (RSConfigDB.IsAddingchatTomtomWaypoints()) then
-						RSTomtom.AddWorldMapTomtomWaypoint(mapIDs, x, y, name)
-					end
-					if (RSConfigDB.IsAddingchatIngameWaypoints()) then
-						RSWaypoints.AddWorldMapWaypoint(mapIDs, x, y)
-					end
+					RSWaypoints.AddChatMapWaypoint(mapIDs, x, y, name)
 				-- Add waypoint and share in chat
 				elseif (IsShiftKeyDown()) then
-					RSWaypoints.AddWorldMapWaypoint(mapIDs, x, y)
+					RSWaypoints.AddIngameWaypoint(mapIDs, x, y)
 					
 					local generalID = GetGeneralChatID()
-					if (not generalID) then
+					local waypointHyperlink = C_Map.GetUserWaypointHyperlink()
+					if (not generalID or not waypointHyperlink) then
 						return
 					end
 					
 					-- Notification without health
-					C_ChatInfo.SendChatMessage(string.format(AL["CHAT_NOTIFICATION_RARE"], name, C_Map.GetUserWaypointHyperlink()), "CHANNEL", nil, generalID)
+					C_ChatInfo.SendChatMessage(string.format(AL["CHAT_NOTIFICATION_RARE"], name, waypointHyperlink), "CHANNEL", nil, generalID)
 				end
 			end
 		end

@@ -142,7 +142,7 @@ data["The Rookery"] = {
 			},
 			[HEROIC_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
-				{ 9, 223121 }, -- Formula: Enchanted Weathered Harbinger Crest
+				{ 16, 223121 }, -- Formula: Enchanted Weathered Harbinger Crest
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
@@ -524,16 +524,16 @@ data["City of Threads"] = {
 			},
 			[HEROIC_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
-				{ 9,  223121 }, -- Formula: Enchanted Weathered Harbinger Crest
-				{ 10, 223122 }, -- Formula: Enchanted Runed Harbinger Crest
-				{ 11, 223123 }, -- Formula: Enchanted Gilded Harbinger Crest
-				{ 12, 223142 }, -- Formula: Enchant Ring - Cursed Mastery
-				{ 13, 223143 }, -- Formula: Enchant Ring - Cursed Versatility
-				{ 14, 223141 }, -- Formula: Enchant Ring - Cursed Critical Strike
+				{ 16, 223121 }, -- Formula: Enchanted Weathered Harbinger Crest
+				{ 17, 223122 }, -- Formula: Enchanted Runed Harbinger Crest
+				{ 18, 223123 }, -- Formula: Enchanted Gilded Harbinger Crest
+				{ 19, 223142 }, -- Formula: Enchant Ring - Cursed Mastery
+				{ 20, 223143 }, -- Formula: Enchant Ring - Cursed Versatility
+				{ 21, 223141 }, -- Formula: Enchant Ring - Cursed Critical Strike
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
-				{ 15, 221174 }, -- Penumbral Rimeguards
+				{ 9, 221174 }, -- Penumbral Rimeguards
 			},
 		},
 	}
@@ -611,7 +611,7 @@ data["Darkflame Cleft"] = {
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
-				{ 8, 225548 }, -- Wick's Lead
+				{ 9, 225548, "mount" }, -- Wick's Lead
 			},
 		},
 	}
@@ -685,16 +685,16 @@ data["Cinderbrew Meadery"] = {
 				{ 5, 221070 }, -- "Azeroth's Greatest BEE.E.O." Cap
 				{ 6, 221072 }, -- Moneymaking Businessmantle
 				{ 7, 221068 }, -- Profit Divider
-				{ 8, 223155 }, -- Bop
+				{ 9, 223155, "pet4469" }, -- Bop
 			},
 			[HEROIC_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
-				{ 9,  223121 }, -- Formula: Enchanted Weathered Harbinger Crest
-				{ 10, 223122 }, -- Formula: Enchanted Runed Harbinger Crest
-				{ 11, 223123 }, -- Formula: Enchanted Gilded Harbinger Crest
-				{ 12, 223088 }, -- Design: Elusive Blasphemite
-				{ 13, 224424 }, -- Pattern: Artisan Chef's Hat
-				{ 14, 223102 }, -- Pattern: Busy Bee's Buckle
+				{ 16, 223121 }, -- Formula: Enchanted Weathered Harbinger Crest
+				{ 17, 223122 }, -- Formula: Enchanted Runed Harbinger Crest
+				{ 18, 223123 }, -- Formula: Enchanted Gilded Harbinger Crest
+				{ 19, 223088 }, -- Design: Elusive Blasphemite
+				{ 20, 224424 }, -- Pattern: Artisan Chef's Hat
+				{ 21, 223102 }, -- Pattern: Busy Bee's Buckle
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,

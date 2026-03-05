@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: TradeSkillMaster Team
-## Version: v4.14.55
+## Version: v4.14.63
 
 ## Title: |cff00fe00TradeSkillMaster|r
 ## Notes: Auction house and gold making addon.
@@ -18,6 +18,7 @@
 
 # Base Libaries
 External\LibTSMClass\LibTSMClass.lua
+External\LibBonusId\LibBonusId.xml
 
 # LibTSM* / Locale
 LibTSMCore\Core.lua

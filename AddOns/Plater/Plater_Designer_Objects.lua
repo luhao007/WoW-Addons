@@ -6,7 +6,7 @@ local Plater = Plater
 ---@type detailsframework
 local detailsFramework = _G.DetailsFramework
 local _
-
+local LSM = LibStub:GetLibrary ("LibSharedMedia-3.0")
 local designer = platerInternal.Designer
 
 local PixelUtil = PixelUtil
@@ -157,7 +157,7 @@ function designer.CreateSettings(parentFrame)
             height = "cast_incombat[2]", --plate_config.enemynpc.
         },
 
-        HealthBar = {
+        NameplateSize = {
             --values from PlaterDB.profile.plate_config[unittype]
             width = "health_incombat[1]", --plate_config.enemynpc.
             height = "health_incombat[2]", --plate_config.enemynpc.
@@ -166,8 +166,175 @@ function designer.CreateSettings(parentFrame)
 
     options.WidgetSettingsExtraOptions = {
         HealthBar = {
-            --[=[
             {
+                key = "health_statusbar_texture",
+                label = "Texture",
+                widget = "selectstatusbartexture",
+                default = Plater.db.profile.health_statusbar_texture,
+                setter = function(healthBar, value) healthBar:SetTexture(value); designer.UpdateAllNameplates() end,
+            },
+
+            {
+                key = "health_statusbar_bgcolor",
+                label = "Background Color",
+                widget = "color",
+                default = Plater.db.profile.health_statusbar_bgcolor,
+                setter = function(healthBar, color)
+                    local r, g, b, a = unpack(color)
+                    healthBar.background:SetVertexColor(r, g, b, a); designer.UpdateAllNameplates()
+                end,
+            },
+
+            {
+                key = "border_color",
+                label = "Border Color",
+                widget = "color",
+                default = Plater.db.profile.border_color,
+                setter = function(healthBar, color)
+                    local r, g, b, a = unpack(color)
+                    Plater.UpdatePlateBorders(healthBar.unitFrame.PlateFrame) designer.UpdateAllNameplates()
+                end,
+            },
+
+            {
+                key = "border_thickness",
+                label = "Border Thickness",
+                widget = "slider",
+                minvalue = 0,
+                maxvalue = 10,
+                step = 1,
+                default = Plater.db.profile.border_thickness,
+                setter = function(healthBar, value)
+                    Plater.UpdatePlateBorders(healthBar.unitFrame.PlateFrame) designer.UpdateAllNameplates()
+                end,
+            },
+
+            {
+                key = "health_selection_overlay",
+                label = "Target Overlay",
+                widget = "selectstatusbartexture",
+                default = Plater.db.profile.health_selection_overlay,
+                setter = function(healthBar, value)
+                    healthBar.unitFrame.targetOverlayTexture:SetTexture(LSM:Fetch("statusbar", Plater.db.profile.health_selection_overlay)); designer.UpdateAllNameplates()
+                end,
+            },
+            {
+                key = "health_selection_overlay_alpha",
+                label = "Target Overlay Alpha",
+                widget = "slider",
+                minvalue = 0,
+                maxvalue = 1,
+                step = 0.1,
+                usedecimals = true,
+                default = Plater.db.profile.health_selection_overlay_alpha,
+                setter = function(healthBar, value)
+                    healthBar.unitFrame.targetOverlayTexture:SetAlpha(Plater.db.profile.health_selection_overlay_alpha); designer.UpdateAllNameplates()
+                end,
+            },
+
+            --health_selection_overlay_color
+            {
+                key = "health_selection_overlay_color",
+                label = "Target Overlay Color",
+                widget = "color",
+                default = Plater.db.profile.health_selection_overlay_color,
+                setter = function(healthBar, color)
+                    local r, g, b, a = unpack(color)
+                    healthBar.unitFrame.targetOverlayTexture:SetVertexColor(r, g, b, a); designer.UpdateAllNameplates()
+                end,
+            },
+
+            --hover over hightlight
+            {
+                key = "hover_highlight",
+                label = "Mouse Hover Highlight",
+                widget = "toggle",
+                default = Plater.db.profile.hover_highlight,
+                setter = function(healthBar, value)
+                    if value then
+                        Plater.EnableHighlight(healthBar.unitFrame)
+                    else
+                        Plater.DisableHighlight(healthBar.unitFrame)
+                    end
+                    designer.UpdateAllNameplates()
+                end,
+            },
+            --hover_highlight_alpha
+            {
+                key = "hover_highlight_alpha",
+                label = "Mouse Hover Highlight Alpha",
+                widget = "slider",
+                minvalue = 0,
+                maxvalue = 1,
+                step = 0.1,
+                usedecimals = true,
+                default = Plater.db.profile.hover_highlight_alpha,
+                setter = function(healthBar, value)
+                    healthBar.unitFrame.HighlightFrame.HighlightTexture:SetAlpha(Plater.db.profile.hover_highlight_alpha); designer.UpdateAllNameplates()
+                end,
+            },
+
+            --[=[
+                {
+                add:
+                health bar 
+                    use_health_animation = false, profile root
+
+                health cut off (execute settings) -> profile root
+                    health_cutoff = true,
+                    health_cutoff_upper = true,
+                    health_cutoff_extra_glow = false,
+                    health_cutoff_hide_divisor = false,
+
+                border se0ttings
+		focus_indicator_enabled = true,
+		focus_color = {0, 0, 0, 0.5},
+		focus_texture = "PlaterFocus",
+                
+                aggro flash
+
+                new object for target settings
+
+                new object for raid target
+        target_highlight = true,
+		target_highlight_alpha = 0.75,
+		target_highlight_height = 14,
+		target_highlight_color = {0, 0.521568, 1, 1},
+		target_highlight_texture = [[Interface\AddOns\Plater\images\selection_indicator3]],
+		target_shady_alpha = 0.6,
+		target_shady_enabled = true,
+		target_shady_combat_only = true,
+
+
+
+                new object for indicators fro the main settings window
+        		indicator_faction = true,
+		indicator_friendlyfaction = false,
+		indicator_spec = true,
+		indicator_spec_always = false,
+		indicator_friendlyspec = false,
+		indicator_worldboss = true,
+		indicator_elite = true,
+		indicator_rare = true,
+		indicator_quest = true,
+		indicator_pet = true,
+		indicator_enemyclass = false,
+		indicator_friendlyclass = false,
+		indicator_anchor = {side = 2, x = -2, y = 0},
+		indicator_scale = 1,
+		indicator_shield = false,
+		indicator_extra_raidmark = true,
+		indicator_raidmark_scale = 1,
+		indicator_raidmark_anchor = {side = 2, x = -1, y = 0},
+        target_indicator = "Silver",
+
+                new object for theat colors.
+
+                new object for buff settings? there is way too much options there.
+
+
+                an object for range check and transparency control, those that are  in the main settings tab 
+
                 key = "../../../health_statusbar_texture", --the name of the option in the profile table
                 label = "Texture",
                 widget = "selectstatusbartexture",

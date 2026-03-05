@@ -52,16 +52,21 @@ local LastMouseOverWidget;
 
 local match = string.match;
 local format = string.format;
+local tonumber = tonumber;
+
 local function GetProgressText(str)
     if Secret_CanAccess(str) then
         if Def.ProgressShowRemaining then
             local completed, required = match(str, "(%d+)/(%d+)");
+            completed = completed and tonumber(completed);
+            required = required and tonumber(required);
             if completed and required then
                 if completed < required then
                     return format("%.0f", required - completed);
                 end
             else
                 local percent = match(str, "(%d+)%%");
+                percent = percent and tonumber(percent);
                 if percent and percent < 100 then
                     return format("%.0f%%", 100 - percent);
                 end
@@ -259,7 +264,7 @@ do  --Widget
 
         function QuestWidgetMixin:OnUpdate_HideProgressAfterDelay(elapsed)
             self.t = self.t + elapsed;
-            if self.t >= 1 then
+            if self.t >= 1.5 then     --AutoFadeOutDelay
                 self.t = 0;
                 self:SetScript("OnUpdate", self.OnUpdate_HideProgress);
             end
@@ -1223,6 +1228,7 @@ do  --Options
 
     local OPTIONS_SCHEMATIC = {
         title = L["ModuleName NameplateQuest"],
+        moduleDBKey = "NameplateQuest",
         widgets = {
             {type = "Custom", onAcquire = AcquireEditorFrame, align = "center"},
             {type = "Divider"},

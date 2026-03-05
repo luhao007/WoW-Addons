@@ -76,7 +76,7 @@ L["OPTIONS_CAST_COLOR_UNINTERRUPTIBLE"] = "Nicht unterbrechbar"
 L["OPTIONS_CAST_SHOW_TARGETNAME"] = "Zielname anzeigen"
 L["OPTIONS_CAST_SHOW_TARGETNAME_DESC"] = "Zeigt an, wer das Ziel des aktuellen Zaubers ist (wenn das Ziel existiert)"
 L["OPTIONS_CAST_SHOW_TARGETNAME_TANK"] = "[Tank] Deinen Namen nicht anzeigen"
-L["OPTIONS_CAST_SHOW_TARGETNAME_TANK_DESC"] = "Wenn du ein Tank bist, zeige den Zielnamen nicht an, wenn der Zauber auf dich gewirkt wird."
+L["OPTIONS_CAST_SHOW_TARGETNAME_TANK_DESC"] = "Wenn Du ein Tank bist, zeige den Zielnamen nicht an, wenn der Zauber auf Dich gewirkt wird."
 L["OPTIONS_CASTBAR_APPEARANCE"] = "Zauberleisten-Aussehen"
 L["OPTIONS_CASTBAR_BLIZZCASTBAR"] = "Blizzard-Zauberleiste"
 L["OPTIONS_CASTBAR_COLORS"] = "Zauberleisten-Farben"
@@ -116,10 +116,8 @@ L["OPTIONS_CVAR_ENABLE_PERSONAL_BAR"] = "Persönliche Lebens- und Manaleiste|cFF
 L["OPTIONS_CVAR_ENABLE_PERSONAL_BAR_DESC"] = [=[Zeigt einen mini Lebens- und Manabalken unter deinem Charakter.
 
 |cFFFF7700[*]|r |cFFa0a0a0CVar, wird im Plater-Profil gespeichert und beim Laden des Profils wiederhergestellt.|r]=]
-L["OPTIONS_CVAR_NAMEPLATES_ALWAYSSHOW"] = "Namensschilder immer anzeigen|cFFFF7700*|r"
-L["OPTIONS_CVAR_NAMEPLATES_ALWAYSSHOW_DESC"] = [=[Zeigt Namensschilder für alle Einheiten in deiner Nähe. Wenn deaktiviert, werden nur relevante Einheiten im Kampf angezeigt.
-
-|cFFFF7700[*]|r |cFFa0a0a0CVar, wird im Plater-Profil gespeichert und beim Laden des Profils wiederhergestellt.|r]=]
+L["OPTIONS_CVAR_NAMEPLATES_ALWAYSSHOW"] = "Namensplaketten immer anzeigen|cFFFF7700*|r"
+L["OPTIONS_CVAR_NAMEPLATES_ALWAYSSHOW_DESC"] = "Zeigt Namensplaketten für alle Einheiten in Deiner Nähe. Wenn deaktiviert, werden nur relevante Einheiten im Kampf angezeigt. |cFFFF7700[*]|r |cFFa0a0a0CVar, wird im Plater-Profil gespeichert und beim Laden des Profils wiederhergestellt.|r"
 L["OPTIONS_ENABLED"] = "Aktiviert"
 L["OPTIONS_ERROR_CVARMODIFY"] = "CVars können im Kampf nicht verändert werden."
 L["OPTIONS_ERROR_EXPORTSTRINGERROR"] = "Fehler beim Exportieren"
@@ -178,37 +176,22 @@ L["OPTIONS_MINOR_SCALE_WIDTH"] = "Breiten-Skalierung kleiner Einheiten"
 L["OPTIONS_MOVE_HORIZONTAL"] = "Horizontal bewegen."
 L["OPTIONS_MOVE_VERTICAL"] = "Vertikal bewegen."
 L["OPTIONS_NAMEPLATE_HIDE_FRIENDLY_HEALTH"] = "Blizzard-Lebensbalken verstecken|cFFFF7700*|r"
-L["OPTIONS_NAMEPLATE_HIDE_FRIENDLY_HEALTH_DESC"] = [=[Wenn du dich in einem Dungeon oder Schlachtzug befindest und freundliche Namensschilder aktiviert sind, wird nur der Spielername angezeigt.
-Wenn ein Plater-Modul deaktiviert ist, wirkt sich dies auch auf diese Namensschilder aus.
-
-|cFFFF7700[*]|r |cFFa0a0a0CVar, wird im Plater-Profil gespeichert und beim Laden des Profils wiederhergestellt.|r
-
-|cFFFF2200[*]|r |cFFa0a0a0Möglicherweise ist ein /reload erforderlich, damit die Änderungen wirksam werden.|r]=]
-L["OPTIONS_NAMEPLATE_OFFSET"] = "Das gesamte Namensschild leicht anpassen."
-L["OPTIONS_NAMEPLATE_SHOW_ENEMY"] = "Feindliche Namensschilder anzeigen|cFFFF7700*|r"
-L["OPTIONS_NAMEPLATE_SHOW_ENEMY_DESC"] = [=[Zeigt Namensschilder für feindliche und neutrale Einheiten.
+L["OPTIONS_NAMEPLATE_HIDE_FRIENDLY_HEALTH_DESC"] = "Wenn Du Dich in einem Dungeon oder Schlachtzug befindest und freundliche Namensplaketten aktiviert sind, wird nur der Spielername angezeigt. Wenn ein Plater-Modul deaktiviert ist, wirkt sich dies auch auf diese Namensplaketten aus. |cFFFF7700[*]|r |cFFa0a0a0CVar, wird im Plater-Profil gespeichert und beim Laden des Profils wiederhergestellt.|r |cFFFF2200[*]|r |cFFa0a0a0Möglicherweise ist ein /reload erforderlich, damit die Änderungen wirksam werden.|r"
+L["OPTIONS_NAMEPLATE_OFFSET"] = "Die gesamte Namensplakette leicht anpassen."
+L["OPTIONS_NAMEPLATE_SHOW_ENEMY"] = "Feindliche Namensplaketten anzeigen|cFFFF7700*|r"
+L["OPTIONS_NAMEPLATE_SHOW_ENEMY_DESC"] = [=[Zeigt Namensplaketten für feindliche und neutrale Einheiten.
 
 |cFFFF7700[*]|r |cFFa0a0a0CVar, wird im Plater-Profil gespeichert und beim Laden des Profils wiederhergestellt.|r]=]
-L["OPTIONS_NAMEPLATE_SHOW_FRIENDLY"] = "Freundliche Namensschilder anzeigen|cFFFF7700*|r"
-L["OPTIONS_NAMEPLATE_SHOW_FRIENDLY_DESC"] = [=[Zeigt Namensschilder für freundliche Spieler.
+L["OPTIONS_NAMEPLATE_SHOW_FRIENDLY"] = "Freundliche Namensplaketten anzeigen|cFFFF7700*|r"
+L["OPTIONS_NAMEPLATE_SHOW_FRIENDLY_DESC"] = [=[Zeigt Namensplaketten für freundliche Spieler.
 
 |cFFFF7700[*]|r |cFFa0a0a0CVar, wird im Plater-Profil gespeichert und beim Laden des Profils wiederhergestellt.|r]=]
-L["OPTIONS_NAMEPLATES_OVERLAP"] = "Namensschild-Überlappung (V)|cFFFF7700*|r"
-L["OPTIONS_NAMEPLATES_OVERLAP_DESC"] = [=[Der Abstand zwischen jedem Namensschild vertikal, wenn die Stapelung aktiviert ist.
-
-|cFFFFFFFFStandard: 1,10|r
-
-|cFFFF7700[*]|r |cFFa0a0a0CVar, wird im Plater-Profil gespeichert und beim Laden des Profils wiederhergestellt.|r
-
-|cFFFFFF00Wichtig |r: Wenn du Probleme mit dieser Einstellung hast, benutze:
-|cFFFFFFFF/run SetCVar ('nameplateOverlapV', '1.6')|r]=]
-L["OPTIONS_NAMEPLATES_STACKING"] = "Namensschild-Stapelung|cFFFF7700*|r"
-L["OPTIONS_NAMEPLATES_STACKING_DESC"] = [=[Wenn aktiviert, überlappen sich die Namensschilder nicht gegenseitig.
-
-|cFFFF7700[*]|r |cFFa0a0a0CVar, wird im Plater-Profil gespeichert und beim Laden des Profils wiederhergestellt.|r
-
-|cFFFFFF00Wichtig |r: Um den Abstand zwischen jedem Namensschild einzustellen, siehe die Option '|cFFFFFFFFNamensschild vertikaler Abstand|r' unten.
-Bitte überprüfe die Auto-Tab-Einstellungen, um das automatische Umschalten dieser Option einzurichten.]=]
+L["OPTIONS_NAMEPLATES_OVERLAP"] = "Namensplaketten-Überlappung (V)|cFFFF7700*|r"
+L["OPTIONS_NAMEPLATES_OVERLAP_DESC"] = [=[Der Abstand zwischen jeder Namensplakette vertikal, wenn die Stapelung aktiviert ist.
+|cFFFFFFFFStandard: 1,10|r |cFFFF7700[*]|r |cFFa0a0a0CVar, wird im Plater-Profil gespeichert und beim Laden des Profils wiederhergestellt.|r |cFFFFFF00Wichtig |r: Wenn Du Probleme mit dieser Einstellung hast, benutze: |cFFFFFFFF/run SetCVar ('nameplateOverlapV', '1.6')|r]=]
+L["OPTIONS_NAMEPLATES_STACKING"] = "Namensplaketten-Stapelung|cFFFF7700*|r"
+L["OPTIONS_NAMEPLATES_STACKING_DESC"] = [=[Wenn aktiviert, überlappen sich die Namensplaketten nicht gegenseitig. |cFFFF7700[*]|r |cFFa0a0a0CVar, wird im Plater-Profil gespeichert und beim Laden des Profils wiederhergestellt.|r 
+|cFFFFFF00Wichtig |r: Um den Abstand zwischen jeder Namensplakette einzustellen, siehe die Option '|cFFFFFFFFNamensplakette vertikaler Abstand|r' unten. Bitte überprüfe die Auto-Tab-Einstellungen, um das automatische Umschalten dieser Option einzurichten.]=]
 L["OPTIONS_NEUTRAL"] = "Neutral"
 L["OPTIONS_NOCOMBATALPHA_AMOUNT_DESC"] = "Transparenzmenge für 'Keine-Kampf-Alpha'."
 L["OPTIONS_NOCOMBATALPHA_ENABLED"] = "Keine-Kampf-Alpha verwenden"
@@ -294,9 +277,9 @@ L["OPTIONS_TABNAME_CASTCOLORS"] = "Zauberfarben und Namen"
 L["OPTIONS_TABNAME_COMBOPOINTS"] = "Combo-Punkte"
 L["OPTIONS_TABNAME_GENERALSETTINGS"] = "Allg. Einstellungen"
 L["OPTIONS_TABNAME_MODDING"] = "Modding"
-L["OPTIONS_TABNAME_NPC_COLORNAME"] = "NPC-Farben und Namen"
-L["OPTIONS_TABNAME_NPCENEMY"] = "Feindliche NPCs"
-L["OPTIONS_TABNAME_NPCFRIENDLY"] = "Freundliche NPCs"
+L["OPTIONS_TABNAME_NPC_COLORNAME"] = "NSC-Farben und Namen"
+L["OPTIONS_TABNAME_NPCENEMY"] = "Feindliche NSCs"
+L["OPTIONS_TABNAME_NPCFRIENDLY"] = "Freundliche NSCs"
 L["OPTIONS_TABNAME_PERSONAL"] = "Pers. Ressourcen"
 L["OPTIONS_TABNAME_PLAYERENEMY"] = "Feindliche Spieler"
 L["OPTIONS_TABNAME_PLAYERFRIENDLY"] = "Freundliche Spieler"
@@ -316,16 +299,16 @@ L["OPTIONS_THREAT_AGGROSTATE_HIGHTHREAT"] = "Hohe Bedrohung"
 L["OPTIONS_THREAT_AGGROSTATE_NOAGGRO"] = "Keine Bedrohung"
 L["OPTIONS_THREAT_AGGROSTATE_NOTANK"] = "Greift nicht-Tank-Spieler an"
 L["OPTIONS_THREAT_AGGROSTATE_NOTINCOMBAT"] = "Einheit nicht im Kampf"
-L["OPTIONS_THREAT_AGGROSTATE_ONYOU_LOWAGGRO"] = "Greift dich an - niedrige Bedrohung"
-L["OPTIONS_THREAT_AGGROSTATE_ONYOU_LOWAGGRO_DESC"] = "Greift dich an - kurz vor Aggro-Verlust"
-L["OPTIONS_THREAT_AGGROSTATE_ONYOU_SOLID"] = "Greift dich an"
+L["OPTIONS_THREAT_AGGROSTATE_ONYOU_LOWAGGRO"] = "Greift Dich an - niedrige Bedrohung"
+L["OPTIONS_THREAT_AGGROSTATE_ONYOU_LOWAGGRO_DESC"] = "Greift Dich an - kurz vor Aggro-Verlust"
+L["OPTIONS_THREAT_AGGROSTATE_ONYOU_SOLID"] = "Greift Dich an"
 L["OPTIONS_THREAT_AGGROSTATE_TAPPED"] = "Einheit getappt"
 L["OPTIONS_THREAT_CLASSIC_USE_TANK_COLORS"] = "Tank-Bedrohungsfarben verwenden"
 L["OPTIONS_THREAT_COLOR_DPS_ANCHOR_TITLE"] = "Farbe bei Spiel als DPS oder Heiler"
 L["OPTIONS_THREAT_COLOR_DPS_HIGHTHREAT_DESC"] = "Die Einheit steht kurz davor, dich anzugreifen."
 L["OPTIONS_THREAT_COLOR_DPS_NOAGGRO_DESC"] = "Die Einheit greift dich nicht an."
 L["OPTIONS_THREAT_COLOR_DPS_NOTANK_DESC"] = "Die Einheit greift weder dich noch einen Tank an und greift höchstwahrscheinlich einen anderen Heiler oder DPS deiner Gruppe an."
-L["OPTIONS_THREAT_COLOR_DPS_ONYOU_SOLID_DESC"] = "Die Einheit greift dich an."
+L["OPTIONS_THREAT_COLOR_DPS_ONYOU_SOLID_DESC"] = "Die Einheit greift Dich an."
 L["OPTIONS_THREAT_COLOR_OVERRIDE_ANCHOR_TITLE"] = "Standardfarben überschreiben"
 L["OPTIONS_THREAT_COLOR_OVERRIDE_DESC"] = [=[Ändert die Standardfarben, die das Spiel für neutrale, feindliche und freundliche Einheiten festlegt.
 
@@ -334,7 +317,7 @@ L["OPTIONS_THREAT_COLOR_TANK_ANCHOR_TITLE"] = "Farbe bei Spiel als TANK"
 L["OPTIONS_THREAT_COLOR_TANK_ANOTHERTANK_DESC"] = "Die Einheit wird von einem anderen Tank in deiner Gruppe getankt."
 L["OPTIONS_THREAT_COLOR_TANK_NOAGGRO_DESC"] = "Die Einheit hat keine Aggro auf dich."
 L["OPTIONS_THREAT_COLOR_TANK_NOTINCOMBAT_DESC"] = "Die Einheit ist nicht im Kampf."
-L["OPTIONS_THREAT_COLOR_TANK_ONYOU_SOLID_DESC"] = "Die Einheit greift dich an und du hast eine solide Aggro."
+L["OPTIONS_THREAT_COLOR_TANK_ONYOU_SOLID_DESC"] = "Die Einheit greift Dich an und du hast eine solide Aggro."
 L["OPTIONS_THREAT_COLOR_TAPPED_DESC"] = "Wenn jemand anderes die Einheit beansprucht hat (wenn du keine Erfahrung oder Beute für das Töten erhältst)."
 L["OPTIONS_THREAT_DPS_CANCHECKNOTANK"] = "Auf Keine-Tank-Aggro prüfen"
 L["OPTIONS_THREAT_DPS_CANCHECKNOTANK_DESC"] = "Wenn du als Heiler oder DPS keine Aggro hast, prüfe, ob der Gegner eine andere Einheit angreift, die kein Tank ist."
@@ -361,25 +344,16 @@ L["OPTIONS_YOFFSET"] = "Y-Versatz"
 L["OPTIONS_YOFFSET_DESC"] = [=[Position auf der Y-Achse anpassen.
 
 *Rechtsklick, um den Wert einzugeben.]=]
---[[Translation missing --]]
 L[ [=[Show nameplate for friendly npcs.
 
 |cFFFFFF00 Important |r: This option is dependent on the client`s nameplate state (on/off).
 
-|cFFFFFF00 Important |r: when disabled but enabled on the client through (%s), the healthbar isn't visible but the nameplate is still clickable.]=] ] = [=[Show nameplate for friendly npcs.
-
-|cFFFFFF00 Important |r: This option is dependent on the client`s nameplate state (on/off).
-
-|cFFFFFF00 Important |r: when disabled but enabled on the client through (%s), the healthbar isn't visible but the nameplate is still clickable.]=]
+|cFFFFFF00 Important |r: when disabled but enabled on the client through (%s), the healthbar isn't visible but the nameplate is still clickable.]=] ] = "Namensplakette für freundliche NSCs anzeigen. |cFFFFFF00 Wichtig |r: Diese Option hängt davon ab, ob Namensplaketten ein- oder ausgeschaltet sind. |cFFFFFF00 Wichtig |r: Wenn deaktiviert, aber auf dem Client durch (%s) aktiviert, ist der Lebensbalken nicht sichtbar, aber die Namensplakette ist immer noch anklickbar."
 L[ [=[Show nameplate for friendly npcs.
 
 |cFFFFFF00 Important |r: This option is dependent on the client`s nameplate state (on/off).
 
-|cFFFFFF00 Important |r: when disabled but enabled on the client through (%s), the healthbar isn't visible but the nameplate is still clickable.]=] ] = [=[Namensschild für freundliche NPCs anzeigen.
-
-|cFFFFFF00 Wichtig |r: Diese Option ist vom Namensschild-Status des Clients abhängig (an/aus).
-
-|cFFFFFF00 Wichtig |r: Wenn deaktiviert, aber auf dem Client durch (%s) aktiviert, ist der Lebensbalken nicht sichtbar, aber das Namensschild ist immer noch klickbar.]=]
+|cFFFFFF00 Important |r: when disabled but enabled on the client through (%s), the healthbar isn't visible but the nameplate is still clickable.]=] ] = "Namensplakette für freundliche NSCs anzeigen. |cFFFFFF00 Wichtig |r: Diese Option hängt davon ab, ob Namensplaketten ein- oder ausgeschaltet sind. |cFFFFFF00 Wichtig |r: Wenn deaktiviert, aber auf dem Client durch (%s) aktiviert, ist der Lebensbalken nicht sichtbar, aber die Namensplakette ist immer noch anklickbar."
 L["TARGET_CVAR_ALWAYSONSCREEN"] = "Ziel immer auf dem Bildschirm|cFFFF7700*|r"
 L["TARGET_CVAR_ALWAYSONSCREEN_DESC"] = [=[Wenn aktiviert, wird das Namensschild deines Ziels immer angezeigt, auch wenn der Gegner nicht auf dem Bildschirm ist.
 

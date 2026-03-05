@@ -9,9 +9,9 @@ local PIGFontString=Create.PIGFontString
 local PIGSetFont=Create.PIGSetFont
 ----------------------------------------
 local EnableAddOn=EnableAddOn or C_AddOns and C_AddOns.EnableAddOn
-local fuFrame = PIGOptionsList("语音","BOT")
+local fuFrame = PIGOptionsList(VOICE,"BOT")
 ------
-local audioName ={"Bobo","Rurutia","Sakura"}
+local audioName ={"Bobo","Rurutia","Sakura","Taotao"}
 local audioLsit ={}
 for i=1,#audioName do
 	audioLsit[i]=L.pigname..audioName[i].."Audio"
@@ -20,15 +20,18 @@ local LocaleLsit = {
 	[audioLsit[1]]="饽饽语音包",
 	[audioLsit[2]]="露露语音包",
 	[audioLsit[3]]="樱雪语音包",
+	[audioLsit[4]]="桃桃语音包",
 }
 if Locale == "zhTW" then
 	LocaleLsit[audioLsit[1]]="餑餑語音包"
 	LocaleLsit[audioLsit[2]]="露露語音包"
 	LocaleLsit[audioLsit[3]]="櫻雪語音包"
+	LocaleLsit[audioLsit[4]]="桃桃語音包"
 elseif Locale == "enUS" then
-	LocaleLsit[audioLsit[1]]="BoboAudio"
-	LocaleLsit[audioLsit[2]]="RurutiaAudio"
-	LocaleLsit[audioLsit[3]]="SakuraAudio"
+	LocaleLsit[audioLsit[1]]=audioName[1].."Audio"
+	LocaleLsit[audioLsit[2]]=audioName[2].."Audio"
+	LocaleLsit[audioLsit[3]]=audioName[3].."Audio"
+	LocaleLsit[audioLsit[4]]=audioName[4].."Audio"
 end
 local ADDONS_DOWN_1 = "网易DD(dd.163.com)|cff00FFFF插件库|r"..SEARCH
 local AUDIO_Data={
@@ -41,6 +44,10 @@ local AUDIO_Data={
 		["down_1"]=ADDONS_DOWN_1,	
 	},
 	[audioLsit[3]]={
+		["tooltip"]="......",
+		["down_1"]=ADDONS_DOWN_1,
+	},
+	[audioLsit[4]]={
 		["tooltip"]="......",
 		["down_1"]=ADDONS_DOWN_1,
 	},

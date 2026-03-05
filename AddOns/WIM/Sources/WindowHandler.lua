@@ -925,6 +925,12 @@ local function instantiateWindow(obj)
     widgets.msg_box:EnableMouse(true);
     widgets.msg_box.widgetName = "msg_box";
 
+	-- because we're pretending to be the default chat edit box at times, we need to make sure that any calls are covered.
+	local _ghostFun = function() end;
+	for _, slug in pairs({"Deactivate"}) do
+		widgets.msg_box[slug] = _ghostFun;
+	end
+
     -- Addmessage functions
     obj.AddMessage = function(self, msg, ...)
 		-- check that msg exists
@@ -945,23 +951,28 @@ local function instantiateWindow(obj)
 
 		nextColor.r, nextColor.g, nextColor.b = r, g, b;
 
+		self.nextStamp = select(29, ...) or self.nextStamp;
+
+		local spreadArgs = {select(2, ...)}
 		local messageFormatter = function (msg)
-			return applyMessageFormatting(self.widgets.chat_display, event, msg or arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16, arg17);
+			return applyMessageFormatting(self.widgets.chat_display, event, msg or arg1, unpack(spreadArgs));
 		end
 
 		local str = messageFormatter();
 
 		-- if censoring is supported by client
 		if (
+			false and
 			_G.C_ChatInfo and
 			_G.C_ChatInfo.IsChatLineCensored and
 			_G.ChatHistory_GetAccessID and
 			_G.ChatHistory_GetAccessID and
-			_G.Chat_GetChatCategory
+			_G.Chat_GetChatCategory and
+			arg11 and _G.C_ChatInfo.IsChatLineCensored(arg11)
 		) then
 
 			local infoType = strsub(event, 10);
-			local chatGroup = _G.Chat_GetChatCategory(infoType);
+			local chatGroup = (_G.ChatFrameUtil and _G.ChatFrameUtil.GetChatCategory or _G.Chat_GetChatCategory)(infoType);
 			local info = _G.ChatTypeInfo[infoType];
 
 			local chatTarget;
@@ -971,9 +982,15 @@ local function instantiateWindow(obj)
 				chatTarget = arg2;
 			end
 
-			local isChatLineCensored = _G.C_ChatInfo.IsChatLineCensored(arg11);
 			local accessID = _G.ChatHistory_GetAccessID(chatGroup, chatTarget);
 			local typeID = _G.ChatHistory_GetAccessID(infoType, chatTarget, arg12 or arg13);
+
+			_G.DevTools_Dump({
+				isChatLineCensored = isChatLineCensored,
+				accessID = accessID,
+				typeID = typeID,
+			})
+
 
 			local eventArgs;
 			if isChatLineCensored then
@@ -2062,19 +2079,7 @@ end
 local myself = _G.UnitName("player")
 RegisterWidgetTrigger("chat_display", "whisper,chat,w2w", "OnHyperlinkClick", function(self, link, text, button)
 	local t,n,i = string.split(":", link)
-
-	if n == myself then
-		return
-    end
-
-	if t == 'player' then
-		if (_G.ChatFrameMixin and _G.ChatFrameMixin.OnHyperlinkClick) then
-			_G.ChatFrameMixin.OnHyperlinkClick(_G.DEFAULT_CHAT_FRAME, link, text, button);
-		else
-			_G.ChatFrame_OnHyperlinkShow(_G.DEFAULT_CHAT_FRAME, link, text, button);
-		end
-		return;
-	end
+	local winType = self:GetParent().type
 
 	if t == 'censoredmessage' then
 		local hyperlinkLineID = _G.tonumber(n);
@@ -2125,11 +2130,24 @@ RegisterWidgetTrigger("chat_display", "whisper,chat,w2w", "OnHyperlinkClick", fu
 		end
 	end
 
-	if (_G.ChatFrameMixin and _G.ChatFrameMixin.OnHyperlinkClick) then
-		_G.ChatFrameMixin.OnHyperlinkClick(self, link, text, button);
-	else
-		_G.ChatFrame_OnHyperlinkShow(self, link, text, button);
+	if t == 'player' then
+		-- allow player click if shit-clicking to insert into WIM
+		if EditBoxInFocus and button == "LeftButton" and _G.IsModifiedClick() then
+			EditBoxInFocus:Insert(n);
+			return;
+
+		-- or if shift-clicking into another editbox or doing a who lookup
+		elseif not _G.IsModifiedClick() and button == "LeftButton" and winType == "whisper" then
+			return;
+
+		elseif button == "RightButton" and n == myself then
+			return;
+		end
+
 	end
+
+	-- pass all other clicks to SetItemRef
+	_G.SetItemRef(link, text, button);
 end);
 --RegisterWidgetTrigger("chat_display", "whisper,chat,w2w","OnMessageScrollChanged", function(self) updateScrollBars(self:GetParent()); end);
 
@@ -2205,12 +2223,14 @@ RegisterWidgetTrigger("msg_box", "whisper,chat,w2w,demo", "OnUpdate", function(s
 
 RegisterWidgetTrigger("msg_box", "whisper,chat,w2w", "OnEditFocusGained", function(self)
                                 EditBoxInFocus = self;
-                                -- _G.ACTIVE_CHAT_EDIT_BOX = self; -- preserve linking abilities.
+                                _G.ACTIVE_CHAT_EDIT_BOX = self; -- preserve linking abilities.
                 end);
 RegisterWidgetTrigger("msg_box", "whisper,chat,w2w", "OnEditFocusLost", function(self)
 								_EditBoxInFocus = EditBoxInFocus -- temporary reference
                                 EditBoxInFocus = nil;
-                                -- _G.ACTIVE_CHAT_EDIT_BOX = nil;
+								if _G.ACTIVE_CHAT_EDIT_BOX == self then
+	                                _G.ACTIVE_CHAT_EDIT_BOX = nil;
+								end
                 end);
 RegisterWidgetTrigger("msg_box", "whisper,chat,w2w", "OnMouseUp", function(self, button)
                                 libs.DropDownMenu.CloseDropDownMenus();

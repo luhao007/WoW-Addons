@@ -73,6 +73,7 @@ LibChatAnims\LibChatAnims.xml
 LibClass-2.0\LibClass-2.0.xml
 LibCustomGlow-1.0\LibCustomGlow-1.0.xml
 LibDBIcon-1.0\lib.xml
+LibDFramework-1.0\load.xml
 LibDropDownMenu\LibDropDownMenu.xml
 LibDualSpec-1.0\LibDualSpec-1.0.lua
 LibDurability\LibDurability.xml

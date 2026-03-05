@@ -5,7 +5,6 @@ local PIGFontString=Create.PIGFontString
 local Data=addonTable.Data
 local InvSlot=Data.InvSlot
 local Fun=addonTable.Fun
-local _GetTooltipLevel=Fun._GetTooltipLevel
 --创建界面背景
 function Create.CharacterBG(fuji,Isname)
 	local texname = nil
@@ -190,15 +189,6 @@ function Create.CharacterFrame(fuji,UIName,FrameLevel)
 				item:SetPoint("LEFT", frameX.ItemList[InvSlot["CID"][i-1]], "RIGHT", 4, 0);
 			end
 		end
-		item.ZLV = PIGFontString(item,{"TOPLEFT", item, "TOPLEFT", -2, 1},nil,"OUTLINE",15)
-		item.ZLV:SetDrawLayer("OVERLAY", 7)
-		item.ZLV:SetTextColor(0, 1, 1, 1);
-		item.ranse = item:CreateTexture(nil, "OVERLAY");
-	    item.ranse:SetTexture("Interface/Buttons/UI-ActionButton-Border");
-	    item.ranse:SetBlendMode("ADD");
-	    item.ranse:SetSize(uiWidth*1.74,uiWidth*1.74);
-	    item.ranse:SetPoint("CENTER", item, "CENTER", 0, 0);
-	    item.ranse:Hide()
 	end
 	---装备列表
 	Create.PIGItemListUI(frameX)
@@ -214,8 +204,7 @@ function Create.CharacterFrame(fuji,UIName,FrameLevel)
 		end
 		for i=1,#InvSlot["CID"] do
 			local fujiframe = frameX.ItemList[InvSlot["CID"][i]]
-			fujiframe.ZLV:SetText("")
-			fujiframe.ranse:Hide()
+			Fun.CZ_ItemButtonZLVranse(fujiframe)
 			local invSlotId,SlotTexture = GetInventorySlotInfo(InvSlot["Name"][InvSlot["CID"][i]][1])
 			fujiframe.icon:SetTexture(SlotTexture)
 			fujiframe:SetScript("OnEnter", nil);
@@ -254,18 +243,7 @@ function Create.CharacterFrame(fuji,UIName,FrameLevel)
 				GameTooltip:Show();
 			end);
 			if k~=4 and k~=19 then
-				local r, g, b, hex = GetItemQualityColor(itemQuality or 1)
-				if PIGA["FramePlus"]["Character_ItemLevel"] then
-					_GetTooltipLevel("link",{itemLink},function(ItemLevel)
-						invFff.ZLV:SetText(ItemLevel)
-					end)
-				end
-				if PIGA["FramePlus"]["Character_ItemColor"] then
-					if itemQuality and itemQuality>1 then
-				    	invFff.ranse:SetVertexColor(r, g, b);
-						invFff.ranse:Show()
-					end
-				end
+				Fun.Update_ItemButtonZLVranse("L",invFff,itemLink,itemQuality or 1)
 			end
 		end
 		self.ZBLsit:Update_ItemList(laiyuan,NewzbData)

@@ -28,7 +28,7 @@ end
 
 ---@param self DelvesInfoFrame
 function DelveCompanion_DelveInfoFrameMixin:OnLoad()
-    -- Logger.Log("DelveInfoFrame OnLoad start")
+    -- Logger:Log("DelveInfoFrame OnLoad start")
 
     do
         local page = self.LeftPage
@@ -49,7 +49,7 @@ end
 
 ---@param self DelvesInfoFrame
 function DelveCompanion_DelveInfoFrameMixin:OnShow()
-    -- Logger.Log("DelveInfoFrame OnShow start")
+    -- Logger:Log("DelveInfoFrame OnShow start")
 
     local DataProvider = CreateTreeDataProvider()
     ScrollView:SetDataProvider(DataProvider)
@@ -60,7 +60,7 @@ function DelveCompanion_DelveInfoFrameMixin:OnShow()
     }
 
     for i = 1, #spellsList, 1 do
-        Logger.Log("Creating a spell %d", spellsList[i])
+        -- Logger:Log("Creating a spell %d", spellsList[i])
         ---@type Frame
         -- local ab = self.abilitiesPool:Acquire()
         local ab = CreateFrame("Frame", nil, self.RightPage.AbilitiesScroll.Content,
@@ -85,7 +85,7 @@ end
 
 ---@param self DelvesInfoFrame
 function DelveCompanion_DelveInfoFrameMixin:OnHide()
-    -- Logger.Log("DelveInfoFrame OnHide start")
+    -- Logger:Log("DelveInfoFrame OnHide start")
 
     self.abilitiesPool:ReleaseAll()
 end

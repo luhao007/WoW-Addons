@@ -11,6 +11,12 @@ local Fun = {}
 addonTable.Fun=Fun
 local version, internalVersion, date, _, versionType, buildType = GetBuildInfo()
 ----
+function PIGisSecret(value)
+	if (issecretvalue and issecretvalue(value)) or (issecrettable and issecrettable(value)) then
+		return true 
+	end
+	return false
+end
 local IsAddOnLoaded = IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 function Fun.IsAddOnLoaded(AddOnName,funx)
 	if IsAddOnLoaded(AddOnName) then
@@ -109,6 +115,13 @@ local function PIGGetColorKey()
 end
 Fun.PIGGetColorKey=PIGGetColorKey
 
+function PIG_GetDifficultyInfo(difficultyId)
+	local name, groupType, isHeroic, isChallengeMode, displayHeroic, displayMythic, toggleDifficultyID, isLFR, minPlayers, maxPlayers= GetDifficultyInfo(difficultyId)
+	if difficultyId==244 then
+		name=name:gsub(FROM_RAID, "")
+	end
+	return name, groupType, isHeroic, isChallengeMode, displayHeroic, displayMythic, toggleDifficultyID, isLFR, minPlayers, maxPlayers
+end
 function PIG_GetSpellBookType()
 	if Enum.SpellBookSpellBank and Enum.SpellBookSpellBank.Player then
 		return Enum.SpellBookSpellBank.Player
@@ -554,10 +567,27 @@ local fixedRaceAtlasNames = {
     ["lightforgeddraenei"] = "lightforged",
     ["scourge"] = "undead",
     ["zandalaritroll"] = "zandalari",
+    ["zandalaritroll"] = "zandalari",
+    ["earthendwarf"]="earthen",
 };
+--种族
+local PIGraceList = {}
+for i=100,1,-1 do
+	local raceInfo = C_CreatureInfo.GetRaceInfo(i)
+	if raceInfo then
+		if raceInfo.raceName then
+			-- if raceInfo.clientFileString=="Scourge" then raceInfo.clientFileString="undead" end
+			-- if raceInfo.clientFileString=="EarthenDwarf" then raceInfo.clientFileString="earthen" end
+			PIGraceList[raceInfo.raceName]=raceInfo.clientFileString
+		end
+	end
+end
 function Fun.PIGGetRaceAtlas(raceName, gender)
 	local gender=tonumber(gender)
 	if gender>0 and gender<4 then
+		if PIGraceList[raceName] then
+			raceName = PIGraceList[raceName]
+		end
 		local raceName = lower(raceName)
 		if (fixedRaceAtlasNames[raceName]) then
 			raceName = fixedRaceAtlasNames[raceName];

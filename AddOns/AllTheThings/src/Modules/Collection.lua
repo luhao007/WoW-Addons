@@ -22,7 +22,7 @@ local FanfareFunctions = setmetatable({
 
 local TooSpammyThings = {
 	Exploration = true,
-	Quests = true,
+	Quest = true,
 }
 
 -- TODO: maybe consolidate to collecting an actual 'Thing' when possible
@@ -124,6 +124,7 @@ end
 
 local function HandleCollectionChange(t, isadd)
 	-- Report new things to your collection!
+	-- app.PrintDebug("HCC",app:SearchLink(t),isadd and "Collected" or "Removed")
 	-- to test: comment out text/name/link from BattlePet class, then cage & relearn a battle pet
 	if IsRetrieving(t.text) and t.CanRetry then
 		-- app.PrintDebug("HCC:RETRY",app:SearchLink(t))
@@ -141,6 +142,7 @@ local function HandleCollectionChange(t, isadd)
 	end
 end
 local function DoCollection(group, isadd)
+	-- app.PrintDebug("DoCollection",app:SearchLink(group),isadd and "Collected" or "Removed",group and group.collectible,group and group.collected)
 	if not group then return; end
 	-- Only if it's something collectible...
 	-- TODO: Settings option to allow reporting even when not considered collectible
@@ -243,37 +245,6 @@ app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, acco
 		end
 	end
 	-- TODO: replace uses with SetThingCollected
-	local function SetAccountCollected(t, field, id, collected, settingKey)
-		-- app.PrintDebug("SC:A",app:SearchLink(t),t and t.collectible,field,id,collected)
-		local oldstate = IsAccountCached(field, id)
-		if collected then
-			if not oldstate then
-				-- if it's a known collectible thing not collected under current settings, then collect it
-				if t then
-					DoCollection(t, true)
-				else
-					-- if t exists, then AddToCollection does some handling of collection stuff...
-					app.HandleEvent("OnThingCollected", settingKey or field)
-				end
-			end
-			accountWideData[field][id] = 1
-			return 1
-		end
-		if oldstate then
-			-- basically have to recalculate account data to know if this thing is still technically collected
-			-- via another character data, so clear it anyway
-			if accountWideData[field][id] then
-				DoCollection(t, false)
-				accountWideData[field][id] = nil
-				-- if t exists, then DoCollection does some handling of collection stuff...
-				if not t then
-					app.HandleEvent("OnThingRemoved", settingKey or field)
-				end
-			end
-		end
-		return accountWideData[field][id] and 2 or nil
-	end
-	-- TODO: replace uses with SetThingCollected
 	local function SetCollected(t, field, id, collected, settingKey)
 		-- app.PrintDebug("SC",app:SearchLink(t),field,id,collected)
 		local oldstate = IsCached(field, id)
@@ -322,20 +293,26 @@ app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, acco
 			app.PrintDebug("STC:NoCACHE",app:SearchLink(t), key, id, accountWide, collected)
 			return
 		end
-		-- app.PrintDebug("STC",app:SearchLink(t),key, id, accountWide, collected, cacheKey)
 		local oldstate = (accountWide and IsAccountCached or IsCached)(cacheKey, id)
 		local accountCache = accountWideData[cacheKey]
+		-- app.PrintDebug("STC",app:SearchLink(t),key, id, accountWide, oldstate, "->", collected, cacheKey)
 		if collected then
 			if not oldstate then
 				DoCollection(t, true)
 			end
-			if not accountWide then SetCached(cacheKey, id, 1) end
-			accountCache[id] = 1
+			if not accountWide then
+				SetCached(cacheKey, id, 1)
+				accountCache[id] = 2
+			else
+				-- Achievements need to sometimes cache as 3 due to inconsistent Blizz API responses
+				accountCache[id] = tonumber(accountWide) or 1
+			end
 			return 1
 		end
 		if oldstate then
 			-- basically have to recalculate account data to know if this thing is still technically collected
 			-- via another character data, so clear it anyway
+			-- TODO: add a single key/val Account Recalculation method?
 			if accountCache[id] then
 				DoCollection(t, false)
 				accountCache[id] = nil
@@ -345,7 +322,6 @@ app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, acco
 		return accountCache[id] and 2 or nil
 	end
 	app.SetThingCollected = SetThingCollected
-	app.SetAccountCollected = SetAccountCollected;
 	app.SetCached = SetCached
 	app.SetAccountCached = SetAccountCached
 	app.SetAccountCachedByCheck = SetAccountCachedByCheck

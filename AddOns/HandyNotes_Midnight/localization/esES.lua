@@ -62,6 +62,9 @@ L['impenatrably_sealed_gourd_note'] = 'Despoja el {item:260251} de la {object:Ja
 L['options_icons_more_than_just_thier_roots'] = '{achievement:62188}'
 L['options_icons_more_than_just_thier_roots_desc'] = 'Muestra dónde están los NPC para el logro {achievement:62188}.'
 L['more_than_just_thier_roots_note'] = 'Habla con los NPC en las siguientes ubicaciones:'
+L['chonon_note'] = 'Arriba en las ramas del árbol.'
+L['funnid_note'] = 'En lo alto de las ramas del árbol del mundo.'
+L['kawayn_note'] = 'Arriba en el gran tronco del árbol.'
 
 L['altar_of_innocence'] = 'Altar de la inocencia'
 L['altar_of_vigor'] = 'Altar del vigor'
@@ -90,7 +93,10 @@ L['options_icons_song_seeker_desc'] = 'Muestra dónde están los buscacantos Som
 
 L['options_icons_spiritpaw_marathon'] = '{achievement:62202}'
 L['options_icons_spiritpaw_marathon_desc'] = 'Muestra todas las ubicaciones para el logro {achievement:62202}.'
-L['spiritpaw_marathon_note'] = 'Habla con {npc:258938}.'
+L['spiritpaw_marathon_note'] = 'Habla con {npc:258938}, coge los {npc:250100} cercanos y llévalos a {dot:Pink} dentro del {location:Templo de Jan\'alai} en menos de 30 minutos. \n\n ' .. ns.color.Red('No montes o perderás el buff.')
+
+L['options_icons_gnome_alone'] = '{achievement:62200}'
+L['options_icons_gnome_alone_desc'] = 'Muestra todas las ubicaciones para el logro {achievement:62200}.'
 
 -------------------------------------------------------------------------------
 ---------------------------------- ARCANTINA ----------------------------------

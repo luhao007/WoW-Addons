@@ -876,7 +876,7 @@ end
 function Titan_AdjustScale()
 	-- Only adjust if Titan is fully initialized
 	if Titan__InitializedPEW then
-		TitanPanel_SetScale();
+--		TitanPanel_SetScale();
 
 --		TitanPanel_ClearAllBarTextures()
 --		TitanPanel_CreateBarTextures()
@@ -886,9 +886,10 @@ function Titan_AdjustScale()
 				, TITAN_PANEL_PLACE_TOP);
 		end
 --]]
+		TitanPanel_InitPanelButtons("Movable")
 		TitanMovableFrame_MoveFrames()
 --		TitanPanelBarButton_DisplayBarsWanted()
-		TitanPanel_RefreshPanelButtons();
+--		TitanPanel_RefreshPanelButtons();
 	end
 end
 

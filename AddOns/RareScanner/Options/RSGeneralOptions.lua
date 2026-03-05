@@ -253,8 +253,19 @@ function RSGeneralOptions.GetGeneralOptions()
 					end,
 					width = "full",
 				},
-				showMaker = {
+				autoHideButtonInstances = {
 					order = 13,
+					name = AL["AUTOHIDE_BUTTON_INSTANCES"],
+					desc = AL["AUTOHIDE_BUTTON_INSTANCES_DESC"],
+					type = "toggle",
+					get = function() return RSConfigDB.IsAutohidingInIntances() end,
+					set = function(_, value)
+						RSConfigDB.SetAutohidingInIntances(value)
+					end,
+					width = "full",
+				},
+				showMaker = {
+					order = 14,
 					name = AL["ENABLE_MARKER"],
 					desc = AL["ENABLE_MARKER_DESC"],
 					type = "toggle",
@@ -265,7 +276,7 @@ function RSGeneralOptions.GetGeneralOptions()
 					width = "full",
 				},
 				marker = {
-					order = 14,
+					order = 15,
 					type = "select",
 					dialogControl = 'RS_Markers',
 					name = AL["MARKER"],
@@ -279,12 +290,12 @@ function RSGeneralOptions.GetGeneralOptions()
 					disabled = function() return not RSConfigDB.IsDisplayingMarkerOnTarget() end,
 				},
 				separatorWaypoints = {
-					order = 15,
+					order = 16,
 					type = "header",
 					name = AL["INGAME_WAYPOINTS"],
 				},
 				enableWaypointsSupport = {
-					order = 16,
+					order = 17,
 					name = AL["ENABLE_WAYPOINTS_SUPPORT"],
 					desc = AL["ENABLE_WAYPOINTS_SUPPORT_DESC"],
 					type = "toggle",
@@ -298,7 +309,7 @@ function RSGeneralOptions.GetGeneralOptions()
 					width = "full",
 				},
 				autoWaypoints = {
-					order = 17,
+					order = 18,
 					name = AL["ENABLE_AUTO_WAYPOINTS"],
 					desc = AL["ENABLE_AUTO_WAYPOINTS_DESC"],
 					type = "toggle",
@@ -310,12 +321,12 @@ function RSGeneralOptions.GetGeneralOptions()
 					disabled = function() return not RSConfigDB.IsWaypointsSupportEnabled() end,
 				},
 				separatorTomtomWaypoints = {
-					order = 18,
+					order = 19,
 					type = "header",
 					name = AL["TOMTOM_WAYPOINTS"],
 				},
 				enableTomtomSupport = {
-					order = 19,
+					order = 20,
 					name = AL["ENABLE_TOMTOM_SUPPORT"],
 					desc = AL["ENABLE_TOMTOM_SUPPORT_DESC"],
 					type = "toggle",
@@ -330,7 +341,7 @@ function RSGeneralOptions.GetGeneralOptions()
 					disabled = function() return not TomTom end,
 				},
 				autoTomtomWaypoints = {
-					order = 20,
+					order = 21,
 					name = AL["ENABLE_AUTO_TOMTOM_WAYPOINTS"],
 					desc = AL["ENABLE_AUTO_TOMTOM_WAYPOINTS_DESC"],
 					type = "toggle",
@@ -340,7 +351,63 @@ function RSGeneralOptions.GetGeneralOptions()
 					end,
 					width = "full",
 					disabled = function() return not RSConfigDB.IsTomtomSupportEnabled() end,
-				}
+				},
+				showTomtomMinimapIcon = {
+					order = 22,
+					name = AL["SHOW_TOMTOM_MINIMAP_ICON"],
+					desc = AL["SHOW_TOMTOM_MINIMAP_ICON_DESC"],
+					type = "toggle",
+					get = function() return RSConfigDB.IsShowingTomtomMinimapIcon() end,
+					set = function(_, value)
+						RSConfigDB.SetShowingTomtomMinimapIcon(value)
+					end,
+					width = "full",
+					disabled = function() return not TomTom end,
+				},
+				showTomtomWorldmapIcon = {
+					order = 23,
+					name = AL["SHOW_TOMTOM_WORLDMAP_ICON"],
+					desc = AL["SHOW_TOMTOM_WORLDMAP_ICON_DESC"],
+					type = "toggle",
+					get = function() return RSConfigDB.IsShowingTomtomWorldmapIcon() end,
+					set = function(_, value)
+						RSConfigDB.SetShowingTomtomWorldmapIcon(value)
+					end,
+					width = "full",
+					disabled = function() return not TomTom end,
+				},
+				separatorWaypointUIWaypoints = {
+					order = 24,
+					type = "header",
+					name = AL["WAYPOINTUI_WAYPOINTS"],
+				},
+				enableWaypointUISupport = {
+					order = 25,
+					name = AL["ENABLE_WAYPOINTUI_SUPPORT"],
+					desc = AL["ENABLE_WAYPOINTUI_SUPPORT_DESC"],
+					type = "toggle",
+					get = function() return RSConfigDB.IsWaypointUISupportEnabled() end,
+					set = function(_, value)
+						RSConfigDB.SetWaypointUISupportEnabled(value)
+						if (not value) then
+							RSConfigDB.SetAddingWaypointUIWaypointsAutomatically(false)
+						end
+					end,
+					width = "full",
+					disabled = function() return not WaypointUIAPI end,
+				},
+				autoWaypointUIWaypoints = {
+					order = 26,
+					name = AL["ENABLE_AUTO_TOMTOM_WAYPOINTS"],
+					desc = AL["ENABLE_AUTO_TOMTOM_WAYPOINTS_DESC"],
+					type = "toggle",
+					get = function() return RSConfigDB.IsAddingWaypointUIWaypointsAutomatically() end,
+					set = function(_, value)
+						RSConfigDB.SetAddingWaypointUIWaypointsAutomatically(value)
+					end,
+					width = "full",
+					disabled = function() return not RSConfigDB.IsWaypointUISupportEnabled() end,
+				},
 			},
 		}
 	end

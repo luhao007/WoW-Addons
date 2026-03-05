@@ -11,7 +11,7 @@ local Lockit = setmetatable(
     {},
     {
         __index = function(_, ...)
-            Logger.Log("Key is not found in the Lockit: `%s`!", ...)
+            Logger:Log("Key is not found in the Lockit: `%s`!", ...)
         end
     }
 )
@@ -85,23 +85,33 @@ Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_START = "Select which type of W
 Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_BLIZZARD = "- Blizzard's Map Pin (the default in-game navigation)."
 Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_TOMTOM = "- TomTom Waypoints."
 Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_MPE = "- MapPinEnhanced Waypoints."
-Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_TOMTOM_UNAVAILABLE_FORMAT = "%s (%s)."
+Lockit.UI_SETTING_WAYPOINT_TRACKING_TYPE_TOOLTIP_TOMTOM_UNAVAILABLE_FORMAT = "%s %s."
 Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_BLIZZARD_NAME = "Blizzard"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_BLIZZARD_DESCRIPTION = "Use Blizzard's Map Pin."
 Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_TOMTOM_NAME = "TomTom"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_TOMTOM_DESCRIPTION = "Use TomTom Waypoints."
 Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_MPE_NAME = "MapPinEnhanced"
 Lockit.UI_SETTING_WAYPOINT_TRACKING_OPTION_MPE_DESCRIPTION = "Use MapPinEnhanced Waypoints."
-Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_NAME = "Widget In Delves"
-Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_TOOLTIP = "Enable a widget that is displayed inside a Delve. It serves as a remainder and a quick-cast menu for the Bounty Map, Nemesis Lure, and more."
+Lockit.UI_SETTING_IN_DELVE_WIDGET_CONTROL_NAME = "Widget In Delves"
+Lockit.UI_SETTING_IN_DELVE_WIDGET_CONTROL_TOOLTIP = "Enable a widget that is displayed inside a Delve. It serves as a remainder and a quick-cast menu for the Bounty Map, Nemesis Lure, and more."
+Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_NAME = "Display Location"
+Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_TOOLTIP = "Where the widget is displayed."
 Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_OPTION_LEFT_NAME = "Left Side"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_OPTION_LEFT_DESCRIPTION = "Widget is displayed on the left side of Objective Tracker."
 Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_OPTION_RIGHT_NAME = "Right Side"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_OPTION_RIGHT_DESCRIPTION = "Widget is displayed on the right side of Objective Tracker."
+Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_OPTION_CUSTOM_NAME = "Custom"
+Lockit.UI_SETTING_IN_DELVE_WIDGET_DISPLAY_RULE_OPTION_CUSTOM_DESCRIPTION = "Widget can be freely moved around the screen. |cnGREEN_FONT_COLOR:Right Click|r and drag the widget to move it."
+Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_NAME = "Buttons Layout"
+Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_TOOLTIP = "How the widget buttons are arranged."
+Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_VERTICAL_NAME = "Vertical Layout"
+Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_VERTICAL_DESCRIPTION = "The buttons are arranged vertically."
+Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_HORIZONTAL_NAME = "Horizontal Layout"
+Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_HORIZONTAL_DESCRIPTION = "The buttons are arranged horizontally."
 
 Lockit.UI_SETTINGS_SECTION_TITLE_CHARACTER = "Character-Wide"
 Lockit.UI_SETTING_TOOLTIP_EXTENSION_NAME = "Extra Info in Tooltips"
-Lockit.UI_SETTING_TOOLTIP_EXTENSION_TOOLTIP = "Display additional information in tooltips (e.g., the number of |cnITEM_EPIC_COLOR:Restored Coffer Keys|r received this week)."
+Lockit.UI_SETTING_TOOLTIP_EXTENSION_TOOLTIP = "Display additional information in tooltips (e.g., whether |cnITEM_EPIC_COLOR:Bounty Map|r has been looted this week)."
 Lockit.UI_SETTING_COMPANION_CONFIG_NAME = "Companion Configuration Widget"
 Lockit.UI_SETTING_COMPANION_CONFIG_TOOLTIP = "Delves UI: Enable a widget that displays the Companion's current specialization and abilities.\nIt can be used to modify the configuration directly from the Delves UI.\nNote: layout type doesn't affect the functionality, only visual arrangement."
 Lockit.UI_SETTING_COMPANION_CONFIG_OPTION_HORIZONTAL_NAME = "Horizontal Layout"
@@ -112,6 +122,9 @@ Lockit.UI_SETTING_GV_DETAILS_NAME = "Custom Great Vault"
 Lockit.UI_SETTING_GV_DETAILS_TOOLTIP = "Delves UI: Display Great Vault rewards and progress (relevant for Delves) directly in the Delves UI."
 Lockit.UI_SETTING_DASHBOARD_OVERVIEW_NAME = "Delves Overview Section"
 Lockit.UI_SETTING_DASHBOARD_OVERVIEW_TOOLTIP = "Delves UI: Display an additional Overview section. It contains information about Gilded Stash, available Bountiful Delves, and Delve-related consumables."
+
+Lockit.UI_SETTING_LOGS_NAME = "Enable Debug Logs"
+Lockit.UI_SETTING_LOGS_TOOLTIP = "Allows to print debug logs in the chat. Used for development and testing purposes."
 
 Lockit.UI_SETTINGS_TRANSLATION_TITLE = "Special thanks for the translation contribution:"
 

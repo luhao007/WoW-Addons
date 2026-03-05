@@ -167,6 +167,7 @@ local PRICE_INFO = {
 	["sinstonefragments"]          = { currencyID = 1816 }, -- Sinstone Fragments, added in 9.0.1
 	["gratefuloffering"]           = { currencyID = 1885 }, -- Grateful Offering, added in 9.0.1
 	["catalogedresearch"]          = { currencyID = 1931 }, -- Cataloged Research, added in 9.1.0
+	["cosmicFlux"]                 = { currencyID = 2009 }, -- Cosmic Flux
 	["dragonSupplies"]             = { currencyID = 2003 }, -- Dragon Isles Supplies
 	["paracausalFlakes"]           = { currencyID = 2594 }, -- Paracausal Flakes
 	["tender"]                     = { currencyID = 2032 }, -- Trader's Tender

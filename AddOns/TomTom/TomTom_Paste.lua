@@ -126,6 +126,7 @@ end
 
 local ldb_feed
 local iconName = "TomTom-Paste"
+local compartmentShown
 
 local function getMinimapPasteButton()
     if not ldb_feed then
@@ -140,44 +141,9 @@ local function getMinimapPasteButton()
                 local window = initPasteWindow()
                 window:SetShown(not window:IsShown())
             end,
-            showInCompartment = false,
         })
 
-        ldbicon:Register(iconName, ldb_feed, addon.db.profile.paste)
-    end
-end
-
-addon.compartmentButtonObject = {
-    text = L["TomTom Paste"],
-    icon = "interface/icons/inv_misc_note_03",
-    notCheckable = true,
-    func = function(button, menuInputData, menu)
-        local window = initPasteWindow()
-        window:SetShown(not window:IsShown())
-    end,
-    funcOnEnter = function(button)
-        MenuUtil.ShowTooltip(button, function(tooltip)
-            tooltip:SetText(L["Open the TomTom Paste window"])
-        end)
-    end,
-    funcOnLeave = function(button)
-        MenuUtil.HideTooltip(button)
-    end,
-}
-
-local function updateCompartmentButton(show)
-    if not AddonCompartmentFrame then return end
-
-    if show then
-        AddonCompartmentFrame:RegisterAddon(addon.compartmentButtonObject)
-    else
-        for idx, obj in ipairs(AddonCompartmentFrame.registeredAddons) do
-            if obj == addon.compartmentButtonObject then
-                table.remove(AddonCompartmentFrame.registeredAddons, idx)
-                AddonCompartmentFrame:UpdateDisplay()
-                return
-            end
-		end
+        ldbicon:Register(iconName, ldb_feed, addon.db.profile.paste.button)
     end
 end
 
@@ -204,16 +170,18 @@ end
 ----------------------------------------------------------------------------]]
 
 function addon:PasteConfigChanged()
-    if addon.profile.paste.minimap_button then
-        getMinimapPasteButton()
-        ldbicon:Show(iconName)
-    else
-        getMinimapPasteButton()
-        ldbicon:Hide(iconName)
-    end
+    getMinimapPasteButton()
+    ldbicon:Refresh(iconName, addon.db.profile.paste.button)
 
-    local showCompartment = addon.profile.paste.addon_compartment_button
-    updateCompartmentButton(showCompartment)
+    local wantCompartment = addon.db.profile.paste.addon_compartment
+    if wantCompartment ~= compartmentShown then
+        compartmentShown = wantCompartment
+        if wantCompartment then
+            ldbicon:AddButtonToCompartment(iconName)
+        else
+            ldbicon:RemoveButtonFromCompartment(iconName)
+        end
+    end
 end
 
 --[[--------------------------------------------------------------------------
@@ -326,27 +294,23 @@ function slashModule:RemovePage(title)
 end
 
 function slashModule:ToggleMinimap(action)
-    local current = addon.db.profile.paste.minimap_button
-
-    -- Coerce to boolean just in case something silly happens :)
-    current = not not current
-    local shown = current
+    local hidden = addon.db.profile.paste.button.hide
 
     if action == "show" then
-        shown = true
+        hidden = false
     elseif action == "hide" then
-        shown = false
+        hidden = true
     else
-        shown = not shown
+        hidden = not hidden
     end
 
-    if shown then
-        addon:Printf(L["Showing the TomTom-Paste minimap button"])
-    else
+    if hidden then
         addon:Printf(L["Hiding the TomTom-Paste minimap button"])
+    else
+        addon:Printf(L["Showing the TomTom-Paste minimap button"])
     end
 
-    addon.db.profile.paste.minimap_button = shown
+    addon.db.profile.paste.button.hide = hidden
     addon:PasteConfigChanged()
 end
 

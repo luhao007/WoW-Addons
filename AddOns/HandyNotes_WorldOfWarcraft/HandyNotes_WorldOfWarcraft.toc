@@ -1,5 +1,5 @@
 ## Interface: 120001
-## Version: 131
+## Version: 134
 
 ## Title: HandyNotes: World of Warcraft
 ## Notes: World of Warcraft Original Zone Notes

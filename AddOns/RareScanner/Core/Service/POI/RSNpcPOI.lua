@@ -435,7 +435,7 @@ function RSNpcPOI.GetMapNpcPOI(npcID, mapID, questTitles, vignetteGUIDs, areaPOI
 		return
 	end
 	
-	local alreadyFoundInfo = recentlySeenInfo or RSGeneralDB.GetAlreadyFoundEntity(npcID)
+	local alreadyFoundInfo = recentlySeenInfo or RSGeneralDB.GetAlreadyFoundEntity(npcID, RSConstants.NPC_VIGNETTE)
 	
 	-- Skip if not showing not discovered NPC icons
 	if (not RSConfigDB.IsShowingNotDiscoveredNpcs() and not alreadyFoundInfo) then

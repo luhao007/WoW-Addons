@@ -1,5 +1,8 @@
 WQL_AreaPOIPinMixin = CreateFromMixins(AreaPOIPinMixin)
 
+local GameTooltip = CreateFrame("GameTooltip", "WQLAreaPOITooltip", UIParent, "GameTooltipTemplate")
+GameTooltip:Hide()
+
 function WQL_AreaPOIPinMixin:TryShowTooltip()
 	local description = self.description;
 

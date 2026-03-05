@@ -49,13 +49,10 @@ function DelveCompanion_DelvesListFrameMixin:Refresh()
     self.DelveOBotWidget:SetShown(tierData.expansionLevel == LE_EXPANSION_WAR_WITHIN) -- Delve-O-Bot 7001 works for TWW Delves only.
 
     do
-        -- TODO: What will happen after TWW S3? Modifiers are active in the latest expansion Delves.
-
         self.ModifiersContainer.Nemesis:SetFrameInfo(
             DelveCompanion.Definitions.CodeType.Spell,
-            Config.AFFIXES.Nemesis[tierData.expansionLevel])
-        self.ModifiersContainer:SetShown(true)
-        -- self.ModifiersContainer:SetShown(tierData.expansionLevel == LE_EXPANSION_LEVEL_CURRENT)
+            Config.AFFIXES.Nemesis[LE_EXPANSION_MIDNIGHT])
+        self.ModifiersContainer:SetShown(tierData.expansionLevel == LE_EXPANSION_LEVEL_CURRENT)
     end
 end
 
@@ -84,7 +81,7 @@ end
 
 ---@param self DelvesListFrame
 function DelveCompanion_DelvesListFrameMixin:OnLoad()
-    -- Logger.Log("[DelvesListFrame] OnLoad start")
+    -- Logger:Log("[DelvesListFrame] OnLoad start")
 
     self.Title:SetText(_G["DELVES_LABEL"])
 
@@ -155,33 +152,33 @@ end
 
 ---@param self DelvesListFrame
 function DelveCompanion_DelvesListFrameMixin:OnEvent(event, ...)
-    -- Logger.Log("[DelvesListFrame] OnEvent start")
+    -- Logger:Log("[DelvesListFrame] OnEvent start")
 
     self:UpdateKeysWidget()
 end
 
 ---@param self DelvesListFrame
 function DelveCompanion_DelvesListFrameMixin:OnShow()
-    -- Logger.Log("[DelvesListFrame] OnShow start")
+    -- Logger:Log("[DelvesListFrame] OnShow start")
 
     self:Refresh()
 end
 
 ---@param self DelvesListFrame
 function DelveCompanion_DelvesListFrameMixin:OnHide()
-    --Logger.Log("[DelvesListFrame] OnHide start")
+    --Logger:Log("[DelvesListFrame] OnHide start")
 
     self:UnregisterEvent("CURRENCY_DISPLAY_UPDATE")
 end
 
 --#region Xml annotations
 
----@class ModifiersContainerXml : HorizontalLayoutFrame
+---@class (exact) ModifiersContainerXml : HorizontalLayoutFrame
 ---@field ModifiersLabel FontString
 ---@field Nemesis CustomActionWidget
 
 --- `DelveCompanionDelvesListFrameTemplate`
----@class DelvesListXml : Frame
+---@class (exact) DelvesListXml : Frame
 ---@field Background Texture
 ---@field Title FontString
 ---@field KeysWidget CustomActionWidget

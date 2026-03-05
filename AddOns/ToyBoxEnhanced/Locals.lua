@@ -416,7 +416,7 @@ Faites un |cffeda55fclic droit|r pour ouvrir les options de l'addon.]=]
 L["CONFIRM_FAVORITE_PROFILE_DELETION"] = "Êtes-vous sûr de vouloir supprimer le profil \"%s\" ? Toutes les configurations du personnage actuel seront réinitialisées selon le profil par défaut \"%s\"."
 L["Day of the Dead"] = "Jour des morts"
 L["FAVOR_AUTO"] = "Ajouter automatiquement les nouveaux jouets"
-L["FAVOR_DISPLAYED"] = "Tous les affichés"
+L["FAVOR_DISPLAYED"] = "Tout afficher"
 L["FAVORITE_ACCOUNT_PROFILE"] = "Compte"
 L["FAVORITE_PROFILE"] = "Profil"
 L["FILTER_HIDDEN_MANUAL"] = "Caché par moi"
@@ -803,8 +803,7 @@ L["Vision"] = "Visão"
 L["Voice"] = "Voz"
 
 elseif locale == "ruRU" then
-    --[[Translation missing --]]
---[[ L["ASK_FAVORITE_PROFILE_NAME"] = "Enter Profile Name:"--]] 
+    L["ASK_FAVORITE_PROFILE_NAME"] = "Показать дома друзей с Battle.net"
 --[[Translation missing --]]
 --[[ L["COMPARTMENT_TOOLTIP"] = [=[|cffeda55fLeft-Click|r to toggle showing the Toy Box.
 |cffeda55fRight-Click|r to open addon options.]=]--]] 

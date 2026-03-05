@@ -5,7 +5,6 @@ local L = app.L
 -- App locals
 local GetRawField, contains
 	= app.GetRawField, app.contains
-local IsQuestFlaggedCompleted, IsQuestFlaggedCompletedForObject = app.IsQuestFlaggedCompleted, app.IsQuestFlaggedCompletedForObject;
 local IsRetrieving = app.Modules.RetrievingData.IsRetrieving;
 
 -- Global locals
@@ -471,30 +470,22 @@ itemFields.collectibleAsUpgrade = app.Modules.Upgrade.CollectibleAsUpgrade;
 
 app.CreateItem = app.CreateClass(CLASS, KEY, itemFields,
 "AsHQT", {
+	CACHE = function() return "Quests" end,
+	ImportFrom = "Quest",
+	ImportFields = { "repeatable", "trackable", "saved" },
 	CollectibleType = function() return "QuestsHidden" end,
 	collectible = app.CollectibleAsQuest,
 	locked = app.GlobalVariants.AndLockCriteria.locked,
-	collected = IsQuestFlaggedCompletedForObject,
-	trackable = function(t)
-		-- raw repeatable quests can't really be tracked since they immediately unflag
-		return not rawget(t, "repeatable")
+	collected = function(t)
+		return app.TypicalCharacterCollected("Quests", t.questID, t.CollectibleType)
 	end,
-	saved = function(t)
-		return IsQuestFlaggedCompleted(t.questID);
-	end
 }, (function(t) return t.type == "ihqt"; end),
 "WithQuest", {
+	ImportFrom = "Quest",
+	ImportFields = { "repeatable", "trackable", "saved" },
 	CollectibleType = function() return "QuestsHidden" end,
 	collectible = app.ReturnFalse,
 	locked = app.GlobalVariants.AndLockCriteria.locked,
-	collected = IsQuestFlaggedCompletedForObject,
-	trackable = function(t)
-		-- raw repeatable quests can't really be tracked since they immediately unflag
-		return not rawget(t, "repeatable")
-	end,
-	saved = function(t)
-		return IsQuestFlaggedCompleted(t.questID);
-	end
 }, (function(t) return t.questID; end),
 "WithFaction", {
 	collectible = function(t)

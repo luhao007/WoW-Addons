@@ -140,15 +140,16 @@ L.LogChallenges						= "Défis spéciaux actuels"--Retail Only
 L.Panel_ExtraFeatures		= "Fonctionnalités supplémentaires"
 
 L.Area_SoundAlerts			= "Options des alertes sonores/clignotement"
-L.LFDEnhance				= "Faire clignoter le bouton de l'application et jouer le son d'appel lors des vérif. de rôle et des invitations (Recherche de groupe, CB, etc) dans les canaux audio principal ou dialogue"
-L.WorldBossNearAlert		= "Faire clignoter le bouton de l'application et jouer le son d'appel quand un boss mondial proche de vous est engagé"
-L.RLReadyCheckSound			= "Faire clignoter le bouton de l'application et jouer le son via les canaux audio principal ou dialogue quand un appel est lancé par le chef de raid"
-L.AutoReplySound			= "Faire clignoter le bouton de l'application et jouer un son d'alerte quand vous recevez une réponse DBM automatique par chuchotement"
+L.LFDEnhance				= "Jouer le son d'appel lors des vérif. de rôle et des invitations (Recherche de groupe, CB, etc) dans les canaux audio principal ou dialogue"
+L.WorldBossNearAlert		= "Jouer le son d'appel quand un boss mondial proche de vous est engagé"
+L.RLReadyCheckSound			= "Jouer le son via les canaux audio principal ou dialogue quand un appel est lancé par le chef de raid"
+L.AutoReplySound			= "Jouer un son d'alerte quand vous recevez une réponse DBM automatique par chuchotement"
 --
-L.Area_CombatAlerts			= "Options d'alertes de combat"
-L.AFKHealthWarning			= "Faire clignoter le bouton de l'application et jouer un son d'alerte si vous perdez de la vie (à n'importe quel pourcentage) alors que vous êtes ABS"
-L.HealthWarningLow			= "Faire clignoter le bouton de l'application et jouer un son d'alerte si vous perdez de la vie (quand vous êtes en dessous de 35 %) alors que vous êtes ABS"
-L.EnteringCombatAlert		= "Faire clignoter le bouton de l'application et jouer un son d'alerte lorsque vous entrez en combat"
+L.Area_CombatAlerts			= "Options des alertes de combat"
+L.Area_CombatAlertsRetail   = "Options des alertes de combat (extérieur uniquement)"
+L.AFKHealthWarning			= "Jouer un son d'alerte si vous perdez de la vie (à n'importe quel pourcentage) alors que vous êtes ABS"
+L.HealthWarningLow			= "Jouer un son d'alerte si vous perdez de la vie (quand vous êtes en dessous de 35 %) alors que vous êtes ABS"
+L.EnteringCombatAlert		= "Jouer un son d'alerte lorsque vous entrez en combat"
 L.LeavingCombatAlert		= "Jouer un son d'alerte lorsque vous quittez le combat"
 
 L.TimerGeneral 				= "Options de décompte"
@@ -166,9 +167,7 @@ L.Area_Advanced				= "Options avancées"
 L.FakeBW					= "Prétendre utiliser BigWigs lors des vérifications de versions au lieu de DBM"
 --
 L.Area_Tooltip              = "Intégration à l'infobulle"
-L.EnableTooltip             = "Ajouter les statistiques de DBM aux infobulles des boss pris en charge"
-L.EnableTooltipInCombat     = "Afficher les informations de l'infobulle en combat"
-L.EnableTooltipHeader       = "Inclure l’en-tête DBM dans l’infobulle"
+
 
 -- Panel: Profiles
 L.Panel_Profile				= "Profils"
@@ -231,10 +230,10 @@ L.ThickOutline				= "Epais"
 L.MonochromeOutline			= "Monochrome simple"
 L.MonochromeThickOutline	= "Monochrome épais"
 L.RaidWarnSound				= "Jouer un son sur les alertes raid"
-L.SAOne						= "Son global 1 (personnel)"
-L.SATwo 					= "Son global 2 (tout le monde)"
-L.SAThree 					= "Son global 3 (action de haute priorité)"
-L.SAFour 					= "Son global 4 (fuite de haute priorité)"
+L.SAOne						= "Son 1"
+L.SATwo 					= "Son 2"
+L.SAThree 					= "Son 3"
+L.SAFour 					= "Son 4"
 
 -- Tab: Spec Warn Frame
 L.Panel_SpecWarnFrame				= "Annonces spéciales"
@@ -265,11 +264,19 @@ L.SpecialWarnHeaderCritical			= "Annonces pour les mécaniques que Blizzard clas
 
 -- Panel: Private Auras Frame
 L.Panel_PrivateAuras				= "Auras privées"
-L.Area_PrivateAuras					= "Options des auras privées"
-L.EnablePrivateAuraIcons			= "Afficher les icônes des auras privées à l'écran"
-L.EnablePrivateAuraText				= "Afficher les messages texte des auras privées à l'écran"
-L.SetPAIconScale					= "Échelle de l'icône : %0.1f"
-L.SetPATextScale					= "Échelle du texte : %0.1f"
+L.Area_PersonalPrivateAuras         = "Options des auras privées personnelles"
+L.EnablePersonalPrivateAuraIcons    = "Afficher les icônes des auras privées personnelles à l’écran"
+L.EnablePersonalPrivateAuraText     = "Afficher les messages texte des auras privées personnelles à l’écran"
+L.UpscaleDurationText               = "Augmenter l’échelle du texte de durée"
+L.SetPAGrowDirection                = "Direction d’expansion"
+L.SetPAIconScale                    = "Échelle de l’icône : %d"
+L.SetPAIconSpacing                  = "Espacement des icônes : %d"
+L.SetPAStackScale                   = "Échelle des charges : %d"
+L.SetPATextScale                    = "Échelle du texte : %0.1f"
+L.HidePATooltip                     = "Désactiver l’infobulle du sort au survol"
+L.HidePABorder                      = "Désactiver la bordure"
+L.Area_TankPrivateAuras             = "Options des auras privées du co-tank"
+L.EnableTankPrivateAuraIcons        = "Afficher les icônes des auras privées du co-tank à l’écran"
 
 -- Tab: Generalwarnings
 L.Tab_GeneralMessages 			= "Messages de la fenêtre de discussion"
@@ -309,7 +316,7 @@ L.Area_VoiceSelection		= "Sélection des voix"
 L.CountdownVoice			= "Voix de décompte principale"
 L.CountdownVoice2			= "Voix de décompte secondaire"
 L.CountdownVoice3			= "Voix de décompte tertiaire"
-L.PullVoice 				= "Voix pour les chronomètres de pull"
+L.PullVoice 				= "Voix des chronomètres de pull"
 L.VoicePackChoice			= "Paquet de voix des alertes vocales"
 L.MissingVoicePack			= "Paquet de voix manquant (%s)"
 L.Area_CountdownOptions		= "Options des décomptes"
@@ -487,7 +494,10 @@ L.SpamBlockNoSpecWarnText			= "Ne pas afficher de texte pour les annonces spéci
 L.SpamBlockNoSpecWarnFlash			= "Ne pas faire clignoter l'écran pour les annonces spéciales"
 L.SpamBlockNoSpecWarnVibrate		= "Ne pas faire vibrer la manette pour les annonces spéciales"
 L.SpamBlockNoSpecWarnSound			= "Ne pas jouer de son d'annonce spéciale"
-L.SpamBlockNoPrivateAuraSound		= "Ne pas enregistrer les sons des auras privées"
+
+L.Area_Private_Aura_Features        = "Options des auras privées"
+L.SpamBlockNoPrivateAuraSound       = "Ne pas enregistrer les sons des auras privées"
+L.SpamBlockNoPrivateAuraFrame       = "Ne pas afficher les cadres d’auras privées"
 
 L.Area_SpamFilter_Timers			= "Options des chronomètres"
 L.SpamBlockNoShowBossTimers			= "Ne pas afficher les chronomètres pour les boss de donjon/raid"
@@ -567,7 +577,6 @@ L.Area_HideBlizzard 				= "Désactiver et cacher d'autres irritants Blizzard"
 L.HideBossEmoteFrame 				= "Cacher le cadre des émotes de boss de raid pendant les combats de boss"
 L.HideWatchFrame 					= "Cacher le cadre de suivi (objectifs) pendant les combats de boss s'il n'y a pas d'exploits en cours de suivi et si ce n'est pas dans une Mythique+"
 L.HideQuestTooltips 				= "Cacher les objectifs de quête des infobulles pendant les combats de boss" --Currently hidden (NYI)
-L.HideTooltips 						= "Cacher les infobulles pendant les combats de boss"
 L.HideBlizzardTimeline				= "Cacher la ligne du temps de la raid de Blizzard pendant les combats de boss"
 
 -- Panel: Raid Leader Controls

@@ -20,7 +20,6 @@ local RSProvider = private.ImportLib("RareScannerProvider")
 
 -- RareScanner services
 local RSGuidePOI = private.ImportLib("RareScannerGuidePOI")
-local RSTomtom = private.ImportLib("RareScannerTomtom")
 local RSWaypoints = private.ImportLib("RareScannerWaypoints")
 local RSEntityStateHandler = private.ImportLib("RareScannerEntityStateHandler")
 
@@ -104,12 +103,7 @@ function RSEntityPinMixin:OnMouseDown(button)
 	elseif (button == "RightButton") then
 		-- Add waypoint
 		if (IsShiftKeyDown()) then
-			if (RSConfigDB.IsAddingWorldMapTomtomWaypoints()) then
-				RSTomtom.AddWorldMapTomtomWaypoint(self.POI.mapID, self.POI.x, self.POI.y, self.POI.name)
-			end
-			if (RSConfigDB.IsAddingWorldMapIngameWaypoints()) then
-				RSWaypoints.AddWorldMapWaypoint(self.POI.mapID, self.POI.x, self.POI.y)
-			end
+			RSWaypoints.AddWorldMapWaypoint(self.POI.mapID, self.POI.x, self.POI.y, self.POI.name)
 		-- Toggle guide
 		elseif (not IsShiftKeyDown() and not IsAltKeyDown() and not IsControlKeyDown()) then
 			-- If guide showing then hide it

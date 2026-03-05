@@ -14,8 +14,6 @@ local GetNumQuestChoices, GetNumQuestRewards, GetNumQuestLogRewardSpells, GetQue
 	= GetNumQuestChoices, GetNumQuestRewards, GetNumQuestLogRewardSpells, GetQuestLogRewardSpell, GetNumQuestLogRewardCurrencies, GetQuestLogRewardCurrencyInfo;
 local GetNumLootItems, GetLootSlotLink, GetLootSourceInfo, GetTaxiMapID, C_TaxiMap_GetAllTaxiNodes
 	= GetNumLootItems, GetLootSlotLink, GetLootSourceInfo, GetTaxiMapID, C_TaxiMap.GetAllTaxiNodes;
-local C_TradeSkillUI_GetCategories
-	= C_TradeSkillUI.GetCategories;
 local GetItemID = app.WOWAPI.GetItemID;
 local issecretvalue = app.WOWAPI.issecretvalue;
 
@@ -127,6 +125,36 @@ local function CalculateIndent(indent)
 	end
 	return str;
 end
+local function ConvertCoordsForGroup(group)
+	if group.g then
+		for i,o in ipairs(group.g) do
+			ConvertCoordsForGroup(o);
+		end
+	end
+	local coords = group.coords;
+	if coords then
+		-- Check to see if it has the old format.
+		if #coords > 0 then
+			-- Yup, it sure is. let's update that.
+			local newCoords = {};
+			for i,coord in ipairs(coords) do
+				local coordsForMap = newCoords[coord[3]];
+				if not coordsForMap then
+					coordsForMap = {};
+					newCoords[coord[3]] = coordsForMap;
+				end
+				tinsert(coordsForMap, { coord[1], coord[2] });
+			end
+			group.coords = newCoords;
+			--[[
+			print("OLD COORDS:");
+			DevTools_Dump(coords);
+			print("NEW COORDS:");
+			DevTools_Dump(newCoords);
+			]]--
+		end
+	end
+end
 local function GetMoneyString(amount)
 	if amount > 0 then
 		local formatted
@@ -170,8 +198,6 @@ local function ExportKeyValue(key, value)
 			str = str .. "\t{ \"" .. o[1] .. "\", " .. o[2] .. " },\t-- " .. (app.GetNameFromProvider(o[1], o[2]) or UNKNOWN) .. "\n";
 		end
 		str = str .. "},";
-	elseif key == "provider" then
-		str = str .. "{ \"" .. value[1] .. "\", " .. value[2] .. " },\t-- " .. (app.GetNameFromProvider(value[1], value[2]) or UNKNOWN);
 	elseif key == "crs" or key == "qgs" then
 		str = str .. "{\n";
 		for i,id in ipairs(value) do
@@ -180,12 +206,14 @@ local function ExportKeyValue(key, value)
 		str = str .. "},";
 	elseif key == "coords" then
 		str = str .. "{\n";
-		for i,o in ipairs(value) do
-			str = str .. "\t{ " .. o[1] .. ", " .. o[2] .. ", " .. o[3] .. " },\n";
+		for mapID,coordsForMap in pairs(value) do
+			str = str .. "\t[" .. mapID .. "] = {\n";
+			for i,o in ipairs(coordsForMap) do
+				str = str .. "\t\t{ " .. o[1] .. ", " .. o[2] .. " },\n";
+			end
+			str = str .. "\t},\n";
 		end
 		str = str .. "},";
-	elseif key == "coord" then
-		str = str .. "{ " .. value[1] .. ", " .. value[2] .. ", " .. value[3] .. " },";
 	elseif key == "cost" then
 		if type(value) == "number" then
 			-- This is simply a gold value
@@ -414,7 +442,7 @@ app:CreateWindow("Debugger", {
 			local pos = C_Map_GetPlayerMapPosition(mapID, "player");
 			if pos then
 				local px, py = pos:GetXY();
-				info.coords = { { px * 100, py * 100, mapID } };
+				info.coords = { [mapID] = { { px * 100, py * 100 } } };
 			end
 			repeat
 				mapInfo = C_Map_GetMapInfo(mapID);
@@ -429,6 +457,7 @@ app:CreateWindow("Debugger", {
 	OnLoad = function(self, settings)
 		self.rawData = app.LocalizeGlobal("AllTheThingsDebugData", true);
 		self.data.g = CloneClassInstance(self.rawData);
+		ConvertCoordsForGroup(self.data);
 		for i=#self.data.options,1,-1 do
 			tinsert(self.data.g, 1, self.data.options[i]);
 		end
@@ -563,6 +592,7 @@ app:CreateWindow("Debugger", {
 								if not err and func then
 									local data,success = func();
 									if data and success then
+										ConvertCoordsForGroup(data);
 										MergeObject(self.data.g, CloneObject(data));
 										MergeObject(self.rawData, data);
 										self:Update(true);
@@ -910,102 +940,6 @@ app:CreateWindow("Debugger", {
 			end
 		end
 		self:RegisterEvent("QUEST_ACCEPTED");
-
-		-- Capture Tradeskill sources
-		if C_TradeSkillUI_GetCategories then
-			-- This version of the tradeskill UI is only compatible with Retail.
-			-- CRIEVE NOTE: Someday maybe care about this for non-Retail?
-			local C_TradeSkillUI_GetCategoryInfo, C_TradeSkillUI_GetAllRecipeIDs, C_TradeSkillUI_GetRecipeInfo
-				= C_TradeSkillUI.GetCategoryInfo, C_TradeSkillUI.GetAllRecipeIDs, C_TradeSkillUI.GetRecipeInfo;
-			handlers.TRADE_SKILL_SHOW = function(self)
-				local tradeSkillID = GetTradeSkillLine();
-				print("TRADE_SKILL_SHOW", tradeSkillID);
-				local currentCategoryID, categories = -1, {};
-				local categoryData, categoryList, rawGroups = {}, {}, {};
-				local categoryIDs = { C_TradeSkillUI_GetCategories() };
-				for i = 1,#categoryIDs do
-					currentCategoryID = categoryIDs[i];
-					C_TradeSkillUI_GetCategoryInfo(currentCategoryID, categoryData);
-					if categoryData.name then
-						if not categories[currentCategoryID] then
-							local category = {
-								key = "categoryID",
-								["parentCategoryID"] = categoryData.parentCategoryID,
-								["categoryID"] = currentCategoryID,
-								["name"] = categoryData.name,
-								["g"] = {}
-							};
-							categories[currentCategoryID] = category;
-							tinsert(categoryList, category);
-						end
-					end
-				end
-
-				local recipeIDs = C_TradeSkillUI_GetAllRecipeIDs();
-				for i = 1,#recipeIDs do
-					local spellRecipeInfo = C_TradeSkillUI_GetRecipeInfo(recipeIDs[i]);
-					if spellRecipeInfo then
-						currentCategoryID = spellRecipeInfo.categoryID;
-						if currentCategoryID then
-							if not categories[currentCategoryID] then
-								C_TradeSkillUI_GetCategoryInfo(currentCategoryID, categoryData);
-								if categoryData.name then
-									local category = {
-										["parentCategoryID"] = categoryData.parentCategoryID,
-										["categoryID"] = currentCategoryID,
-										["name"] = categoryData.name,
-										["g"] = {}
-									};
-									categories[currentCategoryID] = category;
-									tinsert(categoryList, category);
-								end
-							end
-						end
-						local recipe = {
-							key = "recipeID",
-							["recipeID"] = spellRecipeInfo.recipeID,
-							["requireSkill"] = tradeSkillID,
-							["name"] = spellRecipeInfo.name,
-						};
-						if spellRecipeInfo.previousRecipeID then
-							recipe.previousRecipeID = spellRecipeInfo.previousRecipeID;
-						end
-						if spellRecipeInfo.nextRecipeID then
-							recipe.nextRecipeID = spellRecipeInfo.nextRecipeID;
-						end
-						tinsert(categories[currentCategoryID].g, recipe);
-					end
-				end
-
-				-- Make each category parent have children. (not as gross as that sounds)
-				for i=#categoryList,1,-1 do
-					local category = categoryList[i];
-					if category.parentCategoryID then
-						local parentCategory = categories[category.parentCategoryID];
-						category.parentCategoryID = nil;
-						if parentCategory then
-							tinsert(parentCategory.g, 1, category);
-							tremove(categoryList, i);
-						end
-					end
-				end
-
-				-- Now merge the categories into the raw groups table.
-				for i,category in ipairs(categoryList) do
-					tinsert(rawGroups, category);
-				end
-				self:AddObject({
-					key = "professionID",
-					["professionID"] = tradeSkillID,
-					["icon"] = GetTradeSkillTexture(tradeSkillID),
-					["name"] = C_TradeSkillUI.GetTradeSkillDisplayName(tradeSkillID),
-					["g"] = rawGroups
-				});
-			end
-			handlers.TRADE_SKILL_LIST_UPDATE = handlers.TRADE_SKILL_SHOW;
-			self:RegisterEvent("TRADE_SKILL_LIST_UPDATE");
-			self:RegisterEvent("TRADE_SKILL_SHOW");
-		end
 	end,
 	OnUpdate = function(self, ...)
 		-- turn off the Visibility filter for the Debugger update

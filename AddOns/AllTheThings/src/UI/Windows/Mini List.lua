@@ -108,9 +108,13 @@ local subGroupInstanceKeys = {
 	"eventID",
 	"achievementID",
 };
+-- special headers which should always group by top-level for location-based visibility rather than by categorization
+local TopLevelHeaders = {
+	[app.HeaderConstants.RARES] = true,
+}
 -- Headers possible in a hierarchy that should just be ignored
 local ignoredHeaders = app.HeaderData.IGNOREINMINILIST or app.EmptyTable;
-local groups, nested, headerKeys, difficultyGroup, nextParent, headerID, isInInstance, instanceType
+local groups, nested, headerKeys, difficultyGroup, nextParent, headerID, topheader, isInInstance, instanceType
 local rootGroups, mapGroups = {}, {};
 -- TODO -- For now these have to be different. I don't know if __CreateObject works for all Classic scenarios due to explicit key checks
 -- but CloneClassInstance doesn't properly clone the data in a way that cleanly represents the desired Minilist data
@@ -212,6 +216,7 @@ local RetailMapDataStyleMetatable = {
 				-- app.PrintDebug("Mapping:",app:SearchLink(group))
 				nested = nil;
 				difficultyGroup = nil
+				topheader = nil
 
 				-- Get the header chain for the group
 				nextParent = group.parent;
@@ -228,8 +233,13 @@ local RetailMapDataStyleMetatable = {
 					if headerID then
 						-- all Headers implicitly are allowed as visual headers in minilist unless explicitly ignored
 						if not ignoredHeaders[headerID] then
-							group = CreateHeaderData(mapID, group, nextParent);
-							nested = true;
+							-- top-headers get special treatment in that they will become the topheader for the nesting
+							if not topheader and TopLevelHeaders[headerID] then
+								topheader = nextParent
+							else
+								group = CreateHeaderData(mapID, group, nextParent)
+								nested = true
+							end
 						end
 					elseif nextParent.isMinilistHeader then
 						group = CreateHeaderData(mapID, group, nextParent);
@@ -255,6 +265,11 @@ local RetailMapDataStyleMetatable = {
 				-- Battle Pets get an additional raw Filter nesting
 				if not nested and group.key == "speciesID" then
 					group = app.CreateFilter(101, CreateHeaderData(mapID, group));
+				end
+
+				-- Nest the topheader if any at the end
+				if topheader then
+					group = CreateHeaderData(mapID, group, topheader)
 				end
 
 				-- If relative to a difficultyGroup, then merge it into one.
@@ -359,7 +374,7 @@ local RetailMapDataStyleMetatable = {
 		app.AssignChildren(mapData);
 		mapData._lastshown = GetTimePreciseSec()
 		mapData._firstshow = true
-		app.PrintDebug("Built new map data for",mapID)
+		-- app.PrintDebug("Built new map data for",mapID)
 		return mapData;
 	end,
 };
@@ -389,19 +404,19 @@ local function TrySwapFromCache(self)
 		-- never built, allow rebuild
 		return
 	elseif header._lastshown < expired then
-		app.PrintDebug("Do update for cached map",mapID,header._lastshown,expired)
+		-- app.PrintDebug("Do update for cached map",mapID,header._lastshown,expired)
 		-- we don't necessarily need to wipe the data, it would just need a force update if used again
 		self.HasPendingUpdate = true
 	end
 	-- Update the mapID into the data for external reference in case not a real map
 	header.mapID = self.mapID;
 	self:SetData(header)
-	app.PrintDebug("Loaded Swap Map Data",mapID)
+	-- app.PrintDebug("Loaded Swap Map Data",mapID)
 	-- Reset the Fill if needed
 	if not header._fillcomplete then
 		-- Reset the minilist Runner before filling again
 		self:GetRunner().Reset()
-		app.PrintDebug("Re-fill cached Map",mapID)
+		-- app.PrintDebug("Re-fill cached Map",mapID)
 		app.SetSkipLevel(2);
 		app.FillGroups(header);
 		app.SetSkipLevel(0);
@@ -450,7 +465,7 @@ app:CreateWindow("MiniList", {
 		end
 		-- don't allow bad values
 		mapID = tonumber(mapID) or 0
-		app.PrintDebug("SetMapID",mapID,force)
+		-- app.PrintDebug("SetMapID",mapID,force)
 		if force and mapID ~= 0 then
 			CachedMapData[mapID] = nil
 			self.mapID = nil
@@ -459,7 +474,7 @@ app:CreateWindow("MiniList", {
 			self:Show();
 			return
 		end
-		app.PrintDebug("new map",self.mapID,"=>",mapID);
+		-- app.PrintDebug("new map",self.mapID,"=>",mapID);
 		self.mapID = mapID;
 
 		-- Swap will simply swap the data into the minilist and allow it to Refresh only, since it has already been Updated recently
@@ -497,7 +512,7 @@ app:CreateWindow("MiniList", {
 	RefreshLocation = function(self)
 		-- Acquire the new map ID.
 		local mapID = app.CurrentMapID;
-		app.PrintDebug("RefreshLocation",mapID)
+		-- app.PrintDebug("RefreshLocation",mapID)
 		-- can't really do anything about this from here anymore
 		if not mapID then return end
 		-- don't auto-load minimap to anything higher than a 'Zone' if we are in an instance, unless it has no parent?
@@ -516,7 +531,9 @@ app:CreateWindow("MiniList", {
 	OnInit = function(self, handlers)
 		self:AddEventHandler("OnCurrentDifficultiesChanged", function(difficulties)
 			-- TODO: this is still excessive AF in Retail. Can't think of a situation where it would actually be needed
-			self:Rebuild();
+			if IsInInstance() then
+				self:Rebuild();
+			end
 		end);
 		app.AddEventHandler("OnWindowFillComplete", function(window)
 			if window.Suffix ~= self.Suffix then return end
@@ -557,7 +574,7 @@ app:CreateWindow("MiniList", {
 
 app.LocationTrigger = function(forceNewMap)
 	local window = app:GetWindow("MiniList", true)
-	app.PrintDebug("app.LocationTrigger",forceNewMap,window)
+	-- app.PrintDebug("app.LocationTrigger",forceNewMap,window)
 	if not window then return end
 
 	if forceNewMap then

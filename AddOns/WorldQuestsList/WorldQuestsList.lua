@@ -1,4 +1,4 @@
-local VERSION = 119
+local VERSION = 121
 
 --[[
 Special icons for rares, pvp or pet battle quests in list
@@ -337,6 +337,11 @@ fixes
 Added dragonriding filter
 
 Added custom sorting: customizable list with all current rewards
+
+12.0 update
+
+Fixes
+Updated chinese localization
 ]]
 
 local GlobalAddonName, WQLdb = ...
@@ -926,7 +931,7 @@ local LOCALE =
 		customSorting = "Enable custom sorting",
 		customSortingTip = "Customizable list with all current rewards",
 	} or
-	locale == "zhCN" and {	--by sprider00
+	locale == "zhCN" and {	--by sprider00; 枫聖御雷
 		gear = "装备",
 		gold = "金币",
 		blood = "萨格拉斯之血",
@@ -981,22 +986,22 @@ local LOCALE =
 		bottomLine = "总数列",
 		unlimited = "无限制",
 		maxLines = "列数上限",
-		lfgDisablePopupLeave = "Disable popup after quest completion (leave party)",
-		expulsom = "Expulsom",
-		expulsomReplace = "Replace trinkets rewards with Expulsom",
-		enableBountyColors = "Enable bounty quests colors",
-		calligraphyGameHelper = "Enable Calligraphy Helper",
-		addQuestsNazjatar = "Add quests from Nazjatar",
-		questsForAchievements = "Show quests for achievements",
-		rewardSortOption = "Priority options",
-		rewardSortCurrOther = "Other currencies",
-		rewardSortItemOther = "Other items",
-		aspirantTraining = "Aspirant Training Helper",
-		toughCrowdHelper = "Tough Crowd Helper",
-		disableQuestNumber = "Disable numbers on quest icons",
-		repAccAlert = "Enable reputation award notification",
-		customSorting = "Enable custom sorting",
-		customSortingTip = "Customizable list with all current rewards",
+		lfgDisablePopupLeave = "完成任务后禁用弹出窗口（离开队伍）",
+		expulsom = "驱灵金",
+		expulsomReplace = "饰品奖励替换为驱灵金",
+		enableBountyColors = "启用世界任务悬赏颜色",
+		calligraphyGameHelper = "启用书法游戏助手",
+		addQuestsNazjatar = "添加纳沙塔尔任务",
+		questsForAchievements = "显示成就相关任务",
+		rewardSortOption = "奖励排序",
+		rewardSortCurrOther = "其他货币",
+		rewardSortItemOther = "其他物品",
+		aspirantTraining = "晋升试炼助手",
+		toughCrowdHelper = "乌合之众助手",
+		disableQuestNumber = "禁用任务图标上的数字",
+		repAccAlert = "启用声望奖励通知",
+		customSorting = "启用自定义排序",
+		customSortingTip = "自定义当前所有奖励列表",
 	} or
 	locale == "zhTW" and {	--by sprider00
 		gear = "裝備",
@@ -1183,6 +1188,14 @@ local defSortPrio = {
 	curr3008 = 12.5,
 	dragonriding = 12.6,
 }
+
+--Temp fix for tooltip taint
+local GameTooltip = CreateFrame("GameTooltip", "WQLTooltip", UIParent, "GameTooltipTemplate")
+GameTooltip:Hide()
+local GameTooltip_Hide = function()
+	WQLTooltip:Hide()
+end
+GameTooltip.shoppingTooltips = { ItemRefShoppingTooltip1, ItemRefShoppingTooltip2 };
 
 local ELib = WQLdb.ELib
 
@@ -1975,10 +1988,13 @@ do
 		[2214] = true,
 		[2215] = true,
 		[2255] = true,
+
+		[2395] = {[2393]=true},
+		[2437] = true,
 	}
 	function WorldQuestList:FilterCurrentZone(mapID)
 		if subZonesList[mapID] then
-			return true
+			return subZonesList[mapID]
 		else
 			return false
 		end
@@ -2506,6 +2522,10 @@ local function WorldQuestList_LineReward_OnEnter(self)
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 		GameTooltip:SetQuestLogItem("reward", 1, line.reward.ID)
 		GameTooltip:Show()
+
+		if IsShiftKeyDown() and TooltipUtil.ShouldDoItemComparison(GameTooltip) then
+			GameTooltip_ShowCompareItem(GameTooltip)
+		end
 
 		local additional = 2
 		if line.rewardCount and line.rewardCount > 1 then
@@ -6557,6 +6577,8 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 						elseif smapAreaID == 2371 then
 							poiData.position.x, poiData.position.y = 0.175, 0.195
 						end
+					elseif mapAreaID == 2537 then
+						poiData.position.x, poiData.position.y = WorldQuestList:GetMapCoordAdj2(poiData.position.x, poiData.position.y,2537,smapAreaID)
 					end
 	
 					tinsert(taskInfo.poi, {poiData.name, poiData.description, poiData.position.x, poiData.position.y, pois[i], poiData.atlasName, 4, smapAreaID, poiData.position.dX, poiData.position.dY, widget = poiData.tooltipWidgetSet})
@@ -6588,9 +6610,10 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 
 
 	if WorldQuestList:FilterCurrentZone(mapAreaID) and taskInfo then
+		local alist = WorldQuestList:FilterCurrentZone(mapAreaID)
 		for i=#taskInfo,1,-1 do
 			--if taskInfo[i].mapID ~= mapAreaID and not WorldQuestList:IsMapParent(taskInfo[i].mapID,mapAreaID) then
-			if taskInfo[i].mapID ~= mapAreaID and not (mapAreaID == 862 and taskInfo[i].mapID == 1165) then
+			if taskInfo[i].mapID ~= mapAreaID and not (mapAreaID == 862 and taskInfo[i].mapID == 1165) and (type(alist) ~= "table" or not alist[ taskInfo[i].mapID or 0 ]) then
 				tremove(taskInfo,i)
 			end
 		end
@@ -10459,8 +10482,8 @@ do
 						iconTopRight:SetSize(20*0.75,20*0.75)
 						iconTopRight.SIZE_MOD = 0.7
 
-						obj:HookScript("OnEnter",HookOnEnter)
-						obj:HookScript("OnLeave",HookOnLeave)
+						--obj:HookScript("OnEnter",HookOnEnter)
+						--obj:HookScript("OnLeave",HookOnLeave)
 
 						obj.WQL_BountyRing_defSize = obj.BountyRing and obj.BountyRing:GetSize()
 					end
@@ -10513,7 +10536,7 @@ do
 							ajustSize = 5
 							amount = floor(numItems * (warMode and C_QuestLog.QuestCanHaveWarModeBonus(obj.questID) and C_CurrencyInfo.DoesWarModeBonusApply(currencyID) and warModeBonus or 1))
 							break
-						elseif currencyID == 2408 or currencyID == 2245 or currencyID == 2706 or currencyID == 2815 or currencyID == 3008 then
+						elseif currencyID == 2408 or currencyID == 2245 or currencyID == 2706 or currencyID == 2815 or currencyID == 3008 or currencyID == 3316 or currencyID == 3310 then
 							iconTexture = texture
 							ajustMask = true
 							ajustSize = 8
@@ -10532,9 +10555,9 @@ do
 					local numQuestRewards = GetNumQuestLogRewards(obj.questID)
 					if numQuestRewards > 0 then
 						for ri=1,numQuestRewards do
-							local name,icon,numItems,quality,_,itemID = GetQuestLogRewardInfo(ri,obj.questID)
+							local name,icon,numItems,quality,_,itemID,itemLevel = GetQuestLogRewardInfo(ri,obj.questID)
 							if itemID then
-								local itemLevel = select(4,C_Item.GetItemInfo(itemID)) or 0
+								itemLevel = itemLevel or select(4,C_Item.GetItemInfo(itemID)) or 0
 								if itemLevel > 60 or (itemLevel > 40 and not WorldQuestList:IsShadowlandsZone(bountyMapID)) then
 									iconAtlas = "Banker"
 									amount = 0
@@ -10996,7 +11019,7 @@ do
 			if isEnabled then
 				for i = 1, C_QuestLog.GetNumQuestLogEntries() do
 					local info = C_QuestLog.GetInfo(i)
-					if info.questID and not C_QuestLog.IsComplete(info.questID) and not info.isHeader then
+					if info and info.questID and not C_QuestLog.IsComplete(info.questID) and not info.isHeader then
 						if not questsNum then
 							questsNum = {}
 						end

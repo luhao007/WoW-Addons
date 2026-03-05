@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: Wildu
-## Version: 1.14.22
+## Version: 2.1.9
 
 ## Title: |cff008945Cool|r|cff1e9a4e|r|cff3faa4fdown Ma|r|cff5fb64anag|r|cff7ac243er Ce|r|cff8ccd00ntered|r
 ## Notes: Cooldown Manager tweaks and styling
@@ -17,7 +17,6 @@
 ## X-Wago-ID: b6mvbYKP
 
 loadLibs.xml
-libs/LibActionButton-1.0/LibActionButton-1.0.lua
 
 # Core Modules
 core/config.lua
@@ -32,18 +31,24 @@ settings/ProfileSettings.lua
 settings/WilduSettings_UI.lua
 
 # Other Modules
+modules/Tracker/TrackerDB.lua
+modules/Tracker/TrackerItemsData.lua
+modules/Tracker/TrackerItemVisuals.lua
+modules/Tracker/TrackerItemViewer.lua
+
 modules/cooldownManager.lua
 modules/editModeHelp.lua
 modules/styled.lua
+modules/glowStyle.lua
+modules/cooldownStyle.lua
+modules/cooldownFont.lua
 modules/stacks.lua
 modules/keybinds.lua
 modules/assistant.lua
 modules/onCooldownTracker.lua
-modules/swipe.lua
-modules/cooldownFont.lua
-modules/noAuras.lua
 modules/buttonPress.lua
-modules/trinketRacialTracker.lua
+modules/miscPanel.lua
+modules/visibility.lua
 
 # TO NOTE last one to registerCallback is called... first
 modules/runtime.lua

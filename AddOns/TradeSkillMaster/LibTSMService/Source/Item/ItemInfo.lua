@@ -42,7 +42,7 @@ local ITEM_INFO_INTERVAL = 0.05
 local MAX_REQUESTED_ITEM_INFO = 50
 local MAX_REQUESTS_PER_ITEM = 5
 local UNKNOWN_ITEM_TEXTURE = 136254
-local DB_VERSION = 14
+local DB_VERSION = 19
 local PENDING_STATE = EnumType.New("ITEM_INFO_PENDING_STATE", {
 	NEW = EnumType.NewValue(),
 	CREATED = EnumType.NewValue(),
@@ -255,21 +255,28 @@ end
 
 ---Gets the crafted quality.
 ---@param item string The item
----@return number?
+---@return number? craftedQuality
+---@return boolean? useMidnightIcon
 function ItemInfo.GetCraftedQuality(item)
 	if not ClientInfo.HasFeature(ClientInfo.FEATURES.CRAFTING_QUALITY) then
-		return nil
+		return nil, nil
 	end
 	local itemString = ItemString.Get(item)
 	if not itemString then
-		return nil
+		return nil, nil
 	elseif itemString == ItemString.GetUnknown() or itemString == ItemString.GetPlaceholder() then
-		return nil
+		return nil, nil
 	elseif ItemString.ParseLevel(itemString) then
 		itemString = ItemString.GetBaseFast(itemString)
 	end
-	local craftedQuality = private.GetFieldValueHelper(itemString, "craftedQuality", false, false, 0)
-	return (craftedQuality or 0) > 0 and craftedQuality or nil
+	local craftedQuality = private.GetFieldValueHelper(itemString, "craftedQuality", false, false, 0) --[[@as number?]]
+	if not craftedQuality or craftedQuality < 1 then
+		return nil, nil
+	elseif craftedQuality > 10 then
+		return craftedQuality - 10, true
+	else
+		return craftedQuality, nil
+	end
 end
 
 ---Get the quality.
@@ -331,18 +338,9 @@ function ItemInfo.GetItemLevel(item)
 	if not itemString then
 		return nil
 	end
-	local itemStringLevel, itemStringLevelIsAbs = ItemString.ParseLevel(itemString)
+	local itemStringLevel = ItemString.ParseLevel(itemString)
 	if itemStringLevel then
-		if itemStringLevelIsAbs then
-			return itemStringLevel
-		else
-			-- level is relative to the base item
-			local baseItemLevel = ItemInfo.GetItemLevel(ItemString.GetBaseFast(itemString))
-			if not baseItemLevel then
-				return nil
-			end
-			return baseItemLevel + itemStringLevel
-		end
+		return itemStringLevel
 	end
 	local itemLevel = private.cache:GetField(itemString, "itemLevel")
 	if itemLevel then
@@ -352,23 +350,26 @@ function ItemInfo.GetItemLevel(item)
 	randOrLevel = tonumber(randOrLevel)
 	bonusOrQuality = tonumber(bonusOrQuality)
 	if itemType == "p" then
-		-- we can fetch info instantly for pets so try again
+		-- We can fetch info instantly for pets so try again
 		ItemInfo.FetchInfo(itemString)
 		itemLevel = private.cache:GetField(itemString, "itemLevel")
 		if not itemLevel then
-			-- just get the level from the item string
+			-- Just get the level from the item string
 			itemLevel = randOrLevel or ItemString.GetItemLevel(itemString) or 0
 			private.DeferSetSingleField(itemString, "itemLevel", itemLevel)
 		end
 	elseif itemType == "i" then
 		if randOrLevel and not bonusOrQuality then
-			-- there is a random enchant, but no bonusIds, so the itemLevel is the same as the base item
+			-- There is a random enchant, but no bonusIds, so the itemLevel is the same as the base item
 			itemLevel = ItemInfo.GetItemLevel(ItemString.GetBaseFast(itemString))
+		else
+			itemLevel = BonusIds.GetItemLevel(itemString)
 		end
 		if itemLevel then
 			private.DeferSetSingleField(itemString, "itemLevel", itemLevel)
+		else
+			ItemInfo.FetchInfo(itemString)
 		end
-		ItemInfo.FetchInfo(itemString)
 	else
 		error("Invalid item: "..tostring(itemString))
 	end
@@ -997,12 +998,13 @@ function private.StoreGetItemInfo(itemString)
 		vendorSell = 0
 	end
 	local craftedQuality = nil
+	local craftedQualityExp = nil
 	if not ClientInfo.HasFeature(ClientInfo.FEATURES.CRAFTING_QUALITY) then
 		expansionId = -1
 		craftedQuality = -1
 	elseif link then
-		craftedQuality = strmatch(link, "\124A:Professions%-ChatIcon%-Quality%-Tier([0-9]+)")
-		craftedQuality = tonumber(craftedQuality) or -1
+		craftedQualityExp, craftedQuality = strmatch(link, "\124A:Professions%-ChatIcon%-Quality([%-%d]*)-Tier([0-9]+)")
+		craftedQuality = (tonumber(craftedQualityExp) and craftedQuality) and tonumber(craftedQuality) + 10 or tonumber(craftedQuality) or -1
 	end
 	isCraftingReagent = isCraftingReagent and 1 or 0
 
@@ -1080,11 +1082,11 @@ function private.GetDBVersionStr()
 end
 
 function private.ToWowItemString(itemString)
-	local itemStringLevel, isAbsItemStringLevel = ItemString.ParseLevel(itemString)
+	local itemStringLevel = ItemString.ParseLevel(itemString)
 	local itemId, rand, extraPart = nil, nil, nil
 	if itemStringLevel then
 		itemId, rand = select(2, strsplit(":", itemString))
-		extraPart = BonusIds.GetBonusStringForLevel(itemStringLevel, isAbsItemStringLevel)
+		extraPart = BonusIds.GetBonusStringForLevel(itemStringLevel) or ""
 	else
 		local _, extra = nil, nil
 		itemId, rand, extra = select(2, strsplit(":", itemString))

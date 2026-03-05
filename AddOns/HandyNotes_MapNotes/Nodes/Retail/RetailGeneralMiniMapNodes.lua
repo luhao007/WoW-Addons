@@ -1086,6 +1086,8 @@ ns.currentSourceFile = "RetailGeneralMiniMapminimap.lua"
                 minimap[641][42095938] = { npcID = 252498, name = "", type = "DecorExpert", showInZone = false, showOnContinent = false, showOnMinimap = true }
                 minimap[652][54947800] = { npcID = 108017, name = "", type = "DecorExpert", showInZone = false, showOnContinent = false, showOnMinimap = true }
                 minimap[680][49636283] = { npcID = 252969, name = "", type = "DecorExpert", showInZone = false, showOnContinent = false, showOnMinimap = true }
+                minimap[680][45586915] = { npcID = 255101, name = "", type = "DecorExpert", showInZone = false, showOnContinent = false, showOnMinimap = true }
+                minimap[680][50907779] = { npcID = 248594, name = "", type = "DecorExpert", showInZone = false, showOnContinent = false, showOnMinimap = true }
             end
 
             if self.db.profile.showMiniMapStablemaster then
@@ -1673,6 +1675,8 @@ ns.currentSourceFile = "RetailGeneralMiniMapminimap.lua"
 
             if self.db.profile.showMiniMapDecorExpert then
                 minimap[2214][43383278] = { npcID = 252887, name = "", type = "DecorExpert", showInZone = false, showOnContinent = false, showOnMinimap = true }
+                minimap[2214][43353327] = { npcID = 256783, name = "", type = "DecorExpert", showInZone = false, showOnContinent = false, showOnMinimap = true }
+                minimap[2346][43195046] = { npcID = 251911, name = "", type = "DecorExpert", showInZone = false, showOnContinent = false, showOnMinimap = true }
             end
 
             if self.db.profile.showMiniMapItemUpgrade then

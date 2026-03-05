@@ -33,7 +33,7 @@ end
 ---@param isAvailable boolean
 function DelveCompanion_InDelveWidgetItemMixin:RefreshAnim(isAvailable)
     local hasCd = select(1, C_Item.GetItemCooldown(self.itemCode)) ~= 0
-    if not (hasCd) and isAvailable then
+    if isAvailable and not hasCd then
         self:PlayAnimation()
     end
 end
@@ -53,6 +53,8 @@ end
 ---@param self InDelveWidgetItem
 ---@param code number
 function DelveCompanion_InDelveWidgetItemMixin:Set(code)
+    -- Logger:Log("[%s] Code: %d", self:GetName(), code)
+
     self:SetFrameInfo(DelveCompanion.Definitions.CodeType.Item, code)
     self.itemCode = code
     self.hasItem = false
@@ -60,21 +62,21 @@ end
 
 ---@param self InDelveWidgetItem
 function DelveCompanion_InDelveWidgetItemMixin:OnLoad()
-    -- Logger.Log("[InDelveWidgetItem] OnLoad start")
+    -- Logger:Log("[InDelveWidgetItem] OnLoad start")
 
     DelveCompanion_CustomActionWidgetMixin.OnLoad(self)
 end
 
 ---@param self InDelveWidgetItem
 function DelveCompanion_InDelveWidgetItemMixin:OnShow()
-    -- Logger.Log("[InDelveWidgetItem] OnShow start")
+    -- Logger:Log("[InDelveWidgetItem] OnShow start")
 
     DelveCompanion_CustomActionWidgetMixin.OnShow(self)
 end
 
 ---@param self InDelveWidgetItem
 function DelveCompanion_InDelveWidgetItemMixin:OnEnter()
-    -- Logger.Log("[InDelveWidgetItem] OnEnter start")
+    -- Logger:Log("[InDelveWidgetItem] OnEnter start")
 
     self:StopAnimation()
     DelveCompanion_CustomActionWidgetMixin.OnEnter(self)
@@ -82,7 +84,7 @@ end
 
 ---@param self InDelveWidgetItem
 function DelveCompanion_InDelveWidgetItemMixin:OnHide()
-    -- Logger.Log("[InDelveWidgetItem] OnHide start")
+    -- Logger:Log("[InDelveWidgetItem] OnHide start")
 
     DelveCompanion_CustomActionWidgetMixin.OnHide(self)
 end
@@ -90,6 +92,6 @@ end
 --#region Xml annotations
 
 --- `DelvelCompanionInDelveWidgetItemTemplate`
----@class InDelveWidgetItemXml : CustomActionWidget
+---@class (exact) InDelveWidgetItemXml : CustomActionWidget, LayoutChild
 ---@field Border Texture
 --#endregion

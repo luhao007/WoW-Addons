@@ -9,6 +9,16 @@ local ipairs, pairs, floor, tinsert
 local GetRelativeValue, GetDeepestRelativeFunc = app.GetRelativeValue, app.GetDeepestRelativeFunc;
 
 -- Implementation
+local WhiteListedClassTypeForSpells = setmetatable({
+	Recipe = true,
+	RecipeWithItem = true,
+	Spell = true,
+}, {
+	__index = function(t, __type)
+		if __type then t[__type] = false; end
+		return false;
+	end,
+});
 function app:CreateDynamicProfessionCategory(name, commands, professionID, specializationProfessionIDs)
 	app:CreateWindow("Recipes: " .. name, {
 		AllowCompleteSound = true,
@@ -19,7 +29,7 @@ function app:CreateDynamicProfessionCategory(name, commands, professionID, speci
 		OnInit = function(self, handlers)
 			local function ProfessionFilter(group)
 				local v = group.requireSkill;
-				if v and (v == professionID or app.SkillDB.SpellToSkill[app.SkillDB.SpecializationSpells[v] or 0] == professionID) and group.spellID and not group.g and (not group.f or group.f == 200) then
+				if v and (v == professionID or app.SkillDB.SpellToSkill[app.SkillDB.SpecializationSpells[v] or 0] == professionID) and group.spellID and not group.g and WhiteListedClassTypeForSpells[group.__type] then
 					return true;
 				end
 			end
@@ -34,7 +44,7 @@ function app:CreateDynamicProfessionCategory(name, commands, professionID, speci
 					local g = data.g;
 					if #g < 1 then
 						local results = {};
-						app:BuildFlatSearchFilteredResponse(app:GetDataCache().g, ProfessionFilter, results);
+						app:BuildFlatSearchFilteredResponse(app:GetDatabaseRoot().g, ProfessionFilter, results);
 						if #results > 0 then
 							-- Find all associated spellIDs
 							local associatedSpellIDs = {};
@@ -56,23 +66,20 @@ function app:CreateDynamicProfessionCategory(name, commands, professionID, speci
 									specializations[spellID] = specialization;
 								end
 							end
-
-							local expansions, events = {}, {};
-							for expansionID,_ in pairs(app.SearchForFieldContainer("expansionID")) do
-								expansionID = floor(expansionID);
-								if not expansions[expansionID] then
+							
+							local expansions = setmetatable({}, {
+								__index = function(t, expansionID)
 									local expansion = app.CreateExpansion(expansionID);
-									expansions[expansionID] = expansion;
+									t[expansionID] = expansion;
 									expansion.SortType = "name";
 									expansion.parent = data;
 									expansion.g = {};
-								end
-							end
-
-
-
+									return expansion;
+								end,
+							});
+							local events = {};
 							local recipes = {};
-							for spellID,sources in pairs(app.SearchForFieldContainer("spellID")) do
+							for spellID,sources in pairs(app.GetFieldContainer("spellID")) do
 								if associatedSpellIDs[spellID] and not recipes[spellID] then
 									local count = #sources;
 									if count > 0 then

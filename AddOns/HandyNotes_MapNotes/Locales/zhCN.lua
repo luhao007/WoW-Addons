@@ -2,6 +2,8 @@
 local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "zhCN")
 if not L then return end
 
+-- new
+L["to interact with the icon"] = "与此图标进行交互"
 -- blizzard minimap icons
 L["Blizzard Icons"] = "暴雪图标"
 L["The Blizzard settings configured by the player are restored"] = "将恢复玩家配置的暴雪设置"
@@ -46,6 +48,8 @@ L["Changelog"] = "更新日志"
 L["Last Changelog"] = "最新更新日志"
 L["Show MapNotes Changelog again"] = "再次显示 MapNotes 更新日志"
 L["Do not show again until next version"] = "在下一个版本前不再显示"
+L["permanently hide changelog"] = "永久隐藏更新日志"
+L["Permanently hides the changelog, not just until the next addon update"] = "永久隐藏更新日志，而不仅仅是直到下次插件更新"
 -- SwapButtons
 L["In addition to the Right mouse button, the shift key must now also be pressed to set a waypoint"] = "现在除了鼠标右键外，还必须按住 Shift 键才能设置航点"
 L["In addition to the Left mouse button, the shift key must now also be pressed to set a waypoint"] = "现在除了鼠标左键外，还必须按住 Shift 键才能设置航点"

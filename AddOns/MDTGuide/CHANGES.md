@@ -1,3 +1,1 @@
-- Updated ToC version for patch 12.0
-- Remove route (path estimation) mode, as it's no longer possible to track kills
-- Replace deprecated API calls
+- Fix error occuring when fade settings option is disabled

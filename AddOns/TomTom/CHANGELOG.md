@@ -1,8 +1,10 @@
 # TomTom
 
-## [v4.2.20-release](https://github.com/jnwhiteh/TomTom/tree/v4.2.20-release) (2026-02-14)
-[Full Changelog](https://github.com/jnwhiteh/TomTom/commits/v4.2.20-release) [Previous Releases](https://github.com/jnwhiteh/TomTom/releases)
+## [v4.2.22-release](https://github.com/jnwhiteh/TomTom/tree/v4.2.22-release) (2026-02-20)
+[Full Changelog](https://github.com/jnwhiteh/TomTom/commits/v4.2.22-release) [Previous Releases](https://github.com/jnwhiteh/TomTom/releases)
 
+- Fix some issues with the minimap button and compartment  
+    This should more reliably respect the users settings  
 - Remove CN from TOC  
 - Update TOC for Mists/Classic  
 - Add an Export Waypoints button to /ttpaste  
@@ -687,4 +689,3 @@
 - * Fixed a bug that caused the crazy arrow to appear on zoning/death/etc  
 - * Expose TomTom:InitializeDropdown(uid) that can be used to init the dropdown  
     * Fix a bug where checkboxes could be put in the wrong place on dropdown menus  
-- * Guarded the ColorGradient() function against specific odd cases  

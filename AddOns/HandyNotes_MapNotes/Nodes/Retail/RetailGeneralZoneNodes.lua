@@ -1089,6 +1089,8 @@ ns.currentSourceFile = "RetailGeneralZoneNodes.lua"
                 nodes[641][42095938] = { npcID = 252498, name = "", type = "DecorExpert", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 nodes[652][54947800] = { npcID = 108017, name = "", type = "DecorExpert", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 nodes[680][49636283] = { npcID = 252969, name = "", type = "DecorExpert", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                nodes[680][45586915] = { npcID = 255101, name = "", type = "DecorExpert", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                nodes[680][50907779] = { npcID = 248594, name = "", type = "DecorExpert", showInZone = true, showOnContinent = false, showOnMinimap = false }
             end
 
             if self.db.profile.showZoneStablemaster then
@@ -1674,7 +1676,8 @@ ns.currentSourceFile = "RetailGeneralZoneNodes.lua"
         if self.db.profile.showZoneKhazAlgar then
 
             if self.db.profile.showZoneDecorExpert then
-                nodes[2214][43383278] = { npcID = 252887, name = "", type = "DecorExpert", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                nodes[2214][43383278] = { npcIDs1 = 252887, npcIDs2 = 256783, name = "", type = "DecorExpert", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                nodes[2346][43195046] = { npcID = 251911, name = "", type = "DecorExpert", showInZone = true, showOnContinent = false, showOnMinimap = false }
             end
 
             if self.db.profile.showZoneItemUpgrade then

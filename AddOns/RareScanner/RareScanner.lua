@@ -45,9 +45,6 @@ local RSCommandLine = private.ImportLib("RareScannerCommandLine")
 local RSRecentlySeenTracker = private.ImportLib("RareScannerRecentlySeenTracker")
 local RSWaypoints = private.ImportLib("RareScannerWaypoints")
 
--- RareScanner other addons integration services
-local RSTomtom = private.ImportLib("RareScannerTomtom")
-
 -- Main button
 local scanner_button = CreateFrame("Button", RSConstants.RS_BUTTON_NAME, UIParent, "SecureActionButtonTemplate, BackdropTemplate")
 scanner_button:Hide();
@@ -82,12 +79,7 @@ scanner_button:SetScript("PostClick", function(self, button)
 	end
 	
 	-- Add waypoints
-	if (RSConfigDB.IsTomtomSupportEnabled() and not RSConfigDB.IsAddingTomtomWaypointsAutomatically()) then
-		RSTomtom.AddTomtomWaypoint(self.mapID, self.x, self.y, self.name)
-	end
-	if (RSConfigDB.IsWaypointsSupportEnabled() and not RSConfigDB.IsAddingWaypointsAutomatically()) then
-		RSWaypoints.AddWaypoint(self.mapID, self.x, self.y, self.name)
-	end
+	RSWaypoints.AddWaypoint(self.mapID, self.x, self.y, self.name)
 end)
 scanner_button.closebutton = function(self)
 	if (not InCombatLockdown()) then
@@ -172,7 +164,7 @@ scanner_button.CloseButton = CreateFrame("Button", "CloseButton", scanner_button
 scanner_button.CloseButton:SetPoint("BOTTOMRIGHT", -4, 4)
 scanner_button.CloseButton:SetSize(16, 16)
 scanner_button.CloseButton:HookScript("OnClick", function(self)
-	RSTomtom.RemoveCurrentTomtomWaypoint();
+	RSWaypoints.RemoveCurrentWaypoints()
 end)
 
 -- Filtering buttons
@@ -811,7 +803,7 @@ local function RefreshDatabaseData(previousDbVersion)
 		local cleanKilledNpcs = RSRoutines.LoopRoutineNew()
 		cleanKilledNpcs:Init(RSNpcDB.GetAllNpcsKilledRespawnTimes, 100,
 			function(context, npcID, respawnTimer)
-				if (not RSNpcDB.GetInternalNpcInfo(npcID) and not RSGeneralDB.GetAlreadyFoundEntity(npcID)) then
+				if (not RSNpcDB.GetInternalNpcInfo(npcID) and not RSGeneralDB.GetAlreadyFoundEntity(npcID, RSConstants.NPC_VIGNETTE)) then
 					RSNpcDB.DeleteNpcKilled(npcID)
 				end
 			end, 
@@ -824,7 +816,7 @@ local function RefreshDatabaseData(previousDbVersion)
 		local cleanOpenedContainers = RSRoutines.LoopRoutineNew()
 		cleanOpenedContainers:Init(RSContainerDB.GetAllContainersOpenedRespawnTimes, 100,
 			function(context, containerID, respawnTimer)
-				if (not RSContainerDB.GetInternalContainerInfo(containerID) and not RSGeneralDB.GetAlreadyFoundEntity(containerID)) then
+				if (not RSContainerDB.GetInternalContainerInfo(containerID) and not RSGeneralDB.GetAlreadyFoundEntity(containerID, RSConstants.CONTAINER_VIGNETTE)) then
 					RSContainerDB.DeleteContainerOpened(containerID)
 				end
 			end, 
@@ -837,7 +829,7 @@ local function RefreshDatabaseData(previousDbVersion)
 		local cleanCompletedEvents = RSRoutines.LoopRoutineNew()
 		cleanCompletedEvents:Init(RSEventDB.GetAllEventsCompletedRespawnTimes, 100,
 			function(context, eventID, respawnTimer)
-				if (not RSEventDB.GetInternalEventInfo(eventID) and not RSGeneralDB.GetAlreadyFoundEntity(eventID)) then
+				if (not RSEventDB.GetInternalEventInfo(eventID) and not RSGeneralDB.GetAlreadyFoundEntity(eventID, RSConstants.EVENT_VIGNETTE)) then
 					RSEventDB.DeleteEventCompleted(eventID)
 				end
 			end, 
@@ -1073,20 +1065,48 @@ local function RefreshDatabaseData(previousDbVersion)
 	table.insert(routines, firstScanRoutine)
 
 	-- Fix X offset added in 11.1 in the Ringing Deeps
-	if (not previousDbVersion or previousDbVersion < RSConstants.FIX_RINGING_DEEPS_X_OFFSET_VERSION) then
-		local fixOffsetXRingingDeepsRoutine = RSRoutines.LoopRoutineNew()
-		fixOffsetXRingingDeepsRoutine:Init(function() return RSGeneralDB.GetAlreadyFoundEntities() end, 100,
+	-- PROBABLY SAFE TO REMOVE ALREADY
+--	if (not previousDbVersion or previousDbVersion < RSConstants.FIX_RINGING_DEEPS_X_OFFSET_VERSION) then
+--		local fixOffsetXRingingDeepsRoutine = RSRoutines.LoopRoutineNew()
+--		fixOffsetXRingingDeepsRoutine:Init(function() return RSGeneralDB.GetAlreadyFoundEntities() end, 100,
+--			function(context, entityID, entityInfo)
+--				if (RSGeneralDB.IsAlreadyFoundEntityInZone(entityID, RSConstants.RINGING_DEEPS)) then
+--					entityInfo.coordX = entityInfo.coordX - RSConstants.FIX_RINGING_DEEPS_X_OFFSET
+--					private.dbglobal.rares_found[entityID] = entityInfo
+--				end
+--			end, 
+--			function(context)
+--				RSLogger:PrintDebugMessage("Corregido X offset en Ringing Deeps")
+--			end
+--		)
+--		table.insert(routines, fixOffsetXRingingDeepsRoutine)
+--	end	
+
+	-- Split rares_found in entities and now there are duplicates
+	local idsRemove = {}
+	if (not previousDbVersion or previousDbVersion < RSConstants.FIX_ALREADY_FOUND_VERSION) then
+		local splitAlreadyFoundDB = RSRoutines.LoopRoutineNew()
+		splitAlreadyFoundDB:Init(function() return private.dbglobal.rares_found end, 100,
 			function(context, entityID, entityInfo)
-				if (RSGeneralDB.IsAlreadyFoundEntityInZone(entityID, RSConstants.RINGING_DEEPS)) then
-					entityInfo.coordX = entityInfo.coordX - RSConstants.FIX_RINGING_DEEPS_X_OFFSET
-					private.dbglobal.rares_found[entityID] = entityInfo
+				if (RSConstants.IsContainerAtlas(entityInfo.atlasName)) then
+					private.dbglobal.containers_found[entityID] = entityInfo
+					tinsert(idsRemove, entityID)
+				elseif (RSConstants.IsEventAtlas(entityInfo.atlasName)) then
+					private.dbglobal.events_found[entityID] = entityInfo
+					tinsert(idsRemove, entityID)
 				end
 			end, 
 			function(context)
-				RSLogger:PrintDebugMessage("Corregido X offset en Ringing Deeps")
+				RSLogger:PrintDebugMessage("Dividida alreadyFound DB")
+					
+				for _, entityID in ipairs(idsRemove) do
+					private.dbglobal.rares_found[entityID] = nil
+				end
+				
+				RSLogger:PrintDebugMessage("Limpiado alreadyFound (rares) DB")
 			end
 		)
-		table.insert(routines, fixOffsetXRingingDeepsRoutine)
+		table.insert(routines, splitAlreadyFoundDB)
 	end	
 		
 	-- Launch all the routines in order
@@ -1136,18 +1156,22 @@ local function UpdateRareNamesDB(currentDbVersion)
 		
 			-- Sets already found NPCs as NPCs if they were found as events
 			for _, npcID in ipairs (RSConstants.NPCS_WITH_EVENT_VIGNETTE) do
-				local npcInfo = RSGeneralDB.GetAlreadyFoundEntity(npcID)
-				if (npcInfo and npcInfo.atlasName ~= RSConstants.NPC_VIGNETTE) then
-					npcInfo.atlasName =	RSConstants.NPC_VIGNETTE
+				local eventInfo = RSGeneralDB.GetAlreadyFoundEntity(npcID, RSConstants.EVENT_VIGNETTE)
+				if (eventInfo and eventInfo.atlasName ~= RSConstants.NPC_VIGNETTE) then
+					eventInfo.atlasName = RSConstants.NPC_VIGNETTE
+					private.dbglobal.rares_found[npcID] = eventInfo
+					private.dbglobal.events_found[npcID] = nil
 					RSLogger:PrintDebugMessage(string.format("NPC [%s]. Estaba marcado como un evento, Corregido!.", npcID))
 				end
 			end
 			
 			-- Sets already found Events as Events if they were found as NPCs
 			for _, eventID in ipairs (RSConstants.EVENTS_WITH_NPC_VIGNETTE) do
-				local eventInfo = RSGeneralDB.GetAlreadyFoundEntity(eventID)
+				local eventInfo = RSGeneralDB.GetAlreadyFoundEntity(eventID, RSConstants.NPC_VIGNETTE)
 				if (eventInfo and eventInfo.atlasName ~= RSConstants.EVENT_VIGNETTE) then
 					eventInfo.atlasName = RSConstants.EVENT_VIGNETTE
+					private.dbglobal.events_found[eventID] = eventInfo
+					private.dbglobal.rares_found[eventID] = nil
 					RSLogger:PrintDebugMessage(string.format("Evento [%s]. Estaba marcado como un rare, Corregido!.", eventID))
 				end
 				
@@ -1159,27 +1183,32 @@ local function UpdateRareNamesDB(currentDbVersion)
 			
 			-- Sets already found Containers as Containers if they were found as NPCs
 			for _, containerID in ipairs (RSConstants.CONTAINER_WITH_NPC_VIGNETTE) do
-				local containerInfo = RSGeneralDB.GetAlreadyFoundEntity(containerID)
+				local containerInfo = RSGeneralDB.GetAlreadyFoundEntity(containerID, RSConstants.NPC_VIGNETTE)
 				if (containerInfo and containerInfo.atlasName ~= RSConstants.CONTAINER_VIGNETTE) then
 					containerInfo.atlasName = RSConstants.CONTAINER_VIGNETTE
+					private.dbglobal.containers_found[containerID] = containerInfo
+					private.dbglobal.rares_found[containerID] = nil
 					RSLogger:PrintDebugMessage(string.format("Contenedor [%s]. Estaba marcado como un rare, Corregido!.", containerID))
 				end
 			end
 			
 			-- Remove already found entities that might be a pre event
 			for preEntityID, _ in pairs (RSConstants.NPCS_WITH_PRE_EVENT) do
-				RSGeneralDB.RemoveAlreadyFoundEntity(preEntityID)
+				RSGeneralDB.RemoveAlreadyFoundEntity(preEntityID, RSConstants.NPC_VIGNETTE)
 			end
 			for preEntityID, _ in pairs (RSConstants.CONTAINERS_WITH_PRE_EVENT) do
-				RSGeneralDB.RemoveAlreadyFoundEntity(preEntityID)
+				RSGeneralDB.RemoveAlreadyFoundEntity(preEntityID, RSConstants.CONTAINER_VIGNETTE)
 			end
 			
 			-- Remove ancestral spirit
-			RSGeneralDB.RemoveAlreadyFoundEntity(RSConstants.FORBIDDEN_REACH_ANCESTRAL_SPIRIT)
+			RSGeneralDB.RemoveAlreadyFoundEntity(RSConstants.FORBIDDEN_REACH_ANCESTRAL_SPIRIT, RSConstants.NPC_VIGNETTE)
 			
 			-- Remove ignored entities
-			for _, entityID in ipairs (RSConstants.IGNORED_VIGNETTES) do
-				RSGeneralDB.RemoveAlreadyFoundEntity(entityID)
+			for _, entityID in ipairs (RSConstants.IGNORED_VIGNETTES_NPCS) do
+				RSGeneralDB.RemoveAlreadyFoundEntity(entityID, RSConstants.NPC_VIGNETTE)
+			end
+			for _, entityID in ipairs (RSConstants.IGNORED_VIGNETTES_CONTAINERS) do
+				RSGeneralDB.RemoveAlreadyFoundEntity(entityID, RSConstants.CONTAINER_VIGNETTE)
 			end
 			
 			-- Clean database after update 11.0.2

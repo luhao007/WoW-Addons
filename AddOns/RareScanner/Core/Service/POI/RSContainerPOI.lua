@@ -240,7 +240,7 @@ function RSContainerPOI.GetMapContainerPOI(containerID, mapID, vignetteGUIDs, ar
 		return
 	end
 	
-	local alreadyFoundInfo = recentlySeenInfo or RSGeneralDB.GetAlreadyFoundEntity(containerID)
+	local alreadyFoundInfo = recentlySeenInfo or RSGeneralDB.GetAlreadyFoundEntity(containerID, RSConstants.CONTAINER_VIGNETTE)
 
 	-- Skip if not showing not discovered icons
 	if (not RSConfigDB.IsShowingNotDiscoveredContainers() and not alreadyFoundInfo) then

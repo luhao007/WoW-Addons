@@ -75,6 +75,9 @@
 		</PushedTextOffset>
 	</Button>
 
+	<!--
+	2026 Feb : Title was added to simplify Volume and give develpers more choice.
+	-->
 	<Slider name="TitanOptionsSliderTemplate" orientation="VERTICAL" inherits="BackdropTemplate" virtual="true" enableMouse="true" >
 		<Size>
 			<AbsDimension x="10" y="100"/>
@@ -84,6 +87,15 @@
 		</HitRectInsets>
 		<Layers>
 			<Layer level="ARTWORK">
+				<FontString name="$parentTitle" inherits="GameFontGreenSmall">
+					<Anchors>
+						<Anchor point="TOP" relativePoint="TOP">
+							<Offset>
+								<AbsDimension x="0" y="24" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
 				<FontString name="$parentText" inherits="GameFontGreenSmall">
 					<Anchors>
 						<Anchor point="LEFT" relativePoint="RIGHT">

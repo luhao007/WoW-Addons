@@ -17,8 +17,7 @@ local zhengliIcon="interface/containerframe/bags.blp"
 local BagdangeW=ContainerFrame1Item1:GetWidth()+5
 local wwc,hhc = 24,24
 ------
-local Bag_Item_lv=BagBankfun.Bag_Item_lv
-local Bag_Item_Ranse=BagBankfun.Bag_Item_Ranse
+local UpdateItemButtonZLVranse=BagBankfun.UpdateItemButtonZLVranse
 local jisuanBANKzongshu=BagBankfun.jisuanBANKzongshu
 local jisuanBANKkonmgyu=BagBankfun.jisuanBANKkonmgyu
 local Update_BankFrame_Height=BagBankfun.Update_BankFrame_Height
@@ -101,8 +100,7 @@ local function UpdateP_BAG(frame, size, id)
 		end
 	end
 	Update_BAGFrame_WidthHeight(new_hangshu)
-	Bag_Item_lv(frame, size, id)
-	Bag_Item_Ranse(frame, size, id)
+	UpdateItemButtonZLVranse(frame, size, id)
 end
 ----
 local function UpdateP_BANK(frame, size, id)
@@ -145,8 +143,7 @@ local function UpdateP_BANK(frame, size, id)
 		end
 	end
 	Update_BankFrame_Height(BagdangeW)
-	Bag_Item_lv(frame, size, id)
-	Bag_Item_Ranse(frame, size, id)
+	UpdateItemButtonZLVranse(frame, size, id)
 end
 local function zhegnheBANK()
 	local BKregions = {BankFrame:GetRegions()}
@@ -200,8 +197,7 @@ local function zhegnheBANK()
 		BankItemSearchBox:SetPoint("TOPRIGHT",BankFrame,"TOPRIGHT",-60,-1);
 	end
 	Update_BankFrame_Height(BagdangeW)
-	Bag_Item_lv(nil,nil,-1)
-	Bag_Item_Ranse(nil,nil,-1)
+	UpdateItemButtonZLVranse(nil,nil,-1)
 end
 -------
 function BagBankfun.Zhenghe(Rneirong,tabbut)
@@ -473,13 +469,11 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 			if arg1~=-2 then
 				if arg1>=0 and arg1<=bagData["bagIDMax"] then
 					if self:IsVisible() then
-						Bag_Item_lv(nil, nil, arg1)
-						Bag_Item_Ranse(nil, nil, arg1)
+						UpdateItemButtonZLVranse(nil, nil, arg1)
 					end
 				else
 					if BankFrame:IsVisible() then
-						Bag_Item_lv(nil, nil, arg1)
-						Bag_Item_Ranse(nil, nil, arg1)
+						UpdateItemButtonZLVranse(nil, nil, arg1)
 					end
 				end
 			end
@@ -556,8 +550,7 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 				OpenBag(bagData["bankID"][banki])
 			end
 		elseif event=="PLAYERBANKSLOTS_CHANGED" then
-			Bag_Item_lv(nil,arg1,-1)
-			Bag_Item_Ranse(nil,arg1,-1)
+			UpdateItemButtonZLVranse(nil,arg1,-1)
 		end
 	end)
 	---清空位置让系统自行设置

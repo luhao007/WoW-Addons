@@ -8,21 +8,25 @@ ns.defaults = {
       showTaxiMapNodes = true,
       
     -- Instance single Zone icon scale and alpha
-      ZoneInstanceScale = 2,
+      ZoneInstanceScale = 1,
       ZoneInstanceAlpha = 1,
-      ZoneScaleRaids = 2,
+      ZoneScaleRaids = 1,
       ZoneAlphaRaids = 1,
-      ZoneScaleDungeons = 2,
+      ZoneScaleDungeons = 1,
       ZoneAlphaDungeons = 1,
-      ZoneScalePassage = 2,
+      ZoneScalePassage = 1,
       ZoneAlphaPassage = 1,
-      ZoneScaleMultiple = 2,
+      ZoneScaleMultiple = 1,
       ZoneAlphaMultiple = 1,
-      ZoneScaleOldVanilla = 2,
+      ZoneScaleOldVanilla = 1,
       ZoneAlphaOldVanilla = 1,
-      ZoneScaleLFR = 2,
+      ZoneScaleDelve = 1,
+      ZoneAlphaDelve = 1,
+      ZoneScaleBountyDelve = 1,
+      ZoneAlphaBountyDelve = 1,
+      ZoneScaleLFR = 1,
       ZoneAlphaLFR = 1,
-      ZoneScalePetBattleDungeons = 2,
+      ZoneScalePetBattleDungeons = 1,
       ZoneAlphaPetBattleDungeons = 1,
       
       -- Instance single MiniMap icon scale and alpha
@@ -311,6 +315,8 @@ ns.defaults = {
       showZoneMultiple = true,      
       showZonePassage = true,
       showZoneOldVanilla = true,
+      showZoneDelve = true,
+      showZoneBountyDelve = true,
       showZoneLFR = true,
       showZonePetBattleDungeons = true,
     -- Zone Transport
@@ -366,7 +372,7 @@ ns.defaults = {
       showZonePaths = true,
       
     --3 Continent map tab
-      continentScale = 1.5,
+      continentScale = 1,
       continentAlpha = 1,
       showContinentMapNotes = true,
       showContinentRaids = true,
@@ -381,6 +387,7 @@ ns.defaults = {
       showContinentLFR = true,
       showContinentProfessions = true,
       showContinentDelves = true,
+      showContinentBountifulDelves = true,
       showContinentPaths = true,
       showContinentRaces = true,
       showContinentPetBattleDungeons = true,
@@ -681,7 +688,6 @@ ns.defaults = {
         ToggleMapInfo = true,
         ToggleMapAfterCombat = false,
         InfoBlockedInCombat = true,
-        UseInBattle = false,
         SwapButtons = false,
         FlightmapButton = true,
         showRacesIconsDiscovered = false,
@@ -703,7 +709,7 @@ ns.defaults = {
         RemoveBlizzPOIs = true,
         RemoveBlizzPOIsZidormi = true,
         RemoveBlizzInstances = true,
-        HideBlizzDelves = false,
+        HideBlizzDelves = true,
         HideBlizzAuctioneer = false,
         HideBlizzBanker = false,
         HideBlizzBarber = false,
@@ -823,5 +829,6 @@ ns.defaults = {
   global = {
     useSharedProfile = false,
     sharedProfileName = "MapNotes",
+    hideChangeLogPermanently = false,
   },
 }

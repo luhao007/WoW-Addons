@@ -75,6 +75,13 @@ ATLASLOOT_INSTANCE_MODULE_LIST = {}
 -- A list of officiel AtlasLoot modules
 ATLASLOOT_MODULE_LIST = {
 	{
+		addonName = "AtlasLoot_Midnight",
+		icon = "Interface\\ICONS\\inv_cosmicvoid_groundstate",
+		name = EXPANSION_NAME11,
+		tt_title = nil, -- ToolTip title
+		tt_text = nil, -- ToolTip text
+	},
+	{
 		addonName = "AtlasLoot_TheWarWithin",
 		icon = "Interface\\ICONS\\ui_delves",
 		name = EXPANSION_NAME10,

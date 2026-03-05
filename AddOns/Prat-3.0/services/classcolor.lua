@@ -1,8 +1,8 @@
 local _, private = ...
 
-private.GetClassGetColorNew = function(class)
+function private.GetClassGetColorNew(class)
 	if C_ClassColor then
-		return C_ClassColor.GetClassColor(class);
+		return C_ClassColor.GetClassColor(class)
 	else
 		if CUSTOM_CLASS_COLORS then
 			local color = CUSTOM_CLASS_COLORS[class]
@@ -13,25 +13,21 @@ private.GetClassGetColorNew = function(class)
 	end
 end
 
-private.GetClassGetColor = function(class)
-  if private.GetGenderNeutralClass then
-    class = private.GetGenderNeutralClass(class)
-  end
+function private.GetClassGetColor(class)
+	if class then
+		class = class:upper()
 
-  if class then
-    class = class:upper()
+		if CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] then
+			return CUSTOM_CLASS_COLORS[class].r, CUSTOM_CLASS_COLORS[class].g, CUSTOM_CLASS_COLORS[class].b
+		end
 
-    if CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] then
-      return CUSTOM_CLASS_COLORS[class].r, CUSTOM_CLASS_COLORS[class].g, CUSTOM_CLASS_COLORS[class].b
-    end
+		if Prat.IsClassic and class == "SHAMAN" then
+			return 0.00, 0.44, 0.87
+		end
 
-    if Prat.IsClassic and class == "SHAMAN" then
-      return 0.00, 0.44, 0.87
-    end
-
-    if RAID_CLASS_COLORS and RAID_CLASS_COLORS[class] then
-      return RAID_CLASS_COLORS[class].r, RAID_CLASS_COLORS[class].g, RAID_CLASS_COLORS[class].b
-    end
-  end
-  return 0.63, 0.63, 0.63
+		if RAID_CLASS_COLORS and RAID_CLASS_COLORS[class] then
+			return RAID_CLASS_COLORS[class].r, RAID_CLASS_COLORS[class].g, RAID_CLASS_COLORS[class].b
+		end
+	end
+	return 0.63, 0.63, 0.63
 end

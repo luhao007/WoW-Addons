@@ -35,7 +35,7 @@ end
 
 ---@param self JourneyEncounterExpBar
 function DelveCompanion_JourneyEncounterExpBarMixin:OnLoad()
-    -- Logger.Log("[JourneyEncounterExpBar] OnLoad start")
+    -- Logger:Log("[JourneyEncounterExpBar] OnLoad start")
 
     self:SetStatusBarColor(_G["FACTION_GREEN_COLOR"]:GetRGB())
     self:SetFrameStrata("HIGH")
@@ -43,7 +43,7 @@ end
 
 ---@param self JourneyEncounterExpBar
 function DelveCompanion_JourneyEncounterExpBarMixin:OnShow()
-    -- Logger.Log("[JourneyEncounterExpBar] OnShow start")
+    -- Logger:Log("[JourneyEncounterExpBar] OnShow start")
 
     self:RefreshExpProgress()
     local companionRankInfo = self.rankInfo
@@ -65,7 +65,7 @@ end
 
 ---@param self JourneyEncounterExpBar
 function DelveCompanion_JourneyEncounterExpBarMixin:OnEnter()
-    -- Logger.Log("[JourneyEncounterExpBar] OnEnter start")
+    -- Logger:Log("[JourneyEncounterExpBar] OnEnter start")
 
     local tooltip = GameTooltip
     tooltip:SetOwner(self, "ANCHOR_TOP")
@@ -102,7 +102,7 @@ end
 
 ---@param self JourneyEncounterExpBar
 function DelveCompanion_JourneyEncounterExpBarMixin:OnLeave()
-    -- Logger.Log("[JourneyEncounterExpBar] OnLeave start")
+    -- Logger:Log("[JourneyEncounterExpBar] OnLeave start")
 
     GameTooltip:Hide()
 end

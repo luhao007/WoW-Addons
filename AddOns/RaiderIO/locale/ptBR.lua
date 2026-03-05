@@ -488,8 +488,6 @@ L["RAID_BOSS_VOTI_6"] = "Kurog Temível Totem"
 L["RAID_BOSS_VOTI_7"] = "Guarda-prole Diurna"
 L["RAID_BOSS_VOTI_8"] = "Raszageth, a Devoradora de Tempestade"
 --[[Translation missing --]]
---[[ L["RAID_BOSS_VS_1"] = ""--]] 
---[[Translation missing --]]
 --[[ L["RAID_BOSS_VS_2"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["RAID_BOSS_VS_3"] = ""--]] 
@@ -499,6 +497,24 @@ L["RAID_BOSS_VOTI_8"] = "Raszageth, a Devoradora de Tempestade"
 --[[ L["RAID_BOSS_VS_5"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["RAID_BOSS_VS_6"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_1"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_2"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_3"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_4"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_5"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_6"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_7"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_8"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_9"] = ""--]] 
 L["RAID_BOT"] = "Bastião do Crepúsculo"
 --[[Translation missing --]]
 --[[ L["RAID_BRD"] = ""--]] 
@@ -539,6 +555,8 @@ L["RAID_ToES"] = "Terraço da Primavera Eterna"
 L["RAID_TOTFW"] = "Trono dos Quatro Ventos"
 --[[Translation missing --]]
 --[[ L["RAID_VS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_VS_DR_MQD"] = ""--]] 
 L["RAIDERIO_AVERAGE_PLAYER_SCORE"] = "Pontuações Médias para Runs Dentro do Tempo +%s"
 L["RAIDERIO_BEST_RUN"] = "Raider.IO Melhor Mítica+"
 L["RAIDERIO_CLIENT_CUSTOMIZATION"] = "Personalização do cliente Raider.IO."

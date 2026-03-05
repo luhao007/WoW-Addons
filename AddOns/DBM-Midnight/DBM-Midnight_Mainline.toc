@@ -1,0 +1,37 @@
+## Interface: 120001
+## Author: MysticalOS
+## Version: 12.0.28
+
+## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cff10ff10World Bosses (Midnight)|r
+## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本助手|r |cFF69CCF0至暗之夜|r
+
+## IconTexture: Interface\AddOns\DBM-Core\textures\dbm_airhorn
+
+## Category: DBM
+## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
+
+## RequiredDeps: DBM-Core
+## LoadOnDemand: 1
+
+## SavedVariables: DBMMidnight_AllSavedVars
+## SavedVariablesPerCharacter: DBMMidnight_SavedStats
+
+## X-DBM-Mod: 1
+## X-DBM-Mod-Type: WORLDBOSS
+## X-DBM-Mod-Category: MIDNIGHT
+## X-DBM-StatTypes: normal
+## X-DBM-Mod-Name: World Bosses (Midnight)
+## X-DBM-Mod-Name-koKR: 필드 보스 (한밤)
+## X-DBM-Mod-Name-ruRU: Мировые боссы (Полночь)
+## X-DBM-Mod-World-Boss: 1
+## X-DBM-Mod-Sort: 99
+## X-DBM-Mod-MapID: 2930
+## X-DBM-Mod-LoadCID: 249776,244424,244762,248864
+## X-DBM-Mod-MinCoreRevision: 17286
+## X-DBM-Mod-MinExpansion: 11
+## X-Part-Of: DBM-Core
+
+Cragpine.lua
+Luashal.lua
+Predaxas.lua
+Thormbelan.lua

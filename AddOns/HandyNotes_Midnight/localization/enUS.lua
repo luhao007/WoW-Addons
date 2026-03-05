@@ -62,6 +62,9 @@ L['impenatrably_sealed_gourd_note'] = 'Loot {item:260251} from the nearby {objec
 L['options_icons_more_than_just_thier_roots'] = '{achievement:62188}'
 L['options_icons_more_than_just_thier_roots_desc'] = 'Display the locations of NPCs for the {achievement:62188} achievement.'
 L['more_than_just_thier_roots_note'] = 'Speak with the NPCs in the below locations:'
+L['chonon_note'] = 'Up on the branches of the tree.'
+L['funnid_note'] = 'High up on the branches of the world tree.'
+L['kawayn_note'] = 'Up on the big tree trunk.'
 
 L['altar_of_innocence'] = 'Altar of Innocence'
 L['altar_of_vigor'] = 'Altar of Vigor'
@@ -90,7 +93,10 @@ L['options_icons_song_seeker_desc'] = 'Display the locations of the Song Seekers
 
 L['options_icons_spiritpaw_marathon'] = '{achievement:62202}'
 L['options_icons_spiritpaw_marathon_desc'] = 'Display the locations for the {achievement:62202} achievement.'
-L['spiritpaw_marathon_note'] = 'Speak with {npc:258938}'
+L['spiritpaw_marathon_note'] = 'Speak with {npc:258938}, then pick up the nearby {npc:250100} and take them to the {dot:Pink} within the {location:Temple of Jan\'alai} within 30 minutes. \n\n ' .. ns.color.Red('Do not mount up or you will lose the buff.')
+
+L['options_icons_gnome_alone'] = '{achievement:62200}'
+L['options_icons_gnome_alone_desc'] = 'Display the locations for the {achievement:62200} achievement.'
 
 -------------------------------------------------------------------------------
 ---------------------------------- ARCANTINA ----------------------------------

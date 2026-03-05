@@ -81,20 +81,20 @@ ns.currentSourceFile = "RetailZoneMiniMapLocation.lua"
 
           --Kalimdor Zeppelins
             if self.db.profile.showMiniMapZeppelins then
-              minimap[1][55941320] = { mnID = 2022, name = "", type = "HZeppelin", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Zeppelin from Orgrimmar to Waking Shores
+              minimap[1][55981320] = { mnID = 2022, name = "", type = "HZeppelin", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Zeppelin from Orgrimmar to Waking Shores
               minimap[7][33422231] = { mnID = 85, name = "", type = "HZeppelin", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Zeppelin from Thunder Bluff to Orgrimmar
-              minimap[10][80450975] = { mnID = 85, name = "", type = "HZeppelin", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Zeppelin from Thunder Bluff to Orgrimmar
+              minimap[10][89191220] = { mnID = 2022, name = "", type = "HZeppelin", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Zeppelin from Orgrimmar to Waking Shores
             end
 
           -- Kalimdor Ships
             if self.db.profile.showMiniMapShips then
 
-              minimap[1][35217941] = { mnID = 210, name = "", type = "Ship", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = POSTMASTER_LETTER_STRANGLETHORNVALE .. " (" .. L["Ship"] ..")" } -- Ship from Ratchet to Booty Bay Ship
-              minimap[10][70237341] = { mnID = 210, name = "", type = "Ship", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = POSTMASTER_LETTER_STRANGLETHORNVALE .. " (" .. L["Ship"] ..")" } -- Ship from Ratchet to Booty Bay Ship
+              minimap[1][35297954] = { mnID = 210, name = "", type = "Ship", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = POSTMASTER_LETTER_STRANGLETHORNVALE .. " (" .. L["Ship"] ..")" } -- Ship from Ratchet to Booty Bay Ship
+              minimap[10][70157324] = { mnID = 210, name = "", type = "Ship", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = POSTMASTER_LETTER_STRANGLETHORNVALE .. " (" .. L["Ship"] ..")" } -- Ship from Ratchet to Booty Bay Ship
 
               if self.faction == "Horde" or db.activate.MiniMapEnemyFaction then
                 minimap[463][71903797] = { mnID = 862, name = "", type = "HShip", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Ship from Echo Isles to Zuldazar  
-                minimap[1][72257893] = { mnID = 862, name = "", type = "HShip", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Ship from Echo Isles to Zuldazar            
+                minimap[1][72057924] = { mnID = 862, name = "", type = "HShip", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Ship from Echo Isles to Zuldazar            
               end
             
               if self.faction == "Alliance" or db.activate.MiniMapEnemyFaction then

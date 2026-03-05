@@ -10,7 +10,7 @@ local bagData=addonTable.Data.bagData
 local BagBankfun=addonTable.BagBankfun
 ----
 local wwc,hhc = 24,24
-local Bag_Item_lv=BagBankfun.Bag_Item_lv
+local UpdateItemButtonZLVranse=BagBankfun.UpdateItemButtonZLVranse
 --================
 function BagBankfun.Zhenghe(Rneirong,tabbut)
 	if not PIGA["BagBank"]["Zhenghe"] or BagBankfun.yizhixingjiazai then return end
@@ -51,7 +51,7 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 	ContainerFrameCombinedBags:HookScript("OnEvent", function(self,event,arg1)
 		if event=="BAG_UPDATE" then
 			if self:IsVisible() then
-				Bag_Item_lv(nil, nil, arg1)
+				UpdateItemButtonZLVranse(nil, nil, arg1)
 			end
 		end
 	end)
@@ -59,9 +59,9 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 		--缩放
 		ContainerFrameCombinedBags:SetScale(ContainerFrameCombinedBags.suofang)
 		if frame==ContainerFrameCombinedBags then
-			Bag_Item_lv(nil, nil, -999)
+			UpdateItemButtonZLVranse(nil, nil, -999)
 		else
-			Bag_Item_lv(frame, size, id)
+			UpdateItemButtonZLVranse(frame, size, id)
 		end
 	end)
 
@@ -118,13 +118,13 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 	end)
 	--染色等级
 	hooksecurefunc(BankPanel, "GenerateItemSlotsForSelectedTab", function()
-		Bag_Item_lv("retailbank")
+		UpdateItemButtonZLVranse("retailbank")
 	end)
 	BankFrame:RegisterEvent("BAG_UPDATE_DELAYED")
 	BankFrame:HookScript("OnEvent", function (self,event,arg1)
 		if event=="BAG_UPDATE_DELAYED" then
 			if self:IsShown() then
-				Bag_Item_lv("retailbank")
+				UpdateItemButtonZLVranse("retailbank")
 			end
 		end
 	end)

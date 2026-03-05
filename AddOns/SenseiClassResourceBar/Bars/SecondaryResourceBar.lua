@@ -90,6 +90,11 @@ function SecondaryResourceBarMixin:GetResourceValue(resource)
         local stagger = UnitStagger("player") or 0
         local maxHealth = UnitHealthMax("player") or 1
 
+        -- Sometimes the stagger is secret (even though Blizzard said it's not), so just skip the computation if secret
+        if issecretvalue(stagger) then
+            return maxHealth, stagger
+        end
+
         self._lastStaggerPercent = self._lastStaggerPercent or ((stagger / maxHealth) * 100)
         local staggerPercent = (stagger / maxHealth) * 100
         if (staggerPercent >= 30 and self._lastStaggerPercent < 30)
@@ -274,7 +279,7 @@ addonTable.RegisteredBar.SecondaryResourceBar = {
     dbName = "SecondaryResourceBarDB",
     editModeName = L["SECONDARY_POWER_BAR_EDIT_MODE_NAME"],
     frameName = "SecondaryResourceBar",
-    frameLevel = 2,
+    frameLevel = 6,
     defaultValues = {
         point = "CENTER",
         x = 0,
@@ -385,7 +390,7 @@ addonTable.RegisteredBar.SecondaryResourceBar = {
                 end,
                 isEnabled = function(layoutName)
                     local data = SenseiClassResourceBarDB[dbName][layoutName]
-                    return data.showTicks
+                    return data.showTicks == true
                 end,
             },
             {
@@ -410,7 +415,7 @@ addonTable.RegisteredBar.SecondaryResourceBar = {
             },
             {
                 parentId = L["CATEGORY_TEXT_SETTINGS"],
-                order = 505,
+                order = 605,
                 name = L["SHOW_MANA_AS_PERCENT"],
                 kind = LEM.SettingType.Checkbox,
                 default = defaults.showManaAsPercent,
@@ -429,18 +434,18 @@ addonTable.RegisteredBar.SecondaryResourceBar = {
                 end,
                 isEnabled = function(layoutName)
                     local data = SenseiClassResourceBarDB[dbName][layoutName]
-                    return data.showText
+                    return data.showText == true
                 end,
                 tooltip = L["SHOW_MANA_AS_PERCENT_TOOLTIP"],
             },
             {
                 parentId = L["CATEGORY_TEXT_SETTINGS"],
-                order = 506,
+                order = 606,
                 kind = LEM.SettingType.Divider,
             },
             {
                 parentId = L["CATEGORY_TEXT_SETTINGS"],
-                order = 507,
+                order = 607,
                 name = L["SHOW_RESOURCE_CHARGE_TIMER"],
                 kind = LEM.SettingType.CheckboxColor,
                 default = defaults.showFragmentedPowerBarText,
@@ -470,7 +475,7 @@ addonTable.RegisteredBar.SecondaryResourceBar = {
             },
             {
                 parentId = L["CATEGORY_TEXT_SETTINGS"],
-                order = 508,
+                order = 608,
                 name = L["CHARGE_TIMER_PRECISION"],
                 kind = LEM.SettingType.Dropdown,
                 default = defaults.fragmentedPowerBarTextPrecision,
@@ -486,7 +491,7 @@ addonTable.RegisteredBar.SecondaryResourceBar = {
                 end,
                 isEnabled = function(layoutName)
                     local data = SenseiClassResourceBarDB[dbName][layoutName]
-                    return data.showFragmentedPowerBarText
+                    return data.showFragmentedPowerBarText == true
                 end,
             },
         }

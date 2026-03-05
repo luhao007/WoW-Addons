@@ -172,6 +172,7 @@ function Plater.CreateDesignerWindow(tabFrame, tabContainer, parent)
     --layoutEditor:SetFrameStrata("HIGH")
 
     function designer.UpdateAllNameplates()
+        Plater.RefreshDBUpvalues()
         for _, thisPlateFrame in ipairs(Plater.GetAllShownPlates()) do
             if thisPlateFrame.namePlateUnitToken or thisPlateFrame.unitToken then
                 platerInternal.Events.GetEventFunction("NAME_PLATE_UNIT_ADDED")("NAME_PLATE_UNIT_ADDED", thisPlateFrame.namePlateUnitToken or thisPlateFrame.unitToken)
@@ -378,13 +379,15 @@ function Plater.CreateDesignerWindow(tabFrame, tabContainer, parent)
     --profileRoot.plate_config
     local plateConfig = profileRoot.plate_config
 
-    local onSettingChanged = function(editingObject, optionKey, newValue, profileTable, profileKey)
+    local onSettingChanged = function(UIObject, optionKey, newValue, profileTable, profileKey)
         --plater only, change the incombat and outofcombat settings together
         if profileKey:find("health_incombat") then
             if optionKey == "width" then
+                healthBar:SetSize(newValue, healthBar:GetHeight())
                 profileTable.health[1] = newValue
             else
-                profileTable.health[2] = newValue
+                healthBar:SetSize(healthBar:GetWidth(), newValue)
+                profileTable.health[2] = newValue --height
             end
         end
 
@@ -397,7 +400,7 @@ function Plater.CreateDesignerWindow(tabFrame, tabContainer, parent)
                 PixelUtil.SetPoint (castBar, "topleft", healthBar, "bottomleft", castBarOffSetXRel + castBarOffSetX, -30)
                 PixelUtil.SetPoint (castBar, "topright", healthBar, "bottomright", -castBarOffSetXRel + castBarOffSetX, -30)
             else
-                profileTable.cast[2] = newValue
+                profileTable.cast[2] = newValue --height
             end
         end
 
@@ -470,12 +473,19 @@ function Plater.CreateDesignerWindow(tabFrame, tabContainer, parent)
     objectInfo = layoutEditor:RegisterObject(questOptionsFontString, "Quest Options", "QUESTOPTIONS", plateConfig, subTablePath, options.WidgetSettingsMapTables.QuestOptions, options.WidgetSettingsExtraOptions.QuestOptions, onSettingChanged, questOptions, unitFrame)
     plateConfigObjectsInfo[#plateConfigObjectsInfo+1] = objectInfo
 
+    --nameplate bar size
+    ---@type df_editobjectoptions
+    local nameplateSizeOptions = detailsFramework.table.copy({}, editObjectDefaultOptions)
+    nameplateSizeOptions.can_move = false
+    objectInfo = layoutEditor:RegisterObject(healthBar.dummy, "Nameplate Size", "NAMEPLATE_SIZE", plateConfig, subTablePath, options.WidgetSettingsMapTables.NameplateSize, options.WidgetSettingsExtraOptions.NameplateSize, onSettingChanged, nameplateSizeOptions, healthBar)
 
-    --health bar
+
+    --health options
     ---@type df_editobjectoptions
     local healthBarOptions = detailsFramework.table.copy({}, editObjectDefaultOptions)
     healthBarOptions.can_move = false
-    objectInfo = layoutEditor:RegisterObject(healthBar, "Health Bar", "HEALTHBAR", plateConfig, subTablePath, options.WidgetSettingsMapTables.HealthBar, options.WidgetSettingsExtraOptions.HealthBar, onSettingChanged, healthBarOptions, healthBar)
+    objectInfo = layoutEditor:RegisterObject(healthBar, "Health Bar", "HEALTHBAR", profileRoot, rootKey, options.WidgetSettingsMapTables.HealthBar, options.WidgetSettingsExtraOptions.HealthBar, onSettingChanged, healthBarOptions, healthBar)
+
 
     objectInfo = layoutEditor:RegisterObject(unitName, "Unit Name", "UNITNAME", plateConfig, subTablePath, options.WidgetSettingsMapTables.UnitName, options.WidgetSettingsExtraOptions.UnitName, onSettingChanged, editObjectDefaultOptions, healthBar)
     plateConfigObjectsInfo[#plateConfigObjectsInfo+1] = objectInfo
@@ -597,6 +607,11 @@ function Plater.CreateDesignerWindow(tabFrame, tabContainer, parent)
 
         unitFrame.BuffFrame:Hide()
         unitFrame.BuffFrame2:Hide()
+
+        if isCastBarSelected then
+            isCastBarSelected = false
+            Plater.StopCastBarTest()
+        end
     end)
 
     --/plater editmode
@@ -674,6 +689,10 @@ function designer.UpdatePreview()
     local powerBar = unitFrame.powerBar
     local castBar = unitFrame.castBar
     local castBar2 = unitFrame.castBar2
+
+    local dummyHealthBar = CreateFrame("frame", nil, healthBar)
+    dummyHealthBar:SetAllPoints()
+    healthBar.dummy = dummyHealthBar
 
     local PLAYER_IN_COMBAT = false
 
@@ -779,6 +798,7 @@ function designer.UpdatePreview()
     Plater.Resources.UpdateResourceFramePosition()
 
     Plater.NameplateTick (plateFrame.OnTickFrame, 999)
+    plateFrame.OnTickFrame.ThrottleUpdate = 10^7
     unitFrame.PlaterOnScreen = true
 
     --create new fontstring to life percent to avoid issues with UnitHealth() returning a secret

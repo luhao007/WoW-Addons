@@ -44,9 +44,10 @@ map.nodes[51927380] = Rare({
     quest = 91280, -- 94681 ?
     rewards = {
         Achievement({id = 61507, criteria = 110166}),
+        Reputation({id = 2710, gain = 50, quest = 94681}),
+        Transmog({item = 264613, type = L['shield']}), -- Steelbark Bulwark
         Transmog({item = 264520, type = L['staff']}), -- Warden's Leycrook
-        Reputation({id = 2710, gain = 50, quest = 94681}), Spacer(),
-        Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
+        Spacer(), Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
         Mount({item = 257147, id = 2758}) -- Cobalt Dragonhawk
 
     },
@@ -60,8 +61,10 @@ map.nodes[45057825] = Rare({
     quest = 91315, -- 91315/94682
     rewards = {
         Achievement({id = 61507, criteria = 110167}),
-        Reputation({id = 2710, gain = 50, quest = 94682}), Spacer(),
-        Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
+        Reputation({id = 2710, gain = 50, quest = 94682}),
+        Transmog({item = 264522, type = L['cloth']}), -- Striderplume Armbands
+        Transmog({item = 264521, type = L['offhand']}), -- Striderplume Focus
+        Spacer(), Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
         Mount({item = 257147, id = 2758}) -- Cobalt Dragonhawk
     }
 }) -- Harried Hawkstrider
@@ -71,9 +74,10 @@ map.nodes[54706018] = Rare({
     quest = 92392, -- 94684
     rewards = {
         Achievement({id = 61507, criteria = 110168}),
-        Transmog({item = 264523, type = L['1h_sword']}),
-        Reputation({id = 2710, gain = 50, quest = 94684}), Spacer(),
-        Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
+        Reputation({id = 2710, gain = 50, quest = 94684}),
+        Transmog({item = 264524, type = L['leather']}), -- Lightblighted Verdant Vest
+        Transmog({item = 264523, type = L['1h_sword']}), -- Hydrafang Blade
+        Spacer(), Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
         Mount({item = 257147, id = 2758}) -- Cobalt Dragonhawk
 
     }
@@ -84,8 +88,10 @@ map.nodes[36566408] = Rare({
     quest = 92366, -- 92366/94685 ?
     rewards = {
         Achievement({id = 61507, criteria = 110169}),
-        Reputation({id = 2710, gain = 50, quest = 94685}), Spacer(),
-        Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
+        Reputation({id = 2710, gain = 50, quest = 94685}),
+        Transmog({item = 264560, type = L['mail']}), -- Sharpclaw Gauntlets
+        Transmog({item = 264543, type = L['leather']}), -- Snapdragon Pantaloons
+        Spacer(), Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
         Mount({item = 257147, id = 2758}) -- Cobalt Dragonhawk
     }
 }) -- Bloated Snapdragon
@@ -95,8 +101,10 @@ map.nodes[62744907] = Rare({ -- review
     quest = 92391, -- 94686
     rewards = {
         Achievement({id = 61507, criteria = 110170}),
-        Reputation({id = 2710, gain = 50, quest = 94686}), Spacer(),
-        Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
+        Reputation({id = 2710, gain = 50, quest = 94686}),
+        Transmog({item = 264573, type = L['plate']}), -- Taskmaster's Sadistic Shoulderguards
+        Transmog({item = 264647, type = L['1h_mace']}), -- Cre'van's Punisher
+        Spacer(), Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
         Mount({item = 257147, id = 2758}) -- Cobalt Dragonhawk
     }
 }) -- Cre'van
@@ -106,8 +114,9 @@ map.nodes[36383637] = Rare({
     quest = 92389, -- 92389 ?
     rewards = {
         Achievement({id = 61507, criteria = 110171}),
-        Reputation({id = 2710, gain = 50, quest = 94687}), Spacer(),
-        Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
+        Reputation({id = 2710, gain = 50, quest = 94687}),
+        Transmog({item = 264629, type = L['2h_sword']}), -- Coralfang's Hefty Fin
+        Spacer(), Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
         Mount({item = 257147, id = 2758}) -- Cobalt Dragonhawk
     }
 }) -- Coralfang
@@ -117,8 +126,9 @@ map.nodes[36657718] = Rare({
     quest = 92393, -- 94688
     rewards = {
         Achievement({id = 61507, criteria = 110172}),
-        Reputation({id = 2710, gain = 50, quest = 94688}), Spacer(),
-        Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
+        Reputation({id = 2710, gain = 50, quest = 94688}),
+        Transmog({item = 264645, type = L['bow']}), -- Aged Farstrider Bow
+        Spacer(), Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
         Mount({item = 257147, id = 2758}) -- Cobalt Dragonhawk
     }
 }) -- Lady Liminus
@@ -128,8 +138,10 @@ map.nodes[40198539] = Rare({
     quest = 92409, -- 94689
     rewards = {
         Achievement({id = 61507, criteria = 110173}),
-        Reputation({id = 2710, gain = 50, quest = 94689}), Spacer(),
-        Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
+        Reputation({id = 2710, gain = 50, quest = 94689}),
+        Transmog({item = 264546, type = L['leather']}), -- Bat Fur Boots
+        Transmog({item = 264537, type = L['cloth']}), -- Winged Terror Gloves
+        Spacer(), Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
         Mount({item = 257147, id = 2758}) -- Cobalt Dragonhawk
     }
 }) -- Terrinor
@@ -139,9 +151,10 @@ map.nodes[49058775] = Rare({
     quest = 92404, -- 94690
     rewards = {
         Achievement({id = 61507, criteria = 110174}),
+        Reputation({id = 2710, gain = 50, quest = 94690}),
         Transmog({item = 264536, type = L['cloth']}), -- Zedling Summoning Collar
-        Reputation({id = 2710, gain = 50, quest = 94690}), Spacer(),
-        Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
+        Transmog({item = 264621, type = L['dagger']}), -- Bad Zed's Worst Channeler
+        Spacer(), Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
         Mount({item = 257147, id = 2758}) -- Cobalt Dragonhawk
 
     }
@@ -152,8 +165,9 @@ map.nodes[34812098] = Rare({
     quest = 92395, -- 94691/92395 ?
     rewards = {
         Achievement({id = 61507, criteria = 110175}),
-        Reputation({id = 2710, gain = 50, quest = 94691}), Spacer(),
-        Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
+        Reputation({id = 2710, gain = 50, quest = 94691}),
+        Transmog({item = 264910, type = L['polearm']}), -- Shell-Cleaving Poleaxe
+        Spacer(), Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
         Mount({item = 257147, id = 2758}) -- Cobalt Dragonhawk
     }
 }) -- Waverly
@@ -163,8 +177,10 @@ map.nodes[56427760] = Rare({
     quest = 92403, -- 92403/94692
     rewards = {
         Achievement({id = 61507, criteria = 110176}),
-        Reputation({id = 2710, gain = 50, quest = 94692}), Spacer(),
-        Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
+        Reputation({id = 2710, gain = 50, quest = 94692}),
+        Transmog({item = 264552, type = L['leather']}), -- Frogskin Grips
+        Transmog({item = 264526, type = L['cloth']}), -- Supremely Slimy Sash
+        Spacer(), Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
         Mount({item = 257147, id = 2758}) -- Cobalt Dragonhawk
     }
 }) -- Banuran
@@ -174,8 +190,11 @@ map.nodes[59207920] = Rare({ -- wowhead beta data
     quest = 92399, -- 92399 ?
     rewards = {
         Achievement({id = 61507, criteria = 110177}),
-        Reputation({id = 2710, gain = 50, quest = 94693}), Spacer(),
-        Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
+        Reputation({id = 2710, gain = 50, quest = 94693}),
+        Transmog({item = 264575, type = L['plate']}), -- Hexwood Helm
+        Transmog({item = 264555, type = L['mail']}), -- Splintered Hexwood Clasps
+
+        Spacer(), Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
         Mount({item = 257147, id = 2758}) -- Cobalt Dragonhawk
     }
 }) -- Lost Guardian
@@ -185,8 +204,10 @@ map.nodes[42316891] = Rare({
     quest = 93550, -- 94694
     rewards = {
         Achievement({id = 61507, criteria = 110178}),
-        Reputation({id = 2710, gain = 50, quest = 94694}), Spacer(),
-        Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
+        Reputation({id = 2710, gain = 50, quest = 94694}),
+        Transmog({item = 264569, type = L['mail']}), -- Void-Gorged Kickers
+        Transmog({item = 264594, type = L['cloak']}), -- Netherscale Cloak
+        Spacer(), Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
         Mount({item = 257147, id = 2758}) -- Cobalt Dragonhawk
     }
 }) -- Duskburn
@@ -196,8 +217,9 @@ map.nodes[51684599] = Rare({
     quest = 93555, -- 93555/94695 ?
     rewards = {
         Achievement({id = 61507, criteria = 110179}),
-        Reputation({id = 2710, gain = 50, quest = 94695}), Spacer(),
-        Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
+        Reputation({id = 2710, gain = 50, quest = 94695}),
+        Transmog({item = 264584, type = L['plate']}), -- Stonecarved Smashers
+        Spacer(), Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
         Mount({item = 257147, id = 2758}) -- Cobalt Dragonhawk
     }
 }) -- Malfunctioning Construct
@@ -207,9 +229,11 @@ map.nodes[44993855] = Rare({
     quest = 93561, -- 93561/94696 ?
     rewards = {
         Achievement({id = 61507, criteria = 110180}),
+        Reputation({id = 2710, gain = 50, quest = 94696}),
+        Transmog({item = 264595, type = L['cloak']}), -- Lynxhide Shawl
+        Transmog({item = 264624, type = L['dagger']}), -- Fang of the Dame
         Pet({item = 265609, id = 4985}), -- Princess Bloodshed
-        Reputation({id = 2710, gain = 50, quest = 94696}), Spacer(),
-        Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
+        Spacer(), Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
         Mount({item = 257147, id = 2758}) -- Cobalt Dragonhawk
     }
 }) -- Dame Bloodshed
@@ -218,8 +242,10 @@ iqd.nodes[55712913] = Rare({
     id = 252465,
     quest = 95011,
     rewards = {
-        Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
-        Mount({item = 257147, id = 2758}) -- Cobalt Dragonhawk
+        Transmog({item = 267271, type = L['plate']}), -- Nethersteel Deflectors
+        Transmog({item = 267267, type = L['leather']}) -- Ransacker's Netherhide Mask
+        -- Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
+        -- Mount({item = 257147, id = 2758}) -- Cobalt Dragonhawk
     }
 }) -- Tarhu the Ransacker
 
@@ -227,8 +253,9 @@ iqd.nodes[37093830] = Rare({
     id = 239864,
     quest = 95010,
     rewards = {
-        Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
-        Mount({item = 257147, id = 2758}) -- Cobalt Dragonhawk
+        Transmog({item = 267268, type = L['cloth']}) -- Dripping Silk Footwraps
+        -- Section(L['shared_drops']), Mount({item = 257156, id = 2762}), -- Cerulean Hawkstrider
+        -- Mount({item = 257147, id = 2758}) -- Cobalt Dragonhawk
     }
 }) -- Dripping Shadow
 -------------------------------------------------------------------------------
@@ -315,16 +342,14 @@ map.nodes[48737544] = Treasure({
 smc.nodes[37805238] = Treasure({
     label = L['incomplete_book_of_sonnets'],
     requires = ns.requirement.Item(265832), -- Booklet of Sonnets
-    quest = 94781, -- 93458 (old quest id?),
-    -- rewards = {}, --[Silvermoon Library Bookcase] housing decor + 55rep with Silvermoon City faction
-    parent = map.id,
+    quest = 94781,
+    rewards = {Decor({item = 245282})}, -- Silvermoon Library Bookcase
     pois = {
         POI({40748846, label = '{item:265833}'}), -- Lost Page 1
         POI({33289017, label = '{item:265834}'}), -- Lost Page 2
         POI({39818047, label = '{item:265835}'}) -- Lost Page 3
     }
 }) -- Incomplete Book of Sonnets
--- TODO: bugged on beta, cannot be looted
 
 -------------------------------------------------------------------------------
 ----------------------------- PROFESSION TREASURES ----------------------------
@@ -350,12 +375,12 @@ map.nodes[56844077] = PT.Blacksmithing({quest = 89180, id = 238543}) -- Metalwor
 map.nodes[48327578] = PT.Blacksmithing({quest = 89178, id = 238541}) -- Silvermoon Smithing Kit
 map.nodes[63493260] = PT.Enchanting({quest = 89107, id = 238555}) -- Sin'dorei Enchanting Rod
 map.nodes[60755301] = PT.Enchanting({quest = 89103, id = 238551}) -- Everblazing Sunmote
-smc.nodes[62005460] = PT.Engineering({
+smc.nodes[51307440] = PT.Engineering({
     quest = 89133,
     id = 238556,
     parent = map.id
 }) -- One Engineer's Junk
-smc.nodes[64305620] = PT.Engineering({
+smc.nodes[51205720] = PT.Engineering({
     quest = 89139,
     id = 238562,
     parent = map.id
@@ -426,9 +451,9 @@ map.nodes[58921954] = SkyridingGlyph({
     rewards = {Achievement({id = 61576, criteria = 110337})}
 }) -- Silvermoon City
 
-map.nodes[54555098] = SkyridingGlyph({
+map.nodes[40005960] = SkyridingGlyph({
     rewards = {Achievement({id = 61576, criteria = 110338})}
-}) -- Runestone Shan'dor
+}) -- Goldenmist Village
 
 map.nodes[49474803] = SkyridingGlyph({
     rewards = {Achievement({id = 61576, criteria = 110339})}
@@ -501,7 +526,7 @@ map.nodes[47958820] = LoreObject({
     quest = 91841,
     rewards = {
         Achievement({id = 62104, criteria = 111828}),
-        Reputation({id = 2710, gain = 275, quest = 91841})
+        Reputation({id = 2710, gain = 250, quest = 91841})
     }
 }) -- Memorial Plaque
 
@@ -509,7 +534,7 @@ map.nodes[37601378] = LoreObject({
     quest = 93563,
     rewards = {
         Achievement({id = 62104, criteria = 111829}),
-        Reputation({id = 2710, gain = 275, quest = 93563})
+        Reputation({id = 2710, gain = 250, quest = 93563})
     }
 }) -- Shrine of Dath'remar
 
@@ -517,7 +542,7 @@ map.nodes[50524347] = LoreObject({
     quest = 93564,
     rewards = {
         Achievement({id = 62104, criteria = 111830}),
-        Reputation({id = 2710, gain = 275, quest = 93564})
+        Reputation({id = 2710, gain = 250, quest = 93564})
     }
 }) -- Dead Scar Research/Mirveda's Notes
 
@@ -525,7 +550,7 @@ map.nodes[36057251] = LoreObject({
     quest = 93565,
     rewards = {
         Achievement({id = 62104, criteria = 111831}),
-        Reputation({id = 2710, gain = 275, quest = 93565})
+        Reputation({id = 2710, gain = 250, quest = 93565})
     }
 }) -- Profane Research/Dar'khan's Notes
 
@@ -533,7 +558,7 @@ map.nodes[57815092] = LoreObject({
     quest = 93562,
     rewards = {
         Achievement({id = 62104, criteria = 111832}),
-        Reputation({id = 2710, gain = 275, quest = 93562})
+        Reputation({id = 2710, gain = 250, quest = 93562})
     }
 }) -- Hawkstrider Husbandry Manual
 
@@ -541,7 +566,7 @@ smc.nodes[38107699] = LoreObject({
     quest = 93570,
     rewards = {
         Achievement({id = 62104, criteria = 111833}),
-        Reputation({id = 2710, gain = 275, quest = 93570})
+        Reputation({id = 2710, gain = 250, quest = 93570})
     }
 }) -- Unfinished Sheet Music
 

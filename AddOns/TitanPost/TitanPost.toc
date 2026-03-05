@@ -1,0 +1,10 @@
+## Interface: 120001, 50503, 20505, 11508
+## Title: Titan Panel [|cffeda55fPost|r] |cff00aa009.1.2|r
+## Version: 9.1.2
+## Notes: Adds mail information to Titan Panel
+## Author: Titan Panel Development Team
+## SavedVariables: 
+## Dependencies: Titan
+## OptionalDeps: 
+TitanPost.lua
+

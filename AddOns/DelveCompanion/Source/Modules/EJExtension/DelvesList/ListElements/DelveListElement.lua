@@ -21,7 +21,7 @@ DelveCompanion_DelveListElementMixin = {}
 ---@param self DelveListElement
 ---@param data DelveData
 function DelveCompanion_DelveListElementMixin:Init(data)
-    -- Logger.Log("[DelveListElement] Init: %s", data.delveName)
+    -- Logger:Log("[DelveListElement] Init: %s", data.delveName)
 
     self.InstanceButton:Init(data)
     self.InstanceButton:Refresh()

@@ -272,7 +272,7 @@ function RareScanner:MidnightPrePatch_Initialize()
 	hooksecurefunc("SetItemRef", function(link, text, button, chatFrame)
 		local linkType, addon, mapID, x, y = strsplit(":", link)
 		if (linkType == "addon" and addon == "RareScannerMidnight") then
-			 RSWaypoints.AddWorldMapWaypoint(mapID, x, y)
+			 RSWaypoints.AddIngameWaypoint(mapID, x, y)
 		end
 	end)
 end

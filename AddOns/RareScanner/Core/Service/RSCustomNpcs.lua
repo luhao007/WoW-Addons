@@ -42,7 +42,7 @@ function RSCustomNpcs.DeleteCustomNpc(npcID, options)
 	end
 	
 	RSNpcDB.DeleteCustomNpcInfo(npcID)
-	RSGeneralDB.RemoveAlreadyFoundEntity(tonumber(npcID))
+	RSGeneralDB.RemoveAlreadyFoundEntity(tonumber(npcID), RSConstants.NPC_VIGNETTE)
 	if (RSCollectionsDB.GetAllEntitiesCollectionsLoot() and RSCollectionsDB.GetAllEntitiesCollectionsLoot()[RSConstants.ITEM_SOURCE.NPC] and RSCollectionsDB.GetAllEntitiesCollectionsLoot()[RSConstants.ITEM_SOURCE.NPC][tonumber(npcID)]) then
 		RSCollectionsDB.GetAllEntitiesCollectionsLoot()[RSConstants.ITEM_SOURCE.NPC][tonumber(npcID)] = nil
 		RSExplorerFrame:Refresh()

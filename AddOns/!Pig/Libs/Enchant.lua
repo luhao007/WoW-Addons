@@ -1819,7 +1819,7 @@ elseif PIG_MaxTocversion(60000) then
         [3]=true,--肩膀
         [4]=false,--衬衫
         [5]=true,--胸甲
-        [6]=true,--腰带
+        [6]=false,--腰带
         [7]=true,--腿部
         [8]=true,--脚
         [9]=true,--手腕

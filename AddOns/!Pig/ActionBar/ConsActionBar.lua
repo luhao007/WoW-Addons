@@ -32,7 +32,7 @@ CABarF.Open:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		PIGA["CABar"]["Open"]=true;
 		ActionBarfun.ConsumableActionBar()
-		ActionBarfun.Update_ActionButton()
+		ActionBarfun.Update_ActionButton(true)
 	else
 		PIGA["CABar"]["Open"]=false;
 		PIG_OptionsUI.RLUI:Show()
@@ -166,6 +166,7 @@ function ActionBarfun.ConsumableActionBar()
 		end,
 	}
 	local Actionbar=ActionBarfun.ADD_ActionBar(barName..index,CFdata,anniugeshu,anniujiange,fuFrame,fuFrameBut,RTabFrame,CABarF,CABarTabBut)
+	if not Actionbar then return end
 	Actionbar.Items={}
 	Actionbar.butindex=0
 	Actionbar:RegisterEvent("PLAYER_ENTERING_WORLD");

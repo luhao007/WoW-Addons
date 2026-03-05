@@ -39,6 +39,7 @@
 	
 	<!-- Integration with other addons -->
 	<Include file="Service\Addons\RSTomtom.lua"/>
+	<Include file="Service\Addons\RSWaypointUI.lua"/>
 	
 	<!-- Services -->
 	<Include file="Service\RSMap.lua"/>

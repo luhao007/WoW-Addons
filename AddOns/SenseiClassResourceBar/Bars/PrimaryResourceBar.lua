@@ -95,7 +95,7 @@ addonTable.RegisteredBar.PrimaryResourceBar = {
     dbName = "PrimaryResourceBarDB",
     editModeName = L["PRIMARY_POWER_BAR_EDIT_MODE_NAME"],
     frameName = "PrimaryResourceBar",
-    frameLevel = 3,
+    frameLevel = 9,
     defaultValues = {
         point = "CENTER",
         x = 0,
@@ -151,7 +151,7 @@ addonTable.RegisteredBar.PrimaryResourceBar = {
             },
             {
                 parentId = L["CATEGORY_TEXT_SETTINGS"],
-                order = 505,
+                order = 605,
                 name = L["SHOW_MANA_AS_PERCENT"],
                 kind = LEM.SettingType.Checkbox,
                 default = defaults.showManaAsPercent,
@@ -170,7 +170,7 @@ addonTable.RegisteredBar.PrimaryResourceBar = {
                 end,
                 isEnabled = function(layoutName)
                     local data = SenseiClassResourceBarDB[dbName][layoutName]
-                    return data.showText
+                    return data.showText == true
                 end,
                 tooltip = L["SHOW_MANA_AS_PERCENT_TOOLTIP"],
             },

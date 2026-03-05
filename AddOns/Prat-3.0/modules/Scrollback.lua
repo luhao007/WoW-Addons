@@ -27,11 +27,7 @@
 local ChatFrame_TimeBreakDown = _G.ChatFrame_TimeBreakDown or _G.ChatFrameUtil.TimeBreakDown
 
 Prat:AddModuleExtension(function()
-	local module = Prat.Addon:GetModule("History", true)
-
-	if not module then
-		return
-	end
+	local module = Prat:GetModule("History", true)
 
 	local PL = module.PL
 
@@ -162,7 +158,7 @@ Prat:AddModuleExtension(function()
 		return message.extraData and message.extraData.n == #message.extraData
 	end
 
-	function getBattlettagLookupTable()
+	local function getBattlettagLookupTable()
 		local lookup = {}
 		local numBNet = BNGetNumFriends();
 		for i = 1, numBNet do
@@ -198,8 +194,8 @@ Prat:AddModuleExtension(function()
 			local info = battleTagLookup[battleTag]
 			if info then
 				name, bnetIDAccount = info.accountName, info.bnetAccountID
-				display = display:gsub(PL.bnet_removed, name)
-				chatTarget = chatTarget:gsub(PL.bnet_removed, name)
+				display = display:gsub("%?%?%?", name)
+				chatTarget = chatTarget:gsub("%?%?%?", name)
 			end
 		end
 
@@ -226,7 +222,7 @@ Prat:AddModuleExtension(function()
 									timeShown = true
 								end
 
-								line.message = line.message:gsub("|K.-|k", PL.bnet_removed)
+								line.message = line.message:gsub("|K.-|k", "???")
 								line.message = line.message:gsub([[|HBNplayer:(.-)|h(.-)|h]], updateBnet)
 								f.historyBuffer:PushBack(line)
 							end

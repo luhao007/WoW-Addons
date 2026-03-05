@@ -60,7 +60,7 @@ function Mapfun.WorldMap_XY()
 		if not mapinfo then return end
 		local pos = C_Map.GetPlayerMapPosition(mapinfo,"player");
 		if not pos then return end
-		--local zuobiaoBB = C_Map.GetMapInfo(mapinfo).name, 
+		--local inxond = C_Map.GetMapInfo(mapinfo)
 		local zuobiaoXX,zuobiaoYY = math.ceil(pos.x*10000)/100, math.ceil(pos.y*10000)/100
 		zuobiaoXYFFF.zuobiaoXV:SetText(zuobiaoXX);
 		zuobiaoXYFFF.zuobiaoYV:SetText(zuobiaoYY);
@@ -243,6 +243,8 @@ if PIG_MaxTocversion() then
 			self.overlayTexturePool:ReleaseAll();
 			local mapID = self:GetMap():GetMapID();
 			if not mapID then return end
+			-- inxond = C_Map.GetMapInfo(mapID)
+			-- print(inxond.name,inxond.mapID)
 			local uiMapArtID = C_Map.GetMapArtID(mapID)
 			if not uiMapArtID or not Reveal[uiMapArtID] then return end
 			local TextureInfo = Reveal[uiMapArtID]

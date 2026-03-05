@@ -36,7 +36,6 @@ end
 GetFriendshipReputation = GetFriendshipReputation or nop
 
 local IsMajorFaction = C_Reputation.IsMajorFaction or nop
-local IsFactionParagon = C_Reputation.IsFactionParagon or nop
 local GetMajorFactionData = C_MajorFactions and C_MajorFactions.GetMajorFactionData and C_MajorFactions.GetMajorFactionData or nop
 local HasMaximumRenown = C_MajorFactions and C_MajorFactions.HasMaximumRenown and C_MajorFactions.HasMaximumRenown or nop
 local GetCurrentRenownLevel = C_MajorFactions and C_MajorFactions.GetCurrentRenownLevel or nop
@@ -44,6 +43,15 @@ local GetNumFactions = GetNumFactions or C_Reputation.GetNumFactions
 
 local IsFactionInactive = IsFactionInactive or function(...)
 	return not C_Reputation.IsFactionActive(...)
+end
+
+local function IsFactionParagon(factionId)
+	if (C_Reputation.IsFactionParagon and C_Reputation.IsFactionParagon(factionId)) then
+		local val = C_Reputation.GetFactionParagonInfo(factionId)
+		if (val and val > 0) then
+			return true
+		end
+	end
 end
 
 local function unwrapFactionData(data)
@@ -175,7 +183,7 @@ local function GetValueAndMaximum(standingId, barValue, bottomValue, topValue, f
 		local data = GetMajorFactionData(factionId)
 		local isCapped = HasMaximumRenown(factionId)
 		local current = isCapped and data.renownLevelThreshold or data.renownReputationEarned or 0
-		local standingText = " (" .. (RENOWN_LEVEL_LABEL .. data.renownLevel) .. ")"
+		local standingText = " (" .. RENOWN_LEVEL_LABEL:format(data.renownLevel) .. ")"
 		local session = GetBalanceForMajorFaction(factionId, current, data.renownLevel)
 		local texture = MajorFactionTexture(data)
 		if (IsFactionParagon(factionId)) then

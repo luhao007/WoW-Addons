@@ -2,6 +2,8 @@ local ADDON_NAME = ...
 local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "ruRU")
 if not L then return end
 
+-- new
+L["to interact with the icon"] = "чтобы взаимодействовать с этим значком"
 -- blizzard minimap icons
 L["Blizzard Icons"] = "Значки Blizzard"
 L["The Blizzard settings configured by the player are restored"] = "Настройки Blizzard, заданные игроком, восстанавливаются"
@@ -46,6 +48,8 @@ L["Changelog"] = "Список изменений"
 L["Last Changelog"] = "Последний список изменений"
 L["Show MapNotes Changelog again"] = "Показать список изменений MapNotes снова"
 L["Do not show again until next version"] = "Больше не показывать до следующей версии"
+L["permanently hide changelog"] = "Навсегда скрыть журнал изменений"
+L["Permanently hides the changelog, not just until the next addon update"] = "Навсегда скрывает журнал изменений, а не только до следующего обновления аддона"
 -- SwapButtons
 L["In addition to the Right mouse button, the shift key must now also be pressed to set a waypoint"] = "Помимо правой кнопки мыши, теперь также необходимо нажать клавишу Shift для установки точки маршрута"
 L["In addition to the Left mouse button, the shift key must now also be pressed to set a waypoint"] = "Помимо левой кнопки мыши, теперь также необходимо нажать клавишу Shift для установки точки маршрута"

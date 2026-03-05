@@ -372,7 +372,7 @@ local InfoList_L = {
 				else
 					if IsInRaid() then
 						if PIG_MaxTocversion(40000) and PIG_MaxTocversion(30000,true) then
-							local name244=GetDifficultyInfo(244)
+							local name244=PIG_GetDifficultyInfo(244)
 							rootDescription:CreateRadio(name244, IsSelected, SetSelected, 244);
 						else
 							rootDescription:CreateRadio(RAID_DIFFICULTY1, IsSelected, SetSelected, 3);
@@ -389,17 +389,17 @@ local InfoList_L = {
 			function butui:UpdateExt_ON()
 				if IsInRaid() then
 					local DifficultyID=GetRaidDifficultyID()
-					local name= GetDifficultyInfo(DifficultyID)
+					local name= PIG_GetDifficultyInfo(DifficultyID)
 					self.Text:SetText(self.namelist[DifficultyID] or name)
 				else
-					local name = GetDifficultyInfo(GetDungeonDifficultyID())
+					local name = PIG_GetDifficultyInfo(GetDungeonDifficultyID())
 					self.Text:SetText(self.namelist[DifficultyID] or name)
 				end
 			end
 			function butui:UpdateExt_OFF()
 				local DifficultyID=GetDungeonDifficultyID()
 				butui:Enable()
-				local name = GetDifficultyInfo(DifficultyID)
+				local name = PIG_GetDifficultyInfo(DifficultyID)
 				self.Text:SetText(self.namelist[DifficultyID] or name)
 			end
 			butui.namelist={[5]="10H",[6]="25H",[150]="N/A",[244]="25泰坦"}

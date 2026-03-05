@@ -437,12 +437,29 @@ L["RAID_BOSS_VOTI_5"] = "Dathea, die Aufgestiegene"
 L["RAID_BOSS_VOTI_6"] = "Kurog Grimmtotem"
 L["RAID_BOSS_VOTI_7"] = "Bruthüterin Diurna"
 L["RAID_BOSS_VOTI_8"] = "Raszageth die Sturmfresserin"
-L["RAID_BOSS_VS_1"] = "Imperator Averzian"
 L["RAID_BOSS_VS_2"] = "Vorasius"
 L["RAID_BOSS_VS_3"] = "Gefallener König Salhadaar"
 L["RAID_BOSS_VS_4"] = "Vaelgor & Ezzorak"
 L["RAID_BOSS_VS_5"] = "Lichtblinde Vorhut"
 L["RAID_BOSS_VS_6"] = "Krone des Kosmos"
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_1"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_2"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_3"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_4"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_5"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_6"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_7"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_8"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_9"] = ""--]] 
 L["RAID_BOT"] = "Die Bastion des Zwielichts"
 L["RAID_BRD"] = "Schwarzfelstiefen"
 L["RAID_BWD"] = "Der Pechschwingenabstieg"
@@ -477,6 +494,8 @@ L["RAID_TOES"] = "Terrasse des Endlosen Frühlings"
 L["RAID_TOT"] = "Der Thron des Donners"
 L["RAID_TOTFW"] = "Thron der Vier Winde"
 L["RAID_VS"] = "Die Leerenspitze"
+--[[Translation missing --]]
+--[[ L["RAID_VS_DR_MQD"] = ""--]] 
 L["RAIDERIO_AVERAGE_PLAYER_SCORE"] = "Durchschn. Wertungen für Zeitliche +%s"
 L["RAIDERIO_BEST_RUN"] = "Raider.IO M+ Bester Durchlauf"
 L["RAIDERIO_CLIENT_CUSTOMIZATION"] = "Raider.IO Client-Anpassung"

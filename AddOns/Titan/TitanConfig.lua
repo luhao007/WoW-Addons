@@ -2322,7 +2322,8 @@ local optionsUIScale = {
 			get = function() return TitanPanelGetVar("Scale") end,
 			set = function(_, a)
 				TitanPanelSetVar("Scale", a)
-				TitanPanel_InitPanelBarButton("Config scale change " .. a)
+				--TitanPanel_InitPanelBarButton("Config scale change " .. a)
+				TitanPanel_InitPanelButtons("Config scale change " .. a)
 			end,
 			disabled = function()
 				if InCombatLockdown() then
@@ -2344,7 +2345,7 @@ local optionsUIScale = {
 			get = function() return TitanPanelGetVar("ButtonSpacing") end,
 			set = function(_, a)
 				TitanPanelSetVar("ButtonSpacing", a);
-				TitanPanel_InitPanelButtons();
+				TitanPanel_InitPanelButtons("Config: Button spacing");
 			end,
 		},
 		iconspacing = {
@@ -2359,7 +2360,7 @@ local optionsUIScale = {
 			get = function() return TitanPanelGetVar("IconSpacing") end,
 			set = function(_, a)
 				TitanPanelSetVar("IconSpacing", a);
-				TitanPanel_InitPanelButtons();
+				TitanPanel_InitPanelButtons("Config: Icon spacing");
 			end,
 		},
 		spacer01 = {
@@ -2419,8 +2420,8 @@ local optionsUIScale = {
 			end,
 			set = function(_, v)
 				TitanPanelSetVar("FontName", v)
--- "Friz Quadrata TT"
-				TitanSetPanelFont(v, TitanPanelGetVar("FontSize"))
+				--TitanSetPanelFont(v, TitanPanelGetVar("FontSize"))
+				TitanPanel_InitPanelButtons("FontName")
 			end,
 			values = font_list,
 --			values = media:List("font"), --AceGUIWidgetLSMlists.font,
@@ -2438,7 +2439,8 @@ local optionsUIScale = {
 			get = function() return TitanPanelGetVar("FontSize") end,
 			set = function(_, v)
 				TitanPanelSetVar("FontSize", v);
-				TitanSetPanelFont(TitanPanelGetVar("FontName"), v)
+				--TitanSetPanelFont(TitanPanelGetVar("FontName"), v)
+				TitanPanel_InitPanelButtons("FontSize")
 			end,
 		},
 		fontspacer = {
@@ -3139,7 +3141,7 @@ local optionsAdvanced = {
 					order = 501,
 					type = "execute",
 					width = "full",
-					func = function() TitanPanel_InitPanelButtons() end,
+					func = function() TitanPanel_InitPanelButtons("Config: Refresh plugins") end,
 				},
 				space_600_1 = {
 					order = 600,

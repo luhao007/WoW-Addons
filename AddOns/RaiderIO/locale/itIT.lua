@@ -626,8 +626,6 @@ L["RAID_BOSS_VOTI_6"] = "Kurog Totem Truce"
 L["RAID_BOSS_VOTI_7"] = "Custode della Progenie Diurna"
 L["RAID_BOSS_VOTI_8"] = "Raszageth la Mangiatempeste"
 --[[Translation missing --]]
---[[ L["RAID_BOSS_VS_1"] = ""--]] 
---[[Translation missing --]]
 --[[ L["RAID_BOSS_VS_2"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["RAID_BOSS_VS_3"] = ""--]] 
@@ -637,6 +635,24 @@ L["RAID_BOSS_VOTI_8"] = "Raszageth la Mangiatempeste"
 --[[ L["RAID_BOSS_VS_5"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["RAID_BOSS_VS_6"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_1"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_2"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_3"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_4"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_5"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_6"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_7"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_8"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_9"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["RAID_BOT"] = ""--]] 
 --[[Translation missing --]]
@@ -684,6 +700,8 @@ L["RAID_RS"] = "Santuario di Rubino"
 L["RAID_TOTFW"] = "Trono dei Quattro Venti"
 --[[Translation missing --]]
 --[[ L["RAID_VS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_VS_DR_MQD"] = ""--]] 
 L["RAIDERIO_AVERAGE_PLAYER_SCORE"] = "Media Punteggio per +%s in Tempo"
 L["RAIDERIO_BEST_RUN"] = "Raider.IO M+ Migliore Run"
 L["RAIDERIO_CLIENT_CUSTOMIZATION"] = "Personalizzazione del client RaiderIO"

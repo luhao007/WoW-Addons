@@ -85,6 +85,9 @@ local STATIC_COLORS = {
 	BLIZZARD_YELLOW = Color.NewFromHex("#ffff00"),
 	BLIZZARD_GM = Color.NewFromHex("#00b4ff"),
 
+	CRAFTED_QUALITY_ONE_MIDNIGHT = Color.NewFromHex("#7d7e85"),
+	CRAFTED_QUALITY_TWO_MIDNIGHT = Color.NewFromHex("#e2b932"),
+
 	CRAFTED_QUALITY_ONE = Color.NewFromHex("#904a3c"),
 	CRAFTED_QUALITY_TWO = Color.NewFromHex("#7d7e85"),
 	CRAFTED_QUALITY_THREE = Color.NewFromHex("#8f782e"),
@@ -97,6 +100,10 @@ local GROUP_COLOR_KEYS = {
 	"GROUP_THREE",
 	"GROUP_FOUR",
 	"GROUP_FIVE",
+}
+local CRAFTED_QUALITY_KEYS_MIDNIGHT = {
+	"CRAFTED_QUALITY_ONE_MIDNIGHT",
+	"CRAFTED_QUALITY_TWO_MIDNIGHT",
 }
 local CRAFTED_QUALITY_KEYS = {
 	"CRAFTED_QUALITY_ONE",
@@ -374,9 +381,10 @@ end
 
 ---Gets the color key for a crafted quality.
 ---@param quality number The crafted quality
+---@param useMidnightIcon boolean The quality icon to use
 ---@return ThemeColorKey
-function Theme.GetCraftedQualityColorKey(quality)
-	local key = CRAFTED_QUALITY_KEYS[quality]
+function Theme.GetCraftedQualityColorKey(quality, useMidnightIcon)
+	local key = useMidnightIcon and CRAFTED_QUALITY_KEYS_MIDNIGHT[quality] or CRAFTED_QUALITY_KEYS[quality]
 	assert(key and Theme.IsValidColor(key))
 	return key
 end

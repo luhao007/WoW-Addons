@@ -613,8 +613,6 @@ L["RAID_BOSS_TOTFW_2"] = "Al'Akir"
 --[[Translation missing --]]
 --[[ L["RAID_BOSS_VOTI_8"] = ""--]] 
 --[[Translation missing --]]
---[[ L["RAID_BOSS_VS_1"] = ""--]] 
---[[Translation missing --]]
 --[[ L["RAID_BOSS_VS_2"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["RAID_BOSS_VS_3"] = ""--]] 
@@ -624,6 +622,24 @@ L["RAID_BOSS_TOTFW_2"] = "Al'Akir"
 --[[ L["RAID_BOSS_VS_5"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["RAID_BOSS_VS_6"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_1"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_2"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_3"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_4"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_5"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_6"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_7"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_8"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_BOSS_VS_DR_MQD_9"] = ""--]] 
 L["RAID_BOT"] = "Bastión del Crepúsculo - BOT"
 L["RAID_BRD"] = "Profundidades de Roca Negra - BRD"
 L["RAID_BWD"] = "Descenso de Alanegra - BWD"
@@ -666,6 +682,8 @@ L["RAID_RS"] = "El Sagrario Rubí - RS"
 L["RAID_TOTFW"] = "Trono de los Cuatro Vientos - TOTFW"
 --[[Translation missing --]]
 --[[ L["RAID_VS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RAID_VS_DR_MQD"] = ""--]] 
 L["RAIDERIO_AVERAGE_PLAYER_SCORE"] = "Puntuación media de +%s en tiempo"
 L["RAIDERIO_BEST_RUN"] = "Mejor resultado M+ de Raider.IO"
 L["RAIDERIO_CLIENT_CUSTOMIZATION"] = "Personalización del cliente de RaiderIO"

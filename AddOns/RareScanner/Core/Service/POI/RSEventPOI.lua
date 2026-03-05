@@ -150,7 +150,7 @@ function RSEventPOI.GetMapEventPOI(eventID, mapID, vignetteGUIDs, areaPOIs, onWo
 		return
 	end
 	
-	local alreadyFoundInfo = recentlySeenInfo or RSGeneralDB.GetAlreadyFoundEntity(eventID)
+	local alreadyFoundInfo = recentlySeenInfo or RSGeneralDB.GetAlreadyFoundEntity(eventID, RSConstants.EVENT_VIGNETTE)
 	
 	-- Skip if not showing not discovered icons
 	if (not RSConfigDB.IsShowingNotDiscoveredEvents() and not alreadyFoundInfo) then

@@ -606,12 +606,12 @@ local function AddWaypointsTooltip(tooltip, pin, onShift, addSeparator, isLink)
 	if (isLink) then
 		if (not RSConfigDB.IsShowingChatTooltipsCommands()) then
 			return false
-		elseif (not RSConfigDB.IsAddingchatTomtomWaypoints() and not RSConfigDB.IsAddingchatIngameWaypoints()) then
+		elseif (not RSConfigDB.IsAddingchatTomtomWaypoints() and not RSConfigDB.IsAddingchatIngameWaypoints() and not RSConfigDB.IsAddingchatWaypointUIWaypoints()) then
 			return false
 		end
 	elseif (not RSConfigDB.IsShowingTooltipsCommands()) then
 		return false
-	elseif (not RSConfigDB.IsAddingWorldMapTomtomWaypoints() and not RSConfigDB.IsAddingWorldMapIngameWaypoints()) then
+	elseif (not RSConfigDB.IsAddingWorldMapTomtomWaypoints() and not RSConfigDB.IsAddingWorldMapIngameWaypoints() and not RSConfigDB.IsAddingWorldMapWaypointUIWaypoints()) then
 		return false
 	end
 	

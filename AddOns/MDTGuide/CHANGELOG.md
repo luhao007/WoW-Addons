@@ -1,3 +1,22 @@
+Version 2.02
+
+- Add buttons to cycle thorugh pulls, as well as set a permanent pull offset
+- Adjust top button size in guide mode
+- Replace command line options with GUI settings
+- Add keybind settings for toggling guide mode and cycling through pulls
+
+Version 2.01
+
+- Updated ToC version for patch 12.0.1
+- Fix current dungeon detection
+- Make dependency on MDT non-optional
+
+Version 2.00
+
+- Updated ToC version for patch 12.0
+- Remove route (path estimation) mode, as it's no longer possible to track kills
+- Replace deprecated API calls
+
 Version 1.44
 
 - Remove debug code

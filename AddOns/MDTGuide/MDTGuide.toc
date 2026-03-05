@@ -1,5 +1,5 @@
 ## Interface: 120001
-## Version: 2.00
+## Version: 2.03
 
 ## Title: MDTGuide
 ## Notes: Guide mode for Mythic Dungeon Tools.
@@ -8,10 +8,12 @@
 
 ## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
 
-## OptionalDeps: MythicDungeonTools
+## Dependencies: MythicDungeonTools
 
 ## SavedVariables: MDTGuideDB, MDTGuideActive, MDTGuideOptions
 
+Bindings.lua
 Data.lua
 Util.lua
 Main.lua
+Options.lua

@@ -16,7 +16,7 @@ local NEMESIS_INACTIVE_ATLAS = "GM-icon-difficulty-mythic-pressed"
 --- A button representing a Delve in the Delves list.
 ---@class (exact) DelveInstanceButton : DelveInstanceButtonXml
 ---@field data DelveData?
----@field waypointTracker DelveWaypointTracker
+---@field waypointTracker WaypointTracker
 DelveCompanion_DelveInstanceButtonMixin = {}
 
 ---@param self DelveInstanceButton
@@ -29,7 +29,7 @@ function DelveCompanion_DelveInstanceButtonMixin:Init(data)
         self.DelveArtBg:SetAtlas(data.config.atlasBgID)
     end
 
-    local waypointTracker = CreateFromMixins(DelveCompanion_DelveWaypointMixin)
+    local waypointTracker = CreateFromMixins(DelveCompanion_WaypointTrackerMixin)
     waypointTracker:Prepare()
     self.waypointTracker = waypointTracker
 
@@ -77,28 +77,28 @@ end
 
 ---@param self DelveInstanceButton
 function DelveCompanion_DelveInstanceButtonMixin:OnShow()
-    -- Logger.Log("[DelveInstanceButton] OnShow start")
+    -- Logger:Log("[DelveInstanceButton] OnShow start")
 
     self:RegisterEvent("SUPER_TRACKING_CHANGED")
 end
 
 ---@param self DelveInstanceButton
 function DelveCompanion_DelveInstanceButtonMixin:OnHide()
-    -- Logger.Log("[DelveInstanceButton] OnHide start")
+    -- Logger:Log("[DelveInstanceButton] OnHide start")
 
     self:UnregisterEvent("SUPER_TRACKING_CHANGED")
 end
 
 ---@param self DelveInstanceButton
 function DelveCompanion_DelveInstanceButtonMixin:OnEnter()
-    -- Logger.Log("[DelveInstanceButton] OnEnter start")
+    -- Logger:Log("[DelveInstanceButton] OnEnter start")
 
     self.waypointTracker:DisplayDelveTooltip(self, "ANCHOR_TOP", self.data)
 end
 
 ---@param self DelveInstanceButton
 function DelveCompanion_DelveInstanceButtonMixin:OnLeave()
-    -- Logger.Log("[DelveInstanceButton] OnLeave start")
+    -- Logger:Log("[DelveInstanceButton] OnLeave start")
 
     GameTooltip:Hide()
 end

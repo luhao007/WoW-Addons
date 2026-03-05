@@ -216,33 +216,6 @@ local function GetConnectedRealms()
 	return realms
 end
 
----Take a table of indexes to sort gold
----@param gold_table table
----@return table sorted May not be need but it is explicit
-local function SortByIndex(gold_table)
-	local by_realm = TitanGetVar(TITAN_GOLD_ID, "GroupByRealm")
-	local by_name = TitanGetVar(TITAN_GOLD_ID, "SortByName")
-	-- This section will sort the array based on user preference
-	-- * by name or by gold amount descending
-	-- * grouping by realm if selected
-	if by_name then
-		table.sort(gold_table, function(key1, key2)
-			return key1 < key2
-		end)
-	elseif by_realm then
-		table.sort(gold_table, function(key1, key2)
-			if gold_table[key1].realm ~= gold_table[key2].realm then
-				return gold_table[key1].realm < gold_table[key2].realm
-			end
-			return false
-		end)
-	else
-		-- just return the table untouched
-	end
-
-	return gold_table
-end
-
 ---local Use index to get toon info from Titan
 ---@param info string
 ---@return string Character name - no server
@@ -312,13 +285,16 @@ local function EvalIndexInfo(index)
 			end
 
 			-- Assume server option is satisfied; check other options
-			if (res.ignore_faction or res.same_faction) then
+			if (res.ignore_faction or res.same_faction)
+			and toon_gold.show
+			then
 				res.show_toon = true
 			else
 				res.show_toon = false
 			end
 
 			res.gold = toon_gold.gold
+			res.show = toon_gold.show -- user option
 
 			str = str
 				.. " n:" .. tostring(res.char_name) .. ""
@@ -337,6 +313,7 @@ local function EvalIndexInfo(index)
 
 	return res
 end
+
 ---local Helper for TotalGold
 --- If toon is to be shown add amount to total; otherwise pass back running total
 local function ToonAdd(show, amount, total)
@@ -424,6 +401,39 @@ end
 
 -- ====== Tool tip routines
 
+---Take a table of toons to sort per user settings
+---@param gold_table table
+---@return table sorted May not be need but it is explicit
+local function SortByIndex(gold_table)
+--	local by_realm = TitanGetVar(TITAN_GOLD_ID, "GroupByRealm")
+	local by_name = TitanGetVar(TITAN_GOLD_ID, "SortByName")
+	-- This section will sort the array based on user preference
+	-- * by name or by gold amount descending
+	-- * grouping by realm if selected
+	if by_name == true then
+		table.sort(gold_table, function(key1, key2)
+			return key1.char_name < key2.char_name
+		end)
+--[[ 
+	-- 2026 Feb : Removed as a sort
+	--  it does not make sense with by_name and by_gold being on a T/F option
+	elseif by_realm then
+		table.sort(gold_table, function(key1, key2)
+			if gold_table[key1].realm ~= gold_table[key2].realm then
+				return gold_table[key1].realm < gold_table[key2].realm
+			end
+			return false
+		end)
+--]]
+	else -- by gold
+		table.sort(gold_table, function(key1, key2)
+			return key1.gold < key2.gold
+		end)
+	end
+
+	return gold_table
+end
+
 ---local Generate formatted tooltip text
 ---@return string
 local function GetTooltipText()
@@ -447,7 +457,7 @@ local function GetTooltipText()
 			if char.valid then
 				if char.same_realm and char.show_toon then
 					Titan_Debug.Out('gold', 'tool_tip', index.." "..NiceCash(char.gold, false, false))
-					table.insert(GoldSorted, index);
+					table.insert(GoldSorted, char);
 				end
 			end
 		end
@@ -459,7 +469,7 @@ local function GetTooltipText()
 			if char.valid then
 				if char.merge_realm and char.show_toon then
 					Titan_Debug.Out('gold', 'tool_tip', index.." "..NiceCash(char.gold, false, false))
-					table.insert(GoldSorted, index);
+					table.insert(GoldSorted, char);
 				end
 			end
 		end
@@ -471,7 +481,7 @@ local function GetTooltipText()
 			if char.valid then
 				if char.show_toon then
 					Titan_Debug.Out('gold', 'tool_tip', index.." "..NiceCash(char.gold, false, false))
-					table.insert(GoldSorted, index);
+					table.insert(GoldSorted, char);
 				end
 			end
 		end
@@ -490,8 +500,11 @@ local function GetTooltipText()
 	local character, charserver, char_faction
 	for i = 1, #GoldSorted do
 		local toon = GoldSorted[i]
-		character, charserver, char_faction = GetIndexInfo(toon)
-		local t_gold = TitanSettings.Players[toon].Info[TITAN_GOLD_ID].gold
+		character = toon.char_name
+		charserver = toon.server
+		char_faction = toon.faction
+
+		local t_gold = toon.gold --TitanSettings.Players[toon].Info[TITAN_GOLD_ID].gold
 		coin_str = NiceCash(t_gold, false, false)
 		show_dash = false
 		show_realm = true
@@ -667,6 +680,8 @@ local function Initialize_Array()
 	if (GOLD_INITIALIZED) then
 		-- already done
 	else
+		-- 2026 Jan : Saved vars are now in Titan
+
 		-- See if this is a new toon to Gold saved vars or reset
 		local gindex, _, _ = TitanUtils_GetPlayer()
 		-- TitanSettings.Players[toon].Info.[TITAN_GOLD_ID]
@@ -694,6 +709,21 @@ local function Initialize_Array()
 			.. " " .. tostring(GOLD_SESSIONSTART) .. ""
 			.. " " .. tostring(GOLD_STARTINGGOLD) .. ""
 			.. " " .. tostring(Warband.GetSum()) .. ""
+
+		-- Ensure the saved vars are what we need for valid toons
+		for index, money in pairs(TitanSettings.Players) do
+			local char = EvalIndexInfo(index)
+			if char.valid then
+				-- Added 2026 Feb
+				if TitanSettings.Players[index].Info[TITAN_GOLD_ID].show == nil then
+					TitanSettings.Players[index].Info[TITAN_GOLD_ID].show = true -- default
+				else
+					-- exists, use as is
+				end
+			else
+				-- ignore custom profiles or toons not logged into yet
+			end
+		end
 	end
 
 	local msg = ">Init done : "
@@ -733,9 +763,48 @@ local function TitanGold_ClearDB()
 	StaticPopup_Show("TITANGOLD_CLEAR_DATABASE");
 end
 
+---local Create Show menu - list of characters in same faction
+---@param faction string
+---@param level table Menu description to attach to
+local function ShowMenuButtons(faction, level)
+	for index, money in pairs(TitanSettings.Players) do
+		local char = EvalIndexInfo(index)
+		if char.valid and char.faction == faction then
+			Titan_Menu.AddSelectorGeneric(level, char.char_name,
+				function(data)
+					local toon_info = TitanSettings.Players[data.c_name].Info ---@class CharInfo
+					local toon_gold = toon_info[TITAN_GOLD_ID] ---@class GoldData
+					return toon_gold.show
+				end,
+				function(data)
+					local toon_info = TitanSettings.Players[index].Info ---@class CharInfo
+					local toon_gold = toon_info[TITAN_GOLD_ID] ---@class GoldData
+					toon_gold.show = not toon_gold.show
+				end,
+				{ c_name = index }
+			)
+		else
+			-- ignore custom profiles or toons not logged into yet
+		end
+	end
+end
+
 local function GeneratorFunction(owner, rootDescription)
 	local id = TITAN_GOLD_ID
 	local root = rootDescription -- menu widget to start with
+
+	local opts_sort = Titan_Menu.AddButton(root, L["TITAN_GOLD_SORT_BY"])
+	do           -- next level options
+		local disp = { -- selectors using the same option - label, value
+			{ L["TITAN_GOLD_TOGGLE_SORT_GOLD"], false },
+			{ L["TITAN_GOLD_TOGGLE_SORT_NAME"], true },
+		}
+		Titan_Menu.AddSelectorList(opts_sort, id, nil, "SortByName", disp)
+
+		Titan_Menu.AddDivider(opts_sort)
+
+		Titan_Menu.AddSelector(opts_sort, id, L["TITAN_GOLD_GROUP_BY_REALM"], "GroupByRealm")
+	end
 
 	local opts_gold = Titan_Menu.AddButton(root, L["TITAN_GOLD_TOOLTIP_DISPLAY_OPTIONS"])
 	do           -- next level options
@@ -783,8 +852,19 @@ local function GeneratorFunction(owner, rootDescription)
 	end
 	Titan_Menu.AddDivider(root)
 
+	local opts_show = Titan_Menu.AddButton(root, L["TITAN_GOLD_SHOW_PLAYER"]
+		.." : "..L["TITAN_GOLD_FACTION_PLAYER_ALLY"])
+	do
+	local opts_alliance = Titan_Menu.AddButton(opts_show, L["TITAN_GOLD_FACTION_PLAYER_ALLY"])
+		ShowMenuButtons(TITAN_ALLIANCE, opts_alliance)
+	end
+	do
+	local opts_horde = Titan_Menu.AddButton(opts_show, L["TITAN_GOLD_FACTION_PLAYER_HORDE"])
+		ShowMenuButtons(TITAN_HORDE, opts_horde)
+	end
+
 --	Titan_Menu.AddCommand(root, id, L["TITAN_GOLD_CLEAR_DATA_TEXT"], TitanGold_ClearDB)
---	Titan_Menu.AddCommand(root, id, L["TITAN_GOLD_RESET_SESS_TEXT"], ResetSession)
+	Titan_Menu.AddCommand(root, id, L["TITAN_GOLD_RESET_SESS_TEXT"], ResetSession)
 end
 
 ---local Get the gold total the user wants (server or player).

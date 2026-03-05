@@ -143,9 +143,9 @@ if not db.activate.HideMapNote then
                     end
 
                     if self.db.profile.showMinimapCapitalsZeppelins then
-                        minimap[85][44496228] = { mnID = 114, name = "", TransportName = POSTMASTER_LETTER_WARSONGHOLD .. " (" .. L["Zeppelin"] ..")", type = "HZeppelin", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Zeppelin from OG to Borean Tundra - Northrend
+                        minimap[85][44676239] = { mnID = 114, name = "", TransportName = POSTMASTER_LETTER_WARSONGHOLD .. " (" .. L["Zeppelin"] ..")", type = "HZeppelin", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Zeppelin from OG to Borean Tundra - Northrend
                         minimap[85][42796534] = { mnID = 88, name = "", type = "HZeppelin", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Zeppelin from OG to Thunder Bluff
-                        minimap[85][52275315] = { mnID = 50, name = "", TransportName = ns.Gromgol .. " (" .. L["Zeppelin"] ..")", type = "HZeppelin", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Zeppelin from OG to Stranglethorn
+                        minimap[85][52375330] = { mnID = 50, name = "", TransportName = ns.Gromgol .. " (" .. L["Zeppelin"] ..")", type = "HZeppelin", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Zeppelin from OG to Stranglethorn
                     end
 
                     if self.db.profile.showMinimapCapitalsFP then
@@ -3259,7 +3259,8 @@ if not db.activate.HideMapNote then
             if self.db.profile.activate.MinimapCapitalsGeneral then
 
                 if self.db.profile.showMinimapCapitalsDecorExpert then
-                    minimap[2339][53735721] = { npcID = 252910, name = "", type = "DecorExpert", showInZone = false, showOnContinent = false, showOnMinimap = true }
+                    minimap[2339][54675722] = { npcID = 252910, name = "", type = "DecorExpert", showInZone = false, showOnContinent = false, showOnMinimap = true }
+                    minimap[2339][52856796] = { npcID = 252312, name = "", type = "DecorExpert", showInZone = false, showOnContinent = false, showOnMinimap = true }
                 end
 
                 if self.db.profile.showMinimapCapitalsPaths then
@@ -3342,6 +3343,7 @@ if not db.activate.HideMapNote then
             if self.db.profile.activate.MinimapCapitalsTransporting then
     
                 if self.db.profile.showMinimapCapitalsPortals then
+                if ns.version == "12.0.1" then -- ptr update, after midnight realase remove the whole block
                     minimap[2266][43564994] = { mnID = 2339, name = "", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true } --  Timeways Portal to Dornogal
                     --minimap[2266][64534340] = { mnID = 1565, name = "", type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true } --  Timeways Portal to 
                     minimap[2266][74524703] = { mnID = 2472, name = "", type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true } --  Timeways Portal to Tazavesh
@@ -3349,6 +3351,7 @@ if not db.activate.HideMapNote then
                     minimap[2266][70537306] = { mnID = 1525, name = "", type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true } --  Timeways Portal to Revendreth
                     --minimap[2266][60506950] = { mnID = 241, name = "", type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true } --  Timeways Portal to 
                     minimap[2339][53563873] = { mnID = 2266, name = "", type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. " ==> " .. ns.Tazavesh .. "\n" .. " ==> " .. ns.Revendreth  } --  Portal from Dornogal to the Timeways
+                end
                     minimap[2339][63615205] = { mnID = 2255, name = "", dnID = "", achievementID = 19559, showWWW = true, wwwLink = "https://www.wowhead.com/achievement=19559", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Portal from Dornogal to Azj-Kahet if u finished the achievement=19559
                     minimap[2339][29775967] = { mnID = 2367, name = "", dnID = "", achievementID = 40725, showWWW = true, wwwLink = "https://wowhead.com/achievement=40725", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Chamber of Memory
                     minimap[2339][52465047] = { mnID = 2346, name = "", dnID = "", questID = 86535, showWWW = true, wwwLink = "https://wowhead.com/quest=86535/test-run", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Portal from Dornogal to Undermine
@@ -3524,7 +3527,7 @@ if not db.activate.HideMapNote then
                 end
 
                 if self.db.profile.showMinimapCapitalsPvPVendor then
-                    minimap[2393][34078112] = { npcIDs1 = 243224, npcIDs2 = 243225, npcIDs3 = 243221, npcIDs4 = 255844, npcIDs5 = 243220, name = TRANSMOG_SET_PVP .. " " .. MERCHANT, type = "PvPVendor", showInZone = false, showOnContinent = false, showOnMinimap = true }
+                    minimap[2393][34048042] = { npcIDs1 = 243224, npcIDs2 = 243225, npcIDs3 = 243221, npcIDs4 = 255844, npcIDs5 = 243220, name = TRANSMOG_SET_PVP .. " " .. MERCHANT, type = "PvPVendor", showInZone = false, showOnContinent = false, showOnMinimap = true }
                 end
 
                 if self.db.profile.showMinimapCapitalsRenownQuartermaster then
@@ -3587,7 +3590,7 @@ if not db.activate.HideMapNote then
                     minimap[2393][36746821] = { mnID = 2413, name = "", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Wurzelpfad nach Harandar
                     minimap[2393][35286607] = { mnID = 2405, name = "", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Portal zum Leerensturm
                     minimap[2393][42105830] = { mnID = 2266, name = "", type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. " ==> " .. ns.SpiresOfArak .. "\n" .. " ==> " .. ns.Icecrown .. "\n" .. " ==> " .. ns.Eredath } --  Portal from Dornogal to the Timeways
-                if ns.version == "12.0.1" then
+                if ns.version == "12.0.2" then -- ptr update remove ns version keep the block
                     minimap[2266][43564994] = { mnID = 2393, name = "", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Timeways Portal to Silvermoon
                     minimap[2266][64534340] = { mnID = 542, name = "", type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Timeways Portal to spitzen von arak
                     minimap[2266][74524703] = { mnID = 118, name = "", type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Timeways Portal to eiskronenzitadelle

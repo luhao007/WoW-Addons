@@ -26,21 +26,12 @@
 
 local NUM_CHAT_WINDOWS = NUM_CHAT_WINDOWS or Constants.ChatFrameConstants.MaxChatWindows
 
-
 Prat:AddModuleToLoad(function()
-
-  local PRAT_MODULE = Prat:RequestModuleName("History")
-
-  if PRAT_MODULE == nil then
-    return
-  end
-
-  local module = Prat:NewModule(PRAT_MODULE, "AceHook-3.0")
-
+  local module = Prat:NewModule("History", "AceHook-3.0")
   local PL = module.PL
 
   --[==[@debug@
-  PL:AddLocale(PRAT_MODULE, "enUS", {
+  PL:AddLocale("enUS", {
     ["History"] = true,
     ["Chat history options."] = true,
     ["Set Chat Lines"] = true,
@@ -73,423 +64,405 @@ Prat:AddModuleToLoad(function()
      local L
 
 
-L = {
-	["History"] = {
-		["bnet_removed"] = "<BNET REMOVED>",
-		["Chat history options."] = true,
-		["Color GMOTD"] = true,
-		["Colors the GMOTD label"] = true,
-		["Command History Options"] = true,
-		["delaygmotd_desc"] = "Delay GMOTD until after all the startup spam",
-		["delaygmotd_name"] = "Delay GMOTD",
-		["divider"] = "========== End of Scrollback ==========",
-		["History"] = true,
-		["Maximum number of lines of command history to save."] = true,
-		["removespam_desc"] = "Remove addon spam messages when restoring the chat history",
-		["removespam_name"] = "Remove Spam",
-		["Save Command History"] = true,
-		["Saves command history between sessions (for use with alt+up arrow or just the up arrow)"] = true,
-		["Scrollback"] = true,
-		["Scrollback Options"] = true,
-		["scrollbackduration_desc"] = "How many hours to keep the saved messages.",
-		["scrollbackduration_name"] = "Scrollback Duration",
-		["scrollbacklen_desc"] = "Number of chatlines to save in the scrollback buffer.",
-		["scrollbacklen_name"] = "Scrollback Length",
-		["Set Chat Lines"] = true,
-		["Set Command History"] = true,
-		["Set the number of lines of chat history for each window."] = true,
-		["storage_char"] = "Character",
-		["storage_desc"] = "Which location should the history be saved to.",
-		["storage_name"] = "Save To",
-		["storage_server"] = "Server",
-		["Store the chat lines between sessions"] = true,
-	}
-}
+L = {}
+-- History
+L["bnet_removed"] = "<BNET REMOVED>"
+L["Chat history options."] = true
+L["Color GMOTD"] = true
+L["Colors the GMOTD label"] = true
+L["Command History Options"] = true
+L["delaygmotd_desc"] = "Delay GMOTD until after all the startup spam"
+L["delaygmotd_name"] = "Delay GMOTD"
+L["divider"] = "========== End of Scrollback =========="
+L["History"] = true
+L["Maximum number of lines of command history to save."] = true
+L["removespam_desc"] = "Remove addon spam messages when restoring the chat history"
+L["removespam_name"] = "Remove Spam"
+L["Save Command History"] = true
+L["Saves command history between sessions (for use with alt+up arrow or just the up arrow)"] = true
+L["Scrollback"] = true
+L["Scrollback Options"] = true
+L["scrollbackduration_desc"] = "How many hours to keep the saved messages."
+L["scrollbackduration_name"] = "Scrollback Duration"
+L["scrollbacklen_desc"] = "Number of chatlines to save in the scrollback buffer."
+L["scrollbacklen_name"] = "Scrollback Length"
+L["Set Chat Lines"] = true
+L["Set Command History"] = true
+L["Set the number of lines of chat history for each window."] = true
+L["storage_char"] = "Character"
+L["storage_desc"] = "Which location should the history be saved to."
+L["storage_name"] = "Save To"
+L["storage_server"] = "Server"
+L["Store the chat lines between sessions"] = true
 
 
-   PL:AddLocale(PRAT_MODULE, "enUS",L)
+   PL:AddLocale("enUS",L)
 
 
-L = {
-	["History"] = {
-		--[[Translation missing --]]
-		["bnet_removed"] = "<BNET REMOVED>",
-		["Chat history options."] = "Option de l'historique.",
-		--[[Translation missing --]]
-		["Color GMOTD"] = "Color GMOTD",
-		--[[Translation missing --]]
-		["Colors the GMOTD label"] = "Colors the GMOTD label",
-		--[[Translation missing --]]
-		["Command History Options"] = "Command History Options",
-		["delaygmotd_desc"] = "Afficher le message du jour de la guilde après tous les autres messages lors de la connexion.",
-		--[[Translation missing --]]
-		["delaygmotd_name"] = "Delay GMOTD",
-		["divider"] = "========== Fin de l'historique ==========",
-		["History"] = "Historique",
-		["Maximum number of lines of command history to save."] = "Nombre maximum de lignes de commande à sauvegarder dans l'historique.",
-		--[[Translation missing --]]
-		["removespam_desc"] = "Remove addon spam messages when restoring the chat history",
-		--[[Translation missing --]]
-		["removespam_name"] = "Remove Spam",
-		["Save Command History"] = "Historique de commandes",
-		["Saves command history between sessions (for use with alt+up arrow or just the up arrow)"] = "Sauvegarde l'historique des commandes entre les sessions (à utiliser avec alt+haut ou juste haut)",
-		--[[Translation missing --]]
-		["Scrollback"] = "Scrollback",
-		--[[Translation missing --]]
-		["Scrollback Options"] = "Scrollback Options",
-		--[[Translation missing --]]
-		["scrollbackduration_desc"] = "How many hours to keep the saved messages.",
-		--[[Translation missing --]]
-		["scrollbackduration_name"] = "Scrollback Duration",
-		["scrollbacklen_desc"] = "Nombre de lignes de discussions à sauvegarder dans l'historique.",
-		["scrollbacklen_name"] = "Taille de l'historique",
-		["Set Chat Lines"] = "Historique de discussions",
-		["Set Command History"] = "Historique de commandes",
-		["Set the number of lines of chat history for each window."] = "Définit le nombre de lignes dans l'historique pour chaque fenêtre.",
-		--[[Translation missing --]]
-		["storage_char"] = "Character",
-		--[[Translation missing --]]
-		["storage_desc"] = "Which location should the history be saved to.",
-		--[[Translation missing --]]
-		["storage_name"] = "Save To",
-		--[[Translation missing --]]
-		["storage_server"] = "Server",
-		["Store the chat lines between sessions"] = "Sauvegarder l'historique des discussions entre les sessions.",
-	}
-}
+L = {}
+-- History
+--[[Translation missing --]]
+L["bnet_removed"] = "<BNET REMOVED>"
+L["Chat history options."] = "Option de l'historique."
+--[[Translation missing --]]
+L["Color GMOTD"] = "Color GMOTD"
+--[[Translation missing --]]
+L["Colors the GMOTD label"] = "Colors the GMOTD label"
+--[[Translation missing --]]
+L["Command History Options"] = "Command History Options"
+L["delaygmotd_desc"] = "Afficher le message du jour de la guilde après tous les autres messages lors de la connexion."
+--[[Translation missing --]]
+L["delaygmotd_name"] = "Delay GMOTD"
+L["divider"] = "========== Fin de l'historique =========="
+L["History"] = "Historique"
+L["Maximum number of lines of command history to save."] = "Nombre maximum de lignes de commande à sauvegarder dans l'historique."
+--[[Translation missing --]]
+L["removespam_desc"] = "Remove addon spam messages when restoring the chat history"
+--[[Translation missing --]]
+L["removespam_name"] = "Remove Spam"
+L["Save Command History"] = "Historique de commandes"
+L["Saves command history between sessions (for use with alt+up arrow or just the up arrow)"] = "Sauvegarde l'historique des commandes entre les sessions (à utiliser avec alt+haut ou juste haut)"
+--[[Translation missing --]]
+L["Scrollback"] = "Scrollback"
+--[[Translation missing --]]
+L["Scrollback Options"] = "Scrollback Options"
+--[[Translation missing --]]
+L["scrollbackduration_desc"] = "How many hours to keep the saved messages."
+--[[Translation missing --]]
+L["scrollbackduration_name"] = "Scrollback Duration"
+L["scrollbacklen_desc"] = "Nombre de lignes de discussions à sauvegarder dans l'historique."
+L["scrollbacklen_name"] = "Taille de l'historique"
+L["Set Chat Lines"] = "Historique de discussions"
+L["Set Command History"] = "Historique de commandes"
+L["Set the number of lines of chat history for each window."] = "Définit le nombre de lignes dans l'historique pour chaque fenêtre."
+--[[Translation missing --]]
+L["storage_char"] = "Character"
+--[[Translation missing --]]
+L["storage_desc"] = "Which location should the history be saved to."
+--[[Translation missing --]]
+L["storage_name"] = "Save To"
+--[[Translation missing --]]
+L["storage_server"] = "Server"
+L["Store the chat lines between sessions"] = "Sauvegarder l'historique des discussions entre les sessions."
 
 
-   PL:AddLocale(PRAT_MODULE, "frFR",L)
+   PL:AddLocale("frFR",L)
 
 
-L = {
-	["History"] = {
-		["bnet_removed"] = "<BNET ENTFERNT>",
-		["Chat history options."] = "Optionen zum Chatverlauf.",
-		["Color GMOTD"] = "Farbe der Gildennachricht des Tages",
-		["Colors the GMOTD label"] = "Färbt die Gildennachricht des Tages-Beschriftung",
-		["Command History Options"] = "Befehlsverlaufsoptionen",
-		["delaygmotd_desc"] = "GMOTD verzögern, bis die Ausgabe aller Mitteilungen nach dem Einloggen vollendet ist.",
-		["delaygmotd_name"] = "GMOTD verzögern",
-		["divider"] = "========== Ende des Zurückblättern ==========",
-		["History"] = "Verlauf",
-		["Maximum number of lines of command history to save."] = "Maximal zu speichernde Zeilenanzahl des Befehlsverlaufs.",
-		["removespam_desc"] = "Entfernt Addon Spam-Nachrichten, wenn du den Chat-Verlauf wiederherstellst",
-		["removespam_name"] = "Spam entfernen",
-		["Save Command History"] = "Befehlsverlauf speichern",
-		["Saves command history between sessions (for use with alt+up arrow or just the up arrow)"] = "Speichert Befehlsverlauf zwischen Sitzungen (um mit Alt + \"Pfeil nach oben\" oder nur \"Pfeil nach oben\" verwendet zu werden).",
-		["Scrollback"] = "Zurückblättern",
-		["Scrollback Options"] = "Optionen für das Zurückblättern",
-		["scrollbackduration_desc"] = "Wie viele Stunden, um die gespeicherten Nachrichten zu speichern.",
-		["scrollbackduration_name"] = "Dauer vom Zurückblättern",
-		["scrollbacklen_desc"] = "Anzahl der Chat-Zeilen, die im Zurückblättern Puffer gespeichert werden sollen.",
-		["scrollbacklen_name"] = "Länge vom Zurückblättern",
-		["Set Chat Lines"] = "Chatzeilen einstellen",
-		["Set Command History"] = "Befehlsverlauf einstellen",
-		["Set the number of lines of chat history for each window."] = "Die Zeilenanzahl des Chatverlaufs für jedes Fenster einstellen.",
-		["storage_char"] = "Charakter",
-		["storage_desc"] = "An welchem Ort soll der Verlauf gespeichert werden?",
-		["storage_name"] = "Speichern unter",
-		["storage_server"] = "Server",
-		["Store the chat lines between sessions"] = "Speichert die Chat-Zeilen zwischen den Sitzungen",
-	}
-}
+L = {}
+-- History
+L["bnet_removed"] = "<BNET ENTFERNT>"
+L["Chat history options."] = "Optionen zum Chatverlauf."
+L["Color GMOTD"] = "Farbe der Gildennachricht des Tages"
+L["Colors the GMOTD label"] = "Färbt die Gildennachricht des Tages-Beschriftung"
+L["Command History Options"] = "Befehlsverlaufsoptionen"
+L["delaygmotd_desc"] = "GMOTD verzögern, bis die Ausgabe aller Mitteilungen nach dem Einloggen vollendet ist."
+L["delaygmotd_name"] = "GMOTD verzögern"
+L["divider"] = "========== Ende des Zurückblättern =========="
+L["History"] = "Verlauf"
+L["Maximum number of lines of command history to save."] = "Maximal zu speichernde Zeilenanzahl des Befehlsverlaufs."
+L["removespam_desc"] = "Entfernt Addon Spam-Nachrichten, wenn du den Chat-Verlauf wiederherstellst"
+L["removespam_name"] = "Spam entfernen"
+L["Save Command History"] = "Befehlsverlauf speichern"
+L["Saves command history between sessions (for use with alt+up arrow or just the up arrow)"] = "Speichert Befehlsverlauf zwischen Sitzungen (um mit Alt + \"Pfeil nach oben\" oder nur \"Pfeil nach oben\" verwendet zu werden)."
+L["Scrollback"] = "Zurückblättern"
+L["Scrollback Options"] = "Optionen für das Zurückblättern"
+L["scrollbackduration_desc"] = "Wie viele Stunden, um die gespeicherten Nachrichten zu speichern."
+L["scrollbackduration_name"] = "Dauer vom Zurückblättern"
+L["scrollbacklen_desc"] = "Anzahl der Chat-Zeilen, die im Zurückblättern Puffer gespeichert werden sollen."
+L["scrollbacklen_name"] = "Länge vom Zurückblättern"
+L["Set Chat Lines"] = "Chatzeilen einstellen"
+L["Set Command History"] = "Befehlsverlauf einstellen"
+L["Set the number of lines of chat history for each window."] = "Die Zeilenanzahl des Chatverlaufs für jedes Fenster einstellen."
+L["storage_char"] = "Charakter"
+L["storage_desc"] = "An welchem Ort soll der Verlauf gespeichert werden?"
+L["storage_name"] = "Speichern unter"
+L["storage_server"] = "Server"
+L["Store the chat lines between sessions"] = "Speichert die Chat-Zeilen zwischen den Sitzungen"
 
 
-   PL:AddLocale(PRAT_MODULE, "deDE",L)
+   PL:AddLocale("deDE",L)
 
 
-L = {
-	["History"] = {
-		["bnet_removed"] = "<베틀넷 제거됨>",
-		["Chat history options."] = "대화 내역 옵션입니다.",
-		["Color GMOTD"] = "오늘의 길드 메시지에 색상입히기",
-		["Colors the GMOTD label"] = "오늘의 길드 메시지 제목에 색상입히기",
-		["Command History Options"] = "명령어 내역 옵션",
-		["delaygmotd_desc"] = "모든 시작 스팸이 표시 될때까지 오늘의 길드 메시지 지연시키기",
-		["delaygmotd_name"] = "오늘의 길드 메시지 지연",
-		["divider"] = "========== 이전 대화 목록의 끝 ==========",
-		["History"] = "내역 [History]",
-		["Maximum number of lines of command history to save."] = "저장할 명령어 내역의 최대 갯수입니다.",
-		["removespam_desc"] = "채팅 기록을 복원 할 때 애드온 스팸 메시지 제거",
-		["removespam_name"] = "스팸 제거",
-		["Save Command History"] = "명령어 내역 저장",
-		["Saves command history between sessions (for use with alt+up arrow or just the up arrow)"] = "세션 간 명령어 내역을 저장합니다 (Alt+위 화살표나 위 화살표로 사용하는)",
-		["Scrollback"] = "스크롤백",
-		["Scrollback Options"] = "스크롤백 옵션",
-		["scrollbackduration_desc"] = "저장된 메시지를 보관할 시간.",
-		["scrollbackduration_name"] = "스크롤백 구간",
-		["scrollbacklen_desc"] = "스크롤백 저장소에 저장할 대화 줄의 숫자입니다.",
-		["scrollbacklen_name"] = "스크롤백 길이",
-		["Set Chat Lines"] = "대화 내역 설정",
-		["Set Command History"] = "명령어 내역 설정",
-		["Set the number of lines of chat history for each window."] = "각 대화창 별로 대화 내역의 줄의 갯수를 설정합니다.",
-		["storage_char"] = "캐릭터",
-		["storage_desc"] = "기록을 저장할 위치",
-		["storage_name"] = "저장",
-		["storage_server"] = "서버",
-		["Store the chat lines between sessions"] = "세션 간 대화 내용 저장하기",
-	}
-}
+L = {}
+-- History
+L["bnet_removed"] = "<베틀넷 제거됨>"
+L["Chat history options."] = "대화 내역 옵션입니다."
+L["Color GMOTD"] = "오늘의 길드 메시지에 색상입히기"
+L["Colors the GMOTD label"] = "오늘의 길드 메시지 제목에 색상입히기"
+L["Command History Options"] = "명령어 내역 옵션"
+L["delaygmotd_desc"] = "모든 시작 스팸이 표시 될때까지 오늘의 길드 메시지 지연시키기"
+L["delaygmotd_name"] = "오늘의 길드 메시지 지연"
+L["divider"] = "========== 이전 대화 목록의 끝 =========="
+L["History"] = "내역 [History]"
+L["Maximum number of lines of command history to save."] = "저장할 명령어 내역의 최대 갯수입니다."
+L["removespam_desc"] = "채팅 기록을 복원 할 때 애드온 스팸 메시지 제거"
+L["removespam_name"] = "스팸 제거"
+L["Save Command History"] = "명령어 내역 저장"
+L["Saves command history between sessions (for use with alt+up arrow or just the up arrow)"] = "세션 간 명령어 내역을 저장합니다 (Alt+위 화살표나 위 화살표로 사용하는)"
+L["Scrollback"] = "스크롤백"
+L["Scrollback Options"] = "스크롤백 옵션"
+L["scrollbackduration_desc"] = "저장된 메시지를 보관할 시간."
+L["scrollbackduration_name"] = "스크롤백 구간"
+L["scrollbacklen_desc"] = "스크롤백 저장소에 저장할 대화 줄의 숫자입니다."
+L["scrollbacklen_name"] = "스크롤백 길이"
+L["Set Chat Lines"] = "대화 내역 설정"
+L["Set Command History"] = "명령어 내역 설정"
+L["Set the number of lines of chat history for each window."] = "각 대화창 별로 대화 내역의 줄의 갯수를 설정합니다."
+L["storage_char"] = "캐릭터"
+L["storage_desc"] = "기록을 저장할 위치"
+L["storage_name"] = "저장"
+L["storage_server"] = "서버"
+L["Store the chat lines between sessions"] = "세션 간 대화 내용 저장하기"
 
 
-   PL:AddLocale(PRAT_MODULE, "koKR",L)
+   PL:AddLocale("koKR",L)
 
 
-L = {
-	["History"] = {
-		--[[Translation missing --]]
-		["bnet_removed"] = "<BNET REMOVED>",
-		--[[Translation missing --]]
-		["Chat history options."] = "Chat history options.",
-		--[[Translation missing --]]
-		["Color GMOTD"] = "Color GMOTD",
-		--[[Translation missing --]]
-		["Colors the GMOTD label"] = "Colors the GMOTD label",
-		--[[Translation missing --]]
-		["Command History Options"] = "Command History Options",
-		--[[Translation missing --]]
-		["delaygmotd_desc"] = "Delay GMOTD until after all the startup spam",
-		--[[Translation missing --]]
-		["delaygmotd_name"] = "Delay GMOTD",
-		--[[Translation missing --]]
-		["divider"] = "========== End of Scrollback ==========",
-		--[[Translation missing --]]
-		["History"] = "History",
-		--[[Translation missing --]]
-		["Maximum number of lines of command history to save."] = "Maximum number of lines of command history to save.",
-		--[[Translation missing --]]
-		["removespam_desc"] = "Remove addon spam messages when restoring the chat history",
-		--[[Translation missing --]]
-		["removespam_name"] = "Remove Spam",
-		--[[Translation missing --]]
-		["Save Command History"] = "Save Command History",
-		--[[Translation missing --]]
-		["Saves command history between sessions (for use with alt+up arrow or just the up arrow)"] = "Saves command history between sessions (for use with alt+up arrow or just the up arrow)",
-		--[[Translation missing --]]
-		["Scrollback"] = "Scrollback",
-		--[[Translation missing --]]
-		["Scrollback Options"] = "Scrollback Options",
-		--[[Translation missing --]]
-		["scrollbackduration_desc"] = "How many hours to keep the saved messages.",
-		--[[Translation missing --]]
-		["scrollbackduration_name"] = "Scrollback Duration",
-		--[[Translation missing --]]
-		["scrollbacklen_desc"] = "Number of chatlines to save in the scrollback buffer.",
-		--[[Translation missing --]]
-		["scrollbacklen_name"] = "Scrollback Length",
-		--[[Translation missing --]]
-		["Set Chat Lines"] = "Set Chat Lines",
-		--[[Translation missing --]]
-		["Set Command History"] = "Set Command History",
-		--[[Translation missing --]]
-		["Set the number of lines of chat history for each window."] = "Set the number of lines of chat history for each window.",
-		--[[Translation missing --]]
-		["storage_char"] = "Character",
-		--[[Translation missing --]]
-		["storage_desc"] = "Which location should the history be saved to.",
-		--[[Translation missing --]]
-		["storage_name"] = "Save To",
-		--[[Translation missing --]]
-		["storage_server"] = "Server",
-		--[[Translation missing --]]
-		["Store the chat lines between sessions"] = "Store the chat lines between sessions",
-	}
-}
+L = {}
+-- History
+--[[Translation missing --]]
+L["bnet_removed"] = "<BNET REMOVED>"
+--[[Translation missing --]]
+L["Chat history options."] = "Chat history options."
+--[[Translation missing --]]
+L["Color GMOTD"] = "Color GMOTD"
+--[[Translation missing --]]
+L["Colors the GMOTD label"] = "Colors the GMOTD label"
+--[[Translation missing --]]
+L["Command History Options"] = "Command History Options"
+--[[Translation missing --]]
+L["delaygmotd_desc"] = "Delay GMOTD until after all the startup spam"
+--[[Translation missing --]]
+L["delaygmotd_name"] = "Delay GMOTD"
+--[[Translation missing --]]
+L["divider"] = "========== End of Scrollback =========="
+--[[Translation missing --]]
+L["History"] = "History"
+--[[Translation missing --]]
+L["Maximum number of lines of command history to save."] = "Maximum number of lines of command history to save."
+--[[Translation missing --]]
+L["removespam_desc"] = "Remove addon spam messages when restoring the chat history"
+--[[Translation missing --]]
+L["removespam_name"] = "Remove Spam"
+--[[Translation missing --]]
+L["Save Command History"] = "Save Command History"
+--[[Translation missing --]]
+L["Saves command history between sessions (for use with alt+up arrow or just the up arrow)"] = "Saves command history between sessions (for use with alt+up arrow or just the up arrow)"
+--[[Translation missing --]]
+L["Scrollback"] = "Scrollback"
+--[[Translation missing --]]
+L["Scrollback Options"] = "Scrollback Options"
+--[[Translation missing --]]
+L["scrollbackduration_desc"] = "How many hours to keep the saved messages."
+--[[Translation missing --]]
+L["scrollbackduration_name"] = "Scrollback Duration"
+--[[Translation missing --]]
+L["scrollbacklen_desc"] = "Number of chatlines to save in the scrollback buffer."
+--[[Translation missing --]]
+L["scrollbacklen_name"] = "Scrollback Length"
+--[[Translation missing --]]
+L["Set Chat Lines"] = "Set Chat Lines"
+--[[Translation missing --]]
+L["Set Command History"] = "Set Command History"
+--[[Translation missing --]]
+L["Set the number of lines of chat history for each window."] = "Set the number of lines of chat history for each window."
+--[[Translation missing --]]
+L["storage_char"] = "Character"
+--[[Translation missing --]]
+L["storage_desc"] = "Which location should the history be saved to."
+--[[Translation missing --]]
+L["storage_name"] = "Save To"
+--[[Translation missing --]]
+L["storage_server"] = "Server"
+--[[Translation missing --]]
+L["Store the chat lines between sessions"] = "Store the chat lines between sessions"
 
 
-   PL:AddLocale(PRAT_MODULE, "esMX",L)
+   PL:AddLocale("esMX",L)
 
 
-L = {
-	["History"] = {
-		["bnet_removed"] = "<BNET УДАЛЕН>",
-		["Chat history options."] = "Настройки истории чата.",
-		["Color GMOTD"] = "Цвет  GMOTD",
-		["Colors the GMOTD label"] = "Цвета названия СДГ",
-		["Command History Options"] = "Параметры истории команд",
-		["delaygmotd_desc"] = "Задерживать отображение СДГ вплоть до окончания спама при входе в игру",
-		["delaygmotd_name"] = "задержка GMOTD",
-		["divider"] = "========== Конец истории сообщений ==========",
-		["History"] = "История",
-		["Maximum number of lines of command history to save."] = "Максимальное число строк сохранённых в истории команд.",
-		["removespam_desc"] = "Удалять спам-сообщения аддона при восстановлении истории чата",
-		["removespam_name"] = "Удалить спам",
-		["Save Command History"] = "Сохранять историю команд",
-		["Saves command history between sessions (for use with alt+up arrow or just the up arrow)"] = "Сохранять историю команд между сеансами (для использования используйте alt+ стрелка вверх или просто стрелку вверх)",
-		["Scrollback"] = "История сообщений",
-		["Scrollback Options"] = "Вернуть опции",
-		["scrollbackduration_desc"] = "Сколько часов хранить сохраненные сообщения.",
-		["scrollbackduration_name"] = "Длительность прокрутки",
-		["scrollbacklen_desc"] = "Количество строк чата, которое надо сохранять в буфере истории сообщений.",
-		["scrollbacklen_name"] = "Длина истории сообщений",
-		["Set Chat Lines"] = "Задать число строк чата",
-		["Set Command History"] = "История команд",
-		["Set the number of lines of chat history for each window."] = "Установите число строк истории чата для всех окон чата.",
-		["storage_char"] = "Персонаж",
-		["storage_desc"] = "В какое место следует сохранять историю.",
-		["storage_name"] = "Сохранить В",
-		["storage_server"] = "Сервер ",
-		["Store the chat lines between sessions"] = "Сохранять строки чата между сессиями",
-	}
-}
+L = {}
+-- History
+L["bnet_removed"] = "<BNET УДАЛЕН>"
+L["Chat history options."] = "Настройки истории чата."
+L["Color GMOTD"] = "Цвет  GMOTD"
+L["Colors the GMOTD label"] = "Цвета названия СДГ"
+L["Command History Options"] = "Параметры истории команд"
+L["delaygmotd_desc"] = "Задерживать отображение СДГ вплоть до окончания спама при входе в игру"
+L["delaygmotd_name"] = "задержка GMOTD"
+L["divider"] = "========== Конец истории сообщений =========="
+L["History"] = "История"
+L["Maximum number of lines of command history to save."] = "Максимальное число строк сохранённых в истории команд."
+L["removespam_desc"] = "Удалять спам-сообщения аддона при восстановлении истории чата"
+L["removespam_name"] = "Удалить спам"
+L["Save Command History"] = "Сохранять историю команд"
+L["Saves command history between sessions (for use with alt+up arrow or just the up arrow)"] = "Сохранять историю команд между сеансами (для использования используйте alt+ стрелка вверх или просто стрелку вверх)"
+L["Scrollback"] = "История сообщений"
+L["Scrollback Options"] = "Вернуть опции"
+L["scrollbackduration_desc"] = "Сколько часов хранить сохраненные сообщения."
+L["scrollbackduration_name"] = "Длительность прокрутки"
+L["scrollbacklen_desc"] = "Количество строк чата, которое надо сохранять в буфере истории сообщений."
+L["scrollbacklen_name"] = "Длина истории сообщений"
+L["Set Chat Lines"] = "Задать число строк чата"
+L["Set Command History"] = "История команд"
+L["Set the number of lines of chat history for each window."] = "Установите число строк истории чата для всех окон чата."
+L["storage_char"] = "Персонаж"
+L["storage_desc"] = "В какое место следует сохранять историю."
+L["storage_name"] = "Сохранить В"
+L["storage_server"] = "Сервер "
+L["Store the chat lines between sessions"] = "Сохранять строки чата между сессиями"
 
 
-   PL:AddLocale(PRAT_MODULE, "ruRU",L)
+   PL:AddLocale("ruRU",L)
 
 
-L = {
-	["History"] = {
-		--[[Translation missing --]]
-		["bnet_removed"] = "<BNET REMOVED>",
-		["Chat history options."] = "历史聊天记录选项",
-		["Color GMOTD"] = "每日公会信息颜色",
-		["Colors the GMOTD label"] = "为每日公会信息标签着色",
-		--[[Translation missing --]]
-		["Command History Options"] = "Command History Options",
-		["delaygmotd_desc"] = "延迟每日公会信息直到起始垃圾信息显示完毕为止",
-		["delaygmotd_name"] = "延迟 GMOTD",
-		["divider"] = "========== 回卷结束 ==========",
-		["History"] = "历史记录",
-		["Maximum number of lines of command history to save."] = "存储命令记录最大行数",
-		--[[Translation missing --]]
-		["removespam_desc"] = "Remove addon spam messages when restoring the chat history",
-		--[[Translation missing --]]
-		["removespam_name"] = "Remove Spam",
-		["Save Command History"] = "命令记录存储",
-		["Saves command history between sessions (for use with alt+up arrow or just the up arrow)"] = "存储会话之间命令的历史记录(使用alt+上箭头键或仅上箭头键)",
-		["Scrollback"] = "回卷",
-		["Scrollback Options"] = "回滚选项",
-		--[[Translation missing --]]
-		["scrollbackduration_desc"] = "How many hours to keep the saved messages.",
-		--[[Translation missing --]]
-		["scrollbackduration_name"] = "Scrollback Duration",
-		["scrollbacklen_desc"] = "聊天内容回滚缓冲数量",
-		["scrollbacklen_name"] = "回卷长度",
-		["Set Chat Lines"] = "聊天行设置",
-		["Set Command History"] = "命令历史记录",
-		["Set the number of lines of chat history for each window."] = "为每个聊天窗口设置聊天历史记录行数",
-		--[[Translation missing --]]
-		["storage_char"] = "Character",
-		--[[Translation missing --]]
-		["storage_desc"] = "Which location should the history be saved to.",
-		--[[Translation missing --]]
-		["storage_name"] = "Save To",
-		--[[Translation missing --]]
-		["storage_server"] = "Server",
-		["Store the chat lines between sessions"] = "在会话之间存储聊天内容",
-	}
-}
+L = {}
+-- History
+--[[Translation missing --]]
+L["bnet_removed"] = "<BNET REMOVED>"
+L["Chat history options."] = "历史聊天记录选项"
+L["Color GMOTD"] = "每日公会信息颜色"
+L["Colors the GMOTD label"] = "为每日公会信息标签着色"
+--[[Translation missing --]]
+L["Command History Options"] = "Command History Options"
+L["delaygmotd_desc"] = "延迟每日公会信息直到起始垃圾信息显示完毕为止"
+L["delaygmotd_name"] = "延迟 GMOTD"
+L["divider"] = "========== 回卷结束 =========="
+L["History"] = "历史记录"
+L["Maximum number of lines of command history to save."] = "存储命令记录最大行数"
+--[[Translation missing --]]
+L["removespam_desc"] = "Remove addon spam messages when restoring the chat history"
+--[[Translation missing --]]
+L["removespam_name"] = "Remove Spam"
+L["Save Command History"] = "命令记录存储"
+L["Saves command history between sessions (for use with alt+up arrow or just the up arrow)"] = "存储会话之间命令的历史记录(使用alt+上箭头键或仅上箭头键)"
+L["Scrollback"] = "回卷"
+L["Scrollback Options"] = "回滚选项"
+--[[Translation missing --]]
+L["scrollbackduration_desc"] = "How many hours to keep the saved messages."
+--[[Translation missing --]]
+L["scrollbackduration_name"] = "Scrollback Duration"
+L["scrollbacklen_desc"] = "聊天内容回滚缓冲数量"
+L["scrollbacklen_name"] = "回卷长度"
+L["Set Chat Lines"] = "聊天行设置"
+L["Set Command History"] = "命令历史记录"
+L["Set the number of lines of chat history for each window."] = "为每个聊天窗口设置聊天历史记录行数"
+--[[Translation missing --]]
+L["storage_char"] = "Character"
+--[[Translation missing --]]
+L["storage_desc"] = "Which location should the history be saved to."
+--[[Translation missing --]]
+L["storage_name"] = "Save To"
+--[[Translation missing --]]
+L["storage_server"] = "Server"
+L["Store the chat lines between sessions"] = "在会话之间存储聊天内容"
 
 
-   PL:AddLocale(PRAT_MODULE, "zhCN",L)
+   PL:AddLocale("zhCN",L)
 
 
-L = {
-	["History"] = {
-		--[[Translation missing --]]
-		["bnet_removed"] = "<BNET REMOVED>",
-		["Chat history options."] = "Opciones del historial del chat.",
-		--[[Translation missing --]]
-		["Color GMOTD"] = "Color GMOTD",
-		--[[Translation missing --]]
-		["Colors the GMOTD label"] = "Colors the GMOTD label",
-		--[[Translation missing --]]
-		["Command History Options"] = "Command History Options",
-		--[[Translation missing --]]
-		["delaygmotd_desc"] = "Delay GMOTD until after all the startup spam",
-		--[[Translation missing --]]
-		["delaygmotd_name"] = "Delay GMOTD",
-		["divider"] = "========== Fin del Registro ==========",
-		["History"] = "Historial",
-		["Maximum number of lines of command history to save."] = "Máximo número de líneas a guardar por el comando historial.",
-		--[[Translation missing --]]
-		["removespam_desc"] = "Remove addon spam messages when restoring the chat history",
-		--[[Translation missing --]]
-		["removespam_name"] = "Remove Spam",
-		["Save Command History"] = "Comando Guardar Historial",
-		["Saves command history between sessions (for use with alt+up arrow or just the up arrow)"] = "Guarda el historial de comandos entre sesiones (para utilizar con alt+flecha arriba o sólo la flecha arriba)",
-		--[[Translation missing --]]
-		["Scrollback"] = "Scrollback",
-		--[[Translation missing --]]
-		["Scrollback Options"] = "Scrollback Options",
-		--[[Translation missing --]]
-		["scrollbackduration_desc"] = "How many hours to keep the saved messages.",
-		--[[Translation missing --]]
-		["scrollbackduration_name"] = "Scrollback Duration",
-		--[[Translation missing --]]
-		["scrollbacklen_desc"] = "Number of chatlines to save in the scrollback buffer.",
-		--[[Translation missing --]]
-		["scrollbacklen_name"] = "Scrollback Length",
-		["Set Chat Lines"] = "Establecer Líneas de Chat",
-		["Set Command History"] = "Establecer Historial de Comandos",
-		["Set the number of lines of chat history for each window."] = "Establece el número de líneas del historial de chat para cada ventana.",
-		--[[Translation missing --]]
-		["storage_char"] = "Character",
-		--[[Translation missing --]]
-		["storage_desc"] = "Which location should the history be saved to.",
-		--[[Translation missing --]]
-		["storage_name"] = "Save To",
-		--[[Translation missing --]]
-		["storage_server"] = "Server",
-		--[[Translation missing --]]
-		["Store the chat lines between sessions"] = "Store the chat lines between sessions",
-	}
-}
+L = {}
+-- History
+--[[Translation missing --]]
+L["bnet_removed"] = "<BNET REMOVED>"
+L["Chat history options."] = "Opciones del historial del chat."
+--[[Translation missing --]]
+L["Color GMOTD"] = "Color GMOTD"
+--[[Translation missing --]]
+L["Colors the GMOTD label"] = "Colors the GMOTD label"
+--[[Translation missing --]]
+L["Command History Options"] = "Command History Options"
+--[[Translation missing --]]
+L["delaygmotd_desc"] = "Delay GMOTD until after all the startup spam"
+--[[Translation missing --]]
+L["delaygmotd_name"] = "Delay GMOTD"
+L["divider"] = "========== Fin del Registro =========="
+L["History"] = "Historial"
+L["Maximum number of lines of command history to save."] = "Máximo número de líneas a guardar por el comando historial."
+--[[Translation missing --]]
+L["removespam_desc"] = "Remove addon spam messages when restoring the chat history"
+--[[Translation missing --]]
+L["removespam_name"] = "Remove Spam"
+L["Save Command History"] = "Comando Guardar Historial"
+L["Saves command history between sessions (for use with alt+up arrow or just the up arrow)"] = "Guarda el historial de comandos entre sesiones (para utilizar con alt+flecha arriba o sólo la flecha arriba)"
+--[[Translation missing --]]
+L["Scrollback"] = "Scrollback"
+--[[Translation missing --]]
+L["Scrollback Options"] = "Scrollback Options"
+--[[Translation missing --]]
+L["scrollbackduration_desc"] = "How many hours to keep the saved messages."
+--[[Translation missing --]]
+L["scrollbackduration_name"] = "Scrollback Duration"
+--[[Translation missing --]]
+L["scrollbacklen_desc"] = "Number of chatlines to save in the scrollback buffer."
+--[[Translation missing --]]
+L["scrollbacklen_name"] = "Scrollback Length"
+L["Set Chat Lines"] = "Establecer Líneas de Chat"
+L["Set Command History"] = "Establecer Historial de Comandos"
+L["Set the number of lines of chat history for each window."] = "Establece el número de líneas del historial de chat para cada ventana."
+--[[Translation missing --]]
+L["storage_char"] = "Character"
+--[[Translation missing --]]
+L["storage_desc"] = "Which location should the history be saved to."
+--[[Translation missing --]]
+L["storage_name"] = "Save To"
+--[[Translation missing --]]
+L["storage_server"] = "Server"
+--[[Translation missing --]]
+L["Store the chat lines between sessions"] = "Store the chat lines between sessions"
 
 
-   PL:AddLocale(PRAT_MODULE, "esES",L)
+   PL:AddLocale("esES",L)
 
 
-L = {
-	["History"] = {
-		--[[Translation missing --]]
-		["bnet_removed"] = "<BNET REMOVED>",
-		["Chat history options."] = "歷史訊息選項。",
-		["Color GMOTD"] = "顏色 GMOTD",
-		["Colors the GMOTD label"] = "顏色 GMOTD 標籤",
-		--[[Translation missing --]]
-		["Command History Options"] = "Command History Options",
-		--[[Translation missing --]]
-		["delaygmotd_desc"] = "Delay GMOTD until after all the startup spam",
-		["delaygmotd_name"] = "延遲 GMOTD",
-		["divider"] = "========== 捲動結束 ==========",
-		["History"] = "歷史訊息",
-		["Maximum number of lines of command history to save."] = "最大行數的指令記錄儲存。",
-		--[[Translation missing --]]
-		["removespam_desc"] = "Remove addon spam messages when restoring the chat history",
-		--[[Translation missing --]]
-		["removespam_name"] = "Remove Spam",
-		["Save Command History"] = "儲存指令歷史",
-		--[[Translation missing --]]
-		["Saves command history between sessions (for use with alt+up arrow or just the up arrow)"] = "Saves command history between sessions (for use with alt+up arrow or just the up arrow)",
-		["Scrollback"] = "捲動",
-		["Scrollback Options"] = "捲動選項",
-		--[[Translation missing --]]
-		["scrollbackduration_desc"] = "How many hours to keep the saved messages.",
-		--[[Translation missing --]]
-		["scrollbackduration_name"] = "Scrollback Duration",
-		--[[Translation missing --]]
-		["scrollbacklen_desc"] = "Number of chatlines to save in the scrollback buffer.",
-		["scrollbacklen_name"] = "捲動長度",
-		["Set Chat Lines"] = "設定聊天行數",
-		["Set Command History"] = "設定指令歷史",
-		["Set the number of lines of chat history for each window."] = "設定行數的聊天記錄每個視窗。",
-		--[[Translation missing --]]
-		["storage_char"] = "Character",
-		--[[Translation missing --]]
-		["storage_desc"] = "Which location should the history be saved to.",
-		--[[Translation missing --]]
-		["storage_name"] = "Save To",
-		--[[Translation missing --]]
-		["storage_server"] = "Server",
-		--[[Translation missing --]]
-		["Store the chat lines between sessions"] = "Store the chat lines between sessions",
-	}
-}
+L = {}
+-- History
+--[[Translation missing --]]
+L["bnet_removed"] = "<BNET REMOVED>"
+L["Chat history options."] = "歷史訊息選項。"
+L["Color GMOTD"] = "顏色 GMOTD"
+L["Colors the GMOTD label"] = "顏色 GMOTD 標籤"
+--[[Translation missing --]]
+L["Command History Options"] = "Command History Options"
+--[[Translation missing --]]
+L["delaygmotd_desc"] = "Delay GMOTD until after all the startup spam"
+L["delaygmotd_name"] = "延遲 GMOTD"
+L["divider"] = "========== 捲動結束 =========="
+L["History"] = "歷史訊息"
+L["Maximum number of lines of command history to save."] = "最大行數的指令記錄儲存。"
+--[[Translation missing --]]
+L["removespam_desc"] = "Remove addon spam messages when restoring the chat history"
+--[[Translation missing --]]
+L["removespam_name"] = "Remove Spam"
+L["Save Command History"] = "儲存指令歷史"
+--[[Translation missing --]]
+L["Saves command history between sessions (for use with alt+up arrow or just the up arrow)"] = "Saves command history between sessions (for use with alt+up arrow or just the up arrow)"
+L["Scrollback"] = "捲動"
+L["Scrollback Options"] = "捲動選項"
+--[[Translation missing --]]
+L["scrollbackduration_desc"] = "How many hours to keep the saved messages."
+--[[Translation missing --]]
+L["scrollbackduration_name"] = "Scrollback Duration"
+--[[Translation missing --]]
+L["scrollbacklen_desc"] = "Number of chatlines to save in the scrollback buffer."
+L["scrollbacklen_name"] = "捲動長度"
+L["Set Chat Lines"] = "設定聊天行數"
+L["Set Command History"] = "設定指令歷史"
+L["Set the number of lines of chat history for each window."] = "設定行數的聊天記錄每個視窗。"
+--[[Translation missing --]]
+L["storage_char"] = "Character"
+--[[Translation missing --]]
+L["storage_desc"] = "Which location should the history be saved to."
+--[[Translation missing --]]
+L["storage_name"] = "Save To"
+--[[Translation missing --]]
+L["storage_server"] = "Server"
+--[[Translation missing --]]
+L["Store the chat lines between sessions"] = "Store the chat lines between sessions"
 
 
-   PL:AddLocale(PRAT_MODULE, "zhTW",L)
+   PL:AddLocale("zhTW",L)
  end
  --@end-non-debug@
 
@@ -591,14 +564,6 @@ L = {
     Prat3CharDB.history = Prat3CharDB.history or {}
     Prat3CharDB.history.cmdhistory = Prat3CharDB.history.cmdhistory or {}
 
-
-    --                if self.db.profile.cmdhistory then
-    --                    Prat3CharDB.history.cmdhistory = self.db.profile.cmdhistory
-    --                    self.db.profile.cmdhistory = nil
-    --                end
-
-
-
     for i, v in ipairs(Prat3CharDB.history.cmdhistory) do
       if (type(v) == "string" and v:sub(1, 9) ~= "ChatFrame") then
         Prat3CharDB.history.cmdhistory[i] = nil
@@ -610,9 +575,7 @@ L = {
       Prat3CharDB.history.cmdhistory[name] = Prat3CharDB.history.cmdhistory[name] or {}
     end)
 
-
     self:ConfigureAllChatFrames()
-
 
     for k in pairs(Prat3CharDB.history.cmdhistory) do
       local edit = _G[k]
@@ -630,23 +593,6 @@ L = {
     if self.db.profile.cmdhistory then
       self.db.profile.cmdhistory = nil
     end
-
-
-
---    if IsInGuild() then
---      self.frame = self.frame or CreateFrame("Frame")
---
---      if self.db.profile.delaygmotd then
---        self:DelayGMOTD(self.frame)
---      end
---
---      if self.db.profile.colorgmotd then
---        local a, b = strsplit(":", GUILD_MOTD_TEMPLATE)
---        if a and b then
---          GUILD_MOTD_TEMPLATE = "|cffffffff" .. a .. "|r:" .. b
---        end
---      end
---    end
   end
 
 
@@ -660,9 +606,9 @@ L = {
   end
 
   function module:ConfigureAllChatFrames(lines)
-    local lines = lines or self.db.profile.chatlines
+    lines = lines or self.db.profile.chatlines
 
-    for k, v in pairs(self.db.profile.chatlinesframes) do
+    for k, _ in pairs(self.db.profile.chatlinesframes) do
       self:SetHistory(_G[k], lines)
     end
 
@@ -688,33 +634,6 @@ L = {
     self:ConfigureAllChatFrames()
   end
 
-
---  function module:DelayGMOTD(frame)
---    local delay = 2.5
---    local maxtime = 60
---    ChatFrame1:UnregisterEvent("GUILD_MOTD")
---    frame:SetScript("OnUpdate", function(this, expired)
---      delay = delay - expired
---      if delay < 0 then
---        local msg = GetGuildRosterMOTD()
---        if maxtime < 0 or (msg and msg:len() > 0) then
---          ChatFrame1:RegisterEvent("GUILD_MOTD")
---
---          for _, f in pairs(Prat.Frames) do
---            if f:IsEventRegistered("GUILD_MOTD") then
---              ChatFrame_SystemEventHandler(f, "GUILD_MOTD", msg)
---            end
---          end
---          this:Hide()
---        else
---          delay = 2.5
---          maxtime = maxtime - 2.5
---        end
---      end
---    end)
---  end
-
-
   --[[------------------------------------------------
       Core Functions
   ------------------------------------------------]] --
@@ -725,7 +644,7 @@ L = {
   end
 
   function module:addSavedHistory(editBox)
-    local editBox = editBox or ChatFrame1EditBox
+    editBox = editBox or ChatFrame1EditBox
     local cmdhistory = Prat3CharDB.history.cmdhistory[editBox:GetName()] or {}
     local cmdindex = #cmdhistory
 

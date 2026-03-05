@@ -1247,6 +1247,7 @@ do
 
     ---@class DungeonRaid : DungeonInstance
     ---@field public type DungeonRaidType
+    ---@field public localizationKey string
 
     ---@type Dungeon[]
     local ALL_DUNGEONS = {}
@@ -2596,7 +2597,7 @@ do
         ---@diagnostic disable-next-line: undefined-field
         local activityID = data.activityID ---@type number?
         -- TODO `11.0.7`
-        if type(activityID) ~= "number" and type(data.activityIDs) == "table" then
+        if type(activityID) ~= "number" and type(data.activityIDs) == "table" and not issecretvalue(data.activityIDs) then
             activityID = data.activityIDs[1]
         end
         if issecretvalue(activityID) then
@@ -5842,7 +5843,7 @@ do
                     r, g, b = 0, 1, 0
                 end
                 local fatedTexture = fated and format("|A:%s-small:0:0:0:1|a", fated) or ""
-                tooltip:AddLine(format("%s %s", L[format("RAID_%s", raid.shortName)], fatedTexture), r, g, b) -- TODO: raid.dungeon?.nameLocale
+                tooltip:AddLine(format("%s %s", L[format("RAID_%s", raid.dungeon.localizationKey)], fatedTexture), r, g, b) -- TODO: raid.dungeon?.nameLocale
             end
             for j = 1, raid.bossCount do
                 local progressFound = false
@@ -5853,7 +5854,7 @@ do
                         if bossKills > 0 then
                             progressFound = true
                             local difficulty = ns.RAID_DIFFICULTY[progress.difficulty]
-                            tooltip:AddDoubleLine(format("|cff%s%s|r %s", difficulty.color.hex, difficulty.suffix, L[format("RAID_BOSS_%s_%d", raid.shortName, j)]), bossKills, 1, 1, 1, 1, 1, 1)
+                            tooltip:AddDoubleLine(format("|cff%s%s|r %s", difficulty.color.hex, difficulty.suffix, L[format("RAID_BOSS_%s_%d", raid.dungeon.localizationKey, j)]), bossKills, 1, 1, 1, 1, 1, 1)
                         end
                         if progressFound then
                             break
@@ -5861,7 +5862,7 @@ do
                     end
                 end
                 if not progressFound then
-                    tooltip:AddDoubleLine(L[format("RAID_BOSS_%s_%d", raid.shortName, j)], "-", 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
+                    tooltip:AddDoubleLine(L[format("RAID_BOSS_%s_%d", raid.dungeon.localizationKey, j)], "-", 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
                 end
             end
         end

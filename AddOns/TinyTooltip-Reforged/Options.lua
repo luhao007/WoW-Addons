@@ -38,8 +38,15 @@ end
 
 addon.L = addon.L or {}
 setmetatable(addon.L, { __index = function(self, k)
-    local s = {strsplit(".", k)}
-    return rawget(self,s[#s]) or (s[#s]:gsub("([a-z])([A-Z])", "%1 %2"):gsub("^(%a)", strupper))
+	-- First try to find the full key
+	local v = rawget(self, k)
+	if v then return v end
+	-- Then try to find the short key name (last part)
+	local s = {strsplit(".", k)}
+	v = rawget(self, s[#s])
+	if v then return v end
+	-- Finally return formatted key name
+	return (s[#s]:gsub("([a-z])([A-Z])", "%1 %2"):gsub("^(%a)", strupper))
 end})
 local L = addon.L
 
@@ -48,6 +55,11 @@ local function CallTrigger(keystring, value)
         if (keystring == "general.mask") then
             LibEvent:trigger("tooltip.style.mask", tip, value)
         elseif (keystring == "general.scale") then
+            local oldScale = addon._lastScale or value
+            if (oldScale ~= value) then
+                RescaleStaticAnchorOffsets(oldScale, value)
+            end
+            addon._lastScale = value
             LibEvent:trigger("tooltip.scale", tip, value)
         elseif (keystring == "general.background") then
             LibEvent:trigger("tooltip.style.background", tip, unpack(value))
@@ -80,6 +92,7 @@ local function CallTrigger(keystring, value)
         LibEvent:trigger("tooltip.style.font.body", tip, addon.db.general.bodyFont, addon.db.general.bodyFontSize, addon.db.general.bodyFontFlag)
     end
 end
+
 
 local function GetVariable(keystring, tbl)
     if (keystring == "general.SavedVariablesPerCharacter") then
@@ -115,6 +128,132 @@ end
 
 local widgets = {}
 
+local function IsInList(list, value)
+    for _, v in ipairs(list) do
+        if (v == value) then
+            return true
+        end
+    end
+    return false
+end
+
+local function GetDefaultValue(keystring)
+    local defaults = addon.defaults or addon.db
+    local keys = {strsplit(".", keystring)}
+    local value = defaults
+    for _, key in ipairs(keys) do
+        if (value == nil) then return end
+        value = value[key]
+    end
+    if (type(value) == "table") then
+        return CopyTable(value)
+    end
+    return value
+end
+
+local function RefreshDropdown(dropdown, value)
+    UIDropDownMenu_SetSelectedValue(dropdown, value)
+    if (value ~= nil) then
+        local text = L["dropdown."..tostring(value)] or tostring(value)
+        UIDropDownMenu_SetText(dropdown, text)
+        if (dropdown.selectedFunc) then
+            dropdown.selectedFunc(dropdown, value, text)
+        end
+    end
+end
+
+local function RefreshColorPick(pick, value)
+    local r, g, b, a = 1, 1, 1, 1
+    if (pick.colortype == "hex") then
+        r, g, b = addon:GetRGBColor(value)
+    elseif (type(value) == "table") then
+        r, g, b, a = unpack(value)
+    end
+    pick:GetNormalTexture():SetVertexColor(r or 1, g or 1, b or 1, a or 1)
+end
+
+local function RefreshWidget(widget, config)
+    local t = config.type
+    if (t == "checkbox") then
+        widget:SetChecked(GetVariable(config.keystring))
+    elseif (t == "slider") then
+        local v = GetVariable(config.keystring) or 0
+        widget:SetValue(v)
+        if (widget.High) then widget.High:SetText(v) end
+        if (widget.editbox) then widget.editbox:SetText(v) end
+    elseif (t == "editbox") then
+        widget:SetText(GetVariable(config.keystring) or "")
+        widget:SetCursorPosition(0)
+    elseif (t == "colorpick") then
+        RefreshColorPick(widget, GetVariable(config.keystring))
+    elseif (t == "dropdown") then
+        RefreshDropdown(widget, GetVariable(config.keystring))
+    elseif (t == "dropdownslider") then
+        RefreshDropdown(widget.dropdown, GetVariable(config.keystring..".colorfunc"))
+        local v = GetVariable(config.keystring..".alpha") or 0
+        widget.slider:SetValue(v)
+        if (widget.slider.High) then widget.slider.High:SetText(v) end
+    elseif (t == "anchor") then
+        RefreshDropdown(widget.dropdown, GetVariable(config.keystring..".position"))
+        widget.checkbox1:SetChecked(GetVariable(config.keystring..".hiddenInCombat"))
+        widget.checkbox2:SetChecked(GetVariable(config.keystring..".returnInCombat"))
+        widget.checkbox3:SetChecked(GetVariable(config.keystring..".returnOnUnitFrame"))
+        if (widget._updateAnchorOptions) then
+            widget._updateAnchorOptions()
+        end
+    elseif (t == "element") then
+        widget.checkbox:SetChecked(GetVariable(config.keystring..".enable"))
+        if (widget.colorpick) then
+            local color = GetVariable(config.keystring..".color")
+            RefreshColorPick(widget.colorpick, color)
+            if (widget.colordropdown) then
+                if (IsInList(widgets.colorDropdata, color)) then
+                    RefreshDropdown(widget.colordropdown, color)
+                else
+                    UIDropDownMenu_SetSelectedValue(widget.colordropdown, nil)
+                    UIDropDownMenu_SetText(widget.colordropdown, VIDEO_QUALITY_LABEL6)
+                end
+            end
+        end
+        if (widget.editbox) then
+            widget.editbox:SetText(GetVariable(config.keystring..".wildcard") or "")
+            widget.editbox:SetCursorPosition(0)
+        end
+        if (widget.filterdropdown) then
+            RefreshDropdown(widget.filterdropdown, GetVariable(config.keystring..".filter"))
+        end
+    end
+end
+
+local function RefreshOptions(parent)
+    if (not parent or not parent.optionWidgets) then return end
+    for _, widget in ipairs(parent.optionWidgets) do
+        if (widget._config) then
+            RefreshWidget(widget, widget._config)
+        end
+    end
+end
+
+local function RelayoutOptions(parent)
+    if (not parent or not parent.optionWidgets or not parent.anchor) then return end
+    local totalHeight = 0
+    for _, element in ipairs(parent.optionWidgets) do
+        local config = element._config
+        local height = element:GetHeight() or (LAYOUT and LAYOUT.ROW_HEIGHT) or 30
+        if (LAYOUT and height < LAYOUT.ROW_HEIGHT) then
+            height = LAYOUT.ROW_HEIGHT
+        end
+        totalHeight = totalHeight + height
+        local offsetX = (LAYOUT and config and LAYOUT.OFFSET_X[config.type]) or 0
+        element:ClearAllPoints()
+        element:SetPoint("TOPLEFT", parent.anchor, "BOTTOMLEFT", offsetX, -totalHeight)
+    end
+    parent.__optionsHeight = totalHeight
+    if (parent.__autoSize and parent.SetSize and LAYOUT and SettingsPanel and SettingsPanel.Container) then
+        parent:SetSize(SettingsPanel.Container:GetWidth() - LAYOUT.PANEL_PADDING, totalHeight)
+    end
+end
+
 function widgets:checkbox(parent, config, labelText)
     local frame = CreateFrame("CheckButton", nil, parent, "InterfaceOptionsCheckButtonTemplate")
     frame.keystring = config.keystring
@@ -124,6 +263,38 @@ function widgets:checkbox(parent, config, labelText)
     frame:SetChecked(GetVariable(config.keystring))
     frame:SetScript("OnClick", function(self) SetVariable(self.keystring, self:GetChecked()) end)
     return frame
+end
+
+local function NormalizeSliderValue(slider, value)
+    if (value == nil) then return nil end
+    value = tonumber(value)
+    if (value == nil) then return nil end
+    local minValue, maxValue = slider:GetMinMaxValues()
+    if (minValue and value < minValue) then value = minValue end
+    if (maxValue and value > maxValue) then value = maxValue end
+    local step = slider:GetValueStep() or 1
+    if (step < 0.1) then
+        value = tonumber(format("%.2f", value))
+    elseif (step < 1) then
+        value = tonumber(format("%.1f", value))
+    else
+        value = floor(value + 0.2)
+    end
+    return value
+end
+
+local function CommitSliderEdit(editbox)
+    local slider = editbox and editbox.slider
+    if (not slider) then return end
+    local value = NormalizeSliderValue(slider, editbox:GetText())
+    if (value == nil) then
+        editbox:SetText(slider:GetValue() or "")
+        return
+    end
+    slider._fromEdit = true
+    slider:SetValue(value)
+    slider._fromEdit = false
+    editbox:SetText(value)
 end
 
 function widgets:slider(parent, config)
@@ -141,18 +312,49 @@ function widgets:slider(parent, config)
     frame:SetMinMaxValues(config.min, config.max)
     frame:SetValueStep(config.step)
     frame:SetValue(GetVariable(config.keystring))
+
+    if (config.input) then
+        local editbox = CreateFrame("EditBox", nil, frame, "InputBoxTemplate")
+        editbox:SetAutoFocus(false)
+        editbox:SetSize(48, 18)
+        editbox:SetPoint("LEFT", frame, "RIGHT", 6, -1)
+        editbox:SetText(GetVariable(config.keystring))
+        editbox:SetCursorPosition(0)
+        editbox.slider = frame
+        editbox:SetScript("OnEnterPressed", function(self)
+            self._skipFocusLost = true
+            CommitSliderEdit(self)
+            self:ClearFocus()
+        end)
+        editbox:SetScript("OnEditFocusLost", function(self)
+            if (self._skipFocusLost) then
+                self._skipFocusLost = false
+                return
+            end
+            CommitSliderEdit(self)
+        end)
+        frame.editbox = editbox
+        frame.Text:ClearAllPoints()
+        frame.Text:SetPoint("LEFT", editbox, "RIGHT", 6, 0)
+    end
+
     frame:SetScript("OnValueChanged", function(self, value)
-        local step = self:GetValueStep() or 1
-        if (step < 0.1) then
-            value = format("%.2f", value)
-        elseif (step < 1) then
-            value = format("%.1f", value)
-        else
-            value = floor(value+0.2)
+        if (self._fromEdit) then
+            self._fromEdit = false
         end
-        if (self:GetValue() ~= value) then
-            SetVariable(self.keystring, value)
-            self.High:SetText(value)
+        local normalized = NormalizeSliderValue(self, value)
+        if (normalized == nil) then return end
+        if (self:GetValue() ~= normalized) then
+            self._fromEdit = true
+            self:SetValue(normalized)
+            self._fromEdit = false
+        end
+        if (GetVariable(self.keystring) ~= normalized) then
+            SetVariable(self.keystring, normalized)
+        end
+        self.High:SetText(normalized)
+        if (self.editbox and not self.editbox:HasFocus()) then
+            self.editbox:SetText(normalized)
         end
     end)
     return frame
@@ -196,44 +398,70 @@ function widgets:colorpick(parent, config)
     frame:GetNormalTexture():SetVertexColor(r or 1, g or 1, b or 1, a or 1)   
     frame:SetScript("OnClick", function(self)
         local r, g, b, a = self:GetNormalTexture():GetVertexColor()
+        local prevR, prevG, prevB, prevA = r, g, b, a
+        local tipframe = self
+
+        local function GetAlpha()
+            -- Modern (10.2.5+ / 11.x / 12.x) API
+            if ColorPickerFrame.GetColorAlpha then
+                local ca = ColorPickerFrame:GetColorAlpha()
+                if type(ca) == "number" then
+                    return tonumber(format("%.2f", ca))
+                end
+            end
+            -- Fallback inside the ColorPickerFrame itself 
+            local op = ColorPickerFrame.opacity
+            if type(op) == "number" then
+                return tonumber(format("%.2f", 1 - op))
+            end
+            return prevA or 1
+        end
+
+        local function ApplyColor(rr, gg, bb, aa)
+            rr = tonumber(format("%.4f", rr))
+            gg = tonumber(format("%.4f", gg))
+            bb = tonumber(format("%.4f", bb))
+
+            tipframe:GetNormalTexture():SetVertexColor(rr, gg, bb, aa)
+
+            if (tipframe.colortype == "hex") then
+                SetVariable(tipframe.keystring, addon:GetHexColor(rr, gg, bb))
+            else
+                SetVariable(tipframe.keystring, {rr, gg, bb, aa})
+            end
+
+            -- for element color
+            local parent = tipframe:GetParent()
+            if parent and parent.colordropdown then
+                UIDropDownMenu_SetText(parent.colordropdown, VIDEO_QUALITY_LABEL6)
+            end
+        end
+
         local info = {
-            r = r, g = g, b = b, opacity = 1-a, hasOpacity = self.hasopacity,
-            opacityFunc = self.hasopacity and function()
-                local r, g, b = ColorPickerFrame:GetColorRGB()
-                --local a = 1-format("%.2f", OpacitySliderFrame:GetValue())
-		ColorPickerFrame.hasOpacity, ColorPickerFrame.opacity = (a ~= nil), a
-                local aa = select(4, ColorPickerFrame.tipframe:GetNormalTexture():GetVertexColor())
-                r = tonumber(format("%.4f",r))
-                g = tonumber(format("%.4f",g))
-                b = tonumber(format("%.4f",b))
-                if (a ~= aa) then
-                    --ColorPickerFrame.tipframe:GetNormalTexture():SetVertexColor(r,g,b,a or 1)
-                    SetVariable(ColorPickerFrame.tipframe.keystring, {r,g,b,a})
-                end
-            end,
+            r = r, g = g, b = b,
+            hasOpacity = tipframe.hasopacity,
+            opacity = tipframe.hasopacity and (1 - a) or nil,
+
             swatchFunc = function()
-                local r, g, b = ColorPickerFrame:GetColorRGB()
-                --local a = 1-format("%.2f", OpacitySliderFrame:GetValue())
-		ColorPickerFrame.hasOpacity, ColorPickerFrame.opacity = (a ~= nil), a
- 		r = tonumber(format("%.4f",r))
-                g = tonumber(format("%.4f",g))
-                b = tonumber(format("%.4f",b))
-                ColorPickerFrame.tipframe:GetNormalTexture():SetVertexColor(r,g,b,a)
-                if (ColorPickerFrame.tipframe.colortype == "hex") then
-                    SetVariable(ColorPickerFrame.tipframe.keystring, addon:GetHexColor(r,g,b))
-                else
-                    SetVariable(ColorPickerFrame.tipframe.keystring, {r,g,b,a})
+                local rr, gg, bb = ColorPickerFrame:GetColorRGB()
+                ApplyColor(rr, gg, bb, GetAlpha())
+            end,
+
+            opacityFunc = tipframe.hasopacity and function()
+                local rr, gg, bb = ColorPickerFrame:GetColorRGB()
+                local aa = GetAlpha()
+                local curA = select(4, tipframe:GetNormalTexture():GetVertexColor())
+                if (aa ~= curA) then
+                    ApplyColor(rr, gg, bb, aa)
                 end
-                --for element color
-                if (ColorPickerFrame.tipframe:GetParent().colordropdown) then
-                    UIDropDownMenu_SetText(ColorPickerFrame.tipframe:GetParent().colordropdown, VIDEO_QUALITY_LABEL6)
-                end
+            end or nil,
+
+            cancelFunc = function()
+                ApplyColor(prevR, prevG, prevB, prevA)
             end,
         }
-        ColorPickerFrame.tipframe = self
-        if (not self.hasopacity) then pcall(function() return OpacitySliderFrame:SetValue(info.opacity) end) end
---        OpenColorPicker(info)
-	ColorPickerFrame:SetupColorPickerAndShow(info)
+
+        ColorPickerFrame:SetupColorPickerAndShow(info)
     end)
     return frame
 end
@@ -244,7 +472,7 @@ function widgets:dropdown(parent, config, labelText)
     frame.dropdata = config.dropdata
     if (frame.Text) then frame.Text:SetWidth(90) end
     frame.Label = frame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	frame.Label:SetPoint("LEFT", _G[frame:GetName().."Button"], "RIGHT", 2, 0)
+	frame.Label:SetPoint("LEFT", _G[frame:GetName().."Button"], "RIGHT", 6, 0)
 	UIDropDownMenu_Initialize(frame, function(self)
         local keystring = self.keystring
         local selectedValue = UIDropDownMenu_GetSelectedValue(self)
@@ -318,31 +546,54 @@ do
     line:SetPoint("CENTER")
 end
 
-local function StaticFrameOnDragStop(self)
-    self:StopMovingOrSizing()
-    local p = GetVariable(self.cp) or "BOTTOMRIGHT"
-    local left, right, top, bottom = self:GetLeft(), self:GetRight(), self:GetTop(), self:GetBottom()
-    if (p == "BOTTOMRIGHT") then
-        SetVariable(self.kx, floor(right - GetScreenWidth())+4)
-        SetVariable(self.ky, floor(bottom)-3)
-    elseif (p == "BOTTOMLEFT") then
-        SetVariable(self.kx, floor(left)-2)
-        SetVariable(self.ky, floor(bottom)-3)
-    elseif (p == "TOPLEFT") then
-        SetVariable(self.kx, floor(left)-2)
-        SetVariable(self.ky, floor(top-GetScreenHeight()))
-    elseif (p == "TOPRIGHT") then
-        SetVariable(self.kx, floor(right - GetScreenWidth())+4)
-        SetVariable(self.ky, floor(top-GetScreenHeight()))
-    elseif (p == "TOP") then
-        SetVariable(self.kx, floor(left-GetScreenWidth()/2+100))
-        SetVariable(self.ky, floor(top-GetScreenHeight()))
-    elseif (p == "BOTTOM") then
-        SetVariable(self.kx, floor(left-GetScreenWidth()/2+100))
-        SetVariable(self.ky, floor(bottom)-3)
-    end
+local function Round(value)
+    return floor(value + 0.5)
 end
 
+local function StaticFrameOnDragStop(self)
+    self:StopMovingOrSizing()
+    local screenWidth = UIParent:GetWidth()
+    local screenHeight = UIParent:GetHeight()
+    local p = GetVariable(self.cp) or "BOTTOMRIGHT"
+    local left, right, top, bottom = self:GetLeft(), self:GetRight(), self:GetTop(), self:GetBottom()
+    local function SaveOffsets(rawX, rawY)
+        self.ax_value = Round(rawX)
+        self.ay_value = Round(rawY)
+        SetVariable(self.kx, Round(rawX / tooltipScale))
+        SetVariable(self.ky, Round(rawY / tooltipScale))
+    end
+    if (p == "BOTTOMRIGHT") then
+        SaveOffsets(right - screenWidth, bottom)
+    elseif (p == "BOTTOMLEFT") then
+        SaveOffsets(left, bottom)
+    elseif (p == "TOPLEFT") then
+        SaveOffsets(left, top - screenHeight)
+    elseif (p == "TOPRIGHT") then
+        SaveOffsets(right - screenWidth, top - screenHeight)
+    elseif (p == "TOP") then
+        SaveOffsets(left - screenWidth/2 + 100, top - screenHeight)
+    elseif (p == "BOTTOM") then
+        SaveOffsets(left - screenWidth/2 + 100, bottom)
+    end
+
+end
+
+local function ApplyStaticAnchor(frame)
+    if (not frame or not frame.kx or not frame.ky or not frame.cp) then return end
+    local point = GetVariable(frame.cp) or "BOTTOMRIGHT"
+    local x = frame.ax_value or GetVariable(frame.kx) or -CONTAINER_OFFSET_X
+    local y = frame.ay_value or GetVariable(frame.ky) or CONTAINER_OFFSET_Y
+    if (frame.ax_value == nil and frame.ay_value == nil) then
+        local tooltipScale = (addon and addon.db and addon.db.general and addon.db.general.scale) or 1
+        if (tooltipScale == 0) then tooltipScale = 1 end
+        x = x * tooltipScale
+        y = y * tooltipScale
+    end
+    frame:ClearAllPoints()
+    frame:SetPoint(point, UIParent, point, x, y)
+end
+
+local UpdateCursorAnchorControls
 local function CreateAnchorButton(frame, anchorPoint)
     local button = CreateFrame("Button", nil, frame)
     button.cp = anchorPoint
@@ -361,20 +612,64 @@ local function CreateAnchorButton(frame, anchorPoint)
     end)
     frame[anchorPoint] = button
 end
-local function CreateAnchorInput(frame, k)
+local function CreateAnchorInput(frame, k, labelText)
     local box = CreateFrame("EditBox", nil, frame, "NumericInputSpinnerTemplate")
-    box:SetNumeric(nil)
+    box:SetNumeric(false)
+    if (box.SetValueStep) then
+        box:SetValueStep(1)
+    end
+    if (box.SetNumber) then
+        box:SetNumber(0)
+    end
     box:SetAutoFocus(false)
     box:SetSize(40, 20)
     box:SetScript("OnEnterPressed", function(self)
         local parent = self:GetParent()
+        local num = tonumber(self:GetText()) or 0
+        if (self.GetMinMaxValues) then
+            local minValue, maxValue = self:GetMinMaxValues()
+            if (minValue and num < minValue) then
+                num = minValue
+            elseif (maxValue and num > maxValue) then
+                num = maxValue
+            end
+        end
+        if (self.SetNumber) then
+            self:SetNumber(num)
+        else
+            self:SetText(tostring(num))
+        end
         SetVariable(parent[k], tonumber(self:GetText()) or 0)
         self:ClearFocus()
     end)
+    box:HookScript("OnEnter", function(self)
+        if (self:IsEnabled()) then return end
+        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        GameTooltip:SetText(L["anchor.offset.locked"] or "Offset is disabled when anchor point is Bottom.")
+        GameTooltip:Show()
+    end)
+    box:HookScript("OnLeave", function()
+        GameTooltip:Hide()
+    end)
+    if (labelText) then
+        box.label = box:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+        box.label:SetText(labelText)
+        box.label:SetPoint("RIGHT", box, "LEFT", -34, 0)
+    end
     return box
 end
 
-local saframe = CreateFrame("Frame", nil, UIParent, "ThinGoldEdgeTemplate")
+local saframe = CreateFrame("Frame", nil, UIParent, BackdropTemplateMixin and "BackdropTemplate" or nil)
+if (saframe.SetBackdrop) then
+    saframe:SetBackdrop({
+        bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+        edgeFile = "Interface\\Buttons\\WHITE8X8",
+        tile = false, edgeSize = 1,
+        insets = {left = 1, right = 1, top = 1, bottom = 1},
+    })
+    saframe:SetBackdropColor(0, 0, 0, 0.75)
+    saframe:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
+end
 saframe:Hide()
 saframe:SetFrameStrata("DIALOG")
 saframe.close = CreateFrame("Button", nil, saframe, "UIPanelCloseButton")
@@ -413,10 +708,85 @@ caframe:SetMovable(true)
 caframe:RegisterForDrag("LeftButton")
 caframe:SetScript("OnDragStart", function(self) self:StartMoving() end)
 caframe:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
-caframe.inputx = CreateAnchorInput(caframe, "cx")
+local function UpdateCursorAnchorLimits()
+    local width = (UIParent and UIParent.GetWidth and UIParent:GetWidth()) or GetScreenWidth() or 0
+    local height = (UIParent and UIParent.GetHeight and UIParent:GetHeight()) or GetScreenHeight() or 0
+    width = floor(width)
+    height = floor(height)
+    if (caframe.inputx and caframe.inputx.SetMinMaxValues) then
+        caframe.inputx:SetMinMaxValues(-width, width)
+    end
+    if (caframe.inputy and caframe.inputy.SetMinMaxValues) then
+        caframe.inputy:SetMinMaxValues(-height, height)
+    end
+    if (caframe.inputx and caframe.inputx.SetMaxLetters) then
+        local digits = strlen(tostring(abs(width)))
+        caframe.inputx:SetMaxLetters(digits + 1)
+    end
+    if (caframe.inputy and caframe.inputy.SetMaxLetters) then
+        local digits = strlen(tostring(abs(height)))
+        caframe.inputy:SetMaxLetters(digits + 1)
+    end
+end
+local function SetAnchorInputValue(box, value)
+    if (box and box.SetNumber) then
+        box:SetNumber(tonumber(value) or 0)
+    elseif (box) then
+        box:SetText(tostring(tonumber(value) or 0))
+    end
+end
+local function UpdateCursorAnchorInputs()
+    if (not caframe or not caframe.cx or not caframe.cy) then return end
+    SetAnchorInputValue(caframe.inputx, GetVariable(caframe.cx))
+    SetAnchorInputValue(caframe.inputy, GetVariable(caframe.cy))
+end
+local function SetSpinnerEnabled(box, enabled)
+    if (not box) then return end
+    box:SetEnabled(enabled)
+    box:SetAlpha(enabled and 1 or 0.5)
+    if (box.DecrementButton) then
+        box.DecrementButton:SetEnabled(enabled)
+        box.DecrementButton:SetAlpha(enabled and 1 or 0.5)
+    elseif (box.DecButton) then
+        box.DecButton:SetEnabled(enabled)
+        box.DecButton:SetAlpha(enabled and 1 or 0.5)
+    end
+    if (box.IncrementButton) then
+        box.IncrementButton:SetEnabled(enabled)
+        box.IncrementButton:SetAlpha(enabled and 1 or 0.5)
+    elseif (box.IncButton) then
+        box.IncButton:SetEnabled(enabled)
+        box.IncButton:SetAlpha(enabled and 1 or 0.5)
+    end
+end
+UpdateCursorAnchorControls = function()
+    if (not caframe or not caframe.cp) then return end
+    local cp = GetVariable(caframe.cp) or "BOTTOM"
+    local enabled = cp ~= "BOTTOM"
+    if (not enabled) then
+        SetVariable(caframe.cx, 0)
+        SetVariable(caframe.cy, 0)
+        SetAnchorInputValue(caframe.inputx, 0)
+        SetAnchorInputValue(caframe.inputy, 0)
+    end
+    SetSpinnerEnabled(caframe.inputx, enabled)
+    SetSpinnerEnabled(caframe.inputy, enabled)
+end
+caframe.inputx = CreateAnchorInput(caframe, "cx", "X")
 caframe.inputx:SetPoint("CENTER", 0, 40)
-caframe.inputy = CreateAnchorInput(caframe, "cy")
+caframe.inputy = CreateAnchorInput(caframe, "cy", "Y")
 caframe.inputy:SetPoint("CENTER", 0, 10)
+caframe:HookScript("OnShow", function()
+    UpdateCursorAnchorLimits()
+    UpdateCursorAnchorInputs()
+    UpdateCursorAnchorControls()
+end)
+LibEvent:attachTrigger("tooltip:variable:changed", function(self, keystring, value)
+    if (not caframe or not caframe.IsShown or not caframe:IsShown()) then return end
+    if (keystring == caframe.cp) then
+        UpdateCursorAnchorControls()
+    end
+end)
 caframe.ok = CreateFrame("Button", nil, caframe, "UIPanelButtonTemplate")
 caframe.ok:SetText(SAVE)
 caframe.ok:SetSize(68, 20)
@@ -453,17 +823,16 @@ function widgets:anchorbutton(parent, config)
             saframe.kx = self.keystring .. ".x"
             saframe.ky = self.keystring .. ".y"
             saframe.cp = self.keystring .. ".p"
-            saframe[GetVariable(saframe.cp) or "BOTTOMRIGHT"]:GetNormalTexture():SetVertexColor(1, 0.2, 0.1, 1)
-	    saframe:ClearAllPoints()
-            saframe:SetPoint(GetVariable(saframe.cp) or "BOTTOMRIGHT", UIParent, GetVariable(saframe.cp) or "BOTTOMRIGHT", GetVariable(saframe.kx) or -CONTAINER_OFFSET_X-13, GetVariable(saframe.ky) or CONTAINER_OFFSET_Y)
+            saframe[GetVariable(saframe.cp) or "BOTTOMRIGHT"]:GetNormalTexture():SetVertexColor(1, 0.2, 0.1)
+            ApplyStaticAnchor(saframe)
             saframe:Show()
         elseif (value == "cursor") then
             caframe.cx = self.keystring .. ".cx"
             caframe.cy = self.keystring .. ".cy"
             caframe.cp = self.keystring .. ".cp"
-            caframe.inputx:SetText(GetVariable(caframe.cx) or 0)
-            caframe.inputy:SetText(GetVariable(caframe.cy) or 0)
-            caframe[GetVariable(caframe.cp) or "BOTTOM"]:GetNormalTexture():SetVertexColor(1, 0.2, 0.1, 1)
+           UpdateCursorAnchorInputs()
+            caframe[GetVariable(caframe.cp) or "BOTTOM"]:GetNormalTexture():SetVertexColor(1, 0.2, 0.1)
+            UpdateCursorAnchorControls()
             caframe:Show()
         end
     end)
@@ -493,6 +862,19 @@ function widgets:element(parent, config)
     if (config.wildcard) then
         frame.editbox = self:editbox(frame, {keystring=config.keystring..".wildcard"})
         frame.editbox:SetPoint("LEFT", 330, 0)
+        frame.editbox:HookScript("OnEnter", function(self)
+            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+            GameTooltip:SetText(L["wildcard.help"] or "Format: use %s to insert the value.")
+            if (config.keystring and config.keystring:find("moveSpeed")) then
+                GameTooltip:AddLine(L["wildcard.help.moveSpeed"] or "Example: %d%%", 0.8, 0.8, 0.8, true)
+            else
+                GameTooltip:AddLine(L["wildcard.help.example"] or "Example: (%s) or [%s]", 0.8, 0.8, 0.8, true)
+            end
+            GameTooltip:Show()
+        end)
+        frame.editbox:HookScript("OnLeave", function()
+            GameTooltip:Hide()
+        end)
     end
     if (config.filter) then
         frame.filterdropdown = self:dropdown(frame, {keystring=config.keystring..".filter",dropdata=self.filterDropdata}, "")
@@ -504,17 +886,153 @@ end
 
 function widgets:anchor(parent, config)
     local frame = CreateFrame("Frame", nil, parent)
-    frame:SetSize(400, 30)
+    local parentWidth = parent and parent.anchor and parent.anchor:GetWidth()
+    frame:SetSize(parentWidth or 400, LAYOUT.ROW_HEIGHT)
+    --frame:SetSize(400, 40)
     frame.anchorbutton = self:anchorbutton(frame, config)
     frame.dropdown = self:dropdown(frame, {keystring=config.keystring..".position",dropdata=config.dropdata})
     frame.dropdown:SetPoint("LEFT", 0, 0)
     frame.anchorbutton:SetPoint("LEFT", frame.dropdown.Label, "LEFT", 5, 0)
+
+
+    frame.optionButton = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
+    frame.optionButton:SetSize(220, 22)
+    frame.optionButton:SetPoint("RIGHT", frame, "RIGHT", -10, -1)
+    if (frame.optionButton.Text) then
+        frame.optionButton.Text:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
+        frame.optionButton.Text:ClearAllPoints()
+        frame.optionButton.Text:SetPoint("LEFT", 10, 0)
+        frame.optionButton.Text:SetPoint("RIGHT", -22, 0)
+        frame.optionButton.Text:SetJustifyH("LEFT")
+    end
+    frame.optionButton.arrow = frame.optionButton:CreateTexture(nil, "ARTWORK")
+    frame.optionButton.arrow:SetSize(16, 16)
+    frame.optionButton.arrow:SetPoint("RIGHT", -6, 0)
+    frame.optionButton.arrow:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Up")
+    frame.optionButton.arrow:SetTexCoord(0, 1, 0, 1)
+
+    frame.optionPanel = CreateFrame("Frame", nil, frame, BackdropTemplateMixin and "BackdropTemplate" or nil)
+    frame.optionPanel:SetBackdrop({
+        bgFile   = "Interface\\Tooltips\\UI-Tooltip-Background",
+        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+        edgeSize = 12,
+        insets   = {left = 4, right = 4, top = 4, bottom = 4},
+    })
+    frame.optionPanel:SetBackdropColor(0, 0, 0, 0.85)
+    frame.optionPanel:SetBackdropBorderColor(0.6, 0.6, 0.6, 0.8)
+    frame.optionPanel:SetPoint("TOPLEFT", frame.optionButton, "BOTTOMLEFT", 0, -2)
+    frame.optionPanel:SetPoint("TOPRIGHT", frame.optionButton, "BOTTOMRIGHT", 0, -2)
+    frame.optionPanel:SetFrameStrata("DIALOG")
+    frame.optionPanel:SetFrameLevel(frame:GetFrameLevel() + 10)
+    frame.optionPanel:Hide()
+
     frame.checkbox1 = self:checkbox(frame, {keystring=config.keystring..".hiddenInCombat"})
     frame.checkbox1:SetPoint("LEFT", frame.dropdown.Label, "RIGHT", 25, -1)
     frame.checkbox2 = self:checkbox(frame, {keystring=config.keystring..".defaultInCombat"})
     frame.checkbox2:SetPoint("LEFT", frame.checkbox1.Text, "RIGHT", 3, 0)
---    frame.checkbox3 = self:checkbox(frame, {keystring=config.keystring..".defaultreturnOnUnitFrame"})
---    frame.checkbox3:SetPoint("LEFT", frame.checkbox2.Text, "RIGHT", 3, 0)
+
+    local function HookCheckboxTooltip(box)
+        if (not box) then return end
+        box:HookScript("OnEnter", function(self)
+            if (self.tooltipText and self.tooltipText ~= "") then
+                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                GameTooltip:SetText(self.tooltipText, 1, 1, 1, 1)
+                GameTooltip:Show()
+            end
+        end)
+        box:HookScript("OnLeave", function()
+            GameTooltip:Hide()
+        end)
+    end
+--    HookCheckboxTooltip(frame.checkbox2)
+--    HookCheckboxTooltip(frame.checkbox3)
+
+    local function UpdateOptionSummary()
+        local selections = {}
+        if (frame.checkbox1:GetChecked()) then
+            tinsert(selections, L[config.keystring..".hiddenInCombat"])
+        end
+        if (frame.checkbox2:GetChecked()) then
+            tinsert(selections, L[config.keystring..".returnInCombat"])
+        end
+        local summary
+        if (#selections == 0) then
+            summary = L["anchor.none"] or "None"
+        else
+            summary = table.concat(selections, ", ")
+        end
+        local text = summary
+        local fontString = frame.optionButton.Text
+        if (fontString and frame.optionButton.GetWidth) then
+            local maxWidth = frame.optionButton:GetWidth() - 36
+            if (maxWidth < 40) then maxWidth = 40 end
+            local function TruncateToFit(value)
+                fontString:SetText(value)
+                if (fontString:GetStringWidth() <= maxWidth) then
+                    return value
+                end
+                local ellipsis = "..."
+                local low, high = 0, #value
+                while (low < high) do
+                    local mid = math.floor((low + high) / 2)
+                    local candidate = value:sub(1, mid) .. ellipsis
+                    fontString:SetText(candidate)
+                    if (fontString:GetStringWidth() <= maxWidth) then
+                        low = mid + 1
+                    else
+                        high = mid
+                    end
+                end
+                local finalLen = math.max(0, low - 1)
+                return value:sub(1, finalLen) .. ellipsis
+            end
+            text = TruncateToFit(text)
+        end
+        frame.optionButton:SetText(text)
+    end
+
+    local function UpdatePanelLayout()
+        UpdateOptionSummary()
+        local panelHeight = (LAYOUT.ROW_HEIGHT * 3) + 12
+        local panelWidth = frame.optionButton:GetWidth()
+        frame.optionPanel:SetHeight(panelHeight)
+        frame.optionPanel:SetWidth(panelWidth)
+
+        frame:SetHeight(LAYOUT.ROW_HEIGHT)
+    end
+
+    frame.checkbox1:HookScript("OnClick", function(self)
+        if (self:GetChecked()) then
+            frame.checkbox2:SetChecked(false)
+            SetVariable(config.keystring..".returnInCombat", false)
+        end
+        UpdatePanelLayout()
+    end)
+    frame.checkbox2:HookScript("OnClick", function(self)
+        if (self:GetChecked()) then
+            frame.checkbox1:SetChecked(false)
+            SetVariable(config.keystring..".hiddenInCombat", false)
+        end
+        UpdatePanelLayout()
+    end)
+
+    frame.optionButton:SetScript("OnClick", function()
+        frame.optionPanel:SetShown(not frame.optionPanel:IsShown())
+        UpdatePanelLayout()
+    end)
+
+    local baseSelectedFunc = frame.dropdown.selectedFunc
+    frame.dropdown.selectedFunc = function(self, value, text)
+        if (baseSelectedFunc) then
+            baseSelectedFunc(self, value, text)
+        end
+        UpdatePanelLayout()
+    end
+
+    frame:HookScript("OnShow", UpdatePanelLayout)
+    frame._updateAnchorOptions = UpdatePanelLayout
+    UpdatePanelLayout()
+
     return frame
 end
 
@@ -550,6 +1068,38 @@ LibEvent:attachEvent("VARIABLES_LOADED", function()
     end
 end)
 
+LAYOUT = {
+    ROW_HEIGHT    = 30,
+    ANCHOR_OFFSET = 32,
+    ANCHOR_TOP    = -16,
+    TITLE_LEFT    = 18,
+    PANEL_PADDING = 64,
+    RESET_OFFSET_X = -28,
+    RESET_OFFSET_Y = -12,
+    OFFSET_X = {
+        checkbox = 0, colorpick = 5, slider = 15,
+        dropdown = -15, dropdownslider = -15, anchor = -15,
+        element = 0,
+    },
+    DIY_LINE_HEIGHT    = 24,
+    DIY_LINE_SPACING   = 25,
+    DIY_FIRST_LINE_Y   = 13,
+    DIY_PANEL_PADDING_H = 28,
+    DIY_PANEL_PADDING_V = 36,
+    DIY_ELEMENT_GAP    = 16,
+    DIY_LEFT           = 14,
+    DIY_LINE_DEFAULT_W = 300,
+    DIY_BIG_FACTION_EXTRA = 48,
+    DIY_PREVIEW_OFFSET_X = 332,
+    DIY_PREVIEW_OFFSET_Y = -100,
+    DIY_FRAME_WIDTH    = 300,
+    DIY_FRAME_HEIGHT   = 100,
+    DIY_ARROW_SIZE_W   = 32,
+    DIY_ARROW_SIZE_H   = 48,
+    DIY_ARROW_OFFSET_X = 35,
+    DIY_ARROW_OFFSET_Y = -60,
+}
+
 local options = {
     general = {
         { keystring = "general.mask",     	    type = "checkbox" },
@@ -568,8 +1118,9 @@ local options = {
         { keystring = "item.showItemIcon",          type = "checkbox" },
 	{ keystring = "item.showExpansionInformation", type = "checkbox" },
         { keystring = "quest.coloredQuestBorder",   type = "checkbox" },
-        { keystring = "general.alwaysShowIdInfo",   type = "checkbox" },        
+        { keystring = "general.showIdInfo",   	    type = "dropdown", dropdata = {"always", "Shift / Ctrl / Alt", "never"} },        
         { keystring = "general.SavedVariablesPerCharacter",   type = "checkbox" },
+        { keystring = "general.hideUnitFrameHint",   type = "checkbox" },
     },
     pc = {
         { keystring = "unit.player.showTarget",           type = "checkbox" },
@@ -601,6 +1152,7 @@ local options = {
         { keystring = "unit.player.elements.gender",      type = "element", color = true, wildcard = true, filter = true, },
         { keystring = "unit.player.elements.raceName",    type = "element", color = true, wildcard = true, filter = true, },
         { keystring = "unit.player.elements.className",   type = "element", color = true, wildcard = true, filter = true, },
+        { keystring = "unit.player.elements.classSpecAndName",   type = "element", color = true, wildcard = true, filter = true, },
         { keystring = "unit.player.elements.isPlayer",    type = "element", color = true, wildcard = true, filter = true, },
         { keystring = "unit.player.elements.role",        type = "element", color = true, wildcard = true, filter = true, },
         { keystring = "unit.player.elements.moveSpeed",   type = "element", color = true, wildcard = true, filter = true, },
@@ -669,12 +1221,27 @@ else
 end
 frame.title = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 frame.title:SetPoint("TOPLEFT", 18, -16)
-frame.title:SetText(format("%s |cff33eeff%s|r", addonName, "General"))
+frame.title:SetText(format("%s |cff33eeff%s|r", addonName, L["General"]))
 frame.name = addonName
 
 frame.text = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 frame.text:SetPoint("TOPLEFT", 30, -35)
 frame.text:SetText(format("by |cffF58CBA%s|r |cffff00ff<%s>|r - |cff33eeff%s|r", "Beezer", "The Dragon Fighters", "Aggramar EU"))
+
+
+frame:SetSize(500, 700)
+local frameScrollFrame = CreateFrame("ScrollFrame", "TinyTooltipReforgedScrollFrame", UIParent, "UIPanelScrollFrameTemplate")
+frameScrollFrame.ScrollBar:Hide()
+frameScrollFrame.ScrollBar:ClearAllPoints()
+frameScrollFrame.ScrollBar:SetPoint("TOPLEFT", frameScrollFrame, "TOPRIGHT", -20, -22)
+frameScrollFrame.ScrollBar:SetPoint("BOTTOMLEFT", frameScrollFrame, "BOTTOMRIGHT", -20, 26)
+frameScrollFrame:HookScript("OnScrollRangeChanged", function(self, xrange, yrange)
+    self.ScrollBar:SetShown(floor(yrange) ~= 0)
+end)
+frameScrollFrame:SetScrollChild(frame)
+frameScrollFrame.parent = addonName
+frameScrollFrame.name = " - " .. L["General"]
+frameScrollFrame:Hide()
 
 local framePC = CreateFrame("Frame", "TinyTooltipReforgedPC", UIParent)
 framePC.anchor = CreateFrame("Frame", nil, framePC)
@@ -686,7 +1253,7 @@ else
 end
 framePC.title = framePC:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 framePC.title:SetPoint("TOPLEFT", 18, -16)
-framePC.title:SetText(format("%s |cff33eeff%s|r", addonName, "Unit Is Player"))
+framePC.title:SetText(format("%s |cff33eeff%s|r", addonName, L["Player"]))
 framePC.parent = addonName
 framePC.name = " - Player"
 
@@ -713,7 +1280,7 @@ framePCScrollFrame:HookScript("OnScrollRangeChanged", function(self, xrange, yra
 end)
 framePCScrollFrame:SetScrollChild(framePC)
 framePCScrollFrame.parent = addonName
-framePCScrollFrame.name = " - Player"
+framePCScrollFrame.name = " - " .. L["Player"]
 framePCScrollFrame:Hide()
 
 local frameNPC = CreateFrame("Frame", nil, UIParent)
@@ -726,9 +1293,9 @@ else
 end
 frameNPC.title = frameNPC:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 frameNPC.title:SetPoint("TOPLEFT", 18, -16)
-frameNPC.title:SetText(format("%s |cff33eeff%s|r", addonName, "Unit Is NPC"))
+frameNPC.title:SetText(format("%s |cff33eeff%s|r", addonName, L["NPC"]))
 frameNPC.parent = addonName
-frameNPC.name = " - NPC"
+frameNPC.name = " - " .. L["NPC"]
 
 frameNPC:SetSize(500, #options.npc*30)
 local frameNPCScrollFrame = CreateFrame("ScrollFrame", nil, UIParent, "UIPanelScrollFrameTemplate")
@@ -741,7 +1308,7 @@ frameNPCScrollFrame:HookScript("OnScrollRangeChanged", function(self, xrange, yr
 end)
 frameNPCScrollFrame:SetScrollChild(frameNPC)
 frameNPCScrollFrame.parent = addonName
-frameNPCScrollFrame.name = " - NPC"
+frameNPCScrollFrame.name = " - " .. L["NPC"]
 
 local frameStatusbar = CreateFrame("Frame", nil, UIParent)
 frameStatusbar.anchor = CreateFrame("Frame", nil, frameStatusbar)
@@ -753,9 +1320,9 @@ else
 end
 frameStatusbar.title = frameStatusbar:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 frameStatusbar.title:SetPoint("TOPLEFT", 18, -16)
-frameStatusbar.title:SetText(format("%s |cff33eeff%s|r", addonName, "StatusBar"))
+frameStatusbar.title:SetText(format("%s |cff33eeff%s|r", addonName, L["StatusBar"]))
 frameStatusbar.parent = addonName
-frameStatusbar.name = " - StatusBar"
+frameStatusbar.name = " - " .. L["StatusBar"]
 
 local frameSpell = CreateFrame("Frame", nil, UIParent)
 frameSpell.anchor = CreateFrame("Frame", nil, frameSpell)
@@ -767,9 +1334,9 @@ else
 end
 frameSpell.title = frameSpell:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 frameSpell.title:SetPoint("TOPLEFT", 18, -16)
-frameSpell.title:SetText(format("%s |cff33eeff%s|r", addonName, "Spell"))
+frameSpell.title:SetText(format("%s |cff33eeff%s|r", addonName, L["Spell"]))
 frameSpell.parent = addonName
-frameSpell.name = " - Spell"
+frameSpell.name = " - " .. L["Spell"]
 
 local frameFont = CreateFrame("Frame", nil, UIParent)
 frameFont.anchor = CreateFrame("Frame", nil, frameFont)
@@ -781,9 +1348,9 @@ else
 end
 frameFont.title = frameFont:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 frameFont.title:SetPoint("TOPLEFT", 18, -16)
-frameFont.title:SetText(format("%s |cff33eeff%s|r", addonName, "Font"))
+frameFont.title:SetText(format("%s |cff33eeff%s|r", addonName, L["Font"]))
 frameFont.parent = addonName
-frameFont.name = " - Font"
+frameFont.name = " - " .. L["Font"]
 
 local frameVariables = CreateFrame("Frame", nil, UIParent)
 frameVariables.anchor = CreateFrame("Frame", nil, frameVariables)
@@ -795,9 +1362,9 @@ else
 end
 frameVariables.title = frameVariables:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 frameVariables.title:SetPoint("TOPLEFT", 18, -16)
-frameVariables.title:SetText(format("%s |cff33eeff%s|r", addonName, "Variables"))
+frameVariables.title:SetText(format("%s |cff33eeff%s|r", addonName, L["Variables"]))
 frameVariables.parent = addonName
-frameVariables.name = " - Variables"
+frameVariables.name = " - " .. L["Variables"]
 
 local function InitVariablesFrame()
     frameVariables.panel = CreateFrame("Frame", nil, frameVariables, "TinyTooltipReforgedVariablesTemplate")
@@ -826,6 +1393,35 @@ local function InitVariablesFrame()
     end)
 end
 
+
+local frameAbout = CreateFrame("ScrollFrame", "TinyTooltipReforgedAboutScrollFrame", UIParent, "UIPanelScrollFrameTemplate")
+frameAbout:SetSize(500, 700)
+frameAbout.ScrollBar:Hide()
+frameAbout.ScrollBar:ClearAllPoints()
+frameAbout.ScrollBar:SetPoint("TOPLEFT", frameAbout, "TOPRIGHT", -20, -22)
+frameAbout.ScrollBar:SetPoint("BOTTOMLEFT", frameAbout, "BOTTOMRIGHT", -20, 26)
+frameAbout:HookScript("OnScrollRangeChanged", function(self, xrange, yrange)
+    self.ScrollBar:SetShown(floor(yrange) ~= 0)
+end)
+frameAbout.anchor = CreateFrame("Frame", nil, frameAbout)
+frameAbout.anchor:SetPoint("TOPLEFT", 32, -16)
+if (clientToc == 30400) then
+  frame.anchor:SetSize(InterfaceOptionsFramePanelContainer:GetWidth()-64, 1)
+else
+  frame.anchor:SetSize(SettingsPanel:GetWidth()-64, 1)
+end
+frameAbout.title = frameAbout:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+frameAbout.title:SetPoint("TOPLEFT", 18, -16)
+frameAbout.title:SetText(format("%s |cff33eeff%s|r", addonName, L["About"]))
+frameAbout.parent = addonName
+frameAbout.name = " - "..L["About"]
+frameAbout:Hide()
+
+local actualVersion = C_AddOns.GetAddOnMetadata("TinyTooltip-Reforged", "Version") or "unknown"
+frameAbout.version = frameAbout:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+frameAbout.version:SetPoint("TOPLEFT", 35, -50)
+frameAbout.version:SetText(format("Version v%s", actualVersion));
+
 local function InitOptions(list, parent, height)
     local element, offsetX
     for i, v in ipairs(list) do
@@ -851,49 +1447,39 @@ LibEvent:attachEvent("VARIABLES_LOADED", function()
     InitVariablesFrame()
 end)
 
-
 if Settings and Settings.RegisterCanvasLayoutCategory then
-  local category = Settings.RegisterCanvasLayoutCategory(frame, "TinyTooltip Reforged")
+  local category = Settings.RegisterCanvasLayoutCategory(frameScrollFrame, "TinyTooltip Reforged")
   Settings.RegisterAddOnCategory(category)
   frame.categoryID = category:GetID()
 
-  local category1 = Settings.RegisterCanvasLayoutSubcategory(category, framePCScrollFrame, "- Player")
+  local category1 = Settings.RegisterCanvasLayoutSubcategory(category, framePCScrollFrame, "- " .. L["Player"])
   Settings.RegisterAddOnCategory(category1)
---  framePCScrollFrame.categoryID = category1:GetID()
-
-  local category1 = Settings.RegisterCanvasLayoutSubcategory(category, frameNPCScrollFrame, "- NPC")
+  local category1 = Settings.RegisterCanvasLayoutSubcategory(category, frameNPCScrollFrame, "- " ..L["NPC"])
   Settings.RegisterAddOnCategory(category1)
---  framePCScrollFrame.categoryID = category2:GetID()
-
-  local category1 = Settings.RegisterCanvasLayoutSubcategory(category, frameStatusbar, "- Status Bar")
+  local category1 = Settings.RegisterCanvasLayoutSubcategory(category, frameStatusbar, "- " ..L["StatusBar"])
   Settings.RegisterAddOnCategory(category1)
---  framePCScrollFrame.categoryID = category1:GetID()
-
-  local category1 = Settings.RegisterCanvasLayoutSubcategory(category, frameSpell, "- Spells")
+  local category1 = Settings.RegisterCanvasLayoutSubcategory(category, frameSpell, "- " .. L["Spells"])
   Settings.RegisterAddOnCategory(category1)
---  framePCScrollFrame.categoryID = category1:GetID()
-
-  local category1 = Settings.RegisterCanvasLayoutSubcategory(category, frameFont, "- Font")
+  local category1 = Settings.RegisterCanvasLayoutSubcategory(category, frameFont, "- " .. L["Font"])
   Settings.RegisterAddOnCategory(category1)
---  framePCScrollFrame.categoryID = category1:GetID()
-
-  local category1 = Settings.RegisterCanvasLayoutSubcategory(category, frameVariables, "- Variables")
+  local category1 = Settings.RegisterCanvasLayoutSubcategory(category, frameVariables, "- " .. L["Variables"])
   Settings.RegisterAddOnCategory(category1)
---  framePCScrollFrame.categoryID = category1:GetID()
+  local category1 = Settings.RegisterCanvasLayoutSubcategory(category, frameAbout, "- " .. L["About"])
+  Settings.RegisterAddOnCategory(category1)
 else
-  InterfaceOptions_AddCategory(frame)
+  InterfaceOptions_AddCategory(frameScrollFrame)
   InterfaceOptions_AddCategory(framePCScrollFrame)
   InterfaceOptions_AddCategory(frameNPCScrollFrame)
   InterfaceOptions_AddCategory(frameStatusbar)
   InterfaceOptions_AddCategory(frameSpell)
   InterfaceOptions_AddCategory(frameFont)
   InterfaceOptions_AddCategory(frameVariables)
+  InterfaceOptions_AddCategory(frameAbout)
 end
 
 SLASH_TinyTooltipReforged1 = "/tinytooltip"
 SLASH_TinyTooltipReforged2 = "/ttr"
-SLASH_TinyTooltipReforged3 = "/tip"
-SLASH_TinyTooltipReforged4 = "/tinytooltipr"
+SLASH_TinyTooltipReforged3 = "/tinytooltipr"
 
 function SlashCmdList.TinyTooltipReforged(msg, editbox)
     if (msg == "reset") then     
@@ -902,18 +1488,6 @@ function SlashCmdList.TinyTooltipReforged(msg, editbox)
         ReloadUI()
     elseif (msg == "reload") then
         ReloadUI()
-    --elseif (msg == "npc") then
-    --    OpenToCategory(frameNPC)
-    --    InterfaceOptionsFrame_OpenToCategory(frameNPC)
-    --elseif (msg == "player") then
-    --    InterfaceOptionsFrame_OpenToCategory(framePCScrollFrame)
-    --    InterfaceOptionsFrame_OpenToCategory(framePCScrollFrame)
-    --elseif (msg == "spell") then
-    --    InterfaceOptionsFrame_OpenToCategory(frameSpell)
-    --    InterfaceOptionsFrame_OpenToCategory(frameSpell)
-    --elseif (msg == "statusbar") then
-    --    InterfaceOptionsFrame_OpenToCategory(frameStatusbar)
-    --    InterfaceOptionsFrame_OpenToCategory(frameStatusbar)
     else
         if Settings and Settings.RegisterCanvasLayoutCategory then 
             local settingsCategoryID = _G["TinyTooltipReforgedFrame"].categoryID
@@ -924,8 +1498,6 @@ function SlashCmdList.TinyTooltipReforged(msg, editbox)
         end
     end
 end
-
-
 
 ----------------
 -- DIY Frame 

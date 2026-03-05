@@ -400,8 +400,19 @@ function RSMapOptions.GetMapOptions()
 					handler = RareScanner,
 					desc = AL["MAP_WAYPOINTS_DESC"],
 					args = {
-						tomtom = {
+						ingame = {
 							order = 0,
+							type = "toggle",
+							name = AL["MAP_WAYPOINT_INGAME"],
+							desc = AL["MAP_WAYPOINT_INGAME_DESC"],
+							get = function() return RSConfigDB.IsAddingWorldMapIngameWaypoints() end,
+							set = function(_, value)
+								RSConfigDB.SetAddingWorldMapIngameWaypoints(value)
+							end,
+							width = "double",
+						},
+						tomtom = {
+							order = 1,
 							type = "toggle",
 							name = AL["MAP_WAYPOINT_TOMTOM"],
 							desc = AL["MAP_WAYPOINT_TOMTOM_DESC"],
@@ -412,17 +423,18 @@ function RSMapOptions.GetMapOptions()
 							width = "double",
 							disabled = function() return not TomTom end,
 						},
-						ingame = {
-							order = 1,
+						waypointUI = {
+							order = 2,
 							type = "toggle",
-							name = AL["MAP_WAYPOINT_INGAME"],
-							desc = AL["MAP_WAYPOINT_INGAME_DESC"],
-							get = function() return RSConfigDB.IsAddingWorldMapIngameWaypoints() end,
+							name = AL["MAP_WAYPOINT_WAYPOINTUI"],
+							desc = AL["MAP_WAYPOINT_WAYPOINTUI_DESC"],
+							get = function() return RSConfigDB.IsAddingWorldMapWaypointUIWaypoints() end,
 							set = function(_, value)
-								RSConfigDB.SetAddingWorldMapIngameWaypoints(value)
+								RSConfigDB.SetAddingWorldMapWaypointUIWaypoints(value)
 							end,
 							width = "double",
-						},
+							disabled = function() return not WaypointUIAPI end,
+						}
 					}
 				},
 				tooltips = {

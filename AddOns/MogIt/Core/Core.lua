@@ -15,7 +15,7 @@ end
 
 --// Slash Commands
 function mog:ToggleFrame()
-	ToggleFrame(mog.frame);
+	mog.frame:SetShown(not mog.frame:IsShown());
 end
 
 function mog:TogglePreview()
@@ -341,20 +341,27 @@ function mog:ADDON_LOADED(addon)
 		for i, model in ipairs(WardrobeCollectionFrame.ItemsCollectionFrame.Models) do
 			model:SetScript("OnMouseDown", function(self, button)
 				if IsControlKeyDown() and button == "RightButton" then
+					return
+				end
+				self:OnMouseDown(button)
+			end)
+
+			model:SetScript("OnMouseUp", function(self, button)
+				if IsControlKeyDown() and button == "RightButton" then
 					local itemsCollectionFrame = self:GetParent()
 					if not itemsCollectionFrame.transmogLocation:IsIllusion() then
 						local sources = CollectionWardrobeUtil.GetSortedAppearanceSources(self.visualInfo.visualID, itemsCollectionFrame:GetActiveCategory(), itemsCollectionFrame.transmogLocation)
 						if WardrobeCollectionFrame.tooltipSourceIndex then
 							local index = CollectionWardrobeUtil.GetValidIndexForNumSources(WardrobeCollectionFrame.tooltipSourceIndex, #sources)
-							local link = select(6, C_TransmogCollection.GetAppearanceSourceInfo(sources[index].sourceID))
-							mog:AddToPreview(link)
-							return
+							local sourceInfo = C_TransmogCollection.GetAppearanceSourceInfo(sources[index].sourceID)
+							mog:AddToPreview(sourceInfo.itemLink)
 						end
 					else
 						mog:SetPreviewEnchant(mog:GetPreview(mog.activePreview), self.visualInfo.sourceID);
 					end
+					return
 				end
-				self:OnMouseDown(button)
+				self:OnMouseUp(button)
 			end)
 		end
 		ScrollUtil.AddInitializedFrameCallback(WardrobeCollectionFrame.SetsCollectionFrame.ListContainer.ScrollBox, function(self, button, elementData)
@@ -366,7 +373,8 @@ function mog:ADDON_LOADED(addon)
 						local primaryAppearances = C_TransmogSets.GetSetPrimaryAppearances(self.setID);
 						for _, primaryAppearance in ipairs(primaryAppearances) do
 							local sourceID = primaryAppearance.appearanceID;
-							mog:AddToPreview(select(6, C_TransmogCollection.GetAppearanceSourceInfo(sourceID)), preview);
+							local sourceInfo = C_TransmogCollection.GetAppearanceSourceInfo(sourceID);
+							mog:AddToPreview(sourceInfo.itemLink, preview);
 						end
 						return
 					end
@@ -389,15 +397,34 @@ function mog:TRANSMOG_SEARCH_UPDATED(searchType, categoryType)
 
 	local module = categoryModule.parentModule
 
-	local GetAppearanceSources = C_TransmogCollection.GetAppearanceSources
-
 	local currentClassFilter = C_TransmogCollection.GetClassFilter()
 	local allRacesShown = C_TransmogCollection.GetAllRacesShown()
 	local allFactionsShown = C_TransmogCollection.GetAllFactionsShown()
+	local collectedShown = C_TransmogCollection.GetCollectedShown()
+	local uncollectedShown = C_TransmogCollection.GetUncollectedShown()
 
 	C_TransmogCollection.SetClassFilter(module.classID)
 	C_TransmogCollection.SetAllRacesShown(true)
 	C_TransmogCollection.SetAllFactionsShown(true)
+	C_TransmogCollection.SetCollectedShown(true)
+	C_TransmogCollection.SetUncollectedShown(true)
+
+	RunNextFrame(function()
+		self:AddTransmogCategoryCollection(categoryType, categoryModule)
+
+		C_TransmogCollection.SetClassFilter(currentClassFilter)
+		C_TransmogCollection.SetAllRacesShown(allRacesShown)
+		C_TransmogCollection.SetAllFactionsShown(allFactionsShown)
+		C_TransmogCollection.SetCollectedShown(collectedShown)
+		C_TransmogCollection.SetUncollectedShown(uncollectedShown)
+
+		mog:SetModule(module, module.label.." - "..categoryModule.label)
+		categoryModule.loaded = true
+	end)
+end
+
+function mog:AddTransmogCategoryCollection(categoryType, categoryModule)
+	local GetAppearanceSources = C_TransmogCollection.GetAppearanceSources
 
 	local transmogLocation = TransmogUtil.GetTransmogLocation(CollectionWardrobeUtil.GetSlotFromCategoryID(categoryType), Enum.TransmogType.Appearance, Enum.TransmogModification.Main)
 	for i, appearance in ipairs(C_TransmogCollection.GetCategoryAppearances(categoryType, transmogLocation)) do
@@ -410,13 +437,6 @@ function mog:TRANSMOG_SEARCH_UPDATED(searchType, categoryType)
 			end
 		end
 	end
-
-	C_TransmogCollection.SetClassFilter(currentClassFilter)
-	C_TransmogCollection.SetAllRacesShown(allRacesShown)
-	C_TransmogCollection.SetAllFactionsShown(allFactionsShown)
-
-	mog:SetModule(module, module.label.." - "..categoryModule.label)
-	categoryModule.loaded = true
 end
 
 

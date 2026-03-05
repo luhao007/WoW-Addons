@@ -908,9 +908,9 @@ function RSExplorerRareList:OnElementSelectionChanged(elementData, selected)
 	mapFrame.iconsPool:ReleaseAll()
 	local entityPOI
 	if (elementData.isNpc) then
-		entityPOI = RSNpcPOI.GetNpcPOI(elementData.entityID, self.mapID, internalInfo, RSGeneralDB.GetAlreadyFoundEntity(elementData.entityID))
+		entityPOI = RSNpcPOI.GetNpcPOI(elementData.entityID, self.mapID, internalInfo, RSGeneralDB.GetAlreadyFoundEntity(elementData.entityID, RSConstants.NPC_VIGNETTE))
 	else
-		entityPOI = RSContainerPOI.GetContainerPOI(elementData.entityID, self.mapID, internalInfo, RSGeneralDB.GetAlreadyFoundEntity(elementData.entityID))
+		entityPOI = RSContainerPOI.GetContainerPOI(elementData.entityID, self.mapID, internalInfo, RSGeneralDB.GetAlreadyFoundEntity(elementData.entityID, RSConstants.CONTAINER_VIGNETTE))
 	end
 	
 	if (entityPOI) then

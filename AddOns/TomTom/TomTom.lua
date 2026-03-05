@@ -131,8 +131,10 @@ function TomTom:Initialize(event, addon)
                 arrival = 0,
             },
             paste = {
-                minimap_button = false,
-                addon_compartment_button = true,
+                button = {
+                    hide = true,
+                },
+                addon_compartment = true,
             }
         },
     }
@@ -150,6 +152,8 @@ function TomTom:Initialize(event, addon)
 
     self.db = LibStub("AceDB-3.0"):New("TomTomDB", self.defaults, "Default")
     self.waydb = LibStub("AceDB-3.0"):New("TomTomWaypointsM", self.waydefaults)
+
+    self:MigratePasteProfile(self.db.profile)
 
     self.db.RegisterCallback(self, "OnProfileChanged", "ReloadOptions")
     self.db.RegisterCallback(self, "OnProfileCopied", "ReloadOptions")
@@ -224,6 +228,31 @@ function TomTom:Enable(addon)
     self:PasteConfigChanged()
 end
 
+-- Migrate from the old style of minimap button and addon compartment buttons,
+-- so there's no conflict between TomTom and LibDBIcon and database defaults
+-- are more sane.
+function TomTom:MigratePasteProfile(profile)
+    local paste = profile.paste
+    if not paste then return end
+
+    local hasOldMinimap = paste.minimap_button ~= nil
+    local hasOldCompartment = paste.addon_compartment_button ~= nil
+    if not hasOldMinimap and not hasOldCompartment then return end
+
+    if hasOldMinimap then
+        if not paste.button then
+            paste.button = {}
+        end
+        paste.button.hide = not paste.minimap_button
+        paste.minimap_button = nil
+    end
+
+    if hasOldCompartment then
+        paste.addon_compartment = paste.addon_compartment_button
+        paste.addon_compartment_button = nil
+    end
+end
+
 -- Some utility functions that can pack/unpack data from a waypoint
 
 -- Returns a hashable 'key' for a given waypoint consisting of the
@@ -277,9 +306,11 @@ function TomTom:ReloadOptions()
     -- This handles the reloading of all options
     self.profile = self.db.profile
 
+    addon:MigratePasteProfile(self.db.profile)
     self:ShowHideWorldCoords()
     self:ShowHideCoordBlock()
     self:ShowHideCrazyArrow()
+    self:PasteConfigChanged()
 end
 
 function TomTom:ClearAllWaypoints()

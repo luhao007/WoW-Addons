@@ -118,7 +118,7 @@ local function SetFromTexture(self)
             self.Icon:SetTexture(select(3, C_ToyBox.GetToyInfo(code)))
         end)
     else
-        Logger.Log(Lockit.DEBUG_UNEXPECTED_ENUM_ELEMENT, tostring(codeTypes), type)
+        Logger:Log(Lockit.DEBUG_UNEXPECTED_ENUM_ELEMENT, tostring(codeTypes), type)
     end
 
     if texture and canSet then
@@ -178,7 +178,7 @@ end
 
 ---@param self CustomActionWidget
 function DelveCompanion_CustomActionWidgetMixin:OnLoad()
-    -- Logger.Log("CustomActionWidget `%s` OnLoad start", self:GetName())
+    -- Logger:Log("CustomActionWidget `%s` OnLoad start", self:GetName())
 
     self.Icon:SetSize(self.iconSizeX, self.iconSizeY)
     self.Label:SetShown(self.displayLabel)
@@ -233,19 +233,19 @@ function DelveCompanion_CustomActionWidgetMixin:OnLoad()
 
     self:DisableInteraction()
 
-    -- Logger.Log("CustomActionWidget OnLoad finish")
+    -- Logger:Log("CustomActionWidget OnLoad finish")
 end
 
 ---@param self CustomActionWidget
 function DelveCompanion_CustomActionWidgetMixin:OnShow()
-    -- Logger.Log("CustomActionWidget OnShow start")
+    -- Logger:Log("CustomActionWidget OnShow start")
 
     self:RefreshWidget()
 end
 
 ---@param self CustomActionWidget
 function DelveCompanion_CustomActionWidgetMixin:OnHide()
-    -- Logger.Log("CustomActionWidget OnHide start")
+    -- Logger:Log("CustomActionWidget OnHide start")
 end
 
 ---@param self CustomActionWidget
@@ -270,7 +270,7 @@ function DelveCompanion_CustomActionWidgetMixin:OnEnter()
     elseif type == codeTypes.Toy then
         tooltip:SetToyByItemID(code)
     else
-        Logger.Log(Lockit.DEBUG_UNEXPECTED_ENUM_ELEMENT, tostring(codeTypes), type)
+        Logger:Log(Lockit.DEBUG_UNEXPECTED_ENUM_ELEMENT, tostring(codeTypes), type)
     end
 
     tooltip:Show()
@@ -284,7 +284,7 @@ end
 --#region Xml annotations
 
 --- `DelveCompanionCustomActionWidgetTemplate`
----@class CustomActionWidgetXml : Frame
+---@class (exact) CustomActionWidgetXml : Frame
 ---@field Icon Texture
 ---@field CircleMask MaskTexture
 ---@field InteractionBlockedOverlay Texture

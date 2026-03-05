@@ -17,7 +17,7 @@ local function Set_ConfigValue(cfdata,bool,count)
 end
 Fun.Set_ConfigValue=Set_ConfigValue
 ---
-local function Load_DefaultData(DqCF, moren,count,Per)
+local function Load_DefaultData(DqCF, moren, count, Per)
 	if type(moren) ~= "table" then return end
 	for k,v in pairs(moren) do
 		if DqCF[k]==nil then

@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: Pazza (Bronzebeard), (Updated by Sylvanaar/MysticalOS/Humfras)
-## Version: 3.15.3
+## Version: 3.16.7
 
 ## Title: WIM
 ## Notes: Give whispers an instant messenger feel.
@@ -10,7 +10,7 @@
 
 ## Category-zhCN: |cFFFFE00A<|r|cFFF48CBA社交|r|cFFFFE00A>|r
 
-## OptionalDeps: LibStub, CallbackHandler-1.0, ChatThrottleLib, LibSharedMedia-3.0, LibChatAnims
+## OptionalDeps: LibStub, CallbackHandler-1.0, LibSharedMedia-3.0, LibChatAnims
 ## DefaultState: Enabled
 
 ## SavedVariables: WIM3_Data, WIM3_Cache, WIM3_Filters, WIM3_History, WIM3_ChatFilters, WIM3_Alias
@@ -20,7 +20,7 @@
 ## X-Wago-ID: aNDmqo6o
 ## X-Email: johnlangone@gmail.com
 ## X-Category: Chat
-## X-Embeds: LibStub, CallbackHandler-1.0, ChatThrottleLib, LibSharedMedia-3.0, LibChatAnims
+## X-Embeds: LibStub, CallbackHandler-1.0, LibSharedMedia-3.0, LibChatAnims
 
 Libs\Includes.xml
 Sources\Namespace.lua
@@ -31,7 +31,5 @@ WIM.lua
 
 Sources\Includes.xml
 Modules\Includes.xml
-
-ChangeLog.lua
 
 Skins\Default\skin.lua

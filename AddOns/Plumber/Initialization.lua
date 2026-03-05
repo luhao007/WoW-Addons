@@ -1,5 +1,5 @@
-local VERSION_TEXT = "1.8.7";
-local VERSION_DATE = 1771000000;
+local VERSION_TEXT = "1.8.8 d";
+local VERSION_DATE = 1772630000;
 
 
 local addonName, addon = ...
@@ -245,11 +245,14 @@ local DefaultValues = {
         LandingPage_AdvancedTooltip = true,
 
         LandingButton_ShowButton = true,
+        LandingButton_Unaffected = false,
         LandingButton_PrimaryUI = 1,
         LandingButton_SmartExpansion = false,
         LandingButton_ReduceSize = false,
         LandingButton_DarkColor = false,
         LandingButton_HideWhenIdle = false,
+        --LandingButton_UseLibDBIcon = nil,     --Addon-dependant. Init on first load
+        LandingButton_UseLibDBIcon_NoBorder = true, --Remove the golden button border if supported
 
         --LandingButton_Pos_X, LandingButton_Pos_Y
 
@@ -363,6 +366,16 @@ local DefaultValues = {
         --NameplateQuest_Side = "RIGHT",    --Initial value dedfined by detecting addon
 
 
+    --Break Time Reminder
+    BreakTime = false,
+        BreakTime_Cycle = 30,
+        BreakTime_Rest = 5,
+        BreakTime_Delay = 5,
+        BreakTime_FlashTaskbar = false,
+        BreakTime_DNDCombat = true,
+        BreakTime_DNDInstances = false,
+
+
     --Declared elsewhere:
         --DreamseedChestABTesting = math.random(100) >= 50
 
@@ -378,6 +391,7 @@ local DefaultValues = {
 local NeverEnableByDefault = {
     AppearanceTab = true,
     NameplateQuest = true,
+    BreakTime = true,
 };
 
 
@@ -432,6 +446,7 @@ end
 local EL = CreateFrame("Frame");
 EL:RegisterEvent("ADDON_LOADED");
 EL:RegisterEvent("PLAYER_ENTERING_WORLD");
+EL:RegisterEvent("PLAYER_LOGOUT");
 
 EL:SetScript("OnEvent", function(self, event, ...)
     if event == "ADDON_LOADED" then
@@ -447,6 +462,28 @@ EL:SetScript("OnEvent", function(self, event, ...)
             CallbackRegistry:Trigger("TimerunningSeason", seasonID);
         end
         addon.ControlCenter:InitializeModules();
+
+
+        local isInitialLogin = ...
+
+        local lastLoginTime = time();
+
+        if type(DB.lastLogoutTime) ~= "number" then
+            DB.lastLogoutTime = nil;
+        end
+
+        if type(DB.lastLoginTime) ~= "number" then
+            DB.lastLoginTime = lastLoginTime;
+        end
+
+        if (not DB.lastLogoutTime) or (lastLoginTime > DB.lastLogoutTime + 600) then
+            --If the player didn't log in for 10 min, consider it as a new game session
+            DB.lastLoginTime = lastLoginTime;
+            CallbackRegistry:Trigger("NewGameSessionBegin");
+        end
+
+    elseif event == "PLAYER_LOGOUT" then
+        DB.lastLogoutTime = time();
     end
 end);
 
@@ -465,4 +502,9 @@ do
     addon.IS_CLASSIC = C_AddOns.GetAddOnMetadata(addonName, "X-Flavor") ~= "retail";
 
     addon.IS_MOP = C_AddOns.GetAddOnMetadata(addonName, "X-Expansion") == "MOP";
+
+
+    function addon.GetLastLoginTime()
+        return DB.lastLoginTime or time()
+    end
 end

@@ -58,11 +58,16 @@ function BusinessInfo.MailPlusOptions()
 		end
 		MailPlusF:Update_Set()
 	end);
-	MailPlusF.ScanSlider = PIGSlider(MailPlusF,{"TOPLEFT",MailPlusF,"TOPLEFT",20,-60},{0.15,1,0.01,{["Right"]="批量取件间隔%s/s"}})
+	MailPlusF.ScanSlider = PIGSlider(MailPlusF,{"TOPLEFT",MailPlusF,"TOPLEFT",20,-60},{0.15,10,0.01,{["Right"]="批量取件间隔%s/s"}},300)
 	function MailPlusF.ScanSlider:PIGOnValueChange(arg1)
 		PIG_OPEN_ALL_MAIL_MIN_DELAY=arg1
 		PIGA["MailPlus"]["OpenAllCD"]=arg1
 	end
+	MailPlusF.ScanSlider.CZ = PIGButton(MailPlusF.ScanSlider,{"LEFT",MailPlusF.ScanSlider,"RIGHT",160,0},{80,24},"重置为默认")
+	MailPlusF.ScanSlider.CZ:HookScript("OnClick", function (self)
+		PIGA["MailPlus"]["OpenAllCD"]=addonTable.Default["MailPlus"]["OpenAllCD"]
+		MailPlusF.ScanSlider:PIGSetValue(PIGA["MailPlus"]["OpenAllCD"])
+	end);
 	--------
 	function MailPlusF:Update_Set()
 		self.MailPlus:SetChecked(PIGA["MailPlus"]["Open"])

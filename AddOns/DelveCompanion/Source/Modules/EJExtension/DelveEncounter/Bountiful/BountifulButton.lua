@@ -8,12 +8,12 @@ local Logger = DelveCompanion.Logger
 
 ---@class (exact) DelveEncounterBountifulButton : DelveEncounterBountifulButtonXml
 ---@field data DelveData
----@field waypointTracker DelveWaypointTracker
+---@field waypointTracker WaypointTracker
 DelveCompanion_DelveEncounterBountifulButtonMixin = {}
 
 ---@param self DelveEncounterBountifulButton
 function DelveCompanion_DelveEncounterBountifulButtonMixin:OnLoad()
-    -- Logger.Log("DelveEncounterBountifulButton OnLoad start")
+    -- Logger:Log("DelveEncounterBountifulButton OnLoad start")
     -- NOTE: BountifulButton is acquired from a FramePool so OnLoad is called only once per button lifetime.
     -- Only one-time initializations here.
 end
@@ -26,7 +26,7 @@ function DelveCompanion_DelveEncounterBountifulButtonMixin:Init(data, index)
     self.layoutIndex = index
     self.data = data
 
-    local waypointTracker = CreateFromMixins(DelveCompanion_DelveWaypointMixin)
+    local waypointTracker = CreateFromMixins(DelveCompanion_WaypointTrackerMixin)
     waypointTracker:Prepare()
     self.waypointTracker = waypointTracker
 end
@@ -48,7 +48,7 @@ end
 
 ---@param self DelveEncounterBountifulButton
 function DelveCompanion_DelveEncounterBountifulButtonMixin:OnShow()
-    -- Logger.Log("DelveEncounterBountifulButton OnShow start")
+    -- Logger:Log("DelveEncounterBountifulButton OnShow start")
 
     self:RegisterEvent("SUPER_TRACKING_CHANGED")
     self:Update()
@@ -81,8 +81,7 @@ end
 --#region XML Annotations
 
 --- `DelveCompanionDelveEncounterBountifulButtonTemplate`
----@class (exact) DelveEncounterBountifulButtonXml : Button
----@field layoutIndex number
+---@class (exact) DelveEncounterBountifulButtonXml : Button, LayoutChild
 ---@field Background Texture
 ---@field ArtBg Texture
 ---@field WaypointIcon Texture

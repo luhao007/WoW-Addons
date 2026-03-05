@@ -122,6 +122,13 @@ local baseLocale = {
     ["USE_BAR_COLOR_FOR_BACKGROUND_COLOR"] = "Use Bar Color For Background Color",
     ["BAR_BORDER"] = "Border",
 
+    --  (Heal) Absorb bar style category - Edit Mode
+    ["CATEGORY_ABSORB_BAR_STYLE"] = "Absorb Bar Style",
+    ["CATEGORY_HEAL_ABSORB_BAR_STYLE"] = "Heal Absorb Bar Style",
+    ["ENABLE"] = "Enable",
+    ["ABSORB_BAR_POSITION"] = "Style",
+    ["HEAL_ABSORB_BAR_POSITION"] = "Style",
+
     -- Text settings category - Edit Mode
     ["CATEGORY_TEXT_SETTINGS"] = "Text Settings",
     ["SHOW_RESOURCE_NUMBER"] = "Show Resource Number",
@@ -206,6 +213,11 @@ local baseLocale = {
     ["RIGHT_TO_LEFT"] = "Right to Left",
     ["TOP_TO_BOTTOM"] = "Top to Bottom",
     ["BOTTOM_TO_TOP"] = "Bottom to Top",
+
+    -- (Heal) Absorb Bar Styles
+    ["BAR_POSITION_FIXED"] = "Fixed",
+    ["BAR_POSITION_REVERSED"] = "Reversed",
+    ["BAR_POSITION_ATTACH_HEALTH"] = "Attach to Health",
 
     -- Outline Styles -- Maybe keep it the same in all language ?
     ["NONE"] = "None",

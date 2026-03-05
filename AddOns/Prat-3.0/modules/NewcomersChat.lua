@@ -28,20 +28,11 @@ if not Prat.IsRetail then
 end
 
 Prat:AddModuleToLoad(function()
-
-  local PRAT_MODULE = Prat:RequestModuleName("NewcomersChat")
-
-  if PRAT_MODULE == nil then
-    return
-  end
-
-  local module = Prat:NewModule(PRAT_MODULE)
-
-  -- define localized strings
+  local module = Prat:NewModule("NewcomersChat")
   local PL = module.PL
 
   --[==[@debug@
-  PL:AddLocale(PRAT_MODULE, "enUS", {
+  PL:AddLocale("enUS", {
     ["NewcomersChat"] = "Newcomers Chat",
     ["module_desc"] = "Configure icons and text indicating guides and newcomers from and in the Newcomers channel",
     ["As Newcomer"] = "As Newcomer",
@@ -62,253 +53,235 @@ Prat:AddModuleToLoad(function()
       local L
 
 
-L = {
-	["NewcomersChat"] = {
-		["As Guide"] = true,
-		["As Newcomer"] = true,
-		["Guide"] = true,
-		["Guide Icon"] = true,
-		["Guide Label"] = true,
-		["In newcomers chat"] = true,
-		["In normal chat"] = true,
-		["module_desc"] = "Configure icons and text indicating guides and newcomers from and in the Newcomers channel",
-		["Newcomer Icon"] = true,
-		["NewcomersChat"] = "Newcomers Chat",
-	}
-}
+L = {}
+-- NewcomersChat
+L["As Guide"] = true
+L["As Newcomer"] = true
+L["Guide"] = true
+L["Guide Icon"] = true
+L["Guide Label"] = true
+L["In newcomers chat"] = true
+L["In normal chat"] = true
+L["module_desc"] = "Configure icons and text indicating guides and newcomers from and in the Newcomers channel"
+L["Newcomer Icon"] = true
+L["NewcomersChat"] = "Newcomers Chat"
 
 
-    PL:AddLocale(PRAT_MODULE, "enUS",L)
-
-
-
-L = {
-	["NewcomersChat"] = {
-		--[[Translation missing --]]
-		["As Guide"] = "As Guide",
-		--[[Translation missing --]]
-		["As Newcomer"] = "As Newcomer",
-		--[[Translation missing --]]
-		["Guide"] = "Guide",
-		--[[Translation missing --]]
-		["Guide Icon"] = "Guide Icon",
-		--[[Translation missing --]]
-		["Guide Label"] = "Guide Label",
-		--[[Translation missing --]]
-		["In newcomers chat"] = "In newcomers chat",
-		--[[Translation missing --]]
-		["In normal chat"] = "In normal chat",
-		--[[Translation missing --]]
-		["module_desc"] = "Configure icons and text indicating guides and newcomers from and in the Newcomers channel",
-		--[[Translation missing --]]
-		["Newcomer Icon"] = "Newcomer Icon",
-		--[[Translation missing --]]
-		["NewcomersChat"] = "Newcomers Chat",
-	}
-}
-
-
-    PL:AddLocale(PRAT_MODULE, "frFR",L)
+    PL:AddLocale("enUS",L)
 
 
 
-L = {
-	["NewcomersChat"] = {
-		["As Guide"] = "As Mentor",
-		["As Newcomer"] = "Als Neuling",
-		["Guide"] = "Mentor",
-		["Guide Icon"] = "Mentor Icon",
-		["Guide Label"] = "Mentor Label",
-		["In newcomers chat"] = "Im Neulings-Chat",
-		["In normal chat"] = "Im normalen Chat",
-		["module_desc"] = "Konfiguriert Symbole und Texte, die auf Mentor und Neulinge, von und im Neulingskanal hinweisen",
-		["Newcomer Icon"] = "Neulingssymbol",
-		["NewcomersChat"] = "Neulings-Chat",
-	}
-}
+L = {}
+-- NewcomersChat
+--[[Translation missing --]]
+L["As Guide"] = "As Guide"
+--[[Translation missing --]]
+L["As Newcomer"] = "As Newcomer"
+--[[Translation missing --]]
+L["Guide"] = "Guide"
+--[[Translation missing --]]
+L["Guide Icon"] = "Guide Icon"
+--[[Translation missing --]]
+L["Guide Label"] = "Guide Label"
+--[[Translation missing --]]
+L["In newcomers chat"] = "In newcomers chat"
+--[[Translation missing --]]
+L["In normal chat"] = "In normal chat"
+--[[Translation missing --]]
+L["module_desc"] = "Configure icons and text indicating guides and newcomers from and in the Newcomers channel"
+--[[Translation missing --]]
+L["Newcomer Icon"] = "Newcomer Icon"
+--[[Translation missing --]]
+L["NewcomersChat"] = "Newcomers Chat"
 
 
-    PL:AddLocale(PRAT_MODULE, "deDE",L)
-
-
-
-L = {
-	["NewcomersChat"] = {
-		--[[Translation missing --]]
-		["As Guide"] = "As Guide",
-		--[[Translation missing --]]
-		["As Newcomer"] = "As Newcomer",
-		--[[Translation missing --]]
-		["Guide"] = "Guide",
-		--[[Translation missing --]]
-		["Guide Icon"] = "Guide Icon",
-		--[[Translation missing --]]
-		["Guide Label"] = "Guide Label",
-		--[[Translation missing --]]
-		["In newcomers chat"] = "In newcomers chat",
-		--[[Translation missing --]]
-		["In normal chat"] = "In normal chat",
-		--[[Translation missing --]]
-		["module_desc"] = "Configure icons and text indicating guides and newcomers from and in the Newcomers channel",
-		--[[Translation missing --]]
-		["Newcomer Icon"] = "Newcomer Icon",
-		--[[Translation missing --]]
-		["NewcomersChat"] = "Newcomers Chat",
-	}
-}
-
-
-    PL:AddLocale(PRAT_MODULE, "koKR",L)
+    PL:AddLocale("frFR",L)
 
 
 
-L = {
-	["NewcomersChat"] = {
-		--[[Translation missing --]]
-		["As Guide"] = "As Guide",
-		--[[Translation missing --]]
-		["As Newcomer"] = "As Newcomer",
-		--[[Translation missing --]]
-		["Guide"] = "Guide",
-		--[[Translation missing --]]
-		["Guide Icon"] = "Guide Icon",
-		--[[Translation missing --]]
-		["Guide Label"] = "Guide Label",
-		--[[Translation missing --]]
-		["In newcomers chat"] = "In newcomers chat",
-		--[[Translation missing --]]
-		["In normal chat"] = "In normal chat",
-		--[[Translation missing --]]
-		["module_desc"] = "Configure icons and text indicating guides and newcomers from and in the Newcomers channel",
-		--[[Translation missing --]]
-		["Newcomer Icon"] = "Newcomer Icon",
-		--[[Translation missing --]]
-		["NewcomersChat"] = "Newcomers Chat",
-	}
-}
+L = {}
+-- NewcomersChat
+L["As Guide"] = "As Mentor"
+L["As Newcomer"] = "Als Neuling"
+L["Guide"] = "Mentor"
+L["Guide Icon"] = "Mentor Icon"
+L["Guide Label"] = "Mentor Label"
+L["In newcomers chat"] = "Im Neulings-Chat"
+L["In normal chat"] = "Im normalen Chat"
+L["module_desc"] = "Konfiguriert Symbole und Texte, die auf Mentor und Neulinge, von und im Neulingskanal hinweisen"
+L["Newcomer Icon"] = "Neulingssymbol"
+L["NewcomersChat"] = "Neulings-Chat"
 
 
-    PL:AddLocale(PRAT_MODULE, "esMX",L)
+    PL:AddLocale("deDE",L)
 
 
 
-L = {
-	["NewcomersChat"] = {
-		--[[Translation missing --]]
-		["As Guide"] = "As Guide",
-		--[[Translation missing --]]
-		["As Newcomer"] = "As Newcomer",
-		--[[Translation missing --]]
-		["Guide"] = "Guide",
-		--[[Translation missing --]]
-		["Guide Icon"] = "Guide Icon",
-		--[[Translation missing --]]
-		["Guide Label"] = "Guide Label",
-		--[[Translation missing --]]
-		["In newcomers chat"] = "In newcomers chat",
-		--[[Translation missing --]]
-		["In normal chat"] = "In normal chat",
-		--[[Translation missing --]]
-		["module_desc"] = "Configure icons and text indicating guides and newcomers from and in the Newcomers channel",
-		--[[Translation missing --]]
-		["Newcomer Icon"] = "Newcomer Icon",
-		--[[Translation missing --]]
-		["NewcomersChat"] = "Newcomers Chat",
-	}
-}
+L = {}
+-- NewcomersChat
+--[[Translation missing --]]
+L["As Guide"] = "As Guide"
+--[[Translation missing --]]
+L["As Newcomer"] = "As Newcomer"
+--[[Translation missing --]]
+L["Guide"] = "Guide"
+--[[Translation missing --]]
+L["Guide Icon"] = "Guide Icon"
+--[[Translation missing --]]
+L["Guide Label"] = "Guide Label"
+--[[Translation missing --]]
+L["In newcomers chat"] = "In newcomers chat"
+--[[Translation missing --]]
+L["In normal chat"] = "In normal chat"
+--[[Translation missing --]]
+L["module_desc"] = "Configure icons and text indicating guides and newcomers from and in the Newcomers channel"
+--[[Translation missing --]]
+L["Newcomer Icon"] = "Newcomer Icon"
+--[[Translation missing --]]
+L["NewcomersChat"] = "Newcomers Chat"
 
 
-    PL:AddLocale(PRAT_MODULE, "ruRU",L)
-
-
-
-L = {
-	["NewcomersChat"] = {
-		--[[Translation missing --]]
-		["As Guide"] = "As Guide",
-		--[[Translation missing --]]
-		["As Newcomer"] = "As Newcomer",
-		--[[Translation missing --]]
-		["Guide"] = "Guide",
-		--[[Translation missing --]]
-		["Guide Icon"] = "Guide Icon",
-		--[[Translation missing --]]
-		["Guide Label"] = "Guide Label",
-		--[[Translation missing --]]
-		["In newcomers chat"] = "In newcomers chat",
-		--[[Translation missing --]]
-		["In normal chat"] = "In normal chat",
-		--[[Translation missing --]]
-		["module_desc"] = "Configure icons and text indicating guides and newcomers from and in the Newcomers channel",
-		--[[Translation missing --]]
-		["Newcomer Icon"] = "Newcomer Icon",
-		--[[Translation missing --]]
-		["NewcomersChat"] = "Newcomers Chat",
-	}
-}
-
-
-    PL:AddLocale(PRAT_MODULE, "zhCN",L)
+    PL:AddLocale("koKR",L)
 
 
 
-L = {
-	["NewcomersChat"] = {
-		--[[Translation missing --]]
-		["As Guide"] = "As Guide",
-		--[[Translation missing --]]
-		["As Newcomer"] = "As Newcomer",
-		--[[Translation missing --]]
-		["Guide"] = "Guide",
-		--[[Translation missing --]]
-		["Guide Icon"] = "Guide Icon",
-		--[[Translation missing --]]
-		["Guide Label"] = "Guide Label",
-		--[[Translation missing --]]
-		["In newcomers chat"] = "In newcomers chat",
-		--[[Translation missing --]]
-		["In normal chat"] = "In normal chat",
-		--[[Translation missing --]]
-		["module_desc"] = "Configure icons and text indicating guides and newcomers from and in the Newcomers channel",
-		--[[Translation missing --]]
-		["Newcomer Icon"] = "Newcomer Icon",
-		--[[Translation missing --]]
-		["NewcomersChat"] = "Newcomers Chat",
-	}
-}
+L = {}
+-- NewcomersChat
+--[[Translation missing --]]
+L["As Guide"] = "As Guide"
+--[[Translation missing --]]
+L["As Newcomer"] = "As Newcomer"
+--[[Translation missing --]]
+L["Guide"] = "Guide"
+--[[Translation missing --]]
+L["Guide Icon"] = "Guide Icon"
+--[[Translation missing --]]
+L["Guide Label"] = "Guide Label"
+--[[Translation missing --]]
+L["In newcomers chat"] = "In newcomers chat"
+--[[Translation missing --]]
+L["In normal chat"] = "In normal chat"
+--[[Translation missing --]]
+L["module_desc"] = "Configure icons and text indicating guides and newcomers from and in the Newcomers channel"
+--[[Translation missing --]]
+L["Newcomer Icon"] = "Newcomer Icon"
+--[[Translation missing --]]
+L["NewcomersChat"] = "Newcomers Chat"
 
 
-    PL:AddLocale(PRAT_MODULE, "esES",L)
+    PL:AddLocale("esMX",L)
 
 
 
-L = {
-	["NewcomersChat"] = {
-		--[[Translation missing --]]
-		["As Guide"] = "As Guide",
-		--[[Translation missing --]]
-		["As Newcomer"] = "As Newcomer",
-		--[[Translation missing --]]
-		["Guide"] = "Guide",
-		--[[Translation missing --]]
-		["Guide Icon"] = "Guide Icon",
-		--[[Translation missing --]]
-		["Guide Label"] = "Guide Label",
-		--[[Translation missing --]]
-		["In newcomers chat"] = "In newcomers chat",
-		--[[Translation missing --]]
-		["In normal chat"] = "In normal chat",
-		--[[Translation missing --]]
-		["module_desc"] = "Configure icons and text indicating guides and newcomers from and in the Newcomers channel",
-		--[[Translation missing --]]
-		["Newcomer Icon"] = "Newcomer Icon",
-		--[[Translation missing --]]
-		["NewcomersChat"] = "Newcomers Chat",
-	}
-}
+L = {}
+-- NewcomersChat
+--[[Translation missing --]]
+L["As Guide"] = "As Guide"
+--[[Translation missing --]]
+L["As Newcomer"] = "As Newcomer"
+--[[Translation missing --]]
+L["Guide"] = "Guide"
+--[[Translation missing --]]
+L["Guide Icon"] = "Guide Icon"
+--[[Translation missing --]]
+L["Guide Label"] = "Guide Label"
+--[[Translation missing --]]
+L["In newcomers chat"] = "In newcomers chat"
+--[[Translation missing --]]
+L["In normal chat"] = "In normal chat"
+--[[Translation missing --]]
+L["module_desc"] = "Configure icons and text indicating guides and newcomers from and in the Newcomers channel"
+--[[Translation missing --]]
+L["Newcomer Icon"] = "Newcomer Icon"
+--[[Translation missing --]]
+L["NewcomersChat"] = "Newcomers Chat"
 
 
-    PL:AddLocale(PRAT_MODULE, "zhTW",L)
+    PL:AddLocale("ruRU",L)
+
+
+
+L = {}
+-- NewcomersChat
+--[[Translation missing --]]
+L["As Guide"] = "As Guide"
+--[[Translation missing --]]
+L["As Newcomer"] = "As Newcomer"
+--[[Translation missing --]]
+L["Guide"] = "Guide"
+--[[Translation missing --]]
+L["Guide Icon"] = "Guide Icon"
+--[[Translation missing --]]
+L["Guide Label"] = "Guide Label"
+--[[Translation missing --]]
+L["In newcomers chat"] = "In newcomers chat"
+--[[Translation missing --]]
+L["In normal chat"] = "In normal chat"
+--[[Translation missing --]]
+L["module_desc"] = "Configure icons and text indicating guides and newcomers from and in the Newcomers channel"
+--[[Translation missing --]]
+L["Newcomer Icon"] = "Newcomer Icon"
+--[[Translation missing --]]
+L["NewcomersChat"] = "Newcomers Chat"
+
+
+    PL:AddLocale("zhCN",L)
+
+
+
+L = {}
+-- NewcomersChat
+--[[Translation missing --]]
+L["As Guide"] = "As Guide"
+--[[Translation missing --]]
+L["As Newcomer"] = "As Newcomer"
+--[[Translation missing --]]
+L["Guide"] = "Guide"
+--[[Translation missing --]]
+L["Guide Icon"] = "Guide Icon"
+--[[Translation missing --]]
+L["Guide Label"] = "Guide Label"
+--[[Translation missing --]]
+L["In newcomers chat"] = "In newcomers chat"
+--[[Translation missing --]]
+L["In normal chat"] = "In normal chat"
+--[[Translation missing --]]
+L["module_desc"] = "Configure icons and text indicating guides and newcomers from and in the Newcomers channel"
+--[[Translation missing --]]
+L["Newcomer Icon"] = "Newcomer Icon"
+--[[Translation missing --]]
+L["NewcomersChat"] = "Newcomers Chat"
+
+
+    PL:AddLocale("esES",L)
+
+
+
+L = {}
+-- NewcomersChat
+--[[Translation missing --]]
+L["As Guide"] = "As Guide"
+--[[Translation missing --]]
+L["As Newcomer"] = "As Newcomer"
+--[[Translation missing --]]
+L["Guide"] = "Guide"
+--[[Translation missing --]]
+L["Guide Icon"] = "Guide Icon"
+--[[Translation missing --]]
+L["Guide Label"] = "Guide Label"
+--[[Translation missing --]]
+L["In newcomers chat"] = "In newcomers chat"
+--[[Translation missing --]]
+L["In normal chat"] = "In normal chat"
+--[[Translation missing --]]
+L["module_desc"] = "Configure icons and text indicating guides and newcomers from and in the Newcomers channel"
+--[[Translation missing --]]
+L["Newcomer Icon"] = "Newcomer Icon"
+--[[Translation missing --]]
+L["NewcomersChat"] = "Newcomers Chat"
+
+
+    PL:AddLocale("zhTW",L)
 
 
   end
@@ -453,7 +426,7 @@ L = {
     end
   end
 
-  function module:Prat_FrameMessage(info, message, frame, event)
+  function module:Prat_FrameMessage(_, message)
     local arg6 = message.ARGS[6] or ""
 
     if arg6 ~= "GUIDE" and arg6 ~= "NEWCOMER" then

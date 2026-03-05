@@ -21,7 +21,6 @@ local RSMap = private.ImportLib("RareScannerMap")
 local RSTooltip = private.ImportLib("RareScannerTooltip")
 local RSMinimap = private.ImportLib("RareScannerMinimap")
 local RSWaypoints = private.ImportLib("RareScannerWaypoints")
-local RSTomtom = private.ImportLib("RareScannerTomtom")
 local RSProvider = private.ImportLib("RareScannerProvider")
 
 -- Locales
@@ -232,12 +231,7 @@ function RSVignettePinMixin:OnMouseDown(button)
 		elseif (button == "RightButton") then						
 			-- Add waypoint
 			if (IsShiftKeyDown()) then
-				if (RSConfigDB.IsAddingWorldMapTomtomWaypoints()) then
-					RSTomtom.AddWorldMapTomtomWaypoint(self.POI.mapID, self.POI.x, self.POI.y, self.POI.name)
-				end
-				if (RSConfigDB.IsAddingWorldMapIngameWaypoints()) then
-					RSWaypoints.AddWorldMapWaypoint(self.POI.mapID, self.POI.x, self.POI.y)
-				end
+				RSWaypoints.AddWorldMapWaypoint(self.POI.mapID, self.POI.x, self.POI.y, self.POI.name)
 			elseif (not IsShiftKeyDown() and not IsAltKeyDown() and not IsControlKeyDown()) then
 				-- If already showing a guide toggle it first
 				if (self:GetMap():GetNumActivePinsByTemplate("RSGuideTemplate") > 0) then	

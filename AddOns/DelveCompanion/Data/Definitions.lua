@@ -71,7 +71,9 @@ Definitions.Links = {
     }
 }
 
----@class ButtonAlias
+---@class (exact) ButtonAlias
+---@field leftClick string
+---@field rightClick string
 Definitions.ButtonAlias = {
     leftClick = "LeftButton",
     rightClick = "RightButton"
@@ -95,12 +97,22 @@ Definitions.CompanionWidgetLayout = {
     vertical = 2
 }
 
----@class (exact) InDelveWidgetDisplayRule Controls how [InDelveWidget](lua://InDelveWidget) is displayed.
+---@class (exact) InDelveWidgetDisplayRule Controls where [InDelveWidget](lua://InDelveWidget) is displayed.
 ---@field left number Widget is shown on the left side of Objective Tracker.
 ---@field right number Widget is shown on the right side of Objective Tracker.
+---@field custom number Widget can be freely moved over the screen.
 Definitions.InDelveWidgetDisplayRule = {
     left = 1,
-    right = 2
+    right = 2,
+    custom = 3
+}
+
+---@class (exact) InDelveWidgetLayout Controls how [InDelveWidget](lua://InDelveWidget) buttons are arranged.
+---@field vertical number
+---@field horizontal number
+Definitions.InDelveWidgetLayout = {
+    vertical = 1,
+    horizontal = 2
 }
 
 ---@class AddonEvents

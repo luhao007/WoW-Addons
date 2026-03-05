@@ -63,6 +63,9 @@ L['impenatrably_sealed_gourd_note'] = 'Récupérez le {item:260251} sur le {obje
 L['options_icons_more_than_just_thier_roots'] = '{achievement:62188}'
 L['options_icons_more_than_just_thier_roots_desc'] = 'Afficher les emplacements des PNJs pour le haut-fait {achievement:62188}.'
 L['more_than_just_thier_roots_note'] = 'Parlez aux PNJs aux endroits suivants :'
+L['chonon_note'] = 'En haut, sur les branches de l\'arbre.'
+L['funnid_note'] = 'Tout en haut, sur les branches de l\'Arbre-Monde.'
+L['kawayn_note'] = 'Au sommet du grand tronc d\'arbre.'
 
 L['altar_of_innocence'] = 'Autel de l\'innocence'
 L['altar_of_vigor'] = 'Autel de la vigueur'
@@ -91,7 +94,10 @@ L['options_icons_song_seeker_desc'] = 'Afficher les emplacements des Cherche-Cha
 
 L['options_icons_spiritpaw_marathon'] = '{achievement:62202}'
 L['options_icons_spiritpaw_marathon_desc'] = 'Afficher les emplacements liés au haut-fait {achievement:62202}.'
-L['spiritpaw_marathon_note'] = 'Parlez avec {npc:258938}.'
+L['spiritpaw_marathon_note'] = 'Parlez avec {npc:258938}, puis récupérez les {npc:250100} à proximité et emmenez-les au point {dot:Pink} situé au {location:Temple de Jan’alai} dans un délai de 30 minutes. \n\n ' .. ns.color.Red('Ne chevauchez pas une monture, sous peine de perdre le buff.')
+
+L['options_icons_gnome_alone'] = '{achievement:62200}'
+L['options_icons_gnome_alone_desc'] = 'Afficher les emplacements des objets liés au haut-fait {achievement:62200}.'
 
 -------------------------------------------------------------------------------
 ---------------------------------- ARCANTINA ----------------------------------

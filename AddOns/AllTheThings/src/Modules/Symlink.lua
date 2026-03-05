@@ -1094,6 +1094,9 @@ app.AddEventHandler("OnLoad", function()
 	{
 		-- SettingsIcon = ,
 		SettingsTooltip = app.L.FILL_NPC_DATA_CHECKBOX_TOOLTIP,
+		SettingsDefaults = {
+			["LIST:NPC"] = false,
+		}
 	})
 
 	-- Pulls in Common drop content for specific Objects if any exists (e.g. mining/herbing/fishing nodes)

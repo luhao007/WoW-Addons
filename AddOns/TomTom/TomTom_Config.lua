@@ -1031,7 +1031,11 @@ local function createconfig()
 				name = L["Show minimap button to open TomTom-Paste window"],
 				desc = L["Enables or disables the showing of a minimap button to toggle the paste window."],
 				width = "double",
-				arg = "paste.minimap_button",
+				get = function() return not TomTom.db.profile.paste.button.hide end,
+				set = function(info, value)
+					TomTom.db.profile.paste.button.hide = not value
+					TomTom:PasteConfigChanged()
+				end,
 			},
 			enableAddonCompartment = {
 				order = 3,
@@ -1039,7 +1043,11 @@ local function createconfig()
 				name = L["Show addon compartment button to open TomTom-Paste window"],
 				desc = L["Enables or disables the showing of an addon-compartment button to toggle the paste window."],
 				width = "double",
-				arg = "paste.addon_compartment_button",
+				get = function() return TomTom.db.profile.paste.addon_compartment end,
+				set = function(info, value)
+					TomTom.db.profile.paste.addon_compartment = value
+					TomTom:PasteConfigChanged()
+				end,
 			},
 		}
 	}

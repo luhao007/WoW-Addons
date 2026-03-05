@@ -469,11 +469,13 @@ local CurrentMapID = WorldMapFrame:GetMapID()
             then
                 if not ns.Addon.db.profile.showZoneKhazAlgar then
                     ns.Addon.db.profile.showZoneKhazAlgar = true
+                    if ns.RefreshZoneDelvesOnly then ns.RefreshZoneDelvesOnly() end
                     if ns.Addon.db.profile.MmbWmbChatMessage then
                         print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 ".. L["Khaz Algar"] ..  " " .. L["Zones"] .. " " .. L["icons"], "|cff00ff00" .. L["are shown"])
                     end
                 else
                     ns.Addon.db.profile.showZoneKhazAlgar = false
+                    if ns.RefreshZoneDelvesOnly then ns.RefreshZoneDelvesOnly({ remove = true }) end
                     if ns.Addon.db.profile.MmbWmbChatMessage then
                         print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 ".. L["Khaz Algar"] .. " " .. L["Zones"] .. " " .. L["icons"], "|cffff0000" .. L["are hidden"])
                     end
@@ -483,11 +485,13 @@ local CurrentMapID = WorldMapFrame:GetMapID()
             then
                 if not ns.Addon.db.profile.showZoneQuelThalas then
                     ns.Addon.db.profile.showZoneQuelThalas = true
+                    if ns.RefreshZoneDelvesOnly then ns.RefreshZoneDelvesOnly() end
                     if ns.Addon.db.profile.MmbWmbChatMessage then
                         print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 ".. L["Quel'Thalas"] ..  " " .. L["Zones"] .. " " .. L["icons"], "|cff00ff00" .. L["are shown"])
                     end
                 else
                     ns.Addon.db.profile.showZoneQuelThalas = false
+                    if ns.RefreshZoneDelvesOnly then ns.RefreshZoneDelvesOnly({ remove = true }) end
                     if ns.Addon.db.profile.MmbWmbChatMessage then
                         print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 ".. L["Quel'Thalas"] .. " " .. L["Zones"] .. " " .. L["icons"], "|cffff0000" .. L["are hidden"])
                     end

@@ -26,16 +26,37 @@ function RSGeneralDB.InitAlreadyFoundEntitiesDB()
 	if (not private.dbglobal.rares_found) then
 		private.dbglobal.rares_found = {}
 	end
-end
-
-function RSGeneralDB.RemoveAlreadyFoundEntity(entityID)
-	if (entityID and private.dbglobal.rares_found[entityID]) then
-		private.dbglobal.rares_found[entityID] = nil
+	if (not private.dbglobal.containers_found) then
+		private.dbglobal.containers_found = {}
+	end
+	if (not private.dbglobal.events_found) then
+		private.dbglobal.events_found = {}
 	end
 end
 
-function RSGeneralDB.GetAlreadyFoundEntities()
-	return private.dbglobal.rares_found
+local function GetAlreadyFoundDB(atlasName)
+	if (not atlasName) then
+		return
+	end
+	
+	if (RSConstants.IsNpcAtlas(atlasName)) then
+		return private.dbglobal.rares_found
+	elseif (RSConstants.IsContainerAtlas(atlasName)) then
+		return private.dbglobal.containers_found
+	elseif (RSConstants.IsEventAtlas(atlasName)) then
+		return private.dbglobal.events_found
+	end
+end
+
+function RSGeneralDB.RemoveAlreadyFoundEntity(entityID, atlasName)
+	local foundDB = GetAlreadyFoundDB(atlasName)
+	if (entityID and foundDB) then
+		foundDB[entityID] = nil
+	end
+end
+
+function RSGeneralDB.GetAlreadyFoundEntities(atlasName)
+	return GetAlreadyFoundDB(atlasName)
 end
 
 function RSGeneralDB.GetAlreadyFoundEntitiesNoDB()
@@ -54,7 +75,7 @@ function RSGeneralDB.RefreshAlreadyFoundEntitiesNoDB()
 			
 			for i = numEntities, 1, -1 do
 				local entityID = entitiesIDs[i]
-				if (RSNpcDB.GetInternalNpcInfo(entityID) or RSContainerDB.GetInternalContainerInfo(entityID) or RSEventDB.GetInternalEventInfo(entityID)) then
+				if (RSNpcDB.GetInternalNpcInfo(entityID) or RSContainerDB.GetInternalContainerInfo(entityID) or RSEventDB.GetInternalEventInfo(entityID) or RSUtils.Contains(RSConstants.IGNORED_VIGNETTES_NPCS, entityID) or RSUtils.Contains(RSConstants.IGNORED_VIGNETTES_CONTAINERS, entityID)) then
 		            table.remove(entitiesIDs, i)
 		        -- Check if pre-events
 		        else
@@ -81,16 +102,17 @@ function RSGeneralDB.RefreshAlreadyFoundEntitiesNoDB()
 	end
 end
 
-function RSGeneralDB.GetAlreadyFoundEntity(entityID)
-	if (entityID) then
-		return private.dbglobal.rares_found[entityID]
+function RSGeneralDB.GetAlreadyFoundEntity(entityID, atlasName)
+	local foundDB = GetAlreadyFoundDB(atlasName)
+	if (entityID and foundDB) then
+		return foundDB[entityID]
 	end
 
 	return nil
 end
 
-function RSGeneralDB.IsAlreadyFoundEntityInZone(entityID, mapID)
-	local entityInfo = RSGeneralDB.GetAlreadyFoundEntity(entityID)
+function RSGeneralDB.IsAlreadyFoundEntityInZone(entityID, mapID, atlasName)
+	local entityInfo = RSGeneralDB.GetAlreadyFoundEntity(entityID, atlasName)
 	if (entityID and mapID and entityInfo) then
 		if (entityInfo.mapID == mapID and (not entityInfo.artID or RSUtils.Contains(entityInfo.artID, C_Map.GetMapArtID(mapID)))) then
 			return true
@@ -149,8 +171,9 @@ function RSGeneralDB.AddAlreadyFoundContainerWithoutVignette(containerID)
 	return nil
 end
 
-function RSGeneralDB.UpdateAlreadyFoundEntityPlayerPosition(entityID)
-	if (entityID and private.dbglobal.rares_found[entityID]) then
+function RSGeneralDB.UpdateAlreadyFoundEntityPlayerPosition(entityID, atlasName)
+	local foundDB = GetAlreadyFoundDB(atlasName)
+	if (entityID and foundDB and foundDB[entityID]) then
 		local mapID = C_Map.GetBestMapForUnit("player")
 		if (mapID) then
 			local mapPosition = C_Map.GetPlayerMapPosition(mapID, "player")
@@ -158,16 +181,9 @@ function RSGeneralDB.UpdateAlreadyFoundEntityPlayerPosition(entityID)
 			if (mapPosition) then
 				local x, y = mapPosition:GetXY()
 				RSLogger:PrintDebugMessage(string.format("UpdateAlreadyFoundEntityPlayerPosition[%s]. Nueva posicion por cercania.", entityID))
-				RSGeneralDB.UpdateAlreadyFoundEntity(entityID, mapID, x, y, artID)
+				RSGeneralDB.UpdateAlreadyFoundEntity(entityID, mapID, x, y, artID, atlasName)
 			end
 		end
-	end
-end
-
-function RSGeneralDB.UpdateAlreadyFoundEntityTime(entityID)
-	if (entityID and private.dbglobal.rares_found[entityID]) then
-		private.dbglobal.rares_found[entityID].foundTime = time();
-		--RSLogger:PrintDebugMessage(string.format("UpdateAlreadyFoundEntityTime[%s]. Nueva estampa de tiempo (%s)", entityID, RSGeneralDB.GetAlreadyFoundEntity(entityID).foundTime))
 	end
 end
 
@@ -198,31 +214,32 @@ local function AddAlreadyFoundEntityNoDB(mapID, artID, entityID)
 end
 
 function RSGeneralDB.UpdateAlreadyFoundEntity(entityID, mapID, x, y, artID, atlasName)
-	if (entityID and private.dbglobal.rares_found[entityID] and mapID and x and y and artID) then
+	local foundDB = GetAlreadyFoundDB(atlasName)
+	if (entityID and mapID and x and y and artID and foundDB and foundDB[entityID]) then
 		-- If the map is the same, check if different artID
-		local currentMapID = private.dbglobal.rares_found[entityID].mapID;
-		local currentArtID = private.dbglobal.rares_found[entityID].artID;
+		local currentMapID = foundDB[entityID].mapID;
+		local currentArtID = foundDB[entityID].artID;
 		if (currentMapID == mapID and currentArtID) then
 			if (type(currentArtID) == "table" and not RSUtils.Contains(currentArtID, artID)) then
 				table.insert(currentArtID, artID)
-				private.dbglobal.rares_found[entityID].artID = currentArtID
+				foundDB[entityID].artID = currentArtID
 			elseif (type(currentArtID) ~= "table" and currentArtID ~= artID) then
-				private.dbglobal.rares_found[entityID].artID = { artID };
+				foundDB[entityID].artID = { artID };
 			end
 			-- Otherwise override
 		else
-			private.dbglobal.rares_found[entityID].artID = { artID };
+			foundDB[entityID].artID = { artID };
 		end
 
-		private.dbglobal.rares_found[entityID].mapID = mapID
-		private.dbglobal.rares_found[entityID].coordX = x;
-		private.dbglobal.rares_found[entityID].coordY = y;
-		private.dbglobal.rares_found[entityID].foundTime = time();
+		foundDB[entityID].mapID = mapID
+		foundDB[entityID].coordX = x;
+		foundDB[entityID].coordY = y;
+		foundDB[entityID].foundTime = time();
 		if (atlasName) then
-			private.dbglobal.rares_found[entityID].atlasName = atlasName;
+			foundDB[entityID].atlasName = atlasName;
 		end
 
-		RSLogger:PrintDebugMessage(string.format("UpdateAlreadyFoundEntity[%s]: %s", entityID, PrintAlreadyFoundTable(RSGeneralDB.GetAlreadyFoundEntity(entityID))))
+		RSLogger:PrintDebugMessage(string.format("UpdateAlreadyFoundEntity[%s]: %s", entityID, PrintAlreadyFoundTable(RSGeneralDB.GetAlreadyFoundEntity(entityID, atlasName))))
 		
 		-- If not in the database add to a temp table
 		AddAlreadyFoundEntityNoDB(mapID, artID, entityID)
@@ -251,25 +268,26 @@ function RSGeneralDB.UpdateAlreadyFoundEntity(entityID, mapID, x, y, artID, atla
 end
 
 function RSGeneralDB.AddAlreadyFoundEntity(entityID, mapID, x, y, artID, atlasName)
-	if (entityID and mapID and x and y and artID and atlasName) then
-		private.dbglobal.rares_found[entityID] = {};
-		private.dbglobal.rares_found[entityID].mapID = mapID;
+	local foundDB = GetAlreadyFoundDB(atlasName)
+	if (entityID and mapID and x and y and artID and foundDB) then
+		foundDB[entityID] = {};
+		foundDB[entityID].mapID = mapID;
 		if (type(artID) == "table") then
-			private.dbglobal.rares_found[entityID].artID = artID;
+			foundDB[entityID].artID = artID;
 		else
-			private.dbglobal.rares_found[entityID].artID = { artID };
+			foundDB[entityID].artID = { artID };
 		end
-		private.dbglobal.rares_found[entityID].coordX = x;
-		private.dbglobal.rares_found[entityID].coordY = y;
-		private.dbglobal.rares_found[entityID].atlasName = atlasName;
-		private.dbglobal.rares_found[entityID].foundTime = time();
+		foundDB[entityID].coordX = x;
+		foundDB[entityID].coordY = y;
+		foundDB[entityID].atlasName = atlasName;
+		foundDB[entityID].foundTime = time();
 
-		RSLogger:PrintDebugMessage(string.format("AddAlreadyFoundEntity[%s]: %s", entityID, PrintAlreadyFoundTable(RSGeneralDB.GetAlreadyFoundEntity(entityID))))
+		RSLogger:PrintDebugMessage(string.format("AddAlreadyFoundEntity[%s]: %s", entityID, PrintAlreadyFoundTable(RSGeneralDB.GetAlreadyFoundEntity(entityID, atlasName))))
 				
 		-- If not in the database add to a temp table
 		AddAlreadyFoundEntityNoDB(mapID, artID, entityID)
 		
-		return RSGeneralDB.GetAlreadyFoundEntity(entityID)
+		return RSGeneralDB.GetAlreadyFoundEntity(entityID, atlasName)
 	end
 
 	RSLogger:PrintDebugMessage(string.format("AddAlreadyFoundEntity[%s]: No añadido! faltaban parametros!", entityID))

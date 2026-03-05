@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: eXochron
-## Version: 2.53.1
+## Version: 2.53.2
 
 ## Title: Mount Journal Enhanced
 ## Notes: Extends the default Mount Journal

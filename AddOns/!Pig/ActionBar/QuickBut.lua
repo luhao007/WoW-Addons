@@ -34,6 +34,7 @@ local Data=addonTable.Data
 local bagData=Data.bagData
 local bagID=Data.bagData["bagID"]
 ---
+local GetMapInfo=C_Map.GetMapInfo or C_Map and C_Map.GetMapInfo
 local GetContainerNumSlots = C_Container.GetContainerNumSlots
 local GetContainerItemID=GetContainerItemID or C_Container and C_Container.GetContainerItemID
 local GetItemInfoInstant= GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
@@ -671,102 +672,170 @@ QuickButUI.ButList[7]=function()
 		end
 	end
 end
---职业技能----
+--职业技能----\
+for i=1,999999 do
+	if GetMapInfo(i) then
+		--print(i,GetMapInfo(i).name)
+		local funxxxx=string.match(GetMapInfo(i).name,"巨坑")
+
+		if funxxxx then print(i,GetMapInfo(i).name) end
+
+	end
+end
 local Item_Spell_List ={{},{}}
-if PIG_MaxTocversion() then
-	Item_Spell_List[1] ={18984,18986,7148,18587,18232,18660};--空间撕裂器-永望镇/安全传送器-加基森/起搏器/起搏器XL
-	local _, classId = UnitClassBase("player");--1战士/2圣骑士/3猎人/4盗贼/5牧师/6死亡骑士/7萨满祭司/8法师/9术士/10武僧/11德鲁伊/12恶魔猎手
-	if classId==3 then --3猎人
-		Item_Spell_List[2] ={1002,6197,982,2641,1462,1515,883};
-		if PIG_MaxTocversion(30000,true) then
-			table.insert(Item_Spell_List[2],62757);	
+local function GetSpellData_1(datax,classId,mapIDname)
+	local NewData,lienum={},0
+	for i=1,#datax do
+		local num1,num2=math.modf(i/2)
+		if classId==8 then
+			lienum=2
+			if num2~=0 then
+				table.insert(NewData,{"spell",datax[i]});	
+			else
+				local namex
+				if mapIDname and mapIDname[i/2] then
+					local inxond = GetMapInfo(mapIDname[i/2]) 
+					namex=inxond and inxond.name or UNKNOWN
+				end
+				table.insert(NewData,{"spell",datax[i],namex or ""});	
+			end
 		else
-			table.insert(Item_Spell_List[2],5149);
-			table.insert(Item_Spell_List[2],6991);
+			lienum=1
+			table.insert(NewData,{"spell",datax[i]});	
+		end
+	end
+	return NewData,lienum
+end
+local function GetSpellData()
+	local datax={}
+	--1战士/2圣骑士/3猎人/4盗贼/5牧师/6死亡骑士/7萨满祭司/8法师/9术士/10武僧/11德鲁伊/12恶魔猎手
+	local classId = PIG_OptionsUI.ClassData.classId
+	if classId==3 then --3猎人
+		datax ={6197,982,2641,1462,1515,883};
+		if PIG_MaxTocversion(40000) then
+			table.insert(datax,1002);
+			table.insert(datax,5149);
+			if PIG_MaxTocversion(30000,true) then
+				table.insert(datax,62757);
+			end
+		end
+		if PIG_MaxTocversion(60000) then
+			table.insert(datax,1,6991);
+			if PIG_MaxTocversion(50000,true) then
+				table.insert(datax,83242);
+				table.insert(datax,83243);
+				table.insert(datax,83244);
+				table.insert(datax,83245);
+			end
 		end
 	elseif classId==4 then--盗贼
-		Item_Spell_List[2] ={2842};
-	elseif classId==6 then
-		Item_Spell_List[2] ={53428,50977};
+		if PIG_MaxTocversion(50000) then
+			datax ={2842};
+		end
+	elseif classId==6 then--死亡骑士
+		datax ={53428,50977};
 	elseif classId==8 then --法师
+		local mapIDname={}
 		local englishFaction, _ = UnitFactionGroup("player")
 		if englishFaction=="Alliance" then
-			Item_Spell_List[2] ={3561,10059,3562,11416,3565,11419};			
+			datax ={3561,10059,3562,11416,3565,11419};
+			if PIG_MaxTocversion(50000) then
+				mapIDname ={1453,1455,1457,1947,1445,1955,125,nil,nil,390};
+			else
+				mapIDname ={84,87,89,103,70,111,125,nil,244,390};
+			end
 		elseif englishFaction=="Horde" then
-			Item_Spell_List[2] ={3567,11417,3566,11420,3563,11418};
+			datax ={3567,11417,3566,11420,3563,11418};
+			if PIG_MaxTocversion(50000) then
+				mapIDname ={1454,1456,1458,1954,1435,1955,125,nil,nil,390};
+			else
+				mapIDname ={85,88,998,110,70,111,125,nil,244,390};
+			end
 		end
 		if PIG_MaxTocversion(20000,true) then
 			if englishFaction=="Alliance" then
 				local tbcchuansong = {32271,32266,49359,49360,33690,33691};	
 				for ik=1,#tbcchuansong do
-					table.insert(Item_Spell_List[2],tbcchuansong[ik]);			
+					table.insert(datax,tbcchuansong[ik]);			
 				end
 			elseif englishFaction=="Horde" then
 				local tbcchuansong = {32272,32267,49358,49361,35715,35717};
 				for ik=1,#tbcchuansong do
-					table.insert(Item_Spell_List[2],tbcchuansong[ik]);			
+					table.insert(datax,tbcchuansong[ik]);			
 				end
 			end
 		end
 		if PIG_MaxTocversion(30000,true) then
 			local tbcchuansong ={53140,53142};
 			for ik=1,#tbcchuansong do
-				table.insert(Item_Spell_List[2],tbcchuansong[ik]);			
+				table.insert(datax,tbcchuansong[ik]);			
 			end			
 		end
-	else
-
+		if PIG_MaxTocversion(40000,true) then
+			table.insert(datax,120145)
+			table.insert(datax,120146)
+			if englishFaction=="Alliance" then
+				local tbcchuansong = {88342,88345};	
+				for ik=1,#tbcchuansong do
+					table.insert(datax,tbcchuansong[ik]);			
+				end
+			elseif englishFaction=="Horde" then
+				local tbcchuansong = {88344,88346};
+				for ik=1,#tbcchuansong do
+					table.insert(datax,tbcchuansong[ik]);			
+				end
+			end		
+		end
+		if PIG_MaxTocversion(50000,true) then
+			if englishFaction=="Alliance" then
+				local tbcchuansong = {132621,132620};	
+				for ik=1,#tbcchuansong do
+					table.insert(datax,tbcchuansong[ik]);			
+				end
+			elseif englishFaction=="Horde" then
+				local tbcchuansong = {132627,132626};
+				for ik=1,#tbcchuansong do
+					table.insert(datax,tbcchuansong[ik]);			
+				end
+			end		
+		end
+		return GetSpellData_1(datax,classId,mapIDname)
 	end
-	for i=1,#Item_Spell_List[1] do
-		local item = Item:CreateFromItemID(Item_Spell_List[1][i])
-		item:ContinueOnItemLoad(function()
-			local Link = item:GetItemLink()
-		end)
+	return GetSpellData_1(datax,classId)
+end
+local ItemDataX ={18984,18986,7148,18587,18232,18660};--空间撕裂器-永望镇/安全传送器-加基森/起搏器/起搏器XL		
+local function GetItemData(ix,funxx,Count)
+	if PIG_MaxTocversion() then
+		if ItemDataX[ix] then
+			Count=Count or 0
+			local _,itemLink = GetItemInfo(ItemDataX[ix])
+			if not itemLink and Count<100 then
+				Count=Count+1
+				C_Timer.After(0.02,function()
+		            GetItemData(ix, funxx, Count)
+		        end)
+				return
+			end
+			if itemLink then
+				funxx({"item",itemLink,ItemDataX[ix]})
+				return
+			end
+		end
 	end
 end
 QuickButUI.ButList[8]=function()
 	local PigMacroEventCount_QK =0;
 	local PigMacroDeleted_QK = false;
 	local PigMacroCount_QK=0
+	local QuickButUI_SpellOpen
 	if PIGA["QuickBut"]["Open"] and PIGA["QuickBut"]["Spell"] then
-		if QuickButUI.SpellOpen then return end
-		QuickButUI.SpellOpen=true
+		if QuickButUI_SpellOpen then return end
+		QuickButUI_SpellOpen=true
 		local Icon,ActionID,qkuiname=131146, 400, "PIG_QuickButSpell"
-		local wupinlinrongqi = {}
-		local wupinlinrongqicishunum = 0
-		local function GetItemInfo_xa_1()
-			for i=1,#Item_Spell_List[1] do
-				local itemName,itemLink = GetItemInfo(Item_Spell_List[1][i])
-				wupinlinrongqi[i]=itemLink
-			end
-		end
-		local function GetItemInfo_xa_2()
-			for i=1,#wupinlinrongqi do
-				local butid = ActionID+i
-				local itemLink=wupinlinrongqi[i]
-				if itemLink and not PIGA_Per["QuickBut"]["ActionData"][butid] then
-					PIGA_Per["QuickBut"]["ActionData"][butid]={"item",itemLink,Item_Spell_List[1][i]}
-				end
-			end
-		end
-		local function GetItemInfo_xa()
-			GetItemInfo_xa_1()
-			for i=1,#wupinlinrongqi do
-				if not wupinlinrongqi[i] and wupinlinrongqicishunum<10 then
-					wupinlinrongqicishunum=wupinlinrongqicishunum+1
-					return C_Timer.After(0.1,GetItemInfo_xa_1)
-				end
-			end
-			if not InCombatLockdown() then GetItemInfo_xa_2() end
-		end
-		GetItemInfo_xa()
-		local Itemnum = #Item_Spell_List[1]
-		for i=1,#Item_Spell_List[2] do
-			local butid = ActionID+i+Itemnum
-			if not PIGA_Per["QuickBut"]["ActionData"][butid] then
-				PIGA_Per["QuickBut"]["ActionData"][butid]={"spell",Item_Spell_List[2][i]}
-			end
-		end
+		local butW = QuickButUI.butWWW+4
+		local gaoNum,CommonNum,extNum = 10,2,0
+		local FixedSpellData,extNum=GetSpellData()
+		kuanNum=CommonNum+extNum
 		local Tooltip = KEY_BUTTON1.."-|cff00FFFF随机使用坐骑|r\nShift+"..KEY_BUTTON1.."-|cff00FFFF打开Recount/Details插件记录面板|r\n"..KEY_BUTTON2.."-|cff00FFFF展开职业辅助技能栏|r"
 		local Zhushou=PIGQuickBut(qkuiname,Tooltip,Icon,nil,nil,"SecureHandlerClickTemplate")
 		local IconTEX=Zhushou:GetNormalTexture()
@@ -797,8 +866,6 @@ QuickButUI.ButList[8]=function()
 		Zhushou.start:Hide();
 		_G["BINDING_NAME_CLICK "..qkuiname..":LeftButton"]= "PIG功能条随机坐骑"
 		---内容页----
-		local butW = QuickButUI.butWWW+4
-		local gaoNum,kuanNum = 10,2
 		local Zhushou_List = CreateFrame("Frame", nil, Zhushou,"BackdropTemplate,SecureHandlerShowHideTemplate");
 		Zhushou_List:SetBackdrop(Create.Backdropinfo)
 		Zhushou_List:SetBackdropColor(Create.BackdropColor[1], Create.BackdropColor[2], Create.BackdropColor[3], Create.BackdropColor[4]);
@@ -975,10 +1042,9 @@ QuickButUI.ButList[8]=function()
 			hideOnEscape = true,
 		}
 
-		Zhushou_List.ButList={}
-		for i=1,gaoNum*kuanNum do
+		local function addBarButton(i,butlist,leftV,liecocc)
 			local zhushoubut = CreateFrame("CheckButton", nil, Zhushou_List, "SecureActionButtonTemplate,SecureHandlerDragTemplate,SecureHandlerMouseUpDownTemplate")
-			Zhushou_List.ButList[i]=zhushoubut
+			butlist[i]=zhushoubut
 			zhushoubut:SetSize(butW, butW)
 			zhushoubut:SetHighlightTexture("Interface/Buttons/ButtonHilight-Square")
 			zhushoubut:SetNormalAtlas("UI-HUD-ActionBar-IconFrame")
@@ -989,48 +1055,23 @@ QuickButUI.ButList[8]=function()
 			zhushoubut.cooldown = CreateFrame("Cooldown", nil, zhushoubut, "CooldownFrameTemplate")
 			zhushoubut.cooldown:SetAllPoints()
 			zhushoubut.Name = PIGFontString(zhushoubut,{"BOTTOM",zhushoubut,"BOTTOM",0,0})
+			zhushoubut.NameRight = PIGFontString(zhushoubut,{"LEFT",zhushoubut,"RIGHT",0,0})
 			zhushoubut.Count = PIGFontString(zhushoubut,{"BOTTOMRIGHT",zhushoubut,"BOTTOMRIGHT",-2,0})
 			if i==1 then
-				zhushoubut:SetPoint("BOTTOMLEFT",Zhushou_List,"BOTTOMLEFT",6,6);
+				zhushoubut:SetPoint("BOTTOMLEFT",Zhushou_List,"BOTTOMLEFT",6+leftV,6);
 			else
-				local num1,num2=math.modf(i/kuanNum)
-				if num2~=0 then
-					zhushoubut:SetPoint("BOTTOMLEFT",Zhushou_List.ButList[i-kuanNum],"TOPLEFT",0,6);
+				if liecocc>1 then
+					local num1,num2=math.modf(i/liecocc)
+					if num2~=0 then
+						zhushoubut:SetPoint("BOTTOMLEFT",butlist[i-liecocc],"TOPLEFT",0,6);
+					else
+						zhushoubut:SetPoint("LEFT",butlist[i-1],"RIGHT",6,0);
+					end
 				else
-					zhushoubut:SetPoint("LEFT",Zhushou_List.ButList[i-1],"RIGHT",6,0);
+					zhushoubut:SetPoint("BOTTOM",butlist[i-1],"TOP",0,6);
 				end
 			end
 			PIGUseKeyDown(zhushoubut)
-			zhushoubut:SetAttribute("action", ActionID+i)
-			--
-			zhushoubut:SetAttribute("_ondragstart",[=[
-				self:SetAttribute("type", nil)
-			]=])
-			zhushoubut:HookScript("OnDragStart", function (self)
-				Cursor_Fun(self,"OnDragStart","QuickBut")
-				Update_Icon(self)
-				Update_Cooldown(self)
-				Update_Count(self)
-			end)
-			zhushoubut:SetAttribute("_onreceivedrag",[=[
-				local leibie, spellID = ...
-				if kind=="spell" then
-					self:SetAttribute("type", kind)
-					self:SetAttribute(kind, spellID)
-				elseif kind=="item" then
-					self:SetAttribute("type", kind)
-					self:SetAttribute(kind, leibie)
-				elseif kind=="macro" then
-					self:SetAttribute("type", kind)
-					self:SetAttribute(kind, value)
-				end
-			]=])
-			zhushoubut:HookScript("OnReceiveDrag", function (self)
-				Cursor_Fun(self,"OnReceiveDrag","QuickBut")
-				Update_Icon(self)
-				Update_Cooldown(self)
-				Update_Count(self)
-			end);
 			zhushoubut:SetScript("OnEnter", function (self)
 				GameTooltip:ClearLines();
 				GameTooltip_SetDefaultAnchor(GameTooltip, self)
@@ -1058,8 +1099,6 @@ QuickButUI.ButList[8]=function()
 				Update_Count(self)
 			end);
 			----
-			loadingButInfo(zhushoubut,"QuickBut")
-			--
 			zhushoubut:RegisterEvent("TRADE_SKILL_CLOSE")
 			if PIG_MaxTocversion() then
 				zhushoubut:RegisterEvent("CRAFT_CLOSE")
@@ -1103,6 +1142,55 @@ QuickButUI.ButList[8]=function()
 					Update_bukeyong(self)
 				end
 			end)
+			return zhushoubut
+		end
+		Zhushou_List.ButList={}
+		for i=1,gaoNum*CommonNum do
+			local zhushoubut=addBarButton(i,Zhushou_List.ButList,0,CommonNum)
+			zhushoubut:SetAttribute("_ondragstart",[=[
+				self:SetAttribute("type", nil)
+			]=])
+			zhushoubut:HookScript("OnDragStart", function (self)
+				Cursor_Fun(self,"OnDragStart","QuickBut")
+				Update_Icon(self)
+				Update_Cooldown(self)
+				Update_Count(self)
+			end)
+			zhushoubut:SetAttribute("_onreceivedrag",[=[
+				local leibie, spellID = ...
+				if kind=="spell" then
+					self:SetAttribute("type", kind)
+					self:SetAttribute(kind, spellID)
+				elseif kind=="item" then
+					self:SetAttribute("type", kind)
+					self:SetAttribute(kind, leibie)
+				elseif kind=="macro" then
+					self:SetAttribute("type", kind)
+					self:SetAttribute(kind, value)
+				end
+			]=])
+			zhushoubut:HookScript("OnReceiveDrag", function (self)
+				Cursor_Fun(self,"OnReceiveDrag","QuickBut")
+				Update_Icon(self)
+				Update_Cooldown(self)
+				Update_Count(self)
+			end);
+			zhushoubut:SetAttribute("action", ActionID+i)
+			local actionID=zhushoubut:GetAttribute("action")
+			if PIGA_Per["QuickBut"]["ActionData"][actionID] then
+				loadingButInfo(zhushoubut,PIGA_Per["QuickBut"]["ActionData"][actionID],"NoShowActionBars")
+			else
+				GetItemData(i,function(ndata)
+					if ndata then
+						loadingButInfo(zhushoubut,ndata,"NoShowActionBars")
+					end
+				end)
+			end
+		end
+		Zhushou_List.extButList={}
+		for i=1,gaoNum*extNum do
+			local zhushoubut=addBarButton(i,Zhushou_List.extButList,(butW+6)*CommonNum,extNum)
+			loadingButInfo(zhushoubut,FixedSpellData[i],"lock")
 		end
 	end
 end

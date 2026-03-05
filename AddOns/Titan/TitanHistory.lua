@@ -10,9 +10,35 @@ These are in a seperate file to
 --- Release notes. Keep structure; most recent on 'top'
 local recent_changes = {
    {
+      version = "9.1.1",
+      when = "2026/02/16",
+      topics = {
+         {
+            topic = "TitanGold",
+            lines = {
+               "Fix : Added back Sort By submenu.",
+               "Fix : Added back Show submenu.",
+            },
+         },
+         {
+            topic = "TitanVolume",
+            lines = {
+               "Restored prior version until a better menu and widget scheme is determined. ",
+            },
+         },
+         {
+            topic = "Titan",
+            lines = {
+               "Fix : Ticket #1450 - Border on color skin should stay over reload / log in.",
+               "Fix : Added back Show submenu.",
+            },
+         },
+      },
+   },
+   {
       version = "9.1.0",
       when = "2026/02/02",
-      topics =  {
+      topics = {
          {
             topic = "Titan Menus",
             lines = {
@@ -75,7 +101,7 @@ local recent_changes = {
    {
       version = "9.0.2",
       when = "2026/01/12",
-      topics =  {
+      topics = {
          {
             topic = "Titan TOC",
             lines = {
@@ -107,13 +133,13 @@ local recent_changes = {
    {
       version = "9.0.1",
       when = "2025/12/01",
-      topics =  {
+      topics = {
          {
-         topic = "Profiles",
-         lines = {
-            "Profiles - Sync All added.",
-            "- Acts as the old Global; overrides Sync.",
-            "- See Titan > Config > Help > Profiles for more details on how this works.",
+            topic = "Profiles",
+            lines = {
+               "Profiles - Sync All added.",
+               "- Acts as the old Global; overrides Sync.",
+               "- See Titan > Config > Help > Profiles for more details on how this works.",
             },
          },
          {
@@ -122,56 +148,6 @@ local recent_changes = {
                "Show (Hide) fixed; all features should be working again.",
             },
          },
-      },
-   },
-   {
-      version = "9.0.0",
-      when = "2025/11/06",
-      topics = {
-            {
-            topic = "Profiles",
-            lines = {
-               "Profiles are greatly changed.",
-               "- Global is gone; replaced by a Sync scheme.",
-               "- See Titan > Config > Help > Profiles for more details on how this works.",
-               },
-            },
-            {
-               topic = "Export / Import of Profiles",
-               lines = {
-                  "Profiles can be exported to be safely saved and imported to same or another system.",
-                  "- See Titan > Config > Help > Export / Import for more details on how this works.",
-               },
-            },
-            {
-               topic = "Reset",
-               lines = {
-                  "Due to the Profile changing to Sync :",
-                  "- /titan reset will reset the Profile used (could be a Sync).",
-                  "- /titan reset all ",
-                  "--- NEW slash command will act as a delete of Titan saved vars",
-                  "--- Also accessable in Titan > Config > Advanced",
-               },
-            },
-            {
-               topic = "TitanUI",
-               lines = {
-                  "NEW built-in!",
-                  "Left click will reload UI.",
-                  "Menu gives access to :",
-                  "- Select Titan config pages.",
-                  "- Titan reset of profile (could be a Sync).",
-                  "- Select dev tools, if available.",
-               },
-            },
-            {
-               topic = "Titan",
-               lines = {
-                  "Ace : Updated libs to Oct 2025 release - Should be Midnight ready!!",
-                  "Plugins : Should be less space after, esp. for those with multiple info displayed such as Perf and Repair.",
-                  "Help : Titan > Config > Help - More detailed info; Redesigned for readability.",
-               },
-            },
       },
    },
 }

@@ -46,9 +46,10 @@ app:CreateWindow("WorldQuests", {
 			app.TryPopulateQuestRewards(questObject);
 			return questObject;
 		end
+		local MapContainer = app.GetFieldContainer("mapID");
 		local function CreateMapWithStyle(id)
 			local mapObject = app.CreateMap(id, { progress = 0, total = 0 });
-			for _,data in ipairs(app.SearchForField("mapID", id)) do
+			for _,data in ipairs(MapContainer[id]) do
 				if data.mapID and data.icon then
 					mapObject.name = data.name;
 					mapObject.icon = data.icon;
@@ -196,7 +197,7 @@ app:CreateWindow("WorldQuests", {
 								-- end
 								-- add the map POI coords to our new quest object
 								if poi.x and poi.y then
-									questObject.coords = {{ 100 * poi.x, 100 * poi.y, mapID }}
+									questObject.coords = { [mapID] = { 100 * poi.x, 100 * poi.y }}
 								end
 								NestObject(mapObject, questObject);
 								-- see if need to retry based on missing data
@@ -253,7 +254,7 @@ app:CreateWindow("WorldQuests", {
 							x, y = nil, nil
 						end
 						if x and y then
-							o.coords = {{ 100 * x, 100 * y, mapID }}
+							o.coords = { [mapID] = { 100 * x, 100 * y }}
 						end
 						if not poiMapID or poiMapID == mapID or poi.isPrimaryMapForPOI then
 							NestObject(mapObject, o)

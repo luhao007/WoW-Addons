@@ -329,7 +329,7 @@ end
 
 function ItemSelector.__private:_CreateItems(frame)
 	for _, itemString in ipairs(self._items) do
-		local craftQuality = ItemInfo.GetCraftedQuality(itemString)
+		local craftQuality, useMidnightIcon = ItemInfo.GetCraftedQuality(itemString)
 		frame:AddChild(UIElements.New("Frame", "content")
 			:SetLayout("HORIZONTAL")
 			:AddChild(UIElements.New("Button", itemString.."Icon")
@@ -345,7 +345,7 @@ function ItemSelector.__private:_CreateItems(frame)
 				:SetSize(30, 30)
 				:AddAnchor("TOPLEFT", 0, 8)
 				:SetShown(craftQuality and true or false)
-				:SetText(craftQuality and TradeSkill.GetCraftedQualityChatIcon(craftQuality) or "")
+				:SetText(craftQuality and TradeSkill.GetCraftedQualityChatIcon(craftQuality, useMidnightIcon) or "")
 			)
 		)
 	end
@@ -381,11 +381,14 @@ function private.StateToBackgroundColorKey(state)
 end
 
 function private.SelectionToQualityText(selection)
-	local itemQuality = selection and ItemInfo.GetCraftedQuality(selection)
+	if not selection then
+		return ""
+	end
+	local itemQuality, useMidnightIcon = ItemInfo.GetCraftedQuality(selection)
 	if not itemQuality then
 		return ""
 	end
-	return TradeSkill.GetCraftedQualityChatIcon(itemQuality)
+	return TradeSkill.GetCraftedQualityChatIcon(itemQuality, useMidnightIcon)
 end
 
 function private.GetBagSlotId(itemString, requiredQuantity)

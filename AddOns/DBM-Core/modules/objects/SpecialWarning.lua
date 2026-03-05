@@ -139,7 +139,7 @@ function DBM:AddSpecialWarning(text, force, specWarnObject, number, customIcon, 
 	end
 	--DUPLICATE CODE
 	--This code is for special warnings that bypass normal "show" method of hard coded objects (such as midnight secrets)
-	if customIcon then
+	if customIcon or force then
 		if number and not noSound and not self.Options.DontPlaySpecialWarningSound then
 			self:PlaySpecialWarningSound(number, force, true)
 		end
@@ -325,6 +325,13 @@ function specialWarningPrototype:SetText(customName)
 	self.spellName = spellName
 end
 
+---Update icon on object and nothing else.
+---<br>Does not change spellId/spellkey associated with weakauras/callbacks
+---@param altSpellId string|number
+function specialWarningPrototype:UpdateIcon(altSpellId)
+	self.icon = DBM:ParseSpellIcon(altSpellId, self.announceType, self.icon)
+end
+
 ---Not to be confused with SetText, which only sets the text of object.
 ---<br>This changes actual ID so announce callback also swaps ID for WAs
 ---@param altSpellId string|number
@@ -392,6 +399,17 @@ local specTypeFilterTable = {
 ---@field Show fun(self: SpecAnnounce2strnum, arg1: string, arg2: number)
 ---@class SpecAnnounce2numstr: SpecialWarning
 ---@field Show fun(self: SpecAnnounce2numstr, arg1: number, arg2: string)
+
+---Used to set fallback options to blizzard encounter API for hardcoded warnings to fall back on
+---@param encounterEventId number|table EncounterEventID from EncounterEvent.db2 that matches event we're targetting
+---@param voice VPSound voice pack media path
+---@param voiceVersion number Required voice pack verion (if not met, falls back to default special warning sounds)
+---@param color warningColorType? ColorId 1-4
+function specialWarningPrototype:SetAlert(encounterEventId, voice, voiceVersion, color)
+	if self.option and self.mod.Options[self.option] then
+		self.mod:EnableAlertOptions(self.spellId, encounterEventId, voice, voiceVersion, color, nil, self.option)
+	end
+end
 
 function specialWarningPrototype:Show(...)
 	--Check if option for this warning is even enabled
@@ -1236,47 +1254,4 @@ function DBM:ShowTestSpecialWarning(text, number, noSound, force, customIcon)
 	frame:SetFrameStrata("TOOLTIP")
 	self:Unschedule(testWarningEnd)
 	self:Schedule(self.Options.SpecialWarningDuration2 * 1.3, testWarningEnd)
-end
-
---{ Name = "text", Type = "cstring", Nilable = false, SecretValue = true },
---{ Name = "casterGUID", Type = "WOWGUID", Nilable = false, SecretValue = true },
---{ Name = "casterName", Type = "cstring", Nilable = false, SecretValue = true },
---{ Name = "targetGUID", Type = "WOWGUID", Nilable = false, SecretValue = true },
---{ Name = "targetName", Type = "cstring", Nilable = false, SecretValue = true },
---{ Name = "iconFileID", Type = "number", Nilable = false, SecretValue = true },
---{ Name = "tooltipSpellID", Type = "number", Nilable = false, SecretValue = true },
---{ Name = "isDeadly", Type = "bool", Nilable = false, SecretValue = true },
---{ Name = "duration", Type = "DurationSeconds", Nilable = false },
---{ Name = "severity", Type = "EncounterEventSeverity", Nilable = false },
---{ Name = "shouldPlaySound", Type = "bool", Nilable = false },
---{ Name = "shouldShowChatMessage", Type = "bool", Nilable = false },
---{ Name = "shouldShowWarning", Type = "bool", Nilable = false },
-function DBM:ENCOUNTER_WARNING(encounterWarningInfo)
-	if self.Options.IgnoreBlizzAPI then return end--Set by modules, not core options to filter blizz events for hard coded mods
-	if self.Options.HideDBMWarnings then return end
-	--Secrets
-	local text = encounterWarningInfo.text
-	local casterName = encounterWarningInfo.casterName
-	local targetName = encounterWarningInfo.targetName
-	local targetGUID = encounterWarningInfo.targetGUID
-	local formattedTargetName = targetName
-	if targetGUID then
-		local _, className = GetPlayerInfoByGUID(targetGUID)
-		if className then
-			local classColor = C_ClassColor.GetClassColor(className)
-			if classColor then
-			    formattedTargetName = classColor:WrapTextInColorCode(formattedTargetName);
-			end
-		end
-	end
-	local iconFileID = encounterWarningInfo.iconFileID
-	--Non secrets
-	local severity = encounterWarningInfo.severity--0 low, 1 medium, 2 critical
-	local formatedText = string.format(text, casterName, formattedTargetName)
-	if severity == 0 then
-		--Use normal warning for low severity, but we call it here to avoid duplicate event registration
-		self:AddWarning(formatedText, nil, nil, true, nil, nil, iconFileID)
-	else
-		self:AddSpecialWarning(formatedText, nil, nil, severity == 1 and 2 or 3, iconFileID)
-	end
 end

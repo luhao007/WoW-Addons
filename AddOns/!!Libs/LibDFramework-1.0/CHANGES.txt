@@ -1,0 +1,190 @@
+tag 1d3a190e753b5ffd87c42a384a3e6ef8536ce4c5 v12.0.1.679
+Author:	Tercio Jose <terciob19@hotmail.com>
+Date:	Sat Feb 28 10:29:20 2026 -0300
+
+commit d3f92b7f0f76facb904b060cc148540ccb89917c
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Sat Feb 28 10:28:36 2026 -0300
+
+    Fix escape sequence image
+
+commit 097683a77fcecc8644cc2ccfd4001ca98c3963e9
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Fri Feb 27 20:38:22 2026 -0300
+
+    Add BuildMenu option: disableif = function() return true end, if the function return true, the option is disabled.
+
+commit 0dbeda5ef3732772ca988ba30cb78194f162e3fb
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Feb 26 10:26:20 2026 -0300
+
+    Documentation
+
+commit 9ab9ff9d06217d0723edda335048ab8f285de6fa
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Tue Feb 24 16:46:17 2026 -0300
+
+    Fix error on timeline
+
+commit 7a2674fffa2955ea85334b7d768da90d206d9a8f
+Author: cont1nuity <continuity@gmx.net>
+Date:   Tue Feb 24 11:14:13 2026 +0100
+
+    - option for empowered color
+
+commit aea4eaf72c7b234ec37076a2d3554e1bb338ab0a
+Author: cont1nuity <continuity@gmx.net>
+Date:   Mon Feb 23 14:20:25 2026 +0100
+
+    - empower stage coloring
+
+commit 8bf0316bfd4c56bd670788bc80c74b272f5b42fb
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Sun Feb 22 19:35:08 2026 -0300
+
+    Documentation
+
+commit 19b9dfa0f4028ecc3c9cdcb79a1af734ef457646
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Sun Feb 22 16:47:40 2026 -0300
+
+    Documentation and examples
+
+commit 41ef2d156ceab9c47622594ad54ec15b14f94c80
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Sat Feb 21 16:53:15 2026 -0300
+
+    Better error lines
+
+commit 71177d6a51917343e464d7250fb92a255e189144
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Sat Feb 21 14:37:21 2026 -0300
+
+    ignore
+
+commit de70f957f97e3fe7557befb283498c4141b034fc
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Sat Feb 21 14:34:57 2026 -0300
+
+    change
+
+commit 966ee9c857b9cb06faf6aa20c67d2fe99c3f8a94
+Author: cont1nuity <continuity@gmx.net>
+Date:   Thu Feb 19 20:09:08 2026 +0100
+
+    - cast icon should be more consistent
+
+commit c5b2b57cc71a8b08fb0a20fbfd6bfc10ee1be9d1
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Wed Feb 18 15:31:00 2026 -0300
+
+    Add variable checks and error if they are incorrect
+
+commit b4b2993d91485f220243c311c890569394e027d9
+Author: cont1nuity <continuity@gmx.net>
+Date:   Thu Feb 12 23:09:53 2026 +0100
+
+    - should fix secret issues
+
+commit 5e85921150a2eab178985aecb245caced65fac2c
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Feb 12 14:21:37 2026 -0300
+
+    Add specId into the spec information
+
+commit d7acde9030af5b51d631856dd1fc64d17a50f579
+Author: cont1nuity <continuity@gmx.net>
+Date:   Wed Feb 11 23:36:59 2026 +0100
+
+    - buff special midnight support + adjustments
+
+commit 63cd0170720477c97e8f54189b8ce4ad6d9de572
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Sat Feb 7 17:19:58 2026 -0300
+
+    Add GetSpecInfoFromSpecId and GetSpecInfoFromSpecIcon both return a table containing information about the spec.
+
+commit 435d666b6edbeb7f448123b10c83d05cd41674ac
+Author: cont1nuity <continuity@gmx.net>
+Date:   Wed Feb 4 15:19:58 2026 +0100
+
+    - fix secret issue
+
+commit 08bfb8b4e09ea9819cd9d5ed17cf066477539e80
+Author: cont1nuity <continuity@gmx.net>
+Date:   Tue Feb 3 08:43:32 2026 +0100
+
+    - another fix required
+
+commit cac09e4c454dfcea610bf0a6d0ba13af32ad5262
+Author: cont1nuity <continuity@gmx.net>
+Date:   Mon Feb 2 16:03:08 2026 +0100
+
+    - broke some more
+
+commit 8ecdee19ef7b37fe029a82755025ab58dc8023ee
+Author: cont1nuity <continuity@gmx.net>
+Date:   Mon Feb 2 15:26:29 2026 +0100
+
+    - unfortunately broke
+
+commit 6c84f507d09526631311769edf1e81eacab9fb53
+Author: cont1nuity <continuity@gmx.net>
+Date:   Mon Feb 2 13:25:02 2026 +0100
+
+    - midnight cast bar updates
+
+commit 35f72c3badaaa7c7e89162e030ab2e954a1d181c
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Fri Jan 30 14:51:42 2026 -0300
+
+    Missing definitions
+
+commit 255c3f2f902712f035959d9b0ba29d1cece168a3
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Thu Jan 29 17:50:07 2026 -0300
+
+    SavedVars definitions
+
+commit 050053efba353924e107065bd63ceb94efdb496f
+Author: cont1nuity <continuity@gmx.net>
+Date:   Thu Jan 29 14:23:16 2026 +0100
+
+    - fixing spark and absorb stuff
+
+commit 0977913fa38d319f35b3baa875cab88836a0bc42
+Author: cont1nuity <continuity@gmx.net>
+Date:   Wed Jan 28 10:16:44 2026 +0100
+
+    - health animation
+
+commit b924dc8df2a49c2caf00cce279e68ba669a2dc47
+Author: cont1nuity <continuity@gmx.net>
+Date:   Sun Jan 25 00:31:13 2026 +0100
+
+    - fixing cast spark
+
+commit c39c2dafe238c18756566026be92b9aef848ecfb
+Author: cont1nuity <continuity@gmx.net>
+Date:   Sun Jan 25 00:14:54 2026 +0100
+
+    - fixing issues with casts
+
+commit 32002e4d502f4853d07a3d622f8827707055c5ec
+Author: cont1nuity <continuity@gmx.net>
+Date:   Thu Jan 22 22:28:27 2026 +0100
+
+    - fix for health shields visibility
+
+commit 4d30c2465d1d6a1efdb1f91ff86f30d768cd9819
+Author: Tercio Jose <terciob19@hotmail.com>
+Date:   Mon Jan 19 15:29:51 2026 -0300
+
+    Editor frame levels goes bottom first registered to top latest registered
+
+commit 53943b3d154fbd531912aa28e2da08a73b2558f6
+Author: cont1nuity <continuity@gmx.net>
+Date:   Sun Jan 18 21:54:10 2026 +0100
+
+    - fixing cast borer shield
+

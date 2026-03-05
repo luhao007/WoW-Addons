@@ -74,19 +74,6 @@ Data.ClasseNameID=ClasseNameID
 Data.cl_Name_Role=cl_Name_Role
 Data.ClassFile_Name=ClassFile_Name
 
---种族
-local PIGraceList = {}
-for i=100,1,-1 do
-	local raceInfo = C_CreatureInfo.GetRaceInfo(i)
-	if raceInfo then
-		if raceInfo.raceName then
-			if raceInfo.clientFileString=="Scourge" then raceInfo.clientFileString="undead" end
-			if raceInfo.clientFileString=="EarthenDwarf" then raceInfo.clientFileString="earthen" end
-			PIGraceList[raceInfo.raceName]=raceInfo.clientFileString
-		end
-	end
-end
-Data.PIGraceList=PIGraceList
 --职责
 --local zhizeIcon = {{0.01,0.26,0.26,0.51},{0.27,0.52,0,0.25},{0.27,0.52,0.25,0.5},{0.01,0.26,0,0.25}}
 local zhizeIcon = {{0.01,0.26,0.26,0.51},{0.27,0.52,0,0.25},{0.27,0.52,0.25,0.5}}

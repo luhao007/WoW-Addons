@@ -3,7 +3,6 @@ local Fun=addonTable.Fun
 local match = _G.string.match
 local GetRaceClassTXT=addonTable.Fun.GetRaceClassTXT
 local ClasseNameID=addonTable.Data.ClasseNameID
-local PIGraceList=addonTable.Data.PIGraceList
 local Create=addonTable.Create
 local PIGEnter=Create.PIGEnter
 local PIGFontString=Create.PIGFontString
@@ -72,10 +71,8 @@ function FramePlusfun.Friends()
 		for i=1,button.pig_Data.Count do
 			local gameAInfo =button.pig_Data.data[i]
 			local _, _,_, _, sexBNET = GetPlayerInfoByGUID(gameAInfo.playerGuid)
-			local raceX,classX = GetRaceClassTXT(Newtxt[3],texW,PIGraceList[gameAInfo.raceName],sexBNET or 2,ClasseNameID[gameAInfo.className])
+			local raceX,classX = GetRaceClassTXT(Newtxt[3],texW,gameAInfo.raceName,sexBNET or 2,ClasseNameID[gameAInfo.className])
 			local Newnamex = raceX.." "..classX.." (Lv"..gameAInfo.characterLevel..") "..gameAInfo.characterName
-			-- print(gameAInfo.className,ClasseNameID[gameAInfo.className])
-			-- print(gameAInfo.raceName,PIGraceList[gameAInfo.raceName])
 			local color = PIG_CLASS_COLORS[ClasseNameID[gameAInfo.className] or NONE]
 			local allnameX=button.pig_Data.accname.." \124c"..color.colorStr..Newnamex.."\124r"
 			if i>1 then
@@ -429,7 +426,7 @@ function FramePlusfun.Friends()
 					LevelText:SetTextColor(color.r, color.g, color.b);
 					variableText:SetTextColor(color.r, color.g, color.b);
 					button.Guild:SetTextColor(color.r, color.g, color.b);
-					local raceX,classX = GetRaceClassTXT(WhoiconH,texW,PIGraceList[info.raceStr],info.gender,info.filename)
+					local raceX,classX = GetRaceClassTXT(WhoiconH,texW,info.raceStr,info.gender,info.filename)
 					local kogngeW = " "
 					if NDui then
 						kogngeW= " "
@@ -483,7 +480,7 @@ function FramePlusfun.Friends()
 			button.Variable:SetText(info.area);
 			button.Guild:SetText(info.fullGuildName);
 			button.Guild:SetTextColor(color.r, color.g, color.b);
-			local raceX,classX = GetRaceClassTXT(WhoiconH,texW,PIGraceList[info.raceStr],info.gender,info.filename)
+			local raceX,classX = GetRaceClassTXT(WhoiconH,texW,info.raceStr,info.gender,info.filename)
 			button.Class:SetText(raceX.." "..classX);
 			if button.Variable:IsTruncated() or button.Guild:IsTruncated() then
 				button.tooltip1 = info.fullName.." - "..info.area;

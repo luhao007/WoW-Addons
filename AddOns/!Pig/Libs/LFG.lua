@@ -84,7 +84,7 @@ function Fun.PIG_GetGroups(categoryID,baseFilters)
 					table.insert(data[2][groupID],{activityID,activityInfo.fullName,activityInfo.minLevelSuggestion,activityInfo.maxLevelSuggestion})
 					if categoryID==2 or categoryID==114 then
 						if not data[4][activityInfo.difficultyID] then
-							local DifficultyName = GetDifficultyInfo(activityInfo.difficultyID) or NONE
+							local DifficultyName = PIG_GetDifficultyInfo(activityInfo.difficultyID) or NONE
 							data[4][activityInfo.difficultyID]={activityInfo.difficultyID,DifficultyName}
 						end
 					else
@@ -115,7 +115,7 @@ function Fun.PIG_GetGroups(categoryID,baseFilters)
 				table.insert(data[2][activityInfo.groupFinderActivityGroupID], {activityID,activityInfo.fullName,activityInfo.shortName})
 			elseif categoryID==2 or categoryID==3 then
 				if not data[2][activityInfo.difficultyID] then
-					local DifficultyName = GetDifficultyInfo(activityInfo.difficultyID) or NONE
+					local DifficultyName = PIG_GetDifficultyInfo(activityInfo.difficultyID) or NONE
 					table.insert(data[1],{activityInfo.difficultyID,DifficultyName})
 					data[2][activityInfo.difficultyID]={}
 				end
@@ -203,7 +203,7 @@ end
 	-- 			local groupID=ActivityInfo.difficultyID..ActivityInfo.filters
 	-- 			--local groupID=ActivityInfo.groupFinderActivityGroupID
 	-- 			if not IsGroupsID(Ndata.groups,groupID) then
-	-- 				local Difficultyname = GetDifficultyInfo(ActivityInfo.difficultyID)
+	-- 				local Difficultyname = PIG_GetDifficultyInfo(ActivityInfo.difficultyID)
 	-- 				--local groupname = PIG_GetActivityGroupInfo(groupID);
 	-- 				--print(ActivityInfo.groupFinderActivityGroupID,Difficultyname,groupname)
 	-- 				table.insert(Ndata.groups,{groupID,Difficultyname..ActivityInfo.filters})
@@ -351,7 +351,7 @@ end
 -- 				for ii=1,#activities do
 -- 					local activityID=activities[ii]
 -- 					local activityInfo = C_LFGList.GetActivityInfoTable(activityID);
--- 					local Difficultyname = GetDifficultyInfo(activityInfo.difficultyID) or NONE
+-- 					local Difficultyname = PIG_GetDifficultyInfo(activityInfo.difficultyID) or NONE
 -- 					--local Difficultyname = tihuankuohao(Difficultyname)
 -- 					FBdataUI.FBName.Difficulty[activityInfo.difficultyID]=Difficultyname
 -- 					local fullName = tihuankuohao(activityInfo.fullName)
@@ -458,7 +458,7 @@ end
 -- 	for ii=1,#activities do
 -- 		local activityID=activities[ii]
 -- 		--local activityInfo = C_LFGList.GetActivityInfoTable(activityID);
--- 		-- local Difficultyname = GetDifficultyInfo(activityInfo.difficultyID) or NONE
+-- 		-- local Difficultyname = PIG_GetDifficultyInfo(activityInfo.difficultyID) or NONE
 -- 		table.insert(data, activityID)
 -- 	end
 -- 	return data

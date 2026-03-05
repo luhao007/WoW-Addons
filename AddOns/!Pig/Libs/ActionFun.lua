@@ -456,31 +456,35 @@ function ActionFun.loadingButInfo_Mode(self,dataY)
 		self:Hide()
 	end
 end
-function ActionFun.loadingButInfo(self,dataY)
+function ActionFun.loadingButInfo(self,dataY,lock)
 	self:RegisterForDrag("LeftButton")
-	local actionID=self:GetAttribute("action")
-	local butInfo = PIGA_Per[dataY]["ActionData"][actionID]
-	if butInfo then
-		self.Type=butInfo[1]
-		if butInfo[1]=="equipmentset" then
-			local eqid=C_EquipmentSet.GetEquipmentSetID(butInfo[2])
+	if dataY then
+		if dataY[1]=="equipmentset" then
+			local eqid=C_EquipmentSet.GetEquipmentSetID(dataY[2])
 			if not eqid then
 				self.Type=nil
-				PIGA_Per[dataY]["ActionData"][actionID]=nil
+				dataY=nil
 				return
 			end
 		end
-		self.SimID=butInfo[2]
-		self.SimID_3=butInfo[3]
+		self.Type=dataY[1]
+		self.SimID=dataY[2]
+		self.SimID_3=dataY[3]
+		if lock=="lock" then
+			self.NameRight:SetText(dataY[3])
+		end
 		ActionFun.Update_Attribute(self)
 		ActionFun.Update_Icon(self)
 		ActionFun.Update_Cooldown(self)
 		ActionFun.Update_Count(self)
 		ActionFun.Update_bukeyong(self)
 		ActionFun.Update_State(self)
-		ActionFun.Update_Equipment(self,dataY)
+		if dataY[1]=="equipmentset" then
+			ActionFun.Update_Equipment(self,dataY)
+		end
 	else
-		if dataY=="QuickBut" then return end
+		if lock=="lock" then self:Hide() return end
+		if lock=="NoShowActionBars" then return end
 		local Showvalue = GetCVar("alwaysShowActionBars")
 		if Showvalue=="0" then
 			self:Hide()

@@ -26,19 +26,11 @@
 
 
 Prat:AddModuleToLoad(function()
-
-  local PRAT_MODULE = Prat:RequestModuleName("LinkInfoIcons")
-
-  if PRAT_MODULE == nil then
-    return
-  end
-
-  local module = Prat:NewModule(PRAT_MODULE)
-
+  local module = Prat:NewModule("LinkInfoIcons")
   local PL = module.PL
 
   --[==[@debug@
-  PL:AddLocale(PRAT_MODULE, "enUS", {
+  PL:AddLocale("enUS", {
     ["module_name"] = "LinkInfoIcons",
     ["module_desc"] = "Adds icons and item info to hyperlinks",
     ["full_description"] = "Adds icons and item info to links in the chat.",
@@ -64,357 +56,335 @@ do
     local L
 
 
-L = {
-	["LinkInfoIcons"] = {
-		["Achievement Links"] = true,
-		["Class Icon"] = true,
-		["Class Label"] = true,
-		["full_description"] = "Adds icons and item info to links in the chat.",
-		["Icon"] = true,
-		["Item Level"] = true,
-		["Item Links"] = true,
-		["Item Type"] = true,
-		["module_desc"] = "Adds icons and item info to hyperlinks",
-		["module_name"] = "LinkInfoIcons",
-		["Player Links"] = true,
-		["Race Label"] = true,
-		["Spell Links"] = true,
-	}
-}
+L = {}
+-- LinkInfoIcons
+L["Achievement Links"] = true
+L["Class Icon"] = true
+L["Class Label"] = true
+L["full_description"] = "Adds icons and item info to links in the chat."
+L["Icon"] = true
+L["Item Level"] = true
+L["Item Links"] = true
+L["Item Type"] = true
+L["module_desc"] = "Adds icons and item info to hyperlinks"
+L["module_name"] = "LinkInfoIcons"
+L["Player Links"] = true
+L["Race Label"] = true
+L["Spell Links"] = true
 
-PL:AddLocale(PRAT_MODULE, "enUS", L)
+PL:AddLocale("enUS", L)
 
 
 
-L = {
-	["LinkInfoIcons"] = {
-		--[[Translation missing --]]
-		["Achievement Links"] = "Achievement Links",
-		--[[Translation missing --]]
-		["Class Icon"] = "Class Icon",
-		--[[Translation missing --]]
-		["Class Label"] = "Class Label",
-		--[[Translation missing --]]
-		["full_description"] = "Adds icons and item info to links in the chat.",
-		--[[Translation missing --]]
-		["Icon"] = "Icon",
-		--[[Translation missing --]]
-		["Item Level"] = "Item Level",
-		--[[Translation missing --]]
-		["Item Links"] = "Item Links",
-		--[[Translation missing --]]
-		["Item Type"] = "Item Type",
-		--[[Translation missing --]]
-		["module_desc"] = "Adds icons and item info to hyperlinks",
-		--[[Translation missing --]]
-		["module_name"] = "LinkInfoIcons",
-		--[[Translation missing --]]
-		["Player Links"] = "Player Links",
-		--[[Translation missing --]]
-		["Race Label"] = "Race Label",
-		--[[Translation missing --]]
-		["Spell Links"] = "Spell Links",
-	}
-}
+L = {}
+-- LinkInfoIcons
+--[[Translation missing --]]
+L["Achievement Links"] = "Achievement Links"
+--[[Translation missing --]]
+L["Class Icon"] = "Class Icon"
+--[[Translation missing --]]
+L["Class Label"] = "Class Label"
+--[[Translation missing --]]
+L["full_description"] = "Adds icons and item info to links in the chat."
+--[[Translation missing --]]
+L["Icon"] = "Icon"
+--[[Translation missing --]]
+L["Item Level"] = "Item Level"
+--[[Translation missing --]]
+L["Item Links"] = "Item Links"
+--[[Translation missing --]]
+L["Item Type"] = "Item Type"
+--[[Translation missing --]]
+L["module_desc"] = "Adds icons and item info to hyperlinks"
+--[[Translation missing --]]
+L["module_name"] = "LinkInfoIcons"
+--[[Translation missing --]]
+L["Player Links"] = "Player Links"
+--[[Translation missing --]]
+L["Race Label"] = "Race Label"
+--[[Translation missing --]]
+L["Spell Links"] = "Spell Links"
 
-PL:AddLocale(PRAT_MODULE, "itIT", L)
+PL:AddLocale("itIT", L)
 
 
 
-L = {
-	["LinkInfoIcons"] = {
-		--[[Translation missing --]]
-		["Achievement Links"] = "Achievement Links",
-		--[[Translation missing --]]
-		["Class Icon"] = "Class Icon",
-		--[[Translation missing --]]
-		["Class Label"] = "Class Label",
-		--[[Translation missing --]]
-		["full_description"] = "Adds icons and item info to links in the chat.",
-		--[[Translation missing --]]
-		["Icon"] = "Icon",
-		--[[Translation missing --]]
-		["Item Level"] = "Item Level",
-		--[[Translation missing --]]
-		["Item Links"] = "Item Links",
-		--[[Translation missing --]]
-		["Item Type"] = "Item Type",
-		--[[Translation missing --]]
-		["module_desc"] = "Adds icons and item info to hyperlinks",
-		--[[Translation missing --]]
-		["module_name"] = "LinkInfoIcons",
-		--[[Translation missing --]]
-		["Player Links"] = "Player Links",
-		--[[Translation missing --]]
-		["Race Label"] = "Race Label",
-		--[[Translation missing --]]
-		["Spell Links"] = "Spell Links",
-	}
-}
+L = {}
+-- LinkInfoIcons
+--[[Translation missing --]]
+L["Achievement Links"] = "Achievement Links"
+--[[Translation missing --]]
+L["Class Icon"] = "Class Icon"
+--[[Translation missing --]]
+L["Class Label"] = "Class Label"
+--[[Translation missing --]]
+L["full_description"] = "Adds icons and item info to links in the chat."
+--[[Translation missing --]]
+L["Icon"] = "Icon"
+--[[Translation missing --]]
+L["Item Level"] = "Item Level"
+--[[Translation missing --]]
+L["Item Links"] = "Item Links"
+--[[Translation missing --]]
+L["Item Type"] = "Item Type"
+--[[Translation missing --]]
+L["module_desc"] = "Adds icons and item info to hyperlinks"
+--[[Translation missing --]]
+L["module_name"] = "LinkInfoIcons"
+--[[Translation missing --]]
+L["Player Links"] = "Player Links"
+--[[Translation missing --]]
+L["Race Label"] = "Race Label"
+--[[Translation missing --]]
+L["Spell Links"] = "Spell Links"
 
-PL:AddLocale(PRAT_MODULE, "ptBR", L)
+PL:AddLocale("ptBR", L)
 
 
 
-L = {
-	["LinkInfoIcons"] = {
-		--[[Translation missing --]]
-		["Achievement Links"] = "Achievement Links",
-		--[[Translation missing --]]
-		["Class Icon"] = "Class Icon",
-		--[[Translation missing --]]
-		["Class Label"] = "Class Label",
-		--[[Translation missing --]]
-		["full_description"] = "Adds icons and item info to links in the chat.",
-		--[[Translation missing --]]
-		["Icon"] = "Icon",
-		--[[Translation missing --]]
-		["Item Level"] = "Item Level",
-		--[[Translation missing --]]
-		["Item Links"] = "Item Links",
-		--[[Translation missing --]]
-		["Item Type"] = "Item Type",
-		--[[Translation missing --]]
-		["module_desc"] = "Adds icons and item info to hyperlinks",
-		--[[Translation missing --]]
-		["module_name"] = "LinkInfoIcons",
-		--[[Translation missing --]]
-		["Player Links"] = "Player Links",
-		--[[Translation missing --]]
-		["Race Label"] = "Race Label",
-		--[[Translation missing --]]
-		["Spell Links"] = "Spell Links",
-	}
-}
+L = {}
+-- LinkInfoIcons
+--[[Translation missing --]]
+L["Achievement Links"] = "Achievement Links"
+--[[Translation missing --]]
+L["Class Icon"] = "Class Icon"
+--[[Translation missing --]]
+L["Class Label"] = "Class Label"
+--[[Translation missing --]]
+L["full_description"] = "Adds icons and item info to links in the chat."
+--[[Translation missing --]]
+L["Icon"] = "Icon"
+--[[Translation missing --]]
+L["Item Level"] = "Item Level"
+--[[Translation missing --]]
+L["Item Links"] = "Item Links"
+--[[Translation missing --]]
+L["Item Type"] = "Item Type"
+--[[Translation missing --]]
+L["module_desc"] = "Adds icons and item info to hyperlinks"
+--[[Translation missing --]]
+L["module_name"] = "LinkInfoIcons"
+--[[Translation missing --]]
+L["Player Links"] = "Player Links"
+--[[Translation missing --]]
+L["Race Label"] = "Race Label"
+--[[Translation missing --]]
+L["Spell Links"] = "Spell Links"
 
-PL:AddLocale(PRAT_MODULE, "frFR", L)
+PL:AddLocale("frFR", L)
 
 
 
-L = {
-	["LinkInfoIcons"] = {
-		["Achievement Links"] = "Erfolgslinks",
-		["Class Icon"] = "Klassensymbol",
-		["Class Label"] = "Klassenbeschriftung",
-		["full_description"] = "Fügt Links im Chat Symbole und Gegenstandsinformationen hinzu.",
-		["Icon"] = "Symbol",
-		["Item Level"] = "Gegenstandsstufe",
-		["Item Links"] = "Gegenstandslinks",
-		["Item Type"] = "Gegenstandsart",
-		["module_desc"] = "Fügt Hyperlinks Symbole und Gegenstandsinformationen hinzu",
-		["module_name"] = "LinkInfo-Symbole",
-		["Player Links"] = "Spielerlinks",
-		["Race Label"] = "Wettlaufbeschriftung",
-		["Spell Links"] = "Zauberlinks",
-	}
-}
+L = {}
+-- LinkInfoIcons
+L["Achievement Links"] = "Erfolgslinks"
+L["Class Icon"] = "Klassensymbol"
+L["Class Label"] = "Klassenbeschriftung"
+L["full_description"] = "Fügt Links im Chat Symbole und Gegenstandsinformationen hinzu."
+L["Icon"] = "Symbol"
+L["Item Level"] = "Gegenstandsstufe"
+L["Item Links"] = "Gegenstandslinks"
+L["Item Type"] = "Gegenstandsart"
+L["module_desc"] = "Fügt Hyperlinks Symbole und Gegenstandsinformationen hinzu"
+L["module_name"] = "LinkInfo-Symbole"
+L["Player Links"] = "Spielerlinks"
+L["Race Label"] = "Wettlaufbeschriftung"
+L["Spell Links"] = "Zauberlinks"
 
-PL:AddLocale(PRAT_MODULE, "deDE", L)
+PL:AddLocale("deDE", L)
 
 
 
-L = {
-	["LinkInfoIcons"] = {
-		--[[Translation missing --]]
-		["Achievement Links"] = "Achievement Links",
-		--[[Translation missing --]]
-		["Class Icon"] = "Class Icon",
-		--[[Translation missing --]]
-		["Class Label"] = "Class Label",
-		--[[Translation missing --]]
-		["full_description"] = "Adds icons and item info to links in the chat.",
-		--[[Translation missing --]]
-		["Icon"] = "Icon",
-		--[[Translation missing --]]
-		["Item Level"] = "Item Level",
-		--[[Translation missing --]]
-		["Item Links"] = "Item Links",
-		--[[Translation missing --]]
-		["Item Type"] = "Item Type",
-		--[[Translation missing --]]
-		["module_desc"] = "Adds icons and item info to hyperlinks",
-		--[[Translation missing --]]
-		["module_name"] = "LinkInfoIcons",
-		--[[Translation missing --]]
-		["Player Links"] = "Player Links",
-		--[[Translation missing --]]
-		["Race Label"] = "Race Label",
-		--[[Translation missing --]]
-		["Spell Links"] = "Spell Links",
-	}
-}
+L = {}
+-- LinkInfoIcons
+--[[Translation missing --]]
+L["Achievement Links"] = "Achievement Links"
+--[[Translation missing --]]
+L["Class Icon"] = "Class Icon"
+--[[Translation missing --]]
+L["Class Label"] = "Class Label"
+--[[Translation missing --]]
+L["full_description"] = "Adds icons and item info to links in the chat."
+--[[Translation missing --]]
+L["Icon"] = "Icon"
+--[[Translation missing --]]
+L["Item Level"] = "Item Level"
+--[[Translation missing --]]
+L["Item Links"] = "Item Links"
+--[[Translation missing --]]
+L["Item Type"] = "Item Type"
+--[[Translation missing --]]
+L["module_desc"] = "Adds icons and item info to hyperlinks"
+--[[Translation missing --]]
+L["module_name"] = "LinkInfoIcons"
+--[[Translation missing --]]
+L["Player Links"] = "Player Links"
+--[[Translation missing --]]
+L["Race Label"] = "Race Label"
+--[[Translation missing --]]
+L["Spell Links"] = "Spell Links"
 
-PL:AddLocale(PRAT_MODULE, "koKR",  L)
+PL:AddLocale("koKR",  L)
 
 
-L = {
-	["LinkInfoIcons"] = {
-		--[[Translation missing --]]
-		["Achievement Links"] = "Achievement Links",
-		--[[Translation missing --]]
-		["Class Icon"] = "Class Icon",
-		--[[Translation missing --]]
-		["Class Label"] = "Class Label",
-		--[[Translation missing --]]
-		["full_description"] = "Adds icons and item info to links in the chat.",
-		--[[Translation missing --]]
-		["Icon"] = "Icon",
-		--[[Translation missing --]]
-		["Item Level"] = "Item Level",
-		--[[Translation missing --]]
-		["Item Links"] = "Item Links",
-		--[[Translation missing --]]
-		["Item Type"] = "Item Type",
-		--[[Translation missing --]]
-		["module_desc"] = "Adds icons and item info to hyperlinks",
-		--[[Translation missing --]]
-		["module_name"] = "LinkInfoIcons",
-		--[[Translation missing --]]
-		["Player Links"] = "Player Links",
-		--[[Translation missing --]]
-		["Race Label"] = "Race Label",
-		--[[Translation missing --]]
-		["Spell Links"] = "Spell Links",
-	}
-}
+L = {}
+-- LinkInfoIcons
+--[[Translation missing --]]
+L["Achievement Links"] = "Achievement Links"
+--[[Translation missing --]]
+L["Class Icon"] = "Class Icon"
+--[[Translation missing --]]
+L["Class Label"] = "Class Label"
+--[[Translation missing --]]
+L["full_description"] = "Adds icons and item info to links in the chat."
+--[[Translation missing --]]
+L["Icon"] = "Icon"
+--[[Translation missing --]]
+L["Item Level"] = "Item Level"
+--[[Translation missing --]]
+L["Item Links"] = "Item Links"
+--[[Translation missing --]]
+L["Item Type"] = "Item Type"
+--[[Translation missing --]]
+L["module_desc"] = "Adds icons and item info to hyperlinks"
+--[[Translation missing --]]
+L["module_name"] = "LinkInfoIcons"
+--[[Translation missing --]]
+L["Player Links"] = "Player Links"
+--[[Translation missing --]]
+L["Race Label"] = "Race Label"
+--[[Translation missing --]]
+L["Spell Links"] = "Spell Links"
 
-PL:AddLocale(PRAT_MODULE, "esMX",  L)
+PL:AddLocale("esMX",  L)
 
 
-L = {
-	["LinkInfoIcons"] = {
-		--[[Translation missing --]]
-		["Achievement Links"] = "Achievement Links",
-		--[[Translation missing --]]
-		["Class Icon"] = "Class Icon",
-		--[[Translation missing --]]
-		["Class Label"] = "Class Label",
-		--[[Translation missing --]]
-		["full_description"] = "Adds icons and item info to links in the chat.",
-		--[[Translation missing --]]
-		["Icon"] = "Icon",
-		--[[Translation missing --]]
-		["Item Level"] = "Item Level",
-		--[[Translation missing --]]
-		["Item Links"] = "Item Links",
-		--[[Translation missing --]]
-		["Item Type"] = "Item Type",
-		--[[Translation missing --]]
-		["module_desc"] = "Adds icons and item info to hyperlinks",
-		--[[Translation missing --]]
-		["module_name"] = "LinkInfoIcons",
-		--[[Translation missing --]]
-		["Player Links"] = "Player Links",
-		--[[Translation missing --]]
-		["Race Label"] = "Race Label",
-		--[[Translation missing --]]
-		["Spell Links"] = "Spell Links",
-	}
-}
+L = {}
+-- LinkInfoIcons
+--[[Translation missing --]]
+L["Achievement Links"] = "Achievement Links"
+--[[Translation missing --]]
+L["Class Icon"] = "Class Icon"
+--[[Translation missing --]]
+L["Class Label"] = "Class Label"
+--[[Translation missing --]]
+L["full_description"] = "Adds icons and item info to links in the chat."
+--[[Translation missing --]]
+L["Icon"] = "Icon"
+--[[Translation missing --]]
+L["Item Level"] = "Item Level"
+--[[Translation missing --]]
+L["Item Links"] = "Item Links"
+--[[Translation missing --]]
+L["Item Type"] = "Item Type"
+--[[Translation missing --]]
+L["module_desc"] = "Adds icons and item info to hyperlinks"
+--[[Translation missing --]]
+L["module_name"] = "LinkInfoIcons"
+--[[Translation missing --]]
+L["Player Links"] = "Player Links"
+--[[Translation missing --]]
+L["Race Label"] = "Race Label"
+--[[Translation missing --]]
+L["Spell Links"] = "Spell Links"
 
-PL:AddLocale(PRAT_MODULE, "ruRU",  L)
+PL:AddLocale("ruRU",  L)
 
 
-L = {
-	["LinkInfoIcons"] = {
-		--[[Translation missing --]]
-		["Achievement Links"] = "Achievement Links",
-		--[[Translation missing --]]
-		["Class Icon"] = "Class Icon",
-		--[[Translation missing --]]
-		["Class Label"] = "Class Label",
-		--[[Translation missing --]]
-		["full_description"] = "Adds icons and item info to links in the chat.",
-		--[[Translation missing --]]
-		["Icon"] = "Icon",
-		--[[Translation missing --]]
-		["Item Level"] = "Item Level",
-		--[[Translation missing --]]
-		["Item Links"] = "Item Links",
-		--[[Translation missing --]]
-		["Item Type"] = "Item Type",
-		--[[Translation missing --]]
-		["module_desc"] = "Adds icons and item info to hyperlinks",
-		--[[Translation missing --]]
-		["module_name"] = "LinkInfoIcons",
-		--[[Translation missing --]]
-		["Player Links"] = "Player Links",
-		--[[Translation missing --]]
-		["Race Label"] = "Race Label",
-		--[[Translation missing --]]
-		["Spell Links"] = "Spell Links",
-	}
-}
+L = {}
+-- LinkInfoIcons
+--[[Translation missing --]]
+L["Achievement Links"] = "Achievement Links"
+--[[Translation missing --]]
+L["Class Icon"] = "Class Icon"
+--[[Translation missing --]]
+L["Class Label"] = "Class Label"
+--[[Translation missing --]]
+L["full_description"] = "Adds icons and item info to links in the chat."
+--[[Translation missing --]]
+L["Icon"] = "Icon"
+--[[Translation missing --]]
+L["Item Level"] = "Item Level"
+--[[Translation missing --]]
+L["Item Links"] = "Item Links"
+--[[Translation missing --]]
+L["Item Type"] = "Item Type"
+--[[Translation missing --]]
+L["module_desc"] = "Adds icons and item info to hyperlinks"
+--[[Translation missing --]]
+L["module_name"] = "LinkInfoIcons"
+--[[Translation missing --]]
+L["Player Links"] = "Player Links"
+--[[Translation missing --]]
+L["Race Label"] = "Race Label"
+--[[Translation missing --]]
+L["Spell Links"] = "Spell Links"
 
-PL:AddLocale(PRAT_MODULE, "zhCN",  L)
+PL:AddLocale("zhCN",  L)
 
 
-L = {
-	["LinkInfoIcons"] = {
-		--[[Translation missing --]]
-		["Achievement Links"] = "Achievement Links",
-		--[[Translation missing --]]
-		["Class Icon"] = "Class Icon",
-		--[[Translation missing --]]
-		["Class Label"] = "Class Label",
-		--[[Translation missing --]]
-		["full_description"] = "Adds icons and item info to links in the chat.",
-		--[[Translation missing --]]
-		["Icon"] = "Icon",
-		--[[Translation missing --]]
-		["Item Level"] = "Item Level",
-		--[[Translation missing --]]
-		["Item Links"] = "Item Links",
-		--[[Translation missing --]]
-		["Item Type"] = "Item Type",
-		--[[Translation missing --]]
-		["module_desc"] = "Adds icons and item info to hyperlinks",
-		--[[Translation missing --]]
-		["module_name"] = "LinkInfoIcons",
-		--[[Translation missing --]]
-		["Player Links"] = "Player Links",
-		--[[Translation missing --]]
-		["Race Label"] = "Race Label",
-		--[[Translation missing --]]
-		["Spell Links"] = "Spell Links",
-	}
-}
+L = {}
+-- LinkInfoIcons
+--[[Translation missing --]]
+L["Achievement Links"] = "Achievement Links"
+--[[Translation missing --]]
+L["Class Icon"] = "Class Icon"
+--[[Translation missing --]]
+L["Class Label"] = "Class Label"
+--[[Translation missing --]]
+L["full_description"] = "Adds icons and item info to links in the chat."
+--[[Translation missing --]]
+L["Icon"] = "Icon"
+--[[Translation missing --]]
+L["Item Level"] = "Item Level"
+--[[Translation missing --]]
+L["Item Links"] = "Item Links"
+--[[Translation missing --]]
+L["Item Type"] = "Item Type"
+--[[Translation missing --]]
+L["module_desc"] = "Adds icons and item info to hyperlinks"
+--[[Translation missing --]]
+L["module_name"] = "LinkInfoIcons"
+--[[Translation missing --]]
+L["Player Links"] = "Player Links"
+--[[Translation missing --]]
+L["Race Label"] = "Race Label"
+--[[Translation missing --]]
+L["Spell Links"] = "Spell Links"
 
-PL:AddLocale(PRAT_MODULE, "esES",  L)
+PL:AddLocale("esES",  L)
 
 
-L = {
-	["LinkInfoIcons"] = {
-		--[[Translation missing --]]
-		["Achievement Links"] = "Achievement Links",
-		--[[Translation missing --]]
-		["Class Icon"] = "Class Icon",
-		--[[Translation missing --]]
-		["Class Label"] = "Class Label",
-		--[[Translation missing --]]
-		["full_description"] = "Adds icons and item info to links in the chat.",
-		--[[Translation missing --]]
-		["Icon"] = "Icon",
-		--[[Translation missing --]]
-		["Item Level"] = "Item Level",
-		--[[Translation missing --]]
-		["Item Links"] = "Item Links",
-		--[[Translation missing --]]
-		["Item Type"] = "Item Type",
-		--[[Translation missing --]]
-		["module_desc"] = "Adds icons and item info to hyperlinks",
-		--[[Translation missing --]]
-		["module_name"] = "LinkInfoIcons",
-		--[[Translation missing --]]
-		["Player Links"] = "Player Links",
-		--[[Translation missing --]]
-		["Race Label"] = "Race Label",
-		--[[Translation missing --]]
-		["Spell Links"] = "Spell Links",
-	}
-}
+L = {}
+-- LinkInfoIcons
+--[[Translation missing --]]
+L["Achievement Links"] = "Achievement Links"
+--[[Translation missing --]]
+L["Class Icon"] = "Class Icon"
+--[[Translation missing --]]
+L["Class Label"] = "Class Label"
+--[[Translation missing --]]
+L["full_description"] = "Adds icons and item info to links in the chat."
+--[[Translation missing --]]
+L["Icon"] = "Icon"
+--[[Translation missing --]]
+L["Item Level"] = "Item Level"
+--[[Translation missing --]]
+L["Item Links"] = "Item Links"
+--[[Translation missing --]]
+L["Item Type"] = "Item Type"
+--[[Translation missing --]]
+L["module_desc"] = "Adds icons and item info to hyperlinks"
+--[[Translation missing --]]
+L["module_name"] = "LinkInfoIcons"
+--[[Translation missing --]]
+L["Player Links"] = "Player Links"
+--[[Translation missing --]]
+L["Race Label"] = "Race Label"
+--[[Translation missing --]]
+L["Spell Links"] = "Spell Links"
 
-PL:AddLocale(PRAT_MODULE, "zhTW",  L)
+PL:AddLocale("zhTW",  L)
 end
 --@end-non-debug@
 
@@ -663,7 +633,7 @@ end
     return res
   end
 
-  Prat.RegisterPattern({
+  Prat:RegisterPattern({
     pattern = GetPattern("item"),
     matchfunc = function(link)
       if module.db.profile.on then
@@ -674,7 +644,7 @@ end
     priority = 43
   }, module.name)
 
-  Prat.RegisterPattern({
+  Prat:RegisterPattern({
     pattern = GetPattern("spell"),
     matchfunc = function(link)
       if module.db.profile.on then
@@ -685,7 +655,7 @@ end
     priority = 43
   }, module.name)
 
-  Prat.RegisterPattern({
+  Prat:RegisterPattern({
     pattern = GetPattern("achievement"),
     matchfunc = function(link)
       if module.db.profile.on then

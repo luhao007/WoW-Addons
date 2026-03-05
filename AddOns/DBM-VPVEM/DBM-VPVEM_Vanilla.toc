@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: Iceoven
-## Version: e89c0c3
+## Version: 302fe0b
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Media|r|cffffe00a>|r |cff308530Voicepack VEM|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本助手|r |cFF69CCF0VEM语音包|r
@@ -18,7 +18,7 @@
 ## X-DBM-Voice-Name-ruRU: VEM Английский женский
 ## X-DBM-Voice-Name-koKR: VEM 영어 여성
 ## X-DBM-Voice-ShortName: VEM
-## X-DBM-Voice-Version: 18
+## X-DBM-Voice-Version: 19
 ## X-DBM-Voice-HasCount: 1
 ## X-Part-Of: DBM-Core
 

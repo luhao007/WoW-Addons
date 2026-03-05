@@ -8,7 +8,7 @@ local DelveCompanion = AddonTbl.DelveCompanion
 local Config = {}
 DelveCompanion.Config = Config
 
----@type integer Delves have been introduced in TWW. It's used in different frames to display relevant content depending on the selected expansion.
+---@type number Delves have been introduced in TWW. It's used in different frames to display relevant content depending on the selected expansion.
 Config.DELVES_MIN_EXPANSION = LE_EXPANSION_WAR_WITHIN
 
 --#region Save Data
@@ -19,183 +19,94 @@ Config.DELVES_MIN_EXPANSION = LE_EXPANSION_WAR_WITHIN
 ---@field trackingType WaypointTrackingType Type of tracking used to set waypoints to the Delves.
 ---@field inDelveWidgetEnabled boolean Whether [InDelveWidget](lua://InDelveWidget) is displayed.
 ---@field inDelveWidgetDisplayRule InDelveWidgetDisplayRule Where [InDelveWidget](lua://InDelveWidget) is displayed.
+---@field inDelveWidgetLayout InDelveWidgetLayout How [InDelveWidget](lua://InDelveWidget) buttons are arranged.
+---@field logsEnabled boolean Whether logs are enabled.
 Config.DEFAULT_ACCOUNT_DATA = {
     delvesListInfoWidgetsEnabled = true,
     trackingType = DelveCompanion.Definitions.WaypointTrackingType.superTrack,
     inDelveWidgetEnabled = true,
-    inDelveWidgetDisplayRule = DelveCompanion.Definitions.InDelveWidgetDisplayRule.left
+    inDelveWidgetDisplayRule = DelveCompanion.Definitions.InDelveWidgetDisplayRule.left,
+    inDelveWidgetLayout = DelveCompanion.Definitions.InDelveWidgetLayout.vertical,
+    logsEnabled = false
 }
 
 --- Character Save Data
 ---@class (exact) DelveCompanionCharacterData
 ---@field keysCapTooltipEnabled boolean Whether to display extra info in tooltips. Bad naming, affects all tooltips, not only Restored Coffer Key.
----@field dashOverviewEnabled boolean [RETIRED] Overview section in Delves UI.
----@field gvDetailsEnabled boolean [RETIRED] Custom GV frame in Delves UI.
----@field displayCompanionConfig boolean [RETIRED] Whether to show Companion config in Delves UI.
----@field companionConfigLayout CompanionWidgetLayout [RETIRED] Type of layout used for Companion config in Delves UI.
 Config.DEFAULT_CHARACTER_DATA = {
-    keysCapTooltipEnabled = true,
-    dashOverviewEnabled = true,
-    gvDetailsEnabled = true,
-    displayCompanionConfig = true,
-    companionConfigLayout = DelveCompanion.Definitions.CompanionWidgetLayout.horizontal
+    keysCapTooltipEnabled = true
 }
 --#endregion
 
----@type integer Item ID of [Delve-O-Bot 7001](https://www.wowhead.com/item=230850/delve-o-bot-7001).
+--#region TWW legacy
+---@type number Item ID of [Delve-O-Bot 7001](https://www.wowhead.com/item=230850/delve-o-bot-7001).
 Config.DELVE_O_BOT_ITEM_CODE = 230850
 
---#region Great Vault
-
----@type integer Delves' Activity ID to retrieve Great Vault rewards state.
-Config.ACTIVITY_TYPE = Enum.WeeklyRewardChestThresholdType.World
----@type integer Max tier of the Delve which upgrades Great Vault rewards.
-Config.GREAT_VAULT_UPGRADE_MAX_TIER = 8
----@type integer Item ID of [Bountiful Coffer](https://www.wowhead.com/item=228942/bountiful-coffer).
-Config.BOUNTIFUL_COFFER_ITEM_CODE = 228942
+---@type number Item ID of [Radiant Echo](https://www.wowhead.com/item=246771/radiant-echo).
+Config.ECHO_ITEM_CODE = 246771
 --#endregion
 
 --#region Restored Coffer Key
 
----@type integer Currency ID of [Restored Coffer Key](https://www.wowhead.com/currency=3028/restored-coffer-key).
+---@type number Currency ID of [Restored Coffer Key](https://www.wowhead.com/currency=3028/restored-coffer-key).
 Config.BOUNTIFUL_KEY_CURRENCY_CODE = 3028
----@type integer Currency ID of [Coffer Key Shards](https://www.wowhead.com/currency=3310/coffer-key-shards).
+---@type number Currency ID of [Coffer Key Shards](https://www.wowhead.com/currency=3310/coffer-key-shards).
 Config.KEY_SHARDS_CURRENCY_CODE = 3310
 
----@type integer Amount of [Coffer Key Shards](https://www.wowhead.com/item=236096/coffer-key-shard) required to assemble [Restored Coffer Key](https://www.wowhead.com/currency=3028/restored-coffer-key).
+---@type number Amount of [Coffer Key Shards](https://www.wowhead.com/item=236096/coffer-key-shard) required to assemble [Restored Coffer Key](https://www.wowhead.com/currency=3028/restored-coffer-key).
 Config.SHARDS_FOR_KEY = 100
----@type integer Amount of [Coffer Key Shards](https://www.wowhead.com/item=236096/coffer-key-shard) player gets from a Cache like [Pinnacle Cache](https://www.wowhead.com/item=239118/pinnacle-cache).
-Config.KEY_SHARDS_PER_CACHE = 50
-
----@type table<integer, number> Table of Quest IDs used to track [Restored Coffer Keys](https://www.wowhead.com/currency=3028/restored-coffer-key) player has received from Caches this week.
-Config.BOUNTIFUL_KEY_QUESTS_DATA = {
-    91175,
-    91176,
-    91177,
-    91178
-}
----@type table<integer, number> Table of Caches containing [Restored Coffer Keys](https://www.wowhead.com/currency=3028/restored-coffer-key) (e.g. [Pinnacle Cache](https://www.wowhead.com/item=239118/pinnacle-cache)).
-Config.BOUNTIFUL_KEY_SOURCE_CACHES_DATA = {
-    -- TWW Season 3
-    244842,
-    244865,
-    245611,
-    255676
-}
----@type table<integer, number> Table of Quest IDs used to track [Coffer Key Shards](https://www.wowhead.com/item=245653/coffer-key-shard) player has received from Caches this week.
-Config.KEY_SHARD_QUESTS_DATA = {
-    84736,
-    84737,
-    84738,
-    84739
-}
----@type table<integer, number> Table of Caches containing [Coffer Key Shards](https://www.wowhead.com/item=245653/coffer-key-shard).
-Config.KEY_SHARD_SOURCE_CACHES_DATA = {
-    -- TWW Season 1
-    226263,
-    226273,
-    226264,
-    224784,
-    225571,
-    225572,
-    225573,
-    228361,
-    -- TWW Season 2
-    239128,
-    239121,
-    239126,
-    239125,
-    239118,
-    239122,
-    239124,
-    238208,
-    235639,
-    235610,
-    239120,
-    -- TWW Season 3
-    244883,
-    244865,
-    245280,
-    250768,
-    250766,
-    250765,
-    250769,
-    250763,
-    250764,
-    250767,
-    -- Others
-    233014
-}
 --#endregion
 
----@type integer Currency ID of [Untainted Mana-Crystals](https://www.wowhead.com/currency=3356/untainted-mana-crystals).
+---@type number Currency ID of [Untainted Mana-Crystals](https://www.wowhead.com/currency=3356/untainted-mana-crystals).
 Config.MANA_CRYSTALS_CURRENCY_CODE = 3356
 
----@type integer Item ID of [L00T RAID-R Mini](https://www.wowhead.com/item=244193/l00t-raid-r-mini).
+---@type number Item ID of [L00T RAID-R Mini](https://www.wowhead.com/item=244193/l00t-raid-r-mini).
 Config.LOOT_RADAR_ITEM_CODE = 244193
 -- Config.LOOT_RADAR_ACTIVATED_SPELL = 1236623 -- USELESS at the moment. There is no buff or aura when the radar is active.
 
----@type table<integer, number> Item ID of a Nemesis lure.
+---@type table<number, number> Item ID of a Nemesis lure.
 Config.NEMESIS_LURE = {
-    [LE_EXPANSION_WAR_WITHIN] = 248017, -- Shrieking Quartz
-    [LE_EXPANSION_MIDNIGHT] = 253342    -- Beacon of Hope
+    [LE_EXPANSION_MIDNIGHT] = 253342 -- Beacon of Hope
 }
 
 --#region Bounty Map.
 
----@type table<integer, number> Item ID of Bounty Map.
+---@type table<number, number> Item ID of Bounty Map.
 Config.BOUNTY_MAPS = {
-    [LE_EXPANSION_WAR_WITHIN] = 248142, -- Delver's Bounty
-    [LE_EXPANSION_MIDNIGHT] = 252415    -- Trovehunter's Bounty
+    [LE_EXPANSION_MIDNIGHT] = 252415 -- Trovehunter's Bounty
 }
----@type table<integer, number> Spell ID of the active Bounty Map.
+---@type table<number, number> Spell ID of the active Bounty Map.
 Config.BOUNTY_ACTIVATED_SPELL = {
-    [LE_EXPANSION_WAR_WITHIN] = 1246363, -- Delver's Bounty
-    [LE_EXPANSION_MIDNIGHT] = 1254631    -- Trovehunter's Bounty
+    [LE_EXPANSION_MIDNIGHT] = 1254631 -- Trovehunter's Bounty
 }
 
----@type integer Weekly cap of maps (par character).
+---@type number Weekly cap of maps (per character).
 Config.BOUNTY_MAP_MAX_PER_WEEK = 1
----@type integer Quest ID used to track whether player has looted Bounty Map during the week.
+---@type number Quest ID used to track whether player has looted Bounty Map during the week.
 Config.BOUNTY_MAP_QUEST = 86371
 --#endregion
 
 --#region Gilded Stash
 
----@type integer Spell ID of [Gilded Stash](https://www.wowhead.com/spell=1216211/gilded-stash).
+---@type number Spell ID of [Gilded Stash](https://www.wowhead.com/spell=1216211/gilded-stash).
 Config.GILDED_STASH_SPELL_CODE = 1216211
----@type integer [Gilded Stash](https://www.wowhead.com/spell=1216211/gilded-stash) player can open per week.
-Config.GILDED_STASH_WEEKLY_CAP = 3
---#endregion
-
---#region Delve-related entities which are updated every season
-
--- TODO: Remove or use for TWW widget if still available
----@type integer Item ID of [Radiant Echo](https://www.wowhead.com/item=246771/radiant-echo).
-Config.ECHO_ITEM_CODE = 246771
-
--- TODO: Remove or use for TWW widget if still available
----@type integer Item ID of [Coffer Key Shard](https://www.wowhead.com/item=245653/coffer-key-shard).
-Config.KEY_SHARD_ITEM_CODE = 245653
 --#endregion
 
 --#region Seasonal modifiers
 
 ---@class (exact) DelveConfigAffixes : table
 ---@field Nemesis table<number, number>
--- ---@field Flicker table<number, number> TODO: Add if available or remove
 
 ---@type DelveConfigAffixes Spell ID of Delve affixes.
 Config.AFFIXES = {
     -- [Nemesis Strongbox](https://www.wowhead.com/spell=1239535/nemesis-strongbox).
     Nemesis = {
-        [LE_EXPANSION_WAR_WITHIN] = 1239535,
         [LE_EXPANSION_MIDNIGHT] = 1270179
     }
 }
 --#endregion
 
----@type table<integer, number> Quest ID required to unlock Companions.
+---@type table<number, number> Quest ID required to unlock a Companion.
 Config.COMPANION_UNLOCK_QUEST = {
     [LE_EXPANSION_WAR_WITHIN] = 78464,
     [LE_EXPANSION_MIDNIGHT] = 86636
@@ -203,13 +114,13 @@ Config.COMPANION_UNLOCK_QUEST = {
 
 --#region Delves data
 
----@type table<integer, number> [uiMapID](https://warcraft.wiki.gg/wiki/UiMapID) of continents with delves by expansion.
+---@type table<number, number> [uiMapID](https://warcraft.wiki.gg/wiki/UiMapID) of continents with delves by expansion.
 Config.DELVE_CONTINENTS = {
     [LE_EXPANSION_WAR_WITHIN] = 2274,
     [LE_EXPANSION_MIDNIGHT] = 2537
 }
 
----@type table<integer, number[]> List of [uiMapIDs](https://warcraft.wiki.gg/wiki/UiMapID) which contain Delves.
+---@type table<number, number[]> List of [uiMapIDs](https://warcraft.wiki.gg/wiki/UiMapID) which contain Delves.
 --- Grouped by LE_EXPANSION enum. Controls display order of zones in the list.
 Config.DELVE_MAPS = {
     [LE_EXPANSION_WAR_WITHIN] = {
@@ -249,7 +160,7 @@ Config.DELVE_MAPS = {
 ---@field coordinates MapCoord? Delve entrance coordinates. Used primarly for Boss Delves and non-Blizzard waypoints (e.g. TomTom).
 ---@field nemesisInfo DelveConfigNemesisInfo?
 
----@type table<integer, DelveConfig[]> Table of all Delves in the game and their parameters. Grouped by LE_EXPANSION enum.
+---@type table<number, DelveConfig[]> Table of all Delves in the game and their parameters. Grouped by LE_EXPANSION enum.
 Config.DELVES_CONFIG = {
     [LE_EXPANSION_WAR_WITHIN] = {
         -- Earthcrawl Mines
@@ -683,58 +594,96 @@ Config.DELVES_CONFIG = {
     }
 }
 
--- TODO: REWORK LOOT INFO
+--- Table to assign a color depending on ilvl.
+---@class (exact) LootRarity
+---@field from number Left value of the range, inclusive.
+---@field to number Right value of the range, inclusive.
+---@field color colorRGBA Color for such an ilvl.
+
+---@type LootRarity[]
+Config.LOOT_RARITY = {
+    [1] = {
+        from = 220,
+        to = 230,
+        color = _G["ITEM_SUPERIOR_COLOR"]
+    },
+    [2] = {
+        from = 231,
+        to = 243,
+        color = _G["ITEM_EPIC_COLOR"]
+    },
+    [3] = {
+        from = 244,
+        to = 256,
+        color = _G["ITEM_LEGENDARY_COLOR"]
+    },
+    [4] = {
+        from = 257,
+        to = 269,
+        color = _G["ITEM_ARTIFACT_COLOR"]
+    }
+}
+
 --- Table with Delve Loot information
----@class DelveLootInfo
----@field bountifulLvl integer Item Level player gets opening [Bountiful Coffer](https://www.wowhead.com/item=228942/bountiful-coffer).
----@field vaultLvl integer Item Level player gets from the Great Vault completing the corresponding Delve Tier.
+---@class (exact) DelveLootInfo
+---@field bountifulLvl number Item Level player gets opening [Bountiful Coffer](https://www.wowhead.com/item=228942/bountiful-coffer).
+---@field vaultLvl number Item Level player gets from the Great Vault completing the corresponding Delve Tier.
+---@field mapLvl number? Item Level player gets from the Bounty Map chest completing the corresponding Delve Tier. Can be nil because Bounty Map reward is unavailable for some tiers.
 
 --- Indexed table of Delves Loot information (index = Tier).
 ---@type DelveLootInfo[]
 Config.DELVES_LOOT_INFO_DATA = {
     [1] = {
-        bountifulLvl = 655,
-        vaultLvl = 668
+        bountifulLvl = 220,
+        vaultLvl = 233
     },
     [2] = {
-        bountifulLvl = 658,
-        vaultLvl = 668
+        bountifulLvl = 224,
+        vaultLvl = 237
     },
     [3] = {
-        bountifulLvl = 662,
-        vaultLvl = 671
+        bountifulLvl = 227,
+        vaultLvl = 240
     },
     [4] = {
-        bountifulLvl = 665,
-        vaultLvl = 681
+        bountifulLvl = 230,
+        vaultLvl = 243,
+        mapLvl = 237
     },
     [5] = {
-        bountifulLvl = 668,
-        vaultLvl = 688
+        bountifulLvl = 233,
+        vaultLvl = 246,
+        mapLvl = 243
     },
     [6] = {
-        bountifulLvl = 671,
-        vaultLvl = 691
+        bountifulLvl = 237,
+        vaultLvl = 253,
+        mapLvl = 246
     },
     [7] = {
-        bountifulLvl = 681,
-        vaultLvl = 691
+        bountifulLvl = 246,
+        vaultLvl = 256,
+        mapLvl = 250
     },
     [8] = {
-        bountifulLvl = 684,
-        vaultLvl = 694
+        bountifulLvl = 250,
+        vaultLvl = 259,
+        mapLvl = 259
     },
     [9] = {
-        bountifulLvl = 684,
-        vaultLvl = 694
+        bountifulLvl = 250,
+        vaultLvl = 259,
+        mapLvl = 259
     },
     [10] = {
-        bountifulLvl = 684,
-        vaultLvl = 694
+        bountifulLvl = 250,
+        vaultLvl = 259,
+        mapLvl = 259
     },
     [11] = {
-        bountifulLvl = 684,
-        vaultLvl = 694
+        bountifulLvl = 250,
+        vaultLvl = 259,
+        mapLvl = 259
     }
 }
 --#endregion

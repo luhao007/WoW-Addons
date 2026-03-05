@@ -55,7 +55,7 @@ end
 
 ---@param self DelveEncounterGildedStashFrame
 function DelveCompanion_DelveEncounterGildedStashFrameMixin:OnLoad()
-    -- Logger.Log("[DelveEncounterGildedStashFrame] OnLoad start")
+    -- Logger:Log("[DelveEncounterGildedStashFrame] OnLoad start")
 
     local stashSpell = Spell:CreateFromSpellID(Config.GILDED_STASH_SPELL_CODE)
     stashSpell:ContinueOnSpellLoad(function()
@@ -69,20 +69,19 @@ end
 
 ---@param self DelveEncounterGildedStashFrame
 function DelveCompanion_DelveEncounterGildedStashFrameMixin:OnShow()
-    -- Logger.Log("[DelveEncounterGildedStashFrame] OnShow start")
+    -- Logger:Log("[DelveEncounterGildedStashFrame] OnShow start")
 
     ---@type number
     local expansion = GetEJTierData(EJ_GetCurrentTier()).expansionLevel
 
     local stashDisplayInfo = self:TryGetStashInfo(expansion)
     if not stashDisplayInfo then
-        if expansion == LE_EXPANSION_WAR_WITHIN then
-            self.ErrorLabel:SetText(Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_TWW)
-        elseif expansion == LE_EXPANSION_MIDNIGHT then
+        if expansion == LE_EXPANSION_MIDNIGHT then
             self.ErrorLabel:SetText(Lockit.UI_GILDED_STASH_CANNOT_RETRIEVE_DATA_MIDNIGHT)
         end
         self.ErrorLabel:Show()
         self.Widget:Hide()
+
         return
     end
 
@@ -112,7 +111,7 @@ end
 
 ---@param self DelveEncounterGildedStashFrame
 function DelveCompanion_DelveEncounterGildedStashFrameMixin:OnHide()
-    -- Logger.Log("[DelveEncounterGildedStashFrame] OnHide start")
+    -- Logger:Log("[DelveEncounterGildedStashFrame] OnHide start")
 
     self.Widget:Hide()
     self.ErrorLabel:Hide()

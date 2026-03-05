@@ -1333,6 +1333,7 @@ do  --Currency Change Handler
         if quantityChange and quantityChange > 0 then
             local name, icon, quality = GetCurrencyDisplayInfo(currencyID);
             if name then
+                --print(name, currencyID, quantity, quantityChange, quantityGainSource);    --debug
                 local link = string.format("|Hcurrency:%d|h", currencyID);
                 local slotIndex = 0;
                 local data = CreateCurrencyDataFromCurrencyID(link, currencyID, slotIndex, icon, name, quantityChange, quality);
@@ -1842,6 +1843,7 @@ do  --Edit Mode
 
     local OPTIONS_SCHEMATIC = {
         title = L["Addon Name Colon"]..L["ModuleName LootUI"],
+        moduleDBKey = "LootUI",
         widgets = {
             {type = "Slider", label = L["Font Size"], minValue = 10, maxValue = 16, valueStep = 2, onValueChangedFunc = Options_FontSizeSlider_OnValueChanged, formatValueMethod = "Decimal1", dbKey = "LootUI_FontSize"},
             {type = "Slider", label = L["LootUI Option Fade Delay"], minValue = 0.25, maxValue = 1.0, valueStep = 0.25, onValueChangedFunc = Options_FadeOutDelaySlider_OnValueChanged, formatValueMethod = "Decimal2", dbKey = "LootUI_FadeDelayPerItem"},
@@ -2235,7 +2237,7 @@ do  --Use Loot UI as Notification Center
 
     local function TooltipFunc_Reputation(tooltip, factionID)
         local text, factionName = API.GetFactionStatusText(factionID, true, true);
-        if text then
+        if text and factionName then
             tooltip:SetText(factionName, 1, 0.82, 0);
             tooltip:AddLine(text, 1, 1, 1);
             tooltip:Show();

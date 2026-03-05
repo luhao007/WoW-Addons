@@ -1,4 +1,8 @@
 local _, app = ...
+if app.GameBuildVersion > 40000 then
+	-- Not compatible post-Cata.
+	return;
+end
 local L = app.L
 
 -- Globals
@@ -6,8 +10,7 @@ local select, tostring, ipairs, pairs, tinsert, tonumber
 	= select, tostring, ipairs, pairs, tinsert, tonumber;
 
 -- App & Module locals
-local SearchForField, SearchForFieldContainer
-	= app.SearchForField, app.SearchForFieldContainer;
+local SearchForField = app.SearchForField;
 local IsRetrieving = app.Modules.RetrievingData.IsRetrieving;
 
 -- WoW API Cache
@@ -251,6 +254,9 @@ app.CreateAchievementCriteria = app.CreateClass("AchievementCriteria", "criteria
 	["rank"] = function(t) return t.data.rank; end,
 	["collected"] = function(t)
 		if t.data.collectible then
+			if t.data.collected then
+				return 1;
+			end
 			if app.Settings.AccountWide.Achievements then
 				-- Check to see if the criteria was completed.
 				local achievementID = t.achievementID;
@@ -258,7 +264,6 @@ app.CreateAchievementCriteria = app.CreateClass("AchievementCriteria", "criteria
 					return 2;
 				end
 			end
-			return t.data.collected and 1;
 		end
 	end,
 	["saved"] = function(t)
@@ -274,6 +279,9 @@ app.CreateAchievementCriteria = app.CreateClass("AchievementCriteria", "criteria
 	end,
 	["OnTooltip"] = function(t)
 		return OnTooltipForAchievementCriteriaData;
+	end,
+	["statistic"] = function(t)
+		return t.data.statistic;
 	end,
 }, function(t)
 	local data = AchievementCriteriaData[t.criteriaID];
@@ -447,7 +455,7 @@ if GetCategoryInfo and (GetCategoryInfo(92) ~= "" and GetCategoryInfo(92) ~= nil
 	local function refreshAchievementCollection()
 		if ATTAccountWideData then
 			local charAchievements = app.CurrentCharacter.Achievements;
-			for achievementID,container in pairs(SearchForFieldContainer("achievementID")) do
+			for achievementID,container in pairs(app.GetFieldContainer("achievementID")) do
 				if not AchievementData[achievementID] then
 					local collected = select(13, GetAchievementInfo(achievementID));
 					if collected ~= charAchievements[achievementID] then
@@ -507,6 +515,9 @@ app.CreateAchievement = app.CreateClass("Achievement", "achievementID", fields,
 	["parentCategoryID"] = function(t) return t.data.category or -1; end,
 	["collected"] = function(t)
 		if t.data.collectible then
+			if t.data.collected then
+				return 1;
+			end
 			if app.Settings.AccountWide.Achievements then
 				-- Check to see if the criteria was completed.
 				local achievementID = t.achievementID;
@@ -514,7 +525,6 @@ app.CreateAchievement = app.CreateClass("Achievement", "achievementID", fields,
 					return 2;
 				end
 			end
-			return t.data.collected and 1;
 		end
 	end,
 	["saved"] = function(t)
@@ -527,6 +537,9 @@ app.CreateAchievement = app.CreateClass("Achievement", "achievementID", fields,
 	end,
 	["OnTooltip"] = function(t)
 		return OnTooltipForAchievement;
+	end,
+	["statistic"] = function(t)
+		return t.data.statistic;
 	end,
 }, function(t)
 	local data = AchievementData[t.achievementID];

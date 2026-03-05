@@ -53,7 +53,7 @@ local CONSTANTS = addonTable.constants
 
 -- Methods of obtaining
 local NPC = "NPC"
-local BOSS = "BOSS"
+local ENCOUNTER = "ENCOUNTER"
 local ZONE = "ZONE"
 local USE = "USE"
 local FISHING = "FISHING"
@@ -82,8 +82,6 @@ local min = min
 local tostring = tostring
 
 -- WOW APIs
-local UnitGUID = _G.UnitGUID
-local UnitName = _G.UnitName
 local UnitCanAttack = _G.UnitCanAttack
 local UnitIsPlayer = _G.UnitIsPlayer
 local UnitIsDead = _G.UnitIsDead
@@ -529,7 +527,7 @@ function R:UpdateInterestingThings()
 	end
 
 	table.wipe(npcs)
-	table.wipe(Rarity.bosses)
+	table.wipe(Rarity.encounters)
 	table.wipe(Rarity.zones)
 	table.wipe(Rarity.items)
 	table.wipe(Rarity.guids)
@@ -564,13 +562,10 @@ function R:UpdateInterestingThings()
 							end
 							table.insert(Rarity.npcs_to_items[vvv], vv)
 						end
-					elseif vv.method == BOSS and vv.npcs ~= nil and type(vv.npcs) == "table" then
-						for kkk, vvv in pairs(vv.npcs) do
-							Rarity.bosses[vvv] = vv
-							if Rarity.npcs_to_items[vvv] == nil then
-								Rarity.npcs_to_items[vvv] = {}
-							end
-							table.insert(Rarity.npcs_to_items[vvv], vv)
+					elseif vv.method == ENCOUNTER and vv.encounters ~= nil and type(vv.encounters) == "table" then
+						for kkk, vvv in ipairs(vv.encounters) do
+							Rarity.encounters[vvv] = Rarity.encounters[vvv] or {}
+							table.insert(Rarity.encounters[vvv], vv)
 						end
 					elseif vv.method == ZONE and vv.zones ~= nil and type(vv.zones) == "table" then
 						for kkk, vvv in pairs(vv.zones) do
@@ -690,14 +685,20 @@ function R:UpdateInterestingThings()
 end
 
 function R:GetNPCIDFromGUID(guid)
-	if guid then
-		local unit_type, _, _, _, _, mob_id = strsplit("-", guid)
-		if unit_type == "Pet" or unit_type == "Player" then
-			return 0
-		end
-		return (guid and mob_id and tonumber(mob_id)) or 0
+	if not guid then
+		return nil, "No GUID"
 	end
-	return 0
+
+	if issecretvalue and issecretvalue(guid) then
+		return nil, "Cannot get NPC ID from secret GUID"
+	end
+
+	local unit_type, _, _, _, _, mob_id = strsplit("-", guid)
+	if unit_type == "Pet" or unit_type == "Player" then
+		return nil, "Unexpected unit type (should be 'Pet' or 'Player')"
+	end
+
+	return tonumber(mob_id)
 end
 
 function R:IsAttemptAllowed(item)
@@ -707,8 +708,8 @@ function R:IsAttemptAllowed(item)
 	end
 
 	-- Check disabled classes
-	local playerClass = select(2, UnitClass("player"))
-	if item.disableForClass and item.disableForClass[playerClass] then
+	local playerClass = select(2, Rarity:GetUnitClass("player"))
+	if playerClass and item.disableForClass and item.disableForClass[playerClass] then
 		Rarity:Debug(format("Attempts for item %s are disallowed (disabled for class %s)", item.name, playerClass))
 		return false
 	end
@@ -803,6 +804,10 @@ function R:CheckNpcInterest(guid, zone, subzone, zone_t, subzone_t, curSpell, re
 	end -- Already seen this NPC
 
 	local npcid = self:GetNPCIDFromGUID(guid)
+	if not npcid then
+		return
+	end
+
 	if npcs[npcid] == nil then -- Not an NPC we need, abort
 		self:Debug("NPC ID not on the list of needed NPCs: " .. (npcid or "nil"))
 
@@ -921,4 +926,31 @@ function R:Update(reason)
 	Rarity.Tracking:FindTrackedItem()
 	Rarity.GUI:UpdateText()
 	-- if self:InTooltip() then self:ShowTooltip() end
+end
+
+function Rarity:GetUnitName(unitToken)
+	local name = UnitName(unitToken)
+	if issecretvalue and issecretvalue(name) then
+		return
+	end
+
+	return name
+end
+
+function Rarity:GetUnitGUID(unitToken)
+	local guid = UnitGUID(unitToken)
+	if issecretvalue and issecretvalue(guid) then
+		return
+	end
+
+	return guid
+end
+
+function Rarity:GetUnitClass(unitToken)
+	local class = UnitClass(unitToken)
+	if issecretvalue and issecretvalue(class) then
+		return
+	end
+
+	return class
 end

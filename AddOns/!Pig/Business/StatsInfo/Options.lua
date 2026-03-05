@@ -99,178 +99,53 @@ function BusinessInfo.StatsInfoOptions()
 			PIGA["StatsInfo"]["Qita_Num"]=false;
 		end
 	end);
-	local qitaDataNum={}
+	local tispData={}
 	local greenTexture = "interface/common/indicator-green.blp"
 	local CreateIcons = "Interface/Glues/CharacterCreate/CharacterCreateIcons"
 	local Texwidth,Texheight = 500,500
-	function BusinessInfo.SetTooltipQita_Num(tooltip,itemID)
+	local morenitem={"BAG","BANK","MAIL","GUILD"}
+	local morenitemCN={BAGSLOT,BANK,MINIMAP_TRACKING_MAILBOX,GUILD}
+	function BusinessInfo.SetTooltipQita_Num(tooltip,itemlink)
 		if InCombatLockdown() then return end
 		if not PIGA["StatsInfo"]["Open"] or not PIGA["StatsInfo"]["Qita_Num"] then return end
+		local itemID = GetItemInfoInstant(itemlink)
 		if not itemID then return end
 		if itemID==6948 then return end
-		wipe(qitaDataNum)
+		wipe(tispData)
+		local playerNum=0
 		local itemjihe = PIGA["StatsInfo"]["Items"]
-		qitaDataNum.itemziji={}
-		local itemzijibag = itemjihe[PIG_OptionsUI.AllName]["BAG"]
-		for it=1,#itemzijibag do
-			if itemID==itemzijibag[it][3] then
-				if qitaDataNum.itemziji[BAGSLOT] then
-					qitaDataNum.itemziji[BAGSLOT]=qitaDataNum.itemziji[BAGSLOT]+itemzijibag[it][2]
-				else
-					qitaDataNum.itemziji[BAGSLOT]=itemzijibag[it][2]
-				end
-			end
-		end
-		local itemzijibank = itemjihe[PIG_OptionsUI.AllName]["BANK"]
-		for it=1,#itemzijibank do
-			if itemID==itemzijibank[it][3] then
-				if qitaDataNum.itemziji[BANK] then
-					qitaDataNum.itemziji[BANK]=qitaDataNum.itemziji[BANK]+itemzijibank[it][2]
-				else
-					qitaDataNum.itemziji[BANK]=itemzijibank[it][2]
-				end
-			end
-		end
-		local itemzijimail = itemjihe[PIG_OptionsUI.AllName]["MAIL"]
-		for it=1,#itemzijimail do
-			if itemID==itemzijimail[it][3] then
-				if qitaDataNum.itemziji[MINIMAP_TRACKING_MAILBOX] then
-					qitaDataNum.itemziji[MINIMAP_TRACKING_MAILBOX]=qitaDataNum.itemziji[MINIMAP_TRACKING_MAILBOX]+itemzijimail[it][2]
-				else
-					qitaDataNum.itemziji[MINIMAP_TRACKING_MAILBOX]=itemzijimail[it][2]
-				end
-			end
-		end
-		local hejishuliang = 0
-		local tishneirzj = ""
-		for k,v in pairs(qitaDataNum.itemziji) do
-			if v>0 then
-				hejishuliang=hejishuliang+v
-				if tishneirzj=="" then
-					tishneirzj=tishneirzj..k.."|cffFFFFFF"..v.."|r"
-				else
-					tishneirzj=tishneirzj.." "..k.."|cffFFFFFF"..v.."|r"
-				end
-			end	
-		end
-		if IsInGuild() then
-			local itemzijiGuild = itemjihe[PIG_OptionsUI.AllName]["GUILD"]
-			for it=1,#itemzijiGuild do
-				if itemID==itemzijiGuild[it][3] then
-					if qitaDataNum.itemziji[GUILD] then
-						qitaDataNum.itemziji[GUILD]=qitaDataNum.itemziji[GUILD]+itemzijiGuild[it][2]
-					else
-						qitaDataNum.itemziji[GUILD]=itemzijiGuild[it][2]
+		for player,data in pairs(itemjihe) do
+			local playerList={}
+			for id=1,#morenitem do
+				local leibienum=0
+				for it=1,#data[morenitem[id]] do
+					if itemID==data[morenitem[id]][it][3] then
+						leibienum=leibienum+data[morenitem[id]][it][2]
 					end
 				end
-			end
-		else
-			itemjihe[PIG_OptionsUI.AllName]["GUILD"]={}
-		end
-		local hejishuliang = 0
-		local tishneirzj = ""
-		for k,v in pairs(qitaDataNum.itemziji) do
-			if v>0 then
-				hejishuliang=hejishuliang+v
-				if tishneirzj=="" then
-					tishneirzj=tishneirzj..k.."|cffFFFFFF"..v.."|r"
-				else
-					tishneirzj=tishneirzj.." "..k.."|cffFFFFFF"..v.."|r"
-				end
-			end	
-		end
-		if tishneirzj~="" then
-			local pxinxiinfo = PIGA["StatsInfo"]["Players"][PIG_OptionsUI.AllName]
-			local _, classFile = PIGGetClassInfo(pxinxiinfo[4])
-			local color = PIG_CLASS_COLORS[classFile];
-			local Texinfo = C_Texture.GetAtlasInfo(pxinxiinfo[3])
-			--local width,height = Texinfo.width,Texinfo.height
-			local left=Texinfo.leftTexCoord*Texwidth+0.308
-			local right=Texinfo.rightTexCoord*Texwidth+0.5
-			local top=Texinfo.topTexCoord*Texheight+0.2
-			local bottom=Texinfo.bottomTexCoord*Texheight+0.1
-			local ttgghh = "|T"..CreateIcons..":14:14:0:0:"..Texwidth..":"..Texheight..":"..left..":"..right..":"..top..":"..bottom.."|t"
-			local ttgghh=ttgghh.." |c"..color.colorStr..PIG_OptionsUI.Name.."|r|T"..greenTexture..":14:14:0:0:16:16:0:14:0:14|t"
-			tooltip:AddLine(" ")
-			tooltip:AddDoubleLine(ttgghh,tishneirzj)
-		end
-		---
-		qitaDataNum.itemqita={}
-		for k,v in pairs(itemjihe) do
-			if k~=PIG_OptionsUI.AllName then
-				local qitabag = itemjihe[k]["BAG"]
-				for it=1,#qitabag do
-					if itemID==qitabag[it][3] then
-						if qitaDataNum.itemqita[k] then
-							qitaDataNum.itemqita[k][2]=qitaDataNum.itemqita[k][2]+qitabag[it][2]
-						else
-							qitaDataNum.itemqita[k]={BAGSLOT,qitabag[it][2]}
-						end
-					end
-				end
-				local qitabank = itemjihe[k]["BANK"]
-				for it=1,#qitabank do
-					if itemID==qitabank[it][3] then
-						if qitaDataNum.itemqita[k] then
-							if qitaDataNum.itemqita[k][3] then
-								qitaDataNum.itemqita[k][4]=qitaDataNum.itemqita[k][4]+qitabank[it][2]
-							else
-								qitaDataNum.itemqita[k][3]=BANK
-								qitaDataNum.itemqita[k][4]=qitabank[it][2]
-							end
-						else
-							qitaDataNum.itemqita[k]={BANK,qitabank[it][2]}
-						end
-					end
-				end
-				local qitamail = itemjihe[k]["MAIL"] or {}
-				for it=1,#qitamail do
-					if itemID==qitamail[it][3] then
-						if qitaDataNum.itemqita[k] then
-							if qitaDataNum.itemqita[k][3] then
-								qitaDataNum.itemqita[k][4]=qitaDataNum.itemqita[k][4]+qitamail[it][2]
-							else
-								qitaDataNum.itemqita[k][3]=MINIMAP_TRACKING_MAILBOX
-								qitaDataNum.itemqita[k][4]=qitamail[it][2]
-							end
-						else
-							qitaDataNum.itemqita[k]={MINIMAP_TRACKING_MAILBOX,qitamail[it][2]}
-						end
-					end
+				if leibienum>0 then
+					playerNum=playerNum+leibienum
+					table.insert(playerList,{morenitemCN[id],leibienum})
 				end
 			end
-		end
-		for k,v in pairs(qitaDataNum.itemqita) do
-			local danjueseshuliang=0
-			local tishneir = ""
-			if v[2]>0 then
-				danjueseshuliang=danjueseshuliang+v[2]
-				tishneir=v[1].."|cffFFFFFF"..v[2].."|r"
-			end
-			if v[4] and v[4]>0 then
-				danjueseshuliang=danjueseshuliang+v[4]
-				tishneir=tishneir.." "..v[3].."|cffFFFFFF"..v[4].."|r"
-			end
-			local pxinxiinfo = PIGA["StatsInfo"]["Players"][k]
-			local _, classFile = PIGGetClassInfo(pxinxiinfo[4])
-			local color = PIG_CLASS_COLORS[classFile];
-			local Texinfo = C_Texture.GetAtlasInfo(pxinxiinfo[3])
-			if classFile and color.colorStr and Texinfo then
-				--local width,height = Texinfo.width,Texinfo.height
+			if #playerList>0 then
+				local pxinxiinfo = PIGA["StatsInfo"]["Players"][player]
+				local _, classFile = PIGGetClassInfo(pxinxiinfo[4])
+				local color = PIG_CLASS_COLORS[classFile];
+				local Texinfo = C_Texture.GetAtlasInfo(pxinxiinfo[3])
 				local left=Texinfo.leftTexCoord*Texwidth+0.308
 				local right=Texinfo.rightTexCoord*Texwidth+0.5
 				local top=Texinfo.topTexCoord*Texheight+0.2
 				local bottom=Texinfo.bottomTexCoord*Texheight+0.1
-				local ttgghh = "|T"..CreateIcons..":14:14:0:0:"..Texwidth..":"..Texheight..":"..left..":"..right..":"..top..":"..bottom.."|t"
-				local ttgghh=ttgghh.." |c"..color.colorStr..k.."|r"
-				tooltip:AddDoubleLine(ttgghh,tishneir)
-				hejishuliang=hejishuliang+danjueseshuliang
+				local ttgghh = "|T"..CreateIcons..":14:14:0:0:"..Texwidth..":"..Texheight..":"..left..":"..right..":"..top..":"..bottom.."|t |c"..color.colorStr..player.."|r"
+				if player==PIG_OptionsUI.AllName then
+					table.insert(tispData,1,{ttgghh.."|T"..greenTexture..":14:14:0:0:16:16:0:14:0:14|t",playerList,playerNum})
+				else
+					table.insert(tispData,{ttgghh,playerList,playerNum})
+				end
 			end
 		end
-		if hejishuliang>0 then
-			tooltip:AddDoubleLine("合计","|cffFFFFFF"..hejishuliang.."|r")
-			tooltip:Show()
-		end
+		return tispData,playerNum
 	end
 
 	local Tooltip = {"背包增加离线银行按钮","在背包增加一个离线银行按钮，也可以查看其他角色物品数量"}

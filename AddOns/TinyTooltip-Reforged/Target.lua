@@ -8,51 +8,203 @@ local TOOLTIP_UPDATE_TIME = TOOLTIP_UPDATE_TIME or 0.1
 
 local addon = TinyTooltipReforged
 
+local function SafeBool(fn, ...)
+    local ok, value = pcall(fn, ...)
+    if (not ok) then
+        return false
+    end
+    local okEval, result = pcall(function()
+        return value == true
+    end)
+    if (okEval) then
+        return result
+    end
+    return false
+end
+
+local function IsTargetToken(unit)
+    if (type(unit) ~= "string") then
+        return false
+    end
+    local ok, res = pcall(function()
+        return unit:match("target$")
+    end)
+    return ok and res ~= nil
+end
+
+local function SafeBoolEval(fn, ...)
+    return SafeBool(fn, ...)
+end
+
+local function GetUnitSettings()
+    local db = addon.db
+    if (not db or not db.unit) then
+        return
+    end
+    return db.unit.player, db.unit.npc
+end
+
+local function SafeIsUnit(unit, other)
+    return SafeBoolEval(UnitIsUnit, unit, other)
+end
+
 local function GetTargetString(unit)
     if (not UnitExists(unit)) then return end
     local name = UnitName(unit)
-
-    local icon = TinyTooltipReforged:GetRaidIcon(unit) or ""
-    if UnitIsUnit(unit, "player") then
+    local icon = addon:GetRaidIcon(unit) or ""
+    if SafeBool(UnitIsUnit, unit, "player") then
         return format("|cffff3333>>%s<<|r", strupper(YOU))
-    elseif UnitIsPlayer(unit) then
+    elseif SafeBool(UnitIsPlayer, unit) then
         local class = select(2, UnitClass(unit))
         local colorCode = select(4, GetClassColor(class))
-        return format("%s|c%s%s|r", icon, colorCode, name)
-    elseif UnitIsOtherPlayersPet(unit) then
-        return format("%s|cff%s<%s>|r (Pet)", icon, TinyTooltipReforged:GetHexColor(GameTooltip_UnitColor(unit)), name)
+        return format("|c%s%s|r", colorCode or "ffffffff", name)
+    elseif SafeBool(UnitIsOtherPlayersPet, unit) then
+        return format("|cff%s<%s>|r (Pet)", addon:GetHexColor(GameTooltip_UnitColor(unit)), name)
     else
-        return format("%s|cff%s[%s]|r", icon, TinyTooltipReforged:GetHexColor(GameTooltip_UnitColor(unit)), name)
+        return format("|cff%s[%s]|r", addon:GetHexColor(GameTooltip_UnitColor(unit)), name)
     end
+    return format("[%s]", name)
 end
 
+local function UpdateTargetLine(tip, targetUnit)
+    local text = GetTargetString(targetUnit)
+    local line = tip.ttTargetLine
+    if (not text) then
+        if (line) then
+            line:SetText(nil)
+            tip.ttTargetLine = nil
+            if (addon.AutoSetTooltipWidth) then
+                addon:AutoSetTooltipWidth(tip)
+            end
+        end
+        return
+    end
+    local formatted = format("%s: %s", TARGET, text)
+    if (not line) then
+        tip:AddLine(formatted)
+        line = _G[tip:GetName() .. "TextLeft" .. tip:NumLines()]
+        tip.ttTargetLine = line
+    else
+        line:SetText(formatted)
+    end
+    if (addon.AutoSetTooltipWidth) then
+        addon:AutoSetTooltipWidth(tip)
+    end
+    -- tip:Show()
+    if (addon and addon.HideLine) then
+        if (FACTION_ALLIANCE) then addon:HideLine(tip, "^" .. FACTION_ALLIANCE) end
+        if (FACTION_HORDE) then addon:HideLine(tip, "^" .. FACTION_HORDE) end
+        if (UNIT_POPUP_RIGHT_CLICK) then addon:HideLine(tip, UNIT_POPUP_RIGHT_CLICK) end
+    end
+    if (addon and addon.db and addon.db.general and addon.db.general.hideUnitFrameHint) then
+        for i = 2, tip:NumLines() do
+            local line = _G[tip:GetName() .. "TextLeft" .. i]
+            local text
+            if (line and line.GetText) then
+                local ok, value = pcall(line.GetText, line)
+                if (ok) then
+                    text = value
+                end
+            end
+            if (type(text) == "string") then
+                if (issecretvalue and issecretvalue(text)) then
+                    -- can't safely read/strip secret text
+                else
+                    local ok, stripped = pcall(function()
+                        local s = text:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", "")
+                        return s:gsub("^%s+", ""):gsub("%s+$", "")
+                    end)
+                    if (ok and type(stripped) == "string") then
+                        if (UNIT_POPUP_RIGHT_CLICK and stripped == UNIT_POPUP_RIGHT_CLICK) then
+                            line:SetText(nil)
+
+                        end
+                    end
+                end
+            end
+        end
+    end
+    -- tip:Show()
+end
+
+LibEvent:attachTrigger("tooltip:unit", function(self, tip, unit)
+    tip.ttIsUnit = true
+    local player, npc = GetUnitSettings()
+    if (not player or not npc) then return end
+    if SafeIsUnit(unit, "player") then
+        if (player.showTarget) then
+            UpdateTargetLine(tip, "playertarget")
+        else
+            UpdateTargetLine(tip)
+        end
+    elseif SafeIsUnit(unit, "mouseover") then
+        local isPlayer = SafeBool(UnitIsPlayer, "mouseover")
+        if ((isPlayer and player.showTarget)
+            or (not isPlayer and npc.showTarget)) then
+            UpdateTargetLine(tip, "mouseovertarget")
+        else
+            UpdateTargetLine(tip)
+        end
+    else
+        if (type(unit) ~= "string") then return end
+        local isPlayer = SafeBool(UnitIsPlayer, unit)
+        if ((isPlayer and not player.showTarget)
+            or (not isPlayer and not npc.showTarget)) then
+            UpdateTargetLine(tip)
+            return
+        end
+        local okConcat, targetUnit = pcall(function() return unit .. "target" end)
+        if (not okConcat or type(targetUnit) ~= "string") then return end
+        if (SafeBool(UnitExists, targetUnit)) then
+            UpdateTargetLine(tip, targetUnit)
+        end
+    end
+end)
+
+LibEvent:attachTrigger("tooltip:item, tooltip:spell", function(self, tip)
+    tip.ttIsUnit = false
+    if (tip.ttTargetLine) then
+        tip.ttTargetLine:SetText(nil)
+        tip.ttTargetLine = nil
+    end
+end)
+
+LibEvent:attachTrigger("tooltip:cleared, tooltip:hide", function(self, tip)
+    if (tip) then
+        tip.ttTargetLine = nil
+        tip.ttIsUnit = nil
+    end
+end)
 
 GameTooltip:HookScript("OnUpdate", function(self, elapsed)
-    if (not UnitExists("mouseover")) then return end
-    if (addon.db.unit.player.showTarget and UnitIsPlayer("mouseover"))
-        or (addon.db.unit.npc.showTarget and not UnitIsPlayer("mouseover")) then
-        local line = TinyTooltipReforged:FindLine(self, "^"..TARGET..":")
-        local text = GetTargetString("mouseovertarget")
-        if (line and not text) then
-            addon:HideLine(self, "^"..TARGET..":")
-            self:Show()
-        elseif (not line and text) then
-            self:AddLine(format("%s: %s", TARGET, text))
-            self:Show()
-        elseif (line) then
-            line:SetFormattedText("%s: %s", TARGET, text)
+    self.updateElapsed = (self.updateElapsed or 0) + elapsed
+    if (self.updateElapsed >= TOOLTIP_UPDATE_TIME) then
+        self.updateElapsed = 0
+        local owner = self:GetOwner()
+        if (owner and (owner.unit or (owner.GetAttribute and owner:GetAttribute("unit")))) then
+            return
+        end
+        if (not self.ttIsUnit) then return end
+        if (not SafeBool(UnitExists, "mouseover")) then return end
+        local isPlayer = SafeBool(UnitIsPlayer, "mouseover")
+        local player, npc = GetUnitSettings()
+        if (not player or not npc) then return end
+        if (player.showTarget and isPlayer)
+            or (npc.showTarget and not isPlayer) then
+            UpdateTargetLine(self, "mouseovertarget")
         end
     end
 end)
 
 -- Targeted By
+
 local function GetTargetByString(mouseover, num, tip)
     local count, prefix = 0, IsInRaid() and "raid" or "party"
     local roleIcon, colorCode, name
     local first = true
-    local isPlayer = UnitIsPlayer(mouseover)
+    local isPlayer = SafeBool(UnitIsPlayer, mouseover)
     for i = 1, num do
-        if UnitIsUnit(mouseover, prefix..i.."target") and not UnitIsUnit(prefix..i, "player") then
+        if SafeBool(UnitIsUnit, mouseover, prefix..i.."target") and not SafeBool(UnitIsUnit, prefix..i, "player") then
             count = count + 1
             if (isPlayer or prefix == "party") then
                 if (first) then
@@ -63,7 +215,6 @@ local function GetTargetByString(mouseover, num, tip)
                 colorCode = select(4,GetClassColor(select(2,UnitClass(prefix..i))))
                 name      = UnitName(prefix..i)
                 tip:AddLine("   " .. roleIcon .. " |c" .. colorCode .. name .. "|r")
-                tip:Show()
             end
         end
     end
@@ -73,17 +224,19 @@ local function GetTargetByString(mouseover, num, tip)
 end
 
 LibEvent:attachTrigger("tooltip:unit", function(self, tip, unit)
-    if (unit and UnitIsUnit(unit, "mouseover")) then
-        local num = GetNumGroupMembers()
-        if (num >= 1) and
-          ((addon.db.unit.player.showTargetBy and UnitIsPlayer("mouseover"))
-          or (addon.db.unit.npc.showTargetBy and not UnitIsPlayer("mouseover"))) then
+    if (not UnitExists("mouseover")) then return end
+    local num = GetNumGroupMembers()
+    if (num >= 1) then
+        local player, npc = GetUnitSettings()
+        if (not player or not npc) then return end
+        local isPlayer = SafeBool(UnitIsPlayer, "mouseover")
+        if (player.showTargetBy and isPlayer)
+          or (npc.showTargetBy and not isPlayer) then
             local text = GetTargetByString("mouseover", num, tip)
             if (text) then
                 tip:AddLine(format("%s: %s", addon.L and addon.L.TargetBy or "Targeted By", text), nil, nil, nil, true)
-                tip:Show()
+                tip:show()
             end
         end
-   end
+    end
 end)
-

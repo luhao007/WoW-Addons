@@ -11,7 +11,6 @@ local SlotId = LibTSMWoW:Include("Type.SlotId")
 local ClientInfo = LibTSMWoW:Include("Util.ClientInfo")
 local Item = LibTSMWoW:Include("API.Item")
 local EnumType = LibTSMWoW:From("LibTSMUtil"):Include("BaseType.EnumType")
-local Table = LibTSMWoW:From("LibTSMUtil"):Include("Lua.Table")
 local private = {
 	buggedQuantityRangeSpells = {},
 	categoryRootCache = {
@@ -85,7 +84,6 @@ local BUGGED_QUANTITY_RANGE_SPELLS = {
 	[209664] = {42, 42}, -- Felwort (amount is variable but the values are conservative)
 	[247861] = {4, 4}, -- Astral Glory (amount is variable but the values are conservative)
 }
-local BOGUS_BONUS_TABLE = { 0, 1, 2, 3, 4 }
 
 
 
@@ -169,7 +167,7 @@ function TradeSkill.GetType()
 	return TYPE.PLAYER
 end
 
----Gets the quality index table for a given recipe.
+---Gets the crafting quality index table for a given recipe.
 ---@param spellId number The recipe spell to check.
 ---@return number[]
 function TradeSkill.GetQualitiesForRecipe(spellId)
@@ -177,6 +175,22 @@ function TradeSkill.GetQualitiesForRecipe(spellId)
 		return false
 	end
 	return C_TradeSkillUI.GetQualitiesForRecipe(spellId)
+end
+
+---Gets the maximum crafting quality for a given recipe.
+---@param spellId number The recipe spell to check.
+---@return number?
+function TradeSkill.GetMaxQualityForRecipe(spellId)
+	local qualityIDs = TradeSkill.GetQualitiesForRecipe(spellId)
+	return qualityIDs and #qualityIDs or nil
+end
+
+---Gets whether the recipe belongs to the Midnight expansion.
+---@param spellId number The recipe spell to check.
+---@return boolean
+function TradeSkill.IsMidnightRecipe(spellId)
+	local qualityIDs = TradeSkill.GetQualitiesForRecipe(spellId)
+	return qualityIDs and #qualityIDs == 2 or false
 end
 
 ---Returns whether or not the current trade skill is classic crafting.
@@ -388,10 +402,12 @@ end
 
 ---Gets the chat icon for a given crafted quality.
 ---@param craftedQuality number The crafted quality
+---@param useMidnightIcon boolean The expansion check to get which atlas to apply
 ---@param large? boolean Get the large version of the icon
 ---@return string
-function TradeSkill.GetCraftedQualityChatIcon(craftedQuality, large)
-	return private.GetChatIconMarkupForQuality(craftedQuality, not large)
+function TradeSkill.GetCraftedQualityChatIcon(craftedQuality, useMidnightIcon, large)
+	local atlas = format(useMidnightIcon and "Professions-ChatIcon-Quality-12-Tier%d" or "Professions-ChatIcon-Quality-Tier%d", craftedQuality)
+	return CreateAtlasMarkupWithAtlasSize(atlas, nil, large and 1 or 0, nil, nil, nil, large and 0.5 or 0.4)
 end
 
 ---Gets the item level bonuses produced by different qualities of the recipe.
@@ -401,9 +417,6 @@ function TradeSkill.GetItemLevelBonuses(spellId)
 	assert(ClientInfo.HasFeature(ClientInfo.FEATURES.C_TRADE_SKILL_UI))
 	local bonusTable = C_TradeSkillUI.GetRecipeInfo(spellId).qualityIlvlBonuses
 	if not bonusTable or #bonusTable == 0 then
-		return nil
-	elseif Table.Equal(bonusTable, BOGUS_BONUS_TABLE) then
-		-- Bogus bonus tables (in the form of {0, 1, 2, 3, 4}) don't actually change the level of the item
 		return nil
 	end
 	return bonusTable
@@ -979,9 +992,4 @@ function private.MapDifficulty(value)
 			error("Unknown difficulty: "..tostring(value))
 		end
 	end
-end
-
-function private.GetChatIconMarkupForQuality(craftedQuality, small)
-	local atlas = format("Professions-ChatIcon-Quality-Tier%d", craftedQuality)
-	return CreateAtlasMarkupWithAtlasSize(atlas, nil, small and 0 or 1, nil, nil, nil, small and 0.4 or 0.5)
 end

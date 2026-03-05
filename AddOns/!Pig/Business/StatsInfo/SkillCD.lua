@@ -38,7 +38,12 @@ function BusinessInfo.SkillCD(StatsInfo)
 		end);
 	end
 	--技能对应物品ID
-	local Spell_ItemId={[19566]=15846}
+	local Spell_ItemId={
+		[19566]=15846,
+		-- {13399,133651,11020},--培植种子
+		-- {21935,135863,17716},--雪王9000型
+		-- {26265,134249,21540},--制造艾露恩之石
+	}
 	---技能对应物品图标
 	local Spell_ItemIcon={
 		[19566]=15846,--筛盐器
@@ -78,9 +83,7 @@ function BusinessInfo.SkillCD(StatsInfo)
 	    [10] = {IsCD = {}, spellid = 25229, icon = 134071}, -- 珠宝加工
 	    [11] = {IsCD = {}, spellid = 45357, icon = 237171}, -- 铭文
 	}
-	-- {13399,133651,11020},--培植种子
-	-- {21935,135863,17716},--雪王9000型
-	-- {26265,134249,21540},--制造艾露恩之石
+	--
 	if PIG_MaxTocversion(20000) then
 		table.insert(Skill_list[2].IsCD,19566)
 		table.insert(Skill_list[3].IsCD,{11480,11479,17187,17559,17560,17561,17562,17563,17564,17565,17566,25146})
@@ -123,12 +126,39 @@ function BusinessInfo.SkillCD(StatsInfo)
 		local Skillname=PIGGetSpellInfo(v.spellid)
 		v.name=Skillname
 	end
-	----
-	local DqSpellCDList={}
-	
-	-- 测试
-	-- Spell_ItemId[6405]=5462
-	-- table.insert(Skill_list[5].IsCD,6405)
+	local function _GetSkillname(SpellID)
+		local Skillname=PIGGetSpellInfo(SpellID)
+		if Skillname:match("转化") then Skillname="转化" end
+		if Skillname:match("炼金研究") then Skillname="炼金研究" end
+		return Skillname
+	end
+	local function addCDdata(spellid, startTime, duration)
+		startTime=startTime or 0
+		duration=duration or 0
+		local SkillData=PIGA["StatsInfo"]["SkillData"][StatsInfo.allname]
+		for ixx=1,2 do
+			local CDspellList=SkillData[ixx] and SkillData[ixx][2]
+			if CDspellList and CDspellList[spellid] then
+				SkillData[ixx][2][spellid]=startTime+duration
+			end
+		end
+	end
+	local function GetBagItemCD()
+		local SkillData=PIGA["StatsInfo"]["SkillData"][StatsInfo.allname]
+		for Bagid=0,NUM_BAG_SLOTS,1 do
+			local numberOfSlots = GetContainerNumSlots(Bagid);
+			for Slots=1,numberOfSlots,1 do
+				for SpellID,ItemID in pairs(Spell_ItemId) do
+					if GetContainerItemID(Bagid, Slots)==ItemID then
+						local startTime, duration=GetContainerItemCooldown(Bagid, Slots)
+						addCDdata(SpellID, startTime, duration)
+						break
+					end
+				end
+			end
+		end
+	end
+	-----
 	local function GetSkillIndex(name)
 		if name then
 			for i=1,#Skill_list do
@@ -137,63 +167,7 @@ function BusinessInfo.SkillCD(StatsInfo)
 				end
 			end
 		end
-		return false
 	end
-	-- local function GetSkillNameID(ItemName)
-	-- 	for i=1,#Skill_list do
-	-- 		for ix=1,#Skill_list[i].IsCD do
-	-- 			if type(Skill_list[i].IsCD[ix])=="table" then
-	-- 				for cdid=1,#Skill_list[i].IsCD[ix] do
-	-- 					local Skillname=PIGGetSpellInfo(Skill_list[i].IsCD[ix][cdid])
-	-- 					if ItemName==Skillname then
-	-- 						return Skill_list[i].IsCD[ix][cdid]
-	-- 					end
-	-- 				end
-	-- 			else
-	-- 				local Skillname=PIGGetSpellInfo(Skill_list[i].IsCD[ix])
-	-- 				if ItemName==Skillname then
-	-- 					return Skill_list[i].IsCD[ix]
-	-- 				end
-	-- 			end
-	-- 		end
-	-- 	end
-	-- 	return false
-	-- end
-	-- local function GetBagItemSpellCD(SpellID,ItemID)
-	-- 	for Bagid=0,NUM_BAG_SLOTS,1 do
-	-- 		local numberOfSlots = GetContainerNumSlots(Bagid);
-	-- 		for Slots=1,numberOfSlots,1 do
-	-- 			if GetContainerItemID(Bagid, Slots)==ItemID then
-	-- 				local startTime, duration, enable=GetContainerItemCooldown(Bagid, Slots)
-	-- 				--print(ItemID,disp_time(startTime+duration-GetTime()))
-	-- 				if startTime > 0 and duration > 0 then
-	-- 					PIGA["StatsInfo"]["SkillData"][StatsInfo.allname][0][SpellID]=startTime+duration
-	-- 				else
-	-- 					PIGA["StatsInfo"]["SkillData"][StatsInfo.allname][0][SpellID]=0
-	-- 				end
-	-- 				return
-	-- 			end
-	-- 		end
-	-- 	end
-	-- end
-	-- local function GetBagItemCD()
-	-- 	for k,v in pairs(Spell_ItemId) do
-	-- 		GetBagItemSpellCD(k,v)
-	-- 	end
-	-- end
-
-	-- local function GetCDSpellID(CDdataX,SpellID)
-	-- 	if type(SpellID)=="table" then
-	-- 		for cdid=1,#SpellID do
-	-- 			if CDdataX[SpellID[cdid]] then
-	-- 				return SpellID[cdid],GetSkillname(SpellID[cdid])
-	-- 			end
-	-- 		end
-	-- 		return SpellID[1],GetSkillname(SpellID[1])
-	-- 	else
-	-- 		return SpellID,GetSkillname(SpellID)
-	-- 	end
-	-- end
 	local function add_skilldata(Skill_Learned,name,skillLevel, maxSkillLevel)
 		local SkillId=GetSkillIndex(name)
 		if SkillId then
@@ -201,10 +175,10 @@ function BusinessInfo.SkillCD(StatsInfo)
 			for _,spid in pairs(Skill_list[SkillId].IsCD) do
 				if type(spid)=="table" then
 					for _,spid2 in pairs(spid) do
-						CDlist[spid2]=0
+						CDlist[spid2]=-1
 					end
 				else
-					CDlist[spid]=0
+					CDlist[spid]=-1
 				end
 			end
 			table.insert(Skill_Learned,{SkillId, CDlist, skillLevel, maxSkillLevel})
@@ -231,25 +205,29 @@ function BusinessInfo.SkillCD(StatsInfo)
 			end
 		end
 		--提取旧的CD
+		for k,v in pairs(PIGA["StatsInfo"]["SkillData"]) do
+			for k1,v1 in pairs(v) do
+				if k1==0 then
+					v[k1]=nil
+				else
+					if v1[1]==0 then
+						v[k1]=nil
+					end
+				end
+			end
+		end
 		local olddata=PIGA["StatsInfo"]["SkillData"][StatsInfo.allname]
 		if olddata then
 			for i=1,#Skill_Learned do
 				local CDdata = Skill_Learned[i][2]
 				for spid,time in pairs(CDdata) do
 					if olddata[i] and olddata[i][2] and olddata[i][2][spid] then
-						-- print(spid,time)
 						Skill_Learned[i][2][spid]=olddata[i][2][spid]
 					end
 				end
 			end
 		end
 		PIGA["StatsInfo"]["SkillData"][StatsInfo.allname]=Skill_Learned	
-	end
-	local function GetSkillname(SpellID)
-		local Skillname=PIGGetSpellInfo(SpellID)
-		if Skillname:match("转化") then Skillname="转化" end
-		if Skillname:match("炼金研究") then Skillname="炼金研究" end
-		return Skillname
 	end
 	----
 	local hang_Height,hang_NUM,numButtons  = StatsInfo.hang_Height, 11, 6;
@@ -369,22 +347,22 @@ function BusinessInfo.SkillCD(StatsInfo)
 					if SpellID then
 						local CDbut=self.TimeCDBut[butID]
 						CDbut.icon:Show()
-						CDbut.cd:SetText("|cffff0000CD"..UNKNOWN.."|r");
+						CDbut.cd:SetText("|cff555555CD"..UNKNOWN.."|r");
 						if Spell_ItemIcon[SpellID] then
 							CDbut.icon:SetTexture(C_Item.GetItemIconByID(Spell_ItemIcon[SpellID]));
 						else
 							CDbut.icon:SetTexture(GetSpellTexture(SpellID) or 134400);
 						end
-						CDbut.name:SetText(GetSkillname(SpellID));
-						for ixx=1,2 do
+						CDbut.name:SetText(_GetSkillname(SpellID));
+						for ixx=1,#dataT do
 							local oldSkillCD=dataT[ixx][2]
 							if oldSkillCD then
-								if oldSkillCD[SpellID] and oldSkillCD[SpellID]>0 then
-									local oldtimex=oldSkillCD[SpellID]-GetServerTime()
+								if oldSkillCD[SpellID] and oldSkillCD[SpellID]>-1 then
+									local oldtimex=oldSkillCD[SpellID]-GetTime()
 									if oldtimex>0 then
 										CDbut.cd:SetText(disp_time(oldtimex));
 									else
-										CDbut.cd:SetText("|cff00ff00已就绪|r");
+										CDbut.cd:SetText("|cff00ff00"..string.format(CALENDAR_EVENTNAME_FORMAT_END,"CD").."|r");
 									end
 								end
 							end
@@ -398,37 +376,28 @@ function BusinessInfo.SkillCD(StatsInfo)
 		self.Update_List();
 	end)
 	local function IsExistCD(dataT)
-		-- if fujiF.guolvtype==2 then
-		-- 	return true
-		-- elseif fujiF.guolvtype==1 then
-		-- 	if dataT and dataT[0] then
-		-- 		for k1,v1 in pairs(dataT[0]) do
-		-- 			return true
-		-- 		end
-		-- 		return false
-		-- 	end
-		-- 	return false
-		-- elseif fujiF.guolvtype==3 then
-		-- 	if dataT then
-		-- 		for ixx=1,2 do
-		-- 			if dataT[ixx] and dataT[ixx][1]>0 then
-		-- 				return true
-		-- 			end
-		-- 		end
-		-- 		return false
-		-- 	end
-		-- 	return false
-		-- elseif fujiF.guolvtype==4 then
-		-- 	if dataT then
-		-- 		for ixx=1,2 do
-		-- 			if dataT[ixx] and dataT[ixx][1]>0 then
-		-- 				return false
-		-- 			end
-		-- 		end
-		-- 		return true
-		-- 	end
+		if fujiF.guolvtype==2 then
 			return true
-		--end
+		elseif fujiF.guolvtype==1 then
+			for k,v in pairs(dataT) do
+				for k1,v1 in pairs(v[2]) do
+					if v1>-1 then
+						return true
+					end
+				end
+			end
+			return false
+		elseif fujiF.guolvtype==3 then
+			for k,v in pairs(dataT) do
+				return true
+			end
+			return false
+		elseif fujiF.guolvtype==4 then
+			for k,v in pairs(dataT) do
+				return false
+			end
+			return true
+		end
 	end
 	function fujiF.NR.Update_List()
 		if not fujiF:IsVisible() then return end
@@ -485,6 +454,26 @@ function BusinessInfo.SkillCD(StatsInfo)
 		end
 	end
 	--
+	local function GetSkillNameID(ItemName)
+		for i=1,#Skill_list do
+			for ix=1,#Skill_list[i].IsCD do
+				if type(Skill_list[i].IsCD[ix])=="table" then
+					for cdid=1,#Skill_list[i].IsCD[ix] do
+						local Skillname=PIGGetSpellInfo(Skill_list[i].IsCD[ix][cdid])
+						if ItemName==Skillname then
+							return Skill_list[i].IsCD[ix][cdid]
+						end
+					end
+				else
+					local Skillname=PIGGetSpellInfo(Skill_list[i].IsCD[ix])
+					if ItemName==Skillname then
+						return Skill_list[i].IsCD[ix]
+					end
+				end
+			end
+		end
+		return false
+	end
 	fujiF:RegisterEvent("PLAYER_ENTERING_WORLD")
 	fujiF:RegisterEvent("SKILL_LINES_CHANGED")
 	fujiF:RegisterEvent("BAG_UPDATE_COOLDOWN")
@@ -499,56 +488,32 @@ function BusinessInfo.SkillCD(StatsInfo)
 		if event=="PLAYER_ENTERING_WORLD" then
 			self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 			C_Timer.After(1,UpdatePlayerSkillInfo)
-			--C_Timer.After(1.2,GetBagItemCD)
-		elseif event=="SKILL_LINES_CHANGED" then
+			C_Timer.After(1.2,GetBagItemCD)
+		elseif event=="SKILL_LINES_CHANGED" or event=="TRADE_SKILL_LIST_UPDATE" then
 			C_Timer.After(0.1,UpdatePlayerSkillInfo)
-		-- elseif event=="BAG_UPDATE_COOLDOWN" then
-		-- 	C_Timer.After(0.1,GetBagItemCD)
-		-- elseif event=="TRADE_SKILL_UPDATE" then
-		-- 	for j=1,GetNumTradeSkills() do
-		-- 		local Skillname,skillType= GetTradeSkillInfo(j);
-		-- 		if skillType~= "header" then
-		-- 			local SpellID= GetSkillNameID(Skillname)
-		-- 			if SpellID then
-		-- 				local Cooldown = GetTradeSkillCooldown(j);
-		-- 				if Cooldown and Cooldown>0 then
-		-- 					PIGA["StatsInfo"]["SkillData"][StatsInfo.allname][0][SpellID]=Cooldown+GetServerTime()
-		-- 				else
-		-- 					PIGA["StatsInfo"]["SkillData"][StatsInfo.allname][0][SpellID]=0
-		-- 				end
-		-- 			end
-		-- 		end
-		-- 	end
-		-- elseif event=="TRADE_SKILL_LIST_UPDATE" then
-		-- 		-- C_Timer.After(0.1,function()
-		-- 		-- 	-- local prof1, prof2, archaeology, fishing, cooking = GetProfessions()
-		-- 		-- 	-- print()
-		-- 		-- 	-- local name, icon, skillLevel, maxSkillLevel, numAbilities, spelloffset, skillLine, skillModifier = GetProfessionInfo(prof1)
-		-- 		-- 	-- --print(name, icon, skillLevel, maxSkillLevel, numAbilities, spelloffset, skillLine, skillModifier)
-		-- 		-- 	-- for _, id in pairs(C_TradeSkillUI.GetAllRecipeIDs()) do
-		-- 		-- 	-- 	local recipeInfo = C_TradeSkillUI.GetRecipeInfo(id)
-		-- 		-- 	-- 	for k,v in pairs(recipeInfo) do
-		-- 		-- 	-- 		print(k,v)
-		-- 		-- 	-- 	end
-		-- 		-- 	-- 	--print(recipeInfo.recipeID, recipeInfo.name)
-		-- 		-- 	-- end
-		-- 		-- end)
-		-- elseif event=="UNIT_SPELLCAST_SUCCEEDED" then
-		-- 	C_Timer.After(0.1,function()
-		-- 		for ix=1,#DqSpellCDList do
-		-- 			if arg3==DqSpellCDList[ix] then
-		-- 				if Spell_ItemId[arg3] then
-							
-		-- 				else
-		-- 					local startTime, duration = PIGGetSpellCooldown(arg3);
-		-- 					if startTime > 0 and duration > 0 then
-		-- 						PIGA["StatsInfo"]["SkillData"][StatsInfo.allname][0][arg3]=startTime+duration
-		-- 					end
-		-- 				end
-		-- 				break
-		-- 			end
-		-- 		end
-		-- 	end)
+		elseif event=="BAG_UPDATE_COOLDOWN" then
+			C_Timer.After(0.1,GetBagItemCD)
+		elseif event=="TRADE_SKILL_UPDATE" then
+			for id=1,GetNumTradeSkills() do
+				local Skillname,skillType= GetTradeSkillInfo(id);
+				if skillType~= "header" then
+					local SpellID= GetSkillNameID(Skillname)
+					if SpellID then
+						addCDdata(SpellID, GetTime(), GetTradeSkillCooldown(id))
+					end
+				end
+			end
+		elseif event=="UNIT_SPELLCAST_SUCCEEDED" then
+			C_Timer.After(0.1,function()
+				local SkillData=PIGA["StatsInfo"]["SkillData"][StatsInfo.allname]
+				for ixx=1,2 do
+					local CDspellList=SkillData[ixx] and SkillData[ixx][2]
+					if CDspellList and CDspellList[arg3] then
+						local startTime, duration = PIGGetSpellCooldown(arg3);
+						addCDdata(arg3, startTime, duration)
+					end
+				end
+			end)
 		end
 	end)
 end

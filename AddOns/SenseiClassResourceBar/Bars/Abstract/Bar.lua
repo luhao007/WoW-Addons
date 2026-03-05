@@ -30,18 +30,22 @@ function BarMixin:Init(config, parent, frameLevel)
     self.defaults = defaults
 
     -- BACKGROUND
-    self.Background = Frame:CreateTexture(nil, "BACKGROUND")
+    self.BackgroundFrame = CreateFrame("Frame", nil, Frame)
+    self.BackgroundFrame:SetAllPoints()
+    self.BackgroundFrame:SetClipsChildren(true)
+    self.Background = self.BackgroundFrame:CreateTexture(nil, "BACKGROUND")
     self.Background:SetAllPoints()
     self.Background:SetColorTexture(0, 0, 0, 0.5)
 
     -- STATUS BAR
-    self.StatusBar = CreateFrame("StatusBar", nil, Frame)
+    self.StatusBar = CreateFrame("StatusBar", nil, self.BackgroundFrame)
     self.StatusBar:SetAllPoints()
     self.StatusBar:SetStatusBarTexture(LSM:Fetch(LSM.MediaType.STATUSBAR, "SCRB FG Fade Left"))
-    self.StatusBar:SetFrameLevel(Frame:GetFrameLevel())
+    self.StatusBar:SetFrameLevel(self.BackgroundFrame:GetFrameLevel() + 1)
+    self.StatusBar:SetClipsChildren(true)
 
     -- MASK
-    self.Mask = self.StatusBar:CreateMaskTexture()
+    self.Mask = self.BackgroundFrame:CreateMaskTexture()
     self.Mask:SetAllPoints()
     self.Mask:SetTexture([[Interface\AddOns\SenseiClassResourceBar\Textures\Specials\white.png]])
 
@@ -49,7 +53,11 @@ function BarMixin:Init(config, parent, frameLevel)
     self.Background:AddMaskTexture(self.Mask)
 
     -- BORDER
-    self.Border = Frame:CreateTexture(nil, "OVERLAY")
+    self.BorderFrame = CreateFrame("Frame", nil, Frame)
+    self.BorderFrame:SetAllPoints()
+    self.BorderFrame:SetFrameLevel(self.StatusBar:GetFrameLevel())
+    self.BorderFrame:SetClipsChildren(true)
+    self.Border = self.BorderFrame:CreateTexture(nil, "OVERLAY")
     self.Border:SetAllPoints()
     self.Border:SetBlendMode("BLEND")
     self.Border:SetVertexColor(0, 0, 0)
@@ -57,8 +65,8 @@ function BarMixin:Init(config, parent, frameLevel)
 
     -- TEXT FRAME
     self.TextFrame = CreateFrame("Frame", nil, Frame)
-    self.TextFrame:SetAllPoints(Frame)
-    self.TextFrame:SetFrameLevel(self.StatusBar:GetFrameLevel())
+    self.TextFrame:SetAllPoints()
+    self.TextFrame:SetFrameLevel(self.BorderFrame:GetFrameLevel())
 
     self.TextValue = self.TextFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     self.TextValue:SetPoint("CENTER", self.TextFrame, "CENTER", 0, 0)
@@ -317,6 +325,23 @@ end
 -- DISPLAY related methods
 ------------------------------------------------------------
 
+function BarMixin:GetTextFormat(data, resource)
+    if not data then return "" end
+
+    local textFormat = ""
+    if (data.showManaAsPercent and resource == Enum.PowerType.Mana) or data.textFormat == "Percent" or data.textFormat == "Percent%" then
+        textFormat = "[percent]" .. (data.textFormat == "Percent%" and "%" or "")
+    elseif data.textFormat == nil or data.textFormat == "Current" then
+        textFormat = "[current]"
+    elseif data.textFormat == "Current / Maximum" then
+        textFormat = "[current] / [max]"
+    elseif data.textFormat == "Current - Percent" or data.textFormat == "Current - Percent%" then
+        textFormat = "[current] - [percent]" .. (data.textFormat == "Current - Percent%" and "%" or "")
+    end
+
+    return textFormat
+end
+
 function BarMixin:UpdateDisplay(layoutName, force)
     if not self:IsShown() and not force then return end
 
@@ -344,25 +369,18 @@ function BarMixin:UpdateDisplay(layoutName, force)
         return
     end
 
-    self.StatusBar:SetMinMaxValues(0, max, data.smoothProgress and Enum.StatusBarInterpolation.ExponentialEaseOut or nil)
-    self.StatusBar:SetValue(current, data.smoothProgress and Enum.StatusBarInterpolation.ExponentialEaseOut or nil)
+    local defaults = self.defaults or {}
+
+    self.StatusBar:SetMinMaxValues(0, max, (data.smoothProgress or defaults.smoothProgress) and Enum.StatusBarInterpolation.ExponentialEaseOut or nil)
+    self.StatusBar:SetValue(current, (data.smoothProgress or defaults.smoothProgress) and Enum.StatusBarInterpolation.ExponentialEaseOut or nil)
 
     -----------
 
     if data.showText == true then
-        local precision = data.textPrecision and math.max(0, string.len(data.textPrecision) - 3) or 0
+        local precision = data.textPrecision and math.max(0, string.len(data.textPrecision or defaults.textPrecision or "") - 3)
         local tagValues = self:GetTagValues(resource, max, current, precision)
 
-        local textFormat = ""
-        if (data.showManaAsPercent and resource == Enum.PowerType.Mana) or data.textFormat == "Percent" or data.textFormat == "Percent%" then
-            textFormat = "[percent]" .. (data.textFormat == "Percent%" and "%" or "")
-        elseif data.textFormat == nil or data.textFormat == "Current" then
-            textFormat = "[current]"
-        elseif data.textFormat == "Current / Maximum" then
-            textFormat = "[current] / [max]"
-        elseif data.textFormat == "Current - Percent" or data.textFormat == "Current - Percent%" then
-            textFormat = "[current] - [percent]" .. (data.textFormat == "Current - Percent%" and "%" or "")
-        end
+        local textFormat = self:GetTextFormat(data, resource)
 
         -- Cache compiled format to avoid repeated pattern matching
         if self._cachedTextFormat ~= textFormat then
@@ -483,7 +501,7 @@ function BarMixin:ApplyTextVisibilitySettings(layoutName, data)
     data = data or self:GetData(layoutName)
     if not data then return end
 
-    self.TextFrame:SetShown(data.showText ~= false)
+    self.TextValue:SetShown(data.showText ~= false)
 
     for _, fragmentedPowerBarText in ipairs(self.FragmentedPowerBarTexts) do
         fragmentedPowerBarText:SetShown(data.showFragmentedPowerBarText ~= false)
@@ -580,7 +598,7 @@ function BarMixin:GetSize(layoutName, data)
 
     local scale = addonTable.rounded(data.scale or defaults.scale or 1, 2)
 
-    return addonTable.getNearestPixel(width * scale, scale), addonTable.getNearestPixel(height * scale, scale)
+    return addonTable.rounded(addonTable.getNearestPixel(width * scale, scale)), addonTable.rounded(addonTable.getNearestPixel(height * scale, scale))
 end
 
 function BarMixin:ApplyLayout(layoutName, force)
@@ -619,7 +637,7 @@ function BarMixin:ApplyLayout(layoutName, force)
 
     self:UpdateTicksLayout(layoutName, data)
 
-    if data.fasterUpdates then
+    if data.fasterUpdates or defaults.fasterUpdates then
         self:EnableFasterUpdates()
     else
         self:DisableFasterUpdates()
@@ -686,7 +704,7 @@ function BarMixin:ApplyFontSettings(layoutName, data)
     elseif align == "BOTTOM" then
         self.TextValue:SetPoint("BOTTOM", self.TextFrame, "BOTTOM", 0, -4)
     else -- Center
-        self.TextValue:SetPoint("CENTER", self.TextFrame, "CENTER", 0, 0)
+        self.TextValue:SetPoint("CENTER", self.TextFrame, "CENTER", addonTable.getNearestPixel(1, scale), 0)
     end
 end
 
@@ -743,7 +761,7 @@ function BarMixin:ApplyMaskAndBorderSettings(layoutName, data)
     end
 
     self.Mask:SetTexture(style.mask or [[Interface\AddOns\SenseiClassResourceBar\Textures\Specials\white.png]])
-    self.Mask:SetPoint("CENTER", self.StatusBar, "CENTER")
+    self.Mask:SetPoint("CENTER", self.BackgroundFrame, "CENTER")
     self.Mask:SetSize(verticalOrientation and height or width, verticalOrientation and width or height)
     self.Mask:SetRotation(verticalOrientation and math.rad(90) or 0)
 
@@ -751,7 +769,7 @@ function BarMixin:ApplyMaskAndBorderSettings(layoutName, data)
     self.Background:AddMaskTexture(self.Mask)
 
     if style.type == "fixed" then
-        local bordersInfo = {
+        self._bordersInfo = self._bordersInfo or {
             top    = { "TOPLEFT", "TOPRIGHT" },
             bottom = { "BOTTOMLEFT", "BOTTOMRIGHT" },
             left   = { "TOPLEFT", "BOTTOMLEFT" },
@@ -760,10 +778,9 @@ function BarMixin:ApplyMaskAndBorderSettings(layoutName, data)
 
         if not self.FixedThicknessBorders then
             self.FixedThicknessBorders = {}
-            for edge, _ in pairs(bordersInfo) do
-                local t = self.Frame:CreateTexture(nil, "OVERLAY")
+            for edge, _ in pairs(self._bordersInfo) do
+                local t = self.BorderFrame:CreateTexture(nil, "OVERLAY")
                 t:SetColorTexture(0, 0, 0, 1)
-                t:SetDrawLayer("OVERLAY")
                 self.FixedThicknessBorders[edge] = t
             end
         end
@@ -777,10 +794,10 @@ function BarMixin:ApplyMaskAndBorderSettings(layoutName, data)
         local borderColor = data.borderColor or defaults.borderColor
 
         for edge, t in pairs(self.FixedThicknessBorders) do
-            local points = bordersInfo[edge]
+            local points = self._bordersInfo[edge]
             t:ClearAllPoints()
-            t:SetPoint(points[1], self.Frame, points[1])
-            t:SetPoint(points[2], self.Frame, points[2])
+            t:SetPoint(points[1], self.BorderFrame, points[1])
+            t:SetPoint(points[2], self.BorderFrame, points[2])
             t:SetColorTexture(borderColor.r or 0, borderColor.g or 0, borderColor.b or 0, borderColor.a or 1)
             if edge == "top" or edge == "bottom" then
                 t:SetHeight(pThickness)
@@ -793,7 +810,7 @@ function BarMixin:ApplyMaskAndBorderSettings(layoutName, data)
         self.Border:Show()
         self.Border:SetTexture(style.border)
         self.Border:ClearAllPoints()
-        self.Border:SetPoint("CENTER", self.StatusBar, "CENTER")
+        self.Border:SetPoint("CENTER", self.BorderFrame, "CENTER")
         self.Border:SetSize(verticalOrientation and height or width, verticalOrientation and width or height)
         self.Border:SetRotation(verticalOrientation and math.rad(90) or 0)
 
@@ -969,7 +986,7 @@ function BarMixin:UpdateTicksLayout(layoutName, data)
     for i = 1, needed do
         local t = self.Ticks[i]
         if not t then
-            t = self.Frame:CreateTexture(nil, "OVERLAY")
+            t = self.BorderFrame:CreateTexture(nil, "OVERLAY")
             self.Ticks[i] = t
         end
         t:SetColorTexture(tickColor.r or 0, tickColor.g or 0, tickColor.b or 0, tickColor.a or 1)
@@ -1009,7 +1026,8 @@ function BarMixin:CreateFragmentedPowerBars(layoutName, data)
     for i = 1, maxPower or 0 do
         if not self.FragmentedPowerBars[i] then
             -- Create a small status bar for each resource (behind main bar, in front of background)
-            local bar = CreateFrame("StatusBar", nil, self.Frame)
+            local bar = CreateFrame("StatusBar", nil, self.BackgroundFrame)
+            bar:SetClipsChildren(true)
 
             local fgStyleName = data.foregroundStyle or defaults.foregroundStyle
             local fgTexture = LSM:Fetch(LSM.MediaType.STATUSBAR, fgStyleName)
@@ -1023,7 +1041,7 @@ function BarMixin:CreateFragmentedPowerBars(layoutName, data)
             self.FragmentedPowerBars[i] = bar
 
             -- Create text for reload time display
-            local text = bar:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+            local text = self.TextFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
             text:SetPoint("CENTER", bar, "CENTER", 0, 0)
             text:SetJustifyH("CENTER")
             text:SetFormattedText("")
@@ -1041,6 +1059,8 @@ function BarMixin:UpdateFragmentedPowerDisplay(layoutName, data, maxPower)
     -- Use passed maxPower to avoid redundant UnitPowerMax call
     maxPower = maxPower or (resource == "MAELSTROM_WEAPON" and 5 or UnitPowerMax("player", resource))
     if maxPower <= 0 then return end
+
+    local defaults = self.defaults or {}
 
     local barWidth = self.Frame:GetWidth()
     local barHeight = self.Frame:GetHeight()
@@ -1161,7 +1181,7 @@ function BarMixin:UpdateFragmentedPowerDisplay(layoutName, data, maxPower)
 
         self.StatusBar:SetValue(current)
 
-        local precision = data.fragmentedPowerBarTextPrecision and math.max(0, string.len(data.fragmentedPowerBarTextPrecision) - 3) or 0
+        local precision = math.max(0, string.len(data.fragmentedPowerBarTextPrecision or defaults.fragmentedPowerBarTextPrecision or "") - 3)
         for pos = 1, #displayOrder do
             local idx = displayOrder[pos]
             local essFrame = self.FragmentedPowerBars[idx]
@@ -1273,7 +1293,7 @@ function BarMixin:UpdateFragmentedPowerDisplay(layoutName, data, maxPower)
 
         self.StatusBar:SetValue(#readyList)
 
-        local precision = data.fragmentedPowerBarTextPrecision and math.max(0, string.len(data.fragmentedPowerBarTextPrecision) - 3) or 0
+        local precision = math.max(0, string.len(data.fragmentedPowerBarTextPrecision or defaults.fragmentedPowerBarTextPrecision or "") - 3)
         for pos = 1, totalRunes do
             local runeIndex = displayOrder[pos]
             local runeFrame = self.FragmentedPowerBars[runeIndex]

@@ -20,6 +20,11 @@ function Scaling:GetPixelSize(frame)
     return 768 / (physicalHeight * scale)
 end
 
+function Scaling:ScaleValue(value, frame)
+    local px = Scaling:GetPixelSize(frame)
+    return value * px
+end
+
 function Scaling:RoundToPixelSize(value, frame)
     if value == 0 then
         return 0
@@ -67,3 +72,5 @@ function Scaling:NudgeViewers()
         end
     end
 end
+
+CMC_SCALING = Scaling

@@ -93,16 +93,6 @@ function QuickChatfun.QuickBut_Jilu()
 					table.remove(v,i);					
 				end
 			end
-			--按时间删除
-			-- for i=#v,1,-1 do			
-			-- 	local baocunTime=baocuntianshu*60*60*24;
-			-- 	if (GetServerTime()-v[i][2])>baocunTime then
-			-- 		table.remove(v,i);					
-			-- 	end
-			-- end
-			-- if #v==0 then
-			-- 	wipe(miyushuju[2],k)
-			-- end
 		end
 		for x=#miyushuju[1],1,-1 do
 			if miyushuju[2][miyushuju[1][x][1]] then
@@ -243,17 +233,53 @@ function QuickChatfun.QuickBut_Jilu()
 	miyijiluF.shezhiF.WhisperAudio.PlayBut:SetScript("OnClick", function()
 		PIG_PlaySoundFile(AudioData[PIGA["Chatjilu"]["WHISPER"]["AudioID"]])
 	end)
-	---重置密语记录
+
+	miyijiluF.shezhiF.suofang=PIGDownMenu(miyijiluF.shezhiF.WhisperAudio,{"TOPLEFT",miyijiluF.shezhiF.WhisperAudio.xiala, "BOTTOMLEFT", 0,-24},{110,22})
+	function miyijiluF.shezhiF.suofang:PIGDownMenu_Update_But()
+		local info = {}
+		info.func = self.PIGDownMenu_SetValue
+		for i=8,16,1 do
+		    info.text, info.arg1 = UI_SCALE..(i*10).."%", i*0.1
+		    info.checked = i*0.1==PIGA["Chatjilu"]["WHISPER"]["Scale"]
+			self:PIGDownMenu_AddButton(info)
+		end 
+	end
+	miyijiluF:SetScale(PIGA["Chatjilu"]["WHISPER"]["Scale"] or 1)
+	function miyijiluF.shezhiF.suofang:PIGDownMenu_SetValue(value,arg1)
+		self:PIGDownMenu_SetText(value)
+		if arg1==1 then
+			PIGA["Chatjilu"]["WHISPER"]["Scale"]=nil
+		else
+			PIGA["Chatjilu"]["WHISPER"]["Scale"]=arg1;
+		end
+		miyijiluF:SetScale(arg1);
+		PIGCloseDropDownMenus()
+	end
+	
+	---清除密语记录
 	miyijiluF.shezhiF.MIYUJILUBUT = PIGButton(miyijiluF.shezhiF, {"BOTTOMLEFT",miyijiluF.shezhiF,"BOTTOMLEFT",30,10},{76,20},KEY_NUMLOCK_MAC..L["RECORD"]);  
 	miyijiluF.shezhiF.MIYUJILUBUT:SetScript("OnClick", function ()
-		StaticPopup_Show("CHONGZHI_MIYUJILU");
+		StaticPopup_Show("PIG_CZ_CHATWHISPERRECORD");
 	end);
+	StaticPopupDialogs["PIG_CZ_CHATWHISPERRECORD"] = {
+		text = string.format(L["CHAT_JILUTDEL"],L["CHAT_WHISPER"]),
+		button1 = OKAY,
+		button2 = CANCEL,
+		OnAccept = function()
+			PIGA["Chatjilu"]["WHISPER"]["record"] = {}
+			miyijiluF.UpdateMsgList(miyijiluF.F.Scroll)
+		end,
+		timeout = 0,
+		whileDead = true,
+		hideOnEscape = true,
+	}
 	miyijiluF.shezhiF:SetScript("OnShow", function (self)
 		self.kaiguan:SetChecked(PIGA["Chatjilu"]["WHISPER"]["Open"])
 		self.jichengBlack:SetChecked(PIGA["Chatjilu"]["WHISPER"]["jichengBlack"])
 		self.tixing:SetChecked(PIGA["Chatjilu"]["WHISPER"]["Tips"])
 		self.WhisperAudio:SetChecked(PIGA["Chatjilu"]["WHISPER"]["AudioOpen"]);
 		self.WhisperAudio.xiala:PIGDownMenu_SetText(AudioData[PIGA["Chatjilu"]["WHISPER"]["AudioID"]][1])
+		self.suofang:PIGDownMenu_SetText(UI_SCALE..((PIGA["Chatjilu"]["WHISPER"]["Scale"] or 1)*100).."%")
 	end)
 
 	--右键功能
@@ -341,81 +367,12 @@ function QuickChatfun.QuickBut_Jilu()
 	miyijiluF.F = PIGFrame(miyijiluF,{"TOPLEFT",miyijiluF,"TOPLEFT",0,-20});
 	miyijiluF.F:SetPoint("BOTTOMRIGHT",miyijiluF,"BOTTOMRIGHT",0,0);
 	miyijiluF.F:PIGSetBackdrop(0,1)
-	local function gengxinhang(self)
-		if not miyijiluF:IsShown() then return end
-		for id = 1, hang_NUM do
-			miyijiluF.F.ButList[id]:Hide()
-	    end
-	    local shuju=PIGA["Chatjilu"]["WHISPER"]["record"]
-		if #shuju>0 then
-			local ItemsNum = #shuju[1];
-			FauxScrollFrame_Update(self, ItemsNum, hang_NUM, hang_Height);
-			local offset = FauxScrollFrame_GetOffset(self);
-		    for id = 1, hang_NUM do
-				local dangqian = id+offset;
-				if shuju[1][dangqian] then
-					local hang = miyijiluF.F.ButList[id]
-					hang:Show();
-					hang.name.Xlx=shuju[1][dangqian][2]
-					hang.name.X=shuju[1][dangqian][1]
-					if shuju[1][dangqian][2]=="BN_2" then
-						hang.zhiye:SetTexture("interface/friendsframe/battlenet-portrait.blp");
-						hang.zhiye:SetTexCoord(0,1,0,1);
-						local PIGaccountName=PIG_GetbetIDName(shuju[1][dangqian][1])
-						hang.name:SetText(PIGaccountName);
-					else
-						hang.zhiye:SetTexture("Interface/TargetingFrame/UI-Classes-Circles");
-						local coords = CLASS_ICON_TCOORDS[shuju[1][dangqian][2]]
-						hang.zhiye:SetTexCoord(unpack(coords));
-						local name1,name2 = strsplit("-", shuju[1][dangqian][1], 2);
-						if name2 and name2 ~= PIG_OptionsUI.Realm then
-							hang.name:SetText(name1.."(*)");
-						else
-							hang.name:SetText(name1);
-						end
-					end
-					local nrname=shuju[1][dangqian][1]
-					local nrheji=shuju[2][nrname]
-					if nrheji[#nrheji][1]=="CHAT_MSG_WHISPER" then
-						hang.name.Xlx=shuju[1][dangqian][2]
-						if shuju[1][dangqian][3] then
-							local color = PIG_CLASS_COLORS[shuju[1][dangqian][2]];
-							hang.name:SetTextColor(color.r, color.g, color.b, 1);
-						else
-							hang.name:SetTextColor(0.9, 0.9, 0.9, 1);
-						end
-					elseif nrheji[#nrheji][1]=="CHAT_MSG_BN_WHISPER" then
-						if shuju[1][dangqian][3] then
-							hang.name:SetTextColor(0, 1, 0.9647, 1);
-						else
-							hang.name:SetTextColor(0.9, 0.9, 0.9, 1);
-						end
-					else
-						hang.name:SetTextColor(0.5, 0.5, 0.5, 1);
-					end
-					hang.del:SetID(dangqian);
-				end
-			end
-		end
-	end
-	StaticPopupDialogs["CHONGZHI_MIYUJILU"] = {
-		text = string.format(L["CHAT_JILUTDEL"],L["CHAT_WHISPER"]),
-		button1 = OKAY,
-		button2 = CANCEL,
-		OnAccept = function()
-			PIGA["Chatjilu"]["WHISPER"]["record"] = {["Open"]=true,["Tips"]=true,["record"]={}}
-			gengxinhang(miyijiluF.F.Scroll)
-		end,
-		timeout = 0,
-		whileDead = true,
-		hideOnEscape = true,
-	}
 	miyijiluF.F.Scroll = CreateFrame("ScrollFrame",nil,miyijiluF.F, "FauxScrollFrameTemplate");  
 	miyijiluF.F.Scroll:SetPoint("TOPLEFT",miyijiluF.F,"TOPLEFT",0,-1);
 	miyijiluF.F.Scroll:SetPoint("BOTTOMRIGHT",miyijiluF.F,"BOTTOMRIGHT",-19,0);
 	miyijiluF.F.Scroll.ScrollBar:SetScale(0.8);
 	miyijiluF.F.Scroll:SetScript("OnVerticalScroll", function(self, offset)
-	    FauxScrollFrame_OnVerticalScroll(self, offset, hang_Height, gengxinhang)
+	    FauxScrollFrame_OnVerticalScroll(self, offset, hang_Height, miyijiluF.UpdateMsgList)
 	end)
 	miyijiluF.F.ButList={}
 	for id = 1, hang_NUM do
@@ -561,8 +518,65 @@ function QuickChatfun.QuickBut_Jilu()
 			local jiluD=msgdata[2]
 			jiluD[muluDName]=nil
 			table.remove(muluD,idid);
-			gengxinhang(miyijiluF.F.Scroll)
+			miyijiluF.UpdateMsgList(miyijiluF.F.Scroll)
 		end)
+	end
+	function miyijiluF.UpdateMsgList(self)
+		if not miyijiluF:IsShown() then return end
+		for id = 1, hang_NUM do
+			miyijiluF.F.ButList[id]:Hide()
+	    end
+	    local shuju=PIGA["Chatjilu"]["WHISPER"]["record"]
+		if #shuju>0 then
+			local ItemsNum = #shuju[1];
+			FauxScrollFrame_Update(self, ItemsNum, hang_NUM, hang_Height);
+			local offset = FauxScrollFrame_GetOffset(self);
+		    for id = 1, hang_NUM do
+				local dangqian = id+offset;
+				if shuju[1][dangqian] then
+					local hang = miyijiluF.F.ButList[id]
+					hang:Show();
+					hang.name.Xlx=shuju[1][dangqian][2]
+					hang.name.X=shuju[1][dangqian][1]
+					if shuju[1][dangqian][2]=="BN_2" then
+						hang.zhiye:SetTexture("interface/friendsframe/battlenet-portrait.blp");
+						hang.zhiye:SetTexCoord(0,1,0,1);
+						local PIGaccountName=PIG_GetbetIDName(shuju[1][dangqian][1])
+						hang.name:SetText(PIGaccountName);
+					else
+						hang.zhiye:SetTexture("Interface/TargetingFrame/UI-Classes-Circles");
+						local coords = CLASS_ICON_TCOORDS[shuju[1][dangqian][2]]
+						hang.zhiye:SetTexCoord(unpack(coords));
+						local name1,name2 = strsplit("-", shuju[1][dangqian][1], 2);
+						if name2 and name2 ~= PIG_OptionsUI.Realm then
+							hang.name:SetText(name1.."(*)");
+						else
+							hang.name:SetText(name1);
+						end
+					end
+					local nrname=shuju[1][dangqian][1]
+					local nrheji=shuju[2][nrname]
+					if nrheji[#nrheji][1]=="CHAT_MSG_WHISPER" then
+						hang.name.Xlx=shuju[1][dangqian][2]
+						if shuju[1][dangqian][3] then
+							local color = PIG_CLASS_COLORS[shuju[1][dangqian][2]];
+							hang.name:SetTextColor(color.r, color.g, color.b, 1);
+						else
+							hang.name:SetTextColor(0.9, 0.9, 0.9, 1);
+						end
+					elseif nrheji[#nrheji][1]=="CHAT_MSG_BN_WHISPER" then
+						if shuju[1][dangqian][3] then
+							hang.name:SetTextColor(0, 1, 0.9647, 1);
+						else
+							hang.name:SetTextColor(0.9, 0.9, 0.9, 1);
+						end
+					else
+						hang.name:SetTextColor(0.5, 0.5, 0.5, 1);
+					end
+					hang.del:SetID(dangqian);
+				end
+			end
+		end
 	end
 	---聊天内容显示区域---
 	miyijiluF.nr=PIGFrame(miyijiluF,{"TOPRIGHT",miyijiluF,"TOPLEFT",-1,0},{400,120})
@@ -647,7 +661,7 @@ function QuickChatfun.QuickBut_Jilu()
 	end);
 	---
 	miyijiluF:HookScript("OnShow", function(self)
-		gengxinhang(miyijiluF.F.Scroll)
+		miyijiluF.UpdateMsgList(miyijiluF.F.Scroll)
 	end)
 	----
 	miyijiluF:RegisterEvent("CHAT_MSG_BN_WHISPER");
@@ -658,6 +672,7 @@ function QuickChatfun.QuickBut_Jilu()
 		if not self.kaiguanOpen then return end
 		if not arg2 then return end
 		if not arg12 and not arg13 then return end
+		if PIGisSecret(arg1) then return end
 		if arg1:match("[!Pig]:") then return end
 		if event=="CHAT_MSG_WHISPER_INFORM" or event=="CHAT_MSG_BN_WHISPER_INFORM" then
 			if self.tixingOpen and not self:IsVisible() then
@@ -719,7 +734,7 @@ function QuickChatfun.QuickBut_Jilu()
 				{{self.miyuren,self.englishClass,true}},{[self.miyuren]={{event,xiaoxiTime,arg1}}}
 			}
 		end
-		C_Timer.After(0.1,function() gengxinhang(self.F.Scroll) end)
+		C_Timer.After(0.1,function() miyijiluF.UpdateMsgList(self.F.Scroll) end)
 	end)
 	
 	--队伍/团队聊天记录--------------
@@ -1114,33 +1129,35 @@ function QuickChatfun.QuickBut_Jilu()
 		---根据启用注册事件
 		ChatRecordF.shijianzhucequxiao(id,PIGA["Chatjilu"][jilupindaoID[id]]["Open"],PindaolistF)
 		PindaolistF:HookScript("OnEvent", function (self,event,arg1,arg2,arg3,arg4,arg5,_,_,_,_,_,_,arg12)
-			if not arg1 or arg1:match("[!Pig]:") then return end
+			if not arg1 then return end
+			if PIGisSecret(arg1) then return end
+			if arg1:match("[!Pig]:") then return end
 			for jj=1,#jilupindaoEvent[jilupindaoID[id]] do
 				if event==jilupindaoEvent[jilupindaoID[id]][jj] then
-							--print(event,arg1,arg2,arg3,arg4,arg5,arg12)
-							local xiaoxiTime=GetServerTime()
-							local YYDAY=floor(xiaoxiTime/60/60/24)
-							local localizedClass, englishClass = GetPlayerInfoByGUID(arg12)
-							local color = PIG_CLASS_COLORS[englishClass];
-							local shujuyuanPR=PIGA["Chatjilu"][jilupindaoID[id]]["record"]
-							if #shujuyuanPR>0 then
-								self.yijingcunzairiqi=false
-								for f=#shujuyuanPR[1], 1, -1 do
-									if shujuyuanPR[1][f]==YYDAY then
-										table.insert(shujuyuanPR[2][f], {event,xiaoxiTime,arg2,arg1,color.colorStr});
-										self.yijingcunzairiqi=true;
-										break
-									end
-								end
-								if self.yijingcunzairiqi==false then
-									table.insert(shujuyuanPR[1], YYDAY);
-									table.insert(shujuyuanPR[2], {{event,xiaoxiTime,arg2,arg1,color.colorStr}});
-								end
-							else
-								PIGA["Chatjilu"][jilupindaoID[id]]["record"]={
-									{YYDAY},{{{event,xiaoxiTime,arg2,arg1,color.colorStr}}}
-								}
+					--print(event,arg1,arg2,arg3,arg4,arg5,arg12)
+					local xiaoxiTime=GetServerTime()
+					local YYDAY=floor(xiaoxiTime/60/60/24)
+					local localizedClass, englishClass = GetPlayerInfoByGUID(arg12)
+					local color = PIG_CLASS_COLORS[englishClass];
+					local shujuyuanPR=PIGA["Chatjilu"][jilupindaoID[id]]["record"]
+					if #shujuyuanPR>0 then
+						self.yijingcunzairiqi=false
+						for f=#shujuyuanPR[1], 1, -1 do
+							if shujuyuanPR[1][f]==YYDAY then
+								table.insert(shujuyuanPR[2][f], {event,xiaoxiTime,arg2,arg1,color.colorStr});
+								self.yijingcunzairiqi=true;
+								break
 							end
+						end
+						if self.yijingcunzairiqi==false then
+							table.insert(shujuyuanPR[1], YYDAY);
+							table.insert(shujuyuanPR[2], {{event,xiaoxiTime,arg2,arg1,color.colorStr}});
+						end
+					else
+						PIGA["Chatjilu"][jilupindaoID[id]]["record"]={
+							{YYDAY},{{{event,xiaoxiTime,arg2,arg1,color.colorStr}}}
+						}
+					end
 				end
 			end
 		end)

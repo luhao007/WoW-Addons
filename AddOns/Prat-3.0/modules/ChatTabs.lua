@@ -25,24 +25,11 @@
 -------------------------------------------------------------------------------
 
 Prat:AddModuleToLoad(function()
-
-  local PRAT_MODULE = Prat:RequestModuleName("ChatTabs")
-
-  local dbg = function() end
-  --[==[@debug@
-  dbg = function(...) Prat:PrintLiteral(...) end
-  --@end-debug@]==]
-
-  if PRAT_MODULE == nil then
-    return
-  end
-
-  local module = Prat:NewModule(PRAT_MODULE, "AceHook-3.0")
-
+  local module = Prat:NewModule("ChatTabs", "AceHook-3.0")
   local PL = module.PL
 
   --[==[@debug@
-  PL:AddLocale(PRAT_MODULE, "enUS", {
+  PL:AddLocale("enUS", {
     ["Tabs"] = true,
     ["Chat window tab options."] = true,
     ["Set Display Mode"] = true,
@@ -85,639 +72,618 @@ do
     local L
 
 
-L = {
-	["ChatTabs"] = {
-		["Active Alpha"] = true,
-		["All"] = true,
-		["Always"] = true,
-		["Change Font Color On Message"] = true,
-		["Chat Alert Timeout"] = true,
-		["Chat window tab options."] = true,
-		["Default"] = true,
-		["disableflash_desc"] = "Disable flashing of the chat tabs.",
-		["disableflash_name"] = "Disable Flashing",
-		["disablewhisperflash_desc"] = "Disable flashing of the chat tabs for whispers.",
-		["disablewhisperflash_name"] = "Disable Flash for Whispers",
-		["Flash Color"] = true,
-		["Font Color"] = true,
-		["foreveralert_desc"] = "With this turned off the highlight/flash will persist until the timer elapses",
-		["foreveralert_name"] = "Keep highlighting until tab button clicked",
-		["Hidden"] = true,
-		["Highlighting/Flashing"] = true,
-		["How long any highlights/flashes should last"] = true,
-		["Individual"] = true,
-		["Not Active Alpha"] = true,
-		["preventdrag_desc"] = "Prevent dragging chat tabs with mouse",
-		["preventdrag_name"] = "Prevent Dragging",
-		["Set ChatFrame%d Display Mode"] = true,
-		["Set Display Mode"] = true,
-		["Set Flash Color"] = true,
-		["Set Flash On Message"] = true,
-		["Set tab display mode for each chat window."] = "Set tab display mode for each chat window. Checked (on), Unchecked (off), Greyed Check (default)",
-		["Set tab display to always, hidden or the Blizzard default."] = true,
-		["Sets alpha of chat tab for active chat frame."] = true,
-		["Sets alpha of chat tab for not active chat frame."] = true,
-		["Show Tab Textures"] = true,
-		["Tabs"] = true,
-		["Visibility"] = true,
-	}
-}
+L = {}
+-- ChatTabs
+L["Active Alpha"] = true
+L["All"] = true
+L["Always"] = true
+L["Change Font Color On Message"] = true
+L["Chat Alert Timeout"] = true
+L["Chat window tab options."] = true
+L["Default"] = true
+L["disableflash_desc"] = "Disable flashing of the chat tabs."
+L["disableflash_name"] = "Disable Flashing"
+L["disablewhisperflash_desc"] = "Disable flashing of the chat tabs for whispers."
+L["disablewhisperflash_name"] = "Disable Flash for Whispers"
+L["Flash Color"] = true
+L["Font Color"] = true
+L["foreveralert_desc"] = "With this turned off the highlight/flash will persist until the timer elapses"
+L["foreveralert_name"] = "Keep highlighting until tab button clicked"
+L["Hidden"] = true
+L["Highlighting/Flashing"] = true
+L["How long any highlights/flashes should last"] = true
+L["Individual"] = true
+L["Not Active Alpha"] = true
+L["preventdrag_desc"] = "Prevent dragging chat tabs with mouse"
+L["preventdrag_name"] = "Prevent Dragging"
+L["Set ChatFrame%d Display Mode"] = true
+L["Set Display Mode"] = true
+L["Set Flash Color"] = true
+L["Set Flash On Message"] = true
+L["Set tab display mode for each chat window."] = "Set tab display mode for each chat window. Checked (on), Unchecked (off), Greyed Check (default)"
+L["Set tab display to always, hidden or the Blizzard default."] = true
+L["Sets alpha of chat tab for active chat frame."] = true
+L["Sets alpha of chat tab for not active chat frame."] = true
+L["Show Tab Textures"] = true
+L["Tabs"] = true
+L["Visibility"] = true
 
-PL:AddLocale(PRAT_MODULE, "enUS", L)
+PL:AddLocale("enUS", L)
 
 
 
-L = {
-	["ChatTabs"] = {
-		--[[Translation missing --]]
-		["Active Alpha"] = "Active Alpha",
-		--[[Translation missing --]]
-		["All"] = "All",
-		--[[Translation missing --]]
-		["Always"] = "Always",
-		--[[Translation missing --]]
-		["Change Font Color On Message"] = "Change Font Color On Message",
-		--[[Translation missing --]]
-		["Chat Alert Timeout"] = "Chat Alert Timeout",
-		--[[Translation missing --]]
-		["Chat window tab options."] = "Chat window tab options.",
-		--[[Translation missing --]]
-		["Default"] = "Default",
-		--[[Translation missing --]]
-		["disableflash_desc"] = "Disable flashing of the chat tabs.",
-		--[[Translation missing --]]
-		["disableflash_name"] = "Disable Flashing",
-		--[[Translation missing --]]
-		["disablewhisperflash_desc"] = "Disable flashing of the chat tabs for whispers.",
-		--[[Translation missing --]]
-		["disablewhisperflash_name"] = "Disable Flash for Whispers",
-		--[[Translation missing --]]
-		["Flash Color"] = "Flash Color",
-		--[[Translation missing --]]
-		["Font Color"] = "Font Color",
-		--[[Translation missing --]]
-		["foreveralert_desc"] = "With this turned off the highlight/flash will persist until the timer elapses",
-		--[[Translation missing --]]
-		["foreveralert_name"] = "Keep highlighting until tab button clicked",
-		--[[Translation missing --]]
-		["Hidden"] = "Hidden",
-		--[[Translation missing --]]
-		["Highlighting/Flashing"] = "Highlighting/Flashing",
-		--[[Translation missing --]]
-		["How long any highlights/flashes should last"] = "How long any highlights/flashes should last",
-		--[[Translation missing --]]
-		["Individual"] = "Individual",
-		--[[Translation missing --]]
-		["Not Active Alpha"] = "Not Active Alpha",
-		--[[Translation missing --]]
-		["preventdrag_desc"] = "Prevent dragging chat tabs with mouse",
-		--[[Translation missing --]]
-		["preventdrag_name"] = "Prevent Dragging",
-		--[[Translation missing --]]
-		["Set ChatFrame%d Display Mode"] = "Set ChatFrame%d Display Mode",
-		--[[Translation missing --]]
-		["Set Display Mode"] = "Set Display Mode",
-		--[[Translation missing --]]
-		["Set Flash Color"] = "Set Flash Color",
-		--[[Translation missing --]]
-		["Set Flash On Message"] = "Set Flash On Message",
-		--[[Translation missing --]]
-		["Set tab display mode for each chat window."] = "Set tab display mode for each chat window. Checked (on), Unchecked (off), Greyed Check (default)",
-		--[[Translation missing --]]
-		["Set tab display to always, hidden or the Blizzard default."] = "Set tab display to always, hidden or the Blizzard default.",
-		--[[Translation missing --]]
-		["Sets alpha of chat tab for active chat frame."] = "Sets alpha of chat tab for active chat frame.",
-		--[[Translation missing --]]
-		["Sets alpha of chat tab for not active chat frame."] = "Sets alpha of chat tab for not active chat frame.",
-		--[[Translation missing --]]
-		["Show Tab Textures"] = "Show Tab Textures",
-		--[[Translation missing --]]
-		["Tabs"] = "Tabs",
-		--[[Translation missing --]]
-		["Visibility"] = "Visibility",
-	}
-}
+L = {}
+-- ChatTabs
+--[[Translation missing --]]
+L["Active Alpha"] = "Active Alpha"
+--[[Translation missing --]]
+L["All"] = "All"
+--[[Translation missing --]]
+L["Always"] = "Always"
+--[[Translation missing --]]
+L["Change Font Color On Message"] = "Change Font Color On Message"
+--[[Translation missing --]]
+L["Chat Alert Timeout"] = "Chat Alert Timeout"
+--[[Translation missing --]]
+L["Chat window tab options."] = "Chat window tab options."
+--[[Translation missing --]]
+L["Default"] = "Default"
+--[[Translation missing --]]
+L["disableflash_desc"] = "Disable flashing of the chat tabs."
+--[[Translation missing --]]
+L["disableflash_name"] = "Disable Flashing"
+--[[Translation missing --]]
+L["disablewhisperflash_desc"] = "Disable flashing of the chat tabs for whispers."
+--[[Translation missing --]]
+L["disablewhisperflash_name"] = "Disable Flash for Whispers"
+--[[Translation missing --]]
+L["Flash Color"] = "Flash Color"
+--[[Translation missing --]]
+L["Font Color"] = "Font Color"
+--[[Translation missing --]]
+L["foreveralert_desc"] = "With this turned off the highlight/flash will persist until the timer elapses"
+--[[Translation missing --]]
+L["foreveralert_name"] = "Keep highlighting until tab button clicked"
+--[[Translation missing --]]
+L["Hidden"] = "Hidden"
+--[[Translation missing --]]
+L["Highlighting/Flashing"] = "Highlighting/Flashing"
+--[[Translation missing --]]
+L["How long any highlights/flashes should last"] = "How long any highlights/flashes should last"
+--[[Translation missing --]]
+L["Individual"] = "Individual"
+--[[Translation missing --]]
+L["Not Active Alpha"] = "Not Active Alpha"
+--[[Translation missing --]]
+L["preventdrag_desc"] = "Prevent dragging chat tabs with mouse"
+--[[Translation missing --]]
+L["preventdrag_name"] = "Prevent Dragging"
+--[[Translation missing --]]
+L["Set ChatFrame%d Display Mode"] = "Set ChatFrame%d Display Mode"
+--[[Translation missing --]]
+L["Set Display Mode"] = "Set Display Mode"
+--[[Translation missing --]]
+L["Set Flash Color"] = "Set Flash Color"
+--[[Translation missing --]]
+L["Set Flash On Message"] = "Set Flash On Message"
+--[[Translation missing --]]
+L["Set tab display mode for each chat window."] = "Set tab display mode for each chat window. Checked (on), Unchecked (off), Greyed Check (default)"
+--[[Translation missing --]]
+L["Set tab display to always, hidden or the Blizzard default."] = "Set tab display to always, hidden or the Blizzard default."
+--[[Translation missing --]]
+L["Sets alpha of chat tab for active chat frame."] = "Sets alpha of chat tab for active chat frame."
+--[[Translation missing --]]
+L["Sets alpha of chat tab for not active chat frame."] = "Sets alpha of chat tab for not active chat frame."
+--[[Translation missing --]]
+L["Show Tab Textures"] = "Show Tab Textures"
+--[[Translation missing --]]
+L["Tabs"] = "Tabs"
+--[[Translation missing --]]
+L["Visibility"] = "Visibility"
 
-PL:AddLocale(PRAT_MODULE, "itIT", L)
+PL:AddLocale("itIT", L)
 
 
 
-L = {
-	["ChatTabs"] = {
-		--[[Translation missing --]]
-		["Active Alpha"] = "Active Alpha",
-		--[[Translation missing --]]
-		["All"] = "All",
-		--[[Translation missing --]]
-		["Always"] = "Always",
-		--[[Translation missing --]]
-		["Change Font Color On Message"] = "Change Font Color On Message",
-		--[[Translation missing --]]
-		["Chat Alert Timeout"] = "Chat Alert Timeout",
-		--[[Translation missing --]]
-		["Chat window tab options."] = "Chat window tab options.",
-		--[[Translation missing --]]
-		["Default"] = "Default",
-		--[[Translation missing --]]
-		["disableflash_desc"] = "Disable flashing of the chat tabs.",
-		--[[Translation missing --]]
-		["disableflash_name"] = "Disable Flashing",
-		--[[Translation missing --]]
-		["disablewhisperflash_desc"] = "Disable flashing of the chat tabs for whispers.",
-		--[[Translation missing --]]
-		["disablewhisperflash_name"] = "Disable Flash for Whispers",
-		--[[Translation missing --]]
-		["Flash Color"] = "Flash Color",
-		--[[Translation missing --]]
-		["Font Color"] = "Font Color",
-		--[[Translation missing --]]
-		["foreveralert_desc"] = "With this turned off the highlight/flash will persist until the timer elapses",
-		--[[Translation missing --]]
-		["foreveralert_name"] = "Keep highlighting until tab button clicked",
-		--[[Translation missing --]]
-		["Hidden"] = "Hidden",
-		--[[Translation missing --]]
-		["Highlighting/Flashing"] = "Highlighting/Flashing",
-		--[[Translation missing --]]
-		["How long any highlights/flashes should last"] = "How long any highlights/flashes should last",
-		--[[Translation missing --]]
-		["Individual"] = "Individual",
-		--[[Translation missing --]]
-		["Not Active Alpha"] = "Not Active Alpha",
-		--[[Translation missing --]]
-		["preventdrag_desc"] = "Prevent dragging chat tabs with mouse",
-		--[[Translation missing --]]
-		["preventdrag_name"] = "Prevent Dragging",
-		--[[Translation missing --]]
-		["Set ChatFrame%d Display Mode"] = "Set ChatFrame%d Display Mode",
-		--[[Translation missing --]]
-		["Set Display Mode"] = "Set Display Mode",
-		--[[Translation missing --]]
-		["Set Flash Color"] = "Set Flash Color",
-		--[[Translation missing --]]
-		["Set Flash On Message"] = "Set Flash On Message",
-		--[[Translation missing --]]
-		["Set tab display mode for each chat window."] = "Set tab display mode for each chat window. Checked (on), Unchecked (off), Greyed Check (default)",
-		--[[Translation missing --]]
-		["Set tab display to always, hidden or the Blizzard default."] = "Set tab display to always, hidden or the Blizzard default.",
-		--[[Translation missing --]]
-		["Sets alpha of chat tab for active chat frame."] = "Sets alpha of chat tab for active chat frame.",
-		--[[Translation missing --]]
-		["Sets alpha of chat tab for not active chat frame."] = "Sets alpha of chat tab for not active chat frame.",
-		--[[Translation missing --]]
-		["Show Tab Textures"] = "Show Tab Textures",
-		--[[Translation missing --]]
-		["Tabs"] = "Tabs",
-		--[[Translation missing --]]
-		["Visibility"] = "Visibility",
-	}
-}
+L = {}
+-- ChatTabs
+--[[Translation missing --]]
+L["Active Alpha"] = "Active Alpha"
+--[[Translation missing --]]
+L["All"] = "All"
+--[[Translation missing --]]
+L["Always"] = "Always"
+--[[Translation missing --]]
+L["Change Font Color On Message"] = "Change Font Color On Message"
+--[[Translation missing --]]
+L["Chat Alert Timeout"] = "Chat Alert Timeout"
+--[[Translation missing --]]
+L["Chat window tab options."] = "Chat window tab options."
+--[[Translation missing --]]
+L["Default"] = "Default"
+--[[Translation missing --]]
+L["disableflash_desc"] = "Disable flashing of the chat tabs."
+--[[Translation missing --]]
+L["disableflash_name"] = "Disable Flashing"
+--[[Translation missing --]]
+L["disablewhisperflash_desc"] = "Disable flashing of the chat tabs for whispers."
+--[[Translation missing --]]
+L["disablewhisperflash_name"] = "Disable Flash for Whispers"
+--[[Translation missing --]]
+L["Flash Color"] = "Flash Color"
+--[[Translation missing --]]
+L["Font Color"] = "Font Color"
+--[[Translation missing --]]
+L["foreveralert_desc"] = "With this turned off the highlight/flash will persist until the timer elapses"
+--[[Translation missing --]]
+L["foreveralert_name"] = "Keep highlighting until tab button clicked"
+--[[Translation missing --]]
+L["Hidden"] = "Hidden"
+--[[Translation missing --]]
+L["Highlighting/Flashing"] = "Highlighting/Flashing"
+--[[Translation missing --]]
+L["How long any highlights/flashes should last"] = "How long any highlights/flashes should last"
+--[[Translation missing --]]
+L["Individual"] = "Individual"
+--[[Translation missing --]]
+L["Not Active Alpha"] = "Not Active Alpha"
+--[[Translation missing --]]
+L["preventdrag_desc"] = "Prevent dragging chat tabs with mouse"
+--[[Translation missing --]]
+L["preventdrag_name"] = "Prevent Dragging"
+--[[Translation missing --]]
+L["Set ChatFrame%d Display Mode"] = "Set ChatFrame%d Display Mode"
+--[[Translation missing --]]
+L["Set Display Mode"] = "Set Display Mode"
+--[[Translation missing --]]
+L["Set Flash Color"] = "Set Flash Color"
+--[[Translation missing --]]
+L["Set Flash On Message"] = "Set Flash On Message"
+--[[Translation missing --]]
+L["Set tab display mode for each chat window."] = "Set tab display mode for each chat window. Checked (on), Unchecked (off), Greyed Check (default)"
+--[[Translation missing --]]
+L["Set tab display to always, hidden or the Blizzard default."] = "Set tab display to always, hidden or the Blizzard default."
+--[[Translation missing --]]
+L["Sets alpha of chat tab for active chat frame."] = "Sets alpha of chat tab for active chat frame."
+--[[Translation missing --]]
+L["Sets alpha of chat tab for not active chat frame."] = "Sets alpha of chat tab for not active chat frame."
+--[[Translation missing --]]
+L["Show Tab Textures"] = "Show Tab Textures"
+--[[Translation missing --]]
+L["Tabs"] = "Tabs"
+--[[Translation missing --]]
+L["Visibility"] = "Visibility"
 
-PL:AddLocale(PRAT_MODULE, "ptBR", L)
+PL:AddLocale("ptBR", L)
 
 
-L = {
-	["ChatTabs"] = {
-		["Active Alpha"] = "Transparence",
-		["All"] = "Tout",
-		["Always"] = "Toujours",
-		--[[Translation missing --]]
-		["Change Font Color On Message"] = "Change Font Color On Message",
-		--[[Translation missing --]]
-		["Chat Alert Timeout"] = "Chat Alert Timeout",
-		["Chat window tab options."] = "Options des onglets des fenêtres de discussion.",
-		["Default"] = "Défaut",
-		["disableflash_desc"] = "Désactiver le clignotement des onglets.",
-		["disableflash_name"] = "Pas de clignotement",
-		--[[Translation missing --]]
-		["disablewhisperflash_desc"] = "Disable flashing of the chat tabs for whispers.",
-		--[[Translation missing --]]
-		["disablewhisperflash_name"] = "Disable Flash for Whispers",
-		--[[Translation missing --]]
-		["Flash Color"] = "Flash Color",
-		--[[Translation missing --]]
-		["Font Color"] = "Font Color",
-		--[[Translation missing --]]
-		["foreveralert_desc"] = "With this turned off the highlight/flash will persist until the timer elapses",
-		--[[Translation missing --]]
-		["foreveralert_name"] = "Keep highlighting until tab button clicked",
-		["Hidden"] = "Caché",
-		--[[Translation missing --]]
-		["Highlighting/Flashing"] = "Highlighting/Flashing",
-		--[[Translation missing --]]
-		["How long any highlights/flashes should last"] = "How long any highlights/flashes should last",
-		["Individual"] = "Individuel",
-		["Not Active Alpha"] = "Transparence inactive",
-		["preventdrag_desc"] = "Empêcher le déplacement des onglets avec la souris",
-		["preventdrag_name"] = "Verrouiller",
-		["Set ChatFrame%d Display Mode"] = "Définir le mode d'affichage de la fenêtre de discussion %d",
-		["Set Display Mode"] = "Mode d'affichage",
-		--[[Translation missing --]]
-		["Set Flash Color"] = "Set Flash Color",
-		--[[Translation missing --]]
-		["Set Flash On Message"] = "Set Flash On Message",
-		["Set tab display mode for each chat window."] = "Définir le mode d'affichage des onglets pour chaque fenêtre de chat. Coché (On), Décoché (Off) Coché en gris (Défaut)",
-		["Set tab display to always, hidden or the Blizzard default."] = "Définir l'affichage des onglets sur toujours, caché ou par défaut Blizzard",
-		["Sets alpha of chat tab for active chat frame."] = "Définit la transparence de l'onglet pour les fenêtres de discussion actives.",
-		["Sets alpha of chat tab for not active chat frame."] = "Définit la transparence de l'onglet pour les fenêtres de discussion inactives.",
-		--[[Translation missing --]]
-		["Show Tab Textures"] = "Show Tab Textures",
-		["Tabs"] = "Onglets",
-		--[[Translation missing --]]
-		["Visibility"] = "Visibility",
-	}
-}
+L = {}
+-- ChatTabs
+L["Active Alpha"] = "Transparence"
+L["All"] = "Tout"
+L["Always"] = "Toujours"
+--[[Translation missing --]]
+L["Change Font Color On Message"] = "Change Font Color On Message"
+--[[Translation missing --]]
+L["Chat Alert Timeout"] = "Chat Alert Timeout"
+L["Chat window tab options."] = "Options des onglets des fenêtres de discussion."
+L["Default"] = "Défaut"
+L["disableflash_desc"] = "Désactiver le clignotement des onglets."
+L["disableflash_name"] = "Pas de clignotement"
+--[[Translation missing --]]
+L["disablewhisperflash_desc"] = "Disable flashing of the chat tabs for whispers."
+--[[Translation missing --]]
+L["disablewhisperflash_name"] = "Disable Flash for Whispers"
+--[[Translation missing --]]
+L["Flash Color"] = "Flash Color"
+--[[Translation missing --]]
+L["Font Color"] = "Font Color"
+--[[Translation missing --]]
+L["foreveralert_desc"] = "With this turned off the highlight/flash will persist until the timer elapses"
+--[[Translation missing --]]
+L["foreveralert_name"] = "Keep highlighting until tab button clicked"
+L["Hidden"] = "Caché"
+--[[Translation missing --]]
+L["Highlighting/Flashing"] = "Highlighting/Flashing"
+--[[Translation missing --]]
+L["How long any highlights/flashes should last"] = "How long any highlights/flashes should last"
+L["Individual"] = "Individuel"
+L["Not Active Alpha"] = "Transparence inactive"
+L["preventdrag_desc"] = "Empêcher le déplacement des onglets avec la souris"
+L["preventdrag_name"] = "Verrouiller"
+L["Set ChatFrame%d Display Mode"] = "Définir le mode d'affichage de la fenêtre de discussion %d"
+L["Set Display Mode"] = "Mode d'affichage"
+--[[Translation missing --]]
+L["Set Flash Color"] = "Set Flash Color"
+--[[Translation missing --]]
+L["Set Flash On Message"] = "Set Flash On Message"
+L["Set tab display mode for each chat window."] = "Définir le mode d'affichage des onglets pour chaque fenêtre de chat. Coché (On), Décoché (Off) Coché en gris (Défaut)"
+L["Set tab display to always, hidden or the Blizzard default."] = "Définir l'affichage des onglets sur toujours, caché ou par défaut Blizzard"
+L["Sets alpha of chat tab for active chat frame."] = "Définit la transparence de l'onglet pour les fenêtres de discussion actives."
+L["Sets alpha of chat tab for not active chat frame."] = "Définit la transparence de l'onglet pour les fenêtres de discussion inactives."
+--[[Translation missing --]]
+L["Show Tab Textures"] = "Show Tab Textures"
+L["Tabs"] = "Onglets"
+--[[Translation missing --]]
+L["Visibility"] = "Visibility"
 
-PL:AddLocale(PRAT_MODULE, "frFR",L)
+PL:AddLocale("frFR",L)
 
 
 
 
-L = {
-	["ChatTabs"] = {
-		["Active Alpha"] = "Aktive Transparenz",
-		["All"] = "Alle",
-		["Always"] = "Immer",
-		["Change Font Color On Message"] = "Ändert die Schriftfarbe der Nachricht",
-		["Chat Alert Timeout"] = "Zeitüberschreitung bei Chat-Benachrichtigung",
-		["Chat window tab options."] = "Optionen für Chatfensterreiter",
-		["Default"] = "Standard",
-		["disableflash_desc"] = "Deaktiviert das Blinken der Chat-Tabs.",
-		["disableflash_name"] = "Blinken ausschalten",
-		["disablewhisperflash_desc"] = "Deaktiviert das Blitzen beim Chat-Fenster für Flüsternachrichten.",
-		["disablewhisperflash_name"] = "Deaktiviert das Blitzen für Flüsternachrichten",
-		["Flash Color"] = "Blitzfarbe",
-		["Font Color"] = "Schriftfarbe",
-		["foreveralert_desc"] = "Wenn diese Option ausgeschaltet ist, bleibt die Beleuchtung/das Blitzen solange bestehen, bis der Timer abläuft",
-		["foreveralert_name"] = "Haltet die Beleuchtung, bis du die Tab-Taste klickst",
-		["Hidden"] = "Verborgen",
-		["Highlighting/Flashing"] = "Beleuchtung/das Blitzen",
-		["How long any highlights/flashes should last"] = "Wie lange sollte die Beleuchtung/das Blitzen dauern",
-		["Individual"] = "Individuell",
-		["Not Active Alpha"] = "Inaktive Transparenz",
-		["preventdrag_desc"] = "Verhindert das Verschieben der Chattabs mit der Maus.",
-		["preventdrag_name"] = "Ziehen verhindern",
-		["Set ChatFrame%d Display Mode"] = "Darstellungsmodus von Chatfenster%d einstellen",
-		["Set Display Mode"] = "Darstellungsmodus einstellen",
-		["Set Flash Color"] = "Lege die Blitzfarbe fest",
-		["Set Flash On Message"] = "Lege das Blitzen bei Nachricht fest",
-		["Set tab display mode for each chat window."] = "Reiterdarstellungsmodus für jedes Chatfenster einstellen: markiert (an), nicht markiert (aus), grau markiert (standard)",
-		["Set tab display to always, hidden or the Blizzard default."] = "Reiterdarstellung einstellen: immer, verbergen oder Blizzards Standard",
-		["Sets alpha of chat tab for active chat frame."] = "Transparenz der Chatreiter von aktiven Chatfenstern einstellen.",
-		["Sets alpha of chat tab for not active chat frame."] = "Transparenz der Chatreiter von inaktiven Chatfenstern einstellen.",
-		["Show Tab Textures"] = "Tab-Texturen anzeigen",
-		["Tabs"] = "Reiter (Reiter der Chatfenster)",
-		["Visibility"] = "Sichtbarkeit",
-	}
-}
+L = {}
+-- ChatTabs
+L["Active Alpha"] = "Aktive Transparenz"
+L["All"] = "Alle"
+L["Always"] = "Immer"
+L["Change Font Color On Message"] = "Ändert die Schriftfarbe der Nachricht"
+L["Chat Alert Timeout"] = "Zeitüberschreitung bei Chat-Benachrichtigung"
+L["Chat window tab options."] = "Optionen für Chatfensterreiter"
+L["Default"] = "Standard"
+L["disableflash_desc"] = "Deaktiviert das Blinken der Chat-Tabs."
+L["disableflash_name"] = "Blinken ausschalten"
+L["disablewhisperflash_desc"] = "Deaktiviert das Blitzen beim Chat-Fenster für Flüsternachrichten."
+L["disablewhisperflash_name"] = "Deaktiviert das Blitzen für Flüsternachrichten"
+L["Flash Color"] = "Blitzfarbe"
+L["Font Color"] = "Schriftfarbe"
+L["foreveralert_desc"] = "Wenn diese Option ausgeschaltet ist, bleibt die Beleuchtung/das Blitzen solange bestehen, bis der Timer abläuft"
+L["foreveralert_name"] = "Haltet die Beleuchtung, bis du die Tab-Taste klickst"
+L["Hidden"] = "Verborgen"
+L["Highlighting/Flashing"] = "Beleuchtung/das Blitzen"
+L["How long any highlights/flashes should last"] = "Wie lange sollte die Beleuchtung/das Blitzen dauern"
+L["Individual"] = "Individuell"
+L["Not Active Alpha"] = "Inaktive Transparenz"
+L["preventdrag_desc"] = "Verhindert das Verschieben der Chattabs mit der Maus."
+L["preventdrag_name"] = "Ziehen verhindern"
+L["Set ChatFrame%d Display Mode"] = "Darstellungsmodus von Chatfenster%d einstellen"
+L["Set Display Mode"] = "Darstellungsmodus einstellen"
+L["Set Flash Color"] = "Lege die Blitzfarbe fest"
+L["Set Flash On Message"] = "Lege das Blitzen bei Nachricht fest"
+L["Set tab display mode for each chat window."] = "Reiterdarstellungsmodus für jedes Chatfenster einstellen: markiert (an), nicht markiert (aus), grau markiert (standard)"
+L["Set tab display to always, hidden or the Blizzard default."] = "Reiterdarstellung einstellen: immer, verbergen oder Blizzards Standard"
+L["Sets alpha of chat tab for active chat frame."] = "Transparenz der Chatreiter von aktiven Chatfenstern einstellen."
+L["Sets alpha of chat tab for not active chat frame."] = "Transparenz der Chatreiter von inaktiven Chatfenstern einstellen."
+L["Show Tab Textures"] = "Tab-Texturen anzeigen"
+L["Tabs"] = "Reiter (Reiter der Chatfenster)"
+L["Visibility"] = "Sichtbarkeit"
 
-PL:AddLocale(PRAT_MODULE, "deDE", L)
+PL:AddLocale("deDE", L)
 
 
-L = {
-	["ChatTabs"] = {
-		["Active Alpha"] = "활성 탭 투명도",
-		["All"] = "모두",
-		["Always"] = "항상",
-		--[[Translation missing --]]
-		["Change Font Color On Message"] = "Change Font Color On Message",
-		--[[Translation missing --]]
-		["Chat Alert Timeout"] = "Chat Alert Timeout",
-		["Chat window tab options."] = "대화창 탭 옵션입니다.",
-		["Default"] = "기본값",
-		["disableflash_desc"] = "대화창 탭의 반짝임을 끕니다.",
-		["disableflash_name"] = "반짝임 끄기",
-		--[[Translation missing --]]
-		["disablewhisperflash_desc"] = "Disable flashing of the chat tabs for whispers.",
-		--[[Translation missing --]]
-		["disablewhisperflash_name"] = "Disable Flash for Whispers",
-		--[[Translation missing --]]
-		["Flash Color"] = "Flash Color",
-		--[[Translation missing --]]
-		["Font Color"] = "Font Color",
-		--[[Translation missing --]]
-		["foreveralert_desc"] = "With this turned off the highlight/flash will persist until the timer elapses",
-		--[[Translation missing --]]
-		["foreveralert_name"] = "Keep highlighting until tab button clicked",
-		["Hidden"] = "숨김",
-		--[[Translation missing --]]
-		["Highlighting/Flashing"] = "Highlighting/Flashing",
-		--[[Translation missing --]]
-		["How long any highlights/flashes should last"] = "How long any highlights/flashes should last",
-		["Individual"] = "개별",
-		["Not Active Alpha"] = "비활성 탭 투명도",
-		["preventdrag_desc"] = "마우스로 대화창 탭을 이동하지 못하게 합니다",
-		["preventdrag_name"] = "탭 이동방지",
-		["Set ChatFrame%d Display Mode"] = "대화창%d 표시 모드 설정",
-		["Set Display Mode"] = "표시 모드 설정",
-		--[[Translation missing --]]
-		["Set Flash Color"] = "Set Flash Color",
-		--[[Translation missing --]]
-		["Set Flash On Message"] = "Set Flash On Message",
-		["Set tab display mode for each chat window."] = "각 대화창 별로 탭 표시 모드를 설정합니다. 체크함 (표시), 체크 안함 (표시 안함), 회색 체크 (기본값)",
-		["Set tab display to always, hidden or the Blizzard default."] = "탭 표시를 항상 표시, 숨김 또는 블리자드 기본값으로 설정합니다.",
-		["Sets alpha of chat tab for active chat frame."] = "활성화 된 대화창 탭의 투명도를 설정합니다.",
-		["Sets alpha of chat tab for not active chat frame."] = "비활성화 된 대화창 탭의 투명도를 설정합니다.",
-		--[[Translation missing --]]
-		["Show Tab Textures"] = "Show Tab Textures",
-		["Tabs"] = "대화창 탭 [ChatTabs]",
-		--[[Translation missing --]]
-		["Visibility"] = "Visibility",
-	}
-}
+L = {}
+-- ChatTabs
+L["Active Alpha"] = "활성 탭 투명도"
+L["All"] = "모두"
+L["Always"] = "항상"
+--[[Translation missing --]]
+L["Change Font Color On Message"] = "Change Font Color On Message"
+--[[Translation missing --]]
+L["Chat Alert Timeout"] = "Chat Alert Timeout"
+L["Chat window tab options."] = "대화창 탭 옵션입니다."
+L["Default"] = "기본값"
+L["disableflash_desc"] = "대화창 탭의 반짝임을 끕니다."
+L["disableflash_name"] = "반짝임 끄기"
+--[[Translation missing --]]
+L["disablewhisperflash_desc"] = "Disable flashing of the chat tabs for whispers."
+--[[Translation missing --]]
+L["disablewhisperflash_name"] = "Disable Flash for Whispers"
+--[[Translation missing --]]
+L["Flash Color"] = "Flash Color"
+--[[Translation missing --]]
+L["Font Color"] = "Font Color"
+--[[Translation missing --]]
+L["foreveralert_desc"] = "With this turned off the highlight/flash will persist until the timer elapses"
+--[[Translation missing --]]
+L["foreveralert_name"] = "Keep highlighting until tab button clicked"
+L["Hidden"] = "숨김"
+--[[Translation missing --]]
+L["Highlighting/Flashing"] = "Highlighting/Flashing"
+--[[Translation missing --]]
+L["How long any highlights/flashes should last"] = "How long any highlights/flashes should last"
+L["Individual"] = "개별"
+L["Not Active Alpha"] = "비활성 탭 투명도"
+L["preventdrag_desc"] = "마우스로 대화창 탭을 이동하지 못하게 합니다"
+L["preventdrag_name"] = "탭 이동방지"
+L["Set ChatFrame%d Display Mode"] = "대화창%d 표시 모드 설정"
+L["Set Display Mode"] = "표시 모드 설정"
+--[[Translation missing --]]
+L["Set Flash Color"] = "Set Flash Color"
+--[[Translation missing --]]
+L["Set Flash On Message"] = "Set Flash On Message"
+L["Set tab display mode for each chat window."] = "각 대화창 별로 탭 표시 모드를 설정합니다. 체크함 (표시), 체크 안함 (표시 안함), 회색 체크 (기본값)"
+L["Set tab display to always, hidden or the Blizzard default."] = "탭 표시를 항상 표시, 숨김 또는 블리자드 기본값으로 설정합니다."
+L["Sets alpha of chat tab for active chat frame."] = "활성화 된 대화창 탭의 투명도를 설정합니다."
+L["Sets alpha of chat tab for not active chat frame."] = "비활성화 된 대화창 탭의 투명도를 설정합니다."
+--[[Translation missing --]]
+L["Show Tab Textures"] = "Show Tab Textures"
+L["Tabs"] = "대화창 탭 [ChatTabs]"
+--[[Translation missing --]]
+L["Visibility"] = "Visibility"
 
-PL:AddLocale(PRAT_MODULE, "koKR",L)
+PL:AddLocale("koKR",L)
 
-L = {
-	["ChatTabs"] = {
-		--[[Translation missing --]]
-		["Active Alpha"] = "Active Alpha",
-		--[[Translation missing --]]
-		["All"] = "All",
-		--[[Translation missing --]]
-		["Always"] = "Always",
-		--[[Translation missing --]]
-		["Change Font Color On Message"] = "Change Font Color On Message",
-		--[[Translation missing --]]
-		["Chat Alert Timeout"] = "Chat Alert Timeout",
-		--[[Translation missing --]]
-		["Chat window tab options."] = "Chat window tab options.",
-		--[[Translation missing --]]
-		["Default"] = "Default",
-		--[[Translation missing --]]
-		["disableflash_desc"] = "Disable flashing of the chat tabs.",
-		--[[Translation missing --]]
-		["disableflash_name"] = "Disable Flashing",
-		--[[Translation missing --]]
-		["disablewhisperflash_desc"] = "Disable flashing of the chat tabs for whispers.",
-		--[[Translation missing --]]
-		["disablewhisperflash_name"] = "Disable Flash for Whispers",
-		--[[Translation missing --]]
-		["Flash Color"] = "Flash Color",
-		--[[Translation missing --]]
-		["Font Color"] = "Font Color",
-		--[[Translation missing --]]
-		["foreveralert_desc"] = "With this turned off the highlight/flash will persist until the timer elapses",
-		--[[Translation missing --]]
-		["foreveralert_name"] = "Keep highlighting until tab button clicked",
-		--[[Translation missing --]]
-		["Hidden"] = "Hidden",
-		--[[Translation missing --]]
-		["Highlighting/Flashing"] = "Highlighting/Flashing",
-		--[[Translation missing --]]
-		["How long any highlights/flashes should last"] = "How long any highlights/flashes should last",
-		--[[Translation missing --]]
-		["Individual"] = "Individual",
-		--[[Translation missing --]]
-		["Not Active Alpha"] = "Not Active Alpha",
-		--[[Translation missing --]]
-		["preventdrag_desc"] = "Prevent dragging chat tabs with mouse",
-		--[[Translation missing --]]
-		["preventdrag_name"] = "Prevent Dragging",
-		--[[Translation missing --]]
-		["Set ChatFrame%d Display Mode"] = "Set ChatFrame%d Display Mode",
-		--[[Translation missing --]]
-		["Set Display Mode"] = "Set Display Mode",
-		--[[Translation missing --]]
-		["Set Flash Color"] = "Set Flash Color",
-		--[[Translation missing --]]
-		["Set Flash On Message"] = "Set Flash On Message",
-		--[[Translation missing --]]
-		["Set tab display mode for each chat window."] = "Set tab display mode for each chat window. Checked (on), Unchecked (off), Greyed Check (default)",
-		--[[Translation missing --]]
-		["Set tab display to always, hidden or the Blizzard default."] = "Set tab display to always, hidden or the Blizzard default.",
-		--[[Translation missing --]]
-		["Sets alpha of chat tab for active chat frame."] = "Sets alpha of chat tab for active chat frame.",
-		--[[Translation missing --]]
-		["Sets alpha of chat tab for not active chat frame."] = "Sets alpha of chat tab for not active chat frame.",
-		--[[Translation missing --]]
-		["Show Tab Textures"] = "Show Tab Textures",
-		--[[Translation missing --]]
-		["Tabs"] = "Tabs",
-		--[[Translation missing --]]
-		["Visibility"] = "Visibility",
-	}
-}
+L = {}
+-- ChatTabs
+--[[Translation missing --]]
+L["Active Alpha"] = "Active Alpha"
+--[[Translation missing --]]
+L["All"] = "All"
+--[[Translation missing --]]
+L["Always"] = "Always"
+--[[Translation missing --]]
+L["Change Font Color On Message"] = "Change Font Color On Message"
+--[[Translation missing --]]
+L["Chat Alert Timeout"] = "Chat Alert Timeout"
+--[[Translation missing --]]
+L["Chat window tab options."] = "Chat window tab options."
+--[[Translation missing --]]
+L["Default"] = "Default"
+--[[Translation missing --]]
+L["disableflash_desc"] = "Disable flashing of the chat tabs."
+--[[Translation missing --]]
+L["disableflash_name"] = "Disable Flashing"
+--[[Translation missing --]]
+L["disablewhisperflash_desc"] = "Disable flashing of the chat tabs for whispers."
+--[[Translation missing --]]
+L["disablewhisperflash_name"] = "Disable Flash for Whispers"
+--[[Translation missing --]]
+L["Flash Color"] = "Flash Color"
+--[[Translation missing --]]
+L["Font Color"] = "Font Color"
+--[[Translation missing --]]
+L["foreveralert_desc"] = "With this turned off the highlight/flash will persist until the timer elapses"
+--[[Translation missing --]]
+L["foreveralert_name"] = "Keep highlighting until tab button clicked"
+--[[Translation missing --]]
+L["Hidden"] = "Hidden"
+--[[Translation missing --]]
+L["Highlighting/Flashing"] = "Highlighting/Flashing"
+--[[Translation missing --]]
+L["How long any highlights/flashes should last"] = "How long any highlights/flashes should last"
+--[[Translation missing --]]
+L["Individual"] = "Individual"
+--[[Translation missing --]]
+L["Not Active Alpha"] = "Not Active Alpha"
+--[[Translation missing --]]
+L["preventdrag_desc"] = "Prevent dragging chat tabs with mouse"
+--[[Translation missing --]]
+L["preventdrag_name"] = "Prevent Dragging"
+--[[Translation missing --]]
+L["Set ChatFrame%d Display Mode"] = "Set ChatFrame%d Display Mode"
+--[[Translation missing --]]
+L["Set Display Mode"] = "Set Display Mode"
+--[[Translation missing --]]
+L["Set Flash Color"] = "Set Flash Color"
+--[[Translation missing --]]
+L["Set Flash On Message"] = "Set Flash On Message"
+--[[Translation missing --]]
+L["Set tab display mode for each chat window."] = "Set tab display mode for each chat window. Checked (on), Unchecked (off), Greyed Check (default)"
+--[[Translation missing --]]
+L["Set tab display to always, hidden or the Blizzard default."] = "Set tab display to always, hidden or the Blizzard default."
+--[[Translation missing --]]
+L["Sets alpha of chat tab for active chat frame."] = "Sets alpha of chat tab for active chat frame."
+--[[Translation missing --]]
+L["Sets alpha of chat tab for not active chat frame."] = "Sets alpha of chat tab for not active chat frame."
+--[[Translation missing --]]
+L["Show Tab Textures"] = "Show Tab Textures"
+--[[Translation missing --]]
+L["Tabs"] = "Tabs"
+--[[Translation missing --]]
+L["Visibility"] = "Visibility"
 
-PL:AddLocale(PRAT_MODULE, "esMX",L)
+PL:AddLocale("esMX",L)
 
-L = {
-	["ChatTabs"] = {
-		["Active Alpha"] = "Прозрачность активной",
-		["All"] = "Все",
-		["Always"] = "Всегда",
-		--[[Translation missing --]]
-		["Change Font Color On Message"] = "Change Font Color On Message",
-		--[[Translation missing --]]
-		["Chat Alert Timeout"] = "Chat Alert Timeout",
-		["Chat window tab options."] = "Настройки вкладок чата.",
-		["Default"] = "По умолчанию",
-		["disableflash_desc"] = "Отключить мигание вкладок чата.",
-		["disableflash_name"] = "Отключить мигание",
-		--[[Translation missing --]]
-		["disablewhisperflash_desc"] = "Disable flashing of the chat tabs for whispers.",
-		--[[Translation missing --]]
-		["disablewhisperflash_name"] = "Disable Flash for Whispers",
-		--[[Translation missing --]]
-		["Flash Color"] = "Flash Color",
-		--[[Translation missing --]]
-		["Font Color"] = "Font Color",
-		--[[Translation missing --]]
-		["foreveralert_desc"] = "With this turned off the highlight/flash will persist until the timer elapses",
-		--[[Translation missing --]]
-		["foreveralert_name"] = "Keep highlighting until tab button clicked",
-		["Hidden"] = "Скрывать",
-		--[[Translation missing --]]
-		["Highlighting/Flashing"] = "Highlighting/Flashing",
-		--[[Translation missing --]]
-		["How long any highlights/flashes should last"] = "How long any highlights/flashes should last",
-		["Individual"] = "Индивидуально",
-		["Not Active Alpha"] = "Прозрачность неактивных",
-		["preventdrag_desc"] = "Запретить перетаскивание вкладок чата с помощью мыши",
-		["preventdrag_name"] = "Запретить перетаскивание",
-		["Set ChatFrame%d Display Mode"] = "Установить режим отображения %d вкладки",
-		["Set Display Mode"] = "Режим отображения",
-		--[[Translation missing --]]
-		["Set Flash Color"] = "Set Flash Color",
-		--[[Translation missing --]]
-		["Set Flash On Message"] = "Set Flash On Message",
-		["Set tab display mode for each chat window."] = "Установить режим отображения каждой вкладки окна чата. Отмечено (вкл), Не отмечено (выкл), Отмечено серым (по умолчанию)",
-		["Set tab display to always, hidden or the Blizzard default."] = "Установить режим отображения вкладки на 'всегда показывать', 'скрывать' или 'поведение по умолчанию, как у Blizzard'.",
-		["Sets alpha of chat tab for active chat frame."] = "Прозрачность активной вкладки чата.",
-		["Sets alpha of chat tab for not active chat frame."] = "Прозрачность неактивных вкладок чата.",
-		--[[Translation missing --]]
-		["Show Tab Textures"] = "Show Tab Textures",
-		["Tabs"] = "Вкладки чата",
-		--[[Translation missing --]]
-		["Visibility"] = "Visibility",
-	}
-}
+L = {}
+-- ChatTabs
+L["Active Alpha"] = "Прозрачность активной"
+L["All"] = "Все"
+L["Always"] = "Всегда"
+--[[Translation missing --]]
+L["Change Font Color On Message"] = "Change Font Color On Message"
+--[[Translation missing --]]
+L["Chat Alert Timeout"] = "Chat Alert Timeout"
+L["Chat window tab options."] = "Настройки вкладок чата."
+L["Default"] = "По умолчанию"
+L["disableflash_desc"] = "Отключить мигание вкладок чата."
+L["disableflash_name"] = "Отключить мигание"
+--[[Translation missing --]]
+L["disablewhisperflash_desc"] = "Disable flashing of the chat tabs for whispers."
+--[[Translation missing --]]
+L["disablewhisperflash_name"] = "Disable Flash for Whispers"
+--[[Translation missing --]]
+L["Flash Color"] = "Flash Color"
+--[[Translation missing --]]
+L["Font Color"] = "Font Color"
+--[[Translation missing --]]
+L["foreveralert_desc"] = "With this turned off the highlight/flash will persist until the timer elapses"
+--[[Translation missing --]]
+L["foreveralert_name"] = "Keep highlighting until tab button clicked"
+L["Hidden"] = "Скрывать"
+--[[Translation missing --]]
+L["Highlighting/Flashing"] = "Highlighting/Flashing"
+--[[Translation missing --]]
+L["How long any highlights/flashes should last"] = "How long any highlights/flashes should last"
+L["Individual"] = "Индивидуально"
+L["Not Active Alpha"] = "Прозрачность неактивных"
+L["preventdrag_desc"] = "Запретить перетаскивание вкладок чата с помощью мыши"
+L["preventdrag_name"] = "Запретить перетаскивание"
+L["Set ChatFrame%d Display Mode"] = "Установить режим отображения %d вкладки"
+L["Set Display Mode"] = "Режим отображения"
+--[[Translation missing --]]
+L["Set Flash Color"] = "Set Flash Color"
+--[[Translation missing --]]
+L["Set Flash On Message"] = "Set Flash On Message"
+L["Set tab display mode for each chat window."] = "Установить режим отображения каждой вкладки окна чата. Отмечено (вкл), Не отмечено (выкл), Отмечено серым (по умолчанию)"
+L["Set tab display to always, hidden or the Blizzard default."] = "Установить режим отображения вкладки на 'всегда показывать', 'скрывать' или 'поведение по умолчанию, как у Blizzard'."
+L["Sets alpha of chat tab for active chat frame."] = "Прозрачность активной вкладки чата."
+L["Sets alpha of chat tab for not active chat frame."] = "Прозрачность неактивных вкладок чата."
+--[[Translation missing --]]
+L["Show Tab Textures"] = "Show Tab Textures"
+L["Tabs"] = "Вкладки чата"
+--[[Translation missing --]]
+L["Visibility"] = "Visibility"
 
-PL:AddLocale(PRAT_MODULE, "ruRU",L)
+PL:AddLocale("ruRU",L)
 
-L = {
-	["ChatTabs"] = {
-		["Active Alpha"] = "活跃的透明度",
-		["All"] = "全部",
-		["Always"] = "总是",
-		--[[Translation missing --]]
-		["Change Font Color On Message"] = "Change Font Color On Message",
-		--[[Translation missing --]]
-		["Chat Alert Timeout"] = "Chat Alert Timeout",
-		["Chat window tab options."] = "聊天窗口页签选项",
-		["Default"] = "预设",
-		["disableflash_desc"] = "禁用聊天页签闪动",
-		["disableflash_name"] = "禁用闪动",
-		--[[Translation missing --]]
-		["disablewhisperflash_desc"] = "Disable flashing of the chat tabs for whispers.",
-		--[[Translation missing --]]
-		["disablewhisperflash_name"] = "Disable Flash for Whispers",
-		--[[Translation missing --]]
-		["Flash Color"] = "Flash Color",
-		--[[Translation missing --]]
-		["Font Color"] = "Font Color",
-		--[[Translation missing --]]
-		["foreveralert_desc"] = "With this turned off the highlight/flash will persist until the timer elapses",
-		--[[Translation missing --]]
-		["foreveralert_name"] = "Keep highlighting until tab button clicked",
-		["Hidden"] = "隐藏",
-		--[[Translation missing --]]
-		["Highlighting/Flashing"] = "Highlighting/Flashing",
-		--[[Translation missing --]]
-		["How long any highlights/flashes should last"] = "How long any highlights/flashes should last",
-		["Individual"] = "个别",
-		["Not Active Alpha"] = "非活跃的透明度",
-		["preventdrag_desc"] = "阻止聊天页签随鼠标拖动",
-		["preventdrag_name"] = "拖动阻止",
-		["Set ChatFrame%d Display Mode"] = "设置聊天框%d显示模式",
-		["Set Display Mode"] = "设置显示模式",
-		--[[Translation missing --]]
-		["Set Flash Color"] = "Set Flash Color",
-		--[[Translation missing --]]
-		["Set Flash On Message"] = "Set Flash On Message",
-		["Set tab display mode for each chat window."] = "设置每个聊天窗口的页签显示模式.检查(开),不检查(关),暂停检查(预设)",
-		["Set tab display to always, hidden or the Blizzard default."] = "设置页签永久显示,隐藏或暴雪预设",
-		["Sets alpha of chat tab for active chat frame."] = "设置活跃聊天框页签透明度",
-		["Sets alpha of chat tab for not active chat frame."] = "设置非活跃聊天框页签透明度",
-		--[[Translation missing --]]
-		["Show Tab Textures"] = "Show Tab Textures",
-		["Tabs"] = "页签",
-		--[[Translation missing --]]
-		["Visibility"] = "Visibility",
-	}
-}
+L = {}
+-- ChatTabs
+L["Active Alpha"] = "活跃的透明度"
+L["All"] = "全部"
+L["Always"] = "总是"
+--[[Translation missing --]]
+L["Change Font Color On Message"] = "Change Font Color On Message"
+--[[Translation missing --]]
+L["Chat Alert Timeout"] = "Chat Alert Timeout"
+L["Chat window tab options."] = "聊天窗口页签选项"
+L["Default"] = "预设"
+L["disableflash_desc"] = "禁用聊天页签闪动"
+L["disableflash_name"] = "禁用闪动"
+--[[Translation missing --]]
+L["disablewhisperflash_desc"] = "Disable flashing of the chat tabs for whispers."
+--[[Translation missing --]]
+L["disablewhisperflash_name"] = "Disable Flash for Whispers"
+--[[Translation missing --]]
+L["Flash Color"] = "Flash Color"
+--[[Translation missing --]]
+L["Font Color"] = "Font Color"
+--[[Translation missing --]]
+L["foreveralert_desc"] = "With this turned off the highlight/flash will persist until the timer elapses"
+--[[Translation missing --]]
+L["foreveralert_name"] = "Keep highlighting until tab button clicked"
+L["Hidden"] = "隐藏"
+--[[Translation missing --]]
+L["Highlighting/Flashing"] = "Highlighting/Flashing"
+--[[Translation missing --]]
+L["How long any highlights/flashes should last"] = "How long any highlights/flashes should last"
+L["Individual"] = "个别"
+L["Not Active Alpha"] = "非活跃的透明度"
+L["preventdrag_desc"] = "阻止聊天页签随鼠标拖动"
+L["preventdrag_name"] = "拖动阻止"
+L["Set ChatFrame%d Display Mode"] = "设置聊天框%d显示模式"
+L["Set Display Mode"] = "设置显示模式"
+--[[Translation missing --]]
+L["Set Flash Color"] = "Set Flash Color"
+--[[Translation missing --]]
+L["Set Flash On Message"] = "Set Flash On Message"
+L["Set tab display mode for each chat window."] = "设置每个聊天窗口的页签显示模式.检查(开),不检查(关),暂停检查(预设)"
+L["Set tab display to always, hidden or the Blizzard default."] = "设置页签永久显示,隐藏或暴雪预设"
+L["Sets alpha of chat tab for active chat frame."] = "设置活跃聊天框页签透明度"
+L["Sets alpha of chat tab for not active chat frame."] = "设置非活跃聊天框页签透明度"
+--[[Translation missing --]]
+L["Show Tab Textures"] = "Show Tab Textures"
+L["Tabs"] = "页签"
+--[[Translation missing --]]
+L["Visibility"] = "Visibility"
 
-PL:AddLocale(PRAT_MODULE, "zhCN",L)
+PL:AddLocale("zhCN",L)
 
-L = {
-	["ChatTabs"] = {
-		["Active Alpha"] = "Activar Transparencia",
-		["All"] = "Todo/s",
-		["Always"] = "Siempre",
-		--[[Translation missing --]]
-		["Change Font Color On Message"] = "Change Font Color On Message",
-		--[[Translation missing --]]
-		["Chat Alert Timeout"] = "Chat Alert Timeout",
-		["Chat window tab options."] = "Opciones de la pestaña de la ventana de chat.",
-		["Default"] = "Predeterminado",
-		["disableflash_desc"] = "Deshabilitar destello de las pestañas del chat.",
-		["disableflash_name"] = "Desactivar Destello",
-		--[[Translation missing --]]
-		["disablewhisperflash_desc"] = "Disable flashing of the chat tabs for whispers.",
-		--[[Translation missing --]]
-		["disablewhisperflash_name"] = "Disable Flash for Whispers",
-		--[[Translation missing --]]
-		["Flash Color"] = "Flash Color",
-		--[[Translation missing --]]
-		["Font Color"] = "Font Color",
-		--[[Translation missing --]]
-		["foreveralert_desc"] = "With this turned off the highlight/flash will persist until the timer elapses",
-		--[[Translation missing --]]
-		["foreveralert_name"] = "Keep highlighting until tab button clicked",
-		["Hidden"] = "Oculto",
-		--[[Translation missing --]]
-		["Highlighting/Flashing"] = "Highlighting/Flashing",
-		--[[Translation missing --]]
-		["How long any highlights/flashes should last"] = "How long any highlights/flashes should last",
-		["Individual"] = true,
-		["Not Active Alpha"] = "No Activar Transparencia",
-		["preventdrag_desc"] = "Evitar arrastrar pestañas de chat con el ratón",
-		["preventdrag_name"] = "Evitar arrastrar",
-		["Set ChatFrame%d Display Mode"] = "Establecer Modo de Visualización del Marco de Chat %d",
-		["Set Display Mode"] = "Establecer Modo Visualización",
-		--[[Translation missing --]]
-		["Set Flash Color"] = "Set Flash Color",
-		--[[Translation missing --]]
-		["Set Flash On Message"] = "Set Flash On Message",
-		["Set tab display mode for each chat window."] = "Establecer modo de pantalla de la pestaña para cada ventana de chat. Marcado (encendido), Desmarcado (apagado), Deshabilitado (predeterminado)",
-		["Set tab display to always, hidden or the Blizzard default."] = "Establecer mostrar pestaña a siempre, oculta o por defecto (Blizzard).",
-		["Sets alpha of chat tab for active chat frame."] = "Establece la transparencia de la pestaña de chat para el marco activo.",
-		["Sets alpha of chat tab for not active chat frame."] = "Establece la transparencia de la pestaña de chat para el marco no activo.",
-		--[[Translation missing --]]
-		["Show Tab Textures"] = "Show Tab Textures",
-		["Tabs"] = "Pestañas",
-		--[[Translation missing --]]
-		["Visibility"] = "Visibility",
-	}
-}
+L = {}
+-- ChatTabs
+L["Active Alpha"] = "Activar Transparencia"
+L["All"] = "Todo/s"
+L["Always"] = "Siempre"
+--[[Translation missing --]]
+L["Change Font Color On Message"] = "Change Font Color On Message"
+--[[Translation missing --]]
+L["Chat Alert Timeout"] = "Chat Alert Timeout"
+L["Chat window tab options."] = "Opciones de la pestaña de la ventana de chat."
+L["Default"] = "Predeterminado"
+L["disableflash_desc"] = "Deshabilitar destello de las pestañas del chat."
+L["disableflash_name"] = "Desactivar Destello"
+--[[Translation missing --]]
+L["disablewhisperflash_desc"] = "Disable flashing of the chat tabs for whispers."
+--[[Translation missing --]]
+L["disablewhisperflash_name"] = "Disable Flash for Whispers"
+--[[Translation missing --]]
+L["Flash Color"] = "Flash Color"
+--[[Translation missing --]]
+L["Font Color"] = "Font Color"
+--[[Translation missing --]]
+L["foreveralert_desc"] = "With this turned off the highlight/flash will persist until the timer elapses"
+--[[Translation missing --]]
+L["foreveralert_name"] = "Keep highlighting until tab button clicked"
+L["Hidden"] = "Oculto"
+--[[Translation missing --]]
+L["Highlighting/Flashing"] = "Highlighting/Flashing"
+--[[Translation missing --]]
+L["How long any highlights/flashes should last"] = "How long any highlights/flashes should last"
+L["Individual"] = true
+L["Not Active Alpha"] = "No Activar Transparencia"
+L["preventdrag_desc"] = "Evitar arrastrar pestañas de chat con el ratón"
+L["preventdrag_name"] = "Evitar arrastrar"
+L["Set ChatFrame%d Display Mode"] = "Establecer Modo de Visualización del Marco de Chat %d"
+L["Set Display Mode"] = "Establecer Modo Visualización"
+--[[Translation missing --]]
+L["Set Flash Color"] = "Set Flash Color"
+--[[Translation missing --]]
+L["Set Flash On Message"] = "Set Flash On Message"
+L["Set tab display mode for each chat window."] = "Establecer modo de pantalla de la pestaña para cada ventana de chat. Marcado (encendido), Desmarcado (apagado), Deshabilitado (predeterminado)"
+L["Set tab display to always, hidden or the Blizzard default."] = "Establecer mostrar pestaña a siempre, oculta o por defecto (Blizzard)."
+L["Sets alpha of chat tab for active chat frame."] = "Establece la transparencia de la pestaña de chat para el marco activo."
+L["Sets alpha of chat tab for not active chat frame."] = "Establece la transparencia de la pestaña de chat para el marco no activo."
+--[[Translation missing --]]
+L["Show Tab Textures"] = "Show Tab Textures"
+L["Tabs"] = "Pestañas"
+--[[Translation missing --]]
+L["Visibility"] = "Visibility"
 
-PL:AddLocale(PRAT_MODULE, "esES",L)
+PL:AddLocale("esES",L)
 
-L = {
-	["ChatTabs"] = {
-		["Active Alpha"] = "使用中透明度",
-		["All"] = "所有",
-		["Always"] = "總是",
-		--[[Translation missing --]]
-		["Change Font Color On Message"] = "Change Font Color On Message",
-		--[[Translation missing --]]
-		["Chat Alert Timeout"] = "Chat Alert Timeout",
-		["Chat window tab options."] = "聊天視窗標籤選單",
-		["Default"] = "預設值",
-		["disableflash_desc"] = "停用聊天標籤閃爍",
-		["disableflash_name"] = "停用閃爍",
-		--[[Translation missing --]]
-		["disablewhisperflash_desc"] = "Disable flashing of the chat tabs for whispers.",
-		--[[Translation missing --]]
-		["disablewhisperflash_name"] = "Disable Flash for Whispers",
-		--[[Translation missing --]]
-		["Flash Color"] = "Flash Color",
-		--[[Translation missing --]]
-		["Font Color"] = "Font Color",
-		--[[Translation missing --]]
-		["foreveralert_desc"] = "With this turned off the highlight/flash will persist until the timer elapses",
-		--[[Translation missing --]]
-		["foreveralert_name"] = "Keep highlighting until tab button clicked",
-		["Hidden"] = "隱藏",
-		--[[Translation missing --]]
-		["Highlighting/Flashing"] = "Highlighting/Flashing",
-		--[[Translation missing --]]
-		["How long any highlights/flashes should last"] = "How long any highlights/flashes should last",
-		["Individual"] = "個人",
-		["Not Active Alpha"] = "非使用中透明度",
-		["preventdrag_desc"] = "預防以滑鼠拖曳聊天標籤",
-		["preventdrag_name"] = "防止拖曳",
-		["Set ChatFrame%d Display Mode"] = "設定聊天框架 %d 的顯示模式",
-		["Set Display Mode"] = "設定顯示模式",
-		--[[Translation missing --]]
-		["Set Flash Color"] = "Set Flash Color",
-		--[[Translation missing --]]
-		["Set Flash On Message"] = "Set Flash On Message",
-		["Set tab display mode for each chat window."] = "為個別聊天標籤顯示模式設定. 核選（啟用），取消（停用），灰階（預設值）",
-		["Set tab display to always, hidden or the Blizzard default."] = "設定是否顯示聊天標籤或者是 Blizzard預設值",
-		["Sets alpha of chat tab for active chat frame."] = "設定使用中聊天視窗標籤透明度",
-		["Sets alpha of chat tab for not active chat frame."] = "設定非使用中聊天視窗標籤透明度",
-		--[[Translation missing --]]
-		["Show Tab Textures"] = "Show Tab Textures",
-		["Tabs"] = "標籤",
-		--[[Translation missing --]]
-		["Visibility"] = "Visibility",
-	}
-}
+L = {}
+-- ChatTabs
+L["Active Alpha"] = "使用中透明度"
+L["All"] = "所有"
+L["Always"] = "總是"
+--[[Translation missing --]]
+L["Change Font Color On Message"] = "Change Font Color On Message"
+--[[Translation missing --]]
+L["Chat Alert Timeout"] = "Chat Alert Timeout"
+L["Chat window tab options."] = "聊天視窗標籤選單"
+L["Default"] = "預設值"
+L["disableflash_desc"] = "停用聊天標籤閃爍"
+L["disableflash_name"] = "停用閃爍"
+--[[Translation missing --]]
+L["disablewhisperflash_desc"] = "Disable flashing of the chat tabs for whispers."
+--[[Translation missing --]]
+L["disablewhisperflash_name"] = "Disable Flash for Whispers"
+--[[Translation missing --]]
+L["Flash Color"] = "Flash Color"
+--[[Translation missing --]]
+L["Font Color"] = "Font Color"
+--[[Translation missing --]]
+L["foreveralert_desc"] = "With this turned off the highlight/flash will persist until the timer elapses"
+--[[Translation missing --]]
+L["foreveralert_name"] = "Keep highlighting until tab button clicked"
+L["Hidden"] = "隱藏"
+--[[Translation missing --]]
+L["Highlighting/Flashing"] = "Highlighting/Flashing"
+--[[Translation missing --]]
+L["How long any highlights/flashes should last"] = "How long any highlights/flashes should last"
+L["Individual"] = "個人"
+L["Not Active Alpha"] = "非使用中透明度"
+L["preventdrag_desc"] = "預防以滑鼠拖曳聊天標籤"
+L["preventdrag_name"] = "防止拖曳"
+L["Set ChatFrame%d Display Mode"] = "設定聊天框架 %d 的顯示模式"
+L["Set Display Mode"] = "設定顯示模式"
+--[[Translation missing --]]
+L["Set Flash Color"] = "Set Flash Color"
+--[[Translation missing --]]
+L["Set Flash On Message"] = "Set Flash On Message"
+L["Set tab display mode for each chat window."] = "為個別聊天標籤顯示模式設定. 核選（啟用），取消（停用），灰階（預設值）"
+L["Set tab display to always, hidden or the Blizzard default."] = "設定是否顯示聊天標籤或者是 Blizzard預設值"
+L["Sets alpha of chat tab for active chat frame."] = "設定使用中聊天視窗標籤透明度"
+L["Sets alpha of chat tab for not active chat frame."] = "設定非使用中聊天視窗標籤透明度"
+--[[Translation missing --]]
+L["Show Tab Textures"] = "Show Tab Textures"
+L["Tabs"] = "標籤"
+--[[Translation missing --]]
+L["Visibility"] = "Visibility"
 
-PL:AddLocale(PRAT_MODULE, "zhTW",L)
+PL:AddLocale("zhTW",L)
 end
 --@end-non-debug@
+
   module.HighlightTabsPlugin = {}
 
 
@@ -868,14 +834,14 @@ end
     self:RemoveHooks()
   end
 
-  function module:Prat_FramesUpdated(info, name, chatFrame, ...)
+  function module:Prat_FramesUpdated()
     self:UpdateHighlightTabsConfig()
-    for k, v in pairs(Prat.Frames) do
+    for _, v in pairs(Prat.Frames) do
       self:ShowHideTabTextures(v)
     end
   end
 
-  function module:Prat_FramesRemoved(info, name, chatFrame)
+  function module:Prat_FramesRemoved()
     self:UpdateHighlightTabsConfig()
   end
   --[[------------------------------------------------
@@ -984,7 +950,7 @@ end
   end
 
   function module:RemoveHooks()
-    for k, v in pairs(Prat.Frames) do
+    for k, _ in pairs(Prat.Frames) do
       local cftab = _G[k .. "Tab"]
       cftab:SetScript("OnShow", function() return end)
       cftab:SetScript("OnHide", function() return end)
@@ -993,16 +959,11 @@ end
     self:UnhookAll()
   end
 
-  function module:OnValueChanged(info, b)
-    --	if info[#info]:find("alpha") then
-    --
-    --		return
-    --	end
-
+  function module:OnValueChanged()
     self:UpdateAllTabs()
   end
 
-  function module:OnSubValueChanged(info, b)
+  function module:OnSubValueChanged()
     self:UpdateAllTabs()
   end
 
@@ -1057,7 +1018,7 @@ end
     end
   end
 
-  function module:OnTabShow(tab, ...)
+  function module:OnTabShow(tab)
     if needToHook[tab] then
       self:HookScript(tab, "OnHide", "OnTabHide")
       needToHook[tab] = nil
@@ -1068,10 +1029,7 @@ end
     end
   end
 
-  function module:OnTabHide(tab, ...)
-    local p = self.db.profile
-    local i = tab:GetID()
-
+  function module:OnTabHide(tab)
     if self.db.profile.displaymode["ChatFrame" .. tab:GetID()] == true then
       tab:Show()
     end
@@ -1172,11 +1130,10 @@ end
       else
         local tabButton = _G[chatFrame:GetName() .. "Tab"]
         if not self:IsHooked(tabButton, "OnClick") then
-          self:HookScript(tabButton, "OnClick", function(tabButton)
-            local frameName = "ChatFrame" .. tabButton:GetID()
+          self:HookScript(tabButton, "OnClick", function(tabButtonSelf)
+            local frameName = "ChatFrame" .. tabButtonSelf:GetID()
             if self.chatAlertCleanupActions[frameName] then
-              local actions = self.chatAlertCleanupActions[frameName]
-              for _, a in ipairs(actions) do
+              for _, a in ipairs(self.chatAlertCleanupActions[frameName]) do
                 a()
               end
               self.chatAlertCleanupActions[frameName] = nil

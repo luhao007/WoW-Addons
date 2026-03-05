@@ -202,6 +202,7 @@ function TitanPanel_SaveCustomProfile(profile_name)
 	--	StaticPopupDialogs["TITAN_SAVE_CUSTOM_PROFILE"] = {}
 end
 
+--[[
 ---Titan Set or change the font and font size of text on the Titan bar. This affects ALL plugins.
 --- Each registered plugin will have its font updated. Then all plugins will be refreshed to show the new font.
 ---@param fontname string path to font file
@@ -222,6 +223,7 @@ function TitanSetPanelFont(fontname, fontsize)
 	end
 	TitanPanel_RefreshPanelButtons();
 end
+--]]
 
 local function RegisterForEvents()
 	-- Need to be careful of regeristering for events that initiate
@@ -314,7 +316,6 @@ local function SetToonInfo(toon)
 	toon_info.race = localizedRaceName
 	toon_info.raceName = englishRaceName
 	toon_info.raceId = raceID
-
 end
 
 local function SetToonLogout(toon)
@@ -331,72 +332,80 @@ local function SetToonLogout(toon)
 	toon_info.logoutStr = TitanUtils_GetDateText(now, true)
 end
 
----Titan Do all the setup needed when a user logs in / reload UI / enter or leave an instance.
---- This is called after the 'player entering world' event is fired by Blizz.
---- This is also called when a LDB plugin is created after Titan runs the 'player entering world' code.
---- The common code section will setup this toon's info
---- 1) Register any plugins
---- 2) Load the plugin vars (UseSettings)
---- 3) Update the Titan config
---- 4) Set the Titan vars
---- 5) Load / register any LDB plugins into Titan
----@param reload boolean true if reload; false if character 'first' enter
-function TitanPanel_PlayerEnteringWorld(reload)
-	if Titan__InitializedPEW then
-		-- Currently no additional steps needed
-	else
-		Titan_Debug.Out('titan', 'p_e_w', "Init settings")
-
-		-- Get Saved Vars; sync with defaults
-		TitanVariables_InitTitanSettings()
-
-		if TitanAllGetVar("Silenced") then
-			-- No header output
-		else
-			TitanPrint("", "header")
-		end
-
-		-- Set the two anchors in their default positions
-		-- until the Titan bars are drawn
-		Titan_Debug.Out('titan', 'p_e_w', "Create anchors for other addons")
-		TitanPanelTopAnchor:ClearAllPoints();
-		TitanPanelTopAnchor:SetPoint("TOPLEFT", "UIParent", "TOPLEFT", 0, 0);
-		TitanPanelBottomAnchor:ClearAllPoints();
-		TitanPanelBottomAnchor:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 0, 0);
-
-		-- Ensure the bars are created before the plugins are registered.
-		Titan_Debug.Out('titan', 'p_e_w', "Create frames for Titan bars")
-		for idx, v in pairs(TitanBarData) do
-			Titan_Debug.Out('titan', 'bars_setup', "... " .. tostring(v.name))
-
-			TitanPanelButton_CreateBar(idx, v.locale_name)
-		end
-		--		Titan_AutoHide_Create_Frames()
-
-		-- Add to Addon Compartment, if feature is present
-		RegisterAddonCompartment()
-
-		-- Should be safe to register for events that could show / hide Bars
-		Titan_Debug.Out('titan', 'p_e_w', "Register for events Titan needs")
-		RegisterForEvents()
-	end
-
-	--====== Common code login versus reload / portal / ...
-
-	local _ = nil
-	TitanSettings.Player, _, _ = TitanUtils_GetPlayer()
-	SetToonInfo(TitanSettings.Player)
-
+local function SetPluginsAndConfig()
 	-- Some addons wait to create their LDB component or a Titan addon could
 	-- create additional buttons as needed.
 	Titan_Debug.Out('titan', 'p_e_w', "Register any plugins found")
 	TitanUtils_RegisterPluginList()
 	Titan_Debug.Out('titan', 'p_e_w', "> Register any plugins done")
 
+	-- Loop through the LDB objects to sync with their created Titan plugin
+	Titan_Debug.Out('titan', 'p_e_w', "Register any LDB (Titan) plugins")
+	TitanLDBRefreshButton()
+	Titan_Debug.Out('titan', 'p_e_w', "> Register any LDB (Titan) plugins done")
+
 	-- Now sync saved variables to the profile chosen by the user.
 	-- This will set the bar(s) and enabled plugins (via OnShow).
 	Titan_Debug.Out('titan', 'p_e_w', "Synch plugin saved vars")
+end
 
+local function SetupTitan()
+	Titan_Debug.Out('titan', 'p_e_w', "Init settings")
+
+	-- Get Saved Vars; sync with defaults
+	TitanVariables_InitTitanSettings()
+
+	-- Init panel font
+	-- In case the user does not load the addon with the font they were using
+	local isfontvalid = media:IsValid("font", TitanPanelGetVar("FontName"))
+	if isfontvalid then
+		-- should be good
+	else
+		-- if the selected font is not valid, revert to default (Friz Quadrata TT)
+		TitanPanelSetVar("FontName", TPC.FONT_NAME);
+	end
+
+	if TitanAllGetVar("Silenced") then
+		-- No header output
+	else
+		TitanPrint("", "header")
+	end
+
+	-- Set the two anchors in their default positions
+	-- until the Titan bars are drawn
+	Titan_Debug.Out('titan', 'p_e_w', "Create anchors for other addons")
+	TitanPanelTopAnchor:ClearAllPoints();
+	TitanPanelTopAnchor:SetPoint("TOPLEFT", "UIParent", "TOPLEFT", 0, 0);
+	TitanPanelBottomAnchor:ClearAllPoints();
+	TitanPanelBottomAnchor:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 0, 0);
+
+	-- Ensure the bars are created before the plugins are registered.
+	Titan_Debug.Out('titan', 'p_e_w', "Create frames for Titan bars")
+	for idx, v in pairs(TitanBarData) do
+		Titan_Debug.Out('titan', 'bars_setup', "... " .. tostring(v.name))
+
+		TitanPanelButton_CreateBar(idx, v.locale_name)
+	end
+	--		Titan_AutoHide_Create_Frames()
+
+	-- Add to Addon Compartment, if feature is present
+	RegisterAddonCompartment()
+
+	-- Should be safe to register for events that could show / hide Bars
+	Titan_Debug.Out('titan', 'p_e_w', "Register for events Titan needs")
+	RegisterForEvents()
+
+	local _ = nil
+	TitanSettings.Player, _, _ = TitanUtils_GetPlayer()
+	SetToonInfo(TitanSettings.Player)
+	Titan_Debug.Out('titan', 'p_e_w', "Init settings done")
+end
+
+local function SetupUser()
+	-- User could have changed the addons loaded, so register plugins and LDB again.
+	SetPluginsAndConfig()
+
+	-- Set the profile per the user choices.
 	Titan_Debug.Out('titan', 'p_e_w', "Set up player")
 	TitanVariables_UseSettings(nil, TitanUtils_GetPlayer(), TITAN_PROFILE_INIT)
 
@@ -404,38 +413,19 @@ function TitanPanel_PlayerEnteringWorld(reload)
 	-- all addons are loaded so update the config (options)
 	-- some could have registered late...
 	TitanUpdateConfig("init")
+	Titan_Debug.Out('titan', 'p_e_w', "Init config data (right click menu) done")
+end
 
-	-- Init panel font
-	local isfontvalid = media:IsValid("font", TitanPanelGetVar("FontName"))
-	if isfontvalid then
-		TitanSetPanelFont(TitanPanelGetVar("FontName"), TitanPanelGetVar("FontSize"))
-	else
-		-- if the selected font is not valid, revert to default (Friz Quadrata TT)
-		TitanPanelSetVar("FontName", TPC.FONT_NAME);
-		TitanSetPanelFont(TPC.FONT_NAME, TitanPanelGetVar("FontSize"))
+local function ShowTitan()
+	do -- set the bars per the user choices
+		-- Move frames
+		if Titan_Global.switch.can_edit_ui then
+			-- No need
+		else
+			TitanMovable_SecureFrames()
+			TitanPanel_AdjustFrames(true, "_PlayerEnteringWorld")
+		end
 	end
-
-	-- Init panel frame strata
-	TitanVariables_SetPanelStrata(TitanPanelGetVar("FrameStrata"))
-
-	-- Titan Panel has initialized its variables and registered plugins.
-	-- Allow Titan - and others - to adjust the bars
-	Titan__InitializedPEW = true
-
-	-- Move frames
-	if Titan_Global.switch.can_edit_ui then
-		-- No need
-	else
-		TitanMovable_SecureFrames()
-		TitanPanel_AdjustFrames(true, "_PlayerEnteringWorld")
-	end
-
-	-- Loop through the LDB objects to sync with their created Titan plugin
-	Titan_Debug.Out('titan', 'p_e_w', "Register any LDB (Titan) plugins")
-	TitanLDBRefreshButton()
-	Titan_Debug.Out('titan', 'p_e_w', "> Register any LDB (Titan) plugins done")
-
-	Titan_Debug.Out('titan', 'p_e_w', "Titan processing done")
 end
 
 --------------------------------------------------------------
@@ -457,56 +447,126 @@ end
 		end
 --]===]
 
+local function FrameCleanup()
+	-- Without a wait this was happening WAY too early in the PEW
+
+
+	TitanUtils_CloseRightClickMenu() -- cleanup any open menus
+
+	-- Nuke the tooltip, if open
+	-- Titan tooltip - newer (2026 Jan)
+	-- Game tooltip - older or custom
+
+
+	-- Ugly until this is wrapped properly
+	if TitanPanelTooltip and TitanPanelTooltip:IsVisible() then
+		TitanPanelTooltip:Hide()
+	else
+		-- not open
+	end
+	if GameTooltip and GameTooltip:IsVisible() then
+		-- WoW may handle this but just in case...
+		GameTooltip:Hide()
+	else
+		-- not open
+	end
+end
+
+local function StopTitan(err_str, ret_val)
+	-- something really bad occured...
+	TitanPrint(err_str .. "!!!!  Cleaning up...", "error")
+	TitanPrint("--" .. ret_val, "error")
+	-- Hide the bars. At times they are there but at 0% transparency.
+	-- They can be over the Blizz action bars creating havoc.
+	TitanPrint("-- Hiding Titan bars...", "warning")
+	TitanPanelBarButton_HideAllBars()
+
+	-- Remove the options pages, just in case; likely config would not work...
+	TitanUpdateConfig("nuke")
+	-- What else to clean up???
+
+	-- raise the error to WoW for display, if display errors is set.
+	-- This *will be* the last statement of PLAYER_ENTERING_WORLD!
+	error(ret_val, 1)
+end
 
 ---Titan Handle PLAYER_ENTERING_WORLD Initialize Titan, set and display Titan bars and plugins.
-function TitanPanelBarButton:PLAYER_ENTERING_WORLD(arg1, arg2)
+---@param arg1 boolean isLogin
+---@param arg2 boolean isReload
+function TitanPanelBarButton:PLAYER_ENTERING_WORLD(arg1, arg2, arg3, arg4)
 	local call_success = nil
 	local ret_val = nil
 
 	Titan_Debug.Out('titan', 'p_e_w', "Titan PLAYER_ENTERING_WORLD pcall setup routine")
 
-	call_success, -- needed for pcall
-	ret_val =  -- actual return values
-		pcall(TitanPanel_PlayerEnteringWorld, arg2)
-	-- pcall does not allow errors to propagate out. Any error
-	-- is returned as text with the success / fail.
-	-- Think of it as a try - catch block
 	--[[
-print("_PlayerEnteringWorld"
-.." "..tostring(call_success)..""
-)
---]]
-	if call_success then
-		-- Titan initialized properly
+	With profile and API changes over the years, the PEW has evolved into 3 distinct sections:
+	1) Setup : Titan vars; variables; events; and creation of bars
+	2) Load :
+	- Profiles : Determining the actual profile to use; cleanup and adjustments of profile data
+	- Plugins : Built-ins, third party, and LDB
+	3) Draw : Place Titan and plugins on WoW UI per the profile
+
+	1) Needed only on login
+	2) and 3) Needed on reload of UI
+	If the user is just changing map locations then no work is needed
+	
+	2026 Feb : redone to improve splash screen timing and make Titan more stable on errors
+	--]]
+
+	if arg1 == true then -- login, only once
+		-- if tooltip gets stuck allow user to tap ESC to clear
+		tinsert(UISpecialFrames, "TitanPanelTooltip")
 	else
-		-- something really bad occured...
-		TitanPrint("Titan could not initialize!!!!  Cleaning up...", "error")
-		TitanPrint("--" .. ret_val, "error")
-		-- Clean up best we can and tell the user to submit a ticket.
-		-- This could be the 1st log in or a reload (reload, instance, boat, ...)
-
-		-- Hide the bars. At times they are there but at 0% transparency.
-		-- They can be over the Blizz action bars creating havoc.
-		TitanPrint("-- Hiding Titan bars...", "warning")
-		TitanPanelBarButton_HideAllBars()
-
-		-- Remove the options pages
-		TitanUpdateConfig("nuke")
-		-- What else to clean up???
-
-		-- raise the error to WoW for display, if display errors is set.
-		-- This *must be* the last statement of the routine!
-		error(ret_val, 1)
 	end
-end
 
+	if arg1 == true -- login
+		or arg2 == true -- reload
+	then
+		-- StopTitan will force error and end this routine
+
+		call_success, ret_val = pcall(SetupTitan)
+		if call_success then
+			-- Titan initialized properly
+		else
+			StopTitan("Could not initialize", ret_val) -- something really bad occured...
+		end
+
+		call_success, ret_val = pcall(SetupUser)
+		if call_success then
+			-- Titan initialized properly
+		else
+			StopTitan("Setup error", ret_val) -- something really bad occured...
+		end
+
+		call_success, ret_val = pcall(ShowTitan)
+		if call_success then
+			-- Titan initialized properly
+		else
+			StopTitan("Could not show Bars", ret_val) -- something really bad occured...
+		end
+	else
+		-- map change
+	end
+
+	do -- a little UI cleanup, just in case
+		C_Timer.After(1.0, function() FrameCleanup() end)
+	end
+
+	-- Titan Panel has initialized its variables and registered plugins.
+	-- Allow Titan - and others - to adjust the bars
+	Titan__InitializedPEW = true
+
+	Titan_Debug.Out('titan', 'p_e_w', "Titan init processing done")
+end
 ---Titan Handle CVAR_UPDATE React to user changed WoW options.
 function TitanPanelBarButton:CVAR_UPDATE(cvarname, cvarvalue)
 	if cvarname == "USE_UISCALE"
 		or cvarname == "WINDOWED_MODE"
 		or cvarname == "uiScale" then
 		if TitanPlayerSettings and TitanPanelGetVar("Scale") then
-			TitanPanel_InitPanelBarButton("CVAR_ " .. tostring(cvarname))
+			--TitanPanel_InitPanelBarButton("CVAR_ " .. tostring(cvarname))
+			TitanPanel_InitPanelButtons("CVAR_ " .. tostring(cvarname))
 			if Titan_Global.switch.can_edit_ui then
 				-- No need
 			else
@@ -719,7 +779,8 @@ local function handle_reset_cmds(cmd_list)
 	elseif p1 == "panelscale" then
 		if not InCombatLockdown() then
 			TitanPanelSetVar("Scale", 1);
-			TitanPanel_InitPanelBarButton("/panelscale reset ")
+			--TitanPanel_InitPanelBarButton("/panelscale reset ")
+			TitanPanel_InitPanelButtons("/panelscale reset ")
 			if Titan_Global.switch.can_edit_ui then
 				-- No need
 			else
@@ -732,7 +793,7 @@ local function handle_reset_cmds(cmd_list)
 		end
 	elseif p1 == "spacing" then
 		TitanPanelSetVar("ButtonSpacing", 20);
-		TitanPanel_InitPanelButtons();
+		TitanPanel_InitPanelButtons("/spacing reset");
 		TitanPrint(L["TITAN_PANEL_SLASH_RESP4"], "info")
 	else
 		handle_slash_help("reset")
@@ -1366,7 +1427,8 @@ local function OnMovingStop(self)
 		-- placement ok
 	else
 		-- Need to 'snap' it to an edge
-		TitanPanel_InitPanelBarButton("OnMovingStop")
+		--TitanPanel_InitPanelBarButton("OnMovingStop")
+		TitanPanel_InitPanelButtons("OnMovingStop")
 	end
 	-- Seems overkill - this will recalc all bars...
 end
@@ -1675,13 +1737,25 @@ end
 
 ---Titan Show all user selected plugins on the Titan bar(s) then justify per the user selection.
 --- This is done an all bars whether shown or not.
-function TitanPanel_InitPanelButtons()
+---@param reason string For debug
+function TitanPanel_InitPanelButtons(reason)
 	local button
 	local r_prior = {}
 	local l_prior = {}
+
+	-- 2026 Feb : Added setting scale and font on bars and plugins here to consolidate
+	-- processing and reduce routines and hopefully be clearer for future changes
 	local scale = TitanPanelGetVar("Scale");
+	local font_name = TitanPanelGetVar("FontName")
+	local font_size = TitanPanelGetVar("FontSize")
+
 	local button_spacing = TitanPanelGetVar("ButtonSpacing") * scale
 	local icon_spacing = TitanPanelGetVar("IconSpacing") * scale
+
+	-- build debug output
+	local str = "_InitPanelButtons"
+		.. " " .. tostring(reason) .. ""
+	Titan_Debug.Out('titan', 'bars_setup', str)
 
 	local prior = {}
 	-- set prior to the starting offsets
@@ -1706,6 +1780,7 @@ function TitanPanel_InitPanelButtons()
 				y = y_off,
 			},
 		}
+		_G[idx]:SetScale(scale)
 	end
 	--
 	TitanPanelBarButton_DisplayBarsWanted("TitanPanel_InitPanelButtons");
@@ -1718,6 +1793,12 @@ function TitanPanel_InitPanelButtons()
 			button = TitanUtils_GetButton(id);
 
 			if button then
+				button:SetScale(scale)
+				local buttonText = _G[button:GetName() .. TITAN_PANEL_TEXT];
+				if buttonText then
+					buttonText:SetFont(font_name, font_size);
+				end
+
 				-- If the plugin has asked to be on the right
 				if TitanUtils_ToRight(id) then
 					-- =========================
@@ -1814,7 +1895,7 @@ function TitanPanel_RemoveButton(id, hide_plugin)
 		currentButton:Hide();
 	end
 	-- Show the existing buttons
-	TitanPanel_InitPanelButtons();
+	TitanPanel_InitPanelButtons("_RemoveButton");
 end
 
 --- Titan Get the index of the given plugin from the Titan plugin displayed list.
@@ -1835,6 +1916,7 @@ function TitanPanel_GetButtonNumber(id)
 	end
 end
 
+--[[
 ---Titan Update / refresh each plugin from the Titan plugin list. Used when a Titan option is changed that effects all plugins.
 function TitanPanel_RefreshPanelButtons()
 	if (TitanPanelSettings) then
@@ -1843,6 +1925,7 @@ function TitanPanel_RefreshPanelButtons()
 		end
 	end
 end
+--]]
 
 ---Titan Justify the plugins on each Titan bar.
 --- Used when :
@@ -1875,11 +1958,11 @@ function TitanPanelButton_Justify()
 	-- Look at each bar for plugins.
 	for idx, v in pairs(TitanBarData) do
 		bar = TitanBarData[idx].name
---print("Bar Y"
---	.. " " .. tostring(idx) .. ""
---	.. " " .. tostring(TitanBarData[idx].plugin_y_offset) .. ""
---	.. " " .. tostring(TitanBarDataVars[idx].plugin_off_y) .. ""
---)
+		--print("Bar Y"
+		--	.. " " .. tostring(idx) .. ""
+		--	.. " " .. tostring(TitanBarData[idx].plugin_y_offset) .. ""
+		--	.. " " .. tostring(TitanBarDataVars[idx].plugin_off_y) .. ""
+		--)
 		y_offset = TitanBarData[idx].plugin_y_offset -- + TitanBarDataVars[idx].plugin_off_y -- user may offset
 		x_offset = TitanBarData[idx].plugin_x_offset
 		firstLeftButton = TitanUtils_GetButton(TitanPanelSettings.Buttons
@@ -1955,19 +2038,20 @@ function TitanPanel_GetPluginSide(id)
 	end
 end
 
+--[[
 ---Titan Set the scale, texture (graphic), and transparancy of all the Titan bars based on the user selection.
 ---@param reason string Debug note on where the call initiated
 function TitanPanel_InitPanelBarButton(reason)
 	-- Set initial Panel Scale
-	TitanPanel_SetScale();
+--	TitanPanel_SetScale();
 
 	-- build debug output
 	local str = "_InitPanelBarButton"
 		.. " " .. tostring(reason) .. ""
 	Titan_Debug.Out('titan', 'bars_setup', str)
-	TitanPanelBarButton_DisplayBarsWanted("InitPanelBarButton")
+--	TitanPanelBarButton_DisplayBarsWanted("InitPanelBarButton")
 end
-
+--]]
 ---Titan Handle ADDON_LOADED Minimal setup in prep for player login.
 function TitanPanelBarButton:ADDON_LOADED(addon)
 	if addon == TITAN_ID then
@@ -1988,7 +2072,7 @@ local function AddPlugin(owner, bar, category)
 		plugin = TitanUtils_GetPlugin(id)
 		if plugin then
 			plugin.category = plugin and plugin.category or "General";
-			if (plugin.category == category) then  -- add the plugin to the menu
+			if (plugin.category == category) then -- add the plugin to the menu
 				local internal_bar, which_bar, which_frame_str = TitanUtils_GetWhichBar(id)
 				if not TitanGetVar(id, "ForceBar")
 					or (TitanGetVar(id, "ForceBar") == TitanBarData[bar:GetName()].name) then
@@ -2048,7 +2132,7 @@ local function GeneratorFunction(owner, rootDescription)
 	do
 		---@diagnostic disable-next-line: assign-type-mismatch, param-type-mismatch
 		for index, id in pairs(L["TITAN_PANEL_MENU_CATEGORIES"]) do
-			local cat = TITAN_PANEL_BUTTONS_PLUGIN_CATEGORY[index] 
+			local cat = TITAN_PANEL_BUTTONS_PLUGIN_CATEGORY[index]
 			local cat_locale = L["TITAN_PANEL_MENU_CATEGORIES"][index]
 			local opts_plugins = Titan_Menu.AddButton(root, cat_locale)
 			AddPlugin(opts_plugins, bar, cat) -- if same category
@@ -2081,7 +2165,7 @@ local function GeneratorFunction(owner, rootDescription)
 				function(data)
 					TitanBarDataVars[data.f_str].show = not TitanBarDataVars[data.f_str].show
 					TitanPanelBarButton_DisplayBarsWanted(data.f_str ..
-					" right click menu " .. tostring(TitanBarDataVars[data.f_str].show))
+						" right click menu " .. tostring(TitanBarDataVars[data.f_str].show))
 				end,
 				{ f_str = v.frame_name }
 			)
@@ -2089,8 +2173,8 @@ local function GeneratorFunction(owner, rootDescription)
 	end
 	Titan_Menu.AddDivider(root)
 
--- Hold off for a rewrite using Blizz API over Ace
---[[
+	-- Hold off for a rewrite using Blizz API over Ace
+	--[[
 	if Titan_Global.switch.midnight then
 		-- disable until we figure this out
 	else

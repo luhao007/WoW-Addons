@@ -1,0 +1,187 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.blizzard.com/wow/ui/ https://raw.githubusercontent.com/Gethe/wow-ui-source/live/Interface/AddOns/Blizzard_SharedXML/UI.xsd">
+    <Frame name="DelveCompanionLootInfoHeaderTemplate" virtual="true">
+        <Size x="105" y="25" />
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture atlas="shop-header-menu-BG-divider" useAtlasSize="false">
+                    <Size x="2" y="40" />
+                    <Anchors>
+                        <Anchor point="LEFT" />
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="Icon">
+                    <Size x="25" y="25" />
+                    <Anchors>
+                        <Anchor point="LEFT" x="5" />
+                    </Anchors>
+                </Texture>
+                <FontString parentKey="Text" inherits="GameFontNormalMed2"
+                    mixin="AutoScalingFontStringMixin" wordwrap="true" maxLines="2"
+                    justifyV="MIDDLE" justifyH="CENTER">
+                    <Size x="80" y="25" />
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent.Icon" relativePoint="RIGHT" />
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+    </Frame>
+
+    <Frame name="DelveCompanionLootInfoColumnHeadersTemplate" virtual="true">
+        <Size x="435" y="25" />
+        <Layers>
+            <Layer level="OVERLAY">
+                <FontString parentKey="Tier" inherits="GameFontNormalMed2"
+                    mixin="AutoScalingFontStringMixin" wordwrap="true" maxLines="2"
+                    justifyV="MIDDLE" justifyH="CENTER">
+                    <Size x="60" y="25" />
+                    <Anchors>
+                        <Anchor point="LEFT" x="10" />
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Frame parentKey="Container" inherits="HorizontalLayoutFrame">
+                <Anchors>
+                    <Anchor point="LEFT" relativeKey="$parent.Tier" relativePoint="RIGHT" />
+                </Anchors>
+                <KeyValues>
+                    <KeyValue key="expand" value="false" type="boolean" />
+                    <KeyValue key="spacing" value="10" type="number" />
+                </KeyValues>
+                <Frames>
+                    <Frame parentKey="Bountiful"
+                        inherits="DelveCompanionLootInfoHeaderTemplate">
+                        <KeyValues>
+                            <KeyValue key="layoutIndex" value="1" type="number" />
+                        </KeyValues>
+                    </Frame>
+                    <Frame parentKey="Map"
+                        inherits="DelveCompanionLootInfoHeaderTemplate">
+                        <KeyValues>
+                            <KeyValue key="layoutIndex" value="2" type="number" />
+                        </KeyValues>
+                    </Frame>
+                    <Frame parentKey="Vault"
+                        inherits="DelveCompanionLootInfoHeaderTemplate">
+                        <KeyValues>
+                            <KeyValue key="layoutIndex" value="3" type="number" />
+                        </KeyValues>
+                    </Frame>
+                </Frames>
+            </Frame>
+        </Frames>
+    </Frame>
+
+    <Frame name="DelveCompanionLootInfoElementTemplate" virtual="true">
+        <Size x="105" y="25" />
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture atlas="shop-header-menu-BG-divider" useAtlasSize="false">
+                    <Size x="2" y="35" />
+                    <Anchors>
+                        <Anchor point="LEFT" />
+                    </Anchors>
+                </Texture>
+                <FontString parentKey="Text" inherits="GameFontHighlightMed2"
+                    justifyH="CENTER" justifyV="MIDDLE" spacing="5">
+                    <Anchors>
+                        <Anchor point="CENTER" x="5" />
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+    </Frame>
+
+    <Frame name="DelveCompanionLootInfoRowTemplate" virtual="true">
+        <Size x="435" y="25" />
+        <Layers>
+            <Layer level="OVERLAY">
+                <FontString parentKey="Tier" inherits="GameFontNormalMed2"
+                    mixin="AutoScalingFontStringMixin" wordwrap="true" maxLines="2"
+                    justifyV="MIDDLE" justifyH="CENTER">
+                    <Size x="60" y="20" />
+                    <Anchors>
+                        <Anchor point="LEFT" x="10" />
+                    </Anchors>
+                </FontString>
+                <Texture atlas="delves-companion-divider"
+                    useAtlasSize="false">
+                    <Size x="400" y="5" />
+                    <Anchors>
+                        <Anchor point="TOP" />
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Frame parentKey="Container" inherits="HorizontalLayoutFrame">
+                <Anchors>
+                    <Anchor point="LEFT" relativeKey="$parent.Tier" relativePoint="RIGHT" />
+                </Anchors>
+                <KeyValues>
+                    <KeyValue key="expand" value="false" type="boolean" />
+                    <KeyValue key="spacing" value="10" type="number" />
+                </KeyValues>
+                <Frames>
+                    <Frame parentKey="Bountiful"
+                        inherits="DelveCompanionLootInfoElementTemplate">
+                        <KeyValues>
+                            <KeyValue key="layoutIndex" value="1" type="number" />
+                        </KeyValues>
+                    </Frame>
+                    <Frame parentKey="Map"
+                        inherits="DelveCompanionLootInfoElementTemplate">
+                        <KeyValues>
+                            <KeyValue key="layoutIndex" value="2" type="number" />
+                        </KeyValues>
+                    </Frame>
+                    <Frame parentKey="Vault"
+                        inherits="DelveCompanionLootInfoElementTemplate">
+                        <KeyValues>
+                            <KeyValue key="layoutIndex" value="3" type="number" />
+                        </KeyValues>
+                    </Frame>
+                </Frames>
+            </Frame>
+        </Frames>
+    </Frame>
+
+    <Frame name="DelveCompanionLootInfoFrameTemplate" inherits="DefaultPanelTemplate"
+        mixin="DelveCompanion_LootInfoFrameMixin" enableMouse="true" hidden="true"
+        clampedToScreen="true" virtual="true">
+        <Size x="415" y="345" />
+        <Frames>
+            <Button parentKey="CloseButton" inherits="UIPanelCloseButtonDefaultAnchors" />
+            <Frame parentKey="ColumnHeaders" inherits="DelveCompanionLootInfoColumnHeadersTemplate">
+                <Anchors>
+                    <Anchor point="TOP" x="5" y="-35" />
+                </Anchors>
+            </Frame>
+            <Frame parentKey="Rows" inherits="VerticalLayoutFrame">
+                <KeyValues>
+                    <KeyValue key="expand" value="false" type="boolean" />
+                </KeyValues>
+                <Anchors>
+                    <Anchor point="TOP" relativeKey="$parent.ColumnHeaders" relativePoint="BOTTOM"
+                        y="-5" />
+                </Anchors>
+            </Frame>
+        </Frames>
+        <Scripts>
+            <OnLoad method="OnLoad" />
+            <OnShow method="OnShow" />
+        </Scripts>
+    </Frame>
+
+    <Button name="DelveCompanionLootInfoButtonTemplate" inherits="MagicButtonTemplate"
+        virtual="true" frameLevel="20">
+        <Size x="50" y="20" />
+        <KeyValues>
+            <KeyValue key="fitTextWidthPadding" value="20" />
+        </KeyValues>
+    </Button>
+</Ui>

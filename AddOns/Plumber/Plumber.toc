@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: Peterodox
-## Version: 1.8.7
+## Version: 1.8.8 b
 
 ## Title: Plumber
 ## Notes: Provides a variety of quality-of-life features.|n|nOpen Settings with Slash Command:|n/plumber
@@ -41,11 +41,11 @@ Modules\SpellFlyout_Secure.lua
 Modules\QuestAreaTrigger.lua
 Modules\Dreamseed.lua
 #Modules\EventMap.lua
-Modules\MapPin.xml
+#Modules\MapPin.xml
 Modules\RareAnnouncement.lua
 Modules\PlayerChoiceUI.lua
 Modules\Lockpicking.lua
-Modules\BlizzFix_EventToast.lua
+#Modules\BlizzFix_EventToast.lua
 Modules\TalkingHead.lua
 Modules\AzerothianArchives.lua
 Modules\MerchantPrice.lua
@@ -83,6 +83,7 @@ Modules\QuestWatchCycle.lua
 Modules\CraftSearchExtended.lua
 Modules\SourceAchievementLink.lua
 Modules\OutfitSelect.lua
+Modules\BreakTime.xml
 
 #Modules\MerchantUI\MerchantUI.xml
 #Modules\DruidModelFix.lua

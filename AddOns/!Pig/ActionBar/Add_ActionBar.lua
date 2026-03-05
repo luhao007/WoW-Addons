@@ -237,8 +237,24 @@ local function ADD_ActionBar(barName,CFdata,anniugeshu, anniujiange,tabF,tabBut,
 	-----
 	for id=1,anniugeshu do
 		local piganniu
-		--piganniu = CreateFrame("CheckButton", "$parent_But"..id, Pig_bar, "ActionBarButtonTemplate")
-		piganniu = CreateFrame("CheckButton", "$parent_But"..id, Pig_bar, "SecureActionButtonTemplate,ActionButtonTemplate,SecureHandlerDragTemplate,SecureHandlerMouseUpDownTemplate,SecureHandlerStateTemplate,SecureHandlerBaseTemplate")
+		if PIG_MaxTocversion("tbc") then
+			piganniu = CreateFrame("CheckButton", "$parent_But"..id, Pig_bar, "ActionBarButtonTemplate")
+			piganniu:UnregisterAllEvents()
+			piganniu:SetScript("OnLoad", nil)
+			piganniu:SetScript("OnAttributeChanged", nil)
+			piganniu:SetScript("OnEvent", nil)
+			--piganniu:SetScript("OnClick", nil)
+			piganniu:SetScript("PostClick", nil)
+			piganniu:SetScript("OnDragStart", nil)
+			piganniu:SetScript("OnReceiveDrag", nil)
+			piganniu:SetScript("OnDragStop", nil)
+			piganniu:SetScript("OnEnter", nil)
+			piganniu:SetScript("OnLeave", nil)
+			piganniu:SetScript("OnShow", nil)
+			piganniu:SetScript("OnHide", nil)
+		else
+			piganniu = CreateFrame("CheckButton", "$parent_But"..id, Pig_bar, "SecureActionButtonTemplate,ActionButtonTemplate,SecureHandlerDragTemplate,SecureHandlerMouseUpDownTemplate,SecureHandlerStateTemplate,SecureHandlerBaseTemplate")
+		end
 		piganniu:SetSize(ActionW, ActionW)
 		if id==1 then
 			piganniu:SetPoint("LEFT",Pig_bar.yidong,"RIGHT",2,0)
@@ -278,7 +294,7 @@ local function ADD_ActionBar(barName,CFdata,anniugeshu, anniujiange,tabF,tabBut,
 			Pig_bar.butlist[id]=piganniu
 			piganniu.ModeSet=ModeFun
 		else
-			loadingButInfo(piganniu,"PigAction")
+			loadingButInfo(piganniu,PIGA_Per["PigAction"]["ActionData"][ActionID])
 			function piganniu:SetAnniuNumFun(max)
 				local max=max or getDataFun("AnniuNum",NewIndex)
 				local id=self.ID

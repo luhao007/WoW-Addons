@@ -12,12 +12,12 @@ local Lockit = DelveCompanion.Lockit
 
 --#region Constants
 
-local FRAME_NAME = "DelveCompanionProgressTrackingFrame"
+local EVENT_FRAME_NAME = "DelveCompanionProgressTrackingFrame"
 
 local RESPAWN_SPELL = 433110
 --#endregion
 
----@class ProgressTracker
+---@class (exact) ProgressTracker
 ---@field eventFrame Frame
 ---@field isDelveInProgress boolean
 local ProgressTracker = {}
@@ -30,13 +30,18 @@ local baseEvents = {
 }
 
 ---@param self ProgressTracker
-function ProgressTracker:ProcessEvent(eventName, arg1, ...)
+function ProgressTracker:UpdateDelveStatus()
+    -- Logger:Log("[ProgressTracker] DelveStatus: InP: %s ||| IsC: %s",
+    --     tostring(C_PartyInfo.IsDelveInProgress()),
+    --     tostring(C_PartyInfo.IsDelveComplete()))
     self.isDelveInProgress = C_PartyInfo.IsDelveInProgress() and not C_PartyInfo.IsDelveComplete()
+end
+
+---@param self ProgressTracker
+function ProgressTracker:ProcessEvent(eventName, arg1, ...)
+    self:UpdateDelveStatus()
     -- local widgetInfo = C_UIWidgetManager.GetScenarioHeaderDelvesWidgetVisualizationInfo(6183)
 
-    -- Logger.Log("[ProgressTracker] Event: %s ||| inProgress: %s ||| isComplete: %s", eventName,
-    --     tostring(self.isDelveInProgress),
-    --     tostring(C_PartyInfo.IsDelveComplete()))
     if eventName == "SCENARIO_UPDATE" then
         if self.isDelveInProgress then
             FrameUtil.RegisterFrameForEvents(self.eventFrame, baseEvents)
@@ -66,22 +71,21 @@ end
 
 ---@param self ProgressTracker
 function ProgressTracker:Init()
-    -- Logger.Log("[ProgressTracker] Init started...")
+    -- Logger:Log("[ProgressTracker] Init started...")
 
-    local frame = CreateFrame("Frame", FRAME_NAME, UIParent)
+    self:UpdateDelveStatus()
+
+    local frame = CreateFrame("Frame", EVENT_FRAME_NAME, UIParent)
     frame:RegisterEvent("SCENARIO_UPDATE")
     frame:SetScript("OnEvent", function(owner, eventName, arg1, ...)
-        C_Timer.After(0.25, function(...)
+        C_Timer.After(0.5, function(...)
             self:ProcessEvent(eventName, arg1, ...)
         end)
     end)
     self.eventFrame = frame
 
-    if C_PartyInfo.IsDelveInProgress() then
-        self.isDelveInProgress = true
-        -- If UI Reload or Logout happened in the midst of the Delve, force register required events.
+    if self.isDelveInProgress then
+        -- If UI Reload or Login happens in the midst of the Delve, force register required events.
         FrameUtil.RegisterFrameForEvents(self.eventFrame, baseEvents)
-    else
-        self.isDelveInProgress = false
     end
 end

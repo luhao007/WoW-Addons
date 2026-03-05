@@ -1,7 +1,7 @@
 local addonName, AddonTbl = ...
 
 --- Addon master-table containing references to all components.
----@class DelveCompanion
+---@class (exact) DelveCompanion
 ---@field Logger Logger
 ---@field Config Config
 ---@field Lockit Lockit
@@ -18,9 +18,9 @@ AddonTbl.DelveCompanion = DelveCompanion
 --- Init Delves runtime data.
 ---@param self DelveCompanion
 function DelveCompanion:InitDelvesData()
-    -- self.Logger.Log("Initing Delves data...")
+    -- self.Logger:Log("Initing Delves data...")
 
-    ---@type table<integer, DelveData[]>
+    ---@type table<number, DelveData[]>
     local delvesData = {}
 
     for expansion, delveConfigs in pairs(self.Config.DELVES_CONFIG) do
@@ -66,7 +66,7 @@ end
 ---@param self DelveCompanion
 ---@param expansionLevel number LE_EXPANSION enum number of the expansion
 function DelveCompanion:UpdateDelvesData(expansionLevel)
-    -- self.Logger.Log("Start updating Delves data for expansion: %d...", expansionLevel)
+    -- self.Logger:Log("Start updating Delves data for expansion: %d...", expansionLevel)
 
     for _, delveData in pairs(self.Variables.delvesData[expansionLevel]) do
         local delveConfig = delveData.config
@@ -126,35 +126,7 @@ function DelveCompanion:UpdateDelvesData(expansionLevel)
         end
     end
 
-    -- Logger.Log("Finished updating Delves data")
-end
-
---- Cache number of consumables (Keys, Shards, etc.) player has collected.
----@param self DelveCompanion
-function DelveCompanion:CacheCollectedConsumables()
-    -- [Restored Coffer Keys](https://www.wowhead.com/currency=3028/restored-coffer-key) player has got from Caches this week.
-    do
-        local keysCollected = 0
-        for _, questId in ipairs(self.Config.BOUNTIFUL_KEY_QUESTS_DATA) do
-            if C_QuestLog.IsQuestFlaggedCompleted(questId) then
-                keysCollected = keysCollected + 1
-            end
-        end
-
-        self.Variables.keysCollected = keysCollected
-    end
-
-    -- [Coffer Key Shards](https://www.wowhead.com/item=245653/coffer-key-shard) player has got from Caches this week.
-    do
-        local shardsCollected = 0
-        for _, questId in ipairs(self.Config.KEY_SHARD_QUESTS_DATA) do
-            if C_QuestLog.IsQuestFlaggedCompleted(questId) then
-                shardsCollected = shardsCollected + 1
-            end
-        end
-
-        self.Variables.shardsCollected = shardsCollected * DelveCompanion.Config.KEY_SHARDS_PER_CACHE
-    end
+    -- Logger:Log("Finished updating Delves data")
 end
 
 --- Check whether information about `Gilded Stash` can be retrieved.

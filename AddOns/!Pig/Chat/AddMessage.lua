@@ -361,7 +361,7 @@ function QuickChatfun.PIGMessage()
 					end
 				else
 					chatFrame.AddMessage = function(frame, text, ...)
-						if issecretvalue(text) then return msninfo(frame, text, ...) end
+						if PIGisSecret(text) then return msninfo(frame, text, ...) end
 						NewAddMessage(msninfo,frame, text, ...)
 					end
 				end

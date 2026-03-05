@@ -125,6 +125,7 @@
 
 ---@class castbar : df_castbar
 ---@field TargetName fontstring
+---@field ThrottleUpdate number each tick update reduces this value by deltaTime, when it reaches 0 the castbar update is executed and this value is reset to the value of PlateFrame.OnTickFrame.ThrottleUpdate
 
 ---@class healthbar : df_healthbar
 ---@field A number?
@@ -215,6 +216,7 @@
 ---@class classspeccoords : {key1: number, key2: number, key3: number, key4: number} texcoords
 
 ---@class plater : table
+---@field db table
 ---@field versionString string version from the toc file
 ---@field fullVersionInfo string version from the toc file + framework version
 ---@field PerformanceUnits table<number, number> table with performance units: npcId = true

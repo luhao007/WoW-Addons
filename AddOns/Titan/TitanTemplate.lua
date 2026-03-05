@@ -78,6 +78,7 @@ local _G = getfenv(0);
 local InCombatLockdown = _G.InCombatLockdown
 local media = LibStub("LibSharedMedia-3.0")
 
+--- Set Titan_Debug.titan.tool_tips to output debug
 --==========================
 
 --[[ local
@@ -86,6 +87,7 @@ DESC: Set the scale of each plugin and each Titan bar.
 VAR:  None
 OUT:  None
 --]]
+--[[
 function TitanPanel_SetScale()
 	local scale = TitanPanelGetVar("Scale");
 
@@ -100,6 +102,7 @@ function TitanPanel_SetScale()
 		end
 	end
 end
+--]]
 
 ---local Helper to add a line of tooltip text to the tooltip.
 ---@param text string To add
@@ -138,7 +141,6 @@ end
 ---@param xOffset number X offset
 ---@param yOffset number Y offset
 ---@param frame table Tooltip frame
---- Set Titan_Debug.titan.tool_tips to output debug
 local function TitanTooltip_SetOwnerPosition(parent, anchorPoint, relativeToFrame, relativePoint, xOffset, yOffset, frame)
 	-- Changes for 9.1.5 Removed the background template from the Tooltip
 	-- Making changes to it difficult and possibly changing the tooltip globally.
@@ -157,7 +159,7 @@ local function TitanTooltip_SetOwnerPosition(parent, anchorPoint, relativeToFram
 		frame:SetScale(TitanPanelGetVar("TooltipFont"));
 	end
 
-	local dbg_msg = "_pos"
+	local dbg_msg = "_SetOwner _pos"
 		.. " '" .. tostring(frame:GetName()) .. "'"
 		.. " " .. tostring(frame:IsShown()) .. ""
 		.. " @ '" .. tostring(relativeToFrame) .. "'"
@@ -272,14 +274,14 @@ end
 
 ---local Set the tooltip of the given Titan plugin.
 ---@param self table Plugin frame
---- Set Titan_Debug.titan.tool_tips to output debug of this routine
 local function TitanPanelButton_SetTooltip(self)
-	local dbg_msg = "TT:"
+	local dbg_msg = "_SetTooltip"
 	local ok = false
 	local frame = TitanPanelTooltip --GameTooltip
 	local id = self.registry.id
 
 	frame.registry_id = id -- for use in other routines
+	frame.plugin_frame = self
 	frame.plugin_frame_str = self:GetName()
 
 	ok = AllowTooltip(frame)
@@ -694,6 +696,11 @@ function TitanPanelButton_OnEnter(self)
 	if (id) then
 		TitanPanelButton_SetTooltip(self)
 	end
+
+	-- If tooltip was requested and successful, the tooltip OnUpdate
+	-- will be active.
+	-- NOTE: !!! The tooltip scripts will check if the mouseis over this
+	-- plugin, if so then the tooltip will be kept visible !!!
 end
 
 ---API Handle the OnLeave event of the requested Titan plugin.
@@ -706,10 +713,17 @@ function TitanPanelButton_OnLeave(self)
 	end
 
 	-- The cursor has moved away from the plugin.
-	-- Let the tooltip SetScripts handle timer to Hide.
-	--if (id) then
-	--	TitanPanelTooltip:Hide();
-	--end
+	-- NOTE: !!! It is possible, especially with Short bars that the
+	-- user never mouses over the tooltip so start the Hide timer !!!
+	--
+	-- Let the tooltip SetScripts handle OnEnter and OnLeave if
+	-- the user mouses over.
+	if TitanPanelTooltip:IsShown() then
+		local time_out = TitanPanelGetVar("TooltipTimeout")
+		TitanUtils_StartFrameCounting(TitanPanelTooltip, time_out)
+	else
+		-- nothing to do
+	end
 
 	if TitanPanelGetVar("DisableTooltipFont") then
 		-- use game font & scale
@@ -1237,16 +1251,94 @@ function TitanOptionsSliderTemplate_OnLoad(self)
 end
 
 -- Set tool tip scripts
+-- OnUpdate starts as soon as OnShow is done...
 local tt_frame = TitanPanelTooltip
+local tt_init_timeout = .5
 
 tt_frame:SetScript("OnShow", function(self)
+	local time_out = TitanPanelGetVar("TooltipTimeout")
+	local dbg_msg = "OnShow"
+		.. " timeout: " .. tostring(time_out) .. ""
+		.. " USING:  " .. tostring(tt_init_timeout) .. ""
+		.. " isCounting: " .. tostring(self.isCounting) .. ""
+		.. " timer: " .. tostring(self.frameTimer) .. ""
+		.. " plugin: " .. tostring(self.registry_id) .. ""
+		.. " plugin_frame: " .. tostring(self.plugin_frame_str) .. ""
+	Titan_Debug.Out('titan', 'tool_tips', dbg_msg)
+
+	-- OnShow will start the OnUpdate.
+	-- If user enters plugin, the tooltip will show
+	-- BUT if the user never enters the tooltip, it will keep showing because
+	-- the OnLeave did not kick the timer.
+	TitanUtils_StartFrameCounting(self, tt_init_timeout)
 end)
 tt_frame:SetScript("OnEnter", function(self)
+	local time_out = TitanPanelGetVar("TooltipTimeout")
+
+	local dbg_msg = "OnEnter"
+		.. " timeout: " .. tostring(time_out) .. ""
+		.. " isCounting: " .. tostring(self.isCounting) .. ""
+		.. " timer: " .. tostring(self.frameTimer) .. ""
+	Titan_Debug.Out('titan', 'tool_tips', dbg_msg)
+
 	TitanUtils_StopFrameCounting(self)
 end)
 tt_frame:SetScript("OnLeave", function(self)
-	TitanUtils_StartFrameCounting(self, TitanPanelGetVar("TooltipTimeout"))
+	local time_out = TitanPanelGetVar("TooltipTimeout")
+
+	local dbg_msg = "OnLeave"
+		.. " timeout: " .. tostring(time_out) .. ""
+		.. " isCounting: " .. tostring(self.isCounting) .. ""
+		.. " timer: " .. tostring(self.frameTimer) .. ""
+	Titan_Debug.Out('titan', 'tool_tips', dbg_msg)
+
+	if time_out < 0.1 then
+		tt_frame:Hide() -- hide right away
+	else
+		TitanUtils_StartFrameCounting(self, time_out)
+	end
 end)
+
+local debug_over = false
+local debug_over_new = false
 tt_frame:SetScript("OnUpdate", function(self, elapsed)
-	TitanUtils_CheckFrameCounting(self, elapsed);
+	local time_out = TitanPanelGetVar("TooltipTimeout")
+
+	--[[ -- Be VERY careful enabling this debug :)
+	local dbg_msg = "TT OnUpdate"
+		.. " timeout: " .. tostring(time_out) .. ""
+		.. " isCounting: " .. tostring(self.isCounting) .. ""
+		.. " timer: " .. tostring(self.frameTimer) .. ""
+	--Titan_Debug.Out('titan', 'tool_tips', dbg_msg)
+	if self.isCounting == nil then
+		Titan_Debug.Out('titan', 'tool_tips', dbg_msg)
+	elseif self.frameTimer <= 0.01 then
+		Titan_Debug.Out('titan', 'tool_tips', dbg_msg)
+	else
+	end
+	--]]
+
+	-- Compromise to keep tooltip open if the user stays over plugin 
+	-- and does not mouse over tooltip frame (OnEnter)
+	local is_over = self.plugin_frame:IsMouseOver()
+	if is_over then
+		TitanUtils_StopFrameCounting(self)
+		debug_over_new = true
+	else
+		TitanUtils_CheckFrameCounting(self, elapsed);
+		debug_over = false
+	end
+
+	--[[
+	if debug_over ~= debug_over_new then
+		debug_over = debug_over_new
+		local dbg_msg = "OnUpdate"
+			.. " over: " .. tostring(is_over) .. ""
+			.. " timeout: " .. tostring(time_out) .. ""
+			.. " isCounting: " .. tostring(self.isCounting) .. ""
+			.. " timer: " .. tostring(self.frameTimer) .. ""
+		Titan_Debug.Out('titan', 'tool_tips', dbg_msg)
+	else
+	end
+	--]]
 end)

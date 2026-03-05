@@ -38,7 +38,7 @@ function RSEntityStateHandler.SetDeadNpcByZone(npcID, mapID, loadingAddon)
 	-- Remove recently seen
 	RSRecentlySeenTracker.RemoveRecentlySeen(npcID)
 	
-	local alreadyFoundInfo = RSGeneralDB.GetAlreadyFoundEntity(npcID)
+	local alreadyFoundInfo = RSGeneralDB.GetAlreadyFoundEntity(npcID, RSConstants.NPC_VIGNETTE)
 	local npcInfo = RSNpcDB.GetInternalNpcInfo(npcID)
 
 	-- If we know for sure it remains dead
@@ -168,7 +168,7 @@ function RSEntityStateHandler.SetDeadNpc(npcID, loadingAddon)
 		end
 		
 	-- If we dont have this entity in our database we can ignore it
-	elseif (RSGeneralDB.GetAlreadyFoundEntity(npcID)) then
+	elseif (RSGeneralDB.GetAlreadyFoundEntity(npcID, RSConstants.NPC_VIGNETTE)) then
 		RSNpcDB.SetNpcKilled(npcID)
 	end
 end
@@ -182,7 +182,7 @@ local function SetContainerOpenByZone(containerID, mapID, loadingAddon)
 		return
 	end
 
-	local containerAlreadyFoundInfo = RSGeneralDB.GetAlreadyFoundEntity(containerID)
+	local containerAlreadyFoundInfo = RSGeneralDB.GetAlreadyFoundEntity(containerID, RSConstants.CONTAINER_VIGNETTE)
 	local containerInternalInfo = RSContainerDB.GetInternalContainerInfo(containerID)
 
 	-- It it is a part of an achievement it won't come back (at least that we say so)
@@ -333,12 +333,18 @@ function RSEntityStateHandler.SetContainerOpen(containerID, loadingAddon)
 		end
 		
 		-- Refresh minimap
-		if (not loadingAddon and x and y) then
-			RSMinimap.HideIcon(containerID, x, y)
+		if (not loadingAddon) then
+			if (RSContainerDB.IsMultiZoneSpawn(containerID)) then
+				if (x and y) then
+					RSMinimap.HideIcon(containerID, x, y)
+				end
+			else
+				RSMinimap.HideIcon(containerID)
+			end
 		end
 		
 	-- If we dont have this entity in our database we can ignore it
-	elseif (RSGeneralDB.GetAlreadyFoundEntity(containerID)) then
+	elseif (RSGeneralDB.GetAlreadyFoundEntity(containerID, RSConstants.CONTAINER_VIGNETTE)) then
 		RSContainerDB.SetContainerOpened(containerID)
 	end
 end
@@ -352,7 +358,7 @@ local function SetEventCompletedByZone(eventID, mapID, loadingAddon)
 		return
 	end
 
-	local eventAlreadyFoundInfo = RSGeneralDB.GetAlreadyFoundEntity(eventID)
+	local eventAlreadyFoundInfo = RSGeneralDB.GetAlreadyFoundEntity(eventID, RSConstants.EVENT_VIGNETTE)
 	local eventInternalInfo = RSEventDB.GetInternalEventInfo(eventID)
 
 	-- If we know for sure it remains completed
@@ -462,6 +468,6 @@ function RSEntityStateHandler.SetEventCompleted(eventID, loadingAddon)
 		
 	-- Refresh minimap
 	if (not loadingAddon) then
-		RSMinimap.HideIcon(eventID, x, y)
+		RSMinimap.HideIcon(eventID)
 	end
 end

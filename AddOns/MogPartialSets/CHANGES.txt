@@ -1,23 +1,16 @@
-lightweight tag ab158d14e4f2b4e46b598704ef1963db0197b157 v4.0.0
+lightweight tag 446f2810a046d0803b8bc0ec4c12b042456b0c19 v4.1.0
 Author:	romdeau23 <43295566+romdeau23@users.noreply.github.com>
-Date:	Sat Feb 7 18:08:03 2026 +0100
+Date:	Wed Mar 4 20:43:59 2026 +0100
 
-commit ab158d14e4f2b4e46b598704ef1963db0197b157
+commit 446f2810a046d0803b8bc0ec4c12b042456b0c19
 Author: romdeau23 <43295566+romdeau23@users.noreply.github.com>
-Date:   Sat Feb 7 18:08:03 2026 +0100
+Date:   Wed Mar 4 20:43:59 2026 +0100
 
-    4.0.0
-    
-    - completely reworked set data loading
-    - added "use character profile" option
-    - added "skipped slots" option
-    - added "tabard" option to ignored/hidden slots
-    - added tooltips to the slot options
-    - added a reset option to the slot sub-menus
-    - added a loading indicator
-    - removed the "use hidden if missing" option (now default behavior)
-    - removed conflicting addon checks
-    - fixed lag when tmog UI is first open
-    - fixed character preview bugging out randomly
-    - fixed extra sets filter option tooltip styling affecting other tooltips
+    Bump version
+
+commit d53928d95a243bda2d3375ba40896050cd82e3fc
+Author: DoubiZhou <zhougz520@gmail.com>
+Date:   Thu Mar 5 03:41:53 2026 +0800
+
+    Add localization support for multiple languages (#5)
 

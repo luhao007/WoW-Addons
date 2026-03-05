@@ -95,6 +95,8 @@ function ns.SyncSingleScaleAlpha()
     db.ZoneScalePassage = db.ZoneInstanceScale
     db.ZoneScaleMultiple = db.ZoneInstanceScale
     db.ZoneScaleOldVanilla = db.ZoneInstanceScale
+    db.ZoneScaleDelve = db.ZoneInstanceScale 
+    db.ZoneScaleBountyDelve = db.ZoneInstanceScale
     db.ZoneScaleLFR = db.ZoneInstanceScale
     db.ZoneScalePetBattleDungeons = db.ZoneInstanceScale
     -- Alpha
@@ -103,6 +105,8 @@ function ns.SyncSingleScaleAlpha()
     db.ZoneAlphaPassage = db.ZoneInstanceAlpha
     db.ZoneAlphaMultiple = db.ZoneInstanceAlpha
     db.ZoneAlphaOldVanilla = db.ZoneInstanceAlpha
+    db.ZoneAlphaDelve = db.ZoneInstanceAlpha
+    db.ZoneAlphaBountyDelve = db.ZoneInstanceAlpha
     db.ZoneAlphaLFR = db.ZoneInstanceAlpha
     db.ZoneAlphaPetBattleDungeons = db.ZoneInstanceAlpha
 

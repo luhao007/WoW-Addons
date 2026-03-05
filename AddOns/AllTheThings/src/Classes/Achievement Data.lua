@@ -1,5 +1,9 @@
 do
 local _, app = ...
+if app.GameBuildVersion > 40000 then
+	-- Not compatible post-Cata.
+	return;
+end
 
 -- Cache Achievement Data if it exists.
 local AchievementData = rawget(app.L, "ACHIEVEMENT_DATA");
@@ -14,8 +18,8 @@ local tostring, ipairs, pairs, tinsert
 local math_min = math.min;
 
 -- App & Module locals
-local SearchForField, SearchForFieldContainer
-	= app.SearchForField, app.SearchForFieldContainer;
+local SearchForField, GetFieldContainer
+	= app.SearchForField, app.GetFieldContainer;
 local IsRetrieving = app.Modules.RetrievingData.IsRetrieving;
 local IsQuestFlaggedCompleted;
 local IsSpellKnown;
@@ -65,7 +69,7 @@ local function GetSpellCompleted(spellID)
 	return 0;
 end
 local function GetRelatedThingsForExaltedReputations(t, objects)
-	for factionID,g in pairs(SearchForFieldContainer("factionID")) do
+	for factionID,g in pairs(GetFieldContainer("factionID")) do
 		if not IgnoredReputationsForAchievements[factionID] then
 			for j,o in ipairs(g) do
 				if o.key == "factionID" then
@@ -81,7 +85,7 @@ local function GetRelatedThingsForOwnItem(t, objects)
 	if searchResults then tinsert(objects, searchResults[1]); end
 end
 local function GetRelatedThingsForMounts(t, objects)
-	for spellID,spells in pairs(SearchForFieldContainer("mountID")) do
+	for spellID,spells in pairs(GetFieldContainer("mountID")) do
 		for i,spell in ipairs(spells) do
 			tinsert(objects, spell);
 			break;
@@ -89,7 +93,7 @@ local function GetRelatedThingsForMounts(t, objects)
 	end
 end
 local function GetRelatedThingsForPets(t, objects)
-	for i,pets in pairs(SearchForFieldContainer("speciesID")) do
+	for i,pets in pairs(GetFieldContainer("speciesID")) do
 		tinsert(objects, pets[1]);
 	end
 end
@@ -134,7 +138,7 @@ local GetAchievementCriteriaCommandForSkillID = setmetatable({
 local AchievementCriteriaCommands = {
 	CriteriaTypeForExaltedReputations = function()
 		local count = 0;
-		for factionID,g in pairs(SearchForFieldContainer("factionID")) do
+		for factionID,g in pairs(GetFieldContainer("factionID")) do
 			if not IgnoredReputationsForAchievements[factionID] then
 				for j,o in ipairs(g) do
 					if o.key == "factionID" and o.standing == 8 then
@@ -154,7 +158,7 @@ local AchievementCriteriaCommands = {
 	end,
 	CriteriaTypeForMounts = function()
 		local count = 0;
-		for i,g in pairs(SearchForFieldContainer("mountID")) do
+		for i,g in pairs(GetFieldContainer("mountID")) do
 			for j,o in ipairs(g) do
 				if o.collected then count = count + 1; end
 				break;
@@ -165,7 +169,7 @@ local AchievementCriteriaCommands = {
 	end,
 	CriteriaTypeForPets = function()
 		local count = 0;
-		for i,g in pairs(SearchForFieldContainer("speciesID")) do
+		for i,g in pairs(GetFieldContainer("speciesID")) do
 			for j,o in ipairs(g) do
 				if o.collected then count = count + 1; end
 				break;
@@ -407,7 +411,7 @@ local CreateCriteriaType = app.CreateClass("CriteriaType", "__criteriaUID", {
 	["collectible"] = app.ReturnFalse,
 	["collected"] = app.ReturnFalse,
 	["amount"] = function(t) return 0; end,
-	["name"] = function(t) return t.__criteriaUID; end,
+	["name"] = function(t) return UNKNOWN; end,
 	["progress"] = function(t)
 		return math_min(t.current, t.total);
 	end,
@@ -602,6 +606,26 @@ local CreateAchievementDataType = app.CreateClass("AchievementDataType", "__achU
 	end,
 	["OnTooltip"] = function(t)
 		return OnTooltipForAchievementData;
+	end,
+	["statistic"] = function(t)
+		local criteriaData = t.criteriaData;
+		if criteriaData then
+			if #criteriaData == 1 then
+				local criteria = criteriaData[1];
+				if criteria.total > 1 then
+					return tostring(criteria.progress) .. " / " .. tostring(criteria.total);
+				end
+			elseif not t.requireAny then
+				local progress,total = 0,0;
+				for i,data in ipairs(criteriaData) do
+					if data.collectible then
+						progress = progress + (data.progress or 0);
+						total = total + (data.total or 1);
+					end
+				end
+				return tostring(progress) .. " / " .. tostring(total);
+			end
+		end
 	end,
 });
 for id,achievement in pairs(AchievementData) do

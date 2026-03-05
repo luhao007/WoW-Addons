@@ -98,7 +98,8 @@ local translations = {
     ["Sort alphabetically."] = "Ordenar alfabéticamente",
     ["Use <Escape> to close windows."] = "Usa <Escape> para cerrar ventanas.",
     ["Windows will close when opening the world map."] = "Ventanas se cerrarán al abrir el mapa del mundo.",
-    ["Intercept slash commands."] = "Interceptar comandos de barra diagonal.",
+    ["Intercept slash commands."] = "Interceptar comandos de barra diagonal",
+    ["Include sent messages in /REPLY."] = "Incluir mensajes enviados en /r",
     ["Ignore arrow keys while typing."] = "Ignora las teclas de flecha mientras escribes.",
     ["Requires using <Alt> to navigate text."] = "Requiere usar <Alt> para navegar por el texto.",
     ["Display emoticons."] = "Mostrar emoticonos.",
@@ -290,6 +291,7 @@ local translations = {
     ["Enable WIM"] = "Activar WIM",
     ["Display Minimap Icon"] = "Mostrar icono del minimapa",
     ["<Right-Click> to show unread messages."] = "<Haz clic derecho> para mostrar mensajes no leídos",
+	["Display Addon Compartment Icon"] = "Mostrar icono del compartimento de addons",
     ["Display Tutorials"] = "Mostrar tutoriales",
     ["Reset Tutorials"] = "Restablecer tutoriales",
     ["Credits"] = "Créditos",
@@ -399,6 +401,12 @@ local translations = {
     ["Play sound when a whisper is sent."] = "Reproducir sonido cuando se envía un susurro",
     ["Allow others to see my talent spec."] = "Permitir que otros vean mi especialización de talento",
     ["Window Strata:"] = "Estratos de ventana:",
+	["Background"] = BACKGROUND,
+	["Low"] = LOW,
+	["Medium"] = "Medio",
+	["High"] = "Alto",
+	["Dialog"] = ENABLE_DIALOG,
+	["Tooltip"] = true,
     ["Unlock from Minimap"] = "Desbloquear del minimapa",
     ["Press <Tab> to advance to next tell target."] = "Presionar <Tab> para avanzar al siguiente objetivo",
     ["Force sounds when game sound is disabled."] = "Forzar sonidos cuando el sonido del juego está desactivado",
@@ -515,7 +523,8 @@ local translations = {
     --Misc
     ["WIM has detected that you are playing on a private server. Some servers can not process ChatAddonMessages. Would you like to enable them anyway?"] = "WIM ha detectado que estás jugando en un servidor privado. Algunos servidores no pueden procesar ChatAddonMessages. ¿Quieres activarlos de todos modos?",
 
-	-- Whisper-Mode Warnings
+	-- Whisper Mode Warnings
+    ["Whisper Mode: In-line"] = "Modo de susurro: en línea",
 	["Set whispers to In-line"] = "Establecer susurros en línea",
 	["Message suppression requires whispers to be set to 'In-line'."] = "La supresión de mensajes requiere que los susurros estén configurados en 'en línea'.",
 	["It is recommended for whispers to be set to in-line in order to handle their behavior properly."] = "Se recomienda configurar los susurros en línea para manejar su comportamiento correctamente.",

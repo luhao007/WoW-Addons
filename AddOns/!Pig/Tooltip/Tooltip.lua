@@ -14,19 +14,84 @@ local banbendata = {
 	[5]=EXPANSION_NAME5,[6]=EXPANSION_NAME6,[7]=EXPANSION_NAME7,[8]=EXPANSION_NAME8,[8]=EXPANSION_NAME8,
 	[9]=EXPANSION_NAME9,[10]=EXPANSION_NAME10,[11]=EXPANSION_NAME11,[254]="",
 }
---物品卖价
-local function ItemSell_Tooltip(self, data1, data2, laiyuan)
-	if PIGA["Tooltip"]["ItemSell"] then
+local extinfoList={
+	["lv"]=ITEM_LEVEL,
+	["max"]=MAXIMUM..ACTION_SPELL_AURA_APPLIED_DOSE..": ",
+	["info"]=ITEMS.."ID: ",
+	["auc"]=AUCTIONS..AUCTION_BROWSE_UNIT_PRICE_SORT..": ",
+}
+function TooltipPlusfun.InfoPlus()
+	--卖价/AH价钱
+	local SetTooltipOfflineG=addonTable.BusinessInfo.SetTooltipOfflineG
+	local SetTooltipQita_Num=addonTable.BusinessInfo.SetTooltipQita_Num
+	local function ItemTooltipLevel(tooltip,link,classID)
+		if not PIGA["Tooltip"]["ItemLevel"] then return end
+		local name=tooltip:GetName()
+		if not name then return end
+		local effectiveILvl = GetDetailedItemLevelInfo(link)
+		if effectiveILvl then
+			local ILvltxt=string.format(extinfoList.lv,effectiveILvl)
+			local ISduibi=tooltip==ShoppingTooltip1 or tooltip==ShoppingTooltip2 or tooltip==ItemRefShoppingTooltip1 or tooltip==ItemRefShoppingTooltip2
+			if PIG_MaxTocversion(50000) or (classID~=2 and classID~=4 and classID~=19) then
+				local txtUI
+				if ISduibi then
+				    txtUI = _G[tooltip:GetName().."TextLeft2"]				
+				else
+					txtUI = _G[tooltip:GetName().."TextLeft1"]
+				end
+				if txtUI then
+					local Oldtxt = txtUI:GetText()
+		    		if Oldtxt and Oldtxt~=" " then
+			    		txtUI:SetText(txtUI:GetText()..'\n|cffffcf00'..ILvltxt..'|r')
+			    		txtUI:SetJustifyH("LEFT")
+		        	end
+				end
+			end
+		end
+	end
+	local function ItemTooltipData(tooltip, data1, data2, laiyuan)
 		local Newlink
 		if laiyuan=="Hyperlink" then
 			Newlink=data1
 		else
-			local _, link = self:GetItem()
-			Newlink=link
+			if tooltip.GetItem then
+				local _, link = tooltip:GetItem()
+				if link then
+					Newlink=link
+				end
+			else
+				local TooltipData=tooltip:GetTooltipData()
+				if TooltipData and TooltipData.guid then
+					Newlink=C_Item.GetItemLinkByGUID(TooltipData.guid)
+	   			end
+			end
 		end
-		if Newlink then
-			local itemSellG = select(11, GetItemInfo(Newlink))
-			if itemSellG and itemSellG > 0 then
+		if not Newlink then return end
+		local itemStackCount,_, _, sellPrice, classID, subClassID, _, expacID = select(8, GetItemInfo(Newlink))
+		ItemTooltipLevel(tooltip,Newlink,classID)
+		if PIGA["Tooltip"]["ItemMaxCount"] or PIGA["Tooltip"]["IDinfo"] then
+			local addtxt_L,addtxt_R="",""
+			if PIGA["Tooltip"]["IDinfo"] then
+				local itemID = GetItemInfoInstant(Newlink)
+				if itemID then
+					local expacID = expacID or 254
+					addtxt_L="|cffd33c54"..extinfoList.info.."|r|cffffffff"..itemID.."|r"
+					addtxt_R=banbendata[expacID] 
+				end
+			end
+			if PIGA["Tooltip"]["ItemMaxCount"] then
+				if itemStackCount and itemStackCount>1 then
+					if PIGA["Tooltip"]["IDinfo"] then
+						addtxt_L=addtxt_L.."  (|cffd33c54"..extinfoList.max.."|r|cffffffff"..itemStackCount..")".."|r"
+					else
+						addtxt_L="|cffd33c54"..extinfoList.max.."|r "..itemStackCount
+					end
+				end
+			end
+			tooltip:AddDoubleLine(addtxt_L,addtxt_R)    
+		end
+		if PIGA["Tooltip"]["ItemSell"] then
+			if sellPrice and sellPrice > 0 then
 				local new_stackCount = 1
 				if laiyuan=="Bag" then
 					local itemID, itemLink, icon, stackCount=PIGGetContainerItemInfo(data1, data2)
@@ -45,145 +110,81 @@ local function ItemSell_Tooltip(self, data1, data2, laiyuan)
 						local skillName, skillType, numAvailable, isExpanded, altVerb = GetTradeSkillInfo(data1);
 						new_stackCount=numAvailable or 1
 					end
+				elseif laiyuan=="Loot" then
+					local lootIcon, lootName, lootQuantity, currencyID, lootQuality, locked, isQuestItem, questID, isActive, isCoin = GetLootSlotInfo(data1)
+					new_stackCount=lootQuantity or 1
+				elseif laiyuan=="Roll" then
+					
+					--new_stackCount=lootQuantity or 1
 				elseif laiyuan=="Auction" then
 					-- local name, texture, count = GetAuctionItemInfo(data1, data2);
 					-- new_stackCount=count or 1
-				end
-				local tishitxyx=GetMoneyString(itemSellG)
-				if new_stackCount>1 then
-					tishitxyx=GetMoneyString(itemSellG*new_stackCount).."("..AUCTION_HOUSE_HEADER_UNIT_PRICE..tishitxyx..")"
-				end
-				self:AddDoubleLine("卖店价:",tishitxyx,0.8,0.8,0.8,0.8,0.8,0.8)--SELL_PRICE..
-				self:Show()
-			end
-		end
-	end
-end
-function TooltipPlusfun.Tooltip_ItemSell()
-	--处理系统卖价
-	local old_GameTooltip_OnTooltipAddMoney=GameTooltip_OnTooltipAddMoney
-	if PIGA["Tooltip"]["ItemSell"] then
-		GameTooltip_OnTooltipAddMoney=function(self, cost, maxcost)
-			--禁用系统的卖家显示
-		end
-	else
-		GameTooltip_OnTooltipAddMoney=old_GameTooltip_OnTooltipAddMoney
-	end
-end
-function TooltipPlusfun.InfoPlus()
-	local SetTooltipOfflineG=addonTable.BusinessInfo.SetTooltipOfflineG
-	local SetTooltipQita_Num=addonTable.BusinessInfo.SetTooltipQita_Num
-	local function add_Tooltip_ExtData(tooltip,link)
-		local name=tooltip:GetName()
-		if not name then return end
-		local frame, text
-		for i = tooltip:NumLines(), 1, -1 do
-			frame = _G[name .. "TextLeft" .. i]
-			if frame then
-				text = frame:GetText()
-				if text and text:match("^|c%x%x%x%x%x%x%x%xID:") then
-					return
-				end
-			end
-		end
-		local itemStackCount,_, _, _, classID, subClassID, _, expacID = select(8, GetItemInfo(link))
-		if PIGA["Tooltip"]["ItemMaxCount"] or PIGA["Tooltip"]["IDinfo"] then
-			if PIGA["Tooltip"]["ItemMaxCount"] then
-				if itemStackCount and itemStackCount>1 then
-				    tooltip:AddLine("|cffffcf00最大堆叠|r "..itemStackCount)
-				end
-			end
-			if PIGA["Tooltip"]["IDinfo"] then
-				local itemID = GetItemInfoInstant(link)
-				if itemID then
-					local expacID = expacID or 254
-				    tooltip:AddDoubleLine("|cffd33c54ID:|r "..itemID,banbendata[expacID])    
-				end
-			end
-		end
-		if PIGA["Tooltip"]["ItemLevel"] then
-			local effectiveILvl = GetDetailedItemLevelInfo(link)
-			if effectiveILvl then
-				local ILvltxt=string.format(ITEM_LEVEL,effectiveILvl)
-				local ISduibi=tooltip==ShoppingTooltip1 or tooltip==ShoppingTooltip2 or tooltip==ItemRefShoppingTooltip1 or tooltip==ItemRefShoppingTooltip2
-				if PIG_MaxTocversion(50000) then
-					local txtUI,txtUI_r
-					if ISduibi then
-						txtUI = _G[tooltip:GetName().."TextLeft3"]
-						txtUI_r = _G[tooltip:GetName().."TextRight3"]
-					else
-						txtUI = _G[tooltip:GetName().."TextLeft2"]
-						txtUI_r = _G[tooltip:GetName().."TextRight2"]
-					end
-					if txtUI and txtUI_r then
-						local Oldtxt = txtUI:GetText()
-			    		if Oldtxt and Oldtxt~=" " then
-				    		txtUI:SetText('|cffffcf00'..ILvltxt..'|r'.."\n"..Oldtxt)
-				    		txtUI:SetSpacing(2)	
-			        	end
-						local Oldtxt2_r = txtUI_r:GetText()
-						if Oldtxt2_r and Oldtxt~=" " then
-							txtUI_r:SetText("\n"..Oldtxt2_r)
-							txtUI_r:SetSpacing(4)
-						end
-					end
+				elseif  laiyuan=="Inventory" then
+
+				elseif  laiyuan=="Inbox" then
+					local name, itemID, texture, count, quality, canUse  = GetInboxItem(data1, data2 or 1)
+					new_stackCount=count or 1
+				elseif laiyuan=="Merchant" then
+					local info = C_MerchantFrame.GetItemInfo(data1);
+					new_stackCount=info and info.stackCount or 1
 				else
-					local classID=select(12, GetItemInfo(link))
-		            if classID~=2 and classID~=4 and classID~=19 then
-						local txtUI = _G[tooltip:GetName().."TextLeft2"]
-						local Oldtxt = txtUI:GetText()
-		        		if Oldtxt and Oldtxt~=" " then
-		        			txtUI:SetText('|cffffcf00'..ILvltxt..'|r'.."\n"..Oldtxt)
-		        			--txtUI:SetFormattedText('|cffffcf00'..ILvltxt..'|r'.."\n"..Oldtxt)
-		            		txtUI:SetSpacing(2)
-		            	else
-		            		tooltip:AddLine('|cffffcf00'..ILvltxt..'|r')
-		            	end
-		            	 local txtUI_r = _G[tooltip:GetName().."TextRight2"]
-						txtUI_r:SetSpacing(3)
-						local Oldtxt2_r = txtUI_r:GetText()
-						if Oldtxt2_r then
-							txtUI_r:SetText(' '.."\n"..Oldtxt2_r)
-							--txtUI_r:SetFormattedText(' '.."\n"..Oldtxt2_r)
-						end
-		           	end
+					--print(laiyuan)
 				end
+				local tishitxyx=AUCTION_BROWSE_UNIT_PRICE_SORT..GetMoneyString(sellPrice)
+				if new_stackCount>1 then
+					tishitxyx="("..AUCTION_HOUSE_TOTAL_PRICE_LABEL..GetMoneyString(sellPrice*new_stackCount)..")"..tishitxyx
+				end
+				tooltip:AddDoubleLine("卖店"..AUCTION_PRICE..":",tishitxyx,0.8,0.8,0.8,0.8,0.8,0.8)--SELL_PRICE..
 			end
 		end
-		local itemID = GetItemInfoInstant(link)
-		SetTooltipOfflineG(tooltip,itemID)
-		SetTooltipQita_Num(tooltip,itemID)
+		local AHGL,AHGR=SetTooltipOfflineG(tooltip,Newlink)
+		if AHGL then
+			tooltip:AddDoubleLine(AHGL,AHGR,0,1,1,0,1,1)
+		end
+		local tispData,playerNum=SetTooltipQita_Num(tooltip,Newlink)
+		if tispData and playerNum>0 then
+			for i=1,#tispData do
+				local txtrrr
+				for ix=1,#tispData[i][2] do
+					txtrrr=txtrrr and txtrrr.." "..tispData[i][2][ix][1].."|cffFFFFFF"..tispData[i][2][ix][2].."|r" or tispData[i][2][ix][1].."|cffFFFFFF"..tispData[i][2][ix][2].."|r"
+				end
+				tooltip:AddDoubleLine(tispData[i][1],txtrrr)
+			end
+			tooltip:AddDoubleLine(ITEMS..FROM_TOTAL,"|cffFFFFFF"..playerNum.."|r")
+		end
 		tooltip:Show()
 	end
-	local function TooltipSetItem(self)
-		local _, link = self:GetItem()
-		if link then
-			add_Tooltip_ExtData(self,link)
-		end
+	
+	if PIGA["Tooltip"]["ItemSell"] and PIG_MaxTocversion(30000,true) and PIG_MaxTocversion(100000) then
+		GameTooltip_OnTooltipAddMoney=function() end
 	end
-	local function TooltipHookScript(self,fun,hookfun)
-		self:HookScript(fun,hookfun)
-	end
-	--卖价
 	hooksecurefunc(GameTooltip, "SetBagItem", function(self, bag, slot)
-		ItemSell_Tooltip(self, bag, slot,"Bag")
+		ItemTooltipData(self, bag, slot,"Bag")
 	end)
 	hooksecurefunc(GameTooltip, "SetQuestItem", function(self, questType, index)
-		ItemSell_Tooltip(self, questType, index,"Quest")
+		ItemTooltipData(self, questType, index,"Quest")
 	end)
 	hooksecurefunc(GameTooltip, "SetQuestLogItem", function(self, questType, index)
-		ItemSell_Tooltip(self, questType, index,"QuestLog")
+		ItemTooltipData(self, questType, index,"QuestLog")
 	end)
-	-- hooksecurefunc(GameTooltip, "SetLootItem", function(self, lootIndex)
-	-- 	ItemSell_Tooltip(self, lootIndex, nil,"LootItem")
-	-- end)
-	-- hooksecurefunc(GameTooltip, "SetLootRollItem", function(self, rollID)
-	-- 	ItemSell_Tooltip(self, rollID, nil,"RollItem")
-	-- end)
+	hooksecurefunc(GameTooltip, "SetInventoryItem", function(self, unit, invSlot)
+		ItemTooltipData(self, unit, invSlot,"Inventory")
+	end)
+	hooksecurefunc(GameTooltip, "SetInboxItem", function(self, index, attachIndex)
+		ItemTooltipData(self, index, attachIndex,"Inbox")
+	end)
+	hooksecurefunc(GameTooltip, "SetLootItem", function(self, lootIndex)
+		ItemTooltipData(self, lootIndex, nil,"Loot")
+	end)
+	hooksecurefunc(GameTooltip, "SetLootRollItem", function(self, rollID)
+		ItemTooltipData(self, rollID, nil,"Roll")
+	end)
 	hooksecurefunc(GameTooltip, "SetHyperlink", function(self, link)
-		ItemSell_Tooltip(GameTooltip, link, nil,"Hyperlink")
+		ItemTooltipData(GameTooltip, link, nil,"Hyperlink")
 	end)
-	TooltipPlusfun.Tooltip_ItemSell()
+	hooksecurefunc(GameTooltip, "SetMerchantItem", function(self, index)
+		ItemTooltipData(self, index, nil,"Merchant")
+	end)
    	if PIG_MaxTocversion() then
    		Fun.IsAddOnLoaded("Blizzard_AuctionUI", function()
    			AuctionFrameItem_OnEnter=function(self, type, index)
@@ -198,19 +199,42 @@ function TooltipPlusfun.InfoPlus()
 						return;
 					end
 				end
-				ItemSell_Tooltip(GameTooltip, type, index,"Auction")
+				ItemTooltipData(GameTooltip, type, index,"Auction")
 			end
 		end)
    		hooksecurefunc(GameTooltip, "SetTradeSkillItem", function(self, tradeItemIndex, reagentIndex)
-			ItemSell_Tooltip(self, tradeItemIndex, reagentIndex,"TradeSkillItem")
+			ItemTooltipData(self, tradeItemIndex, reagentIndex,"TradeSkillItem")
 		end)
-		--物品等级
-		TooltipHookScript(GameTooltip, "OnTooltipSetItem", TooltipSetItem)
-		TooltipHookScript(ItemRefTooltip, "OnTooltipSetItem", TooltipSetItem)
+		--聊天框物品
+		hooksecurefunc("SetItemRef", function(link, text, button, chatFrame)
+			if link:find("^spell:") then
+				if PIGA["Tooltip"]["IDinfo"] then
+					local id = link:gsub(":0","")
+					local id = id:gsub("spell:","")
+					ItemRefTooltip:AddDoubleLine("|cffd33c54SpellID:|r "..id,"")
+					ItemRefTooltip:Show()
+				end
+			elseif link:find("^item:") then
+				if PIG_MaxTocversion() then
+					ItemTooltipData(ItemRefTooltip, link)
+				end
+			end
+		end)
+		--物品等级/堆叠/ID
+		local function TooltipSetItem(self)
+			local _, link = self:GetItem()
+			if link then
+				ItemTooltipData(self, link, nil,"Hyperlink")
+			end
+		end
+		local function TooltipHookScript(self,fun,hookfun)
+			self:HookScript(fun,hookfun)
+		end
 		TooltipHookScript(ItemRefShoppingTooltip1, "OnTooltipSetItem", TooltipSetItem)
 		TooltipHookScript(ItemRefShoppingTooltip2, "OnTooltipSetItem", TooltipSetItem)
 		TooltipHookScript(ShoppingTooltip1, "OnTooltipSetItem", TooltipSetItem)
 		TooltipHookScript(ShoppingTooltip2, "OnTooltipSetItem", TooltipSetItem)
+
 		--处理技能
 		GameTooltip:HookScript("OnTooltipSetSpell", function(self)
 			if not PIGA["Tooltip"]["IDinfo"] then return end
@@ -257,31 +281,15 @@ function TooltipPlusfun.InfoPlus()
 		hooksecurefunc(GameTooltip, "SetUnitAura", function(self, unit, index, filter)
 			UnitBuff_Tooltip(self, unit, index, filter) 
 		end)
-		--处理聊天框物品
-		hooksecurefunc("SetItemRef", function(link, text, button, chatFrame)
-			if link:find("^spell:") then
-				if PIGA["Tooltip"]["IDinfo"] then
-					local id = link:gsub(":0","")
-					local id = id:gsub("spell:","")
-					ItemRefTooltip:AddDoubleLine("|cffd33c54SpellID:|r "..id,"")
-					ItemRefTooltip:Show()
-				end
-			elseif link:find("^item:") then
-				if PIG_MaxTocversion() then
-					add_Tooltip_ExtData(ItemRefTooltip,link)
-					ItemSell_Tooltip(ItemRefTooltip, link, nil,"ItemRef")
-				end
-			end
-		end)
 	else
 		--处理物品
-		TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, function(self, data)
+		TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, function(tooltip, data)
 			if not PIGA["Tooltip"]["ItemLevel"] and not PIGA["Tooltip"]["IDinfo"] then return end
 			local ItemID = data["id"]
 			if ItemID then
-				add_Tooltip_ExtData(self,ItemID)
-				if self==ItemRefTooltip then
-					ItemSell_Tooltip(ItemRefTooltip, ItemID, nil,"ItemRef")
+				local ISduibi=tooltip==ItemRefTooltip or tooltip==ShoppingTooltip1 or tooltip==ShoppingTooltip2 or tooltip==ItemRefShoppingTooltip1 or tooltip==ItemRefShoppingTooltip2
+				if ISduibi then
+					ItemTooltipData(tooltip, ItemID)
 				end
 			end
 		end)
@@ -309,14 +317,10 @@ function TooltipPlusfun.InfoPlus()
 			end
 		end)
 		--处理宠物动作条技能
-		TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.PetAction,  function(self)
+		TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.PetAction,  function(self,data)
 			if not PIGA["Tooltip"]["IDinfo"] then return end
-			local displayedName = _G[self:GetName().."TextLeft"..1]:GetText()
-			if displayedName then
-				local name, icon, castTime, minRange, maxRange, spellID = PIGGetSpellInfo(displayedName)
-				if spellID then
-					self:AddDoubleLine("|cffd33c54ID:|r "..spellID,"")
-				end
+			if data.lines and data.lines[1] and data.lines[1].tooltipID then
+				self:AddDoubleLine("|cffd33c54ID:|r "..data.lines[1].tooltipID,"")
 			end
 		end)
 		--处理收藏

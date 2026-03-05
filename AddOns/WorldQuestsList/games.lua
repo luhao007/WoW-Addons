@@ -166,6 +166,7 @@ KirinTorSelecter_Big:SetScript("OnClick",function (self)
 end)
 
 
+local aurastatus = nil
 local KirinTorHelper = CreateFrame'Frame'
 KirinTorHelper:RegisterEvent('QUEST_ACCEPTED')
 KirinTorHelper:RegisterEvent('QUEST_REMOVED')
@@ -177,11 +178,15 @@ KirinTorHelper:SetScript("OnEvent",function(self,event,arg1,arg2)
 				return
 			end
 			print("World Quests List: Enigma helper loaded")
-			self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+			--self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+			self:RegisterUnitEvent("UNIT_AURA",player)
+			aurastatus = nil
+			self:GetScript("OnEvent")(self,'UNIT_AURA','player')
 		end
 	elseif event == 'QUEST_REMOVED' then
 		if arg1 and KirinTorQuests[arg1] then
-			self:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+			--self:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+			self:UnregisterEvent("UNIT_AURA")
 		end
 	elseif event == 'COMBAT_LOG_EVENT_UNFILTERED' then
 		local timestamp,arg2,hideCaster,sourceGUID,sourceName,sourceFlags,sourceFlags2,destGUID,destName,destFlags,destFlags2,spellId = CombatLogGetCurrentEventInfo()
@@ -192,16 +197,31 @@ KirinTorHelper:SetScript("OnEvent",function(self,event,arg1,arg2)
 			KirinTorSelecter:Hide()
 			KirinTorSelecter_Big:Hide()
 		end
+	elseif event == 'UNIT_AURA' then
+		if C_Secrets and C_Secrets.ShouldAurasBeSecret() then
+			return
+		end
+		local aura = C_UnitAuras.GetUnitAuraBySpellID('player', 219247)
+		if aura and not aurastatus then
+			aurastatus = true
+			KirinTorSelecter:Show()
+		elseif not aura and aurastatus then
+			aurastatus = nil
+			KirinTorSelecter:Hide()
+			KirinTorSelecter_Big:Hide()
+		end
 	end
 end)
 
 KirinTorSelecter.Close:SetScript("OnClick",function ()
-	KirinTorSelecter:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+	--KirinTorSelecter:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+	KirinTorSelecter:UnregisterEvent("UNIT_AURA")
 	KirinTorSelecter:Hide()
 end)
 
 SlashCmdList["WQLEnigmaSlash"] = function() 
-	KirinTorHelper:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+	--KirinTorHelper:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+	KirinTorHelper:RegisterUnitEvent("UNIT_AURA",player)
 	KirinTorSelecter:Show()
 end
 SLASH_WQLEnigmaSlash1 = "/enigmahelper"

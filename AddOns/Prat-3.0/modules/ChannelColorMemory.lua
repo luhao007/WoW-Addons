@@ -17,8 +17,8 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program; if not, write to:
 --
--- Free Software Foundation, Inc., 
--- 51 Franklin Street, Fifth Floor, 
+-- Free Software Foundation, Inc.,
+-- 51 Franklin Street, Fifth Floor,
 -- Boston, MA  02110-1301, USA.
 --
 --
@@ -26,19 +26,11 @@
 
 
 Prat:AddModuleToLoad(function()
-
-  local PRAT_MODULE = Prat:RequestModuleName("ChannelColorMemory")
-
-  if PRAT_MODULE == nil then
-    return
-  end
-
-  local module = Prat:NewModule(PRAT_MODULE, "AceEvent-3.0")
-
+  local module = Prat:NewModule("ChannelColorMemory", "AceEvent-3.0")
   local PL = module.PL
 
   --[==[@debug@
-  PL:AddLocale(PRAT_MODULE, "enUS", {
+  PL:AddLocale("enUS", {
     ["ChannelColorMemory"] = true,
     ["Remembers the colors of each channel name."] = true,
     ["(%w+)%s?(.*)"] = "([^%s]+)%s?(.*)",
@@ -51,129 +43,110 @@ Prat:AddModuleToLoad(function()
  do
      local L
 
- 
-L = {
-	["ChannelColorMemory"] = {
-		["(%w+)%s?(.*)"] = "(%S+)%s?(.*)",
-		["ChannelColorMemory"] = true,
-		["Remembers the colors of each channel name."] = true,
-	}
-}
+
+L = {}
+-- ChannelColorMemory
+L["(%w+)%s?(.*)"] = "(%S+)%s?(.*)"
+L["ChannelColorMemory"] = true
+L["Remembers the colors of each channel name."] = true
 
 
-   PL:AddLocale(PRAT_MODULE, "enUS",L)
+   PL:AddLocale("enUS",L)
 
 
- 
-L = {
-	["ChannelColorMemory"] = {
-		["(%w+)%s?(.*)"] = "(%S+)%s?(.*)",
-		["ChannelColorMemory"] = "Couleur Canal",
-		["Remembers the colors of each channel name."] = "Mémorise la couleur de chaque nom de canal.",
-	}
-}
+
+L = {}
+-- ChannelColorMemory
+L["(%w+)%s?(.*)"] = "(%S+)%s?(.*)"
+L["ChannelColorMemory"] = "Couleur Canal"
+L["Remembers the colors of each channel name."] = "Mémorise la couleur de chaque nom de canal."
 
 
-   PL:AddLocale(PRAT_MODULE, "frFR",L)
+   PL:AddLocale("frFR",L)
 
 
- 
-L = {
-	["ChannelColorMemory"] = {
-		["(%w+)%s?(.*)"] = true,
-		["ChannelColorMemory"] = "Kanalfarbspeicher",
-		["Remembers the colors of each channel name."] = "Erinnert sich an die Farben jedes Kanalnamens.",
-	}
-}
+
+L = {}
+-- ChannelColorMemory
+L["(%w+)%s?(.*)"] = true
+L["ChannelColorMemory"] = "Kanalfarbspeicher"
+L["Remembers the colors of each channel name."] = "Erinnert sich an die Farben jedes Kanalnamens."
 
 
-   PL:AddLocale(PRAT_MODULE, "deDE",L)
+   PL:AddLocale("deDE",L)
 
 
- 
-L = {
-	["ChannelColorMemory"] = {
-		["(%w+)%s?(.*)"] = "(%S+)%s?(.*)",
-		["ChannelColorMemory"] = "채널 색상 기억 [ChannelColorMemory]",
-		["Remembers the colors of each channel name."] = "각 채널 이름의 색상을 기억합니다.",
-	}
-}
+
+L = {}
+-- ChannelColorMemory
+L["(%w+)%s?(.*)"] = "(%S+)%s?(.*)"
+L["ChannelColorMemory"] = "채널 색상 기억 [ChannelColorMemory]"
+L["Remembers the colors of each channel name."] = "각 채널 이름의 색상을 기억합니다."
 
 
-   PL:AddLocale(PRAT_MODULE, "koKR",L)
+   PL:AddLocale("koKR",L)
 
 
- 
-L = {
-	["ChannelColorMemory"] = {
-		--[[Translation missing --]]
-		["(%w+)%s?(.*)"] = "(%S+)%s?(.*)",
-		--[[Translation missing --]]
-		["ChannelColorMemory"] = "ChannelColorMemory",
-		--[[Translation missing --]]
-		["Remembers the colors of each channel name."] = "Remembers the colors of each channel name.",
-	}
-}
+
+L = {}
+-- ChannelColorMemory
+--[[Translation missing --]]
+L["(%w+)%s?(.*)"] = "(%S+)%s?(.*)"
+--[[Translation missing --]]
+L["ChannelColorMemory"] = "ChannelColorMemory"
+--[[Translation missing --]]
+L["Remembers the colors of each channel name."] = "Remembers the colors of each channel name."
 
 
-   PL:AddLocale(PRAT_MODULE, "esMX",L)
+   PL:AddLocale("esMX",L)
 
 
- 
-L = {
-	["ChannelColorMemory"] = {
-		["(%w+)%s?(.*)"] = true,
-		["ChannelColorMemory"] = "Сохранение цветов каналов",
-		["Remembers the colors of each channel name."] = "Запоминает цвета названия каждого канала.",
-	}
-}
+
+L = {}
+-- ChannelColorMemory
+L["(%w+)%s?(.*)"] = true
+L["ChannelColorMemory"] = "Сохранение цветов каналов"
+L["Remembers the colors of each channel name."] = "Запоминает цвета названия каждого канала."
 
 
-   PL:AddLocale(PRAT_MODULE, "ruRU",L)
+   PL:AddLocale("ruRU",L)
 
 
- 
-L = {
-	["ChannelColorMemory"] = {
-		["(%w+)%s?(.*)"] = true,
-		["ChannelColorMemory"] = "频道颜色存储",
-		["Remembers the colors of each channel name."] = "记住每个频道名称的颜色",
-	}
-}
+
+L = {}
+-- ChannelColorMemory
+L["(%w+)%s?(.*)"] = true
+L["ChannelColorMemory"] = "频道颜色存储"
+L["Remembers the colors of each channel name."] = "记住每个频道名称的颜色"
 
 
-   PL:AddLocale(PRAT_MODULE, "zhCN",L)
+   PL:AddLocale("zhCN",L)
 
 
- 
-L = {
-	["ChannelColorMemory"] = {
-		["(%w+)%s?(.*)"] = "(%S+)%s?(.*)",
-		["ChannelColorMemory"] = "MemoriaColorCanal",
-		["Remembers the colors of each channel name."] = "Recordar los colores de cada nombre de canal.",
-	}
-}
+
+L = {}
+-- ChannelColorMemory
+L["(%w+)%s?(.*)"] = "(%S+)%s?(.*)"
+L["ChannelColorMemory"] = "MemoriaColorCanal"
+L["Remembers the colors of each channel name."] = "Recordar los colores de cada nombre de canal."
 
 
-   PL:AddLocale(PRAT_MODULE, "esES",L)
+   PL:AddLocale("esES",L)
 
 
- 
-L = {
-	["ChannelColorMemory"] = {
-		["(%w+)%s?(.*)"] = "(%S+)%s?(.*)",
-		["ChannelColorMemory"] = "頻道顏色記憶",
-		["Remembers the colors of each channel name."] = "記住每個頻道顏色的名稱。",
-	}
-}
+
+L = {}
+-- ChannelColorMemory
+L["(%w+)%s?(.*)"] = "(%S+)%s?(.*)"
+L["ChannelColorMemory"] = "頻道顏色記憶"
+L["Remembers the colors of each channel name."] = "記住每個頻道顏色的名稱。"
 
 
-   PL:AddLocale(PRAT_MODULE, "zhTW",L)
+   PL:AddLocale("zhTW",L)
 
 
  end
  --@end-non-debug@
-
 
 
   Prat:SetModuleDefaults(module.name, {
@@ -219,7 +192,7 @@ L = {
   end
 
   function module:IndexServerChannels()
-    for k, v in pairs(Prat.HookedFrames) do
+    for _, v in pairs(Prat.HookedFrames) do
       local t = { GetChatWindowChannels(v:GetID()) }
       for i = 1, #t, 2 do
         local chan, num = t[i], t[i + 1]
@@ -231,7 +204,7 @@ L = {
   end
 
   function module:RestoreAllChatColors()
-    for k, v in pairs(Prat.HookedFrames) do
+    for _, v in pairs(Prat.HookedFrames) do
       local t = { GetChatWindowChannels(v:GetID()) }
       for i = 1, #t, 2 do
         local chan, num = t[i], t[i + 1]
@@ -266,16 +239,15 @@ L = {
   end
 
 
-  function module:UPDATE_CHAT_COLOR(evt, ChatType, cr, cg, cb)
+  function module:UPDATE_CHAT_COLOR(_, ChatType, cr, cg, cb)
     if (ChatType) then
       local number = ChatType:match("CHANNEL(%d+)")
       if (number) then
         local _, name = Prat.GetChannelName(number);
         if (name) then
-          local name, zoneSuffix = name:match(PL["(%w+)%s?(.*)"]);
+			local zoneSuffix
+          name, zoneSuffix = name:match(PL["(%w+)%s?(.*)"]);
           if zoneSuffix and zoneSuffix:len() > 0 then
-            local cname = name
-
             name = getServerChan(name)
           end
 
@@ -294,8 +266,7 @@ L = {
     end
   end
 
-  function module:CHAT_MSG_CHANNEL_NOTICE(evt, NoticeType, Sender, Language, LongName, Target, Flags, ServChanID,
-  number, cname, unknown, counter)
+  function module:CHAT_MSG_CHANNEL_NOTICE(_, NoticeType, _, _, _, _, _, ServChanID, number, cname)
     if tonumber(ServChanID) > 0 then
       cname = self.zoneChanIdx[tostring(ServChanID)]
 

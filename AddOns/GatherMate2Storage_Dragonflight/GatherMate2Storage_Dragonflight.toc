@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: nevcairiel
-## Version: 1.51.3
+## Version: 1.52.0
 
 ## Title: GatherMate2: Storage for Dragonflight
 ## Title-zhCN: |cFFFFE00A<|r|cFF0070DE专业|r|cFFFFE00A>|r|cFFFFFFFF采集助手|r |cFF69CCF0数据|r |cFF22B14C巨龙时代|r

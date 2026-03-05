@@ -1,5 +1,5 @@
 ## Interface: 120001
-## Version: #Details.20260206.14502.168
+## Version: #Details.20260304.14718.170
 
 ## Title: Details! Damage Meter
 ## Notes: Essential tool to impress that chick in your raid.

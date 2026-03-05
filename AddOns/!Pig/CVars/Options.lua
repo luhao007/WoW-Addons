@@ -439,7 +439,7 @@ if PIG_MaxTocversion(110000,true) then
 end
 combattextF.RF=PIGFrame(combattextF,{"TOPLEFT",combattextF,"TOPLEFT",0,-260})
 combattextF.RF:SetPoint("BOTTOMRIGHT",combattextF,"BOTTOMRIGHT",0,0);
-combattextF.RF.OPENcombattext = PIGCheckbutton(combattextF.RF,{"TOPLEFT",combattextF.RF,"TOPLEFT",20,-20},{SHOW_COMBAT_TEXT_TEXT,OPTION_TOOLTIP_SHOW_COMBAT_TEXT})
+combattextF.RF.OPENcombattext = PIGCheckbutton(combattextF.RF,{"TOPLEFT",combattextF.RF,"TOPLEFT",20,-20},{COMBAT_TEXT_LABEL,OPTION_TOOLTIP_SHOW_COMBAT_TEXT})
 combattextF.RF.OPENcombattext:SetScript("OnClick", function (self)
 	if self:GetChecked() then
 		SetCVar(enableFloatingCombatText, "1")
@@ -458,7 +458,6 @@ function combattextF.RF.fudongScale:PIGOnValueChange(arg1)
 end
 combattextF.RF:HookScript("OnShow", function (self)
 	self.fudongScale:PIGSetValue(GetCVar(WorldTextScale))
-	print(GetCVar("enableFloatingCombatText"))
 	self.OPENcombattext:SetChecked(GetCVar(enableFloatingCombatText)=="1");
 end);
 ---姓名板

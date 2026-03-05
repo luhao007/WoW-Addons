@@ -76,8 +76,8 @@ local SOUND_DESCRIPTIONS = {
 function UIUtils.GetDisplayItemName(item, tintPct)
 	local name = ItemInfo.GetName(item)
 	local quality = ItemInfo.GetQuality(item)
-	local craftedQuality = ItemInfo.GetCraftedQuality(item)
-	return UIUtils.GetQualityColoredText(name, quality, craftedQuality, tintPct)
+	local craftedQuality, useMidnightIcon = ItemInfo.GetCraftedQuality(item)
+	return UIUtils.GetQualityColoredText(name, quality, craftedQuality, useMidnightIcon, tintPct)
 end
 
 ---Colors text based on an item quality.
@@ -86,13 +86,13 @@ end
 ---@param craftedQuality? number The crafted quality of the item
 ---@param tintPct? number The tintPct to apply to the quality color
 ---@return string
-function UIUtils.GetQualityColoredText(name, quality, craftedQuality, tintPct)
+function UIUtils.GetQualityColoredText(name, quality, craftedQuality, useMidnightIcon, tintPct)
 	if not name or not quality then
 		return
 	end
 	local color = Theme.GetItemQualityColor(quality)
 	local result = color:GetTint(tintPct or 0):ColorText(name)
-	local craftedQualityIcon = craftedQuality and TradeSkill.GetCraftedQualityChatIcon(craftedQuality)
+	local craftedQualityIcon = craftedQuality and TradeSkill.GetCraftedQualityChatIcon(craftedQuality, useMidnightIcon)
 	if craftedQualityIcon then
 		result = result.." "..craftedQualityIcon
 	end

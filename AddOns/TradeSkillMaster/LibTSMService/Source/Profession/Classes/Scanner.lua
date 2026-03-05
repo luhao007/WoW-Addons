@@ -11,7 +11,6 @@ local State = LibTSMService:Include("Profession.State")
 local Quality = LibTSMService:Include("Profession.Quality")
 local ItemInfo = LibTSMService:Include("Item.ItemInfo")
 local EnchantData = LibTSMService:From("LibTSMData"):Include("Enchant")
-local OptionalMatData = LibTSMService:From("LibTSMData"):Include("OptionalMat")
 local SalvageData = LibTSMService:From("LibTSMData"):Include("Salvage")
 local TempTable = LibTSMService:From("LibTSMUtil"):Include("BaseType.TempTable")
 local Database = LibTSMService:From("LibTSMUtil"):Include("Database")
@@ -752,9 +751,12 @@ function private.GetItemStringAndCraftName(craftString)
 		-- Result of craft is item
 		local level = CraftString.GetLevel(craftString)
 		if level and level > 0 then
-			local relLevel = OptionalMatData.ItemLevelByRank[level]
 			local baseItemString = ItemString.GetBase(resultItem)
-			itemString = baseItemString..(relLevel < 0 and "::-" or "::+")..abs(relLevel)
+			local baseItemLevel = ItemInfo.GetItemLevel(baseItemString)
+			if not baseItemLevel then
+				return nil, nil
+			end
+			itemString = baseItemString.."::i"..abs(baseItemLevel + level)
 		else
 			itemString = ItemString.GetBase(resultItem)
 		end

@@ -608,7 +608,7 @@ TITAN_PANEL_SAVED_VARIABLES = {
 	IconSpacing = 0,
 	TooltipTrans = 1,
 	TooltipFont = 1,
-	TooltipTimeout = .5,
+	TooltipTimeout = 0.0, -- New 2026 Jan
 	DisableTooltipFont = 1,
 	FontName = TPC.FONT_NAME,
 	FrameStrata = "LOW",
@@ -946,10 +946,10 @@ end
 local function AdjBarVars(to_profile)
 		local BV = TitanSettings.Players[to_profile].BarVars
 		for idx, v in pairs(TitanBarData) do
-			if v.color_border == nil then -- NEW Jan 2026
+			if BV[idx].color_border == nil then -- NEW Jan 2026
 				BV[idx].color_border = true
 			end
-			if v.plugin_off_y == nil then -- NEW Jan 2026
+			if BV[idx].plugin_off_y == nil then -- NEW Jan 2026
 				BV[idx].plugin_off_y = 0
 			end
 --print("Vars Y"
@@ -1822,16 +1822,18 @@ function TitanVariables_UseSettings(from, profile, action)
 	TitanVariables_SetPanelStrata(TitanPanelGetVar("FrameStrata"))
 
 	-- show the new profile
+--[[
 	-- build debug output
 	str = "...init bars"
 		.. " " .. tostring(action) .. ""
 	Titan_Debug.Out('titan', 'profile', str)
 	TitanPanel_InitPanelBarButton("UseSettings");
+--]]
 	-- build debug output
 	str = "...init plugins on bars"
 		.. " " .. tostring(action) .. ""
 	Titan_Debug.Out('titan', 'profile', str)
-	TitanPanel_InitPanelButtons();
+	TitanPanel_InitPanelButtons("_UseSettings");
 end
 
 -- decrecated routines

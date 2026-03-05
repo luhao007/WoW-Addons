@@ -192,6 +192,10 @@
 				<Title>军团再临</Title>
 				<Notes>AtlasLoot 军团再临副本掉落列表</Notes>
 			</SubAddon>
+			<SubAddon name="AtlasLoot_Midnight">
+				<Title>至暗之夜</Title>
+				<Notes>AtlasLoot 至暗之夜副本掉落列表</Notes>
+			</SubAddon>
 			<SubAddon name="AtlasLoot_MistsofPandaria">
 				<Title>熊猫人之谜</Title>
 				<Notes>AtlasLoot 熊猫人之谜副本掉落列表</Notes>
@@ -635,6 +639,10 @@
 				<Title>地下堡</Title>
 				<TitleExtra>地心之战</TitleExtra>
 			</SubAddon>
+			<SubAddon name="DBM-Delves-Midnight">
+				<Title>地下堡</Title>
+				<TitleExtra>至暗之夜</TitleExtra>
+			</SubAddon>
 			<SubAddon name="DBM-DMF">
 				<Title>暗月马戏团</Title>
 			</SubAddon>
@@ -688,6 +696,9 @@
 			<SubAddon name="DBM-KhazAlgar">
 				<Title>户外</Title>
 				<TitleExtra>卡兹阿加</TitleExtra>
+			</SubAddon>
+			<SubAddon name="DBM-Midnight">
+				<Title>至暗之夜</Title>
 			</SubAddon>
 			<SubAddon name="DBM-MC">
 				<Title>熔火之心</Title>

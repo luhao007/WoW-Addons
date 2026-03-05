@@ -1,6 +1,20 @@
 local ADDON_NAME, ns = ...
 ns.locale = GetLocale()
 
+ns.ACCOUNT_WIDE = { -- RetailOptions.lua
+  deDE = "Diese Funktion ist accountweit",
+  enUS = "This function is account-wide",
+  frFR = "Cette fonction s'applique à l'ensemble du compte",
+  esES = "Esta función es para toda la cuenta",
+  esMX = "Esta función es para toda la cuenta",
+  itIT = "Questa funzione è valida per tutto l'account",
+  ptBR = "Esta função é válida para toda a conta",
+  ruRU = "Эта функция действует для всей учетной записи",
+  zhCN = "此功能适用于整个账号",
+  zhTW = "此功能適用於整個帳號",
+  koKR = "이 기능은 계정 전체에 적용됩니다",
+}
+
 ns.ABOUT = { -- RetailOptions.lua
   deDE = "Über",
   enUS = "About",
@@ -97,48 +111,6 @@ ns.LOCALE_SUPPRESS_ERRORS_DESC_1 = { -- RetailOptions.lua
   koKR = "MapNotes로 세계 지도를 전환할 때 발생할 수 있는 모든 오류를 억제하고 숨기려고 시도하여, /reload로만 해결 가능한 매우 드물고 특정한 오류만 표시되도록 합니다",
   zhCN = "尝试抑制并隐藏通过 MapNotes 切换世界地图时可能产生的所有错误，使只有极少数特定错误会显示，这些错误只能通过 /reload 用户界面来解决",
   zhTW = "嘗試抑制並隱藏透過 MapNotes 切換世界地圖時可能產生的所有錯誤，僅讓極少數特定錯誤顯示，而這些錯誤只能透過 /reload 使用者介面來解決",
-}
-
-ns.LOCALE_SUPPRESS_ERRORS_DESC_2 = { -- RetailOptions.lua
-  enUS = "In these cases, MapNotes creates a separate window with the option to quickly reload the user interface so that the error is resolved",
-  deDE = "In diesen speziellen Fällen erstellt MapNotes ein Fenster mit der Option, die Benutzeroberfläche neu zu laden, sodass der Fehler bereinigt wird",
-  frFR = "Dans ces cas, MapNotes crée une fenêtre distincte avec l’option de recharger rapidement l’interface utilisateur afin que l’erreur soit résolue",
-  esES = "En estos casos, MapNotes crea una ventana separada con la opción de recargar rápidamente la interfaz de usuario para que el error quede resuelto",
-  esMX = "En estos casos, MapNotes crea una ventana separada con la opción de recargar rápidamente la interfaz de usuario para que el error quede resuelto",
-  itIT = "In questi casi, MapNotes crea una finestra separata con l’opzione di ricaricare rapidamente l’interfaccia utente, così che l’errore venga risolto",
-  ptBR = "Nesses casos, o MapNotes cria uma janela separada com a opção de recarregar rapidamente a interface do usuário, resolvendo o erro",
-  ruRU = "В этих случаях MapNotes создаёт отдельное окно с возможностью быстро перезагрузить интерфейс пользователя, чтобы ошибка была устранена",
-  koKR = "이러한 경우, MapNotes는 사용자 인터페이스를 빠르게 다시 불러올 수 있는 별도의 창을 만들어 오류를 해결합니다",
-  zhCN = "在这些情况下，MapNotes 会创建一个单独的窗口，提供快速重载用户界面的选项，从而解决错误",
-  zhTW = "在這些情況下，MapNotes 會建立一個單獨的視窗，提供快速重新載入使用者介面的選項，從而解決錯誤",
-}
-
-ns.LOCALE_SUPPRESS_ERRORS_DESC_3 = { -- RetailOptions.lua
-  enUS = "If you don't mind a short /reload in these rare cases, this option can be used",
-  deDE = "Wenn dich ein kurzer /reload in diesen seltenen Fällen nicht stört, kann diese Variante verwendet werden",
-  frFR = "Si un court /reload dans ces cas rares ne vous dérange pas, vous pouvez utiliser cette option",
-  esES = "Si no te molesta hacer un breve /reload en estos casos poco frecuentes, puedes usar esta opción",
-  esMX = "Si no te molesta hacer un breve /reload en estos casos poco frecuentes, puedes usar esta opción",
-  itIT = "Se non ti disturba fare un breve /reload in questi casi rari, puoi usare questa opzione",
-  ptBR = "Se não se importar em fazer um breve /reload nesses casos raros, pode usar esta opção",
-  ruRU = "Если вас не беспокоит короткий /reload в этих редких случаях, можно использовать эту опцию",
-  koKR = "이러한 드문 경우에 짧은 /reload이 괜찮다면 이 옵션을 사용할 수 있습니다",
-  zhCN = "如果你不介意在这些少见情况下执行一次简短的 /reload，就可以使用此选项",
-  zhTW = "如果你不介意在這些少見情況下執行一次簡短的 /reload，就可以使用此選項",
-}
-
-ns.LOCALE_SUPPRESS_ERRORS_NAME = { -- RetailOptions.lua
-  enUS = "Suppress Errors",
-  deDE = "Fehler unterdrücken",
-  frFR = "Supprimer les erreurs",
-  esES = "Suprimir errores",
-  esMX = "Suprimir errores",
-  itIT = "Sopprimi errori",
-  ptBR = "Suprimir erros",
-  ruRU = "Подавление ошибок",
-  koKR = "오류 억제",
-  zhCN = "抑制错误",
-  zhTW = "抑制錯誤",
 }
 
 ns.LOCALE_ERRORS_CURSEFORGE = { -- RetailOptions.lua
@@ -393,6 +365,48 @@ ns.LOCALE_OPEN_AFTER_COMBAT = { -- RetailErrorMessage.lua
   koKR = "> 전투 후 지도 전환이 실행되었습니다 <",
   zhCN = "> 战斗结束后已执行地图切换 <",
   zhTW = "> 戰鬥結束後已執行地圖切換 <",
+}
+
+ns.LOCALE_BOUNTIFUL_DELVES = { -- RetailOptions.lua
+  enUS = "Bountiful Delves",
+  deDE = "Großzügige Tiefen",
+  frFR = "Gouffres fructueux",
+  esES = "Abismos abundantes",
+  esMX = "Abismos abundantes",
+  itIT = "Spedizioni abbondanti",
+  ptBR = "Explorações abundantes",
+  ruRU = "Обильные вылазки",
+  koKR = "풍성한 탐험",
+  zhCN = "丰饶探究",
+  zhTW = "豐饒探究",
+}
+
+ns.LOCALE_AFTER_COMBAT_DELVES = { -- RetailDelves.lua
+  enUS = "> Delve icons will automatically reappear on the continent map after combat <",
+  deDE = "> Die Tiefensymbole werden nach dem Kampf automatisch auf der Kontinentkarte wieder angezeigt <",
+  frFR = "> Les icônes de Gouffre réapparaîtront automatiquement sur la carte du continent après le combat <",
+  esES = "> Los iconos de Abismo volverán a aparecer automáticamente en el mapa del continente después del combate <",
+  esMX = "> Los iconos de Abismo volverán a aparecer automáticamente en el mapa del continente después del combate <",
+  itIT = "> Le icone delle Spedizioni riappariranno automaticamente sulla mappa del continente dopo il combattimento <",
+  ptBR = "> Os ícones de Exploração reaparecerão automaticamente no mapa do continente após o combate <",
+  ruRU = "> Значки вылазок автоматически снова появятся на карте континента после боя <",
+  koKR = "> 전투가 끝나면 대륙 지도에 탐험 아이콘이 자동으로 다시 표시됩니다 <",
+  zhCN = "> 战斗结束后，探险图标将自动重新显示在大陆地图上 <",
+  zhTW = "> 戰鬥結束後，探險圖示將自動重新顯示在大陸地圖上 <",
+}
+
+ns.LOCALE_AFTER_COMBAT_DELVES_INFO = { -- RetailOptions.lua
+  enUS = "Displays an on-screen message that the delve icons will automatically reappear on the continent map after combat",
+  deDE = "Zeigt eine Meldung auf dem Bildschirm an, dass die Tiefensymbole nach dem Kampf automatisch auf der Kontinentkarte wieder angezeigt werden",
+  frFR = "Affiche un message à l’écran indiquant que les icônes de Gouffre réapparaîtront automatiquement sur la carte du continent après le combat",
+  esES = "Muestra un mensaje en pantalla indicando que los iconos de Abismo volverán a aparecer automáticamente en el mapa del continente después del combate",
+  esMX = "Muestra un mensaje en pantalla indicando que los iconos de Abismo volverán a aparecer automáticamente en el mapa del continente después del combate",
+  itIT = "Mostra un messaggio sullo schermo che indica che le icone delle Spedizioni riappariranno automaticamente sulla mappa del continente dopo il combattimento",
+  ptBR = "Exibe uma mensagem na tela informando que os ícones de Exploração reaparecerão automaticamente no mapa do continente após o combate",
+  ruRU = "Отображает сообщение на экране о том, что значки вылазок автоматически снова появятся на карте континента после боя",
+  koKR = "전투 후 탐험 아이콘이 대륙 지도에 자동으로 다시 표시된다는 화면 메시지를 표시합니다",
+  zhCN = "在屏幕上显示一条消息，提示战斗结束后探险图标将自动重新显示在大陆地图上",
+  zhTW = "在畫面上顯示一則訊息，提示戰鬥結束後探險圖示將自動重新顯示在大陸地圖上",
 }
 
 ns.LOCALE_BLOCKPANEL_MSG = { -- RetailErrorMessage.lua

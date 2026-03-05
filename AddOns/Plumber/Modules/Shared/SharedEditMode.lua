@@ -178,6 +178,7 @@ do  --EditModeSettingsDialog
         self:Hide();
         self:ClearAllPoints();
         self.requireResetPosition = true;
+        self.moduleDBKey = nil;
         if self.parent then
             if self.parent.Selection then
                 self.parent.Selection:ShowHighlighted();
@@ -344,7 +345,6 @@ do  --EditModeSettingsDialog
         local button = self:AcquireWidgetByType("UIPanelButton");
         button:SetButtonText(widgetData.label);
         button:SetScript("OnClick", widgetData.onClickFunc);
-        button.shouldEnableOption = widgetData.stateCheckFunc;
         if (not widgetData.stateCheckFunc) or (widgetData.stateCheckFunc()) then
             button:Enable();
         else
@@ -442,6 +442,7 @@ do  --EditModeSettingsDialog
     function EditModeSettingsDialogMixin:SetupOptions(schematic)
         self:ReleaseAllWidgets();
         self:SetTitle(schematic.title);
+        self.moduleDBKey = schematic.moduleDBKey;
 
         if schematic.widgets then
             for order, widgetData in ipairs(schematic.widgets) do
@@ -480,8 +481,13 @@ do  --EditModeSettingsDialog
                     if widget then
                         table.insert(self.activeWidgets, widget);
                         widget.widgetKey = widgetData.widgetKey;
+                        widget.parentDBKey = widgetData.parentDBKey;
+                        widget.shouldEnableOption = widgetData.stateCheckFunc;
                         widget.widgetType = widgetData.type;
                         widget.isSubOption = widgetData.isSubOption;
+                        if widget.SetMotionScriptsWhileDisabled then
+                            widget:SetMotionScriptsWhileDisabled(true);
+                        end
                         self:UpdateWidgetEnabledState(widget);
                         if widgetData.newFeature then
                             local label = self.newFeatureLabelPool:Acquire();
@@ -692,6 +698,14 @@ do  --EditModeSettingsDialog
         end
     end
     addon.UpdateSettingsDialog = UpdateSettingsDialog;
+
+    local function CloseSettingsDialogByModuleDBKey(moduleDBKey)
+        if EditModeSettingsDialog and EditModeSettingsDialog.moduleDBKey == moduleDBKey then
+            EditModeSettingsDialog:Hide();
+            return true
+        end
+    end
+    addon.CloseSettingsDialogByModuleDBKey = CloseSettingsDialogByModuleDBKey;
 end
 
 do  --ControlNode

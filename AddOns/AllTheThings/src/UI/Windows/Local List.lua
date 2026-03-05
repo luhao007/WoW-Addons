@@ -14,14 +14,8 @@ function LocalMapFilter(group)
 		if group.mapID == __currentMapID then
 			return true;
 		end
-	elseif group.coord and group.coord[3] == __currentMapID then
+	elseif group.coords and group.coords[__currentMapID] then
 		return true;
-	elseif group.coords then
-		for i,coord in ipairs(group.coords) do
-			if coord[3] == __currentMapID then
-				return true;
-			end
-		end
 	end
 	if group.maps and contains(group.maps, __currentMapID) then
 		return true;
@@ -31,7 +25,7 @@ local CachedLocalMapData = setmetatable({}, {
 	__index = function(cachedLocalMapData, mapID)
 		if mapID then
 			__currentMapID = mapID;
-			local results = app:BuildSearchFilteredResponse(app:GetDataCache().g, LocalMapFilter);
+			local results = app:BuildSearchFilteredResponse(app:GetDatabaseRoot().g, LocalMapFilter);
 			if results and #results > 0 then
 				cachedLocalMapData[mapID] = results;
 				return results;

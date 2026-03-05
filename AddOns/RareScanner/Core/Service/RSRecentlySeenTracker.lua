@@ -41,7 +41,7 @@ local function InitResetRecentlySeenTimer()
 			-- If its an entity that spawns only in one spot
 			if (type(entityInfo) == "number") then
 				if (currenTime > (entityInfo + RSConstants.RECENTLY_SEEN_RESET_TIMER)) then
-					--RSLogger:PrintDebugMessage(string.format("ResetRecentlySeen[%s] (mono)", entityID))
+					--RSLogger:PrintDebugMessage(string.format("ResetRecentlySeen[%s] (limpiado automatico mono)", entityID))
 					recently_seen_entities[entityID] = nil
 					RSGeneralDB.DeleteRecentlySeen(entityID)
 				end			
@@ -49,20 +49,22 @@ local function InitResetRecentlySeenTimer()
 			else
 				for xy, info in pairs (entityInfo) do
 					local RESET_TIMER = RSConstants.RECENTLY_SEEN_RESET_TIMER
+					local isInInstance, _ = IsInInstance()
+					
 					-- In instances keep showing the icons longer
-					if (IsInInstance()) then
+					if (isInInstance) then
 						RESET_TIMER = RSConstants.RECENTLY_SEEN_INSTANCE_RESET_TIMER
 					end
 					
 					if (currenTime > (entityInfo[xy].time + RESET_TIMER)) then
 						if (RSUtils.GetTableLength(recently_seen_entities[entityID]) == 1) then
 							recently_seen_entities[entityID] = nil
-							--RSLogger:PrintDebugMessage(string.format("ResetRecentlySeen[%s] (multi/last)", entityID))
+							--RSLogger:PrintDebugMessage(string.format("ResetRecentlySeen[%s] (limpiado automtatico multi/last)", entityID))
 							RSGeneralDB.DeleteRecentlySeen(entityID)
 							break;
 						else
 							recently_seen_entities[entityID][xy] = nil
-							RSLogger:PrintDebugMessage(string.format("ResetRecentlySeen[%s] (multi)", entityID))
+							--RSLogger:PrintDebugMessage(string.format("ResetRecentlySeen[%s] (limpiado automtatico  multi)", entityID))
 						end
 					end
 				end
@@ -71,7 +73,7 @@ local function InitResetRecentlySeenTimer()
 	end)
 end
 
-function RSRecentlySeenTracker.AddRecentlySeen(entityID, atlasName, isNavigating)	
+function RSRecentlySeenTracker.AddRecentlySeen(entityID, atlasName, isNavigating)
 	if (not entityID) then
 		return
 	end
@@ -86,7 +88,7 @@ function RSRecentlySeenTracker.AddRecentlySeen(entityID, atlasName, isNavigating
 	local currentTime = time()
 	
 	-- Extracts info from internal database
-	local entityInfo = RSGeneralDB.GetAlreadyFoundEntity(entityID)
+	local entityInfo = RSGeneralDB.GetAlreadyFoundEntity(entityID, atlasName)
 	if (not entityInfo) then
 		return
 	end
@@ -133,6 +135,7 @@ function RSRecentlySeenTracker.RemoveRecentlySeen(entityID)
 	local entityInfo = recently_seen_entities[entityID]
 	
 	if (not entityInfo) then
+		--RSLogger:PrintDebugMessage(string.format("RemoveRecentlySeen[%s] (no encontrada la entidad en recently_seen_entities)", entityID))
 		return nil
 	end
 	
@@ -160,6 +163,7 @@ function RSRecentlySeenTracker.RemoveRecentlySeen(entityID)
 	
 	-- If for whatever reason it couldnt get the players coordinates it will be empty
 	if (RSUtils.GetTableLength(xyDistances) == 0) then
+		--RSLogger:PrintDebugMessage("RemoveRecentlySeen. No se han obtenido las coordenadas del jugador con lo que se desconoce las coordenadas del contenedor")
 		return nil
 	end
 	
@@ -173,7 +177,7 @@ function RSRecentlySeenTracker.RemoveRecentlySeen(entityID)
 	
 	-- Avoid hiding incorrect icons
 	if (min >= 0.001) then
-		RSLogger:PrintDebugMessage(string.format("RemoveRecentlySeen[distancia=%s] (No devuelve contenedor por no haberse encontrado uno lo suficientemente cerca)", min))
+		--RSLogger:PrintDebugMessage(string.format("RemoveRecentlySeen[distancia=%s] (No devuelve contenedor por no haberse encontrado uno lo suficientemente cerca)", min))
 		return nil
 	end
 	

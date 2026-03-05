@@ -12,7 +12,6 @@
     <Script file="Game\Addons.lua" />
     <Script file="Game\Realm.lua" />
 
-    <Script file="Item\BonusId.lua" />
     <Script file="Item\NonDisenchantable.lua" />
     <Script file="Item\VendorSell.lua" />
 

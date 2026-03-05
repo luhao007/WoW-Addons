@@ -10,6 +10,190 @@ local L = addon.L;
 local changelogs = addon.ControlCenter.changelogs;
 
 
+changelogs[10808] = {
+    {
+        type = "date",
+        versionText = "1.8.8 c-d",
+        timestamp = 1772630000,
+    },
+
+    {
+        type = "h1",
+        text = "Bug Fixes",
+    },
+
+    {
+        type = "p",
+        bullet = true,
+        text = "Event Toast: This module has been retired because most event toasts already support \"right click to close\" without using addons. Additionally, this module may have prevented you from viewing Abundance completion details.",
+    },
+
+    {
+        type = "p",
+        bullet = true,
+        text = "Loot UI: Midnight ores, herbs, and skins should use the updated version of quality icons.",
+    },
+
+    {
+        type = "p",
+        bullet = true,
+        text = "Expansion Summary: Clicking Valeera should show her abilities instead of Brann's.",
+    },
+
+    {
+        type = "p",
+        bullet = true,
+        text = "Expansion Summary: To address the taint errors, the renown progress on the faction tooltip has been changed from a progress bar to text.",
+    },
+
+    {
+        type = "p",
+        bullet = true,
+        text = "Plumber Torch Macro: Fixed an issue that affected typing in the macro edit box if you used Plumber Torch macro.",
+    },
+
+    {
+        type = "p",
+        bullet = true,
+        text = "Fixed an error when pressing hotkeys to focus on the next/previous quest in the objective tracker.",
+    },
+
+    {
+        type = "p",
+        bullet = true,
+        text = "Instance Difficulty Selector: Adjusted entrance coordinates for the two Utgarde dungeons.",
+    },
+
+    {
+        type = "br",
+    },
+
+    {
+        type = "h1",
+        text = "Added",
+    },
+
+    {
+        type = "p",
+        bullet = true,
+        text = "Break Time Reminder: Added an option to postpone the alert when you are in instance.",
+    },
+
+    {
+        type = "p",
+        bullet = true,
+        text = "Break Time Reminder: Auto postpone schedule when AFK. The countdown to your next scheduled break will pause when you are AFK. It will continue pausing if the break time is over, but you have not performed any action.",
+    },
+
+    {
+        type = "p",
+        bullet = true,
+        text = "Break Time Reminder: The time until your next scheduled break will be displayed on the Plumber minimap button's tooltip.",
+    },
+
+    {
+        type = "p",
+        bullet = true,
+        text = "Updated the currencies (crests) used for upgrading Midnight items.",
+    },
+
+    {
+        type = "br",
+    },
+    {
+        type = "br",
+    },
+
+    {
+        type = "date",
+        versionText = "1.8.8",
+        timestamp = 1772120000,
+    },
+
+    {
+        type = "h1",
+        text = L["ModuleName BreakTime"],
+        dbKey = "BreakTime",
+    },
+
+    {
+        type = "Checkbox",
+        dbKey = "BreakTime",
+    },
+
+    {
+        type = "p",
+        bullet = true,
+        text = "Remind you to take a short break after a period of time.",
+    },
+
+    {
+        type = "p",
+        bullet = true,
+        text = "The default schedule is a 5-minute break every 30 min. You can change it in the settings.",
+    },
+
+    {
+        type = "p",
+        bullet = true,
+        text = "You can delay or cancel the break when the timer goes off.",
+    },
+
+    {
+        type = "img",
+        dbKey = "BreakTime",
+    },
+
+    {
+        type = "br",
+    },
+
+    {
+        type = "h1",
+        text = MISCELLANEOUS,
+    },
+
+    {
+        type = "p",
+        bullet = true,
+        text = "Expansion Summary: You can now switch the expansion to Midnight, but the content is still a work in progress.",
+    },
+
+    {
+        type = "p",
+        bullet = true,
+        text = "Map Pin modules have been retired. Displaying Bountiful Delves and Special Assignments on Quel'Thalas map is a WoW native feature now.",
+    },
+
+    {
+        type = "br",
+    },
+
+    {
+        type = "h1",
+        text = "Bug Fixes",
+    },
+
+    {
+        type = "p",
+        bullet = true,
+        text = "Expansion Summary Minimap Button: Fixed a reposition issue when the Minimap's scale was not 100%.",
+    },
+
+    {
+        type = "p",
+        bullet = true,
+        text = "Expansion Summary Minimap Button: This button should correctly become hidden when you start pet battle.",
+    },
+
+    {
+        type = "p",
+        bullet = true,
+        text = "Queue Status: Fixed the timer for PvP queues.",
+    },
+};
+
+
 changelogs[10807] = {
     {
         type = "date",

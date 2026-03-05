@@ -1,6 +1,6 @@
 # Cooldown Manager Centered
 
-## [v1.14.22](https://github.com/lemieszek/CooldownManagerCentered/tree/v1.14.22) (2026-02-13)
-[Full Changelog](https://github.com/lemieszek/CooldownManagerCentered/compare/v1.14.21...v1.14.22) 
+## [v2.1.9](https://github.com/lemieszek/CooldownManagerCentered/tree/v2.1.9) (2026-03-04)
+[Full Changelog](https://github.com/lemieszek/CooldownManagerCentered/compare/v2.1.8...v2.1.9) 
 
-- v1.14.22, enhance ElvUI skinning prompts, and refactor button press handling  
+- v2.1.9 border size fix  

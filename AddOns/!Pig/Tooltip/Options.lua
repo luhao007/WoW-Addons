@@ -45,7 +45,6 @@ TooltipF.ItemSell:SetScript("OnClick", function (self)
 	else
 		PIGA["Tooltip"]["ItemSell"]=false;
 	end
-	TooltipPlusfun.Tooltip_ItemSell()
 end);
 TooltipF.CompareItemPlus = PIGCheckbutton_R(TooltipF,{"优化物品鼠标提示","物品鼠标提示界面增加物品图片。增强比较物品界面，使其更清晰"},true)
 TooltipF.CompareItemPlus:SetScript("OnClick", function (self)

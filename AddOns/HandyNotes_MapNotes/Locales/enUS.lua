@@ -2,6 +2,8 @@ local ADDON_NAME = ...
 local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "enUS", true)
 
 
+-- new
+L["to interact with the icon"] = true
 -- blizzard minimap icons
 L["Blizzard Icons"] = true
 L["The Blizzard settings configured by the player are restored"] = true
@@ -46,6 +48,8 @@ L["Changelog"] = true
 L["Last Changelog"] = true
 L["Show MapNotes Changelog again"] = true
 L["Do not show again until next version"] = true
+L["permanently hide changelog"] = true
+L["Permanently hides the changelog, not just until the next addon update"] = true
 -- SwapButtons
 L["In addition to the Right mouse button, the shift key must now also be pressed to set a waypoint"] = true
 L["In addition to the Left mouse button, the shift key must now also be pressed to set a waypoint"] = true

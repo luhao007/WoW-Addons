@@ -115,7 +115,7 @@ app:CreateWindow("Tradeskills", {
 			end
 
 			-- Cache Learned Spells
-			local skillCache = app.SearchForFieldContainer("spellID");
+			local skillCache = app.GetFieldContainer("spellID");
 			if skillCache then
 				-- Cache learned recipes and reagents
 				local reagentCache = AllTheThingsAD.Reagents;
@@ -289,7 +289,7 @@ app:CreateWindow("Tradeskills", {
 					self.previousCraftSkillID = craftSkillID;
 					self.previousTradeSkillID = tradeSkillID;
 					local g = {};
-					for i,group in ipairs(ProfessionsCategory) do
+					for i,group in ipairs(ProfessionsCategory.g) do
 						if group.spellID == craftSkillID or group.spellID == tradeSkillID then
 							local cache = self.cache[group.spellID];
 							if not cache then
@@ -313,12 +313,19 @@ app:CreateWindow("Tradeskills", {
 								if dynamicSuffix then
 									local recipesList = app.CreateDynamicCategory(dynamicSuffix);
 									recipesList.IgnoreBuildRequests = true;
-									recipesList.text = "All Recipes";
+									recipesList.sourceIgnored = true;
+									recipesList.name = app.L.ALL_RECIPES;
 									recipesList.icon = 134939;
 									tinsert(cache.g, 1, recipesList);
 								end
-								local response = app:BuildSearchResponse(app:GetDataCache().g, "requireSkill", requireSkill);
-								if response then app.ArrayAppend(cache.g, response); end
+								local response = app:BuildSearchResponse(app:GetDatabaseRoot().g, "requireSkill", requireSkill);
+								if response then
+									for i=1,#response do
+										local o = response[i];
+										app:RemoveIgnoredBuildRequests(o);
+										cache.g[#cache.g + 1] = o;
+									end
+								end
 							end
 							tinsert(g, cache);
 						end

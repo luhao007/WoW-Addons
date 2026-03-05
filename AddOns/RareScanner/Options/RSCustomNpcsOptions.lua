@@ -344,7 +344,7 @@ local function AddNewCustomNpc(npcID, group)
 					private.options_cnpcs[groupKey][npcKey].coordinates[private.options_cnpcs[groupKey][npcKey].zone] = nil
 					
 					if (RSNpcDB.DeleteCustomNpcZone(npcID, private.options_cnpcs[groupKey][npcKey].zone)) then
-						RSGeneralDB.RemoveAlreadyFoundEntity(tonumber(npcID))
+						RSGeneralDB.RemoveAlreadyFoundEntity(tonumber(npcID), RSConstants.NPC_VIGNETTE)
 					end
 					
 					private.options_cnpcs[groupKey][npcKey].zone = next(private.options_cnpcs[groupKey][npcKey].zones)

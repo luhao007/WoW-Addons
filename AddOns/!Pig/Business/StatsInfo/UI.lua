@@ -12,27 +12,6 @@ local BusinessInfo=addonTable.BusinessInfo
 --=================================
 local GnName,GnUI,GnIcon,FrameLevel = unpack(BusinessInfo.StatsInfoData)
 local Width,Height,biaotiH  = 860, 530, 21;
---
-local zijimoren = {
-	["Items"]=function(peizhiV)
-		local morenitem={["BAG"]={},["BANK"]={},["MAIL"]={},["C"]={},["T"]={},["G"]={},["R"]={},["GUILD"]={}}
-		local NewpeizhiV={}
-		for k,v in pairs(morenitem) do
-			NewpeizhiV[k]=peizhiV[k] or v
-		end
-		return NewpeizhiV
-	end,
-}
-local peizhiList={
-	["Players"] = "must",
-	["PlayerSH"] = "none",
-	["FBCDRecords"] = "name",
-	["SkillData"] = "name",
-	["Times"] = "none",
-	["Token"] = "name",
-	["Items"] = "name_2",
-	["TradeData"] = "name",
-}
 --===========================
 function BusinessInfo.StatsInfo_ADDUI()
 	if not PIGA["StatsInfo"]["Open"] then return end
@@ -47,36 +26,6 @@ function BusinessInfo.StatsInfo_ADDUI()
 	StatsInfo.title = PIGFontString(StatsInfo,{"TOP", StatsInfo, "TOP", 0, -3},GnName)
 	StatsInfo.F=PIGOptionsList_RF(StatsInfo,biaotiH,"Left")
 	--
-	function StatsInfo:Get_renwuInfo()
-		self.allname = PIG_OptionsUI.AllName
-		local race_icon = PIGGetRaceAtlas(PIG_OptionsUI.RaceData.raceFile,PIG_OptionsUI.gender)
-		local level = UnitLevel("player")
-		PIGA["StatsInfo"]["Players"][self.allname]={PIG_OptionsUI.englishFaction,PIG_OptionsUI.RaceData.raceId,race_icon,PIG_OptionsUI.ClassData.classId,level}
-		for k,v in pairs(peizhiList) do
-			if v=="name" then
-				PIGA["StatsInfo"][k][self.allname]=PIGA["StatsInfo"][k][self.allname] or {}
-			elseif v=="name_2" then
-				PIGA["StatsInfo"][k][self.allname]=PIGA["StatsInfo"][k][self.allname] or {}
-				PIGA["StatsInfo"][k][self.allname]=zijimoren[k](PIGA["StatsInfo"][k][self.allname])
-			end
-		end
-	end
-	StatsInfo:Get_renwuInfo()
-	function StatsInfo:Del_DataInfo(ly,name)
-		if ly=="del" then
-			PIGA["StatsInfo"]["Players"][name]=nil
-			PIGA["StatsInfo"]["PlayerSH"][name]=nil
-			for k,v in pairs(peizhiList) do
-				if v=="name" or v=="name_2" then
-					PIGA["StatsInfo"][k][name]= nil
-				end
-			end		
-		elseif ly=="hide" then
-			PIGA["StatsInfo"]["PlayerSH"][name]=true
-		elseif ly=="show" then
-			PIGA["StatsInfo"]["PlayerSH"][name]=nil
-		end
-	end
 	StatsInfo:RegisterEvent("PLAYER_LEVEL_UP");
 	StatsInfo:HookScript("OnEvent",function (self, event)
 		if event=="PLAYER_LEVEL_UP" then
@@ -84,12 +33,36 @@ function BusinessInfo.StatsInfo_ADDUI()
 		end
 	end)
 	--
-	BusinessInfo.FBCD(StatsInfo)
-	BusinessInfo.SkillCD(StatsInfo)
-	BusinessInfo.Token(StatsInfo)
-	BusinessInfo.Item(StatsInfo)
-	BusinessInfo.Trade(StatsInfo)
-	BusinessInfo.AH(StatsInfo)
-	BusinessInfo.Time(StatsInfo)
-	BusinessInfo.Admin(StatsInfo)
+	local peizhiList={
+		["Players"] = "must",
+		["PlayerSH"] = "none",
+		["Times"] = "none",
+		["FBCDRecords"] = "name",
+		["SkillData"] = "name",
+		["Token"] = "name",
+		["Items"] = "name",
+		["TradeData"] = "name",
+		["Played"] = "name",
+	}
+	local function Get_renwuInfo()
+		StatsInfo.allname = PIG_OptionsUI.AllName
+		local race_icon = PIGGetRaceAtlas(PIG_OptionsUI.RaceData.raceFile,PIG_OptionsUI.gender)
+		local level = UnitLevel("player")
+		PIGA["StatsInfo"]["Players"][StatsInfo.allname]={PIG_OptionsUI.englishFaction,PIG_OptionsUI.RaceData.raceId,race_icon,PIG_OptionsUI.ClassData.classId,level}
+		for k,v in pairs(peizhiList) do
+			if v=="name" then
+				PIGA["StatsInfo"][k][StatsInfo.allname]=PIGA["StatsInfo"][k][StatsInfo.allname] or {}
+			end
+		end
+	end
+	Get_renwuInfo()
+	BusinessInfo.FBCD(StatsInfo,peizhiList)
+	BusinessInfo.SkillCD(StatsInfo,peizhiList)
+	BusinessInfo.Token(StatsInfo,peizhiList)
+	BusinessInfo.Item(StatsInfo,peizhiList)
+	BusinessInfo.Trade(StatsInfo,peizhiList)
+	BusinessInfo.AH(StatsInfo,peizhiList)
+	BusinessInfo.Time(StatsInfo,peizhiList)
+	BusinessInfo.Player(StatsInfo,peizhiList)
+	BusinessInfo.Admin(StatsInfo,peizhiList)
 end

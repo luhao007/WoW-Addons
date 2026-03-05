@@ -1,5 +1,24 @@
 ﻿# Changelog
 
+## 9.21.0 - March 2, 2026
+### Added
+- Added Midnight instance loot (more Midnight items to be added in the next week)
+- Added March Trading Post items to Collections
+- Added The Enlightened, Marasmius and Stitchmasters Shadowlands factions
+- Added five missing items in existing Shadowlands factions
+- Added secondary buttons to pets and mounts in Shadowlands factions
+### Fixed
+- Fixed duplicate item in Death's Advance faction
+
+## 9.20.3 - February 24, 2026
+### Added
+- Added Outland Cup items
+- Added Wormhide Boots to Ouro in AQ40
+
+## 9.20.2 - February 17, 2026
+### Added
+- Added new Lunar Festival items
+
 ## 9.20.1 - February 10, 2026
 ### Added
 - Added new Love is in the Air items

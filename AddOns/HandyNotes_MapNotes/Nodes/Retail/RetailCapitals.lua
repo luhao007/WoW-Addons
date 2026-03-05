@@ -126,7 +126,7 @@ if not db.activate.HideMapNote then
                 if self.db.profile.activate.CapitalsTransporting then
 
                     if self.db.profile.showCapitalsPortals then
-                        nodes[85][57278961] = { name = "", type = "HPortal", showInZone = true, showOnContinent = false, showOnMinimap = false, TransportName = L["Portalroom"] .. "\n\n" .. DUNGEON_FLOOR_GILNEAS2 .. ":\n\n"  .. " ==> " .. ns.Valdrakken .. "\n" .. " ==> " .. ns.Oribos .. "\n" .. " ==> " .. ns.RazorwindShores .. "\n" .. " ==> " .. ns.Dornogal .. "\n" .. " ==> " .. ns.JadeForest .. "\n" .. " ==> " .. ns.Dalaran .. " (" .. ns.Northrend .. ")" .. "\n" .. " ==> " .. ns.Silvermoon .. " (" .. EXPANSION_NAME11 ..")" .. "\n\n\n" .. L["in the basement"] .. ":\n\n" .. " ==> " .. ns.Silvermoon .. "\n" .. " ==> " .. ns.Azsuna .. "\n" .. " ==> " .. ns.Zuldazar .. "\n" .. " ==> " .. ns.Shattrath .. "\n" .. " ==> " .. ns.CavernsOfTime .. "\n" .. " ==> " .. ns.Warspear .. "\n" .. " ==> " .. ns.DarkPortal .. "\n" .. "        (" .. L["talk to"] .. ": " .. ns.ThrallmarMage .. " )" } -- Portalroom from Orgrimmar
+                        nodes[85][57348974] = { name = "", type = "HPortal", showInZone = true, showOnContinent = false, showOnMinimap = false, TransportName = L["Portalroom"] .. "\n\n" .. DUNGEON_FLOOR_GILNEAS2 .. ":\n\n"  .. " ==> " .. ns.Valdrakken .. "\n" .. " ==> " .. ns.Oribos .. "\n" .. " ==> " .. ns.RazorwindShores .. "\n" .. " ==> " .. ns.Dornogal .. "\n" .. " ==> " .. ns.JadeForest .. "\n" .. " ==> " .. ns.Dalaran .. " (" .. ns.Northrend .. ")" .. "\n" .. " ==> " .. ns.Silvermoon .. " (" .. EXPANSION_NAME11 ..")" .. "\n\n\n" .. L["in the basement"] .. ":\n\n" .. " ==> " .. ns.Silvermoon .. "\n" .. " ==> " .. ns.Azsuna .. "\n" .. " ==> " .. ns.Zuldazar .. "\n" .. " ==> " .. ns.Shattrath .. "\n" .. " ==> " .. ns.CavernsOfTime .. "\n" .. " ==> " .. ns.Warspear .. "\n" .. " ==> " .. ns.DarkPortal .. "\n" .. "        (" .. L["talk to"] .. ": " .. ns.ThrallmarMage .. " )" } -- Portalroom from Orgrimmar
                         nodes[85][50765561] = { mnID = 18, name = "", TransportName = ns.RuinsofLordaeron .. " (" .. L["Portal"] ..")", type = "HPortal", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Ruins of Lordaeron 
                         nodes[85][47393928] = { mnID = 245, name = "", type = "HPortalS", showInZone = true, showOnContinent = false, showOnMinimap = false } --  Portal to Tol Barad
                         nodes[85][48863851] = { mnID = 1527, name = "", type = "HPortalS", showInZone = true, showOnContinent = false, showOnMinimap = false} -- Portal to Uldum
@@ -141,9 +141,9 @@ if not db.activate.HideMapNote then
                     end
 
                     if self.db.profile.showCapitalsZeppelins then
-                        nodes[85][44496228] = { mnID = 114, name = "", TransportName = POSTMASTER_LETTER_WARSONGHOLD .. " (" .. L["Zeppelin"] ..")", type = "HZeppelin", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Zeppelin from OG to Borean Tundra - Northrend
+                        nodes[85][44676239] = { mnID = 114, name = "", TransportName = POSTMASTER_LETTER_WARSONGHOLD .. " (" .. L["Zeppelin"] ..")", type = "HZeppelin", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Zeppelin from OG to Borean Tundra - Northrend
                         nodes[85][42796534] = { mnID = 88, name = "", type = "HZeppelin", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Zeppelin from OG to Thunder Bluff
-                        nodes[85][52275315] = { mnID = 50, name = "", TransportName = ns.Gromgol .. " (" .. L["Zeppelin"] ..")", type = "HZeppelin", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Zeppelin from OG to Stranglethorn
+                        nodes[85][52375330] = { mnID = 50, name = "", TransportName = ns.Gromgol .. " (" .. L["Zeppelin"] ..")", type = "HZeppelin", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Zeppelin from OG to Stranglethorn
                     end
 
                     if self.db.profile.showCapitalsFP then
@@ -3238,6 +3238,7 @@ if not db.activate.HideMapNote then
 
                 if self.db.profile.showCapitalsDecorExpert then
                     nodes[2339][53735721] = { npcID = 252910, name = "", type = "DecorExpert", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2339][52856796] = { npcID = 252312, name = "", type = "DecorExpert", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
                 if self.db.profile.showCapitalsPaths then
@@ -3335,7 +3336,7 @@ if not db.activate.HideMapNote then
             if self.db.profile.activate.CapitalsTransporting then
     
                 if self.db.profile.showCapitalsPortals then
-                if ns.version == "12.0.0" then -- after 12.0.1 update remove whole block
+                if ns.version == "12.0.1" then -- ptr update, after midnight realase remove the whole block
                     nodes[2266][43564994] = { mnID = 2339, name = "", type = "Portal", showInZone = true, showOnContinent = false, showOnMinimap = false } --  Timeways Portal to Dornogal
                     --nodes[2266][64534340] = { mnID = 1565, name = "", type = "WayGateGolden", showInZone = true, showOnContinent = false, showOnMinimap = false } --  Timeways Portal to 
                     nodes[2266][74524703] = { mnID = 2472, name = "", type = "WayGateGolden", showInZone = true, showOnContinent = false, showOnMinimap = false } --  Timeways Portal to Tazavesh
@@ -3563,7 +3564,7 @@ if not db.activate.HideMapNote then
                 end
 
                 if self.db.profile.showCapitalsPvPVendor then
-                    nodes[2393][34078112] = { npcIDs1 = 243224, npcIDs2 = 243225, npcIDs3 = 243221, npcIDs4 = 255844, npcIDs5 = 243220, name = TRANSMOG_SET_PVP .. " " .. MERCHANT, type = "PvPVendor", showInZone = true, showOnContinent = false, showOnMinimap = false }
+                    nodes[2393][34048042] = { npcIDs1 = 243224, npcIDs2 = 243225, npcIDs3 = 243221, npcIDs4 = 255844, npcIDs5 = 243220, name = TRANSMOG_SET_PVP .. " " .. MERCHANT, dnID = "", type = "PvPVendor", showInZone = true, showOnContinent = false, showOnMinimap = false }
                 end
 
                 if self.db.profile.showCapitalsInnkeeper and not self.db.profile.showCapitalsMapNotes then
@@ -3587,7 +3588,7 @@ if not db.activate.HideMapNote then
                     nodes[2393][36746821] = { mnID = 2413, name = "", type = "Portal", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Wurzelpfad nach Harandar
                     nodes[2393][35286607] = { mnID = 2405, name = "", type = "Portal", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Portal zum Leerensturm
                     nodes[2393][42105830] = { mnID = 2266, name = "", type = "WayGateGolden", showInZone = true, showOnContinent = false, showOnMinimap = false, TransportName = L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. " ==> " .. ns.SpiresOfArak .. "\n" .. " ==> " .. ns.Icecrown .. "\n" .. " ==> " .. ns.Eredath } --  Portal from Dornogal to the Timeways
-                if ns.version == "12.0.1" then
+                if ns.version == "12.0.2" then -- ptr update remove ns version keep the block
                     nodes[2266][43564994] = { mnID = 2393, name = "", type = "Portal", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Timeways Portal to Silvermoon
                     nodes[2266][64534340] = { mnID = 542, name = "", type = "WayGateGolden", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Timeways Portal to spitzen von arak
                     nodes[2266][74524703] = { mnID = 118, name = "", type = "WayGateGolden", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Timeways Portal to eiskronenzitadelle

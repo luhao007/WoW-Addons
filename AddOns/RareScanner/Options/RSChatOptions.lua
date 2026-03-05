@@ -86,8 +86,20 @@ function RSChatOptions.GetChatOptions()
 					handler = RareScanner,
 					desc = AL["CHAT_WAYPOINTS_DESC"],
 					args = {
-						tomtom = {
+						ingame = {
 							order = 0,
+							type = "toggle",
+							name = AL["CHAT_WAYPOINT_INGAME"],
+							desc = AL["CHAT_WAYPOINT_INGAME_DESC"],
+							get = function() return RSConfigDB.IsAddingchatIngameWaypoints() end,
+							set = function(_, value)
+								RSConfigDB.SetAddingchatIngameWaypoints(value)
+							end,
+							width = "double",
+							disabled = function() return not RSConfigDB.IsDisplayingChatMessages() end,
+						},
+						tomtom = {
+							order = 1,
 							type = "toggle",
 							name = AL["CHAT_WAYPOINT_TOMTOM"],
 							desc = AL["CHAT_WAYPOINT_TOMTOM_DESC"],
@@ -98,17 +110,17 @@ function RSChatOptions.GetChatOptions()
 							width = "double",
 							disabled = function() return not TomTom or not RSConfigDB.IsDisplayingChatMessages() end,
 						},
-						ingame = {
-							order = 1,
+						waypointUI = {
+							order = 2,
 							type = "toggle",
-							name = AL["CHAT_WAYPOINT_INGAME"],
-							desc = AL["CHAT_WAYPOINT_INGAME_DESC"],
-							get = function() return RSConfigDB.IsAddingchatIngameWaypoints() end,
+							name = AL["CHAT_WAYPOINT_WAYPOINTUI"],
+							desc = AL["CHAT_WAYPOINT_WAYPOINTUI_DESC"],
+							get = function() return RSConfigDB.IsAddingchatWaypointUIWaypoints() end,
 							set = function(_, value)
-								RSConfigDB.SetAddingchatIngameWaypoints(value)
+								RSConfigDB.SetAddingchatWaypointUIWaypoints(value)
 							end,
 							width = "double",
-							disabled = function() return not RSConfigDB.IsDisplayingChatMessages() end,
+							disabled = function() return not WaypointUIAPI or not RSConfigDB.IsDisplayingChatMessages() end,
 						},
 					}
 				},

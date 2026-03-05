@@ -322,7 +322,7 @@ function RSWorldMapButtonMixin:SetupMenu()
 					text = "|T"..RSConstants.LIGHT_BLUE_NPC_TEXTURE..":18:18:::::0:32:0:32|t "
 				elseif (RSNpcDB.IsNpcKilled(npcID)) then
 					text = "|T"..RSConstants.BLUE_NPC_TEXTURE..":18:18:::::0:32:0:32|t "
-				elseif (RSGeneralDB.GetAlreadyFoundEntity(npcID)) then
+				elseif (RSGeneralDB.GetAlreadyFoundEntity(npcID, RSConstants.NPC_VIGNETTE)) then
 					text = "|T"..RSConstants.NORMAL_NPC_TEXTURE..":18:18:::::0:32:0:32|t "
 				else
 					text = "|T"..RSConstants.RED_NPC_TEXTURE..":18:18:::::0:32:0:32|t "
@@ -537,7 +537,7 @@ function RSWorldMapButtonMixin:SetupMenu()
 				local text
 				if (RSContainerDB.IsContainerOpened(containerID)) then
 					text = "|T"..RSConstants.BLUE_CONTAINER_TEXTURE..":18:18:::::0:32:0:32|t "
-				elseif (RSGeneralDB.GetAlreadyFoundEntity(containerID)) then
+				elseif (RSGeneralDB.GetAlreadyFoundEntity(containerID, RSConstants.CONTAINER_VIGNETTE)) then
 					text = "|T"..RSConstants.NORMAL_CONTAINER_TEXTURE..":18:18:::::0:32:0:32|t "
 				else
 					text = "|T"..RSConstants.RED_CONTAINER_TEXTURE..":18:18:::::0:32:0:32|t "
@@ -664,7 +664,7 @@ function RSWorldMapButtonMixin:SetupMenu()
 				local text
 				if (RSEventDB.IsEventCompleted(eventID)) then
 					text = "|T"..RSConstants.BLUE_EVENT_TEXTURE..":18:18:::::0:32:0:32|t "
-				elseif (RSGeneralDB.GetAlreadyFoundEntity(eventID)) then
+				elseif (RSGeneralDB.GetAlreadyFoundEntity(eventID, RSConstants.EVENT_VIGNETTE)) then
 					text = "|T"..RSConstants.NORMAL_EVENT_TEXTURE..":18:18:::::0:32:0:32|t "
 				else
 					text = "|T"..RSConstants.RED_EVENT_TEXTURE..":18:18:::::0:32:0:32|t "

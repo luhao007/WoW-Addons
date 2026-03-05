@@ -10,11 +10,11 @@ local Config = DelveCompanion.Config
 
 --#region Constants
 
----@type integer
+---@type number
 local EJ_TABS_COUNT = 8
 --#endregion
 
----@class EJExtension
+---@class (exact) EJExtension
 ---@field DelvesList DelvesList
 ---@field DelveEncounter DelveEncounter
 local EJExtension = {}
@@ -53,12 +53,13 @@ end
 
 ---@param self EJExtension
 function EJExtension:OnContentTabSet(id)
-    -- Logger.Log("EJ_ContentTab_Select Hook. Tab ID: %d", id)
+    -- Logger:Log("EJ_ContentTab_Select Hook. Tab ID: %d", id)
 
     local EncounterJournal = EncounterJournal
 
     if id ~= self.DelvesList.TabButton:GetID() then
         self.DelvesList.Frame:Hide()
+        PanelTemplates_DeselectTab(self.DelvesList.TabButton)
 
         return
     end
@@ -75,29 +76,51 @@ function EJExtension:OnContentTabSet(id)
     EncounterJournal.instanceSelect.ExpansionDropdown:SetShown(true)
 
     self.DelvesList.Frame:Show()
+    PanelTemplates_SelectTab(self.DelvesList.TabButton)
 end
 
 ---@param self EJExtension
-function EJExtension:OnPostShow()
-    -- Logger.Log("[EJExtension] OnPostShow")
+function EJExtension:EJ_OnShowHook()
+    -- Logger:Log("[EJExtension] OnShow hook")
 
+    ---@type Frame
     local EncounterJournal = EncounterJournal
-    local currentTab = EncounterJournal.selectedTab
 
-    if currentTab == self.DelvesList.TabButton:GetID() then
+    do
+        --- Re-order tabs in EncounterJournal
+        ---@param tab Button
+        ---@param relativeTo Button
+        local function SetTabAnchor(tab, relativeTo)
+            ---@type number,number
+            local offsetX, offsetY = 3, 0
+
+            tab:ClearAllPoints()
+            tab:SetPoint("LEFT", relativeTo, "RIGHT", offsetX, offsetY)
+        end
+
+        SetTabAnchor(self.DelvesList.TabButton, EncounterJournal.suggestTab)
+        SetTabAnchor(EncounterJournal.dungeonsTab, self.DelvesList.TabButton)
+        SetTabAnchor(EncounterJournal.raidsTab, EncounterJournal.dungeonsTab)
+        SetTabAnchor(EncounterJournal.TutorialsTab, EncounterJournal.raidsTab)
+    end
+
+    -- Being closed, EncounterJournal remembers the last opened tab.
+    -- While OnContentTabSet is called before OnShow, the expansion dropdown gets reset somewhere in between.
+    -- And if the last tab is the Delves tab, the dropdown will contain all expansions. So it should be set here for Delves.
+    if EncounterJournal.selectedTab == self.DelvesList.TabButton:GetID() then
         self.DelvesList:SetupExpansionDropdownForDelves(EncounterJournal, ExpansionDropdown_Select)
     end
 end
 
 ---@param self EJExtension
 function EJExtension:Init()
-    -- Logger.Log("[EJExtension] Init started...")
+    -- Logger:Log("[EJExtension] Init started...")
 
     ---@type Frame
     local EncounterJournal = EncounterJournal
 
     if not EncounterJournal then
-        Logger.Log("[EJExtension] EncounterJournal is nil. Cannot init!")
+        Logger:Log("[EJExtension] EncounterJournal is nil. Cannot init!")
         return
     end
 
@@ -105,7 +128,8 @@ function EJExtension:Init()
     do
         self.DelvesList:Init(EncounterJournal)
 
-        PanelTemplates_SetNumTabs(EncounterJournal, EJ_TABS_COUNT)
+        -- TODO: Check later whether Blizz has changed smth that is a root cause of the issue #75
+        -- PanelTemplates_SetNumTabs(EncounterJournal, EJ_TABS_COUNT)
     end
 
     -- JourneysFrame
@@ -115,7 +139,7 @@ function EJExtension:Init()
 
     EncounterJournal:HookScript("OnShow",
         function()
-            EJExtension:OnPostShow()
+            EJExtension:EJ_OnShowHook()
         end
     )
 

@@ -274,6 +274,14 @@ function RSConfigDB.SetDisplayingModel(value)
 	private.db.display.displayMiniature = value
 end
 
+function RSConfigDB.IsAutohidingInIntances()
+	return private.db.general.autoHideButtonInstances
+end
+
+function RSConfigDB.SetAutohidingInIntances(value)
+	private.db.general.autoHideButtonInstances = value
+end
+
 ---============================================================================
 -- Scanner filters database
 ---============================================================================
@@ -1660,6 +1668,38 @@ function RSConfigDB.SetAddingTomtomWaypointsAutomatically(value)
 	private.db.general.autoTomtomWaypoints = TomTom and value
 end
 
+function RSConfigDB.IsShowingTomtomMinimapIcon()
+	return TomTom and private.db.general.showTomtomMinimapIcon
+end
+
+function RSConfigDB.SetShowingTomtomMinimapIcon(value)
+	private.db.general.showTomtomMinimapIcon = TomTom and value
+end
+
+function RSConfigDB.IsShowingTomtomWorldmapIcon()
+	return TomTom and private.db.general.showTomtomWorldmapIcon
+end
+
+function RSConfigDB.SetShowingTomtomWorldmapIcon(value)
+	private.db.general.showTomtomWorldmapIcon = TomTom and value
+end
+
+function RSConfigDB.IsWaypointUISupportEnabled()
+	return WaypointUIAPI and private.db.general.enableWaypointUISupport
+end
+
+function RSConfigDB.SetWaypointUISupportEnabled(value)
+	private.db.general.enableWaypointUISupport = WaypointUIAPI and value
+end
+
+function RSConfigDB.IsAddingWaypointUIWaypointsAutomatically()
+	return WaypointUIAPI and private.db.general.autoWaypointUIWaypoints
+end
+
+function RSConfigDB.SetAddingWaypointUIWaypointsAutomatically(value)
+	private.db.general.autoWaypointUIWaypoints = WaypointUIAPI and value
+end
+
 ---============================================================================
 -- Worldmap searcher
 ---============================================================================
@@ -1684,6 +1724,14 @@ end
 -- Worldmap waypoints
 ---============================================================================
 
+function RSConfigDB.IsAddingWorldMapIngameWaypoints()
+	return private.db.map.waypointIngame
+end
+
+function RSConfigDB.SetAddingWorldMapIngameWaypoints(value)
+	private.db.map.waypointIngame = value
+end
+
 function RSConfigDB.IsAddingWorldMapTomtomWaypoints()
 	return TomTom and private.db.map.waypointTomtom
 end
@@ -1692,12 +1740,12 @@ function RSConfigDB.SetAddingWorldMapTomtomWaypoints(value)
 	private.db.map.waypointTomtom = TomTom and value
 end
 
-function RSConfigDB.IsAddingWorldMapIngameWaypoints()
-	return private.db.map.waypointIngame
+function RSConfigDB.IsAddingWorldMapWaypointUIWaypoints()
+	return WaypointUIAPI and private.db.map.waypointWaypointUI
 end
 
-function RSConfigDB.SetAddingWorldMapIngameWaypoints(value)
-	private.db.map.waypointIngame = value
+function RSConfigDB.SetAddingWorldMapWaypointUIWaypoints(value)
+	private.db.map.waypointWaypointUI = WaypointUIAPI and value
 end
 
 ---============================================================================
@@ -1949,6 +1997,14 @@ end
 
 function RSConfigDB.SetAddingchatIngameWaypoints(value)
 	private.db.chat.waypointIngame = value
+end
+
+function RSConfigDB.IsAddingchatWaypointUIWaypoints()
+	return WaypointUIAPI and private.db.chat.waypointWaypointUI
+end
+
+function RSConfigDB.SetAddingchatWaypointUIWaypoints(value)
+	private.db.chat.waypointWaypointUI = WaypointUIAPI and value
 end
 
 function RSConfigDB.GetChatTooltipsScale()

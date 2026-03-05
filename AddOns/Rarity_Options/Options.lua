@@ -48,6 +48,7 @@ local ARCH = "ARCH"
 local SPECIAL = "SPECIAL"
 local MINING = "MINING"
 local COLLECTION = "COLLECTION"
+local ENCOUNTER = "ENCOUNTER" -- TODO use constants
 
 -- Feed text
 local FEED_MINIMAL = "FEED_MINIMAL"
@@ -959,7 +960,8 @@ function R:PrepareOptions()
 									Rarity.GUI:UpdateText()
 								end,
 								hidden = function()
-									return LE_EXPANSION_LEVEL_CURRENT < LE_EXPANSION_MIDNIGHT
+									return not LE_EXPANSION_MIDNIGHT
+										or (LE_EXPANSION_LEVEL_CURRENT < LE_EXPANSION_MIDNIGHT)
 								end,
 							},
 						}, -- args
@@ -2003,12 +2005,13 @@ function R:CreateGroup(options, group, isUser)
 					width = "double",
 					values = {
 						[NPC] = R.string_methods[NPC],
-						[BOSS] = R.string_methods[BOSS],
+						[BOSS] = R.string_methods[BOSS], -- TODO Disable (Check DB/affected items)
 						[ZONE] = R.string_methods[ZONE],
 						[USE] = R.string_methods[USE],
 						[FISHING] = R.string_methods[FISHING],
 						[ARCH] = R.string_methods[ARCH],
 						[COLLECTION] = R.string_methods[COLLECTION],
+						[ENCOUNTER] = R.string_methods[ENCOUNTER],
 					},
 					get = function()
 						return item.method
@@ -2291,6 +2294,23 @@ function R:CreateGroup(options, group, isUser)
 					end,
 					disabled = not isUser,
 				},
+				zoneNamesLocalized = {
+					type = "input",
+					width = "double",
+					disabled = true,
+					order = newOrder(),
+					name = "",
+					get = function()
+						return colorize(table.concat(Rarity.MapInfo.GetLocalizedMapNamesForItem(item), ", "), green)
+					end,
+					hidden = function()
+						if item.method == ZONE or item.method == FISHING then
+							return false
+						else
+							return true
+						end
+					end,
+				},
 				items = {
 					type = "input",
 					order = newOrder(),
@@ -2383,7 +2403,57 @@ function R:CreateGroup(options, group, isUser)
 						end
 					end,
 					hidden = function()
-						if item.method == NPC or item.method == BOSS then
+						if item.method == NPC then
+							return false
+						else
+							return true
+						end
+					end,
+					disabled = not isUser,
+				},
+				encounters = {
+					type = "input",
+					order = newOrder(),
+					width = "double",
+					name = L["Encounters"],
+					desc = L["A comma-separated list of encounter IDs that award this item. Use WowHead or a similar service to look up these IDs."],
+					set = function(info, val)
+						if strtrim(val) == "" then
+							alert(L["You must enter at least one ID."])
+						else
+							local list = { strsplit(",", val) }
+							for k, v in pairs(list) do
+								if strtrim(v) == "" or tonumber(strtrim(v)) == nil then
+									alert(L["Please enter a comma-separated list of IDs."])
+									return
+								elseif tonumber(strtrim(v)) <= 0 then
+									alert(L["Every ID must be a number greater than 0."])
+									return
+								end
+							end
+							item.encounters = {}
+							for k, v in pairs(list) do
+								table.insert(item.encounters, tonumber(strtrim(v)))
+							end
+						end
+						self:Update("OPTIONS")
+					end,
+					get = function(into)
+						if item.encounters and type(item.encounters) == "table" then
+							local s = ""
+							for k, v in pairs(item.encounters) do
+								if strlen(s) > 0 then
+									s = s .. ","
+								end
+								s = s .. tostring(v)
+							end
+							return s
+						else
+							return ""
+						end
+					end,
+					hidden = function()
+						if item.method == ENCOUNTER then
 							return false
 						else
 							return true

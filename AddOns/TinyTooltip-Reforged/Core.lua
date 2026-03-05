@@ -174,10 +174,18 @@ function addon:FindLine(tooltip, keyword)
     local line, text
     for i = 2, tooltip:NumLines() do
         line = _G[tooltip:GetName() .. "TextLeft" .. i]
-        if (not line) then return end
-        text = line:GetText() or ""
-        if (strfind(text, keyword)) then
-            return line, i, _G[tooltip:GetName() .. "TextRight" .. i]
+        local check, value = pcall(function() return line and line:GetText() end)
+        if (check) then
+            local checkType, isStr = pcall(function() return type(value) == "string" end)
+            if (checkType and isStr) then
+                local checkNotEmpty, notEmpty = pcall(function() return value ~= "" end)
+                if (checkNotEmpty and notEmpty) then
+                    local checkFind, found = pcall(function() return strfind(value, keyword) end)
+                    if (checkFind and found) then
+                        return line, i, _G[tooltip:GetName() .. "TextRight" .. i]
+                    end
+                end
+            end
         end
     end
 end
@@ -378,23 +386,45 @@ function addon:GetZone(unit, unitname, realm)
     end
 end
 
+-- Thanks to 星野绫-罗宁 CN HoshinoAya
 local t = {}
 function addon:GetUnitInfo(unit)  
-    local name, realm = UnitName(unit)
-    local pvpName = UnitPVPName(unit)
-    local gender = UnitSex(unit)
-    local level = UnitLevel(unit)
-    if(UnitIsWildBattlePet(unit) or UnitIsBattlePetCompanion(unit)) then
-        level = UnitBattlePetLevel(unit)
+    local function SafeCall(fn, ...)
+        local ok, a, b, c, d, e, f, g, h, i, j = pcall(fn, ...)
+        if ok then return a, b, c, d, e, f, g, h, i, j end
     end
-    local effectiveLevel = UnitEffectiveLevel(unit)
-    local raceName, race = UnitRace(unit)
-    local className, class = UnitClass(unit)
-    local factionGroup, factionName = UnitFactionGroup(unit)
-    local reaction = UnitReaction(unit, "player")
-    local guildName, guildRank, guildIndex, guildRealm = GetGuildInfo(unit)
-    local classif = UnitClassification(unit)
-    local role = UnitGroupRolesAssigned(unit)
+    local function SafeBool(fn, ...)
+        local ok, value = pcall(fn, ...)
+        if (not ok) then
+            return false
+        end
+        local okEval, result = pcall(function()
+            return value == true
+        end)
+        if (okEval) then
+            return result
+        end
+        return false
+    end
+    if (not unit or not SafeBool(UnitExists, unit)) then
+        t.unit = unit
+        return t
+    end
+    local name, realm = SafeCall(UnitName, unit)
+    local pvpName = SafeCall(UnitPVPName, unit)
+    local gender = SafeCall(UnitSex, unit)
+    local level = SafeCall(UnitLevel, unit)
+    if(SafeBool(UnitIsWildBattlePet,unit) or SafeBool(UnitIsBattlePetCompanion, unit)) then
+        level = SafeCall(UnitBattlePetLevel, unit)
+    end
+    local effectiveLevel = SafeCall(UnitEffectiveLevel, unit)
+    local raceName, race = SafeCall(UnitRace, unit)
+    local className, class = SafeCall(UnitClass, unit)
+    local factionGroup, factionName = SafeCall(UnitFactionGroup, unit)
+    local reaction = SafeCall(UnitReaction, unit, "player")
+    local guildName, guildRank, guildIndex, guildRealm = SafeCall(GetGuildInfo, unit)
+    local classif = SafeCall(UnitClassification,unit)
+    local role = SafeCall(UnitGroupRolesAssigned,unit)
     local mplusScore, mplusColor, mplusBest = GetMythicPlusScore(unit)
 
     t.raidIcon     = self:GetRaidIcon(unit)
@@ -410,24 +440,24 @@ function addon:GetUnitInfo(unit)
     t.name         = name
     t.gender       = self:GetGender(gender)
     t.realm        = realm or GetRealmName()
-    t.levelValue   = level >= 0 and level or "??"
+    t.levelValue   = (type(level) == "number" and level >= 0) and level or "??"
     t.className    = className
     t.raceName     = raceName
     t.guildName    = guildName
     t.guildRank    = guildRank
     t.guildIndex   = guildName and guildIndex
     t.guildRealm   = guildRealm
-    t.statusAFK    = UnitIsAFK(unit) and AFK
-    t.statusDND    = UnitIsDND(unit) and DND
-    t.statusDC     = not UnitIsConnected(unit) and OFFLINE
+    t.statusAFK    = SafeBool(UnitIsAFK, unit) and AFK
+    t.statusDND    = SafeBool(UnitIsDND, unit) and DND
+    t.statusDC     = SafeBool(UnitIsConnected,unit) == false and OFFLINE
     t.reactionName = reaction and _G["FACTION_STANDING_LABEL"..reaction]
-    t.creature     = UnitCreatureType(unit)
+    t.creature     = SafeCall(UnitCreatureType, unit)
     t.mplusScore   = nil
     t.mplusScoreColor = nil
     t.classifBoss  = (level==-1 or classif == "worldboss") and BOSS
     t.classifElite = (classif == "elite" or classif == "rareelite") and ELITE
     t.classifRare  = (classif == "rare" or classif == "rareelite") and RARE
-    t.isPlayer     = UnitIsPlayer(unit) and PLAYER
+    t.isPlayer     = SafeBool(UnitIsPlayer, unit) and PLAYER
     t.moveSpeed    = self:GetUnitSpeed(unit)
     t.zone         = self:GetZone(unit, t.name, t.realm)
     local label = self.L and self.L["Mythic+ Score"] or "M+ Score"
@@ -932,21 +962,40 @@ LibEvent:attachTrigger("tooltip.style.init", function(self, tip)
             if (not info or not info.tooltipData) then return end
             local flag = info.tooltipData.type
             local guid = info.tooltipData.guid
-            if (flag == 0) then
+            local getterName = info.getterName or info.tooltipData.getterName
+            local function SafeEquals(a, b)
+                local ok, res = pcall(function() return a == b end)
+                return ok and res
+            end
+            local function GetTooltipSpellId(tt)
+                if (not tt or not tt.GetSpell) then return end
+                local ok, _, spellId = pcall(tt.GetSpell, tt)
+                if (ok and type(spellId) == "number") then
+                    return spellId
+                end
+            end
+            local isAura = SafeEquals(flag, 7)
+            if (not isAura and getterName) then
+                isAura = getterName == "GetUnitDebuffByAuraInstanceID"
+                    or getterName == "GetUnitBuffByAuraInstanceID"
+                    or getterName == "GetUnitAuraByAuraInstanceID"
+            end
+            local isMacro = getterName == "GetMacro"       
+            if (SafeEquals(flag, 0)) then
 		local link = select(2, C_Item.GetItemInfo(info.tooltipData.id))
                 if (self.GetItem) then
                     local link = select(2, self:GetItem())
                 end
                 if (link) then LibEvent:trigger("tooltip:item", self, link) end
-            elseif (flag == 1) then
+            elseif (SafeEquals(flag, 1)) then
                 LibEvent:trigger("tooltip:spell", self)
-            elseif (flag == 2) then
+            elseif (SafeEquals(flag, 2)) then
                 if (not self.GetUnit) then return end
                 local unit = select(2, self:GetUnit())
                 if (unit) then
-                    LibEvent:trigger("tooltip:unit", self, unit, guid)
+                    LibEvent:trigger("tooltip:unit", self, unit, guid, flag)
                 end
-            elseif (flag == 7) then
+            elseif (isAura) then
                 LibEvent:trigger("tooltip:aura", self, info.tooltipData.args)
             end
         end)

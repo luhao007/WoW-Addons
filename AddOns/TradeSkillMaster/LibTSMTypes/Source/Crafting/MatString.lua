@@ -30,6 +30,10 @@ local PREFIX_TO_TYPE_LOOKUP = {
 	f = MatString.TYPE.FINISHING,
 	r = MatString.TYPE.REQUIRED,
 }
+local QUALITY_MAT_STRING_ITEM_ID_PATTERNS_MIDNIGHT = {
+	"^q:%d+:(%d+),%d+$",
+	"^q:%d+:%d+,(%d+)$",
+}
 local QUALITY_MAT_STRING_ITEM_ID_PATTERNS = {
 	"^q:%d+:(%d+),%d+,%d+$",
 	"^q:%d+:%d+,(%d+),%d+$",
@@ -105,12 +109,19 @@ function MatString.ContainsItem(matString, itemId)
 	return String.SeparatedContains(matList, ",", tostring(itemId))
 end
 
+---Gets the number of quality tiers for a quality mat string.
+---@param matString string The mat string
+---@return number
+function MatString.GetNumQualities(matString)
+	return private.IsMidnightMaterial(matString) and 2 or 3
+end
+
 ---Gets the itemString for a specific quality.
 ---@param matString string The mat string
 ---@param quality number The quality
 ---@return string
 function MatString.GetQualityItem(matString, quality)
-	return "i:"..strmatch(matString, QUALITY_MAT_STRING_ITEM_ID_PATTERNS[quality])
+	return "i:"..strmatch(matString, private.IsMidnightMaterial(matString) and QUALITY_MAT_STRING_ITEM_ID_PATTERNS_MIDNIGHT[quality] or QUALITY_MAT_STRING_ITEM_ID_PATTERNS[quality])
 end
 
 ---Gets the itemString for a required mat at the specified index.
@@ -133,4 +144,8 @@ function private.SingleItemIterator(itemString, prev)
 	if prev == -1 then
 		return itemString
 	end
+end
+
+function private.IsMidnightMaterial(matString)
+	return strmatch(matString, QUALITY_MAT_STRING_ITEM_ID_PATTERNS_MIDNIGHT[1]) and true or false
 end

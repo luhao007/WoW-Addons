@@ -2,7 +2,7 @@
 local addon = TinyTooltipReforged
  
 addon.db = {
-    version = 12.0,
+    version = 12.1,
     general = {
         scale             = 1,
         mask              = true,
@@ -24,7 +24,7 @@ addon.db = {
         statusbarTexture  = "Blizzard",
 	statusbarTextFormat = "health/max (percent)",
         anchor            = { position = "cursor", hiddenInCombat = false, defaultInCombat = true, defaultOnUnitFrame = false, cp = "BOTTOMLEFT", p = "BOTTOMRIGHT", cx = 20, cy = 0, },        
-        alwaysShowIdInfo  = true,        
+        showIdInfo  	  = "always",
         skinMoreFrames    = true,
         headerFont        = "default",
         headerFontSize    = "default",
@@ -34,6 +34,7 @@ addon.db = {
         bodyFontFlag      = "default",
         SavedVariablesPerCharacter = false,
         ColorBlindMode 	  = false,
+	hideUnitFrameHint = true,
      },
     unit = {
         player = {
@@ -68,6 +69,7 @@ addon.db = {
                 gender      = { enable = false, color = "999999",  wildcard = "%s", filter = "none" }, 
                 raceName    = { enable = true, color = "cccccc",  wildcard = "%s",  filter = "none" }, 
                 className   = { enable = true, color = "ffffff",  wildcard = "%s",  filter = "none" }, 
+                classSpecAndName   = { enable = true, color = "ffffff",  wildcard = "%s",  filter = "none" },
                 isPlayer    = { enable = false, color = "ffffff",  wildcard = "(%s)", filter = "none" }, 
                 role        = { enable = false, color = "ffffff",  wildcard = "(%s)", filter = "none" },
                 moveSpeed   = { enable = false, color = "e8e7a8",  wildcard = "%d%%", filter = "none" },  

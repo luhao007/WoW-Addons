@@ -17,7 +17,7 @@ local TalentData=Data.TalentData
 local FramePlusfun=addonTable.FramePlusfun
 local Fun=addonTable.Fun
 local FasongYCqingqiu=Fun.FasongYCqingqiu
-local _GetTooltipLevel=Fun._GetTooltipLevel
+local Update_ItemButtonZLVranse=Fun.Update_ItemButtonZLVranse
 ----
 local GetContainerNumFreeSlots = C_Container.GetContainerNumFreeSlots
 local GetContainerNumSlots = C_Container.GetContainerNumSlots
@@ -29,30 +29,7 @@ local GetCoinTextureString= GetCoinTextureString or  C_CurrencyInfo and C_Curren
 ---自身角色和观察目标信息---------------
 if not InspectTalentFrameSpentPoints then InspectTalentFrameSpentPoints = CreateFrame("Frame") end
 local XWidth, XHeight =CharacterHeadSlot:GetWidth(),CharacterHeadSlot:GetHeight()
------------------------
-
-local function Update_Level_V(framef,unit,ZBID)
-	framef.ZLV:SetText("");
-	local itemLink = GetInventoryItemLink(unit, ZBID)
-	if itemLink then
-		local quality = GetInventoryItemQuality(unit, ZBID)
-		if quality then
-			_GetTooltipLevel(unit,{ZBID},function(ItemLevel)
-				framef.ZLV:SetText(ItemLevel)
-			end)
-		end
-	end
-end
-local function Update_ranse_V(framef,unit,ZBID)
-	framef.ranse:Hide()
-	local quality = GetInventoryItemQuality(unit, ZBID)
-    if quality and quality>1 then
-        local r, g, b = GetItemQualityColor(quality);
-        framef.ranse:SetVertexColor(r, g, b);
-		framef.ranse:Show()
-	end
-end
-shudshakdas=1
+-------
 local function Update_Data_ALL(laiyuan)--刷新数据
 	local LYname=""
 	if laiyuan==PaperDollFrame then
@@ -91,18 +68,12 @@ local function Update_Data_ALL(laiyuan)--刷新数据
 	if laiyuan==InspectFrame then
 		duixiang=InspectFrame.unit
 	end
-	if PIGA["FramePlus"]["Character_ItemLevel"] then
+	if PIGA["FramePlus"]["Character_ItemLevel"] or PIGA["FramePlus"]["Character_ItemColor"] then
 		for inv = 1, #InvSlot["ID"] do
 			if InvSlot["ID"][inv]~=0 and InvSlot["ID"][inv]~=4 and InvSlot["ID"][inv]~=19 then
 				local framef=_G[LYname..InvSlot["Name"][InvSlot["ID"][inv]][3].."Slot"]
-				Update_Level_V(framef,duixiang, InvSlot["ID"][inv])
+				Update_ItemButtonZLVranse("C", framef, duixiang, InvSlot["ID"][inv])
 			end
-		end
-	end
-	if PIGA["FramePlus"]["Character_ItemColor"] then
-		for inv = 1, #InvSlot["ID"] do
-			local framef=_G[LYname..InvSlot["Name"][InvSlot["ID"][inv]][3].."Slot"]
-			Update_ranse_V(framef,duixiang,InvSlot["ID"][inv])
 		end
 	end
 	if PIGA["FramePlus"]["Character_ItemList"] then
@@ -132,29 +103,6 @@ local function ADD_UI_Puls(laiyuan)
 			if not framef.naijiuV then
 				framef.naijiuV = PIGFontString(framef,{"BOTTOMRIGHT", framef, "BOTTOMRIGHT", 2, 0},nil,"OUTLINE",13)
 				framef.naijiuV:SetDrawLayer("OVERLAY", 7)
-			end
-		end
-		--
-		if PIGA["FramePlus"]["Character_ItemLevel"] then
-			if not framef.ZLV then
-				framef.ZLV = PIGFontString(framef,{"TOPLEFT", framef, "TOPLEFT", -2, 1},nil,"OUTLINE",15)
-				framef.ZLV:SetDrawLayer("OVERLAY", 7)
-				framef.ZLV:SetTextColor(0, 1, 1, 1);
-			end
-		end
-		---
-		if PIGA["FramePlus"]["Character_ItemColor"] then
-			if not framef.ranse then
-				framef.ranse = framef:CreateTexture(nil, "OVERLAY");
-				framef.ranse:SetTexture("Interface/Buttons/UI-ActionButton-Border");
-				framef.ranse:SetBlendMode("ADD");
-				if InvSlot["ID"][inv]==0 then
-					framef.ranse:SetSize(XWidth*1.4, XHeight*1.4);
-				else
-					framef.ranse:SetSize(XWidth*1.8, XHeight*1.8);
-				end
-				framef.ranse:SetPoint("CENTER", framef, "CENTER", 0, 0);
-				framef.ranse:Hide()
 			end
 		end
 	end

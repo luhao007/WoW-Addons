@@ -52,12 +52,12 @@ function RSMinimap.LoadMinimapButton()
 		label = "RareScanner",
 		icon = RSConstants.NORMAL_NPC_TEXTURE,
 		OnClick = function(self, button) 
-			if (button == "LeftButton") then
-				if (not InCombatLockdown()) then
+			if (not InCombatLockdown()) then
+				if (button == "LeftButton") then
 					RSExplorerFrame:Show()
+				elseif (button == "RightButton") then
+					Settings.OpenToCategory(AceConfigDialog.BlizOptionsIDMap["RareScanner"])
 				end
-			elseif (button == "RightButton") then
-				Settings.OpenToCategory(AceConfigDialog.BlizOptionsIDMap["RareScanner"])
 			end
 		end,
 		OnTooltipShow = function(tooltip)
@@ -195,7 +195,7 @@ function RSMinimap.RefreshEntityState(entityID)
 				local isFiltered = false
 				if (POI.isNpc) then
 					-- If the entity spawns in multiple places use the POIs coordinates
-					local alreadyFoundInfo = RSGeneralDB.GetAlreadyFoundEntity(entityID)
+					local alreadyFoundInfo = RSGeneralDB.GetAlreadyFoundEntity(entityID, RSConstants.NPC_VIGNETTE)
 					if (RSNpcDB.IsMultiZoneSpawn(entityID)) then
 						alreadyFoundInfo.coordX = POI.x
 						alreadyFoundInfo.coordY = POI.y
@@ -207,7 +207,7 @@ function RSMinimap.RefreshEntityState(entityID)
 					end
 				elseif (POI.isContainer) then
 					-- If the entity spawns in multiple places use the POIs coordinates
-					local alreadyFoundInfo = RSGeneralDB.GetAlreadyFoundEntity(entityID)
+					local alreadyFoundInfo = RSGeneralDB.GetAlreadyFoundEntity(entityID, RSConstants.CONTAINER_VIGNETTE)
 					if (RSContainerDB.IsMultiZoneSpawn(entityID)) then
 						alreadyFoundInfo.coordX = POI.x
 						alreadyFoundInfo.coordY = POI.y
@@ -218,7 +218,8 @@ function RSMinimap.RefreshEntityState(entityID)
 						isFiltered = true
 					end
 				elseif (POI.isEvent) then
-					POI = RSEventPOI.GetEventPOI(entityID, POI.mapID, RSEventDB.GetInternalEventInfo(entityID), RSGeneralDB.GetAlreadyFoundEntity(entityID))
+					local alreadyFoundInfo = RSGeneralDB.GetAlreadyFoundEntity(entityID, RSConstants.EVENT_VIGNETTE)
+					POI = RSEventPOI.GetEventPOI(entityID, POI.mapID, RSEventDB.GetInternalEventInfo(entityID), alreadyFoundInfo)
 					if (POI.isCompleted and not RSConfigDB.IsShowingCompletedEvents()) then
 						isFiltered = true
 					end

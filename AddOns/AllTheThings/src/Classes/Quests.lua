@@ -316,6 +316,7 @@ local CACHE = "Quests"
 app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, accountWideData)
 	if not currentCharacter[CACHE] then currentCharacter[CACHE] = {} end
 	if not accountWideData[CACHE] then accountWideData[CACHE] = {} end
+	if not currentCharacter.PriorQuests then currentCharacter.PriorQuests = {} end
 	if not accountWideData.OneTimeQuests then accountWideData.OneTimeQuests = {} end
 
 	OneTimeQuests = accountWideData.OneTimeQuests
@@ -417,11 +418,11 @@ if app.AccountWideQuestsDB and next(app.AccountWideQuestsDB) ~= nil then
 	CacheQuestByScope = function(questID, flag)
 		flag = flag and 1 or nil
 		if AccountWide[questID] then
-			app.SetAccountCached(CACHE, questID, flag)
+			app.SetThingCollected("questID",questID,true,flag)
 			-- account quests are wiped from character cache
 			app.SetCached(CACHE, questID)
 		else
-			app.SetCached(CACHE, questID, flag)
+			app.SetThingCollected("questID",questID,false,flag)
 		end
 	end
 else
@@ -431,7 +432,7 @@ else
 	end
 	CacheQuestByScope = function(questID, flag)
 		flag = flag and 1 or nil
-		app.SetCached(CACHE, questID, flag)
+		app.SetThingCollected("questID",questID,false,flag)
 	end
 end
 local BatchRefresh
@@ -462,7 +463,6 @@ local CompletedQuests = setmetatable({}, {
 		-- Way too much overhead to assume this should be done every time a key is changed
 		if not BatchRefresh then
 			CacheQuestByScope(questID, state)
-			app.UpdateRawID("questID", questID)
 		end
 	end
 });
@@ -599,10 +599,8 @@ app.IsQuestAvailable = function(t)
 	)
 end
 
-local function IsQuestSaved(questID)
-	-- NOTE: If Party Sync is supported, this will be replaced!
-	return IsQuestFlaggedCompleted(questID);
-end
+-- NOTE: If Party Sync is supported, this will be replaced!
+local IsQuestSaved = IsQuestFlaggedCompleted
 local function GetQuestIndicator(t)
 	local questID = t.questID;
 	if questID then
@@ -873,7 +871,12 @@ if C_QuestLog_GetAllCompletedQuestIDs then
 	local AfterCombatOrDelayedCallback = app.CallbackHandlers.AfterCombatOrDelayedCallback;
 	local MAX = 999999;
 	local UnflaggedQuests = {}
+	local FlaggedQuests = {}
 	local CompleteQuestSequence = {};
+	local FirstRefresh = true
+	local IgnoredUnflagTypes = {
+		ItemWithQuest = true,
+	}
 	local QueryCompletedQuests = function()
 		BatchRefresh = true
 		local freshCompletes = C_QuestLog_GetAllCompletedQuestIDs();
@@ -885,7 +888,7 @@ if C_QuestLog_GetAllCompletedQuestIDs then
 		local oldReportSetting = DoQuestPrints
 		-- check if Blizzard is being dumb / should we print a summary instead of individual lines
 		local questDiff = #freshCompletes - #CompleteQuestSequence;
-		local manyQuests = #CompleteQuestSequence == 0
+		local manyQuests = FirstRefresh
 		if oldReportSetting and not manyQuests then
 			if questDiff > 50 then
 				manyQuests = true;
@@ -897,9 +900,11 @@ if C_QuestLog_GetAllCompletedQuestIDs then
 		end
 		-- don't report quest completions if there's too many or we have yet to get initial quest completion
 		if manyQuests then
+			FirstRefresh = nil
 			DoQuestPrints = nil
 		end
 		wipe(UnflaggedQuests)
+		wipe(FlaggedQuests)
 
 		-- Dual Step tracking method
 		-- app.PrintDebug("DualStep")
@@ -921,6 +926,7 @@ if C_QuestLog_GetAllCompletedQuestIDs then
 				else
 					-- new completed quest
 					CompletedQuests[n] = true
+					FlaggedQuests[n] = true
 					Ni = Ni + 1
 					n = freshCompletes[Ni] or MAX
 				end
@@ -931,12 +937,38 @@ if C_QuestLog_GetAllCompletedQuestIDs then
 		-- app.__CQS = CompleteQuestSequence
 
 		if #RetailDirtyQuests > 0 then
-			CacheQuestsByScope(RetailRawQuests,1)
+			CacheQuestsByScope(FlaggedQuests,1)
 			CacheQuestsByScope(UnflaggedQuests)
 		end
 
 		if manyQuests then
 			DoQuestPrints = oldReportSetting
+		end
+
+		-- add a contrib dialog if any UnflaggedQuests are found to be NOT repeatable, thus indicating an ATT data issue or Blizzard unflagging unexpected quests
+		if app.Contributor and next(UnflaggedQuests) then
+			local inaccurateQuests = {}
+			local ref
+			for questID in pairs(UnflaggedQuests) do
+				ref = Search("questID", questID, "field")
+				-- quest which has become unflagged but was not marked as such in ATT (ignoring HQTs)
+				if ref
+					and not ref.repeatable
+					and not ref.achievementID	-- don't report quests linked to achievements/criteria
+					and not IgnoredUnflagTypes[ref.__type]	-- don't report types of quests we don't care about
+					and not GetRelativeValue(ref, "_hqt") then
+					inaccurateQuests[questID] = true
+				end
+			end
+			if next(inaccurateQuests) then
+				-- do this on a 10sec callback to help it be more visible on login in case there is lots of addon startup spam
+				app.CallbackHandlers.DelayedCallback(function()
+					app.Modules.Contributor.AddReportData(
+						"Inaccurate Unflagged Quests",
+						app.UniqueCounter.UnflaggedQuests,
+						inaccurateQuests)
+				end, 10)
+			end
 		end
 
 		BatchRefresh = nil
@@ -975,10 +1007,26 @@ if C_QuestLog_GetAllCompletedQuestIDs then
 		end
 	end
 
-	-- Retail Event Handlers
+	app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, accountWideData, characterData)
+		-- convert cached quests into the current CompleteQuestSequence so unflagged quests can be properly tracked and reported at startup
+		local priorQuests = currentCharacter.PriorQuests
+		for questID in pairs(currentCharacter.Quests) do
+			CompleteQuestSequence[#CompleteQuestSequence + 1] = questID
+			RetailRawQuests[questID] = 1
+			priorQuests[questID] = 1
+		end
+		app.Sort(CompleteQuestSequence)
+	end)
 	app.AddEventRegistration("LOOT_OPENED", RefreshAllQuestInfo)
 	-- We don't want any reporting/updating of completed quests when ATT starts... simply capture all completed quests
 	app.AddEventHandler("OnStartup", QueryCompletedQuests);
+	app.AddEventHandler("OnStartup", function()
+		-- clean any completed quests from PriorQuests. This should only represent unflagged quests which at one point were completed
+		local priorQuests = app.CurrentCharacter.PriorQuests
+		for questID in pairs(RetailRawQuests) do
+			priorQuests[questID] = nil
+		end
+	end)
 	app.AddEventHandler("OnRecalculate", QueryCompletedQuests);
 	app.AddEventHandler("OnPlayerLevelUp", RefreshAllQuestInfo);
 	app.AddEventHandler("OnReady", function()
@@ -1494,30 +1542,31 @@ end
 -- Quest Lib
 local QuestWithReputationCostCollectibles = setmetatable({}, {
 	__index = function(t, quest)
-		if NotInGame(quest) then
-			-- app.PrintDebug("ignore costcollectibles for unavailable quest", quest.questID)
-			t[quest.questID] = app.EmptyTable
-			return
-		end
 		local costCollectibles
-		-- TODO: adjust when givesReputation exists
-		local maxReputation = quest.maxReputation
-		if maxReputation then
-			local faction = app.CreateFaction(maxReputation[1]);
-			if faction:CompareReputation(maxReputation[2]) or not faction.collectible then
-				costCollectibles = app.EmptyTable;
-			else
-				faction.r = quest.r;
-				costCollectibles = { faction }
-			end
+		if NotInGame(quest) or quest.saved then
+			-- app.PrintDebug("ignore costcollectibles for unavailable quest", quest.questID)
+			costCollectibles = false
 		else
-			costCollectibles = app.EmptyTable;
+			-- TODO: adjust when givesReputation exists
+			local maxReputation = quest.maxReputation
+			if maxReputation then
+				local faction = app.CreateFaction(maxReputation[1]);
+				if faction:CompareReputation(maxReputation[2]) or not faction.collectible then
+					costCollectibles = false;
+				else
+					faction.r = quest.r;
+					costCollectibles = { faction }
+				end
+			else
+				costCollectibles = false;
+			end
 		end
-		t[quest.questID] = costCollectibles
+		t[quest] = costCollectibles
 		return costCollectibles
 	end,
 });
 local createQuest = app.CreateClass("Quest", "questID", {
+	CACHE = function() return CACHE end,
 	AsyncRefreshFunc = function()
 		return QuestAsyncRefreshFunc
 	end,
@@ -1556,9 +1605,10 @@ local createQuest = app.CreateClass("Quest", "questID", {
 		-- linktests[#linktests + 1] = "|cffffff00|Hquest:"..t.questID..":"..(app._subid or 0).."|h["..t.questID.."]|h|r" -- cannot send message
 		return "quest:"..t.questID
 	end,
-	RefreshCollectionOnly = true,
 	collectible = CollectibleAsQuest,
-	collected = IsQuestFlaggedCompletedForObject,
+	collected = function(t)
+		return app.TypicalCharacterCollected(CACHE, t.questID)
+	end,
 	altcollected = function(t)
 		local altQuests = t.altQuests;
 		if altQuests then
@@ -1923,6 +1973,7 @@ app.AddEventRegistration("QUEST_TURNED_IN", function(questID)
 		end
 	end
 	RefreshQuestInfo(questID);
+	wipe(QuestWithReputationCostCollectibles);
 end)
 
 -- popout handler for Quest Items group

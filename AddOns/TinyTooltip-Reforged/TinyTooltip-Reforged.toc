@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: Beezer
-## Version: 12.0
+## Version: 12.1
 ## License: All Rights Reserved
 
 ## Title: TinyTooltip-Reforged |cFF69CCF0by Beezer|r
@@ -19,9 +19,8 @@
 
 libs\lib.xml
 libs\Template.xml
-locales\locales.xml
-
 Core.lua
+locales\locales.xml
 Config.lua
 General.lua
 Anchor.lua

@@ -1189,7 +1189,6 @@ end
 local function NotInitialized(name)
 	app.print(name,"not initialized yet...");
 end
-app.SetAccountCollected = function() NotInitialized("SetAccountCollected") end;
 app.SetCollected = function() NotInitialized("SetCollected") end;
 app.SetCached = function() NotInitialized("SetCached") end;
 app.IsCached = function() NotInitialized("IsCached") end;

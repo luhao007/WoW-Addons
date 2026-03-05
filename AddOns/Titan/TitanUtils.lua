@@ -1006,7 +1006,7 @@ local function TitanUtils_SwapButtonOnBar(from_id, to_id)
 	TitanPanelSettings.Location[from_id] = TitanPanelSettings.Location[to_id]
 	TitanPanelSettings.Buttons[to_id] = button
 	TitanPanelSettings.Location[to_id] = locale
-	TitanPanel_InitPanelButtons();
+	TitanPanel_InitPanelButtons("_SwapButtonOnBar");
 end
 
 ---local Find the next button index that is on the same bar and is on the same side.
@@ -1074,7 +1074,7 @@ function TitanUtils_AddButtonOnBar(bar, id)
 	-- update / add to the Location
 	TitanPanelSettings.Buttons[i] = (id or "?")
 	TitanPanelSettings.Location[i] = (bar or "Bar")
-	TitanPanel_InitPanelButtons();
+	TitanPanel_InitPanelButtons("_AddpButtonOnBar");
 end
 
 ---Titan Find the first button that is on the given bar and is on the given side.

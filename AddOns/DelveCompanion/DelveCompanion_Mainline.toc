@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: FunDeliveryGames
-## Version: v2026.02.4
+## Version: v2026.03.1
 
 ## Title: Delve Companion
 ## Notes: One-stop addon to make Delves experience even better!
@@ -11,9 +11,9 @@
 
 ## Category-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r
 
-## AddonCompartmentFunc: DelveCompanionCompartmentOnClick
-## AddonCompartmentFuncOnEnter: DelveCompanionCompartmentOnEnter
-## AddonCompartmentFuncOnLeave: DelveCompanionCompartmentOnLeave
+## AddonCompartmentFunc: DelveCompanion_CompartmentOnClick
+## AddonCompartmentFuncOnEnter: DelveCompanion_CompartmentOnEnter
+## AddonCompartmentFuncOnLeave: DelveCompanion_CompartmentOnLeave
 
 ## OptionalDeps: TomTom, MapPinEnhanced
 

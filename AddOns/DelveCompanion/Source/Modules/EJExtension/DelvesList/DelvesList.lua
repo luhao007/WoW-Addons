@@ -13,12 +13,12 @@ local Config = DelveCompanion.Config
 ---@type string
 local DELVES_TAB_PARENT_KEY = "DelvesTab"
 
----@type integer
+---@type number
 local EJ_DELVES_TAB_BUTTON_ID = 8
 --#endregion
 
----@class DelvesList
----@field delvesMinTier integer
+---@class (exact) DelvesList
+---@field delvesMinTier number
 ---@field Frame DelvesListFrame
 ---@field TabButton Button
 ---@field InfoFrame DelvesInfoFrame

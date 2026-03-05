@@ -8,6 +8,7 @@
 	<Script file="Enchant.lua" />
 	<Script file="Frame.lua" />
 	<Script file="Button.lua" />
+	<Script file="ItemButton.lua" />
 	<Script file="ColorBut.lua" />
 	<Script file="CheckButton.lua" />
 	<Script file="EditBox.lua" />

@@ -1,6 +1,7 @@
 -- Refresh Lib
 local _, app = ...;
 
+local OneTimeFixFunctions = {}
 if app.IsRetail then
 -- CRIEVE NOTE: At some point I want parser exporting this data,
 -- I don't want to be requesting these questIDs on environments
@@ -38,54 +39,39 @@ local function FixNonOneTimeQuests()
 		oneTimeQuests[questID] = nil;
 	end
 end
-local OneTimeFixFunctions = {
-	-- ref. https://github.com/ATTWoWAddon/AllTheThings/commit/d1b02b8021a7f2aa80c03d212a2ea54a443e9117
-	Spell148972 = function()
-		local ATTCharacterData = app.LocalizeGlobalIfAllowed("ATTCharacterData", true);
-		local found
-		for charGuid,charData in pairs(ATTCharacterData) do
-			if charData.Spells and charData.Spells[148972] then
-				charData.Spells[148972] = nil
-				found = true
-			end
-		end
-		if found then
-			app.print(app.Modules.Color.Colorize("One-Time removal for inaccurate cached data performed!", app.Colors.Account),
-						"If any character knows",
-						app:Linkify("Spell 148972", app.Colors.ChatLink,"search:spellID:148972"),
-						"they will need to log in to properly re-collect in ATT")
-		end
-	end,
-	-- ref. https://github.com/ATTWoWAddon/AllTheThings/commit/d1b02b8021a7f2aa80c03d212a2ea54a443e9117
-	Spell241857 = function()
-		local ATTCharacterData = app.LocalizeGlobalIfAllowed("ATTCharacterData", true);
-		local found
-		for charGuid,charData in pairs(ATTCharacterData) do
-			if charData.Spells and charData.Spells[241857] then
-				charData.Spells[241857] = nil
-				found = true
-			end
-		end
-		if found then
-			app.print(app.Modules.Color.Colorize("One-Time removal for inaccurate cached data performed!", app.Colors.Account),
-						"If any character knows",
-						app:Linkify("Spell 241857", app.Colors.ChatLink,"search:spellID:241857"),
-						"they will need to log in to properly re-collect in ATT")
-		end
-	end,
-}
-local function OneTimeFixes()
-	if not ATTAccountWideData.OneTimeFixes then ATTAccountWideData.OneTimeFixes = {} end
-	local appliedFixes = ATTAccountWideData.OneTimeFixes
-
-	for fix,func in pairs(OneTimeFixFunctions) do
-		if not appliedFixes[fix] then
-			appliedFixes[fix] = 1
-			func(ATTAccountWideData)
+-- ref. https://github.com/ATTWoWAddon/AllTheThings/commit/d1b02b8021a7f2aa80c03d212a2ea54a443e9117
+OneTimeFixFunctions.Spell148972 = function()
+	local ATTCharacterData = app.LocalizeGlobalIfAllowed("ATTCharacterData", true);
+	local found
+	for charGuid,charData in pairs(ATTCharacterData) do
+		if charData.Spells and charData.Spells[148972] then
+			charData.Spells[148972] = nil
+			found = true
 		end
 	end
-
-	OneTimeFixFunctions = nil
+	if found then
+		app.print(app.Modules.Color.Colorize("One-Time removal for inaccurate cached data performed!", app.Colors.Account),
+					"If any character knows",
+					app:Linkify("Spell 148972", app.Colors.ChatLink,"search:spellID:148972"),
+					"they will need to log in to properly re-collect in ATT")
+	end
+end
+-- ref. https://github.com/ATTWoWAddon/AllTheThings/commit/d1b02b8021a7f2aa80c03d212a2ea54a443e9117
+OneTimeFixFunctions.Spell241857 = function()
+	local ATTCharacterData = app.LocalizeGlobalIfAllowed("ATTCharacterData", true);
+	local found
+	for charGuid,charData in pairs(ATTCharacterData) do
+		if charData.Spells and charData.Spells[241857] then
+			charData.Spells[241857] = nil
+			found = true
+		end
+	end
+	if found then
+		app.print(app.Modules.Color.Colorize("One-Time removal for inaccurate cached data performed!", app.Colors.Account),
+					"If any character knows",
+					app:Linkify("Spell 241857", app.Colors.ChatLink,"search:spellID:241857"),
+					"they will need to log in to properly re-collect in ATT")
+	end
 end
 local function CheckOncePerAccountQuestsForCharacter()
 	-- Double check if any once-per-account quests which haven't been detected as being completed are completed by this character
@@ -109,12 +95,42 @@ app.AddEventHandler("OnRefreshCollections", CacheAccountWideMiscQuests)
 app.AddEventHandler("OnRefreshCollections", CheckOncePerAccountQuestsForCharacter)
 app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, accountWideData)
 	ATTAccountWideData = accountWideData
-	OneTimeFixes()
 end)
 app.AddEventHandler("OnAfterSavedVariablesAvailable", function()
 	FixNonOneTimeQuests()
 end)
 end
+
+-- ref. 1 represents account-wide completion, so all old data needs to be wiped initially to allow proper re-caching
+OneTimeFixFunctions.PreATT5_0_14AWQuests = function(currentCharacter, accountWideData)
+	local quests = accountWideData.Quests
+	if not quests then return end
+
+	if not accountWideData.PriorQuests then accountWideData.PriorQuests = {} end
+	local priorQuests = accountWideData.PriorQuests
+	for questID,completion in pairs(quests) do
+		if completion == 1 then
+			quests[questID] = nil
+			priorQuests[questID] = 1
+		end
+	end
+
+	app.print("One-Time cleanup of old-format account-wide quest completion cache performed!")
+end
+local function OneTimeFixes(currentCharacter, accountWideData)
+	if not accountWideData.OneTimeFixes then accountWideData.OneTimeFixes = {} end
+	local appliedFixes = accountWideData.OneTimeFixes
+
+	for fix,func in pairs(OneTimeFixFunctions) do
+		if not appliedFixes[fix] then
+			appliedFixes[fix] = 1
+			func(currentCharacter, accountWideData)
+		end
+	end
+
+	OneTimeFixFunctions = nil
+end
+app.AddEventHandler("OnSavedVariablesAvailable", OneTimeFixes)
 
 -- for the first auto-refresh, don't actually print to chat since some users don't like that auto-chat on login
 local InCombatLockdown = InCombatLockdown;

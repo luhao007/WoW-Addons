@@ -145,7 +145,7 @@ local function ParseCommand(self, cmd, skipUpdate)
 		cmd = cmd:lower();
 	end
 	LastCmd = cmd;
-	
+
 	local price;
 	if cmd == "cap" or cmd == "goldcap" or cmd == "default" then
 		price = GoldCap;
@@ -164,7 +164,7 @@ local function ParseCommand(self, cmd, skipUpdate)
 	if not price or price <= 0 or price > GoldCap then
 		price = GoldCap;
 	end
-	
+
 	if MaximumPrice ~= price then
 		MaximumPrice = price;
 		if not skipUpdate then
@@ -180,7 +180,7 @@ app:CreateWindow("Auctions", {
 	IgnoreQuestUpdates = true,
 	Preload = true,
 	OnInit = function(self, handlers)
-		function ProcessAuctions()
+		local function ProcessAuctions()
 			pcall(self.UnregisterEvent, self, "AUCTION_ITEM_LIST_UPDATE");
 			pcall(self.UnregisterEvent, self, "REPLICATE_ITEM_LIST_UPDATE");
 			local beginTime = debugprofilestop();
@@ -247,8 +247,55 @@ app:CreateWindow("Auctions", {
 					end
 				end
 				self:SetWidth(width);
-				if app.Settings:GetTooltipSetting("Auto:AuctionList") then
+				if app.Settings:GetTooltipSetting("Auto:AuctionList") and app.IsClassic then
 					self:Show();
+				end
+
+				if app.IsRetail then
+					self.CloseButton:Disable()	-- Hiding would be better, but it reasserts itself too often for that
+					self:Hide()
+					if not AuctionHouseFrameTabSideBar then	-- This runs in other addons as well, to create the shared parent frame
+						AuctionHouseFrameTabSideBar = CreateFrame("Frame", nil, AuctionHouseFrame, "")
+						AuctionHouseFrameTabSideBar:SetWidth(1)
+						AuctionHouseFrameTabSideBar:SetPoint("TOPLEFT", AuctionHouseFrame, "TOPRIGHT")
+						AuctionHouseFrameTabSideBar:SetPoint("BOTTOMLEFT", AuctionHouseFrame, "BOTTOMRIGHT")
+						AuctionHouseFrameTabSideBar.Tabs = {}
+						AuctionHouseFrameTabSideBar.selTab = 0
+					end
+
+					app.AuctionHouseTab = CreateFrame("Frame", nil, AuctionHouseFrameTabSideBar, "AllTheThings_Tab")
+					app.AuctionHouseTab:SetPoint("TOPLEFT", AuctionHouseFrameTabSideBar, "TOPRIGHT", -2, -52)
+					AuctionHouseFrameTabSideBar.Tabs[#AuctionHouseFrameTabSideBar.Tabs + 1] = app.AuctionHouseTab
+
+					local function toggleAHTab()
+						local newState = not self:IsShown()
+						app.AuctionHouseTab:SetChecked(newState)
+						app.AuctionHouseTab.Icon:SetTexture("Interface\\Addons\\AllTheThings\\assets\\logo_32x32")
+						app.AuctionHouseTab.Icon:SetSize(24, 24)
+
+						AuctionHouseFrameTabSideBar:ClearAllPoints()
+						if newState then
+							for i = 1, #AuctionHouseFrameTabSideBar.Tabs do
+								if AuctionHouseFrameTabSideBar.selTab == i and i ~= 1 then
+									AuctionHouseFrameTabSideBar.Tabs[i]:GetScript("OnMouseUp")(AuctionHouseFrameTabSideBar.Tabs[i])
+								end
+							end
+							AuctionHouseFrameTabSideBar.selTab = 1
+							self:SetVisible(true)
+
+							AuctionHouseFrameTabSideBar:SetPoint("TOPLEFT", self, "TOPRIGHT")
+							AuctionHouseFrameTabSideBar:SetPoint("BOTTOMLEFT", self, "BOTTOMRIGHT")
+						else
+							AuctionHouseFrameTabSideBar.selTab = 0
+							self:SetVisible(false)
+
+							AuctionHouseFrameTabSideBar:SetPoint("TOPLEFT", AuctionHouseFrame, "TOPRIGHT")
+							AuctionHouseFrameTabSideBar:SetPoint("BOTTOMLEFT", AuctionHouseFrame, "BOTTOMRIGHT")
+						end
+					end
+					app.AuctionHouseTab:SetCustomOnMouseUpHandler(toggleAHTab)
+					self:Show()	-- Show, then toggle, to set the icon
+					toggleAHTab()
 				end
 			else
 				self:Hide();
@@ -349,12 +396,7 @@ app:CreateWindow("Auctions", {
 					end,
 					OnUpdate = function(data)
 						-- Determine if anything is cached in the Auction Data.
-						local any = false;
-						for itemID,price in pairs(auctionData) do
-							any = true;
-							break;
-						end
-						data.visible = any;
+						data.visible = next(auctionData) ~= nil
 						return true;
 					end,
 				}),
@@ -430,7 +472,7 @@ app:CreateWindow("Auctions", {
 					visible = true,
 					SortPriority = 1.5,
 					OnClick = function(row, button)
-						app:ShowPopupDialogWithEditBox("Please enter a new maximum price", tostring(MaximumPrice * 0.0001), function(cmd)
+						app:ShowPopupDialogWithEditBox("Please enter a new maximum price\n(all / cap / warband) are also accepted values", tostring(MaximumPrice * 0.0001), function(cmd)
 							ParseCommand(self, cmd);
 						end);
 						return true;
@@ -535,12 +577,7 @@ app:CreateWindow("Auctions", {
 					end
 
 					-- Determine if anything is cached in the Auction Data.
-					local any = false;
-					for itemID,price in pairs(auctionData) do
-						any = true;
-						break;
-					end
-					if any then
+					if next(auctionData) then
 						-- Search the ATT Database for information related to the auction links (items, species, etc)
 						local searchResultsByKey, searchResult, searchResults, key, keys, value, data = {}, nil, nil, nil, nil, nil, nil;
 						for itemID,price in pairs(auctionData) do
@@ -576,10 +613,15 @@ app:CreateWindow("Auctions", {
 									if data.key == "npcID" then app.CreateItem(data.itemID, data); end
 									keys[value] = data;
 									data.OnClick = OnClickForAuctionItem;
-									if price and price > 0 then
-										data.price = price;
-										data.cost = price;
-										data.summaryText = SummaryForAuctionItem(data);
+									if price then
+										-- somehow users are getting non-numbers stored in auction data... maybe old versions?
+										if type(price) == "number" and price > 0 then
+											data.price = price;
+											data.cost = price;
+											data.summaryText = SummaryForAuctionItem(data);
+										else
+											auctionData[itemID] = nil
+										end
 									end
 								end
 							end
@@ -629,6 +671,7 @@ app:CreateWindow("Auctions", {
 								tinsert(g, subdata);
 							end
 							for i,j in pairs(searchResults) do
+								-- TODO: gross. make a new object type that handles this logic automatically
 								if j.price and j.price <= MaximumPrice then
 									tinsert(subdata.g, j);
 								end

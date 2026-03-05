@@ -6,7 +6,7 @@ local DelveCompanion = AddonTbl.DelveCompanion
 ---@type Logger
 local Logger = DelveCompanion.Logger
 
----@class DelveOBotWidget : DelveOBotWidgetXml
+---@class (exact) DelveOBotWidget : DelveOBotWidgetXml
 DelveCompanion_DelveOBotWidgetMixin = {}
 
 local widgetEvents = {
@@ -37,7 +37,7 @@ function DelveCompanion_DelveOBotWidgetMixin:OnEvent(event, ...)
 end
 
 function DelveCompanion_DelveOBotWidgetMixin:OnLoad()
-    -- Logger.Log("DelveOBotWidget OnLoad start")
+    -- Logger:Log("DelveOBotWidget OnLoad start")
 
     DelveCompanion_CustomActionWidgetMixin.OnLoad(self)
 
@@ -47,7 +47,7 @@ function DelveCompanion_DelveOBotWidgetMixin:OnLoad()
 end
 
 function DelveCompanion_DelveOBotWidgetMixin:OnShow()
-    -- Logger.Log("DelveOBotWidget OnShow start")
+    -- Logger:Log("DelveOBotWidget OnShow start")
 
     DelveCompanion_CustomActionWidgetMixin.OnShow(self)
     self.InteractionBlockedOverlay:SetShown(IsIndoors())
@@ -55,7 +55,7 @@ function DelveCompanion_DelveOBotWidgetMixin:OnShow()
 end
 
 function DelveCompanion_DelveOBotWidgetMixin:OnHide()
-    -- Logger.Log("DelveOBotWidget OnShow start")
+    -- Logger:Log("DelveOBotWidget OnShow start")
 
     FrameUtil.UnregisterFrameForEvents(self, widgetEvents)
     DelveCompanion_CustomActionWidgetMixin.OnHide(self)

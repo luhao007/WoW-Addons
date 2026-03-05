@@ -9,7 +9,7 @@ local L = LibTSMUI.Locale.GetTable()
 local UIElements = LibTSMUI:Include("Util.UIElements")
 local CraftString = LibTSMUI:From("LibTSMTypes"):Include("Crafting.CraftString")
 local Profession = LibTSMUI:From("LibTSMService"):Include("Profession")
-local MAX_CRAFT_QUALITY = 5
+local TradeSkill = LibTSMUI:From("LibTSMWoW"):Include("API.TradeSkill")
 
 
 
@@ -82,7 +82,8 @@ function CraftTierDialog:SetCraftString(craftString, costsFunc)
 	local selectedQuality = CraftString.GetQuality(craftString)
 	local foundSelectedQuality = false
 	local numOptions = 0
-	for quality = 1, MAX_CRAFT_QUALITY do
+	local maxQuality = TradeSkill.GetMaxQualityForRecipe(CraftString.GetSpellId(craftString)) or 0
+	for quality = 1, maxQuality do
 		local qualityCraftString = CraftString.SetQuality(craftString, quality)
 		if Profession.GetIndexByCraftString(qualityCraftString) then
 			local isSelected = quality == selectedQuality

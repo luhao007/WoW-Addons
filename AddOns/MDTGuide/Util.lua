@@ -28,6 +28,12 @@ function Addon.GetInstanceDungeonId(map)
     end
 end
 
+function Addon.SetInstanceDungeon(dungeon)
+    MDTGuideDB.dungeon = dungeon
+
+    Addon.SetEnemyForcesOffsets()
+end
+
 function Addon.GetCurrentDungeonId()
     return MDT:GetDB().currentDungeonIdx
 end

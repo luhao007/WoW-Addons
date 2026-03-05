@@ -53,7 +53,7 @@ function platerInternal.CreateAdvancedOptions()
     local dropdownStatusBarColor = platerInternal.Defaults.dropdownStatusBarColor
 
     --outline table
-    local outline_modes = {"NONE", "MONOCHROME", "OUTLINE", "THICKOUTLINE", "MONOCHROME, OUTLINE", "MONOCHROME, THICKOUTLINE"}
+    local outline_modes = {"NONE", "MONOCHROME", "OUTLINE", "THICKOUTLINE", "OUTLINEMONOCHROME", "THICKOUTLINEMONOCHROME"}
     local outline_modes_names = {"None", "Monochrome", "Outline", "Thick Outline", "Monochrome Outline", "Monochrome Thick Outline"}
     local build_outline_modes_table = function (actorType, member)
         local t = {}
@@ -71,11 +71,13 @@ function platerInternal.CreateAdvancedOptions()
                         Plater.RefreshDBUpvalues()
                         Plater.UpdateAllPlates()
                         Plater.UpdateAllNames()
+                        Plater.UpdateBlizzardNameplateFonts(true)
                     else
                         Plater.db.profile [member] = value
                         Plater.RefreshDBUpvalues()
                         Plater.UpdateAllPlates()
                         Plater.UpdateAllNames()
+                        Plater.UpdateBlizzardNameplateFonts(true)
                     end
                 end
             })
@@ -475,6 +477,7 @@ function platerInternal.CreateAdvancedOptions()
             name = "Larger Scale" .. CVarIcon,
             desc = "Scale applied to important monsters (such as bosses).\n\n|cFFFFFFFFDefault: 1.2|r" .. CVarDesc,
             nocombat = true,
+            hidden = IS_WOW_PROJECT_MIDNIGHT,
         },
 
         {
@@ -484,6 +487,7 @@ function platerInternal.CreateAdvancedOptions()
             name = "Anchor Point" .. CVarIcon,
             desc = "Where the nameplate is anchored to.\n\n|cFFFFFFFFDefault: Head|r" .. CVarDesc,
             nocombat = true,
+            hidden = IS_WOW_PROJECT_MIDNIGHT,
         },
         {
             type = "toggle",
@@ -979,7 +983,7 @@ function platerInternal.CreateAdvancedOptions()
 
         {
             type = "toggle",
-            get = function() return GetCVar ("nameplateShowFriendlyMinions") == CVAR_ENABLED end,
+            get = function() return GetCVar ("nameplateShowFriendlyPlayerMinions") == CVAR_ENABLED end,
             set = function (self, fixedparam, value)
                 if (not InCombatLockdown()) then
                     SetCVar ("nameplateShowFriendlyPlayerMinions", math.abs (tonumber (GetCVar ("nameplateShowFriendlyPlayerMinions"))-1))
@@ -1043,14 +1047,17 @@ function platerInternal.CreateAdvancedOptions()
         {
             type = "select",
             get = function() return Plater.db.profile.blizzard_nameplate_font end,
-            values = function() return DF:BuildDropDownFontList (on_select_blizzard_nameplate_font) end,
+            values = function() return DF:BuildDropDownFontList (on_select_blizzard_nameplate_font, function() Plater.UpdateBlizzardNameplateFonts(true) end) end,
             name = L["OPTIONS_FONT"],
             desc = "Font of the text." .. CVarNeedReload,
         },
         {
             type = "range",
             get = function() return Plater.db.profile.blizzard_nameplate_font_size end,
-            set = function (self, fixedparam, value) Plater.db.profile.blizzard_nameplate_font_size = value end,
+            set = function (self, fixedparam, value)
+                Plater.db.profile.blizzard_nameplate_font_size = value
+                Plater.UpdateBlizzardNameplateFonts(true)
+            end,
             min = 6,
             max = 24,
             step = 1,
@@ -1068,14 +1075,17 @@ function platerInternal.CreateAdvancedOptions()
         {
             type = "select",
             get = function() return Plater.db.profile.blizzard_nameplate_large_font end,
-            values = function() return DF:BuildDropDownFontList (on_select_blizzard_nameplate_large_font) end,
+            values = function() return DF:BuildDropDownFontList (on_select_blizzard_nameplate_large_font, function() Plater.UpdateBlizzardNameplateFonts(true) end) end,
             name = L["OPTIONS_FONT"],
             desc = "Font of the text." .. CVarNeedReload,
         },
         {
             type = "range",
             get = function() return Plater.db.profile.blizzard_nameplate_large_font_size end,
-            set = function (self, fixedparam, value) Plater.db.profile.blizzard_nameplate_large_font_size = value end,
+            set = function (self, fixedparam, value)
+                Plater.db.profile.blizzard_nameplate_large_font_size = value
+                Plater.UpdateBlizzardNameplateFonts(true)
+            end,
             min = 6,
             max = 24,
             step = 1,
@@ -1340,7 +1350,7 @@ function platerInternal.CreateAdvancedOptions()
             nocombat = true,
             name = "Top Constrain" .. CVarIcon,
             desc = "Adjust the top constrain position where the personal bar cannot pass.\n\n|cFFFFFFFFDefault: 50|r" .. CVarDesc,
-            hidden = IS_WOW_PROJECT_NOT_MAINLINE or IS_WOW_PROJECT_MIDNIGHT,
+            hidden = true,
         },
 
         {
@@ -1407,7 +1417,7 @@ function platerInternal.CreateAdvancedOptions()
             nocombat = true,
             name = "Bottom Constrain" .. CVarIcon,
             desc = "Adjust the bottom constrain position where the personal bar cannot pass.\n\n|cFFFFFFFFDefault: 20|r" .. CVarDesc,
-            hidden = IS_WOW_PROJECT_NOT_MAINLINE or IS_WOW_PROJECT_MIDNIGHT,
+            hidden = true,
         },
 
         {type = "blank", hidden = IS_WOW_PROJECT_MIDNIGHT},

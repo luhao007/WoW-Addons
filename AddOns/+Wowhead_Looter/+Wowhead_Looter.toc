@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: Wowhead
-## Version: 120000
+## Version: 120001
 
 ## Title: Wowhead Looter
 ## Notes: Gathers data for Wowhead while you play.

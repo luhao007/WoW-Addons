@@ -3,17 +3,17 @@
 --     W o w h e a d   L o o t e r     --
 --                                     --
 --                                     --
---    Patch: 12.0.0                    --
+--    Patch: 12.0.1                    --
 --    E-mail: feedback@wowhead.com     --
 --                                     --
 -----------------------------------------
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2026-01-26";
+local WL_ADDON_UPDATED = "2026-02-26";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
-local WL_VERSION = 120000;
+local WL_VERSION = 120001;
 local WL_VERSION_PATCH = 0;
 local WL_ADDONNAME, WL_ADDONTABLE = ...
 
@@ -1205,7 +1205,7 @@ function wlRegisterUnitLocation(id, level)
         return;
     end
 
-    local zone, x, y, uiMapID = wlGetLocation();
+    local zone, x, y, uiMapID, uiMapArtID = wlGetLocation();
 
     wlUpdateVariable(wlUnit, wlSeasonId, id, "spec", dd, level, "loc", zone, uiMapID, "init", { n = 0 });
 
@@ -1223,6 +1223,7 @@ function wlRegisterUnitLocation(id, level)
             y = y,
             dl = uiMapID,
             n = 1,
+            uiMapArtID = uiMapArtID,
         });
     end
 end
@@ -2034,7 +2035,7 @@ function wlRegisterObject(id)
         return;
     end
 
-    local zone, x, y, uiMapID = wlGetLocation();
+    local zone, x, y, uiMapID, uiMapArtID = wlGetLocation();
 
     if not uiMapID then
         return;
@@ -2058,6 +2059,7 @@ function wlRegisterObject(id)
             y = y,
             dl = uiMapID,
             n = 1,
+            uiMapArtID = uiMapArtID,
         });
     end
 end
@@ -3555,6 +3557,7 @@ function wlEvent_LOOT_OPENED(self, autoLoot, isFromItem)
 
     if wlEvent[wlId][wlN][eventId].zone ~= nil then
         wlEvent[wlId][wlN][eventId].uiMapID = wlGetCurrentUiMapID();
+        wlEvent[wlId][wlN][eventId].uiMapArtID = C_Map.GetMapArtID(wlEvent[wlId][wlN][eventId].uiMapID);
     end
 
     local flags = wlGetFactionFlags("player");
@@ -3608,11 +3611,12 @@ function wlEvent_LOOT_OPENED(self, autoLoot, isFromItem)
                         wlTracker.spell.action = 'Opening';
                         wlEvent[wlId][wlN][eventId].action = 'Opening';
                         if not wlEvent[wlId][wlN][eventId].zone then
-                            local zone, x, y, uiMapID = wlGetLocation();
+                            local zone, x, y, uiMapID, uiMapArtID = wlGetLocation();
                             wlEvent[wlId][wlN][eventId].x = x;
                             wlEvent[wlId][wlN][eventId].y = y;
                             wlEvent[wlId][wlN][eventId].zone = zone;
                             wlEvent[wlId][wlN][eventId].uiMapID = uiMapID;
+                            wlEvent[wlId][wlN][eventId].uiMapArtID = uiMapArtID;
                         end
                     end
 
@@ -4744,6 +4748,7 @@ function wlGetLocation()
     local zone = GetRealZoneText() or "";
     local uiMapID = C_Map.GetBestMapForUnit("player") or WorldMapFrame:GetMapID();
     local uiMapDetails = C_Map.GetMapInfo(uiMapID);
+    local uiMapArtID = C_Map.GetMapArtID(uiMapID);
 
     if WL_ZONE_EXCEPTION[uiMapDetails.name] then
         uiMapID = WL_ZONE_EXCEPTION[uiMapDetails.name];
@@ -4755,7 +4760,7 @@ function wlGetLocation()
         x, y = 0, 0;
     end
 
-    return zone, floor(x * 1000 + 0.5), floor(y * 1000 + 0.5), uiMapID;
+    return zone, floor(x * 1000 + 0.5), floor(y * 1000 + 0.5), uiMapID, uiMapArtID;
 end
 
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--

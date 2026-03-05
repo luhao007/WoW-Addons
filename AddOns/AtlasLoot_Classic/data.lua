@@ -2685,8 +2685,9 @@ data["AhnQiraj"] = {
 				{ 4,  23570 }, -- Jom Gabbar
 				{ 5,  23557 }, -- Larvae of the Great Worm
 				{ 6,  21610 }, -- Wormscale Blocker
-				{ 8,  20927 }, -- Ouro's Intact Hide
-				{ 9,  20931 }, -- Skin of the Great Sandworm
+				{ 7,  21613 }, -- Wormhide Boots
+				{ 9,  20927 }, -- Ouro's Intact Hide
+				{ 10, 20931 }, -- Skin of the Great Sandworm
 				{ 16, 21237 }, -- Imperial Qiraji Regalia
 				{ 17, 21273 }, -- Blessed Qiraji Acolyte Staff
 				{ 18, 21275 }, -- Blessed Qiraji Augur Staff

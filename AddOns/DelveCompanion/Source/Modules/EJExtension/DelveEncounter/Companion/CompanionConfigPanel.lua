@@ -33,7 +33,7 @@ end
 
 ---@param self CompanionConfigPanel
 function DelveCompanion_CompanionConfigPanelMixin:OnLoad()
-    -- Logger.Log("[CompanionConfigPanel] OnLoad start")
+    -- Logger:Log("[CompanionConfigPanel] OnLoad start")
 
     self:SetFrameStrata("HIGH")
 
@@ -44,7 +44,7 @@ end
 
 ---@param self CompanionConfigPanel
 function DelveCompanion_CompanionConfigPanelMixin:OnShow()
-    -- Logger.Log("[CompanionConfigPanel] OnShow start")
+    -- Logger:Log("[CompanionConfigPanel] OnShow start")
 end
 
 --#region XML Annotations

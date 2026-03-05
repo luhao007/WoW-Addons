@@ -31,9 +31,6 @@ local RSRecentlySeenTracker = private.ImportLib("RareScannerRecentlySeenTracker"
 local RSWaypoints = private.ImportLib("RareScannerWaypoints")
 local RSAudioAlerts = private.ImportLib("RareScannerAudioAlerts")
 
--- RareScanner other addons integration services
-local RSTomtom = private.ImportLib("RareScannerTomtom")
-
 -- Timers
 local BUTTON_TIMER
 local PREFOUND_TIMER
@@ -70,14 +67,14 @@ local function FixVignetteInfo(vignetteInfo)
 	-- Check if it is an event to summon another NPC. In that case display NPC information instead
 	if (RSConstants.NPCS_WITH_PRE_EVENT[entityID]) then
 		local rareNpcID = RSNpcDB.GetFinalNpcID(entityID)
-		RSGeneralDB.RemoveAlreadyFoundEntity(entityID)
+		RSGeneralDB.RemoveAlreadyFoundEntity(entityID, RSConstants.NPC_VIGNETTE)
 		vignetteInfo.name = RSNpcDB.GetNpcName(rareNpcID)
 		vignetteInfo.atlasName = RSConstants.NPC_VIGNETTE
 		entityID = rareNpcID
 		vignetteInfo.preEvent = true
 	elseif ((entityID == RSConstants.FORBIDDEN_REACH_ANCESTRAL_SPIRIT or entityID == RSConstants.ZARALEK_CAVERN_LOAM_SCOUT) and RSNpcDB.GetNpcId(vignetteInfo.name, mapID)) then
 		local rareNpcID = RSNpcDB.GetNpcId(vignetteInfo.name, mapID)
-		RSGeneralDB.RemoveAlreadyFoundEntity(entityID)
+		RSGeneralDB.RemoveAlreadyFoundEntity(entityID, RSConstants.NPC_VIGNETTE)
 		vignetteInfo.name = RSNpcDB.GetNpcName(rareNpcID)
 		vignetteInfo.atlasName = RSConstants.NPC_VIGNETTE
 		entityID = rareNpcID
@@ -87,7 +84,7 @@ local function FixVignetteInfo(vignetteInfo)
 	-- Check if it is an event so summon another CONTAINER. In that case display CONTAINER information instead
 	if (RSConstants.CONTAINERS_WITH_PRE_EVENT[entityID]) then
 		local containerID = RSContainerDB.GetFinalContainerID(entityID)
-		RSGeneralDB.RemoveAlreadyFoundEntity(entityID)
+		RSGeneralDB.RemoveAlreadyFoundEntity(entityID, RSConstants.CONTAINER_VIGNETTE)
 		local containerName = RSContainerDB.GetContainerName(containerID)
 		if (containerName) then
 			vignetteInfo.name = containerName
@@ -262,7 +259,7 @@ local function UpdateRareFound(entityID, vignetteInfo, coordinates)
 	local artID = C_Map.GetMapArtID(mapID)
 
 	-- Updates if it was found before
-	if (RSGeneralDB.GetAlreadyFoundEntity(entityID)) then
+	if (RSGeneralDB.GetAlreadyFoundEntity(entityID, atlasName)) then
 		RSGeneralDB.UpdateAlreadyFoundEntity(entityID, mapID, vignettePosition.x, vignettePosition.y, artID, atlasName)
 		-- Adds if its the first time found
 	else
@@ -397,8 +394,7 @@ local function ShowAlert(button, vignetteInfo, isNavigating)
 			-- disable button alert for containers
 			if (not RSConfigDB.IsButtonDisplayingForContainers()) then
 				RSRecentlySeenTracker.AddRecentlySeen(entityID, vignetteInfo.atlasName, false)
-				RSTomtom.AddTomtomAutomaticWaypoint(mapID, vignettePosition.x, vignettePosition.y, vignetteInfo.name)
-				RSWaypoints.AddAutomaticWaypoint(mapID, vignettePosition.x, vignettePosition.y)
+				RSWaypoints.AddAutomaticWaypoint(mapID, vignettePosition.x, vignettePosition.y, vignetteInfo.name)
 	
 				if (RSNotificationTracker.IsAlreadyNotificated(vignetteInfo.id, false, entityID)) then
 					RSLogger:PrintDebugMessage(string.format("El contenedor [%s] se ignora porque se ha avisado de esta hace menos de 2 minutos", entityID))
@@ -513,8 +509,7 @@ local function ShowAlert(button, vignetteInfo, isNavigating)
 
 	-- If navigation disabled, control Tomtom waypoint externally
 	if (not RSConfigDB.IsButtonDisplaying() or not RSConfigDB.IsDisplayingNavigationArrows()) then
-		RSTomtom.AddTomtomAutomaticWaypoint(mapID, vignettePosition.x, vignettePosition.y, vignetteInfo.name)
-		RSWaypoints.AddAutomaticWaypoint(mapID, vignettePosition.x, vignettePosition.y)
+		RSWaypoints.AddAutomaticWaypoint(mapID, vignettePosition.x, vignettePosition.y, vignetteInfo.name)
 	end
 
 	-- Add recently seen
@@ -611,11 +606,15 @@ function RSButtonHandler.AddAlert(button, vignetteInfo, isNavigating)
 	end
 	-- Apply filters
 	local mapID = RSGeneralDB.GetBestMapForUnit(entityID, vignetteInfo.atlasName)
-	local isInstance, _ = IsInInstance()
+	local isInInstance, _ = IsInInstance()
 	
-	-- Check it it is an entity that use a vignette but it isn't a rare, event or treasure
-	if (RSUtils.Contains(RSConstants.IGNORED_VIGNETTES, entityID)) then
-		RSLogger:PrintDebugMessageEntityID(entityID, string.format("La entidad [%s] se ignora por estar ignorada", entityID))
+	-- Check if ignored NPC
+	if (RSConstants.IsNpcAtlas(vignetteInfo.atlasName) and RSUtils.Contains(RSConstants.IGNORED_VIGNETTES_NPCS, entityID)) then
+		RSLogger:PrintDebugMessageEntityID(entityID, string.format("El NPC [%s] se ignora por estar ignorado", entityID))
+		return
+	-- Check if ignored Container
+	elseif (RSConstants.IsContainerAtlas(vignetteInfo.atlasName) and RSUtils.Contains(RSConstants.IGNORED_VIGNETTES_CONTAINERS, entityID)) then
+		RSLogger:PrintDebugMessageEntityID(entityID, string.format("El contenedor [%s] se ignora por estar ignorado", entityID))
 		return
 	-- Check if it should be ignored with a tracking system different than vignettes
 	elseif (vignetteInfo.trackingSystem and vignetteInfo.trackingSystem ~= RSConstants.TRACKING_SYSTEM.VIGNETTE and RSUtils.Contains(RSConstants.IGNORED_TRACKING_SYSTEMS_NOT_VIGNETTE, entityID)) then
@@ -634,7 +633,7 @@ function RSButtonHandler.AddAlert(button, vignetteInfo, isNavigating)
 		RSLogger:PrintDebugMessageEntityID(entityID, string.format("La entidad [%s] se ignora por estar reproduciendose un video", entityID))
 		return
 	-- disable ALL alerts in instances
-	elseif (isInstance == true and not isNavigating and not RSConfigDB.IsScanningInInstances()) then
+	elseif (isInInstance == true and not isNavigating and not RSConfigDB.IsScanningInInstances()) then
 		RSLogger:PrintDebugMessageEntityID(entityID, string.format("La entidad [%s] se ignora por estar en una instancia", entityID))
 		return
 	-- disable alerts while flying

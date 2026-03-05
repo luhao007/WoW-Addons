@@ -1336,6 +1336,16 @@ data["MOUNTS"]             = {
 	TableType = NORMAL_ITTYPE,
 	items =
 	{
+		{ -- Midnight
+			name = EXPANSION_NAME11,
+			[ALLIANCE_DIFF] = {
+				{ 1, 263452, "mount", [PRICE_EXTRA_ITTYPE] = "tender:550" }, -- Comfy Silvermoon Flying Quilt
+				{ 2, 263451, "mount", [PRICE_EXTRA_ITTYPE] = "tender:0" }, -- Comfy Bel'ameth Flying Quilt
+			},
+			[HORDE_DIFF] = {
+				GetItemsFromDiff = ALLIANCE_DIFF,
+			},
+		},
 		{ -- The War Within
 			name = EXPANSION_NAME10,
 			[ALLIANCE_DIFF] = {

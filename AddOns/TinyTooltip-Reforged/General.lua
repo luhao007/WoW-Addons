@@ -49,6 +49,19 @@ local function IsTableEmpty(table)
 end
 
 local function UpdateHealthBar(self, hp)
+    local function SafeBool(fn, ...)
+        local ok, value = pcall(fn, ...)
+        if (not ok) then
+            return false
+        end
+        local okEval, result = pcall(function()
+            return value == true
+        end)
+        if (okEval) then
+            return result
+        end
+        return false
+    end
     if (not addon.db.general.statusbarText) then 
         GameTooltipStatusBar.TextString:Hide() 
     else
@@ -65,7 +78,10 @@ local function UpdateHealthBar(self, hp)
     end
     local hp = UnitHealth(unit) or 1
     local maxhp = UnitHealthMax(unit) or 1
-    if (UnitIsDeadOrGhost(unit) or UnitIsGhost(unit)) then
+
+    if (SafeBool(UnitIsConnected,unit) == false) then
+      self.TextString:SetFormattedText("|cff999999%s|r", "Offline")
+    elseif (UnitIsDeadOrGhost(unit) or UnitIsGhost(unit)) then
         local percent = 0
 	self.TextString:SetFormattedText("|cff999999%s|r |cffffcc33<%s>|r", AbbreviateLargeNumbers(maxhp), DEAD)
     else
@@ -161,14 +177,22 @@ end)
 LibEvent:attachTrigger("tooltip:show", function(self, tip)
     if (tip ~= GameTooltip) then return end
     LibEvent:trigger("tooltip.statusbar.position", addon.db.general.statusbarPosition, addon.db.general.statusbarOffsetX, addon.db.general.statusbarOffsetY)
-    if (not GameTooltipStatusBar.TextString) then return end
-    local w = GameTooltipStatusBar.TextString:GetStringWidth()
-    if issecretvalue(w) then return end
-    local w = pcall(function() return tonumber(tw) and (tonumber(tw)+10) end)
-    if (GameTooltipStatusBar:IsShown() and w > tip:GetWidth()) then
-        tip:SetMinimumWidth(w+2)
-        if (addon.db.general.statusbarEnabled) then
-            tip:Show()
+    local text = GameTooltipStatusBar and GameTooltipStatusBar.TextString
+    if (not text) then return end    
+    local tw = (text.GetStringWidth and text:GetStringWidth()) or (text.GetWidth and text:GetWidth())
+    local tipW = tip and tip.GetWidth and tip:GetWidth()
+    local checkW, w = pcall(function() return tw + 10 end)
+    if (not checkW or type(w) ~= "number") then return end
+    local checkMin, minW = pcall(function() return w + 2 end)
+    if (not checkMin or type(minW) ~= "number") then return end
+
+    if (GameTooltipStatusBar:IsShown()) then
+        local checkCmp, bigger = pcall(function() return (type(tipW) == "number") and (w > tipW) end)
+        if (checkCmp and bigger) then
+            tip:SetMinimumWidth(minW)
+            if (addon.db.general.statusbarEnabled) then
+                tip:Show()
+	    end
         end
     end
 end)
