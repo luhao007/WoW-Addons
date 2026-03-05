@@ -6,8 +6,9 @@
 Addon Suite for World of Warcraft
 
 ## Dependency
-[instawow](https://github.com/layday/instawow) ![instawow](https://img.shields.io/pypi/v/instawow)
+~~[instawow](https://github.com/layday/instawow) ![instawow](https://img.shields.io/pypi/v/instawow)~~
 [click](https://github.com/pallets/click) ![click](https://img.shields.io/pypi/v/click)
+[chardet](https://github.com/chardet/chardet) ![click](https://img.shields.io/pypi/v/chardet)
 
 ## Usage
 
