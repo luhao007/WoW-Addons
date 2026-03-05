@@ -852,6 +852,13 @@ class Manager:
             lambda lines: [line for line in lines if "EmbeddedLibs" not in line],
         )
 
+        if os.path.exists("AddOns/TradeSkillMaster/External/LibBonusId"):
+            utils.remove_libraries(
+                ["LibStub"],
+                "AddOns/TradeSkillMaster/External/LibBonusId",
+                "AddOns/TradeSkillMaster/External/LibBonusId/LibBonusId.xml",
+            )
+
         # utils.change_defaults(
         #     'AddOns/TradeSkillMaster/LibTSM/Service/Settings.lua',
         #     ['			minimapIcon = { type = "table", default = { hide = true, minimapPos = 220, radius = 80 }, lastModifiedVersion = 10 },']

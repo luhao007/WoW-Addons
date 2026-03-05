@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Literal, Optional
 
 from chardet import UniversalDetector
-from chardet.enums import LanguageFilter
+from chardet.enums import EncodingEra, LanguageFilter
 
 TOCS = [".toc"] + [
     f"{s}{p}.toc"
@@ -67,10 +67,12 @@ def process_file(
         f"{Color.YELLOW}Processing {Color.GREEN}%s{Color.YELLOW}...{Color.RESET}", path
     )
 
+    detector = UniversalDetector(
+        lang_filter=LanguageFilter.CHINESE, encoding_era=EncodingEra.MODERN_WEB
+    )
     with open(path, "rb") as file:
         file_bytes = file.read()
 
-    detector = UniversalDetector(LanguageFilter.CHINESE)
     detector.feed(file_bytes)
     encoding = detector.close()["encoding"]
     if encoding is None:
