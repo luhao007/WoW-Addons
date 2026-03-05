@@ -1865,6 +1865,10 @@
 				<Title>示例</Title>
 				<Notes>泰坦面板的示例模块</Notes>
 			</SubAddon>
+			<SubAddon name="TitanPost">
+				<Title>邮箱</Title>
+				<Notes>泰坦面板的邮箱模块</Notes>
+			</SubAddon>
 			<SubAddon name="TitanRaidLockout">
 				<Title>团本锁定</Title>
 				<Notes>泰坦面板的团本锁定模块</Notes>
