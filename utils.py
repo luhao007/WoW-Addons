@@ -129,7 +129,7 @@ def remove_libs_in_file(path: str | Path, libs: Iterable[str]):
             line
             for line in lines
             if not any(
-                f"{lib}".lower() in line.lower()
+                lib.lower() in line.lower()
                 or f"{lib.replace('\\', '/')}".lower() in line.lower()
                 for lib in libs
             )
