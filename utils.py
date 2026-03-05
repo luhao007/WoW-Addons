@@ -6,8 +6,8 @@ from collections.abc import Callable, Iterable
 from pathlib import Path
 from typing import Literal, Optional
 
+from chardet import UniversalDetector
 from chardet.enums import LanguageFilter
-from chardet.universaldetector import UniversalDetector
 
 TOCS = [".toc"] + [
     f"{s}{p}.toc"
