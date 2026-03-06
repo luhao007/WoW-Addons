@@ -1,22 +1,20 @@
-## Interface: 120001, 120000, 110207
-## Title: |cff008945Cool|r|cff1e9a4e|r|cff3faa4fdown Ma|r|cff5fb64anag|r|cff7ac243er Ce|r|cff8ccd00ntered|r
-## Notes: Cooldown Manager tweaks and styling
+## Interface: 120001
 ## Author: Wildu
 ## Version: 2.2.0
-## X-Wago-ID: b6mvbYKP
-## SavedVariables: CooldownManagerCenteredDB
+
+## Title: |cff008945Cool|r|cff1e9a4e|r|cff3faa4fdown Ma|r|cff5fb64anag|r|cff7ac243er Ce|r|cff8ccd00ntered|r
+## Notes: Cooldown Manager tweaks and styling
+## Title-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r|cFFFFFFFF冷却管理器增强|r |cFFFFE00A|cff008945Cool|r|cff1e9a4e|r|cff3faa4fdown Ma|r|cff5fb64anag|r|cff7ac243er Ce|r|cff8ccd00ntered|r|r
+## Notes-zhCN: 为Blizzard自带的冷却管理器增加一些功能，诸如显示按键等等
+
 ## IconTexture: Interface\Addons\CooldownManagerCentered\Media\CooldownManagerCenteredIcon
+
 ## Category: Combat
-## Category-deDE: Kampf
-## Category-esES: Combate
-## Category-esMX: Combate
-## Category-frFR: Combat
-## Category-itIT: Combattimento
-## Category-koKR: 전투
-## Category-ptBR: Combate
-## Category-ruRU: Бой
-## Category-zhCN: 战斗
-## Category-zhTW: 戰鬥
+## Category-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r
+
+## SavedVariables: CooldownManagerCenteredDB
+
+## X-Wago-ID: b6mvbYKP
 
 loadLibs.xml
 
@@ -37,7 +35,6 @@ modules/Tracker/TrackerDB.lua
 modules/Tracker/TrackerItemsData.lua
 modules/Tracker/TrackerItemVisuals.lua
 modules/Tracker/TrackerItemViewer.lua
-
 
 modules/cooldownManager.lua
 modules/editModeHelp.lua

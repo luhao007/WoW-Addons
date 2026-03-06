@@ -30,10 +30,13 @@ local GetCoinTextureString= GetCoinTextureString or  C_CurrencyInfo and C_Curren
 if not InspectTalentFrameSpentPoints then InspectTalentFrameSpentPoints = CreateFrame("Frame") end
 local XWidth, XHeight =CharacterHeadSlot:GetWidth(),CharacterHeadSlot:GetHeight()
 -------
-local ttunit={
-	["Character"]="player",
-	["Inspect"]=function() return InspectFrame.unit end,
-}
+local function _GetUnit(laiyuan)
+	if laiyuan==PaperDollFrame then
+		return "player"
+	elseif laiyuan==InspectFrame then
+		return InspectFrame.unit
+	end
+end
 local function Update_Data_ALL(laiyuan)--刷新数据
 	local LYname
 	if laiyuan==PaperDollFrame then
@@ -71,10 +74,8 @@ local function Update_Data_ALL(laiyuan)--刷新数据
 		end
 	end
 	for inv = 1, #InvSlot["ID"] do
-		if InvSlot["ID"][inv]~=0 and InvSlot["ID"][inv]~=4 and InvSlot["ID"][inv]~=19 then
-			local framef=_G[LYname..InvSlot["Name"][InvSlot["ID"][inv]][3].."Slot"]
-			Update_ItemButtonZLVranse("C", framef, ttunit[LYname], InvSlot["ID"][inv])
-		end
+		local framef=_G[LYname..InvSlot["Name"][InvSlot["ID"][inv]][3].."Slot"]
+		Update_ItemButtonZLVranse("C", framef, _GetUnit(laiyuan), InvSlot["ID"][inv])
 	end
 	if PIGA["FramePlus"]["Character_ItemList"] then
 		if not laiyuan.ZBLsit then
@@ -109,43 +110,33 @@ local function Load_addonsFun(FrameX)
 	end)
 	FrameX:RegisterEvent("PLAYER_EQUIPMENT_CHANGED");
 	FrameX:HookScript("OnEvent", function(self,event,arg1)
+		if not self:IsVisible() then return end
 		if event=="INSPECT_READY" then
-			if self.unit then
-				local GUID=UnitGUID(self.unit)
-				if arg1==GUID then
-					if self.loadTicker then self.loadTicker:Cancel() end
-					self.loadTicker=C_Timer.NewTimer(0.2,function()
-						Update_Data_ALL(self)
-					end)
-				end
-			end
-		elseif event=="PLAYER_EQUIPMENT_CHANGED" then
-			if arg1==self.unit then
+			if self.loadTicker then self.loadTicker:Cancel() end
+			self.loadTicker=C_Timer.NewTimer(0.2,function()
 				Update_Data_ALL(self)
-			end
+			end)
+		elseif event=="PLAYER_EQUIPMENT_CHANGED" then        
+			Update_Data_ALL(self)
 		end
 	end)
 end
 function FramePlusfun.Character_ADD()
-	PaperDollFrame:HookScript("OnShow",function()
-		Update_Data_ALL(PaperDollFrame)
+	PaperDollFrame:HookScript("OnShow",function(self)
+		Update_Data_ALL(self)
 	end)
 	PaperDollFrame:RegisterEvent("PLAYER_EQUIPMENT_CHANGED");
 	PaperDollFrame:HookScript("OnEvent", function(self,event,arg1)
 		if event=="PLAYER_EQUIPMENT_CHANGED" or event=="PLAYER_AVG_ITEM_LEVEL_UPDATE" then
-			if PaperDollFrame:IsVisible() then
-				Update_Data_ALL(PaperDollFrame)
+			if self:IsVisible() then
+				Update_Data_ALL(self)
 			end
 		end
 	end);
-	--观察
-	if IsAddOnLoaded("Blizzard_InspectUI") then
+	--观察	
+	Fun.IsAddOnLoaded("Blizzard_InspectUI",function()
 		Load_addonsFun(InspectFrame)
-	else	
-		Fun.IsAddOnLoaded("Blizzard_InspectUI",function()
-			Load_addonsFun(InspectFrame)
-		end)
-	end
+	end)
 end
 ---人物界面属性==========================
 local function Character_xiuliG()--修理费用

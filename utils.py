@@ -147,7 +147,7 @@ def get_libraries_list() -> list[str]:
         root,
         root / "Ace3",
         root / "Ace3" / "AceConfig-3.0",
-        #    root / "LibBabble"
+        root / "LibBabble"
     ]
     libs: list[str] = []
     libs = sum(

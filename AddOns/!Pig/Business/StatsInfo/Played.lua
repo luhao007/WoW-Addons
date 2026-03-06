@@ -170,7 +170,7 @@ function BusinessInfo.Player(StatsInfo)
 							hang.barWWW:SetWidth(cdmulu[dangqian][3]/jishuchuB*maxwwww)
 						end
 						local d, h, m, s = ChatFrame_TimeBreakDown(cdmulu[dangqian][3]);
-						hang.barWWW.no:SetText(format(TIME_PLAYED_TOTAL, format(TIME_DAYHOURMINUTESECOND, d, h, m, s)))
+						hang.barWWW.no:SetText(GAME..TIME_LABEL.." "..format(TIME_DAYHOURMINUTESECOND, d, h, m, s))
 						hang.barWWW.no:SetTextColor(0.8, 0.8, 0.8, 1);
 						hang.barWWW:PIGSetBackdrop(1,1,{0.4, 0.8, 0.8})
 					else
@@ -181,7 +181,7 @@ function BusinessInfo.Player(StatsInfo)
 				end
 			end
 			local d, h, m, s = ChatFrame_TimeBreakDown(alltimenum);
-			fujiF.Player.alltimeTXT:SetText(COMMUNITY_COMMAND_BATTLENET..format(TIME_PLAYED_TOTAL, format(TIME_DAYHOURMINUTESECOND, d, h, m, s)))
+			fujiF.Player.alltimeTXT:SetText(format(TIME_PLAYED_TOTAL, format(TIME_DAYHOURMINUTESECOND, d, h, m, s)))
 		end
 	end
 end

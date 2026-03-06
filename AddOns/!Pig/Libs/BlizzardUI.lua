@@ -242,9 +242,7 @@ function Create.CharacterFrame(fuji,UIName,FrameLevel)
 				GameTooltip:SetHyperlink(itemLink)
 				GameTooltip:Show();
 			end);
-			if k~=4 and k~=19 then
-				Fun.Update_ItemButtonZLVranse("L",invFff,itemLink,itemQuality or 1)
-			end
+			Fun.Update_ItemButtonZLVranse("YC",invFff,itemLink,itemQuality or 1,k)
 		end
 		self.ZBLsit:Update_ItemList(laiyuan,NewzbData)
 	end
