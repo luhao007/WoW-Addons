@@ -1084,7 +1084,7 @@ app.AddEventHandler("OnLoad", function()
 		if not ShouldFillPurchases(group, FillData) then return end
 
 		-- Certain Collected Types which are NOT the Root of the Fill should not be filled
-		if SkipPurchases.LearnedTypes[group.__type] and group ~= FillData.Root and group.collected then
+		if SkipPurchases.LearnedTypes[group.__type] and group ~= FillData.Root and app.IsComplete(group) then
 			-- app.PrintDebug("Don't Fill purchases for non-Root collected Toy",app:SearchLink(group))
 			return
 		end

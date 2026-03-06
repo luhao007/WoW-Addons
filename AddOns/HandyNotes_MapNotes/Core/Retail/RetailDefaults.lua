@@ -387,7 +387,7 @@ ns.defaults = {
       showContinentLFR = true,
       showContinentProfessions = true,
       showContinentDelves = true,
-      showContinentBountifulDelves = true,
+      showContinentBountyDelves = true,
       showContinentPaths = true,
       showContinentRaces = true,
       showContinentPetBattleDungeons = true,
@@ -488,12 +488,16 @@ ns.defaults = {
       showCapitalsSilvermoonMN = true,
 
     --Capital Instances
-      CapitalsInstanceScale = 2,
+      CapitalsInstanceScale = 1,
       CapitalsInstanceAlpha = 1,
       showCapitalsRaids = true,
       showCapitalsDungeons = true,
       showCapitalsInstancePassage = true,
       showCapitalsMultiple = true,
+      showCapitalsOldVanilla = true,      
+      showCapitalsLFR = true,      
+      showCapitalsDelve = true,
+      showCapitalsBountyDelve = true,
 
     --Capital Transport
       CapitalsTransportScale = 1.5,
@@ -502,8 +506,6 @@ ns.defaults = {
       showCapitalsZeppelins = true,
       showCapitalsShips = true,
       showCapitalsTransport = true,
-      showCapitalsOldVanilla = true,
-      showCapitalsLFR = true,
       showCapitalsFP = true,
 
     -- Capital Professions
@@ -709,7 +711,7 @@ ns.defaults = {
         RemoveBlizzPOIs = true,
         RemoveBlizzPOIsZidormi = true,
         RemoveBlizzInstances = true,
-        HideBlizzDelves = true,
+        HideBlizzDelves = false,
         HideBlizzAuctioneer = false,
         HideBlizzBanker = false,
         HideBlizzBarber = false,

@@ -7,6 +7,41 @@ local function MN_Post(fn)
   C_Timer.After(0, function() pcall(fn) end)
 end
 
+function ns.QueueRemovePOIs()
+  if not (WorldMapFrame and WorldMapFrame:IsShown()) then return end
+
+  local cfg = ns.Addon and ns.Addon.db and ns.Addon.db.profile and ns.Addon.db.profile.activate
+  if not cfg or cfg.HideMapNote then return end
+
+  if InCombatLockdown and InCombatLockdown() then
+    ns._RemovePOIsAfterCombat = true
+
+    if not ns._RemovePOIsCombatFrame then
+      ns._RemovePOIsCombatFrame = CreateFrame("Frame")
+      ns._RemovePOIsCombatFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
+      ns._RemovePOIsCombatFrame:SetScript("OnEvent", function(self)
+        self:UnregisterAllEvents()
+        ns._RemovePOIsCombatFrame = nil
+
+        if ns._RemovePOIsAfterCombat then
+          ns._RemovePOIsAfterCombat = nil
+          ns.QueueRemovePOIs()
+        end
+      end)
+    end
+
+    return
+  end
+
+  if ns._RemovePOIsQueued then return end
+  ns._RemovePOIsQueued = true
+
+  MN_Post(function()
+    ns._RemovePOIsQueued = nil
+    if ns.RemovePOIs then ns.RemovePOIs() end
+  end)
+end
+
 local function MN_SafeSetShown(pin, shown)
   if not pin then return end
   if InCombatLockdown and InCombatLockdown() then return end
@@ -46,21 +81,8 @@ local function MN_IsVignettePin(pin)
 end
 
 local function MN_ApplyVignetteVisibility(pin)
-  local cfg = ns.Addon and ns.Addon.db and ns.Addon.db.profile and ns.Addon.db.profile.activate
-  if not cfg then return end
   if not MN_IsVignettePin(pin) then return end
-
-  local vignetteID = MN_GetVignetteIDFromPin(pin)
-
-  if cfg.RemoveBlizzPOIs
-    and ns.HiddenBlizzVignetteIDs
-    and vignetteID
-    and ns.HiddenBlizzVignetteIDs[vignetteID]
-  then
-    MN_SafeSetShown(pin, false)
-  else
-    MN_SafeSetShown(pin, true)
-  end
+  ns.QueueRemovePOIs()
 end
 
 if VignettePinMixin then
@@ -134,6 +156,9 @@ local function MN_MapHasRelevantActivePins()
 end
 
 function ns.RemovePOIs()
+
+  if InCombatLockdown() then return end
+
   local cfg = ns.Addon and ns.Addon.db and ns.Addon.db.profile and ns.Addon.db.profile.activate
   if not cfg then return end
   if cfg.HideMapNote then return end
@@ -209,9 +234,7 @@ local function MN_TryHookProvider(dp)
     end
 
     if WorldMapFrame and WorldMapFrame:IsShown() then
-      MN_Post(function()
-        if ns.RemovePOIs then ns.RemovePOIs() end
-      end)
+      ns.QueueRemovePOIs()
     end
   end)
 end
@@ -238,9 +261,7 @@ eventFrame:SetScript("OnEvent", function(_, eventName)
   if not cfg or (not cfg.RemoveBlizzPOIs and not cfg.RemoveBlizzPOIsZidormi) then return end
   if not MN_MapHasRelevantActivePins() then return end
 
-  C_Timer.After(0, function()
-    if ns.RemovePOIs then ns.RemovePOIs() end
-  end)
+  ns.QueueRemovePOIs()
 end)
 
 local function MN_ShouldListenPOIEvent()
@@ -290,9 +311,7 @@ local function MN_OnMapChanged()
   ns.RebindPOIEvent()
 
   if (cfg.RemoveBlizzPOIs or cfg.RemoveBlizzPOIsZidormi) and MN_MapHasRelevantActivePins() then
-    C_Timer.After(0, function()
-      if ns.RemovePOIs then ns.RemovePOIs() end
-    end)
+    ns.QueueRemovePOIs()
   end
 end
 

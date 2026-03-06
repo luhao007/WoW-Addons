@@ -224,12 +224,6 @@ local function ApplyStackFontToFrame(frame)
         frame.count:ClearAllPoints()
         frame.count:SetPoint(anchor, frame, anchor, offsetX, offsetY)
     end
-
-    if frame.charges then
-        frame.charges:SetFont(fontPath, fontSize, fontFlags)
-        frame.charges:ClearAllPoints()
-        frame.charges:SetPoint(anchor, frame, anchor, offsetX, offsetY)
-    end
 end
 
 local ItemViewerFrame = {}
@@ -279,13 +273,6 @@ function ItemViewerFrame:Initialize()
         count:SetShadowOffset(1, -1)
         count:SetShadowColor(0, 0, 0, 1)
         frame.count = count
-
-        local charges = overlay:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-        charges:SetFont(STANDARD_TEXT_FONT, 14, "OUTLINE")
-        charges:SetPoint("CENTER", frame, "TOP", 0, -1)
-        charges:SetShadowOffset(1, -1)
-        charges:SetShadowColor(0, 0, 0, 1)
-        frame.charges = charges
     end
     ApplyStyleToFrame(frame)
     ApplyStackFontToFrame(frame)
@@ -313,6 +300,24 @@ function ItemViewerFrame:UpdateEntry(entry)
     frame._CMCTracker_EntryKind = entry.kind
     frame._CMCTracker_EntryID = entry.id
 
+    if entry.kind == "item" then
+        local _spellName, spellID = C_Item.GetItemSpell(entry.id)
+        frame.itemID = entry.id
+        if spellID then
+            frame.spellID = spellID
+        end
+    elseif entry.kind == "wildcardSlots" then
+        local itemID = ItemsData:GetWildcardSlotItemID(entry.id)
+        if itemID then
+            frame.itemID = itemID
+            local _spellName, spellID = C_Item.GetItemSpell(itemID)
+            if spellID then
+                frame.spellID = spellID
+            end
+        end
+    elseif entry.kind == "spell" then
+        frame.spellID = entry.id
+    end
     ItemVisuals:ApplyEntryIcon(frame, entry.kind, entry.id)
     ItemVisuals:UpdateEntryCooldown(frame, entry.kind, entry.id)
     ApplyStyleToFrame(frame)

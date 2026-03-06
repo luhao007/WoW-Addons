@@ -185,6 +185,19 @@ local PRICE_INFO = {
 	["ridersOfAzerothBadge"]       = { currencyID = 2588 }, -- Riders of Azeroth Badge
 	["bronze"]                     = { currencyID = 3252 }, -- Bronze (Remix)
 	["twilightsBladeInsignia"]     = { currencyID = 3319 }, -- Twilight's Blade Insignia
+	["voidlightMarl"]              = { currencyID = 3316 }, -- Voidlight Marl
+	["brimmingArcana"]             = { currencyID = 3379 }, -- Brimming Arcana
+	["alchemyMoxie"]               = { currencyID = 3256 }, -- Artisan Alchemist's Moxie
+	["miningMoxie"]                = { currencyID = 3264 }, -- Artisan Miner's Moxie
+	["herbalismMoxie"]             = { currencyID = 3260 }, -- Artisan Herbalist's Moxie
+	["skinningMoxie"]              = { currencyID = 3265 }, -- Artisan Skinner's Moxie
+	["enchantingMoxie"]            = { currencyID = 3258 }, -- Artisan Enchanter's Moxie
+	["tailoringMoxie"]             = { currencyID = 3266 }, -- Artisan Tailor's Moxie
+	["blacksmithingMoxie"]         = { currencyID = 3257 }, -- Artisan Blacksmith's Moxie
+	["leatherworkingMoxie"]        = { currencyID = 3263 }, -- Artisan Leatherworker's Moxie
+	["jewelcraftingMoxie"]         = { currencyID = 3262 }, -- Artisan Jewelcrafter's Moxie
+	["scribingMoxie"]              = { currencyID = 3261 }, -- Artisan Scribe's Moxie
+	["engineeringMoxie"]           = { currencyID = 3259 }, -- Artisan Engineer's Moxie
 
 	-- others
 	["money"]                      = { func = C_CurrencyInfo.GetCoinTextureString },

@@ -4,11 +4,12 @@ local L = app.L;
 local GetItemInfo = app.WOWAPI.GetItemInfo;
 
 -- Global locals
-local debugprofilestop, next, pcall, select, tinsert, tonumber, type
-	= debugprofilestop, next, pcall, select, tinsert, tonumber, type;
+local debugprofilestop, next, pcall, select, tinsert, tonumber, type,math_min
+	= debugprofilestop, next, pcall, select, tinsert, tonumber, type,math.min
 
 -- Module locals
 local auctionData, priceA, priceB, oldLegacyFilter = {};
+local GoldCap = 99999999999;
 local function SortByPrice(a,b)
 	priceA = a.price or 0;
 	priceB = b.price or 0;
@@ -17,9 +18,6 @@ local function SortByPrice(a,b)
 	else
 		return priceA < priceB;
 	end
-end
-local function SummaryForAuctionItem(t)
-	return t.cost and GetCoinTextureString(t.cost);
 end
 
 -- API Differences
@@ -72,12 +70,19 @@ if C_AuctionHouse then
 	]]--
 	ReceiveAuctions = function(callback)
 		-- Gather the Auctions
+		-- TODO: this is completely wrong for commodity items
 		local numItems = C_AuctionHouse_GetNumReplicateItems();
 		if numItems > 0 then
+			app.PrintDebug("Received data for", numItems, "auctions");
 			local auction;
 			for i=0,numItems-1 do
 				auction = {C_AuctionHouse_GetReplicateItemInfo(i)};
-				auctionData[auction[17]] = auction[10] or auction[11] or auction[8] or 0;	-- buyoutPrice or bidAmount or minBid
+				local itemID = auction[17]
+				local lowestPrice = auctionData[itemID] or GoldCap
+				-- if itemID == app.DEBUGITEMID then
+				-- 	app.PrintTable(auction)
+				-- end
+				auctionData[itemID] = math_min(lowestPrice, auction[10] or auction[11] or auction[8] or GoldCap)
 			end
 			callback(numItems);
 		end
@@ -136,7 +141,6 @@ end
 
 -- Implementation
 local LastCmd;
-local GoldCap = 99999999999;
 local MaximumPrice = GoldCap;
 local function ParseCommand(self, cmd, skipUpdate)
 	if not cmd or cmd == "" then
@@ -168,12 +172,49 @@ local function ParseCommand(self, cmd, skipUpdate)
 	if MaximumPrice ~= price then
 		MaximumPrice = price;
 		if not skipUpdate then
-			wipe(self.data.g);
-			collectgarbage();
-			self:Rebuild();
+			self:Update(true);
 		end
 	end
 end
+
+do	-- Auction Item Type
+	local KEY = "itemID"
+	-- Only update an Auction Item if it's within the MaximumPrice
+	local function OnUpdateAuctionItem(t, parent, UpdateGroup)
+		local price = t.price
+		if price <= MaximumPrice then return end
+
+		return true
+	end
+	local function SummaryForAuctionItem(t)
+		return t.price and GetCoinTextureString(t.price) or ""
+	end
+	-- Wraps the given Type Object as an Auction Item, allowing altered functionality representing this being an Auction result
+	local CreateAuctionItem = app.CreateClass("AuctionItem", KEY, {
+		IsClassIsolated = true,
+		ImportFrom = "Item",
+		ImportFields = { "link", "AsyncRefreshFunc" },
+		OnClick = function() return OnClickForAuctionItem end,
+		summaryText = function(t)
+			local summary = app.GetProgressTextForRow(t).." "..SummaryForAuctionItem(t)
+			t.summaryText = summary
+			return summary
+		end,
+		-- only update if it meets the MaxPrice threshold
+		OnUpdate = function(t) return OnUpdateAuctionItem end,
+		-- ignore some other fields that don't make sense for auctions
+		g = app.EmptyFunction,
+		costCollectibles = app.EmptyFunction,
+		collectibleAsCost = app.EmptyFunction,
+		costsCount = app.EmptyFunction,
+	})
+	app.CreateAuctionItem = function(t, price)
+		local c = app.WrapObject(CreateAuctionItem(t[KEY]), t)
+		c.price = price or 0
+		return c
+	end
+end
+
 app:CreateWindow("Auctions", {
 	Commands = { "attauctions" },
 	TooltipAnchor = "ANCHOR_RIGHT",
@@ -252,6 +293,7 @@ app:CreateWindow("Auctions", {
 				end
 
 				if app.IsRetail then
+					app.Settings:SetTooltipSetting("Auto:AuctionList", false)
 					self.CloseButton:Disable()	-- Hiding would be better, but it reasserts itself too often for that
 					self:Hide()
 					if not AuctionHouseFrameTabSideBar then	-- This runs in other addons as well, to create the shared parent frame
@@ -263,9 +305,11 @@ app:CreateWindow("Auctions", {
 						AuctionHouseFrameTabSideBar.selTab = 0
 					end
 
-					app.AuctionHouseTab = CreateFrame("Frame", nil, AuctionHouseFrameTabSideBar, "AllTheThings_Tab")
-					app.AuctionHouseTab:SetPoint("TOPLEFT", AuctionHouseFrameTabSideBar, "TOPRIGHT", -2, -52)
-					AuctionHouseFrameTabSideBar.Tabs[#AuctionHouseFrameTabSideBar.Tabs + 1] = app.AuctionHouseTab
+					if not app.AuctionHouseTab then
+						app.AuctionHouseTab = CreateFrame("Frame", nil, AuctionHouseFrameTabSideBar, "AllTheThings_Tab")
+						app.AuctionHouseTab:SetPoint("TOPLEFT", AuctionHouseFrameTabSideBar, "TOPRIGHT", -2, -52)
+						AuctionHouseFrameTabSideBar.Tabs[#AuctionHouseFrameTabSideBar.Tabs + 1] = app.AuctionHouseTab
+					end
 
 					local function toggleAHTab()
 						local newState = not self:IsShown()
@@ -362,10 +406,7 @@ app:CreateWindow("Auctions", {
 							app.print("Full Scan is still on Cooldown. Try again later.");
 						end
 					end,
-					OnUpdate = function(data)
-						data.visible = true;
-						return true;
-					end,
+					OnSetVisibility = app.ReturnTrue,
 				}, { __index = function(t, key)
 					if key == "info" then
 						if CanFullScan() then
@@ -579,51 +620,36 @@ app:CreateWindow("Auctions", {
 					-- Determine if anything is cached in the Auction Data.
 					if next(auctionData) then
 						-- Search the ATT Database for information related to the auction links (items, species, etc)
-						local searchResultsByKey, searchResult, searchResults, key, keys, value, data = {}, nil, nil, nil, nil, nil, nil;
+						local searchResultsByKey = {}
+						local searchResult, key, keys, value
 						for itemID,price in pairs(auctionData) do
-							searchResults = app.SearchForObject("itemID", itemID, nil, true);
-							if searchResults and #searchResults > 0 then
-								searchResult = searchResults[1];
-								key = searchResult.key;
-								local __type = searchResult.__type or key;
-								if key == "npcID" and searchResult.itemID then
-									key = "itemID";
-								end
-								if key == "itemID" and searchResult.sourceID then
-									key = "sourceID";
-								end
-								value = searchResult[key];
+							-- TODO: investigate if this needs to properly handle multiple variants of an item, or if AH data is just bad
+							searchResult = app.SearchForObject("itemID", itemID, "field") or app.CreateItem(itemID)
+							key = searchResult.key;
+							local __type = searchResult.__type or key;
+							if key == "npcID" and searchResult.itemID then
+								key = "itemID";
+							end
+							if key == "itemID" and searchResult.sourceID then
+								key = "sourceID";
+							end
+							value = searchResult[key];
 
-								if searchResult.u and (searchResult.u == 1 or searchResult.u == 2) then
-									value = value .. "_" .. searchResult.u;
-									__type = "legacyID";
-								end
+							if searchResult.u and (searchResult.u == 1 or searchResult.u == 2) then
+								value = value .. "_" .. searchResult.u;
+								__type = "legacyID";
+							end
 
-								-- Make sure that the key type is represented.
-								keys = searchResultsByKey[__type];
-								if not keys then
-									keys = {};
-									searchResultsByKey[__type] = keys;
-								end
+							-- Make sure that the key type is represented.
+							keys = searchResultsByKey[__type];
+							if not keys then
+								keys = {};
+								searchResultsByKey[__type] = keys;
+							end
 
-								-- First time this key value was used.
-								data = keys[value];
-								if not data then
-									data = app.CloneClassInstance(searchResult);
-									if data.key == "npcID" then app.CreateItem(data.itemID, data); end
-									keys[value] = data;
-									data.OnClick = OnClickForAuctionItem;
-									if price then
-										-- somehow users are getting non-numbers stored in auction data... maybe old versions?
-										if type(price) == "number" and price > 0 then
-											data.price = price;
-											data.cost = price;
-											data.summaryText = SummaryForAuctionItem(data);
-										else
-											auctionData[itemID] = nil
-										end
-									end
-								end
+							-- First time this key value was used.
+							if not keys[value] then
+								keys[value] = app.CreateAuctionItem(searchResult, tonumber(price))
 							end
 						end
 
@@ -659,7 +685,9 @@ app:CreateWindow("Auctions", {
 						-- Display Test for Raw Data + Filtering
 						for key, searchResults in pairs(searchResultsByKey) do
 							local subdata = self.data.metas[key];
-							if not subdata then
+							if subdata then
+								wipe(subdata.g)
+							else
 								subdata = app.CreateRawText(key, {
 									text = key,
 									Metas = { key },
@@ -668,18 +696,13 @@ app:CreateWindow("Auctions", {
 									g = {},
 								});
 								self.data.metas[key] = subdata;
-								tinsert(g, subdata);
+								g[#g + 1] = subdata
 							end
-							for i,j in pairs(searchResults) do
-								-- TODO: gross. make a new object type that handles this logic automatically
-								if j.price and j.price <= MaximumPrice then
-									tinsert(subdata.g, j);
-								end
+							local subdatag = subdata.g
+							for _,j in pairs(searchResults) do
+								subdatag[#subdatag + 1] = j
 							end
-						end
-
-						for i,option in ipairs(g) do
-							if option.g then table.sort(option.g, SortByPrice); end
+							app.Sort(subdatag, SortByPrice)
 						end
 					else
 						tinsert(g, app.CreateRawText("No auctions cached. Waiting on Auction data.", {
@@ -690,6 +713,10 @@ app:CreateWindow("Auctions", {
 				end
 			end,
 		}));
+		self.VisibilityFilter = function(t)
+			local price = t.price
+			if not price or price <= MaximumPrice then return app.VisibilityFilter(t) end
+		end
 		if rawget(app.HeaderConstants, "MOUNT_MODS") then
 			tinsert(self.data.options, app.CreateCustomHeader(app.HeaderConstants.MOUNT_MODS, {	-- Mount Mods
 				Metas = { "MountMod" },

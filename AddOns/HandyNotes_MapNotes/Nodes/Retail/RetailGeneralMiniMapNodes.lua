@@ -1844,6 +1844,7 @@ ns.currentSourceFile = "RetailGeneralMiniMapminimap.lua"
                 minimap[2405][52676884] = { name = "", dnID = MINIMAP_TRACKING_MAILBOX, type = "MailboxN", showInZone = false, showOnContinent = false, showOnMinimap = true }
                 minimap[2395][46644584] = { name = "", dnID = MINIMAP_TRACKING_MAILBOX, type = "MailboxN", showInZone = false, showOnContinent = false, showOnMinimap = true }
                 minimap[2395][49006837] = { name = "", dnID = MINIMAP_TRACKING_MAILBOX, type = "MailboxN", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Immersangwald
+                minimap[2395][39296117] = { name = "", dnID = MINIMAP_TRACKING_MAILBOX, type = "MailboxN", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Immersangwald
                 minimap[2437][47102526] = { name = "", dnID = MINIMAP_TRACKING_MAILBOX, type = "MailboxN", showInZone = false, showOnContinent = false, showOnMinimap = true }
                 minimap[2437][37402370] = { name = "", dnID = MINIMAP_TRACKING_MAILBOX, type = "MailboxN", showInZone = false, showOnContinent = false, showOnMinimap = true }
                 minimap[2437][45326601] = { name = "", dnID = MINIMAP_TRACKING_MAILBOX, type = "MailboxN", showInZone = false, showOnContinent = false, showOnMinimap = true }
@@ -1857,6 +1858,7 @@ ns.currentSourceFile = "RetailGeneralMiniMapminimap.lua"
                 minimap[2405][53166818] = { npcID = 235701, name = "", type = "InnkeeperN", showInZone = false, showOnContinent = false, showOnMinimap = true }
                 minimap[2395][46274594] = { npcID = 242949, name = "", type = "InnkeeperN", showInZone = false, showOnContinent = false, showOnMinimap = true }
                 minimap[2395][48976859] = { npcID = 236149, name = "", type = "InnkeeperN", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Immersangwald
+                minimap[2395][39326138] = { npcID = 249879, name = "", type = "InnkeeperN", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Immersangwald
                 minimap[2437][46542576] = { npcID = 255184, name = "", type = "InnkeeperN", showInZone = false, showOnContinent = false, showOnMinimap = true }
                 minimap[2437][36892354] = { npcID = 253042, name = "", type = "InnkeeperN", showInZone = false, showOnContinent = false, showOnMinimap = true }
                 minimap[2437][45446500] = { npcID = 240274, name = "", type = "InnkeeperN", showInZone = false, showOnContinent = false, showOnMinimap = true }

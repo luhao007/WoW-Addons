@@ -64,6 +64,7 @@ local KeyMaps = setmetatable({
 	currency = "currencyID",
 	crit = "criteriaID",
 	enchant = "spellID",
+	fc = "firstcraftID",
 	fp = "flightpathID",
 	follower = "followerID",
 	gameobject = "objectID",

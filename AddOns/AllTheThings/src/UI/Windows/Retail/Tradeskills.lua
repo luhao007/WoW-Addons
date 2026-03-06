@@ -40,7 +40,7 @@ local function RefreshTradeSkillCache()
 	wipe(cache);
 	-- "Professions" that anyone can "know"
 	for _,skillID in ipairs(app.SkillDB.AlwaysAvailable) do
-		cache[skillID] = true
+		cache[skillID] = 1
 	end
 	-- app.PrintDebug("RefreshTradeSkillCache");
 	local prof1, prof2, archaeology, fishing, cooking, firstAid = GetProfessions();
@@ -439,6 +439,7 @@ app:CreateWindow("Tradeskills", {
 				self:SetMovable(false);
 
 				if app.IsRetail then
+					app.Settings:SetTooltipSetting("Auto:ProfessionList", false)
 					self.CloseButton:Disable()	-- Hiding would be better, but it reasserts itself too often for that
 					if not ProfessionsFrameTabSideBar then	-- This runs in other addons as well, to create the shared parent frame
 						ProfessionsFrameTabSideBar = CreateFrame("Frame", nil, ProfessionsFrame, "")
@@ -449,9 +450,11 @@ app:CreateWindow("Tradeskills", {
 						ProfessionsFrameTabSideBar.selTab = 0
 					end
 
-					app.TradeskillTab = CreateFrame("Frame", nil, ProfessionsFrameTabSideBar, "AllTheThings_Tab")
-					app.TradeskillTab:SetPoint("TOPLEFT", ProfessionsFrameTabSideBar, "TOPRIGHT", -2, -52)
-					ProfessionsFrameTabSideBar.Tabs[1] = app.TradeskillTab
+					if not app.TradeskillTab then
+						app.TradeskillTab = CreateFrame("Frame", nil, ProfessionsFrameTabSideBar, "AllTheThings_Tab")
+						app.TradeskillTab:SetPoint("TOPLEFT", ProfessionsFrameTabSideBar, "TOPRIGHT", -2, -52)
+						ProfessionsFrameTabSideBar.Tabs[1] = app.TradeskillTab
+					end
 
 					local function toggleProfTab()
 						local newState = not self:IsShown()

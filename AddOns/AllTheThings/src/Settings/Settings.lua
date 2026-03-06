@@ -43,6 +43,7 @@ settings.Collectibles = {
 	Achievements = true,
 	BattlePets = true,
 	Exploration = true,
+	FirstCrafts = true,
 	FlightPaths = true,
 	Heirlooms = true,
 	Illusions = true,
@@ -80,6 +81,7 @@ settings.RequiredForInsaneMode = {
 	Decor = app.GameBuildVersion >= 110207,
 	MountMods = app.GameBuildVersion >= 100000,
 	Exploration = app.IsClassic,	-- CRIEVE NOTE: For now, until Blizzard fixes their broken Retail version of the exploration API.
+	FirstCrafts = app.GameBuildVersion >= 100000,
 	FlightPaths = true,
 	Followers = app.GameBuildVersion >= 60000,
 	Heirlooms = app.GameBuildVersion >= 30000,
@@ -232,6 +234,7 @@ local Things = {
 	"Decor",
 	"MountMods",
 	"Exploration",
+	"FirstCrafts",
 	"FlightPaths",
 	"Followers",
 	"Heirlooms",
@@ -282,6 +285,7 @@ local GeneralSettingsBase = {
 		["Thing:Decor"] = app.GameBuildVersion >= 110207,
 		["Thing:MountMods"] = app.GameBuildVersion >= 100000,
 		["Thing:Exploration"] = app.IsClassic,	-- CRIEVE NOTE: For now, until Blizzard fixes their broken Retail version of the exploration API.
+		["Thing:FirstCrafts"] = app.GameBuildVersion >= 100000,
 		["Thing:FlightPaths"] = true,
 		["Thing:Followers"] = app.GameBuildVersion >= 60000,
 		["Thing:Heirlooms"] = true,

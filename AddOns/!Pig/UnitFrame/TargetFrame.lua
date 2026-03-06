@@ -476,7 +476,7 @@ function UnitFramefun.Mubiao()
 		elseif PIG_MaxTocversion() then
 			TargetFrame.yisuF:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 192, -58);
 		else
-			TargetFrame.yisuF:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 206, -38);
+			TargetFrame.yisuF:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 207, -33);
 			TargetFrame.yisuF:SetFrameLevel(505)
 		end
 		TargetFrame.yisuF.Tex = TargetFrame.yisuF:CreateTexture("Frame_Texture_UI", "ARTWORK");

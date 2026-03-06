@@ -146,8 +146,28 @@ if PIG_MaxTocversion(20000) then
 		end
 	end)
 end
+FramePlusF.wupinLV = PIGCheckbutton_R(FramePlusF,{DISPLAY..STAT_AVERAGE_ITEM_LEVEL},true)
+FramePlusF.wupinLV:SetScript("OnClick", function (self)
+	if self:GetChecked() then
+		PIGA["BagBank"]["wupinLV"]=true
+	else
+		PIGA["BagBank"]["wupinLV"]=false
+	end
+	PIG_OptionsUI.RLUI:Show()
+end)
+FramePlusF.wupinRanse = PIGCheckbutton_R(FramePlusF,{DISPLAY_BORDERS..COLORBLIND_ITEM_QUALITY},true)
+FramePlusF.wupinRanse:SetScript("OnClick", function (self)
+	if self:GetChecked() then
+		PIGA["BagBank"]["wupinRanse"]=true
+	else
+		PIGA["BagBank"]["wupinRanse"]=false
+	end
+	PIG_OptionsUI.RLUI:Show()
+end)
 --
 FramePlusF:HookScript("OnShow", function(self)
+	self.wupinLV:SetChecked(PIGA["BagBank"]["wupinLV"])
+	self.wupinRanse:SetChecked(PIGA["BagBank"]["wupinRanse"])
 	self.BuffTime:SetChecked(PIGA["FramePlus"]["BuffTime"])
 	self.Skill_QKbut:SetChecked(PIGA["FramePlus"]["Skill_QKbut"])
 	self.QuestLevel:SetChecked(PIGA["FramePlus"]["QuestLevel"])
@@ -269,26 +289,6 @@ CharacterF.Character_Durability:SetScript("OnClick", function (self)
 		PIG_OptionsUI.RLUI:Show()
 	end
 end)
-CharacterF.Character_ItemLevel = PIGCheckbutton_R(CharacterF,{DISPLAY..STAT_AVERAGE_ITEM_LEVEL,DISPLAY..STAT_AVERAGE_ITEM_LEVEL.."，背包银行物品需要显示装等请在背包内设置"})
-CharacterF.Character_ItemLevel:SetScript("OnClick", function (self)
-	if self:GetChecked() then
-		PIGA["FramePlus"]["Character_ItemLevel"]=true
-		FramePlusfun.Character_ADD()
-	else
-		PIGA["FramePlus"]["Character_ItemLevel"]=false
-		PIG_OptionsUI.RLUI:Show()
-	end
-end)
-CharacterF.Character_ItemColor = PIGCheckbutton_R(CharacterF,{DISPLAY_BORDERS..PET_BATTLE_STAT_QUALITY,"根据品质染色装备边框"})
-CharacterF.Character_ItemColor:SetScript("OnClick", function (self)
-	if self:GetChecked() then
-		PIGA["FramePlus"]["Character_ItemColor"]=true
-		FramePlusfun.Character_ADD()
-	else
-		PIGA["FramePlus"]["Character_ItemColor"]=false
-		PIG_OptionsUI.RLUI:Show()
-	end
-end)
 CharacterF.Character_ItemList = PIGCheckbutton_R(CharacterF,{DISPLAY.."装备列表",CHARACTER_BUTTON.."界面右侧显示装备列表"})
 CharacterF.Character_ItemList:SetScript("OnClick", function (self)
 	if self:GetChecked() then
@@ -322,8 +322,6 @@ CharacterF.Character_Shuxing:SetScript("OnClick", function (self)
 end)
 CharacterF:HookScript("OnShow", function(self)
 	self.Character_Durability:SetChecked(PIGA["FramePlus"]["Character_Durability"])
-	self.Character_ItemLevel:SetChecked(PIGA["FramePlus"]["Character_ItemLevel"])
-	self.Character_ItemColor:SetChecked(PIGA["FramePlus"]["Character_ItemColor"])
 	self.Character_ItemList:SetChecked(PIGA["FramePlus"]["Character_ItemList"])
 	self.Character_Shuxing:SetChecked(PIGA["FramePlus"]["Character_Shuxing"])
 end)

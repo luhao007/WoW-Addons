@@ -123,9 +123,20 @@ function ns.deleteALLSavedVariables() -- delete all profiles
   end
 end
 
-function MapNotesMiniButton:OnInitialize() --mmb.lua
-  self.db = LibStub("AceDB-3.0"):New("MNMiniMapButtonRetailDB", { profile = { minimap = { hide = false, }, }, }) 
+function MapNotesMiniButton:OnInitialize()
+  self.db = LibStub("AceDB-3.0"):New("MNMiniMapButtonRetailDB", {
+    profile = { minimap = { hide = false }, },
+  })
+
+  if ns.Addon and ns.Addon.db and ns.Addon.db.profile and ns.Addon.db.profile.activate then
+    self.db.profile.minimap.hide = (ns.Addon.db.profile.activate.HideMMB == true)
+  end
+
   MNMMBIcon:Register("MNMiniMapButton", ns.miniButton, self.db.profile.minimap)
+
+  if self.db.profile.minimap.hide then
+    MNMMBIcon:Hide("MNMiniMapButton")
+  end
 end
 
 function ns.DevMode()
@@ -979,7 +990,7 @@ do
                       or PlayerMapID == 582 or PlayerMapID == 590 or PlayerMapID == 622 or PlayerMapID == 624 or PlayerMapID == 627 
                       or PlayerMapID == 831 or PlayerMapID == 832 or PlayerMapID == 628 or PlayerMapID == 629 or PlayerMapID == 1161 or PlayerMapID == 1163 
                       or PlayerMapID == 1164 or PlayerMapID == 1165 or PlayerMapID == 1670 or PlayerMapID == 1671 or PlayerMapID == 1672 or PlayerMapID == 1673 
-                      or PlayerMapID == 2112 or PlayerMapID == 2339 or PlayerMapID == 499 or PlayerMapID == 500 or PlayerMapID == 2266
+                      or PlayerMapID == 2112 or PlayerMapID == 2339 or PlayerMapID == 499 or PlayerMapID == 500 or PlayerMapID == 2266 or PlayerMapID == 2393
 
       ns.KalimdorIDs = CurrentMapID == 1 or CurrentMapID == 7 or CurrentMapID == 10 or CurrentMapID == 11 or CurrentMapID == 57 or CurrentMapID == 62 
                       or CurrentMapID == 63 or CurrentMapID == 64 or CurrentMapID == 65 or CurrentMapID == 66 or CurrentMapID == 67 or CurrentMapID == 68 
@@ -1592,7 +1603,7 @@ do
 
       -- Capitals Instance (Dungeon/Raid/Passage/Multi) icons
       if ns.CapitalIDs and ns.instanceIcons and value.showOnMinimap == false then
-        scale = db.CapitalsInstanceScale
+        scale = (db.CapitalsInstanceScale) * 1.5
         alpha = db.CapitalsInstanceAlpha
       end
       
@@ -2294,9 +2305,26 @@ function Addon:EnableSharedProfile()
     self.db:ResetProfile()
   end
 
-  if MapNotesMiniButton and MapNotesMiniButton.db then
-    MapNotesMiniButton.db:SetProfile(sharedName)
-    MNMMBIcon:Refresh("MNMiniMapButton", MapNotesMiniButton.db.profile.minimap)
+  if MNMMBIcon then
+    local mmb = LibStub("AceAddon-3.0"):GetAddon("MNMiniMapButton", true)
+    if mmb and mmb.db then
+      mmb.db:SetProfile(X)
+      mmb.db.profile.minimap = mmb.db.profile.minimap or {}
+    
+      MNMMBIcon:Refresh("MNMiniMapButton", mmb.db.profile.minimap)
+    
+      if mmb.db.profile.minimap.hide == true then
+        MNMMBIcon:Hide("MNMiniMapButton")
+        if ns.Addon and ns.Addon.db and ns.Addon.db.profile and ns.Addon.db.profile.activate then
+          ns.Addon.db.profile.activate.HideMMB = true
+        end
+      else
+        MNMMBIcon:Show("MNMiniMapButton")
+        if ns.Addon and ns.Addon.db and ns.Addon.db.profile and ns.Addon.db.profile.activate then
+          ns.Addon.db.profile.activate.HideMMB = false
+        end
+      end
+    end
   end
 
   ns.dbProfile = ns:GetDeletedIconsDB()
@@ -2313,9 +2341,26 @@ function Addon:DisableSharedProfile()
     self.db:SetProfile(back)
   end
 
-  if MapNotesMiniButton and MapNotesMiniButton.db then
-    MapNotesMiniButton.db:SetProfile(back)
-    MNMMBIcon:Refresh("MNMiniMapButton", MapNotesMiniButton.db.profile.minimap)
+  if MNMMBIcon then
+    local mmb = LibStub("AceAddon-3.0"):GetAddon("MNMiniMapButton", true)
+    if mmb and mmb.db then
+      mmb.db:SetProfile(X)
+      mmb.db.profile.minimap = mmb.db.profile.minimap or {}
+    
+      MNMMBIcon:Refresh("MNMiniMapButton", mmb.db.profile.minimap)
+    
+      if mmb.db.profile.minimap.hide == true then
+        MNMMBIcon:Hide("MNMiniMapButton")
+        if ns.Addon and ns.Addon.db and ns.Addon.db.profile and ns.Addon.db.profile.activate then
+          ns.Addon.db.profile.activate.HideMMB = true
+        end
+      else
+        MNMMBIcon:Show("MNMiniMapButton")
+        if ns.Addon and ns.Addon.db and ns.Addon.db.profile and ns.Addon.db.profile.activate then
+          ns.Addon.db.profile.activate.HideMMB = false
+        end
+      end
+    end
   end
 
   ns.dbProfile = ns:GetDeletedIconsDB()
@@ -2345,13 +2390,26 @@ function Addon:ApplySharedProfileIfEnabled()
     self.db:ResetProfile()
   end
 
-  if MapNotesMiniButton and MapNotesMiniButton.db then
-    local mmbExists = MapNotesMiniButton.db.profiles and MapNotesMiniButton.db.profiles[sharedName] ~= nil
-    MapNotesMiniButton.db:SetProfile(sharedName)
-    if not mmbExists then
-      MapNotesMiniButton.db:ResetProfile()
+  if MNMMBIcon then
+    local mmb = LibStub("AceAddon-3.0"):GetAddon("MNMiniMapButton", true)
+    if mmb and mmb.db then
+      local mmbExists = mmb.db.profiles and mmb.db.profiles[sharedName] ~= nil
+      mmb.db:SetProfile(sharedName)
+      if not mmbExists then
+        mmb.db:ResetProfile()
+      end
+    
+      mmb.db.profile.minimap = mmb.db.profile.minimap or {}
+      MNMMBIcon:Refresh("MNMiniMapButton", mmb.db.profile.minimap)
+    
+      if mmb.db.profile.minimap.hide == true then
+        MNMMBIcon:Hide("MNMiniMapButton")
+        ns.Addon.db.profile.activate.HideMMB = true
+      else
+        MNMMBIcon:Show("MNMiniMapButton")
+        ns.Addon.db.profile.activate.HideMMB = false
+      end
     end
-    MNMMBIcon:Refresh("MNMiniMapButton", MapNotesMiniButton.db.profile.minimap)
   end
 
   ns.dbProfile = ns:GetDeletedIconsDB()
@@ -2493,17 +2551,34 @@ function Addon:OnProfileCopied(event, database, profileKeys)
     ns.SetAreaMapMenuVisibility(ns.Addon.db.profile.areaMap.showAreaMapDropDownMenu)
   end
 
-  if MapNotesMiniButton and MapNotesMiniButton.db then -- Minimapbutton position
-    MapNotesMiniButton.db:SetProfile(database:GetCurrentProfile())
-    MapNotesMiniButton.db.profile.minimap = MapNotesMiniButton.db.profile.minimap or {}
+  if MapNotesMiniButton and MapNotesMiniButton.db and MNMMBIcon then
+    local mdb = MapNotesMiniButton.db
+    local targetProfile = database:GetCurrentProfile()
+    local sourceProfile = profileKeys
 
-    if MapNotesMiniButton.db.profiles and MapNotesMiniButton.db.profiles[profileKeys] and MapNotesMiniButton.db.profiles[profileKeys].minimap then
-      for k, v in pairs(MapNotesMiniButton.db.profiles and MapNotesMiniButton.db.profiles[profileKeys] and MapNotesMiniButton.db.profiles[profileKeys].minimap) do
-        MapNotesMiniButton.db.profile.minimap[k] = v
+    mdb:SetProfile(targetProfile)
+    mdb.profile.minimap = mdb.profile.minimap or {}
+
+    local src = mdb.profiles and mdb.profiles[sourceProfile]
+    local srcMinimap = src and src.minimap
+
+    if type(srcMinimap) == "table" then
+      wipe(mdb.profile.minimap)
+      for k, v in pairs(srcMinimap) do
+        mdb.profile.minimap[k] = v
       end
     end
 
-    MNMMBIcon:Refresh("MNMiniMapButton", MapNotesMiniButton.db.profile.minimap)
+    MNMMBIcon:Refresh("MNMiniMapButton", mdb.profile.minimap)
+
+    local shouldHide = (mdb.profile.minimap.hide == true)
+    if shouldHide then
+      MNMMBIcon:Hide("MNMiniMapButton")
+    else
+      MNMMBIcon:Show("MNMiniMapButton")
+    end
+
+    ns.Addon.db.profile.activate.HideMMB = shouldHide
   end
 
   ns.Addon:FullUpdate()
@@ -2548,7 +2623,7 @@ end
 function Addon:PLAYER_LOGIN() -- OnInitialize()
   ns.Addon = Addon
   ns.LoadOptions(self) -- RetailOptions.lua
-  ns.BlizzardDelvesAddFunction() -- RetailDelves.lua
+  --ns.BlizzardDelvesAddFunction() -- RetailDelves.lua
   ns.ChangingMapToPlayerZone() -- RetailWorldMap.lua
 
    C_Timer.After(0, MN_AddWaypointProvider)
@@ -2619,8 +2694,17 @@ function Addon:PLAYER_LOGIN() -- OnInitialize()
     SetCVar("showDelveEntrancesOnMap", 1)
   end
 
-  if ns.Addon.db.profile.activate.HideMMB then -- minimap button
-    MNMMBIcon:Hide("MNMiniMapButton")
+  -- minimap button
+  if MapNotesMiniButton and MapNotesMiniButton.db and MapNotesMiniButton.db.profile and MapNotesMiniButton.db.profile.minimap then
+    local shouldHide = (MapNotesMiniButton.db.profile.minimap.hide == true)
+    ns.Addon.db.profile.activate.HideMMB = shouldHide
+  
+    MNMMBIcon:Refresh("MNMiniMapButton", MapNotesMiniButton.db.profile.minimap)
+    if shouldHide then
+      MNMMBIcon:Hide("MNMiniMapButton")
+    else
+      MNMMBIcon:Show("MNMiniMapButton")
+    end
   end
 
   -- Register Worldmapbutton

@@ -120,6 +120,13 @@ AssignAPIWrapper("GetItemSpecInfo", C_Item and C_Item.GetItemSpecInfo, GetItemSp
 if app.GameBuildVersion >= 70000 then
 	AssignAPIWrapper("IsArtifactRelicItem", C_ItemSocketInfo and C_ItemSocketInfo.IsArtifactRelicItem, IsArtifactRelicItem)
 end
+if C_Item and C_Item.GetItemLinkByGUID then
+	lib.GetItemLinkByGUID = C_Item.GetItemLinkByGUID;
+else
+	lib.GetItemLinkByGUID = function(item)
+		return item;
+	end
+end
 ---@diagnostic enable: deprecated
 
 -- Party APIs

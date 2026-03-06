@@ -97,10 +97,23 @@ local function DoReport(reporttype, id)
 	-- common report data
 	reportData[#reportData + 1] = "---- User Info ----"
 	reportData[#reportData + 1] = "PlayerLocation: "..GetReportPlayerLocation()
+	local lastQuests = app.TableConcat(app.MostRecentQuestTurnIns, nil, nil, "<") or ""
+	if lastQuests ~= "" then
+		reportData[#reportData + 1] = "LastQuests:"..lastQuests
+	end
 	reportData[#reportData + 1] = "Character: L:"..app.Level.." R:"..app.RaceID.." ("..app.Race..") C:"..app.ClassIndex.." ("..app.Class..")"
-	reportData[#reportData + 1] = "ATT: "..app.Version
-	reportData[#reportData + 1] = "GameBuild: "..app.GameBuildVersion
-	reportData[#reportData + 1] = "UTC: "..date("!%Y-%m-%dT%H:%M:%SZ", time())
+	if app.CurrentCharacter.Professions then
+		local skills = {};
+		for profID,known in pairs(app.CurrentCharacter.Professions) do
+			-- professions inherently known by all characters are marked 1 specifically; dynamic ones are true
+			if known ~= 1 then
+				skills[#skills + 1] = "|"..profID..":"
+				skills[#skills + 1] = C_TradeSkillUI.GetTradeSkillDisplayName(profID):sub(1,4)
+			end
+		end
+		reportData[#reportData + 1] = "Profs: "..(app.TableConcat(skills) or "")
+	end
+	reportData[#reportData + 1] = "ATT: "..app.Version.." GameBuild: "..app.GameBuildVersion.." UTC: "..date("!%Y-%m-%dT%H:%M:%SZ", time())
 	reportData[#reportData + 1] = "```";	-- discord fancy box end
 
 	if app:SetupReportDialog(dialogID, "Contributor Report: " .. dialogID, reportData) then
@@ -217,6 +230,8 @@ local MapPrecisionOverrides = {
 	[1703] = 5,	-- Heart of the Forest
 	[1912] = 10,	-- The Runecarver's Oubliette
 	[2328] = 3,	-- The Proscenium
+	[2438] = 5,	-- Scarlet Halls (Arator's Journey)
+	[2541] = 5,	-- Arcantina
 	[2477] = 4,	-- Voidscar Cavern, K'aresh
 	[2565] = 3,	-- Parhelion Plaza, Isle of Quel'Danas (Intro)
 	[2579] = 2,	-- Wartha'nan Crypts
@@ -623,6 +638,7 @@ MobileDB.Creature = {
 	[241603] = true,	-- Threadis
 	[241604] = true,	-- Destien
 	[241605] = true,	-- Kitzy
+	[252807] = true,	-- Vanguard Paladin
 }
 -- These should be GameObjects which are mobile in that they can have completely variable coordinates in game
 -- either by following the player or having player-based decisions that cause them to have any coordinates
@@ -805,6 +821,7 @@ MobileDB.GameObject = {
 	[189979] = true,	-- Rich Cobalt Deposit
 	[189980] = true,	-- Saronite Deposit
 	[189981] = true,	-- Rich Saronite Deposit
+	[189992] = true,	-- Ruby Acorn (q:12417, 12449)
 	[190169] = true,	-- Tiger Lily
 	[190584] = true,	-- Battle-worn Sword (q:12619)
 	[190586] = true,	-- Tribunal Chest (Tribunal of Ages)
@@ -1059,6 +1076,7 @@ MobileDB.GameObject = {
 	[207487] = true,	-- Sturdy Treasure Chest
 	[207488] = true,	-- Sturdy Treasure Chest
 	[207489] = true,	-- Sturdy Treasure Chest
+	[207492] = true,	-- Sturdy Treasure Chest
 	[207493] = true,	-- Sturdy Treasure Chest
 	[207496] = true,	-- Dark Iron Treasure Chest
 	[207498] = true,	-- Dark Iron Treasure Chest
@@ -1663,6 +1681,7 @@ MobileDB.GameObject = {
 	[272009] = true,	-- Preserved Crystal Collection (wq:47828)
 	[272010] = true,	-- Crystalized Memory (wq:47828)
 	[272313] = true,	-- Leaking Fel Spreader (q:47707)
+	[272387] = true,	-- Time Chest
 	[272409] = true,	-- Message Rocket (q:47245)
 	[272619] = true,	-- Spire Stabilizer
 	[272622] = true,	-- Cursed Treasure
@@ -2566,6 +2585,7 @@ MobileDB.GameObject = {
 	[516700] = true,	-- Oasis Animal Leavings (q:87337)
 	[516757] = true,	-- Voidbane Stash
 	[516836] = true,	-- Voidbane Gem
+	[516932] = true,	-- Tranquility Bloom
 	[516994] = true,	-- Tazavesh Trash (q:87376)
 	[516995] = true,	-- Tazavesh Trash (q:87376)
 	[517000] = true,	-- Tazavesh Trash (q:87376)
@@ -2582,6 +2602,7 @@ MobileDB.GameObject = {
 	[519856] = true,	-- Stolen Veilshard (q:87548)
 	[520354] = true,	-- Submerged Cargo (q:87395)
 	[522157] = true,	-- Bomb Pile (Nightfall)
+	[523283] = true,	-- Refulgent Copper Seam
 	[523378] = true,	-- Portal to Nagrand
 	[523409] = true,	-- Shiny Trash Can
 	[523414] = true,	-- Snake Nest (q:88658)
@@ -2592,6 +2613,7 @@ MobileDB.GameObject = {
 	[523512] = true,	-- Rich Desolate Deposit
 	[523516] = true,	-- Portal to the Atrium
 	[523535] = true,	-- Torch (Nightfall)
+	[523601] = true,	-- Terminas' Vault
 	[523615] = true,	-- Fragrant Dreaming Glory (q:88658)
 	[523689] = true,	-- Mossy Snake Bed (q:88666)
 	[523752] = true,	-- Medical Supplies
@@ -2626,6 +2648,8 @@ MobileDB.GameObject = {
 	[528309] = true,	-- Arcane Recorder (q:87394)
 	[528358] = true,	-- Uncharged Crystal
 	[529289] = true,	-- Spore Sample (q:88711)
+	[531477] = true,	-- Coalesced Light
+	[531495] = true,	-- Slain Beas (q:86516)
 	[531507] = true,	-- Depleted Wardbreaker (q:89205)
 	[531961] = true,	-- Untethered Xy'bucha
 	[532495] = true,	-- Healing Salve
@@ -2655,6 +2679,7 @@ MobileDB.GameObject = {
 	[547487] = true,	-- Dragonpine Lumber
 	[547532] = true,	-- Ky'veza's Etheric Cache
 	[547740] = true,	-- Dragonpine Lumber
+	[547829] = true,	-- Golden Sunleaf (q:89386)
 	[548615] = true,	-- Amethryl Flower (q:90889)
 	[549325] = true,	-- Dragonpine Lumber
 	[549326] = true,	-- Phase-Lost Exchequer
@@ -2667,6 +2692,7 @@ MobileDB.GameObject = {
 	[553646] = true,	-- Arden Lumber
 	[536903] = true,	-- Dropped Tome (q:86740)
 	[553804] = true,	-- Arden Lumber
+	[554772] = true,	-- Void-Tainted Remains
 	[554661] = true,	-- Arden Lumber
 	[554679] = true,	-- Legacy Stone of True Self (q:90960)
 	[554848] = true,	-- Legacy Stone of the Goddess Guidance (q:90960)
@@ -2680,6 +2706,7 @@ MobileDB.GameObject = {
 	[555462] = true,	-- Forgotten Amani Cache
 	[555545] = true,	-- Darkpine Lumber
 	[555609] = true,	-- Cartel Ba Dead Drop
+	[555631] = true,	-- Remnant of Anguish
 	[556076] = true,	-- Darkpine Lumber
 	[556387] = true,	-- Darkpine Lumber
 	[556425] = true,	-- Darkpine Lumber
@@ -2697,6 +2724,7 @@ MobileDB.GameObject = {
 	[562439] = true,	-- Fel-Touched Lumber
 	[562440] = true,	-- Bamboo Lumber
 	[564925] = true,	-- Surplus Elementium (wq:91778)
+	[566093] = true,	-- Locked Strongbox (q:91826)
 	[566768] = true,	-- Cache of the Deathless
 	[567726] = true,	-- Bamboo Lumber
 	[567732] = true,	-- Kaja'6-Pack
@@ -2721,6 +2749,7 @@ MobileDB.GameObject = {
 	[571071] = true,	-- Olemba Lumber
 	[571213] = true,	-- Olemba Lumber
 	[571345] = true,	-- Olemba Lumber
+	[571604] = true,	-- Weapon Rack (Arcantina)
 	[572474] = true,	-- Arcane Mana Crystal (q:92397)
 	[572475] = true,	-- Weapons Rack (q:92397)
 	[572477] = true,	-- Weapons Rack (q:92397)
@@ -2770,12 +2799,18 @@ MobileDB.GameObject = {
 	[578925] = true,	-- Ironwood Lumber
 	[578955] = true,	-- Flickering Spoils
 	[578956] = true,	-- Shadowed Flickering Spoils
+	[579193] = true,	-- Rusty Axe (q:92319)
+	[580106] = true,	-- Void Zeal
 	[581830] = true,	-- Ironwood Lumber
 	[581876] = true,	-- Ironwood Lumber
 	[582143] = true,	-- Ironwood Lumber
 	[582149] = true,	-- Ironwood Lumber
 	[582157] = true,	-- Spiritpaw Satche
+	[583971] = true,	-- Stonewash Supplies
 	[584268] = true,	-- Dropped Tome (q:86739)
+	[584511] = true,	-- Nemesis Strongbox (Uncommon)
+	[584509] = true,	-- Nemesis Strongbox (Rare)
+	[584508] = true,	-- Nemesis Strongbox (Epic)
 	[584445] = true,	-- Ironwood Lumber
 	[584475] = true,	-- Ironwood Lumber
 	[584517] = true,	-- Heavy Trunk
@@ -2785,9 +2820,12 @@ MobileDB.GameObject = {
 	[584694] = true,	-- Ironwood Lumber
 	[584752] = true,	-- Mislaid Curiosity
 	[586651] = true,	-- Ashwood Lumber
+	[587238] = true,	-- Stashed Singularity Supplies
 	[587913] = true,	-- Shabby Stockpile
 	[612274] = true,	-- Portal to K'aresh (q:85002)
 	[613268] = true,	-- Burning Torch
+	[613852] = true,	-- Potion of Unquestionable Strength (q:93569)
+	[613945] = true,	-- Orb of Translocation
 	[616052] = true,	-- Flame-Hardened Sap of Teldrassil
 	[616055] = true,	-- Forgotten Cache [Windrunner Spire]
 	[616916] = true,	-- Eye of the Void
@@ -2796,9 +2834,14 @@ MobileDB.GameObject = {
 	[618517] = true,	-- Thalassian Lumber
 	[618844] = true,	-- Mislaid Curiosity
 	--[619092] = true,	-- Flyer Crate (q:)
+	[620105] = true,	-- Rookery Cache Key
 	[626980] = true,	-- Belanise Cluster (q:91328)
+	[626983] = true,	-- Ripe Grapes
+	[626987] = true,	-- Ripe Grapes
 	[627049] = true,	-- Hearthlight Armillary
 	[628381] = true,	-- Weapon Rack (Arcantina)
+	[630870] = true,	-- Portal to Astalor's Sanctum
+	[638873] = true,	-- Orb of Translocation
 }
 
 local ReturnEmptyFunctionMeta = { __index = function() return app.ReturnFalse end}
@@ -2917,7 +2960,7 @@ local function OnQUEST_DETAIL(...)
 
 	local guid = UnitGUID("questnpc") or UnitGUID("npc")
 	local providerid, guidtype, _
-	if not guid then
+	if not guid or app.WOWAPI.issecretvalue(guid) then
 		app.print("No Quest check performed for Quest #", questID,"[GUID]")
 		return
 	end
@@ -2988,6 +3031,14 @@ local RegisterUNIT_SPELLCAST_SENT, UnregisterUNIT_SPELLCAST_SENT
 -- Allows automatically tracking nearby ObjectID's and running check functions on them for data verification
 local function OnPLAYER_SOFT_INTERACT_CHANGED(previousGuid, newGuid)
 	-- app.PrintDebug("PLAYER_SOFT_INTERACT_CHANGED",previousGuid,newGuid)
+
+	-- are these secrets because blizzard is annoying?
+	if app.WOWAPI.issecretvalue(previousGuid) or app.WOWAPI.issecretvalue(newGuid) then
+		LastSoftInteract.GuidType = nil
+		LastSoftInteract.ID = nil
+		UnregisterUNIT_SPELLCAST_SENT()
+		return
+	end
 
 	-- previousGuid == newGuid when the player distance becomes close enough to interact
 	if not newGuid or previousGuid ~= newGuid then

@@ -1458,6 +1458,9 @@ local function WilduSettings_BuildCooldown(category, layout)
             if ns.Keybinds then
                 ns.Keybinds:OnSettingChanged("Essential")
             end
+            if not value then
+                ns.API:ShowReloadUIConfirmation()
+            end
         end,
         dropdownGet = function()
             return ns.db.profile.cooldownManager_keybindAnchor_Essential or "TOPRIGHT"
@@ -1574,6 +1577,9 @@ local function WilduSettings_BuildCooldown(category, layout)
             if ns.Keybinds then
                 ns.Keybinds:OnSettingChanged("UtilityCooldownViewer")
             end
+            if not value then
+                ns.API:ShowReloadUIConfirmation()
+            end
         end,
         dropdownGet = function()
             return ns.db.profile.cooldownManager_keybindAnchor_Utility or "TOPRIGHT"
@@ -1661,6 +1667,127 @@ local function WilduSettings_BuildCooldown(category, layout)
             ns.db.profile.cooldownManager_keybindOffsetY_Utility = v
             if ns.Keybinds then
                 ns.Keybinds:ApplyKeybindSettings("UtilityCooldownViewer")
+            end
+        end,
+    })
+
+    SettingsLib:CreateText(category, {
+        name = "",
+        parentSection = keybindsSection,
+    })
+
+    SettingsLib:CreateCheckboxDropdown(category, {
+        parentSection = keybindsSection,
+        prefix = "CMC_",
+        key = "cooldownManager_showKeybinds_CMCTracker",
+        dropdownKey = "cooldownManager_keybindAnchor_CMCTracker",
+        name = "CMC Tracker: Enable & Anchor",
+        searchtags = { "Keybind", "Hotkey", "Binding", "Key", "Shortcut", "CMC Tracker", "Show", "Display", "Anchor" },
+        default = false,
+        dropdownDefault = "TOPRIGHT",
+        get = function()
+            return ns.db.profile.cooldownManager_showKeybinds_CMCTracker
+        end,
+        set = function(value)
+            ns.db.profile.cooldownManager_showKeybinds_CMCTracker = value
+            if ns.Keybinds then
+                ns.Keybinds:OnSettingChanged("CMCTracker1")
+                ns.Keybinds:OnSettingChanged("CMCTracker2")
+            end
+            if not value then
+                ns.API:ShowReloadUIConfirmation()
+            end
+        end,
+        dropdownGet = function()
+            return ns.db.profile.cooldownManager_keybindAnchor_CMCTracker or "TOPRIGHT"
+        end,
+        dropdownSet = function(value)
+            ns.db.profile.cooldownManager_keybindAnchor_CMCTracker = value
+            if ns.Keybinds then
+                ns.Keybinds:ApplyKeybindSettings("CMCTracker1")
+                ns.Keybinds:ApplyKeybindSettings("CMCTracker2")
+            end
+        end,
+        dropdownValues = {
+            TOPLEFT = "Top Left",
+            TOP = "Top",
+            TOPRIGHT = "Top Right",
+            LEFT = "Left",
+            CENTER = "Center",
+            RIGHT = "Right",
+            BOTTOMLEFT = "Bottom Left",
+            BOTTOM = "Bottom",
+            BOTTOMRIGHT = "Bottom Right",
+        },
+        dropdownOrder = {
+            "TOPLEFT",
+            "TOP",
+            "TOPRIGHT",
+            "LEFT",
+            "CENTER",
+            "RIGHT",
+            "BOTTOMLEFT",
+            "BOTTOM",
+            "BOTTOMRIGHT",
+        },
+        desc = "Enable keybind text on CMC Tracker and select anchor position.",
+    })
+
+    CreateKeybindFontSizeDropdown(keybindsSection, "cooldownManager_keybindFontSize_CMCTracker", "Font Size", function()
+        return tostring(ns.db.profile.cooldownManager_keybindFontSize_CMCTracker or 10)
+    end, function(value)
+        local n = tonumber(value)
+        ns.db.profile.cooldownManager_keybindFontSize_CMCTracker = n and math.floor(n + 0.5) or 14
+        if ns.Keybinds then
+            ns.Keybinds:ApplyKeybindSettings("CMCTracker1")
+            ns.Keybinds:ApplyKeybindSettings("CMCTracker2")
+        end
+    end)
+    SettingsLib:CreateSlider(category, {
+        parentSection = keybindsSection,
+        prefix = "CMC_",
+        key = "cooldownManager_keybindOffsetX_CMCTracker",
+        name = "X Offset",
+        default = -3,
+        min = -40,
+        max = 40,
+        step = 1,
+        formatter = function(value)
+            return string.format("%.0f", value)
+        end,
+        get = function()
+            return ns.db.profile.cooldownManager_keybindOffsetX_CMCTracker or -3
+        end,
+        set = function(value)
+            local v = math.floor((value or 0) + 0.5)
+            ns.db.profile.cooldownManager_keybindOffsetX_CMCTracker = v
+            if ns.Keybinds then
+                ns.Keybinds:ApplyKeybindSettings("CMCTracker1")
+                ns.Keybinds:ApplyKeybindSettings("CMCTracker2")
+            end
+        end,
+    })
+    SettingsLib:CreateSlider(category, {
+        parentSection = keybindsSection,
+        prefix = "CMC_",
+        key = "cooldownManager_keybindOffsetY_CMCTracker",
+        name = "Y Offset",
+        default = -3,
+        min = -40,
+        max = 40,
+        step = 1,
+        formatter = function(value)
+            return string.format("%.0f", value)
+        end,
+        get = function()
+            return ns.db.profile.cooldownManager_keybindOffsetY_CMCTracker or -3
+        end,
+        set = function(value)
+            local v = math.floor((value or 0) + 0.5)
+            ns.db.profile.cooldownManager_keybindOffsetY_CMCTracker = v
+            if ns.Keybinds then
+                ns.Keybinds:ApplyKeybindSettings("CMCTracker1")
+                ns.Keybinds:ApplyKeybindSettings("CMCTracker2")
             end
         end,
     })

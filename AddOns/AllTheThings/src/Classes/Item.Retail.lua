@@ -477,7 +477,7 @@ app.CreateItem = app.CreateClass(CLASS, KEY, itemFields,
 	collectible = app.CollectibleAsQuest,
 	locked = app.GlobalVariants.AndLockCriteria.locked,
 	collected = function(t)
-		return app.TypicalCharacterCollected("Quests", t.questID, t.CollectibleType)
+		return app.TypicalCharacterCollected("Quests", t.questID)
 	end,
 }, (function(t) return t.type == "ihqt"; end),
 "WithQuest", {

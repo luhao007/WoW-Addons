@@ -441,24 +441,15 @@ L["RAID_BOSS_VS_3"] = "Павший король Салхадаар"
 L["RAID_BOSS_VS_4"] = "Ваэлгор и Эззорак"
 L["RAID_BOSS_VS_5"] = "Ослепленный авангард"
 L["RAID_BOSS_VS_6"] = "Корона космоса"
---[[Translation missing --]]
---[[ L["RAID_BOSS_VS_DR_MQD_1"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_VS_DR_MQD_2"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_VS_DR_MQD_3"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_VS_DR_MQD_4"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_VS_DR_MQD_5"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_VS_DR_MQD_6"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_VS_DR_MQD_7"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_VS_DR_MQD_8"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_VS_DR_MQD_9"] = ""--]] 
+L["RAID_BOSS_VS_DR_MQD_1"] = "Император Аверзиан"
+L["RAID_BOSS_VS_DR_MQD_2"] = "Ненасытникус"
+L["RAID_BOSS_VS_DR_MQD_3"] = "Павший король Салхадаар"
+L["RAID_BOSS_VS_DR_MQD_4"] = "Ваэлгор и Эззорак"
+L["RAID_BOSS_VS_DR_MQD_5"] = "Ослепленный авангард"
+L["RAID_BOSS_VS_DR_MQD_6"] = "Корона космоса"
+L["RAID_BOSS_VS_DR_MQD_7"] = "Химерий Неприснившийся Бог"
+L["RAID_BOSS_VS_DR_MQD_8"] = "Бело'рен дитя Ал'ара"
+L["RAID_BOSS_VS_DR_MQD_9"] = "Торжество Полуночи"
 L["RAID_BOT"] = "Сумеречный бастион"
 L["RAID_BRD"] = "Глубины Черной горы"
 L["RAID_BWD"] = "Твердыня Крыла Тьмы"
@@ -493,8 +484,7 @@ L["RAID_TOES"] = "Терраса Вечной Весны"
 L["RAID_TOT"] = "Престол Гроз"
 L["RAID_TOTFW"] = "Трон Четырех Ветров"
 L["RAID_VS"] = "Шпиль Бездны"
---[[Translation missing --]]
---[[ L["RAID_VS_DR_MQD"] = ""--]] 
+L["RAID_VS_DR_MQD"] = "Шпиль Бездны / Провал снов / Марш на Кель'Данас"
 L["RAIDERIO_AVERAGE_PLAYER_SCORE"] = "Cредн. очки для прохода вовремя +%s"
 L["RAIDERIO_BEST_RUN"] = "[Raider.IO] Лучшее прохождение М+ подземелья"
 L["RAIDERIO_CLIENT_CUSTOMIZATION"] = "Настройка клиента RaiderIO"

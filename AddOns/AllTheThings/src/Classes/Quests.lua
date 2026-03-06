@@ -694,17 +694,6 @@ local function BuildDiscordQuestInfoTable(id, infoText, questChange, questRef, c
 		end
 	end
 
-	if app.CurrentCharacter.Professions and #app.CurrentCharacter.Professions > 0 then
-		local skills = {};
-		for profID,known in pairs(app.CurrentCharacter.Professions) do
-			-- professions inherently known by all characters are marked 1 specifically; dynamic ones are true
-			if known ~= 1 then
-				tinsert(skills, "|"..profID..":");
-				tinsert(skills, C_TradeSkillUI.GetTradeSkillDisplayName(profID):sub(1,4));
-			end
-		end
-		tinsert(info, "skills"..(app.TableConcat(skills) or ""));
-	end
 	if app.GameBuildVersion >= 100000 then	-- Only include this after Dragonflight
 		local acctUnlocks = {
 			IsQuestFlaggedCompleted(72366) and "DF_CA" or "N",	-- Dragonflight Campaign Complete
@@ -714,7 +703,6 @@ local function BuildDiscordQuestInfoTable(id, infoText, questChange, questRef, c
 		tinsert(info, "unlocks:"..app.TableConcat(acctUnlocks, nil, nil, "/"))
 	end
 	tinsert(info, "sq:"..GenerateSourceQuestString(questRef or id));
-	tinsert(info, "lq:"..(app.TableConcat(MostRecentQuestTurnIns, nil, nil, "<") or ""));
 	return info;
 end
 local function SearchForQuestData(questID)

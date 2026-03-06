@@ -25,12 +25,5 @@ app:CreateWindow("Never Implemented", {
 			self:AssignChildren();
 		end);
 	end,
-	OnUpdate = function(self, ...)
-		-- Ignore visibility check
-		local filterVisible = app.Modules.Filter.Get.Visible();
-		app.Modules.Filter.Set.Visible();
-		self:DefaultUpdate(...);
-		app.Modules.Filter.Set.Visible(filterVisible);
-		return true;
-	end
+	VisibilityFilter = app.ReturnTrue,
 });

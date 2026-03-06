@@ -29,12 +29,5 @@ app:CreateWindow("Sourceless", {
 			self:AssignChildren();
 		end);
 	end,
-	OnUpdate = function(self, ...)
-		-- Update the groups without forcing Debug Mode.
-		local state = app.Modules.Filter.Get.Unobtainable();
-		app.Modules.Filter.Set.Unobtainable();
-		self:DefaultUpdate(...);
-		app.Modules.Filter.Set.Unobtainable(state);
-		return true
-	end
+	VisibilityFilter = app.ReturnTrue,
 });

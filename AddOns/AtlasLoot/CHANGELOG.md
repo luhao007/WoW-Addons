@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## 9.21.1 - March 5, 2026
+### Added
+- Added Midnight factions (except The Singularity)
+
 ## 9.21.0 - March 2, 2026
 ### Added
 - Added Midnight instance loot (more Midnight items to be added in the next week)

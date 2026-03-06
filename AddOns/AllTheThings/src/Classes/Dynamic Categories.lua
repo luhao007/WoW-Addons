@@ -21,6 +21,7 @@ local onUpdateForDynamicCategory = function(o)
 	o.progress = nil;
 	o.total = nil;
 	if window then
+		window:ForceRebuild();
 		local data = window.data;
 		if data then
 			if o.g then

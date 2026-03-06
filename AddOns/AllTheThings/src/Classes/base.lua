@@ -398,6 +398,7 @@ local ClassPriorityLookup = {
 "itemID",
 "npcID",
 "campsiteID",
+"firstcraftID",
 "unit",
 "classID",
 "raceID",

@@ -870,6 +870,7 @@ nodes[2533] = { } -- Marsch auf Quel'Danas - Inside Dungeon Map
 nodes[2529] = { } -- Die Leerenspitze - Inside Dungeon Map
 -- Delves map nodes
 nodes[2505] = { } -- Kluft der Erinnerung - Inside Delves Map
+nodes[2577] = { } -- Die Mördergasse - Inside Delves Map
 nodes[2510] = { } -- Die Grollgrube - Inside Delves Map
 nodes[2505] = { } -- Kluft der Erinnerung - Inside Delves Map
 nodes[2506] = { } -- Schattenwachtspitze - Inside Delves Map

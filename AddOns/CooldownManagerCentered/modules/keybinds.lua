@@ -21,6 +21,8 @@ local spellIDToKeyBindCache = {}
 local viewersSettingKey = {
     EssentialCooldownViewer = "Essential",
     UtilityCooldownViewer = "Utility",
+    CMCTracker1 = "CMCTracker",
+    CMCTracker2 = "CMCTracker",
 }
 
 local DEFAULT_FONT_PATH = "Fonts\\FRIZQT__.TTF"
@@ -202,6 +204,11 @@ function Keybinds:GetActionsTableBySpellId(slotToKeybind)
                         spellIdToKeyBind[ns.SpellIDOverrides[macroSpellID]] = keyBind
                     end
                 end
+            elseif actionType == "item" then
+                local _spellName, spellId = C_Item.GetItemSpell(id)
+                if spellId and not spellIdToKeyBind[spellId] then
+                    spellIdToKeyBind[spellId] = keyBind
+                end
             end
         end
     end
@@ -378,12 +385,15 @@ local function ApplyKeybindTextSettings(icon, viewerSettingName)
     keybindText:SetFont(fontPath, settings.fontSize, fontFlag or "")
 end
 
-local function ExtractSpellIDFromIcon(icon)
-    if icon.cooldownID then
-        local info = C_CooldownViewer.GetCooldownViewerCooldownInfo(icon.cooldownID)
+local function ExtractSpellIDFromChild(child)
+    if child.cooldownID then
+        local info = C_CooldownViewer.GetCooldownViewerCooldownInfo(child.cooldownID)
         if info then
-            return info.spellID, info.overrideSpellID
+            return info.spellID
         end
+    end
+    if child.spellID then
+        return child.spellID
     end
     return nil
 end
@@ -430,7 +440,7 @@ local function UpdateViewerKeybinds(viewerName)
     local children = { viewerFrame:GetChildren() }
     for _, child in ipairs(children) do
         if child.Icon then
-            local spellID, overrideSpellID = ExtractSpellIDFromIcon(child)
+            local spellID = ExtractSpellIDFromChild(child)
             local keybind = ""
 
             if spellID then

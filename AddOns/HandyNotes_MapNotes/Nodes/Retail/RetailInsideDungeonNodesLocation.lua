@@ -324,6 +324,7 @@ ns.currentSourceFile = "RetailInsideDungeonNodesLocation.lua"
             nodes[2529][26698644] = { mnID = 2405, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", showInZone = true } -- Die Leerenspitze
           -- delves            
             nodes[2510][30902770] = { mnID = 2413, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", leaveDelve = true, showInZone = true } -- Die Grollgrube
+            nodes[2577][70408415] = { mnID = 2393, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", leaveDelve = true, showInZone = true } -- Mördergasse
             nodes[2505][51510829] = { mnID = 2413, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", leaveDelve = true, showInZone = true } -- Kluft der Erinnerung
             nodes[2506][47207941] = { mnID = 2405, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", leaveDelve = true, showInZone = true } -- Schattenwachtspitze
             nodes[2528][64933005] = { mnID = 2405, name = BATTLEGROUND_INSTANCE .. "-" .. L["Exit"], type = "Exit", leaveDelve = true, showInZone = true } -- Sonnentötersanktum

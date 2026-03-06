@@ -11,7 +11,7 @@ function Fun.CZ_ItemButtonZLVranse(framef)
 	if framef.ranse then framef.ranse:Hide() end
 end
 function Fun.Update_ItemButtonZLVranse(ly,framef,data1,data2)
-	if PIGA["FramePlus"]["Character_ItemLevel"] then
+	if PIGA["BagBank"]["wupinLV"] then
 		if not framef.ZLV then
 			framef.ZLV = PIGFontString(framef,{"TOPLEFT", framef, "TOPLEFT", -1, 0.4},nil,"THICKOUTLINE",14)
 			framef.ZLV:SetDrawLayer("OVERLAY", 7)
@@ -32,9 +32,8 @@ function Fun.Update_ItemButtonZLVranse(ly,framef,data1,data2)
 		elseif ly=="B" then
 			local itemID, itemLink, icon, stackCount, quality=PIGGetContainerItemInfo(data1,data2)
 			if itemLink then
-				Newquality=quality
 				local itemID, itemType, itemSubType, itemEquipLoc, icon, classID, subClassID = GetItemInfoInstant(itemLink)
-				if classID==2 or classID==4 then
+				if classID==2 or classID==4 and quality>1 then
 					_GetTooltipLevel("bag",{data1,data2},function(ItemLevel)
 						framef.ZLV:SetText(ItemLevel);
 						local r, g, b = GetItemQualityColor(quality);
@@ -45,7 +44,7 @@ function Fun.Update_ItemButtonZLVranse(ly,framef,data1,data2)
 		elseif ly=="L" then
 			if data1 then
 				local itemID, itemType, itemSubType, itemEquipLoc, icon, classID, subClassID = GetItemInfoInstant(data1)
-				if classID==2 or classID==4 then
+				if classID==2 or classID==4 and data2>1 then
 					_GetTooltipLevel("link",{data1},function(ItemLevel)
 						framef.ZLV:SetText(ItemLevel);
 						local r, g, b = GetItemQualityColor(data2);
@@ -55,7 +54,7 @@ function Fun.Update_ItemButtonZLVranse(ly,framef,data1,data2)
 			end
 		end
 	end
-	if PIGA["FramePlus"]["Character_ItemColor"] then
+	if PIGA["BagBank"]["wupinRanse"] then
 		if not framef.ranse then
 			local Width123=framef:GetWidth()
 			framef.ranse = framef:CreateTexture(nil, "OVERLAY");

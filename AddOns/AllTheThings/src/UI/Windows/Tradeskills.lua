@@ -316,6 +316,7 @@ app:CreateWindow("Tradeskills", {
 									recipesList.sourceIgnored = true;
 									recipesList.name = app.L.ALL_RECIPES;
 									recipesList.icon = 134939;
+									recipesList.parent = cache;
 									tinsert(cache.g, 1, recipesList);
 								end
 								local response = app:BuildSearchResponse(app:GetDatabaseRoot().g, "requireSkill", requireSkill);

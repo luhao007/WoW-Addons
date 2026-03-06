@@ -940,6 +940,7 @@ ns.currentSourceFile = "RetailZoneMiniMapLocation.lua"
              -- Quel'Thalas Transport
             if self.db.profile.showMiniMapTransport then
               minimap[2395][45164594] = { name = L["to the platform"], type = "Tport2", showInZone = false, showOnContinent = false, showOnMinimap = true }
+              minimap[2395][40855939] = { name = L["to the platform"], type = "Tport2", showInZone = false, showOnContinent = false, showOnMinimap = true }
             end
 
           end

@@ -167,6 +167,16 @@ Faction.FACTION_KEY = {
 	[2688] = "Flame's Radiance",
 	[2766] = "Brawl'gar Arena",
 	[2767] = "Bizmo's Brawlpub",
+	-- Midnight
+	[2710] = "Silvermoon Court",
+	[2696] = "Amani Tribe",
+	[2704] = "Hara'ti",
+	[2699] = "The Singularity",
+	[2712] = "Blood Knights",
+	[2713] = "Farstriders",
+	[2711] = "Magisters",
+	[2714] = "Shades of the Row",
+	[2770] = "Slayer's Duellum",
 }
 
 Faction.FriendshipRanks = {
@@ -267,5 +277,41 @@ Faction.FriendshipRanks = {
 		[6] = format(AL["Rank %d"], 6),
 		[7] = format(AL["Rank %d"], 7),
 		[8] = format(AL["Rank %d"], 8),
+	},
+	-- Blood Knights
+	[2712] = {
+		[1] = AL["Interloper"],
+		[2] = AL["Guest"],
+		[3] = AL["Socialite"],
+		[4] = AL["Trendsetter"],
+		[5] = AL["Host"],
+		[6] = AL["Luminary"],
+	},
+	-- Farstriders
+	[2713] = {
+		[1] = AL["Interloper"],
+		[2] = AL["Guest"],
+		[3] = AL["Socialite"],
+		[4] = AL["Trendsetter"],
+		[5] = AL["Host"],
+		[6] = AL["Luminary"],
+	},
+	-- Magisters
+	[2711] = {
+		[1] = AL["Interloper"],
+		[2] = AL["Guest"],
+		[3] = AL["Socialite"],
+		[4] = AL["Trendsetter"],
+		[5] = AL["Host"],
+		[6] = AL["Luminary"],
+	},
+	-- Shades of the Row
+	[2714] = {
+		[1] = AL["Interloper"],
+		[2] = AL["Guest"],
+		[3] = AL["Socialite"],
+		[4] = AL["Trendsetter"],
+		[5] = AL["Host"],
+		[6] = AL["Luminary"],
 	},
 }

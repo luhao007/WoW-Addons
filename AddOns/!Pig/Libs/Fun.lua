@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local _, _, _, tocversion = GetBuildInfo()
 local gsub = _G.string.gsub
 local match = _G.string.match
 local lower=string.lower
@@ -9,7 +8,7 @@ local char=string.char
 local L =addonTable.locale
 local Fun = {}
 addonTable.Fun=Fun
-local version, internalVersion, date, _, versionType, buildType = GetBuildInfo()
+local version, internalVersion, date, tocversion, versionType, buildType = GetBuildInfo()
 ----
 function PIGisSecret(value)
 	if (issecretvalue and issecretvalue(value)) or (issecrettable and issecrettable(value)) then

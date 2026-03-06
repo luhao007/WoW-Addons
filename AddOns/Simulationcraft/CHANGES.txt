@@ -1,16 +1,26 @@
-lightweight tag d82f618aa3c965e68aa376bb4317cc3078a7ed4c 12.0.1-01
+lightweight tag 3fbf4735605e7a767c57456ca48ded9da72f7810 12.0.1-02
 Author:	Dave Hendler <sollaires@gmail.com>
-Date:	Thu Feb 19 08:59:03 2026 -0800
+Date:	Thu Mar 5 16:26:53 2026 -0800
 
-commit d82f618aa3c965e68aa376bb4317cc3078a7ed4c
+commit 3fbf4735605e7a767c57456ca48ded9da72f7810
 Author: Dave Hendler <sollaires@gmail.com>
-Date:   Thu Feb 19 08:59:03 2026 -0800
+Date:   Thu Mar 5 16:26:53 2026 -0800
 
-    Updates for Midnight launch
+    Bump version
 
-commit 6305eb40639093b6c4df4ff0174719ed9dc50609
-Author: Dave Hendler <sollaires@gmail.com>
-Date:   Fri Feb 13 14:50:44 2026 -0800
+commit af6a784b052f047e91c1deb3413c4ee152c466d6
+Author: Jesse Manelius <jessemanelius@gmail.com>
+Date:   Thu Mar 5 23:42:40 2026 +0200
 
-    Add reference link to item link modifiers
+    Cache spells right away
+    Add global SimulationcraftAPI that is used to expose some of the functions
+    fix some global variable leakage
+
+commit af6a784b052f047e91c1deb3413c4ee152c466d6
+Author: Jesse Manelius <jessemanelius@gmail.com>
+Date:   Thu Mar 5 23:42:40 2026 +0200
+
+    Cache spells right away
+    Add global SimulationcraftAPI that is used to expose some of the functions
+    fix some global variable leakage
 

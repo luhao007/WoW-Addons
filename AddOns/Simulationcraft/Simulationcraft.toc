@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: Theck, navv_, seriallos
-## Version: 12.0.1-01
+## Version: 12.0.1-02
 
 ## Title: Simulationcraft
 ## Notes: Constructs SimC export strings

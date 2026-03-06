@@ -566,35 +566,35 @@ local function zoneTextAreasRunner(group, value)
 		end
 	end
 end
-local function findOriginalMapID(group)
-	if group.coords then
-		for mapID,_ in next,group.coords do
-			return mapID;
-		end
-	end
-	return app.GetRelativeValue(group.parent, "mapID");
-end
 local function zoneTextNamesRunner(group, value)
-	--if true then return; end
+	local mapID = group.mapID;
+	if not mapID then
+		-- Generate a new unique mapID (negative)
+		mapID = nextCustomMapID;
+		nextCustomMapID = nextCustomMapID - 1;
+		local maps = group.maps
+		if maps then maps[#maps + 1] = mapID
+		else group.maps = {mapID} end
+
+		-- Manually assign the name of this map since it is not a real mapID.
+		CacheField(group, "mapID", mapID);
+	end
+	
 	-- Remap the original mapID to the new mapID when it encounters any of these artIDs.
-	local originalMapID = findOriginalMapID(group);
-	if originalMapID then
-		local mapID = group.mapID;
-		if not mapID then
-			-- Generate a new unique mapID (negative)
-			mapID = nextCustomMapID;
-			nextCustomMapID = nextCustomMapID - 1;
-			local maps = group.maps
-			if maps then maps[#maps + 1] = mapID
-			else group.maps = {mapID} end
-
-			-- Manually assign the name of this map since it is not a real mapID.
-			CacheField(group, "mapID", mapID);
+	if group.coords then
+		for originalMapID,_ in next,group.coords do
+			local names = MapRemapping[originalMapID].names;
+			for i=1,#value do
+				names[value[i]] = mapID;
+			end
 		end
-
-		local names = MapRemapping[originalMapID].names;
-		for i=1,#value do
-			names[value[i]] = mapID;
+	else
+		local originalMapID = app.GetRelativeValue(group.parent, "mapID");
+		if originalMapID then
+			local names = MapRemapping[originalMapID].names;
+			for i=1,#value do
+				names[value[i]] = mapID;
+			end
 		end
 	end
 end

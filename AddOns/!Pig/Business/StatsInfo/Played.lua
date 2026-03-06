@@ -26,12 +26,10 @@ function BusinessInfo.Player(StatsInfo)
 	end
 	local function SetBZFun(set)
 		if set=="-" then
-			local oldChatFrame_DisplayTimePlayed
 			if ChatFrameUtil and ChatFrameUtil.DisplayTimePlayed then
 				ChatFrameUtil.DisplayTimePlayed=function() end
 			else
 				ChatFrame_DisplayTimePlayed=function() end
-				oldChatFrame_DisplayTimePlayed=ChatFrame_DisplayTimePlayed
 			end
 		else
 			if ChatFrameUtil and ChatFrameUtil.DisplayTimePlayed then
@@ -45,7 +43,7 @@ function BusinessInfo.Player(StatsInfo)
 	fujiF:RegisterEvent("TIME_PLAYED_MSG")
 	fujiF:SetScript("OnEvent", function(self,event,totalTimePlayed, timePlayedThisLevel)
 		if event=="PLAYER_ENTERING_WORLD" then
-			C_Timer.After(3, function()
+			C_Timer.After(6, function()
 				SetBZFun("-")
 				RequestTimePlayed()
 			end)

@@ -176,7 +176,7 @@ function(t) return t.type == "AsGenericObjectContainer" end,
 	CollectibleType = function() return "QuestsHidden" end,
 	collectible = app.GlobalVariants.AndLockCriteria.collectible,
 	collected = function(t)
-		return app.TypicalCharacterCollected("Quests", t.questID, t.CollectibleType)
+		return app.TypicalCharacterCollected("Quests", t.questID)
 	end,
 	variants = {
 		app.GlobalVariants.AndLockCriteria,
@@ -195,7 +195,7 @@ function(t) return t.type == "AsSubGenericObject" end,
 	CollectibleType = function() return "QuestsHidden" end,
 	collectible = app.GlobalVariants.AndLockCriteria.collectible,
 	collected = function(t)
-		return app.TypicalCharacterCollected("Quests", t.questID, t.CollectibleType)
+		return app.TypicalCharacterCollected("Quests", t.questID)
 	end,
 	variants = {
 		app.GlobalVariants.AndLockCriteria,

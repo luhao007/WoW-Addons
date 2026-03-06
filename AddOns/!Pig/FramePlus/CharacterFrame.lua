@@ -30,53 +30,56 @@ local GetCoinTextureString= GetCoinTextureString or  C_CurrencyInfo and C_Curren
 if not InspectTalentFrameSpentPoints then InspectTalentFrameSpentPoints = CreateFrame("Frame") end
 local XWidth, XHeight =CharacterHeadSlot:GetWidth(),CharacterHeadSlot:GetHeight()
 -------
+local ttunit={
+	["Character"]="player",
+	["Inspect"]=function() return InspectFrame.unit end,
+}
 local function Update_Data_ALL(laiyuan)--刷新数据
-	local LYname=""
+	local LYname
 	if laiyuan==PaperDollFrame then
 		LYname="Character"
 	elseif laiyuan==InspectFrame then
 		LYname ="Inspect"
 	end
-	if LYname=="" then return end
-	if laiyuan==PaperDollFrame then
-		if PIGA["FramePlus"]["Character_Durability"] then
-			for inv = 1, #InvSlot["ID"] do
-				if InvSlot["Name"][InvSlot["ID"][inv]][4] then
-					local Frameu=_G[LYname..InvSlot["Name"][InvSlot["ID"][inv]][3].."Slot"].naijiuV
-					Frameu:SetText("");
-					local current, maximum = GetInventoryItemDurability(InvSlot["ID"][inv]);
-					if maximum then
-						local naijiubaifenbi=floor(current/maximum*100);
-						Frameu:SetText(naijiubaifenbi.."%");
-						if naijiubaifenbi>79 then
-							Frameu:SetTextColor(0,1,0, 1);
-						elseif  naijiubaifenbi>59 then
-							Frameu:SetTextColor(1,215/255,0, 1);
-						elseif  naijiubaifenbi>39 then
-							Frameu:SetTextColor(1,140/255,0, 1);
-						elseif  naijiubaifenbi>19 then
-							Frameu:SetTextColor(1,69/255,0, 1);
-						else
-							Frameu:SetTextColor(1,0,0, 1);
-						end
+	if not LYname then return end
+	if laiyuan==PaperDollFrame and PIGA["FramePlus"]["Character_Durability"] then
+		for inv = 1, #InvSlot["ID"] do
+			if InvSlot["Name"][InvSlot["ID"][inv]][4] then
+				local framef=_G[LYname..InvSlot["Name"][InvSlot["ID"][inv]][3].."Slot"]
+				if not framef.naijiuV then
+					framef.naijiuV = PIGFontString(framef,{"BOTTOMRIGHT", framef, "BOTTOMRIGHT", 2, 0},nil,"OUTLINE",13)
+					framef.naijiuV:SetDrawLayer("OVERLAY", 7)
+				end
+				framef.naijiuV:SetText("");
+				local current, maximum = GetInventoryItemDurability(InvSlot["ID"][inv]);
+				if maximum then
+					local naijiubaifenbi=floor(current/maximum*100);
+					framef.naijiuV:SetText(naijiubaifenbi.."%");
+					if naijiubaifenbi>79 then
+						framef.naijiuV:SetTextColor(0,1,0, 1);
+					elseif  naijiubaifenbi>59 then
+						framef.naijiuV:SetTextColor(1,215/255,0, 1);
+					elseif  naijiubaifenbi>39 then
+						framef.naijiuV:SetTextColor(1,140/255,0, 1);
+					elseif  naijiubaifenbi>19 then
+						framef.naijiuV:SetTextColor(1,69/255,0, 1);
+					else
+						framef.naijiuV:SetTextColor(1,0,0, 1);
 					end
 				end
 			end
 		end
 	end
-	local duixiang="player"
-	if laiyuan==InspectFrame then
-		duixiang=InspectFrame.unit
-	end
-	if PIGA["FramePlus"]["Character_ItemLevel"] or PIGA["FramePlus"]["Character_ItemColor"] then
-		for inv = 1, #InvSlot["ID"] do
-			if InvSlot["ID"][inv]~=0 and InvSlot["ID"][inv]~=4 and InvSlot["ID"][inv]~=19 then
-				local framef=_G[LYname..InvSlot["Name"][InvSlot["ID"][inv]][3].."Slot"]
-				Update_ItemButtonZLVranse("C", framef, duixiang, InvSlot["ID"][inv])
-			end
+	for inv = 1, #InvSlot["ID"] do
+		if InvSlot["ID"][inv]~=0 and InvSlot["ID"][inv]~=4 and InvSlot["ID"][inv]~=19 then
+			local framef=_G[LYname..InvSlot["Name"][InvSlot["ID"][inv]][3].."Slot"]
+			Update_ItemButtonZLVranse("C", framef, ttunit[LYname], InvSlot["ID"][inv])
 		end
 	end
 	if PIGA["FramePlus"]["Character_ItemList"] then
+		if not laiyuan.ZBLsit then
+			PIGItemListUI(laiyuan)
+		end
 		if laiyuan==PaperDollFrame then
 			laiyuan.ZBLsit:Update_Player("player")
 			laiyuan.ZBLsit:Update_ItemList("player")
@@ -88,31 +91,7 @@ local function Update_Data_ALL(laiyuan)--刷新数据
 		end
 	end
 end
-local function ADD_UI_Puls(laiyuan)
-	local LYname=""
-	if laiyuan==PaperDollFrame then
-		LYname="Character"
-	elseif laiyuan==InspectFrame then
-		LYname ="Inspect"
-	end
-	if LYname=="" then return end
-	for inv = 1, #InvSlot["ID"] do
-		local framef=_G[LYname..InvSlot["Name"][InvSlot["ID"][inv]][3].."Slot"]
-		---
-		if PIGA["FramePlus"]["Character_Durability"] then
-			if not framef.naijiuV then
-				framef.naijiuV = PIGFontString(framef,{"BOTTOMRIGHT", framef, "BOTTOMRIGHT", 2, 0},nil,"OUTLINE",13)
-				framef.naijiuV:SetDrawLayer("OVERLAY", 7)
-			end
-		end
-	end
-	---	
-	if PIGA["FramePlus"]["Character_ItemList"] then
-		PIGItemListUI(laiyuan)
-	end
-end
 local function Load_addonsFun(FrameX)
-	ADD_UI_Puls(FrameX)
 	FrameX:HookScript("OnShow", function(self,event,arg1)
 		local nameui = InspectNameText or InspectFrameTitleText
 		local namex=nameui:GetText()
@@ -148,7 +127,6 @@ local function Load_addonsFun(FrameX)
 	end)
 end
 function FramePlusfun.Character_ADD()
-	ADD_UI_Puls(PaperDollFrame)
 	PaperDollFrame:HookScript("OnShow",function()
 		Update_Data_ALL(PaperDollFrame)
 	end)
@@ -163,12 +141,10 @@ function FramePlusfun.Character_ADD()
 	--观察
 	if IsAddOnLoaded("Blizzard_InspectUI") then
 		Load_addonsFun(InspectFrame)
-	else
-		if PIGA["FramePlus"]["Character_ItemLevel"] or PIGA["FramePlus"]["Character_ItemColor"] or PIGA["FramePlus"]["Character_ItemList"] then
-			Fun.IsAddOnLoaded("Blizzard_InspectUI",function()
-				Load_addonsFun(InspectFrame)
-			end)
-		end
+	else	
+		Fun.IsAddOnLoaded("Blizzard_InspectUI",function()
+			Load_addonsFun(InspectFrame)
+		end)
 	end
 end
 ---人物界面属性==========================

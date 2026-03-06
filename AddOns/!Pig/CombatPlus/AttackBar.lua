@@ -17,12 +17,13 @@ local CombatPlusfun=addonTable.CombatPlusfun
 local IsCurrentSpell = IsCurrentSpell or C_Spell and C_Spell.IsCurrentSpell
 local IsAutoRepeatSpell = IsAutoRepeatSpell or C_Spell and C_Spell.IsAutoRepeatSpell
 function CombatPlusfun.AttackBar(open)
+	if PIG_MaxTocversion(nil,true) then return end
 	if not PIGA["CombatPlus"]["AttackBar"]["Open"] then return end
-	if CombatPlusfun.AttackBarData then return end
+	if CombatPlusfun.AttackBarUI then return end
 	local Template="CastingBarFrameTemplate"
-	if PlayerCastingBarFrame then
-		Template="CastingBarFrameTemplate, UIParentBottomManagedFrameTemplate, EditModeCastBarSystemTemplate"
-	end
+	-- if PlayerCastingBarFrame then
+	-- 	Template="CastingBarFrameTemplate, UIParentBottomManagedFrameTemplate, EditModeCastBarSystemTemplate"
+	-- end
 	local AttackBar = CreateFrame("StatusBar", nil, UIParent, Template)
 	CombatPlusfun.AttackBarUI=AttackBar
 	AttackBar:SetFrameStrata("HIGH")
@@ -161,92 +162,97 @@ function CombatPlusfun.AttackBar(open)
 	end)
 end
 --------------------------
-local function OpSetSetScaleXY(LY)
-	if CombatPlusfun.AttackBarUI then
-		CombatPlusfun.AttackBarUI:SetScaleXY(LY)
-	end
-end
-local CombatPlusF,CombatPlustabbut =PIGOptionsList_R(CombatPlusfun.RTabFrame,"普攻进度条",100)
-CombatPlusF.Open = PIGCheckbutton_R(CombatPlusF,{"启用普攻进度条","在屏幕上显示普攻进度条"})
-CombatPlusF.Open:SetScript("OnClick", function (self)
-	if self:GetChecked() then
-		CombatPlusF.SetF:Show()
-		PIGA["CombatPlus"]["AttackBar"]["Open"]=true;
-	else
-		PIGA["CombatPlus"]["AttackBar"]["Open"]=false;
+if PIG_MaxTocversion() then
+	local CombatPlusF,CombatPlustabbut =PIGOptionsList_R(CombatPlusfun.RTabFrame,"普攻进度条",100)
+	CombatPlusF:HookScript("OnShow", function (self)
+		self.addOptionsTab()
+	end);
+	function CombatPlusF.addOptionsTab()
+		if CombatPlusF.Open then return end
+		local function OpSetSetScaleXY(LY)
+			if CombatPlusfun.AttackBarUI then
+				CombatPlusfun.AttackBarUI:SetScaleXY(LY)
+			end
+		end
+		CombatPlusF.Open = PIGCheckbutton_R(CombatPlusF,{"启用普攻进度条","在屏幕上显示普攻进度条"})
+		CombatPlusF.Open:SetScript("OnClick", function (self)
+			if self:GetChecked() then
+				CombatPlusF.SetF:Show()
+				PIGA["CombatPlus"]["AttackBar"]["Open"]=true;
+			else
+				PIGA["CombatPlus"]["AttackBar"]["Open"]=false;
+				CombatPlusF.SetF:Hide()
+				PIG_OptionsUI.RLUI:Show()
+			end
+			CombatPlusfun.AttackBar(true)
+		end)
+		local CombatLine1=PIGLine(CombatPlusF,"TOP",-70)
+		CombatPlusF.SetF = PIGFrame(CombatPlusF,{"TOPLEFT", CombatLine1, "BOTTOMLEFT", 0, 0})
+		CombatPlusF.SetF:SetPoint("BOTTOMRIGHT",CombatPlusF,"BOTTOMRIGHT",0,0);
 		CombatPlusF.SetF:Hide()
-		PIG_OptionsUI.RLUI:Show()
-	end
-	CombatPlusfun.AttackBar(true)
-end)
---
-local CombatLine1=PIGLine(CombatPlusF,"TOP",-70)
-CombatPlusF.SetF = PIGFrame(CombatPlusF,{"TOPLEFT", CombatLine1, "BOTTOMLEFT", 0, 0})
-CombatPlusF.SetF:SetPoint("BOTTOMRIGHT",CombatPlusF,"BOTTOMRIGHT",0,0);
-CombatPlusF.SetF:Hide()
-CombatPlusF.SetF.Showshuzhi =PIGCheckbutton_R(CombatPlusF.SetF,{"显示数值","显示进度数值"})
-CombatPlusF.SetF.Showshuzhi:SetScript("OnClick", function (self)
-	if self:GetChecked() then
-		PIGA["CombatPlus"]["AttackBar"]["Showshuzhi"]=true;
-		if CombatPlusfun.AttackBarUI then
-			CombatPlusfun.AttackBarUI.Showshuzhi=true
-		end
-	else
-		PIGA["CombatPlus"]["AttackBar"]["Showshuzhi"]=false;
-		if CombatPlusfun.AttackBarUI then
-			CombatPlusfun.AttackBarUI.Showshuzhi=false
-		end
-	end
-end);
+		CombatPlusF.SetF.Showshuzhi =PIGCheckbutton_R(CombatPlusF.SetF,{"显示数值","显示进度数值"})
+		CombatPlusF.SetF.Showshuzhi:SetScript("OnClick", function (self)
+			if self:GetChecked() then
+				PIGA["CombatPlus"]["AttackBar"]["Showshuzhi"]=true;
+				if CombatPlusfun.AttackBarUI then
+					CombatPlusfun.AttackBarUI.Showshuzhi=true
+				end
+			else
+				PIGA["CombatPlus"]["AttackBar"]["Showshuzhi"]=false;
+				if CombatPlusfun.AttackBarUI then
+					CombatPlusfun.AttackBarUI.Showshuzhi=false
+				end
+			end
+		end);
 
-local xiayiinfo = {0.6,2,0.01,{["Right"]="%"}}
-CombatPlusF.SetF.Slider = PIGSlider(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF,"TOPLEFT",70,-80},xiayiinfo)
-CombatPlusF.SetF.Slider.T = PIGFontString(CombatPlusF.SetF.Slider,{"RIGHT",CombatPlusF.SetF.Slider,"LEFT",-10,0},"缩放")
-function CombatPlusF.SetF.Slider:PIGOnValueChange(arg1)
-	PIGA["CombatPlus"]["AttackBar"]["Scale"]=arg1;
-	OpSetSetScaleXY()
-end
-local WowWidth=floor(GetScreenWidth()*0.5);
-local xiayiinfo = {-WowWidth,WowWidth,1}
-CombatPlusF.SetF.SliderX = PIGSlider(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF,"TOPLEFT",70,-140},xiayiinfo)
-CombatPlusF.SetF.SliderX.T = PIGFontString(CombatPlusF.SetF.SliderX,{"RIGHT",CombatPlusF.SetF.SliderX,"LEFT",0,0},"X偏移")
-function CombatPlusF.SetF.SliderX:PIGOnValueChange(arg1)
-	PIGA["CombatPlus"]["AttackBar"]["Xpianyi"]=arg1;
-	OpSetSetScaleXY()
-end
-local xiayiinfo = {-800,800,1}
-CombatPlusF.SetF.SliderY = PIGSlider(CombatPlusF.SetF,{"LEFT",CombatPlusF.SetF.SliderX,"RIGHT",100,0},xiayiinfo)
-CombatPlusF.SetF.SliderY.T = PIGFontString(CombatPlusF.SetF.SliderY,{"RIGHT",CombatPlusF.SetF.SliderY,"LEFT",0,0},"Y偏移")
-function CombatPlusF.SetF.SliderY:PIGOnValueChange(arg1)
-	PIGA["CombatPlus"]["AttackBar"]["Ypianyi"]=arg1;
-	OpSetSetScaleXY()
-end
+		local xiayiinfo = {0.6,2,0.01,{["Right"]="%"}}
+		CombatPlusF.SetF.Slider = PIGSlider(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF,"TOPLEFT",70,-80},xiayiinfo)
+		CombatPlusF.SetF.Slider.T = PIGFontString(CombatPlusF.SetF.Slider,{"RIGHT",CombatPlusF.SetF.Slider,"LEFT",-10,0},"缩放")
+		function CombatPlusF.SetF.Slider:PIGOnValueChange(arg1)
+			PIGA["CombatPlus"]["AttackBar"]["Scale"]=arg1;
+			OpSetSetScaleXY()
+		end
+		local WowWidth=floor(GetScreenWidth()*0.5);
+		local xiayiinfo = {-WowWidth,WowWidth,1}
+		CombatPlusF.SetF.SliderX = PIGSlider(CombatPlusF.SetF,{"TOPLEFT",CombatPlusF.SetF,"TOPLEFT",70,-140},xiayiinfo)
+		CombatPlusF.SetF.SliderX.T = PIGFontString(CombatPlusF.SetF.SliderX,{"RIGHT",CombatPlusF.SetF.SliderX,"LEFT",0,0},"X偏移")
+		function CombatPlusF.SetF.SliderX:PIGOnValueChange(arg1)
+			PIGA["CombatPlus"]["AttackBar"]["Xpianyi"]=arg1;
+			OpSetSetScaleXY()
+		end
+		local xiayiinfo = {-800,800,1}
+		CombatPlusF.SetF.SliderY = PIGSlider(CombatPlusF.SetF,{"LEFT",CombatPlusF.SetF.SliderX,"RIGHT",100,0},xiayiinfo)
+		CombatPlusF.SetF.SliderY.T = PIGFontString(CombatPlusF.SetF.SliderY,{"RIGHT",CombatPlusF.SetF.SliderY,"LEFT",0,0},"Y偏移")
+		function CombatPlusF.SetF.SliderY:PIGOnValueChange(arg1)
+			PIGA["CombatPlus"]["AttackBar"]["Ypianyi"]=arg1;
+			OpSetSetScaleXY()
+		end
 
-CombatPlusF.SetF.CZBUT = PIGButton(CombatPlusF.SetF.Slider,{"LEFT",CombatPlusF.SetF.SliderY,"RIGHT",60,0},{80,24},RESET_POSITION)
-CombatPlusF.SetF.CZBUT:SetScript("OnClick", function ()
-	PIGA["CombatPlus"]["AttackBar"]["Xpianyi"]=addonTable.Default["CombatPlus"]["AttackBar"]["Xpianyi"]
-	PIGA["CombatPlus"]["AttackBar"]["Ypianyi"]=addonTable.Default["CombatPlus"]["AttackBar"]["Ypianyi"]
-	CombatPlusF.SetF.SliderX:PIGSetValue(PIGA["CombatPlus"]["AttackBar"]["Xpianyi"])
-	CombatPlusF.SetF.SliderY:PIGSetValue(PIGA["CombatPlus"]["AttackBar"]["Ypianyi"])
-	OpSetSetScaleXY()
-end)
-CombatPlusF:HookScript("OnShow", function (self)
-	self.Open:SetChecked(PIGA["CombatPlus"]["AttackBar"]["Open"]);
-	if PIGA["CombatPlus"]["AttackBar"]["Open"] then
-		self.SetF:Show()
-	end
-end);
-CombatPlusF.SetF:HookScript("OnShow", function (self)
-	self.Showshuzhi:SetChecked(PIGA["CombatPlus"]["AttackBar"]["Showshuzhi"]);
-	self.Slider:PIGSetValue(PIGA["CombatPlus"]["AttackBar"]["Scale"])
-	self.SliderX:PIGSetValue(PIGA["CombatPlus"]["AttackBar"]["Xpianyi"])
-	self.SliderY:PIGSetValue(PIGA["CombatPlus"]["AttackBar"]["Ypianyi"])
-end);
-CombatPlusF.SetF:HookScript("OnHide", function (self)
-	if CombatPlusfun.AttackBarUI then
-		if CombatPlusfun.AttackBarUI:IsShown() and CombatPlusfun.AttackBarUI.ceshi then
-			CombatPlusfun.AttackBarUI:Hide()
-			CombatPlusfun.AttackBarUI.ceshi=nil
+		CombatPlusF.SetF.CZBUT = PIGButton(CombatPlusF.SetF.Slider,{"LEFT",CombatPlusF.SetF.SliderY,"RIGHT",60,0},{80,24},RESET_POSITION)
+		CombatPlusF.SetF.CZBUT:SetScript("OnClick", function ()
+			PIGA["CombatPlus"]["AttackBar"]["Xpianyi"]=addonTable.Default["CombatPlus"]["AttackBar"]["Xpianyi"]
+			PIGA["CombatPlus"]["AttackBar"]["Ypianyi"]=addonTable.Default["CombatPlus"]["AttackBar"]["Ypianyi"]
+			CombatPlusF.SetF.SliderX:PIGSetValue(PIGA["CombatPlus"]["AttackBar"]["Xpianyi"])
+			CombatPlusF.SetF.SliderY:PIGSetValue(PIGA["CombatPlus"]["AttackBar"]["Ypianyi"])
+			OpSetSetScaleXY()
+		end)
+		CombatPlusF.SetF:HookScript("OnShow", function (self)
+			self.Showshuzhi:SetChecked(PIGA["CombatPlus"]["AttackBar"]["Showshuzhi"]);
+			self.Slider:PIGSetValue(PIGA["CombatPlus"]["AttackBar"]["Scale"])
+			self.SliderX:PIGSetValue(PIGA["CombatPlus"]["AttackBar"]["Xpianyi"])
+			self.SliderY:PIGSetValue(PIGA["CombatPlus"]["AttackBar"]["Ypianyi"])
+		end);
+		CombatPlusF.SetF:HookScript("OnHide", function (self)
+			if CombatPlusfun.AttackBarUI then
+				if CombatPlusfun.AttackBarUI:IsShown() and CombatPlusfun.AttackBarUI.ceshi then
+					CombatPlusfun.AttackBarUI:Hide()
+					CombatPlusfun.AttackBarUI.ceshi=nil
+				end
+			end
+		end);
+		CombatPlusF.Open:SetChecked(PIGA["CombatPlus"]["AttackBar"]["Open"]);
+		if PIGA["CombatPlus"]["AttackBar"]["Open"] then
+			CombatPlusF.SetF:Show()
 		end
 	end
-end);
+end

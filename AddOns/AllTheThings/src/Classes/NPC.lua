@@ -124,7 +124,7 @@ do
 		collectible = app.GlobalVariants.AndLockCriteria.collectible or app.CollectibleAsQuest,
 		locked = app.GlobalVariants.AndLockCriteria.locked,
 		collected = function(t)
-			return app.TypicalCharacterCollected("Quests", t.questID, t.CollectibleType)
+			return app.TypicalCharacterCollected("Quests", t.questID)
 		end,
 		-- questID is sometimes a faction-based questID for a single NPC (i.e. BFA Warfront Rares), thanks Blizzard
 		questID = function(t)

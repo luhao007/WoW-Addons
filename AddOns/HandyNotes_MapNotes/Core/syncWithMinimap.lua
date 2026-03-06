@@ -94,13 +94,13 @@ local db = ns.Addon.db.profile
         self.db.profile.showMinimapCapitalsDungeons = self.db.profile.showCapitalsDungeons
         self.db.profile.showMinimapCapitalsInstancePassage = self.db.profile.showCapitalsInstancePassage
         self.db.profile.showMinimapCapitalsMultiple = self.db.profile.showCapitalsMultiple
+        self.db.profile.showMinimapCapitalsOldVanilla = self.db.profile.showCapitalsOldVanilla        
+        self.db.profile.showMinimapCapitalsLFR = self.db.profile.showCapitalsLFR
         -- Capitals Transport
         self.db.profile.showMinimapCapitalsPortals = self.db.profile.showCapitalsPortals
         self.db.profile.showMinimapCapitalsZeppelins = self.db.profile.showCapitalsZeppelins
         self.db.profile.showMinimapCapitalsShips = self.db.profile.showCapitalsShips
         self.db.profile.showMinimapCapitalsTransport = self.db.profile.showCapitalsTransport
-        self.db.profile.showMinimapCapitalsOldVanilla = self.db.profile.showCapitalsOldVanilla
-        self.db.profile.showMinimapCapitalsLFR = self.db.profile.showCapitalsLFR
         self.db.profile.showMinimapCapitalsFP = self.db.profile.showCapitalsFP
         self.db.profile.showMinimapCapitalsRaces = self.db.profile.showCapitalsRaces
         -- Capitals Professions    

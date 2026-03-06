@@ -82,6 +82,12 @@ ns.DEFAULT_SETTINGS = {
         cooldownManager_keybindOffsetX_Utility = -3,
         cooldownManager_keybindOffsetY_Utility = -3,
 
+        cooldownManager_showKeybinds_CMCTracker = false,
+        cooldownManager_keybindAnchor_CMCTracker = "TOPRIGHT",
+        cooldownManager_keybindFontSize_CMCTracker = 10,
+        cooldownManager_keybindOffsetX_CMCTracker = -3,
+        cooldownManager_keybindOffsetY_CMCTracker = -3,
+
         cooldownManager_limitUtilitySizeToEssential = false,
 
         -- Rotation Highlight (Assisted Combat)

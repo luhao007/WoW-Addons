@@ -2139,15 +2139,13 @@ local VisibilityFilter, SortGroup
 local function ProcessGroup(data, object)
 	if not VisibilityFilter(object) then return end
 	data[#data + 1] = object;
-	if object.expanded then
-		local g = object.g;
-		if not g then return; end
-		-- Delayed sort operation for this group prior to being shown
-		local sortType = object.SortType;
-		if sortType then SortGroup(object, sortType); end
-		for i=1,#g do
-			ProcessGroup(data, g[i]);
-		end
+	local g = object.expanded and object.g
+	if not g then return; end
+	-- Delayed sort operation for this group prior to being shown
+	local sortType = object.SortType;
+	if sortType then SortGroup(object, sortType); end
+	for i=1,#g do
+		ProcessGroup(data, g[i]);
 	end
 end
 -- TODO: instead of requiring 'trigger' parameter to indicate something was collected
@@ -2192,7 +2190,7 @@ local function UpdateWindow(self, force, trigger)
 		end
 
 		-- cache a couple heavily referenced functions within ProcessGroup
-		VisibilityFilter, SortGroup = app.VisibilityFilter, app.SortGroup
+		VisibilityFilter, SortGroup = self.VisibilityFilter or app.VisibilityFilter, app.SortGroup
 		ProcessGroup(rowData, data);
 		-- app.PrintDebug("Update:RowData",#rowData)
 

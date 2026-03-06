@@ -44,8 +44,18 @@ local function Update_ranse_Arrows(itemButton,bagType,uinamex)--是箭袋
 		if itemButton.Arrows then itemButton.Arrows:Hide() end
 	end
 end
+local function Update_ButLevelColor(itemButton, id, slot)
+	if id and slot then
+		Update_ItemButtonZLVranse("B",itemButton,id, slot)
+	else
+		if id=="retailbank" then
+			Update_ItemButtonZLVranse("B",itemButton,itemButton:GetBankTabID(), itemButton:GetContainerSlotID())
+		else
+			Update_ItemButtonZLVranse("B",itemButton,itemButton:GetBagID(), itemButton:GetID())
+		end
+	end
+end
 function BagBankfun.UpdateItemButtonZLVranse(frame, size, id)
-	if not PIGA["BagBank"]["wupinRanse"] then return end
 	if PIG_MaxTocversion() then
 		if id==-2 then return end
 		if frame and size then
@@ -53,15 +63,15 @@ function BagBankfun.UpdateItemButtonZLVranse(frame, size, id)
 			local fujiFF=frame:GetName()
 			for slot =1, size do
 				local framef=_G[fujiFF.."Item"..size+1-slot]
-				Update_ItemButtonZLVranse("B",framef,id,slot)
+				Update_ButLevelColor(framef,id,slot)
 				Update_ranse_Arrows(framef,bagType,fujiFF.."Item"..size+1-slot)
 			end
 		else
 			if id==-1 and size then
-				Update_ItemButtonZLVranse("B",_G["BankFrameItem"..size], -1, size)
+				Update_ButLevelColor(_G["BankFrameItem"..size], -1, size)
 			elseif id==-1 then
 				for slot=1,bagData["bankmun"] do
-					Update_ItemButtonZLVranse("B",_G["BankFrameItem"..slot], -1, slot)
+					Update_ButLevelColor(_G["BankFrameItem"..slot], -1, slot)
 				end
 			else
 				local Fid=IsBagOpen(id)
@@ -70,41 +80,30 @@ function BagBankfun.UpdateItemButtonZLVranse(frame, size, id)
 					local numFreeSlots, bagType = C_Container.GetContainerNumFreeSlots(id)
 					for slot =1, baogeshu do
 						local framef=_G["ContainerFrame"..Fid.."Item"..baogeshu+1-slot];
-						Update_ItemButtonZLVranse("B",framef,id,slot)
+						Update_ButLevelColor(framef,id,slot)
 						Update_ranse_Arrows(framef,bagType,"ContainerFrame"..Fid.."Item"..baogeshu+1-slot)
 					end
 				end
 			end
 		end
 	else
-		local function Update_ButLevel(itemButton, id, slot)
-			if id and slot then
-				Update_ItemButtonZLVranse("B",itemButton,id, slot)
-			else
-				if id=="retailbank" then
-					Update_ItemButtonZLVranse("B",itemButton,itemButton:GetBankTabID(), itemButton:GetContainerSlotID())
-				else
-					Update_ItemButtonZLVranse("B",itemButton,itemButton:GetBagID(), itemButton:GetID())
-				end
-			end
-		end
 		if frame=="retailbank" then
 			for itemButton in BankPanel:EnumerateValidItems() do
-				Update_ButLevel(itemButton,"retailbank")
+				Update_ButLevelColor(itemButton,"retailbank")
 			end
 		elseif id==-999 then
 			for i, itemButton in ContainerFrameCombinedBags:EnumerateValidItems() do
-				Update_ButLevel(itemButton)
+				Update_ButLevelColor(itemButton)
 			end
 		elseif frame and size then
 			for i, itemButton in frame:EnumerateValidItems() do
-				Update_ButLevel(itemButton)
+				Update_ButLevelColor(itemButton)
 			end
 		else
 			local BagFrame=ContainerFrameUtil_GetShownFrameForID(id)
 			if BagFrame then
 				for i, itemButton in BagFrame:EnumerateValidItems() do
-					Update_ButLevel(itemButton)
+					Update_ButLevelColor(itemButton)
 				end
 			end
 		end

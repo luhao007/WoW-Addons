@@ -1,9 +1,10 @@
 local ADDON_NAME, ns = ...
 
-ns.CurrentAddonVersion = "3.3.4"
-ns.PreviousAddonVersion = "3.3.3" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
+ns.CurrentAddonVersion = "3.3.5"
+ns.PreviousAddonVersion = "3.3.4" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
 
 ns.LOCALE_CHANGELOGS = {
+  { version = "3.3.5", table = ns.LOCALE_CHANGELOG_3_3_5 },
   { version = "3.3.4", table = ns.LOCALE_CHANGELOG_3_3_4 },
   { version = "3.3.3", table = "partialUpdate" },
   { version = "3.3.2", table = ns.LOCALE_CHANGELOG_3_3_2 },
@@ -60,6 +61,96 @@ ns.LOCALE_CHANGELOG_3_3_ = { -- empty backup file
 
   koKR = [[
 
+]],
+}
+
+ns.LOCALE_CHANGELOG_3_3_5 = {
+  deDE = [[
+• Vorübergehend wurde die Anzeige der Tiefensymbole entfernt, bis eine dauerhafte Lösung gefunden wurde, da Änderungen an den Blizzard-Tiefen aktuell zu mehreren Taint-Fehlern führen.
+
+• Der Minimap-Button-Fehler wurde behoben. Nachdem der Button deaktiviert wurde, sollte er nach einem Reload oder Ein-/Ausloggen nun seinen eingestellten Wert beibehalten.
+
+• Der fehlende Briefkasten und Gastwirt wurden im Immersangwald hinzugefügt.
+]],
+
+  enUS = [[
+• The display of Delve icons has been temporarily removed until a permanent solution is found, as modifying Blizzard Delves currently causes multiple taint errors.
+
+• Fixed an issue with the minimap button. After being disabled, it should now keep its set state after a reload or relog.
+
+• The missing mailbox and innkeeper have been added in Eversong Woods.
+]],
+
+  frFR = [[
+• L’affichage des icônes de Gouffres a été temporairement désactivé jusqu’à ce qu’une solution permanente soit trouvée, car la modification des Gouffres de Blizzard provoque actuellement plusieurs erreurs de taint.
+
+• Correction d’un problème avec le bouton de la minicarte. Après avoir été désactivé, il conserve désormais son état après un rechargement de l’interface ou une reconnexion.
+
+• La boîte aux lettres et l’aubergiste manquants ont été ajoutés dans les Bois des Chants éternels.
+]],
+
+  itIT = [[
+• La visualizzazione delle icone delle Spedizioni nelle Profondità è stata temporaneamente rimossa finché non verrà trovata una soluzione permanente, poiché modificare le Profondità di Blizzard causa attualmente diversi errori di taint.
+
+• Risolto un problema con il pulsante della minimappa. Dopo essere stato disattivato, ora mantiene il suo stato dopo un reload dell’interfaccia o una riconnessione.
+
+• La cassetta della posta e il locandiere mancanti sono stati aggiunti a Bosco Cantoeterno.
+]],
+
+  esES = [[
+• La visualización de los iconos de Profundidades se ha eliminado temporalmente hasta que se encuentre una solución permanente, ya que modificar las Profundidades de Blizzard actualmente provoca varios errores de taint.
+
+• Se solucionó un problema con el botón del minimapa. Después de desactivarlo, ahora mantiene su estado tras recargar la interfaz o volver a iniciar sesión.
+
+• El buzón y el tabernero que faltaban se han añadido en Bosque Canción Eterna.
+]],
+
+  esMX = [[
+• La visualización de los íconos de Profundidades se ha eliminado temporalmente hasta que se encuentre una solución permanente, ya que modificar las Profundidades de Blizzard actualmente provoca varios errores de taint.
+
+• Se corrigió un problema con el botón del minimapa. Después de desactivarlo, ahora mantiene su estado tras recargar la interfaz o volver a iniciar sesión.
+
+• El buzón y el tabernero faltantes se han añadido en Bosque Canción Eterna.
+]],
+
+  ptBR = [[
+• A exibição dos ícones de Mergulhos foi temporariamente removida até que uma solução permanente seja encontrada, pois modificar os Mergulhos da Blizzard atualmente causa vários erros de taint.
+
+• Corrigido um problema com o botão do minimapa. Após ser desativado, agora ele mantém seu estado após um reload da interface ou ao reconectar.
+
+• A caixa de correio e o estalajadeiro que estavam faltando foram adicionados em Floresta do Canto Eterno.
+]],
+
+  ruRU = [[
+• Отображение значков Вылазок временно отключено, пока не будет найдено постоянное решение, поскольку изменение вылазок Blizzard в настоящее время вызывает несколько ошибок taint.
+
+• Исправлена ошибка с кнопкой миникарты. После отключения она теперь сохраняет своё состояние после перезагрузки интерфейса или повторного входа в игру.
+
+• Отсутствующие почтовый ящик и трактирщик были добавлены в Леса Вечной Песни.
+]],
+
+  zhCN = [[
+• 深潜图标的显示已被暂时移除，直到找到永久解决方案，因为当前修改暴雪的深潜会导致多个 taint 错误。
+
+• 修复了小地图按钮的问题。禁用后，在界面重载或重新登录后现在会保持其设置状态。
+
+• 在永歌森林中添加了缺失的邮箱和旅店老板。
+]],
+
+  zhTW = [[
+• 深淵圖示的顯示已暫時移除，直到找到永久解決方案，因為目前修改暴雪的深淵會導致多個 taint 錯誤。
+
+• 修正了小地圖按鈕的問題。停用後，在重新載入介面或重新登入後現在會保持其設定狀態。
+
+• 在永歌森林中新增了缺少的郵箱與旅店老闆。
+]],
+
+  koKR = [[
+• 영구적인 해결책이 발견될 때까지 탐험(Delve) 아이콘 표시가 일시적으로 제거되었습니다. 현재 블리자드 탐험을 수정하면 여러 taint 오류가 발생하기 때문입니다.
+
+• 미니맵 버튼 문제가 수정되었습니다. 비활성화한 후 인터페이스를 다시 불러오거나 재접속해도 설정 상태가 이제 유지됩니다.
+
+• 영원노래 숲에 누락되었던 우체통과 여관주인이 추가되었습니다.
 ]],
 }
 

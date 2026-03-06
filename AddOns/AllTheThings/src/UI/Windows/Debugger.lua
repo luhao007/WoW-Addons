@@ -16,6 +16,7 @@ local GetNumLootItems, GetLootSlotLink, GetLootSourceInfo, GetTaxiMapID, C_TaxiM
 	= GetNumLootItems, GetLootSlotLink, GetLootSourceInfo, GetTaxiMapID, C_TaxiMap.GetAllTaxiNodes;
 local GetItemID = app.WOWAPI.GetItemID;
 local issecretvalue = app.WOWAPI.issecretvalue;
+local GetItemLinkByGUID = app.WOWAPI.GetItemLinkByGUID;
 
 local CloneArray, CloneClassInstance, GetRelativeValue, MergeObject
 	= app.CloneArray, app.CloneClassInstance, app.GetRelativeValue, app.MergeObject;
@@ -201,7 +202,7 @@ local function ExportKeyValue(key, value)
 	elseif key == "crs" or key == "qgs" then
 		str = str .. "{\n";
 		for i,id in ipairs(value) do
-			str = str .. "\t" .. id .. ",\t-- " .. app.NPCNameFromID[id] .. "\n";
+			str = str .. "\t" .. id .. ",\t-- " .. (app.NPCNameFromID[id] or UNKNOWN) .. "\n";
 		end
 		str = str .. "},";
 	elseif key == "coords" then
@@ -436,21 +437,22 @@ app:CreateWindow("Debugger", {
 	AddObjectWithHeader = function(self, headerID, info)
 		local header = { key = "headerID", headerID = headerID, g = { info }};
 		-- Bubble Up the Maps
-		local mapInfo;
 		local mapID = app.CurrentMapID;
 		if mapID then
+			header = { key = "mapID", ["mapID"] = mapID, ["g"] = { header } };
 			local pos = C_Map_GetPlayerMapPosition(mapID, "player");
 			if pos then
 				local px, py = pos:GetXY();
 				info.coords = { [mapID] = { { px * 100, py * 100 } } };
 			end
-			repeat
-				mapInfo = C_Map_GetMapInfo(mapID);
-				if mapInfo then
-					header = { key = "mapID", ["mapID"] = mapInfo.mapID, ["g"] = { header } };
-					mapID = mapInfo.parentMapID
+			local mapInfo = C_Map_GetMapInfo(mapID);
+			if mapInfo then
+				while mapID and mapID ~= 0 do
+					header = { key = "mapID", ["mapID"] = mapID, ["g"] = { header } };
+					mapInfo = C_Map_GetMapInfo(mapID);
+					mapID = mapInfo and mapInfo.parentMapID or 0;
 				end
-			until not mapInfo or not mapID or mapID == 0;
+			end
 		end
 		self:AddObject(header);
 	end,
@@ -803,7 +805,7 @@ app:CreateWindow("Debugger", {
 							ot, zero, server_id, instance_id, zone_uid, id, spawn_uid = ("-"):split(dropLink);
 							-- get Item container link
 							if not id then
-								dropLink = CleanLink(C_Item.GetItemLinkByGUID(dropLink))
+								dropLink = CleanLink(GetItemLinkByGUID(dropLink))
 								-- app.PrintDebug("item:droplink",dropLink)
 								ot, zero, server_id, instance_id, zone_uid, id, spawn_uid = ("-"):split(dropLink);
 							end
@@ -932,8 +934,10 @@ app:CreateWindow("Debugger", {
 		pcall(self.RegisterEvent, self, "QUEST_LOOT_RECEIVED");
 
 		-- Capture accepted quests which skip NPC dialog windows (addons, auto-accepted)
-		handlers.QUEST_ACCEPTED = function(self, questID)
-			if questID then
+		handlers.QUEST_ACCEPTED = function(self, questLogIndex, questID)
+			if questLogIndex then
+				-- Classic passes this information along via a second argument. Silly Blizzard.
+				if not questID then questID = questLogIndex; end
 				local info = { key = "questID", ["questID"] = questID };
 				info.name = app.GetQuestName(questID)
 				self:AddObjectWithHeader(app.HeaderConstants.QUESTS, info);

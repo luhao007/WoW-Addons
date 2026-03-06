@@ -34,6 +34,7 @@ app:CreateWindow("All-Hidden", {
 						if window and window.data then
 							local clone = app.CloneClassInstance(window.data);
 							clone.expanded = false;
+							clone.font = nil
 							tinsert(g, clone);
 						end
 					end
@@ -43,12 +44,5 @@ app:CreateWindow("All-Hidden", {
 			end,
 		}));
 	end,
-	OnUpdate = function(self, ...)
-		-- Update the groups without forcing Debug Mode.
-		local state = app.Modules.Filter.Get.Unobtainable();
-		app.Modules.Filter.Set.Unobtainable();
-		self:DefaultUpdate(...);
-		app.Modules.Filter.Set.Unobtainable(state);
-		return true
-	end
+	VisibilityFilter = app.ReturnTrue,
 });

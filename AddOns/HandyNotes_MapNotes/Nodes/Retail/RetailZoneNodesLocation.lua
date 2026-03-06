@@ -996,6 +996,7 @@ ns.currentSourceFile = "RetailZoneNodesLocation.lua"
           -- Quel'Thalas Transport
           if self.db.profile.showZoneTransport then
             nodes[2395][45164594] = { name = L["to the platform"], type = "Tport2", showInZone = true, showOnContinent = false, showOnMinimap = false } -- 
+            nodes[2395][40855939] = { name = L["to the platform"], type = "Tport2", showInZone = true, showOnContinent = false, showOnMinimap = false } -- 
           end
 
         end

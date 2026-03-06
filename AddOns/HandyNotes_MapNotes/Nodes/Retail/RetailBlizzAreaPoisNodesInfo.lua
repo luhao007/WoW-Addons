@@ -131,5 +131,6 @@ ns.BlizzAreaPoisInfoZidormi = {
 }
 
 ns.HiddenBlizzVignetteIDs = {
+    [7519] = true, -- Rüstmeisterin von Silbermond (Immersangwald)
     [7522] = true, -- Rüstmeisterin für Eroberungspunkte
 }

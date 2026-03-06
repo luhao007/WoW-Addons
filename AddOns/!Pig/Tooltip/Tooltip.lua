@@ -125,8 +125,8 @@ function TooltipPlusfun.InfoPlus()
 					local name, itemID, texture, count, quality, canUse  = GetInboxItem(data1, data2 or 1)
 					new_stackCount=count or 1
 				elseif laiyuan=="Merchant" then
-					local info = C_MerchantFrame.GetItemInfo(data1);
-					new_stackCount=info and info.stackCount or 1
+					local name, price, stackCount= PIGGetMerchantItemInfo(data1);
+					new_stackCount=stackCount or 1
 				else
 					--print(laiyuan)
 				end

@@ -127,6 +127,7 @@ local function presetStore()
 		["Thing:Achievements"] = settings:Get("Thing:Achievements"),
 		["Thing:CharacterUnlocks"] = settings:Get("Thing:CharacterUnlocks"),
 		["Thing:Exploration"] = settings:Get("Thing:Exploration"),
+		["Thing:FirstCrafts"] = settings:Get("Thing:FirstCrafts"),
 		["Thing:FlightPaths"] = settings:Get("Thing:FlightPaths"),
 		["Thing:Quests"] = settings:Get("Thing:Quests"),
 		["Thing:QuestsLocked"] = settings:Get("Thing:QuestsLocked"),
@@ -209,6 +210,7 @@ modeButton:SetScript("OnClick", function()
 				settings:Set("Thing:Achievements", settings:Get("PresetRestore")["Thing:Achievements"])
 				settings:Set("Thing:CharacterUnlocks", settings:Get("PresetRestore")["Thing:CharacterUnlocks"])
 				settings:Set("Thing:Exploration", settings:Get("PresetRestore")["Thing:Exploration"])
+				settings:Set("Thing:FirstCrafts", settings:Get("PresetRestore")["Thing:FirstCrafts"])
 				settings:Set("Thing:FlightPaths", settings:Get("PresetRestore")["Thing:FlightPaths"])
 				settings:Set("Thing:Quests", settings:Get("PresetRestore")["Thing:Quests"])
 				settings:Set("Thing:QuestsLocked", settings:Get("PresetRestore")["Thing:QuestsLocked"])
@@ -289,6 +291,7 @@ modeButton:SetScript("OnClick", function()
 			settings:Set("Thing:Achievements", false)
 			settings:Set("Thing:CharacterUnlocks", false)
 			settings:Set("Thing:Exploration", false)
+			settings:Set("Thing:FirstCrafts", false)
 			settings:Set("Thing:FlightPaths", false)
 			settings:Set("Thing:Quests", false)
 			settings:Set("Thing:QuestsLocked", false)
@@ -353,6 +356,7 @@ modeButton:SetScript("OnClick", function()
 			settings:Set("Thing:Achievements", false)
 			settings:Set("Thing:CharacterUnlocks", false)
 			settings:Set("Thing:Exploration", false)
+			settings:Set("Thing:FirstCrafts", false)
 			settings:Set("Thing:FlightPaths", false)
 			settings:Set("Thing:Quests", false)
 			settings:Set("Thing:QuestsLocked", false)
@@ -417,6 +421,7 @@ modeButton:SetScript("OnClick", function()
 			settings:Set("Thing:Achievements", true)
 			settings:Set("Thing:CharacterUnlocks", false)
 			settings:Set("Thing:Exploration", false)
+			settings:Set("Thing:FirstCrafts", false)
 			settings:Set("Thing:FlightPaths", false)
 			settings:Set("Thing:Quests", true)
 			settings:Set("Thing:QuestsLocked", false)
@@ -481,6 +486,7 @@ modeButton:SetScript("OnClick", function()
 			settings:Set("Thing:Achievements", true)
 			settings:Set("Thing:CharacterUnlocks", true)
 			settings:Set("Thing:Exploration", app.IsClassic)
+			settings:Set("Thing:FirstCrafts", true)
 			settings:Set("Thing:FlightPaths", true)
 			settings:Set("Thing:Quests", true)
 			settings:Set("Thing:QuestsLocked", false)
@@ -957,8 +963,15 @@ child:CreateTrackingCheckbox("QUESTS_LOCKED", "QuestsLocked", true)
 local accwideCheckboxRecipes =
 child:CreateAccountWideCheckbox("RECIPES", "Recipes")
 	:AlignBelow(accwideCheckboxQuests)
+local checkboxRecipes =
 child:CreateTrackingCheckbox("RECIPES", "Recipes", true)
 	:AlignAfter(accwideCheckboxRecipes)
+if app.GameBuildVersion >= 100000 then
+local checkboxFirstCrafts =
+child:CreateTrackingCheckbox("FIRST_CRAFTS", "FirstCrafts", true)
+	:AlignAfter(checkboxRecipes)
+checkboxFirstCrafts:MarkAsWIP();	-- TODO: Remove when First Crafts logic is done
+end
 
 local accwideCheckboxReputations =
 child:CreateAccountWideCheckbox("REPUTATIONS", "Reputations")
