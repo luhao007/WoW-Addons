@@ -33,7 +33,7 @@ local SPELLINTERRUPTOTHERSELF, UNKNOWN = SPELLINTERRUPTOTHERSELF, UNKNOWN
 
 local defaults = {
 	profile = {
-		interruptcolor = {0,0,0},
+		interruptcolor = { 0, 0, 0 },
 	},
 }
 
@@ -46,7 +46,7 @@ function Interrupt:OnInitialize()
 end
 
 function Interrupt:OnEnable()
-	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+	--self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 end
 
 function Interrupt:ApplySettings()
@@ -66,35 +66,35 @@ do
 	local options
 	function getOptions()
 		options = options or {
-		type = "group",
-		name = L["Interrupt"],
-		order = 600,
-		args = {
-			toggle = {
-				type = "toggle",
-				name = L["Enable"],
-				get = function()
-					return Quartz3:GetModuleEnabled(MODNAME)
-				end,
-				set = function(info, v)
-					Quartz3:SetModuleEnabled(MODNAME, v)
-				end,
-				order = 100,
+			type = "group",
+			name = L["Interrupt"],
+			order = 600,
+			args = {
+				toggle = {
+					type = "toggle",
+					name = L["Enable"],
+					get = function()
+						return Quartz3:GetModuleEnabled(MODNAME)
+					end,
+					set = function(info, v)
+						Quartz3:SetModuleEnabled(MODNAME, v)
+					end,
+					order = 100,
+				},
+				interruptcolor = {
+					type = "color",
+					name = L["Interrupt Color"],
+					desc = L["Set the color the cast bar is changed to when you have a spell interrupted"],
+					set = function(info, ...)
+						db.interruptcolor = { ... }
+					end,
+					get = function()
+						return unpack(db.interruptcolor)
+					end,
+					order = 101,
+				},
 			},
-			interruptcolor = {
-				type = "color",
-				name = L["Interrupt Color"],
-				desc = L["Set the color the cast bar is changed to when you have a spell interrupted"],
-				set = function(info, ...)
-					db.interruptcolor = {...}
-				end,
-				get = function()
-					return unpack(db.interruptcolor)
-				end,
-				order = 101,
-			},
-		},
-	}
-	return options
+		}
+		return options
 	end
 end

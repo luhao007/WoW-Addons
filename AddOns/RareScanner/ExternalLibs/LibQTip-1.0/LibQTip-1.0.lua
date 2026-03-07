@@ -29,7 +29,7 @@ local tonumber, tostring = tonumber, tostring
 local type = type
 
 local CreateFrame = _G.CreateFrame
-local GameTooltip = _G.GameTooltip
+local libTipTooltip
 local UIParent = _G.UIParent
 
 local geterrorhandler = _G.geterrorhandler
@@ -546,24 +546,22 @@ function InitializeTooltip(tooltip, key)
     -- (Re)set frame settings
     ----------------------------------------------------------------------
     if TooltipBackdropTemplateMixin then
-        tooltip.layoutType = GameTooltip.layoutType
         NineSlicePanelMixin.OnLoad(tooltip.NineSlice)
-        if GameTooltip.layoutType then
-            tooltip.NineSlice:SetCenterColor(GameTooltip.NineSlice:GetCenterColor())
-            tooltip.NineSlice:SetBorderColor(GameTooltip.NineSlice:GetBorderColor())
-        end
     else
-        local backdrop = GameTooltip:GetBackdrop()
-
+    	if (not libTipTooltip) then
+    		libTipTooltip = CreateFrame("GameTooltip", "LibQTipTooltip", UIParent, "GameTooltipTemplate")
+        end
+        
+        local backdrop = libTipTooltip:GetBackdrop()
         tooltip:SetBackdrop(backdrop)
 
         if backdrop then
-            tooltip:SetBackdropColor(GameTooltip:GetBackdropColor())
-            tooltip:SetBackdropBorderColor(GameTooltip:GetBackdropBorderColor())
+            tooltip:SetBackdropColor(libTipTooltip:GetBackdropColor())
+            tooltip:SetBackdropBorderColor(libTipTooltip:GetBackdropBorderColor())
         end
     end
 
-    tooltip:SetScale(GameTooltip:GetScale())
+    tooltip:SetScale(UIParent:GetEffectiveScale())
     tooltip:SetAlpha(1)
     tooltip:SetFrameStrata("TOOLTIP")
     tooltip:SetClampedToScreen(false)

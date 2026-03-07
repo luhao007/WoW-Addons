@@ -1,0 +1,21 @@
+## Interface: 120001
+## Author: Bettiold
+## Version: 1.32
+
+## Title: Home Bound
+## Notes: Your ultimate companion for collecting housing rewards
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF家园系统增强|r |cFFFFE00AHomeBound|r
+
+## IconTexture: 7252953
+
+## Category: Housing
+## Category-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r
+
+## AddonCompartmentFunc: HomeBound_OnAddonCompartmentClick
+
+## SavedVariables: hb_settings, dbHB
+
+Libs\LibDBIcon-1.0.lua
+localization.lua
+db.lua
+main.lua

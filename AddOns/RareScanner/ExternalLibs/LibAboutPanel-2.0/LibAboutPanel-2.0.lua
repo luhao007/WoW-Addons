@@ -50,6 +50,8 @@ local setmetatable, tostring, rawset, pairs, pcall = setmetatable, tostring, raw
 local GetLocale, CreateFrame = GetLocale, CreateFrame
 local GetAddOnMetadata = C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetadata
 
+local GameTooltip = CreateFrame("GameTooltip", "LibAboutPanelTooltip", UIParent, "GameTooltipTemplate")
+
 -- localization ---------------------------------
 local L = setmetatable({}, {
 	__index = function(tab, key)

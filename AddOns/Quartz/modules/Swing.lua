@@ -52,7 +52,7 @@ local db, getOptions
 
 local defaults = {
 	profile = {
-		barcolor = {1, 1, 1},
+		barcolor = { 1, 1, 1 },
 		swingalpha = 1,
 		swingheight = 4,
 		swingposition = "top",
@@ -94,7 +94,6 @@ function Swing:OnInitialize()
 
 	self:SetEnabledState(Quartz3:GetModuleEnabled(MODNAME))
 	Quartz3:RegisterModuleOptions(MODNAME, getOptions, L["Swing"])
-
 end
 
 function Swing:OnEnable()
@@ -107,7 +106,7 @@ function Swing:OnEnable()
 	self:RegisterEvent("START_AUTOREPEAT_SPELL")
 	self:RegisterEvent("STOP_AUTOREPEAT_SPELL")
 
-	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+	--self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 
 	self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 	-- slam stuff
@@ -140,7 +139,7 @@ function Swing:OnDisable()
 end
 
 function Swing:PLAYER_ENTER_COMBAT()
-	local _,_,offhandlow, offhandhigh = UnitDamage("player")
+	local _, _, offhandlow, offhandhigh = UnitDamage("player")
 	if math_abs(offhandlow - offhandhigh) <= 0.1 or playerclass == "DRUID" then
 		swingmode = 0 -- shouldn"t be dual-wielding
 	end
@@ -164,7 +163,8 @@ end
 
 function Swing:COMBAT_LOG_EVENT_UNFILTERED()
 	if swingmode ~= 0 then return end
-	local timestamp, combatevent, hideCaster, srcGUID, srcName, srcFlags, srcRaidFlags, dstName, dstGUID, dstFlags, dstRaidFlags, spellID, spellName = CombatLogGetCurrentEventInfo()
+	local timestamp, combatevent, hideCaster, srcGUID, srcName, srcFlags, srcRaidFlags, dstName, dstGUID, dstFlags, dstRaidFlags, spellID, spellName =
+	CombatLogGetCurrentEventInfo()
 	if (combatevent == "SWING_DAMAGE" or combatevent == "SWING_MISSED") and (bit_band(srcFlags, COMBATLOG_FILTER_ME) == COMBATLOG_FILTER_ME) then
 		self:MeleeSwing()
 	elseif (combatevent == "SWING_MISSED") and (bit_band(dstFlags, COMBATLOG_FILTER_ME) == COMBATLOG_FILTER_ME) and spellID == "PARRY" and duration then
@@ -250,8 +250,8 @@ function Swing:ApplySettings()
 		swingbar:SetHeight(db.swingheight)
 		swingbar_width = Player.Bar:GetWidth() - 8
 		swingbar:SetWidth(swingbar_width)
-		swingbar:SetBackdrop({bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", tile = true, tileSize = 16})
-		swingbar:SetBackdropColor(0,0,0)
+		swingbar:SetBackdrop({ bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", tile = true, tileSize = 16 })
+		swingbar:SetBackdropColor(0, 0, 0)
 		swingbar:SetAlpha(db.swingalpha)
 		swingbar:SetScale(Player.db.profile.scale)
 
@@ -277,9 +277,9 @@ function Swing:ApplySettings()
 			durationtext:Hide()
 		end
 		durationtext:SetFont(media:Fetch("font", Player.db.profile.font), 9)
-		durationtext:SetShadowColor( 0, 0, 0, 1)
-		durationtext:SetShadowOffset( 0.8, -0.8 )
-		durationtext:SetTextColor(1,1,1)
+		durationtext:SetShadowColor(0, 0, 0, 1)
+		durationtext:SetShadowOffset(0.8, -0.8)
+		durationtext:SetTextColor(1, 1, 1)
 		durationtext:SetNonSpaceWrap(false)
 		durationtext:SetWidth(swingbar_width)
 
@@ -292,9 +292,9 @@ function Swing:ApplySettings()
 			remainingtext:Hide()
 		end
 		remainingtext:SetFont(media:Fetch("font", Player.db.profile.font), 9)
-		remainingtext:SetShadowColor( 0, 0, 0, 1)
-		remainingtext:SetShadowOffset( 0.8, -0.8 )
-		remainingtext:SetTextColor(1,1,1)
+		remainingtext:SetShadowColor(0, 0, 0, 1)
+		remainingtext:SetShadowOffset(0.8, -0.8)
+		remainingtext:SetTextColor(1, 1, 1)
 		remainingtext:SetNonSpaceWrap(false)
 		remainingtext:SetWidth(swingbar_width)
 	end
@@ -327,134 +327,142 @@ do
 	end
 
 	local function setColor(info, r, g, b, a)
-		setOpt(info, {r, g, b, a})
+		setOpt(info, { r, g, b, a })
 	end
 
 	local options
 	function getOptions()
 		options = options or {
-		type = "group",
-		name = L["Swing"],
-		desc = L["Swing"],
-		get = getOpt,
-		set = setOpt,
-		order = 600,
-		args = {
-			toggle = {
-				type = "toggle",
-				name = L["Enable"],
-				desc = L["Enable"],
-				get = function()
-					return Quartz3:GetModuleEnabled(MODNAME)
-				end,
-				set = function(info, v)
-					Quartz3:SetModuleEnabled(MODNAME, v)
-				end,
-				order = 100,
-			},
-			barcolor = {
-				type = "color",
-				name = L["Bar Color"],
-				desc = L["Set the color of the swing timer bar"],
-				get = getColor,
-				set = setColor,
-				order = 103,
-			},
-			swingheight = {
-				type = "range",
-				name = L["Height"],
-				desc = L["Set the height of the swing timer bar"],
-				min = 1, max = 20, step = 1,
-				order = 104,
-			},
-			swingalpha = {
-				type = "range",
-				name = L["Alpha"],
-				desc = L["Set the alpha of the swing timer bar"],
-				min = 0.05, max = 1, bigStep = 0.05,
-				isPercent = true,
-				order = 105,
-			},
-			swingposition = {
-				type = "select",
-				name = L["Bar Position"],
-				desc = L["Set the position of the swing timer bar"],
-				values = {["top"] = L["Top"], ["bottom"] = L["Bottom"], ["free"] = L["Free"]},
-				order = 106,
-			},
-			lock = {
-				type = "toggle",
-				name = L["Lock"],
-				desc = L["Toggle Cast Bar lock"],
-				get = function()
-					return locked
-				end,
-				set = function(info, v)
-					if v then
-						swingbar.Hide = nil
-						swingbar:EnableMouse(false)
-						swingbar:SetScript("OnDragStart", nil)
-						swingbar:SetScript("OnDragStop", nil)
-						if not swingmode then
-							swingbar:Hide()
+			type = "group",
+			name = L["Swing"],
+			desc = L["Swing"],
+			get = getOpt,
+			set = setOpt,
+			order = 600,
+			args = {
+				toggle = {
+					type = "toggle",
+					name = L["Enable"],
+					desc = L["Enable"],
+					get = function()
+						return Quartz3:GetModuleEnabled(MODNAME)
+					end,
+					set = function(info, v)
+						Quartz3:SetModuleEnabled(MODNAME, v)
+					end,
+					order = 100,
+				},
+				barcolor = {
+					type = "color",
+					name = L["Bar Color"],
+					desc = L["Set the color of the swing timer bar"],
+					get = getColor,
+					set = setColor,
+					order = 103,
+				},
+				swingheight = {
+					type = "range",
+					name = L["Height"],
+					desc = L["Set the height of the swing timer bar"],
+					min = 1,
+					max = 20,
+					step = 1,
+					order = 104,
+				},
+				swingalpha = {
+					type = "range",
+					name = L["Alpha"],
+					desc = L["Set the alpha of the swing timer bar"],
+					min = 0.05,
+					max = 1,
+					bigStep = 0.05,
+					isPercent = true,
+					order = 105,
+				},
+				swingposition = {
+					type = "select",
+					name = L["Bar Position"],
+					desc = L["Set the position of the swing timer bar"],
+					values = { ["top"] = L["Top"], ["bottom"] = L["Bottom"], ["free"] = L["Free"] },
+					order = 106,
+				},
+				lock = {
+					type = "toggle",
+					name = L["Lock"],
+					desc = L["Toggle Cast Bar lock"],
+					get = function()
+						return locked
+					end,
+					set = function(info, v)
+						if v then
+							swingbar.Hide = nil
+							swingbar:EnableMouse(false)
+							swingbar:SetScript("OnDragStart", nil)
+							swingbar:SetScript("OnDragStop", nil)
+							if not swingmode then
+								swingbar:Hide()
+							end
+						else
+							swingbar:Show()
+							swingbar:EnableMouse(true)
+							swingbar:SetScript("OnDragStart", dragstart)
+							swingbar:SetScript("OnDragStop", dragstop)
+							swingbar:SetAlpha(1)
+							swingbar.Hide = nothing
 						end
-					else
-						swingbar:Show()
-						swingbar:EnableMouse(true)
-						swingbar:SetScript("OnDragStart", dragstart)
-						swingbar:SetScript("OnDragStop", dragstop)
-						swingbar:SetAlpha(1)
-						swingbar.Hide = nothing
-					end
-					locked = v
-				end,
-				hidden = function()
-					return db.swingposition ~= "free"
-				end,
-				order = 107,
+						locked = v
+					end,
+					hidden = function()
+						return db.swingposition ~= "free"
+					end,
+					order = 107,
+				},
+				x = {
+					type = "range",
+					name = L["X"],
+					desc = L["Set an exact X value for this bar's position."],
+					min = -2560,
+					max = 2560,
+					bigStep = 1,
+					order = 108,
+					hidden = function()
+						return db.swingposition ~= "free"
+					end,
+				},
+				y = {
+					type = "range",
+					name = L["Y"],
+					desc = L["Set an exact Y value for this bar's position."],
+					min = -2560,
+					max = 2560,
+					order = 108,
+					hidden = function()
+						return db.swingposition ~= "free"
+					end,
+				},
+				swinggap = {
+					type = "range",
+					name = L["Gap"],
+					desc = L["Tweak the distance of the swing timer bar from the cast bar"],
+					min = -35,
+					max = 35,
+					step = 1,
+					order = 108,
+				},
+				durationtext = {
+					type = "toggle",
+					name = L["Duration Text"],
+					desc = L["Toggle display of text showing your total swing time"],
+					order = 109,
+				},
+				remainingtext = {
+					type = "toggle",
+					name = L["Remaining Text"],
+					desc = L["Toggle display of text showing the time remaining until you can swing again"],
+					order = 110,
+				},
 			},
-			x = {
-				type = "range",
-				name = L["X"],
-				desc = L["Set an exact X value for this bar's position."],
-				min = -2560, max = 2560, bigStep = 1,
-				order = 108,
-				hidden = function()
-					return db.swingposition ~= "free"
-				end,
-			},
-			y = {
-				type = "range",
-				name = L["Y"],
-				desc = L["Set an exact Y value for this bar's position."],
-				min = -2560,
-				max = 2560,
-				order = 108,
-				hidden = function()
-					return db.swingposition ~= "free"
-				end,
-			},
-			swinggap = {
-				type = "range",
-				name = L["Gap"],
-				desc = L["Tweak the distance of the swing timer bar from the cast bar"],
-				min = -35, max = 35, step = 1,
-				order = 108,
-			},
-			durationtext = {
-				type = "toggle",
-				name = L["Duration Text"],
-				desc = L["Toggle display of text showing your total swing time"],
-				order = 109,
-			},
-			remainingtext = {
-				type = "toggle",
-				name = L["Remaining Text"],
-				desc = L["Toggle display of text showing the time remaining until you can swing again"],
-				order = 110,
-			},
-		},
-	}
-	return options
+		}
+		return options
 	end
 end

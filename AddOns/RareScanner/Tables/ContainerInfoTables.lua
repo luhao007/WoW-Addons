@@ -42,7 +42,7 @@ private.CONTAINER_INFO = {
 				[2369] = { x = 4250, y = 2880, artID = { 1919 }, overlay = { "3990-5130","4250-2880","4710-4450","5220-7080","5250-3530","6500-8770" } };
 				[2371] = { x = 6610, y = 4090, artID = { 1923 }, overlay = { "4270-5780","4580-5200","5100-6820","5760-5710","6580-4880","6610-4090","7240-4530","7520-2540","7820-4910" } };
 				[2393] = { x = 6005, y = 5063, artID = { 1932 }, overlay = { "6005-5063" } };
-				[2395] = { x = 3510, y = 2424, artID = { 1933 }, overlay = { "5136-5093","6043-7534","3462-6485","3952-1573","6005-5063","4343-8738","4198-6829","4126-5791","4778-7564","4792-5386","4130-4810","3687-5882","3510-2424" } };
+				[2395] = { x = 6010, y = 5070, artID = { 1933 }, overlay = { "5136-5093","6043-7534","3462-6485","3952-1573","6005-5063","4343-8738","4198-6829","4126-5791","4778-7564","4792-5386","4130-4810","3687-5882","3510-2424","5538-5347" } };
 				[2405] = { x = 5956, y = 6690, artID = { 1936 }, overlay = { "4677-8083","3969-6798","6077-9184","3476-6449","5394-6542","6220-9346","5967-6676","4797-3215","6195-9086","5394-1777","5063-8043","4787-2675" } };
 				[2413] = { x = 3729, y = 6811, artID = { 1942 }, overlay = { "3863-5071","4735-1512","5644-4134","4705-1666","3906-5822","3741-6752","4583-2302","4298-6136","4900-7275","4321-3677","4324-4688","4329-5738","6337-3919","4779-2976","4880-6329","5384-2497","4687-1872","4381-4160","4121-4043","5930-5268","4238-4112","4072-4244","4913-2078","4903-1767","4289-3830","4875-6162","4849-5311","4401-2888","4504-2722","3939-5681" } };
 				[2437] = { x = 3959, y = 2765, artID = { 1963 }, overlay = { "4024-7852","3745-3412","3812-2100","4883-6932","4421-2975","3808-2237","3674-6779","4351-4518","4616-5708","3959-2765" } };
@@ -995,6 +995,7 @@ private.CONTAINER_INFO = {
 				[1536] = { x = 2450, y = 3162, artID = { 1323 }, overlay = { "2450-3162" } };
 				[1649] = { x = 3457, y = 5551, artID = { 1613 }, overlay = { "3457-5551" } };
 			  }, reset = false, questID = { 58710 }, achievementID = { 14312 } }; --null
+	[345455] = { zoneID = 1536, artID = { 1323 }, x = 3885, y = 4194, overlay = { "3885-4194" } }; --Construct Supply Chest
 	[345456] = { zoneID = 1536, artID = { 1323 }, x = 4831, y = 1630, overlay = { "4840-1630" }, reset = false, questID = { 59244 }, achievementID = { 14312 } }; --Chest of Eyes
 	[345458] = { zoneID = 1536, artID = { 1323 }, x = 4985, y = 4964, overlay = { "4870-4880","4890-4600","4890-4740","4940-4490","4990-4960","5070-4600","5090-4860","5120-4730","5140-4440","5220-4890","5240-4740" } }; --Prize Bag
 	[345459] = { zoneID = 1536, artID = { 1323 }, x = 3316, y = 8110, overlay = { "3260-7800","3320-8100","3340-7260","3520-7640","3680-7870" }, questReset = true }; --Bladesworn Supply Cache
@@ -1023,7 +1024,6 @@ private.CONTAINER_INFO = {
 	[355980] = { zoneID = 1536, artID = { 1323 }, x = 6466, y = 2475, overlay = { "6470-2470" }, reset = false, questID = { 61539 }, achievementID = { 14312 } }; --Ritualist's Cache
 	[356535] = { zoneID = 1536, artID = { 1323 }, x = 3173, y = 7003, overlay = { "3180-7000" }, reset = false, questID = { 61491 }, achievementID = { 14312 } }; --Runespeaker's Trove
 	[364531] = { zoneID = 1536, artID = { 1323 }, x = 2729, y = 4610, overlay = { "2720-4610","2860-3410","3120-2520","3220-3710","3240-2560","3490-3080" }, questReset = true, questID = { 61115 }, worldmap = true }; --Runebound Coffer
-	[345455] = { zoneID = 1536, artID = { 1323 }, x = 3885, y = 4194, overlay = { "3885-4194" } }; --Construct Supply Chest
 	[368205] = { zoneID = 1543, artID = { 1329,1693 }, x = 3216, y = 6738, overlay = { "3040-5600","3220-6740" }, zoneQuestId = { 63543 }, questID = { 63815 } }; --Mawsworn Cache
 	[368206] = { zoneID = 1543, artID = { 1329,1693 }, x = 3009, y = 6497, overlay = { "3020-6500" }, zoneQuestId = { 63543 } }; --Mawsworn Cache
 	[368207] = { zoneID = 1543, artID = { 1329,1693 }, x = 3413, y = 6158, overlay = { "3410-6140" }, zoneQuestId = { 63543 } }; --Mawsworn Cache
@@ -1998,7 +1998,7 @@ private.CONTAINER_INFO = {
 	[525904] = { zoneID = 2393, artID = { 1932 }, x = 3588, y = 6137, overlay = { "3572-6121" }, reset = false, questID = { 89079 }, prof = 197 }; --A Really Nice Curtain
 	[525914] = { zoneID = 2393, artID = { 1932 }, x = 4485, y = 5621, overlay = { "4476-5626" }, reset = false, questID = { 89096 }, prof = 165 }; --Artisan's Considered Order
 	[525924] = { zoneID = 2393, artID = { 1932 }, x = 5551, y = 4784, overlay = { "5543-4781" }, reset = false, questID = { 89127 }, prof = 755 }; --Vintage Soul Gem
-	[525927] = { zoneID = 2393, artID = { 1932 }, x = 2862, y = 4638, overlay = { "2862-4638" }, reset = true, questID = { 89124 }, prof = 755 }; --Dual-Function Magnifiers
+	[525927] = { zoneID = 2393, artID = { 1932 }, x = 2862, y = 4638, overlay = { "2862-4638" }, reset = true, prof = 755 }; --Dual-Function Magnifiers
 	[525929] = { zoneID = 2393, artID = { 1932 }, x = 5059, y = 5651, overlay = { "5049-5658" }, reset = false, questID = { 89122 }, prof = 755 }; --Sin'dorei Masterwork Chisel
 	[525931] = { zoneID = 2393, artID = { 1932 }, x = 4751, y = 5042, overlay = { "4759-5040" }, reset = false, questID = { 89073 }, prof = 773 }; --Songwriter's Pen
 	[525939] = { zoneID = 2393, artID = { 1932 }, x = 5115, y = 5715, overlay = { "5120-5724" }, reset = false, questID = { 89139 }, prof = 202 }; --What To Do When Nothing Works
@@ -2008,13 +2008,14 @@ private.CONTAINER_INFO = {
 	[525961] = { zoneID = 2393, artID = { 1932 }, x = 2697, y = 6028, overlay = { "2697-6028" }, reset = false, questID = { 89177 }, prof = 164 }; --Deconstructed Forge Techniques
 	[525963] = { zoneID = 2393, artID = { 1932 }, x = 4777, y = 5160, overlay = { "4775-5168" }, reset = false, questID = { 89117 }, prof = 171 }; --Pristine Potion
 	[525965] = { zoneID = 2393, artID = { 1932 }, x = 4903, y = 7575, overlay = { "4911-7585" }, reset = false, questID = { 89115 }, prof = 171 }; --Freshly Plucked Peacebloom
+	[525969] = { zoneID = 2393, artID = { 1932 }, x = 4510, y = 4462, overlay = { "4507-4475" }, reset = false, questID = { 89111 }, prof = 171 }; --null
 	[525972] = { zoneID = 2393, artID = { 1932 }, x = 4898, y = 7588, overlay = { "4901-7593" }, reset = false, questID = { 89160 }, prof = 182 }; --Simple Leaf Pruners
 	[613887] = { zoneID = 2393, artID = { 1932 }, x = 3810, y = 7698, overlay = { "3810-7698" }, reset = false, questID = { 93570 }, achievementID = { 62104 }, minieventID = 49, criteria = 6 }; --Unfinished Sheet Music
 	[617881] = { zoneID = 2393, artID = { 1932 }, x = 2433, y = 6928, overlay = { "2433-6928" }, reset = false, questID = { 93967 }, achievementID = { 61960 }, minieventID = 48, criteria = 1 }; --Rookery Cache
 	[619621] = { zoneID = {
 				[2393] = { x = 2022, y = 7961, artID = { 1932 }, overlay = { "2022-7961" } };
 				[2395] = { x = 4298, y = 2996, artID = { 1933 }, overlay = { "4298-2996" } };
-			  }, reset = false, questID = { 94536 }, achievementID = { 62057 }, minieventID = 53 }; --High Peak
+			  }, reset = false, questID = { 94536 }, achievementID = { 62057 }, minieventID = 53 }; --Vista Point
 	[620688] = { zoneID = 2393, artID = { 1932 }, x = 3780, y = 5237, overlay = { "3780-5237" }, questID = { 94781 } }; --Incomplete Book of Sonnets
 	[507966] = { zoneID = 2395, artID = { 1933 }, x = 3604, y = 7251, overlay = { "3604-7251" }, reset = false, questID = { 93565 }, achievementID = { 62104 }, minieventID = 49, criteria = 4 }; --Profane Research
 	[525890] = { zoneID = 2395, artID = { 1933 }, x = 4841, y = 7628, overlay = { "4839-7625" }, reset = false, questID = { 89173 }, prof = 393 }; --Thalassian Skinning Knife
@@ -2023,10 +2024,12 @@ private.CONTAINER_INFO = {
 	[525922] = { zoneID = 2395, artID = { 1933 }, x = 3963, y = 3889, overlay = { "3963-3882" }, reset = false, questID = { 89129 }, prof = 755 }; --Sin'dorei Gem Faceters
 	[525926] = { zoneID = 2395, artID = { 1933 }, x = 5662, y = 4087, overlay = { "5662-4087" }, reset = false, questID = { 89125 }, prof = 755 }; --Poorly Rounded Vial
 	[525930] = { zoneID = 2395, artID = { 1933 }, x = 4034, y = 6123, overlay = { "4035-6122" }, reset = false, questID = { 89074 }, prof = 773 }; --Songwriter's Quill
+	[525932] = { zoneID = 2395, artID = { 1933 }, x = 3930, y = 4542, overlay = { "3927-4543" }, reset = false, questID = { 89072 }, prof = 773 }; --null
 	[525935] = { zoneID = 2395, artID = { 1933 }, x = 4832, y = 7558, overlay = { "4831-7554" }, reset = false, questID = { 89069 }, prof = 773 }; --Spare Ink
 	[525943] = { zoneID = 2395, artID = { 1933 }, x = 3961, y = 4579, overlay = { "3956-4579" }, reset = false, questID = { 89135 }, prof = 202 }; --Manual of Mistakes and Mishaps
 	[525946] = { zoneID = 2395, artID = { 1933 }, x = 6346, y = 3259, overlay = { "6349-3259" }, reset = false, questID = { 89107 }, prof = 333 }; --Sin'dorei Enchanting Rod
 	[525950] = { zoneID = 2395, artID = { 1933 }, x = 6076, y = 5301, overlay = { "6075-5301" }, reset = false, questID = { 89103 }, prof = 333 }; --Everblazing Sunmote
+	[525952] = { zoneID = 2395, artID = { 1933 }, x = 4020, y = 6122, overlay = { "4018-6121" }, reset = false, questID = { 89101 }, prof = 333 }; --null
 	[525958] = { zoneID = 2395, artID = { 1933 }, x = 5680, y = 4077, overlay = { "5683-4076" }, reset = false, questID = { 89180 }, prof = 164 }; --Metalworking Cheat Sheet
 	[525960] = { zoneID = 2395, artID = { 1933 }, x = 4831, y = 7573, overlay = { "4831-7578" }, reset = false, questID = { 89178 }, prof = 164 }; --Silvermoon Smithing Kit
 	[525974] = { zoneID = 2395, artID = { 1933 }, x = 6423, y = 3049, overlay = { "6425-3046" }, reset = false, questID = { 89158 }, prof = 182 }; --A Spade
@@ -2046,14 +2049,14 @@ private.CONTAINER_INFO = {
 	[613861] = { zoneID = 2395, artID = { 1933 }, x = 3759, y = 1377, overlay = { "3759-1377" }, reset = false, questID = { 93563 }, achievementID = { 62104 }, minieventID = 49, criteria = 2 }; --Shrine of Dath'Remar
 	[617432] = { zoneID = 2395, artID = { 1933 }, x = 4327, y = 6950, overlay = { "4328-6948" }, reset = false, questID = { 93893 }, achievementID = { 61960 }, minieventID = 48, criteria = 4 }; --Forgotten Ink and Quill
 	[617534] = { zoneID = 2395, artID = { 1933 }, x = 4460, y = 4555, overlay = { "4461-4554" }, reset = false, questID = { 93908 }, achievementID = { 61960 }, minieventID = 48, criteria = 5 }; --Gilded Armillary Sphere
-	[619647] = { zoneID = 2395, artID = { 1933 }, x = 4041, y = 1010, overlay = { "4041-1010" }, reset = false, questID = { 94537 }, achievementID = { 62057 }, minieventID = 53 }; --High Peak
-	[619648] = { zoneID = 2395, artID = { 1933 }, x = 3741, y = 4788, overlay = { "3741-4788" }, reset = false, questID = { 94538 }, achievementID = { 62057 }, minieventID = 53 }; --High Peak
-	[619649] = { zoneID = 2395, artID = { 1933 }, x = 5457, y = 5101, overlay = { "5457-5101" }, reset = false, questID = { 94539 }, achievementID = { 62057 }, minieventID = 53 }; --High Peak
-	[619650] = { zoneID = 2395, artID = { 1933 }, x = 5018, y = 8543, overlay = { "5018-8543" }, reset = false, questID = { 94540 }, achievementID = { 62057 }, minieventID = 53 }; --High Peak
+	[619647] = { zoneID = 2395, artID = { 1933 }, x = 4041, y = 1010, overlay = { "4041-1010" }, reset = false, questID = { 94537 }, achievementID = { 62057 }, minieventID = 53 }; --Vista Point
+	[619648] = { zoneID = 2395, artID = { 1933 }, x = 3741, y = 4788, overlay = { "3741-4788" }, reset = false, questID = { 94538 }, achievementID = { 62057 }, minieventID = 53 }; --Vista Point
+	[619649] = { zoneID = 2395, artID = { 1933 }, x = 5457, y = 5101, overlay = { "5457-5101" }, reset = false, questID = { 94539 }, achievementID = { 62057 }, minieventID = 53 }; --Vista Point
+	[619650] = { zoneID = 2395, artID = { 1933 }, x = 5018, y = 8543, overlay = { "5018-8543" }, reset = false, questID = { 94540 }, achievementID = { 62057 }, minieventID = 53 }; --Vista Point
 	[619654] = { zoneID = {
 				[2395] = { x = 6362, y = 8512, artID = { 1933 }, overlay = { "6362-8512" } };
 				[2437] = { x = 2462, y = 5827, artID = { 1963 }, overlay = { "2462-5827" } };
-			  }, reset = false, questID = { 94544 }, achievementID = { 62057 }, minieventID = 57 }; --High Peak
+			  }, reset = false, questID = { 94544 }, achievementID = { 62057 }, minieventID = 57 }; --Vista Point
 	[525894] = { zoneID = {
 				[2405] = { x = 4801, y = 2280, artID = { 1936 }, overlay = { "4801-2280" } };
 				[2444] = { x = 4549, y = 4239, artID = { 2066 }, overlay = { "4549-4240" } };
@@ -2070,7 +2073,7 @@ private.CONTAINER_INFO = {
 	[525913] = { zoneID = {
 				[2405] = { x = 4129, y = 3470, artID = { 1936 }, overlay = { "4129-3470" } };
 				[2444] = { x = 3051, y = 6899, artID = { 2066 }, overlay = { "3046-6907" } };
-			  }, reset = false, questID = { 89144 }, prof = 186 }; --Miner's Guid to Voidstorm
+			  }, reset = false, questID = { 89144 }, prof = 186 }; --Miner's Guide to Voidstorm
 	[525917] = { zoneID = {
 				[2405] = { x = 5172, y = 2693, artID = { 1936 }, overlay = { "5172-2693" } };
 				[2444] = { x = 5374, y = 5167, artID = { 2066 }, overlay = { "5374-5167" } };
@@ -2133,7 +2136,7 @@ private.CONTAINER_INFO = {
 	[612270] = { zoneID = 2405, artID = { 1936 }, x = 5534, y = 7543, overlay = { "5536-7541" }, reset = false, questID = { 93553 }, achievementID = { 62126 }, minieventID = 51, criteria = 8 }; --Embedded Spear
 	[612891] = { zoneID = 2405, artID = { 1936 }, x = 6443, y = 7547, overlay = { "6442-7550" }, reset = false, questID = { 93431 }, achievementID = { 62126 }, minieventID = 51, criteria = 3 }; --Bloody Sack
 	[613317] = { zoneID = 2405, artID = { 1936 }, x = 3770, y = 6972, overlay = { "3769-6975" }, reset = false, questID = { 93467 }, achievementID = { 62126 }, minieventID = 51, criteria = 13 }; --Half-Digested Viscera
-	[613327] = { zoneID = 2405, artID = { 1936 }, x = 4299, y = 8190, overlay = { "4301-8193" }, reset = false, questID = { 93493 }, achievementID = { 62126 }, minieventID = 51, criteria = 12 }; --Slain Scout's Quiver
+	[613327] = { zoneID = 2405, artID = { 1936 }, x = 4299, y = 8190, overlay = { "4301-8193" }, reset = false, questID = { 93493 }, achievementID = { 62126 }, minieventID = 51, criteria = 12 }; --Faindel's Quiver
 	[613351] = { zoneID = 2405, artID = { 1936 }, x = 3581, y = 4139, overlay = { "3577-4140" }, reset = false, questID = { 93496 }, achievementID = { 62126 }, minieventID = 51, criteria = 11 }; --Discarded Energy Pike
 	[613358] = { zoneID = 2405, artID = { 1936 }, x = 2834, y = 7288, overlay = { "2833-7289" }, reset = false, questID = { 93498 }, achievementID = { 62126 }, minieventID = 51, criteria = 10 }; --Exaliburn
 	[613368] = { zoneID = 2405, artID = { 1936 }, x = 3151, y = 4453, overlay = { "3150-4450" }, reset = false, questID = { 93500 }, achievementID = { 62126 }, minieventID = 51, criteria = 9 }; --Quivering Egg
@@ -2154,12 +2157,12 @@ private.CONTAINER_INFO = {
 	[618558] = { zoneID = 2405, artID = { 1936 }, x = 4048, y = 5863, overlay = { "4048-5863" }, reset = false, questID = { 94395 }, achievementID = { 62104 }, minieventID = 49, criteria = 19 }; --Abandoned Telescope
 	[618569] = { zoneID = 2405, artID = { 1936 }, x = 6038, y = 4547, overlay = { "6038-4547" }, reset = false, questID = { 94397 }, achievementID = { 62104 }, minieventID = 49, criteria = 20 }; --Tattered Page
 	[618571] = { zoneID = 2405, artID = { 1936 }, x = 2783, y = 5401, overlay = { "2783-5401" }, reset = false, questID = { 94398 }, achievementID = { 62104 }, minieventID = 49, criteria = 21 }; --Shadowgraft Harness
-	[619661] = { zoneID = 2405, artID = { 1936 }, x = 3968, y = 6115, overlay = { "3968-6115" }, reset = false, questID = { 94551 }, achievementID = { 62057 }, minieventID = 59 }; --High Peak
-	[619662] = { zoneID = 2405, artID = { 1936 }, x = 3650, y = 4430, overlay = { "3650-4430" }, reset = false, questID = { 94552 }, achievementID = { 62057 }, minieventID = 59 }; --High Peak
-	[619663] = { zoneID = 2405, artID = { 1936 }, x = 5545, y = 6717, overlay = { "5545-6717" }, reset = false, questID = { 94553 }, achievementID = { 62057 }, minieventID = 59 }; --High Peak
-	[619664] = { zoneID = 2405, artID = { 1936 }, x = 4175, y = 7022, overlay = { "4175-7022" }, reset = false, questID = { 94554 }, achievementID = { 62057 }, minieventID = 59 }; --High Peak
-	[619665] = { zoneID = 2405, artID = { 1936 }, x = 3781, y = 5496, overlay = { "3781-5496" }, reset = false, questID = { 94555 }, achievementID = { 62057 }, minieventID = 59 }; --High Peak
-	[620460] = { zoneID = 2405, artID = { 1936 }, x = 2480, y = 6999, overlay = { "2482-7001" }, questReset = true, questID = { 94742 } }; --Stormarion Cache
+	[619661] = { zoneID = 2405, artID = { 1936 }, x = 3968, y = 6115, overlay = { "3968-6115" }, reset = false, questID = { 94551 }, achievementID = { 62057 }, minieventID = 59 }; --Vista Point
+	[619662] = { zoneID = 2405, artID = { 1936 }, x = 3650, y = 4430, overlay = { "3650-4430" }, reset = false, questID = { 94552 }, achievementID = { 62057 }, minieventID = 59 }; --Vista Point
+	[619663] = { zoneID = 2405, artID = { 1936 }, x = 5545, y = 6717, overlay = { "5545-6717" }, reset = false, questID = { 94553 }, achievementID = { 62057 }, minieventID = 59 }; --Vista Point
+	[619664] = { zoneID = 2405, artID = { 1936 }, x = 4175, y = 7022, overlay = { "4175-7022" }, reset = false, questID = { 94554 }, achievementID = { 62057 }, minieventID = 59 }; --Vista Point
+	[619665] = { zoneID = 2405, artID = { 1936 }, x = 3781, y = 5496, overlay = { "3781-5496" }, reset = false, questID = { 94555 }, achievementID = { 62057 }, minieventID = 59 }; --Vista Point
+	[620460] = { zoneID = 2405, artID = { 1936 }, x = 2480, y = 6999, overlay = { "2482-7001" }, questReset = true, questID = { 94742 } }; --Voidhoarder's Corpse
 	[525895] = { zoneID = 2413, artID = { 1942 }, x = 6953, y = 4921, overlay = { "6951-4917" }, reset = false, questID = { 89168 }, prof = 393 }; --Primal Hide
 	[525897] = { zoneID = 2413, artID = { 1942 }, x = 7605, y = 5119, overlay = { "7609-5107" }, reset = false, questID = { 89166 }, prof = 393 }; --Lightbloom Afflicted Hide
 	[525902] = { zoneID = 2413, artID = { 1942 }, x = 6977, y = 5097, overlay = { "6976-5104" }, reset = false, questID = { 89081 }, prof = 197 }; --Wooden Weaving Sword
@@ -2307,48 +2310,48 @@ private.CONTAINER_INFO = {
 	[572958] = { zoneID = 2413, artID = { 1942 }, x = 7168, y = 3107, overlay = { "7169-3100" }, reset = false, questID = { 92424 }, achievementID = { 61263 }, minieventID = 52, criteria = 1 }; --Failed Shroom Jumper's Satchel
 	[572998] = { zoneID = 2413, artID = { 1942 }, x = 4711, y = 5032, overlay = { "4708-5026" }, reset = false, questID = { 92426 }, achievementID = { 61263 }, minieventID = 52, criteria = 2 }; --Burning Branch of the World Tree
 	[573050] = { zoneID = 2413, artID = { 1942 }, x = 7363, y = 6530, overlay = { "7366-6536" }, reset = false, questID = { 92427 }, achievementID = { 61263 }, minieventID = 52, criteria = 3 }; --Sporelord's Fight Prize
-	[573095] = { zoneID = 2413, artID = { 1942 }, x = 6289, y = 5123, overlay = { "6291-5125" }, reset = false, questID = { 92431 }, achievementID = { 61263 }, minieventID = 52, criteria = 4 }; --Reliquary's Lost Paintbrush
+	[573095] = { zoneID = 2413, artID = { 1942 }, x = 6289, y = 5123, overlay = { "6291-5125" }, reset = false, questID = { 92431 }, achievementID = { 61263 }, minieventID = 52, criteria = 4 }; --Reliquary's Lost Paint Supplies
 	[573307] = { zoneID = 2413, artID = { 1942 }, x = 5557, y = 3945, overlay = { "5563-3941" }, reset = false, questID = { 92436 }, achievementID = { 61263 }, minieventID = 52, criteria = 5 }; --Kemet's Simmering Cauldron
 	[573841] = { zoneID = 2413, artID = { 1942 }, x = 5206, y = 6253, overlay = { "4942-6655","4310-7507","4773-6863","4560-6957","4525-6369","4664-3765","4572-4136","5206-6253","5057-6924","4856-7150","4725-6973","4392-6760","4211-6572","4331-7080","4165-6791","6436-4189","4508-5935","5644-6148","5101-2534","4787-2329","4532-2594","4500-2931","4426-3537","5980-3681","4013-7012","5003-7990","7362-6545","7404-6222","6978-5620","6777-6166","7011-6663","6926-6989","4894-2906","4659-2615","5456-6804","4931-7317","4562-6644","4190-3683","4949-2207","5423-6082","7239-6622","4517-6843","4481-7257","7251-6955","4500-2261","4818-2527","6760-6795" }, reset = true }; --Fungalcap Crock
 	[573991] = { zoneID = 2413, artID = { 1942 }, x = 6269, y = 6350, overlay = { "3455-2781","5456-5496","6044-4884","6269-6350","2965-7844","3042-7381","5810-3334","5128-3563","4680-1802","4110-2809","5372-3660","6253-4408","5968-4277","5883-5056","6586-5526","6765-5285","6660-4513","6130-1746","5177-1659","4009-1996","2852-8403","3166-8746","5996-5499","3313-7896","5503-3114","5109-3009","3651-8300","5761-4458","5684-5730","6608-4724","6320-4598","6090-4747","6671-4905","6468-4781","6206-4860","6073-5216","5619-2496","5642-3768","5057-3298","5957-4720","6145-5100","5544-2747","3914-1834","4437-3253","6390-5030","6076-4475","3550-8002","5241-2918","6436-6250","5540-3242","3224-7480","5366-2959","5952-2700","6765-4724","6268-5054","2866-7510" }, reset = true }; --Budding Barrel
 	[574126] = { zoneID = 2413, artID = { 1942 }, x = 4914, y = 4954, overlay = { "5570-5396","5722-5864","3327-3038","3655-6248","3846-6013","3997-5457","3687-4433","3357-4662","3504-2457","4914-4954","4496-3475","4625-4836","6161-5499","5144-6586","5379-7129","2883-6269","4502-5461","5031-5490","6209-3554","3095-5991","4241-4976","5288-4966","6096-3797","6652-3822","5670-4731","6090-5798","6901-5000","6575-3331","6945-2457","6410-2102","6814-1917","6381-2763","6065-2400","3217-6422","5349-7971","7423-5457","6559-4439","5822-5974","6214-5641","6261-6015","6522-2269","7082-3561","7293-3915","6845-3678","6905-3120","5190-7691","3949-4185","3977-6352","4541-4616","5932-3896","5379-7771","7346-5765","6758-3967","7111-3331","6718-2908","5572-4285","7013-3663","7319-3683","5486-6453","4331-5774","4045-2488","3272-6899","4934-4414","5250-4485","6640-2582","4928-5706","6936-4039","3535-4518","4015-2160","5046-8186","5220-7424","7043-3877","7361-5305","6253-2776","6885-5167","7188-3766","7171-4506" }, reset = true }; --Leaf-wrapped Package
-	[579123] = { zoneID = 2413, artID = { 1942 }, x = 6484, y = 3844, overlay = { "6484-3844" }, reset = false, questID = { 93482 }, achievementID = { 61344 }, minieventID = 56, criteria = 10 }; --Words of Obayo: The Flame
-	[579130] = { zoneID = 2413, artID = { 1942 }, x = 6142, y = 3498, overlay = { "6142-3498" }, reset = false, questID = { 93481 }, achievementID = { 61344 }, minieventID = 56, criteria = 11 }; --Words of Obayo: The Rift
-	[579131] = { zoneID = 2413, artID = { 1942 }, x = 6259, y = 3568, overlay = { "6259-3568" }, reset = false, questID = { 93480 }, achievementID = { 61344 }, minieventID = 56, criteria = 12 }; --Words of Obayo: The Silence
-	[579180] = { zoneID = 2413, artID = { 1942 }, x = 4080, y = 3630, overlay = { "4080-3630" }, reset = false, questID = { 93488 }, achievementID = { 61344 }, minieventID = 56, criteria = 16 }; --Ways of the Roots: Serving
-	[579182] = { zoneID = 2413, artID = { 1942 }, x = 4148, y = 3412, overlay = { "4148-3412" }, reset = false, questID = { 93487 }, achievementID = { 61344 }, minieventID = 56, criteria = 17 }; --Ways of the Roots: Growing
-	[579183] = { zoneID = 2413, artID = { 1942 }, x = 4049, y = 3470, overlay = { "4049-3470" }, reset = false, questID = { 93486 }, achievementID = { 61344 }, minieventID = 56, criteria = 18 }; --Ways of the Roots: Pruning
-	[579201] = { zoneID = 2413, artID = { 1942 }, x = 7188, y = 5894, overlay = { "7188-5894" }, reset = false, questID = { 93491 }, achievementID = { 61344 }, minieventID = 56, criteria = 19 }; --Awe'ohna's Path: Questions
-	[579202] = { zoneID = 2413, artID = { 1942 }, x = 7351, y = 5819, overlay = { "7351-5819" }, reset = false, questID = { 93490 }, achievementID = { 61344 }, minieventID = 56, criteria = 20 }; --Awe'ohna's Path: Answers
-	[579203] = { zoneID = 2413, artID = { 1942 }, x = 7346, y = 5746, overlay = { "7346-5746" }, reset = false, questID = { 93489 }, achievementID = { 61344 }, minieventID = 56, criteria = 21 }; --Awe'ohna's Path: The Cradle
-	[579233] = { zoneID = 2413, artID = { 1942 }, x = 4323, y = 3732, overlay = { "4323-3732" }, reset = false, questID = { 93471 }, achievementID = { 61344 }, minieventID = 56, criteria = 1 }; --null
-	[579234] = { zoneID = 2413, artID = { 1942 }, x = 4155, y = 3587, overlay = { "4155-3587" }, reset = false, achievementID = { 61344 }, minieventID = 56, criteria = 2 }; --Laments of Wey'nan: Hunting Purpose
-	[579235] = { zoneID = 2413, artID = { 1942 }, x = 4236, y = 3547, overlay = { "4236-3547" }, reset = false, achievementID = { 61344 }, minieventID = 56, criteria = 3 }; --null
-	[579236] = { zoneID = 2413, artID = { 1942 }, x = 5997, y = 2089, overlay = { "5997-2089" }, reset = false, questID = { 93475 }, achievementID = { 61344 }, minieventID = 56, criteria = 4 }; --Echoes of Our Past: Fading History
-	[579237] = { zoneID = 2413, artID = { 1942 }, x = 5971, y = 1851, overlay = { "5971-1851" }, reset = false, questID = { 93474 }, achievementID = { 61344 }, minieventID = 56, criteria = 5 }; --Echoes of Our Past: Alndust
-	[579238] = { zoneID = 2413, artID = { 1942 }, x = 6114, y = 1594, overlay = { "6114-1594" }, reset = false, questID = { 93473 }, achievementID = { 61344 }, minieventID = 56, criteria = 6 }; --Echoes of Our Past: Dangerous Memories
-	[579239] = { zoneID = 2413, artID = { 1942 }, x = 5367, y = 6695, overlay = { "5367-6695" }, reset = false, questID = { 93479 }, achievementID = { 61344 }, minieventID = 56, criteria = 7 }; --Seeker's Trail: Call of Aln'hara
-	[579240] = { zoneID = 2413, artID = { 1942 }, x = 5502, y = 6627, overlay = { "5502-6627" }, reset = false, questID = { 93478 }, achievementID = { 61344 }, minieventID = 56, criteria = 8 }; --Seeker's Trail: Seeking Peace
-	[579241] = { zoneID = 2413, artID = { 1942 }, x = 5592, y = 6685, overlay = { "5592-6685" }, reset = false, questID = { 93476 }, achievementID = { 61344 }, minieventID = 56, criteria = 9 }; --Seeker's Trail: Unending Mission
-	[579242] = { zoneID = 2413, artID = { 1942 }, x = 6342, y = 4012, overlay = { "6342-4012" }, reset = false, questID = { 93485 }, achievementID = { 61344 }, minieventID = 56, criteria = 13 }; --Tending the Lands: The Conflict
-	[579243] = { zoneID = 2413, artID = { 1942 }, x = 6102, y = 3895, overlay = { "6102-3895" }, reset = false, questID = { 93484 }, achievementID = { 61344 }, minieventID = 56, criteria = 14 }; --Tending the Lands: The Plan
-	[579244] = { zoneID = 2413, artID = { 1942 }, x = 6140, y = 3717, overlay = { "6140-3717" }, reset = false, questID = { 93483 }, achievementID = { 61344 }, minieventID = 56, criteria = 15 }; --Tending the Lands: The Cycle
+	[579123] = { zoneID = 2413, artID = { 1942 }, x = 6484, y = 3844, overlay = { "6484-3844" }, reset = false, questID = { 93482 }, achievementID = { 61344 }, minieventID = 56, criteria = 10 }; --Words of Obayo--Part 1: The Flame
+	[579130] = { zoneID = 2413, artID = { 1942 }, x = 6142, y = 3498, overlay = { "6142-3498" }, reset = false, questID = { 93481 }, achievementID = { 61344 }, minieventID = 56, criteria = 11 }; --Words of Obayo--Part 2: The Rift
+	[579131] = { zoneID = 2413, artID = { 1942 }, x = 6259, y = 3568, overlay = { "6259-3568" }, reset = false, questID = { 93480 }, achievementID = { 61344 }, minieventID = 56, criteria = 12 }; --Words of Obayo--Part 3: The Silence
+	[579180] = { zoneID = 2413, artID = { 1942 }, x = 4080, y = 3630, overlay = { "4080-3630" }, reset = false, questID = { 93488 }, achievementID = { 61344 }, minieventID = 56, criteria = 16 }; --Objects
+	[579182] = { zoneID = 2413, artID = { 1942 }, x = 4148, y = 3412, overlay = { "4148-3412" }, reset = false, questID = { 93487 }, achievementID = { 61344 }, minieventID = 56, criteria = 17 }; --Objects
+	[579183] = { zoneID = 2413, artID = { 1942 }, x = 4049, y = 3470, overlay = { "4049-3470" }, reset = false, questID = { 93486 }, achievementID = { 61344 }, minieventID = 56, criteria = 18 }; --Objects
+	[579201] = { zoneID = 2413, artID = { 1942 }, x = 7188, y = 5894, overlay = { "7188-5894" }, reset = false, questID = { 93491 }, achievementID = { 61344 }, minieventID = 56, criteria = 19 }; --Objects
+	[579202] = { zoneID = 2413, artID = { 1942 }, x = 7351, y = 5819, overlay = { "7351-5819" }, reset = false, questID = { 93490 }, achievementID = { 61344 }, minieventID = 56, criteria = 20 }; --Objects
+	[579203] = { zoneID = 2413, artID = { 1942 }, x = 7346, y = 5746, overlay = { "7346-5746" }, reset = false, questID = { 93489 }, achievementID = { 61344 }, minieventID = 56, criteria = 21 }; --Objects
+	[579233] = { zoneID = 2413, artID = { 1942 }, x = 4323, y = 3732, overlay = { "4323-3732" }, reset = false, questID = { 93471 }, achievementID = { 61344 }, minieventID = 56, criteria = 1 }; --Laments of Wey'nan--Part 1: Finding Hope
+	[579234] = { zoneID = 2413, artID = { 1942 }, x = 4155, y = 3587, overlay = { "4155-3587" }, reset = false, achievementID = { 61344 }, minieventID = 56, criteria = 2 }; --Laments of Wey'nan--Part 2: Hunting Purpose
+	[579235] = { zoneID = 2413, artID = { 1942 }, x = 4236, y = 3547, overlay = { "4236-3547" }, reset = false, achievementID = { 61344 }, minieventID = 56, criteria = 3 }; --Laments of Wey'nan--Part 3: There Must Be More
+	[579236] = { zoneID = 2413, artID = { 1942 }, x = 5997, y = 2089, overlay = { "5997-2089" }, reset = false, questID = { 93475 }, achievementID = { 61344 }, minieventID = 56, criteria = 4 }; --Echoes of Our Past--Part 1: Fading History
+	[579237] = { zoneID = 2413, artID = { 1942 }, x = 5971, y = 1851, overlay = { "5971-1851" }, reset = false, questID = { 93474 }, achievementID = { 61344 }, minieventID = 56, criteria = 5 }; --Echoes of Our Past--Part 2: Alndust
+	[579238] = { zoneID = 2413, artID = { 1942 }, x = 6114, y = 1594, overlay = { "6114-1594" }, reset = false, questID = { 93473 }, achievementID = { 61344 }, minieventID = 56, criteria = 6 }; --Echoes of Our Past--Part 3: Dangerous Memories
+	[579239] = { zoneID = 2413, artID = { 1942 }, x = 5367, y = 6695, overlay = { "5367-6695" }, reset = false, questID = { 93479 }, achievementID = { 61344 }, minieventID = 56, criteria = 7 }; --Seeker's Trail--Part 1: Call of Aln'hara
+	[579240] = { zoneID = 2413, artID = { 1942 }, x = 5502, y = 6627, overlay = { "5502-6627" }, reset = false, questID = { 93478 }, achievementID = { 61344 }, minieventID = 56, criteria = 8 }; --Seeker's Trail--Part 2: Seeking Peace
+	[579241] = { zoneID = 2413, artID = { 1942 }, x = 5592, y = 6685, overlay = { "5592-6685" }, reset = false, questID = { 93476 }, achievementID = { 61344 }, minieventID = 56, criteria = 9 }; --Seeker's Trail--Part 3: Unending Mission
+	[579242] = { zoneID = 2413, artID = { 1942 }, x = 6342, y = 4012, overlay = { "6342-4012" }, reset = false, questID = { 93485 }, achievementID = { 61344 }, minieventID = 56, criteria = 13 }; --Tending the Lands--Part 1: The Conflict
+	[579243] = { zoneID = 2413, artID = { 1942 }, x = 6102, y = 3895, overlay = { "6102-3895" }, reset = false, questID = { 93484 }, achievementID = { 61344 }, minieventID = 56, criteria = 14 }; --Tending the Lands--Part 2: The Plan
+	[579244] = { zoneID = 2413, artID = { 1942 }, x = 6140, y = 3717, overlay = { "6140-3717" }, reset = false, questID = { 93483 }, achievementID = { 61344 }, minieventID = 56, criteria = 15 }; --Tending the Lands--Part 3: The Cycle
 	[591054] = { zoneID = {
 				[2413] = { x = 5121, y = 5293, artID = { 1942 }, overlay = { "5121-5293" } };
 				[2576] = { x = 4722, y = 5073, artID = { 2078 }, overlay = { "4722-5073" } };
 			  }, reset = false, questID = { 93144 }, achievementID = { 61263 }, minieventID = 52, criteria = 6 }; --Gift of the Cycle
-	[613392] = { zoneID = 2413, artID = { 1942 }, x = 2678, y = 6765, overlay = { "2672-6759" }, reset = false, questID = { 93508 }, achievementID = { 61263 }, minieventID = 52, criteria = 7 }; --Sealed Gourd
+	[613392] = { zoneID = 2413, artID = { 1942 }, x = 2678, y = 6765, overlay = { "2672-6759" }, reset = false, questID = { 93508 }, achievementID = { 61263 }, minieventID = 52, criteria = 7 }; --Impenetrably Sealed Gourd
 	[613818] = { zoneID = 2413, artID = { 1942 }, x = 5567, y = 5402, overlay = { "5567-5402" }, reset = false, questID = { 93554 }, achievementID = { 62104 }, minieventID = 49, criteria = 13 }; --Tarnished Mural
 	[613823] = { zoneID = 2413, artID = { 1942 }, x = 3333, y = 6084, overlay = { "3333-6084" }, reset = false, questID = { 93556 }, achievementID = { 62104 }, minieventID = 49, criteria = 14 }; --Ancient Runestone
 	[613827] = { zoneID = 2413, artID = { 1942 }, x = 7244, y = 3809, overlay = { "7244-3809" }, reset = false, questID = { 93557 }, achievementID = { 62104 }, minieventID = 49, criteria = 15 }; --Derelict Mural
 	[613828] = { zoneID = 2413, artID = { 1942 }, x = 6821, y = 2379, overlay = { "6821-2379" }, reset = false, questID = { 93558 }, achievementID = { 62104 }, minieventID = 49, criteria = 16 }; --Forgotten Mural
 	[614483] = { zoneID = 2413, artID = { 1942 }, x = 4063, y = 2802, overlay = { "4063-2802" }, reset = false, questID = { 93587 }, achievementID = { 61263 }, minieventID = 52, criteria = 9 }; --Peculiar Cauldron
 	[615963] = { zoneID = 2413, artID = { 1942 }, x = 4665, y = 6781, overlay = { "4665-6778" }, reset = false, questID = { 93650 }, achievementID = { 61263 }, minieventID = 52, criteria = 8 }; --Sporespawned Cache
-	[619656] = { zoneID = 2413, artID = { 1942 }, x = 6916, y = 4638, overlay = { "6916-4638" }, reset = false, questID = { 94546 }, achievementID = { 62057 }, minieventID = 58 }; --High Peak
-	[619657] = { zoneID = 2413, artID = { 1942 }, x = 6816, y = 2596, overlay = { "6816-2596" }, reset = false, questID = { 94547 }, achievementID = { 62057 }, minieventID = 58 }; --High Peak
-	[619658] = { zoneID = 2413, artID = { 1942 }, x = 4940, y = 7592, overlay = { "4940-7592" }, reset = false, questID = { 94548 }, achievementID = { 62057 }, minieventID = 58 }; --High Peak
-	[619659] = { zoneID = 2413, artID = { 1942 }, x = 6940, y = 6339, overlay = { "6940-6339" }, reset = false, questID = { 94549 }, achievementID = { 62057 }, minieventID = 58 }; --High Peak
-	[619660] = { zoneID = 2413, artID = { 1942 }, x = 5348, y = 5856, overlay = { "5348-5856" }, reset = false, questID = { 94550 }, achievementID = { 62057 }, minieventID = 58 }; --High Peak
+	[619656] = { zoneID = 2413, artID = { 1942 }, x = 6916, y = 4638, overlay = { "6916-4638" }, reset = false, questID = { 94546 }, achievementID = { 62057 }, minieventID = 58 }; --Vista Point
+	[619657] = { zoneID = 2413, artID = { 1942 }, x = 6816, y = 2596, overlay = { "6816-2596" }, reset = false, questID = { 94547 }, achievementID = { 62057 }, minieventID = 58 }; --Vista Point
+	[619658] = { zoneID = 2413, artID = { 1942 }, x = 4940, y = 7592, overlay = { "4940-7592" }, reset = false, questID = { 94548 }, achievementID = { 62057 }, minieventID = 58 }; --Vista Point
+	[619659] = { zoneID = 2413, artID = { 1942 }, x = 6940, y = 6339, overlay = { "6940-6339" }, reset = false, questID = { 94549 }, achievementID = { 62057 }, minieventID = 58 }; --Vista Point
+	[619660] = { zoneID = 2413, artID = { 1942 }, x = 5348, y = 5856, overlay = { "5348-5856" }, reset = false, questID = { 94550 }, achievementID = { 62057 }, minieventID = 58 }; --Vista Point
 	[555178] = { zoneID = 2432, artID = { 1950 }, x = 3836, y = 3293, overlay = { "3835-3300" }, reset = false, questID = { 92620 } }; --Artisan's Cache
 	[577796] = { zoneID = 2432, artID = { 1950 }, x = 5413, y = 2364, overlay = { "5415-2362" }, reset = false, questID = { 92621 } }; --Artisan's Cache
 	[577797] = { zoneID = 2432, artID = { 1950 }, x = 3545, y = 2936, overlay = { "3545-2931" }, reset = false, questID = { 92622 } }; --Artisan's Cache
@@ -2394,25 +2397,26 @@ private.CONTAINER_INFO = {
 				[2536] = { x = 4909, y = 2321, artID = { 2045 }, overlay = { "4909-2321" } };
 			  }, reset = false, questID = { 89116 }, prof = 171 }; --Measured Ladle
 	[525966] = { zoneID = 2437, artID = { 1963 }, x = 4041, y = 5123, overlay = { "4039-5117" }, reset = false, questID = { 89114 }, prof = 171 }; --Vial of Zul'Aman Oddities
+	[525971] = { zoneID = 2437, artID = { 1963 }, x = 4190, y = 4593, overlay = { "4190-4591" }, reset = false, questID = { 89161 }, prof = 182 }; --null
+	[539046] = { zoneID = 2437, artID = { 1963 }, x = 4683, y = 8185, overlay = { "4683-8185" }, reset = false, questID = { 90793 }, achievementID = { 62125 }, minieventID = 50, criteria = 2 }; --Honored Warrior's Cache
 	[539047] = { zoneID = 2437, artID = { 1963 }, x = 4472, y = 4409, overlay = { "4472-4409" }, reset = false, questID = { 90794 }, achievementID = { 62125 }, minieventID = 50, criteria = 1 }; --Abandoned Ritual Skull
 	[539049] = { zoneID = 2437, artID = { 1963 }, x = 2085, y = 6657, overlay = { "2084-6654" }, reset = false, questID = { 90795 }, achievementID = { 62125 }, minieventID = 50, criteria = 4 }; --Bait and Tackle
 	[539050] = { zoneID = 2437, artID = { 1963 }, x = 4200, y = 4773, overlay = { "4199-4777" }, reset = false, questID = { 90796 }, achievementID = { 62125 }, minieventID = 50, criteria = 5 }; --Burrow Bounty
 	[539051] = { zoneID = 2437, artID = { 1963 }, x = 5233, y = 6592, overlay = { "5232-6599" }, reset = false, questID = { 90797 }, achievementID = { 62125 }, minieventID = 50, criteria = 6 }; --Mrruk's Mangy Trove
 	[539052] = { zoneID = 2437, artID = { 1963 }, x = 4044, y = 3593, overlay = { "4047-3595" }, reset = false, questID = { 90798 }, achievementID = { 62125 }, minieventID = 50, criteria = 7 }; --Secret Formula
 	[539053] = { zoneID = 2437, artID = { 1963 }, x = 4262, y = 5249, overlay = { "4264-5243" }, reset = false, questID = { 90799 }, achievementID = { 62125 }, minieventID = 50, criteria = 8 }; --Abandoned Nest
-	[555462] = { zoneID = 2437, artID = { 1963 }, x = 3376, y = 5788, overlay = { "2995-2422","4145-2143","3347-2258","3082-2189","3527-2053","3472-1690","4011-2456","4530-4205","4707-4401","4387-4740","4884-4541","4951-4086","3228-5210","5253-7887","4840-8136","4390-7129","4249-6688","4008-6022","3799-6050","3087-5853","2656-5983","2580-5671","2666-5194","3382-5022","2511-7018","3583-7782","2410-7901","2863-7842","4204-5394","3873-5070","3553-2990","3766-2674","4704-6639","4443-6663","4334-6882","3632-6572","2833-2523","3129-3989","4579-6546","4124-3018","3639-5316","3376-5788","3758-3495","3919-3899","4697-8198","5333-8529" }, reset = true }; --Forgotten Amani Cache
+	[555462] = { zoneID = 2437, artID = { 1963 }, x = 3976, y = 4205, overlay = { "2995-2422","4145-2143","3347-2258","3082-2189","3527-2053","3472-1690","4011-2456","4530-4205","4707-4401","4387-4740","4884-4541","4951-4086","3228-5210","5253-7887","4840-8136","4390-7129","4249-6688","4008-6022","3799-6050","3087-5853","2656-5983","2580-5671","2666-5194","3382-5022","2511-7018","3583-7782","2410-7901","2863-7842","4204-5394","3873-5070","3553-2990","3766-2674","4704-6639","4443-6663","4334-6882","3632-6572","2833-2523","3129-3989","4579-6546","4124-3018","3639-5316","3376-5788","3758-3495","3919-3899","4697-8198","5333-8529","3976-4205" }, reset = true }; --Forgotten Amani Cache
 	[582157] = { zoneID = 2437, artID = { 1963 }, x = 4486, y = 8084, overlay = { "3242-8076","4329-7886","3424-8784","3738-8428","3948-8571","4392-8185","4346-7525","3254-8696","3061-8911","3088-8381","4486-8084","4493-7784" }, reset = true }; --Spiritpaw Satchel
 	[582179] = { zoneID = 2437, artID = { 1963 }, x = 2863, y = 7664, overlay = { "2597-7405","2419-8292","2863-7664","2593-8077","2159-7770","2164-6913","2491-6330","2403-7889","2091-6250","2812-7506","2312-6160" }, reset = true }; --Twilight Ordinance
 	[583965] = { zoneID = 2437, artID = { 1963 }, x = 4194, y = 3960, overlay = { "4664-4004","4803-5050","3446-3830","4196-3963" }, reset = true }; --Maisara Vilevessel
 	[583971] = { zoneID = 2437, artID = { 1963 }, x = 4450, y = 2875, overlay = { "5164-2563","5102-4512","5322-1397","5380-3483","4970-3316","4720-3315","4670-3031","4450-2875","5570-2133","4569-2555","4373-2600" }, reset = true }; --Stonewash Supplies
 	[587912] = { zoneID = 2437, artID = { 1963 }, x = 2760, y = 3776, overlay = { "5224-6989","2956-3665","5620-7481","2760-3776" }, reset = true }; --Giant Grab Bag
 	[587913] = { zoneID = 2437, artID = { 1963 }, x = 4173, y = 5988, overlay = { "5260-5697","4583-5631","4235-5903","4746-5910","4827-5407","5050-6266","4669-6012" }, reset = true }; --Shabby Stockpile
-	[539046] = { zoneID = 2437, artID = { 1963 }, x = 4683, y = 8185, overlay = { "4683-8185" }, reset = false, questID = { 90793 }, achievementID = { 62125 }, minieventID = 50, criteria = 2 }; --Honored Warrior's Cache
-	[617237] = { zoneID = 2437, artID = { 1963 }, x = 2187, y = 7742, overlay = { "2188-7737" }, reset = false, questID = { 93871 }, achievementID = { 62125 }, minieventID = 50, criteria = 3 }; --Sealed Twilight's Blade Bounty
-	[619651] = { zoneID = 2437, artID = { 1963 }, x = 2779, y = 7001, overlay = { "2779-7001" }, reset = false, questID = { 94541 }, achievementID = { 62057 }, minieventID = 57 }; --High Peak
-	[619652] = { zoneID = 2437, artID = { 1963 }, x = 5301, y = 8197, overlay = { "5301-8202" }, reset = false, questID = { 94542 }, achievementID = { 62057 }, minieventID = 57 }; --High Peak
-	[619653] = { zoneID = 2437, artID = { 1963 }, x = 5768, y = 2123, overlay = { "5768-2123" }, reset = false, questID = { 94543 }, achievementID = { 62057 }, minieventID = 57 }; --High Peak
-	[619655] = { zoneID = 2437, artID = { 1963 }, x = 4185, y = 4163, overlay = { "4185-4163" }, reset = false, questID = { 94545 }, achievementID = { 62057 }, minieventID = 57 }; --High Peak
+	[617237] = { zoneID = 2437, artID = { 1963 }, x = 2187, y = 7742, overlay = { "2188-7737" }, reset = false, questID = { 93871 }, achievementID = { 62125 }, minieventID = 50, criteria = 3 }; --Sealed Twilight's Blade Cache
+	[619651] = { zoneID = 2437, artID = { 1963 }, x = 2779, y = 7001, overlay = { "2779-7001" }, reset = false, questID = { 94541 }, achievementID = { 62057 }, minieventID = 57 }; --Vista Point
+	[619652] = { zoneID = 2437, artID = { 1963 }, x = 5301, y = 8197, overlay = { "5301-8202" }, reset = false, questID = { 94542 }, achievementID = { 62057 }, minieventID = 57 }; --Vista Point
+	[619653] = { zoneID = 2437, artID = { 1963 }, x = 5768, y = 2123, overlay = { "5768-2123" }, reset = false, questID = { 94543 }, achievementID = { 62057 }, minieventID = 57 }; --Vista Point
+	[619655] = { zoneID = 2437, artID = { 1963 }, x = 4185, y = 4163, overlay = { "4185-4163" }, reset = false, questID = { 94545 }, achievementID = { 62057 }, minieventID = 57 }; --Vista Point
 	[620314] = { zoneID = 2437, artID = { 1963 }, x = 5310, y = 8211, overlay = { "5310-8211" }, reset = false, questID = { 94627 }, achievementID = { 62104 }, minieventID = 49, criteria = 7 }; --Tablet of Akil'zon
 	[620321] = { zoneID = 2437, artID = { 1963 }, x = 3207, y = 3164, overlay = { "3207-3164" }, reset = false, questID = { 94628 }, achievementID = { 62104 }, minieventID = 49, criteria = 8 }; --Tablet of Halazzi
 	[620323] = { zoneID = 2437, artID = { 1963 }, x = 5511, y = 1761, overlay = { "5511-1761" }, reset = false, questID = { 94631 }, achievementID = { 62104 }, minieventID = 49, criteria = 9 }; --Tablet of Jan'alai
@@ -2450,9 +2454,9 @@ private.CONTAINER_INFO = {
 	[618284] = { zoneID = 2525, artID = { 2035 }, x = 4131, y = 4821, overlay = { "4131-4821" }, reset = false, questID = { 94027 }, achievementID = { 61895 } }; --Sturdy Chest
 	[618296] = { zoneID = 2525, artID = { 2035 }, x = 4564, y = 4540, overlay = { "4564-4540" }, reset = false, questID = { 94045 }, achievementID = { 61895 } }; --Sturdy Chest
 	[618293] = { zoneID = 2528, artID = { 2036 }, x = 3815, y = 4904, overlay = { "3815-4904" }, reset = false, questID = { 94042 }, achievementID = { 61899 } }; --Sturdy Chest
+	[617852] = { zoneID = 2535, artID = { 2053 }, x = 5306, y = 5797, overlay = { "5306-5797" }, reset = false, questID = { 94000 }, achievementID = { 61863 } }; --Sturdy Chest
 	[618270] = { zoneID = 2535, artID = { 2053 }, x = 4833, y = 5051, overlay = { "4833-5051" }, reset = false, questID = { 94014 }, achievementID = { 61863 } }; --Sturdy Chest
 	[618290] = { zoneID = 2535, artID = { 2053 }, x = 5299, y = 6535, overlay = { "5299-6535" }, reset = false, questID = { 94038 }, achievementID = { 61863 } }; --Sturdy Chest
-	[617852] = { zoneID = 2535, artID = { 2053 }, x = 5306, y = 5797, overlay = { "5306-5797" }, reset = false, questID = { 94000 }, achievementID = { 61863 } }; --Sturdy Chest
 	[618113] = { zoneID = 2545, artID = { 2051 }, x = 2241, y = 6106, overlay = { "2241-6106" }, reset = false, questID = { 94015 }, achievementID = { 61893 } }; --Sturdy Chest
 	[618275] = { zoneID = 2545, artID = { 2051 }, x = 0963, y = 5034, overlay = { "0963-5034" }, reset = false, questID = { 94019 }, achievementID = { 61893 } }; --Sturdy Chest
 	[618287] = { zoneID = 2545, artID = { 2051 }, x = 4111, y = 8681, overlay = { "4111-8681" }, reset = false, questID = { 94033 }, achievementID = { 61893 } }; --Sturdy Chest

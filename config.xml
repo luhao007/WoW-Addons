@@ -1281,6 +1281,10 @@
 		<Title>荣誉间谍</Title>
 		<Category>PVP</Category>
 	</Addon>
+	<Addon name="HomeBound">
+		<Title>家园系统增强</Title>
+		<Category>收藏</Category>
+	</Addon>
 	<Addon name="HPetBattleAny">
 		<Title>宠物对战增强</Title>
 		<Category>收藏</Category>

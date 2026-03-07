@@ -291,6 +291,9 @@ local function HookCooldownFrame(cdmFrame)
     if cdmFrame._CMCTracker_Hooked or cdmFrame.Cooldown == nil or cdmFrame.Icon == nil then
         return
     end
+
+    cdmFrame._CMCTracker_Hooked = true
+
     UpdateButtonGlowState(cdmFrame)
     ApplyCooldownSettings(cdmFrame)
     hooksecurefunc(cdmFrame.Cooldown, "SetCooldown", function(self)
@@ -310,14 +313,15 @@ local function HookCooldownFrame(cdmFrame)
     --         ApplyCooldownSettings(self:GetParent(), true)
     --     end)
     -- end
-
-    cdmFrame._CMCTracker_Hooked = true
 end
 
 local function HookBuffIconFrame(cdmFrame)
     if cdmFrame._CMCTracker_Hooked or cdmFrame.Cooldown == nil or cdmFrame.Icon == nil then
         return
     end
+
+    cdmFrame._CMCTracker_Hooked = true
+
     hooksecurefunc(cdmFrame.Cooldown, "SetCooldown", function(self)
         local cdmFrame = self:GetParent()
         local cooldownInfo = cdmFrame:GetCooldownInfo()
@@ -333,24 +337,18 @@ local function HookBuffIconFrame(cdmFrame)
         cdmFrame.Cooldown:SetDrawEdge(CooldownStyle.GetAlwaysShowCooldownEdge(spellID))
     end)
 
-    hooksecurefunc(cdmFrame, "Hide", function(self)
-        local cooldownInfo = cdmFrame:GetCooldownInfo()
-        local baseSpellId = FindBaseSpellByID(cooldownInfo.spellID)
-        if cooldownInfo.category == 2 then
-            SetButtonGlow(cdmFrame, CooldownStyle.GetAlwaysGlow(baseSpellId))
-            return
-        end
-    end)
-
-    hooksecurefunc(cdmFrame, "Show", function(self)
-        local cooldownInfo = cdmFrame:GetCooldownInfo()
-        local baseSpellId = FindBaseSpellByID(cooldownInfo.spellID)
-        if cooldownInfo.category == 2 then
-            SetButtonGlow(cdmFrame, CooldownStyle.GetAlwaysGlow(baseSpellId))
-            return
-        end
-    end)
-    cdmFrame._CMCTracker_Hooked = true
+    if not cdmFrame.GetCooldownInfo then
+        return
+    end
+    local cooldownInfo = cdmFrame:GetCooldownInfo()
+    if not cooldownInfo or not cooldownInfo.spellID then
+        return
+    end
+    local baseSpellId = FindBaseSpellByID(cooldownInfo.spellID)
+    if cooldownInfo.category == 2 then
+        SetButtonGlow(cdmFrame, CooldownStyle.GetAlwaysGlow(baseSpellId))
+        return
+    end
 end
 
 local function HookFrames()

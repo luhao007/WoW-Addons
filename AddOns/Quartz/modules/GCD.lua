@@ -35,7 +35,7 @@ local db, getOptions
 
 local defaults = {
 	profile = {
-		sparkcolor = {1, 1, 1},
+		sparkcolor = { 1, 1, 1 },
 		gcdalpha = 0.9,
 		gcdheight = 4,
 		gcdposition = "bottom",
@@ -56,7 +56,7 @@ local function OnUpdate()
 		return gcdbar:Hide()
 	else
 		if db.deplete then
-			gcdspark:SetPoint("CENTER", gcdbar, "LEFT", gcdbar_width * (1-perc), 0)
+			gcdspark:SetPoint("CENTER", gcdbar, "LEFT", gcdbar_width * (1 - perc), 0)
 		else
 			gcdspark:SetPoint("CENTER", gcdbar, "LEFT", gcdbar_width * perc, 0)
 		end
@@ -81,8 +81,8 @@ end
 
 function GCD:OnEnable()
 	--self:RegisterEvent("UNIT_SPELLCAST_SENT","CheckGCD")
-	self:RegisterEvent("UNIT_SPELLCAST_START","CheckGCD")
-	self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED","CheckGCD")
+	self:RegisterEvent("UNIT_SPELLCAST_START", "CheckGCD")
+	self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED", "CheckGCD")
 	if not gcdbar then
 		gcdbar = CreateFrame("Frame", "Quartz3GCDBar", UIParent, "BackdropTemplate")
 		gcdbar:SetFrameStrata("HIGH")
@@ -106,7 +106,7 @@ function GCD:CheckGCD(event, unit, guid, spell)
 	if unit == "player" then
 		local start, dur
 		if C_Spell and C_Spell.GetSpellCooldown then
-			local cooldown = C_Spell.GetSpellCooldown(spell)
+			local cooldown = C_Spell.GetSpellCooldown(61304) -- 61304 is the spell ID for the GCD, which is used to get the correct cooldown even if the GCD is modified by haste or other effects
 			if cooldown then
 				start, dur = cooldown.startTime, cooldown.duration
 			end
@@ -128,8 +128,8 @@ function GCD:ApplySettings()
 		gcdbar:SetHeight(db.gcdheight)
 		gcdbar_width = Player.Bar:GetWidth() - 8
 		gcdbar:SetWidth(gcdbar_width)
-		gcdbar:SetBackdrop({bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", tile = true, tileSize = 16})
-		gcdbar:SetBackdropColor(0,0,0)
+		gcdbar:SetBackdrop({ bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", tile = true, tileSize = 16 })
+		gcdbar:SetBackdropColor(0, 0, 0)
 		gcdbar:SetAlpha(db.gcdalpha)
 		gcdbar:SetScale(Player.db.profile.scale)
 		if db.gcdposition == "bottom" then
@@ -144,7 +144,7 @@ function GCD:ApplySettings()
 		gcdspark:SetVertexColor(unpack(db.sparkcolor))
 		gcdspark:SetBlendMode("ADD")
 		gcdspark:SetWidth(25)
-		gcdspark:SetHeight(db.gcdheight*2.5)
+		gcdspark:SetHeight(db.gcdheight * 2.5)
 	end
 end
 
@@ -179,7 +179,7 @@ do
 	end
 
 	local function setColor(info, r, g, b, a)
-		setOpt(info, {r, g, b, a})
+		setOpt(info, { r, g, b, a })
 	end
 
 	local options
@@ -216,14 +216,18 @@ do
 						type = "range",
 						name = L["Height"],
 						desc = L["Set the height of the GCD bar"],
-						min = 1, max = 30, step = 1,
+						min = 1,
+						max = 30,
+						step = 1,
 						order = 104,
 					},
 					gcdalpha = {
 						type = "range",
 						name = L["Alpha"],
 						desc = L["Set the alpha of the GCD bar"],
-						min = 0.05, max = 1, bigStep = 0.05,
+						min = 0.05,
+						max = 1,
+						bigStep = 0.05,
 						isPercent = true,
 						order = 105,
 					},
@@ -231,7 +235,7 @@ do
 						type = "select",
 						name = L["Bar Position"],
 						desc = L["Set the position of the GCD bar"],
-						values = {["top"] = L["Top"], ["bottom"] = L["Bottom"], ["free"] = L["Free"]},
+						values = { ["top"] = L["Top"], ["bottom"] = L["Bottom"], ["free"] = L["Free"] },
 						order = 106,
 					},
 					lock = {
@@ -265,7 +269,9 @@ do
 						type = "range",
 						name = L["X"],
 						desc = L["Set an exact X value for this bar's position."],
-						min = 0, max = 2560, step = 1,
+						min = 0,
+						max = 2560,
+						step = 1,
 						order = 108,
 						hidden = hiddennofree,
 					},
@@ -273,7 +279,9 @@ do
 						type = "range",
 						name = L["Y"],
 						desc = L["Set an exact Y value for this bar's position."],
-						min = 0, max = 1600, step = 1,
+						min = 0,
+						max = 1600,
+						step = 1,
 						order = 108,
 						hidden = hiddennofree,
 					},
@@ -281,7 +289,9 @@ do
 						type = "range",
 						name = L["Gap"],
 						desc = L["Tweak the distance of the GCD bar from the cast bar"],
-						min = -35, max = 35, step = 1,
+						min = -35,
+						max = 35,
+						step = 1,
 						order = 109,
 					},
 					deplete = {

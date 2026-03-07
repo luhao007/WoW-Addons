@@ -10,7 +10,7 @@
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2026-02-26";
+local WL_ADDON_UPDATED = "2026-03-05";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
 local WL_VERSION = 120001;
@@ -2784,6 +2784,13 @@ function wlSeenWorldQuests()
         local mapInfo = C_Map.GetMapInfo(extraUiMapId);
         if mapInfo then
             table.insert(checkMaps, mapInfo);
+            local childrenInfo = C_Map.GetMapChildrenInfo(extraUiMapId) or {};
+            for _, childInfo in ipairs(childrenInfo) do
+                local childMapInfo = C_Map.GetMapInfo(childInfo.mapID);
+                if childMapInfo then
+                    table.insert(checkMaps, childMapInfo);
+                end
+            end
         end
     end
 

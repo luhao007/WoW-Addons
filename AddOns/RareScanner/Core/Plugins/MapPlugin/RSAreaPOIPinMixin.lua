@@ -31,23 +31,24 @@ local AL = LibStub("AceLocale-3.0"):GetLocale("RareScanner");
 local function TryShowTooltip(region, anchor, poiInfo, customFn)
 	local hasDescription = poiInfo.description and poiInfo.description ~= "";
 	local isTimed, hideTimer = C_AreaPoiInfo.IsAreaPOITimed(poiInfo.areaPoiID);
-	local showTimer = poiInfo.secondsLeft or (isTimed and not hideTimer);
+	local showTimer = not poiInfo.forceHideTimer and (poiInfo.secondsLeft or (isTimed and not hideTimer));
 	local hasWidgetSet = poiInfo.tooltipWidgetSet ~= nil;
 
 	local hasTooltip = hasDescription or showTimer or hasWidgetSet;
 	local addedTooltipLine = false;
 
 	if hasTooltip then
+		local tooltip = RSTooltip.Tooltip
 		local verticalPadding = nil;
 
-		RSTooltip.Tooltip:SetOwner(region, anchor);
+		tooltip:SetOwner(region, anchor);
 		if region:HasDisplayName() then
-			GameTooltip_SetTitle(RSTooltip.Tooltip, region:GetDisplayName(), HIGHLIGHT_FONT_COLOR);
+			GameTooltip_SetTitle(tooltip, region:GetDisplayName(), HIGHLIGHT_FONT_COLOR);
 			addedTooltipLine = true;
 		end
 
 		if hasDescription then
-			GameTooltip_AddNormalLine(RSTooltip.Tooltip, poiInfo.description);
+			GameTooltip_AddNormalLine(tooltip, poiInfo.description);
 			addedTooltipLine = true;
 		end
 
@@ -56,19 +57,19 @@ local function TryShowTooltip(region, anchor, poiInfo, customFn)
 			if secondsLeft and secondsLeft > 0 then
 				local timeString = SecondsToTime(secondsLeft);
 				timeString = HIGHLIGHT_FONT_COLOR:WrapTextInColorCode(timeString);
-				GameTooltip_AddNormalLine(RSTooltip.Tooltip, MAP_TOOLTIP_TIME_LEFT:format(timeString));
+				GameTooltip_AddNormalLine(tooltip, MAP_TOOLTIP_TIME_LEFT:format(timeString));
 				addedTooltipLine = true;
 			end
 		end
 
 		if poiInfo.textureKit == "OribosGreatVault" then
-			GameTooltip_AddBlankLineToTooltip(RSTooltip.Tooltip);
-			GameTooltip_AddInstructionLine(RSTooltip.Tooltip, ORIBOS_GREAT_VAULT_POI_TOOLTIP_INSTRUCTIONS, false);
+			GameTooltip_AddBlankLineToTooltip(tooltip);
+			GameTooltip_AddInstructionLine(tooltip, ORIBOS_GREAT_VAULT_POI_TOOLTIP_INSTRUCTIONS, false);
 			addedTooltipLine = true;
 		end
 
 		if hasWidgetSet then
-			local overflow = GameTooltip_AddWidgetSet(RSTooltip.Tooltip, poiInfo.tooltipWidgetSet, addedTooltipLine and poiInfo.addPaddingAboveTooltipWidgets and 10);
+			local overflow = GameTooltip_AddWidgetSet(tooltip, poiInfo.tooltipWidgetSet, addedTooltipLine and poiInfo.addPaddingAboveTooltipWidgets and 10);
 			if overflow then
 				verticalPadding = -overflow;
 			end
@@ -77,19 +78,19 @@ local function TryShowTooltip(region, anchor, poiInfo, customFn)
 		if poiInfo.textureKit then
 			local backdropStyle = GAME_TOOLTIP_TEXTUREKIT_BACKDROP_STYLES[poiInfo.textureKit];
 			if (backdropStyle) then
-				SharedTooltip_SetBackdropStyle(RSTooltip.Tooltip, backdropStyle);
+				SharedTooltip_SetBackdropStyle(tooltip, backdropStyle);
 			end
 		end
 
 		if customFn then
-			customFn(RSTooltip.Tooltip);
+			customFn(tooltip);
 		end
 
-		RSTooltip.Tooltip:Show();
+		tooltip:Show();
 
 		-- need to set padding after Show or else there will be a flicker
 		if verticalPadding then
-			RSTooltip.Tooltip:SetPadding(0, verticalPadding);
+			tooltip:SetPadding(0, verticalPadding);
 		end
 
 		return true;
