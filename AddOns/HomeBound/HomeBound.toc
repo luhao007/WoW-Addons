@@ -4,7 +4,7 @@
 
 ## Title: Home Bound
 ## Notes: Your ultimate companion for collecting housing rewards
-## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF家园系统增强|r |cFFFFE00AHomeBound|r
+## Title-zhCN: |cFFFFE00A<|r|cFFA9D271收藏|r|cFFFFE00A>|r|cFFFFFFFF家具收藏|r |cFFFFE00AHomeBound|r
 
 ## IconTexture: 7252953
 

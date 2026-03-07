@@ -1,0 +1,26 @@
+## Interface: 120001
+## Author: Remeen
+
+## Title: Tome of Teleportation
+## Notes: An interface for managing teleportation spells and items.
+## Title-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r|cFFFFFFFF传送卷轴|r |cFFFFE00ATomeOfTeleportation|r
+## Notes-zhCN: 提供便捷的传送功能
+
+## IconTexture: Interface\Icons\Spell_Arcane_TeleportDalaran
+
+## Category: Collections
+## Category-zhCN: |cFFFFE00A<|r|cFF40C7EB探索|r|cFFFFE00A>|r
+
+## AddonCompartmentFunc: Teleporter_OnAddonCompartmentClick
+
+## SavedVariables: TomeOfTele_OptionsGlobal,TomeOfTele_IconGlobal
+## SavedVariablesPerCharacter: TomeOfTele_Options,TomeOfTele_ShareOptions
+
+libs\embeds.xml
+TeleporterSpell.lua
+TomeQuickMenu.lua
+TomeOfTeleportationSettings.lua
+TomeOfTeleportation.lua
+TomeOfTeleportation.xml
+Spells.lua
+TeleporterSearch.lua

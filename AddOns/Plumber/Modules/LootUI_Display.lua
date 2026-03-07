@@ -1005,6 +1005,10 @@ do  --UI Notification Mode
             self.lootQueue = {};
         end
 
+        if not lootData.slotIndex then
+            lootData.slotIndex = 0;
+        end
+
         tinsert(self.lootQueue, lootData);
 
         self.timerFrame.t = 0;
@@ -1319,6 +1323,7 @@ do  --Money Change Handler
                     slotType = Defination.SLOT_TYPE_MONEY,
                     quantity = delta,
                     name = tostring(money),
+                    slotIndex = 0,
                 };
                 MainFrame:QueueDisplayLoot(data);
             end

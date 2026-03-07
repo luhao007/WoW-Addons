@@ -23,10 +23,15 @@ local GetQuestLineInfo = C_QuestLine.GetQuestLineInfo;
 local GetItemCount = C_Item.GetItemCount;
 local HaveQuestData = HaveQuestData;
 local GetCurrentRenownLevel = C_MajorFactions.GetCurrentRenownLevel;
+local IsWorldQuestActive = C_TaskQuest.IsActive;
 
 
 local function ShownIfOnQuest(questID)
     return questID and IsOnQuest(questID)
+end
+
+local function ShownIfActive(questID)
+    return questID and (IsOnQuest(questID) or IsWorldQuestActive(questID))
 end
 
 local function IsCategoryCollapsed(categoryID)
@@ -68,6 +73,12 @@ local ShownQuestClassification = {
 };
 
 
+local QuestIcon = {
+    WEEKLY_QUEST = "Interface/AddOns/Plumber/Art/ExpansionLandingPage/Icons/WeeklyQuestAvailable.png",
+    PREY_ACTIVE = "Interface/AddOns/Plumber/Art/ExpansionLandingPage/Icons/InProgressPrey.png",
+};
+
+
 local QuestIconAtlas = {
 	[Enum.QuestClassification.Normal] = 	"QuestNormal",
 	[Enum.QuestClassification.Questline] = 	"QuestNormal",
@@ -80,7 +91,6 @@ local QuestIconAtlas = {
 
     DELVES_BOUNTIFUL = "delves-bountiful",
     DAILY_QUEST = "quest-recurring-available",
-    WEEKLY_QUEST = "quest-wrapper-available",
 };
 ActivityUtil.QuestIconAtlas = QuestIconAtlas;
 
@@ -261,16 +271,16 @@ do
     end
 
     function SortFuncs.IncompleteFirst(a, b)
-        if a.sortToTop ~= b.sortToTop then
-            return a.sortToTop
-        end
-
         if a.completed ~= b.completed then
             return b.completed
         end
 
         if (a.isOnQuest ~= nil) and (b.isOnQuest ~= nil) and a.isOnQuest ~= b.isOnQuest then
             return b.isOnQuest
+        end
+
+        if a.sortToTop ~= b.sortToTop then
+            return a.sortToTop
         end
 
         return a.dataIndex < b.dataIndex
@@ -327,6 +337,39 @@ do  --DynamicQuestDataProvider  Dynamic Quests are acquired using Game API, inst
             {name = "Sparks of War: The Ringing Deeps", questID = 81794, shownIfOnQuest = true},
             {name = "Sparks of War: Hallowfall", questID = 81795, shownIfOnQuest = true},
             {name = "Sparks of War: Undermine", questID = 86853, shownIfOnQuest = true},
+        },
+
+        [2393] = {  --Silvermoon
+            --Weekly Meta
+            {name = "Midnight: Abundance", questID = 93890, shownIfOnQuest = true},
+            {name = "Midnight: Arcantina", questID = 93767, shownIfOnQuest = true},
+            {name = "Midnight: Saltheril's Soiree", questID = 93889, shownIfOnQuest = true},
+            {name = "Midnight: Legends of the Haranir", questID = 93891, shownIfOnQuest = true},
+            {name = "Midnight: Stormarion Assault", questID = 93892, shownIfOnQuest = true},
+            {name = "Midnight: Delves", questID = 93909, shownIfOnQuest = true},
+            {name = "Midnight: Dungeons", questID = 93911, shownIfOnQuest = true},
+            {name = "Midnight: World Quests", questID = 93766, shownIfOnQuest = true},
+            {name = "Midnight: Prey", questID = 93910, shownIfOnQuest = true},
+            {name = "Midnight: World Boss", questID = 93913, shownIfOnQuest = true},
+            {name = "Midnight: Housing", questID = 93769, shownIfOnQuest = true},
+            {name = "Midnight: Raid", questID = 93912, shownIfOnQuest = true},
+            {name = "Midnight: Battlegrounds", questID = 94457, shownIfOnQuest = true},
+
+            --Dungeon Quest
+            {name = "Windrunner Spire", questID = 93751, shownIfOnQuest = true},
+            {name = "Murder Row", questID = 93752, shownIfOnQuest = true},
+            {name = "Magister's Terrace", questID = 93753, shownIfOnQuest = true},
+            {name = "Maisara Caverns", questID = 93754, shownIfOnQuest = true},
+            {name = "Den of Nalorakk", questID = 93755, shownIfOnQuest = true},
+            {name = "The Blinding Vale", questID = 93756, shownIfOnQuest = true},
+            {name = "Voidscar Arena", questID = 93757, shownIfOnQuest = true},
+            {name = "Nexus-Point Xenas", questID = 93758, shownIfOnQuest = true},
+
+            --PVP
+            {name = "Sparks of War: Eversong Woods", questID = 93423, shownIfOnQuest = true},
+            {name = "Sparks of War: Zul'Aman", questID = 93424, shownIfOnQuest = true},
+            {name = "Sparks of War: Harandar", questID = 93425, shownIfOnQuest = true},
+            {name = "Sparks of War: Voidstorm", questID = 93426, shownIfOnQuest = true},
         },
     };
 
@@ -482,7 +525,7 @@ local QuestNames = {};
 local ItemNames = {};
 
 
-function ActivityUtil.GetActivityName(dataIndex)
+function ActivityUtil.GetActivityName(dataIndex, questID)
     --2nd arg: isLocalized
     local v = SortedActivity[dataIndex];
     if v then
@@ -490,9 +533,20 @@ function ActivityUtil.GetActivityName(dataIndex)
             return v.localizedName, true
         end
 
-        if v.questID then
-            local name = QuestNames[v.questID] or API.GetQuestName(v.questID);
+        if v.questID or questID then
+            questID = v.questID or questID;
+            local name = QuestNames[questID] or API.GetQuestName(questID);
             if name and name ~= "" then
+                if v.removeSharedPrefix then
+                    name = API.RemoveTextBeforeColon(name);
+                end
+
+                if v.showMapName and v.uiMapID then
+                    local mapName = API.GetMapName(v.uiMapID);
+                    if mapName then
+                        name = mapName.." - "..name;
+                    end
+                end
                 v.localizedName = name;
                 return name, true
             end
@@ -540,6 +594,10 @@ function ActivityUtil.ShouldShowActivity(data)
         return ShownIfOnQuest(data.questID)
     end
 
+    if data.shownIfActive then
+        return ShownIfActive(data.questID)
+    end
+
     return true
 end
 
@@ -554,26 +612,29 @@ local function IndexData(activityData)
             entry.dataIndex = n;
         end
     end
+    return n
 end
 
 local function FlattenData(activityData, n, outputTbl, numCompleted)
     if not activityData then return n, 0 end;
 
-    IndexData(activityData);
+    local dataIndex = IndexData(activityData);
 
     local hideCompleted = ActivityUtil.hideCompleted;
-    numCompleted = numCompleted or 0
+    numCompleted = numCompleted or 0;
+
+    local uniqueQuests = {};
 
     for _, category in ipairs(activityData) do
         local anyIncomplted;
         local numEntries = 0;
         local entries = {};
-        local flagQuest;
         local showActivity;
+        local uiMapID;
 
         for _, entry in ipairs(category.entries) do
             showActivity = true;
-            flagQuest = nil;
+            uiMapID = category.uiMapID;
 
             if entry.children then
                 if not entry.icon then
@@ -583,23 +644,45 @@ local function FlattenData(activityData, n, outputTbl, numCompleted)
                 local totalChildren = #entry.children;
                 local numCompletedChildren = 0;
                 for k, v in ipairs(entry.children) do
-                    flagQuest = v.questID;
+                    local flagQuest = v.questID;
                     if flagQuest then
                         if (v.accountwide and IsQuestFlaggedCompletedOnAccount(flagQuest)) or (not v.accountwide and IsQuestFlaggedCompleted(flagQuest)) then
                             numCompletedChildren = numCompletedChildren + 1;
                         else
                             completed = false;
                         end
+                        uniqueQuests[flagQuest] = true;
                     end
                 end
                 entry.completed = completed;
                 if entry.label then
                     entry.localizedName = format("%s/%s %s", numCompletedChildren, totalChildren, entry.label);
                 end
+            elseif entry.questPool then
+                --Mutually Exclusive quests: Fortify Runestones
+                if not entry.icon then
+                    entry.icon = QuestIcon.WEEKLY_QUEST;
+                end
+                local flagQuest;
+                local completed = false;
+                for k, v in ipairs(entry.questPool) do
+                    if not flagQuest then
+                        flagQuest = v.questID;
+                    end
+                    if IsQuestFlaggedCompleted(v.questID) then
+                        flagQuest = v.questID;
+                        completed = true;
+                        break
+                    end
+                end
+                entry.questID = flagQuest;
+                InitQuestData(entry);
+                entry.completed = completed;
             else
-                flagQuest = entry.flagQuest or entry.questID;
+                local flagQuest = entry.flagQuest or entry.questID;
                 if entry.questID then
                     InitQuestData(entry);
+                    uniqueQuests[entry.questID] = true;
                 else
                     entry.isOnQuest = false;
                 end
@@ -637,6 +720,17 @@ local function FlattenData(activityData, n, outputTbl, numCompleted)
                 end
             end
 
+            if entry.shownIfActive then
+                if ShownIfActive(entry.questID) then
+                    showActivity = true;
+                    entry.uiMapID = C_TaskQuest.GetQuestZoneID(entry.questID);
+                else
+                    --Do not count this quest toward completed
+                    showActivity = false;
+                    entry.completed = false;
+                end
+            end
+
             if entry.completed then
                 numCompleted = numCompleted + 1;
             elseif showActivity then
@@ -655,8 +749,11 @@ local function FlattenData(activityData, n, outputTbl, numCompleted)
                 end
 
                 if entry.isWeeklyQuest then
-                    if not entry.atlas then
-                        entry.atlas = QuestIconAtlas.WEEKLY_QUEST;
+                    --if not entry.atlas then
+                    --    entry.atlas = QuestIconAtlas.WEEKLY_QUEST;
+                    --end
+                    if not entry.icon then
+                        entry.icon = QuestIcon.WEEKLY_QUEST;
                     end
                 elseif entry.isDailyQuest then
                     if not entry.atlas then
@@ -672,6 +769,27 @@ local function FlattenData(activityData, n, outputTbl, numCompleted)
                 else
                     numEntries = numEntries + 1;
                     entries[numEntries] = entry;
+                end
+            end
+        end
+
+        if category.questLines then
+            for _, questLineID in ipairs(category.questLines) do
+                local questIDs = C_QuestLine.GetQuestLineQuests(questLineID);
+                if questIDs then
+                    for _, questID in ipairs(questIDs) do
+                        if not uniqueQuests[questID] then
+                            uniqueQuests[questID] = true;
+                            if IsOnQuest(questID) then
+                                dataIndex = dataIndex + 1;
+                                local _entry = {questID = questID, name = "", uiMapID = uiMapID, dataIndex = dataIndex, completed = false};
+                                InitQuestData(_entry);
+                                numEntries = numEntries + 1;
+                                entries[numEntries] = _entry;
+                                anyIncomplted = true;
+                            end
+                        end
+                    end
                 end
             end
         end

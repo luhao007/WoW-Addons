@@ -25,41 +25,41 @@
 -------------------------------------------------------------------------------
 
 Prat:AddModuleToLoad(function()
-  local module = Prat:NewModule("Filtering", "AceEvent-3.0")
-  local PL = module.PL
+	local module = Prat:NewModule("Filtering", "AceEvent-3.0")
+	local PL = module.PL
 
-  --[==[@debug@
-  PL:AddLocale("enUS", {
-    ["Filtering"] = true,
-    ["A module to provide basic chat filtering."] = true,
-    ["leavejoin_name"] = "Filter Channel Leave/Join",
-    ["leavejoin_desc"] = "Filter out channel leave/join spam",
-    ["notices_name"] = "Filter Channel Notices",
-    ["notices_desc"] = "Filter out other custom channel notification messages, e.g. moderator changes.",
-    ["bgjoin_name"] = "Filter BG Leave/Join",
-    ["bgjoin_desc"] = "Filter out channel Battleground leave/join spam",
-    ["tradespam_name"] = "Throttle Spam",
-    ["tradespam_desc"] = "Throttle messages to prevent the same message from being repeated multiple times",
-    ["afkdnd_name"] = "Throttle AFK and DND messages.",
-    ["afkdnd_desc"] = "Throttle AFK and DND messages.",
-    ["useai_desc"] = "Use a spam filter based on machine learning",
-    ["useai_name"] = "AI Spam Filter",
-    ["training_desc"] = "Show the AI training UI",
-    ["training_name"] = "AI Training",
-  })
-  --@end-debug@]==]
+	--[==[@debug@
+	PL:AddLocale("enUS", {
+		["Filtering"] = true,
+		["A module to provide basic chat filtering."] = true,
+		["leavejoin_name"] = "Filter Channel Leave/Join",
+		["leavejoin_desc"] = "Filter out channel leave/join spam",
+		["notices_name"] = "Filter Channel Notices",
+		["notices_desc"] = "Filter out other custom channel notification messages, e.g. moderator changes.",
+		["bgjoin_name"] = "Filter BG Leave/Join",
+		["bgjoin_desc"] = "Filter out channel Battleground leave/join spam",
+		["tradespam_name"] = "Throttle Spam",
+		["tradespam_desc"] = "Throttle messages to prevent the same message from being repeated multiple times",
+		["afkdnd_name"] = "Throttle AFK and DND messages.",
+		["afkdnd_desc"] = "Throttle AFK and DND messages.",
+		["useai_desc"] = "Use a spam filter based on machine learning",
+		["useai_name"] = "AI Spam Filter",
+		["training_desc"] = "Show the AI training UI",
+		["training_name"] = "AI Training",
+	})
+	--@end-debug@]==]
 
-  -- These Localizations are auto-generated. To help with localization
-  -- please go to http://www.wowace.com/projects/prat-3-0/localization/
-
-
-  --@non-debug@
-do
-    local L
+	-- These Localizations are auto-generated. To help with localization
+	-- please go to http://www.wowace.com/projects/prat-3-0/localization/
 
 
-L = {}
--- Filtering
+	--@non-debug@
+  do
+	  local L
+
+
+  L = {}
+  -- Filtering
 L["A module to provide basic chat filtering."] = true
 L["afkdnd_desc"] = "Throttle AFK and DND messages."
 L["afkdnd_name"] = "Throttle AFK and DND messages."
@@ -77,12 +77,12 @@ L["training_name"] = "AI Training"
 L["useai_desc"] = "Use a spam filter based on machine learning"
 L["useai_name"] = "AI Spam Filter"
 
-PL:AddLocale("enUS", L)
+  PL:AddLocale("enUS", L)
 
 
 
-L = {}
--- Filtering
+  L = {}
+  -- Filtering
 --[[Translation missing --]]
 L["A module to provide basic chat filtering."] = "A module to provide basic chat filtering."
 --[[Translation missing --]]
@@ -116,12 +116,12 @@ L["useai_desc"] = "Use a spam filter based on machine learning"
 --[[Translation missing --]]
 L["useai_name"] = "AI Spam Filter"
 
-PL:AddLocale("itIT", L)
+  PL:AddLocale("itIT", L)
 
 
 
-L = {}
--- Filtering
+  L = {}
+  -- Filtering
 --[[Translation missing --]]
 L["A module to provide basic chat filtering."] = "A module to provide basic chat filtering."
 --[[Translation missing --]]
@@ -155,11 +155,11 @@ L["useai_desc"] = "Use a spam filter based on machine learning"
 --[[Translation missing --]]
 L["useai_name"] = "AI Spam Filter"
 
-PL:AddLocale("ptBR", L)
+  PL:AddLocale("ptBR", L)
 
 
-L = {}
--- Filtering
+  L = {}
+  -- Filtering
 L["A module to provide basic chat filtering."] = "Un module pour fournir un filtrage basique"
 --[[Translation missing --]]
 L["afkdnd_desc"] = "Throttle AFK and DND messages."
@@ -186,13 +186,13 @@ L["useai_desc"] = "Use a spam filter based on machine learning"
 --[[Translation missing --]]
 L["useai_name"] = "AI Spam Filter"
 
-PL:AddLocale("frFR",L)
+  PL:AddLocale("frFR",L)
 
 
 
 
-L = {}
--- Filtering
+  L = {}
+  -- Filtering
 L["A module to provide basic chat filtering."] = "Ein Modul zur grundlegenden Chat-Filterung."
 L["afkdnd_desc"] = "AFK- und DND-Meldungen unterdrücken."
 L["afkdnd_name"] = "AFK- und DND-Meldungen unterdrücken."
@@ -210,11 +210,11 @@ L["training_name"] = "KI-Training"
 L["useai_desc"] = "Verwende einen Spamfilter, der auf maschinellem Lernen basiert"
 L["useai_name"] = "KI Spamfilter"
 
-PL:AddLocale("deDE", L)
+  PL:AddLocale("deDE", L)
 
 
-L = {}
--- Filtering
+  L = {}
+  -- Filtering
 L["A module to provide basic chat filtering."] = "대화 내용을 필터링하는 모듈입니다."
 L["afkdnd_desc"] = "자리비움과 다른 용무중 메시지를 조절합니다."
 L["afkdnd_name"] = "자리비움과 다른 용무중 메시지를 조절합니다."
@@ -232,10 +232,10 @@ L["training_name"] = "AI 훈련"
 L["useai_desc"] = "기계 학습 기반 스팸 필터를 사용합니다"
 L["useai_name"] = "AI 스팸 필터"
 
-PL:AddLocale("koKR",L)
+  PL:AddLocale("koKR",L)
 
-L = {}
--- Filtering
+  L = {}
+  -- Filtering
 --[[Translation missing --]]
 L["A module to provide basic chat filtering."] = "A module to provide basic chat filtering."
 --[[Translation missing --]]
@@ -269,10 +269,10 @@ L["useai_desc"] = "Use a spam filter based on machine learning"
 --[[Translation missing --]]
 L["useai_name"] = "AI Spam Filter"
 
-PL:AddLocale("esMX",L)
+  PL:AddLocale("esMX",L)
 
-L = {}
--- Filtering
+  L = {}
+  -- Filtering
 L["A module to provide basic chat filtering."] = "Модуль для обеспечения базовый фильтрации чата."
 L["afkdnd_desc"] = "Заглушать сообщения AFK и DND."
 L["afkdnd_name"] = "Заглушать сообщения AFK и DND."
@@ -290,10 +290,10 @@ L["training_name"] = "Обучение AI"
 L["useai_desc"] = "Используйте спам-фильтр на основе машинного обучения"
 L["useai_name"] = "Спам-фильтр AI"
 
-PL:AddLocale("ruRU",L)
+  PL:AddLocale("ruRU",L)
 
-L = {}
--- Filtering
+  L = {}
+  -- Filtering
 L["A module to provide basic chat filtering."] = "提供基础的聊天过滤的模块"
 L["afkdnd_desc"] = "节流AFK和DND消息."
 L["afkdnd_name"] = "节流AFK和DND消息."
@@ -315,10 +315,10 @@ L["useai_desc"] = "Use a spam filter based on machine learning"
 --[[Translation missing --]]
 L["useai_name"] = "AI Spam Filter"
 
-PL:AddLocale("zhCN",L)
+  PL:AddLocale("zhCN",L)
 
-L = {}
--- Filtering
+  L = {}
+  -- Filtering
 L["A module to provide basic chat filtering."] = "Un módulo que proporciona el filtrado básico del chat."
 --[[Translation missing --]]
 L["afkdnd_desc"] = "Throttle AFK and DND messages."
@@ -344,10 +344,10 @@ L["useai_desc"] = "Use a spam filter based on machine learning"
 --[[Translation missing --]]
 L["useai_name"] = "AI Spam Filter"
 
-PL:AddLocale("esES",L)
+  PL:AddLocale("esES",L)
 
-L = {}
--- Filtering
+  L = {}
+  -- Filtering
 L["A module to provide basic chat filtering."] = "模組：提供基本聊天過濾。"
 --[[Translation missing --]]
 L["afkdnd_desc"] = "Throttle AFK and DND messages."
@@ -373,333 +373,307 @@ L["useai_desc"] = "Use a spam filter based on machine learning"
 --[[Translation missing --]]
 L["useai_name"] = "AI Spam Filter"
 
-PL:AddLocale("zhTW",L)
-end
---@end-non-debug@
-
-  Prat:SetModuleDefaults(module, {
-    profile = {
-      on = false,
-      leavejoin = true,
-      notices = true,
-      tradespam = false,
-      afkdnd = false,
-      training = false,
-      useai = true,
-    }
-  })
-
-  Prat:SetModuleOptions(module, {
-    name = PL["Filtering"],
-    desc = PL["A module to provide basic chat filtering."],
-    type = "group",
-    args = {
-      --		    leavejoin = {
-      --				name = PL["leavejoin_name"],
-      --				desc = PL["leavejoin_desc"],
-      --				type = "toggle",
-      --				order = 100
-      --			},
-      notices = {
-        name = PL["notices_name"],
-        desc = PL["notices_desc"],
-        type = "toggle",
-        order = 110
-      },
-      tradespam = {
-        name = PL["tradespam_name"],
-        desc = PL["tradespam_desc"],
-        type = "toggle",
-        order = 115
-      },
-      afkdnd = {
-        name = PL["afkdnd_name"],
-        desc = PL["afkdnd_desc"],
-        type = "toggle",
-        order = 115
-      },
-      useai = {
-        name = PL["useai_name"],
-        desc = PL["useai_desc"],
-        type = "toggle",
-        order = 117
-      },
-      training = {
-        name = PL["training_name"],
-        desc = PL["training_desc"],
-        type = "toggle",
-        order = 118
-      },
-
-      --		    bgjoin = {
-      --				name = PL["bgjoin_name"],
-      --				desc = PL["bgjoin_desc"],
-      --				type = "toggle",
-      --				order = 111
-      --			},
-    }
-  })
-
-  local THROTTLE_TIME = 120
-
-  local MessageTime = {}
-
-  local function cleanText(msg, author)
-    local cleanmsg = msg:gsub("...hic!", ""):gsub("%d", ""):gsub("%c", ""):gsub("%p", ""):gsub("%s", ""):upper():gsub("SH", "S");
-    return (author and author:upper() or "") .. cleanmsg;
+  PL:AddLocale("zhTW",L)
   end
+  --@end-non-debug@
 
-  --function tradeSpamFilter(frame, event, ...)
-  --    local arg1, arg2 = ...
-  --	local block = false;
-  --	local msg = cleanText(arg1, arg2);
-  --
-  --	if arg2 == UnitName("player") then
-  --		return false, ...
-  --	end
-  --
-  --	if MessageTime[msg] then
-  --		if difftime(time(), MessageTime[msg]) <= THROTTLE_TIME then
-  --			block = true;
-  --		else
-  --		    MessageTime[msg] = nil
-  --		end
-  --	else
-  --    	MessageTime[msg] = time();
-  --	end
-  --
-  --	if block then
-  --	    print("Filtered: "..msg)
-  --		return true
-  --	end
-  --
-  --
-  --
-  --	return false, ...
-  --end
+	Prat:SetModuleDefaults(module, {
+		profile = {
+			on = false,
+			leavejoin = true,
+			notices = true,
+			tradespam = false,
+			afkdnd = false,
+			training = false,
+			useai = true,
+		}
+	})
 
+	Prat:SetModuleOptions(module, {
+		name = PL["Filtering"],
+		desc = PL["A module to provide basic chat filtering."],
+		type = "group",
+		args = {
+			--		    leavejoin = {
+			--				name = PL["leavejoin_name"],
+			--				desc = PL["leavejoin_desc"],
+			--				type = "toggle",
+			--				order = 100
+			--			},
+			notices = {
+				name = PL["notices_name"],
+				desc = PL["notices_desc"],
+				type = "toggle",
+				order = 110
+			},
+			tradespam = {
+				name = PL["tradespam_name"],
+				desc = PL["tradespam_desc"],
+				type = "toggle",
+				order = 115
+			},
+			afkdnd = {
+				name = PL["afkdnd_name"],
+				desc = PL["afkdnd_desc"],
+				type = "toggle",
+				order = 115
+			},
+			useai = {
+				name = PL["useai_name"],
+				desc = PL["useai_desc"],
+				type = "toggle",
+				order = 117
+			},
+			training = {
+				name = PL["training_name"],
+				desc = PL["training_desc"],
+				type = "toggle",
+				order = 118
+			},
 
-  --[[------------------------------------------------
-      Module Event Functions
-  ------------------------------------------------]] --
-  function module:OnModuleEnable()
-    Prat.RegisterMessageItem("SPAMPROB", "PRE", "after")
-    self.classifier = Prat.GetClassifier(self.db.global)
-    self.throttleFrame = self.throttleFrame or CreateFrame("FRAME");
-    self.lineTable = {}
-    self.trainTable = {}
-    self.throttle = THROTTLE_TIME
+			--		    bgjoin = {
+			--				name = PL["bgjoin_name"],
+			--				desc = PL["bgjoin_desc"],
+			--				type = "toggle",
+			--				order = 111
+			--			},
+		}
+	})
 
-    self.throttleFrame:SetScript("OnUpdate",
-      function(frame, elapsed)
-        self.throttle = self.throttle - elapsed
-        if frame:IsShown() and self.throttle < 0 then
-          self.throttle = THROTTLE_TIME
-          self:PruneMessages()
-        end
-      end)
+	local THROTTLE_TIME = 120
 
-    --    ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", tradeSpamFilter)
-    --    ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", tradeSpamFilter)
+	local MessageTime = {}
 
-    Prat.RegisterChatEvent(self, "Prat_FrameMessage")
-    Prat.RegisterLinkType({ linkid = "pratfilter", linkfunc = module.PratFilter, handler = module }, module.name)
-  end
+	local function cleanText(msg, author)
+		local cleanmsg = msg:gsub("...hic!", ""):gsub("%d", ""):gsub("%c", ""):gsub("%p", ""):gsub("%s", ""):upper():gsub("SH", "S");
+		return (author and author:upper() or "") .. cleanmsg;
+	end
 
-  -- things to do when the module is disabled
-  function module:OnModuleDisable()
-    self.lineTable = nil
-    self.trainTable = nil
-    --    ChatFrame_RemoveMessageEventFilter("CHAT_MSG_CHANNEL", tradeSpamFilter)
-    --    ChatFrame_RemoveMessageEventFilter("CHAT_MSG_YELL", tradeSpamFilter)
+	--[[------------------------------------------------
+		Module Event Functions
+	------------------------------------------------]] --
+	function module:OnModuleEnable()
+		Prat.RegisterMessageItem("SPAMPROB", "PRE", "after")
+		self.classifier = Prat.GetClassifier(self.db.global)
+		self.throttleFrame = self.throttleFrame or CreateFrame("FRAME");
+		self.lineTable = {}
+		self.trainTable = {}
+		self.throttle = THROTTLE_TIME
 
-    Prat.UnregisterAllChatEvents(self)
-  end
+		self.throttleFrame:SetScript("OnUpdate",
+			function(frame, elapsed)
+				self.throttle = self.throttle - elapsed
+				if frame:IsShown() and self.throttle < 0 then
+					self.throttle = THROTTLE_TIME
+					self:PruneMessages()
+				end
+			end)
 
-  --[[------------------------------------------------
-      Core Functions
-  ------------------------------------------------]] --
+		--    ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", tradeSpamFilter)
+		--    ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", tradeSpamFilter)
 
+		Prat.RegisterChatEvent(self, "Prat_FrameMessage")
+		Prat.RegisterLinkType({ linkid = "pratfilter", linkfunc = module.PratFilter, handler = module }, module.name)
+	end
 
-  function module:PratFilter(data, frame)
-    local _, id, found = strsplit(":", data)
-    found = tonumber(found) == 1 and true or false
-    self:ToggleLearn(id, found, frame)
-    return false
-  end
+	-- things to do when the module is disabled
+	function module:OnModuleDisable()
+		self.lineTable = nil
+		self.trainTable = nil
+		--    ChatFrame_RemoveMessageEventFilter("CHAT_MSG_CHANNEL", tradeSpamFilter)
+		--    ChatFrame_RemoveMessageEventFilter("CHAT_MSG_YELL", tradeSpamFilter)
 
-  function module:GetDescription()
-    return PL["A module to provide basic chat filtering."]
-  end
+		Prat.UnregisterAllChatEvents(self)
+	end
 
-  function module:PruneMessages()
-    for k, v in pairs(MessageTime) do
-      if difftime(time(), v) > THROTTLE_TIME then
-        MessageTime[k] = nil
-      end
-    end
-  end
-
-  local function string_split(text, sep, pattern)
-	  sep = sep or ""
-    local fields = {}
-    local patt = pattern or ("([^%s]+)"):format(sep)
-    text:gsub(patt, function(c) fields[#fields + 1] = c:lower() end)
-    return fields
-  end
-
-  local function tokenize(msg)
-    return string_split(msg, nil, "([^%s%p%c]+)") -- obfuscations removal
-  end
-
-  local CLR = Prat.CLR
-
-  function module:AdjustScore(id, frame)
-    id = tonumber(id)
-    local text = self.lineTable[id]
-    local prob = self.classifier.getprob(tokenize(text))
-    for _,v in ipairs(frame.visibleLines) do
-      local mi = v.messageInfo
-      local m = mi.message
-      if m:match(("pratfilter:%d"):format(id)) then
-        mi.message = m:gsub("|c%x-%d+%%%x-|r", CLR:Probability(FormatPercentage(prob), prob):gsub("%%", "%%%%"))
-        break
-      end
-    end
-  end
-
-  function module:Learn(id, found, frame)
-    id = tonumber(id)
-    local text = self.lineTable[id]
-    if not text then return end
-    local learned = self.trainTable[id]
-    if learned ~= nil then
-      self.classifier.unlearn(tokenize(text), learned)
-    end
-    self:Output(frame, "learning " .. text .. " as " .. CLR:Probability(found and "SPAM" or "NOT SPAM", found and 1 or 0))
-    self.trainTable[id] = found or false
-    self.classifier.learn(tokenize(text), found)
-    self:AdjustScore(id, frame)
-  end
-
-  function module:Unlearn(id, found, frame)
-    id = tonumber(id)
-    local text = self.lineTable[id]
-    if not text then return end
-    local learned = self.trainTable[id]
-    self.trainTable[id] = nil
-    if learned ~= nil then
-      self.classifier.unlearn(tokenize(text), learned)
-    end
-    self:Output(frame, "Unlearning " .. text .. " as " .. CLR:Probability(found and "SPAM" or "NOT SPAM", found and 1 or 0))
-    self.classifier.unlearn(tokenize(text), found)
-    self:AdjustScore(id, frame)
-  end
-
-  function module:ToggleLearn(id, found, frame)
-    id = tonumber(id)
-    local learned = self.trainTable[id]
-    if learned ~= nil then
-      self:Unlearn(id, learned, frame)
-      return
-    end
-
-    self:Learn(id, found, frame)
-  end
-
-  local SPAM_CUTOFF = 0.90
-  local HAM_CUTOFF = 0.20
+	--[[------------------------------------------------
+		Core Functions
+	------------------------------------------------]] --
 
 
-  function CLR:Bracket(text) return self:Colorize({
-    r = 0.85,
-    g = 0.85,
-    b = 0.85,
-    a = 1.0
-  }, text)
-  end
+	function module:PratFilter(data, frame)
+		local _, id, found = strsplit(":", data)
+		found = tonumber(found) == 1 and true or false
+		self:ToggleLearn(id, found, frame)
+		return false
+	end
 
-  function CLR:Probability(text, prob)
-    local isHam = prob <= HAM_CUTOFF
-    local isSpam = prob >= SPAM_CUTOFF
+	function module:GetDescription()
+		return PL["A module to provide basic chat filtering."]
+	end
 
-    local color = isHam and "40ff40" or isSpam and "ff4040" or "a0a0a0"
-    return self:Colorize(color, text)
-  end
+	function module:PruneMessages()
+		for k, v in pairs(MessageTime) do
+			if difftime(time(), v) > THROTTLE_TIME then
+				MessageTime[k] = nil
+			end
+		end
+	end
 
-  local eventsToHandle = {
-    CHAT_MSG_CHANNEL = true
-  }
+	local function string_split(text, sep, pattern)
+		sep = sep or ""
+		local fields = {}
+		local patt = pattern or ("([^%s]+)"):format(sep)
+		text:gsub(patt, function(c)
+			fields[#fields + 1] = c:lower()
+		end)
+		return fields
+	end
 
-  function module:Prat_FrameMessage(_, message, _, event)
-    if self.db.profile.useai and  eventsToHandle[event] and message.GUID ~= UnitGUID("player") then
-      local msg = tokenize(message.ORG.MESSAGE)
-      local prob = self.classifier.getprob(msg)
-      local isSpam = prob >= SPAM_CUTOFF
-      if self.db.profile.training then
-        self.lineTable[message.LINE_ID] = message.ORG.MESSAGE
-        message.SPAMPROB = ("|cff40ff40|Hpratfilter:%d:0|h[--]|h|r" .. CLR:Bracket("[") .. "%s" .. CLR:Bracket("]") .. "|cffff4040|Hpratfilter:%d:1|h[++]|h|r ")
-          :format(message.LINE_ID, CLR:Probability(FormatPercentage(prob), prob), message.LINE_ID)
-      else
-        if isSpam then
-          message.DONOTPROCESS = true
-        end
-      end
-    end
+	local function tokenize(msg)
+		return string_split(msg, nil, "([^%s%p%c]+)") -- obfuscations removal
+	end
 
-    local newEvent = true
-    if message.LINE_ID and
-      message.LINE_ID == self.lastevent and
-      self.lasteventtype == event then
-      newEvent = false
-    end
+	local CLR = Prat.CLR
 
-    if self.db.profile.tradespam then
-      if event == "CHAT_MSG_CHANNEL" or event == "CHAT_MSG_YELL" then
-        local msg = cleanText(message.ORG.MESSAGE, message.ORG.PLAYER)
+	function module:AdjustScore(id, frame)
+		id = tonumber(id)
+		local text = self.lineTable[id]
+		local prob = self.classifier.getprob(tokenize(text))
+		for _, v in ipairs(frame.visibleLines) do
+			local mi = v.messageInfo
+			local m = mi.message
+			if m:match(("pratfilter:%d"):format(id)) then
+				mi.message = m:gsub("|c%x-%d+%%%x-|r", CLR:Probability(FormatPercentage(prob), prob):gsub("%%", "%%%%"))
+				break
+			end
+		end
+	end
 
-        if message.ORG.PLAYER ~= UnitName("player") then
-          if newEvent and MessageTime[msg] then
-            if difftime(time(), MessageTime[msg]) <= THROTTLE_TIME then
-              message.DONOTPROCESS = true
-            else
-              MessageTime[msg] = nil
-            end
-          else
-            self.lasteventtype = event
-            self.lastevent = message.LINE_ID
-            MessageTime[msg] = time();
-          end
-        end
-      end
-    end
+	function module:Learn(id, found, frame)
+		id = tonumber(id)
+		local text = self.lineTable[id]
+		if not text then
+			return
+		end
+		local learned = self.trainTable[id]
+		if learned ~= nil then
+			self.classifier.unlearn(tokenize(text), learned)
+		end
+		self:Output(frame, "learning " .. text .. " as " .. CLR:Probability(found and "SPAM" or "NOT SPAM", found and 1 or 0))
+		self.trainTable[id] = found or false
+		self.classifier.learn(tokenize(text), found)
+		self:AdjustScore(id, frame)
+	end
 
-    if self.db.profile.afkdnd then
-      if event == "CHAT_MSG_AFK" or event == "CHAT_MSG_DND" then
-        local msg = cleanText(message.ORG.MESSAGE, message.ORG.PLAYER)
+	function module:Unlearn(id, found, frame)
+		id = tonumber(id)
+		local text = self.lineTable[id]
+		if not text then
+			return
+		end
+		local learned = self.trainTable[id]
+		self.trainTable[id] = nil
+		if learned ~= nil then
+			self.classifier.unlearn(tokenize(text), learned)
+		end
+		self:Output(frame, "Unlearning " .. text .. " as " .. CLR:Probability(found and "SPAM" or "NOT SPAM", found and 1 or 0))
+		self.classifier.unlearn(tokenize(text), found)
+		self:AdjustScore(id, frame)
+	end
 
-        if newEvent and MessageTime[msg] then
-          if difftime(time(), MessageTime[msg]) <= THROTTLE_TIME then
-            message.DONOTPROCESS = true
-          else
-            MessageTime[msg] = nil
-          end
-        else
-          self.lasteventtype = event
-          self.lastevent = message.LINE_ID
-          MessageTime[msg] = time();
-        end
-      end
-    end
+	function module:ToggleLearn(id, found, frame)
+		id = tonumber(id)
+		local learned = self.trainTable[id]
+		if learned ~= nil then
+			self:Unlearn(id, learned, frame)
+			return
+		end
 
+		self:Learn(id, found, frame)
+	end
 
+	local SPAM_CUTOFF = 0.90
+	local HAM_CUTOFF = 0.20
 
-    if self.db.profile.notices then
-      if event == "CHAT_MSG_CHANNEL_NOTICE_USER" or event == "CHAT_MSG_CHANNEL_NOTICE" then
-        message.DONOTPROCESS = true
-      end
-    end
-  end
+	function CLR:Bracket(text)
+		return self:Colorize({
+			r = 0.85,
+			g = 0.85,
+			b = 0.85,
+			a = 1.0
+		}, text)
+	end
 
-  return
+	function CLR:Probability(text, prob)
+		local isHam = prob <= HAM_CUTOFF
+		local isSpam = prob >= SPAM_CUTOFF
+
+		local color = isHam and "40ff40" or isSpam and "ff4040" or "a0a0a0"
+		return self:Colorize(color, text)
+	end
+
+	local eventsToHandle = {
+		CHAT_MSG_CHANNEL = true
+	}
+
+	function module:Prat_FrameMessage(_, message, _, event)
+		if self.db.profile.useai and eventsToHandle[event] and message.GUID ~= UnitGUID("player") then
+			local msg = tokenize(message.ORG.MESSAGE)
+			local prob = self.classifier.getprob(msg)
+			local isSpam = prob >= SPAM_CUTOFF
+			if self.db.profile.training then
+				self.lineTable[message.LINE_ID] = message.ORG.MESSAGE
+				message.SPAMPROB = ("|cff40ff40|Hpratfilter:%d:0|h[--]|h|r" .. CLR:Bracket("[") .. "%s" .. CLR:Bracket("]") .. "|cffff4040|Hpratfilter:%d:1|h[++]|h|r ")
+					:format(message.LINE_ID, CLR:Probability(FormatPercentage(prob), prob), message.LINE_ID)
+			else
+				if isSpam then
+					message.DONOTPROCESS = true
+				end
+			end
+		end
+
+		local newEvent = true
+		if message.LINE_ID and
+			message.LINE_ID == self.lastevent and
+			self.lasteventtype == event then
+			newEvent = false
+		end
+
+		if self.db.profile.tradespam then
+			if event == "CHAT_MSG_CHANNEL" or event == "CHAT_MSG_YELL" then
+				local msg = cleanText(message.ORG.MESSAGE, message.ORG.PLAYER)
+
+				if message.ORG.PLAYER ~= UnitName("player") then
+					if newEvent and MessageTime[msg] then
+						if difftime(time(), MessageTime[msg]) <= THROTTLE_TIME then
+							message.DONOTPROCESS = true
+						else
+							MessageTime[msg] = nil
+						end
+					else
+						self.lasteventtype = event
+						self.lastevent = message.LINE_ID
+						MessageTime[msg] = time();
+					end
+				end
+			end
+		end
+
+		if self.db.profile.afkdnd then
+			if event == "CHAT_MSG_AFK" or event == "CHAT_MSG_DND" then
+				local msg = cleanText(message.ORG.MESSAGE, message.ORG.PLAYER)
+
+				if newEvent and MessageTime[msg] then
+					if difftime(time(), MessageTime[msg]) <= THROTTLE_TIME then
+						message.DONOTPROCESS = true
+					else
+						MessageTime[msg] = nil
+					end
+				else
+					self.lasteventtype = event
+					self.lastevent = message.LINE_ID
+					MessageTime[msg] = time();
+				end
+			end
+		end
+
+		if self.db.profile.notices then
+			if event == "CHAT_MSG_CHANNEL_NOTICE_USER" or event == "CHAT_MSG_CHANNEL_NOTICE" then
+				message.DONOTPROCESS = true
+			end
+		end
+	end
+
+	return
 end) -- Prat:AddModuleToLoad

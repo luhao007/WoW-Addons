@@ -25,41 +25,41 @@
 -------------------------------------------------------------------------------
 
 Prat:AddModuleToLoad(function()
-  local module = Prat:NewModule("KeyBindings")
-  local PL = module.PL
+	local module = Prat:NewModule("KeyBindings")
+	local PL = module.PL
 
-  --[==[@debug@
-  PL:AddLocale("enUS", {
-    module_desc = "Adds chat related keybindings",
-    ["Prat Keybindings"] = true,
-    ["Officer Channel"] = true,
-    ["Guild Channel"] = true,
-    ["Party Channel"] = true,
-    ["Raid Channel"] = true,
-    ["Raid Warning Channel"] = true,
-    ["Instance Channel"] = true,
-    ["Say"] = true,
-    ["Yell"] = true,
-    ["Whisper"] = true,
-    ["Channel %d"] = true,
-    ["Prat TellTarget"] = true,
-    ["TellTarget"] = true,
-    ["Prat CopyChat"] = true,
-    ["Copy Selected Chat Frame"] = true,
-    ["Smart Group Channel"] = true,
-    ["Next Chat Tab"] = true
-  })
-  --@end-debug@]==]
+	--[==[@debug@
+	PL:AddLocale("enUS", {
+		module_desc = "Adds chat related keybindings",
+		["Prat Keybindings"] = true,
+		["Officer Channel"] = true,
+		["Guild Channel"] = true,
+		["Party Channel"] = true,
+		["Raid Channel"] = true,
+		["Raid Warning Channel"] = true,
+		["Instance Channel"] = true,
+		["Say"] = true,
+		["Yell"] = true,
+		["Whisper"] = true,
+		["Channel %d"] = true,
+		["Prat TellTarget"] = true,
+		["TellTarget"] = true,
+		["Prat CopyChat"] = true,
+		["Copy Selected Chat Frame"] = true,
+		["Smart Group Channel"] = true,
+		["Next Chat Tab"] = true
+	})
+	--@end-debug@]==]
 
-  -- These Localizations are auto-generated. To help with localization
-  -- please go to http://www.wowace.com/projects/prat-3-0/localization/
-  --@non-debug@
- do
-     local L
+	-- These Localizations are auto-generated. To help with localization
+	-- please go to http://www.wowace.com/projects/prat-3-0/localization/
+	--@non-debug@
+   do
+	   local L
 
 
-L = {}
--- KeyBindings
+  L = {}
+  -- KeyBindings
 L["Channel %d"] = true
 L["Copy Selected Chat Frame"] = true
 L["Guild Channel"] = true
@@ -80,12 +80,12 @@ L["Whisper"] = true
 L["Yell"] = true
 
 
-   PL:AddLocale("enUS",L)
+	 PL:AddLocale("enUS",L)
 
 
 
-L = {}
--- KeyBindings
+  L = {}
+  -- KeyBindings
 L["Channel %d"] = "Canal %d"
 L["Copy Selected Chat Frame"] = "Copier la fenêtre de chat sélectionné"
 L["Guild Channel"] = "Canal de Guilde"
@@ -109,12 +109,12 @@ L["Whisper"] = "Chuchoter"
 L["Yell"] = "Crier"
 
 
-   PL:AddLocale("frFR",L)
+	 PL:AddLocale("frFR",L)
 
 
 
-L = {}
--- KeyBindings
+  L = {}
+  -- KeyBindings
 L["Channel %d"] = "Kanal %d"
 L["Copy Selected Chat Frame"] = "Ausgewähltes Chatfenster kopieren"
 L["Guild Channel"] = "Gildenkanal"
@@ -135,12 +135,12 @@ L["Whisper"] = true
 L["Yell"] = true
 
 
-   PL:AddLocale("deDE",L)
+	 PL:AddLocale("deDE",L)
 
 
 
-L = {}
--- KeyBindings
+  L = {}
+  -- KeyBindings
 L["Channel %d"] = "채널 %d"
 L["Copy Selected Chat Frame"] = "선택한 대화창 복사"
 L["Guild Channel"] = "길드 채널"
@@ -161,12 +161,12 @@ L["Whisper"] = "귓속말"
 L["Yell"] = "외침"
 
 
-   PL:AddLocale("koKR",L)
+	 PL:AddLocale("koKR",L)
 
 
 
-L = {}
--- KeyBindings
+  L = {}
+  -- KeyBindings
 --[[Translation missing --]]
 L["Channel %d"] = "Channel %d"
 --[[Translation missing --]]
@@ -205,12 +205,12 @@ L["Whisper"] = "Whisper"
 L["Yell"] = "Yell"
 
 
-   PL:AddLocale("esMX",L)
+	 PL:AddLocale("esMX",L)
 
 
 
-L = {}
--- KeyBindings
+  L = {}
+  -- KeyBindings
 L["Channel %d"] = "Канал %d"
 L["Copy Selected Chat Frame"] = "Копирование выбранного окна чата"
 L["Guild Channel"] = "Канал Гильдии"
@@ -231,12 +231,12 @@ L["Whisper"] = "Шепнуть"
 L["Yell"] = "Крикнуть"
 
 
-   PL:AddLocale("ruRU",L)
+	 PL:AddLocale("ruRU",L)
 
 
 
-L = {}
--- KeyBindings
+  L = {}
+  -- KeyBindings
 L["Channel %d"] = "频道 %d"
 L["Copy Selected Chat Frame"] = "复制选定的聊天框体"
 L["Guild Channel"] = "公会频道"
@@ -257,12 +257,12 @@ L["Whisper"] = "密语"
 L["Yell"] = "喊话"
 
 
-   PL:AddLocale("zhCN",L)
+	 PL:AddLocale("zhCN",L)
 
 
 
-L = {}
--- KeyBindings
+  L = {}
+  -- KeyBindings
 L["Channel %d"] = "Canal %d"
 L["Copy Selected Chat Frame"] = "Copiar el Marco de Chat Seleccionado"
 L["Guild Channel"] = "Canal de Hermandad"
@@ -284,12 +284,12 @@ L["Whisper"] = "Susurrar"
 L["Yell"] = "Gritar"
 
 
-   PL:AddLocale("esES",L)
+	 PL:AddLocale("esES",L)
 
 
 
-L = {}
--- KeyBindings
+  L = {}
+  -- KeyBindings
 L["Channel %d"] = "頻道 %d"
 L["Copy Selected Chat Frame"] = "複製選取的聊天視窗"
 L["Guild Channel"] = "公會頻道"
@@ -311,61 +311,63 @@ L["Whisper"] = "密語"
 L["Yell"] = "大喊"
 
 
-   PL:AddLocale("zhTW",L)
+	 PL:AddLocale("zhTW",L)
 
 
- end
- --@end-non-debug@
+   end
+   --@end-non-debug@
 
-  Prat:SetModuleInit(module,
-    function()
-      BINDING_HEADER_Prat = PL["Prat Keybindings"]
-      BINDING_NAME_officer = PL["Officer Channel"]
-      BINDING_NAME_guild = PL["Guild Channel"]
-      BINDING_NAME_party = PL["Party Channel"]
-      BINDING_NAME_raid = PL["Raid Channel"]
-      BINDING_NAME_raidwarn = PL["Raid Warning Channel"]
-      BINDING_NAME_instance = PL["Instance Channel"]
-      BINDING_NAME_say = PL["Say"]
-      BINDING_NAME_yell = PL["Yell"]
-      BINDING_NAME_whisper = PL["Whisper"]
-      BINDING_NAME_one = (PL["Channel %d"]):format(1)
-      BINDING_NAME_two = (PL["Channel %d"]):format(2)
-      BINDING_NAME_three = (PL["Channel %d"]):format(3)
-      BINDING_NAME_four = (PL["Channel %d"]):format(4)
-      BINDING_NAME_five = (PL["Channel %d"]):format(5)
-      BINDING_NAME_six = (PL["Channel %d"]):format(6)
-      BINDING_NAME_seven = (PL["Channel %d"]):format(7)
-      BINDING_NAME_eight = (PL["Channel %d"]):format(8)
-      BINDING_NAME_nine = (PL["Channel %d"]):format(9)
-      BINDING_NAME_SmartGroup = PL["Smart Group Channel"]
-      --	    BINDING_HEADER_Prat_TellTarget = PL["Prat TellTarget"]
-      --	    BINDING_HEADER_Prat_CopyChat = PL["Prat CopyChat"]
-      BINDING_NAME_NextTab = PL["Next Chat Tab"]
-      BINDING_NAME_CopySelected = PL["Copy Selected Chat Frame"]
-    end)
+	Prat:SetModuleInit(module,
+		function()
+			BINDING_HEADER_Prat = PL["Prat Keybindings"]
+			BINDING_NAME_officer = PL["Officer Channel"]
+			BINDING_NAME_guild = PL["Guild Channel"]
+			BINDING_NAME_party = PL["Party Channel"]
+			BINDING_NAME_raid = PL["Raid Channel"]
+			BINDING_NAME_raidwarn = PL["Raid Warning Channel"]
+			BINDING_NAME_instance = PL["Instance Channel"]
+			BINDING_NAME_say = PL["Say"]
+			BINDING_NAME_yell = PL["Yell"]
+			BINDING_NAME_whisper = PL["Whisper"]
+			BINDING_NAME_one = (PL["Channel %d"]):format(1)
+			BINDING_NAME_two = (PL["Channel %d"]):format(2)
+			BINDING_NAME_three = (PL["Channel %d"]):format(3)
+			BINDING_NAME_four = (PL["Channel %d"]):format(4)
+			BINDING_NAME_five = (PL["Channel %d"]):format(5)
+			BINDING_NAME_six = (PL["Channel %d"]):format(6)
+			BINDING_NAME_seven = (PL["Channel %d"]):format(7)
+			BINDING_NAME_eight = (PL["Channel %d"]):format(8)
+			BINDING_NAME_nine = (PL["Channel %d"]):format(9)
+			BINDING_NAME_SmartGroup = PL["Smart Group Channel"]
+			--	    BINDING_HEADER_Prat_TellTarget = PL["Prat TellTarget"]
+			--	    BINDING_HEADER_Prat_CopyChat = PL["Prat CopyChat"]
+			BINDING_NAME_NextTab = PL["Next Chat Tab"]
+			BINDING_NAME_CopySelected = PL["Copy Selected Chat Frame"]
+		end)
 
-  -- /script keybindings:CycleChatTabs()
-  function module:CycleChatTabs()
-    local current = FCFDock_GetSelectedWindow(GENERAL_CHAT_DOCK)
-    local idx
-    local dockedFrames = FCFDock_GetChatFrames(GENERAL_CHAT_DOCK)
+	-- /script keybindings:CycleChatTabs()
+	function module:CycleChatTabs()
+		local current = FCFDock_GetSelectedWindow(GENERAL_CHAT_DOCK)
+		local idx
+		local dockedFrames = FCFDock_GetChatFrames(GENERAL_CHAT_DOCK)
 
-    for i, v in ipairs(dockedFrames) do
-      if v == current then
-        idx = i
-      end
-    end
+		for i, v in ipairs(dockedFrames) do
+			if v == current then
+				idx = i
+			end
+		end
 
-    if idx == nil then return end
+		if idx == nil then
+			return
+		end
 
-    idx = idx + 1
-    if dockedFrames[idx] == nil then
-      idx = 1
-    end
+		idx = idx + 1
+		if dockedFrames[idx] == nil then
+			idx = 1
+		end
 
-    FCFDock_SelectWindow(GENERAL_CHAT_DOCK, dockedFrames[idx])
-  end
+		FCFDock_SelectWindow(GENERAL_CHAT_DOCK, dockedFrames[idx])
+	end
 
-  return
+	return
 end) -- Prat:AddModuleToLoad

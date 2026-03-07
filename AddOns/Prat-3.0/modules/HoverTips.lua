@@ -27,185 +27,185 @@
 local NUM_CHAT_WINDOWS = NUM_CHAT_WINDOWS or Constants.ChatFrameConstants.MaxChatWindows
 
 Prat:AddModuleToLoad(function()
-  local module = Prat:NewModule("HoverTips", "AceHook-3.0")
-  local PL = module.PL
+	local module = Prat:NewModule("HoverTips", "AceHook-3.0")
+	local PL = module.PL
 
-  --[==[@debug@
-  PL:AddLocale("enUS", {
-    ["module_name"] = "Hover Tips",
-    ["module_desc"] = "Shows tooltip when hovering over link in chat",
-  })
-  --@end-debug@]==]
+	--[==[@debug@
+	PL:AddLocale("enUS", {
+		["module_name"] = "Hover Tips",
+		["module_desc"] = "Shows tooltip when hovering over link in chat",
+	})
+	--@end-debug@]==]
 
-  -- These Localizations are auto-generated. To help with localization
-  -- please go to http://www.wowace.com/projects/prat-3-0/localization/
-
-
-  --@non-debug@
-do
-    local L
+	-- These Localizations are auto-generated. To help with localization
+	-- please go to http://www.wowace.com/projects/prat-3-0/localization/
 
 
-L = {}
--- HoverTips
+	--@non-debug@
+  do
+	  local L
+
+
+  L = {}
+  -- HoverTips
 L["module_desc"] = "Shows tooltip when hovering over link in chat"
 L["module_name"] = "Hover Tips"
 
-PL:AddLocale("enUS", L)
+  PL:AddLocale("enUS", L)
 
 
 
-L = {}
--- HoverTips
---[[Translation missing --]]
-L["module_desc"] = "Shows tooltip when hovering over link in chat"
---[[Translation missing --]]
-L["module_name"] = "Hover Tips"
-
-PL:AddLocale("itIT", L)
-
-
-
-L = {}
--- HoverTips
+  L = {}
+  -- HoverTips
 --[[Translation missing --]]
 L["module_desc"] = "Shows tooltip when hovering over link in chat"
 --[[Translation missing --]]
 L["module_name"] = "Hover Tips"
 
-PL:AddLocale("ptBR", L)
+  PL:AddLocale("itIT", L)
 
 
 
-L = {}
--- HoverTips
+  L = {}
+  -- HoverTips
 --[[Translation missing --]]
 L["module_desc"] = "Shows tooltip when hovering over link in chat"
 --[[Translation missing --]]
 L["module_name"] = "Hover Tips"
 
-PL:AddLocale("frFR", L)
+  PL:AddLocale("ptBR", L)
 
 
 
-L = {}
--- HoverTips
+  L = {}
+  -- HoverTips
+--[[Translation missing --]]
+L["module_desc"] = "Shows tooltip when hovering over link in chat"
+--[[Translation missing --]]
+L["module_name"] = "Hover Tips"
+
+  PL:AddLocale("frFR", L)
+
+
+
+  L = {}
+  -- HoverTips
 L["module_desc"] = "Zeigt Tooltip an, wenn der Mauszeiger über einen Link im Chat schwebt"
 L["module_name"] = "Schwebetipps"
 
-PL:AddLocale("deDE", L)
+  PL:AddLocale("deDE", L)
 
 
 
-L = {}
--- HoverTips
+  L = {}
+  -- HoverTips
 L["module_desc"] = "채팅창에 마우스 오버시 링크 툴팁 보이기"
 L["module_name"] = "툴팁 [HoverTips]"
 
-PL:AddLocale("koKR",  L)
+  PL:AddLocale("koKR",  L)
 
 
-L = {}
--- HoverTips
+  L = {}
+  -- HoverTips
 --[[Translation missing --]]
 L["module_desc"] = "Shows tooltip when hovering over link in chat"
 --[[Translation missing --]]
 L["module_name"] = "Hover Tips"
 
-PL:AddLocale("esMX",  L)
+  PL:AddLocale("esMX",  L)
 
 
-L = {}
--- HoverTips
+  L = {}
+  -- HoverTips
 L["module_desc"] = "Показывает подсказку при наведении курсора на ссылку в чате "
 L["module_name"] = "Советы по наведению курсора"
 
-PL:AddLocale("ruRU",  L)
+  PL:AddLocale("ruRU",  L)
 
 
-L = {}
--- HoverTips
+  L = {}
+  -- HoverTips
 L["module_desc"] = "鼠标悬停在聊天链接上时显示工具提示"
 L["module_name"] = "悬停提示"
 
-PL:AddLocale("zhCN",  L)
+  PL:AddLocale("zhCN",  L)
 
 
-L = {}
--- HoverTips
+  L = {}
+  -- HoverTips
 --[[Translation missing --]]
 L["module_desc"] = "Shows tooltip when hovering over link in chat"
 --[[Translation missing --]]
 L["module_name"] = "Hover Tips"
 
-PL:AddLocale("esES",  L)
+  PL:AddLocale("esES",  L)
 
 
-L = {}
--- HoverTips
+  L = {}
+  -- HoverTips
 --[[Translation missing --]]
 L["module_desc"] = "Shows tooltip when hovering over link in chat"
 --[[Translation missing --]]
 L["module_name"] = "Hover Tips"
 
-PL:AddLocale("zhTW",  L)
-end
---@end-non-debug@
-
-  Prat:SetModuleDefaults(module.name, {
-    profile = {
-      on = true,
-    }
-  })
-
-  local linkTypes = {
-    item = true,
-    enchant = true,
-    spell = true,
-    quest = true,
-    achievement = true,
-    currency = true,
-    battlepet = true,
-  }
-
-  function module:OnEnable()
-    for i = 1, NUM_CHAT_WINDOWS do
-      local frame = _G["ChatFrame" .. i]
-      self:HookScript(frame, "OnHyperlinkEnter", "OnHyperlinkEnter")
-      self:HookScript(frame, "OnHyperlinkLeave", "OnHyperlinkLeave")
-    end
+  PL:AddLocale("zhTW",  L)
   end
+  --@end-non-debug@
 
-  function module:OnDisable()
-    for i = 1, NUM_CHAT_WINDOWS do
-      local frame = _G["ChatFrame" .. i]
-      self:Unhook(frame, "OnHyperlinkEnter")
-      self:Unhook(frame, "OnHyperlinkLeave")
-    end
-  end
+	Prat:SetModuleDefaults(module.name, {
+		profile = {
+			on = true,
+		}
+	})
 
-  local showingTooltip = false
-  function module:OnHyperlinkEnter(_, link, text)
-    local linkType = link:match("^([^:]+):")
-    -- Prevent NPC tooltips leaving health bars behind or remaining behind
-    -- battle pet tooltips
-    GameTooltip:Hide()
-    if linkType == "battlepet" then
-      showingTooltip = BattlePetTooltip
-      GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
-      BattlePetToolTip_ShowLink(text)
-    elseif linkTypes[linkType] then
-      showingTooltip = GameTooltip
-      GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
-      GameTooltip:SetHyperlink(link)
-      GameTooltip:Show()
-    end
-  end
+	local linkTypes = {
+		item = true,
+		enchant = true,
+		spell = true,
+		quest = true,
+		achievement = true,
+		currency = true,
+		battlepet = true,
+	}
 
-  function module:OnHyperlinkLeave()
-    if showingTooltip then
-      showingTooltip:Hide()
-      showingTooltip = false
-    end
-  end
+	function module:OnEnable()
+		for i = 1, NUM_CHAT_WINDOWS do
+			local frame = _G["ChatFrame" .. i]
+			self:HookScript(frame, "OnHyperlinkEnter", "OnHyperlinkEnter")
+			self:HookScript(frame, "OnHyperlinkLeave", "OnHyperlinkLeave")
+		end
+	end
+
+	function module:OnDisable()
+		for i = 1, NUM_CHAT_WINDOWS do
+			local frame = _G["ChatFrame" .. i]
+			self:Unhook(frame, "OnHyperlinkEnter")
+			self:Unhook(frame, "OnHyperlinkLeave")
+		end
+	end
+
+	local showingTooltip = false
+	function module:OnHyperlinkEnter(_, link, text)
+		local linkType = link:match("^([^:]+):")
+		-- Prevent NPC tooltips leaving health bars behind or remaining behind
+		-- battle pet tooltips
+		GameTooltip:Hide()
+		if linkType == "battlepet" then
+			showingTooltip = BattlePetTooltip
+			GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
+			BattlePetToolTip_ShowLink(text)
+		elseif linkTypes[linkType] then
+			showingTooltip = GameTooltip
+			GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
+			GameTooltip:SetHyperlink(link)
+			GameTooltip:Show()
+		end
+	end
+
+	function module:OnHyperlinkLeave()
+		if showingTooltip then
+			showingTooltip:Hide()
+			showingTooltip = false
+		end
+	end
 end)

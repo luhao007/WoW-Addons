@@ -25,36 +25,36 @@
 -------------------------------------------------------------------------------
 
 Prat:AddModuleToLoad(function()
-  local module = Prat:NewModule("Paragraph")
-  local PL = module.PL
+	local module = Prat:NewModule("Paragraph")
+	local PL = module.PL
 
-  --[==[@debug@
-  PL:AddLocale("enUS", {
-    ["Paragraph"] = true,
-    ["Chat window paragraph options."] = true,
-    ["justification_name"] = "Set Alignment",
-    ["justification_desc"] = "Set horizontal alignment for each chat window",
-    ["Line Spacing"] = true,
-    ["Set the line spacing for all chat windows."] = true,
-    ["adjustlinks_name"] = "Fix placement of player/item links",
-    ["adjustlinks_desc"] = "Adjust links to restore clickability on centered or right-aligned text.",
-    ["Center"] = true,
-    ["Right"] = true,
-    ["Left"] = true,
-  })
-  --@end-debug@]==]
+	--[==[@debug@
+	PL:AddLocale("enUS", {
+		["Paragraph"] = true,
+		["Chat window paragraph options."] = true,
+		["justification_name"] = "Set Alignment",
+		["justification_desc"] = "Set horizontal alignment for each chat window",
+		["Line Spacing"] = true,
+		["Set the line spacing for all chat windows."] = true,
+		["adjustlinks_name"] = "Fix placement of player/item links",
+		["adjustlinks_desc"] = "Adjust links to restore clickability on centered or right-aligned text.",
+		["Center"] = true,
+		["Right"] = true,
+		["Left"] = true,
+	})
+	--@end-debug@]==]
 
-  -- These Localizations are auto-generated. To help with localization
-  -- please go to http://www.wowace.com/projects/prat-3-0/localization/
-
-
-  --@non-debug@
-do
-    local L
+	-- These Localizations are auto-generated. To help with localization
+	-- please go to http://www.wowace.com/projects/prat-3-0/localization/
 
 
-L = {}
--- Paragraph
+	--@non-debug@
+  do
+	  local L
+
+
+  L = {}
+  -- Paragraph
 L["adjustlinks_desc"] = "Adjust links to restore clickability on centered or right-aligned text."
 L["adjustlinks_name"] = "Fix placement of player/item links"
 L["Center"] = true
@@ -67,12 +67,12 @@ L["Paragraph"] = true
 L["Right"] = true
 L["Set the line spacing for all chat windows."] = true
 
-PL:AddLocale("enUS", L)
+  PL:AddLocale("enUS", L)
 
 
 
-L = {}
--- Paragraph
+  L = {}
+  -- Paragraph
 --[[Translation missing --]]
 L["adjustlinks_desc"] = "Adjust links to restore clickability on centered or right-aligned text."
 --[[Translation missing --]]
@@ -96,12 +96,12 @@ L["Right"] = "Right"
 --[[Translation missing --]]
 L["Set the line spacing for all chat windows."] = "Set the line spacing for all chat windows."
 
-PL:AddLocale("itIT", L)
+  PL:AddLocale("itIT", L)
 
 
 
-L = {}
--- Paragraph
+  L = {}
+  -- Paragraph
 --[[Translation missing --]]
 L["adjustlinks_desc"] = "Adjust links to restore clickability on centered or right-aligned text."
 --[[Translation missing --]]
@@ -125,11 +125,11 @@ L["Right"] = "Right"
 --[[Translation missing --]]
 L["Set the line spacing for all chat windows."] = "Set the line spacing for all chat windows."
 
-PL:AddLocale("ptBR", L)
+  PL:AddLocale("ptBR", L)
 
 
-L = {}
--- Paragraph
+  L = {}
+  -- Paragraph
 L["adjustlinks_desc"] = "Ajuster les liens pour pouvoir cliquer dessus si ils sont centrés ou alignés à droite."
 L["adjustlinks_name"] = "Répare la position des liens des joueurs/objets"
 L["Center"] = "Centrer"
@@ -142,13 +142,13 @@ L["Paragraph"] = "Paragraphe"
 L["Right"] = "Droite"
 L["Set the line spacing for all chat windows."] = "Définit l'espacement des lignes pour toutes les fenêtres de discussions."
 
-PL:AddLocale("frFR",L)
+  PL:AddLocale("frFR",L)
 
 
 
 
-L = {}
--- Paragraph
+  L = {}
+  -- Paragraph
 L["adjustlinks_desc"] = "Passt die Links an, um die Klickbarkeit von zentriertem oder rechtsbündigem Text wiederherzustellen."
 L["adjustlinks_name"] = "Platzierung von Spieler-/Gegenstandslinks korrigieren"
 L["Center"] = "Mitte"
@@ -161,11 +161,11 @@ L["Paragraph"] = true
 L["Right"] = "Rechts"
 L["Set the line spacing for all chat windows."] = "Den Zeilenabstand für alle Chatfenster einstellen."
 
-PL:AddLocale("deDE", L)
+  PL:AddLocale("deDE", L)
 
 
-L = {}
--- Paragraph
+  L = {}
+  -- Paragraph
 L["adjustlinks_desc"] = "중앙이나 우측 정렬일 때 클릭 기능을 위해 링크 위치를 조절합니다."
 L["adjustlinks_name"] = "플레이어/아이템 링크 위치 수정"
 L["Center"] = "가운데"
@@ -178,10 +178,10 @@ L["Paragraph"] = "단락 [Paragraph]"
 L["Right"] = "오른쪽"
 L["Set the line spacing for all chat windows."] = "모든 대화창의 줄 간격을 설정합니다."
 
-PL:AddLocale("koKR",L)
+  PL:AddLocale("koKR",L)
 
-L = {}
--- Paragraph
+  L = {}
+  -- Paragraph
 --[[Translation missing --]]
 L["adjustlinks_desc"] = "Adjust links to restore clickability on centered or right-aligned text."
 --[[Translation missing --]]
@@ -205,10 +205,10 @@ L["Right"] = "Right"
 --[[Translation missing --]]
 L["Set the line spacing for all chat windows."] = "Set the line spacing for all chat windows."
 
-PL:AddLocale("esMX",L)
+  PL:AddLocale("esMX",L)
 
-L = {}
--- Paragraph
+  L = {}
+  -- Paragraph
 L["adjustlinks_desc"] = "Регулировка текста кликабельных сссылок способностей по центру или в право/лево."
 L["adjustlinks_name"] = "Размещение ссылок игроков/предметов"
 L["Center"] = "Центр"
@@ -221,10 +221,10 @@ L["Paragraph"] = "Абзац"
 L["Right"] = "Вправо"
 L["Set the line spacing for all chat windows."] = "Установка промежутка строк во всех окнах чата."
 
-PL:AddLocale("ruRU",L)
+  PL:AddLocale("ruRU",L)
 
-L = {}
--- Paragraph
+  L = {}
+  -- Paragraph
 L["adjustlinks_desc"] = "调整链接以恢复在中心或右对齐文本上的可点击性"
 L["adjustlinks_name"] = "修复玩家/物品位置链接"
 L["Center"] = "中心"
@@ -237,10 +237,10 @@ L["Paragraph"] = "段落"
 L["Right"] = "右"
 L["Set the line spacing for all chat windows."] = "为所有聊天窗口设置行间距"
 
-PL:AddLocale("zhCN",L)
+  PL:AddLocale("zhCN",L)
 
-L = {}
--- Paragraph
+  L = {}
+  -- Paragraph
 L["adjustlinks_desc"] = "Ajustar los vínculos para restaurar la capacidad de hacer click en texto centrado o alineado a la derecha."
 L["adjustlinks_name"] = "Corregir la colocación de enlaces de jugador/objeto"
 L["Center"] = "Centro"
@@ -253,10 +253,10 @@ L["Paragraph"] = "Párrafo"
 L["Right"] = "Derecha"
 L["Set the line spacing for all chat windows."] = "Establece el espaciado de línea para todas las ventanas de chat."
 
-PL:AddLocale("esES",L)
+  PL:AddLocale("esES",L)
 
-L = {}
--- Paragraph
+  L = {}
+  -- Paragraph
 L["adjustlinks_desc"] = "在置中或靠右排列文字時，調整連結並復原點擊開啟能力"
 L["adjustlinks_name"] = "修正玩家或物品連結"
 L["Center"] = "中央"
@@ -269,102 +269,111 @@ L["Paragraph"] = "段落"
 L["Right"] = "右"
 L["Set the line spacing for all chat windows."] = "設定聊天視窗段落間隔"
 
-PL:AddLocale("zhTW",L)
-end
---@end-non-debug@
-
-  Prat:SetModuleDefaults(module, {
-    profile = {
-      on = false,
-      justification = { ["*"] = "LEFT" },
-      spacing = 0
-    }
-  })
-
-  do
-    local justifyoption = {
-      name = function(info) return Prat.FrameList[info[#info]] or "" end,
-      desc = PL["justification_name"],
-      type = "select",
-      get = function(info) return info.handler.db.profile.justification[info[#info]] end,
-      set = function(info, v) info.handler.db.profile.justification[info[#info]] = v info.handler:OnValueChanged(info, v) end,
-      values = { ["RIGHT"] = PL["Right"], ["CENTER"] = PL["Center"], ["LEFT"] = PL["Left"] },
-      hidden = function(info) return Prat.FrameList[info[#info]] == nil end,
-    }
-
-    Prat:SetModuleOptions(module, {
-      name = PL["Paragraph"],
-      desc = PL["Chat window paragraph options."],
-      type = "group",
-      args = {
-        justification = {
-          name = PL["justification_name"],
-          desc = PL["justification_desc"],
-          type = "group",
-          inline = true,
-          args = {
-            ChatFrame1 = justifyoption,
-            ChatFrame2 = justifyoption,
-            ChatFrame3 = justifyoption,
-            ChatFrame4 = justifyoption,
-            ChatFrame5 = justifyoption,
-            ChatFrame6 = justifyoption,
-            ChatFrame7 = justifyoption,
-          },
-        },
-        spacing = {
-          name = PL["Line Spacing"],
-          desc = PL["Set the line spacing for all chat windows."],
-          type = "range",
-          min = 0,
-          max = 20,
-          step = 1,
-          order = 109
-        },
-        info = {
-          name = "Note: Playerlinks, itemlinks, and any other link type will not work when justification is set to anything other than 'Left'",
-          type = "description",
-          order = 110
-        }
-      }
-    })
+  PL:AddLocale("zhTW",L)
   end
+  --@end-non-debug@
 
-  --[[------------------------------------------------
-      Module Event Functions
-  ------------------------------------------------]] --
+	Prat:SetModuleDefaults(module, {
+		profile = {
+			on = false,
+			justification = { ["*"] = "LEFT" },
+			spacing = 0
+		}
+	})
 
-  function module:OnModuleEnable()
-    self:ConfigureAllChatFrames(true)
-    Prat.RegisterChatEvent(self, Prat.Events.FRAMES_UPDATED)
-  end
+	do
+		local justifyoption = {
+			name = function(info)
+				return Prat.FrameList[info[#info]] or ""
+			end,
+			desc = PL["justification_name"],
+			type = "select",
+			get = function(info)
+				return info.handler.db.profile.justification[info[#info]]
+			end,
+			set = function(info, v)
+				info.handler.db.profile.justification[info[#info]] = v
+				info.handler:OnValueChanged(info, v)
+			end,
+			values = { ["RIGHT"] = PL["Right"], ["CENTER"] = PL["Center"], ["LEFT"] = PL["Left"] },
+			hidden = function(info)
+				return Prat.FrameList[info[#info]] == nil
+			end,
+		}
 
-  function module:OnModuleDisable()
-    self:ConfigureAllChatFrames(false)
-  end
+		Prat:SetModuleOptions(module, {
+			name = PL["Paragraph"],
+			desc = PL["Chat window paragraph options."],
+			type = "group",
+			args = {
+				justification = {
+					name = PL["justification_name"],
+					desc = PL["justification_desc"],
+					type = "group",
+					inline = true,
+					args = {
+						ChatFrame1 = justifyoption,
+						ChatFrame2 = justifyoption,
+						ChatFrame3 = justifyoption,
+						ChatFrame4 = justifyoption,
+						ChatFrame5 = justifyoption,
+						ChatFrame6 = justifyoption,
+						ChatFrame7 = justifyoption,
+					},
+				},
+				spacing = {
+					name = PL["Line Spacing"],
+					desc = PL["Set the line spacing for all chat windows."],
+					type = "range",
+					min = 0,
+					max = 20,
+					step = 1,
+					order = 109
+				},
+				info = {
+					name = "Note: Playerlinks, itemlinks, and any other link type will not work when justification is set to anything other than 'Left'",
+					type = "description",
+					order = 110
+				}
+			}
+		})
+	end
 
-  function module:OnValueChanged()
-    self:ConfigureAllChatFrames(true)
-  end
+	--[[------------------------------------------------
+		Module Event Functions
+	------------------------------------------------]] --
 
-  function module:Prat_FramesUpdated()
-    self:ConfigureAllChatFrames(true)
-  end
+	function module:OnModuleEnable()
+		self:ConfigureAllChatFrames(true)
+		Prat.RegisterChatEvent(self, Prat.Events.FRAMES_UPDATED)
+	end
 
-  --[[------------------------------------------------
-    Core Functions
-  ------------------------------------------------]] --
-  function module:GetDescription()
-    return PL["Chat window paragraph options."]
-  end
+	function module:OnModuleDisable()
+		self:ConfigureAllChatFrames(false)
+	end
 
-  function module:ConfigureAllChatFrames(enable)
-    local prof = self.db.profile
-    for k, v in pairs(Prat.Frames) do
-      v:SetJustifyH(enable and prof.justification[k] or "LEFT")
-      v:SetSpacing(prof.spacing)
-    end
-  end
+	function module:OnValueChanged()
+		self:ConfigureAllChatFrames(true)
+	end
 
-  return
+	function module:Prat_FramesUpdated()
+		self:ConfigureAllChatFrames(true)
+	end
+
+	--[[------------------------------------------------
+	  Core Functions
+	------------------------------------------------]] --
+	function module:GetDescription()
+		return PL["Chat window paragraph options."]
+	end
+
+	function module:ConfigureAllChatFrames(enable)
+		local prof = self.db.profile
+		for k, v in pairs(Prat.Frames) do
+			v:SetJustifyH(enable and prof.justification[k] or "LEFT")
+			v:SetSpacing(prof.spacing)
+		end
+	end
+
+	return
 end) -- Prat:AddModuleToLoad

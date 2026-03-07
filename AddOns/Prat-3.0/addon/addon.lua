@@ -52,7 +52,7 @@ Prat.Version = "Prat |cff8080ff3.0|r (|cff8080ff" .. "DEBUG" .. "|r)"
 --@end-debug@]==]
 
 --@non-debug@
-Prat.Version = "Prat |cff8080ff3.0|r (|cff8080ff".."3.9.91".."|r)"
+Prat.Version = "Prat |cff8080ff3.0|r (|cff8080ff".."3.9.92".."|r)"
 --@end-non-debug@
 
 local am = {}
@@ -326,11 +326,6 @@ function addon:FCF_SetTemporaryWindowType(chatFrame, chatType, chatTarget)
 
 	Prat.Frames[name] = chatFrame
 	Prat.HookedFrames[name] = chatFrame
-	if _G["ChatFrameMixin"] and _G["ChatFrameMixin"].MessageEventHandler then
-		chatFrame.MessageEventHandler = function(frame, event, ...)
-			return addon:ChatFrame_MessageEventHandler(frame, event, ...)
-		end
-	end
 
 	if ChatFrameMixin and ChatFrameMixin.MessageEventHandler then
 		chatFrame.MessageEventHandler = function(frame, event, ...)
@@ -346,6 +341,9 @@ function addon:FCF_Close(frame)
 
 	Prat.Frames[name] = nil
 	Prat.HookedFrames[name] = nil
+	if ChatFrameMixin and ChatFrameMixin.MessageEventHandler then
+		frame.MessageEventHandler = ChatFrameMixin.MessageEventHandler
+	end
 
 	Prat.callbacks:Fire(Prat.Events.FRAMES_REMOVED, name, frame)
 end
@@ -781,9 +779,27 @@ end)
 Prat.RegisterChatCommand("pratdebugmsg", function()
 	Prat:PrintLiteral(Prat.LastMessage, Prat.LastMessage.ORG)
 
-	local cc = Prat:GetModule("CopyChat", true)
+	local cc = Prat:GetModule("CopyChat")
 	if cc then
 		cc:ScrapeFullChatFrame(DEFAULT_CHAT_FRAME, true)
 	end
 end)
 
+tinsert(Prat.EnableTasks, function()
+	local ldb = LibStub:GetLibrary("LibDataBroker-1.1", true)
+	if not ldb then
+		return
+	end
+
+	ldb:NewDataObject("Prat", {
+		type = "launcher",
+		text = "Prat |cff8080ff3.0|r",
+		icon = "Interface\\Addons\\Prat-3.0\\textures\\prat-logo-dark-small",
+		OnClick = function()
+			Prat:ToggleOptionsWindow()
+		end,
+		OnTooltipShow = function(tooltip)
+			tooltip:AddLine(Prat.Version)
+		end,
+	})
+end)

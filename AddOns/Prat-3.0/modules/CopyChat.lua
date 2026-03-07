@@ -623,7 +623,7 @@ L["Wowace.com Forums"] = "Wowace.com 論壇"
 			end
 		end)
 
-		Prat.RegisterChatCommand("copychatfull",function()
+		Prat.RegisterChatCommand("copychatfull", function()
 			local frame = SELECTED_CHAT_FRAME
 			if frame then
 				self:ScrapeFullChatFrame(frame)
@@ -632,7 +632,7 @@ L["Wowace.com Forums"] = "Wowace.com 論壇"
 
 		Prat.RegisterLinkType({ linkid = "pratcopy", linkfunc = self.CopyLink, handler = module }, self.name)
 
-		module.timestamps = Prat:GetModule("Timestamps", true)
+		module.timestamps = Prat:GetModule("Timestamps")
 
 		if self.timestamps then
 			self:RawHook(self.timestamps, "GetTime")

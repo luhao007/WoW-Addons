@@ -25,57 +25,44 @@
 -------------------------------------------------------------------------------
 
 Prat:AddModuleToLoad(function()
-  local module = Prat:NewModule("Mentions", "AceHook-3.0")
-  local PL = module.PL
+	local module = Prat:NewModule("Mentions", "AceHook-3.0")
+	local PL = module.PL
 
-  Prat:SetModuleDefaults(module.name, {
-    profile = {
-      on = false,
-    }
-  })
+	Prat:SetModuleDefaults(module.name, {
+		profile = {
+			on = false,
+		}
+	})
 
-  --[==[@debug@
-  PL:AddLocale("enUS", {
-    ["module_name"] = "Mentions",
-    ["module_desc"] = "Support mentioning other players in chat",
-    module_info = "THIS MODULE IS EXPERIMENTAL= It adds the ability to @mention people in chat to alert them>",
-  })
-  --@end-debug@]==]
+	--[==[@debug@
+	PL:AddLocale("enUS", {
+		["module_name"] = "Mentions",
+		["module_desc"] = "Support mentioning other players in chat",
+		module_info = "THIS MODULE IS EXPERIMENTAL= It adds the ability to @mention people in chat to alert them>",
+	})
+	--@end-debug@]==]
 
-  -- These Localizations are auto-generated. To help with localization
-  -- please go to http://www.wowace.com/projects/prat-3-0/localization/
-
-
-  --@non-debug@
-do
-    local L
+	-- These Localizations are auto-generated. To help with localization
+	-- please go to http://www.wowace.com/projects/prat-3-0/localization/
 
 
-L = {}
--- Mentions
+	--@non-debug@
+  do
+	  local L
+
+
+  L = {}
+  -- Mentions
 L["module_desc"] = "Support mentioning other players in chat"
 L["module_info"] = "THIS MODULE IS EXPERIMENTAL= It adds the ability to @mention people in chat to alert them>"
 L["module_name"] = "Mentions"
 
-PL:AddLocale("enUS", L)
+  PL:AddLocale("enUS", L)
 
 
 
-L = {}
--- Mentions
---[[Translation missing --]]
-L["module_desc"] = "Support mentioning other players in chat"
---[[Translation missing --]]
-L["module_info"] = "THIS MODULE IS EXPERIMENTAL= It adds the ability to @mention people in chat to alert them>"
---[[Translation missing --]]
-L["module_name"] = "Mentions"
-
-PL:AddLocale("itIT", L)
-
-
-
-L = {}
--- Mentions
+  L = {}
+  -- Mentions
 --[[Translation missing --]]
 L["module_desc"] = "Support mentioning other players in chat"
 --[[Translation missing --]]
@@ -83,12 +70,12 @@ L["module_info"] = "THIS MODULE IS EXPERIMENTAL= It adds the ability to @mention
 --[[Translation missing --]]
 L["module_name"] = "Mentions"
 
-PL:AddLocale("ptBR", L)
+  PL:AddLocale("itIT", L)
 
 
 
-L = {}
--- Mentions
+  L = {}
+  -- Mentions
 --[[Translation missing --]]
 L["module_desc"] = "Support mentioning other players in chat"
 --[[Translation missing --]]
@@ -96,31 +83,44 @@ L["module_info"] = "THIS MODULE IS EXPERIMENTAL= It adds the ability to @mention
 --[[Translation missing --]]
 L["module_name"] = "Mentions"
 
-PL:AddLocale("frFR", L)
+  PL:AddLocale("ptBR", L)
 
 
 
-L = {}
--- Mentions
+  L = {}
+  -- Mentions
+--[[Translation missing --]]
+L["module_desc"] = "Support mentioning other players in chat"
+--[[Translation missing --]]
+L["module_info"] = "THIS MODULE IS EXPERIMENTAL= It adds the ability to @mention people in chat to alert them>"
+--[[Translation missing --]]
+L["module_name"] = "Mentions"
+
+  PL:AddLocale("frFR", L)
+
+
+
+  L = {}
+  -- Mentions
 L["module_desc"] = "Unterstützung beim Erwähnen anderer Spieler im Chat"
 L["module_info"] = "DIESES MODUL IST EXPERIMENTELL = Es fügt die Fähigkeit hinzu, Personen im Chat zu erwähnen, um dich zu alarmieren>"
 L["module_name"] = "Erwähnungen"
 
-PL:AddLocale("deDE", L)
+  PL:AddLocale("deDE", L)
 
 
 
-L = {}
--- Mentions
+  L = {}
+  -- Mentions
 L["module_desc"] = "채팅에서 다른 플레이어를 언급하는 것을 지원"
 L["module_info"] = "이 모듈은 실험적입니다=채팅에서 사람들을 @언급하여 경보하는 기능을 추가합니다."
 L["module_name"] = "언급 [Mentions]"
 
-PL:AddLocale("koKR",  L)
+  PL:AddLocale("koKR",  L)
 
 
-L = {}
--- Mentions
+  L = {}
+  -- Mentions
 --[[Translation missing --]]
 L["module_desc"] = "Support mentioning other players in chat"
 --[[Translation missing --]]
@@ -128,20 +128,20 @@ L["module_info"] = "THIS MODULE IS EXPERIMENTAL= It adds the ability to @mention
 --[[Translation missing --]]
 L["module_name"] = "Mentions"
 
-PL:AddLocale("esMX",  L)
+  PL:AddLocale("esMX",  L)
 
 
-L = {}
--- Mentions
+  L = {}
+  -- Mentions
 L["module_desc"] = "Поддержка упоминания других игроков в чате"
 L["module_info"] = "ЭТОТ МОДУЛЬ ЯВЛЯЕТСЯ ЭКСПЕРИМЕНТАЛЬНЫМ = Он добавляет возможность @ упоминать людей в чате, чтобы предупредить их >"
 L["module_name"] = "Упоминание"
 
-PL:AddLocale("ruRU",  L)
+  PL:AddLocale("ruRU",  L)
 
 
-L = {}
--- Mentions
+  L = {}
+  -- Mentions
 --[[Translation missing --]]
 L["module_desc"] = "Support mentioning other players in chat"
 --[[Translation missing --]]
@@ -149,11 +149,11 @@ L["module_info"] = "THIS MODULE IS EXPERIMENTAL= It adds the ability to @mention
 --[[Translation missing --]]
 L["module_name"] = "Mentions"
 
-PL:AddLocale("zhCN",  L)
+  PL:AddLocale("zhCN",  L)
 
 
-L = {}
--- Mentions
+  L = {}
+  -- Mentions
 --[[Translation missing --]]
 L["module_desc"] = "Support mentioning other players in chat"
 --[[Translation missing --]]
@@ -161,11 +161,11 @@ L["module_info"] = "THIS MODULE IS EXPERIMENTAL= It adds the ability to @mention
 --[[Translation missing --]]
 L["module_name"] = "Mentions"
 
-PL:AddLocale("esES",  L)
+  PL:AddLocale("esES",  L)
 
 
-L = {}
--- Mentions
+  L = {}
+  -- Mentions
 --[[Translation missing --]]
 L["module_desc"] = "Support mentioning other players in chat"
 --[[Translation missing --]]
@@ -173,83 +173,84 @@ L["module_info"] = "THIS MODULE IS EXPERIMENTAL= It adds the ability to @mention
 --[[Translation missing --]]
 L["module_name"] = "Mentions"
 
-PL:AddLocale("zhTW",  L)
-end
---@end-non-debug@
-
-  Prat:SetModuleOptions(module.name, {
-    name = PL.module_name,
-    desc = PL.module_desc,
-    type = "group",
-    args = {
-      info = {
-        name = PL.module_info,
-        type = "description",
-      }
-    }
-  })
-
-  local function handleMention(match, m)
-    if m == nil then return end
-
-    local name = match:sub(2)
-    local event = "CHAT_MSG_" .. m.CTYPE
-    local from = "(in " .. _G[event] .. ") "
-    SendChatMessage(from .. m.MESSAGE, "WHISPER", GetDefaultLanguage("player"), name);
+  PL:AddLocale("zhTW",  L)
   end
+  --@end-non-debug@
 
-  Prat:SetModulePatterns(module, {
-    { pattern = "@%S+", matchfunc = handleMention, priority = 47, type = "OUTBOUND" }
-  })
+	Prat:SetModuleOptions(module.name, {
+		name = PL.module_name,
+		desc = PL.module_desc,
+		type = "group",
+		args = {
+			info = {
+				name = PL.module_info,
+				type = "description",
+			}
+		}
+	})
 
-  function module:OnModuleEnable()
-    self:RegisterTabComplete()
-  end
+	local function handleMention(match, m)
+		if m == nil then
+			return
+		end
 
-  function module:RegisterTabComplete()
-    local CLR = Prat.CLR
-    local AceTab = LibStub("AceTab-3.0")
-    local tabcompleteName = "mentions-tab-complete"
-    local servernames = Prat:GetModule("ServerNames", true)
-    local playernames = Prat:GetModule("PlayerNames", true)
+		local name = match:sub(2)
+		local event = "CHAT_MSG_" .. m.CTYPE
+		local from = "(in " .. _G[event] .. ") "
+		SendChatMessage(from .. m.MESSAGE, "WHISPER", GetDefaultLanguage("player"), name);
+	end
 
-    if not AceTab:IsTabCompletionRegistered(tabcompleteName) then
-      AceTab:RegisterTabCompletion(tabcompleteName, "@",
-        function(t)
-          for name in pairs(playernames.Classes) do
-            table.insert(t, name)
-          end
-        end,
-        function(_, cands)
-          local candcount = #cands
-          if candcount <= playernames.db.profile.tabcompletelimit then
-            local text
-            for key, cand in pairs(cands) do
-              if servernames then
-                local plr, svr = key:match("([^%-]+)%-?(.*)")
+	Prat:SetModulePatterns(module, {
+		{ pattern = "@%S+", matchfunc = handleMention, priority = 47, type = "OUTBOUND" }
+	})
 
-                cand = CLR:Player(cand, plr, playernames:getClass(key))
+	function module:OnModuleEnable()
+		self:RegisterTabComplete()
+	end
 
-                if svr then
-                  svr = servernames:FormatServer(nil, servernames:GetServerKey(svr))
-                  cand = cand .. (svr and ("-" .. svr) or "")
-                end
-              else
-                cand = CLR:Player(cand, cand, playernames:getClass(cand))
-              end
+	function module:RegisterTabComplete()
+		local CLR = Prat.CLR
+		local AceTab = LibStub("AceTab-3.0")
+		local tabcompleteName = "mentions-tab-complete"
+		local servernames = Prat:GetModule("ServerNames")
+		local playernames = Prat:GetModule("PlayerNames")
 
+		if not AceTab:IsTabCompletionRegistered(tabcompleteName) then
+			AceTab:RegisterTabCompletion(tabcompleteName, "@",
+				function(t)
+					for name in pairs(playernames.Classes) do
+						table.insert(t, name)
+					end
+				end,
+				function(_, cands)
+					local candcount = #cands
+					if candcount <= playernames.db.profile.tabcompletelimit then
+						local text
+						for key, cand in pairs(cands) do
+							if servernames then
+								local plr, svr = key:match("([^%-]+)%-?(.*)")
 
-              text = text and (text .. ", " .. cand) or cand
-            end
-            return "   " .. text
-          else
-            return "   " .. ("Too many matches (%d possible)"):format(candcount)
-          end
-        end,
-        nil,
-        function(name)
-          return name:gsub(Prat.MULTIBYTE_FIRST_CHAR, string.upper, 1):match("^[^%-]+")
-        end)
-    end
-  end
+								cand = CLR:Player(cand, plr, playernames:getClass(key))
+
+								if svr then
+									svr = servernames:FormatServer(nil, servernames:GetServerKey(svr))
+									cand = cand .. (svr and ("-" .. svr) or "")
+								end
+							else
+								cand = CLR:Player(cand, cand, playernames:getClass(cand))
+							end
+
+							text = text and (text .. ", " .. cand) or cand
+						end
+						return "   " .. text
+					else
+						return "   " .. ("Too many matches (%d possible)"):format(candcount)
+					end
+				end,
+				nil,
+				function(name)
+					return name:gsub(Prat.MULTIBYTE_FIRST_CHAR, string.upper, 1):match("^[^%-]+")
+				end)
+		end
+	end
 end)

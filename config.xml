@@ -1282,7 +1282,7 @@
 		<Category>PVP</Category>
 	</Addon>
 	<Addon name="HomeBound">
-		<Title>家园系统增强</Title>
+		<Title>家具收藏</Title>
 		<Category>收藏</Category>
 	</Addon>
 	<Addon name="HPetBattleAny">
@@ -1915,6 +1915,11 @@
 		<Title>泰坦面板</Title>
 		<Notes>在屏幕顶端/底端增加一个可视化侧边栏</Notes>
 		<Category>界面</Category>
+	</Addon>
+	<Addon name="TomeOfTeleportation">
+		<Title>传送卷轴</Title>
+		<Notes>提供便捷的传送功能</Notes>
+		<Category>探索</Category>
 	</Addon>
 	<Addon name="TomCats">
 		<Title>旅行指南</Title>

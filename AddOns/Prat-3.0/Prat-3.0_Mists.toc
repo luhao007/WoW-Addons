@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: Sylvanaar (Sylvaann - Proudmoore/US-Alliance)
-## Version: 3.9.91
+## Version: 3.9.92
 
 ## Title: Prat |cff8080ff3.0|r
 ## Notes: A framework for chat ehancement modules.
@@ -32,4 +32,3 @@ fonts\includes.xml
 addon\includes.xml
 services\includes.xml
 modules\includes.xml
-modules\highcpu2.xml
