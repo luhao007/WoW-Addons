@@ -17,7 +17,6 @@ local WILDCARD_SLOT_TRINKET1 = "trinket1"
 local WILDCARD_SLOT_TRINKET2 = "trinket2"
 
 local IGNORED_WILDCARD_TRINKETS = {
-    [264694] = true, -- Ultradon Cuirass
     [248583] = true, -- Drum of Renewed Bonds
 }
 
@@ -30,9 +29,6 @@ local WILDCARD_SLOT_INVENTORY_SLOTS = {
     [WILDCARD_SLOT_TRINKET1] = INVSLOT_TRINKET1,
     [WILDCARD_SLOT_TRINKET2] = INVSLOT_TRINKET2,
 }
-
-local RACIAL_NAME_FALLBACK = "Racial"
-local GENERAL_NAME_FALLBACK = "General"
 
 local racialSpellCache = nil
 
@@ -102,17 +98,12 @@ local function IsPassiveSpellID(spellID)
 end
 
 local function IsRacialSkillLineName(name)
+    -- does not work
     if not name or name == "" then
         return false
     end
-    local racialAbilities = _G and _G.RACIAL_ABILITIES or nil
+    local racialAbilities = _G and _G.RACIAL_TRAITS_TOOLTIP or nil
     if racialAbilities and name == racialAbilities then
-        return true
-    end
-    if name == RACIAL_NAME_FALLBACK then
-        return true
-    end
-    if name:lower():find(RACIAL_NAME_FALLBACK:lower(), 1, true) then
         return true
     end
     return false
@@ -126,21 +117,20 @@ local function IsGeneralSkillLineName(name)
     if generalLabel and name == generalLabel then
         return true
     end
-    local generalTab = _G and _G.SPELLBOOK_GENERAL_TAB or nil
+    local generalTab = _G and _G.GENERAL_SPELLS or nil
     if generalTab and name == generalTab then
         return true
     end
-    if name == GENERAL_NAME_FALLBACK then
+    local generalTab = _G and _G.GENERAL_LABEL or nil
+    if generalTab and name == generalTab then
         return true
     end
-    if name:lower():find(GENERAL_NAME_FALLBACK:lower(), 1, true) then
-        return true
-    end
+
     return false
 end
 
 local function IsRacialOrGeneralSkillLineName(name)
-    return IsRacialSkillLineName(name) or IsGeneralSkillLineName(name)
+    return IsGeneralSkillLineName(name)
 end
 
 local function GetRacialSpellIDsFromSpellBook()
@@ -379,11 +369,9 @@ local function IsTrackableItem(itemID)
     if not itemID then
         return false
     end
-    local name, spellID = C_Item.GetItemSpell(itemID)
-    if spellID or name then
-        return true
-    end
-    return false
+    local usable = C_Item.IsUsableItem(itemID)
+
+    return usable
 end
 
 local function IsTrackableBagItem(itemID)
@@ -395,6 +383,7 @@ local function IsTrackableBagItem(itemID)
     if classID == Enum.ItemClass.Consumable then
         return true
     end
+    return false
 end
 
 local function IsTrackableWildcardSlot(slotID)

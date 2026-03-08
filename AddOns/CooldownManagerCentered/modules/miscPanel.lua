@@ -134,12 +134,12 @@ local function SetIconFromEntry(target, kind, id)
         return
     end
     local qualityItemID = nil
-    if kind == ENTRY_KIND_WILDCARD_SLOTS and ItemsData.GetWildcardSlotItemID then
-        qualityItemID = ItemsData:GetWildcardSlotItemID(id)
-    elseif kind == "item" then
+    if kind == "item" then
         qualityItemID = id
     end
     local quality = qualityItemID and C_TradeSkillUI.GetItemReagentQualityByItemInfo(qualityItemID) or nil
+    local itemInfo = { C_Item.GetItemInfo(id) }
+    local expansionNumber = itemInfo and itemInfo[15] or nil
     if quality then
         if not target.Icon._quality then
             target.Icon._quality_frame = CreateFrame("Frame", nil, target)
@@ -149,7 +149,12 @@ local function SetIconFromEntry(target, kind, id)
             target.Icon._quality = target.Icon._quality_frame:CreateTexture(nil, "ARTWORK")
             target.Icon._quality:SetSize(33, 28)
         end
-        target.Icon._quality:SetAtlas("Professions-Icon-Quality-Tier" .. quality .. "-Inv", false)
+        if expansionNumber and expansionNumber >= 11 then -- game version - 1 (1 is vanilla)
+            target.Icon._quality:SetAtlas("Professions-Icon-Quality-12-Tier" .. quality .. "-Inv", false)
+        else
+            target.Icon._quality:SetAtlas("Professions-Icon-Quality-Tier" .. quality .. "-Inv", false)
+        end
+
         target.Icon._quality:Show()
         target.Icon._quality:ClearAllPoints()
         target.Icon._quality:SetPoint("TOPLEFT", target.Icon, "TOPLEFT", -4, 4)
@@ -173,6 +178,7 @@ local function SetIconFromEntry(target, kind, id)
 end
 
 local function IsEntryOwned(owned, kind, id)
+    -- owned/usable aka not grayed out
     if not owned then
         return false
     end

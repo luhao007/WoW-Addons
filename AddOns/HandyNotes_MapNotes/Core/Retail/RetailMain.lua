@@ -1857,9 +1857,50 @@ local function setWaypoint(uiMapID, coord)
   end
 end
 
+ns.MapNotesWaypoint = ns.MapNotesWaypoint or nil
+
+function ns.MN_SetTrackedUserWaypoint(uiMapID, x, y)
+  local point = UiMapPoint.CreateFromCoordinates(uiMapID, x, y)
+  if not point then return false end
+
+  C_Map.SetUserWaypoint(point)
+  C_SuperTrack.SetSuperTrackedUserWaypoint(true)
+
+  ns.MapNotesWaypoint = {
+    uiMapID = uiMapID,
+    x = x,
+    y = y,
+  }
+
+  return true
+end
+
 local function CheckWaypointProximity()
+  local tracked = ns.MapNotesWaypoint
+  if not tracked then return end
+
   local wp = C_Map.GetUserWaypoint()
-  if not wp then return end
+  if not wp then
+    ns.MapNotesWaypoint = nil
+    return
+  end
+
+  if wp.uiMapID ~= tracked.uiMapID then
+    ns.MapNotesWaypoint = nil
+    return
+  end
+
+  local wx = wp.position and wp.position.x
+  local wy = wp.position and wp.position.y
+  if not wx or not wy then
+    ns.MapNotesWaypoint = nil
+    return
+  end
+
+  if math.abs(wx - tracked.x) > 0.00001 or math.abs(wy - tracked.y) > 0.00001 then
+    ns.MapNotesWaypoint = nil
+    return
+  end
 
   local playerMap = C_Map.GetBestMapForUnit("player")
   if not playerMap or playerMap ~= wp.uiMapID then return end
@@ -1867,14 +1908,17 @@ local function CheckWaypointProximity()
   local pos = C_Map.GetPlayerMapPosition(playerMap, "player")
   if not pos then return end
 
-  local dx = pos.x - wp.position.x
-  local dy = pos.y - wp.position.y
-  local distance = math.sqrt(dx*dx + dy*dy)
+  local dx = pos.x - wx
+  local dy = pos.y - wy
+  local distance = math.sqrt(dx * dx + dy * dy)
 
-  if distance < 0.005 then -- distance check
+  if distance < 0.003 then
     C_Map.ClearUserWaypoint()
+    ns.MapNotesWaypoint = nil
   end
 end
+
+C_Timer.NewTicker(2, CheckWaypointProximity)
 
 -- check distance time in seconds
 C_Timer.NewTicker(2, CheckWaypointProximity)
@@ -1981,11 +2025,7 @@ local CurrentMapID = WorldMapFrame:GetMapID()
             local x, y = HandyNotes:getXY(coord)
             local mapInfo = C_Map.GetMapInfo(uiMapId)
             if mapInfo then
-              local point = UiMapPoint.CreateFromCoordinates(uiMapId, x, y)
-              if point then
-                C_Map.SetUserWaypoint(point)
-                C_SuperTrack.SetSuperTrackedUserWaypoint(true)
-              end
+              ns.MN_SetTrackedUserWaypoint(uiMapId, x, y)
             end
             return
           end
@@ -2001,11 +2041,7 @@ local CurrentMapID = WorldMapFrame:GetMapID()
             local x, y = HandyNotes:getXY(coord)
             local mapInfo = C_Map.GetMapInfo(uiMapId)
             if mapInfo then
-              local point = UiMapPoint.CreateFromCoordinates(uiMapId, x, y)
-              if point then
-                C_Map.SetUserWaypoint(point)
-                C_SuperTrack.SetSuperTrackedUserWaypoint(true)
-              end
+              ns.MN_SetTrackedUserWaypoint(uiMapId, x, y)
             end
             return
           end
@@ -2034,13 +2070,9 @@ local CurrentMapID = WorldMapFrame:GetMapID()
           elseif C_Map.GetMapInfo(uiMapId) then
             local x, y = HandyNotes:getXY(coord)
             local mapInfo = C_Map.GetMapInfo(uiMapId)
-              if mapInfo then
-                local point = UiMapPoint.CreateFromCoordinates(uiMapId, x, y)
-                if point then
-                  C_Map.SetUserWaypoint(point)
-                  C_SuperTrack.SetSuperTrackedUserWaypoint(true)
-                end
-              end
+            if mapInfo then
+              ns.MN_SetTrackedUserWaypoint(uiMapId, x, y)
+            end
             return
           end
         end
@@ -2055,11 +2087,7 @@ local CurrentMapID = WorldMapFrame:GetMapID()
             local x, y = HandyNotes:getXY(coord)
             local mapInfo = C_Map.GetMapInfo(uiMapId)
             if mapInfo then
-              local point = UiMapPoint.CreateFromCoordinates(uiMapId, x, y)
-              if point then
-                C_Map.SetUserWaypoint(point)
-                C_SuperTrack.SetSuperTrackedUserWaypoint(true)
-              end
+              ns.MN_SetTrackedUserWaypoint(uiMapId, x, y)
             end
             return
           end
@@ -2310,9 +2338,9 @@ function Addon:EnableSharedProfile()
     if mmb and mmb.db then
       mmb.db:SetProfile(X)
       mmb.db.profile.minimap = mmb.db.profile.minimap or {}
-    
+
       MNMMBIcon:Refresh("MNMiniMapButton", mmb.db.profile.minimap)
-    
+
       if mmb.db.profile.minimap.hide == true then
         MNMMBIcon:Hide("MNMiniMapButton")
         if ns.Addon and ns.Addon.db and ns.Addon.db.profile and ns.Addon.db.profile.activate then
@@ -2398,10 +2426,10 @@ function Addon:ApplySharedProfileIfEnabled()
       if not mmbExists then
         mmb.db:ResetProfile()
       end
-    
+
       mmb.db.profile.minimap = mmb.db.profile.minimap or {}
       MNMMBIcon:Refresh("MNMiniMapButton", mmb.db.profile.minimap)
-    
+
       if mmb.db.profile.minimap.hide == true then
         MNMMBIcon:Hide("MNMiniMapButton")
         ns.Addon.db.profile.activate.HideMMB = true
@@ -2623,7 +2651,7 @@ end
 function Addon:PLAYER_LOGIN() -- OnInitialize()
   ns.Addon = Addon
   ns.LoadOptions(self) -- RetailOptions.lua
-  --ns.BlizzardDelvesAddFunction() -- RetailDelves.lua
+  ns.BlizzardDelvesAddFunction() -- RetailDelves.lua
   ns.ChangingMapToPlayerZone() -- RetailWorldMap.lua
 
    C_Timer.After(0, MN_AddWaypointProvider)

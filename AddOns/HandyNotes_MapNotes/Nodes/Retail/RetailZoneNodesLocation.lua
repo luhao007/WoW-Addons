@@ -1026,7 +1026,7 @@ ns.currentSourceFile = "RetailZoneNodesLocation.lua"
 
           if self.db.profile.showZoneCooking then
             nodes[2395][47656777] = { npcID = 245741, name = "", type = "Cooking", showInZone = true, showOnContinent = false, showOnMinimap = false }
-            nodes[2437][37142108] = { npcID = 253037, name = "", type = "Cooking", showInZone = true, showOnContinent = false, showOnMinimap = false }
+            nodes[2437][38142109] = { npcID = 253037, name = "", type = "Cooking", showInZone = true, showOnContinent = false, showOnMinimap = false }
           end
 
           if self.db.profile.showZoneEnchanting then

@@ -551,7 +551,7 @@ function Keybinds:Enable()
 
         for viewerName, _ in pairs(viewersSettingKey) do
             local viewerFrame = _G[viewerName]
-            if viewerFrame then
+            if viewerFrame and viewerFrame.RefreshLayout then
                 hooksecurefunc(viewerFrame, "RefreshLayout", function()
                     if not isModuleEnabled then
                         return

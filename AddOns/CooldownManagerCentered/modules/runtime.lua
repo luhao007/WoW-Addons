@@ -106,6 +106,9 @@ EventRegistry:RegisterCallback("CooldownViewerSettings.OnShow", function(arg1, s
         if ns.CooldownManager then
             ns.CooldownManager.ForceRefreshAll()
         end
+        if ns.CooldownStyle then
+            ns.CooldownStyle:RefreshHooks()
+        end
     end)
 end)
 EventRegistry:RegisterCallback("CooldownViewerSettings.OnHide", function()
@@ -140,6 +143,9 @@ EventRegistry:RegisterCallback("EditMode.Enter", function()
 
         if ns.CooldownManager then
             ns.CooldownManager.ForceRefreshAll()
+        end
+        if ns.CooldownStyle then
+            ns.CooldownStyle:RefreshHooks()
         end
     end)
 end)

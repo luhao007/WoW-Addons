@@ -219,7 +219,7 @@ ns.currentSourceFile = "RetailTaxiMapNodes.lua"
     -- Dragonflight
         -- Dragon Isles
             nodes[2057][43625184] = { id = 1198, type = "Dungeon", showInZone = true } -- The Nokhud Offensive
-            nodes[2057][38896459] = { id = 1203, type = "Dungeon", showInZone = true } -- The Azure Vault
+            nodes[2057][56938392] = { id = 1203, type = "Dungeon", showInZone = true } -- The Azure Vault
             nodes[2057][34667598] = { id = 1196, type = "Dungeon", showInZone = true } -- Brackenhide Hollow
             nodes[2057][63655934] = { id = 1209, type = "Dungeon", showInZone = true } -- Dawn of the Infinite
             nodes[2057][63324926] = { id = 1204, type = "Dungeon", showInZone = true } -- Halls of Infusion

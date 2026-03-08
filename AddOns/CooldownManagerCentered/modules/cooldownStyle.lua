@@ -316,6 +316,16 @@ local function HookCooldownFrame(cdmFrame)
 end
 
 local function HookBuffIconFrame(cdmFrame)
+    if cdmFrame.GetCooldownInfo then
+        local cooldownInfo = cdmFrame:GetCooldownInfo()
+        if cooldownInfo and cooldownInfo.spellID then
+            local baseSpellId = FindBaseSpellByID(cooldownInfo.spellID)
+            if cooldownInfo.category == 2 then
+                SetButtonGlow(cdmFrame, CooldownStyle.GetAlwaysGlow(baseSpellId))
+            end
+        end
+    end
+
     if cdmFrame._CMCTracker_Hooked or cdmFrame.Cooldown == nil or cdmFrame.Icon == nil then
         return
     end
@@ -335,40 +345,27 @@ local function HookBuffIconFrame(cdmFrame)
         end
 
         cdmFrame.Cooldown:SetDrawEdge(CooldownStyle.GetAlwaysShowCooldownEdge(spellID))
+        local baseSpellId = FindBaseSpellByID(cooldownInfo.spellID)
+        if cooldownInfo.category == 2 then
+            SetButtonGlow(cdmFrame, CooldownStyle.GetAlwaysGlow(baseSpellId))
+        end
     end)
-
-    if not cdmFrame.GetCooldownInfo then
-        return
-    end
-    local cooldownInfo = cdmFrame:GetCooldownInfo()
-    if not cooldownInfo or not cooldownInfo.spellID then
-        return
-    end
-    local baseSpellId = FindBaseSpellByID(cooldownInfo.spellID)
-    if cooldownInfo.category == 2 then
-        SetButtonGlow(cdmFrame, CooldownStyle.GetAlwaysGlow(baseSpellId))
-        return
-    end
 end
 
 local function HookFrames()
     local cooldownFrames = GetCooldownFrames()
 
     for _, cdmFrame in ipairs(cooldownFrames) do
-        if not cdmFrame._CMCTracker_Hooked then
-            if cdmFrame.Cooldown ~= nil then
-                HookCooldownFrame(cdmFrame)
-            end
+        if cdmFrame.Cooldown ~= nil then
+            HookCooldownFrame(cdmFrame)
         end
     end
 
     local buffIconFrames = GetBuffIconFrames()
 
     for _, cdmFrame in ipairs(buffIconFrames) do
-        if not cdmFrame._CMCTracker_Hooked then
-            if cdmFrame.Cooldown ~= nil then
-                HookBuffIconFrame(cdmFrame)
-            end
+        if cdmFrame.Cooldown ~= nil then
+            HookBuffIconFrame(cdmFrame)
         end
     end
 end

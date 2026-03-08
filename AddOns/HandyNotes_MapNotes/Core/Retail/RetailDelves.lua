@@ -1,663 +1,587 @@
 local ADDON_NAME, ns = ...
 local L = LibStub("AceLocale-3.0"):GetLocale(ADDON_NAME)
 
-ns.BountifulDelves = (ns.LOCALE_BOUNTIFUL_DELVES and (ns.LOCALE_BOUNTIFUL_DELVES[ns.locale] or ns.LOCALE_BOUNTIFUL_DELVES.enUS)) or "Bountiful Delves"
-ns.AfterCombatDelvesInfo = (ns.LOCALE_AFTER_COMBAT_DELVES_INFO and (ns.LOCALE_AFTER_COMBAT_DELVES_INFO[ns.locale] or ns.LOCALE_AFTER_COMBAT_DELVES_INFO.enUS)) or "Delve icons will automatically reappear on the continent map after combat"
-ns.AfterCombatDelves = (ns.LOCALE_AFTER_COMBAT_DELVES and (ns.LOCALE_AFTER_COMBAT_DELVES[ns.locale] or ns.LOCALE_AFTER_COMBAT_DELVES.enUS)) or "Delve icons will automatically reappear on the continent map after combat"
+local HBDP = LibStub("HereBeDragons-Pins-2.0", true)
+ns.MN_DelveActivePins = ns.MN_DelveActivePins or setmetatable({}, { __mode = "k" })
 
-ns.DelveContinent = CreateFromMixins(CVarMapCanvasDataProviderMixin, MapCanvasDataProviderMixin)
-ns.DelveContinent:Init("showContinentDelvesOnMapNotes")
+ns.continentDelveToggles = ns.continentDelveToggles or {
+  [2274] = "showContinentKhazAlgar",
+  [13]   = "showContinentEasternKingdom",
+  [2537] = "showContinentQuelThalas",
+}
 
-ns.MN_DelvePinInfo = setmetatable({}, { __mode = "k" })
-ns.MN_DelvePins = ns.MN_DelvePins or setmetatable({}, { __mode = "k" })
+ns.zoneDelveToggles = ns.zoneDelveToggles or {
+  [2248] = "showZoneKhazAlgar",
+  [2214] = "showZoneKhazAlgar",
+  [2215] = "showZoneKhazAlgar",
+  [2255] = "showZoneKhazAlgar",
+  [2256] = "showZoneKhazAlgar",
+  [2213] = "showZoneKhazAlgar",
+  [2216] = "showZoneKhazAlgar",
+  [2369] = "showZoneKhazAlgar",
+  [2322] = "showZoneKhazAlgar",
+  [2346] = "showZoneKhazAlgar",
+  [2371] = "showZoneKhazAlgar",
+  [2472] = "showZoneKhazAlgar",
 
-function ns.DelveContinent:GetBountyInfo()
-    return nil
+  [2395] = "showZoneQuelThalas",
+  [2437] = "showZoneQuelThalas",
+  [2424] = "showZoneQuelThalas",
+  [2405] = "showZoneQuelThalas",
+  [2444] = "showZoneQuelThalas",
+  [2413] = "showZoneQuelThalas",
+  [2536] = "showZoneQuelThalas",
+  [2576] = "showZoneQuelThalas",
+}
+
+ns.capitalDelveToggles = ns.capitalDelveToggles or {
+  [2393] = "showCapitals",
+}
+
+local function MN_IsBountiful(atlasName)
+  return atlasName and atlasName:lower():find("bountiful") ~= nil
 end
 
-ns.continentDelveToggles = {
-    [2274] = "showContinentKhazAlgar",
-    [13] = "showContinentEasternKingdom",
-    [2537] = "showContinentQuelThalas",
-}
+local function MN_DB()
+  return ns.Addon and ns.Addon.db and ns.Addon.db.profile
+end
 
-ns.zoneDelveToggles = {
-    -- Khaz Algar zones
-    [2248] = "showZoneKhazAlgar",
-    [2214] = "showZoneKhazAlgar",
-    [2215] = "showZoneKhazAlgar",
-    [2255] = "showZoneKhazAlgar",
-    [2256] = "showZoneKhazAlgar",
-    [2213] = "showZoneKhazAlgar",
-    [2216] = "showZoneKhazAlgar",
-    [2369] = "showZoneKhazAlgar",
-    [2322] = "showZoneKhazAlgar",
-    [2346] = "showZoneKhazAlgar",
-    [2371] = "showZoneKhazAlgar",
-    [2472] = "showZoneKhazAlgar",
+local function MN_ShouldShow(kind, mapID, atlasName)
+  local db = MN_DB()
+  if not db then return false end
+  if db.activate and db.activate.HideMapNote then return false end
 
-    -- Quel'Thalas zones
-    [2395] = "showZoneQuelThalas",
-    [2437] = "showZoneQuelThalas",
-    [2424] = "showZoneQuelThalas",
-    [2405] = "showZoneQuelThalas",
-    [2444] = "showZoneQuelThalas",
-    [2413] = "showZoneQuelThalas",
-    [2536] = "showZoneQuelThalas",
-    [2576] = "showZoneQuelThalas",
-}
+  local isB = MN_IsBountiful(atlasName)
 
-ns.capitalDelveToggles = {
-    [2393] = "showCapitals",
-}
+  if kind == "capital" then
+    if not db.showCapitalsDelve and not db.showCapitalsBountyDelve then return false end
+    if isB and not db.showCapitalsBountyDelve then return false end
+    if (not isB) and not db.showCapitalsDelve then return false end
+    local k = ns.capitalDelveToggles and ns.capitalDelveToggles[mapID]
+    if k and not db[k] then return false end
+    return true
+  end
+
+  if kind == "zone" then
+    if not db.showZoneDelve and not db.showZoneBountyDelve then return false end
+    if isB and not db.showZoneBountyDelve then return false end
+    if (not isB) and not db.showZoneDelve then return false end
+    local k = ns.zoneDelveToggles and ns.zoneDelveToggles[mapID]
+    if k and not db[k] then return false end
+    return true
+  end
+
+  if kind == "continent" then
+    if not db.showContinentDelves and not db.showContinentBountyDelves then return false end
+    if isB and not db.showContinentBountyDelves then return false end
+    if (not isB) and not db.showContinentDelves then return false end
+    local k = ns.continentDelveToggles and ns.continentDelveToggles[mapID]
+    if k and not db[k] then return false end
+    return true
+  end
+
+  return false
+end
 
 local function MN_ApplyDelveScaleAlpha(pin, pinInfo)
-    local db = ns.Addon and ns.Addon.db and ns.Addon.db.profile
-    if not db or not pinInfo or not pin then return end
+  local db = MN_DB()
+  if not db or not pin or not pinInfo then return end
 
-    local kind = pinInfo.mnMapNotesKind
-    if kind ~= "zone" and kind ~= "continent" and kind ~= "capital" then
-        return
-    end
+  local kind = pinInfo.mnMapNotesKind or pin.mnKind
+  local atlas = pinInfo.atlasName
+  local isBountiful = MN_IsBountiful(atlas)
 
-    local scale, alpha
+  local scale, alpha
+  if kind == "continent" then
+    scale = (db.continentScale or 1) * 1.5
+    alpha = db.continentAlpha or 1
+  elseif kind == "capital" then
+    scale = (db.CapitalsInstanceScale or 1) * 1.5
+    alpha = db.CapitalsInstanceAlpha or 1
+  else
+    scale = isBountiful and ((db.ZoneScaleBountyDelve or 1) * 1.5) or ((db.ZoneScaleDelve or 1) * 1.5)
+    alpha = isBountiful and (db.ZoneAlphaBountyDelve or 1) or (db.ZoneAlphaDelve or 1)
+  end
 
-    if kind == "continent" then
-        scale = db.continentScale or 1
-        alpha = db.continentAlpha or 1
-    elseif kind == "capital" then
-        scale = db.CapitalsInstanceScale or 1
-        alpha = db.CapitalsInstanceAlpha or 1
-    else
-        local atlas = pinInfo.atlasName
-        local isBountiful = atlas and atlas:lower():find("bountiful")
-        scale = isBountiful and (db.ZoneScaleBountyDelve or 1) or (db.ZoneScaleDelve or 1)
-        alpha = isBountiful and (db.ZoneAlphaBountyDelve or 1) or (db.ZoneAlphaDelve or 1)
-    end
+  pin:SetAlpha(alpha)
+  pin:SetScale(scale)
 
-    pin:SetAlpha(alpha)
-
-    if pin.Icon then
-        pin.Icon:SetScale(scale)
-        pin.Icon:SetAlpha(alpha)
-    end
-
-    if pin.Texture then
-        pin.Texture:SetScale(scale)
-        pin.Texture:SetAlpha(alpha)
-    end
-
-    if pin.HighlightTexture then
-        pin.HighlightTexture:SetAlpha(alpha)
-    end
+  if pin.texture then
+    pin.texture:SetAlpha(1)
+  end
 end
 
-local function MN_SetDelvePinsCombatState(inCombat)
-    if not ns.MN_DelvePins then return end
+local function MN_ExtractWidgetText(widgetSetID)
+  if not widgetSetID then return end
+  local widgets = C_UIWidgetManager.GetAllWidgetsBySetID(widgetSetID)
+  if not widgets then return end
 
-    for pin in pairs(ns.MN_DelvePins) do
-        if pin then
-            if inCombat then
-                if pin.EnableMouse then pin:EnableMouse(false) end
-                if pin.SetAlpha then pin:SetAlpha(0) end
-                if pin.Icon and pin.Icon.SetAlpha then pin.Icon:SetAlpha(0) end
-                if pin.Texture and pin.Texture.SetAlpha then pin.Texture:SetAlpha(0) end
-                if pin.HighlightTexture and pin.HighlightTexture.SetAlpha then pin.HighlightTexture:SetAlpha(0) end
-            else
-                if pin.EnableMouse then pin:EnableMouse(true) end
-                local info = pin.mnMapNotesPinInfo or ns.MN_DelvePinInfo[pin]
-                if info then
-                    MN_ApplyDelveScaleAlpha(pin, info)
-                else
-                    if pin.SetAlpha then pin:SetAlpha(1) end
-                end
-            end
-        end
+  local lines = {}
+
+  for _, w in ipairs(widgets) do
+    if w.widgetType == Enum.UIWidgetVisualizationType.TextWithState then
+      local info = C_UIWidgetManager.GetTextWithStateWidgetVisualizationInfo(w.widgetID)
+      if info and info.text and info.text ~= "" then
+        lines[#lines + 1] = {
+          orderIndex = info.orderIndex or 999,
+          text = info.text,
+        }
+      end
     end
+  end
+
+  table.sort(lines, function(a, b)
+    return a.orderIndex < b.orderIndex
+  end)
+
+  local firstLine = lines[1] and lines[1].text or nil
+  local secondLine = lines[2] and lines[2].text or nil
+  return firstLine, secondLine
 end
 
-local function MN_IsOurDelvePin(pinInfo)
-    return pinInfo and pinInfo.dataProvider == ns.DelveProvider
-end
+local function MN_DelveSetWaypoint(self)
+  local db = MN_DB()
+  if not db or not db.WayPoints then return false end
 
-local function MN_HookDelvePinsOnce()
-    if ns.MN_DelvePinsHooked then return end
-    if not DelveEntrancePinMixin then return end
-    ns.MN_DelvePinsHooked = true
+  local info = self.mnPinInfo
+  if not info then return false end
 
-    hooksecurefunc(DelveEntrancePinMixin, "OnAcquired", function(pin, pinInfo)
+  local uiMapID = info.mnWaypointMapID
+  local x = info.mnWaypointX
+  local y = info.mnWaypointY
 
-        if not MN_IsOurDelvePin(pinInfo) then
-            return
-        end
+  if not uiMapID or not x or not y then return false end
+  if uiMapID == 946 then return false end
+  if not C_Map.GetMapInfo(uiMapID) then return false end
 
-        ns.MN_DelvePinInfo[pin] = pinInfo
-        ns.MN_DelvePins[pin] = true
-        pin.mnMapNotesPinInfo = pinInfo
-
-        if InCombatLockdown() then
-            if pin.EnableMouse then pin:EnableMouse(false) end
-            if pin.SetAlpha then pin:SetAlpha(0) end
-            if pin.Icon and pin.Icon.SetAlpha then pin.Icon:SetAlpha(0) end
-            if pin.Texture and pin.Texture.SetAlpha then pin.Texture:SetAlpha(0) end
-            if pin.HighlightTexture and pin.HighlightTexture.SetAlpha then pin.HighlightTexture:SetAlpha(0) end
-            return
-        end
-
-        MN_ApplyDelveScaleAlpha(pin, pinInfo)
-    end)
-
-    hooksecurefunc(DelveEntrancePinMixin, "OnCanvasScaleChanged", function(pin)
-        if InCombatLockdown() then return end
-        local pinInfo = pin.mnMapNotesPinInfo or ns.MN_DelvePinInfo[pin]
-        if pinInfo and MN_IsOurDelvePin(pinInfo) then
-            MN_ApplyDelveScaleAlpha(pin, pinInfo)
-        end
-    end)
-end
-
-EventUtil.ContinueOnAddOnLoaded("Blizzard_WorldMap", function()
-    pcall(MN_HookDelvePinsOnce)
-end)
-
-function ns.BlizzardDelvesAddFunction()
-    if ns.BlizzDelveClick_Hooked then return end
-    ns.BlizzDelveClick_Hooked = true
-
-    hooksecurefunc(DelveEntrancePinMixin, "OnClick", function(self, button)
-        if button ~= "MiddleButton" then return end
-        if not ns.Addon or not ns.Addon.db or not ns.Addon.db.profile then return end
-        if ns.Addon.db.profile.activate.HideMapNote then return end
-        if not (self and self.poiInfo and self.poiInfo.areaPoiID) then return end
-
-        local id = self.poiInfo.areaPoiID
-        local target = (ns.BlizzDelveAreaPoisInfoIDs and ns.BlizzDelveAreaPoisInfoIDs[id]) or (ns.BlizzBountifulDelveAreaPoisInfoIDs and ns.BlizzBountifulDelveAreaPoisInfoIDs[id])
-        if target then
-            ns.MapNotesOpenMap(target)
-        end
-    end)
-end
-
-local function MN_AddDelveProvider()
-    if ns.DelveProviderAdded then return end
-    ns.DelveProviderAdded = true
-
-    local provider = CreateFromMixins(ns.DelveContinent)
-    WorldMapFrame:AddDataProvider(provider)
-
-    ns.DelveProvider = provider
-
-    if InCombatLockdown() then
-        MN_SetDelvePinsCombatState(true)
-    end
-
-    if WorldMapFrame:IsShown() and provider.GetMap and provider:GetMap() then
-        provider:RefreshAllData()
-    end
-
-    if not ns.DelveShowHooked then
-        ns.DelveShowHooked = true
-    end
-end
-
-local function MN_EnsureCombatWatcher()
-    if ns.MN_DelveCombatWatcher then return end
-    ns.MN_DelveCombatWatcher = CreateFrame("Frame")
-    ns.MN_DelveCombatWatcher:RegisterEvent("PLAYER_REGEN_DISABLED")
-    ns.MN_DelveCombatWatcher:RegisterEvent("PLAYER_REGEN_ENABLED")
-    ns.MN_DelveCombatWatcher:SetScript("OnEvent", function(_, event)
-        if event == "PLAYER_REGEN_DISABLED" then
-            MN_SetDelvePinsCombatState(true)
-        else
-            MN_SetDelvePinsCombatState(false)
-            if ns.DelveNeedsRefreshAfterCombat and ns.DelveProvider and ns.DelveProvider.RefreshAllData then
-                ns.DelveNeedsRefreshAfterCombat = nil
-                ns.DelveProvider:RefreshAllData()
-            end
-        end
-    end)
-end
-
-EventUtil.ContinueOnAddOnLoaded("Blizzard_WorldMap", function()
-    MN_EnsureCombatWatcher()
-end)
-
-EventUtil.ContinueOnAddOnLoaded("Blizzard_WorldMap", function()
-    pcall(function() ns.BlizzardDelvesAddFunction() end)
-end)
-
-function ns.DelveContinent:OnShow()
-    if CVarMapCanvasDataProviderMixin.OnShow then
-        CVarMapCanvasDataProviderMixin.OnShow(self)
-    end
-    if InCombatLockdown() then
-        MN_SetDelvePinsCombatState(true)
-        ns.DelveNeedsRefreshAfterCombat = true
-        return
-    end
-    self:RefreshAllData()
-end
-
-function ns.DelveContinent:OnMapChanged()
-    if InCombatLockdown() then
-        MN_SetDelvePinsCombatState(true)
-        ns.DelveNeedsRefreshAfterCombat = true
-        return
-    end
-    self:RefreshAllData()
-end
-
-function ns.DelveContinent:OnHide()
-    if CVarMapCanvasDataProviderMixin.OnHide then
-        CVarMapCanvasDataProviderMixin.OnHide(self)
-    end
-end
-
-function ns.DelveContinent:OnEvent(event, ...)
-    if CVarMapCanvasDataProviderMixin.OnEvent then
-        CVarMapCanvasDataProviderMixin.OnEvent(self, event, ...)
-    end
-end
-
-local function ConvertMapCoords(fromMapID, toMapID, x, y)
-    local minX, maxX, minY, maxY = C_Map.GetMapRectOnMap(fromMapID, toMapID)
-    if not minX then return end
-    return Lerp(minX, maxX, x), Lerp(minY, maxY, y)
-end
-
-function ns.DelveContinent:RemoveAllData()
-    local map = self:GetMap()
-    if not map then return end
-
-    map:RemoveAllPinsByTemplate("MapNotesContinentDelvePinTemplate")
-    map:RemoveAllPinsByTemplate("MapNotesZoneDelvePinTemplate")
-
-    if ns.MN_DelvePins then
-        for pin in pairs(ns.MN_DelvePins) do
-            ns.MN_DelvePins[pin] = nil
-        end
-    end
-end
-
-function ns.DelveContinent:RefreshAllData()
-    local map = self:GetMap()
-    local mapID = map and map.GetMapID and map:GetMapID() or nil
-    local mapInfo = mapID and C_Map.GetMapInfo(mapID) or nil
-    local isContinent = (mapInfo and mapInfo.mapType == Enum.UIMapType.Continent) or false
-    local isZone = (mapInfo and mapInfo.mapType == Enum.UIMapType.Zone) or false
-    local isCapital = ns.capitalDelveToggles and ns.capitalDelveToggles[mapID]
-
-    if InCombatLockdown() then
-        MN_SetDelvePinsCombatState(true)
-        ns.DelveNeedsRefreshAfterCombat = true
-
-        local act = ns.Addon and ns.Addon.db and ns.Addon.db.profile and ns.Addon.db.profile.activate
-        if act and act.InfoBlockedInCombat then
-
-            local worldMapShown = WorldMapFrame and WorldMapFrame:IsShown()
-            local isAllowedContinent = (mapID and ns.continentDelveToggles and ns.continentDelveToggles[mapID]) and true or false
-            if worldMapShown and isContinent and isAllowedContinent then
-
-                if not ns.DelveCombatMessageShown then
-                    ns.DelveCombatMessageShown = true
-
-                    if UIErrorsFrame then
-                        UIErrorsFrame:AddMessage( ns.COLORED_ADDON_NAME .. "\n" .. ns.AfterCombatDelves, 1, 0.82, 0 )
-                    end
-                end
-
-            end
-        end
-
-        return
-    end
-
-    MN_SetDelvePinsCombatState(false)
-
-    if ns.Addon.db.profile.activate.HideMapNote then
-        self:RemoveAllData()
-        return
-    end
-
-    if not self:IsCVarSet() then
-        self:RemoveAllData()
-        return
-    end
-
-    if not map or not mapID then
-        self:RemoveAllData()
-        return
-    end
-
-    if isCapital then
-        self:RemoveAllData()
-        self:AddCapitalDelves(mapID)
-        return
-    end
-
-    if isZone then
-        self:RemoveAllData()
-        self:AddZoneDelves(mapID)
-        return
-    end
-
-    if not isContinent then
-        self:RemoveAllData()
-        return
-    end
-
-    self:RemoveAllData()
-    self.parentBountiful = nil
-
-    local parentDelves = C_AreaPoiInfo.GetDelvesForMap(mapID)
-    if parentDelves and #parentDelves > 0 then
-        for _, areaPoiID in ipairs(parentDelves) do
-            local pInfo = C_AreaPoiInfo.GetAreaPOIInfo(mapID, areaPoiID)
-            local atlas = pInfo and pInfo.atlasName
-
-            if atlas and atlas:lower():find("bountiful") then
-                self.parentBountiful = self.parentBountiful or {}
-                self.parentBountiful[areaPoiID] = true
-            end
-        end
-    end
-
-    self.parentHasBountiful = (self.parentBountiful ~= nil)
-
-    local showNormal = ns.Addon.db.profile.showContinentDelves
-    local showBountiful = ns.Addon.db.profile.showContinentBountyDelves
-    if not showNormal and not showBountiful then
-        self:RemoveAllData()
-        return
-    end
-
-    local key = ns.continentDelveToggles[mapID]
-    if key and not ns.Addon.db.profile[key] then return end
-
-    local children = C_Map.GetMapChildrenInfo(mapID, nil, true)
-    if not children then return end
-
-    for _, child in ipairs(children) do
-        if child and child.mapID then
-            if mapID ~= 13 or child.mapID ~= 2537 then
-                local minX = C_Map.GetMapRectOnMap(child.mapID, mapID)
-                if minX then
-                    self:ProjectDelves(mapID, child.mapID)
-                end
-            end
-        end
-    end
-end
-
-function ns.DelveContinent:IsCVarSet()
-    if ns.Addon.db.profile.activate.HideMapNote then return false end
-
-    local map = self.GetMap and self:GetMap()
-    local mapID = map and map:GetMapID()
-    local mapInfo = mapID and C_Map.GetMapInfo(mapID) or nil
-    if not mapInfo then return true end
-
-    local isContinent = mapInfo.mapType == Enum.UIMapType.Continent
-    local isZone  = mapInfo.mapType == Enum.UIMapType.Zone
-
-    local isCapital = ns.capitalDelveToggles and ns.capitalDelveToggles[mapID]
-    if isCapital then
-        if not ns.Addon.db.profile.showCapitalsDelve and not ns.Addon.db.profile.showCapitalsBountyDelve then
-            return false
-        end
-
-        if not ns.Addon.db.profile[isCapital] then
-            return false
-        end
-        return true
-    end
-
-    if isZone then
-        if not ns.Addon.db.profile.showZoneDelve and not ns.Addon.db.profile.showZoneBountyDelve then
-            return false
-        end
-        local key = ns.zoneDelveToggles and ns.zoneDelveToggles[mapID]
-        if key and not ns.Addon.db.profile[key] then
-            return false
-        end
-        return true
-    end
-
-    if isContinent then
-        if not ns.Addon.db.profile.showContinentDelves and not ns.Addon.db.profile.showContinentBountyDelves then
-            return false
-        end
-
-        local key = ns.continentDelveToggles and ns.continentDelveToggles[mapID]
-        if key and not ns.Addon.db.profile[key] then
-            return false
-        end
-        return true
-    end
-
+  if TomTom then
+    local title = (info.name and info.name ~= "" and info.name) or (DELVES_LABEL or "Delve")
+    TomTom:AddWaypoint(uiMapID, x, y, {
+      title = title,
+      persistent = nil,
+      minimap = true,
+      world = true,
+    })
     return true
+  end
+
+  if ns.MN_SetTrackedUserWaypoint then
+    return ns.MN_SetTrackedUserWaypoint(uiMapID, x, y)
+  end
+
+  return false
 end
 
-function ns.DelveContinent:AddCapitalDelves(capitalMapID)
-    if InCombatLockdown() then return end
+local PinMixin = {}
+function PinMixin:OnLoad()
+  self:SetSize(18, 18)
+  self.texture = self:CreateTexture(nil, "ARTWORK")
+  self.texture:SetAllPoints()
+  self:SetScript("OnEnter", self.OnMouseEnter)
+  self:SetScript("OnLeave", self.OnMouseLeave)
+  self:SetScript("OnMouseUp", self.OnMouseUp)
+  self:EnableMouse(true)
+end
 
-    local capKey = ns.capitalDelveToggles and ns.capitalDelveToggles[capitalMapID]
-    if capKey and not ns.Addon.db.profile[capKey] then return end
+function PinMixin:OnAcquire(kind, info)
+  self.mnKind = kind
+  self.mnPinInfo = info
 
-    local map = self:GetMap()
-    if not map then return end
+  info.mnMapNotesKind = kind
 
-    local showNormal = ns.Addon.db.profile.showCapitalsDelve
-    local showBounty = ns.Addon.db.profile.showCapitalsBountyDelve
-    if not showNormal and not showBounty then
+  if info.atlasName and C_Texture and C_Texture.GetAtlasInfo and C_Texture.GetAtlasInfo(info.atlasName) then
+    self.texture:SetAtlas(info.atlasName, true)
+  else
+    self.texture:SetTexture(nil)
+  end
+
+  MN_ApplyDelveScaleAlpha(self, info)
+end
+
+function PinMixin:OnMouseEnter()
+  local info = self.mnPinInfo
+  if not info then return end
+
+  local tooltip = GetAppropriateTooltip()
+  tooltip:SetOwner(self, "ANCHOR_RIGHT")
+
+  local line1, line2 = MN_ExtractWidgetText(info.widgetSetID or info.tooltipWidgetSet)
+
+  if info.name and info.name ~= "" then
+    GameTooltip_SetTitle(tooltip, info.name, HIGHLIGHT_FONT_COLOR)
+  elseif line1 and line1 ~= "" then
+    GameTooltip_SetTitle(tooltip, line1, HIGHLIGHT_FONT_COLOR)
+    line1 = nil
+  end
+
+  local typeText
+  if MN_IsBountiful(info.atlasName) then
+    typeText = "Bountiful Delve"
+  else
+    typeText = DELVES_LABEL or "Delve"
+  end
+
+  GameTooltip_AddColoredLine(tooltip, typeText, NORMAL_FONT_COLOR, true)
+
+  if line1 and line1 ~= "" then
+    GameTooltip_AddColoredLine(tooltip, line1, NORMAL_FONT_COLOR, true)
+  elseif info.description and info.description ~= "" then
+    GameTooltip_AddColoredLine(tooltip, info.description, NORMAL_FONT_COLOR, true)
+  end
+
+  if line2 and line2 ~= "" then
+    GameTooltip_AddColoredLine(tooltip, line2, NORMAL_FONT_COLOR, true)
+  end
+
+  if ns.Addon.db.profile.TooltipInformations and not ns.Addon.db.profile.activate.HideMapNote then
+    if ns.Addon.db.profile.activate.ToggleMap then
+      tooltip:AddLine(" ")
+      local mapButtonText = (ns.Addon.db.profile.activate.SwapButtons and KEY_BUTTON2) or KEY_BUTTON1
+      tooltip:AddDoubleLine(TextIconInfo:GetIconString() .. " |cff00ff00< " .. mapButtonText .. " " .. L["to show delve map"] .. " >|r", nil, nil, nil, false)
+    elseif ns.Addon.db.profile.activate.ToggleMapInfo and WorldMapFrame and WorldMapFrame:IsShown() then
+      tooltip:AddLine(" ")
+      tooltip:AddDoubleLine( "|cff00ff00" .. L["Toggle Maps function is disabled"] .. "|r",  nil, nil, nil, false )
+    end
+  end
+
+  tooltip:Show()
+end
+
+function PinMixin:OnMouseLeave()
+  GetAppropriateTooltip():Hide()
+end
+
+function PinMixin:OnMouseUp(button)
+  local db = MN_DB()
+  if not db then return end
+  if db.activate and db.activate.HideMapNote then return end
+
+  local info = self.mnPinInfo
+  if not info or not info.areaPoiID then return end
+
+  local swapButtons = db.activate and db.activate.SwapButtons
+  local useShift = db.WayPointsShift
+  local waypointButton = swapButtons and "LeftButton" or "RightButton"
+  local mapButton = swapButtons and "RightButton" or "LeftButton"
+
+  if db.WayPoints then
+    local waypointClicked
+    if useShift then
+      waypointClicked = (button == waypointButton and IsShiftKeyDown())
+    else
+      waypointClicked = (button == waypointButton)
+    end
+
+    if waypointClicked then
+      if MN_DelveSetWaypoint(self) then
         return
+      end
     end
+  end
 
-    local delves = C_AreaPoiInfo.GetDelvesForMap(capitalMapID) or {}
-    for _, delveID in ipairs(delves) do
-        local info = C_AreaPoiInfo.GetAreaPOIInfo(capitalMapID, delveID)
-        if info and info.position then
-            local atlas = info.atlasName
-            local isBountiful = atlas and atlas:lower():find("bountiful")
+  if button == mapButton and not IsShiftKeyDown() then
+    local id = info.areaPoiID
+    local target =
+      (ns.BlizzDelveAreaPoisInfoIDs and ns.BlizzDelveAreaPoisInfoIDs[id]) or
+      (ns.BlizzBountifulDelveAreaPoisInfoIDs and ns.BlizzBountifulDelveAreaPoisInfoIDs[id])
 
-            if not ((isBountiful and not showBounty) or ((not isBountiful) and not showNormal)) then
-                local pinInfo = CopyTable(info)
-                pinInfo.dataProvider = self
-                pinInfo.mnMapNotesKind = "capital" -- optional
-                local pin = map:AcquirePin("MapNotesZoneDelvePinTemplate", pinInfo)
-                if pin then
-                    pin.mnMapNotesPinInfo = pinInfo
-                    ns.MN_DelvePins[pin] = true
-                    if InCombatLockdown() then MN_SetDelvePinsCombatState(true) end
-                end
-            end
-        end
+    if target then
+      ns.MapNotesOpenMap(target)
     end
+  end
 end
 
-function ns.DelveContinent:AddZoneDelves(zoneMapID)
-    if InCombatLockdown() then return end
-
-    local key = ns.zoneDelveToggles and ns.zoneDelveToggles[zoneMapID]
-    if key and not ns.Addon.db.profile[key] then return end
-
-    local map = self:GetMap()
-    if not map then return end
-
-    local showZoneNormal = ns.Addon.db.profile.showZoneDelve
-    local showZoneBounty = ns.Addon.db.profile.showZoneBountyDelve
-    if not showZoneNormal and not showZoneBounty then
-        return
+local pool = CreateFramePool(
+  "Frame",
+  nil,
+  nil,
+  function(_, frame)
+    frame:SetScale(1)
+    frame:SetAlpha(1)
+    if frame.texture then
+      frame.texture:SetVertexColor(1, 1, 1, 1)
     end
+  end,
+  nil,
+  function(frame)
+    Mixin(frame, PinMixin)
+    frame:OnLoad()
+  end
+)
 
-    local delves = C_AreaPoiInfo.GetDelvesForMap(zoneMapID) or {}
-    for _, delveID in ipairs(delves) do
-        local info = C_AreaPoiInfo.GetAreaPOIInfo(zoneMapID, delveID)
-        if info and info.position then
-            local atlas = info.atlasName
-            local isBountiful = atlas and atlas:lower():find("bountiful")
-
-            if not ((isBountiful and not showZoneBounty) or ((not isBountiful) and not showZoneNormal)) then
-                local pinInfo = CopyTable(info)
-                pinInfo.dataProvider = self
-                pinInfo.mnMapNotesKind = "zone"
-                local pin = map:AcquirePin("MapNotesZoneDelvePinTemplate", pinInfo)
-                if pin then
-                    pin.mnMapNotesPinInfo = pinInfo
-                    ns.MN_DelvePins[pin] = true
-                    if InCombatLockdown() then MN_SetDelvePinsCombatState(true) end
-                end
-            end
-        end
+local function MN_GetRect(fromMapID, toMapID)
+  local a, b, c, d = C_Map.GetMapRectOnMap(fromMapID, toMapID)
+  if not a then return end
+  if type(a) == "table" and b and type(b) == "table" then
+    local minX, minY, maxX, maxY
+    if a.GetXY then
+      minX, minY = a:GetXY()
+      maxX, maxY = b:GetXY()
+    else
+      minX, minY = a.x, a.y
+      maxX, maxY = b.x, b.y
     end
+    if minX and maxX and minY and maxY then
+      return minX, maxX, minY, maxY
+    end
+    return
+  end
+  return a, b, c, d
 end
 
-function ns.DelveContinent:ProjectDelves(parentMapID, zoneMapID)
-    if InCombatLockdown() then return end
-
-    local showNormal = ns.Addon.db.profile.showContinentDelves
-    local showBountiful = ns.Addon.db.profile.showContinentBountyDelves
-
-    local delves = C_AreaPoiInfo.GetDelvesForMap(zoneMapID) or {}
-    for _, delveID in ipairs(delves) do
-        local info = C_AreaPoiInfo.GetAreaPOIInfo(zoneMapID, delveID)
-
-        if info and info.position then
-            local atlas = info.atlasName
-            local isBountiful = atlas and atlas:lower():find("bountiful")
-
-            if not ((isBountiful and not showBountiful) or ((not isBountiful) and not showNormal)) then
-
-                if not (isBountiful and self.parentHasBountiful and parentMapID == 2537) then
-
-                    local x, y = info.position:GetXY()
-                    local newX, newY = ConvertMapCoords(zoneMapID, parentMapID, x, y)
-
-                    if newX and newY
-                       and newX >= 0 and newX <= 1
-                       and newY >= 0 and newY <= 1 then
-
-                        local pinInfo = CopyTable(info)
-                        pinInfo.position = CreateVector2D(newX, newY)
-                        pinInfo.dataProvider = self
-                        pinInfo.mnMapNotesKind = "continent"
-
-                        local map = self:GetMap()
-                        local pin = map:AcquirePin("MapNotesContinentDelvePinTemplate", pinInfo)
-                        if pin then
-                            pin.mnMapNotesPinInfo = pinInfo
-                            ns.MN_DelvePins[pin] = true
-                            if InCombatLockdown() then MN_SetDelvePinsCombatState(true) end
-                        end
-                    end
-                end
-            end
-        end
-    end
+local function MN_IsCapitalMap(mapID)
+  return ns.capitalDelveToggles and ns.capitalDelveToggles[mapID] and true or false
 end
 
-EventUtil.ContinueOnAddOnLoaded("Blizzard_WorldMap", function()
-    if InCombatLockdown() then
-        if not ns.waitDelvesCombat then
-            ns.waitDelvesCombat = CreateFrame("Frame")
-            ns.waitDelvesCombat:RegisterEvent("PLAYER_REGEN_ENABLED")
-            ns.waitDelvesCombat:SetScript("OnEvent", function(self)
-                self:UnregisterAllEvents()
-                ns.waitDelvesCombat = nil
-                pcall(MN_AddDelveProvider)
+local function MN_AddDelvesOnSameMap(kind, mapID)
+  local delves = C_AreaPoiInfo.GetDelvesForMap(mapID) or {}
+  for _, areaPoiID in ipairs(delves) do
+    local info = C_AreaPoiInfo.GetAreaPOIInfo(mapID, areaPoiID)
+    if info and info.position then
+      local x, y = info.position:GetXY()
+      if x and y and x >= 0 and x <= 1 and y >= 0 and y <= 1 then
+        if MN_ShouldShow(kind, mapID, info.atlasName) then
+          local pinInfo = CopyTable(info)
+          pinInfo.areaPoiID = areaPoiID
+          pinInfo.mnMapNotesKind = kind
+          pinInfo.mnWaypointMapID = mapID
+          pinInfo.mnWaypointX = x
+          pinInfo.mnWaypointY = y
+
+          local icon = pool:Acquire()
+          icon:OnAcquire(kind, pinInfo)
+          ns.MN_DelveActivePins[icon] = true
+
+          if HBDP then
+            HBDP:AddWorldMapIconMap(ADDON_NAME, icon, mapID, x, y)
+            icon:SetFrameLevel(math.max(icon:GetFrameLevel() - 5, 5))
+          
+            C_Timer.After(0, function()
+              if icon then
+                icon:SetFrameLevel(math.max(icon:GetFrameLevel() - 5, 5))
+              end
             end)
+          end
         end
-        return
+      end
+    end
+  end
+end
+
+local function MN_ProjectZoneDelvesToContinent(continentMapID, zoneMapID, parentBountifulByName)
+  local minX, maxX, minY, maxY = MN_GetRect(zoneMapID, continentMapID)
+  if not minX then return end
+
+  local delves = C_AreaPoiInfo.GetDelvesForMap(zoneMapID) or {}
+  for _, areaPoiID in ipairs(delves) do
+    local info = C_AreaPoiInfo.GetAreaPOIInfo(zoneMapID, areaPoiID)
+    if info and info.position then
+      if MN_ShouldShow("continent", continentMapID, info.atlasName) then
+        if not (parentBountifulByName and parentBountifulByName[info.name]) then
+          local x, y = info.position:GetXY()
+          if x and y then
+            local tx = Lerp(minX, maxX, x)
+            local ty = Lerp(minY, maxY, y)
+            if tx and ty and tx >= 0 and tx <= 1 and ty >= 0 and ty <= 1 then
+              local pinInfo = CopyTable(info)
+              pinInfo.areaPoiID = areaPoiID
+              pinInfo.mnMapNotesKind = "continent"
+              pinInfo.mnWaypointMapID = continentMapID
+              pinInfo.mnWaypointX = tx
+              pinInfo.mnWaypointY = ty
+            
+              local icon = pool:Acquire()
+              icon:OnAcquire("continent", pinInfo)
+              ns.MN_DelveActivePins[icon] = true
+            
+              if HBDP then
+                HBDP:AddWorldMapIconMap(ADDON_NAME, icon, continentMapID, tx, ty)
+                icon:SetFrameLevel(math.max(icon:GetFrameLevel() - 5, 5))
+              
+                C_Timer.After(0, function()
+                  if icon then
+                    icon:SetFrameLevel(math.max(icon:GetFrameLevel() - 5, 5))
+                  end
+                end)
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+end
+
+local function MN_ClearAll()
+  if ns.MN_DelveActivePins then
+    for pin in pairs(ns.MN_DelveActivePins) do
+      ns.MN_DelveActivePins[pin] = nil
+    end
+  end
+  pool:ReleaseAll()
+  if HBDP then
+    HBDP:RemoveAllWorldMapIcons(ADDON_NAME)
+  end
+end
+
+local function MN_RescaleAllActivePins()
+  if not ns.MN_DelveActivePins then return end
+  for pin in pairs(ns.MN_DelveActivePins) do
+    if pin and pin.mnPinInfo then
+      MN_ApplyDelveScaleAlpha(pin, pin.mnPinInfo)
+    end
+  end
+end
+
+local function MN_RefreshMap(mapID)
+  if not HBDP then return end
+  if not mapID then return end
+
+  local db = MN_DB()
+  if not db or (db.activate and db.activate.HideMapNote) then
+    MN_ClearAll()
+    return
+  end
+
+  MN_ClearAll()
+
+  local mapInfo = C_Map.GetMapInfo(mapID)
+  if not mapInfo then return end
+
+  if MN_IsCapitalMap(mapID) then
+    MN_AddDelvesOnSameMap("capital", mapID)
+    return
+  end
+
+  if mapInfo.mapType == Enum.UIMapType.Zone then
+    MN_AddDelvesOnSameMap("zone", mapID)
+    return
+  end
+
+  if mapInfo.mapType ~= Enum.UIMapType.Continent then
+    return
+  end
+
+  local key = ns.continentDelveToggles[mapID]
+  if key and not db[key] then return end
+
+  local parentBountifulByName
+  local parentDelves = C_AreaPoiInfo.GetDelvesForMap(mapID)
+  if parentDelves and #parentDelves > 0 then
+    for _, areaPoiID in ipairs(parentDelves) do
+      local pInfo = C_AreaPoiInfo.GetAreaPOIInfo(mapID, areaPoiID)
+      if pInfo and pInfo.name and MN_IsBountiful(pInfo.atlasName) then
+        parentBountifulByName = parentBountifulByName or {}
+        parentBountifulByName[pInfo.name] = true
+      end
+    end
+  end
+
+  local children = C_Map.GetMapChildrenInfo(mapID, nil, true) or {}
+  for _, child in ipairs(children) do
+    if child and child.mapID then
+      if mapID ~= 13 or child.mapID ~= 2537 then
+        if MN_GetRect(child.mapID, mapID) then
+          MN_ProjectZoneDelvesToContinent(mapID, child.mapID, parentBountifulByName)
+        end
+      end
+    end
+  end
+end
+
+local function MN_WireRefresh()
+  if ns.MN_Delve_Wired then return end
+  ns.MN_Delve_Wired = true
+
+  EventUtil.ContinueOnAddOnLoaded("Blizzard_WorldMap", function()
+    if EventRegistry and EventRegistry.RegisterCallback then
+      EventRegistry:RegisterCallback("MapCanvas.MapSet", function(_, mapID)
+        if mapID then MN_RefreshMap(mapID) end
+      end)
     end
 
-    MN_AddDelveProvider()
-end)
+    if WorldMapFrame and WorldMapFrame.ScrollContainer and not ns.MN_Delve_HookedSize then
+      ns.MN_Delve_HookedSize = true
+      WorldMapFrame.ScrollContainer:HookScript("OnSizeChanged", function()
+        if WorldMapFrame and WorldMapFrame:IsVisible() then
+          local id = WorldMapFrame:GetMapID()
+          if id then MN_RefreshMap(id) end
+        end
+      end)
+    end
+
+    if WorldMapFrame and not ns.MN_Delve_HookedShow then
+      ns.MN_Delve_HookedShow = true
+      WorldMapFrame:HookScript("OnShow", function()
+        local id = WorldMapFrame:GetMapID()
+        if id then MN_RefreshMap(id) end
+      end)
+    end
+
+    if WorldMapFrame and WorldMapFrame:IsVisible() then
+      local id = WorldMapFrame:GetMapID()
+      if id then MN_RefreshMap(id) end
+    end
+  end)
+end
 
 function ns.RefreshContinentDelvesPins(opts)
+  MN_WireRefresh()
+  if opts and opts.remove then
+    MN_ClearAll()
+    return
+  end
 
-    if not ns.DelveProvider or not ns.DelveProvider.GetMap then return end
-    if not ns.DelveProvider:GetMap() then return end
+  if ns.MN_DelveActivePins and next(ns.MN_DelveActivePins) then
+    MN_RescaleAllActivePins()
+    return
+  end
 
-    if InCombatLockdown() then
-        ns.DelveNeedsRefreshAfterCombat = true
-        if opts and opts.remove then
-            ns.DelveRemoveRequestedAfterCombat = true
-            ns.DelveRemoveWhichAfterCombat = ns.DelveRemoveWhichAfterCombat or {}
-            ns.DelveRemoveWhichAfterCombat.zone = true
-            ns.DelveRemoveWhichAfterCombat.continent = true
-        end
-        return
-    end
-
-    if opts and opts.remove then
-        ns.DelveProvider:RemoveAllData()
-    else
-        ns.DelveProvider:RefreshAllData()
-    end
+  if WorldMapFrame then
+    local id = WorldMapFrame:GetMapID()
+    if id then MN_RefreshMap(id) end
+  end
 end
 
 function ns.RefreshCapitalsDelvesOnly(opts)
-    if not ns.DelveProvider or not ns.DelveProvider.GetMap then return end
-    local map = ns.DelveProvider:GetMap()
-    if not map then return end
-
-    if InCombatLockdown() then
-      ns.DelveNeedsRefreshAfterCombat = true
-      if opts and opts.remove then
-        ns.DelveRemoveRequestedAfterCombat = true
-        ns.DelveRemoveWhichAfterCombat = ns.DelveRemoveWhichAfterCombat or {}
-        ns.DelveRemoveWhichAfterCombat.zone = true
-      end
-      return
-    end
-
-    if opts and opts.remove then
-        map:RemoveAllPinsByTemplate("MapNotesZoneDelvePinTemplate")
-    else
-        ns.DelveProvider:RefreshAllData()
-    end
+  MN_WireRefresh()
+  if opts and opts.remove then
+    MN_ClearAll()
+    return
+  end
+  if WorldMapFrame then
+    local id = WorldMapFrame:GetMapID()
+    if id then MN_RefreshMap(id) end
+  end
 end
 
 function ns.RefreshZoneDelvesOnly(opts)
-    if not ns.DelveProvider or not ns.DelveProvider.GetMap then return end
-    local map = ns.DelveProvider:GetMap()
-    if not map then return end
-
-    if InCombatLockdown() then
-        ns.DelveNeedsRefreshAfterCombat = true
-        if opts and opts.remove then
-            ns.DelveRemoveRequestedAfterCombat = true
-            ns.DelveRemoveWhichAfterCombat = ns.DelveRemoveWhichAfterCombat or {}
-            ns.DelveRemoveWhichAfterCombat.zone = true
-        end
-        return
-    end
-
-    if opts and opts.remove then
-        map:RemoveAllPinsByTemplate("MapNotesZoneDelvePinTemplate")
-    else
-        ns.DelveProvider:RefreshAllData()
-    end
+  MN_WireRefresh()
+  if opts and opts.remove then
+    MN_ClearAll()
+    return
+  end
+  if WorldMapFrame then
+    local id = WorldMapFrame:GetMapID()
+    if id then MN_RefreshMap(id) end
+  end
 end
 
 function ns.RefreshContinentDelvesOnly(opts)
-    if not ns.DelveProvider or not ns.DelveProvider.GetMap then return end
-    local map = ns.DelveProvider:GetMap()
-    if not map then return end
+  MN_WireRefresh()
+  if opts and opts.remove then
+    MN_ClearAll()
+    return
+  end
+  if WorldMapFrame then
+    local id = WorldMapFrame:GetMapID()
+    if id then MN_RefreshMap(id) end
+  end
+end
 
-    if InCombatLockdown() then
-        ns.DelveNeedsRefreshAfterCombat = true
-        if opts and opts.remove then
-            ns.DelveRemoveRequestedAfterCombat = true
-            ns.DelveRemoveWhichAfterCombat = ns.DelveRemoveWhichAfterCombat or {}
-            ns.DelveRemoveWhichAfterCombat.continent = true
-        end
-        return
-    end
-
-    if opts and opts.remove then
-        map:RemoveAllPinsByTemplate("MapNotesContinentDelvePinTemplate")
-    else
-        ns.DelveProvider:RefreshAllData()
-    end
+function ns.BlizzardDelvesAddFunction()
+  MN_WireRefresh()
+  if ns.RefreshContinentDelvesPins then
+    ns.RefreshContinentDelvesPins()
+  end
 end

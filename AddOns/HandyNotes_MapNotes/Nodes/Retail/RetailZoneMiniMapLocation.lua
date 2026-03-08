@@ -970,7 +970,7 @@ ns.currentSourceFile = "RetailZoneMiniMapLocation.lua"
 
             if self.db.profile.showMiniMapCooking then
               minimap[2395][47656777] = { npcID = 245741, name = "", type = "Cooking", showInZone = false, showOnContinent = false, showOnMinimap = true }
-              minimap[2437][37142108] = { npcID = 253037, name = "", type = "Cooking", showInZone = false, showOnContinent = false, showOnMinimap = true }
+              minimap[2437][38142109] = { npcID = 253037, name = "", type = "Cooking", showInZone = false, showOnContinent = false, showOnMinimap = true }
             end
 
             if self.db.profile.showMiniMapEnchanting then

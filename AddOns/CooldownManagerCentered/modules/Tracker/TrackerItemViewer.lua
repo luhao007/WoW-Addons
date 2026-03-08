@@ -19,6 +19,7 @@ local DEFAULT_FONT_PATH = "Fonts\\FRIZQT__.TTF"
 
 local ORIENTATION_ANCHORS = {
     ["Horizontal Right"] = { primary = "LEFT", offsetX = 1, offsetY = 0 },
+    ["Horizontal Center"] = { primary = "CENTER", offsetX = 1, offsetY = 0 },
     ["Horizontal Left"] = { primary = "RIGHT", offsetX = -1, offsetY = 0 },
     ["Vertical Down"] = { primary = "TOP", offsetX = 0, offsetY = -1 },
     ["Vertical Up"] = { primary = "BOTTOM", offsetX = 0, offsetY = 1 },
@@ -376,15 +377,13 @@ function TrackerInstance:UpdateIconPosition(frame, visibleIndex)
     local orientation = self:GetOrientation()
     local anchorData = ORIENTATION_ANCHORS[orientation] or ORIENTATION_ANCHORS["Horizontal Right"]
 
+    local anchorPoint = anchorData.primary
+    if anchorPoint == "CENTER" then
+        anchorPoint = "LEFT"
+    end
     frame:ClearAllPoints()
     local offset = (visibleIndex - 1) * (iconSize + padding)
-    frame:SetPoint(
-        anchorData.primary,
-        self.anchor,
-        anchorData.primary,
-        anchorData.offsetX * offset,
-        anchorData.offsetY * offset
-    )
+    frame:SetPoint(anchorPoint, self.anchor, anchorPoint, anchorData.offsetX * offset, anchorData.offsetY * offset)
 end
 
 function TrackerInstance:UpdateCooldowns()
@@ -444,7 +443,9 @@ function TrackerInstance:RefreshEntries()
         self.iconFrames[i]:UpdateEntry(nil)
     end
 
-    local isHorizontal = orientation == "Horizontal Right" or orientation == "Horizontal Left"
+    local isHorizontal = orientation == "Horizontal Right"
+        or orientation == "Horizontal Left"
+        or orientation == "Horizontal Center"
     local totalSize = count > 0 and (count * iconSize + (count - 1) * padding) or iconSize
     if isHorizontal then
         self.anchor:SetSize(totalSize, iconSize)
@@ -453,6 +454,7 @@ function TrackerInstance:RefreshEntries()
     end
 
     self.anchor:SetShown(count > 0 or self.anchor._CMCTracker_ForceShow)
+    ns.Keybinds:UpdateAllKeybinds()
 end
 
 function TrackerInstance:RefreshStyling()
@@ -583,6 +585,9 @@ function TrackerInstance:Create()
         elseif anchorPrimary == "BOTTOM" then
             newX = centerX + (screenWidth * factor.x)
             newY = centerY - frameHeight / 2
+        elseif anchorPrimary == "CENTER" then
+            newX = centerX - screenWidth / 2
+            newY = centerY - screenHeight / 2
         end
 
         ns.db.profile.editMode[configKey].point = anchorPrimary
@@ -643,6 +648,7 @@ function TrackerInstance:Create()
             end,
             values = {
                 { text = "Horizontal Right" },
+                { text = "Horizontal Center" },
                 { text = "Horizontal Left" },
                 { text = "Vertical Down" },
                 { text = "Vertical Up" },

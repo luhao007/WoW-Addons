@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: MysticalOS
-## Version: r235
+## Version: r236
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cff4565ffDelves (Midnight)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本助手|r |cFF69CCF0地下堡|r |cFF22B14C至暗之夜|r
@@ -19,7 +19,7 @@
 ## X-Min-Interface: 110002
 ## X-DBM-Mod: 1
 ## X-DBM-Mod-Type: SCENARIO
-## X-DBM-Mod-Category: OTHER
+## X-DBM-Mod-Category: SCENARIO
 ## X-DBM-StatTypes: normal
 ## X-DBM-Mod-SubCategories: Nemesis,Boss Encounters,Zones
 ## X-DBM-Mod-SubCategories-koKR: 네메시스,보스,지역
@@ -31,7 +31,7 @@
 ## X-DBM-Mod-Name-ruRU: Вылазки (Полночь)
 ## X-DBM-Mod-Name-zhTW: 探究 (午夜)
 ## X-DBM-Mod-Name-zhCN: 地下堡 (午夜)
-## X-DBM-Mod-Sort: 125
+## X-DBM-Mod-Sort: 115
 ## X-DBM-Mod-MapID: 3003, 2961, 2962, 2963, 2964, 2953, 2933, 2952, 2979, 2965, 2966
 ## X-DBM-Mod-MinCoreRevision: 20200524142133
 ## X-DBM-Mod-MinExpansion: 11

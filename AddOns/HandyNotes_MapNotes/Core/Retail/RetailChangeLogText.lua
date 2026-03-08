@@ -1,9 +1,10 @@
 local ADDON_NAME, ns = ...
 
-ns.CurrentAddonVersion = "3.3.5"
-ns.PreviousAddonVersion = "3.3.4" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
+ns.CurrentAddonVersion = "3.3.6"
+ns.PreviousAddonVersion = "3.3.5" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
 
 ns.LOCALE_CHANGELOGS = {
+  { version = "3.3.6", table = ns.LOCALE_CHANGELOG_3_3_6 },
   { version = "3.3.5", table = ns.LOCALE_CHANGELOG_3_3_5 },
   { version = "3.3.4", table = ns.LOCALE_CHANGELOG_3_3_4 },
   { version = "3.3.3", table = "partialUpdate" },
@@ -61,6 +62,140 @@ ns.LOCALE_CHANGELOG_3_3_ = { -- empty backup file
 
   koKR = [[
 
+]],
+}
+
+ns.LOCALE_CHANGELOG_3_3_6 = {
+  deDE = [[
+• Die Anzeige der Tiefensymbole wurde wieder hinzugefügt, um einen neuen Lösungsansatz zu testen.
+
+• Es ist nun möglich, auf den Tiefensymbolen von MapNotes einen TomTom- oder Blizzard-Wegpunkt zu setzen.
+
+• Ein Fehler wurde behoben, der die Darstellung von Icons anderer Addons (z. B. PetTracker) verhindert hat.
+
+• Sollte diese Version einen Fehler verursachen, den die vorherige Version nicht hatte, meldet ihn bitte.
+
+• Danke!
+]],
+
+  enUS = [[
+• The display of Delve icons has been restored to test a new possible solution.
+
+• It is now possible to set a TomTom or Blizzard waypoint directly on MapNotes Delve icons.
+
+• Fixed an issue that prevented icons from other addons (e.g. PetTracker) from being displayed.
+
+• If this version causes an error that the previous version did not have, please report it.
+
+• Thank you!
+]],
+
+  frFR = [[
+• L’affichage des icônes de Gouffres a été réactivé afin de tester une nouvelle solution.
+
+• Il est désormais possible de placer un point de cheminement TomTom ou Blizzard directement sur les icônes de Gouffres de MapNotes.
+
+• Correction d’un problème qui empêchait l’affichage des icônes d’autres addons (par exemple PetTracker).
+
+• Si cette version provoque une erreur qui n’existait pas dans la version précédente, veuillez la signaler.
+
+• Merci !
+]],
+
+  itIT = [[
+• La visualizzazione delle icone delle Spedizioni nelle Profondità è stata riattivata per testare una nuova possibile soluzione.
+
+• Ora è possibile impostare un punto di percorso TomTom o Blizzard direttamente sulle icone delle Profondità di MapNotes.
+
+• Risolto un problema che impediva la visualizzazione delle icone di altri addon (ad esempio PetTracker).
+
+• Se questa versione causa un errore che la versione precedente non aveva, segnalatelo.
+
+• Grazie!
+]],
+
+  esES = [[
+• La visualización de los iconos de Profundidades se ha vuelto a activar para probar una nueva posible solución.
+
+• Ahora es posible colocar un punto de ruta de TomTom o de Blizzard directamente sobre los iconos de Profundidades de MapNotes.
+
+• Se solucionó un problema que impedía mostrar iconos de otros addons (por ejemplo PetTracker).
+
+• Si esta versión provoca un error que la versión anterior no tenía, por favor repórtalo.
+
+• ¡Gracias!
+]],
+
+  esMX = [[
+• La visualización de los íconos de Profundidades se ha vuelto a activar para probar una nueva posible solución.
+
+• Ahora es posible colocar un punto de ruta de TomTom o de Blizzard directamente sobre los íconos de Profundidades de MapNotes.
+
+• Se corrigió un problema que impedía mostrar íconos de otros addons (por ejemplo PetTracker).
+
+• Si esta versión provoca un error que la versión anterior no tenía, por favor repórtalo.
+
+• ¡Gracias!
+]],
+
+  ptBR = [[
+• A exibição dos ícones de Mergulhos foi reativada para testar uma nova possível solução.
+
+• Agora é possível definir um ponto de rota do TomTom ou da Blizzard diretamente nos ícones de Mergulhos do MapNotes.
+
+• Corrigido um problema que impedia a exibição de ícones de outros addons (por exemplo PetTracker).
+
+• Se esta versão causar um erro que não existia na versão anterior, por favor reporte-o.
+
+• Obrigado!
+]],
+
+  ruRU = [[
+• Отображение значков Вылазок снова включено для тестирования нового возможного решения.
+
+• Теперь можно устанавливать точку маршрута TomTom или Blizzard прямо на значках вылазок MapNotes.
+
+• Исправлена ошибка, из-за которой не отображались значки других аддонов (например PetTracker).
+
+• Если эта версия вызывает ошибку, которой не было в предыдущей версии, пожалуйста, сообщите о ней.
+
+• Спасибо!
+]],
+
+  zhCN = [[
+• 深潜图标的显示已重新启用，以测试一种新的解决方案。
+
+• 现在可以直接在 MapNotes 的深潜图标上设置 TomTom 或暴雪导航点。
+
+• 修复了一个导致其他插件图标（例如 PetTracker）无法显示的问题。
+
+• 如果此版本出现之前版本没有的错误，请进行反馈。
+
+• 谢谢！
+]],
+
+  zhTW = [[
+• 深淵圖示的顯示已重新啟用，以測試新的解決方案。
+
+• 現在可以直接在 MapNotes 的深淵圖示上設定 TomTom 或暴雪導航點。
+
+• 修正了一個導致其他插件圖示（例如 PetTracker）無法顯示的問題。
+
+• 如果此版本出現先前版本沒有的錯誤，請回報。
+
+• 謝謝！
+]],
+
+  koKR = [[
+• 새로운 해결 방법을 테스트하기 위해 탐험(Delve) 아이콘 표시가 다시 활성화되었습니다.
+
+• 이제 MapNotes의 탐험 아이콘에서 TomTom 또는 블리자드 길찾기 지점을 직접 설정할 수 있습니다.
+
+• 다른 애드온(예: PetTracker)의 아이콘이 표시되지 않던 문제가 수정되었습니다.
+
+• 이전 버전에는 없던 오류가 이 버전에서 발생하면 제보해 주세요.
+
+• 감사합니다!
 ]],
 }
 

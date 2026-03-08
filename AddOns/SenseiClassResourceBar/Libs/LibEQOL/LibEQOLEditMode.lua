@@ -1,4 +1,4 @@
-local MODULE_MAJOR, BASE_MAJOR, MINOR = "LibEQOLEditMode-1.0", "LibEQOL-1.0", 17010001
+local MODULE_MAJOR, BASE_MAJOR, MINOR = "LibEQOLEditMode-1.0", "LibEQOL-1.0", 18010001
 local LibStub = _G.LibStub
 assert(LibStub, MODULE_MAJOR .. " requires LibStub")
 local C_Timer = _G.C_Timer
@@ -701,8 +701,10 @@ local function updateOverlayVisibility(selection, hidden)
 	end
 	selection.overlayHidden = not not hidden
 	selection.overlayAlphas = selection.overlayAlphas or {}
-	for _, region in ipairs({ selection:GetRegions() }) do
-		if region.GetObjectType and region:GetObjectType() == "Texture" then
+	local numRegions = selection.GetNumRegions and selection:GetNumRegions() or 0
+	for i = 1, numRegions do
+		local region = select(i, selection:GetRegions())
+		if region and region.GetObjectType and region:GetObjectType() == "Texture" then
 			if hidden then
 				if selection.overlayAlphas[region] == nil then
 					selection.overlayAlphas[region] = region:GetAlpha() or 1
@@ -3225,8 +3227,23 @@ local function buildSlider()
 			self.fixedHeight = sliderHeight
 			self:SetHeight(sliderHeight)
 		end
+		local formatter = data.formatter
+		if not formatter then
+			local stepHint = tonumber(data.valueStep)
+			if stepHint and stepHint >= 1 and stepHint == math.floor(stepHint) then
+				formatter = function(value)
+					local n = tonumber(value) or 0
+					if n >= 0 then
+						n = math.floor(n + 0.5)
+					else
+						n = math.ceil(n - 0.5)
+					end
+					return tostring(n)
+				end
+			end
+		end
 		self.formatters[MinimalSliderWithSteppersMixin.Label.Right] =
-			CreateMinimalSliderFormatter(MinimalSliderWithSteppersMixin.Label.Right, data.formatter)
+			CreateMinimalSliderFormatter(MinimalSliderWithSteppersMixin.Label.Right, formatter)
 
 		local minV = tonumber(data.minValue) or 0
 		local maxV = tonumber(data.maxValue) or 1
@@ -3378,8 +3395,11 @@ local function buildSlider()
 
 		input:SetScript("OnEnterPressed", commitInput)
 		input:SetScript("OnEscapePressed", function(box)
-			if box:GetParent() and box:GetParent().currentValue then
-				box:SetText(tostring(box:GetParent().currentValue))
+			local owner = box:GetParent()
+			local currentValue = owner and owner.currentValue
+			if currentValue ~= nil then
+				local fmt = owner and owner.formatters and owner.formatters[MinimalSliderWithSteppersMixin.Label.Right]
+				box:SetText(fmt and fmt(currentValue) or tostring(currentValue))
 			end
 			box:ClearFocus()
 		end)
@@ -4349,7 +4369,10 @@ overlapGlobalFrame:RegisterEvent("GLOBAL_MOUSE_DOWN")
 overlapGlobalFrame:SetScript("OnEvent", overlapGlobalMouseDown)
 
 local function onEditModeEnter()
-	updateActiveLayoutFromAPI()
+	-- GetLayouts is allocation-heavy; only refresh when cache is missing.
+	if not lib.activeLayoutIndex or not State.layoutSnapshot then
+		updateActiveLayoutFromAPI()
+	end
 	restoreManagerExtraFrames(true)
 	lib.isEditing = true
 	resetSelectionIndicators()
