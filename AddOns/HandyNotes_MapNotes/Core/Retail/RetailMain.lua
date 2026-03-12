@@ -2217,12 +2217,7 @@ local CurrentMapID = WorldMapFrame:GetMapID()
         UIParentLoadAddOn("Blizzard_EncounterJournal")
       end
 
-      if WorldMapFrame:IsMaximized() then
-        WorldMapFrame:Minimize()
-      end
-
       EncounterJournal_OpenJournal(difficulty, dungeonID)
-      _G.EncounterJournal:SetScript("OnShow", nil)
     end
   end
 
@@ -2267,12 +2262,7 @@ local CurrentMapID = WorldMapFrame:GetMapID()
         UIParentLoadAddOn("Blizzard_EncounterJournal")
       end
 
-      if WorldMapFrame:IsMaximized() then
-        WorldMapFrame:Minimize()
-      end
-
       EncounterJournal_OpenJournal(difficulty, dungeonID)
-      _G.EncounterJournal:SetScript("OnShow", nil)
     end
   end
 

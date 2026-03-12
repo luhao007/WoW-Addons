@@ -120,6 +120,16 @@ ns.DEFAULT_SETTINGS = {
         cooldownManager_customCDSwipeColor_b = 0,
         cooldownManager_customCDSwipeColor_a = 0.69,
 
+        cooldownManager_experimental_layoutOptimizations = false,
+        cooldownManager_experimental_disablePerSpellSettings = false,
+
+        cooldownManager_experimental_custom_glows = false,
+        cooldownManager_experimental_glow_style = "DEFAULT",
+        cooldownManager_experimental_glow_custom_color = false,
+        cooldownManager_experimental_glow_color_r = 0.95,
+        cooldownManager_experimental_glow_color_g = 0.95,
+        cooldownManager_experimental_glow_color_b = 0.32,
+        cooldownManager_experimental_glow_color_a = 1,
         cooldownManager_experimental_hideAuras = false,
         cooldownManager_experimental_enableRectangularIcons_essential = false,
         cooldownManager_experimental_enableRectangularIcons_essential_percent = 0.8,

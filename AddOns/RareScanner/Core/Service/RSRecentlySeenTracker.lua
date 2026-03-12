@@ -177,7 +177,7 @@ function RSRecentlySeenTracker.RemoveRecentlySeen(entityID)
 	
 	-- Avoid hiding incorrect icons
 	if (min >= 0.001) then
-		--RSLogger:PrintDebugMessage(string.format("RemoveRecentlySeen[distancia=%s] (No devuelve contenedor por no haberse encontrado uno lo suficientemente cerca)", min))
+		RSLogger:PrintDebugMessage(string.format("RemoveRecentlySeen[distancia=%s] (No devuelve contenedor por no haberse encontrado uno lo suficientemente cerca)", min))
 		return nil
 	end
 	

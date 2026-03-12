@@ -21,6 +21,13 @@ Titan_Global.switch = {} -- reserved for flags needed because feature / function
 -- As much as possible, use something in the API to determine feature, not API version.
 -- Set defaults to retail feature / function
 
+Titan_Global.switch.has_secrets  = true -- if UI is using secret values
+if C_Secrets then
+	Titan_Global.switch.has_secrets  = true -- 
+else
+	Titan_Global.switch.has_secrets  = false -- 
+end
+
 Titan_Global.switch.can_edit_ui  = true -- if user can modify UI
 if C_EditMode then
 	Titan_Global.switch.can_edit_ui  = true -- User changes UI

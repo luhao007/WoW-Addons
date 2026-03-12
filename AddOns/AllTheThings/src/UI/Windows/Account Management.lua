@@ -484,6 +484,7 @@ local AccountWideDataHandlers = setmetatable({
 	IGNORE_QUEST_PRINT = app.EmptyFunction,
 	AzeriteEssenceRanks = RankSyncCharacterData,
 	Quests = PartialSyncCharacterData,
+	FirstCrafts = app.GameBuildVersion > 100000 and PartialSyncCharacterData or nil
 }, {
 	__index = function(t, key)
 		return whiteListedFields[key] and DefaultAccountWideDataHandler or app.EmptyFunction;

@@ -3,80 +3,79 @@ local ADDON_NAME, ADDON = ...
 -- CREATE THE ADDON FRAME
 local QuestCounter = CreateFrame("Frame", "QuestCounterFrame")
 
--- MAXIMUM NUMBER OF QUESTS
+-- MAXIMUM NUMBER OF STANDARD QUESTS
 local MAX_QUESTS = 35
 
 -- GET THE BEST AVAILABLE QUEST HEADER FONTSTRING
 local function GetQuestHeaderTextObject()
-    -- VARIANT 1: ORIGINAL TARGET
+    -- VARIANT 1: MODERN TARGET (THE ONLY RELIABLE ONE IN CURRENT RETAIL)
     if QuestObjectiveTracker and QuestObjectiveTracker.Header and QuestObjectiveTracker.Header.Text then
         return QuestObjectiveTracker.Header.Text
     end
 
-    -- VARIANT 2: COMMON DEFAULT UI TARGET
-    if ObjectiveTrackerFrame and ObjectiveTrackerFrame.Header and ObjectiveTrackerFrame.Header.Text then
-        return ObjectiveTrackerFrame.Header.Text
-    end
-
-    -- VARIANT 3: BLOCKS FRAME QUEST HEADER
-    if ObjectiveTrackerBlocksFrame and ObjectiveTrackerBlocksFrame.QuestHeader and ObjectiveTrackerBlocksFrame.QuestHeader.Text then
-        return ObjectiveTrackerBlocksFrame.QuestHeader.Text
+    -- VARIANT 2: CAMPAIGN TRACKER BACKUP
+    if CampaignQuestObjectiveTracker and CampaignQuestObjectiveTracker.Header and CampaignQuestObjectiveTracker.Header.Text then
+        return CampaignQuestObjectiveTracker.Header.Text
     end
 
     return nil
 end
 
--- COUNT ACTUAL QUESTS IN THE QUEST LOG
+-- COUNT ACTUAL STANDARD QUESTS IN THE QUEST LOG
 local function CountQuests()
+    -- DIRECTLY ITERATE THE QUEST LOG ENTRIES
     local questsCounted = 0
-    local numQuestLogEntries = C_QuestLog.GetNumQuestLogEntries()
-
-    for index = 1, numQuestLogEntries do
-        local questInfo = C_QuestLog.GetInfo(index)
-
-        if questInfo and not questInfo.isHeader and not questInfo.isHidden then
-            questsCounted = questsCounted + 1
+    local numEntries = C_QuestLog.GetNumQuestLogEntries()
+    
+    for i = 1, numEntries do
+        local info = C_QuestLog.GetInfo(i)
+        
+        -- 1. ENSURE IT IS A VALID ENTRY AND NOT A HEADER, TASK (BONUS OBJECTIVE), OR BOUNTY
+        -- 2. ENSURE IT IS NOT A HIDDEN TRACKER QUEST
+        if info and not info.isHeader and not info.isTask and not info.isBounty and not info.isHidden then
+            
+            -- 3. EXCLUDE ACCOUNT-WIDE QUESTS (LIKE PET BATTLES) WHICH DO NOT COUNT TOWARDS THE 35 CAP
+            -- ENSURE QUESTID EXISTS BEFORE CHECKING ACCOUNT STATUS
+            if info.questID and not C_QuestLog.IsAccountQuest(info.questID) then
+                questsCounted = questsCounted + 1
+            end
+            
         end
     end
-
+    
+    -- JUST IN CASE AN EDGE CASE CAUSES A NEGATIVE NUMBER, FLOOR IT TO 0
+    if questsCounted < 0 then
+        questsCounted = 0
+    end
+    
     return questsCounted
 end
 
 -- UPDATE THE QUEST COUNT DISPLAY
 function QuestCounter:UpdateQuestCount()
     local headerText = GetQuestHeaderTextObject()
-    if not headerText then
-        return
+    
+    if headerText then
+        local currentCount = CountQuests()
+        
+        -- FORMAT AND SET THE TEXT (E.G., "QUESTS (12/35)")
+        -- USE THE BLIZZARD GLOBAL "TRACKER_HEADER_QUESTS" TO ENSURE PROPER LOCALIZATION
+        headerText:SetText(TRACKER_HEADER_QUESTS .. " (" .. currentCount .. "/" .. MAX_QUESTS .. ")")
     end
-
-    local questsCounted = CountQuests()
-    local displayText = string.format("Quests (%d / %d)", questsCounted, MAX_QUESTS)
-    headerText:SetText(displayText)
 end
 
--- APPLY SAFE HOOKS SO BLIZZARD REFRESHES DON'T OVERWRITE THE HEADER TEXT
+-- HOOK INTO THE MODERN OBJECTIVE TRACKER UPDATES
 function QuestCounter:HookObjectiveTracker()
-    -- HOOK ON-SHOW FOR WHATEVER HEADER OBJECT EXISTS
-    local headerText = GetQuestHeaderTextObject()
-    if headerText and headerText.GetParent then
-        local header = headerText:GetParent()
-        if header and header.HookScript then
-            header:HookScript("OnShow", function()
-                QuestCounter:UpdateQuestCount()
-            end)
-        end
-    end
-
-    -- HOOK THE GLOBAL UPDATE IF IT EXISTS
-    if type(ObjectiveTracker_Update) == "function" then
-        hooksecurefunc("ObjectiveTracker_Update", function()
+    -- HOOK THE QUEST TRACKER
+    if QuestObjectiveTracker and type(QuestObjectiveTracker.Update) == "function" then
+        hooksecurefunc(QuestObjectiveTracker, "Update", function()
             QuestCounter:UpdateQuestCount()
         end)
     end
 
-    -- HOOK THE FRAME UPDATE METHOD IF IT EXISTS
-    if ObjectiveTrackerFrame and type(ObjectiveTrackerFrame.Update) == "function" then
-        hooksecurefunc(ObjectiveTrackerFrame, "Update", function()
+    -- HOOK THE CAMPAIGN TRACKER
+    if CampaignQuestObjectiveTracker and type(CampaignQuestObjectiveTracker.Update) == "function" then
+        hooksecurefunc(CampaignQuestObjectiveTracker, "Update", function()
             QuestCounter:UpdateQuestCount()
         end)
     end
@@ -119,6 +118,4 @@ QuestCounter:RegisterEvent("QUEST_WATCH_LIST_CHANGED")
 QuestCounter:RegisterUnitEvent("UNIT_QUEST_LOG_CHANGED", "player")
 
 -- SET THE SCRIPT HANDLER
-QuestCounter:SetScript("OnEvent", function(self, event, ...)
-    self:OnEvent(event, ...)
-end)
+QuestCounter:SetScript("OnEvent", QuestCounter.OnEvent)

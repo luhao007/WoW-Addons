@@ -159,10 +159,26 @@ function addon:MergeVariable(src, dst)
 end
 
 function addon:AutoSetTooltipWidth(tooltip)
+    if (tooltip:IsAnchoringSecret() or tooltip:HasAnySecretAspect()) then return end
     local width, w = 80
     for i = 1, tooltip:NumLines() do
-        w = tonumber(_G[tooltip:GetName() .. "TextLeft" .. i]:GetWidth())
-        width = max(width, w)
+        local line = _G[tooltip:GetName() .. "TextLeft" .. i]
+        local check, value = pcall(function()
+            return line and line:GetWidth()
+        end)
+        if (check) then
+            local checkType, isNum = pcall(function()
+                return type(value) == "number"
+            end)
+            if (checkType and isNum) then
+                local checkMax, newWidth = pcall(function()
+                    return max(width, value)
+                end)
+                if (checkMax) then
+                    width = newWidth
+                end
+            end
+        end
     end
     width = width + 6
     tooltip:SetMinimumWidth(width)
@@ -953,9 +969,16 @@ LibEvent:attachTrigger("tooltip.style.init", function(self, tip)
     tip.style.mask:SetBlendMode("ADD")
     tip.style.mask:SetGradient("VERTICAL", {r=0, b=0, g=0, a=0},{ r=0.9, b=0.9, g=0.9, a=0.4})
     tip.style.mask:Hide()    
-    tip:HookScript("OnShow", function(self) LibEvent:trigger("tooltip:show", self) end)
-    tip:HookScript("OnHide", function(self) LibEvent:trigger("tooltip:hide", self) end)
-
+    tip:HookScript("OnShow", function(self)
+     local check, res = pcall(function() return self.IsAnchoringSecret and self:IsAnchoringSecret() end)
+     if (check and res) then return end
+     LibEvent:trigger("tooltip:show", self) 
+    end)
+    tip:HookScript("OnHide", function(self) 
+     local check, res = pcall(function() return self.IsAnchoringSecret and self:IsAnchoringSecret() end)
+     if (check and res) then return end
+     LibEvent:trigger("tooltip:hide", self) 
+    end)
     tip.TinyHookScript = addon.TinyHookScript
     if(tip.ProcessInfo) then
         hooksecurefunc(tip, "ProcessInfo", function(self, info)

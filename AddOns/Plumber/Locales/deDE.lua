@@ -824,6 +824,7 @@ L["currency-2917"] = "Vergoldetes";
 L["Scenario Delves"] = "Tiefen";
 L["GameObject Door"] = "Tür";
 L["Delve Chest 1 Rare"] = "Großzügiger Kasten";    --We'll use the GameObjectID once it shows up in the database
+L["GameObject Rich Soil"] = "Fruchtbarer Boden";
 
 L["Season Maximum Colon"] = "Saisonmaximum:";    --CURRENCY_SEASON_TOTAL_MAXIMUM
 L["Item Changed"] = "hat sich verändert zu";    --CHANGED_OWN_ITEM
@@ -834,6 +835,7 @@ L["Coffer Key Shard"] = "Kastenschlüsselsplitter";
 L["Epoch Mementos"] = "Epochenandenken";    --See currency:3293
 L["Timeless Scrolls"] = "Zeitlose Schriftrolle";    --item: 217605
 L["QuestName Runestone"] = "Die Runensteine verstärken";    --4 Mutually exclusive quests: 90575
+L["QuestName HarandarRelic"] = "Legenden der Haranir";
 L["Prey System"] = "Beutejagd";
 
 L["CONFIRM_PURCHASE_NONREFUNDABLE_ITEM"] = "Seid Ihr sicher, dass Ihr %s gegen den folgenden Gegenstand eintauschen möchtet?\n\n|cffff2020Dieser Tausch kann nicht rückgängig gemacht werden.|r\n %s";    --Base: CONFIRM_PURCHASE_NONREFUNDABLE_ITEM Change the warning's color and added a new line.

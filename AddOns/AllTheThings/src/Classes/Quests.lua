@@ -309,8 +309,7 @@ local function PrintQuestInfoViaCallback(questID, new)
 	-- app.PrintDebug("PrintQuestInfoViaCallback",questID,new)
 	RequestLoadQuestByID(questID, PrintQuestInfoCallback, new)
 end
--- DirtyQuests became a table instead of an array like before, so it broke a lot of things... I'll make one for each version to keep it working
-local ClassicDirtyQuests, RetailDirtyQuests = {}, {}
+local DirtyQuests = {}
 local IsQuestFlaggedCompletedForObject;
 local CACHE = "Quests"
 app.AddEventHandler("OnSavedVariablesAvailable", function(currentCharacter, accountWideData)
@@ -459,7 +458,7 @@ local CompletedQuests = setmetatable({}, {
 			RetailRawQuests[questID] = nil
 			PrintQuestInfoViaCallback(questID, false)
 		end
-		RetailDirtyQuests[#RetailDirtyQuests + 1] = questID
+		DirtyQuests[#DirtyQuests + 1] = questID
 		-- Way too much overhead to assume this should be done every time a key is changed
 		if not BatchRefresh then
 			CacheQuestByScope(questID, state)
@@ -924,7 +923,7 @@ if C_QuestLog_GetAllCompletedQuestIDs then
 		-- app.PrintDebugPrior("---")
 		-- app.__CQS = CompleteQuestSequence
 
-		if #RetailDirtyQuests > 0 then
+		if #DirtyQuests > 0 then
 			CacheQuestsByScope(FlaggedQuests,1)
 			CacheQuestsByScope(UnflaggedQuests)
 		end
@@ -965,7 +964,7 @@ if C_QuestLog_GetAllCompletedQuestIDs then
 	local Register_CRITERIA_UPDATE = app.EmptyFunction
 	local function RefreshQuestCompletionState(questID)
 		-- app.PrintDebug("RefreshQuestCompletionState",questID)
-		wipe(RetailDirtyQuests);
+		wipe(DirtyQuests);
 		if questID then
 			questID = tonumber(questID) or questID;
 			CompletedQuests[questID] = true;
@@ -973,8 +972,8 @@ if C_QuestLog_GetAllCompletedQuestIDs then
 			-- Batch processing will ignore all the per-instance collection etc. built into CompletedQuests
 			-- because that is a huge overhead. Instead capture the values and assign them all at once
 			QueryCompletedQuests();
-			if #RetailDirtyQuests > 0 then
-				app.UpdateRawIDs("questID", RetailDirtyQuests);
+			if #DirtyQuests > 0 then
+				app.UpdateRawIDs("questID", DirtyQuests);
 			end
 		end
 
@@ -1027,8 +1026,13 @@ else	-- no C_QuestLog_GetAllCompletedQuestIDs
 	local GetQuestsCompleted = GetQuestsCompleted;
 	local QueryCompletedQuests = function()
 		-- Mark all previously completed quests.
+		BatchRefresh = true
+		wipe(DirtyQuests);
 		GetQuestsCompleted(CompletedQuests);
-		wipe(ClassicDirtyQuests);
+		if #DirtyQuests > 0 then
+			CacheQuestsByScope(CompletedQuests, 1);
+		end
+		BatchRefresh = nil
 	end
 	local function UpdateParentProgress(group)
 		if group.collectible then
@@ -1110,12 +1114,12 @@ else	-- no C_QuestLog_GetAllCompletedQuestIDs
 		end
 
 		local any = false;
-		for questID,completed in pairs(ClassicDirtyQuests) do
+		for questID,completed in pairs(DirtyQuests) do
 			QuestCompletionHelper(tonumber(questID));
 			any = true;
 		end
 		if any then
-			wipe(ClassicDirtyQuests);
+			wipe(DirtyQuests);
 			app.WipeSearchCache();
 			app.HandleEvent("OnUpdateWindows");
 		end

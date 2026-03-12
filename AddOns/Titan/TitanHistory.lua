@@ -10,6 +10,25 @@ These are in a seperate file to
 --- Release notes. Keep structure; most recent on 'top'
 local recent_changes = {
    {
+      version = "9.1.2",
+      when = "2026/03/01",
+      topics = {
+         {
+            topic = "TitanVolume",
+            lines = {
+               "New menu scheme with sliders working this time.",
+            },
+         },
+         {
+            topic = "Titan",
+            lines = {
+               "Tooltips : Should not hang (stay visible) now..",
+               "Change comments per recent changes; a little code cleanup.",
+            },
+         },
+      },
+   },
+   {
       version = "9.1.1",
       when = "2026/02/16",
       topics = {

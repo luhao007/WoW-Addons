@@ -158,19 +158,6 @@ slr.nodes[40888899] = Rare({ -- wowhead beta coords
     parent = map.id
 }) -- Eruundi
 
-map.nodes[53946272] = Rare({
-    id = 256821,
-    quest = 93896, -- 94755
-    rewards = {
-        Achievement({id = 62130, criteria = 111890}),
-        Reputation({id = 2699, gain = 50, quest = 94755}),
-        Transmog({item = 264913, type = L['1h_sword']}), -- Focused Netherslicer
-        Transmog({item = 264912, type = L['staff']}), -- Void-Channeler's Spire
-        Spacer(), Section(L['shared_drops']), Mount({item = 257085, id = 2751}), -- Augmented Stormray
-        Mount({item = 260635, id = 2827}) -- Sanguine Harrower
-    }
-}) -- Far'thana the Mad
-
 map.nodes[37897177] = Rare({
     id = 256925,
     quest = 93947, -- 94758
@@ -225,7 +212,28 @@ slr.nodes[46334094] = Rare({
     parent = map.id
 }) -- Rakshur the Bonegrinder
 
-map.nodes[48815326] = Rare({
+local RareElite = ns.Class('RareElite', Rare, {
+    rlabel = '(' .. ns.color.Gray(L['elite']) .. ')',
+    icon = 'star_skull_b',
+    scale = 1.6
+})
+
+ns.node.RareElite = RareElite
+
+map.nodes[53946272] = RareElite({
+    id = 256821,
+    quest = 93896, -- 94755
+    rewards = {
+        Achievement({id = 62130, criteria = 111890}),
+        Reputation({id = 2699, gain = 50, quest = 94755}),
+        Transmog({item = 264913, type = L['1h_sword']}), -- Focused Netherslicer
+        Transmog({item = 264912, type = L['staff']}), -- Void-Channeler's Spire
+        Spacer(), Section(L['shared_drops']), Mount({item = 257085, id = 2751}), -- Augmented Stormray
+        Mount({item = 260635, id = 2827}) -- Sanguine Harrower
+    }
+}) -- Far'thana the Mad
+
+map.nodes[48815326] = RareElite({
     id = 256808,
     quest = 93895, -- 94763
     rewards = {
@@ -238,26 +246,86 @@ map.nodes[48815326] = Rare({
     }
 }) -- Ravengerus
 
--- Hardin Steellock @map 2444 28.35 57.11, Horde only?
--- Gar'chak Skullcleave @map 2444 69.68 77.30, Alliance only?
+slr.nodes[69687730] = RareElite({
+    id = 257231,
+    quest = 94461,
+    faction = 'alliance',
+    rewards = {
+        Transmog({item = 264641, type = L['1h_axe']}), -- Sharpened Skullcleaver
+        Spacer(), Section(L['shared_drops']), Mount({item = 257085, id = 2751}), -- Augmented Stormray
+        Mount({item = 260635, id = 2827}) -- Sanguine Harrower
+    }
+}) -- Gar'chak Skullcleave
 
--- map.nodes[30336652] = Rare({
---     id = 248791,
---     quest = 94459,
---     rewards = {},
---     pois = {ns.poi.Line({30006658, 30336652, 3067661})}
--- }) -- Voidseer Orivane
+slr.nodes[28355711] = RareElite({
+    id = 257199,
+    quest = 94461,
+    faction = 'horde',
+    rewards = {
+        Transmog({item = 264615, type = L['1h_sword']}), -- Hardin's Backup Blade
+        Spacer(), Section(L['shared_drops']), Mount({item = 257085, id = 2751}), -- Augmented Stormray
+        Mount({item = 260635, id = 2827}) -- Sanguine Harrower
+    }
+}) -- Hardin Steellock
 
--- map.nodes[30186940] = Rare({
---     id = 248791,
---     quest = 94459,
---     rewards = {},
---     pois = {ns.poi.Line({29906904, 30186940, 30516971})}
--- }) -- Voidseer Orivane
+map.nodes[30336652] = RareElite({
+    id = 248791,
+    fgroup = 'voidseer_orivane',
+    quest = 94459,
+    rewards = {
+        Transmog({item = 264556, type = L['mail']}), -- Voidforged Cinch
+        Transmog({item = 264628, type = L['polearm']}), -- Spear of Nothingness
+        Section(L['shared_drops']), Mount({item = 257085, id = 2751}), -- Augmented Stormray
+        Mount({item = 260635, id = 2827}) -- Sanguine Harrower
+    },
+    pois = {
+        ns.poi.Line({30006658, 30336652, 3067661}),
+        ns.poi.Line({30416974, 30266966, 30186937, 29896900})
+    }
+}) -- Voidseer Orivane
 
--- map.nodes[29796787] = Rare({id = 248068, quest = 94460, rewards = {}}) -- Nullspiral
+map.nodes[29796787] = RareElite({
+    id = 248068,
+    quest = 94460,
+    rewards = {
+        Transmog({item = 264531, type = L['cloth']}), -- Shadowthread Slippers
+        Transmog({item = 264588, type = L['cloak']}), -- Shawl of Cosmic Whispers
+        Section(L['shared_drops']), Mount({item = 257085, id = 2751}), -- Augmented Stormray
+        Mount({item = 260635, id = 2827}) -- Sanguine Harrower
+    }
+}) -- Nullspiral
 
--- map.nodes[28847023] = Rare({id = 248459, quest = 94458, rewards = {}}) -- The Many-Broken
+map.nodes[28847023] = RareElite({
+    id = 248459,
+    quest = 94458,
+    rewards = {
+        Transmog({item = 264577, type = L['plate']}), -- Crystalforged Boots
+        Transmog({item = 264651, type = L['1h_mace']}), -- Resonating Traumatizer
+        Section(L['shared_drops']), Mount({item = 257085, id = 2751}), -- Augmented Stormray
+        Mount({item = 260635, id = 2827}) -- Sanguine Harrower
+    }
+}) -- The Many-Broken
+
+map.nodes[28206600] = RareElite({
+    id = 248700,
+    quest = 94462,
+    rewards = {
+        Transmog({item = 264596, type = L['cloak']}), -- Voidthread Veil
+        Transmog({item = 264634, type = L['staff']}), -- Spire of Flowing Void
+        Section(L['shared_drops']), Mount({item = 257085, id = 2751}), -- Augmented Stormray
+        Mount({item = 260635, id = 2827}) -- Sanguine Harrower
+    }
+}) -- Abysslick
+
+map.nodes[24806780] = RareElite({
+    id = 248823,
+    quest = 94463,
+    rewards = {
+        Transmog({item = 264519, type = L['shield']}), -- Repurposed Voidwalker's Chestplate
+        Section(L['shared_drops']), Mount({item = 257085, id = 2751}), -- Augmented Stormray
+        Mount({item = 260635, id = 2827}) -- Sanguine Harrower
+    }
+}) -- Blackcore
 
 -------------------------------------------------------------------------------
 ---------------------------------- TREASURES ----------------------------------
@@ -489,7 +557,11 @@ map.nodes[37815497] = Telescope({
 
 slr.nodes[41964062] = PT.Alchemy({quest = 89112, id = 238533, parent = map.id}) -- Vial of Voidstorm Oddities
 map.nodes[32794329] = PT.Alchemy({quest = 89118, id = 238539}) -- Failed Experiment
-map.nodes[30516899] = PT.Blacksmithing({quest = 89181, id = 238544}) -- Voidstorm Defense Spear
+slr.nodes[30516899] = PT.Blacksmithing({
+    quest = 89181,
+    id = 238544,
+    parent = map.id
+}) -- Voidstorm Defense Spear
 map.nodes[35495882] = PT.Enchanting({quest = 89102, id = 238550}) -- Pure Void Crystal
 slr.nodes[54135101] = PT.Engineering({
     quest = 89137,

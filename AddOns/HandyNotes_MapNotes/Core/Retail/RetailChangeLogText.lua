@@ -1,9 +1,11 @@
 local ADDON_NAME, ns = ...
 
-ns.CurrentAddonVersion = "3.3.6"
-ns.PreviousAddonVersion = "3.3.5" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
+ns.CurrentAddonVersion = "3.3.8"
+ns.PreviousAddonVersion = "3.3.7" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
 
 ns.LOCALE_CHANGELOGS = {
+  { version = "3.3.8", table = ns.LOCALE_CHANGELOG_3_3_8 },
+  { version = "3.3.7", table = "partialUpdate" },
   { version = "3.3.6", table = ns.LOCALE_CHANGELOG_3_3_6 },
   { version = "3.3.5", table = ns.LOCALE_CHANGELOG_3_3_5 },
   { version = "3.3.4", table = ns.LOCALE_CHANGELOG_3_3_4 },
@@ -62,6 +64,52 @@ ns.LOCALE_CHANGELOG_3_3_ = { -- empty backup file
 
   koKR = [[
 
+]],
+}
+
+ns.LOCALE_CHANGELOG_3_3_8 = {
+  deDE = [[
+• Ein Fehler wurde behoben, bei dem das Addon RareScanner die MapNotes-"POIs"-Funktion ausgehebelt hat.
+]],
+
+  enUS = [[
+• Fixed an issue where the RareScanner addon caused the MapNotes "POIs" function to stop working.
+]],
+
+  frFR = [[
+• Correction d’un problème où l’addon RareScanner empêchait le fonctionnement de la fonction « POIs » de MapNotes.
+]],
+
+  itIT = [[
+• Risolto un problema per cui l’addon RareScanner impediva il funzionamento della funzione "POIs" di MapNotes.
+]],
+
+  esES = [[
+• Se solucionó un problema por el cual el addon RareScanner impedía el funcionamiento de la función "POIs" de MapNotes.
+]],
+
+  esMX = [[
+• Se corrigió un problema por el cual el addon RareScanner impedía el funcionamiento de la función "POIs" de MapNotes.
+]],
+
+  ptBR = [[
+• Corrigido um problema em que o addon RareScanner impedia o funcionamento da função "POIs" do MapNotes.
+]],
+
+  ruRU = [[
+• Исправлена ошибка, из-за которой аддон RareScanner нарушал работу функции «POIs» в MapNotes.
+]],
+
+  zhCN = [[
+• 修复了当启用 RareScanner 插件时导致 MapNotes“POI”功能无法正常工作的错误。
+]],
+
+  zhTW = [[
+• 修正了一個在啟用 RareScanner 插件時導致 MapNotes「POI」功能無法正常運作的問題。
+]],
+
+  koKR = [[
+• RareScanner 애드온이 활성화되어 있을 때 MapNotes의 "POIs" 기능이 정상적으로 작동하지 않던 문제가 수정되었습니다.
 ]],
 }
 

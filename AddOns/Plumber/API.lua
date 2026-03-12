@@ -1510,6 +1510,19 @@ do  -- Instance -- Map
         local _, instanceType = GetInstanceInfo();
         return instanceType == "arena" or instanceType == "pvp"
     end
+
+
+    function API.IsPlayerInInstance()
+        local state = IsInInstance();
+        if state then
+            return true
+        end
+
+        local _, instanceType = GetInstanceInfo();
+        if instanceType == "scenario" then
+            return true
+        end
+    end
 end
 
 do  -- Pixel
@@ -2295,16 +2308,20 @@ do  -- Spell
 end
 
 do  -- System
-    if true then    --IS_TWW
-        local GetMouseFoci = GetMouseFoci;
+    local GetMouseFoci = GetMouseFoci;
 
-        local function GetMouseFocus()
-            local objects = GetMouseFoci();
-            return objects and objects[1]
-        end
-        API.GetMouseFocus = GetMouseFocus;
-    else
-        API.GetMouseFocus = GetMouseFocus;
+    local function GetMouseFocus()
+        local objects = GetMouseFoci();
+        return objects and objects[1]
+    end
+    API.GetMouseFocus = GetMouseFocus;
+
+
+    local WorldFrame = WorldFrame;
+    function API.IsWorldFrameFocused()
+        --Some addons may create a frame with propagateMouseInput over the WorldFrame
+        local obj = GetMouseFocus();
+        return obj == nil or obj == WorldFrame or (obj:CanPropagateMouseMotion() or obj:CanPropagateMouseClicks())
     end
 
 

@@ -300,9 +300,17 @@ function LDBToTitan:TitanLDBHandleScripts(event, name, _, func, obj)
 		-- OnClick
 	elseif event:find("OnClick") then
 		TitanPluginframe:SetScript("OnClick", function(self, button)
-			if TITAN_PANEL_MOVING == 0 then
+			if TITAN_PANEL_MOVING == 0 then -- no move in progress
 				func(self, button)
 			end
+
+			--[[ 2026 Mar
+			Discovered that the Blizzard_Menu system, when used by an LDB,
+			is set up and shown before we get here.
+			So... make assumption that menus will be closed on a mouse click.
+			--]]
+
+			--[===[
 			-- implement a safeguard, since the DO may actually use
 			-- Blizzy dropdowns !
 			if not TitanPanelRightClickMenu_IsVisible() then
@@ -310,10 +318,10 @@ function LDBToTitan:TitanLDBHandleScripts(event, name, _, func, obj)
 			else
 				TitanUtils_CloseAllControlFrames();
 			end
+			--]===]
 		end
 		)
-		-- OnEnter
-	else
+	else -- OnEnter / OnLeave
 		TitanPluginframe:SetScript("OnEnter", function(self)
 			-- Check for tooltip libs without embedding them
 

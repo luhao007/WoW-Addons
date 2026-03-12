@@ -280,6 +280,13 @@ L["Instruction View In Dressing Room"] = "<Ctrl Click to View in Dressing Room>"
 L["Data Loading In Progress"] = "Plumber is loading data";
 
 
+--Tooltip RichSoil
+L["ModuleName TooltipRichSoil"] = "Quick Slot: Resilient Seeds";
+L["ModuleDescription TooltipRichSoil"] = "For Herbalists: Show a list of Resilient Seeds when double-clicking on Rich Soil."..L["Quick Slot Generic Description"];
+L["Instruction Show Resilient Seeds"] = "<Double click to show Resilient Seeds>";
+L["No Resilient Seed"] = "No Resilient Seeds";
+
+
 --Plunderstore
 L["ModuleName Plunderstore"] = "Plunderstore";
 L["ModuleDescription Plunderstore"] = "Modify the store opened via Group Finder:\n\n- Added a checkbox to hide collected items.\n\n- Display the number of uncollected items on the category buttons.\n\n- Added weapon and armor equip location to their tooltips.\n\n- Allow you to view equippable items in the Dressing Room.";
@@ -710,6 +717,7 @@ L["Click To Queue"] = "Click to queue for |cffffffff%s|r";
 L["Click to Open Format"] = "Click to open %s";
 L["List Is Empty"] = "The list is empty.";
 L["Prey No Data"] = "Prey Progress Unavailable";
+L["Abundance No Data"] = "No Active Abundance Event";
 
 
 --ExpansionSummaryMinimapButton
@@ -922,6 +930,7 @@ L["currency-2917"] = "Gilded";
 L["Scenario Delves"] = "Delves";
 L["GameObject Door"] = "Door";
 L["Delve Chest 1 Rare"] = "Bountiful Coffer";   --We'll use the GameObjectID once it shows up in the database
+L["GameObject Rich Soil"] = "Rich Soil";
 
 L["Season Maximum Colon"] = "Season Maximum:";  --CURRENCY_SEASON_TOTAL_MAXIMUM
 L["Item Changed"] = "was changed to";   --CHANGED_OWN_ITEM
@@ -932,6 +941,7 @@ L["Coffer Key Shard"] = "Coffer Key Shard";
 L["Epoch Mementos"] = "Epoch Mementos";     --See currency:3293
 L["Timeless Scrolls"] = "Timeless Scrolls"; --item: 217605
 L["QuestName Runestone"] = "Fortify the Runestones";    --4 Mutually exclusive quests: 90575
+L["QuestName HarandarRelic"] = "Legends of the Harandar";
 L["Prey System"] = "Prey";
 
 L["CONFIRM_PURCHASE_NONREFUNDABLE_ITEM"] = "Are you sure you wish to exchange %s for the following item?\n\n|cffff2020Your purchase is not refundable.|r\n %s";  --Base: CONFIRM_PURCHASE_NONREFUNDABLE_ITEM Change the warning's color and added a new line.

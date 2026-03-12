@@ -21,18 +21,26 @@ local onUpdateForDynamicCategory = function(o)
 	o.progress = nil;
 	o.total = nil;
 	if window then
-		window:ForceRebuild();
 		local data = window.data;
 		if data then
 			if o.g then
-				o.progress = 0;
-				o.total = 0;
+				return false;
 			else
+				window:ForceRebuild();
 				o.progress = data.progress or 0;
 				o.total = data.total or 0;
+				
+				-- Increment the parent group's totals if the group is not ignored for sources
+				if not o.sourceIgnored then
+					local parent = o.parent;
+					if parent then
+						parent.total = parent.total + o.total
+						parent.progress = parent.progress + o.progress
+					end
+				end
+				o.visible = app.GroupVisibilityFilter(data);
+				return true;
 			end
-			o.visible = app.GroupVisibilityFilter(data);
-			return true;
 		end
 	end
 	o.visible = false;

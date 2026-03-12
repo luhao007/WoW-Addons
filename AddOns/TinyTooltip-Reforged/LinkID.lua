@@ -48,8 +48,8 @@ local function ShowId(tooltip, name, value, noBlankLine)
     if (not name or not value) then return end
     if (tooltip.IsForbidden and tooltip:IsForbidden()) then return end
     local name = format("%s%s", name, " ID")
-    if (addon.db.general.showIdInfo == "always") then
-        local line = addon:FindLine(tooltip, name)
+    if ((addon.db.general.showIdInfo == "always") or (addon.db.general.showIdInfo == "Shift / Ctrl / Alt" and (IsShiftKeyDown() or IsControlKeyDown() or IsAltKeyDown()))) then
+        local line = addon:FindLine(tooltip, name) 
         local idLine = format("%s: |cffffffff%s|r", name, value)
         if (not line) then
             if (not noBlankLine) then tooltip:AddLine(" ") end
@@ -59,27 +59,15 @@ local function ShowId(tooltip, name, value, noBlankLine)
             line:SetText(idLine)
         end
         LibEvent:trigger("tooltip.linkid", tooltip, name, value, noBlankLine)     
-    elseif (addon.db.general.showIdInfo == "Shift / Ctrl / Alt" and (IsShiftKeyDown() or IsControlKeyDown() or IsAltKeyDown())) then
-
-        local line = addon:FindLine(tooltip, name)
-        local idLine = format("%s: |cffffffff%s|r", name, value)
-        if (not line) then
-            if (not noBlankLine) then tooltip:AddLine(" ") end
-            tooltip:AddLine(format(idLine, name, value), 0, 1, 0.8)
-            tooltip:Show()
-        else
-            line:SetText(idLine)
-        end
-        LibEvent:trigger("tooltip.linkid", tooltip, name, value, noBlankLine) 
     end
 end
 
 local function ShowSpellInfo(tooltip, spellId)
     if (not spellId) then return end
-    ShowId(tooltip, L["id.spell"] or "Spell ID", spellId)
+    ShowId(tooltip, addon.L["id.spell"] or "Spell ID", spellId)
     local iconId = GetSpellIconId(spellId)
     if (iconId) then
-        ShowId(tooltip, L["id.icon"] or "Icon ID", iconId, true)
+        ShowId(tooltip, addon.L["id.icon"] or "Icon ID", iconId, true)
     end
 end
 
@@ -88,14 +76,14 @@ local function ShowLinkIdInfo(tooltip, data)
         local itemName, itemLink, itemID = TooltipUtil.GetDisplayedItem(tooltip)
         ShowId(tooltip, ParseHyperLink(itemLink))
         -- icon ID
-        ShowId(tooltip, L["id.icon"] or "Icon ID", GetItemIconId(itemID), 1)
+        ShowId(tooltip, addon.L["id.icon"] or "Icon ID", GetItemIconId(itemID), 1)
     end
 end
 
 local function GetSpellIdFromTooltip(tip)
     if (not tip or not tip.GetSpell) then return end
-    local ok, _, spellId = pcall(tip.GetSpell, tip)
-    if (ok and type(spellId) == "number") then
+    local check, _, spellId = pcall(tip.GetSpell, tip)
+    if (check and type(spellId) == "number") then
         return spellId
     end
 end

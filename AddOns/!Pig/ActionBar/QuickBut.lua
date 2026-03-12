@@ -736,19 +736,24 @@ local function GetSpellData()
 		datax ={53428,50977};
 	elseif classId==8 then --法师
 		local mapIDname={}
-		local englishFaction, _ = UnitFactionGroup("player")
+		local englishFaction, _ = UnitFactionGroup("player") 
 		if englishFaction=="Alliance" then
 			datax ={3561,10059,3562,11416,3565,11419};
+			-- 125/126--达拉然
 			if PIG_MaxTocversion(50000) then
+				--1453暴风城/1455铁炉堡/1457达纳苏斯/1947埃索达/1955沙塔斯
 				mapIDname ={1453,1455,1457,1947,1445,1955,125,nil,nil,390};
 			else
+				--84暴风城/87铁炉堡/89达纳苏斯/103埃索达/111沙塔斯
 				mapIDname ={84,87,89,103,70,111,125,nil,244,390};
 			end
 		elseif englishFaction=="Horde" then
 			datax ={3567,11417,3566,11420,3563,11418};
 			if PIG_MaxTocversion(50000) then
+				--1454奥格/1456雷霆崖/1458幽暗城/1954银月城/1955沙塔斯
 				mapIDname ={1454,1456,1458,1954,1435,1955,125,nil,nil,390};
 			else
+				--85奥格/88雷霆崖/998幽暗城/110银月城/111沙塔斯
 				mapIDname ={85,88,998,110,70,111,125,nil,244,390};
 			end
 		end

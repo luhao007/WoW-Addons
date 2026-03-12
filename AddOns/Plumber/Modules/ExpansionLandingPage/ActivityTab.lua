@@ -41,6 +41,7 @@ do  --Checklist Button
         else
             local data = ActivityUtil.GetActivityData(self.dataIndex);
             if data then
+                --[[    --Disabled because the API cause errors
                 if data.openMap then
                     local questID = data.questID or (self.type == "Quest" and self.id);
                     local mapID = questID and GetQuestUiMapID(questID);
@@ -48,6 +49,7 @@ do  --Checklist Button
                         C_Map.OpenWorldMap(mapID);
                     end
                 end
+                --]]
             end
         end
     end
@@ -149,7 +151,7 @@ do  --Checklist Button
 
             self.Text1:SetText(nil);
 
-            local name = DailyUtil.GetQuestTitle(questID) or ActivityUtil.GetActivityName(self.dataIndex);
+            local name = DailyUtil.GetQuestTitle(questID) or ActivityUtil.GetActivityName(self.dataIndex, questID);
             self.Name:SetText(name);
             if not name then
                 CallbackRegistry:LoadQuest(questID, function(_questID)
@@ -223,7 +225,12 @@ do  --Checklist Button
     function ChecklistButtonMixin:DisplayTooltip()
         if self.type == "Quest" and self.id then
             TooltipUpdator:SetFocusedObject(self);
-            TooltipUpdator:SetHeaderText(self.Name:GetText());
+            local data = ActivityUtil.GetActivityData(self.dataIndex);
+            if data and data.useActiveQuestTitle then
+                TooltipUpdator:SetHeaderText(API.GetQuestName(self.id));
+            else
+                TooltipUpdator:SetHeaderText(self.Name:GetText());
+            end
             TooltipUpdator:SetQuestID(self.id);
             TooltipUpdator:RequestQuestProgress();
             if not self.completed then
@@ -232,7 +239,7 @@ do  --Checklist Button
         else
             local data = ActivityUtil.GetActivityData(self.dataIndex);
             if data then
-                if data.tooltip or data.children then
+                if data.tooltip or data.children or data.tooltipSetter then
                     TooltipUpdator:SetFocusedObject(self);
                     TooltipUpdator:SetHeaderText(self.Name:GetText());
                     local tooltipLines = {};
@@ -448,8 +455,9 @@ do
         local function ChecklistButton_OnAcquired(button)
 
         end
-        local function ChecklistButton_OnRemoved(button)
 
+        local function ChecklistButton_OnRemoved(button)
+            button.tooltipWidgetSet = nil;
         end
 
         ScrollView:AddTemplate("ChecklistButton", ChecklistButton_Create, ChecklistButton_OnAcquired, ChecklistButton_OnRemoved);

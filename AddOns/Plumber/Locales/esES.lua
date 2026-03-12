@@ -908,6 +908,7 @@ L["currency-2917"] = "dorado";
 L["Scenario Delves"] = "Profundidades";
 L["GameObject Door"] = "Puerta";
 L["Delve Chest 1 Rare"] = "Arca pródiga";
+L["GameObject Rich Soil"] = "Terreno rico";
 
 L["Season Maximum Colon"] = "Máximo de la temporada:";
 L["Item Changed"] = "ha cambiado";   --CHANGED_OWN_ITEM
@@ -918,6 +919,7 @@ L["Coffer Key Shard"] = "Fragmento de llave de arca";
 L["Epoch Mementos"] = "Recuerdo de época";
 L["Timeless Scrolls"] = "Pergamino intemporal";
 L["QuestName Runestone"] = "Fortificación de piedras rúnicas";    --4 Mutually exclusive quests: 90575
+L["QuestName HarandarRelic"] = "Leyendas de los haranir";
 L["Prey System"] = "Presa";
 
 L["CONFIRM_PURCHASE_NONREFUNDABLE_ITEM"] = "¿Seguro que quieres intercambiar %s por el siguiente objeto?\n\n|cffff2020El importe de esta compra no se podrá reembolsar.|r\n %s";

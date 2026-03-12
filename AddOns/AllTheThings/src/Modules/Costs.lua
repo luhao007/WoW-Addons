@@ -987,7 +987,7 @@ local function BuildTotalCost(group)
 	-- Pop out the cost totals into their own sub-groups for accessibility
 	local costGroup = app.CreateRawText(L.COST_TOTAL, {
 		description = L.COST_TOTAL_DESC,
-		icon = 901746,
+		icon = app.GameBuildVersion > 50400 and 901746 or 133786,
 		sourceIgnored = true,
 		skipFull = true,
 		SortPriority = -2.4,

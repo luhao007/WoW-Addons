@@ -3707,6 +3707,28 @@ data["TABARDS"]            = {
 	ContentType = COLLECTION_CONTENT,
 	TableType = I_A_ITTYPE,
 	items = {
+		{ -- Midnight
+			name = EXPANSION_NAME11,
+			CoinTexture = "Reputation",
+			[ALLIANCE_DIFF] = {
+				{ 1,  265997,                           [PRICE_EXTRA_ITTYPE] = "brimmingArcana:100" },                  -- Blood Knight Champion's Tabard
+				{ 2,  265663,                           [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                  -- Silvermoon Court Tabard
+				{ 3,  250800,                           [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                  -- Loa-Blessed Tabard
+				{ 4,  263572,                           [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                  -- Tabard of the Gilded Collapsed Star
+				{ 5,  266981,                           [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                  -- Tabard of the Darkened Collapsed Star
+				{ 6,  266982,                           [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                  -- Tabard of the Nebulous Collapsed Star
+				{ 7,  256615,                           [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                  -- Tabard of the Hara'ti Elder
+				{ 8,  267261,                           [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                  -- Tabard of the Hara'ti Sage
+				{ 9,  267262,                           [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                  -- Tabard of the Hara'ti Seer
+				{ 10, [ATLASLOOT_IT_ALLIANCE] = 246740, [ATLASLOOT_IT_HORDE] = 246795,              [QUEST_EXTRA_ITTYPE] = 90961 }, -- Tabard of the Haranir
+				-- { 1, 267467 },                                  -- Silversun Compact Tabard (currently unobtainable)
+				-- { 1, 266902 },                                  -- Depthdiver's Tabard (currently unobtainable)
+				-- { 1, 266965 },                                  -- Tabard of Amani Abundance (currently unobtainable)
+			},
+			[HORDE_DIFF] = {
+				GetItemsFromDiff = ALLIANCE_DIFF,
+			},
+		},
 		{ -- The War Within
 			name = EXPANSION_NAME10,
 			CoinTexture = "Reputation",

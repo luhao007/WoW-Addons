@@ -437,14 +437,18 @@ local function RebuildSpellList()
 		for index = #extraSpellsAndItems,1,-1 do
 			local spell = extraSpellsAndItems[index]
 			local isDuplicate = false
-			for id2, spell2 in ipairs(TeleporterSpells) do
-				if spell2:Equals(spell) then
-					isDuplicate = true
-					table.remove(extraSpellsAndItems, index)
+			TeleporterInitSpell(spell)
+
+			if spell:IsValid() then
+				for id2, spell2 in ipairs(TeleporterSpells) do
+					if spell2:Equals(spell) then
+						isDuplicate = true
+					end
 				end
 			end
-			if not isDuplicate then
-				TeleporterInitSpell(spell)
+			if isDuplicate or not spell:IsValid() then
+				table.remove(extraSpellsAndItems, index)
+			else
 				tinsert(TeleporterSpells, spell)
 			end
 		end
@@ -1213,18 +1217,17 @@ function TeleporterUpdateButton(button)
 			elseif spell:isTeleportHome() then
 				if TeleporterHousesByZone and TeleporterHousesByZone[spell.zoneId] then
 					local house = TeleporterHousesByZone[spell.zoneId]
-					button:SetAttribute(
-						"macrotext",
-						"/script C_Housing.TeleportHome(\"" .. house.neighborhoodGUID .. "\", \"" .. house.houseGUID .. "\", ".. house.plotID .. ");" )
+					button:SetAttribute("type", "teleporthome")
+					button:SetAttribute("house-neighborhood-guid", house.neighborhoodGUID)
+					button:SetAttribute("house-guid", house.houseGUID)
+					button:SetAttribute("house-plot-id", house.plotID)
 				else
 					button:SetAttribute(
 						"macrotext",
 						"/script print(\"You do not have a house in this zone\")" )
 				end
 			elseif spell:isReturnFromHome() then
-				button:SetAttribute(
-					"macrotext",
-					"/script C_Housing.ReturnAfterVisitingHouse()" )
+				button:SetAttribute("type", "returnhome")
 			else
 				button:SetAttribute(
 					"macrotext",

@@ -1169,7 +1169,7 @@ local function GenControlVars(owner, id, add_hide)
 		GenCheckbox(owner, id, L["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"], "ShowLabelText")
 	end
 	if plugin and plugin.controlVariables and plugin.controlVariables.ShowRegularText then --(LDB data sources only atm)
-		GenCheckbox(owner, id, L["TITAN_PANEL_MENU_SHOW_LABEL_TEXT"], "TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT")
+		GenCheckbox(owner, id, L["TITAN_PANEL_MENU_SHOW_PLUGIN_TEXT"], "ShowRegularText")
 	end
 	if plugin and plugin.controlVariables and plugin.controlVariables.ShowColoredText then
 		GenCheckbox(owner, id, L["TITAN_PANEL_MENU_SHOW_COLORED_TEXT"], "ShowColoredText")

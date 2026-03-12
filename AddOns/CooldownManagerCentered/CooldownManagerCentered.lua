@@ -75,8 +75,10 @@ function addon:RefreshConfig()
     if ns.GlowStyle then
         ns.GlowStyle:Initialize()
     end
-    if ns.CooldownStyle then
-        ns.CooldownStyle:Initialize()
+    if not ns.db.profile.cooldownManager_experimental_disablePerSpellSettings then
+        if ns.CooldownStyle then
+            ns.CooldownStyle:Initialize()
+        end
     end
     if ns.ButtonPress then
         ns.ButtonPress:Initialize()
@@ -180,9 +182,12 @@ function addon:OnEnable()
     if ns.GlowStyle then
         ns.GlowStyle:Initialize()
     end
-    if ns.CooldownStyle then
-        ns.CooldownStyle:Initialize()
+    if not ns.db.profile.cooldownManager_experimental_disablePerSpellSettings then
+        if ns.CooldownStyle then
+            ns.CooldownStyle:Initialize()
+        end
     end
+
     if ns.ButtonPress then
         ns.ButtonPress:Initialize()
     end
@@ -230,10 +235,11 @@ C_Timer.After(2, function()
         ns.db.profile._elvui_skinning_asked = todaysDate
     end
 
-    if not ns.db.profile._bug_warning_displayed or (ns.db.profile._bug_warning_displayed <= todaysDate - 1) then
-        print(
-            "|cff008945Cool|r|cff1e9a4e|r|cff3faa4fdown Ma|r|cff5fb64anag|r|cff7ac243er Ce|r|cff8ccd00ntered|r is rarely responsible for Cooldown Manager bugs. Through the beta cycle, Blizzard ignored and still did not resolve many issues related to disappearing/changing abilities, wrong or missing auras, and other bugs. If you encounter any of those, please report them to Blizzard as well, so they can prioritize fixing them."
-        )
-        ns.db.profile._bug_warning_displayed = todaysDate
-    end
+    -- -- Hide it for now
+    -- if not ns.db.profile._bug_warning_displayed or (ns.db.profile._bug_warning_displayed <= todaysDate - 1) then
+    --     print(
+    --         "|cff008945Cool|r|cff1e9a4e|r|cff3faa4fdown Ma|r|cff5fb64anag|r|cff7ac243er Ce|r|cff8ccd00ntered|r is rarely responsible for Cooldown Manager bugs. Through the beta cycle, Blizzard ignored and still did not resolve many issues related to disappearing/changing abilities, wrong or missing auras, and other bugs. If you encounter any of those, please report them to Blizzard as well, so they can prioritize fixing them."
+    --     )
+    --     ns.db.profile._bug_warning_displayed = todaysDate
+    -- end
 end)

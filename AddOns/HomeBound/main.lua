@@ -176,13 +176,12 @@ end
 
 local function AnchorPreviewToTooltip(previewFrame, tooltip)
 	previewFrame:ClearAllPoints()
-	local tooltipBottomY = tooltip:GetBottom()
-	local previewScaledHeight = previewFrame:GetHeight() * previewFrame:GetEffectiveScale()
-	if tooltipBottomY and (tooltipBottomY - previewScaledHeight - 30 < 0) then 
+	local _, cursorY = GetCursorPosition()
+	
+	if cursorY / UIParent:GetEffectiveScale() < (GetScreenHeight() * 0.35) then
 		previewFrame:SetPoint("BOTTOMLEFT", tooltip, "TOPLEFT", 0, 5)
-	else 
-		previewFrame:SetPoint("TOPLEFT", tooltip, "BOTTOMLEFT", 0, -5) 
-	end
+	else previewFrame:SetPoint("TOPLEFT", tooltip, "BOTTOMLEFT", 0, -5) end
+
 	previewFrame:Show()
 end
 

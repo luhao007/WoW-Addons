@@ -17,6 +17,8 @@ L["currency-2915"] = "Intagliato";
 L["currency-2916"] = "Runico";
 L["currency-2917"] = "Dorato";
 
+L["GameObject Rich Soil"] = "Zolla di Terreno Fertile";
+
 L["Season Maximum Colon"] = "Limite stagionale:";
 L["Item Changed"] = "stato cambiato";   --CHANGED_OWN_ITEM
 L["Completed CHETT List"] = "Lista C.I.H.T.T. Completa";
@@ -25,6 +27,7 @@ L["Coffer Key Shard"] = "Scheggia di Chiave dello Scrigno";
 L["Epoch Mementos"] = "Ricordo dell'Era";
 L["Timeless Scrolls"] = "Pergamena Senza Tempo";
 L["QuestName Runestone"] = "Fortificare le Pietre Runiche";    --4 Mutually exclusive quests: 90575
+L["QuestName HarandarRelic"] = "Leggende degli Haranir";
 L["Prey System"] = "Preda";
 
 L["CONFIRM_PURCHASE_NONREFUNDABLE_ITEM"] = "Vuoi davvero scambiare %s per il seguente oggetto?\n\n|cffff2020Questo acquisto non è rimborsabile.|r\n %s";

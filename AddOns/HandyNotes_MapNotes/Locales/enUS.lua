@@ -426,6 +426,7 @@ L["Un'Goro Crater"] = true -- in process
 L["Auberdine"] = true -- in process areaID
 L["Ratchet"] = true -- in process areaID
 L["Theramore Isle"] = true -- in process areaID
+L["Feathermoon Stronghold"] = true -- in process areaID
 L["Dire Maul"] = true -- in process instance
 L["Blackfathom Deeps"] = true -- in process instance
 L["Stormwind"] = true -- in process

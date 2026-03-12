@@ -187,6 +187,7 @@ local PRICE_INFO = {
 	["twilightsBladeInsignia"]     = { currencyID = 3319 }, -- Twilight's Blade Insignia
 	["voidlightMarl"]              = { currencyID = 3316 }, -- Voidlight Marl
 	["brimmingArcana"]             = { currencyID = 3379 }, -- Brimming Arcana
+	["remnantOfAnguish"]           = { currencyID = 3392 }, -- Remnant of Anguish
 	["alchemyMoxie"]               = { currencyID = 3256 }, -- Artisan Alchemist's Moxie
 	["miningMoxie"]                = { currencyID = 3264 }, -- Artisan Miner's Moxie
 	["herbalismMoxie"]             = { currencyID = 3260 }, -- Artisan Herbalist's Moxie

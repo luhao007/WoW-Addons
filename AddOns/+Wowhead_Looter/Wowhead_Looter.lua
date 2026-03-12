@@ -10,7 +10,7 @@
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2026-03-05";
+local WL_ADDON_UPDATED = "2026-03-11";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
 local WL_VERSION = 120001;
@@ -2294,11 +2294,19 @@ function wlGetQuestItemLinks(typeName)
     end
 
     for i = 1,nRewards do
-        local itemLink = GetQuestItemLink(typeName, i);
-        if (itemLink) then
-            table.insert(itemLinks, itemLink);
+        local lootType = 0;
+        if QuestInfoFrame.questLog then
+            lootType = GetQuestLogChoiceInfoLootType(i);
         else
-            break;
+            lootType = GetQuestItemInfoLootType(typeName, i);
+        end
+        if lootType == 0 then
+            local itemLink = GetQuestItemLink(typeName, i);
+            if (itemLink) then
+                table.insert(itemLinks, itemLink);
+            else
+                break;
+            end
         end
     end
 
@@ -2340,6 +2348,30 @@ function wlGetQuestRewardCurrencies(questId)
 
     return currencies;
 
+end
+
+-- Returns a list of choice currency rewards for the given quest ID.
+function wlGetQuestRewardChoiceCurrencies(questId)
+    local currencies = {};
+    local nRewards = GetNumQuestChoices();
+    for i = 1,nRewards do
+        local lootType = 0;
+        if QuestInfoFrame.questLog then
+            lootType = GetQuestLogChoiceInfoLootType(i);
+        else
+            lootType = GetQuestItemInfoLootType('choice', i);
+        end
+        if lootType == 1 then
+            local currencyInfo = C_QuestOffer and C_QuestOffer.GetQuestRewardCurrencyInfo('choice', i) or
+                C_QuestLog and C_QuestLog.GetQuestRewardCurrencyInfo(questId, i, true);
+            if currencyInfo and currencyInfo.currencyID ~= nil then
+                currencies[currencyInfo.currencyID] = currencyInfo.totalRewardAmount;
+            end
+        else
+        end
+    end
+
+    return currencies;
 end
 
 
@@ -2450,6 +2482,7 @@ function wlEvent_QUEST_COMPLETE(self)
     wlTracker.quest.rewardItemLinks = wlGetQuestItemLinks("reward");
     wlTracker.quest.choiceItemLinks = wlGetQuestItemLinks("choice");
     wlTracker.quest.rewardCurrencies = wlGetQuestRewardCurrencies(wlTracker.quest.id);
+    wlTracker.quest.rewardChoiceCurrencies = wlGetQuestRewardChoiceCurrencies(wlTracker.quest.id);
     wlTracker.quest.complete = wlGetSourceText(GetRewardText());
 
     wlTracker.quest.time = wlGetTime();
@@ -2544,6 +2577,7 @@ function wlRegisterQuestReturn()
     wlEvent[wlId][wlN][eventId].rewardItemLinks = wlTracker.quest.rewardItemLinks;
     wlEvent[wlId][wlN][eventId].choiceItemLinks = wlTracker.quest.choiceItemLinks;
     wlEvent[wlId][wlN][eventId].rewardCurrencies = wlTracker.quest.rewardCurrencies;
+    wlEvent[wlId][wlN][eventId].rewardChoiceCurrencies = wlTracker.quest.rewardChoiceCurrencies;
     wlEvent[wlId][wlN][eventId].playerLevel = UnitLevel("player");
     wlEvent[wlId][wlN][eventId].playerWarModeActive = C_PvP.IsWarModeActive();
     wlEvent[wlId][wlN][eventId].playerWarModeDesired = C_PvP.IsWarModeDesired();

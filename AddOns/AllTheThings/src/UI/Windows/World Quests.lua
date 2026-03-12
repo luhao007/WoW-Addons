@@ -90,6 +90,10 @@ app:CreateWindow("WorldQuests", {
 			{ app.FactionID == Enum.FlightPathFaction.Horde and 875 or 876, 895 },	-- Kul'Tiras or Zandalar, Stormsong Valley
 		};
 		local worldMapIDs = {
+			-- Midnight Continents
+			{
+				2537,	-- Quel'Thalas
+			},
 			-- The War Within Continents
 			{
 				2274,	-- Khaz Algar

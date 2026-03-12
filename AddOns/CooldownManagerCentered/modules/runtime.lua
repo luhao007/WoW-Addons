@@ -77,8 +77,10 @@ EventRegistry:RegisterCallback("CooldownViewerSettings.OnDataChanged", function(
         return
     end
     C_Timer.After(0, function()
-        if ns.CooldownStyle then
-            ns.CooldownStyle:RefreshHooks()
+        if not ns.db.profile.cooldownManager_experimental_disablePerSpellSettings then
+            if ns.CooldownStyle then
+                ns.CooldownStyle:RefreshHooks()
+            end
         end
         if ns.StyledIcons then
             ns.StyledIcons:RefreshAll()
@@ -106,8 +108,10 @@ EventRegistry:RegisterCallback("CooldownViewerSettings.OnShow", function(arg1, s
         if ns.CooldownManager then
             ns.CooldownManager.ForceRefreshAll()
         end
-        if ns.CooldownStyle then
-            ns.CooldownStyle:RefreshHooks()
+        if not ns.db.profile.cooldownManager_experimental_disablePerSpellSettings then
+            if ns.CooldownStyle then
+                ns.CooldownStyle:RefreshHooks()
+            end
         end
     end)
 end)
@@ -144,8 +148,10 @@ EventRegistry:RegisterCallback("EditMode.Enter", function()
         if ns.CooldownManager then
             ns.CooldownManager.ForceRefreshAll()
         end
-        if ns.CooldownStyle then
-            ns.CooldownStyle:RefreshHooks()
+        if not ns.db.profile.cooldownManager_experimental_disablePerSpellSettings then
+            if ns.CooldownStyle then
+                ns.CooldownStyle:RefreshHooks()
+            end
         end
     end)
 end)

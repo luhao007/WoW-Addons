@@ -177,22 +177,23 @@ end)
 LibEvent:attachTrigger("tooltip:show", function(self, tip)
     if (tip ~= GameTooltip) then return end
     LibEvent:trigger("tooltip.statusbar.position", addon.db.general.statusbarPosition, addon.db.general.statusbarOffsetX, addon.db.general.statusbarOffsetY)
-    local text = GameTooltipStatusBar and GameTooltipStatusBar.TextString
-    if (not text) then return end    
-    local tw = (text.GetStringWidth and text:GetStringWidth()) or (text.GetWidth and text:GetWidth())
-    local tipW = tip and tip.GetWidth and tip:GetWidth()
-    local checkW, w = pcall(function() return tw + 10 end)
-    if (not checkW or type(w) ~= "number") then return end
-    local checkMin, minW = pcall(function() return w + 2 end)
-    if (not checkMin or type(minW) ~= "number") then return end
+    
+--    local text = GameTooltipStatusBar and GameTooltipStatusBar.TextString
+--    if (not text) then return end    
+--    local tw = (text.GetStringWidth and text:GetStringWidth()) or (text.GetWidth and text:GetWidth())
+--    local tipW = tip and tip.GetWidth and tip:GetWidth()
+--    local checkW, w = pcall(function() return tw + 10 end)
+--    if (not checkW or type(w) ~= "number") then return end
+--    local checkMin, minW = pcall(function() return w + 2 end)
+--    if (not checkMin or type(minW) ~= "number") then return end
 
-    if (GameTooltipStatusBar:IsShown()) then
-        local checkCmp, bigger = pcall(function() return (type(tipW) == "number") and (w > tipW) end)
-        if (checkCmp and bigger) then
-            tip:SetMinimumWidth(minW)
-            if (addon.db.general.statusbarEnabled) then
-                tip:Show()
-	    end
-        end
-    end
+--    if (GameTooltipStatusBar:IsShown()) then
+--        local checkCmp, bigger = pcall(function() return (type(tipW) == "number") and (w > tipW) end)
+--        if (checkCmp and bigger) then
+--            tip:SetMinimumWidth(minW)
+--            if (addon.db.general.statusbarEnabled) then
+--                tip:Show()
+--	    end
+--        end
+--    end
 end)

@@ -2742,18 +2742,6 @@ private.CONTAINER_GUIDE = {
 		[RSConstants.ENTRANCE] = { x = 0.6154, y = 0.3840 };
 		[RSConstants.FLAG] = { x = 0.5418, y = 0.5313, comment = AL["NOTE_ZUR_ASHAR_KASSAMEH"] };
 	}; --Words of Obayo: The Silence
-	["5314802395"] = {
-		[RSConstants.FLAG] = { x = 0.4268, y = 0.4731, comment = AL["NOTE_LORD_SHALTERIL"] };
-	}; --Dead Drop
-	["5314782395"] = {
-		[RSConstants.FLAG] = { x = 0.4268, y = 0.4731, comment = AL["NOTE_LORD_SHALTERIL"] };
-	}; --Misplaced Tome
-	["5314772395"] = {
-		[RSConstants.FLAG] = { x = 0.4268, y = 0.4731, comment = AL["NOTE_LORD_SHALTERIL"] };
-	}; --Coalesced Light
-	["5314792395"] = {
-		[RSConstants.FLAG] = { x = 0.4268, y = 0.4731, comment = AL["NOTE_LORD_SHALTERIL"] };
-	}; --Ranger's Cache
 	["5792422413"] = {
 		[RSConstants.FLAG] = { x = 0.5418, y = 0.5313, comment = AL["NOTE_ZUR_ASHAR_KASSAMEH"] };
 	}; --Tending the Lands: The Conflict

@@ -2980,8 +2980,8 @@ function app:CreateWindow(suffix, definition)
 						for i,group in ipairs(category.g) do
 							if group.requireSkill == definition.DynamicProfessionID then
 								local recipesList = app.CreateDynamicCategory(suffix);
+								recipesList.requireSkill = group.requireSkill;
 								recipesList.IgnoreBuildRequests = true;
-								recipesList.sourceIgnored = true;
 								recipesList.name = L.ALL_RECIPES;
 								recipesList.icon = 134939;
 								recipesList.parent = group;

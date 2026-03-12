@@ -1,5 +1,5 @@
-local VERSION_TEXT = "1.8.8 e";
-local VERSION_DATE = 1772900000;
+local VERSION_TEXT = "1.8.9 c";
+local VERSION_DATE = 1773150000;
 
 
 local addonName, addon = ...
@@ -230,6 +230,7 @@ local DefaultValues = {
     TooltipDelvesItem = true,           --Show weekly Coffer Key cap on chest tooltip
     TooltipItemQuest = true,            --Show the quest of quest starting items in bags
     TooltipTransmogEnsemble = true,     --A Raid Ensemble now unlocks outfits (tints) from 4 difficulties, but the default UI only gives one
+    TooltipRichSoil = true,             --Show QuickSlot for seeds when double click on Rich Soil (Midnight Herbalism)
 
 
     --Reduction
@@ -312,6 +313,7 @@ local DefaultValues = {
 
     --QuickSlot
         QuickSlotHighContrastMode = false,
+        quickslotFromRadian = 0,
 
 
     --SpellFlyout DrawerMacro

@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: Bettiold
-## Version: 1.32
+## Version: 1.33
 
 ## Title: Home Bound
 ## Notes: Your ultimate companion for collecting housing rewards

@@ -174,7 +174,12 @@ local function OnShow(self)
 	self:RegisterEvent("TIME_PLAYED_MSG");
 	self:RegisterEvent("PLAYER_XP_UPDATE");
 	self:RegisterEvent("PLAYER_LEVEL_UP");
-	self:RegisterEvent("CHAT_MSG_COMBAT_XP_GAIN");
+
+	if Titan_Global.switch.has_secrets then
+		-- Do not register
+	else
+		self:RegisterEvent("CHAT_MSG_COMBAT_XP_GAIN");
+	end
 
 	RefreshPlayed() -- TIME_PLAYED_MSG
 
@@ -202,7 +207,11 @@ local function OnHide(self)
 	self:UnregisterEvent("TIME_PLAYED_MSG");
 	self:UnregisterEvent("PLAYER_XP_UPDATE");
 	self:UnregisterEvent("PLAYER_LEVEL_UP");
-	self:UnregisterEvent("CHAT_MSG_COMBAT_XP_GAIN");
+	if Titan_Global.switch.has_secrets then
+		-- Nothing to do
+	else
+		self:UnregisterEvent("CHAT_MSG_COMBAT_XP_GAIN");
+	end
 
 	AceTimer:CancelTimer(XPTimer.timer)
 	XPTimer.running = false
@@ -445,6 +454,15 @@ local function GetTooltipText()
 				numofgains = 0 --_G["UNKNOWN"]
 			end
 
+			local kills = ""
+			if Titan_Global.switch.has_secrets then
+				-- Nothing to do
+			else
+				kills = 
+				format(L["TITAN_XP_KILLS_LABEL"], comma_value(txp.lastMobXP)) ..
+				"\t" .. TitanUtils_GetHighlightText(comma_value(numofkills)) .. "\n"
+			end
+
 			res = "" ..
 				L["TITAN_XP_TOOLTIP_TOTAL_TIME"] ..
 				"\t" .. TitanUtils_GetHighlightText(TitanUtils_GetAbbrTimeText(totalTime)) .. "\n" ..
@@ -468,8 +486,7 @@ local function GetTooltipText()
 					format(L["TITAN_XP_PERCENT_FORMAT"], toLevelXPPercent)) .. "\n" ..
 				L["TITAN_XP_TOOLTIP_SESSION_XP"] ..
 				"\t" .. TitanUtils_GetHighlightText(comma_value(txp.sessionXP)) .. "\n" ..
-				format(L["TITAN_XP_KILLS_LABEL"], comma_value(txp.lastMobXP)) ..
-				"\t" .. TitanUtils_GetHighlightText(comma_value(numofkills)) .. "\n" ..
+				kills ..
 				format(L["TITAN_XP_XPGAINS_LABEL"], comma_value(txp.XPGain)) ..
 				"\t" .. TitanUtils_GetHighlightText(comma_value(numofgains)) .. "\n" ..
 				"\n" ..

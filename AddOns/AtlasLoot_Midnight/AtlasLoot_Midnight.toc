@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: nanderson11
-## Version: v9.21.1
+## Version: v9.21.3
 
 ## Title: AtlasLoot |cFF0099FF[Midnight]|r
 ## Notes: AtlasLoot loot tables from Midnight

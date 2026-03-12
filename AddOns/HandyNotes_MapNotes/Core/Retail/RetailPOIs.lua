@@ -52,16 +52,11 @@ end
 local function MN_IsAreaPOIPin(pin)
   if not pin then return false end
 
-  if pin.pinTemplate then
-    return pin.pinTemplate == "AreaPOIPinTemplate"
-  end
-
   local areaPoiID = MN_GetAreaPoiID(pin)
-  if areaPoiID and pin.poiInfo then
-    return true
-  end
+  if not areaPoiID then return false end
+  if not pin.poiInfo then return false end
 
-  return false
+  return true
 end
 
 local function MN_GetVignetteIDFromPin(pin)
@@ -93,13 +88,6 @@ local function MN_HidePin(pin)
   pin.MN_OldAlpha = pin.GetAlpha and pin:GetAlpha() or 1
   pin.MN_OldMouseEnabled = pin.IsMouseEnabled and pin:IsMouseEnabled() or true
 
-  --if pin.GetHitRectInsets then
-  --  local ok, l, r, t, b = pcall(pin.GetHitRectInsets, pin)
-  --  if ok then
-  --    pin.MN_OldHitRectInsets = { l or 0, r or 0, t or 0, b or 0 }
-  --  end
-  --end
-
   if pin.SetAlpha then
     pin:SetAlpha(0)
   end
@@ -107,12 +95,6 @@ local function MN_HidePin(pin)
   if pin.EnableMouse then
     pin:EnableMouse(false)
   end
-
-  --if pin.SetHitRectInsets then
-  --  local w = (pin.GetWidth and pin:GetWidth()) or 0
-  --  local h = (pin.GetHeight and pin:GetHeight()) or 0
-  --  pin:SetHitRectInsets(w, 0, h, 0)
-  --end
 end
 
 local function MN_RestorePin(pin)
@@ -127,19 +109,9 @@ local function MN_RestorePin(pin)
     pin:EnableMouse(pin.MN_OldMouseEnabled ~= false)
   end
 
-  --if pin.SetHitRectInsets then
-  --  local insets = pin.MN_OldHitRectInsets
-  --  if type(insets) == "table" then
-  --    pin:SetHitRectInsets(insets[1] or 0, insets[2] or 0, insets[3] or 0, insets[4] or 0)
-  --  else
-  --    pin:SetHitRectInsets(0, 0, 0, 0)
-  --  end
-  --end
-
   pin.MN_HiddenByMapNotes = nil
   pin.MN_OldAlpha = nil
   pin.MN_OldMouseEnabled = nil
-  --pin.MN_OldHitRectInsets = nil
 end
 
 function ns.QueueRemovePOIs()
@@ -147,6 +119,7 @@ function ns.QueueRemovePOIs()
 
   local cfg = ns.Addon and ns.Addon.db and ns.Addon.db.profile and ns.Addon.db.profile.activate
   if not cfg or cfg.HideMapNote then return end
+  if not (cfg.RemoveBlizzPOIs or cfg.RemoveBlizzPOIsZidormi) then return end
 
   if InCombatLockdown and InCombatLockdown() then
     ns._RemovePOIsAfterCombat = true
@@ -240,6 +213,7 @@ function ns.RemovePOIs()
   local cfg = ns.Addon and ns.Addon.db and ns.Addon.db.profile and ns.Addon.db.profile.activate
   if not cfg then return end
   if cfg.HideMapNote then return end
+  if not (cfg.RemoveBlizzPOIs or cfg.RemoveBlizzPOIsZidormi) then return end
   if not (WorldMapFrame and WorldMapFrame.pinPools) then return end
 
   MN_BuildLookups()
@@ -253,20 +227,23 @@ function ns.RemovePOIs()
         if MN_IsAreaPOIPin(pin) then
           local areaPoiID = MN_GetAreaPoiID(pin)
           if areaPoiID then
-            isManagedByUs = true
-
             if cfg.RemoveBlizzPOIs and ns.BlizzAreaPoisLookup[areaPoiID] then
+              isManagedByUs = true
               shouldHide = true
             elseif cfg.RemoveBlizzPOIsZidormi and ns.BlizzAreaPoisLookupZidormi[areaPoiID] then
+              isManagedByUs = true
               shouldHide = true
+            elseif pin.MN_HiddenByMapNotes then
+              isManagedByUs = true
             end
           end
         elseif MN_IsTrackedVignettePin(pin) then
           isManagedByUs = true
-
           if cfg.RemoveBlizzPOIs then
             shouldHide = true
           end
+        elseif pin.MN_HiddenByMapNotes then
+          isManagedByUs = true
         end
 
         if isManagedByUs then
@@ -284,17 +261,11 @@ end
 local function MN_TryHookProvider(dp)
   if not dp or ns.AreaPOIHooked[dp] then return end
   if type(dp.RefreshAllData) ~= "function" then return end
+  if type(dp.GetPinTemplate) ~= "function" then return end
+  if dp.GetPinTemplates then return end
 
-  local isAreaPOIProvider = false
-
-  if (not dp.GetPinTemplates) and type(dp.GetPinTemplate) == "function" then
-    local ok, tmpl = pcall(dp.GetPinTemplate, dp)
-    if ok and tmpl == "AreaPOIPinTemplate" then
-      isAreaPOIProvider = true
-    end
-  end
-
-  if not isAreaPOIProvider then
+  local ok, tmpl = pcall(dp.GetPinTemplate, dp)
+  if not ok or tmpl ~= "AreaPOIPinTemplate" then
     return
   end
 
@@ -420,6 +391,7 @@ C_Timer.After(0, function()
     hooksecurefunc(WorldMapFrame, "Show", function()
       MN_Post(function()
         ns.RegisterPOIEvent()
+        ns.QueueRemovePOIs()
       end)
     end)
   end
@@ -436,6 +408,7 @@ C_Timer.After(0, function()
   if WorldMapFrame:IsShown() then
     MN_Post(function()
       ns.RegisterPOIEvent()
+      ns.QueueRemovePOIs()
     end)
   end
 end)

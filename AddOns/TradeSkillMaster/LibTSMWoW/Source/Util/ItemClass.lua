@@ -65,6 +65,7 @@ local BCC_ITEM_CLASS_IDS = {
 	Enum.ItemClass.Projectile,
 	Enum.ItemClass.Quiver,
 	Enum.ItemClass.Recipe,
+	Enum.ItemClass.Gem,
 	Enum.ItemClass.Reagent,
 	Enum.ItemClass.Miscellaneous,
 	Enum.ItemClass.Questitem,

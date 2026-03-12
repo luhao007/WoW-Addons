@@ -134,7 +134,9 @@ function HealthBarMixin:OnEvent(event, ...)
         or event == "UPDATE_SHAPESHIFT_FORM"
         or (event == "PLAYER_SPECIALIZATION_CHANGED" and unit == "player") then
 
-        self:ApplyVisibilitySettings()
+        C_Timer.After(0, function()
+            self:ApplyVisibilitySettings()
+        end)
         self:ApplyLayout(nil, true)
         self:UpdateDisplay()
 
@@ -144,7 +146,7 @@ function HealthBarMixin:OnEvent(event, ...)
         or event == "PLAYER_MOUNT_DISPLAY_CHANGED"
         or event == "PET_BATTLE_OPENING_START" or event == "PET_BATTLE_CLOSE" then
 
-            self:ApplyVisibilitySettings()
+            self:ApplyVisibilitySettings(nil, event == "PLAYER_REGEN_DISABLED")
             self:ApplyLayout(nil, true)
             self:UpdateDisplay()
 
@@ -198,7 +200,7 @@ end
 -- VISIBILITY related methods
 ------------------------------------------------------------
 
-function HealthBarMixin:ApplyVisibilitySettings(layoutName)
+function HealthBarMixin:ApplyVisibilitySettings(layoutName, inCombat)
     local data = self:GetData(layoutName)
     if not data then return end
 
@@ -207,7 +209,7 @@ function HealthBarMixin:ApplyVisibilitySettings(layoutName)
     if self.Frame:IsProtected() then
         self:RegisterSecureVisibility()
     else
-        addonTable.BarMixin.ApplyVisibilitySettings(self, layoutName)
+        addonTable.BarMixin.ApplyVisibilitySettings(self, layoutName, inCombat)
     end
 
     self:ApplyTextVisibilitySettings(layoutName, data)

@@ -103,7 +103,8 @@ local function GetOriginalSpecLine(tip, className)
             end
         end
     end
-    return best
+    local newStr, replaced = string.gsub(best, className, "")
+    return newStr
 end
 
 local function ColorBorder(tip, config, raw)
@@ -222,7 +223,7 @@ end
 local function PlayerCharacter(tip, unit, config, raw)
     local specLine = GetOriginalSpecLine(tip, raw and raw.className)
     if (specLine) then
-        raw.classSpecAndName = specLine
+        raw.classSpec = specLine
         HideOriginalSpecLine(tip, specLine)
     end
     raw.mountName = nil

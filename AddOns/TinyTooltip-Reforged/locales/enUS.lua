@@ -29,4 +29,6 @@ addon.L = {
     ["authorname"]		    = "Beezer",
     ["showStackCount"]		    = "Show Stack Count (in tooltip title)",
     ["showStackCountAlt"]	    = "Show Stack Count (in tooltip body)",
+    ["id.icon"]			    = "Icon",
+    ["id.spell"]		    = "Spell",	
 }

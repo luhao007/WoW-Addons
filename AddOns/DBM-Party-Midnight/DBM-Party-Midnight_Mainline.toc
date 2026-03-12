@@ -1,5 +1,5 @@
 ## Interface: 120001
-## Version: r236
+## Version: r237
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cffc030c0Dungeons (Midnight)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本助手|r |cFF69CCF0小队|r |cFF22B14C至暗之夜|r
@@ -33,7 +33,8 @@
 ## X-Wago-ID: xZKxZENk
 ## X-Part-Of: DBM-Core
 
-# localization.en.lua
+localization.en.lua
+
 WindrunnerSpire\Emberdawn.lua
 WindrunnerSpire\DerelictDuo.lua
 WindrunnerSpire\CommanderKroluk.lua
@@ -43,6 +44,7 @@ MurderRow\KystiaManaheart.lua
 MurderRow\ZaenBladesorrow.lua
 MurderRow\XathuuxtheAnnihilator.lua
 MurderRow\LithielCinderfury.lua
+MurderRow\MurderRowTrash.lua
 
 MagistersTerrace\ArcanotronCustos.lua
 MagistersTerrace\SeranelSunlash.lua

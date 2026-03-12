@@ -71,6 +71,7 @@ local Ignored = setmetatable({
 		[243220] = true,	-- Irissa Bloodstar [Conquest Quartermaster]
 		[258181] = true,	-- Construct Ali'a [Decor Specialist]
 		[250982] = true,	-- Dethelin [Decor Specialist]
+		[243286] = true,	-- Lyrendal [Artisan's Consortium Quartermaster]
 	},
 	object = {
 		[503267] = true,	-- Phase Conduit [K'aresh Teleport Node]

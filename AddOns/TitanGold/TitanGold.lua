@@ -406,11 +406,11 @@ end
 ---@return table sorted May not be need but it is explicit
 local function SortByIndex(gold_table)
 --	local by_realm = TitanGetVar(TITAN_GOLD_ID, "GroupByRealm")
-	local by_name = TitanGetVar(TITAN_GOLD_ID, "SortByName")
+	local sort_by = TitanGetVar(TITAN_GOLD_ID, "SortByName")
 	-- This section will sort the array based on user preference
 	-- * by name or by gold amount descending
 	-- * grouping by realm if selected
-	if by_name == true then
+	if sort_by == "NameAsc" then
 		table.sort(gold_table, function(key1, key2)
 			return key1.char_name < key2.char_name
 		end)
@@ -425,10 +425,16 @@ local function SortByIndex(gold_table)
 			return false
 		end)
 --]]
-	else -- by gold
+	elseif sort_by == "GoldAsc" then -- by gold ascending
 		table.sort(gold_table, function(key1, key2)
 			return key1.gold < key2.gold
 		end)
+	elseif sort_by == "GoldDec" then -- by gold descending
+		table.sort(gold_table, function(key1, key2)
+			return key1.gold > key2.gold
+		end)
+	else
+		-- should not get here
 	end
 
 	return gold_table
@@ -720,10 +726,27 @@ local function Initialize_Array()
 				else
 					-- exists, use as is
 				end
+			
+				if TitanSettings.Players[index].Info[TITAN_GOLD_ID].show == nil then
+					TitanSettings.Players[index].Info[TITAN_GOLD_ID].show = true -- default
+				else
+					-- exists, use as is
+				end
 			else
 				-- ignore custom profiles or toons not logged into yet
 			end
 		end
+	end
+
+	-- 2026 Mar : Repurposed to add sort gold decsending
+	-- Translate the user setting as user logs into toons or profile changes
+	local sort_by = TitanGetVar(TITAN_GOLD_ID, "SortByName")
+	if sort_by == true then
+		TitanSetVar(TITAN_GOLD_ID, "SortByName", "NameAsc")
+	elseif sort_by == false or sort_by == nil then
+		TitanSetVar(TITAN_GOLD_ID, "SortByName", "GoldAsc")
+	else
+		-- already set
 	end
 
 	local msg = ">Init done : "
@@ -795,9 +818,13 @@ local function GeneratorFunction(owner, rootDescription)
 
 	local opts_sort = Titan_Menu.AddButton(root, L["TITAN_GOLD_SORT_BY"])
 	do           -- next level options
+		-- NameAsc | GoldAsc | GoldDec [Ascend, Descend]
 		local disp = { -- selectors using the same option - label, value
-			{ L["TITAN_GOLD_TOGGLE_SORT_GOLD"], false },
-			{ L["TITAN_GOLD_TOGGLE_SORT_NAME"], true },
+--			{ L["TITAN_GOLD_TOGGLE_SORT_GOLD"], false },
+--			{ L["TITAN_GOLD_TOGGLE_SORT_NAME"], "true" },
+			{ "Sort by Name", "NameAsc" },
+			{ "Sort by Gold Ascending", "GoldAsc" },
+			{ "Sort by Gold Descending", "GoldDec" },
 		}
 		Titan_Menu.AddSelectorList(opts_sort, id, nil, "SortByName", disp)
 
@@ -924,7 +951,7 @@ local function OnLoad(self)
 			ShowCoinLabels = true,
 			ShowCoinIcons = false,
 			ShowGoldOnly = false,
-			SortByName = true,
+			SortByName = "NameAsc", -- NameAsc | GoldAsc | GoldDec [Ascend, Descend]
 			ViewAll = true,
 			ShowIcon = true,
 			ShowLabelText = false,

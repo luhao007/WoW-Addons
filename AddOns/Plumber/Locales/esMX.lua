@@ -17,6 +17,8 @@ L["currency-2915"] = "tallado";
 L["currency-2916"] = "rúnico";
 L["currency-2917"] = "dorado";
 
+L["GameObject Rich Soil"] = "Suelo rico";
+
 L["Season Maximum Colon"] = "Máximo de temporada:";
 L["Item Changed"] = "pasó a ser";   --CHANGED_OWN_ITEM
 L["Completed CHETT List"] = "Lista de T.A.R.E.A.S. completa";
@@ -25,6 +27,7 @@ L["Coffer Key Shard"] = "Fragmento de llave de arca";
 L["Epoch Mementos"] = "Recuerdo de época";
 L["Timeless Scrolls"] = "Pergamino intemporal";
 L["QuestName Runestone"] = "Piedras rúnicas fortificadas";    --4 Mutually exclusive quests: 90575
+L["QuestName HarandarRelic"] = "Leyendas de los haranir";
 L["Prey System"] = "Presa";
 
 L["CONFIRM_PURCHASE_NONREFUNDABLE_ITEM"] = "¿Seguro que quieres intercambiar %s por el siguiente objeto?\n\n|cffff2020Tu compra no es reembolsable.|r\n %s";

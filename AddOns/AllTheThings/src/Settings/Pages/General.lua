@@ -970,7 +970,6 @@ if app.GameBuildVersion >= 100000 then
 local checkboxFirstCrafts =
 child:CreateTrackingCheckbox("FIRST_CRAFTS", "FirstCrafts", true)
 	:AlignAfter(checkboxRecipes)
-checkboxFirstCrafts:MarkAsWIP();	-- TODO: Remove when First Crafts logic is done
 end
 
 local accwideCheckboxReputations =

@@ -1152,7 +1152,7 @@ local options = {
         { keystring = "unit.player.elements.gender",      type = "element", color = true, wildcard = true, filter = true, },
         { keystring = "unit.player.elements.raceName",    type = "element", color = true, wildcard = true, filter = true, },
         { keystring = "unit.player.elements.className",   type = "element", color = true, wildcard = true, filter = true, },
-        { keystring = "unit.player.elements.classSpecAndName",   type = "element", color = true, wildcard = true, filter = true, },
+        { keystring = "unit.player.elements.classSpec",   type = "element", color = true, wildcard = true, filter = true, },
         { keystring = "unit.player.elements.isPlayer",    type = "element", color = true, wildcard = true, filter = true, },
         { keystring = "unit.player.elements.role",        type = "element", color = true, wildcard = true, filter = true, },
         { keystring = "unit.player.elements.moveSpeed",   type = "element", color = true, wildcard = true, filter = true, },

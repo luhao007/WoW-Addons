@@ -2120,6 +2120,22 @@ local function AddPlugin(owner, bar, category)
 	end
 end
 
+local function GetLayout()
+	local res = ""
+
+	-- Defined in as part of the Edit Mode frame
+	--../Blizzard_EditMode/Shared/EditModeManager.lua
+	local EMM = EditModeManagerFrame
+	local layout = EMM:GetActiveLayoutInfo()
+	if layout then
+		res = layout.layoutName
+	else
+		res = "Layout?"
+	end
+
+	return res
+end
+
 ---Generate and display right click menu options for user.
 ---@param owner table Plugin frame
 ---@param rootDescription table Menu context root
@@ -2173,6 +2189,21 @@ local function GeneratorFunction(owner, rootDescription)
 	end
 	Titan_Menu.AddDivider(root)
 
+	if Titan_Global.switch.can_edit_ui then
+		local lay_out = GetLayout()
+		Titan_Menu.AddCommand(root, id, HUD_EDIT_MODE_MENU..": "..lay_out,
+			function()
+				ShowUIPanel(EditModeManagerFrame)
+			end
+	)
+	else
+		local config = L["TITAN_PANEL_MENU_CONFIGURATION"].." "
+		Titan_Menu.AddCommand(root, id, config..L["TITAN_PANEL_MENU_OPTIONS_BARS_ALL"],
+			function()
+				TitanUpdateConfig("init")
+				AceConfigDialog:Open("Titan Panel Globals")
+			end)
+	end
 	-- Hold off for a rewrite using Blizz API over Ace
 	--[[
 	if Titan_Global.switch.midnight then

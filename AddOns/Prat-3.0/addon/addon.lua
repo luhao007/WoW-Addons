@@ -38,7 +38,6 @@ local tostring = tostring
 local pairs = pairs
 local ipairs = ipairs
 local type = type
-local strsub = strsub
 local Prat = Prat
 local setmetatable, getmetatable = setmetatable, getmetatable
 local strfind = strfind
@@ -52,7 +51,7 @@ Prat.Version = "Prat |cff8080ff3.0|r (|cff8080ff" .. "DEBUG" .. "|r)"
 --@end-debug@]==]
 
 --@non-debug@
-Prat.Version = "Prat |cff8080ff3.0|r (|cff8080ff".."3.9.92".."|r)"
+Prat.Version = "Prat |cff8080ff3.0|r (|cff8080ff".."3.9.93".."|r)"
 --@end-non-debug@
 
 local am = {}
@@ -406,10 +405,6 @@ function addon:PostEnable()
 	-- Prat's core wont operate until after this event
 	Prat.callbacks:Fire(Prat.Events.SECTIONS_UPDATED)
 	Prat.callbacks:Fire(Prat.Events.ENABLED)
-
-	if Prat.EnableGlobalCompletions then
-		Prat.EnableGlobalCompletions(Prat, "Prat-Global-Autocomplete")
-	end
 end
 
 function addon:PLAYER_REGEN_ENABLED()
@@ -553,15 +548,6 @@ function addon:ChatFrame_MessageEventHandler(this, event, ...)
 	if not isSecret and type(arg1) == "string" and (arg1):find("\r") then
 		-- Stupid exploit. Protect our users.
 		arg1 = arg1:gsub("\r", " ")
-	end
-
-	if strsub(event, 1, 8) == "CHAT_MSG" and ChatFrameUtil and ChatFrameUtil.ProcessMessageEventFilters then
-		local shouldDiscardMessage
-		shouldDiscardMessage, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14 =
-			ChatFrameUtil.ProcessMessageEventFilters(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14)
-		if shouldDiscardMessage then
-			return true
-		end
 	end
 
 	-- Create a message table. This table contains the chat message in a non-concatenated form

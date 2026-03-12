@@ -1,10 +1,16 @@
-lightweight tag e4c1c1c4d3f5763c9c643d297638546ee62cf313 5.17.2
-Author:	Remeen <wow@meen.co.uk>
-Date:	Fri Mar 6 17:23:03 2026 +0000
+lightweight tag be4b09b0a74a94fb303d1f5c371ddff7044911e6 5.18.1
+Author:	GitHub <noreply@github.com>
+Date:	Mon Mar 9 20:03:20 2026 +0000
 
-commit e4c1c1c4d3f5763c9c643d297638546ee62cf313
-Author: Remeen <wow@meen.co.uk>
-Date:   Fri Mar 6 17:23:03 2026 +0000
+commit 289d35d1ffa090327dbf4d8cbf2767993e4bb7ed
+Author: stepan.k <stepan.k@mevidi.com>
+Date:   Mon Mar 9 17:30:22 2026 +0100
 
-    Dundun's Abundant Travel Method
+    Fix localization fallback
+
+commit 289d35d1ffa090327dbf4d8cbf2767993e4bb7ed
+Author: stepan.k <stepan.k@mevidi.com>
+Date:   Mon Mar 9 17:30:22 2026 +0100
+
+    Fix localization fallback
 

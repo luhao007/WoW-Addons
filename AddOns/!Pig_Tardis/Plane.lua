@@ -36,6 +36,7 @@ function TardisInfo.Plane(Activate)
 	fujiF.ZJZoneID:SetTextColor(0.6, 0.6, 0.6, 1);
 	-----
 	fujiF.JieshouInfoList={};
+	PIGA["Tardis"]["Plane"]["HelpNum"]=500
 	local CoolCDList = {{500,30},{400,60},{300,120},{200,180},{100,240}}
 	local function GetCoolCD()
 		for i=1,#CoolCDList do
@@ -70,6 +71,15 @@ function TardisInfo.Plane(Activate)
 		fujiF.filtrateData()
 		fujiF.Update_hang()
 	end
+	fujiF.dqzone =PIGCheckbutton(fujiF,{"TOPLEFT",fujiF,"TOPLEFT",300,-32},{"当前大陆","只显示当前大陆的玩家"})
+	fujiF.dqzone:SetScript("OnClick", function (self)
+		if self:GetChecked() then
+			fujiF.dqzoneSet=true
+		else
+			fujiF.dqzoneSet=nil
+		end
+		fujiF.Update_hang()
+	end);
 	-------------------------
 	local Tooltip1= "|cffFFFF00当双方都打开此选项时可以直接申请组队，如只有一方打开则只能"..L["CHAT_WHISPER"].."申请对方组队|r";
 	local Tooltip2 = "\n|cffFF0000关闭后其他玩家将不会自动接收你的申请\n(注意你在24小时内只能开关一次)|r"
@@ -231,6 +241,7 @@ function TardisInfo.Plane(Activate)
 			-- 1455,--铁炉堡
 			-- 1457,--达纳苏斯
 			-- 1947,--埃索达
+			-- 1955,--沙塔斯
 			-- 125,--达拉然
 			-- 126,--达拉然
 		}
@@ -349,14 +360,68 @@ function TardisInfo.Plane(Activate)
 		fujiF.ZJPlaneID:SetText(ZJExactly..ZJDQlayerID)
 		fujiF.NewZJPlaneID=ZJDQlayerID
 	end
+	local dalulist={
+		[1415]="东部王国",
+		[1414]="卡利姆多",
+		[1945]="外域",
+		[113]='诺森德',
+		[424]='潘达利亚',
+	}
+	local function GetZijiMapID_1(MapID)
+		if MapID==0 then return 0,"N/A" end
+		if dalulist[MapID] then
+			local MapInfo = C_Map.GetMapInfo(MapID)
+			return MapID,dalulist[MapID]
+		end
+		local MapInfo = C_Map.GetMapInfo(MapID)
+		if dalulist[MapInfo.parentMapID] then
+			return MapInfo.parentMapID,dalulist[MapInfo.parentMapID]
+		else
+			return GetZijiMapID_1(MapInfo.parentMapID)
+		end
+	end
+	local function GetZijiMapID()
+		local zjmapID = C_Map.GetBestMapForUnit("player")
+		return GetZijiMapID_1(zjmapID)
+	end
+	local function addmapdata(lyMapID,zijiMapID)
+		local MapID,name = GetZijiMapID_1(lyMapID)
+		if fujiF.dqzoneSet then
+			local MapID,name = GetZijiMapID_1(lyMapID)
+			if MapID==zijiMapID then
+				return true,name
+			end
+		else
+			return true,name
+		end
+	end
 	function fujiF.Update_hang()
 		fujiF.GetBut.jindutishi:SetText("上次获取:刚刚");
 		for i = 1, hang_NUM do
 			fujiF.nr.ButList[i]:Hide()	
 		end
-		local ItemsData = fujiF.JieshouInfoList;
-		local PlanesNum = #ItemsData;
+		local PlanesNum = #fujiF.JieshouInfoList;
 		if PlanesNum>0 then
+			local ItemsData = fujiF.JieshouInfoList;
+			fujiF.New_JieshouInfoList = {};
+			local zijiMapID = GetZijiMapID()
+			--提取奥格/暴风区域ID
+			for i=1,PlanesNum do
+				local zoneID, MapID = strsplit("^", fujiF.JieshouInfoList[i][1]);
+				local zoneID, MapID = tonumber(zoneID), tonumber(MapID)
+				if IsMapIDzhucheng(MapID) and not IsZoneIDRepeat(fujiF.New_ZhuCzoneID,zoneID) then
+					table.insert(fujiF.New_ZhuCzoneID,zoneID)
+				end
+				local dMapID,dname = addmapdata(MapID,zijiMapID)
+				if dMapID then
+					table.insert(fujiF.New_JieshouInfoList,{fujiF.JieshouInfoList[i][1],fujiF.JieshouInfoList[i][2],fujiF.JieshouInfoList[i][3],dname})
+				end
+			end
+			if #fujiF.New_ZhuCzoneID>0 then
+				PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm]=updateInfoList(PIGA["Tardis"]["Plane"]["InfoList"][PIG_OptionsUI.Realm], fujiF.New_ZhuCzoneID)
+			end
+			local ItemsData = fujiF.New_JieshouInfoList
+			local PlanesNum = #ItemsData;
 			local ZJAutoInviteChecked = fujiF.AutoInvite:GetChecked()
 		    FauxScrollFrame_Update(fujiF.nr.Scroll, PlanesNum, hang_NUM, hang_Height);
 		    local offset = FauxScrollFrame_GetOffset(fujiF.nr.Scroll);
@@ -368,8 +433,8 @@ function TardisInfo.Plane(Activate)
 					fujikk.Name.T:SetText(ItemsData[dangqian][2]);
 					local zoneID, MapID, RestState, autoinv = strsplit("^", ItemsData[dangqian][1]);
 					fujikk.zoneID:SetText(zoneID);
-					local weizhi = C_Map.GetMapInfo(MapID).name
-					fujikk.Weizhi:SetText(weizhi);
+					-- local weizhi = C_Map.GetMapInfo(MapID).name
+					fujikk.Weizhi:SetText(ItemsData[dangqian][4]);
 				    local Exactly,DQlayerID = findExactOrClosest(fujiF.New_WMindexID, tonumber(zoneID))
 					fujikk.Weimian:SetText(Exactly..DQlayerID);
 					fujikk.miyu:SetID(dangqian)
@@ -379,7 +444,6 @@ function TardisInfo.Plane(Activate)
 					else
 						fujikk.autoinv:SetText(NO);
 					end
-					fujikk.Weizhi:SetTextColor(0.5,0.5,0.5, 0.1);
 					fujikk.zoneID:SetTextColor(0.5,0.5,0.5, 0.8);
 					if ItemsData[dangqian][3] then
 						fujikk.miyu:Disable()
@@ -387,9 +451,11 @@ function TardisInfo.Plane(Activate)
 						fujikk.Weimian:SetTextColor(0.5,0.5,0.5, 0.9);
 						fujikk.Name.T:SetTextColor(0.5,0.5,0.5, 0.9);
 						fujikk.autoinv:SetTextColor(0.5,0.5,0.5, 0.9);
+						fujikk.Weizhi:SetTextColor(0.5,0.5,0.5, 0.9);
 					else
 						fujikk.Weimian:SetTextColor(1,0.1,0.1, 1);
 						fujikk.Name.T:SetTextColor(0,0.98,0.6, 1);
+						fujikk.Weizhi:SetTextColor(0.8,0.8,0.8, 1);
 						if autoinv=="Y" then
 							fujikk.autoinv:SetTextColor(0, 1, 0, 0.9);
 						else
@@ -467,16 +533,15 @@ function TardisInfo.Plane(Activate)
 				return false
 			end
 		end
-		if PIG_MaxTocversion() then
+		if GetMaxBattlefieldID and GetBattlefieldStatus then
 			for i=1, GetMaxBattlefieldID() do
 				local status, mapName= GetBattlefieldStatus(i);
 				if ( status and status ~= "none" ) then
 					return false
 				end
 			end
-		else
-			if QueueStatusButton and QueueStatusButton:IsShown() then return false end
 		end
+		if QueueStatusButton and QueueStatusButton:IsShown() then return false end
 		return true
 	end
 	local function fasongBendiMsg(self,waname)

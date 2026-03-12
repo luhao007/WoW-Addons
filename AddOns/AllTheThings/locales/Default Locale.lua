@@ -194,6 +194,7 @@ local ABBREVIATIONS = {
 	["Sikran, Captain of the Sureki"] = "Sikran",
 	["Vexie and the Geargrinders"] = "Vexie & the Geargrinders",
 	-- Outdoor Zones
+	["One Does Not Simply Walk Into Harandar"] = "One Does Not Simply...",
 	["Quartermaster Miranda Breechlock"] = "Quartermaster Miranda",
 	["Season "] = "S",
 	["Sanctum Upgrades %> "] = "",
