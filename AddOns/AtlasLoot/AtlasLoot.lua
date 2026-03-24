@@ -72,7 +72,7 @@ end
 -- Only instance related module will be handled
 ATLASLOOT_INSTANCE_MODULE_LIST = {}
 
--- A list of officiel AtlasLoot modules
+-- A list of official AtlasLoot modules
 ATLASLOOT_MODULE_LIST = {
 	{
 		addonName = "AtlasLoot_Midnight",
@@ -227,7 +227,6 @@ end
 
 function AtlasLoot:AutoSelect()
 	local db = AtlasLoot.db.GUI
-
 	local wowMapID, _ = MapUtil.GetDisplayableMapForPlayer()
 	local o_moduleName = db.selected[1]
 	local o_dataID = db.selected[2]
@@ -259,10 +258,14 @@ function AtlasLoot:AutoSelect()
 		AtlasLoot.GUI.frame.subCatSelect:SetSelected(dataID)
 		AtlasLoot.GUI.ItemFrame:Refresh(true)
 	else
-		AtlasLoot.GUI.frame.moduleSelect:SetSelected(o_moduleName)
-		AtlasLoot.GUI.frame.subCatSelect:SetSelected(o_dataID)
-		AtlasLoot.GUI.frame.boss:SetSelected(o_bossID)
-		AtlasLoot.GUI.frame.difficulty:SetSelected(o_diffID)
-		AtlasLoot.GUI.ItemFrame:Refresh(true)
+		-- Make sure that the module is enabled before we try to select it (ex. when all modules are disabled)
+		local enabled = C_AddOns.GetAddOnEnableState(o_moduleName, UnitName("player"))
+		if (enabled > 0) then
+			AtlasLoot.GUI.frame.moduleSelect:SetSelected(o_moduleName)
+			AtlasLoot.GUI.frame.subCatSelect:SetSelected(o_dataID)
+			AtlasLoot.GUI.frame.boss:SetSelected(o_bossID)
+			AtlasLoot.GUI.frame.difficulty:SetSelected(o_diffID)
+			AtlasLoot.GUI.ItemFrame:Refresh(true)
+		end
 	end
 end

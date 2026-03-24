@@ -1,7 +1,10 @@
+if not DBM:IsSeasonal("SeasonOfDiscovery") then return end
+
 local mod	= DBM:NewMod("ThermapluggSoD", "DBM-Raids-Vanilla", 9)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20241214191036")
+mod:SetRevision("20260324053510")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(218538, 218970, 218972, 218974, 218537)--(red, blue, green, gray, thermaplugg)
 mod:SetEncounterID(2940)
 mod:SetBossHPInfoToHighest()

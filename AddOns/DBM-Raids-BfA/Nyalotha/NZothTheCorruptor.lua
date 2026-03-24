@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2375, "DBM-Raids-BfA", 1, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250307060206")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(158041)
 mod:SetEncounterID(2344)
 mod:SetUsedIcons(1, 2, 3, 4)
@@ -144,7 +145,6 @@ local specWarnStupefyingGlare				= mod:NewSpecialWarningDodgeCount(317874, nil, 
 local timerEvokeAnguishCD					= mod:NewNextCountTimer(30.5, 317112, nil, nil, nil, 3)--30.5-44.9, delayed by boss doing other stuff?
 local timerStupefyingGlareCD				= mod:NewNextCountTimer(22.9, 317874, 239918, nil, 2, 3, nil, DBM_COMMON_L.DEADLY_ICON, nil, 1, 5)
 
-mod:AddRangeFrameOption(4, 317112)
 mod:AddBoolOption("ArrowOnGlare", true)
 ----Thought Harvester
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(21491))
@@ -527,9 +527,6 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
@@ -943,9 +940,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnEvokeAnguish:Play("targetyou")
 			yellEvokeAnguish:Yell()
 			yellEvokeAnguishFades:Countdown(spellId)
-			if self.Options.RangeFrame and self:IsMythic() then
-				DBM.RangeCheck:Show(4)
-			end
 		end
 	elseif spellId == 319346 then--Infinity's Toll being applied (Players leaving mind)
 		if args.sourceGUID == playerGUID then
@@ -1036,9 +1030,6 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 317112 then
 		if args:IsPlayer() then
 			yellEvokeAnguishFades:Cancel()
-			if self.Options.RangeFrame and self:IsMythic() then
-				DBM.RangeCheck:Hide()
-			end
 		end
 	elseif spellId == 319346 then--Infinity's Toll fading (players entering mind)
 		if args.destGUID == playerGUID and not UnitIsDeadOrGhost("player") then

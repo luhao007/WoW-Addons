@@ -2,7 +2,8 @@
 local mod	= DBM:NewMod(2460, "DBM-Raids-Shadowlands", 1, 1195)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250719035005")
+mod:SetRevision("20260315035226")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(181548, 181551, 181546, 181549)
 mod:SetEncounterID(2544)
 mod:SetBossHPInfoToHighest()
@@ -19,7 +20,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 361745 361278",
 	"SPELL_SUMMON 361566 360333",
 	"SPELL_AURA_APPLIED 360687 365269 361067 362352 361689 364839 366234 361745 366159",
-	"SPELL_AURA_REMOVED 360687 361067 361278 361745 361689 366159",
+	"SPELL_AURA_REMOVED 360687 361067 361745 361689 366159",
 	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3 boss4"
 )
@@ -42,7 +43,6 @@ local warnCompleteRecon							= mod:NewCastAnnounce(366062, 4)
 
 local timerCompleteRecon						= mod:NewCastTimer(20, 366062, nil, nil, nil, 5, nil, DBM_COMMON_L.DAMAGE_ICON)
 
-mod:AddRangeFrameOption("8")
 mod:AddNamePlateOption("NPAuraOnImprintedSafeguards", 366159, true)--Hostile only, can't anchor to friendly nameplates in raid (seeds)
 
 ----Prototype of War
@@ -438,9 +438,6 @@ function mod:OnCombatEnd()
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if self.Options.NPAuraOnWrackingPain then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
 	end
@@ -704,9 +701,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 				timerPinningVolleyCD:Start(timer, self.vb.volleyCount+1)
 			end
 		end
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Show(8)
-		end
 	end
 end
 
@@ -814,8 +808,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 361067 then
 		wardTargets[args.destName] = nil
-	elseif spellId == 361278 and self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
 	elseif spellId == 361689 and args:IsDestTypeHostile() then
 		if self.Options.NPAuraOnWrackingPain then
 			DBM.Nameplate:Hide(true, args.destGUID, spellId)

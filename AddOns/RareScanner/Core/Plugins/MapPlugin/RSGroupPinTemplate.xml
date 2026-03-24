@@ -60,7 +60,8 @@
 	        </AnimationGroup>
 		</Animations>
 		<Scripts>
-			<OnMouseDown method="OnMouseDown"/>
+		    <OnEnter method="OnMouseEnter"/>
+		    <OnLeave method="OnMouseLeave"/>
 		</Scripts>
 	</Frame>
   

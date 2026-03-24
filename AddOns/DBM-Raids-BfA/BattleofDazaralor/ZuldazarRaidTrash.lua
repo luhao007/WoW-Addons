@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod("ZuldazarRaidTrash", "DBM-Raids-BfA", 4)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250719034113")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 --mod:SetModelID(47785)
 mod.isTrashMod = true
 mod:SetZone(2070)
@@ -20,8 +21,6 @@ local specWarnBwonSamdiPact				= mod:NewSpecialWarningYou(289917, nil, nil, nil,
 local specWarnBwonSamdiKnife			= mod:NewSpecialWarningYou(290578, nil, nil, nil, 1, 2)
 --local yellCorruptingGaze				= mod:NewYell(289917)
 --local specWarnBloodShield				= mod:NewSpecialWarningInterrupt(276540, "HasInterrupt", nil, nil, 1, 2)
-
---mod:AddRangeFrameOption(10, 221028)
 
 --[[
 function mod:GazeTarget(targetname, uId)

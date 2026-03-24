@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod("BlackrockFoundryTrash", "DBM-Raids-WoD", 2)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240426185029")
+mod:SetRevision("20260315035313")
+mod:DisableHardcodedOptions()
 --mod:SetModelID(47785)
 mod.isTrashMod = true
 

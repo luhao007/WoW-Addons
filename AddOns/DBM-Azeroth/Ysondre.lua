@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod("YsondreVanilla", "DBM-Azeroth")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250309164007")
+mod:SetRevision("20260315035425")
+mod:DisableHardcodedOptions()
 
 if DBM:IsSeasonal("SeasonOfDiscovery") then
 	mod:SetCreatureID(235232)

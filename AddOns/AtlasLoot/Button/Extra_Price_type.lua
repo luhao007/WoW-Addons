@@ -188,6 +188,8 @@ local PRICE_INFO = {
 	["voidlightMarl"]              = { currencyID = 3316 }, -- Voidlight Marl
 	["brimmingArcana"]             = { currencyID = 3379 }, -- Brimming Arcana
 	["remnantOfAnguish"]           = { currencyID = 3392 }, -- Remnant of Anguish
+	["unalloyedAbundance"]         = { currencyID = 3377 }, -- Unalloyed Abundance
+	["luminousDust"]               = { currencyID = 3385 }, -- Luminous Dust
 	["alchemyMoxie"]               = { currencyID = 3256 }, -- Artisan Alchemist's Moxie
 	["miningMoxie"]                = { currencyID = 3264 }, -- Artisan Miner's Moxie
 	["herbalismMoxie"]             = { currencyID = 3260 }, -- Artisan Herbalist's Moxie
@@ -224,9 +226,10 @@ local function SetContentInfo(frame, typ, value, delimiter)
 			if info then
 				currentAmount = info.quantity
 				texture = info.iconFileID
-				frame:AddText(currentAmount >= tonumber(value) and STRING_GREEN..value..delimiter or STRING_RED..value..delimiter)
+				frame:AddText(currentAmount >= tonumber(value) and STRING_GREEN..value or STRING_RED..value)
 			end
 			frame:AddIcon(texture, 12)
+			frame:AddText(delimiter)
 		elseif PRICE_INFO[typ].itemID then
 			-- This fetches the item icon and calls this function again so that it hits the PRICE_INFO[typ].icon if test
 			PRICE_INFO[typ].icon = GetItemIcon(PRICE_INFO[typ].itemID)

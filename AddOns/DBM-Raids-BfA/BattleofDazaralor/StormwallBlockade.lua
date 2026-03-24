@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2337, "DBM-Raids-BfA", 4, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250719034113")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(146251, 146253, 146256)--Sister Katherine 146251, Brother Joseph 146253, Laminaria 146256
 mod:SetEncounterID(2280)
 mod:SetBossHPInfoToHighest()
@@ -19,7 +20,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 286558 284405 285000 285382 285350 285426 287995 288205 284361",
 	"SPELL_AURA_REFRESH 285000 285382",
 	"SPELL_AURA_APPLIED_DOSE 285000 285382",
-	"SPELL_AURA_REMOVED 286558 285000 285382 285350 285426 287995 288205 284361",
+	"SPELL_AURA_REMOVED 286558 285000 285382 285350 285426 288205 284361",
 	"SPELL_INTERRUPT",
 --	"SPELL_PERIODIC_DAMAGE 285075",
 --	"SPELL_PERIODIC_MISSED 285075",
@@ -104,7 +105,6 @@ local timerJoltingVolleyCD				= mod:NewCDCountTimer(43.6, 287169, nil, nil, nil,
 
 mod:AddNamePlateOption("NPAuraOnKepWrapping", 285382)
 mod:AddSetIconOption("SetIconWail", 285350, true, 0, {1, 2, 3})
-mod:AddRangeFrameOption(5, 285118)
 mod:AddInfoFrameOption(284760, true)
 
 mod.vb.bossesDied = 0
@@ -228,9 +228,6 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end

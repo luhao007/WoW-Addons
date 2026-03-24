@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2435, "DBM-Raids-Shadowlands", 2, 1193)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250727090201")
+mod:SetRevision("20260315035226")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(175611)
 mod:SetEncounterID(2423)
 mod:SetUsedIcons(1)
@@ -71,7 +72,6 @@ local timerRP										= mod:NewRPTimer(15.4)
 
 local berserkTimer									= mod:NewBerserkTimer(600)
 
-mod:AddRangeFrameOption(6, 347283)
 mod:AddSetIconOption("SetIconOnChains", 347269, true, 0, {1})
 mod:GroupSpells(352368, 352382, 352389, 352398)--Parent torment cast, 3 torment types activating, bool for the 3 remannt type ticks
 mod:GroupSpells(346985, 346986)--Tank cast, tank debuff
@@ -110,16 +110,8 @@ function mod:OnCombatStart(delay)
 		timerHungeringMistCD:Start(24-delay, 1)--24-25
 		berserkTimer:Start(420-delay)
 	end
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Show(6)
-	end
 end
 
-function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
-end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId

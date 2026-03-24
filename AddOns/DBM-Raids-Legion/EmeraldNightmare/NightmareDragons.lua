@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(1704, "DBM-Raids-Legion", 5, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20251103210248")
+mod:SetRevision("20260315035302")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(102679)--Ysondre, 102683 (Emeriss), 102682 (Lethon), 102681 (Taerar)
 mod:SetEncounterID(1854)
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
@@ -41,7 +42,6 @@ local specWarnDragon				= mod:NewSpecialWarningTarget(204720, "Tank", nil, nil, 
 local timerMarkCD					= mod:NewNextTimer(7, -12809, 28836, false, 2, 3, 203102)--Now off by default, to further reduce timer clutter, plus sometimes it's wrong because in rare cases the dragons desync for some reason
 local timerBreathCD					= mod:NewCDSourceTimer(27, 203028, 21131, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)--27-34 for Ysondre, Cohorts 27-29.
 
-mod:AddRangeFrameOption(10, 203787)
 mod:AddInfoFrameOption(-12809)
 --Ysondre
 mod:AddTimerLine(Ysondre)
@@ -215,9 +215,6 @@ end
 
 function mod:OnCombatEnd()
 	self:UnregisterShortTermEvents()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
@@ -318,9 +315,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnVolatileInfection:Show()
 			yellVolatileInfection:Yell()
 			specWarnVolatileInfection:Play("scatter")
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(10)
-			end
 		end
 		if self.Options.SetIconOnInfection then
 			self:SetIcon(args.destName, self.vb.volatileInfectionIcon)
@@ -346,9 +340,7 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
-	if spellId == 203787 and args:IsPlayer() and self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	elseif spellId == 204040 and args:IsPlayer() then
+	if spellId == 204040 and args:IsPlayer() then
 		yellShadowBurst:Cancel()
 	elseif spellId == 203787 and self.Options.SetIconOnInfection then
 		self:SetIcon(args.destName, 0)

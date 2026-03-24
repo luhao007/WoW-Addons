@@ -562,7 +562,7 @@ L["Import from guild roster"] = "길드 명단에서 가져오기"
 L["Import options"] = "옵션 가져오기"
 L["Imports alt names from a Guild Greet database, if present"] = "길드 쪽지 데이터베이스에서 부 캐릭터 이름이 있으면 가져옵니다"
 L["Imports alt names from the guild roster by checking for members with the rank \"alt\" or \"alts\", or guild / officer notes like \"<name>'s alt\""] = "\"부캐\"나 \"부캐릭터\" 등급, 또는 \"<이름>의 부캐\"같은 길드 / 관리자 쪽지를 확인하여 길드 명단에서 부 캐릭터 이름을 가져옵니다"
-L["Imports data from LOKWhoIsWho, if present (drop your SavedVariables\\LOKWhoIsWho.lua in the Prat directory to be able to use this)."] = "존재한다면 LOKWhoIsWho에서 데이터를 가져옵니다 (SavedVariablesLOKWhoIsWho.lua 파일을 Prat 디렉토리에 복사해야 사용 가능함)."
+L["Imports data from LOKWhoIsWho, if present (drop your SavedVariables\\LOKWhoIsWho.lua in the Prat directory to be able to use this)."] = "존재한다면 LOKWhoIsWho에서 데이터를 가져옵니다 (SavedVariables\\LOKWhoIsWho.lua 파일을 Prat 디렉토리에 복사해야 사용 가능함)."
 L["Left"] = "왼쪽"
 L["link <alt name> <main name> (eg, /altnames link Fin Finjathealtoffin)"] = "link <부 캐릭터 이름> <주 캐릭터 이름> (예, /altnames link Fin Finjathealtoffin)"
 L["Link alt"] = "부 캐릭터 연결하기"
@@ -964,7 +964,7 @@ L["Import from guild roster"] = "从工会名单导入"
 L["Import options"] = "导入选项"
 L["Imports alt names from a Guild Greet database, if present"] = "导入马甲名称从公会欢迎数据库,如果可以"
 L["Imports alt names from the guild roster by checking for members with the rank \"alt\" or \"alts\", or guild / officer notes like \"<name>'s alt\""] = "导入马甲名称从公会名单中检查到的成员头衔为“马甲”或“马甲们”的,或者公会官员备注为\"<某某>的马甲\""
-L["Imports data from LOKWhoIsWho, if present (drop your SavedVariables\\LOKWhoIsWho.lua in the Prat directory to be able to use this)."] = "从LOKWhoIsWho导入数据,如果可以(你的Prat目录丢失SavedVariablesLOKWhoIsWho.lua可以使用这个)."
+L["Imports data from LOKWhoIsWho, if present (drop your SavedVariables\\LOKWhoIsWho.lua in the Prat directory to be able to use this)."] = "从LOKWhoIsWho导入数据,如果可以(你的Prat目录丢失SavedVariables\\LOKWhoIsWho.lua可以使用这个)."
 L["Left"] = "左边"
 L["link <alt name> <main name> (eg, /altnames link Fin Finjathealtoffin)"] = "联结 <马甲名称> <本尊名称>(例,/altnames link 顶尖战士 苍天哥)"
 L["Link alt"] = "联结马甲"
@@ -1074,7 +1074,7 @@ L["Import options"] = "Opciones de Importación"
 L["Imports alt names from a Guild Greet database, if present"] = "Imports alt names from a Guild Greet database, if present"
 --[[Translation missing --]]
 L["Imports alt names from the guild roster by checking for members with the rank \"alt\" or \"alts\", or guild / officer notes like \"<name>'s alt\""] = "Imports alt names from the guild roster by checking for members with the rank \"alt\" or \"alts\", or guild / officer notes like \"<name>'s alt\""
-L["Imports data from LOKWhoIsWho, if present (drop your SavedVariables\\LOKWhoIsWho.lua in the Prat directory to be able to use this)."] = "Importa datos de LOKWhoIsWho, si está presente (colocar su SavedVariablesLOKWhoIsWho.lua en el directorio Prat para poder usar este)."
+L["Imports data from LOKWhoIsWho, if present (drop your SavedVariables\\LOKWhoIsWho.lua in the Prat directory to be able to use this)."] = "Importa datos de LOKWhoIsWho, si está presente (colocar su SavedVariables\\LOKWhoIsWho.lua en el directorio Prat para poder usar este)."
 L["Left"] = "Izquierda"
 L["link <alt name> <main name> (eg, /altnames link Fin Finjathealtoffin)"] = "enlace <nombre alt> <nombre principal> (ej, /nombrealt enlace Fin Finjathealtoffin)"
 --[[Translation missing --]]
@@ -1642,12 +1642,7 @@ L["You have not yet linked any alts with their mains."] = "You have not yet link
 			self:RegisterEvent("GUILD_ROSTER_UPDATE", function()
 				module:importGuildAlts(nil, true)
 			end)
-			-- Different functions for retail versus classic
-			if C_GuildInfo and C_GuildInfo.GuildRoster then
-				C_GuildInfo.GuildRoster()
-			else
-				GuildRoster()
-			end
+			C_GuildInfo.GuildRoster()
 		else
 			self:UnregisterEvent("GUILD_ROSTER_UPDATE")
 		end
@@ -1992,7 +1987,12 @@ L["You have not yet linked any alts with their mains."] = "You have not yet link
 					if charname and playernames then
 						local class = playernames:GetData(charname)
 						if class then
-							hexcolour = playernames:GetClassColor(class)
+							local classColor = Prat.GetClassColor(class, true)
+							if classColor then
+								self.ALTNAMES = string.format(padfmt, classColor:WrapTextInColorCode(altname:gsub(Prat.MULTIBYTE_FIRST_CHAR, string.upper, 1)))
+								message.ALTNAMES = self.ALTNAMES
+								return
+							end
 						end
 					end
 				else

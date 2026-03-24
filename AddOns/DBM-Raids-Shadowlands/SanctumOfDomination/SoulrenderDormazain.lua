@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2445, "DBM-Raids-Shadowlands", 2, 1193)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250719035005")
+mod:SetRevision("20260315035226")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(175727)
 mod:SetEncounterID(2434)
 mod:SetUsedIcons(1, 2, 3, 4)
@@ -71,7 +72,6 @@ local timerHellscream						= mod:NewCastTimer(35, 350411, nil, nil, nil, 2, nil,
 
 --local berserkTimer						= mod:NewBerserkTimer(600)
 
---mod:AddRangeFrameOption("8")
 mod:AddInfoFrameOption(352158, false)
 mod:AddSetIconOption("SetIconOnBrandofTorment", 350647, true, 0, {1, 2, 3, 4})
 mod:AddSetIconOption("SetIconOnMawsworn", 350615, true, 5, {5, 6, 7, 8})
@@ -180,9 +180,7 @@ function mod:OnCombatEnd()
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
---	if self.Options.RangeFrame then
---		DBM.RangeCheck:Hide()
---	end
+
 	if self.Options.NPAuraOnDefiance or self.Options.NPAuraOnTormented then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
 	end

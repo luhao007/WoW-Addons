@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod("UldirTrash", "DBM-Raids-BfA", 5)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20230618060944")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 --mod:SetModelID(47785)
 mod.isTrashMod = true
 

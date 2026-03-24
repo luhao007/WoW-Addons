@@ -7,7 +7,8 @@ else
 	mod.statTypes = "normal"
 end
 
-mod:SetRevision("20250309150339")
+mod:SetRevision("20260324053510")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(15989)
 mod:SetEncounterID(1119)
 --mod:SetModelID(16033)--Scales incorrectly
@@ -42,13 +43,13 @@ local warnAirPhaseNow	= mod:NewAnnounce("WarningAirPhaseNow", 4, "Interface\\Add
 local warnLanded		= mod:NewAnnounce("WarningLanded", 4, "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendBurrow.blp")
 
 local warnBlizzard		= mod:NewSpecialWarningGTFO(28547, nil, nil, nil, 1, 8)
-local warnDeepBreath	= mod:NewSpecialWarning("WarningDeepBreath", nil, nil, nil, 1, 2)
+local warnFrostBreath	= mod:NewSpecialWarning("WarningFrostBreath", nil, nil, nil, 1, 2)
 local yellIceBlock		= mod:NewYell(28522)
 
 local timerDrainLife	= mod:NewCDTimer(22, 28542, nil, nil, nil, 3, nil, DBM_COMMON_L.CURSE_ICON)
 local timerAirPhase		= mod:NewTimer(66, "TimerAir", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendUnBurrow.blp", nil, nil, 6)--80?
 local timerLanding		= mod:NewTimer(DBM:IsSeasonal("SeasonOfDiscovery") and 36 or 28.5, "TimerLanding", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendBurrow.blp", nil, nil, 6)
-local timerIceBlast		= mod:NewTimer(7, "TimerIceBlast", 15876, nil, nil, 2, DBM_COMMON_L.DEADLY_ICON)
+local timerFrostBreath	= mod:NewTimer(7, "TimerFrostBreath", 15876, nil, nil, 2, DBM_COMMON_L.DEADLY_ICON) -- Using the icon for spell 15876 Ice Blast because Frost Breath icon is the default Samwise icon
 
 local timerBomb			= mod:NewNextTimer(30.75, 1219729)
 local specWarnBomb		= mod:NewSpecialWarningYou(1219729, nil, nil, nil, 3, 12)
@@ -59,7 +60,6 @@ local yellBombFades		= mod:NewShortFadesYell(1219729)
 local berserkTimer		= mod:NewBerserkTimer(900)
 
 mod:AddSetIconOption("SetIconOnBombTarget", 1219729, true, 0, {3, 6})
-mod:AddRangeFrameOption(10, 28522)
 
 local noTargetTime = 0
 mod.vb.isFlying = false
@@ -68,9 +68,6 @@ local UnitAffectingCombat = UnitAffectingCombat
 
 local function resetIsFlying(self)
 	self.vb.isFlying = false
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 end
 
 local airPhaseTimer = 66 -- TODO: maybe slightly shorter on non-mythic? but at most a few seconds, doesn't matter because the cast resets it
@@ -123,18 +120,10 @@ function mod:OnCombatStart(delay)
 			timerAirPhase:Cancel()
 			warnAirPhaseNow:Show()
 			timerLanding:Start()--28.5 (seems mostly right)
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(10)
-			end
 		end
 	end, 0.2)
 end
 
-function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
-end
 
 function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(28522) and args:IsDestTypePlayer() then
@@ -170,11 +159,11 @@ end
 
 function mod:SPELL_CAST_START(args)
 	if args:IsSpell(28524) and args:IsSrcTypeHostile() then -- Frost Breath
-		timerIceBlast:Start()
+		timerFrostBreath:Start()
 		timerLanding:Update(16.3, 28.5)--Probably not even needed, if base timer is more accurate
 		self:Schedule(12.2, Landing, self)
-		warnDeepBreath:Show()
-		warnDeepBreath:Play("findshelter")
+		warnFrostBreath:Show()
+		warnFrostBreath:Play("findshelter")
 		timerBomb:Start(14.9) -- TODO: confirm this
 	end
 end

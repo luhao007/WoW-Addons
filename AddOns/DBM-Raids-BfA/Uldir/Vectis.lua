@@ -2,7 +2,8 @@
 local mod	= DBM:NewMod(2166, "DBM-Raids-BfA", 5, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240714045844")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(134442)--135016 Plague Amalgam
 mod:SetEncounterID(2134)
 mod:SetUsedIcons(1, 2, 3, 4)
@@ -17,7 +18,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 265178 265212 266459 265209",
 	"SPELL_AURA_APPLIED 265178 265129 265212 265127",
 	"SPELL_AURA_APPLIED_DOSE 265178 265127",
-	"SPELL_AURA_REMOVED 265129 265212 265217 265127",
+	"SPELL_AURA_REMOVED 265129 265217 265127",
 	"SPELL_SUMMON 275055",
 	"RAID_BOSS_WHISPER",
 	"INSTANCE_ENCOUNTER_ENGAGE_UNIT",
@@ -70,7 +71,6 @@ local timerImmunoSuppCD						= mod:NewCDCountTimer("d25.5", 265206, nil, nil, ni
 --local berserkTimer						= mod:NewBerserkTimer(600)
 
 mod:AddSetIconOption("SetIconVector", 265129, true, 0, {1, 2, 3, 4})
-mod:AddRangeFrameOption("5/8")
 mod:AddInfoFrameOption(265127, true)
 mod:AddBoolOption("ShowHighestFirst3", true)--Show highest stacks first by default, since it alines with 3rd generation infoframe
 mod:AddBoolOption("ShowOnlyParty", false)
@@ -247,9 +247,6 @@ end
 function mod:OnCombatEnd()
 	table.wipe(seenAdds)
 	table.wipe(castsPerGUID)
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
@@ -262,9 +259,6 @@ function mod:OnTimerRecovery()
 		if count then
 			if count >= 6 then
 				playerHasSix = true
-				if self.Options.RangeFrame then
-					DBM.RangeCheck:Show(5)
-				end
 			end
 			if count >= 12 then--Spawning Parasite (274983) will begin
 				playerHasTwelve = true
@@ -414,9 +408,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnGestate:Show()
 			specWarnGestate:Play("targetyou")
 			yellGestate:Yell()
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(8)
-			end
 		elseif self:CheckNearby(5, args.destName) then
 			specWarnGestateNear:Show(args.destName)
 			specWarnGestateNear:Play("runaway")
@@ -435,9 +426,6 @@ function mod:SPELL_AURA_APPLIED(args)
 				playerHasSix = true
 				specWarnLingeringInfection:Show(amount)
 				specWarnLingeringInfection:Play("stackhigh")
-				if self.Options.RangeFrame then
-					DBM.RangeCheck:Show(5)
-				end
 			elseif not playerHasTwelve and amount >= 12 then--Spawning Parasite (274983) will begin
 				playerHasTwelve = true
 				specWarnLingeringInfection:Show(amount)
@@ -490,16 +478,6 @@ function mod:SPELL_AURA_REMOVED(args)
 				end
 			end
 		end
-	elseif spellId == 265212 then
-		if args:IsPlayer() then
-			if self.Options.RangeFrame then
-				if playerHasSix then
-					DBM.RangeCheck:Show(5)
-				else
-					DBM.RangeCheck:Hide()
-				end
-			end
-		end
 	elseif spellId == 265217 then
 		timerEvolvingAfflictionCD:Start(8.5)
 		timerGestateCD:Start(14.6)--SUCCESS
@@ -516,9 +494,6 @@ function mod:RAID_BOSS_WHISPER(msg)
 		specWarnGestate:Show()
 		specWarnGestate:Play("targetyou")
 		yellGestate:Yell()
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Show(8)
-		end
 	end
 end
 

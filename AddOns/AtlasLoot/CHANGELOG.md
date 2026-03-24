@@ -1,5 +1,38 @@
 ﻿# Changelog
 
+## 9.22.1 - March 23, 2026
+### Added
+- Added new Trial of Style items
+- Added Prey and Delve season journeys to Factions
+- Added Midnight PVP Season 1 rewards to PvP
+- Added mount buttons to Midnight mounts in instances
+### Changed
+- Changed Midnight Season 1 instances to seasonal loot
+- Changed various Shadowlands and TWW instances back to non-season loot
+
+## 9.22.0 - March 18, 2026
+### Added
+- If your current character has the profession of a recipe, the secondary button will get a gold border and you can click on it to open your profession UI to that recipe
+- Added crafted decor items from previous expansions to Crafting
+- Added a few Midnight Season 1 toys, pets and mounts
+- Added Hara'ti Renown 7 decor items
+### Fixed
+- Fixed item levels of Midnight crafted gear
+- Fixed incorrect formatting of extra price text when it has two currencies
+- Fixed error when no modules are enabled
+- Removed a couple TBC ring enchants that are no longer available
+
+## 9.21.4 - March 14, 2026
+### Added
+- Added Midnight toys to Collections
+- Added Midnight pets to Collections
+- Added Midnight mounts to Collections
+- Added Midnight tier sets to Collections
+- Added missing decor items to Hara'ti faction
+- Added TWW Season 3 PvP items
+### Changed
+- Updated decor item prices at faction vendors
+
 ## 9.21.3 - March 12, 2026
 ### Added
 - Added Midnight Engineering recipes

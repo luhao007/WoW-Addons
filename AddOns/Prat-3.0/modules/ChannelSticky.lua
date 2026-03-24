@@ -333,6 +333,12 @@ L["Toggles sticky on and off for %s."] = "Toggles sticky on and off for %s."
 		self:ScheduleTimer("BuildChannelList", 1)
 	end
 
+	function module:ChatEdit_SendTextRetail(this)
+		if this:GetAttribute("chatType") == "SMARTGROUP" then
+			this:SetAttribute("chatType", self:SmartGroupChatType())
+		end
+	end
+
 	function module:ChatEdit_SendText(this)
 		if self.groupsay then
 			this:SetAttribute("chatType", "SMARTGROUP")
@@ -401,8 +407,15 @@ L["Toggles sticky on and off for %s."] = "Toggles sticky on and off for %s."
 	function module:RegisterSmartGroup(on)
 		if not self.smart_group and on then
 			Prat.RegisterChatEvent(self, Prat.Events.OUTBOUND)
-			if _G.ChatFrame1EditBox and _G.ChatFrame1EditBox.SendText then
-				self:SecureHook(_G.ChatFrame1EditBox, "SendText", "ChatEdit_SendText")
+			if ChatFrame1EditBox and ChatFrame1EditBox.OnPreSendText then
+				EventRegistry:RegisterCallback("ChatFrame.OnEditBoxPreSendText", function(_, editBox)
+					local success, ret = pcall(function()
+						module:ChatEdit_SendTextRetail(editBox)
+					end)
+					if not success then
+						geterrorhandler()(ret)
+					end
+				end)
 			else
 				self:SecureHook("ChatEdit_SendText")
 			end
@@ -429,9 +442,9 @@ L["Toggles sticky on and off for %s."] = "Toggles sticky on and off for %s."
 	end
 
 	function module:SmartGroupChatType()
-		local _, instanceType = IsInInstance()
-
 		if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+			local _, instanceType = IsInInstance()
+
 			if instanceType == "arena" then
 				return "PARTY"
 			else

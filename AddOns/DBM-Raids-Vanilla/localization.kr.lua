@@ -18,6 +18,17 @@ L = DBM:GetModLocalization("ThreeBugs")
 L:SetGeneralLocalization{
 	name = "실리시드 왕실"
 }
+L:SetMiscLocalization{
+	Yauj	= "공주 야우즈",
+	Vem		= "벰",
+	Kri		= "군주 크리"
+}
+L:SetWarningLocalization({
+    WarnBugDied = "%s|1이;가; 죽습니다 (%d킬 남음)"
+})
+L:SetOptionLocalization{
+	WarnBugDied = "Announce bugs remaining"
+}
 
 -------------
 -- Sartura --
@@ -26,6 +37,12 @@ L = DBM:GetModLocalization("Sartura")
 
 L:SetGeneralLocalization{
 	name = "전투감시병 살투라"
+}
+L:SetWarningLocalization({
+    WarnGuardDied = "Sartura's Royal Guards remaining: %d/3" -- NPC ID 15984
+})
+L:SetOptionLocalization{
+	WarnGuardDied = "Announce Sartura's Royal Guards remaining"
 }
 
 --------------
@@ -115,8 +132,7 @@ L:SetOptionLocalization{
 	TimerClawTentacle		= "다음 갈고리 촉수 타이머 바 보기",
 	TimerGiantEyeTentacle	= "다음 눈 달린 거대한 촉수 타이머 바 보기",
 	TimerGiantClawTentacle	= "다음 거대한 발톱 촉수 타이머 바 보기",
-	TimerWeakened			= "보스 약화 지속 시간 타이머 바 보기",
-	RangeFrame				= "거리 창 보기 (10m)"
+	TimerWeakened			= "보스 약화 지속 시간 타이머 바 보기"
 }
 
 L:SetMiscLocalization{
@@ -298,7 +314,7 @@ L:SetOptionLocalization{
 }
 L:SetMiscLocalization{
 	Phase2Emote	= "수정 구슬에서 통제력이 빠져나가자",
-	YellPull 	= "침입자들이 들어왔다! 어떤 희생이 있더라도 알을 반드시 수호하라!"
+	Pull 	= "침입자들이 들어왔다! 어떤 희생이 있더라도 알을 반드시 수호하라!"
 }
 
 -------------------
@@ -411,8 +427,8 @@ L:SetWarningLocalization{
 	WarnVulnerable	= "%s 약화"
 }
 L:SetTimerLocalization{
-	TimerBreathCD	= "%s 쿨타임",
-	TimerBreath		= "%s 시전",
+	TimerBreathCD	= "%s",
+	TimerBreath		= "%s",
 	TimerVulnCD		= "약화 쿨타임",
 	TimerAllBreaths	= "연발 숨결"
 }
@@ -698,7 +714,7 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	PriestDied	= "%s 죽었습니다.",
+	PriestDied	= "%s|1이;가; 죽습니다.",
 	YellPhase2	= "시르밸라시여, 분노를 채워 주소서!",
 	YellKill	= "학카르의 구속이 끝났다! 이젠 평안히 잠들리라!",
 })
@@ -955,8 +971,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	yell1			= "패치워크랑 놀아줘!",
-	yell2			= "켈투자드님이 패치워크 싸움꾼으로 만들었다."
+	Pull1			= "패치워크랑 놀아줘!",
+	Pull2			= "켈투자드님이 패치워크 싸움꾼으로 만들었다."
 })
 
 -----------------
@@ -989,7 +1005,6 @@ L:SetGeneralLocalization({
 L:SetMiscLocalization({
 	Yell	= "스탈라그, 박살낸다!",
 	Emote	= "%s 과부하 상태가 됩니다.",
-	Emote2	= "테슬라 코일이 과부하 상태가 됩니다.",
 	Charge1	= "음전하",
 	Charge2	= "양전하"
 })
@@ -1019,10 +1034,10 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization({
-	Yell1 = "절대 봐주지 마라!",
-	Yell2 = "훈련은 끝났다! 배운 걸 보여줘라!",
-	Yell3 = "훈련받은 대로 해!",
-	Yell4 = "다리를 후려 차라! 무슨 문제 있나?"
+	Pull1 = "절대 봐주지 마라!",
+	Pull2 = "훈련은 끝났다! 배운 걸 보여줘라!",
+	Pull3 = "훈련받은 대로 해!",
+	Pull4 = "다리를 후려 차라! 무슨 문제 있나?"
 })
 
 L:SetOptionLocalization({
@@ -1111,21 +1126,21 @@ L:SetOptionLocalization({
 	WarningLanded			= "지상 단계 알림 보기",
 	TimerAir				= "비행 단계 타이머 바 보기",
 	TimerLanding			= "착지 중 타이머 바 보기",
-	TimerIceBlast			= "냉기 숨결 타이머 바 보기",
-	WarningDeepBreath		= "냉기 숨결 특수 알림 보기"
+	TimerFrostBreath		= "$spell:28524 타이머 바 보기",
+	WarningFrostBreath		= "$spell:28524 특수 알림 보기"
 })
 
 L:SetWarningLocalization({
 	WarningAirPhaseSoon		= "비행 단계 10초 전",
 	WarningAirPhaseNow		= "비행 단계",
 	WarningLanded			= "사피론 내려옴",
-	WarningDeepBreath		= "냉기 숨결"
+	WarningFrostBreath		= "냉기 숨결"
 })
 
 L:SetTimerLocalization({
 	TimerAir				= "비행 단계",
 	TimerLanding			= "착지 중",
-	TimerIceBlast			= "냉기 숨결"
+	TimerFrostBreath		= "냉기 숨결"
 })
 
 ------------------
@@ -1590,3 +1605,4 @@ L:SetMiscLocalization{
 	Prison = "감옥",
 	Cathedral = "대성당"
 }
+

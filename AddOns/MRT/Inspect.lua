@@ -946,7 +946,8 @@ do
 			data.level = UnitLevel(inspectedName)
 			data.race = race
 			data.time = time()
-			data.GUID = UnitGUID(inspectedName)
+			--data.GUID = UnitGUID(inspectedName)
+			data.GUID = arg
 			data.lastUpdate = currTime
 			data.lastUpdateTime = time()
 

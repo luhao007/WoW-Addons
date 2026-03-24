@@ -58,6 +58,7 @@ function CMCVisibility:Update(viewer, viewerName, settingsKey)
     end
 
     local isMounted = IsMounted()
+    local inInstance = IsInInstance()
     local shapeshiftFormID = GetShapeshiftFormID()
     local hasTarget = UnitExists("target")
     local targetIsEnemy = UnitCanAttack("player", "target")
@@ -75,6 +76,10 @@ function CMCVisibility:Update(viewer, viewerName, settingsKey)
         return
     end
     if rules.SHOW_IN_COMBAT and (inCombat or InCombatLockdown()) then
+        viewer:SetAlpha(alpha)
+        return
+    end
+    if rules.SHOW_IN_INSTANCE and inInstance then
         viewer:SetAlpha(alpha)
         return
     end

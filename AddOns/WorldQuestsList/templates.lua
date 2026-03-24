@@ -11,6 +11,12 @@ GameTooltip.ItemTooltip.yspacing = 13
 C_Timer.After(1,function()GameTooltip.ItemTooltip.Tooltip.shoppingTooltips = { WQLTooltipItemRef1, WQLTooltipItemRef2 };end)
 GameTooltip.supportsItemComparison = false
 
+GameTooltip.supportsDataRefresh = true
+
+GameTooltip_OnLoad(GameTooltip)
+GameTooltip:SetScript("OnUpdate",GameTooltip_OnUpdate)
+GameTooltip:SetScript("OnShow",GameTooltip_OnShow)
+
 function WQL_AreaPOIPinMixin:TryShowTooltip()
 	local description = self.description;
 

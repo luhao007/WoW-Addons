@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2330, "DBM-Raids-BfA", 4, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250719034113")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(144747, 144767, 144963, 144941)
 mod:SetEncounterID(2268)
 --mod:DisableESCombatDetection()
@@ -123,7 +124,6 @@ mod:AddNamePlateOption("NPAuraOnPact", 282079)
 mod:AddNamePlateOption("NPAuraOnPackHunter", 286007)
 mod:AddNamePlateOption("NPAuraOnFixate", 282209)
 mod:AddSetIconOption("SetIconHex", 282135, false, 0, {1, 2, 3, 4})
---mod:AddRangeFrameOption("8/10")
 mod:AddInfoFrameOption(282079, true)--Not real spellID, just filler for now
 
 mod.vb.hexIcon = 1
@@ -162,9 +162,7 @@ end
 
 function mod:OnCombatEnd()
 	table.wipe(raptorsSeen)
---	if self.Options.RangeFrame then
---		DBM.RangeCheck:Hide()
---	end
+
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end

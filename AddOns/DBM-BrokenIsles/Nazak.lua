@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(1783, "DBM-BrokenIsles", 1, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240422191412")
+mod:SetRevision("20260315035302")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(110321)
 mod:SetEncounterID(1950)
 mod:SetReCombatTime(20)
@@ -33,8 +34,6 @@ function mod:OnCombatStart(delay, yellTriggered)
 	end
 end
 
-function mod:OnCombatEnd()
-end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId

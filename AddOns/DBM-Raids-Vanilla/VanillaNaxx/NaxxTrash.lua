@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod("NaxxTrash", "DBM-Raids-Vanilla", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250211214720")
+mod:SetRevision("20260315035425")
+mod:DisableHardcodedOptions()
 mod.isTrashMod = true
 mod:SetZone(533)
 

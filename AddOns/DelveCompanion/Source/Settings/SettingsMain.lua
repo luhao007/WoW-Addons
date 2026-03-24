@@ -27,6 +27,24 @@ DelveCompanion.AddonSettings = AddonSettings
 
 --#region Addon Compartment
 
+---@param tooltip GameTooltip
+function DelveCompanion_CompartmentSetTooltipContent(tooltip)
+    GameTooltip_SetTitle(tooltip, Lockit.UI_ADDON_NAME, nil, true)
+    GameTooltip_AddBlankLineToTooltip(tooltip)
+    GameTooltip_AddNormalLine(tooltip, Lockit.UI_COMPARTMENT_DESCRIPTION_LEFT_CLICK, true)
+    GameTooltip_AddNormalLine(tooltip, Lockit.UI_COMPARTMENT_DESCRIPTION_RIGHT_CLICK, true)
+end
+
+---@param expansion number LE_EXPANSION enum number of the expansion
+function DelveCompanion_CompartmentOpenDelvesInfo(expansion)
+    local name = DelveCompanion.Definitions.DependencyAddonName.encounterJournal
+    if not C_AddOns.IsAddOnLoaded(name) then
+        C_AddOns.LoadAddOn(name)
+    end
+
+    EncounterJournal_OpenToJourney(Config.DELVE_FACTION_ID[expansion])
+end
+
 --- Used in `TOC` file for [AddonCompartmentFuncOnEnter](https://warcraft.wiki.gg/wiki/TOC_format#AddonCompartmentFuncOnEnter).
 ---@param addonName string
 ---@param menuButtonFrame table
@@ -35,10 +53,7 @@ function DelveCompanion_CompartmentOnEnter(addonName, menuButtonFrame)
 
     tooltip:SetOwner(menuButtonFrame, "ANCHOR_NONE")
     tooltip:SetPoint("TOPRIGHT", menuButtonFrame, "TOPLEFT")
-    GameTooltip_SetTitle(tooltip, Lockit.UI_ADDON_NAME, nil, true)
-    GameTooltip_AddBlankLineToTooltip(tooltip)
-    GameTooltip_AddNormalLine(tooltip, Lockit.UI_COMPARTMENT_DESCRIPTION_LEFT_CLICK, true)
-    GameTooltip_AddNormalLine(tooltip, Lockit.UI_COMPARTMENT_DESCRIPTION_RIGHT_CLICK, true)
+    DelveCompanion_CompartmentSetTooltipContent(tooltip)
 
     tooltip:Show()
 end
@@ -50,23 +65,19 @@ function DelveCompanion_CompartmentOnLeave(addonName, menuButtonFrame)
     GameTooltip:Hide()
 end
 
---- Global function to open addon settings. Used in `TOC` file for [AddonCompartmentFunc](https://warcraft.wiki.gg/wiki/TOC_format#AddonCompartmentFunc).
+--- Used in `TOC` file for [AddonCompartmentFunc](https://warcraft.wiki.gg/wiki/TOC_format#AddonCompartmentFunc).
 ---@param addonName string
 ---@param buttonName string
 function DelveCompanion_CompartmentOnClick(addonName, buttonName)
-    if not (Settings and Settings.OpenToCategory) then
-        return
-    end
-
-    local id = ""
-
     if buttonName == Definitions.ButtonAlias.leftClick then
-        id = AddonSettings.rootCategory:GetID()
+        DelveCompanion_CompartmentOpenDelvesInfo(LE_EXPANSION_MIDNIGHT)
     elseif buttonName == Definitions.ButtonAlias.rightClick then
-        id = AddonSettings.optionsCategory:GetID()
-    end
+        if not (Settings and Settings.OpenToCategory) then
+            return
+        end
 
-    Settings.OpenToCategory(id)
+        Settings.OpenToCategory(AddonSettings.optionsCategory:GetID())
+    end
 end
 
 --#endregion
@@ -323,6 +334,17 @@ function AddonSettings:RegisterAccountSettings(category, layout)
             layoutInitializer:Indent()
             layoutInitializer:SetParentInitializer(controlInitializer, ModifyPredicate)
         end
+    end
+
+    do
+        local savedVarKey = "minimapIconEnabled"
+
+        local setting = self:RegisterSetting(category, savedVarKey, savedVarTbl,
+            Config.DEFAULT_ACCOUNT_DATA.minimapIconEnabled,
+            Lockit.UI_SETTING_MINIMAP_ICON_NAME, OnSettingChanged)
+
+        local tooltip = Lockit.UI_SETTING_MINIMAP_ICON_TOOLTIP
+        Settings.CreateCheckbox(category, setting, tooltip)
     end
 end
 

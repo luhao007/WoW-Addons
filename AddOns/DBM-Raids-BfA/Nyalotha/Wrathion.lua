@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2368, "DBM-Raids-BfA", 1, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250307060206")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(156818)
 mod:SetEncounterID(2329)
 mod:SetUsedIcons(1, 2, 3)--Unknown number of burning targets, guessed for now
@@ -13,7 +14,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 306289 306735 306995 305978",
-	"SPELL_CAST_SUCCESS 306111 306289 313253",
+	"SPELL_CAST_SUCCESS 306111",
 	"SPELL_AURA_APPLIED 306015 306163 313175 307013 314347 309733",
 	"SPELL_AURA_APPLIED_DOSE 306015",
 	"SPELL_AURA_REMOVED 306163 313175 307013 306995 309733",
@@ -53,7 +54,6 @@ local timerGaleBlastCD						= mod:NewCDCountTimer(90.9, 306289, nil, nil, nil, 2
 local timerBurningCataclysmCD				= mod:NewCDCountTimer(90.9, 306735, 138565, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON, nil, 1, 5)
 local timerBurningCataclysm					= mod:NewCastTimer(8, 306735, 138565, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
 
-mod:AddRangeFrameOption(6, 306289)
 --Stage Two: Smoke and Mirrors
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(20635))
 local warnSpawnAdds							= mod:NewSpellAnnounce(312389, 2)
@@ -158,9 +158,6 @@ function mod:OnCombatEnd()
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if self.Options.NPAuraOnHardenedCore then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
 	end
@@ -176,9 +173,6 @@ function mod:SPELL_CAST_START(args)
 		specWarnGaleBlast:Play("watchstep")
 		if self.vb.galeCount == 1 then
 			timerGaleBlastCD:Start(74.3, 2)
-		end
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Show(6)
 		end
 	elseif spellId == 306735 then
 		self.vb.cataCast = self.vb.cataCast + 1
@@ -210,10 +204,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 		local timer = self:IsMythic() and mythicincinerateTimers[self.vb.incinerateCount+1] or not self:IsMythic() and incinerateTimers[self.vb.incinerateCount+1]
 		if timer and timer > 0 then
 			timerIncinerationCD:Start(timer, self.vb.incinerateCount+1)
-		end
-	elseif spellId == 306289 and self:AntiSpam(5, 2) then
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Hide()
 		end
 	end
 end

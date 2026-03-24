@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2422, "DBM-Raids-Shadowlands", 3, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250719035005")
+mod:SetRevision("20260315035226")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(165759)
 mod:SetEncounterID(2402)
 mod:DisableIEEUCombatDetection()--kael gets stuck on boss frames well after encounter has ended, therefor must not re-engage boss off this bug
@@ -16,7 +17,7 @@ mod:SetZone(2296)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 325877 329509 329518 328885 325440 325506 333002 326455 337865",
+	"SPELL_CAST_START 325877 329509 329518 328885 325440 325506 333002 326455",
 	"SPELL_CAST_SUCCESS 326583 325665 181113",
 	"SPELL_SUMMON 329565 326075",
 	"SPELL_AURA_APPLIED 326456 328659 341254 328731 325442 333145 326078 332871 326583 328479 323402 337859 335581 343026 341473 325873",
@@ -45,7 +46,6 @@ local specWarnGreaterCastigation				= mod:NewSpecialWarningMoveAway(328885, nil,
 
 local timerGreaterCastigationCD					= mod:NewNextTimer(15.8, 328885, nil, nil, nil, 3)
 
-mod:AddRangeFrameOption(6, 328885)
 --Shade of Kael'thas
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(21966))
 local warnFeiryStrike							= mod:NewCastAnnounce(326455, 2, nil, nil, "Melee")
@@ -382,9 +382,6 @@ function mod:OnCombatStart(delay)
 	table.wipe(birdoTracker)
 	timerGreaterCastigationCD:Start(5.8)
 --	berserkTimer:Start(-delay)--Confirmed normal and heroic
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Show(6)
-	end
 	if self.Options.NPAuraOnPhoenixFixate then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
 	end
@@ -441,9 +438,6 @@ function mod:OnCombatEnd(wipe)
 	table.wipe(infuserTargets)
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
-	end
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
 	end
 	if self.Options.NPAuraOnPhoenixFixate then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)

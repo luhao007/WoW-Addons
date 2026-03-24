@@ -10,20 +10,47 @@ These are in a seperate file to
 --- Release notes. Keep structure; most recent on 'top'
 local recent_changes = {
    {
-      version = "9.1.2",
-      when = "2026/03/01",
+      version = "9.1.4",
+      when = "2026/03/15",
       topics = {
          {
-            topic = "TitanVolume",
+            topic = "Titan Gold",
             lines = {
-               "New menu scheme with sliders working this time.",
+               "On Show / Hide update button to reflect new total.",
+               "Show / Hide Menu cleanup: sort alpha and add server to names.",
             },
          },
          {
             topic = "Titan",
             lines = {
-               "Tooltips : Should not hang (stay visible) now..",
-               "Change comments per recent changes; a little code cleanup.",
+               "Config : Open config from menu should work (again)",
+               "Config : Titan in Addon Compartment should work (again)",
+               "Config : Refactor code, partly in response to above.",
+            },
+         },
+      },
+   },
+   {
+      version = "9.1.3",
+      when = "2026/03/08",
+      topics = {
+         {
+            topic = "Titan Gold",
+            lines = {
+               "Added sort descending option.",
+            },
+         },
+         {
+            topic = "Titan XP",
+            lines = {
+               "Removed Kill to Level if secret values [Retail-only for now].",
+            },
+         },
+         {
+            topic = "Titan",
+            lines = {
+               "Menu : Added open Edit Mode OR Config Bars All to hopefully be clearer as Blizzard migrates Edit Mode",
+               "LDB : Fix for when LDB uses Blizzard_Menu scheme. [#1453].",
             },
          },
       },
@@ -113,58 +140,6 @@ local recent_changes = {
                "- Loot : Should not error on mouse over of new gear.",
                "- Titan : Should not get IsBattleground error on any WoW version.",
                "- Performance : Should now honor selected number of addons.",
-            },
-         },
-      },
-   },
-   {
-      version = "9.0.2",
-      when = "2026/01/12",
-      topics = {
-         {
-            topic = "Titan TOC",
-            lines = {
-               "Update MoP and TWW ",
-            },
-         },
-         {
-            topic = "TitanXP",
-            lines = {
-               "The 'time played' should no longer spam on every reload / instance change / etc.",
-            },
-         },
-         {
-            topic = "Titan Config",
-            lines = {
-               "NOTE: Opening Config from Titan menu disabled in Midnight Beta until we figure out what the bleep is wrong :).",
-            },
-         },
-         {
-            topic = "Titan Config > Profile",
-            lines = {
-               "Added Mail info - if enabled and running.",
-               "Added Gold info - if enabled and running.",
-               "Added basic toon info for reference - after logging into that toon.",
-            },
-         },
-      },
-   },
-   {
-      version = "9.0.1",
-      when = "2025/12/01",
-      topics = {
-         {
-            topic = "Profiles",
-            lines = {
-               "Profiles - Sync All added.",
-               "- Acts as the old Global; overrides Sync.",
-               "- See Titan > Config > Help > Profiles for more details on how this works.",
-            },
-         },
-         {
-            topic = "Titan > Config > Plugins",
-            lines = {
-               "Show (Hide) fixed; all features should be working again.",
             },
          },
       },

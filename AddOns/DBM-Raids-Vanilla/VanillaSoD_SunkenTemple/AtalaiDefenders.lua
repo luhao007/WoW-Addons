@@ -1,7 +1,10 @@
+if not DBM:IsSeasonal("SeasonOfDiscovery") then return end
+
 local mod	= DBM:NewMod("AtalaiDefendersSoD", "DBM-Raids-Vanilla", 8)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20241103123604")
+mod:SetRevision("20260324053510")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(221640, 218868, 221639, 221637, 221638, 223586)--Zul'Lor, Mijan, Zolo, Gasher, Loro, Hukku
 mod:SetEncounterID(2954)
 mod:SetBossHPInfoToHighest()

@@ -47,7 +47,7 @@ Lockit.UI_BOUNTIFUL_KEYS_COUNT_CACHES_PREFIX = "宝箱里获取的钥匙数量"
 
 -- Compartment (these are shown hovering over the addon in the corresponding dropdown menu)
 
-Lockit.UI_COMPARTMENT_DESCRIPTION_LEFT_CLICK = "|cnGREEN_FONT_COLOR:左键|r 显示插件信息界面。"
+Lockit.UI_COMPARTMENT_DESCRIPTION_LEFT_CLICK = "|cnGREEN_FONT_COLOR:Left Click|r to open the current season Delves info."
 Lockit.UI_COMPARTMENT_DESCRIPTION_RIGHT_CLICK = "|cnGREEN_FONT_COLOR:右键|r 显示插件设置界面。"
 
 -- Settings
@@ -83,10 +83,12 @@ Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_VERTICAL_NAME = "垂直排列"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_VERTICAL_DESCRIPTION = "按钮垂直排列。"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_HORIZONTAL_NAME = "水平排列"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_HORIZONTAL_DESCRIPTION = "按钮水平排列。"
+Lockit.UI_SETTING_MINIMAP_ICON_NAME = "Show Minimap Icon"
+Lockit.UI_SETTING_MINIMAP_ICON_TOOLTIP = "Display a minimap icon. It can be clicked to quickly access the current season Delves info."
 
 Lockit.UI_SETTINGS_SECTION_TITLE_CHARACTER = "角色设置"
 Lockit.UI_SETTING_TOOLTIP_EXTENSION_NAME = "额外提示信息"
-Lockit.UI_SETTING_TOOLTIP_EXTENSION_TOOLTIP = "Display additional information in tooltips (e.g., whether |cnITEM_EPIC_COLOR:Bounty Map|r has been looted this week)."
+Lockit.UI_SETTING_TOOLTIP_EXTENSION_TOOLTIP = "在提示信息中显示额外信息（例如，本周是否已获得|cnITEM_EPIC_COLOR:奖赏地图|r）。"
 Lockit.UI_SETTING_COMPANION_CONFIG_NAME = "地下堡伙伴配置控件"
 Lockit.UI_SETTING_COMPANION_CONFIG_TOOLTIP = "启用显示地下堡伙伴当前专精和珍玩的控件。\n可直接在地下堡面板修改地下堡伙伴的专精和珍玩。\n注意：布局类型不影响功能实现，仅涉及视觉排布方式。"
 Lockit.UI_SETTING_COMPANION_CONFIG_OPTION_HORIZONTAL_NAME = "水平布局"

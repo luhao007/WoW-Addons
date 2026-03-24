@@ -78,6 +78,7 @@ L.APPEARANCES_CHECKBOX_TOOLTIP = "Enable this option to track appearance acquisi
 L.APPLY_SEARCH_FILTER = "Apply a Search Filter";
 L.APPLY_SEARCH_FILTER_DESC = "Please select a search filter option.";
 L.ART_ID = "Art ID";
+L.ARTIFACT = ITEM_QUALITY6_DESC;
 L.ARTIFACT_CACHE_OUT_OF_DATE = "Artifact Cache is out-of-date/inaccurate and will be re-cached when logging onto each character!";
 L.ARTIFACT_ID = "Artifact ID";
 L.ARTIFACT_INTRO_REWARD = "Awarded for completing the introductory quest for this Artifact.";
@@ -103,11 +104,13 @@ L.AUTO_SYNC_ACC_DATA_TOOLTIP = "Enable this option if you want ATT to attempt to
 L.AUTO_WQ_LIST_CHECKBOX = "Automatically Open the World Quests List";
 L.AUTO_WQ_LIST_CHECKBOX_TOOLTIP = "Enable this option if you want the 'World Quests' list to appear automatically. The list will automatically update whenever you switch zones.\n\nYou can also bind this setting to a Key.\n\nKey Bindings -> Addons -> ALL THE THINGS -> Toggle World Quests List\n\nShortcut Command: /attwq";
 L.AVAILABILITY = "Availability";
+L.AZERITE_ESSENCE = "Azerite Essence";
 L.AZERITE_ESSENCE_ID = "Azerite Essence ID";
 L.AZERITE_ESSENCES_CHECKBOX = "|T" .. _.asset("Expansion_BFA") .. ":0|t Azerite Essences";
 L.AZERITE_ESSENCES_CHECKBOX_TOOLTIP = "Enable this option to track Azerite Essences.\n\nTracked per character by default.";
 L.BACKGROUND = EMBLEM_BACKGROUND;
 L.BACKGROUND_TOOLTIP = "Set the background color of all ATT windows.";
+L.BATTLE_PET = TOOLTIP_BATTLE_PET;
 L.BATTLE_PETS_CHECKBOX = "Battle Pets";
 L.BATTLE_PETS_CHECKBOX_TOOLTIP = "Enable this option to track battle pets and companions. These can be found in the open world or via boss drops in various Dungeons and Raids as well as from Vendors and Reputation.";
 L.BEHAVIOR_LABEL = "List Behavior";
@@ -138,6 +141,7 @@ L.CAMPSITES_CHECKBOX_TOOLTIP = "Enable this option to track warband campsite com
 L.CATALYST = "Catalyst";
 L.CATALYST_ICON = "|T" .. _.asset("Interface_Catalyst") .. ":0|t";
 L.CATALYST_TEXT = "|T" .. _.asset("Interface_Catalyst") .. ":0|t |cffffd900Catalyst|r";
+L.CATEGORY = CATEGORY;
 L.CELEBRATE_COLLECTED_CHECKBOX = "Collected Things Trigger a Celebration";
 L.CELEBRATE_COLLECTED_CHECKBOX_TOOLTIP = "Enable this option if you want to hear a celebratory 'fanfare' sound effect when you obtain a new Thing.\n\nThis feature can greatly help keep you motivated.";
 L.CELEBRATIONS_LABEL = "Celebrations & Sound Effects";
@@ -190,6 +194,7 @@ L.COMPLETED_WEEKLY = "Can be completed weekly";
 L.COMPLETED_YEARLY = "Can be completed yearly";
 L.COMPLETIONIST_MODE = "+Sources";
 L.COMPLETIONIST_MODE_TOOLTIP = "Enable this Mode to consider Items as Collected only when the specific Item has been unlocked for the given Appearance.\n\nThis means you will need to collect every shared Appearance of an Item.\n\nNote: By default, the game stops telling you about Items you have not collected once you have collected a shared Source, so this will ensure that uncollected Items are tracked.";
+L.CONDUIT = "Conduit";
 L.CONDUIT_ID = "Conduit ID";
 L.CONFIRM_DELETE = "\n \nAre you sure you want to delete this?";
 L.CONTAINS = "Contains:";
@@ -201,12 +206,15 @@ L.COST_ICON = "|T" .. _.asset("Currency") .. ":0|t";
 L.COST_TEXT = "|T" .. _.asset("Currency") .. ":0|t |cffdedade" .. BONUS_ROLL_REWARD_CURRENCY .. "|r";
 L.COST_TOTAL = "Total Cost";
 L.COST_TOTAL_DESC = "This contains the visual breakdown of what is required to obtain or purchase all Things within the top-level group.\n\nNote: Does not currently include Reagents/Recipes requirements!";
+L.CREATURE = CREATURE;
 L.CREATURE_ID = "Creature ID";
 L.CREATURES_COUNT = "[%s Creatures]";
 L.CREATURES_LIST = "Creatures List";
+L.CRITERIA = "Criteria";
 L.CRITERIA_FOR = "Criteria for";
 L.CRITERIA_FORMAT = "|cffffff00[Criteria: %s]|r";
 L.CRITERIA_ID = "Criteria ID";
+L.CURRENCY = CURRENCY;
 L.CURRENCY_FOR = "Currency for";
 L.CURRENCY_ID = "Currency ID";
 L.CURRENCY_NEEDED_TO_BUY = "Estimated amount needed to obtain remaining Things";
@@ -234,6 +242,7 @@ L.DELIST_GROUP = "Delist Group";
 L.DELIST_GROUP_DESC = "Click here to delist the group. If you are by yourself, it will softly leave the group without porting you out of any instance you are in.";
 L.DESCRIPTION = "\"Foolishly you have sought your own demise. Brazenly you have disregarded powers beyond your understanding. You have fought hard to invade the realm of the Collector. Now there is only one way out - To walk the lonely path ... of the damned.\"";
 L.DESCRIPTIONS = "Descriptions";
+L.DIFFICULTY = CRF_DIFFICULTY;
 L.DIFFICULTY_ID = "Difficulty ID";
 L.DISABLE_PARTYSYNC = "This is likely not able to be completed by this character even using Party Sync. If you manage otherwise, please let us know on Discord!";
 L.DISABLED = "disabled";
@@ -263,6 +272,7 @@ L.EAST = "East";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX = "Tooltip Integrations";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX_TOOLTIP = "Enable this option if you want to see the information provided by ATT in external tooltips. This includes item links sent by other players, in the auction house, in the dungeon journal, in your bags, in the world, on NPCs, etc.\n\nIf you turn this feature off, you are seriously reducing your ability to quickly determine if you need to kill a mob or learn an appearance.\n\nWe recommend you keep this setting on.";
 L.ENABLED = "enabled";
+L.ENCOUNTER = "Encounter";
 L.ENCOUNTER_ID = "Encounter ID";
 L.ENSEMBLE_LEARNED = "This Ensemble has already been used by one of your characters.";
 L.EVENT_ACTIVE = "Active:";
@@ -275,6 +285,7 @@ L.EXPAND_DIFFICULTY_CHECKBOX = "Expand Current Difficulty";
 L.EXPAND_DIFFICULTY_CHECKBOX_TOOLTIP = "Enable this option if you want to automatically expand only the matching difficulty header(s) in the mini list which correspond to the active difficulty when entering a dungeon or raid.\n\nExample: Expand only the Heroic header when entering a Heroic difficulty dungeon.";
 L.EXPAND_MINILIST_CHECKBOX = "Expand Mini Lists";
 L.EXPAND_MINILIST_CHECKBOX_TOOLTIP = "Enable this option to automatically expand all groups contained within the mini lists when viewing them for the first time per game session.";
+L.EXPANSION = EXPANSION_FILTER_TEXT;
 L.EXPANSION_CURRENT_ONLY = "Current Only";
 L.EXPANSION_CURRENT_ONLY_TOOLTIP = "Show only current expansion content";
 L.EXPANSION_DISABLE_ALL = "Disable All";
@@ -289,10 +300,12 @@ L.EXPANSION_FILTER_TOOLTIP = "Toggle visibility of %s content";
 L.EXPANSION_FILTERS_PAGE = "Expansion Filters";
 L.EXPANSION_ID = "Expansion ID";
 L.EXPANSION_THINGS_LABEL = "Expansion Things";
+L.EXPLORATION = "Exploration";
 L.EXPLORATION_CHECKBOX = "Exploration (inaccurate)";
 L.EXPLORATION_CHECKBOX_TOOLTIP = "Enable this option to track exploration completion for outdoor maps.\n\nThe information provided by this option is currently inaccurate and needs to be strengthened, so please use it with caution.";
 L.EXPLORATION_ID = "Exploration ID";
 L.EXTRA_THINGS_LABEL = "Additional Resources";
+L.FACTION = FACTION;
 L.FACTION_DESC = "Click this button to select a random faction based on what you're missing.";
 L.FACTION_ID = "Faction ID";
 L.FACTION_MODE = "Faction Only";
@@ -326,6 +339,7 @@ L.FLIGHT_PATHS = "Flight Paths";
 L.FLIGHT_PATHS_CHECKBOX = "Flight Paths";
 L.FLIGHT_PATHS_CHECKBOX_TOOLTIP = "Enable this option to track flight paths and ferry stations.\n\nTo collect these, open the dialog with the flight / ferry master in each continent.\n\nNOTE: Due to phasing technology, you may have to phase to the other versions of a zone to get credit for those points of interest.";
 L.FLIGHT_PATHS_DESC = "Flight paths are cached when you talk to the flight master on each continent.\n  - Crieve";
+L.FOLLOWER = "Follower";
 L.FOLLOWER_DESC = "Click this button to select a random follower based on what you're missing.";
 L.FOLLOWER_ID = "Follower ID";
 L.FOLLOWERS = GARRISON_FOLLOWERS;
@@ -350,7 +364,9 @@ L.GITHUB_BUTTON_TOOLTIP = "Click this button to copy the URL to get to the All T
 L.GO_GO_RANDOM = "Random - Go Get 'Em!";
 L.GO_GO_RANDOM_DESC = "This window allows you to randomly select a place or item to get. Go get 'em!";
 L.GUID = "Global ID";
+L.HEADER = "Header";
 L.HEADER_ID = "Header ID";
+L.HEIRLOOM = ITEM_QUALITY7_DESC;
 L.HEIRLOOM_TEXT = "Unlocked Heirloom";
 L.HEIRLOOM_TEXT_DESC = "This indicates whether or not you have acquired or purchased the heirloom yet.";
 L.HEIRLOOMS_CHECKBOX = HEIRLOOMS;
@@ -374,6 +390,7 @@ L.ICON_ONLY_CHECKBOX_TOOLTIP = "Enable this option if you only want to see the i
 L.ICON_PATH = "Icon Path";
 L.IGNORE_FILTERS_FOR_BOES_CHECKBOX = "Ignore BoE/Warbound Item Filters";
 L.IGNORE_FILTERS_FOR_BOES_CHECKBOX_TOOLTIP = "Enable this setting if you want to ignore armor, weapon, race, class, or profession requirements for BoE/BoA items.\n\nIf you are trying to collect things for your alts via Auction House scanning, this mode may be useful to you.";
+L.ILLUSION = "Illusion";
 L.ILLUSION_ID = "Illusion ID";
 L.ILLUSIONS_CHECKBOX = "Illusions";
 L.ILLUSIONS_CHECKBOX_TOOLTIP = "Enable this option to track illusions.\n\nThese are really cool-looking transmog effects you can apply to your weapons!\n\nNOTE: You are not an illusion, despite what all the Nightborne think.";
@@ -449,6 +466,7 @@ L.MAIN_LIST_SCALE_TOOLTIP = "Use this to customize the scale of the Main List.\n
 L.MAIN_LIST_SLIDER_LABEL = "Main List Scale";
 L.MAIN_ONLY = "Main Only";
 L.MAIN_ONLY_TOOLTIP = "Turn this setting on if you additionally want ATT to *pretend* that you've earned all shared appearances not locked by a different race or class.\n\nAs an example, if you have collected a Hunter-Only Tier Piece from ICC and there is a shared appearance from the raid without class/race restrictions, ATT will *pretend* that you've earned that source of the appearance as well.\n\nNOTE: Switching to a different race/class will incorrectly report that you've earned appearance sources that you haven't collected for that new chararacter when unlocked in this way.";
+L.MAP = WORLD_MAP;
 L.MAP_ID = "Map ID";
 L.MAPS = "Maps";
 L.MARKS_OF_HONOR_DESC = "Marks of Honor must be viewed in a Popout window to see all of the normal 'Contains' content.\n(Type '/att ' in chat then " .. SHIFT_KEY_TEXT .. " click to link the item)\n\n|cFFfe040fAfter purchasing and using an ensemble, relogging & a forced ATT refresh (in this order)\nmay be required to register all the items correctly.|r";
@@ -480,6 +498,7 @@ L.MORE_COLORS_CHECKBOX_TOOLTIP = "Enable this option if you want to see more col
 L.MOUNT = MOUNT;
 L.MOUNT_DESC = "Click this button to select a random mount based on what you're missing.";
 L.MOUNT_ID = "Mount ID";
+L.MOUNT_SPELL = "Mount (spell)";
 L.MOUNTMODS_CHECKBOX = "|T" .. _.asset("Expansion_DF") .. ":0|t Mount Modifications";
 L.MOUNTMODS_CHECKBOX_TOOLTIP = "Enable this option to track Mount Modifications";
 L.MOUNTS_CHECKBOX = MOUNTS;
@@ -578,6 +597,7 @@ L.PRESET_SOLO = "Solo Mode disables all account-wide tracking, and will only sho
 L.PRESET_TOOLTIP = "Enable this preset. This will adjust only the relevant tracking options of the current profile.";
 L.PRESET_UNIQUE = "Unique Mode disables Sources, marking gear as collected when you have learned their unique appearance.";
 L.PRESET_UPDATE_SUCCESS = "Updated the preset successfully.";
+L.PROFESSION = "Profession";
 L.PROFESSION_LIST = "Profession List";
 L.PROFESSION_LIST_DESC = "Open your professions to cache them.";
 L.PROFILE = "Profile";
@@ -630,6 +650,7 @@ L.REAGENT_ICON = "|T" .. _.asset("Interface_Reagent") .. ":0|t";
 L.REAGENT_TEXT = "|T" .. _.asset("Interface_Reagent") .. ":0|t |cffdedade" .. _.WOWAPI.GetItemClassInfo(5) .. "|r";
 L.RECENTLY_MADE_OBTAINABLE = "|cFFFF0000If this recently dropped for you (anywhere but Salvage\nCrates), please post in Discord where you got it to drop!|r";
 L.RECENTLY_MADE_OBTAINABLE_PT2 = "|cFFFF0000The more information, the better. Thanks!|r";
+L.RECIPE_SPELL = "Recipe (spell)";
 L.RECIPES_CHECKBOX = "Recipes";
 L.RECIPES_CHECKBOX_TOOLTIP = "Enable this option to track recipes for your professions.\n\nNOTE: You must open your professions list in order to cache these.";
 L.REFRESHING_COLLECTION = "Refreshing collection ...";
@@ -685,6 +706,7 @@ L.RESET_INSTANCES = "Reset Instances";
 L.RESET_INSTANCES_DESC = "Click here to reset your instances.\n\n" .. ALT_KEY_TEXT .. " click to toggle automatically resetting your instances when you leave a dungeon.\n\nWARNING: BE CAREFUL WITH THIS!";
 L.RESET_TOOLTIP = "Revert to default settings.";
 L.RESETS = "Resets";
+L.RUNECARVING_POWER = "Runecarving Power";
 L.RUNEFORGE_POWER_ID = "Runeforge Power ID";
 L.RUNEFORGELEGENDARIES_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t Runecarving Powers";
 L.RUNEFORGELEGENDARIES_CHECKBOX_TOOLTIP = "Enable this option to track Shadowlands Runecarving Powers.";
@@ -765,6 +787,7 @@ L.SPAWNED = "Spawned";
 L.SPEC_CHECKBOX = "Specializations";
 L.SPEC_CHECKBOX_TOOLTIP = "Enable this option to show the loot specialization information of items in the item's tooltip as provided by the Game Client.\n\nNOTE: These icons will still appear within the ATT mini lists regardless of this setting.";
 L.SPECIES_ID = "Species ID";
+L.SPELL = PLAYERSTAT_SPELL_COMBAT;
 L.SPELL_ID = "Spell ID";
 L.SPELL_NAME = "Spell Name";
 L.SPLIT = "Per Difficulty";
@@ -786,6 +809,7 @@ L.THIS_IS_BREADCRUMB = "This is a breadcrumb quest.";
 L.TITLE = "|c" .. _.DefaultColors.ATT .. "ALL THE THINGS|r";
 L.TITLE_ACCOUNT = "|c" .. _.DefaultColors.Account .. "Account |r";
 L.TITLE_ALLIANCE = "|c" .. _.DefaultColors.Alliance .. FACTION_ALLIANCE .. "|r";
+L.TITLE_COMMANDS_UI = HONOR_REWARD_TITLE_TOOLTIP;
 L.TITLE_COMPLETIONIST = "Completionist ";
 L.TITLE_CORE = "Core ";
 L.TITLE_DEBUG = "|c" .. _.DefaultColors.Red .. "Debug |r";
@@ -842,6 +866,7 @@ L.TOY = TOY;
 L.TOY_DESC = "Click this button to select a random toy based on what you're missing.";
 L.TOY_EVENTUALLY_DESC = "This is not officially a Toy yet, but it is something that SHOULD be a Toy! Keep this in your inventory until Blizzard makes it so!";
 L.TOY_ID = "Toy ID";
+L.TOY_ITEM = TOY;
 L.TOYS_CHECKBOX = TOY_BOX;
 L.TOYS_CHECKBOX_TOOLTIP = "Enable this option to track Toys.\n\nMost of these toys have a fun thing that they do. Others, like the Hearthstone Toys, can be used in place of your actual Hearthstone and can save you a bag slot! They also have interesting effects ... Nice!";
 L.TRACK_ACC_WIDE = "|c" .. _.DefaultColors.Account .. "Track Account-Wide|r";
@@ -1353,7 +1378,7 @@ localize(L.HEADER_ICONS, {
 	[-697] = 237211,
 	[-698] = _.asset("category_worlddrops"),
 	[-721] = 237382,
-	[-723] = 538566,
+	[-723] = 135793,
 	[-724] = 135982,
 	[-725] = 135982,
 	[-726] = 135982,
@@ -1436,7 +1461,6 @@ _.Modules.Events.SetEventInformation(13, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=5,["monthDay"]=1,["weekday"]=7,["year"]=2027},{["hour"]=23,["minute"]=59,["month"]=5,["monthDay"]=7,["weekday"]=6,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(1, {
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=23,["weekday"]=2,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=2,["weekday"]=2,["year"]=2026},{["remappedID"]=375}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=9,["weekday"]=2,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=16,["weekday"]=2,["year"]=2026},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=23,["weekday"]=2,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=30,["weekday"]=2,["year"]=2026},{["remappedID"]=375}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=4,["monthDay"]=6,["weekday"]=2,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=4,["monthDay"]=13,["weekday"]=2,["year"]=2026},{["remappedID"]=374}),
@@ -1462,7 +1486,8 @@ _.Modules.Events.SetEventInformation(1, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=11,["weekday"]=2,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=18,["weekday"]=2,["year"]=2027},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=25,["weekday"]=2,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=1,["weekday"]=2,["year"]=2027},{["remappedID"]=375}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=8,["weekday"]=2,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=15,["weekday"]=2,["year"]=2027},{["remappedID"]=374}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=22,["weekday"]=2,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=1,["weekday"]=2,["year"]=2027},{["remappedID"]=375})
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=22,["weekday"]=2,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=1,["weekday"]=2,["year"]=2027},{["remappedID"]=375}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=8,["weekday"]=2,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=15,["weekday"]=2,["year"]=2027},{["remappedID"]=374})
 });
 
 -- Filter Database Module
@@ -1807,9 +1832,11 @@ local ObjectNames = {
 	[2553] = "A Soggy Scroll",
 	[2554] = "Cortello's Riddle",
 	[2555] = "Musty Scroll",
+	[2556] = "Cortello's Treasure",
 	[2560] = "Half-Buried Bottle",
 	[2576] = "Altar of the Tides",
 	[2652] = "Ebenezer Rustlocke's Corpse",
+	[2653] = "Lesser Bloodstone Deposit",
 	[2656] = "Waterlogged Letter",
 	[2688] = "Keystone",
 	[2689] = "Stone of West Binding",
@@ -1914,7 +1941,6 @@ local ObjectNames = {
 	[17783] = "Ancient Statuette",
 	[19015] = "Elune's Tear",
 	[19016] = "Stardust Covered Bush",
-	[19017] = "Giant Clam",
 	[19018] = "Giant Clam",
 	[19021] = "Rusty Chest",
 	[19022] = "Worn Chest",
@@ -2022,6 +2048,7 @@ local ObjectNames = {
 	[123330] = "Buccaneer's Strongbox",
 	[123462] = "The Jewel of the Southsea",
 	[123848] = "Ooze Covered Thorium Vein",
+	[124371] = "Keystone",
 	[124388] = "Garrett Family Chest",
 	[124389] = "Krom Stoutarm's Chest",
 	[125477] = "Conspicuous Urn",
@@ -2323,6 +2350,7 @@ local ObjectNames = {
 	[176640] = "Mountain Silversage",
 	[176641] = "Sorrowmoss",
 	[176642] = "Arthas' Tears",
+	[176643] = "Small Thorium Vein",
 	[176645] = "Mithril Deposit",
 	[176693] = "Dreamfoil",
 	[176751] = "Kodo Bones",
@@ -2685,7 +2713,7 @@ local ObjectIcons = {
 	[2083] = 1500889,
 	[2553] = 134939,
 	[2555] = 134939,
-	[2688] = 1003587,
+	[2688] = 132775,
 	[2701] = 1003587,
 	[2702] = 1003587,
 	[2704] = 132761,
@@ -2767,6 +2795,7 @@ local ObjectIcons = {
 	[112948] = 1041430,
 	[113768] = _.asset("holiday_noblegarden"),
 	[113791] = 135805,
+	[124371] = 132775,
 	[126049] = 134530,
 	[126158] = 134430,
 	[129127] = 134846,
@@ -3083,9 +3112,11 @@ local ObjectModels = {
 	[2553] = 198453,
 	[2554] = 198453,
 	[2555] = 198453,
+	[2556] = 196976,
 	[2560] = 198061,
 	[2576] = 197832,
 	[2652] = 197330,
+	[2653] = 197038,
 	[2656] = 198453,
 	[2688] = 199976,
 	[2689] = 198951,
@@ -3189,7 +3220,6 @@ local ObjectModels = {
 	[17783] = 201094,
 	[19015] = 198719,
 	[19016] = 201233,
-	[19017] = 196998,
 	[19018] = 196998,
 	[19021] = 196976,
 	[19022] = 196976,
@@ -3297,6 +3327,7 @@ local ObjectModels = {
 	[123330] = 196976,
 	[123462] = 196982,
 	[123848] = 219553,
+	[124371] = 199976,
 	[125477] = 199753,
 	[126049] = 201860,
 	[126158] = 198749,
@@ -3589,6 +3620,7 @@ local ObjectModels = {
 	[176640] = 219473,
 	[176641] = 219482,
 	[176642] = 219436,
+	[176643] = 219566,
 	[176645] = 219541,
 	[176751] = 201598,
 	[176785] = 200960,
@@ -4070,6 +4102,13 @@ local achievements = {
 		icon = 132599,
 		category = 92,
 		criteria = {-9},
+	},
+	[16] = {
+		name = "Did Somebody Order a Knuckle Sandwich?",
+		description = "Raise your unarmed skill to 300.",
+		icon = 132356,
+		category = 92,
+		criteria = {5589},
 	},
 	[42] = {
 		name = "Explore Eastern Kingdoms",
@@ -5125,6 +5164,13 @@ local achievements = {
 		category = 81,
 		criteria = {9198},
 	},
+	[2716] = {
+		name = "Dual Talent Specialization",
+		description = "Visit your class trainer when you are at least level 40 and activate your Dual Talent Specialization.",
+		icon = 236544,
+		category = 92,
+		criteria = {-182,9619},
+	},
 	[3356] = {
 		name = "Winterspring Frostsaber",
 		description = "Obtain a Winterspring Frosaber.",
@@ -5255,6 +5301,11 @@ local achievementCategories = {
 L.ACHIEVEMENT_CATEGORY_DATA = achievementCategories;
 
 local achievementCriterias = {
+	[-182] = {
+		name = "Level up to 40.",
+		amount = 40,
+		type = 5,
+	},
 	[-176] = {
 		name = "Obtain 25 mounts",
 		amount = 25,
@@ -9762,6 +9813,12 @@ local achievementCriterias = {
 		type = 46,
 		asset = 730,
 	},
+	[5589] = {
+		name = "Unarmed",
+		amount = 300,
+		type = 7,
+		asset = 162,
+	},
 	[5900] = {
 		name = "Alterac Mountains",
 		amount = 550,
@@ -10721,6 +10778,12 @@ local achievementCriterias = {
 		amount = 550,
 		type = 11,
 		asset = 133,
+	},
+	[9619] = {
+		name = "Learn a Second Talent Specialization.",
+		amount = 1,
+		type = 69,
+		asset = 63624,
 	},
 	[10738] = {
 		name = nil,
@@ -11876,6 +11939,7 @@ L.REROLL_DESC = "Klicke auf diese Schaltfläche, um mit dem aktiven Filter erneu
 L.REROLL_RANDOM = "Zufallsauswahl erneut würfeln";
 L.RESET_INSTANCES = "Instanzen zurücksetzen";
 L.RESET_INSTANCES_DESC = "Hier klicken um Eure Instanzen zurückzusetzen.\n\n" .. ALT_KEY_TEXT .. " Klick um zu aktivieren, dass eure Instanzen automatisch beim Verlassen zurückgesetzt werden.\n\nWARNUNG: SEI VORSICHTIG DAMIT!";
+L.RUNECARVING_POWER = "Runenschnitzmacht";
 L.RUNEFORGELEGENDARIES_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t Runenschnitzmacht";
 L.SCREENSHOT_COLLECTED_CHECKBOX = "Gesammelte Dinge lösen einen Screenshot aus";
 L.SCREENSHOT_COLLECTED_CHECKBOX_TOOLTIP = "Aktiviere diese Option, um bei gesammelten Dingen automatisch einen Screenshot zu erstellen.";
@@ -12147,9 +12211,11 @@ localize(ObjectNames, {
 	[2553] = "Eine glitschige Rolle",
 	[2554] = "Cortellos Rätsel",
 	[2555] = "Modrige Rolle",
+	[2556] = "Cortellos Schatz",
 	[2560] = "Halb vergrabene Flasche",
 	[2576] = "Altar der Gezeiten",
 	[2652] = "Ebenezer Rostlockes Leichnam",
+	[2653] = "Geringe Blutsteinablagerung",
 	[2656] = "Durchnässter Brief",
 	[2688] = "Schlüsselstein",
 	[2689] = "Stein der Westlichen Bindung",
@@ -12253,7 +12319,6 @@ localize(ObjectNames, {
 	[17783] = "Antike Statuette",
 	[19015] = "Elunes Träne",
 	[19016] = "Mit Sternenstaub bedeckter Busch",
-	[19017] = "Riesenmuschel",
 	[19018] = "Riesenmuschel",
 	[19021] = "Rostige Truhe",
 	[19022] = "Abgenutzte Truhe",
@@ -12360,6 +12425,7 @@ localize(ObjectNames, {
 	[123330] = "Geldkassette des Bukaniers",
 	[123462] = "Das Juwel der Südlichen Meere",
 	[123848] = "Schlammbedeckte Thoriumader",
+	[124371] = "Schlüsselstein",
 	[125477] = "Verdächtige Urne",
 	[126049] = "Magenta Kappengruppen",
 	[126158] = "Tallonkais Kommode",
@@ -12653,6 +12719,7 @@ localize(ObjectNames, {
 	[176640] = "Bergsilbersalbei",
 	[176641] = "Pestblüte",
 	[176642] = "Arthas' Tränen",
+	[176643] = "Kleines Thoriumvorkommen",
 	[176645] = "Mithrilablagerung",
 	[176751] = "Kodoknochen",
 	[176785] = "Munitionskiste",
@@ -12987,6 +13054,7 @@ for key,value in pairs({
 	[10] = "Stufe 50",
 	[11] = "Stufe 60",
 	[15] = "Jede Menge Haustiere",
+	[16] = "Hat jemand ein Veilchen bestellt?",
 	[42] = "Erforscht die östlichen Königreiche",
 	[43] = "Erforscht Kalimdor",
 	[116] = "Gesellenprüfung",
@@ -13120,6 +13188,7 @@ for key,value in pairs({
 	[2357] = "Schreckensross von Xoroth",
 	[2358] = "Streitross",
 	[2496] = "Das Fünfte Element",
+	[2716] = "Duale Talentspezialisierung",
 	[3356] = "Frostsäbler aus Winterquell",
 	[5788] = "Agent der Shen'dralar",
 	[15333] = "Überlebender der Schattenflamme (Saison der Meisterschaft)",
@@ -13137,6 +13206,7 @@ for key,value in pairs({
 	[10] = "Erreicht Stufe 50.",
 	[11] = "Erreicht Stufe 60.",
 	[15] = "Sammelt 15 einzigartige Haustiere.",
+	[16] = "Erreicht eine unbewaffnete Fertigkeit von 300.",
 	[42] = "Erforscht die Regionen der östlichen Königreiche.",
 	[43] = "Erforscht die Regionen Kalimdors.",
 	[116] = "Werdet Geselle in einem Beruf.",
@@ -13276,6 +13346,7 @@ for key,value in pairs({
 	[2357] = "Die Hexenmeisterquest zur Beschwörung eines Schreckensrosses von Xoroth abgeschlossen.",
 	[2358] = "Die Paladinquest zur Erlangung eines Streitrosses abgeschlossen.",
 	[2496] = "Erhaltet eine wässrige Quintessenz.",
+	[2716] = "Besucht ab Stufe 40 den Lehrer für Eure Klasse und aktiviert Eure duale Talentspezialisierung.",
 	[3356] = "Erhaltet einen Frostsäbler aus Winterquell.",
 	[5788] = "Erreicht bei den Shen'dralar den Status ehrfürchtig.",
 	[15333] = "Bezwingt Nefarian ohne zu sterben während der Saison der Meisterschaft.",
@@ -13308,6 +13379,7 @@ for key,value in pairs({
 })
 do achievementCategories[key].name = value; end
 for key,value in pairs({
+	[-182] = "Erreicht Stufe 40.",
 	[-176] = "Erhaltet 25 Reittiere",
 	[-175] = "Erhaltet 10 Reittiere",
 	[-154] = "Erhaltet 25 Haustiere",
@@ -14188,6 +14260,7 @@ for key,value in pairs({
 	[5333] = "Ehrfürchtig beim Bund von Arathor",
 	[5334] = "Ehrfürchtig bei den Silberschwingen",
 	[5335] = "Ehrfürchtig bei den Sturmlanzen",
+	[5589] = "Unbewaffnet",
 	[5900] = "Alteracgebirge",
 	[5901] = "Arathihochland",
 	[5902] = "Ödland",
@@ -14357,6 +14430,7 @@ for key,value in pairs({
 	[9420] = "Roter Qirajiresonanzkristall",
 	[9422] = "Zul'Gurub",
 	[9424] = "Gnomeregan",
+	[9619] = "Erlernt eine zweite Talentspezialisierung.",
 	[12635] = "Totenschwurs Todesstreitross",
 	[12638] = "Medaillon der Allianz",
 	[12639] = "Medaillon der Horde",
@@ -14612,6 +14686,7 @@ L.REQUIRES_LEVEL = "Niveau requis";
 L.REROLL_2 = "Reroll :";
 L.RESET_INSTANCES = "Réinitiialiser les instances";
 L.RESET_INSTANCES_DESC = "Cliquer ici pour réinitialiser les insatnces.\n\n" .. ALT_KEY_TEXT .. " + clic pour activer la réinitialisation automatique de vos instances lorsque vous quittez un donjon.\n\nATTENTION : SOYEZ PRUDENT AVEC CETTE OPTION !";
+L.RUNECARVING_POWER = "Pouvoir de la gravure runique";
 L.RUNEFORGELEGENDARIES_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t Pouvoirs de gravure runique";
 L.RUNEFORGELEGENDARIES_CHECKBOX_TOOLTIP = "Activer cette option pour suivre l’obtention des pouvoirs de gravure runique.";
 L.SEARCH_EVERYTHING_BUTTON_OF_DOOM = "Cliquez sur ce bouton pour cherchez ... TOUT.";
@@ -14880,9 +14955,11 @@ localize(ObjectNames, {
 	[2553] = "Un parchemin trempé",
 	[2554] = "Devinette de Cortello",
 	[2555] = "Parchemin moisi",
+	[2556] = "Trésor de Cortello",
 	[2560] = "Bouteille à moitié ensevelie",
 	[2576] = "Autel des marées",
 	[2652] = "Cadavre d'Ebenezer Bouclerouille",
+	[2653] = "Gisement de pierre de sang inférieure",
 	[2656] = "Lettre détrempée",
 	[2688] = "Clé cruciale",
 	[2689] = "Pierre de Lien occidentale",
@@ -14986,7 +15063,6 @@ localize(ObjectNames, {
 	[17783] = "Statuette antique",
 	[19015] = "Larme d'Elune",
 	[19016] = "Buisson couvert de poussière d'étoile",
-	[19017] = "Palourde géante",
 	[19018] = "Palourde géante",
 	[19021] = "Coffre rouillé",
 	[19022] = "Coffre usé",
@@ -15093,6 +15169,7 @@ localize(ObjectNames, {
 	[123330] = "Coffre du boucanier",
 	[123462] = "Le Joyau des mers du Sud",
 	[123848] = "Filon de thorium couvert de limon",
+	[124371] = "Clé cruciale",
 	[125477] = "Urne ostentatoire",
 	[126049] = "Champignons magenta",
 	[126158] = "Commode de Tallonkai",
@@ -15386,6 +15463,7 @@ localize(ObjectNames, {
 	[176640] = "Sauge-argent des montagnes",
 	[176641] = "Fleur de peste",
 	[176642] = "Larmes d'Arthas",
+	[176643] = "Petit filon de thorium",
 	[176645] = "Gisement de mithril",
 	[176751] = "Os de kodo",
 	[176785] = "Caisse de munitions",
@@ -15722,6 +15800,7 @@ for key,value in pairs({
 	[10] = "Niveau 50",
 	[11] = "Niveau 60",
 	[15] = "De nombreux familiers",
+	[16] = "Qui a commandé une salade de phalanges ?",
 	[42] = "Exploration des Royaumes de l'est",
 	[43] = "Exploration de Kalimdor",
 	[116] = "Compagnon de métier",
@@ -15857,6 +15936,7 @@ for key,value in pairs({
 	[2357] = "Destrier de l'effroi de Xoroth",
 	[2358] = "Destrier",
 	[2496] = "Le cinquième élément",
+	[2716] = "Double spécialisation des talents",
 	[3356] = "Sabre-de-givre de Berceau-de-l'Hiver",
 	[5788] = "Agent des Shen’dralar",
 	[15333] = "Survivant de la Flamme d’ombre (saison de la Maîtrise)",
@@ -15874,6 +15954,7 @@ for key,value in pairs({
 	[10] = "Atteindre le niveau 50.",
 	[11] = "Atteindre le niveau 60.",
 	[15] = "Collecter 15 mascottes différentes.",
+	[16] = "Obtenir un score de 300 avec la compétence Mains nues.",
 	[42] = "Explorer les régions des Royaumes de l'est.",
 	[43] = "Explorer les régions de Kalimdor.",
 	[116] = "Devenir un compagnon dans un métier.",
@@ -16013,6 +16094,7 @@ for key,value in pairs({
 	[2357] = "Avoir achevé la quête de démoniste « Le destrier de l'effroi de Xoroth ».",
 	[2358] = "Avoir achevé la quête de paladin pour obtenir un destrier.",
 	[2496] = "Obtenir une quintessence aquatique.",
+	[2716] = "Rendez-vous auprès de votre maître de classe à partir du niveau 40 et activez la double spécialisation des talents.",
 	[3356] = "Obtenir un sabre-de-givre de Berceau-de-l'Hiver.",
 	[5788] = "Être exalté auprès des Shen’dralar.",
 	[15333] = "Vaincre Nefarian sans jamais mourir au cours de la saison de la Maîtrise.",
@@ -16045,6 +16127,7 @@ for key,value in pairs({
 })
 do achievementCategories[key].name = value; end
 for key,value in pairs({
+	[-182] = "Atteindre le niveau 40.",
 	[-176] = "Obtenir 25 montures",
 	[-175] = "Obtenir 10 montures",
 	[-154] = "Obtenir 25 mascottes",
@@ -16925,6 +17008,7 @@ for key,value in pairs({
 	[5333] = "Exalté auprès de la Ligue d’Arathor",
 	[5334] = "Exalté auprès des sentinelles d’Aile-argent",
 	[5335] = "Exalté auprès de la garde Foudrepique",
+	[5589] = "Mains nues",
 	[5900] = "Montagnes d’Alterac",
 	[5901] = "Hautes-terres Arathies",
 	[5902] = "Terres Ingrates",
@@ -17094,6 +17178,7 @@ for key,value in pairs({
 	[9420] = "Cristal de résonance qiraji rouge",
 	[9422] = "Zul’Gurub",
 	[9424] = "Gnomeregan",
+	[9619] = "Apprend une seconde spécialisation des talents.",
 	[12635] = "Destrier de la mort de Vaillefendre",
 	[12638] = "Médaillon de l’Alliance",
 	[12639] = "Médaillon de la Horde",
@@ -17140,6 +17225,7 @@ L.PLAYER_TITLE_THE_EXTERMINATOR = "|cffa335ee%s il Disinfestatore|r";
 L.PLAYER_TITLE_THE_HUGGLER = "|cffF58CBA%s il Huggler|r";
 L.RECIPES_CHECKBOX = "Ricette";
 L.REQUIRES = "Richiede";
+L.RUNECARVING_POWER = "Abilità dell'Incisione Runica";
 L.RUNEFORGELEGENDARIES_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t Abilità dell'Incisione Runica";
 L.SOULBINDCONDUITS_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t Condotti";
 L.TITLES_CHECKBOX = "Titoli";
@@ -17301,6 +17387,7 @@ localize(ObjectNames, {
 	[123330] = "Forziere del Bucaniere",
 	[123462] = "Il Gioiello di Mari del Sud",
 	[123848] = "Vena di Torio Coperta di Melma",
+	[124371] = "Pietra Angolare",
 	[125477] = "Urna Notevole",
 	[126049] = "Funghi Magenta",
 	[126158] = "Cassettone di Tallonkai",
@@ -17604,6 +17691,7 @@ for key,value in pairs({
 })
 do achievementCategories[key].name = value; end
 for key,value in pairs({
+	[-182] = "Level up to 40.",
 	[-176] = "Obtain 25 mounts",
 	[-175] = "Obtain 10 mounts",
 	[-154] = "Obtain 25 companion pets",
@@ -18484,6 +18572,7 @@ for key,value in pairs({
 	[5333] = "Exalted with The League of Arathor",
 	[5334] = "Exalted with Silverwing Sentinels",
 	[5335] = "Exalted with Stormpike Guard",
+	[5589] = "Unarmed",
 	[5900] = "Alterac Mountains",
 	[5901] = "Arathi Highlands",
 	[5902] = "Badlands",
@@ -18653,6 +18742,7 @@ for key,value in pairs({
 	[9420] = "Red Qiraji Resonating Crystal",
 	[9422] = "Zul'Gurub",
 	[9424] = "Gnomeregan",
+	[9619] = "Learn a Second Talent Specialization.",
 	[12635] = "Rivendare's Deathcharger",
 	[12638] = "Medallion of the Alliance",
 	[12639] = "Medallion of the Horde",
@@ -18700,6 +18790,7 @@ L.FOLLOWERS_CHECKBOX = "|T" .. _.asset("Expansion_WOD") .. ":0|t Seguidores & Co
 L.HEIRLOOM_TEXT = "Herança Desbloqueada";
 L.HEIRLOOM_TEXT_DESC = "Isso indica se já adquiriu ou não a Herança.";
 L.HEIRLOOMS_UPGRADES_DESC = "Isso indica se já atualizou ou não a herança para um certo nível.\n\nR.I.P. Gold.\n - Crieve";
+L.ILLUSION = "Ilusão";
 L.ILLUSION_ID = "ID de Ilusão";
 L.ILLUSIONS_CHECKBOX = "Ilusões";
 L.ITEM_GIVES_REP = "Concede reputação com '";
@@ -18732,6 +18823,7 @@ L.RACE_LOCKED = "Travado por raça";
 L.RECIPES_CHECKBOX = "Receitas";
 L.REPORT_TIP = "\n(" .. CTRL_KEY_TEXT .. "+C para copiar o texto completo do report para sua área de transferência)";
 L.REQUIRES = "Requer";
+L.RUNECARVING_POWER = "Poder de Runogravura";
 L.RUNEFORGELEGENDARIES_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t Poder de Runogravura";
 L.SOULBINDCONDUITS_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t Conduítes";
 L.SOURCES = "Fonte(s)";
@@ -18932,9 +19024,11 @@ localize(ObjectNames, {
 	[2553] = "Pergaminho Encharcado",
 	[2554] = "Charada do Cortello",
 	[2555] = "Pergaminho Mofado",
+	[2556] = "Tesouro de Cortello",
 	[2560] = "Garrafa Semienterrada",
 	[2576] = "Altar das Marés",
 	[2652] = "Cadáver de Ebenezer Rustlocke",
+	[2653] = "Depósito de Pedra-sangrenta Menor",
 	[2656] = "Carta Encharcada",
 	[2688] = "Pedra-chave",
 	[2689] = "Pedra da União Ocidental",
@@ -19037,7 +19131,6 @@ localize(ObjectNames, {
 	[17783] = "Estatueta Ancestral",
 	[19015] = "Lágrima de Eluna",
 	[19016] = "Arbusto de Poeira Estelar Coberto",
-	[19017] = "Marisco Gigante",
 	[19018] = "Marisco Gigante",
 	[19021] = "Baú Enferrujado",
 	[19022] = "Baú Gasto",
@@ -19140,6 +19233,7 @@ localize(ObjectNames, {
 	[123330] = "Caixa-forte dos Bucaneiros",
 	[123462] = "A Joia dos Mares do Sul",
 	[123848] = "Veio de Tório Coberto de Gosma",
+	[124371] = "Pedra-chave",
 	[125477] = "Urna Evidente",
 	[126049] = "Colônia de Campânulas Magenta",
 	[126158] = "Cômoda de Tallonkai",
@@ -19591,6 +19685,7 @@ for key,value in pairs({
 	[10] = "Nível 50",
 	[11] = "Nível 60",
 	[15] = "Abundância de Mascotes",
+	[16] = "Alguém pediu uma surra?",
 	[42] = "Explorar os Reinos do Leste",
 	[43] = "Explorar Kalimdor",
 	[116] = "O Profissional",
@@ -19724,6 +19819,7 @@ for key,value in pairs({
 	[2357] = "Corcel Medonho de Zorote",
 	[2358] = "Corcel",
 	[2496] = "O quinto elemento",
+	[2716] = "Dupla Especialização de Talentos",
 	[3356] = "Sabre-de-gelo de Hibérnia",
 	[5788] = "Agente dos Shen'dralar",
 	[15333] = "Sobrevivente da Chama Sombria (Temporada de Maestria)",
@@ -19741,6 +19837,7 @@ for key,value in pairs({
 	[10] = "Alcançar o nível 50.",
 	[11] = "Alcançar o nível 60.",
 	[15] = "Obter 15 mascotes únicas.",
+	[16] = "Treinar a perícia de Combate Desarmado até o nível 300.",
 	[42] = "Explorar todas as regiões dos Reinos do Leste.",
 	[43] = "Explorar todas as regiões de Kalimdor.",
 	[116] = "Tornar-se Profissional em uma profissão.",
@@ -19880,6 +19977,7 @@ for key,value in pairs({
 	[2357] = "Completar a missão de bruxo Corcel Medonho de Zorote.",
 	[2358] = "Completar a missão de paladino para obter um Corcel.",
 	[2496] = "Obter uma Quintessência Aquática.",
+	[2716] = "Visitar seu Instrutor de Classe depois de alcançar o nível 40 e ativar a Dupla Especialização de Talentos.",
 	[3356] = "Obter um Sabre-de-gelo de Hibérnia.",
 	[5788] = "Tornar-se exaltado pelos Shen'dralar.",
 	[15333] = "Derrotar Nefarian sem ter morrido nenhuma vez durante a Temporada de Maestria.",
@@ -19912,6 +20010,7 @@ for key,value in pairs({
 })
 do achievementCategories[key].name = value; end
 for key,value in pairs({
+	[-182] = "Subir para o nível 40.",
 	[-176] = "Obter 25 montarias",
 	[-175] = "Obter 10 montarias",
 	[-154] = "Obter 25 mascotes companheiros",
@@ -20792,6 +20891,7 @@ for key,value in pairs({
 	[5333] = "Exaltado pela Liga de Arathor",
 	[5334] = "Exaltado pelas Sentinelas da Asa de Prata",
 	[5335] = "Exaltado pela Guarda de Lançatroz",
+	[5589] = "Combate desarmado",
 	[5900] = "Montanhas de Alterac",
 	[5901] = "Planalto Arathi",
 	[5902] = "Ermos",
@@ -20961,6 +21061,7 @@ for key,value in pairs({
 	[9420] = "Cristal Ressonante Qiraji Vermelho",
 	[9422] = "Zul'Gurub",
 	[9424] = "Gnomeregan",
+	[9619] = "Aprender Segunda Especialização de Talentos.",
 	[12635] = "Corcel da Morte de Rivendare",
 	[12638] = "Medalhão da Aliança",
 	[12639] = "Medalhão da Horda",
@@ -21048,6 +21149,7 @@ L.AUTO_SYNC_ACC_DATA_TOOLTIP = "Включите данную опцию, есл
 L.AUTO_WQ_LIST_CHECKBOX = "Авто Открывать Локальные Задания";
 L.AUTO_WQ_LIST_CHECKBOX_TOOLTIP = "Включите данную опцию, если Вы хотите, чтобы ATT автоматически открывал Список 'Локальных Заданий'. Этот список автоматически обновляется, когда Вы меняете локацию.\n\nВы также можете назначить клавишу для данной настройки:\n\nНазначение Клавиш -> Модификации -> ALL THE THINGS -> Переключить Локальные Задания\n\nБыстрая Команда: /attwq";
 L.AVAILABILITY = "Доступность";
+L.AZERITE_ESSENCE = "Азеритовая сущность";
 L.AZERITE_ESSENCES_CHECKBOX = "|T" .. _.asset("Expansion_BFA") .. ":0|t Азеритовые сущности";
 L.AZERITE_ESSENCES_CHECKBOX_TOOLTIP = "Включите для отслеживания Азеритовых Сущностей.\n\nПо умолчанию отслеживается на каждом персонаже отдельно.";
 L.BACKGROUND_TOOLTIP = "Установка фонового цвета для всех окон ATT.";
@@ -21109,6 +21211,7 @@ L.COMPLETED_WEEKLY = "Может быть выполнено еженедель�
 L.COMPLETED_YEARLY = "Может быть выполнено ежегодно.";
 L.COMPLETIONIST_MODE = "+Источники";
 L.COMPLETIONIST_MODE_TOOLTIP = "Включите данный режим, чтобы считать все Предметы Собранными только тогда, когда определённый Предмет был открыт для данного Облика.\n\nЭто означает, что Вы должны получить каждый общий Облик для Предмета.\n\nПримечание: По умолчанию, игра перестаёт сообщать Вам о Предметах, которые Вы собрали после получения общего Источника, поэтому данный режим позволит отслеживать несобранные Предметы.";
+L.CONDUIT = "Проводник";
 L.CONFIRM_DELETE = "\n \nВы точно хотите удалить это?";
 L.CONTAINS = "Содержит:";
 L.CONTAINS_SLIDER_TOOLTIP = "Используйте для изменения числа суммирующихся Штучек для отображения в подсказке.\n\nПо умолчанию: 25";
@@ -21119,6 +21222,7 @@ L.COST_TOTAL = "Полная Стоимость";
 L.COST_TOTAL_DESC = "Содержит визуальную справку о предметах, необходимых для покупки или получения всех Штучек в группе.\n\nЗаметка: На данный момент без учёта Реагентов/Рецептов!";
 L.CREATURES_COUNT = "[%s Существ]";
 L.CREATURES_LIST = "Список Существ";
+L.CRITERIA = "Критерия";
 L.CRITERIA_FOR = "Критерий для";
 L.CURRENCY_FOR = "Валюта для";
 L.CURRENCY_NEEDED_TO_BUY = "Примерно необходимо для покупки Не Собранных Штучек";
@@ -21161,6 +21265,7 @@ L.DYNAMIC_CATEGORY_TOOLTIP_NOTE = "\n\n|cffff0000Применяется при �
 L.EAST = "Восток";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX = "Интеграция Подсказок";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX_TOOLTIP = "Включите данную опцию, если Вы хотите видеть информацию ATT во всплывающих подсказках. Включает в себя подсказки в ссылках на предметов от других игроков, предметы на аукционе, в путеводителе по приключениям, в Ваших сумках, в мире, над НИПами и т.п.\n\nЕсли Вы выключите данную функцию, Вы серьёзно снизите Вашу возможность быстро определить, нужно ли убить моба или изучить данный облик.\n\nМы рекомендуем оставить эту опцию включённой.";
+L.ENCOUNTER = "Бой";
 L.EVENT_ACTIVE = "Активно:";
 L.EVENT_END = "Конец:";
 L.EVENT_SCHEDULE = "Расписание События";
@@ -21211,6 +21316,7 @@ L.FLIGHT_PATHS = "Пути Полётов";
 L.FLIGHT_PATHS_CHECKBOX = "Полёты и Паромные Станции";
 L.FLIGHT_PATHS_CHECKBOX_TOOLTIP = "Включите для отслеживания путей полётов и паромных станций.\n\nЧтобы *собрать* их, начните разговор с распорядителем полётов/паромной станции на каждом континенте.\n\nПримечание: Из-за технологии фазирования, Вам может потребоваться перейти в другую версию локации, чтобы засчитать эти достопримечательности.";
 L.FLIGHT_PATHS_DESC = "Пути Полётов засчитываются, когда Вы говорите с Распорядителем Полётов на каждом континенте.\n  - Crieve";
+L.FOLLOWER = "Соратник";
 L.FOLLOWERS_CHECKBOX = "|T" .. _.asset("Expansion_WOD") .. ":0|t Соратники и Спутники";
 L.FOLLOWERS_CHECKBOX_TOOLTIP = "Включите для отслеживания соратников и чемпионов.\n\nТо есть: Соратники в Гарнизоне, Чемпионы Оплота Класса в Легионе, Спутники Битвы за Азерот, а также Спутники из Тёмных Земель.";
 L.FOLLOWERS_COLLECTION_DESC = "Спутники могут быть собраны на Весь Аккаунт, если включена соответствующая опция.\n\nВы должны вручную обновить коллекцию через " .. SHIFT_KEY_TEXT .. " клик по заголовку, чтобы они засчитались.";
@@ -21228,6 +21334,7 @@ L.GENERAL_PAGE = "Основные настройки";
 L.GENERAL_THINGS_LABEL = "Общие Штучки";
 L.GO_GO_RANDOM = "Случайная цель - Получи Их!";
 L.GO_GO_RANDOM_DESC = "Данное окно позволит Вам выбрать случайный предмет или место для выполнения. Получи их!";
+L.HEADER = "Шапка";
 L.HEIRLOOM_TEXT = "Разблокированное Наследство";
 L.HEIRLOOM_TEXT_DESC = "Показывает, получено или нет данное наследство.";
 L.HEIRLOOMS_CHECKBOX_TOOLTIP = "Включите для отслеживания разблокирования Наследства и его соответствующих Уровней Улучшения.\n\nНаследство, которое ассоциируется с Облком, фильтруется фильтром Обликов. (отключение обликов всё также отобразит Наследство)\n\nНекоторые предметы, имеющие качество Наследства, также помогают улучшать репутации и могут быть отфильтрованы фильтром Репутации.";
@@ -21242,6 +21349,7 @@ L.ICON_ONLY_CHECKBOX = "Только Иконка";
 L.ICON_ONLY_CHECKBOX_TOOLTIP = "Включите данную опцию, если Вы хотите видеть только иконку в углу подсказки вместо иконки и надписи собрано/не собрано.\n\nНекоторым людям нравятся подсказки поменьше ...";
 L.IGNORE_FILTERS_FOR_BOES_CHECKBOX = "Игнорировать Фильтры БоЕ/БоА";
 L.IGNORE_FILTERS_FOR_BOES_CHECKBOX_TOOLTIP = "Включите данную опцию, если Вы хотите игнорировать требования по типу брони, оружия, расе, классу или профессии для БоЕ/БоА предметов.\n\nЕсли Вы стремитесь собрать штучки для Ваших альтов через Аукцион, этот режим может быть полезен для Вас.";
+L.ILLUSION = "Чары оружия";
 L.ILLUSION_ID = "ID чар оружия";
 L.ILLUSIONS_CHECKBOX = "Чары для оружия";
 L.ILLUSIONS_CHECKBOX_TOOLTIP = "Включите для отслеживания чар для оружия.\n\nЭто круто выглядящие эффекты, которые можно применить к Вашему оружию!\n\nПримечание: Вы не иллюзия, невзирая на то, как считают все Ночнорождённые.";
@@ -21326,6 +21434,7 @@ L.MODULES_LABEL = "Модули и Мини Списки";
 L.MORE_COLORS_CHECKBOX = "Использовать Цвета";
 L.MORE_COLORS_CHECKBOX_TOOLTIP = "Включите данную опцию, если Вы хотите видеть больше использованных цветов, помогающих различать дополнительные условия для Штучек в списках (то есть цвета классов, фракций и т.п.)";
 L.MOUNT_DESC = "Нажмите эту кнопку для выбора случайного транспорта, основываясь на том, какие у Вас отсутствуют.";
+L.MOUNT_SPELL = "Средство передвижения (spell)";
 L.MOUNTMODS_CHECKBOX = "|T" .. _.asset("Expansion_DF") .. ":0|t Модификации транспорта";
 L.MOUNTMODS_CHECKBOX_TOOLTIP = "Включите для отслеживания модификаций транспорта.";
 L.MOUNTS_CHECKBOX_TOOLTIP = "Включите для отслеживания транспорта.\n\nВы можете ездить на них, чтобы перемещаться из точки А в точку Б быстрее, чем бегом. Кто бы мог подумать!";
@@ -21392,6 +21501,7 @@ L.PRECISION_SLIDER_TOOLTIP = "Используйте для установлен
 L.PREREQUISITE_QUESTS = "Есть предшествующие задания, которые должны быть выполнены перед получением:";
 L.PRESET_RESTORE = "Сбросить";
 L.PRESET_UPDATE_SUCCESS = "Группа обновлена успешно.";
+L.PROFESSION = "Профессия";
 L.PROFESSION_LIST = "Список Профессий";
 L.PROFESSION_LIST_DESC = "Откройте Ваши профессии для кэширования.";
 L.PROFILE = "Профиль";
@@ -21432,6 +21542,7 @@ L.REAGENT = "Реагент";
 L.REAGENT_CACHE_OUT_OF_DATE = "Кэш реагентов устарел и будет обновлен, когда откроете Ваши профессии!";
 L.RECENTLY_MADE_OBTAINABLE = "|cFFFF0000Если это недавно выпало для Вас (везде, кроме Утиля/Ящиков), пожалуйста, напишите в Discord, где Вы получили предмет!|r";
 L.RECENTLY_MADE_OBTAINABLE_PT2 = "|cFFFF0000Чем больше информации, тем лучше. Спасибо!|r";
+L.RECIPE_SPELL = "Рецепт (spell)";
 L.RECIPES_CHECKBOX = "Рецепты";
 L.RECIPES_CHECKBOX_TOOLTIP = "Включите для отслеживания рецептов для Ваших профессий\n\nПримечание: Вы должны открыть Ваши профессии, чтобы кэшировать известные рецепты.";
 L.REFRESHING_COLLECTION = "Обновление коллекции ...";
@@ -21478,6 +21589,7 @@ L.REROLL_RANDOM = "Повторный бросок Рандомизатора";
 L.RESET_INSTANCES = "Обновление подземелий";
 L.RESET_INSTANCES_DESC = "Нажмите здесь, чтобы обновить Ваши подземелья.\n\n" .. ALT_KEY_TEXT .. " клик для переключения автоматического обновления Ваших подземелий, когда Вы выходите из них.\n\nПРЕДУПРЕЖДЕНИЕ: БУДЬТЕ ОСТОРОЖНЫ С ЭТИМ!";
 L.RESET_TOOLTIP = "Сбросить к настройкам по умолчанию.";
+L.RUNECARVING_POWER = "Вырезание рун";
 L.RUNEFORGELEGENDARIES_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t Легендарки ТЗ";
 L.RUNEFORGELEGENDARIES_CHECKBOX_TOOLTIP = "Включите для отслеживания Легендарных предметов Тёмных Земель.";
 L.SAVED = "|T" .. _.asset("known_green") .. ":0|t |cff6dce47Сохранено|r";
@@ -21842,9 +21954,11 @@ localize(ObjectNames, {
 	[2553] = "Промокший свиток",
 	[2554] = "Загадка Кортелло",
 	[2555] = "Заплесневелый свиток",
+	[2556] = "Сокровище Кортелло",
 	[2560] = "Полузакопанная бутылка",
 	[2576] = "Алтарь Приливов",
 	[2652] = "Труп Эбенезера Ржавый Засов",
+	[2653] = "Малое месторождение кровавого камня",
 	[2656] = "Промокшее письмо",
 	[2688] = "Краеугольный камень",
 	[2689] = "Западный связывающий камень",
@@ -21948,7 +22062,6 @@ localize(ObjectNames, {
 	[17783] = "Древняя статуэтка",
 	[19015] = "Слеза Элуны",
 	[19016] = "Кустарник, покрытый звездной пылью",
-	[19017] = "Гигантский моллюск",
 	[19018] = "Гигантский моллюск",
 	[19021] = "Ржавый сундук",
 	[19022] = "Подержанный сундук",
@@ -22055,6 +22168,7 @@ localize(ObjectNames, {
 	[123330] = "Сейф буканьера",
 	[123462] = "Драгоценный камень Южных морей",
 	[123848] = "Покрытая слизью ториевая жила",
+	[124371] = "Краеугольный камень",
 	[125477] = "Подозрительная урна",
 	[126049] = "Семейка грибов-малиновиков",
 	[126158] = "Посудный шкаф Таллонкая",
@@ -22349,6 +22463,7 @@ localize(ObjectNames, {
 	[176640] = "Горный серебряный шалфей",
 	[176641] = "Чумоцвет",
 	[176642] = "Слезы Артаса",
+	[176643] = "Малая ториевая жила",
 	[176645] = "Мифриловые залежи",
 	[176751] = "Кости кодо",
 	[176785] = "Ящик со снарядами",
@@ -22667,6 +22782,7 @@ for key,value in pairs({
 	[10] = "50-й уровень",
 	[11] = "60-й уровень",
 	[15] = "Дружеская толпа",
+	[16] = "Кому зуботычину?",
 	[42] = "Восточные королевства",
 	[43] = "Калимдор",
 	[116] = "Подмастерье",
@@ -22806,6 +22922,7 @@ for key,value in pairs({
 	[2357] = "Зоротианский конь погибели",
 	[2358] = "Скакун",
 	[2496] = "Пятый элемент",
+	[2716] = "Двойная специализация",
 	[3356] = "Ледопард Зимних Ключей",
 	[5788] = "Посланник Шен'дралар",
 	[15333] = "Выжить пред лицом Пламени Тьмы (сезон мастерства)",
@@ -22823,6 +22940,7 @@ for key,value in pairs({
 	[10] = "Достигните 50-го уровня.",
 	[11] = "Достигните 60-го уровня.",
 	[15] = "Соберите 15 различных питомцев.",
+	[16] = "Доведите свой навык рукопашного боя до 300.",
 	[42] = "Исследуйте все местности Восточных королевств.",
 	[43] = "Исследуйте все местности Калимдора.",
 	[116] = "Станьте подмастерьем в любой профессии.",
@@ -22962,6 +23080,7 @@ for key,value in pairs({
 	[2357] = "Выполнено задание для чернокнижников \"Зоротианский конь погибели\".",
 	[2358] = "Выполнено задание для паладина на получение скакуна.",
 	[2496] = "Получите квинтэссенцию воды.",
+	[2716] = "Посетите наставника вашего класса (самое раннее – на 40-м уровне) и обучитесь двойной специализации.",
 	[3356] = "Получите ледопарда Зимних Ключей.",
 	[5788] = "Добейтесь того, чтобы вас превозносили Шен'дралар.",
 	[15333] = "Победите Нефариана в ходе сезона мастерства, ни разу не умерев.",
@@ -22994,6 +23113,7 @@ for key,value in pairs({
 })
 do achievementCategories[key].name = value; end
 for key,value in pairs({
+	[-182] = "Достигните 40-го уровня.",
 	[-176] = "Получить 25 средств передвижения",
 	[-175] = "Получить 10 средств передвижения",
 	[-154] = "Соберите 25 питомцев-спутников",
@@ -23874,6 +23994,7 @@ for key,value in pairs({
 	[5333] = "Превознесение в Лиге Аратора",
 	[5334] = "Превознесение у Среброкрылых Часовых",
 	[5335] = "Превознесение среди Стражи Грозовой Вершины",
+	[5589] = "Рукопашный бой",
 	[5900] = "Альтеракские горы",
 	[5901] = "Нагорье Арати",
 	[5902] = "Бесплодные земли",
@@ -24043,6 +24164,7 @@ for key,value in pairs({
 	[9420] = "Красный киражский резонирующий кристалл",
 	[9422] = "Зул'Гуруб",
 	[9424] = "Гномреган",
+	[9619] = "Изучение второй специализации талантов.",
 	[12635] = "Конь смерти Ривендера",
 	[12638] = "Медальон Альянса",
 	[12639] = "Медальон Орды",
@@ -24072,6 +24194,7 @@ L.EXPANSION_FILTER_LABEL = "확장팩별 필터";
 L.EXPANSION_FILTER_TOOLTIP = "%s 콘텐츠 표시 전환";
 L.EXPANSION_FILTERS_PAGE = "확장팩 필터";
 L.FOLLOWERS_CHECKBOX = "|T" .. _.asset("Expansion_WOD") .. ":0|t 추종자 및 동료";
+L.ILLUSION = "환영";
 L.ILLUSION_ID = "환영 ID";
 L.ILLUSIONS_CHECKBOX = "환영들";
 L.NEW_VERSION_FLAVORS = {"AllTheThings가 배고프기 때문입니다."};
@@ -24087,8 +24210,10 @@ L.PLAYER_TITLE_SCARAB_LORD = "|c" .. _.DefaultColors.Raid .. "스카라베 군�
 L.PLAYER_TITLE_THE_COMPLETIONIST = "|c" .. _.DefaultColors.Raid .. "완벽주의자 %s|r";
 L.PLAYER_TITLE_THE_EXTERMINATOR = "|cffa335ee박멸자 %s|r";
 L.PLAYER_TITLE_THE_HUGGLER = "|cffF58CBA허글러 %s|r";
+L.PROFESSION = "전문 기술들";
 L.RECIPES_CHECKBOX = "제조법";
 L.REQUIRES = "필요 전문화";
+L.RUNECARVING_POWER = "룬조각 능력";
 L.RUNEFORGELEGENDARIES_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t 룬조각 능력";
 L.SOULBINDCONDUITS_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t 도관";
 L.TITLES_CHECKBOX = "칭호";
@@ -24278,9 +24403,11 @@ localize(ObjectNames, {
 	[2553] = "젖은 두루마리",
 	[2554] = "코르텔로의 수수께끼",
 	[2555] = "곰팡이 슨 두루마리",
+	[2556] = "코르텔로의 보물",
 	[2560] = "반쯤 묻힌 병",
 	[2576] = "해일의 제단",
 	[2652] = "에벤에셀 러스트로크의 시체",
+	[2653] = "저급 혈석 광맥",
 	[2656] = "물에 젖은 편지",
 	[2688] = "쐐기돌",
 	[2689] = "서부 봉인석",
@@ -24384,7 +24511,6 @@ localize(ObjectNames, {
 	[17783] = "고대 조각상",
 	[19015] = "엘룬의 눈물",
 	[19016] = "별가루 덮인 풀",
-	[19017] = "대합",
 	[19018] = "대합",
 	[19021] = "녹슨 궤짝",
 	[19022] = "낡은 궤짝",
@@ -24487,6 +24613,7 @@ localize(ObjectNames, {
 	[123330] = "해적의 금고",
 	[123462] = "남쪽바다 해적단 보석",
 	[123848] = "진흙으로 덮인 토륨 광맥",
+	[124371] = "쐐기돌",
 	[125477] = "특이한 항아리",
 	[126049] = "자홍버섯",
 	[126158] = "탈론카이의 옷장",
@@ -24740,6 +24867,7 @@ localize(ObjectNames, {
 	[176640] = "은초롱이",
 	[176641] = "역병초",
 	[176642] = "아서스의 눈물",
+	[176643] = "작은 토륨 광맥",
 	[176645] = "미스릴 광맥",
 	[176751] = "코도 뼈",
 	[176785] = "탄환 상자",
@@ -24999,6 +25127,7 @@ for key,value in pairs({
 	[10] = "50 레벨",
 	[11] = "60 레벨",
 	[15] = "애완동물 애호가",
+	[16] = "주먹밥 시키신 분?",
 	[42] = "동부 왕국 탐험",
 	[43] = "칼림도어 탐험",
 	[116] = "전문 기술 수습 등급",
@@ -25138,6 +25267,7 @@ for key,value in pairs({
 	[2357] = "소로스의 공포마",
 	[2358] = "군마",
 	[2496] = "제5원소",
+	[2716] = "이중 특성",
 	[3356] = "여명의 설원 눈호랑이",
 	[5788] = "셴드랄라의 대리인",
 	[15333] = "암흑 불길의 생존자 (마스터리 서버)",
@@ -25155,6 +25285,7 @@ for key,value in pairs({
 	[10] = "50 레벨 달성",
 	[11] = "60 레벨 달성",
 	[15] = "애완동물 친구 15마리 모으기",
+	[16] = "맨손 전투 숙련도 300 달성",
 	[42] = "동부 왕국 지역 탐험",
 	[43] = "칼림도어 탐험",
 	[116] = "전문 기술 수습 등급 달성",
@@ -25294,6 +25425,7 @@ for key,value in pairs({
 	[2357] = "흑마법사 퀘스트 소로스의 공포마 완료",
 	[2358] = "군마 획득을 위한 성기사 퀘스트 완료",
 	[2496] = "물의 정기 획득",
+	[2716] = "레벨 40이 된 이후에 자신의 직업 상급자를 찾아가 이중 특성 활성화",
 	[3356] = "여명의 설원 눈호랑이 획득",
 	[5788] = "셴드랄라 확고한 동맹",
 	[15333] = "마스터리 서버 도중 죽지 않고 네파리안 처치",
@@ -25326,6 +25458,7 @@ for key,value in pairs({
 })
 do achievementCategories[key].name = value; end
 for key,value in pairs({
+	[-182] = "40 레벨 달성",
 	[-176] = "탈것 25개 획득",
 	[-175] = "탈것 10개 획득",
 	[-154] = "애완동물 25마리 모으기",
@@ -26206,6 +26339,7 @@ for key,value in pairs({
 	[5333] = "아라소르 연맹 확고한 동맹",
 	[5334] = "은빛날개 파수대 확고한 동맹",
 	[5335] = "스톰파이크 경비대 확고한 동맹",
+	[5589] = "맨손 전투",
 	[5900] = "알터랙 산맥",
 	[5901] = "아라시 고원",
 	[5902] = "황야의 땅",
@@ -26375,6 +26509,7 @@ for key,value in pairs({
 	[9420] = "공명의 붉은 퀴라지 수정",
 	[9422] = "줄구룹",
 	[9424] = "놈리건",
+	[9619] = "전문화 2 익히기",
 	[12635] = "리븐데어의 죽음의 군마",
 	[12638] = "얼라이언스의 메달",
 	[12639] = "호드의 메달",
@@ -26473,6 +26608,7 @@ L.AUTO_SYNC_ACC_DATA_TOOLTIP = "Activa esta opción si quieres que ATT intente a
 L.AUTO_WQ_LIST_CHECKBOX = "Abre automáticamente la Lista de Misiones de Mundo";
 L.AUTO_WQ_LIST_CHECKBOX_TOOLTIP = "Activa esta opción si quieres que la Lista de 'Misiones de Mundo' aparezca automáticamente. La lista se actualizará automáticamente cuando cambies de zonas.\n\nTambién puedes configurar este ajuste a un atajo.\n\nAtajos de teclado -> Addons -> ALL THE THINGS -> Activar Misiones de Mundo ATT\n\nComando corto: /attwq";
 L.AVAILABILITY = "Disponibilidad";
+L.AZERITE_ESSENCE = "Esencia de Azerita";
 L.AZERITE_ESSENCE_ID = "Esencia del corazón de Azeroth ID";
 L.AZERITE_ESSENCES_CHECKBOX = "|T" .. _.asset("Expansion_BFA") .. ":0|t Esencias del Corazón de Azeroth";
 L.AZERITE_ESSENCES_CHECKBOX_TOOLTIP = "Activa esta opción para rastrear Esencias de azerita.\n\nRastreados por personaje por defecto.";
@@ -26542,6 +26678,7 @@ L.COMPLETED_WEEKLY = "Esto se puede completar semanalmente.";
 L.COMPLETED_YEARLY = "Esto se puede completar anualmente.";
 L.COMPLETIONIST_MODE = "+Fuentes";
 L.COMPLETIONIST_MODE_TOOLTIP = "Activa este Modo para considerar los objetos como Coleccionados sólo cuando un objeto específico se ha desbloqueado para esa Apariencia.\n\nEsto significa que tendrás que coleccionar todas las apariencias compartidas de cada objeto.\n\nNota: Por defecto, el juego para de decirte cosas sobre los objetos que no has coleccionado cuando coleccionas una apariencia con fuente compartida, así que esto se asegura que los objetos no coleccionados son rastreados.";
+L.CONDUIT = "Conductos";
 L.CONDUIT_ID = "Conducto ID";
 L.CONFIRM_DELETE = "\n \n¿Estás seguro de que quieres eliminar esto?";
 L.CONTAINS = "Contiene:";
@@ -26702,6 +26839,7 @@ L.ICON_ONLY_CHECKBOX_TOOLTIP = "Activa esta opción si quieres ver sólo el icon
 L.ICON_PATH = "Icono de ruta";
 L.IGNORE_FILTERS_FOR_BOES_CHECKBOX = "Ignora los filtros de objetos BoE/BoA";
 L.IGNORE_FILTERS_FOR_BOES_CHECKBOX_TOOLTIP = "Activa este ajuste si quieres ignorar requerimientos de armadura, arma, raza, clase o de profesión para los objetos BoE/BoA.\n\nSi estás intentando coleccionar cosas para tus personajes secundarios escaneando la Casa de Subastas, este modo puede serte útil.";
+L.ILLUSION = "Ilusión";
 L.ILLUSION_ID = "ID de Ilusión";
 L.ILLUSIONS_CHECKBOX = "Ilusiones";
 L.ILLUSIONS_CHECKBOX_TOOLTIP = "Activa esta opción para rastrear ilusiones.\n\nSon efectos muy molones que puedes aplicar a tus armas!\n\nNOTA: No eres una ilusión, aunque todos los Nocheterna piensen lo contrario.";
@@ -26882,6 +27020,7 @@ L.PRESET_SOLO = "El modo Solo deshabilita todo seguimiento de la cuenta y solo m
 L.PRESET_TOOLTIP = "Habilite este ajuste preestablecido. Esto ajustará únicamente las opciones de seguimiento relevantes del perfil actual.";
 L.PRESET_UNIQUE = "El modo único desactiva las fuentes y marca el equipo como recolectado cuando has aprendido su apariencia única.";
 L.PRESET_UPDATE_SUCCESS = "Se actualizó el ajuste preestablecido con éxito.";
+L.PROFESSION = "Profesiones";
 L.PROFESSION_LIST = "Lista de profesiones";
 L.PROFESSION_LIST_DESC = "Abre tus profesiones para guardarlas.";
 L.PROFILE = "Perfil";
@@ -26979,6 +27118,7 @@ L.RESET_INSTANCES = "Reiniciar instancias";
 L.RESET_INSTANCES_DESC = "Haz clic aquí para reiniciar tus instancias.\n\n" .. ALT_KEY_TEXT .. " +`clic para activar el reinicio automático de tus instancias cuando salgas de una mazmorra.\n\n¡AVISO: TEN CUIDADO CON ESTO!";
 L.RESET_TOOLTIP = "Vuelve a los ajustes por defecto.";
 L.RESETS = "Reinicios";
+L.RUNECARVING_POWER = "Poder de talla de runas";
 L.RUNEFORGE_POWER_ID = "Poder de forja de runas ID";
 L.RUNEFORGELEGENDARIES_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t Poder de talla de runas";
 L.RUNEFORGELEGENDARIES_CHECKBOX_TOOLTIP = "Activa esta opción para rastrear Poderes de talla de runas de Shadowlands.";
@@ -27393,9 +27533,11 @@ localize(ObjectNames, {
 	[2553] = "Un viejo pergamino",
 	[2554] = "El enigma de Cortello",
 	[2555] = "Pergamino mohoso",
+	[2556] = "El tesoro de Cortello",
 	[2560] = "Botella semienterrada",
 	[2576] = "Altar de las Mareas",
 	[2652] = "Cadáver de Ebenezer Herrumbra",
+	[2653] = "Depósito de sangrita inferior",
 	[2656] = "Carta con marcas de agua",
 	[2688] = "Piedra angular",
 	[2689] = "Piedra de Vínculo Oeste",
@@ -27499,7 +27641,6 @@ localize(ObjectNames, {
 	[17783] = "Estatuilla antigua",
 	[19015] = "Lágrima de Elune",
 	[19016] = "Arbusto cubierto de polvo estelar",
-	[19017] = "Almeja gigante",
 	[19018] = "Almeja gigante",
 	[19021] = "Cofre oxidado",
 	[19022] = "Cofre desgastado",
@@ -27605,6 +27746,7 @@ localize(ObjectNames, {
 	[123330] = "Caja fuerte de bucanero",
 	[123462] = "La joya de los Mares del Sur",
 	[123848] = "Filón de torio cubierto de moco",
+	[124371] = "Piedra angular",
 	[125477] = "Urna llamativa",
 	[126049] = "Setas magenta",
 	[126158] = "Vestidor de Tallonkai",
@@ -27898,6 +28040,7 @@ localize(ObjectNames, {
 	[176640] = "Salviargenta de montaña",
 	[176641] = "Flor de peste",
 	[176642] = "Lágrimas de Arthas",
+	[176643] = "Filón pequeño de torio",
 	[176645] = "Depósito de mitril",
 	[176751] = "Huesos de kodo",
 	[176785] = "Cajón de munición",
@@ -28215,6 +28358,7 @@ for key,value in pairs({
 	[10] = "Nivel 50",
 	[11] = "Nivel 60",
 	[15] = "Muchas mascotas",
+	[16] = "¿Alguien ha pedido un bocadillo de nudillos?",
 	[42] = "Explora los Reinos del Este",
 	[43] = "Explora Kalimdor",
 	[116] = "Oficial profesional",
@@ -28348,6 +28492,7 @@ for key,value in pairs({
 	[2357] = "Corcel nefasto xorothiano",
 	[2358] = "Destrero",
 	[2496] = "El quinto elemento",
+	[2716] = "Doble especialización de talentos",
 	[3356] = "Sable de Hielo de Cuna del Invierno",
 	[5788] = "Agente de los Shen'dralar",
 	[15333] = "Superviviente de la Llama de las Sombras (temporada de maestría)",
@@ -28365,6 +28510,7 @@ for key,value in pairs({
 	[10] = "Alcanza el nivel 50.",
 	[11] = "Alcanza el nivel 60.",
 	[15] = "Reúne 15 mascotas de compañía únicas.",
+	[16] = "Aumenta tu habilidad sin armas a 300.",
 	[42] = "Explora las regiones de los Reinos del Este.",
 	[43] = "Explora las regiones de Kalimdor.",
 	[116] = "Conviértete en oficial de una profesión.",
@@ -28504,6 +28650,7 @@ for key,value in pairs({
 	[2357] = "Has completado la misión de brujo Corcel nefasto xorothiano.",
 	[2358] = "Has completado la misión de paladín para obtener un destrero.",
 	[2496] = "Consigue una quintaesencia de agua.",
+	[2716] = "Visita a tu instructor de clase cuando tengas al menos nivel 40 y activa tu doble especialización de talentos.",
 	[3356] = "Obtén un Sable de Hielo de Cuna del Invierno.",
 	[5788] = "Alcanza la reputación Exaltado con los Shen'dralar",
 	[15333] = "Derrota a Nefarian sin morir ni una sola vez durante la temporada de maestría.",
@@ -28536,6 +28683,7 @@ for key,value in pairs({
 })
 do achievementCategories[key].name = value; end
 for key,value in pairs({
+	[-182] = "Sube hasta el nivel 40.",
 	[-176] = "Consigue 25 monturas",
 	[-175] = "Consigue 10 monturas",
 	[-154] = "Consigue 25 mascotas de compañía",
@@ -29416,6 +29564,7 @@ for key,value in pairs({
 	[5333] = "Exaltado con la Liga de Arathor",
 	[5334] = "Exaltado con los Centinelas Ala de Plata",
 	[5335] = "Exaltado con la Guardia Pico Tormenta",
+	[5589] = "Sin armas",
 	[5900] = "Montañas de Alterac",
 	[5901] = "Tierras Altas de Arathi",
 	[5902] = "Tierras Inhóspitas",
@@ -29585,6 +29734,7 @@ for key,value in pairs({
 	[9420] = "Cristal resonador qiraji rojo",
 	[9422] = "Zul'Gurub",
 	[9424] = "Gnomeregan",
+	[9619] = "Aprende una segunda especialización de talentos.",
 	[12635] = "Destrero de la muerte de Osahendido",
 	[12638] = "Medallón de la Alianza",
 	[12639] = "Medallón de la Horda",
@@ -29781,6 +29931,7 @@ L.REQUIRES_SKYRIDING = "|cFF00FFDERequiere Cielonáutica|r";
 L.REROLL_DESC = "Haz click en este botón para volver a tirar usando el filtro activo.";
 L.REROLL_RANDOM = "Repetir lanzamiento de dados de la selección aleatoria";
 L.RESET_INSTANCES_DESC = "Haz click aquí para reiniciar tus instancias.\n\n" .. ALT_KEY_TEXT .. " +`click para activar el reinicio automático de tus instancias cuando salgas de un calabozo.\n\n¡AVISO: TEN CUIDADO CON ESTO!";
+L.RUNECARVING_POWER = "Poder de Tallado rúnico";
 L.RUNEFORGE_POWER_ID = "ID de Poder de forja de runas";
 L.SAVED_INSTANCE_ID = "Calabozos guardados ID";
 L.SCREENSHOT_COLLECTED_CHECKBOX = "Coleccionar cosas toma una Captura de pantalla";
@@ -29908,6 +30059,7 @@ for key,value in pairs({
 })
 do achievements[key].name = value; end
 for key,value in pairs({
+	[16] = "Eleva tu habilidad sin armas a 300.",
 	[425] = "Equípate con Atiesh, gran báculo del Guardián.",
 	[428] = "Equípate con Trueno Furioso, espada bendita del Hijo del Viento.",
 	[429] = "Equípate con Sulfuras, Mano de Ragnaros.",
@@ -29943,6 +30095,7 @@ for key,value in pairs({
 })
 do achievementCategories[key].name = value; end
 for key,value in pairs({
+	[-182] = "Sube hasta nivel 40.",
 	[-176] = "Consigue 25 monturas",
 	[-175] = "Consigue 10 monturas",
 	[-154] = "Consigue 25 mascotas de compañía",
@@ -30823,6 +30976,7 @@ for key,value in pairs({
 	[5333] = "Exaltado con la Liga de Arathor",
 	[5334] = "Exaltado con los Centinelas Ala de Plata",
 	[5335] = "Exaltado con la Guardia Pico Tormenta",
+	[5589] = "Sin armas",
 	[5900] = "Montañas de Alterac",
 	[5901] = "Tierras Altas de Arathi",
 	[5902] = "Tierras Inhóspitas",
@@ -30992,6 +31146,7 @@ for key,value in pairs({
 	[9420] = "Cristal resonador qiraji rojo",
 	[9422] = "Zul'Gurub",
 	[9424] = "Gnomeregan",
+	[9619] = "Aprende una segunda especialización de talentos.",
 	[12635] = "Destrero de la muerte de Osahendido",
 	[12638] = "Medallón de la Alianza",
 	[12639] = "Medallón de la Horda",
@@ -31095,6 +31250,7 @@ L.AUTO_SYNC_ACC_DATA_TOOLTIP = "如果您希望 ATT 在登录或重新加载用�
 L.AUTO_WQ_LIST_CHECKBOX = "自动打开世界任务列表";
 L.AUTO_WQ_LIST_CHECKBOX_TOOLTIP = "如果你想让'世界任务'列表自动出现请启用此选项。每当你切换区域时列表将自动更新。\n\n你也可以将此设置绑定到一个键上。\n\n按键设置 -> 插件 -> ALL THE THINGS -> 打开/关闭世界任务列表\n\n快捷命令：/attwq";
 L.AVAILABILITY = "可用性";
+L.AZERITE_ESSENCE = "艾泽里特精华";
 L.AZERITE_ESSENCE_ID = "艾泽里特精华 ID";
 L.AZERITE_ESSENCES_CHECKBOX = "|T" .. _.asset("Expansion_BFA") .. ":0|t 艾泽拉斯之心精华";
 L.AZERITE_ESSENCES_CHECKBOX_TOOLTIP = "启用此选项以追踪艾泽里特精华。\n\n默认情况下每个角色都会被追踪。";
@@ -31129,6 +31285,7 @@ L.CELEBRATIONS_LABEL = "庆祝和音效";
 L.CHANGE_SEARCH_FILTER = "更改搜索过滤";
 L.CHANGE_SEARCH_FILTER_DESC = "点击此按钮可更改搜索过滤。";
 L.CHANNEL_AMBIENCE = "环境";
+L.CHANNEL_MASTER = "主音量";
 L.CHARACTERUNLOCKS_CHECKBOX = "角色解锁";
 L.CHARACTERUNLOCKS_CHECKBOX_TOOLTIP = "启用此选项可跟踪角色解锁。这些是基于角色的各种解锁，无法明确归类为其他类型（例如 妖术变体、变形术变体、猎人物种驯服解锁、波可波克自定义等）。\n\n默认情况下按角色跟踪。";
 L.CHAT_COMMANDS_LABEL = "聊天命令";
@@ -31165,6 +31322,7 @@ L.COMPLETED_WEEKLY = "可以每周完成";
 L.COMPLETED_YEARLY = "可以每年完成";
 L.COMPLETIONIST_MODE = "+来源";
 L.COMPLETIONIST_MODE_TOOLTIP = "启用该模式，只有当特定物品已被解锁为给定外观时才将物品视为已收藏。\n\n这意味着你需要收藏物品的每一个共享外观。\n\n注意：默认情况下一旦你收藏了共享来源，游戏就会停止告诉你未收藏的物品，这将确保未收藏的物品会被追踪。";
+L.CONDUIT = "导灵器";
 L.CONDUIT_ID = "导能 ID";
 L.CONFIRM_DELETE = "\n \n确定删除此项？";
 L.CONTAINS = "包含：";
@@ -31177,6 +31335,7 @@ L.COST_TOTAL_DESC = "其中包含获取或购买顶级分组内所有物品所�
 L.CREATURE_ID = "生物 ID";
 L.CREATURES_COUNT = "[%s 生物]";
 L.CREATURES_LIST = "生物列表";
+L.CRITERIA = "条件";
 L.CRITERIA_FOR = "准则";
 L.CRITERIA_FORMAT = "|cffffff00[完成条件：%s]|r";
 L.CRITERIA_ID = "条件 ID";
@@ -31231,8 +31390,9 @@ L.EAST = "东部";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX = "启用鼠标提示";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX_TOOLTIP = "如果希望在鼠标提示中查看 ATT 提供的信息，请启用此选项。这包括其他玩家发送的物品链接，在拍卖行、在地下城助手、在你的包里、在世界、在 NPC 等等。\n\n如果你关闭了这个功能，就会严重降低你快速判断是否需要击杀首领或学习外观的能力。\n\n我们建议你保持此设置。";
 L.ENABLED = "已启用";
+L.ENCOUNTER = "战斗";
 L.ENCOUNTER_ID = "首领战斗 ID";
-L.ENSEMBLE_LEARNED = "该套装已被你的某个角色使用。";
+L.ENSEMBLE_LEARNED = "这套服装已被你的某个角色使用过。";
 L.EVENT_ACTIVE = "激活:";
 L.EVENT_END = "结束:";
 L.EVENT_ID = "事件 ID";
@@ -31257,6 +31417,7 @@ L.EXPANSION_FILTER_TOOLTIP = "切换%s内容的可见性";
 L.EXPANSION_FILTERS_PAGE = "资料片过滤器";
 L.EXPANSION_ID = "资料片 ID";
 L.EXPANSION_THINGS_LABEL = "资料片事物";
+L.EXPLORATION = "探索";
 L.EXPLORATION_CHECKBOX = "探索(不精准)";
 L.EXPLORATION_CHECKBOX_TOOLTIP = "启用此选项可以跟踪户外地图的探索完成情况。\n\n目前这个选项所提供的资讯并不准确，需要加强，请谨慎使用。";
 L.EXPLORATION_ID = "探索 ID";
@@ -31293,6 +31454,7 @@ L.FLIGHT_PATHS = "飞行路线";
 L.FLIGHT_PATHS_CHECKBOX = "飞行路径";
 L.FLIGHT_PATHS_CHECKBOX_TOOLTIP = "启用此选项以追踪飞行路径和飞艇。\n\n要收藏这些信息，请与每个大陆的飞行点/飞艇船长对话。\n\n注意：由于分阶段技术，你可能必须分阶段到区域的其他敌方，以获得这些兴趣点的开启。";
 L.FLIGHT_PATHS_DESC = "当你与每个大陆上的飞行管理员交谈时会缓存飞行路径。\n  - Crieve";
+L.FOLLOWER = "追随者";
 L.FOLLOWER_DESC = "点击此按钮以根据缺少的内容随机选择一个追随者。";
 L.FOLLOWER_ID = "追随者 ID";
 L.FOLLOWERS_CHECKBOX = "|T" .. _.asset("Expansion_WOD") .. ":0|t 追随者 & 伙伴";
@@ -31315,6 +31477,7 @@ L.GITHUB_BUTTON_TOOLTIP = "点击按钮复制 URL 到All The Things GitHub 地�
 L.GO_GO_RANDOM = "随机 - 去看看！";
 L.GO_GO_RANDOM_DESC = "此窗口允许随机选择要获取的地点或物品。去吧！";
 L.GUID = "全局 ID";
+L.HEADER = "标头";
 L.HEADER_ID = "标头 ID";
 L.HEIRLOOM_TEXT = "解锁传家宝";
 L.HEIRLOOM_TEXT_DESC = "显示你是否已经获得或购买了传家宝。";
@@ -31330,6 +31493,7 @@ L.HIDDEN_QUEST_TRIGGERS = "隐藏任务触发";
 L.HIDDEN_QUEST_TRIGGERS_DESC = "这些任务是根据特定的标准手动确定触发的任务，主要用于游戏内部的追踪目的";
 L.HOLIDAY_DROP = "每个战网账号每天的首次尝试才有机会掉落独特奖励，如坐骑、宠物、玩具和手稿。每次未获得奖励后，掉落几率都会提高。\n暴雪尚未明确说明哪些物品适用此系统。";
 L.ICON_LEGEND_MISC_LABEL = "杂项图标图例";
+L.ICON_LEGEND_MISC_TEXT = "|c" .. _.DefaultColors.White .. "|T" .. _.asset("Currency") .. ":0|t 用作一种货币\n|T" .. _.asset("Interface_Reagent") .. ":0|t 用作制作材料\n|T" .. _.asset("Interface_Catalyst") .. ":0|t 可在催化剂处转换为新外观\n|T" .. _.asset("Interface_Upgrade") .. ":0|t 可升级以获得新外观|r";
 L.ICON_LEGEND_STATUS_LABEL = "图标图例";
 L.ICON_LEGEND_STATUS_TEXT = "|c" .. _.DefaultColors.White .. "\n|T374225:0|t 当前角色不可用|T" .. _.asset("status-unobtainable") .. ":0|t 不可获得\n|T" .. _.asset("status-prerequisites") .. ":0|t 仅在满足先决条件的情况下可获得\n|T" .. _.asset("status-seasonal-available") .. ":0|t 当前可用的季节性内容\n|T" .. _.asset("status-seasonal-unavailable") .. ":0|t 当前不可用的季节性内容\n|T374225:0|t Unavailable on current character\n|T" .. _.asset("status-unsorted") .. ":0|t Unsorted in ATT|r";
 L.ICON_ONLY_CHECKBOX = "仅图标";
@@ -31337,6 +31501,7 @@ L.ICON_ONLY_CHECKBOX_TOOLTIP = "如果只想在右上角看到图标而不是图
 L.ICON_PATH = "图标路径";
 L.IGNORE_FILTERS_FOR_BOES_CHECKBOX = "忽略装备绑定/战团绑定的筛选";
 L.IGNORE_FILTERS_FOR_BOES_CHECKBOX_TOOLTIP = "启用此选项以忽略装备绑定/战团绑定物品的护甲、武器、种族、职业或专业技能要求。\n\n如果你正试图通过拍卖行扫描给小号收集物品，此模式可能对你有用。";
+L.ILLUSION = "幻影";
 L.ILLUSION_ID = "幻象 ID";
 L.ILLUSIONS_CHECKBOX = "幻象";
 L.ILLUSIONS_CHECKBOX_TOOLTIP = "启用此选项以追踪幻象。\n\n这些看起来很酷的幻化效果，你可以应用到你的武器上！\n\n注意：你不是一个幻象，尽管所有的夜之子都这么认为。";
@@ -31435,6 +31600,7 @@ L.MORE_COLORS_CHECKBOX = "显示颜色";
 L.MORE_COLORS_CHECKBOX_TOOLTIP = "如果你想看到使用更多的颜色来帮助区分列表中事物的附加条件，请启用此选项（比如职业颜色，阵营颜色等。）";
 L.MOUNT_DESC = "点击此按钮可根据缺少的内容选择随机坐骑。";
 L.MOUNT_ID = "坐骑 ID";
+L.MOUNT_SPELL = "坐骑（法术）";
 L.MOUNTMODS_CHECKBOX = "|T" .. _.asset("Expansion_DF") .. ":0|t 坐骑定制";
 L.MOUNTMODS_CHECKBOX_TOOLTIP = "启用此选项以追踪坐骑更改";
 L.MOUNTS_CHECKBOX_TOOLTIP = "启用此选项以追踪坐骑。\n\n你可以骑着它们去比跑步更快的地方。谁知道！";
@@ -31525,6 +31691,7 @@ L.PRESET_SOLO = "单人模式禁用所有账号范围的追踪，仅显示当前
 L.PRESET_TOOLTIP = "启用此预设。这将仅调整当前配置文件的相关追踪选项。";
 L.PRESET_UNIQUE = "独特外观模式禁用来源，当你学习了它们的独特外观时，将装备标记为已收藏。";
 L.PRESET_UPDATE_SUCCESS = "更新预设成功。";
+L.PROFESSION = "专业";
 L.PROFESSION_LIST = "专业列表";
 L.PROFESSION_LIST_DESC = "打开你的专业来缓存它们。";
 L.PROFILE = "配置文件";
@@ -31570,6 +31737,7 @@ L.REAGENT = "材料";
 L.REAGENT_CACHE_OUT_OF_DATE = "缓存已过期，打开专业界面后会重新缓存！";
 L.RECENTLY_MADE_OBTAINABLE = "|cFFFF0000如果你掉落了此项（除回收箱外的\n任何地方），请去 Discord 告诉我们从哪掉的！|r";
 L.RECENTLY_MADE_OBTAINABLE_PT2 = "|cFFFF0000提供越多信息越好，谢谢！|r";
+L.RECIPE_SPELL = "配方（法术）";
 L.RECIPES_CHECKBOX = "配方";
 L.RECIPES_CHECKBOX_TOOLTIP = "启用此选项可追踪你的专业图纸。\n\n注意：你必须打开专业列表才能缓存这些。";
 L.REFRESHING_COLLECTION = "刷新收藏…";
@@ -31624,6 +31792,7 @@ L.RESET_INSTANCES = "重置副本";
 L.RESET_INSTANCES_DESC = "点击此处重置副本。\n\n" .. ALT_KEY_TEXT .. "点击可在离开地下城时自动重置副本。\n\n警告：小心使用！";
 L.RESET_TOOLTIP = "恢复默认设置。";
 L.RESETS = "重置";
+L.RUNECARVING_POWER = "符文铭刻之力";
 L.RUNEFORGE_POWER_ID = "符文熔炉能量 ID";
 L.RUNEFORGELEGENDARIES_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t 符文铭刻之力";
 L.RUNEFORGELEGENDARIES_CHECKBOX_TOOLTIP = "启用此选项以追踪暗影国度的符文铭刻之力。";
@@ -31809,7 +31978,12 @@ L.WRONG_FACTION = "可能需要在另一个阵营中查看此内容。";
 L.YOU_DID_IT = "你做到了！";
 L.ZONE_DESC = "点击此按钮可根据缺少的内容选择随机地区。";
 localize(_.CategoryNames, {
+	[2] = "消耗品",
 	[3] = "塔罗牌",
+	[106] = "卡牌",
+	[221] = "护手",
+	[224] = "腿",
+	[259] = "披风",
 });
 localize(L.HEADER_NAMES, {
 	[-11] = "新角色",
@@ -31848,8 +32022,8 @@ localize(L.HEADER_NAMES, {
 	[-350] = "天启四骑士",
 	[-361] = "墓地",
 	[-362] = "图书馆",
-	[-363] = "武器库",
-	[-364] = "修道院",
+	[-363] = "军械库",
+	[-364] = "大教堂",
 	[-365] = "正门",
 	[-366] = "后门",
 	[-367] = "阿塔莱防御者",
@@ -31875,6 +32049,8 @@ localize(L.HEADER_NAMES, {
 	[-613] = "梦魇林地",
 	[-614] = "学徒",
 	[-615] = "邪咒歌剧",
+	[-616] = "痹体恐惧氛围",
+	[-617] = "心理创伤",
 	[-618] = "击败一名中尉",
 	[-619] = "赢得战斗",
 	[-620] = "与死者交谈",
@@ -31915,9 +32091,16 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-341] = "此列表中的物品是以下物品的共享外观。在唯一外观模式下，此列表可帮助了解特定物品被标记为已收藏的原因。",
 	[-342] = "此列表中的物品是独特外观。你必须专门收藏这个物品以获得外观。",
 	[-343] = "此列表包含 ATT Discord 报告的无法获取的物品，这些物品是暴雪尚未修复的错误。\n\n注意：在此列表中忽略所有过滤器以获得可见性。此列表中仅显示因疏忽而从游戏中移除的物品。\n\n致暴雪开发者：请修复下面列出的物品和事件。",
+	[-353] = "又称黑石塔下层",
+	[-354] = "你的队伍中必须有一名成员完成 “升腾之印（Seal of Ascension）” 任务链，才能点燃火焰并打开通往副本这一部分的门，即黑石塔上层（Upper Blackrock Spire）",
 	[-355] = "该副本的此部分可从最东侧的入口进入。（右侧）",
 	[-356] = "该副本的此部分可从最北侧的入口进入。",
 	[-357] = "该副本的此部分可从最西侧的入口进入。（左侧）",
+	[-481] = "当第五阶段最终上线时，安其拉废墟和安其拉神庙不会即刻开放。相反，服务器上的全体玩家需开展一场大规模的备战行动，通过收集战备物资并完成一条史诗任务线，最终敲响铜锣，才能开启这些团队副本，让其中的恐怖之物降临世间。\n\n一旦两个阵营都完成各自的贡献，会有一个 5 天的宽限期。之后，一旦有人敲响铜锣，就会触发一个持续 10 小时、横跨卡利姆多多个区域的全服事件。\n\n安其拉开放的速度取决于服务器及其阵营平衡。\n\n我们建议尽可能推迟备战行动，以便让更多人获得 “甲虫之王” 坐骑，因为所有完成 “流沙节杖” 任务线的玩家都会获得相同奖励！",
+	[-483] = "除了服务器上所有玩家共同努力完成备战任务外，还需要一名玩家制作出流沙节杖 —— 这是一项极为艰巨的任务，在该任务线刚推出时，只有服务器上顶尖的公会才能完成。当备战任务结束，联盟与部落的军队抵达希利苏斯后，流沙节杖可用于敲响甲虫之锣。敲响铜锣后，安其拉之门就会开启。每个服务器上第一个敲响甲虫之锣的玩家将获得 “甲虫之王” 称号（在《燃烧的远征》中，经典旧世的这个称号不会再出现！）以及黑色其拉共鸣水晶坐骑。在随后 10 小时内敲响铜锣的其他玩家也能获得该称号。\n\n尽管在服务器上安其拉之门开启后，玩家仍可完成流沙节杖的任务线，但完成后既不会获得黑色其拉共鸣水晶坐骑，也不会获得 “甲虫之王” 称号。",
+	[-484] = "天灾入侵是1.11 补丁中的一项世界事件，并在巫妖王之怒前置补丁 3.0.1中再度开启，预示着令人闻风丧胆的克尔苏加德的要塞 ——纳克萨玛斯即将开放。\n\n艾泽拉斯的多个地区遭到了天灾军团部队的袭击。银色黎明的成员组织了一场对抗天灾入侵的全球反击，他们密切监视着任何浮空死灵城堡的动向，并将情报分享给所有愿意投身这场战斗的冒险者。\n\n每一次对天灾军团的胜利，都会让防线愈发坚固。随着越来越多的入侵企图被守军击退，银色黎明将为抗击入侵者的勇士们赋予越来越强大的祝福。\n\n如果凡人们齐心协力，清除散落在世界各地、每一座浮空死灵城堡下方出现的天灾营地，这场入侵或许就能被有效遏制，甚至彻底击退。\n\n凡有意拿起武器对抗亡灵入侵者的勇士，可与银色黎明的代表交谈，了解哪些地区需要支援，以及防线当前的状况",
+	[-547] = "本板块用于收录现实中开展的各类杂项促销活动，以及与账号管理相关的内容",
+	[-610] = "如果以下内容已在别处归类整理，请将它们从本清单中删除。谢谢",
 	[-613] = "梦魇林地可在通往翡翠梦境的传送门附近找到。",
 	[-632] = "本赛季带来了 25 级的初始等级上限和新的 25 级终局游戏，包括 10 名玩家的 Blackfathom Deeps 突袭，其中包含新的机制、新的和重新设计的 Boss 来挑战玩家的战术和策略，以及新鲜的奖励。",
 	[-639] = "铭刻是最近在发现季节宣布的一个新系统。它允许每个职业通过解锁新的独特能力来定制他们的游戏体验！",
@@ -31925,10 +32108,13 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-688] = "这是一个在荆棘谷举行的自由对战 PvP 活动，每3小时从服务器时间午夜开始持续30分钟。\n\n击杀玩家以获得可叠加的鲜血之月增益效果——献给血之洛阿的鲜血。该效果最多可叠加255次。\n每次击杀可获得5层鲜血。\n死亡会失去鲜血。\n前往鲜血祭坛 |cffffffff（地图上的红色旗帜）|r，将献给血之洛阿的鲜血兑换为铜质鲜血硬币、银质鲜血硬币和金质鲜血硬币。只需走到祭坛旁，硬币就会自动出现在你的背包中。\n\n你可以通过与赞达拉使者交谈来选择退出该活动。",
 	[-721] = "包含当前区域可用但实际源自其他区域的内容。",
 	[-723] = "在卡利姆多的不同地区，元素入侵的报告正在增加。每隔几天，一股新的元素浪潮就会强行涌入希利苏斯、安戈洛环形山、艾萨拉和冬泉谷的区域——显然，只是为了看看它们能在这些领土上深入到什么程度，直到被部落或联盟的军队击退。调查这些地区并帮助你的盟友对抗这些神秘的入侵。",
+	[-736] = "此部分用于介绍现实世界的促销活动，这些活动在某些极稀有内容出现在游戏商店之前，就将其引入了游戏中",
 });
 localize(L.HEADER_LORE, {
 	[-74] = "这些龙中的一只会在艾泽拉斯的相关坐标随机生成。",
 	[-318] = "地下城套装的第2套职业套装，通常称为T0.5，是通过完成一条漫长的任务链来获得的，该任务链将作为终极地下城掉落的第一个套装升级为更强大的版本。在当前的魔兽世界中，这些套装受到收藏家的追捧，因为随着大灾变，这条任务链已被完全从游戏中移除。在魔兽世界经典版中，你应该在所有角色上完成这条任务链！",
+	[-349] = "这些物品可以通过重置首领无限刷取",
+	[-388] = "木喉熊怪居住在两个区域：艾萨拉和费伍德森林。人们认为他们是唯一一支未被恶魔腐化的熊怪部族，不过由于存在克罗格（一只未被腐化、所属部族不明的熊怪）以及《燃烧的远征》中秘蓝岛上的深须部族，这一点或许并不属实。然而，现在许多其他种族不加分辨地就对熊怪痛下杀手，根本不去判断对方是敌是友。正因如此，木喉熊怪极少信任他人。\n\n那些前往费伍德森林北部的木喉要塞，并证明自己是木喉熊怪之友的冒险者会发现，熊怪们将朋友看得比什么都重要。尽管他们没有珍贵的珠宝或任何世俗财富，但木喉熊怪的萨满传统依然深厚。他们精通用兽皮制作护甲的技艺，而且非常乐意与他们部族的朋友分享治疗与复活的知识。此外，只要与他们的声望高于 “冷淡”，你就能畅通无阻地通过他们的隧道进入月光林地和冬泉谷。",
 });
 localize(L.FILTER_ID_TYPES, {
 	[11] = "神器",
@@ -32038,9 +32224,11 @@ localize(ObjectNames, {
 	[2553] = "浸水的卷轴",
 	[2554] = "科泰罗的谜题",
 	[2555] = "发霉的卷轴",
+	[2556] = "科泰罗的宝藏",
 	[2560] = "半埋的瓶子",
 	[2576] = "海潮祭坛",
 	[2652] = "伊贝尼瑟的尸体",
+	[2653] = "次级血石矿脉",
 	[2656] = "浸水的信件",
 	[2688] = "钥匙之石",
 	[2689] = "西禁锢之石",
@@ -32142,7 +32330,6 @@ localize(ObjectNames, {
 	[17783] = "古代雕像",
 	[19015] = "月神之泪",
 	[19016] = "星尘覆盖的草丛",
-	[19017] = "巨型蚌壳",
 	[19018] = "巨型蚌壳",
 	[19021] = "生锈的箱子",
 	[19022] = "旧箱子",
@@ -32232,6 +32419,7 @@ localize(ObjectNames, {
 	[123330] = "海盗的保险箱",
 	[123462] = "南海宝珠",
 	[123848] = "软泥覆盖的瑟银矿脉",
+	[124371] = "钥匙之石",
 	[125477] = "显眼的石罐",
 	[126049] = "紫色蘑菇",
 	[126158] = "塔隆凯的衣柜",
@@ -32661,7 +32849,15 @@ for key,value in pairs({
 	[4] = "PvP 精良/角斗士",
 	[5] = "不可学",
 	[7] = "货栈",
+	[11] = "阶段1",
 	[1605] = "探索赛季",
+	[1606] = "阶段2",
+	[1607] = "阶段3",
+	[1608] = "阶段4",
+	[1609] = "阶段5",
+	[1610] = "阶段6",
+	[1611] = "阶段7",
+	[1612] = "阶段8",
 })
 do phases[key].name = value; end
 for key,value in pairs({
@@ -32671,18 +32867,28 @@ for key,value in pairs({
 	[4] = "|cFFFFAAAA除非您拥有所需的 PvP 头衔、所需的 PvP 等级或处于该赛季的前 %，否则无法再购买或解锁幻化。|r",
 	[5] = "|cFFFFAAAA这不能永久收集、学习或用于幻化。|r",
 	[7] = "|cFFAAFFAA该物品可在货栈购买。|r",
-	[11] = "|cFFAAFFAA该功能直到 Phase 1 的 WoW Classic 才可用。|r",
-	[1606] = "|cFFAAFFAA该功能直到 Phase 2 的 Season of Discovery 才可用。|r",
-	[1607] = "|cFFAAFFAA该功能直到 Phase 3 的 Season of Discovery 才可用。|r",
-	[1608] = "|cFFAAFFAA该功能直到 Phase 4 的 Season of Discovery 才可用。|r",
-	[1609] = "|cFFAAFFAA该功能直到 Phase 5 的 Season of Discovery 才可用。|r",
-	[1610] = "|cFFAAFFAA该功能直到 Phase 6 的 Season of Discovery 才可用。|r",
-	[1611] = "|cFFAAFFAA该功能直到 Phase 7 的 Season of Discovery 才可用。|r",
-	[1612] = "|cFFAAFFAA该功能直到 Phase 8 的 Season of Discovery 才可用。|r",
+	[11] = "|cFFAAFFAA该功能直到 阶段1 的 WoW Classic 才可用。|r",
+	[1605] = "|cFFAAFFAA直到探索季第一阶段才推出此功能|r",
+	[1606] = "|cFFAAFFAA该功能直到 阶段2 的 Season of Discovery 才可用。|r",
+	[1607] = "|cFFAAFFAA该功能直到 阶段3 的 Season of Discovery 才可用。|r",
+	[1608] = "|cFFAAFFAA该功能直到 阶段4 的 Season of Discovery 才可用。|r",
+	[1609] = "|cFFAAFFAA该功能直到 阶段5 的 Season of Discovery 才可用。|r",
+	[1610] = "|cFFAAFFAA该功能直到 阶段6 的 Season of Discovery 才可用。|r",
+	[1611] = "|cFFAAFFAA该功能直到 阶段7 的 Season of Discovery 才可用。|r",
+	[1612] = "|cFFAAFFAA该功能直到 阶段8 的 Season of Discovery 才可用。|r",
 })
 do phases[key].description = value; end
 for key,value in pairs({
 	[3] = "|cFFFFAAAA在游戏的任何版本中，鼓励使用真实货币的行为均不受认可。参与此类内容需自行承担风险。|r",
+	[11] = "|cFFFFAAAA包含熔火之心和奥妮克希亚的巢穴|r",
+	[1605] = "|cFFFFAAAA包含黑石深渊团队副本、灰谷世界PvP，等级上限为25级|r",
+	[1606] = "|cFFFFAAAA新增了诺莫瑞根团队副本、荆棘谷世界PvP，并将等级上限提升至40级|r",
+	[1607] = "|cFFFFAAAA新增了沉没的神庙副本，并将等级上限提升至50级|r",
+	[1608] = "|cFFFFAAAA新增了熔火之心、奥妮克希亚的巢穴、屠魔峡谷、风暴悬崖和腐烂之痕，并将等级上限提升至60级|r",
+	[1609] = "|cFFFFAAAA包括黑翼之巢、祖尔格拉布和新的水晶谷团队副本|r",
+	[1610] = "|cFFFFAAAA包括安其拉和新的梦魇林地团队副本|r",
+	[1611] = "|cFFFFAAAA包括纳克萨玛斯和新的卡拉赞地牢地下城|r",
+	[1612] = "|cFFFFAAAA包含经典+?|r",
 })
 do phases[key].lore = value; end
 for key,value in pairs({
@@ -32693,6 +32899,7 @@ for key,value in pairs({
 	[10] = "50级",
 	[11] = "60级",
 	[15] = "宠物成群",
+	[16] = "有人想吃一拳吗？",
 	[42] = "探索东部王国",
 	[43] = "探索卡利姆多",
 	[116] = "中级专业水准",
@@ -32832,6 +33039,7 @@ for key,value in pairs({
 	[2357] = "克索诺斯的恐惧战马",
 	[2358] = "军马",
 	[2496] = "第五元素",
+	[2716] = "双天赋",
 	[3356] = "冬泉霜刃豹",
 	[5788] = "辛德拉的代言人",
 	[15333] = "暗影烈焰的生还者（赛季服）",
@@ -32849,6 +33057,7 @@ for key,value in pairs({
 	[10] = "升到50级。",
 	[11] = "升到60级。",
 	[15] = "收集15种不同的小宠物。",
+	[16] = "徒手技能达到300。",
 	[42] = "探索东部王国的各个区域。",
 	[43] = "探索卡利姆多的各个区域。",
 	[116] = "在一种专业中达到中级水准。",
@@ -32988,6 +33197,7 @@ for key,value in pairs({
 	[2357] = "完成克索诺斯的恐惧战马任务。",
 	[2358] = "完成圣骑士的军马任务。",
 	[2496] = "获得一份水之精萃。",
+	[2716] = "达到至少40级之后去拜访你的职业训练师，并开启你的双天赋界面。",
 	[3356] = "获得一只冬泉霜刃豹。",
 	[5788] = "在辛德拉阵营中达到崇拜声望。",
 	[15333] = "在赛季服直到击败奈法利安为止都没有死亡。",
@@ -33020,6 +33230,7 @@ for key,value in pairs({
 })
 do achievementCategories[key].name = value; end
 for key,value in pairs({
+	[-182] = "升到40级",
 	[-176] = "获得25种坐骑",
 	[-175] = "获得10种坐骑",
 	[-154] = "获得25个宠物小伙伴",
@@ -33900,6 +34111,7 @@ for key,value in pairs({
 	[5333] = "阿拉索联军崇拜",
 	[5334] = "银翼要塞崇拜",
 	[5335] = "雷矛卫队崇拜",
+	[5589] = "徒手战斗",
 	[5900] = "奥特兰克山脉",
 	[5901] = "阿拉希高地",
 	[5902] = "荒芜之地",
@@ -34069,6 +34281,7 @@ for key,value in pairs({
 	[9420] = "红色其拉共鸣水晶",
 	[9422] = "祖尔格拉布",
 	[9424] = "诺莫瑞根",
+	[9619] = "学习第二套天赋配置。",
 	[12635] = "瑞文戴尔的死亡战马",
 	[12638] = "联盟勋章",
 	[12639] = "部落勋章",
@@ -34161,6 +34374,7 @@ L.AUTO_SYNC_ACC_DATA_CHECKBOX = "自動同步帳號資料";
 L.AUTO_SYNC_ACC_DATA_TOOLTIP = "如果您希望 ATT 在登錄或重新載入用戶介面時嘗試在帳號之間自動同步帳號資料，請啟用此選項。";
 L.AUTO_WQ_LIST_CHECKBOX = "自動打開世界任務列表";
 L.AUTO_WQ_LIST_CHECKBOX_TOOLTIP = "如果你想讓'世界任務'列表自動出現請啟用此選項。每當你切換區域時列表將自動更新。\n\n你也可以將此設定綁定到一個按鍵上。\n\n按鍵設定 -> 插件 -> ALL THE THINGS -> 打開/關閉世界任務列表\n\n快捷命令：/attwq";
+L.AZERITE_ESSENCE = "艾澤拉斯精華";
 L.AZERITE_ESSENCE_ID = "艾澤拉斯精華 ID";
 L.AZERITE_ESSENCES_CHECKBOX = "|T" .. _.asset("Expansion_BFA") .. ":0|t 艾澤拉斯精華";
 L.AZERITE_ESSENCES_CHECKBOX_TOOLTIP = "啟用此選項以追蹤艾澤拉斯精華。\n\n預設情況下每個角色都會被追蹤。";
@@ -34209,6 +34423,7 @@ L.COMPLETED_SOURCES_CHECKBOX_TOOLTIP = "如果你想在指標提示中看到已�
 L.COMPLETED_WEEKLY = "可以每週完成";
 L.COMPLETIONIST_MODE = "+來源";
 L.COMPLETIONIST_MODE_TOOLTIP = "啟用該模式，只有當特定物品已被解鎖為給定外觀時才將物品視為已收藏。\n\n這意味著你需要收藏每一個共享外觀的物品。\n\n注意：預設情況下一旦你收藏了共享來源，遊戲就會停止告訴你未收藏的物品，這將確保未收藏的物品會被追蹤。";
+L.CONDUIT = "導靈器";
 L.CONFIRM_DELETE = "\n \n確定刪除此項？";
 L.CONTAINS_SLIDER_TOOLTIP = "使用該功能可以自訂指標提示中顯示的摘要事項的數量。\n\n預設：25";
 L.COORDINATES = "座標";
@@ -34264,6 +34479,7 @@ L.EAST = "東部";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX = "啟用指標提示";
 L.ENABLE_TOOLTIP_INFORMATION_CHECKBOX_TOOLTIP = "如果希望在指標提示中查看 ATT 提供的資訊，請啟用此選項。這包括其他玩家發送的物品連接，在拍賣行、在地城助手、在你的背包裡、在世界、在 NPC 等等。\n\n如果你關閉了這個功能，就會嚴重降低你快速判斷是否需要擊殺首領或學習外觀的能力。\n\n我們建議你保持此設定。";
 L.ENCOUNTER_ID = "首領戰鬥 ID";
+L.ENSEMBLE_LEARNED = "這套服裝已被你的某個角色使用過。";
 L.EVENT_ACTIVE = "啟用:";
 L.EVENT_END = "結束:";
 L.EVENT_SCHEDULE = "事件時程表";
@@ -34508,6 +34724,7 @@ L.PRESET_SOLO = "單人模式停用所有帳號共通的追蹤，僅顯示您目
 L.PRESET_TOOLTIP = "啟用此預設。這將僅調整當前設定檔的相關追蹤選項。";
 L.PRESET_UNIQUE = "獨特外觀模式停用來源，當你已經學習了該獨特外觀時，將相同外觀的裝備標記為已收藏。";
 L.PRESET_UPDATE_SUCCESS = "更新預設值成功。";
+L.PROFESSION = "專業";
 L.PROFESSION_LIST = "專業技能列表";
 L.PROFESSION_LIST_DESC = "打開你的專業技能來快取它們。";
 L.PROFILE = "設定檔";
@@ -34591,6 +34808,7 @@ L.REROLL_RANDOM = "重新生成隨機列表";
 L.RESET_INSTANCES = "重置所有副本";
 L.RESET_INSTANCES_DESC = "點擊此處重置所有副本。\n\n" .. ALT_KEY_TEXT .. "點擊可在離開地城時自動重置副本。\n\n警告：小心使用！";
 L.RESET_TOOLTIP = "恢復預設設定。";
+L.RUNECARVING_POWER = "符文雕刻力量";
 L.RUNEFORGELEGENDARIES_CHECKBOX = "|T" .. _.asset("Expansion_SL") .. ":0|t 符文銘刻之力";
 L.RUNEFORGELEGENDARIES_CHECKBOX_TOOLTIP = "啟用此選項以追蹤暗影之境的符文銘刻之力。";
 L.SCREENSHOT_COLLECTED_CHECKBOX = "收藏物品後觸發截圖";
@@ -34773,6 +34991,7 @@ localize(L.HEADER_NAMES, {
 	[-350] = "四騎士",
 	[-362] = "圖書館",
 	[-363] = "武器庫",
+	[-364] = "修道院",
 	[-365] = "主門",
 	[-366] = "僕從入口",
 	[-367] = "阿塔萊防衛者",
@@ -34888,6 +35107,7 @@ for key,value in pairs({
 	[10] = "50級",
 	[11] = "60級",
 	[15] = "一堆寵物",
+	[16] = "誰點了砂鍋大的拳頭?",
 	[42] = "探索東部王國",
 	[43] = "探索卡林多",
 	[116] = "專業中級職人",
@@ -35002,6 +35222,7 @@ for key,value in pairs({
 	[2336] = "頭腦異常",
 	[2357] = "克索諾斯恐懼戰馬",
 	[2358] = "戰騎",
+	[2716] = "雙天賦專精",
 	[5788] = "辛德拉使者",
 	[15333] = "暗影烈焰生還者(大師賽季)",
 	[15334] = "古神生還者(大師賽季)",
@@ -35018,6 +35239,7 @@ for key,value in pairs({
 	[10] = "達到50級。",
 	[11] = "達到60級。",
 	[15] = "收集15個不同的寵物夥伴。",
+	[16] = "徒手戰鬥技能提升至300點。",
 	[42] = "探索東部王國所有區域。",
 	[43] = "探索卡林多所有區域。",
 	[116] = "習得一種中級專業技能。",
@@ -35157,6 +35379,7 @@ for key,value in pairs({
 	[2357] = "完成術士的克索諾斯恐懼戰馬任務。",
 	[2358] = "完成聖騎士的戰騎任務。",
 	[2496] = "獲得水之精萃。",
+	[2716] = "在你的等級達到40級之後拜訪你的職業訓練師，啟動你的雙天賦專精。",
 	[3356] = "獲得一隻冬泉霜刃豹。",
 	[5788] = "取得辛德拉的聲望崇拜。",
 	[15333] = "在大師賽季中，在完全沒有死亡的情況下擊敗奈法利安。",
@@ -35189,6 +35412,7 @@ for key,value in pairs({
 })
 do achievementCategories[key].name = value; end
 for key,value in pairs({
+	[-182] = "升至40級。",
 	[-176] = "獲得25隻坐騎",
 	[-175] = "獲得10隻坐騎",
 	[-154] = "獲得25隻寵物夥伴",
@@ -36069,6 +36293,7 @@ for key,value in pairs({
 	[5333] = "阿拉索聯軍崇拜",
 	[5334] = "銀翼哨兵崇拜",
 	[5335] = "雷矛衛隊崇拜",
+	[5589] = "徒手戰鬥",
 	[5900] = "奧特蘭克山脈",
 	[5901] = "阿拉希高地",
 	[5902] = "荒蕪之地",
@@ -36238,6 +36463,7 @@ for key,value in pairs({
 	[9420] = "紅色其拉共鳴水晶",
 	[9422] = "祖爾格拉布",
 	[9424] = "諾姆瑞根",
+	[9619] = "習得第二天賦專精。",
 	[12635] = "瑞文戴爾的死亡戰騎",
 	[12638] = "聯盟勳章",
 	[12639] = "部落勳章",

@@ -1,4 +1,3 @@
----@diagnostic disable: duplicate-set-field
 --[===[ File
 Contains the basic routines of Titan.
 All the event handler routines, initialization routines, Titan menu routines, and select plugin handler routines.
@@ -202,29 +201,6 @@ function TitanPanel_SaveCustomProfile(profile_name)
 	--	StaticPopupDialogs["TITAN_SAVE_CUSTOM_PROFILE"] = {}
 end
 
---[[
----Titan Set or change the font and font size of text on the Titan bar. This affects ALL plugins.
---- Each registered plugin will have its font updated. Then all plugins will be refreshed to show the new font.
----@param fontname string path to font file
----@param fontsize number in points
-function TitanSetPanelFont(fontname, fontsize)
-	-- a couple of arg checks to avoid unpleasant things...
-	if not fontname then fontname = TPC.FONT_NAME end
-	if not fontsize then fontsize = TPC.FONT_SIZE end
-	local newfont = media:Fetch("font", fontname)
-	for index, id in pairs(TitanPluginsIndex) do
-		local button = TitanUtils_GetButton(id)
-		if button then
-			local buttonText = _G[button:GetName() .. TITAN_PANEL_TEXT];
-			if buttonText then
-				buttonText:SetFont(newfont, fontsize);
-			end
-		end
-	end
-	TitanPanel_RefreshPanelButtons();
-end
---]]
-
 local function RegisterForEvents()
 	-- Need to be careful of regeristering for events that initiate
 	-- show / hide of Bars before the Bars can be initialized...
@@ -262,15 +238,15 @@ local function RegisterAddonCompartment()
 				icon = "Interface\\Icons\\Achievement_Dungeon_UlduarRaid_Titan_01",
 				notCheckable = true,
 				func = function(button, menuInputData, menu)
-					TitanUpdateConfig("init")
-					AceConfigDialog:Open("Titan Panel Main")
+					Titan_Config.OpenConfig("Minimap compartment")
 				end,
 				funcOnEnter = function(button)
 					MenuUtil.ShowTooltip(button, function(tooltip)
 						local msg = ""
 							.. L["TITAN_PANEL"]
 							.. " " .. L["TITAN_PANEL_MENU_CONFIGURATION"]
-						tooltip:SetText(msg)
+---@diagnostic disable-next-line: missing-parameter
+						tooltip:SetText(msg) -- wants parameters for color...
 					end)
 				end,
 				funcOnLeave = function(button)
@@ -810,7 +786,7 @@ local function handle_giu_cmds(cmd_list)
 		return
 	end
 
-	AceConfigDialog:Open("Titan Panel Panel Control")
+	Titan_Config.OpenConfig("slash gui")
 end
 
 ---local Helper to handle profile commands - Set to profile if not using global profile.
@@ -1746,8 +1722,6 @@ function TitanPanel_InitPanelButtons(reason)
 	-- 2026 Feb : Added setting scale and font on bars and plugins here to consolidate
 	-- processing and reduce routines and hopefully be clearer for future changes
 	local scale = TitanPanelGetVar("Scale");
-	local font_name = TitanPanelGetVar("FontName")
-	local font_size = TitanPanelGetVar("FontSize")
 
 	local button_spacing = TitanPanelGetVar("ButtonSpacing") * scale
 	local icon_spacing = TitanPanelGetVar("IconSpacing") * scale
@@ -1793,12 +1767,9 @@ function TitanPanel_InitPanelButtons(reason)
 			button = TitanUtils_GetButton(id);
 
 			if button then
-				button:SetScale(scale)
-				local buttonText = _G[button:GetName() .. TITAN_PANEL_TEXT];
-				if buttonText then
-					buttonText:SetFont(font_name, font_size);
-				end
-
+				-- Should help with spacing on init
+				-- At point of need on config change rather than looping over plugins
+				TitanPanelButton_UpdateButton(id)
 				-- If the plugin has asked to be on the right
 				if TitanUtils_ToRight(id) then
 					-- =========================
@@ -2123,7 +2094,7 @@ end
 local function GetLayout()
 	local res = ""
 
-	-- Defined in as part of the Edit Mode frame
+	-- Defined as part of the Edit Mode frame
 	--../Blizzard_EditMode/Shared/EditModeManager.lua
 	local EMM = EditModeManagerFrame
 	local layout = EMM:GetActiveLayoutInfo()
@@ -2145,12 +2116,15 @@ local function GeneratorFunction(owner, rootDescription)
 	local root = rootDescription -- menu widget to start with
 
 	Titan_Menu.AddText(root, L["TITAN_PANEL_MENU_PLUGINS"])
-	do
+	do -- plugins under category
+		-- Get virtual height in pixels
+		local scroll_hgt = math.floor(GetScreenHeight() * .6) -- virtual height in pixels
 		---@diagnostic disable-next-line: assign-type-mismatch, param-type-mismatch
 		for index, id in pairs(L["TITAN_PANEL_MENU_CATEGORIES"]) do
 			local cat = TITAN_PANEL_BUTTONS_PLUGIN_CATEGORY[index]
 			local cat_locale = L["TITAN_PANEL_MENU_CATEGORIES"][index]
 			local opts_plugins = Titan_Menu.AddButton(root, cat_locale)
+			Titan_Menu.SetScroll(opts_plugins, scroll_hgt) -- in case menu height is larger than screen / window
 			AddPlugin(opts_plugins, bar, cat) -- if same category
 		end
 	end
@@ -2187,8 +2161,16 @@ local function GeneratorFunction(owner, rootDescription)
 			)
 		end
 	end
-	Titan_Menu.AddDivider(root)
 
+	Titan_Menu.AddDivider(root)
+	-- Config - open the Titan options screen
+	Titan_Menu.AddCommand(root, id, L["TITAN_PANEL_MENU_CONFIGURATION"],
+		function()
+			Titan_Config.OpenConfig("Titan menu")
+		end
+	)
+
+	Titan_Menu.AddDivider(root)
 	if Titan_Global.switch.can_edit_ui then
 		local lay_out = GetLayout()
 		Titan_Menu.AddCommand(root, id, HUD_EDIT_MODE_MENU..": "..lay_out,
@@ -2204,24 +2186,8 @@ local function GeneratorFunction(owner, rootDescription)
 				AceConfigDialog:Open("Titan Panel Globals")
 			end)
 	end
-	-- Hold off for a rewrite using Blizz API over Ace
-	--[[
-	if Titan_Global.switch.midnight then
-		-- disable until we figure this out
-	else
-	-----------------
-	-- Config - just one button to open the first Titan option screen
-	Titan_Menu.AddCommand(root, id, L["TITAN_PANEL_MENU_CONFIGURATION"],
-		function()
-			TitanUpdateConfig("init")
-			AceConfigDialog:Open("Titan")
-		end
-	)
-	end
---]]
 
 	Titan_Menu.AddDivider(root)
-
 	-----------------
 	-- Profiles
 	Titan_Menu.AddCommand(root, id, L["TITAN_PANEL_MENU_PROFILES"] .. " " .. L["TITAN_PANEL_MENU_CONFIGURATION"],
@@ -2336,7 +2302,7 @@ function TitanPanelButton_CreateBar(frame_str, short_name)
 	-- Frame for right clicks
 	-- Use the plugin naming scheme for one frame to rule them all
 	-- 2024 Feb : Change to match plugin right click menu scheme so one routine can be used.
-	local f = CreateFrame("Frame", this_bar .. TITAN_PANEL_CLICK_MENU_SUFFIX, UIParent, "UIDropDownMenuTemplate")
+	TitanPanelRightClickMenu_CreateFrame(this_bar)
 
 	-- ======
 	-- Hider for auto hide feature

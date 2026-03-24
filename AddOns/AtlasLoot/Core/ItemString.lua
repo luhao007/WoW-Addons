@@ -83,24 +83,10 @@ local C_ITEM_BONUS_PRESET = {
 	["nil"] = {}
 }
 local ITEM_BONUS_PRESET = {
-	["Scaling"]                           = { 3524 }, -- ...
+	["Scaling"]                           = { 3524 },
 	-- Dungeons
-	["BSM"]                               = { 3524, 518 },
-	["ID"]                                = { 3524, 519 },
-	["Auch"]                              = { 3524, 520 },
-	["Skyreach"]                          = { 3524, 521 },
 	["Dungeon"]                           = { 3524, 522 },
-	["HCDungeon"]                         = { 524 },
-	["HCDungeonWarforged"]                = { 524, 448 },
-	["MDungeon"]                          = { 642 },
-	["MDungeonWarforged"]                 = { 642, 644 },
 	-- ## Legion
-	["LegionDungeon"]                     = { 3524, 1826 },
-	["LegionDungeonTitanforged"]          = GetPresetForTitanforged(162, LEGION_MAX_UPGRADELVL, TITANFORGED_ADD), --{ 1826, 1522 },
-	["LegionHCDungeon"]                   = { 1726 },
-	["LegionHCDungeonTitanforged"]        = GetPresetForTitanforged(162, LEGION_MAX_UPGRADELVL, TITANFORGED_ADD), --{ 1726, 1522 },
-	["LegionMDungeon"]                    = { 1727 },
-	["LegionMDungeonTitanforged"]         = GetPresetForTitanforged(162, LEGION_MAX_UPGRADELVL, TITANFORGED_ADD), --{ 1727, 1522 },
 	["LegionMDungeon2"]                   = { 3452 },
 	["LegionMDungeon2Titanforged"]        = GetPresetForTitanforged(162, LEGION_MAX_UPGRADELVL, TITANFORGED_ADD), --{ 3452, 1522 },
 	["LegionMaxItemLvl"]                  = function(itemID, difficultyID, baseLvl)
@@ -110,14 +96,6 @@ local ITEM_BONUS_PRESET = {
 	["BfAMaxItemLvl"]                     = function(itemID, difficultyID, baseLvl)
 		return GetScaledItem(itemID, difficultyID, BFA_MAX_UPGRADELVL)
 	end,
-	--["BfADungeon"]			= { 3524, 1826 },
-	["BfADungeonTitanforged"]             = GetPresetForTitanforged(300, BFA_MAX_UPGRADELVL, TITANFORGED_ADD), --{ 1826, 1522 },
-	--["BfAHCDungeon"]			= { 1726 },
-	["BfAHCDungeonTitanforged"]           = GetPresetForTitanforged(300, BFA_MAX_UPGRADELVL, TITANFORGED_ADD), --{ 1726, 1522 },
-	--["BfAMDungeon"] 			= { 1727 },
-	["BfAMDungeonTitanforged"]            = GetPresetForTitanforged(300, BFA_MAX_UPGRADELVL, TITANFORGED_ADD), --{ 1727, 1522 },
-	--["BfAMDungeon2"]			= { 3452 },
-	["BfAMDungeon2Titanforged"]           = GetPresetForTitanforged(300, BFA_MAX_UPGRADELVL, TITANFORGED_ADD), --{ 3452, 1522 },
 	-- Raids
 	["LFR"]                               = { 451 },
 	["SoOWarforged"]                      = { 448 },
@@ -138,10 +116,8 @@ local ITEM_BONUS_PRESET = {
 	["LegionHeroicRaidTitanforged"]       = { 1522, 3442 },
 	["LegionMythicRaid"]                  = { 1806 },
 	["LegionMythicRaidTitanforged"]       = { 1522, 3442 },
-
 	["LegionEmeraldNightmareTitanforged"] = { 1547, 3442 },
 	["LegionNightholdTitanforged"]        = { 1522, 3442 },
-
 	["LegionMaxTitanforgedByBaseLvl"]     = function(itemID, difficultyID, baseLvl) -- set the baseLvl with "ItemBaseLvl = 000," in the Instance Table.
 		if not baseLvl then return C_ITEM_BONUS_PRESET["nil"] end
 		if not C_ITEM_BONUS_PRESET["LegionMaxTitanforgedByBaseLvl"..baseLvl] then

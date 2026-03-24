@@ -16,7 +16,6 @@ AtlasLoot:RegisterModules(addonname)
 
 local ADD_SCALING = {
 	Item = {
-		item1bonus = "Scaling",
 		addDifficultyBonus = true,
 	}
 }
@@ -26,6 +25,7 @@ local ALIL = AtlasLoot.IngameLocales
 
 local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", ADD_SCALING, 1)
 local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"], "h", ADD_SCALING, 2)
+local MYTHIC_DIFF = data:AddDifficulty(AL["Mythic"], "m", ADD_SCALING, 23)
 local P25_DIFF = data:AddDifficulty(AL["25 Player"], "p25", nil, 4)
 local P25H_DIFF = data:AddDifficulty(AL["25 Player Heroic"], "p25h", nil, 6)
 
@@ -896,14 +896,17 @@ data["FHPitOfSaron"] = {
 				{ 8, 49723, [ATLASLOOT_IT_FILTERIGNORE] = true }, -- The Forgemaster's Hammer
 			},
 			[HEROIC_DIFF] = {
-				{ 1,  50233 },                           -- Spurned Val'kyr Shoulderguards
-				{ 2,  50234 },                           -- Shoulderplates of Frozen Blood
-				{ 3,  50230 },                           -- Malykriss Vambraces
-				{ 4,  50229 },                           -- Legguards of the Frosty Depths
-				{ 5,  50228 },                           -- Barbed Ymirheim Choker
-				{ 6,  50227 },                           -- Surgeon's Needle
-				{ 8,  49723,   [ATLASLOOT_IT_FILTERIGNORE] = true }, -- The Forgemaster's Hammer
-				{ 16, "ac4524" },
+				{ 1, 49802 }, -- Garfrost's Two-Ton Hammer
+				{ 2, 50227 }, -- Surgeon's Needle
+				{ 3, 50228 }, -- Barbed Ymirheim Choker
+				{ 4, 50234 }, -- Shoulderplates of Frozen Blood
+				{ 5, 50233 }, -- Spurned Val'kyr Shoulderguards
+				{ 6, 49806 }, -- Flayer's Black Belt
+				{ 7, 49805 }, -- Ice-Steeped Sandals
+				--{ 16, "ac4524" },
+			},
+			[MYTHIC_DIFF] = {
+				GetItemsFromDiff = HEROIC_DIFF,
 			},
 		},
 		{ --PoSKrickIck
@@ -917,12 +920,18 @@ data["FHPitOfSaron"] = {
 				{ 6, 49807 }, -- Krick's Beetle Stabber
 			},
 			[HEROIC_DIFF] = {
-				{ 1, 50266 }, -- Ancient Polar Bear Hide
-				{ 2, 50263 }, -- Braid of Salt and Fire
-				{ 3, 50264 }, -- Chewed Leather Wristguards
-				{ 4, 50265 }, -- Blackened Ghoul Skin Leggings
-				{ 5, 50235 }, -- Ick's Rotting Thumb
-				{ 6, 50262 }, -- Felglacier Bolter
+				{ 1, 49807 }, -- Krick's Beetle Stabber
+				{ 2, 50264 }, -- Chewed Leather Wristguards
+				{ 3, 49809 }, -- Wristguards of Subterranean Moss
+				{ 4, 49808 }, -- Bent Gold Belt
+				{ 5, 50263 }, -- Braid of Salt and Fire
+				{ 6, 49810 }, -- Scabrous Zombie Leather Belt
+				{ 7, 49811 }, -- Black Dragonskin Breeches
+				{ 8, 49812 }, -- Purloined Wedding Ring
+				{ 9, 252421 }, -- Rotting Globule
+			},
+			[MYTHIC_DIFF] = {
+				GetItemsFromDiff = HEROIC_DIFF,
 			},
 		},
 		{ --PoSTyrannus
@@ -942,20 +951,20 @@ data["FHPitOfSaron"] = {
 				{ 19, 49813 }, -- Rimebane Rifle
 			},
 			[HEROIC_DIFF] = {
-				{ 1,  50286 },                           -- Prelate's Snowshoes
-				{ 2,  50269 },                           -- Fleshwerk Leggings
-				{ 3,  50270 },                           -- Belt of Rotted Fingernails
-				{ 4,  50283 },                           -- Mudslide Boots
-				{ 5,  50272 },                           -- Frost Wyrm Ribcage
-				{ 6,  50285 },                           -- Icebound Bronze Cuirass
-				{ 7,  50284 },                           -- Rusty Frozen Fingerguards
-				{ 16, 50271 },                           -- Band of Stained Souls
-				{ 17, 50259 },                           -- Nevermelting Ice Crystal
-				{ 19, 50268 },                           -- Rimefang's Claw
-				{ 20, 50267 },                           -- Tyrannical Beheader
-				{ 21, 50273 },                           -- Engraved Gargoyle Femur
-				{ 23, 43102,   [ATLASLOOT_IT_FILTERIGNORE] = true }, -- Frozen Orb
-				{ 25, "ac4525" },
+				{ 1,  49813 }, -- Rimebane Rifle
+				{ 2,  49824 }, -- Horns of the Spurned Val'kyr
+				{ 3,  49819 }, -- Skeleton Lord's Cranium
+				{ 4,  49823 }, -- Cloak of the Fallen Cardinal
+				{ 5,  50272 }, -- Frost Wyrm Ribcage
+				{ 6,  49825 }, -- Palebone Robes
+				{ 7,  49817 }, -- Shaggy Wyrmleather Leggings
+				{ 8,  50259 }, -- Nevermelting Ice Crystal
+				{ 10, 267007 }, -- Eye of Acherus
+				--{ 23, 43102,   [ATLASLOOT_IT_FILTERIGNORE] = true }, -- Frozen Orb
+				--{ 25, "ac4525" },
+			},
+			[MYTHIC_DIFF] = {
+				GetItemsFromDiff = HEROIC_DIFF,
 			},
 		},
 		FH_TRASH_MOBS,

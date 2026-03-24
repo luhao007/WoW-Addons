@@ -12,7 +12,8 @@ end
 local mod = DBM:NewMod("Bloodlord", "DBM-Raids-Vanilla", catID)
 local L = mod:GetLocalizedStrings()
 
-mod:SetRevision("20241103123604")
+mod:SetRevision("20260315035425")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(11382, 14988)
 mod:SetEncounterID(787)
 mod:SetHotfixNoticeRev(20200418000000)--2020, 04, 18

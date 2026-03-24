@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2426, "DBM-Raids-Shadowlands", 3, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250719035005")
+mod:SetRevision("20260315035226")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(166971, 166969, 166970)--Castellan Niklaus, Baroness Frieda, Lord Stavros
 mod:SetEncounterID(2412)
 mod:SetBossHPInfoToHighest()
@@ -15,7 +16,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 330965 330978 327497 346654 346690 337110 346657 346762 346303 346790 346698 346800 331634",
-	"SPELL_CAST_SUCCESS 330959 346657 346303 347376",
+	"SPELL_CAST_SUCCESS 330959 346303 347376",
 	"SPELL_AURA_APPLIED 330967 331636 331637 332535 346694 347350 346690 346709",
 	"SPELL_AURA_APPLIED_DOSE 332535 346690",
 	"SPELL_AURA_REMOVED 330967 331636 331637 346694 330959 347350",
@@ -100,7 +101,6 @@ local specWarnPridefulEruption					= mod:NewSpecialWarningMoveAway(346657, nil, 
 
 local timerPridefulEruptionCD					= mod:NewCDTimer(25, 346657, 138658, nil, nil, 3)
 
-mod:AddRangeFrameOption(8, 346657)
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(22945))--Two are dead
 local timerSoulSpikesCD							= mod:NewCDTimer(19.4, 346762, nil, nil, nil, 3)
 
@@ -443,9 +443,6 @@ function mod:OnCombatEnd()
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if self.Options.NPAuraOnFixate or self.Options.NPAuraOnShield or self.Options.NPAuraOnUproar then
 		DBM.Nameplate:Hide(false, nil, nil, nil, true, true)
 	end
@@ -535,9 +532,6 @@ function mod:SPELL_CAST_START(args)
 		local timer = allTimers[difficultyName][spellId][self.vb.phase]
 		if timer and timer > 0 then
 			timerPridefulEruptionCD:Start(timer)
-		end
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Show(8)
 		end
 	elseif spellId == 346762 then
 		local timer = allTimers[difficultyName][spellId][self.vb.phase]
@@ -644,10 +638,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 			if self:IsMythic() then
 				timerDarkRecitalCD:Pause()
 			end
-		end
-	elseif spellId == 346657 then
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Hide()
 		end
 	elseif spellId == 346303 then
 		if self.Options.NPAuraOnUproar then

@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(1743, "DBM-Raids-Legion", 3, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20251103210248")
+mod:SetRevision("20260315035302")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(106643)
 mod:SetEncounterID(1872)
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)--During soft enrage will go over 8 debuffs, can't mark beyond that
@@ -12,7 +13,7 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 209590 209620 221864 209617 209595 210022 209971",
 	"SPELL_CAST_SUCCESS 209597 210387 214295 214278 209615 210024",
-	"SPELL_AURA_APPLIED 209615 209244 209973 209598 211261 232974",
+	"SPELL_AURA_APPLIED 209615 209244 209973 209598 211261",
 	"SPELL_AURA_REFRESH 209973",
 	"SPELL_AURA_APPLIED_DOSE 209615 209973",
 	"SPELL_AURA_REMOVED 209973 209598",
@@ -77,7 +78,6 @@ local timerEpochericOrbCD			= mod:NewNextCountTimer(16, 210022, nil, nil, nil, 2
 local timerAblatingExplosion		= mod:NewTargetTimer(6, 209973, nil, "Tank")
 local timerAblatingExplosionCD		= mod:NewCDTimer(20, 209973, nil, "Tank", nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 
-mod:AddRangeFrameOption(8, 209973)
 --Time Layer 3
 mod:AddTimerLine(SCENARIO_STAGE:format(3))
 local warnPhase3					= mod:NewPhaseAnnounce(3, 2, nil, nil, nil, nil, nil, 2)
@@ -188,9 +188,6 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
@@ -311,9 +308,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellAblatingExplosion:Schedule(3, 3)
 			yellAblatingExplosion:Schedule(4, 2)
 			yellAblatingExplosion:Schedule(5, 1)
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(8)
-			end
 		elseif self:IsTank() then
 			specWarnAblationExplosion:Show(args.destName)
 			specWarnAblationExplosion:Play("tauntboss")
@@ -349,9 +343,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerAblatingExplosion:Stop(args.destName)
 		if args:IsPlayer() then
 			yellAblatingExplosion:Cancel()
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Hide()
-			end
 		end
 	elseif spellId == 209598 then
 		self.vb.burstDebuffCount = self.vb.burstDebuffCount - 1

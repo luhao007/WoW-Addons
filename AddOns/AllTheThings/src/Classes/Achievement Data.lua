@@ -22,7 +22,7 @@ local SearchForField, GetFieldContainer
 	= app.SearchForField, app.GetFieldContainer;
 local IsRetrieving = app.Modules.RetrievingData.IsRetrieving;
 local IsQuestFlaggedCompleted;
-local IsSpellKnown;
+local IsSpellKnownHelper;
 
 
 -- WoW API Cache
@@ -32,11 +32,12 @@ local GetSpellName = app.WOWAPI.GetSpellName;
 local GetPVPLifetimeStats = GetPVPLifetimeStats;
 local GetNumBankSlots = GetNumBankSlots;
 local GetFactionCurrentReputation = app.WOWAPI.GetFactionCurrentReputation;
+local GetNumTalentGroups = GetNumTalentGroups;
 
 -- Locals from future-loaded Modules
 app.AddEventHandler("OnLoad", function()
 	IsQuestFlaggedCompleted = app.IsQuestFlaggedCompleted
-	IsSpellKnown = app.IsSpellKnown;
+	IsSpellKnownHelper = app.IsSpellKnownHelper;
 end)
 
 -- Achievement Criteria Data have independent detection methods based on their internal type.
@@ -51,11 +52,14 @@ local BrokenTypeDescriptions = setmetatable({
 local IgnoredReputationsForAchievements = {
 	[169] = 1,	-- Steamweedle Cartel doesn't count toward reputation achievements
 };
+local function IsDualTalentSpecializationLearned()
+	return GetNumTalentGroups() > 1 and 1 or 0;
+end
 local function GetQuestCompleted(questID)
 	return IsQuestFlaggedCompleted(questID) and 1 or 0;
 end
 local function GetSpellCompleted(spellID)
-	if IsSpellKnown(spellID) then
+	if IsSpellKnownHelper(spellID) then
 		return 1;
 	else
 		local spells = SearchForField("spellID", spellID);
@@ -205,9 +209,17 @@ local AchievementCriteriaQuestDataCache = setmetatable({}, {
 		return value;
 	end,
 });
+local AchievementCriteriaSpellDataCacheHelper = setmetatable({
+	[63624] = IsDualTalentSpecializationLearned,
+}, {
+	__index = function(t, key)
+		t[key] = GetSpellCompleted;
+		return GetSpellCompleted;
+	end,
+});
 local AchievementCriteriaSpellDataCache = setmetatable({}, {
 	__index = function(t, key)
-		local value = GetSpellCompleted(key);
+		local value = AchievementCriteriaSpellDataCacheHelper[key](key);
 		t[key] = value;
 		return value;
 	end,
@@ -310,6 +322,28 @@ local ForSkillCountFields = {	-- Type 75
 		return GetRelatedThingsForSkillID[t.asset];
 	end
 };
+local ForSkillLevelFields = {	-- Type 7
+	["collectible"] = app.ReturnTrue,
+	["collected"] = function(t)
+		return t.current >= t.total;
+	end,
+	["current"] = function(t)
+		local skill = app.CurrentCharacter.ActiveSkills[t.spellID];
+		if skill then return skill[1]; end
+		return 0;
+	end,
+	["name"] = function(t)
+		local spellID = t.spellID;
+		return spellID and GetSpellName(spellID);
+	end,
+	["total"] = function(t) return t.amount; end,
+	["spellID"] = function(t)
+		return app.SkillDB.SkillToSpell[t.asset];
+	end,
+	["GetRelatedThings"] = function(t)
+		return GetRelatedThingsForSkillRanks;
+	end
+};
 local ForSkillRankFields = {	-- Type 40
 	["collectible"] = app.ReturnTrue,
 	["collected"] = function(t)
@@ -344,9 +378,6 @@ local ForReputationFields = {	-- Type 46
 	["GetRelatedThings"] = function(t)
 		return GetRelatedThingsForReputation;
 	end,
-	["ShouldShowRelatedThingsInTooltip"] = function(t)
-		return true;
-	end
 }
 local ForSpellsFields = {	-- Type 34
 	["collectible"] = app.ReturnTrue,
@@ -428,6 +459,7 @@ local CreateCriteriaType = app.CreateClass("CriteriaType", "__criteriaUID", {
 },
 "ForBrokenTypes", ForBrokenTypesFields, function(t) return t.type == 11 or t.type == 0 or t.type == 74; end,	-- 74 appears to be if someone has a title, but no id is provided.
 "ForBankSlots", DefaultCriteriaFields, function(t) return t.type == 45; end,
+"ForSkillLevel", ForSkillLevelFields, function(t) return t.type == 7; end,
 "ForSkillRank", ForSkillRankFields, function(t) return t.type == 40; end,
 "ForSkillCount", ForSkillCountFields, function(t) return t.type == 75; end,
 "ForSubAchievement", ForSubAchievementFields, function(t) return t.type == 8; end,
@@ -437,7 +469,7 @@ local CreateCriteriaType = app.CreateClass("CriteriaType", "__criteriaUID", {
 "ForLevel", ForLevelFields, function(t) return t.type == 5; end,
 "ForOwnItem", ForOwnItemFields, function(t) return t.type == 36 or t.type == 57 or t.type == 41 or t.type == 42; end,	-- 41 is using the item, 42 is for specifically looting the item.
 "ForQuest", ForQuestFields, function(t) return t.type == 27; end,
-"ForSpells", ForSpellsFields, function(t) return t.type == 34; end,
+"ForSpells", ForSpellsFields, function(t) return t.type == 34 or t.type == 69; end,
 "ForExploration", ForExplorationFields, function(t)
 	if t.type == 43 then
 		t.overlayData = WorldMapOverlayData[t.asset] or {};
@@ -473,22 +505,6 @@ end
 local function OnTooltipForAchievementData(t, tooltipInfo)
 	local criteriaData = t.criteriaData;
 	if #criteriaData > 0 then
-		local relatedThings = {};
-		for i,criteria in ipairs(criteriaData) do
-			if criteria.ShouldShowRelatedThingsInTooltip then
-				criteria.GetRelatedThings(criteria, relatedThings);
-			end
-		end
-		
-		if #relatedThings > 0 then
-			tinsert(tooltipInfo, { left = " " });
-			for j,thing in ipairs(relatedThings) do
-				tinsert(tooltipInfo, {
-					left = "  |T" .. thing.icon .. ":0|t " .. thing.text,
-					right = app.GetProgressTextForTooltip(thing)
-				});
-			end
-		end
 		if not t.collectible and app.GameBuildVersion < 30000 then
 			tinsert(tooltipInfo, {
 				left = "\n \nCRIEVE NOTE: This achievement cannot be collected prior to Wrath Classic as it lacks any permanent collectible criteria.",

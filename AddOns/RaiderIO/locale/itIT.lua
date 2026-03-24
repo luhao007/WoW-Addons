@@ -108,38 +108,32 @@ L["DUNGEON_SHORT_NAME_HOV"] = "SDV"
 --[[ L["DUNGEON_SHORT_NAME_KR"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["DUNGEON_SHORT_NAME_LOWR"] = ""--]] 
---[[Translation missing --]]
---[[ L["DUNGEON_SHORT_NAME_MC"] = ""--]] 
+L["DUNGEON_SHORT_NAME_MC"] = "CDM"
 L["DUNGEON_SHORT_NAME_MISTS"] = "NEBBIE"
 L["DUNGEON_SHORT_NAME_ML"] = "VM"
 --[[Translation missing --]]
 --[[ L["DUNGEON_SHORT_NAME_MOS"] = ""--]] 
---[[Translation missing --]]
---[[ L["DUNGEON_SHORT_NAME_MT"] = ""--]] 
+L["DUNGEON_SHORT_NAME_MT"] = "TDM"
 --[[Translation missing --]]
 --[[ L["DUNGEON_SHORT_NAME_NELT"] = ""--]] 
 L["DUNGEON_SHORT_NAME_NL"] = "ADN"
 L["DUNGEON_SHORT_NAME_NO"] = "ODN"
---[[Translation missing --]]
---[[ L["DUNGEON_SHORT_NAME_NPX"] = ""--]] 
+L["DUNGEON_SHORT_NAME_NPX"] = "PDNX"
 L["DUNGEON_SHORT_NAME_NW"] = "SN"
 L["DUNGEON_SHORT_NAME_PF"] = "PF"
---[[Translation missing --]]
---[[ L["DUNGEON_SHORT_NAME_POS"] = ""--]] 
+L["DUNGEON_SHORT_NAME_POS"] = "FDS"
 L["DUNGEON_SHORT_NAME_PSF"] = "PdFS"
 L["DUNGEON_SHORT_NAME_RISE"] = "ADM"
 L["DUNGEON_SHORT_NAME_RLP"] = "PDVDR"
 L["DUNGEON_SHORT_NAME_ROOK"] = "CORVERIA"
 L["DUNGEON_SHORT_NAME_SBG"] = "TDT"
 L["DUNGEON_SHORT_NAME_SD"] = "SD"
---[[Translation missing --]]
---[[ L["DUNGEON_SHORT_NAME_SEAT"] = ""--]] 
+L["DUNGEON_SHORT_NAME_SEAT"] = "SEGGIO"
 L["DUNGEON_SHORT_NAME_SIEGE"] = "ASSEDIO"
 L["DUNGEON_SHORT_NAME_SOA"] = "SOA"
 --[[Translation missing --]]
 --[[ L["DUNGEON_SHORT_NAME_SOTS"] = ""--]] 
---[[Translation missing --]]
---[[ L["DUNGEON_SHORT_NAME_SR"] = ""--]] 
+L["DUNGEON_SHORT_NAME_SR"] = "VDC"
 L["DUNGEON_SHORT_NAME_STRT"] = "STRADE"
 L["DUNGEON_SHORT_NAME_SV"] = "VDP"
 --[[Translation missing --]]
@@ -158,8 +152,7 @@ L["DUNGEON_SHORT_NAME_UPPR"] = "KS"
 L["DUNGEON_SHORT_NAME_VP"] = "PDV"
 L["DUNGEON_SHORT_NAME_WM"] = "MDC"
 L["DUNGEON_SHORT_NAME_WORK"] = "OFFICINA"
---[[Translation missing --]]
---[[ L["DUNGEON_SHORT_NAME_WS"] = ""--]] 
+L["DUNGEON_SHORT_NAME_WS"] = "PDV"
 --[[Translation missing --]]
 --[[ L["DUNGEON_SHORT_NAME_YARD"] = ""--]] 
 L["ENABLE_AUTO_FRAME_POSITION"] = "Posiziona Automaticamente la Cornice del Profilo RaiderIO"
@@ -350,8 +343,7 @@ L["RAID_BOSS_CN_6"] = "Dama Inerva Venascura"
 L["RAID_BOSS_CN_7"] = "Il Concilio del Sangue"
 L["RAID_BOSS_CN_8"] = "Picchiapoltiglia"
 L["RAID_BOSS_CN_9"] = "Generali della Legione di Pietra "
---[[Translation missing --]]
---[[ L["RAID_BOSS_DR_1"] = ""--]] 
+L["RAID_BOSS_DR_1"] = "Chimaerus il Dio Mai Sognato"
 --[[Translation missing --]]
 --[[ L["RAID_BOSS_DS_1"] = ""--]] 
 --[[Translation missing --]]
@@ -498,10 +490,8 @@ L["RAID_BOSS_MFO_5"] = "Cacciatori d'Anime"
 --[[ L["RAID_BOSS_MFO_6"] = ""--]] 
 L["RAID_BOSS_MFO_7"] = "Re del Nexus Salhadaar"
 L["RAID_BOSS_MFO_8"] = "Dimensius, il Divoratore"
---[[Translation missing --]]
---[[ L["RAID_BOSS_MQD_1"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_MQD_2"] = ""--]] 
+L["RAID_BOSS_MQD_1"] = "Belo'ren, Prole di Al'ar "
+L["RAID_BOSS_MQD_2"] = "Scoccare della Mezzanotte "
 --[[Translation missing --]]
 --[[ L["RAID_BOSS_MSV_1"] = ""--]] 
 --[[Translation missing --]]
@@ -627,32 +617,20 @@ L["RAID_BOSS_VOTI_7"] = "Custode della Progenie Diurna"
 L["RAID_BOSS_VOTI_8"] = "Raszageth la Mangiatempeste"
 --[[Translation missing --]]
 --[[ L["RAID_BOSS_VS_2"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_VS_3"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_VS_4"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_VS_5"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_VS_6"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_VS_DR_MQD_1"] = ""--]] 
+L["RAID_BOSS_VS_3"] = "Re Caduto Salhadaar "
+L["RAID_BOSS_VS_4"] = "Vaelgor ed Ezzorak"
+L["RAID_BOSS_VS_5"] = "Avanguardia Lucecieca "
+L["RAID_BOSS_VS_6"] = "Corona del Cosmo"
+L["RAID_BOSS_VS_DR_MQD_1"] = "Imperatore Averzian"
 --[[Translation missing --]]
 --[[ L["RAID_BOSS_VS_DR_MQD_2"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_VS_DR_MQD_3"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_VS_DR_MQD_4"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_VS_DR_MQD_5"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_VS_DR_MQD_6"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_VS_DR_MQD_7"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_VS_DR_MQD_8"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_BOSS_VS_DR_MQD_9"] = ""--]] 
+L["RAID_BOSS_VS_DR_MQD_3"] = "Re Caduto Salhadaar"
+L["RAID_BOSS_VS_DR_MQD_4"] = "Vaelgor ed Ezzorak"
+L["RAID_BOSS_VS_DR_MQD_5"] = "Avanguardia Lucecieca"
+L["RAID_BOSS_VS_DR_MQD_6"] = "Corona del Cosmo"
+L["RAID_BOSS_VS_DR_MQD_7"] = "Chimaerus il Dio Mai Sognato"
+L["RAID_BOSS_VS_DR_MQD_8"] = "Belo'ren, Prole di Al'ar"
+L["RAID_BOSS_VS_DR_MQD_9"] = "Scoccare della Mezzanotte"
 --[[Translation missing --]]
 --[[ L["RAID_BOT"] = ""--]] 
 --[[Translation missing --]]
@@ -675,8 +653,7 @@ L["RAID_DIFFICULTY_SUFFIX_NORMAL"] = "NM"
 --[[ L["RAID_DIFFICULTY_SUFFIX_NORMAL10"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["RAID_DIFFICULTY_SUFFIX_NORMAL25"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_DR"] = ""--]] 
+L["RAID_DR"] = "Frattura del Sogno"
 L["RAID_DS"] = "Anima del Drago"
 L["RAID_ENCOUNTERS_DEFEATED_TITLE"] = "Boss Incursione Sconfitti"
 L["RAID_FL"] = "Terre del Fuoco"
@@ -685,8 +662,7 @@ L["RAID_FL"] = "Terre del Fuoco"
 L["RAID_ICC"] = "Rocca della Corona di Ghiaccio "
 L["RAID_LOU"] = "Liberazione di Cavafonda"
 L["RAID_MFO"] = "Manaforgia Omega"
---[[Translation missing --]]
---[[ L["RAID_MQD"] = ""--]] 
+L["RAID_MQD"] = "Marcia su Quel'Danas"
 --[[Translation missing --]]
 --[[ L["RAID_MSV"] = ""--]] 
 L["RAID_NP"] = "Palazzo dei Nerub'ar"
@@ -698,10 +674,8 @@ L["RAID_RS"] = "Santuario di Rubino"
 --[[Translation missing --]]
 --[[ L["RAID_TOT"] = ""--]] 
 L["RAID_TOTFW"] = "Trono dei Quattro Venti"
---[[Translation missing --]]
---[[ L["RAID_VS"] = ""--]] 
---[[Translation missing --]]
---[[ L["RAID_VS_DR_MQD"] = ""--]] 
+L["RAID_VS"] = "Pinnacolo del Vuoto"
+L["RAID_VS_DR_MQD"] = "PdV/FdS/MsQD"
 L["RAIDERIO_AVERAGE_PLAYER_SCORE"] = "Media Punteggio per +%s in Tempo"
 L["RAIDERIO_BEST_RUN"] = "Raider.IO M+ Migliore Run"
 L["RAIDERIO_CLIENT_CUSTOMIZATION"] = "Personalizzazione del client RaiderIO"

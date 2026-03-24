@@ -56,6 +56,8 @@ L["CONFIG_DERIVE"] = "Copy the bottom string and paste it to where you want to i
 L["CONFIG_DERIVERL"] = "Import and reload";
 L["CONFIG_DERIVEERROR"] = "Import failed, unrecognized string";
 --
+L["EXT_TOJOIN"] = ",Whisper %s to join"
+--
 L["TARDIS_TABNAME"] = "Tardis";
 L["TARDIS_PLANE"] = "Layer";
 L["TARDIS_YELL"] = "Yell";

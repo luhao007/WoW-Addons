@@ -2269,11 +2269,11 @@ local FieldDefaults = {
 				-- app.PrintDebug("__handler",event,...)
 				handler(self, ...)
 			end
-			app.PrintDebug("AddEventHandler.__handler",self.Suffix,event)
+			-- app.PrintDebug("AddEventHandler.__handler",self.Suffix,event)
 			app.AddEventHandler(event, __handler)
 			self.Handlers[#self.Handlers + 1] = __handler
 		else
-			app.PrintDebug("AddEventHandler.handler",self.Suffix,event)
+			-- app.PrintDebug("AddEventHandler.handler",self.Suffix,event)
 			app.AddEventHandler(event, handler)
 			self.Handlers[#self.Handlers + 1] = handler
 		end
@@ -2302,7 +2302,7 @@ local FieldDefaults = {
 	SetData = function(self, data)
 		-- Allows a Window to set the root data object to itself and link the Window to the root data, if data exists
 		if data then
-			app.PrintDebug("Window:SetData",self.Suffix,data.text)
+			-- app.PrintDebug("Window:SetData",self.Suffix,data.text)
 			data.window = self;
 			self.data = data;
 		end
@@ -2451,6 +2451,7 @@ local function BuildWindow(suffix)
 	local definition = app.WindowDefinitions[suffix];
 	if not definition then
 		app.print("No Window Definition Found for",suffix);
+		return
 	else
 		app.WindowDefinitions[suffix] = nil;
 	end
@@ -3163,6 +3164,8 @@ app.CreatePopoutForSearch = function(search)
 			return true
 		end
 		if group.link or group.name or group.text or group.key then
+			-- if it's a specific item link, then make sure that link is forced in the resulting group
+			app.ImportRawLink(group, search)
 			app:CreateMiniListForGroup(group)
 			return true
 		end

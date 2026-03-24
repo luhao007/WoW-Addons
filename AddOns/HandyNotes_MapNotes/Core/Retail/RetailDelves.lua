@@ -94,12 +94,18 @@ local function MN_ApplyDelveScaleAlpha(pin, pinInfo)
   local scale, alpha
   if kind == "continent" then
     scale = (db.continentScale or 1) * 1.5
+    if isBountiful then
+      scale = scale * 0.75
+    end
     alpha = db.continentAlpha or 1
   elseif kind == "capital" then
     scale = (db.CapitalsInstanceScale or 1) * 1.5
     alpha = db.CapitalsInstanceAlpha or 1
   else
     scale = isBountiful and ((db.ZoneScaleBountyDelve or 1) * 1.5) or ((db.ZoneScaleDelve or 1) * 1.5)
+    if isBountiful then
+      scale = scale * 0.75
+    end
     alpha = isBountiful and (db.ZoneAlphaBountyDelve or 1) or (db.ZoneAlphaDelve or 1)
   end
 
@@ -368,7 +374,7 @@ local function MN_AddDelvesOnSameMap(kind, mapID)
   end
 end
 
-local function MN_ProjectZoneDelvesToContinent(continentMapID, zoneMapID, parentBountifulByName)
+local function MN_ProjectZoneDelvesToContinent(continentMapID, zoneMapID)
   local minX, maxX, minY, maxY = MN_GetRect(zoneMapID, continentMapID)
   if not minX then return end
 
@@ -377,33 +383,31 @@ local function MN_ProjectZoneDelvesToContinent(continentMapID, zoneMapID, parent
     local info = C_AreaPoiInfo.GetAreaPOIInfo(zoneMapID, areaPoiID)
     if info and info.position then
       if MN_ShouldShow("continent", continentMapID, info.atlasName) then
-        if not (parentBountifulByName and parentBountifulByName[info.name]) then
-          local x, y = info.position:GetXY()
-          if x and y then
-            local tx = Lerp(minX, maxX, x)
-            local ty = Lerp(minY, maxY, y)
-            if tx and ty and tx >= 0 and tx <= 1 and ty >= 0 and ty <= 1 then
-              local pinInfo = CopyTable(info)
-              pinInfo.areaPoiID = areaPoiID
-              pinInfo.mnMapNotesKind = "continent"
-              pinInfo.mnWaypointMapID = continentMapID
-              pinInfo.mnWaypointX = tx
-              pinInfo.mnWaypointY = ty
+        local x, y = info.position:GetXY()
+        if x and y then
+          local tx = Lerp(minX, maxX, x)
+          local ty = Lerp(minY, maxY, y)
+          if tx and ty and tx >= 0 and tx <= 1 and ty >= 0 and ty <= 1 then
+            local pinInfo = CopyTable(info)
+            pinInfo.areaPoiID = areaPoiID
+            pinInfo.mnMapNotesKind = "continent"
+            pinInfo.mnWaypointMapID = continentMapID
+            pinInfo.mnWaypointX = tx
+            pinInfo.mnWaypointY = ty
+          
+            local icon = pool:Acquire()
+            icon:OnAcquire("continent", pinInfo)
+            ns.MN_DelveActivePins[icon] = true
+          
+            if HBDP then
+              HBDP:AddWorldMapIconMap(ADDON_NAME, icon, continentMapID, tx, ty)
+              icon:SetFrameLevel(math.max(icon:GetFrameLevel() - 5, 5))
             
-              local icon = pool:Acquire()
-              icon:OnAcquire("continent", pinInfo)
-              ns.MN_DelveActivePins[icon] = true
-            
-              if HBDP then
-                HBDP:AddWorldMapIconMap(ADDON_NAME, icon, continentMapID, tx, ty)
-                icon:SetFrameLevel(math.max(icon:GetFrameLevel() - 5, 5))
-              
-                C_Timer.After(0, function()
-                  if icon then
-                    icon:SetFrameLevel(math.max(icon:GetFrameLevel() - 5, 5))
-                  end
-                end)
-              end
+              C_Timer.After(0, function()
+                if icon then
+                  icon:SetFrameLevel(math.max(icon:GetFrameLevel() - 5, 5))
+                end
+              end)
             end
           end
         end
@@ -421,15 +425,6 @@ local function MN_ClearAll()
   pool:ReleaseAll()
   if HBDP then
     HBDP:RemoveAllWorldMapIcons(ADDON_NAME)
-  end
-end
-
-local function MN_RescaleAllActivePins()
-  if not ns.MN_DelveActivePins then return end
-  for pin in pairs(ns.MN_DelveActivePins) do
-    if pin and pin.mnPinInfo then
-      MN_ApplyDelveScaleAlpha(pin, pin.mnPinInfo)
-    end
   end
 end
 
@@ -465,24 +460,12 @@ local function MN_RefreshMap(mapID)
   local key = ns.continentDelveToggles[mapID]
   if key and not db[key] then return end
 
-  local parentBountifulByName
-  local parentDelves = C_AreaPoiInfo.GetDelvesForMap(mapID)
-  if parentDelves and #parentDelves > 0 then
-    for _, areaPoiID in ipairs(parentDelves) do
-      local pInfo = C_AreaPoiInfo.GetAreaPOIInfo(mapID, areaPoiID)
-      if pInfo and pInfo.name and MN_IsBountiful(pInfo.atlasName) then
-        parentBountifulByName = parentBountifulByName or {}
-        parentBountifulByName[pInfo.name] = true
-      end
-    end
-  end
-
   local children = C_Map.GetMapChildrenInfo(mapID, nil, true) or {}
   for _, child in ipairs(children) do
     if child and child.mapID then
       if mapID ~= 13 or child.mapID ~= 2537 then
         if MN_GetRect(child.mapID, mapID) then
-          MN_ProjectZoneDelvesToContinent(mapID, child.mapID, parentBountifulByName)
+          MN_ProjectZoneDelvesToContinent(mapID, child.mapID)
         end
       end
     end
@@ -527,19 +510,17 @@ end
 
 function ns.RefreshContinentDelvesPins(opts)
   MN_WireRefresh()
+
   if opts and opts.remove then
     MN_ClearAll()
     return
   end
 
-  if ns.MN_DelveActivePins and next(ns.MN_DelveActivePins) then
-    MN_RescaleAllActivePins()
-    return
-  end
-
   if WorldMapFrame then
     local id = WorldMapFrame:GetMapID()
-    if id then MN_RefreshMap(id) end
+    if id then
+      MN_RefreshMap(id)
+    end
   end
 end
 

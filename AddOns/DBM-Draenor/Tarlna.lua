@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(1211, "DBM-Draenor", 1, 557)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240714050251")
+mod:SetRevision("20260315035313")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(81535)
 mod:SetEncounterID(1770)
 mod:SetReCombatTime(20)
@@ -33,15 +34,6 @@ local timerGenesisCD				= mod:NewCDTimer(45, 175979, nil, nil, nil, 5)--45-60 va
 local timerGrowUntamedMandragoraCD	= mod:NewCDTimer(30, 176013, nil, nil, nil, 1)
 
 --mod:AddReadyCheckOption(37462, false, 100)
---mod:AddRangeFrameOption(8, 175979)
-
-local debuffName = DBM:GetSpellName(176004)
-local debuffFilter
-do
-	debuffFilter = function(uId)
-		return DBM:UnitDebuff(uId, debuffName)
-	end
-end
 
 function mod:OnCombatStart(delay, yellTriggered)
 --	if yellTriggered then
@@ -52,11 +44,6 @@ function mod:OnCombatStart(delay, yellTriggered)
 --	end
 end
 
-function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
-end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
@@ -88,13 +75,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnSavageVines:CombinedShow(0.5, targetName)
 		if args:IsPlayer() then
 			specWarnSavageVines:Show()
-		end
-		if self.Options.RangeFrame then
-			if DBM:UnitDebuff("player", debuffName) then
-				DBM.RangeCheck:Show(8, nil)
-			else
-				DBM.RangeCheck:Show(8, debuffFilter, nil, nil, nil, 8)
-			end
 		end
 	end
 end

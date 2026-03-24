@@ -24,6 +24,8 @@
 --
 -------------------------------------------------------------------------------
 
+local SendChatMessage = C_ChatInfo.SendChatMessage or SendChatMessage
+
 Prat:AddModuleToLoad(function()
 	local module = Prat:NewModule("Mentions", "AceHook-3.0")
 	local PL = module.PL
@@ -190,6 +192,9 @@ L["module_name"] = "Mentions"
 	})
 
 	local function handleMention(match, m)
+		if Prat.IsRetail and InCombatLockdown() then
+			return
+		end
 		if m == nil then
 			return
 		end

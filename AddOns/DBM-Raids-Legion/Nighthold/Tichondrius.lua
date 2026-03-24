@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(1762, "DBM-Raids-Legion", 3, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20251025113629")
+mod:SetRevision("20260315035302")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(103685)
 mod:SetEncounterID(1862)
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)--Unknown carrions
@@ -15,7 +16,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 212997 212794 208230",
 	"SPELL_AURA_APPLIED 206480 212794 208230 216040 206466",
 	"SPELL_AURA_APPLIED_DOSE 216024",
-	"SPELL_AURA_REMOVED 212794 216040 206480",
+	"SPELL_AURA_REMOVED 212794 206480",
 	"SPELL_PERIODIC_DAMAGE 216027",
 	"SPELL_PERIODIC_MISSED 216027",
 	"UNIT_DIED",
@@ -62,7 +63,6 @@ local timerCarrionNightmare			= mod:NewNextCountTimer(4, 215988, nil, nil, nil, 
 
 local berserkTimer					= mod:NewBerserkTimer(463)
 
-mod:AddRangeFrameOption(8, 216040)
 mod:AddSetIconOption("SetIconOnBrandOfArgus", 212794, true)
 mod:AddInfoFrameOption(212794)
 
@@ -178,9 +178,6 @@ end
 
 function mod:OnCombatEnd()
 --	self:UnregisterShortTermEvents()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
@@ -351,9 +348,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnBurningSoul:Show()
 			yellBurningSoul:Yell()
 			specWarnBurningSoul:Play("runout")
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(8)
-			end
 		else
 			warnBurningSoul:Show(args.destName)
 		end
@@ -385,8 +379,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:Update()
 		end
-	elseif spellId == 216040 and args:IsPlayer() and self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
 	elseif spellId == 206480 then
 		self.vb.CarrionPlagueCount = self.vb.CarrionPlagueCount - 1
 		if self.Options.InfoFrame then

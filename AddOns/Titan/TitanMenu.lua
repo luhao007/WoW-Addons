@@ -391,6 +391,15 @@ end
 
 --====== Right click menu routines - Retail dropdown menu UIDROPDOWNMENU
 
+---Titan Call the routine to right click menu frame.
+---@param root_name string For frame name
+function TitanPanelRightClickMenu_CreateFrame(root_name)
+	-- There are two places these are created:
+	-- 1) Each Titan bar - uses same menu
+	-- 2) Each Plugin creation via the .registry
+	local f = CreateFrame("Frame", root_name .. TITAN_PANEL_CLICK_MENU_SUFFIX, UIParent, "UIDropDownMenuTemplate")
+end
+
 ---local Add menu button at the given level.
 ---@param info table Filled in button to add
 ---@param level number menu level
@@ -864,10 +873,7 @@ end
 ---Titan Call the routine to build the plugin or bar menu then place it properly.
 ---@param self table Plugin frame
 function TitanPanelRightClickMenu_Toggle(self)
-	-- There are two places for the menu creation routine
-	-- 1) Titan bar - creates same menu
-	-- 2) Plugin creation via the .registry
-	local frame = self:GetName()
+--	local frame = self:GetName()
 	local menu = _G[self:GetName() .. TITAN_PANEL_CLICK_MENU_SUFFIX]
 
 	-- Create menu based on the frame's routine for right click menu
@@ -891,17 +897,18 @@ function TitanPanelRightClickMenu_Close()
 	CloseAnyMenu()
 end
 
---[=====[ Implementation notes
---]=====]
-
---[=====[ NEW menu scheme Jan 2026
+--[=====[ New menu scheme being used Jan 2026
 Blizzard introduced a new menu scheme in 11.0.0 (July 2024) coded in Blizzard_Menu.
-The menu scheme is so different we use a new namespace for the new wrapper routines.
+The menu scheme is so different we use a new namespace, Titan_Menu, for menu routines.
+Titan_Menu wraps the common menu actions relieving the dev of some grunt work;
+it also allows a consistent look and feel across menus using Titan_Menu.
 
 First: Blizzard_Menu works quite different than UIDropDownMenu.
+The 'info' objects no longer exist, replaced by 'element descriptions'.
+
 UIDropDownMenu iterated over the code to create and show the menu.
-Blizzard_Menu changed that scheme to iterate over the objects - not code.
-It now expects a set of nested objects (sort of the old info) to be created.
+Blizzard_Menu iterates over the objects - not code.
+Blizzard_Menu expects a set of nested objects (sort of the old info) to be created.
 One impact is - level and info.value disappear!
 The dev no longer needs to check level and info.value to determine which portion of the menu to display.
 
@@ -921,6 +928,14 @@ such as dropdowns, toggles, sliders, and more. It is used for Blizzard options, 
 
 We decided to KISS (Keep It Simple, Stupid) when using Blizzard_Menu.
 We use a small number of routines designed to use menu default settings. There are very few options to tweak.
+There is no need to create frames for each bar and plugin. Blizzard_Menu handles frame (re)use.
+Blizzard_Menu also handles positioning, showing, and hiding of the menu and its submenus.
+
+Fourth: Titan_Menu wraps the parts of Blizzard_Menu used.
+Titan_Menu should protect Titan plugin devs when Blizzard changes the internal menu implementation.
+Titan provides routines in Titan_Menu to relieve the dev from some grunt work.
+
+=== Implementation notes
 The routines used as base for Titan menus are:
 - MenuUtil.CreateContextMenu -- root of the menu; old UIDropDownMenu_Initialize
 - MenuUtil.CreateButton -- old info.text; info.func
@@ -929,10 +944,6 @@ The routines used as base for Titan menus are:
 - owner:SetEnabled -- old info.disabled
 These handle over 90% of Titan and plugin needs.
 
-Fourth: Titan wraps the parts of Blizzard_Menu used in a new Titan_Menu table / class.
-Titan_Menu should protect Titan plugin devs when Blizzard changes the internal menu implementation.
-
-=== Implementation notes
 A new Titan registry attribute, .menuContextFunction, was added to the .registry for plugins to use.
 It was created to explicitly state the plugin routine used to create the menu widgets.
 
@@ -947,10 +958,12 @@ On right click, Titan will, in order :
 2) Add a menu title at top using .registry.id
 3) Call the plugin to fill it as before - using pcall, placing error in the menu
 4) Add the plugin designated control vars + right side + Hide on bottom of menu
-The top and bottom of the menu are common so Titan adds them for consistent style and relieve the dev a bit.
+The top and bottom of the menu are common so Titan adds:
+- a title 
+- any defined control variables
+- a Hide command
+for consistent style and relieve the dev a bit.
 
-The context menu holds all widgets - no nesting of context menus.
-Titan provides routines in Titan_Menu to relieve the dev from some grunt work.
 In both schemes, menu widgets are added in the order the code runs.
 
 The old create menu is left in TitanBag for comparison. As a quick example:
@@ -980,18 +993,25 @@ meaning a fully fleshed frame in XML. This would be an options frame not a simpl
 
 --[=====[ Wrapper implementation notes
 Wrapper notes:
+- The wrappers will 'update Titan button' where it makes sense, relieving the dev from including it 'all over'.
 - The parameter 'owner' used below is a 'menu description' in the new terms.
 -- Most Blizzard_Menu 'create' routines must have an owner to attach the widget to.
 -- Most Blizzard_Menu 'create' routines return the resulting widget.
 
 - Blizzard_Menu create routines pass 'is selected' and 'set selected' as functions.
-The wrappers continue this and extends to other needed actions.
-- Adds 'update Titan button' where it makes sense, relieving the dev from including it 'all over'.
+-- The wrappers use this method and extends the method to other needed routines.
 - When a single selector is created, Titan uses a checkbox.
-- When multiple selectors are created, Titan uses a radio.
-- When multiple selectors are created, a divider (line) is added at top.
-- AddSelector* is used when checkbox or radio buttons will be created.
+- When multiple selectors are created, Titan uses radio buttons and a divider (line) at top.
 
+--]=====]
+
+--[=====[ Implementation notes and lessons
+- Once the menu 'generator' is called, the  menu is active. 
+-- All set up and clean up must be done before generating the menu!
+- No nesting of context menus.
+- If a scroll bar is needed, it must be added at that level. The setting does not apply to children menus!
+- CreateContextMenu will take other parameters (as ...) which are passed to GeneratorFunction.
+-- A handy feature but not used in Titan.
 --]=====]
 
 --== menu helpers
@@ -1207,6 +1227,7 @@ local function MarkFromList(id, opt, list)
 		end
 	end
 end
+--== end menu helpers
 
 ---API Add divider (line) to owner
 ---@param owner table Menu widget object
@@ -1240,6 +1261,13 @@ end
 ---@param enabled boolean
 function Titan_Menu.SetAtribEnabled(owner, enabled)
 	owner:SetEnabled(enabled) -- .isEnabled
+end
+
+---API Add scroll if menu is over given height in pixels
+---@param owner table Menu widget object
+---@param height number Pixels
+function Titan_Menu.SetScroll(owner, height)
+	owner:SetScrollMode(height) -- .isEnabled opts_plugins:SetScrollMode(scroll_hgt)
 end
 
 ---API Add a simple button to owner; expect this to be a parent
@@ -1353,7 +1381,7 @@ function Titan_Menu.AddSelectorList(owner, id, label, opt, list, sel_func, ...)
 	end
 end
 
----API Add a button that, when pressed runs a command passing any given paramters
+---API Add a button that, when pressed runs a command passing any given parameters
 ---@param owner table Menu widget object
 ---@param id string Plugin ID
 ---@param label string Label of the  selector
@@ -1365,7 +1393,7 @@ function Titan_Menu.AddCommand(owner, id, label, function_name, ...)
 	return elementDescription
 end
 
----Titan Add the desired control vars to the owner; this expected to end the menu!
+---Titan Add the desired control vars to the owner; this is expected to end the menu!
 ---@param owner table Menu widget object
 ---@param id string Plugin ID
 function Titan_Menu.AddControlVars(owner, id)

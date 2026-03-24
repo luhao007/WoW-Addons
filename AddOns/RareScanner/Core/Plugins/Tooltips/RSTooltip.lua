@@ -36,8 +36,7 @@ local RSLoot = private.ImportLib("RareScannerLoot")
 -- Shared tooltip
 --=====================================================
 
-RSTooltip.Tooltip = CreateFrame("GameTooltip", "RSSharedTooltip", nil, "GameTooltipTemplate")
-RSTooltip.Tooltip:SetScale(RSConstants.TOOLTIPS_SCALE)
+RSTooltip.Tooltip = RSGameTooltip
 
 --=====================================================
 -- LibQtip provider for groups
@@ -444,7 +443,7 @@ local function AddStateTooltip(tooltip, pin)
 	end
 end
 
-local function AddGuideTooltip(tooltip, pin, addSeparator)
+local function AddGuideTooltip(tooltip, pin, addSeparator, isBlizzardPin)
 	if (not RSConfigDB.IsShowingTooltipsCommands()) then
 		return false
 	end
@@ -464,8 +463,12 @@ local function AddGuideTooltip(tooltip, pin, addSeparator)
 			tooltip:AddSeparator(1)
 		end
 		
-		local line = tooltip:AddLine()	
-		tooltip:SetCell(line, 1, "|TInterface\\AddOns\\RareScanner\\Media\\Textures\\tooltip_shortcuts:18:60:::256:256:0:96:64:96|t "..RSUtils.TextColor(AL["MAP_TOOLTIP_SHOW_GUIDE"], "05DFDC"), nil, "LEFT", 10, nil, nil, nil, RSConstants.TOOLTIP_MAX_WIDTH, RSConstants.TOOLTIP_MIN_WIDTH)
+		local line = tooltip:AddLine()
+		if (isBlizzardPin) then
+			tooltip:SetCell(line, 1, "|TInterface\\AddOns\\RareScanner\\Media\\Textures\\tooltip_shortcuts:18:60:::256:256:0:96:160:192|t "..RSUtils.TextColor(AL["MAP_TOOLTIP_SHOW_GUIDE"], "05DFDC"), nil, "LEFT", 10, nil, nil, nil, RSConstants.TOOLTIP_MAX_WIDTH, RSConstants.TOOLTIP_MIN_WIDTH)
+		else
+			tooltip:SetCell(line, 1, "|TInterface\\AddOns\\RareScanner\\Media\\Textures\\tooltip_shortcuts:18:60:::256:256:0:96:64:96|t "..RSUtils.TextColor(AL["MAP_TOOLTIP_SHOW_GUIDE"], "05DFDC"), nil, "LEFT", 10, nil, nil, nil, RSConstants.TOOLTIP_MAX_WIDTH, RSConstants.TOOLTIP_MIN_WIDTH)
+		end
 		return true
 	end
 	
@@ -486,8 +489,8 @@ local function AddShareTooltip(tooltip, pin, addSeparator)
 	return true
 end
 
-local function AddOverlayTooltip(tooltip, pin, addSeparator)
-	if (not RSConfigDB.IsShowingTooltipsCommands()) then
+local function AddOverlayTooltip(tooltip, pin, addSeparator, isBlizzardPin)
+	if (not RSConfigDB.IsShowingTooltipsCommands() or isBlizzardPin) then
 		return false
 	end
 	
@@ -602,7 +605,7 @@ local function AddFilterTooltip(tooltip, pin, addSeparator)
 	return true
 end
 
-local function AddWaypointsTooltip(tooltip, pin, onShift, addSeparator, isLink)
+local function AddWaypointsTooltip(tooltip, pin, onShift, addSeparator, isLink, isBlizzardPin)
 	if (isLink) then
 		if (not RSConfigDB.IsShowingChatTooltipsCommands()) then
 			return false
@@ -611,7 +614,7 @@ local function AddWaypointsTooltip(tooltip, pin, onShift, addSeparator, isLink)
 		end
 	elseif (not RSConfigDB.IsShowingTooltipsCommands()) then
 		return false
-	elseif (not RSConfigDB.IsAddingWorldMapTomtomWaypoints() and not RSConfigDB.IsAddingWorldMapIngameWaypoints() and not RSConfigDB.IsAddingWorldMapWaypointUIWaypoints()) then
+	elseif (not isBlizzardPin and not RSConfigDB.IsAddingWorldMapTomtomWaypoints() and not RSConfigDB.IsAddingWorldMapIngameWaypoints() and not RSConfigDB.IsAddingWorldMapWaypointUIWaypoints()) then
 		return false
 	end
 	
@@ -620,7 +623,9 @@ local function AddWaypointsTooltip(tooltip, pin, onShift, addSeparator, isLink)
 	end
 	
 	local line = tooltip:AddLine()
-	if (onShift) then
+	if (isBlizzardPin) then
+		tooltip:SetCell(line, 1, "|TInterface\\AddOns\\RareScanner\\Media\\Textures\\tooltip_shortcuts:18:60:::256:256:0:96:96:128|t "..RSUtils.TextColor(AL["MAP_TOOLTIP_ADD_WAYPOINT"], "FFFF00"), nil, "LEFT", 10, nil, nil, nil, RSConstants.TOOLTIP_MAX_WIDTH, RSConstants.TOOLTIP_MIN_WIDTH)
+	elseif (onShift) then
 		tooltip:SetCell(line, 1, "|TInterface\\AddOns\\RareScanner\\Media\\Textures\\tooltip_shortcuts:18:60:::256:256:0:96:32:64|t "..RSUtils.TextColor(AL["MAP_TOOLTIP_ADD_WAYPOINT"], "FFFF00"), nil, "LEFT", 10, nil, nil, nil, RSConstants.TOOLTIP_MAX_WIDTH, RSConstants.TOOLTIP_MIN_WIDTH)
 	else
 		tooltip:SetCell(line, 1, "|TInterface\\AddOns\\RareScanner\\Media\\Textures\\tooltip_shortcuts:18:60:::256:256:0:96:64:96|t "..RSUtils.TextColor(AL["MAP_TOOLTIP_ADD_WAYPOINT"], "FFFF00"), nil, "LEFT", 10, nil, nil, nil, RSConstants.TOOLTIP_MAX_WIDTH, RSConstants.TOOLTIP_MIN_WIDTH)
@@ -671,7 +676,11 @@ function RSTooltip.ShowGroupTooltip(pin)
 	groupTooltip:Show()
 end
 
-function RSTooltip.ShowSimpleTooltip(pin, parentTooltip)
+function RSTooltip.ShowSimpleBlizzardPinTooltip(pin)
+	RSTooltip.ShowSimpleTooltip(pin, nil, true)
+end
+
+function RSTooltip.ShowSimpleTooltip(pin, parentTooltip, isBlizzardPin)
 	-- If a tooltip is already being displayed, dont add another one
 	if (pin.tooltip and not RSTooltip.HideTooltip(pin.tooltip)) then
 		return
@@ -747,13 +756,13 @@ function RSTooltip.ShowSimpleTooltip(pin, parentTooltip)
 	local filterAdded = AddFilterTooltip(tooltip, pin, not lootAdded and not achievementAdded)
 
 	-- Waypoints
-	local waypointAdded = AddWaypointsTooltip(tooltip, pin, true, not filterAdded)
+	local waypointAdded = AddWaypointsTooltip(tooltip, pin, true, not filterAdded, false, isBlizzardPin)
 
 	-- Guide
-	local guideAdded = AddGuideTooltip(tooltip, pin, not filterAdded and not waypointAdded)
+	local guideAdded = AddGuideTooltip(tooltip, pin, not filterAdded and not waypointAdded, isBlizzardPin)
 
 	-- Overlay
-	local overlayAdded = AddOverlayTooltip(tooltip, pin, not filterAdded and not waypointAdded and not guideAdded)
+	local overlayAdded = AddOverlayTooltip(tooltip, pin, not filterAdded and not waypointAdded and not guideAdded, isBlizzardPin)
 
 	-- Filtered state
 	AddFilterStateTooltip(tooltip, pin, true)

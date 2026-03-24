@@ -6,6 +6,9 @@ local ADDON_NAME, private = ...
 
 local RSProvider = private.NewLib("RareScannerProvider")
 
+local RSWorldMap = private.ImportLib("RareScannerWorldMap")
+local RareScannerBlizzardMapProvider
+
 local providers = {}
 
 function RSProvider.DropDataProvider(provider)
@@ -18,7 +21,7 @@ end
 function RSProvider.AddDataProvider(provider)
 	if (provider) then
 		providers[provider] = true
-		WorldMapFrame:AddDataProvider(provider);
+		RSWorldMap:AddDataProvider(provider);
 	end
 end
 
@@ -26,4 +29,9 @@ function RSProvider.RefreshAllDataProviders()
 	for dp, _ in pairs(providers) do
 		dp:RefreshAllData()
 	end
+	if (not RareScannerBlizzardMapProvider) then
+		RareScannerBlizzardMapProvider = private.ImportLib("RareScannerBlizzardMapProvider")
+	end
+	
+	RareScannerBlizzardMapProvider:RefreshAllData()
 end

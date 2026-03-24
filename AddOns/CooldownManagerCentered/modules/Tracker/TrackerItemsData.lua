@@ -19,6 +19,54 @@ local WILDCARD_SLOT_TRINKET2 = "trinket2"
 local IGNORED_WILDCARD_TRINKETS = {
     [248583] = true, -- Drum of Renewed Bonds
 }
+local AUTO_ATTACK_SPELL_ID = 6603
+
+--[[
+To get all flyouts:
+for i = 1, 1000 do local ok, name, description, numSlots, isKnown = pcall(GetFlyoutInfo,i)  if ok and name then print("[",i,"]= true, --", name) end end
+]]
+--
+local IGNORED_FLYOUT_IDS = {
+    [1] = true, -- Teleport
+    [8] = true, -- Teleport
+    [9] = true, -- Call Pet
+    [10] = true, -- Summon Demon
+    [11] = true, -- Portal
+    [12] = true, -- Portal
+    [66] = true, -- Poisons
+    [67] = true, -- Grimoire of Service
+    [84] = true, -- Hero's Path: Mists of Pandaria
+    [92] = true, -- Polymorph Variants
+    [93] = true, -- Exotic Munitions
+    [96] = true, -- Hero's Path: Warlords of Draenor
+    [103] = true, -- Pet Utility
+    [106] = true, -- Hex Variants
+    [217] = true, -- Kyrian Instruments
+    [219] = true, -- Adaptation
+    [220] = true, -- Hero's Path: Shadowlands
+    [222] = true, -- Hero's Path: Shadowlands Raids
+    [223] = true, -- Hero's Path: Battle for Azeroth
+    [224] = true, -- Hero's Path: Legion
+    [225] = true, -- Hunter Tracking
+    [226] = true, -- Track Gathering Profession Reagents
+    [227] = true, -- Hero's Path: Dragonflight
+    [229] = false, -- Skyriding
+    [230] = true, -- Hero's Path: Cataclysm
+    [231] = true, -- Hero's Path: Dragonflight Raids
+    [232] = true, -- Hero's Path: The War Within
+    [235] = true, -- Warbands
+    [236] = true, -- Number Sequences
+    [237] = true, -- Perennius's Sky Arsenal
+    [238] = true, -- Sharpen Your Knife
+    [239] = false, -- Overload Herbs
+    [240] = false, -- Overload Ore
+    [241] = true, -- Green Thumb
+    [242] = true, -- Hero's Path: War Within Raids
+    [243] = true, -- Skyriding Flight Style
+    [244] = true, -- Hero's Path: Midnight Season 1
+    [245] = true, -- Carve Meat
+    [246] = true, -- Hero's Path: Midnight
+}
 
 local WILDCARD_SLOT_DISPLAY_NAMES = {
     [WILDCARD_SLOT_TRINKET1] = "Trinket in first slot",
@@ -30,7 +78,7 @@ local WILDCARD_SLOT_INVENTORY_SLOTS = {
     [WILDCARD_SLOT_TRINKET2] = INVSLOT_TRINKET2,
 }
 
-local racialSpellCache = nil
+local generalSpellBookCache = nil
 
 local function MakeEntry(kind, id)
     return {
@@ -97,116 +145,67 @@ local function IsPassiveSpellID(spellID)
     return false
 end
 
-local function IsRacialSkillLineName(name)
-    -- does not work
-    if not name or name == "" then
-        return false
+local function AddSpellIDFromSpellBook(ids, spellID)
+    if spellID and spellID ~= AUTO_ATTACK_SPELL_ID and not IsPassiveSpellID(spellID) then
+        ids[spellID] = true
     end
-    local racialAbilities = _G and _G.RACIAL_TRAITS_TOOLTIP or nil
-    if racialAbilities and name == racialAbilities then
-        return true
-    end
-    return false
 end
 
-local function IsGeneralSkillLineName(name)
-    if not name or name == "" then
-        return false
-    end
-    local generalLabel = _G and _G.GENERAL or nil
-    if generalLabel and name == generalLabel then
-        return true
-    end
-    local generalTab = _G and _G.GENERAL_SPELLS or nil
-    if generalTab and name == generalTab then
-        return true
-    end
-    local generalTab = _G and _G.GENERAL_LABEL or nil
-    if generalTab and name == generalTab then
-        return true
-    end
-
-    return false
-end
-
-local function IsRacialOrGeneralSkillLineName(name)
-    return IsGeneralSkillLineName(name)
-end
-
-local function GetRacialSpellIDsFromSpellBook()
-    if racialSpellCache then
-        return racialSpellCache
+local function GetSpellIDsFromGeneralSpellBook()
+    if generalSpellBookCache then
+        return generalSpellBookCache
     end
 
     local ids = {}
-    if not C_SpellBook or not C_SpellBook.GetNumSpellBookSkillLines or not C_SpellBook.GetSpellBookSkillLineInfo then
+    if not C_SpellBook or not C_SpellBook.GetSpellBookSkillLineInfo or not C_SpellBook.GetSpellBookItemInfo then
         return ids
     end
 
     local spellBank = Enum and Enum.SpellBookSpellBank and Enum.SpellBookSpellBank.Player or nil
-
-    local okNum, numLines = pcall(C_SpellBook.GetNumSpellBookSkillLines, spellBank)
-    if not okNum then
-        okNum, numLines = pcall(C_SpellBook.GetNumSpellBookSkillLines)
-    end
-    if not okNum or type(numLines) ~= "number" then
+    local spellItemType = Enum and Enum.SpellBookItemType or nil
+    if not spellBank or not spellItemType then
         return ids
     end
 
-    local function GetSkillLineInfo(index)
-        local ok, info = pcall(C_SpellBook.GetSpellBookSkillLineInfo, index, spellBank)
-        if ok and info then
-            return info
-        end
-        ok, info = pcall(C_SpellBook.GetSpellBookSkillLineInfo, index)
-        if ok and info then
-            return info
-        end
-        return nil
+    local skillLineInfo = C_SpellBook.GetSpellBookSkillLineInfo(1, spellBank)
+    if not skillLineInfo then
+        return ids
     end
 
-    local function GetSpellBookItemInfo(index)
-        local ok, info = pcall(C_SpellBook.GetSpellBookItemInfo, spellBank, index)
-        if ok and info then
-            return info
-        end
-        ok, info = pcall(C_SpellBook.GetSpellBookItemInfo, index, spellBank)
-        if ok and info then
-            return info
-        end
-        ok, info = pcall(C_SpellBook.GetSpellBookItemInfo, index)
-        if ok and info then
-            return info
-        end
-        return nil
-    end
+    local offset = skillLineInfo.itemIndexOffset or 0
+    local numSlots = skillLineInfo.numSpellBookItems or 0
+    for spellBookIndex = offset + 1, offset + numSlots do
+        local itemInfo = C_SpellBook.GetSpellBookItemInfo(spellBookIndex, spellBank)
+        if itemInfo then
+            local spellID = itemInfo.spellID or itemInfo.actionID
+            local itemType = itemInfo.itemType
 
-    for skillLineIndex = 1, numLines do
-        local info = GetSkillLineInfo(skillLineIndex)
-        if info and IsRacialOrGeneralSkillLineName(info.name) then
-            local offset = info.itemIndexOffset or info.itemIndexOffsetFromParent or 0
-            local count = info.numSpellBookItems or info.numSlots or 0
-            for slot = 1, count do
-                local spellBookIndex = offset + slot
-                local itemInfo = GetSpellBookItemInfo(spellBookIndex)
-                if itemInfo then
-                    local spellID = itemInfo.spellID or itemInfo.actionID
-                    local isPassive = itemInfo.isPassive
-                    local itemType = itemInfo.itemType or itemInfo.spellBookItemType
-                    local isSpellItem = not itemType
-                    if Enum and Enum.SpellBookItemType and itemType ~= nil then
-                        isSpellItem = itemType == Enum.SpellBookItemType.Spell
-                    end
-                    if spellID and isSpellItem and not (isPassive or IsPassiveSpellID(spellID)) then
-                        ids[spellID] = true
+            if itemType == spellItemType.Spell or itemType == spellItemType.FutureSpell then
+                AddSpellIDFromSpellBook(ids, spellID)
+            elseif
+                itemType == spellItemType.Flyout
+                and spellID
+                and not IGNORED_FLYOUT_IDS[spellID]
+                and GetFlyoutInfo
+                and GetFlyoutSlotInfo
+            then
+                local _, _, flyoutNumSlots = GetFlyoutInfo(spellID)
+                for flyoutSlot = 1, flyoutNumSlots or 0 do
+                    local flyoutSpellID, _, isKnown = GetFlyoutSlotInfo(spellID, flyoutSlot)
+                    if isKnown then
+                        AddSpellIDFromSpellBook(ids, flyoutSpellID)
                     end
                 end
             end
         end
     end
 
-    racialSpellCache = ids
+    generalSpellBookCache = ids
     return ids
+end
+
+function ItemsData:InvalidateSpellBookCache()
+    generalSpellBookCache = nil
 end
 
 function ItemsData:GetItemNameByID(itemID)
@@ -391,6 +390,31 @@ local function IsTrackableWildcardSlot(slotID)
     return itemID ~= nil and IsTrackableItem(itemID) and not IGNORED_WILDCARD_TRINKETS[itemID]
 end
 
+local function IsSpellUsableForTracking(spellID)
+    local override = C_Spell.GetOverrideSpell(spellID)
+    if C_Spell.IsSpellPassive(override) then
+        return false
+    end
+
+    return C_SpellBook.IsSpellInSpellBook(spellID) and true or false
+end
+
+local function CollectOwnedSpellsFromGeneralSpellBook(spells)
+    local generalSpells = GetSpellIDsFromGeneralSpellBook()
+    for spellID in pairs(generalSpells) do
+        spells[spellID] = true
+    end
+end
+
+local function CollectOwnedSpellsByUsability(spells)
+    local db = DB.GetDB()
+    for spellID in pairs(db.spellItemSettings or {}) do
+        if IsSpellUsableForTracking(spellID) then
+            spells[spellID] = true
+        end
+    end
+end
+
 function ItemsData:ScanOwnedItems()
     local owned = {
         items = {},
@@ -420,14 +444,18 @@ function ItemsData:ScanOwnedItems()
         end
     end
 
-    local racialSpells = GetRacialSpellIDsFromSpellBook()
-    for spellID in pairs(racialSpells) do
-        owned.spells[spellID] = true
-    end
+    CollectOwnedSpellsByUsability(owned.spells)
 
     owned.wildcardSlots[WILDCARD_SLOT_TRINKET1] = true
     owned.wildcardSlots[WILDCARD_SLOT_TRINKET2] = true
 
+    return owned
+end
+
+function ItemsData:ScanOwnedItemsForMiscPanel()
+    local owned = self:ScanOwnedItems()
+    owned.spells = {}
+    CollectOwnedSpellsFromGeneralSpellBook(owned.spells)
     return owned
 end
 

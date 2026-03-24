@@ -1,4 +1,4 @@
-local VERSION = 123
+local VERSION = 124
 
 --[[
 Special icons for rares, pvp or pet battle quests in list
@@ -1558,7 +1558,7 @@ ArrowsHelpFrame.right:SetRoll(-math.pi / 2)
 
 
 WorldQuestList:RegisterEvent('ADDON_LOADED')
-if UnitLevel'player' < 70 then
+if UnitLevel'player' < 90 then
 	WorldQuestList:RegisterEvent('PLAYER_LEVEL_UP')
 end
 WorldQuestList:RegisterEvent('QUEST_REMOVED')
@@ -1690,7 +1690,7 @@ do
 				if C_LFGList.CanCreateQuestGroup(self.questID) then
 					LFGListUtil_FindQuestGroup(self.questID)
 				else
-					WorldQuestList.LFG_Search(self.questID)
+					--WorldQuestList.LFG_Search(self.questID)
 				end
 			end
 
@@ -1728,7 +1728,7 @@ do
 				if C_LFGList.CanCreateQuestGroup(self.questID) then
 					LFGListUtil_FindQuestGroup(self.questID)
 				else
-					WorldQuestList.LFG_Search(self.questID)
+					--WorldQuestList.LFG_Search(self.questID)
 				end
 			end
 			if x and y then
@@ -1778,13 +1778,14 @@ do
 					hooked[button] = true
 				end
 			end
-			if true then return end
+			--[[
 			for button in WorldMapFrame:EnumeratePinsByTemplate("WorldMap_WorldQuestPinTemplate") do
 				if not hooked[button] then
 					button:HookScript("OnMouseUp",hookFunc)
 					hooked[button] = true
 				end
 			end
+			]]
 			for button in WorldMapFrame:EnumeratePinsByTemplate("QuestPinTemplate") do
 				if not hooked[button] then
 					button:HookScript("OnMouseUp",hookQuestFunc)
@@ -2704,6 +2705,7 @@ local function WorldQuestList_LineFaction_OnEnter(self)
 							icon = " (|T"..c_icon..":24|t)"
 						end
 					end
+
 					GameTooltip:AddLine("- "..name..(icon or ""))
 				end
 			end
@@ -2911,9 +2913,9 @@ local function WorldQuestList_LFGButton_OnClick(self,button)
 	elseif C_LFGList.CanCreateQuestGroup(questID) then
 		LFGListUtil_FindQuestGroup(questID)
 	elseif button == "RightButton" then
-		WorldQuestList.LFG_StartQuest(questID)
+		--WorldQuestList.LFG_StartQuest(questID)
 	else
-		WorldQuestList.LFG_Search(questID)
+		--WorldQuestList.LFG_Search(questID)
 	end
 end
 local function WorldQuestList_LFGButton_OnEnter(self)
@@ -2938,6 +2940,7 @@ local function WorldQuestList_LFGButton_OnShow(self)
 		self.texture:Show()
 	end
 	self:SetWidth(18)
+	self:Hide()
 end
 local function WorldQuestList_LFGButton_OnHide(self)
 	self:SetWidth(1)
@@ -2945,6 +2948,7 @@ end
 local function WorldQuestList_LFGButton_OnUpdate(self,el)
 	if self.t > 1 then
 		self.t = 0
+		if true then return end
 		local questID = self.questID
 		if questID then
 			local n = WorldQuestList.LFG_LastResult[questID]
@@ -3270,6 +3274,8 @@ do
 
 		line.zone:SetShown(disabeZone)
 		line.zone.f:SetShown(disabeZone)
+
+		lfgIconEnabled = false
 
 		line.LFGButton:SetWidth(lfgIconEnabled and 18 or 1)
 
@@ -3924,6 +3930,7 @@ do
 		},
 	}
 
+	--[[
 	list[#list+1] = {
 		text = LOCALE.lfgSearchOption,
 		func = function()
@@ -3933,6 +3940,7 @@ do
 		checkable = true,
 		subMenu = lfgSubMenu,
 	}
+	]]
 
 	local function SetScaleArrow(_, arg1)
 		VWQL.Arrow_Scale = arg1
@@ -4143,6 +4151,11 @@ do
 		colorCode = "|cff00ff00",
 		func = function()
 			VWQL.DisableRewardIcons = not VWQL.DisableRewardIcons
+
+			local mapAreaID = GetCurrentMapID()
+			OpenWorldMap(1)
+			OpenWorldMap(mapAreaID)
+
 			if VWQL.DisableRewardIcons then
 				WorldQuestList:WQIcons_RemoveIcons()
 			else
@@ -4786,6 +4799,7 @@ WorldQuestList.modeSwitcherCheck.Update = function(self,showTrasure)
 		index = index + 2
 	end
 
+	local val = 1
 	for i=1,#self.Values,2 do
 		local t = self.s["text"..i] or self.s:CreateFontString(nil,"OVERLAY","GameFontHighlightSmall")
 		self.s["text"..i] = t
@@ -5282,14 +5296,19 @@ end)
 eventFrame.callbacks = {}
 eventFrame.RegisterCallback = function(self,func) self.callbacks[func] = true end
 
-eventFrame.firedTimers = {}
 local function fireCallback(self,event)
 	for func in pairs(self.callbacks) do func() end
 end
-eventFrame.FireCallback = function(self,event) 
-	if not self.firedTimers[event] then
-		self.firedTimers[event] = C_Timer.NewTimer(0.05,function()
-			self.firedTimers[event] = nil
+eventFrame.prev = 0
+eventFrame.FireCallback = function(self,event)
+	local t = GetTime() 
+	if t - self.prev > 0.05 then
+		self.prev = t
+		fireCallback(self,event) 
+	elseif not self.firedTimers then
+		self.firedTimers = C_Timer.NewTimer(t - self.prev,function()
+			self.firedTimers = nil
+			self.prev = GetTime()
 			fireCallback(self,event) 
 		end)
  	end
@@ -5336,29 +5355,31 @@ WQ_provider2.owningMap = WQ_provider:GetMap()
 --WQ_provider = nil
 --WQ_provider2 = nil
 
-local hookedPins = {}
-local function HidePin(self)
-	if VWQL and VWQL.DisableRewardIcons then return end
-	self:Hide()
-end
-
-hooksecurefunc(WorldMapFrame, "RegisterPin", function(_, pin)
-	if pin.pinTemplate == WorldMap_WorldQuestDataProviderMixin:GetPinTemplate() then
-		local hooked = hookedPins[pin]
-		if not hooked then
-			hookedPins[pin] = true
-			pin:HookScript("OnShow", HidePin)
-			pin:Hide()
-		end
-	end
-end)
-
-EventRegistry:RegisterCallback("MapCanvas.MapSet",function()
-
-end)
+--EventRegistry:RegisterCallback("MapCanvas.MapSet",function() end)
 
 WorldQuestList.WMF_WQ_provider = WQ_provider
 if WQ_provider then
+	local hookedPins = {}
+	local function HidePin(self)
+		if 
+			(VWQL and VWQL.DisableRewardIcons)
+		then 
+			return 
+		end
+		self:Hide()
+	end
+
+	hooksecurefunc(WorldMapFrame, "RegisterPin", function(_, pin)
+		if pin.pinTemplate == WorldMap_WorldQuestDataProviderMixin:GetPinTemplate() then
+			local hooked = hookedPins[pin]
+			if not hooked then
+				hookedPins[pin] = true
+				pin:HookScript("OnShow", HidePin)
+				pin:Hide()
+			end
+		end
+	end)
+
 	local function upd()
 		if WorldQuestList.IconsGeneralLastMap and WorldMapFrame:GetMapID() ~= WorldQuestList.IconsGeneralLastMap then
 			for questId in pairs(WorldQuestList.WMF_activePins) do
@@ -5389,10 +5410,18 @@ if WQ_provider then
 			end
 			wipe(WorldQuestList.WMF_activePins)
 		end
+
+		WorldQuestList_Update()
 	end
 	--WQ_provider:GetMap():RegisterCallback("WorldQuestsUpdate", function() upd() end, WQ_provider)
 	eventFrame:RegisterCallback(function() upd() end)
 	EventRegistry:RegisterCallback("MapCanvas.MapSet",function() upd() end)
+	function WorldQuestList:UpdatePins()
+		upd()
+	end
+else
+	function WorldQuestList:UpdatePins()
+	end
 end
 
 
@@ -6428,19 +6457,39 @@ WorldQuestList.NULLTable = {}
 WorldQuestList.QuestIDtoMapID = {}
 WorldQuestList.CacheSLAnimaItems = {}
 
+WorldQuestList.trfix_prevMapID = nil
+WorldQuestList.trfix_prevCall = 0
+WorldQuestList.trfix_prevWait = nil
+
 function WorldQuestList_Update(preMapID,forceUpdate)
 	if not WorldQuestList:IsVisible() and not VWQL[charKey].HideMap and not forceUpdate then
 	--if not WorldQuestList:IsVisible() then
 		return
 	end
 
+	local currTime = GetTime()
+
 	local mapAreaID = GetCurrentMapID()
+	if currTime - WorldQuestList.trfix_prevCall < 0.2 and WorldQuestList.trfix_prevMapID == mapAreaID then
+		if not WorldQuestList.trfix_prevWait then
+			WorldQuestList.trfix_prevWait = C_Timer.NewTimer(0.2 - math.max(currTime - WorldQuestList.trfix_prevCall, 0),function()
+				WorldQuestList.trfix_prevWait = nil
+				WorldQuestList_Update(preMapID,forceUpdate)
+			end)
+		end
+		return
+	end
+	WorldQuestList.trfix_prevMapID = mapAreaID
+	WorldQuestList.trfix_prevCall = currTime
+
 	if type(preMapID)=='number' then
 		mapAreaID = preMapID
 	end
 	if WorldQuestList.IsSoloRun then
 		mapAreaID = WorldQuestList.SoloMapID or mapAreaID
 	end
+
+	--WorldQuestList:UpdatePins()
 
 	if VWQL[charKey].TreasureMode and WorldQuestList.TreasureData[mapAreaID] then
 		WorldQuestList.sortDropDown:Hide()
@@ -6461,7 +6510,6 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 		WorldQuestList.optionsDropDown:Show()
 	end
 
-	local currTime = GetTime()
 
 	local O = {
 		isGeneralMap = false,
@@ -7799,9 +7847,11 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 					then
 						info = WorldQuestList:GetRadiantWQPosition(info,result,0.05)
 					end
-					pinsToRemove[info.questID] = nil
 					local pin = WorldQuestList.WMF_activePins[info.questID]
 					if pin then
+						if O.isGeneralMap or WorldMap_DoesWorldQuestInfoPassFilters(info) then
+							pinsToRemove[info.questID] = nil
+						end
 						pin:RefreshVisuals()
 						pin:SetPosition(info.x, info.y)
 
@@ -7809,12 +7859,30 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 							--WQ_provider.pingPin:SetPosition(info.x, info.y)
 						end
 					else
-						if O.isGeneralMap or (VWQL and not VWQL.DisableRewardIcons) then
+						if O.isGeneralMap or (VWQL and not VWQL.DisableRewardIcons and WorldMap_DoesWorldQuestInfoPassFilters(info)) then
+							pinsToRemove[info.questID] = nil
 							WorldQuestList.WMF_activePins[info.questID] = WQ_provider2:AddWorldQuest(info)
 						end
 					end
 				end
 			end
+
+			--extra check for missing by filter quests
+			if not O.isGeneralMap and (VWQL and not VWQL.DisableRewardIcons) then
+				for i, info in pairs(taskInfo) do 
+					if type(i)=='number' and HaveQuestData(info.questID) and QuestUtils_IsQuestWorldQuest(info.questID) and WorldMap_DoesWorldQuestInfoPassFilters(info) and WQ_provider:ShouldMapShowQuest(mapAreaID, info) then
+						pinsToRemove[info.questID] = nil
+						local pin = WorldQuestList.WMF_activePins[info.questID]
+						if pin then
+							pin:RefreshVisuals()
+							pin:SetPosition(info.x, info.y)
+						else
+							WorldQuestList.WMF_activePins[info.questID] = WQ_provider2:AddWorldQuest(info)
+						end
+					end
+				end
+			end
+
 			isUpdateReq = true
 		end
 
@@ -7831,6 +7899,7 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 
 		if isUpdateReq then
 			--WorldMapFrame:TriggerEvent("WorldQuestsUpdate", WorldMapFrame:GetNumActivePinsByTemplate("WorldMap_WorldQuestPinTemplate"))
+			WorldQuestList:WQIcons_AddIcons()
 		end
 	end
 
@@ -8032,6 +8101,7 @@ function WorldQuestList_Update(preMapID,forceUpdate)
 
 		line.faction.f.tooltip = data.bountyTooltip
 		line.faction.f.reputationList = data.reputationList
+		line.faction.f.questID = data.questID
 
 		line.isTreasure = nil
 		line.reward.IDs = nil
@@ -8200,6 +8270,7 @@ WorldMapButton_HookShowHide:SetScript('OnShow',function()
 	if UpdateDB_Sch then
 		UpdateDB_Sch:Cancel()
 	end
+	WorldQuestList_Update(nil,true)
 	if VWQL[charKey].HideMap then
 		--if not InCombatLockdown() then
 			WorldQuestList:Hide()

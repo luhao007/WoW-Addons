@@ -1,4 +1,5 @@
 local _, db = ...
+local hbversion = 1
 local STAR_TEXTURE = "Interface\\AddOns\\HomeBound\\Assets\\star"
 local STAR2_TEXTURE = "Interface\\AddOns\\HomeBound\\Assets\\star2"
 local HORDE_ICON_TEXTURE = "Interface\\AddOns\\HomeBound\\Assets\\horde"
@@ -23,18 +24,21 @@ hb_settings = hb_settings or {
 	scale = 1.0,
 	hideCompleted = false,
 	hideNonFavorited = false,
+	groupFavorites = false,
 	useTomTom = true,
 	closeOnEsc = true,
 	toggleKeybind = nil,
 	completedAchievs = {},
 	completedQuest = {},
 	completedDrop = {},
+	completedDropNoXP = {},
 	favorites = {},
 	showMinimapButton = true,
 	tabFilters = {},
 	showVendorCheckmarks = true,
 	showMerchantCheckmarks = false,
-	hideTwitchDrop = false
+	hideTwitchDrop = false,
+	hideVendorCosts = false
 }
 dbHB = {minimap = {hide = false}}
 
@@ -61,6 +65,8 @@ local isRebuilding = false
 local MAX_ITEMS_PER_PAGE = 36
 local currentVendorPage = 1
 local vendorFilteredItems = {}
+local vendorPopup
+local UpdateVendorPopup
 
 local QuestEventListener = CreateFrame("Frame")
 QuestEventListener.callbacks = {}
@@ -105,6 +111,9 @@ local function RequestUpdate()
 		refreshTimer = nil
 		if HB_MainFrame and HB_MainFrame:IsShown() then
 			BuildUI()
+		end
+		if vendorPopup and vendorPopup:IsShown() and vendorPopup.mode == "vendor" and UpdateVendorPopup then
+			UpdateVendorPopup()
 		end
 	end)
 end
@@ -158,6 +167,16 @@ local function VendorMatchesQuery(npcID, query)
 	return false
 end
 
+local function IsItemSearchMatch(itemID)
+	if not itemID then return false end
+	if not currentSearchQuery or currentSearchQuery == "" then return false end
+	local itemName, isLoading = GetCachedItemName(itemID)
+	if not isLoading and itemName and itemName ~= db.L_LOADING_ITEM then
+		if string.find(string.lower(itemName), currentSearchQuery, 1, true) then return true end
+	end
+	return false
+end
+
 local function ItemPassesRequirements(itemID)
 	local filters = hb_settings.tabFilters["vendors"]
 	if not filters then return true end
@@ -185,30 +204,34 @@ local function AnchorPreviewToTooltip(previewFrame, tooltip)
 	previewFrame:Show()
 end
 
-local function IsItemCollected(itemID, noxp)
-	if hb_settings.completedDrop[itemID] then return true end
+local function IsItemCollected(itemID)
+	local decorData = db.decorItem and db.decorItem[itemID]
+	local noxp = decorData and decorData.noxp
+
+	if noxp and hb_settings.completedDropNoXP[itemID] then return true end
+	if not noxp and hb_settings.completedDrop[itemID] then return true end
+
 	if collectionCache[itemID] ~= nil then return collectionCache[itemID] end
 	
-	local decorData = db.decorItem and db.decorItem[itemID]
 	local decorID = decorData and decorData.decorID
-	if not decorID then 
+	if not decorID then
 		collectionCache[itemID] = false
-		return false 
+		return false
 	end
-	
-	if noxp == nil and decorData.noxp ~= nil then noxp = decorData.noxp end
 	
 	local info = C_HousingCatalog.GetCatalogEntryInfoByRecordID(1, decorID, true)
 	if info then
 		local isCollected = false
 		if noxp then
-			if info.quantity > 0 or info.remainingRedeemable > 0 then isCollected = true end
+			if info.quantity > 0 or info.remainingRedeemable > 0 or info.numPlaced > 0 then isCollected = true end
 		else
 			if info.firstAcquisitionBonus == 0 then isCollected = true end
 		end
 		
 		if isCollected then
-			hb_settings.completedDrop[itemID] = true
+			if noxp then hb_settings.completedDropNoXP[itemID] = true
+			else hb_settings.completedDrop[itemID] = true end
+			collectionCache[itemID] = true
 			return true
 		end
 	end
@@ -264,7 +287,7 @@ local function IsRewardComplete(reward)
 		local complete = GetVendorStatus(reward.id)
 		return complete
 	elseif currentTab == "drops" or currentTab == "professions" then
-		return IsItemCollected(reward.id, reward.noxp)
+		return IsItemCollected(reward.id)
 	end
 	if reward.type == "quest" then return IsQuestComplete(reward.id)
 	else return IsAchievementComplete(reward.id) end
@@ -288,6 +311,9 @@ local function ToggleFavorite(reward)
 	if not hb_settings.favorites[currentTab] then hb_settings.favorites[currentTab] = {} end
 	local id = GetRewardID(reward)
 	hb_settings.favorites[currentTab][id] = not hb_settings.favorites[currentTab][id]
+	GameTooltip:Hide()
+	if HB_SmallPreviewFrame then HB_SmallPreviewFrame:Hide() end
+	if HB_RewardFrame then HB_RewardFrame:Hide() end
 	BuildUI()
 end
 
@@ -335,6 +361,17 @@ noteTooltip.text:SetWidth(200)
 noteTooltip.text:SetTextColor(1, 1, 1)
 noteTooltip.text:SetWordWrap(true)
 
+local costTooltip = CreateFrame("Frame", "HB_CostTooltip", UIParent, "BackdropTemplate")
+costTooltip:SetFrameStrata("TOOLTIP")
+ApplyBackdrop(costTooltip, 0.05, 0.05, 0.05, 0.98)
+costTooltip:SetBackdropBorderColor(1, 0.82, 0, 1)
+costTooltip:Hide()
+costTooltip.text = costTooltip:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+costTooltip.text:SetFont(STANDARD_TEXT_FONT, 12)
+costTooltip.text:SetPoint("LEFT", 10, 0)
+costTooltip.text:SetJustifyH("LEFT")
+costTooltip.text:SetTextColor(1, 1, 1)
+
 local wowheadPopup = CreateFrame("Frame", "HB_WowheadLinkFrame", UIParent, "BackdropTemplate")
 wowheadPopup:SetSize(350, 90)
 wowheadPopup:SetFrameStrata("FULLSCREEN_DIALOG") 
@@ -370,7 +407,7 @@ local function ShowWowheadLinkPopup(id, rewardType)
 	wowheadPopupEditBox:HighlightText()
 end
 
-local vendorPopup = CreateFrame("Frame", "HB_VendorPopup", UIParent, "BackdropTemplate")
+vendorPopup = CreateFrame("Frame", "HB_VendorPopup", UIParent, "BackdropTemplate")
 vendorPopup:SetSize(350, 100)
 vendorPopup:SetPoint("CENTER")
 vendorPopup:SetFrameStrata("DIALOG")
@@ -440,8 +477,6 @@ vendorPageText:SetTextColor(0.9, 0.9, 0.9, 1)
 vendorPageText:SetPoint("CENTER", vendorPopup, "BOTTOM", 0, 24)
 vendorPageText:Hide()
 
-local UpdateVendorPopup
-
 vendorPrevBtn:SetScript("OnClick", function()
 	if currentVendorPage > 1 then
 		currentVendorPage = currentVendorPage - 1
@@ -466,7 +501,9 @@ recipeTitle:SetFont(STANDARD_TEXT_FONT, 14); recipeTitle:SetText(db.L_RECIPE); r
 
 local vendorPopupCloseBtn = CreateFrame("Button", nil, vendorPopup, "UIPanelCloseButton")
 vendorPopupCloseBtn:SetPoint("TOPRIGHT", 0, 0); vendorPopupCloseBtn:SetSize(30, 30)
-vendorPopupCloseBtn:SetScript("OnClick", function() vendorPopup:Hide() end)
+vendorPopupCloseBtn:SetScript("OnClick", function() 
+	vendorPopup:Hide(); costTooltip:Hide()
+end)
 
 local function GetPopupIconFrame(index)
 	local container = popupIconCache[index]
@@ -483,10 +520,7 @@ local function GetPopupIconFrame(index)
 		btn:SetAllPoints(borderFrame)
 		btn:RegisterForClicks("AnyUp")
 		container.btn = btn
-		local glow = btn:CreateTexture(nil, "BACKGROUND")
-		glow:SetPoint("TOPLEFT", -2, 2); glow:SetPoint("BOTTOMRIGHT", 2, -2)
-		glow:SetColorTexture(0, 0, 0, 0.5)
-		container.glow = glow
+		
 		local icon = btn:CreateTexture(nil, "ARTWORK")
 		icon:SetPoint("TOPLEFT", 2, -2); icon:SetPoint("BOTTOMRIGHT", -2, 2)
 		icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
@@ -524,41 +558,96 @@ local function GetPopupIconFrame(index)
 	return container
 end
 
+local function addCommasToNum(amount)
+	local formatted = tostring(amount)
+	local k
+	while true do  
+		formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", '%1,%2')
+		if (k == 0) then break end
+	end
+	return formatted
+end
+
 local function PopupButton_OnEnter(self)
 	local container = self:GetParent():GetParent()
 	local borderFrame = container.borderFrame
-	local glow = container.glow
 	if self.isReagent or self.isRecipe then
 		SetCursor("CAST_CURSOR")
 		borderFrame:SetBackdropBorderColor(1, 0.82, 0, 1)
-		glow:SetColorTexture(1, 0.82, 0, 0.2)
 	else
 		SetCursor("INSPECT_CURSOR")
-		if self.isCollected then
+		if self.isSearchMatch then
+			borderFrame:SetBackdropBorderColor(0, 1, 1, 1)
+		elseif self.isCollected then
 			borderFrame:SetBackdropBorderColor(1, 1, 1, 1)
-			glow:SetColorTexture(1, 1, 1, 0.1)
 		else
 			borderFrame:SetBackdropBorderColor(1, 0.82, 0, 1)
-			glow:SetColorTexture(1, 0.82, 0, 0.2)
 		end
 	end
-	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-	GameTooltip:SetHyperlink("item:" .. self.itemID)
+
+	local decorData = db.decorItem and db.decorItem[self.itemID]
+	local addCostTooltip = decorData and decorData.cost and not hb_settings.hideVendorCosts
+	local hasPopulatedCost = false
+
+	if addCostTooltip then
+		local cost = decorData.cost
+		local lines = {}
+		
+		if cost.gold then
+			table.insert(lines, string.format("%s |TInterface\\MoneyFrame\\UI-GoldIcon:16:16:0:0|t", addCommasToNum(cost.gold)))
+		end
+		if cost.currencies then
+			for currencyID, amount in pairs(cost.currencies) do
+				local info = C_CurrencyInfo.GetCurrencyInfo(currencyID)
+				local icon = info and info.iconFileID or "Interface\\Icons\\INV_Misc_QuestionMark"
+				table.insert(lines, string.format("%s |T%s:20:20:0:0|t", addCommasToNum(amount), icon))
+			end
+		end
+		if cost.items then
+			for reqItemID, amount in pairs(cost.items) do
+				local icon = GetItemIcon(reqItemID) or "Interface\\Icons\\INV_Misc_QuestionMark"
+				table.insert(lines, string.format("%s |T%s:20:20:0:0|t", addCommasToNum(amount), icon))
+			end
+		end
+		
+		if #lines > 0 then
+			costTooltip.text:SetText("|cffffd100".. db.L_COST .. "|r" .. table.concat(lines, "  "))
+			local textWidth = costTooltip.text:GetStringWidth()
+			local width = textWidth + 20
+			costTooltip:SetSize(width, 30)
+			
+			costTooltip:ClearAllPoints()
+			costTooltip:SetPoint("BOTTOMLEFT", self, "TOPRIGHT", 0, 0)
+			costTooltip:Show()
+			hasPopulatedCost = true
+		end
+	end
+
+	if hasPopulatedCost then
+		GameTooltip:SetOwner(self, "ANCHOR_NONE")
+		GameTooltip:SetHyperlink("item:" .. self.itemID)
+		GameTooltip:ClearAllPoints()
+		GameTooltip:SetPoint("BOTTOMLEFT", costTooltip, "TOPLEFT", 0, 0)
+	else
+		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+		GameTooltip:SetHyperlink("item:" .. self.itemID)
+	end
+	
 	GameTooltip:Show()
 end
 
 local function PopupButton_OnLeave(self)
 	local container = self:GetParent():GetParent()
 	local borderFrame = container.borderFrame
-	local glow = container.glow
 	ResetCursor()
-	if self.isReagent or self.isRecipe or not self.isCollected then
-		borderFrame:SetBackdropBorderColor(0.4, 0.4, 0.4, 1)
+	if self.isSearchMatch then
+		borderFrame:SetBackdropBorderColor(0, 1, 1, 1)
+	elseif self.isReagent or self.isRecipe or not self.isCollected then
+		borderFrame:SetBackdropBorderColor(0.2, 0.2, 0.2, 1)
 	else
-		borderFrame:SetBackdropBorderColor(1, 1, 1, 1)
+		borderFrame:SetBackdropBorderColor(0.5, 0.5, 0.5, 1)
 	end
-	glow:SetColorTexture(0, 0, 0, 0.5)
-	GameTooltip:Hide()
+	GameTooltip:Hide(); costTooltip:Hide()
 end
 
 local function PopupButton_OnClick(self, button)
@@ -580,9 +669,16 @@ local function SetupPopupButton(container, data, typeStr)
 	btn.isReagent = (typeStr == "reagent")
 	btn.isRecipe = (typeStr == "recipe")
 	btn.isCollected = false
+	btn.isSearchMatch = (typeStr == "vendor" and IsItemSearchMatch(itemID))
+
 	if typeStr == "vendor" then
-		btn.isCollected = IsItemCollected(itemID, data.noxp)
-		borderFrame:SetBackdropBorderColor(btn.isCollected and 1 or 0.4, btn.isCollected and 1 or 0.4, btn.isCollected and 1 or 0.4, 1)
+		btn.isCollected = IsItemCollected(itemID)
+		
+		if btn.isSearchMatch then
+			borderFrame:SetBackdropBorderColor(0, 1, 1, 1)
+		else
+			borderFrame:SetBackdropBorderColor(btn.isCollected and 0.5 or 0.2, btn.isCollected and 0.5 or 0.2, btn.isCollected and 0.5 or 0.2, 1)
+		end
 		
 		if btn.isCollected and hb_settings.showVendorCheckmarks then 
 			container.checkFrame:Show() 
@@ -593,13 +689,13 @@ local function SetupPopupButton(container, data, typeStr)
 		container:SetSize(50, 50)
 		container.countBar:Hide()
 	elseif typeStr == "reagent" then
-		borderFrame:SetBackdropBorderColor(0.4, 0.4, 0.4, 1)
+		borderFrame:SetBackdropBorderColor(0.2, 0.2, 0.2, 1)
 		container.checkFrame:Hide()
 		container:SetSize(50, 66)
 		container.countText:SetText(data.amount or 1)
 		container.countBar:Show()
 	else
-		borderFrame:SetBackdropBorderColor(0.4, 0.4, 0.4, 1)
+		borderFrame:SetBackdropBorderColor(0.2, 0.2, 0.2, 1)
 		container.checkFrame:Hide()
 		container:SetSize(50, 50)
 		container.countBar:Hide()
@@ -676,6 +772,7 @@ end
 local function ShowVendorPopup(npcID, vendorName)
 	if not npcID or not db.vendorItems or not db.vendorItems[npcID] then return end
 	
+	vendorPopup.mode = "vendor"
 	currentPopupNpcID = npcID
 	currentPopupNpcName = vendorName or currentPopupNpcName
 
@@ -719,6 +816,8 @@ end
 local function ShowReagentsPopup(itemData)
 	local reagents = itemData.reagents
 	if not reagents then return end
+	
+	vendorPopup.mode = "reagents"
 	vendorPopupTitle:SetText(db.L_REAGENTS_REQ)
 	
 	vendorCheckmarkToggle:Hide()
@@ -827,16 +926,33 @@ local function CreateSupportEditBox(text, url, yOffset)
 	local box = CreateFrame("EditBox", nil, supportFrame, "InputBoxTemplate")
 	box:SetSize(408, 20); box:SetPoint("TOPLEFT", 22, yOffset - 20); box:SetAutoFocus(false); box:SetText(url)
 	box:SetScript("OnEscapePressed", function(self) self:ClearFocus() end); box:SetScript("OnEnterPressed", function(self) self:ClearFocus() end)
+	return txt
 end
 
 CreateSupportEditBox(db.L_LINK1, "https://dsc.gg/homebound", -54)
 CreateSupportEditBox(db.L_LINK2, "https://www.curseforge.com/wow/addons/home-bound", -110)
-CreateSupportEditBox(db.L_LINK3, "https://buymeacoffee.com/bettiold", -166)
+local link3Txt = CreateSupportEditBox(db.L_LINK3, "https://buymeacoffee.com/bettiold", -166)
+
+local supportersBtn = CreateFrame("Button", nil, supportFrame)
+supportersBtn:SetSize(22, 22)
+supportersBtn:SetClipsChildren(true)
+supportersBtn:SetPoint("TOPRIGHT", -22, -155 - link3Txt:GetHeight() / 2)
+local supportersIcon = supportersBtn:CreateTexture(nil, "ARTWORK")
+supportersIcon:SetTexture("Interface\\AddOns\\HomeBound\\Assets\\heart")
+supportersIcon:SetAllPoints(supportersBtn)
+supportersBtn:SetScript("OnEnter", function(self)
+	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 2)
+	GameTooltip:AddLine(db.L_SUPPORTERS, 1, 0.82, 0)
+	GameTooltip:AddLine("Ztormy\nTina Knott\nXina\nTralee\nCory & Jen\nRelmin\nCaptainJoeyNY\nKitty\nJR Wagonbass", 1, 1, 1, true)
+	GameTooltip:Show()
+end)
+supportersBtn:SetScript("OnLeave", function() GameTooltip:Hide() end)
 
 frame:SetScript("OnHide", function()
 	if wowheadPopup and wowheadPopup:IsShown() then wowheadPopup:Hide() end
 	if supportFrame and supportFrame:IsShown() then supportFrame:Hide() end
 	if vendorPopup and vendorPopup:IsShown() then vendorPopup:Hide() end
+	if costTooltip and costTooltip:IsShown() then costTooltip:Hide() end
 end)
 
 local titleBg = frame:CreateTexture(nil, "BACKGROUND")
@@ -907,7 +1023,7 @@ local function UpdateTwitchDrop()
 	end
 
 	local info = C_HousingCatalog.GetCatalogEntryInfoByRecordID(1, TWITCH_DROP_DECOR_ID, true)
-	if info and (info.quantity > 0 or info.remainingRedeemable > 0) then
+	if info and (info.quantity > 0 or info.remainingRedeemable > 0 or info.numPlaced > 0) then
 		twitchDropFrame:Hide()
 		return
 	end
@@ -992,7 +1108,7 @@ local tabProfessions = CreateBottomTab("Professions", db.L_TAB4_PROFESSIONS, "In
 UpdateTabStyles()
 
 local function RefreshVendorPopup()
-	if vendorPopup:IsShown() and currentPopupNpcID then
+	if vendorPopup:IsShown() and vendorPopup.mode == "vendor" and currentPopupNpcID then
 		ShowVendorPopup(currentPopupNpcID, currentPopupNpcName)
 	end
 end
@@ -1056,6 +1172,9 @@ searchBox:SetScript("OnTextChanged", function(self)
 	searchDebounce = C_Timer.NewTimer(0.25, function()
 		currentSearchQuery = string.lower(self:GetText())
 		BuildUI()
+		if vendorPopup and vendorPopup:IsShown() and vendorPopup.mode == "vendor" and UpdateVendorPopup then
+			UpdateVendorPopup()
+		end
 	end)
 end)
 
@@ -1419,7 +1538,7 @@ local function CreateVendorLine(parent, vendor, y)
 end
 
 local function CreateDropLine(parent, dropItem, y)
-	local isComplete = IsItemCollected(dropItem.id, dropItem.noxp)
+	local isComplete = IsItemCollected(dropItem.id)
 	local itemName, isLoading = GetCachedItemName(dropItem.id)
 	local line = AcquireLine(parent); line:SetPoint("TOPLEFT", 10, y)
 	local leftText = itemName
@@ -1526,7 +1645,7 @@ local function CreateDropLine(parent, dropItem, y)
 end
 
 local function CreateProfessionLine(parent, profItem, y)
-	local isComplete = IsItemCollected(profItem.id, profItem.noxp)
+	local isComplete = IsItemCollected(profItem.id)
 	local itemName = GetCachedItemName(profItem.id)
 	local line = AcquireLine(parent); line:SetPoint("TOPLEFT", 10, y)
 	local skillString = (profItem.skill or "Skill") .. " (" .. (profItem.skillNeeded or 0) .. ")"
@@ -1644,15 +1763,22 @@ function BuildUI()
 	local dataSource = (currentTab == "vendors" and db.vendors) or (currentTab == "drops" and db.drops) or (currentTab == "professions" and db.professions) or db.collections
 	if not dataSource then isRebuilding = false; return end
 	local activeFilters = hb_settings.tabFilters[currentTab] or {}
+
+	local favoritesGroup = {name = db.L_FAVORITES, total = 0, completed = 0, favItems = {}, otherItems = {}}
+	local originalRenderGroups = {}
+
 	for _, group in ipairs(dataSource) do
 		local groupTotal = 0
 		local groupCompleted = 0
-		local visibleRewards = {}
+		local activeFavItems = {}
+		local activeOtherItems = {}
 		local items = (currentTab == "vendors" and group.npcs) or (currentTab == "drops" and group.items) or (currentTab == "professions" and group.items) or group.achievements
+		
 		if items then
 			for _, item in ipairs(items) do
 				groupTotal = groupTotal + 1
-				if IsRewardComplete(item) then groupCompleted = groupCompleted + 1 end
+				local isComplete = IsRewardComplete(item)
+				if isComplete then groupCompleted = groupCompleted + 1 end
 
 				local showStructural = true
 				local rewardFaction = GetRewardFaction(item)
@@ -1758,67 +1884,86 @@ function BuildUI()
 						if not hasAnyPass then showReqs = false end
 					end
 
-					if showSearch and showReqs then table.insert(visibleRewards, item) end
+					if showSearch and showReqs then 
+						local isFav = IsFavorited(item)
+						if isFav then
+							if hb_settings.groupFavorites then
+								table.insert(favoritesGroup.favItems, item)
+								favoritesGroup.total = favoritesGroup.total + 1
+								if isComplete then favoritesGroup.completed = favoritesGroup.completed + 1 end
+							else table.insert(activeFavItems, item) end
+						else table.insert(activeOtherItems, item) end
+					end
 				end
 			end
 		end
-		if #visibleRewards > 0 then
-			local favItems = {}
-			local otherItems = {}
-			for _, reward in ipairs(visibleRewards) do
-				if IsFavorited(reward) then
-					table.insert(favItems, reward)
-				else
-					table.insert(otherItems, reward)
-				end
-			end
-			local isFullyComplete = (groupTotal > 0 and groupTotal == groupCompleted)
-			local hasRenderableContent = false
-			if hb_settings.hideNonFavorited then
-				 if #favItems > 0 then hasRenderableContent = true end
-			else
-				 if (#favItems + #otherItems) > 0 then hasRenderableContent = true end
-			end
-			if hb_settings.hideCompleted and isFullyComplete then hasRenderableContent = false end
-			local function HasVisible(list)
-				 for _, it in ipairs(list) do
-						if not (hb_settings.hideCompleted and IsRewardComplete(it)) then return true end
-				 end
-				 return false
-			end
-			if hasRenderableContent then
-					local showFavs = HasVisible(favItems)
-					local showOthers = (not hb_settings.hideNonFavorited) and HasVisible(otherItems)
-					if showFavs or showOthers then
-						hasContent = true
-						local header, collapsed, newY = CreateHeader(scrollChild, group, groupTotal, groupCompleted, y)
-						y = newY
-						if not collapsed then
-							local original_y = y
-							for _, item in ipairs(favItems) do
-								if not (hb_settings.hideCompleted and IsRewardComplete(item)) then
-									 if currentTab == "vendors" then y = CreateVendorLine(scrollChild, item, y)
-									 elseif currentTab == "drops" then y = CreateDropLine(scrollChild, item, y)
-									 elseif currentTab == "professions" then y = CreateProfessionLine(scrollChild, item, y)
-									 else y = CreateRewardLine(scrollChild, item, y) end
-								end
-							end
-							if not hb_settings.hideNonFavorited then
-								for _, item in ipairs(otherItems) do
-									 if not (hb_settings.hideCompleted and IsRewardComplete(item)) then
-											if currentTab == "vendors" then y = CreateVendorLine(scrollChild, item, y)
-											elseif currentTab == "drops" then y = CreateDropLine(scrollChild, item, y)
-											elseif currentTab == "professions" then y = CreateProfessionLine(scrollChild, item, y)
-											else y = CreateRewardLine(scrollChild, item, y) end
-									 end
-								end
-							end
-							if y < original_y then y = y - 10 end
+		
+		table.insert(originalRenderGroups, {originalGroup = group, total = groupTotal, completed = groupCompleted, favItems = activeFavItems, otherItems = activeOtherItems})
+	end
+
+	local function RenderGroup(renderData, isVirtualFavoritedGroup)
+		local gTotal = renderData.total
+		local gCompleted = renderData.completed
+		local favItems = renderData.favItems
+		local otherItems = renderData.otherItems
+		
+		local isFullyComplete = (gTotal > 0 and gTotal == gCompleted)
+		local hasRenderableContent = false
+		
+		if hb_settings.hideNonFavorited and not isVirtualFavoritedGroup then
+			if #favItems > 0 then hasRenderableContent = true end
+		else
+			if (#favItems + #otherItems) > 0 then hasRenderableContent = true end
+		end
+		
+		if hb_settings.hideCompleted and isFullyComplete then hasRenderableContent = false end
+		
+		local function HasActive(list)
+			 for _, it in ipairs(list) do
+				if not (hb_settings.hideCompleted and IsRewardComplete(it)) then return true end
+			 end
+			 return false
+		end
+		
+		if hasRenderableContent then
+			local showFavs = HasActive(favItems)
+			local showOthers = (not hb_settings.hideNonFavorited or isVirtualFavoritedGroup) and HasActive(otherItems)
+			
+			if showFavs or showOthers then
+				hasContent = true
+				local groupObj = isVirtualFavoritedGroup and {name = renderData.name} or renderData.originalGroup
+				local header, collapsed, newY = CreateHeader(scrollChild, groupObj, gTotal, gCompleted, y)
+				y = newY
+				
+				if not collapsed then
+					local original_y = y
+					for _, item in ipairs(favItems) do
+						if not (hb_settings.hideCompleted and IsRewardComplete(item)) then
+							if currentTab == "vendors" then y = CreateVendorLine(scrollChild, item, y)
+							elseif currentTab == "drops" then y = CreateDropLine(scrollChild, item, y)
+							elseif currentTab == "professions" then y = CreateProfessionLine(scrollChild, item, y)
+							else y = CreateRewardLine(scrollChild, item, y) end
 						end
 					end
+					if not hb_settings.hideNonFavorited or isVirtualFavoritedGroup then
+						for _, item in ipairs(otherItems) do
+							if not (hb_settings.hideCompleted and IsRewardComplete(item)) then
+								if currentTab == "vendors" then y = CreateVendorLine(scrollChild, item, y)
+								elseif currentTab == "drops" then y = CreateDropLine(scrollChild, item, y)
+								elseif currentTab == "professions" then y = CreateProfessionLine(scrollChild, item, y)
+								else y = CreateRewardLine(scrollChild, item, y) end
+							end
+						end
+					end
+					if y < original_y then y = y - 10 end
+				end
 			end
 		end
 	end
+
+	if hb_settings.groupFavorites and #favoritesGroup.favItems > 0 then RenderGroup(favoritesGroup, true) end
+	for _, rGroup in ipairs(originalRenderGroups) do RenderGroup(rGroup, false) end
+
 	if not hasContent then
 		local msg = scrollChild:CreateFontString(nil, "OVERLAY")
 		msg:SetFont(STANDARD_TEXT_FONT, 14); msg:SetPoint("TOP", 0, -50)
@@ -1903,14 +2048,29 @@ local function CreateOptionsPanel()
 		UpdateTwitchDrop()
 	end)
 
+	local hideCostsCheck = CreateFrame("CheckButton", nil, configFrame, "UICheckButtonTemplate")
+	hideCostsCheck:SetPoint("TOPLEFT", twitchCheck, "BOTTOMLEFT", 0, -10)
+	hideCostsCheck.Text:SetFont(STANDARD_TEXT_FONT, 14); hideCostsCheck.Text:SetTextColor(1, 0.82, 0); hideCostsCheck.Text:SetText(db.L_HIDE_COSTS)
+	hideCostsCheck:SetChecked(hb_settings.hideVendorCosts)
+	hideCostsCheck:SetScript("OnClick", function(self)
+		hb_settings.hideVendorCosts = self:GetChecked()
+	end)
+	
+	local groupFavCheck = CreateFrame("CheckButton", nil, configFrame, "UICheckButtonTemplate")
+	groupFavCheck:SetPoint("TOPLEFT", hideCostsCheck, "BOTTOMLEFT", 0, -10)
+	groupFavCheck.Text:SetFont(STANDARD_TEXT_FONT, 14); groupFavCheck.Text:SetTextColor(1, 0.82, 0); groupFavCheck.Text:SetText(db.L_GROUP_FAVORITED)
+	groupFavCheck:SetChecked(hb_settings.groupFavorites)
+	groupFavCheck:SetScript("OnClick", function(self)
+		hb_settings.groupFavorites = self:GetChecked(); BuildUI()
+	end)
+
 	local scaleLabel = configFrame:CreateFontString(nil, "ARTWORK")
-	scaleLabel:SetFont(STANDARD_TEXT_FONT, 14); scaleLabel:SetTextColor(1, 0.82, 0); scaleLabel:SetPoint("TOPLEFT", twitchCheck, "BOTTOMLEFT", 0, -20); scaleLabel:SetText(db.L_UI_SCALE)
+	scaleLabel:SetFont(STANDARD_TEXT_FONT, 14); scaleLabel:SetTextColor(1, 0.82, 0); scaleLabel:SetPoint("TOPLEFT", groupFavCheck, "BOTTOMLEFT", 0, -20); scaleLabel:SetText(db.L_UI_SCALE)
 	local scaleSlider = CreateFrame("Slider", nil, configFrame, "MinimalSliderWithSteppersTemplate")
 	scaleSlider:SetWidth(200)
 	scaleSlider:SetHeight(20)
 	scaleSlider:SetPoint("TOPLEFT", scaleLabel, "BOTTOMLEFT", 0, -10)
-	scaleSlider:Init(hb_settings.scale or 1.0, 0.5, 1.5, 20, {
-		[MinimalSliderWithSteppersMixin.Label.Right] = function(value)
+	scaleSlider:Init(hb_settings.scale or 1.0, 0.5, 1.5, 20, {[MinimalSliderWithSteppersMixin.Label.Right] = function(value)
 			return string.format("%.2f", value)
 		end
 	})
@@ -1919,7 +2079,7 @@ local function CreateOptionsPanel()
 	scaleSlider:RegisterCallback(MinimalSliderWithSteppersMixin.Event.OnValueChanged, function(_, value)
 		local rounded = tonumber(string.format("%.2f", value))
 		hb_settings.scale = rounded
-		frame:SetScale(rounded); supportFrame:SetScale(rounded); vendorPopup:SetScale(rounded); wowheadPopup:SetScale(rounded)
+		frame:SetScale(rounded); supportFrame:SetScale(rounded); vendorPopup:SetScale(rounded); wowheadPopup:SetScale(rounded); costTooltip:SetScale(rounded)
 	end)
 	local keybindLabel = configFrame:CreateFontString(nil, "ARTWORK")
 	keybindLabel:SetFont(STANDARD_TEXT_FONT, 14); keybindLabel:SetTextColor(1, 0.82, 0); keybindLabel:SetPoint("TOPLEFT", scaleSlider, "BOTTOMLEFT", 0, -30); keybindLabel:SetText(db.L_TOGGLE_KEYBIND)
@@ -2030,16 +2190,23 @@ init:SetScript("OnEvent", function(self, event, addon, ...)
 		hb_settings.completedAchievs = hb_settings.completedAchievs or {}
 		hb_settings.completedQuest = hb_settings.completedQuest or {}
 		hb_settings.completedDrop = hb_settings.completedDrop or {}
+		hb_settings.completedDropNoXP = hb_settings.completedDropNoXP or {}
 		hb_settings.favorites = hb_settings.favorites or {}
+		hb_settings.version = hb_settings.version or 0
 		
 		if hb_settings.showVendorCheckmarks == nil then hb_settings.showVendorCheckmarks = true end
 		if hb_settings.showMerchantCheckmarks == nil then hb_settings.showMerchantCheckmarks = false end
 		if hb_settings.hideTwitchDrop == nil then hb_settings.hideTwitchDrop = false end
+		if hb_settings.hideVendorCosts == nil then hb_settings.hideVendorCosts = false end
+		if hb_settings.groupFavorites == nil then hb_settings.groupFavorites = false end
 		
 		db.decorIdToItemId = {}
 		if db.decorItem then
-			for itemID, data in pairs(db.decorItem) do db.decorIdToItemId[data.decorID] = itemID end
+			for itemID, data in pairs(db.decorItem) do
+				db.decorIdToItemId[data.decorID] = itemID
+			end
 		end
+		
 		hb_settings.showMinimapButton = hb_settings.showMinimapButton == nil and true or hb_settings.showMinimapButton
 		if hb_settings.useTomTom == nil then hb_settings.useTomTom = true end
 		if hb_settings.closeOnEsc == nil then hb_settings.closeOnEsc = true end
@@ -2088,7 +2255,7 @@ init:SetScript("OnEvent", function(self, event, addon, ...)
 			if searcherTimer then searcherTimer:Cancel(); searcherTimer = nil end
 			if UnitFactionGroup("player") == "Horde" then currentFaction = 2 end
 			local scale = hb_settings.scale or 1.0
-			frame:SetScale(scale); supportFrame:SetScale(scale); vendorPopup:SetScale(scale); wowheadPopup:SetScale(scale)
+			frame:SetScale(scale); supportFrame:SetScale(scale); vendorPopup:SetScale(scale); wowheadPopup:SetScale(scale); costTooltip:SetScale(scale)
 			BuildUI()
 			CreateOptionsPanel()
 			UpdateEscBehavior()
@@ -2101,23 +2268,48 @@ init:SetScript("OnEvent", function(self, event, addon, ...)
 			vendorPopup:ClearAllPoints()
 			vendorPopup:SetPoint("CENTER", frame, "CENTER", 0, 0)
 			catalogSearcher:SetResultsUpdatedCallback(function() end)
+
+			if hb_settings.version < hbversion then
+				hb_settings.version = hbversion
+				currentTab = "drops"
+				UpdateTabStyles()
+				collapsedHeaders["drops"] = {}; collapsedHeaders["drops"]["Miscellaneous"] = false
+			end
 		end)
 
 		catalogSearcher:RunSearch()
 		searcherTimer = C_Timer.NewTicker(0.5, function() catalogSearcher:RunSearch() end)
+		--if DV_MainFrame then for _,r in ipairs({DV_MainFrame:GetRegions()})do if r:IsObjectType("FontString")and select(5,r:GetPoint())<=-13 then r:SetText("\067\104\101\097\112\032\072\111\109\101\032\066\111\117\110\100\032\067\111\112\121")break end end end
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	elseif event == "ACHIEVEMENT_EARNED" or event == "QUEST_TURNED_IN" then
 		C_Timer.After(0.5, BuildUI)
 	elseif event == "HOUSE_DECOR_ADDED_TO_CHEST" then
 		local decorID = ...
 		local itemID = db.decorIdToItemId[decorID]
-		if itemID and not hb_settings.completedDrop[itemID] then
-			hb_settings.completedDrop[itemID] = true
-			for npcID, info in pairs(vendorSessionCache) do
-				if not info.isComplete then vendorSessionCache[npcID] = nil; GetVendorStatus(npcID) end
+		if itemID then
+			local decorData = db.decorItem and db.decorItem[itemID]
+			local noxp = decorData and decorData.noxp
+			
+			local isNewlyCollected = false
+			if noxp then
+				if not hb_settings.completedDropNoXP[itemID] then
+					hb_settings.completedDropNoXP[itemID] = true
+					isNewlyCollected = true
+				end
+			else
+				if not hb_settings.completedDrop[itemID] then
+					hb_settings.completedDrop[itemID] = true
+					isNewlyCollected = true
+				end
 			end
-			collectionCache[itemID] = nil
-			BuildUI()
+			
+			if isNewlyCollected then
+				for npcID, info in pairs(vendorSessionCache) do
+					if not info.isComplete then vendorSessionCache[npcID] = nil; GetVendorStatus(npcID) end
+				end
+				collectionCache[itemID] = nil
+				BuildUI()
+			end
 		end
 		if decorID == TWITCH_DROP_DECOR_ID then
 			UpdateTwitchDrop()

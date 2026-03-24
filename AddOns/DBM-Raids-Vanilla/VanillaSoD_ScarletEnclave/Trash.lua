@@ -5,7 +5,8 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,mythic"
 
-mod:SetRevision("20250521174014")
+mod:SetRevision("20260315035425")
+mod:DisableHardcodedOptions()
 mod:SetZone(2856)
 mod.isTrashMod = true
 mod.isTrashModBossFightAllowed = true -- ENCOUNTER_END is somewhat unreliable in this raud, see all the terrible 10min+ logs for random fights on WCL that are just trash

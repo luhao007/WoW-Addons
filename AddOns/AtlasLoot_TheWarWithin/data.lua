@@ -14,42 +14,20 @@ AtlasLoot:RegisterModules(addonname)
 
 local AL = AtlasLoot.Locales
 
-local NORMAL_DUNGEON_DIFF = data:AddDifficulty(AL["Normal"], "DungeonWithPreset", {
+local ADD_SCALING = {
 	Item = {
 		addDifficultyBonus = true,
-	},
-}, 1)
-local HEROIC_DUNGEON_DIFF = data:AddDifficulty(AL["Heroic"], "HeroicDungeonWithPreset", {
-	Item = {
-		addDifficultyBonus = true,
-	},
-}, 2)
-local MYTHICD_DUNGEON_DIFF = data:AddDifficulty(AL["Mythic"], "MythicDungeonWithPreset", {
-	Item = {
-		addDifficultyBonus = true,
-	},
-}, 23)
+	}
+}
 
-local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], "LFRWithPreset", {
-	Item = {
-		addDifficultyBonus = true,
-	},
-}, 17)
-local NORMAL_RAID_DIFF = data:AddDifficulty(AL["Normal"], "NormalRaidWithPreset", {
-	Item = {
-		addDifficultyBonus = true,
-	},
-}, 14)
-local HEROIC_PRE_DIFF = data:AddDifficulty(AL["Heroic"], "HeroicWithPreset", {
-	Item = {
-		addDifficultyBonus = true,
-	},
-}, 15)
-local MYTHIC_PRE_DIFF = data:AddDifficulty(AL["Mythic"], "MyhticWithPreset", {
-	Item = {
-		addDifficultyBonus = true,
-	},
-}, 16)
+local NORMAL_DUNGEON_DIFF = data:AddDifficulty(AL["Normal"], "DungeonWithPreset", ADD_SCALING, 1)
+local HEROIC_DUNGEON_DIFF = data:AddDifficulty(AL["Heroic"], "HeroicDungeonWithPreset", ADD_SCALING, 2)
+local MYTHICD_DUNGEON_DIFF = data:AddDifficulty(AL["Mythic"], "MythicDungeonWithPreset", ADD_SCALING, 23)
+
+local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], "LFRWithPreset", ADD_SCALING, 17)
+local NORMAL_RAID_DIFF = data:AddDifficulty(AL["Normal"], "NormalRaidWithPreset", ADD_SCALING, 14)
+local HEROIC_PRE_DIFF = data:AddDifficulty(AL["Heroic"], "HeroicWithPreset", ADD_SCALING, 15)
+local MYTHIC_PRE_DIFF = data:AddDifficulty(AL["Mythic"], "MyhticWithPreset", ADD_SCALING, 16)
 
 local RAID_ITTYPE = data:AddItemTableType("Item", "Item") -- Normal, Thunder-/Warforged...
 
@@ -257,11 +235,9 @@ data["Priory of the Sacred Flame"] = {
 			},
 			[HEROIC_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
-				{ 7, nil }
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
-				{ 7, nil }
 			},
 		},
 		{ -- Baron Braunpyke
@@ -276,11 +252,9 @@ data["Priory of the Sacred Flame"] = {
 			},
 			[HEROIC_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
-				{ 7, 252009 }, -- Bloodstained Memento
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
-				{ 7, 252009 }, -- Bloodstained Memento
 			},
 		},
 		{ -- Prioress Murrpray
@@ -350,11 +324,9 @@ data["Ara-Kara, City of Echoes"] = {
 			},
 			[HEROIC_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
-				{ 6, nil },
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
-				{ 6, nil },
 			},
 		},
 		{ -- Ki'katal the Harvester
@@ -371,7 +343,6 @@ data["Ara-Kara, City of Echoes"] = {
 			},
 			[HEROIC_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
-				{ 8,  nil },
 				{ 16, 223088 }, -- Design: Elusive Blasphemite
 				{ 17, 223121 }, -- Formula: Enchanted Weathered Harbinger Crest
 				{ 18, 223122 }, -- Formula: Enchanted Runed Harbinger Crest
@@ -720,11 +691,9 @@ data["Operation Floodgate"] = {
 			},
 			[HEROIC_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
-				{ 6, 251880 }, -- Momma's Mega Medallion
-				{ 7, 246278 }, -- Overpressure Platelegs
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
 		{ -- Demolition Duo
@@ -738,10 +707,9 @@ data["Operation Floodgate"] = {
 			},
 			[HEROIC_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
-				{ 6, 246279 }, -- Fizzlefuse Cuffs
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
 		{ -- Swampface
@@ -752,14 +720,13 @@ data["Operation Floodgate"] = {
 				{ 3, 234506 }, -- Muckdiver's Wading Plate
 				{ 4, 234495 }, -- Razorchoke Slacks
 				{ 5, 232543 }, -- Ringing Ritual Mud
-				{ 8, 236768, "pet4759" }, -- Craboom
+				{ 7, 236768, "pet4759" }, -- Craboom
 			},
 			[HEROIC_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
-				{ 6, 246277 }, -- Swampface's Oozewalkers
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
 		{ -- Geezle Gigazap

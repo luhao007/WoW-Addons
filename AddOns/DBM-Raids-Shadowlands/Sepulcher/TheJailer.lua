@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2464, "DBM-Raids-Shadowlands", 1, 1195)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250719035005")
+mod:SetRevision("20260315035226")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(180990)
 mod:SetEncounterID(2537)
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
@@ -16,7 +17,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 362028 360373 359856 364942 360562 364488 365033 365212 365169 366374 366678 367851 360378 367290",--363179
 	"SPELL_CAST_SUCCESS 359809 367051 363893 365436 360279 366284 365147 363332 370071 363772",
 	"SPELL_AURA_APPLIED 362401 360281 366285 365150 365153 362075 365219 365222 362192 368383 360174 368593 363748 368591 181089 360378",--362024 360180
-	"SPELL_AURA_REMOVED 362401 360281 366285 365150 365153 365222 368383 360174 368593 363748 368591 363886",--360180
+	"SPELL_AURA_REMOVED 360281 366285 365150 365153 368383 360174 368593 363748 368591 363886",--360180
 	"SPELL_PERIODIC_DAMAGE 360425 365174",
 	"SPELL_PERIODIC_MISSED 360425 365174"
 --	"UNIT_SPELLCAST_SUCCEEDED boss1"
@@ -43,7 +44,6 @@ local timerPits									= mod:NewTimer(28.8, "timerPits", 353643, nil, nil, 3)--
 
 --local berserkTimer							= mod:NewBerserkTimer(600)
 
-mod:AddRangeFrameOption("6")
 
 --Stage One: Origin of Domination
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(24087))
@@ -442,11 +442,6 @@ function mod:OnCombatStart(delay)
 	end
 end
 
-function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
-end
 
 function mod:OnTimerRecovery()
 	if self:IsMythic() then
@@ -637,9 +632,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnTorment:Show()
 			specWarnTorment:Play("scatter")
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(6)
-			end
 			if self.vb.phase >= 2 then
 				specWarnTormentingEcho:Schedule(6)
 				specWarnTormentingEcho:ScheduleVoice(6, "watchstep")
@@ -888,10 +880,6 @@ function mod:SPELL_AURA_REMOVED(args)
 --		end
 		if self.Options.SetIconOnMartyrdom2 then
 			self:SetIcon(args.destName, 0)
-		end
-	elseif spellId == 362401 and args:IsPlayer() then
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Hide()
 		end
 	elseif spellId == 360281 then
 		if self.Options.SetIconOnDamnation then

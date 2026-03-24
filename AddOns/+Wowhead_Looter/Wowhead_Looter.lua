@@ -10,7 +10,7 @@
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2026-03-11";
+local WL_ADDON_UPDATED = "2026-03-19";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
 local WL_VERSION = 120001;
@@ -28,7 +28,7 @@ wlRegionBuildings = {};
 wlTradingPostItems = "";
 
 -- SavedVariablesPerCharacter
-wlSetting = {minimap=false};
+wlSetting = {};
 wlScans = {
     guid = nil,
     toys = "",
@@ -3056,7 +3056,7 @@ end
 
 function wlEvent_UNIT_SPELLCAST_SENT(self, unit, target, spellCast, spell)
 
-    if issecretvalue(unit) or issecretvalue(spell) then
+    if issecretvalue(unit) or issecretvalue(spell) or issecretvalue(target) then
         return;
     end
 
@@ -5084,6 +5084,14 @@ function wlCheckAreaPois()
         2248, -- Isle of Dorn
         2214, -- The Ringing Deeps
         2346, -- Undermine
+
+        2393, -- Silvermoon City
+        2395, -- Eversong Woods
+        2405, -- Voidstorm
+        2413, -- Harandar
+        2424, -- Isle of Quel'Danas
+        2437, -- Zul'Aman
+        2537, -- Quel'Thalas
     };
     -- Collect POIs for these maps regardless of whether they are primary POIs.
     local includeNonPrimary = {

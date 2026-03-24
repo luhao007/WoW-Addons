@@ -22,11 +22,11 @@ function Fun.Update_ItemButtonZLVranse(ly,framef,data1,data2,data3)
 			if data2~=0 and data2~=4 and data2~=19 then
 				local itemLink = GetInventoryItemLink(data1, data2)
 				if itemLink then
+					local Newquality = GetInventoryItemQuality(data1, data2)
+					local r, g, b = GetItemQualityColor(Newquality or 1);
+		    		framef.ZLV:SetTextColor(r, g, b);
 					_GetTooltipLevel(data1,{data2},function(ItemLevel)
 						framef.ZLV:SetText(ItemLevel)
-						local Newquality = GetInventoryItemQuality(data1, data2)
-						local r, g, b = GetItemQualityColor(Newquality);
-			    		framef.ZLV:SetTextColor(r, g, b);
 					end)
 				end
 			end
@@ -35,10 +35,10 @@ function Fun.Update_ItemButtonZLVranse(ly,framef,data1,data2,data3)
 			if itemLink then
 				local itemID, itemType, itemSubType, itemEquipLoc, icon, classID, subClassID = GetItemInfoInstant(itemLink)
 				if classID==2 or classID==4 then
+					local r, g, b = GetItemQualityColor(quality or 1);
+					framef.ZLV:SetTextColor(r, g, b);
 					_GetTooltipLevel("bag",{data1,data2},function(ItemLevel)
 						framef.ZLV:SetText(ItemLevel);
-						local r, g, b = GetItemQualityColor(quality);
-						framef.ZLV:SetTextColor(r, g, b);
 					end)
 				end
 			end
@@ -47,10 +47,10 @@ function Fun.Update_ItemButtonZLVranse(ly,framef,data1,data2,data3)
 				local itemID, itemType, itemSubType, itemEquipLoc, icon, classID, subClassID = GetItemInfoInstant(data1)
 				if classID==2 or classID==4 then
 					if ly=="L" or (ly=="YC" and data3~=0 and data3~=4 and data3~=19) then
+						local r, g, b = GetItemQualityColor(data2 or 1);
+						framef.ZLV:SetTextColor(r, g, b);
 						_GetTooltipLevel("link",{data1},function(ItemLevel)
 							framef.ZLV:SetText(ItemLevel);
-							local r, g, b = GetItemQualityColor(data2);
-							framef.ZLV:SetTextColor(r, g, b);
 						end)
 					end
 				end

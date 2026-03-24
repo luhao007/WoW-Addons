@@ -47,7 +47,7 @@ Lockit.UI_BOUNTIFUL_KEYS_COUNT_CACHES_PREFIX = "Ключей из тайнико
 
 -- Отделение для аддонов
 
-Lockit.UI_COMPARTMENT_DESCRIPTION_LEFT_CLICK = "|cnGREEN_FONT_COLOR:ЛКМ|r - открыть информационное окно."
+Lockit.UI_COMPARTMENT_DESCRIPTION_LEFT_CLICK = "|cnGREEN_FONT_COLOR:Left Click|r to open the current season Delves info."
 Lockit.UI_COMPARTMENT_DESCRIPTION_RIGHT_CLICK = "|cnGREEN_FONT_COLOR:ПКМ|r - изменить параметры."
 
 -- Настройки
@@ -83,10 +83,12 @@ Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_VERTICAL_NAME = "Вертика�
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_VERTICAL_DESCRIPTION = "Кнопки расположены вертикально."
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_HORIZONTAL_NAME = "Горизонтальный макет"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_HORIZONTAL_DESCRIPTION = "Кнопки расположены горизонтально."
+Lockit.UI_SETTING_MINIMAP_ICON_NAME = "Show Minimap Icon"
+Lockit.UI_SETTING_MINIMAP_ICON_TOOLTIP = "Display a minimap icon. It can be clicked to quickly access the current season Delves info."
 
 Lockit.UI_SETTINGS_SECTION_TITLE_CHARACTER = "Параметры персонажа"
 Lockit.UI_SETTING_TOOLTIP_EXTENSION_NAME = "Дополнительная информация в подсказках"
-Lockit.UI_SETTING_TOOLTIP_EXTENSION_TOOLTIP = "Display additional information in tooltips (e.g., whether |cnITEM_EPIC_COLOR:Bounty Map|r has been looted this week)."
+Lockit.UI_SETTING_TOOLTIP_EXTENSION_TOOLTIP = "Отображение дополнительной информации во всплывающих подсказках (например, был ли на этой неделе получен предмет |cnITEM_EPIC_COLOR:Клад участника вылазки|r)."
 Lockit.UI_SETTING_COMPANION_CONFIG_NAME = "Виджет конфигурации Компаньона"
 Lockit.UI_SETTING_COMPANION_CONFIG_TOOLTIP = "Интерфейс Вылазок: Включить виджет, отображающий текущую специализацию и способности Компаньона.\nЕго можно использовать для изменения конфигурации непосредственно из интерфейса Вылазок."
 Lockit.UI_SETTING_COMPANION_CONFIG_OPTION_HORIZONTAL_NAME = "Горизонтальная расположение"

@@ -10,7 +10,8 @@ end
 local mod	= DBM:NewMod(dungeonID, "DBM-BfA", 4, 1028)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20220116032237")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(creatureID)
 mod:EnableWBEngageSync()--Enable syncing engage in outdoors
 --mod:SetEncounterID(2263)
@@ -66,11 +67,6 @@ function mod:OnCombatStart(delay, yellTriggered)
 	end
 end
 
-function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
-end
 --]]
 
 function mod:SPELL_CAST_START(args)

@@ -6,11 +6,13 @@ local PIGSetFont=Create.PIGSetFont
 -------------------
 function Create.PIGScrollFrame_old(fujik,Point,WH,BarW)
 	local BarW=BarW or 16
+	local Point_1,Point_2,Point_3,Point_4=0,0,0,0
 	local Scroll = CreateFrame("ScrollFrame",nil,fujik); 
 	if Point then
-		Scroll:SetPoint("TOPLEFT",fujik,"TOPLEFT",Point[1],Point[2]);
-		Scroll:SetPoint("BOTTOMRIGHT",fujik,"BOTTOMRIGHT",Point[3]-BarW,Point[4]);
+		Point_1,Point_2,Point_3,Point_4=Point[1] or Point_1,Point[2] or Point_2,Point[3] or Point_3,Point[4] or Point_4
 	end
+	Scroll:SetPoint("TOPLEFT",fujik,"TOPLEFT",Point_1,Point_2);
+	Scroll:SetPoint("BOTTOMRIGHT",fujik,"BOTTOMRIGHT",Point_3-BarW,Point_4);
 	if WH then
 		Scroll:SetSize(WH[1],WH[2] or WH[1])
 	end

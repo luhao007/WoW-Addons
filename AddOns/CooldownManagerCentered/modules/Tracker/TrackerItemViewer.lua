@@ -25,6 +25,19 @@ local ORIENTATION_ANCHORS = {
     ["Vertical Up"] = { primary = "BOTTOM", offsetX = 0, offsetY = 1 },
 }
 
+local OPPOSITE_ANCHOR = {
+    LEFT = "RIGHT",
+    RIGHT = "LEFT",
+    TOP = "BOTTOM",
+    BOTTOM = "TOP",
+    CENTER = "BOTTOM",
+}
+
+local CONFIG_KEY_TO_NAME = {
+    ["tracker1"] = "|cff008945Cool|r|cff1e9a4e|r|cff3faa4fdown Ma|r|cff5fb64anag|r|cff7ac243er Ce|r|cff8ccd00ntered|r 1",
+    ["tracker2"] = "|cff008945Cool|r|cff1e9a4e|r|cff3faa4fdown Ma|r|cff5fb64anag|r|cff7ac243er Ce|r|cff8ccd00ntered|r 2",
+}
+
 local function IsSquareIconsEnabled()
     return (ns.db and ns.db.profile and ns.db.profile.trinketRacialTracker_squareIcons) or false
 end
@@ -240,6 +253,7 @@ end
 
 function ItemViewerFrame:Initialize()
     local frame = self.frame
+    frame.showGCD = false
     if not frame.Icon then
         frame.Icon = frame:CreateTexture(nil, "ARTWORK")
         frame.Icon:SetAllPoints()
@@ -351,6 +365,7 @@ function TrackerInstance:New(configKey, frameName, getEntriesFn)
     local instance = setmetatable({
         configKey = configKey,
         frameName = frameName,
+        editModeName = CONFIG_KEY_TO_NAME[configKey] or frameName,
         getEntriesFn = getEntriesFn,
         anchor = nil,
         iconFrames = {},
@@ -369,6 +384,10 @@ end
 
 function TrackerInstance:GetOrientation()
     return GetConfigValue(self.configKey, "orientation", "Horizontal Right")
+end
+
+function TrackerInstance:GetShowGCD()
+    return GetConfigValue(self.configKey, "showGCD", false)
 end
 
 function TrackerInstance:UpdateIconPosition(frame, visibleIndex)
@@ -420,6 +439,7 @@ function TrackerInstance:RefreshEntries()
     local iconSize = self:GetIconSize()
     local padding = self:GetIconPadding()
     local orientation = self:GetOrientation()
+    local showGCD = self:GetShowGCD()
     local count = #entries
 
     for i = 1, count do
@@ -428,6 +448,7 @@ function TrackerInstance:RefreshEntries()
         end
         local ivf = self.iconFrames[i]
         ivf.frame:SetSize(iconSize, iconSize)
+        ivf.frame.showGCD = showGCD
 
         local db = DB.GetDB()
         if ivf.frame.Cooldown then
@@ -490,12 +511,17 @@ function TrackerInstance:Create()
         iconSize = DEFAULT_ICON_SIZE,
         iconPadding = DEFAULT_ICON_PADDING,
         orientation = "Horizontal Right",
+        anchoredToTracker1 = false,
+        anchoredToTracker1Spacing = DEFAULT_ICON_PADDING,
     }
 
     WilduUICore.LoadFrameConfig(self.configKey, DEFAULT_CONFIG)
     local iconSize = self:GetIconSize()
 
     self.anchor = CreateFrame("Frame", self.frameName, UIParent, "BackdropTemplate")
+
+    self.anchor.editModeName = self.editModeName
+
     self.anchor:SetSize(iconSize, iconSize)
     self.anchor:SetClampedToScreen(true)
 
@@ -506,13 +532,13 @@ function TrackerInstance:Create()
     self.anchor:RegisterEvent("BAG_UPDATE_DELAYED")
     self.anchor:RegisterEvent("BAG_UPDATE_COOLDOWN")
     self.anchor:RegisterEvent("PLAYER_ENTERING_WORLD")
-    self.anchor:RegisterEvent("PLAYER_TALENT_UPDATE")
-    self.anchor:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+    self.anchor:RegisterEvent("TRAIT_CONFIG_UPDATED")
+    self.anchor:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
 
     self.anchor:SetScript("OnEvent", function(_, event, arg1)
         if event == "SPELL_UPDATE_COOLDOWN" or event == "SPELL_UPDATE_CHARGES" or event == "BAG_UPDATE_COOLDOWN" then
             self:UpdateCooldowns()
-            C_Timer.After(UPDATE_THROTTLE_DELAY, function()
+            C_Timer.After(UPDATE_THROTTLE_DELAY + 0.01, function()
                 self:UpdateCooldowns()
             end)
         elseif event == "PLAYER_ENTERING_WORLD" then
@@ -529,6 +555,19 @@ function TrackerInstance:Create()
             C_Timer.After(0.2, function()
                 self:RefreshEntries()
             end)
+        elseif
+            event == "TRAIT_CONFIG_UPDATED"
+            or event == "PLAYER_SPECIALIZATION_CHANGED"
+            or event == "PLAYER_TALENT_UPDATE"
+            or event == "ACTIVE_TALENT_GROUP_CHANGED"
+        then
+            if ItemsData and ItemsData.InvalidateSpellBookCache then
+                ItemsData:InvalidateSpellBookCache()
+            end
+            self:RefreshEntries()
+            C_Timer.After(0.3, function()
+                self:RefreshEntries()
+            end)
         else
             self:RefreshEntries()
         end
@@ -538,6 +577,8 @@ function TrackerInstance:Create()
 
     WilduUICore.RegisterEditModeCallbacks(self.anchor, self.configKey, function()
         return true
+    end, function()
+        return not ns.db.profile.editMode[self.configKey].anchoredToTracker1
     end)
 
     local configKey = self.configKey
@@ -556,6 +597,27 @@ function TrackerInstance:Create()
         local anchorData = ORIENTATION_ANCHORS[orientation] or ORIENTATION_ANCHORS["Horizontal Right"]
         local anchorPrimary = (anchorData and anchorData.primary) or "RIGHT"
 
+        if ns.db.profile.editMode[configKey].anchoredToTracker1 then
+            local x, y
+            local spacing = ns.db.profile.editMode[configKey].anchoredToTracker1Spacing or DEFAULT_ICON_PADDING
+            if anchorPrimary == "LEFT" then
+                x = ns.db.profile.editMode[configKey].anchoredToTracker1Spacing
+                y = 0
+            elseif anchorPrimary == "RIGHT" then
+                x = -ns.db.profile.editMode[configKey].anchoredToTracker1Spacing
+                y = 0
+            elseif anchorPrimary == "TOP" then
+                x = 0
+                y = -ns.db.profile.editMode[configKey].anchoredToTracker1Spacing
+            else
+                x = 0
+                y = ns.db.profile.editMode[configKey].anchoredToTracker1Spacing
+            end
+            frame:SetClampedToScreen(true)
+            frame:ClearAllPoints()
+            frame:SetPoint(anchorPrimary, _G["CMCTracker1"], OPPOSITE_ANCHOR[anchorPrimary], x, y)
+            return
+        end
         local screenWidth, screenHeight = UIParent:GetSize()
         local frameWidth, frameHeight = frame:GetSize()
         local centerX, centerY = frame:GetCenter()
@@ -672,10 +734,59 @@ function TrackerInstance:Create()
                 return string.format("%.2f", value)
             end,
         },
+        {
+            name = "Show GCD",
+            kind = LEM.SettingType.Checkbox,
+            default = false,
+            get = function()
+                return ns.db.profile.editMode[configKey].showGCD or false
+            end,
+            set = function(layoutName, value)
+                ns.db.profile.editMode[configKey].showGCD = value
+                instance:RefreshEntries()
+            end,
+        },
     }
+    if configKey == "tracker2" then
+        tinsert(additionalSettings, {
+            name = "Anchor to Tracker 1",
+            kind = LEM.SettingType.Checkbox,
+            default = false,
+            get = function()
+                return ns.db.profile.editMode[configKey].anchoredToTracker1 or false
+            end,
+            set = function(layoutName, value)
+                ns.db.profile.editMode[configKey].anchoredToTracker1 = value
+                OnPositionChanged(anchor, configKey)
+                instance:RefreshEntries()
+            end,
+        })
+        tinsert(additionalSettings, {
+            name = "Spacing",
+            kind = LEM.SettingType.Slider,
+            default = DEFAULT_ICON_PADDING,
+            get = function()
+                return ns.db.profile.editMode[configKey].anchoredToTracker1Spacing or DEFAULT_ICON_PADDING
+            end,
+            set = function(layoutName, value)
+                ns.db.profile.editMode[configKey].anchoredToTracker1Spacing = value
+                OnPositionChanged(anchor, configKey)
+                instance:RefreshEntries()
+            end,
+            minValue = 0,
+            maxValue = 96,
+            valueStep = 1,
+            formatter = function(value)
+                return string.format("%d", value)
+            end,
+        })
+    end
 
     WilduUICore.RegisterFrameWithLEM(self.anchor, self.configKey, additionalSettings, OnPositionChanged)
 
+    if ns.db.profile.editMode[configKey].anchoredToTracker1 then
+        OnPositionChanged(self.anchor, self.configKey)
+    end
     self:RefreshEntries()
 end
 

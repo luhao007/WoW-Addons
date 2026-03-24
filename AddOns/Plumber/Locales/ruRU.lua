@@ -1,4 +1,4 @@
---Coutesy of ZamestoTV. Thank you!    --Translator: ZamestoTV as of 1.8.6
+--Coutesy of ZamestoTV. Thank you!    --Translator: ZamestoTV as of 1.8.9 d
 
 if not (GetLocale() == "ruRU") then return end;
 
@@ -45,6 +45,7 @@ L["Format Month Day"] = EVENT_SCHEDULER_DAY_FORMAT or "%s %d";
 L["Always On Module"] = "Этот модуль всегда включен.";
 L["Return To Module List"] = "Вернуться к списку";
 L["Generic Addon Conflict"] = "Этот модуль может быть несовместим с аддонами, обладающими аналогичными функциональными возможностями:";
+L["Work In Progress Tag"] = "[ВТЗ]";
 
 
 --Settings Category
@@ -279,6 +280,13 @@ L["Instruction View In Dressing Room"] = "<Нажмите Ctrl, чтобы пр�
 L["Data Loading In Progress"] = "Plumber загружает данные";
 
 
+--Tooltip RichSoil
+L["ModuleName TooltipRichSoil"] = "Быстрый слот: Крепкое семя";
+L["ModuleDescription TooltipRichSoil"] = "Для травников: показывать список крепких семян при двойном клике на плодородную почву."..L["Quick Slot Generic Description"];
+L["Instruction Show Resilient Seeds"] = "<Двойной клик, чтобы показать крепкие семена>";
+L["No Resilient Seed"] = "Нет крепких семян";
+
+
 --Plunderstore
 L["ModuleName Plunderstore"] = "Пиратская буря";
 L["ModuleDescription Plunderstore"] = "Изменить магазин, открытый через Заранее собранные группы:\n\n- Добавлен флажок, позволяющий скрыть собранные предметы.\n\n- Отображение количества несобранных предметов на кнопках категорий.\n\n- В подсказки добавлено место экипировки оружия и брони.\n\n- Позволяет просматривать экипируемые предметы в примерочной.";
@@ -394,7 +402,16 @@ L["NameplateQuest ShowPartyQuest"] = "Показывать задания чле
 L["NameplateQuest ShowPartyQuest Tooltip"] = "Показывать маркер %s, если один из членов вашей группы не завершил цель задания.";
 L["NameplateQuest ShowTargetProgress"] = "Показывать прогресс на цели";
 L["NameplateQuest ShowTargetProgress Tooltip"] = "Показывать прогресс цели задания на неймплейте вашей текущей цели.";
-L["NameplateQuest Instruction Find Nameplate"] = "Чтобы настроить положение иконки, перейдите в место, где видны неймплейты НИП.";
+L["NameplateQuest ShowProgressOnHover"] = "Прогресс при наведении";
+L["NameplateQuest ShowProgressOnHover Tooltip"] = "Показывать прогресс выполнения задания при наведении курсора на индикатор здоровья или персонажа.";
+L["NameplateQuest ShowProgressOnKeyPress"] = "Прогресс при нажатии клавиши";
+L["NameplateQuest ShowProgressOnKeyPress Tooltip Title"] = "Показывать прогресс при нажатии клавиши";
+L["NameplateQuest ShowProgressOnKeyPress Tooltip Format"] = "Показывать прогресс выполнения задания при удержании клавиши |cffffffff%s|r.";
+L["NameplateQuest Instruction Find Nameplate"] = "Чтобы настроить положение иконки, найдите место, где видны индикаторы здоровья НИП.";
+L["NameplateQuest Progress Format"] = "Формат прогресса";
+L["Progress Show Icon"] = "Показывать иконку";
+L["Progress Format Completed"] = "Выполнено/Требуется";
+L["Progress Format Remaining"] = "Осталось";
 
 
 --PartyInviterInfo
@@ -579,6 +596,8 @@ L["LootUI Option Show Reputation"] = "Показать изменения реп
 L["LootUI Option Show Reputation Tooltip"] = "Отображайте любые повышения репутации в окне добычи.\n\nРепутация, заработанная во время боя или в PvP-сражениях, будет отображена позже.";
 L["LootUI Option Show All Money"] = "Показывать все изменения денег";
 L["LootUI Option Show All Money Tooltip"] = "Показывать деньги, полученные из всех источников, а не только из добычи.";
+L["LootUI Option Show All Currency"] = "Показывать все изменения валюты";
+L["LootUI Option Show All Currency Tooltip"] = "Показывать валюту, полученную из всех источников, а не только из добычи.\n\n|cffff4800Иногда могут отображаться валюты, которые не выводятся в обычном окне чата.|r";
 L["LootUI Option Hide Title"] = "Скрыть текст \"Вы получили\"";
 L["LootUI Option Hide Title Tooltip"] = "Скрыть текст \"Вы получили\" в верхней части окна добычи.";
 
@@ -634,6 +653,7 @@ L["Paragon Reward Available"] = "Доступна награда Парагон�
 L["Until Next Level Format"] = "%d до следующего уровня";
 L["Until Paragon Reward Format"] = "%d до награды Парагона";
 L["Instruction Click To View Renown"] = REPUTATION_BUTTON_TOOLTIP_VIEW_RENOWN_INSTRUCTION or "<Нажмите, чтобы посмотреть репутацию>";
+L["Instruction Click To View Companion"] = "<ЛКМ: просмотреть спутника вылазки>";
 L["Not On Quest"] = "Вы не выполняете это задание";
 L["Factions"] = "Фракции";
 L["Activities"] = MAP_LEGEND_CATEGORY_ACTIVITIES or "Активности";
@@ -696,6 +716,32 @@ L["Click To Switch"] = "Нажмите, чтобы переключиться н
 L["Click To Queue"] = "Нажмите, чтобы встать в очередь в |cffffffff%s|r";
 L["Click to Open Format"] = "Нажмите, чтобы открыть %s";
 L["List Is Empty"] = "Список пуст.";
+L["Prey No Data"] = "Прогресс охоты недоступен";
+L["Abundance No Data"] = "Нет активного события Изобилия";
+L["Defeated Prey"] = "Побежденные цели охоты";
+
+
+--ExpansionSummaryMinimapButton
+L["LandingButton Settings Title"] = "Сводка дополнения: кнопка у миникарты";
+L["LandingButton Tooltip Format"] = "ЛКМ: переключить %s.\nПКМ: дополнительные настройки.";
+L["LandingButton Customize"] = "Настроить";
+L["LandingButton Reposition Tooltip"] = "Нажмите |cffffffffShift|r, чтобы разблокировать";
+L["LandingButtonOption ShowButton"] = "Включить кнопку у миникарты";
+L["LandingButtonOption Unaffected"] = "Игнорировать аддоны миникарты";
+L["LandingButtonOption Unaffected Tooltip"] = "Сделать эту кнопку независимой от других аддонов миникарты, предотвращая изменение её вида или положения.\n\nЕсли включено, кнопка больше не будет перемещаться вместе с миникартой или зависеть от её масштаба, а будет использовать общий масштаб интерфейса (UI Scale).\n\n|cffff4800После изменения этого параметра может потребоваться перезагрузка интерфейса (/reload).|r";
+L["LandingButtonOption UseLibDBIcon"] = "Использовать LibDBIcon";
+L["LandingButtonOption UseLibDBIcon Tooltip"] = "Позволить библиотеке LibDBIcon управлять внешним видом и положением этой кнопки.";
+L["LandingButtonOption UseLibDBIcon NoBorder"] = "Убрать рамку кнопки";
+L["LandingButtonOption UseLibDBIcon NoBorder Tooltip"] = "Убрать золотую рамку вокруг кнопки.\n\nЭтот параметр может не работать при использовании некоторых менеджеров кнопок миникарты.";
+L["LandingButtonOption PrimaryUI"] = "ЛКМ открывает";
+L["LandingButtonOption PrimaryUI Tooltip"] = "Выберите, какое окно интерфейса будет открываться при нажатии ЛКМ на кнопку миникарты.";
+L["LandingButtonOption SmartExpansion"] = "Автовыбор дополнения";
+L["LandingButtonOption SmartExpansion Tooltip 1"] = "Если включено: нажатие ЛКМ открывает интерфейс, соответствующий вашему текущему местоположению (например, отчет о святилище ковенанта, если вы в Темных Землях).";
+L["LandingButtonOption SmartExpansion Tooltip 2"] = "Если выключено: нажатие ЛКМ всегда открывает %s.";
+L["LandingButtonOption ReduceSize"] = "Уменьшить размер кнопки";
+L["LandingButtonOption DarkColor"] = "Темная тема";
+L["LandingButtonOption HideWhenIdle"] = "Скрывать в бездействии";
+L["LandingButtonOption HideWhenIdle Tooltip"] = "Кнопка будет невидима, пока вы не подведете к ней курсор или не получите уведомление.\n\nЭта опция вступит в силу после закрытия настроек.";
 
 
 --RaidCheck
@@ -796,12 +842,44 @@ L["ModuleName SourceAchievementLink"] = "Интерактивная информ
 L["ModuleDescription SourceAchievementLink"] = "Делает большинство названий достижений в следующих интерфейсах кликабельными, позволяя просматривать детали или отслеживать их.\n\n- Каталог декора\n\n- Журнал средств передвижения";
 
 
+--BreakTime
+L["ModuleName BreakTime"] = "Напоминание о перерыве";
+L["ModuleDescription BreakTime"] = "Напоминает о необходимости сделать короткий перерыв через определенное время.";
+L["BreakTime Title AllCaps"] = "ВРЕМЯ ПЕРЕРЫВА";
+L["BreakTime Delay Button"] = "Отложить";
+L["BreakTime Delay Button Tooltip Format"] = "Напомнить через %d мин.";
+L["BreakTime Cancel Button"] = "Отмена";
+L["BreakTime Cancel Button Tooltip Format 1"] = "ЛКМ: Отменить таймер для этого цикла. Следующий сработает через %d мин.";
+L["BreakTime Cancel Button Tooltip 2"] = "Нажать и удерживать: Отменить для текущей игровой сессии.";
+L["BreakTime Announce Time Before Alert Format"] = "Следующее напоминание сработает через |cffffffff%d|r мин.";
+L["BreakTime Announce Timer Cancelled"] = "Вы отменили таймер для текущей игровой сессии.";
+L["BreakTime Current Schedule Format"] = "Текущий график: |cffffffff%1$d|r мин. отдыха каждые |cffffffff%2$d|r мин. игры.";
+L["BreakTime Option Cycle"] = "Длительность цикла";
+L["BreakTime Option Cycle Tooltip"] = "Продолжительность каждого игрового цикла.";
+L["BreakTime Option Rest"] = "Длительность перерыва";
+L["BreakTime Option Rest Tooltip"] = "Продолжительность отдыха в каждом цикле.";
+L["BreakTime Option Delay"] = "Время отсрочки";
+L["BreakTime Option Delay Tooltip"] = "На сколько минут откладывается таймер при нажатии кнопки Отложить.";
+L["BreakTime Option FlashTaskbar"] = "Мигать значком на панели задач";
+L["BreakTime Option FlashTaskbar Tooltip"] = "Значок WoW на панели задач Windows будет мигать при срабатывании таймера.";
+L["BreakTime Option DND"] = "Не беспокоить";
+L["BreakTime Option DNDCombat"] = "Бой или PvP";
+L["BreakTime Option DNDCombat Tooltip"] = "Не показывать окно часов во время боя, на полях боя или аренах.\n\nЭта опция всегда включена.";
+L["BreakTime Option DNDInstances"] = "Подземелья";
+L["BreakTime Option DNDInstances Tooltip"] = "Не показывать окно часов, пока вы находитесь в подземелье, рейде или вылазке.";
+L["BreakTime AFK Pause"] = "Обратный отсчет приостановлен, так как вы АФК.";
+L["BreakTime Reset Cancellation"] = "Сбросить отмену перерыва";
+L["BreakTime Annouce Timer Deferred Combat"] = "Не забудьте отдохнуть после боя!";
+L["BreakTime Shared Countdown Tooltip Format"] = "Запланированный перерыв через |cffffffff%d|r мин.";
+
+
 --Generic
 L["Total Colon"] = FROM_TOTAL or "Всего:";
 L["Reposition Button Horizontal"] = "Перемещение по горизонтали";   --Move the window horizontally
 L["Reposition Button Vertical"] = "Перемещение по вертикали";
 L["Reposition Button Tooltip"] = "Щелкните ЛКМ и перетащите, чтобы переместить окно.";
 L["Font Size"] = FONT_SIZE or "Размер шрифта";
+L["Icon Size"] = "Размер иконки";
 L["Reset To Default Position"] = HUD_EDIT_MODE_RESET_POSITION or "Сброс в положение по умолчанию";
 L["Icon Size"] = "Размер иконки";
 L["Renown Level Label"] = "Известность ";  --There is a space
@@ -866,6 +944,9 @@ L["Timeless Scrolls"] = "Вневременный свиток"; --item: 217605
 L["QuestName Runestone"] = "Укрепление рунических камней";    --4 Mutually exclusive quests: 90575
 L["QuestName HarandarRelic"] = "Легенды хараниров";
 L["Prey System"] = "Добыча";
+L["Prey Difficulty Normal"] = "Обычная";
+L["Prey Difficulty Hard"] = "Высокая";
+L["Prey Difficulty Nightmare"] = "Кошмарная";
 
 L["CONFIRM_PURCHASE_NONREFUNDABLE_ITEM"] = "Вы действительно хотите обменять %s на следующий предмет?\n\n|cffff2020Покупка невозвратная.|r\n %s";  --Base: CONFIRM_PURCHASE_NONREFUNDABLE_ITEM Change the warning's color and added a new line.
 

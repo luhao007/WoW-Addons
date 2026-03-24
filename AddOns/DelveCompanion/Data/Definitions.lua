@@ -30,13 +30,11 @@ setmetatable(Definitions.CodeType, {
 
 --- Table of Blizzard AddOns which are loaded on demand. Used to initialize addon modules.
 ---@class (exact) DependencyAddonName
----@field delvesDashboardUI string `Blizzard_DelvesDashboardUI`
 ---@field encounterJournal string `Blizzard_EncounterJournal`
 ---@field rio string `RaiderIO`
 ---@field tomtom string `TomTom`
 ---@field mpe string `MapPinEnhanced`
 Definitions.DependencyAddonName = {
-    delvesDashboardUI = "Blizzard_DelvesDashboardUI",
     encounterJournal = "Blizzard_EncounterJournal",
     rio = "RaiderIO",
     tomtom = "TomTom",

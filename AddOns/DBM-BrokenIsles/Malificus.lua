@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(1884, "DBM-BrokenIsles", 1, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240426185020")
+mod:SetRevision("20260315035302")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(117303)
 --mod:SetEncounterID(1880)
 mod:SetReCombatTime(20)
@@ -30,34 +31,6 @@ local timerIncitePanicCD			= mod:NewCDTimer(14.6, 233568, nil, nil, nil, 1)
 local timerPestilenceCD				= mod:NewCDTimer(14.2, 233614, nil, nil, nil, 3)
 local timerShadowBarrageCD			= mod:NewCDTimer(16.7, 234452, nil, nil, nil, 2)
 
---mod:AddReadyCheckOption(37460, false)
-mod:AddRangeFrameOption(8, 233568)
-local PanicDebuff = DBM:GetSpellName(233568)
-
-local debuffFilter
-do
-	debuffFilter = function(uId)
-		if DBM:UnitDebuff(uId, PanicDebuff) then
-			return true
-		end
-	end
-end
-
-function mod:OnCombatStart(delay, yellTriggered)
-	PanicDebuff = DBM:GetSpellName(233568)
-	if yellTriggered then
-
-	end
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Show(8, debuffFilter)
-	end
-end
-
-function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
-end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId

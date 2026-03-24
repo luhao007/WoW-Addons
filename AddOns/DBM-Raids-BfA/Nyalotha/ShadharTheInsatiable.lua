@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2367, "DBM-Raids-BfA", 1, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250307060206")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(157231)
 mod:SetEncounterID(2335)
 mod:SetUsedIcons(4, 3, 2, 1)
@@ -17,7 +18,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 312328 312329 307471 307472 307358 306942 318078 314736 312099 306447 306931 306933 306448 307260",
 	"SPELL_AURA_APPLIED_DOSE 312328 307358 307471",
 	"SPELL_AURA_REMOVED 312328 307358 306447 306933 306931",
-	"SPELL_AURA_REMOVED_DOSE 312328 307358 307472",
+	"SPELL_AURA_REMOVED_DOSE 312328 307358",
 	"SPELL_PERIODIC_DAMAGE 314736",
 	"SPELL_PERIODIC_MISSED 314736",
 	"UNIT_SPELLCAST_SUCCEEDED boss1",
@@ -69,7 +70,6 @@ local timerEntropicBuildupCD				= mod:NewNextCountTimer(10, 308177, nil, nil, ni
 
 local berserkTimer							= mod:NewBerserkTimer(360)
 
---mod:AddRangeFrameOption(6, 264382)
 mod:AddInfoFrameOption(307358, true)
 mod:AddSetIconOption("SetIconOnDebilitating", 306953, true, 0, {1, 2, 3, 4})
 
@@ -190,9 +190,7 @@ function mod:OnCombatEnd()
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
---	if self.Options.RangeFrame then
---		DBM.RangeCheck:Hide()
---	end
+
 end
 
 function mod:SPELL_CAST_START(args)

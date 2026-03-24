@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(1122, "DBM-Raids-WoD", 2, 457)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240426173239")
+mod:SetRevision("20260315035313")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(76865)--No need to add beasts to this. It's always main boss that's engaged first and dies last.
 mod:SetEncounterID(1694)
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
@@ -81,10 +82,8 @@ local timerInfernoBreathCD			= mod:NewNextTimer(20, 154989, nil, nil, nil, 3)
 
 local berserkTimer					= mod:NewBerserkTimer(720)
 
-mod:AddRangeFrameOption("8/7/3", nil, "-Melee")
 mod:AddSetIconOption("SetIconOnSpear", 154960)--Not often I make icon options on by default but this one is universally important. YOu always break players out of spear, in any strat.
 mod:AddSetIconOption("SetIconOnConflag", 154981, false)
-mod:AddHudMapOption("HudMapOnBreath", 154989)
 
 mod.vb.RylakAbilities = false
 mod.vb.WolfAbilities = false
@@ -154,10 +153,6 @@ function mod:SuperheatedTarget(targetname, uId)
 	if targetname == UnitName("player") then
 		yellSuperheated:Yell()
 	end
-	if self.Options.HudMapOnBreath then
-		--Static marker, breath doesn't move once a target is picked. it's aimed at static location player WAS
-		DBM.HudMap:RegisterStaticMarkerOnPartyMember(154989, "highlight", targetname, 5, 6.5, 1, 0, 0, 0.5):Pulse(0.5, 0.5)
-	end
 end
 
 function mod:BreathTarget(targetname, uId)
@@ -165,10 +160,6 @@ function mod:BreathTarget(targetname, uId)
 	warnInfernoBreath:Show(targetname)
 	if targetname == UnitName("player") then
 		yellInfernoBreath:Yell()
-	end
-	if self.Options.HudMapOnBreath then
-		--Static marker, breath doesn't move once a target is picked. it's aimed at static location player WAS
-		DBM.HudMap:RegisterStaticMarkerOnPartyMember(154989, "highlight", targetname, 5, 6.5, 1, 0, 0, 0.5):Pulse(0.5, 0.5)
 	end
 end
 
@@ -186,9 +177,6 @@ function mod:OnCombatStart(delay)
 	else
 		timerCallthePackCD:Start(9.5-delay)--Time for cast finish, not cast start, because only cast finish is sure thing. cast start can be interrupted
 	end
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Show(3)
-	end
 	berserkTimer:Start(-delay)--Verified 12 min normal and heroic.
 	if self:IsMythic() then
 		self:RegisterShortTermEvents(
@@ -199,12 +187,6 @@ end
 
 function mod:OnCombatEnd()
 	self:UnregisterShortTermEvents()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
-	if self.Options.HudMapOnBreath then
-		DBM.HudMap:Disable()
-	end
 end
 
 function mod:SPELL_CAST_START(args)
@@ -362,18 +344,12 @@ function mod:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
 				if cid == 76884 then--Cruelfang
 					timerRendandTearCD:Start(5)
 					timerSavageHowlCD:Start(15)
-					if self.Options.RangeFrame and not self.vb.RylakAbilities then
-						DBM.RangeCheck:Show(7)--Upgrade range frame to 7 now that he has rend and tear.
-					end
 					--Cancel timers for abilities he can't use from other dead beasts
 					timerSuperheatedShrapnelCD:Stop()
 					timerTantrumCD:Stop()
 				elseif cid == 76874 then--Dreadwing
 					timerInfernoBreathCD:Start(6)
 					timerConflagCD:Start(12)
-					if self.Options.RangeFrame then
-						DBM.RangeCheck:Show(8)--Update range frame to 8 for Scrapnal. TODO, again, see if melee affected by this or not
-					end
 					--Cancel timers for abilities he can't use from other dead beasts
 					timerRendandTearCD:Stop()
 					timerTantrumCD:Stop()

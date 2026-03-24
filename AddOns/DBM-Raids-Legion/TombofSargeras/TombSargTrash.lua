@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod("TombSargTrash", "DBM-Raids-Legion", 2)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240422191412")
+mod:SetRevision("20260315035302")
+mod:DisableHardcodedOptions()
 --mod:SetModelID(47785)
 mod.isTrashMod = true
 

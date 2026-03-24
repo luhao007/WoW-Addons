@@ -389,11 +389,12 @@ function ViewerAdapters.UpdateUtilityDimming()
                     else
                         cd = ns.CooldownTracker:getSpellCD(spellID)
                     end
+                    if cd and cd.EvaluateRemainingDuration then
+                        local curve = GetDimCurve(toDimOpacity)
+                        local EvaluateDuration = cd:EvaluateRemainingDuration(curve)
 
-                    local curve = GetDimCurve(toDimOpacity)
-                    local EvaluateDuration = cd.EvaluateRemainingDuration and cd:EvaluateRemainingDuration(curve)
-
-                    child:SetAlpha(EvaluateDuration)
+                        child:SetAlpha(EvaluateDuration)
+                    end
                 else
                     child:SetAlpha(toDimOpacity)
                 end

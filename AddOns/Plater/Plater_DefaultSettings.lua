@@ -771,6 +771,7 @@ PLATER_DEFAULT_SETTINGS = {
 		castbar_icon_attach_to_side = "left", --"right"
 		castbar_icon_size = "same as castbar", --"same as castbar plus healthbar"
 		castbar_icon_x_offset = 0,
+		castbar_icon_showshield = true,
 		
 		
 		--> store spells from the latest event the player has been into
@@ -3059,7 +3060,7 @@ PLATER_DEFAULT_SETTINGS = {
 		cast_statusbar_color = {1, .7, 0, 0.96},
 		cast_statusbar_color_channeling = {0, 1, 0, 0.96},
 		cast_statusbar_color_empowered = {0, 1, 0, 0.96},
-		cast_statusbar_color_important = {1, .25, 0, 0.96},
+		cast_statusbar_color_important = {1, .29, 0, 0.96},
 		cast_statusbar_color_nointerrupt = {.5, .5, .5, 0.96},
 		cast_statusbar_color_interrupted = {1, .1, .1, 1},
 		cast_statusbar_color_finished = {0, 1, 0, 1},

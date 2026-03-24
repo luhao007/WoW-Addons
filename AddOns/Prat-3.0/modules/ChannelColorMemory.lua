@@ -268,6 +268,10 @@ L["Remembers the colors of each channel name."] = "記住每個頻道顏色的�
 	end
 
 	function module:CHAT_MSG_CHANNEL_NOTICE(_, NoticeType, _, _, _, _, _, ServChanID, number, cname)
+		if issecretvalue and issecretvalue(NoticeType) then
+			return
+		end
+
 		if tonumber(ServChanID) > 0 then
 			cname = self.zoneChanIdx[tostring(ServChanID)]
 

@@ -37,12 +37,13 @@ function DelveCompanion_DelveEncounterBountifulFrameMixin:OnShow()
     -- Logger:Log("[DelveEncounterBountifulFrame] OnShow start")
 
     ---@type number
-    local expansion = GetEJTierData(EJ_GetCurrentTier()).expansionLevel
+    local expansion = DelveCompanion.EJExtension.DelveEncounter:GetExpansionForFaction(
+        DelveCompanion.EJExtension.DelveEncounter:GetFactionIDs())
     DelveCompanion:UpdateDelvesData(expansion)
 
     for index, delveData in ipairs(DelveCompanion.Variables.delvesData[expansion]) do
         if delveData.isBountiful then
-            ---@type OverviewBountifulButton
+            ---@type DelveEncounterBountifulButton
             local button = self.bountifulButtonsPool:Acquire()
             button:Init(delveData, index)
             button:Show()

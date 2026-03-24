@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2444, "DBM-Raids-Shadowlands", 2, 1193)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250719035005")
+mod:SetRevision("20260315035226")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(175729)
 mod:SetEncounterID(2432)
 mod:SetUsedIcons(1, 2, 3, 4, 7, 8)
@@ -62,7 +63,6 @@ local timerGraspofMaliceCD						= mod:NewCDTimer(20.7, 355123, nil, nil, nil, 3,
 
 local berserkTimer								= mod:NewBerserkTimer(600)
 
---mod:AddRangeFrameOption("8")
 --mod:AddInfoFrameOption(349890, true)
 mod:AddSetIconOption("SetIconOnMalevolence", 350469, true, 0, {1, 2, 3})
 mod:AddSetIconOption("SetIconOnOrbs", 321226, true, 5, {7, 6, 5, 4})
@@ -173,9 +173,7 @@ function mod:OnCombatEnd()
 --	if self.Options.InfoFrame then
 --		DBM.InfoFrame:Hide()
 --	end
---	if self.Options.RangeFrame then
---		DBM.RangeCheck:Hide()
---	end
+
 	if self.Options.NPAuraOnOrbEternalTorment then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
 	end

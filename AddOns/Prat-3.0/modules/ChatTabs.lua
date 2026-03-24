@@ -60,6 +60,10 @@ Prat:AddModuleToLoad(function()
 		["foreveralert_desc"] = "With this turned off the highlight/flash will persist until the timer elapses",
 		["Chat Alert Timeout"] = true,
 		["How long any highlights/flashes should last"] = true,
+		["Tab Font Size"] = true,
+		["Set the font size for chat tab names."] = true,
+		["keephighlightinactive_name"] = "Only keep highlighting if tab is not active",
+		["keephighlightinactive_desc"] = "If this is turned on, the highlight will only persist if the tab is not the active tab. Otherwise the timer will be used",
 	})
 	--@end-debug@]==]
 
@@ -70,7 +74,6 @@ Prat:AddModuleToLoad(function()
 	--@non-debug@
   do
 	  local L
-
 
   L = {}
   -- ChatTabs
@@ -93,6 +96,8 @@ L["Hidden"] = true
 L["Highlighting/Flashing"] = true
 L["How long any highlights/flashes should last"] = true
 L["Individual"] = true
+L["keephighlightinactive_desc"] = "If this is turned on, the highlight will only persist if the tab is not the active tab. Otherwise the timer will be used"
+L["keephighlightinactive_name"] = "Only keep highlighting if tab is not active"
 L["Not Active Alpha"] = true
 L["preventdrag_desc"] = "Prevent dragging chat tabs with mouse"
 L["preventdrag_name"] = "Prevent Dragging"
@@ -102,9 +107,11 @@ L["Set Flash Color"] = true
 L["Set Flash On Message"] = true
 L["Set tab display mode for each chat window."] = "Set tab display mode for each chat window. Checked (on), Unchecked (off), Greyed Check (default)"
 L["Set tab display to always, hidden or the Blizzard default."] = true
+L["Set the font size for chat tab names."] = true
 L["Sets alpha of chat tab for active chat frame."] = true
 L["Sets alpha of chat tab for not active chat frame."] = true
 L["Show Tab Textures"] = true
+L["Tab Font Size"] = true
 L["Tabs"] = true
 L["Visibility"] = true
 
@@ -153,6 +160,10 @@ L["How long any highlights/flashes should last"] = "How long any highlights/flas
 --[[Translation missing --]]
 L["Individual"] = "Individual"
 --[[Translation missing --]]
+L["keephighlightinactive_desc"] = "If this is turned on, the highlight will only persist if the tab is not the active tab. Otherwise the timer will be used"
+--[[Translation missing --]]
+L["keephighlightinactive_name"] = "Only keep highlighting if tab is not active"
+--[[Translation missing --]]
 L["Not Active Alpha"] = "Not Active Alpha"
 --[[Translation missing --]]
 L["preventdrag_desc"] = "Prevent dragging chat tabs with mouse"
@@ -171,11 +182,15 @@ L["Set tab display mode for each chat window."] = "Set tab display mode for each
 --[[Translation missing --]]
 L["Set tab display to always, hidden or the Blizzard default."] = "Set tab display to always, hidden or the Blizzard default."
 --[[Translation missing --]]
+L["Set the font size for chat tab names."] = "Set the font size for chat tab names."
+--[[Translation missing --]]
 L["Sets alpha of chat tab for active chat frame."] = "Sets alpha of chat tab for active chat frame."
 --[[Translation missing --]]
 L["Sets alpha of chat tab for not active chat frame."] = "Sets alpha of chat tab for not active chat frame."
 --[[Translation missing --]]
 L["Show Tab Textures"] = "Show Tab Textures"
+--[[Translation missing --]]
+L["Tab Font Size"] = "Tab Font Size"
 --[[Translation missing --]]
 L["Tabs"] = "Tabs"
 --[[Translation missing --]]
@@ -226,6 +241,10 @@ L["How long any highlights/flashes should last"] = "How long any highlights/flas
 --[[Translation missing --]]
 L["Individual"] = "Individual"
 --[[Translation missing --]]
+L["keephighlightinactive_desc"] = "If this is turned on, the highlight will only persist if the tab is not the active tab. Otherwise the timer will be used"
+--[[Translation missing --]]
+L["keephighlightinactive_name"] = "Only keep highlighting if tab is not active"
+--[[Translation missing --]]
 L["Not Active Alpha"] = "Not Active Alpha"
 --[[Translation missing --]]
 L["preventdrag_desc"] = "Prevent dragging chat tabs with mouse"
@@ -244,11 +263,15 @@ L["Set tab display mode for each chat window."] = "Set tab display mode for each
 --[[Translation missing --]]
 L["Set tab display to always, hidden or the Blizzard default."] = "Set tab display to always, hidden or the Blizzard default."
 --[[Translation missing --]]
+L["Set the font size for chat tab names."] = "Set the font size for chat tab names."
+--[[Translation missing --]]
 L["Sets alpha of chat tab for active chat frame."] = "Sets alpha of chat tab for active chat frame."
 --[[Translation missing --]]
 L["Sets alpha of chat tab for not active chat frame."] = "Sets alpha of chat tab for not active chat frame."
 --[[Translation missing --]]
 L["Show Tab Textures"] = "Show Tab Textures"
+--[[Translation missing --]]
+L["Tab Font Size"] = "Tab Font Size"
 --[[Translation missing --]]
 L["Tabs"] = "Tabs"
 --[[Translation missing --]]
@@ -288,6 +311,10 @@ L["Highlighting/Flashing"] = "Highlighting/Flashing"
 --[[Translation missing --]]
 L["How long any highlights/flashes should last"] = "How long any highlights/flashes should last"
 L["Individual"] = "Individuel"
+--[[Translation missing --]]
+L["keephighlightinactive_desc"] = "If this is turned on, the highlight will only persist if the tab is not the active tab. Otherwise the timer will be used"
+--[[Translation missing --]]
+L["keephighlightinactive_name"] = "Only keep highlighting if tab is not active"
 L["Not Active Alpha"] = "Transparence inactive"
 L["preventdrag_desc"] = "Empêcher le déplacement des onglets avec la souris"
 L["preventdrag_name"] = "Verrouiller"
@@ -299,10 +326,14 @@ L["Set Flash Color"] = "Set Flash Color"
 L["Set Flash On Message"] = "Set Flash On Message"
 L["Set tab display mode for each chat window."] = "Définir le mode d'affichage des onglets pour chaque fenêtre de chat. Coché (On), Décoché (Off) Coché en gris (Défaut)"
 L["Set tab display to always, hidden or the Blizzard default."] = "Définir l'affichage des onglets sur toujours, caché ou par défaut Blizzard"
+--[[Translation missing --]]
+L["Set the font size for chat tab names."] = "Set the font size for chat tab names."
 L["Sets alpha of chat tab for active chat frame."] = "Définit la transparence de l'onglet pour les fenêtres de discussion actives."
 L["Sets alpha of chat tab for not active chat frame."] = "Définit la transparence de l'onglet pour les fenêtres de discussion inactives."
 --[[Translation missing --]]
 L["Show Tab Textures"] = "Show Tab Textures"
+--[[Translation missing --]]
+L["Tab Font Size"] = "Tab Font Size"
 L["Tabs"] = "Onglets"
 --[[Translation missing --]]
 L["Visibility"] = "Visibility"
@@ -333,6 +364,10 @@ L["Hidden"] = "Verborgen"
 L["Highlighting/Flashing"] = "Beleuchtung/das Blitzen"
 L["How long any highlights/flashes should last"] = "Wie lange sollte die Beleuchtung/das Blitzen dauern"
 L["Individual"] = "Individuell"
+--[[Translation missing --]]
+L["keephighlightinactive_desc"] = "If this is turned on, the highlight will only persist if the tab is not the active tab. Otherwise the timer will be used"
+--[[Translation missing --]]
+L["keephighlightinactive_name"] = "Only keep highlighting if tab is not active"
 L["Not Active Alpha"] = "Inaktive Transparenz"
 L["preventdrag_desc"] = "Verhindert das Verschieben der Chattabs mit der Maus."
 L["preventdrag_name"] = "Ziehen verhindern"
@@ -342,9 +377,13 @@ L["Set Flash Color"] = "Lege die Blitzfarbe fest"
 L["Set Flash On Message"] = "Lege das Blitzen bei Nachricht fest"
 L["Set tab display mode for each chat window."] = "Reiterdarstellungsmodus für jedes Chatfenster einstellen: markiert (an), nicht markiert (aus), grau markiert (standard)"
 L["Set tab display to always, hidden or the Blizzard default."] = "Reiterdarstellung einstellen: immer, verbergen oder Blizzards Standard"
+--[[Translation missing --]]
+L["Set the font size for chat tab names."] = "Set the font size for chat tab names."
 L["Sets alpha of chat tab for active chat frame."] = "Transparenz der Chatreiter von aktiven Chatfenstern einstellen."
 L["Sets alpha of chat tab for not active chat frame."] = "Transparenz der Chatreiter von inaktiven Chatfenstern einstellen."
 L["Show Tab Textures"] = "Tab-Texturen anzeigen"
+--[[Translation missing --]]
+L["Tab Font Size"] = "Tab Font Size"
 L["Tabs"] = "Reiter (Reiter der Chatfenster)"
 L["Visibility"] = "Sichtbarkeit"
 
@@ -382,6 +421,10 @@ L["Highlighting/Flashing"] = "Highlighting/Flashing"
 --[[Translation missing --]]
 L["How long any highlights/flashes should last"] = "How long any highlights/flashes should last"
 L["Individual"] = "개별"
+--[[Translation missing --]]
+L["keephighlightinactive_desc"] = "If this is turned on, the highlight will only persist if the tab is not the active tab. Otherwise the timer will be used"
+--[[Translation missing --]]
+L["keephighlightinactive_name"] = "Only keep highlighting if tab is not active"
 L["Not Active Alpha"] = "비활성 탭 투명도"
 L["preventdrag_desc"] = "마우스로 대화창 탭을 이동하지 못하게 합니다"
 L["preventdrag_name"] = "탭 이동방지"
@@ -393,10 +436,14 @@ L["Set Flash Color"] = "Set Flash Color"
 L["Set Flash On Message"] = "Set Flash On Message"
 L["Set tab display mode for each chat window."] = "각 대화창 별로 탭 표시 모드를 설정합니다. 체크함 (표시), 체크 안함 (표시 안함), 회색 체크 (기본값)"
 L["Set tab display to always, hidden or the Blizzard default."] = "탭 표시를 항상 표시, 숨김 또는 블리자드 기본값으로 설정합니다."
+--[[Translation missing --]]
+L["Set the font size for chat tab names."] = "Set the font size for chat tab names."
 L["Sets alpha of chat tab for active chat frame."] = "활성화 된 대화창 탭의 투명도를 설정합니다."
 L["Sets alpha of chat tab for not active chat frame."] = "비활성화 된 대화창 탭의 투명도를 설정합니다."
 --[[Translation missing --]]
 L["Show Tab Textures"] = "Show Tab Textures"
+--[[Translation missing --]]
+L["Tab Font Size"] = "Tab Font Size"
 L["Tabs"] = "대화창 탭 [ChatTabs]"
 --[[Translation missing --]]
 L["Visibility"] = "Visibility"
@@ -444,6 +491,10 @@ L["How long any highlights/flashes should last"] = "How long any highlights/flas
 --[[Translation missing --]]
 L["Individual"] = "Individual"
 --[[Translation missing --]]
+L["keephighlightinactive_desc"] = "If this is turned on, the highlight will only persist if the tab is not the active tab. Otherwise the timer will be used"
+--[[Translation missing --]]
+L["keephighlightinactive_name"] = "Only keep highlighting if tab is not active"
+--[[Translation missing --]]
 L["Not Active Alpha"] = "Not Active Alpha"
 --[[Translation missing --]]
 L["preventdrag_desc"] = "Prevent dragging chat tabs with mouse"
@@ -462,11 +513,15 @@ L["Set tab display mode for each chat window."] = "Set tab display mode for each
 --[[Translation missing --]]
 L["Set tab display to always, hidden or the Blizzard default."] = "Set tab display to always, hidden or the Blizzard default."
 --[[Translation missing --]]
+L["Set the font size for chat tab names."] = "Set the font size for chat tab names."
+--[[Translation missing --]]
 L["Sets alpha of chat tab for active chat frame."] = "Sets alpha of chat tab for active chat frame."
 --[[Translation missing --]]
 L["Sets alpha of chat tab for not active chat frame."] = "Sets alpha of chat tab for not active chat frame."
 --[[Translation missing --]]
 L["Show Tab Textures"] = "Show Tab Textures"
+--[[Translation missing --]]
+L["Tab Font Size"] = "Tab Font Size"
 --[[Translation missing --]]
 L["Tabs"] = "Tabs"
 --[[Translation missing --]]
@@ -505,6 +560,10 @@ L["Highlighting/Flashing"] = "Highlighting/Flashing"
 --[[Translation missing --]]
 L["How long any highlights/flashes should last"] = "How long any highlights/flashes should last"
 L["Individual"] = "Индивидуально"
+--[[Translation missing --]]
+L["keephighlightinactive_desc"] = "If this is turned on, the highlight will only persist if the tab is not the active tab. Otherwise the timer will be used"
+--[[Translation missing --]]
+L["keephighlightinactive_name"] = "Only keep highlighting if tab is not active"
 L["Not Active Alpha"] = "Прозрачность неактивных"
 L["preventdrag_desc"] = "Запретить перетаскивание вкладок чата с помощью мыши"
 L["preventdrag_name"] = "Запретить перетаскивание"
@@ -516,10 +575,14 @@ L["Set Flash Color"] = "Set Flash Color"
 L["Set Flash On Message"] = "Set Flash On Message"
 L["Set tab display mode for each chat window."] = "Установить режим отображения каждой вкладки окна чата. Отмечено (вкл), Не отмечено (выкл), Отмечено серым (по умолчанию)"
 L["Set tab display to always, hidden or the Blizzard default."] = "Установить режим отображения вкладки на 'всегда показывать', 'скрывать' или 'поведение по умолчанию, как у Blizzard'."
+--[[Translation missing --]]
+L["Set the font size for chat tab names."] = "Set the font size for chat tab names."
 L["Sets alpha of chat tab for active chat frame."] = "Прозрачность активной вкладки чата."
 L["Sets alpha of chat tab for not active chat frame."] = "Прозрачность неактивных вкладок чата."
 --[[Translation missing --]]
 L["Show Tab Textures"] = "Show Tab Textures"
+--[[Translation missing --]]
+L["Tab Font Size"] = "Tab Font Size"
 L["Tabs"] = "Вкладки чата"
 --[[Translation missing --]]
 L["Visibility"] = "Visibility"
@@ -557,6 +620,10 @@ L["Highlighting/Flashing"] = "Highlighting/Flashing"
 --[[Translation missing --]]
 L["How long any highlights/flashes should last"] = "How long any highlights/flashes should last"
 L["Individual"] = "个别"
+--[[Translation missing --]]
+L["keephighlightinactive_desc"] = "If this is turned on, the highlight will only persist if the tab is not the active tab. Otherwise the timer will be used"
+--[[Translation missing --]]
+L["keephighlightinactive_name"] = "Only keep highlighting if tab is not active"
 L["Not Active Alpha"] = "非活跃的透明度"
 L["preventdrag_desc"] = "阻止聊天页签随鼠标拖动"
 L["preventdrag_name"] = "拖动阻止"
@@ -568,10 +635,14 @@ L["Set Flash Color"] = "Set Flash Color"
 L["Set Flash On Message"] = "Set Flash On Message"
 L["Set tab display mode for each chat window."] = "设置每个聊天窗口的页签显示模式.检查(开),不检查(关),暂停检查(预设)"
 L["Set tab display to always, hidden or the Blizzard default."] = "设置页签永久显示,隐藏或暴雪预设"
+--[[Translation missing --]]
+L["Set the font size for chat tab names."] = "Set the font size for chat tab names."
 L["Sets alpha of chat tab for active chat frame."] = "设置活跃聊天框页签透明度"
 L["Sets alpha of chat tab for not active chat frame."] = "设置非活跃聊天框页签透明度"
 --[[Translation missing --]]
 L["Show Tab Textures"] = "Show Tab Textures"
+--[[Translation missing --]]
+L["Tab Font Size"] = "Tab Font Size"
 L["Tabs"] = "页签"
 --[[Translation missing --]]
 L["Visibility"] = "Visibility"
@@ -609,6 +680,10 @@ L["Highlighting/Flashing"] = "Highlighting/Flashing"
 --[[Translation missing --]]
 L["How long any highlights/flashes should last"] = "How long any highlights/flashes should last"
 L["Individual"] = true
+--[[Translation missing --]]
+L["keephighlightinactive_desc"] = "If this is turned on, the highlight will only persist if the tab is not the active tab. Otherwise the timer will be used"
+--[[Translation missing --]]
+L["keephighlightinactive_name"] = "Only keep highlighting if tab is not active"
 L["Not Active Alpha"] = "No Activar Transparencia"
 L["preventdrag_desc"] = "Evitar arrastrar pestañas de chat con el ratón"
 L["preventdrag_name"] = "Evitar arrastrar"
@@ -620,10 +695,14 @@ L["Set Flash Color"] = "Set Flash Color"
 L["Set Flash On Message"] = "Set Flash On Message"
 L["Set tab display mode for each chat window."] = "Establecer modo de pantalla de la pestaña para cada ventana de chat. Marcado (encendido), Desmarcado (apagado), Deshabilitado (predeterminado)"
 L["Set tab display to always, hidden or the Blizzard default."] = "Establecer mostrar pestaña a siempre, oculta o por defecto (Blizzard)."
+--[[Translation missing --]]
+L["Set the font size for chat tab names."] = "Set the font size for chat tab names."
 L["Sets alpha of chat tab for active chat frame."] = "Establece la transparencia de la pestaña de chat para el marco activo."
 L["Sets alpha of chat tab for not active chat frame."] = "Establece la transparencia de la pestaña de chat para el marco no activo."
 --[[Translation missing --]]
 L["Show Tab Textures"] = "Show Tab Textures"
+--[[Translation missing --]]
+L["Tab Font Size"] = "Tab Font Size"
 L["Tabs"] = "Pestañas"
 --[[Translation missing --]]
 L["Visibility"] = "Visibility"
@@ -661,6 +740,10 @@ L["Highlighting/Flashing"] = "Highlighting/Flashing"
 --[[Translation missing --]]
 L["How long any highlights/flashes should last"] = "How long any highlights/flashes should last"
 L["Individual"] = "個人"
+--[[Translation missing --]]
+L["keephighlightinactive_desc"] = "If this is turned on, the highlight will only persist if the tab is not the active tab. Otherwise the timer will be used"
+--[[Translation missing --]]
+L["keephighlightinactive_name"] = "Only keep highlighting if tab is not active"
 L["Not Active Alpha"] = "非使用中透明度"
 L["preventdrag_desc"] = "預防以滑鼠拖曳聊天標籤"
 L["preventdrag_name"] = "防止拖曳"
@@ -672,10 +755,14 @@ L["Set Flash Color"] = "Set Flash Color"
 L["Set Flash On Message"] = "Set Flash On Message"
 L["Set tab display mode for each chat window."] = "為個別聊天標籤顯示模式設定. 核選（啟用），取消（停用），灰階（預設值）"
 L["Set tab display to always, hidden or the Blizzard default."] = "設定是否顯示聊天標籤或者是 Blizzard預設值"
+--[[Translation missing --]]
+L["Set the font size for chat tab names."] = "Set the font size for chat tab names."
 L["Sets alpha of chat tab for active chat frame."] = "設定使用中聊天視窗標籤透明度"
 L["Sets alpha of chat tab for not active chat frame."] = "設定非使用中聊天視窗標籤透明度"
 --[[Translation missing --]]
 L["Show Tab Textures"] = "Show Tab Textures"
+--[[Translation missing --]]
+L["Tab Font Size"] = "Tab Font Size"
 L["Tabs"] = "標籤"
 --[[Translation missing --]]
 L["Visibility"] = "Visibility"
@@ -716,6 +803,7 @@ L["Visibility"] = "Visibility"
 
 			foreveralert = false,
 			alerttimeout = 3.2,
+			tabfontsize = 12,
 		}
 	})
 
@@ -771,6 +859,15 @@ L["Visibility"] = "Visibility"
 						type = "toggle",
 						order = 150,
 					},
+					tabfontsize = {
+						name = PL["Tab Font Size"],
+						desc = PL["Set the font size for chat tab names."],
+						type = "range",
+						order = 160,
+						min = 8,
+						max = 24,
+						step = 1,
+					},
 				},
 			},
 			highlightgroup = {
@@ -798,6 +895,12 @@ L["Visibility"] = "Visibility"
 						order = 6,
 						min = 0.1,
 						max = 15,
+					},
+					keephighlightinactive = {
+						name = PL["keephighlightinactive_name"],
+						desc = PL["keephighlightinactive_desc"],
+						type = "toggle",
+						order = 7
 					},
 				},
 			},
@@ -1019,6 +1122,7 @@ L["Visibility"] = "Visibility"
 			end
 			self:ShowHideTabTextures(v)
 		end
+		self:UpdateTabFontSizes()
 	end
 
 	function module:OnTabShow(tab)
@@ -1122,7 +1226,8 @@ L["Visibility"] = "Visibility"
 
 		if #actions > 0 then
 			self.chatAlertCleanupActions[chatFrame:GetName()] = actions
-			if not self.db.profile.foreveralert then
+			local activeChatFrame = SELECTED_CHAT_FRAME
+			if not self.db.profile.foreveralert or (self.db.profile.keephighlightinactive and activeChatFrame:GetID() == chatFrame:GetID()) then
 				self.chatAlertTimers[chatFrame:GetName()] = C_Timer.NewTimer(self.db.profile.alerttimeout, function()
 					self.chatAlertTimers[chatFrame:GetName()] = nil
 					for _, a in ipairs(actions) do
@@ -1218,6 +1323,17 @@ L["Visibility"] = "Visibility"
 
 		return function()
 			tabButton:GetFontString():SetTextColor(oldR, oldG, oldB, oldA)
+		end
+	end
+
+	function module:UpdateTabFontSizes()
+		for k, _ in pairs(Prat.Frames) do
+			local tabButton = _G[k .. "Tab"]
+			if tabButton and tabButton:GetFontString() then
+				local fontString = tabButton:GetFontString()
+				local currentFont, _, currentFlags = fontString:GetFont()
+				fontString:SetFont(currentFont, self.db.profile.tabfontsize, currentFlags)
+			end
 		end
 	end
 

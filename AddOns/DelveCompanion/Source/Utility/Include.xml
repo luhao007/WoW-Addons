@@ -11,4 +11,6 @@
 	<Script file="DelveOBotWidget.lua" />
 
 	<Script file="WaypointTracker.lua" />
+	<Script file="MinimapIcon.lua" />
+	<Script file="SlashCmd.lua" />
 </Ui>

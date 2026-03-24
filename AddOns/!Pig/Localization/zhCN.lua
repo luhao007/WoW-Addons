@@ -204,6 +204,8 @@ L["CVAR_TABNAME1"] = GENERAL;
 L["CVAR_TABNAME2"] = "姓名版";
 L["CVAR_TABNAME3"] = "自身高亮";
 L["CVAR_TABNAME4"] = "高级";
+----
+L["EXT_TOJOIN"] = ",进组暗号%s"
 --Invite
 L["TARDIS_TABNAME"] = "汇合石";
 L["TARDIS_CHEDUI"] = "车队";

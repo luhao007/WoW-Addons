@@ -12,11 +12,6 @@ local desaturationCurve = C_CurveUtil.CreateCurve()
 desaturationCurve:AddPoint(0, 0)
 desaturationCurve:AddPoint(0.001, 1)
 
--- local function GetGlobalCooldownDuration()
---     local info = C_Spell.GetSpellCooldown(61304)
---     return info and info.duration or nil
--- end
-
 function ItemVisuals:GetEntryIcon(kind, id)
     if kind == "wildcardSlots" and ItemsData and ItemsData.GetWildcardSlotItemID then
         local itemID = ItemsData:GetWildcardSlotItemID(id)
@@ -77,22 +72,29 @@ function ItemVisuals:UpdateSpellCooldown(frame, spellID)
     if not frame or not frame.Cooldown then
         return false
     end
-    -- Clear item count display when updating spell cooldown (spells don't use count display)
-    frame.count:SetText("")
+
+    local overrideSpellID = C_Spell.GetOverrideSpell(spellID) or spellID
+
+    local spellCharges = C_Spell.GetSpellCharges(overrideSpellID)
+    if spellCharges then
+        frame.count:SetText(C_Spell.GetSpellDisplayCount(overrideSpellID))
+    else
+        frame.count:SetText("")
+    end
 
     local desaturation = 0
 
-    if not C_Spell.GetSpellCooldown(spellID).isOnGCD then
-        local cooldownDuration = C_Spell.GetSpellCooldownDuration(spellID)
-        frame.Cooldown:SetCooldownFromDurationObject(cooldownDuration)
-        if C_Spell.GetSpellCharges(spellID) then
-            local chargeDuration = C_Spell.GetSpellChargeDuration and C_Spell.GetSpellChargeDuration(spellID) or nil
-            if chargeDuration then
-                frame.Cooldown:SetCooldownFromDurationObject(chargeDuration)
-            end
-        else
+    local cooldownDuration = C_Spell.GetSpellCooldownDuration(overrideSpellID)
+    if spellCharges then
+        local chargeDuration = C_Spell.GetSpellChargeDuration(overrideSpellID)
+        frame.Cooldown:SetCooldownFromDurationObject(chargeDuration)
+    else
+        if frame.showGCD or not C_Spell.GetSpellCooldown(overrideSpellID).isOnGCD then
+            frame.Cooldown:SetCooldownFromDurationObject(cooldownDuration)
             frame.Cooldown:SetDrawSwipe(true)
         end
+    end
+    if not C_Spell.GetSpellCooldown(overrideSpellID).isOnGCD then
         desaturation = cooldownDuration:EvaluateRemainingDuration(desaturationCurve)
     end
 

@@ -183,7 +183,8 @@ local function HookActionButtonSpellAlertManager()
             end
         end
 
-        if ns.db.profile.cooldownManager_experimental_custom_glows then
+        local glowStyle = ns.db.profile.cooldownManager_experimental_glow_style
+        if glowStyle and glowStyle ~= "DEFAULT" then
             activeGlowTarget.SpellActivationAlert:SetAlpha(0)
             local signature = GetGlowSignature(GLOW_STYLE_PIXEL)
             if activeGlowTarget.CMCActiveGlow and activeGlowTarget.CMCActiveGlowSignature == signature then

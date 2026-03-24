@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2004, "DBM-Raids-Legion", 1, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240426185020")
+mod:SetRevision("20260315035302")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(122578)
 mod:SetEncounterID(2088)
 --mod:SetBossHPInfoToHighest()
@@ -53,7 +54,6 @@ local timerRuinerCD						= mod:NewCDCountTimer(28.8, 246840, nil, nil, nil, 3, n
 --local timerShatteringStrikeCD			= mod:NewCDTimer(30, 248375, nil, nil, nil, 2)
 local timerApocProtocolCD				= mod:NewCDCountTimer(77, 246516, nil, nil, nil, 6, nil, nil, nil, 1, 4)
 
-mod:AddRangeFrameOption(5, 254926)--?
 mod:AddBoolOption("InfoFrame", true)
 mod:AddBoolOption("UseAddTime", true)
 --Reavers (or empowered boss from reaver deaths)
@@ -166,15 +166,9 @@ function mod:OnCombatStart(delay)
 	timerRuinerCD:Start(21.1-delay, 1)--21-25
 	--timerShatteringStrikeCD:Start(1-delay)--Not cast on pull
 	timerApocProtocolCD:Start(31.8-delay, 1)--31.8-36.5
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Show(5)
-	end
 end
 
 function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end

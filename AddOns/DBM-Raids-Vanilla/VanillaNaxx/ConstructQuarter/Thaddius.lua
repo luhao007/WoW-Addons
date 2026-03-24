@@ -8,7 +8,8 @@ else
 	mod.statTypes = "normal"
 end
 
-mod:SetRevision("20250418184306")
+mod:SetRevision("20260324053510")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(15928)
 mod:SetEncounterID(1120)
 mod:SetModelID(16137)
@@ -133,7 +134,7 @@ function mod:UNIT_AURA()
 end
 
 function mod:CHAT_MSG_MONSTER_EMOTE(msg)
-	if msg == L.Emote or msg == L.Emote2 then
+	if msg == L.Emote or msg:find(L.Emote) then
 		down = down + 1
 		if down >= 2 then
 			self:UnscheduleMethod("TankThrow")

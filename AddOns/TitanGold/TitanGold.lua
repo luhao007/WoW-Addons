@@ -790,25 +790,41 @@ end
 ---@param faction string
 ---@param level table Menu description to attach to
 local function ShowMenuButtons(faction, level)
+	-- create the list and sort by alpha with server
+	local list_alpha = {}
 	for index, money in pairs(TitanSettings.Players) do
 		local char = EvalIndexInfo(index)
 		if char.valid and char.faction == faction then
-			Titan_Menu.AddSelectorGeneric(level, char.char_name,
-				function(data)
-					local toon_info = TitanSettings.Players[data.c_name].Info ---@class CharInfo
-					local toon_gold = toon_info[TITAN_GOLD_ID] ---@class GoldData
-					return toon_gold.show
-				end,
-				function(data)
-					local toon_info = TitanSettings.Players[index].Info ---@class CharInfo
-					local toon_gold = toon_info[TITAN_GOLD_ID] ---@class GoldData
-					toon_gold.show = not toon_gold.show
-				end,
-				{ c_name = index }
-			)
+			table.insert(list_alpha, index);
 		else
 			-- ignore custom profiles or toons not logged into yet
 		end
+	end
+	table.sort(list_alpha, function(key1, key2)
+--		return key1.char_name < key2.char_name
+		return key1 < key2
+	end)
+
+	for i = 1, #list_alpha do
+		local toon = list_alpha[i]
+		--character = toon.char_name
+		--charserver = toon.server
+		--char_faction = toon.faction
+
+		Titan_Menu.AddSelectorGeneric(level, toon,
+			function(data)
+				local toon_info = TitanSettings.Players[data.c_name].Info ---@class CharInfo
+				local toon_gold = toon_info[TITAN_GOLD_ID] ---@class GoldData
+				return toon_gold.show
+			end,
+			function(data)
+				local toon_info = TitanSettings.Players[data.c_name].Info ---@class CharInfo
+				local toon_gold = toon_info[TITAN_GOLD_ID] ---@class GoldData
+				toon_gold.show = not toon_gold.show
+				TitanPanelButton_UpdateButton(TITAN_GOLD_ID);
+			end,
+			{ c_name = toon }
+		)
 	end
 end
 
@@ -879,8 +895,8 @@ local function GeneratorFunction(owner, rootDescription)
 	end
 	Titan_Menu.AddDivider(root)
 
-	local opts_show = Titan_Menu.AddButton(root, L["TITAN_GOLD_SHOW_PLAYER"]
-		.." : "..L["TITAN_GOLD_FACTION_PLAYER_ALLY"])
+	local opts_show = Titan_Menu.AddButton(root, L["TITAN_GOLD_SHOW_PLAYER"])
+--		.." : "..L["TITAN_GOLD_FACTION_PLAYER_ALLY"])
 	do
 	local opts_alliance = Titan_Menu.AddButton(opts_show, L["TITAN_GOLD_FACTION_PLAYER_ALLY"])
 		ShowMenuButtons(TITAN_ALLIANCE, opts_alliance)

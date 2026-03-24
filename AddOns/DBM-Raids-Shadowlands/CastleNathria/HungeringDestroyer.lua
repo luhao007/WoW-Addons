@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2428, "DBM-Raids-Shadowlands", 3, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250719035005")
+mod:SetRevision("20260315035226")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(164261)
 mod:SetEncounterID(2383)
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
@@ -57,7 +58,6 @@ local timerOverwhelmCD							= mod:NewNextCountTimer(11.9, 329774, nil, "Tank", 
 
 local berserkTimer								= mod:NewBerserkTimer(600)
 
---mod:AddRangeFrameOption(10, 310277)
 mod:AddSetIconOption("SetIconOnGluttonousMiasma", 329298, true, 0, {1, 2, 3, 4})
 mod:AddSetIconOption("SetIconOnVolatileEjection2", 334266, true, 0, {5, 6, 7, 8})
 mod:AddInfoFrameOption(nil, true)

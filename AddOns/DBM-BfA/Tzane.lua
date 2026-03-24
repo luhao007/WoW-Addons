@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2139, "DBM-BfA", 2, 1028)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20220116032237")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(132701)
 --mod:SetEncounterID(1880)
 mod:SetReCombatTime(20)
@@ -13,8 +14,7 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 262004 261600 261552",
 	"SPELL_CAST_SUCCESS 262004",
-	"SPELL_AURA_APPLIED 261605",
-	"SPELL_AURA_REMOVED 261605"
+	"SPELL_AURA_APPLIED 261605"
 )
 
 local warnConsumingSpirits			= mod:NewTargetAnnounce(261605, 3)
@@ -32,7 +32,6 @@ local timerCoalescedEssenceCD		= mod:NewCDTimer(23.6, 261600, nil, nil, nil, 3)-
 local timerConsumingSpiritsCD		= mod:NewCDTimer(21.9, 261605, nil, nil, nil, 3)--21-35?
 local timerTerrorWallCD				= mod:NewCDTimer(23.2, 261552, nil, nil, nil, 3)--24-29?
 
-mod:AddRangeFrameOption(8, 261605)
 --mod:AddReadyCheckOption(37460, false)
 
 --[[
@@ -43,11 +42,6 @@ function mod:OnCombatStart(delay, yellTriggered)
 end
 --]]
 
-function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
-end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
@@ -88,20 +82,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnConsumingSpirits:Show()
 			specWarnConsumingSpirits:Play("runout")
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(8)
-			end
-		end
-	end
-end
-
-function mod:SPELL_AURA_REMOVED(args)
-	local spellId = args.spellId
-	if spellId == 261605 then
-		if args:IsPlayer() then
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Hide()
-			end
 		end
 	end
 end
@@ -116,7 +96,5 @@ end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-	if spellId == 257939 then
-	end
 end
 --]]

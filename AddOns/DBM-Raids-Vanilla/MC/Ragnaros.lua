@@ -12,7 +12,8 @@ end
 local mod	= DBM:NewMod("Ragnaros-Classic", "DBM-Raids-Vanilla", catID)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20241214045434")
+mod:SetRevision("20260324053510")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(DBM:IsSeasonal("SeasonOfDiscovery") and 228438 or 11502)
 mod:SetEncounterID(672)
 if not mod:IsClassic() then
@@ -54,7 +55,7 @@ end
 -- "Wrath of Ragnaros-20566-npc:228438-000024194D = pull:30.6, 27.5, 27.5, 35.6, 139.2, 27.5, 34.0, 30.8, 27.5, 31.3",
 -- "Wrath of Ragnaros-20566-npc:228438-0000241D6F = pull:26.0, 27.5, 27.5, 30.8, 32.4, 34.2, 127.8, 27.5, 25.9, 29.1, 30.9, 26.6",
 -- "Wrath of Ragnaros-20566-npc:228438-00002421C6 = pull:27.6, 29.2, 32.3, 102.0, 29.1, 25.9, 34.0",
-local timerWrathRag		= mod:NewVarTimer("v25-34", 20566, nil, nil, nil, 2)--25-30 (26-34 in SoD?)
+local timerWrathRag		= mod:NewVarTimer("v25.9-34.7", 20566, nil, nil, nil, 2) --(26-34 in SoD?)
 local timerSubmerge		= mod:NewTimer(180, "TimerSubmerge", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendBurrow.blp", nil, nil, 6)
 local timerEmerge		= mod:NewTimer(90, "TimerEmerge", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendUnBurrow.blp", nil, nil, 6)
 local timerCombatStart	= mod:NewTimer(83, "timerCombatStart", "132349", nil, nil, nil, nil, nil, 1, 3)--Custom for now, so it can use 3 sec count instead of 5
@@ -70,25 +71,22 @@ mod.vb.submergeHealthPrewarnShown = false
 local addsGuidCheck = {}
 local firstBossMod = DBM:GetModByName("MCTrash")
 
-mod:AddRangeFrameOption("18", nil, "-Melee")
 
-function mod:OnCombatStart(delay)
+function mod:OnCombatStart()
 	self:SetStage(1)
 	table.wipe(addsGuidCheck)
 	self.vb.addLeft = 0
 	self.vb.ragnarosEmerged = true
 	self.vb.submergeHealthPrewarnShown = false
-	timerWrathRag:Start((DBM:IsSeasonal("SeasonOfDiscovery") and 26 or 26.7) - delay)
-	timerSubmerge:Start(180-delay)
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Show(18)
+	timerSubmerge:Start()
+	if DBM:IsSeasonal("SeasonOfDiscovery") then
+	timerWrathRag:Start(26)
+	else
+	timerWrathRag:Start("v25.9-33.8")
 	end
 end
 
 function mod:OnCombatEnd(wipe)
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if not wipe then
 		DBT:CancelBar(DBM_CORE_L.SPEED_CLEAR_TIMER_TEXT)
 		if firstBossMod.vb.firstEngageTime then
@@ -96,15 +94,15 @@ function mod:OnCombatEnd(wipe)
 			if thisTime and thisTime > 0 then
 				if not firstBossMod.Options.FastestClear2 then
 					--First clear, just show current clear time
-					DBM:AddMsg(DBM_CORE_L.RAID_DOWN:format("MC", DBM:strFromTime(thisTime)))
+					DBM:AddMsg(DBM_CORE_L.RAID_DOWN:format(GetRealZoneText(409), DBM:strFromTime(thisTime)))
 					firstBossMod.Options.FastestClear2 = thisTime
 				elseif (firstBossMod.Options.FastestClear2 > thisTime) then
 					--Update record time if this clear shorter than current saved record time and show users new time, compared to old time
-					DBM:AddMsg(DBM_CORE_L.RAID_DOWN_NR:format("MC", DBM:strFromTime(thisTime), DBM:strFromTime(firstBossMod.Options.FastestClear2)))
+					DBM:AddMsg(DBM_CORE_L.RAID_DOWN_NR:format(GetRealZoneText(409), DBM:strFromTime(thisTime), DBM:strFromTime(firstBossMod.Options.FastestClear2)))
 					firstBossMod.Options.FastestClear2 = thisTime
 				else
 					--Just show this clear time, and current record time (that you did NOT beat)
-					DBM:AddMsg(DBM_CORE_L.RAID_DOWN_L:format("MC", DBM:strFromTime(thisTime), DBM:strFromTime(firstBossMod.Options.FastestClear2)))
+					DBM:AddMsg(DBM_CORE_L.RAID_DOWN_L:format(GetRealZoneText(409), DBM:strFromTime(thisTime), DBM:strFromTime(firstBossMod.Options.FastestClear2)))
 				end
 			end
 			firstBossMod.vb.firstEngageTime = nil
@@ -117,7 +115,11 @@ local function emerged(self)
 	self.vb.ragnarosEmerged = true
 	timerEmerge:Cancel()
 	warnEmerge:Show()
-	timerWrathRag:Start(DBM:IsSeasonal("SeasonOfDiscovery") and 26 or 26.7)
+	if DBM:IsSeasonal("SeasonOfDiscovery") then
+	timerWrathRag:Start(26)
+	else
+	timerWrathRag:Start("v25.5-31.9")
+	end
 	if DBM:GetModifierLevel() ~= 1 then -- No second submerge on SoD heat level 1 (non-SoD always returns 0 here)
 		timerSubmerge:Start(180)
 	end
@@ -155,9 +157,9 @@ function mod:UNIT_DIED(args)
 end
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.Submerge then
+	if msg == L.Submerge or msg:find(L.Submerge) then
 		self:SendSync("Submerge")
-	elseif msg == L.Pull and self:AntiSpam(5, 4) then
+	elseif (msg == L.Pull or msg:find(L.Pull)) and self:AntiSpam(5, 4) then
 		self:SendSync("SummonRag")
 	end
 end

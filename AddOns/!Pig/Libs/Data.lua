@@ -100,8 +100,8 @@ Data.InvSlot = {
 	["Name"]={
 		[0]={"AMMOSLOT",AMMOSLOT,"Ammo",false},[1]={"HEADSLOT",HEADSLOT,"Head",true},[2]={"NECKSLOT",NECKSLOT,"Neck",false},
 		[3]={"SHOULDERSLOT",SHOULDERSLOT,"Shoulder",true},[4]={"SHIRTSLOT",SHIRTSLOT,"Shirt",false},[5]={"CHESTSLOT",CHESTSLOT,"Chest",true},
-		[6]={"WAISTSLOT",WAISTSLOT,"Waist",true},[7]={"LEGSSLOT",LEGSSLOT,"Legs",true},[8]=Data.buwei.FEET,
-		[9]={"WRISTSLOT",WRISTSLOT,"Wrist",true},[10]=Data.buwei.HANDS,[11]={"FINGER0SLOT",FINGER0SLOT,"Finger0",false},
+		[6]={"WAISTSLOT",WAISTSLOT,"Waist",true},[7]={"LEGSSLOT",LEGSSLOT,"Legs",true},[8]={"FEETSLOT",FEETSLOT,"Feet",true},
+		[9]={"WRISTSLOT",WRISTSLOT,"Wrist",true},[10]={"HANDSSLOT",HANDSSLOT,"Hands",true},[11]={"FINGER0SLOT",FINGER0SLOT,"Finger0",false},
 		[12]={"FINGER1SLOT",FINGER1SLOT,"Finger1",false},[13]={"TRINKET0SLOT",TRINKET0SLOT,"Trinket0",false},[14]={"TRINKET1SLOT",TRINKET1SLOT,"Trinket1",false},
 		[15]={"BACKSLOT",BACKSLOT,"Back",false},[16]={"MAINHANDSLOT",MAINHANDSLOT,"MainHand",true},[17]={"SECONDARYHANDSLOT",SECONDARYHANDSLOT,"SecondaryHand",true},
 		[18]={"RANGEDSLOT",RANGEDSLOT,"Ranged",true},[19]={"TABARDSLOT",TABARDSLOT,"Tabard",false},

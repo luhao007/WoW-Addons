@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod("OnyxiaVanilla", "DBM-Raids-Vanilla", 7)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20241214045434")
+mod:SetRevision("20260324053510")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(10184)
 mod:SetEncounterID(1084)
 mod:SetModelID(8570)
@@ -21,7 +22,7 @@ mod:RegisterEvents(
 --https://classic.wowhead.com/spell=17646/summon-onyxia-whelp
 --TODO, if blizzard makes classic wrath and this mod is used as foundation, remove the deep breath emote trigger (because pet added in wrath breaks it)
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 17086 18351 18564 18576 18584 18596 18609 18617 18435 18431 18500 18392",
+	"SPELL_CAST_START 17086 18435 18431 18500 18392",
 	"SPELL_CAST_SUCCESS 19633",
 	"SPELL_DAMAGE 15847",-- 68867
 	"UNIT_DIED",
@@ -33,16 +34,16 @@ mod:RegisterEventsInCombat(
 
 --Todo, adds stuff (if they exist) with classic IDs
 --local warnWhelpsSoon		= mod:NewAnnounce("WarnWhelpsSoon", 1, 69004)
+local warnFireball			= mod:NewTargetNoFilterAnnounce(18392, 2, nil, false)
 local warnWingBuffet		= mod:NewSpellAnnounce(18500, 2, nil, "Tank", 1)
 local warnKnockAway			= mod:NewTargetNoFilterAnnounce(19633, 2, nil, false)
 local warnPhase2			= mod:NewPhaseAnnounce(2)
-local warnFireball			= mod:NewTargetNoFilterAnnounce(18392, 2, nil, false)
 local warnPhase3			= mod:NewPhaseAnnounce(3)
 local warnPhase2Soon		= mod:NewPrePhaseAnnounce(2)
 local warnPhase3Soon		= mod:NewPrePhaseAnnounce(3)
 
-local specWarnBreath			= mod:NewSpecialWarningSpell(18584, nil, nil, nil, 2, 2)
 local specWarnBellowingRoar		= mod:NewSpecialWarningSpell(18431, nil, nil, nil, 2, 2)
+local specWarnBreath			= mod:NewSpecialWarningSpell(18584, nil, nil, nil, 2, 2)
 local yellFireball				= mod:NewYell(18392)
 --local specWarnBlastNova		= mod:NewSpecialWarningRun(68958, "Melee", nil, nil, 4, 2)
 --local specWarnAdds			= mod:NewSpecialWarningAdds(68959, "-Healer", nil, nil, 1, 2)
@@ -59,7 +60,6 @@ if DBM:IsSeasonal("SeasonOfDiscovery") then
 end
 
 mod:AddBoolOption("SoundWTF3", true, "sound")
-mod:AddRangeFrameOption(8, 18392)
 mod:AddSetIconOption("SetIconOnFireball", 18392, true, 0, {8})
 
 mod.vb.warned_preP2 = false
@@ -78,11 +78,6 @@ function mod:OnCombatStart(delay)
 	end
 end
 
-function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
-end
 
 --[[
 --70, 60,
@@ -212,9 +207,6 @@ function mod:OnSync(msg, guid, sender)
 		--timerNextDeepBreath:Start(67)
 		timerNextFlameBreath:Cancel()
 		--self:ScheduleMethod(5, "Whelps")
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Show(8)
-		end
 		if self.Options.SoundWTF3 then
 			self:Unschedule(DBM.PlaySoundFile, DBM)
 			DBM:PlaySoundFile("Interface\\AddOns\\DBM-Raids-Vanilla\\VanillaOnyxia\\sounds\\i-dont-see-enough-dots.ogg")
@@ -236,9 +228,6 @@ function mod:OnSync(msg, guid, sender)
 		--timerNextDeepBreath:Stop()
 		--timerBigAddCD:Stop()
 		--warnWhelpsSoon:Cancel()
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Hide()
-		end
 		if self.Options.SoundWTF3 then
 			self:Unschedule(DBM.PlaySoundFile, DBM)
 			self:Schedule(15, DBM.PlaySoundFile, DBM, "Interface\\AddOns\\DBM-Raids-Vanilla\\VanillaOnyxia\\sounds\\dps-very-very-slowly.ogg")

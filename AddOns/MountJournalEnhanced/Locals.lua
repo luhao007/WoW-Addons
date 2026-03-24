@@ -270,6 +270,7 @@ L["Snapdragons"] = "Snapdragons"
 L["Spider Tanks"] = "Spider Tanks"
 L["Spiders"] = "Spiders"
 L["Sporebat"] = "Sporebat"
+L["Squirrel"] = "Squirrel"
 L["Stag"] = "Stag"
 L["Steeds"] = "Steeds"
 L["Stingrays"] = "Stingrays"
@@ -579,6 +580,7 @@ L["Snapdragons"] = "Schnappdrachen"
 L["Spider Tanks"] = "Mechaspinnen"
 L["Spiders"] = "Spinnen"
 L["Sporebat"] = "Sporensegler"
+L["Squirrel"] = "Hörnchen"
 L["Stag"] = "Hirsch"
 L["Steeds"] = "Pferde"
 L["Stingrays"] = "Stachelrochen"
@@ -880,6 +882,7 @@ L["Snapdragons"] = "Bocadragones"
 L["Spider Tanks"] = "Arañas Mecánicas"
 L["Spiders"] = "Arañas"
 L["Sporebat"] = "Esporiélagos"
+L["Squirrel"] = "Ardillas"
 L["Stag"] = "Venados"
 L["Steeds"] = "Corceles"
 L["Stingrays"] = "Rayas Manta"
@@ -1436,6 +1439,8 @@ L["Lynx"] = "Lince"
 --[[Translation missing --]]
 --[[ L["Sporebat"] = "Sporebat"--]] 
 --[[Translation missing --]]
+--[[ L["Squirrel"] = "Squirrel"--]] 
+--[[Translation missing --]]
 --[[ L["Stag"] = "Stag"--]] 
 --[[Translation missing --]]
 --[[ L["Steeds"] = "Steeds"--]] 
@@ -1776,6 +1781,8 @@ L["Snapdragons"] = "Mordragons"
 L["Spider Tanks"] = "Chars araignée"
 L["Spiders"] = "Araignées"
 L["Sporebat"] = "Sporoptères"
+--[[Translation missing --]]
+--[[ L["Squirrel"] = "Squirrel"--]] 
 L["Stag"] = "Cerfs"
 L["Steeds"] = "Palefrois"
 L["Stingrays"] = "Pastenagues"
@@ -2143,6 +2150,8 @@ L["Snapdragons"] = "Drago Carnivoro"
 L["Spider Tanks"] = "Carroragno"
 L["Spiders"] = "Ragni"
 L["Sporebat"] = "Sporofago"
+--[[Translation missing --]]
+--[[ L["Squirrel"] = "Squirrel"--]] 
 L["Stag"] = "Cervo"
 --[[Translation missing --]]
 --[[ L["Steeds"] = "Steeds"--]] 
@@ -2452,6 +2461,8 @@ L["Snapdragons"] = "치악룡"
 L["Spider Tanks"] = "거미 전차"
 L["Spiders"] = "거미"
 L["Sporebat"] = "포자박쥐"
+--[[Translation missing --]]
+--[[ L["Squirrel"] = "Squirrel"--]] 
 L["Stag"] = "순록"
 L["Steeds"] = "군마"
 L["Stingrays"] = "독침가오리"
@@ -2756,6 +2767,8 @@ L["Snapdragons"] = "Dracoliscos"
 L["Spider Tanks"] = "Tanques Aranha"
 L["Spiders"] = "Aranhas"
 L["Sporebat"] = "Quirósporos"
+--[[Translation missing --]]
+--[[ L["Squirrel"] = "Squirrel"--]] 
 L["Stag"] = "Cervos"
 L["Steeds"] = "Corcéis"
 L["Stingrays"] = "Arraias Aguilhantes"
@@ -3059,6 +3072,8 @@ L["Snapdragons"] = "Вараны"
 L["Spider Tanks"] = "Механопауки"
 L["Spiders"] = "Пауки"
 L["Sporebat"] = "Спороскат"
+--[[Translation missing --]]
+--[[ L["Squirrel"] = "Squirrel"--]] 
 L["Stag"] = "Олени"
 L["Steeds"] = "Кони"
 L["Stingrays"] = "Жалохвосты"
@@ -3359,6 +3374,8 @@ L["Snapdragons"] = "毒鳍龙"
 L["Spider Tanks"] = "蜘蛛坦克"
 L["Spiders"] = "蜘蛛"
 L["Sporebat"] = "孢子蝠"
+--[[Translation missing --]]
+--[[ L["Squirrel"] = "Squirrel"--]] 
 L["Stag"] = "牡鹿"
 L["Steeds"] = "马"
 L["Stingrays"] = "鳐鱼"
@@ -3915,6 +3932,8 @@ All current character assignments will be reset to the default profile "%s".]=]-
 --[[ L["Spiders"] = "Spiders"--]] 
 --[[Translation missing --]]
 --[[ L["Sporebat"] = "Sporebat"--]] 
+--[[Translation missing --]]
+--[[ L["Squirrel"] = "Squirrel"--]] 
 --[[Translation missing --]]
 --[[ L["Stag"] = "Stag"--]] 
 --[[Translation missing --]]

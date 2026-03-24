@@ -1,9 +1,10 @@
 local ADDON_NAME, ns = ...
 
-ns.CurrentAddonVersion = "3.3.8"
-ns.PreviousAddonVersion = "3.3.7" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
+ns.CurrentAddonVersion = "3.3.9"
+ns.PreviousAddonVersion = "3.3.8" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
 
 ns.LOCALE_CHANGELOGS = {
+  { version = "3.3.9", table = ns.LOCALE_CHANGELOG_3_3_9 },
   { version = "3.3.8", table = ns.LOCALE_CHANGELOG_3_3_8 },
   { version = "3.3.7", table = "partialUpdate" },
   { version = "3.3.6", table = ns.LOCALE_CHANGELOG_3_3_6 },
@@ -64,6 +65,52 @@ ns.LOCALE_CHANGELOG_3_3_ = { -- empty backup file
 
   koKR = [[
 
+]],
+}
+
+ns.LOCALE_CHANGELOG_3_3_9 = {
+  deDE = [[
+• Ein Fehler wurde behoben, durch den die "Großzügigen Tiefen" auf der Kontinentkarte nicht angezeigt wurden.
+]],
+
+  enUS = [[
+• Fixed an issue where "Bountiful Delves" were not displayed on the continent map.
+]],
+
+  frFR = [[
+• Correction d’un problème où les « Gouffres abondants » n’étaient pas affichés sur la carte du continent.
+]],
+
+  itIT = [[
+• Risolto un problema per cui le "Spedizioni nelle Profondità abbondanti" non venivano visualizzate sulla mappa del continente.
+]],
+
+  esES = [[
+• Se solucionó un problema por el cual las "Profundidades abundantes" no se mostraban en el mapa del continente.
+]],
+
+  esMX = [[
+• Se corrigió un problema por el cual las "Profundidades abundantes" no se mostraban en el mapa del continente.
+]],
+
+  ptBR = [[
+• Corrigido um problema em que os "Mergulhos abundantes" não eram exibidos no mapa do continente.
+]],
+
+  ruRU = [[
+• Исправлена ошибка, из-за которой «Изобильные вылазки» не отображались на карте континента.
+]],
+
+  zhCN = [[
+• 修复了“丰饶深潜”未在大陆地图上显示的问题。
+]],
+
+  zhTW = [[
+• 修正了「豐饒深淵」未在大陸地圖上顯示的問題。
+]],
+
+  koKR = [[
+• "풍요로운 탐험"이 대륙 지도에 표시되지 않던 문제가 수정되었습니다.
 ]],
 }
 

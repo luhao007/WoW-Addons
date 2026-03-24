@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod("GarrisonInvasions", "DBM-Draenor", 2)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240105194047")
+mod:SetRevision("20260315035313")
+mod:DisableHardcodedOptions()
 mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
 
 mod:RegisterEvents(

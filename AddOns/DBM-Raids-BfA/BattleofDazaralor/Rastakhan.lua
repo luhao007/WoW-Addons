@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2335, "DBM-Raids-BfA", 4, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250719034113")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(145616)--145644 Bwonsamdi
 mod:SetEncounterID(2272)
 mod:SetHotfixNoticeRev(18336)
@@ -14,7 +15,7 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 284831 284933 284686 287116 287333 286695 286742",
 	"SPELL_CAST_SUCCESS 284662 284781 290955 288449 285347 285172 284521",
-	"SPELL_SUMMON 285003 285402",
+	"SPELL_SUMMON 285003",
 	"SPELL_AURA_APPLIED 284831 285195 284662 285349 288415 288449 284446 289162 286779 284455 284376 286742",
 	"SPELL_AURA_APPLIED_DOSE 285195",
 	"SPELL_AURA_REMOVED 284831 285195 288449 289162 286779 284455",
@@ -128,7 +129,6 @@ local timerNecroticSmashCD				= mod:NewCDTimer(34.6, 286742, nil, nil, nil, 2)
 
 mod:AddNamePlateOption("NPAuraOnRelentlessness", 289162)
 mod:AddNamePlateOption("NPAuraOnFocusedDemise", 286779)
-mod:AddRangeFrameOption(8, 285349)
 mod:AddInfoFrameOption(285195, true)
 mod:AddBoolOption("AnnounceAlternatePhase", false, "announce")
 
@@ -184,9 +184,6 @@ end
 
 function mod:OnCombatEnd()
 	self:UnregisterShortTermEvents()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
@@ -429,9 +426,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerPlagueofToadsCD:Start(39.8)
 		--Bwon
 		timerDeathsDoorCD:Start(52.8)--52-56
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Show(8)
-		end
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:SetHeader(DBM:GetSpellName(285195))
 			DBM.InfoFrame:Show(5, "table", infoframeTable, 1)

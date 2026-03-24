@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2194, "DBM-Raids-BfA", 5, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250307060206")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(134546)--138324 Xalzaix
 mod:SetEncounterID(2135)
 mod:SetBossHPInfoToHighest()
@@ -71,7 +72,6 @@ local timerVisionsoMadnessCD			= mod:NewNextCountTimer(20, 273949, nil, nil, nil
 --local berserkTimer					= mod:NewBerserkTimer(600)
 
 mod:AddSetIconOption("SetIconRuin", 272536, true, 0, {1, 2})
-mod:AddRangeFrameOption(5, 272407)
 mod:AddInfoFrameOption(272146, true)
 
 mod.vb.ruinCast = 0
@@ -123,9 +123,6 @@ function mod:OnCombatStart(delay)
 	end
 	timerObliterationBlastCD:Start(14.9-delay, BOSS)
 	timerEssenceShearCD:Start(19-delay, BOSS)--START
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Show(5)
-	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:SetHeader(DBM:GetSpellName(272146))
 		DBM.InfoFrame:Show(5, "table", infoframeTable, 1)
@@ -133,9 +130,6 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end

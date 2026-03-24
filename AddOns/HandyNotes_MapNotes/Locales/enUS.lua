@@ -283,6 +283,7 @@ L["hide worldmap button"] = true
 L["Hide the MapNotes button on the worldmap"] = true
 L["hide MapNotes!"] = true
 L["Disable MapNotes, all icons will be hidden on each map and all categories will be disabled"] = true
+L["Activate MapNotes, all previously enabled icons will be restored on every map"] = true
 L["Adventure guide"] = true
 L["Adventure guide function is disabled"] = true
 L["Clicking on an instance icon outside of a zone map does not open the adventure guide, but rather the world map where the instance is located"] = true

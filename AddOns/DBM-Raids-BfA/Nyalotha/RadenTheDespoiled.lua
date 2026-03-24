@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2364, "DBM-Raids-BfA", 1, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240714045844")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(156866)
 mod:SetEncounterID(2331)
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
@@ -15,9 +16,9 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 306865 306866 313213 310003 309985 317276 306874 314484",
 	"SPELL_CAST_SUCCESS 310019 313213 306603 316913 306819",
 	"SPELL_SUMMON 306866 314484",
-	"SPELL_AURA_APPLIED 312750 306090 306168 306732 306733 312996 306257 306279 306819 313227 309852 306207 306273 313077 315252 316065 310019 310022",
+	"SPELL_AURA_APPLIED 312750 306090 306168 306732 306733 312996 306279 306819 313227 309852 306207 306273 313077 315252 316065 310019 310022",
 	"SPELL_AURA_APPLIED_DOSE 306819 313227",
-	"SPELL_AURA_REMOVED 312750 306090 306168 306732 306733 312996 306257 306279 306207 306273 313077 316065 310019 310022",
+	"SPELL_AURA_REMOVED 312750 306090 306168 306732 306733 312996 306279 306207 306273 313077 316065 310019 310022",
 	"UNIT_DIED",
 	"UNIT_SPELLCAST_START boss2 boss3 boss4 boss5",--if you have 4 adds up, you're doing shit wrong. Just in case
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
@@ -66,7 +67,6 @@ local yellChainLightning					= mod:NewYell(306874)
 
 local timerChainLightningCD					= mod:NewCDTimer(4.8, 306874, nil, nil, nil, 3)
 
-mod:AddRangeFrameOption(6, 306874)
 ----Void
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(20529))
 local warnVoidPhase							= mod:NewSpellAnnounce(306733, 2)
@@ -252,9 +252,6 @@ function mod:OnCombatEnd()
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if self.Options.NPAuraOnDraws then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
 	end
@@ -268,9 +265,6 @@ function mod:SPELL_CAST_START(args)
 			specWarnCallCracklingStalker:Play("bigmob")
 		else
 			warnCallCracklingStalker:Show()
-		end
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Show(self:IsMythic() and 8 or 6)
 		end
 	elseif spellId == 306866 then
 		if self.Options.SpecWarnej20549switch then
@@ -501,9 +495,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 306732 then--Vita Empowered
 		timerCallCracklingStalkerCD:Stop()
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Hide()
-		end
 	elseif spellId == 306733 then--Void Empowered
 		timerCallVoidHunterCD:Stop()
 	elseif spellId == 312996 then--Nightmare Empowered
@@ -551,13 +542,6 @@ function mod:UNIT_DIED(args)
 		timerVoidCollapseCD:Stop(args.destGUID)
 	elseif cid == 157365 then--crackling-stalker
 		timerChainLightningCD:Stop(args.destGUID)
-		if self.Options.RangeFrame then
-			if self:IsMythic() and self.vb.callActive then
-				DBM.RangeCheck:Show(5)
-			else
-				DBM.RangeCheck:Hide()
-			end
-		end
 	elseif cid == 160937 then--Night Terror
 		timerDreadInfernoCD:Stop(args.destGUID)
 	end
@@ -581,9 +565,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 		self.vb.callEssenceCount = self.vb.callEssenceCount + 1
 		specWarnCallEssence:Show(self.vb.callEssenceCount)
 		timerCallEssenceCD:Start(55.2, self.vb.callEssenceCount+1)--Normal and mythic both 56, mythic probably slow again cause it's 3
-		if self:IsMythic() and not DBM.RangeCheck:IsShown() then
-			DBM.RangeCheck:Show(5)
-		end
 	--"<237.63 21:41:35> [UNIT_SPELLCAST_SUCCEEDED] Ra-den(Darkee) -Phase 2 Transition- [[boss1:Cast-3-3137-2217-16824-317123-000F27B660:317123]]", -- [6151]
 	--"<247.41 21:41:45> [CLEU] SPELL_AURA_APPLIED#Vehicle-0-3137-2217-16824-156866-000027B54E#Ra-den#Vehicle-0-3137-2217-16824-156866-000027B54E#Ra-den#309852#Ruin#BUFF#nil", -- [6249]
 	elseif spellId == 317123 then--Phase 2 Transition

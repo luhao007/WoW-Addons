@@ -1469,10 +1469,7 @@ NOTE:
 					ptype = "LDB: '" .. self.registry.ldb .. "'"
 				end
 				-- === Right click menu
-				local frame = CreateFrame("Frame",
-					self:GetName() .. TITAN_PANEL_CLICK_MENU_SUFFIX,
-					self or nil,
-					"UIDropDownMenuTemplate")
+				TitanPanelRightClickMenu_CreateFrame(self:GetName())
 			end
 			notes = (self.registry.notes or "")
 		else

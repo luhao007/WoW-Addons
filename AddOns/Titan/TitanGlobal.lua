@@ -12,6 +12,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale(TITAN_ID, true)
 
 Titan_Global = {}      -- begin the slow journey to a smaller _G footprint
 Titan_Menu = {}        -- Hold API routines for new menu scheme
+Titan_Config = {}      -- Hold API routines for config
 
 Titan_Global.recent_changes = "" -- Titan_History.lua
 

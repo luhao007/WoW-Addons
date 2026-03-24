@@ -1,0 +1,84 @@
+
+--公会 GuildMicroButton
+
+
+
+
+
+
+
+
+
+
+local function Init()
+    local frame= CreateFrame('Frame')
+
+    frame.Text= WoWTools_LabelMixin:Create(GuildMicroButton,  {size=WoWToolsSave['Plus_MainMenu'].size, color=true})
+    frame.Text:SetPoint('TOP', GuildMicroButton, 0,  -3)
+
+    frame.Text2= WoWTools_LabelMixin:Create(GuildMicroButton,  {size=WoWToolsSave['Plus_MainMenu'].size, color=true})
+    frame.Text2:SetPoint('BOTTOM', GuildMicroButton, 0, 3)
+
+    table.insert(WoWTools_MainMenuMixin.Labels, frame.Text)
+    table.insert(WoWTools_MainMenuMixin.Labels, frame.Text2)
+
+    GuildMicroButton.Text2= frame.Text2
+
+    function frame:settings()
+        local guild = IsInGuild() and select(2, GetNumGuildMembers()) or 0
+        self.Text:SetText(guild>1 and guild-1 or '')
+
+        local club= 0
+        local clubs= C_Club.GetSubscribedClubs()
+        if canaccesstable(clubs) and clubs then
+            local guildClubId= C_Club.GetGuildClubId()
+            for _, tab in pairs(clubs) do
+                if tab.clubId~=guildClubId then
+                    local isOnline= WoWTools_GuildMixin:GetNumOnline(tab.clubId)
+                    club= club+ isOnline
+                end
+            end
+        end
+        self.Text2:SetText(club>0 and club or '')
+    end
+
+    local COMMUNITIES_LIST_EVENTS = {
+        "CLUB_ADDED",
+        "CLUB_REMOVED",
+        "CLUB_UPDATED",
+        "CLUB_INVITATION_ADDED_FOR_SELF",
+        "CLUB_INVITATION_REMOVED_FOR_SELF",
+        "GUILD_ROSTER_UPDATE",
+        "CLUB_STREAMS_LOADED",
+        "PLAYER_GUILD_UPDATE",
+    }
+    FrameUtil.RegisterFrameForEvents(frame, COMMUNITIES_LIST_EVENTS)
+
+    frame:SetScript('OnEvent', frame.settings)
+    C_Timer.After(2, function() frame:settings() end)
+
+    GuildMicroButton:HookScript('OnEnter', function()
+        if KeybindFrames_InQuickKeybindMode() or Kiosk.IsEnabled() then
+            return
+        end
+        if IsInGuild() then
+            GameTooltip:AddLine(' ')
+        end
+        WoWTools_GuildMixin:OnEnter_GuildInfo()--公会，社区，信息
+        GameTooltip:Show()
+    end)
+
+    Init=function()end
+end
+
+
+
+
+
+
+
+
+
+function WoWTools_MainMenuMixin:Init_Guild()--公会
+    Init()
+end

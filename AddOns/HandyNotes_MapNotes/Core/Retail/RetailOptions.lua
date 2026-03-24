@@ -38,6 +38,8 @@ ns.options = {
           set = function(info, v) ns.Addon.db.profile.activate.HideMapNote = v 
               if ns.ApplyWorldMapArrowSize then ns.ApplyWorldMapArrowSize() end -- deactivation of the worldmap player arrow changes
               if ns.RefreshContinentDelvesPins then if ns.Addon.db.profile.activate.HideMapNote then ns.RefreshContinentDelvesPins({ remove = true }) else ns.RefreshContinentDelvesPins() end end -- hide delves and rebuild delves if its activated
+              if ns.WorldMapButton and ns.WorldMapButton.UpdateIconOverlay then ns.WorldMapButton:UpdateIconOverlay() end -- worldmap button icon
+              if ns.UpdateMiniMapButtonIcon then ns.UpdateMiniMapButtonIcon() end -- minimap button icon
               self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
               if ns.Addon.db.profile.CoreChatMassage and ns.Addon.db.profile.activate.HideMapNote then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffff0000", L["All MapNotes icons have been hidden"]) else
               if ns.Addon.db.profile.CoreChatMassage and not ns.Addon.db.profile.activate.HideMapNote then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cff00ff00", L["All set icons have been restored"]) end end 
@@ -4955,9 +4957,9 @@ ns.options = {
                   order = 7.1,
                   width = 0.50,
                   set = function(info, v) ns.Addon.db.profile[info[#info]] = v self:FullUpdate() HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "MapNotes")
-                        ns.RefreshZoneDelvesOnly()
-                        if ns.Addon.db.profile.ChatMassage and ns.Addon.db.profile.showZoneDelve then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 "..  L["Zone map"], DELVES_LABEL, "|cff00ff00" .. L["is activated"]) else 
-                        if ns.Addon.db.profile.ChatMassage and not ns.Addon.db.profile.showZoneDelve then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 "..  L["Zone map"], DELVES_LABEL, "|cffff0000" ..  L["is deactivated"]) end end end,
+                    ns.RefreshZoneDelvesOnly()
+                    if ns.Addon.db.profile.ChatMassage and ns.Addon.db.profile.showZoneDelve then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 "..  L["Zone map"], DELVES_LABEL, "|cff00ff00" .. L["is activated"]) else 
+                    if ns.Addon.db.profile.ChatMassage and not ns.Addon.db.profile.showZoneDelve then print(TextIconMNL4:GetIconString() .. " " .. ns.COLORED_ADDON_NAME .. " " .. TextIconMNL4:GetIconString() .. "|cffffff00 "..  L["Zone map"], DELVES_LABEL, "|cffff0000" ..  L["is deactivated"]) end end end,
                   },
                 ZoneScaleDelve = {
                   disabled = function() return not ns.Addon.db.profile.showZoneDelve or ns.Addon.db.profile.activate.HideMapNote or not ns.Addon.db.profile.activate.ZoneMap or not ns.Addon.db.profile.activate.ZoneInstances or ns.Addon.db.profile.activate.ZoneInstanceSyncScaleAlpha end,
@@ -4968,10 +4970,8 @@ ns.options = {
                   width = 0.80,
                   order = 7.2,
                   get = function(info) return ns.Addon.db.profile.ZoneScaleDelve or 1 end,
-                  set = function(info, v)
-                        ns.Addon.db.profile.ZoneScaleDelve = v
-                        ns.RefreshContinentDelvesPins() end,
-                        ns.RefreshZoneDelvesOnly()
+                  set = function(info, v) ns.Addon.db.profile.ZoneScaleDelve = v ns.RefreshContinentDelvesPins() end,
+                    ns.RefreshZoneDelvesOnly()
                   },
                 zoneHeaderScaleAlpha8 = {
                   type = "description",
@@ -4988,10 +4988,8 @@ ns.options = {
                   width = 0.80,
                   order = 7.4,
                     get = function(info) return ns.Addon.db.profile.ZoneAlphaDelve or 1 end,
-                    set = function(info, v)
-                          ns.Addon.db.profile.ZoneAlphaDelve = v
-                          ns.RefreshContinentDelvesPins() end,
-                          ns.RefreshZoneDelvesOnly()
+                    set = function(info, v) ns.Addon.db.profile.ZoneAlphaDelve = v ns.RefreshContinentDelvesPins() end,
+                    ns.RefreshZoneDelvesOnly()
                   },
                 zoneDelveHeader = {
                   type = "description",
@@ -5019,10 +5017,8 @@ ns.options = {
                   width = 0.80,
                   order = 8.2,
                     get = function(info) return ns.Addon.db.profile.ZoneScaleBountyDelve or 1 end,
-                    set = function(info, v)
-                          ns.Addon.db.profile.ZoneScaleBountyDelve = v
-                          ns.RefreshContinentDelvesPins() end,
-                          ns.RefreshZoneDelvesOnly()
+                    set = function(info, v) ns.Addon.db.profile.ZoneScaleBountyDelve = v ns.RefreshContinentDelvesPins() end,
+                    ns.RefreshZoneDelvesOnly()
                   },
                 zoneHeaderScaleAlpha9 = {
                   type = "description",
@@ -5039,10 +5035,8 @@ ns.options = {
                   width = 0.80,
                   order = 8.4,
                     get = function(info) return ns.Addon.db.profile.ZoneAlphaBountyDelve or 1 end,
-                    set = function(info, v)
-                          ns.Addon.db.profile.ZoneAlphaBountyDelve = v
-                          ns.RefreshContinentDelvesPins() end,
-                          ns.RefreshZoneDelvesOnly()
+                    set = function(info, v) ns.Addon.db.profile.ZoneAlphaBountyDelve = v ns.RefreshContinentDelvesPins() end,
+                    ns.RefreshZoneDelvesOnly()
                   },
                 zoneBountyDelveHeader = {
                   type = "description",

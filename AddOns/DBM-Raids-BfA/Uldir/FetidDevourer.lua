@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2146, "DBM-Raids-BfA", 5, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20230618060944")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(133298)
 mod:SetEncounterID(2128)
 --mod:SetHotfixNoticeRev(16950)
@@ -48,7 +49,6 @@ local timerAddsCD						= mod:NewAddsTimer(54.8, 262364, nil, nil, nil, 1, nil, D
 
 local berserkTimer						= mod:NewBerserkTimer(330)
 
-mod:AddRangeFrameOption("6/12")
 mod:AddInfoFrameOption(262364, true)
 
 mod.vb.stompCount = 0
@@ -92,24 +92,6 @@ do
 	end
 end
 
-local updateRangeFrame
-do
-	local function debuffFilter(uId)
-		if DBM:UnitDebuff(uId, 262313, 262314) then
-			return true
-		end
-	end
-	updateRangeFrame = function(self)
-		if not self.Options.RangeFrame then return end
-		if DBM:UnitDebuff("player", 262314) then
-			DBM.RangeCheck:Show(12)--Actuall 10 but buffer used for good measure
-		elseif DBM:UnitDebuff("player", 262313) then
-			DBM.RangeCheck:Show(6)--Actually 4 but buffer used for good measure
-		else
-			DBM.RangeCheck:Show(6, debuffFilter)--Actually 4 but buffer used for good measure
-		end
-	end
-end
 
 function mod:OnCombatStart(delay)
 	self.vb.stompCount = 0
@@ -123,7 +105,6 @@ function mod:OnCombatStart(delay)
 	timerAddsCD:Start(55-delay)--Until Attackable, not the chute visuals
 	timerPreAddsCD:Start(45, DBM_COMMON_L.ADDS)
 	if self:IsMythic() then
-		updateRangeFrame(self)
 		timerPreAddsCD:Start(35, DBM_COMMON_L.BIG_ADD)
 	end
 	berserkTimer:Start()--Until rumor confirmed, use this berserk timer in all modes
@@ -132,9 +113,6 @@ end
 function mod:OnCombatEnd()
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
-	end
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
 	end
 end
 
@@ -212,7 +190,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:IsMythic() then
 			yellMalodorousMiasmaFades:Cancel()
 			yellMalodorousMiasmaFades:Countdown(spellId)
-			updateRangeFrame(self)
 		end
 	elseif spellId == 262314 and args:IsPlayer() then
 		local amount = args.amount or 1
@@ -229,7 +206,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:IsMythic() then
 			yellPutridParoxysmFades:Cancel()
 			yellPutridParoxysmFades:Countdown(spellId)
-			updateRangeFrame(self)
 		end
 	elseif spellId == 262378 then
 		warnFrenzy:Show()
@@ -240,7 +216,6 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if (spellId == 262313 or spellId == 262314) and args:IsPlayer() and self:IsMythic() then
-		updateRangeFrame(self)
 		if spellId == 262313 then
 			yellMalodorousMiasmaFades:Cancel()
 		else

@@ -158,6 +158,14 @@ local function FixVignetteInfo(vignetteInfo)
 		vignetteInfo.atlasName = RSConstants.EVENT_VIGNETTE
 	end
 	
+	-- Track glowing moths (new icon)
+	if (vignetteInfo.atlasName == RSConstants.CONTAINER_GLOWING_MOTHS_OBJECT and mapID == RSConstants.HARANDAR) then
+		vignetteInfo.atlasName = RSConstants.CONTAINER_VIGNETTE
+	-- Track containers eversong woods (new icon)
+	elseif (vignetteInfo.atlasName == RSConstants.CONTAINER_GLOWING_MOTHS_OBJECT and mapID == RSConstants.EVERSONG_WOODS) then
+		vignetteInfo.atlasName = RSConstants.CONTAINER_VIGNETTE
+	end
+	
 	-- This container keeps updating the ID, so create one based on its coordinates
 	if (entityID == RSConstants.MISLAID_CURIOSITY) then
 		local mapID = C_Map.GetBestMapForUnit("player")
@@ -610,7 +618,7 @@ function RSButtonHandler.AddAlert(button, vignetteInfo, isNavigating)
 	
 	-- Check if ignored NPC
 	if (RSConstants.IsNpcAtlas(vignetteInfo.atlasName) and RSUtils.Contains(RSConstants.IGNORED_VIGNETTES_NPCS, entityID)) then
-		RSLogger:PrintDebugMessageEntityID(entityID, string.format("El NPC [%s] se ignora por estar ignorado", entityID))
+		RSLogger:PrintDebugMessage(string.format("El NPC [%s] se ignora por estar ignorado", entityID))
 		return
 	-- Check if ignored Container
 	elseif (RSConstants.IsContainerAtlas(vignetteInfo.atlasName) and RSUtils.Contains(RSConstants.IGNORED_VIGNETTES_CONTAINERS, entityID)) then

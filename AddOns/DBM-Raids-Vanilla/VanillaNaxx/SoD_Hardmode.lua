@@ -2,7 +2,8 @@ if not DBM:IsSeasonal("SeasonOfDiscovery") then return end
 local mod	= DBM:NewMod("SoD_NaxxHardmode", "DBM-Raids-Vanilla", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250322120415")
+mod:SetRevision("20260315035425")
+mod:DisableHardcodedOptions()
 mod.isTrashMod = true
 mod.isTrashModBossFightAllowed = true
 mod:SetZone(533)

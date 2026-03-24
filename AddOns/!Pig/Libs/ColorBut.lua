@@ -48,6 +48,7 @@ function Create.ColorBut(fuF,Point,WH)
 		self:PIGinitialize()
 		local miyumorenColor=self.pezhiV or self.morenColor
 		local info={}
+		print(miyumorenColor)
 		info.r, info.g, info.b, info.opacity = unpack(miyumorenColor)
 		info.hasOpacity = true
 		info.swatchFunc=self.swatchFunc

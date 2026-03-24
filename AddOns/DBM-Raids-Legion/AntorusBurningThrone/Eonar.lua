@@ -2,7 +2,8 @@ local mod	= DBM:NewMod(2025, "DBM-Raids-Legion", 1, 946)
 local L		= mod:GetLocalizedStrings()
 local DBM_COMMON_L = DBM_COMMON_L
 
-mod:SetRevision("20250307060218")
+mod:SetRevision("20260315035302")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(124445)
 mod:SetEncounterID(2075)
 --mod:SetBossHPInfoToHighest()
@@ -58,7 +59,6 @@ local timerSpearofDoomCD				= mod:NewCDCountTimer(55, 248789, nil, nil, nil, 3)-
 local timerRainofFelCD					= mod:NewCDCountTimer(61, 248332, nil, nil, nil, 3)
 
 mod:AddInfoFrameOption(nil, true)
-mod:AddRangeFrameOption("8/10")
 --Adds
 mod:AddTimerLine(DBM_COMMON_L.ADDS)
 local specWarnSwing						= mod:NewSpecialWarningDodge(250701, "MeleeDps", nil, nil, 1, 2)
@@ -272,9 +272,6 @@ end
 
 function mod:OnCombatEnd()
 	table.wipe(warnedAdds)
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
@@ -382,9 +379,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnRainofFel:Play("scatter")
 			yellRainofFel:Yell()
 			yellRainofFelFades:Countdown(5)
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(8)
-			end
 		end
 	elseif spellId == 250693 then--Arcane Buildup
 		if args:IsPlayer() then
@@ -392,9 +386,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnArcaneBuildup:Play("runout")
 			yellArcaneBuildup:Yell()
 			yellArcaneBuildupFades:Countdown(5, 4)
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(10)
-			end
 		end
 	elseif spellId == 250691 then --Burning Embers
 		if args:IsPlayer() then
@@ -402,9 +393,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnBurningEmbers:Play("runout")
 			yellBurningEmbers:Yell()
 			yellBurningEmbersFades:Countdown(5, 4)
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(8)
-			end
 		end
 	elseif spellId == 250140 then--Foul Steps
 		if args:IsPlayer() then
@@ -435,23 +423,14 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 248332 then--Rain of Fel
 		if args:IsPlayer() then
 			yellRainofFelFades:Cancel()
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Hide()
-			end
 		end
 	elseif spellId == 250693 then--Arcane Buildup
 		if args:IsPlayer() then
 			yellArcaneBuildupFades:Cancel()
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Hide()
-			end
 		end
 	elseif spellId == 250691 then --Burning Embers
 		if args:IsPlayer() then
 			yellBurningEmbersFades:Cancel()
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Hide()
-			end
 		end
 	end
 end

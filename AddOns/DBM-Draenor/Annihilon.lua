@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod("Annihilon", "DBM-Draenor", 2)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240413054511")
+mod:SetRevision("20260315035313")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(90802)
 
 mod:RegisterCombat("combat")

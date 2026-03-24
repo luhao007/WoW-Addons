@@ -1,8 +1,8 @@
 -- Companion Lib
 local _, app = ...
 
--- Use the Mounts & Battle Pets Lib for Wrath+
-if app.GameBuildVersion > 30000 then
+-- Use the Mounts & Battle Pets Lib for Classic/TBC
+if app.GameBuildVersion >= 30000 then
 	return;
 end
 
@@ -17,7 +17,7 @@ local GetItemCount = app.WOWAPI.GetItemCount;
 local GetSpellName = app.WOWAPI.GetSpellName;
 local GetSpellIcon = app.WOWAPI.GetSpellIcon;
 local GetSpellLink = app.WOWAPI.GetSpellLink;
-local IsSpellKnown = IsSpellKnown;
+local IsSpellKnown = app.WOWAPI.IsSpellKnown;
 
 -- App & Module locals
 local IsRetrieving = app.Modules.RetrievingData.IsRetrieving;

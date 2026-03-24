@@ -1339,11 +1339,69 @@ data["MOUNTS"]             = {
 		{ -- Midnight
 			name = EXPANSION_NAME11,
 			[ALLIANCE_DIFF] = {
-				{ 1, 263452, "mount", [PRICE_EXTRA_ITTYPE] = "tender:550" }, -- Comfy Silvermoon Flying Quilt
-				{ 2, 263451, "mount", [PRICE_EXTRA_ITTYPE] = "tender:0" }, -- Comfy Bel'ameth Flying Quilt
+				{ 1,   263452, "mount", [PRICE_EXTRA_ITTYPE] = "tender:550" },  -- Comfy Silvermoon Flying Quilt
+				{ 2,   263451, "mount", [PRICE_EXTRA_ITTYPE] = "tender:0" },    -- Comfy Bel'ameth Flying Quilt
+				{ 3,   260916, "mount" },                                       -- Nether-Swept Drake
+				{ 4,   257180, "mount" },                                       -- Contained Stormarion Defender
+				{ 5,   256424, "mount" },                                       -- Echo of Aln'sharan
+				{ 6,   257444, "mount" },                                       -- Hexed Vilefeather Eagle
+				{ 7,   252012, "mount" },                                       -- Vibrant Petalwing
+				{ 8,   257147, "mount" },                                       -- Cobalt Dragonhawk
+				{ 9,   252017, "mount" },                                       -- Ruddy Sporeglider
+				{ 10,  252011, "mount", [ACH_EXTRA_ITTYPE] = 62386 },           -- Brilliant Petalwing
+				{ 11,  257223, "mount" },                                       -- Ancestral War Bear
+				{ 12,  260635, "mount" },                                       -- Sanguine Harrower
+				{ 13,  246735, "mount" },                                       -- Rootstalker Grimlynx
+				{ 14,  262914, "mount" },                                       -- Spectral Hawkstrider
+				{ 15,  256423, "mount" },                                       -- Untainted Grove Crawler
+				{ 16,  257156, "mount" },                                       -- Cerulean Hawkstrider
+				{ 17,  257152, "mount" },                                       -- Amani Sharptalon
+				{ 18,  257446, "mount" },                                       -- Insatiable Shredclaw
+				{ 19,  257085, "mount" },                                       -- Augmented Stormray
+				{ 20,  257200, "mount" },                                       -- Escaped Witherbark Pango
+				{ 21,  257176, "mount" },                                       -- Duskbrute Harrower
+				{ 22,  260231, "mount" },                                       -- Lucent Hawkstrider
+				{ 23,  257145, "mount", [ACH_EXTRA_ITTYPE] = 61584 },           -- Crimson Dragonhawk
+				{ 24,  257144, "mount", [ACH_EXTRA_ITTYPE] = 62190 },           -- Umbral Dragonhawk
+				{ 25,  263579, "mount", [ACH_EXTRA_ITTYPE] = 61263 },           -- Vivacious Chloroceros
+				{ 26,  257193, "mount", [ACH_EXTRA_ITTYPE] = 42703 },           -- Preyseeker's Nightmare
+				{ 27,  260697, "mount", [ACH_EXTRA_ITTYPE] = 62385 },           -- Lab-grown Stormray
+				{ 28,  246734, "mount", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:6000" }, -- Fierce Grimlynx
+				{ 29,  260696, "mount", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:8000" }, -- Voidbound Stormray
+				{ 30,  252014, "mount", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:8000" }, -- Cerulean Sporeglider
+				{ 101, 250889, "mount", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:8000" }, -- Amani Windcaller
+				{ 102, 257219, "mount", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:6000" }, -- Amani Blessed Bear
+				{ 103, 257445, "mount", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:6000" }, -- Ravenous Shredclaw
+				{ 104, 257154, "mount", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:6000" }, -- Crimson Silvermoon Hawkstrider
+				{ 105, 257448, "mount", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:6000" }, -- Frenzied Shredclaw
+				{ 106, 257447, "mount", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:6000" }, -- Prowling Shredclaw
+				{ 107, 257142, "mount", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:8000" }, -- Fiery Dragonhawk
+				{ 108, 257240, "mount", [QUEST_EXTRA_ITTYPE] = 86902 },         -- Relinquished Scarlet Charger
+				{ 109, 250782, "mount", [PRICE_EXTRA_ITTYPE] = "unalloyedAbundance:6400" }, -- Amani Sunfeather
+				{ 110, 257197, "mount", [PRICE_EXTRA_ITTYPE] = "unalloyedAbundance:6400" }, -- Blessed Amani Burrower
+				{ 111, 246736, "mount", [ACH_EXTRA_ITTYPE] = 61506 },           -- Ivory Grimlynx
+				{ 112, 265656, "mount", [ACH_EXTRA_ITTYPE] = 62103 },           -- Anu'shalla, Shadow's Guidance
+				{ 113, 263580, "mount", [PRICE_EXTRA_ITTYPE] = "luminousDust:10" }, -- Vivid Chloroceros
+				{ 114, 222988, "mount", [PRICE_EXTRA_ITTYPE] = "luminousDust:10" }, -- Elder Glowmite
+				{ 115, 257199, "mount", [ACH_EXTRA_ITTYPE] = 61906 },           -- Giganto Manis
+				{ 116, 246590, "mount" },                                       -- Ashes of Belo'ren
+				{ 117, 260887, "mount", [ACH_EXTRA_ITTYPE] = 61380 },           -- Tenebrous Harrower
+				{ 118, 257191, "mount", [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:2000" }, -- Preyseeker's Hubris
+				{ 119, 257192, "mount", [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:2550" }, -- Preyseeker's Wrath
+				{ 120, 262500, "mount", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:10" }, -- Silvermoon's Arcane Defender
+				{ 121, 262502, "mount", [PRICE_EXTRA_ITTYPE] = "undercoin:10000" }, -- Elven Arcane Guardian
+				{ 122, 263222, "mount", [ACH_EXTRA_ITTYPE] = 61799 },           -- Arcanovoid Construct
+				{ 123, 262620, "mount", [ACH_EXTRA_ITTYPE] = 61256 },           -- Calamitous Carrion
+				{ 124, 262621, "mount", [ACH_EXTRA_ITTYPE] = 61258 },           -- Convalescent Carrion
+				{ 125, 257504, "mount", [ACH_EXTRA_ITTYPE] = 61405 },           -- Vicious Snaplizard
+				-- { 126, 260228, "mount", [ACH_EXTRA_ITTYPE] = 61188 }, -- Galactic Gladiator's Goredrake
+				-- { 127, 257143, "mount" }, -- Peridot Dragonhawk
+				-- { 128, 260233, "mount" }, -- Emerald Hawkstrider
 			},
 			[HORDE_DIFF] = {
 				GetItemsFromDiff = ALLIANCE_DIFF,
+				{ 112, 265656, "mount", [ACH_EXTRA_ITTYPE] = 62096 }, -- Anu'shalla, Shadow's Guidance
+				{ 125, 257502, "mount", [ACH_EXTRA_ITTYPE] = 61403 }, -- Vicious Snaplizard
 			},
 		},
 		{ -- The War Within
@@ -4165,6 +4223,70 @@ data["TIERSETS"]           = {
 	ContentType = COLLECTION_CONTENT,
 	TableType = SET_ITTYPE,
 	items = {
+		{ -- Tier 35 Sets
+			name = format(AL["Tier %d Sets"], 35).." ("..EXPANSION_NAME11..")",
+			tier = 35,
+			[RF_DIFF] = {
+				{ 1,  "Tier35:deathknight:LFRWithDifficulty" },
+				{ 3,  "Tier35:demonhunter:LFRWithDifficulty" },
+				{ 5,  "Tier35:druid:LFRWithDifficulty" },
+				{ 7,  "Tier35:evoker:LFRWithDifficulty" },
+				{ 9,  "Tier35:hunter:LFRWithDifficulty" },
+				{ 11, "Tier35:mage:LFRWithDifficulty" },
+				{ 13, "Tier35:monk:LFRWithDifficulty" },
+				{ 15, "Tier35:rogue:LFRWithDifficulty" },
+				{ 16, "Tier35:paladin:LFRWithDifficulty" },
+				{ 18, "Tier35:priest:LFRWithDifficulty" },
+				{ 20, "Tier35:shaman:LFRWithDifficulty" },
+				{ 22, "Tier35:warlock:LFRWithDifficulty" },
+				{ 24, "Tier35:warrior:LFRWithDifficulty" },
+			},
+			[NORMAL_DIFF] = {
+				{ 1,  "Tier35:deathknight:NormalWithDifficulty" },
+				{ 3,  "Tier35:demonhunter:NormalWithDifficulty" },
+				{ 5,  "Tier35:druid:NormalWithDifficulty" },
+				{ 7,  "Tier35:evoker:NormalWithDifficulty" },
+				{ 9,  "Tier35:hunter:NormalWithDifficulty" },
+				{ 11, "Tier35:mage:NormalWithDifficulty" },
+				{ 13, "Tier35:monk:NormalWithDifficulty" },
+				{ 15, "Tier35:rogue:NormalWithDifficulty" },
+				{ 16, "Tier35:paladin:NormalWithDifficulty" },
+				{ 18, "Tier35:priest:NormalWithDifficulty" },
+				{ 20, "Tier35:shaman:NormalWithDifficulty" },
+				{ 22, "Tier35:warlock:NormalWithDifficulty" },
+				{ 24, "Tier35:warrior:NormalWithDifficulty" },
+			},
+			[HEROIC_DIFF] = {
+				{ 1,  "Tier35:deathknight:HeroicWithDifficulty" },
+				{ 3,  "Tier35:demonhunter:HeroicWithDifficulty" },
+				{ 5,  "Tier35:druid:HeroicWithDifficulty" },
+				{ 7,  "Tier35:evoker:HeroicWithDifficulty" },
+				{ 9,  "Tier35:hunter:HeroicWithDifficulty" },
+				{ 11, "Tier35:mage:HeroicWithDifficulty" },
+				{ 13, "Tier35:monk:HeroicWithDifficulty" },
+				{ 15, "Tier35:rogue:HeroicWithDifficulty" },
+				{ 16, "Tier35:paladin:HeroicWithDifficulty" },
+				{ 18, "Tier35:priest:HeroicWithDifficulty" },
+				{ 20, "Tier35:shaman:HeroicWithDifficulty" },
+				{ 22, "Tier35:warlock:HeroicWithDifficulty" },
+				{ 24, "Tier35:warrior:HeroicWithDifficulty" },
+			},
+			[MYTHIC_DIFF] = {
+				{ 1,  "Tier35:deathknight:MythicWithDifficulty" },
+				{ 3,  "Tier35:demonhunter:MythicWithDifficulty" },
+				{ 5,  "Tier35:druid:MythicWithDifficulty" },
+				{ 7,  "Tier35:evoker:MythicWithDifficulty" },
+				{ 9,  "Tier35:hunter:MythicWithDifficulty" },
+				{ 11, "Tier35:mage:MythicWithDifficulty" },
+				{ 13, "Tier35:monk:MythicWithDifficulty" },
+				{ 15, "Tier35:rogue:MythicWithDifficulty" },
+				{ 16, "Tier35:paladin:MythicWithDifficulty" },
+				{ 18, "Tier35:priest:MythicWithDifficulty" },
+				{ 20, "Tier35:shaman:MythicWithDifficulty" },
+				{ 22, "Tier35:warlock:MythicWithDifficulty" },
+				{ 24, "Tier35:warrior:MythicWithDifficulty" },
+			},
+		},
 		{ -- Tier 34 Sets
 			name = format(AL["Tier %d Sets"], 34).." ("..EXPANSION_NAME10..")",
 			tier = 34,
@@ -5491,35 +5613,43 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 317, "Tier34:deathknight:NormalWithDifficulty" },
 				{ 318, "Tier34:deathknight:HeroicWithDifficulty" },
 				{ 319, "Tier34:deathknight:MythicWithDifficulty" },
+				{ 321, "Tier35:deathknight:LFRWithDifficulty" },
+				{ 322, "Tier35:deathknight:NormalWithDifficulty" },
+				{ 323, "Tier35:deathknight:HeroicWithDifficulty" },
+				{ 324, "Tier35:deathknight:MythicWithDifficulty" },
 			},
 		},
 		{ -- DEMONHUNTER
 			name = ATLASLOOT_DEMONHUNTER_COLOR..ALIL["DEMONHUNTER"],
 			[NORMAL_DIFF] = {
-				{ 1,  "Tier19:demonhunter:LFRWithDifficulty" },
-				{ 2,  "Tier19:demonhunter:NormalWithDifficulty" },
-				{ 3,  "Tier19:demonhunter:HeroicWithDifficulty" },
-				{ 4,  "Tier19:demonhunter:MythicWithDifficulty" },
-				{ 6,  "Tier20:demonhunter:LFRWithDifficulty" },
-				{ 7,  "Tier20:demonhunter:NormalWithDifficulty" },
-				{ 8,  "Tier20:demonhunter:HeroicWithDifficulty" },
-				{ 9,  "Tier20:demonhunter:MythicWithDifficulty" },
-				{ 11, "Tier21:demonhunter:LFRWithDifficulty" },
-				{ 12, "Tier21:demonhunter:NormalWithDifficulty" },
-				{ 13, "Tier21:demonhunter:HeroicWithDifficulty" },
-				{ 14, "Tier21:demonhunter:MythicWithDifficulty" },
-				{ 16, "Tier32:demonhunter:LFRWithDifficulty" },
-				{ 17, "Tier32:demonhunter:NormalWithDifficulty" },
-				{ 18, "Tier32:demonhunter:HeroicWithDifficulty" },
-				{ 19, "Tier32:demonhunter:MythicWithDifficulty" },
-				{ 21, "Tier33:demonhunter:LFRWithDifficulty" },
-				{ 22, "Tier33:demonhunter:NormalWithDifficulty" },
-				{ 23, "Tier33:demonhunter:HeroicWithDifficulty" },
-				{ 24, "Tier33:demonhunter:MythicWithDifficulty" },
-				{ 26, "Tier34:demonhunter:LFRWithDifficulty" },
-				{ 27, "Tier34:demonhunter:NormalWithDifficulty" },
-				{ 28, "Tier34:demonhunter:HeroicWithDifficulty" },
-				{ 29, "Tier34:demonhunter:MythicWithDifficulty" },
+				{ 1,   "Tier19:demonhunter:LFRWithDifficulty" },
+				{ 2,   "Tier19:demonhunter:NormalWithDifficulty" },
+				{ 3,   "Tier19:demonhunter:HeroicWithDifficulty" },
+				{ 4,   "Tier19:demonhunter:MythicWithDifficulty" },
+				{ 6,   "Tier20:demonhunter:LFRWithDifficulty" },
+				{ 7,   "Tier20:demonhunter:NormalWithDifficulty" },
+				{ 8,   "Tier20:demonhunter:HeroicWithDifficulty" },
+				{ 9,   "Tier20:demonhunter:MythicWithDifficulty" },
+				{ 11,  "Tier21:demonhunter:LFRWithDifficulty" },
+				{ 12,  "Tier21:demonhunter:NormalWithDifficulty" },
+				{ 13,  "Tier21:demonhunter:HeroicWithDifficulty" },
+				{ 14,  "Tier21:demonhunter:MythicWithDifficulty" },
+				{ 16,  "Tier32:demonhunter:LFRWithDifficulty" },
+				{ 17,  "Tier32:demonhunter:NormalWithDifficulty" },
+				{ 18,  "Tier32:demonhunter:HeroicWithDifficulty" },
+				{ 19,  "Tier32:demonhunter:MythicWithDifficulty" },
+				{ 21,  "Tier33:demonhunter:LFRWithDifficulty" },
+				{ 22,  "Tier33:demonhunter:NormalWithDifficulty" },
+				{ 23,  "Tier33:demonhunter:HeroicWithDifficulty" },
+				{ 24,  "Tier33:demonhunter:MythicWithDifficulty" },
+				{ 26,  "Tier34:demonhunter:LFRWithDifficulty" },
+				{ 27,  "Tier34:demonhunter:NormalWithDifficulty" },
+				{ 28,  "Tier34:demonhunter:HeroicWithDifficulty" },
+				{ 29,  "Tier34:demonhunter:MythicWithDifficulty" },
+				{ 101, "Tier35:demonhunter:LFRWithDifficulty" },
+				{ 102, "Tier35:demonhunter:NormalWithDifficulty" },
+				{ 103, "Tier35:demonhunter:HeroicWithDifficulty" },
+				{ 104, "Tier35:demonhunter:MythicWithDifficulty" },
 			},
 		},
 		{ -- DRUID
@@ -5658,6 +5788,10 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 522, "Tier34:druid:NormalWithDifficulty" },
 				{ 523, "Tier34:druid:HeroicWithDifficulty" },
 				{ 524, "Tier34:druid:MythicWithDifficulty" },
+				{ 526, "Tier35:druid:LFRWithDifficulty" },
+				{ 527, "Tier35:druid:NormalWithDifficulty" },
+				{ 528, "Tier35:druid:HeroicWithDifficulty" },
+				{ 529, "Tier35:druid:MythicWithDifficulty" },
 			},
 		},
 		{ -- EVOKER
@@ -5675,6 +5809,10 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 12, "Tier34:evoker:NormalWithDifficulty" },
 				{ 13, "Tier34:evoker:HeroicWithDifficulty" },
 				{ 14, "Tier34:evoker:MythicWithDifficulty" },
+				{ 16, "Tier35:evoker:LFRWithDifficulty" },
+				{ 17, "Tier35:evoker:NormalWithDifficulty" },
+				{ 18, "Tier35:evoker:HeroicWithDifficulty" },
+				{ 19, "Tier35:evoker:MythicWithDifficulty" },
 			},
 		},
 		{ -- HUNTER
@@ -5743,6 +5881,10 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 227, "Tier34:hunter:NormalWithDifficulty" },
 				{ 228, "Tier34:hunter:HeroicWithDifficulty" },
 				{ 229, "Tier34:hunter:MythicWithDifficulty" },
+				{ 301, "Tier35:hunter:LFRWithDifficulty" },
+				{ 302, "Tier35:hunter:NormalWithDifficulty" },
+				{ 303, "Tier35:hunter:HeroicWithDifficulty" },
+				{ 304, "Tier35:hunter:MythicWithDifficulty" },
 			},
 		},
 		{ -- MAGE
@@ -5811,6 +5953,10 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 227, "Tier34:mage:NormalWithDifficulty" },
 				{ 228, "Tier34:mage:HeroicWithDifficulty" },
 				{ 229, "Tier34:mage:MythicWithDifficulty" },
+				{ 301, "Tier35:mage:LFRWithDifficulty" },
+				{ 302, "Tier35:mage:NormalWithDifficulty" },
+				{ 303, "Tier35:mage:HeroicWithDifficulty" },
+				{ 304, "Tier35:mage:MythicWithDifficulty" },
 			},
 		},
 		{ -- MONK
@@ -5876,6 +6022,10 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 222, "Tier34:monk:NormalWithDifficulty" },
 				{ 223, "Tier34:monk:HeroicWithDifficulty" },
 				{ 224, "Tier34:monk:MythicWithDifficulty" },
+				{ 226, "Tier35:monk:LFRWithDifficulty" },
+				{ 227, "Tier35:monk:NormalWithDifficulty" },
+				{ 228, "Tier35:monk:HeroicWithDifficulty" },
+				{ 229, "Tier35:monk:MythicWithDifficulty" },
 			},
 		},
 		{ -- PALADIN
@@ -6004,6 +6154,10 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 522, "Tier34:paladin:NormalWithDifficulty" },
 				{ 523, "Tier34:paladin:HeroicWithDifficulty" },
 				{ 524, "Tier34:paladin:MythicWithDifficulty" },
+				{ 526, "Tier35:paladin:LFRWithDifficulty" },
+				{ 527, "Tier35:paladin:NormalWithDifficulty" },
+				{ 528, "Tier35:paladin:HeroicWithDifficulty" },
+				{ 529, "Tier35:paladin:MythicWithDifficulty" },
 			},
 		},
 		{ -- PRIEST
@@ -6102,6 +6256,10 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 407, "Tier34:priest:NormalWithDifficulty" },
 				{ 408, "Tier34:priest:HeroicWithDifficulty" },
 				{ 409, "Tier34:priest:MythicWithDifficulty" },
+				{ 411, "Tier35:priest:LFRWithDifficulty" },
+				{ 412, "Tier35:priest:NormalWithDifficulty" },
+				{ 413, "Tier35:priest:HeroicWithDifficulty" },
+				{ 414, "Tier35:priest:MythicWithDifficulty" },
 			},
 		},
 		{ -- ROGUE
@@ -6170,6 +6328,10 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 227, "Tier34:rogue:NormalWithDifficulty" },
 				{ 228, "Tier34:rogue:HeroicWithDifficulty" },
 				{ 229, "Tier34:rogue:MythicWithDifficulty" },
+				{ 301, "Tier35:rogue:LFRWithDifficulty" },
+				{ 302, "Tier35:rogue:NormalWithDifficulty" },
+				{ 303, "Tier35:rogue:HeroicWithDifficulty" },
+				{ 304, "Tier35:rogue:MythicWithDifficulty" },
 			},
 		},
 		{ -- SHAMAN
@@ -6298,6 +6460,10 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 522, "Tier34:shaman:NormalWithDifficulty" },
 				{ 523, "Tier34:shaman:HeroicWithDifficulty" },
 				{ 524, "Tier34:shaman:MythicWithDifficulty" },
+				{ 526, "Tier35:shaman:LFRWithDifficulty" },
+				{ 527, "Tier35:shaman:NormalWithDifficulty" },
+				{ 528, "Tier35:shaman:HeroicWithDifficulty" },
+				{ 529, "Tier35:shaman:MythicWithDifficulty" },
 			},
 		},
 		{ -- WARLOCK
@@ -6366,6 +6532,10 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 227, "Tier34:warlock:NormalWithDifficulty" },
 				{ 228, "Tier34:warlock:HeroicWithDifficulty" },
 				{ 229, "Tier34:warlock:MythicWithDifficulty" },
+				{ 301, "Tier35:warlock:LFRWithDifficulty" },
+				{ 302, "Tier35:warlock:NormalWithDifficulty" },
+				{ 303, "Tier35:warlock:HeroicWithDifficulty" },
+				{ 304, "Tier35:warlock:MythicWithDifficulty" },
 			},
 		},
 		{ -- WARRIOR
@@ -6464,6 +6634,10 @@ data["TIERSETS_BYCLASS"]   = {
 				{ 407, "Tier34:warrior:NormalWithDifficulty" },
 				{ 408, "Tier34:warrior:HeroicWithDifficulty" },
 				{ 409, "Tier34:warrior:MythicWithDifficulty" },
+				{ 411, "Tier35:warrior:LFRWithDifficulty" },
+				{ 412, "Tier35:warrior:NormalWithDifficulty" },
+				{ 413, "Tier35:warrior:HeroicWithDifficulty" },
+				{ 414, "Tier35:warrior:MythicWithDifficulty" },
 			},
 		},
 
@@ -6538,6 +6712,81 @@ data["COMPANIONS"]         = {
 	ContentType = COLLECTION_CONTENT,
 	TableType = I_A_ITTYPE,
 	items = {
+		{ -- Midnight
+			name = EXPANSION_NAME11,
+			-- CoinTexture = "Reputation",
+			[NORMAL_DIFF] = {
+				{ 1,   246314, "pet4974" },                                     -- Dali
+				{ 2,   255151, "pet4906" },                                     -- Scruffbeak
+				{ 3,   262774, "pet4967" },                                     -- Gortham
+				{ 4,   250137, "pet4876" },                                     -- Mud Potadpole
+				{ 5,   251003, "pet4891" },                                     -- Wrathful Wyrm
+				{ 6,   264303, "pet4972" },                                     -- Willie
+				{ 7,   260942, "pet4951" },                                     -- Bubbly Snapling
+				{ 8,   258660, "pet4912" },                                     -- Silvermoon Broom
+				{ 9,   265609, "pet4985" },                                     -- Princess Bloodshed
+				{ 10,  251005, "pet4892" },                                     -- Riftblade Familiar
+				{ 11,  250145, "pet4884" },                                     -- Pangolil
+				{ 12,  265030, "pet4983" },                                     -- Kai
+				{ 13,  262999, "pet4971", [QUEST_EXTRA_ITTYPE] = 90544 },       -- Luma
+				{ 14,  260922, "pet4950", [QUEST_EXTRA_ITTYPE] = 91382 },       -- Fidoficus
+				{ 15,  264366, "pet4975" },                                     -- Razeshi C.
+				{ 16,  267838, "pet5003" },                                     -- Sunwing Hatchling
+				{ 17,  244339, "pet4816", [QUEST_EXTRA_ITTYPE] = 89385 },       -- Hawkstrider Hatchling
+				{ 18,  264434, "pet4976", [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:800" }, -- Voldy
+				{ 19,  269028, "pet5012", [ACH_EXTRA_ITTYPE] = 61960 },         -- Sootpaw
+				{ 20,  258189, "pet4910", [ACH_EXTRA_ITTYPE] = 61091 },         -- Do, Child of Filo
+				{ 21,  260730, "pet4948" },                                     -- Perturbed Sporebat
+				{ 22,  251002, "pet4889" },                                     -- Nether Familiar
+				{ 23,  240840, "pet4803", [ACH_EXTRA_ITTYPE] = 61567 },         -- Niblet
+				{ 24,  259224, "pet4928", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:2500" }, -- Dragonhawk Munchkin
+				{ 25,  265035, "pet4984", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:2500" }, -- Medusa
+				{ 26,  264892, "pet4981" },                                     -- Nova
+				{ 27,  250138, "pet4877" },                                     -- Violet Chick
+				{ 28,  250135, "pet4874" },                                     -- Akil Fledgling
+				{ 29,  260360, "pet4944" },                                     -- Gummi the Glow Wyrm
+				{ 30,  264909, "pet4982", [PRICE_EXTRA_ITTYPE] = "brimmingArcana:200" }, -- Flicker
+				{ 101, 258903, "pet4927" },                                     -- Percival
+				{ 102, 250863, "pet4888", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:2500" }, -- Naloki
+				{ 103, 250139, "pet4878" },                                     -- Ebon Snapling
+				{ 104, 259991, "pet4930", [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:1200" }, -- Lil' Preyseeker
+				{ 105, 260585, "pet4946", [QUEST_EXTRA_ITTYPE] = 92739 },       -- Linda the Lucky
+				{ 106, 239101, "pet4795" },                                     -- Voidcrawler
+				{ 107, 266076, "pet4881" },                                     -- Nether Siphoner
+				{ 108, 262390, "pet4953" },                                     -- Sporbie
+				{ 109, 263492, "pet4952", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:2500" }, -- Blitzcreek
+				{ 110, 262394, "pet4954" },                                     -- Ziorg'pharon
+				{ 111, 251001, "pet4890" },                                     -- Vibrant Manaling
+				{ 112, 250136, "pet4875" },                                     -- Rootling Nester
+				{ 113, 250143, "pet4883" },                                     -- Dragonhawk Mosswing
+				{ 114, 250148, "pet4879" },                                     -- Blistercreepling
+				{ 115, 238793, "pet4790" },                                     -- Devouring Runt
+				{ 116, 250146, "pet4885" },                                     -- Gloom Toad
+				{ 117, 264654, "pet4977", [QUEST_EXTRA_ITTYPE] = 89560 },       -- Emberwing Hatchling
+				{ 118, 262391, "pet4958" },                                     -- Ominous Dominus
+				{ 119, 250147, "pet4886" },                                     -- Silkcrawler
+				{ 120, 260705, "pet4947", [QUEST_EXTRA_ITTYPE] = 92866 },       -- Assistant Botanist Leafy
+				{ 121, 250140, "pet4880" },                                     -- Swamp Biter
+				{ 122, 250142, "pet4882" },                                     -- Azure Sporebat
+				{ 123, 262395, "pet4959" },                                     -- Hexed Bunny
+				{ 124, 262396, "pet4957" },                                     -- Lost Star
+				{ 125, 262342, "pet4956" },                                     -- Spormilian
+				{ 126, 262343, "pet4960" },                                     -- Treja'saka
+				{ 127, 258737, "pet4913", [ACH_EXTRA_ITTYPE] = 61051 },         -- Moon Darter
+				{ 128, 262392, "pet4961" },                                     -- Nibblesworth
+				{ 129, 251004, "pet3364" },                                     -- Striped Snakebiter
+				{ 130, 262393, "pet4955", [PRICE_EXTRA_ITTYPE] = "undercoin:10000" }, -- Kreepah'zoyd
+				-- { 103, 259337, "pet4929" },                                        -- Munchy
+				-- { 102, 260306, "pet4942" },                                        -- Distorted Memory
+				-- { 120, 262881, "pet4968" },                                        -- Lil' Staropod
+				-- { 123, 258739, "pet4914" },                                        -- Chillcrawler
+				-- { 128, 258122, "pet4909" },                                        -- Emerald Hatchling
+				-- { 128, 262768, "pet4965" },                                        -- Chirpy Mandrake
+				-- { 130, 262763, "pet4964" },                                        -- Plump Mandrake
+				-- { 130, 262762, "pet4963" },                                        -- Grumpy Mandrake
+				-- { 130, 262769, "pet4966" },                                        -- Screechy Mandrake
+			}
+		},
 		{ -- The War Within
 			name = EXPANSION_NAME10,
 			-- CoinTexture = "Reputation",
@@ -6863,6 +7112,48 @@ data["TOYS"]               = {
 	ContentType = COLLECTION_CONTENT,
 	TableType = I_A_ITTYPE,
 	items = {
+		{ -- Midnight
+			name = EXPANSION_NAME11,
+			-- CoinTexture = "Reputation",
+			[NORMAL_DIFF] = {
+				{ 1,   259084 },                                       -- Gift of the Cycle
+				{ 2,   253629, [QUEST_EXTRA_ITTYPE] = 86903 },         -- Personal Key to the Arcantina
+				{ 3,   264695, [ACH_EXTRA_ITTYPE] = 62126 },           -- Interdimensional Parcel Signal
+				{ 4,   268717, [ACH_EXTRA_ITTYPE] = 62125 },           -- Pango Plating
+				{ 5,   252265 },                                       -- Hexed Potatoad Mucus
+				{ 6,   251903 },                                       -- Potatoad Egg
+				{ 7,   268728 },                                       -- Saptor Salve
+				{ 8,   263933, [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:800" }, -- Preyseeker's Hearthstone
+				{ 9,   264666, [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:600" }, -- Rod of Exanguishation
+				{ 10,  248485 },                                       -- Wormhole Generator: Quel'Thalas
+				{ 11,  267139 },                                       -- Hungry Black Hole
+				{ 12,  264805 },                                       -- Brann-O-Vision 3000
+				{ 13,  250319 },                                       -- Researcher's Shadowgraft
+				{ 14,  263975, [ACH_EXTRA_ITTYPE] = 62388 },           -- Feeling Fielder Mk. 7
+				{ 15,  243146, [QUEST_EXTRA_ITTYPE] = 88708 },         -- Ren'dorei Struggle
+				{ 16,  264517, [PRICE_EXTRA_ITTYPE] = "voidlightMarl:4000" }, -- Galactic Flag of Victory
+				{ 17,  265100, [PRICE_EXTRA_ITTYPE] = "voidlightMarl:10" }, -- Corewarden's Hearthstone
+				{ 18,  258963 },                                       -- Shroom Jumper's Parachute
+				{ 19,  268695, [ACH_EXTRA_ITTYPE] = 62400 },           -- Pin-o-Matic Camera
+				{ 20,  259240, [PRICE_EXTRA_ITTYPE] = "voidlightMarl:4000" }, -- Sin'dorei Wine
+				{ 21,  263244, [PRICE_EXTRA_ITTYPE] = "voidlightMarl:4000" }, -- Enigmatic Fountain
+				{ 22,  263198, [QUEST_EXTRA_ITTYPE] = 91137 },         -- Valdekar's Special
+				{ 23,  267456, [QUEST_EXTRA_ITTYPE] = 92870 },         -- Lil' Scoots' Pillow
+				{ 24,  263871, [QUEST_EXTRA_ITTYPE] = 93965 },         -- Holy Pet Leash
+				{ 25,  250974, [PRICE_EXTRA_ITTYPE] = "voidlightMarl:4000" }, -- Akil'zon's Updraft
+				{ 26,  264414, [PRICE_EXTRA_ITTYPE] = "voidlightMarl:10" }, -- Midnight Delver's Flare Gun
+				{ 27,  256552, [PRICE_EXTRA_ITTYPE] = "voidlightMarl:4000" }, -- Verdant Rutaani Seed
+				{ 28,  251491, [ACH_EXTRA_ITTYPE] = 61094 },           -- Magical Pet Clicker
+				{ 29,  266370, [PRICE_EXTRA_ITTYPE] = "unalloyedAbundance:3200" }, -- Dundun's Abundant Travel Method
+				{ 30,  251633, [PRICE_EXTRA_ITTYPE] = "unalloyedAbundance:6400" }, -- Bursting Bounty Bundle
+				{ 101, 264672 },                                       -- Cosmic Ritual Stone
+				{ 102, 264413, [QUEST_EXTRA_ITTYPE] = 93525 },         -- Dominating Victory
+				{ 103, 267291, [PRICE_EXTRA_ITTYPE] = "undercoin:250" }, -- Coffer Key Glue
+				{ 104, 262431, [PRICE_EXTRA_ITTYPE] = "undercoin:5000" }, -- Bouncy Mushroom
+				-- { 20, 257736 },                                       -- Lightcalled Hearthstone (world quest: march on quel'danas)
+				-- { 20,  250320 },                                      -- Lightgraft (unknown)
+			}
+		},
 		{ -- The War Within
 			name = EXPANSION_NAME10,
 			-- CoinTexture = "Reputation",

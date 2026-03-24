@@ -56,7 +56,7 @@ local function BuildLemSettings(bar, defaults)
         },
         {
             parentId = L["CATEGORY_BAR_VISIBILITY"],
-            order = 104,
+            order = 105,
             name = L["HIDE_WHILE_MOUNTED_OR_VEHICULE"],
             kind = LEM.SettingType.Checkbox,
             default = defaults.hideWhileMountedOrVehicule,
@@ -865,9 +865,7 @@ function LEMSettingsLoaderMixin:Init(bar, defaults)
         bar:InitCooldownManagerWidthHook(layoutName)
         bar:InitCustomFrameWidthHook(layoutName)
 
-        C_Timer.After(0, function()
-            bar:ApplyVisibilitySettings(layoutName)
-        end)
+        RunNextFrame(function() bar:ApplyVisibilitySettings(layoutName) end)
         bar:ApplyLayout(layoutName, true)
         bar:UpdateDisplay(layoutName, true)
     end)

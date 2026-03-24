@@ -10,7 +10,8 @@ end
 local mod	= DBM:NewMod(dungeonID, "DBM-Raids-BfA", 4, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250719034113")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(creatureID)
 mod:SetEncounterID(2263, 2284)--2263 Alliance, 2284 Horde
 mod:SetHotfixNoticeRev(18176)
@@ -71,7 +72,6 @@ local timerAddAttackCD					= mod:NewCDTimer(23.8, addProjectileId, nil, nil, nil
 
 --local berserkTimer					= mod:NewBerserkTimer(600)
 
-mod:AddRangeFrameOption(8, 285994)
 mod:AddInfoFrameOption(energyAOESpellId, true)
 
 mod.vb.EnergyAOECount = 0
@@ -126,9 +126,6 @@ function mod:OnCombatStart(delay)
 		timerFerociousRoarCD:Start(35.5-delay)--First one can be between 35.5-39
 	end
 --	timerEnergyAOECD:Start(100-delay, 1)
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Show(8, nil, nil, 1, true)
-	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:SetHeader(OVERVIEW)
 		DBM.InfoFrame:Show(8, "function", updateInfoFrame, false, false)
@@ -136,9 +133,6 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end

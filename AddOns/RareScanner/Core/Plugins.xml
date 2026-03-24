@@ -2,18 +2,16 @@
 
 	<!-- Plugins -->
 	<Include file="Plugins\LootPlugin\RSLootTemplate.xml"/>
-	<!-- <Include file="Plugins\NavPlugin\RSNavigationTemplate.xml"/> -->
+	
+	<!-- Pins -->
 	<Include file="Plugins\MapPlugin\RSEntityPinTemplate.xml"/>
 	<Include file="Plugins\MapPlugin\RSGroupPinTemplate.xml"/>
 	<Include file="Plugins\MapPlugin\RSOverlayTemplate.xml"/>
 	<Include file="Plugins\MapPlugin\RSMinimapPinTemplate.xml"/>
 	<Include file="Plugins\MapPlugin\RSGuideTemplate.xml"/>
 	<Include file="Plugins\MapPlugin\RSWorldMapButtonTemplate.xml"/>
-	<Include file="Plugins\MapPlugin\RSVignettePinTemplate.xml"/>
-	<Include file="Plugins\MapPlugin\RSVignettePinPOIButtonTemplate.xml"/>
-	<Include file="Plugins\MapPlugin\RSAreaPOIPinTemplate.xml"/>
-	<Include file="Plugins\MapPlugin\RSFyrakkFlightVignettePinTemplate.xml"/>
-	<Include file="Plugins\SearchPlugin\RSSearchTemplate.xml"/>
+	<Include file="Plugins\MapPlugin\SearchBar\RSSearchTemplate.xml"/>
+	
 	<Include file="Plugins\ExplorerPlugin\RSExplorerLootTemplate.xml"/>
 	<Include file="Plugins\ExplorerPlugin\RSExplorerListTemplate.xml"/>
 	<Include file="Plugins\ExplorerPlugin\RSExplorerTemplate.xml"/>

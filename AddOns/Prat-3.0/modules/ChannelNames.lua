@@ -475,7 +475,6 @@ L["Use a custom replacement for the chat %s text."] = "用自訂更換聊天 %s 
 		CHAT_MSG_CHANNEL7 = "channel7",
 		CHAT_MSG_CHANNEL8 = "channel8",
 		CHAT_MSG_CHANNEL9 = "channel9",
-		--    CHAT_MSG_CHANNEL10 = "channel10",
 		CHAT_MSG_SAY = "say",
 		CHAT_MSG_GUILD = "guild",
 		CHAT_MSG_WHISPER = "whisperincome",
@@ -530,8 +529,7 @@ L["Use a custom replacement for the chat %s text."] = "用自訂更換聊天 %s 
 				channel10 = true,
 			},
 			chanSave = {},
-			shortnames = -- zhCN
-			GetLocale() == "zhCN" and {
+			shortnames = GetLocale() == "zhCN" and {
 				say = "[说]",
 				whisper = "[密]",
 				whisperincome = "[收]",
@@ -554,9 +552,7 @@ L["Use a custom replacement for the chat %s text."] = "用自訂更換聊天 %s 
 				channel8 = "[8]",
 				channel9 = "[9]",
 				channel10 = "[10]",
-			}
-				--zhTW
-				or GetLocale() == "zhTW" and {
+			} or GetLocale() == "zhTW" and {
 				say = "[說]",
 				whisper = "[密]",
 				whisperincome = "[聽]",
@@ -579,9 +575,7 @@ L["Use a custom replacement for the chat %s text."] = "用自訂更換聊天 %s 
 				channel8 = "[8]",
 				channel9 = "[9]",
 				channel10 = "[10]",
-			}
-				--koKR
-				or GetLocale() == "koKR" and {
+			} or GetLocale() == "koKR" and {
 				say = "[대화]",
 				whisper = "[귓말]",
 				whisperincome = "[받은귓말]",
@@ -604,9 +598,7 @@ L["Use a custom replacement for the chat %s text."] = "用自訂更換聊天 %s 
 				channel8 = "[8]",
 				channel9 = "[9]",
 				channel10 = "[10]",
-			}
-				--Other
-				or {
+			} or {
 				say = "[S]",
 				whisper = "[W To]",
 				whisperincome = "[W From]",
@@ -651,7 +643,6 @@ L["Use a custom replacement for the chat %s text."] = "用自訂更換聊天 %s 
 				name = PL["ChannelNames"],
 				desc = PL["Channel name abbreviation options."],
 				type = "group",
-				--			inline = true,
 				order = 1,
 				plugins = eventPlugins,
 				args = {}
@@ -660,7 +651,6 @@ L["Use a custom replacement for the chat %s text."] = "用自訂更換聊天 %s 
 				name = PL["channelnick_name"],
 				desc = PL["channelnick_desc"],
 				order = 2,
-				--			inline = true,
 				type = "group",
 				plugins = nickPlugins,
 				args = {}
@@ -671,10 +661,6 @@ L["Use a custom replacement for the chat %s text."] = "用自訂更換聊天 %s 
 				order = 3,
 				type = "group",
 				args = {
-					--				chanlink = {
-					--					name = PL["chanlink_name"],
-					--					desc = PL["chanlink_desc"],
-					--					type = "toggle",				},
 					space = {
 						name = PL["space_name"],
 						desc = PL["space_desc"],
@@ -693,9 +679,6 @@ L["Use a custom replacement for the chat %s text."] = "用自訂更換聊天 %s 
 	--[[------------------------------------------------
 		Module Event Functions
 	------------------------------------------------]] --
-
-
-
 	function module:OnModuleEnable()
 		self:BuildChannelOptions()
 		self:RegisterEvent("UPDATE_CHAT_COLOR", "RefreshOptions")
@@ -703,7 +686,6 @@ L["Use a custom replacement for the chat %s text."] = "用自訂更換聊天 %s 
 
 		Prat.RegisterChatEvent(self, "Prat_FrameMessage")
 
-		--  Possible fix for channel messages not getting formatted
 		Prat.EnableProcessingForEvent("CHAT_MSG_CHANNEL_NOTICE")
 		Prat.EnableProcessingForEvent("CHAT_MSG_CHANNEL_NOTICE_USER")
 		Prat.EnableProcessingForEvent("CHAT_MSG_CHANNEL_LEAVE")
@@ -722,8 +704,6 @@ L["Use a custom replacement for the chat %s text."] = "用自訂更換聊天 %s 
 	--[[------------------------------------------------
 		Core Functions
 	------------------------------------------------]] --
-
-	-- rebuild menu if chat colors change
 	function module:CHAT_MSG_CHANNEL_NOTICE()
 		self:BuildChannelOptions()
 		self:RefreshOptions()
@@ -753,8 +733,6 @@ L["Use a custom replacement for the chat %s text."] = "用自訂更換聊天 %s 
 
 	-- replace text using prat event implementation
 	function module:Prat_FrameMessage(_, message, _, event)
-		--    if message.TYPEPREFIX:len()>0 and message.TYPEPOSTFIX:len()>0 then
-
 		if event == "CHAT_MSG_CHANNEL_JOIN" or event == "CHAT_MSG_CHANNEL_LEAVE" then
 			message.MESSAGE = message.ORG.TYPEPOSTFIX:trim()
 			message.ORG.TYPEPOSTFIX = " "
@@ -791,19 +769,17 @@ L["Use a custom replacement for the chat %s text."] = "用自訂更換聊天 %s 
 
 			message.TYPEPREFIX = message.TYPEPREFIX .. space
 
-			if (message.PLAYERLINK:len() > 0) or (message.TYPEPREFIX:len() > 0) then
+			if message.PLAYERLINK:len() > 0 then
 				message.TYPEPOSTFIX = colon .. "\32"
 			else
 				message.TYPEPOSTFIX = ""
 			end
 		end
-		--    end
 	end
 
 	--[[------------------------------------------------
 		Menu Builder Functions
 	------------------------------------------------]] --
-
 	function module:BuildChannelOptions()
 		for _, v in ipairs(orderMap) do
 			self:CreateTypeOption(eventPlugins["types"], v)
@@ -963,4 +939,4 @@ L["Use a custom replacement for the chat %s text."] = "用自訂更換聊天 %s 
 	end
 
 	return
-end) -- Prat:AddModuleToLoad
+end)

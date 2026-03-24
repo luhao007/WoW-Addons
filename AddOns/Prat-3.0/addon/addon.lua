@@ -51,7 +51,7 @@ Prat.Version = "Prat |cff8080ff3.0|r (|cff8080ff" .. "DEBUG" .. "|r)"
 --@end-debug@]==]
 
 --@non-debug@
-Prat.Version = "Prat |cff8080ff3.0|r (|cff8080ff".."3.9.93".."|r)"
+Prat.Version = "Prat |cff8080ff3.0|r (|cff8080ff".."3.9.96".."|r)"
 --@end-non-debug@
 
 local am = {}
@@ -122,11 +122,7 @@ Prat.EnableTasks = {}
 local addon = LibStub("AceAddon-3.0"):NewAddon("Prat", "AceEvent-3.0", "AceConsole-3.0", "AceTimer-3.0", "AceHook-3.0")
 Prat.Addon = addon
 
---local  callbacks
-
---[[ 1 = no load, 2 = disabled, 3 = enabled (this is temporary, a better format will be forthcoming, 4 is setdisabled, and 5 is setenabled]]
---  What I need to do is return the module's own value if the option isn't 1
--- but one problem is if the module was "no-load", and then is set to "enabled" but it thinks it should be "disabled"
+-- 2 = disabled, 3 = enabled
 local defaults = {
 	profile = {
 		modules = {
@@ -140,6 +136,7 @@ local defaults = {
 			["KeyBindings"] = 3,
 			["OriginalEditbox"] = 2,
 			["ChatTabs"] = 2,
+			["SideTabs"] = 2,
 			["*"] = 3
 		}
 	},
@@ -379,8 +376,15 @@ function addon:PostEnable()
 	end
 
 	-- Outbound hooking
-	if ChatFrame1EditBox and ChatFrame1EditBox.ParseText then
-		self:SecureHook(ChatFrame1EditBox, 'ParseText', 'ChatEdit_ParseText')
+	if ChatFrame1EditBox and ChatFrame1EditBox.OnPreSendText then
+		EventRegistry:RegisterCallback("ChatFrame.OnEditBoxPreSendText", function(_, editBox)
+			local success, ret = pcall(function()
+				addon:ChatEdit_ParseText(editBox)
+			end)
+			if not success then
+				geterrorhandler()(ret)
+			end
+		end)
 	else
 		self:SecureHook("ChatEdit_ParseText")
 	end
@@ -437,7 +441,11 @@ function addon:ChatEdit_ParseText(editBox, send)
 	wipe(m)
 	Prat.CurrentMessage = m
 
-	m.MESSAGE = command:gsub("^%s*(.-)%s*$", "%1") -- trim whitespace
+	if issecretvalue and issecretvalue(command) then
+		m.MESSAGE = command
+	else
+		m.MESSAGE = command:gsub("^%s*(.-)%s*$", "%1") -- trim whitespace
+	end
 
 	m.CTYPE = editBox:GetAttribute("chatType")
 	m.TARGET = editBox:GetAttribute("tellTarget")
@@ -450,6 +458,11 @@ function addon:ChatEdit_ParseText(editBox, send)
 	end
 
 	self:ProcessUserEnteredChat(m)
+
+	if Prat.IsRetail and InCombatLockdown() then
+		Prat.CurrentMessage = nil
+		return
+	end
 
 	editBox:SetAttribute("chatType", m.CTYPE)
 	editBox:SetAttribute("tellTarget", m.TARGET)
@@ -707,6 +720,9 @@ function Prat.PlaySound(_, sound)
 end
 
 function Prat.CanSendChatMessage(chatType)
+	if Prat.IsRetail and InCombatLockdown() then
+		return false
+	end
 	if chatType == "SAY" or chatType == "YELL" then
 		return IsInInstance("player")
 	elseif chatType == "RAID" or chatType == "GUILD" or chatType == "WHISPER" then
@@ -763,7 +779,9 @@ Prat.RegisterChatCommand("pratunblacklist", function(name)
 end)
 
 Prat.RegisterChatCommand("pratdebugmsg", function()
-	Prat:PrintLiteral(Prat.LastMessage, Prat.LastMessage.ORG)
+	if Prat.LastMessage then
+		Prat:PrintLiteral(Prat.LastMessage, Prat.LastMessage.ORG)
+	end
 
 	local cc = Prat:GetModule("CopyChat")
 	if cc then

@@ -24,6 +24,8 @@
 --
 -------------------------------------------------------------------------------
 
+local SendChatMessage = C_ChatInfo.SendChatMessage or SendChatMessage
+
 Prat:AddModuleToLoad(function()
 	local module = Prat:NewModule("Achievements")
 	local PL = module.PL
@@ -842,6 +844,10 @@ L["showGratsLink_name"] = "Show grats link"
 	end
 
 	function module:OnGratsLink(link)
+		if Prat.IsRetail and InCombatLockdown() then
+			return false
+		end
+
 		local theirName, group, _, id = strsub(link, gratsLinkType:len() + 2):match("([^:]*):([^:]*):([^:]*):([^:]*)")
 
 		local grats

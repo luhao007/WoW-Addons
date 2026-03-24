@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2430, "DBM-Shadowlands", nil, 1192)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240428104702")
+mod:SetRevision("20260315035226")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(167524)
 mod:SetEncounterID(2411)
 mod:SetUsedIcons(8)
@@ -42,7 +43,6 @@ local timerMarkofPenitenceCD				= mod:NewAITimer(82.0, 327255, nil, "Tank", nil,
 local timerLysoniasCallCD					= mod:NewAITimer(82.0, 339278, nil, nil, nil, 3)
 local timerChargedAnimaBlastCD				= mod:NewAITimer(82.0, 327262, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON, nil, 1, 5)
 
-mod:AddRangeFrameOption(10, 327262)--TODO, update range if it's too big or too small
 mod:AddSetIconOption("SetIconOnAnimaBlast", 327262, true, 0, {8})
 
 function mod:OnCombatStart(delay, yellTriggered)
@@ -53,16 +53,8 @@ function mod:OnCombatStart(delay, yellTriggered)
 		--timerLysoniasCallCD:Start(1-delay)--Iffy, this might be something boss actually does during recharge
 		--timerChargedAnimaBlastCD:Start(1-delay)
 	end
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Show(10)
-	end
 end
 
-function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
-end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId

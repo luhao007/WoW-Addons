@@ -180,7 +180,8 @@ end
 ---@param frame Frame The frame to register callbacks for
 ---@param configKey string The database key
 ---@param enabledCheckFn function Function that returns whether frame should be visible
-function WilduUICore.RegisterEditModeCallbacks(frame, configKey, enabledCheckFn)
+---@param shouldRepositionFn function Function that returns whether frame should be repositioned
+function WilduUICore.RegisterEditModeCallbacks(frame, configKey, enabledCheckFn, shouldRepositionFn)
     LEM:RegisterCallback("enter", function()
         local shouldHide = not enabledCheckFn()
         if frame._wt_VisibilityDriver and not InCombatLockdown() then
@@ -195,7 +196,11 @@ function WilduUICore.RegisterEditModeCallbacks(frame, configKey, enabledCheckFn)
         if not frame:IsShown() then
             frame:Show()
         end
-        WilduUICore.ApplyFramePosition(frame, configKey, shouldHide)
+        if not shouldHide and (not shouldRepositionFn or shouldRepositionFn()) then
+            WilduUICore.ApplyFramePosition(frame, configKey, false)
+        elseif shouldHide then
+            WilduUICore.ApplyFramePosition(frame, configKey, true)
+        end
     end)
 
     LEM:RegisterCallback("exit", function()
@@ -212,7 +217,11 @@ function WilduUICore.RegisterEditModeCallbacks(frame, configKey, enabledCheckFn)
     LEM:RegisterCallback("layout", function(layoutName)
         WilduUICore.LoadFrameConfig(configKey)
         local shouldHide = not enabledCheckFn()
-        WilduUICore.ApplyFramePosition(frame, configKey, shouldHide)
+        if not shouldHide and (not shouldRepositionFn or shouldRepositionFn()) then
+            WilduUICore.ApplyFramePosition(frame, configKey, false)
+        elseif shouldHide then
+            WilduUICore.ApplyFramePosition(frame, configKey, true)
+        end
     end)
 end
 

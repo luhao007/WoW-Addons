@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2366, "DBM-Raids-BfA", 1, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240714045844")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(157439)--Fury of N'Zoth
 mod:SetEncounterID(2337)
 mod:SetUsedIcons(1, 2, 3)
@@ -47,7 +48,6 @@ local specwarnWillPower						= mod:NewSpecialWarningCount(307831, nil, nil, nil,
 
 local timerGiftofNzoth						= mod:NewBuffFadesTimer(20, 313334, nil, nil, nil, 5)
 
-mod:AddRangeFrameOption("10")
 mod:AddInfoFrameOption(307831, true)
 --Stage 1: Exterior Carapace
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(20558))
@@ -191,9 +191,6 @@ function mod:OnCombatEnd()
 	self:UnregisterShortTermEvents()
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
-	end
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
 	end
 	if self.Options.NPAuraOnMembrane2 then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
@@ -350,9 +347,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnMadnessBomb:Play("runout")
 			yellMadnessBomb:Yell()
 			yellMadnessBombFades:Countdown(spellId)
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(10)
-			end
 		end
 	elseif spellId == 306984 then
 		warnInsanityBomb:CombinedShow(0.3, args.destName)
@@ -361,9 +355,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnInsanityBomb:Play("runout")
 			yellInsanityBomb:Yell()
 			yellInsanityBombFades:Countdown(spellId)
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(10)
-			end
 		end
 	elseif spellId == 306990 or spellId == 316848 then
 		warnAdaptiveMembrane:CombinedShow(0.3, args.destName)
@@ -460,16 +451,10 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 306973 then
 		if args:IsPlayer() then
 			yellMadnessBombFades:Cancel()
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Hide()
-			end
 		end
 	elseif spellId == 306984 then
 		if args:IsPlayer() then
 			yellInsanityBombFades:Cancel()
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Hide()
-			end
 		end
 	elseif spellId == 306990 or spellId == 316848 then
 		if args:GetDestCreatureID() == 157439 then

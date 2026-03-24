@@ -3,8 +3,12 @@ local E, api, cdata = T.Evie, {}
 local C = C_Garrison
 local GarrisonLandingPageMinimapButton = ExpansionLandingPageMinimapButton
 
-SLASH_MASTERPLAN1, SlashCmdList.MASTERPLAN = "/masterplan", function()
-	print("|cff0080ffMasterPlan|r v" .. (C_AddOns.GetAddOnMetadata("MasterPlan", "Version") or "?") .. " (" .. (C_AddOns.IsAddOnLoaded("Blizzard_GarrisonUI") and "G" or "N") .. (C_AddOns.IsAddOnLoaded("MasterPlan") and "O" or "A") .. ")")
+SLASH_MASTERPLAN1, SlashCmdList.MASTERPLAN = "/masterplan", function(msg)
+	if msg == "report" then
+		ShowGarrisonLandingPage(2)
+	else
+		print("|cff0080ffMasterPlan|r v" .. (C_AddOns.GetAddOnMetadata("MasterPlan", "Version") or "?") .. " (" .. (C_AddOns.IsAddOnLoaded("Blizzard_GarrisonUI") and "G" or "N") .. (C_AddOns.IsAddOnLoaded("MasterPlan") and "O" or "A") .. ")")
+	end
 end
 
 local function gett(t, k, ...)

@@ -113,18 +113,21 @@ do -- Completion stats
 	end
 end
 
+local function GetRecruitLockoutStartTime()
+	return GetServerTime() + C_DateAndTime.GetSecondsUntilWeeklyReset() - 604805
+end
 function EV:GARRISON_RECRUITMENT_NPC_OPENED()
 	if C_Garrison.CanGenerateRecruits() then
 		aconf.recruitTime = GetServerTime()-604801
 	else
 		local dt = type(aconf.recruitTime) == "number" and GetServerTime() - aconf.recruitTime or 604801
 		if dt > 604800 then
-			aconf.recruitTime = GetServerTime()
+			aconf.recruitTime = GetRecruitLockoutStartTime()
 		end
 	end
 end
 function EV:GARRISON_RECRUITMENT_FOLLOWERS_GENERATED()
-	aconf.recruitTime = GetServerTime()
+	aconf.recruitTime = GetRecruitLockoutStartTime()
 end
 
 function pub:GetSortFollowers()

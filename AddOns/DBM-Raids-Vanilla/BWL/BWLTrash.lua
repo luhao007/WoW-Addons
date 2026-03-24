@@ -12,7 +12,8 @@ end
 local mod	= DBM:NewMod("BWLTrash", "DBM-Raids-Vanilla", catID)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250105060534")
+mod:SetRevision("20260315035425")
+mod:DisableHardcodedOptions()
 mod.isTrashMod = true
 mod:SetModelID(12460)
 mod:SetZone(469)

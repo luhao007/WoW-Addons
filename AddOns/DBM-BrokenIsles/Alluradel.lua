@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2011, "DBM-BrokenIsles", 2, 822)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20220116041824")
+mod:SetRevision("20260315035302")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(124625)
 mod:SetEncounterID(2083)
 mod:EnableWBEngageSync()--Enable syncing engage in outdoors

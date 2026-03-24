@@ -8,7 +8,6 @@ local ItemsData = ns.TrackerItemsData
 local ItemVisuals = ns.TrackerItemVisuals
 local ItemViewer = ns.TrackerItemViewer
 
-local ITEM_STATE_SHOWN = ItemsData.ITEM_STATE_SHOWN
 local ITEM_STATE_HIDDEN = ItemsData.ITEM_STATE_HIDDEN
 local ITEM_STATE_TRACKER1 = ItemsData.ITEM_STATE_TRACKER1
 local ITEM_STATE_TRACKER2 = ItemsData.ITEM_STATE_TRACKER2
@@ -22,6 +21,24 @@ local reorderEatNextGlobalMouseUp = nil
 local reorderMarker = nil
 local reorderCursor = nil
 local reorderCursorFollow = false
+
+StaticPopupDialogs["CMC_ENABLE_TRACKER_AND_RELOAD"] = {
+    text = "CMC Tracker is disabled. Enable custom tracker and reload UI?",
+    button1 = _G.YES,
+    button2 = _G.NO,
+    OnAccept = function()
+        if not ns.db or not ns.db.profile then
+            return
+        end
+
+        ns.db.profile.tracker_enabled = true
+        ReloadUI()
+    end,
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+    preferredIndex = 3,
+}
 
 local function IsTabButton(child)
     if not child then
@@ -189,6 +206,96 @@ local function IsEntryOwned(owned, kind, id)
         return owned.wildcardSlots and owned.wildcardSlots[id]
     end
     return owned.items[id]
+end
+
+local function IsEntryUsable(owned, kind, id)
+    if not owned and kind ~= "spell" then
+        return false
+    end
+    if kind == "spell" then
+        return C_SpellBook and C_SpellBook.IsSpellInSpellBook(id) or owned.spells[id]
+    end
+    if kind == ENTRY_KIND_WILDCARD_SLOTS then
+        return owned.wildcardSlots and owned.wildcardSlots[id]
+    end
+    return owned.items[id]
+end
+
+local function HandleCursorDrop(state)
+    if InCombatLockdown() then
+        return false
+    end
+    local cursorType, cursorID, _, cursorSpellID = GetCursorInfo()
+    if not cursorType then
+        return false
+    end
+
+    local kind, id
+    if cursorType == "spell" then
+        local spellID = cursorSpellID or cursorID
+        if not spellID then
+            return false
+        end
+        id = C_Spell.GetBaseSpell(spellID) or spellID
+        kind = "spell"
+    elseif cursorType == "item" then
+        if not cursorID then
+            return false
+        end
+        id = cursorID
+        kind = "item"
+    elseif cursorType == "action" and GetActionInfo then
+        local actionType, actionID = GetActionInfo(cursorID)
+        if actionType == "spell" then
+            id = C_Spell.GetBaseSpell(actionID) or actionID
+            kind = "spell"
+        elseif actionType == "item" then
+            id = actionID
+            kind = "item"
+        end
+    end
+
+    if not kind or not id then
+        return false
+    end
+    local ok, error = ns.API:AddToTracking(kind, id, state)
+    if not ok then
+        ns.Addon:Print(error)
+    end
+
+    ClearCursor()
+    return true
+end
+
+local function IsCursorDroppable()
+    local cursorType = GetCursorInfo()
+    return cursorType == "spell" or cursorType == "item" or cursorType == "action"
+end
+
+local function EnsureDropPlaceholder(category)
+    if category._CMCTracker_DropPlaceholder then
+        return category._CMCTracker_DropPlaceholder
+    end
+
+    local overlay = category:CreateTexture(nil, "OVERLAY")
+
+    overlay:SetAtlas("UI-Dream-Highlight-Top", false)
+    overlay:SetAlpha(0.65)
+    overlay:Hide()
+    overlay:ClearAllPoints()
+    overlay:SetPoint("TOPLEFT", category, "TOPLEFT", 8, -12)
+    overlay:SetPoint("BOTTOMRIGHT", category, "BOTTOMRIGHT", -8, 12)
+
+    category._CMCTracker_DropPlaceholder = overlay
+    return overlay
+end
+
+local function ShowDropPlaceholder(category, show)
+    local overlay = EnsureDropPlaceholder(category)
+    if not overlay then
+        return
+    end
+    overlay:SetShown(show == true)
 end
 
 local function EnsureReorderMarker()
@@ -430,21 +537,27 @@ local function ShowItemContextMenu(button)
     end
     local hiddenLabel = "Move to Not Displayed"
 
+    local function RefreshTrackerPanels()
+        MiscPanel:RefreshMiscPanel()
+        ItemViewer:RefreshItemViewerFrames()
+    end
+
     local function Generator(owner, rootDescription)
         rootDescription:CreateButton("Show in First Tracker", function()
             ItemsData:SetEntryState(kind, id, ITEM_STATE_TRACKER1)
-            MiscPanel:RefreshMiscPanel()
-            ItemViewer:RefreshItemViewerFrames()
+            RefreshTrackerPanels()
         end)
         rootDescription:CreateButton("Show in Second Tracker", function()
             ItemsData:SetEntryState(kind, id, ITEM_STATE_TRACKER2)
-            MiscPanel:RefreshMiscPanel()
-            ItemViewer:RefreshItemViewerFrames()
+            RefreshTrackerPanels()
         end)
         rootDescription:CreateButton(hiddenLabel, function()
             ItemsData:SetEntryState(kind, id, ITEM_STATE_HIDDEN)
-            MiscPanel:RefreshMiscPanel()
-            ItemViewer:RefreshItemViewerFrames()
+            RefreshTrackerPanels()
+        end)
+        rootDescription:CreateButton("Untrack", function()
+            ItemsData:SetEntryState(kind, id, nil)
+            RefreshTrackerPanels()
         end)
     end
 
@@ -604,6 +717,10 @@ end
 local function ResetCategoryButtons(category)
     category.itemPool:ReleaseAll()
 
+    if category._CMCTracker_DropPlaceholder then
+        category._CMCTracker_DropPlaceholder:Hide()
+    end
+
     local container = category.Container
     if container then
         for _, child in ipairs({ container:GetChildren() }) do
@@ -678,7 +795,7 @@ function MiscPanel:LayoutCategory(category, entries, owned)
 
             SetIconFromEntry(button, entry.kind, entry.id)
             if button.Icon then
-                button.Icon:SetDesaturated(not IsEntryOwned(owned, entry.kind, entry.id))
+                button.Icon:SetDesaturated(not IsEntryUsable(owned, entry.kind, entry.id))
             end
 
             if button.Cooldown then
@@ -774,10 +891,46 @@ function MiscPanel:CreateItemCategory(parent, title, state)
 
     categoryDisplay:SetScript("OnEnter", function(self)
         SetReorderTarget(self)
+        if IsCursorDroppable() and not self:IsCollapsed() then
+            ShowDropPlaceholder(self, true)
+        end
+    end)
+    categoryDisplay:SetScript("OnLeave", function(self)
+        ShowDropPlaceholder(self, false)
+    end)
+    categoryDisplay:SetScript("OnReceiveDrag", function(self)
+        ShowDropPlaceholder(self, false)
+        if HandleCursorDrop(self.state) then
+            return
+        end
+    end)
+    categoryDisplay:SetScript("OnMouseUp", function(self, btn)
+        if btn == "LeftButton" and IsCursorDroppable() then
+            ShowDropPlaceholder(self, false)
+            HandleCursorDrop(self.state)
+        end
     end)
     if categoryDisplay.Container then
         categoryDisplay.Container:SetScript("OnEnter", function()
             SetReorderTarget(categoryDisplay)
+            if IsCursorDroppable() and not categoryDisplay:IsCollapsed() then
+                ShowDropPlaceholder(categoryDisplay, true)
+            end
+        end)
+        categoryDisplay.Container:SetScript("OnLeave", function()
+            ShowDropPlaceholder(categoryDisplay, false)
+        end)
+        categoryDisplay.Container:SetScript("OnReceiveDrag", function()
+            ShowDropPlaceholder(categoryDisplay, false)
+            if HandleCursorDrop(categoryDisplay.state) then
+                return
+            end
+        end)
+        categoryDisplay.Container:SetScript("OnMouseUp", function(_, btn)
+            if btn == "LeftButton" and IsCursorDroppable() then
+                ShowDropPlaceholder(categoryDisplay, false)
+                HandleCursorDrop(categoryDisplay.state)
+            end
         end)
     end
 
@@ -858,7 +1011,7 @@ function MiscPanel:RefreshMiscPanel(settingsFrame)
     if not ns.db.profile.tracker_enabled then
         return
     end
-    local owned = ItemsData:ScanOwnedItems()
+    local owned = ItemsData:ScanOwnedItemsForMiscPanel()
     ItemsData:EnsureTrackedItems(owned)
 
     local frame = settingsFrame or _G["CooldownViewerSettings"]
@@ -880,19 +1033,19 @@ function MiscPanel:RefreshMiscPanel(settingsFrame)
         -- Filter out items the player does not own (same logic as icon desaturation)
         local filteredTracker1Entries = {}
         for _, entry in ipairs(tracker1Entries) do
-            if IsEntryOwned(owned, entry.kind, entry.id) then
+            if IsEntryUsable(owned, entry.kind, entry.id) then
                 table.insert(filteredTracker1Entries, entry)
             end
         end
         local filteredTracker2Entries = {}
         for _, entry in ipairs(tracker2Entries) do
-            if IsEntryOwned(owned, entry.kind, entry.id) then
+            if IsEntryUsable(owned, entry.kind, entry.id) then
                 table.insert(filteredTracker2Entries, entry)
             end
         end
         local filteredHidden = {}
         for _, entry in ipairs(hiddenEntries) do
-            if IsEntryOwned(owned, entry.kind, entry.id) then
+            if IsEntryUsable(owned, entry.kind, entry.id) then
                 table.insert(filteredHidden, entry)
             end
         end
@@ -936,7 +1089,8 @@ function MiscPanel:RefreshMiscPanel(settingsFrame)
         return
     end
 
-    ItemsData:CleanupHiddenEntries(owned)
+    -- no longer remove scanned items
+    -- ItemsData:CleanupHiddenEntries(owned)
     self:LayoutCategory(categories[1], tracker1Entries, owned)
     self:LayoutCategory(categories[2], tracker2Entries, owned)
     self:LayoutCategory(categories[3], hiddenEntries, owned)
@@ -1002,7 +1156,7 @@ local function ShowMiscPanel(settingsFrame)
 end
 
 function MiscPanel:EnsureMiscSettingsTab(settingsFrame)
-    if settingsFrame._CMCTracker_MiscPanel or not ns.db.profile.tracker_enabled then
+    if settingsFrame._CMCTracker_MiscPanel then
         return
     end
 
@@ -1082,6 +1236,16 @@ function MiscPanel:EnsureMiscSettingsTab(settingsFrame)
         miscPanel._CMCTracker_SettingsDropdown = settingsDropdown
     end
 
+    if not miscPanel._CMCTracker_TrackTip then
+        local trackTip = miscPanel:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+        trackTip:SetPoint("BOTTOMLEFT", miscPanel, "BOTTOMLEFT", 10, 10)
+        -- |cff008945Cool|r|cff1e9a4e|r|cff3faa4fdown Ma|r|cff5fb64anag|r|cff7ac243er Ce|r|cff8ccd00ntered|r
+        trackTip:SetText(
+            "|cfffff100Drag&Drop|r or use |cff5fb64a/cmc track|r |cff7ac243item/spell|r |cff8ccd00{id}|r to add an item or spell"
+        )
+        miscPanel._CMCTracker_TrackTip = trackTip
+    end
+
     miscPanel:HookScript("OnShow", function(self)
         if self._CMCTracker_SearchBox then
             self._CMCTracker_SearchBox:Show()
@@ -1118,6 +1282,11 @@ function MiscPanel:EnsureMiscSettingsTab(settingsFrame)
     end)
 
     miscTab:SetScript("OnClick", function(self)
+        if not ns.db.profile.tracker_enabled then
+            StaticPopup_Show("CMC_ENABLE_TRACKER_AND_RELOAD")
+            return
+        end
+
         if settingsFrame._CMCTracker_MiscPanel:IsShown() then
             return
         end

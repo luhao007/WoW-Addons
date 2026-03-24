@@ -18,6 +18,17 @@ L = DBM:GetModLocalization("ThreeBugs")
 L:SetGeneralLocalization{
 	name = "異種蠍皇族"
 }
+L:SetMiscLocalization{
+	Yauj = "亞爾基公主",
+	Vem = "維姆",
+	Kri = "克里勳爵"
+}
+L:SetWarningLocalization({
+    WarnBugDied = "%s死了（剩下%d擊殺）"
+})
+L:SetOptionLocalization{
+    WarnBugDied = "提示異種蠍皇族蟲剩餘"
+}
 
 -------------
 -- Sartura --
@@ -26,6 +37,12 @@ L = DBM:GetModLocalization("Sartura")
 
 L:SetGeneralLocalization{
 	name = "沙爾圖拉"
+}
+L:SetWarningLocalization({
+    WarnGuardDied = "沙爾圖拉皇家衛士剩餘：%d/3" -- NPC ID 15984
+})
+L:SetOptionLocalization{
+    WarnGuardDied = "提示沙爾圖拉皇家衛士剩餘"
 }
 
 --------------
@@ -115,8 +132,7 @@ L:SetOptionLocalization{
 	TimerClawTentacle		= "為下一次利爪觸鬚顯示計時器",
 	TimerGiantEyeTentacle	= "為下一次巨人眼球觸鬚顯示計時器",
 	TimerGiantClawTentacle	= "為下一次巨型利爪觸鬚顯示計時器",
-	TimerWeakened			= "為首領虛弱時間顯示計時器",
-	RangeFrame				= "顯示距離框架(10碼)"
+	TimerWeakened			= "為首領虛弱時間顯示計時器"
 }
 L:SetMiscLocalization{
 	Stomach		= "克蘇恩的胃",
@@ -274,7 +290,7 @@ L:SetOptionLocalization{
 }
 L:SetMiscLocalization{
 	Phase2Emote	= "在寶珠的控制力消失之前逃走。",
-	YellPull 	= "入侵者闖進孵化室了！拉響警報！無論如何都要保護蛋！"
+	Pull 	= "入侵者闖進孵化室了！拉響警報！無論如何都要保護蛋！"
 }
 
 -------------------
@@ -367,8 +383,8 @@ L:SetWarningLocalization{
 	WarnVulnerable	= "%s弱點"
 }
 L:SetTimerLocalization{
-	TimerBreathCD	= "%s冷卻",
-	TimerBreath		= "%s施放",
+	TimerBreathCD	= "%s",
+	TimerBreath		= "%s",
 	TimerVulnCD		= "弱點冷卻"
 }
 L:SetOptionLocalization{
@@ -508,6 +524,12 @@ L = DBM:GetModLocalization("Majordomo")
 
 L:SetGeneralLocalization{
 	name = "管理者埃克索圖斯"
+}
+L:SetTimerLocalization{
+    timerShieldCD = "護盾"
+}
+L:SetOptionLocalization{
+    timerShieldCD = "為下一次傷害/魔法反射護盾顯示計時器"
 }
 
 ----------------
@@ -857,8 +879,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	yell1 = "縫補者要跟你玩！",
-	yell2 = "縫補者是科爾蘇加德的戰神！"
+	Pull1 = "縫補者要跟你玩！",
+	Pull2 = "縫補者是科爾蘇加德的戰神！"
 })
 
 -----------------
@@ -891,7 +913,6 @@ L:SetGeneralLocalization({
 L:SetMiscLocalization({
 	Yell	= "斯塔拉格要碾碎你！",
 	Emote	= "%s超過負荷！",
-	Emote2	= "泰斯拉線圈超過負荷！",
 	Charge1 = "負極",
 	Charge2 = "正極"
 })
@@ -919,10 +940,10 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization({
-	Yell1 = "絕不留情！",
-	Yell2 = "練習時間到此為止！都拿出真本事來！",
-	Yell3 = "照我教你的做！",
-	Yell4 = "絆腿……有什麼問題嗎？"
+	Pull1 = "絕不留情！",
+	Pull2 = "練習時間到此為止！都拿出真本事來！",
+	Pull3 = "照我教你的做！",
+	Pull4 = "絆腿……有什麼問題嗎？"
 })
 
 L:SetOptionLocalization({
@@ -1012,21 +1033,21 @@ L:SetOptionLocalization({
 	WarningLanded		= "提示地上階段",
 	TimerAir			= "為空中階段顯示計時器",
 	TimerLanding		= "為降落顯示計時器",
-	TimerIceBlast		= "為冰息術顯示計時器",
-	WarningDeepBreath	= "為冰息術顯示特別警告"
+	TimerFrostBreath	= "為$spell:28524顯示計時器",
+	WarningFrostBreath	= "為$spell:28524顯示特別警告"
 })
 
 L:SetWarningLocalization({
 	WarningAirPhaseSoon	= "10秒後空中階段",
 	WarningAirPhaseNow	= "空中階段",
 	WarningLanded		= "薩菲隆降落了",
-	WarningDeepBreath	= "冰息術"
+	WarningFrostBreath	= "冰息術"
 })
 
 L:SetTimerLocalization({
-	TimerAir		= "空中階段",
-	TimerLanding	= "降落",
-	TimerIceBlast	= "冰息術"
+	TimerAir			= "空中階段",
+	TimerLanding		= "降落",
+	TimerFrostBreath	= "冰息術"
 })
 
 ------------------
@@ -1267,6 +1288,7 @@ L = DBM:GetModLocalization("AtalaiDefendersSoD")
 L:SetGeneralLocalization({
 	name = "阿塔萊防衛者"
 })
+
 ---------------------------
 --  Dreamscythe and Weaver  --
 ---------------------------
@@ -1275,6 +1297,7 @@ L = DBM:GetModLocalization("DreamscytheAndWeaverSoD")
 L:SetGeneralLocalization({
 	name = "德姆塞卡爾與編織者"
 })
+
 ---------------------------
 --  Avatar of Hakkar  --
 ---------------------------
@@ -1283,6 +1306,7 @@ L = DBM:GetModLocalization("AvatarofHakkarSoD")
 L:SetGeneralLocalization({
 	name = "哈卡的化身"
 })
+
 ---------------------------
 --  Jammal'an and Ogom  --
 ---------------------------
@@ -1291,6 +1315,7 @@ L = DBM:GetModLocalization("JammalanAndOgomSoD")
 L:SetGeneralLocalization({
 	name = "迦瑪蘭與奧戈姆"
 })
+
 ---------------------------
 --  Morphaz and Hazzas  --
 ---------------------------
@@ -1299,6 +1324,7 @@ L = DBM:GetModLocalization("MorphazandHazzasSoD")
 L:SetGeneralLocalization({
 	name = "摩弗拉斯與哈札斯"
 })
+
 ---------------------------
 --  Shade of Eranikus  --
 ---------------------------
@@ -1307,4 +1333,3 @@ L = DBM:GetModLocalization("ShadeofEranikusSoD")
 L:SetGeneralLocalization({
 	name = "伊蘭尼庫斯的陰影"
 })
-

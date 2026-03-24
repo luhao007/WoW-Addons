@@ -9,7 +9,8 @@ end
 local mod	= DBM:NewMod("AQ20Trash", "DBM-Raids-Vanilla", catID)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250122203106")
+mod:SetRevision("20260324053510")
+mod:DisableHardcodedOptions()
 if not mod:IsClassic() then
 	mod:SetModelID(15741)-- Qiraji Gladiator
 end
@@ -24,7 +25,6 @@ mod:RegisterEvents(
 	"SPELL_AURA_APPLIED 22997 25698 26079 1215202 1215421 2855",
 	"SPELL_PERIODIC_DAMAGE 1215421",
 	"SPELL_CAST_SUCCESS 26586",
-	"SPELL_AURA_REMOVED 22997",
 	"SPELL_SUMMON 17430 17431",
 	"SPELL_MISSED",
 	"UNIT_DIED",
@@ -33,7 +33,6 @@ mod:RegisterEvents(
 	"NAME_PLATE_UNIT_ADDED"
 )
 
-mod:AddRangeFrameOption(10, 22997)
 mod:AddNamePlateOption("ThunderclapNameplate", 8732)
 
 -- Toxic Pool, not using the new NewGtfo() thing because it uses the new event handler type that currently only supports combat-only events
@@ -71,9 +70,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnPlague:Show()
 			specWarnPlague:Play("runout")
 			yellPlague:Yell()
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(10)
-			end
 		elseif UnitGUID("pet") and UnitGUID("pet") == args.destGUID then
 			specWarnPlague:Show()
 			specWarnPlague:Play("runout")
@@ -119,14 +115,6 @@ function mod:SPELL_DAMAGE(sourceGUID, sourceName, _, sourceRaidFlags, _, _, _, _
 		end
 	elseif spellId == 25779 then
 		aq40Trash:TrackTrashAbility(sourceGUID, "ManaBurn", sourceRaidFlags, sourceName)
-	end
-end
-
-function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpell(22997) then
-		if args:IsPlayer() and self.Options.RangeFrame then
-			DBM.RangeCheck:Hide()
-		end
 	end
 end
 

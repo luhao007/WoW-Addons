@@ -166,6 +166,7 @@ local function Slider_OnEnter(self)
 	local tooltipText = ""
 	tooltipText = TitanOptionSlider_TooltipText(slider.gtext, GetVolumeText(GetCVolume(slider.cvar)));
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT");
+---@diagnostic disable-next-line: param-type-mismatch
 	GameTooltip:SetText(tooltipText, nil, nil, nil, nil, 1);
 	TitanUtils_StopFrameCounting(self:GetParent());
 end
@@ -219,6 +220,7 @@ local function Slider_OnValueChanged(self, a1)
 
 	-- Update GameTooltip
 	local tooltipText = TitanOptionSlider_TooltipText(slider.gtext, GetVolumeText(1 - self:GetValue()));
+---@diagnostic disable-next-line: param-type-mismatch
 	GameTooltip:SetText(tooltipText, nil, nil, nil, nil, 1);
 end
 
@@ -271,29 +273,6 @@ local function GetTooltipText()
 	""
 	
 	return text
-end
-
----local Generate the right click menu
-local function CreateMenu()
-	TitanPanelRightClickMenu_AddTitle(TitanPlugins[TITAN_VOLUME_ID].menuText);
-
-	local info = {};
-	info.notCheckable = true
-	info.text = L["TITAN_VOLUME_MENU_AUDIO_OPTIONS_LABEL"];
-	info.func = function()
-		ShowUIPanel(VideoOptionsFrame);
-	end
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-	info.text = L["TITAN_VOLUME_MENU_OVERRIDE_BLIZZ_SETTINGS"];
-	info.notCheckable = false
-	info.func = function()
-		TitanToggleVar(TITAN_VOLUME_ID, "OverrideBlizzSettings");
-	end
-	info.checked = TitanGetVar(TITAN_VOLUME_ID, "OverrideBlizzSettings");
-	TitanPanelRightClickMenu_AddButton(info, TitanPanelRightClickMenu_GetDropdownLevel());
-
-	TitanPanelRightClickMenu_AddControlVars(TITAN_VOLUME_ID)
 end
 
 local function ToggleMute()

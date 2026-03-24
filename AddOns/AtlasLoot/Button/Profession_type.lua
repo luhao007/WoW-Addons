@@ -68,6 +68,9 @@ function Prof.OnClear(button)
 	button.secButton.Profession = nil
 	button.secButton.SpellID = nil
 	button.secButton.tsLink, button.secButton.tsName = nil, nil
+
+	button.secButton.overlay:SetTexCoord(0, 1, 0, 1)
+	button.secButton.overlay:SetSize(button.secButton:GetWidth(), button.secButton:GetHeight())
 end
 
 function Prof.OnEnter(button)
@@ -84,6 +87,7 @@ end
 
 function Prof.OnMouseAction(button, mouseButton)
 	if not mouseButton then return end
+	ProfessionsUtil.OpenProfessionFrameToRecipe(button.SpellID)
 	mouseButton = ProfClickHandler:Get(mouseButton)
 	if mouseButton == "ChatLink" then
 		AtlasLoot.Button:AddChatLink(button.tsLink or ("spell:"..button.SpellID))
@@ -102,4 +106,19 @@ function Prof.Refresh(button)
 	end
 
 	button.icon:SetTexture(TRADESKILLS[button.tsName] or spellTexture)
+
+	-- Add overlay (border) if you have the profession of the recipe
+	local _, _, tradeSkillID = C_TradeSkillUI.GetTradeSkillLineForRecipe(button.SpellID)
+	local prof1, prof2, _, _, cooking = GetProfessions()
+	local prof1ID = prof1 and select(7, GetProfessionInfo(prof1)) or nil
+	local prof2ID = prof2 and select(7, GetProfessionInfo(prof2)) or nil
+	local cookingID = cooking and select(7, GetProfessionInfo(cooking)) or nil
+
+	if (tradeSkillID == prof1ID or tradeSkillID == prof2ID or tradeSkillID == cookingID) then
+		button.overlay:Show()
+		button.overlay:SetTexture("Interface\\PetBattles\\PetJournal")
+		button.overlay:SetTexCoord(0.41992188, 0.52343750, 0.02246094, 0.07519531)
+		button.overlay:SetHeight(button.icon:GetHeight() * 1.2)
+		button.overlay:SetWidth(button.icon:GetWidth() * 1.2)
+	end
 end

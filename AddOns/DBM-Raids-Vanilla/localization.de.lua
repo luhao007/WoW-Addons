@@ -18,6 +18,17 @@ L = DBM:GetModLocalization("ThreeBugs")
 L:SetGeneralLocalization{
 	name = "Adel der Silithiden"
 }
+L:SetMiscLocalization{
+	Yauj = "Prinzessin Yauj",
+	Vem = "Vem",
+	Kri = "Lord Kri"
+}
+L:SetWarningLocalization({
+    WarnBugDied = "%s stirbt (%d ausstehende Tötungen)"
+})
+L:SetOptionLocalization{
+	WarnBugDied = "Verkünde verbleibende drei Bugs"
+}
 
 -------------
 -- Sartura --
@@ -26,6 +37,12 @@ L = DBM:GetModLocalization("Sartura")
 
 L:SetGeneralLocalization{
 	name = "Schlachtwache Sartura"
+}
+L:SetWarningLocalization({
+    WarnGuardDied = "Verbleibende Sarturas Königswache: %d/3" -- NPC ID 15984
+})
+L:SetOptionLocalization{
+    WarnGuardDied = "Verkünde verbleibende Sarturas Königswache"
 }
 
 --------------
@@ -115,8 +132,7 @@ L:SetOptionLocalization{
 	TimerClawTentacle		= "Zeige Zeit bis die nächsten Klauententakel erscheinen",
 	TimerGiantEyeTentacle	= "Zeige Zeit bis die nächsten Riesiges Augententakel erscheinen",
 	TimerGiantClawTentacle	= "Zeige Zeit bis die nächsten Riesiges Klauententakel erscheinen",
-	TimerWeakened			= "Dauer der Schwäche von C'Thun anzeigen",
-	RangeFrame				= "Zeige Abstandsfenster (10m)"
+	TimerWeakened			= "Dauer der Schwäche von C'Thun anzeigen"
 }
 L:SetMiscLocalization{
 	Stomach		= "Magen",
@@ -264,7 +280,7 @@ L:SetOptionLocalization{
 }
 L:SetMiscLocalization{
 	Phase2Emote	= "flieht während die kontrollierenden Kräfte der Kugel schwinden.",
-	YellPull 	= "Eindringlinge sind in die Brutstätte vorgestoßen! Schlagt Alarm! Beschützt die Eier um jeden Preis!"
+	Pull 	= "Eindringlinge sind in die Brutstätte vorgestoßen! Schlagt Alarm! Beschützt die Eier um jeden Preis!"
 }
 
 -------------------
@@ -377,9 +393,9 @@ L:SetWarningLocalization{
 	WarnVulnerable = "Verwundbarkeit: %s"
 }
 L:SetTimerLocalization{
-	TimerBreathCD = "Abklingzeit der %s",
-	TimerBreath = "%s Zauber",
-	TimerVulnCD = "Abklingzeit der Verwundbarkeit"
+	TimerBreathCD = "%s",
+	TimerBreath = "%s",
+	TimerVulnCD = "Verwundbarkeit"
 }
 L:SetOptionLocalization{
 	WarnBreath = "Zeige Warnung, wenn Chromaggus einen seiner Atem wirkt",
@@ -545,6 +561,12 @@ L = DBM:GetModLocalization("Majordomo")
 L:SetGeneralLocalization{
 	name = "Majordomus Exekutus"
 }
+L:SetTimerLocalization{
+	timerShieldCD		= "Schild"
+}
+L:SetOptionLocalization{
+	timerShieldCD		= "Zeige Zeit bis nächstes Schaden-/Reflexionsschild"
+}
 
 ----------------
 --  Ragnaros  --
@@ -590,7 +612,6 @@ L:SetOptionLocalization{
 L:SetWarningLocalization{
 	WarnBossPower		= "Energie bei %d%%"
 }
-
 
 -------------------
 --  Venoxis  --
@@ -896,8 +917,8 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization({
-	yell1			= "Flickwerk spielen möchte!",
-	yell2			= "Kel’thuzad macht Flickwerk zu seinem Abgesandten von Krieg!"
+	Pull1			= "Flickwerk spielen möchte!",
+	Pull2			= "Kel’thuzad macht Flickwerk zu seinem Abgesandten von Krieg!"
 })
 
 -----------------
@@ -930,7 +951,6 @@ L:SetGeneralLocalization({
 L:SetMiscLocalization({
 	Yell	= "Stalagg zerquetschen!",
 	Emote	= "%s überlädt!",
-	Emote2	= "Teslaspule überlädt!",
 	Charge1 = "negativ",
 	Charge2 = "positiv"
 })
@@ -958,10 +978,10 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization({
-	Yell1 = "Lasst keine Gnade walten!",
-	Yell2 = "Die Zeit des Übens ist vorbei! Zeigt mir, was ihr gelernt habt!",
-	Yell3 = "Befolgt meine Befehle!",
-	Yell4 = "Streckt sie nieder... oder habt ihr ein Problem damit?"
+	Pull1 = "Lasst keine Gnade walten!",
+	Pull2 = "Die Zeit des Übens ist vorbei! Zeigt mir, was ihr gelernt habt!",
+	Pull3 = "Befolgt meine Befehle!",
+	Pull4 = "Streckt sie nieder... oder habt ihr ein Problem damit?"
 })
 
 L:SetOptionLocalization({
@@ -1019,7 +1039,7 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("HorsemenVanilla")
 
 L:SetGeneralLocalization({
-	name = "Die vier Reiter"
+	name = "Die Vier Reiter"
 })
 
 L:SetOptionLocalization({
@@ -1052,21 +1072,21 @@ L:SetOptionLocalization({
 	WarningLanded		= "Zeige Warnung, wenn Saphiron landet",
 	TimerAir			= "Zeige Zeit bis nächste Luftphase",
 	TimerLanding		= "Zeige Zeit bis nächste Bodenphase",
-	TimerIceBlast		= "Zeige Zeit bis $spell:28524",
-	WarningDeepBreath	= "Spezialwarnung für $spell:28524"
+	TimerFrostBreath	= "Zeige Zeit bis $spell:28524",
+	WarningFrostBreath	= "Spezialwarnung für $spell:28524"
 })
 
 L:SetWarningLocalization({
 	WarningAirPhaseSoon	= "Luftphase in 10 Sek",
 	WarningAirPhaseNow	= "Luftphase",
 	WarningLanded		= "Bodenphase",
-	WarningDeepBreath	= "Frostatem"
+	WarningFrostBreath	= "Frostatem"
 })
 
 L:SetTimerLocalization({
-	TimerAir		= "Nächste Luftphase",
-	TimerLanding	= "Nächste Bodenphase",
-	TimerIceBlast	= "Frostatem"
+	TimerAir			= "Luftphase",
+	TimerLanding		= "Bodenphase",
+	TimerFrostBreath	= "Frostatem"
 })
 
 ------------------

@@ -5,7 +5,11 @@ local data = AtlasLoot.ItemDB:Add(addonname)
 local AL = AtlasLoot.Locales
 local ALIL = AtlasLoot.IngameLocales
 
-local MIDNIGHT_DIFF = data:AddDifficulty(EXPANSION_NAME11)
+local MIDNIGHT_DIFF = data:AddDifficulty(EXPANSION_NAME11, "CraftingPreset", {
+	Item = {
+		item1bonus = "Scaling",
+	},
+})
 local TWW_DIFF = data:AddDifficulty(EXPANSION_NAME10)
 local DF_DIFF = data:AddDifficulty(EXPANSION_NAME9)
 local SL_DIFF = data:AddDifficulty(EXPANSION_NAME8)
@@ -649,6 +653,53 @@ data["Alchemy"] = {
 				{ 4, 257420, 1233138 },                                                   -- Silvermoon Spire Fountain
 				{ 5, 262355, 1233132 },                                                   -- Entropic Illuminant
 				{ 6, 262354, 1233136 },                                                   -- Riftstone
+			},
+			[TWW_DIFF] = {
+				{ 1, 252758, 1259673 }, -- Boulder Springs Hot Tub
+				{ 2, 257102, 1261878 }, -- Nerubian Alchemist's Retort
+			},
+			[DF_DIFF] = {
+				{ 1, 257052, 1261882 }, -- Dragon's Elixir Bottle
+				{ 2, 248111, 1261885 }, -- Verdant Valdrakken Vase
+			},
+			[SL_DIFF] = {
+				{ 1, 257051, 1261972 }, -- Sintallow Candles
+				{ 2, 257050, 1261958 }, -- Veil-Secured Animacone
+			},
+			[BFA_DIFF] = {
+				{ 1, 257046, 1262005 }, -- Boralus Bottle Lamp
+				{ 2, 257047, 1262151 }, -- Zandalari Bottle Shipment
+			},
+			[LEGION_DIFF] = {
+				{ 1, 256680, 1262154 }, -- Arcan'dor Cutting Fountain
+				{ 2, 257045, 1262152 }, -- Starry Scrying Pool
+			},
+			[WOD_DIFF] = {
+				{ 1, 257044, 1262011, [PRICE_EXTRA_ITTYPE] = "118700:1" }, -- Orcish Felblood Cauldron
+				{ 2, 244318, 1260985, [PRICE_EXTRA_ITTYPE] = "118700:1" }, -- Wine Barrel
+			},
+			[MOP_DIFF] = {
+				{ 1, 258214, 1263548 }, -- Pandaren Alchemist's Kit
+				{ 2, 257043, 1261233 }, -- Pandaren Alchemist's Retort
+			},
+			[CATA_DIFF] = {
+				{ 1, 245517, 1261255 }, -- Gilnean Cauldron
+				{ 2, 257694, 1269506 }, -- Gilnean Green Potion
+			},
+			[WOTLK_DIFF] = {
+				{ 1, 258213, 1263559 }, -- Icecrown Plague Canister
+				{ 2, 258212, 1263558 }, -- San'layn Blood Orb
+			},
+			[BC_DIFF] = {
+				{ 1, 264706, 1272723 }, -- Shadow Council Torch
+				{ 2, 264705, 1272712 }, -- Glazed Sin'dorei Vial
+				{ 3, 264899, 1273070 }, -- Arakkoan Alchemist's Concoction
+				{ 4, 264900, 1273064 }, -- Arakkoan Alchemist's Bottle
+				{ 5, 264709, 1272715 }, -- Stranglekelp Sack
+			},
+			[CLASSIC_DIFF] = {
+				{ 1, 257100, 1262829 }, -- Apothecary's Worktable
+				{ 2, 257041, 1261495 }, -- Stoppered Black Potion
 			},
 		},
 		{ --AlchemyElixirs
@@ -1969,6 +2020,53 @@ data["Blacksmithing"] = {
 				{ 4, 262457, 1276110, [PRICE_EXTRA_ITTYPE] = "blacksmithingMoxie:150" }, -- Gilded Silvermoon Hanger
 				{ 5, 262456, 1276109 },                                      -- Ornamental Silvermoon Hanger
 			},
+			[TWW_DIFF] = {
+				{ 1, 245312, 1259675 }, -- Rusting Bolted Bench
+				{ 2, 245323, 1259681 }, -- Shredderwheel Storage Chest
+			},
+			[DF_DIFF] = {
+				{ 1, 256430, 1261892 }, -- Valdrakken Hanging Cauldron
+				{ 2, 256427, 1261896 }, -- Wingrest Signal Brazier
+			},
+			[SL_DIFF] = {
+				{ 1, 257048, 1261982 }, -- Aspirant's Meditation Pool
+				{ 2, 257049, 1261980 }, -- Bejeweled Venthyr Chalice
+			},
+			[BFA_DIFF] = {
+				{ 1, 252397, 1260691 }, -- Brennadam Grinder
+				{ 2, 252399, 1260692 }, -- Stormsong Stove
+			},
+			[LEGION_DIFF] = {
+				{ 1, 247909, 1260695 }, -- Suramar Fencepost
+				{ 2, 247922, 1260693 }, -- Suramar Fence
+				{ 3, 245408, 1260698 }, -- Tauren Soup Pot
+			},
+			[WOD_DIFF] = {
+				{ 1, 245436, 1260988, [PRICE_EXTRA_ITTYPE] = "118720:1" }, -- Blackrock Weapon Rack
+				{ 2, 245600, 1260987, [PRICE_EXTRA_ITTYPE] = "118720:1" }, -- Frostwall Forge
+			},
+			[MOP_DIFF] = {
+				{ 1, 247752, 1261234 }, -- Pandaren Fireplace
+				{ 2, 247661, 1261235 }, -- Pandaren Signal Brazier
+			},
+			[CATA_DIFF] = {
+				{ 1, 257042, 1261256 }, -- Gilnean Pitchfork
+				{ 2, 257409, 1262308 }, -- Standing Smoke Lamp
+			},
+			[WOTLK_DIFF] = {
+				{ 1, 264676, 1272662 }, -- Dalaran Sewer Gate
+				{ 2, 257040, 1261327 }, -- Dalaran Runic Anvil
+				{ 3, 264710, 1272614 }, -- Dalaran Sun Sconce
+			},
+			[BC_DIFF] = {
+				{ 1, 257039, 1261359 }, -- Draenei Crystal Forge
+				{ 2, 257036, 1261383 }, -- Draenei Smith's Anvil
+				{ 3, 257035, 1261347 }, -- Bronze Banner of the Exiled
+			},
+			[CLASSIC_DIFF] = {
+				{ 1, 246111, 1261497 }, -- Shadowforge Sconce
+				{ 2, 246489, 1261499 }, -- Steel Ironforge Emblem
+			},
 		},
 		{ --SmithingTrainingProjects
 			name = AL["Training Projects"],
@@ -2775,6 +2873,51 @@ data["Enchanting"] = {
 				{ 9,  262468, 1246903 },                                                      -- Ren'dorei Postal Repository
 				{ 10, 262450, 1246904 },                                                      -- Ensorcelled Broom
 				{ 11, 262455, 1246905 },                                                      -- Font of Gleaming Water
+			},
+			[TWW_DIFF] = {
+				{ 1, 253039, 1259715 }, -- Dornogal Hanging Sconce
+				{ 2, 253171, 1259690 }, -- Replica Awakening Machine Stasis Pod
+			},
+			[DF_DIFF] = {
+				{ 1, 256170, 1261933 }, -- Draconic Scribe's Basin
+				{ 2, 256171, 1261919 }, -- Five Flights' Grimoire
+			},
+			[SL_DIFF] = {
+				{ 1, 258237, 1263238 }, -- Ardenweald Lamppost
+				{ 2, 257098, 1261998 }, -- Venthyr Anima Bottle
+			},
+			[BFA_DIFF] = {
+				{ 1, 258560, 1263877 }, -- Drust Enchanter's Rod
+				{ 2, 258559, 1263870 }, -- Tidesage's Totem
+			},
+			[LEGION_DIFF] = {
+				{ 1, 256681, 1262238 }, -- Nightspire Fountain
+				{ 2, 247923, 1260700 }, -- Suramar Containment Cell
+			},
+			[WOD_DIFF] = {
+				{ 1, 245601, 1260990, [PRICE_EXTRA_ITTYPE] = "119293:1" }, -- Ancestral Signal Brazier
+				{ 2, 251655, 1261008, [PRICE_EXTRA_ITTYPE] = "119293:1" }, -- Draenethyst String Lights
+			},
+			[MOP_DIFF] = {
+				{ 1, 257097, 1262302 }, -- Intense Mogu Brazier
+				{ 2, 257096, 1262306 }, -- Pandaren Table Lamp
+			},
+			[CATA_DIFF] = {
+				{ 1, 257404, 1262331 }, -- Pyrewood Glass Bottle
+				{ 2, 257095, 1262318 }, -- Twilight Fire Canister
+			},
+			[WOTLK_DIFF] = {
+				{ 1, 257094, 1262824 }, -- Mark of the Mages' Eye
+				{ 2, 257101, 1262825 }, -- Stampwhistle's Postal Portal
+			},
+			[BC_DIFF] = {
+				{ 1, 257037, 1261331 }, -- Draenei Holo-Dais
+				{ 2, 257038, 1261340 }, -- Draenei Holo-Path
+				{ 3, 257093, 1262828 }, -- Aldor Stellar Console
+			},
+			[CLASSIC_DIFF] = {
+				{ 1, 263027, 1270459 }, -- Darkmaster's Mystical Brazier
+				{ 2, 253250, 1261501 }, -- Tirisfal Hollow Campfire
 			},
 		},
 		{ --EnchantingBracers
@@ -3768,6 +3911,53 @@ data["Engineering"] = {
 				{ 6, 262465, 1248613 }, -- Ren'dorei Stargazer
 				{ 7, 262789, 1248614 }, -- Small Telogrus Lamp
 			},
+			[TWW_DIFF] = {
+				{ 1, 253252, 1259778 }, -- Replica Rumbling Wastes Drill Pod
+				{ 2, 246066, 1259724 }, -- Schmancy Goblin String Lights
+			},
+			[DF_DIFF] = {
+				{ 1, 248113, 1259404 }, -- Thaldraszus Telescope
+				{ 2, 258253, 1263237 }, -- Titanic Tyrhold Fountain
+			},
+			[SL_DIFF] = {
+				{ 1, 258252, 1263240 }, -- Cartel Xy Capture Crate
+				{ 2, 258240, 1263239 }, -- Kyrian Anima Barrel
+			},
+			[BFA_DIFF] = {
+				{ 1, 246500, 1260425 }, -- Mechagon Miniature Artificial Sun
+				{ 2, 246486, 1260352 }, -- Gnomish Tesla Mega-Coil
+				{ 3, 246604, 1260349 }, -- Deactivated Atomic Recalibrator
+			},
+			[LEGION_DIFF] = {
+				{ 1, 258226, 1263319 }, -- Dalaran Auto-Hammer
+				{ 2, 258225, 1263338 }, -- Failed Failure Detection Pylon
+			},
+			[WOD_DIFF] = {
+				{ 1, 251482, 1261025, [PRICE_EXTRA_ITTYPE] = "119299:1" }, -- Draenei Stargazer's Telescope
+				{ 2, 244314, 1261027, [PRICE_EXTRA_ITTYPE] = "119299:1" }, -- Frostwall Architect's Table
+			},
+			[MOP_DIFF] = {
+				{ 1, 247733, 1261236 }, -- Halfhill Cookpot
+				{ 2, 258216, 1263551 }, -- Reconstructed Mogu Lightning Drill
+			},
+			[CATA_DIFF] = {
+				{ 1, 245602, 1261258 }, -- Gilnean Problem Solver
+				{ 2, 257689, 1262340 }, -- Small Gilnean Windmill
+			},
+			[WOTLK_DIFF] = {
+				{ 1, 264707, 1272707 }, -- Resizable All-Purpose Gear
+				{ 2, 264711, 1272676 }, -- Joybuzz's Joyful Wall of Trains
+				{ 3, 264708, 1272688 }, -- Home Defense Gadget
+			},
+			[BC_DIFF] = {
+				{ 1, 258196, 1263663 }, -- Draenei Transmitter
+				{ 2, 258194, 1263643 }, -- Tempest Keep Cryo-Pod
+				{ 3, 258193, 1263654 }, -- Draenei Holo-Projector Pedestal
+			},
+			[CLASSIC_DIFF] = {
+				{ 1, 246410, 1261509 }, -- Dark Iron Table Saw
+				{ 2, 246700, 1261504 }, -- Gnomish Steam-Powered Bed
+			},
 		},
 		{ --EngineeringMountsPets
 			name = AL["Mounts"].." & "..AL["Pets"],
@@ -4568,6 +4758,90 @@ data["Inscription"] = {
 				{ 10, 262597, 1248625, [PRICE_EXTRA_ITTYPE] = "scribingMoxie:150" },          -- Gilded Eversong Book
 				{ 11, 262595, 1248627 },                                                      -- Homely Wall Shelves
 				{ 12, 262790, 1248620 },                                                      -- Restful Bronze Bench
+			},
+			[TWW_DIFF] = {
+				{ 1, 253164, 1260005 }, -- Algari Fence
+				{ 2, 253022, 1259796 }, -- Dornogal Bookcase
+				{ 3, 253036, 1259818 }, -- Freywold Table
+				{ 4, 253167, 1259784 }, -- Forgeground Market Bins
+				{ 5, 253165, 1260044 }, -- Algari Fencepost
+				{ 6, 253169, 1259805 }, -- Meadery Storage Chest
+			},
+			[DF_DIFF] = {
+				{ 1, 248107, 1259451 }, -- Valdrakken Storage Crate
+				{ 2, 264679, 1272572 }, -- Valdrakken Wall Shelf
+				{ 3, 248108, 1259461 }, -- Long Valdrakken Storage Crate
+				{ 4, 248106, 1259441 }, -- Valdrakken Banded Barrel
+				{ 5, 248120, 1259429 }, -- Literature of the Red Dragonflight
+				{ 6, 248118, 1259422 }, -- Literature of the Blue Dragonflight
+				{ 7, 248119, 1259433 }, -- Literature of the Green Dragonflight
+			},
+			[SL_DIFF] = {
+				{ 1, 258239, 1263285 }, -- Tome of Maldraxxian Rituals
+				{ 2, 258245, 1263247 }, -- Ardenweald Hanging Baskets
+				{ 3, 258244, 1263241 }, -- Broker's Hex Table
+				{ 4, 258247, 1263278 }, -- Large Revendreth Storage Crate
+				{ 5, 258250, 1263243 }, -- Cartel Ta Bookcase
+				{ 6, 258235, 1263272 }, -- Aspiring Soul's Chair
+				{ 7, 258242, 1263293 }, -- Hollow Night Fae Shrine
+			},
+			[BFA_DIFF] = {
+				{ 1, 245415, 1260564 }, -- Zuldazar Fence
+				{ 2, 252389, 1260593 }, -- Proudmoore Shipping Crate
+				{ 3, 252401, 1260596 }, -- Boralus Bookshelf
+				{ 4, 252035, 1260583 }, -- Boralus Barrel
+				{ 5, 245499, 1260577 }, -- Gilded Zandalari Table
+				{ 6, 245416, 1260508 }, -- Zuldazar Fencepost
+			},
+			[LEGION_DIFF] = {
+				{ 1, 247916, 1260711 }, -- Covered Square Suramar Table
+				{ 2, 247918, 1260719 }, -- Nightborne Jeweler's Table
+				{ 3, 245459, 1260704 }, -- Tauren Storage Chest
+				{ 4, 245396, 1260737 }, -- Suramar Dresser
+				{ 5, 247925, 1260730 }, -- Suramar Storage Crate
+				{ 6, 258224, 1263344 }, -- Dalaran Display Shelves
+			},
+			[WOD_DIFF] = {
+				{ 1, 244319, 1261045, [PRICE_EXTRA_ITTYPE] = "119297:1" }, -- Wooden Shipping Crate
+				{ 2, 244313, 1269500, [PRICE_EXTRA_ITTYPE] = "119297:1" }, -- Orcish Fence
+				{ 3, 245441, 1269501, [PRICE_EXTRA_ITTYPE] = "119297:1" }, -- Orcish Fencepost
+				{ 4, 245534, 1261032, [PRICE_EXTRA_ITTYPE] = "119297:1" }, -- Frostwall Elevated Brazier
+				{ 5, 244317, 1261066, [PRICE_EXTRA_ITTYPE] = "119297:1" }, -- Orcish Banded Barrel
+			},
+			[MOP_DIFF] = {
+				{ 1, 247731, 1261237 }, -- Hanging Paper Lanterns
+				{ 2, 245514, 1261238 }, -- Pandaren Wooden Table
+				{ 3, 245513, 1261239 }, -- Square Pandaren Table
+				{ 4, 247735, 1261240 }, -- Lucky Traveler's Bench
+				{ 5, 247669, 1261241 }, -- Lorewalker's Bookcase
+			},
+			[CATA_DIFF] = {
+				{ 1, 245623, 1261278 }, -- Gilnean Rocking Chair
+				{ 2, 257695, 1269540 }, -- Gilnean Postbox
+				{ 3, 257696, 1269534 }, -- Gilnean Map
+				{ 4, 245621, 1261259 }, -- Gilnean Wooden Table
+				{ 5, 245622, 1261288 }, -- Gilnean Wall Shelf
+			},
+			[WOTLK_DIFF] = {
+				{ 1, 258209, 1263574 }, -- Kirin Tor Crate
+				{ 2, 258204, 1263575 }, -- Dalaran Post
+				{ 3, 258203, 1263562 }, -- Silver Dalaran Bench
+				{ 4, 258207, 1263570 }, -- Dalaran Scholar's Bookcase
+				{ 5, 258210, 1263564 }, -- Dalaran Street Sign
+			},
+			[BC_DIFF] = {
+				{ 1, 258215, 1263812 }, -- Halaa Bench
+				{ 2, 258197, 1263813 }, -- Crystal Signpost
+				{ 3, 258192, 1263814 }, -- Talon King's Totem
+				{ 4, 258199, 1263810 }, -- Aldor Bookcase
+				{ 5, 258198, 1263811 }, -- Gilded Draenei Round Table
+			},
+			[CLASSIC_DIFF] = {
+				{ 1, 245502, 1261572 }, -- Brill Coffin
+				{ 2, 246420, 1261587 }, -- Kharanos Bookcase
+				{ 3, 246423, 1261644 }, -- Wooden Ironforge Table
+				{ 4, 245503, 1261549 }, -- Brill Coffin Lid
+				{ 5, 258289, 1269495 }, -- Thunder Bluff Totem
 			},
 		},
 		{ --InscriptionScrolls
@@ -5901,6 +6175,53 @@ data["Jewelcrafting"] = {
 				{ 4, 262469, 1246895 },                                                         -- Brilliant Phoenix Harp
 				{ 5, 262461, 1246889 },                                                         -- Tenebrous Ren'dorei Armillary
 				{ 6, 248965, 1246892 },                                                         -- Resplendent Highborne Statue
+			},
+			[TWW_DIFF] = {
+				{ 1, 253253, 1260172 }, -- Gundargaz Candelabra
+				{ 2, 245559, 1260096 }, -- Octagonal Ochre Window
+			},
+			[DF_DIFF] = {
+				{ 1, 248109, 1259384 }, -- Valdrakken Fence
+				{ 2, 248110, 1259386 }, -- Valdrakken Fencepost
+				{ 3, 248654, 1259369 }, -- Valdrakken Gilded Throne
+			},
+			[SL_DIFF] = {
+				{ 1, 262663, 1269502 }, -- Kyrian Floating Lamp
+				{ 2, 260699, 1269504 }, -- Maldraxxian Runic Tablet
+			},
+			[BFA_DIFF] = {
+				{ 1, 245496, 1260501 }, -- Small Mask of Bwonsamdi, Loa of Graves
+				{ 2, 245414, 1260492 }, -- Zandalari Skullfire Lamp
+			},
+			[LEGION_DIFF] = {
+				{ 1, 245557, 1260757 }, -- Shaded Suramar Window
+				{ 2, 258227, 1263351 }, -- Suramar Jeweler's Assortment
+			},
+			[WOD_DIFF] = {
+				{ 1, 251550, 1261075, [PRICE_EXTRA_ITTYPE] = "127771:1" }, -- Draenethyst Sconce
+				{ 2, 251495, 1261071, [PRICE_EXTRA_ITTYPE] = "127771:1" }, -- Draenic Basin
+			},
+			[MOP_DIFF] = {
+				{ 1, 247728, 1261244 }, -- Pandaren Stone Post
+				{ 2, 247736, 1261242 }, -- Jade Temple Dragon Fountain
+				{ 3, 245509, 1261243 }, -- Pandaren Stone Wall
+			},
+			[CATA_DIFF] = {
+				{ 1, 257406, 1262357 }, -- Smoke Lamp
+				{ 2, 249143, 1261305 }, -- Smoke Sconce
+			},
+			[WOTLK_DIFF] = {
+				{ 1, 258211, 1263577 }, -- Kirin Tor Glass Table
+				{ 2, 258208, 1263605 }, -- Kirin Tor Sun Chandelier
+			},
+			[BC_DIFF] = {
+				{ 1, 258201, 1263815 }, -- Shattrath Lamppost
+				{ 2, 262347, 1269496 }, -- Draenei Crystal Chandelier
+				{ 3, 258200, 1263817 }, -- Shattrath Sconce
+			},
+			[CLASSIC_DIFF] = {
+				{ 1, 246413, 1261667 }, -- Blackrock Lamppost
+				{ 2, 246488, 1261659 }, -- Ironforge Chandelier
 			},
 		},
 		{ --JewelOrange
@@ -7789,6 +8110,52 @@ data["Leatherworking"] = {
 				{ 6, 253457, 1246938 },                                                          -- Leather-Bound Haranir Wall Shelf
 				{ 7, 265791, 1246939 },                                                          -- Haranir Canopy Bed
 			},
+			[TWW_DIFF] = {
+				{ 1, 239214, 1270836 }, -- Well-Lit Incontinental Couch
+				{ 2, 243327, 1260328 }, -- Zhevra-Stripe Rug
+			},
+			[DF_DIFF] = {
+				{ 1, 248114, 1259195 }, -- Draconic Nesting Bed
+				{ 2, 248657, 1259233 }, -- Valdrakken Market Tent
+			},
+			[SL_DIFF] = {
+				{ 1, 258238, 1263313 }, -- Maldraxxian Crate
+				{ 2, 258248, 1263308 }, -- Margrave's Stitched Leather Rug
+			},
+			[BFA_DIFF] = {
+				{ 1, 258558, 1263859 }, -- Sandfury Diplomat's Banner
+				{ 2, 245412, 1260485 }, -- Zandalari Ritual Drum
+			},
+			[LEGION_DIFF] = {
+				{ 1, 257400, 1262273 }, -- Highmountain Tanner's Frame
+				{ 2, 245407, 1260765 }, -- Tauren Fencepost
+				{ 3, 245406, 1260762 }, -- Tauren Leather Fence
+			},
+			[WOD_DIFF] = {
+				{ 1, 245432, 1261081, [PRICE_EXTRA_ITTYPE] = "118721:1" }, -- Blackrock Bunkbed
+				{ 2, 244323, 1261122, [PRICE_EXTRA_ITTYPE] = "118721:1" }, -- Orcish Sleeping Cot
+			},
+			[MOP_DIFF] = {
+				{ 1, 247856, 1261245 }, -- Serenity Peak Tent
+				{ 2, 247767, 1261248 }, -- Wise Pandaren's Bed
+			},
+			[CATA_DIFF] = {
+				{ 1, 264677, 1272588 }, -- Rolled Scarab Rug
+				{ 2, 264712, 1272580 }, -- Gilnean Spare Saddle
+				{ 3, 257806, 1269550 }, -- Scaled Twilight Mosaic
+			},
+			[WOTLK_DIFF] = {
+				{ 1, 257693, 1269499 }, -- Snowfall Tribe Scare-Totem
+				{ 2, 258205, 1263613 }, -- Wolvar Postbag
+			},
+			[BC_DIFF] = {
+				{ 1, 258191, 1263818 }, -- Arakkoa Decoy Scarecrow
+				{ 2, 258190, 1263819 }, -- Outland Mag'har Banner
+			},
+			[CLASSIC_DIFF] = {
+				{ 1, 257725, 1263633 }, -- Camp Narache Rug
+				{ 2, 242948, 1261672 }, -- Loch Modan Bearskin Rug
+			},
 		},
 		{ --LeatherWeapons
 			name = AL["Weapons"],
@@ -9060,6 +9427,53 @@ data["Tailoring"] = {
 				{ 4, 262591, 1229002 },                                                     -- Luxurious Silvermoon Lounge Cushion
 				{ 5, 262599, 1229000 },                                                     -- Silvermoon Curtains
 				{ 6, 262611, 1246929 },                                                     -- Voidstrider Saddlebag
+			},
+			[TWW_DIFF] = {
+				{ 1, 252755, 1260215 }, -- Dornogal Framed Rug
+				{ 2, 245305, 1260326 }, -- Undermine Bean Bag Chair
+			},
+			[DF_DIFF] = {
+				{ 1, 248121, 1259247 }, -- Draconic Circular Rug
+				{ 2, 257053, 1261940 }, -- Tapestry of the Five Flights
+			},
+			[SL_DIFF] = {
+				{ 1, 264713, 1272575 }, -- Heart of the Forest Banner
+				{ 2, 258561, 1263853 }, -- Kyrian Aspirant's Rolled Cushion
+				{ 3, 264678, 1272578 }, -- Aspirant's Ringed Banner
+			},
+			[BFA_DIFF] = {
+				{ 1, 243101, 1260458 }, -- Red Dazar'alor Rug
+				{ 2, 245418, 1260475 }, -- Zanchuli Tapestry
+			},
+			[LEGION_DIFF] = {
+				{ 1, 247920, 1260774 }, -- Circular Shal'dorei Rug
+				{ 2, 248010, 1260769 }, -- Shal'dorei Open-Air Tent
+				{ 3, 258557, 1263858 }, -- Beloved Raptor Plushie
+			},
+			[WOD_DIFF] = {
+				{ 1, 245421, 1261232, [PRICE_EXTRA_ITTYPE] = "118722:1" }, -- Karabor Bed
+				{ 2, 258303, 1263360, [PRICE_EXTRA_ITTYPE] = "118722:1" }, -- Beloved Elekk Plushie
+				{ 3, 251546, 1261231, [PRICE_EXTRA_ITTYPE] = "118722:1" }, -- Argussian Circular Rug
+			},
+			[MOP_DIFF] = {
+				{ 1, 258302, 1263553 }, -- Pandaren Fishing Net
+				{ 2, 247738, 1261250 }, -- Pandaren Meander Rug
+			},
+			[CATA_DIFF] = {
+				{ 1, 257402, 1262370 }, -- "Unity of Thorns" Tapestry
+				{ 2, 245618, 1261317 }, -- Surwich Expedition Tent
+			},
+			[WOTLK_DIFF] = {
+				{ 1, 258206, 1263620 }, -- Gilded Dalaran Banner
+				{ 2, 258298, 1263627 }, -- Kirin Tor Skyline Banner
+			},
+			[BC_DIFF] = {
+				{ 1, 258195, 1263692 }, -- Draenei Weaver's Loom
+				{ 2, 258202, 1263669 }, -- Grand Drape of the Exiles
+			},
+			[CLASSIC_DIFF] = {
+				{ 1, 246685, 1261695 }, -- Dwarven District Banner
+				{ 2, 243336, 1261688 }, -- Elder Rise Rug
 			},
 		},
 		{ --TailoringShirts

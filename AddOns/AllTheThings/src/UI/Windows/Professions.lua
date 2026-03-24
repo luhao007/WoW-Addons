@@ -9,6 +9,7 @@ local ipairs, pairs, floor, tinsert
 local GetRelativeValue, GetDeepestRelativeFunc = app.GetRelativeValue, app.GetDeepestRelativeFunc;
 
 -- Implementation
+local AnyProfessionRecipeGroups = {};
 local WhiteListedClassTypeForSpells = setmetatable({
 	Recipe = true,
 	RecipeWithItem = true,
@@ -19,6 +20,11 @@ local WhiteListedClassTypeForSpells = setmetatable({
 		return false;
 	end,
 });
+local function AnyProfessionRecipeFilter(group)
+	if group.requireSkill and group.spellID and not group.g and WhiteListedClassTypeForSpells[group.__type] then
+		return true;
+	end
+end
 function app:CreateDynamicProfessionCategory(name, commands, professionID, specializationProfessionIDs)
 	app:CreateWindow("Recipes: " .. name, {
 		AllowCompleteSound = true,
@@ -43,8 +49,12 @@ function app:CreateDynamicProfessionCategory(name, commands, professionID, speci
 				OnUpdate = function(data)
 					local g = data.g;
 					if #g < 1 then
+						if #AnyProfessionRecipeGroups < 1 then
+							-- Build the base lookup table matching most of the filter requirements. (This is shared between all profession windows)
+							app:BuildFlatSearchFilteredResponse(app:GetDatabaseRoot().g, AnyProfessionRecipeFilter, AnyProfessionRecipeGroups);
+						end
 						local results = {};
-						app:BuildFlatSearchFilteredResponse(app:GetDatabaseRoot().g, ProfessionFilter, results);
+						app:BuildFlatSearchFilteredResponse(AnyProfessionRecipeGroups, ProfessionFilter, results);
 						if #results > 0 then
 							-- Find all associated spellIDs
 							local associatedSpellIDs = {};

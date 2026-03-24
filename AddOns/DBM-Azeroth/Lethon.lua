@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod("LethonVanilla", "DBM-Azeroth")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250309164007")
+mod:SetRevision("20260315035425")
+mod:DisableHardcodedOptions()
 --mod:SetModelID(17887)
 
 if DBM:IsSeasonal("SeasonOfDiscovery") then

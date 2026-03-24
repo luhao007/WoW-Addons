@@ -1578,7 +1578,7 @@
 	</Addon>
 	<Addon name="Prat-3.0">
 		<Title>聊天增强</Title>
-		<Title-en>Prat</Title-en>
+		<Title-en>Prat |cff8080ff3.0|r</Title-en>
 		<Category>社交</Category>
 	</Addon>
 	<Addon name="ProfessionCooldown">
@@ -1651,6 +1651,20 @@
 	<Addon name="RaiderIO">
 		<Title>Raider.IO数据</Title>
 		<Category>副本</Category>
+		<SubAddons>
+			<SubAddon name="RaiderIO_DB_CN_F">
+				<Title>数据库</Title>
+				<TitleExtra>招募（国服）</TitleExtra>
+			</SubAddon>
+			<SubAddon name="RaiderIO_DB_CN_M">
+				<Title>数据库</Title>
+				<TitleExtra>大秘境（国服）</TitleExtra>
+			</SubAddon>
+			<SubAddon name="RaiderIO_DB_CN_R">
+				<Title>数据库</Title>
+				<TitleExtra>团本（国服）</TitleExtra>
+			</SubAddon>
+		</SubAddons>
 	</Addon>
 	<Addon name="RaidLedger">
 		<Title>金团账本</Title>
@@ -2146,6 +2160,11 @@
 		<Title>输出模拟器</Title>
 		<Notes>模拟当前人物的输出，来确认哪个装备属性更好。</Notes>
 		<Category>战斗</Category>
+	</Addon>
+	<Addon name="WoWTools">
+		<Title>|cffff00ffWoW|r|cff00ff00工具包|r</Title>
+		<Title-en>|cffff00ffWoW|r|cff00ff00Tools|r</Title-en>
+		<Category>功能</Category>
 	</Addon>
 	<Addon name="WYJJDB">
 		<Title>忘忧景久语音包</Title>

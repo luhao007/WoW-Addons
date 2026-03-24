@@ -37,6 +37,7 @@ function Bootstrap:OnPlayerLogin()
     -- Logger:Log("[DelveCompanion Bootstrap] OnPlayerLogin start...")
 
     DelveCompanion.AddonSettings:Init()
+    DelveCompanion.MinimapIcon:Init()
 
     DelveCompanion.Variables.maxLevelReached =
         UnitLevel("player") == GetMaxLevelForExpansionLevel(Config.DELVES_MIN_EXPANSION)

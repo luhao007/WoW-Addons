@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2443, "DBM-Raids-Shadowlands", 2, 1193)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250719035005")
+mod:SetRevision("20260315035226")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(176523)
 mod:SetEncounterID(2430)
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7)
@@ -85,7 +86,6 @@ local timerFinalScream							= mod:NewCastTimer(15, 357735, nil, nil, nil, 2, ni
 
 --local berserkTimer							= mod:NewBerserkTimer(600)
 
---mod:AddRangeFrameOption("8")
 mod:AddSetIconOption("SetIconOnChains", 355505, true, 0, {1, 2, 3})
 mod:AddSetIconOption("SetIconOnTraps", 348456, true, 0, {4, 5, 6, 7})
 mod:AddNamePlateOption("NPAuraOnFinalScream", 357735)
@@ -135,9 +135,7 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
---	if self.Options.RangeFrame then
---		DBM.RangeCheck:Hide()
---	end
+
 	if self.Options.NPAuraOnFinalScream then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
 	end

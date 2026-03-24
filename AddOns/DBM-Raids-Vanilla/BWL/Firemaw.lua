@@ -18,7 +18,8 @@ else
 	mod.statTypes = "normal"
 end
 
-mod:SetRevision("20241214045434")
+mod:SetRevision("20260324053510")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(11983)
 mod:SetEncounterID(613)
 if not mod:IsClassic() then
@@ -40,15 +41,18 @@ local warnShadowFlame		= mod:NewCastAnnounce(22539, 2)
 local warnFlameBuffet		= mod:NewStackAnnounce(23341, 3)
 local specWarnWingBuffet	= mod:NewSpecialWarningSpell(23339, "Tank")
 
-local timerWingBuffet		= mod:NewCDTimer(31, 23339, nil, nil, nil, 2)
-local timerShadowFlameCD	= mod:NewVarTimer("v14-21", 22539, nil, false)--14-21
+local timerWingBuffetCD		= mod:NewVarTimer("v31-40.9", 23339, nil, nil, nil, 2)
+local timerShadowFlameCD	= mod:NewVarTimer("v12.5-28.2", 22539, nil, false)
 
-local specWarnStatic		= mod:NewSpecialWarningMoveAway(366305, nil, nil, nil, 1, 2)
-local yellStaticHigh		= mod:NewCountYell(366305)
+local specWarnStatic, yellStaticHigh
+if DBM:IsSeasonal("SeasonOfDiscovery") then
+	specWarnStatic		= mod:NewSpecialWarningMoveAway(366305, nil, nil, nil, 1, 2)
+	yellStaticHigh		= mod:NewCountYell(366305)
+end
 
-function mod:OnCombatStart(delay)
-	timerShadowFlameCD:Start(18-delay)
-	timerWingBuffet:Start(30-delay)
+function mod:OnCombatStart()
+	timerShadowFlameCD:Start("v11.3-26.6")
+	timerWingBuffetCD:Start("v30-38.9")
 end
 
 function mod:SPELL_CAST_START(args)
@@ -56,7 +60,7 @@ function mod:SPELL_CAST_START(args)
 		if not self.Options[specWarnWingBuffet.option] then -- Don't show warning as both normal and special
 			warnWingBuffet:Show()
 		end
-		timerWingBuffet:Start()
+		timerWingBuffetCD:Start()
 		specWarnWingBuffet:Show()
 	elseif args:IsSpell(22539) then
 		warnShadowFlame:Show()

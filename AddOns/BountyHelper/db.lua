@@ -3,7 +3,7 @@ db.instanceOrderList = {
     249, 329, 532, 550, 556, 575, 585, 603, 616, 624, 631, 657, 720, 725,
     754, 859, 967, 1008, 1098, 1136, 1205, 1448, 1530, 1651, 1676, 1712,
     1754, 1762, 1841, 2070, 2097, 2217, 2286, 2441, 2450, 2481, 2549, 2651,
-    2657, 2769, 2810
+    2657, 2769, 2810, 2805, 2811, 2913
 }
 db.waypoints = {
     [249] = {point = {70, 0.5217, 0.7595}},
@@ -46,7 +46,10 @@ db.waypoints = {
     [2651] = {point = {2214, 0.4285, 0.0882}},
     [2657] = {point = {2255, 0.4360, 0.8976}},
     [2769] = {point = {2346, 0.4132, 0.4862}},
-    [2810] = {point = {2371, 0.4179, 0.2146}}
+    [2810] = {point = {2371, 0.4179, 0.2146}},
+    [2805] = {point = {2395, 0.3544, 0.7882}},
+    [2811] = {point = {2424, 0.6348, 0.1535}},
+    [2913] = {point = {2424, 0.5262, 0.8534}},
 }
 
 db.bossData = {
@@ -185,6 +188,15 @@ db.bossData = {
     },
     [2810] = { -- Manaforge Omega
         { name = "Dimensius, the All-Devouring", encounterID = 2691, killedAtDiff = { [14] = false, [15] = false, [16] = false, [17] = false } }
+    },
+    [2805] = { -- Windrunner Spire
+        { name = "The Restless Heart", encounterID = 2658, killedAtDiff = { [23] = false } }
+    },
+    [2811] = { -- Magisters' Terrace
+        { name = "Degentrius", encounterID = 2662, killedAtDiff = { [23] = false } }
+    },
+    [2913] = { -- March on Quel'Danas
+        { name = "Midnight Falls", encounterID = 2740, killedAtDiff = { [16] = false } }
     }
 }
 
@@ -367,7 +379,7 @@ db.mountData = {
         { instanceID = 2657, diff = 16, index = 1, chance = 0.7 },
     }},
     [224151] = { journalMountID = 2223, dropsBy = {
-        { instanceID = 2657, diff = 16, index = 1, chance = 100.0 },
+        { instanceID = 2657, diff = 16, index = 1, chance = 1.0 },
     }},
     [236960] = { journalMountID = 2507, dropsBy = {
         { instanceID = 2769, diff = 17, index = 1, chance = 0.6, lfr = {2346, 0.4132, 0.4862}, wing = 2783 },
@@ -376,14 +388,14 @@ db.mountData = {
         { instanceID = 2769, diff = 16, index = 1, chance = 0.6 },
     }},
     [235626] = { journalMountID = 2487, dropsBy = {
-        { instanceID = 2769, diff = 16, index = 1, chance = 100.0 }
+        { instanceID = 2769, diff = 16, index = 1, chance = 1.0 }
     }},
     [246445] = { journalMountID = 2606, dropsBy = {
-        { instanceID = 2810, diff = 15, index = 1, chance = 100.0 },
-        { instanceID = 2810, diff = 16, index = 1, chance = 100.0 }
+        { instanceID = 2810, diff = 15, index = 1, chance = 1.0 },
+        { instanceID = 2810, diff = 16, index = 1, chance = 1.0 }
     }},
     [243061] = { journalMountID = 2569, dropsBy = {
-        { instanceID = 2810, diff = 16, index = 1, chance = 100.0 }
+        { instanceID = 2810, diff = 16, index = 1, chance = 1.0 }
     }},
 
     [13379] = { journalMountID = nil, dropsBy = {
@@ -409,5 +421,14 @@ db.mountData = {
         { instanceID = 2810, diff = 14, index = 1, chance = 82.0 },
         { instanceID = 2810, diff = 15, index = 1, chance = 82.0 },
         { instanceID = 2810, diff = 16, index = 1, chance = 82.0 }
+    }},
+    [262914] = { journalMountID = 2805, dropsBy = {
+        { instanceID = 2805, diff = 23, index = 1, chance = 3.0 }
+    }},
+    [260231] = { journalMountID = 2817, dropsBy = {
+        { instanceID = 2811, diff = 23, index = 1, chance = 3.0 }
+    }},
+    [246590] = { journalMountID = 2607, dropsBy = {
+        { instanceID = 2913, diff = 16, index = 1, chance = 100.0 }
     }}
 }

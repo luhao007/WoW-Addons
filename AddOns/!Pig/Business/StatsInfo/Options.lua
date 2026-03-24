@@ -13,6 +13,7 @@ local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGQuickBut=Create.PIGQuickBut
 local Data=addonTable.Data
 local Fun = addonTable.Fun
+local GetRaceClassTXT=addonTable.Fun.GetRaceClassTXT
 ------
 local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
@@ -132,17 +133,21 @@ function BusinessInfo.StatsInfoOptions()
 				local pxinxiinfo = PIGA["StatsInfo"]["Players"][player]
 				local _, classFile = PIGGetClassInfo(pxinxiinfo[4])
 				local color = PIG_CLASS_COLORS[classFile];
+				local ttgghh = "|c"..color.colorStr..player.."|r"
 				local Texinfo = C_Texture.GetAtlasInfo(pxinxiinfo[3])
-				local left=Texinfo.leftTexCoord*Texwidth+0.308
-				local right=Texinfo.rightTexCoord*Texwidth+0.5
-				local top=Texinfo.topTexCoord*Texheight+0.2
-				local bottom=Texinfo.bottomTexCoord*Texheight+0.1
-				local ttgghh = "|T"..CreateIcons..":14:14:0:0:"..Texwidth..":"..Texheight..":"..left..":"..right..":"..top..":"..bottom.."|t |c"..color.colorStr..player.."|r"
-				if player==PIG_OptionsUI.AllName then
-					table.insert(tispData,1,{ttgghh.."|T"..greenTexture..":14:14:0:0:16:16:0:14:0:14|t",playerList,playerNum})
+				if Texinfo then
+					local left=Texinfo.leftTexCoord*Texwidth+0.308
+					local right=Texinfo.rightTexCoord*Texwidth+0.5
+					local top=Texinfo.topTexCoord*Texheight+0.2
+					local bottom=Texinfo.bottomTexCoord*Texheight+0.1
+					ttgghh = "|T"..CreateIcons..":14:14:0:0:"..Texwidth..":"..Texheight..":"..left..":"..right..":"..top..":"..bottom.."|t "..ttgghh
 				else
-					table.insert(tispData,{ttgghh,playerList,playerNum})
+					ttgghh = "|T134400:0|t "..ttgghh
 				end
+				if player==PIG_OptionsUI.AllName then
+					ttgghh=ttgghh.."|T"..greenTexture..":14:14:0:0:16:16:0:14:0:14|t"
+				end
+				table.insert(tispData,{ttgghh,playerList,playerNum})
 			end
 		end
 		return tispData,playerNum

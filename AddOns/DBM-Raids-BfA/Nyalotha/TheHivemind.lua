@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2372, "DBM-Raids-BfA", 1, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250307060206")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(157253, 157254)--Ka'zir and Tek'ris
 mod:SetEncounterID(2333)
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6)--Refine when max number of mythic Volatile Eruption is known
@@ -66,7 +67,6 @@ local timerNullificationBlastCD				= mod:NewNextCountTimer(84, 307968, 158259, "
 local timerEchoingVoidCD					= mod:NewNextCountTimer(84, 307232, nil, nil, nil, 2, nil, nil, nil, 3, 4)
 local timerDronesCD							= mod:NewNextCountTimer(120, 312868, nil, nil, nil, 1, nil, DBM_COMMON_L.DAMAGE_ICON)
 
-mod:AddRangeFrameOption(6, 307232)--While 4 yards is supported, we want wiggle room
 mod:AddSetIconOption("SetIconOnAdds", 307637, true, 5, {1, 2, 3, 4, 5, 6})
 mod:AddNamePlateOption("NPAuraOnAcceleratedEvolution", 307637)
 
@@ -200,9 +200,6 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if self.Options.NPAuraOnVolatileEruption or self.Options.NPAuraOnAcceleratedEvolution then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
 	end
@@ -269,9 +266,6 @@ function mod:SPELL_CAST_START(args)
 		if timer and timer > 0 then
 			timerEchoingVoidCD:Start(timer, self.vb.EchoVoidCount+1)
 		end
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Show(6)
-		end
 	elseif spellId == 307582 then
 		specWarnVolatileEruption:Show(args.sourceName)
 		specWarnVolatileEruption:Play("targetchange")
@@ -308,9 +302,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if self:IsMythic() then
 			specWarnEtropicEhco:Show()
 			specWarnEtropicEhco:Play("watchstep")
-		end
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Hide()
 		end
 	elseif spellId == 308360 and args:IsPlayer() then
 		specWarnFixate:Show()

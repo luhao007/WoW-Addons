@@ -7,7 +7,8 @@ end
 local mod	= DBM:NewMod(dungeonID, "DBM-BfA", 3, 1028)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20220116032237")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(creatureID)--Dooms Howl 138122, Lion's Roar 137374
 --mod:SetEncounterID(encounterID)
 mod:SetReCombatTime(20)
@@ -51,7 +52,6 @@ local timerSiegeUpCD				= mod:NewCDTimer(84.5, 271223, nil, nil, nil, 6)--84.5-8
 local timerSiegeUp					= mod:NewBuffActiveTimer(64, 271223, nil, nil, nil, 6)--64-66
 local timerDemoCannonCD				= mod:NewCDTimer(5.8, 271246, nil, false, nil, 5, nil, DBM_COMMON_L.HEALER_ICON)
 
-mod:AddRangeFrameOption(8, 271192)
 mod:AddNamePlateOption("NPAuraOnSentry", 271783)
 --mod:AddReadyCheckOption(37460, false)
 
@@ -61,18 +61,12 @@ function mod:OnCombatStart(_, yellTriggered)
 		--timerMortarShotCD:Start(-delay)
 		--timerFlameExhaustsCD:Start(-delay)
 	end
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Show(8)
-	end
 	if self.Options.NPAuraOnSentry then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
 	end
 end
 
 function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if self.Options.NPAuraOnSentry then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
 	end
@@ -121,9 +115,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerFlameExhaustsCD:Stop()
 		timerDemoCannonCD:Start(6.5)--SUCCESS
 		timerSiegeUp:Start(64)
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Hide()
-		end
 	elseif spellId == 277632 then
 		warnDemoCannon:CombinedShow(0.3, args.destName)
 	elseif spellId == 271783 then
@@ -143,9 +134,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerMortarShotCD:Start(11)
 		timerShatteringPulseCD:Start(18.4)
 		timerSiegeUpCD:Start(84)
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Show(8)
-		end
 	elseif spellId == 271783 then
 		if self.Options.NPAuraOnSentry then
 			DBM.Nameplate:Hide(true, args.destGUID, spellId)

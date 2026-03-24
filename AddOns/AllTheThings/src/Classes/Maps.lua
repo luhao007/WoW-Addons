@@ -469,6 +469,30 @@ local AreaIDNameMapper = setmetatable({}, {__index = function(t,key)
 		id = id + 1
 	end
 end})
+-- Reporting (backwards ID search)
+local AreaIDNameMapperBackwards = setmetatable({}, {__index = function(t,key)
+	local maxID = 25000
+	local id = maxID - 1
+	local keyid = tonumber(key)
+	local name
+	while id > 0 do -- scan backwards
+		-- ref. https://wago.tools/db2/AreaTable
+		name = C_Map_GetAreaInfo(id)
+		if name then
+			t[name] = id
+		end
+		t[id] = name or UNKNOWN
+		if key == name then
+			-- app.PrintDebug("Found AreaID",id,"for",key)
+			return id
+		end
+		if keyid == id then
+			-- app.PrintDebug("Found Name",name,"for",id)
+			return name or UNKNOWN
+		end
+		id = id - 1
+	end
+end})
 local MapExplorationInfoEventIDs = {
 	[372] = true,
 	[396] = true,
@@ -561,9 +585,11 @@ local function GetExplorationByZoneOrSubzone(mapID)
 			end
 		end
 
-		-- If not found, try via AreaIDNameMapper
+		-- If not found, try via AreaIDNameMapper or AreaIDNameMapperBackwards
 		if not foundExploration and app.Contributor then
 			local expectedAreaID = AreaIDNameMapper[name]
+			-- It's easier to find correct explorationID for newer expansions when going backwards
+			--local expectedAreaID = AreaIDNameMapperBackwards[name]
 			if expectedAreaID then
 				-- Don't report an area which is actually mapped in another zone already
 				local mappedExploration = app.SearchForObject("explorationID", expectedAreaID)

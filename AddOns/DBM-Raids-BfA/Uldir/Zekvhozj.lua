@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2169, "DBM-Raids-BfA", 5, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240428104711")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(134445)--Zek'vhozj, 134503/qiraji-warrior
 mod:SetEncounterID(2136)
 mod:SetUsedIcons(1, 2, 3, 6, 7, 8)
@@ -77,7 +78,6 @@ local timerOrbLands						= mod:NewTimer(45, "timerOrbLands", 267239, nil, nil, 5
 
 --local berserkTimer					= mod:NewBerserkTimer(600)
 
-mod:AddRangeFrameOption(6, 264382)
 mod:AddBoolOption("EarlyTankSwap", false)
 mod:AddSetIconOption("SetIconOnAdds", 267192, true, 5, {1, 2, 3})
 mod:AddSetIconOption("SetIconOnEyeBeam", 264382, true, 0, {6, 7, 8})
@@ -140,11 +140,6 @@ function mod:OnCombatStart(delay)
 	end
 end
 
-function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
-end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
@@ -191,9 +186,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 			specWarnEyeBeam:Show(self.vb.eyeCount)
 			specWarnEyeBeam:Play("runout")
 			yellEyeBeam:Yell(self.vb.eyeCount)
-		end
-		if self.vb.eyeCount == 3 and self.Options.RangeFrame then
-			DBM.RangeCheck:Hide()
 		end
 	elseif spellId == 271099 then--Mythic Summon Adds
 		self.vb.casterAddsRemaining = self.vb.casterAddsRemaining + 3
@@ -320,9 +312,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 			timerEyeBeamCD:Schedule(6, 50)
 		else
 			timerEyeBeamCD:Schedule(6, 40)
-		end
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Show(6)
 		end
 	elseif spellId == 267019 then--Titan Spark
 		if self:IsMythic() and self.vb.phase < 2 or self.vb.phase < 3 then

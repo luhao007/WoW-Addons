@@ -49,7 +49,9 @@ function BusinessInfo.Player(StatsInfo)
 			end)
 		elseif event=="TIME_PLAYED_MSG" then
 			PIGA["StatsInfo"]["Played"][StatsInfo.allname]={totalTimePlayed, timePlayedThisLevel}
-			SetBZFun("+")
+			C_Timer.After(3,function()
+				SetBZFun("+")
+			end)
 		end
 	end)
 	function fujiF.add_uifun()

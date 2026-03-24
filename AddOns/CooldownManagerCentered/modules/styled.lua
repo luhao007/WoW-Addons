@@ -126,7 +126,17 @@ local function ApplySquareStyle(button, viewerSettingName)
         end
         local crop = zoom * 0.5
         if button.Icon.SetTexCoord then
-            button.Icon:SetTexCoord(crop, 1 - crop, crop * widthToHeightRatio, 1 - crop * widthToHeightRatio)
+            if widthToHeightRatio > 1 then
+                local horizontalSpan = 1 - (2 * crop)
+                local verticalSpan = horizontalSpan / widthToHeightRatio
+                -- Keep UV span within valid [0, 1] range before centering the crop.
+                local clampedVerticalSpan = math.max(0, math.min(1, verticalSpan))
+                local verticalCrop = (1 - clampedVerticalSpan) * 0.5
+                button.Icon:SetTexCoord(crop, 1 - crop, verticalCrop, 1 - verticalCrop)
+            else
+                -- todo, someday do "letterboxing" for portrait icons instead of just cropping them as squares
+                button.Icon:SetTexCoord(crop, 1 - crop, crop, 1 - crop)
+            end
         end
     end
     for i = 1, select("#", button:GetChildren()) do

@@ -72,7 +72,8 @@ function DelveCompanion_DelveEncounterGildedStashFrameMixin:OnShow()
     -- Logger:Log("[DelveEncounterGildedStashFrame] OnShow start")
 
     ---@type number
-    local expansion = GetEJTierData(EJ_GetCurrentTier()).expansionLevel
+    local expansion = DelveCompanion.EJExtension.DelveEncounter:GetExpansionForFaction(
+        DelveCompanion.EJExtension.DelveEncounter:GetFactionIDs())
 
     local stashDisplayInfo = self:TryGetStashInfo(expansion)
     if not stashDisplayInfo then

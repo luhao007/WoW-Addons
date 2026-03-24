@@ -231,6 +231,11 @@ function private.SplitChatMessage(frame, event, ...)
 			return true
 		end
 
+		-- Empty CHAT_MSG_SYSTEM hack
+		if type == "SYSTEM" and not isSecret and arg1 == "" then
+			return true
+		end
+
 		local info
 
 		local coloredName = private.GetDecoratedSenderName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14)
@@ -300,8 +305,7 @@ function private.SplitChatMessage(frame, event, ...)
 		s.CHATTARGET = chatTarget
 		s.MESSAGE = isSecret and arg1 or safestr(arg1):gsub("^%s*(.-)%s*$", "%1") -- trim spaces
 
-
-		if not isSecret and FCFManager_ShouldSuppressMessage(frame, s.CHATGROUP, s.CHATTARGET) then
+		if not issecretvalue(s.CHATGROUP) and not issecretvalue(s.CHATTARGET) and FCFManager_ShouldSuppressMessage(frame, s.CHATGROUP, s.CHATTARGET) then
 			s.DONOTPROCESS = true
 		end
 

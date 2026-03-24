@@ -639,6 +639,10 @@ L["Use Alt key for cursor movement"] = "使用 Alt 鍵游標移動"
 		end)
 
 	local function OnArrowPressed(self, key)
+		-- We cannot call SetText while in lockdown
+		if C_ChatInfo and C_ChatInfo.InChatMessagingLockdown and C_ChatInfo.InChatMessagingLockdown() then
+			return
+		end
 		if #self.history_lines == 0 then
 			return
 		end
@@ -658,6 +662,7 @@ L["Use Alt key for cursor movement"] = "使用 Alt 鍵游標移動"
 		else
 			return -- We don't want to interfere with LEFT/RIGHT because the tab-complete stuff might use it; we're already killing the other two.
 		end
+
 		self:SetText(self.history_lines[self.history_index])
 	end
 

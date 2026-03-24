@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2374, "DBM-Raids-BfA", 1, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240428104711")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(158328)
 mod:SetEncounterID(2345)
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
@@ -15,7 +16,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 309961 311401 310788 318383",
-	"SPELL_CAST_SUCCESS 311401 311159 314396 319005",
+	"SPELL_CAST_SUCCESS 311401 311159 314396",
 	"SPELL_AURA_APPLIED 309961 311367 310322 315094 311159 313759",
 	"SPELL_AURA_APPLIED_DOSE 309961",
 	"SPELL_AURA_REMOVED 311367 315094 311159 313759",
@@ -68,7 +69,6 @@ local timerAbsorbingChargeCD				= mod:NewNextTimer(18.3, 318383, nil, nil, nil, 
 
 local berserkTimer							= mod:NewBerserkTimer(600)
 
-mod:AddRangeFrameOption(11, 311159)
 mod:AddSetIconOption("SetIconOnCusedBlood", 313759, false, 0, {1, 2, 3, 4, 5, 6, 7, 8})
 mod:AddBoolOption("SetIconOnlyOnce", true)--If disabled, as long as living oozes are up, the skull will bounce around to lowest health mob continually, which is likely not desired by most, thus this defaulted on
 mod:AddDropdownOption("InterruptBehavior", {"Two", "Three", "Four", "Five"}, "Two", "misc", nil, 310788)
@@ -172,9 +172,6 @@ end
 function mod:OnCombatEnd()
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
-	end
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
 	end
 end
 
@@ -303,9 +300,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellCursedBlood:Yell()
 			if spellId == 311159 then--Non Mythic
 				yellCursedBloodFades:Countdown(spellId)
-				if self.Options.RangeFrame then
-					DBM.RangeCheck:Show(11)
-				end
 			end
 		end
 		if spellId == 313759 then--Mythic Only Option
@@ -336,9 +330,6 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 311159 or spellId == 313759 then
 		if args:IsPlayer() then
 			yellCursedBloodFades:Cancel()
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Hide()
-			end
 		end
 		if spellId == 313759 then--Mythic Only Option
 			if self.Options.SetIconOnCusedBlood then

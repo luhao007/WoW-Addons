@@ -415,7 +415,7 @@ function ItemDB.ContentProto:GetName()
 	elseif self.MapID then
 		return C_Map.GetMapInfo(self.MapID).name
 	elseif self.FactionID then
-		local temp = C_Reputation.GetFactionDataByID(self.FactionID)
+		local temp = C_Reputation.GetFactionDataByID(self.FactionID) or C_MajorFactions.GetMajorFactionData(self.FactionID)
 		return temp.name --or "Faction "..self.FactionID
 	else
 		return UNKNOWN
@@ -428,7 +428,7 @@ function ItemDB.ContentProto:GetInfo()
 	elseif self.EncounterJournalID then
 		return select(2, EJ_GetInstanceInfo(self.EncounterJournalID))
 	elseif self.FactionID then
-		local temp = C_Reputation.GetFactionDataByID(self.FactionID)
+		local temp = C_Reputation.GetFactionDataByID(self.FactionID) or C_MajorFactions.GetMajorFactionData(self.FactionID)
 		return temp.description
 	end
 end
@@ -441,7 +441,7 @@ function ItemDB.ContentProto:GetNameForItemTable(index)
 	elseif self.items[index].EncounterJournalID then
 		return AtlasLoot.EncounterJournal:GetBossName(self.items[index].EncounterJournalID)
 	elseif self.items[index].FactionID then
-		local temp = C_Reputation.GetFactionDataByID(self.items[index].FactionID)
+		local temp = C_Reputation.GetFactionDataByID(self.items[index].FactionID) or C_MajorFactions.GetMajorFactionData(self.items[index].FactionID)
 		if (temp == nil) then
 			local BF = AtlasLoot.LibBabble:Get("LibBabble-Faction-3.0")
 			return BF[AtlasLoot.Data.Faction.FACTION_KEY[self.items[index].FactionID]] or FACTION.." "..self.items[index].FactionID

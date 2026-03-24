@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(1744, "DBM-Raids-Legion", 5, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20251103210248")
+mod:SetRevision("20260315035302")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(106087)
 mod:SetEncounterID(1876)
 mod:SetUsedIcons(1, 2, 3, 4, 5)
@@ -74,7 +75,6 @@ local timerViolentWindsCD			= mod:NewNextTimer(40.5, 218124, nil, nil, nil, 5, n
 
 local berserkTimer					= mod:NewBerserkTimer(540)
 
---mod:AddRangeFrameOption("5")--Add range frame to Necrotic Debuff if detecting it actually works with FindDebuff()
 mod:AddSetIconOption("SetIconOnWeb", 215307)
 mod:AddSetIconOption("SetIconOnWinds", 218124)
 

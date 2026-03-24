@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(1148, "DBM-Raids-WoD", 3, 477)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240714050251")
+mod:SetRevision("20260315035313")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(78238, 78237)--Pol 78238, Phemos 78237
 mod:SetEncounterID(1719)
 --Could not find south path for this one
@@ -55,7 +56,6 @@ local timerArcaneVolatilityCD		= mod:NewNextTimer(60, 163372, nil, nil, nil, 3, 
 mod:AddTimerLine(ALL)
 local berserkTimer					= mod:NewBerserkTimer(420)--As reported in feedback threads
 
-mod:AddRangeFrameOption("8/3", 163372)
 mod:AddInfoFrameOption(-9586)
 
 --Non resetting counts because strategy drastically changes based on number of people. Mechanics like debuff duration change with different player counts.
@@ -74,14 +74,6 @@ local arcaneDebuff, arcaneTwisted = DBM:GetSpellName(163372), DBM:GetSpellName(1
 local PhemName1, PhemName2, PhemName3, PhemName4= DBM:GetSpellName(157943), DBM:GetSpellName(163321), DBM:GetSpellName(158057), DBM:GetSpellName(158200)
 local PolName1, PolName2, PolName3, PolName4 = DBM:GetSpellName(158134), DBM:GetSpellName(163336), DBM:GetSpellName(158093), DBM:GetSpellName(158385)
 local arcaneVTimers = {8.5, 6, 45, 8, 16.5, 8.5, 5.5, 39, 130, 10, 56.5, 8, 6}
-local debuffFilter
-do
-	debuffFilter = function(uId)
-		if DBM:UnitDebuff(uId, arcaneDebuff) then
-			return true
-		end
-	end
-end
 
 local updateInfoFrame
 do
@@ -177,9 +169,6 @@ function mod:OnCombatStart(delay)
 		timerArcaneTwistedCD:Start(33-delay)
 		timerArcaneVolatilityCD:Start(65-delay)
 		berserkTimer:Start(-delay)
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Show(8, debuffFilter)
-		end
 	elseif self:IsHeroic() then
 		PhemosEnergyRate = 31
 		polEnergyRate = 25
@@ -194,9 +183,6 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
@@ -244,17 +230,6 @@ function mod:SPELL_CAST_START(args)
 		self.vb.PulverizeCount = self.vb.PulverizeCount + 1
 		warnPulverize:Show(self.vb.PulverizeCount)
 		--Hide range frame if arcane debuff not active, else switch
-		if self.Options.RangeFrame then
-			if self.vb.arcaneDebuff > 0 then
-				if DBM:UnitDebuff("player", arcaneDebuff) then
-					DBM.RangeCheck:Show(8, nil)
-				else
-					DBM.RangeCheck:Show(8, debuffFilter)
-				end
-			else
-				DBM.RangeCheck:Hide()
-			end
-		end
 	elseif spellId == 158419 then--Pulverize channel ID3
 		self.vb.PulverizeCount = self.vb.PulverizeCount + 1
 		warnPulverize:Show(self.vb.PulverizeCount)
@@ -278,13 +253,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnArcaneVolatility:Show()
 			specWarnArcaneVolatility:Play("runout")
 			yellArcaneVolatility:Yell()
-		end
-		if self.Options.RangeFrame then
-			if DBM:UnitDebuff("player", arcaneDebuff) then
-				DBM.RangeCheck:Show(8, nil)
-			else
-				DBM.RangeCheck:Show(8, debuffFilter)
-			end
 		end
 	elseif spellId == 158241 and args:IsPlayer() and self:AntiSpam(3, 3) then
 		specWarnBlaze:Show()
@@ -312,13 +280,6 @@ function mod:SPELL_AURA_REFRESH(args)
 			specWarnArcaneVolatility:Play("runout")
 			yellArcaneVolatility:Yell()
 		end
-		if self.Options.RangeFrame then
-			if DBM:UnitDebuff("player", arcaneDebuff) then
-				DBM.RangeCheck:Show(8, nil)
-			else
-				DBM.RangeCheck:Show(8, debuffFilter)
-			end
-		end
 	end
 end
 
@@ -326,13 +287,6 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 163372 then
 		self.vb.arcaneDebuff = self.vb.arcaneDebuff - 1
-		if args:IsPlayer() and self.Options.RangeFrame then
-			if self.vb.PulverizeRadar then
-				DBM.RangeCheck:Show(3, nil)
-			else
-				DBM.RangeCheck:Show(8, debuffFilter)
-			end
-		end
 	end
 end
 
@@ -344,9 +298,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 		specWarnPulverize:Show()
 		specWarnPulverize:Play("scatter")
 		timerShieldChargeCD:Start(polEnergyRate)--Next Special
-		if self.Options.RangeFrame and not DBM:UnitDebuff("player", arcaneDebuff) then--Show range 3 for everyone, unless have arcane debuff, then you already have range 8 showing everyone that's more important
-			DBM.RangeCheck:Show(3, nil)
-		end
 	end
 end
 

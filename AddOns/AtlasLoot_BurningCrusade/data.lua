@@ -16,16 +16,14 @@ local data = AtlasLoot.ItemDB:Add(addonname, 2)
 
 AtlasLoot:RegisterModules(addonname)
 
+local AL = AtlasLoot.Locales
+local ALIL = AtlasLoot.IngameLocales
 
 local ADD_SCALING = {
 	Item = {
-		item1bonus = "Scaling",
 		addDifficultyBonus = true,
 	}
 }
-
-local AL = AtlasLoot.Locales
-local ALIL = AtlasLoot.IngameLocales
 
 local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", ADD_SCALING, 1)
 local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"], "h", ADD_SCALING, 2)

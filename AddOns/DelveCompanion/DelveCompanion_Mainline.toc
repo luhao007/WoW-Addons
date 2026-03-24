@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: FunDeliveryGames
-## Version: v2026.03.1
+## Version: v2026.03.2
 
 ## Title: Delve Companion
 ## Notes: One-stop addon to make Delves experience even better!
@@ -27,6 +27,7 @@
 ## X-Wago-ID: ZKxq4kGk
 ## X-Website: https://github.com/FunDeliveryGames/wow-delve-companion
 
+# Libs
 # Core
 Source\Core\Include.xml
 

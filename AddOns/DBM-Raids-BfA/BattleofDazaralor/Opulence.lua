@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2342, "DBM-Raids-BfA", 4, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250719034113")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(145261)
 mod:SetEncounterID(2271)
 mod:SetHotfixNoticeRev(18355)
@@ -100,7 +101,6 @@ local timerSurgingGoldCD				= mod:NewCDTimer(42.5, 289155, nil, nil, nil, 3)--Re
 --local berserkTimer					= mod:NewBerserkTimer(600)
 
 mod:AddNamePlateOption("NPAuraOnGoldenRadiance", 289776)
---mod:AddRangeFrameOption("8/10")
 mod:AddInfoFrameOption(284664, true)
 
 mod.vb.wailCast = 0
@@ -213,9 +213,6 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end

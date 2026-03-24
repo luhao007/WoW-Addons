@@ -134,9 +134,7 @@ function HealthBarMixin:OnEvent(event, ...)
         or event == "UPDATE_SHAPESHIFT_FORM"
         or (event == "PLAYER_SPECIALIZATION_CHANGED" and unit == "player") then
 
-        C_Timer.After(0, function()
-            self:ApplyVisibilitySettings()
-        end)
+        RunNextFrame(function() self:ApplyVisibilitySettings() end)
         self:ApplyLayout(nil, true)
         self:UpdateDisplay()
 
@@ -528,7 +526,7 @@ addonTable.RegisteredBar.HealthBar = {
             },
             {
                 parentId = L["CATEGORY_BAR_VISIBILITY"],
-                order = 105,
+                order = 106,
                 name = L["HIDE_BLIZZARD_UI"],
                 kind = LEM.SettingType.Checkbox,
                 default = defaults.hideBlizzardPlayerContainerUi,
@@ -551,7 +549,7 @@ addonTable.RegisteredBar.HealthBar = {
             },
             -- {
             --     parentId = L["CATEGORY_BAR_VISIBILITY"],
-            --     order = 106,
+            --     order = 107,
             --     name = L["ENABLE_HP_BAR_MOUSE_INTERACTION"],
             --     kind = LEM.SettingType.Checkbox,
             --     default = defaults.enableHealthBarMouseInteraction,

@@ -1,7 +1,10 @@
+if not DBM:IsSeasonal("SeasonOfDiscovery") then return end
+
 local mod	= DBM:NewMod("FesteringRotslimeSoD", "DBM-Raids-Vanilla", 8)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20241103123604")
+mod:SetRevision("20260324053510")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(218819)--Drum 222542, Slab 222543, Mask 222544, Candle 222545
 mod:SetEncounterID(2953)
 --mod:SetUsedIcons(8)

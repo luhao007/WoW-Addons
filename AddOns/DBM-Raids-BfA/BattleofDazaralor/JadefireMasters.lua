@@ -7,7 +7,8 @@ end
 local mod	= DBM:NewMod(dungeonID, "DBM-Raids-BfA", 4, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250719034113")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(creatureID, creatureID2)
 mod:SetEncounterID(2266, 2285)--2266 horde, 2285 Alliance
 mod:SetUsedIcons(1, 2, 3)
@@ -89,7 +90,6 @@ local timerMagmaTrapCD					= mod:NewCDCountTimer(55, 284374, nil, nil, nil, 5)--
 --local berserkTimer					= mod:NewBerserkTimer(600)
 
 mod:AddSetIconOption("SetIconEmbers", 286988, true, 0, {1, 2, 3})
---mod:AddRangeFrameOption("8/10")
 mod:AddInfoFrameOption(281959, true)
 mod:AddNamePlateOption("NPAuraOnFixate", 268074)
 mod:AddNamePlateOption("NPAuraOnExplosion", 284399)
@@ -145,9 +145,7 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
---	if self.Options.RangeFrame then
---		DBM.RangeCheck:Hide()
---	end
+
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end

@@ -7,13 +7,14 @@ else
 	mod.statTypes = "normal"
 end
 
-mod:SetRevision("20241222110740")
+mod:SetRevision("20260315035425")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(16028)
 mod:SetEncounterID(1118)
 mod:SetModelID(16174)
 mod:SetZone(533)
 
-mod:RegisterCombat("combat_yell", L.yell1, L.yell2)
+mod:RegisterCombat("combat_yell", L.Pull1, L.Pull2)
 
 local enrageTimer	= mod:NewBerserkTimer(360)
 

@@ -20,7 +20,7 @@ local RSAchievementDB = private.ImportLib("RareScannerAchievementDB")
 local RSButtonHandler = private.ImportLib("RareScannerButtonHandler")
 local RSMinimap = private.ImportLib("RareScannerMinimap")
 local RSEntityStateHandler = private.ImportLib("RareScannerEntityStateHandler")
-local RSProvider = private.ImportLib("RareScannerProvider")
+local RareScannerBlizzardMapProvider
 local RSMacro = private.ImportLib("RareScannerMacro")
 
 -- RareScanner internal libraries
@@ -613,41 +613,18 @@ local function OnPlayerLogin(rareScannerButton)
 		RSLogger:CreateChatFrame(RSConfigDB.GetChatWindowName())
 	end
 	
-	local vignetteProviderDeleted = false
-	local areaPOIProviderDeleted = false
-	C_Timer.NewTicker(2, function(self)
-		pcall(function()
+	if (RSConfigDB.IsSupportingMapIcons()) then
+		C_Timer.After(0, function(self)
 			-- Wait until all providers are added
 			if (WorldMapFrame:IsEventRegistered("WORLD_MAP_OPEN")) then
-				-- Remove original providers
-				for dp, loaded in pairs(WorldMapFrame.dataProviders) do	
-					if (not vignetteProviderDeleted and loaded and dp.GetDefaultPinTemplate and dp:GetDefaultPinTemplate() == "VignettePinTemplate") then
-						RSProvider.DropDataProvider(dp)
-						RSLogger:PrintDebugMessage("Eliminado proveedor VignetteDataProvider")
-						vignetteProviderDeleted = true
-				  	end
-				  	-- This provider could be extended by others, check what methods are unique in those providers
-				  	   -- dp.Init -> DelveEntranceDataProviderMixin
-				  	if (not areaPOIProviderDeleted and loaded and not dp.GetDefaultPinTemplate and not dp.Init and dp.GetPinTemplate and dp:GetPinTemplate() == "AreaPOIPinTemplate") then
-						RSProvider.DropDataProvider(dp)
-						RSLogger:PrintDebugMessage("Eliminado proveedor AreaPOIDataProvider")
-						areaPOIProviderDeleted = true
-				  	end
-				  	
-				  	if (vignetteProviderDeleted and areaPOIProviderDeleted) then
-						break;
-					end
+				if (not RareScannerBlizzardMapProvider) then
+					RareScannerBlizzardMapProvider = private.ImportLib("RareScannerBlizzardMapProvider")
 				end
-				
-				-- Add new providers
-				if (vignetteProviderDeleted and areaPOIProviderDeleted) then
-					RSProvider.AddDataProvider(CreateFromMixins(RSVignetteDataProviderMixin))
-					RSProvider.AddDataProvider(CreateFromMixins(RSAreaPOIDataProviderMixin))		
-					self:Cancel()
-				end
+				RareScannerBlizzardMapProvider:AddHooks()
+				RSLogger:PrintDebugMessage("Añadidos hooks en iconos del juego.")
 			end
-		end);
-	end)
+		end)
+	end
 	
 	-- Init macro
 	RSMacro.CreateMacro()

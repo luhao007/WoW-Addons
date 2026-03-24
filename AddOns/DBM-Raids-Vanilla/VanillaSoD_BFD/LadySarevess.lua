@@ -1,7 +1,10 @@
+if not DBM:IsSeasonal("SeasonOfDiscovery") then return end
+
 local mod	= DBM:NewMod("LadySarevessSoD", "DBM-Raids-Vanilla", 10)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20241103123604")
+mod:SetRevision("20260324053510")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(204068)
 mod:SetEncounterID(2699)--2762 is likely 5 man version in instance type 201
 mod:SetHotfixNoticeRev(20231208000000)

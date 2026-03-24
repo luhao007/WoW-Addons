@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2457, "DBM-Raids-Shadowlands", 1, 1195)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250719035005")
+mod:SetRevision("20260315035226")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(181398, 181399)
 mod:SetEncounterID(2543)
 mod:SetUsedIcons(1, 2, 6, 7, 8)
@@ -37,7 +38,6 @@ mod:RegisterEventsInCombat(
 
 local berserkTimer								= mod:NewBerserkTimer(600)
 
-mod:AddRangeFrameOption("5/8/10")
 --Mal'Ganis
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(23927))
 local warnCloudofCarrion						= mod:NewTargetNoFilterAnnounce(360012, 3)
@@ -111,21 +111,6 @@ local castsPerGUID = {}
 local playerDebuffed = false
 local carrionTime = 0
 
---Things get a bit complicated with debuff priority
-local function updateRangeFrame(self)
-	if not self.Options.RangeFrame then return end
-	if self.vb.auraofShadowsOn then--Mythic fear mechanic
-		--I know this is smaller range than fearful, but if fearful target goes to 0 right away they'll get feared into bumfuck
-		--They are just going to have to be smart enough to joust this (stay within 8 til right before it expires then move out)
-		DBM.RangeCheck:Show(8)
-	elseif DBM:UnitDebuff("player", 360146) then--Fearful Trepidation
-		DBM.RangeCheck:Show(10)
-	elseif DBM:UnitDebuff("player", 360012) then--Cloud of Carrion
-		DBM.RangeCheck:Show(5)
-	else
-		DBM.RangeCheck:Hide()
-	end
-end
 
 local function BugsRepeater(self, text)
 	yellBitingWounds:Yell(text)
@@ -168,9 +153,6 @@ function mod:OnCombatEnd()
 	table.wipe(castsPerGUID)
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
-	end
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
 	end
 	if self.Options.NPAuraOnIncompleteForm or self.Options.NPAuraOnFullyFormed then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
@@ -266,7 +248,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnCloudofCarrionDebuff:Show()
 			specWarnCloudofCarrionDebuff:Play("range5")
 			yellCloudofCarrion:Yell()
-			updateRangeFrame(self)
 		else
 			if (GetTime() - carrionTime) < 4 then
 				warnCloudofCarrion:CombinedShow(0.5, args.destName)
@@ -337,7 +318,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnFearfulTrepidation:Play("runout")
 			yellFearfulTrepidation:Yell(icon, icon)
 			yellFearfulTrepidationFades:Countdown(spellId, nil, icon)
-			updateRangeFrame(self)
 			specWarnCloudofCarrionDebuffMove:Cancel()
 			specWarnCloudofCarrionDebuffMove:CancelVoice()
 		elseif self.Options.SpecWarn360012moveto and DBM:UnitDebuff("player", 360012) then--If have Carrion debuff, spec warn to runt o tepidate debuff to clear it
@@ -370,7 +350,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 363191 then
 		self.vb.auraofShadowsOn = true
-		updateRangeFrame(self)
 		warnAuraofShadows:Show()
 	elseif spellId == 360287 then
 		local uId = DBM:GetRaidUnitId(args.destName)
@@ -431,9 +410,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerParanoia:Stop()
 	elseif spellId == 360012 then
 		self.vb.carrionDebuffs = self.vb.carrionDebuffs + 1
-		if args:IsPlayer() then
-			updateRangeFrame(self)
-		end
 	elseif spellId == 361934 or spellId == 362020 then
 		if self.Options.NPAuraOnIncompleteForm then
 			DBM.Nameplate:Hide(true, args.sourceGUID, spellId)
@@ -451,7 +427,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 		if args:IsPlayer() then
 			yellFearfulTrepidationFades:Cancel()
-			updateRangeFrame(self)
 		end
 	elseif spellId == 360148 then
 		if args:IsPlayer() and not DBM:UnitDebuff("player", 360241) then
@@ -463,7 +438,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 363191 then
 		self.vb.auraofShadowsOn = false
-		updateRangeFrame(self)
 		warnAuraofShadowsOver:Show()
 	elseif spellId == 364985 then
 		if args:IsPlayer() then

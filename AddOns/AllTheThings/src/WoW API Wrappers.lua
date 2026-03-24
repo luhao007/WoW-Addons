@@ -151,6 +151,7 @@ local C_QuestLog = C_QuestLog;
 AssignAPIWrapper("IsQuestFlaggedCompletedOnAccount",
 	C_QuestLog and C_QuestLog.IsQuestFlaggedCompletedOnAccount,
 	function(questID) return app.IsAccountCached("Quests",questID) end)
+AssignAPIWrapper("GetQuestRewardCurrencies", C_QuestLog and C_QuestLog.GetQuestRewardCurrencies, app.EmptyFunction)
 
 -- C_TradeSkillUI
 local C_TradeSkillUI = C_TradeSkillUI;
@@ -164,7 +165,7 @@ AssignAPIWrapper("GetTradeSkillDisplayName", C_TradeSkillUI and C_TradeSkillUI.G
 
 -- Specialization APIs
 local C_SpecializationInfo = C_SpecializationInfo
-AssignAPIWrapper("GetSpecialization", C_SpecializationInfo and C_SpecializationInfo.GetSpecialization, GetSpecialization);
+AssignAPIWrapper("GetSpecialization", C_SpecializationInfo and C_SpecializationInfo.GetSpecialization, GetSpecialization or GetActiveTalentGroup);
 AssignAPIWrapper("GetSpecializationInfo", C_SpecializationInfo and C_SpecializationInfo.GetSpecializationInfo, GetSpecializationInfo);
 
 -- Spell APIs
@@ -208,7 +209,7 @@ end
 -- SpellBook APIs
 local C_SpellBook = C_SpellBook
 AssignAPIWrapper("IsSpellKnown", C_SpellBook and C_SpellBook.IsSpellKnown , IsSpellKnown);
-AssignAPIWrapper("IsPlayerSpell", C_SpellBook and C_SpellBook.IsSpellKnown , IsPlayerSpell);
 AssignAPIWrapper("IsSpellKnownOrOverridesKnown", C_SpellBook and C_SpellBook.IsSpellInSpellBook , IsSpellKnownOrOverridesKnown);
+AssignAPIWrapper("GetNumSpellTabs", C_SpellBook and C_SpellBook.GetNumSpellBookSkillLines, GetNumSpellTabs);
 
 ---@diagnostic enable: deprecated

@@ -203,6 +203,8 @@ local FACTION_IMAGES = {
 	[2696] = "interface\\icons\\ui_majorfaction_ flames", -- Amani Tribe
 	[2704] = "interface\\icons\\ui_majorfaction_ vines", -- Hara'ti
 	[2699] = "interface\\icons\\ui_majorfaction_ sky", -- The Singularity
+	[2764] = "interface\\icons\\ui_prey",              -- Prey: Season 1
+	[2742] = "interface\\icons\\ui_delves",            -- Delves: Season 1
 }
 
 local function GetLocRepStanding(id)
@@ -292,7 +294,7 @@ function Faction.Refresh(button)
 	local reputationInfo = C_GossipInfo.GetFriendshipReputation(factionID)
 	local friendshipFactionID = reputationInfo.friendshipFactionID
 
-	local temp = C_Reputation.GetFactionDataByID(factionID)
+	local temp = C_Reputation.GetFactionDataByID(factionID) or C_MajorFactions.GetMajorFactionData(factionID)
 	local name = nil
 	if (temp == nil) then
 		name = BF[AtlasLoot.Data.Faction.FACTION_KEY[factionID]] or FACTION.." "..factionID
@@ -421,7 +423,7 @@ function Faction.ShowToolTipFrame(button)
 	local frame = Faction.tooltipFrame
 	local factionID = button.FactionID
 	local name, description, standingID, barMin, barMax, barValue = nil, nil, nil, nil, nil, nil
-	local temp = C_Reputation.GetFactionDataByID(factionID)
+	local temp = C_Reputation.GetFactionDataByID(factionID) or C_MajorFactions.GetMajorFactionData(factionID)
 	if (temp == nil) then
 		name = BF[AtlasLoot.Data.Faction.FACTION_KEY[factionID]] or FACTION.." "..factionID
 	else

@@ -2,7 +2,8 @@
 local mod	= DBM:NewMod(2394, "DBM-Raids-Shadowlands", 3, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250719035005")
+mod:SetRevision("20260315035226")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(164407)
 mod:SetEncounterID(2399)
 mod:SetUsedIcons(1)
@@ -17,7 +18,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 332318",
 	"SPELL_CAST_SUCCESS 332687",
 	"SPELL_AURA_APPLIED 331209 331314 342420 335470 340817 341250",
-	"SPELL_AURA_REMOVED 331209 331314 342419 342420 340817",
+	"SPELL_AURA_REMOVED 331209 331314 342419 342420",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
 	"SPELL_ENERGIZE 346269",
@@ -68,7 +69,6 @@ local timerSiesmicShiftCD						= mod:NewCDCountTimer(34, 340817, nil, nil, nil, 
 
 --local berserkTimer							= mod:NewBerserkTimer(600)
 
-mod:AddRangeFrameOption(5, 340817)
 mod:AddSetIconOption("SetIconGaze", 331209, true, 0, {1})
 
 mod.vb.gazeCount = 0
@@ -118,11 +118,6 @@ function mod:OnCombatStart(delay)
 --	berserkTimer:Start(-delay)
 end
 
-function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
-end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
@@ -250,9 +245,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnSiesmicShift:Show()
 			specWarnSiesmicShift:Play("range5")
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(5)
-			end
 		end
 	end
 end
@@ -272,12 +264,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		if args:IsPlayer() then
 			self:Unschedule(ChainLinkYellRepeater)
 			playerPartner = nil
-		end
-	elseif spellId == 340817 then
-		if args:IsPlayer() then
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Hide()
-			end
 		end
 	end
 end

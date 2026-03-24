@@ -45,7 +45,7 @@ function T.SetRecruitTooltip(GameTooltip, recruitTime)
 	GameTooltip:SetText((select(2, C_Garrison.GetBuildingInfo(35))))
 	local dt = GetServerTime()-recruitTime
 	if dt < 604800 then
-		GameTooltip:AddLine("\n" .. (L"Last recruited: %s ago"):format("|cffffffff" .. SecondsToTime(dt) .. "|r"))
+		GameTooltip:AddLine("\n" .. (L"Next recruit in: %s"):format("|cffffffff" .. SecondsToTime(604800-dt) .. "|r"))
 	else
 		GameTooltip:AddLine("|n" .. GREEN_FONT_COLOR_CODE .. AVAILABLE)
 	end

@@ -1196,6 +1196,225 @@ local SetTable = {
 		},
 	},
 
+	["Tier35"] = { -- T35 Sets
+		name = format(AL["Tier %d Sets"], 35),
+		sourceTemplate = {
+			EJ_GetInstanceInfo(1314).." - "..EJ_GetEncounterInfo(2795), -- Chest
+			EJ_GetInstanceInfo(1307).." - "..EJ_GetEncounterInfo(2734), -- Hands
+			EJ_GetInstanceInfo(1307).." - "..EJ_GetEncounterInfo(2737), -- Head
+			EJ_GetInstanceInfo(1307).." - "..EJ_GetEncounterInfo(2735), -- Legs
+			EJ_GetInstanceInfo(1307).." - "..EJ_GetEncounterInfo(2736), -- Shoulder
+		},
+		{                                                      -- Deathknight, Relentless Rider's Lament
+			name = ALIL["DEATHKNIGHT"],
+			subSetName = "dk",
+			icon = "dk",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				249973, -- Relentless Rider's Cuirass
+				249971, -- Relentless Rider's Bonegrasps
+				249970, -- Relentless Rider's Crown
+				249969, -- Relentless Rider's Legguards
+				249968, -- Relentless Rider's Dreadthorns
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Demon Hunter, Devouring Reaver's Sheathe
+			name = ALIL["DEMONHUNTER"],
+			subSetName = "demonhunter",
+			icon = "dh",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				250036, -- Devouring Reaver's Engine
+				250034, -- Devouring Reaver's Essence Grips
+				250033, -- Devouring Reaver's Intake
+				250032, -- Devouring Reaver's Pistons
+				250031, -- Devouring Reaver's Exhaustplates
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Druid, Sprouts of the Luminous Bloom
+			name = ALIL["DRUID"],
+			subSetName = "druid",
+			icon = "druid",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				250027, -- Trunk of the Luminous Bloom
+				250025, -- Arbortenders of the Luminous Bloom
+				250024, -- Branches of the Luminous Bloom
+				250023, -- Phloemwraps of the Luminous Bloom
+				250022, -- Seedpods of the Luminous Bloom
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Evoker, Livery of the Black Talon
+			name = ALIL["EVOKER"],
+			subSetName = "evoker",
+			icon = "evoker",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				250000, -- Frenzyward of the Black Talon
+				249998, -- Enforcer's Grips of the Black Talon
+				249997, -- Hornhelm of the Black Talon
+				249996, -- Greaves of the Black Talon
+				249995, -- Beacons of the Black Talon
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Hunter, Primal Sentry's Camouflage
+			name = ALIL["HUNTER"],
+			subSetName = "hunter",
+			icon = "hunter",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				249991, -- Primal Sentry's Scaleplate
+				249989, -- Primal Sentry's Talonguards
+				249988, -- Primal Sentry's Maw
+				249987, -- Primal Sentry's Legguards
+				249986, -- Primal Sentry's Trophies
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Mage, Voidbreaker's Accordance
+			name = ALIL["MAGE"],
+			subSetName = "mage",
+			icon = "mage",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				250063, -- Voidbreaker's Robe
+				250061, -- Voidbreaker's Gloves
+				250060, -- Voidbreaker's Veil
+				250059, -- Voidbreaker's Britches
+				250058, -- Voidbreaker's Leyline Nexi
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Monk, Way of Ra-den's Chosen
+			name = ALIL["MONK"],
+			subSetName = "monk",
+			icon = "monk",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				250018, -- Battle Garb of Ra-den's Chosen
+				250016, -- Thunderfists of Ra-den's Chosen
+				250015, -- Fearsome Visage of Ra-den's Chosen
+				250014, -- Swiftsweepers of Ra-den's Chosen
+				250013, -- Aurastones of Ra-den's Chosen
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Paladin, Luminant Verdict's Vestments
+			name = ALIL["PALADIN"],
+			subSetName = "paladin",
+			icon = "pala",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				249964, -- Luminant Verdict's Divine Warplate
+				249962, -- Luminant Verdict's Gauntlets
+				249961, -- Luminant Verdict's Unwavering Gaze
+				249960, -- Luminant Verdict's Greaves
+				249959, -- Luminant Verdict's Providence Watch
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Priest, Blind Oath's Burden
+			name = ALIL["PRIEST"],
+			subSetName = "priest",
+			icon = "priest",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				250054, -- Blind Oath's Raiment
+				250052, -- Blind Oath's Touch
+				250051, -- Blind Oath's Winged Crest
+				250050, -- Blind Oath's Leggings
+				250049, -- Blind Oath's Seraphguards
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Rogue, Motley of the Grim Jest
+			name = ALIL["ROGUE"],
+			subSetName = "rogue",
+			icon = "rogue",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				250009, -- Fantastic Finery of the Grim Jest
+				250007, -- Sleight of Hand of the Grim Jest
+				250006, -- Masquerade of the Grim Jest
+				250005, -- Blade Holsters of the Grim Jest
+				250004, -- Venom Casks of the Grim Jest
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Shaman, Mantle of the Primal Core
+			name = ALIL["SHAMAN"],
+			subSetName = "shaman",
+			icon = "shaman",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				249982, -- Embrace of the Primal Core
+				249980, -- Earthgrips of the Primal Core
+				249979, -- Locus of the Primal Core
+				249978, -- Leggings of the Primal Core
+				249977, -- Tempests of the Primal Core
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Warlock, Reign of the Abyssal Immolator
+			name = ALIL["WARLOCK"],
+			subSetName = "warlock",
+			icon = "warlock",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				250045, -- Abyssal Immolator's Dreadrobe
+				250043, -- Abyssal Immolator's Grasps
+				250042, -- Abyssal Immolator's Smoldering Flames
+				250041, -- Abyssal Immolator's Pillars
+				250040, -- Abyssal Immolator's Fury
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+		{ -- Warrior, Rage of the Night Ender
+			name = ALIL["WARRIOR"],
+			subSetName = "warrior",
+			icon = "warri",
+			[SOURCE_INFO] = "sourceTemplate",
+			[RF_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[NORMAL_DIFFICULTY_DIFF] = {
+				249955, -- Night Ender's Breastplate
+				249953, -- Night Ender's Fists
+				249952, -- Night Ender's Tusks
+				249951, -- Night Ender's Chausses
+				249950, -- Night Ender's Pauldrons
+			},
+			[HEROIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+			[MYTHIC_DIFFICULTY_DIFF] = NORMAL_DIFFICULTY_DIFF,
+		},
+	},
+
 	["Tier34"] = { -- T34 Sets
 		name = format(AL["Tier %d Sets"], 34),
 		sourceTemplate = {

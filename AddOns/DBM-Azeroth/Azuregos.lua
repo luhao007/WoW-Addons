@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod("AzuregosVanilla", "DBM-Azeroth")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240719123709")
+mod:SetRevision("20260315035425")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(6109)--121820 TW ID, 6109 classic and SoD ID
 mod:SetEncounterID(3027)--Sod Encounter ID
 --mod:SetModelID(17887)

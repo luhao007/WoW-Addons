@@ -1,13 +1,14 @@
 local mod	= DBM:NewMod("RazuviousVanilla", "DBM-Raids-Vanilla", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20251101201827")
+mod:SetRevision("20260324053510")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(16061)
 mod:SetEncounterID(1113)
 mod:SetModelID(16582)
 mod:SetZone(533)
 
-mod:RegisterCombat("combat_yell", L.Yell1, L.Yell2, L.Yell3, L.Yell4)
+mod:RegisterCombat("combat_yell", L.Pull1, L.Pull2, L.Pull3, L.Pull4)
 
 if DBM:IsSeasonal("SeasonOfDiscovery") then
 	mod.statTypes = "normal,heroic,mythic"
@@ -27,13 +28,13 @@ local warnShoutNow		= mod:NewSpellAnnounce(29107, 1, 6673)
 local warnShoutSoon		= mod:NewSoonAnnounce(29107, 3, 6673)
 local warnShieldWall	= mod:NewAnnounce("WarningShieldWallSoon", 3, 29061)
 
-local timerShout		= mod:NewVarTimer(25.8, 29107, nil, nil, nil, 2, 6673)-- 25.87-25.96 in classic, 16 in wrath
+local timerShout		= mod:NewVarTimer("v25.8-26.3", 29107, nil, nil, nil, 2, 6673)
 local timerTaunt		= mod:NewCDTimer(60, 29060, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 local timerShieldWall	= mod:NewBuffFadesTimer(20, 29061, nil, nil, nil, 5, nil, DBM_COMMON_L.TANK_ICON)
 
-function mod:OnCombatStart(delay)
-	timerShout:Start("v25-27.3")
-	warnShoutSoon:Schedule(19 - delay)
+function mod:OnCombatStart()
+	timerShout:Start()
+	warnShoutSoon:Schedule(19)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)

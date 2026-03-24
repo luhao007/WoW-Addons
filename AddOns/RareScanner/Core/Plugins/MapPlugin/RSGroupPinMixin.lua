@@ -20,41 +20,35 @@ local RSGuidePOI = private.ImportLib("RareScannerGuidePOI")
 -- RareScanner general libraries
 local RSUtils = private.ImportLib("RareScannerUtils")
 
-RSGroupPinMixin = CreateFromMixins(MapCanvasPinMixin);
-
-RSGroupPinMixin.SetPassThroughButtons = function() end
+RSGroupPinMixin = CreateFromMixins(RSPinMixin);
 
 function RSGroupPinMixin:OnLoad()
+	RSPinMixin.OnLoad(self)
 	self:SetScalingLimits(1, 1, 1.0);
 end
 
 function RSGroupPinMixin:OnAcquired(POI, dataProvider)
-	self:UseFrameLevelType("PIN_FRAME_LEVEL_VIGNETTE", self:GetMap():GetNumActivePinsByTemplate("RSGroupPinTemplate"));
-	self.POI = POI
-	self.dataProvider = dataProvider
+	RSPinMixin.OnAcquired(self, POI, dataProvider)
+	self:SetFrameLevel(10)
 	if (POI.TopTexture) then
 		self.TopTexture:SetTexture(POI.TopTexture)
 		self.TopTexture:SetScale(RSConfigDB.GetIconsWorldMapScale())
-		MapPinHighlight_CheckHighlightPin(self:GetHighlightType(), self, self.TopTexture, AREAPOI_HIGHLIGHT_PARAMS);
 	else
 		self.TopTexture:SetTexture(nil)
 	end
 	if (POI.LeftTexture) then
 		self.LeftTexture:SetTexture(POI.LeftTexture)
 		self.LeftTexture:SetScale(RSConfigDB.GetIconsWorldMapScale())
-		MapPinHighlight_CheckHighlightPin(self:GetHighlightType(), self, self.LeftTexture, AREAPOI_HIGHLIGHT_PARAMS);
 	else
 		self.LeftTexture:SetTexture(nil)
 	end
 	if (POI.RightTexture) then
 		self.RightTexture:SetTexture(POI.RightTexture)
 		self.RightTexture:SetScale(RSConfigDB.GetIconsWorldMapScale())
-		MapPinHighlight_CheckHighlightPin(self:GetHighlightType(), self, self.RightTexture, AREAPOI_HIGHLIGHT_PARAMS);
 	else
 		self.RightTexture:SetTexture(nil)
 	end
 	self.IconTexture:SetAtlas(POI.iconAtlas)
-	self:SetPosition(POI.x, POI.y);
 end
 
 function RSGroupPinMixin:OnMouseEnter()
@@ -67,13 +61,13 @@ function RSGroupPinMixin:OnMouseLeave()
 	end
 end
 
-function RSGroupPinMixin:OnMouseDown(button)
-
-end
-
 function RSGroupPinMixin:OnReleased()
-	RSTooltip.ReleaseTooltip(self.groupTooltip)
-	self.groupTooltip = nil
+	RSPinMixin.OnReleased(self)
+	
+	if (self.groupTooltip) then
+		RSTooltip.ReleaseTooltip(self.groupTooltip)
+		self.groupTooltip = nil
+	end
 end
 
 function RSGroupPinMixin:ShowOverlay(childPOI)
@@ -114,20 +108,4 @@ function RSGroupPinMixin:ShowOverlay(childPOI)
 			RSMinimap.AddOverlay(childPOI.entityID)
 		end
 	end
-end
-
-
-function RSGroupPinMixin:GetHighlightType() -- override
-	if (RSConfigDB.IsHighlightingReputation()) then
-		local _, bountyFactionID, bountyFrameType = self.dataProvider:GetBountyInfo();
-		if (bountyFrameType == BountyFrameType.ActivityTracker) then
-			for _, childPOI in pairs (self.POI.POIs) do
-				if (childPOI.factionID and RSUtils.Contains(childPOI.factionID, bountyFactionID)) then
-					return MapPinHighlightType.SupertrackedHighlight;
-				end
-			end
-		end
-	end
-
-	return MapPinHighlightType.None;
 end

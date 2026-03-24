@@ -177,6 +177,8 @@ Faction.FACTION_KEY = {
 	[2711] = "Magisters",
 	[2714] = "Shades of the Row",
 	[2770] = "Slayer's Duellum",
+	[2764] = "Prey: Season 1",
+	[2742] = "Delves: Season 1",
 }
 
 Faction.FriendshipRanks = {

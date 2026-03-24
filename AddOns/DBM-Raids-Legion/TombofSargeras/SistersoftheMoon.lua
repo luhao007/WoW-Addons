@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(1903, "DBM-Raids-Legion", 2, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240426185020")
+mod:SetRevision("20260315035302")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(118523, 118374, 118518)--118523 Huntress kasparian, 118374 Captain Yathae Moonstrike, 118518 Prestess Lunaspyre
 mod:SetEncounterID(2050)
 --mod:SetBossHPInfoToHighest()
@@ -91,7 +92,6 @@ local berserkTimer					= mod:NewBerserkTimer(660)
 
 mod:AddSetIconOption("SetIconOnIncorpShot", 236305, true)
 mod:AddInfoFrameOption(233263, true)
---mod:AddRangeFrameOption("5/8/15")
 
 mod.vb.phase = 1
 mod.vb.twilightGlaiveCount = 0

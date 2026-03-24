@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2167, "DBM-Raids-BfA", 5, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20230618060944")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(135452)--136429 Chamber 01, 137022 Chamber 02, 137023 Chamber 03
 mod:SetEncounterID(2141)
 mod:DisableESCombatDetection()--ES breaks if you pull boss through door to skip trash. Then after that the trash bugs and continues to throw ES events even after mother is defeated
@@ -16,7 +17,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 267795 267945 267885 267878 269827 268089 277973 277961 277742",
 	"SPELL_AURA_APPLIED 267787 274205 269051 279662 279663",
 	"SPELL_AURA_APPLIED_DOSE 267787",
-	"SPELL_AURA_REMOVED 279662 279663"
+	"SPELL_AURA_REMOVED 279662"
 )
 
 --[[
@@ -50,7 +51,6 @@ local timerCleansingFlameCD				= mod:NewCastSourceTimer(180, 268095, nil, nil, n
 --local berserkTimer					= mod:NewBerserkTimer(600)
 
 mod:AddInfoFrameOption(268095, true)
-mod:AddRangeFrameOption(5, 272407)
 
 mod.vb.bossInICD = false
 mod.vb.nextLaser = 1--1 side 2 top
@@ -135,22 +135,6 @@ do
 	end
 end
 
-local updateRangeFrame
-do
-	local function debuffFilter(uId)
-		if DBM:UnitDebuff(uId, 279662, 279663) then--Endemic Virus, Spreading Epidemic
-			return true
-		end
-	end
-	updateRangeFrame = function(self)
-		if not self.Options.RangeFrame then return end
-		if DBM:UnitDebuff("player", 279662, 279663) then
-			DBM.RangeCheck:Show(10)
-		else
-			DBM.RangeCheck:Show(10, debuffFilter)
-		end
-	end
-end
 
 function mod:OnCombatStart(delay)
 	self:SetStage(1)
@@ -166,17 +150,11 @@ function mod:OnCombatStart(delay)
 	if self:AntiSpam(3, 1) then
 		--Do nothing
 	end
-	if self:IsMythic() then
-		updateRangeFrame(self)
-	end
 end
 
 function mod:OnCombatEnd()
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
-	end
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
 	end
 end
 
@@ -295,14 +273,12 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnEndemicVirus:Play("runout")
 			yellEndemicVirus:Yell()
 			yellEndemicVirusFades:Countdown(spellId)
-			updateRangeFrame(self)
 		end
 	elseif spellId == 279663 then
 		if args:IsPlayer() then
 			specWarnSpreadingEpidemic:Show()
 			specWarnSpreadingEpidemic:Play("runout")
 			yellSpreadingEpidemic:Yell()
-			updateRangeFrame(self)
 		end
 	end
 end
@@ -312,12 +288,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 279662 then
 		if args:IsPlayer() then
-			updateRangeFrame(self)
 			yellEndemicVirusFades:Cancel()
-		end
-	elseif spellId == 279663 then
-		if args:IsPlayer() then
-			updateRangeFrame(self)
 		end
 	end
 end

@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(1262, "DBM-Draenor", 1, 557)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20210721041505")
+mod:SetRevision("20260315035313")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(83746)
 mod:SetEncounterID(1755)
 mod:SetReCombatTime(20)
@@ -32,7 +33,6 @@ local timerSolarBreathCD	= mod:NewCDTimer(29, 167679, nil, "Tank", nil, 5)
 local timerSharpBeakCD		= mod:NewCDTimer(11.5, 167614, nil, "Tank|Healer", 2, 5)
 
 --mod:AddReadyCheckOption(37474, false)
---mod:AddRangeFrameOption(8, 167647)
 
 function mod:OnCombatStart(delay, yellTriggered)
 --	if yellTriggered then
@@ -40,20 +40,12 @@ function mod:OnCombatStart(delay, yellTriggered)
 --	end
 end
 
-function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
-end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 167647 then
 		specWarnLooseQuills:Show()
 		timerLooseQuills:Start()
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Show(8)
-		end
 	elseif spellId == 167615 then
 		local amount = args.amount or 1
 		warnPiercedArmor:Show(args.destName, amount)

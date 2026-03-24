@@ -1,0 +1,109 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\..\..\..\WoW\Data\Interface\AddOns\Blizzard_SharedXML\UI.xsd">
+	<Button name="WoWToolsPlayerPinButtonTemplate" virtual="true">
+		<Size x="0" y="52"/>
+        <Anchors>
+			<Anchor point="LEFT"/>
+			<Anchor point="RIGHT"/>
+		</Anchors>
+        <PushedTexture atlas="heartofazeroth-list-item-highlight"/>
+        <HighlightTexture atlas="heartofazeroth-list-item-selected"/>
+		<Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="Background" atlas="QuestItemBorder">
+                    <TexCoords left="1" right="0" top="0" bottom="1" />
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                        <Anchor point="BOTTOMRIGHT" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="BORDER">
+                <Texture parentKey="Icon">
+                    <Size x="42" y="42"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="4"/>
+                    </Anchors>
+                </Texture>
+                <FontString parentKey="Index" inherits="WoWToolsFont2">
+                    <Anchors>
+                        <Anchor point="RIGHT" x="-4"/>
+                    </Anchors>
+                    <Color r="0.5" g="0.5" b="0.5"/>
+                </FontString>
+
+                <FontString parentKey="Sub" inherits="WoWToolsFont2">
+                    <Size x="0" y="12"/>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent.Icon" relativePoint="RIGHT"/>
+                        <Anchor point="RIGHT" relativeKey="$parent.Index" relativePoint="LEFT" x="-4"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString parentKey="Name" inherits="WoWToolsFont">
+                    <Size x="0" y="12"/>
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" relativeKey="$parent.Sub" relativePoint="TOPLEFT" y="1"/>
+                        <Anchor point="RIGHT" x="-4"/>
+                    </Anchors>
+                </FontString>
+
+                <FontString parentKey="Sub2" inherits="WoWToolsFont" justifyH="RIGHT">
+                    <Size x="0" y="12"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.Sub" relativePoint="BOTTOMLEFT" y="-1"/>
+                        <Anchor point="RIGHT" x="-4"/>
+                    </Anchors>
+                </FontString>
+                
+                <Texture parentKey="Select" atlas="glues-characterSelect-card-glow-swap" hidden="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="-2" y="2"/>
+                        <Anchor point="BOTTOMRIGHT" x="2" y="-2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+           
+        </Layers>
+    </Button>
+
+
+
+    
+	<DropdownButton name="WoWToolsWorldMapPinTemplate" mixin="WoWToolsWorldMapPinMixin" virtual="true">
+        <Size x="23" y="23"/>        
+        <HighlightTexture atlas="Azerite-Trait-RingGlow">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="-5" y="5"/>
+                <Anchor point="BOTTOMRIGHT" x="5" y="-5"/>
+            </Anchors>
+        </HighlightTexture>
+        <PushedTexture atlas="bag-border-highlight">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="-2" y="2"/>
+                <Anchor point="BOTTOMRIGHT" x="4" y="-4"/>
+            </Anchors>
+        </PushedTexture>
+        <Layers>
+            <Layer level="BORDER">
+                <Texture parentKey="texture">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="-5" y="5"/>
+                        <Anchor point="BOTTOMRIGHT" x="3" y="-3"/>
+                    </Anchors>
+                </Texture>
+                <FontString parentKey="text" inherits="WoWToolsFont2" justifyH="LEFT">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent.texture" relativePoint="RIGHT" x="0" y="0"/>
+                    </Anchors>
+                </FontString>
+                 <MaskTexture parentKey="IconMask" setAllPoints="true" atlas="CircleMask" hWrapMode="CLAMPTOBLACKADDITIVE" vWrapMode="CLAMPTOBLACKADDITIVE">
+					<MaskedTextures>
+						<MaskedTexture childKey="texture"/>
+					</MaskedTextures>
+				</MaskTexture>
+            </Layer>
+        </Layers>
+	</DropdownButton>
+</Ui>

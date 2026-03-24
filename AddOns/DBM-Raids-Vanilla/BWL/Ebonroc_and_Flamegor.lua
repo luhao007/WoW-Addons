@@ -9,7 +9,8 @@ else
 	mod.statTypes = "normal"
 end
 
-mod:SetRevision("20251022232519")
+mod:SetRevision("20260315035425")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(14601, 11981)
 mod:SetEncounterID(614, 615, 2566)
 mod:SetModelID(6377)

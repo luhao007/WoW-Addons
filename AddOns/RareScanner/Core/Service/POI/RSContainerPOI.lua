@@ -186,9 +186,20 @@ local function IsContainerPOIFiltered(containerID, mapID, containerInfo, vignett
 	end
 	
 	-- Skip if its a completed part of an achievement
-	if (containerInfo and containerInfo.achievementID and RSConfigDB.IsAchievementContainerFilterEnabled() and RSUtils.GetTableLength(RSAchievementDB.GetNotCompletedAchievementIDsByMap(containerID, mapID, containerInfo.achievementID, containerInfo.questID, containerInfo.criteria, true)) == 0) then
-		RSLogger:PrintDebugMessageEntityID(containerID, string.format("Saltado Contenedor [%s]: Parte de logro completa.", containerID))
-		return true
+	if (containerInfo and containerInfo.achievementID and RSConfigDB.IsAchievementContainerFilterEnabled()) then
+		if (containerInfo.questID) then
+			for _, questID in ipairs(containerInfo.questID) do
+				if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
+					RSLogger:PrintDebugMessageEntityID(containerID, string.format("Saltado Contenedor [%s]: Parte de logro completa.", containerID))
+					return true
+				end
+			end
+		end
+		
+		if (RSUtils.GetTableLength(RSAchievementDB.GetNotCompletedAchievementIDsByMap(containerID, mapID, containerInfo.achievementID, containerInfo.questID, containerInfo.criteria, true)) == 0) then
+			RSLogger:PrintDebugMessageEntityID(containerID, string.format("Saltado Contenedor [%s]: Parte de logro completa.", containerID))
+			return true
+		end
 	end
 	
 	-- Skip if it requires a renown level

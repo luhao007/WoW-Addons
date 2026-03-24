@@ -19,7 +19,8 @@ else
 	mod.statTypes = "normal"
 end
 
-mod:SetRevision("20241120110019")
+mod:SetRevision("20260315035425")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(12435, 99999)--Bogus detection to prevent invalid kill detection if razorgore happens to die in phase 1
 mod:SetEncounterID(610)--BOSS_KILL is valid, but ENCOUNTER_END is not
 mod:DisableEEKillDetection()--So disable only EE
@@ -28,7 +29,7 @@ mod:SetHotfixNoticeRev(20200904000000)--2020, September, 4th
 mod:SetMinSyncRevision(20200904000000)--2020, September, 4th
 mod:SetZone(469)
 
-mod:RegisterCombat("yell", L.YellPull)
+mod:RegisterCombat("yell", L.Pull)
 mod:SetWipeTime(180)--guesswork
 
 mod:RegisterEventsInCombat(

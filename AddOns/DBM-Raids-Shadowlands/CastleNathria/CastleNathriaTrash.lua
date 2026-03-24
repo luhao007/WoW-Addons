@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod("CastleNathriaTrash", "DBM-Raids-Shadowlands", 3)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250719035005")
+mod:SetRevision("20260315035226")
+mod:DisableHardcodedOptions()
 --mod:SetModelID(47785)
 mod.isTrashMod = true
 mod:SetZone(2296)

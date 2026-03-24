@@ -29,23 +29,46 @@ local DelveEncounter = {}
 DelveCompanion.EJExtension.DelveEncounter = DelveEncounter
 
 ---@param self DelveEncounter
-function DelveEncounter:EncRewTrack_OnShowHook()
-    -- Logger:Log("[DelveEncounter] EncRewTrack_OnShowHook...")
-
-    ---@type EJTierData
-    local tierData = GetEJTierData(EJ_GetCurrentTier())
-
+---@return number? factionID Faction ID of the displayed encounter.
+---@return number? companionID Companion ID of displayed encounter.
+function DelveEncounter:GetFactionIDs()
     local progressFrame = self.EncounterRewardTrack:GetParent()
-    if progressFrame == nil or progressFrame.majorFactionData == nil then
+
+    if progressFrame == nil
+        or progressFrame.majorFactionData == nil
+        or progressFrame.majorFactionData.factionID == nil
+        or progressFrame.majorFactionData.playerCompanionID == nil then
+        return nil, nil
+    end
+
+    return progressFrame.majorFactionData.factionID, progressFrame.majorFactionData.playerCompanionID
+end
+
+---@param self DelveEncounter
+---@param factionID number Faction ID of the displayed encounter.
+---@return number expansion LE_EXPANSION of the displayed encounter.
+function DelveEncounter:GetExpansionForFaction(factionID)
+    return FindInTableIf(
+        Config.DELVE_FACTION_ID,
+        function(id)
+            return id == factionID
+        end
+    )
+end
+
+---@param self DelveEncounter
+function DelveEncounter:Refresh()
+    -- Logger:Log("[DelveEncounter] Refresh...")
+
+    local factionID, companionID = self:GetFactionIDs()
+    if factionID == nil or companionID == nil then
         return
     end
 
     -- Check whether the opened encounter is Delves, not something else (e.g. Prey).
-    if not C_MajorFactions.ShouldUseJourneyRewardTrack(progressFrame.majorFactionData.factionID) then
+    if not C_MajorFactions.ShouldUseJourneyRewardTrack(factionID) then
         return
     end
-
-    local companionID = progressFrame.majorFactionData.playerCompanionID
 
     do
         self.ExpBar.factionID = C_DelvesUI.GetFactionForCompanion(companionID)
@@ -53,33 +76,52 @@ function DelveEncounter:EncRewTrack_OnShowHook()
     end
 
     do
-        local isCompUnlocked = C_QuestLog.IsQuestFlaggedCompleted(
-            Config.COMPANION_UNLOCK_QUEST[tierData.expansionLevel])
-
-        if isCompUnlocked then
+        local traitTreeID = C_DelvesUI.GetTraitTreeForCompanion(companionID)
+        if C_Traits.GetConfigIDByTreeID(traitTreeID) then
             DelvesCompanionConfigurationFrame.playerCompanionID = companionID
             self.ConfigPanel:Show()
         end
     end
 
+    ---@type number
+    local expansion = self:GetExpansionForFaction(factionID)
     do
         self.BountifulFrame:Show()
         self.ConsumablesFrame:Show()
-        self.GildedStashFrame:SetShown(tierData.expansionLevel == LE_EXPANSION_MIDNIGHT)
-        self.LotInfoButton:SetShown(tierData.expansionLevel == LE_EXPANSION_MIDNIGHT)
+        self.GildedStashFrame:SetShown(expansion == LE_EXPANSION_MIDNIGHT)
+        self.LotInfoButton:SetShown(expansion == LE_EXPANSION_MIDNIGHT)
     end
 end
 
 ---@param self DelveEncounter
-function DelveEncounter:EncRewTrack_OnHideHook()
-    -- Logger:Log("[DelveEncounter] EncRewTrack_OnHideHook...")
+function DelveEncounter:EncRewTrack_OnShowHook()
+    -- Logger:Log("[DelveEncounter] EncRewTrack_OnShowHook...")
 
+    -- Journeys frame is very unoptimised at the moment.
+    -- This hook is triggered switching a table with the opened Delves encounter and returning back. But in fact, the Journeys list is shown, not the actual encounter.
+    -- The delayed refresh is a dirty workaround to avoid errors.
+    -- TODO: remove the timer if Blizzard fix the Journeys tab behaviour.
+    C_Timer.After(0.1, function()
+        self:Refresh()
+    end)
+end
+
+--- Hides all addon-related frames.
+---@param self DelveEncounter
+function DelveEncounter:HideAll()
     self.ExpBar:Hide()
     self.ConfigPanel:Hide()
     self.BountifulFrame:Hide()
     self.ConsumablesFrame:Hide()
     self.GildedStashFrame:Hide()
     self.LootInfo:Hide()
+end
+
+---@param self DelveEncounter
+function DelveEncounter:EncRewTrack_OnHideHook()
+    -- Logger:Log("[DelveEncounter] EncRewTrack_OnHideHook...")
+
+    self:HideAll()
 end
 
 --- Initialize Delves list.

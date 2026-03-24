@@ -973,7 +973,7 @@ end
 function Fun.Get_famsg(laiyuan,famsg,CMD_Opne,CMDtxt,otdata)
 	if laiyuan=="yell" then
 		if CMD_Opne then
-			famsg=famsg..Fun.Base64_decod("LOi/m+e7hOaal+WPtw==")..CMDtxt.."";
+			famsg=famsg..string.format(L["EXT_TOJOIN"],CMDtxt)
 		end
 	elseif laiyuan=="Farm_Yell" then
 		if CMD_Opne then
@@ -991,12 +991,11 @@ function Fun.Get_famsg(laiyuan,famsg,CMD_Opne,CMDtxt,otdata)
 			famsg=famsg..", "..danjiatxt
 		end
 		if CMD_Opne then
-			famsg=famsg..Fun.Base64_decod("LOi/m+e7hOaal+WPtw==")..CMDtxt..""
+			famsg=famsg..string.format(L["EXT_TOJOIN"],CMDtxt)
 		end
 	elseif laiyuan=="Farm_chedui" then
 
 	end
-
 	return famsg,GetVisibleLength(famsg)
 end
 ----

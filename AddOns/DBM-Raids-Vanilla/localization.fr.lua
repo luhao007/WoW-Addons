@@ -9,6 +9,7 @@ L = DBM:GetModLocalization("Kurinnaxx")
 L:SetGeneralLocalization{
 	name 		= "Kurinnaxx"
 }
+
 ------------
 -- Rajaxx --
 ------------
@@ -132,6 +133,17 @@ L = DBM:GetModLocalization("ThreeBugs")
 L:SetGeneralLocalization{
 	name = "Famille royale silithide"
 }
+L:SetMiscLocalization{
+	Yauj = "Princesse Yauj",
+	Vem = "Vem",
+	Kri = "Seigneur Kri"
+}
+L:SetWarningLocalization({
+    WarnBugDied = "%s meurt (%d |4restant:restants;)"
+})
+L:SetOptionLocalization{
+	WarnBugDied = "Afficher une announce pour les insectes restants"
+}
 
 -------------
 -- Sartura --
@@ -141,7 +153,12 @@ L = DBM:GetModLocalization("Sartura")
 L:SetGeneralLocalization{
 	name = "Garde de guerre Sartura"
 }
-
+L:SetWarningLocalization({
+    WarnGuardDied = "Gardes royal de Sartura restants : %d/3" -- NPC ID 15984
+})
+L:SetOptionLocalization{
+    WarnGuardDied = "Afficher une annonce pour les Gardes royal de Sartura restants"
+}
 --------------
 -- Fankriss --
 --------------
@@ -227,8 +244,7 @@ L:SetOptionLocalization{
 	TimerClawTentacle		= "Afficher un chronomètre pour le prochain Tentacule griffu",
 	TimerGiantEyeTentacle	= "Afficher un chronomètre pour le prochain Tentacule oculaire géant",
 	TimerGiantClawTentacle	= "Afficher un chronomètre pour le prochain Tentacule griffu géant",
-	TimerWeakened			= "Afficher un chronomètre pour la durée d'affaiblissement du boss",
-	RangeFrame				= "Afficher le cadre de portée (10 m)"
+	TimerWeakened			= "Afficher un chronomètre pour la durée d'affaiblissement de C'Thun"
 }
 L:SetMiscLocalization{
 	Stomach		= "Estomac",
@@ -236,6 +252,7 @@ L:SetMiscLocalization{
 	Weakened 	= "est affaibli !",
 	NotValid	= "AQ40 partiellement effacé. %s bosses optionnels restent."
 }
+
 ----------------
 -- Ouro --
 ----------------
@@ -327,7 +344,7 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
-	WarnSimulKill	= "Annoncez le premier serviteur mort",
+	WarnSimulKill	= "Afficher une announce pour le premier serviteur mort",
 	TimerSimulKill	= "Afficher un chronomètre pour la résurrection des prêtres"
 })
 
@@ -396,6 +413,7 @@ L:SetGeneralLocalization{
 L:SetMiscLocalization{
 	Ghosts = "Fantômes"
 }
+
 -----------------
 --  Razorgore  --
 -----------------
@@ -412,8 +430,9 @@ L:SetOptionLocalization{
 }
 L:SetMiscLocalization{
 	Phase2Emote	= "s'enfuit car le contrôle de l'orbe s'affaiblit.",
-	YellPull = "La chambre des œufs est envahie ! Sonnez l'alarme ! Protégez les œufs à tout prix !"
+	Pull = "La chambre des œufs est envahie ! Sonnez l'alarme ! Protégez les œufs à tout prix !"
 }
+
 -------------------
 --  Vaelastrasz  --
 -------------------
@@ -426,6 +445,7 @@ L:SetGeneralLocalization{
 L:SetMiscLocalization{
 	Event				= "Trop tard, mes amis ! La corruption de Nefarius s'empare de moi… Je ne peux plus… me contrôler."
 }
+
 -----------------
 --  Broodlord  --
 -----------------
@@ -465,6 +485,7 @@ L = DBM:GetModLocalization("Flamegor")
 L:SetGeneralLocalization{
 	name = "Flamegor"
 }
+
 ----------------
 --  Ebonroc and Flamegor  --
 ----------------
@@ -523,9 +544,9 @@ L:SetWarningLocalization{
 	WarnVulnerable	= "Vulnérabilité : %s"
 }
 L:SetTimerLocalization{
-	TimerBreathCD	= "%s recharge",
-	TimerBreath		= "%s incantation",
-	TimerVulnCD		= "Recharge de Vulnérabilité",
+	TimerBreathCD	= "%s",
+	TimerBreath		= "%s",
+	TimerVulnCD		= "Vulnérabilité",
 	TimerAllBreaths = "Salve de souffle"
 }
 L:SetOptionLocalization{
@@ -562,10 +583,10 @@ L:SetWarningLocalization{
 	specwarnClassCall	= "Votre appel de classe !"
 }
 L:SetTimerLocalization{
-	TimerClassCall		= "L'appel de %s termine"
+	TimerClassCall		= "L'appel termine"
 }
 L:SetOptionLocalization{
-	TimerClassCall		= "Afficher un chronomètre pour la durée de l'appel en classe",
+	TimerClassCall		= "Afficher un chronomètre pour la durée de l'appel de classe",
 	WarnAddsLeft		= "Afficher une annonce pour les éliminations restantes jusqu'au déclenchement de la phase 2",
 	WarnClassCall		= "Afficher une annonce pour les appels de classe",
 	specwarnClassCall	= "Afficher une annonce spéciale lorsque vous êtes affecté par un appel de classe"
@@ -605,6 +626,7 @@ SpecWarnBothBombs			= "Afficher une annonce spéciale si les bombes bleue et ver
 SpecWarnBothBombsYou		= "Afficher une annonce spéciale si les bombes bleue et verte sont sur vous",
 TimerBombs					= "Afficher un chronomètre pour les bombes d'épreuve bleue et verte"
 }
+
 ----------------
 --  Lucifron  --
 ----------------
@@ -933,8 +955,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	yell1 		     	= "R'cousu veut jouer !",
-	yell2 		     	= "R'cousu avatar de guerre pour Kel'Thuzad !"
+	Pull1 		     	= "R'cousu veut jouer !",
+	Pull2 		     	= "R'cousu avatar de guerre pour Kel'Thuzad !"
 })
 
 -----------------
@@ -967,7 +989,6 @@ L:SetGeneralLocalization({
 L:SetMiscLocalization({
 	Yell					= "Stalagg écraser toi !",
 	Emote					= "%s entre en surcharge !",
-	Emote2					= "Bobine de Tesla entre en surcharge !",
 	Charge1 				= "négative",
 	Charge2 				= "positive"
 })
@@ -997,10 +1018,10 @@ L:SetGeneralLocalization({
 })
 
 L:SetMiscLocalization({
-	Yell1 					= "Pas de quartier !",
-	Yell2 					= "Les cours sont terminés ! Montrez-moi ce que vous avez appris !",
-	Yell3 					= "Faites ce que vous ai appris !",
-	Yell4 					= "Frappe-le à la jambe… Ça te pose un problème ?"
+	Pull1 					= "Pas de quartier !",
+	Pull2 					= "Les cours sont terminés ! Montrez-moi ce que vous avez appris !",
+	Pull3 					= "Faites ce que vous ai appris !",
+	Pull4 					= "Frappe-le à la jambe… Ça te pose un problème ?"
 })
 
 L:SetOptionLocalization({
@@ -1093,21 +1114,21 @@ L:SetOptionLocalization({
 	WarningLanded		    = "Afficher une annonce pour la phase au sol",
 	TimerAir			    = "Afficher un chronomètre pour la phase en vol",
 	TimerLanding		   	= "Afficher un chronomètre pour la phase au sol",
-	TimerIceBlast		   	= "Afficher un chronomètre pour le $spell:28524",
-	WarningDeepBreath		= "Afficher une annonce spéciale pour le $spell:28524",
+	TimerFrostBreath		= "Afficher un chronomètre pour $spell:28524",
+	WarningFrostBreath		= "Afficher une annonce spéciale pour $spell:28524",
 })
 
 L:SetWarningLocalization({
 	WarningAirPhaseSoon		= "Phase en vol dans 10 sec",
 	WarningAirPhaseNow		= "Phase en vol",
 	WarningLanded		    = "Phase au sol",
-	WarningDeepBreath	  	= "Souffle de givre"
+	WarningFrostBreath	  	= "Souffle de givre"
 })
 
 L:SetTimerLocalization({
-	TimerAir		   		  = "Phase en vol",
-	TimerLanding			  = "Phase au sol",
-	TimerIceBlast			  = "Souffle de givre"
+	TimerAir		   		= "Phase en vol",
+	TimerLanding			= "Phase au sol",
+	TimerFrostBreath		= "Souffle de givre"
 })
 
 ------------------

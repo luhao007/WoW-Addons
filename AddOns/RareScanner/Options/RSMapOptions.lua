@@ -17,6 +17,7 @@ local RSConstants = private.ImportLib("RareScannerConstants")
 
 -- RareScanner service libraries
 local RSMinimap = private.ImportLib("RareScannerMinimap")
+local RSWorldMap = private.ImportLib("RareScannerWorldMap")
 
 local options
 
@@ -289,8 +290,19 @@ function RSMapOptions.GetMapOptions()
 							type = "header",
 							name = AL["MAP_INGAME_ICONS"],
 						},
-						displayFilteredIngameIcons = {
+						supportIngameIcons = {
 							order = 19,
+							type = "toggle",
+							name = AL["MAP_SUPPORT_INGAME_ICONS"],
+							desc = AL["MAP_SUPPORT_INGAME_ICONS_DESC"],
+							get = function() return RSConfigDB.IsSupportingMapIcons() end,
+							set = function(_, value)
+								RSConfigDB.SetSupportingMapIcons(value)
+							end,
+							width = "full",
+						},
+						displayFilteredIngameIcons = {
+							order = 20,
 							type = "toggle",
 							name = AL["DISPLAY_MAP_FILTERED_INGAME_ICONS"],
 							desc = AL["DISPLAY_MAP_FILTERED_INGAME_ICONS_DESC"],
@@ -299,6 +311,23 @@ function RSMapOptions.GetMapOptions()
 								RSConfigDB.SetShowingFilteredIngameMapIcons(value)
 							end,
 							width = "full",
+							disabled = function() return not RSConfigDB.IsSupportingMapIcons() end,
+						},
+						playerPin = {
+							order = 21,
+							type = "toggle",
+							name = AL["MAP_PLAYER_KEEP_PLAYER_ONTOP"],
+							desc = AL["MAP_PLAYER_KEEP_PLAYER_ONTOP_DESC"],
+							get = function() return RSConfigDB.IsShowingPlayerPinOnTop() end,
+							set = function(_, value)
+								RSConfigDB.SetShowingPlayerPinOnTop(value)
+								if (value) then
+									RSWorldMap:CreatePlayerPin()
+								else
+									RSWorldMap:DisablePlayerPin()
+								end
+							end,
+							width = "full"
 						},
 					},
 				},
@@ -468,6 +497,7 @@ function RSMapOptions.GetMapOptions()
 								RSConfigDB.SetShowingTooltipsOnIngameIcons(value)
 							end,
 							width = "full",
+							disabled = function() return not RSConfigDB.IsSupportingMapIcons() end,
 						},
 						tooltipsExtraInfo = {
 							order = 2,

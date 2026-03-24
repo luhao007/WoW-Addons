@@ -3,6 +3,7 @@ local AceLocale = LibStub:GetLibrary("AceLocale-3.0");
 local AL = AceLocale:NewLocale("RareScanner", "koKR", false);
 
 if AL then
+AL["ALARM_MESSAGE"] = "%s 발견!"
 AL["ALARM_SOUND"] = "희귀 NPC에 대한 경고음"
 AL["ALARM_SOUND_DESC"] = "희귀 NPC가 미니맵에 보일 때 재생되는 사운드입니다"
 AL["ALARM_TREASURES_SOUND"] = "이벤트/보물들에 대한 경고음"

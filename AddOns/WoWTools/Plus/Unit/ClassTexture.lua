@@ -1,0 +1,197 @@
+
+
+
+
+
+
+--职业, 图标， 颜色
+local function Craete_Frame(frame, portrait)
+    frame.classFrame= CreateFrame('Frame', nil, frame)
+    frame.classFrame:SetFrameStrata('HIGH')
+    frame.classFrame:SetSize(18,18)
+    frame.classFrame:SetPoint('BOTTOM', portrait, -7, -2)
+
+    frame.classFrame.Portrait= frame.classFrame:CreateTexture(nil, "BORDER")
+    frame.classFrame.Portrait:SetAllPoints()
+    WoWTools_ButtonMixin:AddMask(frame.classFrame, true, frame.classFrame.Portrait)
+
+    frame.classFrame.Texture= frame.classFrame:CreateTexture(nil, 'BACKGROUND')--加个外框
+    frame.classFrame.Texture:SetAtlas('talents-node-choiceflyout-circle-greenglow')
+    frame.classFrame.Texture:SetPoint('TOPLEFT', frame.classFrame, -2, 2)
+    frame.classFrame.Texture:SetPoint('BOTTOMRIGHT', frame.classFrame, 2, -2)
+    frame.classFrame.itemLevel= frame.classFrame:CreateFontString(nil, 'BORDER', 'WoWToolsFont')-- WoWTools_LabelMixin:Create(frame.classFrame, {size=12})--装等
+    frame.classFrame.itemLevel:SetPoint('LEFT', frame.classFrame.Portrait, 'RIGHT', -2, 0)
+
+    function frame.classFrame:get_guid()
+        local unit= self:GetParent().unit
+        local guid= UnitGUID(unit)
+        if canaccessvalue(guid) then
+            return guid, unit
+        else
+            return nil, unit
+        end
+    end
+
+    function frame.classFrame:get_playerinfo()
+        local guid= self:get_guid()
+        if guid and not WoWTools_DataMixin.PlayerInfo[guid] then
+            WoWTools_UnitMixin:GetNotifyInspect(nil, self.unit)--取得玩家信息
+        end
+    end
+
+    function frame.classFrame:set_settings()
+        self:get_playerinfo()
+
+        local guid, unit= self:get_guid()
+
+        local texture, itemLevel
+        if guid then
+            local data= WoWTools_DataMixin.PlayerInfo[guid] or {}
+            local specID= data.specID or GetInspectSpecialization(unit) or 0
+            local item= data.itemLevel or C_PaperDollInfo.GetInspectItemLevel(unit) or 0
+            if specID>0 then
+                texture= select(4, GetSpecializationInfoByID(specID, UnitSex(unit)))
+            end
+            if item>0 then
+                itemLevel= item
+            end
+        end
+
+        self.itemLevel:SetText(itemLevel or '')
+        self.Portrait:SetTexture(texture or 0)
+        local color= WoWTools_UnitMixin:GetColor(unit)
+        local r,g,b= color:GetRGB()
+        self.Texture:SetVertexColor(r,g,b)
+        self.itemLevel:SetTextColor(r,g,b)
+        self.Texture:SetShown(texture)
+    end
+
+    function frame.classFrame:set_event()
+        local unit= self:GetParent().unit
+        self:RegisterUnitEvent('PLAYER_SPECIALIZATION_CHANGED', unit)
+        EventRegistry:RegisterCallback("WoWTools_Cached_ItemLevel", function(_, guid)
+            if guid==self:get_guid() then
+                self:set_settings()
+            end
+        end, self)
+        self:set_settings()
+    end
+
+    frame.classFrame:SetScript('OnEvent', function(self)
+        WoWTools_UnitMixin:GetNotifyInspect(nil, self:GetParent().unit)--取得玩家信息
+    end)
+
+    frame:HookScript('OnShow', function(self)
+        self.classFrame:set_event()
+    end)
+
+    frame:HookScript('OnHide', function(self)
+        self.classFrame:UnregisterEvent('PLAYER_SPECIALIZATION_CHANGED')
+        EventRegistry:UnregisterCallback("WoWTools_Cached_ItemLevel", self)
+    end)
+
+
+    frame:HookScript('OnEnter', function(self)
+        self.classFrame:get_playerinfo()
+    end)
+
+    if frame:IsVisible() then
+        frame.classFrame:set_event()
+    end
+end
+
+
+
+
+
+
+
+
+
+--UnitFrame.lua
+--职业, 图标， 颜色
+local function Init()
+    if WoWToolsSave['Plus_UnitFrame'].hideClassColor then
+        return
+    end
+
+    for frame, portrait in pairs({
+        [PlayerFrame]= PlayerFrame.PlayerFrameContainer.PlayerPortrait,
+        [TargetFrame]= TargetFrame.TargetFrameContainer.Portrait,
+        [PartyFrame.MemberFrame1]=PartyFrame.MemberFrame1.Portrait,
+        [PartyFrame.MemberFrame2]=PartyFrame.MemberFrame2.Portrait,
+        [PartyFrame.MemberFrame3]=PartyFrame.MemberFrame3.Portrait,
+        [PartyFrame.MemberFrame4]=PartyFrame.MemberFrame4.Portrait,
+        [TargetFrameToT]= TargetFrameToT.Portrait,
+        --[FocusFrame]= FocusFrame.TargetFrameContainer.Portrait,
+    }) do
+        if frame and portrait then
+            Craete_Frame(frame, portrait)
+        end
+    end
+
+
+    WoWTools_DataMixin:Hook('UnitFrame_Update', function(frame)--, isParty)
+        if UnitExists(frame.unit)~=true then
+            return
+        end
+        
+        local unit= frame.unit
+
+        if frame.classFrame then
+            frame.classFrame:set_settings()
+        end
+
+        local color= WoWTools_UnitMixin:GetColor(unit)
+
+    --名称
+        if frame.name then
+            if WoWTools_UnitMixin:UnitIsUnit(unit, 'pet') then
+                frame.name:SetText('|A:auctionhouse-icon-favorite:0:0|a')
+            else
+                local name= frame.name:GetText()
+                if canaccessvalue(name) and name then
+                    if unit=='target' then
+                        local wow= WoWTools_UnitMixin:GetIsFriendIcon(unit)
+                        name= frame.name:GetText()
+                        if wow then
+                            frame.name:SetText(wow..name)
+                        end
+
+                    else
+                        name= name:match('(.-)·') or name
+                        name= WoWTools_TextMixin:sub(name, 6, 12)
+                        frame.name:SetText(name)
+                    end
+                end
+            end
+
+            frame.name:SetTextColor(color:GetRGB())
+        end
+
+
+    --生命条，颜色，材质
+        if frame.healthbar then
+            frame.healthbar:SetStatusBarTexture('UI-HUD-UnitFrame-Player-PortraitOn-Bar-Health-Status')
+            frame.healthbar:SetStatusBarColor(color:GetRGB())--颜色
+        end
+    --外框
+        if frame.Texture then
+            frame.Texture:SetVertexColor(color:GetRGB())
+        end
+        if frame.PortraitMask then
+            frame.PortraitMask:SetVertexColor(color:GetRGB())
+        end
+    end)
+
+
+    Init=function()end
+end
+
+
+
+
+
+function WoWTools_UnitMixin:Init_ClassTexture()
+   Init()
+end

@@ -168,6 +168,7 @@ function BusinessInfo.SkillCD(StatsInfo)
 			end
 		end
 	end
+	--C_SpellBook.IsSpellKnown--IsPlayerSpell
 	local function add_skilldata(Skill_Learned,name,skillLevel, maxSkillLevel)
 		local SkillId=GetSkillIndex(name)
 		if SkillId then
@@ -220,9 +221,13 @@ function BusinessInfo.SkillCD(StatsInfo)
 		if olddata then
 			for i=1,#Skill_Learned do
 				local CDdata = Skill_Learned[i][2]
-				for spid,time in pairs(CDdata) do
+				for spid,time in pairs(CDdata) do	
 					if olddata[i] and olddata[i][2] and olddata[i][2][spid] then
-						Skill_Learned[i][2][spid]=olddata[i][2][spid]
+						if IsPlayerSpell(spid) then
+							Skill_Learned[i][2][spid]=olddata[i][2][spid]
+						else
+							Skill_Learned[i][2][spid]=-2
+						end
 					end
 				end
 			end
@@ -347,7 +352,7 @@ function BusinessInfo.SkillCD(StatsInfo)
 					if SpellID then
 						local CDbut=self.TimeCDBut[butID]
 						CDbut.icon:Show()
-						CDbut.cd:SetText("|cff555555CD"..UNKNOWN.."|r");
+						
 						if Spell_ItemIcon[SpellID] then
 							CDbut.icon:SetTexture(C_Item.GetItemIconByID(Spell_ItemIcon[SpellID]));
 						else
@@ -356,14 +361,15 @@ function BusinessInfo.SkillCD(StatsInfo)
 						CDbut.name:SetText(_GetSkillname(SpellID));
 						for ixx=1,#dataT do
 							local oldSkillCD=dataT[ixx][2]
-							if oldSkillCD then
-								if oldSkillCD[SpellID] and oldSkillCD[SpellID]>-1 then
-									local oldtimex=oldSkillCD[SpellID]-GetTime()
-									if oldtimex>0 then
-										CDbut.cd:SetText(disp_time(oldtimex));
-									else
-										CDbut.cd:SetText("|cff00ff00"..string.format(CALENDAR_EVENTNAME_FORMAT_END,"CD").."|r");
-									end
+							if oldSkillCD and oldSkillCD[SpellID] then
+								if oldSkillCD[SpellID]==-1 then
+									CDbut.cd:SetText("|cff555555CD"..UNKNOWN.."|r");
+								elseif oldSkillCD[SpellID]==-2 then
+									CDbut.cd:SetText("|cff555555"..TRADE_SKILLS_UNLEARNED_TAB.."|r");
+								elseif oldSkillCD[SpellID]>0 then
+									CDbut.cd:SetText(disp_time(oldSkillCD[SpellID]-GetTime()));
+								else
+									CDbut.cd:SetText("|cff00ff00"..string.format(CALENDAR_EVENTNAME_FORMAT_END,"CD").."|r");
 								end
 							end
 						end

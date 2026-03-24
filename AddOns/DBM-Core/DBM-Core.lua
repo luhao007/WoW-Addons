@@ -77,16 +77,16 @@ local function showRealDate(curseDate)
 	end
 end
 
-DBM.Revision = parseCurseDate("20260312053754")
+DBM.Revision = parseCurseDate("20260324070751")
 DBM.TaintedByTests = false -- Tests may mess with some internal state, you probably don't want to rely on DBM for an important boss fight after running it in test mode
 
 private.fakeBWVersion, private.fakeBWHash = 407, "a0f5bf5"--407.0
 
 -- The string that is shown as version
-DBM.DisplayVersion = "12.0.30"--Core version
+DBM.DisplayVersion = "12.0.32"--Core version
 DBM.classicSubVersion = 0
 DBM.dungeonSubVersion = 0
-DBM.ReleaseRevision = releaseDate(2026, 3, 11) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
+DBM.ReleaseRevision = releaseDate(2026, 3, 23) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
 -- support for github downloads, which doesn't support curse keyword expansion
@@ -405,6 +405,7 @@ DBM.DefaultOptions = {
 	AutoAcceptGuildInvite = false,
 	FakeBWVersion = false,
 	ShortTimerText = true,
+	HardcodedTimer = true,
 	ChatFrame = "DEFAULT_CHAT_FRAME",
 	CoreSavedRevision = 1,
 	SilentMode = false,
@@ -445,6 +446,7 @@ DBM.DefaultOptions = {
 	PrivateAurasCoTankRelativeTo = "CENTER",--NYI
 	PrivateAurasCoTankXOffset = -150,--Partial (drag and drop only, no UI slider/editbox)
 	PrivateAurasCoTankYOffset = 150,--Partial (drag and drop only, no UI slider/editbox)
+	PrivateAurasCoTankShowSecond = false,
 	--Player Text Anchor
 	PrivateAurasTextAnchorScale = 1.8,
 	PrivateAurasTextAnchorXOffset = 0,--Partial (drag and drop only, no UI slider/editbox)
@@ -495,7 +497,8 @@ local inCombatTrash = {}
 -- False variables
 local targetEventsRegistered, combatInitialized, healthCombatInitialized, watchFrameRestore, questieWatchRestore, bossuIdFound, timerRequestInProgress = false, false, false, false, false, false, false
 -- Nil variables
-local currentSpecID, currentSpecName, currentSpecGroup, loadOptions, checkWipe, checkBossHealth, checkCustomBossHealth, fireEvent, AddMsg, delayedFunction, lastGroupLeader
+local currentSpecID, currentSpecName, currentSpecGroup, loadOptions, checkWipe, checkBossHealth, checkCustomBossHealth, fireEvent, AddMsg, delayedFunction, lastGroupLeader, syncZonePASounds
+local pendingPASoundZoneSync, pendingPAAnchorCheck = nil, 0
 -- 0 variables
 local LastInstanceMapID = -1
 
@@ -1140,12 +1143,12 @@ do
 
 		function registerSpellId(event, spellId)
 			if type(spellId) == "string" then--Something is screwed up, like SPELL_AURA_APPLIED DOSE
-				DBM:Debug("|cffff0000DBM RegisterEvents Warning: " .. spellId .. " is not a number!|r")
+				DBM:Debug("|cffff0000DBM RegisterEvents Warning: " .. spellId .. " is not a number!|r", 1, nil, nil, true)
 				return
 			end
 			local spellName = DBM:GetSpellName(spellId)
 			if spellId and not spellName then
-				DBM:Debug("|cffff0000DBM RegisterEvents Warning: " .. spellId .. " id does not exist!|r")
+				DBM:Debug("|cffff0000DBM RegisterEvents Warning: " .. spellId .. " id does not exist!|r", 1, nil, nil, true)
 				return
 			end
 			if not registeredSpellIds[event] then
@@ -1164,7 +1167,7 @@ do
 			if not registeredSpellIds[event] then return end
 			local spellName = DBM:GetSpellName(spellId)
 			if spellId and not spellName then
-				DBM:Debug("|cffff0000DBM unregisterSpellId Warning: " .. spellId .. " id does not exist!|r")
+				DBM:Debug("|cffff0000DBM unregisterSpellId Warning: " .. spellId .. " id does not exist!|r", 1, nil, nil, true)
 				return
 			end
 			--local regName = isClassic and spellName or spellId
@@ -2030,7 +2033,7 @@ do
 			else
 				self:RegisterEvents(
 					"ENCOUNTER_TIMELINE_EVENT_ADDED",
-					"ENCOUNTER_TIMELINE_EVENT_REMOVED",
+					--"ENCOUNTER_TIMELINE_EVENT_REMOVED",
 					"ENCOUNTER_TIMELINE_EVENT_STATE_CHANGED",
 					"ENCOUNTER_WARNING"
 				)
@@ -2188,6 +2191,8 @@ do
 	--- |"DBM_Wipe"
 	--- |"DBM_PlaySound"
 	--- |"DBM_TestModStarted"
+	--- |"DBM_IgnoreBlizzAPI"
+	--- |"DBM_ResumeBlizzAPI"
 	local callbacks = {}
 
 	function fireEvent(event, ...)
@@ -2652,6 +2657,14 @@ do
 			raid[playerName].locale = GetLocale()
 			raidGuids[UnitGUID("player")] = playerName
 			lastGroupLeader = nil
+		end
+		if private.isRetail then
+			local succeeded = self.PrivateAuras:UpdatePrivateAuraAnchors()
+			if not succeeded then
+				pendingPAAnchorCheck = 2
+			else
+				pendingPAAnchorCheck = 0
+			end
 		end
 	end
 
@@ -4138,6 +4151,25 @@ do
 	end
 
 	---@param self DBM
+	---@param mapID number
+	syncZonePASounds = function(self, mapID)
+		if not private.isRetail then
+			return
+		end
+		if InCombatLockdown() or #inCombat > 0 then
+			pendingPASoundZoneSync = mapID
+			return
+		end
+		pendingPASoundZoneSync = nil
+		for _, mod in ipairs(DBM.Mods) do
+			mod:DisablePrivateAuraSounds()
+		end
+		for _, mod in ipairs(DBM.Mods) do
+			mod:RegisterZonePASounds(mapID)
+		end
+	end
+
+	---@param self DBM
 	---@param delay number?
 	local function SecondaryLoadCheck(self, delay)
 		local _, instanceType, difficulty, _, _, _, _, mapID, instanceGroupSize = private.GetInstanceInfo()
@@ -4152,7 +4184,7 @@ do
 			self:Debug("|c00F2F200No action taken because mapID and difficultyID hasn't changed since last check |r", 2)
 			return
 		end
-		self:Debug("|c0069CCF0mapID or difficulty has changed, updating LastInstanceMapID to |r" .. mapID, 2)
+		self:Debug("|c0069CCF0mapID or difficulty has changed, updating LastInstanceMapID to |r" .. mapID, 2, nil, nil, true)
 		LastInstanceMapID = mapID
 		DBMScheduler:UpdateZone()--Also update zone in scheduler
 		fireEvent("DBM_UpdateZone", mapID)
@@ -4185,7 +4217,18 @@ do
 		-- LoadMod
 		self:LoadModsOnDemand("mapId", mapID, delay or 0)
 		self:CheckAvailableMods()
+		if private.isRetail then
+			--Handle private aura sounds and anchors
+			syncZonePASounds(self, mapID)
+			local succeeded = self.PrivateAuras:UpdatePrivateAuraAnchors()
+			if not succeeded then
+				pendingPAAnchorCheck = 1
+			else
+				pendingPAAnchorCheck = 0
+			end
+		end
 		self:UpdateMapRestrictions()
+		private:GetModule("DevToolsModule"):OnDebugToggle()
 		if self:HasMapRestrictions() then
 			self.Arrow:Hide()
 			self.HudMap:Disable()
@@ -4607,6 +4650,17 @@ do
 				self:AddMsg(L.LEAVING_COMBAT, nil, true)--Played using generic sound
 			end
 		end
+		if private.isRetail then
+			if pendingPASoundZoneSync then
+				syncZonePASounds(self, pendingPASoundZoneSync)
+			end
+			if pendingPAAnchorCheck > 0 then
+				local succeeded = self.PrivateAuras:UpdatePrivateAuraAnchors()
+				if succeeded then
+					pendingPAAnchorCheck = 0
+				end
+			end
+		end
 	end
 
 	local function isBossEngaged(cId)
@@ -4624,21 +4678,37 @@ do
 	end
 
 	function DBM:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
-		if timerRequestInProgress then return end--do not start ieeu combat if timer request is progressing. (not to break Timer Recovery stuff)
-		if dbmIsEnabled and combatInfo[LastInstanceMapID] then
-			self:Debug("INSTANCE_ENCOUNTER_ENGAGE_UNIT event fired for zoneId" .. LastInstanceMapID, 3)
-			for _, v in ipairs(combatInfo[LastInstanceMapID]) do
-				if not v.noIEEUDetection and not (#inCombat > 0 and v.noMultiBoss) then
-					if v.type:find("combat") and isBossEngaged(v.multiMobPullDetection or v.mob) then
-						self:StartCombat(v.mod, 0, "IEEU")
+		self:Debug("|cffffff00INSTANCE_ENCOUNTER_ENGAGE_UNIT: |r event fired for zoneId" .. LastInstanceMapID, 3, nil, nil, true)
+		if not timerRequestInProgress then--do not start ieeu combat if timer request is progressing. (not to break Timer Recovery stuff)
+			if dbmIsEnabled and combatInfo[LastInstanceMapID] then
+				for _, v in ipairs(combatInfo[LastInstanceMapID]) do
+					if not v.noIEEUDetection and not (#inCombat > 0 and v.noMultiBoss) then
+						if v.type:find("combat") and isBossEngaged(v.multiMobPullDetection or v.mob) then
+							self:StartCombat(v.mod, 0, "IEEU")
+						end
 					end
 				end
 			end
 		end
+		if UnitExists("boss1") then
+			self:Debug("|cffffff00boss1: |r " .. UnitName("boss1"), 3, nil, nil, true)
+		end
+		if UnitExists("boss2") then
+			self:Debug("|cffffff00boss2: |r " .. UnitName("boss2"), 3, nil, nil, true)
+		end
+		if UnitExists("boss3") then
+			self:Debug("|cffffff00boss3: |r " .. UnitName("boss3"), 3, nil, nil, true)
+		end
+		if UnitExists("boss4") then
+			self:Debug("|cffffff00boss4: |r " .. UnitName("boss4"), 3, nil, nil, true)
+		end
+		if UnitExists("boss5") then
+			self:Debug("|cffffff00boss5: |r " .. UnitName("boss5"), 3, nil, nil, true)
+		end
 	end
 
 	function DBM:ENCOUNTER_START(encounterID, name, difficulty, size)
-		self:Debug("ENCOUNTER_START event fired: " .. encounterID .. " " .. name .. " " .. difficulty .. " " .. size)
+		self:Debug("|cffffff00ENCOUNTER_START: |r event fired: " .. encounterID .. " " .. name .. " " .. difficulty .. " " .. size, 1, nil, nil, true)
 		if dbmIsEnabled then
 			--Only nag in raids on engage
 			if IsInRaid() then
@@ -4665,7 +4735,7 @@ do
 	end
 
 	function DBM:ENCOUNTER_END(encounterID, name, difficulty, size, success)
-		self:Debug("ENCOUNTER_END event fired: " .. encounterID .. " " .. name .. " " .. difficulty .. " " .. size .. " " .. success)
+		self:Debug("|cffffff00ENCOUNTER_END: |r event fired: " .. encounterID .. " " .. name .. " " .. difficulty .. " " .. size .. " " .. success, 1, nil, nil, true)
 		if success == 0 then
 			--Only nag on wipes (in any content)
 			self:CheckAvailableMods()
@@ -4703,7 +4773,7 @@ do
 	end
 
 	function DBM:BOSS_KILL(encounterID, name)
-		self:Debug("BOSS_KILL event fired: " .. encounterID .. " " .. name)
+		self:Debug("|cffffff00BOSS_KILL: |r event fired: " .. encounterID .. " " .. name, 1, nil, nil, true)
 		for i = #inCombat, 1, -1 do
 			local v = inCombat[i]
 			if not v.combatInfo then return end
@@ -4773,11 +4843,25 @@ do
 
 	function DBM:CHAT_MSG_MONSTER_YELL(msg, npc, _, _, target)
 		if self:issecretvalue(msg) then
+			if target then
+				self:Debug("|cffff0000CHAT_MSG_MONSTER_YELL: |r fired: '" .. msg .. "' with sender of " .. npc .. " while looking at " .. target, 2, nil, nil, true)
+			else
+				self:Debug("|cffff0000CHAT_MSG_MONSTER_YELL: |r fired: '" .. msg .. "' with sender of " .. npc, 2, nil, nil, true)
+			end
 			return
 		end
 		if private.IsEncounterInProgress() or (IsInInstance() and InCombatLockdown()) then--Too many 5 mans/old raids don't properly return encounterinprogress
 			local targetName = target or "nil"
-			self:Debug("CHAT_MSG_MONSTER_YELL from " .. npc .. " while looking at " .. targetName, 2)
+			if targetName ~= "nil" then
+				local playerClass = self:GetRaidClass(targetName)
+				if playerClass then
+					local playerColor = RAID_CLASS_COLORS[playerClass]
+					if playerColor then
+						targetName = ("|r|cff%.2x%.2x%.2x%s|r|cff%.2x%.2x%.2x"):format(playerColor.r * 255, playerColor.g * 255, playerColor.b * 255, targetName, 0.41 * 255, 0.8 * 255, 0.94 * 255)
+					end
+				end
+			end
+			self:Debug("|cffff0000CHAT_MSG_MONSTER_YELL: |r from " .. npc .. " while looking at " .. targetName, 2, nil, nil, true)
 		end
 		if private.isClassic and not IsInInstance() then
 			if msg:find(L.WORLD_BUFFS.hordeOny) then
@@ -4806,6 +4890,7 @@ do
 
 	function DBM:CHAT_MSG_MONSTER_EMOTE(msg)
 		if self:issecretvalue(msg) then
+			self:Debug("|cffffa500CHAT_MSG_MONSTER_EMOTE: |r fired: " .. msg, 2, nil, nil, true)
 			return
 		end
 		return onMonsterMessage(self, "emote", msg)
@@ -4813,6 +4898,8 @@ do
 
 	function DBM:CHAT_MSG_RAID_BOSS_EMOTE(msg, sender, ...)
 		if self:issecretvalue(msg) then
+			--Still send the debug to debuglog
+			self:Debug("|cffffff00CHAT_MSG_RAID_BOSS_EMOTE: |r fired: " .. msg .. " with sender of " .. sender, 2, nil, nil, true)
 			return
 		end
 		onMonsterMessage(self, "emote", msg)
@@ -4821,7 +4908,7 @@ do
 			local spellId = tonumber(id)
 			if spellId then
 				local spellName = DBM:GetSpellName(spellId) or CL.UNKNOWN
-				self:Debug("CHAT_MSG_RAID_BOSS_EMOTE fired: " .. sender .. "'s " .. spellName .. "(" .. spellId .. ")", 2)
+				self:Debug("|cffffff00CHAT_MSG_RAID_BOSS_EMOTE: |r fired: " .. sender .. "'s " .. spellName .. "(" .. spellId .. ")", 2, nil, nil, true)
 			end
 		end
 		return self:FilterRaidBossEmote(msg, sender, ...)
@@ -4837,6 +4924,7 @@ do
 
 	function DBM:RAID_BOSS_WHISPER(msg)
 		if self:issecretvalue(msg) then
+			self:Debug("RAID_BOSS_WHISPER fired: " .. msg, 2, nil, nil, true)
 			return
 		end
 		--Make it easier for devs to detect whispers they are unable to see
@@ -4852,16 +4940,17 @@ do
 		if gossipOptionID then--At least one must return for debug
 			if DBM:MidRestrictionsActive() then
 				--GUID is a secret in combat
-				self:Debug("GOSSIP_SHOW triggered with a gossip ID(s) of " .. strjoin(", ", tostring(gossipOptionID)))
+				self:Debug("|cffffff00GOSSIP_SHOW: |r triggered with a gossip ID(s) of " .. strjoin(", ", tostring(gossipOptionID)), 1, nil, nil, true)
 			else
 				local cid = self:GetUnitCreatureId("npc") or 0
-				self:Debug("GOSSIP_SHOW triggered with a gossip ID(s) of " .. strjoin(", ", tostring(gossipOptionID)) .. " on creatureID " .. cid)
+				self:Debug("|cffffff00GOSSIP_SHOW: |r triggered with a gossip ID(s) of " .. strjoin(", ", tostring(gossipOptionID)) .. " on creatureID " .. cid, 1, nil, nil, true)
 			end
 		end
 	end
 
 	function DBM:CHAT_MSG_MONSTER_SAY(msg)
 		if self:issecretvalue(msg) then
+			self:Debug("CHAT_MSG_MONSTER_SAY fired: " .. msg, 2, nil, nil, true)
 			return
 		end
 		if private.isClassic and not IsInInstance() then
@@ -5017,7 +5106,7 @@ do
 			if mod.lastKillTime and GetTime() - mod.lastKillTime < (mod.reCombatTime or 120) and event ~= "LOADING_SCREEN_DISABLED" then return end
 			if mod.lastWipeTime and GetTime() - mod.lastWipeTime < (event == "ENCOUNTER_START" and 3 or mod.reCombatTime2 or 20) and event ~= "LOADING_SCREEN_DISABLED" then return end
 			if event then
-				self:Debug("StartCombat called by : " .. event .. ". LastInstanceMapID is " .. LastInstanceMapID)
+				self:Debug("StartCombat called by : " .. event .. ". LastInstanceMapID is " .. LastInstanceMapID, 1, nil, nil, true)
 				if event ~= "ENCOUNTER_START" then
 					self:Debug("This event is started by " .. event .. ". Review ENCOUNTER_START event to ensure if this is still needed", 2)
 				end
@@ -5050,7 +5139,6 @@ do
 			local name = mod.combatInfo.name
 			local modId = mod.id
 			if private.isRetail then
-				self.PrivateAuras:RegisterAllUnits()
 				if mod.addon and mod.addon.type == "SCENARIO" and (C_Scenario.IsInScenario() or test.Mocks and test.Mocks.IsInScenario()) and not mod.soloChallenge then
 					mod.inScenario = true
 				end
@@ -5382,17 +5470,11 @@ do
 				mod:UnregisterOnUpdateHandler()
 			end
 			mod:Stop()
-			if mod.paSounds then
-				mod:DisablePrivateAuraSounds()
-			end
 			if mod.tlTimerEvents then
 				mod:DisableTimelineOptions()
 			end
 			if mod.tlSoundEvents then
 				mod:DisableAlertOptions()
-			end
-			if private.isRetail then
-				self.PrivateAuras:UnregisterPrivateAuras(nil)--Sending no unit unregisters all
 			end
 			if self.Options.IgnoreBlizzAPI then
 				self.Options.IgnoreBlizzAPI = false
@@ -5401,7 +5483,7 @@ do
 			self.Options.DisableSWSound = false
 			self.Options.fixBlizzApi = false
 			if event then
-				self:Debug("EndCombat called by : " .. event .. ". LastInstanceMapID is " .. LastInstanceMapID)
+				self:Debug("EndCombat called by : " .. event .. ". LastInstanceMapID is " .. LastInstanceMapID, 1, nil, nil, true)
 			end
 			if private.enableIcons and not self.Options.DontSetIcons and not self.Options.DontRestoreIcons then
 				-- restore saved previous icon
@@ -5676,6 +5758,9 @@ do
 				self:CreatePizzaTimer(0, "", nil, nil, nil, true)--Auto Terminate infinite loop timers on combat end
 				self:TransitionToDungeonBGM(false, true)
 				self:Schedule(22, self.TransitionToDungeonBGM, self)
+				if private.isRetail and pendingPASoundZoneSync then
+					syncZonePASounds(self, pendingPASoundZoneSync)
+				end
 				--module cleanup
 				private:ClearModuleTasks()
 			end
@@ -6000,7 +6085,7 @@ function DBM:EJ_GetSectionInfo(sectionID)--Should be number, but accepts string 
 	--Built in wow api extension doesn't know EJ_GetSectionInfo can accept strings
 	local info = EJ_GetSectionInfo(sectionID)
 	if not info then
-		self:Debug("|cffff0000Invalid call to EJ_GetSectionInfo for sectionID: |r" .. sectionID)
+		self:Debug("|cffff0000Invalid call to EJ_GetSectionInfo for sectionID: |r" .. sectionID, 1, nil, nil, true)
 		return
 	end
 	local flag1, flag2, flag3, flag4
@@ -6950,7 +7035,7 @@ do
 		--Stop custom BG music during cut scenes regardless of block features
 		self:TransitionToDungeonBGM(false, true)
 		if id and not neverFilter[id] then
-			self:Debug("PLAY_MOVIE fired for ID: " .. id, 2)
+			self:Debug("PLAY_MOVIE fired for ID: " .. id, 2, nil, nil, true)
 			if checkOptions(self, id) then
 				MovieFrame:Hide()--can only just hide movie frame safely now, which means can't stop audio anymore :\
 				self:AddMsg(L.MOVIE_SKIPPED)
@@ -6959,7 +7044,7 @@ do
 	end
 
 	function DBM:CINEMATIC_START()
-		self:Debug("CINEMATIC_START fired", 2)
+		self:Debug("CINEMATIC_START fired", 2, nil, nil, true)
 		--Stop custom BG music during cut scenes regardless of block features
 		self:TransitionToDungeonBGM(false, true)
 		self.HudMap:SupressCanvas()
@@ -7748,6 +7833,15 @@ function bossModPrototype:DisableBossDeathKill()
 	end
 end
 
+---Used when features within a mod are hardcoded but can't be used on retail WoW due to restrictions, so we want to hide those options from the GUI
+---This applies to announce, timer, icon, infoframe, nameplate options
+---This does NOT apply to RPTimers (NewRPTimer object with subtype "roleplay") and autogossip
+function bossModPrototype:DisableHardcodedOptions()
+	if private.isRetail then
+		self.noHardcodedOptions = true
+	end
+end
+
 ---Used when a boss is scripted in a hacky way that their creature Id changes mid fight, and we want to treat multiple IDs as a single boss
 function bossModPrototype:SetMultiIDSingleBoss()
 	self.multiIDSingleBoss = true
@@ -7888,7 +7982,7 @@ function bossModPrototype:ReceiveSync(event, sender, revision, ...)
 	end
 end
 
----@param revision number|string Either a number in the format "202101010000" (year, month, day, hour, minute) or string "20260312053754" to be auto set by packager
+---@param revision number|string Either a number in the format "202101010000" (year, month, day, hour, minute) or string "20260324070751" to be auto set by packager
 function bossModPrototype:SetRevision(revision)
 	revision = parseCurseDate(revision or "")
 	if not revision or type(revision) == "string" then

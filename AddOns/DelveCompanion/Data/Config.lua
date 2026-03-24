@@ -15,26 +15,32 @@ Config.DELVES_MIN_EXPANSION = LE_EXPANSION_WAR_WITHIN
 
 --- Account Save Data scheme
 ---@class (exact) DelveCompanionAccountData
+---@field logsEnabled boolean Whether logs are enabled.
 ---@field delvesListInfoWidgetsEnabled boolean Delves tab: achievement widgets under buttons.
 ---@field trackingType WaypointTrackingType Type of tracking used to set waypoints to the Delves.
 ---@field inDelveWidgetEnabled boolean Whether [InDelveWidget](lua://InDelveWidget) is displayed.
 ---@field inDelveWidgetDisplayRule InDelveWidgetDisplayRule Where [InDelveWidget](lua://InDelveWidget) is displayed.
 ---@field inDelveWidgetLayout InDelveWidgetLayout How [InDelveWidget](lua://InDelveWidget) buttons are arranged.
----@field logsEnabled boolean Whether logs are enabled.
+---@field minimapIconEnabled boolean Whether a minimap icon is enabled.
 Config.DEFAULT_ACCOUNT_DATA = {
+    logsEnabled = false,
     delvesListInfoWidgetsEnabled = true,
     trackingType = DelveCompanion.Definitions.WaypointTrackingType.superTrack,
     inDelveWidgetEnabled = true,
     inDelveWidgetDisplayRule = DelveCompanion.Definitions.InDelveWidgetDisplayRule.left,
     inDelveWidgetLayout = DelveCompanion.Definitions.InDelveWidgetLayout.vertical,
-    logsEnabled = false
+    minimapIconEnabled = false
 }
 
 --- Character Save Data
 ---@class (exact) DelveCompanionCharacterData
 ---@field keysCapTooltipEnabled boolean Whether to display extra info in tooltips. Bad naming, affects all tooltips, not only Restored Coffer Key.
+---@field ldbIconData {hide : boolean} Used by LDBIcon to keep parameters of the minimap icon.
 Config.DEFAULT_CHARACTER_DATA = {
-    keysCapTooltipEnabled = true
+    keysCapTooltipEnabled = true,
+    ldbIconData = {
+        hide = true
+    }
 }
 --#endregion
 
@@ -110,6 +116,12 @@ Config.AFFIXES = {
 Config.COMPANION_UNLOCK_QUEST = {
     [LE_EXPANSION_WAR_WITHIN] = 78464,
     [LE_EXPANSION_MIDNIGHT] = 86636
+}
+
+---@type table<number, number> [Faction IDs](https://wago.tools/db2/Faction) of the Delves seasons. Used on the Journeys tab.
+Config.DELVE_FACTION_ID = {
+    [LE_EXPANSION_WAR_WITHIN] = 2722, -- TWW Season 3
+    [LE_EXPANSION_MIDNIGHT] = 2742    -- Midnight Season 1
 }
 
 --#region Delves data

@@ -31,6 +31,7 @@ local RSQuestTracker = private.ImportLib("RareScannerQuestTracker")
 local RSRoutines = private.ImportLib("RareScannerRoutines")
 local RSProvider = private.ImportLib("RareScannerProvider")
 local RSHyperlinks = private.ImportLib("RareScannerHyperlinks")
+local RSWorldMap = private.ImportLib("RareScannerWorldMap")
 
 -- RareScanner services
 local RSButtonHandler = private.ImportLib("RareScannerButtonHandler")
@@ -618,14 +619,47 @@ function RareScanner:OnInitialize()
 	self:SetupOptions()
 
 	-- Setup our map provider
-	local provider = CreateFromMixins(RareScannerDataProviderMixin)
-	WorldMapFrame:AddDataProvider(provider);
-	RSProvider.AddDataProvider(provider)
+	RSWorldMap:OnLoad()
+	
+	-- Add map dataproviver
+	local function OnMapSetCallback(_, mapID)
+	    if (RSWorldMap.initialized) then
+	        return
+	    end
+	
+	    RSWorldMap.initialized = true
+	
+	    local attempts = 0
+	    local maxAttempts = 10
+	
+	    local function TryAddProvider()
+	        local canvas = WorldMapFrame.GetCanvasContainer and WorldMapFrame:GetCanvasContainer()
+	
+	        if (canvas and canvas.zoomLevels) then
+	            RSProvider.AddDataProvider(RareScannerDataProviderMixin)
+	            return
+	        end
+	        
+	        attempts = attempts + 1
+	
+	        if (attempts < maxAttempts) then
+	            C_Timer.After(0.1, TryAddProvider)
+	        else
+	            RSProvider.AddDataProvider(RareScannerDataProviderMixin)
+	        end
+	    end
+	
+		C_Timer.After(0.5, function()
+	    	TryAddProvider()
+	   	end)
+	    
+	    EventRegistry:UnregisterCallback("MapCanvas.MapSet", OnMapSetCallback)
+	end
+	EventRegistry:RegisterCallback("MapCanvas.MapSet", OnMapSetCallback)
 
 	-- Add search inputbox
 	local searchFrame = CreateFrame("FRAME", nil, WorldMapFrame, "WorldMapRSSearchTemplate");
 	searchFrame:SetPoint("CENTER", WorldMapFrame:GetCanvasContainer(), "TOP", 0, 0);
-	searchFrame.relativeFrame = WorldMapFrame:GetCanvasContainer()
 
 	-- Add options button to the world map
 	RSMap.LoadWorldMapButton()

@@ -17,34 +17,27 @@ local data = AtlasLoot.ItemDB:Add(addonname, 1)
 
 AtlasLoot:RegisterModules(addonname)
 
+local AL = AtlasLoot.Locales
+local ALIL = AtlasLoot.IngameLocales
 
 local ADD_SCALING = {
 	Item = {
-		item1bonus = "Scaling",
 		addDifficultyBonus = true,
 	}
 }
-
-local EJ_GetEncounterInfo = EJ_GetEncounterInfo
-
-local AL = AtlasLoot.Locales
-local ALIL = AtlasLoot.IngameLocales
 
 local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], "rf", ADD_SCALING, 17)
 local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", ADD_SCALING, 1)
 local HEROIC_DIFF = data:AddDifficulty(AL["Heroic"], "h", ADD_SCALING, 2)
 local P25_DIFF = data:AddDifficulty(AL["25 Player"], "p25", ADD_SCALING, 4)
---local REMOVED_DIFF = data:AddDifficulty(AL["Removed"], "removed")
 
 local NORMAL_ITTYPE = data:AddItemTableType("Item", "Item")
 local AC_ITTYPE = data:AddItemTableType("Achievement", "Item")
---local REMOVED_ITTYPE = data:AddItemTableType("Item", "Droprate")
 
 local QUEST_EXTRA_ITTYPE = data:AddExtraItemTableType("Quest")
 
 local DUNGEON_CONTENT = data:AddContentType(AL["Dungeons"], ATLASLOOT_DUNGEON_COLOR)
 local RAID_CONTENT = data:AddContentType(AL["Raids"], ATLASLOOT_RAID_COLOR)
---local REMOVED_CONTENT = data:AddContentType(AL["Removed"], ATLASLOOT_REMOVED_COLOR)
 
 -- Shared loot tables
 local CLASSIC_INSTANCE_AC_TABLE = { --[Classic Dungeonmaster]

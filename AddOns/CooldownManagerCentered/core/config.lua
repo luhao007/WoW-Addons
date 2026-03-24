@@ -1,17 +1,15 @@
 local _, ns = ...
 CooldownManagerCentered = LibStub("AceAddon-3.0"):NewAddon("CooldownManagerCentered", "AceConsole-3.0")
 ns.Addon = CooldownManagerCentered
+local L = LibStub("AceLocale-3.0"):GetLocale("CooldownManagerCentered")
+ns.L = L
 
 -- Default Settings
 ns.DEFAULT_SETTINGS = {
     profile = {
-        -- cooldownManager_centerBuffIcons = false,
         cooldownManager_alignBuffIcons_growFromDirection = "CENTER",
-        -- cooldownManager_alignBuffBars = false,
         cooldownManager_alignBuffBars_growFromDirection = "BOTTOM",
-        -- cooldownManager_centerEssential = false,
         cooldownManager_centerEssential_growFromDirection = "TOP",
-        -- cooldownManager_centerUtility = false,
         cooldownManager_centerUtility_growFromDirection = "TOP",
 
         cooldownManager_utility_dimWhenNotOnCD = false,
@@ -120,17 +118,21 @@ ns.DEFAULT_SETTINGS = {
         cooldownManager_customCDSwipeColor_b = 0,
         cooldownManager_customCDSwipeColor_a = 0.69,
 
+        cooldownManager_desaturate_under_aura = false,
+        cooldownManager_hide_gcd = false,
+
         cooldownManager_experimental_layoutOptimizations = false,
         cooldownManager_experimental_disablePerSpellSettings = false,
 
-        cooldownManager_experimental_custom_glows = false,
         cooldownManager_experimental_glow_style = "DEFAULT",
         cooldownManager_experimental_glow_custom_color = false,
         cooldownManager_experimental_glow_color_r = 0.95,
         cooldownManager_experimental_glow_color_g = 0.95,
         cooldownManager_experimental_glow_color_b = 0.32,
         cooldownManager_experimental_glow_color_a = 1,
-        cooldownManager_experimental_hideAuras = false,
+
+        cooldownManager_hide_glow_on_active_aura = false,
+
         cooldownManager_experimental_enableRectangularIcons_essential = false,
         cooldownManager_experimental_enableRectangularIcons_essential_percent = 0.8,
         cooldownManager_experimental_enableRectangularIcons_utility = false,
@@ -153,10 +155,8 @@ ns.DEFAULT_SETTINGS = {
             spellSettings = {},
         },
         editMode = {
-            trinketRacialTracker = {},
             tracker1 = {},
             tracker2 = {},
-            tracker3 = {},
         },
     },
 }

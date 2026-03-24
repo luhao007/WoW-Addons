@@ -1,12 +1,10 @@
 # <DBM Mod> Raids (BfA)
 
-## [r45](https://github.com/DeadlyBossMods/DBM-BfA/tree/r45) (2025-12-13)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-BfA/compare/r44...r45) [Previous Releases](https://github.com/DeadlyBossMods/DBM-BfA/releases)
+## [r46](https://github.com/DeadlyBossMods/DBM-BfA/tree/r46) (2026-03-15)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-BfA/compare/r45...r46) [Previous Releases](https://github.com/DeadlyBossMods/DBM-BfA/releases)
 
-- add 12.0.1 toc  
-- Cleanup 11.2.5 tocs  
-- toc updates  
-- Update TOCs  
-- toc bumps for current PTRs  
-- Update localization.ru.lua (#21)  
-- Remove 11.1.7 toc  
+- Prevent loading of options on 57 boss mods on retail (they'll still load and record stats). This is the number of dungeon, delve, and scenario bosses that blizzard doesn't support with boss mod api  
+- more cleanup  
+- more cleanup  
+- Remove deprecated functions: (rangeframe, hud, arrow)  
+- toc cleanup  

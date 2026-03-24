@@ -872,7 +872,17 @@ function GUI.Init()
 		db.selected[1] = first
 	end
 	if index == 0 then
-		GUI.frame.moduleSelect:SetText(AL["No module found."])
+		local data = {
+			[1] = {
+				info = {
+					name = AL["No module found."],
+					bgColor = { 0, 0, 0, 1 }, -- Background color
+				}
+			}
+		}
+
+		GUI.frame.moduleSelect:SetData(data)
+		GUI.frame.subCatSelect:SetData(data)
 	else
 		GUI.frame.moduleSelect:SetData(data)
 	end

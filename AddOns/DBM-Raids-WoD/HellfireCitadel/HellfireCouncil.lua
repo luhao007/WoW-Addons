@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(1432, "DBM-Raids-WoD", 1, 669)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240426185029")
+mod:SetRevision("20260315035313")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(92142, 92144, 92146)--Blademaster Jubei'thos (92142). Dia Darkwhisper (92144). Gurthogg Bloodboil (92146)
 mod:SetEncounterID(1778)
 --mod:SetUsedIcons(8, 7, 6, 4, 2, 1)
@@ -12,7 +13,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 184657 184476 184355",
-	"SPELL_CAST_SUCCESS 183480 184357 184355 184476",
+	"SPELL_CAST_SUCCESS 183480 184357 184476",
 	"SPELL_AURA_APPLIED 183701 184847 184360 184365 184449 184450 185065 185066 184652 184355",
 	"SPELL_AURA_APPLIED_DOSE 184847 184355",
 --	"SPELL_AURA_REMOVED",
@@ -75,7 +76,6 @@ local timerBloodBoilCD				= mod:NewCDTimer(7.3, 184355, nil, false, nil, 3, nil,
 
 local berserkTimer					= mod:NewBerserkTimer(600)
 
-mod:AddRangeFrameOption(8, 184476)
 
 mod.vb.DiaPushed = false
 mod.vb.taintedBloodCount = 0
@@ -131,11 +131,6 @@ function mod:OnCombatStart(delay)
 --	self:Schedule(55, delayedReapCheck, self)
 end
 
-function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
-end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
@@ -179,9 +174,6 @@ function mod:SPELL_CAST_START(args)
 			specWarnReap:Show()
 			yellReap:Yell()
 			specWarnReap:Play("runout")
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(8)
-			end
 		else
 			warnReap:Show()
 		end
@@ -208,9 +200,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerTaintedBloodCD:Start(nil, self.vb.taintedBloodCount+1)
 	elseif spellId == 184476 then
 		self.vb.reapActive = false
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Hide()
-		end
 	end
 end
 
@@ -255,9 +244,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnReap:Show()
 		yellReap:Yell()
 		specWarnReap:Play("runout")
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Show(8)--Guessed, could be 10
-		end
 	elseif spellId == 184652 and args:IsPlayer() and self:AntiSpam(1.75, 3) then
 		specWarnReapGTFO:Show()
 		specWarnReapGTFO:Play("runaway")
@@ -273,11 +259,6 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 --[[
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
-	if spellId == 155323 then
-		if args:IsPlayer() and self.Options.RangeFrame then
-			DBM.RangeCheck:Hide()
-		end
-	end
 end--]]
 
 function mod:UNIT_DIED(args)

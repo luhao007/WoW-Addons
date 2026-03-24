@@ -213,7 +213,7 @@ local DefaultFields = {
 			elseif u < 4 then
 				score = score + 10;
 			else
-				score = score + 1;
+				score = score + 1 + u;
 			end
 		end
 		t.AccessibilityScore = score;
@@ -618,6 +618,7 @@ local function GenerateVariantClasses(class)
 	local subbase = function(t, key) return class.__index; end
 	local classname = fields.__type()
 	local variantClone, variantName, variant
+	-- app.PrintDebug("Generating",#variants,"variants for",classname)
 	for i=1,#variants do
 		variant = variants[i]
 		if not variant.__name then
@@ -633,8 +634,8 @@ local function GenerateVariantClasses(class)
 		if variant.__onclassgenerated then variant.__onclassgenerated(variantName) end
 	end
 end
-local function AppendVariantConditionals(conditionals, class)
-	local subcassCondition = class.__class.__condition
+local function AppendVariantConditionals(conditionals, class, ignoresubcassCondition)
+	local subcassCondition = not ignoresubcassCondition and class.__class.__condition or nil
 	local variants = class.__class.variants
 	if subcassCondition then
 		if variants then
@@ -670,13 +671,27 @@ local function AppendVariantConditionals(conditionals, class)
 				variant = variants[i]
 				if variant.__class.__condition(t) then
 					setmetatable(t, variant);
-					-- app.PrintDebug("Create Variant",t.hash,class.__class.__type()..variant.__name)
+					-- app.PrintDebug("Create Variant",t.hash,class.__class.__type(),":",variant.__class.__type())
 					return true
 				end
 			end
 			setmetatable(t, class);
 			return true;
 		end
+	end
+end
+local function BuildClassConstructor(conditionals, classKey, Class)
+	local total = #conditionals
+	return total > 0 and function(id, t)
+		t = constructor(id, t, classKey);
+		for i=1,total do
+			if conditionals[i](t) then
+				return t;
+			end
+		end
+		return setmetatable(t, Class);
+	end or function(id, t)
+		return setmetatable(constructor(id, t, classKey), Class);
 	end
 end
 
@@ -733,6 +748,17 @@ app.CreateClass = function(className, classKey, fields, ...)
 					end
 					local subclass = CreateClassMeta(subfields, className .. subclassName)
 					GenerateVariantClasses(subclass)
+					if subfields.RootConstructor then
+						if app[subfields.RootConstructor] then
+							ClassError("RootConstructor for subclass",className .. subclassName,"has already been defined!")
+						else
+							-- the root constructor needs to also account for the generated variant conditionals
+							local subconditionals = {}
+							AppendVariantConditionals(subconditionals, subclass, true)
+							-- app.PrintDebug("Create Root Constructor",subfields.RootConstructor,"for",className .. subclassName,"with",#subconditionals,"conditionals")
+							app[subfields.RootConstructor] = BuildClassConstructor(subconditionals, classKey, subclass)
+						end
+					end
 					AppendVariantConditionals(conditionals, subclass)
 				else
 					conditionals[#conditionals] = conditional
@@ -742,18 +768,7 @@ app.CreateClass = function(className, classKey, fields, ...)
 	end
 	-- Class variants must be added following other subclasses/variants
 	AppendVariantConditionals(conditionals, Class)
-	total = #conditionals;
-	local classConstructor = total > 0 and function(id, t)
-		t = constructor(id, t, classKey);
-		for i=1,total,1 do
-			if conditionals[i](t) then
-				return t;
-			end
-		end
-		return setmetatable(t, Class);
-	end or function(id, t)
-		return setmetatable(constructor(id, t, classKey), Class);
-	end
+	local classConstructor = BuildClassConstructor(conditionals, classKey, Class)
 	if not classesByKey[classKey] then
 		classesByKey[classKey] = classConstructor;
 	elseif not fields.IsClassIsolated then

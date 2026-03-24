@@ -27,23 +27,19 @@ local RSEntityStateHandler = private.ImportLib("RareScannerEntityStateHandler")
 local RSUtils = private.ImportLib("RareScannerUtils")
 local RSConstants = private.ImportLib("RareScannerConstants")
 
-RSEntityPinMixin = CreateFromMixins(MapCanvasPinMixin);
-
-RSEntityPinMixin.SetPassThroughButtons = function() end
+RSEntityPinMixin = CreateFromMixins(RSPinMixin);
 
 function RSEntityPinMixin:OnLoad()
+	RSPinMixin.OnLoad(self)
 	self:SetScalingLimits(1, 0.75, 1.0);
 end
 
 function RSEntityPinMixin:OnAcquired(POI, dataProvider)
-	self:UseFrameLevelType("PIN_FRAME_LEVEL_VIGNETTE", self:GetMap():GetNumActivePinsByTemplate("RSEntityPinTemplate"));
-	self.POI = POI
-	self.dataProvider = dataProvider
+	RSPinMixin.OnAcquired(self, POI, dataProvider)
+	self:SetFrameLevel(10)
 	self.Texture:SetTexture(POI.Texture)
 	self.Texture:SetScale(RSConfigDB.GetIconsWorldMapScale())
 	self.IconTexture:SetAtlas(POI.iconAtlas)
-	self:SetPosition(RSUtils.FixCoord(POI.x), RSUtils.FixCoord(POI.y));
-	MapPinHighlight_CheckHighlightPin(self:GetHighlightType(), self, self.Texture, AREAPOI_HIGHLIGHT_PARAMS);
 end
 
 function RSEntityPinMixin:OnMouseEnter()
@@ -204,8 +200,12 @@ function RSEntityPinMixin:ShowGuide(mapID)
 end
 
 function RSEntityPinMixin:OnReleased()
-	RSTooltip.ReleaseTooltip(self.tooltip)
-	self.tooltip = nil
+	RSPinMixin.OnReleased(self)
+    
+    if (self.tooltip) then
+		RSTooltip.ReleaseTooltip(self.tooltip)
+		self.tooltip = nil
+	end
 end
 
 function RSEntityPinMixin:GetHighlightType()

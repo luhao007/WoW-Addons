@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2365, "DBM-Raids-BfA", 1, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240426182205")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(156523)
 mod:SetEncounterID(2327)--Obsidian Destroyer ID, but only one left after eliminating all others, should be correct
 --mod:SetHotfixNoticeRev(20190716000000)--2019, 7, 16
@@ -12,7 +13,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 308044 305663 308903 308872 314337 305722",
-	"SPELL_CAST_SUCCESS 307805 308044 310129 306290 315025",
+	"SPELL_CAST_SUCCESS 307805 308044 310129 306290",
 	"SPELL_SUMMON 305625",
 	"SPELL_AURA_APPLIED 307806 307399 306005 306301 314993 315025",
 	"SPELL_AURA_APPLIED_DOSE 307399",
@@ -75,7 +76,6 @@ local timerDrainEssenceCD					= mod:NewCDTimer(13.8, 314993, nil, nil, nil, 5, n
 
 local berserkTimer							= mod:NewBerserkTimer(600)
 
-mod:AddRangeFrameOption(8, 314993)
 mod:AddInfoFrameOption(306005, true)
 
 mod.vb.bigAoeActive = false
@@ -111,9 +111,6 @@ function mod:OnCombatEnd()
 	table.wipe(castsPerGUID)
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
-	end
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
 	end
 end
 
@@ -223,9 +220,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnDrainEssence:Play("runout")
 			yellDrainEssence:Yell()
 			yellDrainEssenceFades:Countdown(spellId)
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(8)
-			end
 		end
 	elseif spellId == 315025 then
 		if args:IsPlayer() then
@@ -257,9 +251,6 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 314993 then
 		if args:IsPlayer() then
 			yellDrainEssenceFades:Cancel()
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Hide()
-			end
 		end
 	elseif spellId == 307806 then
 		if args:IsPlayer() then

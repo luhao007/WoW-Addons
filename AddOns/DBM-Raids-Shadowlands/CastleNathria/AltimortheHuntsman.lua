@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2429, "DBM-Raids-Shadowlands", 3, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250719035005")
+mod:SetRevision("20260315035226")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(165066)
 mod:SetEncounterID(2418)
 mod:SetUsedIcons(1, 2, 3)
@@ -44,7 +45,6 @@ local timerSinseekerCD							= mod:NewCDCountTimer(49, 335114, nil, nil, nil, 3)
 local timerSpreadshotCD							= mod:NewCDTimer(11.8, 334404, nil, nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)
 --local berserkTimer							= mod:NewBerserkTimer(600)
 
-mod:AddRangeFrameOption("5/6/10")
 mod:AddSetIconOption("SetIconOnSinSeeker", 335114, true, 0, {1, 2, 3})--335111 335112 335113
 --Hunting Gargon
 ----Margore
@@ -84,37 +84,12 @@ local timerPetrifyingHowlCD						= mod:NewCDTimer(20.6, 334852, 135241, nil, nil
 mod.vb.sinSeekerCount = 0
 mod.vb.activeSeekers = 0
 --NYI, more data needed to substanciate
-local spreadShotTimers = {
-	[1] = {6.5, 30.3, 18.2},
-	[2] = {11.7, 32.7, 12.2, 12.1},
-	[3] = {12.4, 23.1, 43.6},
-}
-local playerSinSeeker = false
+--local spreadShotTimers = {
+--	[1] = {6.5, 30.3, 18.2},
+--	[2] = {11.7, 32.7, 12.2, 12.1},
+--	[3] = {12.4, 23.1, 43.6},
+--}
 local transitionwindow = 0--0 false, 1 true, 2 sinseeker activated while it was 1
-local updateRangeFrame
-do
-	local function debuffFilter(uId)
-		if DBM:UnitDebuff(uId, 335111, 335112, 335113) then
-			return true
-		end
-	end
-	updateRangeFrame = function(self, force)
-		if not self.Options.RangeFrame then return end
-		if DBM:UnitDebuff("player", 334852) then--Petrifying Howl
-			DBM.RangeCheck:Show(10)
-		elseif DBM:UnitDebuff("player", 334945) then--Vicious Lunge
-			DBM.RangeCheck:Show(6)
-		elseif force or (self:IsMythic() and self.vb.phase == 3 and self.vb.activeSeekers > 0) then--Mythic Sinseeker spread mechanic
-			if playerSinSeeker then
-				DBM.RangeCheck:Show(5)--Show everyone
-			else
-				DBM.RangeCheck:Show(5, debuffFilter)--Only show players affected with sinseeker
-			end
-		else
-			DBM.RangeCheck:Hide()
-		end
-	end
-end
 
 local function updateAllTimers(self)
 	DBM:Debug("updateAllTimers running", 3)
@@ -159,7 +134,6 @@ function mod:OnCombatStart(delay)
 	self:SetStage(1)
 	self.vb.sinSeekerCount = 0
 	self.vb.activeSeekers = 0
-	playerSinSeeker = false
 	timerSpreadshotCD:Start(6-delay)
 	timerSinseekerCD:Start(28.8-delay, 1)
 	--Margore on pull on heroic testing, but can this change?
@@ -168,11 +142,6 @@ function mod:OnCombatStart(delay)
 --	berserkTimer:Start(-delay)--Confirmed normal and heroic
 end
 
-function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
-end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
@@ -182,9 +151,6 @@ function mod:SPELL_CAST_START(args)
 		--Normal, Dog1: 50-51, Dog2: 60-61, Dog3: 50-51, dogs dead: 24.3
 		local timer = self:IsMythic() and (self.vb.phase == 4 and 25 or 60.2) or (self.vb.phase == 4 and 24.3 or 49.1)--self.vb.phase == 2 and 61.1 or
 		timerSinseekerCD:Start(timer, self.vb.sinSeekerCount+1)
-		if self.vb.phase == 3 and self:IsMythic() then
-			updateRangeFrame(self, true)--Force show during cast so it's up a little early
-		end
 		if transitionwindow == 1 then
 			transitionwindow = 2
 		end
@@ -265,7 +231,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnViciousLunge:Play("gathershare")
 			yellViciousLunge:Yell()
 			yellViciousLungeFades:Countdown(spellId)
-			updateRangeFrame(self)
 		else
 			warnViciousLunge:Show(args.destName)
 		end
@@ -276,7 +241,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnPetrifyingHowl:Play("scatter")
 			yellPetrifyingHowl:Yell()
 			yellPetrifyingHowlFades:Countdown(spellId)
-			updateRangeFrame(self)
 		end
 	elseif spellId == 335111 or spellId == 335112 or spellId == 335113 then
 		self.vb.activeSeekers = self.vb.activeSeekers + 1
@@ -285,7 +249,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, icon)
 		end
 		if args:IsPlayer() then
-			playerSinSeeker = true
 			specWarnSinseeker:Show(self:IconNumToTexture(icon))
 			specWarnSinseeker:Play("mm"..icon)
 			yellSinseeker:Yell(icon, icon)
@@ -330,7 +293,6 @@ function mod:SPELL_AURA_REMOVED(args)
 	if spellId == 334945 then
 		if args:IsPlayer() then
 			yellViciousLungeFades:Cancel()
-			updateRangeFrame(self)
 		end
 	elseif spellId == 334860 then
 		local amount = args.amount or 1
@@ -340,19 +302,14 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 334852 then
 		if args:IsPlayer() then
 			yellPetrifyingHowlFades:Cancel()
-			updateRangeFrame(self)
 		end
 	elseif spellId == 335111 or spellId == 335112 or spellId == 335113 then
 		self.vb.activeSeekers = self.vb.activeSeekers - 1
 		if args:IsPlayer() then
-			playerSinSeeker = false
 			yellSinseekerFades:Cancel()
 		end
 		if self.Options.SetIconOnSinSeeker then
 			self:SetIcon(args.destName, 0)
-		end
-		if self.vb.activeSeekers == 0 and self.vb.phase == 3 and self:IsMythic() then
-			updateRangeFrame(self)
 		end
 	end
 end

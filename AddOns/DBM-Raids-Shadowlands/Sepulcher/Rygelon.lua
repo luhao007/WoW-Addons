@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2467, "DBM-Raids-Shadowlands", 1, 1195)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250719035005")
+mod:SetRevision("20260315035226")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(182777)
 mod:SetEncounterID(2549)
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
@@ -79,7 +80,6 @@ local timerCorruptedStrikesCD					= mod:NewCDTimer(6, 362184, nil, "Tank", 2, 5,
 local timerMassiveBangCD						= mod:NewCDCountTimer(28.8, 363533, nil, nil, nil, 2, nil, DBM_COMMON_L.DEADLY_ICON)
 local timerMassiveBang							= mod:NewCastTimer(10, 363533, nil, nil, nil, 5, nil, DBM_COMMON_L.DEADLY_ICON)
 
-mod:AddRangeFrameOption(5, 362206)
 mod:AddInfoFrameOption(362081, false)--Tracks just ejection on heroic but on mythic it tracks Irregularity
 mod:AddSetIconOption("SetIconOnDarkEclipse", 361548, true, 0, {1, 2, 3}, true)
 mod:AddSetIconOption("SetIconOnQuasar", 362275, false, 5, {3, 4, 5, 6, 7, 8}, true)
@@ -157,9 +157,6 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
@@ -271,9 +268,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnEventHorizon:Show()
 			specWarnEventHorizon:Play("range5")
 			yellEventHorizonFades:Countdown(spellId)
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(5)
-			end
 		else
 			warnEventHorizon:CombinedShow(1, args.destName)
 		end
@@ -344,9 +338,6 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 362206 then
 		if args:IsPlayer() then
 			yellEventHorizonFades:Cancel()
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Hide()
-			end
 		end
 	elseif spellId == 362088 then
 		cosmicStacks[args.destName] = nil

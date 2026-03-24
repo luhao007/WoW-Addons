@@ -1,7 +1,10 @@
+if not DBM:IsSeasonal("SeasonOfDiscovery") then return end
+
 local mod	= DBM:NewMod("AvatarofHakkarSoD", "DBM-Raids-Vanilla", 8)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250119115238")
+mod:SetRevision("20260324053510")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(221394)--221426 Rituals on engage, 221396 Hakkari Bloodkeeper
 mod:SetEncounterID(2956)
 --mod:SetUsedIcons(8)

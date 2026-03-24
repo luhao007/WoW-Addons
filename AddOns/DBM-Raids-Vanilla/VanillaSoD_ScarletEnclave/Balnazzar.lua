@@ -5,7 +5,8 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,mythic"
 
-mod:SetRevision("20250429201932")
+mod:SetRevision("20260315035425")
+mod:DisableHardcodedOptions()
 
 mod:SetZone(2856)
 mod:SetEncounterID(3185)

@@ -382,11 +382,18 @@ function QuickChatfun.QuickBut_Keyword()
 	local Show_MSG_TIMECD = 0
 	local CHANNELinfo = ChatTypeInfo["CHANNEL"];
 	local ChatFrame_ReplaceIconAndGroupExpressions=C_ChatInfo and C_ChatInfo.ReplaceIconAndGroupExpressions or ChatFrame_ReplaceIconAndGroupExpressions
+	local function _GetColoredName(...)
+		if ChatFrameUtil and ChatFrameUtil.GetDecoratedSenderName then
+			return ChatFrameUtil.GetDecoratedSenderName(...)
+		else
+			return GetColoredName(...)
+		end
+	end
 	local function Show_Keyword_MSG(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16, arg17)
 		local timetxt=GetServerTime()
 		local outMsg = ChatFrame_ReplaceIconAndGroupExpressions(arg1, arg17, not ChatFrame_CanChatGroupPerformExpressionExpansion("CHANNEL"));
 		local outMsg = TihuanBiaoqing(outMsg)
-		local coloredName = GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12);
+		local coloredName = _GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12);
 		local PlayerLink = GetPlayerLink(arg2, ("[%s]"):format(coloredName))
 		if PIGA["Chat"]["ShowZb"] then
 			local _, _, _, englishRace, sex = GetPlayerInfoByGUID(arg12)
@@ -464,11 +471,12 @@ function QuickChatfun.QuickBut_Keyword()
 		local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16, arg17=...
 		if not arg12 then return end
 		if arg9=="MeetingHorn" then return end
-		if arg9=="PIG" then return end
+		if arg9=="PIG" then return end		
 		for i=1,#TardisGetMsg do
 			if arg1==TardisGetMsg[i] then return end
 		end
 		if arg2==PIG_OptionsUI.AllName then return end--自身不过滤
+		
 		local blnum = #White_keywords
 		if blnum==0 then return end
 		if TiquCanshu["jichengBlack"] then
@@ -489,7 +497,7 @@ function QuickChatfun.QuickBut_Keyword()
 		end
 		if BlackList["FilterRepeat"] and FilterBlack_Chongfu(tiquchongfuData,newText,"tiqu") then
 			return
-		end				
+		end		
 		for x=1,blnum do
 			if type(White_keywords[x])=="string" then
 				if newText:match(White_keywords[x]) then
@@ -636,6 +644,13 @@ function QuickChatfun.QuickBut_Keyword()
 		end
 	end
 	QuickUI.Keyword:Filter_SetFun()
+	local FrameUIxxx = CreateFrame("Frame")
+	FrameUIxxx:RegisterEvent("CHAT_MSG_SYSTEM")
+	FrameUIxxx:HookScript("OnEvent", function (self,event,arg1)
+		if arg1==ERR_IGNORE_FULL then
+			print(arg1,ERR_IGNORE_FULL)
+		end
+	end)
 	----
 	function QuickUI.Keyword.add_uifun()
 		if _G["PIG_ChatKeyWordSet"] then return end
@@ -871,7 +886,7 @@ function QuickChatfun.QuickBut_Keyword()
 		---2
 		TiquF.OutputModeF.Color = Create.ColorBut(TiquF.OutputModeF,{"TOPLEFT",TiquF.OutputModeF,"TOPLEFT",40,-20},{18,18})
 		function TiquF.OutputModeF.Color:PIGinitialize()
-			self.pezhiV=PIGA["Chat"]["Tiqu"]["BgColor"]
+			self.pezhiV=PIGA["Chat"]["Tiqu"]["BgColor"] or TiqumorenColor
 		end
 		function TiquF.OutputModeF.Color:PIGSetValue(newR, newG, newB, newA)
 			PIGA["Chat"]["Tiqu"]["BgColor"]={newR, newG, newB, newA}
@@ -1239,51 +1254,103 @@ function QuickChatfun.QuickBut_Keyword()
 		end)
 
 		---玩家名黑名单
-		BlackF.F.BlackF_P=PIGOptionsList_R(BlackF.F,PLAYER..L["CHAT_BLACK_NAME"],90)
+		BlackF.F.BlackF_P=PIGOptionsList_R(BlackF.F,IGNORE_PLAYER,90)
 		local P_tishineiB = "|cffFF0000"..PLAYER..L["CHAT_BLACK_NAME"].."(玩家信息将被"..IGNORE..","..L["CHAT_BLACK_NAME"].."账号共享)|r\n|cffFFFF00"..CALENDAR_PLAYER_NAME..L["CHAT_KEYWORD_TI_1"].."|r"
 		BlackF.F.BlackF_P.tishi1 = PIGFontString(BlackF.F.BlackF_P,{"TOPLEFT",BlackF.F.BlackF_P,"TOPLEFT",10,-8},P_tishineiB);
 		BlackF.F.BlackF_P.tishi1:SetJustifyH("LEFT");
-
+		local scrlwww=BlackF.F.BlackF_P:GetWidth()*0.5
 		BlackF.F.BlackF_P.NR = PIGFrame(BlackF.F.BlackF_P);
 		BlackF.F.BlackF_P.NR:PIGSetBackdrop()
 		BlackF.F.BlackF_P.NR:SetPoint("TOPLEFT",BlackF.F.BlackF_P,"TOPLEFT",0,-70);
-		BlackF.F.BlackF_P.NR:SetPoint("BOTTOMRIGHT",BlackF.F.BlackF_P,"BOTTOMRIGHT",0,0);
-		BlackF.F.BlackF_P.NR.scroll = CreateFrame("ScrollFrame", nil, BlackF.F.BlackF_P.NR, "UIPanelScrollFrameTemplate")
-		BlackF.F.BlackF_P.NR.scroll:SetPoint("TOPLEFT", BlackF.F.BlackF_P.NR, "TOPLEFT", 6, -2)
-		BlackF.F.BlackF_P.NR.scroll:SetPoint("BOTTOMRIGHT", BlackF.F.BlackF_P.NR, "BOTTOMRIGHT", -20, 2)
-		BlackF.F.BlackF_P.NR.scroll.ScrollBar:SetScale(0.8);
-		BlackF.F.BlackF_P.NR.textArea = CreateFrame("EditBox", nil, BlackF.F.BlackF_P.NR,"BackdropTemplate")
-		BlackF.F.BlackF_P.NR.textArea:SetBackdrop({bgFile = "interface/chatframe/chatframebackground.blp"});
-		BlackF.F.BlackF_P.NR.textArea:SetBackdropColor(0.2, 0.2, 0.2, 0.8);
-		BlackF.F.BlackF_P.NR.textArea:SetWidth(BlackF.F.BlackF_P.NR:GetWidth()-24)
-		PIGSetFont(BlackF.F.BlackF_P.NR.textArea,14,"OUTLINE")
-		BlackF.F.BlackF_P.NR.textArea:SetTextColor(0.6, 0.6, 0.6, 1)
-		BlackF.F.BlackF_P.NR.textArea:SetAutoFocus(false)
-		BlackF.F.BlackF_P.NR.textArea:SetMultiLine(true)
-		BlackF.F.BlackF_P.NR.textArea:SetMaxLetters(9999)
-		BlackF.F.BlackF_P.NR.textArea:EnableMouse(true)
-		BlackF.F.BlackF_P.NR.scroll:SetScrollChild(BlackF.F.BlackF_P.NR.textArea)
-		BlackF.F.BlackF_P.NR.textArea.tishi = PIGFontString(BlackF.F.BlackF_P.NR.textArea,{"TOPLEFT",BlackF.F.BlackF_P.NR.textArea,"TOPLEFT",2,-0},L["CHAT_KEYWORD_TI"]);
-		BlackF.F.BlackF_P.NR.textArea.tishi:SetTextColor(0.8, 0.8, 0.8, 0.8);
-		BlackF.F.BlackF_P.NR.textArea:SetScript("OnShow", function(self)
+		BlackF.F.BlackF_P.NR:SetPoint("BOTTOMLEFT",BlackF.F.BlackF_P,"BOTTOMLEFT",0,0);
+		BlackF.F.BlackF_P.NR:SetWidth(scrlwww)
+		BlackF.F.BlackF_P.NR.scroll = Create.PIGScrollFrame_old(BlackF.F.BlackF_P.NR)
+		BlackF.F.BlackF_P.NR.ButList={}
+		local hangmaxnum,hangeH=19,20
+		function BlackF.F.BlackF_P.NR.scroll:UpdateShowList()
+			if not BlackF.F.BlackF_P:IsShown() then return end
+		    for _,v in pairs(BlackF.F.BlackF_P.NR.ButList) do
+		    	v:Hide()
+		    end
+		    local datainfo=BlackF.F.BlackF_P.NR.ButList
+			local TotalNum = C_FriendList.GetNumIgnores()
+			if TotalNum>0 then
+				local offset = self:GetScrollFrameOffset(TotalNum, hangmaxnum, hangeH)
+			    for i = 1, hangmaxnum do
+					local AHdangqianH = i+offset;
+					local name = C_FriendList.GetIgnoreName(AHdangqianH);
+					if name then
+						if not BlackF.F.BlackF_P.NR.ButList[i] then
+							BlackF.F.BlackF_P.NR.ButList[i] = CreateFrame("Button", nil, BlackF.F.BlackF_P.NR)
+							BlackF.F.BlackF_P.NR.ButList[i]:SetSize(scrlwww,hangeH);
+							if i==1 then
+								BlackF.F.BlackF_P.NR.ButList[i]:SetPoint("TOPLEFT",BlackF.F.BlackF_P.NR,"TOPLEFT",0,0);
+							else
+								BlackF.F.BlackF_P.NR.ButList[i]:SetPoint("TOP",BlackF.F.BlackF_P.NR.ButList[i-1],"BOTTOM",0,0);
+							end
+							BlackF.F.BlackF_P.NR.ButList[i].hightex = BlackF.F.BlackF_P.NR.ButList[i]:CreateTexture(nil,"HIGHLIGHT");
+							BlackF.F.BlackF_P.NR.ButList[i].hightex:SetTexture("interface/buttons/ui-listbox-highlight2.bhangeHlp");
+							BlackF.F.BlackF_P.NR.ButList[i].hightex:SetAllPoints(BlackF.F.BlackF_P.NR.ButList[i])
+							BlackF.F.BlackF_P.NR.ButList[i].hightex:SetBlendMode("ADD")
+							BlackF.F.BlackF_P.NR.ButList[i].hightex:SetAlpha(0.4);
+							BlackF.F.BlackF_P.NR.ButList[i].delbut=PIGDiyBut(BlackF.F.BlackF_P.NR.ButList[i],{"LEFT",BlackF.F.BlackF_P.NR.ButList[i],"LEFT",4,0},{hangeH-4,hangeH-4});
+							BlackF.F.BlackF_P.NR.ButList[i].delbut:SetScript("OnClick", function()
+								--PIG_PlaySoundFile(AudioData.FollowMsg[TiquCanshu["Audio"]])
+							end)
+							BlackF.F.BlackF_P.NR.ButList[i].name = PIGFontString(BlackF.F.BlackF_P.NR.ButList[i],{"LEFT",BlackF.F.BlackF_P.NR.ButList[i].delbut,"LEFT",hangeH-4,0})
+						end
+						BlackF.F.BlackF_P.NR.ButList[i]:Show()
+						BlackF.F.BlackF_P.NR.ButList[i].name:SetText(name)
+					end
+				end
+			end
+		end
+		BlackF.F.BlackF_P:RegisterEvent("IGNORELIST_UPDATE")
+		BlackF.F.BlackF_P:HookScript("OnEvent", function (self,event,arg1)
+			BlackF.F.BlackF_P.NR.scroll:UpdateShowList()
+		end)
+		---自定义
+		BlackF.F.BlackF_P.NR_R = PIGFrame(BlackF.F.BlackF_P);
+		BlackF.F.BlackF_P.NR_R:PIGSetBackdrop()
+		BlackF.F.BlackF_P.NR_R:SetPoint("TOPRIGHT",BlackF.F.BlackF_P,"TOPRIGHT",0,-70);
+		BlackF.F.BlackF_P.NR_R:SetPoint("BOTTOMRIGHT",BlackF.F.BlackF_P,"BOTTOMRIGHT",0,0);
+		BlackF.F.BlackF_P.NR_R:SetWidth(scrlwww)
+		BlackF.F.BlackF_P.NR_R.scroll = CreateFrame("ScrollFrame", nil, BlackF.F.BlackF_P.NR_R, "UIPanelScrollFrameTemplate")
+		BlackF.F.BlackF_P.NR_R.scroll:SetPoint("TOPLEFT", BlackF.F.BlackF_P.NR_R, "TOPLEFT", 6, -2)
+		BlackF.F.BlackF_P.NR_R.scroll:SetPoint("BOTTOMRIGHT", BlackF.F.BlackF_P.NR_R, "BOTTOMRIGHT", -20, 2)
+		BlackF.F.BlackF_P.NR_R.scroll.ScrollBar:SetScale(0.8);
+		BlackF.F.BlackF_P.NR_R.textArea = CreateFrame("EditBox", nil, BlackF.F.BlackF_P.NR_R,"BackdropTemplate")
+		BlackF.F.BlackF_P.NR_R.textArea:SetBackdrop({bgFile = "interface/chatframe/chatframebackground.blp"});
+		BlackF.F.BlackF_P.NR_R.textArea:SetBackdropColor(0.2, 0.2, 0.2, 0.8);
+		BlackF.F.BlackF_P.NR_R.textArea:SetWidth(BlackF.F.BlackF_P.NR_R:GetWidth()-24)
+		PIGSetFont(BlackF.F.BlackF_P.NR_R.textArea,14,"OUTLINE")
+		BlackF.F.BlackF_P.NR_R.textArea:SetTextColor(0.6, 0.6, 0.6, 1)
+		BlackF.F.BlackF_P.NR_R.textArea:SetAutoFocus(false)
+		BlackF.F.BlackF_P.NR_R.textArea:SetMultiLine(true)
+		BlackF.F.BlackF_P.NR_R.textArea:SetMaxLetters(9999)
+		BlackF.F.BlackF_P.NR_R.textArea:EnableMouse(true)
+		BlackF.F.BlackF_P.NR_R.scroll:SetScrollChild(BlackF.F.BlackF_P.NR_R.textArea)
+		BlackF.F.BlackF_P.NR_R.textArea.tishi = PIGFontString(BlackF.F.BlackF_P.NR_R.textArea,{"TOPLEFT",BlackF.F.BlackF_P.NR_R.textArea,"TOPLEFT",2,-0},L["CHAT_KEYWORD_TI"]);
+		BlackF.F.BlackF_P.NR_R.textArea.tishi:SetTextColor(0.8, 0.8, 0.8, 0.8);
+		BlackF.F.BlackF_P.NR_R.textArea:SetScript("OnShow", function(self)
 			self:SetText(PIGA["Chat"]["Filter"]["Blacks_P"])
 		end);
-		BlackF.F.BlackF_P.NR.textArea:SetScript("OnEscapePressed", function(self)
+		BlackF.F.BlackF_P.NR_R.textArea:SetScript("OnEscapePressed", function(self)
 			self:SetTextColor(0.6, 0.6, 0.6, 1)
-			BlackF.F.BlackF_P.NR.SAVEBUT:Hide()
+			BlackF.F.BlackF_P.NR_R.SAVEBUT:Hide()
 			self:ClearFocus()
 		end);
-		BlackF.F.BlackF_P.NR.textArea:SetScript("OnEditFocusGained", function(self)
+		BlackF.F.BlackF_P.NR_R.textArea:SetScript("OnEditFocusGained", function(self)
 			self:SetTextColor(1, 1, 1, 1)
-			BlackF.F.BlackF_P.NR.SAVEBUT:Show()
+			BlackF.F.BlackF_P.NR_R.SAVEBUT:Show()
 		end);
-		BlackF.F.BlackF_P.NR.textArea:SetScript("OnEnterPressed", function(self)
+		BlackF.F.BlackF_P.NR_R.textArea:SetScript("OnEnterPressed", function(self)
 			self:SetTextColor(0.6, 0.6, 0.6, 1)
 			Save_BlackValue(self,"Blacks_P")
 			self:ClearFocus()
-			BlackF.F.BlackF_P.NR.SAVEBUT:Hide()
+			BlackF.F.BlackF_P.NR_R.SAVEBUT:Hide()
 		end);
-		BlackF.F.BlackF_P.NR.textArea:SetScript("OnTextChanged", function(self)
+		BlackF.F.BlackF_P.NR_R.textArea:SetScript("OnTextChanged", function(self)
 			local txtv = self:GetText()
 			if txtv=="" or txtv==" " then
 				self.tishi:Show()
@@ -1291,24 +1358,24 @@ function QuickChatfun.QuickBut_Keyword()
 				self.tishi:Hide()
 			end
 		end);
-		BlackF.F.BlackF_P.NR.SAVEBUT = PIGButton(BlackF.F.BlackF_P.NR,{"BOTTOMRIGHT",BlackF.F.BlackF_P.NR,"TOPRIGHT",-10,2},{60,20},SAVE)
-		BlackF.F.BlackF_P.NR.SAVEBUT:Hide()
-		BlackF.F.BlackF_P.NR.SAVEBUT:SetScript("OnClick", function(self)
+		BlackF.F.BlackF_P.NR_R.SAVEBUT = PIGButton(BlackF.F.BlackF_P.NR_R,{"BOTTOMRIGHT",BlackF.F.BlackF_P.NR_R,"TOPRIGHT",-10,2},{60,20},SAVE)
+		BlackF.F.BlackF_P.NR_R.SAVEBUT:Hide()
+		BlackF.F.BlackF_P.NR_R.SAVEBUT:SetScript("OnClick", function(self)
 			local fujif = self:GetParent();
 			Save_BlackValue(fujif.textArea,"Blacks_P")
 			fujif.textArea:ClearFocus()
 			fujif.textArea:SetTextColor(0.6, 0.6, 0.6, 1)
 			self:Hide()
 		end)
-		BlackF.F.BlackF_P.NR.morenkey = PIGButton(BlackF.F.BlackF_P.NR,{"BOTTOMRIGHT",BlackF.F.BlackF_P.NR,"TOPRIGHT",-10,40},{114,20},"载入预置黑名单")
-		BlackF.F.BlackF_P.NR.morenkey:SetScript("OnClick", function(self)
-			BlackF.F.BlackF_P.NR.textArea:SetText(PlayerBlackList)
+		BlackF.F.BlackF_P.NR_R.morenkey = PIGButton(BlackF.F.BlackF_P.NR_R,{"BOTTOMRIGHT",BlackF.F.BlackF_P.NR_R,"TOPRIGHT",-10,40},{114,20},"载入预置黑名单")
+		BlackF.F.BlackF_P.NR_R.morenkey:SetScript("OnClick", function(self)
+			BlackF.F.BlackF_P.NR_R.textArea:SetText(PlayerBlackList)
 			local fujif = self:GetParent();
 			Save_BlackValue(fujif.textArea,"Blacks_P")
 			PIG_OptionsUI:ErrorMsg("已载入预置黑名单");
 		end)
-		BlackF.F.BlackF_P.NR.Precise = PIGCheckbutton(BlackF.F.BlackF_P.NR,{"BOTTOMLEFT",BlackF.F.BlackF_P.NR,"TOPLEFT",10,8},{AH_EXACT_MATCH..CALENDAR_PLAYER_NAME,"默认玩家姓名包含设置关键字则屏蔽玩家消息，开启本选项后玩家姓名和下方关键字完全相同才会屏蔽"})
-		BlackF.F.BlackF_P.NR.Precise:SetScript("OnClick", function (self)
+		BlackF.F.BlackF_P.NR_R.Precise = PIGCheckbutton(BlackF.F.BlackF_P.NR_R,{"BOTTOMLEFT",BlackF.F.BlackF_P.NR_R,"TOPLEFT",10,8},{AH_EXACT_MATCH..CALENDAR_PLAYER_NAME,"默认玩家姓名包含设置关键字则屏蔽玩家消息，开启本选项后玩家姓名和下方关键字完全相同才会屏蔽"})
+		BlackF.F.BlackF_P.NR_R.Precise:SetScript("OnClick", function (self)
 			if self:GetChecked() then
 				PIGA["Chat"]["Filter"]["Precise"]=true
 				BlackList["Precise"]=true
@@ -1317,8 +1384,9 @@ function QuickChatfun.QuickBut_Keyword()
 				BlackList["Precise"]=false
 			end
 		end)
-		BlackF.F.BlackF_P.NR.Precise:HookScript("OnShow", function(self)
-			self:SetChecked(PIGA["Chat"]["Filter"]["Precise"])
+		BlackF.F.BlackF_P:HookScript("OnShow", function(self)
+			self.NR_R.Precise:SetChecked(PIGA["Chat"]["Filter"]["Precise"])
+			self.NR.scroll:UpdateShowList()
 		end);
 	end
 end

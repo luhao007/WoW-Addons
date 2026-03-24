@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(2373, "DBM-Raids-BfA", 1, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20240428104711")
+mod:SetRevision("20260315035238")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(157602)
 mod:SetEncounterID(2343)
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
@@ -58,7 +59,6 @@ local timerVoidGlareCD						= mod:NewCDTimer(45, 310406, nil, nil, nil, 3)
 
 local berserkTimer							= mod:NewBerserkTimer(600)
 
-mod:AddRangeFrameOption("18/4")--Sadly, choices are 13 or 18, 13 too small so have to round 15 up to 18
 mod:AddInfoFrameOption(308377, false)
 mod:AddSetIconOption("SetIconOnVolatileSeed", 310277, true, 0, {1})
 mod:AddSetIconOption("SetIconOnMuttering", 310358, false, 0, {2, 3, 4, 5, 6, 7, 8})--Depends on number of maws up. Shouldn't need to use all 7 but CAN use up to 7
@@ -96,9 +96,6 @@ function mod:OnCombatStart(delay)
 	if self.Options.NPAuraOnVolatileCorruption then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
 	end
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Show(4)--For Acid Splash
-	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:SetHeader(DBM:GetSpellName(308377))
 		DBM.InfoFrame:Show(10, "playerdebuffremaining", 308377)
@@ -109,9 +106,6 @@ end
 function mod:OnCombatEnd()
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
-	end
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
 	end
 	if self.Options.NPAuraOnVolatileCorruption then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
@@ -184,9 +178,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnVolatileSeed:Play("targetyou")
 			yellolatileSeed:Yell()
 			yellolatileSeedFades:Countdown(spellId)
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(18)
-			end
 		else
 			warnVolatileSeed:Show(self.vb.volatileSeedCount, args.destName)
 		end
@@ -203,9 +194,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			yellMutteringsofInsanity:Countdown(spellId)
 			timerUnleashedInsanity:Start()
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(18)
-			end
 		end
 		if self.Options.SetIconOnMuttering and self.vb.mutteringIcon < 9 then
 			self:SetIcon(args.destName, self.vb.mutteringIcon)
@@ -234,9 +222,6 @@ function mod:SPELL_AURA_REMOVED(args)
 	if spellId == 310277 then
 		if args:IsPlayer() then
 			yellolatileSeedFades:Cancel()
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(4)
-			end
 		end
 		if self.Options.SetIconOnVolatileSeed then
 			self:SetIcon(args.destName, 0)
@@ -249,9 +234,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		if args:IsPlayer() then
 			yellMutteringsofInsanity:Cancel()
 			timerUnleashedInsanity:Stop()
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(4)
-			end
 		end
 	elseif spellId == 310361 then--Unleashed Insanity
 		if self.Options.SetIconOnMuttering then

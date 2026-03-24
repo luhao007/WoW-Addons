@@ -10,7 +10,6 @@
 ## Category-zhCN: |cFFFFE00A<|r|cFF00FF96任务|r|cFFFFE00A>|r
 
 ## Dependencies: BtWQuests
-## OptionalDeps: BtWQuestsShadowlandsPrologue
 ## LoadOnDemand: 1
 
 ## X-BtWQuests: Shadowlands

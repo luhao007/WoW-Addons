@@ -387,8 +387,16 @@ function RSConfigDB.SetShowingOldNotDiscoveredMapIcons(value)
 end
 
 ---============================================================================
--- Ingame filters database
+-- Ingame icons database
 ---============================================================================
+
+function RSConfigDB.IsSupportingMapIcons()
+	return private.db.map.supportMapIcons
+end
+
+function RSConfigDB.SetSupportingMapIcons(value)
+	private.db.map.supportMapIcons = value
+end
 
 function RSConfigDB.IsShowingFilteredIngameMapIcons()
 	return private.db.map.displayFilteredIngameMapIcons
@@ -396,6 +404,14 @@ end
 
 function RSConfigDB.SetShowingFilteredIngameMapIcons(value)
 	private.db.map.displayFilteredIngameMapIcons = value
+end
+
+function RSConfigDB.IsShowingPlayerPinOnTop()
+	return private.db.map.playerPinOntop
+end
+
+function RSConfigDB.SetShowingPlayerPinOnTop(value)
+	private.db.map.playerPinOntop = value
 end
 
 ---============================================================================

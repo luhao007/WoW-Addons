@@ -1,7 +1,8 @@
 local mod	= DBM:NewMod(1830, "DBM-Raids-Legion", 4, 861)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250209043815")
+mod:SetRevision("20260315035302")
+mod:DisableHardcodedOptions()
 mod:SetCreatureID(114323)
 mod:SetEncounterID(1962)
 mod:SetUsedIcons(1, 2, 3)
@@ -59,7 +60,6 @@ mod:AddSetIconOption("SetIconOnFoam", "ej14535", true)
 mod:AddBoolOption("YellActualRaidIcon", false)
 mod:AddBoolOption("FilterSameColor", true)
 mod:AddInfoFrameOption(228824, true)
-mod:AddRangeFrameOption(5, 228824)
 
 mod.vb.fangCast = 0
 mod.vb.breathCast = 0
@@ -133,18 +133,12 @@ function mod:OnCombatStart(delay)
 		else
 			berserkTimer:Start(-delay)
 		end
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Show(5)
-		end
 	else
 		berserkTimer:Start(420-delay)
 	end
 end
 
 function mod:OnCombatEnd()
-	if self.Options.RangeFrame then
-		DBM.RangeCheck:Hide()
-	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end

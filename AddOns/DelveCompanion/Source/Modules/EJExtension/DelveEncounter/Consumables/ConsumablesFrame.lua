@@ -24,7 +24,8 @@ function DelveCompanion_DelveEncounterConsumablesFrameMixin:UpdateConsumables()
     end
 
     ---@type number
-    local expansion = GetEJTierData(EJ_GetCurrentTier()).expansionLevel
+    local expansion = DelveCompanion.EJExtension.DelveEncounter:GetExpansionForFaction(
+        DelveCompanion.EJExtension.DelveEncounter:GetFactionIDs())
 
     if expansion == LE_EXPANSION_WAR_WITHIN then
         self.Keys:ClearAllPoints()

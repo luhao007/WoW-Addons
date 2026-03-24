@@ -102,3 +102,4 @@ Titan_Debug.titan.profile = false
 Titan_Debug.titan.movable = false
 Titan_Debug.titan.startup = false
 Titan_Debug.titan.tool_tips = false
+Titan_Debug.titan.config_flow = false

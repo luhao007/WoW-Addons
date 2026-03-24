@@ -45,9 +45,9 @@ data["MIDNIGHTFACTIONS"] = {
 				{ 6,   259028,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:5000" },                                                         -- Ensemble: Haven's Elegant Regalia
 				{ 7,   265658,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                         -- Silvermoon Court Cloak
 				{ 9,   "f2710rep33" },
-				{ 10,  263223,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Gilded Sky-Blue Drapery
-				{ 11,  263205,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Crimson Silvermoon Runner
-				{ 12,  263206,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Plum Eversong Rug
+				{ 10,  263223,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                          -- Gilded Sky-Blue Drapery
+				{ 11,  263205,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                          -- Crimson Silvermoon Runner
+				{ 12,  263206,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                          -- Plum Eversong Rug
 				{ 16,  "f2710rep35" },
 				{ 17,  263444,               [PRICE_EXTRA_ITTYPE] = "scribingMoxie:150:voidlightMarl:1500" },                                       -- Technique: Contract: The Silvermoon Court
 				{ 18,  259363,               [PRICE_EXTRA_ITTYPE] = "jewelcraftingMoxie:150:voidlightMarl:1500" },                                  -- Design: Bejeweled Sin'dorei Lyre
@@ -61,16 +61,16 @@ data["MIDNIGHTFACTIONS"] = {
 				{ 27,  257600,               [PRICE_EXTRA_ITTYPE] = "enchantingMoxie:75:voidlightMarl:750" },                                       -- Skill Issue: Enchanting
 				{ 28,  257599,               [PRICE_EXTRA_ITTYPE] = "jewelcraftingMoxie:75:voidlightMarl:750" },                                    -- Skill Issue: Jewelcrafting
 				{ 101, "f2710rep37" },
-				{ 102, 245290,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Long Silvermoon Table
-				{ 103, 263228,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:2500" },                                                         -- Grand Lightwood Table
-				{ 104, 263229,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Ornate Lightwood Table
-				{ 105, 256040,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Silvermoon Gemmed Chair
-				{ 106, 257422,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Gilded Sunfury Chair
+				{ 102, 245290,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                          -- Long Silvermoon Table
+				{ 103, 263228,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:500" },                                                          -- Grand Lightwood Table
+				{ 104, 263229,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                          -- Ornate Lightwood Table
+				{ 105, 256040,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                          -- Silvermoon Gemmed Chair
+				{ 106, 257422,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                          -- Gilded Sunfury Chair
 				{ 108, "f2710rep40" },
 				{ 109, 265663,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                         -- Silvermoon Court Tabard
 				{ 111, "f2710rep41" },
-				{ 112, 263232,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Floating Spire Shelf
-				{ 113, 263234,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:2500" },                                                         -- Turning Silvermoon Archives
+				{ 112, 263232,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                          -- Floating Spire Shelf
+				{ 113, 263234,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:500" },                                                          -- Turning Silvermoon Archives
 				{ 116, "f2710rep42" },
 				{ 117, 259224,               "pet4928",                                                          [PRICE_EXTRA_ITTYPE] = "voidlightMarl:2500" }, -- Dragonhawk Munchkin
 				{ 119, "f2710rep43" },
@@ -78,17 +78,17 @@ data["MIDNIGHTFACTIONS"] = {
 				{ 122, "f2710rep44" },
 				{ 123, 259082,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:5000" },                                                         -- Ensemble: Haven Dignitary's Trappings
 				{ 125, "f2710rep45" },
-				{ 126, 245985,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Floating Azure Lantern
-				{ 127, 264264,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Gilded Vigil Post
-				{ 128, 257421,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Bejeweled Silvermoon Chandelier
-				{ 129, 264265,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Sanctified Flame Lantern
+				{ 126, 245985,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                          -- Floating Azure Lantern
+				{ 127, 264264,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                          -- Gilded Vigil Post
+				{ 128, 257421,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:500" },                                                          -- Bejeweled Silvermoon Chandelier
+				{ 129, 264265,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                          -- Sanctified Flame Lantern
 				{ 201, "f2710rep46" },
 				{ 202, 265659,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                         -- Silvermoon Court Epaulets
 				{ 204, "f2710rep47" },
 				{ 205, 257154,               "mount",                                                            [PRICE_EXTRA_ITTYPE] = "voidlightMarl:6000" }, -- Crimson Silvermoon Hawkstrider
 				{ 207, "f2710rep48" },
-				{ 208, 249559,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:2500" },                                                         -- Reverent Sin'dorei Statue
-				{ 209, 245941,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:2500" },                                                         -- Silvermoon Sanctum Focus
+				{ 208, 249559,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:500" },                                                          -- Reverent Sin'dorei Statue
+				{ 209, 245941,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:500" },                                                          -- Silvermoon Sanctum Focus
 				{ 211, "f2710rep49" },
 				{ 212, 257142,               "mount",                                                            [PRICE_EXTRA_ITTYPE] = "voidlightMarl:8000" }, -- Fiery Dragonhawk
 				{ 214, "f2710rep50" },
@@ -104,8 +104,8 @@ data["MIDNIGHTFACTIONS"] = {
 				{ 3,   "267643:13649:13668", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:25" },                                                           -- Worn Amani Totemstring
 				{ 4,   250799,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                         -- Loa-Blessed Cloak
 				{ 6,   "f2696rep33" },
-				{ 7,   263318,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Simple Amani Basket
-				{ 8,   263320,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Rope-Bound Amani Basket
+				{ 7,   263318,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:150" },                                                          -- Simple Amani Basket
+				{ 8,   263320,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:150" },                                                          -- Rope-Bound Amani Basket
 				{ 16,  "f2696rep35" },
 				{ 17,  251629,               [PRICE_EXTRA_ITTYPE] = "scribingMoxie:150:voidlightMarl:1500" },                                       -- Technique: Contract: The Amani Tribe
 				{ 18,  251630,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:1500" },                                                         -- Recipe: Braised Blood Hunter
@@ -120,32 +120,32 @@ data["MIDNIGHTFACTIONS"] = {
 				{ 28,  250923,               [PRICE_EXTRA_ITTYPE] = "skinningMoxie:75:voidlightMarl:750" },                                         -- Whisper of the Loa: Skinning
 				{ 29,  250922,               [PRICE_EXTRA_ITTYPE] = "leatherworkingMoxie:75:voidlightMarl:750" },                                   -- Whisper of the Loa: Leatherworking
 				{ 101, "f2696rep37" },
-				{ 102, 264350,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Carved Idol of Akil'zon, Loa of Victory
-				{ 103, 256933,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Carved Idol of Jan'alai, Loa of Fire
-				{ 104, 256927,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Carved Idol of Nalorakk, Loa of War
-				{ 105, 258290,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Carved Idol of Halazzi, Loa of the Hunt
+				{ 102, 264350,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                          -- Carved Idol of Akil'zon, Loa of Victory
+				{ 103, 256933,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                          -- Carved Idol of Jan'alai, Loa of Fire
+				{ 104, 256927,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                          -- Carved Idol of Nalorakk, Loa of War
+				{ 105, 258290,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                          -- Carved Idol of Halazzi, Loa of the Hunt
 				{ 107, "f2696rep40" },
 				{ 108, 250800,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                         -- Loa-Blessed Tabard
 				{ 110, "f2696rep41" },
-				{ 111, 258549,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Burning Amani Pinecone
-				{ 112, 264333,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Amani Incense Burner
+				{ 111, 258549,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                          -- Burning Amani Pinecone
+				{ 112, 264333,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:150" },                                                          -- Amani Incense Burner
 				{ 114, "f2696rep42" },
 				{ 115, 250863,               "pet4888",                                                          [PRICE_EXTRA_ITTYPE] = "voidlightMarl:2500" }, -- Naloki
 				{ 116, "f2696rep43" },
 				{ 117, 250974,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:4000" },                                                         -- Akil'zon's Updraft
 				{ 119, "f2696rep45" },
-				{ 120, 256934,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Boiling Amani Cauldron
-				{ 121, 256926,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Empty Amani Cauldron
-				{ 122, 256924,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                          -- Hash'ey Heartbroth Cauldron
+				{ 120, 256934,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                          -- Boiling Amani Cauldron
+				{ 121, 256926,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                          -- Empty Amani Cauldron
+				{ 122, 256924,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                          -- Hash'ey Heartbroth Cauldron
 				{ 124, "f2696rep46" },
 				{ 125, 250801,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                         -- Loa-Blessed Shoulderguards
 				{ 127, "f2696rep47" },
 				{ 128, 257219,               "mount",                                                            [PRICE_EXTRA_ITTYPE] = "voidlightMarl:6000" }, -- Amani Blessed Bear
 				{ 201, "f2696rep48" },
-				{ 202, 260516,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:2500" },                                                         -- Visage of Jan'alai, Loa of Fire
-				{ 203, 260515,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:2500" },                                                         -- Visage of Halazzi, Loa of the Hunt
-				{ 204, 260514,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:2500" },                                                         -- Visage of Nalorakk, Loa of War
-				{ 205, 260202,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:2500" },                                                         -- Visage of Akil'zon, Loa of Victory
+				{ 202, 260516,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:500" },                                                          -- Visage of Jan'alai, Loa of Fire
+				{ 203, 260515,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:500" },                                                          -- Visage of Halazzi, Loa of the Hunt
+				{ 204, 260514,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:500" },                                                          -- Visage of Nalorakk, Loa of War
+				{ 205, 260202,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:500" },                                                          -- Visage of Akil'zon, Loa of Victory
 				{ 207, "f2696rep49" },
 				{ 208, 250889,               "mount",                                                            [PRICE_EXTRA_ITTYPE] = "voidlightMarl:8000" }, -- Amani Windcaller
 				{ 210, "f2696rep50" },
@@ -157,49 +157,60 @@ data["MIDNIGHTFACTIONS"] = {
 			CoinTexture = "Reputation",
 			[NORMAL_DIFF] = {
 				{ 1,   "f2704rep32" },
-				{ 2,   "267479:13578:13649", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:25" },                                                           -- Aspiring Hara'ti Defender's Sash
-				{ 3,   "267480:13578:13649", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:25" },                                                           -- Aspiring Hara'ti Defender's Cord
-				{ 4,   "267481:13578:13649", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:25" },                                                           -- Aspiring Hara'ti Defender's Belt
-				{ 5,   "267482:13578:13649", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:25" },                                                           -- Aspiring Hara'ti Defender's Greatbelt
-				{ 6,   256613,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                         -- Cloak of the Hara'ti Elder
-				{ 7,   267257,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                         -- Cloak of the Hara'ti Sage
-				{ 8,   267258,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                         -- Cloak of the Hara'ti Seer
+				{ 2,   "267479:13578:13649", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:25" },               -- Aspiring Hara'ti Defender's Sash
+				{ 3,   "267480:13578:13649", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:25" },               -- Aspiring Hara'ti Defender's Cord
+				{ 4,   "267481:13578:13649", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:25" },               -- Aspiring Hara'ti Defender's Belt
+				{ 5,   "267482:13578:13649", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:25" },               -- Aspiring Hara'ti Defender's Greatbelt
+				{ 6,   256613,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },             -- Cloak of the Hara'ti Elder
+				{ 7,   267257,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },             -- Cloak of the Hara'ti Sage
+				{ 8,   267258,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },             -- Cloak of the Hara'ti Seer
+				{ 10,  "f2704rep33" },
+				{ 11,  246402,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:150" },              -- Hollowed Harandar Gourds
+				{ 12,  246408,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:150" },              -- Haranir Herb Rack
 				{ 16,  "f2704rep35" },
-				{ 17,  258141,               [PRICE_EXTRA_ITTYPE] = "alchemyMoxie:150:voidlightMarl:1500" },                                        -- Recipe: Haranir Phial of Perception
-				{ 18,  247500,               [PRICE_EXTRA_ITTYPE] = "alchemyMoxie:150:voidlightMarl:1500" },                                        -- Recipe: Rootbound Vat
-				{ 19,  256751,               [PRICE_EXTRA_ITTYPE] = "enchantingMoxie:150:voidlightMarl:1500" },                                     -- Formula: Enchant Weapon - Worldsoul Tenacity
-				{ 20,  256745,               [PRICE_EXTRA_ITTYPE] = "enchantingMoxie:150:voidlightMarl:1500" },                                     -- Formula: Enchant Chest - Mark of the Rootwarden
-				{ 21,  256749,               [PRICE_EXTRA_ITTYPE] = "enchantingMoxie:150:voidlightMarl:1500" },                                     -- Formula: Enchant Tool - Haranir Multicrafting
-				{ 22,  256743,               [PRICE_EXTRA_ITTYPE] = "enchantingMoxie:150:voidlightMarl:1500" },                                     -- Formula: Gleeful Glamour - Haranir
-				{ 23,  263443,               [PRICE_EXTRA_ITTYPE] = "scribingMoxie:150:voidlightMarl:1500" },                                       -- Technique: Contract: The Hara'ti
-				{ 24,  258509,               [PRICE_EXTRA_ITTYPE] = "scribingMoxie:150:voidlightMarl:1500" },                                       -- Technique: Harandar Signpost
-				{ 25,  258510,               [PRICE_EXTRA_ITTYPE] = "scribingMoxie:150:voidlightMarl:1500" },                                       -- Technique: Magnificent Towering Bookcase
-				{ 26,  256700,               [PRICE_EXTRA_ITTYPE] = "jewelcraftingMoxie:150:voidlightMarl:1500" },                                  -- Design: Signet of Azerothian Blessings
-				{ 27,  256639,               [PRICE_EXTRA_ITTYPE] = "leatherworkingMoxie:150:voidlightMarl:1500" },                                 -- Pattern: World Tree Rootwraps
-				{ 28,  259457,               [PRICE_EXTRA_ITTYPE] = "leatherworkingMoxie:150:voidlightMarl:1500" },                                 -- Pattern: Simple Haranir Table
+				{ 17,  258141,               [PRICE_EXTRA_ITTYPE] = "alchemyMoxie:150:voidlightMarl:1500" }, -- Recipe: Haranir Phial of Perception
+				{ 18,  247500,               [PRICE_EXTRA_ITTYPE] = "alchemyMoxie:150:voidlightMarl:1500" }, -- Recipe: Rootbound Vat
+				{ 19,  256751,               [PRICE_EXTRA_ITTYPE] = "enchantingMoxie:150:voidlightMarl:1500" }, -- Formula: Enchant Weapon - Worldsoul Tenacity
+				{ 20,  256745,               [PRICE_EXTRA_ITTYPE] = "enchantingMoxie:150:voidlightMarl:1500" }, -- Formula: Enchant Chest - Mark of the Rootwarden
+				{ 21,  256749,               [PRICE_EXTRA_ITTYPE] = "enchantingMoxie:150:voidlightMarl:1500" }, -- Formula: Enchant Tool - Haranir Multicrafting
+				{ 22,  256743,               [PRICE_EXTRA_ITTYPE] = "enchantingMoxie:150:voidlightMarl:1500" }, -- Formula: Gleeful Glamour - Haranir
+				{ 23,  263443,               [PRICE_EXTRA_ITTYPE] = "scribingMoxie:150:voidlightMarl:1500" }, -- Technique: Contract: The Hara'ti
+				{ 24,  258509,               [PRICE_EXTRA_ITTYPE] = "scribingMoxie:150:voidlightMarl:1500" }, -- Technique: Harandar Signpost
+				{ 25,  258510,               [PRICE_EXTRA_ITTYPE] = "scribingMoxie:150:voidlightMarl:1500" }, -- Technique: Magnificent Towering Bookcase
+				{ 26,  256700,               [PRICE_EXTRA_ITTYPE] = "jewelcraftingMoxie:150:voidlightMarl:1500" }, -- Design: Signet of Azerothian Blessings
+				{ 27,  256639,               [PRICE_EXTRA_ITTYPE] = "leatherworkingMoxie:150:voidlightMarl:1500" }, -- Pattern: World Tree Rootwraps
+				{ 28,  259457,               [PRICE_EXTRA_ITTYPE] = "leatherworkingMoxie:150:voidlightMarl:1500" }, -- Pattern: Simple Haranir Table
 				{ 101, "f2704rep36" },
-				{ 102, 258410,               [PRICE_EXTRA_ITTYPE] = "herbalismMoxie:75:voidlightMarl:750" },                                        -- Traditions of the Haranir: Herbalism
-				{ 103, 258411,               [PRICE_EXTRA_ITTYPE] = "scribingMoxie:75:voidlightMarl:750" },                                         -- Traditions of the Haranir: Inscription
-				{ 105, "f2704rep40" },
-				{ 106, 256615,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                         -- Tabard of the Hara'ti Elder
-				{ 107, 267261,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                         -- Tabard of the Hara'ti Sage
-				{ 108, 267262,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                         -- Tabard of the Hara'ti Seer
-				{ 110, "f2704rep43" },
-				{ 111, 256552,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:4000" },                                                         -- Verdant Rutaani Seed
-				{ 113, "f2704rep46" },
-				{ 114, 246734,               "mount",                                                            [PRICE_EXTRA_ITTYPE] = "voidlightMarl:6000" }, -- Fierce Grimlynx
-				{ 116, "f2704rep47" },
-				{ 117, 259073,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:5000" },                                                         -- Arsenal: Arms of the Hara'ti
-				{ 118, 256614,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                         -- Shoulderguards of the Hara'ti Elder
-				{ 119, 267259,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                         -- Shoulderguards of the Hara'ti Sage
-				{ 120, 267260,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                         -- Shoulderguards of the Hara'ti Seer
-				{ 122, "f2704rep49" },
-				{ 123, 252014,               "mount",                                                            [PRICE_EXTRA_ITTYPE] = "voidlightMarl:8000" }, -- Cerulean Sporeglider
-				{ 125, "f2704rep50" },
-				{ 126, 258014,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:5000" },                                                         -- Ensemble: Hara'ti Guardian's Armor
-				{ 127, 258013,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:5000" },                                                         -- Ensemble: Hara'ti Scout's Outfit
-				{ 128, 258012,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:5000" },                                                         -- Ensemble: Hara'ti Rootwarden's Wear
-				{ 129, 258010,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:5000" },                                                         -- Ensemble: Hara'ti Rootdancer's Garb
+				{ 102, 258410,               [PRICE_EXTRA_ITTYPE] = "herbalismMoxie:75:voidlightMarl:750" }, -- Traditions of the Haranir: Herbalism
+				{ 103, 258411,               [PRICE_EXTRA_ITTYPE] = "scribingMoxie:75:voidlightMarl:750" }, -- Traditions of the Haranir: Inscription
+				{ 105, "f2704rep37" },
+				{ 106, 251980,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:150" },              -- Fungarian Sack
+				{ 107, 249768,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },              -- Fungarian Barrel
+				{ 108, 246959,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:150" },              -- Sealed Fungal Jar
+				{ 110, "f2704rep40" },
+				{ 111, 256615,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },             -- Tabard of the Hara'ti Elder
+				{ 112, 267261,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },             -- Tabard of the Hara'ti Sage
+				{ 113, 267262,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },             -- Tabard of the Hara'ti Seer
+				-- { 101, "f2704rep42" }, -- decor?
+				{ 116, "f2704rep43" },
+				{ 117, 256552,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:4000" }, -- Verdant Rutaani Seed
+				-- { 101, "f2704rep44" }, -- Munchy pet?
+				-- { 101, "f2704rep45" }, -- decor?
+				{ 119, "f2704rep46" },
+				{ 120, 246734,               "mount",                                                            [PRICE_EXTRA_ITTYPE] = "voidlightMarl:6000" }, -- Fierce Grimlynx
+				{ 122, "f2704rep47" },
+				{ 123, 259073,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:5000" },                                                         -- Arsenal: Arms of the Hara'ti
+				{ 124, 256614,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                         -- Shoulderguards of the Hara'ti Elder
+				{ 125, 267259,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                         -- Shoulderguards of the Hara'ti Sage
+				{ 126, 267260,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                         -- Shoulderguards of the Hara'ti Seer
+				-- { 101, "f2704rep48" }, -- decor?
+				{ 128, "f2704rep49" },
+				{ 129, 252014,               "mount",                                                            [PRICE_EXTRA_ITTYPE] = "voidlightMarl:8000" }, -- Cerulean Sporeglider
+				{ 201, "f2704rep50" },
+				{ 202, 258014,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:5000" },                                                         -- Ensemble: Hara'ti Guardian's Armor
+				{ 203, 258013,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:5000" },                                                         -- Ensemble: Hara'ti Scout's Outfit
+				{ 204, 258012,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:5000" },                                                         -- Ensemble: Hara'ti Rootwarden's Wear
+				{ 205, 258010,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:5000" },                                                         -- Ensemble: Hara'ti Rootdancer's Garb
 			}
 		},
 		{ -- The Singularity
@@ -212,16 +223,16 @@ data["MIDNIGHTFACTIONS"] = {
 				{ 4,   "267605:13578:13649", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:25" },                                                        -- Neverending Vortex Grasps
 				{ 5,   "267604:13578:13649", [PRICE_EXTRA_ITTYPE] = "voidlightMarl:25" },                                                        -- Clutches of the Colossal Behemoths
 				{ 7,   "f2699rep33" },
-				{ 8,   262607,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                       -- Void Elf Throne
-				{ 9,   248964,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                       -- Cosmic Void Table
-				{ 10,  264509,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                       -- Void Elf Barrel
+				{ 8,   262607,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                       -- Void Elf Throne
+				{ 9,   248964,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                       -- Cosmic Void Table
+				{ 10,  264509,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:150" },                                                       -- Void Elf Barrel
 				{ 12,  "f2699rep34" },
 				{ 13,  263723,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                      -- Shawl of the Gilded Collapsed Star
 				{ 14,  266979,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                      -- Shawl of the Darkened Collapsed Star
 				{ 15,  266984,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                      -- Shawl of the Nebulous Collapsed Star
 				{ 16,  "f2699rep35" },
-				{ 17,  262473,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                       -- Cosmic Chalice
-				{ 18,  263499,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                       -- Sturdy Void Elf Trunk
+				{ 17,  262473,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:150" },                                                       -- Cosmic Chalice
+				{ 18,  263499,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                       -- Sturdy Void Elf Trunk
 				{ 19,  256758,               [PRICE_EXTRA_ITTYPE] = "enchantingMoxie:150:voidlightMarl:1500" },                                  -- Formula: Enchant Tool - Ren'dorei Ingenuity
 				{ 20,  256757,               [PRICE_EXTRA_ITTYPE] = "enchantingMoxie:150:voidlightMarl:1500" },                                  -- Formula: Enchant Weapon - Acuity of the Ren'dorei
 				{ 21,  268044,               [PRICE_EXTRA_ITTYPE] = "enchantingMoxie:150:voidlightMarl:1500" },                                  -- Formula: Endless Codex of the Voidtouched
@@ -231,9 +242,9 @@ data["MIDNIGHTFACTIONS"] = {
 				{ 25,  263445,               [PRICE_EXTRA_ITTYPE] = "scribingMoxie:150:voidlightMarl:1500" },                                    -- Technique: Contract: The Singularity
 				{ 26,  265534,               [PRICE_EXTRA_ITTYPE] = "blacksmithingMoxie:150" },                                                  -- Plans: Ren'dorei Anvil
 				{ 101, "f2699rep38" },
-				{ 102, 262462,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                       -- Dark Void Inkwell
-				{ 103, 262466,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                       -- Void Elf Table
-				{ 104, 264344,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                       -- Cosmic Void Orb
+				{ 102, 262462,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:150" },                                                       -- Dark Void Inkwell
+				{ 103, 262466,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                       -- Void Elf Table
+				{ 104, 264344,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                       -- Cosmic Void Orb
 				{ 106, "f2699rep39" },
 				{ 107, 262645,               [PRICE_EXTRA_ITTYPE] = "alchemyMoxie:75:voidlightMarl:750" },                                       -- Beyond the Event Horizon: Alchemy
 				{ 108, 262644,               [PRICE_EXTRA_ITTYPE] = "blacksmithingMoxie:75:voidlightMarl:750" },                                 -- Beyond the Event Horizon: Blacksmithing
@@ -243,9 +254,9 @@ data["MIDNIGHTFACTIONS"] = {
 				{ 113, 266981,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                      -- Tabard of the Darkened Collapsed Star
 				{ 114, 266982,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:3000" },                                                      -- Tabard of the Nebulous Collapsed Star
 				{ 116, "f2699rep42" },
-				{ 117, 264351,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                       -- Ornate Void Elf Banner
-				{ 118, 262609,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                       -- Void Elf Floating Lantern
-				{ 119, 262463,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                       -- Cosmic Void Ashwell
+				{ 117, 264351,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                       -- Ornate Void Elf Banner
+				{ 118, 262609,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                       -- Void Elf Floating Lantern
+				{ 119, 262463,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:150" },                                                       -- Cosmic Void Ashwell
 				{ 121, "f2699rep44" },
 				{ 122, 263492,               "pet4952",                                                       [PRICE_EXTRA_ITTYPE] = "voidlightMarl:2500" }, -- Blitzcreek
 				{ 124, "f2699rep45" },
@@ -257,9 +268,9 @@ data["MIDNIGHTFACTIONS"] = {
 				{ 201, "f2699rep47" },
 				{ 202, 257445,               "mount",                                                         [PRICE_EXTRA_ITTYPE] = "voidlightMarl:6000" }, -- Ravenous Shredclaw
 				{ 204, "f2699rep48" },
-				{ 205, 264341,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                       -- Cosmic Void Crate
-				{ 206, 264339,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                                       -- Cosmic Void Summoning Crystal
-				{ 207, 264337,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:2500" },                                                      -- Cosmic Void Training Dummy
+				{ 205, 264341,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                       -- Cosmic Void Crate
+				{ 206, 264339,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                                       -- Cosmic Void Summoning Crystal
+				{ 207, 264337,               [PRICE_EXTRA_ITTYPE] = "voidlightMarl:500" },                                                       -- Cosmic Void Training Dummy
 				{ 209, "f2699rep49" },
 				{ 210, 260696,               "mount",                                                         [PRICE_EXTRA_ITTYPE] = "voidlightMarl:8000" }, -- Voidbound Stormray
 			}
@@ -345,32 +356,78 @@ data["MIDNIGHTFACTIONS"] = {
 			CoinTexture = "Reputation",
 			[NORMAL_DIFF] = {
 				{ 1,  "f2770rep5" },
-				{ 2,  264253,     [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                  -- Galactic Void-Scarred Barricade
+				{ 2,  264253,     [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                  -- Galactic Void-Scarred Barricade
 				{ 4,  "f2770rep6" },
 				{ 5,  264517,     [PRICE_EXTRA_ITTYPE] = "voidlightMarl:4000" },                                 -- Galactic Flag of Victory
-				{ 6,  264345,     [PRICE_EXTRA_ITTYPE] = "voidlightMarl:750" },                                  -- Galactic Commander's Orb
+				{ 6,  264345,     [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                  -- Galactic Commander's Orb
 				{ 8,  "f2770rep7" },
 				{ 9,  265035,     "pet4984",                                  [PRICE_EXTRA_ITTYPE] = "voidlightMarl:2500" }, -- Medusa
-				{ 10, 247785,     [PRICE_EXTRA_ITTYPE] = "voidlightMarl:2500" },                                 -- Galactic Void-Scarred Banner
+				{ 10, 247785,     [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                                  -- Galactic Void-Scarred Banner
 				{ 12, "f2770rep8" },
 				{ 13, 257448,     "mount",                                    [PRICE_EXTRA_ITTYPE] = "voidlightMarl:6000" }, -- Frenzied Shredclaw
 				{ 14, 257447,     "mount",                                    [PRICE_EXTRA_ITTYPE] = "voidlightMarl:6000" }, -- Prowling Shredclaw
 			}
 		},
-		--[[ { -- Prey: Season 1
+		{ -- Prey: Season 1
 			FactionID = 2764,
 			CoinTexture = "Reputation",
 			[NORMAL_DIFF] = {
-				{ 1, "f2764rep2" },
+				{ 1,   "f2764rep31" },
+				{ 2,   264434,      "pet4976",                                                        [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:800" }, -- Voldy
+				{ 3,   264666,      [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:600" },                                                        -- Rod of Exanguishation
+				{ 4,   258022,      [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:400" },                                                        -- Skilled Preyseeker's Plumed Helm
+				{ 5,   258024,      [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:400" },                                                        -- Skilled Preyseeker's Shoulder-spikes
+				{ 6,   266196,      [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:1600" },                                                       -- Ensemble: Preyseeker's Refined Armor
+				{ 7,   266197,      [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:1600" },                                                       -- Ensemble: Preyseeker's Sleek Armor
+				{ 8,   266198,      [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:1600" },                                                       -- Ensemble: Preyseeker's Rugged Armor
+				{ 9,   266199,      [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:1600" },                                                       -- Ensemble: Preyseeker's Polished Armor
+				{ 10,  256754,      [PRICE_EXTRA_ITTYPE] = "enchantingMoxie:150:remnantOfAnguish:500" },                                    -- Formula: Enchant Shoulders - Nature's Embrace
+				{ 11,  256756,      [PRICE_EXTRA_ITTYPE] = "enchantingMoxie:150:remnantOfAnguish:500" },                                    -- Formula: Enchant Boots - Farstrider's Hunt
+				{ 12,  267399,      [PRICE_EXTRA_ITTYPE] = "scribingMoxie:150:remnantOfAnguish:500" },                                      -- Technique: Sturdy Ren'dorei Cask
+				{ 13,  267400,      [PRICE_EXTRA_ITTYPE] = "scribingMoxie:150:remnantOfAnguish:500" },                                      -- Technique: Wild Hanging Scroll
+				{ 16,  "f2764rep34" },
+				{ 17,  265794,      [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:800" },                                                        -- Preyseeker's Plinth
+				{ 19,  "f2764rep35" },
+				{ 20,  257191,      "mount",                                                          [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:2000" }, -- Preyseeker's Hubris
+				{ 22,  "f2764rep36" },
+				{ 23,  263933,      [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:800" },                                                        -- Preyseeker's Hearthstone
+				{ 24,  258028,      [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:500" },                                                        -- Famed Preyseeker's Plumed Helm
+				{ 25,  258026,      [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:500" },                                                        -- Famed Preyseeker's Shoulder-spikes
+				{ 26,  258030,      [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:500" },                                                        -- Famed Preyseeker's Knapsack
+				{ 28,  "f2764rep38" },
+				{ 29,  265795,      [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:1200" },                                                       -- Preyseeker's Ornate Plinth
+				{ 101, "f2764rep39" },
+				{ 102, 259991,      "pet4930",                                                        [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:1200" }, -- Lil' Preyseeker
+				{ 104, "f2764rep40" },
+				{ 105, 257192,      "mount",                                                          [PRICE_EXTRA_ITTYPE] = "remnantOfAnguish:2550" }, -- Preyseeker's Wrath
 			}
-		}, ]]
-		--[[ { -- Delves: Season 1
+		},
+		{ -- Delves: Season 1
 			FactionID = 2742,
 			CoinTexture = "Reputation",
 			[NORMAL_DIFF] = {
-				{ 1, "f2742rep2" },
+				{ 1,  "f2742rep31" },
+				{ 2,  263996,      [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                               -- Twilight Tabernacle
+				{ 4,  "f2742rep32" },
+				{ 5,  263994,      [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                               -- Fungal Chest
+				{ 7,  "f2742rep33" },
+				{ 8,  264175,      [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                               -- Amani Strongbox
+				{ 10, "f2742rep34" },
+				{ 11, 264170,      [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                               -- Ancient Kaldorei Coffer
+				{ 13, "f2742rep35" },
+				{ 14, 262500,      "mount",                                   [PRICE_EXTRA_ITTYPE] = "voidlightMarl:10" }, -- Silvermoon's Arcane Defender
+				{ 16, "f2742rep36" },
+				{ 17, 262951,      [PRICE_EXTRA_ITTYPE] = "voidlightMarl:10" },                                -- Sin'dorei Gravestone
+				{ 19, "f2742rep37" },
+				{ 20, 264414,      [PRICE_EXTRA_ITTYPE] = "voidlightMarl:10" },                                -- Midnight Delver's Flare Gun
+				{ 21, 264008,      [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                               -- Root-Wrapped Reliquary
+				{ 23, "f2742rep38" },
+				{ 24, 264007,      [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                               -- Corewarden's Spoils
+				{ 26, "f2742rep40" },
+				{ 27, 265100,      [PRICE_EXTRA_ITTYPE] = "voidlightMarl:10" },                                -- Corewarden's Hearthstone
+				{ 28, 263995,      [PRICE_EXTRA_ITTYPE] = "voidlightMarl:250" },                               -- Delver's Bountiful Coffer
 			}
-		}, ]]
+		},
 	}
 }
 
@@ -4329,16 +4386,16 @@ data["BCFACTIONS"] = {
 			[NORMAL_DIFF] = {
 				{ 1,  "f989rep6" },
 				{ 2,  28272,     [PRICE_EXTRA_ITTYPE] = "money:80000" }, -- Formula: Enchant Gloves - Major Spellpower (p4 360)
-				{ 3,  22536,     [PRICE_EXTRA_ITTYPE] = "money:100000" }, -- Formula: Enchant Ring - Minor Intellect (p4 360)
-				{ 4,  25910,     [PRICE_EXTRA_ITTYPE] = "money:120000" }, -- Design: Enigmatic Skyfire Diamond (p12 365)
-				{ 5,  33160,     [PRICE_EXTRA_ITTYPE] = "money:120000" }, -- Design: Facet of Eternity (p12 360)
-				{ 6,  29713,     [PRICE_EXTRA_ITTYPE] = "money:120000" }, -- Pattern: Drums of Panic (p7 370)
-				{ 8,  "f989rep7" },
-				{ 9,  29184 },                                -- Timewarden's Leggings
-				{ 10, 29185 },                                -- Continuum Blade
-				{ 11, 24181,     [PRICE_EXTRA_ITTYPE] = "money:120000" }, -- Design: Living Ruby Serpent (p12 370)
-				{ 12, 24174,     [PRICE_EXTRA_ITTYPE] = "money:120000" }, -- Design: Pendant of Frozen Flame (p12 360)
-				{ 13, 33158,     [PRICE_EXTRA_ITTYPE] = "money:120000" }, -- Design: Stone of Blades (p12 360)
+				--{ 3,  22536,     [PRICE_EXTRA_ITTYPE] = "money:100000" }, -- Formula: Enchant Ring - Minor Intellect (p4 360)
+				{ 3,  25910,     [PRICE_EXTRA_ITTYPE] = "money:120000" }, -- Design: Enigmatic Skyfire Diamond (p12 365)
+				{ 4,  33160,     [PRICE_EXTRA_ITTYPE] = "money:120000" }, -- Design: Facet of Eternity (p12 360)
+				{ 5,  29713,     [PRICE_EXTRA_ITTYPE] = "money:120000" }, -- Pattern: Drums of Panic (p7 370)
+				{ 7,  "f989rep7" },
+				{ 8,  29184 },                                -- Timewarden's Leggings
+				{ 9,  29185 },                                -- Continuum Blade
+				{ 10, 24181,     [PRICE_EXTRA_ITTYPE] = "money:120000" }, -- Design: Living Ruby Serpent (p12 370)
+				{ 11, 24174,     [PRICE_EXTRA_ITTYPE] = "money:120000" }, -- Design: Pendant of Frozen Flame (p12 360)
+				{ 12, 33158,     [PRICE_EXTRA_ITTYPE] = "money:120000" }, -- Design: Stone of Blades (p12 360)
 				{ 16, "f989rep8" },
 				{ 17, 29183 },                                -- Bindings of the Timewalker
 				{ 18, 29181 },                                -- Timelapse Shard
@@ -4395,14 +4452,14 @@ data["BCFACTIONS"] = {
 				{ 10, 22910,      [PRICE_EXTRA_ITTYPE] = "money:80000" }, -- Recipe: Elixir of Major Shadow Power (p1 350)
 				{ 11, 33157,      [PRICE_EXTRA_ITTYPE] = "money:120000" }, -- Design: Falling Star (p12 360)
 				{ 16, "f1011rep6" },
-				{ 17, 22538,      [PRICE_EXTRA_ITTYPE] = "money:200000" }, -- Formula: Enchant Ring - Stats (p4 375)
-				{ 18, 30833,      [PRICE_EXTRA_ITTYPE] = "money:60000" }, -- Pattern: Cloak of Arcane Evasion (p8 350)
-				{ 20, "f1011rep8" },
-				{ 21, 30834 },                                 -- Shapeshifter's Signet
-				{ 22, 30832 },                                 -- Gavel of Unearthed Secrets
-				{ 23, 30830 },                                 -- Trident of the Outcast Tribe
-				{ 24, 33148,      [PRICE_EXTRA_ITTYPE] = "money:100000" }, -- Formula: Enchant Cloak - Dodge (p4 300)
-				{ 25, 31778,      [PRICE_EXTRA_ITTYPE] = "money:10000" }, -- Lower City Tabard
+				--{ 17, 22538,      [PRICE_EXTRA_ITTYPE] = "money:200000" }, -- Formula: Enchant Ring - Stats (p4 375)
+				{ 17, 30833,      [PRICE_EXTRA_ITTYPE] = "money:60000" }, -- Pattern: Cloak of Arcane Evasion (p8 350)
+				{ 19, "f1011rep8" },
+				{ 20, 30834 },                                 -- Shapeshifter's Signet
+				{ 21, 30832 },                                 -- Gavel of Unearthed Secrets
+				{ 22, 30830 },                                 -- Trident of the Outcast Tribe
+				{ 23, 33148,      [PRICE_EXTRA_ITTYPE] = "money:100000" }, -- Formula: Enchant Cloak - Dodge (p4 300)
+				{ 24, 31778,      [PRICE_EXTRA_ITTYPE] = "money:10000" }, -- Lower City Tabard
 			},
 		},
 		{ --Netherwing

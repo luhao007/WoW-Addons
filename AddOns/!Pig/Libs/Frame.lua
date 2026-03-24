@@ -9,8 +9,7 @@ local Create = {}
 local FontUrl = "Fonts/ARHei.ttf"
 Create.FontUrl=FontUrl
 function Create.PIGSetFont(fuji,zihao,Miaobian)
-	local zihao = zihao or 14
-	fuji:SetFont(FontUrl,zihao,Miaobian)
+	fuji:SetFont(FontUrl,zihao or 14, Miaobian or "")
 end
 function Create.PIGFontString(fuF,Point,Text,Miaobian,Zihao,UIName,Level,OnEnter)
 	local Text = Text or ""

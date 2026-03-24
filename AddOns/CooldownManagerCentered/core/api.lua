@@ -276,3 +276,68 @@ function API:GetTableLength(t)
     end
     return count
 end
+
+local function AddSpellToTracking(spellID, state)
+    if InCombatLockdown() then
+        return nil, "Cannot add spell to tracking while in combat."
+    end
+
+    -- local overrideSpell = C_Spell.GetOverrideSpell(spellID)
+    local baseSpellID = C_Spell.GetBaseSpell(spellID)
+    local isUsable = C_Spell.DoesSpellExist(baseSpellID)
+    if not isUsable then
+        return nil, "Spell does not exist."
+    end
+
+    local target = state or ns.TrackerItemsData.ITEM_STATE_TRACKER1
+    ns.TrackerItemsData:SetEntryState("spell", baseSpellID, target)
+
+    if ns.MiscPanel and ns.MiscPanel.RefreshMiscPanel then
+        ns.MiscPanel:RefreshMiscPanel()
+    end
+    if ns.TrackerItemViewer and ns.TrackerItemViewer.RefreshItemViewerFrames then
+        ns.TrackerItemViewer:RefreshItemViewerFrames()
+    end
+
+    return true
+end
+
+local function AddItemToTracking(itemID, state)
+    if InCombatLockdown() then
+        return nil, "Cannot add item to tracking while in combat."
+    end
+
+    local _spellName, spellId = C_Item.GetItemSpell(itemID)
+    if not spellId then
+        return nil, "Item is not usable."
+    end
+
+    local target = state or ns.TrackerItemsData.ITEM_STATE_TRACKER1
+    ns.TrackerItemsData:SetEntryState("item", itemID, target)
+
+    if ns.MiscPanel and ns.MiscPanel.RefreshMiscPanel then
+        ns.MiscPanel:RefreshMiscPanel()
+    end
+    if ns.TrackerItemViewer and ns.TrackerItemViewer.RefreshItemViewerFrames then
+        ns.TrackerItemViewer:RefreshItemViewerFrames()
+    end
+
+    return true
+end
+
+function API:AddSpellToTracking(spellID)
+    return AddSpellToTracking(spellID)
+end
+
+function API:AddItemToTracking(itemID)
+    return AddItemToTracking(itemID)
+end
+function API:AddToTracking(kind, id, state)
+    if kind == "spell" then
+        return AddSpellToTracking(id, state)
+    elseif kind == "item" then
+        return AddItemToTracking(id, state)
+    else
+        return nil, "Invalid kind. Must be 'spell' or 'item'."
+    end
+end
