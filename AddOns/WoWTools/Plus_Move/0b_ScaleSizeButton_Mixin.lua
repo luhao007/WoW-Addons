@@ -417,11 +417,18 @@ local function Init_Menu(self, root)
             return not Save().disabledSize[name]
         end, function()
             Save().disabledSize[name]= not Save().disabledSize[name] and true or nil
-            return MenuResponse.Close
         end, {rightText=format('%i|cff626262x|r%i', target:GetWidth(),target:GetHeight())})
         WoWTools_MenuMixin:SetRightText(sub)
-        
 
+        if self.sizeTooltip then
+            sub:SetTooltip(function(tooltip)
+            if type(self.sizeTooltip)=='function' then
+                self.sizeTooltip(tooltip, target, self)
+            else
+                tooltip:AddLine(self.sizeTooltip)
+            end
+            end)
+        end
 
 --x
         sub:CreateSpacer()
@@ -1016,7 +1023,7 @@ function WoWTools_MoveMixin:Scale_Size_Button(frame, tab)
     local btn= frame.ResizeButton
 
     btn:SetFrameStrata('DIALOG')
-    btn:SetFrameLevel(frame:GetFrameLevel()+7)
+    btn:SetFrameLevel(999)
     btn:SetSize(18, 18)
 
     local setResizeButtonPoint= tab.setResizeButtonPoint--设置，按钮，位置

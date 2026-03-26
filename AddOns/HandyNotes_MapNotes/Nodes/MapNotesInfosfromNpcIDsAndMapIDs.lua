@@ -119,6 +119,7 @@ ns.OhnahranPlains = mapName(2023)
 ns.Valdrakken = mapName(2112)
 ns.EmeraldDream = mapName(2200)
 ns.Amirdrassil = mapName(2239)
+ns.Thaldraszus = mapName(2025)
 ------------------------------------ Khaz Algar Zones
 ns.CityOfThreads = mapName(2213)
 ns.TheRingingDeeps = mapName(2214)

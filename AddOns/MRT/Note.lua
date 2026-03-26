@@ -4234,8 +4234,10 @@ do
 			module.db.encounter_time = GetTime()
 			encounter_time_p[1] = module.db.encounter_time
 			encounter_time_p["1"] = module.db.encounter_time
+			encounter_time_p["g1"] = module.db.encounter_time
 			encounter_pd[1] = true
 			encounter_pd["1"] = true
+			encounter_pd["g1"] = true
 			currPhase = 1
 			currGlobalPhase = 1
 			BossPhasesBossmod()

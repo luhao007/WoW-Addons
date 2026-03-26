@@ -339,12 +339,27 @@ local function ApplyIconSettings(cdmFrame)
         cdmFrame.Icon:SetDesaturation(cdmFrame._CMCTracker_Desaturation)
     end
 
+    local guesstimateThatSpellWithChargesIsOnChargeCooldown = cdmFrame.CooldownFlash
+        and cdmFrame.CooldownFlash:IsShown()
     if cdmFrame.wasSetFromAura then
         local spellCharges = C_Spell.GetSpellCharges(spellID)
         if spellCharges then
+            --[[ -- potentially simplified code, to just leave it as:
+            cdmFrame.Cooldown:SetDrawSwipe(guesstimateThatSpellWithChargesIsOnChargeCooldown)
+            cdmFrame.Cooldown:SetDrawEdge(
+                not guesstimateThatSpellWithChargesIsOnChargeCooldown
+                    or CooldownStyle.GetAlwaysShowCooldownEdge(baseSpellId)
+            )
+            ]]
+
+            --[[
+            TODO  check new blizzard changes:
+            Action/Spell cooldown APIs now return isEnabled and maxCharges as non-secrets.
+            Action/Spell cooldown APIs now return a new non-secret isActive boolean
+            ]]
             if issecretvalue(spellCharges.currentCharges) or issecretvalue(spellCharges.maxCharges) then
                 if issecretvalue(cdmFrame.Icon:IsDesaturated()) then
-                    local flashIsShown = cdmFrame.CooldownFlash:IsShown()
+                    local flashIsShown = guesstimateThatSpellWithChargesIsOnChargeCooldown
                     cdmFrame.Cooldown:SetDrawSwipe(flashIsShown)
                     cdmFrame.Cooldown:SetDrawEdge(
                         not flashIsShown or CooldownStyle.GetAlwaysShowCooldownEdge(baseSpellId)
@@ -430,7 +445,8 @@ local function ApplyCooldownSettings(cdmFrame)
 
     cdmFrame._CMCTracker_Desaturation = nil
 
-    local guesstimateThatSpellWithChargesIsOnCooldown = cdmFrame.CooldownFlash and cdmFrame.CooldownFlash:IsShown()
+    local guesstimateThatSpellWithChargesIsOnChargeCooldown = cdmFrame.CooldownFlash
+        and cdmFrame.CooldownFlash:IsShown()
 
     if shouldHideAuras and CooldownStyle.FORCE_DISABLED_INSTANT_CASTS[baseSpellId] then
         if cooldown.isOnGCD and not ns.db.profile.cooldownManager_hide_gcd then
@@ -442,7 +458,7 @@ local function ApplyCooldownSettings(cdmFrame)
     elseif shouldHideAuras then
         if cooldown.isOnGCD then
             if ns.db.profile.cooldownManager_hide_gcd then
-                if guesstimateThatSpellWithChargesIsOnCooldown then
+                if guesstimateThatSpellWithChargesIsOnChargeCooldown then
                 -- This case is a bit weird, if the spell potentially has charges and is on GCD,
                 -- but we are not sure if charge duration isn't bigger than gcd
                 -- but we guesstimate based on CooldownFlash that spell is on cooldown, so we show cooldown as normal
@@ -463,7 +479,7 @@ local function ApplyCooldownSettings(cdmFrame)
             end
         end
     elseif cooldown.isOnGCD and ns.db.profile.cooldownManager_hide_gcd then
-        if guesstimateThatSpellWithChargesIsOnCooldown then
+        if guesstimateThatSpellWithChargesIsOnChargeCooldown then
             -- This case is a bit weird, if the spell potentially has charges and is on GCD,
             -- but we are not sure if charge duration isn't bigger than gcd
             -- but we guesstimate based on CooldownFlash that spell is on cooldown, so we show cooldown as normal

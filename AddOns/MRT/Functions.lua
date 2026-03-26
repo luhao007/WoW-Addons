@@ -980,7 +980,7 @@ function ExRT.F.IterateRoster(maxGroup,index)
 		if subgroup > maxGroup then
 			return ExRT.F.IterateRoster(maxGroup,index)
 		end
-		local guid = UnitGUID(name or "raid"..index)
+		local guid = UnitGUID("raid"..index)
 		name = name or ""
 		return index, name, subgroup, fileName, guid, rank, level, online, isDead, combatRole, "raid"..index
 	else

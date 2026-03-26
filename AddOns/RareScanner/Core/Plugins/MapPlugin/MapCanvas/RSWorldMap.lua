@@ -70,8 +70,7 @@ function RSWorldMap:GetMapFrame()
 		-- OnSizeChanged (zoom)
 		local updateTimer = 0
 		self.mapFrame:SetScript("OnUpdate", function(self, elapsed)
-		    local canvas = self:GetParent()
-		    local scale = canvas:GetScale()
+			local scale = canvas:GetScale()
 		    
 		    if (self.lastScale ~= scale) then
 		        self.lastScale = scale
@@ -266,6 +265,29 @@ function RSWorldMap:DisablePlayerPin()
 		self.playerPin:SetScript("OnUpdate", nil)
 		self.playerPin = nil
 	end
+end
+
+function RSWorldMap:WaitForCanvasReady(callback)
+    local attempts = 0
+    local maxAttempts = 30
+
+    local function Check()
+        local canvas = WorldMapFrame and WorldMapFrame:GetCanvasContainer()
+
+        if (canvas and canvas.zoomLevels) then
+            callback(true)
+            return
+        end
+
+        attempts = attempts + 1
+        if (attempts < maxAttempts) then
+            C_Timer.After(0.1, Check)
+        else
+        	callback(false)
+        end
+    end
+
+    Check()
 end
 
 -- TODO: FIX LATER

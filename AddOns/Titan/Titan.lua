@@ -1934,7 +1934,7 @@ function TitanPanelButton_Justify()
 		--	.. " " .. tostring(TitanBarData[idx].plugin_y_offset) .. ""
 		--	.. " " .. tostring(TitanBarDataVars[idx].plugin_off_y) .. ""
 		--)
-		y_offset = TitanBarData[idx].plugin_y_offset -- + TitanBarDataVars[idx].plugin_off_y -- user may offset
+		y_offset = TitanBarData[idx].plugin_y_offset + TitanBarDataVars[idx].plugin_off_y -- user may offset
 		x_offset = TitanBarData[idx].plugin_x_offset
 		firstLeftButton = TitanUtils_GetButton(TitanPanelSettings.Buttons
 			[TitanUtils_GetFirstButtonOnBar(bar, TITAN_LEFT)])

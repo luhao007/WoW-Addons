@@ -15,7 +15,6 @@ L["Keys to the Big G"] = true
 L["Reins of the Ascendant Skyrazor"] = true
 L["Black Whirlwind"] = true
 L["Spring Butterfly"] = true
-L["Mysterious Skyshards"] = true
 L["Nether-Warped Egg"] = true
 L["Lucent Hawkstrider"] = true
 L["Bubbly Snapling"] = true
@@ -3696,8 +3695,6 @@ L["Muyani"] = true
 L["Mysterious Camel Figurine"] = "Mysteriöse Kamelfigur"
 --[[Translation missing --]]
 L["Mysterious Chest"] = "Mysterious Chest"
---[[Translation missing --]]
-L["Mysterious Skyshards"] = "Mysterious Skyshards"
 L["Mythic 5-player instance"] = "Mythischer Dungeon"
 L["Mythic difficulty"] = "Mythischer Schwierigkeitsgrad"
 L["Mythic Raid (20 player)"] = "Mythtischer Schlachtzug"
@@ -6308,8 +6305,6 @@ L["Musselback Sculpin School"] = "Banco de peces escorpión mejillón"
 L["Muyani"] = true
 L["Mysterious Camel Figurine"] = "Figurilla de camello misteriosa"
 L["Mysterious Chest"] = "Cofre Misterioso"
---[[Translation missing --]]
-L["Mysterious Skyshards"] = "Mysterious Skyshards"
 L["Mythic 5-player instance"] = "Instancia Mítica de 5 Jugadores"
 L["Mythic difficulty"] = "Dificultad Mítica"
 L["Mythic Raid (20 player)"] = "Banda Mítica (20 jugadores)"
@@ -8424,7 +8419,6 @@ L["Musselback Sculpin School"] = "Banco de peces escorpión mejillón"
 L["Muyani"] = true
 L["Mysterious Camel Figurine"] = "Figurilla de camello misteriosa"
 L["Mysterious Chest"] = "Cofre misterioso"
-L["Mysterious Skyshards"] = "Fragmentos de cielo misteriosos"
 L["Mythic 5-player instance"] = "Instancia mítica de 5 jugadores"
 L["Mythic difficulty"] = "Dificultad mítica"
 L["Mythic Raid (20 player)"] = "Banda mítica (20 jugadores)"
@@ -9442,7 +9436,7 @@ L["Acrobatic Steward"] = "Régisseur acrobate"
 L["Adamant Vaults Cell"] = "Cellule des Caveaux Impitoyables"
 L["Adamantite Deposit"] = "Gisement d'adamantite"
 L["Added %d |4waypoint:waypoints; to TomTom"] = "%d |4point de navigation ajouté:points de navigation ajoutés; à TomTom."
-L["Adjusts the scale of the primary tooltip. This will take effect the next time the tooltip is shown."] = "Ajuste l'échelle de l'infobulle principale. Cela prendra effet la prochaine fois que l’info-bulle sera affichée."
+L["Adjusts the scale of the primary tooltip. This will take effect the next time the tooltip is shown."] = "Ajuste la taille de l'infobulle principale. La modification sera prise en compte lors du prochain affichage de l'infobulle."
 L["Advanced"] = "Avancé"
 L["Adventurous Hopling Pack"] = "Meute de sautillons aventureux"
 L["After upgrading your garrison's Fishing Shack to level 3, fish up 5 minnows to summon a Cavedweller which can drop this mount."] = "Après avoir amélioré votre Cabane de pêche du fief au niveau 3, pêchez une Carpe de Chutelune ou un Vairon givre-profond pour attirer un troglodyte qui pourra vous donner cette monture."
@@ -9470,8 +9464,7 @@ L["Already known"] = "Déjà connu"
 L["Alunira"] = true
 L["Amalgamation of Flesh"] = "Amalgame de chair"
 L["Amalgamation of Light"] = "Amalgame de Lumière"
---[[Translation missing --]]
-L["Amani Sharptalon"] = "Amani Sharptalon"
+L["Amani Sharptalon"] = "Serre-tranchante amani"
 L["Amaranthine Stinger"] = "Aiguillonneur amarante"
 L["Amber Ardenmoth"] = "Phalarden ambré"
 L["Amber Goo Puddle"] = "Flaque d’ambre visqueuse"
@@ -9526,8 +9519,7 @@ L["Athil Dewfire"] = "Athil Brûlerosée"
 L["Athrikus Narassin"] = true
 L["Attempt to enable the Options module"] = "Tentez d'activer le module Options"
 L["Attempts"] = "Tentatives"
---[[Translation missing --]]
-L["Augmented Stormray"] = "Augmented Stormray"
+L["Augmented Stormray"] = "Raie-tempête renforcée"
 L["Available starting December 25th"] = "Disponible à partir du 25 décembre"
 L["Avarius"] = true
 L["Avenging Felcrusher"] = "Gangrebroyeur vengeur"
@@ -9647,8 +9639,7 @@ L["Brul"] = "Brouf"
 L["Brullo the Strong"] = "Brollo le Baraqué"
 L["Bubbleblood"] = "Globesang"
 L["Bubbling Pustule"] = "Pustule bouillonnante"
---[[Translation missing --]]
-L["Bubbly Snapling"] = "Bubbly Snapling"
+L["Bubbly Snapling"] = "Jeune mordeur frétillant"
 L["Bucket of Primordial Sludge"] = "Seau de boue primordiale"
 L["Budding Algan"] = "Varoc bourgeonnant"
 L["Budget K'thir Disguise"] = "Déguisement k’thir bon marché"
@@ -9686,8 +9677,7 @@ L["Caverndark Nightmare"] = "Cauchemar de la grotte sombre"
 L["Caverndark Terror"] = "Terreur de la grotte sombre"
 L["Celestial Gift"] = "Cadeau céleste"
 L["Certain items, such as Illusions in your wardrobe, flag a completed Quest ID when you learn them. Rarity can automatically stop tracking this item if you enter that Quest ID here. (Only one ID, not a list.)"] = "Certains objets, comme les Illusions dans votre garde-robe, renvoient un identifiant de quête terminée quand vous les apprenez. Rarity peut automatiquement arrêter de suivre cet objet si vous entrez cet identifiant de quête ici. (seulement un identifiant, pas une liste.)"
---[[Translation missing --]]
-L["Cerulean Hawkstrider"] = "Cerulean Hawkstrider"
+L["Cerulean Hawkstrider"] = "Faucon-pérégrin céruléen"
 L["Cerulean Lapbug"] = "Genouillée céruléenne"
 L["Chain of Bahmethra"] = "Chaîne de Bahmethra"
 L["Chain Pet Leash"] = "Laisse en chaîne pour mascotte"
@@ -9725,8 +9715,7 @@ L["Cloudwing Hippogryph"] = "Hippogriffe nuelle"
 L["Clutch of Ha-Li"] = "Couvée de Ha Li"
 L["Clutch of Ji-Kun"] = "Etreinte de Ji Kun"
 L["Cobalt Deposit"] = "Gisement de cobalt"
---[[Translation missing --]]
-L["Cobalt Dragonhawk"] = "Cobalt Dragonhawk"
+L["Cobalt Dragonhawk"] = "Faucon-dragon cobalt"
 L["Cobalt Raven Hatchling"] = "Jeune corbeau cobalt"
 L["Cobalt Shalewing"] = "Aile-de-schiste de cobalt"
 L["Coin of Many Faces"] = "Pièce aux nombreuses faces"
@@ -9756,7 +9745,7 @@ L["Contained in Hyldnir Spoils, which is rewarded for completing daily quests gi
 L["Contained in Ripe Disgusting Jar, which is obtained by becoming Revered with Frenzyheart Tribe, purchasing a Disgusting Jar from their reputation vendor, and waiting three days."] = "Contenu dans la Jarre dégoûtante mûre, laquelle est obtenue en devenant Révéré auprès de la Tribu Frénécœur, en achetant une Jarre dégoûtante auprès de leur intendant, puis en attendant trois jours."
 L["Content Category"] = "Catégorie de contenu"
 L["Contribute on GitHub"] = "Contribuer sur GitHub "
-L["Controls on which side the secondary tooltip appears when you hover over an item in the main tooltip. If the main tooltip is on the right side of your screen, change this to Left. Otherwise, choose Right. You can also hide the status tooltip completely."] = "Contrôle de quel côté l'info-bulle secondaire apparaît lorsque vous survolez un élément dans l'infobulle principale. Si l'infobulle principale se trouve sur le côté droit de votre écran, remplacez-la par Gauche. Sinon, choisissez Droite. Vous pouvez également masquer complètement l’infobulle d’état."
+L["Controls on which side the secondary tooltip appears when you hover over an item in the main tooltip. If the main tooltip is on the right side of your screen, change this to Left. Otherwise, choose Right. You can also hide the status tooltip completely."] = "Contrôle l'emplacement d'affichage de l'infobulle secondaire lorsque vous survolez un élément de l'infobulle principale. Si l'infobulle principale se trouve à droite de votre écran, sélectionnez « Gauche ». Sinon, choisissez « Droite ». Vous pouvez également masquer complètement l'infobulle."
 L["Controls what type of text is shown in Rarity's LDB feed. Minimal shows just the number of attempts. Normal adds the likelihood percent, and verbose adds the item link."] = "Contrôle le type de texte affiché dans le flux LDB de Rarity. Minimal affiche uniquement le nombre de tentatives. Normal ajoute le pourcentage de probabilité et Verbeux ajoute le lien de l'objet."
 L["Copper Lapbug"] = "Genouillée cuivrée"
 L["Copper Vein"] = "Filon de cuivre"
@@ -9979,8 +9968,7 @@ L["Error compressing item pack"] = "Erreur lors de la compression du pack d'obje
 L["Error encoding item pack"] = "Erreur lors du codage du pack d'objet(s)."
 L["Error serializing item pack"] = "Erreur lors de la mise en série du pack d'objet(s)."
 L["Escaped Wilderling"] = "Lycodrac en fuite"
---[[Translation missing --]]
-L["Escaped Witherbark Pango"] = "Escaped Witherbark Pango"
+L["Escaped Witherbark Pango"] = "Pango fanécorce évadé"
 L["Essence of Pride"] = "Essence d’orgueil"
 L["Essence of the Breeze"] = "Essence de la brise"
 L["Eternal Kiln"] = "Four éternel"
@@ -10327,8 +10315,7 @@ L["Kal'tik the Blight"] = "Kal’tik le Chancre"
 L["Kang's Bindstone"] = "Pierre de lien de Kang"
 L["Karokta"] = true
 L["Kevin's Party Supplies"] = "Articles de fête de Kevin"
---[[Translation missing --]]
-L["Keys to the Big G"] = "Keys to the Big G"
+L["Keys to the Big G"] = "Les clés du G-néral"
 L["Khorium Vein"] = "Filon de khorium"
 L["Kill Statistic IDs"] = "Identifiants de statistiques de mises à mort"
 L["Killbot 9000"] = "Exterminabot 9000"
@@ -10407,13 +10394,11 @@ L["Lord Aj'qirai"] = "Seigneur Aj'qirai"
 L["Lord Epochbrgl"] = "Seigneur Epoquebrgl <Perdu dans le temps>"
 L["Lord Woofington"] = "Seigneur Jappington"
 L["Lost Featherling"] = "Plumette perdue"
---[[Translation missing --]]
-L["Lost Nether Drake"] = "Lost Nether Drake"
+L["Lost Nether Drake"] = "Drake balayé par le Vide"
 L["Lost Robogrip"] = "Robopoing perdu"
 L["Lost Sole School"] = "Banc de soles solitaires"
 L["Love Witch's Sweeper"] = "Balai de sorcière de l’amour"
---[[Translation missing --]]
-L["Lucent Hawkstrider"] = "Lucent Hawkstrider"
+L["Lucent Hawkstrider"] = "Faucon-pérégrin lumineux"
 L["Luckiness"] = "Chance"
 L["Lucky"] = "Chanceux"
 L["lucky"] = "chanceux"
@@ -10469,8 +10454,7 @@ L["Method of obtaining"] = "Méthode d'obtention"
 L["Micro-Artillery Controller"] = "Contrôleur de micro-artillerie"
 L["Microbot 8D"] = true
 L["Micromancer's Mystical Cowl"] = "Capuche mystique de Micromancien"
---[[Translation missing --]]
-L["Midnight"] = "Midnight"
+L["Midnight"] = true
 L["Midnight's Eternal Reins"] = "Rênes éternelles de Minuit"
 L["Mimiron's Head"] = "Tête de Mimiron"
 L["Min Buyout"] = "Rachat Minimum"
@@ -10521,8 +10505,6 @@ L["Musselback Sculpin School"] = "Banc de rascasses dos-de-moule"
 L["Muyani"] = true
 L["Mysterious Camel Figurine"] = "Figurine de dromadaire mystérieuse"
 L["Mysterious Chest"] = "Coffre mystérieux"
---[[Translation missing --]]
-L["Mysterious Skyshards"] = "Mysterious Skyshards"
 L["Mythic 5-player instance"] = "Donjon mythique à 5 joueurs"
 L["Mythic difficulty"] = "Difficulté mythique"
 L["Mythic Raid (20 player)"] = "Raid mythique (20 joueurs)"
@@ -10540,8 +10522,7 @@ L["Nesting Swarmite"] = "Essaimite nicheuse"
 L["Nethercite Deposit"] = "Gisement de néanticite"
 L["Netherfist"] = "Poing-du-Néant"
 L["Netherspace Portal-Stone"] = "Pierre du portal du Néantespace"
---[[Translation missing --]]
-L["Nether-Warped Egg"] = "Nether-Warped Egg"
+L["Nether-Warped Egg"] = "Œuf déformé par le Vide"
 L["Nettlefish School"] = "Banc de méduses"
 L["New item"] = "Nouvel objet"
 L["Night Elf"] = "Elfe de la nuit"
@@ -10561,8 +10542,7 @@ L["not imported"] = "non importé"
 L["Note: Your existing settings will be overwritten."] = "Note : Vos paramètres existants seront écrasés."
 L["Notfar the Unbearable"] = "Paloin l'Invivable"
 L["Notfar's Favorite Food"] = "Nourriture préférée de Paloin"
---[[Translation missing --]]
-L["Nova"] = "Nova"
+L["Nova"] = true
 L["NPCs"] = "ID de PNJ"
 L["N'Ruby"] = "N’Rubis"
 L["Ny'alotha Allseer"] = "Omnivoyant de Ny’alotha"
@@ -10605,8 +10585,7 @@ L["Oily Sea Scorpion School"] = "Banc de scorpions de mer huileux"
 L["Old Crafty"] = "Vieux malin"
 L["Old Ironjaw"] = "Vieux gueule-de-fer"
 L["Old Man Barlo"] = "Vieux Barlo"
---[[Translation missing --]]
-L["Ominous Domanus"] = "Ominous Domanus"
+L["Ominous Domanus"] = "Dominus menaçant"
 L["Ominous Flame"] = "Flamme inquiétante"
 L["Ominous Pile of Snow"] = "Tas de neige inquiétant"
 L["On click"] = "Au clic"
@@ -10697,8 +10676,7 @@ L["Primary tooltip scale"] = "Échelle de l'infobulle principale"
 L["Primary tooltip show delay"] = "Délai d'affichage de l'infobulle principale"
 L["Prince Typhonus"] = true
 L["Prince Vortran"] = true
---[[Translation missing --]]
-L["Princess Bloodshed"] = "Princess Bloodshed"
+L["Princess Bloodshed"] = "Princesse Massacre"
 L["Pristine Cloud Serpent Scale"] = "Écaille de serpent-nuage en parfait état"
 L["Profile modified, rebooting"] = "Profil modifié, redémarrage en cours"
 L["Profiling OFF"] = "Profilage désactivé"
@@ -10764,8 +10742,7 @@ L["Rei Lun"] = true
 L["Reins of a Tamed Bloodfeaster"] = "Rênes de sanguivore apprivoisé"
 L["Reins of Anu'relos, Flame's Guidance"] = "Rênes d’Anu’relos, Guide de la Flamme"
 L["Reins of the Amber Primordial Direhorn"] = "Rênes de navrecorne primordial d’ambre"
---[[Translation missing --]]
-L["Reins of the Ascendant Skyrazor"] = "Reins of the Ascendant Skyrazor"
+L["Reins of the Ascendant Skyrazor"] = "Rênes de rasoir-céleste ascendant"
 L["Reins of the Astral Cloud Serpent"] = "Rênes de serpent-nuage astral"
 L["Reins of the Azure Drake"] = "Rênes de drake azur"
 L["Reins of the Black Primal Raptor"] = "Rênes de raptor primordial noir"
@@ -10843,8 +10820,7 @@ L["Rockin' Rollin' Racer Customizer 19.9.3"] = "Modificateur de Rockin’ Rollin
 L["Rocks on the Rocks"] = "Cailloux au gravier"
 L["Rogue"] = "Voleur"
 L["Rook"] = "Tour"
---[[Translation missing --]]
-L["Rootstalker Grimlynx"] = "Rootstalker Grimlynx"
+L["Rootstalker Grimlynx"] = "Chagrynx traqueracine"
 L["Rotfeaster"] = "Croque-Charogne"
 L["Rotten Helper Box"] = "Boîte à assistant infect"
 L["Rotting Ghoul"] = "Goule pourrissante"
@@ -10875,8 +10851,7 @@ L["Sandclaw Nestseeker"] = "Cherche-nid pince-sable"
 L["Sandkeep"] = "Garde-Sable"
 L["Sandshell Chitterer"] = "Craqueteur carasable"
 L["Sandworn Chest"] = "Coffre érodé"
---[[Translation missing --]]
-L["Sanguine Harrower"] = "Sanguine Harrower"
+L["Sanguine Harrower"] = "Persécuteur sanguin"
 L["Sanngror the Torturer"] = "Sanngror la Tortionnaire"
 L["Sapper Odette"] = "Sapeuse Odette"
 L["Saronite Deposit"] = "Gisement de saronite"
@@ -11059,8 +11034,7 @@ L["Spire of Spite"] = "Flèche de mépris"
 L["Spirit of the Spring"] = "Esprit de la source"
 L["Sporefish School"] = "Banc de poissons-spores"
 L["Spraybot 0D"] = "Pulvérobot 0D"
---[[Translation missing --]]
-L["Spring Butterfly"] = "Spring Butterfly"
+L["Spring Butterfly"] = "Papillon printanier"
 L["Sprite Darter Egg"] = "Oeuf de fée fléchetteuse"
 L["Sprouting Growth"] = "Pousse germée"
 L["Spun Webs"] = "Toiles tissées"
@@ -11263,8 +11237,7 @@ L["Umber Nightsaber"] = [=[Sabre-de-nuit acajou
 ]=]
 L["Unable to retrieve item information from the server"] = "Impossible de récupérer les informations sur l'objet depuis le serveur."
 L["Unavailable"] = "Non disponible"
---[[Translation missing --]]
-L["Unbound Star-Eater"] = "Unbound Star-Eater"
+L["Unbound Star-Eater"] = "Dévoreur d’étoiles délié"
 L["Undefeated"] = "Invaincu"
 L["Underlight Queen"] = "Reine terradiance"
 L["Underlight Sealamp"] = "Lampe marine de Terradiance"
@@ -11309,8 +11282,7 @@ L["Vesper of Harmony"] = "Bourdon d’harmonie"
 L["Viable Cobra Egg"] = "Œuf de cobra viable"
 L["Vial of Roiling Emotions"] = "Fiole d’émotions frémissantes"
 L["Vibrant Mana Ray"] = "Raie de Mana vibrante"
---[[Translation missing --]]
-L["Vibrant Petalwing"] = "Vibrant Petalwing"
+L["Vibrant Petalwing"] = "Folibri éclatant"
 L["Vibrating Arcane Crystal"] = "Cristal arcanique vibrant"
 L["Vibrating Stone"] = "Pierre vibrante"
 L["Vigilant Kuro"] = true
@@ -13380,8 +13352,6 @@ L["Muyani"] = "Muyani"
 L["Mysterious Camel Figurine"] = "수수께끼 낙타 조각상"
 --[[Translation missing --]]
 L["Mysterious Chest"] = "Mysterious Chest"
---[[Translation missing --]]
-L["Mysterious Skyshards"] = "Mysterious Skyshards"
 L["Mythic 5-player instance"] = "신화 5인 던전"
 L["Mythic difficulty"] = "신화 난이도"
 L["Mythic Raid (20 player)"] = "신화 공격대 (20인)"
@@ -16077,7 +16047,6 @@ L["Musselback Sculpin School"] = "Косяк бычка-щитоспинки"
 L["Muyani"] = "Муяни"
 L["Mysterious Camel Figurine"] = "Странная фигурка верблюда"
 L["Mysterious Chest"] = "Таинственный сундук"
-L["Mysterious Skyshards"] = "Загадочные осколки небес"
 L["Mythic 5-player instance"] = "Эпохальное 5-ппл подземелье"
 L["Mythic difficulty"] = "Эпохальная сложность"
 L["Mythic Raid (20 player)"] = "Эпохальный рейд (20 игроков)"
@@ -18157,7 +18126,6 @@ L["Musselback Sculpin School"] = "蚌背鱼群"
 L["Muyani"] = "穆雅妮"
 L["Mysterious Camel Figurine"] = "神秘的骆驼雕像"
 L["Mysterious Chest"] = "神秘的箱子"
-L["Mysterious Skyshards"] = "神秘天之裂片"
 L["Mythic 5-player instance"] = "5人史诗副本"
 L["Mythic difficulty"] = "史诗难度"
 L["Mythic Raid (20 player)"] = "史诗团队（10-30人）"
@@ -21081,8 +21049,6 @@ L["Muyani"] = "Muyani"
 L["Mysterious Camel Figurine"] = "神秘駱駝刻像"
 --[[Translation missing --]]
 L["Mysterious Chest"] = "Mysterious Chest"
---[[Translation missing --]]
-L["Mysterious Skyshards"] = "Mysterious Skyshards"
 --[[Translation missing --]]
 L["Mythic 5-player instance"] = "Mythic 5-player instance"
 L["Mythic difficulty"] = "傳奇難度"
@@ -24380,8 +24346,6 @@ L["Muyani"] = "Muyani"
 L["Mysterious Camel Figurine"] = "Estatueta de Camelo Misteriosa"
 --[[Translation missing --]]
 L["Mysterious Chest"] = "Mysterious Chest"
---[[Translation missing --]]
-L["Mysterious Skyshards"] = "Mysterious Skyshards"
 --[[Translation missing --]]
 L["Mythic 5-player instance"] = "Mythic 5-player instance"
 --[[Translation missing --]]

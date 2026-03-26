@@ -481,7 +481,7 @@ local ShouldSkipAutoExpandForKey = setmetatable({
 		-- app.PrintTable(difficultyHash)
 		for id,_ in pairs(app.GetCurrentDifficulties()) do
 			if difficultyHash[id] then
-				return false;
+				return 1
 			end
 		end
 		-- If no match, then skip and also minimize the group
@@ -540,27 +540,58 @@ local function HasExpandedSubgroup(group)
 end
 local function ForceExpandGroupsRecursively(group, expanded)
 	local g = group.g
-	if g then
-		group.expanded = expanded;
+	-- app.PrintDebug("EGR.F",app:SearchLink(group),expanded)
+	if not g then return end
+	group.expanded = expanded
+	for i=1,#g do
+		ForceExpandGroupsRecursively(g[i], expanded);
+	end
+end
+-- Only considers the default rules for ignoring expansion and does not check any skip conditions
+local function PassivelyExpandGroupsRecursively(group, expanded)
+	local g = group.g
+	-- app.PrintDebug("EGR.P",app:SearchLink(group),expanded,ShouldSkipAutoExpandForKey[group.key or "KEYLESS"](group))
+	if g and
+		-- incomplete things actually exist below itself
+		((group.total or 0) > (group.progress or 0)) and
+		-- account/debug mode is active or it is not a 'saved' thing for this character
+		(app.MODE_DEBUG_OR_ACCOUNT or not group.saved)
+	then
+		group.expanded = expanded
+		if not expanded then return end
 		for i=1,#g do
-			ForceExpandGroupsRecursively(g[i], expanded);
+			PassivelyExpandGroupsRecursively(g[i], expanded)
 		end
 	end
 end
 local function ConditionallyExpandGroupsRecursively(group, expanded)
 	local g = group.g
-	if g and not ShouldSkipAutoExpandForKey[group.key or "KEYLESS"](group) and
+	-- app.PrintDebug("EGR.C",app:SearchLink(group),expanded,ShouldSkipAutoExpandForKey[group.key or "KEYLESS"](group))
+	if g and
 		-- incomplete things actually exist below itself
 		((group.total or 0) > (group.progress or 0)) and
 		-- account/debug mode is active or it is not a 'saved' thing for this character
-		(app.MODE_DEBUG_OR_ACCOUNT or not group.saved) then
-		group.expanded = expanded;
+		(app.MODE_DEBUG_OR_ACCOUNT or not group.saved)
+	then
+		-- check the skip condition for this group
+		local doSkipType = ShouldSkipAutoExpandForKey[group.key or "KEYLESS"](group)
+		if not doSkipType or doSkipType == 1 then
+			group.expanded = expanded
+		else
+			-- a skip condition which should not propogate to sub-groups
+			group.expanded = nil
+			return
+		end
+		if not expanded then return end
+		local Expander = doSkipType == 1 and PassivelyExpandGroupsRecursively or ConditionallyExpandGroupsRecursively
 		for i=1,#g do
-			ConditionallyExpandGroupsRecursively(g[i], expanded);
+			Expander(g[i], expanded)
 		end
 	end
 end
 local function ExpandGroupsRecursively(group, expanded, force)
+	expanded = expanded and true or nil
+	-- app.PrintDebug("EGR",app:SearchLink(group),expanded,force)
 	if force then
 		ForceExpandGroupsRecursively(group, expanded);
 	else
@@ -568,7 +599,6 @@ local function ExpandGroupsRecursively(group, expanded, force)
 	end
 end
 app.ExpandGroupsRecursively = ExpandGroupsRecursively;
-app.ForceExpandGroupsRecursively = ForceExpandGroupsRecursively;
 
 -- Configuration Functions
 local AdjustRowIndents = false;
@@ -1144,7 +1174,7 @@ local function RowOnClick(self, button)
 						window.fullCollapsed = HasExpandedSubgroup(reference);
 					end
 					-- always expand if collapsed or if clicked the header and all immediate subgroups are collapsed, otherwise collapse
-					ForceExpandGroupsRecursively(reference, not reference.expanded or (self.index < 1 and not window.fullCollapsed));
+					ExpandGroupsRecursively(reference, not reference.expanded or (self.index < 1 and not window.fullCollapsed), true);
 					window:Update();
 					return true;
 				end
@@ -2308,7 +2338,7 @@ local FieldDefaults = {
 		end
 	end,
 	ExpandData = function(self, expanded)
-		ForceExpandGroupsRecursively(self.data, expanded);
+		ExpandGroupsRecursively(self.data, expanded, true);
 	end,
 	SetMinMaxValues = function(self, rowCount, totalRowCount)
 		-- Every possible row is visible

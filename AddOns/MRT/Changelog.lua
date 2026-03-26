@@ -1,6 +1,9 @@
 local GlobalAddonName, ExRT = ...
 
 ExRT.Options.Changelog = [=[
+v.5275
+* Raid check: flasks fix
+
 v.5270
 * Data updates
 * Minor fixes

@@ -3336,15 +3336,7 @@ if not db.activate.HideMapNote then
             if self.db.profile.activate.CapitalsTransporting then
     
                 if self.db.profile.showCapitalsPortals then
-                if ns.version == "12.0.1" then -- ptr update, after midnight realase remove the whole block
-                    nodes[2266][43564994] = { mnID = 2339, name = "", type = "Portal", showInZone = true, showOnContinent = false, showOnMinimap = false } --  Timeways Portal to Dornogal
-                    --nodes[2266][64534340] = { mnID = 1565, name = "", type = "WayGateGolden", showInZone = true, showOnContinent = false, showOnMinimap = false } --  Timeways Portal to 
-                    nodes[2266][74524703] = { mnID = 2472, name = "", type = "WayGateGolden", showInZone = true, showOnContinent = false, showOnMinimap = false } --  Timeways Portal to Tazavesh
-                    --nodes[2266][77536180] = { mnID = 1536, name = "", type = "WayGateGolden", showInZone = true, showOnContinent = false, showOnMinimap = false } --  Timeways Portal to 
-                    nodes[2266][70537306] = { mnID = 1525, name = "", type = "WayGateGolden", showInZone = true, showOnContinent = false, showOnMinimap = false } --  Timeways Portal to Revendreth
-                    --nodes[2266][60506950] = { mnID = 241, name = "", type = "WayGateGolden", showInZone = true, showOnContinent = false, showOnMinimap = false } --  Timeways Portal to 
-                    nodes[2339][53563873] = { mnID = 2266, name = "", type = "WayGateGolden", showInZone = true, showOnContinent = false, showOnMinimap = false, TransportName = L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. " ==> " .. ns.Tazavesh .. "\n" .. " ==> " .. ns.Revendreth } --  Portal from Dornogal to the Timeways
-                end
+                    nodes[2339][53563873] = { mnID = 2266, name = "", type = "WayGateGolden", showInZone = true, showOnContinent = false, showOnMinimap = false, TransportName = L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. " ==> " .. ns.SpiresOfArak .. "\n" .. " ==> " .. ns.Icecrown .. "\n" .. " ==> " .. ns.Eredath .. "\n" .. " ==> " .. ns.Thaldraszus } --  Portal from Dornogal to the Timeways
                     nodes[2339][63615205] = { mnID = 2255, name = "", type = "Portal", showWWW = true, achievementID = 19559, wwwLink = "https://wowhead.com/achievement=19559", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Portal from Dornogal to Azj-Kahet if u finished the achievement=19559
                     nodes[2339][29775967] = { mnID = 2367, name = "", type = "Portal", showWWW = true, achievementID = 40725, wwwLink = "https://wowhead.com/achievement=40725", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Kammer der Erinnerung
                     nodes[2339][52465047] = { mnID = 2346, name = "", type = "Portal", showWWW = true, questID = 86535, wwwLink = "https://wowhead.com/quest=86535/test-run",  showInZone = true, showOnContinent = false, showOnMinimap = false } -- Portal from Dornogal to Undermine
@@ -3587,15 +3579,13 @@ if not db.activate.HideMapNote then
                 if self.db.profile.showCapitalsPortals then
                     nodes[2393][36746821] = { mnID = 2413, name = "", type = "Portal", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Wurzelpfad nach Harandar
                     nodes[2393][35286607] = { mnID = 2405, name = "", type = "Portal", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Portal zum Leerensturm
-                    nodes[2393][42105830] = { mnID = 2266, name = "", type = "WayGateGolden", showInZone = true, showOnContinent = false, showOnMinimap = false, TransportName = L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. " ==> " .. ns.SpiresOfArak .. "\n" .. " ==> " .. ns.Icecrown .. "\n" .. " ==> " .. ns.Eredath } --  Portal from Dornogal to the Timeways
-                if ns.version == "12.0.2" then -- ptr update remove ns version keep the block
+                    nodes[2393][42105830] = { mnID = 2266, name = "", type = "WayGateGolden", showInZone = true, showOnContinent = false, showOnMinimap = false, TransportName = L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. " ==> " .. ns.SpiresOfArak .. "\n" .. " ==> " .. ns.Icecrown .. "\n" .. " ==> " .. ns.Eredath .. "\n" .. " ==> " .. ns.Thaldraszus } --  Portal from Dornogal to the Timeways
                     nodes[2266][43564994] = { mnID = 2393, name = "", type = "Portal", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Timeways Portal to Silvermoon
                     nodes[2266][64534340] = { mnID = 542, name = "", type = "WayGateGolden", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Timeways Portal to spitzen von arak
                     nodes[2266][74524703] = { mnID = 118, name = "", type = "WayGateGolden", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Timeways Portal to eiskronenzitadelle
                     --nodes[2266][77536180] = { mnID = 1536, name = "", type = "WayGateGolden", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Timeways Portal to 
                     nodes[2266][70537306] = { mnID = 2025, name = "", type = "WayGateGolden", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Timeways Portal to thaldrszus
                     nodes[2266][60506950] = { mnID = 882, name = "", type = "WayGateGolden", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Timeways Portal to Eredath
-                end
 
                     if self.faction == "Horde" or db.activate.CapitalsEnemyFaction then
                         nodes[2393][52176519] = { mnID = 85, name = "", type = "HPortal", showInZone = true, showOnContinent = false, showOnMinimap = false } -- Portal to Orgrimmar

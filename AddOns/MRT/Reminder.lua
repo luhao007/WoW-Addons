@@ -3832,6 +3832,7 @@ function options:Load()
 				icon = bossImg,
 				iconsize = 32,
 			}
+
 			if isZone then
 				boss_list.arg1 = -bossID
 				boss_list.arg3 = 4
@@ -17452,8 +17453,7 @@ function options:Load()
 	end
 
 	local r=self.timeLineBoss:PreUpdate() if r then self.timeLine.preload = r end
-	--local r=self.assignBoss:PreUpdate() if r then  self.assign.preload = r end
-	if r then  self.assign.preload = r end
+	local r=self.assignBoss:PreUpdate() if r then  self.assign.preload = r end
 	self.tab:SetTo(VMRT.Reminder2.OptSavedTabNum or 1)
 end
 

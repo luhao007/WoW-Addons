@@ -1,9 +1,10 @@
 local ADDON_NAME, ns = ...
 
-ns.CurrentAddonVersion = "3.3.9"
-ns.PreviousAddonVersion = "3.3.8" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
+ns.CurrentAddonVersion = "3.4.0"
+ns.PreviousAddonVersion = "3.3.9" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
 
 ns.LOCALE_CHANGELOGS = {
+  { version = "3.4.0", table = ns.LOCALE_CHANGELOG_3_4_0 },
   { version = "3.3.9", table = ns.LOCALE_CHANGELOG_3_3_9 },
   { version = "3.3.8", table = ns.LOCALE_CHANGELOG_3_3_8 },
   { version = "3.3.7", table = "partialUpdate" },
@@ -22,7 +23,7 @@ ns.LOCALE_CHANGELOGS = {
   { version = "3.2.5", table = ns.LOCALE_CHANGELOG_3_2_5 },
 }
 
-ns.LOCALE_CHANGELOG_3_3_ = { -- empty backup file
+ns.LOCALE_CHANGELOG_3_4_ = { -- empty backup file
   deDE = [[
 
 ]],
@@ -65,6 +66,118 @@ ns.LOCALE_CHANGELOG_3_3_ = { -- empty backup file
 
   koKR = [[
 
+]],
+}
+
+ns.LOCALE_CHANGELOG_3_4_0 = {
+  deDE = [[
+• Für die Areamap-Funktion wurden zusätzliche IDs hinzugefügt.
+
+• Wenn die Funktion "MapNotes deaktivieren" aktiviert wird, ändert sich das Symbol des Minimap-Buttons und des Weltkarten-Buttons. Statt des MapNotes-Icons wird ein rotes X angezeigt, um besser darzustellen, dass alle MapNotes-Symbole ausgeblendet sind.
+
+• Auch die Tooltip-Anzeige des Minimap-Buttons und des Weltkarten-Buttons ändert sich, wenn die Funktion aktiviert ist.
+
+• Ein Fehler wurde behoben, der unter bestimmten Umständen die MapNotes-Tiefenanzeige wieder aktiviert hat, obwohl sie deaktiviert war.
+]],
+
+  enUS = [[
+• Added additional IDs for the area map functionality.
+
+• When the "Disable MapNotes" option is enabled, the minimap button and world map button icons change to a red X to better indicate that all MapNotes icons are hidden.
+
+• The tooltip of the minimap button and the world map button also changes when this option is enabled.
+
+• Fixed an issue where the MapNotes Delve display could be re-enabled under certain conditions even though it was disabled.
+]],
+
+  frFR = [[
+• Ajout d’identifiants supplémentaires pour la fonctionnalité de carte de zone.
+
+• Lorsque l’option « Désactiver MapNotes » est activée, l’icône du bouton de la minicarte et de la carte du monde change pour afficher un X rouge, indiquant que toutes les icônes MapNotes sont masquées.
+
+• L’infobulle du bouton de la minicarte et de la carte du monde change également lorsque cette option est activée.
+
+• Correction d’un problème où l’affichage des Gouffres MapNotes pouvait se réactiver dans certaines conditions même lorsqu’il était désactivé.
+]],
+
+  itIT = [[
+• Aggiunti ID aggiuntivi per la funzionalità della mappa dell’area.
+
+• Quando l’opzione "Disattiva MapNotes" è attiva, l’icona del pulsante della minimappa e della mappa del mondo cambia in una X rossa per indicare che tutte le icone di MapNotes sono nascoste.
+
+• Anche il tooltip del pulsante della minimappa e della mappa del mondo cambia quando questa opzione è attiva.
+
+• Risolto un problema per cui la visualizzazione delle Profondità di MapNotes poteva riattivarsi in alcune condizioni anche se disattivata.
+]],
+
+  esES = [[
+• Se añadieron IDs adicionales para la funcionalidad del mapa de zona.
+
+• Cuando la opción "Desactivar MapNotes" está activada, el icono del botón del minimapa y del mapa del mundo cambia a una X roja para indicar que todos los iconos de MapNotes están ocultos.
+
+• El tooltip del botón del minimapa y del mapa del mundo también cambia cuando esta opción está activada.
+
+• Se solucionó un problema por el cual la visualización de Profundidades de MapNotes podía volver a activarse en ciertas condiciones incluso estando desactivada.
+]],
+
+  esMX = [[
+• Se añadieron IDs adicionales para la funcionalidad del mapa de zona.
+
+• Cuando la opción "Desactivar MapNotes" está activada, el ícono del botón del minimapa y del mapa del mundo cambia a una X roja para indicar que todos los íconos de MapNotes están ocultos.
+
+• El tooltip del botón del minimapa y del mapa del mundo también cambia cuando esta opción está activada.
+
+• Se corrigió un problema por el cual la visualización de Profundidades de MapNotes podía volver a activarse en ciertas condiciones incluso estando desactivada.
+]],
+
+  ptBR = [[
+• IDs adicionais foram adicionados para a funcionalidade do mapa de área.
+
+• Quando a opção "Desativar MapNotes" está ativada, o ícone do botão do minimapa e do mapa do mundo muda para um X vermelho, indicando que todos os ícones do MapNotes estão ocultos.
+
+• O tooltip do botão do minimapa e do mapa do mundo também muda quando essa opção está ativada.
+
+• Corrigido um problema em que a exibição de Mergulhos do MapNotes podia ser reativada em certas condições mesmo estando desativada.
+]],
+
+  ruRU = [[
+• Добавлены дополнительные ID для функции карты области.
+
+• При включении опции «Отключить MapNotes» значок кнопки миникарты и карты мира меняется на красный X, показывая, что все значки MapNotes скрыты.
+
+• Подсказка (tooltip) кнопки миникарты и карты мира также изменяется при включении этой опции.
+
+• Исправлена ошибка, из-за которой отображение вылазок MapNotes могло снова включаться при определённых условиях, даже если оно было отключено.
+]],
+
+  zhCN = [[
+• 为区域地图功能添加了额外的ID。
+
+• 当启用“禁用 MapNotes”选项时，小地图按钮和世界地图按钮的图标会变为红色 X，以更清晰地表示所有 MapNotes 图标已被隐藏。
+
+• 当该选项启用时，小地图按钮和世界地图按钮的提示信息也会发生变化。
+
+• 修复了在某些情况下即使已禁用，MapNotes 深潜显示仍会被重新启用的问题。
+]],
+
+  zhTW = [[
+• 為區域地圖功能新增了額外的ID。
+
+• 當啟用「停用 MapNotes」選項時，小地圖按鈕與世界地圖按鈕的圖示會變為紅色 X，以清楚表示所有 MapNotes 圖示已被隱藏。
+
+• 啟用此選項時，小地圖按鈕與世界地圖按鈕的提示也會改變。
+
+• 修正了一個在某些情況下即使已停用，MapNotes 深淵顯示仍會重新啟用的問題。
+]],
+
+  koKR = [[
+• 지역 지도 기능을 위해 추가 ID가 추가되었습니다.
+
+• "MapNotes 비활성화" 옵션이 활성화되면 미니맵 버튼과 월드맵 버튼의 아이콘이 빨간 X로 변경되어 모든 MapNotes 아이콘이 숨겨졌음을 표시합니다.
+
+• 이 옵션이 활성화되면 미니맵 버튼과 월드맵 버튼의 툴팁도 변경됩니다.
+
+• 특정 상황에서 비활성화되어 있음에도 MapNotes 탐험 표시가 다시 활성화되던 문제가 수정되었습니다.
 ]],
 }
 

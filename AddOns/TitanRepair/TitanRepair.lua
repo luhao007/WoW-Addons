@@ -654,6 +654,7 @@ Realized the Disable also changes the button so the DeSat is redundent
 	-- New RepairAll function
 	local cost = GetRepairAllCost();
 	local money = GetMoney();
+	local repair_done = false
 
 	if cost == nil then -- for IDE...
 		cost = 0
@@ -678,6 +679,7 @@ Realized the Disable also changes the button so the DeSat is redundent
 		if IsInGuild() and CanGuildBankRepair() then
 			if withdrawLimit >= cost then
 				RepairAllItems(true)
+				repair_done = true
 				if TitanGetVar(TITAN_REPAIR_ID,"AutoRepairReport") then
 					-- report repair cost to chat (optional)
 					DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]..L["TITAN_REPAIR"]..": ".."|r"
@@ -704,6 +706,7 @@ Realized the Disable also changes the button so the DeSat is redundent
 		end
 		if money > cost then
 			RepairAllItems()
+			repair_done = true
 			-- report repair cost to chat (optional)
 			if TitanGetVar(TITAN_REPAIR_ID,"AutoRepairReport") then
 				DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]..L["TITAN_REPAIR"]..": ".."|r"
@@ -716,6 +719,22 @@ Realized the Disable also changes the button so the DeSat is redundent
 		else
 			DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]..L["TITAN_REPAIR"]..": ".."|r"..L["TITAN_REPAIR_CANNOT_AFFORD"])
 		end
+	end
+
+	if repair_done then
+		if TR.show_debug then
+			debug_msg("RepairAllItems - scan and update ")
+		end
+		-- Seems system needs a little 'settle' time to get 'repaired' info back from server
+		C_Timer.After(1.0, function()
+			Scan("RepairAllItems done", true)
+--			TitanPanelButton_UpdateButton(TITAN_REPAIR_ID) 
+			end)
+	else
+		if TR.show_debug then
+			debug_msg("RepairAllItems - not done; skip scan ")
+		end
+		-- save a few cycles
 	end
 end
 
@@ -898,14 +917,14 @@ local function OnEvent(self, event, a1, ...)
 			return -- save a few cycles
 		end
 		self:RegisterEvent("PLAYER_MONEY") -- this prevents extra scan requests on looting...
-		if TitanGetVar(TITAN_REPAIR_ID,"ShowPopup") == 1 then
+		if TitanGetVar(TITAN_REPAIR_ID,"ShowPopup") then
 			if (TR.repair_total > 0) then
 				TR.MONEY = TR.repair_total;
 				StaticPopup_Show("REPAIR_CONFIRMATION");
 			end
 		end
 		-- handle auto-repair
-		if (TitanGetVar(TITAN_REPAIR_ID,"AutoRepair") == 1) then
+		if TitanGetVar(TITAN_REPAIR_ID,"AutoRepair") then
 			if (TR.repair_total > 0) then
 				TitanRepair_RepairItems();
 				Scan("MERCHANT_SHOW - AutoRepair", true)
@@ -1258,14 +1277,14 @@ local function GeneratorFunction(owner, rootDescription)
 	--==== Display options
 	local opts_auto_repair = Titan_Menu.AddButton(root, L["TITAN_REPAIR_LOCALE_AUTOREPLABEL"])
 	do           -- next level options
-		Titan_Menu.AddSelectorCommand(opts_auto_repair, id, L["TITAN_REPAIR_LOCALE_POPUP"], "AutoRepair", 
+		Titan_Menu.AddSelectorCommand(opts_auto_repair, id, L["TITAN_REPAIR_LOCALE_POPUP"], "ShowPopup", 
 			function ()
 				if TitanGetVar(TITAN_REPAIR_ID,"ShowPopup") and TitanGetVar(TITAN_REPAIR_ID,"AutoRepair") then
 					TitanSetVar(TITAN_REPAIR_ID,"AutoRepair",nil);
 				end
 		end
 		)
-		Titan_Menu.AddSelectorCommand(opts_auto_repair, id, L["TITAN_REPAIR_LOCALE_AUTOREPITEMLABEL"], "ShowPopup", 
+		Titan_Menu.AddSelectorCommand(opts_auto_repair, id, L["TITAN_REPAIR_LOCALE_AUTOREPITEMLABEL"], "AutoRepair", 
 			function ()
 				if TitanGetVar(TITAN_REPAIR_ID,"AutoRepair") and TitanGetVar(TITAN_REPAIR_ID,"ShowPopup") then
 					TitanSetVar(TITAN_REPAIR_ID,"ShowPopup",nil);

@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.15.1 - March 24, 2026
+### Fixed
+- TBC: Fixed Atlas LFG button not correctly filtering LFG
+- TBC: Fixed error when sorting instances by type
+
 ## 3.15.0 - March 2, 2026
 ### Added
 - Retail: Added Midnight maps
@@ -738,7 +743,7 @@ v1.41.00 (Apr. 14, 2017)
 v1.40.06 (Apr. 13, 2017)
 ------------------------
 - Checking deprecated plugins now will recognize the alpha build's version
-  if specifed; or will ignore those set "v3.15.0" as the version
+  if specifed; or will ignore those set "v3.15.1" as the version
   number to be changed by CurseForge's auto-packaging.
 
 v1.40.05 (Apr. 13, 2017)

@@ -35,7 +35,7 @@ ns.zoneDelveToggles = ns.zoneDelveToggles or {
 }
 
 ns.capitalDelveToggles = ns.capitalDelveToggles or {
-  [2393] = "showCapitals",
+  [2393] = true,
 }
 
 local function MN_IsBountiful(atlasName)
@@ -54,15 +54,17 @@ local function MN_ShouldShow(kind, mapID, atlasName)
   local isB = MN_IsBountiful(atlasName)
 
   if kind == "capital" then
+    if not db.activate.Capitals then return false end
+    if not db.activate.CapitalsInstances then return false end
     if not db.showCapitalsDelve and not db.showCapitalsBountyDelve then return false end
     if isB and not db.showCapitalsBountyDelve then return false end
     if (not isB) and not db.showCapitalsDelve then return false end
-    local k = ns.capitalDelveToggles and ns.capitalDelveToggles[mapID]
-    if k and not db[k] then return false end
     return true
   end
 
   if kind == "zone" then
+    if not db.activate.ZoneMap then return false end
+    if not db.activate.ZoneInstances then return false end
     if not db.showZoneDelve and not db.showZoneBountyDelve then return false end
     if isB and not db.showZoneBountyDelve then return false end
     if (not isB) and not db.showZoneDelve then return false end
@@ -72,6 +74,7 @@ local function MN_ShouldShow(kind, mapID, atlasName)
   end
 
   if kind == "continent" then
+    if not db.activate.Continent then return false end
     if not db.showContinentDelves and not db.showContinentBountyDelves then return false end
     if isB and not db.showContinentBountyDelves then return false end
     if (not isB) and not db.showContinentDelves then return false end

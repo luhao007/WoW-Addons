@@ -68,7 +68,9 @@ function core._1209:HighSageViryx()
 end
 
 function core._1209:InstanceCleanup()
-    core._1209.Events:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+    if core:IsNotRestricted() then
+        core._1209.Events:UnregisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+    end
 end
 
 core._1209.Events:SetScript("OnEvent", function(self, event, ...)
@@ -76,24 +78,26 @@ core._1209.Events:SetScript("OnEvent", function(self, event, ...)
 end)
 
 function core._1209:InitialSetup()
-    core._1209.Events:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+    if core:IsNotRestricted() then
+        core._1209.Events:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+    end
 end
 
 function core._1209.Events:UNIT_SPELLCAST_SUCCEEDED(self, unit, castGUID, spellID)
-    if spellID == 153828 then
-        if lastTime == nil or lastTime == GetTime() then
-            birdCounter = birdCounter + 1
-        else
-            birdCounter = 1
-        end
-        lastTime = GetTime()
-    end
+    -- if spellID == 153828 then
+    --     if lastTime == nil or lastTime == GetTime() then
+    --         birdCounter = birdCounter + 1
+    --     else
+    --         birdCounter = 1
+    --     end
+    --     lastTime = GetTime()
+    -- end
 
-    if birdCounter >= 3 then
-        C_Timer.After(1, function()
-            core:getAchievementSuccess()
-        end)
-    end
+    -- if birdCounter >= 3 then
+    --     C_Timer.After(1, function()
+    --         core:getAchievementSuccess()
+    --     end)
+    -- end
 end
 
 function core._1209:ClearVariables()

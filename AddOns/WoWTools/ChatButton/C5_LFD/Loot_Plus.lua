@@ -9,9 +9,7 @@ end
 
 
 local function set_LootFrame_btn(btn)
-    if not btn then
-        return
-    elseif not btn.dropInfo or Save().disabledLootPlus then
+    if not btn.dropInfo or Save().disabledLootPlus then
         if btn.chatTexure then
             btn.chatTexure:SetShown(false)
         end
@@ -99,8 +97,6 @@ local function set_LootFrame_btn(btn)
     local notGreed= btn.dropInfo.playerRollState ~= Enum.EncounterLootDropRollState.Greed
     local winInfo= btn.chatTexure:get_playerinfo()
     btn.chatTexure:SetShown(not winInfo.isSelf and winInfo.isSelf~=nil)
-    --btn.chatTexure:SetAlpha(notGreed and 1 or 0.3)
-    --btn.WinningRollInfo.Check:SetAlpha(notGreed and 1 or 0.3)
     btn:SetAlpha(winInfo.isSelf and 0.3 or (not notGreed and 0.5) or 1)
 
 
@@ -207,6 +203,8 @@ local function Init()
         GameTooltip:Show()
         self2:SetAlpha(1)
     end)
+
+
 end
 
 

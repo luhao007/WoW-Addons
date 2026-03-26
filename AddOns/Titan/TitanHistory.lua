@@ -10,6 +10,27 @@ These are in a seperate file to
 --- Release notes. Keep structure; most recent on 'top'
 local recent_changes = {
    {
+      version = "9.1.5",
+      when = "2026/03/25",
+      topics = {
+         {
+            topic = "Titan Repair",
+            lines = {
+               "Fix for Auto repair not working.",
+               "Durability and cost should update after merchant repair.",
+            },
+         },
+         {
+            topic = "Titan",
+            lines = {
+               "LDB : Fix for LDB tooltips (OnTooltipShow)",
+               "Config Bars : plugins can be adjusted vertically",
+               "Locale : Several strings added.",
+            },
+         },
+      },
+   },
+   {
       version = "9.1.4",
       when = "2026/03/15",
       topics = {

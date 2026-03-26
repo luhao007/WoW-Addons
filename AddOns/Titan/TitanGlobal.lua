@@ -213,6 +213,8 @@ Titan_Global.literals = {
 	pvp = PVP,
 	use = USE,
 	note = LABEL_NOTE,
+	all = ALL,
+	none = NONE,
 }
 
 Titan_Global.colors = {

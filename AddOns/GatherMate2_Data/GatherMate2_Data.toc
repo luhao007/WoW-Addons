@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: kagaro, Xinhuan
-## Version: v40.0
+## Version: v41.0
 
 ## Title: GatherMate2Data
 ## Notes: Wowhead Data dump for GatherMate2
@@ -16,6 +16,7 @@
 
 ## X-Category: Map
 ## X-Email: sal.scotto@gmail.com
+## X-Generated-Version: 218
 ## X-Curse-Project-ID: 26737
 ## X-Part-Of: GatherMate2
 

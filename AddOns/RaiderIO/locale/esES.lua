@@ -101,23 +101,19 @@ L["DUNGEON_SHORT_NAME_ID"] = "Puerto de Hierro - ID"
 --[[Translation missing --]]
 --[[ L["DUNGEON_SHORT_NAME_KR"] = ""--]] 
 L["DUNGEON_SHORT_NAME_LOWR"] = "Karazhan: Inferior - LOWR"
---[[Translation missing --]]
---[[ L["DUNGEON_SHORT_NAME_MC"] = ""--]] 
+L["DUNGEON_SHORT_NAME_MC"] = "Cavernas de Maisara - MC"
 L["DUNGEON_SHORT_NAME_MISTS"] = "Nieblas de Tirna Scithe - MISTS"
 L["DUNGEON_SHORT_NAME_ML"] = "VETA MADRE - ML"
 --[[Translation missing --]]
 --[[ L["DUNGEON_SHORT_NAME_MOS"] = ""--]] 
---[[Translation missing --]]
---[[ L["DUNGEON_SHORT_NAME_MT"] = ""--]] 
+L["DUNGEON_SHORT_NAME_MT"] = "Bancal del Magister - MT"
 L["DUNGEON_SHORT_NAME_NELT"] = "Neltharus - NELT"
 L["DUNGEON_SHORT_NAME_NL"] = "Guarida de Neltharion - NL"
 L["DUNGEON_SHORT_NAME_NO"] = "Ofensiva Nokhud - NO"
---[[Translation missing --]]
---[[ L["DUNGEON_SHORT_NAME_NPX"] = ""--]] 
+L["DUNGEON_SHORT_NAME_NPX"] = "Punto de Nexo: Xenas - NPX"
 L["DUNGEON_SHORT_NAME_NW"] = "Estela Necrótica - NW "
 L["DUNGEON_SHORT_NAME_PF"] = "Bajapeste - PF"
---[[Translation missing --]]
---[[ L["DUNGEON_SHORT_NAME_POS"] = ""--]] 
+L["DUNGEON_SHORT_NAME_POS"] = "Foso de Saron - POS"
 L["DUNGEON_SHORT_NAME_PSF"] = "Priorato de la Llama Sagrada - PSF"
 L["DUNGEON_SHORT_NAME_RISE"] = [=[Amanecer: Ascenso de Murozond - RISE
 ]=]
@@ -125,14 +121,12 @@ L["DUNGEON_SHORT_NAME_RLP"] = "Estanques de Vida Rubí - RLP"
 L["DUNGEON_SHORT_NAME_ROOK"] = "El Grajero - ROOK"
 L["DUNGEON_SHORT_NAME_SBG"] = "Cementerio de Sombraluna - SBG"
 L["DUNGEON_SHORT_NAME_SD"] = "Cavernas Sanguinas - SD"
---[[Translation missing --]]
---[[ L["DUNGEON_SHORT_NAME_SEAT"] = ""--]] 
+L["DUNGEON_SHORT_NAME_SEAT"] = "Trono del Triunvirato - SEAT"
 L["DUNGEON_SHORT_NAME_SIEGE"] = "Asedio de Boralus - SIEGE"
 L["DUNGEON_SHORT_NAME_SOA"] = "Agujas de Ascensión - SOA"
 --[[Translation missing --]]
 --[[ L["DUNGEON_SHORT_NAME_SOTS"] = ""--]] 
---[[Translation missing --]]
---[[ L["DUNGEON_SHORT_NAME_SR"] = ""--]] 
+L["DUNGEON_SHORT_NAME_SR"] = "Trecho Celestial - SR"
 L["DUNGEON_SHORT_NAME_STRT"] = "Tazavesh: Calles - STRT"
 L["DUNGEON_SHORT_NAME_SV"] = "La Petrocámara - SV"
 --[[Translation missing --]]
@@ -149,8 +143,7 @@ L["DUNGEON_SHORT_NAME_VOTW"] = "Cámara de las Celadoras - VOTW"
 L["DUNGEON_SHORT_NAME_VP"] = "Cumbre del Vórtice - VP"
 L["DUNGEON_SHORT_NAME_WM"] = "Mansión Crestavía - WM"
 L["DUNGEON_SHORT_NAME_WORK"] = "Mechagon: Taller - WORK"
---[[Translation missing --]]
---[[ L["DUNGEON_SHORT_NAME_WS"] = ""--]] 
+L["DUNGEON_SHORT_NAME_WS"] = "Aguja Brisaveloz - WS"
 L["DUNGEON_SHORT_NAME_YARD"] = "Mechagon: Desguace - YARD"
 L["ENABLE_AUTO_FRAME_POSITION"] = "Posicionar automáticamente el marco de perfil de RaiderIO"
 L["ENABLE_AUTO_FRAME_POSITION_DESC"] = "Fija la ventana emergente de perfil de M+ junto al marco del buscador de grupos o la ventana emergente de jugador."
@@ -657,8 +650,7 @@ L["RAID_DIFFICULTY_SUFFIX_MYTHIC"] = "M"
 L["RAID_DIFFICULTY_SUFFIX_NORMAL"] = "N"
 L["RAID_DIFFICULTY_SUFFIX_NORMAL10"] = "N10"
 L["RAID_DIFFICULTY_SUFFIX_NORMAL25"] = "N25"
---[[Translation missing --]]
---[[ L["RAID_DR"] = ""--]] 
+L["RAID_DR"] = "Falla Onírica - DR"
 L["RAID_DS"] = "Alma de Dragón - DS"
 L["RAID_ENCOUNTERS_DEFEATED_TITLE"] = "Encuentros de banda derrotados"
 L["RAID_FL"] = "Tierras de Fuego - FL"
@@ -680,8 +672,7 @@ L["RAID_RS"] = "El Sagrario Rubí - RS"
 --[[Translation missing --]]
 --[[ L["RAID_TOT"] = ""--]] 
 L["RAID_TOTFW"] = "Trono de los Cuatro Vientos - TOTFW"
---[[Translation missing --]]
---[[ L["RAID_VS"] = ""--]] 
+L["RAID_VS"] = "Aguja del Vacío - VS"
 --[[Translation missing --]]
 --[[ L["RAID_VS_DR_MQD"] = ""--]] 
 L["RAIDERIO_AVERAGE_PLAYER_SCORE"] = "Puntuación media de +%s en tiempo"

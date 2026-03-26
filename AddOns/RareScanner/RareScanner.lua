@@ -623,35 +623,9 @@ function RareScanner:OnInitialize()
 	
 	-- Add map dataproviver
 	local function OnMapSetCallback(_, mapID)
-	    if (RSWorldMap.initialized) then
-	        return
-	    end
-	
-	    RSWorldMap.initialized = true
-	
-	    local attempts = 0
-	    local maxAttempts = 10
-	
-	    local function TryAddProvider()
-	        local canvas = WorldMapFrame.GetCanvasContainer and WorldMapFrame:GetCanvasContainer()
-	
-	        if (canvas and canvas.zoomLevels) then
-	            RSProvider.AddDataProvider(RareScannerDataProviderMixin)
-	            return
-	        end
-	        
-	        attempts = attempts + 1
-	
-	        if (attempts < maxAttempts) then
-	            C_Timer.After(0.1, TryAddProvider)
-	        else
-	            RSProvider.AddDataProvider(RareScannerDataProviderMixin)
-	        end
-	    end
-	
-		C_Timer.After(0.5, function()
-	    	TryAddProvider()
-	   	end)
+		RSWorldMap:WaitForCanvasReady(function(isReady)
+			RSProvider.AddDataProvider(RareScannerDataProviderMixin)
+		end)
 	    
 	    EventRegistry:UnregisterCallback("MapCanvas.MapSet", OnMapSetCallback)
 	end

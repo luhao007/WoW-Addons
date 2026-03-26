@@ -209,7 +209,7 @@ end
 
 
 
-function WoWTools_LFDMixin:GetRewardInfo(dungeonID, scenarioID)--FB奖励
+function WoWTools_LFDMixin:GetRewardInfo(dungeonID)--, scenarioID)--FB奖励
     local t=''
     if not dungeonID then
         return t
@@ -230,14 +230,13 @@ function WoWTools_LFDMixin:GetRewardInfo(dungeonID, scenarioID)--FB奖励
         end
     end
 
-    
+
 
     if not IsInGroup(LE_PARTY_CATEGORY_HOME) then
         local T,H,D--额外奖励
         local canTank, canHealer, canDamage = C_LFGList.GetAvailableRoles()
         local eligible, forTank, forHealer, forDamage, itemCount
         for shortageIndex= 1, LFG_ROLE_NUM_SHORTAGE_TYPES do
-            
             eligible, forTank, forHealer, forDamage, itemCount= GetLFGRoleShortageRewards(dungeonID, shortageIndex )
             forTank= forTank and canTank
             forHealer= forHealer and canHealer
@@ -270,7 +269,8 @@ function WoWTools_LFDMixin:GetRewardInfo(dungeonID, scenarioID)--FB奖励
     if moneyAmount and moneyAmount>0 then--钱
         t=t..'|A:Coin-Gold:0:0|a'
     end
-    if experienceVar then
+
+    if experienceVar and experienceVar>0 then
         t=t..'|A:GarrMission_CurrencyIcon-Xp:0:0|a'--'|cffff00ffXP|r'
     end
 

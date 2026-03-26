@@ -230,7 +230,7 @@ L.DEATHS_CHECKBOX_TOOLTIP = "Enable this option to track each time one of your c
 L.DEBUG_LOGIN = "Awarded for logging in.\n\nGood job! YOU DID IT!\n\nOnly visible while in Debug Mode.";
 L.DEBUG_MODE = "|c" .. _.DefaultColors.Red .. "Debug Mode |cffffffff(Show Everything)|r|r";
 L.DEBUG_MODE_TOOLTIP = "Quite literally ... ALL THE THINGS IN THE GAME. PERIOD. DOT. YEAH, ALL OF IT. Even Uncollectible things like bags, consumables, reagents, etc will appear in the lists. (Even yourself! No, really. Look.)\n\nThis is for Debugging purposes only. Not intended to be used for completion tracking.\n\nThis mode bypasses all filters, including Unobtainables.";
-L.DECOR = BINDING_TAG_DECOR;
+L.DECOR = CATALOG_SHOP_TYPE_DECOR;
 L.DECOR_CHECKBOX = CATALOG_SHOP_TYPE_DECOR;
 L.DECOR_CHECKBOX_TOOLTIP = "Enable this option to track warband decor completion.";
 L.DECOR_DESC = "Click this button to select a random decor based on what you're missing.";
@@ -242,7 +242,7 @@ L.DELIST_GROUP = "Delist Group";
 L.DELIST_GROUP_DESC = "Click here to delist the group. If you are by yourself, it will softly leave the group without porting you out of any instance you are in.";
 L.DESCRIPTION = "\"Foolishly you have sought your own demise. Brazenly you have disregarded powers beyond your understanding. You have fought hard to invade the realm of the Collector. Now there is only one way out - To walk the lonely path ... of the damned.\"";
 L.DESCRIPTIONS = "Descriptions";
-L.DIFFICULTY = CRF_DIFFICULTY;
+L.DIFFICULTY = "Difficulty";
 L.DIFFICULTY_ID = "Difficulty ID";
 L.DISABLE_PARTYSYNC = "This is likely not able to be completed by this character even using Party Sync. If you manage otherwise, please let us know on Discord!";
 L.DISABLED = "disabled";
@@ -466,9 +466,9 @@ L.MAIN_LIST_SCALE_TOOLTIP = "Use this to customize the scale of the Main List.\n
 L.MAIN_LIST_SLIDER_LABEL = "Main List Scale";
 L.MAIN_ONLY = "Main Only";
 L.MAIN_ONLY_TOOLTIP = "Turn this setting on if you additionally want ATT to *pretend* that you've earned all shared appearances not locked by a different race or class.\n\nAs an example, if you have collected a Hunter-Only Tier Piece from ICC and there is a shared appearance from the raid without class/race restrictions, ATT will *pretend* that you've earned that source of the appearance as well.\n\nNOTE: Switching to a different race/class will incorrectly report that you've earned appearance sources that you haven't collected for that new chararacter when unlocked in this way.";
-L.MAP = WORLD_MAP;
+L.MAP = BRAWL_TOOLTIP_MAP;
 L.MAP_ID = "Map ID";
-L.MAPS = "Maps";
+L.MAPS = BRAWL_TOOLTIP_MAPS;
 L.MARKS_OF_HONOR_DESC = "Marks of Honor must be viewed in a Popout window to see all of the normal 'Contains' content.\n(Type '/att ' in chat then " .. SHIFT_KEY_TEXT .. " click to link the item)\n\n|cFFfe040fAfter purchasing and using an ensemble, relogging & a forced ATT refresh (in this order)\nmay be required to register all the items correctly.|r";
 L.MAX_TOOLTIP_TOP_LINE_LENGTH_LABEL = "Maximum Top Line Length";
 L.MAXIMUM_STANDING_WITH_FACTION = "Requires a standing lower than %s with %s.";
@@ -1461,7 +1461,6 @@ _.Modules.Events.SetEventInformation(13, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=5,["monthDay"]=1,["weekday"]=7,["year"]=2027},{["hour"]=23,["minute"]=59,["month"]=5,["monthDay"]=7,["weekday"]=6,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(1, {
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=9,["weekday"]=2,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=16,["weekday"]=2,["year"]=2026},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=23,["weekday"]=2,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=30,["weekday"]=2,["year"]=2026},{["remappedID"]=375}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=4,["monthDay"]=6,["weekday"]=2,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=4,["monthDay"]=13,["weekday"]=2,["year"]=2026},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=4,["monthDay"]=20,["weekday"]=2,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=4,["monthDay"]=27,["weekday"]=2,["year"]=2026},{["remappedID"]=375}),
@@ -1487,7 +1486,8 @@ _.Modules.Events.SetEventInformation(1, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=25,["weekday"]=2,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=1,["weekday"]=2,["year"]=2027},{["remappedID"]=375}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=8,["weekday"]=2,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=15,["weekday"]=2,["year"]=2027},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=22,["weekday"]=2,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=1,["weekday"]=2,["year"]=2027},{["remappedID"]=375}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=8,["weekday"]=2,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=15,["weekday"]=2,["year"]=2027},{["remappedID"]=374})
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=8,["weekday"]=2,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=15,["weekday"]=2,["year"]=2027},{["remappedID"]=374}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=22,["weekday"]=2,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=29,["weekday"]=2,["year"]=2027},{["remappedID"]=375})
 });
 
 -- Filter Database Module
@@ -11763,6 +11763,7 @@ L.DELETE_LINKED_CHARACTER = "Rechtsklick zum Löschen dieses verknüpften Charak
 L.DELIST_GROUP = "Gruppe abmelden";
 L.DELIST_GROUP_DESC = "Klicke hier um die Gruppe abzumelden. Wenn Ihr alleine seid, wird die Gruppe sanft aufgelöst, ohne Euch aus der Instanz zu teleportieren, in der Ihr Euch befindet";
 L.DESCRIPTIONS = "Beschreibungen";
+L.DIFFICULTY = "Schwierigkeitsgrad";
 L.DISABLE_PARTYSYNC = "Dies ist vermutlich nicht abschließbar, selbst mit aktiver Gruppensynchronisation. Sollte es dennoch abschließbar sein, melde Dich im Discord!";
 L.DISCORD_BUTTON_TOOLTIP = "Klicke auf diese Schaltfläche, um den Link für das ATT Discord zu kopieren.\n\nIhr könnt Eure Fortschritte/Frustrationen mit anderen Sammlern teilen!";
 L.DISPLAY_IN_COMBAT_CHECKBOX = "Im Kampf";
@@ -14522,6 +14523,7 @@ L.DELETE_CHARACTER = "Clic droit pour supprimer ce personnage";
 L.DELETE_LINKED_ACCOUNT = "Clic droit pour supprimer ce compte lié";
 L.DELETE_LINKED_CHARACTER = "Clic droit pour supprimer ce personnage lié";
 L.DESCRIPTION = "\"Sottement, vous avez cherché votre propre perte. Effrontément, vous avez ignoré des pouvoirs au-delà de votre compréhension. Vous vous êtes battus pour envahir le royaume du Collectionneur. Maintenant, il n’y a plus qu’une seule issue : emprunter le chemin solitaire ... des damnés.\"";
+L.DIFFICULTY = "Difficulté";
 L.DISPLAY_IN_COMBAT_CHECKBOX = "En combat";
 L.DONE_REFRESHING = "Collection mise à jour.";
 L.DROP_CHANCES_CHECKBOX = "Chances de tomber";
@@ -17195,6 +17197,7 @@ L.APPEARANCES_CHECKBOX = "Aspetto";
 L.AZERITE_ESSENCES_CHECKBOX = "|T" .. _.asset("Expansion_BFA") .. ":0|t Essenze del Cuore di Azeroth";
 L.BATTLE_PETS_CHECKBOX = "Mascotte da combattimento";
 L.CATALYST = "Catalizzatore";
+L.DIFFICULTY = "Difficoltà";
 L.EXPANSION_CURRENT_ONLY = "Solo Attuale";
 L.EXPANSION_CURRENT_ONLY_TOOLTIP = "Mostra solo contenuti dell'espansione attuale";
 L.EXPANSION_DISABLE_ALL = "Disabilita Tutto";
@@ -18769,6 +18772,7 @@ L.COST = "Custo";
 L.COST_DESC = "Aqui contém uma visão geral detalhada do que é necessário para obter ou comprar isso";
 L.COST_TOTAL = "Custo total";
 L.DESCRIPTIONS = "Descrições";
+L.DIFFICULTY = "Modo";
 L.EXPANSION_CURRENT_ONLY = "Apenas Atual";
 L.EXPANSION_CURRENT_ONLY_TOOLTIP = "Mostrar apenas conteúdo da expansão atual";
 L.EXPANSION_DISABLE_ALL = "Desativar Tudo";
@@ -21242,6 +21246,7 @@ L.DELIST_GROUP = "Отписать Группу";
 L.DELIST_GROUP_DESC = "Нажмите здесь, чтобы отписать группу. Если Вы сами по себе, то покинете группу без телепортации Вас из подземелья.";
 L.DESCRIPTION = "\"Глупцы! Вы сами нашли свою погибель! Вам никогда не понять, сколь велика сила, потревоженная вами.  Вы сражались отчаянно, чтобы проникнуть в царство Жнеца. Теперь перед вами лежит лишь один путь – путь проклятых.\"";
 L.DESCRIPTIONS = "Описания";
+L.DIFFICULTY = "Сложность";
 L.DISABLE_PARTYSYNC = "Скорее всего это Задание невозможно выполнить на данном персонаже даже с Синхронизацией группы. Если Вам всё же удастся, пожалуйста, сообщите нам в Discord!";
 L.DISCORD_BUTTON_TOOLTIP = "Нажмите, чтобы скопировать ссылку на Discord сервер All The Things.\n\nВы можете делиться своим прогрессом или фрустрацией с другими собирателями!\n\nПримечание переводчика: на английском языке.";
 L.DISPLAY_IN_COMBAT_CHECKBOX = "В Бою";
@@ -21409,7 +21414,6 @@ L.MAIN_LIST_SCALE_TOOLTIP = "Используйте для изменения м
 L.MAIN_LIST_SLIDER_LABEL = "Масштаб Основого Списка";
 L.MAIN_ONLY = "Только основной персонаж";
 L.MAIN_ONLY_TOOLTIP = "Включите данную функцию, если Вы также хотите ATT *притворяться*, что Вы собрали все общие облики, непривязанные к определённому классу или расе.\n\nНапример, если Вы собрали набор Охотника из ЦЛК, и у него есть общие облики без ограничения по классу/расе, ATT *притворится*, что Вы также собрали этот источник облика.\n\nПримечание: Переключение на другую расу/класс некорректно сообщит, что Вы собрали источники обликов, которые на самом деле не собраны для этого персонажа.";
-L.MAPS = "Зоны";
 L.MARKS_OF_HONOR_DESC = "Почётные знаки должны быть рассмотрены во всплывающем окне, чтобы видеть всё их 'Содержимое'.\n(Введите '/att' в чат и затем " .. SHIFT_KEY_TEXT .. " клик для ссылки на предмет)\n\n|cFFfe040fПосле покупки и использования Набора может потребоваться полностью выйти из игры и вручную обновить коллекцию (в таком порядке),\nчтобы корректно зарегистрировать все предметы.|r";
 L.MAX_TOOLTIP_TOP_LINE_LENGTH_LABEL = "Максимальная длина верхней строки";
 L.MAXIMUM_STANDING_WITH_FACTION = "Требуется отношение менее, чем %s с %s.";
@@ -24181,6 +24185,7 @@ L.APPEARANCES_CHECKBOX = "형상";
 L.AZERITE_ESSENCES_CHECKBOX = "|T" .. _.asset("Expansion_BFA") .. ":0|t 아제로스의 심장 정수";
 L.BATTLE_PETS_CHECKBOX = "전투 애완동물";
 L.CATALYST = "촉매";
+L.DIFFICULTY = "난이도";
 L.EXPANSION_CURRENT_ONLY = "현재만";
 L.EXPANSION_CURRENT_ONLY_TOOLTIP = "현재 확장팩 콘텐츠만 표시";
 L.EXPANSION_DISABLE_ALL = "모두 비활성화";
@@ -26608,7 +26613,7 @@ L.AUTO_SYNC_ACC_DATA_TOOLTIP = "Activa esta opción si quieres que ATT intente a
 L.AUTO_WQ_LIST_CHECKBOX = "Abre automáticamente la Lista de Misiones de Mundo";
 L.AUTO_WQ_LIST_CHECKBOX_TOOLTIP = "Activa esta opción si quieres que la Lista de 'Misiones de Mundo' aparezca automáticamente. La lista se actualizará automáticamente cuando cambies de zonas.\n\nTambién puedes configurar este ajuste a un atajo.\n\nAtajos de teclado -> Addons -> ALL THE THINGS -> Activar Misiones de Mundo ATT\n\nComando corto: /attwq";
 L.AVAILABILITY = "Disponibilidad";
-L.AZERITE_ESSENCE = "Esencia de Azerita";
+L.AZERITE_ESSENCE = "Esencia del Corazón de Azeroth";
 L.AZERITE_ESSENCE_ID = "Esencia del corazón de Azeroth ID";
 L.AZERITE_ESSENCES_CHECKBOX = "|T" .. _.asset("Expansion_BFA") .. ":0|t Esencias del Corazón de Azeroth";
 L.AZERITE_ESSENCES_CHECKBOX_TOOLTIP = "Activa esta opción para rastrear Esencias de azerita.\n\nRastreados por personaje por defecto.";
@@ -26715,6 +26720,7 @@ L.DELIST_GROUP = "Quitar Grupo";
 L.DELIST_GROUP_DESC = "Haz clic aquí para quitar el grupo. Si estás sólo, saldrá sutilmente del grupo sin teletransportarte fuera de la instancia en la que estás.";
 L.DESCRIPTION = "\"Insensatamente has buscado tu propia muerte. Descaradamente has ignorado poderes que escapan a tu comprensión. Has luchado con ahínco para invadir el reino del Coleccionista. Ahora solo queda una salida: recorrer el solitario camino ... de los condenados.\"";
 L.DESCRIPTIONS = "Descripciones";
+L.DIFFICULTY = "Dificultad";
 L.DIFFICULTY_ID = "Dificultad ID";
 L.DISABLE_PARTYSYNC = "Es probable que este personaje no pueda completar esto ni siquiera con Sincronización de grupo. Si lo consigues, ¡cuéntanoslo en Discord!";
 L.DISABLED = "desactivado";
@@ -26905,7 +26911,6 @@ L.MAIN_LIST_SLIDER_LABEL = "Escala Lista Principal";
 L.MAIN_ONLY = "Sólo Personaje Principal";
 L.MAIN_ONLY_TOOLTIP = "Activa este ajuste si a demás quieres que ATT *finja* que has conseguido todas las apariencias compartidas no bloqueadas por una raza diferente o clase.\n\nComo ejemplo, si has coleccionado una pieza de un conjunto de equipo de ICC sólo disponible para Cazador y hay una apariencia compartida de la banda sin las restricciones de clase/raza, ATT va a *fingir* que también has conseguido esa fuente de apariencia.\n\nNOTA: Cambiar a una raza/clase diferente va a mostrar incorrectamente que has conseguido una fuente de apariencia que no has conseguido para ese nuevo personaje cuando se desbloquea de esta forma.";
 L.MAP_ID = "Mapa ID";
-L.MAPS = "Mapas";
 L.MARKS_OF_HONOR_DESC = "Las Marcas de Honor deben visualizarse en una ventana emergente para ver todo el contenido normal de \"Contiene\".\n(Escribe '/att ' en el chat entonces " .. SHIFT_KEY_TEXT .. " clic para enlazar el objeto)\n\n|cFFfe040fDespués de comprar y usar un conjunto, volver a iniciar sesión y realizar una actualización forzada de ATT (en este orden)\npuede ser necesario para registrar todos los artículos correctamente.|r";
 L.MAX_TOOLTIP_TOP_LINE_LENGTH_LABEL = "Largo máximo de línea superior";
 L.MAXIMUM_STANDING_WITH_FACTION = "Requiere un nivel menor de %s con %s.";
@@ -29763,6 +29768,7 @@ L.ARTIFACT_ID = "ID Artefacto";
 L.ARTIFACT_RELIC_CACHE = "Abre la interfaz de Armas de Artefacto para cargar si esto es una mejora o no. Es útil para determinar si puedes comerciar este objeto a un alter o no.";
 L.AUTO_MAIN_LIST_CHECKBOX_TOOLTIP = "Activa esta opción si quieres abrir automáticamente la Lista Principal cuando entres al juego.\n\nTambién puedes configurar este ajuste a un atajo:\n\nAtajos de teclado -> Accesorios -> ALL THE THINGS -> Activar Lista Principal ATT\n\nComando corto: /att";
 L.AUTO_MINI_LIST_CHECKBOX = "Abre automáticamente la mini Lista";
+L.AZERITE_ESSENCE = "Esencia de Azerita";
 L.AZERITE_ESSENCE_ID = "ID Esencia de Azerita";
 L.AZERITE_ESSENCES_CHECKBOX = "|T" .. _.asset("Expansion_BFA") .. ":0|t Esencias de Azerita";
 L.BACKGROUND_TOOLTIP = "Elige el color de fondo de todas las ventanas de ATT.";
@@ -31363,6 +31369,7 @@ L.DELIST_GROUP = "群组除名";
 L.DELIST_GROUP_DESC = "点击此处将群组除名。如果您独自一人，它会轻松地离开该组，而不会将您从您所在的任何实例中移出。 ";
 L.DESCRIPTION = "“你愚蠢地寻求自己的终结，厚颜无耻地无视了你无法理解的力量。你入侵了收藏者的领域并为此努力。现在只有一条路可走了——这条孤独的路……该死的路。”";
 L.DESCRIPTIONS = "描述";
+L.DIFFICULTY = "难度";
 L.DIFFICULTY_ID = "难度 ID";
 L.DISABLE_PARTYSYNC = "即使使用小队同步，这个角色也可能无法完成。如果您以其他方式管理，请在 Discord 上告诉我们！";
 L.DISABLED = "已禁用";
@@ -31571,7 +31578,6 @@ L.MAIN_LIST_SLIDER_LABEL = "主列表缩放";
 L.MAIN_ONLY = "仅主要";
 L.MAIN_ONLY_TOOLTIP = "如果你还想让 ATT *假装*你赢得了所有未被其他种族或职业锁定的共享外观，请启用此设置。\n\n例如，如果你从冰冠堡垒收藏了一个仅限猎人使用的物品，并且在没有职业/种族限制的情况下，有一个来自副本的共享外观，那么 ATT 将*假装*你也获得了该外观来源。\n\n注意：以这种方式解锁时，切换到其他种族/职业将错误地报告你已经获得了尚未为新角色收藏的外观来源。";
 L.MAP_ID = "地图 ID";
-L.MAPS = "地图";
 L.MARKS_OF_HONOR_DESC = "荣耀印记必须在弹出窗口中查看才能看到所有正常的'包含'内容。\n(在聊天中输入'/att' 然后 " .. SHIFT_KEY_TEXT .. "点击链接的物品)\n\n|cFFfe040f之后购买和一起使用，重新登录和强制 ATT 刷新（按此顺序）\n可能需要正确注册所有物品。|r";
 L.MAX_TOOLTIP_TOP_LINE_LENGTH_LABEL = "最大顶线长度";
 L.MAXIMUM_STANDING_WITH_FACTION = "最高阵营声望等级 %s 和 %s。";
@@ -34455,6 +34461,7 @@ L.DELETE_LINKED_CHARACTER = "右擊刪除此連接角色";
 L.DELIST_GROUP = "群組除名";
 L.DELIST_GROUP_DESC = "點擊此處將群組除名。如果您獨自一人，它會輕鬆地離開該群組，而不會將您從您所在的任何實例中移出。 ";
 L.DESCRIPTION = "\"你愚昧地尋求自我毀滅，大膽地無視了那些超越你理解的力量。你拼盡全力入侵收藏者的領域，而現在，唯一的出路只剩下 — 踏上那孤獨的詛咒之路\"";
+L.DIFFICULTY = "難度";
 L.DIFFICULTY_ID = "難度 ID";
 L.DISABLE_PARTYSYNC = "即使使用隊伍同步，這個角色也可能無法完成。如果您以其他方式管理，請在 Discord 上告訴我們！";
 L.DISCORD_BUTTON_TOOLTIP = "點擊按鈕複製 URL 到All The Things Discord 伺服器。\n\n可以與其他收藏家分享進步/挫折！";
@@ -34624,7 +34631,6 @@ L.MAIN_LIST_SLIDER_LABEL = "主列表縮放";
 L.MAIN_ONLY = "僅主要";
 L.MAIN_ONLY_TOOLTIP = "如果你還想讓 ATT *假裝*你贏得了所有未被其他種族或職業鎖定的共享外觀，請啟用此設定。\n\n例如，如果你從冰冠城塞收藏了一個僅限獵人使用的物品，並且在沒有職業/種族限制的情況下，有一個來自副本的共享外觀，那麼 ATT 將*假裝*你也獲得了該外觀來源。\n\n注意：以這種方式解鎖時，切換到其他種族/職業將錯誤地回報你已經獲得了尚未為新角色收藏的外觀來源。";
 L.MAP_ID = "地圖 ID";
-L.MAPS = "地圖";
 L.MARKS_OF_HONOR_DESC = "榮耀印記必須在彈出視窗中查看才能看到所有正常的'包含'內容。\n(在聊天中輸入'/att' 然後 " .. SHIFT_KEY_TEXT .. "點擊連接的物品)\n\n|cFFfe040f之後購買和一起使用，重新登入和強制 ATT 刷新（按此順序）\n可能需要正確註冊所有物品。|r";
 L.MAX_TOOLTIP_TOP_LINE_LENGTH_LABEL = "最大頂線長度";
 L.MAXIMUM_STANDING_WITH_FACTION = "最高陣營聲望等級 %s 和 %s。";

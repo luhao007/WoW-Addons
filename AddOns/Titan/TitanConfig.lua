@@ -36,9 +36,9 @@ local Config_locale = {
 		advanced   = L["TITAN_PANEL_MENU_ADV"],
 		changes    = L["TITAN_PANEL_MENU_CHANGE_HISTORY"],
 		slash      = L["TITAN_PANEL_MENU_SLASH_COMMAND"],
-		help_list  = "Help List", --L["TITAN_PANEL_MENU_HELP"],
-		im_ex_port = "Import / Export", --L["TITAN_PANEL_MENU_HELP"],
-		adjust     = "Frame Adjustment",
+		help_list  = L["TITAN_PANEL_MENU_HELP_LIST"],
+		im_ex_port = L["TITAN_PANEL_MENU_IMPEXP_LABEL"],
+		adjust     = L["TITAN_PANEL_MENU_ADJUST_LABEL"] ,
 	}
 }
 
@@ -132,7 +132,7 @@ local function CreateAbout(pos)
 		type = "group",
 		args = {
 			confgendesc = {
-				name = "Description",
+				name = L["TITAN_PANEL_MENU_ABOUT_DESCRIPTION"],
 				order = 1,
 				type = "group",
 				inline = true,
@@ -239,12 +239,15 @@ local function Format_coord(coord)
 	return (tostring(format("%0.2f", coord)))
 end
 
+---Local Control the options of each Bar
+---@param pos number Options order start
+---@return table Config options
 local function CreateBarsList(pos)
-	--	AceConfigRegistry:NotifyChange("Titan Panel Bars")
 	local function IfColor(info, bar_short)
 		local frame_str = TitanVariables_GetFrameName(bar_short)
 		return (TitanBarDataVars[frame_str].texure == Titan_Global.COLOR)
 	end
+	--	AceConfigRegistry:NotifyChange("Titan Panel Bars")
 
 	local args = {}
 	local position = 1000
@@ -396,7 +399,7 @@ local function CreateBarsList(pos)
 				TitanPanelBarButton_DisplayBarsWanted("Bar reset to default position - " .. tostring(v.name))
 			end,
 		}
-		--[[
+		---[[
 		position = position + 1 -- spacer
 		args[v.name].args.offsetyspacer1 = {
 			type = "header",
@@ -408,7 +411,7 @@ local function CreateBarsList(pos)
 		args[v.name].args.yoffset = {
 			type = "range",
 			width = "full",
-			name = "Plugin Y Offset",
+			name = L["TITAN_PANEL_MENU_PLUGIN_Y_OFFSET"],
 			order = position,
 			min = -12,
 			max = 12,
@@ -420,11 +423,7 @@ local function CreateBarsList(pos)
 			set = function(info, a)
 				local frame_str = TitanVariables_GetFrameName(v.name)
 
-print("Config Y"
-.." "..tostring(v.name)..""
-.." "..tostring(frame_str)..""
-.." "..tostring(a)..""
-)				TitanBarDataVars[frame_str].plugin_off_y = a
+				TitanBarDataVars[frame_str].plugin_off_y = a
 				-- Justify button position
 				TitanPanelButton_Justify();
 			end,
@@ -513,7 +512,7 @@ print("Config Y"
 						showborder = {
 							type = "toggle",
 							width = "normal",
-							name = "Show Border", --L["TITAN_PANEL_MENU_DISPLAY_BAR"],
+							name = L["TITAN_PANEL_MENU_BARS_BORDER"],
 							order = 350,
 							get = function(info)
 								local frame_str = TitanVariables_GetFrameName(v.name)
@@ -629,8 +628,11 @@ end
 
 --============= Bars - All
 
---	AceConfigRegistry:NotifyChange("Titan Panel Globals")
+---local Control the options of ALL Bars
+---@param pos number Options order start
+---@return table Config options
 local function CreateBarsAll(pos)
+--	AceConfigRegistry:NotifyChange("Titan Panel Globals")
 	local args = {}
 	local position = 1000
 
@@ -711,6 +713,9 @@ local function ColorAdjShown(frame_str)
 	return res
 end
 
+---local Control the options of frames usewr can adjust
+---@param pos number Options order start
+---@return table Config options
 local function CreateUpdateAdj(pos)
 	--	AceConfigRegistry:NotifyChange("Titan Panel Adjust")
 
@@ -780,7 +785,7 @@ local function CreateUpdateAdj(pos)
 		args[f_name].args.offset = {
 			type = "range",
 			width = "full",
-			name = "Vertical Adjustment",
+			name = L["TITAN_PANEL_MENU_FRAME_Y_OFFSET"],
 			order = position,
 			min = -200,
 			max = 600,
@@ -834,7 +839,9 @@ local function Setter(id, var, value)
 	TitanPanelButton_UpdateButton(id)
 end
 
----Allow the user to control each plugin registered to Titan.
+---local Control options of each plugin registered to Titan.
+---@param pos number
+---@return table Config options
 local function CreateConfigAddons(pos)
 	--	AceConfigRegistry:NotifyChange("Titan Panel Addon Control")
 	local plug_in = nil
@@ -1199,39 +1206,9 @@ end
 
 --============= Profiles
 
-local function SummaryText(profile)
-	local res = ""
-
-	if profile.ptype == Titan_Global.profile.GLOBAL then
-		res = L["TITAN_PANEL_GLOBAL"] .. " : " .. profile.cname
-	elseif profile.ptype == Titan_Global.profile.SYNC then
-		res = L["TITAN_PANEL_MENU_PROFILE_SYNC"] .. " : " .. profile.cname
-	elseif profile.ptype == Titan_Global.profile.TOON then
-		res = L["TITAN_PANEL_MENU_PROFILE_CHARS"] .. " : " .. Titan_Global.profile.NONE
-	else
-		res = "?" .. " : " .. Titan_Global.profile.NONE
-	end
-
-	return res
-end
-
-local function EndProfileText(profile)
-	local res = ""
-
-	if profile.ptype == Titan_Global.profile.GLOBAL then
-		res = " : " .. profile.cname
-	elseif profile.ptype == Titan_Global.profile.SYNC then
-		res = " : " .. profile.cname
-	elseif profile.ptype == Titan_Global.profile.TOON then
-		res = " : " .. Titan_Global.profile.NONE
-	else
-		res = " : ?" .. Titan_Global.profile.NONE
-	end
-
-	return res
-end
-
----Allow the user to load / delete / reset / sync profile data
+---local Allow the user to load / delete / reset / sync profile data
+---@param pos number Order of options
+---@return table Config options
 local function CreateProfiles(pos)
 	--		AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
 	local p_info = {} -- used to hold info about each toon in players
@@ -1256,8 +1233,19 @@ local function CreateProfiles(pos)
 
 		this_toon.name = index
 		this_toon.profile = TitanVariables_GetProfile(index)
-		this_toon.summary = SummaryText(this_toon.profile)
-		this_toon.toon_header = this_toon.fancy_name .. EndProfileText(this_toon.profile)
+		local res = ""
+
+		if this_toon.profile.ptype == Titan_Global.profile.GLOBAL then
+			res = L["TITAN_PANEL_GLOBAL"] .. " : " .. this_toon.profile.cname
+		elseif this_toon.profile.ptype == Titan_Global.profile.SYNC then
+			res = L["TITAN_PANEL_MENU_PROFILE_SYNC"] .. " : " .. this_toon.profile.cname
+		elseif this_toon.profile.ptype == Titan_Global.profile.TOON then
+			res = L["TITAN_PANEL_MENU_PROFILE_CHARS"] .. " : " .. Titan_Global.profile.NONE
+		else
+			res = "?" .. " : " .. Titan_Global.profile.NONE
+		end
+
+	this_toon.toon_header = this_toon.fancy_name .. res --EndProfileText(this_toon.profile)
 		this_toon.is_player = (index == TitanUtils_GetPlayer())
 		this_toon.sync_set = not (id.Panel["SyncWithProfile"] == Titan_Global.profile.NONE)
 		this_toon.sync_name = id.Panel["SyncWithProfile"]
@@ -1333,7 +1321,7 @@ local function CreateProfiles(pos)
 				position = position + 1
 				p_args[tostring(position)] = {
 					type = "description",
-					name = "Last Logout : " .. logout,
+					name = L["TITAN_PANEL_MENU_PROFILE_LOGOUT"].." : " .. logout,
 					--width = "0.5",
 					cmdHidden = true,
 					order = position,
@@ -1344,7 +1332,7 @@ local function CreateProfiles(pos)
 					position = position + 1
 					p_args[tostring(position)] = {
 						type = "description",
-						name = "@ : " .. itoon.zoneText .. " " .. itoon.subZoneText,
+						name = L["TITAN_PANEL_MENU_PROFILE_LOC"].." : " .. itoon.zoneText .. " " .. itoon.subZoneText,
 						--width = "0.5",
 						cmdHidden = true,
 						order = position,
@@ -1353,7 +1341,7 @@ local function CreateProfiles(pos)
 				position = position + 1
 				p_args[tostring(position)] = {
 					type = "description",
-					name = "Level : " .. itoon.levelText,
+					name = L["TITAN_PANEL_MENU_PROFILE_LEVEL"] .." : " .. itoon.levelText,
 					width = "0.5",
 					cmdHidden = true,
 					order = position,
@@ -1361,7 +1349,7 @@ local function CreateProfiles(pos)
 				position = position + 1
 				p_args[tostring(position)] = {
 					type = "description",
-					name = "Faction : " .. itoon.faction,
+					name = L["TITAN_PANEL_MENU_PROFILE_FACTION"].." : " .. itoon.faction,
 					width = "0.5",
 					cmdHidden = true,
 					order = position,
@@ -1369,7 +1357,7 @@ local function CreateProfiles(pos)
 				position = position + 1
 				p_args[tostring(position)] = {
 					type = "description",
-					name = "Class : " .. itoon.class,
+					name = L["TITAN_PANEL_MENU_PROFILE_CLASS"].." : " .. itoon.class,
 					width = "0.5",
 					cmdHidden = true,
 					order = position,
@@ -1377,7 +1365,7 @@ local function CreateProfiles(pos)
 				position = position + 1
 				p_args[tostring(position)] = {
 					type = "description",
-					name = "Race : " .. itoon.race,
+					name = L["TITAN_PANEL_MENU_PROFILE_RACE"].." : " .. itoon.race,
 					width = "0.5",
 					cmdHidden = true,
 					order = position,
@@ -1432,14 +1420,14 @@ local function CreateProfiles(pos)
 
 						position = position + 1
 						p_args.mailClear = {
-							name = "Clear", --L["TITAN_PANEL_MENU_LOAD_SETTINGS"],
-							desc = "Clear Mail info for this toon",
+							name = L["TITAN_PANEL_MENU_POST_CLEAR"],
+							desc = L["TITAN_PANEL_MENU_POST_CLEAR_DESC"],
 							order = position,
 							type = "execute",
 							func = function(info, v)
 								TitanPost.ClearMailInfo(this_toon.name)
 								TitanPrint(
-									"Clear Mail info"
+									L["TITAN_PANEL_MENU_POST_CLEAR_DESC"]
 									.. " > " .. this_toon.name .. ""
 									, "info")
 								AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
@@ -1564,8 +1552,8 @@ local function CreateProfiles(pos)
 			p_args.reset_this = {
 				--name = L["TITAN_PANEL_MENU_PROFILE_RESET"].." : "..this_toon.profile.cname, --
 				--desc = L["TITAN_PANEL_MENU_PROFILE_RESET_DESC"],
-				name = "Reset Profile in Use", --
-				desc = "Will reset" .. " : " .. this_toon.profile.cname,
+				name = L["TITAN_PANEL_MENU_PROFILE_RESET"],
+				desc = L["TITAN_PANEL_MENU_PROFILE_RESET_DESC"] .. " : " .. this_toon.profile.cname,
 				order = position,
 				type = "execute",
 				--width = "1.0",
@@ -1733,8 +1721,8 @@ local function CreateProfiles(pos)
 			}
 			position = position + 1
 			p_args.sync_all_with = {
-				name = "Sync All",            --L["TITAN_PANEL_MENU_PROFILE_SYNC"],
-				desc = "Sync every toon to this profile", --L["TITAN_PANEL_MENU_PROFILE_SYNC_DESC"],
+				name = L["TITAN_PANEL_MENU_PROFILE_SYNC_ALL"],
+				desc = L["TITAN_PANEL_MENU_PROFILE_SYNC_ALL_DESC"],
 				order = position,
 				type = "execute",
 				--width = "full",
@@ -1749,7 +1737,7 @@ local function CreateProfiles(pos)
 					Titan_Debug.Out('titan', 'profile', str)
 
 					TitanPrint(""
-						.. "" .. "Sync All" .. ""
+						.. "" .. L["TITAN_PANEL_MENU_PROFILE_SYNC_ALL"] .. ""
 						.. " > '" .. tostring(this_toon.name) .. "'"
 						, "info")
 
@@ -1763,8 +1751,8 @@ local function CreateProfiles(pos)
 			}
 			position = position + 1
 			p_args.sync_all_clear = {
-				name = "Clear Sync All",     --L["TITAN_PANEL_MENU_PROFILE_CLEAR_SYNC"],
-				desc = "Revert to each toon's settings", --L["TITAN_PANEL_MENU_PROFILE_CLEAR_SYNC_DESC"],
+				name = L["TITAN_PANEL_MENU_PROFILE_SYNC_ALL_CLEAR"],
+				desc = L["TITAN_PANEL_MENU_PROFILE_SYNC_ALL_CLEAR_DESC"],
 				order = position,
 				type = "execute",
 				func = function(info, v)
@@ -1777,7 +1765,7 @@ local function CreateProfiles(pos)
 					Titan_Debug.Out('titan', 'profile', str)
 
 					TitanPrint(""
-						.. "" .. "Clear Sync All" .. ""
+						.. "" .. L["TITAN_PANEL_MENU_PROFILE_SYNC_ALL_CLEAR"] .. ""
 						.. " > '" .. tostring(this_toon.name) .. "'"
 						, "info")
 
@@ -1795,7 +1783,7 @@ local function CreateProfiles(pos)
 			position = position + 1
 			p_args.sync_all_title = {
 				type = "header",
-				name = TitanUtils_GetGoldText("Uses as Sync"),
+				name = TitanUtils_GetGoldText(L["TITAN_PANEL_MENU_PROFILE_SYNC_USE"]),
 				cmdHidden = true,
 				order = position,
 			}
@@ -1803,7 +1791,7 @@ local function CreateProfiles(pos)
 				position = position + 1
 				p_args[tostring(position)] = {
 					type = "description",
-					name = ALL or "ALL",
+					name = Titan_Global.literals.all,
 					cmdHidden = true,
 					order = position,
 				}
@@ -1831,7 +1819,7 @@ local function CreateProfiles(pos)
 					position = position + 1
 					p_args[tostring(position)] = {
 						type = "description",
-						name = NONE or "None",
+						name = Titan_Global.literals.none,
 						cmdHidden = true,
 						order = position,
 					}
@@ -1848,7 +1836,9 @@ end
 local export_str = "" -- hold export string
 local import_str = "" -- hold import string
 
----Allow the user to load / delete / reset / sync profile data
+---local Allow the user to load / delete / reset / sync profile data
+---@param pos number Options order start
+---@return table Config options
 local function CreateImportExportList(pos)
 	local players = {} -- used for list of profiles
 	local export  = {} -- used for selected profiles
@@ -1912,7 +1902,7 @@ local function CreateImportExportList(pos)
 	args["export_header"] = {
 		order = position,
 		type = "header",
-		name = "Export \n", --L["TITAN_PANEL_MENU_PROFILES"] .. "\n",
+		name = L["TITAN_PANEL_MENU_IMPEXP_IMPORT"].." \n",
 		cmdHidden = true
 	}
 	local ex_desc = ""
@@ -1966,7 +1956,7 @@ local function CreateImportExportList(pos)
 
 	position = position + 1
 	args["export_cmd"] = {
-		name = "Export",              --L["TITAN_PANEL_MENU_LOAD_SETTINGS"],
+		name = L["TITAN_PANEL_MENU_IMPEXP_EXPORT"],
 		desc = "Export the selected toons", --L["TITAN_PANEL_MENU_LOAD_SETTINGS_DESC"],
 		order = position,
 		type = "execute",
@@ -1980,8 +1970,8 @@ local function CreateImportExportList(pos)
 	args["export_text"] = {
 		order = position,
 		type = "input",
-		name = "Export box",                                                        --L["TITAN_PANEL_MENU_PROFILES"] .. "\n",
-		desc = "To copy the string; Click in the string; Then control-A; Then control-C", --L["TITAN_PANEL_MENU_PROFILES"] .. "\n",
+		name = L["TITAN_PANEL_MENU_IMPEXP_EXPORT_BOX"] .. "\n",
+		desc = L["TITAN_PANEL_MENU_IMPEXP_EXPORT_BOX_DESC"] .. "\n",
 		multiline = 10,
 		width = 'full',
 		get = function(info, v)
@@ -2009,7 +1999,7 @@ local function CreateImportExportList(pos)
 	args["import_header"] = {
 		order = position,
 		type = "header",
-		name = "Import \n", --L["TITAN_PANEL_MENU_PROFILES"] .. "\n",
+		name = L["TITAN_PANEL_MENU_IMPEXP_IMPORT"] .. "\n",
 		cmdHidden = true
 	}
 	local im_desc = ""
@@ -2030,8 +2020,8 @@ local function CreateImportExportList(pos)
 	args["import_text"] = {
 		order = position,
 		type = "input",
-		name = "Import box",                                            --L["TITAN_PANEL_MENU_PROFILES"] .. "\n",
-		desc = "To copy the export string; Click in the box; Then control-V", --L["TITAN_PANEL_MENU_PROFILES"] .. "\n",
+		name = L["TITAN_PANEL_MENU_IMPEXP_IMPORT"] .. "\n",
+		desc = L["TITAN_PANEL_MENU_IMPEXP_IMPORT_DESC"] .. "\n",
 		width = 'full',
 		multiline = 10,
 		get = function(info, v)
@@ -2056,8 +2046,8 @@ local function CreateImportExportList(pos)
 	}
 	position = position + 1
 	args["import_cmd"] = {
-		name = "Import",                              --L["TITAN_PANEL_MENU_LOAD_SETTINGS"],
-		desc = "Import the Titan export in the input box.", --L["TITAN_PANEL_MENU_PROFILES"] .. "\n",
+		name = L["TITAN_PANEL_MENU_IMPEXP_IMPORT"],
+		desc = L["TITAN_PANEL_MENU_IMPEXP_IMPORT_DESC"] .. "\n",
 		order = position,
 		type = "execute",
 		func = function(info, v)
@@ -2076,8 +2066,9 @@ end
 
 --============= Tooltips and Frames
 
----Show the general Titan options that the user can change.
-
+---local Show the general Titan options that the user can change.
+---@param pos number Options order start
+---@return table Config options
 local function CreateTooltipOptions(pos)
 	local optionsFrames = {
 		name = Config_locale.topic.tooltips,
@@ -2090,8 +2081,8 @@ local function CreateTooltipOptions(pos)
 				name = L["TITAN_PANEL_MENU_OPTIONS_TOOLTIPS"],
 			},
 			optiontooltiptimer = {
-				name = "Tooltip Timeout",            --L["TITAN_PANEL_UISCALE_CONTROL_TITLE_UI"],
-				desc = "Time Tooltip stays after cursor leaves.", --L["TITAN_PANEL_UISCALE_SLIDER_DESC"],
+				name = L["TITAN_PANEL_MENU_TOOLTIP_TIMEOUT"],
+				desc = L["TITAN_PANEL_MENU_TOOLTIP_TIMEOUT_DESC"],
 				order = 203,
 				type = "range",
 				width = "full",
@@ -2221,7 +2212,9 @@ end
 
 --============= Scale and Font
 
----Show the Titan options that allow a user to adjust Titan scale and font
+---local Show the Titan options that allow a user to adjust Titan scale and font
+---@param pos number Options order start
+---@return table Config options
 local function CreateUIOptions(pos)
 	local optionsUIScale = {
 		name = Config_locale.topic.scale,
@@ -2344,7 +2337,7 @@ local function CreateUIOptions(pos)
 				order = 30,
 				width = "full",
 				type = "header",
-				name = "Font",
+				name = L["TITAN_PANEL_MENU_FONT_LABEL"],
 			},
 			fontselection = {
 				name = L["TITAN_PANEL_MENU_LSM_FONTS"],
@@ -2384,13 +2377,13 @@ local function CreateUIOptions(pos)
 				order = 35,
 				type = "description",
 				width = "full",
-				name = "* Could include Fonts from other addons.",
+				name = L["TITAN_PANEL_MENU_FONT_OTHER"],
 			},
 			paneldesc = {
 				order = 40,
 				width = "full",
 				type = "header",
-				name = "Strata",
+				name = L["TITAN_PANEL_MENU_FRAME_STRATA"],
 			},
 			panelstrata = {
 				name = L["TITAN_PANEL_MENU_FRAME_STRATA"],
@@ -2418,7 +2411,7 @@ local function CreateUIOptions(pos)
 				width = ".5",
 				order = 42,
 				type = "description",
-				name = "Order of Strata\n"
+				name = L["TITAN_PANEL_MENU_FRAME_STRATA_ORDER"].."\n"
 					.. "- BACKGROUND\n"
 					.. "- LOW - default\n"
 					.. "- MEDIUM\n"

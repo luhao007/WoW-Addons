@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: 忘忧景久
-## Version: 0.1.3
+## Version: 0.2.2
 
 ## Title: WYJJDB
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r|cFFFFFFFF忘忧景久语音包|r |cFFFFE00AWYJJDB|r

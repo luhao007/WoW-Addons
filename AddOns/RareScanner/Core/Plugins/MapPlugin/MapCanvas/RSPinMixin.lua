@@ -62,14 +62,20 @@ function RSPinMixin:UpdateScale()
 		return
 	end
 	
-    local scale;
-	if (self.startScale and self.endScale) then
-		local parentScaleFactor = 1.0 / WorldMapFrame:GetCanvasScale();
-		scale = parentScaleFactor * Lerp(self.startScale, self.endScale, Saturate(self.scaleFactor * WorldMapFrame:GetCanvasZoomPercent()));
-	else
-		scale = 1;
-	end
-	
-	self:SetScale(scale);
-	self:ApplyCurrentPosition()
+	RSWorldMap:WaitForCanvasReady(function(isReady)
+		if (not isReady) then
+			return
+		end
+		
+		local scale;
+		if (self.startScale and self.endScale) then
+			local parentScaleFactor = 1.0 / WorldMapFrame:GetCanvasScale();
+			scale = parentScaleFactor * Lerp(self.startScale, self.endScale, Saturate(self.scaleFactor * WorldMapFrame:GetCanvasZoomPercent()));
+		else
+			scale = 1;
+		end
+		
+		self:SetScale(scale);
+		self:ApplyCurrentPosition()
+	end)
 end

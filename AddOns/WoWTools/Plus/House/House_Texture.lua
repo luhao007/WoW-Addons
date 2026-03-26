@@ -19,6 +19,8 @@ function WoWTools_TextureMixin.Events:Blizzard_HousingCornerstone()
 
     self:SetButton(HousingCornerstoneHouseInfoFrameCloseButton)
     self:SetAlphaColor(HousingCornerstoneHouseInfoFrame.GearDropdown.Icon, true)
+
+    self:SetFrame(MoveHouseConfirmationDialog, {alpha=1})
 end
 --住宅信息板
 function WoWTools_TextureMixin.Events:Blizzard_HousingDashboard()
@@ -63,6 +65,9 @@ function WoWTools_TextureMixin.Events:Blizzard_HousingDashboard()
         b:OnMouseDown()
     end)
 
+--文化节
+    self:SetScrollBar(HousingDashboardFrame.HouseInfoContent.ContentFrame.InitiativesFrame.InitiativeSetFrame.InitiativeTasks)
+    self:SetScrollBar(HousingDashboardFrame.HouseInfoContent.ContentFrame.InitiativesFrame.InitiativeSetFrame.InitiativeActivity)
 
     WoWTools_TextureMixin:Init_BGMenu_Frame(HousingDashboardFrame, {
         alpha=0.5,

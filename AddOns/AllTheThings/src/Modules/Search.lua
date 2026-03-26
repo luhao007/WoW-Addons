@@ -557,7 +557,7 @@ app.SearchAndOpen = function(search)
 			window:SetVisible(true)
 
 			-- collapse all the groups
-			app.ForceExpandGroupsRecursively(window.data, false)
+			app.ExpandGroupsRecursively(window.data, false, true)
 		end
 		-- force the search results to be visible
 		o.forceShow = true

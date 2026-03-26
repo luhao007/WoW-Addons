@@ -127,7 +127,27 @@ end
 
 
 --因为修改，内置参数，可能会出现，错误
+--WorldMapFrame:IsSidePanelShown()
+--WoWTools_DataMixin:Hook(WorldMapFrame.SidePanelToggle, 'Refresh', Save_Size)
 function WoWTools_MoveMixin.Events:Blizzard_WorldMap()
+
+    --[[local function addMenu(_, root)
+        local sub= root:CreateCheckbox(
+            WoWTools_DataMixin.onlyChinese and '禁用尺寸' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DISABLE, HUD_EDIT_MODE_SETTING_BAGS_SIZE),
+        function()
+            return self:Save().disablesWorldMapFrameSize
+        end, function()
+            self:Save().disablesWorldMapFrameSize= not self:Save().disablesWorldMapFrameSize and true or nil
+        end)
+        sub:SetTooltip(function (tooltip)
+            GameTooltip_AddInstructionLine(tooltip,
+                WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+            )
+        end)
+    end
+
+    if not self:Save().disablesWorldMapFrameSize then]]
+
     local name= WorldMapFrame:GetName()
 
     local minimizedWidth= WorldMapFrame.minimizedWidth or 702
@@ -136,7 +156,10 @@ function WoWTools_MoveMixin.Events:Blizzard_WorldMap()
 
 
     local function Settings(size)
-        if not WorldMapFrame:CanChangeAttribute() then
+        if not WorldMapFrame:CanChangeAttribute()
+            or not WorldMapFrame:IsShown()
+            or not self:GetSize(name)
+        then
             return
         end
         local isMax= WorldMapFrame:IsMaximized()
@@ -157,42 +180,45 @@ function WoWTools_MoveMixin.Events:Blizzard_WorldMap()
     end
 
     local function Set_Size(frame)
-        if frame:IsShown() then
-            local s= self:Save().size[name]
-            local w= s and s[1]
-            local h= s and s[2]
-            if w and h then
-                local isSidePanelShown= WorldMapFrame:IsSidePanelShown()
-                local WorldFrameIsSidePanelShown= self:Save().WorldFrameIsSidePanelShown
+         if not WorldMapFrame:CanChangeAttribute() or not WorldMapFrame:IsShown() then
+            return
+        end
+        local s= self:Save().size[name]
+        local w= s and s[1]
+        local h= s and s[2]
+        if w and h then
+            local isSidePanelShown= WorldMapFrame:IsSidePanelShown()
+            local WorldFrameIsSidePanelShown= self:Save().WorldFrameIsSidePanelShown
 
-                if WorldFrameIsSidePanelShown and not isSidePanelShown then
-                    frame:SetSize(w - questLogWidth, h)
+            if WorldFrameIsSidePanelShown and not isSidePanelShown then
+                frame:SetSize(w - questLogWidth, h)
 
-                elseif not WorldFrameIsSidePanelShown or isSidePanelShown then
-                    frame:SetSize(w + questLogWidth, h)
+            elseif not WorldFrameIsSidePanelShown or isSidePanelShown then
+                frame:SetSize(w + questLogWidth, h)
 
-                else
-                    frame:SetSize(w, h)
-                end
-                Settings(s)
+            else
+                frame:SetSize(w, h)
             end
+            Settings(s)
         end
     end
 
---WorldMapFrame:IsSidePanelShown()
 
-    --WoWTools_DataMixin:Hook(WorldMapFrame.SidePanelToggle, 'Refresh', Save_Size)
 
     local OwnerID
     WoWTools_DataMixin:Hook(WorldMapFrame, 'Minimize', function(frame)
-        if frame:CanChangeAttribute() then
-            Set_Size(frame)
-        elseif not OwnerID then
-            OwnerID=EventRegistry:RegisterFrameEventAndCallback("PLAYER_REGEN_ENABLED", function(owner)
+        if not frame:IsShown() then
+            return
+        elseif self:GetSize(name) then
+            if frame:CanChangeAttribute() then
                 Set_Size(frame)
-                OwnerID= nil
-                EventRegistry:UnregisterCallback('PLAYER_REGEN_ENABLED', owner)
-            end)
+            elseif not OwnerID then
+                OwnerID=EventRegistry:RegisterFrameEventAndCallback("PLAYER_REGEN_ENABLED", function(owner)
+                    Set_Size(frame)
+                    OwnerID= nil
+                    EventRegistry:UnregisterCallback('PLAYER_REGEN_ENABLED', owner)
+                end)
+            end
         end
 
         local scale= self:Save().scale[name]
@@ -203,6 +229,9 @@ function WoWTools_MoveMixin.Events:Blizzard_WorldMap()
     end)
 
     WoWTools_DataMixin:Hook(WorldMapFrame, 'Maximize', function(frame)
+        if not WorldMapFrame:IsShown() then
+            return
+        end
         Settings()
         if self:Save().scale[name] then
             frame:SetScale(1)
@@ -213,7 +242,14 @@ function WoWTools_MoveMixin.Events:Blizzard_WorldMap()
     self:Setup(WorldMapFrame, {
         minW=questLogWidth,--*2+37,
         minH=questLogWidth-37-8,
-        sizeTooltip='|cnWARNING_FONT_COLOR:BUG|r',
+    sizeTooltip=function(tooltip)
+        if self:GetSize(name) then
+            GameTooltip_AddErrorLine(tooltip,
+                WoWTools_DataMixin.onlyChinese and '战斗中显示地图会出现错误' or 'An error when displaying the map in combat'
+            )
+            GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        end
+    end,
     sizeUpdateFunc= function(frame)--WorldMapMixin:UpdateMaximizedSize()
         Settings({frame:GetSize()})
     end,
@@ -228,10 +264,13 @@ function WoWTools_MoveMixin.Events:Blizzard_WorldMap()
         frame.minimizedHeight= minimizedHeight
         frame:SetSize(minimizedWidth+ questLogWidth, minimizedHeight)
         frame.BorderFrame.MaximizeMinimizeFrame:Minimize()
-    end,})
+    end,
+    --addMenu=addMenu
+    })
 
 
-    QuestMapDetailsScrollFrame:SetPoint('BOTTOM', 0, 72)
+
+   QuestMapDetailsScrollFrame:SetPoint('BOTTOM', 0, 72)
 
     QuestMapFrame.DetailsFrame:SetPoint('BOTTOM')
     QuestMapDetailsScrollFrame.Contents:SetPoint('BOTTOMLEFT')
@@ -248,6 +287,11 @@ function WoWTools_MoveMixin.Events:Blizzard_WorldMap()
 
     QuestScrollFrame.Background:SetPoint('BOTTOM', 0, 123)
     QuestScrollFrame.Background:SetAllPoints()
+
+    --self:Setup(WorldMapFrame)--, {addMenu=addMenu})
+
+
+
 
     self:Setup(QuestScrollFrame, {frame=WorldMapFrame})
     self:Setup(MapQuestInfoRewardsFrame, {frame=WorldMapFrame})

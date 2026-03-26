@@ -157,7 +157,7 @@ end
 ---@param frame table|string Tooltip frame
 --- relativeToFrame and frame are really ScriptRegion|string for GameTooltip
 function LDBToTitan:TitanLDBSetOwnerPosition(parent, anchorPoint, relativeToFrame, relativePoint, xOffset, yOffset, frame)
-	if frame:GetName() == "GameTooltip" then
+--	if frame:GetName() == "GameTooltip" then
 		-- Changes for 9.1.5 Removed the background template from the GameTooltip
 		-- Making changes to it difficult and possibly changing the tooltip globally.
 
@@ -171,7 +171,7 @@ function LDBToTitan:TitanLDBSetOwnerPosition(parent, anchorPoint, relativeToFram
 			end
 			frame:SetScale(TitanPanelGetVar("TooltipFont"));
 		end
-	end
+--	end
 	frame:ClearAllPoints();
 	frame:SetPoint(anchorPoint, relativeToFrame, relativePoint, xOffset, yOffset);
 end
@@ -218,7 +218,10 @@ function LDBToTitan:TitanLDBSetTooltip(name, frame, tt_func)
 	else
 	end
 
-	if tt_func and If_Show_Tooltip() then tt_func(frame) end; -- TODO: use pcall??
+	if tt_func and If_Show_Tooltip() then
+		frame:ClearLines()
+		tt_func(frame) -- TODO: use pcall??
+	end
 	frame:Show();
 end
 
@@ -277,13 +280,14 @@ function LDBToTitan:TitanLDBHandleScripts(event, name, _, func, obj)
 	elseif event:find("OnTooltipShow") then
 		TitanPluginframe:SetScript("OnEnter", function(self)
 			if TITAN_PANEL_MOVING == 0 and func then
-				LDBToTitan:TitanLDBSetTooltip(name, GameTooltip, func);
+				TitanPanelTooltip.TitanAddonName = name
+				LDBToTitan:TitanLDBSetTooltip(name, TitanPanelTooltip, func);
 			end
 			TitanPanelButton_OnEnter(self);
 		end
 		)
 		TitanPluginframe:SetScript("OnLeave", function(self)
-			GameTooltip:Hide();
+			TitanPanelTooltip:Hide();
 			TitanPanelButton_OnLeave(self);
 		end
 		)

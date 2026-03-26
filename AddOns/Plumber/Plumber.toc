@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: Peterodox
-## Version: 1.8.9
+## Version: 1.9.0
 
 ## Title: Plumber
 ## Notes: Provides a variety of quality-of-life features.|n|nOpen Settings with Slash Command:|n/plumber
@@ -84,6 +84,7 @@ Modules\CraftSearchExtended.lua
 Modules\SourceAchievementLink.lua
 Modules\OutfitSelect.lua
 Modules\BreakTime.xml
+Modules\CatalystUI.lua
 
 #Modules\MerchantUI\MerchantUI.xml
 #Modules\DruidModelFix.lua

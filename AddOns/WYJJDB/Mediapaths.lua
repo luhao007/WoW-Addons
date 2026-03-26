@@ -1,291 +1,481 @@
-local LSM = LibStub("LibSharedMedia-3.0") 
+local LSM = LibStub("LibSharedMedia-3.0")
+if not LSM then
+	return
+end
 
-if not LSM then return end
+local addonName = "WYJJDB"
+local mPath = [[Interface\AddOns\]] .. addonName .. [[\Media\]]
 
--- ----- 
--- BACKGROUND 
--- ----- 
+local mediaData = {
+	["sound"] = {
+		{
+			groupName = "Group c1",
+			color = "AEEA90",
+			list = {
+				{ "我就知道你能做到", "EQAchieve.ogg" },
+				{ "嘿，你还好吗", "EQDead.ogg" },
+				{ "看看获得了什么宝贝", "EQDrop.ogg" },
+				{ "希望是个深思熟虑的选择", "EQEscape.ogg" },
+				{ "进入战斗", "EQInCombat.ogg" },
+				{ "你要加入我们吗", "EQInvite.ogg" },
+				{ "离开战斗", "EQLCombat.ogg" },
+				{ "订单已添加", "EQListAdd.ogg" },
+				{ "移除成功", "EQListRemove.ogg" },
+				{ "你有新邮件", "EQMail.ogg" },
+				{ "你要打什么位置", "EQPosition.ogg" },
+				{ "倒计时开始", "EQPull.ogg" },
+				{ "准备就绪", "EQReady.ogg" },
+				{ "复活吧，我的勇士", "EQResurrection.ogg" },
+				{ "运气真不错", "EQUplevel.ogg" },
+				{ "欢迎你的加入", "EQWelcome.ogg" },
+				{ "这宝贝是你的了", "EQWin.ogg" },
+			},
+		},
+		{
+			groupName = "Group c2",
+			color = "AEEA94",
+			list = {
+				{ "--- 通用/互动 ---", "Empty.ogg" },
+				{ "1", "1.ogg" },
+				{ "2", "2.ogg" },
+				{ "3", "3.ogg" },
+				{ "4", "4.ogg" },
+				{ "5", "5.ogg" },
+				{ "6", "6.ogg" },
+				{ "7", "7.ogg" },
+				{ "8", "8.ogg" },
+				{ "9", "9.ogg" },
+				{ "10", "10.ogg" },
+				{ "D 第一", "First.ogg" },
+				{ "D 第二", "Second.ogg" },
+				{ "D 第三", "Third.ogg" },
+				{ "D 第四", "Fourth.ogg" },
+				{ "D 第五", "Fifth.ogg" },
+				{ "Z 准备大怪", "Add.ogg" },
+				{ "X 小怪快打", "Adds.ogg" },
+				{ "Z 注意词缀", "Affix.ogg" },
+				{ "A AoE", "AoE.ogg" },
+				{ "Y 远离小怪", "AwayAdds.ogg" },
+				{ "Y 远离Boss", "AwayBoss.ogg" },
+				{ "Y 远离人群", "AwayCrowed.ogg" },
+				{ "X 协助", "Assist.ogg" },
+				{ "G 规避", "Avoid.ogg" },
+				{ "H 后退", "Back.ogg" },
+				{ "B 备选", "Backup.ogg" },
+				{ "Y 引导位置", "Bait.ogg" },
+				{ "Z 注意射线", "Beam.ogg" },
+				{ "T 坦克承伤", "Bite.ogg" },
+				{ "S 嗜血", "Bloodlust.ogg" },
+				{ "L 蓝色", "Blue.ogg" },
+				{ "Z 炸弹", "Bombs.ogg" },
+				{ "A Boss", "Boss.ogg" },
+				{ "D 打破", "Break.ogg" },
+				{ "A Buff", "Buff.ogg" },
+				{ "K 快交控制", "CC.ogg" },
+				{ "A CD", "CD.ogg" },
+				{ "Z 中间", "Center.ogg" },
+				{ "S 锁链", "Chain.ogg" },
+				{ "C 冲锋", "Charge.ogg" },
+				{ "J 检查", "Check.ogg" },
+				{ "Q 清除", "Clear.ogg" },
+				{ "S 收集", "Collect.ogg" },
+				{ "D 躲地板", "Dance.ogg" },
+				{ "F 防御", "Defensive.ogg" },
+				{ "A Debuff", "Debuff.ogg" },
+				{ "Q 驱散", "Dispell.ogg" },
+				{ "Z 注意躲避", "Dodge.ogg" },
+				{ "B 不要", "Dont.ogg" },
+				{ "T 停止移动", "Dont Move.ogg" },
+				{ "A Dot", "Dot.ogg" },
+				{ "F 放水", "Drop.ogg" },
+				{ "J 进入", "Enter.ogg" },
+				{ "S 哨兵", "Escort.ogg" },
+				{ "T 退出", "Exit.ogg" },
+				{ "W 外部", "External.ogg" },
+				{ "Z 注意脚下", "Feet.ogg" },
+				{ "M 目标锁定", "Fixate.ogg" },
+				{ "J 焦点", "Focus.ogg" },
+				{ "Z 注意头前", "Front.ogg" },
+				{ "K 开门", "Gate.ogg" },
+				{ "S 收集", "Gather.ogg" },
+				{ "L 绿色", "Green.ogg" },
+				{ "Q 前进", "Go.ogg" },
+				{ "Z 抓紧", "Grip.ogg" },
+				{ "Z 治疗CD", "Healcd.ogg" },
+				{ "D 躲避伤害", "Hide.ogg" },
+				{ "N 能量过高", "High Energy.ogg" },
+				{ "C 层数过高", "High Stacks.ogg" },
+				{ "M 免疫", "Immunity.ogg" },
+				{ "J 进进进", "In.ogg" },
+				{ "D 打断施法", "Interrupt.ogg" },
+				{ "J 阶段转换", "Intermission.ogg" },
+				{ "Y 隐身", "Invisibility.ogg" },
+				{ "T 跳", "Jump.ogg" },
+				{ "K 快打断", "Kick.ogg" },
+				{ "F 风筝", "Kite.ogg" },
+				{ "J 击飞", "Knock.ogg" },
+				{ "Z 最后", "Last.ogg" },
+				{ "Z 左边", "Left.ogg" },
+				{ "T 跳跃", "Leap.ogg" },
+				{ "L 连线", "Line.ogg" },
+				{ "L 链接", "Link.ogg" },
+				{ "B 被连接", "Linked.ogg" },
+				{ "K 卡视野", "LoS.ogg" },
+				{ "H 宏", "Macro.ogg" },
+				{ "J 近战", "Melee.ogg" },
+				{ "D 地雷", "Mines.ogg" },
+				{ "Y 移动", "Move.ogg" },
+				{ "X 下一个", "Next.ogg" },
+				{ "J 集中攻击", "Nuke.ogg" },
+				{ "C 橙色", "Orange.ogg" },
+				{ "B 宝珠", "Orb.ogg" },
+				{ "C 出出出", "Out.ogg" },
+				{ "Z 重叠", "Overlap.ogg" },
+				{ "P 砰砰", "Pop.ogg" },
+				{ "Y 药水", "Pots.ogg" },
+				{ "Z 准备拉人", "Pull.ogg" },
+				{ "Z 紫色", "Purple.ogg" },
+				{ "Z 准备推人", "Push.ogg" },
+				{ "Y 远程", "Range.ogg" },
+				{ "Z 准备就绪", "Ready.ogg" },
+				{ "H 红色", "Red.ogg" },
+				{ "F 反射", "Reflect.ogg" },
+				{ "S 刷新", "Refresh.ogg" },
+				{ "Y 右边", "Right.ogg" },
+				{ "Y 圆环", "Ring.ogg" },
+				{ "D 定身", "Root.ogg" },
+				{ "K 快跑开", "RunAway.ogg" },
+				{ "Z 种子", "Seed.ogg" },
+				{ "G 个人CD", "Selfcd.ogg" },
+				{ "H 护盾", "Shield.ogg" },
+				{ "B 帮忙吸收", "Soak.ogg" },
+				{ "M 马上马上", "Soon.ogg" },
+				{ "F 孵化", "Spawn.ogg" },
+				{ "J 进攻驱散", "Spellsteal.ogg" },
+				{ "F 分裂", "Split.ogg" },
+				{ "F 分散", "Spread.ogg" },
+				{ "D 叠层", "Stack.ogg" },
+				{ "B 保持", "Stay.ogg" },
+				{ "T 停止", "Stop.ogg" },
+				{ "T 停止施法", "Stopcast.ogg" },
+				{ "J 交换", "Swap.ogg" },
+				{ "M 目标转换", "Switch.ogg" },
+				{ "M 目标是你", "Targeted.ogg" },
+				{ "C 嘲讽", "Taunt.ogg" },
+				{ "T 图腾", "Totem.ogg" },
+				{ "J 阶段转换", "Transition.ogg" },
+				{ "X 陷阱", "Trap.ogg" },
+				{ "Z 转身", "Turn.ogg" },
+				{ "S 使用", "Use.ogg" },
+				{ "Q 齐射", "Volley.ogg" },
+				{ "B 波浪", "Wave.ogg" },
+				{ "D 躲风", "Winds.ogg" },
+				{ "H 黄色", "Yellow.ogg" },
+				{ "Q 区域", "Zone.ogg" },
+				{ "G 该补控了", "RefillCC.ogg" },
+				{ "J 焦点打断", "Focus Interrupt.ogg" },
+				{ "S 双点", "DoubleCasts.ogg" },
+								{ "T 停", "Stop.ogg" },
+			},
+		},
+		{
+			groupName = "Group c3",
+			color = "AEEA95",
+			list = {
+				{ "--- 群体控制 ---", "Empty.ogg" },
+				{ "D 电能图腾 |T136013:16|t", "Capacitor Totem.ogg" },
+				{ "X 陷地图腾 |T136100:16|t", "Earthgrab Totem.ogg" },
+				{ "D 地缚图腾 |T136102:16|t", "Earthbind Totem.ogg" },
+				{ "L 雷霆风暴 |T237589:16|t", "Thunderstorm.ogg" },
+				{ "X 心灵尖啸 |T136184:16|t", "Psychic Scream.ogg" },
+				{ "Z 震荡波 |T236312:16|t", "Shockwave.ogg" },
+				{ "S 扫堂腿 |T642414:16|t", "Leg Sweep.ogg" },
+				{ "A 暗影之怒 |T607865:16|t", "Shadowfury.ogg" },
+				{ "M 盲目之光 |T571553:16|t", "Blinding Light.ogg" },
+				{ "W 乌索尔旋风 |T571588:16|t", "Ursol's Vortex.ogg" },
+				{ "R 日光术 |T252188:16|t", "Solar Beam.ogg" },
+				{ "H 混乱新星 |T135795:16|t", "Chaos Nova.ogg" },
+				{ "B 悲苦咒符 |T1418287:16|t", "Sigil of Misery.ogg" },
+				{ "C 沉默咒符 |T1418288:16|t", "Sigil of Silence.ogg" },
+				{ "P 破胆怒吼 |T132154:16|t", "Intimidating Shout.ogg" },
+				{ "Z 战争践踏 |T132368:16|t", "War Stomp.ogg" },
+				{ "P 平心之环 |T839107:16|t", "Ring of Peace.ogg" },
+				{ "T 台风 |T236170:16|t", "Typhoon.ogg" },
+				{ "F 飞翼打击 |T4622488:16|t", "Wing Buffet.ogg" },
+				{ "S 扫尾 |T4622486:16|t", "Tail Sweep.ogg" },
+				{ "A 奥术洪流 |T136222:16|t", "Arcane Torrent.ogg" },
+				{ "D 夺魂咆哮 |T132121:16|t", "Incapacitating Roar.ogg" },
+				{ "C 超级新星 |T1033912:16|t", "Supernova.ogg" },
+				{ "C 冲击波 |T135903:16|t", "Blast Wave.ogg" },
+				{ "S 死亡之握 |T237532:16|t", "Death Grip.ogg" },
+				{ "N 内爆陷阱 |T1044088:16|t", "Implosive Trap.ogg" },
+				{ "Z 致盲冰雨 |T135836:16|t", "Blinding Sleet.ogg" },
+				{ "S 束缚射击 |T462650:16|t", "Binding Shot.ogg" },
+				{ "W 瓦解怒吼 |T132091:16|t", "Disrupting Shout.ogg" },
+			},
+		},
+		{
+			groupName = "Group c4",
+			color = "AEEA96",
+			list = {
+				{ "--- 个人技能/外部光环 ---", "Empty.ogg" },
+				{ "Z 罩子 |T237510:16|t", "AMZ.ogg" },
+				{ "T 天使 |T612969:16|t", "Angel.ogg" },
+				{ "S 升腾 |T135791:16|t", "Ascendance.ogg" },
+				{ "Q 秋 |T3636843:16|t", "Autumn.ogg" },
+				{ "S 树皮 |T572025:16|t", "Bark.ogg" },
+				{ "P 屏障 |T253400:16|t", "Barrier.ogg" },
+				{ "C 赤精 |T877514:16|t", "Chi-ji.ogg" },
+				{ "J 茧 |T627485:16|t", "Cocoon.ogg" },
+				{ "H 黑暗 |T1305154:16|t", "Darkness.ogg" },
+				{ "G 光环掌握 |T135893:16|t", "Devo.ogg" },
+				{ "A 矮人 |T136225:16|t", "Dwarf.ogg" },
+				{ "Z 自由 |T135968:16|t", "Freedom.ogg" },
+				{ "Z 治疗之潮 |T538569:16|t", "Healing Tide.ogg" },
+				{ "Z 赞美诗 |T237540:16|t", "Hymn.ogg" },
+				{ "H 化身 |T236157:16|t", "Incarn.ogg" },
+				{ "J 激活 |T136048:16|t", "Innervate.ogg" },
+				{ "S 圣疗 |T135928:16|t", "Lay.ogg" },
+				{ "Y 影遁 |T132089:16|t", "Meld.ogg" },
+				{ "W 误导 |T132180:16|t", "Misdirect.ogg" },
+				{ "B 悖论 |T5199645:16|t", "Paradox.ogg" },
+				{ "G 灌注 |T135939:16|t", "PI.ogg" },
+				{ "B 保护 |T135964:16|t", "Protection.ogg" },
+				{ "Y 压制 |T135936:16|t", "PS.ogg" },
+				{ "J 集结呐喊 |T132351:16|t", "Rally.ogg" },
+				{ "Y 营救 |T4622460:16|t", "Rescue.ogg" },
+				{ "H 还魂 |T1020466:16|t", "Revival.ogg" },
+				{ "H 回溯 |T4622474:16|t", "Rewind.ogg" },
+				{ "N 怒吼 |T463283:16|t", "Roar.ogg" },
+				{ "X 牺牲 |T135966:16|t", "Sac.ogg" },
+				{ "L 灵魂连接 |T237586:16|t", "SLT.ogg" },
+				{ "W 帷幕 |T635350:16|t", "Shroud.ogg" },
+				{ "P 破咒 |T135880:16|t", "Spellwarding.ogg" },
+				{ "C 春 |T3636844:16|t", "Spring.ogg" },
+				{ "L 灵魂石 |T136210:16|t", "SS.ogg" },
+				{ "X 夏 |T3636845:16|t", "Summer.ogg" },
+				{ "S 时间螺旋 |T4622479:16|t", "Time Spiral.ogg" },
+				{ "S 时间膨胀 |T4622478:16|t", "TD.ogg" },
+				{ "X 驯如猛虎 |T651727:16|t", "Tiger's Lust.ogg" },
+				{ "N 宁静 |T136107:16|t", "Tranq.ogg" },
+				{ "J 嫁祸 |T236283:16|t", "Tricks.ogg" },
+				{ "K 狂风图腾 |T538576:16|t", "Wind Rush.ogg" },
+				{ "D 冬 |T3636846:16|t", "Winter.ogg" },
+				{ "Q 群盾 |T1723997:16|t", "Mass Barrier.ogg" },
+				{ "Z 战复图腾 |T136080:16|t", "APT.ogg" },
+				{ "Y 援护 |T132365:16|t", "Intervene.ogg" },
+				{ "D 盾反 |T132361:16|t", "Spell Reflect.ogg" },
+				{ "J 加速", "Fast.ogg" },
+				{ "W 微风 |T4630449:16|t", "Zephyr.ogg" },
+				{ "H 红驱 |T4630446:16|t", "Cauterizing Flame.ogg" },
+				{ "G 龟壳 |T132199:16|t", "Turtle.ogg" },
+				{ "J 假死 |T132293:16|t", "Feign Death.ogg" },
+				{ "L 绿罩 |T136120:16|t", "Anti-Magic Shell.ogg" },
+				{ "W 无敌 |T524354:16|t", "Divine Shield.ogg" },
+				{ "X 消散 |T237563:16|t", "Dispersion.ogg" },
+				{ "D 斗篷 |T136177:16|t", "Cloak.ogg" },
+				{ "Q 强隐 |T575584:16|t", "Invisibility.ogg" },
+				{ "C 春哥 |T252268:16|t", "SpringBro.ogg" },
+				{ "B 冰箱 |T135841:16|t", "Ice Block.ogg" },
+				{ "X 虚空行走 |T463284:16|t", "Netherwalk.ogg" },
+				{ "Y 压迫怒吼 |T4622466:16|t", "Oppressing Roar.ogg" },
+				{ "Z 战栗图腾 |T136108:16|t", "Tremor Totem.ogg" },
+				{ "Q 清毒图腾 |T136070:16|t", "PCT.ogg" },
+				{ "Q 切割", "SliceAndDice.ogg" },
+				{ "G 割裂", "Rupture.ogg" },
+				{ "B 变身", "Metamorphosis.ogg" },
+				{ "S 圣印", "Seal.ogg" },
+				{ "X 小猪", "Pig.ogg" },
+				{ "J 解毒", "CureToxin.ogg" },
+				{ "G 骨盾", "BoneShield.ogg" },
+				{ "B 补盾", "ShieldRefresh.ogg" },
+				{ "D 道标", "BeaconOfLight.ogg" },
+				{ "T 特效触发", "Proc.ogg" },
+				{ "D 钉刺", "Sting.ogg" },
+				{ "S 饰品触发", "TrinketProc.ogg" },                               
+				{ "D 凋零", "DeathAndDecay.ogg" },
+				{ "T 吞病", "DevouringPlague.ogg" },
+				{ "D 大狗熊", "BigBear.ogg" },
+				{ "D 大龙", "BigDragon.ogg" },
+				{ "A 奥术之魂", "ArcaneSoul.ogg" },
+				{ "B 崩摧10层", "Crumbling10Stacks.ogg" },
+				{ "Z 扎昆", "Zakuun.ogg" },
+				{ "D 打单体", "SingleTar.ogg" },
+				{ "D 打风暴", "StormTar.ogg" },
+				{ "D 毒镰", "PoisonScythe.ogg" },
+				{ "M 玛胖", "Mannoroth.ogg" },
+				{ "K 考验10层", "Trial10Stacks.ogg" },
+				{ "X 血兽降临", "BloodBeastIncoming.ogg" },
+				{ "B 补地毯", "CarpetRefresh.ogg" },
+				{ "G 过热高温", "ExtremeHot.ogg" },
+				{ "J 静滞激活", "StasisActive.ogg" },
+				{ "Y 预兆全开", "OmenAllOpen.ogg" },
+				{ "Y 预兆减CD", "OmenCDR.ogg" },
+				{ "Y 预兆加盾", "OmenShield.ogg" },
+				{ "Y 预兆增疗", "OmenHeal.ogg" },
+				{ "L 黎明两层", "Dawn2Stacks.ogg" },
+                { "Z 主母", "Mother.ogg" },
+				{ "X 亵渎", "Profane.ogg" },
+				{ "J 假死触发", "FeignDeathProc.ogg" },
+			},
+		},
+		{
+			groupName = "Group c5",
+			color = "AEEA97",
+			list = {
+				{ "--- 技能就緒 ---", "Empty.ogg" },
+				{ "W 伟大", "r-Greatness.ogg" },
+				{ "B 冰封就绪", "r-IBF.ogg" },
+				{ "B 冰脉就绪", "r-IcyVeins.ogg" },
+				{ "C 冲动就绪", "r-AdrenalineRush.ogg" },
+				{ "R 刃舞就绪", "r-BladeDance.ogg" },
+				{ "J 剑舞就绪", "r-BladeFlurry.ogg" },
+				{ "Y 压制就绪", "r-Overpower.ogg" },
+				{ "B 变身就绪", "r-Meta.ogg" },
+				{ "S 嗜血就绪", "r-Bloodlust.ogg" },
+				{ "T 土爹就绪", "r-EarthElemental.ogg" },
+				{ "S 圣佑就绪", "r-DivineProtection.ogg" },
+				{ "S 圣歌就绪", "r-Hymn.ogg" },
+				{ "S 圣疗就绪", "r-LayOnHands.ogg" },
+				{ "D 大军就绪", "r-Army.ogg" },
+				{ "D 大风车就绪", "r-Bladestorm.ogg" },
+				{ "T 天鬼就绪", "r-Gargoyle.ogg" },
+				{ "T 天鬼飞走了", "GargoyleGone.ogg" },
+				{ "A 奥强就绪", "r-ArcanePower.ogg" },
+				{ "J 嫁祸就绪", "r-Tricks.ogg" },
+				{ "N 宁静就绪", "r-Tranquility.ogg" },
+				{ "Y 影舞就绪", "r-ShadowDance.ogg" },
+				{ "J 急射就绪", "r-RapidFire.ogg" },
+				{ "Z 掌握就绪", "r-Mastery.ogg" },
+				{ "W 无敌就绪", "r-Bubble.ogg" },
+				{ "A 暗影魔就绪", "r-Shadowfiend.ogg" },
+				{ "S 杀戮就绪", "r-KillingSpree.ogg" },
+				{ "S 死愿就绪", "r-DeathWish.ogg" },
+				{ "F 法潮就绪", "r-ManaTide.ogg" },
+				{ "J 激活就绪", "r-Innervate.ogg" },
+				{ "G 灌注就绪", "r-PI.ogg" },
+				{ "H 火爹就绪", "r-FireElemental.ogg" },
+				{ "R 燃烧就绪", "r-Combustion.ogg" },
+				{ "L 狼魂就绪", "r-FeralSpirit.ogg" },
+				{ "S 神启就绪", "r-DivineIllumination.ogg" },
+				{ "F 符文武器就绪", "r-ERW.ogg" },
+				{ "H 红人就绪", "r-BestialWrath.ogg" },
+				{ "C 翅膀就绪", "r-AvengingWrath.ogg" },
+				{ "Z 赞美诗就绪", "r-DivineHymn.ogg" },
+				{ "T 铜墙铁壁就绪", "r-UnbreakableArmor.ogg" },
+				{ "L 鲁莽就绪", "r-Recklessness.ogg" },
+				{ "W 万灵就绪", "r-Convoke.ogg" },
+				{ "E 二号机就绪", "r-GrimoireFelguard.ogg" },
+				{ "B 冰柱就绪", "r-PillarOfFrost.ogg" },
+				{ "H 化身就绪", "r-Incarnation.ogg" },
+				{ "S 升华就绪", "r-Ascendancy.ogg" },
+				{ "S 升腾就绪", "r-Ascendance.ogg" },
+				{ "X 协同就绪", "r-CoordinatedFire.ogg" },
+				{ "Y 印记就绪", "r-Mark.ogg" },
+				{ "J 君王就绪", "r-Kingsbane.ogg" },
+				{ "D 地狱火就绪", "r-Infernal.ogg" },
+				{ "Z 壮胆酒就绪", "r-FortifyingBrew.ogg" },
+				{ "T 天启就绪", "r-Apocalypse.ogg" },
+				{ "T 天神就绪", "r-Avatar.ogg" },
+				{ "B 崩摧就绪", "r-Crumbling.ogg" },
+				{ "H 幻能就绪", "r-ShiftingPower.ogg" },
+				{ "Y 怨毒就绪", "r-Misery.ogg" },
+				{ "M 明月就绪", "r-FullMoon.ogg" },
+				{ "A 暗刃就绪", "r-ShadowBlades.ogg" },
+				{ "B 暴君就绪", "r-Tyrant.ogg" },
+				{ "Z 朱鹤就绪", "r-ChiJi.ogg" },
+				{ "H 横扫就绪", "r-SweepingStrikes.ogg" },
+				{ "S 死印就绪", "r-Deathmark.ogg" },
+				{ "H 毁灭之风就绪", "r-DoomWinds.ogg" },
+				{ "X 消失就绪", "r-Vanish.ogg" },
+				{ "Y 涌动就绪", "r-Surge.ogg" },
+				{ "S 深呼吸就绪", "r-DeepBreath.ogg" },
+				{ "M 灭战就绪", "r-Warbreaker.ogg" },
+				{ "H 灰烬就绪", "r-AshenHallow.ogg" },
+				{ "L 灵魂腐化就绪", "r-SoulRot.ogg" },
+				{ "B 爆发就绪", "r-Outbreak.ogg" },
+				{ "K 狂暴就绪", "r-Berserk.ogg" },
+				{ "K 狂龙就绪", "r-Dragonrage.ogg" },
+				{ "X 玄牛就绪", "r-Niuzao.ogg" },
+				{ "B 白虎就绪", "r-Xuen.ogg" },
+				{ "B 百发就绪", "r-Trueshot.ogg" },
+				{ "S 神器就绪", "r-Artifact.ogg" },
+				{ "T 突变就绪", "r-Transformation.ogg" },
+				{ "T 突袭就绪", "r-Assault.ogg" },
+				{ "J 精兵就绪", "r-Vanguard.ogg" },
+				{ "Z 转转锤就绪", "r-SpinningHammer.ogg" },
+				{ "Z 追击就绪", "r-TheHunt.ogg" },
+				{ "L 链接就绪", "r-Link.ogg" },
+				{ "Q 青龙就绪", "r-YuLon.ogg" },
+				{ "J 静滞就绪", "r-Stasis.ogg" },
+				{ "H 黑眼就绪", "r-Darkglare.ogg" },
+				{ "L 龙吼就绪", "r-DragonRoar.ogg" },
+				{ "L 龙喷就绪", "r-BreathOfSindragosa.ogg" },
+				{ "Z 准备大锤", "BigHammerReady.ogg" },
+				{ "Z 准备皎月", "EclipseReady.ogg" },
+				{ "M 免费圣令", "FreeWordofGlory.ogg" },
+				{ "K 快打焚身", "BurnNow.ogg" },
+				{ "K 快打顺劈", "CleaveNow.ogg" },
+				{ "K 快翻书", "UseBook.ogg" },
+				{ "K 快补奉献", "ConsecrationRefresh.ogg" },
+				{ "B 补疾病", "DiseaseRefresh.ogg" },
+				{ "B 补绽放", "BloomRefresh.ogg" },
+				{ "B 补铁鬃", "IronfurRefresh.ogg" },
+				{ "B 补黑檀", "EbonRefresh.ogg" },
 
--- ----- 
---  BORDER 
--- ---- 
+			},
+		},
+		{
+			groupName = "Group nil",
+			color = "FFFFFF",
+			list = {
+				{ "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_1:16|t", "01.ogg" },
+				{ "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_2:16|t", "02.ogg" },
+				{ "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_3:16|t", "03.ogg" },
+				{ "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_4:16|t", "04.ogg" },
+				{ "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_5:16|t", "05.ogg" },
+				{ "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_6:16|t", "06.ogg" },
+				{ "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_7:16|t", "07.ogg" },
+				{ "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_8:16|t", "08.ogg" },
+			},
+		},
+	},
+	["statusbar"] = {
+		{
+			groupName = "Blizzard & Smok Bars",
+			list = {
+				{ "BlizzardCast", "BlizzardCast.tga" },
+				{ "BlizzardCastBackground", "BlizzardCastBackground.tga" },
+				{ "BlizzardCastBgRound", "BlizzardCastBgRound.tga" },
+				{ "BlizzardCastLite", "BlizzardCastLite.tga" },
+				{ "BlizzardCastRound", "BlizzardCastRound.tga" },
+				{ "BlizzardCastUninterruptableRound", "BlizzardCastUninterruptableRound.tga" },
+				{ "BlizzardChannelRound", "BlizzardChannelRound.tga" },
+				{ "BlizzardContainerFrame", "BlizzardContainerFrame.tga" },
+				{ "BlizzardDF_bar", "BlizzardDF_bar.tga" },
+				{ "SmokAugbar", "SmokAugbar.tga" },
+				{ "SmokObjectiveTracker", "SmokObjectiveTracker.tga" },
+				{ "SmokOnePixelBackground", "SmokOnePixelBackground.tga" },
+				{ "SmokOnePixelbar", "SmokOnePixelbar.tga" },
+				{ "WYJJGradient-Line", "WYJJGradient-Line.tga" },
+				{ "WYJJGradient-Circle", "WYJJGradient-Circle.tga" },
+			},
+		},
+	},
+}
+for mType, groups in pairs(mediaData) do
+	for _, group in ipairs(groups) do
+		local groupColor = group.color
 
--- -----
---   STATUSBAR
--- -----
-LSM:Register("statusbar", "BlizzardCast", [[Interface\AddOns\WYJJDB\Media\statusbar\BlizzardCast.tga]]) 
-LSM:Register("statusbar", "BlizzardCastBackground", [[Interface\AddOns\WYJJDB\Media\statusbar\BlizzardCastBackground.tga]]) 
-LSM:Register("statusbar", "BlizzardCastBgRound", [[Interface\AddOns\WYJJDB\Media\statusbar\BlizzardCastBgRound.tga]]) 
-LSM:Register("statusbar", "BlizzardCastLite", [[Interface\AddOns\WYJJDB\Media\statusbar\BlizzardCastLite.tga]]) 
-LSM:Register("statusbar", "BlizzardCastRound", [[Interface\AddOns\WYJJDB\Media\statusbar\BlizzardCastRound.tga]]) 
-LSM:Register("statusbar", "BlizzardCastUninterruptableRound", [[Interface\AddOns\WYJJDB\Media\statusbar\BlizzardCastUninterruptableRound.tga]]) 
-LSM:Register("statusbar", "BlizzardChannelRound", [[Interface\AddOns\WYJJDB\Media\statusbar\BlizzardChannelRound.tga]]) 
-LSM:Register("statusbar", "BlizzardContainerFrame", [[Interface\AddOns\WYJJDB\Media\statusbar\BlizzardContainerFrame.tga]]) 
-LSM:Register("statusbar", "BlizzardDF_bar", [[Interface\AddOns\WYJJDB\Media\statusbar\BlizzardDF_bar.tga]]) 
-LSM:Register("statusbar", "SmokAugbar", [[Interface\AddOns\WYJJDB\Media\statusbar\SmokAugbar.tga]]) 
-LSM:Register("statusbar", "SmokObjectiveTracker", [[Interface\AddOns\WYJJDB\Media\statusbar\SmokObjectiveTracker.tga]]) 
-LSM:Register("statusbar", "SmokOnePixelBackground", [[Interface\AddOns\WYJJDB\Media\statusbar\SmokOnePixelBackground.tga]]) 
-LSM:Register("statusbar", "SmokOnePixelbar", [[Interface\AddOns\WYJJDB\Media\statusbar\SmokOnePixelbar.tga]])  
-LSM:Register("statusbar", "WYJJGradient-Line", [[Interface\AddOns\WYJJDB\Media\statusbar\WYJJGradient-Line.tga]])  
-LSM:Register("statusbar", "WYJJGradient-Circle", [[Interface\AddOns\WYJJDB\Media\statusbar\WYJJGradient-Circle.tga]])  
+		for _, item in ipairs(group.list) do
+			local name, file = item[1], item[2]
+			local displayName = name
 
--- -----
---   SOUND
--- -----
-LSM:Register("sound", "|cFFAEEA941|r", [[Interface\AddOns\WYJJDB\Media\sound\1.ogg]])
-LSM:Register("sound", "|cFFAEEA942|r", [[Interface\AddOns\WYJJDB\Media\sound\2.ogg]])
-LSM:Register("sound", "|cFFAEEA943|r", [[Interface\AddOns\WYJJDB\Media\sound\3.ogg]])
-LSM:Register("sound", "|cFFAEEA944|r", [[Interface\AddOns\WYJJDB\Media\sound\4.ogg]])
-LSM:Register("sound", "|cFFAEEA945|r", [[Interface\AddOns\WYJJDB\Media\sound\5.ogg]])
-LSM:Register("sound", "|cFFAEEA946|r", [[Interface\AddOns\WYJJDB\Media\sound\6.ogg]])
-LSM:Register("sound", "|cFFAEEA947|r", [[Interface\AddOns\WYJJDB\Media\sound\7.ogg]])
-LSM:Register("sound", "|cFFAEEA948|r", [[Interface\AddOns\WYJJDB\Media\sound\8.ogg]])
-LSM:Register("sound", "|cFFAEEA949|r", [[Interface\AddOns\WYJJDB\Media\sound\9.ogg]])
-LSM:Register("sound", "|cFFAEEA9410|r", [[Interface\AddOns\WYJJDB\Media\sound\10.ogg]])
-LSM:Register("sound", "|cFFAEEA94D 第一|r", [[Interface\AddOns\WYJJDB\Media\sound\First.ogg]])
-LSM:Register("sound", "|cFFAEEA94D 第二|r", [[Interface\AddOns\WYJJDB\Media\sound\Second.ogg]])
-LSM:Register("sound", "|cFFAEEA94D 第三|r", [[Interface\AddOns\WYJJDB\Media\sound\Third.ogg]])
-LSM:Register("sound", "|cFFAEEA94D 第四|r", [[Interface\AddOns\WYJJDB\Media\sound\Fourth.ogg]])
-LSM:Register("sound", "|cFFAEEA94D 第五|r", [[Interface\AddOns\WYJJDB\Media\sound\Fifth.ogg]])
-LSM:Register("sound", "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_1:16|t", [[Interface\AddOns\WYJJDB\Media\sound\01.ogg]])
-LSM:Register("sound", "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_2:16|t", [[Interface\AddOns\WYJJDB\Media\sound\02.ogg]])
-LSM:Register("sound", "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_3:16|t", [[Interface\AddOns\WYJJDB\Media\sound\03.ogg]])
-LSM:Register("sound", "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_4:16|t", [[Interface\AddOns\WYJJDB\Media\sound\04.ogg]])
-LSM:Register("sound", "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_5:16|t", [[Interface\AddOns\WYJJDB\Media\sound\05.ogg]])
-LSM:Register("sound", "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_6:16|t", [[Interface\AddOns\WYJJDB\Media\sound\06.ogg]])
-LSM:Register("sound", "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_7:16|t", [[Interface\AddOns\WYJJDB\Media\sound\07.ogg]])
-LSM:Register("sound", "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_8:16|t", [[Interface\AddOns\WYJJDB\Media\sound\08.ogg]])
-LSM:Register("sound", "|cFFAEEA94Z 准备大怪|r", [[Interface\AddOns\WYJJDB\Media\sound\Add.ogg]])
-LSM:Register("sound", "|cFFAEEA94X 小怪快打|r", [[Interface\AddOns\WYJJDB\Media\sound\Adds.ogg]])
-LSM:Register("sound", "|cFFAEEA94Z 注意词缀|r", [[Interface\AddOns\WYJJDB\Media\sound\Affix.ogg]])
-LSM:Register("sound", "|cFFAEEA94A AoE|r", [[Interface\AddOns\WYJJDB\Media\sound\AoE.ogg]])
-LSM:Register("sound", "|cFFAEEA94X 协助|r", [[Interface\AddOns\WYJJDB\Media\sound\Assist.ogg]])
-LSM:Register("sound", "|cFFAEEA94G 规避|r", [[Interface\AddOns\WYJJDB\Media\sound\Avoid.ogg]])
-LSM:Register("sound", "|cFFAEEA94H 后退|r", [[Interface\AddOns\WYJJDB\Media\sound\Back.ogg]])
-LSM:Register("sound", "|cFFAEEA94B 备选|r", [[Interface\AddOns\WYJJDB\Media\sound\Backup.ogg]])
-LSM:Register("sound", "|cFFAEEA94Y 引导位置|r", [[Interface\AddOns\WYJJDB\Media\sound\Bait.ogg]])
-LSM:Register("sound", "|cFFAEEA94Z 注意射线|r", [[Interface\AddOns\WYJJDB\Media\sound\Beam.ogg]])
-LSM:Register("sound", "|cFFAEEA94T 坦克承伤|r", [[Interface\AddOns\WYJJDB\Media\sound\Bite.ogg]])
-LSM:Register("sound", "|cFFAEEA94S 嗜血|r", [[Interface\AddOns\WYJJDB\Media\sound\Bloodlust.ogg]])
-LSM:Register("sound", "|cFFAEEA94L 蓝色|r", [[Interface\AddOns\WYJJDB\Media\sound\Blue.ogg]])
-LSM:Register("sound", "|cFFAEEA94Z 炸弹|r", [[Interface\AddOns\WYJJDB\Media\sound\Bombs.ogg]])
-LSM:Register("sound", "|cFFAEEA94A Boss|r", [[Interface\AddOns\WYJJDB\Media\sound\Boss.ogg]])
-LSM:Register("sound", "|cFFAEEA94D 打破|r", [[Interface\AddOns\WYJJDB\Media\sound\Break.ogg]])
-LSM:Register("sound", "|cFFAEEA94A Buff|r", [[Interface\AddOns\WYJJDB\Media\sound\Buff.ogg]])
-LSM:Register("sound", "|cFFAEEA94K 快交控制|r", [[Interface\AddOns\WYJJDB\Media\sound\CC.ogg]])
-LSM:Register("sound", "|cFFAEEA94A CD|r", [[Interface\AddOns\WYJJDB\Media\sound\CD.ogg]])
-LSM:Register("sound", "|cFFAEEA94Z 中间|r", [[Interface\AddOns\WYJJDB\Media\sound\Center.ogg]])
-LSM:Register("sound", "|cFFAEEA94S 锁链|r", [[Interface\AddOns\WYJJDB\Media\sound\Chain.ogg]])
-LSM:Register("sound", "|cFFAEEA94C 冲锋|r", [[Interface\AddOns\WYJJDB\Media\sound\Charge.ogg]])
-LSM:Register("sound", "|cFFAEEA94J 检查|r", [[Interface\AddOns\WYJJDB\Media\sound\Check.ogg]])
-LSM:Register("sound", "|cFFAEEA94Q 清除|r", [[Interface\AddOns\WYJJDB\Media\sound\Clear.ogg]])
-LSM:Register("sound", "|cFFAEEA94S 收集|r", [[Interface\AddOns\WYJJDB\Media\sound\Collect.ogg]])
-LSM:Register("sound", "|cFFAEEA94D 躲地板|r", [[Interface\AddOns\WYJJDB\Media\sound\Dance.ogg]])
-LSM:Register("sound", "|cFFAEEA94F 防御|r", [[Interface\AddOns\WYJJDB\Media\sound\Defensive.ogg]])
-LSM:Register("sound", "|cFFAEEA94A Debuff|r", [[Interface\AddOns\WYJJDB\Media\sound\Debuff.ogg]])
-LSM:Register("sound", "|cFFAEEA94Q 驱散|r", [[Interface\AddOns\WYJJDB\Media\sound\Dispell.ogg]])
-LSM:Register("sound", "|cFFAEEA94Z 注意躲避|r", [[Interface\AddOns\WYJJDB\Media\sound\Dodge.ogg]])
-LSM:Register("sound", "|cFFAEEA94B 不要|r", [[Interface\AddOns\WYJJDB\Media\sound\Dont.ogg]])
-LSM:Register("sound", "|cFFAEEA94T 停止移动|r", [[Interface\AddOns\WYJJDB\Media\sound\Dont Move.ogg]])
-LSM:Register("sound", "|cFFAEEA94A Dot|r", [[Interface\AddOns\WYJJDB\Media\sound\Dot.ogg]])
-LSM:Register("sound", "|cFFAEEA94F 放水|r", [[Interface\AddOns\WYJJDB\Media\sound\Drop.ogg]])
-LSM:Register("sound", "|cFFAEEA94J 进入|r", [[Interface\AddOns\WYJJDB\Media\sound\Enter.ogg]])
-LSM:Register("sound", "|cFFAEEA94S 哨兵|r", [[Interface\AddOns\WYJJDB\Media\sound\Escort.ogg]])
-LSM:Register("sound", "|cFFAEEA94T 退出|r", [[Interface\AddOns\WYJJDB\Media\sound\Exit.ogg]])
-LSM:Register("sound", "|cFFAEEA94W 外部|r", [[Interface\AddOns\WYJJDB\Media\sound\External.ogg]])
-LSM:Register("sound", "|cFFAEEA94Z 注意脚下|r", [[Interface\AddOns\WYJJDB\Media\sound\Feet.ogg]])
-LSM:Register("sound", "|cFFAEEA94M 目标锁定|r", [[Interface\AddOns\WYJJDB\Media\sound\Fixate.ogg]])
-LSM:Register("sound", "|cFFAEEA94J 焦点|r", [[Interface\AddOns\WYJJDB\Media\sound\Focus.ogg]])
-LSM:Register("sound", "|cFFAEEA94Z 注意头前|r", [[Interface\AddOns\WYJJDB\Media\sound\Front.ogg]])
-LSM:Register("sound", "|cFFAEEA94K 开门|r", [[Interface\AddOns\WYJJDB\Media\sound\Gate.ogg]])
-LSM:Register("sound", "|cFFAEEA94S 收集|r", [[Interface\AddOns\WYJJDB\Media\sound\Gather.ogg]])
-LSM:Register("sound", "|cFFAEEA94L 绿色|r", [[Interface\AddOns\WYJJDB\Media\sound\Green.ogg]])
-LSM:Register("sound", "|cFFAEEA94Q 前进|r", [[Interface\AddOns\WYJJDB\Media\sound\Go.ogg]])
-LSM:Register("sound", "|cFFAEEA94Z 抓紧|r", [[Interface\AddOns\WYJJDB\Media\sound\Grip.ogg]])
-LSM:Register("sound", "|cFFAEEA94Z 治疗CD|r", [[Interface\AddOns\WYJJDB\Media\sound\Healcd.ogg]])
-LSM:Register("sound", "|cFFAEEA94D 躲避伤害|r", [[Interface\AddOns\WYJJDB\Media\sound\Hide.ogg]])
-LSM:Register("sound", "|cFFAEEA94N 能量过高|r", [[Interface\AddOns\WYJJDB\Media\sound\High Energy.ogg]])
-LSM:Register("sound", "|cFFAEEA94C 层数过高|r", [[Interface\AddOns\WYJJDB\Media\sound\High Stacks.ogg]])
-LSM:Register("sound", "|cFFAEEA94M 免疫|r", [[Interface\AddOns\WYJJDB\Media\sound\Immunity.ogg]])
-LSM:Register("sound", "|cFFAEEA94J 进进进|r", [[Interface\AddOns\WYJJDB\Media\sound\In.ogg]])
-LSM:Register("sound", "|cFFAEEA94D 打断施法|r", [[Interface\AddOns\WYJJDB\Media\sound\Interrupt.ogg]])
-LSM:Register("sound", "|cFFAEEA94J 阶段转换|r", [[Interface\AddOns\WYJJDB\Media\sound\Intermission.ogg]])
-LSM:Register("sound", "|cFFAEEA94Y 隐身|r", [[Interface\AddOns\WYJJDB\Media\sound\Invisibility.ogg]])
-LSM:Register("sound", "|cFFAEEA94T 跳|r", [[Interface\AddOns\WYJJDB\Media\sound\Jump.ogg]])
-LSM:Register("sound", "|cFFAEEA94K 快打断|r", [[Interface\AddOns\WYJJDB\Media\sound\Kick.ogg]])
-LSM:Register("sound", "|cFFAEEA94F 风筝|r", [[Interface\AddOns\WYJJDB\Media\sound\Kite.ogg]])
-LSM:Register("sound", "|cFFAEEA94J 击飞|r", [[Interface\AddOns\WYJJDB\Media\sound\Knock.ogg]])
-LSM:Register("sound", "|cFFAEEA94Z 最后|r", [[Interface\AddOns\WYJJDB\Media\sound\Last.ogg]])
-LSM:Register("sound", "|cFFAEEA94Z 左边|r", [[Interface\AddOns\WYJJDB\Media\sound\Left.ogg]])
-LSM:Register("sound", "|cFFAEEA94T 跳跃|r", [[Interface\AddOns\WYJJDB\Media\sound\Leap.ogg]])
-LSM:Register("sound", "|cFFAEEA94L 连线|r", [[Interface\AddOns\WYJJDB\Media\sound\Line.ogg]])
-LSM:Register("sound", "|cFFAEEA94L 链接|r", [[Interface\AddOns\WYJJDB\Media\sound\Link.ogg]])
-LSM:Register("sound", "|cFFAEEA94B 被连接|r", [[Interface\AddOns\WYJJDB\Media\sound\Linked.ogg]])
-LSM:Register("sound", "|cFFAEEA94K 卡视野|r", [[Interface\AddOns\WYJJDB\Media\sound\LoS.ogg]])
-LSM:Register("sound", "|cFFAEEA94H 宏|r", [[Interface\AddOns\WYJJDB\Media\sound\Macro.ogg]])
-LSM:Register("sound", "|cFFAEEA94J 近战|r", [[Interface\AddOns\WYJJDB\Media\sound\Melee.ogg]])
-LSM:Register("sound", "|cFFAEEA94D 地雷|r", [[Interface\AddOns\WYJJDB\Media\sound\Mines.ogg]])
-LSM:Register("sound", "|cFFAEEA94Y 移动|r", [[Interface\AddOns\WYJJDB\Media\sound\Move.ogg]])
-LSM:Register("sound", "|cFFAEEA94X 下一个|r", [[Interface\AddOns\WYJJDB\Media\sound\Next.ogg]])
-LSM:Register("sound", "|cFFAEEA94J 集中攻击|r", [[Interface\AddOns\WYJJDB\Media\sound\Nuke.ogg]])
-LSM:Register("sound", "|cFFAEEA94C 橙色|r", [[Interface\AddOns\WYJJDB\Media\sound\Orange.ogg]])
-LSM:Register("sound", "|cFFAEEA94B 宝珠|r", [[Interface\AddOns\WYJJDB\Media\sound\Orb.ogg]])
-LSM:Register("sound", "|cFFAEEA94C 出出出|r", [[Interface\AddOns\WYJJDB\Media\sound\Out.ogg]])
-LSM:Register("sound", "|cFFAEEA94Z 重叠|r", [[Interface\AddOns\WYJJDB\Media\sound\Overlap.ogg]])
-LSM:Register("sound", "|cFFAEEA94P 砰砰|r", [[Interface\AddOns\WYJJDB\Media\sound\Pop.ogg]])
-LSM:Register("sound", "|cFFAEEA94Y 药水|r", [[Interface\AddOns\WYJJDB\Media\sound\Pots.ogg]])
-LSM:Register("sound", "|cFFAEEA94Z 准备拉人|r", [[Interface\AddOns\WYJJDB\Media\sound\Pull.ogg]])
-LSM:Register("sound", "|cFFAEEA94Z 紫色|r", [[Interface\AddOns\WYJJDB\Media\sound\Purple.ogg]])
-LSM:Register("sound", "|cFFAEEA94Z 准备推人|r", [[Interface\AddOns\WYJJDB\Media\sound\Push.ogg]])
-LSM:Register("sound", "|cFFAEEA94Y 远程|r", [[Interface\AddOns\WYJJDB\Media\sound\Range.ogg]])
-LSM:Register("sound", "|cFFAEEA94Z 准备就绪|r", [[Interface\AddOns\WYJJDB\Media\sound\Ready.ogg]])
-LSM:Register("sound", "|cFFAEEA94H 红色|r", [[Interface\AddOns\WYJJDB\Media\sound\Red.ogg]])
-LSM:Register("sound", "|cFFAEEA94F 反射|r", [[Interface\AddOns\WYJJDB\Media\sound\Reflect.ogg]])
-LSM:Register("sound", "|cFFAEEA94S 刷新|r", [[Interface\AddOns\WYJJDB\Media\sound\Refresh.ogg]])
-LSM:Register("sound", "|cFFAEEA94Y 右边|r", [[Interface\AddOns\WYJJDB\Media\sound\Right.ogg]])
-LSM:Register("sound", "|cFFAEEA94Y 圆环|r", [[Interface\AddOns\WYJJDB\Media\sound\Ring.ogg]])
-LSM:Register("sound", "|cFFAEEA94D 定身|r", [[Interface\AddOns\WYJJDB\Media\sound\Root.ogg]])
-LSM:Register("sound", "|cFFAEEA94Z 种子|r", [[Interface\AddOns\WYJJDB\Media\sound\Seed.ogg]])
-LSM:Register("sound", "|cFFAEEA94G 个人CD|r", [[Interface\AddOns\WYJJDB\Media\sound\Selfcd.ogg]])
-LSM:Register("sound", "|cFFAEEA94H 护盾|r", [[Interface\AddOns\WYJJDB\Media\sound\Shield.ogg]])
-LSM:Register("sound", "|cFFAEEA94B 帮忙吸收|r", [[Interface\AddOns\WYJJDB\Media\sound\Soak.ogg]])
-LSM:Register("sound", "|cFFAEEA94M 马上马上|r", [[Interface\AddOns\WYJJDB\Media\sound\Soon.ogg]])
-LSM:Register("sound", "|cFFAEEA94F 孵化|r", [[Interface\AddOns\WYJJDB\Media\sound\Spawn.ogg]])
-LSM:Register("sound", "|cFFAEEA94J 进攻驱散|r", [[Interface\AddOns\WYJJDB\Media\sound\Spellsteal.ogg]])
-LSM:Register("sound", "|cFFAEEA94F 分裂|r", [[Interface\AddOns\WYJJDB\Media\sound\Split.ogg]])
-LSM:Register("sound", "|cFFAEEA94F 分散|r", [[Interface\AddOns\WYJJDB\Media\sound\Spread.ogg]])
-LSM:Register("sound", "|cFFAEEA94D 叠层|r", [[Interface\AddOns\WYJJDB\Media\sound\Stack.ogg]])
-LSM:Register("sound", "|cFFAEEA94B 保持|r", [[Interface\AddOns\WYJJDB\Media\sound\Stay.ogg]])
-LSM:Register("sound", "|cFFAEEA94T 停止|r", [[Interface\AddOns\WYJJDB\Media\sound\Stop.ogg]])
-LSM:Register("sound", "|cFFAEEA94T 停止施法|r", [[Interface\AddOns\WYJJDB\Media\sound\Stopcast.ogg]])
-LSM:Register("sound", "|cFFAEEA94J 交换|r", [[Interface\AddOns\WYJJDB\Media\sound\Swap.ogg]])
-LSM:Register("sound", "|cFFAEEA94M 目标转换|r", [[Interface\AddOns\WYJJDB\Media\sound\Switch.ogg]])
-LSM:Register("sound", "|cFFAEEA94M 目标是你|r", [[Interface\AddOns\WYJJDB\Media\sound\Targeted.ogg]])
-LSM:Register("sound", "|cFFAEEA94C 嘲讽|r", [[Interface\AddOns\WYJJDB\Media\sound\Taunt.ogg]])
-LSM:Register("sound", "|cFFAEEA94T 图腾|r", [[Interface\AddOns\WYJJDB\Media\sound\Totem.ogg]])
-LSM:Register("sound", "|cFFAEEA94J 阶段转换|r", [[Interface\AddOns\WYJJDB\Media\sound\Transition.ogg]])
-LSM:Register("sound", "|cFFAEEA94X 陷阱|r", [[Interface\AddOns\WYJJDB\Media\sound\Trap.ogg]])
-LSM:Register("sound", "|cFFAEEA94Z 转身|r", [[Interface\AddOns\WYJJDB\Media\sound\Turn.ogg]])
-LSM:Register("sound", "|cFFAEEA94S 使用|r", [[Interface\AddOns\WYJJDB\Media\sound\Use.ogg]])
-LSM:Register("sound", "|cFFAEEA94Q 齐射|r", [[Interface\AddOns\WYJJDB\Media\sound\Volley.ogg]])
-LSM:Register("sound", "|cFFAEEA94B 波浪|r", [[Interface\AddOns\WYJJDB\Media\sound\Wave.ogg]])
-LSM:Register("sound", "|cFFAEEA94F 风|r", [[Interface\AddOns\WYJJDB\Media\sound\Winds.ogg]])
-LSM:Register("sound", "|cFFAEEA94H 黄色|r", [[Interface\AddOns\WYJJDB\Media\sound\Yellow.ogg]])
-LSM:Register("sound", "|cFFAEEA94Q 区域|r", [[Interface\AddOns\WYJJDB\Media\sound\Zone.ogg]])
-LSM:Register("sound", "|cFFAEEA94G 该补控了|r", [[Interface\AddOns\WYJJDB\Media\sound\RefillCC.ogg]])
-LSM:Register("sound", "|cFFAEEA94J 焦点打断|r", [[Interface\AddOns\WYJJDB\Media\sound\Focus Interrupt.ogg]])
-LSM:Register("sound", "|cFFAEEA94S 双点|r", [[Interface\AddOns\WYJJDB\Media\sound\DoubleCasts.ogg]])
---CDS
-LSM:Register("sound", "|cFFAEEA99Z 罩子|r |T237510:16|t", [[Interface\AddOns\WYJJDB\Media\sound\AMZ.ogg]])
-LSM:Register("sound", "|cFFAEEA99T 天使|r |T612969:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Angel.ogg]])
-LSM:Register("sound", "|cFFAEEA99S 升腾|r |T135791:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Ascendance.ogg]])
-LSM:Register("sound", "|cFFAEEA99Q 秋|r |T3636843:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Autumn.ogg]])
-LSM:Register("sound", "|cFFAEEA99S 树皮|r |T572025:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Bark.ogg]])
-LSM:Register("sound", "|cFFAEEA99P 屏障|r |T253400:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Barrier.ogg]])
-LSM:Register("sound", "|cFFAEEA99C 赤精|r |T877514:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Chi-ji.ogg]])
-LSM:Register("sound", "|cFFAEEA99J 茧|r |T627485:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Cocoon.ogg]])
-LSM:Register("sound", "|cFFAEEA99H 黑暗|r |T1305154:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Darkness.ogg]])
-LSM:Register("sound", "|cFFAEEA99G 光环掌握|r |T135893:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Devo.ogg]])
-LSM:Register("sound", "|cFFAEEA99A 矮人|r |T136225:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Dwarf.ogg]])
-LSM:Register("sound", "|cFFAEEA99Z 自由|r |T135968:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Freedom.ogg]])
-LSM:Register("sound", "|cFFAEEA99Z 治疗之潮|r |T538569:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Healing Tide.ogg]])
-LSM:Register("sound", "|cFFAEEA99Z 赞美诗|r |T237540:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Hymn.ogg]])
-LSM:Register("sound", "|cFFAEEA99H 化身|r |T236157:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Incarn.ogg]])
-LSM:Register("sound", "|cFFAEEA99J 激活|r |T136048:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Innervate.ogg]])
-LSM:Register("sound", "|cFFAEEA99S 圣疗|r |T135928:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Lay.ogg]])
-LSM:Register("sound", "|cFFAEEA99Y 影遁|r |T132089:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Meld.ogg]])
-LSM:Register("sound", "|cFFAEEA99W 误导|r |T132180:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Misdirect.ogg]])
-LSM:Register("sound", "|cFFAEEA99B 悖论|r |T5199645:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Paradox.ogg]])
-LSM:Register("sound", "|cFFAEEA99G 灌注|r |T135939:16|t", [[Interface\AddOns\WYJJDB\Media\sound\PI.ogg]])
-LSM:Register("sound", "|cFFAEEA99B 保护|r |T135964:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Protection.ogg]])
-LSM:Register("sound", "|cFFAEEA99Y 压制|r |T135936:16|t", [[Interface\AddOns\WYJJDB\Media\sound\PS.ogg]])
-LSM:Register("sound", "|cFFAEEA99J 集结呐喊|r |T132351:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Rally.ogg]])
-LSM:Register("sound", "|cFFAEEA99Y 营救|r |T4622460:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Rescue.ogg]])
-LSM:Register("sound", "|cFFAEEA99H 还魂|r |T1020466:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Revival.ogg]])
-LSM:Register("sound", "|cFFAEEA99H 回溯|r |T4622474:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Rewind.ogg]])
-LSM:Register("sound", "|cFFAEEA99N 怒吼|r |T463283:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Roar.ogg]])
-LSM:Register("sound", "|cFFAEEA99X 牺牲|r |T135966:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Sac.ogg]])
-LSM:Register("sound", "|cFFAEEA99L 灵魂连接|r |T237586:16|t", [[Interface\AddOns\WYJJDB\Media\sound\SLT.ogg]])
-LSM:Register("sound", "|cFFAEEA99W 帷幕|r |T635350:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Shroud.ogg]])
-LSM:Register("sound", "|cFFAEEA99P 破咒|r |T135880:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Spellwarding.ogg]])
-LSM:Register("sound", "|cFFAEEA99C 春|r |T3636844:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Spring.ogg]])
-LSM:Register("sound", "|cFFAEEA99L 灵魂石|r |T136210:16|t", [[Interface\AddOns\WYJJDB\Media\sound\SS.ogg]])
-LSM:Register("sound", "|cFFAEEA99X 夏|r |T3636845:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Summer.ogg]])
-LSM:Register("sound", "|cFFAEEA99S 时间螺旋|r |T4622479:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Time Spiral.ogg]])
-LSM:Register("sound", "|cFFAEEA99S 时间膨胀|r |T4622478:16|t", [[Interface\AddOns\WYJJDB\Media\sound\TD.ogg]])
-LSM:Register("sound", "|cFFAEEA99X 驯如猛虎|r |T651727:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Tiger's Lust.ogg]])
-LSM:Register("sound", "|cFFAEEA99N 宁静|r |T136107:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Tranq.ogg]])
-LSM:Register("sound", "|cFFAEEA99J 嫁祸|r |T236283:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Tricks.ogg]])
-LSM:Register("sound", "|cFFAEEA99K 狂风图腾|r |T538576:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Wind Rush.ogg]])
-LSM:Register("sound", "|cFFAEEA99D 冬|r |T3636846:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Winter.ogg]])
+			if mType == "sound" and groupColor then
+				displayName = "|cFF" .. groupColor .. name .. "|r"
+			end
 
-LSM:Register("sound", "|cFFAEEA99Q 群盾|r |T1723997:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Mass Barrier.ogg]])
-LSM:Register("sound", "|cFFAEEA99Z 战复图腾|r |T136080:16|t", [[Interface\AddOns\WYJJDB\Media\sound\APT.ogg]])
-LSM:Register("sound", "|cFFAEEA99Y 援护|r |T132365:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Intervene.ogg]])
-LSM:Register("sound", "|cFFAEEA99D 盾反|r |T132361:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Spell Reflect.ogg]])
-LSM:Register("sound", "|cFFAEEA99J 加速|r", [[Interface\AddOns\WYJJDB\Media\sound\Fast.ogg]])
-LSM:Register("sound", "|cFFAEEA99W 微风|r |T4630449:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Zephyr.ogg]])
-LSM:Register("sound", "|cFFAEEA99H 红驱|r |T4630446:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Cauterizing Flame.ogg]])
-LSM:Register("sound", "|cFFAEEA99G 龟壳|r |T132199:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Turtle.ogg]])
-LSM:Register("sound", "|cFFAEEA99J 假死|r |T132293:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Feign Death.ogg]])
-LSM:Register("sound", "|cFFAEEA99L 绿罩|r |T136120:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Anti-Magic Shell.ogg]])
-LSM:Register("sound", "|cFFAEEA99W 无敌|r |T524354:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Divine Shield.ogg]])
-LSM:Register("sound", "|cFFAEEA99X 消散|r |T237563:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Dispersion.ogg]])
-LSM:Register("sound", "|cFFAEEA99D 斗篷|r |T136177:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Cloak.ogg]])
-LSM:Register("sound", "|cFFAEEA99Q 强隐|r |T575584:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Invisibility.ogg]])
-LSM:Register("sound", "|cFFAEEA99C 春哥|r |T252268:16|t", [[Interface\AddOns\WYJJDB\Media\sound\SpringBro.ogg]])
-LSM:Register("sound", "|cFFAEEA99B 冰箱|r |T135841:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Ice Block.ogg]])
-LSM:Register("sound", "|cFFAEEA99X 虚空行走|r |T463284:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Netherwalk.ogg]])
-LSM:Register("sound", "|cFFAEEA99Y 压迫怒吼|r |T4622466:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Oppressing Roar.ogg]])
-LSM:Register("sound", "|cFFAEEA99Z 战栗图腾|r |T136108:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Tremor Totem.ogg]])
-LSM:Register("sound", "|cFFAEEA99Q 清毒图腾|r |T136070:16|t", [[Interface\AddOns\WYJJDB\Media\sound\PCT.ogg]])
-
---CCs
-LSM:Register("sound", "|cFFAEEA95D 电能图腾|r |T136013:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Capacitor Totem.ogg]])
-LSM:Register("sound", "|cFFAEEA95X 陷地图腾|r |T136100:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Earthgrab Totem.ogg]])
-LSM:Register("sound", "|cFFAEEA95D 地缚图腾|r |T136102:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Earthbind Totem.ogg]])
-LSM:Register("sound", "|cFFAEEA95L 雷霆风暴|r |T237589:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Thunderstorm.ogg]])
-LSM:Register("sound", "|cFFAEEA95X 心灵尖啸|r |T136184:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Psychic Scream.ogg]])
-LSM:Register("sound", "|cFFAEEA95Z 震荡波|r |T236312:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Shockwave.ogg]])
-LSM:Register("sound", "|cFFAEEA95S 扫堂腿|r |T642414:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Leg Sweep.ogg]])
-LSM:Register("sound", "|cFFAEEA95A 暗影之怒|r |T607865:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Shadowfury.ogg]])
-LSM:Register("sound", "|cFFAEEA95M 盲目之光|r |T571553:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Blinding Light.ogg]])
-LSM:Register("sound", "|cFFAEEA95W 乌索尔旋风|r |T571588:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Ursol's Vortex.ogg]])
-LSM:Register("sound", "|cFFAEEA95R 日光术|r |T252188:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Solar Beam.ogg]])
-LSM:Register("sound", "|cFFAEEA95H 混乱新星|r |T135795:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Chaos Nova.ogg]])
-LSM:Register("sound", "|cFFAEEA95B 悲苦咒符|r |T1418287:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Sigil of Misery.ogg]])
-LSM:Register("sound", "|cFFAEEA95C 沉默咒符|r |T1418288:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Sigil of Silence.ogg]])
-LSM:Register("sound", "|cFFAEEA95P 破胆怒吼|r |T132154:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Intimidating Shout.ogg]])
-LSM:Register("sound", "|cFFAEEA95Z 战争践踏|r |T132368:16|t", [[Interface\AddOns\WYJJDB\Media\sound\War Stomp.ogg]])
-LSM:Register("sound", "|cFFAEEA95P 平心之环|r |T839107:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Ring of Peace.ogg]])
-LSM:Register("sound", "|cFFAEEA95T 台风|r |T236170:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Typhoon.ogg]])
-LSM:Register("sound", "|cFFAEEA95F 飞翼打击|r |T4622488:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Wing Buffet.ogg]])
-LSM:Register("sound", "|cFFAEEA95S 扫尾|r |T4622486:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Tail Sweep.ogg]])
-LSM:Register("sound", "|cFFAEEA95A 奥术洪流|r |T136222:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Arcane Torrent.ogg]])
-LSM:Register("sound", "|cFFAEEA95D 夺魂咆哮|r |T132121:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Incapacitating Roar.ogg]])
-LSM:Register("sound", "|cFFAEEA95C 超级新星|r |T1033912:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Supernova.ogg]])
-LSM:Register("sound", "|cFFAEEA95C 冲击波|r |T135903:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Blast Wave.ogg]])
-LSM:Register("sound", "|cFFAEEA95S 死亡之握|r |T237532:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Death Grip.ogg]])
-LSM:Register("sound", "|cFFAEEA95N 内爆陷阱|r |T1044088:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Implosive Trap.ogg]])
-LSM:Register("sound", "|cFFAEEA95Z 致盲冰雨|r |T135836:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Blinding Sleet.ogg]])
-LSM:Register("sound", "|cFFAEEA95S 束缚射击|r |T462650:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Binding Shot.ogg]])
-LSM:Register("sound", "|cFFAEEA95W 瓦解怒吼|r |T132091:16|t", [[Interface\AddOns\WYJJDB\Media\sound\Disrupting Shout.ogg]])
---EQ
-LSM:Register("sound", "|cFFAEEA90 我就知道你能做到|r", [[Interface\AddOns\WYJJDB\Media\sound\EQAchieve.ogg]])
-LSM:Register("sound", "|cFFAEEA90 嘿，你还好吗|r", [[Interface\AddOns\WYJJDB\Media\sound\EQDead.ogg]])
-LSM:Register("sound", "|cFFAEEA90 看看获得了什么宝贝|r", [[Interface\AddOns\WYJJDB\Media\sound\EQDrop.ogg]])
-LSM:Register("sound", "|cFFAEEA90 希望是个深思熟虑的选择|r", [[Interface\AddOns\WYJJDB\Media\sound\EQEscape.ogg]])
-LSM:Register("sound", "|cFFAEEA90 进入战斗|r", [[Interface\AddOns\WYJJDB\Media\sound\EQInCombat.ogg]])
-LSM:Register("sound", "|cFFAEEA90 你要加入我们吗|r", [[Interface\AddOns\WYJJDB\Media\sound\EQInvite.ogg]])
-LSM:Register("sound", "|cFFAEEA90 离开战斗|r", [[Interface\AddOns\WYJJDB\Media\sound\EQLCombat.ogg]])
-LSM:Register("sound", "|cFFAEEA90 订单已添加|r", [[Interface\AddOns\WYJJDB\Media\sound\EQListAdd.ogg]])
-LSM:Register("sound", "|cFFAEEA90 移除成功|r", [[Interface\AddOns\WYJJDB\Media\sound\EQListRemove.ogg]])
-LSM:Register("sound", "|cFFAEEA90 你有新邮件|r", [[Interface\AddOns\WYJJDB\Media\sound\EQMail.ogg]])
-LSM:Register("sound", "|cFFAEEA90 你要打什么位置|r", [[Interface\AddOns\WYJJDB\Media\sound\EQPosition.ogg]])
-LSM:Register("sound", "|cFFAEEA90 倒计时开始|r", [[Interface\AddOns\WYJJDB\Media\sound\EQPull.ogg]])
-LSM:Register("sound", "|cFFAEEA90 准备就绪|r", [[Interface\AddOns\WYJJDB\Media\sound\EQReady.ogg]])
-LSM:Register("sound", "|cFFAEEA90 复活吧，我的勇士|r", [[Interface\AddOns\WYJJDB\Media\sound\EQResurrection.ogg]])
-LSM:Register("sound", "|cFFAEEA90 运气真不错|r", [[Interface\AddOns\WYJJDB\Media\sound\EQUplevel.ogg]])
-LSM:Register("sound", "|cFFAEEA90 欢迎你的加入|r", [[Interface\AddOns\WYJJDB\Media\sound\EQWelcome.ogg]])
-LSM:Register("sound", "|cFFAEEA90 这宝贝是你的了|r", [[Interface\AddOns\WYJJDB\Media\sound\EQWin.ogg]])
--- -----
+			LSM:Register(mType, displayName, mPath .. mType .. [[\]] .. file)
+		end
+	end
+end

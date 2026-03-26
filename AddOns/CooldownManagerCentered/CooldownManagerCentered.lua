@@ -50,6 +50,7 @@ SLASH_CMC_COMMAND1 = "/cmc"
 SlashCmdList["CMC_COMMAND"] = function(msg)
     if not msg or msg == "" then
         addon:OpenSettings()
+        return
     end
     local chunks = {}
     for substring in msg:gmatch("%S+") do

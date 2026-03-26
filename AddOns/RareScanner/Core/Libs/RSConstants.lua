@@ -346,7 +346,7 @@ RSConstants.PROFILE_DEFAULTS = {
 			enableNavigation = true,
 			navigationLockEntity = false,
 			minimapButton = {
-				hide = false
+				hide = true
 			},
 			worldmapButton = true
 		},
