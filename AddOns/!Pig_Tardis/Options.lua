@@ -13,16 +13,18 @@ local TardisInfo = {}
 addonTable.TardisInfo=TardisInfo
 ------------
 local QuickBut_ID=20
-local GnName,GnUI,FrameLevel = L["PIGaddonList"][addonName],"PIG_TardisUI",30
+if PIGIsHardcore() then return end
+local fuFrame,fuFrameBut,adddata = unpack(Data.Ext[addonName])
+if not adddata.open then return end
+fuFrame.IsOpenUpdate=nil
+local GnName,GnUI,FrameLevel = adddata.nameLocale,"PIG_TardisUI",30
 local GnIcon =PIG_MaxTocversion(30000) and PIG_MaxTocversion(20000,true) and "legioninvasion-map-icon-portal-large" or "groupfinder-eye-frame"
 TardisInfo.uidata={GnName,GnUI,GnIcon,FrameLevel,QuickBut_ID}
 Data.TardisUI=GnUI
-local fuFrame,fuFrameBut,Tooltip = unpack(Data.Ext[L.extLsit[1]])
-if not fuFrame.OpenMode then return end
-fuFrame.extaddonT:Hide()
 local QuickButUI=_G[Data.QuickButUIname]
 TardisInfo.fuFrame,TardisInfo.fuFrameBut=fuFrame,fuFrameBut
 ---
+
 function TardisInfo.ADD_Options()
 	fuFrame.Open = PIGModCheckbutton(fuFrame,{GnName,Tooltip},{"TOPLEFT",fuFrame,"TOPLEFT",20,-20})
 	fuFrame.Open:SetScript("OnClick", function (self)

@@ -6,6 +6,7 @@ function CVarsfun.Fast_Loot()
         if ElvUI or NDui then return end
         if PIGA["CVars"]["Fast_Loot"] and not CVarsfun.LootFUI then
             local Fun=addonTable.Fun
+            local Get_LootMethodID=Fun.Get_LootMethodID
             local GetContainerNumFreeSlots=GetContainerNumFreeSlots or C_Container and C_Container.GetContainerNumFreeSlots
             local internal = {isLooting = false,isHidden = false,isItemLocked = false}
             local LootF = CreateFrame("Frame")
@@ -35,7 +36,7 @@ function CVarsfun.Fast_Loot()
                 return false;
             end
             function LootF:LootItems(numItems)
-                local lootmethodID= Fun.PIG_GetLootMethod()
+                local lootmethodID= Get_LootMethodID()
                 local lootThreshold = (lootmethodID == 0) and GetLootThreshold() or 10;
                 for i = numItems, 1, -1 do
                     local itemLink = GetLootSlotLink(i);
@@ -174,7 +175,7 @@ end
 -- end
 
 -- function PIG_AutoLoot:LootItems(numItems)
-    --local lootmethodID= Fun.PIG_GetLootMethod()
+    --local lootmethodID= Get_LootMethodID()
 --     local lootThreshold = (internal.isClassic and lootmethodID == 0) and GetLootThreshold() or 10;
 --     for i = numItems, 1, -1 do
 --         local itemLink = GetLootSlotLink(i);
@@ -298,7 +299,7 @@ end
 -- end
 -- function PIG_AutoLoot:Is_Open()
 --     if IsInGroup() then 
---         local lootmethodID= Fun.PIG_GetLootMethod()
+--         local lootmethodID= Get_LootMethodID()
 --         if lootmethodID == 0 then
 --             return true
 --         end

@@ -67,7 +67,7 @@ local function WilduSettings_BuildCooldown(category, layout)
                 ["CENTER"] = "Grow from |cff8ccd00Center|r",
                 ["END"] = BuffIconCooldownViewer.isHorizontal and "Grow from the |cff8ccd00End|r"
                     or "Grow from the |cff8ccd00End|r",
-                ["Disable"] = "|cff7c7c7cDisable dynamic layout|r",
+                ["Disable"] = "|cffff2020Disable|r centering",
             }
         end,
         order = { "START", "CENTER", "END", "Disable" },
@@ -100,7 +100,7 @@ local function WilduSettings_BuildCooldown(category, layout)
         values = {
             BOTTOM = "Bars grow from |cff8ccd00Bottom|r",
             TOP = "Bars grow from |cff8ccd00Top|r",
-            ["Disable"] = "|cff7c7c7cDisable dynamic layout|r",
+            ["Disable"] = "|cffff2020Disable|r centering",
         },
         order = { "TOP", "BOTTOM", "Disable" },
         get = function()
@@ -124,7 +124,7 @@ local function WilduSettings_BuildCooldown(category, layout)
                     or "New Columns to the |cff8ccd00Left|r",
                 TOP = EssentialCooldownViewer.isHorizontal and "New Rows |cff8ccd00Below|r"
                     or "New Columns to the |cff8ccd00Right|r",
-                ["Disable"] = "|cff7c7c7cDisable dynamic layout|r",
+                ["Disable"] = "|cffff2020Disable|r centering",
             }
         end,
         order = { "TOP", "BOTTOM", "Disable" },
@@ -149,7 +149,7 @@ local function WilduSettings_BuildCooldown(category, layout)
                     or "New Columns to the |cff8ccd00Left|r",
                 TOP = UtilityCooldownViewer.isHorizontal and "New Rows |cff8ccd00Below|r"
                     or "New Columns to the |cff8ccd00Right|r",
-                ["Disable"] = "|cff7c7c7cDisable dynamic layout|r",
+                ["Disable"] = "|cffff2020Disable|r centering",
             }
         end,
         order = { "TOP", "BOTTOM", "Disable" },
@@ -1000,6 +1000,90 @@ local function WilduSettings_BuildCooldown(category, layout)
         desc = 'Controls glow animation density for Auto Cast and Pixel Glow.\n0 is not "zero", it\'s Default density.',
     })
 
+    SettingsLib:CreateSlider(category, {
+        parentSection = customProcSection,
+        prefix = "CMC_",
+        key = "cooldownManager_experimental_glow_autocast_scale",
+        name = "Auto Cast Glow Scale",
+        searchtags = { "Glow", "Auto Cast", "Scale", "Size" },
+        default = 1,
+        min = 0.5,
+        max = 5,
+        step = 0.1,
+        formatter = function(value)
+            return string.format("%.1f", value)
+        end,
+        get = function()
+            local scale = tonumber(ns.db.profile.cooldownManager_experimental_glow_autocast_scale) or 1
+            scale = math.floor((scale * 10) + 0.5) / 10
+            if scale > 5 then
+                scale = 5
+            elseif scale < 0.5 then
+                scale = 0.5
+            end
+            return scale
+        end,
+        set = function(value)
+            local scale = tonumber(value) or 1
+            scale = math.floor((scale * 10) + 0.5) / 10
+            if scale > 5 then
+                scale = 5
+            elseif scale < 0.5 then
+                scale = 0.5
+            end
+            ns.db.profile.cooldownManager_experimental_glow_autocast_scale = scale
+            if not ns.db.profile.cooldownManager_experimental_disablePerSpellSettings then
+                if ns.CooldownStyle then
+                    ns.CooldownStyle:RefreshHooks()
+                end
+            end
+            ns.API:ShowReloadUIConfirmation()
+        end,
+        desc = "Controls Auto Cast glow ring scale. 1.0 is default.",
+    })
+
+    SettingsLib:CreateSlider(category, {
+        parentSection = customProcSection,
+        prefix = "CMC_",
+        key = "cooldownManager_experimental_glow_pixel_size",
+        name = "Pixel Glow Size",
+        searchtags = { "Glow", "Pixel", "Size", "Thickness" },
+        default = 1,
+        min = 1,
+        max = 6,
+        step = 1,
+        formatter = function(value)
+            return string.format("%d", value)
+        end,
+        get = function()
+            local size = tonumber(ns.db.profile.cooldownManager_experimental_glow_pixel_size) or 1
+            size = math.floor(size + 0.5)
+            if size > 6 then
+                size = 6
+            elseif size < 1 then
+                size = 1
+            end
+            return size
+        end,
+        set = function(value)
+            local size = tonumber(value) or 1
+            size = math.floor(size + 0.5)
+            if size > 6 then
+                size = 6
+            elseif size < 1 then
+                size = 1
+            end
+            ns.db.profile.cooldownManager_experimental_glow_pixel_size = size
+            if not ns.db.profile.cooldownManager_experimental_disablePerSpellSettings then
+                if ns.CooldownStyle then
+                    ns.CooldownStyle:RefreshHooks()
+                end
+            end
+            ns.API:ShowReloadUIConfirmation()
+        end,
+        desc = "Controls Pixel glow line thickness. 1 is default.",
+    })
+
     SettingsLib:CreateButton(category, {
         parentSection = customProcSection,
         text = "Restore Glows to Default",
@@ -1019,6 +1103,8 @@ local function WilduSettings_BuildCooldown(category, layout)
             ns.db.profile.cooldownManager_experimental_glow_custom_color = false
             ns.db.profile.cooldownManager_experimental_glow_animation_speed = 0
             ns.db.profile.cooldownManager_experimental_glow_animation_density = 0
+            ns.db.profile.cooldownManager_experimental_glow_autocast_scale = 1
+            ns.db.profile.cooldownManager_experimental_glow_pixel_size = 1
             if not ns.db.profile.cooldownManager_experimental_disablePerSpellSettings then
                 if ns.CooldownStyle then
                     ns.CooldownStyle:RefreshHooks()

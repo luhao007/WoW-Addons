@@ -3,7 +3,7 @@
 	Author: Eliote
 --]]
 
-local MAJOR, MINOR = "Elib-4.0", 12
+local MAJOR, MINOR = "Elib-4.0", 13
 local Elib = LibStub:NewLibrary(MAJOR, MINOR)
 if not Elib then return end
 
@@ -205,6 +205,12 @@ function Elib.Register(easyObject)
 			tooltipCustomFunction = easyObject.customTooltip,
 			savedVariables = sv
 		}
+
+		if (easyObject.customTooltip) then
+			self.registry.tooltipTemplateFunction = function(tooltip)
+				easyObject.customTooltip(self.registry, tooltip)
+			end
+		end
 
 		if easyObject.onUpdate then
 			local elap = 0

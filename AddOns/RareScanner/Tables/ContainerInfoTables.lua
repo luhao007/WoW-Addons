@@ -2016,7 +2016,7 @@ private.CONTAINER_INFO = {
 				[2393] = { x = 2022, y = 7961, artID = { 1932 }, overlay = { "2022-7961" } };
 				[2395] = { x = 4298, y = 2996, artID = { 1933 }, overlay = { "4298-2996" } };
 			  }, reset = false, questID = { 94536 }, achievementID = { 62057 }, minieventID = 53 }; --Vista Point
-	[620688] = { zoneID = 2393, artID = { 1932 }, x = 3780, y = 5237, overlay = { "3780-5237" }, questID = { 94781 } }; --Incomplete Book of Sonnets
+	[620688] = { zoneID = 2393, artID = { 1932 }, x = 3780, y = 5237, overlay = { "3780-5237" }, reset = false, questID = { 94781 } }; --Incomplete Book of Sonnets
 	[507966] = { zoneID = 2395, artID = { 1933 }, x = 3604, y = 7251, overlay = { "3604-7251" }, reset = false, questID = { 93565 }, achievementID = { 62104 }, minieventID = 49, criteria = 4 }; --Profane Research
 	[525890] = { zoneID = 2395, artID = { 1933 }, x = 4841, y = 7628, overlay = { "4839-7625" }, reset = false, questID = { 89173 }, prof = 393 }; --Thalassian Skinning Knife
 	[525903] = { zoneID = 2395, artID = { 1933 }, x = 4632, y = 3485, overlay = { "4635-3486" }, reset = false, questID = { 89080 }, prof = 197 }; --Sin'dorei Outfitter's Ruler
@@ -2061,7 +2061,7 @@ private.CONTAINER_INFO = {
 				[2405] = { x = 4801, y = 2280, artID = { 1936 }, overlay = { "4801-2280" } };
 				[2444] = { x = 4549, y = 4239, artID = { 2066 }, overlay = { "4549-4240" } };
 			  }, reset = false, questID = { 89169 }, prof = 393 }; --Voidstorm Leather Sample
-	[525907] = { zoneID = 2405, artID = { 1936 }, x = 4182, y = 3820, overlay = { "4183-3821" }, reset = false, questID = { 89150 }, prof = 186 }; --Star Metal Deposit
+	[525907] = { zoneID = 2405, artID = { 1936 }, x = 3423, y = 7605, overlay = { "3423-7605" }, reset = false, questID = { 89150 }, prof = 186 }; --Star Metal Deposit
 	[525909] = { zoneID = {
 				[2405] = { x = 4051, y = 2108, artID = { 1936 }, overlay = { "4051-2108" } };
 				[2444] = { x = 2874, y = 3858, artID = { 2066 }, overlay = { "2875-3856" } };
@@ -2162,7 +2162,7 @@ private.CONTAINER_INFO = {
 	[619663] = { zoneID = 2405, artID = { 1936 }, x = 5545, y = 6717, overlay = { "5545-6717" }, reset = false, questID = { 94553 }, achievementID = { 62057 }, minieventID = 59 }; --Vista Point
 	[619664] = { zoneID = 2405, artID = { 1936 }, x = 4175, y = 7022, overlay = { "4175-7022" }, reset = false, questID = { 94554 }, achievementID = { 62057 }, minieventID = 59 }; --Vista Point
 	[619665] = { zoneID = 2405, artID = { 1936 }, x = 3781, y = 5496, overlay = { "3781-5496" }, reset = false, questID = { 94555 }, achievementID = { 62057 }, minieventID = 59 }; --Vista Point
-	[620460] = { zoneID = 2405, artID = { 1936 }, x = 2480, y = 6999, overlay = { "2482-7001" }, questReset = true, questID = { 94742 } }; --Voidhoarder's Corpse
+	[620460] = { zoneID = 2405, artID = { 1936 }, x = 2480, y = 6999, overlay = { "2482-7001" }, reset = false, questID = { 94742 } }; --Voidhoarder's Corpse
 	[525895] = { zoneID = 2413, artID = { 1942 }, x = 6953, y = 4921, overlay = { "6951-4917" }, reset = false, questID = { 89168 }, prof = 393 }; --Primal Hide
 	[525897] = { zoneID = 2413, artID = { 1942 }, x = 7605, y = 5119, overlay = { "7609-5107" }, reset = false, questID = { 89166 }, prof = 393 }; --Lightbloom Afflicted Hide
 	[525902] = { zoneID = 2413, artID = { 1942 }, x = 6977, y = 5097, overlay = { "6976-5104" }, reset = false, questID = { 89081 }, prof = 197 }; --Wooden Weaving Sword
@@ -2181,132 +2181,132 @@ private.CONTAINER_INFO = {
 	[525973] = { zoneID = 2413, artID = { 1942 }, x = 3664, y = 2513, overlay = { "3666-2506" }, reset = false, questID = { 89159 }, prof = 182 }; --Lightbloom Root
 	[525975] = { zoneID = 2413, artID = { 1942 }, x = 7608, y = 5109, overlay = { "7612-5105" }, reset = false, questID = { 89157 }, prof = 182 }; --Harvester's Sickle
 	[525977] = { zoneID = 2413, artID = { 1942 }, x = 5116, y = 5568, overlay = { "5111-5571" }, reset = false, questID = { 89155 }, prof = 182 }; --Planting Shovel
-	[571099] = { zoneID = 2413, artID = { 1942 }, x = 3631, y = 4847, overlay = { "3635-4839" }, reset = false, questID = { 92196 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571121] = { zoneID = 2413, artID = { 1942 }, x = 3611, y = 2639, overlay = { "3611-2639" }, reset = false, questID = { 92197 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571122] = { zoneID = 2413, artID = { 1942 }, x = 4986, y = 2552, overlay = { "4987-2551" }, reset = false, questID = { 92198 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571123] = { zoneID = 2413, artID = { 1942 }, x = 5505, y = 2760, overlay = { "5500-2754" }, reset = false, questID = { 92199 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571124] = { zoneID = 2413, artID = { 1942 }, x = 6630, y = 6281, overlay = { "6630-6282" }, reset = false, questID = { 92200 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571125] = { zoneID = 2413, artID = { 1942 }, x = 3340, y = 6350, overlay = { "3337-6349" }, reset = false, questID = { 92201 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571126] = { zoneID = 2413, artID = { 1942 }, x = 3342, y = 7561, overlay = { "3338-7560" }, reset = false, questID = { 92202 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571127] = { zoneID = 2413, artID = { 1942 }, x = 3183, y = 8180, overlay = { "3183-8177" }, reset = false, questID = { 92203 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571128] = { zoneID = 2413, artID = { 1942 }, x = 4218, y = 6651, overlay = { "4218-6651" }, reset = false, questID = { 92204 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571129] = { zoneID = 2413, artID = { 1942 }, x = 5241, y = 8078, overlay = { "5241-8078" }, reset = false, questID = { 92205 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571130] = { zoneID = 2413, artID = { 1942 }, x = 4855, y = 5535, overlay = { "4855-5535" }, reset = false, questID = { 92307 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571131] = { zoneID = 2413, artID = { 1942 }, x = 6776, y = 6888, overlay = { "6773-6885" }, reset = false, questID = { 92306 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571132] = { zoneID = 2413, artID = { 1942 }, x = 5998, y = 4305, overlay = { "5998-4305" }, reset = false, questID = { 92305 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571133] = { zoneID = 2413, artID = { 1942 }, x = 6903, y = 3121, overlay = { "6903-3121" }, reset = false, questID = { 92304 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571134] = { zoneID = 2413, artID = { 1942 }, x = 6543, y = 2711, overlay = { "6543-2711" }, reset = false, questID = { 92303 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571135] = { zoneID = 2413, artID = { 1942 }, x = 5059, y = 4051, overlay = { "5062-4061" }, reset = false, questID = { 92302 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571136] = { zoneID = 2413, artID = { 1942 }, x = 4159, y = 2741, overlay = { "4159-2743" }, reset = false, questID = { 92301 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571137] = { zoneID = 2413, artID = { 1942 }, x = 4044, y = 3447, overlay = { "4044-3447" }, reset = false, questID = { 92300 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571138] = { zoneID = 2413, artID = { 1942 }, x = 5660, y = 4768, overlay = { "5660-4768" }, reset = false, questID = { 92299 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571139] = { zoneID = 2413, artID = { 1942 }, x = 5944, y = 5435, overlay = { "5942-5431" }, reset = false, questID = { 92206 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571140] = { zoneID = 2413, artID = { 1942 }, x = 7139, y = 5863, overlay = { "7139-5863" }, reset = false, questID = { 92215 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
+	[571099] = { zoneID = 2413, artID = { 1942 }, x = 3631, y = 4847, overlay = { "3635-4839" }, reset = false, questID = { 92196 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571121] = { zoneID = 2413, artID = { 1942 }, x = 3611, y = 2639, overlay = { "3611-2639" }, reset = false, questID = { 92197 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571122] = { zoneID = 2413, artID = { 1942 }, x = 4986, y = 2552, overlay = { "4987-2551" }, reset = false, questID = { 92198 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571123] = { zoneID = 2413, artID = { 1942 }, x = 5505, y = 2760, overlay = { "5500-2754" }, reset = false, questID = { 92199 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571124] = { zoneID = 2413, artID = { 1942 }, x = 6630, y = 6281, overlay = { "6630-6282" }, reset = false, questID = { 92200 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571125] = { zoneID = 2413, artID = { 1942 }, x = 3340, y = 6350, overlay = { "3337-6349" }, reset = false, questID = { 92201 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571126] = { zoneID = 2413, artID = { 1942 }, x = 3342, y = 7561, overlay = { "3338-7560" }, reset = false, questID = { 92202 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571127] = { zoneID = 2413, artID = { 1942 }, x = 3183, y = 8180, overlay = { "3183-8177" }, reset = false, questID = { 92203 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571128] = { zoneID = 2413, artID = { 1942 }, x = 4218, y = 6651, overlay = { "4218-6651" }, reset = false, questID = { 92204 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571129] = { zoneID = 2413, artID = { 1942 }, x = 5241, y = 8078, overlay = { "5241-8078" }, reset = false, questID = { 92205 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571130] = { zoneID = 2413, artID = { 1942 }, x = 4855, y = 5535, overlay = { "4855-5535" }, reset = false, questID = { 92307 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571131] = { zoneID = 2413, artID = { 1942 }, x = 6776, y = 6888, overlay = { "6773-6885" }, reset = false, questID = { 92306 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571132] = { zoneID = 2413, artID = { 1942 }, x = 5998, y = 4305, overlay = { "5998-4305" }, reset = false, questID = { 92305 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571133] = { zoneID = 2413, artID = { 1942 }, x = 6903, y = 3121, overlay = { "6903-3121" }, reset = false, questID = { 92304 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571134] = { zoneID = 2413, artID = { 1942 }, x = 6543, y = 2711, overlay = { "6543-2711" }, reset = false, questID = { 92303 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571135] = { zoneID = 2413, artID = { 1942 }, x = 5059, y = 4051, overlay = { "5062-4061" }, reset = false, questID = { 92302 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571136] = { zoneID = 2413, artID = { 1942 }, x = 4159, y = 2741, overlay = { "4159-2743" }, reset = false, questID = { 92301 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571137] = { zoneID = 2413, artID = { 1942 }, x = 4044, y = 3447, overlay = { "4044-3447" }, reset = false, questID = { 92300 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571138] = { zoneID = 2413, artID = { 1942 }, x = 5660, y = 4768, overlay = { "5660-4768" }, reset = false, questID = { 92299 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571139] = { zoneID = 2413, artID = { 1942 }, x = 5944, y = 5435, overlay = { "5942-5431" }, reset = false, questID = { 92206 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571140] = { zoneID = 2413, artID = { 1942 }, x = 7139, y = 5863, overlay = { "7139-5863" }, reset = false, questID = { 92215 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
 	[571141] = { zoneID = {
 				[2413] = { x = 5294, y = 5066, artID = { 1942 }, overlay = { "5294-5066" } };
 				[2576] = { x = 6157, y = 3248, artID = { 2078 }, overlay = { "6157-3248" } };
-			  }, reset = false, questID = { 92214 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571142] = { zoneID = 2413, artID = { 1942 }, x = 3206, y = 6715, overlay = { "3206-6708" }, reset = false, questID = { 92213 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571143] = { zoneID = 2413, artID = { 1942 }, x = 3262, y = 8477, overlay = { "3262-8477" }, reset = false, questID = { 92212 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571144] = { zoneID = 2413, artID = { 1942 }, x = 3035, y = 7332, overlay = { "3031-7340" }, reset = false, questID = { 92211 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571145] = { zoneID = 2413, artID = { 1942 }, x = 4321, y = 5359, overlay = { "4321-5365" }, reset = false, questID = { 92210 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571146] = { zoneID = 2413, artID = { 1942 }, x = 6035, y = 4857, overlay = { "6034-4859" }, reset = false, questID = { 92209 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571147] = { zoneID = 2413, artID = { 1942 }, x = 3398, y = 4405, overlay = { "3394-4403" }, reset = false, questID = { 92208 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571148] = { zoneID = 2413, artID = { 1942 }, x = 3835, y = 4740, overlay = { "3835-4740" }, reset = false, questID = { 92207 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571149] = { zoneID = 2413, artID = { 1942 }, x = 6234, y = 3713, overlay = { "6234-3713" }, reset = false, questID = { 92226 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571150] = { zoneID = 2413, artID = { 1942 }, x = 4927, y = 7552, overlay = { "4927-7552" }, reset = false, questID = { 92235 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571151] = { zoneID = 2413, artID = { 1942 }, x = 5025, y = 6967, overlay = { "5025-6967" }, reset = false, questID = { 92234 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571152] = { zoneID = 2413, artID = { 1942 }, x = 6868, y = 3633, overlay = { "6868-3633" }, reset = false, questID = { 92233 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571153] = { zoneID = 2413, artID = { 1942 }, x = 5032, y = 3357, overlay = { "5034-3359" }, reset = false, questID = { 92232 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571154] = { zoneID = 2413, artID = { 1942 }, x = 4763, y = 4696, overlay = { "4763-4696" }, reset = false, questID = { 92231 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571155] = { zoneID = 2413, artID = { 1942 }, x = 4161, y = 4011, overlay = { "4161-4011" }, reset = false, questID = { 92230 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571156] = { zoneID = 2413, artID = { 1942 }, x = 5376, y = 5910, overlay = { "5376-5910" }, reset = false, questID = { 92229 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571157] = { zoneID = 2413, artID = { 1942 }, x = 6696, y = 5659, overlay = { "6696-5656" }, reset = false, questID = { 92228 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571158] = { zoneID = 2413, artID = { 1942 }, x = 5514, y = 3284, overlay = { "5514-3288" }, reset = false, questID = { 92227 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571159] = { zoneID = 2413, artID = { 1942 }, x = 4641, y = 2482, overlay = { "4638-2488" }, reset = false, questID = { 92225 }, achievementID = { 61052 }, minieventID = 55, renown = 1 }; --Glowing Moth
-	[571162] = { zoneID = 2413, artID = { 1942 }, x = 4307, y = 3946, overlay = { "4307-3946" }, reset = false, questID = { 92224 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571163] = { zoneID = 2413, artID = { 1942 }, x = 4403, y = 3812, overlay = { "4403-3812" }, reset = false, questID = { 92223 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571164] = { zoneID = 2413, artID = { 1942 }, x = 6035, y = 1776, overlay = { "6035-1776" }, reset = false, questID = { 92222 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571165] = { zoneID = 2413, artID = { 1942 }, x = 7172, y = 5881, overlay = { "7172-5881" }, reset = false, questID = { 92221 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571166] = { zoneID = 2413, artID = { 1942 }, x = 7401, y = 5723, overlay = { "7401-5723" }, reset = false, questID = { 92220 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571167] = { zoneID = 2413, artID = { 1942 }, x = 5561, y = 6430, overlay = { "5561-6430" }, reset = false, questID = { 92219 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571168] = { zoneID = 2413, artID = { 1942 }, x = 5579, y = 6665, overlay = { "5579-6665" }, reset = false, questID = { 92218 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571169] = { zoneID = 2413, artID = { 1942 }, x = 6128, y = 3516, overlay = { "6128-3516" }, reset = false, questID = { 92217 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571170] = { zoneID = 2413, artID = { 1942 }, x = 6374, y = 4145, overlay = { "6374-4145" }, reset = false, questID = { 92216 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571171] = { zoneID = 2413, artID = { 1942 }, x = 6243, y = 4085, overlay = { "6243-4085" }, reset = false, questID = { 92245 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571172] = { zoneID = 2413, artID = { 1942 }, x = 6142, y = 3712, overlay = { "6142-3712" }, reset = false, questID = { 92244 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571173] = { zoneID = 2413, artID = { 1942 }, x = 4687, y = 4847, overlay = { "4687-4847" }, reset = false, questID = { 92243 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571174] = { zoneID = 2413, artID = { 1942 }, x = 4326, y = 4035, overlay = { "4326-4035" }, reset = false, questID = { 92242 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571175] = { zoneID = 2413, artID = { 1942 }, x = 4195, y = 3773, overlay = { "4195-3773" }, reset = false, questID = { 92241 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571176] = { zoneID = 2413, artID = { 1942 }, x = 7371, y = 6173, overlay = { "7371-6173" }, reset = false, questID = { 92240 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571177] = { zoneID = 2413, artID = { 1942 }, x = 7371, y = 6830, overlay = { "7371-6830" }, reset = false, questID = { 92239 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571178] = { zoneID = 2413, artID = { 1942 }, x = 5867, y = 3020, overlay = { "5867-3020" }, reset = false, questID = { 92238 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571179] = { zoneID = 2413, artID = { 1942 }, x = 5138, y = 2032, overlay = { "5138-2032" }, reset = false, questID = { 92237 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571180] = { zoneID = 2413, artID = { 1942 }, x = 4478, y = 3570, overlay = { "4478-3570" }, reset = false, questID = { 92236 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571181] = { zoneID = 2413, artID = { 1942 }, x = 5450, y = 3886, overlay = { "5450-3886" }, reset = false, questID = { 92255 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571264] = { zoneID = 2413, artID = { 1942 }, x = 6249, y = 4431, overlay = { "6249-4431" }, reset = false, questID = { 92254 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571265] = { zoneID = 2413, artID = { 1942 }, x = 6072, y = 4541, overlay = { "6072-4541" }, reset = false, questID = { 92253 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571266] = { zoneID = 2413, artID = { 1942 }, x = 6123, y = 5047, overlay = { "6123-5047" }, reset = false, questID = { 92252 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571267] = { zoneID = 2413, artID = { 1942 }, x = 4827, y = 5059, overlay = { "4827-5059" }, reset = false, questID = { 92251 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571268] = { zoneID = 2413, artID = { 1942 }, x = 5188, y = 7662, overlay = { "5188-7662" }, reset = false, questID = { 92250 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571269] = { zoneID = 2413, artID = { 1942 }, x = 3609, y = 8144, overlay = { "3609-8144" }, reset = false, questID = { 92249 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571270] = { zoneID = 2413, artID = { 1942 }, x = 3081, y = 6365, overlay = { "3081-6365" }, reset = false, questID = { 92248 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571271] = { zoneID = 2413, artID = { 1942 }, x = 3589, y = 7427, overlay = { "3589-7427" }, reset = false, questID = { 92247 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571272] = { zoneID = 2413, artID = { 1942 }, x = 4134, y = 6612, overlay = { "4134-6612" }, reset = false, questID = { 92246 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571273] = { zoneID = 2413, artID = { 1942 }, x = 4134, y = 6807, overlay = { "4134-6807" }, reset = false, questID = { 92265 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571274] = { zoneID = 2413, artID = { 1942 }, x = 6530, y = 5774, overlay = { "6530-5774" }, reset = false, questID = { 92264 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571275] = { zoneID = 2413, artID = { 1942 }, x = 6248, y = 5867, overlay = { "6248-5867" }, reset = false, questID = { 92263 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571276] = { zoneID = 2413, artID = { 1942 }, x = 6399, y = 4863, overlay = { "6399-4863" }, reset = false, questID = { 92262 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571277] = { zoneID = 2413, artID = { 1942 }, x = 6589, y = 4469, overlay = { "6589-4469" }, reset = false, questID = { 92261 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571278] = { zoneID = 2413, artID = { 1942 }, x = 7288, y = 3719, overlay = { "7288-3719" }, reset = false, questID = { 92260 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571279] = { zoneID = 2413, artID = { 1942 }, x = 4218, y = 2226, overlay = { "4218-2226" }, reset = false, questID = { 92259 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571280] = { zoneID = 2413, artID = { 1942 }, x = 5450, y = 5206, overlay = { "5450-5206" }, reset = false, questID = { 92258 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571281] = { zoneID = 2413, artID = { 1942 }, x = 6797, y = 2000, overlay = { "6797-2000" }, reset = false, questID = { 92257 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571282] = { zoneID = 2413, artID = { 1942 }, x = 3697, y = 4830, overlay = { "3697-4830" }, reset = false, questID = { 92256 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571283] = { zoneID = 2413, artID = { 1942 }, x = 3909, y = 5510, overlay = { "3909-5510" }, reset = false, questID = { 92266 }, achievementID = { 61052 }, minieventID = 55, renown = 4 }; --Glowing Moth
-	[571289] = { zoneID = 2413, artID = { 1942 }, x = 3936, y = 6136, overlay = { "3936-6136" }, reset = false, questID = { 92308 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571290] = { zoneID = 2413, artID = { 1942 }, x = 7583, y = 5015, overlay = { "7583-5015" }, reset = false, questID = { 92316 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571291] = { zoneID = 2413, artID = { 1942 }, x = 6945, y = 4898, overlay = { "6945-4898" }, reset = false, questID = { 92315 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571292] = { zoneID = 2413, artID = { 1942 }, x = 4106, y = 6735, overlay = { "4106-6735" }, reset = false, questID = { 92314 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571293] = { zoneID = 2413, artID = { 1942 }, x = 4088, y = 5152, overlay = { "4088-5152" }, reset = false, questID = { 92313 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571294] = { zoneID = 2413, artID = { 1942 }, x = 2883, y = 6691, overlay = { "2883-6691" }, reset = false, questID = { 92312 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571295] = { zoneID = 2413, artID = { 1942 }, x = 6251, y = 5374, overlay = { "6251-5374" }, reset = false, questID = { 92311 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571296] = { zoneID = 2413, artID = { 1942 }, x = 7410, y = 5339, overlay = { "7410-5339" }, reset = false, questID = { 92310 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571297] = { zoneID = 2413, artID = { 1942 }, x = 5658, y = 5716, overlay = { "5658-5716" }, reset = false, questID = { 92309 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
+			  }, reset = false, questID = { 92214 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571142] = { zoneID = 2413, artID = { 1942 }, x = 3206, y = 6715, overlay = { "3206-6708" }, reset = false, questID = { 92213 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571143] = { zoneID = 2413, artID = { 1942 }, x = 3262, y = 8477, overlay = { "3262-8477" }, reset = false, questID = { 92212 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571144] = { zoneID = 2413, artID = { 1942 }, x = 3035, y = 7332, overlay = { "3031-7340" }, reset = false, questID = { 92211 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571145] = { zoneID = 2413, artID = { 1942 }, x = 4321, y = 5359, overlay = { "4321-5365" }, reset = false, questID = { 92210 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571146] = { zoneID = 2413, artID = { 1942 }, x = 6035, y = 4857, overlay = { "6034-4859" }, reset = false, questID = { 92209 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571147] = { zoneID = 2413, artID = { 1942 }, x = 3398, y = 4405, overlay = { "3394-4403" }, reset = false, questID = { 92208 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571148] = { zoneID = 2413, artID = { 1942 }, x = 3835, y = 4740, overlay = { "3835-4740" }, reset = false, questID = { 92207 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571149] = { zoneID = 2413, artID = { 1942 }, x = 6234, y = 3713, overlay = { "6234-3713" }, reset = false, questID = { 92226 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571150] = { zoneID = 2413, artID = { 1942 }, x = 4927, y = 7552, overlay = { "4927-7552" }, reset = false, questID = { 92235 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571151] = { zoneID = 2413, artID = { 1942 }, x = 5025, y = 6967, overlay = { "5025-6967" }, reset = false, questID = { 92234 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571152] = { zoneID = 2413, artID = { 1942 }, x = 6868, y = 3633, overlay = { "6868-3633" }, reset = false, questID = { 92233 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571153] = { zoneID = 2413, artID = { 1942 }, x = 5032, y = 3357, overlay = { "5034-3359" }, reset = false, questID = { 92232 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571154] = { zoneID = 2413, artID = { 1942 }, x = 4763, y = 4696, overlay = { "4763-4696" }, reset = false, questID = { 92231 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571155] = { zoneID = 2413, artID = { 1942 }, x = 4161, y = 4011, overlay = { "4161-4011" }, reset = false, questID = { 92230 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571156] = { zoneID = 2413, artID = { 1942 }, x = 5376, y = 5910, overlay = { "5376-5910" }, reset = false, questID = { 92229 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571157] = { zoneID = 2413, artID = { 1942 }, x = 6696, y = 5659, overlay = { "6696-5656" }, reset = false, questID = { 92228 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571158] = { zoneID = 2413, artID = { 1942 }, x = 5514, y = 3284, overlay = { "5514-3288" }, reset = false, questID = { 92227 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571159] = { zoneID = 2413, artID = { 1942 }, x = 4641, y = 2482, overlay = { "4638-2488" }, reset = false, questID = { 92225 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 1 }; --Glowing Moth
+	[571162] = { zoneID = 2413, artID = { 1942 }, x = 4307, y = 3946, overlay = { "4307-3946" }, reset = false, questID = { 92224 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571163] = { zoneID = 2413, artID = { 1942 }, x = 4403, y = 3812, overlay = { "4403-3812" }, reset = false, questID = { 92223 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571164] = { zoneID = 2413, artID = { 1942 }, x = 6035, y = 1776, overlay = { "6035-1776" }, reset = false, questID = { 92222 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571165] = { zoneID = 2413, artID = { 1942 }, x = 7172, y = 5881, overlay = { "7172-5881" }, reset = false, questID = { 92221 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571166] = { zoneID = 2413, artID = { 1942 }, x = 7401, y = 5723, overlay = { "7401-5723" }, reset = false, questID = { 92220 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571167] = { zoneID = 2413, artID = { 1942 }, x = 5561, y = 6430, overlay = { "5561-6430" }, reset = false, questID = { 92219 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571168] = { zoneID = 2413, artID = { 1942 }, x = 5579, y = 6665, overlay = { "5579-6665" }, reset = false, questID = { 92218 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571169] = { zoneID = 2413, artID = { 1942 }, x = 6128, y = 3516, overlay = { "6128-3516" }, reset = false, questID = { 92217 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571170] = { zoneID = 2413, artID = { 1942 }, x = 6374, y = 4145, overlay = { "6374-4145" }, reset = false, questID = { 92216 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571171] = { zoneID = 2413, artID = { 1942 }, x = 6243, y = 4085, overlay = { "6243-4085" }, reset = false, questID = { 92245 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571172] = { zoneID = 2413, artID = { 1942 }, x = 6142, y = 3712, overlay = { "6142-3712" }, reset = false, questID = { 92244 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571173] = { zoneID = 2413, artID = { 1942 }, x = 4687, y = 4847, overlay = { "4687-4847" }, reset = false, questID = { 92243 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571174] = { zoneID = 2413, artID = { 1942 }, x = 4326, y = 4035, overlay = { "4326-4035" }, reset = false, questID = { 92242 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571175] = { zoneID = 2413, artID = { 1942 }, x = 4195, y = 3773, overlay = { "4195-3773" }, reset = false, questID = { 92241 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571176] = { zoneID = 2413, artID = { 1942 }, x = 7371, y = 6173, overlay = { "7371-6173" }, reset = false, questID = { 92240 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571177] = { zoneID = 2413, artID = { 1942 }, x = 7371, y = 6830, overlay = { "7371-6830" }, reset = false, questID = { 92239 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571178] = { zoneID = 2413, artID = { 1942 }, x = 5867, y = 3020, overlay = { "5867-3020" }, reset = false, questID = { 92238 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571179] = { zoneID = 2413, artID = { 1942 }, x = 5138, y = 2032, overlay = { "5138-2032" }, reset = false, questID = { 92237 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571180] = { zoneID = 2413, artID = { 1942 }, x = 4478, y = 3570, overlay = { "4478-3570" }, reset = false, questID = { 92236 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571181] = { zoneID = 2413, artID = { 1942 }, x = 5450, y = 3886, overlay = { "5450-3886" }, reset = false, questID = { 92255 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571264] = { zoneID = 2413, artID = { 1942 }, x = 6249, y = 4431, overlay = { "6249-4431" }, reset = false, questID = { 92254 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571265] = { zoneID = 2413, artID = { 1942 }, x = 6072, y = 4541, overlay = { "6072-4541" }, reset = false, questID = { 92253 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571266] = { zoneID = 2413, artID = { 1942 }, x = 6123, y = 5047, overlay = { "6123-5047" }, reset = false, questID = { 92252 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571267] = { zoneID = 2413, artID = { 1942 }, x = 4827, y = 5059, overlay = { "4827-5059" }, reset = false, questID = { 92251 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571268] = { zoneID = 2413, artID = { 1942 }, x = 5188, y = 7662, overlay = { "5188-7662" }, reset = false, questID = { 92250 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571269] = { zoneID = 2413, artID = { 1942 }, x = 3609, y = 8144, overlay = { "3609-8144" }, reset = false, questID = { 92249 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571270] = { zoneID = 2413, artID = { 1942 }, x = 3081, y = 6365, overlay = { "3081-6365" }, reset = false, questID = { 92248 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571271] = { zoneID = 2413, artID = { 1942 }, x = 3589, y = 7427, overlay = { "3589-7427" }, reset = false, questID = { 92247 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571272] = { zoneID = 2413, artID = { 1942 }, x = 4134, y = 6612, overlay = { "4134-6612" }, reset = false, questID = { 92246 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571273] = { zoneID = 2413, artID = { 1942 }, x = 4134, y = 6807, overlay = { "4134-6807" }, reset = false, questID = { 92265 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571274] = { zoneID = 2413, artID = { 1942 }, x = 6530, y = 5774, overlay = { "6530-5774" }, reset = false, questID = { 92264 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571275] = { zoneID = 2413, artID = { 1942 }, x = 6248, y = 5867, overlay = { "6248-5867" }, reset = false, questID = { 92263 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571276] = { zoneID = 2413, artID = { 1942 }, x = 6399, y = 4863, overlay = { "6399-4863" }, reset = false, questID = { 92262 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571277] = { zoneID = 2413, artID = { 1942 }, x = 6589, y = 4469, overlay = { "6589-4469" }, reset = false, questID = { 92261 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571278] = { zoneID = 2413, artID = { 1942 }, x = 7288, y = 3719, overlay = { "7288-3719" }, reset = false, questID = { 92260 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571279] = { zoneID = 2413, artID = { 1942 }, x = 4218, y = 2226, overlay = { "4218-2226" }, reset = false, questID = { 92259 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571280] = { zoneID = 2413, artID = { 1942 }, x = 5450, y = 5206, overlay = { "5450-5206" }, reset = false, questID = { 92258 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571281] = { zoneID = 2413, artID = { 1942 }, x = 6797, y = 2000, overlay = { "6797-2000" }, reset = false, questID = { 92257 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571282] = { zoneID = 2413, artID = { 1942 }, x = 3697, y = 4830, overlay = { "3697-4830" }, reset = false, questID = { 92256 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571283] = { zoneID = 2413, artID = { 1942 }, x = 3909, y = 5510, overlay = { "3909-5510" }, reset = false, questID = { 92266 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 4 }; --Glowing Moth
+	[571289] = { zoneID = 2413, artID = { 1942 }, x = 3936, y = 6136, overlay = { "3936-6136" }, reset = false, questID = { 92308 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571290] = { zoneID = 2413, artID = { 1942 }, x = 7583, y = 5015, overlay = { "7583-5015" }, reset = false, questID = { 92316 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571291] = { zoneID = 2413, artID = { 1942 }, x = 6945, y = 4898, overlay = { "6945-4898" }, reset = false, questID = { 92315 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571292] = { zoneID = 2413, artID = { 1942 }, x = 4106, y = 6735, overlay = { "4106-6735" }, reset = false, questID = { 92314 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571293] = { zoneID = 2413, artID = { 1942 }, x = 4088, y = 5152, overlay = { "4088-5152" }, reset = false, questID = { 92313 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571294] = { zoneID = 2413, artID = { 1942 }, x = 2883, y = 6691, overlay = { "2883-6691" }, reset = false, questID = { 92312 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571295] = { zoneID = 2413, artID = { 1942 }, x = 6251, y = 5374, overlay = { "6251-5374" }, reset = false, questID = { 92311 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571296] = { zoneID = 2413, artID = { 1942 }, x = 7410, y = 5339, overlay = { "7410-5339" }, reset = false, questID = { 92310 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571297] = { zoneID = 2413, artID = { 1942 }, x = 5658, y = 5716, overlay = { "5658-5716" }, reset = false, questID = { 92309 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
 	[571298] = { zoneID = {
 				[2413] = { x = 5299, y = 5598, artID = { 1942 }, overlay = { "5299-5598" } };
 				[2576] = { x = 6185, y = 7560, artID = { 2078 }, overlay = { "6185-7560" } };
-			  }, reset = false, questID = { 92277 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571299] = { zoneID = 2413, artID = { 1942 }, x = 4443, y = 4518, overlay = { "4443-4518" }, reset = false, questID = { 92286 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571300] = { zoneID = 2413, artID = { 1942 }, x = 3463, y = 2422, overlay = { "3463-2422" }, reset = false, questID = { 92285 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571301] = { zoneID = 2413, artID = { 1942 }, x = 4776, y = 2338, overlay = { "4776-2338" }, reset = false, questID = { 92284 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571302] = { zoneID = 2413, artID = { 1942 }, x = 4848, y = 2827, overlay = { "4848-2827" }, reset = false, questID = { 92283 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571303] = { zoneID = 2413, artID = { 1942 }, x = 5602, y = 2452, overlay = { "5602-2452" }, reset = false, questID = { 92282 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571304] = { zoneID = 2413, artID = { 1942 }, x = 6825, y = 2778, overlay = { "6825-2778" }, reset = false, questID = { 92281 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571305] = { zoneID = 2413, artID = { 1942 }, x = 7204, y = 3314, overlay = { "7204-3314" }, reset = false, questID = { 92280 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571306] = { zoneID = 2413, artID = { 1942 }, x = 6650, y = 3310, overlay = { "6650-3310" }, reset = false, questID = { 92279 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571307] = { zoneID = 2413, artID = { 1942 }, x = 4319, y = 2734, overlay = { "4319-2734" }, reset = false, questID = { 92278 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571308] = { zoneID = 2413, artID = { 1942 }, x = 4724, y = 6610, overlay = { "4724-6610" }, reset = false, questID = { 92267 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571310] = { zoneID = 2413, artID = { 1942 }, x = 4610, y = 7184, overlay = { "4610-7184" }, reset = false, questID = { 92276 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571311] = { zoneID = 2413, artID = { 1942 }, x = 5010, y = 8017, overlay = { "5010-8017" }, reset = false, questID = { 92275 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571312] = { zoneID = 2413, artID = { 1942 }, x = 5400, y = 7303, overlay = { "5400-7303" }, reset = false, questID = { 92274 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571313] = { zoneID = 2413, artID = { 1942 }, x = 4501, y = 5808, overlay = { "4501-5808" }, reset = false, questID = { 92273 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571314] = { zoneID = 2413, artID = { 1942 }, x = 6704, y = 4838, overlay = { "6704-4838" }, reset = false, questID = { 92272 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571315] = { zoneID = 2413, artID = { 1942 }, x = 7117, y = 3910, overlay = { "7117-3910" }, reset = false, questID = { 92271 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571316] = { zoneID = 2413, artID = { 1942 }, x = 5454, y = 3176, overlay = { "5454-3176" }, reset = false, questID = { 92270 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571317] = { zoneID = 2413, artID = { 1942 }, x = 5242, y = 2921, overlay = { "5242-2921" }, reset = false, questID = { 92269 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571318] = { zoneID = 2413, artID = { 1942 }, x = 4773, y = 3285, overlay = { "4773-3285" }, reset = false, questID = { 92268 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571319] = { zoneID = 2413, artID = { 1942 }, x = 3448, y = 6898, overlay = { "3448-6898" }, reset = false, questID = { 92296 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571320] = { zoneID = 2413, artID = { 1942 }, x = 3461, y = 4856, overlay = { "3461-4856" }, reset = false, questID = { 92295 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571321] = { zoneID = 2413, artID = { 1942 }, x = 4904, y = 7069, overlay = { "4904-7069" }, reset = false, questID = { 92294 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571322] = { zoneID = 2413, artID = { 1942 }, x = 4855, y = 2623, overlay = { "4855-2623" }, reset = false, questID = { 92293 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571323] = { zoneID = 2413, artID = { 1942 }, x = 6935, y = 6295, overlay = { "6935-6295" }, reset = false, questID = { 92292 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571324] = { zoneID = 2413, artID = { 1942 }, x = 7173, y = 6746, overlay = { "7173-6746" }, reset = false, questID = { 92291 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571325] = { zoneID = 2413, artID = { 1942 }, x = 6257, y = 6459, overlay = { "6257-6459" }, reset = false, questID = { 92290 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571326] = { zoneID = 2413, artID = { 1942 }, x = 6514, y = 5084, overlay = { "6514-5084" }, reset = false, questID = { 92289 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571327] = { zoneID = 2413, artID = { 1942 }, x = 2984, y = 8765, overlay = { "2984-8765" }, reset = false, questID = { 92288 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571328] = { zoneID = 2413, artID = { 1942 }, x = 2739, y = 7032, overlay = { "2739-7032" }, reset = false, questID = { 92287 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
-	[571329] = { zoneID = 2413, artID = { 1942 }, x = 3921, y = 1835, overlay = { "3921-1835" }, reset = false, questID = { 92297 }, achievementID = { 61052 }, minieventID = 55, renown = 9 }; --Glowing Moth
+			  }, reset = false, questID = { 92277 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571299] = { zoneID = 2413, artID = { 1942 }, x = 4443, y = 4518, overlay = { "4443-4518" }, reset = false, questID = { 92286 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571300] = { zoneID = 2413, artID = { 1942 }, x = 3463, y = 2422, overlay = { "3463-2422" }, reset = false, questID = { 92285 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571301] = { zoneID = 2413, artID = { 1942 }, x = 4776, y = 2338, overlay = { "4776-2338" }, reset = false, questID = { 92284 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571302] = { zoneID = 2413, artID = { 1942 }, x = 4848, y = 2827, overlay = { "4848-2827" }, reset = false, questID = { 92283 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571303] = { zoneID = 2413, artID = { 1942 }, x = 5602, y = 2452, overlay = { "5602-2452" }, reset = false, questID = { 92282 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571304] = { zoneID = 2413, artID = { 1942 }, x = 6825, y = 2778, overlay = { "6825-2778" }, reset = false, questID = { 92281 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571305] = { zoneID = 2413, artID = { 1942 }, x = 7204, y = 3314, overlay = { "7204-3314" }, reset = false, questID = { 92280 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571306] = { zoneID = 2413, artID = { 1942 }, x = 6650, y = 3310, overlay = { "6650-3310" }, reset = false, questID = { 92279 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571307] = { zoneID = 2413, artID = { 1942 }, x = 4319, y = 2734, overlay = { "4319-2734" }, reset = false, questID = { 92278 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571308] = { zoneID = 2413, artID = { 1942 }, x = 4724, y = 6610, overlay = { "4724-6610" }, reset = false, questID = { 92267 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571310] = { zoneID = 2413, artID = { 1942 }, x = 4610, y = 7184, overlay = { "4610-7184" }, reset = false, questID = { 92276 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571311] = { zoneID = 2413, artID = { 1942 }, x = 5010, y = 8017, overlay = { "5010-8017" }, reset = false, questID = { 92275 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571312] = { zoneID = 2413, artID = { 1942 }, x = 5400, y = 7303, overlay = { "5400-7303" }, reset = false, questID = { 92274 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571313] = { zoneID = 2413, artID = { 1942 }, x = 4501, y = 5808, overlay = { "4501-5808" }, reset = false, questID = { 92273 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571314] = { zoneID = 2413, artID = { 1942 }, x = 6704, y = 4838, overlay = { "6704-4838" }, reset = false, questID = { 92272 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571315] = { zoneID = 2413, artID = { 1942 }, x = 7117, y = 3910, overlay = { "7117-3910" }, reset = false, questID = { 92271 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571316] = { zoneID = 2413, artID = { 1942 }, x = 5454, y = 3176, overlay = { "5454-3176" }, reset = false, questID = { 92270 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571317] = { zoneID = 2413, artID = { 1942 }, x = 5242, y = 2921, overlay = { "5242-2921" }, reset = false, questID = { 92269 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571318] = { zoneID = 2413, artID = { 1942 }, x = 4773, y = 3285, overlay = { "4773-3285" }, reset = false, questID = { 92268 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571319] = { zoneID = 2413, artID = { 1942 }, x = 3448, y = 6898, overlay = { "3448-6898" }, reset = false, questID = { 92296 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571320] = { zoneID = 2413, artID = { 1942 }, x = 3461, y = 4856, overlay = { "3461-4856" }, reset = false, questID = { 92295 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571321] = { zoneID = 2413, artID = { 1942 }, x = 4904, y = 7069, overlay = { "4904-7069" }, reset = false, questID = { 92294 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571322] = { zoneID = 2413, artID = { 1942 }, x = 4855, y = 2623, overlay = { "4855-2623" }, reset = false, questID = { 92293 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571323] = { zoneID = 2413, artID = { 1942 }, x = 6935, y = 6295, overlay = { "6935-6295" }, reset = false, questID = { 92292 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571324] = { zoneID = 2413, artID = { 1942 }, x = 7173, y = 6746, overlay = { "7173-6746" }, reset = false, questID = { 92291 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571325] = { zoneID = 2413, artID = { 1942 }, x = 6257, y = 6459, overlay = { "6257-6459" }, reset = false, questID = { 92290 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571326] = { zoneID = 2413, artID = { 1942 }, x = 6514, y = 5084, overlay = { "6514-5084" }, reset = false, questID = { 92289 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571327] = { zoneID = 2413, artID = { 1942 }, x = 2984, y = 8765, overlay = { "2984-8765" }, reset = false, questID = { 92288 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571328] = { zoneID = 2413, artID = { 1942 }, x = 2739, y = 7032, overlay = { "2739-7032" }, reset = false, questID = { 92287 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
+	[571329] = { zoneID = 2413, artID = { 1942 }, x = 3921, y = 1835, overlay = { "3921-1835" }, reset = false, questID = { 92297 }, achievementID = { 61052 }, minieventID = 55, onlyWb = true, renown = 9 }; --Glowing Moth
 	[572958] = { zoneID = 2413, artID = { 1942 }, x = 7168, y = 3107, overlay = { "7169-3100" }, reset = false, questID = { 92424 }, achievementID = { 61263 }, minieventID = 52, criteria = 1 }; --Failed Shroom Jumper's Satchel
 	[572998] = { zoneID = 2413, artID = { 1942 }, x = 4711, y = 5032, overlay = { "4708-5026" }, reset = false, questID = { 92426 }, achievementID = { 61263 }, minieventID = 52, criteria = 2 }; --Burning Branch of the World Tree
 	[573050] = { zoneID = 2413, artID = { 1942 }, x = 7363, y = 6530, overlay = { "7366-6536" }, reset = false, questID = { 92427 }, achievementID = { 61263 }, minieventID = 52, criteria = 3 }; --Sporelord's Fight Prize
@@ -2441,7 +2441,7 @@ private.CONTAINER_INFO = {
 	[618276] = { zoneID = 2504, artID = { 2014 }, x = 5690, y = 8572, overlay = { "5690-8572" }, reset = false, questID = { 94020 }, achievementID = { 61896 } }; --Sturdy Chest
 	[618288] = { zoneID = 2504, artID = { 2014 }, x = 2172, y = 3624, overlay = { "2172-3624" }, reset = false, questID = { 94034 }, achievementID = { 61896 } }; --Sturdy Chest
 	[618289] = { zoneID = 2504, artID = { 2014 }, x = 4691, y = 4996, overlay = { "4691-4996" }, reset = false, questID = { 94037 }, achievementID = { 61896 } }; --Sturdy Chest
-	[618272] = { zoneID = 2505, artID = { 2015 }, x = 5260, y = 8150, overlay = { "5260-8150" }, reset = false, questID = { 94016 }, achievementID = { 61898 } }; --Sturdy Chest
+	[618272] = { zoneID = 2505, artID = { 2015 }, x = 3990, y = 2668, overlay = { "3990-2668" }, reset = false, questID = { 94016 }, achievementID = { 61898 } }; --Sturdy Chest
 	[618278] = { zoneID = 2505, artID = { 2015 }, x = 5425, y = 2519, overlay = { "5425-2519" }, reset = false, questID = { 94023 }, achievementID = { 61898 } }; --Sturdy Chest
 	[618292] = { zoneID = 2505, artID = { 2015 }, x = 5552, y = 2615, overlay = { "5552-2615" }, reset = false, questID = { 94041 }, achievementID = { 61898 } }; --Sturdy Chest
 	[618273] = { zoneID = 2506, artID = { 2016 }, x = 4179, y = 5376, overlay = { "4179-5376" }, reset = false, questID = { 94017 }, achievementID = { 61900 } }; --Sturdy Chest

@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: husandro
-## Version: 1.9.57
+## Version: 1.9.69
 
 ## Title: |cffff00ffWoW|r|cff00ff00Tools|r
 ## Notes: |A:Icon-WoW:0:0|aWoW |cffff4800Plus|r|n|A:WoWShare-TwitterLogo:0:0|a|cff00ccffhttps://github.com/husandro/WoWTools|r
@@ -390,7 +390,7 @@ Plus\Challenge\z_Blizzard_WeeklyRewards.lua
 Plus\Challenge\z_AvailableRewards.lua
 Plus\Challenge\z_Say_ChallengeComplete.lua
 Plus\Challenge\z_Is_HuSandro.lua
-Plus\Challenge\z_Chat_Affix.lua
+##Plus\Challenge\z_Chat_Affix.lua
 ##邮件，增加
 Plus\Mail\1_Init.lua
 Plus\Mail\2_Menu.lua

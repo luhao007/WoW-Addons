@@ -56,7 +56,7 @@ function BusinessInfo.FastSave()
 	BusinessInfo.ADDScroll(fujiF_Take,_GN_Take,_GNE_Take,18,{true,"AutoSellBuy",_GNE_Take.."_List"})
 	--
 	local www,hhh = 25,25
-	local NewItemTypeLsit = PIGCopyTable(Data.ItemTypeLsit)
+	local NewItemTypeLsit = CopyTable(Data.ItemTypeLsit)
 	table.insert(NewItemTypeLsit,1,{133784,"G",CUSTOM})
 	table.insert(NewItemTypeLsit,{135860,"diy",CUSTOM})
 	local function SavezhixingFun(typeid,itemID,bag,slot,cfvv)

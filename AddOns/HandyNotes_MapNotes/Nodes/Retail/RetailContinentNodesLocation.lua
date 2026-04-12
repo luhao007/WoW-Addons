@@ -1332,9 +1332,18 @@ ns.currentSourceFile = "RetailContinentNodesLocation.lua"
 
         if self.db.profile.showContinentQuelThalas then
 
+          -- Quel'Thalas Portals
+          if self.db.profile.showContinentPortals then
+            nodes[2537][24503884] = { mnID = 2393, name = "", type = "WayGateGolden", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. ZONE .. ": " .. ns.SpiresOfArak .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.Skyreach .. "\n\n" .. ZONE .. ": " .. ns.Icecrown .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.PitOfSaron .. "\n\n" .. ZONE .. ": " .. ns.Eredath .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.SeatOfTheTriumvirate .. "\n\n" .. ZONE .. ": " .. ns.Thaldraszus .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.AlgetharAcademy } --  Portal from Dornogal to the Timeways
+    
+            if self.faction == "Alliance" or db.activate.ContinentEnemyFaction then
+              --nodes[1978][25006083] = { mnID = "2239",  name = "", type = "APortal", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = L["Portals"] .. "\n" .. " ==> " .. ns.Stormwind .. "\n" .. " ==> " .. ns.Darkshore .. "\n" .. " ==> " .. ns.Hyjal  .. "\n" .. " ==> " .. POSTMASTER_LETTER_LORLATHIL } -- Valdrakken to Stormwind City Portal
+            end
+          end
+
           -- Quel'Thalas MapNotesIcons
           if self.db.profile.showContinentMapNotes then
-            nodes[2537][27433952] = { mnID = 2393, name = "", type = "HAIcon", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = ns.Silvermoon .. " (" .. EXPANSION_NAME11 .. ")\n\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Harandar .. "\n" .. " ==> " .. ns.VoidTempest .. "\n" .. " ==> " .. ns.Stormwind  .. "\n\n" .. CALENDAR_TYPE_DUNGEON .. "\n ==> " .. ns.MurderRow .."\n\n" .. DELVES_LABEL .. "\n ==> " .. ns.TheDarkway .. "\n ==> " .. ns.CollegiateCalamity .. "\n\n" .. L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. " ==> " .. ns.SpiresOfArak .. "\n" .. " ==> " .. ns.Icecrown .. "\n" .. " ==> " .. ns.Eredath .. "\n" .. " ==> " .. ns.Thaldraszus } -- Dornogal
+            nodes[2537][27433952] = { mnID = 2393, name = "", type = "HAIcon", showOnContinent = true, showInZone = false, showOnMinimap = false, TransportName = ns.Silvermoon .. " (" .. EXPANSION_NAME11 .. ")\n\n" .. L["Portals"] .. "\n" ..  " ==> " .. ns.Orgrimmar .. "\n" .. " ==> " .. ns.Harandar .. "\n" .. " ==> " .. ns.VoidTempest .. "\n" .. " ==> " .. ns.Stormwind  .. "\n\n" .. CALENDAR_TYPE_DUNGEON .. "\n ==> " .. ns.MurderRow .."\n\n" .. DELVES_LABEL .. "\n ==> " .. ns.TheDarkway .. "\n ==> " .. ns.CollegiateCalamity } -- Dornogal
           end
 
           -- Quel'Thalas Dungeons

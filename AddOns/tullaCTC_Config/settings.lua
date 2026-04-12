@@ -1,12 +1,14 @@
--- Settings API for tullaCTC configuration
--- Handles data access and manipulation, separate from UI
-
 local _, Addon = ...
 local tullaCTC = _G.tullaCTC
 
---------------------------------------------------------------------------------
--- Theme Management
---------------------------------------------------------------------------------
+-- Addon-level callbacks for data → UI communication
+Mixin(Addon, CallbackRegistryMixin)
+CallbackRegistryMixin.OnLoad(Addon)
+
+Addon:GenerateCallbackEvents {
+    "OnThemeListChanged",
+    "OnThemeColorsChanged",
+}
 
 function Addon:GetThemes()
     return tullaCTC.db.profile.themes
@@ -30,10 +32,12 @@ function Addon:CreateTheme(name, baseThemeID)
 
         tullaCTC.db.profile.themes[key] = theme
     else
+        -- AceDB ['**'] defaults auto-create this table on first index
         tullaCTC.db.profile.themes[key].displayName = name
     end
 
     tullaCTC:Refresh()
+    self:TriggerEvent("OnThemeListChanged", key)
     return key
 end
 
@@ -43,7 +47,15 @@ function Addon:DeleteTheme(themeID)
     end
 
     tullaCTC.db.profile.themes[themeID] = nil
+
+    for _, settings in pairs(tullaCTC.db.profile.rules) do
+        if settings.theme == themeID then
+            settings.theme = "default"
+        end
+    end
+
     tullaCTC:Refresh()
+    self:TriggerEvent("OnThemeListChanged")
     return true
 end
 
@@ -52,7 +64,6 @@ function Addon:ResetTheme(themeID)
         return false
     end
 
-    -- grab values we want to persist after resetting
     local theme = tullaCTC.db.profile.themes[themeID]
     local baseThemeID = theme.base
     local displayName = theme.displayName
@@ -60,20 +71,6 @@ function Addon:ResetTheme(themeID)
     tullaCTC.db.profile.themes[themeID] = nil
     return self:CreateTheme(displayName or themeID, baseThemeID)
 end
-
-function Addon:RenameTheme(themeID, newName)
-    local theme = self:GetTheme(themeID)
-    if not theme then
-        return false
-    end
-
-    theme.displayName = newName
-    return true
-end
-
---------------------------------------------------------------------------------
--- Theme Config API
---------------------------------------------------------------------------------
 
 function Addon:SetThemeProperty(themeID, property, value)
     local theme = tullaCTC.db.profile.themes[themeID]
@@ -88,20 +85,16 @@ function Addon:SetThemeProperty(themeID, property, value)
     return false
 end
 
-function Addon:GetSortedTextColors(theme)
-    table.sort(theme.textColors, function(a, b)
-        return a.threshold < b.threshold
-    end)
-
-    return theme.textColors
+function Addon:GetSortedTextColors(themeID)
+    return tullaCTC.db.profile.themes[themeID].textColors
 end
 
-function Addon:AddTextColorEntry(theme, threshold, color)
+function Addon:AddTextColorEntry(themeID, threshold, color)
     if not (threshold and threshold > 0) then
         return false
     end
 
-    local entries = theme.textColors
+    local entries = tullaCTC.db.profile.themes[themeID].textColors
 
     local index = #entries + 1
     for i, entry in ipairs(entries) do
@@ -119,24 +112,25 @@ function Addon:AddTextColorEntry(theme, threshold, color)
     })
 
     tullaCTC:Refresh()
+    self:TriggerEvent("OnThemeColorsChanged", themeID)
     return true
 end
 
-function Addon:RemoveTextColorEntry(theme, index)
-    local entries = theme.textColors
+function Addon:RemoveTextColorEntry(themeID, index)
+    local entries = tullaCTC.db.profile.themes[themeID].textColors
 
     if index > 0 and index <= #entries then
         tremove(entries, index)
         tullaCTC:Refresh()
+        self:TriggerEvent("OnThemeColorsChanged", themeID)
         return true
     end
 
     return false
 end
 
--- ensure textColors is a profile-specific copy before modifying
-function Addon:SetTextColorValue(theme, index, color)
-    local entry = theme.textColors[index]
+function Addon:SetTextColorValue(themeID, index, color)
+    local entry = tullaCTC.db.profile.themes[themeID].textColors[index]
 
     if entry.color ~= color then
         entry.color = color
@@ -147,12 +141,12 @@ function Addon:SetTextColorValue(theme, index, color)
     return false
 end
 
-function Addon:SetTextColorThreshold(theme, index, threshold)
+function Addon:SetTextColorThreshold(themeID, index, threshold)
     if not (threshold and threshold > 0) then
         return false
     end
 
-    local entries = theme.textColors
+    local entries = tullaCTC.db.profile.themes[themeID].textColors
     for _, entry in pairs(entries) do
         if entry.threshold == threshold then
             return false
@@ -161,5 +155,6 @@ function Addon:SetTextColorThreshold(theme, index, threshold)
 
     entries[index].threshold = threshold
     tullaCTC:Refresh()
+    self:TriggerEvent("OnThemeColorsChanged", themeID)
     return true
 end

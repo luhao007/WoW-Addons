@@ -523,14 +523,14 @@ function GDKPInfo.ADD_UI()
 		if #ItemListData>0 then
 			local Old_Data = {}
 			--存储标题
-			Old_Data.Biaoti =PIGCopyTable(PIGA["GDKP"]["instanceName"])
+			Old_Data.Biaoti =CopyTable(PIGA["GDKP"]["instanceName"])
 			--存储物品数据
-			Old_Data.ItemList =PIGCopyTable(PIGA["GDKP"]["ItemList"])
+			Old_Data.ItemList =CopyTable(PIGA["GDKP"]["ItemList"])
 			--存储人员补助数据
-			Old_Data.Players =PIGCopyTable(PIGA["GDKP"]["Raidinfo"])
+			Old_Data.Players =CopyTable(PIGA["GDKP"]["Raidinfo"])
 			--存储奖励数据
 			local jiangliH={};
-			local jiangliH = PIGCopyTable(PIGA["GDKP"]["jiangli"])
+			local jiangliH = CopyTable(PIGA["GDKP"]["jiangli"])
 			for q=#jiangliH,1,-1 do
 				if jiangliH[q][3]==NONE then
 					table.remove(jiangliH,q);
@@ -538,7 +538,7 @@ function GDKPInfo.ADD_UI()
 			end
 			Old_Data.Jiangli=jiangliH
 			--存储罚款数据
-			local fakuanH = PIGCopyTable(PIGA["GDKP"]["fakuan"])
+			local fakuanH = CopyTable(PIGA["GDKP"]["fakuan"])
 			for q=#fakuanH,1,-1 do
 				if fakuanH[q][3]==NONE then
 					table.remove(fakuanH,q);
@@ -546,7 +546,7 @@ function GDKPInfo.ADD_UI()
 			end
 			Old_Data.Fakuan=fakuanH
 			--消费提成
-			local TopsH = PIGCopyTable(PIGA["GDKP"]["Tops"])
+			local TopsH = CopyTable(PIGA["GDKP"]["Tops"])
 			Old_Data.Tops=TopsH
 			--
 			table.insert(PIGA["GDKP"]["History"],Old_Data);

@@ -1295,9 +1295,10 @@ Plater.AnchorNamesByPhraseId = {
 		else
 			if not IS_WOW_PROJECT_MIDNIGHT then
 				TANK_CACHE [UnitName ("player")] = false
-			elseif IS_WOW_PROJECT_MIDNIGHT then
+			else
 				TANK_CACHE ["player"] = false
-			elseif IS_WOW_PROJECT_MAINLINE or IS_WOW_PROJECT_CLASSIC_WRATH or IS_WOW_PROJECT_CLASSIC_MOP then
+			end
+			if IS_WOW_PROJECT_MAINLINE then
 				Plater.PlayerIsTank = false
 			else
 				Plater.PlayerIsTank = false or Plater.db.profile.tank_threat_colors
@@ -1538,7 +1539,7 @@ Plater.AnchorNamesByPhraseId = {
 		["nameplateStackingTypes"] = IS_WOW_PROJECT_MIDNIGHT,
 		["nameplateMotionSpeed"] = not IS_WOW_PROJECT_MIDNIGHT,
 		["nameplateOccludedAlphaMult"] = true,
-		["nameplateOtherAtBase"] = not IS_WOW_PROJECT_MIDNIGHT,
+		["nameplateOtherAtBase"] = true,
 		["nameplateOtherTopInset"] = not IS_WOW_PROJECT_MIDNIGHT,
 		["nameplateOtherBottomInset"] = not IS_WOW_PROJECT_MIDNIGHT,
 		["nameplateOverlapV"] = true,
@@ -4247,7 +4248,7 @@ Plater.AnchorNamesByPhraseId = {
 			unitFrame.PlaterOnScreen = true
 			
 			-- add private aura anchors
-			Plater.HandlePrivateAuraAnchors(plateFrame.unitFrame) -- requires namePlateUnitToken, PlaterOnScreen and IsSelf to be set
+			Plater.HandlePrivateAuraAnchors(plateFrame) -- requires namePlateUnitToken, PlaterOnScreen and IsSelf to be set
 
 			--check if the cast bar test is enabled
 			if (Plater.IsShowingCastBarTest) then
@@ -4361,13 +4362,13 @@ Plater.AnchorNamesByPhraseId = {
 			end
 			
 			plateFrame.unitFrame.PlaterOnScreen = nil
+
+			--remove private aura anchors
+			Plater.HandlePrivateAuraAnchors(plateFrame)
 			
 			--reset auras
 			Plater.ResetAuraContainer (plateFrame.unitFrame.BuffFrame, true, true)
 			Plater.HideNonUsedAuraIcons (plateFrame.unitFrame.BuffFrame)
-			
-			--remove private aura anchors
-			Plater.HandlePrivateAuraAnchors(plateFrame.unitFrame)
 			
 			--tell the framework to execute a cleanup on the unit frame, this is required since Plater set .ClearUnitOnHide to false
 			plateFrame.unitFrame:SetUnit (nil)
@@ -5143,15 +5144,22 @@ function Plater.OnInit() --private --~oninit ~init
 				hooksecurefunc(NamePlateUnitFrameMixin, "UpdateNameClassColor", function(self)
 					local plateFrame = C_NamePlate.GetNamePlateForUnit(self.unit)
 					if not plateFrame then -- secure in dungeon
-						local onlyNamesEnabled = GetCVarBool("nameplateShowOnlyNames") or GetCVarBool("nameplateShowOnlyNameForFriendlyPlayerUnits")
+						--local onlyNamesEnabled = GetCVarBool("nameplateShowOnlyNames") or GetCVarBool("nameplateShowOnlyNameForFriendlyPlayerUnits")
 
-						if onlyNamesEnabled and not self:IsPlayer() then
-							TextureLoadingGroupMixin.AddTexture({ textures = self.HealthBarsContainer.healthBar }, "showOnlyName")
-							TextureLoadingGroupMixin.AddTexture({ textures = self.castBar }, "showOnlyName")
-							TextureLoadingGroupMixin.AddTexture({ textures = self.castBar }, "widgetsOnly")
+						if not UnitIsPlayer(self.unit) then
+							if Plater.db.profile.hide_friendly_npc_healthbar then
+								TextureLoadingGroupMixin.AddTexture({ textures = self.HealthBarsContainer.healthBar }, "showOnlyName")
+								TextureLoadingGroupMixin.AddTexture({ textures = self.castBar }, "showOnlyName")
+								TextureLoadingGroupMixin.AddTexture({ textures = self.castBar }, "widgetsOnly")
+							else
+								TextureLoadingGroupMixin.RemoveTexture({ textures = self.HealthBarsContainer.healthBar }, "showOnlyName")
+								TextureLoadingGroupMixin.RemoveTexture({ textures = self.castBar }, "showOnlyName")
+								TextureLoadingGroupMixin.RemoveTexture({ textures = self.castBar }, "widgetsOnly")
+								--TextureLoadingGroupMixin.RemoveTexture({ textures = self }, "explicitIsPlayer")
+							end
+							--TextureLoadingGroupMixin.AddTexture({ textures = self }, "explicitIsPlayer")
 						end
 						TextureLoadingGroupMixin.AddTexture({ textures = self.optionTable }, "colorNameBySelection")
-						TextureLoadingGroupMixin.AddTexture({ textures = self }, "explicitIsPlayer")
 					end
 				end)
 				hooksecurefunc(NamePlateUnitFrameMixin, "UpdateIsFriend", function(self)
@@ -6914,8 +6922,12 @@ end
 	
 	-- default blizzard plate shenanigans
 	function Plater.UpdateBaseNameplateOptions()
-		if IS_WOW_PROJECT_MIDNIGHT then 
-			TextureLoadingGroupMixin.RemoveTexture({ textures = NamePlateFriendlyFrameOptions }, "updateNameUsesGetUnitName")
+		if IS_WOW_PROJECT_MIDNIGHT then
+			if Plater.db.profile.hide_realm_name_on_blizzard then
+				TextureLoadingGroupMixin.RemoveTexture({ textures = NamePlateFriendlyFrameOptions }, "updateNameUsesGetUnitName")
+			else
+				TextureLoadingGroupMixin.AddTexture({ textures = NamePlateFriendlyFrameOptions }, "updateNameUsesGetUnitName")
+			end
 			return 
 		end
 		if GetCVarBool ("nameplateShowOnlyNames") or Plater.db.profile.saved_cvars.nameplateShowOnlyNames == "1" then
@@ -7827,6 +7839,7 @@ end
 										
 										if (not hasTankAggro) then
 											--the unit isn't targeting a tank and no tank in the group has threat status of 2 or more, the unit might be attacking a dps or healer
+											self.isGoodAggroState = false
 											set_aggro_color (self, unpack (DB_AGGRO_DPS_COLORS.notontank))
 										else
 											--the unit isn't targeting a tank but a tank in the group has aggro on this unit
@@ -8880,7 +8893,7 @@ end
 					DF:SetFontOutline (_G.SystemFont_NamePlate_Outlined, profile.blizzard_nameplate_font_outline)
 					DF:SetFontSize (_G.SystemFont_NamePlate_Outlined, profile.blizzard_nameplate_font_size - 1)
 					
-					C_Timer.After(0.1, function() Plater.UpdateBlizzardNameplateFonts(true, true) end)
+					C_Timer.After(0, function() Plater.UpdateBlizzardNameplateFonts(true, true) end)
 					return
 				end
 			end

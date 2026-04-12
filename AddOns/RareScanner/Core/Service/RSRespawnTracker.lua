@@ -39,7 +39,16 @@ local function CheckRespawnTimers(firstScan)
 				-- It's possible that the quest takes a little bit longer to reset, so check for this NPC later
 				local hasRespawn = true
 				if (npcInfo and npcInfo.questID) then
-					if (firstScan or (not npcInfo.reset and not npcInfo.questReset and not npcInfo.weeklyReset)) then
+					if (npcInfo.onlyWb) then
+						for _, questID in ipairs (npcInfo.questID) do
+							if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
+								hasRespawn = false
+								break
+							end
+						end
+					end
+					
+					if (hasRespawn and (firstScan or (not npcInfo.reset and not npcInfo.questReset and not npcInfo.weeklyReset))) then
 						for _, questID in ipairs (npcInfo.questID) do
 							if (C_QuestLog.IsQuestFlaggedCompleted(questID)) then
 								-- Check this same NPC every 5 minutes during the next 15
@@ -81,7 +90,16 @@ local function CheckRespawnTimers(firstScan)
 				-- It's possible that the quest takes a little bit longer to reset, so check for this container later
 				local hasRespawn = true
 				if (containerInfo and containerInfo.questID) then
-					if (firstScan or (not containerInfo.reset and not containerInfo.questReset and not containerInfo.weeklyReset)) then
+					if (containerInfo.onlyWb) then
+						for _, questID in ipairs (containerInfo.questID) do
+							if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
+								hasRespawn = false
+								break
+							end
+						end
+					end
+					
+					if (hasRespawn and (firstScan or (not containerInfo.reset and not containerInfo.questReset and not containerInfo.weeklyReset))) then
 						for _, questID in ipairs (containerInfo.questID) do
 							if (C_QuestLog.IsQuestFlaggedCompleted(questID)) then
 								RSLogger:PrintDebugMessage(string.format("CheckRespawnTimers [Contenedor: %s], sigue cerrado acorde a su quest [%s]", containerID, questID))
@@ -119,7 +137,16 @@ local function CheckRespawnTimers(firstScan)
 			
 			local hasRespawn = true
 			if (eventInfo and eventInfo.questID) then
-				if (firstScan or (not eventInfo.reset and not eventInfo.questReset and not eventInfo.weeklyReset and not eventInfo.resetTimer)) then
+				if (eventInfo.onlyWb) then
+					for _, questID in ipairs (eventInfo.questID) do
+						if (C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID)) then
+							hasRespawn = false
+							break
+						end
+					end
+				end
+					
+				if (hasRespawn and (firstScan or (not eventInfo.reset and not eventInfo.questReset and not eventInfo.weeklyReset and not eventInfo.resetTimer))) then
 					for _, questID in ipairs (eventInfo.questID) do
 						if (C_QuestLog.IsQuestFlaggedCompleted(questID)) then
 							RSLogger:PrintDebugMessage(string.format("CheckRespawnTimers [Evento: %s], sigue completo acorde a su quest [%s]", eventID, questID))

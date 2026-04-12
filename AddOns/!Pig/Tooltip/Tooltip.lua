@@ -41,7 +41,7 @@ function TooltipPlusfun.InfoPlus()
 				end
 				if txtUI then
 					local Oldtxt = txtUI:GetText()
-		    		if Oldtxt and Oldtxt~=" " then
+		    		if Oldtxt and not PIGisSecret(Oldtxt) and Oldtxt~=" " then
 			    		txtUI:SetText(txtUI:GetText()..'\n|cffffcf00'..ILvltxt..'|r')
 			    		txtUI:SetJustifyH("LEFT")
 		        	end
@@ -71,23 +71,25 @@ function TooltipPlusfun.InfoPlus()
 		ItemTooltipLevel(tooltip,Newlink,classID)
 		if PIGA["Tooltip"]["ItemMaxCount"] or PIGA["Tooltip"]["IDinfo"] then
 			local addtxt_L,addtxt_R="",""
+			if PIGA["Tooltip"]["ItemMaxCount"] then
+				if itemStackCount and itemStackCount>1 then
+					addtxt_L="|cffd33c54"..extinfoList.max.."|r|cffffffff"..itemStackCount.."|r"
+				end
+			end
 			if PIGA["Tooltip"]["IDinfo"] then
 				local itemID = GetItemInfoInstant(Newlink)
 				if itemID then
 					local expacID = expacID or 254
-					addtxt_L="|cffd33c54"..extinfoList.info.."|r|cffffffff"..itemID.."|r"
+					if addtxt_L~="" then
+						addtxt_L=addtxt_L.."  (|cffd33c54"..extinfoList.info.."|r|cffffffff"..itemID.."|r)"
+					else
+						addtxt_L="|cffd33c54"..extinfoList.info.."|r|cffffffff"..itemID.."|r"
+					end
+					
 					addtxt_R=banbendata[expacID] 
 				end
 			end
-			if PIGA["Tooltip"]["ItemMaxCount"] then
-				if itemStackCount and itemStackCount>1 then
-					if PIGA["Tooltip"]["IDinfo"] then
-						addtxt_L=addtxt_L.."  (|cffd33c54"..extinfoList.max.."|r|cffffffff"..itemStackCount..")".."|r"
-					else
-						addtxt_L="|cffd33c54"..extinfoList.max.."|r "..itemStackCount
-					end
-				end
-			end
+
 			tooltip:AddDoubleLine(addtxt_L,addtxt_R)    
 		end
 		if PIGA["Tooltip"]["ItemSell"] then

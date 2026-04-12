@@ -104,6 +104,19 @@ function TitanPanel_SetScale()
 end
 --]]
 
+local function GetTooltipLines(tooltip)
+  local textLines = {}
+  local regions = {tooltip:GetRegions()}
+  local cnt = 1
+  for _, r in ipairs(regions) do
+    if r:IsObjectType("FontString") then
+      print(cnt..": "..tostring(r:GetText()))
+	  cnt = cnt + 1
+    end
+  end
+  return textLines
+end
+
 ---local Helper to add a line of tooltip text to the tooltip.
 ---@param text string To add
 ---@param frame table Tooltip frame
@@ -141,11 +154,17 @@ end
 ---@param xOffset number X offset
 ---@param yOffset number Y offset
 ---@param frame table Tooltip frame
-local function TitanTooltip_SetOwnerPosition(parent, anchorPoint, relativeToFrame, relativePoint, xOffset, yOffset, frame)
+---@param custom boolean If custom / not tooltip frame
+local function SetOwnerPosition(parent, anchorPoint, relativeToFrame, relativePoint, xOffset, yOffset, frame, custom)
 	-- Changes for 9.1.5 Removed the background template from the Tooltip
 	-- Making changes to it difficult and possibly changing the tooltip globally.
 
-	frame:SetOwner(parent, "ANCHOR_NONE");
+	if custom then
+		-- do NOT set owner - it clears the contents!
+	else
+		frame:SetOwner(parent, "ANCHOR_NONE")
+	end
+
 	frame:SetPoint(anchorPoint, relativeToFrame, relativePoint, xOffset, yOffset);
 
 	-- set font size for the Game Tooltip
@@ -177,7 +196,9 @@ end
 ---@param self table Plugin frame
 ---@param id string Plugin id name
 ---@param frame table Tooltip frame to use
-local function TitanTooltip_SetPanelTooltip(self, id, frame)
+---@param custom? boolean If custom / not tooltip frame
+local function SetPanelTooltip(self, id, frame, custom)
+	local is_custom = custom or false
 	local button = TitanUtils_GetButton(id)
 
 	if button then
@@ -207,7 +228,7 @@ local function TitanTooltip_SetPanelTooltip(self, id, frame)
 			rel_pt = rel_pt .. "RIGHT";
 		end
 
-		TitanTooltip_SetOwnerPosition(button, pt, button:GetName(), rel_pt, 0, 0, frame)
+		SetOwnerPosition(button, pt, button:GetName(), rel_pt, 0, 0, frame, is_custom)
 	end
 end
 
@@ -279,6 +300,7 @@ local function TitanPanelButton_SetTooltip(self)
 	local ok = false
 	local frame = TitanPanelTooltip --GameTooltip
 	local id = self.registry.id
+--local frame = CreateFrame("GameTooltip","myTooltipFrame",UIParent,"GameTooltipTemplate")
 
 	frame.registry_id = id -- for use in other routines
 	frame.plugin_frame = self
@@ -286,13 +308,14 @@ local function TitanPanelButton_SetTooltip(self)
 
 	ok = AllowTooltip(frame)
 	if ok then
-		local call_success = nil
+		local call_ok = nil
 		local tmp_txt = ""
 
 		self.tooltipCustomFunction = nil;
 		self.titan_tt_func = ""
 		self.titan_tt_err = ""
 
+		dbg_msg = dbg_msg .." "..tostring(id)..""
 		if (id and TitanUtils_IsPluginRegistered(id)) then
 			local plugin = TitanUtils_GetPlugin(id)
 			-- 2024 Jun Add id and frame name to 'pass' to tooltip routine.
@@ -300,25 +323,57 @@ local function TitanPanelButton_SetTooltip(self)
 			-- Used by Titan auto hide to better determine which bar the 'pin' / icon is on.
 			self.plugin_id = id
 			self.plugin_frame = TitanUtils_ButtonName(id)
-			if (plugin and plugin.ldb) then
-				-- assume the TitanLDB processing will handle the tooltip.
+			if (plugin and plugin.tooltipDisplayFrame) then
+				-- 2026 Mar : Added from LDB to take advantage of Titan processing.
+				-- PLugin is expected to handle its frame!
+				-- Titan will position and show only!
+				-- Plugin must handle any timeout and any other features.
+
+				-- Hide the Titan Tooltip in case it is open.
+				frame:Hide()
+
+				dbg_msg = dbg_msg .. " | tooltipDisplayFrame"
+					.." '"..tostring(plugin.tooltipDisplayFrame:GetName()).."'"
+				SetPanelTooltip(self, id, plugin.tooltipDisplayFrame, true)
+
+				plugin.tooltipDisplayFrame:Show() -- now show it
+			elseif (plugin and plugin.tooltipTemplateFunction) then
+				-- 2026 Mar Added to pass a tooltip frame to a plugin as an explicit agreement.
+				-- This acts as Blizz GameTooltip so plugin can 'add line' etc.
+
+				-- Hide the Titan Tooltip in case it is open.
+				frame:Hide()
+				frame:ClearLines() -- Hand off a blank tooltip
+				SetPanelTooltip(self, id, frame)
+
+				-- The plugin is in full control of contents; pass it the tooltip frame to fill
+				self.tooltipTemplateFunction = plugin.tooltipTemplateFunction;
+				dbg_msg = dbg_msg .. " | tooltipTemplateFunction"
+				call_ok, tmp_txt = pcall(self.tooltipTemplateFunction, frame)
+				if call_ok then
+					-- all is good
+					dbg_msg = dbg_msg .. " | ok"
+				else
+					dbg_msg = dbg_msg .. " | Err: " .. tmp_txt
+				end
+				frame:Show(); -- now show it
 			elseif (plugin and plugin.tooltipCustomFunction) then
 				-- Hide the Titan Tooltip in case it is open.
 				frame:Hide()
 				-- 2026 Jan Switching to a Titan controlled frame made us realize
 				-- changing GameTooltip for custom tooltips creates a hybrid mess...
-				-- The plugin Dev should take full ownership of the tooltip :).
 
-				-- For now, use the Game tooltip for custom until we can converse with other devs...
+				-- This should be treated as deprecated as of 2026 Mar.
+				-- It is left so older plugins will work - but they error as of Midnight (12.0.0)
+				-- Use tooltipTemplateFunction instead!
 				local custom_f = GameTooltip
-				TitanTooltip_SetPanelTooltip(self, id, custom_f);
+				SetPanelTooltip(self, id, custom_f);
 
 				-- Fill the tooltip
 				self.tooltipCustomFunction = plugin.tooltipCustomFunction;
 				dbg_msg = dbg_msg .. " | custom"
-				call_success, -- for pcall
-				tmp_txt = pcall(self.tooltipCustomFunction, self)
-				if call_success then
+				call_ok, tmp_txt = pcall(self.tooltipCustomFunction, self)
+				if call_ok then
 					-- all is good
 					dbg_msg = dbg_msg .. " | ok"
 				else
@@ -331,6 +386,7 @@ local function TitanPanelButton_SetTooltip(self)
 				-- From Lingkan dev of Titan Rep Continued
 				local tooltipTextFunc = {} ---@type function
 				local tt_func = plugin.tooltipTextFunction
+				local func_ok = true
 
 				if type(tt_func) == 'string' then
 					-- Function MUST be in global namespace
@@ -343,14 +399,15 @@ local function TitanPanelButton_SetTooltip(self)
 				else
 					-- silently leave...
 					dbg_msg = dbg_msg .. " | none found"
+					func_ok = false
 				end
 
-				if (tooltipTextFunc) then
+				if func_ok then
 					-- Hide the Tooltip while being updated, to avoid race conditions.
 					frame:Hide()
 					GameTooltip:Hide() -- Also hide in case. Cannot hide completly custom tool tips
 					-- Prep the tooltip frame
-					TitanTooltip_SetPanelTooltip(self, id, frame);
+					SetPanelTooltip(self, id, frame);
 					if plugin.tooltipTitle then
 						self.tooltipTitle = plugin.tooltipTitle;
 						frame:SetText(self.tooltipTitle,
@@ -358,11 +415,10 @@ local function TitanPanelButton_SetTooltip(self)
 					else
 						-- assume dev is doing their own thing
 					end
-					call_success, -- for pcall
-					tmp_txt = pcall(tooltipTextFunc, self)
+					call_ok, tmp_txt = pcall(tooltipTextFunc, self)
 
 					-- Fill the tooltip
-					-- If pcall errors, the error will be in the tooltip
+					-- Any error will be in the tooltip
 					self.tooltipText = tmp_txt
 					if (self.tooltipText) then
 						TitanTooltip_AddTooltipText(self.tooltipText, frame)
@@ -745,7 +801,7 @@ end
 ---@param id string Plugin id
 --- The plugin is expected to tell Titan what routine is to be called in <self>.registry.buttonTextFunction.
 --- Note: Titan handles up to 4 label-value pairs. User may customize (override) the plugin labels.
---- The text routine is called in protected mode (pcall) to ensure the Titan main routines still run.
+--- The text routine is called in protected mode to ensure the Titan main routines still run.
 local function TitanPanelButton_SetButtonText(id)
 	local dbg_msg = "ptxt : '" .. tostring(id) .. "'"
 	local ok = false
@@ -782,13 +838,14 @@ local function TitanPanelButton_SetButtonText(id)
 
 	if ok and buttonTextFunction then
 		local label1, value1, label2, value2, label3, value3, label4, value4
-		local call_success = false
+		local call_ok = false
 		local button = TitanUtils_GetButton(id) -- get plugin frame
 		local buttonText = {}
 
 		local text = false
 		if button then
 			buttonText = _G[button:GetName() .. TITAN_PANEL_TEXT];
+			button:SetScale(TitanPanelGetVar("Scale"))
 
 			local newfont = media:Fetch("font", TitanPanelGetVar("FontName"))
 			if newfont then
@@ -797,11 +854,11 @@ local function TitanPanelButton_SetButtonText(id)
 
 			-- We'll be paranoid here and call the button text function in protected mode.
 			-- In case the function fails it will not take Titan with it...
-			call_success, -- for pcall
+			call_ok,
 			label1, value1, label2, value2, label3, value3, label4, value4 =
 				pcall(buttonTextFunction, id)
 
-			if call_success then
+			if call_ok then
 				-- All is good
 				text = true
 			else

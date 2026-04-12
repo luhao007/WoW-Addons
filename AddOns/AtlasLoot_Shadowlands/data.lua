@@ -23,6 +23,8 @@ local ADD_SCALING = {
 local NORMAL_DUNGEON_DIFF = data:AddDifficulty(AL["Normal"], "DungeonWithPreset", ADD_SCALING, 1)
 local HEROIC_DUNGEON_DIFF = data:AddDifficulty(AL["Heroic"], "HeroicDungeonWithPreset", ADD_SCALING, 2)
 local MYTHICD_DUNGEON_DIFF = data:AddDifficulty(AL["Mythic"], "MythicDungeonWithPreset", ADD_SCALING, 23)
+local TIMEWALKING_DUNGEON_DIFF = data:AddDifficulty(AL["Timewalking"], "timewalkingDungeonWithPreset", ADD_SCALING, 24)
+
 
 local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], "LFRWithPreset", ADD_SCALING, 17)
 local NORMAL_RAID_DIFF = data:AddDifficulty(AL["Normal"], "NormalRaidWithPreset", ADD_SCALING, 14)
@@ -84,6 +86,15 @@ data["De Other Side"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 179330 }, -- Zin'khas, Blade of the Fallen God
+				{ 2, 179328 }, -- Bloodspiller
+				{ 3, 179325 }, -- Hakkari Revenant's Grips
+				{ 4, 179326 }, -- Girdle of the Soulflayer
+				{ 5, 179324 }, -- Soulfeather Breeches
+				{ 6, 179322 }, -- Windscale Moccasins
+				{ 7, 179331 }, -- Blood-Spattered Scale
+			},
 		},
 		{ -- The Manastorms
 			EncounterJournalID = 2409,
@@ -109,6 +120,15 @@ data["De Other Side"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 179339 }, -- Whizblast Walking Stick
+				{ 2, 179340 }, -- Supercollider
+				{ 3, 179335 }, -- Manastorm's Magnificent Threads
+				{ 4, 179336 }, -- Rocket Chicken Handlers
+				{ 5, 179337 }, -- Techno-Coil Legguards
+				{ 6, 179338 }, -- Dynamo Doomstompers
+				{ 7, 179342 }, -- Overwhelming Power Crystal
+			},
 		},
 		{ -- Dealer Xy'exa
 			EncounterJournalID = 2398,
@@ -132,6 +152,16 @@ data["De Other Side"] = {
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 179347 }, -- Collector's Pulse Staff
+				{ 2, 179348 }, -- Xy Cartel Crossbow
+				{ 3, 179344 }, -- Far Traveler's Shoulderpads
+				{ 4, 179349 }, -- Dealer Xy'exa's Cape
+				{ 5, 179346 }, -- Breastplate of Fatal Contrivances
+				{ 6, 179343 }, -- Sash of Exquisite Acquisitions
+				{ 7, 179345 }, -- Spatial Rift Striders
+				{ 8, 179350 }, -- Inscrutable Quantum Device
 			},
 		},
 		{ -- Mueh'zala
@@ -161,6 +191,14 @@ data["De Other Side"] = {
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 179353 }, -- Harness of Twisted Whims
+				{ 2, 179354 }, -- Reality-Shatter Vambraces
+				{ 3, 179351 }, -- Mueh'zala's Hexthread Sarong
+				{ 4, 179352 }, -- Primeval Soul's Ankleguards
+				{ 5, 179355 }, -- Death God's Signet
+				{ 6, 179356 }, -- Shadowgrasp Totem
 			},
 		},
 	}
@@ -195,6 +233,11 @@ data["Halls of Atonement"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 178827 }, -- Sin Stained Pendant
+				{ 2, 178818 }, -- Halkias's Towering Pillars
+				{ 3, 178830 }, -- Shardskin Sabatons
+			},
 		},
 		{ -- Echelon
 			EncounterJournalID = 2387,
@@ -219,6 +262,13 @@ data["Halls of Atonement"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 178815 }, -- Soaring Decimator's Hauberk
+				{ 2, 178834 }, -- Stoneguardian's Morningstar
+				{ 3, 178812 }, -- Wing Commander's Helmet
+				{ 4, 178833 }, -- Stonefiend Shaper's Mitts
+				{ 5, 178819 }, -- Skyterror's Stonehide Leggings
+			},
 		},
 		{ -- High Adjudicator Aleez
 			EncounterJournalID = 2411,
@@ -240,6 +290,13 @@ data["Halls of Atonement"] = {
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 178822 }, -- Cord of the Dark Word
+				{ 2, 178826 }, -- Sunblood Amethyst
+				{ 3, 178832 }, -- Gloves of Haunting Fixation
+				{ 4, 178821 }, -- Mantle of Ephemeral Visages
+				{ 5, 178814 }, -- Breastplate of Otherworldly Influence
 			},
 		},
 		{ -- Lord Chamberlain
@@ -278,6 +335,13 @@ data["Halls of Atonement"] = {
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 178829 }, -- Nathrian Ferula
+				{ 2, 178816 }, -- Nathrian Usurper's Mask
+				{ 3, 178823 }, -- Waistcord of Dark Devotion
+				{ 4, 178831 }, -- Slippers of Leavened Station
+				{ 5, 178824 }, -- Signet of the False Accuser
 			},
 		},
 	}
@@ -413,6 +477,14 @@ data["Plaguefall"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 178753 }, -- Surgical Pustule Extractor
+				{ 2, 178760 }, -- Digested Interrogator's Gaze
+				{ 3, 178773 }, -- Plague Handler's Greathelm
+				{ 4, 178762 }, -- Blightborne Chain Legguards
+				{ 5, 178756 }, -- Stradama's Misplaced Slippers
+				{ 6, 178770 }, -- Slimy Consumptive Organ
+			},
 		},
 		{ -- Doctor Ickus
 			EncounterJournalID = 2403,
@@ -437,6 +509,14 @@ data["Plaguefall"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 178752 }, -- Sophisticated Bonecracker
+				{ 2, 178759 }, -- Depraved Physician's Mask
+				{ 3, 178763 }, -- Malodorous Gristle-Sown Spaulders
+				{ 4, 178767 }, -- Tortured Assistant's Bindings
+				{ 5, 178775 }, -- Fleshfused Crushers
+				{ 6, 178771 }, -- Phial of Putrefaction
+			},
 		},
 		{ -- Domina Venomblade
 			EncounterJournalID = 2423,
@@ -460,6 +540,15 @@ data["Plaguefall"] = {
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 178929 }, -- Halberd of the Aranakk
+				{ 2, 178928 }, -- Domina's Oozing Shiv
+				{ 3, 178934 }, -- Fastened Venombarb Binds
+				{ 4, 178930 }, -- Mitts of Flawless Duplication
+				{ 5, 178932 }, -- Belt of Wretched Manipulations
+				{ 6, 178931 }, -- Scarred Bloodbound Girdle
+				{ 7, 178933 }, -- Arachnid Cipher Ring
 			},
 		},
 		{ -- Margrave Stradama
@@ -499,6 +588,15 @@ data["Plaguefall"] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 29, 181271 }, -- Sludge Feeler
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 178754 }, -- Poxstorm, Longsword of Pestilence
+				{ 2, 178764 }, -- Plagueborne Shoulderguards
+				{ 3, 178755 }, -- Blighted Margrave's Cloak
+				{ 4, 178757 }, -- Gloves of Obscure Rituals
+				{ 5, 178761 }, -- Leggings of the Erudite Scholar
+				{ 6, 178774 }, -- Muckwallow Stompers
+				{ 7, 178769 }, -- Infinitely Divisible Ooze
+			},
 		},
 	}
 }
@@ -535,6 +633,15 @@ data["Sanguine Depths"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 178854 }, -- Hungering Devourer's Twinblade
+				{ 2, 178853 }, -- Voracious Gorger Spine
+				{ 3, 178835 }, -- Anima-Splattered Hide
+				{ 4, 178844 }, -- Essence Surge Binders
+				{ 5, 178846 }, -- Shackles of Alluring Vitality
+				{ 6, 178836 }, -- Sabatons of the Rushing Juggernaut
+				{ 7, 178848 }, -- Entwined Gorger Tendril
+			},
 		},
 		{ -- Executor Tarvold
 			EncounterJournalID = 2415,
@@ -558,6 +665,15 @@ data["Sanguine Depths"] = {
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 178855 }, -- Sinsmasher
+				{ 2, 178859 }, -- Castigator's Mantle
+				{ 3, 178851 }, -- Cloak of Enveloping Manifestations
+				{ 4, 178845 }, -- Vambraces of the Depraved Warden
+				{ 5, 178843 }, -- Executor's Prideful Girdle
+				{ 6, 178837 }, -- Sinsoaked Waders
+				{ 7, 178849 }, -- Overflowing Anima Cage
 			},
 		},
 		{ -- Grand Proctor Beryllia
@@ -586,6 +702,14 @@ data["Sanguine Depths"] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 18, 180591 }, -- Vial of Roiling Emotions
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 178852 }, -- Vessel of Shining Radiance
+				{ 2, 178847 }, -- Radiant Light Binders
+				{ 3, 178841 }, -- Iron Spiked Handgrips
+				{ 4, 178842 }, -- Waistguard of Expurged Anguish
+				{ 5, 178838 }, -- Beryllia's Leggings of Endless Torment
+				{ 6, 178850 }, -- Lingering Sunmote
+			},
 		},
 		{ -- General Kaal
 			EncounterJournalID = 2407,
@@ -611,6 +735,16 @@ data["Sanguine Depths"] = {
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 178856 }, -- Kaal's Gloomblade
+				{ 2, 178857 }, -- Stone General's Edge
+				{ 3, 178860 }, -- Cowl of the Devoted General
+				{ 4, 178858 }, -- Wicked Bladewing Pauldrons
+				{ 5, 178840 }, -- Guilewind Stone Talons
+				{ 6, 178839 }, -- Wind Dancer's Legguards
+				{ 7, 178862 }, -- Bladedancer's Armor Kit
+				{ 8, 178861 }, -- Decanter of Anima-Charged Winds
 			},
 		},
 	}
@@ -647,6 +781,14 @@ data["Spires of Ascension"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 180097 }, -- Quarterstaff of Discordant Ethic
+				{ 2, 180115 }, -- Azure-Venom Choker
+				{ 3, 180100 }, -- Forsworn Stalker's Hauberk
+				{ 4, 180103 }, -- Winged Hunters' Gloves
+				{ 5, 180109 }, -- Kin-Tara's Baleful Cord
+				{ 6, 180101 }, -- Warboots of Ruthless Conviction
+			},
 		},
 		{ -- Ventunax
 			EncounterJournalID = 2416,
@@ -671,6 +813,14 @@ data["Spires of Ascension"] = {
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 180095 }, -- Penitent Edge
+				{ 2, 180104 }, -- Distorted Construct's Gauntlets
+				{ 3, 180110 }, -- Dark Praetorian's Clasp
+				{ 4, 180111 }, -- Shadowhirl Waistwrap
+				{ 5, 180102 }, -- Dark Stride Footwraps
+				{ 6, 180116 }, -- Overcharged Anima Battery
 			},
 		},
 		{ -- Oryphrion
@@ -698,6 +848,15 @@ data["Spires of Ascension"] = {
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 180112 }, -- The Philosopher
+				{ 2, 180106 }, -- Vicious Surge Faceguard
+				{ 3, 180113 }, -- Thunderous Echo Vambraces
+				{ 4, 180105 }, -- Absonant Construct's Handguards
+				{ 5, 180107 }, -- Purge Protocol Legwraps
+				{ 6, 180118 }, -- Anima Field Emitter
+				{ 7, 180117 }, -- Empyreal Ordnance
 			},
 		},
 		{ -- Devos, Paragon of Doubt
@@ -727,6 +886,15 @@ data["Spires of Ascension"] = {
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 180096 }, -- Devos's Cacophonous Poleaxe
+				{ 2, 180123 }, -- Drape of Twisted Loyalties
+				{ 3, 180099 }, -- Breastplate of Brutal Dissonance
+				{ 4, 180098 }, -- Sinister Requiem Vestments
+				{ 5, 180114 }, -- Fallen Paragon's Armguards
+				{ 6, 180108 }, -- Abyssal Disharmony Breeches
+				{ 7, 180119 }, -- Boon of the Archon
 			},
 		},
 	}
@@ -944,6 +1112,15 @@ data["The Necrotic Wake"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 178730 }, -- Engorged Worm Smasher
+				{ 2, 178735 }, -- Blight Belcher
+				{ 3, 178732 }, -- Abominable Visage
+				{ 4, 178733 }, -- Blightbone Spaulders
+				{ 5, 178734 }, -- Fused Bone Greatbelt
+				{ 6, 178731 }, -- Viscera-Stitched Footpads
+				{ 7, 178736 }, -- Stitchflesh's Misplaced Signet
+			},
 		},
 		{ -- Amarth, The Harvester
 			EncounterJournalID = 2391,
@@ -966,6 +1143,14 @@ data["The Necrotic Wake"] = {
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 178737 }, -- Amarth's Spellblade
+				{ 2, 178738 }, -- Rattling Deadeye Hood
+				{ 3, 178740 }, -- Reanimator's Mantle
+				{ 4, 178741 }, -- Risen Monstrosity Cuffs
+				{ 5, 178739 }, -- Legplates of Unholy Frenzy
+				{ 6, 178742 }, -- Bottled Flayedwing Toxin
 			},
 		},
 		{ -- Surgeon Stitchflesh
@@ -991,6 +1176,16 @@ data["The Necrotic Wake"] = {
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 178743 }, -- Stitchflesh's Scalpel
+				{ 2, 178750 }, -- Encrusted Canopic Lid
+				{ 3, 178749 }, -- Vile Butcher's Pauldrons
+				{ 4, 178744 }, -- Freshly Embalmed Jerkin
+				{ 5, 178748 }, -- Gory Surgeon's Gloves
+				{ 6, 178745 }, -- Striders of Restless Malice
+				{ 7, 178772 }, -- Satchel of Misbegotten Minions
+				{ 8, 178751 }, -- Spare Meat Hook
 			},
 		},
 		{ -- Nalthor the Rimebinder
@@ -1029,6 +1224,15 @@ data["The Necrotic Wake"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 29, 181819 }, -- Marrowfang's Reins
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				{ 1, 178780 }, -- Rimebinder's Runeblade
+				{ 2, 178777 }, -- Darkfrost Helmet
+				{ 3, 178779 }, -- Undying Chill Shoulderpads
+				{ 4, 178782 }, -- Necropolis Lord's Shackles
+				{ 5, 178778 }, -- Lichbone Legguards
+				{ 6, 178781 }, -- Ritual Commander's Ring
+				{ 7, 178783 }, -- Siphoning Phylactery Shard
 			},
 		},
 	}

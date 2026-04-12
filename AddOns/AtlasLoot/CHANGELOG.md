@@ -1,5 +1,27 @@
 ﻿# Changelog
 
+## 9.22.3 - April 10, 2026
+### Added
+- Added Daetan Swiftplume loot for Noblegarden
+- Added Timewalking difficulty to Cataclysm instances
+- Added Peridot Dragonhawk to Collections
+## Changed
+- Collected highlight now defaults to collected when the same appearance is learned from another item. Enable the "Use exact item source for Collected highlight" option to go back to the old behavior.
+- Significant additions, fixes and changes to Cataclysm instance loot
+
+## 9.22.2 - April 1, 2026
+### Added
+- Added Timewalking difficulty to Shadowlands, BFA, Legion, WoD and MoP instances
+- Added April Trading Post items to Collections
+- Added Heroic difficulty to King's Rest, The Arcway, Court of Stars and Return to Karazhan
+- Added Normal and Heroic difficulties to Siege of Boralus
+### Changed
+- Significant additions, fixes and changes to MoP instance loot
+- Reordered Legion instance loot so that gear and relics are grouped together
+### Fixed
+- Fixed instance map button for Uldir and Crucible of Storms
+- Removed Electrostatic Lasso from Imonar the Soulhunter
+
 ## 9.22.1 - March 23, 2026
 ### Added
 - Added new Trial of Style items

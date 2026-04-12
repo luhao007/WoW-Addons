@@ -87,8 +87,6 @@ local ITEM_BONUS_PRESET = {
 	-- Dungeons
 	["Dungeon"]                           = { 3524, 522 },
 	-- ## Legion
-	["LegionMDungeon2"]                   = { 3452 },
-	["LegionMDungeon2Titanforged"]        = GetPresetForTitanforged(162, LEGION_MAX_UPGRADELVL, TITANFORGED_ADD), --{ 3452, 1522 },
 	["LegionMaxItemLvl"]                  = function(itemID, difficultyID, baseLvl)
 		return GetScaledItem(itemID, difficultyID, LEGION_MAX_UPGRADELVL)
 	end,
@@ -98,18 +96,11 @@ local ITEM_BONUS_PRESET = {
 	end,
 	-- Raids
 	["LFR"]                               = { 451 },
-	["SoOWarforged"]                      = { 448 },
-	["HeroicSoO"]                         = { 449 },
-	["HeroicSoOWarforged"]                = { 449, 448 },
-	["MythicSoO"]                         = { 450 },
-	["MythicSoOWarforged"]                = { 450, 448 },
 	["RaidWarforged"]                     = { 560 },
 	["HeroicRaid"]                        = { 566 },
 	["HeroicRaidWarforged"]               = { 566, 561 },
 	["MythicRaid"]                        = { 567 },
 	["MythicRaidWarforged"]               = { 567, 562 },
-	["LegionLFR"]                         = { 3379 },
-	["LegionLFRTitanforged"]              = { 1522, 3442 },
 	["LegionRaid"]                        = { 1807 },
 	["LegionRaidTitanforged"]             = { 1522, 3442 },
 	["LegionHeroicRaid"]                  = { 1805 },

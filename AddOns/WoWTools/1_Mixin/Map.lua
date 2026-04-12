@@ -43,7 +43,7 @@ end
 function WoWTools_MapMixin:GetUnit(unit)--单位, 地图名称
     local text
     local uiMapID= C_Map.GetBestMapForUnit(unit)
-    if unit=='player' and IsInInstance() then
+    if unit=='player' and select(2, IsInInstance())~='none' then
         local name, _, _, difficultyName= GetInstanceInfo()
         if name then
             text= name .. ((difficultyName and difficultyName~='') and '('..difficultyName..')' or '')
@@ -65,6 +65,7 @@ function WoWTools_MapMixin:IsInPvPArea()--是否在，PVP区域中
         or C_PvP.IsBattleground()--战场
         or C_PvP.IsSoloShuffle()--闪电战
         or C_PvP.IsInBrawl()--乱斗
+        or C_PvP.IsPVPMap() --世界PVP区域
 end
 --PVPMatchUtil.lua
 

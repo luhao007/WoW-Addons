@@ -12,6 +12,7 @@ local addonName, AddonTbl = ...
 ---@field ProgressTracker ProgressTracker
 ---@field InDelveWidget InDelveWidget
 ---@field MinimapIcon DelveCompanionMinimapIcon
+---@field GossipExtension GossipExtension
 local DelveCompanion = {}
 AddonTbl.DelveCompanion = DelveCompanion
 
@@ -62,67 +63,68 @@ function DelveCompanion:InitDelvesData()
     self.Variables.delvesData = delvesData
 end
 
---- Iterate through all Delves of the selected expansion and update their runtime data.
+--- Iterate through all Delves and update their runtime data.
 ---@param self DelveCompanion
----@param expansionLevel number LE_EXPANSION enum number of the expansion.
-function DelveCompanion:UpdateDelvesData(expansionLevel)
-    -- self.Logger:Log("Start updating Delves data for expansion: %d...", expansionLevel)
+function DelveCompanion:UpdateDelvesData()
+    -- self.Logger:Log("Start updating Delves data...")
 
-    for _, delveData in pairs(self.Variables.delvesData[expansionLevel]) do
-        local delveConfig = delveData.config
-        local parentMapID = C_Map.GetMapInfo(delveConfig.uiMapID).parentMapID
+    for expansionLevel, expansionDelves in pairs(self.Variables.delvesData) do
+        for _, delveData in pairs(expansionDelves) do
+            local delveConfig = delveData.config
+            local parentMapID = C_Map.GetMapInfo(delveConfig.uiMapID).parentMapID
 
-        local poiIDs = delveConfig.poiIDs
-        -- Bountiful
-        if poiIDs.bountiful and tContains(C_AreaPoiInfo.GetDelvesForMap(parentMapID), poiIDs.bountiful) then
-            delveData.poiID = poiIDs.bountiful
-            delveData.isBountiful = true
-        else
-            delveData.poiID = poiIDs.regular
-            delveData.isBountiful = false
-        end
+            local poiIDs = delveConfig.poiIDs
+            -- Bountiful
+            if poiIDs.bountiful and tContains(C_AreaPoiInfo.GetDelvesForMap(parentMapID), poiIDs.bountiful) then
+                delveData.poiID = poiIDs.bountiful
+                delveData.isBountiful = true
+            else
+                delveData.poiID = poiIDs.regular
+                delveData.isBountiful = false
+            end
 
-        local delvePoiInfo = C_AreaPoiInfo.GetAreaPOIInfo(parentMapID, delveData.poiID)
-        -- Active story
-        if delvePoiInfo and delvePoiInfo.tooltipWidgetSet then
-            local tooltipWidgets = C_UIWidgetManager.GetAllWidgetsBySetID(delvePoiInfo.tooltipWidgetSet)
+            local delvePoiInfo = C_AreaPoiInfo.GetAreaPOIInfo(parentMapID, delveData.poiID)
+            -- Active story
+            if delvePoiInfo and delvePoiInfo.tooltipWidgetSet then
+                local tooltipWidgets = C_UIWidgetManager.GetAllWidgetsBySetID(delvePoiInfo.tooltipWidgetSet)
 
-            if tooltipWidgets then
-                for _, widgetInfo in ipairs(tooltipWidgets) do
-                    if widgetInfo.widgetType == Enum.UIWidgetVisualizationType.TextWithState then
-                        local visInfo = C_UIWidgetManager.GetTextWithStateWidgetVisualizationInfo(widgetInfo.widgetID)
+                if tooltipWidgets then
+                    for _, widgetInfo in ipairs(tooltipWidgets) do
+                        if widgetInfo.widgetType == Enum.UIWidgetVisualizationType.TextWithState then
+                            local visInfo = C_UIWidgetManager.GetTextWithStateWidgetVisualizationInfo(
+                                widgetInfo.widgetID)
 
-                        if visInfo and visInfo.orderIndex == 0 then
-                            delveData.storyVariant = visInfo.text
+                            if visInfo and visInfo.orderIndex == 0 then
+                                delveData.storyVariant = visInfo.text
 
-                            -- Some story variants are not included into the achievement (as they were added with content updates during the expansion).
-                            -- The primary goal here is to highlight achievement completion, so such variants are marked as "completed". The addon doesn't track whether players have completed them.
-                            local isVariantInAchievement = false
-                            local achID = delveData.config.achievements.story
+                                -- Some story variants are not included into the achievement (as they were added with content updates during the expansion).
+                                -- The primary goal here is to highlight achievement completion, so such variants are marked as "completed". The addon doesn't track whether players have completed them.
+                                local isVariantInAchievement = false
+                                local achID = delveData.config.achievements.story
 
-                            for index = 1, GetAchievementNumCriteria(achID), 1 do
-                                local criteriaString, _, completed = GetAchievementCriteriaInfo(achID, index)
+                                for index = 1, GetAchievementNumCriteria(achID), 1 do
+                                    local criteriaString, _, completed = GetAchievementCriteriaInfo(achID, index)
 
-                                if string.find(string.lower(delveData.storyVariant), string.lower(criteriaString)) then
-                                    delveData.isStoryCompleted = completed
-                                    isVariantInAchievement = true
-                                    break
+                                    if string.find(string.lower(delveData.storyVariant), string.lower(criteriaString)) then
+                                        delveData.isStoryCompleted = completed
+                                        isVariantInAchievement = true
+                                        break
+                                    end
                                 end
-                            end
 
-                            if not isVariantInAchievement then
-                                delveData.isStoryCompleted = true
+                                if not isVariantInAchievement then
+                                    delveData.isStoryCompleted = true
+                                end
                             end
                         end
                     end
                 end
             end
-        end
 
-        -- Check whether a required level to enter Nemesis Delve is reached.
-        if delveConfig.nemesisInfo ~= nil then
-            local expansion = GetEJTierData(EJ_GetCurrentTier()).expansionLevel
-            delveData.levelRequired = GetMaxLevelForExpansionLevel(expansion)
+            -- Check whether a required level to enter Nemesis Delve is reached.
+            if delveConfig.nemesisInfo ~= nil then
+                delveData.levelRequired = GetMaxLevelForExpansionLevel(expansionLevel)
+            end
         end
     end
 
@@ -161,4 +163,25 @@ function DelveCompanion:GetContinentMapIDForMap(mapID)
     end
 
     return nil
+end
+
+---@param self DelveCompanion
+---@return Frame
+function DelveCompanion:GetLootInfoFrame()
+    if not DelveCompanion.Variables.LootInfoFrame then
+        ---@type LootInfoFrame
+        local lootInfoFrame = CreateFrame("Frame",
+            "$parent.LootInfoFrame", UIParent,
+            "DelveCompanionLootInfoFrameTemplate")
+
+        DelveCompanion.Variables.LootInfoFrame = lootInfoFrame
+    end
+
+    return DelveCompanion.Variables.LootInfoFrame
+end
+
+-- Helper function to get the highest Delve tier available.
+---@param self DelveCompanion
+function DelveCompanion:GetDelvesMaxTier()
+    return #DelveCompanion.Config.DELVES_LOOT_INFO_DATA
 end

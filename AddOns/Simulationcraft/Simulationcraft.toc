@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: Theck, navv_, seriallos
-## Version: 12.0.1-02
+## Version: 12.0.1-04
 
 ## Title: Simulationcraft
 ## Notes: Constructs SimC export strings
@@ -9,6 +9,7 @@
 
 ## IconTexture: Interface\Addons\SimulationCraft\logo
 
+## Category: Other
 ## Category-zhCN: |cFFFFE00A<|r|cFFC79C6E战斗|r|cFFFFE00A>|r
 
 ## OptionalDependencies: Ace3, LibRealmInfo, LibDBIcon, LibDataBroker-1.1

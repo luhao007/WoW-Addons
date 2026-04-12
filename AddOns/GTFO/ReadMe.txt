@@ -2376,3 +2376,19 @@ Change Log:
 * Added Midnight spells for Windrunner Spire
 * Added Midnight spells for The Dreamrift
 * Added Midnight spells for The Voidspire
+
+6.2
+* Fixed taint issue when an encounter ends
+
+6.3
+* Support for alerts when AFK
+* Added Midnight spells for Windrunner Spire
+
+6.4
+* Fixed taint issues with encounters starting during combat
+* Added Midnight spells for The Voidspire
+* Added Midnight spells for March on Quel'Danas
+
+6.4.1
+* Fixed Midnight spells for The Voidspire
+* Fixed Midnight spells for March on Quel'Danas

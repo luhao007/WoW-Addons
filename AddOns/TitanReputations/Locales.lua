@@ -29,3 +29,19 @@ if GetLocale() == "ptBR" then
 	L["Renown"] = "Renome"
 	L["SmartReputation"] = "Seguir a última reputação com mudança de progresso"
 end
+if GetLocale() == "ruRU" then
+--Translator ZamestoTV	
+L["Reputation"] = "Репутация"
+L["HideNeutral"] = "Скрывать нейтральную и хуже"
+L["ShowValue"] = "Показывать значение"
+L["ShowPercent"] = "Показывать процент"
+L["ShowHeaders"] = "Показывать заголовки"
+L["HideMax"] = "Скрывать максимум"
+L["HideExalted"] = "Скрывать фракции в состоянии превознесения"
+L["AlwaysShowParagon"] = "Всегда показывать репутации уровня «Парагон»"
+L["ShowSessionBalance"] = "Показывать баланс за сессию на кнопке"
+L["Reset"] = "Сбросить"
+L["Paragon"] = "Парагон"
+L["Renown"] = "Известность"
+L["SmartReputation"] = "Следовать последней репутации с изменением прогресса"
+end

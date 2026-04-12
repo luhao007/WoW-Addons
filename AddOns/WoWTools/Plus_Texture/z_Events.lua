@@ -2153,19 +2153,37 @@ function WoWTools_TextureMixin.Events:Blizzard_DamageMeter()
         local isNonInteractive= frame:IsNonInteractive()
         local isLocked= frame:IsLocked()
 
+        local atlas
         if isLocked and isNonInteractive then
-            menu.Icon:SetAtlas('talents-button-reset')
+            atlas= 'talents-button-reset'
         elseif isLocked then
-            menu.Icon:SetAtlas('friendslist-recentallies-Pin')
+            atlas= 'friendslist-recentallies-Pin'
         elseif isNonInteractive then
-            menu.Icon:SetAtlas('friendslist-recentallies-Pin-yellow')
-        else
-            menu.Icon:SetAtlas('GM-icon-settings-hover')
+            atlas= 'friendslist-recentallies-Pin-yellow'
         end
+        menu.Icon:SetAtlas(atlas or 'GM-icon-settings-hover')
+
+        local s= atlas and 6 or 0
+        menu.Icon:SetPoint('TOPLEFT', s, -s)
+        menu.Icon:SetPoint('BOTTOMRIGHT', -s, s)
 
         menu.Icon:SetAlpha(menu:IsMouseOver() and 1 or 0.3)
     end
 
+
+--最小化，展开，更该图标
+    local function SetMinimized(frame)
+        local minimizeButton = frame:GetMinimizeButton()
+        local normalTexture = minimizeButton:GetNormalTexture()
+        local pushedTexture = minimizeButton:GetPushedTexture()
+        if frame:IsMinimized() then
+            normalTexture:SetAtlas("transmog-icon-hidden")--ui-questtrackerbutton-secondary-expand")--, true);
+            pushedTexture:SetAtlas("ui-questtrackerbutton-secondary-expand-pressed")--, true);
+        else
+            normalTexture:SetAtlas("ui-questtrackerbutton-secondary-collapse")--, true);
+            pushedTexture:SetAtlas("ui-questtrackerbutton-secondary-collapse-pressed")--, true);
+        end
+    end
 
     local function settins(frame)
         self:SetAlphaColor(frame.Header, true)
@@ -2185,6 +2203,8 @@ function WoWTools_TextureMixin.Events:Blizzard_DamageMeter()
         end)
 
 --当前，总体 WowStyle2DropdownTemplate
+        frame.SessionDropdown:ClearAllPoints()
+        frame.SessionDropdown:SetPoint('RIGHT', frame.SettingsDropdown, 'LEFT')
         self:SetAlphaColor(frame.SessionDropdown.Background, nil, nil, 0)
         frame.SessionDropdown.SessionName:SetFontObject('ChatFontSmall')
         WoWTools_ColorMixin:SetLabelColor(frame.SessionDropdown.SessionName)
@@ -2227,6 +2247,7 @@ function WoWTools_TextureMixin.Events:Blizzard_DamageMeter()
         frame.SettingsDropdown.Icon:SetPoint('TOPLEFT', 4, -4)
         frame.SettingsDropdown.Icon:SetPoint('BOTTOMRIGHT', -4, 4)
         self:SetAlphaColor(frame.SettingsDropdown.Icon, nil, nil, 0.5)
+        frame.SettingsDropdown.Icon:ClearAllPoints()
         set_Locked_NonInteractive(frame.SettingsDropdown)--.Icon:SetAtlas(frame:IsLocked() and 'Garr_LevelUpgradeLocked' or 'GM-icon-settings-hover')        
         WoWTools_DataMixin:Hook(frame.SettingsDropdown, 'OnButtonStateChanged', set_Locked_NonInteractive)
 
@@ -2242,12 +2263,29 @@ function WoWTools_TextureMixin.Events:Blizzard_DamageMeter()
 
         self:SetAlphaColor(frame.Header, nil, nil, 0)
 
-        --frame.SessionTimer:SetTextColor(1,0,0)
         WoWTools_ColorMixin:SetLabelColor(frame.SessionTimer)
 
-        self:SetScrollBar(frame.SourceWindow)
-        self:SetAlphaColor(frame.SourceWindow.Background, nil, nil, true)
-        self:SetFrame(frame.SourceWindow.ResizeButton, nil, nil, true)
+        if frame.MinimizeContainer then--11.05才有了
+            self:SetScrollBar(frame.MinimizeContainer)
+            self:SetAlphaColor(frame.MinimizeContainer.Background, nil, nil, true)
+            self:SetFrame(frame.MinimizeContainer.ResizeButton, nil, nil, true)
+
+--最小化，展开，更该图标
+            SetMinimized(frame)
+            WoWTools_DataMixin:Hook(frame, 'SetMinimized', SetMinimized)
+            --frame.MinimizeButton:SetAlpha(0.5)
+            self:SetAlphaColor(frame.MinimizeButton:GetNormalTexture(), nil, nil, 0.5)
+            frame.MinimizeButton:HookScript('OnLeave', function(f)
+                f:SetAlpha(0.5)
+            end)
+            frame.MinimizeButton:HookScript('OnEnter', function(f)
+                f:SetAlpha(1)
+            end)
+        else
+            self:SetScrollBar(frame.SourceWindow)
+            self:SetAlphaColor(frame.SourceWindow.Background, nil, nil, true)
+            self:SetFrame(frame.SourceWindow.ResizeButton, nil, nil, true)
+        end
     end
 
     --WoWTools_DataMixin:Hook(DamageMeterEntryMixin, 'SetupSharedStyleBackground', Set_BG)
@@ -2272,6 +2310,30 @@ function WoWTools_TextureMixin.Events:Blizzard_DamageMeter()
             settins(windowData.sessionWindow)
         end
     end
+
+    if DamageMeterSessionWindow1 then
+        local clear= CreateFrame('DropdownButton', 'WoWToolsDamageClearButton', DamageMeterSessionWindow1, 'WoWToolsMenu2Template')
+
+        clear.texture= clear:CreateTexture(nil, 'BORDER')
+        clear.texture:SetPoint('CENTER')
+        clear.texture:SetAtlas('bags-button-autosort-up')
+        WoWTools_ButtonMixin:AddMask(clear, true, clear.texture)
+        function clear:set_alpha()
+            local isOver= self:IsMouseOver()
+            self.texture:SetAlpha(isOver and 1 or 0.5)
+            local w= isOver and 23 or 18
+            clear.texture:SetSize(w, w)
+        end
+        clear:set_alpha()
+
+        clear.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '重置数据' or DAMAGE_METER_RESET_ALL_SESSIONS)
+        clear:SetPoint('RIGHT', DamageMeterSessionWindow1.SessionDropdown, 'LEFT')
+        clear:SetScript('OnClick', function()
+            C_DamageMeter.ResetAllCombatSessions()
+        end)
+    end
+
+
     WoWTools_DataMixin:Hook(DamageMeterSessionWindowMixin, 'OnLoad', function(frame)
         settins(frame)
     end)
@@ -2341,11 +2403,18 @@ function WoWTools_TextureMixin.Events:Blizzard_Transmog()
     end)
 
 --中间
-    self:SetCheckBox(TransmogFrame.CharacterPreview.HideIgnoredToggle.Checkbox)
+    if TransmogFrame.CharacterPreview.ToggleOptions then--11.0.5才有
+        self:SetCheckBox(TransmogFrame.CharacterPreview.ToggleOptions.HideIgnoredToggle.Checkbox)
+        self:SetCheckBox(TransmogFrame.CharacterPreview.ToggleOptions.SheatheWeaponToggle.Checkbox)
+    else
+        self:SetCheckBox(TransmogFrame.CharacterPreview.HideIgnoredToggle.Checkbox)
+    end
+
     self:HideTexture(TransmogFrame.CharacterPreview.Gradients.GradientLeft)
     self:HideTexture(TransmogFrame.CharacterPreview.Gradients.GradientRight)
     self:HideTexture(TransmogFrame.CharacterPreview.ClearAllPendingButton.NormalTexture)
     self:SetAlphaColor(TransmogFrame.CharacterPreview.ClearAllPendingButton.HighlightTexture, true)
+
     self:SetAlphaColor(TransmogFrame.WardrobeCollection.TabContent.Border, true)
     WoWTools_DataMixin:Hook(TransmogAppearanceSlotMixin, 'OnLoad', function(frame)
         WoWTools_ButtonMixin:AddMask(frame, nil, frame.Icon)

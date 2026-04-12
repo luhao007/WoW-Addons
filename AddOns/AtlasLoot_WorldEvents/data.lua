@@ -1255,32 +1255,62 @@ data["Noblegarden"]           = {
 				{ 4,  141532, "pet1943",                                        [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:200" }, -- Noblegarden Bunny
 				{ 5,  212786, "pet4409",                                        [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:250" }, -- Lovely Duckling
 				{ 6,  44793,  [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:100" },                                       -- Tome of Polymorph: Rabbit
-				{ 7,  45073,  [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:50" },                                        -- Spring Flowers
-				{ 8,  44792,  [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:10" },                                        -- Blossoming Branch
+				{ 7,  165802, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:250" },                                       -- Noble Gardener's Hearthstone
+				{ 8,  204675, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:200" },                                       -- A Drake's Big Basket of Eggs
 				{ 9,  188694, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:50" },                                        -- Spring Florist's Pouch
-				{ 10, 165802, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:250" },                                       -- Noble Gardener's Hearthstone
-				{ 11, 204675, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:200" },                                       -- A Drake's Big Basket of Eggs
+				{ 10, 45073,  [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:50" },                                        -- Spring Flowers
+				{ 11, 44792,  [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:10" },                                        -- Blossoming Branch
 				{ 12, 44818,  [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:5" },                                         -- Noblegarden Egg
-				{ 13, 45067,  [QUEST_EXTRA_ITTYPE] = 13502 },                                                            -- Egg Basket
-				{ 14, 44803,  [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:50" },                                        -- Spring Circlet
-				{ 15, 74282,  [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:50" },                                        -- Black Spring Circlet
-				{ 16, 74283,  [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:50" },                                        -- Pink Spring Circlet
-				{ 17, 164922, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:50" },                                        -- Blue Spring Circlet
-				{ 18, 164923, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:50" },                                        -- Brown Spring Circlet
-				{ 19, 164924, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:50" },                                        -- Yellow Spring Circlet
-				{ 20, 151806, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:50" },                                        -- Elegant Dress
-				{ 21, 44800,  [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:50" },                                        -- Spring Robes
-				{ 22, 6833,   [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:25" },                                        -- White Tuxedo Shirt
-				{ 23, 6835,   [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:25" },                                        -- Black Tuxedo Pants
-				{ 24, 213064, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:100" },                                       -- Paradise's Violet Axe
-				{ 25, 213067, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:100" },                                       -- Violet Floral Edge
-				{ 26, 213070, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:100" },                                       -- Pristine Floral Stalk
-				{ 27, 213073, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:100" },                                       -- Faded Floral Staff
-				{ 28, 213076, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:100" },                                       -- Orchid Bow-quet
+				{ 13, 44803,  [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:50" },                                        -- Spring Circlet
+				{ 14, 74282,  [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:50" },                                        -- Black Spring Circlet
+				{ 15, 74283,  [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:50" },                                        -- Pink Spring Circlet
+				{ 16, 164922, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:50" },                                        -- Blue Spring Circlet
+				{ 17, 164923, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:50" },                                        -- Brown Spring Circlet
+				{ 18, 164924, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:50" },                                        -- Yellow Spring Circlet
+				{ 19, 151806, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:50" },                                        -- Elegant Dress
+				{ 20, 44800,  [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:50" },                                        -- Spring Robes
+				{ 21, 6833,   [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:25" },                                        -- White Tuxedo Shirt
+				{ 22, 151804, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:25" },                                        -- Black Tuxedo Pants
+				{ 23, 213064, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:100" },                                       -- Paradise's Violet Axe
+				{ 24, 213067, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:100" },                                       -- Violet Floral Edge
+				{ 25, 213070, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:100" },                                       -- Pristine Floral Stalk
+				{ 26, 213073, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:100" },                                       -- Faded Floral Staff
+				{ 27, 213076, [PRICE_EXTRA_ITTYPE] = "noblegardenchocolate:100" },                                       -- Orchid Bow-quet
+				{ 29, 45067,  [QUEST_EXTRA_ITTYPE] = 13502 },                                                            -- Egg Basket
 			},
 			[HORDE_DIFF] = {
 				GetItemsFromDiff = ALLIANCE_DIFF,
-				{ 13, 45067, [QUEST_EXTRA_ITTYPE] = 13503 }, -- Egg Basket
+				{ 29, 45067, [QUEST_EXTRA_ITTYPE] = 13503 }, -- Egg Basket
+			},
+		},
+		{ -- Daetan Swiftplume
+			name = AL["Daetan Swiftplume"],
+			[ALLIANCE_DIFF] = {
+				{ 1,  216874 },                   -- Loot-Filled Basket
+				{ 2,  212599, "mount" },          -- Noble Flying Carpet
+				{ 3,  216900 },                   -- Pink Duck Disguise
+				{ 4,  216901 },                   -- White Duck Disguise
+				{ 5,  216902 },                   -- Yellow Duck Disguise
+				{ 6,  216890 },                   -- Black Duck Disguise
+				{ 7,  216897 },                   -- Brown Duck Disguise
+				{ 8,  216898 },                   -- Mallard Duck Disguise
+				{ 9,  212985 },                   -- Spring Reveler's Turquoise Pants
+				{ 10, 212715 },                   -- Spring Reveler's Turquoise Sun Hat
+				{ 11, 212699 },                   -- Spring Reveler's Turquoise Belt
+				{ 12, 212701 },                   -- Spring Reveler's Turquoise Boots
+				{ 13, 212698 },                   -- Spring Reveler's Turquoise Attire
+				{ 14, 212711 },                   -- Spring Reveler's Turquoise Dress
+				{ 15, 212987 },                   -- Spring Reveler's Cornsilk Pants
+				{ 16, 212706 },                   -- Spring Reveler's Cornsilk Belt
+				{ 17, 212707 },                   -- Spring Reveler's Cornsilk Boots
+				{ 18, 212717 },                   -- Spring Reveler's Cornsilk Sun Hat
+				{ 19, 212705 },                   -- Spring Reveler's Cornsilk Attire
+				{ 20, 212713 },                   -- Spring Reveler's Cornsilk Dress
+				{ 22, 216881, [QUEST_EXTRA_ITTYPE] = 79331 }, -- Duck Disguiser
+			},
+			[HORDE_DIFF] = {
+				GetItemsFromDiff = ALLIANCE_DIFF,
+				{ 22, 216881, [QUEST_EXTRA_ITTYPE] = 79578 }, -- Duck Disguiser
 			},
 		},
 	}

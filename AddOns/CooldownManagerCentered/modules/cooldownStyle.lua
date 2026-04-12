@@ -83,6 +83,28 @@ local function GetConfiguredGlowDensity()
     return density
 end
 
+local function GetAutoCastGlowScale()
+    local scale = tonumber(ns.db.profile.cooldownManager_experimental_glow_autocast_scale) or 1
+    scale = math.floor((scale * 10) + 0.5) / 10
+    if scale > 5 then
+        scale = 5
+    elseif scale < 0.5 then
+        scale = 0.5
+    end
+    return scale
+end
+
+local function GetPixelGlowSize()
+    local size = tonumber(ns.db.profile.cooldownManager_experimental_glow_pixel_size) or 1
+    size = math.floor(size + 0.5)
+    if size > 6 then
+        size = 6
+    elseif size < 1 then
+        size = 1
+    end
+    return size
+end
+
 local function StopAllCustomGlows(frame)
     LCG.ProcGlow_Stop(frame)
     LCG.AutoCastGlow_Stop(frame)
@@ -94,10 +116,13 @@ local function StartConfiguredGlow(frame, defaultStyle)
     local color = GetConfiguredGlowColor()
     local frequency = GetConfiguredGlowFrequency()
     local density = GetConfiguredGlowDensity()
+
     if resolvedStyle == GLOW_STYLE_AUTOCAST then
-        LCG.AutoCastGlow_Start(frame, color, density, frequency)
+        local glowAutoCastGlowScale = GetAutoCastGlowScale()
+        LCG.AutoCastGlow_Start(frame, color, density, frequency, glowAutoCastGlowScale)
     elseif resolvedStyle == GLOW_STYLE_PIXEL then
-        LCG.PixelGlow_Start(frame, color, density, frequency)
+        local pixelGlowSize = GetPixelGlowSize()
+        LCG.PixelGlow_Start(frame, color, density, frequency, nil, pixelGlowSize)
     else
         LCG.ProcGlow_Start(frame, { startAnim = false, color = color })
     end
@@ -109,20 +134,24 @@ local function GetGlowSignature(defaultStyle)
     if resolvedStyle == GLOW_STYLE_AUTOCAST or resolvedStyle == GLOW_STYLE_PIXEL then
         local frequency = GetConfiguredGlowFrequency()
         local density = GetConfiguredGlowDensity()
+        local autoCastScale = GetAutoCastGlowScale()
+        local pixelSize = GetPixelGlowSize()
         local color = GetConfiguredGlowColor()
         if color then
             return string.format(
-                "%s:%.3f:%.3f:%.3f:%.3f:%d:%d",
+                "%s:%.3f:%.3f:%.3f:%.3f:%.3f:%d:%.1f:%d",
                 resolvedStyle,
                 color[1] or 0,
                 color[2] or 0,
                 color[3] or 0,
                 color[4] or 1,
                 frequency,
-                density
+                density,
+                autoCastScale,
+                pixelSize
             )
         end
-        return string.format("%s:%.2f:%d", resolvedStyle, frequency, density)
+        return string.format("%s:%.3f:%d:%.1f:%d", resolvedStyle, frequency, density, autoCastScale, pixelSize)
     end
     return resolvedStyle
 end
@@ -343,7 +372,9 @@ local function ApplyIconSettings(cdmFrame)
         and cdmFrame.CooldownFlash:IsShown()
     if cdmFrame.wasSetFromAura then
         local spellCharges = C_Spell.GetSpellCharges(spellID)
-        if spellCharges then
+        local hasCharges = spellCharges and spellCharges.maxCharges > 1
+
+        if hasCharges then
             --[[ -- potentially simplified code, to just leave it as:
             cdmFrame.Cooldown:SetDrawSwipe(guesstimateThatSpellWithChargesIsOnChargeCooldown)
             cdmFrame.Cooldown:SetDrawEdge(
@@ -357,24 +388,10 @@ local function ApplyIconSettings(cdmFrame)
             Action/Spell cooldown APIs now return isEnabled and maxCharges as non-secrets.
             Action/Spell cooldown APIs now return a new non-secret isActive boolean
             ]]
-            if issecretvalue(spellCharges.currentCharges) or issecretvalue(spellCharges.maxCharges) then
-                if issecretvalue(cdmFrame.Icon:IsDesaturated()) then
-                    local flashIsShown = guesstimateThatSpellWithChargesIsOnChargeCooldown
-                    cdmFrame.Cooldown:SetDrawSwipe(flashIsShown)
-                    cdmFrame.Cooldown:SetDrawEdge(
-                        not flashIsShown or CooldownStyle.GetAlwaysShowCooldownEdge(baseSpellId)
-                    )
-                else
-                    cdmFrame.Cooldown:SetDrawSwipe(false)
-                    cdmFrame.Cooldown:SetDrawEdge(true)
-                end
-            else
-                cdmFrame.Cooldown:SetDrawSwipe(spellCharges.currentCharges == 0)
-                cdmFrame.Cooldown:SetDrawEdge(
-                    spellCharges.currentCharges < spellCharges.maxCharges
-                        or CooldownStyle.GetAlwaysShowCooldownEdge(baseSpellId)
-                )
-            end
+
+            local flashIsShown = guesstimateThatSpellWithChargesIsOnChargeCooldown
+            cdmFrame.Cooldown:SetDrawSwipe(flashIsShown)
+            cdmFrame.Cooldown:SetDrawEdge(not flashIsShown or CooldownStyle.GetAlwaysShowCooldownEdge(baseSpellId))
         else
             cdmFrame.Cooldown:SetDrawSwipe(true)
         end

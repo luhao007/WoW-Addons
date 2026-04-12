@@ -41,13 +41,16 @@ Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION = "<Нажмите, чтобы о
 
 Lockit.UI_LOOT_INFO_DESCRIPTION = "Завершите Вылазку, чтобы получить:"
 
+-- Delves Gossip
+Lockit.UI_DELVE_AUTO_ENTER_CANCEL_TOOLTIP_INSTRUCTION = "<Click to cancel auto entering>"
+
 -- Информация о ключах
 
 Lockit.UI_BOUNTIFUL_KEYS_COUNT_CACHES_PREFIX = "Ключей из тайников"
 
 -- Отделение для аддонов
 
-Lockit.UI_COMPARTMENT_DESCRIPTION_LEFT_CLICK = "|cnGREEN_FONT_COLOR:Left Click|r to open the current season Delves info."
+Lockit.UI_COMPARTMENT_DESCRIPTION_LEFT_CLICK = "|cnGREEN_FONT_COLOR:ЛКМ|r - открыть информацию о текущем сезоне Вылазок."
 Lockit.UI_COMPARTMENT_DESCRIPTION_RIGHT_CLICK = "|cnGREEN_FONT_COLOR:ПКМ|r - изменить параметры."
 
 -- Настройки
@@ -83,8 +86,15 @@ Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_VERTICAL_NAME = "Вертика�
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_VERTICAL_DESCRIPTION = "Кнопки расположены вертикально."
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_HORIZONTAL_NAME = "Горизонтальный макет"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_HORIZONTAL_DESCRIPTION = "Кнопки расположены горизонтально."
-Lockit.UI_SETTING_MINIMAP_ICON_NAME = "Show Minimap Icon"
-Lockit.UI_SETTING_MINIMAP_ICON_TOOLTIP = "Display a minimap icon. It can be clicked to quickly access the current season Delves info."
+Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_NAME = "Story Variant Status"
+Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_TOOLTIP = "Highlight whether the active Story Variant has been completed or not (required for Delve Loremaster achievements) in the window displayed entering a Delve."
+Lockit.UI_SETTING_MINIMAP_ICON_NAME = "Показывать иконку на миникарте"
+Lockit.UI_SETTING_MINIMAP_ICON_TOOLTIP = "Отображать иконку на миникарте. Нажав на него, можно быстро получить доступ к информации о текущем сезоне Вылазок."
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_NAME = "Автоматический вход в Вылазки"
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_TOOLTIP = "Автоматически входить в Вылазку при приближении к её входу.\n\nВылазка не будет открыта, если:\n- Этот уровень сложности ещё не разблокирован.\n- Это Вылазка Немезиды.\n- Это Многообещающая вылазка, но у Вас нет |cnITEM_EPIC_COLOR:Отреставрированный ключ от сундука|r или достаточного количества |cnITEM_SUPERIOR_COLOR:Осколок ключа от сундука|r для его создания."
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_TIER_TOOLTIP = "Уровень Вылазки для входа."
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_NAME = "Задержка перед входом"
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_TOOLTIP = "A Delve will be entered with a delay (in seconds).\n\nThere is a button in the window displayed entering a Delve. It can be clicked to cancel the auto entering before the delay countdown elapsed."
 
 Lockit.UI_SETTINGS_SECTION_TITLE_CHARACTER = "Параметры персонажа"
 Lockit.UI_SETTING_TOOLTIP_EXTENSION_NAME = "Дополнительная информация в подсказках"

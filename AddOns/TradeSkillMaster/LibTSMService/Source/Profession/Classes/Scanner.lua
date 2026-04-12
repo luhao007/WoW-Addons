@@ -606,7 +606,7 @@ function private.ScanProfession()
 							numResultItems = #result
 						elseif ItemString.GetBase(result) then
 							local ilvlBonuses = info.qualityIlvlBonuses
-							if ilvlBonuses and #ilvlBonuses > 0 then
+							if ilvlBonuses and #ilvlBonuses > 1 then
 								numResultItems = #ilvlBonuses
 							else
 								numResultItems = 1

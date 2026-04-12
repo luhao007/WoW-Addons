@@ -1,5 +1,5 @@
 local _, db = ...
-local hbversion = 1
+local hbversion = 2
 local STAR_TEXTURE = "Interface\\AddOns\\HomeBound\\Assets\\star"
 local STAR2_TEXTURE = "Interface\\AddOns\\HomeBound\\Assets\\star2"
 local HORDE_ICON_TEXTURE = "Interface\\AddOns\\HomeBound\\Assets\\horde"
@@ -8,10 +8,10 @@ local COLLECTED_ICON_TEXTURE = "Interface\\AddOns\\HomeBound\\Assets\\collected2
 local DROP_REMINDER_TEXTURE = "Interface\\AddOns\\HomeBound\\Assets\\drop"
 local NOTE_ICON_TEXTURE = "Interface\\AddOns\\HomeBound\\Assets\\note"
 
-local TWITCH_DROP_ITEM_ID = 263298
-local TWITCH_DROP_DECOR_ID = 15148
-local TWITCH_DROP_END_TIME = 1774371600
-local TWITCH_DROP_URL = "https://worldofwarcraft.blizzard.com/en-gb/news/24264010/support-a-streamer-and-twitch-drops-ahead"
+local TWITCH_DROP_ITEM_ID = 265545
+local TWITCH_DROP_DECOR_ID = 16965
+local TWITCH_DROP_END_TIME = 1776981600
+local TWITCH_DROP_URL = "https://worldofwarcraft.blizzard.com/en-gb/news/24271368/twitch-drop-get-the-cuddly-void-grrgle-housing-decor-item-26-march"
 
 local EXPANSION_NAMES = {
 	[1] = "Classic", [2] = "The Burning Crusade", [3] = "Wrath of the Lich King",
@@ -38,7 +38,8 @@ hb_settings = hb_settings or {
 	showVendorCheckmarks = true,
 	showMerchantCheckmarks = false,
 	hideTwitchDrop = false,
-	hideVendorCosts = false
+	hideVendorCosts = false,
+	showMapPins = false
 }
 dbHB = {minimap = {hide = false}}
 
@@ -67,6 +68,8 @@ local currentVendorPage = 1
 local vendorFilteredItems = {}
 local vendorPopup
 local UpdateVendorPopup
+local pinsCheck
+local toggleHB
 
 local QuestEventListener = CreateFrame("Frame")
 QuestEventListener.callbacks = {}
@@ -131,6 +134,40 @@ local function GetCachedItemName(itemID)
 	return db.L_LOADING_ITEM, true
 end
 
+local function PrecacheCostItems()
+	for _, data in pairs(db.decorItem) do
+		if data.cost and data.cost.items then for reqItemID in pairs(data.cost.items) do
+			local item = Item:CreateFromItemID(reqItemID)
+			item:ContinueOnItemLoad(function() itemNameCache[reqItemID] = item:GetItemName() end)
+		end end
+	end
+end
+
+local cachedCosts = nil
+local function GetCachedCosts()
+	if cachedCosts then return cachedCosts end
+	cachedCosts = {currencies = {}, items = {}}
+	for _, data in pairs(db.decorItem) do if data.cost then
+		if data.cost.currencies then
+			for cID in pairs(data.cost.currencies) do cachedCosts.currencies[cID] = true end
+		end
+		if data.cost.items then
+			for iID in pairs(data.cost.items) do cachedCosts.items[iID] = true end
+		end
+	end end
+	return cachedCosts
+end
+
+local function GetCostFilterName(type, id)
+	if type == "gold" then return string.format("|TInterface\\MoneyFrame\\UI-GoldIcon:16:16:0:0|t %s", BONUS_ROLL_REWARD_MONEY)
+	elseif type == "currency" then
+		local info = C_CurrencyInfo.GetCurrencyInfo(id)
+		return string.format("|T%s:20:20:0:0|t %s", info.iconFileID, info.name)
+	elseif type == "item" then
+		return string.format("|T%s:20:20:0:0|t %s", GetItemIcon(id), itemNameCache[id] or id)
+	end
+end
+
 local function GetCachedNpcName(npcID)
 	if npcNameCache[npcID] then return npcNameCache[npcID], false end
 	local link = "unit:Creature-0-0-0-0-" .. npcID
@@ -181,14 +218,26 @@ local function ItemPassesRequirements(itemID)
 	local filters = hb_settings.tabFilters["vendors"]
 	if not filters then return true end
 	
-	if filters.achievement and filters.quest and filters.reputation then return true end
-
 	local data = db.decorItem and db.decorItem[itemID]
 	if not data then return true end
 
 	if data.reqAchiev and not filters.achievement then return false end
 	if data.reqQuest and not filters.quest then return false end
 	if data.reqRep and not filters.reputation then return false end
+
+	if data.cost then
+		if data.cost.gold and filters.cost_gold == false then return false end
+		if data.cost.currencies then
+			for currID in pairs(data.cost.currencies) do
+				if filters["cost_curr_" .. currID] == false then return false end
+			end
+		end
+		if data.cost.items then
+			for reqItemID in pairs(data.cost.items) do
+				if filters["cost_item_" .. reqItemID] == false then return false end
+			end
+		end
+	end
 
 	return true
 end
@@ -1136,6 +1185,25 @@ filterButton:SetupMenu(function(dropdown, rootDescription)
 		reqMenu:CreateCheckbox(db.L_ACHIEVEMENT, function() return activeFilters.achievement end, function() activeFilters.achievement = not activeFilters.achievement; BuildUI(); RefreshVendorPopup() end)
 		reqMenu:CreateCheckbox(db.L_QUEST, function() return activeFilters.quest end, function() activeFilters.quest = not activeFilters.quest; BuildUI(); RefreshVendorPopup() end)
 		reqMenu:CreateCheckbox(db.L_REPUTATION, function() return activeFilters.reputation end, function() activeFilters.reputation = not activeFilters.reputation; BuildUI(); RefreshVendorPopup() end)
+		
+		local currMenu = rootDescription:CreateButton(db.L_COST_FILTER)
+		currMenu:SetGridMode(MenuConstants.VerticalGridDirection, 2)
+		currMenu:CreateTitle(db.L_CURRENCIES)
+		currMenu:CreateCheckbox(GetCostFilterName("gold"), function() return activeFilters.cost_gold ~= false end, function() activeFilters.cost_gold = (activeFilters.cost_gold == false); BuildUI(); RefreshVendorPopup() end)
+		local costs = GetCachedCosts()
+		local sortedCurrencies = {}
+		for cID in pairs(costs.currencies) do table.insert(sortedCurrencies, cID) end
+		table.sort(sortedCurrencies)
+		for _, cID in ipairs(sortedCurrencies) do
+			currMenu:CreateCheckbox(GetCostFilterName("currency", cID), function() return activeFilters["cost_curr_" .. cID] ~= false end, function() activeFilters["cost_curr_" .. cID] = (activeFilters["cost_curr_" .. cID] == false); BuildUI(); RefreshVendorPopup() end)
+		end
+		currMenu:CreateTitle(ITEMS)
+		local sortedItems = {}
+		for iID in pairs(costs.items) do table.insert(sortedItems, iID) end
+		table.sort(sortedItems)
+		for _, iID in ipairs(sortedItems) do
+			currMenu:CreateCheckbox(GetCostFilterName("item", iID), function() return activeFilters["cost_item_" .. iID] ~= false end, function() activeFilters["cost_item_" .. iID] = (activeFilters["cost_item_" .. iID] == false); BuildUI(); RefreshVendorPopup() end)
+		end
 	end
 
 	if currentTab == "professions" then
@@ -1149,7 +1217,13 @@ filterButton:SetupMenu(function(dropdown, rootDescription)
 	rootDescription:CreateButton(db.L_RESET_FILTERS, function()
 		activeFilters.neutral = true; activeFilters.alliance = true; activeFilters.horde = true; 
 		if currentTab == "decor" then activeFilters.achievement = true; activeFilters.quest = true; end
-		if currentTab == "vendors" then activeFilters.achievement = true; activeFilters.quest = true; activeFilters.reputation = true; end
+		if currentTab == "vendors" then 
+			activeFilters.achievement = true; activeFilters.quest = true; activeFilters.reputation = true; 
+			activeFilters.cost_gold = nil
+			local costs = GetCachedCosts()
+			for cID in pairs(costs.currencies) do activeFilters["cost_curr_" .. cID] = nil end
+			for iID in pairs(costs.items) do activeFilters["cost_item_" .. iID] = nil end
+		end
 		if currentTab == "professions" then
 			for i = 1, #EXPANSION_NAMES do activeFilters["expansion"..i] = true end
 		end
@@ -1318,7 +1392,8 @@ local function UpdatePreviewDisplay()
 			itemIDForName = itemIDForName[index]
 		end
 		
-		if itemIDForName then
+		if itemIDForName == 1 then titleText = db.L_7421601
+		elseif itemIDForName then
 			titleText = GetCachedItemName(itemIDForName)
 		else
 			titleText = (type(reward.title) == "table") and reward.title[index] or reward.title or "Decor Reward"
@@ -1779,6 +1854,12 @@ function BuildUI()
 				groupTotal = groupTotal + 1
 				local isComplete = IsRewardComplete(item)
 				if isComplete then groupCompleted = groupCompleted + 1 end
+				
+				local isFav = IsFavorited(item)
+				if isFav and hb_settings.groupFavorites then
+					favoritesGroup.total = favoritesGroup.total + 1
+					if isComplete then favoritesGroup.completed = favoritesGroup.completed + 1 end
+				end
 
 				local showStructural = true
 				local rewardFaction = GetRewardFaction(item)
@@ -1885,14 +1966,11 @@ function BuildUI()
 					end
 
 					if showSearch and showReqs then 
-						local isFav = IsFavorited(item)
 						if isFav then
 							if hb_settings.groupFavorites then
 								table.insert(favoritesGroup.favItems, item)
-								favoritesGroup.total = favoritesGroup.total + 1
-								if isComplete then favoritesGroup.completed = favoritesGroup.completed + 1 end
 							else table.insert(activeFavItems, item) end
-						else table.insert(activeOtherItems, item) end
+                        else table.insert(activeOtherItems, item) end
 					end
 				end
 			end
@@ -2002,6 +2080,10 @@ local function HideMerchantCheckmarks()
 	end
 end
 
+local mapData = CreateFromMixins(MapCanvasDataProviderMixin)
+mapData.pins, mapData.activeCount = {}, 0
+WorldMapFrame:AddDataProvider(mapData)
+
 local function CreateOptionsPanel()
 	local configFrame = CreateFrame("Frame", "HB_ConfigFrame", UIParent)
 	configFrame.name = "Home Bound"
@@ -2064,8 +2146,16 @@ local function CreateOptionsPanel()
 		hb_settings.groupFavorites = self:GetChecked(); BuildUI()
 	end)
 
+	pinsCheck = CreateFrame("CheckButton", nil, configFrame, "UICheckButtonTemplate")
+	pinsCheck:SetPoint("TOPLEFT", groupFavCheck, "BOTTOMLEFT", 0, -10)
+	pinsCheck.Text:SetFont(STANDARD_TEXT_FONT, 14); pinsCheck.Text:SetTextColor(1, 0.82, 0); pinsCheck.Text:SetText(db.L_PINS .. " |A:housing-decor-vendor_32:22:22|a")
+	pinsCheck:SetChecked(hb_settings.showMapPins)
+	pinsCheck:SetScript("OnClick", function(self)
+		hb_settings.showMapPins = self:GetChecked(); mapData:RefreshAllData()
+	end)
+
 	local scaleLabel = configFrame:CreateFontString(nil, "ARTWORK")
-	scaleLabel:SetFont(STANDARD_TEXT_FONT, 14); scaleLabel:SetTextColor(1, 0.82, 0); scaleLabel:SetPoint("TOPLEFT", groupFavCheck, "BOTTOMLEFT", 0, -20); scaleLabel:SetText(db.L_UI_SCALE)
+	scaleLabel:SetFont(STANDARD_TEXT_FONT, 14); scaleLabel:SetTextColor(1, 0.82, 0); scaleLabel:SetPoint("TOPLEFT", pinsCheck, "BOTTOMLEFT", 0, -20); scaleLabel:SetText(db.L_UI_SCALE)
 	local scaleSlider = CreateFrame("Slider", nil, configFrame, "MinimalSliderWithSteppersTemplate")
 	scaleSlider:SetWidth(200)
 	scaleSlider:SetHeight(20)
@@ -2177,6 +2267,65 @@ local function HookMerchantFrame()
 	end)
 end
 
+
+
+local function PinTooltip(f)
+	local name, isLoading = GetCachedNpcName(f.vendorID)
+	GameTooltip:SetText(isLoading and db.L_LOADING_VENDOR or name, 1, 1, 1)
+	local t = f.faction == "alliance" and {FACTION_ALLIANCE, 0.4, 0.7, 1} or {FACTION_HORDE, 1, 0.2, 0.2}
+	if f.faction ~= "neutral" then GameTooltip:AddLine(unpack(t)) end GameTooltip:Show()
+	return isLoading
+end
+
+function mapData:UpdatePinPositions()
+	local map = self:GetMap(); local c, s = map:GetCanvas(), 1 / map:GetCanvasScale()
+	local w, h = c:GetWidth() / s, c:GetHeight() / s
+	for i = 1, self.activeCount do
+		local p = self.pins[i]
+		p:SetScale(s) p:ClearAllPoints() p:SetPoint("CENTER", c, "TOPLEFT", p.nx * w, -p.ny * h)
+	end
+end
+
+function mapData:OnCanvasScaleChanged() self:UpdatePinPositions() end
+function mapData:OnCanvasSizeChanged() self:UpdatePinPositions() end
+
+function mapData:RefreshAllData()
+	for i = 1, self.activeCount do self.pins[i]:Hide() end self.activeCount = 0
+	if not hb_settings.showMapPins then return end
+
+	local map = self:GetMap(); local mapID, c = map:GetMapID(), map:GetCanvas()
+	for _, group in ipairs(db.vendors) do for _, npc in ipairs(group.npcs) do if npc.mapID == mapID then
+		self.activeCount = self.activeCount + 1
+		local p = self.pins[self.activeCount]
+		if not p then
+			p = CreateFrame("Button", nil, c)
+			p:SetSize(20, 20) p:SetFrameLevel(c:GetFrameLevel() + 2500) p:RegisterForClicks("LeftButtonUp") p:SetPropagateMouseClicks(true)
+			p:SetScript("OnEnter", function()
+				GameTooltip:SetOwner(p, "ANCHOR_RIGHT")
+				if PinTooltip(p) then p.t = C_Timer.NewTicker(0.2, function() if not PinTooltip(p) then p.t:Cancel() end end) end
+			end)
+			p:SetScript("OnLeave", function() if p.t then p.t:Cancel() end GameTooltip:Hide() end)
+			p:SetScript("OnClick", function() if not IsControlKeyDown() then local n, l = GetCachedNpcName(p.vendorID) ShowVendorPopup(p.vendorID, l and "Vendor" or n) end end)
+			local t = p:CreateTexture(nil, "ARTWORK") t:SetAllPoints() t:SetAtlas("housing-decor-vendor_32")
+			local ht = p:CreateTexture(nil, "HIGHLIGHT") ht:SetAllPoints() ht:SetAtlas("housing-decor-vendor_32")
+			ht:SetBlendMode("ADD") ht:SetAlpha(0.4)
+			self.pins[self.activeCount] = p
+		end
+		p.vendorID, p.nx, p.ny, p.faction = npc.id, npc.x / 100, npc.y / 100, GetRewardFaction(npc)
+		p:Show()
+	end end end
+	self:UpdatePinPositions()
+end
+
+Menu.ModifyMenu("MENU_WORLD_MAP_TRACKING", function(_, rootDescription)
+	rootDescription:CreateDivider()
+	rootDescription:CreateCheckbox(db.L_TAB2_VENDORS, function() return hb_settings.showMapPins end, function()
+		hb_settings.showMapPins = not hb_settings.showMapPins
+		mapData:RefreshAllData()
+		pinsCheck:SetChecked(hb_settings.showMapPins)
+	end)
+end)
+
 local init = CreateFrame("Frame")
 init:RegisterEvent("ADDON_LOADED")
 init:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -2199,37 +2348,37 @@ init:SetScript("OnEvent", function(self, event, addon, ...)
 		if hb_settings.hideTwitchDrop == nil then hb_settings.hideTwitchDrop = false end
 		if hb_settings.hideVendorCosts == nil then hb_settings.hideVendorCosts = false end
 		if hb_settings.groupFavorites == nil then hb_settings.groupFavorites = false end
+		if hb_settings.showMapPins == nil then hb_settings.showMapPins = false end
 		
 		db.decorIdToItemId = {}
-		if db.decorItem then
-			for itemID, data in pairs(db.decorItem) do
-				db.decorIdToItemId[data.decorID] = itemID
-			end
+		for itemID, data in pairs(db.decorItem) do
+			db.decorIdToItemId[data.decorID] = itemID
 		end
+		PrecacheCostItems()
 		
 		hb_settings.showMinimapButton = hb_settings.showMinimapButton == nil and true or hb_settings.showMinimapButton
 		if hb_settings.useTomTom == nil then hb_settings.useTomTom = true end
 		if hb_settings.closeOnEsc == nil then hb_settings.closeOnEsc = true end
 		hb_settings.tabFilters = hb_settings.tabFilters or {}
+		
 		local function InitializeTabFilter(tabName, includeType, includeReqs, includeExpansions)
-			 if not hb_settings.tabFilters[tabName] then
-					 hb_settings.tabFilters[tabName] = { neutral = true, alliance = true, horde = true }
-					 if includeType then
-							 hb_settings.tabFilters[tabName].achievement = true
-							 hb_settings.tabFilters[tabName].quest = true
-					 end
-					 if includeReqs then
-						hb_settings.tabFilters[tabName].achievement = true
-						hb_settings.tabFilters[tabName].quest = true
-						hb_settings.tabFilters[tabName].reputation = true
-					 end
-					 if includeExpansions then
-						for i = 1, #EXPANSION_NAMES do
-							hb_settings.tabFilters[tabName]["expansion"..i] = true
-						end
-					 end
-			 end
+			hb_settings.tabFilters[tabName] = hb_settings.tabFilters[tabName] or {}
+			local filters = hb_settings.tabFilters[tabName]
+
+			local function setFilters(t, keys) for _, key in ipairs(keys) do
+				if t[key] == nil then t[key] = true end
+			end end
+
+			setFilters(filters, {"neutral", "alliance", "horde"})
+			if includeType then setFilters(filters, {"achievement", "quest"}) end
+			if includeReqs then setFilters(filters, {"achievement", "quest", "reputation"}) end
+			if includeExpansions then
+				for i = 1, #EXPANSION_NAMES do
+					if filters["expansion"..i] == nil then filters["expansion"..i] = true end
+				end
+			end
 		end
+		
 		InitializeTabFilter("decor", true, false, false)
 		InitializeTabFilter("vendors", false, true, false)
 		InitializeTabFilter("drops", false, false, false)
@@ -2238,9 +2387,7 @@ init:SetScript("OnEvent", function(self, event, addon, ...)
 		if ldb then
 			local dataobj = ldb:NewDataObject("HomeBound", { type = "launcher", icon = 7252953, label = "HomeBound", text = "HomeBound", name = "HomeBound",
 				OnClick = function(_, button)
-					if button == "LeftButton" then
-						if not frame:IsShown() then BuildUI() end
-						frame:SetShown(not frame:IsShown())
+					if button == "LeftButton" then toggleHB()
 					elseif button == "RightButton" then Settings.OpenToCategory(hb_options_category:GetID()) end
 				end
 			})
@@ -2268,18 +2415,10 @@ init:SetScript("OnEvent", function(self, event, addon, ...)
 			vendorPopup:ClearAllPoints()
 			vendorPopup:SetPoint("CENTER", frame, "CENTER", 0, 0)
 			catalogSearcher:SetResultsUpdatedCallback(function() end)
-
-			if hb_settings.version < hbversion then
-				hb_settings.version = hbversion
-				currentTab = "drops"
-				UpdateTabStyles()
-				collapsedHeaders["drops"] = {}; collapsedHeaders["drops"]["Miscellaneous"] = false
-			end
 		end)
 
 		catalogSearcher:RunSearch()
 		searcherTimer = C_Timer.NewTicker(0.5, function() catalogSearcher:RunSearch() end)
-		--if DV_MainFrame then for _,r in ipairs({DV_MainFrame:GetRegions()})do if r:IsObjectType("FontString")and select(5,r:GetPoint())<=-13 then r:SetText("\067\104\101\097\112\032\072\111\109\101\032\066\111\117\110\100\032\067\111\112\121")break end end end
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	elseif event == "ACHIEVEMENT_EARNED" or event == "QUEST_TURNED_IN" then
 		C_Timer.After(0.5, BuildUI)
@@ -2334,11 +2473,18 @@ init:SetScript("OnEvent", function(self, event, addon, ...)
 	end
 end)
 
-SLASH_HB1 = "/hb"
-SLASH_HB2 = "/homebound"
-SlashCmdList["HB"] = function()
+toggleHB = function()
 	if not frame:IsShown() then BuildUI() end
 	frame:SetShown(not frame:IsShown())
+	if hb_settings.version < hbversion then
+		hb_settings.version = hbversion
+		currentTab = "drops"
+		UpdateTabStyles()
+		collapsedHeaders["drops"] = {}; collapsedHeaders["drops"]["Miscellaneous"] = false
+	end
 end
 
-function HomeBound_OnAddonCompartmentClick() SlashCmdList["HB"]() end
+SLASH_HB1 = "/hb"
+SLASH_HB2 = "/homebound"
+SlashCmdList["HB"] = function() toggleHB() end
+function HomeBound_OnAddonCompartmentClick() toggleHB() end

@@ -45,6 +45,23 @@
         </Layers>
     </Button>
 
+    <Button name="WoWTools3Template" virtual="true">
+        <Size x="23" y="23"/>        
+        <HighlightTexture atlas="Azerite-Trait-RingGlow">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="-5" y="5"/>
+                <Anchor point="BOTTOMRIGHT" x="5" y="-5"/>
+            </Anchors>
+        </HighlightTexture>
+        <PushedTexture atlas="bag-border-highlight">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="-2" y="2"/>
+                <Anchor point="BOTTOMRIGHT" x="4" y="-4"/>
+            </Anchors>
+        </PushedTexture>
+    </Button>
+
+
     <Button name="WoWToolsButtonTemplate" inherits="WoWToolsTemplate" virtual="true">     
         <Scripts>
             <OnLoad function="WoWToolsButton_OnLoad"/>
@@ -97,6 +114,16 @@
         </Scripts>
     </DropdownButton>
 
+    <DropdownButton name="WoWToolsMenu4Template" inherits="WoWTools3Template" virtual="true">
+        <Scripts>
+            <OnLoad>
+                WoWToolsMenu_OnLoad(self)
+            </OnLoad>
+            <OnLeave function="WoWToolsButton_OnLeave"/>
+            <OnEnter function="WoWToolsButton_OnEnter"/>
+        </Scripts>
+    </DropdownButton>
+
     <Button name="WoWToolsEmojiButtonTemplate" virtual="true">
         <Size x="32" y="32"/>
         <NormalTexture atlas="chatframe-button-up">
@@ -127,4 +154,22 @@
             <OnEnter function="WoWToolsButton_OnEnter"/>
         </Scripts>
     </Button>
+
+    <Button name="WoWToolsReloadButtonTemplate" inherits="WoWToolsTemplate" virtual="true">
+        <NormalTexture atlas="common-icon-exit" alpha='0.5'>
+            <Anchors>
+                <Anchor point="TOPLEFT" x='2' y='-2'/>
+                <Anchor point="BOTTOMRIGHT" x='-2' y='2'/>
+            </Anchors>
+        </NormalTexture>
+        <Scripts>
+            <OnLoad>
+                self.tooltip=WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '重新加载' or RELOADUI)
+            </OnLoad>
+            <OnLeave function="WoWToolsButton_OnLeave"/>
+            <OnEnter function="WoWToolsButton_OnEnter"/>
+            <OnMouseUp function="C_UI.Reload"/>
+        </Scripts>
+    </Button>
+
 </Ui>

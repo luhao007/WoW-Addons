@@ -11,8 +11,6 @@ local PIGFontString=Create.PIGFontString
 local PIGOptionsList=Create.PIGOptionsList
 local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGOptionsList_RF=Create.PIGOptionsList_RF
---
-local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 ---
 local PigConfigFun={}
 addonTable.PigConfigFun=PigConfigFun
@@ -68,7 +66,7 @@ local function Remove_Data(newdata,Per)--剔除数据类配置
 		newdata["QuickBut"]["TrinketList"]=nil
 		--
 		newdata["Farm"]=nil
-		-- if IsAddOnLoaded("!Pig_Farm") then
+		-- if PIGIsAddOnLoaded("!Pig_Farm") then
 		-- 	newdata["Farm"]["Fuben_G"]=nil
 		-- 	newdata["Farm"]["Auto_KeyList"]=nil
 		-- 	newdata["Farm"]["Namelist"]=nil
@@ -117,10 +115,10 @@ local function Remove_Data(newdata,Per)--剔除数据类配置
 		newdata["Tardis"]=nil
 		newdata["GDKP"]=nil
 		newdata["ConfigString"]=nil
-		-- if IsAddOnLoaded("!Pig_Tardis") then
+		-- if PIGIsAddOnLoaded("!Pig_Tardis") then
 		-- 	newdata["Tardis"]["Plane"]["InfoList"]=nil
 		-- end
-		-- if IsAddOnLoaded("!Pig_GDKP") then
+		-- if PIGIsAddOnLoaded("!Pig_GDKP") then
 		-- 	newdata["GDKP"]["PaichuList"]=nil
 		-- 	newdata["GDKP"]["ItemList"]=nil
 		-- 	newdata["GDKP"]["History"]=nil
@@ -130,10 +128,10 @@ local function Remove_Data(newdata,Per)--剔除数据类配置
 end
 local function GetConfigNoData()--获取剔除数据后的默认配置
 	local newdata={{},{}}
-	newdata[1] = PIGCopyTable(addonTable.Default)
+	newdata[1] = CopyTable(addonTable.Default)
 	Remove_Data(newdata[1])
 	--Per
-	newdata[2] = PIGCopyTable(addonTable.Default_Per)
+	newdata[2] = CopyTable(addonTable.Default_Per)
 	Remove_Data(newdata[2],true)
 	return newdata[1],newdata[2]
 end
@@ -244,8 +242,8 @@ local function Remove_RepeatValues(NewDataX, moren)
         end
     end
 end
-local function PIGCopyTable_Duplicates_1(old,moren,Per)
-	local NewDataX = PIGCopyTable(old)
+local function CopyTable_Duplicates_1(old,moren,Per)
+	local NewDataX = CopyTable(old)
 	if not DefaultF.I_Data:GetChecked() then
 		Remove_Data(NewDataX,Per)
 	end
@@ -253,14 +251,14 @@ local function PIGCopyTable_Duplicates_1(old,moren,Per)
 	Remove_RepeatValues(NewDataX,moren)
 	return NewDataX
 end
-local function PIGCopyTable_Duplicates()
-	local NewDataX = PIGCopyTable_Duplicates_1(PIGA, addonTable.Default)
-	local NewDataX_Per = PIGCopyTable_Duplicates_1(PIGA_Per, addonTable.Default_Per, true)
+local function CopyTable_Duplicates()
+	local NewDataX = CopyTable_Duplicates_1(PIGA, addonTable.Default)
+	local NewDataX_Per = CopyTable_Duplicates_1(PIGA_Per, addonTable.Default_Per, true)
 	return NewDataX,NewDataX_Per
 end
 DefaultF.daochubut = PIGButton(DefaultF,{"TOPLEFT",DefaultF.daorubut,"BOTTOMLEFT",0, -20},{90,24},L["CONFIG_DAOCHU"]..L["CONFIG_TABNAME"])
 DefaultF.daochubut:SetScript("OnClick", function ()
-	-- local NewDataX,NewDataX_Per =PIGCopyTable_Duplicates()
+	-- local NewDataX,NewDataX_Per =CopyTable_Duplicates()
 	-- for k,v in pairs(NewDataX) do
 	-- 	if type(v)=="table" then
 	-- 		--if k~="Pig_UI" then
@@ -284,7 +282,7 @@ DefaultF.daochubut:SetScript("OnClick", function ()
 	-- 		print(k,v)
 	-- 	end
 	-- end
-	_G[Data.ExportImportUIname]:daochuFun(addonName..ADDONS..L["CONFIG_TABNAME"],PIGCopyTable_Duplicates())
+	_G[Data.ExportImportUIname]:daochuFun(addonName..ADDONS..L["CONFIG_TABNAME"],CopyTable_Duplicates())
 end);
 DefaultF.I_UnitF=PIGCheckbutton(DefaultF,{"LEFT",DefaultF.daochubut,"RIGHT",20, 0},{"导出包含头像位置（自身/目标/焦点）","导出信息将包含头像位置数据，虽然这并不属于插件本身配置信息"})
 DefaultF.I_UnitF:SetChecked(true)

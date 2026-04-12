@@ -34,6 +34,8 @@ end
 
 ---@param self DelvesListFrame
 function DelveCompanion_DelvesListFrameMixin:Refresh()
+    DelveCompanion:UpdateDelvesData()
+
     ---@type EJTierData
     local tierData = GetEJTierData(EJ_GetCurrentTier())
 
@@ -42,7 +44,6 @@ function DelveCompanion_DelvesListFrameMixin:Refresh()
         self.Background:SetAtlas(bgAtlasId, true)
     end
 
-    DelveCompanion:UpdateDelvesData(tierData.expansionLevel)
     self:ListDelves(tierData.expansionLevel)
 
     self:UpdateKeysWidget()

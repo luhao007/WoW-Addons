@@ -971,6 +971,7 @@ Attributes:
 .buttonTextFunction : See .registry Routines below.
 .tooltipTitle : Used as the title for the tool tip
 .tooltipTextFunction : See .registry Routines below.
+.tooltipCustomFunction : See .registry Routines below.
 .icon : Path to the icon to be used.
 	It is recommended to store the icon in the plugin folder, even if exists within WoW.
 .iconWidth : Best left at 16...
@@ -1024,37 +1025,82 @@ NOTE: Titan routines have used 1 as true since inception so be careful on 'true 
 
 --]]
 
---[[ .registry Routines
+--[[ .registry Routines Overview
 
-Titan looks for specified routines in the .registry :
+Titan looks for specified routines in the .registry allowing the plugin to present its data and actions.
+
+NOTES: 
+- Each .registry routine is called using pcall to protect Titan.
+- Unless specified, these routines have NO parameters.
+- Each routine can be specified :
+--- As a string, it MUST be in the global namespace. Strings were the only method for a long time until Feb 2024.
+--- As a global function
+--- As a local function which is preferred
+
+--]]
+
+--[[ .registry Routines for plugin text
+
+Titan looks for :
 - .buttonTextFunction : Routine that updates the plugin button text.
-- .tooltipTextFunction : Routine that generates the tool tip text.
-- .menuContextFunction : NOTE: Creating menu below
-- .menuTextFunction : NOTE: Creating menu below
 
-.buttonTextFunction : This is called whenever the button is to be updated.
-	This is called from within the plugin and from Titan via TitanPanelButton_UpdateButton(TITAN_PLUGIN) .
+The specified function is called whenever the button is to be updated.
+	The function is called from within the plugin and from Titan via TitanPanelButton_UpdateButton(Id) .
 	Titan will usually return "<?>" if the routine dies.
 	If you need to see the error, search for this attribute in the Titan folder and uncomment the print of the error message.
 	This may generate a LOT of messages!
-.tooltipTextFunction : This is called when the mouse enters the plugin frame - OnEnter.
-	The Titan templates set the OnEnter script for the plugin frame.
-	On a tooltip error, Titan will usually show part of the error in the tool tip.
-	If you need to see the full error, search for this attribute in the Titan folder and uncomment the print of the error message.
+--]]
 
-NOTE: Each .registry routine is called using pcall to protect Titan.
-These routines are expected to have NO parameters. Handling parameters was not implemented in any version of Titan.
+--[[ .registry Routines for Menu creation
 
-NOTE: Creating menu 
-Routine that creates the options for the menu (right click). Titan will use only one, if found, in order :
+Titan looks for a function to create a menu, in order:
 1) registry.menuContextFunction  : NEW Jan 2026
 2) registry.menuTextFunction  : Feb 2024
 3) "TitanPanelRightClickMenu_Prepare" .. id .. "Menu" : Old as Titan :)
+4) Nothing found, no menu
 
-NOTE: Each routine can be specified :
-- As a string, it MUST be in the global namespace. Strings were the only method for a long time until Feb 2024.
-- As a function, it may be in the global namespace but could be local. 
-This example uses a local routine which is preferred.
+Titan will use only the first, if found, on right click of the plugin frame.
+
+1) Uses the new Titan_Menu which wraps Blizzard_Menu to help protect plugins from Blizzard changes.
+2) and 3) Use the deprecated UIDropdownMenu scheme. Blizzard will remove this from game code at some future time.
+
+Titan_Menu expects an object approach. The older scheme uses a table driven which is code intensive.
+--]]
+
+--[[ .registry Routines for Tooltip creation
+If Titan finds a tooltip function, Titan will assume it needs to position, show, and hide the tooltip.
+
+Titan looks for a function to create a tooltip, in order:
+1) .tooltipDisplayFrame : New 2026 Mar
+   2026 Mar : Added from LDB (.tooltip) to take advantage of Titan processing.
+   It allows the plugin full control BUT the plugin must take nearly full responsibility.
+   Titan will position and show only!
+   Plugin must handle timeout and any other features.
+   Note: If using a frame of type GameTooltip, the plugin MUST set owner. 
+   If Titan does a set oener on display, it wipes the contents...
+
+2) .tooltipTemplateFunction : New 2026 Mar
+A game tooltip template is passed to plugin as an explicit agreement
+   pcall(self.tooltipTemplateFunction, self, frame)
+
+3) .tooltipCustomFunction : Deprecated Midnight (12.0.0) / 2026 Mar : 
+Assumes GameTooltip as implicit agreement
+   tmp_txt = pcall(self.tooltipCustomFunction, self)
+
+4) .tooltipTextFunction : Titan adds plugin name as Title; expects text in return to fill the tooltip.
+
+The tooltip function is called when the mouse enters the plugin frame - OnEnter.
+Titan templates set the OnEnter script for the plugin frame.
+On a tooltip error, Titan will usually show part of the error in the tool tip.
+If you need to see the full error, search for this attribute in the Titan folder;
+and uncomment the print of the error message.
+
+Due to changes in Midnight (12.0.0) Titan tooltips have undergone major changes to avoid 'secret' errors.
+Titan had to move to a custom tooltip rather than use Blizzard's GameTooltip.
+This causes conflict in the 'custom' scheme which assumes GameTooltip in Titan and the Titan plugin.
+To resolve this .tooltipTemplateFunction was added (2026 Mar).
+The new attribute allows plugins to update as needed to Midnight.
+It also allows older, possibly abandoned, plugins to run as long as practical. Until a breaking API change.
 
 --]]
 

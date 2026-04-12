@@ -109,15 +109,17 @@ function UnitFramefun.Zishen()
 								tile = true, tileSize = 0, edgeSize = 10, insets = { left = 1, right = 1, top = 1, bottom = 1 }});
 			PlayerFrame.ziji:SetBackdropBorderColor(1, 1, 1, 0.6);
 			PlayerFrame.ziji:SetWidth(70);
-			if PIG_MaxTocversion("tbc") then
-				PlayerFrame.ziji:SetPoint("TOPLEFT", PlayerFrame, "TOPRIGHT", -21, -24);
-				PlayerFrame.ziji:SetPoint("BOTTOMLEFT", PlayerFrame, "BOTTOMRIGHT", -21, 29);
-			elseif PIG_MaxTocversion() then
-				PlayerFrame.ziji:SetPoint("TOPLEFT", PlayerFrame, "TOPRIGHT", -4, -20);
-				PlayerFrame.ziji:SetPoint("BOTTOMLEFT", PlayerFrame, "BOTTOMRIGHT", -4, 32);
+			if PIG_MaxTocversion() then
+				if PIG_MaxTocversion("old") then
+					PlayerFrame.ziji:SetPoint("TOPLEFT", PlayerFrame, "TOPRIGHT", -4, -20);
+					PlayerFrame.ziji:SetPoint("BOTTOMLEFT", PlayerFrame, "BOTTOMRIGHT", -4, 32);
+				else
+					PlayerFrame.ziji:SetPoint("TOPLEFT", PlayerFrame, "TOPRIGHT", -21, -24);
+					PlayerFrame.ziji:SetPoint("BOTTOMLEFT", PlayerFrame, "BOTTOMRIGHT", -21, 29);
+				end
 			else
-				PlayerFrame.ziji:SetPoint("TOPLEFT", PlayerFrame, "TOPRIGHT", -20, -26);
-				PlayerFrame.ziji:SetPoint("BOTTOMLEFT", PlayerFrame, "BOTTOMRIGHT", -20, 26);
+				PlayerFrame.ziji:SetPoint("TOPLEFT", PlayerFrame, "TOPRIGHT", -21, -26);
+				PlayerFrame.ziji:SetPoint("BOTTOMLEFT", PlayerFrame, "BOTTOMRIGHT", -21, 26);
 			end
 			if not NDui and not ElvUI then
 				local function Update_TargetFrame()

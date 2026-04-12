@@ -1,17 +1,18 @@
 # DBM - Core
 
-## [12.0.34](https://github.com/DeadlyBossMods/DeadlyBossMods/tree/12.0.34) (2026-03-26)
-[Full Changelog](https://github.com/DeadlyBossMods/DeadlyBossMods/compare/12.0.33...12.0.34) [Previous Releases](https://github.com/DeadlyBossMods/DeadlyBossMods/releases)
+## [12.0.37](https://github.com/DeadlyBossMods/DeadlyBossMods/tree/12.0.37) (2026-04-07)
+[Full Changelog](https://github.com/DeadlyBossMods/DeadlyBossMods/compare/12.0.36...12.0.37) [Previous Releases](https://github.com/DeadlyBossMods/DeadlyBossMods/releases)
 
-- Update translations (#1987)  
-    * Update translations  
-    * Update translations  
-- prep new tag  
-- Also fix and close https://github.com/DeadlyBossMods/DeadlyBossMods/issues/1988  
-- fix another bug and improve debug  
-- Fix bug with hardcoded timers not firing pause/resume and stop callbacks  
-- missed default  
-- Add option to explictely disable timeline/warning override colors. Closes https://github.com/DeadlyBossMods/DeadlyBossMods/issues/1986  
-- fix varaible names  
-- Tighten Averzian fix  
+- bump version  
+- Add koKR locale (#2015)  
+    Co-authored-by: Adam <MysticalOS@users.noreply.github.com>  
+    Co-authored-by: Artemis <QartemisT@gmail.com>  
+- Update localization.ru.lua (#2014)  
+- tweaks  
+- Do a full pass on all raid bosses to add manual journal icons to all notable abilities that deserve them  
+- tweak some default sounds on Lura  
+    Fixed bug where announce objects would fail to use voice pack sounds in core  
+    Prepped a few lura renames for hardcode (soon™)  
+- Push beloren hardcode  
+- Fix two routing failures with heroic crown  
 - bump alpha  

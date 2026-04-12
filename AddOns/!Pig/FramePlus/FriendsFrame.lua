@@ -6,7 +6,6 @@ local ClasseNameID=addonTable.Data.ClasseNameID
 local Create=addonTable.Create
 local PIGEnter=Create.PIGEnter
 local PIGFontString=Create.PIGFontString
-local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 -------------
 local FramePlusfun=addonTable.FramePlusfun
 function FramePlusfun.Friends()
@@ -57,6 +56,8 @@ function FramePlusfun.Friends()
 				return "(巫妖王-"..realmName
 			elseif ProjectID==WOW_PROJECT_MAINLINE then
 				return "(正式服-"..realmName
+			elseif ProjectID==WOW_PROJECT_MISTS_CLASSIC then
+				return "(熊猫人-"..realmName
 			end
 		end
 		return richPresence
@@ -723,7 +724,7 @@ function FramePlusfun.Friends()
 			end
 		end
 	end
-	UIParentLoadAddOn("Blizzard_RaidUI");
+	--UIParentLoadAddOn("Blizzard_RaidUI");
 	RaidFrame:UnregisterEvent("UNIT_NAME_UPDATE");
 	RaidFrame:UnregisterEvent("UNIT_PET");
 	Fun.IsAddOnLoaded("Blizzard_RaidUI",PIGRaidUIFrame)

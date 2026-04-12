@@ -2,10 +2,10 @@
 
 local _, Addon = ...
 
-local NOOP = {
-    Apply = function() end,
-    Update = function() end
-}
+local MINUTE = 60
+local HOUR = MINUTE * 60
+local DAY = HOUR * 24
+local NOOP = function() end
 
 -- converts draw state enum values into a bool|nil
 local function getDrawStateBool(state)
@@ -17,52 +17,171 @@ local function getDrawStateBool(state)
     return nil
 end
 
-local function generateColorCurve(textColors, defaultColor)
-    if #textColors == 0 then return end
-
-    table.sort(textColors, function(a, b)
-        return (a.threshold or 0) < (b.threshold or 0)
-    end)
-
-    local curve = C_CurveUtil.CreateColorCurve()
-    curve:SetType(Enum.LuaCurveType.Step)
-
-    local offset = 0.5
-
-    curve:AddPoint(0, Addon.CreateColor(textColors[1].color))
-
-    for i = 2, #textColors do
-        local start = (textColors[i - 1].threshold or 0) + offset
-        local color = Addon.CreateColor(textColors[i].color)
-
-        curve:AddPoint(start, color)
-    end
-
-    if defaultColor then
-        local start = (textColors[#textColors].threshold or 0) + offset
-        local color = Addon.CreateColor(defaultColor)
-
-        curve:AddPoint(start, color)
-    end
-
-    return curve
+local function thresholdComparer(a, b)
+    return a.threshold < b.threshold
 end
 
--- themer objects are created to precompute the properties we want to set on
+-- converts a tullaCTC config into a sorted array of formatter breakpoints
+local function getFormatBreakpoints(config)
+    local points = {}
+
+    if (config.tenthsThreshold or -1) > 0 then
+        tinsert(points, {
+            threshold = 0,
+            format = '%.1f',
+        })
+
+        tinsert(points, {
+            threshold = config.tenthsThreshold,
+            format = '%d',
+        })
+    else
+        tinsert(points, {
+            threshold = 0,
+            format = '%d',
+        })
+    end
+
+    local mmssThreshold = config.abbrevThreshold
+    if mmssThreshold > 0 then
+        tinsert(points, {
+            threshold = MINUTE,
+            format = '%d:%02d',
+            components = { { div = MINUTE} , { mod = MINUTE } },
+        })
+
+        tinsert(points, {
+            threshold = mmssThreshold,
+            format = '%dm',
+            components = { { div = MINUTE } },
+        })
+    else
+        tinsert(points, {
+            threshold = MINUTE,
+            format = '%dm',
+            components = { { div = MINUTE } },
+        })
+    end
+
+    tinsert(points, {
+        threshold = HOUR,
+        format = '%dh',
+        components = { { div = HOUR } }
+    })
+
+    tinsert(points, {
+        threshold = DAY,
+        format = '%dd',
+        components = { { div = DAY } },
+    })
+
+    return points
+end
+
+-- convert's tullaCTC's config sttings into a sorted array of color breakpoints
+local function getColorBreakpoints(config)
+    local points = {}
+
+    local textColors = config.textColors
+    if textColors and #textColors > 0 then
+        for i = 1, #textColors do
+            local entry = textColors[i]
+
+            points[i] = {
+                threshold = entry.threshold,
+                color = Addon.CreateColor(entry.color)
+            }
+        end
+
+        points[#points+1] = {
+            threshold = math.huge,
+            color = Addon.CreateColor(config.defaultTextColor)
+        }
+
+        table.sort(points, thresholdComparer)
+
+        -- tullaCTC's thresholds are end times, convert to start times
+        for i = #points, 2, -1 do
+            points[i].threshold = points[i - 1].threshold
+        end
+        points[1].threshold = 0
+    else
+        points[1] = {
+            threshold = 0,
+            color = Addon.CreateColor(config.defaultTextColor)
+        }
+    end
+
+    return points
+end
+
+-- merge colorRGB and formatter breakpoints into breakpoint objects
+-- precondition: both colors and formats need to be sorted by threshold values
+local function createBreakpoints(colors, formats)
+    local breakpoints = {}
+    local i = 1
+    local j = 1
+    local color, format, components
+
+    while (i <= #colors or j <= #formats) do
+        local c = colors[i]
+        local f = formats[j]
+        local threshold
+
+        if c and (not f or c.threshold < f.threshold) then
+            threshold = c.threshold
+            color = c.color
+
+            i = i + 1
+        elseif f and (not c or f.threshold < c.threshold) then
+            threshold = f.threshold
+            format = f.format
+            components = f.components
+
+            j = j + 1
+        else
+            threshold = c.threshold
+            color = c.color
+            format = f.format
+            components = f.components
+
+            i = i + 1
+            j = j + 1
+        end
+
+        breakpoints[#breakpoints + 1] = {
+            threshold = threshold,
+            format = color and color:WrapTextInColorCode(format) or format,
+            components = components
+        }
+    end
+
+    return breakpoints
+end
+
+local function createFormatter(config)
+    local colors = getColorBreakpoints(config)
+    local formats = getFormatBreakpoints(config)
+    local breakpoints = createBreakpoints(colors, formats)
+    local formatter = C_StringUtil.CreateNumericRuleFormatter()
+
+    formatter:SetBreakpoints(breakpoints)
+
+    return formatter
+end
+
+-- themer functions are created to precompute the properties we want to set on
 -- cooldowns to make things a tad bit more efficient
 function Addon:CreateThemer(config)
-    if not config.enabled then
-        return NOOP
-    end
+    if not config.enabled then return NOOP end
 
     -- text settings
     local themeText = config.themeText
     local drawText = getDrawStateBool(config.drawText)
-    local useAuraDisplayTime
     local font, fontSize, fontFlags
     local point, offsetX, offsetY
     local shadowColor, shadowX, shadowY
-    local abbrevThreshold, minDurationMS, textColors, defaultTextColor
+    local formatter
 
     if themeText then
         if config.font then
@@ -79,17 +198,7 @@ function Addon:CreateThemer(config)
         shadowX = config.shadowX
         shadowY = config.shadowY
 
-        abbrevThreshold = config.abbrevThreshold
-        minDurationMS = config.minDuration * 1000
-        useAuraDisplayTime = getDrawStateBool(config.useAuraDisplayTime)
-
-        if config.textColors and #config.textColors > 0 then
-            textColors = generateColorCurve(config.textColors, config.defaultTextColor)
-        end
-
-        if config.defaultTextColor then
-            defaultTextColor = Addon.CreateColor(config.defaultTextColor)
-        end
+        formatter = createFormatter(config)
     end
 
     -- cooldown settings
@@ -108,16 +217,13 @@ function Addon:CreateThemer(config)
         end
     end
 
-    local themer = {}
-
-    function themer:Apply(info)
-        local cooldown = info.cooldown
+    return function(cooldown)
         if drawText ~= nil then
             cooldown:SetHideCountdownNumbers(not drawText)
         end
 
         if themeText then
-            local text = info.text
+            local text = cooldown:GetCountdownFontString()
             if font then
                 if fontSize > 0 then
                     if not text:SetFont(font, fontSize, fontFlags) then
@@ -126,15 +232,6 @@ function Addon:CreateThemer(config)
                 else
                     cooldown:SetCountdownFont(font)
                 end
-            end
-
-            if textColors and info.duration then
-                local color = info.duration:EvaluateRemainingDuration(textColors)
-                text:SetTextColor(color:GetRGBA())
-            elseif defaultTextColor then
-                text:SetTextColor(defaultTextColor:GetRGBA())
-            else
-                text:SetTextColor(1, 1, 1, 1)
             end
 
             if point then
@@ -147,16 +244,8 @@ function Addon:CreateThemer(config)
                 text:SetShadowOffset(shadowX, shadowY)
             end
 
-            if abbrevThreshold then
-                cooldown:SetCountdownAbbrevThreshold(abbrevThreshold)
-            end
-
-            if minDurationMS then
-                cooldown:SetMinimumCountdownDuration(minDurationMS)
-            end
-
-            if useAuraDisplayTime ~= nil then
-                cooldown:SetUseAuraDisplayTime(useAuraDisplayTime)
+            if formatter then
+                cooldown:SetCountdownFormatter(formatter)
             end
         end
 
@@ -182,27 +271,4 @@ function Addon:CreateThemer(config)
             end
         end
     end
-
-    if themeText and textColors then
-        function themer:Update(info)
-            local duration = info.duration
-
-            local color
-            if duration then
-                color = duration:EvaluateRemainingDuration(textColors)
-            elseif defaultTextColor then
-                color = defaultTextColor
-            end
-
-            if color then
-                info.text:SetTextColor(color:GetRGBA())
-            else
-                info.text:SetTextColor(1, 1, 1, 1)
-            end
-        end
-    else
-        themer.Update = NOOP.Update
-    end
-
-    return themer
 end

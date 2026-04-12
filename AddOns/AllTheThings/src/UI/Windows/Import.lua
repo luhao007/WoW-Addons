@@ -173,7 +173,7 @@ app:CreateWindow("Import", {
 });
 
 -- register the 'ID' style exporter
-app:RegisterDataStyleExporter("ID", {
+app:RegisterDataStyleExporter("Raw ID", {
 	main = function(data, depth)
 		if data and data.key then
 			return data[data.key] .. ",\t-- " .. (data.name or UNKNOWN)
@@ -181,8 +181,8 @@ app:RegisterDataStyleExporter("ID", {
 	end
 })
 
--- register the 'questID' style exporter
-app:RegisterDataStyleExporter("questID", {
+-- register the 'Raw questID' style exporter
+app:RegisterDataStyleExporter("Raw questID", {
 	main = function(data, depth)
 		if data then
 			return (data.questID or "???") .. ",\t-- " .. (data.name or UNKNOWN)

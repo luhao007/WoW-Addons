@@ -23,8 +23,7 @@ local LOOT_INFO_BUTTON_PARENT_KEY = "ShowLootInfoButton"
 ---@field BountifulFrame DelveEncounterBountifulFrame
 ---@field ConsumablesFrame DelveEncounterConsumablesFrameXml
 ---@field GildedStashFrame DelveEncounterGildedStashFrame
----@field LootInfo LootInfoFrameXml
----@field LotInfoButton MagicButton
+---@field LootInfoButton MagicButton
 local DelveEncounter = {}
 DelveCompanion.EJExtension.DelveEncounter = DelveEncounter
 
@@ -89,7 +88,7 @@ function DelveEncounter:Refresh()
         self.BountifulFrame:Show()
         self.ConsumablesFrame:Show()
         self.GildedStashFrame:SetShown(expansion == LE_EXPANSION_MIDNIGHT)
-        self.LotInfoButton:SetShown(expansion == LE_EXPANSION_MIDNIGHT)
+        self.LootInfoButton:SetShown(expansion == LE_EXPANSION_MIDNIGHT)
     end
 end
 
@@ -114,7 +113,7 @@ function DelveEncounter:HideAll()
     self.BountifulFrame:Hide()
     self.ConsumablesFrame:Hide()
     self.GildedStashFrame:Hide()
-    self.LootInfo:Hide()
+    DelveCompanion:GetLootInfoFrame():Hide()
 end
 
 ---@param self DelveEncounter
@@ -122,6 +121,50 @@ function DelveEncounter:EncRewTrack_OnHideHook()
     -- Logger:Log("[DelveEncounter] EncRewTrack_OnHideHook...")
 
     self:HideAll()
+end
+
+--- Add a button to open Delves' Loot info.
+---@param self DelveEncounter
+---@param parent any
+function DelveEncounter:CreateLootInfoButton(parent)
+    local button = CreateFrame("Button",
+        "$parent." .. LOOT_INFO_BUTTON_PARENT_KEY,
+        parent,
+        "DelveCompanionLootInfoButtonTemplate")
+    self.LootInfoButton = button
+
+    button:SetParentKey(LOOT_INFO_BUTTON_PARENT_KEY)
+    button:SetPoint("TOPRIGHT", self.GildedStashFrame, "BOTTOMRIGHT", -3, 5)
+    button:SetTextToFit(_G["LOOT"])
+
+    button:HookScript("OnClick", function()
+        if InCombatLockdown() then
+            return
+        end
+
+        GameTooltip:Hide()
+        local lootFrame = DelveCompanion:GetLootInfoFrame()
+        lootFrame:ClearAllPoints()
+        lootFrame:SetPoint("BOTTOMLEFT", EncounterJournal, "BOTTOMRIGHT", -5, 0)
+
+        ToggleFrame(lootFrame)
+    end)
+
+    button:HookScript("OnEnter", function()
+        if DelveCompanion:GetLootInfoFrame():IsShown() then
+            return
+        end
+
+        local tooltip = GameTooltip
+        tooltip:SetOwner(button, "ANCHOR_TOP")
+        GameTooltip_AddInstructionLine(tooltip, Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION, true)
+
+        tooltip:Show()
+    end)
+
+    button:HookScript("OnLeave", function()
+        GameTooltip:Hide()
+    end)
 end
 
 --- Initialize Delves list.
@@ -205,55 +248,6 @@ function DelveEncounter:Init(JourneysFrame)
     end
 
     do
-        --- Add a button to open Delves' Loot info.
-        ---@param parent any
-        local function CreateLootInfoButton(parent, anchorFrame)
-            local button = CreateFrame("Button",
-                "$parent." .. LOOT_INFO_BUTTON_PARENT_KEY,
-                parent,
-                "DelveCompanionLootInfoButtonTemplate")
-            self.LotInfoButton = button
-
-            button:SetParentKey(LOOT_INFO_BUTTON_PARENT_KEY)
-            button:SetPoint("TOPRIGHT", anchorFrame, "BOTTOMRIGHT", -3, 5)
-            button:SetTextToFit(_G["LOOT"])
-
-            button:HookScript("OnClick", function()
-                if PlayerIsInCombat() then
-                    return
-                end
-
-                GameTooltip:Hide()
-                local lootFrame = self.LootInfo
-                lootFrame:ClearAllPoints()
-                lootFrame:SetPoint("BOTTOMLEFT", EncounterJournal, "BOTTOMRIGHT", -5, 0)
-
-                ToggleFrame(self.LootInfo)
-            end)
-
-            button:HookScript("OnEnter", function()
-                if self.LootInfo:IsShown() then
-                    return
-                end
-
-                local tooltip = GameTooltip
-                tooltip:SetOwner(button, "ANCHOR_TOP")
-                GameTooltip_AddInstructionLine(tooltip, Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION, true)
-
-                tooltip:Show()
-            end)
-
-            button:HookScript("OnLeave", function()
-                GameTooltip:Hide()
-            end)
-        end
-
-        ---@type LootInfoFrame
-        local lootInfoFrame = CreateFrame("Frame",
-            "$parent.LootInfoFrame", encRewardTrack,
-            "DelveCompanionLootInfoFrameTemplate")
-        self.LootInfo = lootInfoFrame
-
-        CreateLootInfoButton(encRewardTrack, self.GildedStashFrame)
+        self:CreateLootInfoButton(encRewardTrack)
     end
 end

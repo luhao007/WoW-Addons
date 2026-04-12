@@ -748,6 +748,14 @@ local function RefreshDatabaseData(previousDbVersion)
 						RSEntityStateHandler.SetDeadNpc(npcID, true)
 						break
 					end
+					
+					if (npcInfo.onlyWb and C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID) and not RSNpcDB.IsNpcKilled(npcID)) then
+						RSLogger:PrintDebugMessage(string.format("RefreshDatabaseData. El NPC[%s] no esta marcado como muerto, pero su mision esta completada en la WB", npcID))
+						-- The NPC will be tagged as dead as usual, it won't be until the next world quest reset
+						-- when the RespawnTracker will decide if this NPC died forever
+						RSEntityStateHandler.SetDeadNpc(npcID, true)
+						break
+					end
 				end
 			elseif (npcInfo.reset and RSNpcDB.IsNpcKilled(npcID)) then
 				RSNpcDB.DeleteNpcKilled(npcID)
@@ -772,6 +780,14 @@ local function RefreshDatabaseData(previousDbVersion)
 						RSEntityStateHandler.SetEventCompleted(eventID, true)
 						break
 					end
+					
+					if (eventInfo.onlyWb and C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID) and not RSEventDB.IsEventCompleted(eventID)) then
+						RSLogger:PrintDebugMessage(string.format("RefreshDatabaseData. El Evento[%s] no esta marcado como muerto, pero su mision esta completada en la WB", eventID))
+						-- The NPC will be tagged as dead as usual, it won't be until the next world quest reset
+						-- when the RespawnTracker will decide if this NPC died forever
+						RSEntityStateHandler.SetEventCompleted(eventID, true)
+						break
+					end
 				end
 			end
 		end, 
@@ -792,6 +808,14 @@ local function RefreshDatabaseData(previousDbVersion)
 						RSLogger:PrintDebugMessage(string.format("RefreshDatabaseData. El Contenedor[%s] no esta marcado como cerrado, pero su mision esta completada", containerID))
 						-- The Container will be tagged as opened as usual, it won't be until the next world quest reset
 						-- when the RespawnTracker will decide if this container is opened forever
+						RSEntityStateHandler.SetContainerOpen(containerID, true)
+						break
+					end
+					
+					if (containerInfo.onlyWb and C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID) and not RSContainerDB.IsContainerOpened(containerID)) then
+						RSLogger:PrintDebugMessage(string.format("RefreshDatabaseData. El Contenedor[%s] no esta marcado como muerto, pero su mision esta completada en la WB", containerID))
+						-- The NPC will be tagged as dead as usual, it won't be until the next world quest reset
+						-- when the RespawnTracker will decide if this NPC died forever
 						RSEntityStateHandler.SetContainerOpen(containerID, true)
 						break
 					end

@@ -15,15 +15,15 @@ local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInst
 ------
 local GDKPInfo = {}
 addonTable.GDKPInfo=GDKPInfo
-------------
-local QuickBut_xuhaoID=30
-local GnName,GnUI,GnIcon,FrameLevel = L["PIGaddonList"][addonName],"PIG_GDKPUI",133784,50
-GDKPInfo.uidata={GnName,GnUI,GnIcon,FrameLevel}
-local fuFrame,fuFrameBut,Tooltip = unpack(Data.Ext[L.extLsit[2]])
-if not fuFrame.OpenMode then return end
-fuFrame.extaddonT:Hide()
+if PIGIsHardcore() then return end
+local fuFrame,fuFrameBut,adddata = unpack(Data.Ext[addonName])
+if not adddata.open then return end
+fuFrame.IsOpenUpdate=nil
 local QuickButUI=_G[Data.QuickButUIname]
-GDKPInfo.fuFrame,GDKPInfo.fuFrameBut=fuFrame,fuFrameBut
+local QuickBut_xuhaoID=30
+local GnName,GnUI,GnIcon,FrameLevel = adddata.nameLocale,"PIG_GDKPUI",133784,50
+GDKPInfo.uidata={GnName,GnUI,GnIcon,FrameLevel}
+GDKPInfo.fuFrame,GDKPInfo.fuFrameBut,GDKPInfo.adddata=fuFrame,fuFrameBut,adddata
 ---
 local function ADD_Options()
 	local Key_fenge=Fun.Key_fenge
@@ -129,13 +129,14 @@ local function ADD_Options()
 		end
 		return false
 	end
+	local Get_LootMethodID=Fun.Get_LootMethodID
 	local autofenffff = CreateFrame("Frame")
 	autofenffff.listdata={}
 	autofenffff:SetScript("OnEvent",function(self,event,arg1,_,_,_,arg5)
 		if event=="LOOT_CLOSED" then
 			wipe(self.listdata)
 		elseif IsInGroup() then
-			local lootmethodID,masterLootPartyID, masterLooterRaidID= Fun.PIG_GetLootMethod()
+			local lootmethodID,masterLootPartyID, masterLooterRaidID= Get_LootMethodID();
 			if lootmethodID==2 and masterlooterPartyID==0 then
 				local lootNum = GetNumLootItems()
 				if #self.listdata==0 then

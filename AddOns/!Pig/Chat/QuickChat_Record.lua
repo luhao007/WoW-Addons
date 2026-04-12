@@ -137,7 +137,7 @@ function QuickChatfun.QuickBut_Jilu()
 		self.tixingOpen=PIGA["Chatjilu"]["WHISPER"]["Tips"]
 		self.jichengBlackOpen=PIGA["Chatjilu"]["WHISPER"]["jichengBlack"]
 		self.AudioOpen=PIGA["Chatjilu"]["WHISPER"]["AudioOpen"]
-		self.AudioID=PIGA["Chatjilu"]["WHISPER"]["AudioID"]
+		self.AudioID=1 or PIGA["Chatjilu"]["WHISPER"]["AudioID"]
 	end
 	miyijiluF:load_peizh()
 	miyijiluF.shezhi = CreateFrame("Button",nil,miyijiluF);
@@ -198,11 +198,7 @@ function QuickChatfun.QuickBut_Jilu()
 		miyijiluF:load_peizh()
 	end)
 	local AudioData = {
-		{"提示音1","Interface/AddOns/"..addonName.."/Chat/Audio/1.ogg"},
-		{"提示音2","Interface/AddOns/"..addonName.."/Chat/Audio/2.ogg"},
-		{"提示音3","Interface/AddOns/"..addonName.."/Chat/Audio/3.ogg"},
-		{"提示音4","Interface/AddOns/"..addonName.."/Chat/Audio/4.ogg"},
-		{"提示音5","Interface/AddOns/"..addonName.."/Chat/Audio/5.ogg"},
+		{"提示音1","Interface/AddOns/"..addonName.."/Media/Whisper/1.ogg"},
 	}
 	miyijiluF.shezhiF.WhisperAudio =PIGCheckbutton(miyijiluF.shezhiF,{"TOPLEFT", miyijiluF.shezhiF, "TOPLEFT", 10,-120},{L["CHAT_WHISPERAUDIO"],L["CHAT_WHISPERAUDIOTOP"]})
 	miyijiluF.shezhiF.WhisperAudio:SetScript("OnClick", function (self)
@@ -283,75 +279,78 @@ function QuickChatfun.QuickBut_Jilu()
 	end)
 
 	--右键功能
-	local listName={INVITE,INVTYPE_RANGED..INSPECT,STATUS_TEXT_TARGET..INFO,ADD_FRIEND,INVITE..GUILD,CALENDAR_COPY_EVENT..NAME,IGNORE,BNET_REPORT..CHAT,CANCEL}
-	local RightlistNameFun=addonTable.Fun.RightlistNameFun
-	local caidanW,caidanH=www,20
-	local beijingico=DropDownList1MenuBackdrop.NineSlice.Center:GetTexture()
-	local beijing1,beijing2,beijing3,beijing4=DropDownList1MenuBackdrop.NineSlice.Center:GetVertexColor()
-	local Biankuang1,Biankuang2,Biankuang3,Biankuang4=DropDownList1MenuBackdrop:GetBackdropBorderColor()
-	miyijiluF.RGN=PIGFrame(miyijiluF,nil,{caidanW,caidanH*#listName+24})
-	miyijiluF.RGN:SetFrameLevel(10)
-	miyijiluF.RGN:PIGSetBackdrop(0.9)
-	miyijiluF.RGN:SetScript("OnUpdate", function(self, ssss)
-		if not self.zhengzaixianshi then return end
-		if self.zhengzaixianshi then
-			if self.xiaoshidaojishi<= 0 then
-				self:Hide();
-				self.zhengzaixianshi = nil;
-			else
-				self.xiaoshidaojishi = self.xiaoshidaojishi - ssss;	
+	function miyijiluF:addRGN_F()
+		if miyijiluF.RGN then return end
+		local listName={INVITE,INVTYPE_RANGED..INSPECT,STATUS_TEXT_TARGET..INFO,ADD_FRIEND,INVITE..GUILD,CALENDAR_COPY_EVENT..NAME,IGNORE,BNET_REPORT..CHAT,CANCEL}	
+		local RightlistNameFun=addonTable.Fun.RightlistNameFun
+		local caidanW,caidanH=www,20
+		local beijingico=DropDownList1MenuBackdrop.NineSlice.Center:GetTexture()
+		local beijing1,beijing2,beijing3,beijing4=DropDownList1MenuBackdrop.NineSlice.Center:GetVertexColor()
+		local Biankuang1,Biankuang2,Biankuang3,Biankuang4=DropDownList1MenuBackdrop:GetBackdropBorderColor()
+		miyijiluF.RGN=PIGFrame(miyijiluF,nil,{caidanW,caidanH*#listName+24})
+		miyijiluF.RGN:SetFrameLevel(10)
+		miyijiluF.RGN:PIGSetBackdrop(0.9)
+		miyijiluF.RGN:SetScript("OnUpdate", function(self, ssss)
+			if not self.zhengzaixianshi then return end
+			if self.zhengzaixianshi then
+				if self.xiaoshidaojishi<= 0 then
+					self:Hide();
+					self.zhengzaixianshi = nil;
+				else
+					self.xiaoshidaojishi = self.xiaoshidaojishi - ssss;	
+				end
 			end
-		end
-	end)
-	miyijiluF.RGN:SetScript("OnEnter", function(self)
-		self.zhengzaixianshi = nil;
-	end)
-	miyijiluF.RGN:SetScript("OnLeave", function(self)
-		self.xiaoshidaojishi = 1.5;
-		self.zhengzaixianshi = true;
-	end)
-	---
-	miyijiluF.RGN.name = PIGFontString(miyijiluF.RGN,{"TOP",miyijiluF.RGN,"TOP",0,-4});
-	------
-	miyijiluF.RGN.ButList={}
-	for i=1,#listName do
-		local gntab = CreateFrame("Frame", nil, miyijiluF.RGN);
-		miyijiluF.RGN.ButList[i]=gntab
-		gntab:SetSize(caidanW,caidanH);
-		if i==1 then
-			gntab:SetPoint("TOPLEFT", miyijiluF.RGN, "TOPLEFT", 4, -22);
-		else
-			gntab:SetPoint("TOPLEFT", miyijiluF.RGN.ButList[i-1], "BOTTOMLEFT", 0, 0);
-		end
-		gntab.Title = PIGFontString(gntab,{"LEFT", gntab, "LEFT", 6, 0},listName[i]);
-		gntab.Title:SetTextColor(1, 1, 1, 1)
-		gntab.highlight1 = gntab:CreateTexture(nil, "BORDER");
-		gntab.highlight1:SetTexture("interface/buttons/ui-listbox-highlight.blp");
-		gntab.highlight1:SetPoint("CENTER", gntab, "CENTER", -3,0);
-		gntab.highlight1:SetSize(caidanW-18,16);
-		gntab.highlight1:SetAlpha(0.9);
-		gntab.highlight1:Hide();
-		gntab:SetScript("OnEnter", function(self)
-			self.highlight1:Show()
-			miyijiluF.RGN.zhengzaixianshi = nil;
-		end);
-		gntab:SetScript("OnLeave", function(self)
-			self.highlight1:Hide()
-			miyijiluF.RGN.xiaoshidaojishi = 1.5;
-			miyijiluF.RGN.zhengzaixianshi = true;
-		end);
-		gntab:SetScript("OnMouseDown", function(self)
-			self.Title:SetPoint("LEFT", self, "LEFT", 7.4, -1.4);
-		end);
-		gntab:SetScript("OnMouseUp", function(self)
-			if i==#listName then
-				miyijiluF.RGN:Hide()
+		end)
+		miyijiluF.RGN:SetScript("OnEnter", function(self)
+			self.zhengzaixianshi = nil;
+		end)
+		miyijiluF.RGN:SetScript("OnLeave", function(self)
+			self.xiaoshidaojishi = 1.5;
+			self.zhengzaixianshi = true;
+		end)
+		---
+		miyijiluF.RGN.name = PIGFontString(miyijiluF.RGN,{"TOP",miyijiluF.RGN,"TOP",0,-4});
+		------
+		miyijiluF.RGN.ButList={}
+		for i=1,#listName do
+			local gntab = CreateFrame("Frame", nil, miyijiluF.RGN);
+			miyijiluF.RGN.ButList[i]=gntab
+			gntab:SetSize(caidanW,caidanH);
+			if i==1 then
+				gntab:SetPoint("TOPLEFT", miyijiluF.RGN, "TOPLEFT", 4, -22);
 			else
-				self.Title:SetPoint("LEFT", self, "LEFT", 6, 0);
-				miyijiluF.RGN:Hide();
-				RightlistNameFun[self.Title:GetText()](miyijiluF.RGN.name.X,miyijiluF.RGN.zuihouyiju)
+				gntab:SetPoint("TOPLEFT", miyijiluF.RGN.ButList[i-1], "BOTTOMLEFT", 0, 0);
 			end
-		end);
+			gntab.Title = PIGFontString(gntab,{"LEFT", gntab, "LEFT", 6, 0},listName[i]);
+			gntab.Title:SetTextColor(1, 1, 1, 1)
+			gntab.highlight1 = gntab:CreateTexture(nil, "BORDER");
+			gntab.highlight1:SetTexture("interface/buttons/ui-listbox-highlight.blp");
+			gntab.highlight1:SetPoint("CENTER", gntab, "CENTER", -3,0);
+			gntab.highlight1:SetSize(caidanW-18,16);
+			gntab.highlight1:SetAlpha(0.9);
+			gntab.highlight1:Hide();
+			gntab:SetScript("OnEnter", function(self)
+				self.highlight1:Show()
+				miyijiluF.RGN.zhengzaixianshi = nil;
+			end);
+			gntab:SetScript("OnLeave", function(self)
+				self.highlight1:Hide()
+				miyijiluF.RGN.xiaoshidaojishi = 1.5;
+				miyijiluF.RGN.zhengzaixianshi = true;
+			end);
+			gntab:SetScript("OnMouseDown", function(self)
+				self.Title:SetPoint("LEFT", self, "LEFT", 7.4, -1.4);
+			end);
+			gntab:SetScript("OnMouseUp", function(self)
+				if i==#listName then
+					miyijiluF.RGN:Hide()
+				else
+					self.Title:SetPoint("LEFT", self, "LEFT", 6, 0);
+					miyijiluF.RGN:Hide();
+					RightlistNameFun[self.Title:GetText()](miyijiluF.RGN.name.X,miyijiluF.RGN.zuihouyiju)
+				end
+			end);
+		end
 	end
 	---------
 	local function PIG_GetbetIDName(duibiID)
@@ -480,6 +479,7 @@ function QuickChatfun.QuickBut_Jilu()
 				if button=="LeftButton" then
 					PIGSendTell(nameinfo.." ".. ChatEdit_ChooseBoxForSend():GetText(), DEFAULT_CHAT_FRAME);
 				elseif button=="RightButton" then
+					if not miyijiluF.RGN then miyijiluF:addRGN_F() end
 					miyijiluF.RGN:ClearAllPoints();
 					miyijiluF.RGN:SetPoint("TOPLEFT",self,"BOTTOMLEFT",0,0);
 					miyijiluF.RGN.name:SetText(nameinfo);
@@ -668,7 +668,7 @@ function QuickChatfun.QuickBut_Jilu()
 	miyijiluF:RegisterEvent("CHAT_MSG_BN_WHISPER_INFORM");
 	miyijiluF:RegisterEvent("CHAT_MSG_WHISPER_INFORM");
 	miyijiluF:RegisterEvent("CHAT_MSG_WHISPER");
-	miyijiluF:HookScript("OnEvent", function (self,event,arg1,arg2,arg3,arg4,arg5,_,_,_,_,_,_,arg12,arg13)
+	miyijiluF:HookScript("OnEvent", function (self,event,arg1,arg2,arg3,arg4,arg5,arg6,_,_,_,_,_,arg12,arg13)
 		if not self.kaiguanOpen then return end
 		if not arg2 then return end
 		if not arg12 and not arg13 then return end
@@ -680,7 +680,7 @@ function QuickChatfun.QuickBut_Jilu()
 			end
 		elseif event=="CHAT_MSG_WHISPER" or event=="CHAT_MSG_BN_WHISPER" then
 			if event=="CHAT_MSG_WHISPER" and self.jichengBlackOpen then
-				if QuickChatfun.QuickBut_miyijiluGL(arg2,arg5,arg1) then
+				if QuickChatfun.QuickBut_miyijiluGL(arg2,arg5,arg1,arg6) then
 					return
 				end
 			end

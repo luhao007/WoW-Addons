@@ -1,11 +1,11 @@
-local addonName, addonTable = ...;
+local addonName, PD = ...;
 --------------------------------------------
-local Create=addonTable.Create
+local Create=PD.Create
 local PIGFrame=Create.PIGFrame
 local PIGFontString=Create.PIGFontString
 ----
-local CommonInfo=addonTable.CommonInfo
-local FasongYCqingqiu=addonTable.Fun.FasongYCqingqiu
+local CommonInfo=PD.CommonInfo
+local FasongYCqingqiu=PD.Fun.FasongYCqingqiu
 ---
 local listNameFun={
 	[STATUS_TEXT_TARGET..INFO]=function(wanjiaName)
@@ -35,6 +35,7 @@ local listNameFun={
         if (not hasText) then editBoxXX:HighlightText() end
 	end,
 	[IGNORE]=function(wanjiaName)
+		PD.Temp.Ignoresplayer=wanjiaName
 		C_FriendList.AddIgnore(wanjiaName)
 	end,
 	[BNET_REPORT..CHAT]=function(wanjiaName,mmsg)
@@ -44,7 +45,7 @@ local listNameFun={
 		end
 	end,
 }
-addonTable.Fun.RightlistNameFun=listNameFun
+PD.Fun.RightlistNameFun=listNameFun
 --------------------
 function CommonInfo.Interactionfun.RightPlus()
 	if not PIGA["Interaction"]["RightPlus"] then return end

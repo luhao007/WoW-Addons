@@ -2313,6 +2313,7 @@ function Addon:EnableSharedProfile()
     self.db.char.lastNonSharedProfile = cur
   end
 
+  self.db.char.wasUsingSharedProfile = true
   global.useSharedProfile = true
 
   local exists = self.db.profiles and self.db.profiles[sharedName] ~= nil
@@ -2351,15 +2352,25 @@ function Addon:DisableSharedProfile()
   local global = self.db.global
   global.useSharedProfile = false
 
-  local back = (self.db.char.lastNonSharedProfile and self.db.char.lastNonSharedProfile ~= "" and self.db.char.lastNonSharedProfile) or "Default"
-  if self.db:GetCurrentProfile() ~= back then
-    self.db:SetProfile(back)
+  local sharedName = (global.sharedProfileName and global.sharedProfileName ~= "" and global.sharedProfileName) or "MapNotes"
+  local back = self.db.char and self.db.char.lastNonSharedProfile
+  local charProfile = self.db.keys and self.db.keys.profile
+  local targetProfile
+
+  if back and back ~= "" and back ~= sharedName and self.db.profiles and self.db.profiles[back] then
+    targetProfile = back
+  elseif charProfile and charProfile ~= "" and charProfile ~= sharedName then
+    targetProfile = charProfile
+  end
+
+  if targetProfile and self.db:GetCurrentProfile() ~= targetProfile then
+    self.db:SetProfile(targetProfile)
   end
 
   if MNMMBIcon then
     local mmb = LibStub("AceAddon-3.0"):GetAddon("MNMiniMapButton", true)
     if mmb and mmb.db then
-      mmb.db:SetProfile(back)
+      mmb.db:SetProfile(self.db:GetCurrentProfile())
       mmb.db.profile.minimap = mmb.db.profile.minimap or {}
 
       local shouldHide = ns.Addon and ns.Addon.db and ns.Addon.db.profile and ns.Addon.db.profile.activate and ns.Addon.db.profile.activate.HideMMB == true
@@ -2381,17 +2392,22 @@ end
 function Addon:ApplySharedProfileIfEnabled()
   if not self.db then return end
 
-  local global = self.db.global or {}
+  local global = self.db.global
+  if not global then return end
+
   local sharedName = (global.sharedProfileName and global.sharedProfileName ~= "" and global.sharedProfileName) or "MapNotes"
   global.sharedProfileName = sharedName
 
+  local cur = self.db:GetCurrentProfile()
+
   if global.useSharedProfile then
     local exists = self.db.profiles and self.db.profiles[sharedName] ~= nil
-    local cur = self.db:GetCurrentProfile()
 
     if cur ~= sharedName and (not self.db.char.lastNonSharedProfile or self.db.char.lastNonSharedProfile == "") then
       self.db.char.lastNonSharedProfile = cur
     end
+
+    self.db.char.wasUsingSharedProfile = true
 
     if cur ~= sharedName then
       self.db:SetProfile(sharedName)
@@ -2406,6 +2422,7 @@ function Addon:ApplySharedProfileIfEnabled()
       if mmb and mmb.db then
         local mmbExists = mmb.db.profiles and mmb.db.profiles[sharedName] ~= nil
         mmb.db:SetProfile(sharedName)
+
         if not mmbExists then
           mmb.db:ResetProfile()
         end
@@ -2424,17 +2441,32 @@ function Addon:ApplySharedProfileIfEnabled()
         end
       end
     end
-  else
-    local back = (self.db.char.lastNonSharedProfile and self.db.char.lastNonSharedProfile ~= "" and self.db.char.lastNonSharedProfile) or "Default"
 
-    if self.db:GetCurrentProfile() ~= back then
-      self.db:SetProfile(back)
+  else
+    if self.db.char.wasUsingSharedProfile then
+      local back = self.db.char and self.db.char.lastNonSharedProfile
+      local charProfile = self.db.keys and self.db.keys.profile
+      local targetProfile
+
+      if back and back ~= "" and back ~= sharedName and self.db.profiles and self.db.profiles[back] then
+        targetProfile = back
+      elseif charProfile and charProfile ~= "" and charProfile ~= sharedName then
+        targetProfile = charProfile
+      end
+
+      if targetProfile and self.db:GetCurrentProfile() ~= targetProfile then
+        self.db:SetProfile(targetProfile)
+      end
+
+      self.db.char.wasUsingSharedProfile = nil
     end
 
     if MNMMBIcon then
       local mmb = LibStub("AceAddon-3.0"):GetAddon("MNMiniMapButton", true)
       if mmb and mmb.db then
-        mmb.db:SetProfile(back)
+        local targetProfile = self.db:GetCurrentProfile()
+
+        mmb.db:SetProfile(targetProfile)
         mmb.db.profile.minimap = mmb.db.profile.minimap or {}
 
         local shouldHide = ns.Addon and ns.Addon.db and ns.Addon.db.profile and ns.Addon.db.profile.activate and ns.Addon.db.profile.activate.HideMMB == true

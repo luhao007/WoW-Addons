@@ -221,6 +221,7 @@ local function ReceiveChunk(method, sender, uid, chunkIndex, chunkCount, chunk)
 			end
 		end
 		if not any then pendingReceiveChunksForUser[sender] = nil; end
+		app:GetWindow("Account Management"):Rebuild();
 		return message;
 	end
 end
@@ -425,6 +426,7 @@ local whiteListedFields = {
 	FlightPaths = true,
 	Followers = true,
 	GarrisonBuildings = true,
+	ProfessionNodes = true,
 	PVPRanks = true,
 	Quests = true,
 	Spells = true,
@@ -485,7 +487,6 @@ local AccountWideDataHandlers = setmetatable({
 	IGNORE_QUEST_PRINT = app.EmptyFunction,
 	AzeriteEssenceRanks = RankSyncCharacterData,
 	Quests = PartialSyncCharacterData,
-	FirstCrafts = app.GameBuildVersion > 100000 and PartialSyncCharacterData or nil
 }, {
 	__index = function(t, key)
 		return whiteListedFields[key] and DefaultAccountWideDataHandler or app.EmptyFunction;
@@ -888,9 +889,11 @@ local function ReceiveCharacterSummary(self, sender, responses, guid, lastPlayed
 		if not lastPlayedForCharacter then
 			-- No timestamp? This character might be corrupted.
 			tinsert(responses, { detail = "Request " .. guid, msg = "request," .. guid });	-- Request Full Character Copy
+			app.print("Requesting full character copy for " .. character.text .. " since no timestamp was found.");
 		elseif lastPlayedForCharacter < lastPlayed then
 			-- The timestamp is newer than the copy we have. Send anything that is new.
 			tinsert(responses, { detail = "Update " .. character.text, msg = "request," .. guid .. "," .. lastPlayedForCharacter });	-- Request Diff
+			app.print("Requesting character update for " .. character.text .. " since we have an older version than them.");
 		elseif shouldPrint then
 			-- Inform them that we have a newer version of the character than they do.
 			tinsert(responses, { detail = "Up to Date " .. guid, msg = "uptodate," .. guid });
@@ -898,6 +901,7 @@ local function ReceiveCharacterSummary(self, sender, responses, guid, lastPlayed
 	else
 		-- We don't have the character in our character data table.
 		tinsert(responses, { detail = "Request " .. guid, msg = "request," .. guid });	-- Request Full Character Copy
+		app.print("Requesting full character copy for " .. guid .. " since we don't have any data on them.");
 	end
 end
 
@@ -949,12 +953,14 @@ MESSAGE_HANDLERS.check = function(self, sender, content, responses)
 	return true;
 end
 MESSAGE_HANDLERS.char = function(self, sender, content, responses)
-	if not LinkedCharacters[sender] then return false; end
+	local senderWithoutServerName = ("-"):split(sender);
+	if not LinkedCharacters[senderWithoutServerName] then return false; end
 	local guid, lastPlayed = (":"):split(content[2]);
 	ReceiveCharacterSummary(self, sender, responses, guid, tonumber(lastPlayed) or 0, true);
 end
 MESSAGE_HANDLERS.chars = function(self, sender, content, responses)
-	if not LinkedCharacters[sender] then return false; end
+	local senderWithoutServerName = ("-"):split(sender);
+	if not LinkedCharacters[senderWithoutServerName] then return false; end
 	for i=2,#content,1 do
 		local guid, lastPlayed = (":"):split(content[i]);
 		ReceiveCharacterSummary(self, sender, responses, guid, tonumber(lastPlayed) or 0, false);
@@ -998,7 +1004,8 @@ MESSAGE_HANDLERS.linked = function(self, sender, content, responses)
 	return true;
 end
 MESSAGE_HANDLERS.rawchar = function(self, sender, content, responses)
-	if not LinkedCharacters[sender] then return false; end
+	local senderWithoutServerName = ("-"):split(sender);
+	if not LinkedCharacters[senderWithoutServerName] then return false; end
 	local guid = content[2];
 	if not guid then return false; end
 	tremove(content, 1);
@@ -1039,9 +1046,11 @@ MESSAGE_HANDLERS.rawchar = function(self, sender, content, responses)
 	-- Update the Sync Window!
 	RecalculateAccountWideData(true);
 	self:Update(true);
+	self:Rebuild();
 end
 MESSAGE_HANDLERS.request = function(self, sender, content, responses)
-	if not LinkedCharacters[sender] then return false; end
+	local senderWithoutServerName = ("-"):split(sender);
+	if not LinkedCharacters[senderWithoutServerName] then return false; end
 	local guid, lastUpdated = content[2], content[3];
 	if lastUpdated then
 		lastUpdated = tonumber(lastUpdated);
@@ -1073,11 +1082,12 @@ MESSAGE_HANDLERS.request = function(self, sender, content, responses)
 	tinsert(responses, { detail = character.text, msg = rawData });
 end
 MESSAGE_HANDLERS.uptodate = function(self, sender, content, responses)
-	if not LinkedCharacters[sender] then return false; end
+	local senderWithoutServerName = ("-"):split(sender);
+	if not LinkedCharacters[senderWithoutServerName] then return false; end
 	local guid = content[2];
 	if guid then
 		local character = CharacterData[guid];
-		if character then print(character.text .. " is already up-to-date."); end
+		if character then app.print(character.text .. " is already up-to-date."); end
 	end
 end
 
@@ -1111,7 +1121,7 @@ local function MergeCharacterData(character, row)
 			end
 			if subtotal > 0 then
 				local t = character.TimeStamps[field];
-				message = message .. "\n " .. field .. " |cffaaaaaa(" .. (t and date("%Y-%m-%d", t) or "??" ) .. ")|r: " .. subtotal;
+				message = message .. "\n " .. field .. " |cffaaaaaa(" .. (t and date("%Y-%m-%d %H:%M:%S", t) or "??" ) .. ")|r: " .. subtotal;
 				tinsert(fields, field);
 			end
 		end
@@ -1291,6 +1301,7 @@ local function OnClickForLinkedAccount(row, button)
 		else
 			SendAddonMessage(identifier, "Check " .. identifier, "check," .. CurrentCharacter.battleTag);
 		end
+		row:GetParent():GetParent():Rebuild();
 	end
 	return true;
 end
@@ -1377,7 +1388,7 @@ local function OnTooltipForCharacter(t, tooltipInfo)
 				total = total + subtotal;
 				local t = timestamps[field];
 				tinsert(tooltipInfo, {
-					left = field .. " |cffaaaaaa(" .. (t and date("%Y-%m-%d", t) or "??" ) .. ")|r",
+					left = field .. " |cffaaaaaa(" .. (t and date("%Y-%m-%d %H:%M:%S", t) or "??" ) .. ")|r",
 					right = tostring(subtotal),
 					r = 1, g = 1, b = 1
 				});

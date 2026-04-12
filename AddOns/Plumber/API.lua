@@ -197,6 +197,12 @@ do  -- String
 		end
 	end
 
+	function API.FormatLabelAndText(label, text)
+		if not text then text = ""; end
+		if not label then label = "Unknown Label"; end
+		return label..L["Colon With Space"]..text
+	end
+
 	local UnitName = UnitName;
 
 	function API.Secret_GetUnitName(unit)
@@ -1503,7 +1509,7 @@ do  -- Instance -- Map
 
 
 	function API.IsInPvP()
-		if C_PvP.IsActiveBattlefield() then
+		if C_PvP.IsActiveBattlefield and C_PvP.IsActiveBattlefield() then
 			return true
 		end
 		local _, instanceType = GetInstanceInfo();
@@ -1609,6 +1615,8 @@ do  -- Currency
 	CurrencyDataProvider.icons = {};
 	CurrencyDataProvider.qualities = {};
 	CurrencyDataProvider.shouldDisplayForUI = {};
+	CurrencyDataProvider.PlayerHasMaxWeeklyQuantity = C_CurrencyInfo.PlayerHasMaxWeeklyQuantity;
+	CurrencyDataProvider.PlayerHasMaxQuantity = C_CurrencyInfo.PlayerHasMaxQuantity;
 
 	function CurrencyDataProvider:CacheCurrencyInfo(currencyID, info)
 		self.names[currencyID] = info.name;
@@ -1665,17 +1673,23 @@ do  -- Currency
 		local info = GetCurrencyInfo(currencyID);
 		if info then
 			if info.useTotalEarnedForMaxQty then
-				return info.totalEarned, info.maxQuantity
+				return info.totalEarned, info.maxQuantity;
 			elseif info.maxWeeklyQuantity and info.maxWeeklyQuantity > 0 and info.quantityEarnedThisWeek then
-				return info.quantityEarnedThisWeek, info.maxWeeklyQuantity
+				return info.quantityEarnedThisWeek, info.maxWeeklyQuantity;
 			end
 		end
 	end
 
-	function API.IsCurrencyFullyEarned(currencyID)
-		local earned, max = API.GetCurrencyEarnedAndCap(currencyID);
-		if earned and max then
-			return earned >= max
+	if CurrencyDataProvider.PlayerHasMaxWeeklyQuantity then
+		function API.IsCurrencyFullyEarned(currencyID)
+			return CurrencyDataProvider.PlayerHasMaxWeeklyQuantity(currencyID) or CurrencyDataProvider.PlayerHasMaxQuantity(currencyID);
+		end
+	else
+		function API.IsCurrencyFullyEarned(currencyID)
+			local earned, max = API.GetCurrencyEarnedAndCap(currencyID);
+			if earned and max then
+				return earned >= max;
+			end
 		end
 	end
 
@@ -2089,7 +2103,12 @@ do  -- Reputation
 			local currentValue = totalEarned - paragonLevel * threshold;
 			return currentValue, threshold, paragonLevel
 		end
-		return 0, 1, 0
+
+		if C_Reputation.IsFactionParagon and C_Reputation.IsFactionParagon(factionID) then
+			return 0, 1, 0;
+		else
+			return 1, 1, 0;
+		end
 	end
 	API.GetParagonValuesAndLevel = GetParagonValuesAndLevel;
 

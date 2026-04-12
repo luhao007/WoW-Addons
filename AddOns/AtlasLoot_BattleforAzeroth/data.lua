@@ -27,6 +27,12 @@ AtlasLoot:RegisterModules(addonname)
 
 local AL = AtlasLoot.Locales
 
+local ADD_SCALING = {
+	Item = {
+		addDifficultyBonus = true,
+	}
+}
+
 local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], "LFRWithPreset", {
 	Item = {
 		item2bonus = "BfAMaxItemLvl",
@@ -63,18 +69,8 @@ local HEROIC_DUNGEON_DIFF = data:AddDifficulty(AL["Heroic"], "HeroicDungeonWithP
 		addDifficultyBonus = true,
 	},
 }, 2)
-local MYTHICD_DIFF = data:AddDifficulty(AL["Mythic"], "h", nil, 23)
 local MYTHICD_DUNGEON_DIFF = data:AddDifficulty(AL["Mythic"], "MythicDungeonWithPreset", {
 	Item = {
-		item2bonus = "BfAMaxItemLvl",
-		autoCompleteItem2 = true,
-		addDifficultyBonus = true,
-	},
-}, 23)
-local MYTHICD2_DIFF = data:AddDifficulty(AL["Mythic"], "h", nil, 23)
-local MYTHICD2_DUNGEON_DIFF = data:AddDifficulty(AL["Mythic"], "MythicDungeon2WithPreset", {
-	Item = {
-		item1bonus = "LegionMDungeon2",
 		item2bonus = "BfAMaxItemLvl",
 		autoCompleteItem2 = true,
 		addDifficultyBonus = true,
@@ -95,6 +91,7 @@ local MYTHIC_PRE_DIFF = data:AddDifficulty(AL["Mythic"], "MyhticWithPreset", {
 		addDifficultyBonus = true,
 	},
 }, 16)
+local TIMEWALKING_DUNGEON_DIFF = data:AddDifficulty(AL["Timewalking"], "timewalkingDungeonWithPreset", ADD_SCALING, 24)
 
 local NORMAL_ITTYPE = data:AddItemTableType("Item", "Item")
 local RAID_ITTYPE = data:AddItemTableType("Item", "Item") -- Normal, Thunder-/Warforged...
@@ -187,6 +184,9 @@ data["Atal'Dazar"] = {
 				{ 16, "ac12272" }, -- AC: Mythic: Atal`Dazar "Gold Fever"
 				{ 17, "ac12270" }, -- AC: Mythic: Atal`Dazar "Bringing Hexy Back"
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Vol'kaal
 			EncounterJournalID = 2036,
@@ -205,6 +205,9 @@ data["Atal'Dazar"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 16, "ac12270" }, -- AC: Mythic: Atal`Dazar "Bringing Hexy Back"
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
 		{ -- Rezan
@@ -225,6 +228,9 @@ data["Atal'Dazar"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 16, "ac12270" }, -- AC: Mythic: Atal`Dazar "Bringing Hexy Back"
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
 		{ -- Yazma
@@ -252,6 +258,9 @@ data["Atal'Dazar"] = {
 				{ 17, "ac12270" }, -- AC: Mythic: Atal`Dazar "Bringing Hexy Back"
 				{ 18, "ac12273" }, -- AC: Mythic: Atal`Dazar "It's Lit!"
 				{ 19, "ac13002" }, -- AC: Mythic: Atal'Dazar Guild Run
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
 		BATTLEFORAZEROTH_DUNGEON_HERO_AC_TABLE,
@@ -284,6 +293,9 @@ data["Freehold"] = {
 				{ 16, "ac12548" }, -- AC: Mythic: Freehold "I'm in Charge Now!"
 				{ 17, "ac12550" }, -- AC: Mythic: Freehold "Pecking Order"
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Council o' Captains
 			EncounterJournalID = 2093,
@@ -303,6 +315,9 @@ data["Freehold"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 16, "ac12550" }, -- AC: Mythic: Freehold "Pecking Order"
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
 		{ -- Ring of Booty
@@ -324,6 +339,9 @@ data["Freehold"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 16, "ac12550" }, -- AC: Mythic: Freehold "Pecking Order"
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
 		{ -- Harlan Sweete
@@ -353,6 +371,9 @@ data["Freehold"] = {
 				{ 19, "ac12999" }, -- AC: Mythic: Freehold Guild Run
 				{ 21, 159842,   "mount" }, -- Sharkbait
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		BATTLEFORAZEROTH_DUNGEON_HERO_AC_TABLE,
 		BATTLEFORAZEROTH_GLORY_OF_THE_WARTORN_HERO_AC_TABLE,
@@ -368,49 +389,67 @@ data["Kings' Rest"] = {
 	{
 		{ -- The Golden Serpent
 			EncounterJournalID = 2165,
+			[HEROIC_DUNGEON_DIFF] = {
+				{ 1, 159413 }, -- Gauntlets of the Avian Sentinel
+				{ 2, 159617 }, -- Lustrous Golden Plumage
+				{ 3, 159313 }, -- Breeches of the Sacred Hall
+				{ 4, 159234 }, -- Down-Lined Breeches
+				{ 5, 159137 }, -- Gilded Serpent's Tooth
+				{ 6, 159369 }, -- Belt of the Consecrated Tomb
+				{ 7, 159412 }, -- Auric Puddle Stompers
+				{ 8, 159304 }, -- Goldfeather Boots
+			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				{ 1,  159413 }, -- Gauntlets of the Avian Sentinel
-				{ 2,  159617 }, -- Lustrous Golden Plumage
-				{ 3,  159313 }, -- Breeches of the Sacred Hall
-				{ 4,  159234 }, -- Down-Lined Breeches
-				{ 5,  159137 }, -- Gilded Serpent's Tooth
-				{ 6,  159369 }, -- Belt of the Consecrated Tomb
-				{ 7,  159412 }, -- Auric Puddle Stompers
-				{ 8,  159304 }, -- Goldfeather Boots
+				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
 				{ 16, "ac12722" }, -- AC: Mythic: Kings' Rest "It Belongs in a Mausoleum!"
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
 			},
 		},
 		{ -- Mchimba the Embalmer
 			EncounterJournalID = 2171,
+			[HEROIC_DUNGEON_DIFF] = {
+				{ 1, 160213 }, -- Sepulchral Construct's Gloves
+				{ 2, 159618 }, -- Mchimba's Ritual Bandages
+				{ 3, 159409 }, -- Embalmer's Steadying Bracers
+				{ 4, 159312 }, -- Desiccator's Blessed Gloves
+				{ 5, 159642 }, -- Royal Purifier's Spade
+				{ 6, 159459 }, -- Ritual Binder's Ring
+				{ 7, 159667 }, -- Vessel of Last Rites
+			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				{ 1,  160213 }, -- Sepulchral Construct's Gloves
-				{ 2,  159618 }, -- Mchimba's Ritual Bandages
-				{ 3,  159409 }, -- Embalmer's Steadying Bracers
-				{ 4,  159312 }, -- Desiccator's Blessed Gloves
-				{ 5,  159642 }, -- Royal Purifier's Spade
-				{ 6,  159459 }, -- Ritual Binder's Ring
-				{ 7,  159667 }, -- Vessel of Last Rites
+				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
 				{ 16, "ac12721" }, -- AC: Mythic: Kings' Rest "Wrap God"
 				{ 17, "ac12722" }, -- AC: Mythic: Kings' Rest "It Belongs in a Mausoleum!"
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
 			},
 		},
 		{ -- The Council of Tribes
 			EncounterJournalID = 2170,
+			[HEROIC_DUNGEON_DIFF] = {
+				{ 1, 159371 }, -- Boots of the Headlong Conqueror
+				{ 2, 159288 }, -- Cloak of the Restless Tribes
+				{ 3, 160216 }, -- Crackling Jade Kilij
+				{ 4, 159136 }, -- Jeweled Dagger of Subjugation
+				{ 5, 159300 }, -- Kula's Butchering Wristwraps
+				{ 6, 159243 }, -- Sandals of Wise Voodoo
+				{ 7, 159643 }, -- Crossbow of Forgotten Majesty
+				{ 8, 159418 }, -- Girdle of Pestilent Purification
+			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				{ 1,  159371 }, -- Boots of the Headlong Conqueror
-				{ 2,  159288 }, -- Cloak of the Restless Tribes
-				{ 3,  160216 }, -- Crackling Jade Kilij
-				{ 4,  159136 }, -- Jeweled Dagger of Subjugation
-				{ 5,  159300 }, -- Kula's Butchering Wristwraps
-				{ 6,  159243 }, -- Sandals of Wise Voodoo
-				{ 7,  159643 }, -- Crossbow of Forgotten Majesty
-				{ 8,  159418 }, -- Girdle of Pestilent Purification
+				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
 				{ 16, "ac12722" }, -- AC: Mythic: Kings' Rest "It Belongs in a Mausoleum!"
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
 			},
 		},
 		{ -- Dazar, The First King
 			EncounterJournalID = 2172,
-			[MYTHICD_DUNGEON_DIFF] = {
+			[HEROIC_DUNGEON_DIFF] = {
 				{ 1,  159236 }, -- Headdress of the First Empire
 				{ 2,  159645 }, -- Headcracker of Supplication
 				{ 3,  159422 }, -- Helm of the Raptor King
@@ -421,10 +460,16 @@ data["Kings' Rest"] = {
 				{ 8,  159423 }, -- Pauldrons of the Great Unifier
 				{ 9,  158355 }, -- Loa-Blessed Chestguard
 				{ 10, 159303 }, -- Vest of Reverent Adoration
+			},
+			[MYTHICD_DUNGEON_DIFF] = {
+				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
 				{ 16, "ac12848" }, -- AC: Mythic: Kings' Rest
 				{ 17, "ac12723" }, -- AC: Mythic: Kings' Rest "How to Keep a Mummy"
 				{ 18, "ac13008" }, -- AC: Mythic: Kings' Rest Guild Run
 				{ 20, 159921,   "mount" }, -- Mummified Raptor Skull
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
 			},
 		},
 		BATTLEFORAZEROTH_DUNGEON_HERO_AC_TABLE,
@@ -456,6 +501,9 @@ data["Shrine of the Storm"] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 16, "ac12600" }, -- AC: Mythic: Shrine of the Storm "Breath of the Shrine"
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Tidesage Council
 			EncounterJournalID = 2154,
@@ -475,6 +523,9 @@ data["Shrine of the Storm"] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 16, "ac12600" }, -- AC: Mythic: Shrine of the Storm "Breath of the Shrine"
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Lord Stormsong
 			EncounterJournalID = 2155,
@@ -493,6 +544,9 @@ data["Shrine of the Storm"] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 16, "ac12601" }, -- AC: Mythic: Shrine of the Storm "The Void Lies Sleeping"
 				{ 17, "ac12600" }, -- AC: Mythic: Shrine of the Storm "Breath of the Shrine"
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
 		{ -- Vol'zith the Whisperer
@@ -521,6 +575,9 @@ data["Shrine of the Storm"] = {
 				{ 18, "ac12600" }, -- AC: Mythic: Shrine of the Storm "Breath of the Shrine"
 				{ 19, "ac13001" }, -- AC: Mythic: Shrine of the Storm Guild Run
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		BATTLEFORAZEROTH_DUNGEON_HERO_AC_TABLE,
 		BATTLEFORAZEROTH_GLORY_OF_THE_WARTORN_HERO_AC_TABLE,
@@ -534,23 +591,41 @@ data["Siege of Boralus"] = {
 	ContentType = DUNGEON_CONTENT,
 	items =
 	{
+		--[[
+			-- On normal, Horde gets Sergeant Bainbridge with these items
+			-- Not sure how to display that though
+			{ 1, 159647 }, -- Siegebreaker's Halberd
+			{ 2, 159648 }, -- Bainbridge's Blackjack
+			{ 3, 159328 }, -- Wharf Warden's Gloves
+			{ 4, 159245 }, -- Cord of the Pious Warder
+			{ 5, 159411 }, -- Legplates of the Maritime Guard
+			{ 6, 159367 }, -- Unstoppable Zealot's Legplates
+			{ 7, 159278 }, -- Slippers of Unwavering Faith
+			{ 8, 162542 }, -- Seal of the City Watch
+		]]
 		{ -- Chopper Redhook
 			EncounterJournalID = 2132,
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1, 159973 }, -- Boarder's Billy Club
+				{ 2, 159972 }, -- Mutineer's Fate
+				{ 3, 159968 }, -- Gloves of the Iron Reavers
+				{ 4, 159969 }, -- Powdershot Leggings
+				{ 5, 159965 }, -- Redhook's Cummerbund
+				{ 6, 159427 }, -- Legplates of the Irontide Raider
+				{ 7, 162541 }, -- Band of the Roving Scalawag
+				{ 8, 159251 }, -- Top-Sail Footwraps
+			},
+			[HEROIC_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				{ 1,  159973 }, -- Boarder's Billy Club
-				{ 2,  159972 }, -- Mutineer's Fate
-				{ 3,  159968 }, -- Gloves of the Iron Reavers
-				{ 4,  159969 }, -- Powdershot Leggings
-				{ 5,  159965 }, -- Redhook's Cummerbund
-				{ 6,  159427 }, -- Legplates of the Irontide Raider
-				{ 7,  162541 }, -- Band of the Roving Scalawag
-				{ 8,  159251 }, -- Top-Sail Footwraps
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 16, "ac12489" }, -- AC: Mythic: Waycrest Manor shared "Losing My Profession"
 			},
 		},
 		{ -- Dread Captain Lockwood
 			EncounterJournalID = 2173,
-			[MYTHICD_DUNGEON_DIFF] = {
+			[NORMAL_DUNGEON_DIFF] = {
 				{ 1,  159309 }, -- Port Pillager's Belt
 				{ 2,  159649 }, -- Saber of Dread Pirate Lockwood
 				{ 3,  159623 }, -- Dead-Eye Spyglass
@@ -561,34 +636,52 @@ data["Siege of Boralus"] = {
 				{ 8,  159372 }, -- Dread Captain's Irons
 				{ 9,  159320 }, -- Besieger's Deckstalkers
 				{ 10, 159379 }, -- Sure-Foot Sabatons
+			},
+			[HEROIC_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[MYTHICD_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 16, "ac12727" }, -- AC: Mythic: Siege of Boralus "Stand by Me"
 				{ 17, "ac12489" }, -- AC: Mythic: Waycrest Manor shared "Losing My Profession"
 			},
 		},
 		{ -- Hadal Darkfathom
 			EncounterJournalID = 2134,
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1, 159322 }, -- Seawalker's Pantaloons
+				{ 2, 159386 }, -- Anchor Chain Girdle
+				{ 3, 159428 }, -- Ballast Sinkers
+				{ 4, 159650 }, -- Dismembered Submersible Claw
+				{ 5, 159622 }, -- Hadal's Nautilus
+				{ 6, 159461 }, -- Band of the Ancient Dredger
+			},
+			[HEROIC_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				{ 1,  159322 }, -- Seawalker's Pantaloons
-				{ 2,  159386 }, -- Anchor Chain Girdle
-				{ 3,  159428 }, -- Ballast Sinkers
-				{ 4,  159650 }, -- Dismembered Submersible Claw
-				{ 5,  159622 }, -- Hadal's Nautilus
-				{ 6,  159461 }, -- Band of the Ancient Dredger
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 16, "ac12489" }, -- AC: Mythic: Waycrest Manor shared "Losing My Profession"
 			},
 		},
 		{ -- Viq'Goth
 			EncounterJournalID = 2140,
+			[NORMAL_DUNGEON_DIFF] = {
+				{ 1, 159431 }, -- Kraken Shell Pauldrons
+				{ 2, 159362 }, -- Tri-Heart Chestguard
+				{ 3, 159651 }, -- Coral-Edged Crescent
+				{ 4, 159310 }, -- Circlet of the Enveloping Leviathan
+				{ 5, 159252 }, -- Grasping Crown of the Deep
+				{ 6, 159314 }, -- Cephalohide Jacket
+				{ 7, 159376 }, -- Hook-Barbed Spaulders
+				{ 8, 159416 }, -- Harpooner's Plate Cuirass
+				{ 9, 159256 }, -- Iron-Kelp Wristwraps
+			},
+			[HEROIC_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 			[MYTHICD_DUNGEON_DIFF] = {
-				{ 1,  159431 }, -- Kraken Shell Pauldrons
-				{ 2,  159362 }, -- Tri-Heart Chestguard
-				{ 3,  159651 }, -- Coral-Edged Crescent
-				{ 4,  159310 }, -- Circlet of the Enveloping Leviathan
-				{ 5,  159252 }, -- Grasping Crown of the Deep
-				{ 6,  159314 }, -- Cephalohide Jacket
-				{ 7,  159376 }, -- Hook-Barbed Spaulders
-				{ 8,  159416 }, -- Harpooner's Plate Cuirass
-				{ 9,  159256 }, -- Iron-Kelp Wristwraps
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 16, "ac12847" }, -- AC: Mythic: Siege of Boralus
 				{ 17, "ac12726" }, -- AC: Mythic: Siege of Boralus "A Fish Out of Water"
 				{ 18, "ac12489" }, -- AC: Mythic: Waycrest Manor shared "Losing My Profession"
@@ -627,6 +720,9 @@ data["Temple of Sethraliss"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Merektha
 			EncounterJournalID = 2143,
@@ -647,6 +743,9 @@ data["Temple of Sethraliss"] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 9, 160832, "pet2186" }, -- Viable Cobra Egg
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Galvazzt
 			EncounterJournalID = 2144,
@@ -662,6 +761,9 @@ data["Temple of Sethraliss"] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
@@ -688,6 +790,9 @@ data["Temple of Sethraliss"] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 16, "ac12506" }, -- AC: Mythic: The Temple of Sethraliss
 				{ 17, "ac13004" }, -- AC: Mythic: The Temple of Sethraliss Guild Run
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
 		BATTLEFORAZEROTH_DUNGEON_HERO_AC_TABLE,
@@ -1010,6 +1115,9 @@ data["Waycrest Manor"] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 16, "ac12489" }, -- AC: Mythic: Waycrest Manor "Losing My Profession"
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Soulbound Goliath
 			EncounterJournalID = 2126,
@@ -1030,6 +1138,9 @@ data["Waycrest Manor"] = {
 				{ 16, "ac12495" }, -- AC: Mythic: Waycrest Manor "Run Wild Like a Man On Fire"
 				{ 17, "ac12489" }, -- AC: Mythic: Waycrest Manor "Losing My Profession"
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Raal the Gluttonous
 			EncounterJournalID = 2127,
@@ -1049,6 +1160,9 @@ data["Waycrest Manor"] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 16, "ac12489" }, -- AC: Mythic: Waycrest Manor "Losing My Profession"
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ -- Lord and Lady Waycrest
 			EncounterJournalID = 2128,
@@ -1067,6 +1181,9 @@ data["Waycrest Manor"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 16, "ac12489" }, -- AC: Mythic: Waycrest Manor "Losing My Profession"
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
 		{ -- Gorak Tul
@@ -1092,6 +1209,9 @@ data["Waycrest Manor"] = {
 				{ 16, "ac12488" }, -- AC: Mythic: Waycrest Manor
 				{ 17, "ac12490" }, -- AC: Mythic: Waycrest Manor "Alchemical Romance"
 				{ 18, "ac12489" }, -- AC: Mythic: Waycrest Manor "Losing My Profession"
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
 		BATTLEFORAZEROTH_DUNGEON_HERO_AC_TABLE,
@@ -1458,7 +1578,7 @@ data["Azeroth"] = {
 
 data["Uldir"] = {
 	EncounterJournalID = 1031,
-	MapID = 1861,
+	MapID = 1148,
 	ContentType = RAID_CONTENT,
 	TableType = RAID_ITTYPE,
 	items =
@@ -1919,7 +2039,7 @@ data["Battle of Dazar'alor"] = {
 
 data["Crucible of Storms"] = {
 	EncounterJournalID = 1177,
-	MapID = 2096,
+	MapID = 1345,
 	ContentType = RAID_CONTENT,
 	TableType = RAID_ITTYPE,
 	items =

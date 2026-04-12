@@ -134,6 +134,23 @@ local getTargets = function()
 
 end
 
+local petNameColor = "FFCCBBBB"
+
+local formatPetName = function(petName, spellName, ownerName)
+	local bUseAlphaIcons = true
+	local specIcon = nil
+	local iconSize = 14
+
+	if (petName:len() == 0) then
+		return Details:AddClassOrSpecIcon(spellName, "PET", specIcon, iconSize, bUseAlphaIcons)
+	end
+
+	petName = Details:AddClassOrSpecIcon(petName, "PET", specIcon, iconSize, bUseAlphaIcons)
+
+	return spellName .. " |c" .. petNameColor .. petName .. "|r"
+end
+
+
 ---@param sourceSpells damagemeter_combat_session_source
 ---@param classFileName string
 local getSourceSpells = function(sourceSpells, classFileName)
@@ -169,13 +186,19 @@ local getSourceSpells = function(sourceSpells, classFileName)
         local leftText = ""
         if issecretvalue(creatureName) then
             if classFileName == "HUNTER" then
-                leftText = spellInfo.name .. " (|cFFAAAAAA" .. creatureName .. "|r)"
+                leftText = spellInfo.name .. " (|c" .. petNameColor .. creatureName .. "|r)"
             else
                 leftText = spellInfo.name
             end
         else
-            leftText = spellInfo.name .. (creatureName and creatureName ~= "" and " (|cFFAAAAAA" .. creatureName .. "|r)" or "")
+            if creatureName and creatureName ~= "" then
+                leftText = formatPetName(creatureName, spellInfo.name, unitName)
+            else
+                leftText = spellInfo.name
+            end
+            --leftText = spellInfo.name .. (creatureName and creatureName ~= "" and " (|cFFAAAAAA" .. creatureName .. "|r)" or "")
         end
+
         --local result = DurationObject:EvaluateElapsedPercent(curve [, modifier])
 
         local success, percent = pcall(function()
@@ -292,6 +315,7 @@ function breakdownMidnight.GenerateSpellData(windowFrame)
     local segmentType = windowFrame:GetCurrentSegmentType()
     local attributeId = windowFrame:GetCurrentAttributeId()
     local actor = windowFrame:GetPlayerObject()
+    local instance = windowFrame:GetInstance()
 
     local spells, header, isDude
     if (isActor(actor)) then
@@ -373,7 +397,12 @@ function breakdownMidnight.GenerateSpellData(windowFrame)
 
             local t = segmentType <= 1
             if guid and not issecretvalue(guid) then
-                local sourceSpells = Details222.B.GetSpells(t and DETAILS_SEGMENTTYPE_TYPE or DETAILS_SEGMENTTYPE_ID, t and segmentType or segmentId, attributeId, guid)
+                local sourceSpells
+                if Details222.BParser.IsCustomAttribute(attributeId) then
+                    sourceSpells = Details222.BParser.GetCustomDataForTooltip(instance, attributeId, actor)
+                else
+                    sourceSpells = Details222.B.GetSpells(t and DETAILS_SEGMENTTYPE_TYPE or DETAILS_SEGMENTTYPE_ID, t and segmentType or segmentId, attributeId, guid)
+                end
                 spells, header = getSourceSpells(sourceSpells, actor.classFilename)
                 isDude = true
 
@@ -402,7 +431,13 @@ function breakdownMidnight.GeneratePlayerData(windowFrame)
     local segmentId = windowFrame:GetCurrentSegmentId()
     local attributeId = windowFrame:GetCurrentAttributeId()
 
-    local playerList = Details222.B.GetSegment(segmentType <= 1 and "Type" or "ID", segmentType <= 1 and segmentType or segmentId, attributeId)
+    local playerList
+    if Details222.BParser.IsCustomAttribute(attributeId) then
+        playerList = Details222.BParser.GetCustomDataForWindow(windowFrame:GetInstance(), attributeId)
+    else
+        playerList = Details222.B.GetSegment(segmentType <= 1 and "Type" or "ID", segmentType <= 1 and segmentType or segmentId, attributeId)
+    end
+
     local headerData = {
         {key="icon", text="", width=false, align="left", canSort=false, dataType="string", offset=0},
         {key="rank", text="#", width=false, align="center", canSort=true, dataType="number", offset=0},

@@ -56,7 +56,7 @@ function CombatPlusfun.AttackBar(open)
 	local function GetAttackSpeedTime(self,JIXU)
 		self.NewmaxValue=GetSpeed(self)
 		self.old_maxValue=self.NewmaxValue
-		self:SetMinMaxValues(0, self.NewmaxValue);
+		self:SetMinMaxValues(0, self.NewmaxValue or 3);
 		if not JIXU then
 			self:SetValue(0);
 			self.value = 0

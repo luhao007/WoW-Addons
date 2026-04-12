@@ -1,5 +1,4 @@
 local addonName, addonTable = ...;
-local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 --
 local L=addonTable.locale
@@ -193,7 +192,7 @@ function BusinessInfo.Trade(StatsInfo)
 					if cdmulu[dangqian][7] then
 						fujik.nameDQ:Show()
 					end
-					fujik.name:SetText(cdmulu[dangqian][1]);
+					fujik.name:SetText(Fun.PruningServerName(cdmulu[dangqian][1]));
 					fujik.allname=cdmulu[dangqian][1]
 					local color = PIG_CLASS_COLORS[classFile];
 					fujik.name:SetTextColor(color.r, color.g, color.b, 1);
@@ -546,7 +545,7 @@ function BusinessInfo.Trade(StatsInfo)
 			if arg2==ERR_TRADE_COMPLETE then
 				local xiaoxiTime=GetServerTime()
 				local MapName=GetZoneText().."-"..GetSubZoneText()
-				local TradeDATA=PIGCopyTable(TradeFrame.PIG_Data)
+				local TradeDATA=CopyTable(TradeFrame.PIG_Data)
 				TradeDATA["Time"]=xiaoxiTime
 				TradeDATA["Map"]=MapName
 				local YYDAY=floor(xiaoxiTime/60/60/24)
@@ -611,7 +610,7 @@ function BusinessInfo.Trade(StatsInfo)
 							end
 						end
 					end
-					if IsAddOnLoaded(L.extLsit[2]) and PIGA["GDKP"]["Rsetting"]["tradetonggao"] then
+					if PIGIsAddOnLoaded(L.addnames[3]) and PIGA["GDKP"]["Rsetting"]["tradetonggao"] then
 						if IsInRaid() then
 							SendChatMessage(msgT, "RAID");
 						elseif IsInGroup() then
@@ -639,7 +638,7 @@ function BusinessInfo.Trade(StatsInfo)
 						end
 					end
 				end
-				if IsAddOnLoaded(L.extLsit[2]) and PIGA["GDKP"]["Rsetting"]["tradetonggao"] and IsInRaid() then
+				if PIGIsAddOnLoaded(L.addnames[3]) and PIGA["GDKP"]["Rsetting"]["tradetonggao"] and IsInRaid() then
 					SendChatMessage(msgT, "RAID");
 				end
 			end

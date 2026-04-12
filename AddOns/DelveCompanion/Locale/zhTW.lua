@@ -41,6 +41,9 @@ Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION = "<點擊來顯示探究的拾�
 
 Lockit.UI_LOOT_INFO_DESCRIPTION = "完成探究可獲得戰利品："
 
+-- Delves Gossip
+Lockit.UI_DELVE_AUTO_ENTER_CANCEL_TOOLTIP_INSTRUCTION = "<Click to cancel auto entering>"
+
 -- Tooltips Extension
 
 Lockit.UI_BOUNTIFUL_KEYS_COUNT_CACHES_PREFIX = "寶箱裡獲取的鑰匙數量"
@@ -83,8 +86,15 @@ Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_VERTICAL_NAME = "Vertical Layout
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_VERTICAL_DESCRIPTION = "The buttons are arranged vertically."
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_HORIZONTAL_NAME = "Horizontal Layout"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_HORIZONTAL_DESCRIPTION = "The buttons are arranged horizontally."
+Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_NAME = "Story Variant Status"
+Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_TOOLTIP = "Highlight whether the active Story Variant has been completed or not (required for Delve Loremaster achievements) in the window displayed entering a Delve."
 Lockit.UI_SETTING_MINIMAP_ICON_NAME = "Show Minimap Icon"
 Lockit.UI_SETTING_MINIMAP_ICON_TOOLTIP = "Display a minimap icon. It can be clicked to quickly access the current season Delves info."
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_NAME = "Auto Enter Delves"
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_TOOLTIP = "Enter a Delve automatically reaching its entrance.\n\nThe Delve won't be entered if:\n- The Tier has not been unlocked yet.\n- It's a Nemesis Delve.\n- It's a Bountiful Delve but you don't have a |cnITEM_EPIC_COLOR:Restored Coffer Key|r nor enough |cnITEM_SUPERIOR_COLOR:Coffer Key Shards|r to assemble the key."
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_TIER_TOOLTIP = "Delve Tier to enter."
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_NAME = "Enter Delay"
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_TOOLTIP = "A Delve will be entered with a delay (in seconds).\n\nThere is a button in the window displayed entering a Delve. It can be clicked to cancel the auto entering before the delay countdown elapsed."
 
 Lockit.UI_SETTINGS_SECTION_TITLE_CHARACTER = "角色設置"
 Lockit.UI_SETTING_TOOLTIP_EXTENSION_NAME = "提示的額外資訊"

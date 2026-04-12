@@ -118,29 +118,19 @@ function BusinessInfo.FBCD(StatsInfo)
 		fujiF.tispBG:Hide()
 	end);
 	---
-	local funamelist = {[836]=-2,[839]=-1}--ZUG/MC--BOSS数-1
-	local function GetBossNUM_1(name)
-		for k,v in pairs(funamelist) do
-			local activityInfo = C_LFGList.GetActivityInfoTable(k);
-			if activityInfo and activityInfo.fullName and name==activityInfo.fullName then
-				return v
-			end
-		end
-		return 0
-	end
 	function fujiF.Get_InstancesCD()
 		local numInstances = GetNumSavedInstances();
 		local InstancesCDinfo={};
 		for id = 1, numInstances, 1 do				
 			local name, lockoutId, reset, difficultyId, locked, extended, instanceIDMostSig, isRaid, maxPlayers, difficultyName, numEncounters, encounterProgress, extendDisabled, instanceId = GetSavedInstanceInfo(id)
-			local numEncounters=numEncounters+GetBossNUM_1(name)
+			local numEncounters=numEncounters
 			InstancesCDinfo[name]=InstancesCDinfo[name] or {}
 			local killData={}
 			for ix=1,numEncounters do
 				local bossName, _, isKilled = GetSavedInstanceEncounterInfo(id, ix);
 				table.insert(killData,{bossName,isKilled})
 			end
-			InstancesCDinfo[name][difficultyId]={reset+GetServerTime(), numEncounters, encounterProgress, killData}
+			InstancesCDinfo[name][difficultyId]={reset+GetServerTime(), numEncounters, encounterProgress, killData, instanceId}
 		end
 		local numSavedWorldBosses = GetNumSavedWorldBosses()
 		for id=1,numSavedWorldBosses do
@@ -176,32 +166,10 @@ function BusinessInfo.FBCD(StatsInfo)
 			    FauxScrollFrame_OnVerticalScroll(self, offset, hang_Height, fujik.UpdateHang)
 			end)
 			fujik.butlist={}
-			for id = 1, hang_NUM, 1 do
-				local hang = CreateFrame("Frame", nil, fujik);
-				fujik.butlist[id]=hang
-				hang:SetSize(fujik:GetWidth()-18,hang_Height);
-				if id==1 then
-					hang:SetPoint("TOPLEFT", fujik.Scroll, "TOPLEFT", 0, -1);
-				else
-					hang:SetPoint("TOPLEFT", fujik.butlist[id-1], "BOTTOMLEFT", 0, -1);
-				end
-				hang.Faction = hang:CreateTexture();
-				hang.Faction:SetTexture("interface/glues/charactercreate/ui-charactercreate-factions.blp");
-				hang.Faction:SetPoint("LEFT", hang, "LEFT", 0,0);
-				hang.Faction:SetSize(hang_Height-2,hang_Height-2);
-				hang.Race = hang:CreateTexture();
-				hang.Race:SetPoint("LEFT", hang.Faction, "RIGHT", 1,0);
-				hang.Race:SetSize(hang_Height-2,hang_Height-2);
-				hang.Class = hang:CreateTexture();
-				hang.Class:SetTexture("interface/glues/charactercreate/ui-charactercreate-classes.blp")
-				hang.Class:SetPoint("LEFT", hang.Race, "RIGHT", 1,0);
-				hang.Class:SetSize(hang_Height-2,hang_Height-2);
-				hang.name = PIGFontString(hang,{"LEFT", hang.Class, "RIGHT", 2, 0})
-			end
 			function fujik.UpdateHang()
 				local dataX=fujiF.cdmuluData[dataid]
-		   		for id = 1, hang_NUM, 1 do
-					fujik.butlist[id]:Hide();
+				for k,but in pairs(fujik.butlist) do
+					but:Hide();
 				end
 		   		local ItemsNum = #dataX;
 				FauxScrollFrame_Update(fujik.Scroll, ItemsNum, hang_NUM, hang_Height);
@@ -209,6 +177,48 @@ function BusinessInfo.FBCD(StatsInfo)
 			    for id = 1, hang_NUM do
 					local dangqian = id+offset;
 					if dataX[dangqian] then
+						if not fujik.butlist[id] then
+							local hang = CreateFrame("Frame", nil, fujik);
+							fujik.butlist[id]=hang
+							hang:SetSize(fujik:GetWidth()-18,hang_Height);
+							if id==1 then
+								hang:SetPoint("TOPLEFT", fujik.Scroll, "TOPLEFT", 0, -1);
+							else
+								hang:SetPoint("TOPLEFT", fujik.butlist[id-1], "BOTTOMLEFT", 0, -1);
+							end
+							hang.Faction = hang:CreateTexture();
+							hang.Faction:SetTexture("interface/glues/charactercreate/ui-charactercreate-factions.blp");
+							hang.Faction:SetPoint("LEFT", hang, "LEFT", 0,0);
+							hang.Faction:SetSize(hang_Height-2,hang_Height-2);
+							hang.Race = hang:CreateTexture();
+							hang.Race:SetPoint("LEFT", hang.Faction, "RIGHT", 1,0);
+							hang.Race:SetSize(hang_Height-2,hang_Height-2);
+							hang.Class = hang:CreateTexture();
+							hang.Class:SetTexture("interface/glues/charactercreate/ui-charactercreate-classes.blp")
+							hang.Class:SetPoint("LEFT", hang.Race, "RIGHT", 1,0);
+							hang.Class:SetSize(hang_Height-2,hang_Height-2);
+							hang.name = PIGFontString(hang,{"LEFT", hang.Class, "RIGHT", 2, 0})
+							hang:HookScript("OnEnter", function (self)
+								if self.killData then
+									GameTooltip:ClearLines();
+									GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",0,0);
+									GameTooltip:AddLine("击杀详情"..(self.InstanceID or "")..":")
+									for iki=1,#self.killData do
+										local bossName,isKilled = unpack(self.killData[iki])
+										if isKilled then
+											GameTooltip:AddDoubleLine(bossName, BOSS_DEAD, 1, 1, 1, RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b);
+										else
+											GameTooltip:AddDoubleLine(bossName, BOSS_ALIVE, 1, 1, 1, GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b);
+										end
+									end
+									GameTooltip:Show();
+								end
+							end);
+							hang:HookScript("OnLeave", function ()
+								GameTooltip:ClearLines();
+								GameTooltip:Hide() 
+							end);
+						end
 						local fujik = fujik.butlist[id]
 						fujik:Show();
 						if dataX[dangqian][1]=="juese" then
@@ -229,13 +239,15 @@ function BusinessInfo.FBCD(StatsInfo)
 							local color = PIG_CLASS_COLORS[classFile];
 							fujik.name:SetTextColor(color.r, color.g, color.b, 1);
 						else
+							fujik.killData=dataX[dangqian][3][4]
+							fujik.InstanceID=dataX[dangqian][3][5]
 							fujik.Faction:Hide();
 							fujik.Race:Hide();
 							fujik.Class:Hide();
 							fujik.Race:SetWidth(0.01);
 							fujik.Class:SetWidth(0.01);
 							fujik.name:SetTextColor(1, 1, 1, 1);
-							local time,minnum,maxnum=dataX[dangqian][3][1],dataX[dangqian][3][2],dataX[dangqian][3][3]
+							local time,minnum,maxnum=dataX[dangqian][3][1],dataX[dangqian][3][3],dataX[dangqian][3][2]
 							local iconx="|T137025:0|t"
 							local minmaxtxt=""
 							if minnum<maxnum then
@@ -338,7 +350,7 @@ function BusinessInfo.FBCD(StatsInfo)
 			-- table.insert(insList_RAIDS,{"["..RAIDS.."]-"..EXPANSION_NAME1,{844,845,846,847,848,849,850,851,852}})
 			-- table.insert(insList_RAIDS,{"["..RAIDS.."]-"..EXPANSION_NAME2,wlkid})
 			-- NewTabList=NewTabList or morenRecords(wlkid)
-			local titanraid = {848,847,839,1095}
+			local titanraid = {839,1095,848,847,1101,1102,841}
 			table.insert(insList_RAIDS,{"["..RAIDS.."]-"..PIG_GetDifficultyInfo(244),titanraid})
 			local titanword = {116,117,118,119}
 			table.insert(insList_WORDBOSS,{"["..WORLD.."BOSS]",titanword})
@@ -475,137 +487,30 @@ function BusinessInfo.FBCD(StatsInfo)
 		    FauxScrollFrame_OnVerticalScroll(self, offset, hang_Height, fujiF.Update_List)
 		end)
 		fujiF.NR.listbut={}
-		for id = 1, hang_NUM, 1 do
-			local hang = CreateFrame("Frame", nil, fujiF.NR);
-			fujiF.NR.listbut[id]=hang
-			hang:SetSize(fujiF.NR:GetWidth()-18,hang_Height*2+4);
-			if id==1 then
-				hang:SetPoint("TOPLEFT", fujiF.NR, "TOPLEFT", 3, 0);
-			else
-				hang:SetPoint("TOPLEFT", fujiF.NR.listbut[id-1], "BOTTOMLEFT", 0, 0);
-			end
-			if id~=hang_NUM then
-				hang.line = PIGLine(hang,"BOT",0,nil,nil,{0.5,0.5,0.5,0.2})
-			end
-			hang.Faction = hang:CreateTexture();
-			hang.Faction:SetTexture("interface/glues/charactercreate/ui-charactercreate-factions.blp");
-			hang.Faction:SetPoint("TOPLEFT", hang, "TOPLEFT", 0,-2);
-			hang.Faction:SetSize(hang_Height,hang_Height);
-			hang.Race = hang:CreateTexture();
-			hang.Race:SetPoint("LEFT", hang.Faction, "RIGHT", 1,0);
-			hang.Race:SetSize(hang_Height,hang_Height);
-			hang.Class = hang:CreateTexture();
-			hang.Class:SetTexture("interface/glues/charactercreate/ui-charactercreate-classes.blp")
-			hang.Class:SetPoint("LEFT", hang.Race, "RIGHT", 1,0);
-			hang.Class:SetSize(hang_Height,hang_Height);
-			hang.level = PIGFontString(hang,{"LEFT", hang.Class, "RIGHT", 2, 0},1)
-			hang.level:SetTextColor(1,0.843,0, 1);
-			hang.nameDQ = hang:CreateTexture();
-			hang.nameDQ:SetTexture("interface/common/indicator-green.blp")
-			hang.nameDQ:SetPoint("LEFT", hang.level, "RIGHT", 1,0);
-			hang.nameDQ:SetSize(hang_Height,hang_Height);
-			hang.name = PIGFontString(hang,{"TOPLEFT", hang.Faction, "BOTTOMLEFT", 0, -2})
-			hang.mode1 = PIGFontString(hang,{"TOPLEFT", hang, "TOPLEFT", nrpianyi-40,-1.6},RAID_DIFFICULTY1)
-			hang.mode1:SetTextColor(0,1,0,1);
-			hang.mode2 = PIGFontString(hang,{"TOPLEFT", hang.mode1, "BOTTOMLEFT", 0, -8},RAID_DIFFICULTY2)
-			hang.mode2:SetTextColor(1,1,0,1);
-			hang.TimeCDBut={}
-			for butID=1,lienum do
-				local CDbutTop = PIGDiyBut(hang,nil,{hang_Height,hang_Height})
-				local CDbutDown = PIGDiyBut(hang,nil,{hang_Height,hang_Height})
-				CDbutTop.jindu=PIGFontString(CDbutTop,{"LEFT",CDbutTop, "RIGHT", -2, 0},"01/01")
-				CDbutDown.jindu=PIGFontString(CDbutDown,{"LEFT",CDbutDown, "RIGHT", -2, 0},"01/01")
-				function hangOnEnterOnLeave(uix)
-					uix:HookScript("OnEnter", function (self)
-						if self.killData then
-							GameTooltip:ClearLines();
-							GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",0,0);
-							GameTooltip:AddLine("击杀详情：")
-							for iki=1,#self.killData do
-								local bossName,isKilled = unpack(self.killData[iki])
-								if isKilled then
-									GameTooltip:AddDoubleLine(bossName, BOSS_DEAD, 1, 1, 1, RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b);
-								else
-									GameTooltip:AddDoubleLine(bossName, BOSS_ALIVE, 1, 1, 1, GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b);
-								end
-							end
-							GameTooltip:Show();
-						end
-					end);
-					uix:HookScript("OnLeave", function ()
-						GameTooltip:ClearLines();
-						GameTooltip:Hide() 
-					end);
-				end
-				hangOnEnterOnLeave(CDbutTop.jindu)
-				hang.TimeCDBut[butID]={CDbutTop,CDbutDown}
-			end
-
-			function hang:resetCDlie(hangID,but,Atlas,xxx,yyy)
-				but:Hide()
-				but.jindu:SetText("")
-				but.icon:SetAtlas(Atlas)
-				but.dfpiayiV_X=xxx
-				but.errpiayiV_X=xxx-hang_Height*0.5
-				but.dfpiayiV_Y=yyy
-			end
-			function hang:UpdataCDlie(hangnum,but,min,max,data)
-				but:ClearAllPoints();
-				if hangnum==1 then
-					but:SetPoint("LEFT", self, "LEFT", but.dfpiayiV_X, 0);
-				else
-					but:SetPoint("TOPLEFT", self, "TOPLEFT", but.dfpiayiV_X, but.dfpiayiV_Y);
-				end
-				but:Show()
-				but.killData=data
-				if min<max then
-					but.icon:SetAtlas("DungeonSkull")
-					but.jindu:SetText(min.."/"..max)
-					if hangnum>1 then
-						but:SetPoint("TOPLEFT", self, "TOPLEFT", but.errpiayiV_X, but.dfpiayiV_Y);
-					else
-						but:SetPoint("LEFT", self, "LEFT", but.errpiayiV_X, 0);
-					end
-				end
-			end
-			function hang:SetInstancesCD(CDdata,JKdata)
-				for butID=1,lienum do
-					self:resetCDlie(1,self.TimeCDBut[butID][1],"common-icon-checkmark",(butID-1)*nrjiange+nrpianyi,0)
-					self:resetCDlie(2,self.TimeCDBut[butID][2],"common-icon-checkmark-yellow",(butID-1)*nrjiange+nrpianyi,-hang_Height-2)
-				end
-				if not CDdata then return end
-				for fbname,data in pairs(CDdata) do
-					for butID=1,#JKdata do
-						if fbname:match(JKdata[butID][2]) then
-							for difficultyId,dataX in pairs(data) do
-								if GetServerTime()<dataX[1] then
-									if difficultyId==-666 then
-										self:UpdataCDlie(1,self.TimeCDBut[butID][1],dataX[3],dataX[2],dataX[4])
-									else
-										local name, groupType = PIG_GetDifficultyInfo(difficultyId)
-										if groupType=="raid" then
-											if name==RAID_DIFFICULTY1 or name==RAID_DIFFICULTY3 then
-												self.mode1:SetText(RAID_DIFFICULTY1); self.mode2:SetText(RAID_DIFFICULTY2)
-												self:UpdataCDlie(2,self.TimeCDBut[butID][1],dataX[3],dataX[2],dataX[4])
-											elseif name==RAID_DIFFICULTY2 or name==RAID_DIFFICULTY4 then
-												self.mode1:SetText(RAID_DIFFICULTY1); self.mode2:SetText(RAID_DIFFICULTY2)
-												self:UpdataCDlie(2,self.TimeCDBut[butID][2],dataX[3],dataX[2],dataX[4])
-											-- elseif name==RAID_DIFFICULTY_20PLAYER or name==RAID_DIFFICULTY_40PLAYER then
-											-- 	self:UpdataCDlie(self.TimeCDBut[butID][1],dataX[3],dataX[2],dataX[4])
-											else
-												--print(difficultyId, name, groupType)
-												self:UpdataCDlie(1,self.TimeCDBut[butID][1],dataX[3],dataX[2],dataX[4])
-											end
-										elseif groupType=="party" then
-
-										end
-									end
-								end
-							end
+		local function addCDbut(hang)
+			local CDbutTop = PIGDiyBut(hang,nil,{hang_Height,hang_Height})
+			CDbutTop.jindu=PIGFontString(CDbutTop,{"LEFT",CDbutTop, "RIGHT", -2, 0},"01/01")
+			CDbutTop:HookScript("OnEnter", function (self)
+				if self.killData then
+					GameTooltip:ClearLines();
+					GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",0,0);
+					GameTooltip:AddLine("击杀详情：")
+					for iki=1,#self.killData do
+						local bossName,isKilled = unpack(self.killData[iki])
+						if isKilled then
+							GameTooltip:AddDoubleLine(bossName, BOSS_DEAD, 1, 1, 1, RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b);
+						else
+							GameTooltip:AddDoubleLine(bossName, BOSS_ALIVE, 1, 1, 1, GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b);
 						end
 					end
+					GameTooltip:Show();
 				end
-			end
+			end);
+			CDbutTop:HookScript("OnLeave", function ()
+				GameTooltip:ClearLines();
+				GameTooltip:Hide() 
+			end);
+			return CDbutTop
 		end
 		function fujiF.Update_List()
 			if not fujiF:IsVisible() then return end
@@ -648,12 +553,11 @@ function BusinessInfo.FBCD(StatsInfo)
 				fujiF.NR.biaotilist[i]:SetText(insList_biaoti[i][1] or insList_biaoti[i][2])
 			end
 			local self=fujiF.NR.Scroll
-			for id = 1, hang_NUM, 1 do
-				local fujik = fujiF.NR.listbut[id]
-				fujik:Hide();
-				fujik.nameDQ:Hide()
-				fujik.mode1:SetText("")
-				fujik.mode2:SetText("")
+			for _,but in pairs(fujiF.NR.listbut) do
+				but:Hide();
+				but.nameDQ:Hide()
+				but.mode1:SetText("")
+				but.mode2:SetText("")
 			end
 			fujiF.Get_InstancesCD()
 			local cdmulu={};
@@ -676,6 +580,111 @@ function BusinessInfo.FBCD(StatsInfo)
 			    for id = 1, hang_NUM do
 					local dangqian = id+offset;
 					if cdmulu[dangqian] then
+						if not fujiF.NR.listbut[id] then
+							local hang = CreateFrame("Frame", nil, fujiF.NR);
+							fujiF.NR.listbut[id]=hang
+							hang:SetSize(fujiF.NR:GetWidth()-18,hang_Height*2+4);
+							if id==1 then
+								hang:SetPoint("TOPLEFT", fujiF.NR, "TOPLEFT", 3, 0);
+							else
+								hang:SetPoint("TOPLEFT", fujiF.NR.listbut[id-1], "BOTTOMLEFT", 0, 0);
+							end
+							if id~=hang_NUM then
+								hang.line = PIGLine(hang,"BOT",0,nil,nil,{0.5,0.5,0.5,0.2})
+							end
+							hang.Faction = hang:CreateTexture();
+							hang.Faction:SetTexture("interface/glues/charactercreate/ui-charactercreate-factions.blp");
+							hang.Faction:SetPoint("TOPLEFT", hang, "TOPLEFT", 0,-2);
+							hang.Faction:SetSize(hang_Height,hang_Height);
+							hang.Race = hang:CreateTexture();
+							hang.Race:SetPoint("LEFT", hang.Faction, "RIGHT", 1,0);
+							hang.Race:SetSize(hang_Height,hang_Height);
+							hang.Class = hang:CreateTexture();
+							hang.Class:SetTexture("interface/glues/charactercreate/ui-charactercreate-classes.blp")
+							hang.Class:SetPoint("LEFT", hang.Race, "RIGHT", 1,0);
+							hang.Class:SetSize(hang_Height,hang_Height);
+							hang.level = PIGFontString(hang,{"LEFT", hang.Class, "RIGHT", 2, 0},1)
+							hang.level:SetTextColor(1,0.843,0, 1);
+							hang.nameDQ = hang:CreateTexture();
+							hang.nameDQ:SetTexture("interface/common/indicator-green.blp")
+							hang.nameDQ:SetPoint("LEFT", hang.level, "RIGHT", 1,0);
+							hang.nameDQ:SetSize(hang_Height,hang_Height);
+							hang.nameDQ:Hide()
+							hang.name = PIGFontString(hang,{"TOPLEFT", hang.Faction, "BOTTOMLEFT", 0, -2})
+							hang.mode1 = PIGFontString(hang,{"TOPLEFT", hang, "TOPLEFT", nrpianyi-40,-1.6},"")
+							hang.mode1:SetTextColor(0,1,0,1);
+							hang.mode2 = PIGFontString(hang,{"TOPLEFT", hang.mode1, "BOTTOMLEFT", 0, -8},"")
+							hang.mode2:SetTextColor(1,1,0,1);
+							hang.TimeCDBut={}
+							for butID=1,lienum do
+								hang.TimeCDBut[butID]={addCDbut(hang),addCDbut(hang)}
+							end
+							function hang:resetCDlie(hangID,but,Atlas,xxx,yyy)
+								but:Hide()
+								but.jindu:SetText("")
+								but.icon:SetAtlas(Atlas)
+								but.dfpiayiV_X=xxx
+								but.errpiayiV_X=xxx-hang_Height*0.5
+								but.dfpiayiV_Y=yyy
+							end
+							function hang:UpdataCDlie(hangnum,but,min,max,data)
+								but:ClearAllPoints();
+								if hangnum==1 then
+									but:SetPoint("LEFT", self, "LEFT", but.dfpiayiV_X, 0);
+								else
+									but:SetPoint("TOPLEFT", self, "TOPLEFT", but.dfpiayiV_X, but.dfpiayiV_Y);
+								end
+								but:Show()
+								but.killData=data
+								if min<max then
+									but.icon:SetAtlas("DungeonSkull")
+									but.jindu:SetText(min.."/"..max)
+									if hangnum>1 then
+										but:SetPoint("TOPLEFT", self, "TOPLEFT", but.errpiayiV_X, but.dfpiayiV_Y);
+									else
+										but:SetPoint("LEFT", self, "LEFT", but.errpiayiV_X, 0);
+									end
+								end
+							end
+							function hang:SetInstancesCD(CDdata,JKdata)
+								for butID=1,lienum do
+									self:resetCDlie(1,self.TimeCDBut[butID][1],"common-icon-checkmark",(butID-1)*nrjiange+nrpianyi,0)
+									self:resetCDlie(2,self.TimeCDBut[butID][2],"common-icon-checkmark-yellow",(butID-1)*nrjiange+nrpianyi,-hang_Height-2)
+								end
+								if not CDdata then return end
+								for fbname,data in pairs(CDdata) do
+									for butID=1,#JKdata do
+										if fbname:match(JKdata[butID][2]) then
+											for difficultyId,dataX in pairs(data) do
+												if GetServerTime()<dataX[1] then
+													if difficultyId==-666 then
+														self:UpdataCDlie(1,self.TimeCDBut[butID][1],dataX[3],dataX[2],dataX[4])
+													else
+														local name, groupType = PIG_GetDifficultyInfo(difficultyId)
+														if groupType=="raid" then
+															if name==RAID_DIFFICULTY1 or name==RAID_DIFFICULTY3 then
+																self.mode1:SetText(RAID_DIFFICULTY1); self.mode2:SetText(RAID_DIFFICULTY2)
+																self:UpdataCDlie(2,self.TimeCDBut[butID][1],dataX[3],dataX[2],dataX[4])
+															elseif name==RAID_DIFFICULTY2 or name==RAID_DIFFICULTY4 then
+																self.mode1:SetText(RAID_DIFFICULTY1); self.mode2:SetText(RAID_DIFFICULTY2)
+																self:UpdataCDlie(2,self.TimeCDBut[butID][2],dataX[3],dataX[2],dataX[4])
+															-- elseif name==RAID_DIFFICULTY_20PLAYER or name==RAID_DIFFICULTY_40PLAYER then
+															-- 	self:UpdataCDlie(self.TimeCDBut[butID][1],dataX[3],dataX[2],dataX[4])
+															else
+																--print(difficultyId, name, groupType)
+																self:UpdataCDlie(1,self.TimeCDBut[butID][1],dataX[3],dataX[2],dataX[4])
+															end
+														elseif groupType=="party" then
+
+														end
+													end
+												end
+											end
+										end
+									end
+								end
+							end
+						end
 						local fujik = fujiF.NR.listbut[id]
 						fujik:Show();
 						if cdmulu[dangqian][2]=="Alliance" then
@@ -690,7 +699,7 @@ function BusinessInfo.FBCD(StatsInfo)
 						if cdmulu[dangqian][8] then
 							fujik.nameDQ:Show()
 						end
-						fujik.name:SetText(cdmulu[dangqian][1]);
+						fujik.name:SetText(Fun.PruningServerName(cdmulu[dangqian][1]));
 						local color = PIG_CLASS_COLORS[classFile];
 						fujik.name:SetTextColor(color.r, color.g, color.b, 1);
 						fujik:SetInstancesCD(cdmulu[dangqian][7],insList_biaoti)

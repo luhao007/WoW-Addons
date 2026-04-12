@@ -46,6 +46,7 @@ L["Always On Module"] = "此模块将被一直启用。";
 L["Return To Module List"] = "返回模块列表";
 L["LootUI Addon Conflict"] = "此模块可能与以下功能类似的插件不兼容：";
 L["Work In Progress Tag"] = "[施工中]";
+L["Colon With Space"] = "：";
 
 
 --Settings Category
@@ -347,6 +348,7 @@ L["ModuleName Delves_Automation"] = "地下堡: 自动选择特效";
 L["ModuleDescription Delves_Automation"] = "当你在地下堡内时，自动选择宝藏或稀有精英掉落的特效。";
 L["Delve Crest Stash No Info"] = "你所在区域无法获取该信息。";
 L["Delve Crest Stash Requirement"] = "仅在11层丰裕地下堡出现。";
+L["Delve Crest Stash Old Data"] = "此信息在你当前位置可能不准确，请以地下堡难度选择器上的鼠标提示为准。";
 L["Overcharged Delve"] = "超载地下堡";
 L["Delves History Requires AddOn"] = "地下堡记录由Plumber插件在本地保存。";
 L["Auto Select"] = "自动选择";
@@ -690,6 +692,9 @@ L["Prey No Data"] = "暂时无法获取狩猎信息";
 L["Abundance No Data"] = "暂无丰饶活动";
 L["Defeated Prey"] = "已击败的狩猎目标";
 L["Item Expire Alert Weekly"] = "这件物品将在每周服务器维护后消失。";
+L["Delves Completion Reward Cap"] = "通关奖励";
+L["Delves Completion Reward Cap Tooltip"] = "当你达到此战团上限后，完成丰裕地下堡将不再奖励旅程进度和伙伴经验。\n\n丰裕宝匣和宿敌宝箱不受此上限影响。\n\n每周上限为28次，可以累计。";
+L["Near Completion Tooltip"] = "你可以看见此条目是因为你即将达到上限。";
 
 
 --ExpansionSummaryMinimapButton
@@ -846,6 +851,17 @@ L["BreakTime Shared Countdown Tooltip Format"] = "计划休息将于|cffffffff%d
 --CatalystUI
 L["ModuleName CatalystUI"] = "化生充能：试衣间预览";
 L["ModuleDescription CatalystUI"] = "允许你按住Ctrl点击转化后的装备来在试衣间中预览它，或是按住Shift点击来插入到聊天窗口。";
+
+
+--HuntTable
+L["ModuleName HuntTable"] = "狩猎：狩猎地图";
+L["ModuleDescription HuntTable"] = "- 将狩猎地图上的蓝色任务图标替换为难度图标。\n\n- 若狩猎目标与某个未完成的成就相关，在其右上方显示特别标记。";
+L["Prey Target Has Achievement"] = "某个未完成的成就要求你击败此目标。";
+
+
+--PreyQuestSuperTrack
+L["ModuleName PreyQuestSuperTrack"] = "狩猎：目标最终位置追踪";
+L["ModuleDescription PreyQuestSuperTrack"] = "当你知晓狩猎目标的最终位置后，点击狩猎进度指示器会将追踪此位置以便于你导航。";
 
 
 --Generic

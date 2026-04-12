@@ -2284,7 +2284,7 @@ if not db.activate.HideMapNote then
                     end
 
                     if self.db.profile.showMinimapCapitalsSkinning then
-                        minimap[407][48197805] = { npcID = 14833, name = "", type = "Skinning", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = L["Skinning"] .. " " .. TUTORIAL_TITLE1 }
+                        minimap[407][54967113] = { npcID = 14833, name = "", type = "Skinning", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = L["Skinning"] .. " " .. TUTORIAL_TITLE1 }
                     end                    
 
                     if self.db.profile.showMinimapCapitalsJewelcrafting then
@@ -2292,7 +2292,7 @@ if not db.activate.HideMapNote then
                     end   
 
                     if self.db.profile.showMinimapCapitalsHerbalism then
-                        minimap[407][55017052] = { npcID = 14833, name = "", type = "Herbalism", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = L["Herbalism"] .. " " .. TUTORIAL_TITLE1 }
+                        minimap[407][54787068] = { npcID = 14833, name = "", type = "Herbalism", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = L["Herbalism"] .. " " .. TUTORIAL_TITLE1 }
                     end    
                 
                     if self.db.profile.showMinimapCapitalsCooking then
@@ -3343,7 +3343,7 @@ if not db.activate.HideMapNote then
             if self.db.profile.activate.MinimapCapitalsTransporting then
     
                 if self.db.profile.showMinimapCapitalsPortals then
-                    minimap[2339][53563873] = { mnID = 2266, name = "", type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. " ==> " .. ns.SpiresOfArak .. "\n" .. " ==> " .. ns.Icecrown .. "\n" .. " ==> " .. ns.Eredath .. "\n" .. " ==> " .. ns.Thaldraszus } --  Portal from Dornogal to the Timeways
+                    minimap[2339][53563873] = { mnID = 2266, name = "", type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. ZONE .. ": " .. ns.SpiresOfArak .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.Skyreach .. "\n\n" .. ZONE .. ": " .. ns.Icecrown .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.PitOfSaron .. "\n\n" .. ZONE .. ": " .. ns.Eredath .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.SeatOfTheTriumvirate .. "\n\n" .. ZONE .. ": " .. ns.Thaldraszus .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.AlgetharAcademy } --  Portal from Dornogal to the Timeways
                     minimap[2339][63615205] = { mnID = 2255, name = "", dnID = "", achievementID = 19559, showWWW = true, wwwLink = "https://www.wowhead.com/achievement=19559", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Portal from Dornogal to Azj-Kahet if u finished the achievement=19559
                     minimap[2339][29775967] = { mnID = 2367, name = "", dnID = "", achievementID = 40725, showWWW = true, wwwLink = "https://wowhead.com/achievement=40725", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Chamber of Memory
                     minimap[2339][52465047] = { mnID = 2346, name = "", dnID = "", questID = 86535, showWWW = true, wwwLink = "https://wowhead.com/quest=86535/test-run", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Portal from Dornogal to Undermine
@@ -3581,13 +3581,13 @@ if not db.activate.HideMapNote then
                 if self.db.profile.showMinimapCapitalsPortals then
                     minimap[2393][36746821] = { mnID = 2413, name = "", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Wurzelpfad nach Harandar
                     minimap[2393][35286607] = { mnID = 2405, name = "", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Portal zum Leerensturm
-                    minimap[2393][42105830] = { mnID = 2266, name = "", type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. " ==> " .. ns.SpiresOfArak .. "\n" .. " ==> " .. ns.Icecrown .. "\n" .. " ==> " .. ns.Eredath .. "\n" .. " ==> " .. ns.Thaldraszus } --  Portal from Dornogal to the Timeways
+                    minimap[2393][42105830] = { mnID = 2266, name = "", type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true, TransportName = L["The Timeways"] .. " " .. L["Portals"] .. "\n" .. "\n" .. ZONE .. ": " .. ns.SpiresOfArak .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.Skyreach .. "\n\n" .. ZONE .. ": " .. ns.Icecrown .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.PitOfSaron .. "\n\n" .. ZONE .. ": " .. ns.Eredath .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.SeatOfTheTriumvirate .. "\n\n" .. ZONE .. ": " .. ns.Thaldraszus .. "\n" .. CALENDAR_TYPE_DUNGEON .. ": " .. ns.AlgetharAcademy } --  Portal from Dornogal to the Timeways
                     minimap[2266][43564994] = { mnID = 2393, name = "", type = "Portal", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Timeways Portal to Silvermoon
-                    minimap[2266][64534340] = { mnID = 542, name = "", type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Timeways Portal to spitzen von arak
-                    minimap[2266][74524703] = { mnID = 118, name = "", type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Timeways Portal to eiskronenzitadelle
+                    minimap[2266][64534340] = { mnID = 542, name =  CALENDAR_TYPE_DUNGEON .. ": " .. ns.Skyreach, type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Timeways Portal to spitzen von arak
+                    minimap[2266][74524703] = { mnID = 118, name = CALENDAR_TYPE_DUNGEON .. ": " .. ns.PitOfSaron, type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Timeways Portal to eiskronenzitadelle
                     --minimap[2266][77536180] = { mnID = 1536, name = "", type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Timeways Portal to 
-                    minimap[2266][70537306] = { mnID = 2025, name = "", type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Timeways Portal to thaldrszus
-                    minimap[2266][60506950] = { mnID = 882, name = "", type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Timeways Portal to Eredath
+                    minimap[2266][70537306] = { mnID = 2025, name = CALENDAR_TYPE_DUNGEON .. ": " .. ns.AlgetharAcademy, type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Timeways Portal to thaldrszus
+                    minimap[2266][60506950] = { mnID = 882, name = CALENDAR_TYPE_DUNGEON .. ": " .. ns.SeatOfTheTriumvirate, type = "WayGateGolden", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Timeways Portal to Eredath
 
                     if self.faction == "Horde" or db.activate.CapitalsEnemyFaction then
                         minimap[2393][52176519] = { mnID = 85, name = "", type = "HPortal", showInZone = false, showOnContinent = false, showOnMinimap = true } -- Portal to Orgrimmar

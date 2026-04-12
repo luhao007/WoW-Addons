@@ -119,7 +119,7 @@ function TardisInfo.GetInfoBut(fuF,Point,daojiCDtime,jinduS,butTXT,jindutiaoW,Ge
 	GetBut.jindutiao.tex:SetSize(jindutiaoW[1],jindutiaoW[2]-1);
 	GetBut.jindutiao.tex:SetPoint("LEFT",GetBut.jindutiao,"LEFT",0,0);
 	GetBut.jindutiao.edg = CreateFrame("Frame", nil, GetBut.jindutiao, "BackdropTemplate");
-	GetBut.jindutiao.edg:SetBackdrop({edgeFile = "Interface/AddOns/"..addonName.."/Libs/Pig_Border.blp",edgeSize = 8});
+	GetBut.jindutiao.edg:SetBackdrop({edgeFile = Create.edgeFile,edgeSize = Create.edgeSize});
 	GetBut.jindutiao.edg:SetBackdropBorderColor(0, 1, 1, 0.9);
 	GetBut.jindutiao.edg:SetAllPoints(GetBut.jindutiao)
 	GetBut.jindutiao.edg.t = PIGFontString(GetBut.jindutiao.edg,{"CENTER",GetBut.jindutiao.edg,"CENTER",0,0},L["TARDIS_RECEIVEDATA"],"OUTLINE",12);

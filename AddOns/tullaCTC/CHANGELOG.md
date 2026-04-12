@@ -1,9 +1,29 @@
 # tullaCTC Version History
 
+## v12.0.5-beta1
+
+### Important: This version only works on the 12.0.5 PTR
+
+* tullaCTC now uses the new Cooldown:SetCountdownFormatter API to style cooldowns. Eliminated the need for periodic update handlers.
+* Cooldown text is now automatically scaled based upon frame width (will make optional later)
+
+## v12.0.1
+
+* Adjusted the action button cooldown text workaround so that cooldown text appears above the rest
+  of an action button's text, but the cooldown spiral remains below.
+
+## v12.0.0
+
+* Calling this a release
+* Revamped the configuration UI and moved to the main settings panel
+* Forced action button cooldown text to appear above hotkeys
+* Added a tenths of seconds option for the 12.0.5 PTR
+* Added a guard to resolve some recursive overflows with ArcUI
+
 ## v12.0.0-beta9
 
 * Fixed an error that would occur when calling the `Clear` method on a secret cooldown.
- 
+
 ## v12.0.0-beta8
 
 * More minor bugfixes

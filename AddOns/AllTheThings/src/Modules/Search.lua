@@ -82,6 +82,7 @@ local KeyMaps = setmetatable({
 	npc = "npcID",
 	o = "objectID",
 	object = "objectID",
+	pn = "professionnodeID",
 	pvprank = "pvprankID",
 	r = "spellID",
 	recipe = "spellID",

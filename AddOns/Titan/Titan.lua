@@ -220,6 +220,10 @@ local function RegisterForEvents()
 	_G[TITAN_PANEL_CONTROL]:RegisterEvent("ZONE_CHANGED");
 	_G[TITAN_PANEL_CONTROL]:RegisterEvent("ZONE_CHANGED_INDOORS");
 	_G[TITAN_PANEL_CONTROL]:RegisterEvent("ZONE_CHANGED_NEW_AREA");
+
+	-- 2026 Apr Add more info for Alts
+	_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_MONEY");
+	_G[TITAN_PANEL_CONTROL]:RegisterEvent("PLAYER_EQUIPMENT_CHANGED");
 end
 
 --------------------------------------------------------------
@@ -268,15 +272,15 @@ local function SetToonInfo(toon)
 	toon_info.name = p
 	toon_info.server = s
 
-	local classFilename, classID = UnitClassBase(unit) -- regardless of comsetic changes
+	local classFilename, classID = UnitClassBase(unit) -- regardless of cosmetic changes
 	local classInfo = C_CreatureInfo.GetClassInfo(classID)
 	if classInfo == nil then
 		toon_info.class = "??"
 		toon_info.className = "??"
 		toon_info.classId = 0
 	else
-		toon_info.class = classInfo.className
-		toon_info.className = classInfo.classFile
+		toon_info.class = classInfo.className -- localized
+		toon_info.className = classInfo.classFile -- for comparison
 		toon_info.classId = classInfo.classID
 	end
 
@@ -292,6 +296,15 @@ local function SetToonInfo(toon)
 	toon_info.race = localizedRaceName
 	toon_info.raceName = englishRaceName
 	toon_info.raceId = raceID
+
+	-- 2026 Apr Add more info for Alts
+	-- Set initially, updates via events
+	toon_info.gold_toon = GetMoney() -- NO Warband
+
+	local avgItemLevel, avgItemLevelEquipped, avgItemLevelPvp = GetAverageItemLevel()
+	toon_info.itemLevelAve = avgItemLevel -- using ony equp change event, this may not be accurate...
+	toon_info.itemLevelEquipped = avgItemLevelEquipped -- this is the one we are tracking
+	toon_info.itemLevelPvp = avgItemLevelPvp
 end
 
 local function SetToonLogout(toon)
@@ -470,7 +483,7 @@ end
 ---@param arg1 boolean isLogin
 ---@param arg2 boolean isReload
 function TitanPanelBarButton:PLAYER_ENTERING_WORLD(arg1, arg2, arg3, arg4)
-	local call_success = nil
+	local call_ok = nil
 	local ret_val = nil
 
 	Titan_Debug.Out('titan', 'p_e_w', "Titan PLAYER_ENTERING_WORLD pcall setup routine")
@@ -501,22 +514,22 @@ function TitanPanelBarButton:PLAYER_ENTERING_WORLD(arg1, arg2, arg3, arg4)
 	then
 		-- StopTitan will force error and end this routine
 
-		call_success, ret_val = pcall(SetupTitan)
-		if call_success then
+		call_ok, ret_val = pcall(SetupTitan)
+		if call_ok then
 			-- Titan initialized properly
 		else
 			StopTitan("Could not initialize", ret_val) -- something really bad occured...
 		end
 
-		call_success, ret_val = pcall(SetupUser)
-		if call_success then
+		call_ok, ret_val = pcall(SetupUser)
+		if call_ok then
 			-- Titan initialized properly
 		else
 			StopTitan("Setup error", ret_val) -- something really bad occured...
 		end
 
-		call_success, ret_val = pcall(ShowTitan)
-		if call_success then
+		call_ok, ret_val = pcall(ShowTitan)
+		if call_ok then
 			-- Titan initialized properly
 		else
 			StopTitan("Could not show Bars", ret_val) -- something really bad occured...
@@ -555,6 +568,7 @@ end
 
 ---Titan Handle PLAYER_LOGOUT On logout, set some debug data in saved variables.
 function TitanPanelBarButton:PLAYER_LOGOUT()
+	-- many API calls will not work; data is not caught before the actual logout...
 	--[[
 	if not IsTitanPanelReset then
 		-- for debug
@@ -564,9 +578,9 @@ function TitanPanelBarButton:PLAYER_LOGOUT()
 			TitanPanelRegister.TitanPlugins = TitanPlugins
 		end
 	end
-	--]]
 	Titan__InitializedPEW = false
 
+	--]]
 	SetToonLogout(TitanSettings.Player)
 end
 
@@ -616,6 +630,27 @@ end
 function TitanPanelBarButton:PLAYER_REGEN_DISABLED()
 	in_combat = true
 	TitanPanelBarButton_DisplayBarsWanted("PLAYER_REGEN_DISABLED")
+end
+
+---Titan Handle ZONE_CHANGED_INDOORS Hide Titan top bars if user requested to hide Top bar(s) in BG or arena
+function TitanPanelBarButton:PLAYER_MONEY()
+	local toon_info = TitanSettings.Players[TitanSettings.Player].Info
+	-- 2026 Mar Add more info for Alts
+	toon_info.gold_toon = GetMoney() -- NO Warband
+end
+
+---Titan Handle ZONE_CHANGED_INDOORS Hide Titan top bars if user requested to hide Top bar(s) in BG or arena
+function TitanPanelBarButton:PLAYER_EQUIPMENT_CHANGED()
+	local toon_info = TitanSettings.Players[TitanSettings.Player].Info
+	-- 2026 Mar Add more info for Alts
+	local avgItemLevel, avgItemLevelEquipped, avgItemLevelPvp = GetAverageItemLevel()
+	toon_info.itemLevelAve = avgItemLevel
+	toon_info.itemLevelEquipped = avgItemLevelEquipped
+	toon_info.itemLevelPvp = avgItemLevelPvp
+	-- Poss info to save for Alts
+	-- professions, XP (Rested), level %, bags (free/total), connected realms (server click)
+	-- raid (locked list on click), num quests, currencies (on click - virtual)
+
 end
 
 if Titan_Global.switch.can_edit_ui then
@@ -693,7 +728,6 @@ local function handle_slash_help(cmd)
 
 	--	Give the user the general help if we can not figure out what they want
 	TitanPrint("", "header")
-	-- Cannot count registered plugins after initial registration  TitanUtils_RegisterPluginList()
 
 	if cmd == "reset" then
 		TitanPrint(L["TITAN_PANEL_SLASH_RESET_0"], "plain")

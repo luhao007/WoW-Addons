@@ -1,6 +1,5 @@
 local addonName, addonTable = ...;
 local Fun=addonTable.Fun
-local IsAddOnLoaded = IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 --------------
 local function Set_ConfigValue(cfdata,bool,count)
 	for k,v in pairs(cfdata) do
@@ -56,6 +55,7 @@ local function Clear_FailureData()
 	PIGA["Chat"]["QuickChat_ButList"]=nil
 	PIGA["Chat"]["Tiqu"]["KeywordFShow"]=nil
 	PIGA["Chat"]["TiquKey"]=nil
+	PIGA["Chat"]["Filter"]["Blacks_P"]=nil
 	PIGA["Chatjilu"]["jiluinfo"]=nil
 	PIGA["Chatjilu"]["tianshu"]=nil
 

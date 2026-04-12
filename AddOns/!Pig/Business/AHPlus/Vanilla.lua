@@ -65,7 +65,7 @@ function BusinessInfo.AHPlus_Vanilla()
 	end
 	local function exactMatchFun()
 		if PIGA["AHPlus"]["SimpleMode"] then return end
-		if PIG_MaxTocversion(40000) and PIG_MaxTocversion(20000,true) then return end
+		if PIG_MaxTocversion(40000) and PIG_MaxTocversion(30000,true) then return end
 		local OLD_QueryAuctionItems = QueryAuctionItems	
 		QueryAuctionItems = function(...)
 			if PIGA["AHPlus"]["exactMatch"] then
@@ -1513,7 +1513,7 @@ function BusinessInfo.AHPlus_Vanilla()
 						AuctionFrame.dianjilaiyuan=AuctionFrame.selectedTab
 						local itemID=PIGGetContainerItemInfo(self:GetParent():GetID(), self:GetID())
 						if itemID then
-							if IsAddOnLoaded("Blizzard_AuctionUI") then AuctionFrameTab_OnClick(AuctionFrameTab1) end
+							if PIGIsAddOnLoaded("Blizzard_AuctionUI") then AuctionFrameTab_OnClick(AuctionFrameTab1) end
 						end
 					end
 				end
@@ -1524,7 +1524,7 @@ function BusinessInfo.AHPlus_Vanilla()
 						AuctionFrame.dianjilaiyuan=nil
 						local itemID=PIGGetContainerItemInfo(self:GetParent():GetID(), self:GetID())
 						if itemID then
-							if IsAddOnLoaded("Blizzard_AuctionUI") then
+							if PIGIsAddOnLoaded("Blizzard_AuctionUI") then
 								AuctionFrameTab_OnClick(AuctionFrameTab3)
 								C_Container.UseContainerItem(self:GetParent():GetID(), self:GetID(), nil, nil, BankFrame:IsShown() and (BankFrame.selectedTab == 2));
 							end

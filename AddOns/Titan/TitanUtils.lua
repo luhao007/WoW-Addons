@@ -1257,13 +1257,11 @@ function TitanUtils_GetAddOnMetadata(name, field)
 	---@diagnostic disable-next-line: deprecated, undefined-global
 	local GetMeta = C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetadata
 
-	local call_success, ret_val
+	local call_ok, ret_val
 
 	-- Just in case, catch any errors
-	call_success, -- needed for pcall
-	ret_val =  -- actual return values
-		pcall(GetMeta, name, field)
-	if call_success then
+	call_ok, ret_val = pcall(GetMeta, name, field)
+	if call_ok then
 		-- all is good
 		return ret_val
 	else
@@ -1365,7 +1363,7 @@ local function NoColor(name)
 	return no_color
 end
 
----local This routine is a protected manner (pcall) by Titan when it attempts to register a plugin.
+---local This routine is a protected manner by Titan when it attempts to register a plugin.
 ---@param plugin table Plugin frame - Titan template
 ---@return table Results of the registration - pass (TitanPlugins) or fail
 --- See routine for output table values
@@ -1512,20 +1510,16 @@ end
 --- Lets be extremely paranoid here because registering plugins that do not play nice can cause real headaches...
 ---@param plugin table Plugin frame - Titan template
 function TitanUtils_RegisterPlugin(plugin)
-	local call_success, ret_val
+	local call_ok, ret_val
 	-- Ensure we have a glimmer of a plugin and that the plugin has not
 	-- already been registered.
 	if plugin and plugin.status == TITAN_NOT_REGISTERED then
 		-- See if the request to register has a shot at success
 		if plugin.self then
 			-- Just in case, catch any errors
-			call_success, -- needed for pcall
-			ret_val = -- actual return values
-				pcall(TitanUtils_RegisterPluginProtected, plugin)
-			-- pcall does not allow errors to propagate out. Any error
-			-- is returned as text with the success / fail.
-			-- Think of it as a try - catch block
-			if call_success then
+			call_ok, ret_val = pcall(TitanUtils_RegisterPluginProtected, plugin)
+			-- Any error is returned as text with the success / fail.
+			if call_ok then
 				-- all is good so write the return values to the plugin
 				plugin.status = ret_val.result
 				plugin.issue = ret_val.issue
@@ -1677,6 +1671,90 @@ function TitanUtils_GetPlayerInfo(toon)
 	end
 
 	return is_custom, p_info
+end
+
+---Titan Get the data table from player Titan settings.
+---Intent is encapsulate plugins from where data is stored.
+---@param profile string A player name to look up
+---@param attrib string Specific data to look up
+---@param create boolean If true and no data table, create an empty table
+---@return string result is_custom | found | not_found | created
+---@return table? data nil or table of data found/created
+function TitanUtils_GetProfileInfo(profile, attrib, create)
+	local _, server, is_custom = TitanUtils_ParseName(profile)
+	-- Design intent is have a place to store data that is accessed across toons.
+	-- This routine abstracts ;where; the data table exists.
+	-- This returns a pointer to the data table so a plugin can manage the data elements
+	-- and Titan manages where the data table resides.
+	--
+	-- Base : TitanSettings.Players[profile] - Titan managed
+	-- 
+	-- [attrib] assigned by plugin by create = true - plugin managed
+	-- - Info- toon data for profiles; Alts, poss Config
+	-- - Gold- Gold plugin
+	--
+	-- [attrib].* managed by plugin
+	--
+	-- returns :
+	-- custom - true if the profile is custom else false
+	-- 
+	-- data - 
+	-- if custom always return nil
+	-- if create = false : a plugin wants to know if data exists - return table or nil
+	-- if create = true  : a plugin needs to create to store - return table or {} (empty table)
+
+	local p_info = nil
+	local action = ""
+	if is_custom then
+		-- there is no Info table... cannnot log into a custom profile
+		-- NEVER create...
+		action = "is_custom"
+	elseif TitanSettings.Players[profile]
+	and TitanSettings.Players[profile][attrib]
+	then
+		p_info = TitanSettings.Players[profile][attrib] -- return the pointer
+		action = "found"
+	else
+		-- New or may not have logged into this toon in ages :) 
+		if create then
+			TitanSettings.Players[profile][attrib] = {} -- create for caller
+			p_info = TitanSettings.Players[profile][attrib] -- return the pointer
+			action = "created"
+		else
+			p_info = nil -- tell caller no Info exists
+			action = "not_found"
+		end
+	end
+
+	return action, p_info
+end
+
+---Titan Allow iteration over the player list without the caller knowing where the list is.
+--- Usage : for player, data in TitanUtils_PlayerIter() end
+---@return function
+function TitanUtils_PlayerIter()
+   local t = TitanSettings.Players
+   -- Create a list of keys that match the filter pattern
+   local keys = {}
+   for k, v in pairs(t) do
+         table.insert(keys, k)
+   end
+
+   -- Define the iterator function that steps through the 'keys' list
+   local index = 0
+   local function iterator()
+      index = index + 1
+      local key = keys[index]
+      if key then
+         return key, t[key] -- Return key and value from original table
+      end
+      return nil -- End of iteration
+   end
+
+   -- Return the triplet: iterator, state (nil here, as state is internal), initial (0 handled in closure)
+   -- Note: We return the iterator function and the 'keys' table as state if we wanted to expose state,
+   -- but a closure over 'keys' is sufficient for hiding the original table.
+   return iterator
 end
 
 ---Titan Return the screen size after scaling
@@ -2028,6 +2106,19 @@ function TitanFindIndex(tb, val)
 			-- keep looking
 		end
 	end
+end
+
+local function GetTooltipLines(tooltip)
+  local textLines = {}
+  local regions = {tooltip:GetRegions()}
+  local cnt = 1
+  for _, r in ipairs(regions) do
+    if r:IsObjectType("FontString") then
+      print(cnt..": "..tostring(r:GetText()))
+	  cnt = cnt + 1
+    end
+  end
+  return textLines
 end
 
 --====== Deprecated routines

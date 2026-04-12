@@ -1,19 +1,22 @@
--- Utility functions for tullaCTC configuration
-
 local _, Addon = ...
 local L = LibStub('AceLocale-3.0'):GetLocale('tullaCTC', true)
 local tullaCTC = _G.tullaCTC
 
---------------------------------------------------------------------------------
--- Imports
---------------------------------------------------------------------------------
+Addon.DROPDOWN_HEIGHT = 25 -- height of dropdown/stepper controls
+Addon.LABEL_WIDTH = 200    -- fixed width of the label column in widget rows
+Addon.PADDING = 8          -- outer padding around panels and between label/control
+Addon.SPACING = 6          -- vertical gap between rows in a layout
 
 Addon.HexToRGBA = tullaCTC.HexToRGBA
 Addon.RGBAToHex = tullaCTC.RGBAToHex
 
---------------------------------------------------------------------------------
--- Duration Formatting
---------------------------------------------------------------------------------
+function Addon.GetThemeDisplayName(id)
+    local theme = tullaCTC.db.profile.themes[id]
+    if theme then
+        return theme.displayName or rawget(L, 'Theme_' .. id) or id
+    end
+    return id
+end
 
 function Addon:FormatDuration(seconds)
     if seconds >= 86400 then
@@ -27,13 +30,11 @@ function Addon:FormatDuration(seconds)
     end
 end
 
-function Addon:FormatEffectiveRange(prevThreshold, currentThreshold)
-    local endDuration = self:FormatDuration(currentThreshold)
-
-    if not prevThreshold or prevThreshold == 0 then
-        return L.ColorRangeOrLess:format(endDuration)
+function Addon:FormatColorRange(prevThreshold, currentThreshold)
+    if prevThreshold then
+        return L.ColorRangeTo:format(self:FormatDuration(prevThreshold), self:FormatDuration(currentThreshold))
     else
-        return L.ColorRangeTo:format(self:FormatDuration(prevThreshold), endDuration)
+        return L.ColorRangeOrLess:format(self:FormatDuration(currentThreshold))
     end
 end
 
@@ -45,130 +46,17 @@ function Addon:FormatDefaultColorRange(lastThreshold)
     end
 end
 
---------------------------------------------------------------------------------
--- Threshold Parsing
---------------------------------------------------------------------------------
+function Addon:GetSortedThemeIDs()
+    local themes = tullaCTC.db.profile.themes
+    local order = {}
 
-function Addon:ParseThreshold(val)
-    local num = tonumber(strtrim(val))
-
-    if num and num > 0 then
-        return num
+    for id in pairs(themes) do
+        order[#order + 1] = id
     end
 
-    return nil
-end
+    table.sort(order, function(a, b)
+        return self.GetThemeDisplayName(a) < self.GetThemeDisplayName(b)
+    end)
 
-function Addon:FormatThreshold(threshold)
-    return tostring(threshold)
-end
-
---------------------------------------------------------------------------------
--- AceConfig Option Builders
---------------------------------------------------------------------------------
-
--- Creates a range slider option for a theme property
-function Addon:CreateRangeOption(themeID, property, opts)
-    local default = opts.default or 0
-    local invert = opts.invert
-
-    return {
-        type = 'range',
-        name = opts.name,
-        desc = opts.desc,
-        order = opts.order,
-        width = opts.width,
-        min = opts.min,
-        max = opts.max,
-        softMin = opts.softMin,
-        softMax = opts.softMax,
-        step = opts.step or 1,
-        get = function()
-            local val = tullaCTC.db.profile.themes[themeID][property] or default
-            return invert and -val or val
-        end,
-        set = function(_, val)
-            self:SetThemeProperty(themeID, property, invert and -val or val)
-        end
-    }
-end
-
--- Creates a select dropdown option for a theme property
-function Addon:CreateSelectOption(themeID, property, opts)
-    return {
-        type = 'select',
-        name = opts.name,
-        desc = opts.desc,
-        order = opts.order,
-        width = opts.width,
-        dialogControl = opts.dialogControl,
-        values = opts.values,
-        get = function()
-            return tullaCTC.db.profile.themes[themeID][property] or opts.default
-        end,
-        set = function(_, val)
-            self:SetThemeProperty(themeID, property, val)
-        end
-    }
-end
-
--- Creates a toggle checkbox option for a theme property
-function Addon:CreateToggleOption(themeID, property, opts)
-    return {
-        type = 'toggle',
-        name = opts.name,
-        desc = opts.desc,
-        order = opts.order,
-        width = opts.width,
-        get = function()
-            return tullaCTC.db.profile.themes[themeID][property]
-        end,
-        set = function(_, val)
-            self:SetThemeProperty(themeID, property, val)
-        end
-    }
-end
-
--- Creates a color picker option for a hex color theme property
-function Addon:CreateColorOption(themeID, property, opts)
-    local default = opts.default or "FFFFFFFF"
-
-    return {
-        type = 'color',
-        name = opts.name,
-        desc = opts.desc,
-        order = opts.order,
-        width = opts.width,
-        hasAlpha = opts.hasAlpha ~= false,
-        get = function()
-            return self.HexToRGBA(tullaCTC.db.profile.themes[themeID][property] or default)
-        end,
-        set = function(_, r, g, b, a)
-            self:SetThemeProperty(themeID, property, self.RGBAToHex(r, g, b, a))
-        end
-    }
-end
-
--- Creates a tri-state select option (default/always/never)
-function Addon:CreateDrawStateOption(themeID, property, opts)
-    return {
-        type = 'select',
-        style = 'radio',
-        name = opts.name,
-        desc = opts.desc,
-        order = opts.order,
-        width = opts.width,
-        values = {
-            default = L.DrawState_default,
-            always = L.DrawState_always,
-            never = L.DrawState_never
-        },
-        sorting = { "default", "always", "never" },
-        get = function()
-            return tullaCTC.db.profile.themes[themeID][property] or "default"
-        end,
-        set = function(_, val)
-            self:SetThemeProperty(themeID, property, val)
-        end
-    }
+    return order
 end

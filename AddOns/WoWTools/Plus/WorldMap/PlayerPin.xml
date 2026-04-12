@@ -26,6 +26,16 @@
                         <Anchor point="LEFT" x="4"/>
                     </Anchors>
                 </Texture>
+                <MaskTexture parentKey="IconMask" atlas="CircleMask" hWrapMode="CLAMPTOBLACKADDITIVE" vWrapMode="CLAMPTOBLACKADDITIVE">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.Icon" relativePoint="TOPLEFT" x='2' y='-2'/>
+                        <Anchor point="BOTTOMRIGHT" relativeKey="$parent.Icon" relativePoint="BOTTOMRIGHT" x='-2' y='2'/>
+                    </Anchors>
+					<MaskedTextures>
+						<MaskedTexture childKey="Icon"/>
+					</MaskedTextures>
+				</MaskTexture>
+
                 <FontString parentKey="Index" inherits="WoWToolsFont2">
                     <Anchors>
                         <Anchor point="RIGHT" x="-4"/>
@@ -50,7 +60,6 @@
                 </FontString>
 
                 <FontString parentKey="Sub2" inherits="WoWToolsFont" justifyH="RIGHT">
-                    <Size x="0" y="12"/>
                     <Anchors>
                         <Anchor point="TOPLEFT" relativeKey="$parent.Sub" relativePoint="BOTTOMLEFT" y="-1"/>
                         <Anchor point="RIGHT" x="-4"/>
@@ -64,7 +73,31 @@
                     </Anchors>
                 </Texture>
             </Layer>
-           
+            <Layer level="ARTWORK">
+                <Texture parentKey="CheckIcon" atlas="transmog-icon-hidden" hidden="true">
+                    <Size x="14" y="14"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="4" y="-2"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="QuestIcon" atlas="ClassHall-QuestIcon-Desaturated" hidden="true">
+                    <Size x="14" y="14"/>
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeKey="$parent.Index" relativePoint="LEFT" x="-2"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="AchievementIcon" atlas="UI-HUD-MicroMenu-Achievements-Mouseover" hidden="true">
+                    <Size x="14" y="14"/>
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeKey="$parent.QuestIcon" relativePoint="LEFT" x="-2"/>
+                    </Anchors>
+                </Texture>
+                <FontString parentKey="AchievementIndex" inherits="WoWToolsFont" justifyH="RIGHT">
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeKey="$parent.AchievementIcon" relativePoint="LEFT" x="2"/>
+                    </Anchors>
+                </FontString>
+			</Layer>
         </Layers>
     </Button>
 
@@ -72,7 +105,7 @@
 
     
 	<DropdownButton name="WoWToolsWorldMapPinTemplate" mixin="WoWToolsWorldMapPinMixin" virtual="true">
-        <Size x="23" y="23"/>        
+        <Size x="12" y="12"/>        
         <HighlightTexture atlas="Azerite-Trait-RingGlow">
             <Anchors>
                 <Anchor point="TOPLEFT" x="-5" y="5"/>
@@ -87,22 +120,22 @@
         </PushedTexture>
         <Layers>
             <Layer level="BORDER">
-                <Texture parentKey="texture">
+                <Texture parentKey="texture" setAllPoints="true"/>
+                <MaskTexture parentKey="IconMask" atlas="CircleMask" hWrapMode="CLAMPTOBLACKADDITIVE" vWrapMode="CLAMPTOBLACKADDITIVE">
                     <Anchors>
-                        <Anchor point="TOPLEFT" x="-5" y="5"/>
-                        <Anchor point="BOTTOMRIGHT" x="3" y="-3"/>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.texture" relativePoint="TOPLEFT" x='2' y='-2'/>
+                        <Anchor point="BOTTOMRIGHT" relativeKey="$parent.texture" relativePoint="BOTTOMRIGHT" x='-2' y='2'/>
                     </Anchors>
-                </Texture>
+					<MaskedTextures>
+						<MaskedTexture childKey="texture"/>
+					</MaskedTextures>
+				</MaskTexture>
                 <FontString parentKey="text" inherits="WoWToolsFont2" justifyH="LEFT">
                     <Anchors>
                         <Anchor point="LEFT" relativeKey="$parent.texture" relativePoint="RIGHT" x="0" y="0"/>
                     </Anchors>
                 </FontString>
-                 <MaskTexture parentKey="IconMask" setAllPoints="true" atlas="CircleMask" hWrapMode="CLAMPTOBLACKADDITIVE" vWrapMode="CLAMPTOBLACKADDITIVE">
-					<MaskedTextures>
-						<MaskedTexture childKey="texture"/>
-					</MaskedTextures>
-				</MaskTexture>
+
             </Layer>
         </Layers>
 	</DropdownButton>

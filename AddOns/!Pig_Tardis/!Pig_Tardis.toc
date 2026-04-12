@@ -1,13 +1,13 @@
 ## Interface: 120001
 ## Author: geligasi
-## Version: 1.85
+## Version: 1.87
 
 ## Title: !Pig_Tardis
 ## Notes: Invite enhancement
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r|cFFFFFFFFPig工具箱|r |cFF69CCF0时空之门|r
 ## Notes-zhCN: |cffFF8C00!Pig组队增强功能|r
 
-## IconTexture: Interface/AddOns/!Pig/Libs/logo32.blp
+## IconTexture: Interface/AddOns/!Pig/Media/logo32.blp
 
 ## Category-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r
 

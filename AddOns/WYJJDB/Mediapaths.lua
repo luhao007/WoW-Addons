@@ -317,6 +317,8 @@ local mediaData = {
                 { "Z 主母", "Mother.ogg" },
 				{ "X 亵渎", "Profane.ogg" },
 				{ "J 假死触发", "FeignDeathProc.ogg" },
+				{ "X 小技能", "SmallCD.ogg" },
+				{ "D 大技能", "BigCD.ogg" },
 			},
 		},
 		{
@@ -422,7 +424,12 @@ local mediaData = {
 				{ "B 补绽放", "BloomRefresh.ogg" },
 				{ "B 补铁鬃", "IronfurRefresh.ogg" },
 				{ "B 补黑檀", "EbonRefresh.ogg" },
-
+				{ "B 补Dot", "DotRefresh.ogg" },
+				{ "B 补Buff", "BuffRefresh.ogg" },
+				{ "X 小技能就绪", "r-SmallCD.ogg" },
+				{ "D 打断就绪", "r-Interrupt.ogg" },
+				{ "Q 驱散就绪", "r-Dispell.ogg" },
+				{ "D 大技能就绪", "r-BigCD.ogg" },
 			},
 		},
 		{

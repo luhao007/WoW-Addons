@@ -50,12 +50,23 @@ end
 --- Helper function to parse a toltip and find a matching line by the pattern.
 ---@param tooltip GameTooltip
 ---@param matchPattern string
----@return FontString|nil # The matching line, or `nil` if no matching line is found.
+---@return FontString|nil # The matching line, or `nil` if no matching line is found or it contains a secret value.
 local function FindLineInTooltip(tooltip, matchPattern)
     for i = 1, tooltip:NumLines(), 1 do
         ---@type FontString
         local line = _G["GameTooltipTextLeft" .. i]
-        if line and line:GetText() and strmatch(line:GetText(), matchPattern) then
+
+        if line == nil then
+            break
+        end
+
+        local text = line:GetText()
+
+        if text == nil or issecretvalue(text) then
+            break
+        end
+
+        if strmatch(text, matchPattern) then
             return line
         end
     end
@@ -63,27 +74,67 @@ local function FindLineInTooltip(tooltip, matchPattern)
     return nil
 end
 
+---@return boolean
+local function CanProcessTooltip()
+    if not DelveCompanionCharacterData[ENABLED_SAVE_KEY] then
+        return false
+    end
+    if InCombatLockdown() then
+        return false
+    end
+
+    return true
+end
+
+---@param tooltipDataHandler table [TooltipDataHandlerMixin](https://www.townlong-yak.com/framexml/live/Blizzard_SharedXMLGame/TooltipDataHandler.lua#189).
+---@return table|nil data
+local function GetPrimaryData(tooltipDataHandler)
+    if tooltipDataHandler == nil or issecrettable(tooltipDataHandler) then
+        return nil
+    end
+
+    local data = tooltipDataHandler:GetPrimaryTooltipData()
+    if data == nil or issecrettable(data) then
+        return nil
+    end
+
+    return data
+end
+
 --- Post Call for a `GameTooltip` of type `Enum.TooltipDataType.Currency`. Used to add additional lines into the tooltip.
 ---@param tooltipDataHandler table [TooltipDataHandlerMixin](https://www.townlong-yak.com/framexml/live/Blizzard_SharedXMLGame/TooltipDataHandler.lua#189).
 ---@param ... any
 local function TooltipPostCallCurrency(tooltipDataHandler, ...)
-    if PlayerIsInCombat() or not DelveCompanionCharacterData[ENABLED_SAVE_KEY] then
+    if not CanProcessTooltip() then
         return
     end
 
-    local tooltipId = tooltipDataHandler:GetPrimaryTooltipData().id
+    local primaryData = GetPrimaryData(tooltipDataHandler)
+
+    if primaryData == nil then
+        return
+    end
 end
 
 --- Post Call for a `GameTooltip` of type `Enum.TooltipDataType.Item`. Used to add additional lines into the tooltip.
 ---@param tooltipDataHandler table [TooltipDataHandlerMixin](https://www.townlong-yak.com/framexml/live/Blizzard_SharedXMLGame/TooltipDataHandler.lua#189).
 ---@param ... any
 local function TooltipPostCallItem(tooltipDataHandler, ...)
-    if PlayerIsInCombat() or not DelveCompanionCharacterData[ENABLED_SAVE_KEY] then
+    if not CanProcessTooltip() then
         return
     end
 
-    local tooltipId = tooltipDataHandler:GetPrimaryTooltipData().id
+    local primaryData = GetPrimaryData(tooltipDataHandler)
+
+    if primaryData == nil then
+        return
+    end
+
+    local tooltipId = primaryData.id
     if tContains(Config.BOUNTY_MAPS, tooltipId) then
+        -- Logger:Log("[TooltipExtension] Bounty map tooltip")
+
+        ---@type string
         local lineToMatch = _G["ITEM_UNIQUE"]
         local line = FindLineInTooltip(tooltipDataHandler, lineToMatch)
 
@@ -95,6 +146,6 @@ local function TooltipPostCallItem(tooltipDataHandler, ...)
 end
 
 function DelveCompanion_TooltipExtension_Init()
-    -- TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Currency, TooltipPostCallCurrency) Not used at the moment
+    -- TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Currency, TooltipPostCallCurrency) -- Not used at the moment
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, TooltipPostCallItem)
 end

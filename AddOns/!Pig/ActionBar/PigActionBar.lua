@@ -20,15 +20,7 @@ local ActionBarfun=addonTable.ActionBarfun
 local RTabFrame=ActionBarfun.RTabFrame
 
 local Action_plusF,Action_plusTabBut =PIGOptionsList_R(RTabFrame,L["ACTION_TABNAME3"],100)
-if PIG_MaxTocversion("tbc") then
-	for index=6,8 do
-		local Checkbut = PIGCheckbutton_R(Action_plusF,{ACTIONBARS_LABEL..index});
-		Checkbut:SetPoint("TOPLEFT",Action_plusF,"TOPLEFT",20,-40*(index-6)-20);
-		Checkbut:SetScript("OnClick", function (self)
-			Settings.SetValue("PROXY_SHOW_ACTIONBAR_6", self:GetChecked())
-		end);
-	end
-else
+if PIG_MaxTocversion("old") then
 	local fuFrame=ActionBarfun.fuFrame
 	local fuFrameBut=ActionBarfun.fuFrameBut
 	------
@@ -230,5 +222,16 @@ else
 				_G["BINDING_NAME_CLICK "..barName..index.."_But"..id..":LeftButton"]= "PIG"..ACTIONBARS_LABEL..index.." "..SETTINGS_KEYBINDINGS_LABEL..id
 			end
 		end
+	end
+else
+	for index=6,8 do
+		local Checkbut = PIGCheckbutton_R(Action_plusF,{ACTIONBARS_LABEL..index});
+		Checkbut:SetPoint("TOPLEFT",Action_plusF,"TOPLEFT",20,-40*(index-6)-20);
+		Checkbut:SetScript("OnClick", function (self)
+			Settings.SetValue("PROXY_SHOW_ACTIONBAR_"..index, self:GetChecked())
+		end);
+		Checkbut:SetScript("OnShow", function (self)
+			self:SetChecked(Settings.GetValue("PROXY_SHOW_ACTIONBAR_"..index))
+		end);
 	end
 end

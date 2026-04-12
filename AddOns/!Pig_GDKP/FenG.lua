@@ -127,7 +127,7 @@ function GDKPInfo.ADD_fenG(RaidR)
 								if UnitIsConnected(zuwanjiaName) then
 									SendChatMessage("[!Pig] 请找"..p.."队分G人["..fenGrenname.."]领取"..GetCoinText(zuwanjiaF.fenGV_V), "WHISPER", nil, zuwanjiaName);
 								else
-									PIG_print("通知"..p.."队"..zuwanjiaName.."领取失败，已离线","R")
+									PIGprint("通知"..p.."队"..zuwanjiaName.."领取失败，已离线","R")
 								end
 							end
 						end

@@ -349,8 +349,8 @@ function TardisInfo.Yell(Activate)
 				end
 			end);
 			QkBut.AutoYaoqing = CreateFrame("Button",nil,QkBut);
-			hooksecurefunc(QuickButUI, "UpdateWidth", function(self)
-				QkBut.AutoYaoqing:ClearAllPoints();
+			local function UpdateAutoYaoqingBut()
+			QkBut.AutoYaoqing:ClearAllPoints();
 				if PIGA["QuickBut"]["Pailie"]==1 then
 					local WowHeight=GetScreenHeight();
 					local offset1 = QkBut:GetBottom() or 200
@@ -368,6 +368,10 @@ function TardisInfo.Yell(Activate)
 						QkBut.AutoYaoqing:SetPoint("LEFT",QkBut,"RIGHT",2,0);
 					end
 				end
+			end
+			UpdateAutoYaoqingBut()
+			hooksecurefunc(QuickButUI, "UpdateWidth", function(self)
+				UpdateAutoYaoqingBut()
             end)	
 			QkBut.AutoYaoqing:SetSize(WWHH,WWHH);
 			QkBut.AutoYaoqing.Tex = QkBut.AutoYaoqing:CreateTexture(nil, "BORDER");

@@ -31,14 +31,22 @@ end
 --- Only top-level entries are shown; nested tables and functions are not recursively expanded.
 ---@param self Logger
 ---@param tbl table The table to log.
-function Logger:LogTable(tbl)
+---@param keyPattern string? Pattern used to match only specific keys.
+function Logger:LogTable(tbl, keyPattern)
     if type(tbl) ~= "table" then
         return
     end
 
     self:Log("==== Table dump ====")
     for key, value in pairs(tbl) do
-        self:Log("Key: %s | Value: %s", key, tostring(value))
+        local canPrint = true
+        if keyPattern and not strmatch(key, keyPattern) then
+            canPrint = false
+        end
+
+        if canPrint then
+            self:Log("Key: %s | Value: %s", key, tostring(value))
+        end
     end
     self:Log("==== End ====")
 end

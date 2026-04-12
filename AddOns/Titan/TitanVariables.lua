@@ -1219,6 +1219,30 @@ local function Check_toon_settings(toon, toon_table)
 	-- Note: the sync routine only ensures first level, NOT recursive
 	TitanVariables_SyncRegisterSavedVariables(TITAN_PANEL_SAVED_VARIABLES, v["Panel"])
 
+---[[
+	-- 2026 Mar - transfer Gold and Post to same level as Info
+	-- Remove the old one.
+	if  TitanSettings.Players[toon]
+	and TitanSettings.Players[toon].Info
+	and TitanSettings.Players[toon].Info.Gold then
+		TitanSettings.Players[toon].Gold = {}
+		TitanVariables_SyncRegisterSavedVariables(
+			TitanSettings.Players[toon].Info.Gold, TitanSettings.Players[toon].Gold)
+		TitanSettings.Players[toon].Info.Gold = nil
+	else
+		-- already transfered
+	end
+	if  TitanSettings.Players[toon]
+	and TitanSettings.Players[toon].Info
+	and TitanSettings.Players[toon].Info.Post then
+		TitanSettings.Players[toon].Post = {}
+		TitanVariables_SyncRegisterSavedVariables(
+			TitanSettings.Players[toon].Info.Post, TitanSettings.Players[toon].Post)
+		TitanSettings.Players[toon].Info.Post = nil
+	else
+		-- already transfered
+	end
+--]]
 
 	-- ====== New Mar 2023 : TitanSettings.Players[player].BarData to hold Short bar data
 	Set_bar_vars(toon)

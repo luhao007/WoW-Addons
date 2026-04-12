@@ -3,9 +3,9 @@ local _, _, _, tocversion = GetBuildInfo()
 local L =addonTable.locale
 if GetLocale() == "enUS" then
 L["ADDON_NAME"] = "Toolbox";
-L["ADDON_AUTHOR"]="Contact Author";
 --About
 L["ABOUT_TABNAME"] = "About";
+L["ABOUT_QUERY"] = "Query";
 L["ABOUT_UPDATETIPS"] = "The AddOn has expired. Please check the update address in AddOn About";
 L["ABOUT_LOAD"] = "Loading succeeded /pig or mini map button setting";
 L["ABOUT_REMINDER"]="|cff00FF00(See Plugin About menu for updates)|r"

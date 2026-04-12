@@ -17,15 +17,16 @@ function Tooltips.OnUnit(tip)
 	if success and specie then
 		local owned = Addon.Specie(specie):GetOwnedText()
 		if owned then
-			for i = 1, tip:NumLines() do
-				local line = _G[tip:GetName() .. 'TextLeft' .. i]
-				local text = line:GetText()
+			local owned = DIM_GREEN_FONT_COLOR:WrapTextInColorCode(owned)
 
-				if text and text:find('^' .. COLLECTED) then
-					line:SetText(DIM_GREEN_FONT_COLOR:WrapTextInColorCode(owned))
-					return
+			for i = 1, tip:NumLines() do
+				local line, text = Tooltips.GetLine(tip, i)
+				if text:find('^' .. COLLECTED) then
+					return line:SetText(owned)
 				end
 			end
+
+			tip:AddLine(owned)
 		end
 	end
 end
@@ -54,4 +55,15 @@ function Tooltips.OnBattlePet(tip, data)
 
 		tip.data = nil
 	end)
+end
+
+function Tooltips.GetLine(tip, index)
+	if tip.GetPrimaryTooltipData then
+		local data = tip:GetPrimaryTooltipData()
+		local lines = data and data.lines
+		return tip:GetLeftLine(index), lines[index] and lines[index].leftText or ''
+	else
+		local line = _G[tip:GetName()..'TextLeft'..index]
+		return line, line:GetText() or ''
+	end
 end

@@ -174,7 +174,7 @@ local function ActionBar_PetTishi()
 		end
 
 		local Width,Height = 30,30;
-		local tishibiaoti="|cff00FFFF"..addonName..L["ADDON_NAME"]..L["LIB_TIPS"]..": "
+		local tishibiaoti="|cff00FFFF"..L.ExtList[addonName].nameLocaleAll..L["LIB_TIPS"]..": "
 		local PETtips = CreateFrame("Frame", nil, PetActionBarFrame);
 		PETtips:SetPoint("BOTTOM", PetActionBarFrame, "TOP", 0, 10);
 		PETtips:SetSize(Width,Height);

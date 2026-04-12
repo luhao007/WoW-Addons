@@ -80,19 +80,69 @@ local function MN_IsTrackedVignettePin(pin)
   return vignetteID and ns.HiddenBlizzVignetteIDs[vignetteID] or false
 end
 
+local function MN_AttachPinGuard(pin)
+  if not MN_IsValidPin(pin) then return end
+  if pin.MN_GuardHooked then return end
+  pin.MN_GuardHooked = true
+
+  if pin.HookScript then
+    pin:HookScript("OnShow", function(self)
+      if self.MN_HiddenByMapNotes then
+        if self.SetAlpha then
+          self:SetAlpha(0)
+        end
+        if self.EnableMouse then
+          self:EnableMouse(false)
+        end
+      end
+    end)
+  end
+
+  hooksecurefunc(pin, "SetAlpha", function(self, alpha)
+    if self.MN_HiddenByMapNotes and alpha and alpha > 0 then
+      if self.SetAlpha then
+        self:SetAlpha(0)
+      end
+    end
+  end)
+
+  if pin.EnableMouse then
+    hooksecurefunc(pin, "EnableMouse", function(self, enabled)
+      if self.MN_HiddenByMapNotes and enabled then
+        self:EnableMouse(false)
+      end
+    end)
+  end
+
+  if pin.Show then
+    hooksecurefunc(pin, "Show", function(self)
+      if self.MN_HiddenByMapNotes then
+        if self.SetAlpha then
+          self:SetAlpha(0)
+        end
+        if self.EnableMouse then
+          self:EnableMouse(false)
+        end
+      end
+    end)
+  end
+end
+
 local function MN_HidePin(pin)
   if not MN_IsValidPin(pin) then return end
-  if pin.MN_HiddenByMapNotes then return end
 
-  pin.MN_HiddenByMapNotes = true
-  pin.MN_OldAlpha = pin.GetAlpha and pin:GetAlpha() or 1
-  pin.MN_OldMouseEnabled = pin.IsMouseEnabled and pin:IsMouseEnabled() or true
+  if not pin.MN_HiddenByMapNotes then
+    pin.MN_HiddenByMapNotes = true
+    pin.MN_OldAlpha = pin.GetAlpha and pin:GetAlpha() or 1
+    pin.MN_OldMouseEnabled = pin.IsMouseEnabled and pin:IsMouseEnabled() or true
+    MN_AttachPinGuard(pin)
+  end
 
-  if pin.SetAlpha then
+  if pin.SetAlpha and pin:GetAlpha() ~= 0 then
     pin:SetAlpha(0)
   end
 
-  if pin.EnableMouse then
+  if pin.EnableMouse and pin:IsMouseEnabled() then
     pin:EnableMouse(false)
   end
 end

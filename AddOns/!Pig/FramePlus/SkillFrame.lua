@@ -13,10 +13,9 @@ local PIGSkillinfo={
 }
 local IsCurrentSpell=IsCurrentSpell or C_Spell and C_Spell.IsCurrentSpell
 local GetSpellTexture=GetSpellTexture or C_Spell and C_Spell.GetSpellTexture
-local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 -----------------------
 local function PIG_ADDON_LOADED(BlizzardName,addfun)
-	if IsAddOnLoaded(BlizzardName) then
+	if PIGIsAddOnLoaded(BlizzardName) then
 		addfun()
 	else
 		local jiazaiui = CreateFrame("Frame")
@@ -64,7 +63,7 @@ local function ADD_Skill_QK_Button(fujiui,uiname,ly)
 		else
 			But.Border = But:CreateTexture(nil, "BACKGROUND");
 			But.Border:SetDrawLayer("BACKGROUND", -8)
-			if not IsAddOnLoaded("alaTradeSkill") then
+			if not PIGIsAddOnLoaded("alaTradeSkill") then
 				But.Border:SetTexture(136831);
 			end
 			if ly=="Mainline" then
@@ -292,7 +291,7 @@ local function TradeSkillFunc()
 					regions[4]:SetTexture("Interface\\QUESTFRAME\\UI-QuestLogDualPane-Right")
 					regions[4]:SetSize(256, 512)
 				end
-				if not IsAddOnLoaded("alaTradeSkill") then
+				if not PIGIsAddOnLoaded("alaTradeSkill") then
 					--调整配方列表底部纹理
 					TradeSkillFrame.RecipeInset = TradeSkillFrame:CreateTexture(nil, "ARTWORK")
 					TradeSkillFrame.RecipeInset:SetSize(304, 361)

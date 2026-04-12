@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2733, "DBM-Raids-Midnight", 3, 1307)
 --local L		= mod:GetLocalizedStrings()--Nothing to localize for blank mods
 
-mod:SetRevision("20260326015426")
+mod:SetRevision("20260407042048")
 mod:SetCreatureID(240435)
 mod:SetEncounterID(3176)
 --mod:SetHotfixNoticeRev(20250823000000)
@@ -21,7 +21,7 @@ local specWarnVoidFall					= mod:NewSpecialWarningCount(1258880, nil, 28405, nil
 local specWarnMarchofEndless			= mod:NewSpecialWarningSpell(1260203, nil, nil, nil, 3, 2)
 local specWarnPitchBulwark				= mod:NewSpecialWarningInterrupt(1255702, false, nil, nil, 1, 2)--Probably spammy
 
-local timerShadowsAdvanceCD				= mod:NewCDCountTimer("d20.5", 1262776, DBM_COMMON_L.ADDS.." (%s)", nil, nil, 1)
+local timerShadowsAdvanceCD				= mod:NewCDCountTimer("d20.5", 1262776, DBM_COMMON_L.ADDS.." (%s)", nil, 2, 3, nil, DBM_COMMON_L.IMPORTANT_ICON)
 local timerDarkUpheavalCD				= mod:NewCDCountTimer(20.5, 1249251, DBM_COMMON_L.AOEDAMAGE.." (%s)", nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)
 local timerUmbralCollapseCD				= mod:NewCDCountTimer(20.5, 1249265, DBM_COMMON_L.GROUPSOAK.." (%s)", nil, nil, 3)
 local timerOblivionWrathCD				= mod:NewCDCountTimer(20.5, 1260712, DBM_COMMON_L.ORBS.." (%s)", nil, nil, 3)
@@ -42,6 +42,7 @@ mod.vb.voidMarkCount = 0
 local badStateDetected = false
 local next72IsShadow = false
 
+---@param self DBMMod
 local function setFallback(self)
 	--Blizz API fallbacks
 	specWarnShadowsAdvance:SetAlert({194, 195}, "mobsoon", 2, 2)
@@ -104,9 +105,19 @@ do
 			--Blizzard starts two shadows advance on pull, it's only time 84 exists
 			--We need to deal with special count handling to work around this quirk
 			--Timers passed as string with "d" in front of them to flag allowdouble as true
-			if timer == 84 then
+			if timer == 84 then--First 72 is actually an 84 but has same bug as 72s
 				--Increment count by 1 since it'll start in parallel to the initial 12 second bar
 				timerShadowsAdvanceCD:TLStart(84, eventID, self:TLCountStart(eventID, "shadow", "shadowCount") + 1)
+				if not timerUmbralCollapseCD:IsBuggedEventID(eventID) then
+					--Currently, blizzard has a bug where the 2nd umbral timer that starts for the fight (first 72 second timer)
+					--immediately cancels itself with a state of 2, despite fact the timer is actually accurate.
+					timerUmbralCollapseCD:SetBuggedEventID(eventID)
+					--Hard schedule alert here since blizzard is going to finish their own timer due to a bug on their end
+					specWarnUmbralCollapse:Schedule(84, 2)
+					specWarnUmbralCollapse:ScheduleVoice(84, "gathershare")
+					timerUmbralCollapseCD:Stop()
+					timerUmbralCollapseCD:Start(84, self.vb.CollapseCount+1)
+				end
 			else
 				timerShadowsAdvanceCD:TLStart(12, eventID, self:TLCountStart(eventID, "shadow", "shadowCount"))
 			end
@@ -126,16 +137,13 @@ do
 					specWarnUmbralCollapse:Schedule(72, 2)
 					specWarnUmbralCollapse:ScheduleVoice(72, "gathershare")
 					timerUmbralCollapseCD:Stop()
-					timerUmbralCollapseCD:Start(72, 2)
+					timerUmbralCollapseCD:Start(72, self.vb.CollapseCount+1)
 				end
 			end
 		else--Reached end of chain without finding a valid timer, this means hardcode mod has failed, so we need to disable hardcoded features and fall back to blizz API
 			if not DBM.Options.DebugMode then
 				badStateDetected = true
-				if DBM.Options.IgnoreBlizzAPI then
-					DBM.Options.IgnoreBlizzAPI = false
-					DBM:FireEvent("DBM_ResumeBlizzAPI")
-				end
+				self:ResumeBlizzardAPI()
 				self:UnregisterShortTermEvents()
 				setFallback(self)
 				DBM:Debug("|cffff0000Failed to match encounter timeline events to expected timers, falling back to Blizzard API|r", nil, nil, nil, true)

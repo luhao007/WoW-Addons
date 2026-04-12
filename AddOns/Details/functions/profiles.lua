@@ -172,25 +172,26 @@ end
 
 function Details:CreatePanicWarning()
 	Details.instance_load_failed = CreateFrame("frame", "DetailsPanicWarningFrame", UIParent,"BackdropTemplate")
-	Details.instance_load_failed:SetHeight(80)
+	Details.instance_load_failed:SetHeight(130)
 	--tinsert(UISpecialFrames, "DetailsPanicWarningFrame")
 	Details.instance_load_failed.text = Details.instance_load_failed:CreateFontString(nil, "overlay", "GameFontNormal")
 	Details.instance_load_failed.text:SetPoint("center", Details.instance_load_failed, "center")
 	Details.instance_load_failed.text:SetTextColor(1, 0.6, 0)
 	Details.instance_load_failed:SetBackdrop({bgFile = [[Interface\Tooltips\UI-Tooltip-Background]], tileSize = 64, tile = true})
-	Details.instance_load_failed:SetBackdropColor(1, 0, 0, 0.2)
+	Details.instance_load_failed:SetBackdropColor(0.7, 0.3, 0.3, 0.9)
 	Details.instance_load_failed:SetPoint("topleft", UIParent, "topleft", 0, -250)
 	Details.instance_load_failed:SetPoint("topright", UIParent, "topright", 0, -250)
 end
 
 local safe_load = function(func, param1, ...)
-	local okey, errortext = pcall(func, param1, ...)
-	if (not okey) then
+	--local okey, errortext = pcall(func, param1, ...)
+	local okey, errortext = xpcall(func, geterrorhandler(), param1, ...)
+	if (false and not okey) then
 		if (not Details.instance_load_failed) then
 			Details:CreatePanicWarning()
 		end
 		Details.do_not_save_skins = true
-		Details.instance_load_failed.text:SetText("Failed to load a Details! window.\n/reload or reboot the game client may fix the problem.\nIf the problem persist, try /details reinstall.\nError: " .. errortext .. "")
+		Details.instance_load_failed.text:SetText("Failed to load a Details! window.\n/reload or reboot the game client may fix the problem.\nIf the problem persist, try /details reinstall.\nError: " .. errortext)
 	end
 	return okey
 end
@@ -1530,7 +1531,7 @@ local default_global_data = {
 	breakdown_midnight = {
 		players = {width = 200, height = 296},
 		segments = {width = 200, height = 228},
-		spells = {width = 464, height = 398},
+		spells = {width = 464, height = 400},
 		targets = {width = 300, height = 170},
 		spelldetails = {width = 231, height = 261},
 		compare = {width = 231, height = 200},
@@ -1588,6 +1589,7 @@ local default_global_data = {
 		genericcontainer_right_height = 460,
 
 		spellbar_background_alpha = 0.92,
+		section_background_color = {0.1, 0.1, 0.1, 0.4},
 
 		spellcontainer_headers = {}, --store information about active headers and their sizes (spells)
 		targetcontainer_headers = {}, --store information about active headers and their sizes (target)
@@ -1983,12 +1985,14 @@ local exportProfileBlacklist = {
 }
 
 --transform the current profile into a string which can be shared in the internet
-function Details:ExportCurrentProfile()
+---@param self details
+---@param profileName string|nil if passing nil it export the current profile
+function Details:ExportCurrentProfile(profileName)
 	--save the current profile
 	Details:SaveProfile()
 
 	--data saved inside the profile
-	local profileObject = Details:GetProfile (Details:GetCurrentProfileName())
+	local profileObject = Details:GetProfile(profileName or Details:GetCurrentProfileName(), false)
 	if (not profileObject) then
 		Details:Msg("fail to get the current profile.")
 		return false

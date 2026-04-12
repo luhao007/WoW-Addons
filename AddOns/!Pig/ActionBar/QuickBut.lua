@@ -403,6 +403,7 @@ QuickButUI.ButList[7]=function()
 		--玩具
 		local ToyList = {
 			64488,--旅店老板的女儿
+			260221,--纳鲁的拥抱
 		}
 		local ToyList_Retail = {
 			168907,--数字化全息炉石

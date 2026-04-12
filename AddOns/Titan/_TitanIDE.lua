@@ -212,6 +212,10 @@ C_Bank = {} -- 11.0.0 New Warbank - Hopefully WoW API extension will catch up so
 ---@field race string
 ---@field raceName string
 ---@field raceId number
+---@field gold_toon number
+---@field itemLevelAve number
+---@field itemLevelEquipped number
+---@field itemLevelPvp number
 
 --====== Profile output from Utils
 ---@class Get_Profile_Result

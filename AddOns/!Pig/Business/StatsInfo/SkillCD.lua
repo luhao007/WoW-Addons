@@ -352,7 +352,6 @@ function BusinessInfo.SkillCD(StatsInfo)
 					if SpellID then
 						local CDbut=self.TimeCDBut[butID]
 						CDbut.icon:Show()
-						
 						if Spell_ItemIcon[SpellID] then
 							CDbut.icon:SetTexture(C_Item.GetItemIconByID(Spell_ItemIcon[SpellID]));
 						else
@@ -451,7 +450,7 @@ function BusinessInfo.SkillCD(StatsInfo)
 					if cdmulu[dangqian][8] then
 						hang.nameDQ:Show()
 					end
-					hang.name:SetText(cdmulu[dangqian][1]);
+					hang.name:SetText(Fun.PruningServerName(cdmulu[dangqian][1]));
 					local color = PIG_CLASS_COLORS[classFile];
 					hang.name:SetTextColor(color.r, color.g, color.b, 1);
 					hang:SetSkillIconName(cdmulu[dangqian][7])

@@ -1424,9 +1424,12 @@ local MOUNT_INFO = {
 		[1257081] = 262621, -- Convalescent Carrion
 		[1261648] = 257504, -- Vicious Snaplizard
 		[1261629] = 257502, -- Vicious Snaplizard
+		[1265785] = 260233, -- Emerald Hawkstrider
+		[1266993] = 260893, -- Arboreal Pseudoshell
+		[1269273] = 262705, -- Vicious Snapvine
+		[1261293] = 257143, -- Peridot Dragonhawk
+		[432455] = 212599, -- Noble Flying Carpet
 		-- [1262840] = 260228, -- Galactic Gladiator's Goredrake
-		-- [1261293] = 257143, -- Peridot Dragonhawk
-		-- [1265785] = 260233, -- Emerald Hawkstrider
 
 		-- [449416] = 223570, -- Ebonhide Ramolith
 		-- [1217340] = 235554, -- Midnight Darkmoon Charger

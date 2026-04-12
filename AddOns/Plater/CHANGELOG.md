@@ -1,8 +1,6 @@
 @cont1nuity:
-- Fix 'no tank aggro' detection for Midnight.
-- Adding option to hide cast bar border shield for unitnrerruptible casts.
-- Fix the border on aura icons (a bit).
-- Hide realm names on friendly players in raids in Midnight.
-- Fix cast bar border shield for unitnrerruptible casts.
-- Hide realm names on friendly players in raids.
+- Added option to hide blizzard friendly npc helathbars separately from players.
+- Fixed a few missing options.
+- Added option to remove realm name on friendly players for blizzard default nameplates.
+- Improved aura border sizing.
 

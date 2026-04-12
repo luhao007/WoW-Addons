@@ -46,8 +46,8 @@ function GDKPInfo.ADD_Trade(RaidR)
 			PIGTradeF.ListF.butlist[id].qianV:SetTextColor(1, 0, 0, 1)
 		end
 	end)
-	
-	PIGTradeF.biaoti = PIGFontString(PIGTradeF,{"TOPLEFT", PIGTradeF, "TOPLEFT", 10,-4},L.pigname..L["PIGaddonList"][addonName]);
+
+	PIGTradeF.biaoti = PIGFontString(PIGTradeF,{"TOPLEFT", PIGTradeF, "TOPLEFT", 10,-2},GDKPInfo.adddata.nameLocaleAll);
 	PIGTradeF.biaoti:SetTextColor(0, 1, 0, 1);
 	PIGTradeF.biaoti1 = PIGFontString(PIGTradeF,{"LEFT", PIGTradeF.biaoti, "RIGHT", 4,0});
 	PIGTradeF.biaoti1:SetTextColor(1, 0, 1, 1);
@@ -210,8 +210,7 @@ function GDKPInfo.ADD_Trade(RaidR)
 			end
 		end
 		return false
-	end
-	
+	end	
 	function PIGTradeF:UpdateItems()
 		for id = 1, butNum do
 			self.ItemButList[id]:Hide()

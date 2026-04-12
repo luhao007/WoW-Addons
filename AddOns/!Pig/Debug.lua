@@ -16,6 +16,10 @@ local PIGFontString=Create.PIGFontString
 local PIGFontStringBG=Create.PIGFontStringBG
 --
 local fuFrame = PIGOptionsList(L["DEBUG_TABNAME"],"BOT")
+fuFrame.zhuanma = PIGButton(fuFrame,{"BOTTOMRIGHT",fuFrame,"BOTTOMRIGHT",0,0},{16,16},"64")
+fuFrame.zhuanma:SetScript("OnClick", function (self)
+	_G[Data.ExportImportUIname]:Show_HideFun()
+end)
 --------------------------------
 local UIname="PIG_AddOnMemoryCPUUI"
 fuFrame.errorUI = PIGButton(fuFrame,{"TOPLEFT",fuFrame,"TOPLEFT",20,-20},{120,24},L["DEBUG_ERRORLOG"])
@@ -235,7 +239,7 @@ if GetCVar("scriptProfile")=="1" then
 	GnUI:Show()
 	local masg = "你开启了CPU性能分析，请在测试后关闭此选项"
 	UIErrorsFrame:AddMessage(masg, 1, 1, 0, 1.0);
-	PIG_print(masg)
+	PIGprint(masg)
 end
 
 --获取NPC物品
@@ -248,9 +252,6 @@ fuFrame.GetItem:SetScript("OnClick", function (self,button)
 	if button=="LeftButton" then
 		local itemName,itemLink = GetItemInfo(self.E:GetNumber())
 		print(itemLink)
-		--/--cript DEFAULT_CHAT_FRAME:AddMessage("NFU玩家社区 db.nfuwow.com: ")
-		--//script DEFAULT_CHAT_FRAME:AddMessage("NFU玩家社区 db.nfuwow.com: \124cffa335ee\124Hitem:22425:0:0:0:0:0:0:0\124h[救赎外套]\124h\124r")
-		--/script DEFAULT_CHAT_FRAME:AddMessage("NFU玩家社区 db.nfuwow.com: ")
 		--ChatFrame1:AddMessage("\124cffa335ee\124Hitem:22436:0:0:0:0:0:0:0\124h[地穴追猎者外套]\124h\124r")
 		--print(GetItemInfo(self.E:GetText()))
 		--DevTools_Dump({GetItemInfo(self.E:GetText())})
@@ -296,7 +297,7 @@ function fuFrame.FBdataID:PIGDownMenu_Update_But(level, menuList)
 	end 
 end
 function fuFrame.FBdataID:PIGDownMenu_SetValue(value,arg1,arg2)
-	print(INFO..": "..value,arg1)
+	print(value,arg1)
 	PIGCloseDropDownMenus()
 end
 -----------------
@@ -307,26 +308,27 @@ fuFrame:SetScript("OnShow", function()
 	fuFrame.taintLog:PIGDownMenu_SetText(taintlistmenu[GetCVar("taintLog")])
 end);
 --屏幕网格
-fuFrame.GridLine = PIGButton(fuFrame,{"TOPLEFT",fuFrame,"TOPLEFT",20,-380},{100,24},"网格线")
+fuFrame.GridLine = PIGButton(fuFrame,{"TOPLEFT",fuFrame,"TOPLEFT",20,-380},{100,24},HUD_EDIT_MODE_SHOW_GRID)
 fuFrame.GridLine:SetScript("OnClick", function (self)
 	if not self.addyes then
 		self.addyes=true
-		PIGLine(UIParent,"C",nil,2,{24,0},{1,0,0,1})
-		PIGLine(UIParent,"LR",nil,2,nil,{1,0,0,1})
+		PIGLine(UIParent,"C",nil,2,{24,0},{1,0,0,0.3})
+		PIGLine(UIParent,"LR",nil,2,nil,{1,0,0,0.3})
 		local WowWidth=GetScreenWidth();
-		local Width1=WowWidth*0.05
-		for i=1,10 do
-			PIGLine(UIParent,"C",-Width1*i,2,{24,0},{1,1,0,1})
-			PIGLine(UIParent,"C",Width1*i,2,{24,0},{1,1,0,1})
-			PIGLine(UIParent,"LR",Width1*i,2,nil,{1,1,0,1})
-			PIGLine(UIParent,"LR",-Width1*i,2,nil,{1,1,0,1})
+		local Width1=WowWidth*0.02
+		for i=1,24 do
+			PIGLine(UIParent,"C",-Width1*i,2,{24,0},{1,1,0,0.3})
+			PIGLine(UIParent,"C",Width1*i,2,{24,0},{1,1,0,0.3})
+		end
+		for i=1,13 do
+			PIGLine(UIParent,"LR",Width1*i,2,nil,{1,1,0,0.3})
+			PIGLine(UIParent,"LR",-Width1*i,2,nil,{1,1,0,0.3})
 		end
 	end
 end)
-
 ---创建常用3宏
 local hongNameList = {["RL"]={"/Reload",132096},["FST"]={"/fstack",132089},["EVE"]={"/eventtrace",132092}}
-fuFrame.New_hong = PIGButton(fuFrame,{"BOTTOMLEFT",fuFrame,"BOTTOMLEFT",20,20},{100,24},"ADD_FWR")
+fuFrame.New_hong = PIGButton(fuFrame,{"TOPLEFT",fuFrame,"TOPLEFT",220,-380},{100,24},"ADD_FWR")
 fuFrame.New_hong:SetScript("OnClick", function ()
 	for k,v in pairs(hongNameList) do
 		local macroSlot = GetMacroIndexByName(k)
@@ -343,7 +345,7 @@ fuFrame.New_hong:SetScript("OnClick", function ()
 	end
 end)
 ---调试配置
-fuFrame.tiaoshipeizhi = PIGButton(fuFrame,{"BOTTOMLEFT",fuFrame,"BOTTOMLEFT",220,20},{100,24},L["DEBUG_CONFIG"])
+fuFrame.tiaoshipeizhi = PIGButton(fuFrame,{"TOPLEFT",fuFrame,"TOPLEFT",420,-380},{100,24},L["DEBUG_CONFIG"])
 fuFrame.tiaoshipeizhi:SetScript("OnClick", function ()
 	StaticPopup_Show("TIAOSHIPEIZHIQIYONG",L["DEBUG_CONFIG"]);
 end)
@@ -365,7 +367,154 @@ StaticPopupDialogs["TIAOSHIPEIZHIQIYONG"] = {
 	whileDead = true,
 	hideOnEscape = true,
 }
-fuFrame.zhuanma = PIGButton(fuFrame,{"BOTTOMRIGHT",fuFrame,"BOTTOMRIGHT",0,0},{16,16},"64")
-fuFrame.zhuanma:SetScript("OnClick", function (self)
-	_G[Data.ExportImportUIname]:Show_HideFun()
+
+--检查团队版本
+local player_Width,player_Height,topv,player_jiangeH=440,20,24,2;
+local duiwu_Width,duiwu_Height,duiwu_jiangeW,duiwu_jiangeH=player_Width,player_Height*5+player_jiangeH*4,10,10;
+local PIG_Version=PIGFrame(UIParent,{"CENTER",UIParent,"CENTER",0,0},{(duiwu_Width+duiwu_jiangeW)*2+duiwu_jiangeW,(duiwu_Height+duiwu_jiangeH)*4+topv+20},"PIG_VersionUI",true)
+PIG_Version:PIGSetBackdrop()
+PIG_Version:PIGClose()
+PIG_Version:PIGSetMovableNoSave()
+PIG_Version.title = PIGFontString(PIG_Version,{"TOP", PIG_Version, "TOP", 0, -4},GAME_VERSION_LABEL..INFO)
+PIGLine(PIG_Version,"TOP",-topv)
+local addonspoint={130,210,290,370}
+for i=1,#L.addnames do
+	local title = PIGFontString(PIG_Version,{"TOPLEFT", PIG_Version, "TOPLEFT", addonspoint[i]+duiwu_jiangeW, -4-topv},L.addnames[i])
+	local title1 = PIGFontString(PIG_Version,{"TOPLEFT", PIG_Version, "TOPLEFT", addonspoint[i]+player_Width+duiwu_jiangeW*2, -4-topv},L.addnames[i])
+end
+PIG_Version.butlist={}
+for p=1,8 do
+	local DuiwuF = CreateFrame("Frame", nil, PIG_Version);
+	PIG_Version.butlist[p]=DuiwuF
+	PIG_Version.butlist[p].butlist={}
+	DuiwuF:SetSize(duiwu_Width,duiwu_Height);
+	if p==1 then
+		DuiwuF:SetPoint("TOPLEFT",PIG_Version,"TOPLEFT",10,-topv-24);
+	elseif p==3 then
+		DuiwuF:SetPoint("TOP",PIG_Version.butlist[1],"BOTTOM",0,-duiwu_jiangeH);
+	elseif p==5 then
+		DuiwuF:SetPoint("TOP",PIG_Version.butlist[3],"BOTTOM",0,-duiwu_jiangeH);
+	elseif p==7 then
+		DuiwuF:SetPoint("TOP",PIG_Version.butlist[5],"BOTTOM",0,-duiwu_jiangeH);
+	else
+		DuiwuF:SetPoint("LEFT",PIG_Version.butlist[p-1],"RIGHT",duiwu_jiangeW,0);
+	end
+	for pp=1,5 do
+		local DuiwuF_P = PIGFrame(DuiwuF,nil,{player_Width,player_Height});
+		DuiwuF_P:PIGSetBackdrop()
+		PIG_Version.butlist[p].butlist[pp]=DuiwuF_P
+		DuiwuF_P.verlist={}
+		if pp==1 then
+			DuiwuF_P:SetPoint("TOP",DuiwuF,"TOP",0,0);
+		else
+			DuiwuF_P:SetPoint("TOP",PIG_Version.butlist[p].butlist[pp-1],"BOTTOM",0,-player_jiangeH);
+		end
+		DuiwuF_P.name = PIGFontString(DuiwuF_P,{"LEFT", DuiwuF_P, "LEFT", 2, 0})
+		DuiwuF_P.verlist[0] = PIGFontString(DuiwuF_P,{"LEFT", DuiwuF_P, "LEFT", addonspoint[1]+2, 0})
+		DuiwuF_P.verlist[1] = PIGFontString(DuiwuF_P,{"LEFT", DuiwuF_P, "LEFT", addonspoint[2]+2, 0})
+		DuiwuF_P.verlist[2] = PIGFontString(DuiwuF_P,{"LEFT", DuiwuF_P, "LEFT", addonspoint[3]+2, 0})
+		DuiwuF_P.verlist[3] = PIGFontString(DuiwuF_P,{"LEFT", DuiwuF_P, "LEFT", addonspoint[4]+2, 0})
+	end
+end
+PIG_Version.getinfo = PIGButton(PIG_Version,{"TOPLEFT",PIG_Version,"TOPLEFT",40,-2.4},{80,20},"发起查询")
+PIG_Version.getinfo:SetScript("OnClick", function (self)
+	self:Disable()
+	PIG_Version.UpdateBut:Disable()
+	C_Timer.After(1,function()
+		self:Enable()
+		PIG_Version.UpdateBut:Enable()
+		PIG_Version.Update_hang()
+	end)
+	PIG_Version.infoList={}
+	for p=1,8 do
+		for pp=1,5 do
+			local but=PIG_Version.butlist[p].butlist[pp]
+			but.name:SetText("-")
+			for butid=0,3 do
+				but.verlist[butid]:SetText("-")
+			end
+		end
+	end
+	if IsInRaid() then
+		for id=1,MAX_RAID_MEMBERS do
+			local name, _, subgroup, _, _, fileName = GetRaidRosterInfo(id);
+			if name then
+				local but=PIG_Version.butlist[subgroup].butlist[id]
+				but.name:SetText(name)
+				if UnitIsConnected("raid"..id) then
+					PIG_Version.GetExtVer(name)
+				end
+			end
+		end
+	elseif IsInGroup() then
+		for id = 1, MAX_PARTY_MEMBERS, 1 do
+			local name = GetUnitName("party"..id, true)
+			if name then
+				local but=PIG_Version.butlist[1].butlist[id]
+				but.name:SetText(name)
+				if UnitIsConnected("party"..id) then
+					PIG_Version.GetExtVer(name)
+				end
+			end
+		end
+	end
 end)
+PIG_Version.UpdateBut = PIGButton(PIG_Version,{"LEFT",PIG_Version.getinfo,"RIGHT",20,0},{80,20},"刷新结果")
+PIG_Version.UpdateBut:Disable()
+PIG_Version.UpdateBut:SetScript("OnClick", function (self)
+	PIG_Version.Update_hang()
+end)
+function PIG_Version.Update_hang()
+	if IsInRaid() then
+		for id=1,MAX_RAID_MEMBERS do
+			local name, _, subgroup, _, _, fileName = GetRaidRosterInfo(id);
+			if name then
+				local but=PIG_Version.butlist[subgroup].butlist[id]
+				but.name:SetText(name)
+				if PIG_Version.infoList[name] then
+					for butid=0,3 do
+						if PIG_Version.infoList[name][addonsdata[butid].name] then
+							but.verlist[butid]:SetText(PIG_Version.infoList[name][addonsdata[butid].name])
+						end
+					end
+				end
+			end
+		end
+	elseif IsInGroup() then
+		for id = 1, MAX_PARTY_MEMBERS, 1 do
+			local name = GetUnitName("party"..id, true)
+			if name then
+				local but=PIG_Version.butlist[1].butlist[id]
+				but.name:SetText(name)
+				if PIG_Version.infoList[name] then
+					for butid=0,3 do
+						if PIG_Version.infoList[name][addonsdata[butid].name] then
+							but.verlist[butid]:SetText(PIG_Version.infoList[name][addonsdata[butid].name])
+						end
+					end
+				end
+			end
+		end
+	end
+end
+function PIG_Version.GetExtVer(name)
+	for i=1,4 do
+		PIGSendAddonMessage(PIG_OptionsUI.Ver_biaotou,addonsdata[i].name.."#G","WHISPER",name)
+	end
+end
+--
+fuFrame.GETVER = PIGButton(fuFrame,{"BOTTOMLEFT",fuFrame,"BOTTOMLEFT",20,20},{60,22},L["ABOUT_QUERY"])
+fuFrame.GETVER:SetScript("OnClick", function ()
+	if PIG_Version:IsShown() then
+		PIG_Version:Hide()
+	else
+		PIG_OptionsUI:Hide()
+		PIG_Version:Show()
+	end
+end)
+fuFrame.RESET = PIGButton(fuFrame,{"LEFT",fuFrame.GETVER,"RIGHT",10,0},{60,22},RESET)
+fuFrame.RESET:SetScript("OnClick", function ()
+	PIGA["Ver"]={}
+	PIGA["VerC"]={}
+	PIG_OptionsUI.RLUI:Show()
+end);

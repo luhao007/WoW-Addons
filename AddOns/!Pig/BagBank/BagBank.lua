@@ -30,13 +30,25 @@ function BagBankfun.Zhenghe(Rneirong,tabbut)
 			end
 		end
 	end)
-	function ContainerFrameCombinedBags:GetColumns()
-		if self:IsCombinedBagContainer() then
-			return self.meihang
-		else
-			return 4;
+	hooksecurefunc(ContainerFrameCombinedBags,"UpdateFrameSize", function(self)
+		local columns = self.meihang;
+		local templateInfo = C_XMLUtil.GetTemplateInfo(self.itemButtonPool:GetTemplate());
+		local itemsWidth = (columns * templateInfo.width) + ((columns - 1) * 5);
+		local width = itemsWidth + self:GetPaddingWidth();
+		local rows = math.ceil(self:GetBagSize() / columns);
+		local templateInfo = C_XMLUtil.GetTemplateInfo(self.itemButtonPool:GetTemplate());
+		local itemsHeight = (rows * templateInfo.height) + ((rows - 1) * 5);
+		local height = itemsHeight + self:GetPaddingHeight() + self:CalculateExtraHeight();
+		self:SetSize(width, height);
+	end)
+	hooksecurefunc(ContainerFrameCombinedBags,"UpdateItemLayout", function(self)
+		local AnchorD=AnchorUtil.CreateGridLayout(GridLayoutMixin.Direction.BottomRightToTopLeft, self.meihang, 5, 5);
+		local itemsToLayout = {};
+		for i, itemButton in self:EnumerateValidItems() do
+			table.insert(itemsToLayout, itemButton);
 		end
-	end
+		AnchorUtil.GridLayout(itemsToLayout, self:GetInitialItemAnchor(), AnchorD);
+	end)
 
 	--调整系统整合背包搜索框
 	hooksecurefunc(ContainerFrameCombinedBags, "SetSearchBoxPoint", function()

@@ -120,41 +120,20 @@ function Pig_Options:IsAutoInviteOpen(daname)
 	for k,v in pairs(Pig_Options.AutoInvite) do
 		if k~=daname then
 			if self.AutoInvite.Farm then
-				self:ErrorMsg(L["PIGaddonList"][L.extLsit[3]].."-自动邀请处于开启状态，请先关闭");
+				self:ErrorMsg(L["ExtList"][L.addnames[4]].nameLocaleAll.."-自动邀请处于开启状态，请先关闭");
 				return true
 			elseif self.AutoInvite.Yell then
-				self:ErrorMsg(L["PIGaddonList"][L.extLsit[1]].."喊话-自动邀请处于开启状态，请先关闭");
+				self:ErrorMsg(L["ExtList"][L.addnames[2]].nameLocaleAll.."喊话-自动邀请处于开启状态，请先关闭");
 				return true
 			elseif self.AutoInvite.Invite then
-				self:ErrorMsg(L["PIGaddonList"][L.extLsit[1]]..GROUPS.."-自动邀请处于开启状态，请先关闭");
+				self:ErrorMsg(L["ExtList"][L.addnames[2]].nameLocaleAll..GROUPS.."-自动邀请处于开启状态，请先关闭");
 				return true
 			end
 		end
 	end
 	return false
 end
---作者
-Pig_Options.lianxizuozhe=PIGFrame(Pig_Options,{"CENTER",Pig_Options,"CENTER",80,20},{320,320})
-Pig_Options.lianxizuozhe:PIGSetBackdrop(1)
-Pig_Options.lianxizuozhe:PIGClose()
-Pig_Options.lianxizuozhe:Hide()
-Pig_Options.lianxizuozhe:SetFrameLevel(20)
-PIGFontString(Pig_Options.lianxizuozhe,{"TOP", Pig_Options.lianxizuozhe, "TOP", 0, -10},L["ADDON_AUTHOR"])
-Pig_Options.lianxizuozhe.wx = Pig_Options.lianxizuozhe:CreateTexture()
-Pig_Options.lianxizuozhe.wx:SetTexture("Interface/AddOns/"..addonName.."/Libs/wx.blp");
-Pig_Options.lianxizuozhe.wx:SetSize(240,240);
-Pig_Options.lianxizuozhe.wx:SetPoint("CENTER",Pig_Options.lianxizuozhe,"CENTER", 0, 0);
-Pig_Options:HookScript("OnHide", function (self)
-	self.lianxizuozhe:Hide()
-end)
-function Pig_Options:ShowAuthor()
-	local zuozheF = self.lianxizuozhe
-	if zuozheF:IsShown() then
-		zuozheF:Hide()
-	else
-		zuozheF:Show()
-	end
-end
+
 --PIG屏幕提示信息栏
 local infotip = CreateFrame("MessageFrame", nil, UIParent);
 infotip:SetSize(512,60);

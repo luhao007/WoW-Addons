@@ -6,7 +6,6 @@ function FramePlusfun.Macro()
 	if not PIGA["FramePlus"]["Macro"] then return end
 	if FramePlusfun.pigMacroyijiazai then return end
 	local Fun=addonTable.Fun
-	local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 	local function SETMacroFrame()
 		FramePlusfun.pigMacroyijiazai=true
 		--MacroFrame.MacroSelector:SetCustomStride(10);

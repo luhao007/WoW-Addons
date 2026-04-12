@@ -195,7 +195,7 @@ function Plater.ImportAndSwitchProfile(profileName, profile, bIsUpdate, bKeepMod
 	--check if parent to UIParent is enabled and calculate the new scale
 	if (Plater.db.profile.use_ui_parent) then
 		if (not bIsUpdate or not bWasUsingUIParent and not keepScaleTune) then --only update if necessary
-			Plater.db.profile.ui_parent_scale_tune = 1 / UIParent:GetEffectiveScale()
+			Plater.db.profile.ui_parent_scale_tune = 1 / (IS_WOW_PROJECT_MIDNIGHT and 1 or UIParent:GetEffectiveScale())
 		end
 	else
 		Plater.db.profile.ui_parent_scale_tune = 0
@@ -5629,8 +5629,35 @@ local relevance_options = {
 					self:SetValue (GetCVarBool ("nameplateShowOnlyNameForFriendlyPlayerUnits"))
 				end
 			end,
-			name = "Hide Friendly Health Bar|cFFFF7700*|r", --show friendly nameplates
-			desc = "Hide Friendly Health Bar\nCVar: nameplateShowOnlyNameForFriendlyPlayerUnits",
+			name = "OPTIONS_NAMEPLATE_HIDE_FRIENDLY_HEALTH",
+			desc = "OPTIONS_NAMEPLATE_HIDE_FRIENDLY_HEALTH_DESC",
+			nocombat = true,
+			hidden = not IS_WOW_PROJECT_MIDNIGHT,
+		},
+
+		{
+			type = "toggle",
+			boxfirst = true,
+			get = function() return Plater.db.profile.hide_friendly_npc_healthbar end,
+			set = function (self, fixedparam, value) 
+				Plater.db.profile.hide_friendly_npc_healthbar = value
+			end,
+			name = "Hide Friendly NPCs Health Bar", --show friendly nameplates
+			desc = "Hide Friendly NPCs Health Bar\nWill require the healthbars to be hidden and shown again to take effect after changing.",
+			nocombat = true,
+			hidden = not IS_WOW_PROJECT_MIDNIGHT,
+		},
+
+		{
+			type = "toggle",
+			boxfirst = true,
+			get = function() return Plater.db.profile.hide_realm_name_on_blizzard end,
+			set = function (self, fixedparam, value) 
+				Plater.db.profile.hide_realm_name_on_blizzard = value
+				Plater.UpdateBaseNameplateOptions()
+			end,
+			name = "Hide Realm Names",
+			desc = "Hide realm names on blizzard nameplates.",
 			nocombat = true,
 			hidden = not IS_WOW_PROJECT_MIDNIGHT,
 		},
@@ -5727,7 +5754,7 @@ local relevance_options = {
 			nocombat = true,
 		},
 		
-		{type = "blank"},
+		{type = "blank", hidden = IS_WOW_PROJECT_MIDNIGHT},
 		
 		{
 			type = "toggle",
@@ -11745,7 +11772,6 @@ end
 			end,
 			name = "OPTIONS_THREAT_AGGROSTATE_ANOTHERTANK",
 			desc = "OPTIONS_THREAT_COLOR_TANK_ANOTHERTANK_DESC",
-			hidden = IS_WOW_PROJECT_MIDNIGHT,
 		},
 		{
 			type = "color",
@@ -11785,7 +11811,6 @@ end
 			end,
 			name = "OPTIONS_THREAT_PULL_FROM_ANOTHER_TANK",
 			desc = "OPTIONS_THREAT_PULL_FROM_ANOTHER_TANK_DESC",
-			hidden = IS_WOW_PROJECT_MIDNIGHT,
 		},
 		
 		{type = "blank"},
@@ -11923,7 +11948,7 @@ end
 			end,
 			name = "OPTIONS_THREAT_CLASSIC_USE_TANK_COLORS",
 			desc = "OPTIONS_THREAT_CLASSIC_USE_TANK_COLORS",
-			hidden = not IS_WOW_PROJECT_NOT_MAINLINE
+			hidden = WOW_PROJECT_MAINLINE
 		},
 	
 		{type = "blank", hidden = not IS_WOW_PROJECT_NOT_MAINLINE},

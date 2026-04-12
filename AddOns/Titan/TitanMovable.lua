@@ -216,15 +216,6 @@ else
 local hooks_done = false;
 
 local move_count = 0
---[[
-Declare the Ace routines
- local AceTimer = LibStub("AceTimer-3.0")
- i.e. TitanPanelAce.ScheduleTimer("LDBToTitanSetText", TitanLDBRefreshButton, 2);
- or
- i.e. TitanPanelAce:ScheduleTimer(TitanLDBRefreshButton, 2);
-
- Be careful that the 'self' is proper to cancel timers!!!
---]]
 
 --local TitanPanelAce = LibStub("AceAddon-3.0"):NewAddon("TitanPanel", "AceHook-3.0", "AceTimer-3.0")
 

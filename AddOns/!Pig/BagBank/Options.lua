@@ -35,10 +35,9 @@ BagBankF.czrl:SetScript("OnClick", function(self)
 end)
 ----------
 local BagaddList = {"Bagnon","Combuctor","Baganator"};
-local IsAddOnLoaded = IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 local function Other_bag()
 	for i = 1, #BagaddList do
-		local loadedOrLoading, loaded = IsAddOnLoaded(BagaddList[i])
+		local loadedOrLoading, loaded = PIGIsAddOnLoaded(BagaddList[i])
 		if loaded then return true,BagaddList[i],"插件"..BagaddList[i] end
 	end
 	if Fun.IsNDui("Bags","Enable") then

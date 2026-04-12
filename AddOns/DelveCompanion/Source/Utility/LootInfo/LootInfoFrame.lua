@@ -12,8 +12,6 @@ local Lockit = DelveCompanion.Lockit
 
 --#region
 
----@type number Item ID of [Bountiful Coffer](https://www.wowhead.com/item=254250/bountiful-coffer).
-local BOUNTIFUL_COFFER_ITEM_CODE = 254250
 --#endregion
 
 ---@class (exact) LootInfoFrame : LootInfoFrameXml
@@ -42,7 +40,7 @@ function DelveCompanion_LootInfoFrameMixin:OnLoad()
 
         local container = self.ColumnHeaders.Container
 
-        local bountiful = Item:CreateFromItemID(BOUNTIFUL_COFFER_ITEM_CODE)
+        local bountiful = Item:CreateFromItemID(Config.BOUNTIFUL_COFFER_ITEM_CODE)
         bountiful:ContinueOnItemLoad(function()
             container.Bountiful.Text:SetText(bountiful:GetItemName())
             container.Bountiful.Icon:SetAtlas("delves-bountiful")

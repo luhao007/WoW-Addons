@@ -22,6 +22,10 @@ Config.DELVES_MIN_EXPANSION = LE_EXPANSION_WAR_WITHIN
 ---@field inDelveWidgetDisplayRule InDelveWidgetDisplayRule Where [InDelveWidget](lua://InDelveWidget) is displayed.
 ---@field inDelveWidgetLayout InDelveWidgetLayout How [InDelveWidget](lua://InDelveWidget) buttons are arranged.
 ---@field minimapIconEnabled boolean Whether a minimap icon is enabled.
+---@field displayStoryStatusInGossip boolean Whether to display Story Variant status in Delves' Gossip.
+---@field delveAutoEnterEnabled boolean Whether to enter Delves automatically once Gossip is shown.
+---@field delveAutoEnterTier number Delve Tier to enter.
+---@field delveAutoEnterDelaySec number A delay in seconds before entering the Delve.
 Config.DEFAULT_ACCOUNT_DATA = {
     logsEnabled = false,
     delvesListInfoWidgetsEnabled = true,
@@ -29,7 +33,11 @@ Config.DEFAULT_ACCOUNT_DATA = {
     inDelveWidgetEnabled = true,
     inDelveWidgetDisplayRule = DelveCompanion.Definitions.InDelveWidgetDisplayRule.left,
     inDelveWidgetLayout = DelveCompanion.Definitions.InDelveWidgetLayout.vertical,
-    minimapIconEnabled = false
+    minimapIconEnabled = false,
+    displayStoryStatusInGossip = true,
+    delveAutoEnterEnabled = false,
+    delveAutoEnterTier = 1,
+    delveAutoEnterDelaySec = 3
 }
 
 --- Character Save Data
@@ -61,6 +69,9 @@ Config.KEY_SHARDS_CURRENCY_CODE = 3310
 
 ---@type number Amount of [Coffer Key Shards](https://www.wowhead.com/item=236096/coffer-key-shard) required to assemble [Restored Coffer Key](https://www.wowhead.com/currency=3028/restored-coffer-key).
 Config.SHARDS_FOR_KEY = 100
+
+---@type number Item ID of [Bountiful Coffer](https://www.wowhead.com/item=254250/bountiful-coffer).
+Config.BOUNTIFUL_COFFER_ITEM_CODE = 254250
 --#endregion
 
 ---@type number Currency ID of [Untainted Mana-Crystals](https://www.wowhead.com/currency=3356/untainted-mana-crystals).
@@ -612,7 +623,7 @@ Config.DELVES_CONFIG = {
 ---@field to number Right value of the range, inclusive.
 ---@field color colorRGBA Color for such an ilvl.
 
----@type LootRarity[]
+---@type table<number, LootRarity[]>
 Config.LOOT_RARITY = {
     [1] = {
         from = 220,
@@ -643,7 +654,7 @@ Config.LOOT_RARITY = {
 ---@field mapLvl number? Item Level player gets from the Bounty Map chest completing the corresponding Delve Tier. Can be nil because Bounty Map reward is unavailable for some tiers.
 
 --- Indexed table of Delves Loot information (index = Tier).
----@type DelveLootInfo[]
+---@type table<number, DelveLootInfo[]>
 Config.DELVES_LOOT_INFO_DATA = {
     [1] = {
         bountifulLvl = 220,

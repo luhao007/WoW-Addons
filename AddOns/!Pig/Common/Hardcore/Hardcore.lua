@@ -1,13 +1,11 @@
-local addonName, addonTable = ...;
-if PIG_MaxTocversion(20000,true) then return end
-local active = C_GameRules.IsHardcoreActive()
-if not active then return end
+local addonName, PD = ...;
+if not PIGIsHardcore() then return end
 ---
 local gsub = _G.string.gsub
 local find = _G.string.find
 local sub = _G.string.sub
 local match = _G.string.match
-local Create = addonTable.Create
+local Create = PD.Create
 local PIGFrame=Create.PIGFrame
 local PIGEnter=Create.PIGEnter
 local PIGSlider=Create.PIGSlider
@@ -19,13 +17,13 @@ local PIGSetFont=Create.PIGSetFont
 local PIGDownMenu=Create.PIGDownMenu
 local PIGOptionsList_R=Create.PIGOptionsList_R
 --
-local Data=addonTable.Data
-local Fun=addonTable.Fun
+local Data=PD.Data
+local Fun=PD.Fun
 local PIGGetRaceAtlas=Fun.PIGGetRaceAtlas
 local FasongYCqingqiu=Fun.FasongYCqingqiu
 ----
-local AudioData=addonTable.AudioList.Data
-local CommonInfo=addonTable.CommonInfo
+local AudioData=PD.Audio.Data.HardcoreDeaths
+local CommonInfo=PD.CommonInfo
 ----
 local UIname,Tooltip = "PIG_HardcoreUI",KEY_BUTTON1.."-|cff00FFFF"..UNWRAP..HARDCORE_DEATHS.."|r\r|r"..KEY_BUTTON2.."-|cff00FFFF"..SETTINGS.."|r"
 ---
@@ -185,8 +183,7 @@ HardcoreModeF:HookScript("OnEvent", function(self,event)
 	C_Timer.After(0.4,event_Script)
 end)
 function CommonInfo.Commonfun.HardcoreCVarsFun(ly)
-    local active = C_GameRules and C_GameRules.IsHardcoreActive and C_GameRules.IsHardcoreActive()
-    if active then
+    if Hactive then
     	if PIGA["Hardcore"]["CVars"]["Open"] then
     		if ly then
 		        HardcoreModeF.NameMinV=PIGA["Hardcore"]["CVars"]["NameMinV"]
@@ -249,8 +246,8 @@ fujiF.Deaths.xiala.T = PIGFontString(fujiF.Deaths.xiala,{"BOTTOMLEFT",fujiF.Deat
 function fujiF.Deaths.xiala:PIGDownMenu_Update_But()
 	local info = {}
 	info.func = self.PIGDownMenu_SetValue
-	for i=1,#AudioData.HardcoreDeaths,1 do
-	    info.text, info.arg1 = AudioData.HardcoreDeaths[i][1], i
+	for i=1,#AudioData,1 do
+	    info.text, info.arg1 = AudioData[i][1], i
 	    info.checked = i==PIGA["Hardcore"]["Deaths"]["VoiceID"]
 		self:PIGDownMenu_AddButton(info)
 	end 
@@ -263,7 +260,7 @@ function fujiF.Deaths.xiala:PIGDownMenu_SetValue(value,arg1)
 end
 fujiF.Deaths.PlayBut =PIGDiyBut(fujiF.Deaths,{"LEFT",fujiF.Deaths.xiala,"RIGHT",8,0},{24,24,nil,nil,"chatframe-button-icon-speaker-on",130757});
 fujiF.Deaths.PlayBut:HookScript("OnClick", function()
-	PIG_PlaySoundFile(AudioData.HardcoreDeaths[_G[UIname].AudioID])
+	PIG_PlaySoundFile(AudioData[_G[UIname].AudioID])
 end)
 
 local savedaysinfo = {1,7,1,{["Right"]="%s天"}}
@@ -295,9 +292,9 @@ fujiF:HookScript("OnShow", function(self)
 	self.Deaths.UIScale:PIGSetValue(PIGA["Hardcore"]["Deaths"]["UIScale"])
 	self.Deaths.BigTgminlevel:PIGSetValue(PIGA["Hardcore"]["Deaths"]["BigTgminlevel"])
 	self.Deaths.savedays:PIGSetValue(PIGA["Hardcore"]["Deaths"]["savedays"])
-	self.Deaths.xiala:PIGDownMenu_SetText(AudioData.HardcoreDeaths[PIGA["Hardcore"]["Deaths"]["VoiceID"]][1])
+	self.Deaths.xiala:PIGDownMenu_SetText(AudioData[PIGA["Hardcore"]["Deaths"]["VoiceID"]][1])
 end)
-local Quality = addonTable.Data.Quality
+local Quality = PD.Data.Quality
 local minmaxlist = {{1,9},{10,19},{20,29},{30,39},{40,49},{50,59}}
 local function getColor(value)
 	local value=tonumber(value)
@@ -360,7 +357,7 @@ end
 function CommonInfo.Commonfun.HardcoreDeaths()
 	if not PIGA["Hardcore"]["Deaths"]["Open"] then end
 	if _G[UIname] then return end
-	table.insert(AudioData.HardcoreDeaths,{NONE,""})
+	table.insert(AudioData,{NONE,""})
 	----
 	local maxtime = PIGA["Hardcore"]["Deaths"]["savedays"]*3600*24
 	local datax = PIGA["Hardcore"]["Deaths"]["List"]
@@ -467,7 +464,7 @@ function CommonInfo.Commonfun.HardcoreDeaths()
 		if ly then ButUI:SetScale(PIGA["Hardcore"]["Deaths"]["UIScale"]); end
 	end
 	ButUI:Initial_config()		
-	PIGA["Hardcore"]["Deaths"]["VoiceID"]=Fun.IsAudioNumMaxV(ButUI.AudioID,AudioData.HardcoreDeaths)
+	PIGA["Hardcore"]["Deaths"]["VoiceID"]=Fun.IsAudioNumMaxV(ButUI.AudioID,AudioData)
 	ButUI.AudioID=PIGA["Hardcore"]["Deaths"]["VoiceID"]
 	ButUI.texbg = ButUI:CreateTexture(nil, "BORDER");
 	ButUI.texbg:SetPoint("TOPLEFT", ButUI.msg, "TOPLEFT", -14,6);
@@ -583,7 +580,7 @@ function CommonInfo.Commonfun.HardcoreDeaths()
 			if level>=_G[UIname].BigTgminlevel then--大席
 				ButUI.icon.animationGroup:Stop()
 				ButUI.icon.animationGroup:Play()
-				PIG_PlaySoundFile(AudioData.HardcoreDeaths[_G[UIname].AudioID])
+				PIG_PlaySoundFile(AudioData[_G[UIname].AudioID])
 			end
 		end
 	end

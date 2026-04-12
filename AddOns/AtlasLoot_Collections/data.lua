@@ -1394,9 +1394,11 @@ data["MOUNTS"]             = {
 				{ 123, 262620, "mount", [ACH_EXTRA_ITTYPE] = 61256 },           -- Calamitous Carrion
 				{ 124, 262621, "mount", [ACH_EXTRA_ITTYPE] = 61258 },           -- Convalescent Carrion
 				{ 125, 257504, "mount", [ACH_EXTRA_ITTYPE] = 61405 },           -- Vicious Snaplizard
-				-- { 126, 260228, "mount", [ACH_EXTRA_ITTYPE] = 61188 }, -- Galactic Gladiator's Goredrake
-				-- { 127, 257143, "mount" }, -- Peridot Dragonhawk
-				-- { 128, 260233, "mount" }, -- Emerald Hawkstrider
+				{ 126, 260233, "mount", [QUEST_EXTRA_ITTYPE] = 88769 },         -- Emerald Hawkstrider
+				{ 127, 260893, "mount", [PRICE_EXTRA_ITTYPE] = "tender:450" },  -- Arboreal Pseudoshell
+				{ 128, 262705, "mount", [PRICE_EXTRA_ITTYPE] = "tender:600" },  -- Vicious Snapvine
+				{ 129, 257143, "mount", [QUEST_EXTRA_ITTYPE] = 90867 },         -- Peridot Dragonhawk
+				-- { 127, 260228, "mount", [ACH_EXTRA_ITTYPE] = 61188 }, -- Galactic Gladiator's Goredrake
 			},
 			[HORDE_DIFF] = {
 				GetItemsFromDiff = ALLIANCE_DIFF,
@@ -1712,6 +1714,7 @@ data["MOUNTS"]             = {
 				{ 116, 223449, "mount", [PRICE_EXTRA_ITTYPE] = "tender:600" }, -- Kor'kron Warsaber
 				{ 117, 223469, "mount", [PRICE_EXTRA_ITTYPE] = "tender:600" }, -- Sentinel War Wolf
 				{ 118, 212631, "mount", [PRICE_EXTRA_ITTYPE] = "tender:750" }, -- Brilliant Sunburst Peafowl
+				{ 119, 212599, "mount" },                             -- Noble Flying Carpet
 
 			},
 			[HORDE_DIFF] = {
@@ -6776,14 +6779,14 @@ data["COMPANIONS"]         = {
 				{ 128, 262392, "pet4961" },                                     -- Nibblesworth
 				{ 129, 251004, "pet3364" },                                     -- Striped Snakebiter
 				{ 130, 262393, "pet4955", [PRICE_EXTRA_ITTYPE] = "undercoin:10000" }, -- Kreepah'zoyd
+				{ 201, 258122, "pet4909", [QUEST_EXTRA_ITTYPE] = 88769 },       -- Emerald Hatchling
+				{ 202, 262762, "pet4963", [PRICE_EXTRA_ITTYPE] = "tender:250" }, -- Grumpy Mandrake
 				-- { 103, 259337, "pet4929" },                                        -- Munchy
 				-- { 102, 260306, "pet4942" },                                        -- Distorted Memory
 				-- { 120, 262881, "pet4968" },                                        -- Lil' Staropod
 				-- { 123, 258739, "pet4914" },                                        -- Chillcrawler
-				-- { 128, 258122, "pet4909" },                                        -- Emerald Hatchling
 				-- { 128, 262768, "pet4965" },                                        -- Chirpy Mandrake
 				-- { 130, 262763, "pet4964" },                                        -- Plump Mandrake
-				-- { 130, 262762, "pet4963" },                                        -- Grumpy Mandrake
 				-- { 130, 262769, "pet4966" },                                        -- Screechy Mandrake
 			}
 		},
@@ -7150,7 +7153,7 @@ data["TOYS"]               = {
 				{ 102, 264413, [QUEST_EXTRA_ITTYPE] = 93525 },         -- Dominating Victory
 				{ 103, 267291, [PRICE_EXTRA_ITTYPE] = "undercoin:250" }, -- Coffer Key Glue
 				{ 104, 262431, [PRICE_EXTRA_ITTYPE] = "undercoin:5000" }, -- Bouncy Mushroom
-				-- { 20, 257736 },                                       -- Lightcalled Hearthstone (world quest: march on quel'danas)
+				{ 105, 257736, [QUEST_EXTRA_ITTYPE] = 88710 },         -- Lightcalled Hearthstone
 				-- { 20,  250320 },                                      -- Lightgraft (unknown)
 			}
 		},

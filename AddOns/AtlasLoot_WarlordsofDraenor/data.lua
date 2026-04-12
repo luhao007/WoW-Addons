@@ -31,6 +31,7 @@ local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", nil, 1)
 local NORMAL_DUNGEON_DIFF = data:AddDifficulty(AL["Normal"], "DungeonWithPreset", ADD_SCALING, 1)
 local HEROIC_DUNGEON_DIFF = data:AddDifficulty(AL["Heroic"], "HeroicDungeonWithPreset", ADD_SCALING, 2)
 local MYTHICD_DUNGEON_DIFF = data:AddDifficulty(AL["Mythic"], "MythicDungeonWithPreset", ADD_SCALING, 23)
+local TIMEWALKING_DUNGEON_DIFF = data:AddDifficulty(AL["Timewalking"], "timewalkingDungeonWithPreset", ADD_SCALING, 24)
 
 local RF_DIFF = data:AddDifficulty(AL["Raid Finder"], "LFRWithPreset", ADD_SCALING, 17)
 local NORMAL_RAID_DIFF = data:AddDifficulty(AL["Normal"], "NormalRaidWithPreset", ADD_SCALING, 14)
@@ -179,6 +180,9 @@ data["Auchindoun"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ --AuchNyami
 			EncounterJournalID = 1186,
@@ -233,6 +237,9 @@ data["Auchindoun"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ --AuchAzzakel
 			EncounterJournalID = 1216,
@@ -285,6 +292,9 @@ data["Auchindoun"] = {
 				{ 120, "ac9551" },
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
@@ -367,6 +377,9 @@ data["Auchindoun"] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 217, "ac10080" },
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ --Challenge Mode Gear
 			name = AL["Challenge Mode Gear"],
@@ -435,6 +448,9 @@ data["BloodmaulSlagMines"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ --BSMCrushto
 			EncounterJournalID = 888,
@@ -488,6 +504,9 @@ data["BloodmaulSlagMines"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ --BSMRoltall
 			EncounterJournalID = 887,
@@ -539,6 +558,9 @@ data["BloodmaulSlagMines"] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
@@ -626,6 +648,9 @@ data["BloodmaulSlagMines"] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 221, "ac10076" },
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ --Challenge Mode Gear
 			name = AL["Challenge Mode Gear"],
@@ -700,6 +725,9 @@ data["GrimrailDepot"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ --GDThundertower
 			EncounterJournalID = 1163,
@@ -752,6 +780,9 @@ data["GrimrailDepot"] = {
 				{ 126, "ac9007" },
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
@@ -831,6 +862,9 @@ data["GrimrailDepot"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 217, "ac10082" },
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
 		{ --Challenge Mode Gear
@@ -1161,6 +1195,9 @@ data["ShadowmoonBurialGrounds"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ --SBGNhallish
 			EncounterJournalID = 1168,
@@ -1212,6 +1249,9 @@ data["ShadowmoonBurialGrounds"] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
@@ -1266,6 +1306,9 @@ data["ShadowmoonBurialGrounds"] = {
 				{ 120, "ac9025" },
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
@@ -1350,6 +1393,9 @@ data["ShadowmoonBurialGrounds"] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 220, "ac10084" },
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ --Challenge Mode Gear
 			name = AL["Challenge Mode Gear"],
@@ -1423,6 +1469,9 @@ data["Skyreach"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ --SkyreachAraknath
 			EncounterJournalID = 966,
@@ -1481,6 +1530,9 @@ data["Skyreach"] = {
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
 		{ --SkyreachRukhran
@@ -1542,6 +1594,9 @@ data["Skyreach"] = {
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
 		{ --SkyreachViryx
@@ -1635,6 +1690,9 @@ data["Skyreach"] = {
 				GetItemsFromDiff = HEROIC_DUNGEON_DIFF,
 				-- { 224, "ac10081" },
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ --Challenge Mode Gear
 			name = AL["Challenge Mode Gear"],
@@ -1705,6 +1763,9 @@ data["TheEverbloom"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ --EverbloomProtectors
 			EncounterJournalID = 1207,
@@ -1756,6 +1817,9 @@ data["TheEverbloom"] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
@@ -1812,6 +1876,9 @@ data["TheEverbloom"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
 		},
 		{ --EverbloomXeritac
 			EncounterJournalID = 1209,
@@ -1863,6 +1930,9 @@ data["TheEverbloom"] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 			[MYTHICD_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
@@ -1948,6 +2018,9 @@ data["TheEverbloom"] = {
 			[MYTHICD_DUNGEON_DIFF] = {
 				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 				{ 221, "ac10083" },
+			},
+			[TIMEWALKING_DUNGEON_DIFF] = {
+				GetItemsFromDiff = NORMAL_DUNGEON_DIFF,
 			},
 		},
 		{ --Challenge Mode Gear

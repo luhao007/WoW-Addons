@@ -119,8 +119,16 @@ local options = {
 						AtlasLoot.MiniMapButton.Options_Toggle();
 					end,
 				},
-				scale = {
+				useExactSource = {
 					order = 5,
+					type = "toggle",
+					width = "full",
+					name = AL["Use exact item source for Collected highlight."],
+					get = function(info) return db.GUI.useExactSource end,
+					set = function(info, value) db.GUI.useExactSource = value end,
+				},
+				scale = {
+					order = 6,
 					type = "range",
 					name = AL["Scale"],
 					min = 0.5,

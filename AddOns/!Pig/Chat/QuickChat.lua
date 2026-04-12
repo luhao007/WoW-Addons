@@ -123,7 +123,7 @@ local function ADD_chatbut(fuF,pdtype,name,chatID,Color,pdname)
 	end);
 	if pdtype=="bq" then
 		chatbut.Tex = chatbut:CreateTexture(nil, "BORDER");
-		chatbut.Tex:SetTexture("Interface/AddOns/"..addonName.."/Chat/icon/happy.tga");
+		chatbut.Tex:SetTexture("Interface/AddOns/"..addonName.."/Media/Emojis/happy.tga");
 		chatbut.Tex:SetPoint("CENTER",0,0);
 		chatbut.Tex:SetSize(Width-10,Width-10);
 		chatbut:SetScript("OnMouseDown", function (self)
@@ -188,7 +188,7 @@ local function ADD_chatbut(fuF,pdtype,name,chatID,Color,pdname)
 						if pdname=="GUILD" then
 							ChatFrame_RemoveMessageGroup(SetChatFrame, "OFFICER");
 						end
-						PIG_print(IGNORE.._G[pdname]..CHANNEL..INFO);
+						PIGprint(IGNORE.._G[pdname]..CHANNEL..INFO);
 						self.X:Show();
 					else
 						ChatFrame_AddMessageGroup(SetChatFrame, pdname);
@@ -204,7 +204,7 @@ local function ADD_chatbut(fuF,pdtype,name,chatID,Color,pdname)
 						if pdname=="GUILD" then
 							ChatFrame_AddMessageGroup(SetChatFrame, "OFFICER");
 						end
-						PIG_print(IGNORE_REMOVE.._G[pdname]..CHANNEL..INFO);
+						PIGprint(IGNORE_REMOVE.._G[pdname]..CHANNEL..INFO);
 						self.X:Hide();
 					end
 				end
@@ -218,9 +218,9 @@ local function ADD_chatbut(fuF,pdtype,name,chatID,Color,pdname)
 						PIGChatFrameAddChannel(SetChatFrame,chatID)
 						if GetPIGID(chatID)>0 then
 							chatbut.X:Hide();
-							PIG_print(CHAT_JOIN..chatID..CHANNEL.."，"..KEY_BUTTON2..IGNORE..CHANNEL..INFO);
+							PIGprint(CHAT_JOIN..chatID..CHANNEL.."，"..KEY_BUTTON2..IGNORE..CHANNEL..INFO);
 						else
-							PIG_print(CHAT_JOIN..chatID..CHANNEL..FAILED.."，请稍后再试");
+							PIGprint(CHAT_JOIN..chatID..CHANNEL..FAILED.."，请稍后再试");
 						end
 					else
 						PIGChatFrameAddChannel(SetChatFrame,chatID)
@@ -240,9 +240,9 @@ local function ADD_chatbut(fuF,pdtype,name,chatID,Color,pdname)
 								PIGChatFrameRemoveChannel(SetChatFrame, FUWUPINDAONAME);
 								PIGChatFrameRemoveChannel(SetChatFrame, "本地防务");
 								PIGChatFrameRemoveChannel(SetChatFrame, "世界防务");
-								PIG_print(IGNORE..chatID.."/"..FUWUPINDAONAME..CHANNEL..INFO);
+								PIGprint(IGNORE..chatID.."/"..FUWUPINDAONAME..CHANNEL..INFO);
 							else
-								PIG_print(IGNORE..chatID..CHANNEL..INFO);
+								PIGprint(IGNORE..chatID..CHANNEL..INFO);
 							end
 							PIGChatFrameRemoveChannel(SetChatFrame, chatID);
 							self.X:Show();
@@ -252,14 +252,14 @@ local function ADD_chatbut(fuF,pdtype,name,chatID,Color,pdname)
 								PIGChatFrameAddChannel(SetChatFrame, FUWUPINDAONAME);
 								PIGChatFrameAddChannel(SetChatFrame, "本地防务");
 								PIGChatFrameAddChannel(SetChatFrame, "世界防务");
-								PIG_print(IGNORE_REMOVE..chatID.."/"..FUWUPINDAONAME..CHANNEL..INFO);
+								PIGprint(IGNORE_REMOVE..chatID.."/"..FUWUPINDAONAME..CHANNEL..INFO);
 							else
-								PIG_print(IGNORE_REMOVE..chatID..CHANNEL..INFO);
+								PIGprint(IGNORE_REMOVE..chatID..CHANNEL..INFO);
 							end
 							self.X:Hide();
 						end
 					else
-						PIG_print("尚未"..CHAT_JOIN..chatID..CHANNEL);
+						PIGprint("尚未"..CHAT_JOIN..chatID..CHANNEL);
 					end
 				end
 			end

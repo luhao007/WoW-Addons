@@ -165,7 +165,7 @@ QuickButUI.ButList[19]=function()
 		AFK_pingbao:HookScript("PostClick",  function (self)
 			PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON);
 			if not InCombatLockdown() then
-				AFK_pingbao:SetAttribute("macrotext", [=[/PIG_print("副本内或战斗中无法暂离")]=])
+				AFK_pingbao:SetAttribute("macrotext", [=[/PIGprint("副本内或战斗中无法暂离")]=])
 			end
 		end);
 	end

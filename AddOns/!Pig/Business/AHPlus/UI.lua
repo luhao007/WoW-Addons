@@ -10,7 +10,6 @@ local PIGCheckbutton=Create.PIGCheckbutton
 local Data=addonTable.Data
 local BusinessInfo=addonTable.BusinessInfo
 local GetItemInfo=GetItemInfo or C_Item and C_Item.GetItemInfo
-local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 local baocunnum = 40
 --------------
 function BusinessInfo.GetCacheDataG(name)
@@ -86,16 +85,22 @@ function BusinessInfo.ADD_qushi(fujiui,tishi,num)
 	if tishi then
 		qushi.itemName = PIGFontString(qushi,{"TOPLEFT", qushi, "TOPLEFT",6, 18},nil,"OUTLINE")
 	end
-	local WidthX =7.9
+	local WidthX =8
 	qushi.qushiButList={}
 	for i=1,Nbaocunnum do
-		local zhuzhuangX=PIGFrame(qushi,{"BOTTOMLEFT", qushi, "BOTTOMLEFT",WidthX*(i-1), 0},{WidthX,10})
+		local zhuzhuangX = CreateFrame("Frame", nil,qushi,"BackdropTemplate");
 		if i==1 then
 			zhuzhuangX:SetPoint("BOTTOMLEFT", qushi, "BOTTOMLEFT",1, 0);
 		else
 			zhuzhuangX:SetPoint("BOTTOMLEFT", qushi, "BOTTOMLEFT",(WidthX)*(i-1)+1, 0);
 		end
-		zhuzhuangX:PIGSetBackdrop(1,1,{0.2, 0.8, 0.8})
+		zhuzhuangX:SetBackdrop({
+			bgFile = Create.bgFile, tile = true, tileSize = 0,
+			edgeFile = "Interface/Buttons/WHITE8X8", edgeSize = 1});
+		zhuzhuangX:SetBackdropColor(0.2, 0.8, 0.8, 1);
+		zhuzhuangX:SetBackdropBorderColor(0, 0, 0, 1);
+		zhuzhuangX:SetSize(WidthX,10);
+		zhuzhuangX:SetPoint("BOTTOMLEFT", qushi, "BOTTOMLEFT",WidthX*(i-1), 0);
 		zhuzhuangX:Hide()
 		qushi.qushiButList[i]=zhuzhuangX
 	end
@@ -179,7 +184,7 @@ local function zhixingdianjiFUn(framef)
 		if button=="RightButton" and not IsShiftKeyDown() and not IsControlKeyDown() and not IsAltKeyDown() then
 			local itemID=PIGGetContainerItemInfo(self:GetParent():GetID(), self:GetID())
 			if itemID then
-				if IsAddOnLoaded("Blizzard_AuctionUI") then AuctionFrameTab_OnClick(AuctionFrameTab3) end
+				if PIGIsAddOnLoaded("Blizzard_AuctionUI") then AuctionFrameTab_OnClick(AuctionFrameTab3) end
 			end
 		end
 	end);

@@ -36,7 +36,6 @@ function TardisInfo.Plane(Activate)
 	fujiF.ZJZoneID:SetTextColor(0.6, 0.6, 0.6, 1);
 	-----
 	fujiF.JieshouInfoList={};
-	PIGA["Tardis"]["Plane"]["HelpNum"]=500
 	local CoolCDList = {{500,30},{400,60},{300,120},{200,180},{100,240}}
 	local function GetCoolCD()
 		for i=1,#CoolCDList do

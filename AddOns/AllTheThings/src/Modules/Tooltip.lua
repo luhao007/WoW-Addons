@@ -686,6 +686,9 @@ local function AttachTooltipInformationEntry(tooltip, entry)
 						else
 							tooltip:AddDoubleLine(L.PROGRESS, summaryText);
 						end
+					else
+						rightText:SetText(summaryText);
+						rightText:Show();
 					end
 				end
 			end

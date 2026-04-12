@@ -28,7 +28,7 @@ local TRANSMOG_UPDATE_EVENT = "TRANSMOG_SOURCE_COLLECTABILITY_UPDATE" -- sourceI
 ]]
 function Proto:IsItemUnlocked(itemStringOrID, sourceID, callbackFunc, callbackArg)
 	if not itemStringOrID and not sourceID then return end
-	local appearanceID, isInfoReady, canCollect
+	local appearanceID, canCollect
 
 	if itemStringOrID then
 		local parsedItem = AtlasLoot.ItemString.Parse(itemStringOrID)
@@ -89,27 +89,42 @@ function Proto:IsItemUnlocked(itemStringOrID, sourceID, callbackFunc, callbackAr
 		-- Appearances
 		appearanceID, sourceID = C_TransmogCollection.GetItemInfo(itemStringOrID)
 	end
+
 	if itemStringOrID and not appearanceID and strfind(itemStringOrID, ":") then
 		-- sometimes the link won't actually give us an appearance, but itemID will
 		local parsedItem = AtlasLoot.ItemString.Parse(itemStringOrID)
 		appearanceID, sourceID = C_TransmogCollection.GetItemInfo(parsedItem.itemID)
 	end
-	if not sourceID then return end
-	isInfoReady, canCollect = C_TransmogCollection.PlayerCanCollectSource(sourceID)
 
-	if isInfoReady then
-		if canCollect then
-			canCollect = C_TransmogCollection.PlayerHasTransmogItemModifiedAppearance(sourceID)
-		else
-			canCollect = nil
-		end
-		if callbackFunc then
-			callbackFunc(callbackArg, canCollect)
-		else
-			return canCollect
-		end
+	local sourceIDs
+	--if exactMatch option is enabled then
+	if AtlasLoot.db.GUI.useExactSource then
+		sourceIDs = { sourceID }
 	else
-		self:AddUnknownItem(sourceID, callbackFunc, callbackArg)
+		sourceIDs = appearanceID and C_TransmogCollection.GetAllAppearanceSources(appearanceID) or {}
+	end
+
+	if #sourceIDs == 0 then return end
+
+	for i, id in ipairs(sourceIDs) do
+		canCollect = C_TransmogCollection.PlayerHasTransmogItemModifiedAppearance(id)
+		if canCollect == true then
+			break
+		end
+	end
+
+	-- This doesn't seem to be necessary, but I don't want to take it out completely just yet
+	-- isInfoReady, canCollect = C_TransmogCollection.PlayerCanCollectSource(id)
+	-- if isInfoReady then
+	-- canCollect = C_TransmogCollection.PlayerHasTransmogItemModifiedAppearance(sourceID)
+	-- else
+	-- self:AddUnknownItem(sourceID, callbackFunc, callbackArg)
+	-- end
+
+	if callbackFunc then
+		callbackFunc(callbackArg, canCollect)
+	else
+		return canCollect
 	end
 end
 

@@ -28,6 +28,7 @@ L.ACCOUNT_WIDE_DEATHS_TOOLTIP = "Death tracking really only exists for pre-Wrath
 L.ACCOUNT_WIDE_EXPLORATION_TOOLTIP = "Exploration tracking is only really useful per character, but do you really want to collect them all on all 50 of your characters?";
 L.ACCOUNT_WIDE_FLIGHT_PATHS_TOOLTIP = "Flight Paths tracking is only really useful per character, but do you really want to collect them all on all 50 of your characters?";
 L.ACCOUNT_WIDE_FOLLOWERS_TOOLTIP = "Followers are typically per character, but do you really want to have to collect 243 Garrison Inn Followers on one character at a rate of 1 per week?\n\nI think not, good sir.";
+L.ACCOUNT_WIDE_PROFESSION_NODES_TOOLTIP = "Profession nodes are not normally tracked Account-Wide in Blizzard's database, but we can do that.\n\nIt is impossible to collect them all on one character, so with this, you can give your alts and their professions meaning.";
 L.ACCOUNT_WIDE_QUESTS_TOOLTIP = "Quest completion is typically per Character, but this will consider a Quest as completed if ANY Character has completed that specific Quest.";
 L.ACCOUNT_WIDE_RECIPES_TOOLTIP = "Recipes are not normally tracked Account-Wide in Blizzard's database, but we can do that.\n\nIt is impossible to collect them all on one character, so with this, you can give your alts and their professions meaning.";
 L.ACCOUNT_WIDE_REPUTATIONS_TOOLTIP = "Reputations are now tracked Account-Wide in Blizzard's database for achievements, so turning this on may be a good idea.";
@@ -599,6 +600,9 @@ L.PRESET_UPDATE_SUCCESS = "Updated the preset successfully.";
 L.PROFESSION = "Profession";
 L.PROFESSION_LIST = "Profession List";
 L.PROFESSION_LIST_DESC = "Open your professions to cache them.";
+L.PROFESSION_NODE_ID = "Profession Node ID";
+L.PROFESSION_NODES_CHECKBOX = "Profession Nodes";
+L.PROFESSION_NODES_CHECKBOX_TOOLTIP = "Enable this option to track profession nodes completion.";
 L.PROFILE = "Profile";
 L.PROFILE_COPY_TOOLTIP = "Copy the Selected Profile into the Current Profile";
 L.PROFILE_DELETE_TOOLTIP = "Delete the Selected Profile";
@@ -1757,8 +1761,6 @@ _.Modules.Events.SetEventInformation(242, {
 	_.Modules.Events.CreateSchedule({["hour"]=10,["minute"]=0,["month"]=11,["monthDay"]=16,["weekday"]=3,["year"]=2027},{["hour"]=10,["minute"]=0,["month"]=12,["monthDay"]=7,["weekday"]=3,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(133900, {
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=3,["monthDay"]=22,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=3,["monthDay"]=22,["weekday"]=1,["year"]=2026}),
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=3,["monthDay"]=29,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=3,["monthDay"]=29,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=4,["monthDay"]=5,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=4,["monthDay"]=5,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=4,["monthDay"]=12,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=4,["monthDay"]=12,["weekday"]=1,["year"]=2026}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=4,["monthDay"]=19,["weekday"]=1,["year"]=2026},{["hour"]=23,["month"]=4,["monthDay"]=19,["weekday"]=1,["year"]=2026}),
@@ -1809,7 +1811,9 @@ _.Modules.Events.SetEventInformation(133900, {
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=2,["monthDay"]=28,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=2,["monthDay"]=28,["weekday"]=1,["year"]=2027}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=3,["monthDay"]=7,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=3,["monthDay"]=7,["weekday"]=1,["year"]=2027}),
 	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=3,["monthDay"]=14,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=3,["monthDay"]=14,["weekday"]=1,["year"]=2027}),
-	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=3,["monthDay"]=21,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=3,["monthDay"]=21,["weekday"]=1,["year"]=2027})
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=3,["monthDay"]=21,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=3,["monthDay"]=21,["weekday"]=1,["year"]=2027}),
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=3,["monthDay"]=28,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=3,["monthDay"]=28,["weekday"]=1,["year"]=2027}),
+	_.Modules.Events.CreateSchedule({["hour"]=21,["month"]=4,["monthDay"]=4,["weekday"]=1,["year"]=2027},{["hour"]=23,["month"]=4,["monthDay"]=4,["weekday"]=1,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(133899, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=23,["weekday"]=3,["year"]=2025},{["hour"]=23,["minute"]=59,["month"]=3,["monthDay"]=19,["weekday"]=5,["year"]=2026}),
@@ -28727,11 +28731,16 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-341] = "Los elementos de esta lista son apariencias compartidas del elemento anterior. En el modo de apariencia única, esta lista puede ayudarlo a comprender por qué o no un elemento específico se marcaría como coleccionado.",
 	[-342] = "Este objeto tiene una apariencia única. Debes obtener este objeto específicamente para ganar la apariencia.",
 	[-343] = "Esta lista contiene objetos no obtenibles que ATT Discord ha informado como errores que Blizzard aún no ha solucionado.\n\nNOTA: Todos los filtros se ignoran en esta lista para mayor visibilidad. En esta lista solo están presentes los objetos eliminados del juego debido a negligencia y no a un gigantesco dragón que escupe fuego.\n\nA los desarrolladores de Blizzard: arreglen los objetos y encuentros que se enumeran a continuación.",
+	[-353] = "También conocida como 'Cumbre de Roca inferior'.",
+	[-354] = "También conocida como 'Cumbre de Roca superior'.",
 	[-355] = "Se puede acceder a esta parte de la mazmorra desde el portal más al este. (lado derecho)",
 	[-356] = "Se puede acceder a esta parte de la mazmorra desde el portal más al norte.",
 	[-357] = "Se puede acceder a esta parte de la mazmorra desde el portal más al oeste. (lado izquierdo)",
+	[-365] = "Stratholme está dividida en dos lados.\n\nEste lado se conoce comúnmente como el lado \"Vivo\" o \"Escarlata\", que ha sido tomado por la Cruzada Escarlata.",
+	[-366] = "Stratholme está dividida en dos lados.\n\nEste lado se conoce comúnmente como el lado de los 'Muertos' o del 'Azote', que el Azote ha tomado.",
 	[-474] = "La Inestabilidad elemental fue un evento mundial que anunció el Cataclismo. El evento culminó con el ataque de los elementales a Ventormenta, Orgrimmar, Forjaz y Cima del Trueno. Los jugadores que derrotaran a estos elementales y liberaran a los ciudadanos atrapados en toda su ciudad obtenían acceso a dos encuentros especiales con jefes.",
 	[-550] = "Este es un evento basado en Campos de batalla que coincide con el inicio de los Juegos Olímpicos de Verano. La única vez que se celebró fue en 2008 para coincidir con los Juegos Olímpicos de Pekín, y aunque parecía haber intención de repetirlo, nunca regresó.",
+	[-554] = "En lugar de comprar objetos a otros jugadores como en la Casa de Subastas normal, los objetos en el Mercado Negro son generados y listados por PNJ. Los objetos se listan solo por un día. Los artículos a la venta varían desde artículos que se volvieron inalcanzables, hasta botines raros y objetos del TCG. Todos los objetos se listan con poca frecuencia, por lo que no debe considerarse una forma confiable de obtener rarezas.\n\n Las pujas por monturas comienzan en 20,000 o, con algunas excepciones.\n Las pujas por compañeros comienzan entre 1 o y 20,000 o, dependiendo de la fuente original y lo difícil que sea obtenerlos.\n Los objetos de vanidad/varios comienzan entre 10,000 o y 15,000 o.\n\nLas pujas funcionan como en la Casa de Subastas normal. No hay precio de compra directa. El cielo (o el límite de oro) es el límite cuando compites con otros jugadores por la puja final. Con una compra exitosa, el objeto se envía por correo. Se aplican las reglas normales de \"Ligado al recoger\", por lo que debes pujar por el personaje correcto.\n\nLa disponibilidad de objetos depende del reino. Cada reino tendrá diferentes objetos a la venta en cualquier momento y es probable que los precios varíen enormemente de un servidor a otro.\n\nSi está vacía, la ventana de objetos mostrará \"No hay objetos disponibles en este momento. Vuelve a intentarlo más tarde.\"",
 	[-560] = "Los siguientes minijuegos cuestan una Ficha de Juego de la Luna Negra y tienen una misión diaria que otorga vale de premio, así como una serie de logros asociados.",
 	[-563] = "Para maximizar tu puntuación, espera a que la marca actual desaparezca y luego apunta al objetivo central. En cuanto aparezca una marca verde, presiona 1 inmediatamente y, durante el breve tiempo de lanzamiento, mueve tu arma para apuntar al objetivo izquierdo o derecho si es necesario.",
 	[-564] = "Cerca de la entrada, los visitantes reciben un mazo para golpear a unos gnolls disecados que salen de nueve barriles en la zona. Los jugadores tendrán 60 segundos para ganar 30 puntos. Los gnolls son de tres tipos: normales, Hogger y bebés, que otorgan 1 punto, 3 puntos o un derribo, respectivamente.",
@@ -31778,7 +31787,10 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-355] = "Se puede acceder a esta parte del calabozo desde el portal más al este. (lado derecho)",
 	[-356] = "Se puede acceder a esta parte del calabozo desde el portal más al norte.",
 	[-357] = "Se puede acceder a esta parte del calabozo desde el portal más al oeste. (lado izquierdo)",
+	[-365] = "Stratholme está dividida en dos partes.\n\nEsta parte se conoce comúnmente como la parte \"Viva\" o \"Escarlata\", que ha sido tomado por la Cruzada Escarlata.",
+	[-366] = "Stratholme está dividida en dos partes.\n\nEste lado se conoce comúnmente como la parte de los 'No Muertos' o de la 'Plaga', que la Plaga ha tomado.",
 	[-474] = "La Inestabilidad elemental fue un evento mundial que anunció el Cataclismo. El evento termino con el ataque de los elementales a Ventormenta, Orgrimmar, Forjaz y Cima del Trueno. Los jugadores que derrotaran a estos elementales y liberaran a los ciudadanos atrapados en toda su ciudad ganaban acceso a dos peleas especiales con jefes.",
+	[-554] = "En lugar de comprar objetos a otros jugadores como en la Casa de Subastas normal, los objetos en el Mercado Negro son generados y listados por PNJ. Los objetos se listan solo por un día. Los artículos a la venta varían desde artículos que se volvieron inalcanzables, hasta botines raros y objetos del TCG. Todos los objetos se listan con poca frecuencia, por lo que no debe considerarse una forma confiable de obtener rarezas.\n\n Las pujas por monturas comienzan en 20,000 o, con algunas excepciones.\n Las pujas por compañeros comienzan entre 1 o y 20,000 o, dependiendo de la fuente original y lo difícil que sea obtenerlos.\n Los objetos de vanidad/varios comienzan entre 10,000 o y 15,000 o.\n\nLas pujas funcionan como en la Casa de Subastas normal. No hay precio de compra directa. El cielo (o el límite de oro) es el límite cuando compites con otros jugadores por la puja final. Con una compra exitosa, el objeto se envía al correo. Se aplican las reglas normales de \"Ligado al recoger\", por lo que debes pujar por el personaje correcto.\n\nLa disponibilidad de objetos depende del reino. Cada reino tendrá diferentes objetos a la venta en cualquier momento y es probable que los precios varíen enormemente de un servidor a otro.\n\nSi está vacía, la ventana de objetos mostrará \"No hay objetos disponibles en este momento. Vuelve a intentarlo más tarde.\"",
 	[-592] = "¡Es el aniversario de World of Warcraft! Desde el equipo de desarrollo de WoW, te damos las gracias por disfrutar del mundo de Azeroth y más allá junto a nosotros.",
 	[-723] = "Aumentan los informes de invasiones elementales en diferentes partes de Kalimdor. Cada pocos días, una nueva oleada de elementales se abre paso a la fuerza en las regiones de Silithus, el Cráter de Un'Goro, Azshara y Cuna del Invierno, aparentemente con el único propósito de ver hasta dónde pueden penetrar en estos territorios antes de ser repelidos por las fuerzas de la Horda o la Alianza. Investiga estas regiones y ayuda a tus aliados a contrarrestar estas misteriosas invasiones.",
 });
@@ -32620,25 +32632,25 @@ localize(_.CategoryNames, {
 	[3] = "塔罗牌",
 	[103] = "副手",
 	[104] = "墨水",
-	[105] = "清心",
+	[105] = "清心书卷",
 	[106] = "卡牌",
 	[107] = "卷轴",
 	[108] = "研究",
 	[114] = "其他",
 	[119] = "肩部铭文",
-	[167] = "皇冠",
-	[168] = "材料",
-	[224] = "腿",
-	[778] = "法杖 & 副手",
+	[167] = "头冠和配饰",
+	[168] = "原料",
+	[224] = "腿部",
+	[778] = "法杖和副手物品",
 	[779] = "墨水",
 	[780] = "卡牌",
-	[781] = "卷轴 & 研究",
-	[783] = "玩具 & 小宠物",
+	[781] = "卷轴和研究",
+	[783] = "玩具和宠物",
 	[785] = "墨水",
-	[787] = "卷轴 & 研究",
+	[787] = "卷轴与研究",
 	[788] = "卡牌",
 	[789] = "肩部铭文",
-	[790] = "武器 & 副手",
+	[790] = "武器和副手物品",
 	[791] = "任务",
 	[798] = "肩部铭文",
 	[821] = "蓝色宝石",
@@ -32651,34 +32663,42 @@ localize(_.CategoryNames, {
 	[829] = "戒指",
 	[830] = "坐骑",
 	[831] = "研究",
-	[832] = "玩具 & 小宠物",
+	[832] = "玩具和宠物",
+	[833] = "黄色宝石",
 	[834] = "蓝色宝石",
 	[835] = "绿色宝石",
 	[836] = "橙色宝石",
 	[837] = "紫色宝石",
 	[838] = "红色宝石",
+	[839] = "黄色宝石",
 	[840] = "多彩宝石",
 	[841] = "项链",
 	[842] = "戒指",
 	[843] = "王冠",
+	[844] = "拳套",
+	[845] = "玩具和棱镜",
 	[846] = "蓝色宝石",
 	[847] = "绿色宝石",
 	[848] = "橙色宝石",
 	[849] = "紫色宝石",
 	[850] = "红色宝石",
+	[851] = "黄色宝石",
 	[852] = "多彩宝石",
 	[853] = "项链",
 	[854] = "戒指",
+	[855] = "棱彩宝石",
+	[856] = "宠物与小玩意儿",
 	[857] = "蓝色宝石",
 	[858] = "绿色宝石",
 	[859] = "橙色宝石",
 	[860] = "紫色宝石",
 	[861] = "红色宝石",
+	[862] = "黄色宝石",
 	[863] = "多彩宝石",
 	[864] = "项链",
 	[865] = "戒指",
 	[866] = "饰品",
-	[867] = "棱镜 & 雕像",
+	[867] = "棱镜和雕像",
 	[868] = "材料",
 	[869] = "王冠",
 	[1126] = "雕文",

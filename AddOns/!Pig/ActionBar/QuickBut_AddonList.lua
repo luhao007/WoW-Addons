@@ -35,7 +35,7 @@ QuickButUI.ButList[6]=function()
 		{"raid","Raid",GUILD_INTEREST_RAID,string.format(formattxt,GUILD_INTEREST_RAID)..GUILD_INTEREST_RAID_TOOLTIP},
 		{"pvp","BattleMaster",BATTLEFIELDS,string.format(formattxt,BATTLEFIELDS)..BONUS_BUTTON_RANDOM_BG_DESC},
 		{"arena","CrossedFlags",ARENA,string.format(formattxt,ARENA)..ARENA_INFO},
-		{"all","UI-ChatIcon-App","账号通用","|cff00FF00选中后方案为账号所有角色启用|r\n默认未选中时则针对单独角色启用"},
+		{"all","glues-characterSelect-iconShop","账号通用","|cff00FF00选中后方案为账号所有角色启用|r\n默认未选中时则针对单独角色启用"},
 	}
 	local addonsNotesList={
 		[addonName]="/pig设置",
@@ -107,84 +107,89 @@ QuickButUI.ButList[6]=function()
 		ConfigList:Hide()
 	end);
 	ConfigList.ButList={}
-	for i=1,ButNum do
-		local cfBut = PIGFrame(ConfigList,nil,{Height, Height-4})
-		ConfigList.ButList[i]=cfBut
-		cfBut:PIGSetBackdrop(0.2,0.2)
-		if i>1 then
-			local ni=i-1
-			cfBut.NormalTex = cfBut:CreateTexture(nil, "OVERLAY");
-			cfBut.NormalTex:SetTexture("interface/timer/bigtimernumbers.blp");
-			cfBut.NormalTex:SetTexCoord(NumTexCoord[ni][1],NumTexCoord[ni][2],NumTexCoord[ni][3],NumTexCoord[ni][4]);
-			cfBut.NormalTex:SetAllPoints(cfBut)
-		end
-		cfBut.Highlight = cfBut:CreateTexture(nil, "Highlight");
-		cfBut.Highlight:SetTexture(130718);
-		cfBut.Highlight:SetAllPoints(cfBut)
-		cfBut.Highlight:SetBlendMode("ADD")
-		cfBut.Down = cfBut:CreateTexture(nil, "OVERLAY");
-		cfBut.Down:SetTexture(130839);
-		cfBut.Down:SetAllPoints(cfBut)
-		cfBut.Down:Hide();
-
-		cfBut.name = PIGFontString(cfBut,nil,nil,"OUTLINE")
-		cfBut.name:SetTextColor(1, 1, 1, 1)
-		if i==1 then
-			cfBut.butID="RL"
-			cfBut.name:SetText(RELOADUI)
-			cfBut.buttxt = PIGFontString(cfBut,{"CENTER", 2, 0},"RL","OUTLINE",21)
-			cfBut.buttxt:SetTextColor(0, 1, 1, 1)
-		end
-		cfBut:HookScript("OnEnter", function (self)
-			ConfigList:Show()
-			if i==1 then return end
-			GameTooltip:ClearLines();
-			GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",20,0);
-			GameTooltip:AddLine(KEY_BUTTON1.."-|cff00FFFF点击切换插件方案|r\n"..KEY_BUTTON2.."-|cff00FFFF"..SETTINGS.."|r")
-			GameTooltip:Show();
-		end);
-		cfBut:HookScript("OnLeave", function ()
-			GameTooltip:ClearLines();
-			GameTooltip:Hide()
-			ConfigList:Hide()
-		end);
-		cfBut:HookScript("OnMouseDown", function (self)
-			self.Down:Show();
-			GameTooltip:ClearLines();
-			GameTooltip:Hide() 
-		end);
-		cfBut:HookScript("OnMouseUp", function (self,button)
-			self.Down:Hide();
-			PlaySound(SOUNDKIT.IG_CHARACTER_INFO_OPEN);
-			if button=="LeftButton" then
-				PIG_loadAddon_(self.butID)
-			else
-				if _G[GnUI]:IsShown() then
-					_G[GnUI]:Hide()
-				else
-					_G[GnUI]:Show()
-				end
+	local function addConfigList(i)
+		if not ConfigList.ButList[i] then
+			local cfBut = PIGFrame(ConfigList,nil,{Height, Height-4})
+			ConfigList.ButList[i]=cfBut
+			cfBut:PIGSetBackdrop(0.2,0.2)
+			if i>1 then
+				local ni=i-1
+				cfBut.NormalTex = cfBut:CreateTexture(nil, "OVERLAY");
+				cfBut.NormalTex:SetTexture("interface/timer/bigtimernumbers.blp");
+				cfBut.NormalTex:SetTexCoord(NumTexCoord[ni][1],NumTexCoord[ni][2],NumTexCoord[ni][3],NumTexCoord[ni][4]);
+				cfBut.NormalTex:SetAllPoints(cfBut)
 			end
-			ConfigList:Hide()
-		end);
+			cfBut.Highlight = cfBut:CreateTexture(nil, "Highlight");
+			cfBut.Highlight:SetTexture(130718);
+			cfBut.Highlight:SetAllPoints(cfBut)
+			cfBut.Highlight:SetBlendMode("ADD")
+			cfBut.Down = cfBut:CreateTexture(nil, "OVERLAY");
+			cfBut.Down:SetTexture(130839);
+			cfBut.Down:SetAllPoints(cfBut)
+			cfBut.Down:Hide();
+
+			cfBut.name = PIGFontString(cfBut,nil,nil,"OUTLINE")
+			cfBut.name:SetTextColor(1, 1, 1, 1)
+			if i==1 then
+				cfBut.butID="RL"
+				cfBut.name:SetText(RELOADUI)
+				cfBut.buttxt = PIGFontString(cfBut,{"CENTER", 2, 0},"RL","OUTLINE",21)
+				cfBut.buttxt:SetTextColor(0, 1, 1, 1)
+			end
+			cfBut:HookScript("OnEnter", function (self)
+				ConfigList:Show()
+				if i==1 then return end
+				GameTooltip:ClearLines();
+				GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT",20,0);
+				GameTooltip:AddLine(KEY_BUTTON1.."-|cff00FFFF点击切换插件方案|r\n"..KEY_BUTTON2.."-|cff00FFFF"..SETTINGS.."|r")
+				GameTooltip:Show();
+			end);
+			cfBut:HookScript("OnLeave", function ()
+				GameTooltip:ClearLines();
+				GameTooltip:Hide()
+				ConfigList:Hide()
+			end);
+			cfBut:HookScript("OnMouseDown", function (self)
+				self.Down:Show();
+				GameTooltip:ClearLines();
+				GameTooltip:Hide() 
+			end);
+			cfBut:HookScript("OnMouseUp", function (self,button)
+				self.Down:Hide();
+				PlaySound(SOUNDKIT.IG_CHARACTER_INFO_OPEN);
+				if button=="LeftButton" then
+					PIG_loadAddon_(self.butID)
+				else
+					if _G[GnUI]:IsShown() then
+						_G[GnUI]:Hide()
+					else
+						_G[GnUI]:Show()
+					end
+				end
+				ConfigList:Hide()
+			end);
+		end
 	end
 	------
-	hooksecurefunc(QuickButUI, "UpdateWidth", function(self)
-		QuickButUI:UpdatePointJustify(QkBut,{ConfigList},Height,ButNum)
-    end)
 	QkBut:SetScript("OnEnter", function(self)
-		for i=2,ButNum do
-			ConfigList.ButList[i]:Hide()
+		for _,but in pairs(ConfigList.ButList) do
+			but:Hide()
 		end
-		for i=1,#PIGA["FramePlus"]["AddonStatus"] do
-			if PIGA["FramePlus"]["AddonStatus"][i] then
-				local fujikj = ConfigList.ButList[i+1]
-				fujikj:Show()
-				fujikj.butID=i
-				fujikj.name:SetText(PIGA["FramePlus"]["AddonStatus"][i][1])
+		for i=1,#PIGA["FramePlus"]["AddonStatus"]+1 do
+			addConfigList(i)
+			if i==1 then
+				ConfigList.ButList[i]:Show()
+			else
+				if PIGA["FramePlus"]["AddonStatus"][i-1] then
+					local fujikj = ConfigList.ButList[i]
+					fujikj:Show()
+					fujikj.butID=i-1
+					fujikj.name:SetText(PIGA["FramePlus"]["AddonStatus"][i-1][1])
+				end
 			end
 		end
 		ConfigList:Show()
+		QuickButUI:UpdatePointJustify(QkBut,{ConfigList},Height)
 	end)
 	QkBut:HookScript("OnLeave", function(self)
 		ConfigList:Hide()
@@ -213,48 +218,51 @@ QuickButUI.ButList[6]=function()
 		AdminF.List_C.Scroll:UpdateShowList()
 	end);
 	AdminF.List_L.butList={}
-	for i=1,anniushu do
-		local cgbut = PIGTabBut(AdminF.List_L,nil,{150,hangH},"")
-		cgbut.Text:ClearAllPoints();
-		cgbut.Text:SetPoint("LEFT",cgbut,"LEFT",10,0);
-		AdminF.List_L.butList[i]=cgbut
-		if i==1 then
-			cgbut:SetPoint("TOPLEFT",AdminF.List_L,"TOPLEFT",4,-hangH*2.4);
-		else
-			cgbut:SetPoint("TOP",AdminF.List_L.butList[i-1],"BOTTOM",0,-hangH*1.4);
-		end
-		cgbut:HookScript("OnClick", function (self)
-			AdminF.List_L.DQAddons:Selected(false)
-			for xvb=1, #AdminF.List_L.butList, 1 do
-				AdminF.List_L.butList[xvb]:Selected(false)
-			end
-			AdminF.List_R:Clear_info()
-			self:Selected(true)
-			AdminF.SelectLID=i
-			AdminF.List_C.Scroll:UpdateShowList()
-		end);
-		for ix=1,#ConditionList do
-			cgbut[ConditionList[ix][1]]=PIGDiyTex(cgbut,{"BOTTOMLEFT",cgbut,"TOPLEFT",hangH*(ix-1)+10,-4},{20,20,nil,nil,ConditionList[ix][2]})
-		end
-	end
 	function AdminF.List_L:UpdateShowList()
-		for i=1,anniushu do
-			ConfigList.ButList[i+1]:Hide()
-			AdminF.List_L.butList[i]:Hide()
-			AdminF.List_L.butList[i]:Selected(false)
-			for ix=1,#ConditionList do
-				AdminF.List_L.butList[i][ConditionList[ix][1]]:SetAlpha(0.6);
-				AdminF.List_L.butList[i][ConditionList[ix][1]].icon:SetDesaturated(true)
+		for index,but in pairs(ConfigList.ButList) do
+			if index~=1 then
+				but:Hide()
 			end
+		end
+		for index,but in pairs(AdminF.List_L.butList) do
+			but:Hide()
+			but:Selected(false)
 		end
 		if AdminF.SelectLID==0 then
 			AdminF.List_L.DQAddons:Click()
 		end
 		for i=1,#PIGA["FramePlus"]["AddonStatus"] do
+			addConfigList(i+1)
 			local fujikj = ConfigList.ButList[i+1]
 			fujikj.butID=i
 			fujikj:Show()
 			fujikj.name:SetText(PIGA["FramePlus"]["AddonStatus"][i][1])
+			if not AdminF.List_L.butList[i] then
+				local cgbut = PIGTabBut(AdminF.List_L,nil,{150,hangH},"")
+				cgbut.Text:ClearAllPoints();
+				cgbut.Text:SetPoint("LEFT",cgbut,"LEFT",10,0);
+				AdminF.List_L.butList[i]=cgbut
+				if i==1 then
+					cgbut:SetPoint("TOPLEFT",AdminF.List_L,"TOPLEFT",4,-hangH*2.4);
+				else
+					cgbut:SetPoint("TOP",AdminF.List_L.butList[i-1],"BOTTOM",0,-hangH*1.4);
+				end
+				cgbut:HookScript("OnClick", function (self)
+					AdminF.List_L.DQAddons:Selected(false)
+					for xvb=1, #AdminF.List_L.butList, 1 do
+						AdminF.List_L.butList[xvb]:Selected(false)
+					end
+					AdminF.List_R:Clear_info()
+					self:Selected(true)
+					AdminF.SelectLID=i
+					AdminF.List_C.Scroll:UpdateShowList()
+				end);
+				for ix=1,#ConditionList do
+					cgbut[ConditionList[ix][1]]=PIGDiyTex(cgbut,{"BOTTOMLEFT",cgbut,"TOPLEFT",hangH*(ix-1)+10,-4},{20,20,nil,nil,ConditionList[ix][2]})
+					cgbut[ConditionList[ix][1]]:SetAlpha(0.6);
+					cgbut[ConditionList[ix][1]].icon:SetDesaturated(true)
+				end
+			end
 			AdminF.List_L.butList[i]:SetID(i)
 			AdminF.List_L.butList[i]:Show()
 			AdminF.List_L.butList[i]:SetText(PIGA["FramePlus"]["AddonStatus"][i][1])
@@ -302,12 +310,33 @@ QuickButUI.ButList[6]=function()
 	AdminF.List_C=PIGFrame(AdminF,{"TOPLEFT",AdminF.List_L,"TOPRIGHT",4,0})
 	AdminF.List_C:SetPoint("BOTTOMRIGHT",AdminF.List_R,"BOTTOMLEFT",-4,0);
 	AdminF.List_C:PIGSetBackdrop(0)
-	AdminF.List_C.Savebut = PIGButton(AdminF.List_C,nil,{136,20},SAVE..REFORGE_CURRENT.."插件方案")	
+	AdminF.List_C.Savebut = PIGButton(AdminF.List_C,{"TOPLEFT",AdminF.List_C,"TOPLEFT",10,-2},{140,20},SAVE..REFORGE_CURRENT.."插件方案")	
 	AdminF.List_C.Savebut:HookScript("OnClick", function (self)
 		if self.F:IsShown() then
 			self.F:Hide()
 		else
 			self.F:Show()
+		end
+	end);
+	AdminF.List_C.Savebut.RLbut = PIGButton(AdminF.List_C.Savebut,{"LEFT",AdminF.List_C.Savebut,"RIGHT",10,0},{90,20},RELOADUI)
+	AdminF.List_C.Savebut.RLbut:Hide()
+	AdminF.List_C.Savebut.RLbut.Text:SetTextColor(1,0,0,1)
+	AdminF.List_C.Savebut.RLbut.flicker = AdminF.List_C.Savebut.RLbut:CreateTexture()
+	AdminF.List_C.Savebut.RLbut.flicker:SetAtlas("GarrMission_FollowerListButton-Select")
+	AdminF.List_C.Savebut.RLbut.flicker:SetPoint("TOPLEFT", AdminF.List_C.Savebut.RLbut, "TOPLEFT", -1, 0);
+	AdminF.List_C.Savebut.RLbut.flicker:SetPoint("BOTTOMRIGHT",AdminF.List_C.Savebut.RLbut,"BOTTOMRIGHT",1,0);
+	AdminF.List_C.Savebut.RLbut:HookScript("OnClick", function (self)
+		ReloadUI();
+	end);
+	AdminF.List_C.Savebut.RLbut.timel=0
+	AdminF.List_C.Savebut.RLbut:HookScript("OnUpdate", function (self, elapsed)
+		self.timel=self.timel+elapsed
+		if self.timel>0.6 then
+			self.flicker:Show()
+		end
+		if self.timel>1.2 then
+			self.flicker:Hide()
+			self.timel=0
 		end
 	end);
 	AdminF.List_C.Savebut.F=PIGFrame(AdminF.List_C.Savebut,{"TOP",AddonList,"TOP",-10,-58},{240,280})
@@ -320,6 +349,7 @@ QuickButUI.ButList[6]=function()
 	AdminF.List_C.Savebut.F.E:SetSize(150,30);
 	AdminF.List_C.Savebut.F.E:SetPoint("TOP",AdminF.List_C.Savebut.F,"TOP",0,-28);
 	AdminF.List_C.Savebut.F.E:SetFontObject(ChatFontNormal);
+	AdminF.List_C.Savebut.F.E:SetMaxLetters(20)
 	AdminF.List_C.Savebut.F.E:SetScript("OnEscapePressed", function(self) AdminF.List_C.Savebut.F:Hide() end)
 	AdminF.List_C.Savebut.F.E:SetScript("OnTextChanged", function(self)
 		local newtxt=self:GetText()
@@ -387,39 +417,19 @@ QuickButUI.ButList[6]=function()
 	AdminF.List_C.Savebut.F.Cancel:HookScript("OnClick", function (self)
 		AdminF.List_C.Savebut.F:Hide()
 	end);
-
-	AdminF.List_C.Delbut = PIGButton(AdminF.List_C,nil,{40,20},DELETE)
-	AdminF.List_C.Delbut.Text:SetTextColor(1, 0, 0, 1);
-	AdminF.List_C.Delbut:HookScript("OnClick", function (self)
+	--
+	AdminF.List_C.LoadFA = PIGButton(AdminF.List_C,{"TOPLEFT",AdminF.List_C,"TOPLEFT",10,-2},{100,20},"载入插件方案")
+	AdminF.List_C.LoadFA:HookScript("OnClick", function (self)
+		PIG_loadAddon_(AdminF.SelectLID)
+	end);
+	AdminF.List_C.LoadFA.Delbut = PIGButton(AdminF.List_C.LoadFA,{"LEFT",AdminF.List_C.LoadFA,"RIGHT",10,0},{50,20},DELETE)
+	AdminF.List_C.LoadFA.Delbut.Text:SetTextColor(1, 0, 0, 1);
+	AdminF.List_C.LoadFA.Delbut:HookScript("OnClick", function (self)
 		table.remove(PIGA["FramePlus"]["AddonStatus"],AdminF.SelectLID)
 		if AdminF.SelectLID>0 then AdminF.SelectLID=AdminF.SelectLID-1 end
 		AdminF.List_L:UpdateShowList()
 	end);
-	AdminF.List_C.Delbut.load = PIGButton(AdminF.List_C.Delbut,{"RIGHT",AdminF.List_C.Delbut,"LEFT",-4,0},{40,20},"载入")
-	AdminF.List_C.Delbut.load:HookScript("OnClick", function (self)
-		PIG_loadAddon_(AdminF.SelectLID)
-	end);
-	AdminF.List_C.RLbut = PIGButton(AdminF.List_C,nil,{90,20},RELOADUI)
-	AdminF.List_C.RLbut:Hide()
-	AdminF.List_C.RLbut.Text:SetTextColor(1,0,0,1)
-	AdminF.List_C.RLbut.flicker = AdminF.List_C.RLbut:CreateTexture()
-	AdminF.List_C.RLbut.flicker:SetAtlas("GarrMission_FollowerListButton-Select")
-	AdminF.List_C.RLbut.flicker:SetPoint("TOPLEFT", AdminF.List_C.RLbut, "TOPLEFT", -1, 1);
-	AdminF.List_C.RLbut.flicker:SetPoint("BOTTOMRIGHT",AdminF.List_C.RLbut,"BOTTOMRIGHT",1,-1);
-	AdminF.List_C.RLbut:HookScript("OnClick", function (self)
-		ReloadUI();
-	end);
-	AdminF.List_C.RLbut.timel=0
-	AdminF.List_C.RLbut:HookScript("OnUpdate", function (self, elapsed)
-		self.timel=self.timel+elapsed
-		if self.timel>0.6 then
-			self.flicker:Show()
-		end
-		if self.timel>1.2 then
-			self.flicker:Hide()
-			self.timel=0
-		end
-	end);
+
 	local hangLWW,hangLHH = AdminF.List_C:GetWidth()-16,22
 	local function UpdatehangEnter(uix,fujie)
 		local fujie=fujie or uix
@@ -431,99 +441,9 @@ QuickButUI.ButList[6]=function()
 		end);
 	end
 	AdminF.List_C.CondbutList={}
-	for i=1,#ConditionList do
-		local butxxx = PIGDiyBut(AdminF.List_C,nil,{22,22,nil,nil,ConditionList[i][2]})
-		AdminF.List_C.CondbutList[ConditionList[i][1]]=butxxx
-		if i==1 then
-			butxxx:SetPoint("TOPLEFT", AdminF.List_C, "TOPLEFT", 2, -4)
-		else
-			butxxx:SetPoint("LEFT", AdminF.List_C.CondbutList[ConditionList[i-1][1]].Name, "RIGHT", 6, 0)
-		end
-		butxxx.Name = PIGFontString(butxxx,{"LEFT", butxxx, "RIGHT", -2, 0},ConditionList[i][3])
-		local wrappedWidth = butxxx.Name:GetWrappedWidth()
-		butxxx:SetHitRectInsets(0,-wrappedWidth,0,0)
-		PIGEnter(butxxx,ConditionList[i][4])
-		butxxx:HookScript("OnClick", function (self)
-			if PIGA["FramePlus"]["AddonStatus"][AdminF.SelectLID][3][ConditionList[i][1]] then
-				PIGA["FramePlus"]["AddonStatus"][AdminF.SelectLID][3][ConditionList[i][1]]=false
-			else
-				PIGA["FramePlus"]["AddonStatus"][AdminF.SelectLID][3][ConditionList[i][1]]=true
-			end
-			AdminF.List_C.Scroll:UpdateShowList()
-			AdminF.List_L:UpdateShowList()
-		end);
-		function butxxx.Updata_CondbutList(offon)
-			butxxx.icon:SetDesaturated(not offon)
-			if offon then
-				butxxx.Name:SetTextColor(1, 0.843, 0, 1)
-			else
-				butxxx.Name:SetTextColor(0.5, 0.5, 0.5, 1)
-			end
-		end
-	end
+
 	AdminF.List_C.Scroll = Create.PIGScrollFrame_old(AdminF.List_C,{2,-24,0,2})
 	AdminF.List_C.butList={}
-	for i=1,ButNumC do
-		local hangL = CreateFrame("Button", nil, AdminF.List_C,"BackdropTemplate");
-		AdminF.List_C.butList[i]=hangL
-		hangL:SetBackdrop({bgFile = "interface/chatframe/chatframebackground.blp"});
-		hangL:SetSize(hangLWW,hangLHH);
-		hangL:SetBackdropColor(0.2, 0.2, 0.2, 0.2);
-		if i==1 then
-			hangL:SetPoint("TOPLEFT",AdminF.List_C,"TOPLEFT",1,-28);
-		else
-			hangL:SetPoint("TOP",AdminF.List_C.butList[i-1],"BOTTOM",0,0);
-		end
-		UpdatehangEnter(hangL)
-		hangL.Check = PIGCheckbutton(hangL,{"LEFT",hangL,"LEFT",6,0},nil,{16,16})
-		hangL.Check:HookScript("OnClick", function(self)
-		    local parent = self:GetParent()
-		    local index = parent.indexid
-		    local name = PIGGetAddOnInfo(index)
-		    if not name then return end
-		    if AdminF.SelectLID==0 then
-			    local currentState = PIGGetAddOnEnableState(index, PIG_OptionsUI.Name)
-			    local newState = self:GetChecked() and 1 or 0
-			    if currentState ~= newState then
-			        local enable = newState == 1
-			        if enable then
-			            EnableAddOn(name)
-			        else
-			            DisableAddOn(name)
-			        end
-			    end
-			    if AddonList_HasAnyChanged() then
-					AdminF.List_C.RLbut:Show()
-					AdminF.List_C.shouldReload = true
-				else
-					AdminF.List_C.RLbut:Hide()
-					AdminF.List_C.shouldReload = false
-				end
-			else
-				if self:GetChecked() then
-					PIGA["FramePlus"]["AddonStatus"][AdminF.SelectLID][2][name]=true
-				else
-					PIGA["FramePlus"]["AddonStatus"][AdminF.SelectLID][2][name]=nil
-				end
-			end
-			AdminF.List_C.Scroll:UpdateShowList()
-		end)
-		UpdatehangEnter(hangL.Check,hangL)
-		hangL.Name = PIGFontString(hangL,{"LEFT", hangL.Check, "RIGHT", 2, 0})
-		hangL.selectX = hangL:CreateTexture();
-		hangL.selectX:SetTexture("interface/buttons/ui-listbox-highlight.blp");
-		hangL.selectX:SetBlendMode("ADD")
-		hangL.selectX:SetAllPoints(hangL)
-		hangL.selectX:SetAlpha(0.6);
-		hangL.selectX:Hide();
-		hangL:HookScript("OnClick", function (self)
-			for ix=1,ButNumC do
-				AdminF.List_C.butList[ix].selectX:Hide();
-			end
-			self.selectX:Show();
-			AdminF.List_R:Update_info(self.indexid)
-		end);
-	end
 	--查找是否有依赖并全部启用
 	local function IsDepEnabled(yilaiD,onoff,name)
 		for k,v in pairs(yilaiD[name]) do
@@ -565,27 +485,50 @@ QuickButUI.ButList[6]=function()
 	end
 	function AdminF.List_C.Scroll:UpdateShowList()
 		AdminF.List_C.Savebut.F:Hide()
-	    for i = 1, ButNumC do
-	        local hangL = AdminF.List_C.butList[i]
-	        hangL:Hide()
-	        hangL.selectX:Hide()
+		for _,but in pairs(AdminF.List_C.CondbutList) do
+	    	but:SetShown(AdminF.SelectLID ~= 0)
 	    end
-	    AdminF.List_C.Savebut:SetPoint("TOPLEFT",AdminF.List_C,"TOPLEFT",-99999999,-2)
-	    AdminF.List_C.RLbut:SetPoint("TOPRIGHT",AdminF.List_C,"TOPRIGHT",-999999996,-2)
-	    AdminF.List_C.Delbut:SetPoint("TOPRIGHT",AdminF.List_C,"TOPRIGHT",-99999996,-2)
-	    for i = 1, #ConditionList do
-	        AdminF.List_C.CondbutList[ConditionList[i][1]]:SetShown(AdminF.SelectLID ~= 0)
+	    for _,but in pairs(AdminF.List_C.butList) do
+	        but:Hide()
+	        but.selectX:Hide()
 	    end
 	    local datax = PIGA["FramePlus"]["AddonStatus"][AdminF.SelectLID]
-	    if AdminF.SelectLID == 0 then
-	    	AdminF.List_C.Savebut:SetPoint("TOPLEFT",AdminF.List_C,"TOPLEFT",10,-2)
-			AdminF.List_C.RLbut:SetPoint("TOPRIGHT",AdminF.List_C,"TOPRIGHT",-4,-2)
-	    else
-	    	AdminF.List_C.Delbut:SetPoint("TOPRIGHT",AdminF.List_C,"TOPRIGHT",-4,-2)
+	    AdminF.List_C.Savebut:SetShown(AdminF.SelectLID==0)
+	    AdminF.List_C.LoadFA:SetShown(AdminF.SelectLID~=0)
+	    if AdminF.SelectLID ~= 0 then
 	        for i = 1, #ConditionList do
-	            local k = ConditionList[i][1]
-	            local v = datax[3][k]
-	            AdminF.List_C.CondbutList[k].Updata_CondbutList(v)
+	            local ClassData = ConditionList[i]
+	            if not AdminF.List_C.CondbutList[i] then
+					local butxxx = PIGDiyBut(AdminF.List_C,nil,{22,22,nil,nil,ClassData[2]})
+					AdminF.List_C.CondbutList[i]=butxxx
+					if i==1 then
+						butxxx:SetPoint("TOPLEFT", AdminF.List_C, "TOPLEFT", 2, -22)
+					else
+						butxxx:SetPoint("LEFT", AdminF.List_C.CondbutList[i-1].Name, "RIGHT", 6, 0)
+					end
+					butxxx.Name = PIGFontString(butxxx,{"LEFT", butxxx, "RIGHT", -2, 0},ClassData[3])
+					local wrappedWidth = butxxx.Name:GetWrappedWidth()
+					butxxx:SetHitRectInsets(0,-wrappedWidth,0,0)
+					PIGEnter(butxxx,ClassData[4])
+					butxxx:HookScript("OnClick", function (self)
+						if PIGA["FramePlus"]["AddonStatus"][AdminF.SelectLID][3][ClassData[1]] then
+							PIGA["FramePlus"]["AddonStatus"][AdminF.SelectLID][3][ClassData[1]]=false
+						else
+							PIGA["FramePlus"]["AddonStatus"][AdminF.SelectLID][3][ClassData[1]]=true
+						end
+						AdminF.List_C.Scroll:UpdateShowList()
+						AdminF.List_L:UpdateShowList()
+					end);
+					function butxxx.Updata_CondbutList(offon)
+						butxxx.icon:SetDesaturated(not offon)
+						if offon then
+							butxxx.Name:SetTextColor(1, 0.843, 0, 1)
+						else
+							butxxx.Name:SetTextColor(0.5, 0.5, 0.5, 1)
+						end
+					end
+				end
+	            AdminF.List_C.CondbutList[i].Updata_CondbutList(datax[3][ClassData[1]])
 	        end
 	    end
 	    local treeList1,treeList2,list_deps = AdminF.List_C:BuildAddonTree()
@@ -609,6 +552,67 @@ QuickButUI.ButList[6]=function()
 	    for i = 1, ButNumC do
 	        local dataIndex = i + offset
 	        if NewData[dataIndex] then
+	        	if not AdminF.List_C.butList[i] then
+					local hangL = CreateFrame("Button", nil, AdminF.List_C,"BackdropTemplate");
+					AdminF.List_C.butList[i]=hangL
+					hangL:SetBackdrop({bgFile = "interface/chatframe/chatframebackground.blp"});
+					hangL:SetSize(hangLWW,hangLHH);
+					hangL:SetBackdropColor(0.2, 0.2, 0.2, 0.2);
+					if i==1 then
+						hangL:SetPoint("TOPLEFT",AdminF.List_C,"TOPLEFT",1,-48);
+					else
+						hangL:SetPoint("TOP",AdminF.List_C.butList[i-1],"BOTTOM",0,0);
+					end
+					UpdatehangEnter(hangL)
+					hangL.Check = PIGCheckbutton(hangL,{"LEFT",hangL,"LEFT",6,0},nil,{16,16})
+					hangL.Check:HookScript("OnClick", function(self)
+					    local parent = self:GetParent()
+					    local index = parent.indexid
+					    local name = PIGGetAddOnInfo(index)
+					    if not name then return end
+					    if AdminF.SelectLID==0 then
+						    local currentState = PIGGetAddOnEnableState(index, PIG_OptionsUI.Name)
+						    local newState = self:GetChecked() and 1 or 0
+						    if currentState ~= newState then
+						        local enable = newState == 1
+						        if enable then
+						            EnableAddOn(name)
+						        else
+						            DisableAddOn(name)
+						        end
+						    end
+						    if AddonList_HasAnyChanged() then
+								AdminF.List_C.Savebut.RLbut:Show()
+								AdminF.List_C.shouldReload = true
+							else
+								AdminF.List_C.Savebut.RLbut:Hide()
+								AdminF.List_C.shouldReload = false
+							end
+						else
+							if self:GetChecked() then
+								PIGA["FramePlus"]["AddonStatus"][AdminF.SelectLID][2][name]=true
+							else
+								PIGA["FramePlus"]["AddonStatus"][AdminF.SelectLID][2][name]=nil
+							end
+						end
+						AdminF.List_C.Scroll:UpdateShowList()
+					end)
+					UpdatehangEnter(hangL.Check,hangL)
+					hangL.Name = PIGFontString(hangL,{"LEFT", hangL.Check, "RIGHT", 2, 0})
+					hangL.selectX = hangL:CreateTexture();
+					hangL.selectX:SetTexture("interface/buttons/ui-listbox-highlight.blp");
+					hangL.selectX:SetBlendMode("ADD")
+					hangL.selectX:SetAllPoints(hangL)
+					hangL.selectX:SetAlpha(0.6);
+					hangL.selectX:Hide();
+					hangL:HookScript("OnClick", function (self)
+						for _,but in pairs(AdminF.List_C.butList) do
+					        but.selectX:Hide()
+					    end
+						self.selectX:Show();
+						AdminF.List_R:Update_info(self.indexid)
+					end);
+				end
 	        	local hangL = AdminF.List_C.butList[i]
 	        	hangL:Show()
 	            local index = NewData[dataIndex][1]
@@ -639,7 +643,6 @@ QuickButUI.ButList[6]=function()
 	AdminF.List_L:HookScript("OnShow", function (self)
 		self:UpdateShowList()
 	end);
-
 
 	--场景提示
 	local EextData={

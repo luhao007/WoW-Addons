@@ -55,9 +55,8 @@ Titan_Debug.gold.eval = false
 ---@class GoldData
 ---@field gold number
 ---@field show boolean
-local GoldData = nil -- pointer to this player plugin data
+local GoldData = nil ---@class GoldInfo
 local GoldInfo = nil ---@class CharInfo
---TitanSettings.Players[toon].Info ---@type CharInfo
 
 ---@class IndexInfo Index flags
 ---@field valid boolean Saved toon is valid
@@ -145,17 +144,13 @@ function Warband.SetSum()
 		-- Really just prevents errors if not implemented in the WoW version
 
 		-- There *may* have been instances of failure reported as Titan errors
-		-- Wrap in pcall for safety
-		--Warband.bank_sum = C_Bank.FetchDepositedMoney(Enum.BankType.Account)
 		local sum = 0
-		local call_success = false
+		local call_ok = false
 		local ret_val = nil
 
-		call_success, -- needed for pcall
-		ret_val = -- actual return values
-			pcall(C_Bank.FetchDepositedMoney, Enum.BankType.Account)
+		call_ok, ret_val = pcall(C_Bank.FetchDepositedMoney, Enum.BankType.Account)
 
-		if call_success then
+		if call_ok then
 			-- Assume a valid Warband cash amount (WOWMONEY)
 			sum = ret_val
 		else
@@ -216,19 +211,6 @@ local function GetConnectedRealms()
 	return realms
 end
 
----local Use index to get toon info from Titan
----@param info string
----@return string Character name - no server
----@return string Server name
----@return string Faction internal, not localized
-local function GetIndexInfo(info)
-	local t_info = TitanSettings.Players[info].Info ---@type CharInfo
-	local character = t_info.name
-	local charserver = t_info.server
-	local char_faction = t_info.factionName
-	return character, charserver, char_faction
-end
-
 ---local Take Gold index and return parts plus various flags
 ---@param index string
 ---@return IndexInfo
@@ -236,77 +218,86 @@ local function EvalIndexInfo(index)
 	local str = ""
 	str = str .. tostring(index)
 
-	local res = { valid = false } -- The return table will be built as needed.
+	local res = { valid = false }
+	-- The return table will be built as needed.
 	local character, charserver, is_custom = TitanUtils_ParseName(index)
-	local toon_info = TitanSettings.Players[index].Info ---@class CharInfo
-	if is_custom then
+	local result = ""
+	local toon_info ---@class CharInfo
+	result, toon_info = TitanUtils_GetProfileInfo(index, "Info", false)
+	if result == "is_custom" then
 		-- do not fill in
 		res.valid = false
 
 		str = str .. " ignored : is_custom"
 		Titan_Debug.Out('gold', 'eval', str)
-	elseif toon_info == nil then
+	elseif result == "not_found" then
 		-- do not fill in
 		res.valid = false
 
 		str = str .. " ignored : no data yet"
-	else
-		local toon_gold = toon_info[TITAN_GOLD_ID] ---@class GoldData
-		if toon_gold == nil then
-			res.valid = false
-
-			str = str .. " ignored : info but no gold data yet"
+	elseif result == "found" then
+		if toon_info == nil then
 		else
-			res.valid = true
+			local toon_gold ---@class GoldData
+			result, toon_gold = TitanUtils_GetProfileInfo(index, "Gold", false)
+			if toon_gold == nil then
+				res.valid = false
 
-			res.char_name = character -- set in Info 9.1
-			res.server = charserver -- set in Info 9.1
-			res.faction = toon_info.faction
-
-			res.ignore_faction = TitanGetVar(TITAN_GOLD_ID, "IgnoreFaction")
-
-			if (res.faction == GoldInfo.faction) then
-				res.same_faction = true
+				str = str .. " ignored : info but no gold data yet"
 			else
-				res.same_faction = false
+				res.valid = true
+
+				res.char_name = character -- set in Info 9.1
+				res.server = charserver -- set in Info 9.1
+				res.faction = toon_info.faction
+
+				res.ignore_faction = TitanGetVar(TITAN_GOLD_ID, "IgnoreFaction")
+
+				if (res.faction == GoldInfo.faction) then
+					res.same_faction = true
+				else
+					res.same_faction = false
+				end
+
+				if (res.server == GoldInfo.server) then
+					res.same_realm = true
+				else
+					res.same_realm = false
+				end
+
+				local saved_server = string.gsub(res.server, "%s", "") -- GetAutoCompleteRealms removes spaces, idk why...
+				if merged_realms[saved_server] then
+					res.merge_realm = true
+				else
+					res.merge_realm = false
+				end
+
+				-- Assume server option is satisfied; check other options
+				if (res.ignore_faction or res.same_faction)
+					and toon_gold.show
+				then
+					res.show_toon = true
+				else
+					res.show_toon = false
+				end
+
+				res.gold = toon_gold.gold
+				res.show = toon_gold.show -- user option
+
+				str = str
+					.. " n:" .. tostring(res.char_name) .. ""
+					.. " s:" .. tostring(res.server) .. ""
+					.. " ss:" .. tostring(res.same_realm) .. ""
+					.. " ms:" .. tostring(res.merge_realm) .. ""
+					.. " f:" .. tostring(res.faction) .. ""
+					.. " if:" .. tostring(res.ignore_faction) .. ""
+					.. " sf:" .. tostring(res.same_faction) .. ""
+					.. " show:" .. tostring(res.show_toon) .. ""
+					.. " gold:" .. tostring(res.gold) .. ""
 			end
-
-			if (res.server == GoldInfo.server) then
-				res.same_realm = true
-			else
-				res.same_realm = false
-			end
-
-			local saved_server = string.gsub(res.server, "%s", "") -- GetAutoCompleteRealms removes spaces, idk why...
-			if merged_realms[saved_server] then
-				res.merge_realm = true
-			else
-				res.merge_realm = false
-			end
-
-			-- Assume server option is satisfied; check other options
-			if (res.ignore_faction or res.same_faction)
-			and toon_gold.show
-			then
-				res.show_toon = true
-			else
-				res.show_toon = false
-			end
-
-			res.gold = toon_gold.gold
-			res.show = toon_gold.show -- user option
-
-			str = str
-				.. " n:" .. tostring(res.char_name) .. ""
-				.. " s:" .. tostring(res.server) .. ""
-				.. " ss:" .. tostring(res.same_realm) .. ""
-				.. " ms:" .. tostring(res.merge_realm) .. ""
-				.. " f:" .. tostring(res.faction) .. ""
-				.. " if:" .. tostring(res.ignore_faction) .. ""
-				.. " sf:" .. tostring(res.same_faction) .. ""
-				.. " show:" .. tostring(res.show_toon) .. ""
-				.. " gold:" .. tostring(res.gold) .. ""
 		end
+	else
+		str = str .. " ignored : no data yet"
 	end
 
 	Titan_Debug.Out('gold', 'eval', str)
@@ -339,7 +330,7 @@ local function TotalGold()
 	if TitanGetVar(TITAN_GOLD_ID, "SeparateServers") then
 		Titan_Debug.Out('gold', 'total_gold', "=== SeparateServers")
 		-- Parse the database and display all characters on this server
-		for index, money in pairs(TitanSettings.Players) do
+		for index, money in TitanUtils_PlayerIter() do
 			local char = EvalIndexInfo(index)
 			if char.valid then
 				if char.same_realm and char.show_toon then
@@ -356,7 +347,7 @@ local function TotalGold()
 	elseif TitanGetVar(TITAN_GOLD_ID, "MergeServers") then
 		Titan_Debug.Out('gold', 'total_gold', "=== MergeServers")
 		-- Parse the database and display characters on merged / connected servers
-		for index, money in pairs(TitanSettings.Players) do
+		for index, money in TitanUtils_PlayerIter() do
 			local char = EvalIndexInfo(index)
 			if char.valid then
 				if char.merge_realm and char.show_toon then
@@ -373,7 +364,7 @@ local function TotalGold()
 	elseif TitanGetVar(TITAN_GOLD_ID, "AllServers") then
 		Titan_Debug.Out('gold', 'total_gold', "=== AllServers")
 		-- Parse the database and display characters on all servers
-		for index, money in pairs(TitanSettings.Players) do
+		for index, money in TitanUtils_PlayerIter() do
 			local char = EvalIndexInfo(index)
 			if char.valid then
 				if char.show_toon then
@@ -458,7 +449,7 @@ local function GetTooltipText()
 	if TitanGetVar(TITAN_GOLD_ID, "SeparateServers") then
 		-- Parse the database and display characters from this server
 		Titan_Debug.Out('gold', 'tool_tip', "=== SeparateServers")
-		for index, money in pairs(TitanSettings.Players) do
+		for index, money in TitanUtils_PlayerIter() do
 			local char = EvalIndexInfo(index)
 			if char.valid then
 				if char.same_realm and char.show_toon then
@@ -470,7 +461,7 @@ local function GetTooltipText()
 	elseif TitanGetVar(TITAN_GOLD_ID, "MergeServers") then
 		-- Parse the database and display characters from merged / connected servers
 		Titan_Debug.Out('gold', 'tool_tip', "=== MergeServers")
-		for index, money in pairs(TitanSettings.Players) do
+		for index, money in TitanUtils_PlayerIter() do
 			local char = EvalIndexInfo(index)
 			if char.valid then
 				if char.merge_realm and char.show_toon then
@@ -482,7 +473,7 @@ local function GetTooltipText()
 	elseif TitanGetVar(TITAN_GOLD_ID, "AllServers") then
 		-- Parse the database and display characters from all servers
 		Titan_Debug.Out('gold', 'tool_tip', "=== AllServers")
-		for index, money in pairs(TitanSettings.Players) do
+		for index, money in TitanUtils_PlayerIter() do
 			local char = EvalIndexInfo(index)
 			if char.valid then
 				if char.show_toon then
@@ -510,7 +501,7 @@ local function GetTooltipText()
 		charserver = toon.server
 		char_faction = toon.faction
 
-		local t_gold = toon.gold --TitanSettings.Players[toon].Info[TITAN_GOLD_ID].gold
+		local t_gold = toon.gold
 		coin_str = NiceCash(t_gold, false, false)
 		show_dash = false
 		show_realm = true
@@ -679,7 +670,7 @@ end
 
 ---local See if this toon is in saved vars AFTER PEW event.
 --- Get current total and session start time. Toon gold is available via API AFTER PEW event.
-local function Initialize_Array()
+local function Initialize_Array(action)
 	Titan_Debug.Out('gold', 'flow', "Init inititated")
 
 	local info = ""
@@ -690,17 +681,42 @@ local function Initialize_Array()
 
 		-- See if this is a new toon to Gold saved vars or reset
 		local gindex, _, _ = TitanUtils_GetPlayer()
-		-- TitanSettings.Players[toon].Info.[TITAN_GOLD_ID]
+		local result = ""
+		result, GoldInfo = TitanUtils_GetProfileInfo(gindex, "Info", false)
 
-		GoldInfo = TitanSettings.Players[gindex].Info
+		-- Ensure the saved vars are what we need for valid toons
+		for index, money in TitanUtils_PlayerIter() do
+			local char = EvalIndexInfo(index)
+			if char.valid then
+				local toon_gold ---@class GoldData
+				result, toon_gold = TitanUtils_GetProfileInfo(index, "Gold", false)
+				if result == "found" then
+					if toon_gold == nil then
+						-- not sure !?
+					else
+						-- Added 2026 Feb
+						if toon_gold.show == nil then
+							toon_gold.show = true -- default
+						else
+							-- exists, use as is
+						end
 
-		if GoldInfo[TITAN_GOLD_ID] then
-			-- use existing data
-		else
-			GoldInfo[TITAN_GOLD_ID] = {}
-			GoldData = GoldInfo[TITAN_GOLD_ID]
-			GoldData.gold = 0
+						if action == "reset" then
+							toon_gold.gold = 0
+						else
+							-- use as is
+						end
+					end
+				else
+					-- ignore
+				end
+			else
+				-- ignore custom profiles or toons not logged into yet
+			end
 		end
+
+		result, GoldData = TitanUtils_GetProfileInfo(gindex, "Gold", true)
+		GoldData.gold = Get_Money()
 
 		Warband.Init()
 
@@ -708,34 +724,10 @@ local function Initialize_Array()
 		GOLD_SESSIONSTART = GetTime();
 		GOLD_INITIALIZED = true;
 
-		GoldData = GoldInfo[TITAN_GOLD_ID]
-		GoldData.gold = Get_Money()
-
 		info = ""
 			.. " " .. tostring(GOLD_SESSIONSTART) .. ""
 			.. " " .. tostring(GOLD_STARTINGGOLD) .. ""
 			.. " " .. tostring(Warband.GetSum()) .. ""
-
-		-- Ensure the saved vars are what we need for valid toons
-		for index, money in pairs(TitanSettings.Players) do
-			local char = EvalIndexInfo(index)
-			if char.valid then
-				-- Added 2026 Feb
-				if TitanSettings.Players[index].Info[TITAN_GOLD_ID].show == nil then
-					TitanSettings.Players[index].Info[TITAN_GOLD_ID].show = true -- default
-				else
-					-- exists, use as is
-				end
-			
-				if TitanSettings.Players[index].Info[TITAN_GOLD_ID].show == nil then
-					TitanSettings.Players[index].Info[TITAN_GOLD_ID].show = true -- default
-				else
-					-- exists, use as is
-				end
-			else
-				-- ignore custom profiles or toons not logged into yet
-			end
-		end
 	end
 
 	-- 2026 Mar : Repurposed to add sort gold decsending
@@ -754,13 +746,12 @@ local function Initialize_Array()
 		.. " " .. info .. ""
 	Titan_Debug.Out('gold', 'flow', msg)
 end
-
 ---local Clear the gold array and rebuild
 ---@param self Button
 local function ClearData(self)
 	GOLD_INITIALIZED = false;
 
-	Initialize_Array();
+	Initialize_Array("reset");
 
 	TitanPanelButton_UpdateButton(TITAN_GOLD_ID)
 
@@ -792,7 +783,7 @@ end
 local function ShowMenuButtons(faction, level)
 	-- create the list and sort by alpha with server
 	local list_alpha = {}
-	for index, money in pairs(TitanSettings.Players) do
+	for index, money in TitanUtils_PlayerIter() do
 		local char = EvalIndexInfo(index)
 		if char.valid and char.faction == faction then
 			table.insert(list_alpha, index);
@@ -813,14 +804,26 @@ local function ShowMenuButtons(faction, level)
 
 		Titan_Menu.AddSelectorGeneric(level, toon,
 			function(data)
-				local toon_info = TitanSettings.Players[data.c_name].Info ---@class CharInfo
-				local toon_gold = toon_info[TITAN_GOLD_ID] ---@class GoldData
-				return toon_gold.show
+				local res = false
+				local result = ""
+				local toon_gold ---@class GoldData
+				result, toon_gold = TitanUtils_GetProfileInfo(data.c_name, "Gold", false)
+				if result == "found" and toon_gold ~= nil then
+					res = toon_gold.show
+				else
+					-- !? something bad happened...
+				end
+				return res
 			end,
 			function(data)
-				local toon_info = TitanSettings.Players[data.c_name].Info ---@class CharInfo
-				local toon_gold = toon_info[TITAN_GOLD_ID] ---@class GoldData
-				toon_gold.show = not toon_gold.show
+				local result = ""
+				local toon_gold ---@class GoldData
+				result, toon_gold = TitanUtils_GetProfileInfo(data.c_name, "Gold", false)
+				if result == "found" and toon_gold ~= nil then
+					toon_gold.show = not toon_gold.show
+				else
+					-- !? do nothing
+				end
 				TitanPanelButton_UpdateButton(TITAN_GOLD_ID);
 			end,
 			{ c_name = toon }
@@ -836,8 +839,6 @@ local function GeneratorFunction(owner, rootDescription)
 	do           -- next level options
 		-- NameAsc | GoldAsc | GoldDec [Ascend, Descend]
 		local disp = { -- selectors using the same option - label, value
---			{ L["TITAN_GOLD_TOGGLE_SORT_GOLD"], false },
---			{ L["TITAN_GOLD_TOGGLE_SORT_NAME"], "true" },
 			{ "Sort by Name", "NameAsc" },
 			{ "Sort by Gold Ascending", "GoldAsc" },
 			{ "Sort by Gold Descending", "GoldDec" },
@@ -896,7 +897,6 @@ local function GeneratorFunction(owner, rootDescription)
 	Titan_Menu.AddDivider(root)
 
 	local opts_show = Titan_Menu.AddButton(root, L["TITAN_GOLD_SHOW_PLAYER"])
---		.." : "..L["TITAN_GOLD_FACTION_PLAYER_ALLY"])
 	do
 	local opts_alliance = Titan_Menu.AddButton(opts_show, L["TITAN_GOLD_FACTION_PLAYER_ALLY"])
 		ShowMenuButtons(TITAN_ALLIANCE, opts_alliance)
@@ -906,7 +906,7 @@ local function GeneratorFunction(owner, rootDescription)
 		ShowMenuButtons(TITAN_HORDE, opts_horde)
 	end
 
---	Titan_Menu.AddCommand(root, id, L["TITAN_GOLD_CLEAR_DATA_TEXT"], TitanGold_ClearDB)
+	Titan_Menu.AddCommand(root, id, L["TITAN_GOLD_CLEAR_DATA_TEXT"], TitanGold_ClearDB)
 	Titan_Menu.AddCommand(root, id, L["TITAN_GOLD_RESET_SESS_TEXT"], ResetSession)
 end
 
@@ -994,7 +994,7 @@ end
 ---local When shown, register needed events and start timer for gold per hour
 ---@param self Button
 local function OnShow(self)
-	Initialize_Array()
+	Initialize_Array("set")
 	self:RegisterEvent("PLAYER_MONEY")
 
 	if TitanGetVar(TITAN_GOLD_ID, "DisplayGoldPerHour") then
@@ -1013,7 +1013,7 @@ local function OnShow(self)
 	Titan_Debug.Out('gold', 'flow', msg)
 end
 
----local When shown, unregister needed events and stop timer for gold per hour
+---local When hidden, unregister needed events and stop timer for gold per hour
 ---@param self Button
 local function OnHide(self)
 	self:UnregisterEvent("PLAYER_MONEY");
@@ -1083,25 +1083,29 @@ function TitanGold.GetInfo(player, add_label)
 		label = ""
 	end
 
+	local result = ""
+	local toon_gold ---@class GoldData
+	result, toon_gold = TitanUtils_GetProfileInfo(player, "Gold", false)
 	local character, charserver, is_custom = TitanUtils_ParseName(player)
-	if is_custom then
-		res = L["TITAN_PANEL_NA"]
+	if result == "is_custom" then
+		res = L["TITAN_PANEL_NA"] .. " - Custom profile."
 	elseif _G[TITAN_BUTTON]:IsShown() then
-		local toon_gold = nil
-		if TitanSettings.Players[player]
-			and TitanSettings.Players[player].Info
-			and TitanSettings.Players[player].Info[TITAN_GOLD_ID] then
-			toon_gold = TitanSettings.Players[player].Info[TITAN_GOLD_ID] ---@class GoldData
-			res = NiceCash(toon_gold.gold, true, false)
+		if result == "found" then
+			if toon_gold == nil then
+				res = L["TITAN_PANEL_NA"] .. " - Data empty!?."
+			else
+				res = NiceCash(toon_gold.gold, true, false)
+			end
 		else
-			res = L["TITAN_PANEL_NA"].." - Not logged in yet with Gold enabled."
+			res = L["TITAN_PANEL_NA"] .. " - Not logged in yet with Gold enabled."
 		end
 	else
 		res = L["TITAN_PANEL_MENU_DISABLED"]
 	end
 
-	return label..res
+	return label .. res
 end
+
 ---local Create required Gold frames
 local function Create_Frames()
 	if _G[TITAN_BUTTON] then

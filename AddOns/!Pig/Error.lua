@@ -1,15 +1,14 @@
-local addonName, addonTable = ...;
-local L =addonTable.locale
+local addonName, PD = ...;
 local _, _, _, tocversion = GetBuildInfo()
 local match = _G.string.match
+local L =PD.locale
+local Create = PD.Create
 -----------------
 local bencierrinfo={}
---------------------------------
-local WWW,HHH = 600,380
-local biaotiW = 25
+local NewErrorInfo = false
+local WWW,HHH,biaotiW = 600,380,25
 local GNNameE="PIG_BugcollectUI"
-local Backdropinfo={bgFile = "interface/chatframe/chatframebackground.blp",
-	edgeFile = "Interface/AddOns/!Pig/libs/Pig_Border.blp", edgeSize = 6.6,}
+local Backdropinfo={bgFile = Create.bgFile,edgeFile = Create.edgeFile, edgeSize = Create.edgeSize}
 local function PIGSetBackdrop(self,but)
 	self:SetBackdrop(Backdropinfo)
 	if but then
@@ -271,15 +270,17 @@ function Bugcollect.UpdateErrorUI(id)
 		local time=NewData[id].time
 		local cuowushu=NewData[id].counter
 		local stack=NewData[id].stack
-		local logrizhi=NewData[id].logrizhi
+		local logrizhi=NewData[id].logrizhi or "null"
 		Bugcollect.Moving.Time:SetText(date("%Y/%m/%d %H:%M:%S",time));
 		Bugcollect.biaoti:SetText(id.."/"..errornum);
 		if cuowushu>1 then
-			Bugcollect.NR.textArea:SetText("["..tocversion.."-"..VersionTXT.."] "..cuowushu.."× "..msg.."\r")
+			Bugcollect.NR.textArea:SetText(cuowushu.."× "..msg.."\r")
 		else
-			Bugcollect.NR.textArea:SetText("["..tocversion.."-"..VersionTXT.."] "..msg.."\r")
+			Bugcollect.NR.textArea:SetText(msg.."\r")
 		end
+		Bugcollect.NR.textArea:Insert("--debugstack--\r");
 		Bugcollect.NR.textArea:Insert(stack.."\r");
+		Bugcollect.NR.textArea:Insert("--debuglocals--\r");
 		Bugcollect.NR.textArea:Insert(logrizhi);
 		local NEWTXT = Bugcollect.NR.textArea:GetText()
 		if #NEWTXT<2 then
@@ -359,23 +360,21 @@ Bugcollect:SetScript("OnShow", function(self)
 	self.UpdateErrorUI()
 end)
 ----错误处理FUN
-local linshicuowuxinxi = {}
-local function errottishi()
-	if PIGA and PIGA["Error"]["ErrorTishi"] then
-		if #linshicuowuxinxi>0 then
-			if PIG_MiniMapBut then
-				PIG_MiniMapBut.error:Show();
-			end
-			for i=1,#linshicuowuxinxi do
-				--print(linshicuowuxinxi[i])
-			end
-			wipe(linshicuowuxinxi)
+local PIGerrorFun=function() end
+local PIG_ERR_OR_NUM,PIG_ERR_OR_SSS = 20,3--错误阈值/冷却
+local PIG_LAST_TIME = 0
+local HAVE_PASSED_NUM = 0
+local function NewErrorTisp()
+	if not Bugcollect.jinruworld then return end
+	if PIGA["Error"]["ErrorTishi"] and NewErrorInfo then
+		if PIG_MiniMapBut then
+			PIG_MiniMapBut.error:Show();
 		end
+		NewErrorInfo=false
 	end
 end
----
 local function SaveErrorInfo(databc, Newmsg)
-	for i, err in next, databc do
+	for _, err in next, databc do
 		if err.msg == Newmsg then
 			err.counter = err.counter + 1
 			err.time = GetServerTime()
@@ -384,12 +383,17 @@ local function SaveErrorInfo(databc, Newmsg)
 	end
 	return false
 end
-----
-local PIGerrotFUN=function() end
-local PIG_ERR_OR_NUM,PIG_ERR_OR_SSS = 20,3--错误阈值/冷却
-local PIG_LAST_TIME = 0
-local HAVE_PASSED_NUM = 0
-function PIGerrotFUN(event,msg1,msg2)
+local function AddErrorInfo(newmsg,stack)
+	bencierrinfo[#bencierrinfo + 1] = {
+		msg = newmsg,
+		time = GetServerTime(),
+		counter = 1,
+		stack = stack or "null",
+		logrizhi= "null",
+		--logrizhi=debuglocals(3) or "null",
+	}
+end
+function PIGerrorFun(event,msg1,msg2)
 	--print(event,msg1,msg2)
 	if GetTime()-PIG_LAST_TIME>PIG_ERR_OR_SSS then
 		HAVE_PASSED_NUM=HAVE_PASSED_NUM+1
@@ -400,78 +404,34 @@ function PIGerrotFUN(event,msg1,msg2)
 		HAVE_PASSED_NUM=1
 		return
 	end
+	local newmsg = "["..tocversion.."-"..VersionTXT.."] "
 	if event=="LUA_WARNING" then
-		local newmsg = tostring(msg1)
-		table.insert(linshicuowuxinxi,newmsg)
+		newmsg = newmsg..tostring(msg1)
 		local cunzai = SaveErrorInfo(bencierrinfo, newmsg)
 		if not cunzai then
-			local time = GetServerTime()
-			local stack = debugstack(3) or "null"
-			local logrizhi = debuglocals(3) or "null"
-			local errorindo = {
-				msg = newmsg,
-				time = time,
-				counter = 1,
-				stack = stack,
-				logrizhi=logrizhi,
-			}
-			bencierrinfo[#bencierrinfo + 1] = errorindo	
+			AddErrorInfo(newmsg,debugstack(3))
 		end
 	elseif event=="ADDON_ACTION_FORBIDDEN" or event=="ADDON_ACTION_BLOCKED" then
-		local msg1 = tostring(msg1)
-		local msg2 = tostring(msg2)
-		local newmsg = "["..event.."] "..ADDONS.."< "..msg1.." >"..L["ERROR_ERROR1"].."< "..msg2.." >"
-		table.insert(linshicuowuxinxi,newmsg)
+		newmsg = newmsg.."["..event.."] "..ADDONS.."< "..tostring(msg1).." >"..L["ERROR_ERROR1"].."< "..tostring(msg2).." >"
 		local cunzai = SaveErrorInfo(bencierrinfo, newmsg)
 		if not cunzai then
-			local time = GetServerTime()
-			local stack = debugstack(3) or "null"
-			local logrizhi = debuglocals(3) or "null"
-			local errorindo = {
-				msg = newmsg,
-				time = time,
-				counter = 1,
-				stack = stack,
-				logrizhi=logrizhi,
-			}
-			bencierrinfo[#bencierrinfo + 1] = errorindo	
+			AddErrorInfo(newmsg,debugstack(3))	
 		end
 	elseif event=="MACRO_ACTION_FORBIDDEN" or event=="MACRO_ACTION_BLOCKED" then
-		local newmsg = "["..event.."] "..L["ERROR_ERROR2"].."<"..msg1..">"
-		table.insert(linshicuowuxinxi,newmsg)
+		newmsg = newmsg.."["..event.."] "..L["ERROR_ERROR2"].."<"..tostring(msg1)..">"
 		local cunzai = SaveErrorInfo(bencierrinfo, newmsg)
 		if not cunzai then
-			local time = GetServerTime()
-			local stack = debugstack(3) or "null"
-			local logrizhi = debuglocals(3) or "null"
-			local errorindo = {
-				msg = msg,
-				time = time,
-				counter = 1,
-				stack = stack,
-				logrizhi=logrizhi,
-			}
-			bencierrinfo[#bencierrinfo + 1] = errorindo	
+			AddErrorInfo(newmsg,debugstack(3))
 		end
 	else
-		local newmsg = tostring(event)
-		table.insert(linshicuowuxinxi,newmsg)
+		newmsg = newmsg..tostring(event)
 		local cunzai = SaveErrorInfo(bencierrinfo, newmsg)
 		if not cunzai then
-			local time = GetServerTime()
-			local stack = debugstack(3) or "null"
-			local logrizhi = debuglocals(3) or "null"
-			local errorindo = {
-				msg = newmsg,
-				time = time,
-				counter = 1,
-				stack = stack,
-				logrizhi=logrizhi,
-			}
-			bencierrinfo[#bencierrinfo + 1] = errorindo	
+			AddErrorInfo(newmsg,debugstack(3))
 		end
 	end
-	errottishi()
+	NewErrorInfo=true
+	NewErrorTisp()
 	Bugcollect.UpdateErrorUI()
 end
 UIParent:UnregisterEvent("LUA_WARNING")
@@ -479,7 +439,7 @@ if ScriptErrorsFrame then
 	ScriptErrorsFrame:UnregisterEvent("LUA_WARNING")
 end
 local Pig_seterrorhandler=seterrorhandler
-Pig_seterrorhandler(PIGerrotFUN);
+Pig_seterrorhandler(PIGerrorFun);
 function seterrorhandler() end
 --=========================================
 Bugcollect:RegisterEvent("LUA_WARNING")
@@ -495,7 +455,7 @@ Bugcollect:SetScript("OnEvent", function(self,event,arg1,arg2)
 	if event=="ADDON_LOADED" then
 		self:UnregisterEvent("ADDON_LOADED")
 		C_Timer.After(3,function()
-			PIGA["Error"]=PIGA["Error"] or addonTable.Default["Error"]
+			PIGA["Error"]=PIGA["Error"] or PD.Default["Error"]
 			local cuowuNum = #PIGA["Error"]["ErrorDB"]
 			if cuowuNum>0 then
 				if cuowuNum>10 then
@@ -506,19 +466,15 @@ Bugcollect:SetScript("OnEvent", function(self,event,arg1,arg2)
 			end
 		end)	
 	elseif event=="PLAYER_ENTERING_WORLD" then
-		Bugcollect.yijiazai=true
-		errottishi()
+		self.jinruworld=true
+		NewErrorTisp()
 	elseif event=="PLAYER_LOGOUT" then
 		local hejishu=#bencierrinfo
 		for i=1,hejishu do
 			table.insert(PIGA["Error"]["ErrorDB"], bencierrinfo[i]);
 		end
-	elseif event=="ADDON_ACTION_FORBIDDEN" or event=="ADDON_ACTION_BLOCKED" then
-		PIGerrotFUN(event,arg1,arg2)
-	elseif event=="MACRO_ACTION_FORBIDDEN" or event=="MACRO_ACTION_BLOCKED" then
-		PIGerrotFUN(event,arg1)
-	elseif event=="LUA_WARNING" then
-		PIGerrotFUN(event,arg1)
+	else
+		PIGerrorFun(event,arg1,arg2)
 	end
 end)
 --==================================

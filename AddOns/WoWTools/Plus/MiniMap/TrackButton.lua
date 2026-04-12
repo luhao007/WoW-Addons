@@ -39,8 +39,8 @@ local function get_Quest_Text(questID)
         if not HaveQuestRewardData(questID) then
             C_TaskQuest.RequestPreloadRewardData(questID)
         else
-            local questName= C_TaskQuest.GetQuestInfoByQuestID(questID)
-            if questName then
+            local questName= QuestUtils_GetQuestName(questID)
+            if questName~='' then
                 itemTexture= WoWTools_QuestMixin:GetRewardInfo(questID).texture
                 if not itemTexture then
                     atlas= 'worldquest-tracker-questmarker'
@@ -521,7 +521,7 @@ local function set_OnClick_btn(self)
 
     elseif self.questID then
         C_SuperTrack.SetSuperTrackedQuestID(self.questID)
-        text= GetQuestLink(self.questID) or C_TaskQuest.GetQuestInfoByQuestID(self.questID)
+        text= GetQuestLink(self.questID) or C_TaskQuest.GetQuestInfoByQuestID(self.questID) or C_QuestLog.GetTitleForQuestID(self.questID)
 
     elseif self.vignetteGUID then
         C_SuperTrack.SetSuperTrackedVignette(self.vignetteGUID)
@@ -1152,7 +1152,7 @@ local function Init_Button()
 
     function TrackButton:set_shown(isInCombat)
         local hide= not Save().vigentteButton
-            or (IsInInstance() and not WoWTools_MapMixin:IsInDelve())
+            or (select(2, IsInInstance())~='none' and not WoWTools_MapMixin:IsInDelve())
             or C_PetBattles.IsInBattle()
             or UnitInVehicle('player') or OverrideActionBar:IsShown()
             or (InCombatLockdown() or isInCombat)
@@ -1170,7 +1170,7 @@ local function Init_Button()
         self:RegisterEvent('ZONE_CHANGED_NEW_AREA')
         self:RegisterEvent('PLAYER_ENTERING_WORLD')
 
-        if Save().vigentteButton and (not IsInInstance() or WoWTools_MapMixin:IsInDelve()) then
+        if Save().vigentteButton and (select(2, IsInInstance())=='none' or WoWTools_MapMixin:IsInDelve()) then
             self:RegisterEvent('PET_BATTLE_OPENING_DONE')
             self:RegisterEvent('PET_BATTLE_CLOSE')
 

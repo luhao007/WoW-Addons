@@ -1,7 +1,7 @@
 ----<本插件初始为猪猪加油定制插件,现已公开分享>---562314----
-local addonName, addonTable = ...;
-local L=addonTable.locale
-local Data=addonTable.Data
+local addonName, PD = ...;
+local L=PD.locale
+local Data=PD.Data
 SLASH_RELOAD1 = '/rl'
 SlashCmdList["RELOAD"] = ReloadUI
 SLASH_PIG1 = "/pig"
@@ -10,37 +10,37 @@ SLASH_PIG3 = "/PIG"
 SlashCmdList["PIG"] = function()
 	PIG_OptionsUI:Show();
 end
-addonTable.ShareDB={}
-_G.PIG = {addonTable.Create,addonTable.Data,addonTable.Fun,L,addonTable.Default,addonTable.Default_Per,addonTable.AudioList,addonTable.ShareDB}
+PD.ShareDB={}
+_G.PIG = {PD.Create,PD.Data,PD.Fun,L,PD.Default,PD.Default_Per,PD.Audio,PD.ShareDB}
 --===============================
 EventUtil.ContinueOnAddOnLoaded(addonName, function()
-	addonTable.Load_Config()
+	PD.Load_Config()
 	PIG_OptionsUI:SetVer_EXT(addonName)
 end)
 local PIGUI = CreateFrame("Frame")        
 PIGUI:RegisterEvent("PLAYER_LOGIN");
 PIGUI:SetScript("OnEvent",function(self, event, arg1)
-	addonTable.ShareConfig()
-	addonTable.Get_PlayerRealmData()
-	addonTable.UpdateMiniButPoint()
-	addonTable.CVars()
+	PD.ShareConfig()
+	PD.Get_PlayerRealmData()
+	PD.UpdateMiniButPoint()
+	PD.CVars()
 	--
-	addonTable.Map()
-	addonTable.CombatPlus()
-	addonTable.Common()
-	addonTable.ActionBar()
-	addonTable.FramePlus()
-	addonTable.UnitFrame()
-	addonTable.Business()
-	addonTable.TooltipPlus()
-	addonTable.BagBank()
-	addonTable.Chat()
-	addonTable.PigLayout()
+	PD.Map()
+	PD.CombatPlus()
+	PD.Common()
+	PD.ActionBar()
+	PD.FramePlus()
+	PD.UnitFrame()
+	PD.Business()
+	PD.TooltipPlus()
+	PD.BagBank()
+	PD.Chat()
+	PD.PigLayout()
 	--
 	_G[Data.QuickButUIname]:Add()
-	addonTable.CollectMiniMapBut()
+	PD.CollectMiniMapBut()
 	------------------------------
 	if not PIGA["Other"]["PigLoad"] then
-		PIG_print(L["ABOUT_LOAD"]..L["ABOUT_REMINDER"])
+		PIGprint(L["ADDON_LOAD"])
 	end  
 end)

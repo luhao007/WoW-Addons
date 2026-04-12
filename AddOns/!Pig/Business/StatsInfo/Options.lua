@@ -15,7 +15,6 @@ local Data=addonTable.Data
 local Fun = addonTable.Fun
 local GetRaceClassTXT=addonTable.Fun.GetRaceClassTXT
 ------
-local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
 ---
 local BusinessInfo=addonTable.BusinessInfo

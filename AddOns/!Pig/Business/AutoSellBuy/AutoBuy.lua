@@ -49,9 +49,9 @@ function BusinessInfo.AutoBuy()
 			else
 				if PIGA["AutoSellBuy"][_GNE.."_Tishi"] then
 					if datax[1] then
-						PIG_print("|cFF00ff00抢购:|r "..datax[7].." |cFF00ff00数量:|r"..datax[3].."|cFF00ff00花费:|r"..GetMoneyString(datax[6]*datax[3]));
+						PIGprint("|cFF00ff00抢购:|r "..datax[7].." |cFF00ff00数量:|r"..datax[3].."|cFF00ff00花费:|r"..GetMoneyString(datax[6]*datax[3]));
 					else
-						PIG_print("|cFF00ff00补货:|r "..datax[7].." |cFF00ff00数量:|r"..datax[3].."|cFF00ff00花费:|r"..GetMoneyString(datax[6]*datax[3]));
+						PIGprint("|cFF00ff00补货:|r "..datax[7].." |cFF00ff00数量:|r"..datax[3].."|cFF00ff00花费:|r"..GetMoneyString(datax[6]*datax[3]));
 					end
 				end
 			end

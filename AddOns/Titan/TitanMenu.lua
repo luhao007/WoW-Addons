@@ -956,7 +956,7 @@ In order these are :
 On right click, Titan will, in order :
 1) Create the context menu
 2) Add a menu title at top using .registry.id
-3) Call the plugin to fill it as before - using pcall, placing error in the menu
+3) Call the plugin to fill it as before - using protected call, placing error in the menu
 4) Add the plugin designated control vars + right side + Hide on bottom of menu
 The top and bottom of the menu are common so Titan adds:
 - a title 

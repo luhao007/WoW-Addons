@@ -332,7 +332,7 @@ function BusinessInfo.Item(StatsInfo,peizhiList)
 					if cdmulu[dangqian][7] then
 						fujik.nameDQ:Show()
 					end
-					fujik.name:SetText(cdmulu[dangqian][1]);
+					fujik.name:SetText(Fun.PruningServerName(cdmulu[dangqian][1]));
 					fujik.allname=cdmulu[dangqian][1]
 					local color = PIG_CLASS_COLORS[classFile];
 					fujik.name:SetTextColor(color.r, color.g, color.b, 1);

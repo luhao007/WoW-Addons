@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)
-## Version: 5.5.3 (v202603260600)
+## Version: 5.5.3 (v202604110600)
 
 ## Title: Raider.IO |cffFFFFFFRecruitment|r (China)
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFFRaider.IO数据|r |cFF69CCF0数据库|r |cFF22B14C招募（国服）|r

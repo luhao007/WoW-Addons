@@ -8,6 +8,7 @@ local Create=addonTable.Create
 local PIGFrame=Create.PIGFrame
 local PIGLine=Create.PIGLine
 local PIGButton = Create.PIGButton
+local PIGDiyBut=Create.PIGDiyBut
 local PIGDownMenu=Create.PIGDownMenu
 local PIGSlider = Create.PIGSlider
 local PIGCheckbutton=Create.PIGCheckbutton
@@ -18,7 +19,6 @@ local PIGFontString=Create.PIGFontString
 local PIGFontStringBG=Create.PIGFontStringBG
 local PIGUseKeyDown=Fun.PIGUseKeyDown
 --
-local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 local CombatPlusfun=addonTable.CombatPlusfun
 --------------------------
 local CombatPlusF,CombatPlustabbut =PIGOptionsList_R(CombatPlusfun.RTabFrame,L["COMBAT_TABNAME1"],90)
@@ -70,7 +70,6 @@ local WmarkerIndex={
 	[6]={3,240/255,60/255,1},
 	[7]={6,1,155/255,0},
 	[8]={5,1,1,50/255},
-	[9]={0,1,40/255,40/255},
 }
 -----
 local function SetAutoShowFun(peizhiT)
@@ -100,9 +99,19 @@ local function SetAutoShowFun(peizhiT)
 	if PIG_MaxTocversion() then
 		pigui:SetShown(pigui.ShowHide)
 	else
-		if peizhiT=="markerR" then
-			for i=1,#pigui.ButList do
+		for i=1,#pigui.ButList do
+			if peizhiT=="markerR" then
 				pigui.ButList[i].icon:SetDesaturated(not pigui.ShowHide)
+			elseif peizhiT=="markerW" then
+				if i<9 then
+					if pigui.ShowHide then
+						pigui.ButList[i].bgX:SetBackdropColor(WmarkerIndex[i][2], WmarkerIndex[i][3], WmarkerIndex[i][4], 1);
+					else
+						pigui.ButList[i].bgX:SetBackdropColor(0.5, 0.5, 0.5, 1);
+					end
+				else
+					pigui.ButList[i].bgX.x:SetDesaturated(not pigui.ShowHide)
+				end
 			end
 		end
 	end
@@ -214,7 +223,6 @@ local function add_barUI(peizhiT)
 			listbut:SetPoint("LEFT", biaojiUIx, "LEFT",i*(biaojiW+3)-biaojiW,0)
 			listbut.bgX = CreateFrame("Frame", nil, listbut,"BackdropTemplate")
 			listbut.bgX:SetBackdrop(Create.Backdropinfo);
-			listbut.bgX:SetBackdropColor(WmarkerIndex[i][2], WmarkerIndex[i][3], WmarkerIndex[i][4], 1);
 			listbut.bgX:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
 			listbut.bgX:SetAllPoints(listbut)
 			listbut:SetScript("OnEnter", function (self)
@@ -223,16 +231,23 @@ local function add_barUI(peizhiT)
 			listbut:SetScript("OnLeave", function (self)
 				self.bgX:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
 			end)
-			listbut:SetAttribute("type1","worldmarker")
-			listbut:SetAttribute("marker1",WmarkerIndex[i][1])
 			if i<9 then
+				listbut:SetAttribute("type1","worldmarker")
+				listbut:SetAttribute("marker1",WmarkerIndex[i][1])
+				listbut:SetAttribute("type2","worldmarker")
+				listbut:SetAttribute("marker2",WmarkerIndex[i][1])
 				listbut:SetAttribute("action1","set")
+				listbut:SetAttribute("action2","clear")
 			else
-				listbut:SetAttribute("action1","clear")
-			end
-			listbut:SetAttribute("type2","worldmarker")
-			listbut:SetAttribute("marker2",WmarkerIndex[i][1])
-			listbut:SetAttribute("action2","clear")
+				listbut.bgX:SetBackdropColor(0.5, 0.5, 0.5, 0.4);
+				listbut.bgX.x = listbut.bgX:CreateTexture();
+				listbut.bgX.x:SetTexture("Interface/Buttons/UI-GroupLoot-Pass-Up")
+				listbut.bgX.x:SetPoint("CENTER",0,0);
+				listbut.bgX.x:SetSize(biaojiW*0.5,biaojiW*0.5);
+				listbut.bgX.x:SetAlpha(0.5)
+				listbut:SetAttribute("action","clear")
+				listbut:SetAttribute("type","worldmarker")
+			end	
 		end
 		listbut:HookScript("OnClick", function(self) 
 			if i~=listNum then

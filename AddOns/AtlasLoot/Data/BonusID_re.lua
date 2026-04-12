@@ -2,16 +2,11 @@ local AtlasLoot = _G.AtlasLoot
 local BonusIDInfo = {}
 AtlasLoot.BonusIDInfo = BonusIDInfo
 
-local type = type
-local type_table = "table"
-
 ATLASLOOT_ITEM_BONUSIDS = {
 	-- Raid
 	["LFR"] = 451,
-	["SoOWarforged"] = 448,
 	["HeroicRaid"] = 566,
 	["MythicRaid"] = 567,
-	["LegionLFR"] = 3379,
 	["LegionHeroicRaid"] = 1805,
 	["LegionMythicRaid"] = 1806,
 }
@@ -823,11 +818,11 @@ local BonusListLevelDelta = {
 local BonusID_Diff = {
 	[1] = 1,
 	[2] = 2,
-	[3] = 0,
-	[4] = 0,
-	[5] = 0,
-	[6] = 0,
-	[7] = 0,
+	[3] = 4,
+	[4] = 5,
+	[5] = 3,
+	[6] = 6,
+	[7] = 83,
 	[8] = 0,
 	[9] = 0,
 	[11] = 10,
@@ -839,11 +834,11 @@ local BonusID_Diff = {
 	[18] = 0,
 	[19] = 0,
 	[20] = 0,
-	[22] = 22,
 	[23] = 23,
-	[24] = 22,
+	[24] = UnitLevel("player") == GetMaxPlayerLevel() and 186 or 22,
 	[25] = 0,
 	[29] = 0,
+	[33] = UnitLevel("player") == GetMaxPlayerLevel() and 186 or 22,
 }
 local BonusID_BY_DIFF = 3524
 

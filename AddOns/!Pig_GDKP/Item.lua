@@ -1111,26 +1111,10 @@ function GDKPInfo.ADD_Item(RaidR)
 		end
 	end
 	---注册事件
-	local function geshihuazifu(text)
-		local text = text:gsub("%%","")
-		local text = text:gsub("s","")
-		local text = text:gsub("x","")
-		local text = text:gsub("d","")
-		local text = text:gsub("。","")
-		local text = text:gsub(": ","")
-		local text = text:gsub("：","")
-		local text = text:gsub("%.","")
-		local text = text:gsub("。","")
-		return text
-	end			
-	local bendiT_1 = LOOT_ITEM_SELF--自身单个物品
-	local bendiT_2 = LOOT_ITEM_SELF_MULTIPLE--自身叠加物品
-	local bendiT_3 = LOOT_ITEM--他人单个物品
-	local bendiT_4 = LOOT_ITEM_MULTIPLE--他人叠加物品
-	local bendiT_1 = geshihuazifu(bendiT_1)
-	local bendiT_2 = geshihuazifu(bendiT_2)
-	local bendiT_3 = geshihuazifu(bendiT_3)
-	local bendiT_4 = geshihuazifu(bendiT_4)
+	local bendiT_1 = FormatLocalStr(LOOT_ITEM_SELF)--自身单个物品
+	local bendiT_2 = FormatLocalStr(LOOT_ITEM_SELF_MULTIPLE)--自身叠加物品
+	local bendiT_3 = FormatLocalStr(LOOT_ITEM)--他人单个物品
+	local bendiT_4 = FormatLocalStr(LOOT_ITEM_MULTIPLE)--他人叠加物品
 	fujiF:RegisterEvent("CHAT_MSG_LOOT");
 	fujiF:SetScript("OnEvent",function (self,event,arg1,arg2,arg3,arg4,arg5)
 		if RaidR.shiqulinshiStop then return end

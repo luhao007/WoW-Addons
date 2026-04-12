@@ -1,5 +1,6 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
+local Fun=addonTable.Fun
 local Create=addonTable.Create
 local fmod=math.fmod
 local gsub = _G.string.gsub
@@ -58,7 +59,7 @@ function BusinessInfo.Admin(StatsInfo,peizhiList)
 						local fujik = fujiF.Admin.ButList[id]
 						fujik:Show();
 						fujik.allname=cdmulu[dangqian][1]
-						fujik.name:SetText(cdmulu[dangqian][1]);
+						fujik.name:SetText(Fun.PruningServerName(cdmulu[dangqian][1]));
 						if cdmulu[dangqian][2][1]=="Alliance" then
 							fujik.Faction:SetTexCoord(0,0.5,0,1);
 						elseif cdmulu[dangqian][2][1]=="Horde" then

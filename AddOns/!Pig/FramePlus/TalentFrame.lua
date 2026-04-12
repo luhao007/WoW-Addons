@@ -487,7 +487,7 @@ local function Uptate_FrameX()
 		end
 	end
 	if Fun.IsNDui() then
-		PlayerTalentFrame:SetSize(UIdataWHXY.allwww,UIdataWHXY.gundongHH);
+		PlayerTalentFrame:SetSize(UIdataWHXY.allwww,UIdataWHXY.gundongHH-8);
 	else
 		if PIG_MaxTocversion(20000) then
 			PlayerTalentFrame:SetSize(UIdataWHXY.allwww,UIdataWHXY.gundongHH-20);
@@ -503,7 +503,7 @@ local function Uptate_FrameX()
 	PlayerTalentFrameScrollFrameBackgroundBottom:Hide()
 	PlayerTalentFrameScrollFrame:ClearAllPoints();
 	if Fun.IsNDui() then
-		PlayerTalentFrameScrollFrame:SetPoint("TOPLEFT",PlayerTalentFrame,"TOPLEFT",32,UIdataWHXY.ScrollPY);
+		PlayerTalentFrameScrollFrame:SetPoint("TOPLEFT",PlayerTalentFrame,"TOPLEFT",29,UIdataWHXY.ScrollPY);
 	else
 		PlayerTalentFrameScrollFrame:SetPoint("TOPLEFT",PlayerTalentFrame,"TOPLEFT",22,UIdataWHXY.ScrollPY);
 	end

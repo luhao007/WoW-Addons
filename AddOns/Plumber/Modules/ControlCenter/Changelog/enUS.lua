@@ -11,6 +11,206 @@ local changelogs = addon.ControlCenter.changelogs;
 changelogs[10900] = {
 	{
 		type = "date",
+		versionText = "1.9.0 e",
+		timestamp = 1775800000,
+	},
+
+	{
+		type = "p",
+		bullet = true,
+		text = "Nameplate Soft Target: You can once again enable a radial cast bar on your soft target's nameplate.",
+	},
+
+	{
+		type = "p",
+		bullet = true,
+		text = "Nameplate Quest Indicator: When using Blizzard Nameplate, the Target Marker Icon should no longer overlap with the quest marker.",
+	},
+
+	{
+		type = "p",
+		bullet = true,
+		text = "Expansion Summary, Factions: When a Silvermoon Court subfaction reaches its max reputation, its progress bar will be full instead of empty.",
+	},
+
+	{
+		type = "p",
+		bullet = true,
+		text = "Expansion Summary, Activities: Show \"Research Console: Exploring the Void\" on the list if there are more \"Uncontaminated Void Samples\" to collect.",
+	},
+
+	{
+		type = "p",
+		bullet = true,
+		text = "Plumber Drawer Macro: Fixed an issue where Paladins were unable to summon Charger from a Drawer flyout.",
+	},
+
+	{
+		type = "p",
+		bullet = true,
+		text = "For 12.0.5: The minimized outfit list will become a standalone UI instead of a modification of the base Transmog Frame.",
+	},
+
+	{
+		type = "br",
+	},
+	{
+		type = "br",
+	},
+
+	{
+		type = "date",
+		versionText = "1.9.0 c-d",
+		timestamp = 1775400000,
+	},
+
+	{
+		type = "h1",
+		text = L["ModuleName PreyQuestSuperTrack"],
+		dbKey = "PreyQuestSuperTrack",
+	},
+
+	{
+		type = "Checkbox",
+		dbKey = "PreyQuestSuperTrack",
+	},
+
+	{
+		type = "p",
+		bullet = true,
+		text = L["ModuleDescription PreyQuestSuperTrack"],
+	},
+
+	{
+		type = "img",
+		dbKey = "PreyQuestSuperTrack",
+	},
+
+	{
+		type = "br",
+	},
+
+	{
+		type = "h1",
+		text = L["ModuleName NewExpansionLandingPage"],
+	},
+
+	{
+		type = "p",
+		bullet = true,
+		text = "Fixed an issue where the Dawncrests showed their total earned quantities this season instead of the currently owned numbers.",
+	},
+
+	{
+		type = "p",
+		bullet = true,
+		text = "Added the 28 Weekly Bountiful Delves Caps to the Activities Tab. Note: This entry only becomes visible when you are about to reach the weekly cap.",
+	},
+
+	{
+		type = "p",
+		bullet = true,
+		text = "Added world bosses to the Activities Tab.",
+	},
+
+	{
+		type = "p",
+		bullet = true,
+		text = "If a currency has reached its cap and the remaining quantity is zero, it will show 0 with a strikethrough effect instead of in green color.",
+	},
+
+	{
+		type = "p",
+		bullet = true,
+		text = "Shard of Dundun and Remnant of Anguish will no longer be removed from the list when you have none.",
+	},
+
+	{
+		type = "br",
+	},
+
+	{
+		type = "h1",
+		text = MISCELLANEOUS,
+	},
+
+	{
+		type = "p",
+		bullet = true,
+		text = "Loot Window: When \"Show Any Currency Changes\" is enabled, any currency earned while in a battleground will be displayed when you leave.",
+	},
+
+	{
+		type = "br",
+	},
+	{
+		type = "br",
+	},
+
+	{
+		type = "date",
+		versionText = "1.9.0 b",
+		timestamp = 1774600000,
+	},
+
+	{
+		type = "h1",
+		text = L["ModuleName HuntTable"],
+		dbKey = "HuntTable",
+	},
+
+	{
+		type = "Checkbox",
+		dbKey = "HuntTable",
+	},
+
+	{
+		type = "p",
+		bullet = true,
+		text = "Replaces the generic blue quest icons to show difficulties.",
+	},
+
+	{
+		type = "p",
+		bullet = true,
+		text = "Shows an indicator if the Prey target is a requirement for an unearned achievement.",
+	},
+
+	{
+		type = "img",
+		dbKey = "HuntTable",
+	},
+
+	{
+		type = "br",
+	},
+
+	{
+		type = "h1",
+		text = MISCELLANEOUS,
+	},
+
+	{
+		type = "p",
+		bullet = true,
+		text = "Expansion Summary UI: Added \"Gilded Stash\" progress to the Activities tab. Note: This info is only available when you are in Midnight open-world zones.",
+	},
+
+	{
+		type = "p",
+		bullet = true,
+		text = "Expansion Summary UI, Great Vault: Fixed an issue where the item level on the tooltip is wrong for Delves and World Activities.",
+	},
+
+	{
+		type = "br",
+	},
+	{
+		type = "br",
+	},
+
+	{
+		type = "date",
 		versionText = "1.9.0",
 		timestamp = 1774400000,
 	},

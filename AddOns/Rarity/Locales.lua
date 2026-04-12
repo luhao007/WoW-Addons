@@ -2,6 +2,11 @@ local L
 L = LibStub("AceLocale-3.0"):NewLocale("Rarity", "enUS", true)
 
 -- L["AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"] = true
+L["Duskbrute Harrower"] = true
+L["Cosmic Ritual Stone"] = true
+L["Saptor Salve"] = true
+L["Reins of the Contained Stormarion Defender"] = true
+L["Spectral Hawkstrider"] = true
 L["Encounters"] = true
 L["A comma-separated list of encounter IDs that award this item. Use WowHead or a similar service to look up these IDs."] =
 	true
@@ -2661,6 +2666,8 @@ L["Corrupted Thundertail"] = "Verderbter Donnerschwanz"
 --[[Translation missing --]]
 L["Cosmic Hearthstone"] = "Cosmic Hearthstone"
 --[[Translation missing --]]
+L["Cosmic Ritual Stone"] = "Cosmic Ritual Stone"
+--[[Translation missing --]]
 L["Craboom"] = "Craboom"
 --[[Translation missing --]]
 L["Crackleroar"] = "Crackleroar"
@@ -2865,6 +2872,8 @@ L["Druid"] = "Druide"
 L["Drust"] = true
 L["Dunegorger Kraulok"] = "Dünenschlinger Kraulok"
 L["Dungeon ID"] = "Instanz-ID"
+--[[Translation missing --]]
+L["Duskbrute Harrower"] = "Duskbrute Harrower"
 --[[Translation missing --]]
 L["Dusklight Razorwing"] = "Dusklight Razorwing"
 --[[Translation missing --]]
@@ -4069,6 +4078,8 @@ L["Reins of the Bone-White Primal Raptor"] = "Zügel des knochenweißen Urraptor
 L["Reins of the Cobalt Primordial Direhorn"] = "Zügel des kobaltblauen Urterrorhorns"
 --[[Translation missing --]]
 L["Reins of the Colossal Slaughterclaw"] = "Reins of the Colossal Slaughterclaw"
+--[[Translation missing --]]
+L["Reins of the Contained Stormarion Defender"] = "Reins of the Contained Stormarion Defender"
 L["Reins of the Crimson Water Strider"] = "Zügel des purpurroten Wasserschreiters"
 L["Reins of the Drake of the Four Winds"] = "Zügel des Drachen von den Vier Winden"
 L["Reins of the Drake of the North Wind"] = "Zügel des Drachen des Nordwinds"
@@ -4214,6 +4225,8 @@ L["Sanguine Harrower"] = "Sanguine Harrower"
 L["Sanngror the Torturer"] = "Sanngror the Torturer"
 --[[Translation missing --]]
 L["Sapper Odette"] = "Sapper Odette"
+--[[Translation missing --]]
+L["Saptor Salve"] = "Saptor Salve"
 L["Saronite Deposit"] = "Saronitvorkommen"
 L["Sassy Imp"] = "Vorlauter Wichtel"
 L["Satyr Charm"] = "Satyrglücksbringer"
@@ -4462,6 +4475,8 @@ L["Special case"] = "Spezialfall"
 --[[Translation missing --]]
 L["Special Edition Foot Ball"] = "Special Edition Foot Ball"
 L["Spectral Bell"] = "Spektrale Glocke"
+--[[Translation missing --]]
+L["Spectral Hawkstrider"] = "Spectral Hawkstrider"
 --[[Translation missing --]]
 L["Spectral Mawrat's Tail"] = "Spectral Mawrat's Tail"
 --[[Translation missing --]]
@@ -5563,6 +5578,8 @@ L["Corrupted Nest Guardian"] = "Guardián del nido corrupto"
 L["Corrupted Tentacle"] = "Tentáculo Corrupto"
 L["Corrupted Thundertail"] = "Colatrueno corrupto"
 L["Cosmic Hearthstone"] = "Piedra de hogar cósmica"
+--[[Translation missing --]]
+L["Cosmic Ritual Stone"] = "Cosmic Ritual Stone"
 L["Craboom"] = "Cangrebum"
 L["Crackleroar"] = "Chisporrugidor"
 L["Crackling Shard"] = "Fragmento crepitante"
@@ -5725,6 +5742,8 @@ L["Druid"] = "Druida"
 L["Drust"] = true
 L["Dunegorger Kraulok"] = "Tragadunas Kraulok"
 L["Dungeon ID"] = "ID de Mazmorra"
+--[[Translation missing --]]
+L["Duskbrute Harrower"] = "Duskbrute Harrower"
 L["Dusklight Razorwing"] = "Alafilada del Anochecer"
 L["Duskthief"] = "Robaocaso"
 L["Dust Spirit"] = "Espíritu de Polvo"
@@ -6562,6 +6581,8 @@ L["Reins of the Blue Proto-Drake"] = "Riendas del draco azul"
 L["Reins of the Bone-White Primal Raptor"] = "Riendas del raptor primigenio albino"
 L["Reins of the Cobalt Primordial Direhorn"] = "Riendas del cuernoatroz primario de cobalto"
 L["Reins of the Colossal Slaughterclaw"] = "Riendas del garramatanza colosal"
+--[[Translation missing --]]
+L["Reins of the Contained Stormarion Defender"] = "Reins of the Contained Stormarion Defender"
 L["Reins of the Crimson Water Strider"] = "Riendas del zancudo acuático carmesí"
 L["Reins of the Drake of the Four Winds"] = "Riendas del draco de los Cuatro Vientos"
 L["Reins of the Drake of the North Wind"] = "Riendas del draco del Viento del Norte"
@@ -6665,6 +6686,8 @@ L["Sandworn Chest"] = "Cofre erosionado por la arena "
 L["Sanguine Harrower"] = "Sanguine Harrower"
 L["Sanngror the Torturer"] = "Sanngror el Torturador"
 L["Sapper Odette"] = "Zapadora Odette"
+--[[Translation missing --]]
+L["Saptor Salve"] = "Saptor Salve"
 L["Saronite Deposit"] = "Depósito de saronita"
 L["Sassy Imp"] = "Diablillo descarado"
 L["Satyr Charm"] = "Talismán de sátiro"
@@ -6835,6 +6858,8 @@ L["Spawn of Nalaada"] = "Aparición de Nalaada"
 L["Special case"] = "Caso especial"
 L["Special Edition Foot Ball"] = "Balón de fútbol de edición especial"
 L["Spectral Bell"] = "Campana espectral"
+--[[Translation missing --]]
+L["Spectral Hawkstrider"] = "Spectral Hawkstrider"
 L["Spectral Mawrat's Tail"] = "Cola de rata de Las Fauces espectral"
 L["Spectral Visage"] = "Rostro espectral"
 L["Spell ID"] = "ID de hechizo "
@@ -7680,6 +7705,8 @@ L["Corrupted Nest Guardian"] = "Guardián del nido corrupto"
 L["Corrupted Tentacle"] = "Tentáculo corrupto"
 L["Corrupted Thundertail"] = "Colatrueno corrupto"
 L["Cosmic Hearthstone"] = "Piedra de hogar cósmica"
+--[[Translation missing --]]
+L["Cosmic Ritual Stone"] = "Cosmic Ritual Stone"
 L["Craboom"] = "Cangrebum"
 L["Crackleroar"] = "Rugechasquido"
 L["Crackling Shard"] = "Fragmento crepitante"
@@ -7844,6 +7871,8 @@ L["Druid"] = "Druida"
 L["Drust"] = true
 L["Dunegorger Kraulok"] = "Engulledunas Kraulok"
 L["Dungeon ID"] = "ID de calabozo"
+--[[Translation missing --]]
+L["Duskbrute Harrower"] = "Duskbrute Harrower"
 L["Dusklight Razorwing"] = "Alatajo luxocaso"
 L["Duskthief"] = "Ocasoladrón"
 L["Dust Spirit"] = "Espíritu de polvo"
@@ -8667,6 +8696,8 @@ L["Reins of the Blue Proto-Drake"] = "Riendas del protodraco azul"
 L["Reins of the Bone-White Primal Raptor"] = "Riendas del raptor primigenio albino"
 L["Reins of the Cobalt Primordial Direhorn"] = "Riendas del cuernoatroz primario de cobalto"
 L["Reins of the Colossal Slaughterclaw"] = "Riendas del garrasacre colosal"
+--[[Translation missing --]]
+L["Reins of the Contained Stormarion Defender"] = "Reins of the Contained Stormarion Defender"
 L["Reins of the Crimson Water Strider"] = "Riendas del zancudo acuático carmesí"
 L["Reins of the Drake of the Four Winds"] = "Riendas del draco de los Cuatro Vientos"
 L["Reins of the Drake of the North Wind"] = "Riendas del draco del Viento del Norte"
@@ -8768,6 +8799,8 @@ L["Sandworn Chest"] = "Cofre arenoso"
 L["Sanguine Harrower"] = "Torturador sanguíneo"
 L["Sanngror the Torturer"] = "Sanngror, el torturador"
 L["Sapper Odette"] = "Zapadora Odette"
+--[[Translation missing --]]
+L["Saptor Salve"] = "Saptor Salve"
 L["Saronite Deposit"] = "Depósito de saronita"
 L["Sassy Imp"] = "Diablillo atrevido"
 L["Satyr Charm"] = "Talismán de sátiro"
@@ -8935,6 +8968,8 @@ L["Spawn of Nalaada"] = "Engendro de Nalaada"
 L["Special case"] = "Caso especial"
 L["Special Edition Foot Ball"] = "Edición especial de balón de fútbol"
 L["Spectral Bell"] = "Campana espectral"
+--[[Translation missing --]]
+L["Spectral Hawkstrider"] = "Spectral Hawkstrider"
 L["Spectral Mawrat's Tail"] = "Cola de faucerrata espectral"
 L["Spectral Visage"] = "Semblante espectral"
 L["Spell ID"] = "ID de hechizo"
@@ -9762,6 +9797,7 @@ L["Corrupted Nest Guardian"] = "Gardien de nid corrompu"
 L["Corrupted Tentacle"] = "Tentacule corrompu"
 L["Corrupted Thundertail"] = "Foudrequeue corrompu"
 L["Cosmic Hearthstone"] = "Pierre de foyer cosmique"
+L["Cosmic Ritual Stone"] = "Pierre rituelle cosmique"
 L["Craboom"] = "Craboum"
 L["Crackleroar"] = "Crépissement"
 L["Crackling Shard"] = "Éclat crépitant"
@@ -9927,6 +9963,7 @@ L["Druid"] = "Druide"
 L["Drust"] = true
 L["Dunegorger Kraulok"] = "Kraulok le Gorgedune"
 L["Dungeon ID"] = "ID du donjon"
+L["Duskbrute Harrower"] = "Persécuteur brutobscure"
 L["Dusklight Razorwing"] = "Rasaile de Lumière-du-Soir"
 L["Duskthief"] = "Vole-Crépuscule"
 L["Dust Spirit"] = "Esprit de poussière"
@@ -10753,6 +10790,7 @@ L["Reins of the Blue Proto-Drake"] = "Rênes de proto-drake bleu"
 L["Reins of the Bone-White Primal Raptor"] = "Rênes de raptor primordial ivoirin"
 L["Reins of the Cobalt Primordial Direhorn"] = "Rênes de navrecorne primordial cobalt"
 L["Reins of the Colossal Slaughterclaw"] = "Rênes de fauche-griffe colossal"
+L["Reins of the Contained Stormarion Defender"] = "Rênes du défenseur de Fulgarion maîtrisé"
 L["Reins of the Crimson Water Strider"] = "Rênes de trotteur aquatique cramoisi"
 L["Reins of the Drake of the Four Winds"] = "Rênes de drake des quatre vents"
 L["Reins of the Drake of the North Wind"] = "Rênes de drake du vent du Nord"
@@ -10854,6 +10892,7 @@ L["Sandworn Chest"] = "Coffre érodé"
 L["Sanguine Harrower"] = "Persécuteur sanguin"
 L["Sanngror the Torturer"] = "Sanngror la Tortionnaire"
 L["Sapper Odette"] = "Sapeuse Odette"
+L["Saptor Salve"] = "Baume du cédraptor"
 L["Saronite Deposit"] = "Gisement de saronite"
 L["Sassy Imp"] = "Diablotin insolent"
 L["Satyr Charm"] = "Charme de satyre"
@@ -11021,6 +11060,7 @@ L["Spawn of Nalaada"] = "Rejeton de Nalaada"
 L["Special case"] = "Cas particulier"
 L["Special Edition Foot Ball"] = "Ballon rond en édition spéciale"
 L["Spectral Bell"] = "Cloche spectrale"
+L["Spectral Hawkstrider"] = "Faucon-pérégrin spectral"
 L["Spectral Mawrat's Tail"] = "Queue de rat de l'Antre spectral"
 L["Spectral Visage"] = "Visage spectral"
 L["Spell ID"] = "ID du sort"
@@ -12102,6 +12142,8 @@ L["Corrupted Thundertail"] = "Corrupted Thundertail"
 --[[Translation missing --]]
 L["Cosmic Hearthstone"] = "Cosmic Hearthstone"
 --[[Translation missing --]]
+L["Cosmic Ritual Stone"] = "Cosmic Ritual Stone"
+--[[Translation missing --]]
 L["Craboom"] = "Craboom"
 --[[Translation missing --]]
 L["Crackleroar"] = "Crackleroar"
@@ -12349,6 +12391,8 @@ L["Drust"] = "Drust"
 --[[Translation missing --]]
 L["Dunegorger Kraulok"] = "Dunegorger Kraulok"
 L["Dungeon ID"] = "던전 ID"
+--[[Translation missing --]]
+L["Duskbrute Harrower"] = "Duskbrute Harrower"
 --[[Translation missing --]]
 L["Dusklight Razorwing"] = "Dusklight Razorwing"
 --[[Translation missing --]]
@@ -13747,6 +13791,8 @@ L["Reins of the Cobalt Primordial Direhorn"] = "Reins of the Cobalt Primordial D
 --[[Translation missing --]]
 L["Reins of the Colossal Slaughterclaw"] = "Reins of the Colossal Slaughterclaw"
 --[[Translation missing --]]
+L["Reins of the Contained Stormarion Defender"] = "Reins of the Contained Stormarion Defender"
+--[[Translation missing --]]
 L["Reins of the Crimson Water Strider"] = "Reins of the Crimson Water Strider"
 --[[Translation missing --]]
 L["Reins of the Drake of the Four Winds"] = "Reins of the Drake of the Four Winds"
@@ -13924,6 +13970,8 @@ L["Sanguine Harrower"] = "Sanguine Harrower"
 L["Sanngror the Torturer"] = "Sanngror the Torturer"
 --[[Translation missing --]]
 L["Sapper Odette"] = "Sapper Odette"
+--[[Translation missing --]]
+L["Saptor Salve"] = "Saptor Salve"
 L["Saronite Deposit"] = "사로나이트 광맥"
 --[[Translation missing --]]
 L["Sassy Imp"] = "Sassy Imp"
@@ -14219,6 +14267,8 @@ L["Special case"] = "특별한 경우"
 L["Special Edition Foot Ball"] = "Special Edition Foot Ball"
 --[[Translation missing --]]
 L["Spectral Bell"] = "Spectral Bell"
+--[[Translation missing --]]
+L["Spectral Hawkstrider"] = "Spectral Hawkstrider"
 --[[Translation missing --]]
 L["Spectral Mawrat's Tail"] = "Spectral Mawrat's Tail"
 --[[Translation missing --]]
@@ -15309,6 +15359,8 @@ L["Corrupted Nest Guardian"] = "Оскверненный страж гнезда
 L["Corrupted Tentacle"] = "Зараженное щупальце"
 L["Corrupted Thundertail"] = "Оскверненный громохвост"
 L["Cosmic Hearthstone"] = "Космический камень возвращения"
+--[[Translation missing --]]
+L["Cosmic Ritual Stone"] = "Cosmic Ritual Stone"
 L["Craboom"] = "Крабомба"
 L["Crackleroar"] = "Громорык"
 L["Crackling Shard"] = "Тлеющий осколок"
@@ -15470,6 +15522,8 @@ L["Druid"] = "Друид"
 L["Drust"] = "Друст"
 L["Dunegorger Kraulok"] = "Дюнный пожиратель Краулок"
 L["Dungeon ID"] = "ID подземелья"
+--[[Translation missing --]]
+L["Duskbrute Harrower"] = "Duskbrute Harrower"
 L["Dusklight Razorwing"] = "Закатный острокрыл"
 L["Duskthief"] = "Сумеречный вор"
 L["Dust Spirit"] = "Дух земли"
@@ -16295,6 +16349,8 @@ L["Reins of the Blue Proto-Drake"] = "Поводья синего протодр
 L["Reins of the Bone-White Primal Raptor"] = "Поводья древнего ящера цвета кости"
 L["Reins of the Cobalt Primordial Direhorn"] = "Поводья кобальтового доисторического дикорога"
 L["Reins of the Colossal Slaughterclaw"] = "Поводья колоссального когтевателя"
+--[[Translation missing --]]
+L["Reins of the Contained Stormarion Defender"] = "Reins of the Contained Stormarion Defender"
 L["Reins of the Crimson Water Strider"] = "Поводья багрового водного долгонога"
 L["Reins of the Drake of the Four Winds"] = "Поводья дракона Четырех Ветров"
 L["Reins of the Drake of the North Wind"] = "Поводья дракона северного ветра"
@@ -16396,6 +16452,8 @@ L["Sandworn Chest"] = "Пустынный сундук"
 L["Sanguine Harrower"] = "Кровавый боронитель"
 L["Sanngror the Torturer"] = "Саннгрор Истязатель"
 L["Sapper Odette"] = "Сапер Одетта"
+--[[Translation missing --]]
+L["Saptor Salve"] = "Saptor Salve"
 L["Saronite Deposit"] = "Месторождение саронита"
 L["Sassy Imp"] = "Дерзкий бес"
 L["Satyr Charm"] = "Оберег сатира"
@@ -16564,6 +16622,8 @@ L["Spawn of Nalaada"] = "Порождение Налаады"
 L["Special case"] = "Исключение"
 L["Special Edition Foot Ball"] = "Футбольный мяч ограниченной серии"
 L["Spectral Bell"] = "Призрачный колокольчик"
+--[[Translation missing --]]
+L["Spectral Hawkstrider"] = "Spectral Hawkstrider"
 L["Spectral Mawrat's Tail"] = "Хвост призрачной крысы Утробы"
 L["Spectral Visage"] = "Призрачная маска"
 L["Spell ID"] = "ID заклинания"
@@ -17387,6 +17447,8 @@ L["Corrupted Nest Guardian"] = "腐化的巢穴守卫"
 L["Corrupted Tentacle"] = "腐化触须"
 L["Corrupted Thundertail"] = "腐化的雷尾淡水兽"
 L["Cosmic Hearthstone"] = "星瀚炉石"
+--[[Translation missing --]]
+L["Cosmic Ritual Stone"] = "Cosmic Ritual Stone"
 L["Craboom"] = "大炸蟹"
 L["Crackleroar"] = "爆鸣咆哮者"
 L["Crackling Shard"] = "爆裂碎片"
@@ -17551,6 +17613,8 @@ L["Druid"] = "德鲁伊"
 L["Drust"] = "德鲁斯特"
 L["Dunegorger Kraulok"] = "食沙者克劳洛克"
 L["Dungeon ID"] = "地下城 ID"
+--[[Translation missing --]]
+L["Duskbrute Harrower"] = "Duskbrute Harrower"
 L["Dusklight Razorwing"] = "黯光刀翼兽"
 L["Duskthief"] = "窃尘贼"
 L["Dust Spirit"] = "尘埃精魂"
@@ -18375,6 +18439,8 @@ L["Reins of the Blue Proto-Drake"] = "蓝色始祖幼龙的缰绳"
 L["Reins of the Bone-White Primal Raptor"] = "白色原始迅猛龙缰绳"
 L["Reins of the Cobalt Primordial Direhorn"] = "冰蓝原始恐角龙缰绳"
 L["Reins of the Colossal Slaughterclaw"] = "巨型灭爪鹏的缰绳"
+--[[Translation missing --]]
+L["Reins of the Contained Stormarion Defender"] = "Reins of the Contained Stormarion Defender"
 L["Reins of the Crimson Water Strider"] = "猩红水黾缰绳"
 L["Reins of the Drake of the Four Winds"] = "四风幼龙缰绳"
 L["Reins of the Drake of the North Wind"] = "北风幼龙缰绳"
@@ -18476,6 +18542,8 @@ L["Sandworn Chest"] = "沙蚀宝箱"
 L["Sanguine Harrower"] = "猩红掠心者"
 L["Sanngror the Torturer"] = "折磨者杉格罗尔"
 L["Sapper Odette"] = "工兵奥黛特"
+--[[Translation missing --]]
+L["Saptor Salve"] = "Saptor Salve"
 L["Saronite Deposit"] = "萨隆邪铁矿脉"
 L["Sassy Imp"] = "活泼的小鬼"
 L["Satyr Charm"] = "萨特护符"
@@ -18643,6 +18711,8 @@ L["Spawn of Nalaada"] = "纳拉达之裔"
 L["Special case"] = "特别情况"
 L["Special Edition Foot Ball"] = "特别版足球"
 L["Spectral Bell"] = "幽灵铃铛"
+--[[Translation missing --]]
+L["Spectral Hawkstrider"] = "Spectral Hawkstrider"
 L["Spectral Mawrat's Tail"] = "幽灵噬渊鼠之尾"
 L["Spectral Visage"] = "幽魂之面"
 L["Spell ID"] = "法术 ID"
@@ -19759,6 +19829,8 @@ L["Corrupted Thundertail"] = "Corrupted Thundertail"
 --[[Translation missing --]]
 L["Cosmic Hearthstone"] = "Cosmic Hearthstone"
 --[[Translation missing --]]
+L["Cosmic Ritual Stone"] = "Cosmic Ritual Stone"
+--[[Translation missing --]]
 L["Craboom"] = "Craboom"
 --[[Translation missing --]]
 L["Crackleroar"] = "Crackleroar"
@@ -20033,6 +20105,8 @@ L["Drust"] = "Drust"
 L["Dunegorger Kraulok"] = "Dunegorger Kraulok"
 --[[Translation missing --]]
 L["Dungeon ID"] = "Dungeon ID"
+--[[Translation missing --]]
+L["Duskbrute Harrower"] = "Duskbrute Harrower"
 --[[Translation missing --]]
 L["Dusklight Razorwing"] = "Dusklight Razorwing"
 --[[Translation missing --]]
@@ -21474,6 +21548,8 @@ L["Reins of the Cobalt Primordial Direhorn"] = "鈷藍原始恐角龍韁繩"
 --[[Translation missing --]]
 L["Reins of the Colossal Slaughterclaw"] = "Reins of the Colossal Slaughterclaw"
 --[[Translation missing --]]
+L["Reins of the Contained Stormarion Defender"] = "Reins of the Contained Stormarion Defender"
+--[[Translation missing --]]
 L["Reins of the Crimson Water Strider"] = "Reins of the Crimson Water Strider"
 --[[Translation missing --]]
 L["Reins of the Drake of the Four Winds"] = "Reins of the Drake of the Four Winds"
@@ -21642,6 +21718,8 @@ L["Sanguine Harrower"] = "Sanguine Harrower"
 L["Sanngror the Torturer"] = "Sanngror the Torturer"
 --[[Translation missing --]]
 L["Sapper Odette"] = "Sapper Odette"
+--[[Translation missing --]]
+L["Saptor Salve"] = "Saptor Salve"
 L["Saronite Deposit"] = "薩鋼礦床"
 --[[Translation missing --]]
 L["Sassy Imp"] = "Sassy Imp"
@@ -21934,6 +22012,8 @@ L["Special case"] = "特別案例"
 L["Special Edition Foot Ball"] = "Special Edition Foot Ball"
 --[[Translation missing --]]
 L["Spectral Bell"] = "Spectral Bell"
+--[[Translation missing --]]
+L["Spectral Hawkstrider"] = "Spectral Hawkstrider"
 --[[Translation missing --]]
 L["Spectral Mawrat's Tail"] = "Spectral Mawrat's Tail"
 --[[Translation missing --]]
@@ -23125,6 +23205,8 @@ L["Corrupted Thundertail"] = "Cauda-de-trovão Corrompido"
 --[[Translation missing --]]
 L["Cosmic Hearthstone"] = "Cosmic Hearthstone"
 --[[Translation missing --]]
+L["Cosmic Ritual Stone"] = "Cosmic Ritual Stone"
+--[[Translation missing --]]
 L["Craboom"] = "Craboom"
 --[[Translation missing --]]
 L["Crackleroar"] = "Crackleroar"
@@ -23345,6 +23427,8 @@ L["Druid"] = "Druida"
 L["Drust"] = "Drusto"
 L["Dunegorger Kraulok"] = "Devoraduna Kraulok"
 L["Dungeon ID"] = "ID da Masmorra"
+--[[Translation missing --]]
+L["Duskbrute Harrower"] = "Duskbrute Harrower"
 --[[Translation missing --]]
 L["Dusklight Razorwing"] = "Dusklight Razorwing"
 --[[Translation missing --]]
@@ -24757,6 +24841,8 @@ L["Reins of the Cobalt Primordial Direhorn"] = "Rédeas do Escornante Primordial
 --[[Translation missing --]]
 L["Reins of the Colossal Slaughterclaw"] = "Reins of the Colossal Slaughterclaw"
 --[[Translation missing --]]
+L["Reins of the Contained Stormarion Defender"] = "Reins of the Contained Stormarion Defender"
+--[[Translation missing --]]
 L["Reins of the Crimson Water Strider"] = "Reins of the Crimson Water Strider"
 --[[Translation missing --]]
 L["Reins of the Drake of the Four Winds"] = "Reins of the Drake of the Four Winds"
@@ -24922,6 +25008,8 @@ L["Sanguine Harrower"] = "Sanguine Harrower"
 L["Sanngror the Torturer"] = "Sanngror the Torturer"
 --[[Translation missing --]]
 L["Sapper Odette"] = "Sapper Odette"
+--[[Translation missing --]]
+L["Saptor Salve"] = "Saptor Salve"
 L["Saronite Deposit"] = "Depósito de Saronita"
 --[[Translation missing --]]
 L["Sassy Imp"] = "Sassy Imp"
@@ -25205,6 +25293,8 @@ L["Special case"] = "Caso Especial"
 L["Special Edition Foot Ball"] = "Special Edition Foot Ball"
 --[[Translation missing --]]
 L["Spectral Bell"] = "Spectral Bell"
+--[[Translation missing --]]
+L["Spectral Hawkstrider"] = "Spectral Hawkstrider"
 --[[Translation missing --]]
 L["Spectral Mawrat's Tail"] = "Spectral Mawrat's Tail"
 --[[Translation missing --]]

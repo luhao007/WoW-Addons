@@ -27,6 +27,9 @@ L.Tools_KeystoneCheck				= "쐐기돌 확인"
 L.Tools_BreakTimer					= "휴식 타이머 시작"
 L.Tools_PizzaTimer					= "일반 타이머 시작"
 
+L.Tools_BrezArea					= "전투 부활 타이머"
+L.Tools_ShowBrezFrame				= "보스전 및 신화+ 던전에서 남은 전투 부활 창을 표시합니다."
+
 L.Tools_Duration					= "지속시간"
 L.Tools_Message						= "타이머 메시지"
 
@@ -132,7 +135,7 @@ L.LogTrivialRaids					= "낭만 공격대 (이전 확장팩)"
 L.LogCurrentMPlus					= "현재 확장팩 (리믹스 포함) 신화+ 던전"--Retail Only
 L.LogCurrentMythicZero				= "현재 확장팩 (리믹스 포함) 신화 0단 던전"--Retail Only
 L.LogTWDungeons						= "시간여행 또는 크로미의 시간 던전 (리믹스 제외)"--Retail Only
-L.LogCurrentHeroic					= "현재 확장팩 영웅 던전 (알림: 던전 찾기를 통해 영던을 돌면서 로그를 기록하고 싶다면 던전 찾기 기록 안함 옵션을 끄세요)"
+L.LogCurrentHeroic					= "현재 확장팩 영웅 던전 (참고: 던전 찾기를 통해 영던을 돌면서 로그를 기록하고 싶다면 던전 찾기 기록 안함 옵션을 끄세요)"
 L.LogDelves							= "현재 레벨 구렁"--Retail Only
 L.LogChallenges						= "현재 레벨 특수한 도전 (토르가스트, 환영, 마법사 탑 등)"--Retail Only
 
@@ -159,7 +162,7 @@ L.ShowQueuePop						= "입장 수락 남은 시간 타이머 표시 (공격대 �
 L.ShowBerserkWarnings				= "$spell:26662 타이머가 10/5/3/1분 30/10초 남았을 때 알림"
 --
 L.Area_3rdParty						= "써드파티 애드온 설정"
-L.oRA3AnnounceConsumables			= "전투 시작시 oRA3 버프 검사 알림"
+L.AnnounceConsumables				= "전투 시작시 소모품 검사 알림"
 L.Area_Invite						= "초대 설정"
 L.AutoAcceptFriendInvite			= "친구의 파티/공격대 초대 자동 수락"
 L.AutoAcceptGuildInvite				= "길드원의 파티/공격대 초대 자동 수락"
@@ -330,8 +333,8 @@ L.CountStart						= "%d초 전"
 L.MissingVoicePack					= "음성팩 찾을 수 없음 (%s)"
 L.Area_CountdownOptions				= "초읽기 설정"
 L.Area_VoicePackReplace				= "음성팩 대체 설정 (사용시 음성팩의 효과음이 출력되며 기본 효과음 대체)"
-L.VPReplaceNote						= "알림: 음성팩은 당신이 지정한 경고 효과음을 절대 변경하거나 삭제하지 않습니다.\n음성팩으로 대체되는 효과음들은 출력만 되지 않을 뿐입니다."
-L.ReplacesAnnounce					= "알림 효과음 대체 (알림: 페이즈 변경과 쫄 등장을 제외하면 음성팩을 사용하는 효과음이 몇 안됩니다)"
+L.VPReplaceNote						= "알아두기: 음성팩은 당신이 지정한 경고 효과음을 절대 변경하거나 삭제하지 않습니다.\n음성팩으로 대체되는 효과음들은 출력만 되지 않을 뿐입니다."
+L.ReplacesAnnounce					= "알림 효과음 대체 (참고: 페이즈 변경과 쫄 등장을 제외하면 음성팩을 사용하는 효과음이 몇 안됩니다)"
 L.ReplacesSADefault					= "기본 특수 알림 효과음 대체 (사용자가 직접 지정한 효과음은 절대 대체되지 않습니다)"
 L.Area_VoicePackAdvOptions			= "음성팩 고급 설정"
 L.Area_VPLearnMore					= "음성팩에 대한 정보 및 관련 설정 사용법 알아보기"
@@ -512,11 +515,11 @@ L.SpamBlockNoPrivateAuraFrame		= "비공개 오라 프레임 표시 안함"
 
 L.Area_SpamFilter_Timers			= "세부 타이머 기능 (위에서 전체 비활성화를 하지 않을 때만 적용)"
 L.SpamBlockNoShowBossTimers			= "던전/레이드 보스 타이머 표시 안함"
-L.SpamBlockNoShowTrashTimers		= "던전/레이드 일반몹 타이머 표시 안함 (알림: 이름표의 쿨타임도 표시되지 않습니다)"
+L.SpamBlockNoShowTrashTimers		= "던전/레이드 일반몹 타이머 표시 안함 (참고: 이름표의 쿨타임도 표시되지 않습니다)"
 L.SpamBlockNoShowEventTimers		= "이벤트나 알림 타이머 표시 안함 (대기열, 보스 재생성 등)"
 L.SpamBlockNoShowUTimers			= "사용자 전송 타이머 표시 안함 (사용자 지정/풀링/휴식)"
 L.SpamBlockNoCountdowns				= "초읽기 음성 재생 안함"
-L.SpamBlockNoTLColors				= "블리자드 타임라인 색상 설정 안함 (알림: DBM 바 색상도 함께 비활성화)"
+L.SpamBlockNoTLColors				= "블리자드 기본 타임라인 색상 설정 안함 (참고: DBM 바 색상도 함께 비활성화 됩니다)"
 
 L.Area_SpamFilter_Nameplates		= "이름표"
 L.SpamBlockNoNameplate				= "특수한 보스 패턴의 스킬 아이콘을 이름표에 표시 안함 (예: 적에게 버프나 디버프 거는 패턴)"
@@ -599,7 +602,7 @@ L.OnlyAfterSeen						= "위 선택 사항에 해당되는 것 중 1회 이상 �
 L.Area_Sound						= "게임내 소리 차단"
 L.DisableSFX						= "보스 전투 중 효과 음량 비활성화"
 L.DisableAmbiance					= "보스 전투 중 환경 음량 비활성화"
-L.DisableMusic						= "보스 전투 중 배경음악 음량 비활성화 (알림: 옵션을 켜면 이벤트 효과음에서 보스 전투 배경음을 설정해도 재생이 되지 않습니다)"
+L.DisableMusic						= "보스 전투 중 배경음악 음량 비활성화 (참고: 옵션을 켜면 이벤트 효과음에서 보스 전투 배경음을 설정해도 재생이 되지 않습니다)"
 --Other
 L.Area_HideBlizzard					= "그 외 성가신 블리자드 기본 UI 요소 비활성화 및 숨김"
 L.HideBossEmoteFrame				= "보스 전투 중 보스 경고 숨기기"
@@ -657,7 +660,7 @@ L.Panel_Range						= "거리 창"
 L.Panel_Nameplates					= "이름표"
 L.Plater_Config						= "Plater 설정창 열기"
 L.ThreatPlates_Config				= "Threat Plates 설정창 열기"
-L.Area_NPStyle						= "외형 (알림: Plater를 사용하지 않을 때만 설정이 가능합니다)"
+L.Area_NPStyle						= "외형 (참고: Plater를 사용하지 않을 때만 설정이 가능합니다)"
 L.NPAuraText						= "이름표 아이콘에 타이머 텍스트 표시"
 L.NPAuraSize						= "아이콘 픽셀 크기 (정사각형): %d"
 L.NPIcon_BarOffSetX 				= "아이콘 위치 조정 X: %d"
@@ -670,7 +673,7 @@ L.NPDemo							= "테스트 (이름표 보이는데서만 작동)"
 L.FontTypeTimer						= "타이머 글꼴 선택"
 L.FontTypeText						= "텍스트 글꼴 선택"
 
-L.Area_NPGlow						= "반짝임 (알림: Plater를 사용하지 않을 때만 반짝임 설정이 가능합니다)"
+L.Area_NPGlow						= "반짝임 (참고: Plater를 사용하지 않을 때만 반짝임 설정이 가능합니다)"
 L.NPIcon_GlowBehavior				= "쿨타임 아이콘 반짝임 작동 방식"
 L.NPIcon_CastGlowBehavior			= "시전 아이콘 반짝임 작동 방식"
 L.NPIcon_GlowNone					= "반짝임 사용 안함"

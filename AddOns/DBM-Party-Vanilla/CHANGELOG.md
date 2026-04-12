@@ -1,32 +1,11 @@
 # DBM - Dungeons, Delves, & Events
 
-## [r239](https://github.com/DeadlyBossMods/DBM-Dungeons/tree/r239) (2026-03-23)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Dungeons/compare/r238...r239) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Dungeons/releases)
+## [r243](https://github.com/DeadlyBossMods/DBM-Dungeons/tree/r243) (2026-04-07)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Dungeons/compare/r242...r243) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Dungeons/releases)
 
-- Nullaeus is now compatible with 3 specs, instead of just 1,only like 36 to go  
-- limit hardcode to just tank for now since it's only the tank variant specific version of fight  
-- add robust fallback  
-- deploy mincore revision updates  
-- private aura refactor  
-- private aura refactor, not compatible with older core!!  
-- fix bug stopping darkmoon faire options from loading (they still don't work yet technically, but they should start working eventually when blizzard de-secrets the DMF event buffs)  
-- Fix gtfo PA  
-- Push hardcoded Nullaeus mod  
-- fix sound on tyrannus to only play for tanks  
-- make searing rend flagged for all melee instead of just tanks. and change alert from defensive to frontal  
-- Change Zaen to use timer trigger instead of private aura trigger for barrel LOS alert.  
-    Also fixed tank alert sound firing for all players on same fight.  
-    Closes https://github.com/DeadlyBossMods/DeadlyBossMods/issues/1973  
-- Spell warnings for The Beast and Lord Valthalak in UBRS (#591)  
-    * Spell warnings for The Beast and Lord Valthalak in UBRS  
-    * Update to add AI timer  
-    * add mod:DisableHardcodedOptions()  
-    * update arguments for timers  
-- Add RU locale (#590)  
-    * Update DBM-Party-Midnight\_Mainline.toc  
-    * Create localization.ru.lua  
-    * Update DBM-Party-Midnight\_Mainline.toc file  
-    ---------  
-    Co-authored-by: Adam <MysticalOS@users.noreply.github.com>  
-- Add koKR locale (#589)  
-    * Update koKR  
+- Update koKR (#597)  
+- Remove unused localization (#598)  
+- Throw some initial renames out  
+- Add full seat of triumvirate hardcode (honestly I just forgot to push it when I did it few days ago)  
+    Did a full dungeon pass of all hardcodes to thoroughly hardcode journal icons for every ability that has an icon, since blizzard is not reliable in doing this themselves.  
+- Update timers (#596)  

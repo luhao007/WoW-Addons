@@ -1,9 +1,13 @@
 local ADDON_NAME, ns = ...
 
-ns.CurrentAddonVersion = "3.4.0"
-ns.PreviousAddonVersion = "3.3.9" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
+ns.CurrentAddonVersion = "3.4.4"
+ns.PreviousAddonVersion = "3.4.3" -- Only increase this number if you want to see changelogs and NPC updates after an add-on update. Only important for actual changes to NPCs or major updates
 
 ns.LOCALE_CHANGELOGS = {
+  { version = "3.4.4", table = "smallChanges" },
+  { version = "3.4.3", table = ns.LOCALE_CHANGELOG_3_4_3 },
+  { version = "3.4.2", table = "tocUpdate" },
+  { version = "3.4.1", table = "partialUpdate" },
   { version = "3.4.0", table = ns.LOCALE_CHANGELOG_3_4_0 },
   { version = "3.3.9", table = ns.LOCALE_CHANGELOG_3_3_9 },
   { version = "3.3.8", table = ns.LOCALE_CHANGELOG_3_3_8 },
@@ -66,6 +70,52 @@ ns.LOCALE_CHANGELOG_3_4_ = { -- empty backup file
 
   koKR = [[
 
+]],
+}
+
+ns.LOCALE_CHANGELOG_3_4_3 = {
+  deDE = [[
+• Den Zeitwege-Portalnamen wurden nun auch die zugehörigen Dungeons innerhalb der Zonen- bzw. Hauptstadtanzeige hinzugefügt.
+]],
+
+  enUS = [[
+• The corresponding dungeons have now been added to the Timewalking portal names within the zone and capital city display.
+]],
+
+  frFR = [[
+• Les donjons correspondants ont été ajoutés aux noms des portails Marcheurs du temps dans l’affichage des zones et des capitales.
+]],
+
+  itIT = [[
+• I dungeon corrispondenti sono stati aggiunti ai nomi dei portali Viaggi nel Tempo nella visualizzazione delle zone e delle capitali.
+]],
+
+  esES = [[
+• Se han añadido las mazmorras correspondientes a los nombres de los portales de Paseo en el Tiempo en la visualización de zonas y capitales.
+]],
+
+  esMX = [[
+• Se han agregado las mazmorras correspondientes a los nombres de los portales de Caminata en el Tiempo en la visualización de zonas y capitales.
+]],
+
+  ptBR = [[
+• As masmorras correspondentes foram adicionadas aos nomes dos portais de Caminhada Temporal na visualização de zonas e capitais.
+]],
+
+  ruRU = [[
+• К названиям порталов путешествий во времени добавлены соответствующие подземелья в отображении зон и столиц.
+]],
+
+  zhCN = [[
+• 在区域和主城显示中，时光漫游传送门名称现在也包含了对应的地下城。
+]],
+
+  zhTW = [[
+• 在區域與主城顯示中，時光漫遊傳送門名稱現在也包含了對應的地下城。
+]],
+
+  koKR = [[
+• 시간여행 포탈 이름에 해당 던전이 지역 및 수도 표시에도 추가되었습니다.
 ]],
 }
 

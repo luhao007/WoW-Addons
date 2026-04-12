@@ -57,9 +57,9 @@ local function SetChannels(link)
     name= name:match('%- (.+)') or name:match('：(.+)') or name:match(':(.+)') or name
 
     local icon= ChannelIcon[name]
-    if not icon and WoWTools_DataMixin.Player.husandro then
+    --[[if not icon and WoWTools_DataMixin.Player.husandro then
         print('ChannelIcon', name)
-    end
+    end]]
     if icon then
         return icon
     end
@@ -91,7 +91,8 @@ local function Set_Realm(link)--去服务器为*, 加队友种族图标,和N,T
             if server== WoWTools_DataMixin.Player.Realm then
                 return (text or '')..link:gsub('%-'..server..'|r]|h', '|r]|h')
             else
-                return (text or '')..link:gsub('%-'..server..'|r]|h', (WoWTools_DataMixin.Player.Realms[server] and '|cnGREEN_FONT_COLOR:' or '|cnWARNING_FONT_COLOR:')..'*|r|r]|h')
+                return (text or '')..link:gsub('%-'..server..'|r]|h',
+                    (WoWTools_DataMixin.Player.Realms[server] and '|cnGREEN_FONT_COLOR:' or '|cnDISABLED_FONT_COLOR:')..'*|r|r]|h')
             end
         elseif text then
             return text..link

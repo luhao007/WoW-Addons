@@ -800,6 +800,26 @@ app.DataStyleExporters = DataStyleExporters
 
 -- Register a new exporter by name.  If the style already exists or the
 -- provided function is invalid the call is ignored.
+--
+-- 'funcs' is a table of callbacks used by ExportStylizedData:
+--
+-- funcs.main(data, depth)
+--   Required. Returns a string representation for the current data node.
+--
+-- funcs.beforeData(data, depth)
+--   Optional. If returns a string, it is inserted before current data.
+--
+-- funcs.afterData(data, depth)
+--   Optional. If returns a string, it is inserted after current data.
+--
+-- funcs.beforeSub(data, depth)
+--   Optional. If returns a string, it is inserted before descendants are processed.
+--
+-- funcs.afterSub(data, depth)
+--   Optional. If returns a string, it is inserted after descendants are processed.
+--
+-- funcs.depthShift(data)
+--   Optional. Controls depth increment for child recursion. Defaults to 1.
 function app:RegisterDataStyleExporter(style, funcs)
 	if type(style) ~= "string" or type(funcs) ~= "table" or type(funcs.main) ~= "function" then
 		app.print("Invalid definition for RegisterDataStyleExporter:", style)

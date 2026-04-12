@@ -347,7 +347,7 @@ end
 local function RawDepthShift(data) return 2 end
 
 -- register the 'raw' style exporter
-app:RegisterDataStyleExporter("raw", {
+app:RegisterDataStyleExporter("Raw", {
 	main = ExportRawDataToString,
 	beforeSub = RawBeforeSub,
 	afterSub = RawAfterSub,
@@ -515,7 +515,7 @@ local function ReadableAfterData(data, depth)
 end
 
 -- register the 'readable' style exporter
-app:RegisterDataStyleExporter("readable", {
+app:RegisterDataStyleExporter("Readable", {
 	main = ReadableMain,
 	beforeSub = ReadableBeforeSub,
 	afterSub = ReadableAfterSub,

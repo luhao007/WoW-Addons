@@ -364,26 +364,39 @@ local PlaterNamePlateAuraTooltip = CreatePlaterNamePlateAuraTooltip()
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --> Private Aura handling
 
-function Plater.HandlePrivateAuraAnchors(unitFrame, maxIndex)
+function Plater.HandlePrivateAuraAnchors(plateFrame, maxIndex)
 	if true then return end -- disable for now...
-	if not unitFrame then return end
+	if not plateFrame then return end
 	if not C_UnitAuras or not C_UnitAuras.RemovePrivateAuraAnchor then return end
 
-	if unitFrame.privateAuraAnchors then
-		for index, anchorID in pairs(unitFrame.privateAuraAnchors) do
-			C_UnitAuras.RemovePrivateAuraAnchor(anchorID)
-		end
-		table.wipe(unitFrame.privateAuraAnchors)
-	else
-		unitFrame.privateAuraAnchors = {}
+	local unitFrame = plateFrame.unitFrame
+	if not unitFrame then return end
+
+	if not unitFrame.privateAuraAnchorsFrame then
+		unitFrame.privateAuraAnchorsFrame = CreateFrame ("frame", unitFrame:GetName() .. "PrivateAuraFrame", unitFrame)
+		unitFrame.privateAuraAnchorsFrame.icons = {}
+		unitFrame.privateAuraAnchorsFrame:SetParent(unitFrame)
+		unitFrame.privateAuraAnchorsFrame:SetSize(1, 1)
 	end
 	
-	if not unitFrame.PlaterOnScreen then return end
+	if not unitFrame.PlaterOnScreen then
+		if unitFrame.privateAuraAnchorsFrame.icons then
+			for _, icon in pairs(unitFrame.privateAuraAnchorsFrame.icons) do
+				if icon.anchorID then
+					C_UnitAuras.RemovePrivateAuraAnchor(icon.anchorID)
+				end
+				icon.anchorID = nil
+				icon:Hide()
+			end
+		end
+		unitFrame.privateAuraAnchorsFrame:Hide()
+		return
+	end
 	
 	--anchor building
 	local anchorSide = Plater.db.profile.aura_frame1_anchor.side
 	local rowGrowthDirectionUp = (anchorSide < 3 or anchorSide > 5)
-	local maxIndex = maxIndex or 2
+	maxIndex = maxIndex or 2
 	local relIconPoint = "bottom"
 	local relIconPointTo = "top"
 	local paddingMult = 1
@@ -403,39 +416,48 @@ function Plater.HandlePrivateAuraAnchors(unitFrame, maxIndex)
 	
 	local unit = unitFrame.IsSelf and "player" or unitFrame[MEMBER_UNITID]
 	
+	unitFrame.privateAuraAnchorsFrame:SetPoint(relIconPoint, unitFrame.BuffFrame, relIconPointTo, 0, Plater.db.profile.aura_breakline_space)
+
 	for index = 1, maxIndex do
+		local icon = unitFrame.privateAuraAnchorsFrame.icons[index]
+		if not icon then
+			icon = CreateFrame ("frame", unitFrame:GetName() .. "PAFI" .. index, unitFrame.privateAuraAnchorsFrame)
+			unitFrame.privateAuraAnchorsFrame.icons[index] = icon
+		end
+		icon:SetPoint(relIconPoint, unitFrame.privateAuraAnchorsFrame, relIconPointTo, ((Plater.db.profile.aura_width * (index - 1)) + DB_AURA_PADDING * (index -1)) * paddingMult, 0)
+		icon:SetSize(Plater.db.profile.aura_width, Plater.db.profile.aura_height)
+		icon:Show()
 		local privateAnchorArgs = {
 			unitToken = unit,
 			auraIndex = index,
-			parent = unitFrame,
+			parent = unitFrame.privateAuraAnchorsFrame,
 			showCountdownFrame = true,
 			showCountdownNumbers = true,
 			iconInfo = {
 				iconAnchor = {
-					point = relIconPoint,
-					relativeTo = unitFrame.BuffFrame,
-					relativePoint = relIconPointTo,
-					offsetX = ((Plater.db.profile.aura_width * (index - 1)) + DB_AURA_PADDING * (index -1)) * paddingMult, --((Plater.db.profile.aura_width * Plater.db.profile.ui_parent_scale_tune * (index - 1)) + DB_AURA_PADDING * (index -1)) * paddingMult,
-					offsetY = Plater.db.profile.aura_breakline_space,
+					point = "CENTER",
+					relativeTo = icon,
+					relativePoint = "CENTER",
+					offsetX = 0,
+					offsetY = 0,
 				},
-				iconWidth = Plater.db.profile.aura_width, -- * Plater.db.profile.ui_parent_scale_tune,
-				iconHeight = Plater.db.profile.aura_height, -- * Plater.db.profile.ui_parent_scale_tune,
-				borderScale = -1, --min(Plater.db.profile.aura_width,  Plater.db.profile.aura_height) / 30,
+				iconWidth = Plater.db.profile.aura_width,
+				iconHeight = Plater.db.profile.aura_height,
+				borderScale = -1000,
 			},
 			durationAnchor = {
-				point = relIconPoint,
-				relativeTo = unitFrame.BuffFrame,
-				relativePoint = relIconPointTo,
-				offsetX = ((Plater.db.profile.aura_width * (index - 1)) + DB_AURA_PADDING * (index -1)) * paddingMult, --((Plater.db.profile.aura_width * Plater.db.profile.ui_parent_scale_tune * (index - 1)) + DB_AURA_PADDING * (index -1)) * paddingMult,
-				offsetY = Plater.db.profile.aura_breakline_space,
+				point = "CENTER",
+				relativeTo = icon,
+				relativePoint = "CENTER",
+				offsetX = 0,
+				offsetY = 0,
 			},
 		}
 		
-		unitFrame.privateAuraAnchors[index] = C_UnitAuras.AddPrivateAuraAnchor(privateAnchorArgs)
+		icon.anchorID = C_UnitAuras.AddPrivateAuraAnchor(privateAnchorArgs)
+		--print("PAFI: ", index, " - ", icon.anchorID)
 	end
-	--anchored, so we should 'show' the buffframe as anchor point. TODO: how to handle this for name only and other stuff?... might need separate anchor frame
-	unitFrame.BuffFrame:Show()
-	unitFrame.BuffFrame:SetSize(1,1)
+	unitFrame.privateAuraAnchorsFrame:Show()
 end
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1375,8 +1397,8 @@ end
 		PixelUtil.SetPoint (newIcon.Icon, "BOTTOMLEFT", newIcon, "BOTTOMLEFT", -iconOffset, -iconOffset)
 		PixelUtil.SetPoint (newIcon.Icon, "BOTTOMRIGHT", newIcon, "BOTTOMRIGHT", iconOffset, -iconOffset)
 		newIcon.Icon:SetTexCoord (.05, .95, .1, .6)
-		--newIcon.Icon:SetTexelSnappingBias(0.0)
-		--newIcon.Icon:SetSnapToPixelGrid(false)
+		newIcon.Icon:SetTexelSnappingBias(0.0)
+		newIcon.Icon:SetSnapToPixelGrid(false)
 
 		newIcon.IconMask = newIcon:CreateMaskTexture(nil, "artwork")
 		newIcon.IconMask:SetAllPoints()
@@ -1439,8 +1461,10 @@ end
 
 		-- switch to proper border, keep compatibility
 		newIcon.Border = DF:CreateFullBorder("$parentBorder", newIcon)
-		newIcon.Border:SetFrameLevel(newIcon:GetFrameLevel() + 1)
-		local iconOffset = -1 --/ UIParent:GetEffectiveScale() --* (Plater.db.profile.use_ui_parent and (Plater.db.profile.ui_parent_scale_tune) or 1)
+		for _, tex in pairs(newIcon.Border.Textures) do
+			tex:SetDrawLayer ("overlay", 7)
+		end
+		local iconOffset = -1
 		PixelUtil.SetPoint (newIcon.Border, "TOPLEFT", newIcon, "TOPLEFT", -iconOffset, iconOffset)
 		PixelUtil.SetPoint (newIcon.Border, "TOPRIGHT", newIcon, "TOPRIGHT", iconOffset, iconOffset)
 		PixelUtil.SetPoint (newIcon.Border, "BOTTOMLEFT", newIcon, "BOTTOMLEFT", -iconOffset, -iconOffset)
@@ -1449,7 +1473,7 @@ end
 			self.Border:SetVertexColor(r, g, b, a)
 		end
 		newIcon.Border.SetBorderSize = function(self, size)
-			local borderSize = (size or 1)
+			local borderSize = (size or 1) * UIParent:GetEffectiveScale()
 			self:SetBorderSizes(borderSize, 0, borderSize, 0)
 			self:UpdateSizes()
 		end
@@ -1465,23 +1489,29 @@ end
 		end
 
 		newIcon.SetSizes = function(self)
-			local iconOffset = -1 --* UIParent:GetEffectiveScale() --* (Plater.db.profile.use_ui_parent and (Plater.db.profile.ui_parent_scale_tune) or 1)
+			local extraBorderOffset = 0
+			if self.Name == "Secondary" then
+				extraBorderOffset = Plater.db.profile.aura_border_extraoffset2 or 0
+			else
+				extraBorderOffset = Plater.db.profile.aura_border_extraoffset or 0
+			end
+			local iconOffset = -1 * UIParent:GetEffectiveScale() + extraBorderOffset
 			PixelUtil.SetPoint (self.Border, "TOPLEFT", self, "TOPLEFT", -iconOffset, iconOffset)
 			PixelUtil.SetPoint (self.Border, "TOPRIGHT", self, "TOPRIGHT", iconOffset, iconOffset)
 			PixelUtil.SetPoint (self.Border, "BOTTOMLEFT", self, "BOTTOMLEFT", -iconOffset, -iconOffset)
 			PixelUtil.SetPoint (self.Border, "BOTTOMRIGHT", self, "BOTTOMRIGHT", iconOffset, -iconOffset)
 
-			iconOffset = 0 --* UIParent:GetEffectiveScale()
+			iconOffset = 0
 			PixelUtil.SetPoint (self.Icon, "TOPLEFT", self, "TOPLEFT", -iconOffset, iconOffset)
 			PixelUtil.SetPoint (self.Icon, "TOPRIGHT", self, "TOPRIGHT", iconOffset, iconOffset)
 			PixelUtil.SetPoint (self.Icon, "BOTTOMLEFT", self, "BOTTOMLEFT", -iconOffset, -iconOffset)
 			PixelUtil.SetPoint (self.Icon, "BOTTOMRIGHT", self, "BOTTOMRIGHT", iconOffset, -iconOffset)
 
-			iconOffset = -1
-			PixelUtil.SetPoint (newIcon.Cooldown, "TOPLEFT", newIcon, "TOPLEFT", -iconOffset, iconOffset)
-			PixelUtil.SetPoint (newIcon.Cooldown, "TOPRIGHT", newIcon, "TOPRIGHT", iconOffset, iconOffset)
-			PixelUtil.SetPoint (newIcon.Cooldown, "BOTTOMLEFT", newIcon, "BOTTOMLEFT", -iconOffset, -iconOffset)
-			PixelUtil.SetPoint (newIcon.Cooldown, "BOTTOMRIGHT", newIcon, "BOTTOMRIGHT", iconOffset, -iconOffset)
+			iconOffset = -1 * UIParent:GetEffectiveScale()
+			PixelUtil.SetPoint (self.Cooldown, "TOPLEFT", self, "TOPLEFT", -iconOffset, iconOffset)
+			PixelUtil.SetPoint (self.Cooldown, "TOPRIGHT", self, "TOPRIGHT", iconOffset, iconOffset)
+			PixelUtil.SetPoint (self.Cooldown, "BOTTOMLEFT", self, "BOTTOMLEFT", -iconOffset, -iconOffset)
+			PixelUtil.SetPoint (self.Cooldown, "BOTTOMRIGHT", self, "BOTTOMRIGHT", iconOffset, -iconOffset)
 		end
 
 		return newIcon
@@ -1605,7 +1635,7 @@ end
 			newFrameIcon:SetBorderSize (borderThickness)
 			--newFrameIcon:SetSize (auraWidth, auraHeight)
 			--newFrameIcon.Icon:SetSize (auraWidth-2, auraHeight-2)
-			local sizeMod = 1 --UIParent:GetEffectiveScale() --* (Plater.db.profile.use_ui_parent and (Plater.db.profile.ui_parent_scale_tune) or 1)
+			local sizeMod = 1
 			PixelUtil.SetSize(newFrameIcon, auraWidth * sizeMod, auraHeight * sizeMod)
 			
 			--mixin the meta functions for scripts
@@ -1806,7 +1836,7 @@ end
 					--auraIconFrame.Icon:SetSize (auraWidth-2, auraHeight-2)
 				end
 			end
-			local sizeMod = 1 --UIParent:GetEffectiveScale() --* (Plater.db.profile.use_ui_parent and (Plater.db.profile.ui_parent_scale_tune) or 1)
+			local sizeMod = 1
 			PixelUtil.SetSize(auraIconFrame, auraWidth * sizeMod, auraHeight * sizeMod)
 			auraIconFrame:SetSizes()
 			auraIconFrame:SetBorderSize (borderThickness)
@@ -2340,7 +2370,11 @@ end
 			iconFrame.Border:Hide()
 			
 			iconFrame.Border = DF:CreateFullBorder("$parentBorder", iconFrame)
-			local iconOffset = -1 * UIParent:GetEffectiveScale() --* (Plater.db.profile.use_ui_parent and (Plater.db.profile.ui_parent_scale_tune) or 1)
+			for _, tex in pairs(iconFrame.Border.Textures) do
+				tex:SetDrawLayer ("overlay", 7)
+			end
+
+			local iconOffset = -1
 			PixelUtil.SetPoint (iconFrame.Border, "TOPLEFT", iconFrame, "TOPLEFT", -iconOffset, iconOffset)
 			PixelUtil.SetPoint (iconFrame.Border, "TOPRIGHT", iconFrame, "TOPRIGHT", iconOffset, iconOffset)
 			PixelUtil.SetPoint (iconFrame.Border, "BOTTOMLEFT", iconFrame, "BOTTOMLEFT", -iconOffset, -iconOffset)
@@ -2349,7 +2383,7 @@ end
 				self.Border:SetVertexColor(r, g, b, a)
 			end
 			iconFrame.Border.SetBorderSize = function(self, size)
-				local borderSize = (size or 1) * UIParent:GetEffectiveScale()-- * (Plater.db.profile.use_ui_parent and (Plater.db.profile.ui_parent_scale_tune) or 1)
+				local borderSize = (size or 1) * UIParent:GetEffectiveScale()
 				self:SetBorderSizes(borderSize, 1, borderSize, 0)
 				self:UpdateSizes()
 			end
@@ -2364,16 +2398,39 @@ end
 				return self.Border:GetVertexColor()
 			end
 			
-			iconOffset = -1 * UIParent:GetEffectiveScale() --* (Plater.db.profile.use_ui_parent and (Plater.db.profile.ui_parent_scale_tune) or 1)
+			iconOffset = 0
 			PixelUtil.SetPoint (iconFrame.Texture, "TOPLEFT", iconFrame, "TOPLEFT", -iconOffset, iconOffset)
 			PixelUtil.SetPoint (iconFrame.Texture, "TOPRIGHT", iconFrame, "TOPRIGHT", iconOffset, iconOffset)
 			PixelUtil.SetPoint (iconFrame.Texture, "BOTTOMLEFT", iconFrame, "BOTTOMLEFT", -iconOffset, -iconOffset)
 			PixelUtil.SetPoint (iconFrame.Texture, "BOTTOMRIGHT", iconFrame, "BOTTOMRIGHT", iconOffset, -iconOffset)
-			
-			iconFrame:SetBackdropBorderColor(unpack(borderColor))
-			iconFrame:SetBorderSize(profile.extra_icon_border_size or 1)
+
+			iconFrame.SetSizes = function(self)
+				local extraBorderOffset = Plater.db.profile.extra_icon_border_extraoffset or 0
+				local iconOffset = -1 * UIParent:GetEffectiveScale() + extraBorderOffset
+				PixelUtil.SetPoint (self.Border, "TOPLEFT", self, "TOPLEFT", -iconOffset, iconOffset)
+				PixelUtil.SetPoint (self.Border, "TOPRIGHT", self, "TOPRIGHT", iconOffset, iconOffset)
+				PixelUtil.SetPoint (self.Border, "BOTTOMLEFT", self, "BOTTOMLEFT", -iconOffset, -iconOffset)
+				PixelUtil.SetPoint (self.Border, "BOTTOMRIGHT", self, "BOTTOMRIGHT", iconOffset, -iconOffset)
+
+				iconOffset = 0
+				PixelUtil.SetPoint (self.Texture, "TOPLEFT", self, "TOPLEFT", -iconOffset, iconOffset)
+				PixelUtil.SetPoint (self.Texture, "TOPRIGHT", self, "TOPRIGHT", iconOffset, iconOffset)
+				PixelUtil.SetPoint (self.Texture, "BOTTOMLEFT", self, "BOTTOMLEFT", -iconOffset, -iconOffset)
+				PixelUtil.SetPoint (self.Texture, "BOTTOMRIGHT", self, "BOTTOMRIGHT", iconOffset, -iconOffset)
+
+				iconOffset = -1 * UIParent:GetEffectiveScale()
+				PixelUtil.SetPoint (self.Cooldown, "TOPLEFT", self, "TOPLEFT", -iconOffset, iconOffset)
+				PixelUtil.SetPoint (self.Cooldown, "TOPRIGHT", self, "TOPRIGHT", iconOffset, iconOffset)
+				PixelUtil.SetPoint (self.Cooldown, "BOTTOMLEFT", self, "BOTTOMLEFT", -iconOffset, -iconOffset)
+				PixelUtil.SetPoint (self.Cooldown, "BOTTOMRIGHT", self, "BOTTOMRIGHT", iconOffset, -iconOffset)
+			end
+
 			iconFrame.platerSkinned = true
 		end
+
+		iconFrame:SetBackdropBorderColor(unpack(borderColor))
+		iconFrame:SetBorderSize(profile.extra_icon_border_size or 1)
+		iconFrame:SetSizes()
 		
 		--check if Masque is enabled on Plater and reskin the aura icon
 		if (Plater.Masque and not iconFrame.Masqued) then

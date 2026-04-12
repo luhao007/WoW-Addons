@@ -8,6 +8,55 @@ end
 local PinHeight= 12--默认大小
 local Button
 
+
+
+
+local function Check_Profession(profession)
+    if type(profession)~= "table" then
+        return true
+    else
+        for skillLineID in pairs(profession) do
+            if C_SpellBook.GetSkillLineIndexByID(skillLineID) then
+                return true
+            end
+        end
+    end
+end
+local function Check_Quest(questID)
+    if type(questID)~= "number" then
+        return true
+    else
+        WoWTools_DataMixin:Load(questID, 'quest')
+        return not C_QuestLog.IsComplete(questID)
+    end
+end
+local function Check_Achievement(achievementID, achievementIndex)
+    if type(achievementID)~= "number" then
+        return true
+    else
+        if achievementIndex then
+            return not select(3, GetAchievementCriteriaInfoByID(achievementID, achievementIndex))
+        else
+            return not select(4, GetAchievementInfo(achievementID))
+        end
+    end
+end
+
+function WoWTools_WorldMapMixin:Check_PinData(pin)
+    if not pin then
+        return true
+    else
+        if (type(pin.class)~= "table" or pin.class[WoWTools_DataMixin.Player.ClassID])
+            and Check_Profession(pin.profession)
+            and Check_Quest(pin.questID)
+            and Check_Achievement(pin.achievementID, pin.achievementIndex)
+        then
+            return true
+        end
+    end
+end
+
+
 local function SetUserWaypoint(self)
     local mapID= self.mapID
     local x, y= self.x, self.y--x=0.0555
@@ -56,10 +105,7 @@ end
 
 
 
-
-
 WoWToolsWorldMapDataProvider = CreateFromMixins(MapCanvasDataProviderMixin)
-
 function WoWToolsWorldMapDataProvider:RemoveAllData()
 	if self:GetMap() then
 		self:GetMap():RemoveAllPinsByTemplate("WoWToolsWorldMapPinTemplate")
@@ -69,19 +115,16 @@ end
 function WoWToolsWorldMapDataProvider:RefreshAllData()
     local count= 0
     if self:GetMap() then
-
         self:GetMap():RemoveAllPinsByTemplate("WoWToolsWorldMapPinTemplate")
 
         local mapID= self:GetMap():GetMapID()
+        local isShowUI= WoWTools_WorldMapMixin:PlayerPin_IsShowUI()
         if mapID and not Save().disabled then
-
-            for xy, pin in pairs(SaveWoW()[mapID] or {}) do
-                if xy~='options' then
-                    local x,y= WoWTools_WorldMapMixin:GetXYForText(xy)
-                    if x and y then
-                        count= count +1
-                        self:GetMap():AcquirePin("WoWToolsWorldMapPinTemplate", xy, x,y, pin, mapID)
-                    end
+            for xy, pin in pairs(SaveWoW()[mapID] or {}) do--xy~='options'
+                local x,y= WoWTools_WorldMapMixin:GetXYForText(xy)
+                if x and y and (isShowUI or WoWTools_WorldMapMixin:Check_PinData(pin)) then
+                    count= count +1
+                    self:GetMap():AcquirePin("WoWToolsWorldMapPinTemplate", xy, x, y, pin, mapID)
                 end
             end
 
@@ -105,7 +148,6 @@ end
 
 
 WoWToolsWorldMapPinMixin= CreateFromMixins(MapCanvasPinMixin)
-
 function WoWToolsWorldMapPinMixin:OnLoad()
 	self:UseFrameLevelType("PIN_FRAME_LEVEL_AREA_POI")
 	self:SetMovable(true)
@@ -150,7 +192,7 @@ function WoWToolsWorldMapPinMixin:OnLoad()
         end
     end)
 --停止移动
-    self:SetScript("OnDragStop", function(btn, d, ...)
+    self:SetScript("OnDragStop", function(btn)
         btn:StopMovingOrSizing()
         if not btn.isMoving then
             return
@@ -171,7 +213,7 @@ function WoWToolsWorldMapPinMixin:OnLoad()
                     ..WARNING_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '替换' or REPLACE),
                     newXY,
                     select(3, WoWTools_TextureMixin:IsAtlas(delTab.icon)) or '',
-                    delTab.name or '',
+                    WoWTools_TextMixin:CN(_G[delTab.name]) or delTab.name or '',
                     delTab.note
                 )
             end
@@ -189,6 +231,13 @@ end
 
 
 
+
+
+
+
+
+
+
 function WoWToolsWorldMapPinMixin:OnAcquired(xy, x, y, pin, mapID)
     local options= SaveWoW()[mapID].options or {}
     local iconS, fontH= options.iconS or PinHeight, options.fontH or PinHeight
@@ -200,12 +249,17 @@ function WoWToolsWorldMapPinMixin:OnAcquired(xy, x, y, pin, mapID)
     self.x= x
     self.y= y
     self.note= pin.note
+    self.questID= pin.questID
+    self.achievementID= pin.achievementID
+    self.achievementIndex= pin.achievementIndex
 
     if self.SetPassThroughButtons then
 		self:SetPassThroughButtons("")
 	end
     local textureID= select(2, WoWTools_TextureMixin:SetTexture(self.texture, pin.icon))
-    self.text:SetText(pin.name or '')
+
+    self.text:SetText(WoWTools_TextMixin:CN(_G[pin.name]) or pin.name or '')
+
     local icons2= textureID and iconS or fontH
     if pin.name then
         local color
@@ -227,6 +281,9 @@ function WoWToolsWorldMapPinMixin:OnReleased()
     self.y= nil
     self.mapID= nil
     self.note= nil
+    self.questID= nil
+    self.achievementID= nil
+    self.achievementIndex= nil
 	if self.widgetContainer then
 		self.widgetContainer:UnregisterForWidgetSet();
 	end
@@ -234,7 +291,23 @@ end
 function WoWToolsWorldMapPinMixin:OnMouseEnter()
 	if self.note then
         GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
-        GameTooltip_SetTitle(GameTooltip, self.note)
+        GameTooltip_SetTitle(GameTooltip, _G[self.note] or self.note)
+        if self.questID then
+            GameTooltip:AddLine(
+                (WoWTools_DataMixin.onlyChinese and '任务：' or QUESTS_COLON)
+                ..WoWTools_QuestMixin:GetName(self.questID)
+            )
+        end
+        if self.achievementID then
+            local name= select(2, GetAchievementInfo(self.achievementID))
+            name= WoWTools_TextMixin:CN(name) or self.achievementID
+            GameTooltip:AddLine((WoWTools_DataMixin.onlyChinese and '成就' or ACHIEVEMENT_BUTTON)..': '..name)
+            if self.achievementIndex then
+                name= GetAchievementCriteriaInfoByID(self.achievementID, self.achievementIndex)
+                name= WoWTools_TextMixin:CN(name) or ('criteriaID '..self.achievementIndex)
+                GameTooltip:AddLine(name)
+            end
+        end
         GameTooltip:Show()
     end
     WoWTools_WorldMapMixin:PlayerPin_SetUIButtonState(self.xy)
@@ -260,6 +333,10 @@ function WoWToolsWorldMapPinMixin:OnMouseUp()
 end
 -- hack to avoid error in combat in 10.1.5
 WoWToolsWorldMapPinMixin.SetPassThroughButtons = function()end
+
+
+
+
 
 
 
@@ -587,17 +664,13 @@ local function Init()
     end)
 
 
-    --[[if WoWTools_DataMixin.Player.husandro then
-        C_Timer.After(2, function()
-            WoWTools_WorldMapMixin:PlayerPin_ShowUI()
-        end)
-    end]]
+    --if WoWTools_DataMixin.Player.husandro then C_Timer.After(2, function() WoWTools_WorldMapMixin:PlayerPin_ShowUI() end) end
 
 
 
     Init=function()
-        WoWToolsWorldMapDataProvider:RemoveAllData()
         Button:SetShown(not Save().disabled)
+        WoWToolsWorldMapDataProvider:RefreshAllData()
     end
 end
 

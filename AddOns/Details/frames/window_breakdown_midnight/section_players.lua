@@ -111,7 +111,11 @@ local refreshFunc = function(self, data, offset, totalLines)
             if not issecretvalue(name) then
                 name = detailsFramework:RemoveRealmName(name)
             else
-                name = UnitName(name) or name
+                if Details222.IsTOCBiggerOrEqualTo(120005) then
+                    name = Ambiguate(name, "none")
+                else
+                    name = UnitName(name) or name
+                end
             end
 
             line.Texts[2]:SetText(name)
@@ -123,6 +127,11 @@ local refreshFunc = function(self, data, offset, totalLines)
             line.StatusBar:SetStatusBarTexture(windowFrame:GetStatusBarTexture())
             line.StatusBar:SetMinMaxValues(0, maxAmount)
             line.StatusBar:SetValue(thisData.totalAmount)
+
+            local classColor = RAID_CLASS_COLORS[thisData.classFilename]
+            if classColor then
+                line.StatusBar:SetStatusBarColor(classColor.r, classColor.g, classColor.b)
+            end
 
             line:AddFrameToHeaderAlignment(line.IconFrame)
             line:AddFrameToHeaderAlignment(line.Texts[1])
@@ -138,6 +147,7 @@ local refreshFunc = function(self, data, offset, totalLines)
     header.refreshColumn = nil
 end
 
+---@param sectionFrame detailsbreakdownmidnight_sectionframe
 ---@param windowFrame detailsbreakdownmidnight_window
 function breakdownMidnight.PlayerSectionInit(sectionFrame, windowFrame)
     local playerScroll = windowFrame.PlayerScroll

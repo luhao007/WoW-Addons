@@ -41,13 +41,16 @@ Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION = "<左键：显示地下堡战�
 
 Lockit.UI_LOOT_INFO_DESCRIPTION = "完成地下堡获取战利品："
 
+-- Delves Gossip
+Lockit.UI_DELVE_AUTO_ENTER_CANCEL_TOOLTIP_INSTRUCTION = "<Click to cancel auto entering>"
+
 -- Tooltips Extension
 
 Lockit.UI_BOUNTIFUL_KEYS_COUNT_CACHES_PREFIX = "宝箱里获取的钥匙数量"
 
 -- Compartment (these are shown hovering over the addon in the corresponding dropdown menu)
 
-Lockit.UI_COMPARTMENT_DESCRIPTION_LEFT_CLICK = "|cnGREEN_FONT_COLOR:Left Click|r to open the current season Delves info."
+Lockit.UI_COMPARTMENT_DESCRIPTION_LEFT_CLICK = "|cnGREEN_FONT_COLOR:左键|r 打开当前赛季地下堡面板。"
 Lockit.UI_COMPARTMENT_DESCRIPTION_RIGHT_CLICK = "|cnGREEN_FONT_COLOR:右键|r 显示插件设置界面。"
 
 -- Settings
@@ -83,8 +86,15 @@ Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_VERTICAL_NAME = "垂直排列"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_VERTICAL_DESCRIPTION = "按钮垂直排列。"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_HORIZONTAL_NAME = "水平排列"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_HORIZONTAL_DESCRIPTION = "按钮水平排列。"
-Lockit.UI_SETTING_MINIMAP_ICON_NAME = "Show Minimap Icon"
-Lockit.UI_SETTING_MINIMAP_ICON_TOOLTIP = "Display a minimap icon. It can be clicked to quickly access the current season Delves info."
+Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_NAME = "Story Variant Status"
+Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_TOOLTIP = "Highlight whether the active Story Variant has been completed or not (required for Delve Loremaster achievements) in the window displayed entering a Delve."
+Lockit.UI_SETTING_MINIMAP_ICON_NAME = "显示小地图图标"
+Lockit.UI_SETTING_MINIMAP_ICON_TOOLTIP = "显示小地图图标。点击该图标可快速访问当前赛季地下堡面板。"
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_NAME = "Auto Enter Delves"
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_TOOLTIP = "Enter a Delve automatically reaching its entrance.\n\nThe Delve won't be entered if:\n- The Tier has not been unlocked yet.\n- It's a Nemesis Delve.\n- It's a Bountiful Delve but you don't have a |cnITEM_EPIC_COLOR:Restored Coffer Key|r nor enough |cnITEM_SUPERIOR_COLOR:Coffer Key Shards|r to assemble the key."
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_TIER_TOOLTIP = "Delve Tier to enter."
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_NAME = "Enter Delay"
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_TOOLTIP = "A Delve will be entered with a delay (in seconds).\n\nThere is a button in the window displayed entering a Delve. It can be clicked to cancel the auto entering before the delay countdown elapsed."
 
 Lockit.UI_SETTINGS_SECTION_TITLE_CHARACTER = "角色设置"
 Lockit.UI_SETTING_TOOLTIP_EXTENSION_NAME = "额外提示信息"

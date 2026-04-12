@@ -10,7 +10,7 @@
 
 
 -- When this version of the addon was made.
-local WL_ADDON_UPDATED = "2026-03-19";
+local WL_ADDON_UPDATED = "2026-04-08";
 
 local WL_NAME = "|cffffff7fWowhead Looter|r";
 local WL_VERSION = 120001;
@@ -3954,6 +3954,10 @@ function wlCollect(userInitiated)
 
     wlTime = GetServerTime();
 
+    if C_EventScheduler then
+        C_EventScheduler.RequestEvents();
+    end
+
     if userInitiated then
         wlTimers.printCollected = wlGetTime() + 1000;
     end
@@ -5157,6 +5161,33 @@ function wlCheckAreaPois()
     end
 end
 
+-- Event handler for EVENT_SCHEDULER_UPDATE event
+function wlEvent_EVENT_SCHEDULER_UPDATED()
+    if not C_EventScheduler or not C_EventScheduler.HasData() then
+        return;
+    end
+
+    local events = C_EventScheduler.GetScheduledEvents();
+    if not events then
+        return;
+    end
+
+    local curTime = GetServerTime();
+    for _, event in ipairs(events) do
+        if event.areaPoiID and event.startTime and event.endTime and event.duration then
+            wlSeenDaily('p' ..
+                event.areaPoiID ..  '.' ..
+                0 ..  '.' .. -- uiMapId
+                curTime .. '.' ..
+                event.endTime ..  '.' ..
+                0 .. '.' .. -- secondsLeft
+                0 .. '.' .. -- extraData
+                event.startTime .. '.' ..
+                event.duration);
+        end
+    end
+end
+
 --**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--**--
 
 function wlEvent_ZONE_CHANGED()
@@ -5388,6 +5419,7 @@ local wlEvents = {
     ZONE_CHANGED_NEW_AREA = wlEvent_ZONE_CHANGED,
     VIGNETTES_UPDATED = wlEvent_VIGNETTES_UPDATED,
     AREA_POIS_UPDATED = wlEvent_AREA_POIS_UPDATED,
+    EVENT_SCHEDULER_UPDATE = wlEvent_EVENT_SCHEDULER_UPDATED,
 
     -- challenge mode / mythic+ affixes
     CHALLENGE_MODE_START = wlEvent_CHALLENGE_MODE_UPDATE,

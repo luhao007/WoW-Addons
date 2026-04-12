@@ -19,7 +19,7 @@ MiniMapBut:SetFrameStrata("MEDIUM")
 MiniMapBut:SetFrameLevel(MiniMapBut:GetFrameLevel()+1);
 MiniMapBut.Border = MiniMapBut:CreateTexture(nil,"BORDER");
 MiniMapBut.icon = MiniMapBut:CreateTexture(nil, "BACKGROUND");
-MiniMapBut.icon:SetTexture("Interface/AddOns/"..addonName.."/Libs/logo32.blp");
+MiniMapBut.icon:SetTexture("Interface/AddOns/"..addonName.."/Media/logo32.blp");
 MiniMapBut.icon:SetPoint("CENTER", 0, 0);
 MiniMapBut.error = MiniMapBut:CreateTexture(nil, "BORDER");
 MiniMapBut.error:SetTexture("interface/common/voicechat-muted.blp");

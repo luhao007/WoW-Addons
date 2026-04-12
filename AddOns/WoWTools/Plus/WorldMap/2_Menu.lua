@@ -61,9 +61,9 @@ local function Init_OnEnter(self)
                 end
             end
         end
-        if IsInInstance() then--副本数据
+        if select(2, IsInInstance())~='none' then--副本数据
             local instanceID, _, LfgDungeonID =select(8, GetInstanceInfo())
-            if instanceID then
+            if instanceID and instanceID>0 then
                 GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '副本' or INSTANCE, '|cffffffff'..instanceID)
                 if LfgDungeonID then
                     GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '随机副本' or LFG_TYPE_RANDOM_DUNGEON, '|cffffffff'..LfgDungeonID)
@@ -86,7 +86,7 @@ local function Init_OnEnter(self)
                     GameTooltip:AddDoubleLine(
                         index..')',
                         (C_QuestLog.IsComplete(questID) and '|cnGREEN_FONT_COLOR:' or '|cffffffff')
-                        ..(WoWTools_QuestMixin:GetName(questID) or questID)
+                        ..WoWTools_QuestMixin:GetName(questID)
                     )
                 end
             end
@@ -151,7 +151,7 @@ local function Init_Menu(self, root)
         return
     end
 
-    local sub
+    local sub, sub2
 
 --地图和任务日志
     sub= root:CreateCheckbox(
@@ -327,36 +327,9 @@ local function Init_Menu(self, root)
 
     root:CreateDivider()
 
---AreaPOI名称
-    sub=root:CreateCheckbox(
-        '|A:minimap-genericevent-hornicon:0:0|aAreaPOI',
-    function()
-        return Save().ShowAreaPOI_Name
-    end, function()
-        Save().ShowAreaPOI_Name= not Save().ShowAreaPOI_Name and true or false
-        WoWTools_WorldMapMixin:Init_AreaPOI_Name()
-        WoWTools_WorldMapMixin:Refresh()
-    end,sub)
-    sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示名称' or PROFESSIONS_FLYOUT_SHOW_NAME)
-        --tooltip:AddLine('|cnWARNING_FONT_COLOR:BUG')
-    end)
+    WoWTools_WorldMapMixin:AreaPOINameMenu(self, root)
 
---字体大小
-    sub:CreateSpacer()
-    WoWTools_MenuMixin:CreateSlider(sub, {
-        name= WoWTools_DataMixin.onlyChinese and '字体大小' or FONT_SIZE,
-        getValue=function()
-            return Save().areaPoinFontSize or 10
-        end, setValue=function(value)
-            Save().areaPoinFontSize=value
-            WoWTools_WorldMapMixin:Refresh()
-        end,
-        minValue=4,
-        maxValue=24,
-        step=1,
-        --tooltip=WoWTools_DataMixin.onlyChinese and '需要刷新' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, NEED, REFRESH)
-    })
+    
 
 --地下城，加名称
     sub=root:CreateCheckbox(

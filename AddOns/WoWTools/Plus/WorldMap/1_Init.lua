@@ -48,65 +48,52 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
     WoWToolsSave['Plus_WorldMap']= WoWToolsSave['Plus_WorldMap'] or {
         ShowMapID= true,--地图ID
-        --MapIDScale=1,
-
         HideTitle=WoWTools_DataMixin.Player.husandro,--隐藏，标题
-
         ShowMapXY= true,--地图坐标
-        --MapXYScale=1,
-        --MapXY_W
-        --MapXY_X=72,
-        --MapXY_Y=-2,
         PlayerXY={--实时玩家当前坐标
             disabled= not WoWTools_DataMixin.Player.husandro,
             textY=-2,
         },
-
-        --PlayerXYPoint={},
-        --PlayerXY_Scale=1,
-        --PlayerXY_Strata
-        --PlayerXY_Text_toLeft=true,
-        --PlayerXY_Size=23,
-        --PlayerXY_Elapsed=0.3,--LAG_TOLERANCE = "延迟容限";
-        --PlayerXY_BGAlpha=0.5
-        --PlayerXY_TextY=0
-
         ShowAreaPOI_Name=true,
         ShowDungeon_Name=true,
         ShowWorldQues_Name=true,
-        --ShowFlightMap_Name=true,
-        --[[Abandon={
-            filter={
-                Complete=true,
-                Campaign=true,
-                Important=true,
-                Legendary=true,
-                Calling=true,
-            }
-        },]]
-
-        --notPlus=true--其它增强 z_Plus.lua
-        PlayerPin={}
+        PlayerPin={},
+        AreaPOI={}
     }
 
     Save().PlayerXY= Save().PlayerXY or {}
-    Save().PlayerPin= Save().PlayerPin or {size=WoWTools_DataMixin.Player.husandro and 42 or 32}
+    Save().PlayerPin= Save().PlayerPin or {size=12}
+
+    WoWToolsPlayerDate.WorldMapUserAreaPoiName= WoWToolsPlayerDate.WorldMapUserAreaPoiName or {
+        noShow={},
+        pinName={},
+    }
 
     WoWToolsPlayerDate.WorldMapPin= nil
 
     WoWToolsPlayerDate.PlayerMapPin= WoWToolsPlayerDate.PlayerMapPin or {
-        [2393]={--12.0银月城
+        [2393]= {
+            options={},
+            ["50.02 74.76"]= {name=WoWTools_DataMixin.onlyChinese and "拍卖行" or BUTTON_LAG_AUCTIONHOUSE,},
+            ["47.40 52.60"]={name=WoWTools_DataMixin.onlyChinese and PROFESSIONS_BUTTON or "专业",},
+        },
+    }
+--[[        [2393]={--12.0银月城
+            options={},
             ['50.02 74.76']={
                 name= WoWTools_DataMixin.onlyChinese and BUTTON_LAG_AUCTIONHOUSE or '拍卖行',
                 icon= 'wow-token-gold',
-                color= {r=0.87, g=0.8, b=0.61},
+                color= {r=0.67, g=0.83, b=0.45},
                 --class={},
                 --profession={},
                 --note=WoWTools_DataMixin.onlyChinese and BUTTON_LAG_AUCTIONHOUSE or '拍卖行',
+                --questID=0,
+                --achievementID= 0,
+                --achievementIndex= 1,
             },
-            options={}
-        }
-    }
+            ['48.24 51.46']={name='草药学',profession={182},},
+        },]]
+
 
 
     WoWTools_WorldMapMixin.addName= '|A:poi-islands-table:0:0|a'..(WoWTools_DataMixin.onlyChinese and '世界地图' or WORLDMAP_BUTTON)

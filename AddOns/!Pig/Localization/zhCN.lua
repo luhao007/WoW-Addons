@@ -2,22 +2,12 @@ local addonName, addonTable = ...;
 local _, _, _, tocversion = GetBuildInfo()
 local L=addonTable.locale
 --if GetLocale() == "zhCN" then
-L["ADDON_NAME"] = "工具箱";
-L["ADDON_AUTHOR"]="联系作者";
---About
-L["ABOUT_TABNAME"] = "关于";
-L["ABOUT_UPDATETIPS"] = "插件已过期,请在插件关于菜单查看更新方式";
-L["ABOUT_LOAD"] = "载入成功 /pig或小地图按钮设置";
-L["ABOUT_REMINDER"]="|cff00FF00(更新方式见插件关于菜单)|r"
-L["ABOUT_UPDATEADD"]="更新: "
-L["ABOUT_MAIL"]="反馈邮箱: "
-L["ABOUT_MEDIA"]="使用教程: "
 --error
 L["ERROR_ERROR1"] = "尝试调用保护功能";
 L["ERROR_ERROR2"] = "宏尝试调用保护功能";
-L["ERROR_DEBUGTOOLTIP"] = "发生错误时在小地图按钮提示(显示一个红X)\n并且不会收纳BugSack插件的小地图图标";
---lib
-L["LIB_MACROERR"] = "你的宏数量已达最大值120，请删除一些再尝试";
+L["ERROR_DEBUGTOOLTIP"] = "发生错误时在小地图按钮显示一个红X\n并且不会收纳BugSack插件的小地图图标";
+--Shared
+L["ADDON_LOAD"] = "载入成功, /pig或小地图按钮设置";
 L["LIB_TIPS"] = "提示";
 L["LIB_PLUS"] = "额外";
 L["LIB_SIZE"] = "尺寸";
@@ -25,6 +15,20 @@ L["LIB_POINT"] = "位置";
 L["LIB_LAYOUT"] = "布局";
 L["LIB_WIDTH"]= "宽度";
 L["LIB_HEIGHT"]= "高度";
+L["LIB_MACROERR"] = "你的宏数量已达最大值120，请删除一些再尝试";
+L["LIB_NOTENABLED"]= "未启用";
+L["LIB_NOTINST"]= "未安装";
+L["LIB_STOPMAINT"]= "已停止维护";
+--About
+L["ABOUT_TABNAME"] = "关于";
+L["ABOUT_TABNAME2"] = "扩展";
+L["ABOUT_QUERY"] = "查询";
+L["ABOUT_MAIL"]="反馈邮箱: "
+L["ABOUT_TUTORIAL"]="使用教程: "
+L["ABOUT_DISC"]="玩家交流: "
+L["ABOUT_FUNC"]="主要功能: "
+L["ABOUT_GETURL"]="获取方式: "
+L["ABOUT_UPDATETIPS"] = "插件已过期,更新方式查看关于菜单";
 --OptionsUI
 L["OPTUI_SET"] = "设置";
 L["OPTUI_RLUI"] = "重载UI";
@@ -97,6 +101,7 @@ L["CHAT_QUKBUTTIPS"]="在聊天栏增加一排频道快捷切换按钮，可快�
 L["CHAT_QUKBUTNAME"] = {"说","喊","队","会","团","通","战","综","交","组","世"};
 L["CHAT_JXNAME"] = {"长","领","导"};
 if tocversion>30000 then L["CHAT_QUKBUTNAME"][7]="副" end
+L["CHAT_BENDIFUWU"] = "服务";
 L["CHAT_BENDIFANGWU"] = "本地防务";
 L["CHAT_WORLDFANGWU"] = "世界防务";
 L["CHAT_QUKBUT_UP"] = "附着于聊天栏上方";

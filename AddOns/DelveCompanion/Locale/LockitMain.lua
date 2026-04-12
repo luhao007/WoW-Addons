@@ -66,13 +66,16 @@ Lockit.UI_LOOT_INFO_BUTTON_TOOLTIP_INSTRUCTION = "<Click to display Delves' Loot
 
 Lockit.UI_LOOT_INFO_DESCRIPTION = "Complete a delve to get:"
 
+-- Delves Gossip
+Lockit.UI_DELVE_AUTO_ENTER_CANCEL_TOOLTIP_INSTRUCTION = "<Click to cancel auto entering>"
+
 -- Tooltips Extension
 
 Lockit.UI_BOUNTIFUL_KEYS_COUNT_CACHES_PREFIX = "Keys from Caches"
 
 -- Compartment (these are shown hovering over the addon in the corresponding dropdown menu)
 
-Lockit.UI_COMPARTMENT_DESCRIPTION_LEFT_CLICK = "|cnGREEN_FONT_COLOR:Left Click|r to open the current season Delves info."
+Lockit.UI_COMPARTMENT_DESCRIPTION_LEFT_CLICK = "|cnGREEN_FONT_COLOR:Left Click|r to open the Delves' current season window."
 Lockit.UI_COMPARTMENT_DESCRIPTION_RIGHT_CLICK = "|cnGREEN_FONT_COLOR:Right Click|r to access Addon Options."
 
 -- Settings
@@ -108,8 +111,15 @@ Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_VERTICAL_NAME = "Vertical Layout
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_VERTICAL_DESCRIPTION = "The buttons are arranged vertically."
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_HORIZONTAL_NAME = "Horizontal Layout"
 Lockit.UI_SETTING_IN_DELVE_WIDGET_LAYOUT_OPTION_HORIZONTAL_DESCRIPTION = "The buttons are arranged horizontally."
+Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_NAME = "Story Variant Status"
+Lockit.UI_SETTING_STORY_STATUS_IN_GOSSIP_TOOLTIP = "Highlight whether the active Story Variant has been completed or not (required for Delve Loremaster achievements) in the window displayed entering a Delve."
 Lockit.UI_SETTING_MINIMAP_ICON_NAME = "Show Minimap Icon"
-Lockit.UI_SETTING_MINIMAP_ICON_TOOLTIP = "Display a minimap icon. It can be clicked to quickly access the current season Delves info."
+Lockit.UI_SETTING_MINIMAP_ICON_TOOLTIP = "Display a minimap icon. It can be clicked to open the Delves' current season window."
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_NAME = "Auto Enter Delves"
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_CONTROL_TOOLTIP = "Enter a Delve automatically reaching its entrance.\n\nThe Delve won't be entered if:\n- The Tier has not been unlocked yet.\n- It's a Nemesis Delve.\n- It's a Bountiful Delve but you don't have a |cnITEM_EPIC_COLOR:Restored Coffer Key|r nor enough |cnITEM_SUPERIOR_COLOR:Coffer Key Shards|r to assemble the key."
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_TIER_TOOLTIP = "Delve Tier to enter."
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_NAME = "Enter Delay"
+Lockit.UI_SETTING_DELVE_AUTO_ENTER_DELAY_TOOLTIP = "A Delve will be entered with a delay (in seconds).\n\nThere is a button in the window displayed entering a Delve. It can be clicked to cancel the auto entering before the delay countdown elapsed."
 
 Lockit.UI_SETTINGS_SECTION_TITLE_CHARACTER = "Character-Wide"
 Lockit.UI_SETTING_TOOLTIP_EXTENSION_NAME = "Extra Info in Tooltips"
@@ -143,8 +153,8 @@ Lockit.UI_SETTINGS_ADDON_LINK_POPUP_TEXT = "|cnGREEN_FONT_COLOR:Ctrl + C|r to co
 -- Shared
 
 Lockit.UI_ADDON_NAME = "Delve Companion"
-Lockit.UI_DELVE_STORY_VARIANT_COMPLETED_SEQUENCE = format("%s %s", "|A:common-icon-checkmark:15:15|a", _G["ACHIEVEMENTFRAME_FILTER_COMPLETED"])
-Lockit.UI_DELVE_STORY_VARIANT_NOT_COMPLETED_SEQUENCE = format("%s %s", "|A:QuestLegendary:15:15|a", _G["ACHIEVEMENTFRAME_FILTER_INCOMPLETE"])
+Lockit.UI_DELVE_STORY_VARIANT_COMPLETED_SEQUENCE = format("%s %s", "|A:common-icon-checkmark:15:15|a", _G["CRITERIA_COMPLETED"])
+Lockit.UI_DELVE_STORY_VARIANT_NOT_COMPLETED_SEQUENCE = format("%s %s", "|A:QuestLegendary:15:15|a", _G["CRITERIA_NOT_COMPLETED"])
 
 -- Debug
 

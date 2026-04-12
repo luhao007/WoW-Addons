@@ -106,10 +106,12 @@ function UnitFramefun.Mubiao()
 		TargetFrame.ClassBut:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 119, 3);
 		TargetFrame.ClassBut:SetHighlightTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight");
 		TargetFrame.ClassBut:Hide()
-		if PIG_MaxTocversion("tbc") then
-			TargetFrame.ClassBut:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 136, 0);
-		elseif PIG_MaxTocversion() then
-			TargetFrame.ClassBut:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 119, 3);
+		if PIG_MaxTocversion() then
+			if PIG_MaxTocversion("old") then
+				TargetFrame.ClassBut:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 119, 3);
+			else
+				TargetFrame.ClassBut:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 136, 0);
+			end
 		else
 			TargetFrame.ClassBut:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 144, 4);
 			TargetFrame.ClassBut:SetFrameLevel(505)
@@ -131,10 +133,12 @@ function UnitFramefun.Mubiao()
 		--目标种族/生物类型
 		TargetFrame.mubiaoLX = CreateFrame("Frame", nil, TargetFrame);
 		TargetFrame.mubiaoLX:SetSize(68,18);
-		if PIG_MaxTocversion("tbc") then
-			TargetFrame.mubiaoLX:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 72, -6);
-		elseif PIG_MaxTocversion() then
-			TargetFrame.mubiaoLX:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 52, -3);
+		if PIG_MaxTocversion() then
+			if PIG_MaxTocversion("old") then
+				TargetFrame.mubiaoLX:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 52, -3);
+			else
+				TargetFrame.mubiaoLX:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 72, -6);
+			end
 		else
 			TargetFrame.mubiaoLX:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 64, -3);
 		end
@@ -163,10 +167,12 @@ function UnitFramefun.Mubiao()
 		--目标生命百分比
 		if PIG_MaxTocversion(120000) then
 			TargetFrame.mubiaoHP=CreateFrame("Frame",nil,TargetFrame);
-			if PIG_MaxTocversion("tbc") then
-				TargetFrame.mubiaoHP:SetPoint("RIGHT",TargetFrame,"LEFT",24,-4);
-			elseif PIG_MaxTocversion() then
-				TargetFrame.mubiaoHP:SetPoint("RIGHT",TargetFrame,"LEFT",5,-2);
+			if PIG_MaxTocversion() then
+				if PIG_MaxTocversion("old") then
+					TargetFrame.mubiaoHP:SetPoint("RIGHT",TargetFrame,"LEFT",5,-2);
+				else
+					TargetFrame.mubiaoHP:SetPoint("RIGHT",TargetFrame,"LEFT",24,-4);
+				end
 			else
 				TargetFrame.mubiaoHP:SetPoint("RIGHT",TargetFrame,"LEFT",24,-2);
 			end
@@ -194,10 +200,12 @@ function UnitFramefun.Mubiao()
 		if TargetFrame.threatNumericIndicator then
 			TargetFrame:HookScript("OnEvent", function (self,event,arg1)
 				if event=="PLAYER_ENTERING_WORLD" or event=="PLAYER_TARGET_CHANGED" or event=="UNIT_THREAT_LIST_UPDATE" or event=="UNIT_THREAT_SITUATION_UPDATE" then
-					if PIG_MaxTocversion("tbc") then
-						TargetFrame.threatNumericIndicator:SetPoint("BOTTOM", TargetFrame, "TOP", -66, -25);	
-					elseif PIG_MaxTocversion() then
-						TargetFrame.threatNumericIndicator:SetPoint("BOTTOM", TargetFrame, "TOP", -86, -22);
+					if PIG_MaxTocversion() then
+						if PIG_MaxTocversion("old") then
+							TargetFrame.threatNumericIndicator:SetPoint("BOTTOM", TargetFrame, "TOP", -86, -22);
+						else
+							TargetFrame.threatNumericIndicator:SetPoint("BOTTOM", TargetFrame, "TOP", -66, -25);
+						end
 					else
 						TargetFrame.threatNumericIndicator:SetPoint("BOTTOM", TargetFrame, "TOP", -68, -24);
 					end
@@ -471,10 +479,12 @@ function UnitFramefun.Mubiao()
 		TargetFrame.yisuF=CreateFrame("Frame",nil,TargetFrame);
 		TargetFrame.yisuF:SetSize(49,18);
 		TargetFrame.yisuF:SetFrameLevel(9)
-		if PIG_MaxTocversion("tbc") then
-			TargetFrame.yisuF:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 210, -58);	
-		elseif PIG_MaxTocversion() then
-			TargetFrame.yisuF:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 192, -58);
+		if PIG_MaxTocversion() then
+			if PIG_MaxTocversion("old") then
+				TargetFrame.yisuF:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 192, -58);
+			else
+				TargetFrame.yisuF:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 210, -58);
+			end
 		else
 			TargetFrame.yisuF:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 207, -33);
 			TargetFrame.yisuF:SetFrameLevel(505)

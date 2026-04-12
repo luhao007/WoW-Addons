@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Author: MysticalOS
-## Version: 12.0.34
+## Version: 12.0.37
 
 ## Title: |cffffe00a<|r|cffff7d0aDBM Mod|r|cffffe00a>|r |cffff6010Raids (Midnight)|r
 ## Title-zhCN: |cFFFFE00A<|r|cFFFF7D0A副本|r|cFFFFE00A>|r|cFFFFFFFF副本助手|r |cFF69CCF0团队|r |cFF22B14C至暗之夜|r
@@ -36,6 +36,7 @@
 ## X-Part-Of: DBM-Core
 
 localization.en.lua
+localization.kr.lua
 localization.ru.lua
 
 VoidSpire\ImperatorAverzian.lua

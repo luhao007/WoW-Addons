@@ -416,7 +416,7 @@ end
 function TradeSkill.GetItemLevelBonuses(spellId)
 	assert(ClientInfo.HasFeature(ClientInfo.FEATURES.C_TRADE_SKILL_UI))
 	local bonusTable = C_TradeSkillUI.GetRecipeInfo(spellId).qualityIlvlBonuses
-	if not bonusTable or #bonusTable == 0 then
+	if not bonusTable or #bonusTable < 2 then
 		return nil
 	end
 	return bonusTable

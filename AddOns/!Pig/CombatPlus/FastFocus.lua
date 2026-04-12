@@ -1,6 +1,5 @@
 local _, addonTable = ...;
 ------------
-local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 local CombatPlusfun=addonTable.CombatPlusfun
 
 ---
@@ -54,7 +53,7 @@ if PIG_MaxTocversion(20000,true) then
 		end 
 	end
 	function FastFocusF.SetFocus.xiala:PIGDownMenu_SetValue(value,arg1)
-		if InCombatLockdown() then PIG_print("战斗中无法更改按键") return end
+		if InCombatLockdown() then PIGprint("战斗中无法更改按键") return end
 		self:PIGDownMenu_SetText(value)
 		PIGA["Common"]["SetFocusKEY"]=arg1
 		CombatPlusfun.SetFocus()
@@ -133,7 +132,7 @@ local function SET_BlizzardUnit()
 	for k,v in pairs(UnitFrame.Blizzard) do
 		zhixingshezhiFocus(v)
 	end
-	if IsAddOnLoaded("Blizzard_RaidUI") then
+	if PIGIsAddOnLoaded("Blizzard_RaidUI") then
 		for i=1, 40 do
 			zhixingshezhiFocus("CompactRaidFrame"..i)
 		end
@@ -152,7 +151,7 @@ local function SET_ElvUIUnit_1(id)
 	end
 end
 local function SET_ElvUIUnit()
-	if not IsAddOnLoaded("ElvUI") then return end
+	if not PIGIsAddOnLoaded("ElvUI") then return end
 	for k,v in pairs(UnitFrame.ElvUI) do
 		zhixingshezhiFocus(v)
 	end

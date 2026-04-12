@@ -1,4 +1,4 @@
-local MODULE_MAJOR, BASE_MAJOR, MINOR = "LibEQOLEditMode-1.0", "LibEQOL-1.0", 19000001
+local MODULE_MAJOR, BASE_MAJOR, MINOR = "LibEQOLEditMode-1.0", "LibEQOL-1.0", 21000001
 local LibStub = _G.LibStub
 assert(LibStub, MODULE_MAJOR .. " requires LibStub")
 local C_Timer = _G.C_Timer
@@ -2397,7 +2397,9 @@ local function buildMultiDropdown()
 			map[value] = shouldSelect and true or nil
 			self.setting.set(lib.activeLayoutName, map, lib:GetActiveLayoutIndex())
 		end
-		Internal:RequestRefreshSettings()
+		if self.setting.refreshOnSelect ~= false then
+			Internal:RequestRefreshSettings()
+		end
 	end
 
 	function mixin:ToggleOption(value)
@@ -3575,6 +3577,8 @@ local function buildButton()
 	end, function(_, frame)
 		frame:Hide()
 		frame.layoutIndex = nil
+		frame.fixedWidth = nil
+		frame.ignoreInLayout = nil
 	end
 end
 
@@ -3643,7 +3647,7 @@ local function setResetVisibility(buttonsFrame, visible)
 	end
 end
 
-getDialogFrame = function(dialog)
+function getDialogFrame(dialog)
 	if not dialog then
 		return nil
 	end
@@ -3699,6 +3703,124 @@ local function getDialogButtons(dialog)
 		return Internal:GetFrameButtons(frame)
 	end
 	return nil, 0
+end
+
+local function normalizeDialogButtonLayout(data)
+	local layout = type(data) == "table" and tostring(data.layout or ""):lower() or ""
+	if layout == "compact" or layout == "grid" or layout == "half" then
+		return "compact"
+	end
+	return "full"
+end
+
+local function setDialogButtonContainerVisible(container, visible)
+	if not container then
+		return
+	end
+	if visible then
+		container.ignoreInLayout = nil
+		container:Show()
+	else
+		container.ignoreInLayout = true
+		container:Hide()
+	end
+end
+
+local function getDialogButtonAreaWidth(dialog)
+	local width = dialog and dialog.Settings and dialog.Settings:GetWidth() or 0
+	if not width or width < 1 then
+		width = dialog and dialog.SettingsScroll and dialog.SettingsScroll:GetWidth() or 0
+	end
+	if not width or width < 1 then
+		width = 330
+	end
+	return width
+end
+
+local function getDialogButtonsReservedHeight(dialog)
+	local buttonsRoot = dialog and dialog.Buttons
+	if not (buttonsRoot and buttonsRoot.IsShown and buttonsRoot:IsShown()) then
+		return 0
+	end
+
+	if buttonsRoot.Layout then
+		buttonsRoot:Layout()
+	end
+
+	local height = tonumber(buttonsRoot:GetHeight()) or 0
+	if height <= 0 then
+		return 0
+	end
+
+	local spacingFromSettings = 12
+	return height + spacingFromSettings
+end
+
+local function applyDialogButtonWidths(dialog)
+	if not (dialog and dialog.Buttons) then
+		return
+	end
+
+	local width = getDialogButtonAreaWidth(dialog)
+	local buttonsRoot = dialog.Buttons
+	buttonsRoot:SetWidth(width)
+
+	local primary = buttonsRoot.Primary or buttonsRoot
+	local compact = buttonsRoot.Compact
+	local reset = buttonsRoot.Reset
+
+	if primary then
+		primary:SetWidth(width)
+		for _, child in ipairs({ primary:GetChildren() }) do
+			if child and child.SetWidth then
+				child.fixedWidth = width
+				child:SetWidth(width)
+			end
+		end
+		if primary.Layout then
+			primary:Layout()
+		end
+	end
+
+	if compact then
+		compact:SetWidth(width)
+		local columns = compact.stride or 2
+		if columns < 1 then
+			columns = 1
+		end
+		local spacing = tonumber(compact.childXPadding) or DEFAULT_SETTINGS_SPACING
+		local totalSpacing = spacing * math.max(0, columns - 1)
+		local columnWidth = math.floor((width - totalSpacing) / columns)
+		if columnWidth < 1 then
+			columnWidth = width
+		end
+		for _, child in ipairs({ compact:GetChildren() }) do
+			if child and child.SetWidth then
+				child.fixedWidth = columnWidth
+				child:SetWidth(columnWidth)
+			end
+		end
+		if compact.Layout then
+			compact:Layout()
+		end
+	end
+
+	if reset then
+		reset:SetWidth(width)
+		for _, child in ipairs({ reset:GetChildren() }) do
+			if child and child.SetWidth then
+				child.fixedWidth = width
+				child:SetWidth(width)
+			end
+		end
+		if reset.Layout then
+			reset:Layout()
+		end
+	end
+
+	if buttonsRoot.Layout then
+		buttonsRoot:Layout()
+	end
 end
 
 local function getDialogSettingsSpacing(dialog)
@@ -3961,15 +4083,33 @@ function Dialog:UpdateButtons()
 	if buttonPool then
 		buttonPool:ReleaseAll()
 	end
-	local anyVisible = false
 	local buttons, num = getDialogButtons(self)
+	local buttonsRoot = self.Buttons
+	local primaryContainer = buttonsRoot and (buttonsRoot.Primary or buttonsRoot) or nil
+	local compactContainer = buttonsRoot and buttonsRoot.Compact or nil
+	local resetContainer = buttonsRoot and buttonsRoot.Reset or primaryContainer
+	local primaryIndex = 0
+	local compactIndex = 0
+	local resetVisible = false
+	local anyVisible = false
 	if num > 0 then
 		for index, data in next, buttons do
-			local button = buttonPool and buttonPool:Acquire(self.Buttons)
+			local layout = normalizeDialogButtonLayout(data)
+			local targetContainer = primaryContainer
+			if layout == "compact" and compactContainer then
+				targetContainer = compactContainer
+			end
+			local button = buttonPool and targetContainer and buttonPool:Acquire(targetContainer)
 			if not button then
 				break
 			end
-			button.layoutIndex = index
+			if targetContainer == compactContainer then
+				compactIndex = compactIndex + 1
+				button.layoutIndex = compactIndex
+			else
+				primaryIndex = primaryIndex + 1
+				button.layoutIndex = primaryIndex
+			end
 			button:SetText(data.text)
 			if button.SetOnClickHandler then
 				button:SetOnClickHandler(data.click)
@@ -3982,14 +4122,19 @@ function Dialog:UpdateButtons()
 	end
 
 	local showReset = getDialogShowReset(self)
-	if showReset and buttonPool then
-		local resetPosition = buttonPool:Acquire(self.Buttons)
-		resetPosition.layoutIndex = num + 1
+	if showReset and buttonPool and resetContainer then
+		local resetPosition = buttonPool:Acquire(resetContainer)
+		resetPosition.layoutIndex = 1
 		resetPosition:SetText(HUD_EDIT_MODE_RESET_POSITION)
 		resetPosition:SetOnClickHandler(GenerateClosure(self.ResetPosition, self))
 		resetPosition:Show()
+		resetVisible = true
 		anyVisible = true
 	end
+
+	setDialogButtonContainerVisible(primaryContainer, primaryIndex > 0)
+	setDialogButtonContainerVisible(compactContainer, compactIndex > 0)
+	setDialogButtonContainerVisible(resetContainer, resetVisible)
 
 	if anyVisible then
 		setResetVisibility(self.Buttons, true)
@@ -4004,6 +4149,8 @@ function Dialog:UpdateButtons()
 			self.Settings.Divider:Hide()
 		end
 	end
+
+	applyDialogButtonWidths(self)
 end
 
 function Dialog:ResetSettings()
@@ -4162,6 +4309,7 @@ function Internal.CreateDialog()
 
 		local maxHeight = getDialogSettingsMaxHeight(self)
 
+		applyDialogButtonWidths(self)
 		if settings.Layout then
 			settings:Layout()
 		end
@@ -4169,6 +4317,14 @@ function Internal.CreateDialog()
 		local contentHeight = settings:GetHeight() or 1
 		local targetHeight = contentHeight
 		local needsScroll = false
+		local reservedBottomHeight = getDialogButtonsReservedHeight(self)
+
+		if maxHeight then
+			maxHeight = maxHeight - reservedBottomHeight
+			if maxHeight < 1 then
+				maxHeight = 1
+			end
+		end
 
 		if maxHeight and contentHeight > maxHeight then
 			targetHeight = maxHeight
@@ -4214,13 +4370,46 @@ function Internal.CreateDialog()
 
 	local dialogButtons = CreateFrame("Frame", nil, dialog, "VerticalLayoutFrame")
 	dialogButtons:SetPoint("TOP", dialogSettingsScroll, "BOTTOM", 0, -12)
+	dialogButtons:SetWidth(330)
 	dialogButtons.spacing = DEFAULT_SETTINGS_SPACING
+
+	local primaryButtons = CreateFrame("Frame", nil, dialogButtons, "VerticalLayoutFrame")
+	primaryButtons.layoutIndex = 1
+	primaryButtons.spacing = DEFAULT_SETTINGS_SPACING
+	primaryButtons:SetWidth(330)
+	primaryButtons.ignoreInLayout = true
+	primaryButtons:Hide()
+	dialogButtons.Primary = primaryButtons
+
+	local compactButtons = CreateFrame("Frame", nil, dialogButtons, "GridLayoutFrame")
+	compactButtons.layoutIndex = 2
+	compactButtons:SetWidth(330)
+	compactButtons.childXPadding = DEFAULT_SETTINGS_SPACING
+	compactButtons.childYPadding = DEFAULT_SETTINGS_SPACING
+	compactButtons.isHorizontal = true
+	compactButtons.stride = 2
+	compactButtons.layoutFramesGoingRight = true
+	compactButtons.layoutFramesGoingUp = false
+	compactButtons.alwaysUpdateLayout = true
+	compactButtons.ignoreInLayout = true
+	compactButtons:Hide()
+	dialogButtons.Compact = compactButtons
+
+	local resetButtons = CreateFrame("Frame", nil, dialogButtons, "VerticalLayoutFrame")
+	resetButtons.layoutIndex = 3
+	resetButtons.spacing = DEFAULT_SETTINGS_SPACING
+	resetButtons:SetWidth(330)
+	resetButtons.ignoreInLayout = true
+	resetButtons:Hide()
+	dialogButtons.Reset = resetButtons
+
 	dialog.Buttons = dialogButtons
 
 	if not dialog._eqolOriginalLayout then
 		dialog._eqolOriginalLayout = dialog.Layout
 		dialog.Layout = function(self, ...)
 			self:ApplySettingsScrollLimit()
+			applyDialogButtonWidths(self)
 			return self:_eqolOriginalLayout(...)
 		end
 	end
@@ -5111,25 +5300,103 @@ function Internal:GetFrameButtons(frame)
 	end
 end
 
-function Internal:RequestRefreshSettings()
-	if self._refreshQueued then
-		return
-	end
-	self._refreshQueued = true
-	if not (C_Timer and C_Timer.After) then
-		self._refreshQueued = false
-		self:RefreshSettings()
-		return
-	end
-	Internal._refreshRunner = Internal._refreshRunner
-		or function()
-			Internal._refreshQueued = false
-			Internal:RefreshSettings()
+local function hasOpenDropdownMenu()
+	local menuSystem = _G.Menu
+	local menuManager = menuSystem and menuSystem.GetManager and menuSystem.GetManager()
+	if menuManager and menuManager.GetOpenMenu then
+		local ok, openMenu = pcall(menuManager.GetOpenMenu, menuManager)
+		if ok and openMenu then
+			return true
 		end
-	C_Timer.After(0, Internal._refreshRunner)
+	end
+	return _G.UIDROPDOWNMENU_OPEN_MENU ~= nil
 end
 
-function Internal:RefreshSettings()
+local function mergeRefreshSettingValueTargets(existing, incoming)
+	if incoming == nil then
+		return nil, true
+	end
+	if type(incoming) ~= "table" then
+		return existing, existing ~= nil
+	end
+	if existing == nil then
+		existing = {}
+	end
+	for _, entry in ipairs(incoming) do
+		if type(entry) == "table" then
+			existing[entry] = true
+		end
+	end
+	for key, value in pairs(incoming) do
+		if type(key) == "table" and value then
+			existing[key] = true
+		elseif type(value) == "table" then
+			existing[value] = true
+		end
+	end
+	return existing, next(existing) ~= nil
+end
+
+function Internal:_scheduleSettingsRefresh(delay)
+	if self._refreshRunnerScheduled then
+		return
+	end
+	self._refreshRunnerScheduled = true
+	local wait = tonumber(delay) or 0
+	if wait < 0 then
+		wait = 0
+	end
+	if not (C_Timer and C_Timer.After) then
+		self._refreshRunnerScheduled = false
+		self:_runDeferredSettingsRefresh()
+		return
+	end
+	self._refreshRunner = self._refreshRunner
+		or function()
+			Internal._refreshRunnerScheduled = false
+			Internal:_runDeferredSettingsRefresh()
+		end
+	C_Timer.After(wait, self._refreshRunner)
+end
+
+function Internal:_runDeferredSettingsRefresh()
+	if hasOpenDropdownMenu() then
+		self:_scheduleSettingsRefresh(0.05)
+		return
+	end
+
+	local refreshLayout = self._refreshQueued == true
+	local refreshValues = self._refreshValuesQueued == true
+	local targets = self._refreshValueTargets
+
+	self._refreshQueued = nil
+	self._refreshValuesQueued = nil
+	self._refreshValueTargets = nil
+
+	if refreshLayout then
+		self:RefreshSettings(true)
+	end
+	if refreshValues then
+		self:RefreshSettingValues(targets, true)
+	end
+end
+
+function Internal:RequestRefreshSettings()
+	self._refreshQueued = true
+	self:_scheduleSettingsRefresh(0)
+end
+
+function Internal:RequestRefreshSettingValues(targetSettings)
+	self._refreshValuesQueued = true
+	self._refreshValueTargets = mergeRefreshSettingValueTargets(self._refreshValueTargets, targetSettings)
+	self:_scheduleSettingsRefresh(0)
+end
+
+function Internal:RefreshSettings(fromDeferred)
+	if not fromDeferred and hasOpenDropdownMenu() then
+		self:RequestRefreshSettings()
+		return
+	end
 	if not (Internal.dialog and Internal.dialog:IsShown()) then
 		return
 	end
@@ -5193,7 +5460,11 @@ function Internal:RefreshSettings()
 	end
 end
 
-function Internal:RefreshSettingValues(targetSettings)
+function Internal:RefreshSettingValues(targetSettings, fromDeferred)
+	if not fromDeferred and hasOpenDropdownMenu() then
+		self:RequestRefreshSettingValues(targetSettings)
+		return
+	end
 	if not (Internal.dialog and Internal.dialog:IsShown()) then
 		return
 	end

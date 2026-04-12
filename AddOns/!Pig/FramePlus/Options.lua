@@ -1,7 +1,7 @@
-local addonName, addonTable = ...;
-local L=addonTable.locale
+local addonName, PD = ...;
+local L=PD.locale
 ---
-local Create=addonTable.Create
+local Create=PD.Create
 local PIGFrame=Create.PIGFrame
 local PIGButton=Create.PIGButton
 local PIGDiyBut=Create.PIGDiyBut
@@ -15,16 +15,17 @@ local PIGOptionsList_R=Create.PIGOptionsList_R
 local PIGFontString=Create.PIGFontString
 local PIGFontStringBG=Create.PIGFontStringBG
 --
-local Fun=addonTable.Fun
-local Data=addonTable.Data
-local AudioData=addonTable.AudioList.Data
+local Fun=PD.Fun
+local Data=PD.Data
+local AudioData=PD.Audio.Data.QuestEnd
 ---
 local fuFrame = PIGOptionsList(L["FRAMEP_TABNAME"],"TOP")
 --
 local RTabFrame =Create.PIGOptionsList_RF(fuFrame)
 --
 local FramePlusfun={}
-addonTable.FramePlusfun=FramePlusfun
+FramePlusfun.AudioData=AudioData
+PD.FramePlusfun=FramePlusfun
 --
 local FramePlusF,FramePlustabbut =PIGOptionsList_R(RTabFrame,GENERAL,70)
 FramePlusF:Show()
@@ -43,8 +44,8 @@ FramePlusF.QuestsEnd.xiala=PIGDownMenu(FramePlusF.QuestsEnd,{"LEFT",FramePlusF.Q
 function FramePlusF.QuestsEnd.xiala:PIGDownMenu_Update_But()
 	local info = {}
 	info.func = self.PIGDownMenu_SetValue
-	for i=1,#AudioData.QuestEnd,1 do
-	    info.text, info.arg1 = AudioData.QuestEnd[i][1], i
+	for i=1,#AudioData,1 do
+	    info.text, info.arg1 = AudioData[i][1], i
 	    info.checked = i==PIGA["Common"]["QuestsEndAudio"]
 		self:PIGDownMenu_AddButton(info)
 	end 
@@ -56,7 +57,7 @@ function FramePlusF.QuestsEnd.xiala:PIGDownMenu_SetValue(value,arg1)
 end
 FramePlusF.QuestsEnd.PlayBut =PIGDiyBut(FramePlusF.QuestsEnd,{"LEFT",FramePlusF.QuestsEnd.xiala,"RIGHT",8,0},{24,24,nil,nil,"chatframe-button-icon-speaker-on",130757});
 FramePlusF.QuestsEnd.PlayBut:SetScript("OnClick", function()
-	PIG_PlaySoundFile(AudioData.QuestEnd[PIGA["Common"]["QuestsEndAudio"]])
+	PIG_PlaySoundFile(AudioData[PIGA["Common"]["QuestsEndAudio"]])
 end)
 FramePlusF.QuestLevel = PIGCheckbutton_R(FramePlusF,{"任务界面显示任务等级"},true)
 FramePlusF.QuestLevel:SetScript("OnClick", function (self)
@@ -174,7 +175,7 @@ FramePlusF:HookScript("OnShow", function(self)
 	self.QuestSellMax:SetChecked(PIGA["FramePlus"]["QuestSellMax"])
 	self.GemUIplus:SetChecked(PIGA["FramePlus"]["GemUIplus"])
 	self.QuestsEnd:SetChecked(PIGA["Common"]["QuestsEnd"]);
-	self.QuestsEnd.xiala:PIGDownMenu_SetText(AudioData.QuestEnd[PIGA["Common"]["QuestsEndAudio"]][1])
+	self.QuestsEnd.xiala:PIGDownMenu_SetText(AudioData[PIGA["Common"]["QuestsEndAudio"]][1])
 	if self.NoUseSpell then self.NoUseSpell:SetChecked(PIGA["FramePlus"]["NoUseSpell"]) end
 	if self.Spell then self.Spell:SetChecked(PIGA["FramePlus"]["SpellOpen"]) end
 	if self.Tracking then self.Tracking:SetChecked(PIGA["FramePlus"]["Tracking"]) end
@@ -386,7 +387,7 @@ if PIG_MaxTocversion() then
 	end)
 	LootRollF.CZ = PIGButton(LootRollF,{"LEFT", LootRollF.Debug,"RIGHT",40,0},{50,22},RESET)
 	LootRollF.CZ:SetScript("OnClick", function (self)
-		PIGA["FramePlus"]["RollScale"]=addonTable.Default["FramePlus"]["RollScale"]
+		PIGA["FramePlus"]["RollScale"]=PD.Default["FramePlus"]["RollScale"]
 		LootRollF.Roll.Slider:PIGSetValue(PIGA["FramePlus"]["RollScale"])
 		ISopenUI(FramePlusfun.RollCZ)
 	end)
@@ -498,9 +499,9 @@ FrameMovF.MoveF.BlizzardUI_Move.Save:SetScript("OnClick", function (self)
 end);
 FrameMovF.MoveF.CZ = PIGButton(FrameMovF.MoveF,{"BOTTOMRIGHT",FrameMovF.MoveF,"TOPRIGHT",-2,2},{170,20},"重置暴雪界面位置/缩放")
 FrameMovF.MoveF.CZ:SetScript("OnClick", function ()
-	PIGA["Blizzard_UI"]=addonTable.Default["Blizzard_UI"]
-	PIGA["FramePlus"]["BlizzardUI_Not"]=addonTable.Default["BlizzardUI_Not"]
-	PIG_print("已重置暴雪UI位置/缩放")
+	PIGA["Blizzard_UI"]=PD.Default["Blizzard_UI"]
+	PIGA["FramePlus"]["BlizzardUI_Not"]=PD.Default["BlizzardUI_Not"]
+	PIGprint("已重置暴雪UI位置/缩放")
 	PIG_OptionsUI.RLUI:Show()
 end);
 FrameMovF.MoveF.ScrollF=Create.PIGScrollFrame_old(FrameMovF.MoveF,{0,0,0,0})
@@ -593,7 +594,7 @@ FrameMovF.MoveF:HookScript("OnShow", function (self)
 end);
 
 --==================================
-addonTable.FramePlus = function()
+PD.FramePlus = function()
 	FramePlusfun.QuestsEnd()
 	FramePlusfun.QuestLevel()
 	FramePlusfun.QuestSellMax()

@@ -15,6 +15,41 @@ local dbDefaults = {
     showUnusable = false,
 }
 
+local function IsSupportedCustomActiveKind(kind)
+    return kind == "spell" or kind == "item"
+end
+
+local function GetEntrySettingsByKind(kind, id)
+    if kind == "spell" then
+        return TrackerDB.GetSpellItemSettings(id)
+    end
+    if kind == "item" then
+        return TrackerDB.GetItemSettings(id)
+    end
+    return nil
+end
+
+local function EnsureEntrySettingsByKind(kind, id)
+    if kind == "spell" then
+        return TrackerDB.EnsureSpellItemSettings(id)
+    end
+    if kind == "item" then
+        return TrackerDB.EnsureItemSettings(id)
+    end
+    return nil
+end
+
+local function NormalizeCustomActiveDuration(value)
+    local numeric = tonumber(value)
+    if not numeric then
+        return nil
+    end
+    if numeric < 0 then
+        return nil
+    end
+    return numeric
+end
+
 TrackerDB.DefaultItems = {
     241304, -- Silvermoon Healing Potion
     241308, -- Light's Potential
@@ -261,4 +296,38 @@ function TrackerDB.ToggleShowUnusable()
     if ns.MiscPanel and ns.MiscPanel.RefreshMiscPanel then
         ns.MiscPanel:RefreshMiscPanel()
     end
+end
+
+function TrackerDB.GetCustomActiveDuration(kind, id)
+    if not IsSupportedCustomActiveKind(kind) then
+        return 0
+    end
+
+    local settings = GetEntrySettingsByKind(kind, id)
+    local duration = settings and NormalizeCustomActiveDuration(settings.customActiveDuration)
+    return duration or 0
+end
+
+function TrackerDB.SetCustomActiveDuration(kind, id, value)
+    if not IsSupportedCustomActiveKind(kind) then
+        return false
+    end
+
+    local normalized = NormalizeCustomActiveDuration(value)
+    if normalized == nil then
+        return false
+    end
+
+    local settings = EnsureEntrySettingsByKind(kind, id)
+    if not settings then
+        return false
+    end
+
+    if normalized == 0 then
+        settings.customActiveDuration = nil
+    else
+        settings.customActiveDuration = normalized
+    end
+
+    return true
 end

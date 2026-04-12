@@ -38,7 +38,7 @@ local Config_locale = {
 		slash      = L["TITAN_PANEL_MENU_SLASH_COMMAND"],
 		help_list  = L["TITAN_PANEL_MENU_HELP_LIST"],
 		im_ex_port = L["TITAN_PANEL_MENU_IMPEXP_LABEL"],
-		adjust     = L["TITAN_PANEL_MENU_ADJUST_LABEL"] ,
+		adjust     = L["TITAN_PANEL_MENU_ADJUST_LABEL"],
 	}
 }
 
@@ -428,7 +428,7 @@ local function CreateBarsList(pos)
 				TitanPanelButton_Justify();
 			end,
 		}
---]]
+		--]]
 
 		position = position + 1 -- background
 		args[v.name].args.background = {
@@ -632,7 +632,7 @@ end
 ---@param pos number Options order start
 ---@return table Config options
 local function CreateBarsAll(pos)
---	AceConfigRegistry:NotifyChange("Titan Panel Globals")
+	--	AceConfigRegistry:NotifyChange("Titan Panel Globals")
 	local args = {}
 	local position = 1000
 
@@ -1215,7 +1215,7 @@ local function CreateProfiles(pos)
 	local p_sync = {} -- profiles used as Sync
 
 	-- Rip through the players (with server name) to sort them
-	for index, id in pairs(TitanSettings.Players) do
+	for index, id in TitanUtils_PlayerIter() do
 		-- collect some info on THIS toon for the config
 		local this_toon = {}
 
@@ -1235,17 +1235,20 @@ local function CreateProfiles(pos)
 		this_toon.profile = TitanVariables_GetProfile(index)
 		local res = ""
 
-		if this_toon.profile.ptype == Titan_Global.profile.GLOBAL then
-			res = L["TITAN_PANEL_GLOBAL"] .. " : " .. this_toon.profile.cname
+		-- Create string after Profile name in header
+		if is_custom then
+			res = ""
+		elseif this_toon.profile.ptype == Titan_Global.profile.GLOBAL then
+			res = " < " .. L["TITAN_PANEL_GLOBAL"] .. " : " .. this_toon.profile.cname
 		elseif this_toon.profile.ptype == Titan_Global.profile.SYNC then
-			res = L["TITAN_PANEL_MENU_PROFILE_SYNC"] .. " : " .. this_toon.profile.cname
+			res = " < " .. L["TITAN_PANEL_MENU_PROFILE_SYNC"] .. " : " .. this_toon.profile.cname
 		elseif this_toon.profile.ptype == Titan_Global.profile.TOON then
-			res = L["TITAN_PANEL_MENU_PROFILE_CHARS"] .. " : " .. Titan_Global.profile.NONE
+			res = " < " .. L["TITAN_PANEL_MENU_PROFILE_CHARS"] .. " : " .. Titan_Global.profile.NONE
 		else
-			res = "?" .. " : " .. Titan_Global.profile.NONE
+			res = " < " .. "?" .. " : " .. Titan_Global.profile.NONE
 		end
 
-	this_toon.toon_header = this_toon.fancy_name .. res --EndProfileText(this_toon.profile)
+		this_toon.toon_header = this_toon.fancy_name .. " "..res
 		this_toon.is_player = (index == TitanUtils_GetPlayer())
 		this_toon.sync_set = not (id.Panel["SyncWithProfile"] == Titan_Global.profile.NONE)
 		this_toon.sync_name = id.Panel["SyncWithProfile"]
@@ -1310,66 +1313,75 @@ local function CreateProfiles(pos)
 		}
 
 		do -- profile toon info
-			local custom_toon, toon_info = TitanUtils_GetPlayerInfo(this_toon.name)
-			if custom_toon then
+			local result, toon_info = TitanUtils_GetProfileInfo(this_toon.name, "Info", false)
+			-- is_custom | found | not_found | created
+			if result == "is_custom" then
 				-- Cannot login; There is no info to show.
-			elseif toon_info == nil then
+			elseif result == "not_found" then
 				-- For now show nothing
-			else -- display
-				local itoon = toon_info
-				local logout = (itoon.logoutStr == nil) and L["TITAN_PANEL_NA"] or itoon.logoutStr
-				position = position + 1
-				p_args[tostring(position)] = {
-					type = "description",
-					name = L["TITAN_PANEL_MENU_PROFILE_LOGOUT"].." : " .. logout,
-					--width = "0.5",
-					cmdHidden = true,
-					order = position,
-				}
-				if itoon.zoneText == nil or itoon.subZoneText == nil then
-					-- not filled in
+			elseif result == "found" then
+				if toon_info == nil then
+					-- satisfy IDE OR routine failed miserably
+					-- Show nothing
 				else
+					local itoon = toon_info
+					local logout = (itoon.logoutStr == nil) and L["TITAN_PANEL_NA"] or itoon.logoutStr
 					position = position + 1
 					p_args[tostring(position)] = {
 						type = "description",
-						name = L["TITAN_PANEL_MENU_PROFILE_LOC"].." : " .. itoon.zoneText .. " " .. itoon.subZoneText,
+						name = L["TITAN_PANEL_MENU_PROFILE_LOGOUT"] .. " : " .. logout,
 						--width = "0.5",
 						cmdHidden = true,
 						order = position,
 					}
+					if itoon.zoneText == nil or itoon.subZoneText == nil then
+						-- not filled in
+					else
+						position = position + 1
+						p_args[tostring(position)] = {
+							type = "description",
+							name = L["TITAN_PANEL_MENU_PROFILE_LOC"] ..
+							" : " .. itoon.zoneText .. " " .. itoon.subZoneText,
+							--width = "0.5",
+							cmdHidden = true,
+							order = position,
+						}
+					end
+					position = position + 1
+					p_args[tostring(position)] = {
+						type = "description",
+						name = L["TITAN_PANEL_MENU_PROFILE_LEVEL"] .. " : " .. itoon.levelText,
+						width = "0.5",
+						cmdHidden = true,
+						order = position,
+					}
+					position = position + 1
+					p_args[tostring(position)] = {
+						type = "description",
+						name = L["TITAN_PANEL_MENU_PROFILE_FACTION"] .. " : " .. itoon.faction,
+						width = "0.5",
+						cmdHidden = true,
+						order = position,
+					}
+					position = position + 1
+					p_args[tostring(position)] = {
+						type = "description",
+						name = L["TITAN_PANEL_MENU_PROFILE_CLASS"] .. " : " .. itoon.class,
+						width = "0.5",
+						cmdHidden = true,
+						order = position,
+					}
+					position = position + 1
+					p_args[tostring(position)] = {
+						type = "description",
+						name = L["TITAN_PANEL_MENU_PROFILE_RACE"] .. " : " .. itoon.race,
+						width = "0.5",
+						cmdHidden = true,
+						order = position,
+					}
 				end
-				position = position + 1
-				p_args[tostring(position)] = {
-					type = "description",
-					name = L["TITAN_PANEL_MENU_PROFILE_LEVEL"] .." : " .. itoon.levelText,
-					width = "0.5",
-					cmdHidden = true,
-					order = position,
-				}
-				position = position + 1
-				p_args[tostring(position)] = {
-					type = "description",
-					name = L["TITAN_PANEL_MENU_PROFILE_FACTION"].." : " .. itoon.faction,
-					width = "0.5",
-					cmdHidden = true,
-					order = position,
-				}
-				position = position + 1
-				p_args[tostring(position)] = {
-					type = "description",
-					name = L["TITAN_PANEL_MENU_PROFILE_CLASS"].." : " .. itoon.class,
-					width = "0.5",
-					cmdHidden = true,
-					order = position,
-				}
-				position = position + 1
-				p_args[tostring(position)] = {
-					type = "description",
-					name = L["TITAN_PANEL_MENU_PROFILE_RACE"].." : " .. itoon.race,
-					width = "0.5",
-					cmdHidden = true,
-					order = position,
-				}
+			else
+				-- not sure what happened, show nothing for now
 			end
 		end
 
@@ -1487,6 +1499,7 @@ local function CreateProfiles(pos)
 						L["TITAN_PANEL_MENU_LOAD_SETTINGS"]
 						.. " > " .. this_toon.name .. ""
 						, "info")
+					AceConfigRegistry:NotifyChange("Titan Panel Addon Chars")
 				end,
 				-- does not make sense to load current character profile
 				disabled = (this_toon.is_player or g_sync),
@@ -1522,7 +1535,7 @@ local function CreateProfiles(pos)
 				end,
 				-- can not delete current character profile
 				disabled = (this_toon.is_player
-					or g_sync
+					--					or g_sync
 					or p_sync[this_toon.name]),
 			}
 			position = position + 1
@@ -1797,7 +1810,7 @@ local function CreateProfiles(pos)
 				}
 			else
 				local has_sync = false
-				for index, id in pairs(TitanSettings.Players) do
+				for index, id in TitanUtils_PlayerIter() do
 					if id.Panel["SyncWithProfile"] == this_toon.name then
 						-- This profile uses this toon as a Sync
 						position = position + 1
@@ -1845,7 +1858,7 @@ local function CreateImportExportList(pos)
 	local p_info  = {} -- used to hold info about each toon in players
 
 	-- Rip through the players (with server name) to sort them
-	for index, id in pairs(TitanSettings.Players) do
+	for index, id in TitanUtils_PlayerIter() do
 		--		table.insert(players, {index = index});
 		--		table.insert(export, {index = false});
 		players[index] = index
@@ -1902,7 +1915,7 @@ local function CreateImportExportList(pos)
 	args["export_header"] = {
 		order = position,
 		type = "header",
-		name = L["TITAN_PANEL_MENU_IMPEXP_IMPORT"].." \n",
+		name = L["TITAN_PANEL_MENU_IMPEXP_IMPORT"] .. " \n",
 		cmdHidden = true
 	}
 	local ex_desc = ""
@@ -2411,7 +2424,7 @@ local function CreateUIOptions(pos)
 				width = ".5",
 				order = 42,
 				type = "description",
-				name = L["TITAN_PANEL_MENU_FRAME_STRATA_ORDER"].."\n"
+				name = L["TITAN_PANEL_MENU_FRAME_STRATA_ORDER"] .. "\n"
 					.. "- BACKGROUND\n"
 					.. "- LOW - default\n"
 					.. "- MEDIUM\n"
@@ -3648,7 +3661,7 @@ local function BuildAll()
 		AceConfig:RegisterOptionsTable("Titan Panel Addon Changes", titan_options.args.changeHistory)
 		AceConfig:RegisterOptionsTable("Titan Panel Help List", titan_options.args.helplist)
 
---		AceConfig:RegisterOptionsTable("Titan", titan_options)
+		--		AceConfig:RegisterOptionsTable("Titan", titan_options)
 		AceConfig:RegisterOptionsTable(config_parent, titan_options)
 		--	AceConfigRegistry:RegisterOptionsTable("Titan", titan_options)
 	end

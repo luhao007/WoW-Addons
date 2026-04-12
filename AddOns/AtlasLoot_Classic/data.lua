@@ -548,6 +548,7 @@ data["Deadmines"] = {
 				{ 3,  5197 }, -- Cookie's Tenderizer
 				{ 4,  5192 }, -- Thief's Blade
 				{ 5,  5198 }, -- Cookie's Stirring Rod
+				{ 7,  248332 }, -- Stormwind Footlocker
 				{ 16, "ac628" },
 			},
 			[HEROIC_DIFF] = "AtlasLoot_Cataclysm",
@@ -1486,10 +1487,10 @@ data["ScarletHalls"] = {
 			[NORMAL_DIFF] = {
 				{ 1, 88269 },                         -- Scarlet Sandals
 				{ 2, 88270 },                         -- Lightblade Bracer
-				{ 3, 132550 },                        -- Scarlet Chain Footpads
-				{ 4, 88271 },                         -- Harlan's Shoulders
-				{ 5, 88273 },                         -- Armsmaster's Sealed Locket
-				{ 6, 88272 },                         -- The Gleaming Ravager
+				{ 3, 88271 },                         -- Harlan's Shoulders
+				{ 4, 88273 },                         -- Armsmaster's Sealed Locket
+				{ 5, 88272 },                         -- The Gleaming Ravager
+				{ 6, 132550 },                        -- Scarlet Chain Footpads
 				{ 8, 23192, [ATLASLOOT_IT_FILTERIGNORE] = true }, -- Tabard of the Scarlet Crusade
 			},
 			[HEROIC_DIFF] = "AtlasLoot_MistsofPandaria",
@@ -1709,16 +1710,17 @@ data["ShadowfangKeep"] = {
 		{ --ShadowfangGodfrey
 			EncounterJournalID = 100,
 			[NORMAL_DIFF] = {
-				{ 1,  3748 },                           -- Feline Mantle
-				{ 2,  151071 },                         -- Gloves of the Uplifted Cup
-				{ 3,  151072 },                         -- Worgen Hunter's Helm
-				{ 4,  151073 },                         -- Greaves of the Misguided
-				{ 5,  6220 },                           -- Meteor Shard
-				{ 6,  6318 },                           -- Odo's Ley Staff
-				{ 7,  6641 },                           -- Haunting Blade
-				{ 9,  60877,  [ATLASLOOT_IT_FILTERIGNORE] = true }, -- Godfrey's Crystal Scope
-				{ 10, 60882,  [ATLASLOOT_IT_FILTERIGNORE] = true }, -- Tenebrous Orb
-				{ 12, "ac631" },
+				{ 1,  3748 },                            -- Feline Mantle
+				{ 2,  151071 },                          -- Gloves of the Uplifted Cup
+				{ 3,  151072 },                          -- Worgen Hunter's Helm
+				{ 4,  151073 },                          -- Greaves of the Misguided
+				{ 5,  6220 },                            -- Meteor Shard
+				{ 6,  6318 },                            -- Odo's Ley Staff
+				{ 7,  6641 },                            -- Haunting Blade
+				{ 9,  244655 },                          -- Gilnean Circular Rug
+				{ 11, 60877,  [ATLASLOOT_IT_FILTERIGNORE] = true }, -- Godfrey's Crystal Scope
+				{ 12, 60882,  [ATLASLOOT_IT_FILTERIGNORE] = true }, -- Tenebrous Orb
+				{ 14, "ac631" },
 			},
 			[HEROIC_DIFF] = "AtlasLoot_Cataclysm",
 		},

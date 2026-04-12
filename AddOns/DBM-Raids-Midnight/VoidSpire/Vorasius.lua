@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2734, "DBM-Raids-Midnight", 3, 1307)
 --local L		= mod:GetLocalizedStrings()--Nothing to localize for blank mods
 
-mod:SetRevision("20260325081755")
+mod:SetRevision("20260407042048")
 mod:SetCreatureID(240434)
 mod:SetEncounterID(3177)
 --mod:SetHotfixNoticeRev(20250823000000)
@@ -19,10 +19,10 @@ local specWarnParasiteExpulsion			= mod:NewSpecialWarningDodgeCount(1254199, nil
 local specWarnPrimordialRoar			= mod:NewSpecialWarningCount(1260046, nil, 140459, nil, 2, 2)
 --local specWarnFixateParasite			= mod:NewSpecialWarningYou(1254112, nil, nil, nil, 1, 2)
 
-local timerShadowclawSlamCD				= mod:NewCDCountTimer("d20.5", 1241836, 182557, nil, nil, 2)--Shortname "Slam"
+local timerShadowclawSlamCD				= mod:NewCDCountTimer("d20.5", 1241836, 182557, nil, 2, 5, nil, DBM_COMMON_L.TANK_ICON)--Shortname "Slam"
 --local timerVoidBreathCD				= mod:NewCDCountTimer(20.5, 1243853, 17088, nil, nil, 3)--Shortname "Breath"
 local timerParasiteExpulsionCD			= mod:NewCDCountTimer(20.5, 1254199, DBM_COMMON_L.ADDS.." (%s)", nil, nil, 1)
-local timerPrimordialRoarCD				= mod:NewCDCountTimer(20.5, 1260046, 140459, nil, nil, 2)--Shortname "Roar"
+local timerPrimordialRoarCD				= mod:NewCDCountTimer(20.5, 1260046, 140459, nil, nil, 2, nil, DBM_COMMON_L.HEALER_ICON)--Shortname "Roar"
 
 mod:AddPrivateAuraSoundOption(1243270, true, 1243270, 1, 2, "watchfeet", 8)--Dark Goo
 mod:AddPrivateAuraSoundOption(1241844, false, 1241836, 1, 3, "debuffyou", 17)--Smashed (debuff from shadowclaw slam)
@@ -37,6 +37,7 @@ mod.vb.roarCount = 0
 local badStateDetected = false
 local slamEventCounts = {}--Simple eventID to count mapping for slam, since both spellids share a unified count and bars never cancel on this boss
 
+---@param self DBMMod
 local function setFallback(self)
 	--Blizz API fallbacks
 	specWarnShadowclawSlam:SetAlert({59, 60}, "slamincoming", 19, 2)
@@ -56,7 +57,7 @@ function mod:OnLimitedCombatStart()
 	self.vb.breathCount = 1
 	self.vb.expulsionCount = 1
 	self.vb.roarCount = 1
-	if DBM.Options.HardcodedTimer and self:IsEasy() and not badStateDetected then
+	if DBM.Options.HardcodedTimer and not badStateDetected then
 		self:IgnoreBlizzardAPI()
 		self:RegisterShortTermEvents(
 			"ENCOUNTER_TIMELINE_EVENT_ADDED",
@@ -79,8 +80,8 @@ do
 	---@param timer number
 	---@param timerExact number
 	---@param eventID number
-	local function timersEasy(self, timer, timerExact, eventID)
-		--Logic confirmed against normal and LFR
+	local function timersAll(self, timer, timerExact, eventID)
+		--Logic confirmed against LFR, normal, heroic, and mythic
 		if timer == 6 or timer == 120 then--Primordial Roar
 			timerPrimordialRoarCD:TLStart(timerExact, eventID, self:TLCountStart(eventID, "roar", "roarCount"))
 		elseif timer == 57 or timer == 123 then--Parasite Expulsion
@@ -95,10 +96,7 @@ do
 		else--Reached end of chain without finding a valid timer, this means hardcode mod has failed, so we need to disable hardcoded features and fall back to blizz API
 			if not DBM.Options.DebugMode then
 				badStateDetected = true
-				if DBM.Options.IgnoreBlizzAPI then
-					DBM.Options.IgnoreBlizzAPI = false
-					DBM:FireEvent("DBM_ResumeBlizzAPI")
-				end
+				self:ResumeBlizzardAPI()
 				self:UnregisterShortTermEvents()
 				setFallback(self)
 				DBM:Debug("|cffff0000Failed to match encounter timeline events to expected timers, falling back to Blizzard API|r", nil, nil, nil, true)
@@ -107,17 +105,14 @@ do
 			end
 		end
 	end
-	--Note, bar stage changing and canceling is handled by core
+	--Note, bar state changing and canceling is handled by core
 	function mod:ENCOUNTER_TIMELINE_EVENT_ADDED(eventInfo)
 		if eventInfo.source ~= 0 then return end
 		local eventID = eventInfo.id
---		local eventState = C_EncounterTimeline.GetEventState(eventID)
 		local timerExact = eventInfo.duration
 		local timer = math.floor(timerExact + 0.5)
 		if not badStateDetected then
-			if self:IsEasy() then
-				timersEasy(self, timer, timerExact, eventID)
-			end
+			timersAll(self, timer, timerExact, eventID)
 		end
 	end
 

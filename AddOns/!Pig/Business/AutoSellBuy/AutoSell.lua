@@ -46,10 +46,10 @@ function BusinessInfo.AutoSell()
 				local sellALLG = 0
 				for i=1,#data do
 					sellALLG=sellALLG+data[i][4]
-					PIG_print("|cFF7FFFAA".._GN.."|r: "..data[i][3])
+					PIGprint("|cFF7FFFAA".._GN.."|r: "..data[i][3])
 				end
 				if sellALLG>0 then
-					PIG_print("|cFF7FFFAA本次".._GN..#data.."件获得:|r " .. GetCoinTextureString(sellALLG));
+					PIGprint("|cFF7FFFAA本次".._GN..#data.."件获得:|r " .. GetCoinTextureString(sellALLG));
 				end
 				MerchantFrame.pigfuusell=nil
 			end

@@ -445,9 +445,9 @@ function GDKPInfo.ADD_History(RaidR)
 		button2 = NO,
 		OnAccept = function()
 			local Old_Data = PIGA["GDKP"]["History"][History.xuanzhongID];
-			PIGA["GDKP"]["instanceName"] =PIGCopyTable(Old_Data.Biaoti)
-			PIGA["GDKP"]["ItemList"] =PIGCopyTable(Old_Data.ItemList)
-			PIGA["GDKP"]["Raidinfo"] =PIGCopyTable(Old_Data.Players)
+			PIGA["GDKP"]["instanceName"] =CopyTable(Old_Data.Biaoti)
+			PIGA["GDKP"]["ItemList"] =CopyTable(Old_Data.ItemList)
+			PIGA["GDKP"]["Raidinfo"] =CopyTable(Old_Data.Players)
 			daorubuzhufakuanSET(Old_Data.Jiangli,PIGA["GDKP"]["jiangli"],false)
 			daorubuzhufakuanSET(Old_Data.Fakuan,PIGA["GDKP"]["fakuan"],0)
 			PIGA["GDKP"]["Dongjie"] = true;

@@ -1,19 +1,18 @@
 local _, addonTable = ...;
----
 local PigLayoutFun=addonTable.PigLayoutFun
 function PigLayoutFun.Options_ActionBar(openxx)
 if not openxx then return end
 ---
-local L=addonTable.locale
 local Create=addonTable.Create
+local PIGCheckbutton=Create.PIGCheckbutton
 local PIGFrame=Create.PIGFrame
 local PIGButton=Create.PIGButton
 local PIGSlider = Create.PIGSlider
 local PIGDownMenu=Create.PIGDownMenu
 local PIGFontString=Create.PIGFontString
-local PIGCheckbutton=Create.PIGCheckbutton
 local PIGOptionsList_R=Create.PIGOptionsList_R
 ---
+local L=addonTable.locale
 local Data=addonTable.Data
 local Fun=addonTable.Fun
 local PIGSetAtlas=Fun.PIGSetAtlas
@@ -468,9 +467,21 @@ end)
 --=====
 local HHH=22
 local WWW=HHH*0.84
-local Old_MicroBut = PIGCopyTable(MICRO_BUTTONS)
+local Old_MicroBut = {
+	"CharacterMicroButton",
+	"SpellbookMicroButton",
+	"TalentMicroButton",
+	"AchievementMicroButton",
+	"QuestLogMicroButton",
+	"SocialsMicroButton",
+	"GuildMicroButton",
+	"CollectionsMicroButton",
+	"PVPMicroButton",
+	"LFGMicroButton",
+	"MainMenuMicroButton",
+	"HelpMicroButton",
+}
 local Diy_MicroBut = {"MacroMicroButton","MainMenuBarBackpackButton"}
-
 --重建菜单列表
 local GameMenu = {}
 local PIG_MICRO_BUTTONS = {}
@@ -833,7 +844,7 @@ local MicroButLoad = {
 					GameTooltip_AddNewbieTip(self, self.tooltipText, 1.0, 1.0, 1.0, self.newbieText);
 				end)
 			end)
-		elseif IsAddOnLoaded("MeetingHorn") then
+		elseif PIGIsAddOnLoaded("MeetingHorn") then
 			local bizbut = _G[GameMenu["PIG_LFGMicroButton"]]
 			local LeftClickFun = MeetingHornDataBroker:GetScript("OnClick")
 			bizbut:HookScript("OnMouseUp", function (self,button)

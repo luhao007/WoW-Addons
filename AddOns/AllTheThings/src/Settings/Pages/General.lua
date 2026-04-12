@@ -135,6 +135,7 @@ local function presetStore()
 		["Thing:Recipes"] = settings:Get("Thing:Recipes"),
 		["Thing:Reputations"] = settings:Get("Thing:Reputations"),
 		["Thing:Titles"] = settings:Get("Thing:Titles"),
+		["Thing:ProfessionNodes"] = settings:Get("Thing:ProfessionNodes"),
 
 		-- General Content
 		["Hide:BoEs"] = settings:Get("Hide:BoEs"),
@@ -218,6 +219,7 @@ modeButton:SetScript("OnClick", function()
 				settings:Set("Thing:Recipes", settings:Get("PresetRestore")["Thing:Recipes"])
 				settings:Set("Thing:Reputations", settings:Get("PresetRestore")["Thing:Reputations"])
 				settings:Set("Thing:Titles", settings:Get("PresetRestore")["Thing:Titles"])
+				settings:Set("Thing:ProfessionNodes", settings:Get("PresetRestore")["Thing:ProfessionNodes"])
 
 				-- General Content
 				settings:Set("Hide:BoEs", settings:Get("PresetRestore")["Hide:BoEs"])
@@ -299,6 +301,7 @@ modeButton:SetScript("OnClick", function()
 			settings:Set("Thing:Recipes", false)
 			settings:Set("Thing:Reputations", false)
 			settings:Set("Thing:Titles", false)
+			settings:Set("Thing:ProfessionNodes", false)
 
 			-- General Content
 			settings:Set("Hide:BoEs", true)
@@ -364,6 +367,7 @@ modeButton:SetScript("OnClick", function()
 			settings:Set("Thing:Recipes", false)
 			settings:Set("Thing:Reputations", false)
 			settings:Set("Thing:Titles", false)
+			settings:Set("Thing:ProfessionNodes", false)
 
 			-- General Content
 			settings:Set("Hide:BoEs", false)
@@ -429,6 +433,7 @@ modeButton:SetScript("OnClick", function()
 			settings:Set("Thing:Recipes", true)
 			settings:Set("Thing:Reputations", true)
 			settings:Set("Thing:Titles", true)
+			settings:Set("Thing:ProfessionNodes", false)
 
 			-- General Content
 			settings:Set("Hide:BoEs", false)
@@ -494,6 +499,7 @@ modeButton:SetScript("OnClick", function()
 			settings:Set("Thing:Recipes", true)
 			settings:Set("Thing:Reputations", true)
 			settings:Set("Thing:Titles", true)
+			settings:Set("Thing:ProfessionNodes", true)
 
 			-- General Content
 			settings:Set("Hide:BoEs", false)
@@ -707,7 +713,7 @@ checkboxLootMode:AlignBelow(checkboxAccountMode)
 
 local headerAccountThings = child:CreateHeaderLabel(L.ACCOUNT_THINGS_LABEL)
 headerAccountThings:SetPoint("LEFT", headerMode, 0, 0)
-headerAccountThings:SetPoint("TOP", checkboxLootMode, "BOTTOM", 0, -10)
+headerAccountThings:SetPoint("TOP", checkboxLootMode, "BOTTOM", 0, -5)
 headerAccountThings.OnRefresh = function(self)
 	if app.MODE_DEBUG then
 		self:SetAlpha(0.4)
@@ -983,6 +989,16 @@ child:CreateAccountWideCheckbox("TITLES", "Titles")
 	:AlignBelow(accwideCheckboxReputations)
 child:CreateTrackingCheckbox("TITLES", "Titles", true)
 	:AlignAfter(accwideCheckboxTitles)
+
+-- Profession Nodes were added during Dragonflight
+local accwideCheckboxProfessionNodes;
+if app.GameBuildVersion >= 100000 then
+accwideCheckboxProfessionNodes =
+child:CreateAccountWideCheckbox("PROFESSION_NODES", "ProfessionNodes")
+	:AlignBelow(accwideCheckboxTitles)
+child:CreateTrackingCheckbox("PROFESSION_NODES", "ProfessionNodes", true)
+	:AlignAfter(accwideCheckboxProfessionNodes)
+end
 
 -- Column 2
 local checkboxShowAllTrackableThings = child:CreateCheckBox(L.SHOW_INCOMPLETE_THINGS_CHECKBOX,

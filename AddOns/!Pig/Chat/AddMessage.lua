@@ -255,7 +255,8 @@ function QuickChatfun.PIGMessage()
 				name_server = name
 			end
 		end
-		if gnid=="-999" and PIGA["Chat"]["FastCopy"] then
+		--print(text,link, button, chatFrame)
+		if gnid=="-999" then
 			local editBoxXX = ChatEdit_ChooseBoxForSend()
 	        local hasText = (editBoxXX:GetText() ~= "")
 	        ChatEdit_ActivateChat(editBoxXX)
@@ -284,12 +285,14 @@ function QuickChatfun.PIGMessage()
 					end
 				end
 			end
-		elseif gnid=="-998" and PIGA["Chat"]["ShowZb"] then
+		elseif gnid=="-998" then
 			if button=="LeftButton" then
 				FasongYCqingqiu(name_server)
 			else
 				C_FriendList.SendWho('n-"'..name_server..'"')
 			end
+		elseif gnid=="-997" then
+			QuickChatfun.TabButUI.Keyword.ClickShowTab("AddIgnore",name_server)
 		end
 	end)
 

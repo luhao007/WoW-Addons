@@ -40,6 +40,143 @@ StaticPopupDialogs["CMC_ENABLE_TRACKER_AND_RELOAD"] = {
     preferredIndex = 3,
 }
 
+local function IsCustomActiveConfigKind(kind)
+    return kind == "spell" or kind == "item"
+end
+
+local function IsCustomActiveMenuSupportedKind(kind)
+    return IsCustomActiveConfigKind(kind) or kind == ENTRY_KIND_WILDCARD_SLOTS
+end
+
+local function ResolveCustomActiveTarget(kind, id)
+    if kind == ENTRY_KIND_WILDCARD_SLOTS then
+        local wildcardItemID = ItemsData.GetWildcardSlotItemID and ItemsData:GetWildcardSlotItemID(id) or nil
+        if wildcardItemID then
+            return "item", wildcardItemID
+        end
+        return nil, nil
+    end
+
+    if IsCustomActiveConfigKind(kind) and id then
+        return kind, id
+    end
+
+    return nil, nil
+end
+
+local function FormatCustomActiveValue(value)
+    local numeric = tonumber(value) or 0
+    if math.abs(numeric - math.floor(numeric)) < 0.000001 then
+        return tostring(math.floor(numeric))
+    end
+    return string.format("%g", numeric)
+end
+
+local function ParseCustomActiveInput(text)
+    local trimmed = strtrim(text or "")
+    if trimmed == "" then
+        return nil
+    end
+
+    local value = tonumber(trimmed)
+    if not value then
+        return nil
+    end
+    if value < 0 then
+        return nil
+    end
+
+    return value
+end
+
+local function SetCustomActiveAcceptEnabled(dialog, enabled)
+    if not dialog or not dialog.GetName then
+        return
+    end
+    local acceptButton = _G[dialog:GetName() .. "Button1"]
+    if acceptButton and acceptButton.SetEnabled then
+        acceptButton:SetEnabled(enabled == true)
+    end
+end
+
+local function ValidateCustomActivePopup(dialog)
+    if not dialog then
+        return nil
+    end
+    local editBox = dialog.editBox or (dialog.GetEditBox and dialog:GetEditBox())
+    if not editBox then
+        return nil
+    end
+    local value = ParseCustomActiveInput(editBox:GetText())
+    SetCustomActiveAcceptEnabled(dialog, value ~= nil)
+    return value
+end
+
+StaticPopupDialogs["CMC_SET_CUSTOM_ACTIVE"] = {
+    text = "Set custom active time (seconds).\nCurrent value: 0",
+    button1 = _G.ACCEPT,
+    button2 = _G.CANCEL,
+    hasEditBox = true,
+    maxLetters = 32,
+    autoCompleteParams = nil,
+    OnShow = function(self)
+        local data = self.data
+        if not data or not IsCustomActiveConfigKind(data.kind) or not data.id then
+            self:Hide()
+            return
+        end
+
+        local currentValue = DB.GetCustomActiveDuration(data.kind, data.id) or 0
+        local textWidget = self.text or _G[self:GetName() .. "Text"]
+        if textWidget then
+            textWidget:SetText("Set custom active time (seconds).\nCurrent value: " .. FormatCustomActiveValue(currentValue))
+        end
+
+        local editBox = self.editBox or (self.GetEditBox and self:GetEditBox())
+        if editBox then
+            editBox:SetText(FormatCustomActiveValue(currentValue))
+            editBox:HighlightText()
+            editBox:SetFocus()
+        end
+
+        ValidateCustomActivePopup(self)
+    end,
+    OnAccept = function(self)
+        local data = self.data
+        if not data or not IsCustomActiveConfigKind(data.kind) or not data.id then
+            return
+        end
+
+        local value = ValidateCustomActivePopup(self)
+        if value == nil then
+            ns.Addon:Print("Custom active value must be a non-negative number.")
+            return
+        end
+
+        DB.SetCustomActiveDuration(data.kind, data.id, value)
+        MiscPanel:RefreshMiscPanel()
+        ItemViewer:RefreshItemViewerFrames()
+    end,
+    EditBoxOnTextChanged = function(self)
+        ValidateCustomActivePopup(self:GetParent())
+    end,
+    EditBoxOnEnterPressed = function(self)
+        local popup = self:GetParent()
+        if ValidateCustomActivePopup(popup) ~= nil then
+            StaticPopup_OnClick(popup, 1)
+        else
+            ns.Addon:Print("Custom active value must be a non-negative number.")
+        end
+    end,
+    EditBoxOnEscapePressed = function(self)
+        self:GetParent():Hide()
+    end,
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+    preferredIndex = 3,
+}
+
 local function IsTabButton(child)
     if not child then
         return false
@@ -555,6 +692,31 @@ local function ShowItemContextMenu(button)
             ItemsData:SetEntryState(kind, id, ITEM_STATE_HIDDEN)
             RefreshTrackerPanels()
         end)
+        if IsCustomActiveMenuSupportedKind(kind) then
+            local targetKind, targetID = ResolveCustomActiveTarget(kind, id)
+            local currentValue = 0
+            if targetKind and targetID then
+                currentValue = DB.GetCustomActiveDuration(targetKind, targetID) or 0
+            end
+
+            local label = "Set Custom Active (" .. FormatCustomActiveValue(currentValue) .. "s)"
+            if not targetKind or not targetID then
+                label = "Set Custom Active (equip trinket first)"
+            end
+
+            rootDescription:CreateButton(
+                label,
+                function()
+                    local popupKind, popupID = ResolveCustomActiveTarget(kind, id)
+                    if not popupKind or not popupID then
+                        local wildcardName = ItemsData:GetEntryName(kind, id) or tostring(id)
+                        ns.Addon:Print(wildcardName .. ": no equipped trinket to set custom active.")
+                        return
+                    end
+                    StaticPopup_Show("CMC_SET_CUSTOM_ACTIVE", nil, nil, { kind = popupKind, id = popupID })
+                end
+            )
+        end
         rootDescription:CreateButton("Untrack", function()
             ItemsData:SetEntryState(kind, id, nil)
             RefreshTrackerPanels()

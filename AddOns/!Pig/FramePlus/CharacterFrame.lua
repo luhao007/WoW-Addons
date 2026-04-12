@@ -23,7 +23,6 @@ local GetContainerNumFreeSlots = C_Container.GetContainerNumFreeSlots
 local GetContainerNumSlots = C_Container.GetContainerNumSlots
 local GetContainerItemID = C_Container.GetContainerItemID
 local PickupContainerItem =C_Container.PickupContainerItem
-local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 local GetItemQualityColor=GetItemQualityColor or C_Item and C_Item.GetItemQualityColor
 local GetCoinTextureString= GetCoinTextureString or  C_CurrencyInfo and C_CurrencyInfo.GetCoinTextureString
 ---自身角色和观察目标信息---------------
@@ -1312,8 +1311,7 @@ function FramePlusfun.Character_Shuxing()
 	if not PIGA["FramePlus"]["Character_Shuxing"] then return end
 	if PIG_MaxTocversion(40000) then
 		if PaperDollFrame.pigBGF then return end
-		local CharacterFW = {384,570,2}
-		if C_Engraving and C_Engraving.IsEngravingEnabled() then CharacterFW[3]=3 end
+		local CharacterFW = {384,570,0}
 		PaperDollFrame:ClearAllPoints();
 		PaperDollFrame:SetPoint("TOPLEFT", CharacterFrame,"TOPLEFT", 0, 0);
 		PaperDollFrame:SetPoint("BOTTOMLEFT", CharacterFrame,"BOTTOMLEFT", 0, 0);
@@ -1354,15 +1352,23 @@ function FramePlusfun.Character_Shuxing()
 		PaperDollFrame.InsetR:SetPoint("TOPRIGHT",PaperDollFrame,"TOPRIGHT",-36,-68);
 		PaperDollFrame.InsetR.TabList={}
 		--创建TAB
-		local function add_SidebarTab(id)
-			local TabBut = CreateFrame("Button",nil,PaperDollFrame.InsetR);
-			PaperDollFrame.InsetR.TabList[id]=TabBut
+		local iconlist={
+			["C"]={nil,{0.1, 0.9, 0.12, 0.92}},
+			["T"]={514608,{0.01562500, 0.53125000, 0.32421875, 0.46093750}},
+			["E"]={514608,{0.07562500, 0.50125000, 0.47875000, 0.60546875}},
+			["R"]={134419,{0.06,0.94,0.07,0.94}},
+		}
+		local UIffWW=PaperDollFrame.InsetR:GetWidth()
+		local function add_SidebarTab(ly)
+			CharacterFW[3]=CharacterFW[3]+1
+			local TabBut = CreateFrame("Button",nil,PaperDollFrame.InsetR,nil,CharacterFW[3]);
+			TabBut.ly=ly
+			PaperDollFrame.InsetR.TabList[CharacterFW[3]]=TabBut
 			TabBut:SetSize(28,28);
-			if id==1 then
+			if CharacterFW[3]==1 then
 				TabBut:SetPoint("BOTTOMLEFT",PaperDollFrame.InsetR,"TOPLEFT",20,-2);
 			else
-				TabBut:SetPoint("LEFT",PaperDollFrame.InsetR.TabList[id-1],"RIGHT",10,0);
-				TabBut:Hide()
+				TabBut:SetPoint("LEFT",PaperDollFrame.InsetR.TabList[CharacterFW[3]-1],"RIGHT",10,0);
 			end
 			TabBut.TabBg = TabBut:CreateTexture(nil, "BACKGROUND");
 			TabBut.TabBg:SetTexture("Interface/PaperDollInfoFrame/PaperDollSidebarTabs");
@@ -1377,11 +1383,11 @@ function FramePlusfun.Character_Shuxing()
 			TabBut.Icon = TabBut:CreateTexture(nil, "ARTWORK");
 			TabBut.Icon:SetPoint("TOPLEFT", 2, -2);
 			TabBut.Icon:SetPoint("BOTTOMRIGHT", -2, 1);
-			if id==1 then
-				TabBut.Icon:SetTexCoord(0.1, 0.9, 0.12, 0.92)
-			elseif id==2 then
-				TabBut.Icon:SetTexture("Interface/PaperDollInfoFrame/PaperDollSidebarTabs");
-				TabBut.Icon:SetTexCoord(0.07562500, 0.50125000, 0.47875000, 0.60546875)
+			if iconlist[ly][1] then
+				TabBut.Icon:SetTexture(iconlist[ly][1]);
+			end
+			if iconlist[ly][2] then
+				TabBut.Icon:SetTexCoord(unpack(iconlist[ly][2]))
 			end
 			TabBut.Highlight = TabBut:CreateTexture(nil, "HIGHLIGHT");
 			TabBut.Highlight:SetTexture("Interface/PaperDollInfoFrame/PaperDollSidebarTabs");
@@ -1390,19 +1396,17 @@ function FramePlusfun.Character_Shuxing()
 			TabBut.Highlight:SetTexCoord(0.01562500,0.50000000,0.19531250,0.31640625)
 			TabBut:HookScript("OnClick", function(self)
 				PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
-				PaperDollFrame.InsetR:SetSidebarTab(id)
+				PaperDollFrame.InsetR:SetSidebarTab(self:GetID())
 			end)
 			TabBut.F = CreateFrame("Frame",nil,TabBut)
 			TabBut.F:SetAllPoints(PaperDollFrame.InsetR)
+			TabBut.F:Hide()
 			function TabBut:Show_UI() TabBut.F:Show() end
 			function TabBut:Hide_UI() TabBut.F:Hide() end
-		end
-		for i=1,CharacterFW[3] do
-			add_SidebarTab(i)
+			return TabBut
 		end
 		function PaperDollFrame.InsetR:SetSidebarTab(tabid)
-			for ix=1,CharacterFW[3] do
-				local tabx =self.TabList[ix]
+			for _,tabx in pairs(self.TabList) do
 				tabx.Hider:Show();
 				tabx.Highlight:Show();
 				tabx.TabBg:SetTexCoord(0.01562500, 0.79687500, 0.61328125, 0.78125000);
@@ -1419,8 +1423,8 @@ function FramePlusfun.Character_Shuxing()
 		end
 
 		--1个人属性================
-		local shuxingF = PaperDollFrame.InsetR.TabList[1].F
-		local UIffWW,topJU,hangH,biaotiH =shuxingF:GetWidth(),-2,20,28
+		local shuxingF = add_SidebarTab("C").F
+		local topJU,hangH,biaotiH =-2,20,28
 		if NDui or ElvUI then
 			topJU=-6
 		end
@@ -1509,7 +1513,6 @@ function FramePlusfun.Character_Shuxing()
 		--装等
 		shuxingF.fuji.CategoryList[0]=add_biaotiBox(STAT_AVERAGE_ITEM_LEVEL,{"TOP",shuxingF.fuji,"TOP", 0, topJU})
 		add_hang(shuxingF.fuji.CategoryList[0],01,STAT_AVERAGE_ITEM_LEVEL_TOOLTIP)
-
 		--属性
 		CharacterAttributesFrame:ClearAllPoints();
 		local PLAYERSTAT_DROPDOWN_OPTIONS=PLAYERSTAT_DROPDOWN_OPTIONS or {
@@ -1896,9 +1899,86 @@ function FramePlusfun.Character_Shuxing()
 			end
 		end);
 
-		--2装备管理==========
+		--称号
+		if PIG_MaxTocversion(40000) then
+			if PlayerTitleDropdown then PlayerTitleDropdown:ClearAllPoints() end
+			local chenghaoF = add_SidebarTab("T").F
+			local hangeH=20
+			chenghaoF.Butlist={}
+			local function addhang(jishuxinc,id)
+				if not chenghaoF.Butlist[jishuxinc] then
+					local hang= CreateFrame("Button", nil, chenghaoF,nil,id)
+					chenghaoF.Butlist[jishuxinc]=hang
+					hang:SetSize(UIffWW-8,hangeH);
+					hang.name = PIGFontString(hang,{"LEFT",hang,"LEFT",10,0})
+					if jishuxinc==-1 then
+						hang:SetPoint("TOP",chenghaoF,"TOP",0,-4);
+						hang.name:SetText(NONE)
+					elseif jishuxinc==1 then
+						hang:SetPoint("TOP",chenghaoF.Butlist[-1],"BOTTOM",0,0);
+					else
+						hang:SetPoint("TOP",chenghaoF.Butlist[jishuxinc-1],"BOTTOM",0,0);
+					end
+					hang.hightex = hang:CreateTexture(nil,"HIGHLIGHT");
+					hang.hightex:SetTexture("interface/buttons/ui-listbox-highlight2");
+					hang.hightex:SetAllPoints(hang)
+					hang.hightex:SetBlendMode("ADD")
+					hang.hightex:SetAlpha(0.4);
+					hang.Select = hang:CreateTexture();
+					hang.Select:SetTexture("interface/buttons/ui-listbox-highlight");
+					hang.Select:SetAllPoints(hang)
+					hang.Select:SetBlendMode("ADD")
+					hang.Select:SetAlpha(0.8);
+					hang.Select:Hide()
+					hang:SetScript("OnClick", function(self)
+						SetCurrentTitle(self:GetID())
+						C_Timer.After(0.6,chenghaoF.UpdataList)
+						C_Timer.After(0.8,chenghaoF.UpdataList)
+						C_Timer.After(1,chenghaoF.UpdataList)
+					end)
+				end
+			end
+			addhang(-1)
+			function chenghaoF.UpdataList()
+				for k,v in pairs(chenghaoF.Butlist) do
+					if k==-1 then
+						v.Select:SetShown(true)
+						v.name:SetTextColor(1, 1, 1, 1)
+					else
+						v:Hide()
+					end
+				end
+				local jishuxinc=0
+				for i=1, GetNumTitles() do
+					if ( IsTitleKnown(i) ) then
+						jishuxinc=jishuxinc+1
+						if not chenghaoF.Butlist[jishuxinc] then
+							addhang(jishuxinc,i)
+						end
+						local text = GetTitleName(i);
+						chenghaoF.Butlist[jishuxinc]:Show()
+						chenghaoF.Butlist[jishuxinc].name:SetText(text)
+						chenghaoF.Butlist[jishuxinc].Select:SetShown(GetCurrentTitle()==i)
+						if GetCurrentTitle()==i then
+							chenghaoF.Butlist[jishuxinc].name:SetTextColor(1, 1, 1, 1)
+							chenghaoF.Butlist[-1].Select:SetShown(false)
+							chenghaoF.Butlist[-1].name:SetTextColor(1, 0.843, 0, 1)
+							chenghaoF.Butlist[jishuxinc].Select:SetShown(true)
+						else
+							chenghaoF.Butlist[jishuxinc].name:SetTextColor(1, 0.843, 0, 1)
+						end
+					end
+				end
+			end
+			chenghaoF:HookScript("OnShow", function()
+				chenghaoF.UpdataList()
+			end)
+		end
+
+		--装备配装管理==========
+		local TabButEquip = add_SidebarTab("E")
 		if PIG_MaxTocversion(30000) then
-			add_AutoEquip(PaperDollFrame.InsetR.TabList[2])
+			add_AutoEquip(TabButEquip)
 		else
 			if NDui then
 				local B = unpack(NDui)
@@ -1907,14 +1987,12 @@ function FramePlusfun.Character_Shuxing()
 				end
 			end
 			SetCVar("equipmentManager","1")
-			local EquipF=PaperDollFrame.InsetR.TabList[2]
-			EquipF:Show()
 			GearManagerToggleButton:ClearAllPoints();
 			GearManagerDialog:ClearAllPoints();
 			hooksecurefunc(PaperDollFrame.InsetR,"SetSidebarTab", function(self,tabid)
-				if tabid==2 then
+				if self.TabList[tabid].ly=="E" then
 					GearManagerDialog:Show();
-					EquipF.Update_SizePoint()
+					TabButEquip.Update_SizePoint()
 				else
 					GearManagerDialog:Hide();
 				end
@@ -1922,10 +2000,10 @@ function FramePlusfun.Character_Shuxing()
 			local butWWw=29
 			for i = 1, MAX_EQUIPMENT_SETS_PER_PLAYER do
 				local button = _G["GearSetButton" .. i]
-				button:SetParent(EquipF.F)
+				button:SetParent(TabButEquip.F)
 				button:SetSize(butWWw, butWWw)
 				if ( i == 1 ) then
-					button:SetPoint("TOPLEFT", EquipF.F, "TOPLEFT", 10, -32);
+					button:SetPoint("TOPLEFT", TabButEquip.F, "TOPLEFT", 10, -32);
 				else
 					button:SetPoint("TOPLEFT", _G["GearSetButton"..(i-1)], "BOTTOMLEFT", 0, -4);
 				end
@@ -1941,14 +2019,14 @@ function FramePlusfun.Character_Shuxing()
 					end
 				end
 			end
-			function EquipF.Update_SizePoint()
-				GearManagerDialogEquipSet:SetParent(EquipF.F)
-				GearManagerDialogSaveSet:SetParent(EquipF.F)
-				GearManagerDialogDeleteSet:SetParent(EquipF.F)
-				GearManagerDialogPopup:SetParent(EquipF.F)
+			function TabButEquip.Update_SizePoint()
+				GearManagerDialogEquipSet:SetParent(TabButEquip.F)
+				GearManagerDialogSaveSet:SetParent(TabButEquip.F)
+				GearManagerDialogDeleteSet:SetParent(TabButEquip.F)
+				GearManagerDialogPopup:SetParent(TabButEquip.F)
 				GearManagerDialogEquipSet:SetWidth(52)
 				GearManagerDialogEquipSet:ClearAllPoints();
-				GearManagerDialogEquipSet:SetPoint("TOPLEFT", EquipF.F, "TOPLEFT", 10, -5);
+				GearManagerDialogEquipSet:SetPoint("TOPLEFT", TabButEquip.F, "TOPLEFT", 10, -5);
 				GearManagerDialogSaveSet:SetWidth(52)
 				GearManagerDialogSaveSet:ClearAllPoints();
 				GearManagerDialogSaveSet:SetPoint("LEFT", GearManagerDialogEquipSet, "RIGHT", 8, 0);
@@ -1963,7 +2041,7 @@ function FramePlusfun.Character_Shuxing()
 				end
 			end
 			hooksecurefunc("GearManagagerDialogPopup_AdjustAnchors", function()
-				EquipF.Update_SizePoint()
+				TabButEquip.Update_SizePoint()
 			end)
 		end
 
@@ -1977,10 +2055,7 @@ function FramePlusfun.Character_Shuxing()
 				PaperDollFrame_OnHide()
 			end)
 			local function add_fuwenUICZ()
-				local SidebarTab = PaperDollFrame.InsetR.TabList[3]
-				SidebarTab:Show()
-				SidebarTab.Icon:SetTexture(134419)
-				SidebarTab.Icon:SetTexCoord(0.06,0.94,0.07,0.94)
+				local SidebarTab = add_SidebarTab("R")
 				SidebarTab:HookScript("OnClick", function(self)
 					EngravingFrame:Show();
 				end)

@@ -1,6 +1,6 @@
 local _, ns = ...
 
--- local LAB = LibStub("LibActionButton-1.0", true)
+local LAB = LibStub("LibActionButton-1.0", true)
 local ButtonPress = {}
 ns.ButtonPress = ButtonPress
 
@@ -273,31 +273,31 @@ local function HookDominosButton(button)
     end
 end
 
--- local function HookAllLABButtons()
---     if not LAB or not LAB.activeButtons then
---         return
---     end
+local function HookAllLABButtons()
+    if not LAB or not LAB.activeButtons then
+        return
+    end
 
---     for button in pairs(LAB.activeButtons) do
---         if not button.IsCMCButtonPressHooked then
---             HookButtonPressToPreClick(button, nil)
---         end
---     end
--- end
+    for button in pairs(LAB.activeButtons) do
+        if not button.IsCMCButtonPressHooked then
+            HookButtonPressToPreClick(button, nil)
+        end
+    end
+end
 
--- local function RegisterLABCallbacks()
---     if not LAB then
---         return
---     end
---     if LAB.__CMCButtonPress_OnButtonUpdateRegistered then
---         return
---     end
---     LAB.__CMCButtonPress_OnButtonUpdateRegistered = true
+local function RegisterLABCallbacks()
+    if not LAB then
+        return
+    end
+    if LAB.__CMCButtonPress_OnButtonUpdateRegistered then
+        return
+    end
+    LAB.__CMCButtonPress_OnButtonUpdateRegistered = true
 
---     LAB:RegisterCallback("OnButtonUpdate", function(_, button)
---         HookButtonPressToPreClick(button, nil)
---     end)
--- end
+    LAB:RegisterCallback("OnButtonUpdate", function(_, button)
+        HookButtonPressToPreClick(button, nil)
+    end)
+end
 
 local isElvUICallbackRegistered = false
 function ButtonPress:RegisterElvUICallbacks()
@@ -399,6 +399,6 @@ function ButtonPress:Initialize()
         end
         cleanupToHide()
     end)
-    -- RegisterLABCallbacks()
-    -- HookAllLABButtons()
+    RegisterLABCallbacks()
+    HookAllLABButtons()
 end

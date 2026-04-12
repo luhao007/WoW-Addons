@@ -14,7 +14,7 @@ local UPDATE_THROTTLE_DELAY = 0.25
 local DEFAULT_ICON_SIZE = 50
 local DEFAULT_ICON_PADDING = 2
 local BASE_SQUARE_MASK = "Interface\\AddOns\\CooldownManagerCentered\\Media\\Art\\Square"
-local DEFAULT_MASK_TEXTURE = 6707800
+local DEFAULT_MASK_TEXTURE = "Interface\\AddOns\\CooldownManagerCentered\\Media\\Art\\CooldownManager"
 local DEFAULT_FONT_PATH = "Fonts\\FRIZQT__.TTF"
 
 local ORIENTATION_ANCHORS = {
@@ -214,13 +214,24 @@ local function RestoreDefaultStyle(frame)
     if frame.cmcBorder then
         frame.cmcBorder:Hide()
     end
+    frame._CMC_SquareStyle = nil
 end
 
 local function ApplyStyleToFrame(frame)
-    if IsSquareIconsEnabled() then
+    local isSquare = IsSquareIconsEnabled()
+
+    if isSquare then
         ApplySquareStyle(frame)
     else
         RestoreDefaultStyle(frame)
+    end
+
+    if frame.IconOverlay then
+        if isSquare then
+            frame.IconOverlay:Hide()
+        else
+            frame.IconOverlay:Show()
+        end
     end
 end
 
@@ -258,6 +269,15 @@ function ItemViewerFrame:Initialize()
         frame.Icon = frame:CreateTexture(nil, "ARTWORK")
         frame.Icon:SetAllPoints()
         frame.Icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+    end
+    local width, height = frame:GetSize()
+    if not frame.IconOverlay and frame.Icon then
+        frame.IconOverlay = frame:CreateTexture(nil, "OVERLAY", nil, 1)
+        frame.IconOverlay:SetAtlas("UI-HUD-CoolDownManager-IconOverlay")
+        frame.IconOverlay:SetSize(width*1.5, height*1.5)
+        frame.IconOverlay:SetPoint("Center", frame.Icon, "CENTER")
+
+        frame.IconOverlay:Hide()
     end
     if not frame.Cooldown then
         frame.Cooldown = CreateFrame("Cooldown", nil, frame, "CooldownFrameTemplate")
@@ -448,13 +468,10 @@ function TrackerInstance:RefreshEntries()
         end
         local ivf = self.iconFrames[i]
         ivf.frame:SetSize(iconSize, iconSize)
+        ivf.frame.IconOverlay:SetSize(iconSize*1.5, iconSize*1.5)
         ivf.frame.showGCD = showGCD
 
         local db = DB.GetDB()
-        if ivf.frame.Cooldown then
-            ivf.frame.Cooldown:SetSwipeColor(unpack(GetCooldownSwipeColor()))
-            ivf.frame.Cooldown:SetDrawEdge(false)
-        end
 
         ivf:UpdateEntry(entries[i])
         self:UpdateIconPosition(ivf.frame, i)
@@ -492,6 +509,7 @@ function TrackerInstance:UpdateIconLayout()
     local iconSize = self:GetIconSize()
     for _, ivf in ipairs(self.iconFrames) do
         ivf.frame:SetSize(iconSize, iconSize)
+        ivf.frame.IconOverlay:SetSize(iconSize*1.5, iconSize*1.5)
     end
     self:RefreshEntries()
 end
@@ -799,6 +817,33 @@ local tracker2 = TrackerInstance:New("tracker2", "CMCTracker2", function(owned)
 end)
 
 local trackers = { tracker1, tracker2 }
+local spellCastEventFrame = nil
+
+local function EnsureSpellCastListener()
+    if spellCastEventFrame then
+        return
+    end
+
+    spellCastEventFrame = CreateFrame("Frame")
+    spellCastEventFrame:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "player")
+    spellCastEventFrame:SetScript("OnEvent", function(_, _event, unitTarget, _castGUID, spellID)
+        if unitTarget ~= "player" or not spellID then
+            return
+        end
+
+        local matched = false
+        if ItemVisuals and ItemVisuals.MarkSpellCastActive and ItemVisuals:MarkSpellCastActive(spellID) then
+            matched = true
+        end
+        if ItemVisuals and ItemVisuals.MarkItemCastActive and ItemVisuals:MarkItemCastActive(spellID) then
+            matched = true
+        end
+
+        if matched then
+            ItemViewer:RefreshItemViewerFrames()
+        end
+    end)
+end
 
 function ItemViewer:RefreshItemViewerFrames()
     for _, tracker in ipairs(trackers) do
@@ -816,6 +861,9 @@ function ItemViewer:Initialize()
     if not ns.db.profile.tracker_enabled then
         return
     end
+
+    EnsureSpellCastListener()
+
     for _, tracker in ipairs(trackers) do
         tracker:Create()
     end

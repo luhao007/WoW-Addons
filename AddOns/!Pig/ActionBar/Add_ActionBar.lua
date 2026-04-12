@@ -237,7 +237,9 @@ local function ADD_ActionBar(barName,CFdata,anniugeshu, anniujiange,tabF,tabBut,
 	-----
 	for id=1,anniugeshu do
 		local piganniu
-		if PIG_MaxTocversion("tbc") then
+		if PIG_MaxTocversion("old") then
+			piganniu = CreateFrame("CheckButton", "$parent_But"..id, Pig_bar, "SecureActionButtonTemplate,ActionButtonTemplate,SecureHandlerDragTemplate,SecureHandlerMouseUpDownTemplate,SecureHandlerStateTemplate,SecureHandlerBaseTemplate")
+		else
 			piganniu = CreateFrame("CheckButton", "$parent_But"..id, Pig_bar, "ActionBarButtonTemplate")
 			piganniu:UnregisterAllEvents()
 			piganniu:SetScript("OnLoad", nil)
@@ -252,8 +254,6 @@ local function ADD_ActionBar(barName,CFdata,anniugeshu, anniujiange,tabF,tabBut,
 			piganniu:SetScript("OnLeave", nil)
 			piganniu:SetScript("OnShow", nil)
 			piganniu:SetScript("OnHide", nil)
-		else
-			piganniu = CreateFrame("CheckButton", "$parent_But"..id, Pig_bar, "SecureActionButtonTemplate,ActionButtonTemplate,SecureHandlerDragTemplate,SecureHandlerMouseUpDownTemplate,SecureHandlerStateTemplate,SecureHandlerBaseTemplate")
 		end
 		piganniu:SetSize(ActionW, ActionW)
 		if id==1 then

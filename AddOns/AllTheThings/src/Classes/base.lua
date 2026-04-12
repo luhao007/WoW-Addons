@@ -399,6 +399,7 @@ local ClassPriorityLookup = {
 "npcID",
 "campsiteID",
 "firstcraftID",
+"professionnodeID",
 "unit",
 "classID",
 "raceID",
@@ -911,13 +912,17 @@ local OverrideBaseClassFields = {
 -- Allows wrapping one Type Object with another Type Object. This allows for fall-through field logic
 -- without requiring a full copied definition of identical field functions and raw Object content
 app.WrapObject = function(object, baseObject)
-	if not object or not baseObject then
-		error("Tried to WrapObject with none provided!")
+	if not object then
+		error("Tried to WrapObject with no object provided!")
+	end
+	if not baseObject then
+		error("Tried to WrapObject with no baseObject provided!")
 	end
 	-- need to preserve the existing object's meta AND return the object being wrapped while also allowing fallback to the base object
 	local objectMeta = getmetatable(object)
 	if not objectMeta then
-		error("Tried to WrapObject which has no metatable! (Wrapping not necessary)")
+		-- for a raw object, simply metatable it with an __index of the baseObject
+		return setmetatable(object, { __index = baseObject })
 	end
 	-- save the set of originally-defined meta-fields of this object's class
 	local __class = objectMeta.__wrapclass

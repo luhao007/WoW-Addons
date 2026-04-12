@@ -1,9 +1,92 @@
 local _, Addon = ...
 local L = LibStub('AceLocale-3.0'):GetLocale('tullaCTC', true)
-local LSM = LibStub('LibSharedMedia-3.0')
 local tullaCTC = _G.tullaCTC
 
--- Track the currently selected theme
+local PADDING = Addon.PADDING
+local SPACING = Addon.SPACING
+local DROPDOWN_HEIGHT = Addon.DROPDOWN_HEIGHT
+
+local DRAW_ORDER = {
+    "default",
+    "always",
+    "never",
+}
+
+local DRAW_VALUES = {
+    default = L.DrawState_default,
+    always  = L.DrawState_always,
+    never   = L.DrawState_never,
+}
+
+local function parseThreshold(val)
+    local num = tonumber(strtrim(val))
+    if num and num > 0 then return num end
+    return nil
+end
+
+StaticPopupDialogs["TULLACTC_NEW_THEME"] = {
+    text = L.EnterThemeName,
+    button1 = ACCEPT,
+    button2 = CANCEL,
+    hasEditBox = true,
+    OnAccept = function(self, baseThemeID)
+        local name = self.EditBox:GetText():trim()
+        if name ~= "" and not Addon:HasTheme("custom_" .. name) then
+            local newID = Addon:CreateTheme(name, baseThemeID)
+            if newID then
+                Addon:SelectAndRefreshTheme(newID)
+            end
+        end
+    end,
+    EditBoxOnEnterPressed = function(self)
+        StaticPopup_OnClick(self:GetParent(), 1)
+    end,
+    EditBoxOnEscapePressed = function(self)
+        self:GetParent():Hide()
+    end,
+    whileDead = true,
+    hideOnEscape = true,
+}
+
+StaticPopupDialogs["TULLACTC_DELETE_THEME"] = {
+    text = L.DeleteThemeConfirm,
+    button1 = DELETE,
+    button2 = CANCEL,
+    OnAccept = function(_, themeID)
+        if Addon:DeleteTheme(themeID) then
+            Addon:SelectAndRefreshTheme("default")
+        end
+    end,
+    whileDead = true,
+    hideOnEscape = true,
+}
+
+StaticPopupDialogs["TULLACTC_RENAME_THEME"] = {
+    text = L.EnterThemeName,
+    button1 = ACCEPT,
+    button2 = CANCEL,
+    hasEditBox = true,
+    OnShow = function(self, themeID)
+        self.EditBox:SetText(Addon.GetThemeDisplayName(themeID) or "")
+        self.EditBox:HighlightText()
+    end,
+    OnAccept = function(self, themeID)
+        local name = self.EditBox:GetText():trim()
+        if name ~= "" then
+            Addon:SetThemeProperty(themeID, 'displayName', name)
+            Addon:TriggerEvent("OnThemeListChanged")
+        end
+    end,
+    EditBoxOnEnterPressed = function(self)
+        StaticPopup_OnClick(self:GetParent(), 1)
+    end,
+    EditBoxOnEscapePressed = function(self)
+        self:GetParent():Hide()
+    end,
+    whileDead = true,
+    hideOnEscape = true,
+}
+
 local selectedThemeId = "default"
 
 local function getSelectedThemeID()
@@ -18,562 +101,456 @@ local function setSelectedThemeId(id)
     return false
 end
 
-local function createTextOptionsForTheme(themeID, order)
-    return {
-        type = 'group',
-        name = L.Typography,
-        desc = L.TypographyDesc,
-        order = order,
-        args = {
-            font = {
-                type = 'group',
-                name = L.TextFont,
-                order = 0,
-                inline = true,
-                args = {
-                    face = {
-                        type = 'select',
-                        name = L.FontFace,
-                        order = 100,
-                        dialogControl = 'LSM30_Font',
-                        values = LSM:HashTable('font'),
-                        get = function()
-                            return tullaCTC.db.profile.themes[themeID].font
-                        end,
-                        set = function(_, key)
-                            Addon:SetThemeProperty(themeID, 'font', key)
-                        end,
-                    },
-                    outline = Addon:CreateSelectOption(themeID, 'fontFlags', {
-                        name = L.FontOutline,
-                        order = 200,
-                        default = 'OUTLINE',
-                        values = {
-                            [''] = L.Outline_NONE,
-                            OUTLINE = L.Outline_OUTLINE,
-                            THICKOUTLINE = L.Outline_THICKOUTLINE,
-                            ['OUTLINE, MONOCHROME'] = L.Outline_OUTLINEMONOCHROME
-                        }
-                    }),
-                    size = Addon:CreateRangeOption(themeID, 'fontSize', {
-                        name = L.FontSize,
-                        order = 300,
-                        width = 'full',
-                        min = 0,
-                        softMax = 36
-                    }),
-                }
-            },
-            shadow = {
-                type = 'group',
-                name = L.TextShadow,
-                inline = true,
-                order = 10,
-                args = {
-                    color = Addon:CreateColorOption(themeID, 'shadowColor', {
-                        name = L.TextShadowColor,
-                        order = 1,
-                        width = 1.5,
-                        default = "00000000"
-                    }),
-                    x = Addon:CreateRangeOption(themeID, 'shadowX', {
-                        name = L.HorizontalOffset,
-                        order = 2,
-                        softMin = -4,
-                        softMax = 4,
-                        width = 'full'
-                    }),
-                    y = Addon:CreateRangeOption(themeID, 'shadowY', {
-                        name = L.VerticalOffset,
-                        order = 3,
-                        softMin = -4,
-                        softMax = 4,
-                        invert = true,
-                        width = 'full'
-                    })
-                }
-            },
-            position = {
-                type = 'group',
-                name = L.TextPosition,
-                inline = true,
-                order = 20,
-                args = {
-                    anchor = Addon:CreateSelectOption(themeID, 'point', {
-                        name = L.Anchor,
-                        order = 0,
-                        width = 1.5,
-                        default = 'CENTER',
-                        values = {
-                            TOPLEFT = L.Anchor_TOPLEFT,
-                            TOP = L.Anchor_TOP,
-                            TOPRIGHT = L.Anchor_TOPRIGHT,
-                            LEFT = L.Anchor_LEFT,
-                            CENTER = L.Anchor_CENTER,
-                            RIGHT = L.Anchor_RIGHT,
-                            BOTTOMLEFT = L.Anchor_BOTTOMLEFT,
-                            BOTTOM = L.Anchor_BOTTOM,
-                            BOTTOMRIGHT = L.Anchor_BOTTOMRIGHT
-                        }
-                    }),
-                    x = Addon:CreateRangeOption(themeID, 'offsetX', {
-                        name = L.HorizontalOffset,
-                        order = 2,
-                        softMin = -18,
-                        softMax = 18,
-                        width = 'full'
-                    }),
-                    y = Addon:CreateRangeOption(themeID, 'offsetY', {
-                        name = L.VerticalOffset,
-                        order = 3,
-                        softMin = -18,
-                        softMax = 18,
-                        invert = true,
-                        width = 'full'
-                    })
-                }
-            }
-        }
-    }
-end
-
-local function createGeneralOptionsForTheme(themeID, order)
-    return {
-        type = 'group',
-        name = L.General,
-        order = order,
-        args = {
-            enabled = Addon:CreateToggleOption(themeID, 'enabled', {
-                name = L.ThemeEnabled,
-                desc = L.ThemeEnabledDesc,
-                order = 0,
-                width = 'full'
-            }),
-            textOptions = {
-                type = 'group',
-                name = L.CooldownText,
-                inline = true,
-                order = 100,
-                args = {
-                    themeText = Addon:CreateToggleOption(themeID, 'themeText', {
-                        name = L.ThemeText,
-                        desc = L.ThemeTextDesc,
-                        order = 0,
-                        width = 'full'
-                    }),
-
-                    drawText = Addon:CreateDrawStateOption(themeID, 'drawText', {
-                        name = L.DrawText,
-                        desc = L.DrawTextDesc,
-                        order = 10,
-                    }),
-
-                    drawEdge = Addon:CreateDrawStateOption(themeID, 'useAuraDisplayTime', {
-                        name = L.UseAuraDisplayTime,
-                        desc = L.UseAuraDisplayTimeDesc,
-                        order = 20,
-                    }),
-
-                    minDuration = Addon:CreateRangeOption(themeID, 'minDuration', {
-                        name = L.MinDuration,
-                        desc = L.MinDurationDesc,
-                        order = 30,
-                        min = 0,
-                        softMax = 60,
-                        default = 3,
-                        width = 'full'
-                    }),
-
-                    abbrevThreshold = Addon:CreateRangeOption(themeID, 'abbrevThreshold', {
-                        name = L.AbbrevThreshold,
-                        desc = L.AbbrevThresholdDesc,
-                        order = 40,
-                        min = 0,
-                        softMax = 600,
-                        default = 90,
-                        width = 'full'
-                    })
-                }
-            },
-            cooldownOptions = {
-                type = 'group',
-                name = L.Cooldown,
-                desc = L.CooldownDesc,
-                inline = true,
-                order = 200,
-                args = {
-                    themeCooldown = Addon:CreateToggleOption(themeID, 'themeCooldown', {
-                        name = L.ThemeCooldown,
-                        desc = L.ThemeCooldownDesc,
-                        order = 0,
-                        width = 'full'
-                    }),
-
-                    drawSwipe = Addon:CreateDrawStateOption(themeID, 'drawSwipe', {
-                        name = L.DrawSwipe,
-                        desc = L.DrawSwipeDesc,
-                        order = 100
-                    }),
-
-                    drawEdge = Addon:CreateDrawStateOption(themeID, 'drawEdge', {
-                        name = L.DrawEdge,
-                        desc = L.DrawEdgeDesc,
-                        order = 120,
-                    }),
-
-                    drawBling = Addon:CreateDrawStateOption(themeID, 'drawBling', {
-                        name = L.DrawBling,
-                        desc = L.DrawBlingDesc,
-                        order = 130
-                    }),
-
-                    reverse = Addon:CreateDrawStateOption(themeID, 'reverse', {
-                        name = L.Reverse,
-                        desc = L.ReverseDesc,
-                        order = 140
-                    }),
-
-                    themeSwipeColor = Addon:CreateToggleOption(themeID, 'themeSwipeColor', {
-                        name = L.ThemeSwipeColor,
-                        order = 150
-                    }),
-
-                    swipeColor = Addon:CreateColorOption(themeID, 'swipeColor', {
-                        name = L.SwipeColor,
-                        desc = L.SwipeColorDesc,
-                        order = 160,
-                        default = "00000000"
-                    }),
-                }
-            }
-        }
-    }
-end
-
-local function createColorOptionsForTheme(themeID, order)
-    local theme = tullaCTC.db.profile.themes[themeID]
-
-    local options = {
-        type = 'group',
-        name = L.Colors,
-        desc = L.ColorsDesc,
-        order = order,
-        args = {
-            description = {
-                type = 'description',
-                name = L.ColorsDescription,
-                order = 0
-            },
-            addThreshold = {
-                type = 'group',
-                name = L.AddColorThreshold,
-                inline = true,
-                order = 1,
-                args = {
-                    newThreshold = {
-                        type = 'input',
-                        name = L.NewThresholdValue,
-                        desc = L.NewThresholdValueDesc,
-                        order = 1,
-                        width = 1.2,
-                        get = function() return "" end,
-                        set = function(_, val)
-                            local threshold = Addon:ParseThreshold(val)
-                            if Addon:AddTextColorEntry(theme, threshold) then
-                                Addon:RefreshThemeOptions()
-                            end
-                        end,
-                        validate = function(_, val)
-                            return Addon:ParseThreshold(val) ~= nil
-                        end
-                    }
-                }
-            }
-        }
-    }
-
-    local entries = Addon:GetSortedTextColors(theme)
-    local prevThreshold = nil
-
-    for i, entry in ipairs(entries) do
-        local threshold = entry.threshold
-
-        options.args["color_" .. i] = {
-            type = 'group',
-            name = Addon:FormatEffectiveRange(prevThreshold, threshold),
-            inline = true,
-            order = 10 + i,
-            args = {
-                threshold = {
-                    type = 'input',
-                    name = L.Threshold,
-                    desc = L.ThresholdDesc,
-                    order = 1,
-                    width = 0.8,
-                    get = function()
-                        return tostring(entry.threshold)
-                    end,
-                    set = function(_, val)
-                        local threshold = Addon:ParseThreshold(val)
-                        if Addon:SetTextColorThreshold(theme, i, threshold) then
-                            Addon:RefreshThemeOptions()
-                        end
-                    end,
-                    validate = function(_, val)
-                        return Addon:ParseThreshold(val) ~= nil
-                    end
-                },
-                color = {
-                    type = 'color',
-                    name = L.TextColor,
-                    order = 2,
-                    width = 1,
-                    hasAlpha = true,
-                    get = function()
-                        return Addon.HexToRGBA(entry.color)
-                    end,
-                    set = function(_, r, g, b, a)
-                        local color = Addon.RGBAToHex(r, g, b, a)
-                        if Addon:SetTextColorValue(theme, i, color) then
-                            Addon:RefreshThemeOptions()
-                        end
-                    end
-                },
-                remove = {
-                    type = 'execute',
-                    name = L.RemoveThreshold,
-                    order = 3,
-                    width = 0.6,
-                    confirm = true,
-                    confirmText = L.RemoveThresholdConfirm,
-                    func = function()
-                        if Addon:RemoveTextColorEntry(theme, i) then
-                            Addon:RefreshThemeOptions()
-                        end
-                    end
-                }
-            }
-        }
-
-        prevThreshold = threshold
+function Addon:SelectAndRefreshTheme(id)
+    if setSelectedThemeId(id) and self._refreshThemeContent then
+        self._refreshThemeContent()
     end
-
-    -- add default color control (shown last, for durations above all thresholds)
-    local lastThreshold = prevThreshold
-    options.args["defaultColor"] = {
-        type = 'group',
-        name = Addon:FormatDefaultColorRange(lastThreshold),
-        inline = true,
-        order = 1000,
-        args = {
-            drawSwipe = Addon:CreateColorOption(themeID, 'defaultTextColor', {
-                name = L.TextColor,
-                order = 1,
-                width = 1,
-            })
-        }
-    }
-
-    return options
 end
 
-local function createMangementOptionsForTheme(themeID, order)
-    local options = {
-        type = 'group',
-        name = L.ManageThemes,
-        order = order,
-        args = {
-            create = {
-                type = 'input',
-                order = 100,
-                name = L.CreateTheme,
-                desc = L.CreateThemeDesc,
-                get = function() return "" end,
-                set = function(_, val)
-                    val = strtrim(val)
-                    if val ~= '' then
-                        local newThemeID = Addon:CreateTheme(val)
-                        if newThemeID then
-                            setSelectedThemeId(newThemeID)
-                            Addon:RefreshThemeOptions()
-                        end
-                    end
-                end,
-                validate = function(_, val)
-                    val = strtrim(val)
-                    return val ~= "" and not Addon:HasTheme('custom_' .. val)
-                end
-            },
+local function generateThemeMenu(_, rootDescription)
+    for _, id in ipairs(Addon:GetSortedThemeIDs()) do
+        local name = Addon.GetThemeDisplayName(id)
 
-            copy = {
-                type = 'input',
-                name = L.CopyTheme,
-                desc = L.CopyThemeDesc,
-                order = 200,
-                get = function() return "" end,
-                set = function(_, val)
-                    val = strtrim(val)
-                    if val ~= '' then
-                        local newThemeID = Addon:CreateTheme(val, themeID)
-                        if newThemeID then
-                            setSelectedThemeId(newThemeID)
-                            Addon:RefreshThemeOptions()
-                        end
-                    end
-                end,
-                validate = function(_, val)
-                    val = strtrim(val)
-                    return val ~= "" and not Addon:HasTheme('custom_' .. val)
-                end
-            },
+        local themeEntry = rootDescription:CreateRadio(name,
+            function() return getSelectedThemeID() == id end,
+            function() Addon:SelectAndRefreshTheme(id) end
+        )
 
-            modifySection = {
-                type = 'header',
-                name = '',
-                order = 250
-            },
+        themeEntry:CreateButton(L.CopyTheme, function()
+            StaticPopup_Show("TULLACTC_NEW_THEME", nil, nil, id)
+        end)
 
-            rename = {
-                type = 'input',
-                name = L.RenameTheme,
-                desc = L.RenameThemeDesc,
-                order = 300,
-                disabled = function()
-                    return themeID == "default"
-                end,
-                get = function()
-                    return ""
-                end,
-                set = function(_, val)
-                    val = strtrim(val)
-                    if val ~= '' and not Addon:HasTheme('custom_' .. val) then
-                        Addon:SetThemeProperty(themeID, 'displayName', val)
-                        Addon:RefreshThemeOptions()
-                    end
-                end,
-                validate = function(_, val)
-                    val = strtrim(val)
-                    return val ~= "" and not Addon:HasTheme('custom_' .. val)
-                end
-            },
+        if id ~= "default" then
+            themeEntry:CreateButton(L.RenameTheme, function()
+                StaticPopup_Show("TULLACTC_RENAME_THEME", nil, nil, id)
+            end)
+        end
 
-            dangerSection = {
-                type = 'header',
-                name = '',
-                order = 350
-            },
+        themeEntry:CreateDivider()
 
-            reset = {
-                type = 'execute',
-                name = L.ResetTheme,
-                desc = L.ResetThemeDesc,
-                order = 400,
-                func = function()
-                    if Addon:ResetTheme(themeID) then
-                        Addon:RefreshThemeOptions()
-                    end
-                end
-            },
+        themeEntry:CreateButton(L.ResetTheme, function()
+            local newID = Addon:ResetTheme(id)
+            if newID then
+                Addon:SelectAndRefreshTheme(newID)
+            end
+        end)
 
-            delete = {
-                type = 'execute',
-                name = L.DeleteTheme,
-                desc = L.DeleteThemeDesc,
-                order = 500,
-                disabled = function()
-                    return themeID == "default"
-                end,
-                func = function()
-                    if Addon:DeleteTheme(themeID) then
-                        setSelectedThemeId("default")
-                        Addon:RefreshThemeOptions()
-                    end
-                end
-            }
-        }
-    }
-
-    return options
-end
-
-local function addSelectedThemeOptions(options, themeID)
-    options.args.display = createGeneralOptionsForTheme(themeID, 100)
-    options.args.text = createTextOptionsForTheme(themeID, 200)
-    options.args.colors = createColorOptionsForTheme(themeID, 300)
-    options.args.manage = createMangementOptionsForTheme(themeID, 400)
-end
-
-local ThemeOptions = {
-    type = 'group',
-    name = L.Themes,
-    args = {
-        toolbar = {
-            type = 'group',
-            name = "",
-            inline = true,
-            order = 0,
-            args = {
-                theme = {
-                    type = 'select',
-                    name = L.SelectTheme,
-                    order = 1,
-                    values = function ()
-                        local values = {}
-                        for id, theme in pairs(tullaCTC.db.profile.themes) do
-                            values[id] = theme.displayName or rawget(L, 'Theme_' .. id) or id
-                        end
-                        return values
-                    end,
-                    sorting = function()
-                        local keys = {}
-                        for id in pairs(tullaCTC.db.profile.themes) do
-                            keys[#keys + 1] = id
-                        end
-                        table.sort(keys, function(a, b)
-                            local themeA = tullaCTC.db.profile.themes[a]
-                            local themeB = tullaCTC.db.profile.themes[b]
-                            local nameA = themeA.displayName or rawget(L, 'Theme_' .. a) or a
-                            local nameB = themeB.displayName or rawget(L, 'Theme_' .. b) or b
-                            return nameA < nameB
-                        end)
-                        return keys
-                    end,
-                    get = getSelectedThemeID,
-                    set = function(_, id)
-                        if setSelectedThemeId(id) then
-                            Addon:RefreshThemeOptions()
-                        end
-                    end
-                },
-
-                review = {
-                    type = 'execute',
-                    order = 9000,
-                    name = L.Preview,
-                    func = function()
-                        Addon.PreviewDialog:SetTheme(getSelectedThemeID())
-                    end
-                }
-            }
-        }
-    }
-}
-
-local STATIC_GROUPS = { toolbar = true }
-
-function Addon:RefreshThemeOptions()
-    -- Clear existing theme options (preserve static groups)
-    for key in pairs(ThemeOptions.args) do
-        if not STATIC_GROUPS[key] then
-            ThemeOptions.args[key] = nil
+        if id ~= "default" then
+            themeEntry:CreateButton(L.DeleteTheme, function()
+                StaticPopup_Show("TULLACTC_DELETE_THEME", name, nil, id)
+            end)
         end
     end
 
-    -- Add options for the selected theme
-    addSelectedThemeOptions(ThemeOptions, getSelectedThemeID())
+    rootDescription:CreateDivider()
 
-    LibStub("AceConfigRegistry-3.0"):NotifyChange("tullaCTC")
+    rootDescription:CreateButton(L.NewTheme, function()
+        StaticPopup_Show("TULLACTC_NEW_THEME")
+    end)
 end
 
-Addon:RefreshThemeOptions()
-Addon.ThemeOptions = ThemeOptions
+StaticPopupDialogs["TULLACTC_ADD_COLOR"] = {
+    text = L.AddColorThreshold,
+    button1 = ACCEPT,
+    button2 = CANCEL,
+    hasEditBox = true,
+    OnAccept = function(self, themeID)
+        local threshold = parseThreshold(self.EditBox:GetText())
+        if threshold then
+            Addon:AddTextColorEntry(themeID, threshold, "FFFFFFFF")
+        end
+    end,
+    OnShow = function(self)
+        self.EditBox:SetNumeric(true)
+        self.EditBox:SetText("")
+    end,
+    EditBoxOnEnterPressed = function(self)
+        StaticPopup_OnClick(self:GetParent(), 1)
+    end,
+    EditBoxOnEscapePressed = function(self)
+        self:GetParent():Hide()
+    end,
+    whileDead = true,
+    hideOnEscape = true,
+}
+
+local function makeSectionHeader(parent, text, isSubSection)
+    local h = CreateFrame("Frame", nil, parent, "SettingsListSectionHeaderTemplate")
+    h.Title:ClearAllPoints()
+
+    if isSubSection then
+        h:SetHeight(35)
+        h.Title:SetFontObject(GameFontHighlight)
+        h.Title:SetPoint("TOPLEFT", h, "TOPLEFT", 0, -10)
+    else
+        h:SetHeight(45)
+        h.Title:SetPoint("TOPLEFT", h, "TOPLEFT", 0, -10)
+    end
+
+    h.Title:SetText(text)
+    return h
+end
+
+local function onThemePropertyChanged(_, property, value)
+    Addon:SetThemeProperty(getSelectedThemeID(), property, value)
+end
+
+local function buildThemeContent(scrollChild, theme)
+    local refreshables = {}
+    local nextIndex = 1
+
+    local function addChild(w)
+        w.layoutIndex = nextIndex
+        w.expand = true
+        nextIndex = nextIndex + 1
+        if w.Refresh then
+            refreshables[#refreshables + 1] = w
+            w:RegisterCallback("OnValueChanged", onThemePropertyChanged, Addon)
+        end
+        return w
+    end
+
+    local function add(method, opts)
+        opts.parent = scrollChild
+        opts.data = theme
+        return addChild(Addon[method](Addon, opts))
+    end
+
+    add("AddCheckBox", {
+        property = 'enabled',
+        name = L.ThemeEnabled,
+        desc = L.ThemeEnabledDesc,
+    })
+
+    add("AddSectionCheckBox", {
+        property = 'themeCooldown',
+        name = L.CooldownAppearance,
+        desc = L.ThemeCooldownDesc,
+    })
+
+    add("AddDropdown", {
+        property = 'drawSwipe',
+        name = L.DrawSwipe,
+        desc = L.DrawSwipeDesc,
+        values = DRAW_VALUES,
+        order = DRAW_ORDER,
+    })
+
+    add("AddDropdown", {
+        property = 'drawEdge',
+        name = L.DrawEdge,
+        desc = L.DrawEdgeDesc,
+        values = DRAW_VALUES,
+        order = DRAW_ORDER,
+    })
+
+    add("AddDropdown", {
+        property = 'drawBling',
+        name = L.DrawBling,
+        desc = L.DrawBlingDesc,
+        values = DRAW_VALUES,
+        order = DRAW_ORDER,
+    })
+
+    add("AddDropdown", {
+        property = 'reverse',
+        name = L.Reverse,
+        desc = L.ReverseDesc,
+        values = DRAW_VALUES,
+        order = DRAW_ORDER,
+    })
+
+    add("AddCheckBoxColorPicker", {
+        checkProperty = 'themeSwipeColor',
+        colorProperty = 'swipeColor',
+        name = L.SwipeColor,
+        desc = L.SwipeColorDesc,
+        default = "00000000",
+    })
+
+    add("AddSectionCheckBox", {
+        property = 'themeText',
+        name = L.CountdownText,
+        desc = L.ThemeTextDesc,
+    })
+
+    add("AddDropdown", {
+        property = 'drawText',
+        name = L.DrawText,
+        desc = L.DrawTextDesc,
+        values = DRAW_VALUES,
+        order = DRAW_ORDER,
+    })
+
+    add("AddDropdown", {
+        property = 'useAuraDisplayTime',
+        name = L.UseAuraDisplayTime,
+        desc = L.UseAuraDisplayTimeDesc,
+        values =
+            DRAW_VALUES,
+        order = DRAW_ORDER
+    })
+
+    add("AddSlider", {
+        property = 'minDuration',
+        name = L.MinDuration,
+        desc = L.MinDurationDesc,
+        min = 0,
+        max = 60,
+        default = 3,
+    })
+
+    if 120005 <= (select(4, GetBuildInfo())) then
+        add("AddSlider", {
+            property = 'tenthsThreshold',
+            name = L.TenthsThreshold,
+            desc = L.TenthsThresholdDesc,
+            min = 0,
+            max = 60,
+            default = 0,
+        })
+    end
+
+    add("AddSlider", {
+        property = 'abbrevThreshold',
+        name = L.AbbrevThreshold,
+        desc = L.AbbrevThresholdDesc,
+        min = 0,
+        max = 600,
+        default = 90,
+    })
+
+    addChild(makeSectionHeader(scrollChild, L.TextFont, true))
+
+    add("AddFontSelector", { property = 'font', name = L.FontFace })
+
+    add("AddDropdown", {
+        property = 'fontFlags',
+        name = L.FontOutline,
+        values = {
+            ['']                    = L.Outline_NONE,
+            ['OUTLINE']             = L.Outline_OUTLINE,
+            ['THICKOUTLINE']        = L.Outline_THICKOUTLINE,
+            ['OUTLINE, MONOCHROME'] = L.Outline_OUTLINEMONOCHROME,
+        },
+        order = { '', 'OUTLINE', 'THICKOUTLINE', 'OUTLINE, MONOCHROME' },
+    })
+
+    add("AddSlider", {
+        property = 'fontSize',
+        name = L.FontSize,
+        min = 0,
+        max = 96,
+    })
+
+    addChild(makeSectionHeader(scrollChild, L.TextShadow, true))
+
+    add("AddColorPicker", {
+        property = 'shadowColor',
+        name = L.TextShadowColor,
+        default = "00000000",
+    })
+
+    add("AddSlider", {
+        property = 'shadowX',
+        name = L.HorizontalOffset,
+        min = -4,
+        max = 4,
+    })
+
+    add("AddSlider", {
+        property = 'shadowY',
+        name = L.VerticalOffset,
+        min = -4,
+        max = 4,
+        invert = true,
+    })
+
+    addChild(makeSectionHeader(scrollChild, L.TextPosition, true))
+
+    add("AddDropdown", {
+        property = 'point',
+        name = L.Anchor,
+        values = {
+            TOPLEFT = L.Anchor_TOPLEFT,
+            TOP = L.Anchor_TOP,
+            TOPRIGHT = L.Anchor_TOPRIGHT,
+            LEFT = L.Anchor_LEFT,
+            CENTER = L.Anchor_CENTER,
+            RIGHT = L.Anchor_RIGHT,
+            BOTTOMLEFT = L.Anchor_BOTTOMLEFT,
+            BOTTOM = L.Anchor_BOTTOM,
+            BOTTOMRIGHT = L.Anchor_BOTTOMRIGHT,
+        },
+        order = { 'TOPLEFT', 'TOP', 'TOPRIGHT', 'LEFT', 'CENTER', 'RIGHT', 'BOTTOMLEFT', 'BOTTOM', 'BOTTOMRIGHT' },
+    })
+
+    add("AddSlider", {
+        property = 'offsetX',
+        name = L.HorizontalOffset,
+        min = -18,
+        max = 18,
+    })
+
+    add("AddSlider", {
+        property = 'offsetY',
+        name = L.VerticalOffset,
+        min = -18,
+        max = 18,
+        invert = true,
+    })
+
+    local colorsHeader = makeSectionHeader(scrollChild, L.CountdownTextColors)
+    local addBtn = CreateFrame("Button", nil, colorsHeader, "UIPanelButtonTemplate")
+    addBtn:SetSize(60, 22)
+    addBtn:SetPoint("RIGHT", colorsHeader, "RIGHT", 0, 0)
+    addBtn:SetText(ADD)
+    addBtn:SetScript("OnClick", function()
+        StaticPopup_Show("TULLACTC_ADD_COLOR", nil, nil, getSelectedThemeID())
+    end)
+    addChild(colorsHeader)
+
+    return refreshables, nextIndex
+end
+
+function Addon:BuildThemePanel(container)
+    local toolbar = CreateFrame("Frame", nil, container)
+    toolbar:SetHeight(DROPDOWN_HEIGHT + PADDING * 2)
+    toolbar:SetPoint("TOPLEFT", container, "TOPLEFT", 0, 0)
+    toolbar:SetPoint("TOPRIGHT", container, "TOPRIGHT", 0, 0)
+
+    local themeLabel = toolbar:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+    themeLabel:SetText(L.SelectTheme)
+    themeLabel:SetPoint("LEFT", toolbar, "LEFT", PADDING, 0)
+
+    local themeDD = CreateFrame("DropdownButton", nil, toolbar, "WowStyle1DropdownTemplate")
+    themeDD:SetSize(140, DROPDOWN_HEIGHT)
+    themeDD:SetPoint("LEFT", themeLabel, "RIGHT", PADDING, 0)
+    themeDD:SetupMenu(generateThemeMenu)
+
+    local previewBtn = CreateFrame("Button", nil, toolbar, "UIPanelButtonTemplate")
+    previewBtn:SetSize(80, 22)
+    previewBtn:SetPoint("RIGHT", toolbar, "RIGHT", -PADDING, 0)
+    previewBtn:SetText(L.Preview)
+    previewBtn:SetScript("OnClick", function()
+        self:GetPreviewDialog():SetTheme(getSelectedThemeID())
+    end)
+
+    local divider = container:CreateTexture(nil, "ARTWORK")
+    divider:SetHeight(1)
+    divider:SetColorTexture(0.3, 0.3, 0.3, 1)
+    divider:SetPoint("TOPLEFT", toolbar, "BOTTOMLEFT", 0, 0)
+    divider:SetPoint("TOPRIGHT", toolbar, "BOTTOMRIGHT", -14, 0)
+
+    local scrollBox = CreateFrame("Frame", nil, container, "WowScrollBox")
+    local scrollBar = CreateFrame("EventFrame", nil, container, "MinimalScrollBar")
+
+    scrollBox:SetPoint("TOPLEFT", toolbar, "BOTTOMLEFT", 0, -1)
+    scrollBox:SetPoint("BOTTOMRIGHT", container, "BOTTOMRIGHT", -14, 0)
+
+    scrollBar:SetPoint("TOPLEFT", scrollBox, "TOPRIGHT", 2, -10)
+    scrollBar:SetPoint("BOTTOMLEFT", scrollBox, "BOTTOMRIGHT", 2, 10)
+
+    local scrollChild = CreateFrame("Frame", nil, scrollBox, "VerticalLayoutFrame")
+    scrollChild.scrollable = true
+    scrollChild.spacing = SPACING
+    scrollChild.topPadding = PADDING
+    scrollChild.bottomPadding = PADDING
+    scrollChild.leftPadding = PADDING
+    scrollChild.rightPadding = PADDING
+    scrollChild.skipLayoutOnShow = true
+
+    local view = CreateScrollBoxLinearView()
+    view:SetPanExtent(50)
+    ScrollUtil.InitScrollBoxWithScrollBar(scrollBox, scrollBar, view)
+
+    scrollChild:ClearAllPoints()
+    scrollChild:SetPoint("TOPLEFT", scrollBox.ScrollTarget, "TOPLEFT", 0, 0)
+    scrollChild:SetPoint("TOPRIGHT", scrollBox.ScrollTarget, "TOPRIGHT", 0, 0)
+
+    local initialTheme = tullaCTC.db.profile.themes[getSelectedThemeID()]
+    local refreshables, nextIndex = buildThemeContent(scrollChild, initialTheme)
+
+    local colorSection = CreateFrame("Frame", nil, scrollChild, "VerticalLayoutFrame")
+    colorSection.layoutIndex = nextIndex
+    colorSection.expand = true
+    colorSection.spacing = SPACING
+    colorSection.skipLayoutOnShow = true
+
+    local colorRowPool = Addon:BuildColorRowPool(colorSection)
+    for i, row in ipairs(colorRowPool) do
+        row.layoutIndex = i
+        row.expand = true
+    end
+
+    local defaultColorPicker = Addon:AddColorPicker({
+        parent = colorSection,
+        data = initialTheme,
+        property = 'defaultTextColor',
+        name = "",
+    })
+
+    defaultColorPicker:RegisterCallback("OnValueChanged", onThemePropertyChanged, Addon)
+    defaultColorPicker.layoutIndex = #colorRowPool + 1
+    defaultColorPicker.expand = true
+
+    local function layoutColorRows()
+        local themeID = getSelectedThemeID()
+        local theme = tullaCTC.db.profile.themes[themeID]
+        local entries = Addon:GetSortedTextColors(themeID)
+
+        for i, row in ipairs(colorRowPool) do
+            if i <= #entries then
+                local prevThreshold = i > 1 and entries[i - 1].threshold or nil
+                Addon.UpdateColorRow(row, entries[i], i, themeID, prevThreshold)
+                row:Show()
+            else
+                row:Hide()
+            end
+        end
+
+        local prevThreshold = #entries > 0 and entries[#entries].threshold or nil
+        defaultColorPicker.data = theme
+        defaultColorPicker:Refresh()
+        defaultColorPicker:SetLabel(Addon:FormatDefaultColorRange(prevThreshold))
+
+        colorSection:SetFixedWidth(scrollChild:GetFixedWidth())
+        scrollChild:Layout()
+        scrollBox:FullUpdate(ScrollBoxConstants.UpdateImmediately)
+    end
+
+    local function refreshContent()
+        local theme = tullaCTC.db.profile.themes[getSelectedThemeID()]
+        themeDD:GenerateMenu()
+        for _, w in ipairs(refreshables) do
+            w.data = theme
+            w:Refresh()
+        end
+        layoutColorRows()
+        scrollBox:ScrollToBegin()
+    end
+
+    self._refreshThemeContent = refreshContent
+
+    Addon:RegisterCallback("OnThemeListChanged", function()
+        themeDD:GenerateMenu()
+    end, container)
+
+    Addon:RegisterCallback("OnThemeColorsChanged", function(_, themeID)
+        if themeID == getSelectedThemeID() then
+            layoutColorRows()
+        end
+    end, container)
+
+    local lastWidth = 0
+    scrollChild:HookScript("OnSizeChanged", function(_, width)
+        if width > 0 and width ~= lastWidth then
+            lastWidth = width
+            scrollChild:SetFixedWidth(width)
+            layoutColorRows()
+        end
+    end)
+
+    scrollChild:SetFixedWidth(scrollChild:GetWidth())
+    layoutColorRows()
+end

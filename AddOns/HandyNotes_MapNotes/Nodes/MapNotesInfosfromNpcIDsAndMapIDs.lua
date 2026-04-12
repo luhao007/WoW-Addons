@@ -203,6 +203,14 @@ ns.Scholomance = instanceName(246)
 ns.ScarletMonastery = instanceName(316)
 ns.Naxxramas = instanceName(754)
 ns.Rookery = instanceName(1268)
+------------------------------------ Outland
+ns.PitOfSaron = instanceName(278)
+------------------------------------ Broken Isles
+ns.SeatOfTheTriumvirate = instanceName(945)
+------------------------------------ Draenor
+ns.Skyreach = instanceName(476)
+------------------------------------ Dragonflight
+ns.AlgetharAcademy = instanceName(1201)
 ------------------------------------ Midnight
 ns.MurderRow = instanceName(1304)
 

@@ -257,7 +257,7 @@ local function SetContainerOpenByZone(containerID, mapID, loadingAddon)
 		-- Checks if quest completed
 		C_Timer.After(2, function()
 			for internalContainerID, internalContainerInfo in pairs (RSContainerDB.GetAllInternalContainerInfo()) do
-				if (internalContainerInfo.questID and RSUtils.Contains(internalContainerInfo.questID, containerInternalInfo.questID)) then
+				if (internalContainerID ~= containerID and internalContainerInfo.questID and RSUtils.Contains(internalContainerInfo.questID, containerInternalInfo.questID)) then
 					for i, questID in ipairs (internalContainerInfo.questID) do
 						if (C_QuestLog.IsQuestFlaggedCompleted(questID)) then
 							RSContainerDB.SetContainerOpened(internalContainerID, RSContainerDB.GetContainerOpenedRespawnTime(containerID))

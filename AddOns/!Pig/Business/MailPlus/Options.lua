@@ -21,7 +21,6 @@ local GetContainerNumSlots = GetContainerNumSlots or C_Container and C_Container
 local GetContainerItemInfo = GetContainerItemInfo or C_Container and C_Container.GetContainerItemInfo
 local GetContainerItemLink=GetContainerItemLink or C_Container and C_Container.GetContainerItemLink
 local GetItemInfoInstant=GetItemInfoInstant or C_Item and C_Item.GetItemInfoInstant
-local IsAddOnLoaded=IsAddOnLoaded or C_AddOns and C_AddOns.IsAddOnLoaded
 local BusinessInfo=addonTable.BusinessInfo
 local fuFrame,fuFrameBut = BusinessInfo.fuFrame,BusinessInfo.fuFrameBut
 local GnName = MINIMAP_TRACKING_MAILBOX.."助手"
@@ -943,7 +942,7 @@ function BusinessInfo.MailPlus_ADDUI()
 			ClickSendMailItemButton(SendMailFrame.SendMailAttachments[i]:GetID(), true);
 		end
 	end);
-	local NewItemTypeLsit = PIGCopyTable(Data.ItemTypeLsit)
+	local NewItemTypeLsit = CopyTable(Data.ItemTypeLsit)
 	table.insert(NewItemTypeLsit,1,{130716,"all",ALL})
 	SendMailFrame.ItemList.typeList={}
 	SendMailFrame.ItemList.filtrate="all"

@@ -1,12 +1,12 @@
 ## Interface: 120001
 ## Author: foxlit
-## Version: 8.2.2
+## Version: 8.3.2
 ## License: All rights reserved. Do not redistribute, in whole or in part, without explicit prior permission from the author.
 
 ## Title: OPie
 ## Notes: Group abilities into rings that appear when you hold down a binding.
 ## Title-zhCN: |cFFFFE00A<|r|cFFFFF468功能|r|cFFFFE00A>|r|cFFFFFFFF环形动作条|r |cFFFFE00AOPie|r
-## Notes-zhCN: 当你按下快捷键时显示一个环形的技能分组.
+## Notes-zhCN: 将技能分组放置在圆环中，按下快捷键时显示。
 
 ## IconTexture: Interface/AddOns/OPie/gfx/opie_ring_icon
 
@@ -14,7 +14,7 @@
 
 ## AddonCompartmentFunc: OPie_OpenSettings
 
-## SavedVariables: OneRing_Config, OPie_SavedData
+## SavedVariables: OPie_SavedData
 ## SavedVariablesPerCharacter: OPie_SavedDataPC
 
 ## X-Website: https://www.townlong-yak.com/addons/opie

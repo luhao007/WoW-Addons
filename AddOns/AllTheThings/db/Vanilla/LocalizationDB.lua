@@ -29,6 +29,7 @@ L.ACCOUNT_WIDE_DEATHS_TOOLTIP = "Death tracking really only exists for pre-Wrath
 L.ACCOUNT_WIDE_EXPLORATION_TOOLTIP = "Exploration tracking is only really useful per character, but do you really want to collect them all on all 50 of your characters?";
 L.ACCOUNT_WIDE_FLIGHT_PATHS_TOOLTIP = "Flight Paths tracking is only really useful per character, but do you really want to collect them all on all 50 of your characters?";
 L.ACCOUNT_WIDE_FOLLOWERS_TOOLTIP = "Followers are typically per character, but do you really want to have to collect 243 Garrison Inn Followers on one character at a rate of 1 per week?\n\nI think not, good sir.";
+L.ACCOUNT_WIDE_PROFESSION_NODES_TOOLTIP = "Profession nodes are not normally tracked Account-Wide in Blizzard's database, but we can do that.\n\nIt is impossible to collect them all on one character, so with this, you can give your alts and their professions meaning.";
 L.ACCOUNT_WIDE_QUESTS_TOOLTIP = "Quest completion is typically per Character, but this will consider a Quest as completed if ANY Character has completed that specific Quest.";
 L.ACCOUNT_WIDE_RECIPES_TOOLTIP = "Recipes are not normally tracked Account-Wide in Blizzard's database, but we can do that.\n\nIt is impossible to collect them all on one character, so with this, you can give your alts and their professions meaning.";
 L.ACCOUNT_WIDE_REPUTATIONS_TOOLTIP = "Reputations are now tracked Account-Wide in Blizzard's database for achievements, so turning this on may be a good idea.";
@@ -600,6 +601,9 @@ L.PRESET_UPDATE_SUCCESS = "Updated the preset successfully.";
 L.PROFESSION = "Profession";
 L.PROFESSION_LIST = "Profession List";
 L.PROFESSION_LIST_DESC = "Open your professions to cache them.";
+L.PROFESSION_NODE_ID = "Profession Node ID";
+L.PROFESSION_NODES_CHECKBOX = "Profession Nodes";
+L.PROFESSION_NODES_CHECKBOX_TOOLTIP = "Enable this option to track profession nodes completion.";
 L.PROFILE = "Profile";
 L.PROFILE_COPY_TOOLTIP = "Copy the Selected Profile into the Current Profile";
 L.PROFILE_DELETE_TOOLTIP = "Delete the Selected Profile";
@@ -1372,7 +1376,6 @@ _.Modules.Events.SetEventInformation(13, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=5,["monthDay"]=1,["weekday"]=7,["year"]=2027},{["hour"]=23,["minute"]=59,["month"]=5,["monthDay"]=7,["weekday"]=6,["year"]=2027})
 });
 _.Modules.Events.SetEventInformation(1, {
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=1,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=2,["monthDay"]=8,["weekday"]=1,["year"]=2026},{["remappedID"]=375}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=1,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=3,["monthDay"]=8,["weekday"]=1,["year"]=2026},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=4,["monthDay"]=5,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=4,["monthDay"]=12,["weekday"]=1,["year"]=2026},{["remappedID"]=375}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=5,["monthDay"]=3,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=5,["monthDay"]=10,["weekday"]=1,["year"]=2026},{["remappedID"]=374}),
@@ -1382,7 +1385,8 @@ _.Modules.Events.SetEventInformation(1, {
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=6,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=9,["monthDay"]=13,["weekday"]=1,["year"]=2026},{["remappedID"]=374}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=10,["monthDay"]=4,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=10,["monthDay"]=11,["weekday"]=1,["year"]=2026},{["remappedID"]=375}),
 	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=1,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=11,["monthDay"]=8,["weekday"]=1,["year"]=2026},{["remappedID"]=374}),
-	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=6,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=13,["weekday"]=1,["year"]=2026},{["remappedID"]=375})
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=6,["weekday"]=1,["year"]=2026},{["hour"]=0,["minute"]=0,["month"]=12,["monthDay"]=13,["weekday"]=1,["year"]=2026},{["remappedID"]=375}),
+	_.Modules.Events.CreateSchedule({["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=3,["weekday"]=1,["year"]=2027},{["hour"]=0,["minute"]=0,["month"]=1,["monthDay"]=10,["weekday"]=1,["year"]=2027},{["remappedID"]=374})
 });
 
 -- Filter Database Module
@@ -2041,6 +2045,8 @@ local ObjectNames = {
 	[152094] = "Hyacinth Mushroom",
 	[152095] = "Moonpetal Lily",
 	[152097] = "Belnistrasz's Brazier",
+	[152620] = "Azsharite Formation",
+	[152621] = "Azsharite Formation",
 	[152622] = "Azsharite Formation",
 	[153123] = "Kim'jael's Equipment",
 	[153205] = "Altar of the Defiler",
@@ -3151,6 +3157,8 @@ local ObjectModels = {
 	[152094] = 201860,
 	[152095] = 189752,
 	[152097] = 198067,
+	[152620] = 190205,
+	[152621] = 190202,
 	[152622] = 190809,
 	[153123] = 198165,
 	[153205] = 219250,
@@ -12110,6 +12118,8 @@ localize(ObjectNames, {
 	[152094] = "Hyazinthpilz",
 	[152095] = "Mondblütenlilie",
 	[152097] = "Belnistrasz' Kohlenpfanne",
+	[152620] = "Azsharitformation",
+	[152621] = "Azsharitformation",
 	[152622] = "Azsharitformation",
 	[153123] = "Kim'jaels Ausrüstung",
 	[153205] = "Altar des Entweihers",
@@ -14680,6 +14690,8 @@ localize(ObjectNames, {
 	[152094] = "Champignon jacinthe",
 	[152095] = "Lys pétale de lune",
 	[152097] = "Brasero de Belnistrasz",
+	[152620] = "Formation d'azsharite",
+	[152621] = "Formation d'azsharite",
 	[152622] = "Formation d'azsharite",
 	[153123] = "Equipement de Kim'jael",
 	[153205] = "Autel du Souilleur",
@@ -16687,6 +16699,8 @@ localize(ObjectNames, {
 	[150081] = "Deposito di Verargento",
 	[150082] = "Vena Piccola di Torio",
 	[152097] = "Braciere di Belnistrasz",
+	[152620] = "Formazione di Azsharite",
+	[152621] = "Formazione di Azsharite",
 	[152622] = "Formazione di Azsharite",
 	[153239] = "Penna di Silvagufo",
 	[154357] = "Fango Scintillante",
@@ -18515,6 +18529,8 @@ localize(ObjectNames, {
 	[151286] = "Tomo Kaldorei da Evocação",
 	[152095] = "Lírio Lunapétala",
 	[152097] = "Braseiro de Belnistrasz",
+	[152620] = "Formação de Azsharita",
+	[152621] = "Formação de Azsharita",
 	[152622] = "Formação de Azsharita",
 	[153123] = "Equipamento de Kam'arawn",
 	[153239] = "Pena de Coruscante",
@@ -21390,6 +21406,8 @@ localize(ObjectNames, {
 	[152094] = "Гиацинтовый гриб",
 	[152095] = "Лунная лилия",
 	[152097] = "Жаровня Белнистраза",
+	[152620] = "Отложение азшарита",
+	[152621] = "Отложение азшарита",
 	[152622] = "Отложение азшарита",
 	[153123] = "Оборудование Ким'джаеля",
 	[153205] = "Алтарь Осквернителя",
@@ -23664,6 +23682,8 @@ localize(ObjectNames, {
 	[152094] = "히아신스 버섯",
 	[152095] = "달봉우리 백합",
 	[152097] = "벨리스트라즈의 화로",
+	[152620] = "아즈샤리트 결정체",
+	[152621] = "아즈샤리트 결정체",
 	[152622] = "아즈샤리트 결정체",
 	[153123] = "킴야엘의 장비",
 	[153239] = "올빼미야수 깃털",
@@ -26249,9 +26269,13 @@ localize(L.HEADER_DESCRIPTIONS, {
 	[-341] = "Los elementos de esta lista son apariencias compartidas del elemento anterior. En el modo de apariencia única, esta lista puede ayudarlo a comprender por qué o no un elemento específico se marcaría como coleccionado.",
 	[-342] = "Este objeto tiene una apariencia única. Debes obtener este objeto específicamente para ganar la apariencia.",
 	[-343] = "Esta lista contiene objetos no obtenibles que ATT Discord ha informado como errores que Blizzard aún no ha solucionado.\n\nNOTA: Todos los filtros se ignoran en esta lista para mayor visibilidad. En esta lista solo están presentes los objetos eliminados del juego debido a negligencia y no a un gigantesco dragón que escupe fuego.\n\nA los desarrolladores de Blizzard: arreglen los objetos y encuentros que se enumeran a continuación.",
+	[-353] = "También conocida como 'Cumbre de Roca inferior'.",
+	[-354] = "Un miembro de tu grupo debe haber completado la cadena de misiones del Sello de Ascensión para que se enciendan las hogueras y se abra la puerta a esta parte de la instancia. También conocida como la Cumbre de Roca Negra superior.",
 	[-355] = "Se puede acceder a esta parte de la mazmorra desde el portal más al este. (lado derecho)",
 	[-356] = "Se puede acceder a esta parte de la mazmorra desde el portal más al norte.",
 	[-357] = "Se puede acceder a esta parte de la mazmorra desde el portal más al oeste. (lado izquierdo)",
+	[-365] = "Stratholme está dividida en dos lados.\n\nEste lado se conoce comúnmente como el lado \"Vivo\" o \"Escarlata\", que ha sido tomado por la Cruzada Escarlata.",
+	[-366] = "Stratholme está dividida en dos lados.\n\nEste lado se conoce comúnmente como el lado de los 'Muertos' o del 'Azote', que el Azote ha tomado.",
 	[-721] = "Contiene contenido que está disponible en la Zona actual, pero que se obtiene directamente de otra Zona.",
 	[-723] = "Aumentan los informes de incursiones elementales en diferentes partes de Kalimdor. Cada pocos días, una nueva oleada de elementales se abre paso a la fuerza en las regiones de Silithus, el Cráter de Un'Goro, Azshara y Cuna del Invierno, aparentemente con el único propósito de ver hasta dónde pueden penetrar en estos territorios antes de ser repelidos por las fuerzas de la Horda o la Alianza. Investiga estas regiones y ayuda a tus aliados a contrarrestar estas misteriosas invasiones.",
 });
@@ -26677,6 +26701,8 @@ localize(ObjectNames, {
 	[152094] = "Champiñón jacinto",
 	[152095] = "Lirio alunado",
 	[152097] = "Blandón de Belnistrasz",
+	[152620] = "Formación de azsharita",
+	[152621] = "Formación de azsharita",
 	[152622] = "Formación de azsharita",
 	[153123] = "Equipo de Kim'jael",
 	[153205] = "Altar de los Rapiñadores",
@@ -28765,9 +28791,12 @@ localize(L.HEADER_NAMES, {
 localize(L.HEADER_DESCRIPTIONS, {
 	[-44] = "Esta sección solo mostrará las profesiones de tu personaje actual fuera del modo Cuenta y Debug.",
 	[-59] = "Un maestro de armas es un PNJ que ofrece a los personajes la oportunidad de aprender habilidades específicas con armas, cuya disponibilidad varía de un maestro de armas a otro. Todas las habilidades con armas se pueden entrenar en el nivel 1, excepto las armas de asta que requieren el nivel 20.\n\nEl entrenamiento con un maestro de armas quedó obsoleto en el parche 4.0.1, ya que cada clase ahora aprende todas las competencias de armas apropiadas para la clase en el momento de la creación. Los maestros de armas se eliminaron del juego poco después.",
+	[-354] = "Un miembro de tu grupo debe haber completado la cadena de misiones del Sello de Ascensión para que se prendan las hogueras y se abra la puerta a esta parte de la instancia. También conocida como la Cumbre de Roca Negra superior.",
 	[-355] = "Se puede acceder a esta parte del calabozo desde el portal más al este. (lado derecho)",
 	[-356] = "Se puede acceder a esta parte del calabozo desde el portal más al norte.",
 	[-357] = "Se puede acceder a esta parte del calabozo desde el portal más al oeste. (lado izquierdo)",
+	[-365] = "Stratholme está dividida en dos partes.\n\nEsta parte se conoce comúnmente como la parte \"Viva\" o \"Escarlata\", que ha sido tomado por la Cruzada Escarlata.",
+	[-366] = "Stratholme está dividida en dos partes.\n\nEste lado se conoce comúnmente como la parte de los 'No Muertos' o de la 'Plaga', que la Plaga ha tomado.",
 	[-723] = "Aumentan los informes de invasiones elementales en diferentes partes de Kalimdor. Cada pocos días, una nueva oleada de elementales se abre paso a la fuerza en las regiones de Silithus, el Cráter de Un'Goro, Azshara y Cuna del Invierno, aparentemente con el único propósito de ver hasta dónde pueden penetrar en estos territorios antes de ser repelidos por las fuerzas de la Horda o la Alianza. Investiga estas regiones y ayuda a tus aliados a contrarrestar estas misteriosas invasiones.",
 });
 for key,value in pairs({
@@ -30717,7 +30746,7 @@ localize(_.CategoryNames, {
 	[3] = "塔罗牌",
 	[106] = "卡牌",
 	[221] = "护手",
-	[224] = "腿",
+	[224] = "腿部",
 	[259] = "披风",
 });
 localize(L.HEADER_NAMES, {
@@ -31183,6 +31212,8 @@ localize(ObjectNames, {
 	[150082] = "瑟银矿脉",
 	[151286] = "卡多雷召唤宝典",
 	[152095] = "月牙百合花",
+	[152620] = "艾萨莱特晶体",
+	[152621] = "艾萨莱特晶体",
 	[152622] = "艾萨莱特晶体",
 	[153123] = "基姆加尔的设备",
 	[153239] = "枭兽羽毛",

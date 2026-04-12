@@ -4,36 +4,25 @@ local AL = AtlasLoot.Locales
 local ALIL = AtlasLoot.IngameLocales
 local Set = AtlasLoot.Data.Sets:RegisterNewSets(addonname)
 
+local ADD_SCALING = {
+	Item = {
+		addDifficultyBonus = true,
+	}
+}
+
 local RF_DIFF = Set:AddDifficulty(AL["Raid Finder"], "rf")
 local NORMAL_DIFF = Set:AddDifficulty(AL["Normal"], "n")
 local HEROIC_DIFF = Set:AddDifficulty(AL["Heroic"], "h")
 local P25_DIFF = Set:AddDifficulty(AL["25 Player"], "p25")
 local P25H_DIFF = Set:AddDifficulty(AL["25 Player Heroic"], "p25h")
 local MYTHIC_DIFF = Set:AddDifficulty(AL["Mythic"], "m")
---local RF_PRE_DIFF = Set:AddDifficulty(AL["Raid Finder"], "rfB1", {"LegionLFR", "LegionLFRTitanforged"})
 local HEROIC_PRE_DIFF = Set:AddDifficulty(AL["Heroic"], "hB1", { "HeroicRaid", "HeroicRaidWarforged" })
 local MYTHIC_PRE_DIFF = Set:AddDifficulty(AL["Mythic"], "mB1", { "MythicRaid", "MythicRaidWarforged" })
 
-local RF_DIFFICULTY_DIFF = Set:AddDifficulty(AL["Raid Finder"], "LFRWithDifficulty", {
-	Item = {
-		addDifficultyBonus = true,
-	},
-}, 17)
-local NORMAL_DIFFICULTY_DIFF = Set:AddDifficulty(AL["Normal"], "NormalWithDifficulty", {
-	Item = {
-		addDifficultyBonus = true,
-	},
-}, 14)
-local HEROIC_DIFFICULTY_DIFF = Set:AddDifficulty(AL["Heroic"], "HeroicWithDifficulty", {
-	Item = {
-		addDifficultyBonus = true,
-	},
-}, 15)
-local MYTHIC_DIFFICULTY_DIFF = Set:AddDifficulty(AL["Mythic"], "MythicWithDifficulty", {
-	Item = {
-		addDifficultyBonus = true,
-	},
-}, 16)
+local RF_DIFFICULTY_DIFF = Set:AddDifficulty(AL["Raid Finder"], "LFRWithDifficulty", ADD_SCALING, 17)
+local NORMAL_DIFFICULTY_DIFF = Set:AddDifficulty(AL["Normal"], "NormalWithDifficulty", ADD_SCALING, 14)
+local HEROIC_DIFFICULTY_DIFF = Set:AddDifficulty(AL["Heroic"], "HeroicWithDifficulty", ADD_SCALING, 15)
+local MYTHIC_DIFFICULTY_DIFF = Set:AddDifficulty(AL["Mythic"], "MythicWithDifficulty", ADD_SCALING, 16)
 
 local SOURCE_INFO = Set:AddInfoList(AL["Source"])
 

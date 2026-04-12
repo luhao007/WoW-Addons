@@ -888,6 +888,7 @@ app.ThingKeys = {
 	decorID = true,
 	firstcraftID = true,
 	garrisonbuildingID = true,
+	professionnodeID = true,
 	achievementID = true,	-- special handling
 	criteriaID = true,	-- special handling
 	-- 1 - Specific keys which we don't want to list Contains data on row reference tooltips but are considered Things
@@ -1399,6 +1400,12 @@ function app:GetDatabaseRoot()
 					dynamic_valueField = "requireSkill",
 					name = TRADE_SKILLS,
 					icon = app.asset("Category_Professions")
+				}),
+
+				-- Profession Nodes
+				app.CreateDynamicHeader("professionnodeID", {
+					name = L.PROFESSION_NODES_CHECKBOX,
+					icon = app.asset("Category_Professions")	-- TODO: Make a new icon
 				}),
 
 				-- Runeforge Powers

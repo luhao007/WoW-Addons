@@ -115,63 +115,6 @@ QuickButUI.ButList[3]=function()
 	    FauxScrollFrame_OnVerticalScroll(self, offset, hang_Height, fujiF.mode2.F.List.Update_hang)
 	end)
 	fujiF.mode2.F.List.ButList={}
-	for id = 1, hang_NUM do
-		local hang = CreateFrame("Button", nil, fujiF.mode2.F.List,nil,id);
-		fujiF.mode2.F.List.ButList[id]=hang
-		hang:SetSize(fujiF.mode2.F.List:GetWidth(), hang_Height);
-		if id==1 then
-			hang:SetPoint("TOPLEFT",fujiF.mode2.F.List.Scroll,"TOPLEFT",0,-1);
-		else
-			hang:SetPoint("TOP",fujiF.mode2.F.List.ButList[id-1],"BOTTOM",0,-1);
-		end
-		hang.highlight = hang:CreateTexture();
-		hang.highlight:SetTexture("interface/buttons/ui-listbox-highlight2.blp");
-		hang.highlight:SetBlendMode("ADD")
-		hang.highlight:SetAllPoints(hang)
-		hang.highlight:SetAlpha(0.2);
-		hang.check = hang:CreateTexture()
-		hang.check:SetTexture("interface/buttons/ui-checkbox-check.bl");
-		hang.check:SetSize(hang_Height-6,hang_Height-2);
-		hang.check:SetPoint("LEFT", hang, "LEFT", 0,0);
-		hang.icon = hang:CreateTexture(nil, "BORDER");
-		hang.icon:SetSize(hang_Height-2,hang_Height-2);
-		hang.icon:SetPoint("LEFT", hang.check, "RIGHT", 0,0);
-		hang.link = PIGFontString(hang,{"LEFT", hang.icon, "RIGHT", 4,0})
-		hang:SetScript("OnEnter", function (self)
-			GameTooltip:ClearLines();
-			GameTooltip:SetOwner(self, "ANCHOR_LEFT",TrinkeWW);
-			GameTooltip:SetHyperlink(fujiF.AllTrinketLsit[self.itemID][2])
-			GameTooltip:Show();
-			local tooltip, anchorFrame, shoppingTooltip1, shoppingTooltip2 = GameTooltip_InitializeComparisonTooltips(GameTooltip);
-			shoppingTooltip1:Hide()
-			shoppingTooltip2:Hide()
-		end);
-		hang:SetScript("OnLeave", function ()
-			GameTooltip:ClearLines();
-			GameTooltip:Hide() 
-		end);
-		hang:SetScript("OnMouseUp", function (self,button)
-			for ib=#PIGA_Per["QuickBut"]["TrinketList"],1,-1 do
-				if self.itemID==PIGA_Per["QuickBut"]["TrinketList"][ib] then
-					table.remove(PIGA_Per["QuickBut"]["TrinketList"],ib)
-					fujiF.mode2.F.List.Update_hang()
-					return
-				end
-			end
-			table.insert(PIGA_Per["QuickBut"]["TrinketList"],self.itemID)
-			fujiF.mode2.F.List.Update_hang()
-		end);
-		hang.DOWN = PIGDiyBut(hang,{"RIGHT", hang, "RIGHT", 0,0},{hang_Height-2,nil,nil,nil,"NPE_ArrowDown"})
-		hang.DOWN:SetScript("OnClick", function (self)
-			local fujik = self:GetParent()
-			fujiF.mode2.F.List.UpdateUpDwan(fujik.itemID,"+")
-		end);
-		hang.UP = PIGDiyBut(hang,{"RIGHT", hang.DOWN, "LEFT", -1,0},{hang_Height-2,nil,nil,nil,"NPE_ArrowUp"})
-		hang.UP:SetScript("OnClick", function (self)
-			local fujik = self:GetParent()
-			fujiF.mode2.F.List.UpdateUpDwan(fujik.itemID,"-")
-		end);
-	end
 	fujiF.mode2.F.List:SetScript("OnShow", function (self)
 		self.Update_hang()
 	end)
@@ -250,9 +193,9 @@ QuickButUI.ButList[3]=function()
 	end
 	function fujiF.mode2.F.List.Update_hang()
 		local Scroll = fujiF.mode2.F.List.Scroll
-		for id = 1, hang_NUM do
-			fujiF.mode2.F.List.ButList[id]:Hide();
-	    end
+	    for _,but in pairs(fujiF.mode2.F.List.ButList) do
+			but:Hide()
+		end
 		GetPlaterBagTrinket()
 		SortTrinketList()
 		local ItemsNum = #fujiF.SortTrinketLsit
@@ -261,6 +204,63 @@ QuickButUI.ButList[3]=function()
 	    for id = 1, hang_NUM do
 			local dangqianH = id+offset;
 			if fujiF.SortTrinketLsit[dangqianH] then
+				if not fujiF.mode2.F.List.ButList[id] then
+					local hang = CreateFrame("Button", nil, fujiF.mode2.F.List,nil,id);
+					fujiF.mode2.F.List.ButList[id]=hang
+					hang:SetSize(fujiF.mode2.F.List:GetWidth(), hang_Height);
+					if id==1 then
+						hang:SetPoint("TOPLEFT",fujiF.mode2.F.List.Scroll,"TOPLEFT",0,-1);
+					else
+						hang:SetPoint("TOP",fujiF.mode2.F.List.ButList[id-1],"BOTTOM",0,-1);
+					end
+					hang.highlight = hang:CreateTexture();
+					hang.highlight:SetTexture("interface/buttons/ui-listbox-highlight2.blp");
+					hang.highlight:SetBlendMode("ADD")
+					hang.highlight:SetAllPoints(hang)
+					hang.highlight:SetAlpha(0.2);
+					hang.check = hang:CreateTexture()
+					hang.check:SetTexture("interface/buttons/ui-checkbox-check.bl");
+					hang.check:SetSize(hang_Height-6,hang_Height-2);
+					hang.check:SetPoint("LEFT", hang, "LEFT", 0,0);
+					hang.icon = hang:CreateTexture(nil, "BORDER");
+					hang.icon:SetSize(hang_Height-2,hang_Height-2);
+					hang.icon:SetPoint("LEFT", hang.check, "RIGHT", 0,0);
+					hang.link = PIGFontString(hang,{"LEFT", hang.icon, "RIGHT", 4,0})
+					hang:SetScript("OnEnter", function (self)
+						GameTooltip:ClearLines();
+						GameTooltip:SetOwner(self, "ANCHOR_LEFT",TrinkeWW);
+						GameTooltip:SetHyperlink(fujiF.AllTrinketLsit[self.itemID][2])
+						GameTooltip:Show();
+						local tooltip, anchorFrame, shoppingTooltip1, shoppingTooltip2 = GameTooltip_InitializeComparisonTooltips(GameTooltip);
+						shoppingTooltip1:Hide()
+						shoppingTooltip2:Hide()
+					end);
+					hang:SetScript("OnLeave", function ()
+						GameTooltip:ClearLines();
+						GameTooltip:Hide() 
+					end);
+					hang:SetScript("OnMouseUp", function (self,button)
+						for ib=#PIGA_Per["QuickBut"]["TrinketList"],1,-1 do
+							if self.itemID==PIGA_Per["QuickBut"]["TrinketList"][ib] then
+								table.remove(PIGA_Per["QuickBut"]["TrinketList"],ib)
+								fujiF.mode2.F.List.Update_hang()
+								return
+							end
+						end
+						table.insert(PIGA_Per["QuickBut"]["TrinketList"],self.itemID)
+						fujiF.mode2.F.List.Update_hang()
+					end);
+					hang.DOWN = PIGDiyBut(hang,{"RIGHT", hang, "RIGHT", 0,0},{hang_Height-2,nil,nil,nil,"NPE_ArrowDown"})
+					hang.DOWN:SetScript("OnClick", function (self)
+						local fujik = self:GetParent()
+						fujiF.mode2.F.List.UpdateUpDwan(fujik.itemID,"+")
+					end);
+					hang.UP = PIGDiyBut(hang,{"RIGHT", hang.DOWN, "LEFT", -1,0},{hang_Height-2,nil,nil,nil,"NPE_ArrowUp"})
+					hang.UP:SetScript("OnClick", function (self)
+						local fujik = self:GetParent()
+						fujiF.mode2.F.List.UpdateUpDwan(fujik.itemID,"-")
+					end);
+				end
 	    		local hang = fujiF.mode2.F.List.ButList[id]
 	    		hang:Show();
 		    	hang.icon:SetTexture(fujiF.AllTrinketLsit[fujiF.SortTrinketLsit[dangqianH]][1]);

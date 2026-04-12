@@ -1,7 +1,7 @@
-﻿local _, addonTable = ...;
+﻿local _, PD = ...;
 ----------------------------------------
-local L=addonTable.locale
-local Create=addonTable.Create
+local L=PD.locale
+local Create=PD.Create
 local PIGFrame=Create.PIGFrame
 local PIGLine=Create.PIGLine
 local PIGEnter=Create.PIGEnter
@@ -17,10 +17,10 @@ local PIGFontString=Create.PIGFontString
 local PIGFontStringBG=Create.PIGFontStringBG
 -----
 local format=string.format
-local Data=addonTable.Data
-local Fun=addonTable.Fun
-local AudioData=addonTable.AudioList.Data
-local PigLayoutFun=addonTable.PigLayoutFun
+local Data=PD.Data
+local Fun=PD.Fun
+local AudioData=PD.Audio.Data.Countdown
+local PigLayoutFun=PD.PigLayoutFun
 local RTabFrame =PigLayoutFun.RTabFrame
 local fujiF,fujiBut =PIGOptionsList_R(RTabFrame,INFO.."条",90)
 function fujiF:Show_OptionsUI()
@@ -720,7 +720,7 @@ local function add_Options(peizhiT)
 	checkbutOpen.F.Lock.CZBUT = PIGButton(checkbutOpen.F.Lock,{"LEFT",checkbutOpen.F.Scale,"RIGHT",90,0},{50,22},RESET)
 	checkbutOpen.F.Lock.CZBUT:SetScript("OnClick", function ()
 		Create.PIG_ResPoint(UIname)
-		PIGA["PigLayout"][peizhiT]["Scale"]=addonTable.Default["PigLayout"][peizhiT]["Scale"]
+		PIGA["PigLayout"][peizhiT]["Scale"]=PD.Default["PigLayout"][peizhiT]["Scale"]
 		if _G[UIname] then
 			SetScaleUI(peizhiT)
 		end
@@ -766,8 +766,8 @@ local function add_Options(peizhiT)
 		function checkbutOpen.F.SecondsAudio:PIGDownMenu_Update_But()
 			local info = {}
 			info.func = self.PIGDownMenu_SetValue
-			for i=1,#AudioData.Countdown,1 do
-			    info.text, info.arg1 = AudioData.Countdown[i][1], i
+			for i=1,#AudioData,1 do
+			    info.text, info.arg1 = AudioData[i][1], i
 			    info.checked = i==PIGA["Common"]["CountdownAudio"]
 				self:PIGDownMenu_AddButton(info)
 			end 
@@ -820,8 +820,8 @@ local function add_Options(peizhiT)
 			checkbutOpen.topMenuListBut[i]:SetChecked(not PIGA["PigLayout"][peizhiT]["HideBut"][ListIndex[i]])
 		end
 		if peizhiT=="topMenu" then
-			--self.SecondsAudio:PIGDownMenu_SetText(AudioData.Countdown[PIGA["PigLayout"][peizhiT]["CountdownAudio"]][1])
-			--self.EndAudio:PIGDownMenu_SetText(AudioData.Countdown[PIGA["PigLayout"][peizhiT]["CountdownEndAudio"]][1])
+			--self.SecondsAudio:PIGDownMenu_SetText(AudioData[PIGA["PigLayout"][peizhiT]["CountdownAudio"]][1])
+			--self.EndAudio:PIGDownMenu_SetText(AudioData[PIGA["PigLayout"][peizhiT]["CountdownEndAudio"]][1])
 			self.daojishiTime:PIGSetValue(PIGA["PigLayout"][peizhiT]["daojishiTime"])
 			self.TimeBGHide:SetChecked(PIGA["PigLayout"][peizhiT]["TimeBGHide"])
 		end

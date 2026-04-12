@@ -23,7 +23,7 @@ local IsUsableItem=IsUsableItem or C_Item and C_Item.IsUsableItem
 ------------
 local barName,LocaleName="PIG_ActionBar",BAG_FILTER_CONSUMABLES..ACTIONBARS_LABEL
 local Showtiaojian,pailieName,paiNum,PailieFun,ShowHideNumFun,ShowHideEvent=unpack(ActionFun.UIdata)
-local index,anniugeshu, anniujiange=9,12,6;
+local index,anniugeshu, anniujiange=5,12,6;
 ------------
 local CABarF,CABarTabBut =PIGOptionsList_R(RTabFrame,BAG_FILTER_CONSUMABLES..ACTIONBARS_LABEL,110)
 
@@ -161,7 +161,7 @@ function ActionBarfun.ConsumableActionBar()
 	local CFdata={
 		index=index,
 		["Mode"]="cons",
-		["getData"]=function(key,index)
+		["getData"]=function(key)
 		    return PIGA["CABar"][key]
 		end,
 	}

@@ -2,7 +2,6 @@ local _, addonTable = ...;
 local Create=addonTable.Create
 local PIGButton=Create.PIGButton
 local CommonInfo=addonTable.CommonInfo
-local AudioData=addonTable.AudioList.Data
 local Fun=addonTable.Fun
 local FramePlusfun=addonTable.FramePlusfun
 --=============
@@ -194,11 +193,12 @@ function FramePlusfun.Quest()
 end
 
 --任务完成
+local AudioData=FramePlusfun.AudioData
 local QuestsEndFrameUI = CreateFrame("Frame");
 QuestsEndFrameUI.EndList={}
 local function PIG_PlaySoundAudio(ok,questID)										
 	if ok and not QuestsEndFrameUI.initialize and not QuestsEndFrameUI.EndList[questID] then
-		PIG_PlaySoundFile(AudioData.QuestEnd[PIGA["Common"]["QuestsEndAudio"]])
+		PIG_PlaySoundFile(AudioData[PIGA["Common"]["QuestsEndAudio"]])
 	end
 	QuestsEndFrameUI.EndList[questID]=ok
 end
@@ -265,7 +265,7 @@ QuestsEndFrameUI:SetScript("OnEvent", function(self,event)
 	end
 end)
 function FramePlusfun.QuestsEnd()
-	PIGA["Common"]["QuestsEndAudio"]=Fun.IsAudioNumMaxV(PIGA["Common"]["QuestsEndAudio"],AudioData.QuestEnd)
+	PIGA["Common"]["QuestsEndAudio"]=Fun.IsAudioNumMaxV(PIGA["Common"]["QuestsEndAudio"],AudioData)
 	if PIGA["Common"]["QuestsEnd"] then
 		QuestsEndFrameUI:RegisterEvent("PLAYER_ENTERING_WORLD")
 	else

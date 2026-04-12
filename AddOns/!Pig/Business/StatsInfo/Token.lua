@@ -1,5 +1,6 @@
 local addonName, addonTable = ...;
 local L=addonTable.locale
+local Fun=addonTable.Fun
 local Create=addonTable.Create
 local fmod=math.fmod
 local gsub = _G.string.gsub
@@ -164,7 +165,7 @@ function BusinessInfo.Token(StatsInfo)
 					if cdmulu[dangqian][8] then
 						hang.nameDQ:Show()
 					end
-					hang.name:SetText(cdmulu[dangqian][1]);
+					hang.name:SetText(Fun.PruningServerName(cdmulu[dangqian][1]));
 					local color = PIG_CLASS_COLORS[classFile];
 					hang.name:SetTextColor(color.r, color.g, color.b, 1);
 					local paizibut = hang.Tokens.listbut[1]

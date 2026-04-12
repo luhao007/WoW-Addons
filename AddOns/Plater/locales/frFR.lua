@@ -69,7 +69,7 @@ L["OPTIONS_CAST_COLOR_CHANNELING"] = "Canalisé"
 L["OPTIONS_CAST_COLOR_INTERRUPTED"] = "Interrompu"
 L["OPTIONS_CAST_COLOR_REGULAR"] = "Normal"
 L["OPTIONS_CAST_COLOR_SUCCESS"] = "Succès"
-L["OPTIONS_CAST_COLOR_UNINTERRUPTIBLE"] = "Ininterrompu"
+L["OPTIONS_CAST_COLOR_UNINTERRUPTIBLE"] = "Non interruptible"
 L["OPTIONS_CAST_SHOW_TARGETNAME"] = "Afficher le nom de la cible"
 L["OPTIONS_CAST_SHOW_TARGETNAME_DESC"] = "Affiche qui est la cible de l'incantation actuelle (si la cible existe)"
 L["OPTIONS_CAST_SHOW_TARGETNAME_TANK"] = "[Tank] Ne montrez pas votre nom"
@@ -208,7 +208,7 @@ L["OPTIONS_PROFILE_CONFIG_PROFILENAME_DESC"] = "Un nouveau profil est créé ave
 L["OPTIONS_PROFILE_ERROR_PROFILENAME"] = "Nom de profil invalide"
 L["OPTIONS_PROFILE_ERROR_STRINGINVALID"] = "Fichier de profil non valide."
 L["OPTIONS_PROFILE_ERROR_WRONGTAB"] = "Fichier de profil non valide. Importez des scripts ou des mods dans l’onglet Script."
-L["OPTIONS_PROFILE_IMPORT_OVERWRITE"] = "Le profil  '%s' existe déjà, l'écraser ?"
+L["OPTIONS_PROFILE_IMPORT_OVERWRITE"] = "Le profil '%s' existe déjà, voulez-vous l'écraser ?"
 L["OPTIONS_RANGECHECK_NONE"] = "Rien"
 L["OPTIONS_RANGECHECK_NONE_DESC"] = "Aucune modification d'alpha n'est appliquée."
 L["OPTIONS_RANGECHECK_NOTMYTARGET"] = "Unités qui ne sont pas votre cible"
@@ -238,7 +238,7 @@ L["OPTIONS_STACK_AURATIME_DESC"] = [=[Affiche le temps le plus court des auras e
 ]=]
 L["OPTIONS_STACK_SIMILAR_AURAS"] = "Empiler des auras similaires"
 L["OPTIONS_STACK_SIMILAR_AURAS_DESC"] = "Les auras ayant le même nom (par exemple, le debuff d'affliction instable du démoniste) sont empilées ensemble."
-L["OPTIONS_STATUSBAR_TEXT"] = "Vous pouvez désormais importer des profils, des mods, des scripts, des animations et des tables de couleurs à partir de |cFFFFAA00http://wago.io|r"
+L["OPTIONS_STATUSBAR_TEXT"] = "Importez des profils, des mods, des scripts, des animations et des tables de couleurs depuis |cFFFFAA00http://wago.io|r"
 L["OPTIONS_TABNAME_ADVANCED"] = "Avancé"
 L["OPTIONS_TABNAME_ANIMATIONS"] = "Animations"
 L["OPTIONS_TABNAME_AUTO"] = "Auto"
@@ -246,7 +246,7 @@ L["OPTIONS_TABNAME_BUFF_LIST"] = "Liste des sorts"
 L["OPTIONS_TABNAME_BUFF_SETTINGS"] = "Paramètres des buffs"
 L["OPTIONS_TABNAME_BUFF_SPECIAL"] = "Buff spécial"
 L["OPTIONS_TABNAME_BUFF_TRACKING"] = "Suivi des buffs"
-L["OPTIONS_TABNAME_CASTBAR"] = "Barre d'incantation"
+L["OPTIONS_TABNAME_CASTBAR"] = "Barre de sorts"
 L["OPTIONS_TABNAME_CASTCOLORS"] = "Couleurs et noms d'incantations"
 L["OPTIONS_TABNAME_COMBOPOINTS"] = "Points de combo"
 L["OPTIONS_TABNAME_GENERALSETTINGS"] = "Réglages généraux"
@@ -302,7 +302,7 @@ L["OPTIONS_THREAT_PULL_FROM_ANOTHER_TANK"] = "Attirer l'aggro d'un autre tank"
 L["OPTIONS_THREAT_PULL_FROM_ANOTHER_TANK_TANK"] = "L'unité a l'aggro sur un autre tank et vous êtes sur le point de l'attirer."
 L["OPTIONS_THREAT_USE_AGGRO_FLASH"] = "Activer le clignotement d'aggro"
 L["OPTIONS_THREAT_USE_AGGRO_FLASH_DESC"] = "Active l'animation de clignotement -AGGRO- sur les plaques de nom lorsque vous obtenez l'aggro en tant que DPS."
-L["OPTIONS_THREAT_USE_AGGRO_GLOW"] = "Activer l'illumination d'aggro"
+L["OPTIONS_THREAT_USE_AGGRO_GLOW"] = "Activer l'effet lumineux de la barre de vie"
 L["OPTIONS_THREAT_USE_AGGRO_GLOW_DESC"] = "Active l'illumination de la barre de vie sur les plaques de nom lorsque vous obtenez l'aggro en tant que DPS ou que vous perdez l'aggro en tant que tank."
 L["OPTIONS_THREAT_USE_SOLO_COLOR"] = "Couleur solo"
 L["OPTIONS_THREAT_USE_SOLO_COLOR_DESC"] = "Utilisez la couleur 'Solo' lorsqu'il n'y a pas de groupe."
@@ -318,12 +318,11 @@ L[ [=[Show nameplate for friendly npcs.
 |cFFFFFF00 Important |r: This option is dependent on the client`s nameplate state (on/off).
 
 |cFFFFFF00 Important |r: when disabled but enabled on the client through (%s), the healthbar isn't visible but the nameplate is still clickable.]=] ] = "Afficher la plaque de nom pour les PNJ amicaux. |cFFFFFF00 Important |r : Cette option dépend de l’état des plaques de nom du client (activé/désactivé). |cFFFFFF00 Important |r : lorsqu’elle est désactivée mais activée dans le client via (%s), la barre de vie n’est pas visible mais la plaque de nom reste cliquable."
---[[Translation missing --]]
 L[ [=[Show nameplate for friendly npcs.
 
 |cFFFFFF00 Important |r: This option is dependent on the client`s nameplate state (on/off).
 
-|cFFFFFF00 Important |r: when disabled but enabled on the client through (%s), the healthbar isn't visible but the nameplate is still clickable.]=] ] = ""
+|cFFFFFF00 Important |r: when disabled but enabled on the client through (%s), the healthbar isn't visible but the nameplate is still clickable.]=] ] = "Afficher le nom des PNJ amicaux. |cFFFFFF00Important|r : Cette option dépend de l’état du nom du PNJ (activé/désactivé). |cFFFFFF00Important|r : Lorsqu’elle est désactivée mais activée côté client via (%s), la barre de vie n’est pas visible, mais le nom du PNJ reste cliquable."
 L["TARGET_CVAR_ALWAYSONSCREEN"] = "Cible toujours à l'écran |cFFFF7700*|r"
 L["TARGET_CVAR_ALWAYSONSCREEN_DESC"] = "Lorsqu'il est activé, la plaque de nom de votre cible est toujours affichée, même lorsque l'ennemi n'est pas à l'écran. |cFFFF7700[*]|r |cFFa0a0a0CVar, enregistré dans le profil Plater et restauré lors du chargement du profil.|r"
 L["TARGET_CVAR_LOCKTOSCREEN"] = "Verrouiller à l'écran (côté supérieur)|cFFFF7700*|r"

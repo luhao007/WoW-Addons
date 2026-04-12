@@ -98,7 +98,7 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetScrollMode(sub)
 
 
-    sub=root:CreateCheckbox((IsInInstance() and '|cff626262' or '')..(WoWTools_DataMixin.onlyChinese and '邀请目标' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, INVITE, TARGET))..'|A:poi-traveldirections-arrow2:0:0|a', function()
+    sub=root:CreateCheckbox((select(2, IsInInstance())~='none' and '|cff626262' or '')..(WoWTools_DataMixin.onlyChinese and '邀请目标' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, INVITE, TARGET))..'|A:poi-traveldirections-arrow2:0:0|a', function()
         return Save().InvTar
     end, function()
         Save().InvTar= not Save().InvTar and true or nil
@@ -353,7 +353,7 @@ local function Init_Menu(self, root)
     sub2=sub:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '密语/跟随' or (SLASH_TEXTTOSPEECH_WHISPER..'/'..FOLLOW),function()
         return Save().setFrameFun
     end, function()
-        Save().setFrameFun= not Save().setFrameFun and true or nil
+        Save().setFrameFun= not Save().setFrameFun and true or false
     end)
     sub2:SetTooltip(function(tooltip)
         tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)

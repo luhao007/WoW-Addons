@@ -51,7 +51,7 @@ function PigLayoutFun.Options_Mode()
 		PIGA["Pig_UI"]=addonTable.Default["Pig_UI"]
 		PIGA_Per["Pig_UI"]=addonTable.Default_Per["Pig_UI"]
 		Create.PIG_SetPointALL()
-		PIG_print("已重置PIG桌面元素位置和缩放")
+		PIGprint("已重置PIG桌面元素位置和缩放")
 	end);
 	----
 	fujiF:HookScript("OnShow", function (self)
